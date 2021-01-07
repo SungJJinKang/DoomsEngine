@@ -11,7 +11,11 @@ i never do this before.
 
 so if you wanna see good and clean code or learn something form this, Find other project.
 
-## dependency
+## Key features
+
+  * C++17
+
+## Dependency
 
 ```
 glfw 3.3.2
