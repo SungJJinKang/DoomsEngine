@@ -3,6 +3,14 @@ Doom3 Clone Project for Study.
 
 Some Library can be contained, but i'll try to make everything myself
 
+i had maked some indie games with Unity game engine ( https://play.google.com/store/apps/details?id=com.milli.findkiller2&hl=ko )
+
+but i wanna make game from scratch myself, This project is beginning of that.
+
+i never do this before.
+
+so if you wanna see good and clean code and learn something, find other project.
+
 ## dependency
 
 ```
