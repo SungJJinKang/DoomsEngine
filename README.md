@@ -3,7 +3,7 @@ Doom3 Clone Project for Study.
 
 Some Library can be contained, but i'll try to make everything myself
 
-i had maked some indie games with Unity game engine ( https://play.google.com/store/apps/details?id=com.milli.findkiller2&hl=ko )
+i had maked some indie games with Unity game engine [Google PlayStore](https://play.google.com/store/apps/details?id=com.milli.findkiller2&hl=ko) 
 
 but i wanna make game from scratch myself, This project is beginning of that.
 
@@ -21,3 +21,5 @@ so if you wanna see good and clean code or learn something form this, Find other
   * imgui 1.79
   * glad
 
+## Development Blog
+[Blog](https://sungjjinkang.github.io/) 
