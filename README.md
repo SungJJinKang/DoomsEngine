@@ -1,15 +1,27 @@
+
+
 # Doom3FromScratch
-Doom3 Clone Project for Study.
+Doom3 Clone Project
 
-Some Library can be contained, but i'll try to make everything myself
-
+# Why Do This Proeject
 i had maked some indie games with Unity game engine [Google PlayStore](https://play.google.com/store/apps/details?id=com.milli.findkiller2&hl=ko) 
+But Unity gives everything what I need. I didn't have to know How does Unity Engine work behind Editor UI.
+So Although i had made many games for 3 years, i can't still make tiny game without Game Engine.
 
-but i wanna make game from scratch myself, This project is beginning of that.
+It's suck
 
-i never do this before.
+So I decided making game without game engine.
+And I choose Doom3 as My first game from sractch Project.
+It's really famouse game and A lot of people love this game.
+And Since it has a lot of resources (textures, 3d models.....), I can focus only on Programming.
 
-so if you wanna see good and clean code or learn something form this, Find other project.
+I don't know How long it takes to complete this project.
+But I will complete this project!!
+
+
+
+And i never try making game from scratch.
+So if you wanna good and clean code or learning something, Find other project.
 
 ## Key features
 
@@ -22,4 +34,7 @@ so if you wanna see good and clean code or learn something form this, Find other
   * glad
 
 ## Development Blog
-[Blog](https://sungjjinkang.github.io/) 
+[Korean Blog](https://sungjjinkang.github.io/) 
+
+## Thanks
+![WoCR0sCfffff](https://user-images.githubusercontent.com/33873804/103935734-5e92e300-516a-11eb-9afd-ab48b5f65791.png)
