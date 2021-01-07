@@ -17,8 +17,7 @@ so if you wanna see good and clean code or learn something form this, Find other
 
 ## Dependency
 
-```
-glfw 3.3.2
-imgui 1.79
-glad
-```
+  * glfw 3.3.2
+  * imgui 1.79
+  * glad
+
