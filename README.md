@@ -34,7 +34,7 @@ but i can't make some librarys like graphics api, audio api....
   * opengl 4.6
   * glfw 3.3.2
   * glad
-  * imgui 1.79
+  * imgui 1.79 (optional)
   
 ## Development Blog
 [Korean Blog](https://sungjjinkang.github.io/) 
