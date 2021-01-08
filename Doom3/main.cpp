@@ -1,36 +1,36 @@
-#include "Source/Core/Game/GameFlow.h"
+#include "Source/Core/Game/GameCore.h"
 
 using namespace Doom;
 
-void InitGame(GameFlow& gameflow);
-void GameLoop(GameFlow& gameflow);
-void ExitGame(GameFlow& gameflow);
+void InitGame(GameCore& gameCore);
+void GameLoop(GameCore& gameCore);
+void ExitGame(GameCore& gameCore);
 
 
 
 int main()
 {
-	GameFlow gameflow{};
+	GameCore gameCore{};
 
-	InitGame(gameflow);
-	GameLoop(gameflow);
+	InitGame(gameCore);
+	GameLoop(gameCore);
 	
 }
 
-void InitGame(GameFlow& gameflow)
+void InitGame(GameCore& gameCore)
 {
-	gameflow.Init();
+	gameCore.Init();
 }
 
-void GameLoop(GameFlow& gameflow)
+void GameLoop(GameCore& gameCore)
 {
 	while (true)
 	{
-		gameflow.Loop();
+		gameCore.Loop();
 	}
 }
 
-void ExitGame(GameFlow& gameflow)
+void ExitGame(GameCore& gameCore)
 {
 
 }

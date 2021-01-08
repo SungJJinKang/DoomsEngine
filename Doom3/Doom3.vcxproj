@@ -161,10 +161,12 @@
   <ItemGroup>
     <ClCompile Include="dependency\glad\src\glad.c" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Source\Core\Game\GameCore.cpp" />
     <ClCompile Include="Source\Core\Log\Debug.cpp" />
     <ClCompile Include="Source\Core\Log\Logger.cpp" />
     <ClCompile Include="Source\Core\Game\GameFlow.cpp" />
     <ClCompile Include="Source\Core\Grahpics\Graphics.cpp" />
+    <ClCompile Include="Source\Helper\IniParser.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="dependency\glad\include\glad\glad.h" />
@@ -174,6 +176,7 @@
     <ClInclude Include="Source\Core\API\OpenglAPI.h" />
     <ClInclude Include="Source\Core\Core.h" />
     <ClInclude Include="Source\Core\Assert.h" />
+    <ClInclude Include="Source\Core\Game\GameCore.h" />
     <ClInclude Include="Source\Core\Log\Debug.h" />
     <ClInclude Include="Source\Core\Log\Logger.h" />
     <ClInclude Include="Source\Core\Game\GameFlow.h" />

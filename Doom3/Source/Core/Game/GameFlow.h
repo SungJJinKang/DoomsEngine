@@ -1,14 +1,14 @@
 #pragma once
 #include "../../Helper/Singleton.h"
 
+
 namespace Doom
 {
+	class GameCore;
 	class GameFlow : public Singleton<GameFlow>
 	{
 	private:
 
-
-	public:
 		constexpr GameFlow()
 		{
 
@@ -19,6 +19,11 @@ namespace Doom
 		{
 
 		}
+	public:
+		friend class GameCore;
+		
+
+		
 
 		GameFlow(const GameFlow&) = delete;
 		GameFlow(GameFlow&&) = delete;

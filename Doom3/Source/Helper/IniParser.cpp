@@ -1,0 +1,159 @@
+#include "IniParser.h"
+#include <fstream>
+#include <regex>
+#include <cstdlib>
+
+#include "../Core/Log/Debug.h"
+
+static const std::regex sectionPattern{R"(\s*\[\s*(\w+)\s*\]\s*)"};
+static const std::regex variablePattern{ R"(\s*(\w+)\s*=\s*(\w+)\s*)" };
+
+
+static std::string trim(const std::string& str, const std::string& whitespace = " \t")
+{
+	const auto strBegin = str.find_first_not_of(whitespace);
+	if (strBegin == std::string::npos)
+		return ""; // no content
+
+	const auto strEnd = str.find_last_not_of(whitespace);
+	const auto strRange = strEnd - strBegin + 1;
+
+	return str.substr(strBegin, strRange);
+
+}
+
+
+
+IniData IniParser::ParseIniFile(const char* fileDirectory)
+{
+	std::ifstream inputfStream{ fileDirectory };
+	if (inputfStream.is_open() == false)
+	{
+		Doom::Debug::Log({ "can't open Ini file : ", fileDirectory });
+		return {};
+	}
+
+	/// <summary>
+	/// unordered_map
+	/// key : section
+	/// value : Variable
+	/// 
+	/// vector elements : Variable of section
+	/// key : Variable name
+	/// value : Variable Value
+	/// </summary>
+	/// <param name="fileDirectory"></param>
+	IniData iniData;
+	
+	std::string line;
+
+	std::string currentSection{};
+
+	while (std::getline(inputfStream, line))
+	{
+		if(line.empty())
+			continue;
+
+		line = trim(line);
+
+		if (line.empty())
+			continue;
+
+		const char& front = line.front();
+		
+		switch (front)
+		{
+		case '#':
+		case ';':
+			continue;
+			break;
+
+		case '[':
+		{
+			std::smatch matches;
+			if (std::regex_search(line, matches, sectionPattern, std::regex_constants::match_flag_type::match_default))
+			{
+				currentSection = matches[1];
+				iniData.AddSection(currentSection);
+			}
+			break;
+		}
+
+
+		default:
+		{
+			std::smatch matches;
+			if (std::regex_search(line, matches, variablePattern, std::regex_constants::match_flag_type::match_default))
+			{
+				IniData::ValueType value;
+
+				std::string valueStr = matches[2].str();
+				if (int i = std::atoi(valueStr.c_str()))
+				{
+					value = i;
+				}
+				else if (float f = std::atof(valueStr.c_str()))
+				{
+					value = f;
+				}
+				else
+				{
+					value = valueStr;
+				}
+
+				iniData.InsertVariable(currentSection, std::pair(matches[1], value));
+			}
+			break;
+		}
+		}
+	}
+
+	return iniData;
+}
+
+void IniData::AddSection(const std::string& section)
+{
+	this->data[section]; // just accessing to unordered_map with key make hash table
+	Doom::Debug::Log({ "Add New Section : ", section });
+}
+
+struct ConverToString
+{
+	std::string operator()(const std::string& str )
+	{
+		return str;
+	}
+	std::string operator()(const int& str)
+	{
+		return std::to_string(str);
+	}
+	std::string operator()(const double& str)
+	{
+		return std::to_string(str);
+	}
+};
+
+
+void IniData::InsertVariable(const std::string& section, const VariableType& variable)
+{
+	this->data[section].push_back(variable);
+
+	/*
+	* //Evaluated at compile time
+	auto sdf = std::visit([](auto&& arg) {
+		using T = std::decay_t<decltype(arg)>;
+		if constexpr (std::is_same_v<T, std::string>)
+			return arg;
+		else if constexpr (std::is_arithmetic_v<T>)
+			return std::to_string(arg);
+		else
+			static_assert(std::false_type, "non-exhaustive visitor!");
+		}, variable.second);
+	*/
+	auto valueString = std::visit(ConverToString(), variable.second);
+	Doom::Debug::Log({ "Add New Variable = ", "Section : ", section, " , Key : ", variable.first, " , Value : ", valueString });
+
+
+	
+}
+

@@ -6,6 +6,7 @@ template<typename T>
 class Singleton
 {
 	static_assert(!std::is_pointer<T>::value, "Don't try making singleton with pointer type");
+
 private:
 	static T* SingletonInstance;
 
@@ -15,7 +16,7 @@ protected:
 	{
 		assert(!Singleton<T>::SingletonInstance);
 
-		SingletonInstance = static_cast<T*>(this);
+		Singleton<T>::SingletonInstance = static_cast<T*>(this);
 	}
 
 	~Singleton()
@@ -27,7 +28,7 @@ public:
 
 	static T& Instance()
 	{
-		assert(!Singleton<T>::SingletonInstance);
+		assert(Singleton<T>::SingletonInstance);
 		return *(Singleton<T>::SingletonInstance);
 	}
 

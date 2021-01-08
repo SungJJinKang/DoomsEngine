@@ -1,13 +1,16 @@
 #include "Graphics.h"
-
+#include "../Game/GameCore.h"
 using namespace Doom;
 
 GLFWwindow* Graphics::Window{};
-int Graphics::SCREEN_WIDTH{512};
-int Graphics::SCREEN_HEIGHT{512};
+int Graphics::SCREEN_WIDTH{};
+int Graphics::SCREEN_HEIGHT{};
 
 void Graphics::Init()
 {
+	SCREEN_WIDTH = GameCore::Instance().initData.GetValue<int>("Graphics", "SCREEN_WIDHT");
+	SCREEN_HEIGHT = GameCore::Instance().initData.GetValue<int>("Graphics", "SCREEN_HEIGHT");
+
 	glfwInit();
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
