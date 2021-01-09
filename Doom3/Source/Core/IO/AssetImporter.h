@@ -36,6 +36,7 @@ namespace Doom
 		template <AssetType assetType>
 		struct AssetTypeConditional;
 
+
 		template <> struct AssetTypeConditional<Doom::AssetType::AUDIO> { using type = AudioAsset; };
 		template <> struct AssetTypeConditional<Doom::AssetType::FONT> { using type = FontAsset; };
 		template <> struct AssetTypeConditional<Doom::AssetType::TEXTURE> { using type = TextureAsset; };
@@ -78,9 +79,10 @@ namespace Doom
 				aiComponent_BONEWEIGHTS |
 				aiComponent_ANIMATIONS |
 				aiComponent_LIGHTS |
-				aiComponent_CAMERAS
-			);// set removed components
-
+				aiComponent_CAMERAS |
+				aiComponent_MATERIALS |
+				aiComponent_TEXTURES
+			);// set removed components flags
 
 
 			// And have it read the given file with some example postprocessing
@@ -95,15 +97,15 @@ namespace Doom
 				aiProcess_CalcTangentSpace |
 				aiProcess_TransformUVCoords |
 				aiProcess_SortByPType |
-				aiProcess_ImproveCacheLocality
-
+				aiProcess_ImproveCacheLocality 
 			);
-
+			//scene->mMeshes[0]->
 			// If the import failed, report it
 			if (!scene) {
-				return {};
+				if (scene->mRootNode)
+				{
+				}
 			}
-
 
 
 

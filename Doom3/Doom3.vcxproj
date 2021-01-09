@@ -91,6 +91,7 @@
       <AdditionalIncludeDirectories>$(SolutionDir)dependency\glfw\include\GLFW\;$(SolutionDir)dependency\assimp\;$(SolutionDir)dependency\glad\include\;%(AdditionalIncludeDirectories);</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -110,6 +111,7 @@
       <AdditionalIncludeDirectories>$(SolutionDir)dependency\glfw\include\GLFW\;$(SolutionDir)dependency\assimp\;$(SolutionDir)dependency\glad\include\;$(SolutionDir)dependency\glfw-3.3.2.bin.WIN64\include\;$(SolutionDir)dependency\glad\include;%(AdditionalIncludeDirectories);$(SolutionDir)dependency\glad\include;$(SolutionDir)dependency\glfw-3.3.2.bin.WIN64\include\</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -129,6 +131,7 @@
       <AdditionalIncludeDirectories>$(SolutionDir)dependency\glfw\include\GLFW\;$(SolutionDir)dependency\assimp\;$(SolutionDir)dependency\glad\include\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -148,6 +151,7 @@
       <AdditionalIncludeDirectories>$(SolutionDir)dependency\glfw\include\GLFW\;$(SolutionDir)dependency\assimp\;$(SolutionDir)dependency\glad\include\;$(SolutionDir)dependency\glfw-3.3.2.bin.WIN64\include\;$(SolutionDir)dependency\glad\include;%(AdditionalIncludeDirectories);$(SolutionDir)dependency\glad\include;$(SolutionDir)dependency\glfw-3.3.2.bin.WIN64\include\</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -183,6 +187,12 @@
     <ClCompile Include="Source\Helper\IniParser.cpp" />
     <ClCompile Include="Source\Core\Asset\ThreeDModelAsset.cpp" />
     <ClCompile Include="Source\Core\Asset\TextureAsset.cpp" />
+    <ClCompile Include="stdafx.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="dependency\glad\include\glad\glad.h" />
@@ -193,8 +203,10 @@
     <ClInclude Include="Source\Component\DirectionalLight.h" />
     <ClInclude Include="Source\Component\Light.h" />
     <ClInclude Include="Source\Core\API\ASSIMP.h" />
+    <ClInclude Include="Source\Core\API\GLM.h" />
     <ClInclude Include="Source\Core\API\OpenglAPI.h" />
     <ClInclude Include="Source\Core\API\STB_IMAGE.h" />
+    <ClInclude Include="stdafx.h" />
     <ClInclude Include="Source\Core\Asset\Asset.h" />
     <ClInclude Include="Source\Core\Asset\AudioAsset.h" />
     <ClInclude Include="Source\Core\Asset\FontAsset.h" />

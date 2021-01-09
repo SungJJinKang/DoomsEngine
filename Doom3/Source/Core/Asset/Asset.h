@@ -1,4 +1,8 @@
 #pragma once
+
+#include <string>
+#include <filesystem>
+
 namespace Doom
 {
 	enum class AssetType
@@ -9,8 +13,10 @@ namespace Doom
 		AUDIO
 	};
 
-	class Asset
+	struct Asset
 	{
+		std::string AssetName;
+		std::filesystem::path AssetPath;
 	};
 }
 

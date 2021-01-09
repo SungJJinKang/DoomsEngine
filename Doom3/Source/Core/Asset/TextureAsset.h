@@ -3,7 +3,7 @@
 
 namespace Doom
 {
-	class TextureAsset : public Asset
+	struct TextureAsset : public Asset
 	{
 	};
 }
