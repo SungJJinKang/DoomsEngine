@@ -1,40 +1,29 @@
 #pragma once
 #include "../Core.h"
 
-#include "../../Helper/Singleton.h"
-#include "../../Helper/IniParser.h"
 
-#include "GameFlow.h"
-
-
-
+class IniData;
 
 namespace Doom
 {
 	class Graphics;
+	class GameFlow;
 
-	class GameCore : public Singleton<GameCore>
+	class GameCore
 	{
 	private:
 		static const char* configFilePath;
-		IniData initData;
-
-		GameFlow gameFlow;
+		static IniData ConfigData;
 
 	public:
 		friend class Graphics;
-		GameCore() : initData{ IniParser::ParseIniFile(GET_RALATIVE_PATH("config.ini"))  }
-		{
 
-		}
-
-		void Init();
-		inline void Loop()
-		{
-			this->gameFlow.Loop();
-		}
+		static void Init();
+		static bool Loop();
 		
-
+		
+		
+		GameCore() = delete;
 		GameCore(const GameCore&) = delete;
 		GameCore(GameCore&&) = delete;
 		GameCore& operator=(const GameCore&) = delete;

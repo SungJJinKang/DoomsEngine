@@ -1,5 +1,8 @@
 #include "Graphics.h"
 #include "../Game/GameCore.h"
+#include "../API/OpenglAPI.h"
+#include "../../Helper/IniParser.h"
+
 using namespace Doom;
 
 GLFWwindow* Graphics::Window{};
@@ -8,8 +11,8 @@ int Graphics::SCREEN_HEIGHT{};
 
 void Graphics::Init()
 {
-	SCREEN_WIDTH = GameCore::Instance().initData.GetValue<int>("Graphics", "SCREEN_WIDHT");
-	SCREEN_HEIGHT = GameCore::Instance().initData.GetValue<int>("Graphics", "SCREEN_HEIGHT");
+	Graphics::SCREEN_WIDTH = GameCore::ConfigData.GetValue<int>("Graphics", "SCREEN_WIDHT");
+	Graphics::SCREEN_HEIGHT = GameCore::ConfigData.GetValue<int>("Graphics", "SCREEN_HEIGHT");
 
 	glfwInit();
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
@@ -50,8 +53,8 @@ void Graphics::Init()
 	//glEnable(GL_MULTISAMPLE);
 
 	glEnable(GL_DEPTH_TEST);
-	glDepthFunc(GL_LEQUAL);
-	glEnable(GL_STENCIL_TEST);
+	//glDepthFunc(GL_LEQUAL);
+	//glEnable(GL_STENCIL_TEST);
 
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
@@ -60,4 +63,33 @@ void Graphics::Init()
 	glCullFace(GL_BACK);
 	glFrontFace(GL_CCW);
 	return;
+}
+
+void Graphics::Loop()
+{
+	if (!glfwWindowShouldClose(Graphics::Window))
+	{
+		glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+		
+
+		
+
+	
+
+		// glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)
+		// -------------------------------------------------------------------------------
+		glfwSwapBuffers(Graphics::Window);
+		glfwPollEvents();
+
+		return;
+	}
+	else
+	{
+		Debug::Log("Terminate glfw");
+		glfwTerminate();
+
+		return;
+	}
+	
 }

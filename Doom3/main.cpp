@@ -2,35 +2,24 @@
 
 using namespace Doom;
 
-void InitGame(GameCore& gameCore);
-void GameLoop(GameCore& gameCore);
-void ExitGame(GameCore& gameCore);
+void ExitGame();
 
 
 
 int main()
 {
-	GameCore gameCore{};
-
-	InitGame(gameCore);
-	GameLoop(gameCore);
+	GameCore::Init();
 	
-}
-
-void InitGame(GameCore& gameCore)
-{
-	gameCore.Init();
-}
-
-void GameLoop(GameCore& gameCore)
-{
-	while (true)
+	while (GameCore::Loop())
 	{
-		gameCore.Loop();
+		
 	}
 }
 
-void ExitGame(GameCore& gameCore)
+
+
+
+void ExitGame()
 {
 
 }

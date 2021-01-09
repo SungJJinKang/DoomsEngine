@@ -1,6 +1,8 @@
 #pragma once
 #include "../Log/Debug.h"
-#include "../API/OpenglAPI.h"
+
+
+struct GLFWwindow;
 
 namespace Doom
 {
@@ -14,7 +16,7 @@ namespace Doom
 
 		
 		static void Init();
-
+		static void Loop();
 
 	};
 }

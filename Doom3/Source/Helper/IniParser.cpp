@@ -3,6 +3,7 @@
 #include <regex>
 #include <cstdlib>
 
+
 #include "../Core/Log/Debug.h"
 
 static const std::regex sectionPattern{R"(\s*\[\s*(\w+)\s*\]\s*)"};
@@ -92,9 +93,9 @@ IniData IniParser::ParseIniFile(const char* fileDirectory)
 				{
 					value = i;
 				}
-				else if (float f = std::atof(valueStr.c_str()))
+				else if (double d = std::atof(valueStr.c_str()))
 				{
-					value = f;
+					value = d;
 				}
 				else
 				{
