@@ -2,6 +2,7 @@
 
 #include <string>
 #include <filesystem>
+#include "../API/UUID.h"
 
 namespace Doom
 {
@@ -15,8 +16,19 @@ namespace Doom
 
 	struct Asset
 	{
+		/// <summary>
+		/// https://github.com/r-lyeh-archived/sole
+		/// </summary>
+		UUID uuid;
 		std::string AssetName;
 		std::filesystem::path AssetPath;
+
+		void SetBaseMetaData(std::filesystem::path& path);
+
+		Asset() : uuid{ GenerateUUID() }
+		{
+
+		}
 	};
 }
 

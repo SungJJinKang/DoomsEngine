@@ -1,3 +1,4 @@
+#define STB_IMAGE_IMPLEMENTATION
 #include "AssetImporter.h"
 
 #include <map>
@@ -21,6 +22,20 @@ Custom log streams or logger replacements have to be thread-safe, too.
 
 Multiple concurrent imports may or may not be beneficial, however. For certain file formats in conjunction with little or no post processing IO times tend to be the performance bottleneck. Intense post processing together with ¡®slow¡¯ file formats like X or Collada might scale well with multiple concurrent imports.
 */
+
+
+// Create a logger instance
+
+#ifdef DEBUG_VERSION
+
+/*
+auto a = Assimp::DefaultLogger::create("", Logger::VERBOSE);
+
+// Now I am ready for logging my stuff
+Assimp::DefaultLogger::get()->info("this is my info-call");
+*/
+
+#endif
 
 const std::map<std::string, Doom::AssetType> Doom::AssetImporter::AssetExtension
 {
