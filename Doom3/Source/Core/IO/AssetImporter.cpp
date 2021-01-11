@@ -37,6 +37,9 @@ Assimp::DefaultLogger::get()->info("this is my info-call");
 
 #endif
 
+
+
+
 const std::map<std::string, Doom::AssetType> Doom::AssetImporter::AssetExtension
 {
 	//3D Model Asset Formats

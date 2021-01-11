@@ -50,28 +50,28 @@ namespace Doom
 		using AssetTypeConditional_t = typename AssetTypeConditional<assetType>::type;
 
 		template <AssetType assetType>
-		static AssetTypeConditional_t<assetType>* ReadAssetFile(std::filesystem::path path)
+		static bool ReadAssetFile(std::filesystem::path path, AssetTypeConditional_t<assetType>& asset)
 		{
 			static_assert(false, "Please put proper type");
-			return {};
+			return false;
 		}
 
 		template<>
-		static AudioAsset* ReadAssetFile<AssetType::AUDIO>(std::filesystem::path path)
+		static bool ReadAssetFile<AssetType::AUDIO>(std::filesystem::path path, AssetTypeConditional_t<AssetType::AUDIO>& asset)
 		{
-			return {};
+			return false;
 		}
 
 		template<>
-		static  FontAsset* ReadAssetFile<AssetType::FONT>(std::filesystem::path path)
+		static  bool ReadAssetFile<AssetType::FONT>(std::filesystem::path path, AssetTypeConditional_t<AssetType::FONT>& asset)
 		{
-			return {};
+			return false;
 		}
 
 		template<>
-		static TextureAsset* ReadAssetFile<AssetType::TEXTURE>(std::filesystem::path path)
+		static bool ReadAssetFile<AssetType::TEXTURE>(std::filesystem::path path, AssetTypeConditional_t<AssetType::TEXTURE>& asset)
 		{
-			return {};
+			return false;
 		}
 
 		// TODO : Support MultiThreading Import
@@ -91,15 +91,17 @@ namespace Doom
 		/// <param name="modelAsset"></param>
 		/// <param name="assimpScene"></param>
 		/// <returns></returns>
-		static void SetThreeDModelNodesData(ThreeDModelNode* currentNode, aiNode* currentAssimpNode, ThreeDModelNode* parentNode, ThreeDModelAsset* modelAsset, const aiScene* assimpScene)
+		static void SetThreeDModelNodesData(ThreeDModelNode* currentNode, aiNode* currentAssimpNode, ThreeDModelNode* parentNode, ThreeDModelAsset& modelAsset, const aiScene* assimpScene)
 		{
 			currentNode->ThreeDModelNodeParent = parentNode;
-			currentNode->ThreeDModelAsset = modelAsset;
+			currentNode->ThreeDModelAsset = &modelAsset;
 			currentNode->Name = currentAssimpNode->mName.C_Str();
 			currentNode->NumOfThreeDModelMeshes = currentAssimpNode->mNumMeshes;
+
+			currentNode->ThreeDModelMeshes = new ThreeDModelMesh * [currentAssimpNode->mNumMeshes];
 			for (int meshIndex = 0; meshIndex < currentAssimpNode->mNumMeshes; meshIndex++)
 			{
-				currentNode->ThreeDModelMeshes[meshIndex] = modelAsset->ModelMeshes[currentAssimpNode->mMeshes[meshIndex]];
+				currentNode->ThreeDModelMeshes[meshIndex] = modelAsset.ModelMeshes[currentAssimpNode->mMeshes[meshIndex]];
 			}
 
 			currentNode->NumOfThreeDModelNodeChildrens = currentAssimpNode->mNumChildren;
@@ -111,6 +113,15 @@ namespace Doom
 			}
 		}
 
+#ifdef DEBUG_VERSION
+		class AssimpLogStream : public Assimp::LogStream {
+		public:
+			// Write womethink using your own functionality
+			void write(const char* message) {
+				Doom::Debug::Log({"Assimp Debugger : ", message});
+			}
+		};
+#endif
 		//static std::optional<ThreeDModelAsset> Read3dModelFile
 		/// <summary>
 		/// Support MultiThreading because 3d model asset is big file size
@@ -118,12 +129,28 @@ namespace Doom
 		/// <param name="path"></param>
 		/// <returns></returns>
 		template<>
-		static ThreeDModelAsset* ReadAssetFile<AssetType::THREE_D_MODELL>(std::filesystem::path path)
+		static bool ReadAssetFile<AssetType::THREE_D_MODELL>(std::filesystem::path path, AssetTypeConditional_t<AssetType::THREE_D_MODELL>& asset)
 		{
 			
+			
+#ifdef DEBUG_VERSION
+			static bool IsAssimpDebuggerInitialized;
 
-			Assimp::Importer importer;
-			importer.SetPropertyInteger("AI_CONFIG_PP_RVC_FLAGS",
+			if (IsAssimpDebuggerInitialized == false)
+			{
+				Assimp::DefaultLogger::create("", Assimp::Logger::VERBOSE);
+				// Select the kinds of messages you want to receive on this log stream
+				const unsigned int severity = Assimp::Logger::Err | Assimp::Logger::Warn;
+
+				// Attaching it to the default logger
+				Assimp::DefaultLogger::get()->attachStream(new AssimpLogStream, severity);
+
+				IsAssimpDebuggerInitialized = true;
+			}
+#endif
+
+			static Assimp::Importer MainThreadAssimpImporter;
+			MainThreadAssimpImporter.SetPropertyInteger("AI_CONFIG_PP_RVC_FLAGS",
 				aiComponent_COLORS |
 				aiComponent_BONEWEIGHTS |
 				aiComponent_ANIMATIONS |
@@ -133,11 +160,10 @@ namespace Doom
 				aiComponent_TEXTURES
 			);// set removed components flags
 
-			auto pathStr = "C:/Doom3FromScratch/Doom3/Assets/backpack.obj";
 			// And have it read the given file with some example postprocessing
 			// Usually - if speed is not the most important aspect for you - you'll
 			// probably to request more postprocessing than we do in this example.
-			const aiScene* scene = importer.ReadFile(pathStr,
+			const aiScene* scene = MainThreadAssimpImporter.ReadFile(path.string(),
 				aiProcess_RemoveComponent |
 				aiProcess_SplitLargeMeshes |
 				aiProcess_Triangulate |
@@ -156,66 +182,69 @@ namespace Doom
 			if (scene != nullptr && scene->mRootNode != nullptr)
 			{
 
-				ThreeDModelAsset* threeDModelAsset = new ThreeDModelAsset();
 
 				//Copy Asset meshes
-				threeDModelAsset->NumOfModelMeshed = scene->mNumMeshes;
-				threeDModelAsset->ModelMeshes = new ThreeDModelMesh * [threeDModelAsset->NumOfModelMeshed];
+				asset.NumOfModelMeshed = scene->mNumMeshes;
+				asset.ModelMeshes = new ThreeDModelMesh * [asset.NumOfModelMeshed];
 				for (int meshIndex = 0; meshIndex < scene->mNumMeshes; meshIndex++)
 				{
 					auto mesh = scene->mMeshes[meshIndex];
-					threeDModelAsset->ModelMeshes[meshIndex] = new ThreeDModelMesh();
-					threeDModelAsset->ModelMeshes[meshIndex]->Name = mesh->mName.C_Str();
+					asset.ModelMeshes[meshIndex] = new ThreeDModelMesh();
+					asset.ModelMeshes[meshIndex]->Name = mesh->mName.C_Str();
 
-					threeDModelAsset->ModelMeshes[meshIndex]->NumOfVertices = mesh->mNumVertices;
+					asset.ModelMeshes[meshIndex]->NumOfVertices = mesh->mNumVertices;
+					asset.ModelMeshes[meshIndex]->Vertices = new glm::vec3 * [mesh->mNumVertices];
+
 					for (int verticeIndex = 0; verticeIndex < scene->mMeshes[meshIndex]->mNumVertices; verticeIndex++)
 					{
 						auto vertice = mesh->mVertices[verticeIndex];
-						threeDModelAsset->ModelMeshes[meshIndex]->Vertices[verticeIndex] = new glm::vec3(vertice.x, vertice.y, vertice.z);
+						asset.ModelMeshes[meshIndex]->Vertices[verticeIndex] = new glm::vec3(vertice.x, vertice.y, vertice.z);
 
-						threeDModelAsset->ModelMeshes[meshIndex]->NumOfTexCoords = 0;
-						threeDModelAsset->ModelMeshes[meshIndex]->TexCoords = nullptr;
+						asset.ModelMeshes[meshIndex]->NumOfTexCoords = 0;
+						asset.ModelMeshes[meshIndex]->TexCoords = nullptr;
 						if (mesh->HasTextureCoords(0))
 						{//if has texCoord sets
 							for (int texCoordIndex = 0; texCoordIndex < AI_MAX_NUMBER_OF_TEXTURECOORDS; texCoordIndex++)
 							{
-								if (mesh->mTextureCoords[verticeIndex] == NULL)
+								if (mesh->mTextureCoords[texCoordIndex] == NULL)
 								{
-									threeDModelAsset->ModelMeshes[meshIndex]->NumOfTexCoords = texCoordIndex;
+									asset.ModelMeshes[meshIndex]->NumOfTexCoords = texCoordIndex;
 									break;
 								}
 							}
 
-							threeDModelAsset->ModelMeshes[meshIndex]->TexCoords = new glm::vec3 * [threeDModelAsset->ModelMeshes[meshIndex]->NumOfTexCoords];
-							for (int texCoordIndex = 0; texCoordIndex < threeDModelAsset->ModelMeshes[meshIndex]->NumOfTexCoords; texCoordIndex++)
+							asset.ModelMeshes[meshIndex]->TexCoords = new glm::vec3 * [asset.ModelMeshes[meshIndex]->NumOfTexCoords];
+							for (int texCoordIndex = 0; texCoordIndex < asset.ModelMeshes[meshIndex]->NumOfTexCoords; texCoordIndex++)
 							{
-								auto texCoord = mesh->mTextureCoords[verticeIndex][texCoordIndex];
-								threeDModelAsset->ModelMeshes[meshIndex]->TexCoords[texCoordIndex] = new glm::vec3(texCoord.x, texCoord.y, texCoord.z);
+								auto& texCoord = mesh->mTextureCoords[texCoordIndex][verticeIndex];
+								asset.ModelMeshes[meshIndex]->TexCoords[texCoordIndex] = new glm::vec3(texCoord.x, texCoord.y, texCoord.z);
 							}
 						}
 					}
 
-					threeDModelAsset->ModelMeshes[meshIndex]->Tangents = mesh->HasTangentsAndBitangents() ? new glm::vec3(mesh->mTangents->x, mesh->mTangents->y, mesh->mTangents->z) : nullptr;
-					threeDModelAsset->ModelMeshes[meshIndex]->BiTangents = mesh->HasTangentsAndBitangents() ? new glm::vec3(mesh->mBitangents->x, mesh->mBitangents->y, mesh->mBitangents->z) : nullptr;
-					threeDModelAsset->ModelMeshes[meshIndex]->Normals = mesh->HasNormals() ? new glm::vec3(mesh->mNormals->x, mesh->mNormals->y, mesh->mNormals->z) : nullptr;
+					asset.ModelMeshes[meshIndex]->Tangents = mesh->HasTangentsAndBitangents() ? new glm::vec3(mesh->mTangents->x, mesh->mTangents->y, mesh->mTangents->z) : nullptr;
+					asset.ModelMeshes[meshIndex]->BiTangents = mesh->HasTangentsAndBitangents() ? new glm::vec3(mesh->mBitangents->x, mesh->mBitangents->y, mesh->mBitangents->z) : nullptr;
+					asset.ModelMeshes[meshIndex]->Normals = mesh->HasNormals() ? new glm::vec3(mesh->mNormals->x, mesh->mNormals->y, mesh->mNormals->z) : nullptr;
 				}
 
 				//scene->mRootNode
-				SetThreeDModelNodesData(&threeDModelAsset->rootNode, scene->mRootNode, nullptr, threeDModelAsset, scene);
-				return threeDModelAsset;
+				asset.rootNode.ThreeDModelNodeParent = nullptr;
+				SetThreeDModelNodesData(&(asset.rootNode), scene->mRootNode, nullptr, asset, scene);
+				MainThreadAssimpImporter.FreeScene();
+				return true;
 
 			}
 			else
 			{
 				Debug::Log({ path.string(), " : 3D Model Asset has no scene" });
-				return nullptr;
+				return false;
 			}
 
 			// We're done. Everything will be cleaned up by the importer destructor
 		}
 	public:
 		template <AssetType assetType>
-		static bool ImportAsset(std::filesystem::path path, AssetTypeConditional_t<assetType>** asset)
+		static bool ImportAsset(std::filesystem::path path, AssetTypeConditional_t<assetType>& asset)
 		{
 			if (path.has_extension())
 			{
@@ -224,10 +253,9 @@ namespace Doom
 				{
 					if (AssetExtension.at(extension.substr(1, extension.length() - 1)) == assetType)
 					{
-						AssetTypeConditional_t<assetType>* importedAsset = ReadAssetFile<assetType>(path);
-						if (importedAsset != nullptr)
+						if (ReadAssetFile<assetType>(path, asset))
 						{
-							*asset = importedAsset;
+							asset.SetBaseMetaData(path);
 							return true;
 						}
 						else
