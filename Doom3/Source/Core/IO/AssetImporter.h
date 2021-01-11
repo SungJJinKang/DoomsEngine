@@ -23,7 +23,7 @@
 #include "../API/ASSIMP.h"
 #include "../API/STB_IMAGE.h"
 
-
+#include "AssetImporterThreading.h"
 
 
 
@@ -272,6 +272,84 @@ namespace Doom
 			}
 			Doom::Debug::Log("Fail To Find File Format");
 			return false;
+		}
+
+
+		// TODO : MAX_ASSETIMPORTER_THREAD_COUNT SHOULD BE READED FROM CONFIG.INI
+
+	
+#define  MAX_ASSETIMPORTER_THREAD_COUNT = 5;
+		
+		/// <summary>
+		/// Import Assets on multithread
+		/// Main Thread will be terminated until Every Importing Works is done
+		/// Should Call This Function when you need So many Assets at time like Scene Loading
+		/// </summary>
+		/// <param name="path"></param>
+		/// <param name="assets"></param>
+		/// <returns></returns>
+		template <AssetType assetType>
+		static bool ImportAssetChunk(std::vector <std::filesystem::path> paths, std::vector<AssetTypeConditional_t<assetType>&> assets)
+		{
+			static_assert(path.size() == assets.size(), "paths'size should equat to assets'size");
+			
+			const int assetSize = paths.size();
+
+			std::atomic<unsigned int> extraThreadCount = MAX_ASSETIMPORTER_THREAD_COUNT;
+
+			/// <summary>
+			/// if NumOfCompoletedImportingWork equal to assetSize, Every Importing Works is done, return true and exit this function
+			/// </summary>
+			/// <param name="paths"></param>
+			/// <param name="assets"></param>
+			/// <returns></returns>
+			std::atomic<unsigned int> NumOfCompoletedImportingWork;
+			
+
+			for (int i = 0; i < assetSize; i++)
+			{
+				while (extraThreadCount > 0)
+				{
+					//Create new Thread
+					extraThreadCount--;
+					AssetImporterThreading::ImportAssetAsyncly < AssetTypeConditional_t<assetType, MAX_ASSETIMPORTER_THREAD_COUNT>(extraThreadCount, NumOfCompoletedImportingWork, paths[i], assets[i]);
+				}
+			}
+
+			while (NumOfCompoletedImportingWork != assetSize)
+			{
+				//wait until every Importing Works is finished
+			}
+
+			return true;
+			/*
+			if (path.has_extension())
+			{
+				auto extension = path.extension().string();
+				try
+				{
+					if (AssetExtension.at(extension.substr(1, extension.length() - 1)) == assetType)
+					{
+						if (ReadAssetFile<assetType>(path, asset))
+						{
+							asset.SetBaseMetaData(path);
+							return true;
+						}
+						else
+						{
+							Doom::Debug::Log("Fail To Find File Format");
+							return false;
+						}
+					}
+				}
+				catch (std::out_of_range& e)
+				{
+					Doom::Debug::Log({ "Can't Find proper extension : ", extension });
+				}
+			}
+			Doom::Debug::Log("Fail To Find File Format");
+			return false;
+			*/
 		}
 	};
 }

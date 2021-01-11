@@ -16,7 +16,6 @@
 
 #include "../API/ASSIMP.h"
 
-#define MAX_IMPORTER_THREAD_COUNT 5
 
 namespace Doom
 {
@@ -26,38 +25,40 @@ namespace Doom
 	/// If Every Thread is being used, main thread wait
 	/// </summary>
 	/// <typeparam name="AssetType"></typeparam>
-	template <typename AssetType, int MaxThreadCount>
 	class AssetImporterThreading
 	{
-		static_assert(std::is_base_of_v<Asset, AssetType>, "Please Pass Type of Asset class");
+		
 
 		
-		/*
-		static AssetType ImportAssetAsyncly(std::function<AssetType(std::filesystem::path)> importer)
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <typeparam name="AssetType"></typeparam>
+		/// <param name="paths"></param>
+		/// <param name="IsCompleted">If Importing is completed, this should be set true ( even if Import asset fail, this value should be set true for notifying to mainthread</param>
+		/// <param name=""></param>
+		/// <returns></returns>
+		template <typename AssetClassType>
+		static void ImportAssetAsyncly(std::atomic<unsigned int>& extraThreaCount, std::atomic<unsigned int>& NumOfCompoletedImportingWork, std::filesystem::path& paths, AssetClassType& asset)
 		{
-			/// <summary>
-			/// Wait Until CurrentThreadCount become less than MaxThreadCount
-			/// </summary>
-			/// <param name="importer"></param>
-			/// <returns></returns>
-			while (CurrentThreadCount < MaxThreadCount);
-
-			//
-
+			static_assert(std::is_base_of_v<Asset, AssetClassType>, "Please Pass Type of Asset class");
+		
+			//if import is finished, plus one to extraThreaCount, NumOfCompoletedImportingWork
 		}
 
-		static std::future<AssetType> WaitAsset(std::function < AssetType(std::filesystem::path))
+		template <>
+		static void ImportAssetAsyncly<ThreeDModelAsset>(std::atomic<unsigned int>& extraThreaCount, std::atomic<unsigned int>& NumOfCompoletedImportingWork, std::filesystem::path& paths, ThreeDModelAsset& asset)
 		{
+			//if import is finished, plus one to extraThreaCount, NumOfCompoletedImportingWork
 
-		}
-		*/
+
+
+
+			*IsCompleted = true;
+		};
+		
 	};
 
-	template <int MaxThreadCount>
-	class AssetImporterThreading<ThreeDModelAsset, MaxThreadCount>
-	{
-
-
-	};
+	
 
 }
