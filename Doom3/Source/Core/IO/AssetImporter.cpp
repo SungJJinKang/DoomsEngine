@@ -7,38 +7,16 @@
 #include "../Core.h"
 
 
-/* Assimp threading
-* 
-Thread-safety / using Assimp concurrently from several threads¢Ò
-The library can be accessed by multiple threads simultaneously, as long as the following prerequisites are fulfilled:
-
-Users of the C++-API should ensure that they use a dedicated #Assimp::Importer instance for each thread. Constructing instances of #Assimp::Importer is expensive, so it might be a good idea to let every thread maintain its own thread-local instance (which can be used to load as many files as necessary).
-
-The C-API is thread safe.
-
-When supplying custom IO logic, one must make sure the underlying implementation is thread-safe.
-
-Custom log streams or logger replacements have to be thread-safe, too.
-
-Multiple concurrent imports may or may not be beneficial, however. For certain file formats in conjunction with little or no post processing IO times tend to be the performance bottleneck. Intense post processing together with ¡®slow¡¯ file formats like X or Collada might scale well with multiple concurrent imports.
-*/
-
-
-// Create a logger instance
-
-#ifdef DEBUG_VERSION
-
-/*
-auto a = Assimp::DefaultLogger::create("", Logger::VERBOSE);
-
-// Now I am ready for logging my stuff
-Assimp::DefaultLogger::get()->info("this is my info-call");
-*/
-
-#endif
 
 
 
+
+
+Assimp::Importer Doom::AssetImporter::MainThreadAssimpImporter{};
+Assimp::Importer Doom::AssetImporter::MultiThreadAssimpImporter[MAX_ASSETIMPORTER_THREAD_COUNT]{};
+ 
+template <Doom::AssetType assetType>
+std::mutex Doom::AssetImporter::AssetImporterMutex{};
 
 const std::map<std::string, Doom::AssetType> Doom::AssetImporter::AssetExtension
 {
@@ -90,3 +68,8 @@ const std::map<std::string, Doom::AssetType> Doom::AssetImporter::AssetExtension
 
 	//////////////////////////////////////////////////////////////////////////
 };
+
+void Doom::AssetImporter::AssimpLogStream::write(const char* message) 
+{
+	Doom::Debug::Log({ "Assimp Debugger : ", message });
+}

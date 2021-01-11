@@ -23,7 +23,7 @@ namespace Doom
 		std::string AssetName;
 		std::filesystem::path AssetPath;
 
-		void SetBaseMetaData(std::filesystem::path& path);
+		void SetBaseMetaData(const std::filesystem::path& path);
 
 		Asset() : uuid{ GenerateUUID() }
 		{

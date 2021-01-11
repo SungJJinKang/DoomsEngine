@@ -178,7 +178,6 @@
     <ClCompile Include="Source\Core\Grahpics\Shader.cpp" />
     <ClCompile Include="Source\Core\Grahpics\Texture.cpp" />
     <ClCompile Include="Source\Core\IO\AssetImporter.cpp" />
-    <ClCompile Include="Source\Core\IO\AssetImporterThreading.cpp" />
     <ClCompile Include="Source\Core\IO\UserInput.cpp" />
     <ClCompile Include="Source\Core\Log\Debug.cpp" />
     <ClCompile Include="Source\Core\Log\Logger.cpp" />
@@ -208,7 +207,6 @@
     <ClInclude Include="Source\Core\API\OpenglAPI.h" />
     <ClInclude Include="Source\Core\API\STB_IMAGE.h" />
     <ClInclude Include="Source\Core\API\UUID.h" />
-    <ClInclude Include="Source\Core\IO\AssetImporterThreading.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="Source\Core\Asset\Asset.h" />
     <ClInclude Include="Source\Core\Asset\AudioAsset.h" />

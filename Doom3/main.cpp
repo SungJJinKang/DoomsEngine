@@ -5,7 +5,7 @@ using namespace Doom;
 
 void ExitGame();
 
-
+#include <filesystem>
 
 int main()
 {
@@ -14,9 +14,21 @@ int main()
 	ThreeDModelAsset asset;
 	ThreeDModelAsset asset1;
 	ThreeDModelAsset asset2;
-	AssetImporter::ImportAsset<AssetType::THREE_D_MODELL>("C:/Doom3FromScratch/Doom3/Assets/backpack/backpack.obj", asset);
-	AssetImporter::ImportAsset<AssetType::THREE_D_MODELL>("C:/Doom3FromScratch/Doom3/Assets/backpack/backpack.obj", asset1);
-	AssetImporter::ImportAsset<AssetType::THREE_D_MODELL>("C:/Doom3FromScratch/Doom3/Assets/backpack/backpack.obj", asset2);
+
+	std::vector<std::filesystem::path> paths
+	{
+		"C:/Doom3FromScratch/Doom3/Assets/backpack/backpack.obj",
+		"C:/Doom3FromScratch/Doom3/Assets/backpack/backpack.obj",
+		"C:/Doom3FromScratch/Doom3/Assets/backpack/backpack.obj",
+		"C:/Doom3FromScratch/Doom3/Assets/backpack/backpack.obj",
+		"C:/Doom3FromScratch/Doom3/Assets/backpack/backpack.obj",
+		"C:/Doom3FromScratch/Doom3/Assets/backpack/backpack.obj",
+		"C:/Doom3FromScratch/Doom3/Assets/backpack/backpack.obj",
+		"C:/Doom3FromScratch/Doom3/Assets/backpack/backpack.obj",
+		"C:/Doom3FromScratch/Doom3/Assets/backpack/backpack.obj",
+	};
+
+	auto assets =AssetImporter::ImportAssetChunk<AssetType::THREE_D_MODELL>(paths);
 	while (GameCore::Loop())
 	{
 		
