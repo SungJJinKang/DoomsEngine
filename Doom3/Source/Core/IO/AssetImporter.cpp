@@ -9,14 +9,8 @@
 
 
 
-
-
-
-Assimp::Importer Doom::AssetImporter::MainThreadAssimpImporter{};
-Assimp::Importer Doom::AssetImporter::MultiThreadAssimpImporter[MAX_ASSETIMPORTER_THREAD_COUNT]{};
- 
-template <Doom::AssetType assetType>
-std::mutex Doom::AssetImporter::AssetImporterMutex{};
+//template <Doom::AssetType assetType>
+//std::function<bool(const std::filesystem::path&, Doom::AssetImporter::AssetTypeConditional_t<assetType>&, unsigned int&, unsigned int&)> ThreadImport = std::bind(&Doom::AssetImporter::ImportAsset<assetType>, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3, std::placeholders::_4);
 
 const std::map<std::string, Doom::AssetType> Doom::AssetImporter::AssetExtension
 {

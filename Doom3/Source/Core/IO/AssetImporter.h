@@ -7,6 +7,8 @@
 #include <string>
 #include <optional>
 #include <utility>
+#include <functional>
+#include <queue>
 
 #include <thread>
 #include <mutex>
@@ -36,38 +38,122 @@ namespace Doom
 
 		template <AssetType assetType>
 		struct AssetTypeConditional;
-
-
-
-		template <> struct AssetTypeConditional<Doom::AssetType::AUDIO> { using type = AudioAsset; };
-		template <> struct AssetTypeConditional<Doom::AssetType::FONT> { using type = FontAsset; };
-		template <> struct AssetTypeConditional<Doom::AssetType::TEXTURE> { using type = TextureAsset; };
-		template <> struct AssetTypeConditional<Doom::AssetType::THREE_D_MODELL> { using type = ThreeDModelAsset; };
-
+		template <> struct AssetTypeConditional<AssetType::AUDIO> { using type = AudioAsset; };
+		template <> struct AssetTypeConditional<AssetType::FONT> { using type = FontAsset; };
+		template <> struct AssetTypeConditional<AssetType::TEXTURE> { using type = TextureAsset; };
+		template <> struct AssetTypeConditional<AssetType::THREE_D_MODELL> { using type = ThreeDModelAsset; };
 		template <AssetType assetType>
 		using AssetTypeConditional_t = typename AssetTypeConditional<assetType>::type;
 
+		class DummyApiImporter
+		{
+
+		};
+
 		template <AssetType assetType>
-		static bool ReadAssetFile(std::filesystem::path path, AssetTypeConditional_t<assetType>& asset, void* importer)
+		struct ApiImporterTypeConditional;
+		template <> struct ApiImporterTypeConditional<AssetType::AUDIO> { using type = DummyApiImporter; };
+		template <> struct ApiImporterTypeConditional<AssetType::FONT> { using type = DummyApiImporter; };
+		template <> struct ApiImporterTypeConditional<AssetType::TEXTURE> { using type = DummyApiImporter; };
+		template <> struct ApiImporterTypeConditional<AssetType::THREE_D_MODELL> { using type = Assimp::Importer; };
+		template <AssetType assetType>
+		using ApiImporterTypeConditional_t = typename ApiImporterTypeConditional<assetType>::type;
+		
+		template <AssetType assetType>
+		class ApiImporter
+		{
+		public:
+			using ApiImporterTypePointer = typename ApiImporterTypeConditional_t<assetType>*;
+		private:
+			static inline ApiImporterTypePointer MainThreadImporter{};
+			static inline std::mutex ApiImporterMutex{};
+
+			//
+			static inline std::queue<ApiImporterTypePointer> ImporterQueue{};
+			ApiImporterTypePointer Importer;
+
+			bool isSingleThread;
+		public:
+
+			ApiImporter(bool IsSingleThread) : Importer{}
+			{
+				this->isSingleThread = IsSingleThread;
+
+				if (IsSingleThread == true)
+				{
+					if (this->MainThreadImporter == nullptr)
+					{
+						this->MainThreadImporter = new ApiImporterTypeConditional_t<assetType>();
+					}
+					this->Importer = this->MainThreadImporter;
+				}
+				else
+				{
+					if constexpr (!std::is_same_v<ApiImporterTypeConditional_t<assetType>, DummyApiImporter>)
+					{
+						auto lck = std::lock_guard(ApiImporterMutex);
+						if (ImporterQueue.empty())
+						{
+							this->Importer = new ApiImporterTypeConditional_t<assetType>();
+						}
+						else
+						{
+							this->Importer = ImporterQueue.front();
+							ImporterQueue.pop();
+						}
+					}
+				}
+				
+			}
+
+			ApiImporterTypeConditional_t<assetType>* operator->() const {
+				return Importer;
+			}
+
+			~ApiImporter()
+			{
+				if (this->isSingleThread == true)
+				{
+
+				}
+				else
+				{
+					auto lck = std::lock_guard(ApiImporterMutex);
+					if (Importer != nullptr)
+					{
+						ImporterQueue.push(Importer);
+						Debug::Log({ "Now Importer Queue Size is : ", std::to_string(ImporterQueue.size()) });
+					}
+				}
+			}
+
+			
+
+		};
+		
+
+
+		template <AssetType assetType>
+		static bool ReadAssetFile(std::filesystem::path path, AssetTypeConditional_t<assetType>& asset, bool IsMultiThreaded = false)
 		{
 			static_assert(false, "Please put proper type");
 			return false;
 		}
 
 		template<>
-		static bool ReadAssetFile<AssetType::AUDIO>(std::filesystem::path path, AssetTypeConditional_t<AssetType::AUDIO>& asset, void* importer)
+		static bool ReadAssetFile<AssetType::AUDIO>(std::filesystem::path path, AssetTypeConditional_t<AssetType::AUDIO>& asset, bool IsMultiThreaded)
 		{
 			return false;
 		}
 
 		template<>
-		static  bool ReadAssetFile<AssetType::FONT>(std::filesystem::path path, AssetTypeConditional_t<AssetType::FONT>& asset, void* importer)
+		static  bool ReadAssetFile<AssetType::FONT>(std::filesystem::path path, AssetTypeConditional_t<AssetType::FONT>& asset, bool IsMultiThreaded)
 		{
 			return false;
 		}
 
 		template<>
-		static bool ReadAssetFile<AssetType::TEXTURE>(std::filesystem::path path, AssetTypeConditional_t<AssetType::TEXTURE>& asset, void* importer)
+		static bool ReadAssetFile<AssetType::TEXTURE>(std::filesystem::path path, AssetTypeConditional_t<AssetType::TEXTURE>& asset, bool IsMultiThreaded)
 		{
 			return false;
 		}
@@ -76,7 +162,6 @@ namespace Doom
 		// TODO : Only Big Size File should be imported on multiThread
 
 
-		//static std::array<std::pair<Assimp::Importer>>ThreeDModelAssetImporterMutex;
 
 
 
@@ -118,10 +203,7 @@ namespace Doom
 			void write(const char* message);
 		};
 #endif
-
-
-		static Assimp::Importer MainThreadAssimpImporter;
-		static Assimp::Importer MultiThreadAssimpImporter[MAX_ASSETIMPORTER_THREAD_COUNT];
+		
 
 		//static std::optional<ThreeDModelAsset> Read3dModelFile
 		/// <summary>
@@ -130,7 +212,7 @@ namespace Doom
 		/// <param name="path"></param>
 		/// <returns></returns>
 		template <>
-		static bool ReadAssetFile<AssetType::THREE_D_MODELL>(std::filesystem::path path, AssetTypeConditional_t<AssetType::THREE_D_MODELL>& asset, void* importer)
+		static bool ReadAssetFile<AssetType::THREE_D_MODELL>(std::filesystem::path path, AssetTypeConditional_t<AssetType::THREE_D_MODELL>& asset, bool IsMultiThreaded)
 		{
 #ifdef DEBUG_VERSION
 			static bool IsAssimpDebuggerInitialized;
@@ -147,7 +229,8 @@ namespace Doom
 				IsAssimpDebuggerInitialized = true;
 			}
 #endif
-			Assimp::Importer* assimpImporter = static_cast<Assimp::Importer*>(importer);
+			ApiImporter<AssetType::THREE_D_MODELL> assimpImporter{ IsMultiThreaded };
+
 			assimpImporter->SetPropertyInteger("AI_CONFIG_PP_RVC_FLAGS",
 				aiComponent_COLORS |
 				aiComponent_BONEWEIGHTS |
@@ -228,7 +311,7 @@ namespace Doom
 				//scene->mRootNode
 				asset.rootNode.ThreeDModelNodeParent = nullptr;
 				SetThreeDModelNodesData(&(asset.rootNode), scene->mRootNode, nullptr, asset, scene);
-				MainThreadAssimpImporter.FreeScene();
+				assimpImporter->FreeScene();
 				return true;
 			}
 			else
@@ -240,35 +323,6 @@ namespace Doom
 			// We're done. Everything will be cleaned up by the importer destructor
 		}
 
-		template <AssetType assetType>
-		static void* GetImporter()
-		{
-			return nullptr;
-		}
-
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="multiThreadIndex">If 0 Thie Import is executed on MainThread(SingleThread), else This value mean a Index of Chunks</param>
-		/// <returns></returns>
-		template <AssetType assetType>
-		static void* GetImporter(unsigned int multiThreadIndex = 0)
-		{
-			return nullptr;
-		}
-
-		template <>
-		static void* GetImporter<AssetType::THREE_D_MODELL>(unsigned int multiThreadIndex)
-		{
-			if (multiThreadIndex == 0)
-			{
-				return &MainThreadAssimpImporter;
-			}
-			else
-			{
-				return &MultiThreadAssimpImporter[multiThreadIndex % MAX_ASSETIMPORTER_THREAD_COUNT];
-			}
-		}
 
 	public:
 
@@ -280,7 +334,7 @@ namespace Doom
 		/// <param name="multiThreadIndex">If 0 Thie Import is executed on MainThread(SingleThread), else on MultiThread</param>
 		/// <returns></returns>
 		template <AssetType assetType>
-		static bool ImportAsset(const std::filesystem::path& path, AssetTypeConditional_t<assetType>& asset, unsigned int multiThreadIndex = 0)
+		static bool ImportAsset(const std::filesystem::path& path, AssetTypeConditional_t<assetType>& asset, bool isMultiThreaded = false)
 		{
 			if (path.has_extension())
 			{
@@ -289,7 +343,7 @@ namespace Doom
 				{
 					if (AssetExtension.at(extension.substr(1, extension.length() - 1)) == assetType)
 					{
-						if (ReadAssetFile<assetType>(path, asset, GetImporter<assetType>(multiThreadIndex)))
+						if (ReadAssetFile<assetType>(path, asset))
 						{
 							asset.SetBaseMetaData(path);
 							return true;
@@ -312,9 +366,7 @@ namespace Doom
 
 	private:
 
-		template <AssetType assetType>
-		static std::mutex AssetImporterMutex;
-
+		
 		/// <summary>
 		/// Import Asset On MultiThread
 		/// </summary>
@@ -322,26 +374,30 @@ namespace Doom
 		/// <param name="asset"></param>
 		/// <param name="extraThreadCount"></param>
 		/// <param name="numOfCompletedImportingWork"></param>
+		/// <param name="nowThreadIndex"></param>
 		/// <returns></returns>
 		template <AssetType assetType>
-		static bool ImportAsset(const std::filesystem::path& path, AssetTypeConditional_t<assetType>& asset, unsigned int& extraThreadCount, unsigned int& numOfCompletedImportingWork)
+		static bool ImportAssetOnMultiThread(const std::filesystem::path& path, AssetTypeConditional_t<assetType>& asset, std::atomic<unsigned int>& extraThreadCount, std::atomic<unsigned int>& numOfCompletedImportingWork)
 		{
 			AssetImporter::ImportAsset<assetType>(path, asset, true);
 
-
-			std::lock_guard(AssetImporterMutex<assetType>);
 			//Don't change this values execution order
+			Debug::Log({ "Finish Import Asset : ", path.string() });
 			++extraThreadCount;
 			++numOfCompletedImportingWork;
 			return true;
 		}
 
 		// TODO : MAX_ASSETIMPORTER_THREAD_COUNT SHOULD BE READED FROM CONFIG.INI
-
+		//template <AssetType assetType>
+		//static std::function<bool(const std::filesystem::path&, AssetTypeConditional_t<assetType>&, unsigned int&, unsigned int&)> ThreadImport;
 	public:
+
+		
+
 		/// <summary>
 		/// Import Assets on multithread
-		/// Main Thread will be terminated until Every Importing Works is done
+		/// Main Thread wait until Every Importing Works is done
 		/// Should Call This Function when you need So many Assets at time like Scene Loading
 		/// </summary>
 		/// <param name="path"></param>
@@ -355,7 +411,7 @@ namespace Doom
 
 			std::vector<AssetTypeConditional_t<assetType>> ImportedAssets{ assetCount };// = new AssetTypeConditional_t<assetType>[assetSize];
 
-			unsigned int extraThreadCount = MAX_ASSETIMPORTER_THREAD_COUNT;
+			std::atomic<unsigned int> extraThreadCount = MAX_ASSETIMPORTER_THREAD_COUNT;
 
 			/// <summary>
 			/// if NumOfCompoletedImportingWork equal to assetSize, Every Importing Works is done, return true and exit this function
@@ -363,26 +419,28 @@ namespace Doom
 			/// <param name="paths"></param>
 			/// <param name="assets"></param>
 			/// <returns></returns>
-			unsigned int numOfCompoletedImportingWork = 0;
-
+			std::atomic<unsigned int> numOfCompoletedImportingWork = 0;
 
 			for (size_t i = 0; i < assetCount; i++)
 			{
 				while (extraThreadCount <= 0)
 				{// wait until have thread exra
 				}
-					
+
 				//Create new Thread
 				--extraThreadCount;
 
 				// TODO : ERROR LOOK THIS https://stackoverflow.com/questions/38794207/c-11-passing-member-function-to-thread-gives-no-overloaded-function-takes-2
-				using Func = bool (*AssetImporter::ImportAsset<assetType>)(const std::filesystem::path&, AssetTypeConditional_t<assetType>&, unsigned int&, unsigned int&);
+				//using Func = bool (*AssetImporter::ImportAsset<assetType>)(const std::filesystem::path&, AssetTypeConditional_t<assetType>&, unsigned int&, unsigned int&);
 				/// <summary>
 				/// Wh
 				/// </summary>
 				/// <param name="paths"></param>
 				/// <returns></returns>
-				std::thread newThread(static_cast<Func>(&AssetImporter::ImportAsset<assetType>), std::ref(paths[i]), std::ref(ImportedAssets[i]), std::ref(extraThreadCount), std::ref(numOfCompoletedImportingWork));
+				/// 
+
+				Debug::Log({"Start Importing Asset : ", paths[i].string()});
+				std::thread newThread(&AssetImporter::ImportAssetOnMultiThread<assetType>, std::ref(paths[i]), std::ref(ImportedAssets[i]), std::ref(extraThreadCount), std::ref(numOfCompoletedImportingWork));
 				newThread.detach(); // this make when newThread is destructed, thread continues executions
 			}
 
@@ -401,6 +459,8 @@ namespace Doom
 			return ImportedAssets;
 		}
 	};
+
+	
 }
 
 
