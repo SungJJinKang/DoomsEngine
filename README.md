@@ -41,5 +41,8 @@ but i can't make some librarys like graphics api, audio api....
 ## Development Blog
 [Korean Blog](https://sungjjinkang.github.io/) 
 
+## Development Blog
+[To Do List](https://trello.com/invite/b/ukD86Ows/82ba51681217ab3515e8006bf5c4988c/doom3-from-scratch) 
+
 ## Thanks
 ![WoCR0sCfffff](https://user-images.githubusercontent.com/33873804/103935734-5e92e300-516a-11eb-9afd-ab48b5f65791.png)
