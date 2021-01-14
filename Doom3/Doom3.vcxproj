@@ -207,6 +207,7 @@
     <ClInclude Include="Source\Core\API\OpenglAPI.h" />
     <ClInclude Include="Source\Core\API\STB_IMAGE.h" />
     <ClInclude Include="Source\Core\API\UUID.h" />
+    <ClInclude Include="Source\Helper\ThreadPool_Cpp\ThreadPool.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="Source\Core\Asset\Asset.h" />
     <ClInclude Include="Source\Core\Asset\AudioAsset.h" />

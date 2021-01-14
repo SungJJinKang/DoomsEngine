@@ -200,6 +200,9 @@
     <ClInclude Include="Source\Core\API\UUID.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Helper\ThreadPool_Cpp\ThreadPool.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="dependency\glfw-3.3.2.bin.WIN64\docs\html\search\all_0.html" />

@@ -12,7 +12,7 @@
 
 #include <thread>
 #include <mutex>
-
+#include <future>
 
 #include "../Core.h"
 
@@ -393,7 +393,18 @@ namespace Doom
 		//static std::function<bool(const std::filesystem::path&, AssetTypeConditional_t<assetType>&, unsigned int&, unsigned int&)> ThreadImport;
 	public:
 
-		
+		/// <summary>
+		/// Inport Asset Asyncly
+		/// </summary>
+		/// <param name="path"></param>
+		/// <returns></returns>
+		template <AssetType assetType>
+		static std::future<AssetTypeConditional_t<assetType>> ImportAssetAsync(const std::filesystem::path& path)
+		{
+			//std::thread ~~~
+			//thread.detach()
+			//return future
+		}
 
 		/// <summary>
 		/// Import Assets on multithread
