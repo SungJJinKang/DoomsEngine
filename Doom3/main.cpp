@@ -39,7 +39,8 @@ int main()
 		"C:/Doom3FromScratch/Doom3/Assets/rock.obj",
 	};
 
-	auto assets =AssetImporter::ImportAssetChunk<AssetType::THREE_D_MODELL>(paths);
+	AssetImporter<AssetType::THREE_D_MODELL, 5> importer{};
+	auto assets = importer.ImportAssetChunk(paths);
 	while (GameCore::Loop())
 	{
 		

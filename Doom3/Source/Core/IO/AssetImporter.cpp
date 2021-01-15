@@ -11,8 +11,9 @@
 
 //template <Doom::AssetType assetType>
 //std::function<bool(const std::filesystem::path&, Doom::AssetImporter::AssetTypeConditional_t<assetType>&, unsigned int&, unsigned int&)> ThreadImport = std::bind(&Doom::AssetImporter::ImportAsset<assetType>, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3, std::placeholders::_4);
+const Doom::DummyApiImporter Doom::dummyApiImporter{};
 
-const std::map<std::string, Doom::AssetType> Doom::AssetImporter::AssetExtension
+const std::map<std::string, Doom::AssetType> Doom::AssetExtension
 {
 	//3D Model Asset Formats
 	{"dae", Doom::AssetType::THREE_D_MODELL},
@@ -63,7 +64,3 @@ const std::map<std::string, Doom::AssetType> Doom::AssetImporter::AssetExtension
 	//////////////////////////////////////////////////////////////////////////
 };
 
-void Doom::AssetImporter::AssimpLogStream::write(const char* message) 
-{
-	Doom::Debug::Log({ "Assimp Debugger : ", message });
-}
