@@ -25,6 +25,7 @@
 #include "../API/ASSIMP.h"
 #include "../API/STB_IMAGE.h"
 
+#define THREADPOOL_DEBUG
 #include "../../Helper/ThreadPool_Cpp/ThreadPool.h"
 
 
@@ -65,31 +66,31 @@ namespace Doom
 	template <AssetType assetType, size_t ThreadSize>
 	class AssetImporter
 	{
-		//AssetImporter<assetType, ThreadSize>
+		//
 	private:
 		class ApiImporter;
 
 		template<AssetType aType>
-		std::optional<AssetTypeConditional_t<aType>> ReadAssetFile(std::filesystem::path path, AssetImporter<aType, ThreadSize>& assetImporter)
+		std::optional<AssetTypeConditional_t<aType>> ReadAssetFile(std::filesystem::path path, AssetImporter<aType, ThreadSize>* assetImporter)
 		{
 			static_assert(false, "Please put proper type");
 			return {};
 		}
 		
 		template<>
-		std::optional <AssetTypeConditional_t<AssetType::AUDIO>> ReadAssetFile<AssetType::AUDIO>(std::filesystem::path path, AssetImporter<AssetType::AUDIO, ThreadSize>& assetImporter)
+		std::optional <AssetTypeConditional_t<AssetType::AUDIO>> ReadAssetFile<AssetType::AUDIO>(std::filesystem::path path, AssetImporter<AssetType::AUDIO, ThreadSize>* assetImporter)
 		{
 			return {};
 		}
 
 		template<>
-		std::optional <AssetTypeConditional_t<AssetType::FONT>> ReadAssetFile<AssetType::FONT>(std::filesystem::path path, AssetImporter<AssetType::FONT, ThreadSize>& assetImporter)
+		std::optional <AssetTypeConditional_t<AssetType::FONT>> ReadAssetFile<AssetType::FONT>(std::filesystem::path path, AssetImporter<AssetType::FONT, ThreadSize>* assetImporter)
 		{
 			return {};
 		}
 
 		template<>
-		std::optional <AssetTypeConditional_t<AssetType::TEXTURE>> ReadAssetFile<AssetType::TEXTURE>(std::filesystem::path path, AssetImporter<AssetType::TEXTURE, ThreadSize>& assetImporter)
+		std::optional <AssetTypeConditional_t<AssetType::TEXTURE>> ReadAssetFile<AssetType::TEXTURE>(std::filesystem::path path, AssetImporter<AssetType::TEXTURE, ThreadSize>* assetImporter)
 		{
 			return {};
 		}
@@ -147,7 +148,7 @@ namespace Doom
 		/// <param name="path"></param>
 		/// <returns></returns>
 		template<>
-		std::optional <AssetTypeConditional_t<AssetType::THREE_D_MODELL>> ReadAssetFile<AssetType::THREE_D_MODELL>(std::filesystem::path path, AssetImporter<AssetType::THREE_D_MODELL, ThreadSize>& assetImporter)
+		std::optional <AssetTypeConditional_t<AssetType::THREE_D_MODELL>> ReadAssetFile<AssetType::THREE_D_MODELL>(std::filesystem::path path, AssetImporter<AssetType::THREE_D_MODELL, ThreadSize>* assetImporter)
 		{
 #ifdef DEBUG_VERSION
 			static bool IsAssimpDebuggerInitialized;
@@ -164,7 +165,9 @@ namespace Doom
 				IsAssimpDebuggerInitialized = true;
 			}
 #endif
-			ApiImporter apiImporter = assetImporter.GetMultithreadApiImporter();
+			ApiImporter apiImporter = assetImporter->GetMultithreadApiImporter();
+			
+			/* Do this AssetImporter Constructor
 			apiImporter->SetPropertyInteger("AI_CONFIG_PP_RVC_FLAGS",
 				aiComponent_COLORS |
 				aiComponent_BONEWEIGHTS |
@@ -174,6 +177,7 @@ namespace Doom
 				aiComponent_MATERIALS |
 				aiComponent_TEXTURES
 			);// set removed components flags
+			*/
 
 			// And have it read the given file with some example postprocessing
 			// Usually - if speed is not the most important aspect for you - you'll
@@ -265,18 +269,44 @@ namespace Doom
 
 		using ApiImporterType = typename ApiImporterTypeConditional_t<assetType>;
 
-		std::array<ApiImporterType, ThreadSize> apiImporters;
+		std::mutex apiImporterMutex;
+
+		std::array<ApiImporterType, ThreadSize> ApiImporters;
+		std::queue<ApiImporterType*> ImporterQueue;
 
 		
 		public:
-		AssetImporter() : threadPool{}, apiImporters{}, apiImporterMutex{}, ImporterQueue{}
+		AssetImporter() : threadPool{}, ApiImporters{}, apiImporterMutex{}, ImporterQueue{}
 		{
+		
+			for (size_t i = 0; i < ThreadSize; i++)
+			{
+				ApiImporters[i].SetPropertyInteger(AI_CONFIG_PP_RVC_FLAGS,
+					aiComponent_COLORS |
+					aiComponent_BONEWEIGHTS |
+					aiComponent_ANIMATIONS |
+					aiComponent_LIGHTS |
+					aiComponent_CAMERAS |
+					aiComponent_MATERIALS |
+					aiComponent_TEXTURES
+				);// set removed components flags
+
+				ImporterQueue.push(&ApiImporters[i]);
+			}
 			
 		}
 
+		/// <summary>
+		/// if workers is doing Task, Instance Destruction is postponed until Worker finish its task.
+		/// And unfinished tasks is abandoned(not executed)
+		/// </summary>
+		~AssetImporter()
+		{
+			this->threadPool.TerminateThreadPool();
+		}
+
 		private:
-		std::mutex apiImporterMutex;
-		std::queue<ApiImporterType*> ImporterQueue;
+		
 
 		class ApiImporter;
 		ApiImporter GetMultithreadApiImporter()
@@ -288,6 +318,7 @@ namespace Doom
 				ApiImporterType* importer{};
 				if (this->ImporterQueue.empty())
 				{
+					Debug::Log("Create New ApiImporter");
 					importer = new ApiImporterTypeConditional_t<assetType>();
 				}
 				else
@@ -340,7 +371,7 @@ namespace Doom
 			{
 				if constexpr (!std::is_same_v<ApiImporterTypeConditional_t<assetType>, DummyApiImporter>)
 				{
-					assetImporter->ReleaseMultithreadApiImporter(this);
+					assetImporter->ReleaseMultithreadApiImporter(importer);
 				}
 				
 			}
@@ -367,7 +398,8 @@ namespace Doom
 				{
 					if (AssetExtension.at(extension.substr(1, extension.length() - 1)) == assetType)
 					{
-						return this->threadPool.AddTask(&ReadAssetFile<assetType>, this, path, *this);
+						std::function<std::optional<AssetTypeConditional_t<assetType>>()> newTask = std::bind(&AssetImporter<assetType, ThreadSize>::ReadAssetFile<assetType>, this, path, this);
+						return this->threadPool.AddTask(std::move(newTask));
 					}
 				}
 				catch (std::out_of_range& e)
@@ -383,6 +415,7 @@ namespace Doom
 			return {};
 		}
 
+		std::optional<AssetTypeConditional_t<assetType>> Dummy() { return {}; }
 	
 		/// <summary>
 		/// Import Assets on multithread
@@ -406,8 +439,8 @@ namespace Doom
 					{
 						if (AssetExtension.at(extension.substr(1, extension.length() - 1)) == assetType)
 						{
-							Tasks.push_back(std::bind(&ReadAssetFile<assetType>, this, path, *this));
-							break;
+							Tasks.push_back(std::bind(&AssetImporter<assetType, ThreadSize>::ReadAssetFile<assetType>, this, path, this));
+							continue;
 						}
 					}
 					catch (std::out_of_range& e)
@@ -415,8 +448,12 @@ namespace Doom
 						Doom::Debug::Log({ "Can't Find proper extension : ", extension });
 					}
 				}
-				Doom::Debug::Log("Fail To Find File Format");
-				Tasks.push_back({});
+				else
+				{
+					Debug::Log({ path.string(), " : Doesn't have file extension"});
+				}
+				Debug::Log({"Fail To ImportAsset", path.string()});
+				Tasks.push_back(std::bind(&AssetImporter<assetType, ThreadSize>::Dummy, this));
 				
 			}
 			
