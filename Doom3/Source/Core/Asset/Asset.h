@@ -11,7 +11,8 @@ namespace Doom
 		TEXTURE,
 		THREE_D_MODELL,
 		FONT,
-		AUDIO
+		AUDIO,
+		TEXT
 	};
 
 	struct Asset

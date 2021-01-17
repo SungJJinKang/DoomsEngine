@@ -2,7 +2,10 @@
 #include <string>
 
 #include "Asset.h"
-#include "../API/GLM.h"
+#include "../Math/LightMath_Cpp/LMath.h"
+
+using namespace Math;
+
 namespace Doom
 {
 	struct ThreeDModelMesh;
@@ -14,16 +17,16 @@ namespace Doom
 
 		std::string Name;
 
-		glm::vec3** Vertices;
+		Vector3** Vertices;
 		unsigned int NumOfVertices;
 		
-		glm::vec3** TexCoords;
+		Vector3** TexCoords;
 		unsigned int NumOfTexCoords;
 
-		glm::vec3* Tangents;
-		glm::vec3* BiTangents;
+		Vector3* Tangents;
+		Vector3* BiTangents;
 
-		glm::vec3* Normals;
+		Vector3* Normals;
 		
 	};
 

@@ -33,15 +33,13 @@ but i can't make some librarys like graphics api, audio api....
 
   * opengl 4.6
   * glfw 3.3.2
-  * glad
-  * glm  
   * imgui 1.79 (optional)
   
   
 ## Development Blog
 [Korean Blog](https://sungjjinkang.github.io/) 
 
-## Development Blog
+## To Do List
 [To Do List](https://trello.com/invite/b/ukD86Ows/82ba51681217ab3515e8006bf5c4988c/doom3-from-scratch) 
 
 ## Thanks

@@ -1,10 +1,10 @@
 #define STB_IMAGE_IMPLEMENTATION
-#include "AssetImporter.h"
+#include "AssetImporterBase.h"
 
 #include <map>
 #include <string>
 
-#include "../Core.h"
+#include "../../Core.h"
 
 
 
@@ -59,8 +59,14 @@ const std::map<std::string, Doom::AssetType> Doom::AssetExtension
 	{"csm", Doom::AssetType::THREE_D_MODELL},
 	{"ply", Doom::AssetType::THREE_D_MODELL},
 	{"cob", Doom::AssetType::THREE_D_MODELL},
-	{"scn", Doom::AssetType::THREE_D_MODELL}
+	{"scn", Doom::AssetType::THREE_D_MODELL},
 
 	//////////////////////////////////////////////////////////////////////////
+
+	{"txt", Doom::AssetType::TEXT},
+	{"glsl", Doom::AssetType::TEXT},
+	{"ini", Doom::AssetType::TEXT},
+
 };
+
 

@@ -1,6 +1,8 @@
 #include "Source/Core/Game/GameCore.h"
 
-#include "Source/Core/IO/AssetImporter.h"
+#include "Source/Core/IO/AssetImporter/AssetImporter.h"
+
+#include "Source/Core/Grahpics/Shader.h"
 using namespace Doom;
 
 void ExitGame();
@@ -37,14 +39,22 @@ int main()
 		"C:/Doom3FromScratch/Doom3/Assets/model.dae",
 		"C:/Doom3FromScratch/Doom3/Assets/planet.obj",
 		"C:/Doom3FromScratch/Doom3/Assets/rock.obj",
+
+		
+		
 	};
 
+	
 	{
-		AssetImporter<AssetType::THREE_D_MODELL, 5> importer{};
+		AssetImporter<AssetType::TEXT> importer{ 1 };
 
-		auto future = importer.ImportAsset("C:/Doom3FromScratch/Doom3/Assets/rock.obj");
-		auto futures = importer.ImportAssetChunk(paths);
+		auto future = importer.ImportAsset("C:/Doom3FromScratch/Doom3/Assets/Shader/DefaultShader.glsl");
+		auto str = future->get();
 
+		if (str.has_value())
+		{
+			Shader shader{ str->String };
+		}
 		
 	}
 	
