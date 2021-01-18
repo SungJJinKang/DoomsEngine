@@ -19,7 +19,7 @@
 
 #include "../../Asset/Asset.h"
 
-#ifdef DEBUG_VERSION
+#ifdef DEBUG_MODE
 #define THREADPOOL_DEBUG
 #endif
 #include "../../../Helper/ThreadPool_Cpp/ThreadPool.h"
@@ -186,10 +186,40 @@ namespace Doom
 		/// 
 		/// </summary>
 		/// <param name="path"></param>
-		/// <param name="asset"></param>
-		/// <param name="multiThreadIndex">If 0 Thie Import is executed on MainThread(SingleThread), else on MultiThread</param>
 		/// <returns></returns>
-		std::optional<std::future<std::optional<AssetTypeConditional_t<assetType>>>> ImportAsset(const std::filesystem::path& path)
+		std::optional<AssetTypeConditional_t<assetType>> ImportAsset(const std::filesystem::path& path)
+		{
+			if (path.has_extension())
+			{
+				auto extension = path.extension().string();
+				try
+				{
+					if (AssetExtension.at(extension.substr(1, extension.length() - 1)) == assetType)
+					{
+						return AssetImporter<assetType>::ReadAssetFile(path, this);
+					}
+				}
+				catch (std::out_of_range& e)
+				{
+					Doom::Debug::Log({ "Can't Find proper extension : ", extension });
+				}
+				catch (...)
+				{
+					Doom::Debug::Log("Can't import asset");
+				}
+			}
+
+			return {};
+		}
+
+		
+		/// <summary>
+		/// If you wanna check if future is ready without block
+		/// use this future.wait_for(std::chrono::seconds(0)). if future isn't ready, current thread just pass wait
+		/// </summary>
+		/// <param name="path"></param>
+		/// <returns></returns>
+		std::optional<std::future<std::optional<AssetTypeConditional_t<assetType>>>> ImportAssetAsync(const std::filesystem::path& path)
 		{
 			if (path.has_extension())
 			{
@@ -215,8 +245,54 @@ namespace Doom
 			return {};
 		}
 
-		std::optional<AssetTypeConditional_t<assetType>> Dummy() { return {}; }
+		
 	
+
+		/// <summary>
+		/// </summary>
+		/// <param name="path"></param>
+		/// <param name="assets"></param>S
+		/// <returns></returns>
+		std::vector<std::optional<AssetTypeConditional_t<assetType>>> ImportAsset(const std::vector<std::filesystem::path>& paths)
+		{
+
+			std::vector<std::optional<AssetTypeConditional_t<assetType>>> Assets{};
+
+			for (auto& path : paths)
+			{
+				if (path.has_extension())
+				{
+					auto extension = path.extension().string();
+					try
+					{
+						if (AssetExtension.at(extension.substr(1, extension.length() - 1)) == assetType)
+						{
+							Assets.push_back(AssetImporter<assetType>::ReadAssetFile(path, this));
+							continue;
+						}
+					}
+					catch (std::out_of_range& e)
+					{
+						Doom::Debug::Log({ "Can't Find proper extension : ", extension });
+					}
+					catch (...)
+					{
+						Doom::Debug::Log({ "Undefined Error : ", extension });
+					}
+				}
+				else
+				{
+					Debug::Log({ path.string(), " : Doesn't have file extension" });
+				}
+				Debug::Log({ "Fail To ImportAsset", path.string() });
+				Assets.push_back({});
+
+			}
+
+			
+			return Assets;
+		}
+
 		/// <summary>
 		/// Import Assets on multithread
 		/// Main Thread wait until Every Importing Works is done
@@ -225,7 +301,7 @@ namespace Doom
 		/// <param name="path"></param>
 		/// <param name="assets"></param>
 		/// <returns></returns>
-		std::vector<std::future<std::optional<AssetTypeConditional_t<assetType>>>> ImportAssetChunk(const std::vector<std::filesystem::path>& paths)
+		std::vector<std::future<std::optional<AssetTypeConditional_t<assetType>>>> ImportAssetAsync(const std::vector<std::filesystem::path>& paths)
 		{
 
 			std::vector<std::function<std::optional<AssetTypeConditional_t<assetType>>()>> Tasks{};

@@ -2,7 +2,7 @@
 
 
 
-#ifdef BUILD_VERSION // BUILD_VERSION
+#ifdef BUILD_MODE // BUILD_VERSION
 #define STBI_ASSERT // disable stb assert
 #else
 

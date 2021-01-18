@@ -33,7 +33,7 @@ void AssetImporter<AssetType::THREE_D_MODELL>::InitApiImporter(ApiImporterType& 
 /// <returns></returns>
 void SetThreeDModelNodesData(ThreeDModelNode* currentNode, aiNode* currentAssimpNode, ThreeDModelNode* parentNode, ThreeDModelAsset& modelAsset, const aiScene* assimpScene);
 
-#ifdef DEBUG_VERSION
+#ifdef DEBUG_MODE
 class AssimpLogStream : public Assimp::LogStream {
 public:
 	// Write womethink using your own functionality
@@ -55,7 +55,7 @@ public:
 template<>
 std::optional <AssetTypeConditional_t<AssetType::THREE_D_MODELL>> AssetImporter<AssetType::THREE_D_MODELL>::ReadAssetFile(std::filesystem::path path, AssetImporter<AssetType::THREE_D_MODELL>* assetImporter)
 {
-#ifdef DEBUG_VERSION
+#ifdef DEBUG_MODE
 	static bool IsAssimpDebuggerInitialized;
 
 	if (IsAssimpDebuggerInitialized == false)

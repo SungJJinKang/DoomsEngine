@@ -5,6 +5,6 @@
 #include <assimp/scene.h>
 #include <assimp/postprocess.h>
 
-#ifdef DEBUG_VERSION
+#ifdef DEBUG_MODE
 #include <assimp/DefaultLogger.hpp>
 #endif

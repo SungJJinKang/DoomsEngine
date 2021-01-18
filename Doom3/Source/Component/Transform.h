@@ -1,5 +1,10 @@
 #pragma once
-class Transform
+#include "Component.h"
+namespace Doom
 {
-};
+	class Transform : public Component 
+	{
 
+	};
+
+}

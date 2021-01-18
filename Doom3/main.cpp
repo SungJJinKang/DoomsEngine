@@ -48,7 +48,7 @@ int main()
 	{
 		AssetImporter<AssetType::TEXT> importer{ 1 };
 
-		auto future = importer.ImportAsset("C:/Doom3FromScratch/Doom3/Assets/Shader/DefaultShader.glsl");
+		auto future = importer.ImportAssetAsync("C:/Doom3FromScratch/Doom3/Assets/Shader/DefaultShader.glsl");
 		auto str = future->get();
 
 		if (str.has_value())

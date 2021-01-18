@@ -30,7 +30,7 @@ void Doom::Shader::CompileSpecificShader(const std::string& shaderStr, ShaderTyp
 	glCompileShader(shaderId);
 
 	this->isCompiled = true;
-#ifdef DEBUG_VERSION
+#ifdef DEBUG_MODE
 	this->checkCompileError(shaderId, shaderType);
 #endif
 }
