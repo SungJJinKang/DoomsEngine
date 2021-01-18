@@ -1,5 +1,5 @@
 #pragma once
-#include "../Log/Debug.h"
+#include "../Core.h"
 
 
 struct GLFWwindow;

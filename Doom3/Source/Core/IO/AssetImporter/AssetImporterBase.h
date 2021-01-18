@@ -145,7 +145,7 @@ namespace Doom
 				ApiImporterType* importer{};
 				if (this->ImporterQueue.empty())
 				{
-					Debug::Log("Create New ApiImporter");
+					DEBUG_LOG("Create New ApiImporter");
 					importer = new ApiImporterTypeConditional_t<assetType>();
 				}
 				else
@@ -201,11 +201,11 @@ namespace Doom
 				}
 				catch (std::out_of_range& e)
 				{
-					Doom::Debug::Log({ "Can't Find proper extension : ", extension });
+					DEBUG_LOG({ "Can't Find proper extension : ", extension });
 				}
 				catch (...)
 				{
-					Doom::Debug::Log("Can't import asset");
+					DEBUG_LOG("Can't import asset");
 				}
 			}
 
@@ -234,11 +234,11 @@ namespace Doom
 				}
 				catch (std::out_of_range& e)
 				{
-					Doom::Debug::Log({ "Can't Find proper extension : ", extension });
+					DEBUG_LOG({ "Can't Find proper extension : ", extension });
 				}
 				catch (...)
 				{
-					Doom::Debug::Log("Can't import asset");
+					DEBUG_LOG("Can't import asset");
 				}
 			}
 			
@@ -273,18 +273,18 @@ namespace Doom
 					}
 					catch (std::out_of_range& e)
 					{
-						Doom::Debug::Log({ "Can't Find proper extension : ", extension });
+						DEBUG_LOG({ "Can't Find proper extension : ", extension });
 					}
 					catch (...)
 					{
-						Doom::Debug::Log({ "Undefined Error : ", extension });
+						DEBUG_LOG({ "Undefined Error : ", extension });
 					}
 				}
 				else
 				{
-					Debug::Log({ path.string(), " : Doesn't have file extension" });
+					DEBUG_LOG({ path.string(), " : Doesn't have file extension" });
 				}
-				Debug::Log({ "Fail To ImportAsset", path.string() });
+				DEBUG_LOG({ "Fail To ImportAsset", path.string() });
 				Assets.push_back({});
 
 			}
@@ -321,18 +321,18 @@ namespace Doom
 					}
 					catch (std::out_of_range& e)
 					{
-						Doom::Debug::Log({ "Can't Find proper extension : ", extension });
+						DEBUG_LOG({ "Can't Find proper extension : ", extension });
 					}
 					catch (...)
 					{
-						Doom::Debug::Log({ "Undefined Error : ", extension });
+						DEBUG_LOG({ "Undefined Error : ", extension });
 					}
 				}
 				else
 				{
-					Debug::Log({ path.string(), " : Doesn't have file extension"});
+					DEBUG_LOG({ path.string(), " : Doesn't have file extension"});
 				}
-				Debug::Log({"Fail To ImportAsset", path.string()});
+				DEBUG_LOG({"Fail To ImportAsset", path.string()});
 				Tasks.push_back(std::bind(&AssetImporter<assetType>::Dummy, this));
 				
 			}

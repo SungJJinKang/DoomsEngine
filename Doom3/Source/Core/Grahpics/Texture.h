@@ -13,13 +13,9 @@ namespace Doom
 	/// </summary>
 	class Texture
 	{
-	private:
-
-	protected:
-		unsigned int id;
-		
 	public:
-		enum class TargetTexture {
+
+		enum class TextureType : unsigned int {
 			NONE = 0,
 			DIFFUSE = 1,
 			SPECULAR = 2,
@@ -41,7 +37,7 @@ namespace Doom
 			UNKNOWN = 18,
 		};
 
-		enum class BindTarget
+		enum class BindTarget : unsigned int
 		{
 			TEXTURE_1D = GL_TEXTURE_1D,
 			TEXTURE_2D = GL_TEXTURE_2D,
@@ -55,10 +51,11 @@ namespace Doom
 			TEXTURE_2D_MULTISAMPLE = GL_TEXTURE_2D_MULTISAMPLE,
 			TEXTURE_2D_MULTISAMPLE_ARRAY = GL_TEXTURE_2D_MULTISAMPLE_ARRAY
 		};
+		static constexpr BindTarget DefaultBindTarget = BindTarget::TEXTURE_2D;
 
-		enum class TargetTexture
+		enum class TargetTexture : unsigned int
 		{
-			TEXTURE_2D = GL_TEXTURE_2D, 
+			TEXTURE_2D = GL_TEXTURE_2D,
 			PROXY_TEXTURE_2D = GL_PROXY_TEXTURE_2D,
 			TEXTURE_1D_ARRAY = GL_TEXTURE_1D_ARRAY,
 			PROXY_TEXTURE_1D_ARRAY = GL_PROXY_TEXTURE_1D_ARRAY,
@@ -72,8 +69,96 @@ namespace Doom
 			TEXTURE_CUBE_MAP_NEGATIVE_Z = GL_TEXTURE_CUBE_MAP_NEGATIVE_Z,
 			PROXY_TEXTURE_CUBE_MAP = GL_PROXY_TEXTURE_CUBE_MAP
 		};
+		static constexpr TargetTexture DefaultTargetTexture = TargetTexture::TEXTURE_2D;
+		
+		enum class InternalFormat : unsigned int
+		{
+			DEPTH_COMPONENT = GL_DEPTH_COMPONENT,
+			DEPTH_STENCIL = GL_DEPTH_STENCIL,
+			RED = GL_RED,
+			RG = GL_RG,
+			RGB = GL_RGB,
+			RGBA = GL_RGBA,
+			R8 = GL_R8,
+			R8_SNORM = GL_R8_SNORM,
+			R16 = GL_R16,
+			R16_SNORM = GL_R16_SNORM,
+			RG8 = GL_RG8,
+			RG8_SNORM = GL_RG8_SNORM,
+			RG16 = GL_RG16,
+			RG16_SNORM = GL_RG16_SNORM,
+			R3_G3_B2 = GL_R3_G3_B2,
+			RGB4 = GL_RGB4,
+			RGB5 = GL_RGB5,
+			RGB8 = GL_RGB8,
+			RGB8_SNORM = GL_RGB8_SNORM,
+			RGB10 = GL_RGB10,
+			RGB12 = GL_RGB12,
+			RGB16_SNORM = GL_RGB16_SNORM,
+			RGBA2 = GL_RGBA2,
+			RGBA4 = GL_RGBA4,
+			RGB5_A1 = GL_RGB5_A1,
+			RGBA8 = GL_RGBA8,
+			RGBA8_SNORM = GL_RGBA8_SNORM,
+			RGB10_A2 = GL_RGB10_A2,
+			RGB10_A2UI = GL_RGB10_A2UI,
+			RGBA12 = GL_RGBA12,
+			RGBA16 = GL_RGBA16,
+			SRGB8 = GL_SRGB8,
+			SRGB8_ALPHA8 = GL_SRGB8_ALPHA8,
+			R16F = GL_R16F,
+			RG16F = GL_RG16F,
+			RGB16F = GL_RGB16F,
+			RGBA16F = GL_RGBA16F,
+			R32F = GL_R32F,
+			RG32F = GL_RG32F,
+			RGB32F = GL_RGB32F,
+			RGBA32F = GL_RGBA32F,
+			R11F_G11F_B10F = GL_R11F_G11F_B10F,
+			RGB9_E5 = GL_RGB9_E5,
+			R8I = GL_R8I,
+			R8UI = GL_R8UI,
+			R16I = GL_R16I,
+			R16UI = GL_R16UI,
+			R32I = GL_R32I,
+			R32UI = GL_R32UI,
+			RG8I = GL_RG8I,
+			RG8UI = GL_RG8UI,
+			RG16I = GL_RG16I,
+			RG16UI = GL_RG16UI,
+			RG32I = GL_RG32I,
+			RG32UI = GL_RG32UI,
+			RGB8I = GL_RGB8I,
+			RGB8UI = GL_RGB8UI,
+			RGB16I = GL_RGB16I,
+			RGB16UI = GL_RGB16UI,
+			RGB32I = GL_RGB32I,
+			RGB32UI = GL_RGB32UI,
+			RGBA8I = GL_RGBA8I,
+			RGBA8UI = GL_RGBA8UI,
+			RGBA16I = GL_RGBA16I,
+			RGBA16UI = GL_RGBA16UI,
+			RGBA32I = GL_RGBA32I,
+			RGBA32UI = GL_RGBA32UI,
+			COMPRESSED_RED = GL_COMPRESSED_RED,
+			COMPRESSED_RG = GL_COMPRESSED_RG,
+			COMPRESSED_RGB = GL_COMPRESSED_RGB,
+			COMPRESSED_RGBA = GL_COMPRESSED_RGBA,
+			COMPRESSED_SRGB = GL_COMPRESSED_SRGB,
+			COMPRESSED_SRGB_ALPHA = GL_COMPRESSED_SRGB_ALPHA,
+			COMPRESSED_RED_RGTC1 = GL_COMPRESSED_RED_RGTC1,
+			COMPRESSED_SIGNED_RED_RGTC1 = GL_COMPRESSED_SIGNED_RED_RGTC1,
+			COMPRESSED_RG_RGTC2 = GL_COMPRESSED_RG_RGTC2,
+			COMPRESSED_SIGNED_RG_RGTC2 = GL_COMPRESSED_SIGNED_RG_RGTC2,
+			COMPRESSED_RGBA_BPTC_UNORM = GL_COMPRESSED_RGBA_BPTC_UNORM,
+			COMPRESSED_SRGB_ALPHA_BPTC_UNORM = GL_COMPRESSED_SRGB_ALPHA_BPTC_UNORM,
+			COMPRESSED_RGB_BPTC_SIGNED_FLOAT = GL_COMPRESSED_RGB_BPTC_SIGNED_FLOAT,
+			COMPRESSED_RGB_BPTC_UNSIGNED_FLOAT = GL_COMPRESSED_RGB_BPTC_UNSIGNED_FLOAT,
 
-		enum class PixelData_DataFormat
+		};
+		static constexpr InternalFormat DefaultInternalFormat = InternalFormat::RGBA;
+
+		enum class DataFormat : unsigned int
 		{
 			RED = GL_RED,
 			RG = GL_RG,
@@ -91,8 +176,9 @@ namespace Doom
 			DEPTH_COMPONENT = GL_DEPTH_COMPONENT,
 			DEPTH_STENCIL = GL_DEPTH_STENCIL
 		};
+		static constexpr DataFormat DefaultDataFormat = DataFormat::RGBA;
 
-		enum class PixelData_DataType
+		enum class DataType : unsigned int
 		{
 			UNSIGNED_BYTE = GL_UNSIGNED_BYTE,
 			BYTE = GL_BYTE,
@@ -115,34 +201,101 @@ namespace Doom
 			UNSIGNED_INT_10_10_10_2 = GL_UNSIGNED_INT_10_10_10_2,
 			UNSIGNED_INT_2_10_10_10_REV = GL_UNSIGNED_INT_2_10_10_10_REV
 		};
+		static constexpr DataType DefaultDataType = DataType::UNSIGNED_BYTE;
+
+	private:
+
+	protected:
+		unsigned int ID;
 		
-		Texture(unsigned int width, unsigned int height, TargetTexture textureType);
+		static std::unordered_map<BindTarget, unsigned int> CurrentBoundId;
+
+	public:
+		
+		Texture(TextureType textureType, BindTarget bindTarget, 
+			TargetTexture target, InternalFormat internalFormat, unsigned int width, unsigned int height, DataFormat format, DataType type, const void* data );
 		virtual ~Texture();
 
+		const TextureType _TextureType;
+		const BindTarget _BindTarget;
 
-		static unsigned int BoundId;
-
+		const TargetTexture _Target;
+		const InternalFormat _InternalFormat;
 		const unsigned int Width;
 		const unsigned int Height;
-		const TargetTexture _TargetTexture;
-		const BindTarget _BindTarget;
+		const DataFormat _DataFormat;
+		const DataType _DataType;
+
+	
+
+		
+		
 			 
-		static std::unordered_map<BindTarget, unsigned int> BoundId;
+		
 
 		void BindTexture();
 		void UnBindTexture();
 		void ActiveTexture(unsigned int index);
-		void ResetTexture();
-		void TexImage2D(
-			TargetTexture target,
+		/// <summary>
+		/// https://www.khronos.org/registry/OpenGL-Refpages/gl4/html/glTexImage2D.xhtml
+		/// </summary>
+		/// <param name="target"></param>
+		/// <param name="level"></param>
+		/// <param name="internalformat"></param>
+		/// <param name="width"></param>
+		/// <param name="height"></param>
+		/// <param name="border"></param>
+		/// <param name="format"></param>
+		/// <param name="type"></param>
+		/// <param name="data"></param>
+		virtual void TexImage2D(
 			int level,
-			int internalformat,
+			InternalFormat internalformat,
 			int width,
 			int height,
-			int border,
-			PixelData_DataFormat format,
-			PixelData_DataType type,
+			DataFormat format,
+			DataType type,
 			const void* data
-		);
+		) = 0;
+
+		enum class TextureParameterType : unsigned int
+		{
+			DEPTH_STENCIL_TEXTURE_MODE = GL_DEPTH_STENCIL_TEXTURE_MODE,
+			TEXTURE_BASE_LEVEL = GL_TEXTURE_BASE_LEVEL,
+			TEXTURE_COMPARE_FUNC = GL_TEXTURE_COMPARE_FUNC,
+			TEXTURE_COMPARE_MODE = GL_TEXTURE_COMPARE_MODE,
+			TEXTURE_LOD_BIAS = GL_TEXTURE_LOD_BIAS,
+			TEXTURE_MIN_FILTER = GL_TEXTURE_MIN_FILTER,
+			TEXTURE_MAG_FILTER = GL_TEXTURE_MAG_FILTER,
+			TEXTURE_MIN_LOD = GL_TEXTURE_MIN_LOD,
+			TEXTURE_MAX_LOD = GL_TEXTURE_MAX_LOD,
+			TEXTURE_MAX_LEVEL = GL_TEXTURE_MAX_LEVEL,
+			TEXTURE_SWIZZLE_R = GL_TEXTURE_SWIZZLE_R,
+			TEXTURE_SWIZZLE_G = GL_TEXTURE_SWIZZLE_G,
+			TEXTURE_SWIZZLE_B = GL_TEXTURE_SWIZZLE_B,
+			TEXTURE_SWIZZLE_A = GL_TEXTURE_SWIZZLE_A,
+			TEXTURE_WRAP_S = GL_TEXTURE_WRAP_S,
+			TEXTURE_WRAP_T = GL_TEXTURE_WRAP_T,
+			TEXTURE_WRAP_R = GL_TEXTURE_WRAP_R
+		};
+
+		enum class TextureParameterValue : unsigned int
+		{
+			NEAREST = GL_NEAREST,
+			LINEAR = GL_LINEAR,
+			NEAREST_MIPMAP_NEAREST = GL_NEAREST_MIPMAP_NEAREST,
+			LINEAR_MIPMAP_NEAREST = GL_LINEAR_MIPMAP_NEAREST,
+			NEAREST_MIPMAP_LINEAR = GL_NEAREST_MIPMAP_LINEAR,
+			LINEAR_MIPMAP_LINEAR = GL_LINEAR_MIPMAP_LINEAR,
+			CLAMP_TO_EDGE = GL_CLAMP_TO_EDGE,
+			CLAMP_TO_BORDER = GL_CLAMP_TO_BORDER,
+			MIRRORED_REPEAT = GL_MIRRORED_REPEAT,
+			REPEAT = GL_REPEAT,
+			MIRROR_CLAMP_TO_EDGE = GL_MIRROR_CLAMP_TO_EDGE,
+			CLAMP_TO_EDGE = GL_CLAMP_TO_EDGE
+		};
+
+		void TexParameterf(BindTarget target, TextureParameterType pname, TextureParameterValue param);
+		void TexParameteri(BindTarget target, TextureParameterType pname, TextureParameterValue param);
 	};
 }

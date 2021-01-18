@@ -26,7 +26,7 @@ namespace Doom
 #ifdef DEBUG_MODE
 			if (component->isAddedToEntity == true)
 			{
-				Debug::Log("Component is alread added", LogType::ERROR);
+				DEBUG_LOG("Component is alread added", LogType::ERROR);
 				return nullptr;
 			}
 #endif
@@ -80,7 +80,7 @@ namespace Doom
 				T* component = dynamic_cast<T*>(component);
 				if (component != nullptr)
 				{
-					Debug::Log("Component Cache hit");
+					DEBUG_LOG("Component Cache hit");
 					return component;
 				}
 			}

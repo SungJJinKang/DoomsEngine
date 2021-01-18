@@ -10,7 +10,7 @@
 #include <variant>
 #include <unordered_map>
 #include <type_traits>
-#include "../Core/Log/Debug.h"
+#include "../Core/Core.h"
 
 
 

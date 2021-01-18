@@ -4,37 +4,44 @@
 
 static unsigned int BoundId = 0;
 
-Doom::Texture::Texture(unsigned int width, unsigned int height, Texture::TargetTexture targetTexture)
-	: Width{ width }, Height{ height }, _TargetTexture{ targetTexture }
+
+
+Doom::Texture::Texture(TextureType textureType, BindTarget bindTarget, 
+	TargetTexture targetTexture, InternalFormat internalFormat, unsigned int width, unsigned int height, DataFormat format, DataType type, const void* data = nullptr)
+	: _TextureType{ textureType }, _BindTarget{ bindTarget }, 
+	_Target{ targetTexture }, _InternalFormat{ internalFormat }, Width{ width }, Height{ height }, _DataFormat{ format }, _DataType{ type }
 {
-	glGenTextures(1, &(this->id));
+	//TODO : use glGenTexture(texturecount ~ , ) for multiple textures at once
+	glGenTextures(1, &(this->ID));
+	this->BindTexture();
+	this->TexImage2D(0, _InternalFormat, Width, Height, _DataFormat, _DataType, data);
 }
 
 Doom::Texture::~Texture()
 {
-	glDeleteTextures(1, &(this->id));
+	glDeleteTextures(1, &(this->ID));
 
 	
 }
 
-std::unordered_map<Doom::Texture::BindTarget, unsigned int> Doom::Texture::BoundId{};
+std::unordered_map<Doom::Texture::BindTarget, unsigned int> Doom::Texture::CurrentBoundId{};
 
 void Doom::Texture::BindTexture()
 {
-	if (BoundId[this->_BindTarget] == this->id)
+	if (CurrentBoundId[this->_BindTarget] == this->ID)
 	{
-		Debug::Log("Texture")
+		DEBUG_LOG("Texture is already bound");
 		return;
 	}
 
-	glBindTexture(static_cast<unsigned int>(this->_BindTarget), this->id);
-	BoundId[this->_BindTarget] = this->id;
+	glBindTexture(static_cast<unsigned int>(this->_BindTarget), this->ID);
+	CurrentBoundId[this->_BindTarget] = this->ID;
 }
 
 void Doom::Texture::UnBindTexture()
 {
 	glBindTexture(static_cast<unsigned int>(this->_BindTarget), 0);
-	BoundId[this->_BindTarget] = 0;
+	CurrentBoundId[this->_BindTarget] = 0;
 }
 
 void Doom::Texture::ActiveTexture(unsigned int index)
@@ -42,12 +49,13 @@ void Doom::Texture::ActiveTexture(unsigned int index)
 	glActiveTexture(GL_TEXTURE0 + index);
 }
 
-void Doom::Texture::TexImage2D(TargetTexture target, int level, int internalformat, int width, int height, int border, PixelData_DataFormat format, PixelData_DataType type, const void* data)
+void Doom::Texture::TexParameterf(BindTarget target, TextureParameterType pname, TextureParameterValue param)
 {
-	if (Texture::BoundId != this->id)
-	{
-		this->BindTexture();
-	}
-
-	glTexImage2D(target, level, internalformat, width, height, border, format, type, data);
+	glTexParameterf(static_cast<unsigned int>(target), static_cast<unsigned int>(pname), static_cast<unsigned int>(param));
 }
+
+void Doom::Texture::TexParameteri(BindTarget target, TextureParameterType pname, TextureParameterValue param)
+{
+	glTexParameteri(static_cast<unsigned int>(target), static_cast<unsigned int>(pname), static_cast<unsigned int>(param));
+}
+

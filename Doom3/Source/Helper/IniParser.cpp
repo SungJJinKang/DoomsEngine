@@ -4,7 +4,7 @@
 #include <cstdlib>
 
 
-#include "../Core/Log/Debug.h"
+#include "../Core/Core.h"
 
 static const std::regex sectionPattern{R"(\s*\[\s*(\w+)\s*\]\s*)"};
 static const std::regex variablePattern{ R"(\s*(\w+)\s*=\s*(\w+)\s*)" };
@@ -30,7 +30,7 @@ IniData IniParser::ParseIniFile(const char* fileDirectory)
 	std::ifstream inputfStream{ fileDirectory };
 	if (inputfStream.is_open() == false)
 	{
-		Doom::Debug::Log({ "can't open Ini file : ", fileDirectory });
+		DEBUG_LOG({ "can't open Ini file : ", fileDirectory });
 		return {};
 	}
 
@@ -115,7 +115,7 @@ IniData IniParser::ParseIniFile(const char* fileDirectory)
 void IniData::AddSection(const std::string& section)
 {
 	this->data[section]; // just accessing to unordered_map with key make hash table
-	Doom::Debug::Log({ "Add New Section : ", section });
+	DEBUG_LOG({ "Add New Section : ", section });
 }
 
 struct ConverToString
@@ -152,7 +152,7 @@ void IniData::InsertVariable(const std::string& section, const VariableType& var
 		}, variable.second);
 	*/
 	auto valueString = std::visit(ConverToString(), variable.second);
-	Doom::Debug::Log({ "Add New Variable = ", "Section : ", section, " , Key : ", variable.first, " , Value : ", valueString });
+	DEBUG_LOG({ "Add New Variable = ", "Section : ", section, " , Key : ", variable.first, " , Value : ", valueString });
 
 
 	

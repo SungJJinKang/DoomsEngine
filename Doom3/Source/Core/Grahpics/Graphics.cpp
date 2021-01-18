@@ -30,7 +30,7 @@ void Graphics::Init()
 	Window = glfwCreateWindow(SCREEN_WIDTH, SCREEN_HEIGHT, "LearnOpenGL", NULL, NULL);
 	if (Window == NULL)
 	{
-		Debug::Log("Failed to create GLFW window");
+		DEBUG_LOG("Failed to create GLFW window");
 		glfwTerminate();
 		return;
 	}
@@ -43,7 +43,7 @@ void Graphics::Init()
 	// ---------------------------------------
 	if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
 	{
-		Debug::Log("Failed to initialize GLAD");
+		DEBUG_LOG("Failed to initialize GLAD");
 		return;
 	}
 
@@ -86,7 +86,7 @@ void Graphics::Loop()
 	}
 	else
 	{
-		Debug::Log("Terminate glfw");
+		DEBUG_LOG("Terminate glfw");
 		glfwTerminate();
 
 		return;

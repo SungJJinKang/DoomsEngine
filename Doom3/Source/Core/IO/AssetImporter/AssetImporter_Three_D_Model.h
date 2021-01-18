@@ -39,7 +39,7 @@ public:
 	// Write womethink using your own functionality
 	inline void write(const char* message)
 	{
-		Doom::Debug::Log({ "Assimp Debugger : ", message });
+		DEBUG_LOG({ "Assimp Debugger : ", message });
 	}
 };
 #endif
@@ -159,7 +159,7 @@ std::optional <AssetTypeConditional_t<AssetType::THREE_D_MODELL>> AssetImporter<
 	}
 	else
 	{
-		Debug::Log({ path.string(), " : 3D Model Asset has no scene" });
+		DEBUG_LOG({ path.string(), " : 3D Model Asset has no scene" });
 		return {};
 	}
 

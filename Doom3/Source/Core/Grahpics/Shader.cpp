@@ -131,7 +131,7 @@ void Doom::Shader::checkCompileError(unsigned int id, ShaderType shaderType)
 	if (!success)
 	{
 		glGetShaderInfoLog(id, 1024, NULL, infoLog);
-		Debug::Log({ "ERROR::SHADER_COMPILATION_ERROR of type: ", shaderTypeStr, "\n", infoLog, "\n -- --------------------------------------------------- -- " });
+		DEBUG_LOG({ "ERROR::SHADER_COMPILATION_ERROR of type: ", shaderTypeStr, "\n", infoLog, "\n -- --------------------------------------------------- -- " });
 	}
 }
 

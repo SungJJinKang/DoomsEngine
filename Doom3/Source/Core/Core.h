@@ -25,10 +25,11 @@
 #define  GET_RALATIVE_PATH(path) CURRENTPATH path
 #include "Assert.h"
 
-#include "Log/Debug.h"
 
+
+#include "Log/Logger.h"
 #ifdef DEBUG_MODE
-#define DEBUG_LOG(X, Y) Doom::Logger.Log(X, Y);
+#define DEBUG_LOG(...)  Doom::Logger.Log(##__VA_ARGS__)
 #else
-#define DEBUG_LOG(X, Y) 
+#define DEBUG_LOG(...)
 #endif

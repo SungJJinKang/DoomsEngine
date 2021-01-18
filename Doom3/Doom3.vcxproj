@@ -190,7 +190,6 @@
     <ClCompile Include="Source\Core\IO\AssetImporter\AssetImporter_Texture.cpp" />
     <ClCompile Include="Source\Core\IO\AssetImporter\AssetImporter_Three_D_Model.cpp" />
     <ClCompile Include="Source\Core\IO\UserInput.cpp" />
-    <ClCompile Include="Source\Core\Log\Debug.cpp" />
     <ClCompile Include="Source\Core\Log\Logger.cpp" />
     <ClCompile Include="Source\Core\Game\GameFlow.cpp" />
     <ClCompile Include="Source\Core\Grahpics\Graphics.cpp" />
@@ -288,7 +287,6 @@
     <ClInclude Include="Source\Core\Grahpics\Texture.h" />
     <ClInclude Include="Source\Core\IO\AssetImporter\AssetImporterBase.h" />
     <ClInclude Include="Source\Core\IO\UserInput.h" />
-    <ClInclude Include="Source\Core\Log\Debug.h" />
     <ClInclude Include="Source\Core\Log\Logger.h" />
     <ClInclude Include="Source\Core\Game\GameFlow.h" />
     <ClInclude Include="Source\Core\Grahpics\Graphics.h" />
