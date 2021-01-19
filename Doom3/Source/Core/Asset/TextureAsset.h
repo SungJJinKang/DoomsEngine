@@ -6,7 +6,8 @@ namespace Doom
 	struct TextureAsset : public Asset
 	{
 	};
-	template <> struct AssetTypeConditional<AssetType::TEXTURE> { using type = typename TextureAsset; };
+
+	template <> struct Asset::AssetTypeConditional<Asset::AssetType::TEXTURE> { using type = typename TextureAsset; };
 }
 
 

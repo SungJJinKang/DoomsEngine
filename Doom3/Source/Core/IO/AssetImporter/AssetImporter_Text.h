@@ -4,10 +4,9 @@
 
 using namespace Doom;
 
-template <> struct ApiImporterTypeConditional<AssetType::TEXT> { using type = typename DummyApiImporter; };
 
 template<>
-std::optional <AssetTypeConditional_t<AssetType::TEXT>> AssetImporter<AssetType::TEXT>::ReadAssetFile(std::filesystem::path path, AssetImporter<AssetType::TEXT>* assetImporter)
+std::optional <Asset::AssetTypeConditional_t<Asset::AssetType::TEXT>> Doom::AssetImporter<Asset::AssetType::TEXT>::ReadAssetFile(std::filesystem::path path, AssetImporter<Asset::AssetType::TEXT>* assetImporter)
 {
 	std::ifstream inputFileStream(path, std::ios::in | std::ios::binary | std::ios::ate);
 

@@ -5,10 +5,9 @@
 using namespace Doom;
 
 
-template <> struct ApiImporterTypeConditional<AssetType::AUDIO> { using type = typename DummyApiImporter; };
 
 template <>
-std::optional <AssetTypeConditional_t<AssetType::AUDIO>> AssetImporter<AssetType::AUDIO>::ReadAssetFile(std::filesystem::path path, AssetImporter<AssetType::AUDIO>* assetImporter)
+std::optional <Asset::AssetTypeConditional_t<Asset::AssetType::AUDIO>> Doom::AssetImporter<Asset::AssetType::AUDIO>::ReadAssetFile(std::filesystem::path path, AssetImporter<Asset::AssetType::AUDIO>* assetImporter)
 {
 	return {};
 }

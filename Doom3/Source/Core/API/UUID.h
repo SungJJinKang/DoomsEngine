@@ -4,8 +4,8 @@
 
 namespace Doom
 {
-	using UUID = sole::uuid;
-	inline UUID GenerateUUID()
+	using D_UUID = sole::uuid;
+	inline D_UUID GenerateUUID()
 	{
 		return sole::uuid0();
 	}

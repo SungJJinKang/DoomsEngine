@@ -10,13 +10,13 @@
 #include "../Asset/Asset.h"
 namespace Doom
 {
-	template <Doom::AssetType assetType>
+	template <Doom::Asset::AssetType assetType>
 	class AssetContainer
 	{
 	private:
-		using type = Doom::AssetTypeConditional_t< assetType>;
+		using type = Doom::Asset::AssetTypeConditional_t< assetType>;
 		static_assert(std::is_base_of_v<Doom::Asset, type>);
-		std::map<UUID, type> Assets;
+		std::map<D_UUID, type> Assets;
 
 	public:
 
@@ -25,33 +25,29 @@ namespace Doom
 
 		}
 
-		void AddAsset(type&& asset)
+		inline void AddAsset(type&& asset)
 		{
-			this->Assets.insert(std::move(asset));
+			this->Assets.emplace(std::make_pair(asset.uuid, std::move(asset)));
 		}
-		std::optional<const type&> GetAsset(const UUID& uuid)
-		{
-			try
-			{
-				return Assets.at(uuid);
-			}
-			catch (const std::out_of_range& e)
-			{
-				DEBUG_LOG("Can't find asset");
-				return {};
-			}
-			catch (...)
-			{
-				DEBUG_LOG("Unknown Error", LogType::D_ERROR);
-				return {};
-			}
-		}
+
+		
+
+		std::optional<const type&> GetAsset(const D_UUID& uuid);
 	};
 	
-	const inline std::filesystem::path AssetFolderPath{ ASSET_FOLDER_DIRECTORY };
+	
 
 	class AssetManager
 	{
+	private:
+		static const std::filesystem::path AssetFolderPath;
+
+		template <Asset::AssetType assetType, size_t ThreadSize>
+		static void ImportAssetAndAddToContainer(const std::vector<std::filesystem::path>& paths);
+
+		template <Asset::AssetType assetType>
+		static AssetContainer<assetType> ImportedAssets;
+
 	public:
 		static void ImportEntireAsset();
 

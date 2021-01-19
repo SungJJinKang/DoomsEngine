@@ -6,10 +6,10 @@
 
 using namespace Doom;
 
-template <> struct ApiImporterTypeConditional<AssetType::THREE_D_MODELL> { using type = typename Assimp::Importer; };
+template <> struct Doom::ApiImporterTypeConditional<Asset::AssetType::THREE_D_MODELL> { using type = typename Assimp::Importer; };
 
 template<>
-void AssetImporter<AssetType::THREE_D_MODELL>::InitApiImporter(ApiImporterType& apiImporter)
+void Doom::AssetImporter<Asset::AssetType::THREE_D_MODELL>::InitApiImporter(ApiImporterType& apiImporter)
 {
 	apiImporter.SetPropertyInteger(AI_CONFIG_PP_RVC_FLAGS,
 		aiComponent_COLORS |
@@ -22,6 +22,8 @@ void AssetImporter<AssetType::THREE_D_MODELL>::InitApiImporter(ApiImporterType& 
 	);// set removed components flags
 }
 
+
+
 /// <summary>
 /// Create Nodes Recursively
 /// </summary>
@@ -31,7 +33,27 @@ void AssetImporter<AssetType::THREE_D_MODELL>::InitApiImporter(ApiImporterType& 
 /// <param name="modelAsset"></param>
 /// <param name="assimpScene"></param>
 /// <returns></returns>
-void SetThreeDModelNodesData(ThreeDModelNode* currentNode, aiNode* currentAssimpNode, ThreeDModelNode* parentNode, ThreeDModelAsset& modelAsset, const aiScene* assimpScene);
+inline void SetThreeDModelNodesData(ThreeDModelNode* currentNode, aiNode* currentAssimpNode, ThreeDModelNode* parentNode, ThreeDModelAsset& modelAsset, const aiScene* assimpScene)
+{
+	currentNode->ThreeDModelNodeParent = parentNode;
+	currentNode->ThreeDModelAsset = &modelAsset;
+	currentNode->Name = currentAssimpNode->mName.C_Str();
+	currentNode->NumOfThreeDModelMeshes = currentAssimpNode->mNumMeshes;
+
+	currentNode->ThreeDModelMeshes = new ThreeDModelMesh * [currentAssimpNode->mNumMeshes];
+	for (unsigned int meshIndex = 0; meshIndex < currentAssimpNode->mNumMeshes; meshIndex++)
+	{
+		currentNode->ThreeDModelMeshes[meshIndex] = modelAsset.ModelMeshes[currentAssimpNode->mMeshes[meshIndex]];
+	}
+
+	currentNode->NumOfThreeDModelNodeChildrens = currentAssimpNode->mNumChildren;
+	currentNode->ThreeDModelNodeChildrens = new ThreeDModelNode * [currentAssimpNode->mNumChildren];
+	for (unsigned int childrenIndex = 0; childrenIndex < currentAssimpNode->mNumChildren; childrenIndex++)
+	{
+		currentNode->ThreeDModelNodeChildrens[childrenIndex] = new ThreeDModelNode();
+		SetThreeDModelNodesData(currentNode->ThreeDModelNodeChildrens[childrenIndex], currentAssimpNode->mChildren[childrenIndex], currentNode, modelAsset, assimpScene);
+	}
+}
 
 #ifdef DEBUG_MODE
 class AssimpLogStream : public Assimp::LogStream {
@@ -41,6 +63,8 @@ public:
 	{
 		DEBUG_LOG({ "Assimp Debugger : ", message });
 	}
+
+	
 };
 #endif
 
@@ -53,7 +77,7 @@ public:
 		/// <param name="path"></param>
 		/// <returns></returns>
 template<>
-std::optional <AssetTypeConditional_t<AssetType::THREE_D_MODELL>> AssetImporter<AssetType::THREE_D_MODELL>::ReadAssetFile(std::filesystem::path path, AssetImporter<AssetType::THREE_D_MODELL>* assetImporter)
+std::optional <Asset::AssetTypeConditional_t<Asset::AssetType::THREE_D_MODELL>> Doom::AssetImporter<Asset::AssetType::THREE_D_MODELL>::ReadAssetFile(std::filesystem::path path, AssetImporter<Asset::AssetType::THREE_D_MODELL>* assetImporter)
 {
 #ifdef DEBUG_MODE
 	static bool IsAssimpDebuggerInitialized;
@@ -70,7 +94,7 @@ std::optional <AssetTypeConditional_t<AssetType::THREE_D_MODELL>> AssetImporter<
 		IsAssimpDebuggerInitialized = true;
 	}
 #endif
-	ApiImporter<AssetType::THREE_D_MODELL> apiImporter = assetImporter->GetMultithreadApiImporter();
+	ApiImporter<Asset::AssetType::THREE_D_MODELL> apiImporter = assetImporter->GetMultithreadApiImporter();
 
 	/* Do this AssetImporter Constructor
 	apiImporter->SetPropertyInteger("AI_CONFIG_PP_RVC_FLAGS",
@@ -99,7 +123,7 @@ std::optional <AssetTypeConditional_t<AssetType::THREE_D_MODELL>> AssetImporter<
 		aiProcess_ImproveCacheLocality
 	);
 
-	AssetTypeConditional_t<AssetType::THREE_D_MODELL> asset{};
+	Asset::AssetTypeConditional_t<Asset::AssetType::THREE_D_MODELL> asset{};
 
 	//scene->mMeshes[0]->
 	// If the import failed, report it

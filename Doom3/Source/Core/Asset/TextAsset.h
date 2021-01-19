@@ -16,5 +16,5 @@ namespace Doom
 		}
 
 	};
-	template <> struct AssetTypeConditional<AssetType::TEXT> { using type = typename TextAsset; };
+	template <> struct Asset::AssetTypeConditional<Asset::AssetType::TEXT> { using type = typename TextAsset; };
 }

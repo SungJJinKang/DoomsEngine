@@ -6,10 +6,9 @@
 
 using namespace Doom;
 
-template <> struct ApiImporterTypeConditional<AssetType::TEXTURE> { using type = typename DummyApiImporter; };
 
 template <>
-std::optional <AssetTypeConditional_t<AssetType::TEXTURE>> AssetImporter<AssetType::TEXTURE>::ReadAssetFile(std::filesystem::path path, AssetImporter<AssetType::TEXTURE>* assetImporter)
+std::optional <Asset::AssetTypeConditional_t<Asset::AssetType::TEXTURE>> Doom::AssetImporter<Asset::AssetType::TEXTURE>::ReadAssetFile(std::filesystem::path path, AssetImporter<Asset::AssetType::TEXTURE>* assetImporter)
 {
 	return {};
 }

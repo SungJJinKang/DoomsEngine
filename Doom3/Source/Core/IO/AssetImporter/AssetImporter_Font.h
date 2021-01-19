@@ -4,10 +4,9 @@
 
 using namespace Doom;
 
-template <> struct ApiImporterTypeConditional<AssetType::FONT> { using type = typename DummyApiImporter; };
 
 template <>
-std::optional <AssetTypeConditional_t<AssetType::FONT>> AssetImporter<AssetType::FONT>::ReadAssetFile(std::filesystem::path path, AssetImporter<AssetType::FONT>* assetImporter)
+std::optional <Asset::AssetTypeConditional_t<Asset::AssetType::FONT>> Doom::AssetImporter<Asset::AssetType::FONT>::ReadAssetFile(std::filesystem::path path, AssetImporter<Asset::AssetType::FONT>* assetImporter)
 {
 	return {};
 }

@@ -7,38 +7,52 @@
 namespace Doom
 {
 
-
+	struct AudioAsset;
+	struct FontAsset;
+	struct TextAsset;
+	struct TextureAsset;
+	struct ThreeDModelAsset;
 
 	struct Asset
 	{
+		static constexpr inline short int AssetTypeCount = 5;
 		enum AssetType : short int
 		{
-
 			AUDIO = 0,
 			FONT,
 			TEXT,
 			TEXTURE,
 			THREE_D_MODELL,
-			NONE, // TRICK FOR COUNTING ENUM ELEMENT COUNT, THIS ELEMENT SHOULD BE LAST ELEMENT OF THIS ENUM
 		};
 
-		static constexpr inline short int AssetTypeCount = AssetType::NONE + 1;
+		
 
-		template <AssetType assetType>
+		template <Asset::AssetType assetType>
 		struct AssetTypeConditional;
+
 		template <AssetType assetType>
 		using AssetTypeConditional_t = typename AssetTypeConditional<assetType>::type;
 
-		/// <summary>
-		/// https://github.com/r-lyeh-archived/sole
-		/// </summary>
-		UUID uuid;
+		D_UUID uuid;
 		std::string AssetName;
 		std::filesystem::path AssetPath;
 
-		void SetBaseMetaData(const std::filesystem::path& path);
+		inline void SetBaseMetaData(const std::filesystem::path& path)
+		{
+			AssetName = path.has_filename() ? path.filename().string() : "";
+			AssetPath = path.string();
+		}
 
-		Asset() : uuid{ GenerateUUID() }
+		bool IsContainingData;
+		Asset(bool isConatiningData) : IsContainingData{ isConatiningData }
+		{
+			if (isConatiningData == true)
+			{
+				this->uuid = GenerateUUID();
+			}
+		}
+
+		Asset() : uuid{ GenerateUUID() }, IsContainingData{ true }
 		{
 
 		}

@@ -7,5 +7,5 @@ namespace Doom
 	struct FontAsset : public Asset
 	{
 	};
-	template <> struct AssetTypeConditional<AssetType::FONT> { using type = typename FontAsset; };
+	template <> struct Asset::AssetTypeConditional<Asset::AssetType::FONT> { using type = typename FontAsset; };
 }
