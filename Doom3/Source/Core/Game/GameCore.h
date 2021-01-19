@@ -1,6 +1,6 @@
 #pragma once
 #include "../Core.h"
-
+#include "GameFlow.h"
 
 class IniData;
 
@@ -19,7 +19,6 @@ namespace Doom
 		friend class Graphics;
 
 		static void Init();
-		static bool Loop();
 		
 		
 		

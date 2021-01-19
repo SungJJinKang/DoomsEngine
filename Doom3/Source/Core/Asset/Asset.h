@@ -1,36 +1,9 @@
 #pragma once
 
-#include <string>
-#include <filesystem>
-#include "../API/UUID.h"
+#include "Base_Asset.h"
 
-namespace Doom
-{
-	enum class AssetType
-	{
-		TEXTURE,
-		THREE_D_MODELL,
-		FONT,
-		AUDIO,
-		TEXT
-	};
-
-	struct Asset
-	{
-		/// <summary>
-		/// https://github.com/r-lyeh-archived/sole
-		/// </summary>
-		UUID uuid;
-		std::string AssetName;
-		std::filesystem::path AssetPath;
-
-		void SetBaseMetaData(const std::filesystem::path& path);
-
-		Asset() : uuid{ GenerateUUID() }
-		{
-
-		}
-	};
-}
-
-
+#include "AudioAsset.h"
+#include "FontAsset.h"
+#include "TextAsset.h"
+#include "TextureAsset.h"
+#include "ThreeDModelAsset.h"

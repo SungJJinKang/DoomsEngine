@@ -14,14 +14,12 @@ Doom::Texture::Texture(TextureType textureType, BindTarget bindTarget,
 	//TODO : use glGenTexture(texturecount ~ , ) for multiple textures at once
 	glGenTextures(1, &(this->ID));
 	this->BindTexture();
-	this->TexImage2D(0, _InternalFormat, Width, Height, _DataFormat, _DataType, data);
+	//this->TexImage2D(0, _InternalFormat, Width, Height, _DataFormat, _DataType, data);
 }
 
 Doom::Texture::~Texture()
 {
 	glDeleteTextures(1, &(this->ID));
-
-	
 }
 
 std::unordered_map<Doom::Texture::BindTarget, unsigned int> Doom::Texture::CurrentBoundId{};
@@ -51,11 +49,21 @@ void Doom::Texture::ActiveTexture(unsigned int index)
 
 void Doom::Texture::TexParameterf(BindTarget target, TextureParameterType pname, TextureParameterValue param)
 {
-	glTexParameterf(static_cast<unsigned int>(target), static_cast<unsigned int>(pname), static_cast<unsigned int>(param));
+	glTexParameterf(static_cast<unsigned int>(target), static_cast<unsigned int>(pname), static_cast<float>(param));
+}
+
+void Doom::Texture::TexParameteri(BindTarget target, TextureParameterType pname, float param)
+{
+	glTexParameterf(static_cast<unsigned int>(target), static_cast<unsigned int>(pname), param);
 }
 
 void Doom::Texture::TexParameteri(BindTarget target, TextureParameterType pname, TextureParameterValue param)
 {
 	glTexParameteri(static_cast<unsigned int>(target), static_cast<unsigned int>(pname), static_cast<unsigned int>(param));
+}
+
+void Doom::Texture::TexParameterf(BindTarget target, TextureParameterType pname, unsigned int param)
+{
+	glTexParameteri(static_cast<unsigned int>(target), static_cast<unsigned int>(pname), param);
 }
 

@@ -168,12 +168,14 @@
     <ClCompile Include="Source\Component\Component.cpp" />
     <ClCompile Include="Source\Component\DirectionalLight.cpp" />
     <ClCompile Include="Source\Component\Light.cpp" />
+    <ClCompile Include="Source\Component\Renderer.cpp" />
     <ClCompile Include="Source\Component\Transform.cpp" />
-    <ClCompile Include="Source\Core\Asset\Asset.cpp" />
+    <ClCompile Include="Source\Core\Asset\Base_Asset.cpp" />
     <ClCompile Include="Source\Core\Asset\AudioAsset.cpp" />
     <ClCompile Include="Source\Core\Asset\FontAsset.cpp" />
     <ClCompile Include="Source\Core\Asset\TextAsset.cpp" />
     <ClCompile Include="Source\Core\CoreComponent\Scene.cpp" />
+    <ClCompile Include="Source\Core\Game\AssetManager.cpp" />
     <ClCompile Include="Source\Core\Game\GameCore.cpp" />
     <ClCompile Include="Source\Core\Grahpics\BufferObject.cpp" />
     <ClCompile Include="Source\Core\Grahpics\CubemapTexture.cpp" />
@@ -193,6 +195,7 @@
     <ClCompile Include="Source\Core\Log\Logger.cpp" />
     <ClCompile Include="Source\Core\Game\GameFlow.cpp" />
     <ClCompile Include="Source\Core\Grahpics\Graphics.cpp" />
+    <ClCompile Include="Source\Core\Random.cpp" />
     <ClCompile Include="Source\Helper\IniParser.cpp" />
     <ClCompile Include="Source\Core\Asset\ThreeDModelAsset.cpp" />
     <ClCompile Include="Source\Core\Asset\TextureAsset.cpp" />
@@ -211,12 +214,15 @@
     <ClInclude Include="Source\Component\Component.h" />
     <ClInclude Include="Source\Component\DirectionalLight.h" />
     <ClInclude Include="Source\Component\Light.h" />
+    <ClInclude Include="Source\Component\Renderer.h" />
     <ClInclude Include="Source\Component\Transform.h" />
     <ClInclude Include="Source\Core\API\ASSIMP.h" />
     <ClInclude Include="Source\Core\API\OpenglAPI.h" />
     <ClInclude Include="Source\Core\API\STB_IMAGE.h" />
     <ClInclude Include="Source\Core\API\UUID.h" />
+    <ClInclude Include="Source\Core\Asset\Asset.h" />
     <ClInclude Include="Source\Core\Asset\TextAsset.h" />
+    <ClInclude Include="Source\Core\Game\AssetManager.h" />
     <ClInclude Include="Source\Core\Grahpics\CubemapTexture.h" />
     <ClInclude Include="Source\Core\CoreComponent\Entity.h" />
     <ClInclude Include="Source\Core\Grahpics\Mesh.h" />
@@ -266,6 +272,8 @@
     <ClInclude Include="Source\Core\Math\VeryLight_Math_For_Game\Vector2.h" />
     <ClInclude Include="Source\Core\Math\VeryLight_Math_For_Game\Vector3.h" />
     <ClInclude Include="Source\Core\Math\VeryLight_Math_For_Game\Vector4.h" />
+    <ClInclude Include="Source\Core\Random.h" />
+    <ClInclude Include="Source\Helper\DeferredConstant\DeferredConstant.h" />
     <ClInclude Include="Source\Helper\FutureWrapper\DummyFuture.h" />
     <ClInclude Include="Source\Helper\FutureWrapper\FutureWrapper.h" />
     <ClInclude Include="Source\Helper\FutureWrapper\shared_future\DummySharedFuture.h" />
@@ -274,7 +282,7 @@
     <ClInclude Include="Source\Helper\FutureWrapper\StdFuture.h" />
     <ClInclude Include="Source\Helper\ThreadPool_Cpp\ThreadPool.h" />
     <ClInclude Include="stdafx.h" />
-    <ClInclude Include="Source\Core\Asset\Asset.h" />
+    <ClInclude Include="Source\Core\Asset\Base_Asset.h" />
     <ClInclude Include="Source\Core\Asset\AudioAsset.h" />
     <ClInclude Include="Source\Core\Asset\FontAsset.h" />
     <ClInclude Include="Source\Core\Core.h" />
@@ -421,6 +429,8 @@
     <None Include="dependency\glfw-3.3.2.bin.WIN64\docs\html\window_8dox.html" />
     <None Include="dependency\glfw-3.3.2.bin.WIN64\docs\html\window_guide.html" />
     <None Include="config.ini" />
+    <None Include="Source\Helper\DeferredConstant\.git" />
+    <None Include="Source\Helper\DeferredConstant\README.md" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -1,7 +1,7 @@
 #pragma once
 #include <string>
 
-#include "Asset.h"
+#include "Base_Asset.h"
 #include "../Math/LightMath_Cpp/LMath.h"
 
 using namespace Math;
@@ -59,6 +59,8 @@ namespace Doom
 
 
 	};
+
+	template <> struct AssetTypeConditional<AssetType::THREE_D_MODELL> { using type = typename ThreeDModelAsset; };
 }
 
 

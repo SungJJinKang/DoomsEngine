@@ -19,6 +19,15 @@ namespace Doom
 
 		void InitComponent(Entity& entity);
 
+	protected:
+
+		virtual void OnInit() {}
+		virtual void OnStart() {}
+		virtual void OnEnable() {}
+		virtual void OnDisable() {}
+		virtual void OnUpdate() {}
+		virtual void OnDestroy() {}
+
 	public:
 
 		inline Entity& OwnerEntity()

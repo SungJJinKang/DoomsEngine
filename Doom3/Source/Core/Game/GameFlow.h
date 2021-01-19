@@ -11,11 +11,12 @@ namespace Doom
 	
 
 		static void Init();
-		static bool Loop();
+		
+
 	public:
 		friend class GameCore;
 		
-
+		static void Loop();
 		
 		GameFlow() = delete;
 		GameFlow(const GameFlow&) = delete;

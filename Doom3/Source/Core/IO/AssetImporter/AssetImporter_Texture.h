@@ -6,7 +6,6 @@
 
 using namespace Doom;
 
-template <> struct AssetTypeConditional<AssetType::TEXTURE> { using type = typename TextureAsset; };
 template <> struct ApiImporterTypeConditional<AssetType::TEXTURE> { using type = typename DummyApiImporter; };
 
 template <>

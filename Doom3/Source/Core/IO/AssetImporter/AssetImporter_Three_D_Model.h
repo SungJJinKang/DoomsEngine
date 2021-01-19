@@ -6,7 +6,6 @@
 
 using namespace Doom;
 
-template <> struct AssetTypeConditional<AssetType::THREE_D_MODELL> { using type = typename ThreeDModelAsset; };
 template <> struct ApiImporterTypeConditional<AssetType::THREE_D_MODELL> { using type = typename Assimp::Importer; };
 
 template<>
@@ -22,6 +21,7 @@ void AssetImporter<AssetType::THREE_D_MODELL>::InitApiImporter(ApiImporterType& 
 		aiComponent_TEXTURES
 	);// set removed components flags
 }
+
 /// <summary>
 /// Create Nodes Recursively
 /// </summary>

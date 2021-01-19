@@ -1,4 +1,6 @@
+#include "Source/Core/Core.h"
 #include "Source/Core/Game/GameCore.h"
+#include "Source/Core/Game/GameFlow.h"
 
 #include "Source/Core/IO/AssetImporter/AssetImporter.h"
 
@@ -59,10 +61,9 @@ int main()
 	}
 	
 
-	while (GameCore::Loop())
-	{
-		
-	}
+	GameFlow::Loop();
+
+	//window terminated
 }
 
 

@@ -4,7 +4,7 @@
 
 using namespace Doom;
 
-template <> struct AssetTypeConditional<AssetType::AUDIO> { using type = AudioAsset; };
+
 template <> struct ApiImporterTypeConditional<AssetType::AUDIO> { using type = typename DummyApiImporter; };
 
 template <>

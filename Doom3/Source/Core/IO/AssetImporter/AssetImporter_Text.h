@@ -4,7 +4,6 @@
 
 using namespace Doom;
 
-template <> struct AssetTypeConditional<AssetType::TEXT> { using type = typename TextAsset; };
 template <> struct ApiImporterTypeConditional<AssetType::TEXT> { using type = typename DummyApiImporter; };
 
 template<>

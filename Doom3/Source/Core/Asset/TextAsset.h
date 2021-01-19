@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Asset.h"
+#include "Base_Asset.h"
 #include <string>
 
 namespace Doom
@@ -16,5 +16,5 @@ namespace Doom
 		}
 
 	};
-
+	template <> struct AssetTypeConditional<AssetType::TEXT> { using type = typename TextAsset; };
 }

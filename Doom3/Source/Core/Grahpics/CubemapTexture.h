@@ -12,6 +12,6 @@ namespace Doom
 			TargetTexture target, InternalFormat internalFormat, unsigned int width, unsigned int height, DataFormat format, DataType type, const void* data);
 
 		void TexImage2D(int level, InternalFormat internalformat, int width, int height, DataFormat format, DataType type, const void* data) override;
-
+		void TexImage2D(int face, int level, InternalFormat internalformat, int width, int height, DataFormat format, DataType type, const void* data);
 	};
 }

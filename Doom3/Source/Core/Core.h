@@ -13,7 +13,7 @@
 #define CURRENTPATH "C:/Doom3FromScratch/Doom3/"
 
 #elif __APPLE__
-#define CURRENTPATH "/Users/sungjinkang/openglstudy/glfwStudys/"
+#define CURRENTPATH /Users/sungjinkang/openglstudy/glfwStudys/
 
 
 #endif
@@ -22,7 +22,12 @@
 
 #endif
 
-#define  GET_RALATIVE_PATH(path) CURRENTPATH path
+#define GET_RELATIVE_PATH(x) CURRENTPATH x
+
+#define ASSET_FOLDER_DIRECTORY GET_RELATIVE_PATH("Assets")
+
+
+
 #include "Assert.h"
 
 

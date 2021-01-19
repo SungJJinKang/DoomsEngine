@@ -292,10 +292,11 @@ namespace Doom
 			MIRRORED_REPEAT = GL_MIRRORED_REPEAT,
 			REPEAT = GL_REPEAT,
 			MIRROR_CLAMP_TO_EDGE = GL_MIRROR_CLAMP_TO_EDGE,
-			CLAMP_TO_EDGE = GL_CLAMP_TO_EDGE
 		};
 
 		void TexParameterf(BindTarget target, TextureParameterType pname, TextureParameterValue param);
 		void TexParameteri(BindTarget target, TextureParameterType pname, TextureParameterValue param);
+		void TexParameterf(BindTarget target, TextureParameterType pname, unsigned int param);
+		void TexParameteri(BindTarget target, TextureParameterType pname, float param);
 	};
 }

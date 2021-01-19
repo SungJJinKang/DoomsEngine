@@ -50,46 +50,15 @@ void Graphics::Init()
 	glfwSetInputMode(Window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
 	//
 
-	//glEnable(GL_MULTISAMPLE);
+	Graphics::Enable(Graphics::Capability::DEPTH_TEST);
 
-	glEnable(GL_DEPTH_TEST);
-	//glDepthFunc(GL_LEQUAL);
-	//glEnable(GL_STENCIL_TEST);
+	Graphics::Enable(Graphics::Capability::BLEND);
+	Graphics::BlendFunc(Graphics::SourceFactor::SRC_ALPHA, Graphics::DestinationFactor::ONE_MINUS_SRC_ALPHA);
 
-	glEnable(GL_BLEND);
-	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	Graphics::Enable(Graphics::Capability::CULL_FACE);
+	Graphics::CullFace(Graphics::CullFaceMode::BACK);
+	
+	Graphics::FrontFace(Graphics::FrontFaceMode::CCW);
 
-	glEnable(GL_CULL_FACE);
-	glCullFace(GL_BACK);
-	glFrontFace(GL_CCW);
 	return;
-}
-
-void Graphics::Loop()
-{
-	if (!glfwWindowShouldClose(Graphics::Window))
-	{
-		glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
-		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-		
-
-		
-
-	
-
-		// glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)
-		// -------------------------------------------------------------------------------
-		glfwSwapBuffers(Graphics::Window);
-		glfwPollEvents();
-
-		return;
-	}
-	else
-	{
-		DEBUG_LOG("Terminate glfw");
-		glfwTerminate();
-
-		return;
-	}
-	
 }

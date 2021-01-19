@@ -26,7 +26,7 @@ namespace Doom
 #ifdef DEBUG_MODE
 			if (component->isAddedToEntity == true)
 			{
-				DEBUG_LOG("Component is alread added", LogType::ERROR);
+				DEBUG_LOG("Component is alread added", LogType::D_ERROR);
 				return nullptr;
 			}
 #endif
