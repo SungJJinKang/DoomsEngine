@@ -42,7 +42,7 @@ namespace Doom
 	private:
 		static const std::filesystem::path AssetFolderPath;
 
-		template <Asset::AssetType assetType, size_t ThreadSize>
+		template <Asset::AssetType assetType>
 		static void ImportAssetAndAddToContainer(const std::vector<std::filesystem::path>& paths);
 
 		template <Asset::AssetType assetType>

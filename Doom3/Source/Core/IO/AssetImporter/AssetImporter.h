@@ -11,4 +11,4 @@ extern template class Doom::AssetImporter<Asset::AssetType::AUDIO>;
 extern template class Doom::AssetImporter<Asset::AssetType::FONT>;
 extern template class Doom::AssetImporter<Asset::AssetType::TEXT>;
 extern template class Doom::AssetImporter<Asset::AssetType::TEXTURE>;
-extern template class Doom::AssetImporter<Asset::AssetType::THREE_D_MODELL>;
+extern template class Doom::AssetImporter<Asset::AssetType::THREE_D_MODEL>;

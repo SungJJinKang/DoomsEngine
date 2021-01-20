@@ -22,7 +22,7 @@ namespace Doom
 			FONT,
 			TEXT,
 			TEXTURE,
-			THREE_D_MODELL,
+			THREE_D_MODEL,
 		};
 
 		

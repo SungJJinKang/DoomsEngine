@@ -26,17 +26,18 @@ const std::filesystem::path Doom::AssetManager::AssetFolderPath{ ASSET_FOLDER_DI
 template <Doom::Asset::AssetType assetType>
 Doom::AssetContainer<assetType> Doom::AssetManager::ImportedAssets{};
 
-template <Asset::AssetType assetType, size_t ThreadSize>
+template <Asset::AssetType assetType>
 void Doom::AssetManager::ImportAssetAndAddToContainer(const std::vector<std::filesystem::path>& paths)
 {
 	if (paths.size() == 0)
 		return;
 
-	AssetImporter<assetType> assetImporter{ ThreadSize };
-	auto ImportedAssets = assetImporter.ImportAsset(paths);
+	AssetImporter<assetType> assetImporter{ };
+	auto ImportedAssetFutures = assetImporter.ImportAsset(paths);
 
-	for (auto& asset : ImportedAssets)
+	for (auto& assetFuture : ImportedAssetFutures)
 	{
+		auto asset = assetFuture.get();
 		if (asset.has_value())
 		{
 			Doom::AssetManager::ImportedAssets<assetType>.AddAsset(std::move(asset.value()));
@@ -49,6 +50,9 @@ void Doom::AssetManager::ImportEntireAsset()
 {
 	std::array<std::vector<std::filesystem::path>, Doom::Asset::AssetTypeCount> AssetPaths{};
 	
+	/// <summary>
+	/// Check file extension
+	/// </summary>
 	for (const auto& entry : std::filesystem::recursive_directory_iterator(AssetFolderPath))
 	{
 		std::filesystem::path path = entry.path();
@@ -60,10 +64,15 @@ void Doom::AssetManager::ImportEntireAsset()
 		
 	}
 		
-	ImportAssetAndAddToContainer<Asset::AssetType::AUDIO, 5>(AssetPaths[Asset::AssetType::AUDIO]);
-	ImportAssetAndAddToContainer<Asset::AssetType::FONT, 5>(AssetPaths[Asset::AssetType::FONT]);
-	ImportAssetAndAddToContainer<Asset::AssetType::TEXT, 5>(AssetPaths[Asset::AssetType::TEXT]);
-	ImportAssetAndAddToContainer<Asset::AssetType::TEXTURE, 5>(AssetPaths[Asset::AssetType::TEXTURE]);
-	ImportAssetAndAddToContainer<Asset::AssetType::THREE_D_MODELL, 5>(AssetPaths[Asset::AssetType::THREE_D_MODELL]);
+	{
+		AssetImporterThreadPool threadPool{ 5 };
+
+		ImportAssetAndAddToContainer<Asset::AssetType::AUDIO>(AssetPaths[Asset::AssetType::AUDIO]);
+		ImportAssetAndAddToContainer<Asset::AssetType::FONT>(AssetPaths[Asset::AssetType::FONT]);
+		ImportAssetAndAddToContainer<Asset::AssetType::TEXT>(AssetPaths[Asset::AssetType::TEXT]);
+		ImportAssetAndAddToContainer<Asset::AssetType::TEXTURE>(AssetPaths[Asset::AssetType::TEXTURE]);
+		ImportAssetAndAddToContainer<Asset::AssetType::THREE_D_MODEL>(AssetPaths[Asset::AssetType::THREE_D_MODEL]);
+	}
+	
 }
 

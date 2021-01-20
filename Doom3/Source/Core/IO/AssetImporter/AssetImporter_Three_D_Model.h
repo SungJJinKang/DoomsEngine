@@ -6,10 +6,10 @@
 
 using namespace Doom;
 
-template <> struct Doom::ApiImporterTypeConditional<Asset::AssetType::THREE_D_MODELL> { using type = typename Assimp::Importer; };
+template <> struct Doom::ApiImporterTypeConditional<Asset::AssetType::THREE_D_MODEL> { using type = typename Assimp::Importer; };
 
 template<>
-void Doom::AssetImporter<Asset::AssetType::THREE_D_MODELL>::InitApiImporter(ApiImporterType& apiImporter)
+void Doom::AssetImporter<Asset::AssetType::THREE_D_MODEL>::InitApiImporter(ApiImporterType& apiImporter)
 {
 	apiImporter.SetPropertyInteger(AI_CONFIG_PP_RVC_FLAGS,
 		aiComponent_COLORS |
@@ -77,7 +77,7 @@ public:
 		/// <param name="path"></param>
 		/// <returns></returns>
 template<>
-std::optional <Asset::AssetTypeConditional_t<Asset::AssetType::THREE_D_MODELL>> Doom::AssetImporter<Asset::AssetType::THREE_D_MODELL>::ReadAssetFile(std::filesystem::path path, AssetImporter<Asset::AssetType::THREE_D_MODELL>* assetImporter)
+std::optional <Asset::AssetTypeConditional_t<Asset::AssetType::THREE_D_MODEL>> Doom::AssetImporter<Asset::AssetType::THREE_D_MODEL>::ReadAssetFile(std::filesystem::path path, AssetImporter<Asset::AssetType::THREE_D_MODEL>* assetImporter)
 {
 #ifdef DEBUG_MODE
 	static bool IsAssimpDebuggerInitialized;
@@ -94,7 +94,7 @@ std::optional <Asset::AssetTypeConditional_t<Asset::AssetType::THREE_D_MODELL>> 
 		IsAssimpDebuggerInitialized = true;
 	}
 #endif
-	ApiImporter<Asset::AssetType::THREE_D_MODELL> apiImporter = assetImporter->GetMultithreadApiImporter();
+	ApiImporter<Asset::AssetType::THREE_D_MODEL> apiImporter = assetImporter->GetMultithreadApiImporter();
 
 	/* Do this AssetImporter Constructor
 	apiImporter->SetPropertyInteger("AI_CONFIG_PP_RVC_FLAGS",
@@ -123,7 +123,7 @@ std::optional <Asset::AssetTypeConditional_t<Asset::AssetType::THREE_D_MODELL>> 
 		aiProcess_ImproveCacheLocality
 	);
 
-	Asset::AssetTypeConditional_t<Asset::AssetType::THREE_D_MODELL> asset{};
+	Asset::AssetTypeConditional_t<Asset::AssetType::THREE_D_MODEL> asset{};
 
 	//scene->mMeshes[0]->
 	// If the import failed, report it
