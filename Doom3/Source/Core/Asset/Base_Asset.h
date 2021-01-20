@@ -2,20 +2,22 @@
 
 #include <string>
 #include <filesystem>
+#include "../Core.h"
 #include "../API/UUID.h"
 
 namespace Doom
 {
 
-	struct AudioAsset;
-	struct FontAsset;
-	struct TextAsset;
-	struct TextureAsset;
-	struct ThreeDModelAsset;
+	class AudioAsset;
+	class FontAsset;
+	class TextAsset;
+	class TextureAsset;
+	class ThreeDModelAsset;
 
-	struct Asset
+	class Asset
 	{
-		static constexpr inline short int AssetTypeCount = 5;
+	public:
+		static constexpr inline short int AssetTypeCount = 6;
 		enum AssetType : short int
 		{
 			AUDIO = 0,
@@ -23,6 +25,7 @@ namespace Doom
 			TEXT,
 			TEXTURE,
 			THREE_D_MODEL,
+			SHADER,
 		};
 
 		
@@ -56,6 +59,9 @@ namespace Doom
 		{
 
 		}
+
+		virtual inline void OnImportEndOnMainThread(){}
+		virtual inline void OnImportEndOnSubThread() {}
 	};
 }
 

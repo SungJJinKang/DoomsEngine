@@ -6,11 +6,12 @@
 namespace Doom
 {
 
-	struct TextAsset : public Asset
+	class TextAsset : public Asset
 	{
+	public:
 		std::string String;
 
-		TextAsset(std::string str)
+		TextAsset(const std::string& str)
 		{
 			this->String = str;
 		}

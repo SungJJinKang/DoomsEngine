@@ -4,9 +4,7 @@
 
 using namespace Doom;
 
-
-template<>
-std::optional <Asset::AssetTypeConditional_t<Asset::AssetType::TEXT>> Doom::AssetImporter<Asset::AssetType::TEXT>::ReadAssetFile(std::filesystem::path path, AssetImporter<Asset::AssetType::TEXT>* assetImporter)
+inline std::optional<std::string> GetTextFromFile(const std::filesystem::path& path)
 {
 	std::ifstream inputFileStream(path, std::ios::in | std::ios::binary | std::ios::ate);
 
@@ -19,6 +17,20 @@ std::optional <Asset::AssetTypeConditional_t<Asset::AssetType::TEXT>> Doom::Asse
 		inputFileStream.close();
 
 		return str;
+	}
+	else
+	{
+		return {};
+	}
+}
+
+template<>
+std::optional <Asset::AssetTypeConditional_t<Asset::AssetType::TEXT>> Doom::AssetImporter<Asset::AssetType::TEXT>::ReadAssetFile(std::filesystem::path path, AssetImporter<Asset::AssetType::TEXT>* assetImporter)
+{
+	auto str = GetTextFromFile(path);
+	if (str.has_value())
+	{
+		return *str;
 	}
 	else
 	{

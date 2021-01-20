@@ -1,7 +1,7 @@
 #pragma once
 #include <array>
 #include <type_traits>
-#include <map>
+#include <unordered_map>
 #include <utility>
 #include <optional>
 #include <filesystem>
@@ -13,28 +13,40 @@ namespace Doom
 	template <Doom::Asset::AssetType assetType>
 	class AssetContainer
 	{
-	private:
-		using type = Doom::Asset::AssetTypeConditional_t< assetType>;
-		static_assert(std::is_base_of_v<Doom::Asset, type>);
-		std::map<D_UUID, type> Assets;
-
 	public:
 
-		constexpr AssetContainer() : Assets{}
-		{
+		using asset_type = Doom::Asset::AssetTypeConditional_t< assetType>;
+	private:
+	
+		static_assert(std::is_base_of_v<Doom::Asset, asset_type>);
 
+		std::unordered_map<D_UUID, asset_type> Assets;
+
+		/// <summary>
+		/// if you want iterate assets, use this
+		/// </summary>
+		std::vector<typename std::unordered_map<D_UUID, asset_type>::iterator> AssetIterators;
+	public:
+		
+		constexpr AssetContainer() : Assets{}, AssetIterators{}
+		{
+			D_UUID::
 		}
 
-		inline void AddAsset(type&& asset)
+		inline void AddAsset(asset_type&& asset)
 		{
-			this->Assets.emplace(std::make_pair(asset.uuid, std::move(asset)));
+			AssetIterators.push_back(this->Assets.emplace(std::make_pair(asset.uuid, std::move(asset))).first);
 		}
 
 		
+		std::optional<asset_type&> GetAsset(const D_UUID& uuid);
+		std::optional<const asset_type&> GetAsset_const(const D_UUID& uuid) const;
 
-		std::optional<const type&> GetAsset(const D_UUID& uuid);
+		const std::vector<typename std::map<D_UUID, asset_type>::iterator>& GetAssets
 	};
-	
+
+
+
 	
 
 	class AssetManager
@@ -50,7 +62,6 @@ namespace Doom
 
 	public:
 		static void ImportEntireAsset();
-
 
 
 	};

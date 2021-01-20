@@ -84,18 +84,33 @@ namespace Doom
 		{"ply", Doom::Asset::AssetType::THREE_D_MODEL},
 		{"cob", Doom::Asset::AssetType::THREE_D_MODEL},
 		{"scn", Doom::Asset::AssetType::THREE_D_MODEL},
-
+		{"fbx", Doom::Asset::AssetType::THREE_D_MODEL},
 		//////////////////////////////////////////////////////////////////////////
 
 		{"txt", Doom::Asset::AssetType::TEXT},
-		{"glsl", Doom::Asset::AssetType::TEXT},
 		{"ini", Doom::Asset::AssetType::TEXT},
+
+		/////////////////////////////////////////////////////
+
+		{"glsl", Doom::Asset::AssetType::SHADER},
+
+		/////////////////////////////////////////////////////////
+
+		{"jpg", Doom::Asset::AssetType::TEXTURE},
+		{"jpeg", Doom::Asset::AssetType::TEXTURE},
+		{"png", Doom::Asset::AssetType::TEXTURE},
+		{"bmp", Doom::Asset::AssetType::TEXTURE},
+		{"psd", Doom::Asset::AssetType::TEXTURE},
+		{"tga", Doom::Asset::AssetType::TEXTURE},
+		{"hdr", Doom::Asset::AssetType::TEXTURE},
+		{"pic", Doom::Asset::AssetType::TEXTURE},
+		{"pnm", Doom::Asset::AssetType::TEXTURE},
+
 
 	};
 
 
 
-	
 
 	template <Asset::AssetType assetType>
 	struct ApiImporterTypeConditional
@@ -193,7 +208,7 @@ namespace Doom
 		{
 			if (threadPool == nullptr)
 			{
-				InitializeThreadPool(5);
+				InitializeThreadPool(1);
 			}
 
 			return threadPool;
@@ -340,7 +355,7 @@ namespace Doom
 			}
 
 			std::vector<std::function<std::optional<Asset::AssetTypeConditional_t<assetType>>()>> Tasks{};
-
+			Tasks.reserve(paths.size());
 			for (auto& path : paths)
 			{
 				Tasks.push_back(std::bind(&AssetImporter<assetType>::ReadAssetFile, this, path, this));
@@ -360,8 +375,7 @@ namespace Doom
 	inline std::optional<Doom::Asset::AssetType> GetAssetType(const std::filesystem::path& path)
 	{
 		if (path.has_extension())
-		{
-			auto extension = path.extension().string();
+		{auto extension = path.extension().string();
 			try
 			{
 				return AssetExtension.at(extension.substr(1, extension.length() - 1));
@@ -372,6 +386,7 @@ namespace Doom
 				return {};
 			}
 		}
+
 
 		return {};
 	}

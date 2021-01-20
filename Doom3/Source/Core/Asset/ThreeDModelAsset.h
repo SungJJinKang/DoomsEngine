@@ -10,7 +10,7 @@ namespace Doom
 {
 	struct ThreeDModelMesh;
 	struct ThreeDModelNode;
-	struct ThreeDModelAsset;
+	class ThreeDModelAsset;
 
 	struct ThreeDModelMesh
 	{
@@ -32,7 +32,7 @@ namespace Doom
 
 	struct ThreeDModelNode
 	{
-		ThreeDModelAsset* ThreeDModelAsset;
+		Doom::ThreeDModelAsset* ThreeDModelAsset;
 
 		std::string Name;
 
@@ -49,8 +49,9 @@ namespace Doom
 		unsigned int NumOfThreeDModelMeshes; 
 	};
 
-	struct ThreeDModelAsset : public Asset
+	class ThreeDModelAsset : public Asset
 	{
+	public:
 		ThreeDModelNode rootNode;
 
 		ThreeDModelMesh** ModelMeshes;

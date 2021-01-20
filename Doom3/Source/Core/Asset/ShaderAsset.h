@@ -2,11 +2,11 @@
 
 #include <string>
 
-#include "../Core.h"
+#include "Base_Asset.h"
 
 namespace Doom
 {
-	class Shader
+	class ShaderAsset : public Asset
 	{
 	private:
 
@@ -18,8 +18,7 @@ namespace Doom
 			Geometry
 		};
 
-
-		
+		std::string ShaderFileText;
 
 		static const std::string VertexShaderMacros;
 		static const std::string FragmentShaderMacros;
@@ -27,19 +26,26 @@ namespace Doom
 
 		unsigned int vertexId, fragmentId, geometryId;
 
-		bool isCompiled = false;
+		bool IsCompiled = false;
+		void CompileShader(const std::string& str);
 		void CompileSpecificShader(const std::string& shaderStr, ShaderType shaderType, unsigned int& shaderId);
 		std::array<std::string, 3> ClassifyShader(const std::string& str);
 		void checkCompileError(unsigned int id, ShaderType shaderType);
 
 	public:
-		Shader(const std::string& shaderStr);
+		ShaderAsset(const std::string& shaderStr);
 
-		Shader(const Shader& shader) = delete;
-		Shader(Shader&& shader) noexcept;
-		Shader operator=(const Shader& shader) = delete;
-		Shader& operator=(Shader&& shader) noexcept;
+		ShaderAsset(const ShaderAsset& shader) = delete;
+		ShaderAsset(ShaderAsset&& shader) noexcept;
+		ShaderAsset operator=(const ShaderAsset& shader) = delete;
+		ShaderAsset& operator=(ShaderAsset&& shader) noexcept;
 
-		~Shader();
+		~ShaderAsset();
+
+		void OnImportEndOnMainThread() final;
 	};
+
+	
+
+	template <> struct Asset::AssetTypeConditional<Asset::AssetType::SHADER> { using type = ShaderAsset; };
 }
