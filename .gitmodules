@@ -4,3 +4,6 @@
 [submodule "Doom3/Source/Core/Math/LightMath_Cpp"]
 	path = Doom3/Source/Core/Math/LightMath_Cpp
 	url = https://github.com/SungJJinKang/LightMath_Cpp.git
+[submodule "Doom3/Source/Helper/std_future_wrapper"]
+	path = Doom3/Source/Helper/std_future_wrapper
+	url = https://github.com/SungJJinKang/std_future_wrapper.git

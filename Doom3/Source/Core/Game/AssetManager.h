@@ -5,6 +5,8 @@
 #include <utility>
 #include <optional>
 #include <filesystem>
+#include <vector>
+#include <functional>
 
 #include "../Core.h"
 #include "../Asset/Asset.h"
@@ -22,29 +24,37 @@ namespace Doom
 
 		std::unordered_map<D_UUID, asset_type> Assets;
 
-		/// <summary>
-		/// if you want iterate assets, use this
-		/// </summary>
-		std::vector<typename std::unordered_map<D_UUID, asset_type>::iterator> AssetIterators;
+		std::vector<std::reference_wrapper<asset_type>> AssetsForIterating;
 	public:
 		
-		constexpr AssetContainer() : Assets{}, AssetIterators{}
+		constexpr AssetContainer() : Assets{}, AssetsForIterating{}
 		{
-			D_UUID::
+			
 		}
 
 		inline void AddAsset(asset_type&& asset)
 		{
-			AssetIterators.push_back(this->Assets.emplace(std::make_pair(asset.uuid, std::move(asset))).first);
+			auto pair = this->Assets.emplace(std::make_pair(asset.uuid, std::move(asset)));
+
+			if (pair.second == true)
+			{
+				AssetsForIterating.push_back(pair.first->second);
+			}
+			else
+			{
+				DEBUG_LOG("UUID is already inserted", LogType::D_ERROR);
+			}
+			
 		}
 
 		
 		std::optional<asset_type&> GetAsset(const D_UUID& uuid);
 		std::optional<const asset_type&> GetAsset_const(const D_UUID& uuid) const;
 
-		const std::vector<typename std::map<D_UUID, asset_type>::iterator>& GetAssets
+		const std::vector<asset_type&>& GetAssets();
 	};
 
+	
 
 
 	

@@ -80,7 +80,6 @@ void Doom::AssetManager::ImportEntireAsset()
 		{
 			AssetPaths[assetType.value()].push_back(std::move(path));
 		}
-		
 	}
 		
 	{
@@ -100,5 +99,11 @@ void Doom::AssetManager::ImportEntireAsset()
 		ImportAssetAndAddToContainer<Asset::AssetType::SHADER>(AssetPaths[Asset::AssetType::SHADER]);
 	}
 	
+	
 }
 
+template <Doom::Asset::AssetType assetType>
+const std::vector<typename Doom::AssetContainer<assetType>::asset_type&>& Doom::AssetContainer<assetType>::GetAssets()
+{
+	return AssetsForIterating;
+}

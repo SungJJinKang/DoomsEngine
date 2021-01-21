@@ -27,6 +27,10 @@ namespace Doom
 		unsigned int vertexId, fragmentId, geometryId;
 
 		bool IsCompiled = false;
+
+		/// <summary>
+		/// Don't call this subthread, Should Call this at mainthread
+		/// </summary>
 		void CompileShader(const std::string& str);
 		void CompileSpecificShader(const std::string& shaderStr, ShaderType shaderType, unsigned int& shaderId);
 		std::array<std::string, 3> ClassifyShader(const std::string& str);
