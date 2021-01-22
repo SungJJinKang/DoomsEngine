@@ -17,8 +17,8 @@ namespace Doom
 	class Asset
 	{
 	public:
-		static constexpr inline short int AssetTypeCount = 6;
-		enum AssetType : short int
+		
+		enum AssetType : unsigned int
 		{
 			AUDIO = 0,
 			FONT,
@@ -28,7 +28,11 @@ namespace Doom
 			SHADER,
 		};
 
-		
+		static constexpr inline AssetType FirstElementOfAssetType = AssetType::AUDIO;
+		static constexpr inline AssetType LastElementOfAssetType = AssetType::SHADER;
+		static constexpr inline unsigned int GetAssetTypeCount() {
+			return static_cast<unsigned int>(LastElementOfAssetType) + 1u;
+		}
 
 		template <Asset::AssetType assetType>
 		struct AssetTypeConditional;

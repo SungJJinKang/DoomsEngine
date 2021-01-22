@@ -7,11 +7,32 @@
 #include <filesystem>
 #include <vector>
 #include <functional>
+#include <future>
 
 #include "../Core.h"
 #include "../Asset/Asset.h"
 namespace Doom
 {
+	/*
+	
+	/// <summary>
+	/// This is for keeping future temporarily
+	/// Because if trying getting future block mainthread, So trying getting future should be called after pass every import job to threadpool 
+	/// </summary>
+	template <Doom::Asset::AssetType assetType>
+	class AssetFutureTempContainer
+	{
+	private:
+		std::vector<std::future<std::optional<Asset::AssetTypeConditional_t<assetType>>>> futures;
+	public:
+		AssetFutureTempContainer(const std::vector<std::future<std::optional<Asset::AssetTypeConditional_t<assetType>>>>& tempFutures)
+			: futures{std::move(tempFutures)}{}
+
+		~AssetFutureTempContainer();
+	};
+
+	*/
+
 	template <Doom::Asset::AssetType assetType>
 	class AssetContainer
 	{
@@ -32,7 +53,7 @@ namespace Doom
 			
 		}
 
-		inline void AddAsset(asset_type&& asset)
+		inline void AddAsset(const asset_type&& asset)
 		{
 			auto pair = this->Assets.emplace(std::make_pair(asset.uuid, std::move(asset)));
 
@@ -54,27 +75,35 @@ namespace Doom
 		const std::vector<asset_type&>& GetAssets();
 	};
 
-	
-
-
-	
-
 	class AssetManager
 	{
+		template<Asset::AssetType loopVariable> friend struct LoopJobFunctor;
+
 	private:
 		static const std::filesystem::path AssetFolderPath;
 
 		template <Asset::AssetType assetType>
-		static void ImportAssetAndAddToContainer(const std::vector<std::filesystem::path>& paths);
+		static constexpr AssetFutureTempContainer<assetType> ImportAssetAndAddToContainer(const std::vector<std::filesystem::path>& paths);
 
-		template <Asset::AssetType assetType>
-		static AssetContainer<assetType> ImportedAssets;
+		
 
 	public:
 		static void ImportEntireAsset();
-
+		template <Asset::AssetType assetType>
+		static AssetContainer<assetType> ImportedAssets;
 
 	};
+
+	template<Asset::AssetType loopVariable>
+	struct LoopJobFunctor
+	{
+		constexpr void operator()(const std::array<std::vector<std::filesystem::path>, Doom::Asset::GetAssetTypeCount()>& AssetPaths)
+		{
+			AssetManager::ImportAssetAndAddToContainer<loopVariable>(AssetPaths[loopVariable]);
+		}
+	};
+
 }
+
 
 

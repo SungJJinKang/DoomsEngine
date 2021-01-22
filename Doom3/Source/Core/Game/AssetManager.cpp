@@ -1,6 +1,19 @@
 #include "AssetManager.h"
 
 #include "../IO/AssetImporter/AssetImporter.h"
+#include "../../Helper/ForLoop_Compile_Time/ForLoop_Compile.h"
+template <Doom::Asset::AssetType assetType>
+Doom::AssetFutureTempContainer<assetType>::~AssetFutureTempContainer()
+{
+	for (auto& future : futures)
+	{
+		auto asset = future.get();
+		if (asset.has_value())
+		{
+			Doom::AssetManager::ImportedAssets<assetType>.AddAsset(std::move(asset.value()));
+		}
+	}
+}
 
 template <Doom::Asset::AssetType assetType>
 std::optional<typename AssetContainer<assetType>::asset_type&> AssetContainer<assetType>::GetAsset(const D_UUID& uuid)
@@ -46,28 +59,15 @@ template <Doom::Asset::AssetType assetType>
 Doom::AssetContainer<assetType> Doom::AssetManager::ImportedAssets{};
 
 template <Asset::AssetType assetType>
-void Doom::AssetManager::ImportAssetAndAddToContainer(const std::vector<std::filesystem::path>& paths)
+constexpr AssetFutureTempContainer<assetType> Doom::AssetManager::ImportAssetAndAddToContainer(const std::vector<std::filesystem::path>& paths)
 {
-	if (paths.size() == 0)
-		return;
-
 	AssetImporter<assetType> assetImporter{ };
-	auto ImportedAssetFutures = assetImporter.ImportAsset(paths);
-
-	for (auto& assetFuture : ImportedAssetFutures)
-	{
-		auto asset = assetFuture.get();
-		if (asset.has_value())
-		{
-			Doom::AssetManager::ImportedAssets<assetType>.AddAsset(std::move(asset.value()));
-		}
-	}
-	
+	return assetImporter.ImportAsset(paths);
 }
 
 void Doom::AssetManager::ImportEntireAsset()
 {
-	std::array<std::vector<std::filesystem::path>, Doom::Asset::AssetTypeCount> AssetPaths{};
+	std::array<std::vector<std::filesystem::path>, Doom::Asset::GetAssetTypeCount()> AssetPaths{};
 	
 	/// <summary>
 	/// Check file extension
@@ -85,21 +85,12 @@ void Doom::AssetManager::ImportEntireAsset()
 	{
 		AssetImporterThreadPool threadPool{ 5 };
 
-		//TODO : Some Assets need instantly Load, But The other Some Assets doesn't need instantly loading file, 
-		//TODO : At Game start, Some Assets can contain only uuid and asset file path.
-		//TODO : So Support Asset Data can be loaded later after GameInit,
-		//TODO : So Support data format containing uuid
-		//TODO : 
-
-		ImportAssetAndAddToContainer<Asset::AssetType::AUDIO>(AssetPaths[Asset::AssetType::AUDIO]);
-		ImportAssetAndAddToContainer<Asset::AssetType::FONT>(AssetPaths[Asset::AssetType::FONT]);
-		ImportAssetAndAddToContainer<Asset::AssetType::TEXT>(AssetPaths[Asset::AssetType::TEXT]);
-		ImportAssetAndAddToContainer<Asset::AssetType::TEXTURE>(AssetPaths[Asset::AssetType::TEXTURE]);
-		ImportAssetAndAddToContainer<Asset::AssetType::THREE_D_MODEL>(AssetPaths[Asset::AssetType::THREE_D_MODEL]);
-		ImportAssetAndAddToContainer<Asset::AssetType::SHADER>(AssetPaths[Asset::AssetType::SHADER]);
+		
+		ForLoop_CompileTime<Asset::AssetType>::LoopWithLoopVariable<Asset::FirstElementOfAssetType, Asset::LastElementOfAssetType, 1, LoopJobFunctor>(AssetPaths);
+	
 	}
 	
-	
+	//TODO : Every future should be get at here after pass all import job to threadpool
 }
 
 template <Doom::Asset::AssetType assetType>

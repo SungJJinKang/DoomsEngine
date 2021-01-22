@@ -268,13 +268,14 @@
     <ClInclude Include="Source\Core\Math\VeryLight_Math_For_Game\Vector4.h" />
     <ClInclude Include="Source\Core\Random.h" />
     <ClInclude Include="Source\Helper\DeferredConstant\DeferredConstant.h" />
-    <ClInclude Include="Source\Helper\FutureWrapper\DummyFuture.h" />
-    <ClInclude Include="Source\Helper\FutureWrapper\CustomFutureWrapper.h" />
-    <ClInclude Include="Source\Helper\FutureWrapper\FutureWrapper.h" />
-    <ClInclude Include="Source\Helper\FutureWrapper\shared_future\DummySharedFuture.h" />
-    <ClInclude Include="Source\Helper\FutureWrapper\shared_future\CustomSharedFuture.h" />
-    <ClInclude Include="Source\Helper\FutureWrapper\shared_future\StdSharedFuture.h" />
-    <ClInclude Include="Source\Helper\FutureWrapper\StdFuture.h" />
+    <ClInclude Include="Source\Helper\ForLoop_Compile_Time\ForLoop_Compile.h" />
+    <ClInclude Include="Source\Helper\std_future_wrapper\CustomFutureWrapper.h" />
+    <ClInclude Include="Source\Helper\std_future_wrapper\DummyFuture.h" />
+    <ClInclude Include="Source\Helper\std_future_wrapper\FutureWrapper.h" />
+    <ClInclude Include="Source\Helper\std_future_wrapper\shared_future\CustomSharedFuture.h" />
+    <ClInclude Include="Source\Helper\std_future_wrapper\shared_future\DummySharedFuture.h" />
+    <ClInclude Include="Source\Helper\std_future_wrapper\shared_future\StdSharedFuture.h" />
+    <ClInclude Include="Source\Helper\std_future_wrapper\StdFuture.h" />
     <ClInclude Include="Source\Helper\ThreadPool_Cpp\ThreadPool.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="Source\Core\Asset\Base_Asset.h" />
@@ -426,6 +427,10 @@
     <None Include="config.ini" />
     <None Include="Source\Helper\DeferredConstant\.git" />
     <None Include="Source\Helper\DeferredConstant\README.md" />
+    <None Include="Source\Helper\ForLoop_Compile_Time\.git" />
+    <None Include="Source\Helper\ForLoop_Compile_Time\README.md" />
+    <None Include="Source\Helper\std_future_wrapper\.git" />
+    <None Include="Source\Helper\std_future_wrapper\README.md" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

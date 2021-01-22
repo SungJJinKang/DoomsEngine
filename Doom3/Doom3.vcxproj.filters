@@ -350,18 +350,6 @@
     <ClInclude Include="Source\Core\CoreComponent\Entity.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Helper\FutureWrapper\shared_future\DummySharedFuture.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Helper\FutureWrapper\shared_future\StdSharedFuture.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Helper\FutureWrapper\DummyFuture.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Helper\FutureWrapper\StdFuture.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Helper\DeferredConstant\DeferredConstant.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -392,13 +380,28 @@
     <ClInclude Include="Source\Core\IO\AssetImporter\AssetImporter_Shader.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Helper\FutureWrapper\shared_future\CustomSharedFuture.h">
+    <ClInclude Include="Source\Helper\std_future_wrapper\CustomFutureWrapper.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Helper\FutureWrapper\CustomFutureWrapper.h">
+    <ClInclude Include="Source\Helper\std_future_wrapper\DummyFuture.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Helper\FutureWrapper\FutureWrapper.h">
+    <ClInclude Include="Source\Helper\std_future_wrapper\FutureWrapper.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Helper\std_future_wrapper\StdFuture.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Helper\std_future_wrapper\shared_future\CustomSharedFuture.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Helper\std_future_wrapper\shared_future\DummySharedFuture.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Helper\std_future_wrapper\shared_future\StdSharedFuture.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Helper\ForLoop_Compile_Time\ForLoop_Compile.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -529,5 +532,9 @@
     <None Include="config.ini" />
     <None Include="Source\Helper\DeferredConstant\.git" />
     <None Include="Source\Helper\DeferredConstant\README.md" />
+    <None Include="Source\Helper\std_future_wrapper\.git" />
+    <None Include="Source\Helper\std_future_wrapper\README.md" />
+    <None Include="Source\Helper\ForLoop_Compile_Time\.git" />
+    <None Include="Source\Helper\ForLoop_Compile_Time\README.md" />
   </ItemGroup>
 </Project>
