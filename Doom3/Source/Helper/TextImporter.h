@@ -1,8 +1,8 @@
 #pragma once
-#include "AssetImporterBase.h"
-#include "../../Asset/TextAsset.h"
-
-using namespace Doom;
+#include <optional>
+#include <string>
+#include <filesystem>
+#include <fstream>
 
 inline std::optional<std::string> GetTextFromFile(const std::filesystem::path& path)
 {
@@ -17,20 +17,6 @@ inline std::optional<std::string> GetTextFromFile(const std::filesystem::path& p
 		inputFileStream.close();
 
 		return str;
-	}
-	else
-	{
-		return {};
-	}
-}
-
-template<>
-std::optional <Asset::AssetTypeConditional_t<Asset::AssetType::TEXT>> Doom::AssetImporter<Asset::AssetType::TEXT>::ReadAssetFile(std::filesystem::path path, AssetImporter<Asset::AssetType::TEXT>* assetImporter)
-{
-	auto str = GetTextFromFile(path);
-	if (str.has_value())
-	{
-		return *str;
 	}
 	else
 	{

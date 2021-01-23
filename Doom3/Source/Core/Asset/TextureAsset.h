@@ -7,7 +7,7 @@ namespace Doom
 	{
 	};
 
-	template <> struct Asset::AssetTypeConditional<Asset::AssetType::TEXTURE> { using type = typename TextureAsset; };
+	template <> struct Asset::asset_type<Asset::AssetType::TEXTURE> { using type = typename TextureAsset; };
 }
 
 

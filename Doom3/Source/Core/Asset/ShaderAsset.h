@@ -51,5 +51,5 @@ namespace Doom
 
 	
 
-	template <> struct Asset::AssetTypeConditional<Asset::AssetType::SHADER> { using type = ShaderAsset; };
+	template <> struct Asset::asset_type<Asset::AssetType::SHADER> { using type = ShaderAsset; };
 }

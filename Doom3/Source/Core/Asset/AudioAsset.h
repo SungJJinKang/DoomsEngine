@@ -7,6 +7,6 @@ namespace Doom
 	class AudioAsset : public Asset
 	{
 	};
-	template <> struct Asset::AssetTypeConditional<Asset::AssetType::AUDIO> { using type = AudioAsset; };
+	template <> struct Asset::asset_type<Asset::AssetType::AUDIO> { using type = AudioAsset; };
 }
 

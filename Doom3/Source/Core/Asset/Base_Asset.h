@@ -35,10 +35,13 @@ namespace Doom
 		}
 
 		template <Asset::AssetType assetType>
-		struct AssetTypeConditional;
+		struct asset_type
+		{
+			using type = void;
+		};
 
-		template <AssetType assetType>
-		using AssetTypeConditional_t = typename AssetTypeConditional<assetType>::type;
+		template <Asset::AssetType assetType>
+		using asset_type_t = typename asset_type<assetType>::type;
 
 		D_UUID uuid;
 		std::string AssetName;

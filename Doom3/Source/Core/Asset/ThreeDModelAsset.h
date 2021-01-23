@@ -61,7 +61,7 @@ namespace Doom
 
 	};
 
-	template <> struct Asset::AssetTypeConditional<Asset::AssetType::THREE_D_MODEL> { using type = typename ThreeDModelAsset; };
+	template <> struct Asset::asset_type<Asset::AssetType::THREE_D_MODEL> { using type = typename ThreeDModelAsset; };
 }
 
 

@@ -8,3 +8,4 @@
 #include "TextAsset.h"
 #include "TextureAsset.h"
 #include "ThreeDModelAsset.h"
+#include "ShaderAsset.h"
