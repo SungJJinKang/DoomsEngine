@@ -4,12 +4,12 @@
 
 #include "../../Asset/AudioAsset.h"
 
-namespace Doom
+namespace doom
 {
-	namespace AssetImporter
+	namespace assetimporter
 	{
 		template <>
-		inline std::optional<Asset::asset_type_t<Asset::AssetType::AUDIO>> ReadAssetFile<Asset::AssetType::AUDIO>(std::filesystem::path path)
+		inline std::optional<Asset::asset_type_t<Asset::eAssetType::AUDIO>> ReadAssetFile<Asset::eAssetType::AUDIO>(std::filesystem::path path)
 		{
 			return {};
 		}

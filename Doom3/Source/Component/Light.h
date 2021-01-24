@@ -1,6 +1,6 @@
 #pragma once
 
-namespace Doom
+namespace doom
 {
 	class Light
 	{

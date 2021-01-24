@@ -5,11 +5,11 @@
 
 #include "../API/OpenglAPI.h"
 #include "../Core.h"
-const std::string Doom::ShaderAsset::VertexShaderMacros = "#VERTEX";
-const std::string Doom::ShaderAsset::FragmentShaderMacros = "#FRAGMENT";
-const std::string Doom::ShaderAsset::GeometryShaderMacros = "#GEOMETRY";
+const std::string doom::ShaderAsset::VertexShaderMacros = "#VERTEX";
+const std::string doom::ShaderAsset::FragmentShaderMacros = "#FRAGMENT";
+const std::string doom::ShaderAsset::GeometryShaderMacros = "#GEOMETRY";
 
-void Doom::ShaderAsset::CompileShader(const std::string& str)
+void doom::ShaderAsset::CompileShader(const std::string& str)
 {
 	std::array<std::string, 3> shaders = this->ClassifyShader(str);
 	if (shaders[0].size() != 0)
@@ -28,7 +28,7 @@ void Doom::ShaderAsset::CompileShader(const std::string& str)
 	}
 }
 
-void Doom::ShaderAsset::CompileSpecificShader(const std::string& shaderStr, ShaderType shaderType, unsigned int& shaderId)
+void doom::ShaderAsset::CompileSpecificShader(const std::string& shaderStr, ShaderType shaderType, unsigned int& shaderId)
 {
 	unsigned int shaderTypeFlag{};
 	if (shaderType == ShaderType::Vertex)
@@ -60,7 +60,7 @@ void Doom::ShaderAsset::CompileSpecificShader(const std::string& shaderStr, Shad
 
 
 
-std::array<std::string, 3> Doom::ShaderAsset::ClassifyShader(const std::string& str)
+std::array<std::string, 3> doom::ShaderAsset::ClassifyShader(const std::string& str)
 {
 	std::istringstream inputStringStream{ str };
 	std::string line;
@@ -130,7 +130,7 @@ std::array<std::string, 3> Doom::ShaderAsset::ClassifyShader(const std::string& 
 	
 }
 
-void Doom::ShaderAsset::checkCompileError(unsigned int id, ShaderType shaderType)
+void doom::ShaderAsset::checkCompileError(unsigned int id, ShaderType shaderType)
 {
 	int success;
 	char infoLog[1024];
@@ -158,17 +158,17 @@ void Doom::ShaderAsset::checkCompileError(unsigned int id, ShaderType shaderType
 	}
 }
 
-Doom::ShaderAsset::ShaderAsset(const std::string& shaderStr) : vertexId{ 0 }, fragmentId{ 0 }, geometryId{ 0 }, IsCompiled{ false }, ShaderFileText{ shaderStr }
+doom::ShaderAsset::ShaderAsset(const std::string& shaderStr) : vertexId{ 0 }, fragmentId{ 0 }, geometryId{ 0 }, IsCompiled{ false }, ShaderFileText{ shaderStr }
 {
 	
 }
 
-void Doom::ShaderAsset::OnImportEndOnMainThread()
+void doom::ShaderAsset::OnImportEndOnMainThread()
 {
 	this->CompileShader(this->ShaderFileText);
 }
 
-Doom::ShaderAsset::ShaderAsset(ShaderAsset&& shader) noexcept
+doom::ShaderAsset::ShaderAsset(ShaderAsset&& shader) noexcept
 {
 	this->vertexId = shader.vertexId;
 	shader.vertexId = 0;
@@ -183,7 +183,7 @@ Doom::ShaderAsset::ShaderAsset(ShaderAsset&& shader) noexcept
 	shader.IsCompiled = false;
 }
 
-Doom::ShaderAsset& Doom::ShaderAsset::operator=(ShaderAsset&& shader) noexcept
+doom::ShaderAsset& doom::ShaderAsset::operator=(ShaderAsset&& shader) noexcept
 {
 	this->vertexId = shader.vertexId;
 	shader.vertexId = 0;
@@ -200,7 +200,7 @@ Doom::ShaderAsset& Doom::ShaderAsset::operator=(ShaderAsset&& shader) noexcept
 	return *this;
 }
 
-Doom::ShaderAsset::~ShaderAsset()
+doom::ShaderAsset::~ShaderAsset()
 {
 	if(this->vertexId != 0)
 		glDeleteShader(this->vertexId);

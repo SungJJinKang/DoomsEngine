@@ -2,7 +2,7 @@
 #include <random>
 
 
-namespace Doom
+namespace doom
 {
 	class Random
 	{

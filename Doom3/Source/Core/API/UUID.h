@@ -2,7 +2,7 @@
 
 #include "../../dependency/uuid/sole/sole.hpp"
 
-namespace Doom
+namespace doom
 {
 	using D_UUID = sole::uuid;
 	inline D_UUID GenerateUUID()

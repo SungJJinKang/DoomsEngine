@@ -1,7 +1,7 @@
 #include "AssetImporter.h"
 
-using namespace Doom;
-using namespace AssetImporter;
+using namespace doom;
+using namespace assetimporter;
 
 Assetimporter::Assetimporter(size_t poolSize)
 {
@@ -50,7 +50,7 @@ bool Assetimporter::IsThreadPoolInitialized()
 	return static_cast<bool>(threadPool);
 }
 
-std::optional<Doom::Asset::AssetType> Doom::AssetImporter::GetAssetType(const std::filesystem::path& path)
+std::optional<doom::Asset::eAssetType> doom::assetimporter::GetAssetType(const std::filesystem::path& path)
 {
 	if (path.has_extension())
 	{

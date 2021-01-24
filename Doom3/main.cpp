@@ -3,7 +3,7 @@
 #include "Source/Core/Game/GameFlow.h"
 
 
-using namespace Doom;
+using namespace doom;
 
 void ExitGame();
 

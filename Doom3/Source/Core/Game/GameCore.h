@@ -4,9 +4,13 @@
 
 class IniData;
 
-namespace Doom
+namespace doom
 {
-	class Graphics;
+	namespace graphics 
+	{
+		class Graphics;
+	}
+
 	class GameFlow;
 
 	class GameCore
@@ -16,7 +20,7 @@ namespace Doom
 		static IniData ConfigData;
 
 	public:
-		friend class Graphics;
+		friend class ::doom::graphics::Graphics;
 
 		static void Init();
 		

@@ -6,7 +6,7 @@
 
 using namespace Math;
 
-namespace Doom
+namespace doom
 {
 	struct ThreeDModelMesh;
 	struct ThreeDModelNode;
@@ -32,7 +32,7 @@ namespace Doom
 
 	struct ThreeDModelNode
 	{
-		Doom::ThreeDModelAsset* ThreeDModelAsset;
+		doom::ThreeDModelAsset* ThreeDModelAsset;
 
 		std::string Name;
 
@@ -61,7 +61,7 @@ namespace Doom
 
 	};
 
-	template <> struct Asset::asset_type<Asset::AssetType::THREE_D_MODEL> { using type = typename ThreeDModelAsset; };
+	template <> struct Asset::asset_type<Asset::eAssetType::THREE_D_MODEL> { using type = typename ThreeDModelAsset; };
 }
 
 

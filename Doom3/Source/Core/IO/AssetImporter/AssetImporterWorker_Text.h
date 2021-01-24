@@ -8,12 +8,12 @@
 
 #include "../../../Helper/TextImporter.h"
 
-namespace Doom
+namespace doom
 {
-	namespace AssetImporter
+	namespace assetimporter
 	{
 		template<>
-		inline std::optional <Asset::asset_type_t<Asset::AssetType::TEXT>> ReadAssetFile<Asset::AssetType::TEXT>(std::filesystem::path path)
+		inline std::optional <Asset::asset_type_t<Asset::eAssetType::TEXT>> ReadAssetFile<Asset::eAssetType::TEXT>(std::filesystem::path path)
 		{
 			auto str = GetTextFromFile(path);
 			if (str.has_value())

@@ -1,7 +1,7 @@
 #pragma once
 #include "../Core.h"
 
-namespace Doom
+namespace doom
 {
 	class GameCore;
 	class GameFlow 

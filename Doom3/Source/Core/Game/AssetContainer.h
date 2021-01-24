@@ -7,9 +7,9 @@
 #include "../Asset/Asset.h"
 
 
-namespace Doom
+namespace doom
 {
-	template <Asset::AssetType assetType>
+	template <Asset::eAssetType assetType>
 	class AssetContainer
 	{
 		using this_asset_type_t = Asset::asset_type_t<assetType>;
@@ -43,7 +43,7 @@ namespace Doom
 			}
 			else
 			{
-				DEBUG_LOG("UUID is already inserted", LogType::D_ERROR);
+				DEBUG_LOG("UUID is already inserted", log::LogType::D_ERROR);
 			}
 		}
 

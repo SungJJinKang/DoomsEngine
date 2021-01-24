@@ -3,13 +3,15 @@
 #include "../API/OpenglAPI.h"
 #include "../../Helper/IniParser.h"
 
-using namespace Doom;
+
+using namespace doom::graphics;
 
 GLFWwindow* Graphics::Window{};
 int Graphics::SCREEN_WIDTH{};
 int Graphics::SCREEN_HEIGHT{};
+bool Is_MULTI_SAMPLE{};
 
-void Graphics::Init()
+void Graphics::Init() noexcept
 {
 	Graphics::SCREEN_WIDTH = GameCore::ConfigData.GetValue<int>("Graphics", "SCREEN_WIDHT");
 	Graphics::SCREEN_HEIGHT = GameCore::ConfigData.GetValue<int>("Graphics", "SCREEN_HEIGHT");
@@ -50,15 +52,15 @@ void Graphics::Init()
 	glfwSetInputMode(Window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
 	//
 
-	Graphics::Enable(Graphics::Capability::DEPTH_TEST);
+	Graphics::Enable(Graphics::eCapability::DEPTH_TEST);
 
-	Graphics::Enable(Graphics::Capability::BLEND);
-	Graphics::BlendFunc(Graphics::SourceFactor::SRC_ALPHA, Graphics::DestinationFactor::ONE_MINUS_SRC_ALPHA);
+	Graphics::Enable(Graphics::eCapability::BLEND);
+	Graphics::BlendFunc(Graphics::eSourceFactor::SRC_ALPHA, Graphics::eDestinationFactor::ONE_MINUS_SRC_ALPHA);
 
-	Graphics::Enable(Graphics::Capability::CULL_FACE);
-	Graphics::CullFace(Graphics::CullFaceMode::BACK);
+	Graphics::Enable(Graphics::eCapability::CULL_FACE);
+	Graphics::CullFace(Graphics::eCullFaceMode::BACK);
 	
-	Graphics::FrontFace(Graphics::FrontFaceMode::CCW);
+	Graphics::FrontFace(Graphics::eFrontFaceMode::CCW);
 
 	return;
 }

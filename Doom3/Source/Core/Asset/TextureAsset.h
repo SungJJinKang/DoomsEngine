@@ -1,13 +1,13 @@
 #pragma once
 #include "Base_Asset.h"
 
-namespace Doom
+namespace doom
 {
 	class TextureAsset : public Asset
 	{
 	};
 
-	template <> struct Asset::asset_type<Asset::AssetType::TEXTURE> { using type = typename TextureAsset; };
+	template <> struct Asset::asset_type<Asset::eAssetType::TEXTURE> { using type = typename TextureAsset; };
 }
 
 

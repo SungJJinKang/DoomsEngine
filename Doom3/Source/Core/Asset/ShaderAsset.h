@@ -4,7 +4,7 @@
 
 #include "Base_Asset.h"
 
-namespace Doom
+namespace doom
 {
 	class ShaderAsset : public Asset
 	{
@@ -51,5 +51,5 @@ namespace Doom
 
 	
 
-	template <> struct Asset::asset_type<Asset::AssetType::SHADER> { using type = ShaderAsset; };
+	template <> struct Asset::asset_type<Asset::eAssetType::SHADER> { using type = ShaderAsset; };
 }

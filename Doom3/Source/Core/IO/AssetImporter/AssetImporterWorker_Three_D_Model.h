@@ -9,14 +9,14 @@
 
 #include <thread>
 
-namespace Doom
+namespace doom
 {
-	namespace AssetImporter
+	namespace assetimporter
 	{
-		template <> struct api_importer_type<Asset::AssetType::THREE_D_MODEL> { using type = typename Assimp::Importer; };
+		template <> struct api_importer_type<Asset::eAssetType::THREE_D_MODEL> { using type = typename Assimp::Importer; };
 
 		template<>
-		void AssetApiImporter<Asset::AssetType::THREE_D_MODEL>::InitApiImporter(api_importer_type_t<Asset::AssetType::THREE_D_MODEL>& apiImporter)
+		void AssetApiImporter<Asset::eAssetType::THREE_D_MODEL>::InitApiImporter(api_importer_type_t<Asset::eAssetType::THREE_D_MODEL>& apiImporter)
 		{
 			apiImporter.SetPropertyInteger(AI_CONFIG_PP_RVC_FLAGS,
 				aiComponent_COLORS |
@@ -56,7 +56,7 @@ namespace Doom
 			for (unsigned int childrenIndex = 0; childrenIndex < currentAssimpNode->mNumChildren; childrenIndex++)
 			{
 				currentNode->ThreeDModelNodeChildrens[childrenIndex] = new ThreeDModelNode();
-				Doom::AssetImporter::SetThreeDModelNodesData(currentNode->ThreeDModelNodeChildrens[childrenIndex], currentAssimpNode->mChildren[childrenIndex], currentNode, modelAsset, assimpScene);
+				doom::assetimporter::SetThreeDModelNodesData(currentNode->ThreeDModelNodeChildrens[childrenIndex], currentAssimpNode->mChildren[childrenIndex], currentNode, modelAsset, assimpScene);
 			}
 		}
 
@@ -76,7 +76,7 @@ namespace Doom
 
 
 		template<>
-		inline std::optional<Asset::asset_type_t<Asset::AssetType::THREE_D_MODEL>> ReadAssetFile<Asset::AssetType::THREE_D_MODEL>(std::filesystem::path path)
+		inline std::optional<Asset::asset_type_t<Asset::eAssetType::THREE_D_MODEL>> ReadAssetFile<Asset::eAssetType::THREE_D_MODEL>(std::filesystem::path path)
 		{
 			std::stringstream stream;
 			stream  << std::this_thread::get_id();
@@ -98,7 +98,7 @@ namespace Doom
 				IsAssimpDebuggerInitialized = true;
 			}
 #endif
-			AssetApiImporter<Asset::AssetType::THREE_D_MODEL> apiImporter = AssetApiImporter<Asset::AssetType::THREE_D_MODEL>::GetApiImporter();
+			AssetApiImporter<Asset::eAssetType::THREE_D_MODEL> apiImporter = AssetApiImporter<Asset::eAssetType::THREE_D_MODEL>::GetApiImporter();
 
 			/* Do this AssetImporter Constructor
 			apiImporter->SetPropertyInteger("AI_CONFIG_PP_RVC_FLAGS",
@@ -127,7 +127,7 @@ namespace Doom
 				aiProcess_ImproveCacheLocality
 			);
 
-			Asset::asset_type_t<Asset::AssetType::THREE_D_MODEL> asset{};
+			Asset::asset_type_t<Asset::eAssetType::THREE_D_MODEL> asset{};
 
 			//scene->mMeshes[0]->
 			// If the import failed, report it

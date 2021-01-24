@@ -4,12 +4,12 @@
 
 #include "AssetManager.h"
 
-const char* Doom::GameCore::configFilePath{};
-IniData Doom::GameCore::ConfigData{};
+const char* doom::GameCore::configFilePath{};
+IniData doom::GameCore::ConfigData{};
 
-void Doom::GameCore::Init()
+void doom::GameCore::Init()
 {
-	Doom::GameCore::ConfigData = { IniParser::ParseIniFile(GET_RELATIVE_PATH("config.ini")) };
+	doom::GameCore::ConfigData = { IniParser::ParseIniFile(GET_RELATIVE_PATH("config.ini")) };
 
 
 	AssetManager::ImportEntireAsset();

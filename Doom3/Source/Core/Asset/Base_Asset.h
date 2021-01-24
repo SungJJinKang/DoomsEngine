@@ -5,7 +5,7 @@
 #include "../Core.h"
 #include "../API/UUID.h"
 
-namespace Doom
+namespace doom
 {
 
 	class AudioAsset;
@@ -18,7 +18,7 @@ namespace Doom
 	{
 	public:
 		
-		enum AssetType : unsigned int
+		enum eAssetType : unsigned int
 		{
 			AUDIO = 0,
 			FONT,
@@ -28,19 +28,19 @@ namespace Doom
 			SHADER,
 		};
 
-		static constexpr inline AssetType FirstElementOfAssetType = AssetType::AUDIO;
-		static constexpr inline AssetType LastElementOfAssetType = AssetType::SHADER;
+		static constexpr inline eAssetType FirstElementOfAssetType = eAssetType::AUDIO;
+		static constexpr inline eAssetType LastElementOfAssetType = eAssetType::SHADER;
 		static constexpr inline unsigned int GetAssetTypeCount() {
 			return static_cast<unsigned int>(LastElementOfAssetType) + 1u;
 		}
 
-		template <Asset::AssetType assetType>
+		template <Asset::eAssetType assetType>
 		struct asset_type
 		{
 			using type = void;
 		};
 
-		template <Asset::AssetType assetType>
+		template <Asset::eAssetType assetType>
 		using asset_type_t = typename asset_type<assetType>::type;
 
 		D_UUID uuid;

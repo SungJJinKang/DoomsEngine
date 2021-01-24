@@ -6,14 +6,14 @@
 #include "../../Helper/ForLoop_Compile_Time/ForLoop_Compile.h"
 
 
-const std::filesystem::path Doom::AssetManager::AssetFolderPath{ ASSET_FOLDER_DIRECTORY };
+const std::filesystem::path doom::AssetManager::AssetFolderPath{ ASSET_FOLDER_DIRECTORY };
 
 
 
 
-void Doom::AssetManager::ImportEntireAsset()
+void doom::AssetManager::ImportEntireAsset()
 {
-	std::array<std::vector<std::filesystem::path>, Doom::Asset::GetAssetTypeCount()> AssetPaths{};
+	std::array<std::vector<std::filesystem::path>, doom::Asset::GetAssetTypeCount()> AssetPaths{};
 	
 	/// <summary>
 	/// Check file extension
@@ -21,7 +21,7 @@ void Doom::AssetManager::ImportEntireAsset()
 	for (const auto& entry : std::filesystem::recursive_directory_iterator(AssetFolderPath))
 	{
 		std::filesystem::path path = entry.path();
-		auto assetType = Doom::AssetImporter::GetAssetType(path);
+		auto assetType = doom::assetimporter::GetAssetType(path);
 		if (assetType.has_value())
 		{
 			AssetPaths[assetType.value()].push_back(std::move(path));
@@ -29,10 +29,10 @@ void Doom::AssetManager::ImportEntireAsset()
 	}
 		
 	{
-		Doom::AssetImporter::Assetimporter threadPool{ 5 };
+		doom::assetimporter::Assetimporter threadPool{ 5 };
 
-		ForLoop_CompileTime<Asset::AssetType>::Loop<Asset::FirstElementOfAssetType, Asset::LastElementOfAssetType, 1, Doom::AssetManager::ImportAssetFutureFunctor>(AssetPaths);
-		ForLoop_CompileTime<Asset::AssetType>::Loop<Asset::FirstElementOfAssetType, Asset::LastElementOfAssetType, 1, Doom::AssetManager::GetAssetFutureFunctor>();
+		ForLoop_CompileTime<Asset::eAssetType>::Loop<Asset::FirstElementOfAssetType, Asset::LastElementOfAssetType, 1, doom::AssetManager::ImportAssetFutureFunctor>(AssetPaths);
+		ForLoop_CompileTime<Asset::eAssetType>::Loop<Asset::FirstElementOfAssetType, Asset::LastElementOfAssetType, 1, doom::AssetManager::GetAssetFutureFunctor>();
 
 	}
 

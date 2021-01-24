@@ -3,7 +3,7 @@
 #include "Base_Asset.h"
 #include <string>
 
-namespace Doom
+namespace doom
 {
 
 	class TextAsset : public Asset
@@ -17,5 +17,5 @@ namespace Doom
 		}
 
 	};
-	template <> struct Asset::asset_type<Asset::AssetType::TEXT> { using type = typename TextAsset; };
+	template <> struct Asset::asset_type<Asset::eAssetType::TEXT> { using type = typename TextAsset; };
 }

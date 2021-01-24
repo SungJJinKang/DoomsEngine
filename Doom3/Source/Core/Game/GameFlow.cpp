@@ -1,25 +1,25 @@
 #include "GameFlow.h"
 
-#include "../Grahpics/Graphics.h"
+#include "../Graphics/Graphics.h"
 
-void Doom::GameFlow::Init()
+void doom::GameFlow::Init()
 {
-	Graphics::Init();
+	graphics::Graphics::Init();
 }
 
-void Doom::GameFlow::Loop()
+void doom::GameFlow::Loop()
 
 {
-	if (!glfwWindowShouldClose(Graphics::Window))
+	if (!glfwWindowShouldClose(graphics::Graphics::Window))
 	{
-		Graphics::ClearColor(1.0f, 1.0f, 1.0f, 1.0f);
-		Graphics::Clear(Graphics::ClearMask::COLOR_BUFFER_BIT, Graphics::ClearMask::DEPTH_BUFFER_BIT);
+		graphics::Graphics::ClearColor(1.0f, 1.0f, 1.0f, 1.0f);
+		graphics::Graphics::Clear(graphics::Graphics::eClearMask::COLOR_BUFFER_BIT, graphics::Graphics::eClearMask::DEPTH_BUFFER_BIT);
 
 
 
 		// glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)
 		// -------------------------------------------------------------------------------
-		glfwSwapBuffers(Graphics::Window);
+		glfwSwapBuffers(graphics::Graphics::Window);
 		glfwPollEvents();
 
 		return;

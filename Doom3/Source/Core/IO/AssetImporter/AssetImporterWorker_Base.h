@@ -7,11 +7,11 @@
 #include "../../../Helper/ThreadPool_Cpp/ThreadPool.h"
 
 
-namespace Doom
+namespace doom
 {
-	namespace AssetImporter
+	namespace assetimporter
 	{
-		template <Asset::AssetType assetType>
+		template <Asset::eAssetType assetType>
 		inline std::optional<Asset::asset_type_t<assetType>> ReadAssetFile(std::filesystem::path path);
 	}
 }

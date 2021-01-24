@@ -1,12 +1,12 @@
 #include "AssetContainer.h"
 
 
-using namespace Doom;
+using namespace doom;
 
 
 
 
-template <Asset::AssetType assetType>
+template <Asset::eAssetType assetType>
 std::optional<typename AssetContainer<assetType>::this_asset_type_t&> AssetContainer<assetType>::GetAsset(const D_UUID& uuid)
 {
 	try
@@ -20,12 +20,12 @@ std::optional<typename AssetContainer<assetType>::this_asset_type_t&> AssetConta
 	}
 	catch (...)
 	{
-		DEBUG_LOG("Unknown Error", LogType::D_ERROR);
+		DEBUG_LOG("Unknown Error", log::LogType::D_ERROR);
 		return {};
 	}
 }
 
-template <Asset::AssetType assetType>
+template <Asset::eAssetType assetType>
 std::optional<const typename AssetContainer<assetType>::this_asset_type_t&> AssetContainer<assetType>::GetAsset_const(const D_UUID& uuid) const
 {
 	try
@@ -39,13 +39,13 @@ std::optional<const typename AssetContainer<assetType>::this_asset_type_t&> Asse
 	}
 	catch (...)
 	{
-		DEBUG_LOG("Unknown Error", LogType::D_ERROR);
+		DEBUG_LOG("Unknown Error", log::LogType::D_ERROR);
 		return {};
 	}
 }
 
-template <Doom::Asset::AssetType assetType>
-const std::vector<typename Doom::AssetContainer<assetType>::this_asset_type_t&>& Doom::AssetContainer<assetType>::GetAssets()
+template <doom::Asset::eAssetType assetType>
+const std::vector<typename doom::AssetContainer<assetType>::this_asset_type_t&>& doom::AssetContainer<assetType>::GetAssets()
 {
 	return AssetsForIterating;
 }

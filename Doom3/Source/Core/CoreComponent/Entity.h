@@ -8,7 +8,7 @@
 #include "../Core.h"
 #include "../../Component/Component.h"
 
-namespace Doom
+namespace doom
 {
 	class Transform;
 	class Entity
@@ -26,7 +26,7 @@ namespace Doom
 #ifdef DEBUG_MODE
 			if (component->isAddedToEntity == true)
 			{
-				DEBUG_LOG("Component is alread added", LogType::D_ERROR);
+				DEBUG_LOG("Component is alread added", log::LogType::D_ERROR);
 				return nullptr;
 			}
 #endif

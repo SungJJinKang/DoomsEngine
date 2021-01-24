@@ -8,9 +8,9 @@
 
 #include "../../../Helper/ForLoop_Compile_Time/ForLoop_Compile.h"
 
-namespace Doom
+namespace doom
 {
-	namespace AssetImporter
+	namespace assetimporter
 	{
 		class DummyApiImporter
 		{
@@ -20,19 +20,19 @@ namespace Doom
 		inline DummyApiImporter _DummyApiImporter{};
 
 
-		template <Asset::AssetType assetType>
+		template <Asset::eAssetType assetType>
 		struct api_importer_type
 		{
 			using type = typename DummyApiImporter;
 		};
 
-		template <Asset::AssetType assetType>
+		template <Asset::eAssetType assetType>
 		using api_importer_type_t = typename api_importer_type<assetType>::type;
 
 		/// <summary>
 		/// RAII
 		/// </summary>
-		template <Asset::AssetType assetType>
+		template <Asset::eAssetType assetType>
 		class AssetApiImporter
 		{
 		private:
@@ -89,7 +89,7 @@ namespace Doom
 					if (ApiImporterQueue.empty())
 					{
 						ApiImporterMutex.unlock();
-						DEBUG_LOG("Create New AssetApiImporter", LogType::D_ERROR);
+						DEBUG_LOG("Create New AssetApiImporter", log::LogType::D_ERROR);
 						importer = std::make_unique<api_importer_type_t<assetType>>();
 					}
 					else
@@ -114,7 +114,7 @@ namespace Doom
 
 		};
 
-		template<Asset::AssetType loopVariable>
+		template<Asset::eAssetType loopVariable>
 		struct ClearApiImporterQueueFunctor
 		{
 			constexpr inline void operator()()
@@ -124,7 +124,7 @@ namespace Doom
 		};
 		inline void ClearAllApiImporterQueue()
 		{
-			ForLoop_CompileTime<Asset::AssetType>::Loop<Asset::FirstElementOfAssetType, Asset::LastElementOfAssetType, 1, ClearApiImporterQueueFunctor>();
+			ForLoop_CompileTime<Asset::eAssetType>::Loop<Asset::FirstElementOfAssetType, Asset::LastElementOfAssetType, 1, ClearApiImporterQueueFunctor>();
 		}
 		
 	}

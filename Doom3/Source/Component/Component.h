@@ -1,7 +1,7 @@
 #pragma once
 
 #include "../Core/Core.h"
-namespace Doom
+namespace doom
 {
 	class Entity;
 	class Transform;

@@ -10,7 +10,7 @@
 
 
 
-namespace Doom
+namespace doom
 {
 	class AssetManager
 	{
@@ -26,20 +26,20 @@ namespace Doom
 	public:
 		static void ImportEntireAsset();
 
-		template <Asset::AssetType assetType>
+		template <Asset::eAssetType assetType>
 		static inline AssetContainer<assetType> ImportedAssets{};
 
 	private:
-		template<Asset::AssetType loopVariable>
+		template<Asset::eAssetType loopVariable>
 		struct ImportAssetFutureFunctor
 		{
-			constexpr inline void operator()(const std::array<std::vector<std::filesystem::path>, Doom::Asset::GetAssetTypeCount()>& AssetPaths)
+			constexpr inline void operator()(const std::array<std::vector<std::filesystem::path>, doom::Asset::GetAssetTypeCount()>& AssetPaths)
 			{
-				AssetManager::ImportedAssets<loopVariable>.AddAsset(Doom::AssetImporter::Assetimporter::ImportAsset<loopVariable>(AssetPaths[loopVariable]));
+				AssetManager::ImportedAssets<loopVariable>.AddAsset(doom::assetimporter::Assetimporter::ImportAsset<loopVariable>(AssetPaths[loopVariable]));
 			}
 		};
 
-		template<Asset::AssetType loopVariable>
+		template<Asset::eAssetType loopVariable>
 		struct GetAssetFutureFunctor
 		{
 			constexpr inline void operator()()

@@ -4,15 +4,15 @@
 
 #include "../../Asset/FontAsset.h"
 
-using namespace Doom;
+using namespace doom;
 
-namespace Doom
+namespace doom
 {
-	namespace AssetImporter
+	namespace assetimporter
 	{
 
 		template <>
-		inline std::optional <Asset::asset_type_t<Asset::AssetType::FONT>> ReadAssetFile<Asset::AssetType::FONT>(std::filesystem::path path)
+		inline std::optional <Asset::asset_type_t<Asset::eAssetType::FONT>> ReadAssetFile<Asset::eAssetType::FONT>(std::filesystem::path path)
 		{
 			return {};
 		}
