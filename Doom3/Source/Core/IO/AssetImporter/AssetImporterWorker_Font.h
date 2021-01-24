@@ -1,5 +1,7 @@
 #pragma once
-#include "AssetImporterWorker.h"
+#include "AssetApiImporter.h"
+#include "AssetImporterWorker_Base.h"
+
 #include "../../Asset/FontAsset.h"
 
 using namespace Doom;
@@ -10,7 +12,7 @@ namespace Doom
 	{
 
 		template <>
-		std::optional <Asset::asset_type_t<Asset::AssetType::FONT>> ReadAssetFile<Asset::AssetType::FONT>(std::filesystem::path path)
+		inline std::optional <Asset::asset_type_t<Asset::AssetType::FONT>> ReadAssetFile<Asset::AssetType::FONT>(std::filesystem::path path)
 		{
 			return {};
 		}

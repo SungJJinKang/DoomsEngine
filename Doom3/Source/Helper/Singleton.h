@@ -1,5 +1,5 @@
 #pragma once
-#include "../Core/Assert.h"
+#include "../Core/Core.h"
 #include <type_traits>
 #include <functional>
 template<typename T>
@@ -14,7 +14,7 @@ protected:
 	
 	constexpr Singleton()
 	{
-		assert(!Singleton<T>::SingletonInstance);
+		D_ASSERT(!Singleton<T>::SingletonInstance);
 
 		Singleton<T>::SingletonInstance = static_cast<T*>(this);
 	}
@@ -28,7 +28,7 @@ public:
 
 	static T& Instance()
 	{
-		assert(Singleton<T>::SingletonInstance);
+		D_ASSERT(Singleton<T>::SingletonInstance);
 		return *(Singleton<T>::SingletonInstance);
 	}
 

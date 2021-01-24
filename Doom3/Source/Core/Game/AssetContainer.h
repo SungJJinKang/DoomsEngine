@@ -2,26 +2,30 @@
 #include <optional>
 #include <type_traits>
 #include <vector>
+#include <future>
 
 #include "../Asset/Asset.h"
 
-#include "../IO/AssetImporter/AssetImporter.h"
 
 namespace Doom
 {
 	template <Asset::AssetType assetType>
 	class AssetContainer
 	{
-		using asset_type = Asset::asset_type_t<assetType>;
+		using this_asset_type_t = Asset::asset_type_t<assetType>;
+		using this_imported_asset_future_t = typename std::future<std::optional<Asset::asset_type_t<assetType>>>;
+
 	private:
 
-		static_assert(std::is_base_of_v<Asset, asset_type>);
+		static_assert(std::is_base_of_v<Asset, this_asset_type_t>);
 
-		std::unordered_map<D_UUID, asset_type> Assets;
+		std::unordered_map<D_UUID, this_asset_type_t> Assets;
 
-		std::vector<std::reference_wrapper<asset_type>> AssetsForIterating;
+		std::vector<std::reference_wrapper<this_asset_type_t>> AssetsForIterating;
 
-		std::vector<AssetImporter::imported_asset_future_t<assetType>> ImportedAssetFutures; // store imported asset futue temporally
+		
+
+		std::vector<this_imported_asset_future_t> ImportedAssetFutures; // store imported asset futue temporally
 	public:
 
 		constexpr AssetContainer() : Assets{}, AssetsForIterating{}, ImportedAssetFutures{}
@@ -29,7 +33,7 @@ namespace Doom
 
 		}
 
-		void AddAsset(asset_type& asset)
+		void AddAsset(this_asset_type_t& asset)
 		{
 			auto pair = this->Assets.emplace(std::make_pair(asset.uuid, std::move(asset)));
 
@@ -48,7 +52,7 @@ namespace Doom
 		/// push future of imported asset
 		/// </summary>
 		/// <param name="asset"></param>
-		void AddAsset(AssetImporter::imported_asset_future_t<assetType>&& asset)
+		void AddAsset(this_imported_asset_future_t&& asset)
 		{
 			ImportedAssetFutures.push_back(std::move(asset));
 		}
@@ -57,7 +61,7 @@ namespace Doom
 		/// push futures of imported asset
 		/// </summary>
 		/// <param name="asset"></param>
-		void AddAsset(std::vector<AssetImporter::imported_asset_future_t<assetType>>&& assets)
+		void AddAsset(std::vector<this_imported_asset_future_t>&& assets)
 		{
 			ImportedAssetFutures.insert(ImportedAssetFutures.end(), std::make_move_iterator(assets.begin()), std::make_move_iterator(assets.end()));
 		}
@@ -78,10 +82,10 @@ namespace Doom
 			this->ImportedAssetFutures.clear();
 		}
 
-		std::optional<asset_type&> GetAsset(const D_UUID& uuid);
-		std::optional<const asset_type&> GetAsset_const(const D_UUID& uuid) const;
+		std::optional<this_asset_type_t&> GetAsset(const D_UUID& uuid);
+		std::optional<const this_asset_type_t&> GetAsset_const(const D_UUID& uuid) const;
 
-		const std::vector<asset_type&>& GetAssets();
+		const std::vector<this_asset_type_t&>& GetAssets();
 	};
 
 }

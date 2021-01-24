@@ -6,9 +6,11 @@
 
 #include "../../Core.h"
 
-#include "../../../Helper/ThreadPool_Cpp/ThreadPool.h"
 #include "../../Asset/Asset.h"
+
+#include "AssetApiImporter.h"
 #include "AssetImporterWorker.h"
+
 namespace Doom
 {
 	namespace AssetImporter
@@ -112,7 +114,7 @@ namespace Doom
 			template <Asset::AssetType assetType>
 			[[nodiscard]] static imported_asset_future_t<assetType> ImportAsset(const std::filesystem::path& path)
 			{
-				assert(static_cast<bool>(threadPool) != false, "Create Assetimporter instance before call ImportAsset");
+				D_ASSERT(static_cast<bool>(threadPool) != false, "Create Assetimporter instance before call ImportAsset");
 
 				std::function<std::optional<Asset::asset_type_t<assetType>>()> newTask = std::bind(ReadAssetFile<assetType>, path);
 
@@ -133,7 +135,7 @@ namespace Doom
 			template <Asset::AssetType assetType>
 			[[nodiscard]] static std::vector<imported_asset_future_t<assetType>> ImportAsset(const std::vector<std::filesystem::path>& paths)
 			{
-				assert(static_cast<bool>(threadPool) != false, "Create Assetimporter instance before call ImportAsset");
+				D_ASSERT(static_cast<bool>(threadPool) != false, "Create Assetimporter instance before call ImportAsset");
 
 				std::vector<std::function<std::optional<Asset::asset_type_t<assetType>>()>> Tasks{};
 				Tasks.reserve(paths.size());

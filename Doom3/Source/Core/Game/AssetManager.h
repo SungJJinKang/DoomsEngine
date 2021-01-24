@@ -35,8 +35,6 @@ namespace Doom
 		{
 			constexpr inline void operator()(const std::array<std::vector<std::filesystem::path>, Doom::Asset::GetAssetTypeCount()>& AssetPaths)
 			{
-				//TODO : ApiImporters in AssetImporter instance is destoyed befroe import job completed
-				
 				AssetManager::ImportedAssets<loopVariable>.AddAsset(Doom::AssetImporter::Assetimporter::ImportAsset<loopVariable>(AssetPaths[loopVariable]));
 			}
 		};

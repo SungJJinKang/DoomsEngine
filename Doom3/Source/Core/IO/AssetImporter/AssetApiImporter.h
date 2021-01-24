@@ -6,6 +6,8 @@
 
 #include "../../Asset/Asset.h"
 
+#include "../../../Helper/ForLoop_Compile_Time/ForLoop_Compile.h"
+
 namespace Doom
 {
 	namespace AssetImporter
@@ -36,13 +38,10 @@ namespace Doom
 		private:
 			std::unique_ptr<api_importer_type_t<assetType>> apiImporter;
 
-		public:
-
-			static inline std::mutex ApiImporterMutex{};
-
 			void InitApiImporter(api_importer_type_t<assetType>& apiImporter) {}
-
-			static inline std::queue<std::unique_ptr<api_importer_type_t<assetType>>> ImporterQueue{};
+			static inline std::mutex ApiImporterMutex{};
+			static inline std::queue<std::unique_ptr<api_importer_type_t<assetType>>> ApiImporterQueue;
+		public:
 
 			constexpr AssetApiImporter(std::unique_ptr<api_importer_type_t<assetType>> importer) : apiImporter{ std::move(importer) }
 			{
@@ -52,13 +51,15 @@ namespace Doom
 				return apiImporter;
 			}
 
-			void Release()
+			constexpr void Release()
 			{
 				if constexpr (!std::is_same_v<api_importer_type_t<assetType>, DummyApiImporter>)
 				{
 					DEBUG_LOG("Release Api Importer");
 					auto lck = std::scoped_lock(ApiImporterMutex);
-					ImporterQueue.push(std::move(apiImporter));
+					ApiImporterQueue.push(std::move(apiImporter));
+				
+					//DEBUG_LOG({ std::to_string(assetType), "   ", std::to_string(ApiImporterQueue.size()) });
 				}
 				else
 				{
@@ -66,22 +67,37 @@ namespace Doom
 				}
 			}
 
-			static AssetApiImporter<assetType> GetApiImporter()
+			static constexpr void ClearApiImporterQueue()
 			{
 				if constexpr (!std::is_same_v<api_importer_type_t<assetType>, DummyApiImporter>)
 				{
-					auto lck = std::scoped_lock(ApiImporterMutex);
+					while (ApiImporterQueue.size() > 0)
+					{
+						ApiImporterQueue.pop();
+					}
+					DEBUG_LOG({ "Clear ApiImporterQueue ", assetType });
+				}
+			}
+
+			static constexpr AssetApiImporter<assetType> GetApiImporter()
+			{
+				if constexpr (!std::is_same_v<api_importer_type_t<assetType>, DummyApiImporter>)
+				{
+					ApiImporterMutex.lock();
 
 					std::unique_ptr<api_importer_type_t<assetType>> importer{};
-					if (ImporterQueue.empty())
+					if (ApiImporterQueue.empty())
 					{
+						ApiImporterMutex.unlock();
 						DEBUG_LOG("Create New AssetApiImporter", LogType::D_ERROR);
 						importer = std::make_unique<api_importer_type_t<assetType>>();
 					}
 					else
 					{
-						importer = std::move(ImporterQueue.front());
-						ImporterQueue.pop(); // TODO : Check if front of queue is moved, What happen when pop
+						importer = std::move(ApiImporterQueue.front());
+						ApiImporterQueue.pop(); 
+						ApiImporterMutex.unlock();
+						//DEBUG_LOG({ std::to_string(assetType), "   ", std::to_string(ApiImporterQueue.size()) });
 					}
 
 					return std::move(importer);
@@ -98,8 +114,18 @@ namespace Doom
 
 		};
 
-		
-
+		template<Asset::AssetType loopVariable>
+		struct ClearApiImporterQueueFunctor
+		{
+			constexpr inline void operator()()
+			{
+				AssetApiImporter<loopVariable>::ClearApiImporterQueue();
+			}
+		};
+		inline void ClearAllApiImporterQueue()
+		{
+			ForLoop_CompileTime<Asset::AssetType>::Loop<Asset::FirstElementOfAssetType, Asset::LastElementOfAssetType, 1, ClearApiImporterQueueFunctor>();
+		}
 		
 	}
 }

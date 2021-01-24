@@ -1,5 +1,7 @@
 #pragma once
-#include "AssetImporterWorker.h"
+#include "AssetApiImporter.h"
+#include "AssetImporterWorker_Base.h"
+
 #include "../../Asset/ShaderAsset.h"
 
 #include "../../../Helper/TextImporter.h"
@@ -10,7 +12,7 @@ namespace Doom
 	{
 
 		template<>
-		std::optional<Asset::asset_type_t<Asset::AssetType::SHADER>> ReadAssetFile<Asset::AssetType::SHADER>(std::filesystem::path path)
+		inline std::optional<Asset::asset_type_t<Asset::AssetType::SHADER>> ReadAssetFile<Asset::AssetType::SHADER>(std::filesystem::path path)
 		{
 			auto str = GetTextFromFile(path);
 			if (str.has_value())

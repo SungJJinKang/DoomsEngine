@@ -1,13 +1,7 @@
 #include "AssetImporter.h"
-#include "../../Core.h"
-
-#include "AssetImporterWorker.h"
 
 using namespace Doom;
 using namespace AssetImporter;
-
-
-
 
 Assetimporter::Assetimporter(size_t poolSize)
 {
@@ -29,9 +23,10 @@ Assetimporter::~Assetimporter()
 		DEBUG_LOG("Deleting Importer Thread Pool");
 		Assetimporter::threadPool.release();
 		DEBUG_LOG("Complete Delete Importer Thread Pool");
+
+		ClearAllApiImporterQueue();
 	}
 
-	//TODO : Release all apiimporter instance
 }
 
 void Assetimporter::InitializeThreadPool(size_t poolSize)

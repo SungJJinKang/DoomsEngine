@@ -1,16 +1,18 @@
 #pragma once
-#include "AssetImporterWorker.h"
+#include "AssetApiImporter.h"
+#include "AssetImporterWorker_Base.h"
 
 #include "../../API/ASSIMP.h"
 #include "../../Asset/ThreeDModelAsset.h"
 
-#include "AssetApiImporter.h"
+
+
+#include <thread>
 
 namespace Doom
 {
 	namespace AssetImporter
 	{
-
 		template <> struct api_importer_type<Asset::AssetType::THREE_D_MODEL> { using type = typename Assimp::Importer; };
 
 		template<>
@@ -36,7 +38,28 @@ namespace Doom
 		/// <param name="modelAsset"></param>
 		/// <param name="assimpScene"></param>
 		/// <returns></returns>
-		void SetThreeDModelNodesData(ThreeDModelNode* currentNode, aiNode* currentAssimpNode, ThreeDModelNode* parentNode, ThreeDModelAsset& modelAsset, const aiScene* assimpScene);
+		inline void SetThreeDModelNodesData(ThreeDModelNode* currentNode, aiNode* currentAssimpNode, ThreeDModelNode* parentNode, ThreeDModelAsset& modelAsset, const aiScene* assimpScene)
+		{
+			currentNode->ThreeDModelNodeParent = parentNode;
+			currentNode->ThreeDModelAsset = &modelAsset;
+			currentNode->Name = currentAssimpNode->mName.C_Str();
+			currentNode->NumOfThreeDModelMeshes = currentAssimpNode->mNumMeshes;
+
+			currentNode->ThreeDModelMeshes = new ThreeDModelMesh * [currentAssimpNode->mNumMeshes];
+			for (unsigned int meshIndex = 0; meshIndex < currentAssimpNode->mNumMeshes; meshIndex++)
+			{
+				currentNode->ThreeDModelMeshes[meshIndex] = modelAsset.ModelMeshes[currentAssimpNode->mMeshes[meshIndex]];
+			}
+
+			currentNode->NumOfThreeDModelNodeChildrens = currentAssimpNode->mNumChildren;
+			currentNode->ThreeDModelNodeChildrens = new ThreeDModelNode * [currentAssimpNode->mNumChildren];
+			for (unsigned int childrenIndex = 0; childrenIndex < currentAssimpNode->mNumChildren; childrenIndex++)
+			{
+				currentNode->ThreeDModelNodeChildrens[childrenIndex] = new ThreeDModelNode();
+				Doom::AssetImporter::SetThreeDModelNodesData(currentNode->ThreeDModelNodeChildrens[childrenIndex], currentAssimpNode->mChildren[childrenIndex], currentNode, modelAsset, assimpScene);
+			}
+		}
+
 
 #ifdef DEBUG_MODE
 		class AssimpLogStream : public Assimp::LogStream {
@@ -53,8 +76,13 @@ namespace Doom
 
 
 		template<>
-		std::optional<Asset::asset_type_t<Asset::AssetType::THREE_D_MODEL>> ReadAssetFile<Asset::AssetType::THREE_D_MODEL>(std::filesystem::path path)
+		inline std::optional<Asset::asset_type_t<Asset::AssetType::THREE_D_MODEL>> ReadAssetFile<Asset::AssetType::THREE_D_MODEL>(std::filesystem::path path)
 		{
+			std::stringstream stream;
+			stream  << std::this_thread::get_id();
+
+			DEBUG_LOG(stream.str());
+
 #ifdef DEBUG_MODE
 			static bool IsAssimpDebuggerInitialized;
 

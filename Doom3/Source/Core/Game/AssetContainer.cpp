@@ -7,7 +7,7 @@ using namespace Doom;
 
 
 template <Asset::AssetType assetType>
-std::optional<typename AssetContainer<assetType>::asset_type&> AssetContainer<assetType>::GetAsset(const D_UUID& uuid)
+std::optional<typename AssetContainer<assetType>::this_asset_type_t&> AssetContainer<assetType>::GetAsset(const D_UUID& uuid)
 {
 	try
 	{
@@ -26,7 +26,7 @@ std::optional<typename AssetContainer<assetType>::asset_type&> AssetContainer<as
 }
 
 template <Asset::AssetType assetType>
-std::optional<const typename AssetContainer<assetType>::asset_type&> AssetContainer<assetType>::GetAsset_const(const D_UUID& uuid) const
+std::optional<const typename AssetContainer<assetType>::this_asset_type_t&> AssetContainer<assetType>::GetAsset_const(const D_UUID& uuid) const
 {
 	try
 	{
@@ -45,7 +45,7 @@ std::optional<const typename AssetContainer<assetType>::asset_type&> AssetContai
 }
 
 template <Doom::Asset::AssetType assetType>
-const std::vector<typename Doom::AssetContainer<assetType>::asset_type&>& Doom::AssetContainer<assetType>::GetAssets()
+const std::vector<typename Doom::AssetContainer<assetType>::this_asset_type_t&>& Doom::AssetContainer<assetType>::GetAssets()
 {
 	return AssetsForIterating;
 }
