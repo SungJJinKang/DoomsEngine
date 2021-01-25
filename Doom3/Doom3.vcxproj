@@ -165,6 +165,7 @@
   <ItemGroup>
     <ClCompile Include="dependency\glad\src\glad.c" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Source\Component\Camera.cpp" />
     <ClCompile Include="Source\Component\Component.cpp" />
     <ClCompile Include="Source\Component\DirectionalLight.cpp" />
     <ClCompile Include="Source\Component\Light.cpp" />
@@ -205,6 +206,7 @@
     <ClInclude Include="dependency\glad\include\KHR\khrplatform.h" />
     <ClInclude Include="dependency\glfw-3.3.2.bin.WIN64\include\GLFW\glfw3.h" />
     <ClInclude Include="dependency\glfw-3.3.2.bin.WIN64\include\GLFW\glfw3native.h" />
+    <ClInclude Include="Source\Component\Camera.h" />
     <ClInclude Include="Source\Component\Component.h" />
     <ClInclude Include="Source\Component\DirectionalLight.h" />
     <ClInclude Include="Source\Component\Light.h" />

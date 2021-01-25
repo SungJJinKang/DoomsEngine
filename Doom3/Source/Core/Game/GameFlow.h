@@ -6,15 +6,15 @@ namespace doom
 	class GameCore;
 	class GameFlow 
 	{
-	private:
+		friend class GameCore;
 
-	
+	private:
 
 		static void Init();
 		
 
 	public:
-		friend class GameCore;
+		
 		
 		static void Loop();
 		

@@ -12,10 +12,10 @@ namespace doom
 		private:
 
 		public:
-			static GLFWwindow* Window;
-			static int SCREEN_WIDTH, SCREEN_HEIGHT;
-
-			static bool Is_MULTI_SAMPLE;
+			static inline GLFWwindow* Window{};
+			static inline int SCREEN_WIDTH{};
+			static inline int SCREEN_HEIGHT{};
+			static inline bool Is_MULTI_SAMPLE{};
 
 			static void Init() noexcept;
 
@@ -205,6 +205,12 @@ namespace doom
 				glViewport(x, y, width, height);
 			}
 
+			enum class eBufferType
+			{
+				COLOR = GL_COLOR_BUFFER_BIT,
+				DEPTH = GL_DEPTH_BUFFER_BIT,
+				DEPTH_STENCIL = GL_STENCIL_BUFFER_BIT
+			};
 
 
 		};

@@ -10,44 +10,53 @@ namespace doom
 		friend class Entity;
 
 	private:
-		Entity* _OwnerEntity;
+		Entity* mOwnerEntity;
 		/// <summary>
 		/// Cache
 		/// </summary>
-		Transform* _Transform;
-		bool isAddedToEntity;
-
-		void InitComponent(Entity& entity);
+		Transform* mTransform;
+		bool bIsAddedToEntity;
 
 	protected:
 
-		virtual void OnInit() {}
-		virtual void OnStart() {}
-		virtual void OnEnable() {}
-		virtual void OnDisable() {}
-		virtual void OnUpdate() {}
-		virtual void OnDestroy() {}
+	
 
 	public:
 
 		inline Entity& OwnerEntity()
 		{
-			return *_OwnerEntity;
+			return *mOwnerEntity;
 		}
 
 		inline Transform& Transform()
 		{
-			return *_Transform;
+			return *mTransform;
 		}
 
-		Component() : _OwnerEntity{}, _Transform{}, isAddedToEntity{}
-		{
+		Component();
 
-		}
+		virtual ~Component();
 
-		virtual ~Component()
-		{
+		void OnComponentAttached_Internal(Entity& entity);
+		virtual void OnComponentAttached() {}
 
-		}
+		void OnComponentDestroyed_Internal();
+		virtual void OnComponentDestroyed() {}
+
+		void OnComponentActivated_Internal();
+		virtual void OnComponentActivated() {}
+
+		void OnComponentDeActivated_Internal();
+		virtual void OnComponentDeActivated() {}
+
+		//virtual void OnPreUpdateComponent() {}
+
+		/// <summary>
+		/// This is called before OnUpdateComponent
+		/// </summary>
+		void OnUpdateComponent_Internal();
+		virtual void OnUpdateComponent() {}
+
+		//virtual void OnPostUpdateComponent() {}
 	};
 }

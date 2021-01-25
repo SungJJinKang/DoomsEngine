@@ -4,7 +4,7 @@
 #include "Graphics.h"
 using namespace doom::graphics;
 
-RenderBuffer::RenderBuffer(FrameBuffer& ownerFrameBuffer, FrameBuffer::eFrameBufferType frameBufferType, unsigned int width, unsigned int height)
+RenderBuffer::RenderBuffer(FrameBuffer& ownerFrameBuffer, Graphics::eBufferType frameBufferType, unsigned int width, unsigned int height)
 {
 	ownerFrameBuffer.BindFrameBuffer();
 
@@ -12,9 +12,10 @@ RenderBuffer::RenderBuffer(FrameBuffer& ownerFrameBuffer, FrameBuffer::eFrameBuf
 	this->BindRenderBuffer();
 
 
+
 	switch (frameBufferType)
 	{
-	case FrameBuffer::eFrameBufferType::COLOR:
+	case Graphics::eBufferType::COLOR:
 		if (Graphics::Is_MULTI_SAMPLE == false)
 			glRenderbufferStorage(GL_RENDERBUFFER, GL_RGB, width, height);
 		else
@@ -23,7 +24,7 @@ RenderBuffer::RenderBuffer(FrameBuffer& ownerFrameBuffer, FrameBuffer::eFrameBuf
 		glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_RENDERBUFFER, this->mID);
 		break;
 
-	case FrameBuffer::eFrameBufferType::DEPTH:
+	case Graphics::eBufferType::DEPTH:
 		if (Graphics::Is_MULTI_SAMPLE == false)
 			glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT24, width, height);
 		else
@@ -32,7 +33,7 @@ RenderBuffer::RenderBuffer(FrameBuffer& ownerFrameBuffer, FrameBuffer::eFrameBuf
 		glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, this->mID);
 		break;
 
-	case FrameBuffer::eFrameBufferType::DEPTH_STENCIL:
+	case Graphics::eBufferType::DEPTH_STENCIL:
 		if (Graphics::Is_MULTI_SAMPLE == false)
 			glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH24_STENCIL8, width, height);
 		else

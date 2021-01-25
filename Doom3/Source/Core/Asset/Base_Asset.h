@@ -43,14 +43,14 @@ namespace doom
 		template <Asset::eAssetType assetType>
 		using asset_type_t = typename asset_type<assetType>::type;
 
-		D_UUID uuid;
-		std::string AssetName;
-		std::filesystem::path AssetPath;
+		D_UUID mUUID;
+		std::string mAssetName;
+		std::filesystem::path mAssetPath;
 
 		inline void SetBaseMetaData(const std::filesystem::path& path)
 		{
-			AssetName = path.has_filename() ? path.filename().string() : "";
-			AssetPath = path.string();
+			mAssetName = path.has_filename() ? path.filename().string() : "";
+			mAssetPath = path.string();
 		}
 
 		bool IsContainingData;
@@ -58,11 +58,11 @@ namespace doom
 		{
 			if (isConatiningData == true)
 			{
-				this->uuid = GenerateUUID();
+				this->mUUID = GenerateUUID();
 			}
 		}
 
-		Asset() : uuid{ GenerateUUID() }, IsContainingData{ true }
+		Asset() : mUUID{ GenerateUUID() }, IsContainingData{ true }
 		{
 
 		}

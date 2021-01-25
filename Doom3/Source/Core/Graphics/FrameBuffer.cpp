@@ -6,9 +6,13 @@ using namespace doom::graphics;
 
 
 FrameBuffer::FrameBuffer(unsigned int width, unsigned int height) 
-	: mWidth{ width }, mHeight{ height }, mAttachedRenderBuffers{ RESERVED_RENDERBUFFER_COUNT }, 
-	mAttachedColorTextures{ RESERVED_COLOR_TEXTURE_COUNT }, mAttachedDepthextures{ RESERVED_DEPTH_TEXTURE_COUNT }, mAttachedDepthStencilTextures{ RESERVED_DEPTH_STENCIL_TEXTURE_COUNT }
+	: mWidth{ width }, mHeight{ height }
 {
+	mAttachedRenderBuffers.reserve(RESERVED_RENDERBUFFER_COUNT);
+	mAttachedColorTextures.reserve(RESERVED_COLOR_TEXTURE_COUNT);
+	mAttachedDepthextures.reserve(RESERVED_DEPTH_TEXTURE_COUNT);
+	mAttachedDepthStencilTextures.reserve(RESERVED_DEPTH_STENCIL_TEXTURE_COUNT);
+
 	glGenFramebuffers(1, &(this->mFbo));
 
 }
@@ -29,16 +33,17 @@ void FrameBuffer::CheckIsFrameBufferSuccesfullyCreated() noexcept
 	}
 }
 
-void FrameBuffer::AttachRenderBuffer(eFrameBufferType renderBufferType)
+void FrameBuffer::AttachRenderBuffer(Graphics::eBufferType renderBufferType)
 {
-	this->mAttachedRenderBuffers.emplace_back(this, renderBufferType, this->mWidth, this->mHeight);
+	this->mAttachedRenderBuffers.emplace_back(*this, renderBufferType, this->mWidth, this->mHeight);
 	FrameBuffer::CheckIsFrameBufferSuccesfullyCreated();
 }
 
-void FrameBuffer::AttachTextureBuffer(eFrameBufferType frameBufferType)
+void FrameBuffer::AttachTextureBuffer(Graphics::eBufferType frameBufferType)
 {
 	this->BindFrameBuffer();
 
+	/*
 	switch (frameBufferType)
 	{
 	case FrameBufferType::COLOR:
@@ -80,6 +85,7 @@ void FrameBuffer::AttachTextureBuffer(eFrameBufferType frameBufferType)
 		break;
 
 	}
+	*/
 }
 
 

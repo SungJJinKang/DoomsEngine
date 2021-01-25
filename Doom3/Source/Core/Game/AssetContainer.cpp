@@ -7,11 +7,11 @@ using namespace doom;
 
 
 template <Asset::eAssetType assetType>
-std::optional<typename AssetContainer<assetType>::this_asset_type_t&> AssetContainer<assetType>::GetAsset(const D_UUID& uuid)
+std::optional<typename AssetContainer<assetType>::this_asset_type_t&> AssetContainer<assetType>::GetAsset(const D_UUID& mUUID)
 {
 	try
 	{
-		return Assets.at(uuid);
+		return mAssets.at(mUUID);
 	}
 	catch (const std::out_of_range& e)
 	{
@@ -26,11 +26,11 @@ std::optional<typename AssetContainer<assetType>::this_asset_type_t&> AssetConta
 }
 
 template <Asset::eAssetType assetType>
-std::optional<const typename AssetContainer<assetType>::this_asset_type_t&> AssetContainer<assetType>::GetAsset_const(const D_UUID& uuid) const
+std::optional<const typename AssetContainer<assetType>::this_asset_type_t&> AssetContainer<assetType>::GetAsset_const(const D_UUID& mUUID) const
 {
 	try
 	{
-		return Assets.at(uuid);
+		return mAssets.at(mUUID);
 	}
 	catch (const std::out_of_range& e)
 	{
@@ -47,5 +47,5 @@ std::optional<const typename AssetContainer<assetType>::this_asset_type_t&> Asse
 template <doom::Asset::eAssetType assetType>
 const std::vector<typename doom::AssetContainer<assetType>::this_asset_type_t&>& doom::AssetContainer<assetType>::GetAssets()
 {
-	return AssetsForIterating;
+	return mAssetsForIterating;
 }

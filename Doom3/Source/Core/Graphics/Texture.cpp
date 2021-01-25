@@ -6,8 +6,6 @@
 
 using namespace doom::graphics;
 
-static unsigned int BoundId = 0;
-std::unordered_map<doom::graphics::Texture::eBindTarget, unsigned int> doom::graphics::Texture::mCurrentBoundId{};
 
 Texture::Texture(eTextureType textureType, eBindTarget bindTarget,
 	eTargetTexture targetTexture, eInternalFormat internalFormat, unsigned int width, unsigned int height, eDataFormat format, eDataType type, const void* data = nullptr)

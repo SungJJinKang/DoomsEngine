@@ -4,6 +4,8 @@
 #include <vector>
 #include <unordered_map>
 #include <type_traits>
+#include <memory>
+#include <optional>
 
 #include "../Core.h"
 #include "../../Component/Component.h"
@@ -15,27 +17,24 @@ namespace doom
 	{
 	private:
 
-		std::string _EntityName;
-		Transform* _Transform;
+		std::string mEntityName;
+		static const inline std::string DEFAULT_ENTITY_NAME{ "Entity" };
+		Transform* mTransform;
 
-		std::vector<Component*> Components;
+		std::vector<std::unique_ptr<Component>> mComponents;
 
 		template<typename T>
-		constexpr std::enable_if_t<std::is_base_of_v<Component, T>, T*> AddComponent(T* component) noexcept
+		constexpr std::enable_if_t<std::is_base_of_v<Component, T>, T&> AddComponent(T* component) noexcept
 		{
-#ifdef DEBUG_MODE
-			if (component->isAddedToEntity == true)
-			{
-				DEBUG_LOG("Component is alread added", log::LogType::D_ERROR);
-				return nullptr;
-			}
-#endif
-			this->Components.push_back(component);
-			component->InitComponent(*this);
+			D_ASSERT(component->bIsAddedToEntity == false);
+
+			this->mComponents.emplace(component);
 			
+			component->OnComponentAttached_Internal(*this);
+			component->OnComponentActivated_Internal();
 			//component->Init();
 			//component->Start();
-			return component;
+			return *component;
 		}
 
 	public:
@@ -44,28 +43,28 @@ namespace doom
 
 		std::string_view EntityName()
 		{
-			return this->_EntityName;
+			return this->mEntityName;
 		}
 
 		Transform& Transform()
 		{
-			return *this->_Transform;
+			return *this->mTransform;
 		}
 
 		template<typename T>
-		constexpr std::enable_if_t<std::is_base_of_v<Component, T>, T*> AddComponent() noexcept
+		constexpr std::enable_if_t<std::is_base_of_v<Component, T>, T&> AddComponent() noexcept
 		{
-			return AddComponent(new T());
+			return AddComponent<T>(new T());
 		}
 
 		template<typename T, typename... arguments>
-		constexpr std::enable_if_t<std::is_base_of_v<Component, T>, T*> AddComponent(arguments&&... a) noexcept
+		constexpr std::enable_if_t<std::is_base_of_v<Component, T>, T&> AddComponent(arguments&&... a) noexcept
 		{
-			return AddComponent(new T(std::forward<arguments>(a)...));
+			return AddComponent<T>(new T(std::forward<arguments>(a)...));
 		}
 
 		// TODO : cached component can be destroyed component 
-		Component* componentCache = nullptr;
+		Component* mComponentCache = nullptr;
 
 		/// <summary>
 		/// GetComponent is expesive, so cache it
@@ -73,11 +72,11 @@ namespace doom
 		/// <typeparam name="T"></typeparam>
 		/// <returns></returns>
 		template<typename T>
-		std::enable_if_t<std::is_base_of_v<Component, T>, T*> GetComponent()
+		std::enable_if_t<std::is_base_of_v<Component, T>, T&> GetComponent()
 		{
-			if (componentCache != nullptr)
+			if (mComponentCache != nullptr)
 			{
-				T* component = dynamic_cast<T*>(component);
+				T* component = dynamic_cast<T*>(mComponentCache);
 				if (component != nullptr)
 				{
 					DEBUG_LOG("Component Cache hit");
@@ -85,15 +84,17 @@ namespace doom
 				}
 			}
 
-			for (auto component : this->Components)
+			for (auto& component : this->mComponents)
 			{
-				T* component = dynamic_cast<T*>(component);
+				component = dynamic_cast<T*>(component);
 				if (component != nullptr)
 				{
 					return component;
 				}
 
 			}
+
+			D_ASSERT(false);
 			return nullptr;
 
 
@@ -101,16 +102,16 @@ namespace doom
 
 
 		template<typename T>
-		std::vector<std::enable_if_t<std::is_base_of_v<Component, T>, T*>> GetComponents()
+		std::vector<std::enable_if_t<std::is_base_of_v<Component, T>, std::vector<T&>>> GetComponents()
 		{
-			std::vector<T*> components;
+			std::vector<T&> components;
 
-			for (auto component : this->Components)
+			for (auto component : this->mComponents)
 			{
 				T* component = dynamic_cast<T*>(component);
 				if (component != nullptr)
 				{
-					components.push_back(component);
+					components.push_back(*component);
 				}
 
 			}
@@ -123,12 +124,12 @@ namespace doom
 		{
 			static_assert(std::is_base_of_v<Component, T>);
 
-			for (auto iter = this->Components.begin() ; iter != this->Components.end() ; ++iter)
+			for (auto iter = this->mComponents.begin() ; iter != this->mComponents.end() ; ++iter)
 			{
 				T* component = dynamic_cast<T*>(*iter);
 				if (component != nullptr)
 				{
-					this->Components.erase(iter);
+					this->mComponents.erase(iter);
 					return;
 				}
 			}
@@ -141,22 +142,30 @@ namespace doom
 		{
 			static_assert(std::is_base_of_v<Component, T>);
 
-			for (auto iter = this->Components.begin(); iter != this->Components.end(); ++iter)
+			for (auto iter = this->mComponents.begin(); iter != this->mComponents.end(); ++iter)
 			{
 				T* component = dynamic_cast<T*>(*iter);
 				if (component != nullptr)
 				{
-					this->Components.erase(iter);
+					this->mComponents.erase(iter);
 					--iter;
-					return;
 				}
 			}
 
 			return;
 		}
 
-		void UpdateComponents();
 
+		//Event
+		virtual void OnEntitySpawned(){}
+		virtual void OnEntityDestroyed() {}
+
+		virtual void OnEntityActivated() {}
+		virtual void OnEntityDeActivated() {}
+
+		virtual void OnPreUpdateComponents() {}
+		void UpdateComponents();
+		virtual void OnPostUpdateComponents() {}
 	};
 
 

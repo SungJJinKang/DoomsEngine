@@ -6,10 +6,6 @@
 
 using namespace doom::graphics;
 
-GLFWwindow* Graphics::Window{};
-int Graphics::SCREEN_WIDTH{};
-int Graphics::SCREEN_HEIGHT{};
-bool Is_MULTI_SAMPLE{};
 
 void Graphics::Init() noexcept
 {

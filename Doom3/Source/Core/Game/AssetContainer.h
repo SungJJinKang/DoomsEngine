@@ -19,27 +19,27 @@ namespace doom
 
 		static_assert(std::is_base_of_v<Asset, this_asset_type_t>);
 
-		std::unordered_map<D_UUID, this_asset_type_t> Assets;
+		std::unordered_map<D_UUID, this_asset_type_t> mAssets;
 
-		std::vector<std::reference_wrapper<this_asset_type_t>> AssetsForIterating;
+		std::vector<std::reference_wrapper<this_asset_type_t>> mAssetsForIterating;
 
 		
 
 		std::vector<this_imported_asset_future_t> ImportedAssetFutures; // store imported asset futue temporally
 	public:
 
-		constexpr AssetContainer() : Assets{}, AssetsForIterating{}, ImportedAssetFutures{}
+		constexpr AssetContainer() : mAssets{}, mAssetsForIterating{}, ImportedAssetFutures{}
 		{
 
 		}
 
 		void AddAsset(this_asset_type_t& asset)
 		{
-			auto pair = this->Assets.emplace(std::make_pair(asset.uuid, std::move(asset)));
+			auto pair = this->mAssets.emplace(std::make_pair(asset.mUUID, std::move(asset)));
 
 			if (pair.second == true)
 			{
-				AssetsForIterating.push_back(pair.first->second);
+				mAssetsForIterating.push_back(pair.first->second);
 			}
 			else
 			{
@@ -82,8 +82,8 @@ namespace doom
 			this->ImportedAssetFutures.clear();
 		}
 
-		std::optional<this_asset_type_t&> GetAsset(const D_UUID& uuid);
-		std::optional<const this_asset_type_t&> GetAsset_const(const D_UUID& uuid) const;
+		std::optional<this_asset_type_t&> GetAsset(const D_UUID& mUUID);
+		std::optional<const this_asset_type_t&> GetAsset_const(const D_UUID& mUUID) const;
 
 		const std::vector<this_asset_type_t&>& GetAssets();
 	};
