@@ -5,10 +5,12 @@ namespace doom
 {
 	class Entity;
 	class Transform;
+	class World;
 	class Component
 	{
 		friend class Entity;
-
+		friend class World;
+		friend class vector;
 	private:
 		bool bIsAddedToEntity;
 
@@ -24,13 +26,24 @@ namespace doom
 
 	protected:
 
+		Component();
+
+		struct Deleter
+		{
+			void operator()(Component* component) const
+			{
+				delete component;
+			}
+		};
+
+
 		/// <summary>
 		/// Pure virtual destructor for make this class virtual cass
 		/// Destructor should be called only from RemoveConponent(or clear component) of Entity class
 		/// </summary>
 		/// <returns></returns>
-		virtual ~Component();
-		Component();
+		virtual ~Component() = 0;
+		
 	public:
 
 		inline Entity& OwnerEntity()

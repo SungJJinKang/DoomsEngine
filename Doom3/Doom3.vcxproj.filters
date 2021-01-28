@@ -51,9 +51,6 @@
     <ClCompile Include="Source\Component\Transform.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Core\CoreComponent\Scene.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Source\Core\CoreComponent\Entity.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -323,9 +320,6 @@
     <ClInclude Include="Source\Core\IO\AssetImporter\AssetImporter.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Core\CoreComponent\Scene.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Core\CoreComponent\Entity.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -476,6 +470,9 @@
     <ClInclude Include="Source\Core\CoreComponent\World.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Helper\vector_erase_move_lastelement\vector_swap_erase.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="dependency\glfw-3.3.2.bin.WIN64\docs\html\search\all_0.html" />
@@ -608,5 +605,7 @@
     <None Include="Source\Helper\std_future_wrapper\README.md" />
     <None Include="Source\Helper\ForLoop_Compile_Time\.git" />
     <None Include="Source\Helper\ForLoop_Compile_Time\README.md" />
+    <None Include="..\README.md" />
+    <None Include="Source\Helper\vector_erase_move_lastelement\README.md" />
   </ItemGroup>
 </Project>

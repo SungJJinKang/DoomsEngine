@@ -18,8 +18,9 @@ Component::~Component() // Never put parameter to component Destructor (includin
 
 void Component::OnComponentAttached_Internal(Entity& entity)
 {
+	D_ASSERT(bIsAddedToEntity == false);
 	mOwnerEntity = &entity;
-	mTransform = &(entity.Transform());
+	mTransform = &(entity._Transform());
 	bIsAddedToEntity = true;
 
 }

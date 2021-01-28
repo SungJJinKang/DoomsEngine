@@ -10,6 +10,8 @@
 
 #include "../Core.h"
 #include "../../Component/Component.h"
+#include "World.h"
+#include "../../Helper/vector_erase_move_lastelement/vector_swap_erase.h"
 
 namespace doom
 {
@@ -33,14 +35,14 @@ namespace doom
 		static const inline std::string DEFAULT_ENTITY_NAME{ "Entity" };
 		Transform* mTransform;
 
-		std::vector<Component*> mComponents;
+		std::vector<std::unique_ptr<Component, Component::Deleter>> mComponents;
 
 		template<typename T>
 		constexpr std::enable_if_t<std::is_base_of_v<Component, T>, T&> AddComponent(T* component) noexcept
 		{
 			D_ASSERT(component->bIsAddedToEntity == false);
 
-			this->mComponents.push_back(component);
+			this->mComponents.emplace_back(component);
 			
 			component->OnComponentAttached_Internal(*this);
 			component->OnComponentActivated_Internal();
@@ -53,11 +55,19 @@ namespace doom
 		/// </summary>
 		void ClearComponents()
 		{
-			for (auto component : this->mComponents)
-			{
-				D_ASSERT(component != nullptr);
-				delete component;
-			}
+			this->mComponents.clear();
+		}
+
+		/// <summary>
+		/// AddComponent Internally
+		/// Threre is no limitation on T
+		/// </summary>
+		/// <typeparam name="T"></typeparam>
+		/// <returns></returns>
+		template<typename T>
+		constexpr std::enable_if_t<std::is_base_of_v<Component, T>, T&> AddComponent_Internal() noexcept
+		{
+			return AddComponent<T>(new T());
 		}
 	public:
 
@@ -68,7 +78,7 @@ namespace doom
 			return this->mEntityName;
 		}
 
-		Transform& Transform()
+		Transform& _Transform()
 		{
 			return *this->mTransform;
 		}
@@ -76,12 +86,14 @@ namespace doom
 		template<typename T>
 		constexpr std::enable_if_t<std::is_base_of_v<Component, T>, T&> AddComponent() noexcept
 		{
+			static_assert(!std::is_same_v<T, Transform>);
 			return AddComponent<T>(new T());
 		}
 
 		template<typename T, typename... arguments>
 		constexpr std::enable_if_t<std::is_base_of_v<Component, T>, T&> AddComponent(arguments&&... a) noexcept
 		{
+			static_assert(!std::is_same_v<T, Transform>);
 			return AddComponent<T>(new T(std::forward<arguments>(a)...));
 		}
 
@@ -106,9 +118,9 @@ namespace doom
 				}
 			}
 
-			for (auto component : this->mComponents)
+			for (auto& component : this->mComponents)
 			{
-				T* componentPtr = dynamic_cast<T*>(component);
+				T* componentPtr = dynamic_cast<T*>(component.get());
 				if (componentPtr != nullptr)
 				{
 					mComponentPtrCache = component;
@@ -127,9 +139,9 @@ namespace doom
 		{
 			std::vector<T*> components;
 
-			for (auto component : this->mComponents)
+			for (auto& component : this->mComponents)
 			{
-				T* componentPtr = dynamic_cast<T*>(component);
+				T* componentPtr = dynamic_cast<T*>(component.get());
 				if (componentPtr != nullptr)
 				{
 					components.push_back(componentPtr);
@@ -142,13 +154,13 @@ namespace doom
 		template<typename T, std::enable_if_t<std::is_base_of_v<Component, T>, bool> = true>
 		void RemoveComponent()
 		{
-			for (auto iter = this->mComponents.begin() ; iter != this->mComponents.end() ; ++iter)
+			static_assert(!std::is_same_v<T, Transform>);
+			for (size_t i = 0 ; i < this->mComponents.size() ; i++)
 			{
-				T* componentPtr = dynamic_cast<T*>(*iter));
+				T* componentPtr = dynamic_cast<T*>(this->mComponents[i].get());
 				if (componentPtr != nullptr)
 				{//Check is sub_class of Component
-					this->mComponents.erase(iter);
-					delete componentPtr;
+					std::vector_swap_erase(this->mComponents, i);
 					return;
 				}
 			}
@@ -159,24 +171,22 @@ namespace doom
 		template<typename T, std::enable_if_t<std::is_base_of_v<Component, T>, bool> = true>
 		void RemoveComponents()
 		{
-			for (auto iter = this->mComponents.begin(); iter != this->mComponents.end(); ++iter)
+			static_assert(!std::is_same_v<T, Transform>);
+			for (size_t i = 0; i < this->mComponents.size(); i++)
 			{
-				T* componentPtr = dynamic_cast<T*>((*iter).get());
+				T* componentPtr = dynamic_cast<T*>(this->mComponents[i].get());
 				if (componentPtr != nullptr)
 				{//Check is sub_class of Component
-					this->mComponents.erase(iter);
-					delete componentPtr;
-					--iter;
+					std::vector_swap_erase(this->mComponents, i);
+					--i;
 				}
 			}
 
 			return;
 		}
 
-		void Destroy() 
-		{
-			delete this;
-		}
+		
+		void Destroy();
 
 		//Event
 		virtual void OnEntitySpawned(){}

@@ -1,19 +1,24 @@
 #include "Entity.h"
 #include "../../Component/Transform.h"
 
-doom::Entity::~Entity()
-{
-
-}
-
 doom::Entity::Entity() : mEntityName{}, mTransform{}, mComponents{}
 {
-	this->mTransform = &(this->AddComponent<doom::Transform>());
+	this->mTransform = &(this->AddComponent_Internal<doom::Transform>());
+}
+
+doom::Entity::~Entity()
+{
+	this->ClearComponents();
+}
+
+void doom::Entity::Destroy()
+{
+	World::DestroyEntity(*this);
 }
 
 void doom::Entity::UpdateComponents()
 {
-	for (auto component : this->mComponents)
+	for (auto& component : this->mComponents)
 	{
 		component->OnUpdateComponent_Internal();
 		component->OnUpdateComponent();

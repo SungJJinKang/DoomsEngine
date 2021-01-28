@@ -22,6 +22,7 @@ So if you wanna good and clean code for learning something, Find other project.
 ## Key features
 
   * C++17
+  * Garbage Collector (In Game Code dosen't need to call new and delete)
 
 ## Dependency
 I will try to make everything what i need.   
