@@ -174,6 +174,7 @@
     <ClCompile Include="Source\Component\Renderer.cpp" />
     <ClCompile Include="Source\Component\Transform.cpp" />
     <ClCompile Include="Source\Core\CoreComponent\Scene.cpp" />
+    <ClCompile Include="Source\Core\CoreComponent\World.cpp" />
     <ClCompile Include="Source\Core\Game\AssetContainer.cpp" />
     <ClCompile Include="Source\Core\Game\AssetManager.cpp" />
     <ClCompile Include="Source\Core\Game\GameCore.cpp" />
@@ -192,6 +193,8 @@
     <ClCompile Include="Source\Core\Log\Logger.cpp" />
     <ClCompile Include="Source\Core\Game\GameFlow.cpp" />
     <ClCompile Include="Source\Core\Graphics\Graphics.cpp" />
+    <ClCompile Include="Source\Core\Math\LightMath_Cpp\Matrix.cpp" />
+    <ClCompile Include="Source\Core\Math\LightMath_Cpp\Vector.cpp" />
     <ClCompile Include="Source\Core\Random.cpp" />
     <ClCompile Include="Source\Helper\IniParser.cpp" />
     <ClCompile Include="stdafx.cpp">
@@ -220,6 +223,7 @@
     <ClInclude Include="Source\Core\API\UUID.h" />
     <ClInclude Include="Source\Core\Asset\Asset.h" />
     <ClInclude Include="Source\Core\Asset\TextAsset.h" />
+    <ClInclude Include="Source\Core\CoreComponent\World.h" />
     <ClInclude Include="Source\Core\Game\AssetContainer.h" />
     <ClInclude Include="Source\Core\Game\AssetManager.h" />
     <ClInclude Include="Source\Core\Graphics\CubemapTexture.h" />
@@ -242,12 +246,15 @@
     <ClInclude Include="Source\Core\Macros\Log.h" />
     <ClInclude Include="Source\Core\Macros\Macros.h" />
     <ClInclude Include="Source\Core\Macros\Path.h" />
+    <ClInclude Include="Source\Core\Math\LightMath_Cpp\Euler.h" />
     <ClInclude Include="Source\Core\Math\LightMath_Cpp\LMath.h" />
+    <ClInclude Include="Source\Core\Math\LightMath_Cpp\LMath_Core.h" />
     <ClInclude Include="Source\Core\Math\LightMath_Cpp\Matrix.h" />
     <ClInclude Include="Source\Core\Math\LightMath_Cpp\Matrix1x1.h" />
     <ClInclude Include="Source\Core\Math\LightMath_Cpp\Matrix2x2.h" />
     <ClInclude Include="Source\Core\Math\LightMath_Cpp\Matrix3x3.h" />
     <ClInclude Include="Source\Core\Math\LightMath_Cpp\Matrix4x4.h" />
+    <ClInclude Include="Source\Core\Math\LightMath_Cpp\Matrix_utility.h" />
     <ClInclude Include="Source\Core\Math\LightMath_Cpp\Quaternion.h" />
     <ClInclude Include="Source\Core\Math\LightMath_Cpp\Utility.h" />
     <ClInclude Include="Source\Core\Math\LightMath_Cpp\Vector.h" />
@@ -281,6 +288,7 @@
     <ClInclude Include="Source\Core\Math\VeryLight_Math_For_Game\Vector2.h" />
     <ClInclude Include="Source\Core\Math\VeryLight_Math_For_Game\Vector3.h" />
     <ClInclude Include="Source\Core\Math\VeryLight_Math_For_Game\Vector4.h" />
+    <ClInclude Include="Source\Core\Profiling\Profiling.h" />
     <ClInclude Include="Source\Core\Random.h" />
     <ClInclude Include="Source\Helper\DeferredConstant\DeferredConstant.h" />
     <ClInclude Include="Source\Helper\ForLoop_Compile_Time\ForLoop_Compile.h" />

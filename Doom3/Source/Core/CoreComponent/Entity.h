@@ -6,6 +6,7 @@
 #include <type_traits>
 #include <memory>
 #include <optional>
+#include <functional>
 
 #include "../Core.h"
 #include "../../Component/Component.h"
@@ -13,33 +14,54 @@
 namespace doom
 {
 	class Transform;
+	class World;
 	class Entity
 	{
+		friend class World;
 	private:
+		
+		/// <summary>
+		/// Entity Constructor should be called through World class
+		/// </summary>
+		Entity();
+		/// <summary>
+		/// Entity destructor should be called through Entity::Destory function
+		/// </summary>
+		~Entity();
 
 		std::string mEntityName;
 		static const inline std::string DEFAULT_ENTITY_NAME{ "Entity" };
 		Transform* mTransform;
 
-		std::vector<std::unique_ptr<Component>> mComponents;
+		std::vector<Component*> mComponents;
 
 		template<typename T>
 		constexpr std::enable_if_t<std::is_base_of_v<Component, T>, T&> AddComponent(T* component) noexcept
 		{
 			D_ASSERT(component->bIsAddedToEntity == false);
 
-			this->mComponents.emplace(component);
+			this->mComponents.push_back(component);
 			
 			component->OnComponentAttached_Internal(*this);
 			component->OnComponentActivated_Internal();
-			//component->Init();
-			//component->Start();
+	
 			return *component;
 		}
 
+		/// <summary>
+		/// only called through Destructor
+		/// </summary>
+		void ClearComponents()
+		{
+			for (auto component : this->mComponents)
+			{
+				D_ASSERT(component != nullptr);
+				delete component;
+			}
+		}
 	public:
 
-		Entity();
+		
 
 		std::string_view EntityName()
 		{
@@ -64,7 +86,7 @@ namespace doom
 		}
 
 		// TODO : cached component can be destroyed component 
-		Component* mComponentCache = nullptr;
+		Component* mComponentPtrCache;
 
 		/// <summary>
 		/// GetComponent is expesive, so cache it
@@ -72,64 +94,61 @@ namespace doom
 		/// <typeparam name="T"></typeparam>
 		/// <returns></returns>
 		template<typename T>
-		std::enable_if_t<std::is_base_of_v<Component, T>, T&> GetComponent()
+		[[nodiscard]] std::enable_if_t<std::is_base_of_v<Component, T>, T*> GetComponent()
 		{
-			if (mComponentCache != nullptr)
+			if (mComponentPtrCache != nullptr)
 			{
-				T* component = dynamic_cast<T*>(mComponentCache);
-				if (component != nullptr)
+				T* componentPtr = dynamic_cast<T*>(mComponentPtrCache);
+				if (componentPtr != nullptr)
 				{
 					DEBUG_LOG("Component Cache hit");
-					return component;
+					return componentPtr;
 				}
 			}
 
-			for (auto& component : this->mComponents)
+			for (auto component : this->mComponents)
 			{
-				component = dynamic_cast<T*>(component);
-				if (component != nullptr)
+				T* componentPtr = dynamic_cast<T*>(component);
+				if (componentPtr != nullptr)
 				{
-					return component;
+					mComponentPtrCache = component;
+					return componentPtr;
 				}
 
 			}
 
 			D_ASSERT(false);
 			return nullptr;
-
-
 		}
 
 
 		template<typename T>
-		std::vector<std::enable_if_t<std::is_base_of_v<Component, T>, std::vector<T&>>> GetComponents()
+		[[nodiscard]] std::vector<std::enable_if_t<std::is_base_of_v<Component, T>, std::vector<T*>>> GetComponents()
 		{
-			std::vector<T&> components;
+			std::vector<T*> components;
 
 			for (auto component : this->mComponents)
 			{
-				T* component = dynamic_cast<T*>(component);
-				if (component != nullptr)
+				T* componentPtr = dynamic_cast<T*>(component);
+				if (componentPtr != nullptr)
 				{
-					components.push_back(*component);
+					components.push_back(componentPtr);
 				}
-
 			}
 
 			return components;
 		}
 
-		template<typename T>
+		template<typename T, std::enable_if_t<std::is_base_of_v<Component, T>, bool> = true>
 		void RemoveComponent()
 		{
-			static_assert(std::is_base_of_v<Component, T>);
-
 			for (auto iter = this->mComponents.begin() ; iter != this->mComponents.end() ; ++iter)
 			{
-				T* component = dynamic_cast<T*>(*iter);
-				if (component != nullptr)
-				{
+				T* componentPtr = dynamic_cast<T*>(*iter));
+				if (componentPtr != nullptr)
+				{//Check is sub_class of Component
 					this->mComponents.erase(iter);
+					delete componentPtr;
 					return;
 				}
 			}
@@ -137,17 +156,16 @@ namespace doom
 			return;
 		}
 
-		template<typename T>
+		template<typename T, std::enable_if_t<std::is_base_of_v<Component, T>, bool> = true>
 		void RemoveComponents()
 		{
-			static_assert(std::is_base_of_v<Component, T>);
-
 			for (auto iter = this->mComponents.begin(); iter != this->mComponents.end(); ++iter)
 			{
-				T* component = dynamic_cast<T*>(*iter);
-				if (component != nullptr)
-				{
+				T* componentPtr = dynamic_cast<T*>((*iter).get());
+				if (componentPtr != nullptr)
+				{//Check is sub_class of Component
 					this->mComponents.erase(iter);
+					delete componentPtr;
 					--iter;
 				}
 			}
@@ -155,6 +173,10 @@ namespace doom
 			return;
 		}
 
+		void Destroy() 
+		{
+			delete this;
+		}
 
 		//Event
 		virtual void OnEntitySpawned(){}

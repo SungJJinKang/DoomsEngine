@@ -52,18 +52,15 @@ bool Assetimporter::IsThreadPoolInitialized()
 
 std::optional<doom::Asset::eAssetType> doom::assetimporter::GetAssetType(const std::filesystem::path& path)
 {
+
 	if (path.has_extension())
 	{
 		auto extension = path.extension().string();
-		try
-		{
-			return AssetExtension.at(extension.substr(1, extension.length() - 1));
-
-		}
-		catch (...)
-		{
-			return {};
-		}
+		return AssetExtension.at(extension.substr(1, extension.length() - 1));
 	}
-	return {};
+	else
+	{
+		return {};
+	}
+	
 }

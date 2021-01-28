@@ -9,6 +9,8 @@ using namespace doom;
 template <Asset::eAssetType assetType>
 std::optional<typename AssetContainer<assetType>::this_asset_type_t&> AssetContainer<assetType>::GetAsset(const D_UUID& mUUID)
 {
+	return mAssets.at(mUUID);
+	/*
 	try
 	{
 		return mAssets.at(mUUID);
@@ -23,11 +25,14 @@ std::optional<typename AssetContainer<assetType>::this_asset_type_t&> AssetConta
 		DEBUG_LOG("Unknown Error", log::LogType::D_ERROR);
 		return {};
 	}
+	*/
 }
 
 template <Asset::eAssetType assetType>
 std::optional<const typename AssetContainer<assetType>::this_asset_type_t&> AssetContainer<assetType>::GetAsset_const(const D_UUID& mUUID) const
 {
+	return mAssets.at(mUUID);
+	/*
 	try
 	{
 		return mAssets.at(mUUID);
@@ -42,6 +47,7 @@ std::optional<const typename AssetContainer<assetType>::this_asset_type_t&> Asse
 		DEBUG_LOG("Unknown Error", log::LogType::D_ERROR);
 		return {};
 	}
+	*/
 }
 
 template <doom::Asset::eAssetType assetType>

@@ -5,7 +5,7 @@ using namespace doom;
 
 
 
-Component::Component() // Never put parameter to component Constructor (including derived class)
+Component::Component() : bIsAddedToEntity{}, mOwnerEntity{}, mTransform{}, mIsActivated{} // Never put parameter to component Constructor (including derived class)
 {
 
 }
