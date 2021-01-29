@@ -174,6 +174,7 @@
     <ClCompile Include="Source\Component\Renderer.cpp" />
     <ClCompile Include="Source\Component\Transform.cpp" />
     <ClCompile Include="Source\Core\Asset\Base_Asset.cpp" />
+    <ClCompile Include="Source\Core\Asset\ThreeDModelAsset.cpp" />
     <ClCompile Include="Source\Core\CoreComponent\World.cpp" />
     <ClCompile Include="Source\Core\Game\AssetContainer.cpp" />
     <ClCompile Include="Source\Core\Game\AssetManager.cpp" />
@@ -190,7 +191,15 @@
     <ClCompile Include="Source\Core\Graphics\SingleTexture.cpp" />
     <ClCompile Include="Source\Core\Graphics\Texture.cpp" />
     <ClCompile Include="Source\Core\Graphics\Buffer\UniformBlock.cpp" />
+    <ClCompile Include="Source\Core\IO\AssetImporter\AssetApiImporter.cpp" />
     <ClCompile Include="Source\Core\IO\AssetImporter\AssetImporter.cpp" />
+    <ClCompile Include="Source\Core\IO\AssetImporter\AssetImporterWorker_Audio.cpp" />
+    <ClCompile Include="Source\Core\IO\AssetImporter\AssetImporterWorker_Base.cpp" />
+    <ClCompile Include="Source\Core\IO\AssetImporter\AssetImporterWorker_Font.cpp" />
+    <ClCompile Include="Source\Core\IO\AssetImporter\AssetImporterWorker_Shader.cpp" />
+    <ClCompile Include="Source\Core\IO\AssetImporter\AssetImporterWorker_Text.cpp" />
+    <ClCompile Include="Source\Core\IO\AssetImporter\AssetImporterWorker_Texture.cpp" />
+    <ClCompile Include="Source\Core\IO\AssetImporter\AssetImporterWorker_Three_D_Model.cpp" />
     <ClCompile Include="Source\Core\IO\UserInput.cpp" />
     <ClCompile Include="Source\Core\Log\Logger.cpp" />
     <ClCompile Include="Source\Core\Game\GameFlow.cpp" />
@@ -336,6 +345,7 @@
     <None Include="Assets\Shader\common\sampling.glsl" />
     <None Include="Assets\Shader\common\shadows.glsl" />
     <None Include="Assets\Shader\common\uniforms.glsl" />
+    <None Include="Assets\Shader\DefaultShader.glsl" />
     <None Include="dependency\glfw-3.3.2.bin.WIN64\docs\html\bug.html" />
     <None Include="dependency\glfw-3.3.2.bin.WIN64\docs\html\build_8dox.html" />
     <None Include="dependency\glfw-3.3.2.bin.WIN64\docs\html\build_guide.html" />
@@ -467,6 +477,9 @@
     <None Include="Source\Helper\std_future_wrapper\.git" />
     <None Include="Source\Helper\std_future_wrapper\README.md" />
     <None Include="Source\Helper\vector_erase_move_lastelement\README.md" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="Source\Core\Graphics\ReamThis!!!!.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

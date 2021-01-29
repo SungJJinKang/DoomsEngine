@@ -2,7 +2,9 @@
 #include <string>
 
 #include "Base_Asset.h"
-#include "../Math/LightMath_Cpp/LMath.h"
+
+#include "../Math/LightMath_Cpp/Vector2.h"
+#include "../Math/LightMath_Cpp/Vector3.h"
 
 using namespace Math;
 
@@ -12,50 +14,57 @@ namespace doom
 	struct ThreeDModelNode;
 	class ThreeDModelAsset;
 
+	/// <summary>
+	/// layout(location = 0) in vec3 aPos;
+	/// layout(location = 1) in vec2 aUV0;
+	/// layout(location = 2) in vec3 aNormal;
+	/// layout(location = 3) in vec3 aTangent;
+	/// layout(location = 4) in vec3 aBitangent;
+	/// </summary>
+	struct MeshVertexData
+	{
+		Vector3 mVertex;
+		Vector2 mTexCoord; //support only one channel
+		Vector3 mNormal;
+		Vector3 mTangent;
+		Vector3 mBitangent;
+	};
+#define VERTEX_DATA_SIZE 16
+
 	struct ThreeDModelMesh
 	{
+		std::string mName;
 
-		std::string Name;
-
-		Vector3** Vertices;
-		unsigned int NumOfVertices;
-		
-		Vector3** TexCoords;
-		unsigned int NumOfTexCoords;
-
-		Vector3* Tangents;
-		Vector3* BiTangents;
-
-		Vector3* Normals;
-		
+		unsigned int mNumOfVertices;
+		MeshVertexData mMeshVertexData;
 	};
 
 	struct ThreeDModelNode
 	{
-		doom::ThreeDModelAsset* ThreeDModelAsset;
+		doom::ThreeDModelAsset* mThreeDModelAsset;
 
-		std::string Name;
+		std::string mName;
 
-		ThreeDModelNode* ThreeDModelNodeParent;
+		ThreeDModelNode* mThreeDModelNodeParent;
 
-		ThreeDModelNode** ThreeDModelNodeChildrens;
-		unsigned int NumOfThreeDModelNodeChildrens;
+		ThreeDModelNode* mThreeDModelNodeChildrens;
+		unsigned int mNumOfThreeDModelNodeChildrens;
 
 		/// <summary>
 		/// each component contain index of ThreeDModelAsset::ThreeDModelMesh 
-		/// so use like this->ThreeDModelAsset->ThreeDModelMesh[ThreeDModelMeshes[0]]
+		/// so use like this->ThreeDModelAsset->ThreeDModelMesh[ThreeDmModelMeshes[0]]
 		/// </summary>
-		ThreeDModelMesh** ThreeDModelMeshes;
-		unsigned int NumOfThreeDModelMeshes; 
+		ThreeDModelMesh** mThreeDmModelMeshes;
+		unsigned int mNumOfThreeDmModelMeshes; 
 	};
 
 	class ThreeDModelAsset : public Asset
 	{
 	public:
-		ThreeDModelNode rootNode;
+		ThreeDModelNode mRootNode;
 
-		ThreeDModelMesh** ModelMeshes;
-		unsigned int NumOfModelMeshed;
+		ThreeDModelMesh* mModelMeshes;
+		unsigned int mNumOfModelMesh;
 
 
 

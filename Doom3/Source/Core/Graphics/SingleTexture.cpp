@@ -16,17 +16,3 @@ SingleTexture::SingleTexture(eTextureType textureType, eTargetTexture target, eI
 {
 	this->TexImage2D(0, mInternalFormat, mWidth, mHeight, mDataFormat, mDataType, data);
 }
-
-void SingleTexture::TexImage1D(int level, eInternalFormat internalformat, int width, eDataFormat format, eDataType type, const void* data)
-{
-	this->BindTexture();
-
-	glTexImage1D(GL_TEXTURE_1D, level, static_cast<unsigned int>(internalformat), width, 0, static_cast<unsigned int>(format), static_cast<unsigned int>(type), data);
-}
-
-void SingleTexture::TexImage2D(int level, eInternalFormat internalformat, int width, int height, eDataFormat format, eDataType type, const void* data)
-{
-	this->BindTexture();
-
-	glTexImage2D(GL_TEXTURE_2D, level, static_cast<unsigned int>(internalformat), width, height, 0, static_cast<unsigned int>(format), static_cast<unsigned int>(type), data);
-}

@@ -13,9 +13,9 @@ namespace doom
 		public:
 			UniformBlock();
 
-			void BindBuffer() final;
-			void UnBindBuffer() final;
-			void BufferData(GLsizeiptr size, const void* data) final;
+			inline void BindBuffer() noexcept final;
+			inline void UnBindBuffer() noexcept final;
+			inline void BufferData(GLsizeiptr size, const void* data) noexcept final;
 		};
 	}
 }

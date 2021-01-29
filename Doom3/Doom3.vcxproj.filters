@@ -126,6 +126,33 @@
     <ClCompile Include="Source\Core\Graphics\Buffer\VertexArray.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Core\Asset\ThreeDModelAsset.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Core\IO\AssetImporter\AssetImporterWorker_Three_D_Model.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Core\IO\AssetImporter\AssetImporterWorker_Texture.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Core\IO\AssetImporter\AssetImporterWorker_Text.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Core\IO\AssetImporter\AssetImporterWorker_Shader.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Core\IO\AssetImporter\AssetImporterWorker_Font.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Core\IO\AssetImporter\AssetImporterWorker_Base.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Core\IO\AssetImporter\AssetImporterWorker_Audio.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Core\IO\AssetImporter\AssetApiImporter.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="dependency\glad\include\glad\glad.h">
@@ -626,5 +653,9 @@
     <None Include="Assets\Shader\common\reflections.glsl" />
     <None Include="Assets\Shader\common\sampling.glsl" />
     <None Include="Assets\Shader\common\shadows.glsl" />
+    <None Include="Assets\Shader\DefaultShader.glsl" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="Source\Core\Graphics\ReamThis!!!!.txt" />
   </ItemGroup>
 </Project>

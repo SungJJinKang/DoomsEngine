@@ -268,10 +268,22 @@ namespace doom
 			eWrapMode mWrapT;
 			eWrapMode mWrapR;
 
-			void TexParameterf(eBindTarget target, eTextureParameterType pname, eTextureParameterValue param);
-			void TexParameteri(eBindTarget target, eTextureParameterType pname, eTextureParameterValue param);
-			void TexParameterf(eBindTarget target, eTextureParameterType pname, unsigned int param);
-			void TexParameteri(eBindTarget target, eTextureParameterType pname, float param);
+			inline void TexParameterf(eBindTarget target, eTextureParameterType pname, eTextureParameterValue param) noexcept
+			{
+				glTexParameterf(static_cast<unsigned int>(target), static_cast<unsigned int>(pname), static_cast<float>(param));
+			}
+			inline void TexParameteri(eBindTarget target, eTextureParameterType pname, eTextureParameterValue param) noexcept
+			{
+				glTexParameteri(static_cast<unsigned int>(target), static_cast<unsigned int>(pname), static_cast<int>(param));
+			}
+			inline void TexParameterf(eBindTarget target, eTextureParameterType pname, float param) noexcept
+			{
+				glTexParameterf(static_cast<unsigned int>(target), static_cast<unsigned int>(pname), param);
+			}
+			inline void TexParameteri(eBindTarget target, eTextureParameterType pname, int param) noexcept
+			{
+				glTexParameteri(static_cast<unsigned int>(target), static_cast<unsigned int>(pname), param);
+			}
 
 		protected:
 			unsigned int mID;
@@ -320,12 +332,34 @@ namespace doom
 
 			
 
-			void BindTexture();
-			void UnBindTexture();
-			void ActiveTexture(unsigned int index);
+			inline void BindTexture() noexcept
+			{
+				ONLY_DEBUG
+				(
+					if (mCurrentBoundId[this->mBindTarget] == this->mID)
+					{
+						DEBUG_LOG("This Texture is already bound");
+						return;
+					}
+				)
+
+				glBindTexture(static_cast<unsigned int>(this->mBindTarget), this->mID);
+				ONLY_DEBUG(mCurrentBoundId[this->mBindTarget] = this->mID;)
+
+			}
+			inline void UnBindTexture() noexcept
+			{
+				glBindTexture(static_cast<unsigned int>(this->mBindTarget), 0);
+				ONLY_DEBUG(mCurrentBoundId[this->mBindTarget] = 0;)
+			}
+
+			inline void ActiveTexture(unsigned int index) noexcept
+			{
+				glActiveTexture(GL_TEXTURE0 + index);
+			}
 
 
-			virtual void TexImage1D(
+			virtual inline void TexImage1D(
 				int level,
 				eInternalFormat internalformat,
 				int width,
@@ -346,7 +380,7 @@ namespace doom
 			/// <param name="format"></param>
 			/// <param name="type"></param>
 			/// <param name="data"></param>
-			virtual void TexImage2D(
+			virtual inline void TexImage2D(
 				int level,
 				eInternalFormat internalformat,
 				int width,

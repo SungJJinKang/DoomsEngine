@@ -7,17 +7,17 @@ doom::graphics::UniformBlock::UniformBlock() : Buffer()
 
 }
 
-void doom::graphics::UniformBlock::BindBuffer()
+inline void doom::graphics::UniformBlock::BindBuffer() noexcept
 {
 	glBindBuffer(GL_UNIFORM_BUFFER, this->mBufferID);
 }
 
-void doom::graphics::UniformBlock::UnBindBuffer()
+inline void doom::graphics::UniformBlock::UnBindBuffer() noexcept
 {
 	glBindBuffer(GL_UNIFORM_BUFFER, 0);
 }
 
-void doom::graphics::UniformBlock::BufferData(GLsizeiptr size, const void* data)
+inline void doom::graphics::UniformBlock::BufferData(GLsizeiptr size, const void* data) noexcept
 {
 	glBufferData(GL_UNIFORM_BUFFER, size, data, GL_STATIC_DRAW);
 }

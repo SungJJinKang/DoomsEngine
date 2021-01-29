@@ -17,9 +17,9 @@ namespace doom
 			~Buffer();
 
 		public:
-			virtual void BindBuffer() = 0;
-			virtual void UnBindBuffer() = 0;
-			virtual void BufferData(GLsizeiptr size, const void* data) = 0;
+			inline virtual void BindBuffer() noexcept = 0;
+			inline virtual void UnBindBuffer() noexcept = 0;
+			inline virtual void BufferData(GLsizeiptr size, const void* data) noexcept = 0;
 		};
 	}
 }

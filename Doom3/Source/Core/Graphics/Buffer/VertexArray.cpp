@@ -6,19 +6,19 @@ doom::graphics::VertexArray::VertexArray() : Buffer()
 	glGenVertexArrays(1, &(this->mVertexArrayID));
 }
 
-void doom::graphics::VertexArray::BindBuffer()
+inline void doom::graphics::VertexArray::BindBuffer() noexcept
 {
 	glBindVertexArray(this->mVertexArrayID);
 	glBindBuffer(GL_ARRAY_BUFFER, this->mBufferID);
 }
 
-void doom::graphics::VertexArray::UnBindBuffer()
+inline void doom::graphics::VertexArray::UnBindBuffer() noexcept
 {
 	glBindVertexArray(0);
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 }
 
-void doom::graphics::VertexArray::BufferData(GLsizeiptr size, const void* data)
+inline void doom::graphics::VertexArray::BufferData(GLsizeiptr size, const void* data) noexcept
 {
 	glBufferData(GL_ARRAY_BUFFER, size, data, GL_STATIC_DRAW);
 

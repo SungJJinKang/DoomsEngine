@@ -40,54 +40,6 @@ Texture::~Texture()
 	glDeleteTextures(1, &(this->mID));
 }
 
-
-void Texture::BindTexture()
-{
-	ONLY_DEBUG
-	(
-	if (mCurrentBoundId[this->mBindTarget] == this->mID)
-	{
-		DEBUG_LOG("This Texture is already bound");
-		return;
-	}
-	)
-
-	glBindTexture(static_cast<unsigned int>(this->mBindTarget), this->mID);
-	ONLY_DEBUG(mCurrentBoundId[this->mBindTarget] = this->mID;)
-	
-}
-
-void Texture::UnBindTexture()
-{
-	glBindTexture(static_cast<unsigned int>(this->mBindTarget), 0);
-	ONLY_DEBUG(mCurrentBoundId[this->mBindTarget] = 0;)
-}
-
-void Texture::ActiveTexture(unsigned int index)
-{
-	glActiveTexture(GL_TEXTURE0 + index);
-}
-
-void Texture::TexParameterf(eBindTarget target, eTextureParameterType pname, eTextureParameterValue param)
-{
-	glTexParameterf(static_cast<unsigned int>(target), static_cast<unsigned int>(pname), static_cast<float>(param));
-}
-
-void Texture::TexParameteri(eBindTarget target, eTextureParameterType pname, float param)
-{
-	glTexParameterf(static_cast<unsigned int>(target), static_cast<unsigned int>(pname), param);
-}
-
-void Texture::TexParameteri(eBindTarget target, eTextureParameterType pname, eTextureParameterValue param)
-{
-	glTexParameteri(static_cast<unsigned int>(target), static_cast<unsigned int>(pname), static_cast<unsigned int>(param));
-}
-
-void Texture::TexParameterf(eBindTarget target, eTextureParameterType pname, unsigned int param)
-{
-	glTexParameteri(static_cast<unsigned int>(target), static_cast<unsigned int>(pname), param);
-}
-
 void Texture::SetWrapMode(eWrapMode wrapMode, bool bBind)
 {
 	if (bBind)
