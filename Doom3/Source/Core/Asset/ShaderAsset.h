@@ -18,20 +18,20 @@ namespace doom
 			Geometry
 		};
 
-		std::string ShaderFileText;
+		std::string mShaderFileText;
 
 		static const std::string VertexShaderMacros;
 		static const std::string FragmentShaderMacros;
 		static const std::string GeometryShaderMacros;
 
-		unsigned int vertexId, fragmentId, geometryId;
+		unsigned int mVertexId, mFragmentId, mGeometryId;
 
-		bool IsCompiled = false;
+		bool bIsCompiled = false;
 
 		/// <summary>
 		/// Don't call this subthread, Should Call this at mainthread
 		/// </summary>
-		void CompileShader(const std::string& str);
+		void CompileShaders(const std::string& str);
 		void CompileSpecificShader(const std::string& shaderStr, ShaderType shaderType, unsigned int& shaderId);
 		std::array<std::string, 3> ClassifyShader(const std::string& str);
 		void checkCompileError(unsigned int id, ShaderType shaderType);
@@ -46,7 +46,7 @@ namespace doom
 
 		~ShaderAsset();
 
-		void OnImportEndOnMainThread() final;
+		void OnEndImportInMainThread() final;
 	};
 
 	

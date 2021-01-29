@@ -56,6 +56,8 @@ namespace doom
 
 			enum class eTargetTexture : unsigned int
 			{
+				TEXTURE_1D = GL_TEXTURE_1D,
+				PROXY_TEXTURE_1D = GL_PROXY_TEXTURE_1D,
 				TEXTURE_2D = GL_TEXTURE_2D,
 				PROXY_TEXTURE_2D = GL_PROXY_TEXTURE_2D,
 				TEXTURE_1D_ARRAY = GL_TEXTURE_1D_ARRAY,
@@ -68,7 +70,8 @@ namespace doom
 				TEXTURE_CUBE_MAP_NEGATIVE_Y = GL_TEXTURE_CUBE_MAP_NEGATIVE_Y,
 				TEXTURE_CUBE_MAP_POSITIVE_Z = GL_TEXTURE_CUBE_MAP_POSITIVE_Z,
 				TEXTURE_CUBE_MAP_NEGATIVE_Z = GL_TEXTURE_CUBE_MAP_NEGATIVE_Z,
-				PROXY_TEXTURE_CUBE_MAP = GL_PROXY_TEXTURE_CUBE_MAP
+				PROXY_TEXTURE_CUBE_MAP = GL_PROXY_TEXTURE_CUBE_MAP,
+				TEXTURE_3D = GL_TEXTURE_3D
 			};
 			static constexpr eTargetTexture DEFAULT_TARGET_TEXTURE = eTargetTexture::TEXTURE_2D;
 
@@ -204,61 +207,6 @@ namespace doom
 			};
 			static constexpr eDataType DEFAULT_DATA_TYPE = eDataType::UNSIGNED_BYTE;
 
-		private:
-
-		protected:
-			unsigned int mID;
-
-			ONLY_DEBUG(static inline std::unordered_map<eBindTarget, unsigned int> mCurrentBoundId{};)
-
-		public:
-
-			Texture(eTextureType textureType, eBindTarget bindTarget,
-				eTargetTexture target, eInternalFormat internalFormat, unsigned int width, unsigned int height, eDataFormat format, eDataType type, const void* data);
-			virtual ~Texture();
-
-			const eTextureType mTextureType;
-			const eBindTarget mBindTarget;
-
-			const eTargetTexture mTarget;
-			const eInternalFormat mInternalFormat;
-			const unsigned int mWidth;
-			const unsigned int mHeight;
-			const eDataFormat mDataFormat;
-			const eDataType mDataType;
-
-
-
-
-
-
-
-
-			void BindTexture();
-			void UnBindTexture();
-			void ActiveTexture(unsigned int index);
-			/// <summary>
-			/// https://www.khronos.org/registry/OpenGL-Refpages/gl4/html/glTexImage2D.xhtml
-			/// </summary>
-			/// <param name="target"></param>
-			/// <param name="level"></param>
-			/// <param name="internalformat"></param>
-			/// <param name="width"></param>
-			/// <param name="height"></param>
-			/// <param name="border"></param>
-			/// <param name="format"></param>
-			/// <param name="type"></param>
-			/// <param name="data"></param>
-			virtual void TexImage2D(
-				int level,
-				eInternalFormat internalformat,
-				int width,
-				int height,
-				eDataFormat format,
-				eDataType type,
-				const void* data
-			) = 0;
-
 			enum class eTextureParameterType : unsigned int
 			{
 				DEPTH_STENCIL_TEXTURE_MODE = GL_DEPTH_STENCIL_TEXTURE_MODE,
@@ -295,10 +243,128 @@ namespace doom
 				MIRROR_CLAMP_TO_EDGE = GL_MIRROR_CLAMP_TO_EDGE,
 			};
 
+			enum class eWrapMode : unsigned int
+			{
+				CLAMP_TO_EDGE = GL_CLAMP_TO_EDGE,
+				CLAMP_TO_BORDER = GL_CLAMP_TO_BORDER,
+				MIRRORED_REPEAT = GL_MIRRORED_REPEAT,
+				REPEAT = GL_REPEAT,
+				MIRROR_CLAMP_TO_EDGE = GL_MIRROR_CLAMP_TO_EDGE,
+			};
+
+			enum class eFilterMode : unsigned int
+			{
+				NEAREST = GL_NEAREST,
+				LINEAR = GL_LINEAR,
+				NEAREST_MIPMAP_NEAREST = GL_NEAREST_MIPMAP_NEAREST,
+				LINEAR_MIPMAP_NEAREST = GL_LINEAR_MIPMAP_NEAREST,
+				NEAREST_MIPMAP_LINEAR = GL_NEAREST_MIPMAP_LINEAR,
+				LINEAR_MIPMAP_LINEAR = GL_LINEAR_MIPMAP_LINEAR,
+			};
+
+		private:
+
+			eWrapMode mWrapS;
+			eWrapMode mWrapT;
+			eWrapMode mWrapR;
+
 			void TexParameterf(eBindTarget target, eTextureParameterType pname, eTextureParameterValue param);
 			void TexParameteri(eBindTarget target, eTextureParameterType pname, eTextureParameterValue param);
 			void TexParameterf(eBindTarget target, eTextureParameterType pname, unsigned int param);
 			void TexParameteri(eBindTarget target, eTextureParameterType pname, float param);
+
+		protected:
+			unsigned int mID;
+
+			ONLY_DEBUG(static inline std::unordered_map<eBindTarget, unsigned int> mCurrentBoundId{};)
+
+			Texture() = delete;
+
+			/// <summary>
+			/// for 1d texture
+			/// </summary>
+			Texture(eTextureType textureType, eBindTarget bindTarget,
+				eTargetTexture targetTexture, eInternalFormat internalFormat, unsigned int width, eDataFormat format, eDataType type, const void* data);
+
+			/// <summary>
+			/// for 2d texture
+			/// </summary>
+			/// <param name="textureType"></param>
+			/// <param name="bindTarget"></param>
+			/// <param name="target"></param>
+			/// <param name="internalFormat"></param>
+			/// <param name="width"></param>
+			/// <param name="height"></param>
+			/// <param name="format"></param>
+			/// <param name="type"></param>
+			/// <param name="data"></param>
+			Texture(eTextureType textureType, eBindTarget bindTarget,
+				eTargetTexture targetTexture, eInternalFormat internalFormat, unsigned int width, unsigned int height, eDataFormat format, eDataType type, const void* data);
+
+			virtual ~Texture();
+			virtual void OnEndContructor();
+
+		public:
+
+			
+
+			const eTextureType mTextureType;
+			const eBindTarget mBindTarget;
+
+			const eTargetTexture mTarget;
+			const eInternalFormat mInternalFormat;
+			const unsigned int mWidth;
+			const unsigned int mHeight;
+			const eDataFormat mDataFormat;
+			const eDataType mDataType;
+
+			
+
+			void BindTexture();
+			void UnBindTexture();
+			void ActiveTexture(unsigned int index);
+
+
+			virtual void TexImage1D(
+				int level,
+				eInternalFormat internalformat,
+				int width,
+				eDataFormat format,
+				eDataType type,
+				const void* data
+			) = 0;
+
+			/// <summary>
+			/// https://www.khronos.org/registry/OpenGL-Refpages/gl4/html/glTexImage2D.xhtml
+			/// </summary>
+			/// <param name="target"></param>
+			/// <param name="level"></param>
+			/// <param name="internalformat"></param>
+			/// <param name="width"></param>
+			/// <param name="height"></param>
+			/// <param name="border"></param>
+			/// <param name="format"></param>
+			/// <param name="type"></param>
+			/// <param name="data"></param>
+			virtual void TexImage2D(
+				int level,
+				eInternalFormat internalformat,
+				int width,
+				int height,
+				eDataFormat format,
+				eDataType type,
+				const void* data
+			) = 0;
+
+
+
+			void SetWrapMode(eWrapMode wrapMode, bool bBind);
+			void SetFilterMin(eFilterMode filterMode, bool bBind);
+			void SetFilterMax(eFilterMode filterMode, bool bBind);
+
+			eWrapMode GetWrapModeS();
+			eWrapMode GetWrapModeT();
+			eWrapMode GetWrapModeR();
 		};
 	}
 }

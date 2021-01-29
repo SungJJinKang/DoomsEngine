@@ -11,6 +11,14 @@ namespace doom
 		friend class Entity;
 		friend class World;
 		friend class vector;
+
+		struct Deleter
+		{
+			void operator()(Component* component) const
+			{
+				delete component;
+			}
+		};
 	private:
 		bool bIsAddedToEntity;
 
@@ -27,15 +35,6 @@ namespace doom
 	protected:
 
 		Component();
-
-		struct Deleter
-		{
-			void operator()(Component* component) const
-			{
-				delete component;
-			}
-		};
-
 
 		/// <summary>
 		/// Pure virtual destructor for make this class virtual cass

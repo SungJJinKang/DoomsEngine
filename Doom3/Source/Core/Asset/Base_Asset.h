@@ -28,12 +28,6 @@ namespace doom
 			SHADER,
 		};
 
-		static constexpr inline eAssetType FirstElementOfAssetType = eAssetType::AUDIO;
-		static constexpr inline eAssetType LastElementOfAssetType = eAssetType::SHADER;
-		static constexpr inline unsigned int GetAssetTypeCount() {
-			return static_cast<unsigned int>(LastElementOfAssetType) + 1u;
-		}
-
 		template <Asset::eAssetType assetType>
 		struct asset_type
 		{
@@ -43,33 +37,35 @@ namespace doom
 		template <Asset::eAssetType assetType>
 		using asset_type_t = typename asset_type<assetType>::type;
 
+		static constexpr inline eAssetType FirstElementOfAssetType = eAssetType::AUDIO;
+		static constexpr inline eAssetType LastElementOfAssetType = eAssetType::SHADER;
+		static constexpr inline unsigned int GetAssetTypeCount() {
+			return static_cast<unsigned int>(LastElementOfAssetType) + 1u;
+		}
+
 		D_UUID mUUID;
 		std::string mAssetName;
 		std::filesystem::path mAssetPath;
 
-		inline void SetBaseMetaData(const std::filesystem::path& path)
-		{
-			mAssetName = path.has_filename() ? path.filename().string() : "";
-			mAssetPath = path.string();
-		}
+		void SetBaseMetaData(const std::filesystem::path& path);
 
-		bool IsContainingData;
-		Asset(bool isConatiningData) : IsContainingData{ isConatiningData }
-		{
-			if (isConatiningData == true)
-			{
-				this->mUUID = GenerateUUID();
-			}
-		}
+		bool bIsContainingData;
 
-		Asset() : mUUID{ GenerateUUID() }, IsContainingData{ true }
-		{
+		Asset();
+		Asset(bool isConatiningData);
 
-		}
+		
 
-		virtual inline void OnImportEndOnMainThread(){}
-		virtual inline void OnImportEndOnSubThread() {}
+		/// <summary>
+		/// post processing after asset imported.
+		/// this function should be called at main thread
+		/// </summary>
+		virtual void OnEndImportInMainThread(){}
+		virtual void OnEndImportInSubThread() {}
 	};
+
+	
+
 }
 
 

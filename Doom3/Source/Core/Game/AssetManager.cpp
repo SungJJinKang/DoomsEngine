@@ -33,9 +33,8 @@ void doom::AssetManager::ImportEntireAsset()
 
 		ForLoop_CompileTime<Asset::eAssetType>::Loop<Asset::FirstElementOfAssetType, Asset::LastElementOfAssetType, 1, doom::AssetManager::ImportAssetFutureFunctor>(AssetPaths);
 		ForLoop_CompileTime<Asset::eAssetType>::Loop<Asset::FirstElementOfAssetType, Asset::LastElementOfAssetType, 1, doom::AssetManager::GetAssetFutureFunctor>();
-
 	}
-
+	ForLoop_CompileTime<Asset::eAssetType>::Loop<Asset::FirstElementOfAssetType, Asset::LastElementOfAssetType, 1, doom::AssetManager::OnEndImportInMainThreadFunctor>();
 	
 }
 

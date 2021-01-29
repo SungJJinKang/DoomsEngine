@@ -13,3 +13,9 @@
 [submodule "Doom3/Source/Helper/vector_erase_move_lastelement"]
 	path = Doom3/Source/Helper/vector_erase_move_lastelement
 	url = https://github.com/SungJJinKang/vector_erase_move_lastelement.git
+[submodule "Doom3/dependency/crossguid"]
+	path = Doom3/dependency/crossguid
+	url = https://github.com/graeme-hill/crossguid.git
+[submodule "Doom3/dependency/stb"]
+	path = Doom3/dependency/stb
+	url = https://github.com/nothings/stb.git

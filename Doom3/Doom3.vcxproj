@@ -88,7 +88,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)dependency\glfw\include\GLFW\;$(SolutionDir)dependency\assimp\;$(SolutionDir)dependency\glad\include\;%(AdditionalIncludeDirectories);</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)dependency\glad\include;$(SolutionDir)dependency\assimp\;%(AdditionalIncludeDirectories);</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
@@ -96,8 +96,8 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(SolutionDir)dependency\assimp;$(SolutionDir)dependency\glfw\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>glfw3.lib;assimp-vc142-mtd.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)dependency\assimp;$(SolutionDir)dependency\glfw\lib;$(SolutionDir)dependency\crossguid\build\Debug;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>glfw3.lib;assimp-vc142-mtd.lib;crossguid-dgb.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -108,7 +108,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)dependency\glfw\include\GLFW\;$(SolutionDir)dependency\assimp\;$(SolutionDir)dependency\glad\include\;$(SolutionDir)dependency\glfw-3.3.2.bin.WIN64\include\;$(SolutionDir)dependency\glad\include;%(AdditionalIncludeDirectories);$(SolutionDir)dependency\glad\include;$(SolutionDir)dependency\glfw-3.3.2.bin.WIN64\include\</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)dependency\glad\include;$(SolutionDir)dependency\assimp\;$(SolutionDir)dependency\glfw-3.3.2.bin.WIN64\include\;$(SolutionDir)dependency\glad\include;%(AdditionalIncludeDirectories);$(SolutionDir)dependency\glad\include;$(SolutionDir)dependency\glfw-3.3.2.bin.WIN64\include\</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
@@ -118,8 +118,8 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(SolutionDir)dependency\assimp;$(SolutionDir)dependency\glfw\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>glfw3.lib;assimp-vc142-mt.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)dependency\assimp;$(SolutionDir)dependency\glfw\lib;$(SolutionDir)dependency\crossguid\build\Release;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>glfw3.lib;assimp-vc142-mt.lib;crossguid.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -128,7 +128,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)dependency\glfw\include\GLFW\;$(SolutionDir)dependency\assimp\;$(SolutionDir)dependency\glad\include\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)dependency\glad\include;$(SolutionDir)dependency\assimp\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
@@ -136,8 +136,8 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(SolutionDir)dependency\assimp;$(SolutionDir)dependency\glfw\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>glfw3.lib;assimp-vc142-mtd.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)dependency\assimp;$(SolutionDir)dependency\glfw\lib;$(SolutionDir)dependency\crossguid\build\Debug;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>glfw3.lib;assimp-vc142-mtd.lib;crossguid-dgb.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -148,7 +148,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)dependency\glfw\include\GLFW\;$(SolutionDir)dependency\assimp\;$(SolutionDir)dependency\glad\include\;$(SolutionDir)dependency\glfw-3.3.2.bin.WIN64\include\;$(SolutionDir)dependency\glad\include;%(AdditionalIncludeDirectories);$(SolutionDir)dependency\glad\include;$(SolutionDir)dependency\glfw-3.3.2.bin.WIN64\include\</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)dependency\glad\include;$(SolutionDir)dependency\assimp\;$(SolutionDir)dependency\glfw-3.3.2.bin.WIN64\include\;$(SolutionDir)dependency\glad\include;%(AdditionalIncludeDirectories);$(SolutionDir)dependency\glad\include;$(SolutionDir)dependency\glfw-3.3.2.bin.WIN64\include\</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
@@ -158,8 +158,8 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(SolutionDir)dependency\assimp;$(SolutionDir)dependency\glfw\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>glfw3.lib;assimp-vc142-mt.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)dependency\assimp;$(SolutionDir)dependency\glfw\lib;$(SolutionDir)dependency\crossguid\build\Release;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>glfw3.lib;assimp-vc142-mt.lib;crossguid.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -173,11 +173,13 @@
     <ClCompile Include="Source\Component\PrimitiveRenderer.cpp" />
     <ClCompile Include="Source\Component\Renderer.cpp" />
     <ClCompile Include="Source\Component\Transform.cpp" />
+    <ClCompile Include="Source\Core\Asset\Base_Asset.cpp" />
     <ClCompile Include="Source\Core\CoreComponent\World.cpp" />
     <ClCompile Include="Source\Core\Game\AssetContainer.cpp" />
     <ClCompile Include="Source\Core\Game\AssetManager.cpp" />
     <ClCompile Include="Source\Core\Game\GameCore.cpp" />
-    <ClCompile Include="Source\Core\Graphics\BufferObject.cpp" />
+    <ClCompile Include="Source\Core\Graphics\Buffer\Buffer.cpp" />
+    <ClCompile Include="Source\Core\Graphics\Buffer\VertexArray.cpp" />
     <ClCompile Include="Source\Core\Graphics\CubemapTexture.cpp" />
     <ClCompile Include="Source\Core\CoreComponent\Entity.cpp" />
     <ClCompile Include="Source\Core\Graphics\FrameBuffer.cpp" />
@@ -187,6 +189,7 @@
     <ClCompile Include="Source\Core\Graphics\RenderBuffer.cpp" />
     <ClCompile Include="Source\Core\Graphics\SingleTexture.cpp" />
     <ClCompile Include="Source\Core\Graphics\Texture.cpp" />
+    <ClCompile Include="Source\Core\Graphics\Buffer\UniformBlock.cpp" />
     <ClCompile Include="Source\Core\IO\AssetImporter\AssetImporter.cpp" />
     <ClCompile Include="Source\Core\IO\UserInput.cpp" />
     <ClCompile Include="Source\Core\Log\Logger.cpp" />
@@ -216,6 +219,8 @@
     <ClInclude Include="Source\Component\PrimitiveRenderer.h" />
     <ClInclude Include="Source\Component\Renderer.h" />
     <ClInclude Include="Source\Component\Transform.h" />
+    <ClInclude Include="Source\Core\Graphics\Buffer\UniformBlock.h" />
+    <ClInclude Include="Source\Core\Graphics\Buffer\VertexArray.h" />
     <ClInclude Include="Source\Core\API\ASSIMP.h" />
     <ClInclude Include="Source\Core\API\OpenglAPI.h" />
     <ClInclude Include="Source\Core\API\STB_IMAGE.h" />
@@ -308,7 +313,7 @@
     <ClInclude Include="Source\Core\Asset\FontAsset.h" />
     <ClInclude Include="Source\Core\Core.h" />
     <ClInclude Include="Source\Core\Game\GameCore.h" />
-    <ClInclude Include="Source\Core\Graphics\BufferObject.h" />
+    <ClInclude Include="Source\Core\Graphics\Buffer\Buffer.h" />
     <ClInclude Include="Source\Core\Graphics\Material.h" />
     <ClInclude Include="Source\Core\Asset\ShaderAsset.h" />
     <ClInclude Include="Source\Core\Graphics\Texture.h" />
@@ -317,7 +322,6 @@
     <ClInclude Include="Source\Core\Log\Logger.h" />
     <ClInclude Include="Source\Core\Game\GameFlow.h" />
     <ClInclude Include="Source\Core\Graphics\Graphics.h" />
-    <ClInclude Include="Source\Core\thirdparty\stb_image.h" />
     <ClInclude Include="Source\Helper\IniParser.h" />
     <ClInclude Include="Source\Helper\Singleton.h" />
     <ClInclude Include="Source\Core\Asset\ThreeDModelAsset.h" />
@@ -325,6 +329,13 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="..\README.md" />
+    <None Include="Assets\Shader\common\brdf.glsl" />
+    <None Include="Assets\Shader\common\constants.glsl" />
+    <None Include="Assets\Shader\common\random.glsl" />
+    <None Include="Assets\Shader\common\reflections.glsl" />
+    <None Include="Assets\Shader\common\sampling.glsl" />
+    <None Include="Assets\Shader\common\shadows.glsl" />
+    <None Include="Assets\Shader\common\uniforms.glsl" />
     <None Include="dependency\glfw-3.3.2.bin.WIN64\docs\html\bug.html" />
     <None Include="dependency\glfw-3.3.2.bin.WIN64\docs\html\build_8dox.html" />
     <None Include="dependency\glfw-3.3.2.bin.WIN64\docs\html\build_guide.html" />

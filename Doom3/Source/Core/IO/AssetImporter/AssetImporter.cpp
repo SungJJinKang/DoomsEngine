@@ -55,8 +55,15 @@ std::optional<doom::Asset::eAssetType> doom::assetimporter::GetAssetType(const s
 
 	if (path.has_extension())
 	{
-		auto extension = path.extension().string();
-		return AssetExtension.at(extension.substr(1, extension.length() - 1));
+		auto citer = AssetExtension.find(path.extension().string());
+		if(citer != AssetExtension.cend())
+		{//find extenstion
+			return citer->second;
+		}
+		else
+		{
+			return {};
+		}
 	}
 	else
 	{

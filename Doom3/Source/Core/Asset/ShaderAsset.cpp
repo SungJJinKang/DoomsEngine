@@ -5,27 +5,79 @@
 
 #include "../API/OpenglAPI.h"
 #include "../Core.h"
+
 const std::string doom::ShaderAsset::VertexShaderMacros = "#VERTEX";
 const std::string doom::ShaderAsset::FragmentShaderMacros = "#FRAGMENT";
 const std::string doom::ShaderAsset::GeometryShaderMacros = "#GEOMETRY";
 
-void doom::ShaderAsset::CompileShader(const std::string& str)
+doom::ShaderAsset::ShaderAsset(const std::string& shaderStr) : mVertexId{ 0 }, mFragmentId{ 0 }, mGeometryId{ 0 }, bIsCompiled{ false }, mShaderFileText{ shaderStr }
+{
+
+}
+
+doom::ShaderAsset::ShaderAsset(ShaderAsset&& shader) noexcept 
+	: mVertexId{ shader.mVertexId }, mFragmentId{ shader.mFragmentId }, mGeometryId{ shader.mGeometryId }, 
+	bIsCompiled{ false }, mShaderFileText{ shader.mShaderFileText }
+{
+	shader.mVertexId = 0;
+	shader.mFragmentId = 0;
+	shader.mGeometryId = 0;
+	shader.bIsCompiled = false;
+	shader.mShaderFileText.clear();
+}
+
+doom::ShaderAsset& doom::ShaderAsset::operator=(ShaderAsset&& shader) noexcept
+{
+	this->mVertexId = shader.mVertexId;
+	shader.mVertexId = 0;
+
+	this->mFragmentId = shader.mFragmentId;
+	shader.mFragmentId = 0;
+
+	this->mGeometryId = shader.mGeometryId;
+	shader.mGeometryId = 0;
+
+	this->bIsCompiled = shader.bIsCompiled;
+	shader.bIsCompiled = false;
+
+	this->mShaderFileText = shader.mShaderFileText;
+	shader.mShaderFileText.clear();
+
+	return *this;
+}
+
+doom::ShaderAsset::~ShaderAsset()
+{
+	if (this->mVertexId != 0)
+		glDeleteShader(this->mVertexId);
+
+	if (this->mFragmentId != 0)
+		glDeleteShader(this->mFragmentId);
+
+	if (this->mGeometryId != 0)
+		glDeleteShader(this->mGeometryId);
+}
+
+
+void doom::ShaderAsset::CompileShaders(const std::string& str)
 {
 	std::array<std::string, 3> shaders = this->ClassifyShader(str);
 	if (shaders[0].size() != 0)
 	{
-		this->CompileSpecificShader(shaders[0], ShaderType::Vertex, this->vertexId);
+		this->CompileSpecificShader(shaders[0], ShaderType::Vertex, this->mVertexId);
 	}
 
 	if (shaders[1].size() != 0)
 	{
-		this->CompileSpecificShader(shaders[1], ShaderType::Fragment, this->fragmentId);
+		this->CompileSpecificShader(shaders[1], ShaderType::Fragment, this->mFragmentId);
 	}
 
 	if (shaders[2].size() != 0)
 	{
-		this->CompileSpecificShader(shaders[2], ShaderType::Geometry, this->geometryId);
+		this->CompileSpecificShader(shaders[2], ShaderType::Geometry, this->mGeometryId);
 	}
+
+	this->mShaderFileText.clear(); //clear shader text file
 }
 
 void doom::ShaderAsset::CompileSpecificShader(const std::string& shaderStr, ShaderType shaderType, unsigned int& shaderId)
@@ -52,7 +104,7 @@ void doom::ShaderAsset::CompileSpecificShader(const std::string& shaderStr, Shad
 	DEBUG_LOG("Compiling Shader");
 	glCompileShader(shaderId);
 
-	this->IsCompiled = true;
+	this->bIsCompiled = true;
 #ifdef DEBUG_MODE
 	this->checkCompileError(shaderId, shaderType);
 #endif
@@ -158,56 +210,11 @@ void doom::ShaderAsset::checkCompileError(unsigned int id, ShaderType shaderType
 	}
 }
 
-doom::ShaderAsset::ShaderAsset(const std::string& shaderStr) : vertexId{ 0 }, fragmentId{ 0 }, geometryId{ 0 }, IsCompiled{ false }, ShaderFileText{ shaderStr }
+
+
+void doom::ShaderAsset::OnEndImportInMainThread()
 {
-	
+	doom::Asset::OnEndImportInMainThread();
+	this->CompileShaders(this->mShaderFileText);
 }
 
-void doom::ShaderAsset::OnImportEndOnMainThread()
-{
-	this->CompileShader(this->ShaderFileText);
-}
-
-doom::ShaderAsset::ShaderAsset(ShaderAsset&& shader) noexcept
-{
-	this->vertexId = shader.vertexId;
-	shader.vertexId = 0;
-
-	this->fragmentId = shader.fragmentId;
-	shader.fragmentId = 0;
-
-	this->geometryId = shader.geometryId;
-	shader.geometryId = 0;
-
-	this->IsCompiled = shader.IsCompiled;
-	shader.IsCompiled = false;
-}
-
-doom::ShaderAsset& doom::ShaderAsset::operator=(ShaderAsset&& shader) noexcept
-{
-	this->vertexId = shader.vertexId;
-	shader.vertexId = 0;
-
-	this->fragmentId = shader.fragmentId;
-	shader.fragmentId = 0;
-
-	this->geometryId = shader.geometryId;
-	shader.geometryId = 0;
-
-	this->IsCompiled = shader.IsCompiled;
-	shader.IsCompiled = false;
-
-	return *this;
-}
-
-doom::ShaderAsset::~ShaderAsset()
-{
-	if(this->vertexId != 0)
-		glDeleteShader(this->vertexId);
-
-	if (this->fragmentId != 0)
-		glDeleteShader(this->fragmentId);
-
-	if (this->geometryId != 0)
-		glDeleteShader(this->geometryId);
-}

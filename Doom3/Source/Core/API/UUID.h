@@ -1,12 +1,14 @@
 #pragma once
 
-#include "../../dependency/uuid/sole/sole.hpp"
+//https://github.com/graeme-hill/crossguid
+#include "../../dependency/crossguid/include/crossguid/guid.hpp"
 
 namespace doom
 {
-	using D_UUID = sole::uuid;
+	
+	using D_UUID = xg::Guid;
 	inline D_UUID GenerateUUID()
 	{
-		return sole::uuid0();
+		return xg::newGuid();
 	}
 }

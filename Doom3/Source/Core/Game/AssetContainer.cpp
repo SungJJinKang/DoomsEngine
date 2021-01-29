@@ -3,55 +3,91 @@
 
 using namespace doom;
 
-
+template class AssetContainer<Asset::eAssetType::AUDIO>;
+template class AssetContainer<Asset::eAssetType::FONT>;
+template class AssetContainer<Asset::eAssetType::SHADER>;
+template class AssetContainer<Asset::eAssetType::TEXT>;
+template class AssetContainer<Asset::eAssetType::TEXTURE>;
+template class AssetContainer<Asset::eAssetType::THREE_D_MODEL>;
 
 
 template <Asset::eAssetType assetType>
-std::optional<typename AssetContainer<assetType>::this_asset_type_t&> AssetContainer<assetType>::GetAsset(const D_UUID& mUUID)
+constexpr AssetContainer<assetType>::AssetContainer() : mAssets{}, mAssetsForIterating{}, ImportedAssetFutures{}
 {
-	return mAssets.at(mUUID);
-	/*
-	try
-	{
-		return mAssets.at(mUUID);
-	}
-	catch (const std::out_of_range& e)
-	{
-		DEBUG_LOG("Can't find asset");
-		return {};
-	}
-	catch (...)
-	{
-		DEBUG_LOG("Unknown Error", log::LogType::D_ERROR);
-		return {};
-	}
-	*/
+
 }
 
 template <Asset::eAssetType assetType>
-std::optional<const typename AssetContainer<assetType>::this_asset_type_t&> AssetContainer<assetType>::GetAsset_const(const D_UUID& mUUID) const
+void AssetContainer<assetType>::AddAsset(AssetContainer<assetType>::container_asset_type_t& asset)
 {
-	return mAssets.at(mUUID);
-	/*
-	try
+	auto pair = this->mAssets.emplace(std::make_pair(asset.mUUID, std::move(asset)));
+
+	if (pair.second == true)
 	{
-		return mAssets.at(mUUID);
+		mAssetsForIterating.push_back(pair.first->second);
 	}
-	catch (const std::out_of_range& e)
+	else
 	{
-		DEBUG_LOG("Can't find asset");
+		DEBUG_LOG("UUID is already inserted", log::LogType::D_ERROR);
+	}
+}
+
+template <Asset::eAssetType assetType>
+void AssetContainer<assetType>::AddAsset(AssetContainer<assetType>::container_imported_asset_future_t&& asset)
+{
+	ImportedAssetFutures.push_back(std::move(asset));
+}
+
+template <Asset::eAssetType assetType>
+void AssetContainer<assetType>::AddAsset(std::vector<AssetContainer<assetType>::container_imported_asset_future_t>&& assets)
+{
+	ImportedAssetFutures.insert(ImportedAssetFutures.end(), std::make_move_iterator(assets.begin()), std::make_move_iterator(assets.end()));
+}
+
+template <Asset::eAssetType assetType>
+void AssetContainer<assetType>::GetAssetFutures()
+{
+	for (auto& future : this->ImportedAssetFutures)
+	{
+		auto asset = future.get();
+		if (asset.has_value())
+		{
+			this->AddAsset(asset.value());
+		}
+	}
+	this->ImportedAssetFutures.clear();
+}
+
+template <Asset::eAssetType assetType>
+std::optional<std::reference_wrapper<typename AssetContainer<assetType>::container_asset_type_t>> AssetContainer<assetType>::GetAsset(const D_UUID& UUID)
+{
+	auto iter = mAssets.find(UUID);
+	if (iter != mAssets.end())
+	{//find!!
+		return iter->second;
+	}
+	else
+	{//element containing UUID key doesn't exist
 		return {};
 	}
-	catch (...)
-	{
-		DEBUG_LOG("Unknown Error", log::LogType::D_ERROR);
+}
+
+template <Asset::eAssetType assetType>
+std::optional<std::reference_wrapper<const typename AssetContainer<assetType>::container_asset_type_t>> AssetContainer<assetType>::GetAsset_const(const D_UUID& UUID) const
+{
+	auto iter = mAssets.find(UUID);
+	if (iter != mAssets.end())
+	{//find!!
+		return iter->second;
+	}
+	else
+	{//element containing UUID key doesn't exist
 		return {};
 	}
-	*/
 }
 
 template <doom::Asset::eAssetType assetType>
-const std::vector<typename doom::AssetContainer<assetType>::this_asset_type_t&>& doom::AssetContainer<assetType>::GetAssets()
+const std::vector<std::reference_wrapper<typename doom::AssetContainer<assetType>::container_asset_type_t>>& doom::AssetContainer<assetType>::GetAssets()
 {
-	return mAssetsForIterating;
+	return this->mAssetsForIterating;
 }

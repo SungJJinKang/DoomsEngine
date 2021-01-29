@@ -78,9 +78,6 @@
     <ClCompile Include="Source\Core\Game\AssetContainer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Core\Graphics\BufferObject.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Source\Core\Graphics\CubemapTexture.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -115,6 +112,18 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Source\Core\CoreComponent\World.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Core\Asset\Base_Asset.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Core\Graphics\Buffer\Buffer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Core\Graphics\Buffer\UniformBlock.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Core\Graphics\Buffer\VertexArray.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -162,9 +171,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\Core\IO\UserInput.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Core\thirdparty\stb_image.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\Core\API\STB_IMAGE.h">
@@ -410,9 +416,6 @@
     <ClInclude Include="Source\Core\IO\AssetImporter\AssetImporterWorker_Base.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Core\Graphics\BufferObject.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Core\Graphics\CubemapTexture.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -471,6 +474,15 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\Helper\vector_erase_move_lastelement\vector_swap_erase.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Core\Graphics\Buffer\Buffer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Core\Graphics\Buffer\UniformBlock.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Core\Graphics\Buffer\VertexArray.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -607,5 +619,12 @@
     <None Include="Source\Helper\ForLoop_Compile_Time\README.md" />
     <None Include="..\README.md" />
     <None Include="Source\Helper\vector_erase_move_lastelement\README.md" />
+    <None Include="Assets\Shader\common\uniforms.glsl" />
+    <None Include="Assets\Shader\common\brdf.glsl" />
+    <None Include="Assets\Shader\common\constants.glsl" />
+    <None Include="Assets\Shader\common\random.glsl" />
+    <None Include="Assets\Shader\common\reflections.glsl" />
+    <None Include="Assets\Shader\common\sampling.glsl" />
+    <None Include="Assets\Shader\common\shadows.glsl" />
   </ItemGroup>
 </Project>

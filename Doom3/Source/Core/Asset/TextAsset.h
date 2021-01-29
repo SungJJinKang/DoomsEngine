@@ -9,11 +9,11 @@ namespace doom
 	class TextAsset : public Asset
 	{
 	public:
-		std::string String;
+		std::string mString;
 
 		TextAsset(const std::string& str)
 		{
-			this->String = str;
+			this->mString = str;
 		}
 
 	};

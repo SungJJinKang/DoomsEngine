@@ -17,7 +17,7 @@ World::~World()
 [[nodiscard]] Entity& World::CreateNewEntity() noexcept
 {
 	Entity* newEntity = new Entity();
-	World::mCurrentWorld->mSpawnedEntities.push_back(newEntity);
+	World::mCurrentWorld->mSpawnedEntities.emplace_back(newEntity);
 	return *newEntity;
 }
 
@@ -27,15 +27,9 @@ bool World::DestroyEntity(Entity& entity)
 	size_t size = currentWorld->mSpawnedEntities.size();
 	for (size_t i = 0; i < size; i++)
 	{
-		if (currentWorld->mSpawnedEntities[i] == &entity)
+		if (currentWorld->mSpawnedEntities[i].get() == &entity)
 		{
-			// if i is last element
-
-			// if vector size size is less than 2
-			delete World::mCurrentWorld->mSpawnedEntities[i];
-
 			std::vector_swap_erase(currentWorld->mSpawnedEntities, i);
-			
 			
 			return true;
 		}

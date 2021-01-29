@@ -10,7 +10,7 @@
 
 #include "../Core.h"
 #include "../../Component/Component.h"
-#include "World.h"
+
 #include "../../Helper/vector_erase_move_lastelement/vector_swap_erase.h"
 
 namespace doom
@@ -20,6 +20,14 @@ namespace doom
 	class Entity
 	{
 		friend class World;
+
+		struct Deleter
+		{
+			void operator()(Entity* entity) const
+			{
+				delete entity;
+			}
+		};
 	private:
 		
 		/// <summary>
@@ -106,7 +114,7 @@ namespace doom
 		/// <typeparam name="T"></typeparam>
 		/// <returns></returns>
 		template<typename T>
-		[[nodiscard]] std::enable_if_t<std::is_base_of_v<Component, T>, T*> GetComponent()
+		[[nodiscard]] std::enable_if_t<std::is_base_of_v<Component, T>, T*> GetComponent() // never return unique_ptr reference, just return pointer
 		{
 			if (mComponentPtrCache != nullptr)
 			{

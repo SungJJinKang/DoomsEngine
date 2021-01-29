@@ -7,4 +7,4 @@
 #else
 
 #endif
-#include "../thirdparty/stb_image.h"
+#include "../../dependency/stb/stb_image.h"

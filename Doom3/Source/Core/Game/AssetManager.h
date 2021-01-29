@@ -14,22 +14,6 @@ namespace doom
 {
 	class AssetManager
 	{
-
-	private:
-		static const std::filesystem::path AssetFolderPath;
-
-		//template <Asset::AssetType assetType>
-		//static constexpr void ImportAssetAndAddToContainer(const std::vector<std::filesystem::path>& paths);
-
-		
-
-	public:
-		static void ImportEntireAsset();
-
-		template <Asset::eAssetType assetType>
-		static inline AssetContainer<assetType> ImportedAssets{};
-
-	private:
 		template<Asset::eAssetType loopVariable>
 		struct ImportAssetFutureFunctor
 		{
@@ -47,6 +31,51 @@ namespace doom
 				AssetManager::ImportedAssets<loopVariable>.GetAssetFutures();
 			}
 		};
+
+		/*
+		template<Asset::eAssetType loopVariable>
+		struct OnEndImportInSubThreadFunctor
+		{
+			constexpr inline void operator()()
+			{
+				for (auto& asset : AssetManager::ImportedAssets<loopVariable>.GetAssetsForIterating())
+				{
+					asset.OnEndImportInSubThread();
+				}
+			}
+		};
+		*/
+
+		/// <summary>
+		/// 
+		/// </summary>
+		template<Asset::eAssetType loopVariable>
+		struct OnEndImportInMainThreadFunctor
+		{
+			constexpr inline void operator()()
+			{
+				for (auto& asset : AssetManager::ImportedAssets<loopVariable>.GetAssets())
+				{
+					asset.get().OnEndImportInMainThread();
+				}
+			}
+		};
+
+	private:
+		static const std::filesystem::path AssetFolderPath;
+
+		//template <Asset::AssetType assetType>
+		//static constexpr void ImportAssetAndAddToContainer(const std::vector<std::filesystem::path>& paths);
+
+		
+
+	public:
+		static void ImportEntireAsset();
+
+		template <Asset::eAssetType assetType>
+		static inline AssetContainer<assetType> ImportedAssets{};
+
+		
 	};
 
 }

@@ -1,10 +1,10 @@
 #pragma once
 #include <vector>
-
+#include <memory>
+#include "Entity.h"
 namespace doom
 {
 	class Scene;
-	class Entity;
 	/// <summary>
 	/// This class is same with scene in unity game engine
 	/// </summary>
@@ -12,7 +12,7 @@ namespace doom
 	{
 	private:
 		static inline World* mCurrentWorld{};
-		std::vector<Entity*> mSpawnedEntities;
+		std::vector<std::unique_ptr<Entity, Entity::Deleter>> mSpawnedEntities;
 		World();
 		~World();
 	public:
