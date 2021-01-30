@@ -338,7 +338,7 @@ namespace doom
 				(
 					if (mCurrentBoundId[this->mBindTarget] == this->mID)
 					{
-						DEBUG_LOG("This Texture is already bound");
+						D_DEBUG_LOG("This Texture is already bound");
 						return;
 					}
 				)

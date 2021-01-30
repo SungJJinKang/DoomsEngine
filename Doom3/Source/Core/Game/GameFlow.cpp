@@ -4,7 +4,6 @@
 
 void doom::GameFlow::Init()
 {
-	graphics::Graphics::Init();
 }
 
 void doom::GameFlow::Loop()
@@ -26,7 +25,7 @@ void doom::GameFlow::Loop()
 	}
 	else
 	{
-		DEBUG_LOG("Terminate glfw");
+		D_DEBUG_LOG("Terminate glfw");
 		glfwTerminate();
 
 		return;

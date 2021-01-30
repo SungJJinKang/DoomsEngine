@@ -28,7 +28,7 @@ void AssetContainer<assetType>::AddAsset(AssetContainer<assetType>::container_as
 	}
 	else
 	{
-		DEBUG_LOG("UUID is already inserted", log::LogType::D_ERROR);
+		D_DEBUG_LOG("UUID is already inserted", logger::LogType::D_ERROR);
 	}
 }
 

@@ -1,7 +1,8 @@
 #pragma once
-#include "../Log/Logger.h"
+
 #ifdef DEBUG_MODE
-#define DEBUG_LOG(...)  doom::log::Logger.Log(##__VA_ARGS__)
+#include "../Log/Logger.h"
+#define D_DEBUG_LOG(...)  doom::logger::Log(##__VA_ARGS__)
 #else
-#define DEBUG_LOG(...)
+#define D_DEBUG_LOG(...)
 #endif

@@ -55,7 +55,7 @@ namespace doom
 			std::stringstream stream;
 			stream << std::this_thread::get_id();
 
-			DEBUG_LOG(stream.str());
+			D_DEBUG_LOG(stream.str());
 
 #ifdef DEBUG_MODE
 			static bool IsAssimpDebuggerInitialized;
@@ -64,7 +64,7 @@ namespace doom
 			{
 				Assimp::DefaultLogger::create("", Assimp::Logger::VERBOSE);
 				// Select the kinds of messages you want to receive on this log stream
-				const unsigned int severity = Assimp::Logger::Err | Assimp::Logger::Warn;
+				const unsigned int severity = Assimp::Logger::Err;// | Assimp::Logger::Warn;
 
 				// Attaching it to the default logger
 				Assimp::DefaultLogger::get()->attachStream(new AssimpLogStream, severity);
@@ -167,7 +167,7 @@ namespace doom
 			}
 			else
 			{
-				DEBUG_LOG({ path.string(), " : 3D Model Asset has no scene" });
+				D_DEBUG_LOG({path.string(), " : 3D Model Asset has no scene" });
 				return {};
 			}
 

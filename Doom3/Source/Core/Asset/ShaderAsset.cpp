@@ -97,11 +97,13 @@ void doom::ShaderAsset::CompileSpecificShader(const std::string& shaderStr, Shad
 		shaderTypeFlag = GL_GEOMETRY_SHADER;
 	}
 
+	D_START_PROFILING("Compiling", doom::profiler::eProfileLayers::CPU);
+	D_END_PROFILING("Compiling");
 	shaderId = glCreateShader(shaderTypeFlag);
 
 	const char* shaderCode = shaderStr.c_str();
 	glShaderSource(shaderId, 1, &shaderCode, NULL);
-	DEBUG_LOG("Compiling Shader");
+	D_DEBUG_LOG("Compiling Shader");
 	glCompileShader(shaderId);
 
 	this->bIsCompiled = true;
@@ -206,7 +208,7 @@ void doom::ShaderAsset::checkCompileError(unsigned int id, ShaderType shaderType
 	if (!success)
 	{
 		glGetShaderInfoLog(id, 1024, NULL, infoLog);
-		DEBUG_LOG({ "ERROR::SHADER_COMPILATION_ERROR of type: ", shaderTypeStr, "\n", infoLog, "\n -- --------------------------------------------------- -- " });
+		D_DEBUG_LOG({ "ERROR::SHADER_COMPILATION_ERROR of type: ", shaderTypeStr.c_str(), "\n", infoLog, "\n -- --------------------------------------------------- -- " });
 	}
 }
 

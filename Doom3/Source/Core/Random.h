@@ -4,15 +4,21 @@
 
 namespace doom
 {
-	class Random
+	namespace random
 	{
-		static std::mt19937 rng;
-		static std::random_device rd;
+		class Random
+		{
+		public:
+			static std::mt19937 rng;
+			static std::random_device rd;
 
-		static void GenerateSeed();
-		static int RandomIntNumber(int a, int b);
-		static float RandomFloatNumber(float a, float b);
-	};
+
+		};
+		void GenerateSeed();
+		int RandomIntNumber(int a, int b);
+		float RandomFloatNumber(float a, float b);
+	}
+	
 }
 
 

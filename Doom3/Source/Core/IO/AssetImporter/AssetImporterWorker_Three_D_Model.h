@@ -34,7 +34,7 @@ namespace doom
 			// Write womethink using your own functionality
 			inline void write(const char* message)
 			{
-				DEBUG_LOG({ "Assimp Debugger : ", message });
+				D_DEBUG_LOG({ "Assimp Debugger : ", message });
 			}
 
 

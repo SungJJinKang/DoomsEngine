@@ -30,7 +30,7 @@ IniData IniParser::ParseIniFile(const char* fileDirectory)
 	std::ifstream inputfStream{ fileDirectory };
 	if (inputfStream.is_open() == false)
 	{
-		DEBUG_LOG({ "can't open Ini file : ", fileDirectory });
+		D_DEBUG_LOG({ "can't open Ini file : ", fileDirectory });
 		return {};
 	}
 
@@ -115,7 +115,7 @@ IniData IniParser::ParseIniFile(const char* fileDirectory)
 void IniData::AddSection(const std::string& section)
 {
 	this->data[section]; // just accessing to unordered_map with key make hash table
-	DEBUG_LOG({ "Add New Section : ", section });
+	D_DEBUG_LOG({ "Add New Section : ", section });
 }
 
 struct ConverToString
@@ -152,7 +152,7 @@ void IniData::InsertVariable(const std::string& section, const VariableType& var
 		}, variable.second);
 	*/
 	auto valueString = std::visit(ConverToString(), variable.second);
-	DEBUG_LOG({ "Add New Variable = ", "Section : ", section, " , Key : ", variable.first, " , Value : ", valueString });
+	D_DEBUG_LOG({ "Add New Variable = ", "Section : ", section, " , Key : ", variable.first, " , Value : ", valueString });
 
 
 	

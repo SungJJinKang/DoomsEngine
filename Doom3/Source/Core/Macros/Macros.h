@@ -1,7 +1,9 @@
 #pragma once
+
 #include "Path.h"
 #include "Log.h"
 #include "Assert.h"
+#include "Profiling.h"
 
 #ifdef DEBUG_MODE
 # define NODEFAULT   D_ASSERT(0)

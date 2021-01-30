@@ -11,7 +11,7 @@ Assetimporter::Assetimporter(size_t poolSize)
 	}
 	else
 	{
-		DEBUG_LOG("AssetImporter Thread Pool is already initialized");
+		D_DEBUG_LOG("AssetImporter Thread Pool is already initialized");
 	}
 }
 
@@ -20,9 +20,9 @@ Assetimporter::~Assetimporter()
 {
 	if (threadPool)
 	{
-		DEBUG_LOG("Deleting Importer Thread Pool");
+		D_DEBUG_LOG("Deleting Importer Thread Pool");
 		Assetimporter::threadPool.release();
-		DEBUG_LOG("Complete Delete Importer Thread Pool");
+		D_DEBUG_LOG("Complete Delete Importer Thread Pool");
 
 		ClearAllApiImporterQueue();
 	}
@@ -31,7 +31,7 @@ Assetimporter::~Assetimporter()
 
 void Assetimporter::InitializeThreadPool(size_t poolSize)
 {
-	DEBUG_LOG({ "Create Asset Importer Thread Pool", std::to_string(poolSize) });
+	D_DEBUG_LOG({ "Create Asset Importer Thread Pool", std::to_string(poolSize) });
 	Assetimporter::threadPool = std::make_unique<::ThreadPool>(poolSize);
 }
 

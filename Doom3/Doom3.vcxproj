@@ -206,8 +206,10 @@
     <ClCompile Include="Source\Core\Graphics\Graphics.cpp" />
     <ClCompile Include="Source\Core\Math\LightMath_Cpp\Matrix.cpp" />
     <ClCompile Include="Source\Core\Math\LightMath_Cpp\Vector.cpp" />
+    <ClCompile Include="Source\Core\Profiler\Profiler.cpp" />
     <ClCompile Include="Source\Core\Random.cpp" />
     <ClCompile Include="Source\Helper\IniParser.cpp" />
+    <ClCompile Include="Source\Helper\ThreadPool_Cpp\ThreadPool.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
@@ -259,6 +261,7 @@
     <ClInclude Include="Source\Core\Macros\Log.h" />
     <ClInclude Include="Source\Core\Macros\Macros.h" />
     <ClInclude Include="Source\Core\Macros\Path.h" />
+    <ClInclude Include="Source\Core\Macros\Profiling.h" />
     <ClInclude Include="Source\Core\Math\LightMath_Cpp\Euler.h" />
     <ClInclude Include="Source\Core\Math\LightMath_Cpp\LMath.h" />
     <ClInclude Include="Source\Core\Math\LightMath_Cpp\LMath_Core.h" />
@@ -301,7 +304,7 @@
     <ClInclude Include="Source\Core\Math\VeryLight_Math_For_Game\Vector2.h" />
     <ClInclude Include="Source\Core\Math\VeryLight_Math_For_Game\Vector3.h" />
     <ClInclude Include="Source\Core\Math\VeryLight_Math_For_Game\Vector4.h" />
-    <ClInclude Include="Source\Core\Profiling\Profiling.h" />
+    <ClInclude Include="Source\Core\Profiler\Profiler.h" />
     <ClInclude Include="Source\Core\Random.h" />
     <ClInclude Include="Source\Helper\DeferredConstant\DeferredConstant.h" />
     <ClInclude Include="Source\Helper\ForLoop_Compile_Time\ForLoop_Compile.h" />

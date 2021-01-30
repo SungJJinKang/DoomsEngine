@@ -41,7 +41,7 @@ namespace doom
 		{
 			if constexpr (!std::is_same_v<api_importer_type_t<assetType>, DummyApiImporter>)
 			{
-				DEBUG_LOG("Release Api Importer");
+				D_DEBUG_LOG("Release Api Importer");
 				auto lck = std::scoped_lock(ApiImporterMutex);
 				ApiImporterQueue.push(std::move(apiImporter));
 
@@ -62,7 +62,7 @@ namespace doom
 				{
 					ApiImporterQueue.pop();
 				}
-				DEBUG_LOG({ "Clear ApiImporterQueue ", assetType });
+				D_DEBUG_LOG({ "Clear ApiImporterQueue ", assetType });
 			}
 		}
 
@@ -77,7 +77,7 @@ namespace doom
 				if (ApiImporterQueue.empty())
 				{
 					ApiImporterMutex.unlock();
-					DEBUG_LOG("Create New AssetApiImporter", log::LogType::D_ERROR);
+					D_DEBUG_LOG("Create New AssetApiImporter", logger::LogType::D_ERROR);
 					importer = std::make_unique<api_importer_type_t<assetType>>();
 				}
 				else

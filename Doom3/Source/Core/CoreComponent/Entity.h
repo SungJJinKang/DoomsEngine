@@ -121,7 +121,7 @@ namespace doom
 				T* componentPtr = dynamic_cast<T*>(mComponentPtrCache);
 				if (componentPtr != nullptr)
 				{
-					DEBUG_LOG("Component Cache hit");
+					D_DEBUG_LOG("Component Cache hit");
 					return componentPtr;
 				}
 			}

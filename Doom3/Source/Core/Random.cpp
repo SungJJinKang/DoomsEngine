@@ -1,28 +1,30 @@
 #include "Random.h"
 
-
-std::random_device doom::Random::rd{};
-std::mt19937 doom::Random::rng{ doom::Random::rd() };
-
-
-
-void doom::Random::GenerateSeed()
+namespace doom
 {
-	doom::Random::rng.seed(rd());
-}
+	namespace random
+	{
+		std::random_device Random::rd{};
+		std::mt19937 Random::rng{ Random::rd() };
 
-int doom::Random::RandomIntNumber(int a, int b)
-{
-	std::uniform_int_distribution<int> dist(a, b);
-	return dist(doom::Random::rng);
-}
+		void doom::random::GenerateSeed()
+		{
+			Random::rng.seed(Random::rd());
+		}
 
-float doom::Random::RandomFloatNumber(float a, float b)
-{
-	std::uniform_real_distribution<float> dist(a, b); 
-	return dist(doom::Random::rng);
-}
+		int doom::random::RandomIntNumber(int a, int b)
+		{
+			std::uniform_int_distribution<int> dist(a, b);
+			return dist(Random::rng);
+		}
 
+		float doom::random::RandomFloatNumber(float a, float b)
+		{
+			std::uniform_real_distribution<float> dist(a, b);
+			return dist(Random::rng);
+		}
+	}
+}
 
 
 
