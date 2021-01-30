@@ -2,7 +2,6 @@
 
 #include <type_traits>
 
-
 //ai_real is assimp's vector element data type
 //assimp's vector element data type should equal to my Math::vector's element type
 static_assert(std::is_same_v<ai_real, Vector3::value_type>);
@@ -12,10 +11,8 @@ namespace doom
 {
 	namespace assetimporter
 	{
-		//extern template class AssetApiImporter<Asset::eAssetType::THREE_D_MODEL>;
-
-		template std::optional<Asset::asset_type_t<Asset::eAssetType::THREE_D_MODEL>> ReadAssetFile<Asset::eAssetType::THREE_D_MODEL>(std::filesystem::path path);
-		
+		template std::optional<Asset::asset_type_t<Asset::eAssetType::THREE_D_MODEL>> ReadAssetFile<Asset::eAssetType::THREE_D_MODEL>(std::filesystem::path);
+	
 		template<>
 		void AssetApiImporter<Asset::eAssetType::THREE_D_MODEL>::InitApiImporter(api_importer_type_t<Asset::eAssetType::THREE_D_MODEL>& apiImporter)
 		{
@@ -83,7 +80,7 @@ namespace doom
 			// probably to request more postprocessing than we do in this example.
 			const aiScene* scene = apiImporter->ReadFile(path.string(),
 				aiProcess_RemoveComponent |
-				aiProcess_SplitLargeMeshes |
+				//aiProcess_SplitLargeMeshes |
 				aiProcess_Triangulate |
 				aiProcess_JoinIdenticalVertices |
 				aiProcess_GenSmoothNormals |
@@ -109,25 +106,55 @@ namespace doom
 					auto mesh = scene->mMeshes[meshIndex];
 
 					asset.mModelMeshes[meshIndex].mName = mesh->mName.C_Str();
-					asset.mModelMeshes[meshIndex].mNumOfVertices = mesh->mNumVertices;
+					asset.mModelMeshes[meshIndex].mPrimitiveType = static_cast<ePrimitiveType>(mesh->mPrimitiveTypes);
+
+
+					// store Vertices
+					asset.mModelMeshes[meshIndex].mNumOfVertexs = mesh->mNumVertices;
+					asset.mModelMeshes[meshIndex].mMeshVertexDatas = new MeshVertexData[asset.mModelMeshes[meshIndex].mNumOfVertexs];
 
 					D_ASSERT(mesh->mNumUVComponents[0] == 2);
 					D_ASSERT(mesh->HasTangentsAndBitangents());
 					D_ASSERT(mesh->HasNormals());
 					D_ASSERT(mesh->HasTextureCoords(0));
 
-
-					for (unsigned int verticeIndex = 0; verticeIndex < asset.mModelMeshes[meshIndex].mNumOfVertices; verticeIndex++)
+					// we support only uv one channel
+					for (unsigned int verticeIndex = 0; verticeIndex < asset.mModelMeshes[meshIndex].mNumOfVertexs; verticeIndex++)
 					{
-						memmove(&(asset.mModelMeshes[meshIndex].mMeshVertexData.mVertex), &(mesh->mVertices[verticeIndex]), sizeof(decltype(asset.mModelMeshes[meshIndex].mMeshVertexData.mVertex)));
-						memmove(&(asset.mModelMeshes[meshIndex].mMeshVertexData.mTexCoord), &(mesh->mTextureCoords[0][verticeIndex]), sizeof(decltype(asset.mModelMeshes[meshIndex].mMeshVertexData.mTexCoord)));
-						memmove(&(asset.mModelMeshes[meshIndex].mMeshVertexData.mNormal), &(mesh->mNormals[verticeIndex]), sizeof(decltype(asset.mModelMeshes[meshIndex].mMeshVertexData.mNormal)));
-						memmove(&(asset.mModelMeshes[meshIndex].mMeshVertexData.mTangent), &(mesh->mTangents[verticeIndex]), sizeof(decltype(asset.mModelMeshes[meshIndex].mMeshVertexData.mTangent)));
-						memmove(&(asset.mModelMeshes[meshIndex].mMeshVertexData.mBitangent), &(mesh->mBitangents[verticeIndex]), sizeof(decltype(asset.mModelMeshes[meshIndex].mMeshVertexData.mBitangent)));
-
-
+						memmove(&(asset.mModelMeshes[meshIndex].mMeshVertexDatas[verticeIndex].mVertex), &(mesh->mVertices[verticeIndex]), sizeof(decltype(asset.mModelMeshes[meshIndex].mMeshVertexDatas[verticeIndex].mVertex)));
+						memmove(&(asset.mModelMeshes[meshIndex].mMeshVertexDatas[verticeIndex].mTexCoord), &(mesh->mTextureCoords[0][verticeIndex]), sizeof(decltype(asset.mModelMeshes[meshIndex].mMeshVertexDatas[verticeIndex].mTexCoord)));
+						memmove(&(asset.mModelMeshes[meshIndex].mMeshVertexDatas[verticeIndex].mNormal), &(mesh->mNormals[verticeIndex]), sizeof(decltype(asset.mModelMeshes[meshIndex].mMeshVertexDatas[verticeIndex].mNormal)));
+						memmove(&(asset.mModelMeshes[meshIndex].mMeshVertexDatas[verticeIndex].mTangent), &(mesh->mTangents[verticeIndex]), sizeof(decltype(asset.mModelMeshes[meshIndex].mMeshVertexDatas[verticeIndex].mTangent)));
+						memmove(&(asset.mModelMeshes[meshIndex].mMeshVertexDatas[verticeIndex].mBitangent), &(mesh->mBitangents[verticeIndex]), sizeof(decltype(asset.mModelMeshes[meshIndex].mMeshVertexDatas[verticeIndex].mBitangent)));
 					}
 
+
+					// we put indices of all faces at ThreeDModelMesh.mMeshIndices 
+					asset.mModelMeshes[meshIndex].bHasIndices = mesh->HasFaces();
+					if (asset.mModelMeshes[meshIndex].bHasIndices)
+					{
+						asset.mModelMeshes[meshIndex].mNumOfIndices = 0;
+						for (unsigned int faceIndex = 0; faceIndex < mesh->mNumFaces; faceIndex++)
+						{
+							// counting number of faces
+							asset.mModelMeshes[meshIndex].mNumOfIndices += mesh->mFaces[faceIndex].mNumIndices;
+
+							//asset.mModelMeshes[meshIndex].mMeshFaceDatas[faceIndex].mIndices = new unsigned int[asset.mModelMeshes[meshIndex].mMeshFaceDatas[faceIndex].mNumIndices];
+							//memmove(&(asset.mModelMeshes[meshIndex].mMeshFaceDatas[faceIndex].mIndices[0]), &(mesh->mFaces[faceIndex].mIndices[0]), sizeof(unsigned int) * asset.mModelMeshes[meshIndex].mMeshFaceDatas[faceIndex].mNumIndices);
+						}
+
+
+						asset.mModelMeshes[meshIndex].mMeshIndices = new unsigned int[asset.mModelMeshes[meshIndex].mNumOfIndices]; // reserve indices space
+						unsigned int indiceIndex = 0;
+						for (unsigned int faceIndex = 0; faceIndex < mesh->mNumFaces; faceIndex++)
+						{
+							// copy indice datas from indices of face of mesh of assimp to my asset's indices
+							memmove(&(asset.mModelMeshes[meshIndex].mMeshIndices[indiceIndex]), &(mesh->mFaces[faceIndex].mIndices[0]), sizeof(unsigned int) * mesh->mFaces[faceIndex].mNumIndices);
+							indiceIndex += mesh->mFaces[faceIndex].mNumIndices;
+						}
+					}
+
+					
 
 				}
 

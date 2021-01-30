@@ -180,7 +180,7 @@
     <ClCompile Include="Source\Core\Game\AssetManager.cpp" />
     <ClCompile Include="Source\Core\Game\GameCore.cpp" />
     <ClCompile Include="Source\Core\Graphics\Buffer\Buffer.cpp" />
-    <ClCompile Include="Source\Core\Graphics\Buffer\VertexArray.cpp" />
+    <ClCompile Include="Source\Core\Graphics\Buffer\Mesh.cpp" />
     <ClCompile Include="Source\Core\Graphics\CubemapTexture.cpp" />
     <ClCompile Include="Source\Core\CoreComponent\Entity.cpp" />
     <ClCompile Include="Source\Core\Graphics\FrameBuffer.cpp" />
@@ -229,7 +229,7 @@
     <ClInclude Include="Source\Component\Renderer.h" />
     <ClInclude Include="Source\Component\Transform.h" />
     <ClInclude Include="Source\Core\Graphics\Buffer\UniformBlock.h" />
-    <ClInclude Include="Source\Core\Graphics\Buffer\VertexArray.h" />
+    <ClInclude Include="Source\Core\Graphics\Buffer\Mesh.h" />
     <ClInclude Include="Source\Core\API\ASSIMP.h" />
     <ClInclude Include="Source\Core\API\OpenglAPI.h" />
     <ClInclude Include="Source\Core\API\STB_IMAGE.h" />

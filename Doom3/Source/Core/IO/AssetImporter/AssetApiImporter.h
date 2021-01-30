@@ -6,7 +6,6 @@
 
 #include "../../Asset/Asset.h"
 
-#include "../../../Helper/ForLoop_Compile_Time/ForLoop_Compile.h"
 
 namespace doom
 {
@@ -25,6 +24,7 @@ namespace doom
 		{
 			using type = typename DummyApiImporter;
 		};
+
 
 		template <Asset::eAssetType assetType>
 		using api_importer_type_t = typename api_importer_type<assetType>::type;
@@ -60,10 +60,7 @@ namespace doom
 
 		
 
-		inline void ClearAllApiImporterQueue()
-		{
-			ForLoop_CompileTime<Asset::eAssetType>::Loop<Asset::FirstElementOfAssetType, Asset::LastElementOfAssetType, 1, ClearApiImporterQueueFunctor>();
-		}
+		void ClearAllApiImporterQueue();
 		
 	}
 }

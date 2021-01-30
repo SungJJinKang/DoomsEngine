@@ -20,6 +20,8 @@ namespace doom
 	/// layout(location = 2) in vec3 aNormal;
 	/// layout(location = 3) in vec3 aTangent;
 	/// layout(location = 4) in vec3 aBitangent;
+	/// 
+	/// Never edit this struct, Never change placement order of datas
 	/// </summary>
 	struct MeshVertexData
 	{
@@ -29,14 +31,45 @@ namespace doom
 		Vector3 mTangent;
 		Vector3 mBitangent;
 	};
-#define VERTEX_DATA_SIZE 16
+
+	/*
+	struct MeshFaceData
+	{
+		unsigned int mNumIndices;
+		unsigned int* mIndices;
+	};
+	*/
+
+	enum class ePrimitiveType
+	{
+		POINT = 0x1,
+		LINE = 0x2,
+		TRIANGLE = 0x4,
+		POLYGON = 0x8
+	};
 
 	struct ThreeDModelMesh
 	{
 		std::string mName;
 
-		unsigned int mNumOfVertices;
-		MeshVertexData mMeshVertexData;
+		ePrimitiveType mPrimitiveType;
+
+		bool bHasIndices;
+		unsigned int mNumOfIndices;
+		/// <summary>
+		/// mMeshIndices count is mNumOfIndiecs
+		/// </summary>
+		unsigned int* mMeshIndices;
+
+		unsigned int mNumOfVertexs;
+		/// <summary>
+		/// mMeshVertexDatas count is mNumOfVertices
+		/// Vertices data is packed
+		/// 
+		/// ( O ) Vertex TexCoord Normal Tangent Bitangent | Vertex TexCoord Normal Tangent Bitangent | Vertex TexCoord Normal Tangent Bitangent
+		/// ( X ) Vertex Vertex Vertex | TexCoord TexCoord TexCoord | Normal Normal Normal | Tangent Tangent Tangent | Bitangent Bitangent Bitangent
+		/// </summary>
+		MeshVertexData* mMeshVertexDatas;
 	};
 
 	struct ThreeDModelNode

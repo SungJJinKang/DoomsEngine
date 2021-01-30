@@ -7,7 +7,6 @@
 
 
 
-#include <thread>
 
 namespace doom
 {

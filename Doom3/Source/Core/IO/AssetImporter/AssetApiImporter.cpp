@@ -1,9 +1,27 @@
 #include "AssetApiImporter.h"
 
+#include "../../../Helper/ForLoop_Compile_Time/ForLoop_Compile.h"
+
+#include "AssetImporterWorker_Three_D_Model.h"
 namespace doom
 {
 	namespace assetimporter
 	{
+
+		template struct ClearApiImporterQueueFunctor<Asset::eAssetType::AUDIO>;
+		template struct ClearApiImporterQueueFunctor<Asset::eAssetType::FONT>;
+		template struct ClearApiImporterQueueFunctor<Asset::eAssetType::SHADER>;
+		template struct ClearApiImporterQueueFunctor<Asset::eAssetType::TEXT>;
+		template struct ClearApiImporterQueueFunctor<Asset::eAssetType::TEXTURE>;
+		template struct ClearApiImporterQueueFunctor<Asset::eAssetType::THREE_D_MODEL>;
+
+		template class AssetApiImporter<Asset::eAssetType::AUDIO>;
+		template class AssetApiImporter<Asset::eAssetType::FONT>;
+		template class AssetApiImporter<Asset::eAssetType::SHADER>;
+		template class AssetApiImporter<Asset::eAssetType::TEXT>;
+		template class AssetApiImporter<Asset::eAssetType::TEXTURE>;
+		template class AssetApiImporter<Asset::eAssetType::THREE_D_MODEL>;
+
 		DummyApiImporter _DummyApiImporter{};
 
 		template <Asset::eAssetType assetType>
@@ -84,20 +102,12 @@ namespace doom
 			AssetApiImporter<loopVariable>::ClearApiImporterQueue();
 		}
 
+		void ClearAllApiImporterQueue()
+		{
+			ForLoop_CompileTime<Asset::eAssetType>::Loop<Asset::FirstElementOfAssetType, Asset::LastElementOfAssetType, 1, ClearApiImporterQueueFunctor>();
+		}
 	
-		template struct ClearApiImporterQueueFunctor<Asset::eAssetType::AUDIO>;
-		template struct ClearApiImporterQueueFunctor<Asset::eAssetType::FONT>;
-		template struct ClearApiImporterQueueFunctor<Asset::eAssetType::SHADER>;
-		template struct ClearApiImporterQueueFunctor<Asset::eAssetType::TEXT>;
-		template struct ClearApiImporterQueueFunctor<Asset::eAssetType::TEXTURE>;
-		template struct ClearApiImporterQueueFunctor<Asset::eAssetType::THREE_D_MODEL>;
-
-		template class AssetApiImporter<Asset::eAssetType::AUDIO>;
-		template class AssetApiImporter<Asset::eAssetType::FONT>;
-		template class AssetApiImporter<Asset::eAssetType::SHADER>;
-		template class AssetApiImporter<Asset::eAssetType::TEXT>;
-		template class AssetApiImporter<Asset::eAssetType::TEXTURE>;
-		template class AssetApiImporter<Asset::eAssetType::THREE_D_MODEL>;
+	
 		
 	}
 }
