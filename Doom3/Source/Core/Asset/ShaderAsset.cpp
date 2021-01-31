@@ -97,14 +97,15 @@ void doom::ShaderAsset::CompileSpecificShader(const std::string& shaderStr, Shad
 		shaderTypeFlag = GL_GEOMETRY_SHADER;
 	}
 
-	D_START_PROFILING("Compiling", doom::profiler::eProfileLayers::CPU);
-	D_END_PROFILING("Compiling");
+	D_START_PROFILING("Compiling Shader", eProfileLayers::GPU);
+
 	shaderId = glCreateShader(shaderTypeFlag);
 
 	const char* shaderCode = shaderStr.c_str();
 	glShaderSource(shaderId, 1, &shaderCode, NULL);
-	D_DEBUG_LOG("Compiling Shader");
 	glCompileShader(shaderId);
+
+	D_END_PROFILING("Compiling Shader");
 
 	this->bIsCompiled = true;
 #ifdef DEBUG_MODE

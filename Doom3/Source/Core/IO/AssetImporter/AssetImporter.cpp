@@ -21,7 +21,7 @@ Assetimporter::~Assetimporter()
 	if (threadPool)
 	{
 		D_DEBUG_LOG("Deleting Importer Thread Pool");
-		Assetimporter::threadPool.release();
+		Assetimporter::threadPool.reset(nullptr); // reset(nullptr) will delete managed object of unique_ptr
 		D_DEBUG_LOG("Complete Delete Importer Thread Pool");
 
 		ClearAllApiImporterQueue();
