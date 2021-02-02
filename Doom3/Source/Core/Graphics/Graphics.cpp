@@ -1,7 +1,7 @@
 #include "Graphics.h"
 #include "../Game/GameCore.h"
 #include "../API/OpenglAPI.h"
-#include "../../Helper/IniParser.h"
+#include "../../Helper/SimpleIniParser.h"
 
 
 using namespace doom::graphics;

@@ -122,7 +122,7 @@ namespace doom
 				std::function<std::optional<Asset::asset_type_t<assetType>>()> newTask = std::bind(ReadAssetFile<assetType>, path);
 
 				D_DEBUG_LOG("Add new task to threadpool");
-				return threadPool->AddTask(std::move(newTask));
+				return threadPool->push_back(std::move(newTask));
 			}
 
 
@@ -153,7 +153,7 @@ namespace doom
 				/// </summary>
 				/// <param name="paths"></param>
 				/// <returns></returns>
-				return threadPool->AddTaskChunk(std::move(Tasks));
+				return threadPool->push_back_chunk(std::move(Tasks));
 			}
 
 			///////////////////

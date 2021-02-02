@@ -185,7 +185,6 @@
     <ClCompile Include="Source\Core\CoreComponent\Entity.cpp" />
     <ClCompile Include="Source\Core\Graphics\FrameBuffer.cpp" />
     <ClCompile Include="Source\Core\Graphics\Material.cpp" />
-    <ClCompile Include="Source\Core\Graphics\Mesh.cpp" />
     <ClCompile Include="Source\Core\Asset\ShaderAsset.cpp" />
     <ClCompile Include="Source\Core\Graphics\RenderBuffer.cpp" />
     <ClCompile Include="Source\Core\Graphics\SingleTexture.cpp" />
@@ -211,7 +210,7 @@
     <ClCompile Include="Source\Core\ResourceManagement\MemoryPool.cpp" />
     <ClCompile Include="Source\Core\Thread\Thread.cpp" />
     <ClCompile Include="Source\Core\Thread\ThreadManager.cpp" />
-    <ClCompile Include="Source\Helper\IniParser.cpp" />
+    <ClCompile Include="Source\Helper\SimpleIniParser.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
@@ -247,7 +246,6 @@
     <ClInclude Include="Source\Core\CoreComponent\Entity.h" />
     <ClInclude Include="Source\Core\Graphics\FrameBuffer.h" />
     <ClInclude Include="Source\Core\Graphics\Graphics_Core.h" />
-    <ClInclude Include="Source\Core\Graphics\Mesh.h" />
     <ClInclude Include="Source\Core\Graphics\RenderBuffer.h" />
     <ClInclude Include="Source\Core\Graphics\SingleTexture.h" />
     <ClInclude Include="Source\Core\IO\AssetImporter\AssetApiImporter.h" />
@@ -311,9 +309,9 @@
     <ClInclude Include="Source\Core\ResourceManagement\MemoryPool.h" />
     <ClInclude Include="Source\Core\Thread\Thread.h" />
     <ClInclude Include="Source\Core\Thread\ThreadManager.h" />
+    <ClInclude Include="Source\Helper\concurrentqueue\blockingconcurrentqueue.h" />
     <ClInclude Include="Source\Helper\DeferredConstant\DeferredConstant.h" />
     <ClInclude Include="Source\Helper\ForLoop_Compile_Time\ForLoop_Compile.h" />
-    <ClInclude Include="Source\Helper\Singleton\Singleton.h" />
     <ClInclude Include="Source\Helper\std_future_wrapper\CustomFutureWrapper.h" />
     <ClInclude Include="Source\Helper\std_future_wrapper\DummyFuture.h" />
     <ClInclude Include="Source\Helper\std_future_wrapper\FutureWrapper.h" />
@@ -339,7 +337,7 @@
     <ClInclude Include="Source\Core\Log\Logger.h" />
     <ClInclude Include="Source\Core\Game\GameFlow.h" />
     <ClInclude Include="Source\Core\Graphics\Graphics.h" />
-    <ClInclude Include="Source\Helper\IniParser.h" />
+    <ClInclude Include="Source\Helper\SimpleIniParser.h" />
     <ClInclude Include="Source\Helper\Singleton.h" />
     <ClInclude Include="Source\Core\Asset\ThreeDModelAsset.h" />
     <ClInclude Include="Source\Core\Asset\TextureAsset.h" />

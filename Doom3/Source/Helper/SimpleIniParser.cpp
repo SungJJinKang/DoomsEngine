@@ -1,4 +1,4 @@
-#include "IniParser.h"
+#include "SimpleIniParser.h"
 #include <fstream>
 #include <regex>
 #include <cstdlib>
@@ -25,7 +25,7 @@ static std::string trim(const std::string& str, const std::string& whitespace = 
 
 
 
-IniData IniParser::ParseIniFile(const char* fileDirectory)
+IniData SimpleIniParser::ParseIniFile(const char* fileDirectory)
 {
 	std::ifstream inputfStream{ fileDirectory };
 	if (inputfStream.is_open() == false)

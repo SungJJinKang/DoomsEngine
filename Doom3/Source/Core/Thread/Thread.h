@@ -7,6 +7,7 @@
 #include <future>
 
 #include "../Core.h"
+#include "../../Helper/concurrentqueue/blockingconcurrentqueue.h"
 
 namespace doom
 {
@@ -20,16 +21,20 @@ namespace doom
 		/// </summary>
 		class Thread
 		{
+			friend class ThreadManager;
 		private:
-			bool mIsThreadDestructed;
+			bool bmIsThreadDestructed;
 			std::thread mThread;
 			std::thread::id mThreadId;
 
-			std::queue<std::function<void()>> WaitingTaskQueue;
+			/// <summary>
+			/// This is lock free queue
+			/// 
+			/// </summary>
+			moodycamel::BlockingConcurrentQueue<std::function<void()>> WaitingTaskQueue;
+			static constexpr size_t QUEUE_INITIAL_RESERVED_SIZE = 30;
 			
-			std::condition_variable ConditionVariable;
-			std::mutex PoolMutex;
-
+			Thread();
 			~Thread();
 
 			void WorkerJob();
@@ -40,14 +45,161 @@ namespace doom
 			template<typename Callable>
 			using return_type_of_function_pointer = return_type_of_std_function < decltype(std::function{ std::declval<Callable>() }) > ;
 
+
+
+			template <typename ReturnType>
+			std::function<void()> _Make_Std_Function(const std::shared_ptr<std::promise<ReturnType>>&& promise_shared_ptr, const std::function<ReturnType()>& task)
+			{
+				return std::function<void()>([_promise_shared_ptr = std::move(promise_shared_ptr), task = task]()
+				{
+					if constexpr (!std::is_void_v<ReturnType>)
+					{
+						_promise_shared_ptr->set_value(task());
+					}
+					else
+					{//if return type is void
+						task();
+						_promise_shared_ptr->set_value();
+					}
+				}
+				);
+			}
+			template <typename ReturnType>
+			std::function<void()> _Make_Std_Function(const std::shared_ptr<std::promise<ReturnType>>&& promise_shared_ptr, const std::function<ReturnType()>&& task)
+			{
+				return std::function<void()>([_promise_shared_ptr = std::move(promise_shared_ptr), task = std::move(task)]()
+				{
+					if constexpr (!std::is_void_v<ReturnType>)
+					{
+						_promise_shared_ptr->set_value(task());
+					}
+					else
+					{//if return type is void
+						task();
+						_promise_shared_ptr->set_value();
+					}
+				}
+				);
+			}
+
+			template <typename ReturnType>
+			inline std::future<ReturnType> _Enqueue(const std::function<ReturnType()>& task, bool bIsPushAtFront)
+			{
+				D_ASSERT(this->bmIsThreadDestructed == false);
+
+				std::shared_ptr<std::promise<ReturnType>> promise_shared_ptr{ new std::promise<ReturnType> };
+				auto future = promise_shared_ptr->get_future();
+
+				std::function<void()> taskForTaskQueue = this->_Make_Std_Function(std::move(promise_shared_ptr), task);
+
+				this->WaitingTaskQueue.enqueue(std::move(taskForTaskQueue));
+
+				return future;
+			}
+			template <typename ReturnType>
+			inline std::future<ReturnType> _Enqueue(const std::function<ReturnType()>&& task, bool bIsPushAtFront)
+			{
+				D_ASSERT(this->bmIsThreadDestructed == false);
+
+				std::shared_ptr<std::promise<ReturnType>> promise_shared_ptr{ new std::promise<ReturnType> };
+				auto future = promise_shared_ptr->get_future();
+
+				std::function<void()> taskForTaskQueue = this->_Make_Std_Function(std::move(promise_shared_ptr), std::move(task));
+
+				this->WaitingTaskQueue.enqueue(std::move(taskForTaskQueue));
+
+				return future;
+			}
+			/// <summary>
+			/// Add Multiple Task, This can reduce mutex lock cost(mutex lock is expensive)
+			/// Tasks will be added at end of queue
+			/// If tasks have different return type, pass std::function<void()> with reference variable as function argument ( example. std::bind(Function, int& result)  )
+			/// </summary>
+			template <typename ReturnType>
+			std::vector<std::future<ReturnType>> _Enqueue_Chunk(const std::vector<std::function<ReturnType()>>& tasks, bool bIsPushAtFront)
+			{
+				size_t taskCount = tasks.size();
+
+				std::vector<std::shared_ptr<std::promise<ReturnType>>> promise_shared_ptr_vector{};
+				promise_shared_ptr_vector.reserve(taskCount);
+				for (size_t i = 0; i < taskCount; i++)
+				{
+					promise_shared_ptr_vector.emplace_back(new std::promise<ReturnType>);
+				}
+
+				std::vector<std::future<ReturnType>> future_vector{};
+				future_vector.reserve(taskCount);
+				for (size_t i = 0; i < taskCount; i++)
+				{
+					future_vector.push_back(promise_shared_ptr_vector[i]->get_future());
+				}
+
+				std::vector<std::function<void()>> taskContainer{  };
+				taskContainer.reserve(taskCount);
+
+				for (size_t i = 0; i < taskCount; i++)
+				{
+					taskContainer.push_back(_Make_Std_Function(std::move(promise_shared_ptr_vector[i]), tasks[i]));
+				}
+
+				this->WaitingTaskQueue.enqueue_bulk(taskContainer.begin(), taskCount); // enqueue_bulk will copy element ( bulk doesn't support move )
+				/*
+				for (size_t i = 0; i < taskCount; i++)
+				{
+					this->WaitingTaskQueue.enqueue(std::move(taskContainer[i]));
+				}
+				*/
+				return future_vector;
+			}
+
+			template <typename ReturnType>
+			std::vector<std::future<ReturnType>> _Enqueue_Chunk(const std::vector<std::function<ReturnType()>>&& tasks, bool bIsPushAtFront)
+			{
+				size_t taskCount = tasks.size();
+
+				std::vector<std::shared_ptr<std::promise<ReturnType>>> promise_shared_ptr_vector{};
+				promise_shared_ptr_vector.reserve(taskCount);
+				for (size_t i = 0; i < taskCount; i++)
+				{
+					promise_shared_ptr_vector.emplace_back(new std::promise<ReturnType>);
+				}
+
+				std::vector<std::future<ReturnType>> future_vector{};
+				future_vector.reserve(taskCount);
+				for (size_t i = 0; i < taskCount; i++)
+				{
+					future_vector.push_back(promise_shared_ptr_vector[i]->get_future());
+				}
+
+				std::vector<std::function<void()>> taskContainer{  };
+				taskContainer.reserve(taskCount);
+
+				for (size_t i = 0; i < taskCount; i++)
+				{
+					taskContainer.push_back(_Make_Std_Function(std::move(promise_shared_ptr_vector[i]), std::move(tasks[i])));
+				}
+
+				this->WaitingTaskQueue.enqueue_bulk(taskContainer.begin(), taskCount); // enqueue_bulk will copy element ( bulk doesn't support move )
+				/*
+				for (size_t i = 0; i < taskCount; i++)
+				{
+					this->WaitingTaskQueue.enqueue(std::move(taskContainer[i]));
+				}
+				*/
+				return future_vector;
+			}
+
 		public:
-			Thread(size_t poolSize);
+			
 
 			/// <summary>
 			/// TerminateThread
 			/// </summary>
 			/// <param name="isBlock">Do block until thread is terminated??</param>
-			void TerminateThread(bool isBlock);
+			void TerminateThread(bool isDoBlock);
+
+			bool operator==(const Thread& thread);
+			bool operator==(const std::thread::id& threadId);
 
 			Thread(const Thread&) = delete;
 			Thread(Thread&&) noexcept = delete;
@@ -64,42 +216,26 @@ namespace doom
 			/// <param name="task"></param>
 			/// <returns></returns>
 			template <typename ReturnType>
-			inline std::future<ReturnType> AddTaskTopPriority(const std::function<ReturnType()>& task)
+			inline std::future<ReturnType> push_front(const std::function<ReturnType()>& task)
 			{
-				D_ASSERT(this->mIsThreadDestructed == false);
+				return this->_Enqueue(task, true);
+			}
+			template <typename ReturnType>
+			inline std::future<ReturnType> push_front(const std::function<ReturnType()>&& task)
+			{
+				return this->_Enqueue(std::move(task), true);
 			}
 
 			template <typename ReturnType>
-			inline std::future<ReturnType> AddTask(const std::function<ReturnType()>& task)
-			{  
-				D_ASSERT(this->mIsThreadDestructed == false);
-
-				std::shared_ptr<std::promise<ReturnType>> promise{ new std::promise<ReturnType> };
-				auto future = promise->get_future();
-
-				std::function<void()> newTask = [promise, task = std::move(task)]()
-				{
-					if constexpr (!std::is_void_v<ReturnType>)
-					{
-						promise->set_value(task());
-					}
-					else
-					{//if return type is void
-						task();
-						promise->set_value();
-					}
-				};
-
-				{
-					std::scoped_lock lock{ this->PoolMutex };
-					WaitingTaskQueue.push(std::move(newTask)); //push new task to task queue
-				}
-
-				ConditionVariable.notify_one();
-
-				return future;
+			inline std::future<ReturnType> push_back(const std::function<ReturnType()>& task)
+			{
+				return this->_Enqueue(task, false);
 			}
-
+			template <typename ReturnType>
+			inline std::future<ReturnType> push_back(const std::function<ReturnType()>&& task)
+			{
+				return this->_Enqueue(std::move(task), false);
+			}
 
 			/// <summary>
 			/// push task to first(front) of queue
@@ -111,11 +247,15 @@ namespace doom
 			/// <param name="...args"></param>
 			/// <returns></returns>
 			template <typename Function, typename... Args>
-			inline std::future<return_type_of_function_pointer<Function>> AddTaskTopPriority(Function&& f, Args&&... args)
+			inline std::future<return_type_of_function_pointer<Function>> emplace_front(Function&& f, Args&&... args)
 			{
-				D_ASSERT(this->mIsThreadDestructed == false);
-			}
+				D_ASSERT(this->bmIsThreadDestructed == false);
 
+				static_assert(std::is_invocable_v<Function, Args...>);
+				std::function<return_type_of_function_pointer<Function>()> task = std::bind(std::forward<Function>(f), std::forward<Args>(args)...);
+				return this->_Enqueue(std::move(task), true);
+
+			}
 
 			/// <summary>
 			/// Add a task to job
@@ -126,68 +266,17 @@ namespace doom
 			/// <param name="f"></param>
 			/// <param name="...args"></param>
 			template <typename Function, typename... Args>
-			inline std::future<return_type_of_function_pointer<Function>> AddTask(Function&& f, Args&&... args)
+			inline std::future<return_type_of_function_pointer<Function>> emplace_back(Function&& f, Args&&... args)
 			{
-				D_ASSERT(this->mIsThreadDestructed == false);
+				D_ASSERT(this->bmIsThreadDestructed == false);
 
 				static_assert(std::is_invocable_v<Function, Args...>);
 				std::function<return_type_of_function_pointer<Function>()> task = std::bind(std::forward<Function>(f), std::forward<Args>(args)...);
-				return this->AddTask(task);
+				return this->_Enqueue(std::move(task), false);
 
 			}
 
-			/// <summary>
-			/// Add Multiple Task, This can reduce mutex lock cost(mutex lock is expensive)
-			/// Tasks will be added at end of queue
-			/// If tasks have different return type, pass std::function<void()> with reference variable as function argument ( example. std::bind(Function, int& result)  )
-			/// </summary>
-			template <typename ReturnType>
-			std::vector<std::future<ReturnType>> AddTaskChunk(const std::vector<std::function<ReturnType()>>& tasks)
-			{
-				size_t taskCount = tasks.size();
-
-				std::vector<std::shared_ptr<std::promise<ReturnType>>> promises{ taskCount };
-				for (auto& promiseSharedPtr : promises)
-				{
-					promiseSharedPtr = { new std::promise<ReturnType> };
-				}
-
-				std::vector<std::future<ReturnType>> futures{ taskCount };
-				for (size_t i = 0; i < promises.size(); i++)
-				{
-					futures[i] = promises[i]->get_future();
-				}
-
-				std::vector<std::function<void()>> taskContainer{  };
-				taskContainer.reserve(taskCount);
-
-				for (size_t i = 0; i < taskCount; i++)
-				{
-					std::function<void()> newTask = [promise = promises[i], task = std::move(tasks[i])]()
-					{
-						if constexpr (!std::is_void_v<ReturnType>)
-						{
-							promise->set_value(task());
-						}
-						else
-						{//if return type is void
-							task();
-							promise->set_value();
-						}
-					};
-					taskContainer.push_back(std::move(newTask));
-				}
-
-				{
-					std::scoped_lock lock{ this->PoolMutex }; // Lock mutex just one time on multiple tasks
-					for (auto& task : taskContainer)
-					{
-						this->WaitingTaskQueue.push(std::move(task)); //push new task to task queue
-					}
-				}
-				ConditionVariable.notify_all();
-				return futures;
-			}
+			
 
 
 

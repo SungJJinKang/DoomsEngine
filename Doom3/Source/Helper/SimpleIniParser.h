@@ -44,7 +44,7 @@ public:
 	}
 };
 
-class IniParser
+class SimpleIniParser
 {
 public:
 	static IniData ParseIniFile(const char* fileDirectory);

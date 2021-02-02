@@ -19,3 +19,6 @@
 [submodule "Doom3/dependency/stb"]
 	path = Doom3/dependency/stb
 	url = https://github.com/nothings/stb.git
+[submodule "Doom3/Source/Helper/concurrentqueue"]
+	path = Doom3/Source/Helper/concurrentqueue
+	url = https://github.com/SungJJinKang/concurrentqueue.git

@@ -121,11 +121,11 @@ namespace doom
 					// we support only uv one channel
 					for (unsigned int verticeIndex = 0; verticeIndex < asset.mModelMeshes[meshIndex].mNumOfVertexs; verticeIndex++)
 					{
-						memmove(&(asset.mModelMeshes[meshIndex].mMeshVertexDatas[verticeIndex].mVertex), &(mesh->mVertices[verticeIndex]), sizeof(decltype(asset.mModelMeshes[meshIndex].mMeshVertexDatas[verticeIndex].mVertex)));
-						memmove(&(asset.mModelMeshes[meshIndex].mMeshVertexDatas[verticeIndex].mTexCoord), &(mesh->mTextureCoords[0][verticeIndex]), sizeof(decltype(asset.mModelMeshes[meshIndex].mMeshVertexDatas[verticeIndex].mTexCoord)));
-						memmove(&(asset.mModelMeshes[meshIndex].mMeshVertexDatas[verticeIndex].mNormal), &(mesh->mNormals[verticeIndex]), sizeof(decltype(asset.mModelMeshes[meshIndex].mMeshVertexDatas[verticeIndex].mNormal)));
-						memmove(&(asset.mModelMeshes[meshIndex].mMeshVertexDatas[verticeIndex].mTangent), &(mesh->mTangents[verticeIndex]), sizeof(decltype(asset.mModelMeshes[meshIndex].mMeshVertexDatas[verticeIndex].mTangent)));
-						memmove(&(asset.mModelMeshes[meshIndex].mMeshVertexDatas[verticeIndex].mBitangent), &(mesh->mBitangents[verticeIndex]), sizeof(decltype(asset.mModelMeshes[meshIndex].mMeshVertexDatas[verticeIndex].mBitangent)));
+						std::memmove(&(asset.mModelMeshes[meshIndex].mMeshVertexDatas[verticeIndex].mVertex), &(mesh->mVertices[verticeIndex]), sizeof(decltype(asset.mModelMeshes[meshIndex].mMeshVertexDatas[verticeIndex].mVertex)));
+						std::memmove(&(asset.mModelMeshes[meshIndex].mMeshVertexDatas[verticeIndex].mTexCoord), &(mesh->mTextureCoords[0][verticeIndex]), sizeof(decltype(asset.mModelMeshes[meshIndex].mMeshVertexDatas[verticeIndex].mTexCoord)));
+						std::memmove(&(asset.mModelMeshes[meshIndex].mMeshVertexDatas[verticeIndex].mNormal), &(mesh->mNormals[verticeIndex]), sizeof(decltype(asset.mModelMeshes[meshIndex].mMeshVertexDatas[verticeIndex].mNormal)));
+						std::memmove(&(asset.mModelMeshes[meshIndex].mMeshVertexDatas[verticeIndex].mTangent), &(mesh->mTangents[verticeIndex]), sizeof(decltype(asset.mModelMeshes[meshIndex].mMeshVertexDatas[verticeIndex].mTangent)));
+						std::memmove(&(asset.mModelMeshes[meshIndex].mMeshVertexDatas[verticeIndex].mBitangent), &(mesh->mBitangents[verticeIndex]), sizeof(decltype(asset.mModelMeshes[meshIndex].mMeshVertexDatas[verticeIndex].mBitangent)));
 					}
 
 
