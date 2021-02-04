@@ -33,7 +33,7 @@ namespace doom
 		/// <summary>
 		/// Entity Constructor should be called through World class
 		/// </summary>
-		Entity();
+		Entity(Entity* parent);
 		/// <summary>
 		/// Entity destructor should be called through Entity::Destory function
 		/// </summary>
@@ -42,6 +42,9 @@ namespace doom
 		std::string mEntityName;
 		static const inline std::string DEFAULT_ENTITY_NAME{ "Entity" };
 		Transform* mTransform;
+
+		Entity* mParent;
+		std::vector<Entity*> mChilds;
 
 		std::vector<std::unique_ptr<Component, Component::Deleter>> mComponents;
 

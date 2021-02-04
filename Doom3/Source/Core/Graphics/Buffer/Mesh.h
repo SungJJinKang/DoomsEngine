@@ -21,7 +21,7 @@ namespace doom
 			unsigned int mNumOfVertices;
 			ePrimitiveType mPrimitiveType;
 		public:
-			inline Mesh(const ThreeDModelMesh& threeDModelMesh) noexcept
+			Mesh(const ThreeDModelMesh& threeDModelMesh) noexcept
 				: Buffer(), mThreeDModelMesh{ threeDModelMesh }, mVertexArrayObject{}, mElementBufferObject{}, mNumOfVertices{ 0 }, mNumOfIndices{ 0 }
 			{
 				glGenVertexArrays(1, &(this->mVertexArrayObject));
@@ -38,12 +38,12 @@ namespace doom
 			/// bind buffer array object
 			/// </summary>
 			/// <returns></returns>
-			inline void BindBuffer() noexcept final
+			void BindBuffer() noexcept final
 			{
 				D_CHECK_OVERLAP_BIND("VertexArray", this->mVertexArrayObject);
 				glBindVertexArray(this->mVertexArrayObject);
 			}
-			inline void UnBindBuffer() noexcept final
+			void UnBindBuffer() noexcept final
 			{
 				glBindVertexArray(0);
 			}
@@ -63,7 +63,7 @@ namespace doom
 			/// <param name="size"></param>
 			/// <param name="data"></param>
 			void BufferData(GLsizeiptr size, const void* data) noexcept final;
-			void BufferDataFromModelMesh();
+			void BufferDataFromModelMesh() noexcept;
 			void Draw()
 			{
 				this->BindBuffer();

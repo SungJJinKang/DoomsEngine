@@ -3,7 +3,7 @@
 #include "../../Component/Transform.h"
 #include"World.h"
 
-doom::Entity::Entity() : mEntityName{}, mTransform{}, mComponents{}
+doom::Entity::Entity(Entity* parent) : mEntityName{}, mTransform{}, mComponents{}, mParent{ parent }, mChilds{}
 {
 	this->mTransform = &(this->AddComponent_Internal<doom::Transform>());
 }

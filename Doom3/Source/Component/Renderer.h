@@ -1,5 +1,34 @@
 #pragma once
-class Renderer
-{
-};
+#include "../Core/Graphics/Material.h"
 
+namespace doom
+{
+	namespace graphics
+	{
+		class Material;
+	}
+
+	class Renderer
+	{
+	private:
+		graphics::Material* mTargetMaterial;
+	protected:
+		
+
+	public:
+		Renderer(graphics::Material* targetMaterial);
+
+		virtual void Draw() = 0;
+
+		/// <summary>
+		/// Why this function is inline function.
+		/// In rendering, Function Call Overhead can be critical overhead 
+		/// because We should render a lot of triangles 30 times in a second
+		/// 
+		/// </summary>
+		void BindMaterial()
+		{
+			this->mTargetMaterial->UseProgram();
+		}
+	};
+}

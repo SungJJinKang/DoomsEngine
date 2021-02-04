@@ -170,7 +170,6 @@
     <ClCompile Include="Source\Component\DirectionalLight.cpp" />
     <ClCompile Include="Source\Component\Light.cpp" />
     <ClCompile Include="Source\Component\MeshRenderer.cpp" />
-    <ClCompile Include="Source\Component\PrimitiveRenderer.cpp" />
     <ClCompile Include="Source\Component\Renderer.cpp" />
     <ClCompile Include="Source\Component\Transform.cpp" />
     <ClCompile Include="Source\Core\Asset\Base_Asset.cpp" />
@@ -204,7 +203,9 @@
     <ClCompile Include="Source\Core\Game\GameFlow.cpp" />
     <ClCompile Include="Source\Core\Graphics\Graphics.cpp" />
     <ClCompile Include="Source\Core\Math\LightMath_Cpp\Matrix.cpp" />
+    <ClCompile Include="Source\Core\Math\LightMath_Cpp\Quaternion.cpp" />
     <ClCompile Include="Source\Core\Math\LightMath_Cpp\Vector.cpp" />
+    <ClCompile Include="Source\Core\Math\LightMath_Cpp\Vector3.cpp" />
     <ClCompile Include="Source\Core\Profiler\Profiler.cpp" />
     <ClCompile Include="Source\Core\Random.cpp" />
     <ClCompile Include="Source\Core\ResourceManagement\MemoryPool.cpp" />
@@ -228,7 +229,6 @@
     <ClInclude Include="Source\Component\DirectionalLight.h" />
     <ClInclude Include="Source\Component\Light.h" />
     <ClInclude Include="Source\Component\MeshRenderer.h" />
-    <ClInclude Include="Source\Component\PrimitiveRenderer.h" />
     <ClInclude Include="Source\Component\Renderer.h" />
     <ClInclude Include="Source\Component\Transform.h" />
     <ClInclude Include="Source\Core\Graphics\Buffer\UniformBlock.h" />

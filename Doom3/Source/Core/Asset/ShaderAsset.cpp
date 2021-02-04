@@ -10,7 +10,7 @@ const std::string doom::ShaderAsset::VertexShaderMacros = "#VERTEX";
 const std::string doom::ShaderAsset::FragmentShaderMacros = "#FRAGMENT";
 const std::string doom::ShaderAsset::GeometryShaderMacros = "#GEOMETRY";
 
-doom::ShaderAsset::ShaderAsset(const std::string& shaderStr) : mVertexId{ 0 }, mFragmentId{ 0 }, mGeometryId{ 0 }, bIsCompiled{ false }, mShaderFileText{ shaderStr }
+doom::ShaderAsset::ShaderAsset(const std::string& shaderStr) : mVertexId{ 0 }, mFragmentId{ 0 }, mGeometryId{ 0 }, mShaderFileText{ shaderStr }
 {
 
 }

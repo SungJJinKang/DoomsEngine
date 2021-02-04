@@ -6,7 +6,7 @@
 #include "../Math/LightMath_Cpp/Vector2.h"
 #include "../Math/LightMath_Cpp/Vector3.h"
 
-using namespace Math;
+using namespace math;
 
 namespace doom
 {

@@ -50,7 +50,7 @@ void Material::SetShaderAsset(ShaderAsset& shaderAsset)
 }
 
 
-Material::Material(ShaderAsset& shaderAsset) : mID{ 0 }, mShaderAsset{ nullptr }
+Material::Material(ShaderAsset& shaderAsset) : mID{ 0 }, mShaderAsset{ nullptr }, mTargetTextures{}
 {
 	this->SetShaderAsset(shaderAsset);
 }
@@ -61,5 +61,15 @@ Material::~Material()
 	{
 		glDeleteProgram(this->mID);
 	}
+}
+
+void Material::AddTexture(Texture& texture)
+{
+	this->mTargetTextures.push_back(&texture);
+}
+
+void Material::AddTextures(std::vector<Texture*> textures)
+{
+	this->mTargetTextures.insert(this->mTargetTextures.end(), textures.begin(), textures.end());
 }
 

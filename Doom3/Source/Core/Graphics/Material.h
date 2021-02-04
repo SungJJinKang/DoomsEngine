@@ -1,6 +1,9 @@
 #pragma once
 #include <string>
+#include <vector>
+
 #include "Graphics_Core.h"
+#include "Texture.h"
 #include "../OverlapBindChecker/OverlapBindChecker.h"
 
 namespace doom
@@ -14,14 +17,24 @@ namespace doom
 		private:
 			unsigned int mID;
 			ShaderAsset* mShaderAsset;
-
+			std::vector<Texture*> mTargetTextures;
 			void SetShaderAsset(ShaderAsset& shaderAsset);
 		public:
 			Material(ShaderAsset& shaderAsset);
 			~Material();
 
+			void AddTexture(Texture& texture);
+			void AddTextures(std::vector<Texture*> textures);
+
 			void UseProgram()
 			{
+				for (unsigned int i = 0; i < this->mTargetTextures.size(); i++)
+				{
+					auto& texture = *(this->mTargetTextures[i]);
+					texture.ActiveTexture(i);
+					texture.BindTexture();
+				}
+
 				D_CHECK_OVERLAP_BIND("Material", this->mID);
 				glUseProgram(this->mID);
 			}
