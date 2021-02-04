@@ -57,6 +57,7 @@ namespace doom
 
 			D_DEBUG_LOG(stream.str());
 
+
 #ifdef DEBUG_MODE
 			static bool IsAssimpDebuggerInitialized;
 
@@ -72,6 +73,7 @@ namespace doom
 				IsAssimpDebuggerInitialized = true;
 			}
 #endif
+
 			AssetApiImporter<Asset::eAssetType::THREE_D_MODEL> apiImporterContainer = AssetApiImporter<Asset::eAssetType::THREE_D_MODEL>::GetApiImporter();
 			auto apiImporter = apiImporterContainer.Get();
 

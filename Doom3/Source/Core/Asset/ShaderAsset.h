@@ -10,7 +10,7 @@ namespace doom
 	{
 	private:
 
-		enum class ShaderType : std::int8_t
+		enum class ShaderType 
 		{
 			None,
 			Vertex,
@@ -26,8 +26,7 @@ namespace doom
 
 		unsigned int mVertexId, mFragmentId, mGeometryId;
 
-		bool bIsCompiled = false;
-
+	
 		/// <summary>
 		/// Don't call this subthread, Should Call this at mainthread
 		/// </summary>
@@ -47,6 +46,11 @@ namespace doom
 		~ShaderAsset();
 
 		void OnEndImportInMainThread() final;
+
+		unsigned int GetVertexId();
+		unsigned int GetFragmentId();
+		unsigned int GetGeometryId();
+
 	};
 
 	

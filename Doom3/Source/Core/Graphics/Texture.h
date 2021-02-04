@@ -3,7 +3,7 @@
 #include <unordered_map>
 
 #include "Graphics_Core.h"
-
+#include "../OverlapBindChecker/OverlapBindChecker.h"
 
 namespace doom
 {
@@ -288,7 +288,6 @@ namespace doom
 		protected:
 			unsigned int mID;
 
-			ONLY_DEBUG(static inline std::unordered_map<eBindTarget, unsigned int> mCurrentBoundId{};)
 
 			Texture() = delete;
 
@@ -334,23 +333,12 @@ namespace doom
 
 			inline void BindTexture() noexcept
 			{
-				ONLY_DEBUG
-				(
-					if (mCurrentBoundId[this->mBindTarget] == this->mID)
-					{
-						D_DEBUG_LOG("This Texture is already bound");
-						return;
-					}
-				)
-
+				D_CHECK_OVERLAP_BIND("Texture", this->mID);
 				glBindTexture(static_cast<unsigned int>(this->mBindTarget), this->mID);
-				ONLY_DEBUG(mCurrentBoundId[this->mBindTarget] = this->mID;)
-
 			}
 			inline void UnBindTexture() noexcept
 			{
 				glBindTexture(static_cast<unsigned int>(this->mBindTarget), 0);
-				ONLY_DEBUG(mCurrentBoundId[this->mBindTarget] = 0;)
 			}
 
 			inline void ActiveTexture(unsigned int index) noexcept

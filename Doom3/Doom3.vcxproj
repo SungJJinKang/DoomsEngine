@@ -88,7 +88,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)dependency\glad\include;$(SolutionDir)dependency\assimp\;%(AdditionalIncludeDirectories);</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Doom3FromScratch\Doom3\dependency\;$(SolutionDir)dependency\glad\include;$(SolutionDir)dependency\assimp\;%(AdditionalIncludeDirectories);</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
@@ -108,7 +108,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)dependency\glad\include;$(SolutionDir)dependency\assimp\;$(SolutionDir)dependency\glfw-3.3.2.bin.WIN64\include\;$(SolutionDir)dependency\glad\include;%(AdditionalIncludeDirectories);$(SolutionDir)dependency\glad\include;$(SolutionDir)dependency\glfw-3.3.2.bin.WIN64\include\</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Doom3FromScratch\Doom3\dependency\;$(SolutionDir)dependency\glad\include;$(SolutionDir)dependency\assimp\;$(SolutionDir)dependency\glfw-3.3.2.bin.WIN64\include\;$(SolutionDir)dependency\glad\include;%(AdditionalIncludeDirectories);$(SolutionDir)dependency\glad\include;$(SolutionDir)dependency\glfw-3.3.2.bin.WIN64\include\</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
@@ -128,7 +128,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)dependency\glad\include;$(SolutionDir)dependency\assimp\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Doom3FromScratch\Doom3\dependency\;$(SolutionDir)dependency\glad\include;$(SolutionDir)dependency\assimp\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
@@ -148,7 +148,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)dependency\glad\include;$(SolutionDir)dependency\assimp\;$(SolutionDir)dependency\glfw-3.3.2.bin.WIN64\include\;$(SolutionDir)dependency\glad\include;%(AdditionalIncludeDirectories);$(SolutionDir)dependency\glad\include;$(SolutionDir)dependency\glfw-3.3.2.bin.WIN64\include\</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Doom3FromScratch\Doom3\dependency\;$(SolutionDir)dependency\glad\include;$(SolutionDir)dependency\assimp\;$(SolutionDir)dependency\glfw-3.3.2.bin.WIN64\include\;$(SolutionDir)dependency\glad\include;%(AdditionalIncludeDirectories);$(SolutionDir)dependency\glad\include;$(SolutionDir)dependency\glfw-3.3.2.bin.WIN64\include\</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
@@ -312,6 +312,7 @@
     <ClInclude Include="Source\Helper\concurrentqueue\blockingconcurrentqueue.h" />
     <ClInclude Include="Source\Helper\DeferredConstant\DeferredConstant.h" />
     <ClInclude Include="Source\Helper\ForLoop_Compile_Time\ForLoop_Compile.h" />
+    <ClInclude Include="Source\Core\OverlapBindChecker\OverlapBindChecker.h" />
     <ClInclude Include="Source\Helper\std_future_wrapper\CustomFutureWrapper.h" />
     <ClInclude Include="Source\Helper\std_future_wrapper\DummyFuture.h" />
     <ClInclude Include="Source\Helper\std_future_wrapper\FutureWrapper.h" />

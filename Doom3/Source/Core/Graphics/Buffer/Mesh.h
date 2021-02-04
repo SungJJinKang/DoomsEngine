@@ -3,6 +3,7 @@
 
 #include <functional>
 #include "../../Asset/ThreeDModelAsset.h"
+#include "../../OverlapBindChecker/OverlapBindChecker.h"
 
 namespace doom
 {
@@ -16,21 +17,30 @@ namespace doom
 			unsigned int mElementBufferObject;
 
 			const std::reference_wrapper<const ThreeDModelMesh> mThreeDModelMesh;
+			unsigned int mNumOfIndices;
+			unsigned int mNumOfVertices;
+			ePrimitiveType mPrimitiveType;
 		public:
 			inline Mesh(const ThreeDModelMesh& threeDModelMesh) noexcept
-				: Buffer(), mThreeDModelMesh{ threeDModelMesh }, mVertexArrayObject{}, mElementBufferObject{}
+				: Buffer(), mThreeDModelMesh{ threeDModelMesh }, mVertexArrayObject{}, mElementBufferObject{}, mNumOfVertices{ 0 }, mNumOfIndices{ 0 }
 			{
 				glGenVertexArrays(1, &(this->mVertexArrayObject));
 
-
-				if (mThreeDModelMesh.get().bHasIndices)
+				if (threeDModelMesh.bHasIndices)
 				{
 					glGenBuffers(1, &(this->mElementBufferObject));
 				}
+
+				this->BufferDataFromModelMesh();
 			}
 
+			/// <summary>
+			/// bind buffer array object
+			/// </summary>
+			/// <returns></returns>
 			inline void BindBuffer() noexcept final
 			{
+				D_CHECK_OVERLAP_BIND("VertexArray", this->mVertexArrayObject);
 				glBindVertexArray(this->mVertexArrayObject);
 			}
 			inline void UnBindBuffer() noexcept final
@@ -53,6 +63,19 @@ namespace doom
 			/// <param name="size"></param>
 			/// <param name="data"></param>
 			void BufferData(GLsizeiptr size, const void* data) noexcept final;
+			void BufferDataFromModelMesh();
+			void Draw()
+			{
+				this->BindBuffer();
+				if (mNumOfIndices > 0)
+				{
+					glDrawElements(GL_TRIANGLES, this->mNumOfIndices, GL_UNSIGNED_INT, 0);
+				}
+				else
+				{
+					glDrawArrays(static_cast<unsigned int>(this->mPrimitiveType), 0, this->mNumOfVertices);
+				}
+			}
 		};
 	}
 }

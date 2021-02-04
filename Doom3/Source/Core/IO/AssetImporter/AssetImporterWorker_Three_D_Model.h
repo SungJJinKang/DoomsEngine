@@ -27,7 +27,6 @@ namespace doom
 		/// <returns></returns>
 		void SetThreeDModelNodesData(ThreeDModelNode* currentNode, aiNode* currentAssimpNode, ThreeDModelNode* parentNode, ThreeDModelAsset& modelAsset, const aiScene* assimpScene);
 
-
 #ifdef DEBUG_MODE
 		class AssimpLogStream : public Assimp::LogStream {
 		public:

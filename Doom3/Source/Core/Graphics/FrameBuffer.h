@@ -6,6 +6,7 @@
 #include "Graphics.h"
 #include "RenderBuffer.h"
 #include "SingleTexture.h"
+#include "../OverlapBindChecker/OverlapBindChecker.h"
 
 namespace doom
 {
@@ -30,8 +31,6 @@ namespace doom
 
 			unsigned int mWidth;
 			unsigned int mHeight;
-
-			ONLY_DEBUG(static inline unsigned int mCurrentBoundId{};)
 		public:
 			
 			unsigned int mFbo;
@@ -42,9 +41,8 @@ namespace doom
 
 			inline void BindFrameBuffer() noexcept
 			{
+				D_CHECK_OVERLAP_BIND("FramgBuffer", this->mFbo);
 				glBindFramebuffer(GL_FRAMEBUFFER, this->mFbo);
-
-				ONLY_DEBUG(mCurrentBoundId = this->mFbo;)
 			}
 			static inline void UnBindFrameBuffer() noexcept
 			{

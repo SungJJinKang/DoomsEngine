@@ -17,12 +17,11 @@ doom::ShaderAsset::ShaderAsset(const std::string& shaderStr) : mVertexId{ 0 }, m
 
 doom::ShaderAsset::ShaderAsset(ShaderAsset&& shader) noexcept 
 	: mVertexId{ shader.mVertexId }, mFragmentId{ shader.mFragmentId }, mGeometryId{ shader.mGeometryId }, 
-	bIsCompiled{ false }, mShaderFileText{ shader.mShaderFileText }
+	mShaderFileText{ shader.mShaderFileText }
 {
 	shader.mVertexId = 0;
 	shader.mFragmentId = 0;
 	shader.mGeometryId = 0;
-	shader.bIsCompiled = false;
 	shader.mShaderFileText.clear();
 }
 
@@ -36,9 +35,6 @@ doom::ShaderAsset& doom::ShaderAsset::operator=(ShaderAsset&& shader) noexcept
 
 	this->mGeometryId = shader.mGeometryId;
 	shader.mGeometryId = 0;
-
-	this->bIsCompiled = shader.bIsCompiled;
-	shader.bIsCompiled = false;
 
 	this->mShaderFileText = shader.mShaderFileText;
 	shader.mShaderFileText.clear();
@@ -62,6 +58,11 @@ doom::ShaderAsset::~ShaderAsset()
 void doom::ShaderAsset::CompileShaders(const std::string& str)
 {
 	std::array<std::string, 3> shaders = this->ClassifyShader(str);
+
+	this->mVertexId = 0;
+	this->mFragmentId = 0;
+	this->mGeometryId = 0;
+
 	if (shaders[0].size() != 0)
 	{
 		this->CompileSpecificShader(shaders[0], ShaderType::Vertex, this->mVertexId);
@@ -107,7 +108,6 @@ void doom::ShaderAsset::CompileSpecificShader(const std::string& shaderStr, Shad
 
 	D_END_PROFILING("Compiling Shader");
 
-	this->bIsCompiled = true;
 #ifdef DEBUG_MODE
 	this->checkCompileError(shaderId, shaderType);
 #endif
@@ -219,5 +219,20 @@ void doom::ShaderAsset::OnEndImportInMainThread()
 {
 	doom::Asset::OnEndImportInMainThread();
 	this->CompileShaders(this->mShaderFileText);
+}
+
+unsigned int doom::ShaderAsset::GetVertexId()
+{
+	return this->mVertexId;
+}
+
+unsigned int doom::ShaderAsset::GetFragmentId()
+{
+	return this->mFragmentId;
+}
+
+unsigned int doom::ShaderAsset::GetGeometryId()
+{
+	return this->mGeometryId;
 }
 
