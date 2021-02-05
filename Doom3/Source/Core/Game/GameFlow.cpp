@@ -7,19 +7,13 @@ void doom::GameFlow::Init()
 }
 
 void doom::GameFlow::Loop()
-
 {
+	
 	if (!glfwWindowShouldClose(graphics::Graphics::Window))
 	{
-		graphics::Graphics::ClearColor(1.0f, 1.0f, 1.0f, 1.0f);
-		graphics::Graphics::Clear(graphics::Graphics::eClearMask::COLOR_BUFFER_BIT, graphics::Graphics::eClearMask::DEPTH_BUFFER_BIT);
-
-
-
-		// glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)
-		// -------------------------------------------------------------------------------
-		glfwSwapBuffers(graphics::Graphics::Window);
-		glfwPollEvents();
+		D_START_PROFILING("Rendering A Frame", eProfileLayers::GPU);
+		doom::graphics::Graphics::Loop();
+		D_END_PROFILING("Rendering A Frame");
 
 		return;
 	}
@@ -30,4 +24,5 @@ void doom::GameFlow::Loop()
 
 		return;
 	}
+	
 }

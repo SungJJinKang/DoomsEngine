@@ -13,14 +13,15 @@ namespace doom
 		class UniformBlock : public Buffer
 		{
 		private:
-
+			unsigned int& mUniformBufferID = this->mBufferID;
 		public:
+
 			UniformBlock();
 
 			inline void BindBuffer() noexcept final
 			{
-				D_CHECK_OVERLAP_BIND("UniformBlock", this->mBufferID);
-				glBindBuffer(GL_UNIFORM_BUFFER, this->mBufferID);
+				D_CHECK_OVERLAP_BIND("UniformBlock", this->mUniformBufferID);
+				glBindBuffer(GL_UNIFORM_BUFFER, this->mUniformBufferID);
 			}
 			inline void UnBindBuffer() noexcept final
 			{

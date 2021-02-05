@@ -34,11 +34,12 @@ math::Vector3 doom::Transform::GetScale()
 
 math::Matrix4x4 doom::Transform::GetModelMatrix()
 {
-	this->mModelMatrixCache = math::Matrix4x4(1.0f);
+	this->mModelMatrixCache = math::Matrix4x4::identify;
 	this->mModelMatrixCache = math::translate(this->mModelMatrixCache, this->mPosition);
 	this->mModelMatrixCache = this->mModelMatrixCache * static_cast<math::Matrix4x4>(this->mRotation);
 	this->mModelMatrixCache = math::scale(this->mModelMatrixCache, this->mScale);
 	this->mModelMatrixCache *= this->mLocalToWorldMatrix;
+	return this->mModelMatrixCache;
 }
 
 math::Matrix4x4 doom::Transform::GetViewMatrix()

@@ -33,20 +33,35 @@ namespace doom
 			currentNode->mThreeDModelNodeParent = parentNode;
 			currentNode->mThreeDModelAsset = &modelAsset;
 			currentNode->mName = currentAssimpNode->mName.C_Str();
-			currentNode->mNumOfThreeDmModelMeshes = currentAssimpNode->mNumMeshes;
 
-			currentNode->mThreeDmModelMeshes = new ThreeDModelMesh * [currentAssimpNode->mNumMeshes];
-			for (unsigned int meshIndex = 0; meshIndex < currentAssimpNode->mNumMeshes; meshIndex++)
+			currentNode->mNumOfModelMeshes = currentAssimpNode->mNumMeshes;
+			if (currentAssimpNode->mNumMeshes > 0)
 			{
-				currentNode->mThreeDmModelMeshes[meshIndex] = &(modelAsset.mModelMeshes[currentAssimpNode->mMeshes[meshIndex]]);
+				currentNode->mModelMeshIndexs = new unsigned int[currentNode->mNumOfModelMeshes];
+				for (unsigned int meshIndex = 0; meshIndex < currentNode->mNumOfModelMeshes; meshIndex++)
+				{
+					currentNode->mModelMeshIndexs[meshIndex] = currentAssimpNode->mMeshes[meshIndex];
+				}
+			}
+			else
+			{
+				currentNode->mModelMeshIndexs = nullptr;
 			}
 
 			currentNode->mNumOfThreeDModelNodeChildrens = currentAssimpNode->mNumChildren;
-			currentNode->mThreeDModelNodeChildrens = new ThreeDModelNode[currentAssimpNode->mNumChildren];
-			for (unsigned int childrenIndex = 0; childrenIndex < currentAssimpNode->mNumChildren; childrenIndex++)
+			if (currentAssimpNode->mNumChildren > 0)
 			{
-				doom::assetimporter::SetThreeDModelNodesData(&(currentNode->mThreeDModelNodeChildrens[childrenIndex]), currentAssimpNode->mChildren[childrenIndex], currentNode, modelAsset, assimpScene);
+				currentNode->mThreeDModelNodeChildrens = new ThreeDModelNode[currentNode->mNumOfThreeDModelNodeChildrens];
+				for (unsigned int childrenIndex = 0; childrenIndex < currentNode->mNumOfThreeDModelNodeChildrens; childrenIndex++)
+				{
+					doom::assetimporter::SetThreeDModelNodesData(&(currentNode->mThreeDModelNodeChildrens[childrenIndex]), currentAssimpNode->mChildren[childrenIndex], currentNode, modelAsset, assimpScene);
+				}
 			}
+			else
+			{
+				currentNode->mThreeDModelNodeChildrens = nullptr;
+			}
+			
 		}
 		
 		template<>
@@ -101,19 +116,19 @@ namespace doom
 
 
 				//Copy Asset meshes
-				asset.mNumOfModelMesh = scene->mNumMeshes;
-				asset.mModelMeshes = new ThreeDModelMesh[asset.mNumOfModelMesh];
+				asset.mNumOfModelMeshAssets = scene->mNumMeshes;
+				asset.mModelMeshAssets = new ThreeDModelMesh[asset.mNumOfModelMeshAssets];
 				for (unsigned int meshIndex = 0; meshIndex < scene->mNumMeshes; meshIndex++)
 				{
 					auto mesh = scene->mMeshes[meshIndex];
 
-					asset.mModelMeshes[meshIndex].mName = mesh->mName.C_Str();
-					asset.mModelMeshes[meshIndex].mPrimitiveType = static_cast<ePrimitiveType>(mesh->mPrimitiveTypes);
+					asset.mModelMeshAssets[meshIndex].mName = mesh->mName.C_Str();
+					asset.mModelMeshAssets[meshIndex].mPrimitiveType = static_cast<ePrimitiveType>(mesh->mPrimitiveTypes);
 
 
 					// store Vertices
-					asset.mModelMeshes[meshIndex].mNumOfVertexs = mesh->mNumVertices;
-					asset.mModelMeshes[meshIndex].mMeshVertexDatas = new MeshVertexData[asset.mModelMeshes[meshIndex].mNumOfVertexs];
+					asset.mModelMeshAssets[meshIndex].mNumOfVertexs = mesh->mNumVertices;
+					asset.mModelMeshAssets[meshIndex].mMeshVertexDatas = new MeshVertexData[asset.mModelMeshAssets[meshIndex].mNumOfVertexs];
 
 					D_ASSERT(mesh->mNumUVComponents[0] == 2);
 					D_ASSERT(mesh->HasTangentsAndBitangents());
@@ -121,37 +136,37 @@ namespace doom
 					D_ASSERT(mesh->HasTextureCoords(0));
 
 					// we support only uv one channel
-					for (unsigned int verticeIndex = 0; verticeIndex < asset.mModelMeshes[meshIndex].mNumOfVertexs; verticeIndex++)
+					for (unsigned int verticeIndex = 0; verticeIndex < asset.mModelMeshAssets[meshIndex].mNumOfVertexs; verticeIndex++)
 					{
-						std::memmove(&(asset.mModelMeshes[meshIndex].mMeshVertexDatas[verticeIndex].mVertex), &(mesh->mVertices[verticeIndex]), sizeof(decltype(asset.mModelMeshes[meshIndex].mMeshVertexDatas[verticeIndex].mVertex)));
-						std::memmove(&(asset.mModelMeshes[meshIndex].mMeshVertexDatas[verticeIndex].mTexCoord), &(mesh->mTextureCoords[0][verticeIndex]), sizeof(decltype(asset.mModelMeshes[meshIndex].mMeshVertexDatas[verticeIndex].mTexCoord)));
-						std::memmove(&(asset.mModelMeshes[meshIndex].mMeshVertexDatas[verticeIndex].mNormal), &(mesh->mNormals[verticeIndex]), sizeof(decltype(asset.mModelMeshes[meshIndex].mMeshVertexDatas[verticeIndex].mNormal)));
-						std::memmove(&(asset.mModelMeshes[meshIndex].mMeshVertexDatas[verticeIndex].mTangent), &(mesh->mTangents[verticeIndex]), sizeof(decltype(asset.mModelMeshes[meshIndex].mMeshVertexDatas[verticeIndex].mTangent)));
-						std::memmove(&(asset.mModelMeshes[meshIndex].mMeshVertexDatas[verticeIndex].mBitangent), &(mesh->mBitangents[verticeIndex]), sizeof(decltype(asset.mModelMeshes[meshIndex].mMeshVertexDatas[verticeIndex].mBitangent)));
+						std::memmove(&(asset.mModelMeshAssets[meshIndex].mMeshVertexDatas[verticeIndex].mVertex), &(mesh->mVertices[verticeIndex]), sizeof(decltype(asset.mModelMeshAssets[meshIndex].mMeshVertexDatas[verticeIndex].mVertex)));
+						std::memmove(&(asset.mModelMeshAssets[meshIndex].mMeshVertexDatas[verticeIndex].mTexCoord), &(mesh->mTextureCoords[0][verticeIndex]), sizeof(decltype(asset.mModelMeshAssets[meshIndex].mMeshVertexDatas[verticeIndex].mTexCoord)));
+						std::memmove(&(asset.mModelMeshAssets[meshIndex].mMeshVertexDatas[verticeIndex].mNormal), &(mesh->mNormals[verticeIndex]), sizeof(decltype(asset.mModelMeshAssets[meshIndex].mMeshVertexDatas[verticeIndex].mNormal)));
+						std::memmove(&(asset.mModelMeshAssets[meshIndex].mMeshVertexDatas[verticeIndex].mTangent), &(mesh->mTangents[verticeIndex]), sizeof(decltype(asset.mModelMeshAssets[meshIndex].mMeshVertexDatas[verticeIndex].mTangent)));
+						std::memmove(&(asset.mModelMeshAssets[meshIndex].mMeshVertexDatas[verticeIndex].mBitangent), &(mesh->mBitangents[verticeIndex]), sizeof(decltype(asset.mModelMeshAssets[meshIndex].mMeshVertexDatas[verticeIndex].mBitangent)));
 					}
 
 
 					// we put indices of all faces at ThreeDModelMesh.mMeshIndices 
-					asset.mModelMeshes[meshIndex].bHasIndices = mesh->HasFaces();
-					if (asset.mModelMeshes[meshIndex].bHasIndices)
+					asset.mModelMeshAssets[meshIndex].bHasIndices = mesh->HasFaces();
+					if (asset.mModelMeshAssets[meshIndex].bHasIndices)
 					{
-						asset.mModelMeshes[meshIndex].mNumOfIndices = 0;
+						asset.mModelMeshAssets[meshIndex].mNumOfIndices = 0;
 						for (unsigned int faceIndex = 0; faceIndex < mesh->mNumFaces; faceIndex++)
 						{
 							// counting number of faces
-							asset.mModelMeshes[meshIndex].mNumOfIndices += mesh->mFaces[faceIndex].mNumIndices;
+							asset.mModelMeshAssets[meshIndex].mNumOfIndices += mesh->mFaces[faceIndex].mNumIndices;
 
-							//asset.mModelMeshes[meshIndex].mMeshFaceDatas[faceIndex].mIndices = new unsigned int[asset.mModelMeshes[meshIndex].mMeshFaceDatas[faceIndex].mNumIndices];
-							//memmove(&(asset.mModelMeshes[meshIndex].mMeshFaceDatas[faceIndex].mIndices[0]), &(mesh->mFaces[faceIndex].mIndices[0]), sizeof(unsigned int) * asset.mModelMeshes[meshIndex].mMeshFaceDatas[faceIndex].mNumIndices);
+							//asset.mModelMeshAssets[meshIndex].mMeshFaceDatas[faceIndex].mIndices = new unsigned int[asset.mModelMeshAssets[meshIndex].mMeshFaceDatas[faceIndex].mNumIndices];
+							//memmove(&(asset.mModelMeshAssets[meshIndex].mMeshFaceDatas[faceIndex].mIndices[0]), &(mesh->mFaces[faceIndex].mIndices[0]), sizeof(unsigned int) * asset.mModelMeshAssets[meshIndex].mMeshFaceDatas[faceIndex].mNumIndices);
 						}
 
 
-						asset.mModelMeshes[meshIndex].mMeshIndices = new unsigned int[asset.mModelMeshes[meshIndex].mNumOfIndices]; // reserve indices space
+						asset.mModelMeshAssets[meshIndex].mMeshIndices = new unsigned int[asset.mModelMeshAssets[meshIndex].mNumOfIndices]; // reserve indices space
 						unsigned int indiceIndex = 0;
 						for (unsigned int faceIndex = 0; faceIndex < mesh->mNumFaces; faceIndex++)
 						{
 							// copy indice datas from indices of face of mesh of assimp to my asset's indices
-							memmove(&(asset.mModelMeshes[meshIndex].mMeshIndices[indiceIndex]), &(mesh->mFaces[faceIndex].mIndices[0]), sizeof(unsigned int) * mesh->mFaces[faceIndex].mNumIndices);
+							memmove(&(asset.mModelMeshAssets[meshIndex].mMeshIndices[indiceIndex]), &(mesh->mFaces[faceIndex].mIndices[0]), sizeof(unsigned int) * mesh->mFaces[faceIndex].mNumIndices);
 							indiceIndex += mesh->mFaces[faceIndex].mNumIndices;
 						}
 					}
@@ -161,8 +176,9 @@ namespace doom
 				}
 
 				//scene->mRootNode
-				asset.mRootNode.mThreeDModelNodeParent = nullptr;
-				SetThreeDModelNodesData(&(asset.mRootNode), scene->mRootNode, nullptr, asset, scene);
+				asset.mRootModelNode = new ThreeDModelNode();
+				asset.mRootModelNode->mThreeDModelNodeParent = nullptr;
+				SetThreeDModelNodesData(asset.mRootModelNode, scene->mRootNode, nullptr, asset, scene);
 				apiImporter->FreeScene();
 				apiImporterContainer.Release();
 				return asset;

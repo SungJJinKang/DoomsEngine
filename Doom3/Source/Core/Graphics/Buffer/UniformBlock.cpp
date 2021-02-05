@@ -2,7 +2,7 @@
 
 #include "../Graphics_Core.h"
 
-doom::graphics::UniformBlock::UniformBlock() : Buffer()
+doom::graphics::UniformBlock::UniformBlock() : Buffer(true)
 {
 
 }

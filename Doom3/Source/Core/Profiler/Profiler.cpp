@@ -48,7 +48,6 @@ namespace doom
 			{
 				std::cout << '\n' << "Profiler ( " << currentThread << " ) : " << name << "  -  " << consumedTimeInMS << " microseconds" << std::endl;
 			}
-			
 		}
 	}
 }

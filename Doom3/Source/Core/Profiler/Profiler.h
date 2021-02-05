@@ -1,6 +1,5 @@
 #pragma once
 
-
 namespace doom
 {
 	namespace profiler

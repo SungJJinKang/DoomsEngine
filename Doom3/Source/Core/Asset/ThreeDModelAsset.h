@@ -8,6 +8,9 @@
 
 using namespace math;
 
+
+
+
 namespace doom
 {
 	struct ThreeDModelMesh;
@@ -42,6 +45,7 @@ namespace doom
 
 	enum class ePrimitiveType
 	{
+		NONE = 0x0,
 		POINT = 0x1,
 		LINE = 0x2,
 		TRIANGLE = 0x4,
@@ -70,14 +74,26 @@ namespace doom
 		/// ( X ) Vertex Vertex Vertex | TexCoord TexCoord TexCoord | Normal Normal Normal | Tangent Tangent Tangent | Bitangent Bitangent Bitangent
 		/// </summary>
 		MeshVertexData* mMeshVertexDatas;
+
+		~ThreeDModelMesh()
+		{
+			delete[] mMeshIndices;
+			delete[] mMeshVertexDatas;
+		}
 	};
 
 	struct ThreeDModelNode
-	{
+	{ 
+		/// <summary>
+		/// don't clear this
+		/// </summary>
 		doom::ThreeDModelAsset* mThreeDModelAsset;
 
 		std::string mName;
 
+		/// <summary>
+		/// don't clear this
+		/// </summary>
 		ThreeDModelNode* mThreeDModelNodeParent;
 
 		ThreeDModelNode* mThreeDModelNodeChildrens;
@@ -85,21 +101,59 @@ namespace doom
 
 		/// <summary>
 		/// each component contain index of ThreeDModelAsset::ThreeDModelMesh 
-		/// so use like this->ThreeDModelAsset->ThreeDModelMesh[ThreeDmModelMeshes[0]]
+		/// so use like this->ThreeDModelAsset->mModelMeshAssets[mModelMeshIndexs[0]]
 		/// </summary>
-		ThreeDModelMesh** mThreeDmModelMeshes;
-		unsigned int mNumOfThreeDmModelMeshes; 
+		unsigned int* mModelMeshIndexs;
+		unsigned int mNumOfModelMeshes;
+
+		~ThreeDModelNode()
+		{
+			if (mNumOfThreeDModelNodeChildrens != 0)
+			{
+				delete[] mThreeDModelNodeChildrens;
+			}
+			/*
+			for (unsigned int i = 0; i < mNumOfThreeDModelNodeChildrens; i++)
+			{
+				delete 
+			}
+			*/
+
+			delete[] mModelMeshIndexs;
+		}
 	};
 
+	namespace graphics
+	{
+		class Mesh;
+		struct MeshNode;
+	}
+	
 	class ThreeDModelAsset : public Asset
 	{
 	public:
-		ThreeDModelNode mRootNode;
+		ThreeDModelNode* mRootModelNode;
 
-		ThreeDModelMesh* mModelMeshes;
-		unsigned int mNumOfModelMesh;
+		ThreeDModelMesh* mModelMeshAssets;
+		unsigned int mNumOfModelMeshAssets;
 
+		///////////
 
+		graphics::MeshNode* mRootMeshNode;
+
+		graphics::Mesh* mMeshes;
+		unsigned int mNumOfMeshes;
+
+		/// <summary>
+		/// Send Meshdata to GPU
+		/// GPU Buffer
+		/// </summary>
+		void SendMeshDataToGPU();
+
+		void ClearMeshData();
+		void CreateNode(graphics::MeshNode* currentNode, ThreeDModelNode* currentModelNodeAsset);
+		void OnEndImportInMainThread() final;
+		 
 
 	};
 

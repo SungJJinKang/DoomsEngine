@@ -62,7 +62,7 @@ namespace doom
 				{
 					ApiImporterQueue.pop();
 				}
-				D_DEBUG_LOG({ "Clear ApiImporterQueue ", assetType });
+				D_DEBUG_LOG({ "Clear ApiImporterQueue ", static_cast<unsigned int>(assetType) });
 			}
 		}
 

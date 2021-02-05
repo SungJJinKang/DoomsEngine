@@ -17,8 +17,6 @@ void doom::GameCore::Init()
 	doom::GameCore::ConfigData = { SimpleIniParser::ParseIniFile(GET_RELATIVE_PATH("config.ini")) };
 	D_END_PROFILING("Loading Config File");
 
-	doom::thread::ThreadManager::InitializeThreads();
-
 	D_START_PROFILING("Init GLFW", eProfileLayers::GPU);
 	doom::graphics::Graphics::Init();
 	D_END_PROFILING("Init GLFW");
@@ -26,6 +24,8 @@ void doom::GameCore::Init()
 	D_START_PROFILING("ImportEntireAsset", doom::profiler::eProfileLayers::CPU);
 	AssetManager::ImportEntireAsset();
 	D_END_PROFILING("ImportEntireAsset");
+
+	doom::thread::ThreadManager::InitializeThreads();
 
 	GameFlow::Init();
 }

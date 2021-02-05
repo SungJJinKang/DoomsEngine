@@ -18,7 +18,7 @@ namespace doom
 	{
 	public:
 		
-		enum eAssetType : unsigned int
+		enum class eAssetType : unsigned int
 		{
 			AUDIO = 0,
 			FONT,
@@ -27,6 +27,7 @@ namespace doom
 			THREE_D_MODEL,
 			SHADER,
 		};
+		static std::string GetAssetTypeString(const eAssetType& assetType);
 
 		template <Asset::eAssetType assetType>
 		struct asset_type

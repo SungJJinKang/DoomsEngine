@@ -16,23 +16,20 @@ namespace doom
 			unsigned int& mVertexBufferObject = this->mBufferID;
 			unsigned int mElementBufferObject;
 
-			const std::reference_wrapper<const ThreeDModelMesh> mThreeDModelMesh;
+			//const ThreeDModelMesh* mThreeDModelMesh; don't save ModelMeshAssetData
 			unsigned int mNumOfIndices;
 			unsigned int mNumOfVertices;
 			ePrimitiveType mPrimitiveType;
+
+		protected:
+			void GenMeshBuffer(bool hasIndice);
+			void DeleteBuffers() final;
 		public:
-			Mesh(const ThreeDModelMesh& threeDModelMesh) noexcept
-				: Buffer(), mThreeDModelMesh{ threeDModelMesh }, mVertexArrayObject{}, mElementBufferObject{}, mNumOfVertices{ 0 }, mNumOfIndices{ 0 }
-			{
-				glGenVertexArrays(1, &(this->mVertexArrayObject));
-
-				if (threeDModelMesh.bHasIndices)
-				{
-					glGenBuffers(1, &(this->mElementBufferObject));
-				}
-
-				this->BufferDataFromModelMesh();
-			}
+			Mesh();
+			~Mesh();
+			
+			Mesh(const ThreeDModelMesh& threeDModelMesh) noexcept;
+			Mesh& operator=(const ThreeDModelMesh& threeDModelMesh) noexcept;
 
 			/// <summary>
 			/// bind buffer array object
@@ -63,7 +60,7 @@ namespace doom
 			/// <param name="size"></param>
 			/// <param name="data"></param>
 			void BufferData(GLsizeiptr size, const void* data) noexcept final;
-			void BufferDataFromModelMesh() noexcept;
+			void BufferDataFromModelMesh(const ThreeDModelMesh& threeDModelMesh) noexcept;
 			void Draw()
 			{
 				this->BindBuffer();

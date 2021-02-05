@@ -13,8 +13,11 @@ namespace doom
 		protected:
 			unsigned int mBufferID;
 
-			Buffer();
+			Buffer(bool genBuffer);
 			~Buffer();
+
+			virtual void GenBuffer();
+			virtual void DeleteBuffers();
 
 		public:
 			inline virtual void BindBuffer() noexcept = 0;

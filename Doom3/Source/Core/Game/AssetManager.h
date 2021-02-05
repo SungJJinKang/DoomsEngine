@@ -19,7 +19,13 @@ namespace doom
 		{
 			constexpr inline void operator()(const std::array<std::vector<std::filesystem::path>, doom::Asset::GetAssetTypeCount()>& AssetPaths)
 			{
-				AssetManager::ImportedAssets<loopVariable>.AddAsset(doom::assetimporter::Assetimporter::ImportAsset<loopVariable>(AssetPaths[loopVariable]));
+				std::string name{ "Add Importing Asset To ThreadPool : " };
+				name += doom::Asset::GetAssetTypeString(loopVariable);
+				D_START_PROFILING(name.c_str(), doom::profiler::eProfileLayers::CPU);
+
+				AssetManager::ImportedAssets<loopVariable>.AddAsset(doom::assetimporter::Assetimporter::ImportAsset<loopVariable>(AssetPaths[static_cast<unsigned int>(loopVariable)]));
+				
+				D_END_PROFILING(name.c_str());
 			}
 		};
 
@@ -28,7 +34,13 @@ namespace doom
 		{
 			constexpr inline void operator()()
 			{
+				std::string name{ "Get Imported Assets's Future : " };
+				name += doom::Asset::GetAssetTypeString(loopVariable);
+				D_START_PROFILING(name.c_str(), doom::profiler::eProfileLayers::CPU);
+
 				AssetManager::ImportedAssets<loopVariable>.GetAssetFutures();
+
+				D_END_PROFILING(name.c_str());
 			}
 		};
 

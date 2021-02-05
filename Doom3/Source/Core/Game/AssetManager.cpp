@@ -24,7 +24,7 @@ void doom::AssetManager::ImportEntireAsset()
 		auto assetType = doom::assetimporter::GetAssetType(path);
 		if (assetType.has_value())
 		{
-			AssetPaths[assetType.value()].push_back(std::move(path));
+			AssetPaths[static_cast<unsigned int>(assetType.value())].push_back(std::move(path));
 		}
 	}
 		
