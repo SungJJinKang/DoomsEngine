@@ -1,7 +1,7 @@
 #pragma once
 
 //https://github.com/graeme-hill/crossguid
-#include "../../dependency/crossguid/include/crossguid/guid.hpp"
+#include "../../dependency/crossguid/Guid.hpp"
 
 namespace doom
 {

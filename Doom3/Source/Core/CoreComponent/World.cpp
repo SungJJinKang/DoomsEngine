@@ -16,7 +16,7 @@ World::~World()
 
 [[nodiscard]] Entity& World::CreateNewEntity() noexcept
 {
-	Entity* newEntity = new Entity();
+	Entity* newEntity = new Entity(nullptr);
 	World::mCurrentWorld->mSpawnedEntities.emplace_back(newEntity);
 	return *newEntity;
 }
