@@ -11,6 +11,17 @@ namespace doom
 	{
 		class Mesh : public Buffer
 		{
+			enum eVertexArrayFlag
+			{
+				None = 0x0,
+				Vertex = 1 < 0,
+				TexCoord = 1 < 1,
+				mNormal = 1 < 2,
+				mTangent = 1 < 3,
+				mBitangent = 1 < 4,
+			};
+
+
 		private:
 			unsigned int mVertexArrayObject;
 			unsigned int& mVertexBufferObject = this->mBufferID;
@@ -25,11 +36,18 @@ namespace doom
 			void GenMeshBuffer(bool hasIndice);
 			void DeleteBuffers() final;
 		public:
-			Mesh();
+			constexpr Mesh();
 			~Mesh();
 			
+			Mesh(GLsizeiptr dataCount, const void* data, unsigned int vertexArrayFlag) noexcept;
 			Mesh(const ThreeDModelMesh& threeDModelMesh) noexcept;
 			Mesh& operator=(const ThreeDModelMesh& threeDModelMesh) noexcept;
+
+			constexpr Mesh(Mesh&& mesh) noexcept;
+			constexpr Mesh& operator=(Mesh&& mesh) noexcept;
+
+			Mesh(const Mesh&) = delete;
+			Mesh& operator=(const Mesh&) = delete;
 
 			/// <summary>
 			/// bind buffer array object
@@ -57,9 +75,9 @@ namespace doom
 			/// aPos(0)  aUV0  aNormal  aTangent  aBitangent
 			/// 
 			/// </summary>
-			/// <param name="size"></param>
+			/// <param name="size">size of data in byte</param>
 			/// <param name="data"></param>
-			void BufferData(GLsizeiptr size, const void* data) noexcept final;
+			void BufferData(GLsizeiptr dataCount, const void* data, unsigned int vertexArrayFlag) noexcept;
 			void BufferDataFromModelMesh(const ThreeDModelMesh& threeDModelMesh) noexcept;
 			void Draw()
 			{
@@ -73,6 +91,10 @@ namespace doom
 					glDrawArrays(static_cast<unsigned int>(this->mPrimitiveType), 0, this->mNumOfVertices);
 				}
 			}
+
+			static constexpr unsigned int GetStride(unsigned int vertexArrayFlag);
+
+			static const Mesh QuadMesh;
 		};
 	}
 }

@@ -10,6 +10,7 @@ namespace doom
 		graphics::Mesh* mTargetMesh;
 
 	public:
+		MeshRenderer();
 		MeshRenderer(graphics::Mesh* targetMesh, graphics::Material* targetMaterial);
 
 

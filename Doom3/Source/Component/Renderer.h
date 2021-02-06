@@ -16,6 +16,7 @@ namespace doom
 		
 
 	public:
+		Renderer();
 		Renderer(graphics::Material* targetMaterial);
 
 		virtual void Draw() = 0;
@@ -28,7 +29,11 @@ namespace doom
 		/// </summary>
 		void BindMaterial()
 		{
-			this->mTargetMaterial->UseProgram();
+			if (this->mTargetMaterial != nullptr)
+			{
+				this->mTargetMaterial->UseProgram();
+			}
+			
 		}
 	};
 }

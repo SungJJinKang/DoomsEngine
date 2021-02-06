@@ -23,11 +23,11 @@ namespace doom
 				D_CHECK_OVERLAP_BIND("UniformBlock", this->mUniformBufferID);
 				glBindBuffer(GL_UNIFORM_BUFFER, this->mUniformBufferID);
 			}
-			inline void UnBindBuffer() noexcept final
+			inline virtual void UnBindBuffer() noexcept final
 			{
 				glBindBuffer(GL_UNIFORM_BUFFER, 0);
 			}
-			inline void BufferData(GLsizeiptr size, const void* data) noexcept final
+			inline virtual void BufferData(GLsizeiptr size, const void* data) noexcept final
 			{
 				glBufferData(GL_UNIFORM_BUFFER, size, data, GL_STATIC_DRAW);
 			}
