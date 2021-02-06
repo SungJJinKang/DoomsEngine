@@ -12,7 +12,7 @@ namespace doom
 	{
 
 		template <>
-		inline std::optional <Asset::asset_type_t<Asset::eAssetType::FONT>> ReadAssetFile<Asset::eAssetType::FONT>(std::filesystem::path path)
+		inline std::optional <Asset::asset_type_t<Asset::eAssetType::FONT>> ImportSpecificAsset<Asset::eAssetType::FONT>(const std::filesystem::path& path)
 		{
 			return {};
 		}

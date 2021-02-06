@@ -23,7 +23,7 @@ namespace doom
 				name += doom::Asset::GetAssetTypeString(loopVariable);
 				D_START_PROFILING(name.c_str(), doom::profiler::eProfileLayers::CPU);
 
-				AssetManager::ImportedAssets<loopVariable>.AddAsset(doom::assetimporter::Assetimporter::ImportAsset<loopVariable>(AssetPaths[static_cast<unsigned int>(loopVariable)]));
+				AssetManager::ImportedAssets<loopVariable>.AddAsset(doom::assetimporter::Assetimporter::PushImportingAssetJobToThreadPool<loopVariable>(AssetPaths[static_cast<unsigned int>(loopVariable)]));
 				
 				D_END_PROFILING(name.c_str());
 			}

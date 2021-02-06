@@ -4,13 +4,13 @@
 #include <type_traits>
 #include "../Graphics_Core.h"
 
-constexpr doom::graphics::Mesh::Mesh()
+doom::graphics::Mesh::Mesh()
 	: Buffer(), mVertexArrayObject{ 0 }, mElementBufferObject{ 0 }, mNumOfVertices{ 0 }, mNumOfIndices{ 0 }, mPrimitiveType{ ePrimitiveType::NONE }
 {
 
 }
 
-doom::graphics::Mesh::Mesh(GLsizeiptr dataCount, const void* data, unsigned int vertexArrayFlag) noexcept : Buffer(true)
+doom::graphics::Mesh::Mesh(GLsizeiptr dataCount, const void* data, unsigned int vertexArrayFlag) noexcept : Buffer()
 {
 	this->GenMeshBuffer(false);
 	this->BufferData(dataCount, data, vertexArrayFlag);
@@ -50,7 +50,7 @@ constexpr doom::graphics::Mesh& doom::graphics::Mesh::operator=(Mesh&& mesh) noe
 
 
 doom::graphics::Mesh::Mesh(const ThreeDModelMesh& threeDModelMesh) noexcept
-	: Buffer(true), mNumOfVertices{ 0 }, mNumOfIndices{ 0 }
+	: Buffer(), mNumOfVertices{ 0 }, mNumOfIndices{ 0 }
 {
 	this->GenMeshBuffer(threeDModelMesh.bHasIndices);
 	this->BufferDataFromModelMesh(threeDModelMesh);
@@ -63,6 +63,7 @@ doom::graphics::Mesh::~Mesh()
 
 void doom::graphics::Mesh::GenMeshBuffer(bool hasIndice)
 {
+	Buffer::GenBuffer();
 	glGenVertexArrays(1, &(this->mVertexArrayObject));
 	if (hasIndice)
 	{
@@ -91,7 +92,6 @@ void doom::graphics::Mesh::DeleteBuffers()
 doom::graphics::Mesh& doom::graphics::Mesh::operator=(const ThreeDModelMesh& threeDModelMesh) noexcept
 {
 	this->DeleteBuffers();
-	Buffer::GenBuffer();
 
 	this->GenMeshBuffer(threeDModelMesh.bHasIndices);
 
@@ -110,6 +110,8 @@ void doom::graphics::Mesh::BufferData(GLsizeiptr dataCount, const void* data, un
 
 	unsigned int offset = 0;
 	unsigned int stride = Mesh::GetStride(vertexArrayFlag);
+
+#pragma warning( disable : 4312 )
 
 	if (vertexArrayFlag & eVertexArrayFlag::Vertex)
 	{
@@ -151,6 +153,7 @@ void doom::graphics::Mesh::BufferData(GLsizeiptr dataCount, const void* data, un
 		offset += 3;
 	}
 
+#pragma warning( disable : 4244 )
 	this->mNumOfVertices = dataCount / offset;
 	this->mNumOfIndices = 0;
 
@@ -255,6 +258,6 @@ static constexpr float QuadMeshData[]
 	-1.0f, 1.0f, 0.0f, 0.0f, 1.0f,
 };
 
-const doom::graphics::Mesh doom::graphics::Mesh::QuadMesh{ sizeof(QuadMeshData) / sizeof(float), (void*)QuadMeshData, eVertexArrayFlag::Vertex | eVertexArrayFlag::TexCoord };
+//const doom::graphics::Mesh doom::graphics::Mesh::QuadMesh{ sizeof(QuadMeshData) / sizeof(float), (void*)QuadMeshData, eVertexArrayFlag::Vertex | eVertexArrayFlag::TexCoord };
 
 

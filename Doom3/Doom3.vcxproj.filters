@@ -105,9 +105,6 @@
     <ClCompile Include="Source\Core\Graphics\Buffer\Buffer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Core\Graphics\Buffer\UniformBlock.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Source\Core\Asset\ThreeDModelAsset.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -172,6 +169,15 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Source\Core\Macros\Path.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Core\Graphics\Buffer\UniformBufferObject.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Core\Graphics\Buffer\UniformBufferObjectManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Helper\TextImporter.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -497,9 +503,6 @@
     <ClInclude Include="Source\Core\Graphics\Buffer\Buffer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Core\Graphics\Buffer\UniformBlock.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Core\Graphics\Buffer\Mesh.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -546,6 +549,15 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\Core\Graphics\Buffer\MeshNode.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Core\Graphics\Buffer\UniformBufferObject.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Core\Graphics\Buffer\UniformBufferObjectManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Helper\trim.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -682,14 +694,14 @@
     <None Include="Source\Helper\ForLoop_Compile_Time\README.md" />
     <None Include="..\README.md" />
     <None Include="Source\Helper\vector_erase_move_lastelement\README.md" />
-    <None Include="Assets\Shader\common\uniforms.glsl" />
-    <None Include="Assets\Shader\common\brdf.glsl" />
-    <None Include="Assets\Shader\common\constants.glsl" />
-    <None Include="Assets\Shader\common\random.glsl" />
-    <None Include="Assets\Shader\common\reflections.glsl" />
-    <None Include="Assets\Shader\common\sampling.glsl" />
-    <None Include="Assets\Shader\common\shadows.glsl" />
     <None Include="Assets\Shader\DefaultShader.glsl" />
+    <None Include="Assets\Shader\common\uniforms.txt" />
+    <None Include="Assets\Shader\common\shadows.txt" />
+    <None Include="Assets\Shader\common\sampling.txt" />
+    <None Include="Assets\Shader\common\reflections.txt" />
+    <None Include="Assets\Shader\common\random.txt" />
+    <None Include="Assets\Shader\common\constants.txt" />
+    <None Include="Assets\Shader\common\brdf.txt" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="Source\Core\Graphics\ReamThis!!!!.txt" />

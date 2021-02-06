@@ -3,15 +3,9 @@
 #include "../Graphics_Core.h"
 using namespace doom::graphics;
 
-constexpr Buffer::Buffer() : mBufferID{ 0 }
+Buffer::Buffer() : mBufferID{ 0 }
 {
 
-}
-
-
-Buffer::Buffer(bool dummyForGenBuffer) : mBufferID{ 0 }
-{
-	this->GenBuffer();
 }
 
 constexpr Buffer::Buffer(Buffer&& buffer) noexcept : mBufferID{ buffer.mBufferID }
@@ -28,6 +22,8 @@ constexpr doom::graphics::Buffer& Buffer::operator=(Buffer&& buffer) noexcept
 
 void Buffer::GenBuffer()
 {
+	D_ASSERT(this->mBufferID == 0);
+
 	glGenBuffers(1, &(this->mBufferID));
 }
 
@@ -41,6 +37,7 @@ void Buffer::DeleteBuffers()
 	if (this->mBufferID != 0)
 	{
 		glDeleteBuffers(1, &(this->mBufferID));
+		this->mBufferID = 0;
 	}
 }
 

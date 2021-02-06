@@ -5,23 +5,13 @@
 
 
 #include "../Core/Core.h"
+#include "trim.h"
 
 static const std::regex sectionPattern{R"(\s*\[\s*(\w+)\s*\]\s*)"};
 static const std::regex variablePattern{ R"(\s*(\w+)\s*=\s*(\w+)\s*)" };
 
 
-static std::string trim(const std::string& str, const std::string& whitespace = " \t")
-{
-	const auto strBegin = str.find_first_not_of(whitespace);
-	if (strBegin == std::string::npos)
-		return ""; // no content
 
-	const auto strEnd = str.find_last_not_of(whitespace);
-	const auto strRange = strEnd - strBegin + 1;
-
-	return str.substr(strBegin, strRange);
-
-}
 
 
 
@@ -55,7 +45,7 @@ IniData SimpleIniParser::ParseIniFile(std::string fileDirectory)
 		if(line.empty())
 			continue;
 
-		line = trim(line);
+		line = std::trim(line);
 
 		if (line.empty())
 			continue;

@@ -4,7 +4,7 @@ using namespace doom;
 
 void Asset::SetBaseMetaData(const std::filesystem::path& path)
 {
-	mAssetName = path.has_filename() ? path.filename().string() : "";
+	mAssetFileName = path.has_filename() ? path.filename().string() : "";
 	mAssetPath = path.string();
 }
 

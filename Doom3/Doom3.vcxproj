@@ -128,7 +128,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>C:\Doom3FromScratch\Doom3\dependency\;$(SolutionDir)dependency\glad\include;$(SolutionDir)dependency\assimp;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Doom3FromScratch\Doom3\dependency\;$(SolutionDir)dependency\glad\include;$(SolutionDir)dependency\assimp\include;$(SolutionDir)dependency\assimp\build\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
@@ -136,7 +136,7 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(SolutionDir)dependency\assimp\lib\debug;$(SolutionDir)dependency\glfw\lib;$(SolutionDir)Source\Helper\crossguid\build\Debug;$(SolutionDir)dependency\crossguid\build\Debug;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(SolutionDir)dependency\assimp\build\code\Debug;$(SolutionDir)dependency\glfw\lib;$(SolutionDir)Source\Helper\crossguid\build\Debug;$(SolutionDir)dependency\crossguid\build\Debug;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>glfw3.lib;assimp-vc142-mtd.lib;xg.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
@@ -148,7 +148,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>C:\Doom3FromScratch\Doom3\dependency\;$(SolutionDir)dependency\glad\include;$(SolutionDir)dependency\assimp;$(SolutionDir)dependency\glfw-3.3.2.bin.WIN64\include\;$(SolutionDir)dependency\glad\include;%(AdditionalIncludeDirectories);$(SolutionDir)dependency\glad\include;$(SolutionDir)dependency\glfw-3.3.2.bin.WIN64\include\</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Doom3FromScratch\Doom3\dependency\;$(SolutionDir)dependency\glad\include;$(SolutionDir)dependency\assimp\include;$(SolutionDir)dependency\assimp\build\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
@@ -158,7 +158,7 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(SolutionDir)dependency\assimp\lib\release;$(SolutionDir)dependency\glfw\lib;$(SolutionDir)dependency\crossguid\build\Release;$(SolutionDir)Source\Helper\crossguid\build\Release;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(SolutionDir)dependency\assimp\build\code\Release;$(SolutionDir)dependency\glfw\lib;$(SolutionDir)dependency\crossguid\build\Release;$(SolutionDir)Source\Helper\crossguid\build\Release;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>glfw3.lib;assimp-vc142-mt.lib;xg.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
@@ -180,6 +180,7 @@
     <ClCompile Include="Source\Core\Game\GameCore.cpp" />
     <ClCompile Include="Source\Core\Graphics\Buffer\Buffer.cpp" />
     <ClCompile Include="Source\Core\Graphics\Buffer\Mesh.cpp" />
+    <ClCompile Include="Source\Core\Graphics\Buffer\UniformBufferObjectManager.cpp" />
     <ClCompile Include="Source\Core\Graphics\CubemapTexture.cpp" />
     <ClCompile Include="Source\Core\CoreComponent\Entity.cpp" />
     <ClCompile Include="Source\Core\Graphics\FrameBuffer.cpp" />
@@ -188,7 +189,7 @@
     <ClCompile Include="Source\Core\Graphics\RenderBuffer.cpp" />
     <ClCompile Include="Source\Core\Graphics\SingleTexture.cpp" />
     <ClCompile Include="Source\Core\Graphics\Texture.cpp" />
-    <ClCompile Include="Source\Core\Graphics\Buffer\UniformBlock.cpp" />
+    <ClCompile Include="Source\Core\Graphics\Buffer\UniformBufferObject.cpp" />
     <ClCompile Include="Source\Core\IO\AssetImporter\AssetApiImporter.cpp" />
     <ClCompile Include="Source\Core\IO\AssetImporter\AssetImporter.cpp" />
     <ClCompile Include="Source\Core\IO\AssetImporter\AssetImporterWorker_Audio.cpp" />
@@ -215,6 +216,7 @@
     <ClCompile Include="Source\Core\Thread\Thread.cpp" />
     <ClCompile Include="Source\Core\Thread\ThreadManager.cpp" />
     <ClCompile Include="Source\Helper\SimpleIniParser.cpp" />
+    <ClCompile Include="Source\Helper\TextImporter.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
@@ -235,7 +237,7 @@
     <ClInclude Include="Source\Component\Renderer.h" />
     <ClInclude Include="Source\Component\Transform.h" />
     <ClInclude Include="Source\Core\Graphics\Buffer\MeshNode.h" />
-    <ClInclude Include="Source\Core\Graphics\Buffer\UniformBlock.h" />
+    <ClInclude Include="Source\Core\Graphics\Buffer\UniformBufferObject.h" />
     <ClInclude Include="Source\Core\Graphics\Buffer\Mesh.h" />
     <ClInclude Include="Source\Core\API\ASSIMP.h" />
     <ClInclude Include="Source\Core\API\OpenglAPI.h" />
@@ -246,6 +248,7 @@
     <ClInclude Include="Source\Core\CoreComponent\World.h" />
     <ClInclude Include="Source\Core\Game\AssetContainer.h" />
     <ClInclude Include="Source\Core\Game\AssetManager.h" />
+    <ClInclude Include="Source\Core\Graphics\Buffer\UniformBufferObjectManager.h" />
     <ClInclude Include="Source\Core\Graphics\CubemapTexture.h" />
     <ClInclude Include="Source\Core\CoreComponent\Entity.h" />
     <ClInclude Include="Source\Core\Graphics\FrameBuffer.h" />
@@ -327,6 +330,7 @@
     <ClInclude Include="Source\Helper\std_future_wrapper\StdFuture.h" />
     <ClInclude Include="Source\Helper\TextImporter.h" />
     <ClInclude Include="Source\Helper\ThreadPool_Cpp\ThreadPool.h" />
+    <ClInclude Include="Source\Helper\trim.h" />
     <ClInclude Include="Source\Helper\vector_erase_move_lastelement\vector_swap_erase.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="Source\Core\Asset\Base_Asset.h" />
@@ -350,13 +354,13 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="..\README.md" />
-    <None Include="Assets\Shader\common\brdf.glsl" />
-    <None Include="Assets\Shader\common\constants.glsl" />
-    <None Include="Assets\Shader\common\random.glsl" />
-    <None Include="Assets\Shader\common\reflections.glsl" />
-    <None Include="Assets\Shader\common\sampling.glsl" />
-    <None Include="Assets\Shader\common\shadows.glsl" />
-    <None Include="Assets\Shader\common\uniforms.glsl" />
+    <None Include="Assets\Shader\common\brdf.txt" />
+    <None Include="Assets\Shader\common\constants.txt" />
+    <None Include="Assets\Shader\common\random.txt" />
+    <None Include="Assets\Shader\common\reflections.txt" />
+    <None Include="Assets\Shader\common\sampling.txt" />
+    <None Include="Assets\Shader\common\shadows.txt" />
+    <None Include="Assets\Shader\common\uniforms.txt" />
     <None Include="Assets\Shader\DefaultShader.glsl" />
     <None Include="dependency\glfw-3.3.2.bin.WIN64\docs\html\bug.html" />
     <None Include="dependency\glfw-3.3.2.bin.WIN64\docs\html\build_8dox.html" />

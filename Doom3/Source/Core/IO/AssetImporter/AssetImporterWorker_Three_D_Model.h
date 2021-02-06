@@ -42,7 +42,7 @@ namespace doom
 
 
 		template<>
-		std::optional<Asset::asset_type_t<Asset::eAssetType::THREE_D_MODEL>> ReadAssetFile<Asset::eAssetType::THREE_D_MODEL>(std::filesystem::path path);
+		std::optional<Asset::asset_type_t<Asset::eAssetType::THREE_D_MODEL>> ImportSpecificAsset<Asset::eAssetType::THREE_D_MODEL>(const std::filesystem::path& path);
 		
 
 	}

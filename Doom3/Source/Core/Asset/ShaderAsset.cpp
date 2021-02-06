@@ -5,6 +5,9 @@
 
 #include "../API/OpenglAPI.h"
 #include "../Core.h"
+#include "../Graphics/Material.h"
+#include "../../Helper/TextImporter.h"
+#include "../../Helper/trim.h"
 
 const std::string doom::ShaderAsset::VertexShaderMacros = "#VERTEX";
 const std::string doom::ShaderAsset::FragmentShaderMacros = "#FRAGMENT";
@@ -16,7 +19,7 @@ doom::ShaderAsset::ShaderAsset(const std::string& shaderStr) : mVertexId{ 0 }, m
 }
 
 doom::ShaderAsset::ShaderAsset(ShaderAsset&& shader) noexcept 
-	: mVertexId{ shader.mVertexId }, mFragmentId{ shader.mFragmentId }, mGeometryId{ shader.mGeometryId }, 
+	: Asset(std::move(shader)), mVertexId{ shader.mVertexId }, mFragmentId{ shader.mFragmentId }, mGeometryId{ shader.mGeometryId }, 
 	mShaderFileText{ shader.mShaderFileText }
 {
 	shader.mVertexId = 0;
@@ -57,11 +60,16 @@ doom::ShaderAsset::~ShaderAsset()
 
 void doom::ShaderAsset::CompileShaders(const std::string& str)
 {
-	std::array<std::string, 3> shaders = this->ClassifyShader(str);
-
 	this->mVertexId = 0;
 	this->mFragmentId = 0;
 	this->mGeometryId = 0;
+
+	std::array<std::string, 3> shaders = this->ClassifyShader(str);
+
+	if (shaders[0].size() == 0 && shaders[1].size() == 0 && shaders[2].size() == 0)
+		return; // Shader isn't valid
+
+	
 
 	if (shaders[0].size() != 0)
 	{
@@ -78,7 +86,9 @@ void doom::ShaderAsset::CompileShaders(const std::string& str)
 		this->CompileSpecificShader(shaders[2], ShaderType::Geometry, this->mGeometryId);
 	}
 
+#ifndef DEBUG_MODE
 	this->mShaderFileText.clear(); //clear shader text file
+#endif
 }
 
 void doom::ShaderAsset::CompileSpecificShader(const std::string& shaderStr, ShaderType shaderType, unsigned int& shaderId)
@@ -132,52 +142,62 @@ std::array<std::string, 3> doom::ShaderAsset::ClassifyShader(const std::string& 
 		if (line.compare(0, 1, "#") == 0)
 		{// macros shouldn't have whitespace
 
-			if (currentShaderStr.size() != 0)
+			if (line.compare(0,8, "#include") == 0)
+			{// To Support #include in GLSL
+				std::filesystem::path targetPath = this->mAssetPath.string() + '\\' + std::trim(line.substr(line.find("#include", 0) + 8, std::string::npos));
+				auto externalFileStr = GetTextFromFile(targetPath.make_preferred().string()); // TODO: GET Texts from #include ~~ file
+				continue;
+			}
+
+			if  (line.compare(0, ShaderAsset::VertexShaderMacros.size(), ShaderAsset::VertexShaderMacros, 0) == 0 ||
+				line.compare(0, ShaderAsset::FragmentShaderMacros.size(), ShaderAsset::FragmentShaderMacros, 0) == 0 ||
+				line.compare(0, ShaderAsset::GeometryShaderMacros.size(), ShaderAsset::GeometryShaderMacros, 0) == 0
+				)
 			{
-				switch (currentShaderType)
+				if (currentShaderStr.size() != 0)
 				{
-				case ShaderType::Vertex:
-					classifiedShader[0] = std::move(currentShaderStr);
-					break;
+					switch (currentShaderType)
+					{
+					case ShaderType::Vertex:
+						classifiedShader[0] = std::move(currentShaderStr);
+						break;
 
-				case ShaderType::Fragment:
-					classifiedShader[1] = std::move(currentShaderStr);
-					break;
+					case ShaderType::Fragment:
+						classifiedShader[1] = std::move(currentShaderStr);
+						break;
 
-				case ShaderType::Geometry:
-					classifiedShader[2] = std::move(currentShaderStr);
-					break;
+					case ShaderType::Geometry:
+						classifiedShader[2] = std::move(currentShaderStr);
+						break;
+					}
+
+					currentShaderStr.clear();
 				}
 
-				currentShaderStr.clear();
-			}
+				if (line.compare(0, ShaderAsset::VertexShaderMacros.size(), ShaderAsset::VertexShaderMacros, 0) == 0)
+				{
+					currentShaderType = ShaderType::Vertex;
+					isMacros = true;
+				}
+				else if (line.compare(0, ShaderAsset::FragmentShaderMacros.size(), ShaderAsset::FragmentShaderMacros, 0) == 0)
+				{
+					currentShaderType = ShaderType::Fragment;
+					isMacros = true;
+				}
+				else if (line.compare(0, ShaderAsset::GeometryShaderMacros.size(), ShaderAsset::GeometryShaderMacros, 0) == 0)
+				{
+					currentShaderType = ShaderType::Geometry;
+					isMacros = true;
+				}
 
-			if (line.compare(0, ShaderAsset::VertexShaderMacros.size(), ShaderAsset::VertexShaderMacros, 0) == 0)
-			{
-				currentShaderType = ShaderType::Vertex;
-				isMacros = true;
+				continue;
 			}
-			else if (line.compare(0, ShaderAsset::FragmentShaderMacros.size(), ShaderAsset::FragmentShaderMacros, 0) == 0)
-			{
-				currentShaderType = ShaderType::Fragment;
-				isMacros = true;
-			}
-			else if (line.compare(0, ShaderAsset::GeometryShaderMacros.size(), ShaderAsset::GeometryShaderMacros, 0) == 0)
-			{
-				currentShaderType = ShaderType::Geometry;
-				isMacros = true;
-			}
-
-			continue;
 		}
 		
-
-		
-
-
 		if (currentShaderType != ShaderType::None)
 		{
 			currentShaderStr += line; // getline stil contain newline character(\n)
+			currentShaderStr += '\n';
 		}
 	}
 
@@ -214,11 +234,24 @@ void doom::ShaderAsset::checkCompileError(unsigned int id, ShaderType shaderType
 }
 
 
+bool doom::ShaderAsset::GetIsValid()
+{
+	return this->mVertexId || this->mFragmentId || this->mGeometryId;
+}
 
 void doom::ShaderAsset::OnEndImportInMainThread()
 {
 	doom::Asset::OnEndImportInMainThread();
 	this->CompileShaders(this->mShaderFileText);
+
+
+	//TEST
+#ifdef DEBUG_MODE
+	if (this->GetIsValid())
+	{
+		doom::graphics::Material material{ *this };
+	}
+#endif
 }
 
 unsigned int doom::ShaderAsset::GetVertexId()

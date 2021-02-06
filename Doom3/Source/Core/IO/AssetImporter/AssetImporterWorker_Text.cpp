@@ -8,10 +8,10 @@ namespace doom
 	{
 		extern template class AssetApiImporter<Asset::eAssetType::TEXT>;
 
-		template std::optional <Asset::asset_type_t<Asset::eAssetType::TEXT>> ReadAssetFile<Asset::eAssetType::TEXT>(std::filesystem::path path);
+		template std::optional <Asset::asset_type_t<Asset::eAssetType::TEXT>> ImportSpecificAsset<Asset::eAssetType::TEXT>(const std::filesystem::path&);
 
 		template<>
-		std::optional <Asset::asset_type_t<Asset::eAssetType::TEXT>> ReadAssetFile<Asset::eAssetType::TEXT>(std::filesystem::path path)
+		std::optional <Asset::asset_type_t<Asset::eAssetType::TEXT>> ImportSpecificAsset<Asset::eAssetType::TEXT>(const std::filesystem::path& path)
 		{
 			auto str = GetTextFromFile(path);
 			if (str.has_value())

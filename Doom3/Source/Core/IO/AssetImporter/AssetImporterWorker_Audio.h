@@ -9,7 +9,7 @@ namespace doom
 	namespace assetimporter
 	{
 		template <>
-		inline std::optional<Asset::asset_type_t<Asset::eAssetType::AUDIO>> ReadAssetFile<Asset::eAssetType::AUDIO>(std::filesystem::path path)
+		inline std::optional<Asset::asset_type_t<Asset::eAssetType::AUDIO>> ImportSpecificAsset<Asset::eAssetType::AUDIO>(const std::filesystem::path& path)
 		{
 			return {};
 		}

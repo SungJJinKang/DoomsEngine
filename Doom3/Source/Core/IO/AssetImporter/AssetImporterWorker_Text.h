@@ -12,6 +12,6 @@ namespace doom
 	namespace assetimporter
 	{
 		template<>
-		std::optional <Asset::asset_type_t<Asset::eAssetType::TEXT>> ReadAssetFile<Asset::eAssetType::TEXT>(std::filesystem::path path);
+		std::optional <Asset::asset_type_t<Asset::eAssetType::TEXT>> ImportSpecificAsset<Asset::eAssetType::TEXT>(const std::filesystem::path& path);
 	}
 }

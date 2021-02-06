@@ -45,7 +45,7 @@ namespace doom
 		}
 
 		D_UUID mUUID;
-		std::string mAssetName;
+		std::string mAssetFileName;
 		std::filesystem::path mAssetPath;
 
 		void SetBaseMetaData(const std::filesystem::path& path);
@@ -55,7 +55,10 @@ namespace doom
 		Asset();
 		Asset(bool isConatiningData);
 
-		
+		Asset(const Asset&) = default;
+		Asset(Asset&&) noexcept = default;
+		Asset& operator=(const Asset&) = default;
+		Asset& operator=(Asset&&) = default;
 
 		/// <summary>
 		/// post processing after asset imported.

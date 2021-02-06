@@ -36,7 +36,7 @@ namespace doom
 			void GenMeshBuffer(bool hasIndice);
 			void DeleteBuffers() final;
 		public:
-			constexpr Mesh();
+			Mesh();
 			~Mesh();
 			
 			Mesh(GLsizeiptr dataCount, const void* data, unsigned int vertexArrayFlag) noexcept;

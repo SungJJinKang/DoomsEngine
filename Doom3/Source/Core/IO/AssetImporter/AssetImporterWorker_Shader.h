@@ -12,7 +12,7 @@ namespace doom
 	{
 
 		template<>
-		inline std::optional<Asset::asset_type_t<Asset::eAssetType::SHADER>> ReadAssetFile<Asset::eAssetType::SHADER>(std::filesystem::path path)
+		inline std::optional<Asset::asset_type_t<Asset::eAssetType::SHADER>> ImportSpecificAsset<Asset::eAssetType::SHADER>(const std::filesystem::path& path)
 		{
 			auto str = GetTextFromFile(path);
 			if (str.has_value())

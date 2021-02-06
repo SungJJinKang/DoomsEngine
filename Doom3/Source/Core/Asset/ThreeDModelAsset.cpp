@@ -11,7 +11,7 @@ void doom::ThreeDModelAsset::SendMeshDataToGPU()
 	this->mNumOfMeshes = this->mNumOfModelMeshAssets;
 	if (this->mNumOfMeshes > 0)
 	{
-		this->mMeshes = new doom::graphics::Mesh[this->mNumOfMeshes];
+		this->mMeshes = new doom::graphics::Mesh[this->mNumOfMeshes]();
 		for (unsigned int i = 0; i < this->mNumOfMeshes; i++)
 		{
 			this->mMeshes[i] = this->mModelMeshAssets[i];

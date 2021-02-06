@@ -18,6 +18,14 @@ namespace doom
 			unsigned int mID;
 			ShaderAsset* mShaderAsset;
 			std::vector<Texture*> mTargetTextures;
+			
+			unsigned int mUniformBlockCount;
+
+			/// <summary>
+			/// Uniform Blocks's Binding Point of mShaderAsset
+			/// </summary>
+			std::vector<unsigned int> mUniformBlockBindingPoints;
+
 			void SetShaderAsset(ShaderAsset& shaderAsset);
 		public:
 			Material(ShaderAsset& shaderAsset);
@@ -89,6 +97,25 @@ namespace doom
 			{
 				glUniform4f(glGetUniformLocation(this->mID, str), value1, value2, value3, value4);
 			}
+
+
+			/*	you don't need this function ( from opengl 4.2 and onwards, you can set binding point explicitly like "binding = 1" )
+			///
+			/// <summary>
+			/// Set UniformBlock to specific binding point
+			/// if you write shader like this : layout (std140, binding = 0), 
+			/// </summary>
+			/// <param name="uniformBlockName"></param>
+			/// <param name="bindingPoint"></param>
+			void SetUniformBlockPoint(const std::string uniformBlockName, unsigned int bindingPoint);
+			*/
+
+			/// <summary>
+			/// return Uniform Block Count
+			/// do iterate from 0 to return value
+			/// </summary>
+			/// <returns>0 ~ return value</returns>
+			int GetUniformBlocksCount();
 		};
 	}
 }

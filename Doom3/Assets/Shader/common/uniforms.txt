@@ -38,4 +38,10 @@ layout (std140, binding = 0) uniform Global
     vec4 pointLight7_Pos;
     vec4 pointLight7_Col;
 };
+
+layout (std140, binding = 1) uniform TEST
+{
+    float a;
+};
+
 #endif

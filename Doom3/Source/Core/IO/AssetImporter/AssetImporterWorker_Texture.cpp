@@ -6,10 +6,10 @@ namespace doom
 	{
 		extern template class AssetApiImporter<Asset::eAssetType::TEXTURE>;
 
-		template std::optional <Asset::asset_type_t<Asset::eAssetType::TEXTURE>> ReadAssetFile<Asset::eAssetType::TEXTURE>(std::filesystem::path path);
+		template std::optional <Asset::asset_type_t<Asset::eAssetType::TEXTURE>> ImportSpecificAsset<Asset::eAssetType::TEXTURE>(const std::filesystem::path& path);
 
 		template <>
-		std::optional <Asset::asset_type_t<Asset::eAssetType::TEXTURE>> ReadAssetFile<Asset::eAssetType::TEXTURE>(std::filesystem::path path)
+		std::optional <Asset::asset_type_t<Asset::eAssetType::TEXTURE>> ImportSpecificAsset<Asset::eAssetType::TEXTURE>(const std::filesystem::path& path)
 		{
 			return {};
 		}

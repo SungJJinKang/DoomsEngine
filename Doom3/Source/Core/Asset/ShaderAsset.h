@@ -26,6 +26,7 @@ namespace doom
 
 		unsigned int mVertexId, mFragmentId, mGeometryId;
 
+		
 	
 		/// <summary>
 		/// Don't call this subthread, Should Call this at mainthread
@@ -34,6 +35,12 @@ namespace doom
 		void CompileSpecificShader(const std::string& shaderStr, ShaderType shaderType, unsigned int& shaderId);
 		std::array<std::string, 3> ClassifyShader(const std::string& str);
 		void checkCompileError(unsigned int id, ShaderType shaderType);
+
+		/// <summary>
+		/// return shader is valid??
+		/// </summary>
+		/// <returns></returns>
+		bool GetIsValid();
 
 	public:
 		ShaderAsset(const std::string& shaderStr);

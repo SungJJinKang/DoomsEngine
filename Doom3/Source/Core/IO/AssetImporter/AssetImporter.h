@@ -107,6 +107,19 @@ namespace doom
 			static const std::unique_ptr<::ThreadPool>& GetThreadPool();
 			static bool IsThreadPoolInitialized();
 
+			
+			template <Asset::eAssetType assetType>
+			static std::optional<Asset::asset_type_t<assetType>> ImportAsset(std::filesystem::path path)
+			{
+				std::optional<Asset::asset_type_t<assetType>> ImportedAsset = ImportSpecificAsset<assetType>(path);
+
+				if (ImportedAsset.has_value())
+				{
+					ImportedAsset.value().SetBaseMetaData(path);
+				}
+				return ImportedAsset;
+			}
+			
 
 			/// <summary>
 			/// Import A Asset Asyncly
@@ -115,11 +128,11 @@ namespace doom
 			/// <param name="path"></param>
 			/// <returns></returns>
 			template <Asset::eAssetType assetType>
-			[[nodiscard]] static imported_asset_future_t<assetType> ImportAsset(const std::filesystem::path& path)
+			[[nodiscard]] static imported_asset_future_t<assetType> PushImportingAssetJobToThreadPool(const std::filesystem::path& path)
 			{
 				D_ASSERT(static_cast<bool>(threadPool) != false);
 
-				std::function<std::optional<Asset::asset_type_t<assetType>>()> newTask = std::bind(ReadAssetFile<assetType>, path);
+				std::function<std::optional<Asset::asset_type_t<assetType>>()> newTask = std::bind(ImportAsset<assetType>, path);
 
 				D_DEBUG_LOG("Add new task to threadpool");
 				return threadPool->push_back(std::move(newTask));
@@ -136,7 +149,7 @@ namespace doom
 			/// <param name="assets"></param>
 			/// <returns></returns>
 			template <Asset::eAssetType assetType>
-			[[nodiscard]] static std::vector<imported_asset_future_t<assetType>> ImportAsset(const std::vector<std::filesystem::path>& paths)
+			[[nodiscard]] static std::vector<imported_asset_future_t<assetType>> PushImportingAssetJobToThreadPool(const std::vector<std::filesystem::path>& paths)
 			{
 				D_ASSERT(static_cast<bool>(threadPool) != false);
 
@@ -144,7 +157,7 @@ namespace doom
 				Tasks.reserve(paths.size());
 				for (auto& path : paths)
 				{
-					Tasks.push_back(std::bind(ReadAssetFile<assetType>, path));
+					Tasks.push_back(std::bind(ImportAsset<assetType>, path));
 				}
 
 				D_DEBUG_LOG("Add new task to threadpool");

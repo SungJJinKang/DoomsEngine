@@ -1,6 +1,7 @@
 #VERTEX
 
 #version 330 core
+
 layout (location = 0) in vec3 aPos;
 layout (location = 1) in vec2 aUV0;
 layout (location = 2) in vec3 aNormal;
@@ -13,7 +14,7 @@ out mat3 TBN;
 out vec4 ClipSpacePos;
 out vec4 PrevClipSpacePos;
 
-#include ../common/uniforms.glsl
+#include ../common/uniforms.txt
 
 uniform mat4 model;
 uniform mat4 prevModel;

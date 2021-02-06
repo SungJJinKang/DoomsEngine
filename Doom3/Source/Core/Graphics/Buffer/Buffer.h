@@ -13,8 +13,7 @@ namespace doom
 		protected:
 			unsigned int mBufferID;
 
-			constexpr Buffer();
-			Buffer(bool dummyForGenBuffer);
+			Buffer();
 			~Buffer();
 
 			Buffer(const Buffer&) = delete;
@@ -23,7 +22,7 @@ namespace doom
 			constexpr Buffer(Buffer&& buffer) noexcept;
 			constexpr Buffer& operator=(Buffer&& buffer) noexcept;
 
-			virtual void GenBuffer();
+			void GenBuffer();
 			virtual void DeleteBuffers();
 
 		public:

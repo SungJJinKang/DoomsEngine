@@ -1,4 +1,4 @@
 #pragma once
 
-#include "../../../dependency/glad/include/glad/glad.h"
-#include "../../../dependency/glfw/include/GLFW/glfw3.h"
+#include <glad/include/glad/glad.h>
+#include <glfw/include/GLFW/glfw3.h>

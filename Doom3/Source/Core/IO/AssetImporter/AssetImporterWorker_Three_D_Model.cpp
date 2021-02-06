@@ -11,7 +11,7 @@ namespace doom
 {
 	namespace assetimporter
 	{
-		template std::optional<Asset::asset_type_t<Asset::eAssetType::THREE_D_MODEL>> ReadAssetFile<Asset::eAssetType::THREE_D_MODEL>(std::filesystem::path);
+		template std::optional<Asset::asset_type_t<Asset::eAssetType::THREE_D_MODEL>> ImportSpecificAsset<Asset::eAssetType::THREE_D_MODEL>(const std::filesystem::path&);
 	
 		template<>
 		void AssetApiImporter<Asset::eAssetType::THREE_D_MODEL>::InitApiImporter(api_importer_type_t<Asset::eAssetType::THREE_D_MODEL>& apiImporter)
@@ -65,7 +65,7 @@ namespace doom
 		}
 		
 		template<>
-		std::optional<Asset::asset_type_t<Asset::eAssetType::THREE_D_MODEL>> ReadAssetFile<Asset::eAssetType::THREE_D_MODEL>(std::filesystem::path path)
+		std::optional<Asset::asset_type_t<Asset::eAssetType::THREE_D_MODEL>> ImportSpecificAsset<Asset::eAssetType::THREE_D_MODEL>(const std::filesystem::path& path)
 		{
 			std::stringstream stream;
 			stream << std::this_thread::get_id();
