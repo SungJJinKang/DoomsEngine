@@ -25,7 +25,7 @@ static std::string trim(const std::string& str, const std::string& whitespace = 
 
 
 
-IniData SimpleIniParser::ParseIniFile(const char* fileDirectory)
+IniData SimpleIniParser::ParseIniFile(std::string fileDirectory)
 {
 	std::ifstream inputfStream{ fileDirectory };
 	if (inputfStream.is_open() == false)

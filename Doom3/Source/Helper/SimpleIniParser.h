@@ -47,7 +47,7 @@ public:
 class SimpleIniParser
 {
 public:
-	static IniData ParseIniFile(const char* fileDirectory);
+	static IniData ParseIniFile(std::string fileDirectory);
 
 	
 };

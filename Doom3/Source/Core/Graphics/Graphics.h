@@ -23,7 +23,7 @@ namespace doom
 				graphics::Graphics::ClearColor(1.0f, 1.0f, 1.0f, 1.0f);
 				graphics::Graphics::Clear(graphics::Graphics::eClearMask::COLOR_BUFFER_BIT, graphics::Graphics::eClearMask::DEPTH_BUFFER_BIT);
 
-
+				
 
 				// glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)
 				// -------------------------------------------------------------------------------
