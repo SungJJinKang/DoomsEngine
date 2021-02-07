@@ -45,7 +45,7 @@ IniData SimpleIniParser::ParseIniFile(std::string fileDirectory)
 		if(line.empty())
 			continue;
 
-		line = std::trim(line);
+		line = std::trim(line, ' ');
 
 		if (line.empty())
 			continue;

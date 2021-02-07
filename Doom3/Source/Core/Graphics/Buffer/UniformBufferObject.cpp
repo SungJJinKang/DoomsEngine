@@ -7,20 +7,27 @@ doom::graphics::UniformBufferObject::UniformBufferObject() : Buffer(), mUniformB
 
 }
 
-doom::graphics::UniformBufferObject::UniformBufferObject(unsigned int sizeInByte, unsigned int bindingPoint) : Buffer(), mUniformBufferTempData{}, mSizeInByte{ sizeInByte }, mBindingPoint{ bindingPoint }
+doom::graphics::UniformBufferObject::~UniformBufferObject()
 {
-	this->GenUniformBufferObject(sizeInByte, bindingPoint);
+	this->DeleteBuffers();
 }
 
-void doom::graphics::UniformBufferObject::GenUniformBufferObject(unsigned int sizeInByte, unsigned int bindingPoint)
+doom::graphics::UniformBufferObject::UniformBufferObject(unsigned int bindingPoint, unsigned int uniformBlockSize) : Buffer(), mUniformBufferTempData{}, mSizeInByte{ uniformBlockSize }, mBindingPoint{ bindingPoint }
 {
+	this->GenUniformBufferObject(bindingPoint, uniformBlockSize);
+}
+
+void doom::graphics::UniformBufferObject::GenUniformBufferObject(unsigned int bindingPoint, unsigned int uniformBlockSize)
+{
+	D_ASSERT(this->IsBufferGenerated() == false); // prevent overlap generating buffer
+
 	Buffer::GenBuffer();
 
 	this->BindBuffer();
-	glBufferData(GL_UNIFORM_BUFFER, sizeInByte, NULL, GL_STATIC_DRAW);
+	glBufferData(GL_UNIFORM_BUFFER, uniformBlockSize, NULL, GL_STATIC_DRAW);
 	glBindBufferBase(GL_UNIFORM_BUFFER, bindingPoint, this->mUniformBufferID);
 
-	this->mUniformBufferTempData = new char[sizeInByte];
+	this->mUniformBufferTempData = new char[uniformBlockSize];
 }
 
 void doom::graphics::UniformBufferObject::DeleteBuffers()
@@ -29,7 +36,7 @@ void doom::graphics::UniformBufferObject::DeleteBuffers()
 	delete this->mUniformBufferTempData;
 }
 
-void doom::graphics::UniformBufferObject::TempBuffer(const void* sourceData, unsigned int sizeInByteOfSourceData, unsigned int offsetInUniformBlock)
+void doom::graphics::UniformBufferObject::StoreDataAtTempBuffer(const void* sourceData, unsigned int sizeInByteOfSourceData, unsigned int offsetInUniformBlock)
 {
 	D_ASSERT(offsetInUniformBlock + sizeInByteOfSourceData <= this->mSizeInByte);
 	std::memcpy(this->mUniformBufferTempData + offsetInUniformBlock, sourceData, sizeInByteOfSourceData);
@@ -39,6 +46,6 @@ unsigned int doom::graphics::UniformBufferObject::GetAlignedOffset(const std::st
 {
 	//Check mUniformBlockOffset
 	//if doesn't exist, get offset and cache that value
-	
+	return 0;
 }
 

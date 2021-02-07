@@ -14,15 +14,7 @@ namespace doom
 		template<>
 		inline std::optional<Asset::asset_type_t<Asset::eAssetType::SHADER>> ImportSpecificAsset<Asset::eAssetType::SHADER>(const std::filesystem::path& path)
 		{
-			auto str = GetTextFromFile(path);
-			if (str.has_value())
-			{
-				return str.value();
-			}
-			else
-			{
-				return {};
-			}
+			return GetTextFromFile(path);
 		}
 
 	}

@@ -2,14 +2,16 @@
 #include "../Game/IGameFlow.h"
 #include "../../Helper/Singleton.h"
 
+#include "Phycis_Core.h"
+
 namespace doom
 {
-	namespace userinput
+	namespace physics
 	{
-		class UserInput : public IGameFlow, public ISingleton<UserInput>
+		class Physics : public IGameFlow, public ISingleton<Physics>
 		{
 		};
-
 	}
 }
+
 

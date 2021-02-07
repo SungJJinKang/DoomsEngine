@@ -1,6 +1,5 @@
 #include "Source/Core/Core.h"
 #include "Source/Core/Game/GameCore.h"
-#include "Source/Core/Game/GameFlow.h"
 
 
 using namespace doom;
@@ -15,10 +14,13 @@ int main()
 	D_START_PROFILING("Start Game", doom::profiler::eProfileLayers::CPU);
 	D_END_PROFILING("Start Game");
 
-	GameCore::Init();
+	GameCore gameCore{};
 
-
-	GameFlow::Loop();
+	gameCore.Init();
+	while (true)
+	{
+		gameCore.Update();
+	}
 
 	//window terminated
 

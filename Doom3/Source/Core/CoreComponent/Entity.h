@@ -10,14 +10,17 @@
 
 #include "../Core.h"
 #include "../../Component/Component.h"
+#include "CoreComponent.h"
 
 #include "../../Helper/vector_erase_move_lastelement/vector_swap_erase.h"
+#include "../Game/IGameFlow.h"
+
 
 namespace doom
 {
 	class Transform;
 	class World;
-	class Entity
+	class Entity : IGameFlow
 	{
 		friend class World;
 
@@ -46,19 +49,56 @@ namespace doom
 		Entity* mParent;
 		std::vector<Entity*> mChilds;
 
-		std::vector<std::unique_ptr<Component, Component::Deleter>> mComponents;
+		/// <summary>
+		/// Plain component (not core component ) is stored at this variable
+		/// </summary>
+		std::vector<std::unique_ptr<Component, Component::Deleter>> mPlainComponents;
+		/// <summary>
+		/// Core component is stored at this variable
+		/// </summary>
+		std::vector<std::unique_ptr<CoreComponent, Component::Deleter>> mCoreComponents;
 
 		template<typename T>
-		constexpr std::enable_if_t<std::is_base_of_v<Component, T>, T&> AddComponent(T* component) noexcept
+		static constexpr bool IsCoreComponent()
 		{
-			D_ASSERT(component->bIsAddedToEntity == false);
+			return std::is_base_of_v<CoreComponent, T>;
+		}
 
-			this->mComponents.emplace_back(component);
-			
-			component->OnComponentAttached_Internal(*this);
-			component->OnComponentActivated_Internal();
-	
-			return *component;
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <typeparam name="T"></typeparam>
+		/// <param name="component"></param>
+		/// <returns></returns>
+		template<typename T, std::enable_if_t<std::is_base_of_v<Component, T>, bool> = true>
+		constexpr T* _AddComponent() noexcept
+		{
+			T* newComponent = new T();
+			D_ASSERT(newComponent->bIsAddedToEntity == false);
+
+			if constexpr (Entity::IsCoreComponent<T>() == true)
+			{
+				this->mCoreComponents.emplace_back(newComponent);
+			}
+			else
+			{
+				this->mPlainComponents.emplace_back(newComponent);
+			}
+		
+
+			newComponent->Init_Internal(*this);
+			newComponent->OnActivated_Internal();
+
+			return newComponent;
+
+		}
+
+		template<typename T>
+		constexpr bool _RemoveComponent(std::unique_ptr<T>& component)
+		{
+			component->OnDestroy_Internal();
+			component->OnDestroy();
+			component.reset();
 		}
 
 		/// <summary>
@@ -66,20 +106,18 @@ namespace doom
 		/// </summary>
 		void ClearComponents()
 		{
-			this->mComponents.clear();
+			this->mPlainComponents.clear(); // destroy entities
+			this->mCoreComponents.clear();
 		}
 
-		/// <summary>
-		/// AddComponent Internally
-		/// Threre is no limitation on T
-		/// </summary>
-		/// <typeparam name="T"></typeparam>
-		/// <returns></returns>
-		template<typename T>
-		constexpr std::enable_if_t<std::is_base_of_v<Component, T>, T&> AddComponent_Internal() noexcept
+	protected:
+
+		virtual void Init() final {}
+		virtual void Update() final
 		{
-			return AddComponent<T>(new T());
+			this->OnUpdate();
 		}
+
 	public:
 
 		
@@ -89,24 +127,29 @@ namespace doom
 			return this->mEntityName;
 		}
 
-		Transform& _Transform()
+		constexpr Transform* _Transform()
 		{
-			return *this->mTransform;
+			return this->mTransform;
 		}
 
-		template<typename T>
-		constexpr std::enable_if_t<std::is_base_of_v<Component, T>, T&> AddComponent() noexcept
+		//TODO : Prevent Programmer Add TransformComponent.
+		//TODO : Because All entity should have only one Transform Component
+
+
+		template<typename T, std::enable_if_t<std::is_base_of_v<Component, T>, bool> = true>
+		constexpr T* AddComponent() noexcept
 		{
-			static_assert(!std::is_same_v<T, Transform>);
-			return AddComponent<T>(new T());
+			return this->_AddComponent<T>();
 		}
 
+		/* THIS function can make mistake, Don't make this function(passing argumnet)
 		template<typename T, typename... arguments>
 		constexpr std::enable_if_t<std::is_base_of_v<Component, T>, T&> AddComponent(arguments&&... a) noexcept
 		{
-			static_assert(!std::is_same_v<T, Transform>);
-			return AddComponent<T>(new T(std::forward<arguments>(a)...));
+			return this->_AddComponent<T>(new T(std::forward<arguments>(a)...));
 		}
+		*/
+
 
 		// TODO : cached component can be destroyed component 
 		Component* mComponentPtrCache;
@@ -116,8 +159,8 @@ namespace doom
 		/// </summary>
 		/// <typeparam name="T"></typeparam>
 		/// <returns></returns>
-		template<typename T>
-		[[nodiscard]] std::enable_if_t<std::is_base_of_v<Component, T>, T*> GetComponent() // never return unique_ptr reference, just return pointer
+		template<typename T, std::enable_if_t<std::is_base_of_v<Component, T>, bool> = true>
+		[[nodiscard]] constexpr T* GetComponent() // never return unique_ptr reference, just return pointer
 		{
 			if (mComponentPtrCache != nullptr)
 			{
@@ -129,86 +172,171 @@ namespace doom
 				}
 			}
 
-			for (auto& component : this->mComponents)
-			{
-				T* componentPtr = dynamic_cast<T*>(component.get());
-				if (componentPtr != nullptr)
+			if constexpr (Entity::IsCoreComponent<T>() == true)
+			{// when component is coreComponent
+				for (auto& coreComponent : this->mCoreComponents)
 				{
-					mComponentPtrCache = component;
-					return componentPtr;
+					T* componentPtr = dynamic_cast<T*>(coreComponent.get());
+					if (componentPtr != nullptr)
+					{
+						mComponentPtrCache = coreComponent;
+						return componentPtr;
+					}
 				}
-
 			}
+			else
+			{// when component is plainComponent
+				for (auto& plainComponent : this->mPlainComponents)
+				{
+					T* componentPtr = dynamic_cast<T*>(plainComponent.get());
+					if (componentPtr != nullptr)
+					{
+						mComponentPtrCache = plainComponent;
+						return componentPtr;
+					}
+				}
+			}
+			
 
-			D_ASSERT(false);
 			return nullptr;
 		}
 
 
-		template<typename T>
-		[[nodiscard]] std::vector<std::enable_if_t<std::is_base_of_v<Component, T>, std::vector<T*>>> GetComponents()
+		template<typename T, std::enable_if_t<std::is_base_of_v<Component, T>, bool> = true>
+		[[nodiscard]] constexpr std::vector<T*> GetComponents()
 		{
 			std::vector<T*> components;
 
-			for (auto& component : this->mComponents)
-			{
-				T* componentPtr = dynamic_cast<T*>(component.get());
-				if (componentPtr != nullptr)
+			if constexpr (Entity::IsCoreComponent<T>() == true)
+			{// when component is coreComponent
+				for (auto& coreComponent : this->mCoreComponents)
 				{
-					components.push_back(componentPtr);
+					T* componentPtr = dynamic_cast<T*>(coreComponent.get());
+					if (componentPtr != nullptr)
+					{
+						components.push_back(componentPtr);
+					}
 				}
 			}
+			else
+			{// when component is plain component
+				for (auto& plainComponent : this->mPlainComponents)
+				{
+					T* componentPtr = dynamic_cast<T*>(plainComponent.get());
+					if (componentPtr != nullptr)
+					{
+						components.push_back(componentPtr);
+					}
+				}
+			}
+
+		
 
 			return components;
 		}
 
+		
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <typeparam name="T">if there is removed component</typeparam>
+		/// <returns></returns>
 		template<typename T, std::enable_if_t<std::is_base_of_v<Component, T>, bool> = true>
-		void RemoveComponent()
+		constexpr bool RemoveComponent()
 		{
 			static_assert(!std::is_same_v<T, Transform>);
-			for (size_t i = 0 ; i < this->mComponents.size() ; i++)
-			{
-				T* componentPtr = dynamic_cast<T*>(this->mComponents[i].get());
-				if (componentPtr != nullptr)
-				{//Check is sub_class of Component
-					std::vector_swap_erase(this->mComponents, i);
-					return;
+
+			if constexpr (Entity::IsCoreComponent<T>() == true)
+			{// when component is coreComponent
+				for (size_t i = 0; i < this->mCoreComponents.size(); i++)
+				{
+					T* componentPtr = dynamic_cast<T*>(this->mCoreComponents[i].get());
+					if (componentPtr != nullptr)
+					{//Check is sub_class of Component
+						this->_RemoveComponent(this->mCoreComponents[i]);
+
+						std::vector_swap_erase(this->mCoreComponents, i);
+						return true;
+					}
 				}
 			}
+			else
+			{// when component is plainComponent
+				for (size_t i = 0; i < this->mPlainComponents.size(); i++)
+				{
+					T* componentPtr = dynamic_cast<T*>(this->mPlainComponents[i].get());
+					if (componentPtr != nullptr)
+					{//Check is sub_class of Component
+						this->_RemoveComponent(this->mCoreComponents[i]);
 
-			return;
+						std::vector_swap_erase(this->mPlainComponents, i);
+						return true;
+					}
+				}
+			}
+		
+			
+
+			return false;
 		}
 
 		template<typename T, std::enable_if_t<std::is_base_of_v<Component, T>, bool> = true>
-		void RemoveComponents()
+		constexpr bool RemoveComponents()
 		{
 			static_assert(!std::is_same_v<T, Transform>);
-			for (size_t i = 0; i < this->mComponents.size(); i++)
-			{
-				T* componentPtr = dynamic_cast<T*>(this->mComponents[i].get());
-				if (componentPtr != nullptr)
-				{//Check is sub_class of Component
-					std::vector_swap_erase(this->mComponents, i);
-					--i;
+
+			bool isRemoveSuccess{ false };
+			if constexpr (Entity::IsCoreComponent<T>() == true)
+			{// when component is coreComponent
+				for (size_t i = 0; i < this->mCoreComponents.size(); i++)
+				{
+					T* componentPtr = dynamic_cast<T*>(this->mCoreComponents[i].get());
+					if (componentPtr != nullptr)
+					{//Check is sub_class of Component
+						this->_RemoveComponent(this->mCoreComponents[i]);
+
+						std::vector_swap_erase(this->mCoreComponents, i);
+						--i;
+
+						isRemoveSuccess = true;
+					}
 				}
 			}
+			else
+			{// when component is plainComponent
+				for (size_t i = 0; i < this->mPlainComponents.size(); i++)
+				{
+					T* componentPtr = dynamic_cast<T*>(this->mPlainComponents[i].get());
+					if (componentPtr != nullptr)
+					{//Check is sub_class of Component
+						this->_RemoveComponent(this->mCoreComponents[i]);
 
-			return;
+						std::vector_swap_erase(this->mPlainComponents, i);
+						--i;
+
+						isRemoveSuccess = true;
+					}
+				}
+			}
+			
+
+			return isRemoveSuccess;
 		}
 
 		
 		void Destroy();
 
 		//Event
-		virtual void OnEntitySpawned(){}
-		virtual void OnEntityDestroyed() {}
+		void OnSpawned(){}
+		void OnDestroyed() {}
 
-		virtual void OnEntityActivated() {}
-		virtual void OnEntityDeActivated() {}
+		void OnActivated() {}
+		void OnDeActivated() {}
 
-		virtual void OnPreUpdateComponents() {}
-		void UpdateComponents();
-		virtual void OnPostUpdateComponents() {}
+		void OnPreUpdate() {}
+		void OnUpdate();
+		void OnPostUpdate() {}
 	};
 
 

@@ -1,8 +1,9 @@
 #pragma once
-#include "Component.h"
+#include "../Core/CoreComponent/CoreComponent.h"
 #include "../Core/Math/LightMath_Cpp/Quaternion.h"
 #include "../Core/Math/LightMath_Cpp/Vector3.h"
 #include "../Core/Math/LightMath_Cpp/Matrix4x4.h"
+
 namespace doom
 {
 	enum class eSpace
@@ -11,7 +12,7 @@ namespace doom
 		Self
 	};
 
-	class Transform : public Component 
+	class Transform : public CoreComponent 
 	{
 	private:
 		math::Matrix4x4 mModelMatrixCache;

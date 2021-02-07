@@ -34,6 +34,14 @@ namespace doom
 		void CompileShaders(const std::string& str);
 		void CompileSpecificShader(const std::string& shaderStr, ShaderType shaderType, unsigned int& shaderId);
 		std::array<std::string, 3> ClassifyShader(const std::string& str);
+		bool CheckIsSharpInclude(const std::string& str);
+		/// <summary>
+		/// extract shader file
+		/// this function also extract recursive #include (#include of #include of #include), 
+		/// </summary>
+		/// <param name="shaderStr"></param>
+		std::string ExtractShaderFile(const std::filesystem::path& path);
+
 		void checkCompileError(unsigned int id, ShaderType shaderType);
 
 		/// <summary>

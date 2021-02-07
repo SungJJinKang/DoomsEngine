@@ -6,7 +6,7 @@
 #include "Graphics.h"
 #include "RenderBuffer.h"
 #include "SingleTexture.h"
-#include "../OverlapBindChecker/OverlapBindChecker.h"
+#include "OverlapBindChecker.h"
 
 namespace doom
 {

@@ -1,35 +1,45 @@
 #pragma once
 #include "../Core.h"
-#include "GameFlow.h"
+#include "IGameFlow.h"
+#include "../../Helper/Singleton.h"
+#include "../../Helper/SimpleIniParser.h"
 
-class IniData;
+#include "../Graphics/Graphics.h"
+#include "AssetManager.h"
+#include "../ResourceManagement/ThreadManager.h"
+
 
 namespace doom
 {
-	namespace graphics 
-	{
-		class Graphics;
-	}
 
 	class GameFlow;
 
-	class GameCore
+	class GameCore : public IGameFlow, public ISingleton<GameCore>
 	{
+		friend class graphics::Graphics;
+		friend class AssetManager;
 	private:
-		static const char* configFilePath;
-		static IniData ConfigData;
+		const char* mConfigFilePath{};
+		IniData mConfigData{};
 
+		assetimporter::AssetManager mAssetManager{};
+		graphics::Graphics mGraphics{};
+		resource::ThreadManager mThreadManager{};
 	public:
-		friend class ::doom::graphics::Graphics;
+		
 
-		static void Init();
-		
-		
-		
-		GameCore() = delete;
+		GameCore() = default;
 		GameCore(const GameCore&) = delete;
 		GameCore(GameCore&&) = delete;
 		GameCore& operator=(const GameCore&) = delete;
 		GameCore& operator=(GameCore&&) = delete;
+
+		IniData& GetConfigData();
+	protected:
+
+	public:
+		virtual void Init() final;
+		virtual void Update() final;
+
 	};
 }

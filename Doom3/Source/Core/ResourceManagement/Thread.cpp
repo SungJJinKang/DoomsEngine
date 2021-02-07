@@ -4,7 +4,7 @@
 
 namespace doom
 {
-	namespace thread
+	namespace resource
 	{
 
 		

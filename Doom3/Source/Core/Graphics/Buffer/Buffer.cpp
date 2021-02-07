@@ -41,4 +41,8 @@ void Buffer::DeleteBuffers()
 	}
 }
 
+bool Buffer::IsBufferGenerated()
+{
+	return this->mBufferID != 0;
+}
 

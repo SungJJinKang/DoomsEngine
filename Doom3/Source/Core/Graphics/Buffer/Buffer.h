@@ -28,6 +28,7 @@ namespace doom
 		public:
 			inline virtual void BindBuffer() noexcept = 0;
 			inline virtual void UnBindBuffer() noexcept = 0;
+			bool IsBufferGenerated();
 		};
 	}
 }

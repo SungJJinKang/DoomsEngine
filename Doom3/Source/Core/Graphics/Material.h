@@ -1,30 +1,27 @@
 #pragma once
 #include <string>
 #include <vector>
+#include <array>
 
 #include "Graphics_Core.h"
 #include "Texture.h"
-#include "../OverlapBindChecker/OverlapBindChecker.h"
+#include "OverlapBindChecker.h"
+
 
 namespace doom
 {
 	class ShaderAsset;
+	
 	namespace graphics
 	{
-		
+		class UniformBufferObject;
 		class Material
 		{
 		private:
 			unsigned int mID;
 			ShaderAsset* mShaderAsset;
-			std::vector<Texture*> mTargetTextures;
-			
-			unsigned int mUniformBlockCount;
-
-			/// <summary>
-			/// Uniform Blocks's Binding Point of mShaderAsset
-			/// </summary>
-			std::vector<unsigned int> mUniformBlockBindingPoints;
+			std::vector<Texture*> mTargetTextures{};
+			std::array<UniformBufferObject*, MAX_UNIFORM_BLOCK_BINDING_POINT> mUniformBufferObjects;
 
 			void SetShaderAsset(ShaderAsset& shaderAsset);
 		public:
@@ -116,6 +113,7 @@ namespace doom
 			/// </summary>
 			/// <returns>0 ~ return value</returns>
 			int GetUniformBlocksCount();
+			void InitUniformBufferObject();
 		};
 	}
 }

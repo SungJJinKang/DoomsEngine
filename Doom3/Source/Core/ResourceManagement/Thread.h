@@ -11,7 +11,7 @@
 
 namespace doom
 {
-	namespace thread
+	namespace resource
 	{
 		/// <summary>
 		/// Thread class manage one thread.

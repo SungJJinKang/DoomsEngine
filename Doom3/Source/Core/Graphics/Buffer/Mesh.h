@@ -3,7 +3,7 @@
 
 #include <functional>
 #include "../../Asset/ThreeDModelAsset.h"
-#include "../../OverlapBindChecker/OverlapBindChecker.h"
+#include "../OverlapBindChecker.h"
 
 namespace doom
 {
@@ -37,7 +37,7 @@ namespace doom
 			void DeleteBuffers() final;
 		public:
 			Mesh();
-			~Mesh();
+			virtual ~Mesh();
 			
 			Mesh(GLsizeiptr dataCount, const void* data, unsigned int vertexArrayFlag) noexcept;
 			Mesh(const ThreeDModelMesh& threeDModelMesh) noexcept;

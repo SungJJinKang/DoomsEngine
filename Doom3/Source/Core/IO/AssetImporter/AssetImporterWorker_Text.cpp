@@ -13,15 +13,7 @@ namespace doom
 		template<>
 		std::optional <Asset::asset_type_t<Asset::eAssetType::TEXT>> ImportSpecificAsset<Asset::eAssetType::TEXT>(const std::filesystem::path& path)
 		{
-			auto str = GetTextFromFile(path);
-			if (str.has_value())
-			{
-				return *str;
-			}
-			else
-			{
-				return {};
-			}
+			return GetTextFromFile(path);
 		}
 	}
 }

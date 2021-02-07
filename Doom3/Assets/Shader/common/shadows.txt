@@ -1,5 +1,3 @@
-#ifndef SHADOW_GLSL
-#define SHADOW_GLSL
 uniform bool ShadowsEnabled;
 
 float ShadowFactor(sampler2D shadowMap, vec4 fragPosLightSpace, vec3 N, vec3 L)
@@ -39,4 +37,3 @@ float ShadowFactor(sampler2D shadowMap, vec4 fragPosLightSpace, vec3 N, vec3 L)
         return 1.0;
     }
 }
-#endif

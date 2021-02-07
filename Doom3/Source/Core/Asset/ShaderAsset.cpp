@@ -127,7 +127,7 @@ void doom::ShaderAsset::CompileSpecificShader(const std::string& shaderStr, Shad
 
 std::array<std::string, 3> doom::ShaderAsset::ClassifyShader(const std::string& str)
 {
-	std::istringstream inputStringStream{ str };
+	std::stringstream inputStringStream{ str };
 	std::string line;
 
 	ShaderType currentShaderType = ShaderType::None;
@@ -135,21 +135,32 @@ std::array<std::string, 3> doom::ShaderAsset::ClassifyShader(const std::string& 
 
 	std::array<std::string, 3> classifiedShader{};
 
+	
+
 	while (std::getline(inputStringStream, line))
 	{
 		bool isMacros = false;
 
-		if (line.compare(0, 1, "#") == 0)
+		if (CheckIsSharpInclude(line))
+		{
+			//this->mAssetPath.relative
+			std::filesystem::path targetPath = this->mAssetPath;//
+			targetPath.remove_filename();
+
+			std::string includeTargetPath = line.substr(line.find("#include", 0) + 8, std::string::npos);
+			includeTargetPath = std::trim(includeTargetPath, "\r");
+			includeTargetPath = std::trim(includeTargetPath, ' ');
+			targetPath.append(includeTargetPath);
+
+			currentShaderStr += ExtractShaderFile(targetPath.make_preferred().string());
+			currentShaderStr += '\n';
+			continue;
+		}
+		else if (line.compare(0, 1, "#") == 0)
 		{// macros shouldn't have whitespace
 
-			if (line.compare(0,8, "#include") == 0)
-			{// To Support #include in GLSL
-				std::filesystem::path targetPath = this->mAssetPath.string() + '\\' + std::trim(line.substr(line.find("#include", 0) + 8, std::string::npos));
-				auto externalFileStr = GetTextFromFile(targetPath.make_preferred().string()); // TODO: GET Texts from #include ~~ file
-				continue;
-			}
-
-			if  (line.compare(0, ShaderAsset::VertexShaderMacros.size(), ShaderAsset::VertexShaderMacros, 0) == 0 ||
+			if  
+				(line.compare(0, ShaderAsset::VertexShaderMacros.size(), ShaderAsset::VertexShaderMacros, 0) == 0 ||
 				line.compare(0, ShaderAsset::FragmentShaderMacros.size(), ShaderAsset::FragmentShaderMacros, 0) == 0 ||
 				line.compare(0, ShaderAsset::GeometryShaderMacros.size(), ShaderAsset::GeometryShaderMacros, 0) == 0
 				)
@@ -203,6 +214,53 @@ std::array<std::string, 3> doom::ShaderAsset::ClassifyShader(const std::string& 
 
 	return classifiedShader;
 	
+}
+
+
+bool doom::ShaderAsset::CheckIsSharpInclude(const std::string& str)
+{
+	std::string trimedStr = std::trim(str, ' ');
+	if (trimedStr.compare(0, 1, "#") == 0)
+	{// macros shouldn't have whitespace
+
+		if (trimedStr.compare(0, 8, "#include") == 0)
+		{// To Support #include in GLSL
+			return true;
+		}
+	}
+
+	return false;
+}
+
+std::string doom::ShaderAsset::ExtractShaderFile(const std::filesystem::path& path)
+{
+	std::stringstream inputStringStream{ GetTextFromFile(path) };
+	std::string line;
+
+	std::string extractedShaderText{};
+
+	while (std::getline(inputStringStream, line))
+	{
+		if (this->CheckIsSharpInclude(line))
+		{
+			std::filesystem::path targetPath = path;//
+			targetPath.remove_filename();
+
+			std::string includeTargetPath = line.substr(line.find("#include", 0) + 8, std::string::npos);
+			includeTargetPath = std::trim(includeTargetPath, "\r");
+			includeTargetPath = std::trim(includeTargetPath, ' ');
+			targetPath.append(includeTargetPath);
+
+			extractedShaderText += ExtractShaderFile(targetPath.make_preferred().string());
+		}
+		else
+		{
+			extractedShaderText += line;
+		}
+		extractedShaderText += '\n';
+	}
+	
+	return extractedShaderText;
 }
 
 void doom::ShaderAsset::checkCompileError(unsigned int id, ShaderType shaderType)

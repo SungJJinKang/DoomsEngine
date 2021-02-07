@@ -14,9 +14,9 @@ namespace doom
 
 
 		};
-		void GenerateSeed();
-		int RandomIntNumber(int a, int b);
-		float RandomFloatNumber(float a, float b);
+		static void GenerateSeed();
+		static int RandomIntNumber(int a, int b);
+		static float RandomFloatNumber(float a, float b);
 	}
 	
 }

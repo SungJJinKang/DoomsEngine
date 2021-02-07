@@ -3,9 +3,9 @@
 #include "../../Component/Transform.h"
 #include"World.h"
 
-doom::Entity::Entity(Entity* parent) : mEntityName{}, mTransform{}, mComponents{}, mParent{ parent }, mChilds{}
+doom::Entity::Entity(Entity* parent) : mEntityName{}, mPlainComponents{}, mParent{ parent }, mChilds{}
 {
-	this->mTransform = &(this->AddComponent_Internal<doom::Transform>());
+	this->mTransform = this->AddComponent<doom::Transform>();
 }
 
 doom::Entity::~Entity()
@@ -15,14 +15,16 @@ doom::Entity::~Entity()
 
 void doom::Entity::Destroy()
 {
-	World::DestroyEntity(*this);
+	//Work Flow : World::GetCurrentWorld().DestroyEntity -> delete Entity -> Entity::~Entity
+	World::GetCurrentWorld().DestroyEntity(*this);
+	
 }
 
-void doom::Entity::UpdateComponents()
+void doom::Entity::OnUpdate()
 {
-	for (auto& component : this->mComponents)
+	for (auto& component : this->mPlainComponents)
 	{
-		component->OnUpdateComponent_Internal();
-		component->OnUpdateComponent();
+		component->Update_Internal();
+		component->Update();
 	}
 }

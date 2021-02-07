@@ -1,7 +1,7 @@
 #include "AssetContainer.h"
 
-
 using namespace doom;
+using namespace doom::assetimporter;
 
 template class AssetContainer<Asset::eAssetType::AUDIO>;
 template class AssetContainer<Asset::eAssetType::FONT>;
@@ -87,7 +87,7 @@ std::optional<std::reference_wrapper<const typename AssetContainer<assetType>::c
 }
 
 template <doom::Asset::eAssetType assetType>
-const std::vector<std::reference_wrapper<typename doom::AssetContainer<assetType>::container_asset_type_t>>& doom::AssetContainer<assetType>::GetAssets()
+const std::vector<std::reference_wrapper<typename doom::assetimporter::AssetContainer<assetType>::container_asset_type_t>>& doom::assetimporter::AssetContainer<assetType>::GetAssets()
 {
 	return this->mAssetsForIterating;
 }

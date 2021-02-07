@@ -2,15 +2,15 @@
 #include "../Game/GameCore.h"
 #include "../API/OpenglAPI.h"
 #include "../../Helper/SimpleIniParser.h"
-
+#include "Buffer/UniformBufferObjectManager.h"
 
 using namespace doom::graphics;
 
 
-void Graphics::Init() noexcept
+void Graphics::Init() 
 {
-	Graphics::SCREEN_WIDTH = GameCore::ConfigData.GetValue<int>("Graphics", "SCREEN_WIDHT");
-	Graphics::SCREEN_HEIGHT = GameCore::ConfigData.GetValue<int>("Graphics", "SCREEN_HEIGHT");
+	Graphics::SCREEN_WIDTH = GameCore::GetSingleton().GetConfigData().GetValue<int>("Graphics", "SCREEN_WIDHT");
+	Graphics::SCREEN_HEIGHT = GameCore::GetSingleton().GetConfigData().GetValue<int>("Graphics", "SCREEN_HEIGHT");
 
 	glfwInit();
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
@@ -59,4 +59,18 @@ void Graphics::Init() noexcept
 	Graphics::FrontFace(Graphics::eFrontFaceMode::CCW);
 
 	return;
+}
+
+void Graphics::Update()
+{
+	graphics::Graphics::ClearColor(1.0f, 1.0f, 1.0f, 1.0f);
+	graphics::Graphics::Clear(graphics::Graphics::eClearMask::COLOR_BUFFER_BIT, graphics::Graphics::eClearMask::DEPTH_BUFFER_BIT);
+
+	this->mUniformBufferObjectManager.Update();
+
+	// glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)
+	// -------------------------------------------------------------------------------
+	glfwSwapBuffers(graphics::Graphics::Window);
+	glfwPollEvents();
+
 }

@@ -1,33 +1,40 @@
 #include "GameCore.h"
 
-#include "GameFlow.h"
 #include "../Graphics/Graphics.h"
 
 #include "../../Helper/SimpleIniParser.h"
 #include "AssetManager.h"
-#include "../Thread/ThreadManager.h"
 
 
-const char* doom::GameCore::configFilePath{};
-IniData doom::GameCore::ConfigData{};
+
+
+IniData& doom::GameCore::GetConfigData()
+{
+	return this->mConfigData;
+}
 
 void doom::GameCore::Init()
 {
 	D_START_PROFILING("Loading Config File", eProfileLayers::CPU);
-	doom::GameCore::ConfigData = { SimpleIniParser::ParseIniFile(GET_RELATIVE_PATH("config.ini")) };
+	this->mConfigData = { SimpleIniParser::ParseIniFile(GET_RELATIVE_PATH("config.ini")) };
 	D_END_PROFILING("Loading Config File");
 
+
 	D_START_PROFILING("Init GLFW", eProfileLayers::GPU);
-	doom::graphics::Graphics::Init();
+	this->mGraphics.Init();
 	D_END_PROFILING("Init GLFW");
 
+
 	D_START_PROFILING("ImportEntireAsset", doom::profiler::eProfileLayers::CPU);
-	AssetManager::ImportEntireAsset();
+	this->mAssetManager.ImportEntireAsset();
 	D_END_PROFILING("ImportEntireAsset");
 
-	doom::thread::ThreadManager::InitializeThreads();
+	this->mThreadManager.InitializeThreads();
 
-	GameFlow::Init();
 }
 
+void doom::GameCore::Update()
+{
+	this->mGraphics.Update();
+}
 

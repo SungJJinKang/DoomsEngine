@@ -1,5 +1,14 @@
 #pragma once
-class MemoryPool
+
+namespace doom
 {
-};
+	namespace resource
+	{
+
+		class MemoryPool
+		{
+		};
+
+	}
+}
 

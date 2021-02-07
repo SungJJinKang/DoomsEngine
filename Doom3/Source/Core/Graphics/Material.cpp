@@ -3,6 +3,8 @@
 #include "Graphics_Core.h"
 #include "../Asset/ShaderAsset.h"
 
+#include "Buffer/UniformBufferObjectManager.h"
+
 using namespace doom::graphics;
 
 
@@ -48,22 +50,16 @@ void Material::SetShaderAsset(ShaderAsset& shaderAsset)
 	}
 #endif
 
-	if (isSuccess == true)
+	if (isSuccess > 0)
 	{
-
-		int uniformBlockCount = GetUniformBlocksCount();
-		for (int i = 0; i < uniformBlockCount; i++)
-		{
-			glGetActiveUniform(this->mID, ) // https://www.khronos.org/opengl/wiki/GLAPI/glGetActiveUniforms
-			glGetActiveUniforms
-		}
-
+		InitUniformBufferObject();
+	
 	}
 	
 }
 
 
-Material::Material(ShaderAsset& shaderAsset) : mID{ 0 }, mShaderAsset{ nullptr }, mTargetTextures{}, mUniformBlockCount{ 0 }
+Material::Material(ShaderAsset& shaderAsset) : mID{ 0 }, mShaderAsset{ nullptr }
 {
 	this->SetShaderAsset(shaderAsset);
 }
@@ -100,6 +96,36 @@ int Material::GetUniformBlocksCount()
 
 	int uniformBlockCount = 0;
 	glGetProgramiv(this->mID, GL_ACTIVE_UNIFORM_BLOCKS, &uniformBlockCount);
-	this->mUniformBlockCount = uniformBlockCount;
+	return uniformBlockCount;
+}
+
+void Material::InitUniformBufferObject()
+{
+	int uniformBlockCount = GetUniformBlocksCount();
+	for (int i = 0; i < uniformBlockCount; i++)
+	{
+		int uniformBlockBindingPoint = 0;
+		glGetActiveUniformBlockiv(this->mID, i, GL_UNIFORM_BLOCK_BINDING, &uniformBlockBindingPoint); // https://www.khronos.org/registry/OpenGL-Refpages/gl4/html/glGetActiveUniformBlock.xhtml
+		
+		int uniformBlockSize = 0;
+		glGetActiveUniformBlockiv(this->mID, i, GL_UNIFORM_BLOCK_DATA_SIZE, &uniformBlockSize);
+		
+		auto& uniformBufferObject = UniformBufferObjectManager::GetSingleton().GetOrAssignUniformBufferObject(uniformBlockBindingPoint, uniformBlockSize);
+		this->mUniformBufferObjects[i] = &uniformBufferObject;
+
+		/*
+		int elementCount = 0;
+		glGetActiveUniformBlockiv(this->mID, i, GL_UNIFORM_BLOCK_ACTIVE_UNIFORMS, &elementCount);
+
+		int* elementList = new int[100];
+		glGetActiveUniformBlockiv(this->mID, i, GL_UNIFORM_BLOCK_ACTIVE_UNIFORM_INDICES, elementList);
+
+		for (int i = 0; i < elementCount; i++)
+		{
+			
+		}
+		*/
+	}
+
 }
 

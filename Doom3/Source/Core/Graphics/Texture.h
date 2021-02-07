@@ -3,7 +3,7 @@
 #include <unordered_map>
 
 #include "Graphics_Core.h"
-#include "../OverlapBindChecker/OverlapBindChecker.h"
+#include "OverlapBindChecker.h"
 
 namespace doom
 {

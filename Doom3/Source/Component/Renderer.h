@@ -1,5 +1,6 @@
 #pragma once
 #include "../Core/Graphics/Material.h"
+#include "../Core/CoreComponent/CoreComponent.h"
 
 namespace doom
 {
@@ -8,7 +9,7 @@ namespace doom
 		class Material;
 	}
 
-	class Renderer
+	class Renderer : public CoreComponent
 	{
 	private:
 		graphics::Material* mTargetMaterial;
@@ -18,6 +19,7 @@ namespace doom
 	public:
 		Renderer();
 		Renderer(graphics::Material* targetMaterial);
+		virtual ~Renderer();
 
 		virtual void Draw() = 0;
 

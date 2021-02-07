@@ -3,7 +3,7 @@
 
 
 
-std::optional<std::string> GetTextFromFile(const std::filesystem::path& path)
+std::string GetTextFromFile(const std::filesystem::path& path)
 {
 	std::ifstream inputFileStream(path, std::ios::in | std::ios::binary | std::ios::ate);
 
@@ -19,6 +19,6 @@ std::optional<std::string> GetTextFromFile(const std::filesystem::path& path)
 	}
 	else
 	{
-		return {};
+		return "";
 	}
 }

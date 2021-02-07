@@ -5,8 +5,9 @@
 #include <vector>
 #include <unordered_map>
 #include <string>
-#include "../../OverlapBindChecker/OverlapBindChecker.h"
 
+#include "../OverlapBindChecker.h"
+#include "UniformBlockOffsetInfo.h"
 namespace doom
 {
 	namespace graphics
@@ -16,30 +17,35 @@ namespace doom
 		/// </summary>
 		class UniformBufferObject : public Buffer
 		{
+			friend class UniformBufferObjectManager;
 		private:
+
+			std::string mUniformBlockName;
+
 			/// <summary>
 			/// Buffer::mBufferID is same with mUniformBufferID
 			/// </summary>
 			unsigned int& mUniformBufferID = this->mBufferID;
 
+
+			// TODO: Check Which is faster : 
+			// Store at temporary data in cpu and send it to gpu once glbufferdata VS send data instantly to gpu glbuffersubdata ( don't store at memory )
+
 			/// <summary>
 			/// each element is pointer of consecutive dats
 			/// Use life mUniformBuffers[0][offset in byte]
+			///
 			/// </summary>
 			char* mUniformBufferTempData;
-			const unsigned int mSizeInByte;
-			const unsigned int mBindingPoint;
+			unsigned int mSizeInByte;
+			unsigned int mBindingPoint;
 
 			/// <summary>
 			/// Cache element of uniform block's aligned offset
 			/// </summary>
 			std::unordered_map<std::string, unsigned int> mUniformBlockAlignedOffset{};
-		public:
-
-			UniformBufferObject();
-			UniformBufferObject(unsigned int sizeInByte, unsigned int bindingPoint);
-
-			void GenUniformBufferObject(unsigned int sizeInByte, unsigned int bindingPoint);
+		
+			void GenUniformBufferObject(unsigned int bindingPoint, unsigned int uniformBlockSize);
 			void DeleteBuffers() final;
 
 			inline void BindBuffer() noexcept final
@@ -58,9 +64,18 @@ namespace doom
 			/// <returns></returns>
 			inline virtual void BufferData() noexcept
 			{
+				if (this->IsBufferGenerated() == false)
+					return;
+
 				this->BindBuffer();
 				glBufferData(GL_UNIFORM_BUFFER, mSizeInByte, mUniformBufferTempData, GL_STATIC_DRAW);
 			}
+
+		public:
+
+			UniformBufferObject();
+			UniformBufferObject(unsigned int bindingPoint, unsigned int uniformBlockSize);
+			~UniformBufferObject();
 
 			/// <summary>
 			/// Store data in temporary buffer
@@ -70,7 +85,9 @@ namespace doom
 			/// <param name="sourceData">souce data address</param>
 			/// <param name="sizeInByte">data size in byte</param>
 			/// <param name="offsetInUniformBlock"></param>
-			void TempBuffer(const void* sourceData, unsigned int sizeInByteOfSourceData, unsigned int offsetInUniformBlock);
+			void StoreDataAtTempBuffer(const void* sourceData, unsigned int sizeInByteOfSourceData, unsigned int offsetInUniformBlock);
+			//void StoreDataAtTempBuffer(const void* sourceData, const std::string& elementName);
+
 			unsigned int GetAlignedOffset(const std::string elementName);
 		};
 	}

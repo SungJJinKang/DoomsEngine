@@ -17,23 +17,37 @@ World::~World()
 [[nodiscard]] Entity& World::CreateNewEntity() noexcept
 {
 	Entity* newEntity = new Entity(nullptr);
-	World::mCurrentWorld->mSpawnedEntities.emplace_back(newEntity);
+	this->mSpawnedEntities.emplace_back(newEntity);
 	return *newEntity;
 }
 
 bool World::DestroyEntity(Entity& entity)
 {
-	auto currentWorld = World::mCurrentWorld;
-	size_t size = currentWorld->mSpawnedEntities.size();
+	size_t size = this->mSpawnedEntities.size();
 	for (size_t i = 0; i < size; i++)
 	{
-		if (currentWorld->mSpawnedEntities[i].get() == &entity)
+		if (this->mSpawnedEntities[i].get() == &entity)
 		{
-			std::vector_swap_erase(currentWorld->mSpawnedEntities, i);
+			std::vector_swap_erase(this->mSpawnedEntities, i);
 			
 			return true;
 		}
 	}
 
 	return false;
+}
+
+doom::World& World::GetCurrentWorld()
+{
+	return GetSingleton();
+}
+
+void World::Init()
+{
+	throw std::logic_error("The method or operation is not implemented.");
+}
+
+void World::Update()
+{
+	throw std::logic_error("The method or operation is not implemented.");
 }

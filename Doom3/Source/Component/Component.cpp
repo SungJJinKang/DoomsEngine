@@ -5,7 +5,7 @@ using namespace doom;
 
 
 
-Component::Component() : bIsAddedToEntity{}, mOwnerEntity{}, mTransform{}, mIsActivated{} // Never put parameter to component Constructor (including derived class)
+constexpr Component::Component() : bIsAddedToEntity{}, mOwnerEntity{}, mTransform{}, mIsActivated{} // Never put parameter to component Constructor (including derived class)
 {
 
 }
@@ -16,33 +16,34 @@ Component::~Component() // Never put parameter to component Destructor (includin
 
 }
 
-void Component::OnComponentAttached_Internal(Entity& entity)
+constexpr void Component::Init_Internal(Entity& entity)
 {
 	D_ASSERT(bIsAddedToEntity == false);
 	mOwnerEntity = &entity;
-	mTransform = &(entity._Transform());
+	mTransform = entity._Transform();
 	bIsAddedToEntity = true;
 
 }
 
-void Component::OnComponentDestroyed_Internal()
+constexpr void Component::Update_Internal()
+{
+
+}
+
+constexpr void Component::OnDestroy_Internal()
 {
 
 }
 
 
-void Component::OnComponentActivated_Internal()
+constexpr void Component::OnActivated_Internal()
 {
 
 }
 
-void Component::OnComponentDeActivated_Internal()
+constexpr void Component::OnDeActivated_Internal()
 {
 
 }
 
-void Component::OnUpdateComponent_Internal()
-{
-
-}
 
