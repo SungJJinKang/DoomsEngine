@@ -28,3 +28,6 @@
 [submodule "Doom3/dependency/assimp"]
 	path = Doom3/dependency/assimp
 	url = https://github.com/assimp/assimp.git
+[submodule "Doom3/dependency/glfw"]
+	path = Doom3/dependency/glfw
+	url = https://github.com/glfw/glfw.git
