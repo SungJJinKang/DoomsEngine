@@ -1,9 +1,5 @@
 #pragma once
 
-// Use <fstream>
-// Consider # as comment
-//  
-
 #include <vector>
 #include <utility>
 #include <string>

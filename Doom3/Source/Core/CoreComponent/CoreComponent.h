@@ -14,23 +14,24 @@ namespace doom
 	class CoreComponent : public Component
 	{
 		friend class Entity;
+		friend class World;
 	private:
 
 	protected:
 
-		constexpr CoreComponent() {}
+		CoreComponent();
 		/// <summary>
 		/// Pure virtual destructor for make this class virtual cass
 		/// Destructor should be called only from RemoveConponent(or clear component) of Entity class
 		/// </summary>
 		/// <returns></returns>
-		virtual ~CoreComponent(){}
+		virtual ~CoreComponent();
 
 		/// <summary>
 	/// This function will be called before Component object is attached to entity
 	/// </summary>
 	/// <param name="entity"></param>
-		constexpr void Init_Internal(Entity& entity);
+		void Init_Internal(Entity& entity);
 		/// <summary>
 		/// This function will be called before Component object is attached to entity
 		/// </summary>
@@ -42,7 +43,10 @@ namespace doom
 		/// <summary>
 		/// This is called before OnUpdateComponent
 		/// </summary>
-		constexpr void Update_Internal();
+		constexpr void Update_Internal()
+		{
+			Component::Update_Internal();
+		}
 		virtual void Update() override
 		{
 			//DONT PUT ANYTHING HERE, PUT AT _Internal
@@ -51,7 +55,10 @@ namespace doom
 		/// <summary>
 		/// This function will be called before Component object is destroyed
 		/// </summary>
-		constexpr void OnDestroy_Internal();
+		constexpr void OnDestroy_Internal()
+		{
+			Component::OnDestroy_Internal();
+		}
 		/// <summary>
 		/// This function will be called before Component object is destroyed
 		/// </summary>
@@ -64,7 +71,10 @@ namespace doom
 		/// <summary>
 		/// This function will be called after activated
 		/// </summary>
-		constexpr void OnActivated_Internal();
+		constexpr void OnActivated_Internal()
+		{
+			Component::OnActivated_Internal();
+		}
 		/// <summary>
 		/// This function will be called after activated
 		/// </summary>
@@ -77,7 +87,10 @@ namespace doom
 		/// <summary>
 		/// This function will be called after deactivated
 		/// </summary>
-		constexpr void OnDeActivated_Internal();
+		constexpr void OnDeActivated_Internal()
+		{
+			Component::OnDeActivated_Internal();
+		}
 		/// <summary>
 		/// This function will be called after deactivated
 		/// </summary>
@@ -87,6 +100,6 @@ namespace doom
 		}
 
 	public:
-
+	
 	};
 }

@@ -3,7 +3,7 @@
 
 namespace std
 {
-	inline std::string trim(const std::string& str, const std::string& whitespace = " \t")
+	inline std::string trim(const std::string& str, const std::string& whitespace = " ")
 	{
 		const auto strBegin = str.find_first_not_of(whitespace);
 		if (strBegin == std::string::npos)
@@ -16,7 +16,7 @@ namespace std
 
 	}
 
-	inline std::string trim(const std::string& str, const char whitespace = ' \t')
+	inline std::string trim(const std::string& str, const char whitespace = ' ')
 	{
 		const auto strBegin = str.find_first_not_of(whitespace);
 		if (strBegin == std::string::npos)

@@ -3,24 +3,36 @@
 #include "../../Component/Transform.h"
 #include"World.h"
 
-doom::Entity::Entity(Entity* parent) : mEntityName{}, mPlainComponents{}, mParent{ parent }, mChilds{}
+using namespace doom;
+
+Entity::Entity(Entity* parent) : mEntityName{}, mPlainComponents{}, mParent{ parent }, mChilds{}
 {
-	this->mTransform = this->AddComponent<doom::Transform>();
+	this->mTransform = this->AddComponent<Transform>();
 }
 
-doom::Entity::~Entity()
+Entity::~Entity()
 {
 	this->ClearComponents();
 }
 
-void doom::Entity::Destroy()
+std::string_view Entity::GetEntityName() const
+{
+	return this->mEntityName;
+}
+
+Transform* Entity::GetTransform() const
+{
+	return this->mTransform;
+}
+
+void Entity::Destroy()
 {
 	//Work Flow : World::GetCurrentWorld().DestroyEntity -> delete Entity -> Entity::~Entity
 	World::GetCurrentWorld().DestroyEntity(*this);
 	
 }
 
-void doom::Entity::OnUpdate()
+void Entity::OnUpdate()
 {
 	for (auto& component : this->mPlainComponents)
 	{

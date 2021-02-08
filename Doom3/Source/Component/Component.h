@@ -2,6 +2,7 @@
 
 #include "../Core/Core.h"
 #include "../Core/Game/IGameFlow.h"
+
 namespace doom
 {
 	class Entity;
@@ -35,7 +36,7 @@ namespace doom
 
 	protected:
 
-		constexpr Component();
+		Component();
 
 		/// <summary>
 		/// Pure virtual destructor for make this class virtual cass
@@ -43,12 +44,14 @@ namespace doom
 		/// </summary>
 		/// <returns></returns>
 		virtual ~Component();
+
 		
 		/// <summary>
 		/// This function will be called before Component object is attached to entity
 		/// </summary>
 		/// <param name="entity"></param>
-		constexpr void Init_Internal(Entity& entity); // Never put final to _InternalFunction 
+		void Init_Internal(Entity& entity); // Never put final to _InternalFunction 
+	
 		/// <summary>
 		/// This function will be called before Component object is attached to entity
 		/// </summary>
@@ -60,7 +63,7 @@ namespace doom
 		/// <summary>
 		/// This is called before OnUpdateComponent
 		/// </summary>
-		constexpr void Update_Internal();
+		constexpr void Update_Internal(){}
 		virtual void Update() override
 		{
 			//DONT PUT ANYTHING HERE, PUT AT _Internal
@@ -69,7 +72,7 @@ namespace doom
 		/// <summary>
 		/// This function will be called before Component object is destroyed
 		/// </summary>
-		constexpr void OnDestroy_Internal();
+		constexpr void OnDestroy_Internal(){}
 		/// <summary>
 		/// This function will be called before Component object is destroyed
 		/// </summary>
@@ -82,7 +85,7 @@ namespace doom
 		/// <summary>
 		/// This function will be called after activated
 		/// </summary>
-		constexpr void OnActivated_Internal();
+		constexpr void OnActivated_Internal(){}
 		/// <summary>
 		/// This function will be called after activated
 		/// </summary>
@@ -95,7 +98,7 @@ namespace doom
 		/// <summary>
 		/// This function will be called after deactivated
 		/// </summary>
-		constexpr void OnDeActivated_Internal();
+		constexpr void OnDeActivated_Internal(){}
 		/// <summary>
 		/// This function will be called after deactivated
 		/// </summary>
@@ -106,6 +109,7 @@ namespace doom
 
 	public:
 
+	
 		constexpr inline Entity* OwnerEntity()
 		{
 			return mOwnerEntity;

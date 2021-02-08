@@ -122,19 +122,12 @@ namespace doom
 
 		
 
-		std::string_view EntityName()
-		{
-			return this->mEntityName;
-		}
-
-		constexpr Transform* _Transform()
-		{
-			return this->mTransform;
-		}
+		std::string_view GetEntityName() const;
+		Transform* GetTransform() const;
+		
 
 		//TODO : Prevent Programmer Add TransformComponent.
 		//TODO : Because All entity should have only one Transform Component
-
 
 		template<typename T, std::enable_if_t<std::is_base_of_v<Component, T>, bool> = true>
 		constexpr T* AddComponent() noexcept
