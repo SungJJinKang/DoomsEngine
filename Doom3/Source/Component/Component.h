@@ -8,7 +8,7 @@ namespace doom
 	class Entity;
 	class Transform;
 	class World;
-	class Component : IGameFlow
+	class Component : public IGameFlow
 	{
 		friend class Entity;
 		friend class World;
@@ -22,10 +22,12 @@ namespace doom
 			}
 		};
 	private:
+		Component(const Component&) = delete;
+		Component(Component&&) noexcept = delete;
+		Component& operator=(const Component&) = delete;
+		Component& operator=(Component&&) noexcept = delete;
+
 		bool bIsAddedToEntity;
-
-
-
 		Entity* mOwnerEntity;
 		/// <summary>
 		/// Cache
@@ -110,15 +112,8 @@ namespace doom
 	public:
 
 	
-		constexpr inline Entity* OwnerEntity()
-		{
-			return mOwnerEntity;
-		}
-
-		constexpr inline Transform* Transform()
-		{
-			return mTransform;
-		}
+		Entity* GetOwnerEntity();
+		Transform* GetTransform();
 
 		
 

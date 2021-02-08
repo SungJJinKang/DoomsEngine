@@ -22,14 +22,27 @@ namespace doom
 		math::Vector3 mPosition;
 		math::Quaternion mRotation;
 		math::Vector3 mScale;
+
+		/// <summary>
+		/// Check Is Dirty at this frame
+		/// dirty value is reset at end of frame
+		/// </summary>
+		bool bmIsDirtyAtThisFrame{ true };
+
+		Transform(const Transform&) = delete;
+		Transform(Transform&&) noexcept = delete;
+		Transform& operator=(const Transform&) = delete;
+		Transform& operator=(Transform&&) noexcept = delete;
 	public:
+
+		Transform(){}
 
 		void SetPosition(const math::Vector3& position);
 		void SetRotation(const math::Quaternion& rotation);
 		void SetScale(const math::Vector3& scale);
-		math::Vector3 GetPosition();
-		math::Quaternion GetRotation();
-		math::Vector3 GetScale();
+		math::Vector3 GetPosition() const;
+		math::Quaternion GetRotation() const;
+		math::Vector3 GetScale() const;
 
 		math::Matrix4x4 GetModelMatrix();
 		math::Matrix4x4 GetViewMatrix();
@@ -46,6 +59,8 @@ namespace doom
 		constexpr math::Vector3 TransformPoint(const math::Vector3& point) const;
 		constexpr math::Vector3 TransformVector(const math::Vector3& vector) const;
 		constexpr void Translate(const math::Vector3& translation, const eSpace& relativeTo);
+
+		bool GetIsDirty();
 	};
 
 }

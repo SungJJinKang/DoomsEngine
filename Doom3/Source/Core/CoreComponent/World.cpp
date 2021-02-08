@@ -2,6 +2,7 @@
 
 #include "Entity.h"
 #include "../../Helper/vector_erase_move_lastelement/vector_swap_erase.h"
+#include "../../Component/Camera.h"
 using namespace doom;
 
 World::World() : mSpawnedEntities{}
@@ -37,17 +38,31 @@ bool World::DestroyEntity(Entity& entity)
 	return false;
 }
 
-doom::World& World::GetCurrentWorld()
+doom::World* World::GetCurrentWorld()
 {
 	return GetSingleton();
 }
 
 void World::Init()
 {
-	throw std::logic_error("The method or operation is not implemented.");
 }
 
 void World::Update()
 {
-	throw std::logic_error("The method or operation is not implemented.");
+}
+
+
+doom::Camera* World::GetMainCamera() const
+{
+	return this->mMainCamera;
+}
+
+void World::SetMainCamera(Camera* camera)
+{
+	this->mMainCamera = camera;
+	if (this->mMainCamera != nullptr)
+	{
+		this->mMainCamera->bmIsDirty = true; // make dirty for update new projection
+	}
+	
 }

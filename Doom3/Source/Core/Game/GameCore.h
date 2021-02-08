@@ -7,6 +7,7 @@
 #include "../Graphics/Graphics.h"
 #include "AssetManager.h"
 #include "../ResourceManagement/ThreadManager.h"
+#include "../CoreComponent/SharedWorld.h"
 
 
 namespace doom
@@ -25,6 +26,7 @@ namespace doom
 		assetimporter::AssetManager mAssetManager{};
 		graphics::Graphics mGraphics{};
 		resource::ThreadManager mThreadManager{};
+		SharedWorld mSharedWorld{};
 	public:
 		
 

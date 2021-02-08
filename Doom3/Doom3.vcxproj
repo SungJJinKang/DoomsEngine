@@ -164,6 +164,10 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="dependency\glad\src\glad.c" />
+    <ClCompile Include="dependency\imgui\imgui.cpp" />
+    <ClCompile Include="dependency\imgui\imgui_draw.cpp" />
+    <ClCompile Include="dependency\imgui\imgui_tables.cpp" />
+    <ClCompile Include="dependency\imgui\imgui_widgets.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Source\Component\Camera.cpp" />
     <ClCompile Include="Source\Component\Component.cpp" />
@@ -175,7 +179,9 @@
     <ClCompile Include="Source\Core\Asset\Base_Asset.cpp" />
     <ClCompile Include="Source\Core\Asset\ThreeDModelAsset.cpp" />
     <ClCompile Include="Source\Core\CoreComponent\CoreComponent.cpp" />
+    <ClCompile Include="Source\Core\CoreComponent\SharedWorld.cpp" />
     <ClCompile Include="Source\Core\CoreComponent\World.cpp" />
+    <ClCompile Include="Source\Core\CoreComponent\SharedWorldSetting.cpp" />
     <ClCompile Include="Source\Core\Game\AssetContainer.cpp" />
     <ClCompile Include="Source\Core\Game\AssetManager.cpp" />
     <ClCompile Include="Source\Core\Game\GameCore.cpp" />
@@ -186,6 +192,7 @@
     <ClCompile Include="Source\Core\Graphics\CubemapTexture.cpp" />
     <ClCompile Include="Source\Core\CoreComponent\Entity.cpp" />
     <ClCompile Include="Source\Core\Graphics\FrameBuffer.cpp" />
+    <ClCompile Include="Source\Core\Graphics\GraphicsInWorld.cpp" />
     <ClCompile Include="Source\Core\Graphics\Material.cpp" />
     <ClCompile Include="Source\Core\Asset\ShaderAsset.cpp" />
     <ClCompile Include="Source\Core\Graphics\RenderBuffer.cpp" />
@@ -232,6 +239,13 @@
     <ClInclude Include="dependency\glad\include\KHR\khrplatform.h" />
     <ClInclude Include="dependency\glfw-3.3.2.bin.WIN64\include\GLFW\glfw3.h" />
     <ClInclude Include="dependency\glfw-3.3.2.bin.WIN64\include\GLFW\glfw3native.h" />
+    <ClInclude Include="dependency\glfw\include\GLFW\glfw3.h" />
+    <ClInclude Include="dependency\imgui\imconfig.h" />
+    <ClInclude Include="dependency\imgui\imgui.h" />
+    <ClInclude Include="dependency\imgui\imgui_internal.h" />
+    <ClInclude Include="dependency\imgui\imstb_rectpack.h" />
+    <ClInclude Include="dependency\imgui\imstb_textedit.h" />
+    <ClInclude Include="dependency\imgui\imstb_truetype.h" />
     <ClInclude Include="Source\Component\Camera.h" />
     <ClInclude Include="Source\Component\Component.h" />
     <ClInclude Include="Source\Component\DirectionalLight.h" />
@@ -240,6 +254,10 @@
     <ClInclude Include="Source\Component\Renderer.h" />
     <ClInclude Include="Source\Component\Transform.h" />
     <ClInclude Include="Source\Core\CoreComponent\CoreComponent.h" />
+    <ClInclude Include="Source\Core\CoreComponent\IWorldIndependent.h" />
+    <ClInclude Include="Source\Core\CoreComponent\Layer.h" />
+    <ClInclude Include="Source\Core\CoreComponent\SharedWorld.h" />
+    <ClInclude Include="Source\Core\CoreComponent\SharedWorldSetting.h" />
     <ClInclude Include="Source\Core\Game\IGameFlow.h" />
     <ClInclude Include="Source\Core\Graphics\Buffer\UniformBufferObjectTempBufferUpdater.h" />
     <ClInclude Include="Source\Core\Graphics\Buffer\MeshNode.h" />
@@ -259,6 +277,7 @@
     <ClInclude Include="Source\Core\Graphics\CubemapTexture.h" />
     <ClInclude Include="Source\Core\CoreComponent\Entity.h" />
     <ClInclude Include="Source\Core\Graphics\FrameBuffer.h" />
+    <ClInclude Include="Source\Core\Graphics\GraphicsInWorld.h" />
     <ClInclude Include="Source\Core\Graphics\Graphics_Core.h" />
     <ClInclude Include="Source\Core\Graphics\RenderBuffer.h" />
     <ClInclude Include="Source\Core\Graphics\SingleTexture.h" />

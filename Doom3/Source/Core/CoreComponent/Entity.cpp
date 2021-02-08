@@ -28,7 +28,7 @@ Transform* Entity::GetTransform() const
 void Entity::Destroy()
 {
 	//Work Flow : World::GetCurrentWorld().DestroyEntity -> delete Entity -> Entity::~Entity
-	World::GetCurrentWorld().DestroyEntity(*this);
+	World::GetCurrentWorld()->DestroyEntity(*this);
 	
 }
 

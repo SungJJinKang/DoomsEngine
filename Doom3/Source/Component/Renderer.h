@@ -13,6 +13,11 @@ namespace doom
 	{
 	private:
 		graphics::Material* mTargetMaterial;
+
+		Renderer(const Renderer&) = delete;
+		Renderer(Renderer&&) noexcept = delete;
+		Renderer& operator=(const Renderer&) = delete;
+		Renderer& operator=(Renderer&&) noexcept = delete;
 	protected:
 		
 

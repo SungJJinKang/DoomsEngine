@@ -19,9 +19,6 @@
 [submodule "Doom3/Source/Helper/concurrentqueue"]
 	path = Doom3/Source/Helper/concurrentqueue
 	url = https://github.com/SungJJinKang/concurrentqueue.git
-[submodule "Doom3/Source/Helper/imgui"]
-	path = Doom3/Source/Helper/imgui
-	url = https://github.com/ocornut/imgui.git
 [submodule "Doom3/Source/Helper/crossguid"]
 	path = Doom3/Source/Helper/crossguid
 	url = https://github.com/graeme-hill/crossguid.git
@@ -31,3 +28,6 @@
 [submodule "Doom3/dependency/glfw"]
 	path = Doom3/dependency/glfw
 	url = https://github.com/glfw/glfw.git
+[submodule "Doom3/dependency/imgui"]
+	path = Doom3/dependency/imgui
+	url = https://github.com/ocornut/imgui.git

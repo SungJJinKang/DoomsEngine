@@ -1,19 +1,80 @@
 #pragma once
 #include "../Core/CoreComponent/CoreComponent.h"
 #include "../Core/Math/LightMath_Cpp/Matrix4x4.h"
-#include "../Helper/Singleton.h"
+#include "../Core/Graphics/Buffer/UniformBufferObjectTempBufferUpdater.h"
 
 
 namespace doom
 {
-	class Camera : public CoreComponent, ISingleton<Camera>
+	class Camera : public CoreComponent, public graphics::UniformBufferObjectTempBufferUpdater
 	{
+		enum class eProjectionType
+		{
+			Perspective,
+			Orthographic
+		};
 	private:
-		
-	public:
-	
-		math::Matrix4x4 GetProjectionMatrix();
 
-		Camera* GetMainCamera();
+		Camera(const Camera&) = delete;
+		Camera(Camera&&) noexcept = delete;
+		Camera& operator=(const Camera&) = delete;
+		Camera& operator=(Camera&&) noexcept = delete;
+
+		eProjectionType mProjectionMode;
+
+		///
+		float mFieldOfView = 60;
+
+		float mClippingPlaneNear = 0.3f;
+		float mClippingPlaneFar = 1000.0f;
+
+		/// <summary>
+		/// opengl -1 ~ 1
+		/// </summary>
+		float mViewportRectX = -1.0f;
+		/// <summary>
+		/// opengl -1 ~ 1
+		/// </summary>
+		float mViewportRectY = -1.0f;
+
+		/// <summary>
+		/// opengl -1 ~ 1
+		/// </summary>
+		float mViewportRectWidth = 2.0f;
+		/// <summary>
+		/// opengl -1 ~ 1
+		/// </summary>
+		float mViewportRectHeight = 2.0f;
+
+	
+	public:
+
+		void SetProjectionMode(eProjectionType value);
+		void SetFieldOfView(float value);
+		void SetClippingPlaneNear(float value);
+		void SetClippingPlaneFar(float value);
+		void SetViewportRectX(float value);
+		void SetViewportRectY(float value);
+		void SetViewportRectWidth(float value);
+		void SetViewportRectHeight(float value);
+
+		eProjectionType GetProjectionMode() const;
+		float GetFieldOfView() const;
+		float GetClippingPlaneNear() const;
+		float GetClippingPlaneFar() const;
+		float GetViewportRectX() const;
+		float GetViewportRectY() const;
+		float GetViewportRectWidth() const;
+		float GetViewportRectHeight() const;
+	
+		virtual void Init() final;
+		virtual void Update() final;
+
+		math::Matrix4x4 mProjectionMatrixCache{};
+		math::Matrix4x4 GetProjectionMatrix();
+		math::Matrix4x4 GetViewMatrix();
+	protected:
+		void UpdateUniformBufferObjectTempBuffer(graphics::UniformBufferObjectManager& uboManager) final;
+
 	};
 }

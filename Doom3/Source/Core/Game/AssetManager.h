@@ -80,8 +80,8 @@ namespace doom
 		private:
 			const std::filesystem::path AssetFolderPath{ ASSET_FOLDER_DIRECTORY };
 
-			//template <Asset::AssetType assetType>
-			//static constexpr void ImportAssetAndAddToContainer(const std::vector<std::filesystem::path>& paths);
+			template<Asset::eAssetType assetType>
+			static inline AssetContainer<assetType> ImportedAssets{};
 
 		protected:
 			virtual void Init() final;
@@ -89,8 +89,7 @@ namespace doom
 		public:
 			void ImportEntireAsset();
 
-			template<Asset::eAssetType assetType>
-			static inline AssetContainer<assetType> ImportedAssets{};
+		
 
 
 		};

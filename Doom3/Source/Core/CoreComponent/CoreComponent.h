@@ -17,6 +17,11 @@ namespace doom
 		friend class World;
 	private:
 
+		CoreComponent(const CoreComponent&) = delete;
+		CoreComponent(CoreComponent&&) noexcept = delete;
+		CoreComponent& operator=(const CoreComponent&) = delete;
+		CoreComponent& operator=(CoreComponent&&) noexcept = delete;
+
 	protected:
 
 		CoreComponent();

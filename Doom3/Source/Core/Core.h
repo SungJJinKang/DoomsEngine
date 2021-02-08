@@ -15,4 +15,4 @@
 // And Define implemations in MACRO_IMPLEMENTATION
 
 #include "Macros/Macros.h"
-
+#include "../Helper/Singleton.h"

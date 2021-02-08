@@ -5,29 +5,32 @@
 void doom::Transform::SetPosition(const math::Vector3& position)
 {
 	this->mPosition = position;
+	this->bmIsDirtyAtThisFrame = true;
 }
 
 void doom::Transform::SetRotation(const math::Quaternion& rotation)
 {
 	this->mRotation = rotation;
+	this->bmIsDirtyAtThisFrame = true;
 }
 
 void doom::Transform::SetScale(const math::Vector3& scale)
 {
 	this->mScale = scale;
+	this->bmIsDirtyAtThisFrame = true;
 }
 
-math::Vector3 doom::Transform::GetPosition()
+math::Vector3 doom::Transform::GetPosition() const
 {
 	return this->mPosition;
 }
 
-math::Quaternion doom::Transform::GetRotation()
+math::Quaternion doom::Transform::GetRotation() const
 {
 	return this->mRotation;
 }
 
-math::Vector3 doom::Transform::GetScale()
+math::Vector3 doom::Transform::GetScale() const
 {
 	return this->mScale;
 }
@@ -95,4 +98,9 @@ constexpr math::Vector3 doom::Transform::TransformVector(const math::Vector3& ve
 constexpr void doom::Transform::Translate(const math::Vector3& translation, const eSpace& relativeTo)
 {
 
+}
+
+bool doom::Transform::GetIsDirty()
+{
+	return this->bmIsDirtyAtThisFrame;
 }

@@ -20,6 +20,10 @@ namespace doom
 			friend class UniformBufferObjectManager;
 		private:
 
+			/// <summary>
+			/// for buffer data only when data is dirty
+			/// </summary>
+			bool bmIsDirty = true;
 			std::string mUniformBlockName;
 
 			/// <summary>
@@ -62,14 +66,8 @@ namespace doom
 			/// Send data in mUniformBufferData to gpu 
 			/// </summary>
 			/// <returns></returns>
-			inline virtual void BufferData() noexcept
-			{
-				if (this->IsBufferGenerated() == false)
-					return;
-
-				this->BindBuffer();
-				glBufferData(GL_UNIFORM_BUFFER, mSizeInByte, mUniformBufferTempData, GL_STATIC_DRAW);
-			}
+			virtual void BufferData() noexcept;
+			
 
 		public:
 

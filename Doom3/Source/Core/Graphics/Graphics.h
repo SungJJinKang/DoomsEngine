@@ -16,7 +16,7 @@ namespace doom
 			friend class GameCore;
 			friend class UniformBufferObjectManager;
 		private:
-			UniformBufferObjectManager mUniformBufferObjectManager{};
+		
 		protected:
 			virtual void Init() final;
 			virtual void Update() final;

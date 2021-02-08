@@ -9,11 +9,11 @@ using namespace doom::graphics;
 
 void Graphics::Init() 
 {
-	Graphics::SCREEN_WIDTH = GameCore::GetSingleton().GetConfigData().GetValue<int>("Graphics", "SCREEN_WIDHT");
-	Graphics::SCREEN_HEIGHT = GameCore::GetSingleton().GetConfigData().GetValue<int>("Graphics", "SCREEN_HEIGHT");
+	Graphics::SCREEN_WIDTH = GameCore::GetSingleton()->GetConfigData().GetValue<int>("Graphics", "SCREEN_WIDHT");
+	Graphics::SCREEN_HEIGHT = GameCore::GetSingleton()->GetConfigData().GetValue<int>("Graphics", "SCREEN_HEIGHT");
 
 	glfwInit();
-	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 	glfwWindowHint(GLFW_OPENGL_DEBUG_CONTEXT, true);

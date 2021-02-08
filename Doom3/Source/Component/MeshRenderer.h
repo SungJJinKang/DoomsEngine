@@ -9,6 +9,10 @@ namespace doom
 	private:
 		graphics::Mesh* mTargetMesh;
 
+		MeshRenderer(const MeshRenderer&) = delete;
+		MeshRenderer(MeshRenderer&&) noexcept = delete;
+		MeshRenderer& operator=(const MeshRenderer&) = delete;
+		MeshRenderer& operator=(MeshRenderer&&) noexcept = delete;
 	public:
 		MeshRenderer();
 		MeshRenderer(graphics::Mesh* targetMesh, graphics::Material* targetMaterial);

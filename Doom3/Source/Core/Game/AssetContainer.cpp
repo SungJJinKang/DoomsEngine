@@ -86,6 +86,34 @@ std::optional<std::reference_wrapper<const typename AssetContainer<assetType>::c
 	}
 }
 
+
+template <Asset::eAssetType assetType>
+std::optional<std::reference_wrapper<typename AssetContainer<assetType>::container_asset_type_t>> AssetContainer<assetType>::GetAsset(const unsigned int index)
+{
+	if (index >= 0 && index < this->mAssetsForIterating.size())
+	{
+		return this->mAssetsForIterating[index];
+	}
+	else
+	{
+		return {};
+	}
+}
+
+
+template <Asset::eAssetType assetType>
+std::optional<std::reference_wrapper<const typename AssetContainer<assetType>::container_asset_type_t>> AssetContainer<assetType>::GetAsset_const(const unsigned int index) const
+{
+	if (index >= 0 && index < this->mAssetsForIterating.size())
+	{
+		return this->mAssetsForIterating[index];
+	}
+	else
+	{
+		return {};
+	}
+}
+
 template <doom::Asset::eAssetType assetType>
 const std::vector<std::reference_wrapper<typename doom::assetimporter::AssetContainer<assetType>::container_asset_type_t>>& doom::assetimporter::AssetContainer<assetType>::GetAssets()
 {

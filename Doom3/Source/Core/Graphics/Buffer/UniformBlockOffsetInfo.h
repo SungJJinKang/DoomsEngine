@@ -1,5 +1,7 @@
 #pragma once
 
+#define GLOBAL_UNIFORM_BLOCK_BINDING_POINT 0
+
 namespace doom
 {
 	namespace graphics

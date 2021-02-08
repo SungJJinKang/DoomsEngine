@@ -36,10 +36,24 @@ void doom::graphics::UniformBufferObject::DeleteBuffers()
 	delete this->mUniformBufferTempData;
 }
 
+void doom::graphics::UniformBufferObject::BufferData() noexcept
+{
+	if (this->IsBufferGenerated() == false)
+		return;
+
+	if (this->bmIsDirty == false)
+		return;
+
+	this->BindBuffer();
+	glBufferData(GL_UNIFORM_BUFFER, mSizeInByte, mUniformBufferTempData, GL_STATIC_DRAW);
+	this->bmIsDirty = false;
+}
+
 void doom::graphics::UniformBufferObject::StoreDataAtTempBuffer(const void* sourceData, unsigned int sizeInByteOfSourceData, unsigned int offsetInUniformBlock)
 {
 	D_ASSERT(offsetInUniformBlock + sizeInByteOfSourceData <= this->mSizeInByte);
 	std::memcpy(this->mUniformBufferTempData + offsetInUniformBlock, sourceData, sizeInByteOfSourceData);
+	this->bmIsDirty = true;
 }
 
 unsigned int doom::graphics::UniformBufferObject::GetAlignedOffset(const std::string elementName)

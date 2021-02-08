@@ -2,16 +2,20 @@
 
 #include <array>
 #include <string>
+#include <memory>
+#include <utility>
 
 #include "../Graphics_Core.h"
 #include "UniformBufferObject.h"
 #include "../../Game/IGameFlow.h"
 #include "../../../Helper/Singleton.h"
+#include "UniformBlockOffsetInfo.h"
 
 namespace doom
 {
 	namespace graphics
 	{
+		class UniformBufferObjectTempBufferUpdater;
 		class UniformBufferObjectManager : public IGameFlow, public ISingleton<UniformBufferObjectManager>
 		{
 			friend class Graphics;
@@ -24,21 +28,43 @@ namespace doom
 			/// index is same with binding point
 			/// </summary>
 			std::array<UniformBufferObject, MAX_UNIFORM_BLOCK_BINDING_POINT> mUniformBufferObjects{};
+			std::vector<UniformBufferObjectTempBufferUpdater*> mUniformBufferObjectTempBufferUpdaters{};
+			
+			/// <summary>
+			/// Call UpdateUniformBufferObjectTempBuffer of UBO Temp Buffer Updaters 
+			/// </summary>
+			void UpdateUniformBufferObjectTempBufferUpdaters();
+
+			/// <summary>
+			/// Push Instance inheritings UniformBufferObjectTempBufferUpdater to container
+			/// </summary>
+			/// <param name="update_ptr"></param>
+			void PushUniformBufferObjectTempBufferUpdater(UniformBufferObjectTempBufferUpdater* update_ptr);
+			/// <summary>
+			/// Remove Instance inheritings UniformBufferObjectTempBufferUpdater from container
+			/// </summary>
+			/// <param name="update_ptr"></param>
+			void EraseUniformBufferObjectTempBufferUpdater(UniformBufferObjectTempBufferUpdater* update_ptr);
 
 		protected:
 
 			virtual void Init() final;
-			void UpdateUniformBufferObjectTempBuffer();
 			virtual void Update() final;
+
+			/// <summary>
+			/// Send Uniform Buffer Object to gpu ( Buffer Data )
+			/// </summary>
+			void BufferDateOfUniformBufferObjects();			
+
 			/// <summary>
 			/// return Uniform Buffer Object class
 			/// if uniform buffer object isn't initialized, Initialize it
 			/// </summary>
 			UniformBufferObject& GetOrAssignUniformBufferObject(unsigned int bindingPoint, unsigned int uniformBlockSize);
 			UniformBufferObject& GetUniformBufferObject(unsigned int bindingPoint);
-		
 		public:
-			
+			void StoreDataAtTempBufferOfBindingPoint(unsigned int bindingPoint, const void* sourceData, unsigned int sizeInByteOfSourceData, unsigned int offsetInUniformBlock);
+
 		};
 	}
 }
