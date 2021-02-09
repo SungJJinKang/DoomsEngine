@@ -8,6 +8,8 @@ namespace doom
 {
 	class ShaderAsset : public Asset
 	{
+		template<Asset::eAssetType loopVariable>
+		friend struct assetimporter::OnEndImportInMainThreadFunctor;
 	private:
 
 		enum class ShaderType 

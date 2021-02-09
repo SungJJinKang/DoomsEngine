@@ -2,11 +2,14 @@
 #include "Buffer.h"
 
 #include <functional>
-#include "../../Asset/ThreeDModelAsset.h"
 #include "../OverlapBindChecker.h"
+#include "../Asset/ePrimitiveType.h"
 
 namespace doom
 {
+
+	struct ThreeDModelMesh;
+
 	namespace graphics
 	{
 		class Mesh : public Buffer
@@ -43,8 +46,8 @@ namespace doom
 			Mesh(const ThreeDModelMesh& threeDModelMesh) noexcept;
 			Mesh& operator=(const ThreeDModelMesh& threeDModelMesh) noexcept;
 
-			constexpr Mesh(Mesh&& mesh) noexcept;
-			constexpr Mesh& operator=(Mesh&& mesh) noexcept;
+			Mesh(Mesh&& mesh) noexcept;
+			Mesh& operator=(Mesh&& mesh) noexcept;
 
 			Mesh(const Mesh&) = delete;
 			Mesh& operator=(const Mesh&) = delete;

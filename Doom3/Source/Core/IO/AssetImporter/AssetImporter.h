@@ -11,7 +11,6 @@
 #include "AssetApiImporter.h"
 #include "AssetImporterWorker.h"
 
-#define THREADPOOL_DEBUG
 #include "../../../Helper/ThreadPool_Cpp/ThreadPool.h"
 
 namespace doom
@@ -23,13 +22,15 @@ namespace doom
 
 		class Assetimporter
 		{
+			template <Asset::eAssetType assetType>
+			friend class AssetImporterWorker;
+
 		private:
 
 			static const std::map<std::string, doom::Asset::eAssetType> AssetExtension;
-
 			static inline std::unique_ptr<::ThreadPool> threadPool{};
-
 			static void InitializeThreadPool(size_t poolSize);
+
 		public:
 
 			Assetimporter(size_t poolSize);
@@ -41,7 +42,7 @@ namespace doom
 			template <Asset::eAssetType assetType>
 			static std::optional<Asset::asset_type_t<assetType>> ImportAsset(std::filesystem::path path)
 			{
-				std::optional<Asset::asset_type_t<assetType>> ImportedAsset = ImportSpecificAsset<assetType>(path);
+				std::optional<Asset::asset_type_t<assetType>> ImportedAsset = AssetImporterWorker<assetType>::ImportSpecificAsset(path);
 
 				if (ImportedAsset.has_value())
 				{

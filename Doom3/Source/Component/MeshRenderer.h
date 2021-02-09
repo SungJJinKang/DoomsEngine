@@ -13,6 +13,24 @@ namespace doom
 		MeshRenderer(MeshRenderer&&) noexcept = delete;
 		MeshRenderer& operator=(const MeshRenderer&) = delete;
 		MeshRenderer& operator=(MeshRenderer&&) noexcept = delete;
+
+		virtual void InitComponent() final
+		{
+			Renderer::InitComponent();
+
+		}
+		virtual void UpdateComponent() final
+		{
+			Renderer::UpdateComponent();
+		}
+
+		virtual void OnEndOfFrame_Component() final
+		{
+			Renderer::OnEndOfFrame_Component();
+		}
+
+	protected:
+
 	public:
 		MeshRenderer();
 		MeshRenderer(graphics::Mesh* targetMesh, graphics::Material* targetMaterial);
@@ -25,8 +43,8 @@ namespace doom
 		}
 
 
-	protected:
-		virtual void UpdateComponent() final;
+	
+		
 
 	};
 }

@@ -35,7 +35,5 @@ namespace doom
 		}
 
 	};
-	extern SharedSceneSetting mSharedWorldSetting;
-
 
 }

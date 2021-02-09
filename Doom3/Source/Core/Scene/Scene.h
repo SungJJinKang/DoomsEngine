@@ -26,7 +26,7 @@ namespace doom
 
 	private:
 
-		Scene();
+		Scene(std::string sceneName = "");
 
 		Scene(const Scene&) = delete;
 		Scene(Scene&&) noexcept = delete;
@@ -34,7 +34,7 @@ namespace doom
 		Scene& operator=(Scene&&) noexcept = delete;
 
 
-		std::vector<std::unique_ptr<Entity, Entity::Deleter>> mSpawnedEntities;
+		std::vector<std::unique_ptr<Entity, Entity::Deleter>> mSpawnedEntities{};
 		Camera* mMainCamera{ nullptr };
 
 		graphics::SceneGraphics mSceneGraphics{};
@@ -46,7 +46,7 @@ namespace doom
 
 		static Scene* GetCurrentWorld();
 
-		[[nodiscard]] Entity& CreateNewEntity() noexcept;
+		[[nodiscard]] Entity* CreateNewEntity() noexcept;
 		bool DestroyEntity(Entity& entity);
 
 		Camera* GetMainCamera() const;

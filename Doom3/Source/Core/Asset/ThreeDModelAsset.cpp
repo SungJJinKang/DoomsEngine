@@ -11,7 +11,7 @@ void doom::ThreeDModelAsset::SendMeshDataToGPU()
 	this->mNumOfMeshes = this->mNumOfModelMeshAssets;
 	if (this->mNumOfMeshes > 0)
 	{
-		this->mMeshes = new doom::graphics::Mesh[this->mNumOfMeshes]();
+		this->mMeshes.reserve(this->mNumOfMeshes);
 		for (unsigned int i = 0; i < this->mNumOfMeshes; i++)
 		{
 			this->mMeshes[i] = this->mModelMeshAssets[i];
@@ -19,7 +19,7 @@ void doom::ThreeDModelAsset::SendMeshDataToGPU()
 	}
 	else
 	{
-		this->mMeshes = nullptr;
+		//this->mMeshes = nullptr;
 	}
 
 
@@ -75,5 +75,10 @@ void doom::ThreeDModelAsset::OnEndImportInMainThread()
 {
 	this->SendMeshDataToGPU();
 	this->ClearMeshData(); // after send mesh data to gpu, delete all meshes data for memory space
-	D_DEBUG_LOG("Cleared Mesh Data", LogType::D_LOG);
+	D_DEBUG_LOG("Cleared Mesh Data", eLogType::D_LOG);
+}
+
+const std::vector<doom::graphics::Mesh>& doom::ThreeDModelAsset::GetMeshes()
+{
+	return this->mMeshes;
 }

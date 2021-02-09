@@ -93,30 +93,6 @@
     <ClCompile Include="Source\Core\Asset\ThreeDModelAsset.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Core\IO\AssetImporter\AssetImporterWorker_Three_D_Model.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Core\IO\AssetImporter\AssetImporterWorker_Texture.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Core\IO\AssetImporter\AssetImporterWorker_Text.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Core\IO\AssetImporter\AssetImporterWorker_Shader.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Core\IO\AssetImporter\AssetImporterWorker_Font.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Core\IO\AssetImporter\AssetImporterWorker_Base.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Core\IO\AssetImporter\AssetImporterWorker_Audio.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Core\IO\AssetImporter\AssetApiImporter.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Source\Core\Graphics\Buffer\Mesh.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -168,9 +144,6 @@
     <ClCompile Include="Source\Core\ResourceManagement\ThreadManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Core\Physics\Physics.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Source\Core\Graphics\Buffer\UniformBufferObjectTempBufferUpdater.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -214,6 +187,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Source\Component\Core\PlainComponent.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Core\Physics\PhysicsManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Core\Physics\PhysicsSetting.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Source\Core\Game\GameFlow.cpp">
@@ -587,9 +566,6 @@
     <ClInclude Include="Source\Core\ResourceManagement\Thread.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Core\Physics\Physics.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Core\Physics\Phycis_Core.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -656,7 +632,19 @@
     <ClInclude Include="Source\Core\Game\FrameDirtyChecker.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Core\Physics\PhysicsManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Core\Physics\PhysicsSetting.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\GameLogic\TEST.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="Source\Core\Game\GameFlow.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Core\Asset\ePrimitiveType.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

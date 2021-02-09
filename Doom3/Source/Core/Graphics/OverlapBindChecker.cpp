@@ -15,7 +15,7 @@ void doom::graphics::OverlapBindChecker::Bind(const char* str, unsigned int id)
 	{//key exist
 		if ((*element).second == id)
 		{//overlap bound
-			D_DEBUG_LOG({ "Overlap Bind : ", str }, LogType::D_LOG);
+			D_DEBUG_LOG({ "Overlap Bind : ", str }, eLogType::D_LOG);
 		}
 		else
 		{

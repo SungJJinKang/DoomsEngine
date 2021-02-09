@@ -52,6 +52,7 @@ void doom::graphics::UniformBufferObject::BufferData() noexcept
 void doom::graphics::UniformBufferObject::StoreDataAtTempBuffer(const void* sourceData, unsigned int sizeInByteOfSourceData, unsigned int offsetInUniformBlock)
 {
 	D_ASSERT(offsetInUniformBlock + sizeInByteOfSourceData <= this->mSizeInByte);
+	D_DEBUG_LOG({ "Store Data At Uniform Buffer Object TempBuffer ", sizeInByteOfSourceData, offsetInUniformBlock }, eLogType::D_LOG);
 	std::memcpy(this->mUniformBufferTempData + offsetInUniformBlock, sourceData, sizeInByteOfSourceData);
 	this->bmIsDirty = true;
 }

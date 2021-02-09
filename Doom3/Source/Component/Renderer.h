@@ -20,12 +20,25 @@ namespace doom
 		Renderer& operator=(Renderer&&) noexcept = delete;
 	protected:
 		
+		virtual void InitComponent() override
+		{
+
+		}
+		virtual void UpdateComponent() override
+		{
+			this->Draw();
+		}
+
+		virtual void OnEndOfFrame_Component() override
+		{
+
+		}
 
 	public:
 		Renderer();
 		Renderer(graphics::Material* targetMaterial);
 		virtual ~Renderer();
-		virtual void UpdateComponent() = 0;
+
 
 		virtual void Draw() = 0;
 

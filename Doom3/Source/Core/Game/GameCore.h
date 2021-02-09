@@ -30,24 +30,45 @@ namespace doom
 		graphics::GraphicsManager mGraphicsManager{};
 		resource::ThreadManager mThreadManager{};
 
+		std::unique_ptr<Scene> mCurrentScene{};
+		std::unique_ptr<Scene> CreateNewScene(std::string sceneName = "");
 
-		std::unique_ptr<Scene> mCurrentScene;
 		SharedScene mSharedWorld{};
+
+		
 	public:
 		
 
-		GameCore() = default;
+		GameCore();
 		GameCore(const GameCore&) = delete;
 		GameCore(GameCore&&) = delete;
 		GameCore& operator=(const GameCore&) = delete;
 		GameCore& operator=(GameCore&&) = delete;
 
 		IniData& GetConfigData();
-	protected:
 
-	public:
+
 		virtual void Init() final;
-		virtual void Update() final;
-		virtual void OnEndOfFrame() final;
+		/// <summary>
+		/// Frame Loop
+		/// </summary>
+		virtual void Update() final
+		{
+			this->mCurrentScene->UpdatePlainComponents();
+
+			D_START_PROFILING("GraphicsUpdate", eProfileLayers::GPU);
+			this->mGraphicsManager.Update();
+			D_END_PROFILING("GraphicsUpdate");
+
+			this->OnEndOfFrame();
+		}
+
+		virtual void OnEndOfFrame() final
+		{
+			this->mGraphicsManager.OnEndOfFrame();
+
+			this->mCurrentScene->OnEndOfFrameOfEntities();
+		}
+
 	};
 }

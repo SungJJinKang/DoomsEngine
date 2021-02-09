@@ -14,11 +14,13 @@ namespace doom
 	class TextureAsset;
 	class ThreeDModelAsset;
 
+
+
 	class Asset
 	{
 	public:
 		
-		enum class eAssetType : unsigned int
+		enum class eAssetType
 		{
 			AUDIO = 0,
 			FONT,
@@ -69,7 +71,11 @@ namespace doom
 	};
 
 	
-
+	namespace assetimporter
+	{
+		template<Asset::eAssetType loopVariable>
+		struct OnEndImportInMainThreadFunctor;
+	}
 }
 
 

@@ -8,12 +8,12 @@ Buffer::Buffer() : mBufferID{ 0 }
 
 }
 
-constexpr Buffer::Buffer(Buffer&& buffer) noexcept : mBufferID{ buffer.mBufferID }
+Buffer::Buffer(Buffer&& buffer) noexcept : mBufferID{ buffer.mBufferID }
 {
 	buffer.mBufferID = 0;
 }
 
-constexpr doom::graphics::Buffer& Buffer::operator=(Buffer&& buffer) noexcept
+doom::graphics::Buffer& Buffer::operator=(Buffer&& buffer) noexcept
 {
 	this->mBufferID = buffer.mBufferID;
 	buffer.mBufferID = 0;

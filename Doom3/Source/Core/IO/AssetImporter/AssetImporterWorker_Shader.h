@@ -10,12 +10,17 @@ namespace doom
 {
 	namespace assetimporter
 	{
-
-		template<>
-		inline std::optional<Asset::asset_type_t<Asset::eAssetType::SHADER>> ImportSpecificAsset<Asset::eAssetType::SHADER>(const std::filesystem::path& path)
+		template <>
+		class AssetImporterWorker<Asset::eAssetType::SHADER>
 		{
-			return GetTextFromFile(path);
-		}
+			friend class Assetimporter;
+		private:
+			static std::optional<Asset::asset_type_t<Asset::eAssetType::SHADER>> ImportSpecificAsset(const std::filesystem::path& path)
+			{
+				return GetTextFromFile(path);
+			}
+		};
+		
 
 	}
 }

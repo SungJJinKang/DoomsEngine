@@ -7,19 +7,19 @@
 using namespace doom::logger;
 
 
-const char* doom::logger::LogTypeStr(LogType logType) noexcept
+const char* doom::logger::LogTypeStr(eLogType logType) noexcept
 {
 	switch (logType)
 	{
-	case LogType::D_LOG:
+	case eLogType::D_LOG:
 		return "LOG : ";
 		break;
 
-	case LogType::D_WARNING:
+	case eLogType::D_WARNING:
 		return "WARNING : ";
 		break;
 
-	case LogType::D_ERROR:
+	case eLogType::D_ERROR:
 		return "ERROR : ";
 		break;
 
@@ -30,19 +30,19 @@ const char* doom::logger::LogTypeStr(LogType logType) noexcept
 	return "ERROR : ";
 }
 
-void StdStreamLogger::Log(const char* log, LogType logType /*= Doom::LogType::LOG*/) const noexcept
+void StdStreamLogger::Log(const char* log, eLogType logType /*= Doom::LogType::LOG*/) const noexcept
 {
 	std::cerr << LogTypeStr(logType) << log << std::endl;
 }
 
 
-void StdStreamLogger::Log(std::string log, LogType logType /*= Doom::LogType::D_LOG*/) const noexcept
+void StdStreamLogger::Log(std::string log, eLogType logType /*= Doom::LogType::D_LOG*/) const noexcept
 {
 	std::cerr << LogTypeStr(logType) << log << std::endl;
 }
 
 
-void StdStreamLogger::Log(std::initializer_list<const char*> logs, LogType logType /*= Doom::LogType::LOG*/) const noexcept
+void StdStreamLogger::Log(std::initializer_list<const char*> logs, eLogType logType /*= Doom::LogType::LOG*/) const noexcept
 {
 	std::cerr << LogTypeStr(logType);
 	for (auto c : logs)
@@ -50,7 +50,7 @@ void StdStreamLogger::Log(std::initializer_list<const char*> logs, LogType logTy
 	std::cerr << std::endl;
 }
 
-void StdStreamLogger::Log(std::initializer_list<const std::string> logs, LogType logType /*= Doom::LogType::LOG*/) const noexcept
+void StdStreamLogger::Log(std::initializer_list<const std::string> logs, eLogType logType /*= Doom::LogType::LOG*/) const noexcept
 {
 	std::cerr << LogTypeStr(logType);
 	for (auto c : logs)

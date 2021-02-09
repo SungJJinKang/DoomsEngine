@@ -19,8 +19,8 @@ namespace doom
 			Buffer(const Buffer&) = delete;
 			Buffer& operator=(const Buffer&) noexcept = delete;
 
-			constexpr Buffer(Buffer&& buffer) noexcept;
-			constexpr Buffer& operator=(Buffer&& buffer) noexcept;
+			Buffer(Buffer&& buffer) noexcept;
+			Buffer& operator=(Buffer&& buffer) noexcept;
 
 			void GenBuffer();
 			virtual void DeleteBuffers();

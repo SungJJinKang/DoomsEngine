@@ -3,6 +3,7 @@
 #include <utility>
 #include <type_traits>
 #include "../Graphics_Core.h"
+#include "../Asset/ThreeDModelAsset.h"
 
 doom::graphics::Mesh::Mesh()
 	: Buffer(), mVertexArrayObject{ 0 }, mElementBufferObject{ 0 }, mNumOfVertices{ 0 }, mNumOfIndices{ 0 }, mPrimitiveType{ ePrimitiveType::NONE }
@@ -16,7 +17,7 @@ doom::graphics::Mesh::Mesh(GLsizeiptr dataCount, const void* data, unsigned int 
 	this->BufferData(dataCount, data, vertexArrayFlag);
 }
 
-constexpr doom::graphics::Mesh::Mesh(Mesh&& mesh) noexcept : Buffer(std::move(mesh)), mVertexArrayObject{ mesh.mVertexArrayObject }, mVertexBufferObject{ mesh.mVertexBufferObject }
+doom::graphics::Mesh::Mesh(Mesh&& mesh) noexcept : Buffer(std::move(mesh)), mVertexArrayObject{ mesh.mVertexArrayObject }, mVertexBufferObject{ mesh.mVertexBufferObject }
 , mElementBufferObject{ mesh.mElementBufferObject }, mNumOfIndices{ mesh.mNumOfIndices }, mNumOfVertices{ mesh.mNumOfVertices }
 , mPrimitiveType{ mesh.mPrimitiveType }
 {
@@ -30,7 +31,7 @@ constexpr doom::graphics::Mesh::Mesh(Mesh&& mesh) noexcept : Buffer(std::move(me
 }
 
 
-constexpr doom::graphics::Mesh& doom::graphics::Mesh::operator=(Mesh&& mesh) noexcept
+doom::graphics::Mesh& doom::graphics::Mesh::operator=(Mesh&& mesh) noexcept
 {
 	this->mVertexArrayObject = mesh.mVertexArrayObject;
 	this->mVertexBufferObject = mesh.mVertexBufferObject;

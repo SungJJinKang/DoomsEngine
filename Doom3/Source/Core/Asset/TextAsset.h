@@ -8,6 +8,8 @@ namespace doom
 
 	class TextAsset : public Asset
 	{
+		template<Asset::eAssetType loopVariable>
+		friend struct assetimporter::OnEndImportInMainThreadFunctor;
 	public:
 		std::string mString;
 

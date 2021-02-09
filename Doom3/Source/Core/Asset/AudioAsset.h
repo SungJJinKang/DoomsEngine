@@ -6,6 +6,8 @@ namespace doom
 
 	class AudioAsset : public Asset
 	{
+		template<Asset::eAssetType loopVariable>
+		friend struct assetimporter::OnEndImportInMainThreadFunctor;
 	public:
 
 	};

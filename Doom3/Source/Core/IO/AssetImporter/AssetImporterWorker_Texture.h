@@ -11,6 +11,15 @@ namespace doom
 	namespace assetimporter
 	{
 		template <>
-		std::optional <Asset::asset_type_t<Asset::eAssetType::TEXTURE>> ImportSpecificAsset<Asset::eAssetType::TEXTURE>(const std::filesystem::path& path);
+		class AssetImporterWorker<Asset::eAssetType::TEXTURE>
+		{
+			friend class Assetimporter;
+		private:
+			static std::optional <Asset::asset_type_t<Asset::eAssetType::TEXTURE>> ImportSpecificAsset(const std::filesystem::path& path)
+			{
+				return {};
+			}
+		};
+	
 	}
 }

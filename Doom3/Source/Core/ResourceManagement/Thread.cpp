@@ -46,7 +46,7 @@ namespace doom
 
 			std::stringstream sstream;
 			sstream << this->mThreadId;
-			D_DEBUG_LOG({ "Destructing Thread : ", sstream.str() }, LogType::D_LOG);
+			D_DEBUG_LOG({ "Destructing Thread : ", sstream.str() }, eLogType::D_LOG);
 
 			if (isDoBlock)
 			{
@@ -58,7 +58,7 @@ namespace doom
 			}
 			
 
-			D_DEBUG_LOG({ "Thread is destructed : ", sstream.str() }, LogType::D_LOG);
+			D_DEBUG_LOG({ "Thread is destructed : ", sstream.str() }, eLogType::D_LOG);
 		}
 
 		bool Thread::operator==(const Thread& thread)

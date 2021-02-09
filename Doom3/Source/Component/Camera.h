@@ -15,6 +15,7 @@ namespace doom
 		};
 	private:
 
+	
 		Camera(const Camera&) = delete;
 		Camera(Camera&&) noexcept = delete;
 		Camera& operator=(const Camera&) = delete;
@@ -53,6 +54,8 @@ namespace doom
 		void UpdateUniformBufferObjectTempBuffer(graphics::UniformBufferObjectManager& uboManager) final;
 
 	public:
+
+		Camera() = default;
 
 		void SetProjectionMode(eProjectionType value);
 		void SetFieldOfView(float value);

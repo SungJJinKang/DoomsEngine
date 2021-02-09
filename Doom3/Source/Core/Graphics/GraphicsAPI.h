@@ -4,7 +4,7 @@
 #include "../Game/GameFlow.h"
 #include "Buffer/UniformBufferObjectManager.h"
 
-struct GLFWwindow;
+
 
 namespace doom
 {

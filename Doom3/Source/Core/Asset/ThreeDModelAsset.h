@@ -5,6 +5,8 @@
 
 #include "../Math/LightMath_Cpp/Vector2.h"
 #include "../Math/LightMath_Cpp/Vector3.h"
+#include "../Graphics/Buffer/Mesh.h"
+#include "ePrimitiveType.h"
 
 using namespace math;
 
@@ -43,15 +45,7 @@ namespace doom
 	};
 	*/
 
-	enum class ePrimitiveType
-	{
-		NONE = 0x0,
-		POINT = 0x1,
-		LINE = 0x2,
-		TRIANGLE = 0x4,
-		POLYGON = 0x8
-	};
-
+	
 	struct ThreeDModelMesh
 	{
 		std::string mName;
@@ -128,20 +122,32 @@ namespace doom
 		class Mesh;
 		struct MeshNode;
 	}
+
+	namespace assetimporter
+	{
+		template <Asset::eAssetType assetType>
+		class AssetImporterWorker;
+	}
 	
+
+
 	class ThreeDModelAsset : public Asset
 	{
-	public:
-		ThreeDModelNode* mRootModelNode;
+		template<Asset::eAssetType loopVariable>
+		friend struct assetimporter::OnEndImportInMainThreadFunctor;
 
-		ThreeDModelMesh* mModelMeshAssets;
+		friend class assetimporter::AssetImporterWorker<Asset::eAssetType::THREE_D_MODEL>;
+	private:
+		ThreeDModelNode* mRootModelNode{};
+
+		ThreeDModelMesh* mModelMeshAssets{};
 		unsigned int mNumOfModelMeshAssets;
 
 		///////////
 
-		graphics::MeshNode* mRootMeshNode;
-
-		graphics::Mesh* mMeshes;
+		graphics::MeshNode* mRootMeshNode{};
+		std::vector<graphics::Mesh> mMeshes{};
+		
 		unsigned int mNumOfMeshes;
 
 		/// <summary>
@@ -153,8 +159,9 @@ namespace doom
 		void ClearMeshData();
 		void CreateNode(graphics::MeshNode* currentNode, ThreeDModelNode* currentModelNodeAsset);
 		void OnEndImportInMainThread() final;
-		 
-
+		
+	public:
+		const std::vector<graphics::Mesh>& GetMeshes();
 	};
 
 	template <> struct Asset::asset_type<Asset::eAssetType::THREE_D_MODEL> { using type = typename ThreeDModelAsset; };

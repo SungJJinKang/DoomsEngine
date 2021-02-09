@@ -6,12 +6,25 @@
 #include "../../Helper/SimpleIniParser.h"
 #include "AssetManager.h"
 
+#include "../../GameLogic/TEST.h"
 
 
+
+
+doom::GameCore::GameCore()
+{
+	this->mCurrentScene = this->CreateNewScene();
+}
 
 IniData& doom::GameCore::GetConfigData()
 {
 	return this->mConfigData;
+}
+
+
+std::unique_ptr<doom::Scene> doom::GameCore::CreateNewScene(std::string sceneName /*= ""*/)
+{
+	return std::unique_ptr<doom::Scene>{new Scene(sceneName)};
 }
 
 void doom::GameCore::Init()
@@ -32,21 +45,7 @@ void doom::GameCore::Init()
 
 	this->mThreadManager.InitializeThreads();
 
+	TEST::Init();
 }
 
-void doom::GameCore::Update()
-{
-	
-	D_START_PROFILING("GraphicsUpdate", eProfileLayers::GPU);
-	this->mGraphicsManager.Update();
-	D_END_PROFILING("GraphicsUpdate");
 
-	this->OnEndOfFrame();
-}
-
-void doom::GameCore::OnEndOfFrame()
-{
-	this->mGraphicsManager.OnEndOfFrame();
-
-	this->mCurrentScene->OnEndOfFrameOfEntities();
-}

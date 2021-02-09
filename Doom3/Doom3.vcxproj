@@ -128,7 +128,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)dependency\;$(SolutionDir)dependency\glad\include;$(SolutionDir)dependency\assimp\include;$(SolutionDir)dependency\assimp\build\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)dependency;$(SolutionDir)dependency\glad\include;$(SolutionDir)dependency\assimp\include;$(SolutionDir)dependency\assimp\build\include;$(SolutionDir)Source\Component;$(SolutionDir)Source\Core\Scene;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
@@ -148,7 +148,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>C:\Doom3FromScratch\Doom3\dependency\;$(SolutionDir)dependency\glad\include;$(SolutionDir)dependency\assimp\include;$(SolutionDir)dependency\assimp\build\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)dependency;$(SolutionDir)dependency\glad\include;$(SolutionDir)dependency\assimp\include;$(SolutionDir)dependency\assimp\build\include;$(SolutionDir)Source\Component;$(SolutionDir)Source\Core\Scene;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
@@ -182,6 +182,8 @@
     <ClCompile Include="Source\Component\Core\CoreComponent.cpp" />
     <ClCompile Include="Source\Core\Game\GameFlow.cpp" />
     <ClCompile Include="Source\Core\Graphics\GraphicsManager.cpp" />
+    <ClCompile Include="Source\Core\Physics\PhysicsManager.cpp" />
+    <ClCompile Include="Source\Core\Physics\PhysicsSetting.cpp" />
     <ClCompile Include="Source\Core\Scene\SharedScene.cpp" />
     <ClCompile Include="Source\Core\Scene\Scene.cpp" />
     <ClCompile Include="Source\Core\Scene\SharedSceneSetting.cpp" />
@@ -202,15 +204,7 @@
     <ClCompile Include="Source\Core\Graphics\SingleTexture.cpp" />
     <ClCompile Include="Source\Core\Graphics\Texture.cpp" />
     <ClCompile Include="Source\Core\Graphics\Buffer\UniformBufferObject.cpp" />
-    <ClCompile Include="Source\Core\IO\AssetImporter\AssetApiImporter.cpp" />
     <ClCompile Include="Source\Core\IO\AssetImporter\AssetImporter.cpp" />
-    <ClCompile Include="Source\Core\IO\AssetImporter\AssetImporterWorker_Audio.cpp" />
-    <ClCompile Include="Source\Core\IO\AssetImporter\AssetImporterWorker_Base.cpp" />
-    <ClCompile Include="Source\Core\IO\AssetImporter\AssetImporterWorker_Font.cpp" />
-    <ClCompile Include="Source\Core\IO\AssetImporter\AssetImporterWorker_Shader.cpp" />
-    <ClCompile Include="Source\Core\IO\AssetImporter\AssetImporterWorker_Text.cpp" />
-    <ClCompile Include="Source\Core\IO\AssetImporter\AssetImporterWorker_Texture.cpp" />
-    <ClCompile Include="Source\Core\IO\AssetImporter\AssetImporterWorker_Three_D_Model.cpp" />
     <ClCompile Include="Source\Core\IO\UserInput.cpp" />
     <ClCompile Include="Source\Core\Logger\Logger.cpp" />
     <ClCompile Include="Source\Core\Graphics\GraphicsAPI.cpp" />
@@ -222,7 +216,6 @@
     <ClCompile Include="Source\Core\Math\LightMath_Cpp\Vector3.cpp" />
     <ClCompile Include="Source\Core\Math\LightMath_Cpp\Vector4.cpp" />
     <ClCompile Include="Source\Core\Graphics\OverlapBindChecker.cpp" />
-    <ClCompile Include="Source\Core\Physics\Physics.cpp" />
     <ClCompile Include="Source\Core\Profiler\Profiler.cpp" />
     <ClCompile Include="Source\Core\Random.cpp" />
     <ClCompile Include="Source\Core\ResourceManagement\MemoryPool.cpp" />
@@ -258,13 +251,16 @@
     <ClInclude Include="Source\Component\Renderer.h" />
     <ClInclude Include="Source\Component\Transform.h" />
     <ClInclude Include="Source\Component\Core\CoreComponent.h" />
+    <ClInclude Include="Source\Core\Asset\ePrimitiveType.h" />
     <ClInclude Include="Source\Core\Game\FrameDirtyChecker.h" />
+    <ClInclude Include="Source\Core\Game\GameFlow.h" />
     <ClInclude Include="Source\Core\Graphics\GraphicsManager.h" />
+    <ClInclude Include="Source\Core\Physics\PhysicsManager.h" />
+    <ClInclude Include="Source\Core\Physics\PhysicsSetting.h" />
     <ClInclude Include="Source\Core\Scene\IWorldIndependent.h" />
     <ClInclude Include="Source\Core\Scene\Layer.h" />
     <ClInclude Include="Source\Core\Scene\SharedScene.h" />
     <ClInclude Include="Source\Core\Scene\SharedSceneSetting.h" />
-    <ClInclude Include="Source\Core\Game\GameFlow.h" />
     <ClInclude Include="Source\Core\Graphics\Buffer\UniformBufferObjectTempBufferUpdater.h" />
     <ClInclude Include="Source\Core\Graphics\Buffer\MeshNode.h" />
     <ClInclude Include="Source\Core\Graphics\Buffer\UniformBlockOffsetInfo.h" />
@@ -344,12 +340,12 @@
     <ClInclude Include="Source\Core\Math\VeryLight_Math_For_Game\Vector3.h" />
     <ClInclude Include="Source\Core\Math\VeryLight_Math_For_Game\Vector4.h" />
     <ClInclude Include="Source\Core\Physics\Phycis_Core.h" />
-    <ClInclude Include="Source\Core\Physics\Physics.h" />
     <ClInclude Include="Source\Core\Profiler\Profiler.h" />
     <ClInclude Include="Source\Core\Random.h" />
     <ClInclude Include="Source\Core\ResourceManagement\MemoryPool.h" />
     <ClInclude Include="Source\Core\ResourceManagement\Thread.h" />
     <ClInclude Include="Source\Core\ResourceManagement\ThreadManager.h" />
+    <ClInclude Include="Source\GameLogic\TEST.h" />
     <ClInclude Include="Source\Helper\concurrentqueue\blockingconcurrentqueue.h" />
     <ClInclude Include="Source\Helper\crossguid\Guid.hpp" />
     <ClInclude Include="Source\Helper\DeferredConstant\DeferredConstant.h" />

@@ -5,21 +5,22 @@
 #include "../../Component/Camera.h"
 using namespace doom;
 
-Scene::Scene() : mSpawnedEntities{}
+Scene::Scene(std::string sceneName) 
 {
 
 }
+
 
 Scene::~Scene()
 {
 
 }
 
-[[nodiscard]] Entity& Scene::CreateNewEntity() noexcept
+[[nodiscard]] Entity* Scene::CreateNewEntity() noexcept
 {
 	Entity* newEntity = new Entity(nullptr);
 	this->mSpawnedEntities.emplace_back(newEntity);
-	return *newEntity;
+	return newEntity;
 }
 
 bool Scene::DestroyEntity(Entity& entity)

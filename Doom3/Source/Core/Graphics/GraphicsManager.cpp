@@ -63,25 +63,4 @@ void GraphicsManager::Init()
 	return;
 }
 
-void GraphicsManager::Update()
-{
-	graphics::GraphicsAPI::ClearColor(1.0f, 1.0f, 1.0f, 1.0f);
-	graphics::GraphicsAPI::Clear(graphics::GraphicsAPI::eClearMask::COLOR_BUFFER_BIT, graphics::GraphicsAPI::eClearMask::DEPTH_BUFFER_BIT);
 
-	auto sceneGraphics = SceneGraphics::GetSingleton();
-	sceneGraphics->mUniformBufferObjectManager.Update_Internal();
-	sceneGraphics->mUniformBufferObjectManager.Update();
-
-	// glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)
-	// -------------------------------------------------------------------------------
-	glfwSwapBuffers(graphics::GraphicsManager::Window);
-	glfwPollEvents();
-
-}
-
-void doom::graphics::GraphicsManager::OnEndOfFrame()
-{
-	auto sceneGraphics = SceneGraphics::GetSingleton();
-	sceneGraphics->mUniformBufferObjectManager.OnEndOfFrame_Internal();
-	sceneGraphics->mUniformBufferObjectManager.OnEndOfFrame();
-}
