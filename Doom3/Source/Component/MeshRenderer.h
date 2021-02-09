@@ -26,7 +26,7 @@ namespace doom
 
 
 	protected:
-		void Update() override;
+		virtual void UpdateComponent() final;
 
 	};
 }

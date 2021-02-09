@@ -1,13 +1,15 @@
 #pragma once
 #include "../Core.h"
-#include "IGameFlow.h"
+#include "GameFlow.h"
 #include "../../Helper/Singleton.h"
 #include "../../Helper/SimpleIniParser.h"
 
-#include "../Graphics/Graphics.h"
+#include <memory>
+#include "../Graphics/GraphicsManager.h"
 #include "AssetManager.h"
 #include "../ResourceManagement/ThreadManager.h"
-#include "../CoreComponent/SharedWorld.h"
+#include "../Scene/SharedScene.h"
+#include "../Scene/Scene.h"
 
 
 namespace doom
@@ -15,18 +17,22 @@ namespace doom
 
 	class GameFlow;
 
-	class GameCore : public IGameFlow, public ISingleton<GameCore>
+	class GameCore : public GameFlow, public ISingleton<GameCore>
 	{
-		friend class graphics::Graphics;
+		friend class graphics::GraphicsManager;
 		friend class AssetManager;
 	private:
 		const char* mConfigFilePath{};
 		IniData mConfigData{};
 
+		//Servers
 		assetimporter::AssetManager mAssetManager{};
-		graphics::Graphics mGraphics{};
+		graphics::GraphicsManager mGraphicsManager{};
 		resource::ThreadManager mThreadManager{};
-		SharedWorld mSharedWorld{};
+
+
+		std::unique_ptr<Scene> mCurrentScene;
+		SharedScene mSharedWorld{};
 	public:
 		
 
@@ -42,6 +48,6 @@ namespace doom
 	public:
 		virtual void Init() final;
 		virtual void Update() final;
-
+		virtual void OnEndOfFrame() final;
 	};
 }

@@ -1,5 +1,5 @@
 #pragma once
-#include "../Game/IGameFlow.h"
+#include "../Game/GameFlow.h"
 #include "../../Helper/Singleton.h"
 #include "Buffer/UniformBufferObjectManager.h"
 namespace doom
@@ -8,11 +8,11 @@ namespace doom
 	namespace graphics
 	{
 		/// <summary>
-		/// World Dependent Graphics Object
+		/// Scene Dependent Graphics Object
 		/// if world is destroyed, this object will be destroyed also
-		/// This class will be included at World instance
+		/// This class will be included at Scene instance
 		/// </summary>
-		class GraphicsInWorld : public IGameFlow, public ISingleton<GraphicsInWorld>
+		class SceneGraphics : public GameFlow, public ISingleton<SceneGraphics>
 		{
 			friend class GameCore;
 			friend class UniformBufferObjectManager;
@@ -23,10 +23,8 @@ namespace doom
 			UniformBufferObjectManager mUniformBufferObjectManager{};
 		protected:
 			virtual void Init() final;
-
-
 			virtual void Update() final;
-
+			virtual void OnEndOfFrame() final;
 		};
 
 	}

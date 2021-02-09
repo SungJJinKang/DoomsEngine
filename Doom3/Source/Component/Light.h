@@ -1,5 +1,5 @@
 #pragma once
-#include "../Core/CoreComponent/CoreComponent.h"
+#include "Core/CoreComponent.h"
 
 namespace doom
 {

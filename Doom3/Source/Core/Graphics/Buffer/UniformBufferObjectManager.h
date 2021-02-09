@@ -7,7 +7,7 @@
 
 #include "../Graphics_Core.h"
 #include "UniformBufferObject.h"
-#include "../../Game/IGameFlow.h"
+#include "../../Game/GameFlow.h"
 #include "../../../Helper/Singleton.h"
 #include "UniformBlockOffsetInfo.h"
 
@@ -16,9 +16,9 @@ namespace doom
 	namespace graphics
 	{
 		class UniformBufferObjectTempBufferUpdater;
-		class UniformBufferObjectManager : public IGameFlow, public ISingleton<UniformBufferObjectManager>
+		class UniformBufferObjectManager : public GameFlow, public ISingleton<UniformBufferObjectManager>
 		{
-			friend class Graphics;
+			friend class GraphicsManager;
 			friend class Material;
 			friend class UniformBufferObjectTempBufferUpdater;
 		private:
@@ -49,8 +49,11 @@ namespace doom
 		protected:
 
 			virtual void Init() final;
+			/// <summary>
+			/// Update uniform Buffer Object's TempBuffer -> Buffer Data to gpu
+			/// </summary>
 			virtual void Update() final;
-
+			virtual void OnEndOfFrame() final;
 			/// <summary>
 			/// Send Uniform Buffer Object to gpu ( Buffer Data )
 			/// </summary>

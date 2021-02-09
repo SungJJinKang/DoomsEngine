@@ -1,0 +1,62 @@
+#pragma once
+
+namespace doom
+{
+	/// <summary>
+	/// Check Data is dirty at this frame
+	/// 
+	/// WHY USE PREVIOUS FRAME :
+	/// 
+	/// In game flow if you set dirty at late of current frame, object at early of current frame can't know whether is dirty at current frame
+	/// So We Check previous frame's dirty, then Every objects can know data is dirty at current frame
+	/// </summary>
+	class FrameDirtyChecker
+	{
+
+	private:
+
+		/// <summary>
+		/// Check whether become dirty at previous frame
+		/// this value is reset at EndOfFrame
+		/// 
+		/// </summary>
+		bool bmIsDirtyAtPreviousFrame{ true };
+
+		bool bmIsDirtyAtThisFrame{ true };
+
+	protected:
+		
+		
+		/// <summary>
+		/// Use can't set dirty false
+		/// </summary>
+		constexpr void SetDirtyTrueAtThisFrame()
+		{
+			this->bmIsDirtyAtThisFrame = true;
+		}
+
+		/// <summary>
+		/// Must call this function at end of frame
+		/// </summary>
+		constexpr void FrameDirtyChecker_EndOfFrame()
+		{
+			this->bmIsDirtyAtPreviousFrame = this->bmIsDirtyAtThisFrame; // pass current frame dirty to previous frame dirty
+			this->bmIsDirtyAtThisFrame = false;
+		}
+
+
+	public:
+
+		/// <summary>
+		/// WHY USE PREVIOUS FRAME CHECK :
+		/// READ FrameDirtyChecker class Description
+		/// </summary>
+		/// <returns></returns>
+		constexpr bool GetIsDirtyAtPreviousFrame() 
+		{
+			return this->bmIsDirtyAtPreviousFrame;
+		}
+
+	};
+
+}

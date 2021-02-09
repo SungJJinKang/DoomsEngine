@@ -7,7 +7,7 @@ doom::MeshRenderer::MeshRenderer() : Renderer()
 }
 
 
-void doom::MeshRenderer::Update()
+void doom::MeshRenderer::UpdateComponent()
 {
 	this->Draw();
 }

@@ -1,7 +1,7 @@
 #pragma once
 #include "Graphics_Core.h"
 #include "../../Helper/Singleton.h"
-#include "../Game/IGameFlow.h"
+#include "../Game/GameFlow.h"
 #include "Buffer/UniformBufferObjectManager.h"
 
 struct GLFWwindow;
@@ -11,20 +11,18 @@ namespace doom
 	class GameCore;
 	namespace graphics
 	{
-		class Graphics : public IGameFlow, public ISingleton<Graphics>
+		/// <summary>
+		/// Graphics Server class
+		/// Contain graphics api function wrapper
+		/// </summary>
+		class GraphicsAPI 
 		{
-			friend class GameCore;
-			friend class UniformBufferObjectManager;
 		private:
 		
 		protected:
-			virtual void Init() final;
-			virtual void Update() final;
+		
 		public:
-			static inline GLFWwindow* Window{};
-			static inline int SCREEN_WIDTH{};
-			static inline int SCREEN_HEIGHT{};
-			static inline bool Is_MULTI_SAMPLE{};
+			
 
 			
 

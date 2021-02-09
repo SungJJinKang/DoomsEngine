@@ -15,6 +15,10 @@ void ThreadManager::Update()
 
 }
 
+void doom::resource::ThreadManager::OnEndOfFrame()
+{
+}
+
 void ThreadManager::InitializeThreads()
 {
 	this->mMainThreadId = std::this_thread::get_id();

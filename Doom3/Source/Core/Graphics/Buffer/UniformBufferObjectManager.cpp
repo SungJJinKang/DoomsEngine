@@ -40,6 +40,10 @@ void doom::graphics::UniformBufferObjectManager::Update()
 	this->BufferDateOfUniformBufferObjects();
 }
 
+void doom::graphics::UniformBufferObjectManager::OnEndOfFrame()
+{
+}
+
 void doom::graphics::UniformBufferObjectManager::BufferDateOfUniformBufferObjects()
 {
 	for (auto& uniformBufferObject : UniformBufferObjectManager::mUniformBufferObjects)

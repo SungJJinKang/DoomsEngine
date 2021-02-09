@@ -1,12 +1,12 @@
 #pragma once
-#include "../Game/IGameFlow.h"
+#include "../Game/GameFlow.h"
 #include "../../Helper/Singleton.h"
 
 namespace doom
 {
 	namespace userinput
 	{
-		class UserInput : public IGameFlow, public ISingleton<UserInput>
+		class UserInput : public GameFlow, public ISingleton<UserInput>
 		{
 		};
 

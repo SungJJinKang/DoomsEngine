@@ -1,6 +1,7 @@
 #include "GameCore.h"
 
-#include "../Graphics/Graphics.h"
+#include "../Graphics/GraphicsAPI.h"
+#include "../Graphics/GraphicsManager.h"
 
 #include "../../Helper/SimpleIniParser.h"
 #include "AssetManager.h"
@@ -21,7 +22,7 @@ void doom::GameCore::Init()
 
 
 	D_START_PROFILING("Init GLFW", eProfileLayers::GPU);
-	this->mGraphics.Init();
+	this->mGraphicsManager.Init();
 	D_END_PROFILING("Init GLFW");
 
 
@@ -35,6 +36,17 @@ void doom::GameCore::Init()
 
 void doom::GameCore::Update()
 {
-	this->mGraphics.Update();
+	
+	D_START_PROFILING("GraphicsUpdate", eProfileLayers::GPU);
+	this->mGraphicsManager.Update();
+	D_END_PROFILING("GraphicsUpdate");
+
+	this->OnEndOfFrame();
 }
 
+void doom::GameCore::OnEndOfFrame()
+{
+	this->mGraphicsManager.OnEndOfFrame();
+
+	this->mCurrentScene->OnEndOfFrameOfEntities();
+}

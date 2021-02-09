@@ -1,5 +1,5 @@
 #include "Camera.h"
-#include "../Core/CoreComponent/World.h"
+#include "../Core/Scene/Scene.h"
 #include "../Core/Math/LightMath_Cpp/Matrix_utility.h"
 #include "Transform.h"
 
@@ -98,7 +98,7 @@ float Camera::GetViewportRectHeight() const
 
 void doom::Camera::Init()
 {
-	auto currentWorld = World::GetSingleton();
+	auto currentWorld = Scene::GetSingleton();
 	Camera* currentMainCamera = currentWorld->GetMainCamera();
 	if (currentMainCamera == nullptr)
 	{
@@ -109,6 +109,10 @@ void doom::Camera::Init()
 void doom::Camera::Update()
 {
 
+}
+
+void doom::Camera::OnEndOfFrame()
+{
 }
 
 math::Matrix4x4 doom::Camera::GetProjectionMatrix()
@@ -133,7 +137,7 @@ math::Matrix4x4 Camera::GetViewMatrix()
 
 void Camera::UpdateUniformBufferObjectTempBuffer(graphics::UniformBufferObjectManager& uboManager)
 {
-	if (World::GetSingleton()->GetMainCamera() == this)
+	if (Scene::GetSingleton()->GetMainCamera() == this)
 	{//if this camera is mainCamera
 		if (this->bmIsDirty == true)
 		{//when camera value is changed
@@ -144,7 +148,7 @@ void Camera::UpdateUniformBufferObjectTempBuffer(graphics::UniformBufferObjectMa
 			this->bmIsDirty = false;
 		}
 
-		if (this->GetTransform()->GetIsDirty() == true)
+		if (this->GetTransform()->GetIsDirtyAtPreviousFrame() == true)
 		{//when transform value is changed
 			auto viewMatrix = this->GetViewMatrix();
 			uboManager.StoreDataAtTempBufferOfBindingPoint(GLOBAL_UNIFORM_BLOCK_BINDING_POINT, (void*)viewMatrix.data(), sizeof(viewMatrix), graphics::eUniformBlock_Global::view);

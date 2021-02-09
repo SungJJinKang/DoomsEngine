@@ -1,17 +1,28 @@
 #pragma once
 
-#include "../Core/Core.h"
-#include "../Core/Game/IGameFlow.h"
+#include "../../Core/Core.h"
+#include "../../Core/Game/GameFlow.h"
+#include "../../Core/Game/FrameDirtyChecker.h"
 
 namespace doom
 {
 	class Entity;
 	class Transform;
-	class World;
-	class Component : public IGameFlow
+	class Scene;
+	
+	/// <summary>
+	/// Component Of Entity
+	/// 
+	/// HOW TO CREATE MY OWN COMPONENT :
+	/// Don't inherit Component class
+	/// Inherit CoreComponent Or PlainComponent
+	/// 
+	/// Both ones have different 
+	/// </summary>
+	class Component : public FrameDirtyChecker // : public GameFlow
 	{
 		friend class Entity;
-		friend class World;
+		friend class Scene;
 		friend class vector;
 
 		struct Deleter
@@ -36,6 +47,7 @@ namespace doom
 		
 		bool mIsActivated;
 
+	
 	protected:
 
 		Component();
@@ -47,66 +59,60 @@ namespace doom
 		/// <returns></returns>
 		virtual ~Component();
 
-		
-		/// <summary>
-		/// This function will be called before Component object is attached to entity
-		/// </summary>
-		/// <param name="entity"></param>
-		void Init_Internal(Entity& entity); // Never put final to _InternalFunction 
 	
-		/// <summary>
-		/// This function will be called before Component object is attached to entity
-		/// </summary>
-		virtual void Init() override 
-		{ 
-			//DONT PUT ANYTHING HERE, PUT AT _Internal
-		}
-
-		/// <summary>
-		/// This is called before OnUpdateComponent
-		/// </summary>
-		constexpr void Update_Internal(){}
-		virtual void Update() override
+		/// Dont put public to Internal Function For Protect use call Internal Function
+		virtual void InitComponent_Internal(Entity& entity);
+		virtual void InitComponent()
 		{
-			//DONT PUT ANYTHING HERE, PUT AT _Internal
+			//DONT PUT ANYTHING HERE, PUT AT HERE
+		}
+		virtual void UpdateComponent_Internal();
+		virtual void UpdateComponent()
+		{
+			//DONT PUT ANYTHING HERE, PUT AT HERE
+		}
+		virtual void OnEndOfFrame_Component_Internal();
+		virtual void OnEndOfFrame_Component()
+		{
+			//DONT PUT ANYTHING HERE, PUT AT HERE
 		}
 
 		/// <summary>
 		/// This function will be called before Component object is destroyed
 		/// </summary>
-		constexpr void OnDestroy_Internal(){}
+		virtual void OnDestroy_Internal();
 		/// <summary>
 		/// This function will be called before Component object is destroyed
 		/// </summary>
 		virtual void OnDestroy()
 		{
-			//DONT PUT ANYTHING HERE, PUT AT _Internal
+			//DONT PUT ANYTHING HERE, PUT AT HERE
 		}
 
 
 		/// <summary>
 		/// This function will be called after activated
 		/// </summary>
-		constexpr void OnActivated_Internal(){}
+		virtual void OnActivated_Internal();
 		/// <summary>
 		/// This function will be called after activated
 		/// </summary>
 		virtual void OnActivated()
 		{
-			//DONT PUT ANYTHING HERE, PUT AT _Internal
+			//DONT PUT ANYTHING HERE, PUT AT HERE
 		}
 
 
 		/// <summary>
 		/// This function will be called after deactivated
 		/// </summary>
-		constexpr void OnDeActivated_Internal(){}
+		virtual void OnDeActivated_Internal();
 		/// <summary>
 		/// This function will be called after deactivated
 		/// </summary>
 		virtual void OnDeActivated()
 		{
-			//DONT PUT ANYTHING HERE, PUT AT _Internal
+			//DONT PUT ANYTHING HERE, PUT AT HERE
 		}
 
 	public:

@@ -1,5 +1,5 @@
 #pragma once
-#include "../Core/CoreComponent/CoreComponent.h"
+#include "Core/CoreComponent.h"
 #include "../Core/Math/LightMath_Cpp/Matrix4x4.h"
 #include "../Core/Graphics/Buffer/UniformBufferObjectTempBufferUpdater.h"
 
@@ -46,7 +46,12 @@ namespace doom
 		/// </summary>
 		float mViewportRectHeight = 2.0f;
 
-	
+		virtual void Init() final;
+		virtual void Update() final;
+		virtual void OnEndOfFrame() final;
+
+		void UpdateUniformBufferObjectTempBuffer(graphics::UniformBufferObjectManager& uboManager) final;
+
 	public:
 
 		void SetProjectionMode(eProjectionType value);
@@ -67,14 +72,19 @@ namespace doom
 		float GetViewportRectWidth() const;
 		float GetViewportRectHeight() const;
 	
-		virtual void Init() final;
-		virtual void Update() final;
+		
 
 		math::Matrix4x4 mProjectionMatrixCache{};
+		/// <summary>
+		/// this function will be called at every frame
+		/// </summary>
+		/// <returns></returns>
 		math::Matrix4x4 GetProjectionMatrix();
+		/// <summary>
+		/// this function will be called at every frame
+		/// </summary>
+		/// <returns></returns>
 		math::Matrix4x4 GetViewMatrix();
-	protected:
-		void UpdateUniformBufferObjectTempBuffer(graphics::UniformBufferObjectManager& uboManager) final;
 
 	};
 }

@@ -1,6 +1,6 @@
 #pragma once
 #include "Graphics_Core.h"
-#include "Graphics.h"
+#include "GraphicsAPI.h"
 #include "OverlapBindChecker.h"
 namespace doom
 {
@@ -13,7 +13,7 @@ namespace doom
 		private:
 			unsigned int mID;
 		public:
-			RenderBuffer(FrameBuffer& ownerFrameBuffer, Graphics::eBufferType frameBufferType, unsigned int width, unsigned int height);
+			RenderBuffer(FrameBuffer& ownerFrameBuffer, GraphicsAPI::eBufferType frameBufferType, unsigned int width, unsigned int height);
 			inline void BindRenderBuffer() noexcept
 			{
 				D_CHECK_OVERLAP_BIND("RenderBuffer", this->mID);

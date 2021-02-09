@@ -7,7 +7,7 @@
 #include "../Asset/Asset.h"
 #include "AssetContainer.h"
 #include "../IO/AssetImporter/AssetImporter.h"
-#include "IGameFlow.h"
+#include "GameFlow.h"
 #include "../../Helper/Singleton.h"
 
 
@@ -16,7 +16,7 @@ namespace doom
 {
 	namespace assetimporter
 	{
-		class AssetManager : public IGameFlow, public ISingleton<AssetManager>
+		class AssetManager : public GameFlow, public ISingleton<AssetManager>
 		{
 			template<Asset::eAssetType loopVariable>
 			struct ImportAssetFutureFunctor
@@ -86,6 +86,7 @@ namespace doom
 		protected:
 			virtual void Init() final;
 			virtual void Update() final;
+			virtual void OnEndOfFrame() final;
 		public:
 			void ImportEntireAsset();
 

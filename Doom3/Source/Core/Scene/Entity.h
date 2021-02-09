@@ -9,20 +9,20 @@
 #include <functional>
 
 #include "../Core.h"
-#include "../../Component/Component.h"
-#include "CoreComponent.h"
+#include "../../Component/Core/Component.h"
+#include "../../Component/Core/CoreComponent.h"
 
 #include "../../Helper/vector_erase_move_lastelement/vector_swap_erase.h"
-#include "../Game/IGameFlow.h"
-
+#include "../Game/GameFlow.h"
+#include "../Game/FrameDirtyChecker.h"
 
 namespace doom
 {
 	class Transform;
-	class World;
-	class Entity : IGameFlow
+	class Scene;
+	class Entity : public FrameDirtyChecker
 	{
-		friend class World;
+		friend class Scene;
 
 		struct Deleter
 		{
@@ -34,11 +34,13 @@ namespace doom
 	private:
 		
 		/// <summary>
-		/// Entity Constructor should be called through World class
+		/// Entity Constructor should be called through Scene class
+		///  To Protect User create entity not thourgh Scene class
 		/// </summary>
 		Entity(Entity* parent);
 		/// <summary>
 		/// Entity destructor should be called through Entity::Destory function
+		/// To Protect User call delete entity not thourgh Scene or Entity class
 		/// </summary>
 		~Entity();
 
@@ -86,7 +88,7 @@ namespace doom
 			}
 		
 
-			newComponent->Init_Internal(*this);
+			newComponent->InitComponent_Internal(*this);
 			newComponent->OnActivated_Internal();
 
 			return newComponent;
@@ -106,18 +108,34 @@ namespace doom
 		/// </summary>
 		void ClearComponents()
 		{
-			this->mPlainComponents.clear(); // destroy entities
+			for (unsigned int i = 0 ; this->mPlainComponents.size() ; i++)
+			{
+				//Why doesn't erase from vector instantly : for performance
+				mPlainComponents[i]->OnDestroy_Internal();
+				mPlainComponents[i]->OnDestroy();
+				mPlainComponents[i].reset(); //destroy component object
+			}
+			this->mPlainComponents.clear();
+
+			for (unsigned int i = 0; this->mCoreComponents.size(); i++)
+			{
+				//Why doesn't erase from vector instantly : for performance
+				mCoreComponents[i]->OnDestroy_Internal();
+				mCoreComponents[i]->OnDestroy();
+				mCoreComponents[i].reset(); //destroy component object
+			}
 			this->mCoreComponents.clear();
+
 		}
 
 	protected:
 
-		virtual void Init() final {}
-		virtual void Update() final
-		{
-			this->OnUpdate();
-		}
+		void InitEntity() ;
+		void UpdateEntity();
+		void OnEndOfFrame();
 
+		void Update_PlainComponent();
+		void EndOfFrame_PlainComponent();
 	public:
 
 		
@@ -328,7 +346,6 @@ namespace doom
 		void OnDeActivated() {}
 
 		void OnPreUpdate() {}
-		void OnUpdate();
 		void OnPostUpdate() {}
 	};
 

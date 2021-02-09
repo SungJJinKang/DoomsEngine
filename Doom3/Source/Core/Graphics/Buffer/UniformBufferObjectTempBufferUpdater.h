@@ -5,7 +5,7 @@
 #include <tuple>
 #include <functional>
 
-#include "../../Game/IGameFlow.h"
+#include "../../Game/GameFlow.h"
 #include "UniformBufferObjectManager.h"
 
 namespace doom

@@ -1,28 +1,28 @@
-#include "World.h"
+#include "Scene.h"
 
 #include "Entity.h"
 #include "../../Helper/vector_erase_move_lastelement/vector_swap_erase.h"
 #include "../../Component/Camera.h"
 using namespace doom;
 
-World::World() : mSpawnedEntities{}
+Scene::Scene() : mSpawnedEntities{}
 {
 
 }
 
-World::~World()
+Scene::~Scene()
 {
 
 }
 
-[[nodiscard]] Entity& World::CreateNewEntity() noexcept
+[[nodiscard]] Entity& Scene::CreateNewEntity() noexcept
 {
 	Entity* newEntity = new Entity(nullptr);
 	this->mSpawnedEntities.emplace_back(newEntity);
 	return *newEntity;
 }
 
-bool World::DestroyEntity(Entity& entity)
+bool Scene::DestroyEntity(Entity& entity)
 {
 	size_t size = this->mSpawnedEntities.size();
 	for (size_t i = 0; i < size; i++)
@@ -38,26 +38,36 @@ bool World::DestroyEntity(Entity& entity)
 	return false;
 }
 
-doom::World* World::GetCurrentWorld()
+doom::Scene* Scene::GetCurrentWorld()
 {
 	return GetSingleton();
 }
 
-void World::Init()
+
+
+void Scene::UpdatePlainComponents()
 {
+	for (auto& spawnedEntity : this->mSpawnedEntities)
+	{
+		spawnedEntity->Update_PlainComponent();
+	}
 }
 
-void World::Update()
+void doom::Scene::OnEndOfFrameOfEntities()
 {
+	for (auto& spawnedEntity : this->mSpawnedEntities)
+	{
+		spawnedEntity->OnEndOfFrame();
+	}
 }
 
 
-doom::Camera* World::GetMainCamera() const
+doom::Camera* Scene::GetMainCamera() const
 {
 	return this->mMainCamera;
 }
 
-void World::SetMainCamera(Camera* camera)
+void Scene::SetMainCamera(Camera* camera)
 {
 	this->mMainCamera = camera;
 	if (this->mMainCamera != nullptr)

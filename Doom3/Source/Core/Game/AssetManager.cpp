@@ -17,6 +17,10 @@ void doom::assetimporter::AssetManager::Update()
 
 }
 
+void doom::assetimporter::AssetManager::OnEndOfFrame()
+{
+}
+
 
 
 

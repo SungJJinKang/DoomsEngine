@@ -8,7 +8,7 @@
 
 namespace doom
 {
-	class SharedWorldSetting : public ISingleton<SharedWorldSetting>, public IWorldIndependent
+	class SharedSceneSetting : public ISingleton<SharedSceneSetting>, public I_IndependentFromScene
 	{
 	private:
 		std::array<Layer, MAX_LAYER_COUNT> mLayers;
@@ -26,7 +26,7 @@ namespace doom
 		};
 	public:
 
-		SharedWorldSetting()
+		SharedSceneSetting()
 		{
 			for (unsigned int i = 0; i < mReservedLayerName.size(); i++)
 			{
@@ -35,7 +35,7 @@ namespace doom
 		}
 
 	};
-	extern SharedWorldSetting mSharedWorldSetting;
+	extern SharedSceneSetting mSharedWorldSetting;
 
 
 }

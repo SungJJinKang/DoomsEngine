@@ -19,6 +19,7 @@ public:
 	virtual ~ISingleton()
 	{
 		delete mSingleTon;
+		mSingleTon = nullptr;
 	}
 
 	/// <summary>

@@ -1,5 +1,5 @@
 #pragma once
-#include "../../Component/Component.h"
+#include "../../Component/Core/Component.h"
 
 namespace doom
 {
@@ -7,14 +7,16 @@ namespace doom
 	/// All CoreComponents should inherit this Class
 	/// 
 	/// WHAT IS CoreComponent??
-	/// CoreComponent will be looped differently
+	/// 
+	/// 1. CoreComponent will be looped differently
 	/// CoreComponent will be processed first 
 	/// and PlainComponent is processed after that
+	/// 
 	/// </summary>
 	class CoreComponent : public Component
 	{
 		friend class Entity;
-		friend class World;
+		friend class Scene;
 	private:
 
 		CoreComponent(const CoreComponent&) = delete;
@@ -32,76 +34,59 @@ namespace doom
 		/// <returns></returns>
 		virtual ~CoreComponent();
 
-		/// <summary>
-	/// This function will be called before Component object is attached to entity
-	/// </summary>
-	/// <param name="entity"></param>
-		void Init_Internal(Entity& entity);
-		/// <summary>
-		/// This function will be called before Component object is attached to entity
-		/// </summary>
-		virtual void Init() override
+		/// Dont put public to Internal Function For Protect use call Internal Function
+		virtual void InitComponent_Internal(Entity& entity) final;
+		virtual void InitComponent()
 		{
-			//DONT PUT ANYTHING HERE, PUT AT _Internal
+			//DON'T PUT ANYTHING AT HERE
 		}
-
-		/// <summary>
-		/// This is called before OnUpdateComponent
-		/// </summary>
-		constexpr void Update_Internal()
+		virtual void UpdateComponent_Internal() final;
+		virtual void UpdateComponent()
 		{
-			Component::Update_Internal();
+			//DON'T PUT ANYTHING AT HERE
 		}
-		virtual void Update() override
+		virtual void OnEndOfFrame_Component_Internal() final;
+		virtual void OnEndOfFrame_Component()
 		{
-			//DONT PUT ANYTHING HERE, PUT AT _Internal
+			//DON'T PUT ANYTHING AT HERE
 		}
 
 		/// <summary>
 		/// This function will be called before Component object is destroyed
 		/// </summary>
-		constexpr void OnDestroy_Internal()
-		{
-			Component::OnDestroy_Internal();
-		}
+		virtual void OnDestroy_Internal() final;
 		/// <summary>
 		/// This function will be called before Component object is destroyed
 		/// </summary>
 		virtual void OnDestroy() override
 		{
-			//DONT PUT ANYTHING HERE, PUT AT _Internal
+			//DON'T PUT ANYTHING AT HERE
 		}
 
 
 		/// <summary>
 		/// This function will be called after activated
 		/// </summary>
-		constexpr void OnActivated_Internal()
-		{
-			Component::OnActivated_Internal();
-		}
+		virtual void OnActivated_Internal() final;
 		/// <summary>
 		/// This function will be called after activated
 		/// </summary>
 		virtual void OnActivated() override
 		{
-			//DONT PUT ANYTHING HERE, PUT AT _Internal
+			//DON'T PUT ANYTHING AT HERE
 		}
 
 
 		/// <summary>
 		/// This function will be called after deactivated
 		/// </summary>
-		constexpr void OnDeActivated_Internal()
-		{
-			Component::OnDeActivated_Internal();
-		}
+		virtual void OnDeActivated_Internal() final;
 		/// <summary>
 		/// This function will be called after deactivated
 		/// </summary>
 		virtual void OnDeActivated() override
 		{
-			//DONT PUT ANYTHING HERE, PUT AT _Internal
+			//DON'T PUT ANYTHING AT HERE
 		}
 
 	public:

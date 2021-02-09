@@ -33,13 +33,13 @@ void FrameBuffer::CheckIsFrameBufferSuccesfullyCreated() noexcept
 	}
 }
 
-void FrameBuffer::AttachRenderBuffer(Graphics::eBufferType renderBufferType)
+void FrameBuffer::AttachRenderBuffer(GraphicsAPI::eBufferType renderBufferType)
 {
 	this->mAttachedRenderBuffers.emplace_back(*this, renderBufferType, this->mWidth, this->mHeight);
 	FrameBuffer::CheckIsFrameBufferSuccesfullyCreated();
 }
 
-void FrameBuffer::AttachTextureBuffer(Graphics::eBufferType frameBufferType)
+void FrameBuffer::AttachTextureBuffer(GraphicsAPI::eBufferType frameBufferType)
 {
 	this->BindFrameBuffer();
 
