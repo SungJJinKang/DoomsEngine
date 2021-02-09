@@ -10,7 +10,7 @@ namespace doom
 {
 	namespace assetimporter
 	{
-		template <Asset::eAssetType assetType>
+		template <eAssetType assetType>
 		class AssetImporterWorker
 		{
 			friend class Assetimporter;

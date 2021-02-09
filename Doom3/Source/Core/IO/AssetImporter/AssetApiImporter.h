@@ -19,20 +19,20 @@ namespace doom
 		inline DummyApiImporter _DummyApiImporter{};
 
 
-		template <Asset::eAssetType assetType>
+		template <eAssetType assetType>
 		struct api_importer_type
 		{
 			using type = typename DummyApiImporter;
 		};
 
 
-		template <Asset::eAssetType assetType>
+		template <eAssetType assetType>
 		using api_importer_type_t = typename api_importer_type<assetType>::type;
 
 		/// <summary>
 		/// RAII
 		/// </summary>
-		template <Asset::eAssetType assetType>
+		template <eAssetType assetType>
 		class AssetApiImporter
 		{
 		private:
@@ -109,7 +109,7 @@ namespace doom
 		};
 
 
-		template<Asset::eAssetType loopVariable>
+		template<eAssetType loopVariable>
 		struct ClearApiImporterQueueFunctor
 		{
 			constexpr void operator()()
@@ -122,7 +122,7 @@ namespace doom
 
 		inline void ClearAllApiImporterQueue()
 		{
-			ForLoop_CompileTime<Asset::eAssetType>::Loop<Asset::FirstElementOfAssetType, Asset::LastElementOfAssetType, 1, ClearApiImporterQueueFunctor>();
+			ForLoop_CompileTime<eAssetType>::Loop<Asset::FirstElementOfAssetType, Asset::LastElementOfAssetType, 1, ClearApiImporterQueueFunctor>();
 		}
 		
 	}

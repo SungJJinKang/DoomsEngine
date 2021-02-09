@@ -17,17 +17,17 @@ namespace doom
 {
 	namespace assetimporter
 	{
-		template <Asset::eAssetType assetType>
+		template <eAssetType assetType>
 		using imported_asset_future_t = typename std::future<std::optional<Asset::asset_type_t<assetType>>>;
 
 		class Assetimporter
 		{
-			template <Asset::eAssetType assetType>
+			template <eAssetType assetType>
 			friend class AssetImporterWorker;
 
 		private:
 
-			static const std::map<std::string, doom::Asset::eAssetType> AssetExtension;
+			static const std::map<std::string, doom::eAssetType> AssetExtension;
 			static inline std::unique_ptr<::ThreadPool> threadPool{};
 			static void InitializeThreadPool(size_t poolSize);
 
@@ -39,7 +39,7 @@ namespace doom
 			static bool IsThreadPoolInitialized();
 
 			
-			template <Asset::eAssetType assetType>
+			template <eAssetType assetType>
 			static std::optional<Asset::asset_type_t<assetType>> ImportAsset(std::filesystem::path path)
 			{
 				std::optional<Asset::asset_type_t<assetType>> ImportedAsset = AssetImporterWorker<assetType>::ImportSpecificAsset(path);
@@ -58,7 +58,7 @@ namespace doom
 			/// </summary>
 			/// <param name="path"></param>
 			/// <returns></returns>
-			template <Asset::eAssetType assetType>
+			template <eAssetType assetType>
 			[[nodiscard]] static imported_asset_future_t<assetType> PushImportingAssetJobToThreadPool(const std::filesystem::path& path)
 			{
 				D_ASSERT(static_cast<bool>(threadPool) != false);
@@ -79,7 +79,7 @@ namespace doom
 			/// <param name="path"></param>
 			/// <param name="assets"></param>
 			/// <returns></returns>
-			template <Asset::eAssetType assetType>
+			template <eAssetType assetType>
 			[[nodiscard]] static std::vector<imported_asset_future_t<assetType>> PushImportingAssetJobToThreadPool(const std::vector<std::filesystem::path>& paths)
 			{
 				D_ASSERT(static_cast<bool>(threadPool) != false);
@@ -102,7 +102,7 @@ namespace doom
 
 			///////////////////
 
-			static std::optional<doom::Asset::eAssetType> GetAssetType(const std::filesystem::path& path);
+			static std::optional<doom::eAssetType> GetAssetType(const std::filesystem::path& path);
 		};
 
 		

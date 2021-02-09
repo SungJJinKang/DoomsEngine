@@ -8,12 +8,12 @@ void Asset::SetBaseMetaData(const std::filesystem::path& path)
 	mAssetPath = path.string();
 }
 
-Asset::Asset() : mUUID{ GenerateUUID() }, bIsContainingData{ true }
+Asset::Asset() : mUUID{ GenerateUUID() }, bmIsDataLoaded{ true }
 {
 
 }
 
-Asset::Asset(bool isConatiningData) : bIsContainingData{ isConatiningData }
+Asset::Asset(bool isConatiningData) : bmIsDataLoaded{ isConatiningData }
 {
 	if (isConatiningData == true)
 	{
@@ -53,5 +53,25 @@ std::string Asset::GetAssetTypeString(const eAssetType& assetType)
 		return "";
 	}
 	return "";
+}
+
+doom::D_UUID Asset::GetUUID()
+{
+	return this->mUUID;
+}
+
+std::string Asset::GetAssetFileName()
+{
+	return this->mAssetFileName;
+}
+
+std::filesystem::path Asset::GetAssetPath()
+{
+	return this->mAssetPath;
+}
+
+bool Asset::GetIsDataLoaded()
+{
+	return this->bmIsDataLoaded;
 }
 

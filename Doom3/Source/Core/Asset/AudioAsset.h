@@ -6,11 +6,27 @@ namespace doom
 
 	class AudioAsset : public Asset
 	{
-		template<Asset::eAssetType loopVariable>
+		friend class assetimporter::AssetManager;
+
+		template <eAssetType assetType>
+		friend class assetimporter::AssetImporterWorker;
+
+		template<eAssetType loopVariable>
 		friend struct assetimporter::OnEndImportInMainThreadFunctor;
+
+	private:
+
+	protected:
+
 	public:
 
+		AudioAsset() = default;
+		AudioAsset(const AudioAsset&) = delete;
+		AudioAsset(AudioAsset&&) noexcept = default;
+		AudioAsset& operator=(const AudioAsset&) = delete;
+		AudioAsset& operator=(AudioAsset&&) noexcept = default;
+		
 	};
-	template <> struct Asset::asset_type<Asset::eAssetType::AUDIO> { using type = AudioAsset; };
+	template <> struct Asset::asset_type<eAssetType::AUDIO> { using type = AudioAsset; };
 }
 

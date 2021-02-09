@@ -36,7 +36,6 @@ namespace doom
 
 	public:
 		Renderer();
-		Renderer(graphics::Material* targetMaterial);
 		virtual ~Renderer();
 
 
@@ -54,7 +53,7 @@ namespace doom
 			{
 				this->mTargetMaterial->UseProgram();
 			}
-			
 		}
+		void SetMaterial(graphics::Material* material);
 	};
 }

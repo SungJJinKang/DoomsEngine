@@ -11,11 +11,11 @@ namespace doom
 	namespace assetimporter
 	{
 		template <>
-		class AssetImporterWorker<Asset::eAssetType::FONT>
+		class AssetImporterWorker<eAssetType::FONT>
 		{
 			friend class Assetimporter;
 		private:
-			static std::optional <Asset::asset_type_t<Asset::eAssetType::FONT>> ImportSpecificAsset(const std::filesystem::path& path)
+			static std::optional <Asset::asset_type_t<eAssetType::FONT>> ImportSpecificAsset(const std::filesystem::path& path)
 			{
 				return {};
 			}

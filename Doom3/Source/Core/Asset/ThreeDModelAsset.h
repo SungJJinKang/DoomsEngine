@@ -7,6 +7,7 @@
 #include "../Math/LightMath_Cpp/Vector3.h"
 #include "../Graphics/Buffer/Mesh.h"
 #include "ePrimitiveType.h"
+#include <optional>
 
 using namespace math;
 
@@ -35,6 +36,12 @@ namespace doom
 		Vector3 mNormal;
 		Vector3 mTangent;
 		Vector3 mBitangent;
+
+		MeshVertexData() = default;
+		MeshVertexData(const MeshVertexData&) = default;
+		MeshVertexData(MeshVertexData&&) noexcept = default;
+		MeshVertexData& operator=(const MeshVertexData&) = default;
+		MeshVertexData& operator=(MeshVertexData&&) noexcept = default;
 	};
 
 	/*
@@ -69,6 +76,11 @@ namespace doom
 		/// </summary>
 		MeshVertexData* mMeshVertexDatas;
 
+		ThreeDModelMesh() = default;
+		ThreeDModelMesh(const ThreeDModelMesh&) = delete;
+		ThreeDModelMesh(ThreeDModelMesh&&) noexcept = default;
+		ThreeDModelMesh& operator=(const ThreeDModelMesh&) = delete;
+		ThreeDModelMesh& operator=(ThreeDModelMesh&&) noexcept = default;
 		~ThreeDModelMesh()
 		{
 			delete[] mMeshIndices;
@@ -100,6 +112,11 @@ namespace doom
 		unsigned int* mModelMeshIndexs;
 		unsigned int mNumOfModelMeshes;
 
+		ThreeDModelNode() = default;
+		ThreeDModelNode(const ThreeDModelNode&) = delete;
+		ThreeDModelNode(ThreeDModelNode&&) noexcept = default;
+		ThreeDModelNode& operator=(const ThreeDModelNode&) = delete;
+		ThreeDModelNode& operator=(ThreeDModelNode&&) noexcept = default;
 		~ThreeDModelNode()
 		{
 			if (mNumOfThreeDModelNodeChildrens != 0)
@@ -123,20 +140,21 @@ namespace doom
 		struct MeshNode;
 	}
 
-	namespace assetimporter
-	{
-		template <Asset::eAssetType assetType>
-		class AssetImporterWorker;
-	}
 	
 
 
 	class ThreeDModelAsset : public Asset
 	{
-		template<Asset::eAssetType loopVariable>
+		//friend class std::optional<ThreeDModelAsset>;
+
+		friend class assetimporter::AssetManager;
+
+		template <eAssetType assetType>
+		friend class assetimporter::AssetImporterWorker;
+
+		template<eAssetType loopVariable>
 		friend struct assetimporter::OnEndImportInMainThreadFunctor;
 
-		friend class assetimporter::AssetImporterWorker<Asset::eAssetType::THREE_D_MODEL>;
 	private:
 		ThreeDModelNode* mRootModelNode{};
 
@@ -160,11 +178,26 @@ namespace doom
 		void CreateNode(graphics::MeshNode* currentNode, ThreeDModelNode* currentModelNodeAsset);
 		void OnEndImportInMainThread() final;
 		
+	protected:
+
+	
+
 	public:
+		/// <summary>
+		/// why const? to protect asset data
+		/// </summary>
+		/// <returns></returns>
 		const std::vector<graphics::Mesh>& GetMeshes();
+
+		ThreeDModelAsset() = default;
+		ThreeDModelAsset(const ThreeDModelAsset&) = delete;
+		ThreeDModelAsset(ThreeDModelAsset&&) noexcept = default;
+		ThreeDModelAsset& operator=(const ThreeDModelAsset&) = delete;
+		ThreeDModelAsset& operator=(ThreeDModelAsset&&) noexcept = default;
+	
 	};
 
-	template <> struct Asset::asset_type<Asset::eAssetType::THREE_D_MODEL> { using type = typename ThreeDModelAsset; };
+	template <> struct Asset::asset_type<eAssetType::THREE_D_MODEL> { using type = typename ThreeDModelAsset; };
 }
 
 

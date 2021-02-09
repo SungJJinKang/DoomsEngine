@@ -6,8 +6,26 @@ namespace doom
 
 	class FontAsset : public Asset
 	{
-		template<Asset::eAssetType loopVariable>
+		friend class assetimporter::AssetManager;
+
+		template <eAssetType assetType>
+		friend class assetimporter::AssetImporterWorker;
+
+		template<eAssetType loopVariable>
 		friend struct assetimporter::OnEndImportInMainThreadFunctor;
+
+	private:
+
+	protected:
+
+	public:
+
+		FontAsset() = default;
+		FontAsset(const FontAsset&) = delete;
+		FontAsset(FontAsset&&) noexcept = default;
+		FontAsset& operator=(const FontAsset&) = delete;
+		FontAsset& operator=(FontAsset&&) noexcept = default;
+
 	};
-	template <> struct Asset::asset_type<Asset::eAssetType::FONT> { using type = typename FontAsset; };
+	template <> struct Asset::asset_type<eAssetType::FONT> { using type = typename FontAsset; };
 }

@@ -33,17 +33,14 @@ namespace doom
 
 	public:
 		MeshRenderer();
-		MeshRenderer(graphics::Mesh* targetMesh, graphics::Material* targetMaterial);
-
-
 		void Draw() override
 		{
 			this->BindMaterial();
 			this->mTargetMesh->Draw();
 		}
 
-
-	
+		void SetMesh(graphics::Mesh* mesh);
+		
 		
 
 	};

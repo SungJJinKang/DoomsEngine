@@ -144,7 +144,7 @@ std::array<std::string, 3> doom::ShaderAsset::ClassifyShader(const std::string& 
 		if (CheckIsSharpInclude(line))
 		{
 			//this->mAssetPath.relative
-			std::filesystem::path targetPath = this->mAssetPath;//
+			std::filesystem::path targetPath = this->GetAssetPath();//
 			targetPath.remove_filename();
 
 			std::string includeTargetPath = line.substr(line.find("#include", 0) + 8, std::string::npos);

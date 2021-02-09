@@ -9,12 +9,12 @@ namespace doom
 	namespace assetimporter
 	{
 		template <>
-		class AssetImporterWorker<Asset::eAssetType::AUDIO>
+		class AssetImporterWorker<eAssetType::AUDIO>
 		{
 			friend class Assetimporter;
 		private:
 
-			static std::optional<Asset::asset_type_t<Asset::eAssetType::AUDIO>> ImportSpecificAsset(const std::filesystem::path& path)
+			static std::optional<Asset::asset_type_t<eAssetType::AUDIO>> ImportSpecificAsset(const std::filesystem::path& path)
 			{
 				return {};
 			}

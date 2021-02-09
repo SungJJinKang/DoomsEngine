@@ -178,6 +178,7 @@
     <ClCompile Include="Source\Component\Renderer.cpp" />
     <ClCompile Include="Source\Component\Transform.cpp" />
     <ClCompile Include="Source\Core\Asset\Base_Asset.cpp" />
+    <ClCompile Include="Source\Core\Asset\TextAsset.cpp" />
     <ClCompile Include="Source\Core\Asset\ThreeDModelAsset.cpp" />
     <ClCompile Include="Source\Component\Core\CoreComponent.cpp" />
     <ClCompile Include="Source\Core\Game\GameFlow.cpp" />

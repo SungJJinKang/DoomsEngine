@@ -44,10 +44,10 @@ void doom::assetimporter::AssetManager::ImportEntireAsset()
 	{
 		doom::assetimporter::Assetimporter threadPool{ 5 };
 
-		ForLoop_CompileTime<Asset::eAssetType>::Loop<Asset::FirstElementOfAssetType, Asset::LastElementOfAssetType, 1, doom::assetimporter::ImportAssetFutureFunctor>(AssetPaths);
-		ForLoop_CompileTime<Asset::eAssetType>::Loop<Asset::FirstElementOfAssetType, Asset::LastElementOfAssetType, 1, doom::assetimporter::GetAssetFutureFunctor>();
+		ForLoop_CompileTime<eAssetType>::Loop<Asset::FirstElementOfAssetType, Asset::LastElementOfAssetType, 1, doom::assetimporter::ImportAssetFutureFunctor>(AssetPaths);
+		ForLoop_CompileTime<eAssetType>::Loop<Asset::FirstElementOfAssetType, Asset::LastElementOfAssetType, 1, doom::assetimporter::GetAssetFutureFunctor>();
 	}
-	ForLoop_CompileTime<Asset::eAssetType>::Loop<Asset::FirstElementOfAssetType, Asset::LastElementOfAssetType, 1, doom::assetimporter::OnEndImportInMainThreadFunctor>();
+	ForLoop_CompileTime<eAssetType>::Loop<Asset::FirstElementOfAssetType, Asset::LastElementOfAssetType, 1, doom::assetimporter::OnEndImportInMainThreadFunctor>();
 	
 }
 

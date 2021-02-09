@@ -8,16 +8,33 @@ namespace doom
 
 	class TextAsset : public Asset
 	{
-		template<Asset::eAssetType loopVariable>
-		friend struct assetimporter::OnEndImportInMainThreadFunctor;
-	public:
-		std::string mString;
+		friend class assetimporter::AssetManager;
 
-		TextAsset(const std::string& str)
-		{
-			this->mString = str;
-		}
+		template <eAssetType assetType>
+		friend class assetimporter::AssetImporterWorker;
+
+		template<eAssetType loopVariable>
+		friend struct assetimporter::OnEndImportInMainThreadFunctor;
+
+	private:
+
+		std::string mText;
+
+	protected:
+
+	
+
+	public:
+	
+		const std::string& GetText();
+
+		TextAsset(const std::string& str);
+		TextAsset() = default;
+		TextAsset(const TextAsset&) = delete;
+		TextAsset(TextAsset&&) noexcept = default;
+		TextAsset& operator=(const TextAsset&) = delete;
+		TextAsset& operator=(TextAsset&&) noexcept = default;
 
 	};
-	template <> struct Asset::asset_type<Asset::eAssetType::TEXT> { using type = typename TextAsset; };
+	template <> struct Asset::asset_type<eAssetType::TEXT> { using type = typename TextAsset; };
 }

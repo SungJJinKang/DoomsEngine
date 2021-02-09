@@ -9,8 +9,10 @@ doom::MeshRenderer::MeshRenderer() : Renderer()
 
 
 
-doom::MeshRenderer::MeshRenderer(graphics::Mesh* targetMesh, graphics::Material* targetMaterial) : Renderer(targetMaterial), mTargetMesh{ targetMesh }
+void doom::MeshRenderer::SetMesh(graphics::Mesh* mesh)
 {
-
+	this->mTargetMesh = mesh;
 }
+
+
 

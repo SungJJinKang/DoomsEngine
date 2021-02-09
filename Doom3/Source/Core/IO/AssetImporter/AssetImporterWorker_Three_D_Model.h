@@ -2,6 +2,7 @@
 #include "AssetApiImporter.h"
 #include "AssetImporterWorker_Base.h"
 
+#include <utility>
 #include "../../API/ASSIMP.h"
 #include "../../Asset/ThreeDModelAsset.h"
 
@@ -12,9 +13,9 @@ namespace doom
 {
 	namespace assetimporter
 	{
-		template <> struct api_importer_type<Asset::eAssetType::THREE_D_MODEL> { using type = typename Assimp::Importer; };
+		template <> struct api_importer_type<eAssetType::THREE_D_MODEL> { using type = typename Assimp::Importer; };
 		template<>
-		void AssetApiImporter<Asset::eAssetType::THREE_D_MODEL>::InitApiImporter(api_importer_type_t<Asset::eAssetType::THREE_D_MODEL>& apiImporter)
+		void AssetApiImporter<eAssetType::THREE_D_MODEL>::InitApiImporter(api_importer_type_t<eAssetType::THREE_D_MODEL>& apiImporter)
 		{
 			apiImporter.SetPropertyInteger(AI_CONFIG_PP_RVC_FLAGS,
 				aiComponent_COLORS |
@@ -29,7 +30,7 @@ namespace doom
 
 
 		template <>
-		class AssetImporterWorker<Asset::eAssetType::THREE_D_MODEL>
+		class AssetImporterWorker<eAssetType::THREE_D_MODEL>
 		{
 			friend class Assetimporter;
 #ifdef DEBUG_MODE
@@ -45,7 +46,7 @@ namespace doom
 			};
 #endif
 		private:
-			static std::optional<Asset::asset_type_t<Asset::eAssetType::THREE_D_MODEL>> ImportSpecificAsset(const std::filesystem::path& path)
+			static std::optional<Asset::asset_type_t<eAssetType::THREE_D_MODEL>> ImportSpecificAsset(const std::filesystem::path& path)
 			{
 				std::stringstream stream;
 				stream << std::this_thread::get_id();
@@ -69,7 +70,7 @@ namespace doom
 				}
 #endif
 
-				AssetApiImporter<Asset::eAssetType::THREE_D_MODEL> apiImporterContainer = AssetApiImporter<Asset::eAssetType::THREE_D_MODEL>::GetApiImporter();
+				AssetApiImporter<eAssetType::THREE_D_MODEL> apiImporterContainer = AssetApiImporter<eAssetType::THREE_D_MODEL>::GetApiImporter();
 				auto apiImporter = apiImporterContainer.Get();
 
 				// And have it read the given file with some example postprocessing
@@ -87,7 +88,7 @@ namespace doom
 					aiProcess_ImproveCacheLocality
 				);
 
-				Asset::asset_type_t<Asset::eAssetType::THREE_D_MODEL> asset{};
+				Asset::asset_type_t<eAssetType::THREE_D_MODEL> asset{};
 
 				//scene->mMeshes[0]->
 				// If the import failed, report it
@@ -161,7 +162,7 @@ namespace doom
 					SetThreeDModelNodesData(asset.mRootModelNode, scene->mRootNode, nullptr, asset, scene);
 					apiImporter->FreeScene();
 					apiImporterContainer.Release();
-					return asset;
+					return std::move(asset);
 				}
 				else
 				{

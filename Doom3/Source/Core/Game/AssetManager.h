@@ -17,25 +17,25 @@ namespace doom
 
 	namespace assetimporter
 	{
-		template<Asset::eAssetType loopVariable>
+		template<eAssetType loopVariable>
 		struct ImportAssetFutureFunctor;
-		template<Asset::eAssetType loopVariable>
+		template<eAssetType loopVariable>
 		struct GetAssetFutureFunctor;
-		template<Asset::eAssetType loopVariable>
+		template<eAssetType loopVariable>
 		struct OnEndImportInMainThreadFunctor;
 
 		class AssetManager : public GameFlow, public ISingleton<AssetManager>
 		{
-			template<Asset::eAssetType loopVariable>
+			template<eAssetType loopVariable>
 			friend struct ImportAssetFutureFunctor;
 
-			template<Asset::eAssetType loopVariable>
+			template<eAssetType loopVariable>
 			friend struct GetAssetFutureFunctor;
 
-			template<Asset::eAssetType loopVariable>
+			template<eAssetType loopVariable>
 			friend struct OnEndImportInMainThreadFunctor;
 			/*
-			template<Asset::eAssetType loopVariable>
+			template<eAssetType loopVariable>
 			struct OnEndImportInSubThreadFunctor
 			{
 				constexpr inline void operator()()
@@ -53,7 +53,7 @@ namespace doom
 		private:
 			const std::filesystem::path AssetFolderPath{ ASSET_FOLDER_DIRECTORY };
 
-			template<Asset::eAssetType assetType>
+			template<eAssetType assetType>
 			static inline AssetContainer<assetType> ImportedAssets{};
 
 		protected:
@@ -64,11 +64,70 @@ namespace doom
 			void ImportEntireAsset();
 
 		
+			template<eAssetType assetType>
+			std::optional<std::reference_wrapper<typename AssetContainer<assetType>::container_asset_type_t>> GetAsset(const D_UUID& UUID) 
+			{
+				auto& assetCotainer = AssetManager::ImportedAssets<assetType>;
 
+				auto iter = assetCotainer.mAssets.find(UUID);
+				if (iter != assetCotainer.mAssets.end())
+				{//find!!
+					return iter->second;
+				}
+				else
+				{//element containing UUID key doesn't exist
+					return {};
+				}
+			}
+			template<eAssetType assetType>
+			std::optional<std::reference_wrapper<const typename AssetContainer<assetType>::container_asset_type_t>> GetAsset_const(const D_UUID& UUID) const
+			{
+				auto& assetCotainer = AssetManager::ImportedAssets<assetType>;
+
+				auto iter = assetCotainer.mAssets.find(UUID);
+				if (iter != assetCotainer.mAssets.end())
+				{//find!!
+					return iter->second;
+				}
+				else
+				{//element containing UUID key doesn't exist
+					return {};
+				}
+			}
+			template<eAssetType assetType>
+			std::optional<std::reference_wrapper<typename AssetContainer<assetType>::container_asset_type_t>> GetAsset(const unsigned int index)
+			{
+				if (index >= 0 && index < AssetManager::ImportedAssets<assetType>.mAssetsForIterating.size())
+				{
+					return AssetManager::ImportedAssets<assetType>.mAssetsForIterating[index];
+				}
+				else
+				{
+					return {};
+				}
+			}
+			template<eAssetType assetType>
+			std::optional<std::reference_wrapper<const typename AssetContainer<assetType>::container_asset_type_t>> GetAsset_const(const unsigned int index) const
+			{
+				if (index >= 0 && index < AssetManager::ImportedAssets<assetType>.mAssetsForIterating.size())
+				{
+					return AssetManager::ImportedAssets<assetType>.mAssetsForIterating[index];
+				}
+				else
+				{
+					return {};
+				}
+			}
+
+			template<eAssetType assetType>
+			const std::vector<std::reference_wrapper<typename AssetContainer<assetType>::container_asset_type_t>>& GetAssets()
+			{
+				return AssetManager::ImportedAssets<assetType>.mAssetsForIterating;
+			}
 
 		};
 
-		template<Asset::eAssetType loopVariable>
+		template<eAssetType loopVariable>
 		struct ImportAssetFutureFunctor
 		{
 			constexpr inline void operator()(const std::array<std::vector<std::filesystem::path>, doom::Asset::GetAssetTypeCount()>& AssetPaths)
@@ -83,7 +142,7 @@ namespace doom
 			}
 		};
 
-		template<Asset::eAssetType loopVariable>
+		template<eAssetType loopVariable>
 		struct GetAssetFutureFunctor
 		{
 			constexpr inline void operator()()
@@ -101,7 +160,7 @@ namespace doom
 		/// <summary>
 		/// 
 		/// </summary>
-		template<Asset::eAssetType loopVariable>
+		template<eAssetType loopVariable>
 		struct OnEndImportInMainThreadFunctor
 		{
 			constexpr inline void operator()()

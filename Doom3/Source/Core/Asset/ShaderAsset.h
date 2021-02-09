@@ -8,8 +8,14 @@ namespace doom
 {
 	class ShaderAsset : public Asset
 	{
-		template<Asset::eAssetType loopVariable>
+		friend class assetimporter::AssetManager;
+
+		template <eAssetType assetType>
+		friend class assetimporter::AssetImporterWorker;
+
+		template<eAssetType loopVariable>
 		friend struct assetimporter::OnEndImportInMainThreadFunctor;
+
 	private:
 
 		enum class ShaderType 
@@ -52,14 +58,18 @@ namespace doom
 		/// <returns></returns>
 		bool GetIsValid();
 
+	protected:
+
+	
+
 	public:
-		ShaderAsset(const std::string& shaderStr);
-
-		ShaderAsset(const ShaderAsset& shader) = delete;
-		ShaderAsset(ShaderAsset&& shader) noexcept;
-		ShaderAsset operator=(const ShaderAsset& shader) = delete;
-		ShaderAsset& operator=(ShaderAsset&& shader) noexcept;
-
+		
+		ShaderAsset() = default;
+		ShaderAsset(const std::string & shaderStr);
+		ShaderAsset(const ShaderAsset & shader) = delete;
+		ShaderAsset(ShaderAsset && shader) noexcept;
+		ShaderAsset operator=(const ShaderAsset & shader) = delete;
+		ShaderAsset& operator=(ShaderAsset && shader) noexcept;
 		~ShaderAsset();
 
 		void OnEndImportInMainThread() final;
@@ -72,5 +82,5 @@ namespace doom
 
 	
 
-	template <> struct Asset::asset_type<Asset::eAssetType::SHADER> { using type = ShaderAsset; };
+	template <> struct Asset::asset_type<eAssetType::SHADER> { using type = ShaderAsset; };
 }

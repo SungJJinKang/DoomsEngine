@@ -12,11 +12,11 @@ namespace doom
 	namespace assetimporter
 	{
 		template <>
-		class AssetImporterWorker<Asset::eAssetType::TEXT>
+		class AssetImporterWorker<eAssetType::TEXT>
 		{
 			friend class Assetimporter;
 		private:
-			static std::optional <Asset::asset_type_t<Asset::eAssetType::TEXT>> ImportSpecificAsset(const std::filesystem::path& path)
+			static std::optional <Asset::asset_type_t<eAssetType::TEXT>> ImportSpecificAsset(const std::filesystem::path& path)
 			{
 				return GetTextFromFile(path);
 			}
