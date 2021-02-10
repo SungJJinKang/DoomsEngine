@@ -8,7 +8,7 @@ PlainComponent::~PlainComponent()
 {
 }
 
-void PlainComponent::InitComponent_Internal(Entity& entity)
+void doom::PlainComponent::InitComponent_Internal(Entity* entity)
 {
 	Component::InitComponent_Internal(entity);
 }

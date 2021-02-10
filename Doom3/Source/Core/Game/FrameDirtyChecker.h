@@ -30,7 +30,7 @@ namespace doom
 		/// <summary>
 		/// Use can't set dirty false
 		/// </summary>
-		constexpr void SetDirtyTrueAtThisFrame()
+		constexpr void SetDirtyTrueAtThisFrame() noexcept
 		{
 			this->bmIsDirtyAtThisFrame = true;
 		}
@@ -38,7 +38,7 @@ namespace doom
 		/// <summary>
 		/// Must call this function at end of frame
 		/// </summary>
-		constexpr void FrameDirtyChecker_EndOfFrame()
+		constexpr void FrameDirtyChecker_EndOfFrame() noexcept
 		{
 			this->bmIsDirtyAtPreviousFrame = this->bmIsDirtyAtThisFrame; // pass current frame dirty to previous frame dirty
 			this->bmIsDirtyAtThisFrame = false;
@@ -52,7 +52,7 @@ namespace doom
 		/// READ FrameDirtyChecker class Description
 		/// </summary>
 		/// <returns></returns>
-		constexpr bool GetIsDirtyAtPreviousFrame() 
+		[[nodiscard]] constexpr bool GetIsDirtyAtPreviousFrame() noexcept
 		{
 			return this->bmIsDirtyAtPreviousFrame;
 		}

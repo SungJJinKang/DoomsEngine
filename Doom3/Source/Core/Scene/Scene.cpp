@@ -63,7 +63,7 @@ void doom::Scene::OnEndOfFrameOfEntities()
 }
 
 
-doom::Camera* Scene::GetMainCamera() const
+[[nodiscard]] doom::Camera* Scene::GetMainCamera() const
 {
 	return this->mMainCamera;
 }

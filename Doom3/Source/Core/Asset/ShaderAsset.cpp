@@ -301,15 +301,6 @@ void doom::ShaderAsset::OnEndImportInMainThread()
 {
 	doom::Asset::OnEndImportInMainThread();
 	this->CompileShaders(this->mShaderFileText);
-
-
-	//TEST
-#ifdef DEBUG_MODE
-	if (this->GetIsValid())
-	{
-		doom::graphics::Material material{ *this };
-	}
-#endif
 }
 
 unsigned int doom::ShaderAsset::GetVertexId()

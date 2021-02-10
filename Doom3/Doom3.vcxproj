@@ -128,7 +128,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)dependency;$(SolutionDir)dependency\glad\include;$(SolutionDir)dependency\assimp\include;$(SolutionDir)dependency\assimp\build\include;$(SolutionDir)Source\Component;$(SolutionDir)Source\Core\Scene;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)dependency;$(SolutionDir)dependency\glad\include;$(SolutionDir)dependency\assimp\include;$(SolutionDir)dependency\assimp\build\include;$(SolutionDir)Source\Component;$(SolutionDir)Source\Core\Scene;$(SolutionDir)Source\Component\Core;$(SolutionDir)Source\Helper/crossguid;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
@@ -148,7 +148,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)dependency;$(SolutionDir)dependency\glad\include;$(SolutionDir)dependency\assimp\include;$(SolutionDir)dependency\assimp\build\include;$(SolutionDir)Source\Component;$(SolutionDir)Source\Core\Scene;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)dependency;$(SolutionDir)dependency\glad\include;$(SolutionDir)dependency\assimp\include;$(SolutionDir)dependency\assimp\build\include;$(SolutionDir)Source\Component;$(SolutionDir)Source\Core\Scene;$(SolutionDir)Source\Component\Core;$(SolutionDir)Source\Helper/crossguid;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
@@ -173,6 +173,7 @@
     <ClCompile Include="Source\Component\Core\Component.cpp" />
     <ClCompile Include="Source\Component\Core\PlainComponent.cpp" />
     <ClCompile Include="Source\Component\DirectionalLight.cpp" />
+    <ClCompile Include="Source\Component\Iterator\RendererStaticIterator.cpp" />
     <ClCompile Include="Source\Component\Light.cpp" />
     <ClCompile Include="Source\Component\MeshRenderer.cpp" />
     <ClCompile Include="Source\Component\Renderer.cpp" />
@@ -182,8 +183,8 @@
     <ClCompile Include="Source\Core\Asset\ThreeDModelAsset.cpp" />
     <ClCompile Include="Source\Component\Core\CoreComponent.cpp" />
     <ClCompile Include="Source\Core\Game\GameFlow.cpp" />
-    <ClCompile Include="Source\Core\Graphics\GraphicsManager.cpp" />
-    <ClCompile Include="Source\Core\Physics\PhysicsManager.cpp" />
+    <ClCompile Include="Source\Core\Graphics\Graphics_Server.cpp" />
+    <ClCompile Include="Source\Core\Physics\Physics_Server.cpp" />
     <ClCompile Include="Source\Core\Physics\PhysicsSetting.cpp" />
     <ClCompile Include="Source\Core\Scene\SharedScene.cpp" />
     <ClCompile Include="Source\Core\Scene\Scene.cpp" />
@@ -221,7 +222,7 @@
     <ClCompile Include="Source\Core\Random.cpp" />
     <ClCompile Include="Source\Core\ResourceManagement\MemoryPool.cpp" />
     <ClCompile Include="Source\Core\ResourceManagement\Thread.cpp" />
-    <ClCompile Include="Source\Core\ResourceManagement\ThreadManager.cpp" />
+    <ClCompile Include="Source\Core\ResourceManagement\Thread_Server.cpp" />
     <ClCompile Include="Source\Helper\SimpleIniParser.cpp" />
     <ClCompile Include="Source\Helper\TextImporter.cpp" />
     <ClCompile Include="stdafx.cpp">
@@ -245,8 +246,10 @@
     <ClInclude Include="dependency\imgui\imstb_truetype.h" />
     <ClInclude Include="Source\Component\Camera.h" />
     <ClInclude Include="Source\Component\Core\Component.h" />
+    <ClInclude Include="Source\Component\Iterator\ComponentStaticIterater.h" />
     <ClInclude Include="Source\Component\Core\PlainComponent.h" />
     <ClInclude Include="Source\Component\DirectionalLight.h" />
+    <ClInclude Include="Source\Component\Iterator\RendererStaticIterator.h" />
     <ClInclude Include="Source\Component\Light.h" />
     <ClInclude Include="Source\Component\MeshRenderer.h" />
     <ClInclude Include="Source\Component\Renderer.h" />
@@ -255,8 +258,8 @@
     <ClInclude Include="Source\Core\Asset\ePrimitiveType.h" />
     <ClInclude Include="Source\Core\Game\FrameDirtyChecker.h" />
     <ClInclude Include="Source\Core\Game\GameFlow.h" />
-    <ClInclude Include="Source\Core\Graphics\GraphicsManager.h" />
-    <ClInclude Include="Source\Core\Physics\PhysicsManager.h" />
+    <ClInclude Include="Source\Core\Graphics\Graphics_Server.h" />
+    <ClInclude Include="Source\Core\Physics\Physics_Server.h" />
     <ClInclude Include="Source\Core\Physics\PhysicsSetting.h" />
     <ClInclude Include="Source\Core\Scene\IWorldIndependent.h" />
     <ClInclude Include="Source\Core\Scene\Layer.h" />
@@ -345,11 +348,12 @@
     <ClInclude Include="Source\Core\Random.h" />
     <ClInclude Include="Source\Core\ResourceManagement\MemoryPool.h" />
     <ClInclude Include="Source\Core\ResourceManagement\Thread.h" />
-    <ClInclude Include="Source\Core\ResourceManagement\ThreadManager.h" />
+    <ClInclude Include="Source\Core\ResourceManagement\Thread_Server.h" />
     <ClInclude Include="Source\GameLogic\TEST.h" />
     <ClInclude Include="Source\Helper\concurrentqueue\blockingconcurrentqueue.h" />
     <ClInclude Include="Source\Helper\crossguid\Guid.hpp" />
     <ClInclude Include="Source\Helper\DeferredConstant\DeferredConstant.h" />
+    <ClInclude Include="Source\Helper\EasyCallback_cpp\EasyCallback_Container.h" />
     <ClInclude Include="Source\Helper\ForLoop_Compile_Time\ForLoop_Compile.h" />
     <ClInclude Include="Source\Core\Graphics\OverlapBindChecker.h" />
     <ClInclude Include="Source\Helper\std_future_wrapper\CustomFutureWrapper.h" />

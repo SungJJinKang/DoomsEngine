@@ -13,7 +13,7 @@ namespace doom
 		Self
 	};
 
-	class Transform : public CoreComponent 
+	class Transform : public CoreComponent
 	{
 	private:
 		/// <summary>

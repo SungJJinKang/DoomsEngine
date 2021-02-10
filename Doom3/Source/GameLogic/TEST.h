@@ -23,7 +23,10 @@ namespace doom
 			auto meshRenderer = entity2->AddComponent<MeshRenderer>();
 
 			//TODO : Asset 가져오는 것만 해도 존나 복잡하다 이거 해결하다
-			meshRenderer->SetMesh(&(assetimporter::AssetManager::GetSingleton()->GetAsset<eAssetType::THREE_D_MODEL>(0).value().get().GetMeshes()[0]));
+			meshRenderer->SetMesh(&(assetimporter::AssetManager::GetAsset<eAssetType::THREE_D_MODEL>(0).value().get().GetMesh(0)));
+			auto& shader = assetimporter::AssetManager::GetAsset<eAssetType::SHADER>(0).value().get();
+			auto material = new graphics::Material(shader);
+			meshRenderer->SetMaterial(material);
 
 			//meshRenderer->
 		}

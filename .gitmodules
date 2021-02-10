@@ -31,3 +31,6 @@
 [submodule "Doom3/dependency/imgui"]
 	path = Doom3/dependency/imgui
 	url = https://github.com/ocornut/imgui.git
+[submodule "Doom3/Source/Helper/EasyCallback_cpp"]
+	path = Doom3/Source/Helper/EasyCallback_cpp
+	url = https://github.com/SungJJinKang/EasyCallback_cpp.git

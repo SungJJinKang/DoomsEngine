@@ -18,9 +18,11 @@ namespace doom
 		class UniformBufferObjectTempBufferUpdater;
 		class UniformBufferObjectManager : public GameFlow, public ISingleton<UniformBufferObjectManager>
 		{
-			friend class GraphicsManager;
+			friend class Graphics_Server;
 			friend class Material;
 			friend class UniformBufferObjectTempBufferUpdater;
+			friend class SceneGraphics;
+
 		private:
 
 

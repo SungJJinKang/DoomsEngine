@@ -1,38 +1,38 @@
-#include "ThreadManager.h"
+#include "Thread_Server.h"
 
 #include "../Core.h"
 #include "Thread.h"
 
 using namespace doom::resource;
 
-void ThreadManager::Init()
+void Thread_Server::Init()
 {
 
 }
 
-void ThreadManager::Update()
+void Thread_Server::Update()
 {
 
 }
 
-void doom::resource::ThreadManager::OnEndOfFrame()
+void doom::resource::Thread_Server::OnEndOfFrame()
 {
 }
 
-void ThreadManager::InitializeThreads()
+void Thread_Server::InitializeThreads()
 {
 	this->mMainThreadId = std::this_thread::get_id();
 	this->mManagedSubThreads = new Thread[THREAD_COUNT];
 	this->bmIsInitialized = true;
 }
 
-void ThreadManager::DestroyThreads()
+void Thread_Server::DestroyThreads()
 {
 	delete[] this->mManagedSubThreads;
 	this->bmIsInitialized = false;
 }
 
-Thread& ThreadManager::GetThread(size_t threadIndex)
+Thread& Thread_Server::GetThread(size_t threadIndex)
 {
 	D_ASSERT(this->bmIsInitialized == true);
 	D_ASSERT(threadIndex >= 0 && threadIndex < THREAD_COUNT);

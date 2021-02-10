@@ -21,7 +21,7 @@ namespace doom
 		/// </summary>
 		class Thread
 		{
-			friend class ThreadManager;
+			friend class Thread_Server;
 		private:
 			bool bmIsThreadDestructed;
 			std::thread mThread;

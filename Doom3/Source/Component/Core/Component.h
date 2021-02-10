@@ -17,6 +17,8 @@ namespace doom
 	/// Don't inherit Component class
 	/// Inherit CoreComponent Or PlainComponent
 	/// 
+	/// Never make Constructor with argument, Component Constructor should not have argument
+	/// 
 	/// Both ones have different 
 	/// </summary>
 	class Component : public FrameDirtyChecker // : public GameFlow
@@ -61,7 +63,7 @@ namespace doom
 
 	
 		/// Dont put public to Internal Function For Protect use call Internal Function
-		virtual void InitComponent_Internal(Entity& entity);
+		virtual void InitComponent_Internal(Entity* entity);
 		virtual void InitComponent()
 		{
 			//DONT PUT ANYTHING HERE, PUT AT HERE
@@ -118,8 +120,9 @@ namespace doom
 	public:
 
 	
-		Entity* GetOwnerEntity();
-		Transform* GetTransform();
+		Entity* GetOwnerEntity() const;
+		unsigned int GetOwnerEntityLayerIndex() const;
+		Transform* GetTransform() const;
 
 		
 

@@ -9,7 +9,7 @@ CoreComponent::~CoreComponent()
 {
 }
 
-void doom::CoreComponent::InitComponent_Internal(Entity& entity)
+void doom::CoreComponent::InitComponent_Internal(Entity* entity)
 {
 	Component::InitComponent_Internal(entity);
 }

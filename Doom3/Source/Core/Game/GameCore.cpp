@@ -1,7 +1,7 @@
 #include "GameCore.h"
 
 #include "../Graphics/GraphicsAPI.h"
-#include "../Graphics/GraphicsManager.h"
+#include "../Graphics/Graphics_Server.h"
 
 #include "../../Helper/SimpleIniParser.h"
 #include "AssetManager.h"
@@ -35,7 +35,7 @@ void doom::GameCore::Init()
 
 
 	D_START_PROFILING("Init GLFW", eProfileLayers::GPU);
-	this->mGraphicsManager.Init();
+	this->mGraphics_Server.Init();
 	D_END_PROFILING("Init GLFW");
 
 

@@ -188,6 +188,8 @@ namespace doom
 		/// </summary>
 		/// <returns></returns>
 		const std::vector<graphics::Mesh>& GetMeshes();
+		graphics::Mesh& GetMesh(unsigned int index);
+		size_t GetMeshCount() const;
 
 		ThreeDModelAsset() = default;
 		ThreeDModelAsset(const ThreeDModelAsset&) = delete;
@@ -195,6 +197,7 @@ namespace doom
 		ThreeDModelAsset& operator=(const ThreeDModelAsset&) = delete;
 		ThreeDModelAsset& operator=(ThreeDModelAsset&&) noexcept = default;
 	
+		
 	};
 
 	template <> struct Asset::asset_type<eAssetType::THREE_D_MODEL> { using type = typename ThreeDModelAsset; };

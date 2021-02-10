@@ -71,11 +71,6 @@ namespace doom
 
 		public:
 
-			std::optional<std::reference_wrapper<container_asset_type_t>> GetAsset(const D_UUID& UUID);
-			std::optional<std::reference_wrapper<const container_asset_type_t>> GetAsset_const(const D_UUID& UUID) const;
-			std::optional<std::reference_wrapper<container_asset_type_t>> GetAsset(const unsigned int index);
-			std::optional<std::reference_wrapper<const container_asset_type_t>> GetAsset_const(const unsigned int index) const;
-			const std::vector<std::reference_wrapper<container_asset_type_t>>& GetAssets();
 		};
 
 		

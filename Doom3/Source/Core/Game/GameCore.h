@@ -5,12 +5,16 @@
 #include "../../Helper/SimpleIniParser.h"
 
 #include <memory>
-#include "../Graphics/GraphicsManager.h"
+
+
 #include "AssetManager.h"
-#include "../ResourceManagement/ThreadManager.h"
+
 #include "../Scene/SharedScene.h"
 #include "../Scene/Scene.h"
 
+#include "../Graphics/Graphics_Server.h"
+#include "../Physics/Physics_Server.h"
+#include "../ResourceManagement/Thread_Server.h"
 
 namespace doom
 {
@@ -19,7 +23,7 @@ namespace doom
 
 	class GameCore : public GameFlow, public ISingleton<GameCore>
 	{
-		friend class graphics::GraphicsManager;
+		friend class graphics::Graphics_Server;
 		friend class AssetManager;
 	private:
 		const char* mConfigFilePath{};
@@ -27,8 +31,9 @@ namespace doom
 
 		//Servers
 		assetimporter::AssetManager mAssetManager{};
-		graphics::GraphicsManager mGraphicsManager{};
-		resource::ThreadManager mThreadManager{};
+		graphics::Graphics_Server mGraphics_Server{};
+		physics::Physics_Server mPhysics_Server{};
+		resource::Thread_Server mThreadManager{};
 
 		std::unique_ptr<Scene> mCurrentScene{};
 		std::unique_ptr<Scene> CreateNewScene(std::string sceneName = "");
@@ -54,10 +59,16 @@ namespace doom
 		/// </summary>
 		virtual void Update() final
 		{
+			D_START_PROFILING("Update Physics", eProfileLayers::CPU);
+			this->mPhysics_Server.Update();
+			D_END_PROFILING("Update Physics");
+
+			D_START_PROFILING("Update PlainComponents", eProfileLayers::CPU);
 			this->mCurrentScene->UpdatePlainComponents();
+			D_END_PROFILING("Update PlainComponents");
 
 			D_START_PROFILING("GraphicsUpdate", eProfileLayers::GPU);
-			this->mGraphicsManager.Update();
+			this->mGraphics_Server.Update();
 			D_END_PROFILING("GraphicsUpdate");
 
 			this->OnEndOfFrame();
@@ -65,9 +76,13 @@ namespace doom
 
 		virtual void OnEndOfFrame() final
 		{
-			this->mGraphicsManager.OnEndOfFrame();
+			this->mPhysics_Server.OnEndOfFrame();
 
 			this->mCurrentScene->OnEndOfFrameOfEntities();
+
+			this->mGraphics_Server.OnEndOfFrame();
+
+		
 		}
 
 	};

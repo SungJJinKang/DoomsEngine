@@ -7,6 +7,7 @@
 #include <memory>
 #include <optional>
 #include <functional>
+#include <utility>
 
 #include "../Core.h"
 #include "../../Component/Core/Component.h"
@@ -15,6 +16,8 @@
 #include "../../Helper/vector_erase_move_lastelement/vector_swap_erase.h"
 #include "../Game/GameFlow.h"
 #include "../Game/FrameDirtyChecker.h"
+
+#include "../API/UUID.h"
 
 namespace doom
 {
@@ -47,6 +50,22 @@ namespace doom
 		std::string mEntityName;
 		static const inline std::string DEFAULT_ENTITY_NAME{ "Entity" };
 		Transform* mTransform;
+
+		unsigned int mLayerIndex;
+		/// <summary>
+		/// https://isocpp.org/wiki/faq/pointers-to-members#memfnptr-vs-fnptr
+		/// The type of this function is different depending on whether it is an ordinary function or a non-static member function of some class:
+		// 
+		// 	Its type is ¡°int(*)(char, float)¡± if an ordinary function
+		// 	Its type is ¡°int(Fred::*)(char, float)¡± if a non - static member function of class Fred
+		// 	
+		//	Read here ---> Note : if it¡¯s a static member function of class Fred, its type is the same as if it were an ordinary function : ¡°int(*)(char, float)¡±.
+		//
+		//	This callback variable can store only static function of class or global function
+		//  Call back function should have this function type ( void(Entity&) )
+		/// 
+		/// </summary>
+		std::vector<void(*)(Entity&)> mLayerIndexChangedCallback{};
 
 		Entity* mParent;
 		std::vector<Entity*> mChilds;
@@ -88,7 +107,7 @@ namespace doom
 			}
 		
 
-			newComponent->InitComponent_Internal(*this);
+			newComponent->InitComponent_Internal(this);
 			newComponent->OnActivated_Internal();
 
 			return newComponent;
@@ -140,8 +159,7 @@ namespace doom
 
 		
 
-		std::string_view GetEntityName() const;
-		Transform* GetTransform() const;
+		
 		
 
 		//TODO : Prevent Programmer Add TransformComponent.
@@ -347,6 +365,13 @@ namespace doom
 
 		void OnPreUpdate() {}
 		void OnPostUpdate() {}
+
+		[[nodiscard]] std::string_view GetEntityName() const;
+		[[nodiscard]] Transform* GetTransform() const;
+		void SetLayerIndex(unsigned int layerIndex);
+		[[nodiscard]] unsigned int GetLayerIndex() const;
+		void AddLayerChangedCallback(void(*callback_ptr)(Entity&));
+		void RemoveLayerChangedCallback(void(*callback_ptr)(Entity&));
 	};
 
 

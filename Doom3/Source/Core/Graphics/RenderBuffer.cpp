@@ -2,7 +2,7 @@
 
 #include "FrameBuffer.h"
 #include "GraphicsAPI.h"
-#include "GraphicsManager.h"
+#include "Graphics_Server.h"
 
 using namespace doom::graphics;
 
@@ -18,7 +18,7 @@ RenderBuffer::RenderBuffer(FrameBuffer& ownerFrameBuffer, GraphicsAPI::eBufferTy
 	switch (frameBufferType)
 	{
 	case GraphicsAPI::eBufferType::COLOR:
-		if (GraphicsManager::Is_MULTI_SAMPLE == false)
+		if (Graphics_Server::Is_MULTI_SAMPLE == false)
 			glRenderbufferStorage(GL_RENDERBUFFER, GL_RGB, width, height);
 		else
 			glRenderbufferStorageMultisample(GL_RENDERBUFFER, 4, GL_RGB, width, height);
@@ -27,7 +27,7 @@ RenderBuffer::RenderBuffer(FrameBuffer& ownerFrameBuffer, GraphicsAPI::eBufferTy
 		break;
 
 	case GraphicsAPI::eBufferType::DEPTH:
-		if (GraphicsManager::Is_MULTI_SAMPLE == false)
+		if (Graphics_Server::Is_MULTI_SAMPLE == false)
 			glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT24, width, height);
 		else
 			glRenderbufferStorageMultisample(GL_RENDERBUFFER, 4, GL_DEPTH_COMPONENT24, width, height);
@@ -36,7 +36,7 @@ RenderBuffer::RenderBuffer(FrameBuffer& ownerFrameBuffer, GraphicsAPI::eBufferTy
 		break;
 
 	case GraphicsAPI::eBufferType::DEPTH_STENCIL:
-		if (GraphicsManager::Is_MULTI_SAMPLE == false)
+		if (Graphics_Server::Is_MULTI_SAMPLE == false)
 			glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH24_STENCIL8, width, height);
 		else
 			glRenderbufferStorageMultisample(GL_RENDERBUFFER, 4, GL_DEPTH24_STENCIL8, width, height);

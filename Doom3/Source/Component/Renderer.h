@@ -1,16 +1,21 @@
 #pragma once
 #include "../Core/Graphics/Material.h"
 #include "Core/CoreComponent.h"
+#include "Iterator/RendererStaticIterator.h"
 
 namespace doom
 {
 	namespace graphics
 	{
 		class Material;
+		class Graphics_Server;
 	}
 
-	class Renderer : public CoreComponent
+
+
+	class Renderer : public CoreComponent, public ComponentStaticIterater<Renderer>
 	{
+		friend graphics::Graphics_Server;
 	private:
 		graphics::Material* mTargetMaterial;
 
@@ -30,6 +35,10 @@ namespace doom
 		}
 
 		virtual void OnEndOfFrame_Component() override
+		{
+			
+		}
+		void OnEntityLayerChanged(Renderer* renderer)
 		{
 
 		}
@@ -55,5 +64,6 @@ namespace doom
 			}
 		}
 		void SetMaterial(graphics::Material* material);
+		void SetMaterial(graphics::Material& material);
 	};
 }

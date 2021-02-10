@@ -14,7 +14,7 @@ void doom::ThreeDModelAsset::SendMeshDataToGPU()
 		this->mMeshes.reserve(this->mNumOfMeshes);
 		for (unsigned int i = 0; i < this->mNumOfMeshes; i++)
 		{
-			this->mMeshes[i] = this->mModelMeshAssets[i];
+			this->mMeshes.push_back(this->mModelMeshAssets[i]);
 		}
 	}
 	else
@@ -81,4 +81,15 @@ void doom::ThreeDModelAsset::OnEndImportInMainThread()
 const std::vector<doom::graphics::Mesh>& doom::ThreeDModelAsset::GetMeshes()
 {
 	return this->mMeshes;
+}
+
+doom::graphics::Mesh& doom::ThreeDModelAsset::GetMesh(unsigned int index)
+{
+	D_ASSERT(index >= 0 && index < GetMeshCount());
+	return this->mMeshes[index];
+}
+
+size_t doom::ThreeDModelAsset::GetMeshCount() const
+{
+	return this->mMeshes.size();
 }

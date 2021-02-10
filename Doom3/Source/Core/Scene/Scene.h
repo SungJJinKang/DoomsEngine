@@ -10,7 +10,7 @@ namespace doom
 {
 	namespace graphics
 	{
-		class GraphicsManager;
+		class Graphics_Server;
 	}
 
 	class Scene;
@@ -22,7 +22,7 @@ namespace doom
 	{
 
 		friend class GameCore;
-		friend class graphics::GraphicsManager;
+		friend class graphics::Graphics_Server;
 
 	private:
 
@@ -49,7 +49,7 @@ namespace doom
 		[[nodiscard]] Entity* CreateNewEntity() noexcept;
 		bool DestroyEntity(Entity& entity);
 
-		Camera* GetMainCamera() const;
+		[[nodiscard]] Camera* GetMainCamera() const;
 		void SetMainCamera(Camera* camera);
 
 	protected:

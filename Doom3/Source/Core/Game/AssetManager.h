@@ -65,7 +65,7 @@ namespace doom
 
 		
 			template<eAssetType assetType>
-			std::optional<std::reference_wrapper<typename AssetContainer<assetType>::container_asset_type_t>> GetAsset(const D_UUID& UUID) 
+			static std::optional<std::reference_wrapper<typename AssetContainer<assetType>::container_asset_type_t>> GetAsset(const D_UUID& UUID)
 			{
 				auto& assetCotainer = AssetManager::ImportedAssets<assetType>;
 
@@ -80,7 +80,7 @@ namespace doom
 				}
 			}
 			template<eAssetType assetType>
-			std::optional<std::reference_wrapper<const typename AssetContainer<assetType>::container_asset_type_t>> GetAsset_const(const D_UUID& UUID) const
+			static std::optional<std::reference_wrapper<const typename AssetContainer<assetType>::container_asset_type_t>> GetAsset_const(const D_UUID& UUID)
 			{
 				auto& assetCotainer = AssetManager::ImportedAssets<assetType>;
 
@@ -95,7 +95,7 @@ namespace doom
 				}
 			}
 			template<eAssetType assetType>
-			std::optional<std::reference_wrapper<typename AssetContainer<assetType>::container_asset_type_t>> GetAsset(const unsigned int index)
+			static std::optional<std::reference_wrapper<typename AssetContainer<assetType>::container_asset_type_t>> GetAsset(const unsigned int index)
 			{
 				if (index >= 0 && index < AssetManager::ImportedAssets<assetType>.mAssetsForIterating.size())
 				{
@@ -107,7 +107,7 @@ namespace doom
 				}
 			}
 			template<eAssetType assetType>
-			std::optional<std::reference_wrapper<const typename AssetContainer<assetType>::container_asset_type_t>> GetAsset_const(const unsigned int index) const
+			static std::optional<std::reference_wrapper<const typename AssetContainer<assetType>::container_asset_type_t>> GetAsset_const(const unsigned int index)
 			{
 				if (index >= 0 && index < AssetManager::ImportedAssets<assetType>.mAssetsForIterating.size())
 				{
@@ -120,7 +120,7 @@ namespace doom
 			}
 
 			template<eAssetType assetType>
-			const std::vector<std::reference_wrapper<typename AssetContainer<assetType>::container_asset_type_t>>& GetAssets()
+			static const std::vector<std::reference_wrapper<typename AssetContainer<assetType>::container_asset_type_t>>& GetAssets()
 			{
 				return AssetManager::ImportedAssets<assetType>.mAssetsForIterating;
 			}
@@ -165,7 +165,7 @@ namespace doom
 		{
 			constexpr inline void operator()()
 			{
-				for (auto& asset : AssetManager::ImportedAssets<loopVariable>.GetAssets())
+				for (auto& asset : AssetManager::GetAssets<loopVariable>())
 				{
 					asset.get().OnEndImportInMainThread();
 				}

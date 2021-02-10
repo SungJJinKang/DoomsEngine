@@ -22,7 +22,7 @@ namespace doom
 		/// Each Thread have a role
 		/// So Use GetThread(index) function and Get thread reference and Pass Task!!!!
 		/// </summary>
-		class ThreadManager : public GameFlow, public ISingleton<ThreadManager>
+		class Thread_Server : public GameFlow, public ISingleton<Thread_Server>
 		{
 		private:
 			std::thread::id mMainThreadId{};
