@@ -34,9 +34,19 @@ void doom::GameCore::Init()
 	D_END_PROFILING("Loading Config File");
 
 
-	D_START_PROFILING("Init GLFW", eProfileLayers::GPU);
+
+	D_START_PROFILING("Init Physics_Server", eProfileLayers::CPU);
+	this->mPhysics_Server.Init();
+	D_END_PROFILING("Init Physics_Server");
+
+	D_START_PROFILING("Init Graphics_Server", eProfileLayers::GPU);
 	this->mGraphics_Server.Init();
-	D_END_PROFILING("Init GLFW");
+	D_END_PROFILING("Init Graphics_Server");
+
+	D_START_PROFILING("Init UserInput_Server", eProfileLayers::CPU);
+	this->mUserImput_Server.Init();
+	D_END_PROFILING("Init UserInput_Server");
+
 
 
 	D_START_PROFILING("ImportEntireAsset", doom::profiler::eProfileLayers::CPU);

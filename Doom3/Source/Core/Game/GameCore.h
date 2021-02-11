@@ -15,6 +15,7 @@
 #include "../Graphics/Graphics_Server.h"
 #include "../Physics/Physics_Server.h"
 #include "../ResourceManagement/Thread_Server.h"
+#include "../IO/UserInput_Server.h"
 
 namespace doom
 {
@@ -34,6 +35,7 @@ namespace doom
 		graphics::Graphics_Server mGraphics_Server{};
 		physics::Physics_Server mPhysics_Server{};
 		resource::Thread_Server mThreadManager{};
+		userinput::UserInput_Server mUserImput_Server{};
 
 		std::unique_ptr<Scene> mCurrentScene{};
 		std::unique_ptr<Scene> CreateNewScene(std::string sceneName = "");
@@ -63,6 +65,10 @@ namespace doom
 			this->mPhysics_Server.Update();
 			D_END_PROFILING("Update Physics");
 
+			D_START_PROFILING("Process UserInput", eProfileLayers::CPU);
+			this->mUserImput_Server.Update();
+			D_END_PROFILING("Process UserInput");
+
 			D_START_PROFILING("Update PlainComponents", eProfileLayers::CPU);
 			this->mCurrentScene->UpdatePlainComponents();
 			D_END_PROFILING("Update PlainComponents");
@@ -70,6 +76,7 @@ namespace doom
 			D_START_PROFILING("GraphicsUpdate", eProfileLayers::GPU);
 			this->mGraphics_Server.Update();
 			D_END_PROFILING("GraphicsUpdate");
+			
 
 			this->OnEndOfFrame();
 		}
@@ -78,11 +85,12 @@ namespace doom
 		{
 			this->mPhysics_Server.OnEndOfFrame();
 
+			this->mUserImput_Server.OnEndOfFrame();
+
 			this->mCurrentScene->OnEndOfFrameOfEntities();
 
 			this->mGraphics_Server.OnEndOfFrame();
 
-		
 		}
 
 	};

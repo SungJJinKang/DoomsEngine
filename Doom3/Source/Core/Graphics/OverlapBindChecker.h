@@ -21,7 +21,10 @@ namespace doom
 
 	}
 }
-#ifdef DEBUG_MODE
+
+#define DISABLE_OVERLAP_CHECK
+
+#if defined(DEBUG_MODE) && !defined(DISABLE_OVERLAP_CHECK)
 #define D_CHECK_OVERLAP_BIND(str, id) OverlapBindChecker::Bind(str, id);
 #else
 #define D_CHECK_OVERLAP_BIND(str, id) 

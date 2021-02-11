@@ -7,6 +7,11 @@ struct GLFWwindow;
 
 namespace doom
 {
+	namespace userinput
+	{
+		class UserInput_Server;
+	}
+
 	class GameCore;
 	class Renderer;
 	namespace graphics
@@ -17,6 +22,8 @@ namespace doom
 			friend class GameCore;
 			friend class UniformBufferObjectManager;
 			friend class RenderBuffer;
+			friend class ::doom::userinput::UserInput_Server;
+
 		private:
 
 			virtual void Init() final;

@@ -207,7 +207,7 @@
     <ClCompile Include="Source\Core\Graphics\Texture.cpp" />
     <ClCompile Include="Source\Core\Graphics\Buffer\UniformBufferObject.cpp" />
     <ClCompile Include="Source\Core\IO\AssetImporter\AssetImporter.cpp" />
-    <ClCompile Include="Source\Core\IO\UserInput.cpp" />
+    <ClCompile Include="Source\Core\IO\UserInput_Server.cpp" />
     <ClCompile Include="Source\Core\Logger\Logger.cpp" />
     <ClCompile Include="Source\Core\Graphics\GraphicsAPI.cpp" />
     <ClCompile Include="Source\Core\Macros\Path.cpp" />
@@ -379,7 +379,7 @@
     <ClInclude Include="Source\Core\Asset\ShaderAsset.h" />
     <ClInclude Include="Source\Core\Graphics\Texture.h" />
     <ClInclude Include="Source\Core\IO\AssetImporter\AssetImporterWorker.h" />
-    <ClInclude Include="Source\Core\IO\UserInput.h" />
+    <ClInclude Include="Source\Core\IO\UserInput_Server.h" />
     <ClInclude Include="Source\Core\Logger\Logger.h" />
     <ClInclude Include="Source\Core\Graphics\GraphicsAPI.h" />
     <ClInclude Include="Source\Helper\SimpleIniParser.h" />

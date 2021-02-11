@@ -90,8 +90,8 @@ void Graphics_Server::Update()
 
 	// glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)
 	// -------------------------------------------------------------------------------
-	glfwSwapBuffers(Graphics_Server::Window);
-	glfwPollEvents();
+
+
 
 }
 
@@ -113,4 +113,7 @@ void Graphics_Server::OnEndOfFrame()
 			components[i]->OnEndOfFrame_Component();
 		}
 	}
+
+
+	glfwSwapBuffers(Graphics_Server::Window);
 }
