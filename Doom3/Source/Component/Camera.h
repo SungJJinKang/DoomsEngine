@@ -8,6 +8,7 @@ namespace doom
 {
 	class Camera : public PlainComponent, public graphics::UniformBufferObjectTempBufferUpdater
 	{
+	public:
 		enum class eProjectionType
 		{
 			Perspective,

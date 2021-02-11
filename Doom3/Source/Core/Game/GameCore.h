@@ -16,6 +16,7 @@
 #include "../Physics/Physics_Server.h"
 #include "../ResourceManagement/Thread_Server.h"
 #include "../IO/UserInput_Server.h"
+#include "../Time/Time_Server.h"
 
 namespace doom
 {
@@ -36,6 +37,7 @@ namespace doom
 		physics::Physics_Server mPhysics_Server{};
 		resource::Thread_Server mThreadManager{};
 		userinput::UserInput_Server mUserImput_Server{};
+		time::Time_Server mTime_Server{};
 
 		std::unique_ptr<Scene> mCurrentScene{};
 		std::unique_ptr<Scene> CreateNewScene(std::string sceneName = "");
@@ -61,6 +63,8 @@ namespace doom
 		/// </summary>
 		virtual void Update() final
 		{
+			this->mTime_Server.Update();
+
 			D_START_PROFILING("Update Physics", eProfileLayers::CPU);
 			this->mPhysics_Server.Update();
 			D_END_PROFILING("Update Physics");
@@ -83,6 +87,8 @@ namespace doom
 
 		virtual void OnEndOfFrame() final
 		{
+			this->mTime_Server.OnEndOfFrame();
+
 			this->mPhysics_Server.OnEndOfFrame();
 
 			this->mUserImput_Server.OnEndOfFrame();

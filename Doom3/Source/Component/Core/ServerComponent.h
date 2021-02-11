@@ -37,7 +37,7 @@ namespace doom
 		virtual ~ServerComponent();
 
 		/// Dont put public to Internal Function For Protect use call Internal Function
-		virtual void InitComponent_Internal(Entity* entity);
+		virtual void InitComponent_Internal(Entity* entity) final;
 		virtual void InitComponent()
 		{
 			//DON'T PUT ANYTHING AT HERE

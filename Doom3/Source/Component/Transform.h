@@ -41,7 +41,7 @@ namespace doom
 
 	public:
 
-		Transform() : mPosition{ 0.0f }, mRotation{ 0.0f }, mScale{ 1.0f }, bmIsDirtyModelMatrix{ true }
+		Transform() : mPosition{ 0.0f }, mRotation{}, mScale{ 1.0f }, bmIsDirtyModelMatrix{ true }
 		{
 		}
 
@@ -135,9 +135,14 @@ namespace doom
 		{
 			this->SetRotation(static_cast<math::Quaternion>(math::lookAt(this->mPosition, target.mPosition, up)));
 		}
+
+		constexpr void Rotate(const math::Quaternion& quat, const eSpace& relativeTo)
+		{
+			this->SetRotation(quat * this->mRotation);
+		}
 		constexpr void Rotate(const math::Vector3& eulerAngles, const eSpace& relativeTo)
 		{
-			this->SetRotation(this->mRotation *= math::Quaternion(eulerAngles));
+			this->SetRotation(math::Quaternion(eulerAngles) * this->mRotation);
 		}
 		constexpr void RotateAround(const math::Vector3& point, const math::Vector3& axis, float angle)
 		{
@@ -156,7 +161,7 @@ namespace doom
 		{
 			return this->mRotation * vector;
 		}
-		constexpr void Translate(const math::Vector3& translation, const eSpace& relativeTo) 
+		constexpr void Translate(const math::Vector3& translation, const eSpace& relativeTo = eSpace::World) 
 		{
 			if (relativeTo == eSpace::World)
 			{

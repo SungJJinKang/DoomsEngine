@@ -1,10 +1,12 @@
 #include "TEST.h"
 
-#include <Entity.h>
-#include <Scene.h>
-#include <Camera.h>
-#include <MeshRenderer.h>
+#include <Doom_Core.h>
 #include "../Game/AssetManager.h"
+#include "../Graphics/Material.h"
+#include "MeshRenderer.h"
+#include "Camera.h"
+#include "UserInput_Server.h"
+#include "Move_WASD.h"
 
 void doom::TEST::Init()
 {
@@ -30,6 +32,9 @@ void doom::TEST::Init()
 
 	auto entity1 = currenScene->CreateNewEntity();
 	auto entity1Camera = entity1->AddComponent<Camera>();
+	entity1Camera->SetProjectionMode(doom::Camera::eProjectionType::Perspective);
+
 	entity1->GetTransform()->SetPosition(0.0f, 0.0f, 1.0f);
+	entity1->AddComponent<Move_WASD>();
 	//meshRenderer->
 }
