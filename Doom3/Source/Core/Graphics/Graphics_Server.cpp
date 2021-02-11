@@ -77,12 +77,13 @@ void Graphics_Server::Update()
 
 	for (unsigned int i = 0; i < MAX_LAYER_COUNT; i++)
 	{
-		auto rendererComponentInter = ComponentStaticIterater<Renderer>::GetIterWithLayerIndex(i);
-		auto& rendererComponentInter_begin = rendererComponentInter.first;
-		auto& rendererComponentInter_end = rendererComponentInter.second;
-		for (auto iter = rendererComponentInter_begin; iter != rendererComponentInter_end; ++iter)
+		auto rendererComponentPair = RendererComponentStaticIterator::GetAllComponentsWithLayerIndex(i);
+		auto components = rendererComponentPair.first;
+		size_t length = rendererComponentPair.second;
+		for (size_t i = 0; i < length; ++i)
 		{
-			(*iter)->UpdateComponent();
+			components[i]->UpdateComponent_Internal();
+			components[i]->UpdateComponent();
 		}
 	}
 
@@ -100,4 +101,16 @@ void Graphics_Server::OnEndOfFrame()
 
 	sceneGraphics->mUniformBufferObjectManager.OnEndOfFrame_Internal();
 	sceneGraphics->mUniformBufferObjectManager.OnEndOfFrame();
+
+	for (unsigned int i = 0; i < MAX_LAYER_COUNT; i++)
+	{
+		auto rendererComponentPair = RendererComponentStaticIterator::GetAllComponentsWithLayerIndex(i);
+		auto components = rendererComponentPair.first;
+		size_t length = rendererComponentPair.second;
+		for (size_t i = 0; i < length; ++i)
+		{
+			components[i]->OnEndOfFrame_Component_Internal();
+			components[i]->OnEndOfFrame_Component();
+		}
+	}
 }

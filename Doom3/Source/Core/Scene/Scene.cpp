@@ -58,7 +58,7 @@ void doom::Scene::OnEndOfFrameOfEntities()
 {
 	for (auto& spawnedEntity : this->mSpawnedEntities)
 	{
-		spawnedEntity->OnEndOfFrame();
+		spawnedEntity->OnEndOfFramePlainComponentsAndEntity();
 	}
 }
 
@@ -73,7 +73,7 @@ void Scene::SetMainCamera(Camera* camera)
 	this->mMainCamera = camera;
 	if (this->mMainCamera != nullptr)
 	{
-		this->mMainCamera->bmIsDirty = true; // make dirty for update new projection
+		this->mMainCamera->SetDirtyTrueAtThisFrame(); // make dirty for update new projection
 	}
 	
 }

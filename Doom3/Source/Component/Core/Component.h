@@ -1,7 +1,7 @@
 #pragma once
 
 #include "../../Core/Core.h"
-#include "../../Core/Game/GameFlow.h"
+#include "../../Core/Game/IGameFlow.h"
 #include "../../Core/Game/FrameDirtyChecker.h"
 
 namespace doom
@@ -15,7 +15,7 @@ namespace doom
 	/// 
 	/// HOW TO CREATE MY OWN COMPONENT :
 	/// Don't inherit Component class
-	/// Inherit CoreComponent Or PlainComponent
+	/// Inherit ServerComponent Or PlainComponent
 	/// 
 	/// Never make Constructor with argument, Component Constructor should not have argument
 	/// 
@@ -35,6 +35,8 @@ namespace doom
 			}
 		};
 	private:
+
+		//For Prevent Component copied or moved
 		Component(const Component&) = delete;
 		Component(Component&&) noexcept = delete;
 		Component& operator=(const Component&) = delete;
@@ -120,19 +122,23 @@ namespace doom
 	public:
 
 	
-		Entity* GetOwnerEntity() const;
+		constexpr Entity* GetOwnerEntity() const
+		{
+			D_ASSERT(this->mOwnerEntity); // mOwnerEntity is set at InitComponent_Internal ( not Constructor )
+			return this->mOwnerEntity;
+		}
 		unsigned int GetOwnerEntityLayerIndex() const;
-		Transform* GetTransform() const;
+		constexpr Transform* GetTransform() const
+		{
+			return this->mTransform;
+		}
 
 		
 
 		
 		
-
+		// TODO : Add Preupdate
 		//virtual void OnPreUpdateComponent() {}
-
-		
-
 		//virtual void OnPostUpdateComponent() {}
 	};
 }

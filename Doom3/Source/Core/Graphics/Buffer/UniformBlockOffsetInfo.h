@@ -15,7 +15,7 @@ namespace doom
 			view = 192,
 			invViewz = 256,
 			// scene
-			camPos = 272,
+			camPos = 320,
 			// lighting
 			dirLight0_Dir = 336,
 			dirLight0_Col = 352,

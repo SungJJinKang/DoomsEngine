@@ -34,7 +34,6 @@ void doom::Component::UpdateComponent_Internal()
 
 void doom::Component::OnEndOfFrame_Component_Internal()
 {
-
 	this->FrameDirtyChecker_EndOfFrame();
 }
 
@@ -44,6 +43,7 @@ void doom::Component::OnDestroy_Internal()
 
 void doom::Component::OnActivated_Internal()
 {
+	this->SetDirtyTrueAtThisFrame();
 }
 
 void doom::Component::OnDeActivated_Internal()
@@ -54,14 +54,3 @@ unsigned int Component::GetOwnerEntityLayerIndex() const
 {
 	return this->GetOwnerEntity()->GetLayerIndex();
 }
-
-doom::Entity* Component::GetOwnerEntity() const
-{
-	return this->mOwnerEntity;
-}
-
-doom::Transform* Component::GetTransform() const
-{
-	return this->mTransform;
-}
-

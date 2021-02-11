@@ -1,6 +1,6 @@
 #pragma once
 #include "../Core.h"
-#include "GameFlow.h"
+#include "IGameFlow.h"
 #include "../../Helper/Singleton.h"
 #include "../../Helper/SimpleIniParser.h"
 
@@ -19,9 +19,9 @@
 namespace doom
 {
 
-	class GameFlow;
+	class IGameFlow;
 
-	class GameCore : public GameFlow, public ISingleton<GameCore>
+	class GameCore : public IGameFlow, public ISingleton<GameCore>
 	{
 		friend class graphics::Graphics_Server;
 		friend class AssetManager;

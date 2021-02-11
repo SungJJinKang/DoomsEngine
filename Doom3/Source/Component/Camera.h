@@ -1,12 +1,12 @@
 #pragma once
-#include "Core/CoreComponent.h"
+#include "Core/PlainComponent.h"
 #include "../Core/Math/LightMath_Cpp/Matrix4x4.h"
 #include "../Core/Graphics/Buffer/UniformBufferObjectTempBufferUpdater.h"
 
 
 namespace doom
 {
-	class Camera : public CoreComponent, public graphics::UniformBufferObjectTempBufferUpdater
+	class Camera : public PlainComponent, public graphics::UniformBufferObjectTempBufferUpdater
 	{
 		enum class eProjectionType
 		{
@@ -21,7 +21,7 @@ namespace doom
 		Camera& operator=(const Camera&) = delete;
 		Camera& operator=(Camera&&) noexcept = delete;
 
-		eProjectionType mProjectionMode;
+		eProjectionType mProjectionMode{ eProjectionType::Perspective };
 
 		///
 		float mFieldOfView = 60;
@@ -47,9 +47,9 @@ namespace doom
 		/// </summary>
 		float mViewportRectHeight = 2.0f;
 
-		virtual void Init() final;
-		virtual void Update() final;
-		virtual void OnEndOfFrame() final;
+		virtual void InitComponent() final;
+		virtual void UpdateComponent() final;
+		virtual void OnEndOfFrame_Component() final;
 
 		void UpdateUniformBufferObjectTempBuffer(graphics::UniformBufferObjectManager& uboManager) final;
 

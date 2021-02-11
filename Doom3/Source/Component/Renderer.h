@@ -1,6 +1,6 @@
 #pragma once
-#include "../Core/Graphics/Material.h"
-#include "Core/CoreComponent.h"
+
+#include "Core/ServerComponent.h"
 #include "Iterator/RendererStaticIterator.h"
 
 namespace doom
@@ -13,11 +13,12 @@ namespace doom
 
 
 
-	class Renderer : public CoreComponent, public ComponentStaticIterater<Renderer>
+	class Renderer : public ServerComponent, public RendererComponentStaticIterator
 	{
 		friend graphics::Graphics_Server;
+		friend class Enity;
 	private:
-		graphics::Material* mTargetMaterial;
+		
 
 		Renderer(const Renderer&) = delete;
 		Renderer(Renderer&&) noexcept = delete;
@@ -25,9 +26,11 @@ namespace doom
 		Renderer& operator=(Renderer&&) noexcept = delete;
 	protected:
 		
+		graphics::Material* mTargetMaterial;
+
 		virtual void InitComponent() override
 		{
-
+			RendererComponentStaticIterator::AddRendererToStaticContainer();
 		}
 		virtual void UpdateComponent() override
 		{
@@ -48,7 +51,7 @@ namespace doom
 		virtual ~Renderer();
 
 
-		virtual void Draw() = 0;
+		virtual void Draw() noexcept = 0;
 
 		/// <summary>
 		/// Why this function is inline function.
@@ -56,14 +59,8 @@ namespace doom
 		/// because We should render a lot of triangles 30 times in a second
 		/// 
 		/// </summary>
-		void BindMaterial()
-		{
-			if (this->mTargetMaterial != nullptr)
-			{
-				this->mTargetMaterial->UseProgram();
-			}
-		}
-		void SetMaterial(graphics::Material* material);
-		void SetMaterial(graphics::Material& material);
+		void BindMaterial() noexcept;
+		void SetMaterial(graphics::Material* material) noexcept;
+		void SetMaterial(graphics::Material& material) noexcept;
 	};
 }

@@ -1,5 +1,5 @@
 #pragma once
-#include "../Game/GameFlow.h"
+#include "../Game/IGameFlow.h"
 #include "../../Helper/Singleton.h"
 #include "Buffer/UniformBufferObjectManager.h"
 namespace doom

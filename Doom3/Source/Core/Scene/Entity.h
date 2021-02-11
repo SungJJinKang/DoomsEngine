@@ -11,17 +11,18 @@
 
 #include "../Core.h"
 #include "../../Component/Core/Component.h"
-#include "../../Component/Core/CoreComponent.h"
+#include "../../Component/Core/ServerComponent.h"
+
+#include "../../Component/Transform.h"
 
 #include "../../Helper/vector_erase_move_lastelement/vector_swap_erase.h"
-#include "../Game/GameFlow.h"
+#include "../Game/IGameFlow.h"
 #include "../Game/FrameDirtyChecker.h"
 
 #include "../API/UUID.h"
 
 namespace doom
 {
-	class Transform;
 	class Scene;
 	class Entity : public FrameDirtyChecker
 	{
@@ -41,6 +42,7 @@ namespace doom
 		///  To Protect User create entity not thourgh Scene class
 		/// </summary>
 		Entity(Entity* parent);
+
 		/// <summary>
 		/// Entity destructor should be called through Entity::Destory function
 		/// To Protect User call delete entity not thourgh Scene or Entity class
@@ -68,7 +70,7 @@ namespace doom
 		std::vector<void(*)(Entity&)> mLayerIndexChangedCallback{};
 
 		Entity* mParent;
-		std::vector<Entity*> mChilds;
+		std::vector<Entity*> mChilds{};
 
 		/// <summary>
 		/// Plain component (not core component ) is stored at this variable
@@ -77,12 +79,12 @@ namespace doom
 		/// <summary>
 		/// Core component is stored at this variable
 		/// </summary>
-		std::vector<std::unique_ptr<CoreComponent, Component::Deleter>> mCoreComponents;
+		std::vector<std::unique_ptr<ServerComponent, Component::Deleter>> mServerComponents;
 
 		template<typename T>
-		static constexpr bool IsCoreComponent()
+		static constexpr bool IsServerComponent()
 		{
-			return std::is_base_of_v<CoreComponent, T>;
+			return std::is_base_of_v<ServerComponent, T>;
 		}
 
 		/// <summary>
@@ -97,9 +99,9 @@ namespace doom
 			T* newComponent = new T();
 			D_ASSERT(newComponent->bIsAddedToEntity == false);
 
-			if constexpr (Entity::IsCoreComponent<T>() == true)
+			if constexpr (Entity::IsServerComponent<T>() == true)
 			{
-				this->mCoreComponents.emplace_back(newComponent);
+				this->mServerComponents.emplace_back(newComponent);
 			}
 			else
 			{
@@ -107,19 +109,24 @@ namespace doom
 			}
 		
 
-			newComponent->InitComponent_Internal(this);
-			newComponent->OnActivated_Internal();
+			Component* newComponent_com = reinterpret_cast<Component*>(newComponent); // why do this, 
+			newComponent_com->InitComponent_Internal(this);
+			newComponent_com->InitComponent();
+
+			newComponent_com->OnActivated_Internal();
+			newComponent_com->OnActivated();
 
 			return newComponent;
 
 		}
 
 		template<typename T>
-		constexpr bool _RemoveComponent(std::unique_ptr<T>& component)
+		constexpr bool _DestroyComponent(std::unique_ptr<T, Component::Deleter>& component)
 		{
 			component->OnDestroy_Internal();
 			component->OnDestroy();
 			component.reset();
+			return true;
 		}
 
 		/// <summary>
@@ -127,23 +134,19 @@ namespace doom
 		/// </summary>
 		void ClearComponents()
 		{
-			for (unsigned int i = 0 ; this->mPlainComponents.size() ; i++)
+			for (auto& plainComponent : this->mPlainComponents)
 			{
 				//Why doesn't erase from vector instantly : for performance
-				mPlainComponents[i]->OnDestroy_Internal();
-				mPlainComponents[i]->OnDestroy();
-				mPlainComponents[i].reset(); //destroy component object
+				this->_DestroyComponent(plainComponent);
 			}
 			this->mPlainComponents.clear();
 
-			for (unsigned int i = 0; this->mCoreComponents.size(); i++)
+			for (auto& ServerComponent : this->mServerComponents)
 			{
 				//Why doesn't erase from vector instantly : for performance
-				mCoreComponents[i]->OnDestroy_Internal();
-				mCoreComponents[i]->OnDestroy();
-				mCoreComponents[i].reset(); //destroy component object
+				this->_DestroyComponent(ServerComponent);
 			}
-			this->mCoreComponents.clear();
+			this->mServerComponents.clear();
 
 		}
 
@@ -151,13 +154,11 @@ namespace doom
 
 		void InitEntity() ;
 		void UpdateEntity();
-		void OnEndOfFrame();
+		void OnEndOfFramePlainComponentsAndEntity();
 
 		void Update_PlainComponent();
 		void EndOfFrame_PlainComponent();
 	public:
-
-		
 
 		
 		
@@ -201,14 +202,14 @@ namespace doom
 				}
 			}
 
-			if constexpr (Entity::IsCoreComponent<T>() == true)
-			{// when component is coreComponent
-				for (auto& coreComponent : this->mCoreComponents)
+			if constexpr (Entity::IsServerComponent<T>() == true)
+			{// when component is ServerComponent
+				for (auto& ServerComponent : this->mServerComponents)
 				{
-					T* componentPtr = dynamic_cast<T*>(coreComponent.get());
+					T* componentPtr = dynamic_cast<T*>(ServerComponent.get());
 					if (componentPtr != nullptr)
 					{
-						mComponentPtrCache = coreComponent;
+						mComponentPtrCache = ServerComponent;
 						return componentPtr;
 					}
 				}
@@ -236,11 +237,11 @@ namespace doom
 		{
 			std::vector<T*> components;
 
-			if constexpr (Entity::IsCoreComponent<T>() == true)
-			{// when component is coreComponent
-				for (auto& coreComponent : this->mCoreComponents)
+			if constexpr (Entity::IsServerComponent<T>() == true)
+			{// when component is ServerComponent
+				for (auto& ServerComponent : this->mServerComponents)
 				{
-					T* componentPtr = dynamic_cast<T*>(coreComponent.get());
+					T* componentPtr = dynamic_cast<T*>(ServerComponent.get());
 					if (componentPtr != nullptr)
 					{
 						components.push_back(componentPtr);
@@ -276,16 +277,16 @@ namespace doom
 		{
 			static_assert(!std::is_same_v<T, Transform>);
 
-			if constexpr (Entity::IsCoreComponent<T>() == true)
-			{// when component is coreComponent
-				for (size_t i = 0; i < this->mCoreComponents.size(); i++)
+			if constexpr (Entity::IsServerComponent<T>() == true)
+			{// when component is ServerComponent
+				for (size_t i = 0; i < this->mServerComponents.size(); i++)
 				{
-					T* componentPtr = dynamic_cast<T*>(this->mCoreComponents[i].get());
+					T* componentPtr = dynamic_cast<T*>(this->mServerComponents[i].get());
 					if (componentPtr != nullptr)
 					{//Check is sub_class of Component
-						this->_RemoveComponent(this->mCoreComponents[i]);
+						this->_DestroyComponent(this->mServerComponents[i]);
 
-						std::vector_swap_erase(this->mCoreComponents, i);
+						std::vector_swap_erase(this->mServerComponents, i);
 						return true;
 					}
 				}
@@ -297,7 +298,7 @@ namespace doom
 					T* componentPtr = dynamic_cast<T*>(this->mPlainComponents[i].get());
 					if (componentPtr != nullptr)
 					{//Check is sub_class of Component
-						this->_RemoveComponent(this->mCoreComponents[i]);
+						this->_DestroyComponent(this->mServerComponents[i]);
 
 						std::vector_swap_erase(this->mPlainComponents, i);
 						return true;
@@ -316,16 +317,16 @@ namespace doom
 			static_assert(!std::is_same_v<T, Transform>);
 
 			bool isRemoveSuccess{ false };
-			if constexpr (Entity::IsCoreComponent<T>() == true)
-			{// when component is coreComponent
-				for (size_t i = 0; i < this->mCoreComponents.size(); i++)
+			if constexpr (Entity::IsServerComponent<T>() == true)
+			{// when component is ServerComponent
+				for (size_t i = 0; i < this->mServerComponents.size(); i++)
 				{
-					T* componentPtr = dynamic_cast<T*>(this->mCoreComponents[i].get());
+					T* componentPtr = dynamic_cast<T*>(this->mServerComponents[i].get());
 					if (componentPtr != nullptr)
 					{//Check is sub_class of Component
-						this->_RemoveComponent(this->mCoreComponents[i]);
+						this->_DestroyComponent(this->mServerComponents[i]);
 
-						std::vector_swap_erase(this->mCoreComponents, i);
+						std::vector_swap_erase(this->mServerComponents, i);
 						--i;
 
 						isRemoveSuccess = true;
@@ -339,7 +340,7 @@ namespace doom
 					T* componentPtr = dynamic_cast<T*>(this->mPlainComponents[i].get());
 					if (componentPtr != nullptr)
 					{//Check is sub_class of Component
-						this->_RemoveComponent(this->mCoreComponents[i]);
+						this->_DestroyComponent(this->mServerComponents[i]);
 
 						std::vector_swap_erase(this->mPlainComponents, i);
 						--i;
@@ -360,16 +361,24 @@ namespace doom
 		void OnSpawned(){}
 		void OnDestroyed() {}
 
-		void OnActivated() {}
+		void OnActivated();
 		void OnDeActivated() {}
 
 		void OnPreUpdate() {}
 		void OnPostUpdate() {}
 
 		[[nodiscard]] std::string_view GetEntityName() const;
-		[[nodiscard]] Transform* GetTransform() const;
+		[[nodiscard]] constexpr Transform* GetTransform() const
+		{
+			return this->mTransform;
+		}
+
 		void SetLayerIndex(unsigned int layerIndex);
-		[[nodiscard]] unsigned int GetLayerIndex() const;
+		[[nodiscard]] constexpr unsigned int GetLayerIndex() const
+		{
+			return this->mLayerIndex;
+		}
+
 		void AddLayerChangedCallback(void(*callback_ptr)(Entity&));
 		void RemoveLayerChangedCallback(void(*callback_ptr)(Entity&));
 	};

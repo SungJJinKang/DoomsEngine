@@ -2,7 +2,7 @@
 #include <vector>
 #include <memory>
 #include "Entity.h"
-#include "../Game/GameFlow.h"
+#include "../Game/IGameFlow.h"
 #include "SharedSceneSetting.h"
 #include "../Graphics/SceneGraphics.h"
 

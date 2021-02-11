@@ -4,12 +4,12 @@
 namespace doom
 {
 	/// <summary>
-	/// All CoreComponents should inherit this Class
+	/// All ServerComponents should inherit this Class
 	/// 
-	/// WHAT IS CoreComponent??
+	/// WHAT IS ServerComponent??
 	/// 
-	/// 1. CoreComponent will be looped differently
-	/// CoreComponent will be processed first 
+	/// 1. ServerComponent will be looped differently
+	/// ServerComponent will be processed first 
 	/// and PlainComponent is processed after that
 	/// 
 	/// </summary>

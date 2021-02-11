@@ -49,7 +49,7 @@ namespace doom
 			/// </summary>
 			std::unordered_map<std::string, unsigned int> mUniformBlockAlignedOffset{};
 		
-			void GenUniformBufferObject(unsigned int bindingPoint, unsigned int uniformBlockSize);
+			void GenerateUniformBufferObject(unsigned int bindingPoint, unsigned int uniformBlockSizeInByte);
 			void DeleteBuffers() final;
 
 			inline void BindBuffer() noexcept final

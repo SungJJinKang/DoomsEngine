@@ -5,7 +5,7 @@
 #include <tuple>
 #include <functional>
 
-#include "../../Game/GameFlow.h"
+#include "../../Game/IGameFlow.h"
 #include "UniformBufferObjectManager.h"
 
 namespace doom
@@ -42,12 +42,7 @@ namespace doom
 			UniformBufferObjectTempBufferUpdater();
 			virtual ~UniformBufferObjectTempBufferUpdater();
 
-			/// <summary>
-			/// Helper variable
-			/// Don't update Temp 
-			/// Check is data dirty
-			/// </summary>
-			bool bmIsDirty{ true };
+		
 
 
 		};

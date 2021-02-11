@@ -8,48 +8,49 @@ using namespace doom;
 void Camera::SetProjectionMode(eProjectionType value)
 {
 	this->mProjectionMode = value;
+	this->SetDirtyTrueAtThisFrame();
 }
 
 void Camera::SetFieldOfView(float value)
 {
 	this->mFieldOfView = value;
-	this->bmIsDirty = true;
+	this->SetDirtyTrueAtThisFrame();
 }
 
 void Camera::SetClippingPlaneNear(float value)
 {
 	this->mClippingPlaneNear = value;
-	this->bmIsDirty = true;
+	this->SetDirtyTrueAtThisFrame();
 }
 
 void Camera::SetClippingPlaneFar(float value)
 {
 	this->mClippingPlaneFar = value;
-	this->bmIsDirty = true;
+	this->SetDirtyTrueAtThisFrame();
 }
 
 void Camera::SetViewportRectX(float value)
 {
 	this->mViewportRectX = value;
-	this->bmIsDirty = true;
+	this->SetDirtyTrueAtThisFrame();
 }
 
 void Camera::SetViewportRectY(float value)
 {
 	this->mViewportRectY = value;
-	this->bmIsDirty = true;
+	this->SetDirtyTrueAtThisFrame();
 }
 
 void Camera::SetViewportRectWidth(float value)
 {
 	this->mViewportRectWidth = value;
-	this->bmIsDirty = true;
+	this->SetDirtyTrueAtThisFrame();
 }
 
 void Camera::SetViewportRectHeight(float value)
 {
 	this->mViewportRectHeight = value;
-	this->bmIsDirty = true;
+	this->SetDirtyTrueAtThisFrame();
 }
 
 doom::Camera::eProjectionType Camera::GetProjectionMode() const
@@ -96,7 +97,8 @@ float Camera::GetViewportRectHeight() const
 
 
 
-void doom::Camera::Init()
+
+void Camera::InitComponent()
 {
 	auto currentWorld = Scene::GetSingleton();
 	Camera* currentMainCamera = currentWorld->GetMainCamera();
@@ -106,13 +108,14 @@ void doom::Camera::Init()
 	}
 }
 
-void doom::Camera::Update()
+void Camera::UpdateComponent()
 {
 
 }
 
-void doom::Camera::OnEndOfFrame()
+void Camera::OnEndOfFrame_Component()
 {
+
 }
 
 math::Matrix4x4 doom::Camera::GetProjectionMatrix()
@@ -139,19 +142,23 @@ void Camera::UpdateUniformBufferObjectTempBuffer(graphics::UniformBufferObjectMa
 {
 	if (Scene::GetSingleton()->GetMainCamera() == this)
 	{//if this camera is mainCamera
-		if (this->bmIsDirty == true)
+		if (this->GetIsDirtyAtPreviousFrame() == true)
 		{//when camera value is changed
 			auto projectionMatrix = this->GetProjectionMatrix();
 
 			//!!!! Opengl Use column major of matrix data layout
 			uboManager.StoreDataAtTempBufferOfBindingPoint(GLOBAL_UNIFORM_BLOCK_BINDING_POINT, (void*)projectionMatrix.data(), sizeof(projectionMatrix), graphics::eUniformBlock_Global::projection);
-			this->bmIsDirty = false;
 		}
 
-		if (this->GetTransform()->GetIsDirtyAtPreviousFrame() == true)
+		auto transform = this->GetTransform();
+		if (transform->GetIsDirtyAtPreviousFrame() == true)
 		{//when transform value is changed
-			auto viewMatrix = this->GetViewMatrix();
+			auto viewMatrix = this->GetViewMatrix(); 
+			const auto& camPos = transform->GetPosition();
+
 			uboManager.StoreDataAtTempBufferOfBindingPoint(GLOBAL_UNIFORM_BLOCK_BINDING_POINT, (void*)viewMatrix.data(), sizeof(viewMatrix), graphics::eUniformBlock_Global::view);
+			uboManager.StoreDataAtTempBufferOfBindingPoint(GLOBAL_UNIFORM_BLOCK_BINDING_POINT, (void*)camPos.data(), sizeof(camPos), graphics::eUniformBlock_Global::camPos);
+
 		}
 	}
 }

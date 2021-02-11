@@ -7,7 +7,7 @@
 
 #include "../Graphics_Core.h"
 #include "UniformBufferObject.h"
-#include "../../Game/GameFlow.h"
+#include "../../Game/IGameFlow.h"
 #include "../../../Helper/Singleton.h"
 #include "UniformBlockOffsetInfo.h"
 
@@ -16,7 +16,7 @@ namespace doom
 	namespace graphics
 	{
 		class UniformBufferObjectTempBufferUpdater;
-		class UniformBufferObjectManager : public GameFlow, public ISingleton<UniformBufferObjectManager>
+		class UniformBufferObjectManager : public IGameFlow, public ISingleton<UniformBufferObjectManager>
 		{
 			friend class Graphics_Server;
 			friend class Material;
@@ -65,7 +65,7 @@ namespace doom
 			/// return Uniform Buffer Object class
 			/// if uniform buffer object isn't initialized, Initialize it
 			/// </summary>
-			UniformBufferObject& GetOrAssignUniformBufferObject(unsigned int bindingPoint, unsigned int uniformBlockSize);
+			UniformBufferObject& GetOrGenerateUniformBufferObject(unsigned int bindingPoint, unsigned int uniformBlockSize);
 			UniformBufferObject& GetUniformBufferObject(unsigned int bindingPoint);
 		public:
 			void StoreDataAtTempBufferOfBindingPoint(unsigned int bindingPoint, const void* sourceData, unsigned int sizeInByteOfSourceData, unsigned int offsetInUniformBlock);

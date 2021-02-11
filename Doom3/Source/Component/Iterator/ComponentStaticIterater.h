@@ -71,14 +71,10 @@ namespace doom
 
 	public:
 
-		/// <summary>
-		/// const_iterator can't call not const member function
-		/// </summary>
-		/// <param name="layerIndex"></param>
-		/// <returns></returns>
-		[[nodiscard]] static constexpr std::pair<typename container_type::iterator, typename container_type::iterator> GetIter()
+		
+		[[nodiscard]] static constexpr std::pair<T**, size_t> GetAllComponents()
 		{
-			return std::make_pair(this_type::mComponents.begin(), this_type::mComponents.end());
+			return std::make_pair(this_type::mComponents.data(), this_type::mComponents.size());
 		}
 
 	

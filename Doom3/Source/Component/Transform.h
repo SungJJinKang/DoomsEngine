@@ -1,5 +1,5 @@
 #pragma once
-#include "Core/CoreComponent.h"
+#include "Core/PlainComponent.h"
 #include "../Core/Math/LightMath_Cpp/Quaternion.h"
 #include "../Core/Math/LightMath_Cpp/Vector3.h"
 #include "../Core/Math/LightMath_Cpp/Matrix4x4.h"
@@ -13,7 +13,7 @@ namespace doom
 		Self
 	};
 
-	class Transform : public CoreComponent
+	class Transform : public PlainComponent
 	{
 	private:
 		/// <summary>
@@ -41,41 +41,64 @@ namespace doom
 
 	public:
 
-		Transform(){}
+		Transform() : mPosition{ 0.0f }, mRotation{ 0.0f }, mScale{ 1.0f }, bmIsDirtyModelMatrix{ true }
+		{
+		}
 
 		constexpr void SetPosition(const math::Vector3& position)
 		{
 			this->mPosition = position;
 			this->SetDirtyTrueAtThisFrame();
-			this->mModelMatrixCache = true;
+			this->bmIsDirtyModelMatrix = true;
+		}
+		constexpr void SetPosition(float x, float y, float z)
+		{
+			this->SetPosition({x, y, z});
 		}
 		constexpr void SetRotation(const math::Quaternion& rotation)
 		{
 			this->mRotation = rotation;
 			this->SetDirtyTrueAtThisFrame();
-			this->mModelMatrixCache = true;
+			this->bmIsDirtyModelMatrix = true;
 		}
 
 		constexpr void SetScale(const math::Vector3& scale)
 		{
 			this->mScale = scale;
 			this->SetDirtyTrueAtThisFrame();
-			this->mModelMatrixCache = true;
+			this->bmIsDirtyModelMatrix = true;
 		}
-		constexpr math::Vector3 GetPosition() const
+
+		constexpr math::Vector3 GetPosition()
 		{
 			return this->mPosition;
 		}
-		constexpr math::Quaternion GetRotation() const
+		constexpr const math::Vector3& GetPosition() const
+		{
+			return this->mPosition;
+		}
+
+		constexpr math::Quaternion GetRotation()
 		{
 			return this->mRotation;
 		}
-		constexpr math::Vector3 GetScale() const
+		constexpr const math::Quaternion& GetRotation() const
+		{
+			return this->mRotation;
+		}
+
+		constexpr math::Vector3 GetScale()
+		{
+			return this->mScale;
+		}
+		constexpr const math::Vector3& GetScale() const
 		{
 			return this->mScale;
 		}
 
-		constexpr math::Matrix4x4 GetModelMatrix() 
+
+
+		constexpr const math::Matrix4x4& GetModelMatrix() 
 		{
 			if (this->bmIsDirtyModelMatrix == false)
 			{
@@ -93,11 +116,6 @@ namespace doom
 
 				return this->mModelMatrixCache;
 			}
-		}
-
-		constexpr math::Matrix4x4 GetViewMatrix()
-		{
-			return math::lookAt(this->mPosition, this->forward() + this->mPosition, this->up());
 		}
 
 		constexpr math::Vector3 forward() const
@@ -140,7 +158,14 @@ namespace doom
 		}
 		constexpr void Translate(const math::Vector3& translation, const eSpace& relativeTo) 
 		{
-
+			if (relativeTo == eSpace::World)
+			{
+				this->SetPosition(this->mPosition + translation);
+			}
+			else if (relativeTo == eSpace::Self)
+			{
+				this->SetPosition(this->mPosition + this->TransformVector(translation));
+			}
 		}
 
 	};

@@ -4,7 +4,7 @@
 #include <thread>
 
 #include "../../Helper/Singleton.h"
-#include "../Game/GameFlow.h"
+#include "../Game/IGameFlow.h"
 
 #define THREAD_COUNT (5)
 
@@ -22,7 +22,7 @@ namespace doom
 		/// Each Thread have a role
 		/// So Use GetThread(index) function and Get thread reference and Pass Task!!!!
 		/// </summary>
-		class Thread_Server : public GameFlow, public ISingleton<Thread_Server>
+		class Thread_Server : public IGameFlow, public ISingleton<Thread_Server>
 		{
 		private:
 			std::thread::id mMainThreadId{};

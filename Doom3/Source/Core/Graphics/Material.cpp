@@ -110,7 +110,7 @@ void Material::InitUniformBufferObject()
 		int uniformBlockSize = 0;
 		glGetActiveUniformBlockiv(this->mID, i, GL_UNIFORM_BLOCK_DATA_SIZE, &uniformBlockSize);
 		
-		auto& uniformBufferObject = UniformBufferObjectManager::GetSingleton()->GetOrAssignUniformBufferObject(uniformBlockBindingPoint, uniformBlockSize);
+		auto& uniformBufferObject = UniformBufferObjectManager::GetSingleton()->GetOrGenerateUniformBufferObject(uniformBlockBindingPoint, uniformBlockSize);
 		this->mUniformBufferObjects[i] = &uniformBufferObject;
 
 		/*

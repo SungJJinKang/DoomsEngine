@@ -1,7 +1,7 @@
 #pragma once
 #include "Graphics_Core.h"
 #include "../../Helper/Singleton.h"
-#include "../Game/GameFlow.h"
+#include "../Game/IGameFlow.h"
 
 struct GLFWwindow;
 
@@ -11,7 +11,7 @@ namespace doom
 	class Renderer;
 	namespace graphics
 	{
-		class Graphics_Server : public GameFlow, public ISingleton<Graphics_Server>
+		class Graphics_Server : public IGameFlow, public ISingleton<Graphics_Server>
 		{
 
 			friend class GameCore;

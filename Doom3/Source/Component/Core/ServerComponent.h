@@ -4,35 +4,37 @@
 namespace doom
 {
 	/// <summary>
-	/// All CoreComponents should inherit this Class
+	/// All ServerComponents should inherit this Class
 	/// 
-	/// WHAT IS CoreComponent??
+	/// WHAT IS ServerComponent??
 	/// 
-	/// 1. CoreComponent will be looped differently
-	/// CoreComponent will be processed first 
+	/// 1. ServerComponent will be looped differently
+	/// ServerComponent will be processed first 
 	/// and PlainComponent is processed after that
 	/// 
+	/// 2. !!!!!! ServerComponent is updated by ~_Server class
+	/// 
 	/// </summary>
-	class CoreComponent : public Component
+	class ServerComponent : public Component
 	{
 		friend class Entity;
 		friend class Scene;
 	private:
 
-		CoreComponent(const CoreComponent&) = delete;
-		CoreComponent(CoreComponent&&) noexcept = delete;
-		CoreComponent& operator=(const CoreComponent&) = delete;
-		CoreComponent& operator=(CoreComponent&&) noexcept = delete;
+		ServerComponent(const ServerComponent&) = delete;
+		ServerComponent(ServerComponent&&) noexcept = delete;
+		ServerComponent& operator=(const ServerComponent&) = delete;
+		ServerComponent& operator=(ServerComponent&&) noexcept = delete;
 
 	protected:
 
-		CoreComponent();
+		ServerComponent();
 		/// <summary>
 		/// Pure virtual destructor for make this class virtual cass
 		/// Destructor should be called only from RemoveConponent(or clear component) of Entity class
 		/// </summary>
 		/// <returns></returns>
-		virtual ~CoreComponent();
+		virtual ~ServerComponent();
 
 		/// Dont put public to Internal Function For Protect use call Internal Function
 		virtual void InitComponent_Internal(Entity* entity);

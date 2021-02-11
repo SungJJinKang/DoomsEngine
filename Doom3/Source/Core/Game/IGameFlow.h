@@ -10,7 +10,7 @@ namespace doom
 	/// 
 	/// WARNING : Be careful virtual function would be shadowed by children class
 	/// </summary>
-	class GameFlow : public FrameDirtyChecker
+	class IGameFlow : public FrameDirtyChecker
 	{
 	private:
 		
@@ -31,11 +31,14 @@ namespace doom
 		/// <summary>
 		/// Don't put virtual
 		/// </summary>
-		void OnEndOfFrame_Internal();
+		void OnEndOfFrame_Internal()
+		{
+			this->FrameDirtyChecker_EndOfFrame();
+		}
 		virtual void OnEndOfFrame() = 0;
 
 		
 	public:
-		virtual ~GameFlow();
+		virtual ~IGameFlow();
 	};
 }

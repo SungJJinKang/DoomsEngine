@@ -1,7 +1,7 @@
 #include "Entity.h"
 
 #include <algorithm>
-#include "../../Component/Transform.h"
+
 #include"Scene.h"
 
 
@@ -26,10 +26,9 @@ void doom::Entity::UpdateEntity()
 {
 }
 
-void doom::Entity::OnEndOfFrame()
+void doom::Entity::OnEndOfFramePlainComponentsAndEntity()
 {
 	this->EndOfFrame_PlainComponent();
-
 	this->FrameDirtyChecker_EndOfFrame();
 }
 
@@ -50,6 +49,17 @@ void doom::Entity::EndOfFrame_PlainComponent()
 		plainComponent->OnEndOfFrame_Component();
 	}
 }
+
+void Entity::OnActivated()
+{
+	this->SetDirtyTrueAtThisFrame();
+}
+
+std::string_view Entity::GetEntityName() const
+{
+	return this->mEntityName;
+}
+
 
 void Entity::AddLayerChangedCallback(void(*callback_ptr)(Entity&))
 {
@@ -79,21 +89,6 @@ void Entity::SetLayerIndex(unsigned int layerIndex)
 	{
 		callback(*this);
 	}
-}
-
-[[nodiscard]] unsigned int Entity::GetLayerIndex() const
-{
-	return this->mLayerIndex;
-}
-
-[[nodiscard]] std::string_view Entity::GetEntityName() const
-{
-	return this->mEntityName;
-}
-
-[[nodiscard]] Transform* Entity::GetTransform() const
-{
-	return this->mTransform;
 }
 
 void Entity::Destroy()

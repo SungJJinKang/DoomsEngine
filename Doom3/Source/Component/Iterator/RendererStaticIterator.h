@@ -18,13 +18,7 @@ namespace doom
 	}
 	class Renderer;
 
-	/// <summary>
-	/// Why I made ComponentIterater
-	/// 
-	/// Think if you wanna Iterate over specific component of spawned entity
-	/// </summary>
-	/// <typeparam name="T"></typeparam>
-	/// 
+	
 	template <>
 	class ComponentStaticIterater<Renderer>
 	{
@@ -36,15 +30,13 @@ namespace doom
 		
 	private:
 
-		Renderer* renderer_ptr;
+		Renderer* mRenderer_ptr;
 
 		static inline container_type mComponentsInLayer{};
-		int mCurrentEntityLayerIndex;
-
+		
 	protected:
 
 		void AddRendererToStaticContainer();
-
 		void RemoveRendererToStaticContainer();
 
 		/// <summary>
@@ -53,14 +45,14 @@ namespace doom
 		ComponentStaticIterater();
 		~ComponentStaticIterater();
 
-		void OnEntityLayerChanged(Entity& entity);
+		virtual void OnEntityLayerChanged(Entity& entity);
 
 	public:
-		[[nodiscard]] static std::pair<typename layer_container_type::iterator, typename layer_container_type::iterator> GetIterWithLayerIndex(unsigned int layerIndex);
+
+		[[nodiscard]] static std::pair<Renderer**, size_t> GetAllComponentsWithLayerIndex(unsigned int layerIndex);
 
 	};
 
-	
-	
-
+	using RendererComponentStaticIterator = ComponentStaticIterater<Renderer>;
 }
+

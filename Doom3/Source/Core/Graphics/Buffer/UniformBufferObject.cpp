@@ -14,20 +14,22 @@ doom::graphics::UniformBufferObject::~UniformBufferObject()
 
 doom::graphics::UniformBufferObject::UniformBufferObject(unsigned int bindingPoint, unsigned int uniformBlockSize) : Buffer(), mUniformBufferTempData{}, mSizeInByte{ uniformBlockSize }, mBindingPoint{ bindingPoint }
 {
-	this->GenUniformBufferObject(bindingPoint, uniformBlockSize);
+	this->GenerateUniformBufferObject(bindingPoint, uniformBlockSize);
 }
 
-void doom::graphics::UniformBufferObject::GenUniformBufferObject(unsigned int bindingPoint, unsigned int uniformBlockSize)
+void doom::graphics::UniformBufferObject::GenerateUniformBufferObject(unsigned int bindingPoint, unsigned int uniformBlockSizeInByte)
 {
 	D_ASSERT(this->IsBufferGenerated() == false); // prevent overlap generating buffer
 
 	Buffer::GenBuffer();
 
 	this->BindBuffer();
-	glBufferData(GL_UNIFORM_BUFFER, uniformBlockSize, NULL, GL_STATIC_DRAW);
+	glBufferData(GL_UNIFORM_BUFFER, uniformBlockSizeInByte, NULL, GL_STATIC_DRAW);
 	glBindBufferBase(GL_UNIFORM_BUFFER, bindingPoint, this->mUniformBufferID);
 
-	this->mUniformBufferTempData = new char[uniformBlockSize];
+	this->mSizeInByte = uniformBlockSizeInByte;
+	this->mUniformBufferTempData = new char[uniformBlockSizeInByte];
+
 }
 
 void doom::graphics::UniformBufferObject::DeleteBuffers()
@@ -52,7 +54,7 @@ void doom::graphics::UniformBufferObject::BufferData() noexcept
 void doom::graphics::UniformBufferObject::StoreDataAtTempBuffer(const void* sourceData, unsigned int sizeInByteOfSourceData, unsigned int offsetInUniformBlock)
 {
 	D_ASSERT(offsetInUniformBlock + sizeInByteOfSourceData <= this->mSizeInByte);
-	D_DEBUG_LOG({ "Store Data At Uniform Buffer Object TempBuffer ", sizeInByteOfSourceData, offsetInUniformBlock }, eLogType::D_LOG);
+	D_DEBUG_LOG({ "Store Data At Uniform Buffer Object TempBuffer ", std::to_string(sizeInByteOfSourceData) , std::to_string(offsetInUniformBlock) }, eLogType::D_LOG);
 	std::memcpy(this->mUniformBufferTempData + offsetInUniformBlock, sourceData, sizeInByteOfSourceData);
 	this->bmIsDirty = true;
 }

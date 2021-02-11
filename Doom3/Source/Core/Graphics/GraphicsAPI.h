@@ -1,7 +1,7 @@
 #pragma once
 #include "Graphics_Core.h"
 #include "../../Helper/Singleton.h"
-#include "../Game/GameFlow.h"
+#include "../Game/IGameFlow.h"
 #include "Buffer/UniformBufferObjectManager.h"
 
 
