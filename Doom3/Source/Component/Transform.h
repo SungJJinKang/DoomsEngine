@@ -55,11 +55,22 @@ namespace doom
 		{
 			this->SetPosition({x, y, z});
 		}
+
 		constexpr void SetRotation(const math::Quaternion& rotation)
 		{
 			this->mRotation = rotation;
 			this->SetDirtyTrueAtThisFrame();
 			this->bmIsDirtyModelMatrix = true;
+		}
+		constexpr void SetRotation(const math::Vector3& eulerAngle)
+		{
+			this->mRotation = eulerAngle;
+			this->SetDirtyTrueAtThisFrame();
+			this->bmIsDirtyModelMatrix = true;
+		}
+		constexpr void SetRotation(const float eulerAngleX, const float eulerAngleY, const float eulerAngleZ)
+		{
+			this->SetRotation({eulerAngleX, eulerAngleY, eulerAngleZ});
 		}
 
 		constexpr void SetScale(const math::Vector3& scale)
@@ -106,11 +117,9 @@ namespace doom
 			}
 			else
 			{
-				this->mModelMatrixCache = math::Matrix4x4::identify;
-				this->mModelMatrixCache = math::translate(this->mModelMatrixCache, this->mPosition);
-				this->mModelMatrixCache = this->mModelMatrixCache * static_cast<math::Matrix4x4>(this->mRotation);
-				this->mModelMatrixCache = math::scale(this->mModelMatrixCache, this->mScale);
-				this->mModelMatrixCache *= this->mLocalToWorldMatrix;
+				this->mModelMatrixCache = math::translate(this->mPosition) * static_cast<math::Matrix4x4>(this->mRotation) * math::scale(this->mScale);
+			
+				//this->mModelMatrixCache *= this->mLocalToWorldMatrix;
 
 				this->bmIsDirtyModelMatrix = false;
 
@@ -138,20 +147,35 @@ namespace doom
 
 		constexpr void Rotate(const math::Quaternion& quat, const eSpace& relativeTo)
 		{
-			this->SetRotation(quat * this->mRotation);
+			if (relativeTo == eSpace::World)
+			{
+				this->SetRotation(this->mRotation * quat);
+			}
+			else if (relativeTo == eSpace::Self)
+			{
+				this->SetRotation(quat * this->mRotation);
+			}
+			
 		}
 		constexpr void Rotate(const math::Vector3& eulerAngles, const eSpace& relativeTo)
 		{
-			this->SetRotation(math::Quaternion(eulerAngles) * this->mRotation);
+			if (relativeTo == eSpace::World)
+			{
+				this->SetRotation(this->mRotation * math::Quaternion(eulerAngles));
+			}
+			else if (relativeTo == eSpace::Self)
+			{
+				this->SetRotation(math::Quaternion(eulerAngles) * this->mRotation);
+			}
 		}
 		constexpr void RotateAround(const math::Vector3& point, const math::Vector3& axis, float angle)
 		{
 
 		}
 
-		constexpr math::Vector3 TransformDirection(const math::Vector3& direction) const
+		constexpr math::Vector3 TransformDirection(math::Vector3& direction) const
 		{
-			return this->mRotation * direction;
+			return this->mRotation * direction.normalized();
 		}
 		constexpr math::Vector3 TransformPoint(const math::Vector3& point) const
 		{

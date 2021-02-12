@@ -2,6 +2,7 @@
 #include "../Core/Scene/Scene.h"
 #include "../Core/Math/LightMath_Cpp/Matrix_utility.h"
 #include "Transform.h"
+#include "../Graphics/Graphics_Server.h"
 
 using namespace doom;
 
@@ -122,7 +123,7 @@ math::Matrix4x4 doom::Camera::GetProjectionMatrix()
 {
 	if (this->mProjectionMode == eProjectionType::Perspective)
 	{
-		return math::perspective(this->mFieldOfView, this->mViewportRectWidth / this->mViewportRectHeight, this->mClippingPlaneNear, this->mClippingPlaneFar);
+		return math::perspectiveFov( math::DEGREE_TO_RADIAN * this->mFieldOfView, static_cast<float>(doom::graphics::Graphics_Server::GetScreenWidth()), static_cast<float>(doom::graphics::Graphics_Server::GetScreenHeight()), this->mClippingPlaneNear, this->mClippingPlaneFar);
 	}
 	else
 	{

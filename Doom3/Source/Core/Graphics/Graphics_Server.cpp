@@ -117,3 +117,13 @@ void Graphics_Server::OnEndOfFrame()
 
 	glfwSwapBuffers(Graphics_Server::Window);
 }
+
+int Graphics_Server::GetScreenWidth()
+{
+	return Graphics_Server::SCREEN_WIDTH;
+}
+
+int Graphics_Server::GetScreenHeight()
+{
+	return Graphics_Server::SCREEN_HEIGHT;
+}

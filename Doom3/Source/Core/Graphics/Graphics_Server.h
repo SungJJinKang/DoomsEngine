@@ -37,6 +37,10 @@ namespace doom
 				
 
 		public:
+
+			static int GetScreenWidth();
+			static int GetScreenHeight();
+
 		};
 	}
 }

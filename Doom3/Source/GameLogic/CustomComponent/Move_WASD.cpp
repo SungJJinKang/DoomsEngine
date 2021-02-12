@@ -7,7 +7,7 @@
 
 void doom::Move_WASD::InitComponent()
 {
-	
+	doom::userinput::UserInput_Server::SetIsCursorLockedInScreen(true);
 }
 
 void doom::Move_WASD::UpdateComponent()
@@ -36,6 +36,17 @@ void doom::Move_WASD::UpdateComponent()
 		isMove = true;
 	}
 
+	if (UserInput_Server::GetKey(eKEY_CODE::KEY_Q))
+	{
+		translation.y += 1;
+		isMove = true;
+	}
+	else if (UserInput_Server::GetKey(eKEY_CODE::KEY_E))
+	{
+		translation.y -= 1;
+		isMove = true;
+	}
+
 	auto delta = Time_Server::GetDeltaTime();
 	if (isMove == true)
 	{
@@ -48,9 +59,11 @@ void doom::Move_WASD::UpdateComponent()
 
 	/////////
 
-	math::Vector3 vec3{ UserInput_Server::GetDeltaMouseScreenPositionY(), UserInput_Server::GetDeltaMouseScreenPositionX(), 0.0f };
+	math::Vector3 rotation{ UserInput_Server::GetDeltaMouseScreenPositionY(), -UserInput_Server::GetDeltaMouseScreenPositionX(), 0.0f };
 	
-	this->GetTransform()->Rotate(vec3.normalized() * delta, eSpace::Self);
+	this->GetTransform()->Rotate(rotation.normalized() * delta, eSpace::Self);
+
+	
 }
 
 void doom::Move_WASD::OnEndOfFrame_Component()
