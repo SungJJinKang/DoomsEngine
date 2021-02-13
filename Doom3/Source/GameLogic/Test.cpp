@@ -18,6 +18,8 @@ void doom::TEST::Init()
 	auto& threedasset = assetimporter::AssetManager::GetAsset<eAssetType::THREE_D_MODEL>(0).value().get();
 	auto& shader = assetimporter::AssetManager::GetAsset<eAssetType::SHADER>(0).value().get();
 	auto material = new graphics::Material(shader);
+	material->AddTexture(assetimporter::AssetManager::GetAsset<eAssetType::TEXTURE>("diffuse.jpg").value().get());
+
 	for (int i = 0; i < threedasset.GetMeshCount(); i++)
 	{
 		auto entity = currenScene->CreateNewEntity();

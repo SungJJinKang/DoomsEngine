@@ -98,7 +98,7 @@ namespace doom
 			{
 				for (auto& asset : AssetManager::ImportedAssets<assetType>.mAssetsForIterating)
 				{
-					if (asset.GetAssetFileName() == filename)
+					if (asset.get().GetAssetFileName() == filename)
 					{
 						return asset;
 					}

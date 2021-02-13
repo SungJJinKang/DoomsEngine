@@ -4,6 +4,7 @@
 #include "../Asset/ShaderAsset.h"
 
 #include "Buffer/UniformBufferObjectManager.h"
+#include "../Asset/TextureAsset.h"
 
 using namespace doom::graphics;
 
@@ -75,6 +76,11 @@ Material::~Material()
 void Material::AddTexture(Texture& texture)
 {
 	this->mTargetTextures.push_back(&texture);
+}
+
+void Material::AddTexture(::doom::TextureAsset& textureAsset)
+{
+	this->mTargetTextures.push_back(textureAsset.mTexture);
 }
 
 void Material::AddTextures(std::vector<Texture*> textures)

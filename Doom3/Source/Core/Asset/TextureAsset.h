@@ -6,10 +6,16 @@ namespace doom
 	namespace graphics
 	{
 		class SingleTexture;
+		class Texture;
+		class Material;
 	}
 
 	class TextureAsset : public Asset
 	{
+		friend class graphics::SingleTexture;
+		friend class graphics::Texture;
+		friend class graphics::Material;
+
 		friend class assetimporter::AssetManager;
 
 		template <eAssetType assetType>
@@ -34,7 +40,7 @@ namespace doom
 		eTextureComponent mComponentType; // 1 ~ 4 ( rgb, rgba ~~ )
 		unsigned char* mData;
 
-		graphics::SingleTexture* mSingleTexture;
+		graphics::Texture* mTexture;
 		void CreateTexture();
 	protected:
 

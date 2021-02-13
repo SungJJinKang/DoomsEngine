@@ -19,6 +19,8 @@ namespace doom
 		private:
 			static std::optional <Asset::asset_type_t<eAssetType::TEXTURE>> ImportSpecificAsset(const std::filesystem::path& path)
 			{
+					stbi_set_flip_vertically_on_load(true);
+
 				    int x,y,n;
 					unsigned char *data = stbi_load(path.u8string().c_str(), &x, &y, &n, 0);
 

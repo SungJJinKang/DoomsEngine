@@ -46,11 +46,20 @@ void main()
 }
 
 #FRAGMENT
+#version 420 core
+
+in vec2 UV0;
+in vec3 FragPos;
+in mat3 TBN;
+in vec4 ClipSpacePos;
+in vec4 PrevClipSpacePos;
+
+uniform sampler2D Texture1;
 
 void main() 
 { 
-	gl_FragColor = vec4(1,1,0,1); 
+	gl_FragColor = vec4(texture(Texture1, UV0)); 
 }
 
 #GEOMETRY
-
+#version 420 core

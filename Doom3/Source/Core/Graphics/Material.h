@@ -20,7 +20,7 @@
 namespace doom
 {
 	class ShaderAsset;
-	
+	class TextureAsset;
 	namespace graphics
 	{
 		class UniformBufferObject;
@@ -38,6 +38,7 @@ namespace doom
 			~Material();
 
 			void AddTexture(Texture& texture);
+			void AddTexture(::doom::TextureAsset& textureAsset);
 			void AddTextures(std::vector<Texture*> textures);
 
 			void UseProgram()

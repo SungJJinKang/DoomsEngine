@@ -69,19 +69,19 @@ void doom::TextureAsset::CreateTexture()
 	switch (this->mComponentType)
 	{
 	case eTextureComponent::Grey:
-		dataType = Texture::eDataType::FLOAT;
+		dataType = Texture::eDataType::UNSIGNED_BYTE;
 		break;
 
 	case eTextureComponent::GreyAlpha:
-		dataType = Texture::eDataType::FLOAT;
+		dataType = Texture::eDataType::UNSIGNED_BYTE;
 		break;
 
 	case eTextureComponent::RGB:
-		dataType = Texture::eDataType::FLOAT;
+		dataType = Texture::eDataType::UNSIGNED_BYTE;
 		break;
 
 	case eTextureComponent::RGBA:
-		dataType = Texture::eDataType::FLOAT;
+		dataType = Texture::eDataType::UNSIGNED_BYTE;
 		break;
 
 	default:
@@ -89,6 +89,6 @@ void doom::TextureAsset::CreateTexture()
 	}
 
 
-	this->mSingleTexture =
+	this->mTexture =
 		new graphics::SingleTexture(Texture::eTextureType::DIFFUSE, Texture::eTargetTexture::TEXTURE_2D, internalFormat, mWidth, mHeight, dataFormat, dataType, mData);
 }
