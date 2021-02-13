@@ -1,8 +1,8 @@
 #include "RenderBuffer.h"
 
 #include "FrameBuffer.h"
-#include "GraphicsAPI.h"
-#include "Graphics_Server.h"
+#include "../GraphicsAPI.h"
+#include "../Graphics_Server.h"
 
 using namespace doom::graphics;
 

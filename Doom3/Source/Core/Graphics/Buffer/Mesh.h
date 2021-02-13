@@ -14,7 +14,7 @@ namespace doom
 	{
 		class Mesh : public Buffer
 		{
-			enum eVertexArrayFlag
+			enum eVertexArrayFlag : unsigned int
 			{
 				None = 0x0,
 				Vertex = 1 < 0,
@@ -97,7 +97,8 @@ namespace doom
 
 			static constexpr unsigned int GetStride(unsigned int vertexArrayFlag);
 
-			static const Mesh QuadMesh;
+			static inline Mesh* QuadMesh{ nullptr };
+			static const Mesh& GetQuadMesh();
 		};
 	}
 }

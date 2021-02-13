@@ -42,6 +42,7 @@ namespace doom
 			template <eAssetType assetType>
 			static std::optional<Asset::asset_type_t<assetType>> ImportAsset(std::filesystem::path path)
 			{
+				path.make_preferred();
 				std::optional<Asset::asset_type_t<assetType>> ImportedAsset = AssetImporterWorker<assetType>::ImportSpecificAsset(path);
 
 				if (ImportedAsset.has_value())

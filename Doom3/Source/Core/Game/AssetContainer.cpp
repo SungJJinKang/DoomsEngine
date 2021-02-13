@@ -24,6 +24,7 @@ void AssetContainer<assetType>::AddAsset(AssetContainer<assetType>::container_as
 
 	if (pair.second == true)
 	{
+		D_DEBUG_LOG({ "Asset is completely imported : ", pair.first->second.GetAssetFileName() }, eLogType::D_LOG);
 		mAssetsForIterating.push_back(pair.first->second);
 	}
 	else
@@ -33,13 +34,13 @@ void AssetContainer<assetType>::AddAsset(AssetContainer<assetType>::container_as
 }
 
 template <eAssetType assetType>
-void AssetContainer<assetType>::AddAsset(AssetContainer<assetType>::container_imported_asset_future_t&& asset)
+void AssetContainer<assetType>::AddAssetFuture(AssetContainer<assetType>::container_imported_asset_future_t&& asset)
 {
 	ImportedAssetFutures.push_back(std::move(asset));
 }
 
 template <eAssetType assetType>
-void AssetContainer<assetType>::AddAsset(std::vector<AssetContainer<assetType>::container_imported_asset_future_t>&& assets)
+void AssetContainer<assetType>::AddAssetFutures(std::vector<AssetContainer<assetType>::container_imported_asset_future_t>&& assets)
 {
 	ImportedAssetFutures.insert(ImportedAssetFutures.end(), std::make_move_iterator(assets.begin()), std::make_move_iterator(assets.end()));
 }

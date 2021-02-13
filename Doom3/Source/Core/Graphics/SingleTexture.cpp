@@ -15,4 +15,6 @@ SingleTexture::SingleTexture(eTextureType textureType, eTargetTexture target, eI
 	: Texture{textureType, eBindTarget::TEXTURE_2D, target, internalFormat, width, height, format, type, data}
 {
 	this->TexImage2D(0, mInternalFormat, mWidth, mHeight, mDataFormat, mDataType, data);
+
+	this->OnEndContructor();
 }

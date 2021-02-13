@@ -6,7 +6,6 @@
 
 #include "../../Asset/TextAsset.h"
 
-
 namespace doom
 {
 	namespace assetimporter

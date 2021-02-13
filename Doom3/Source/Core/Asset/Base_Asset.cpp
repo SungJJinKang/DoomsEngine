@@ -65,10 +65,17 @@ std::string Asset::GetAssetFileName()
 	return this->mAssetFileName;
 }
 
+const std::string& Asset::GetAssetFileName() const
+{
+	return this->mAssetFileName;
+}
+
 std::filesystem::path Asset::GetAssetPath()
 {
 	return this->mAssetPath;
 }
+
+
 
 bool Asset::GetIsDataLoaded()
 {

@@ -7,6 +7,7 @@
 #include "../Scene/Layer.h"
 #include "../Game/GameCore.h"
 #include "Renderer.h"
+#include <iostream>
 
 using namespace doom::graphics;
 
@@ -18,10 +19,10 @@ void Graphics_Server::Init()
 
 	glfwInit();
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
-	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 4);
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 	glfwWindowHint(GLFW_OPENGL_DEBUG_CONTEXT, true);
-	//glfwWindowHint(GLFW_SAMPLES, 4);
+	glfwWindowHint(GLFW_SAMPLES, 4);
 #ifdef __APPLE__
 	glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
 #endif
@@ -62,6 +63,12 @@ void Graphics_Server::Init()
 
 	GraphicsAPI::FrontFace(GraphicsAPI::eFrontFaceMode::CCW);
 
+#ifdef DEBUG_MODE
+	GraphicsAPI::Enable(GraphicsAPI::eCapability::DEBUG_OUTPUT);
+	GraphicsAPI::Enable(GraphicsAPI::eCapability::DEBUG_OUTPUT_SYNCHRONOUS);
+
+	glDebugMessageCallback(Graphics_Server::OpenGlDebugCallback, NULL);
+#endif
 	return;
 }
 
@@ -126,4 +133,15 @@ int Graphics_Server::GetScreenWidth()
 int Graphics_Server::GetScreenHeight()
 {
 	return Graphics_Server::SCREEN_HEIGHT;
+}
+
+void Graphics_Server::OpenGlDebugCallback(GLenum source, GLenum type, GLuint id, GLenum severity, GLsizei length, const GLchar* msg, const void* data)
+{
+	//https://www.khronos.org/registry/OpenGL/extensions/KHR/KHR_debug.txt
+	if (type == 0x824C || type == 0x824E)
+	{
+		std::cout << msg << std::endl;
+		D_DEBUG_LOG(msg, eLogType::D_ERROR);
+	}
+	
 }

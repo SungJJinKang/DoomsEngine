@@ -35,7 +35,7 @@ namespace doom
 			static inline int SCREEN_HEIGHT{};
 			static inline bool Is_MULTI_SAMPLE{};
 				
-
+			static void OpenGlDebugCallback(GLenum source, GLenum type, GLuint id, GLenum severity, GLsizei length, const GLchar* msg, const void* data);
 		public:
 
 			static int GetScreenWidth();

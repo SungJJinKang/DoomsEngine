@@ -78,6 +78,7 @@ namespace doom
 		
 		D_UUID GetUUID();
 		std::string GetAssetFileName();
+		const std::string& GetAssetFileName() const;
 		std::filesystem::path GetAssetPath();
 		bool GetIsDataLoaded();
 		

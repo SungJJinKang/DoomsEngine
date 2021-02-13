@@ -65,7 +65,7 @@ namespace doom
 
 		
 			template<eAssetType assetType>
-			static std::optional<std::reference_wrapper<typename AssetContainer<assetType>::container_asset_type_t>> GetAsset(const D_UUID& UUID)
+			static std::optional<std::reference_wrapper<typename AssetContainer<assetType>::container_asset_type_t>> GetAsset(const D_UUID& UUID) 
 			{
 				auto& assetCotainer = AssetManager::ImportedAssets<assetType>;
 
@@ -79,21 +79,7 @@ namespace doom
 					return {};
 				}
 			}
-			template<eAssetType assetType>
-			static std::optional<std::reference_wrapper<const typename AssetContainer<assetType>::container_asset_type_t>> GetAsset_const(const D_UUID& UUID)
-			{
-				auto& assetCotainer = AssetManager::ImportedAssets<assetType>;
 
-				auto iter = assetCotainer.mAssets.find(UUID);
-				if (iter != assetCotainer.mAssets.end())
-				{//find!!
-					return iter->second;
-				}
-				else
-				{//element containing UUID key doesn't exist
-					return {};
-				}
-			}
 			template<eAssetType assetType>
 			static std::optional<std::reference_wrapper<typename AssetContainer<assetType>::container_asset_type_t>> GetAsset(const unsigned int index)
 			{
@@ -106,18 +92,21 @@ namespace doom
 					return {};
 				}
 			}
+
 			template<eAssetType assetType>
-			static std::optional<std::reference_wrapper<const typename AssetContainer<assetType>::container_asset_type_t>> GetAsset_const(const unsigned int index)
+			static std::optional<std::reference_wrapper<typename AssetContainer<assetType>::container_asset_type_t>> GetAsset(const std::string& filename)
 			{
-				if (index >= 0 && index < AssetManager::ImportedAssets<assetType>.mAssetsForIterating.size())
+				for (auto& asset : AssetManager::ImportedAssets<assetType>.mAssetsForIterating)
 				{
-					return AssetManager::ImportedAssets<assetType>.mAssetsForIterating[index];
+					if (asset.GetAssetFileName() == filename)
+					{
+						return asset;
+					}
 				}
-				else
-				{
-					return {};
-				}
+				
+				return {};
 			}
+
 
 			template<eAssetType assetType>
 			static const std::vector<std::reference_wrapper<typename AssetContainer<assetType>::container_asset_type_t>>& GetAssets()
@@ -136,7 +125,7 @@ namespace doom
 				name += doom::Asset::GetAssetTypeString(loopVariable);
 				D_START_PROFILING(name.c_str(), doom::profiler::eProfileLayers::CPU);
 
-				AssetManager::ImportedAssets<loopVariable>.AddAsset(doom::assetimporter::Assetimporter::PushImportingAssetJobToThreadPool<loopVariable>(AssetPaths[static_cast<unsigned int>(loopVariable)]));
+				AssetManager::ImportedAssets<loopVariable>.AddAssetFutures(doom::assetimporter::Assetimporter::PushImportingAssetJobToThreadPool<loopVariable>(AssetPaths[static_cast<unsigned int>(loopVariable)]));
 
 				D_END_PROFILING(name.c_str());
 			}

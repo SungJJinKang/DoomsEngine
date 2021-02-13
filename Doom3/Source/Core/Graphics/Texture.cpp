@@ -32,7 +32,7 @@ void Texture::OnEndContructor()
 	this->SetFilterMin(Texture::eFilterMode::LINEAR, false);
 	this->SetFilterMax(Texture::eFilterMode::LINEAR, false);
 	this->SetWrapMode(Texture::eWrapMode::REPEAT, false);
-	this->UnBindTexture();
+	//this->UnBindTexture();
 }
 
 Texture::~Texture()

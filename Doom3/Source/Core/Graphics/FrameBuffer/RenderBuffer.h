@@ -1,7 +1,7 @@
 #pragma once
-#include "Graphics_Core.h"
-#include "GraphicsAPI.h"
-#include "OverlapBindChecker.h"
+#include "../Graphics_Core.h"
+#include "../GraphicsAPI.h"
+#include "../OverlapBindChecker.h"
 namespace doom
 {
 	namespace graphics

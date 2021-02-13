@@ -58,12 +58,12 @@ namespace doom
 			/// push future of imported asset
 			/// </summary>
 			/// <param name="asset"></param>
-			void AddAsset(container_imported_asset_future_t&& asset);
+			void AddAssetFuture(container_imported_asset_future_t&& asset);
 			/// <summary>
 			/// push futures of imported asset
 			/// </summary>
 			/// <param name="asset"></param>
-			void AddAsset(std::vector<container_imported_asset_future_t>&& assets);
+			void AddAssetFutures(std::vector<container_imported_asset_future_t>&& assets);
 			/// <summary>
 			/// Get Stored Asset Futures and Move it's asset to Assets
 			/// </summary>

@@ -2,11 +2,11 @@
 #include <vector>
 
 #include "../Core.h"
-#include "Graphics_Core.h"
-#include "GraphicsAPI.h"
+#include "../Graphics_Core.h"
+#include "../GraphicsAPI.h"
 #include "RenderBuffer.h"
-#include "SingleTexture.h"
-#include "OverlapBindChecker.h"
+#include "../SingleTexture.h"
+#include "../OverlapBindChecker.h"
 
 namespace doom
 {

@@ -259,6 +259,15 @@ static constexpr float QuadMeshData[]
 	-1.0f, 1.0f, 0.0f, 0.0f, 1.0f,
 };
 
-//const doom::graphics::Mesh doom::graphics::Mesh::QuadMesh{ sizeof(QuadMeshData) / sizeof(float), (void*)QuadMeshData, eVertexArrayFlag::Vertex | eVertexArrayFlag::TexCoord };
+const doom::graphics::Mesh& doom::graphics::Mesh::GetQuadMesh()
+{
+	if (doom::graphics::Mesh::QuadMesh == nullptr)
+	{
+		doom::graphics::Mesh::QuadMesh = new doom::graphics::Mesh(sizeof(QuadMeshData) / sizeof(float), (void*)QuadMeshData, eVertexArrayFlag::Vertex | eVertexArrayFlag::TexCoord);
+	}
+
+	return *doom::graphics::Mesh::QuadMesh;
+}
+
 
 
