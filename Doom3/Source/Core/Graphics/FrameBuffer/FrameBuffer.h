@@ -24,10 +24,10 @@ namespace doom
 			static constexpr unsigned int RESERVED_DEPTH_TEXTURE_COUNT = 1; 
 			std::vector<SingleTexture> mAttachedDepthextures;
 
-			unsigned int mClearBit;
-
 			static constexpr unsigned int RESERVED_DEPTH_STENCIL_TEXTURE_COUNT = 1; 
 			std::vector<SingleTexture> mAttachedDepthStencilTextures;
+
+			unsigned int mClearBit;
 
 			unsigned int mDefaultWidth;
 			unsigned int mDefaultHeight;
@@ -77,7 +77,7 @@ namespace doom
 				glBlitFramebuffer(srcX0, srcY0, srcX1, srcY1, dstX0, dstY0, dstX1, dstY1, static_cast<unsigned int>(mask), static_cast<unsigned int>(filter));
 			}
 
-			void AttachRenderBuffer(GraphicsAPI::eBufferType renderBufferType, unsgined int width, unsigned int height);
+			void AttachRenderBuffer(GraphicsAPI::eBufferType renderBufferType, unsigned int width, unsigned int height);
 			void AttachTextureBuffer(GraphicsAPI::eBufferType frameBufferType, unsigned int width, unsigned int height);
 
 			static void CheckIsFrameBufferSuccesfullyCreated() noexcept;

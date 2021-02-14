@@ -104,3 +104,8 @@ doom::graphics::Texture::eWrapMode Texture::GetWrapModeR()
 {
 	return this->mWrapR;
 }
+
+unsigned int Texture::GetID()
+{
+	return this->mID;
+}

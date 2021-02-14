@@ -1,6 +1,6 @@
 #VERTEX
 
-#version 420 core
+#version 450 core
 
 layout (location = 0) in vec3 aPos; 
 layout (location = 1) in vec2 aUV0; 
@@ -11,6 +11,7 @@ layout (location = 4) in vec3 aBitangent;
 out vec2 UV0;
 out vec3 FragPos;
 out mat3 TBN;
+out mat3 invertedTBN;
 out vec4 ClipSpacePos;
 out vec4 PrevClipSpacePos;
 
@@ -38,7 +39,8 @@ void main()
         T = T * -1.0;
     
     TBN = mat3(T, B, N);
-    
+    invertedTBN = transpose(TBN);
+
     ClipSpacePos     = viewProjection * model * vec4(aPos, 1.0);
     PrevClipSpacePos = prevViewProjection * prevModel * vec4(aPos, 1.0);
 	
@@ -46,11 +48,14 @@ void main()
 }
 
 #FRAGMENT
-#version 420 core
+#version 450 core
+
+layout (location = 0) out vec4 FragColor; // viewpos
 
 in vec2 UV0;
 in vec3 FragPos;
 in mat3 TBN;
+in mat3 invertedTBN;
 in vec4 ClipSpacePos;
 in vec4 PrevClipSpacePos;
 
@@ -58,8 +63,8 @@ uniform sampler2D Texture1;
 
 void main() 
 { 
-	gl_FragColor = vec4(texture(Texture1, UV0)); 
+	FragColor = vec4(texture(Texture1, UV0)); 
 }
 
 #GEOMETRY
-#version 420 core
+#version 450 core

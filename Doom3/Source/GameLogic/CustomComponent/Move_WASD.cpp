@@ -52,6 +52,10 @@ void doom::Move_WASD::UpdateComponent()
 	{
 		translation.Normalize();
 
+		if (UserInput_Server::GetKey(eKEY_CODE::KEY_LEFT_SHIFT))
+		{
+			translation *= 3.0f;
+		}
 		
 		this->GetTransform()->Translate(translation * delta, doom::eSpace::Self);
 	}

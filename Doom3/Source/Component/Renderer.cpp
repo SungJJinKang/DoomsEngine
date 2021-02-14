@@ -6,10 +6,6 @@ doom::Renderer::Renderer() : ServerComponent(), ComponentStaticIterater(), mTarg
 }
 
 
-doom::Renderer::~Renderer()
-{
-
-}
 
 void doom::Renderer::BindMaterial() noexcept
 {

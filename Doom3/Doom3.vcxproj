@@ -176,6 +176,7 @@
     <ClCompile Include="Source\Component\Iterator\RendererStaticIterator.cpp" />
     <ClCompile Include="Source\Component\Light.cpp" />
     <ClCompile Include="Source\Component\MeshRenderer.cpp" />
+    <ClCompile Include="Source\Component\PointLight.cpp" />
     <ClCompile Include="Source\Component\Renderer.cpp" />
     <ClCompile Include="Source\Component\Transform.cpp" />
     <ClCompile Include="Source\Core\Asset\Base_Asset.cpp" />
@@ -226,6 +227,7 @@
     <ClCompile Include="Source\Core\ResourceManagement\Thread.cpp" />
     <ClCompile Include="Source\Core\ResourceManagement\Thread_Server.cpp" />
     <ClCompile Include="Source\Core\Time\Time_Server.cpp" />
+    <ClCompile Include="Source\GameLogic\CustomComponent\AutoRotate.cpp" />
     <ClCompile Include="Source\GameLogic\CustomComponent\Move_WASD.cpp" />
     <ClCompile Include="Source\GameLogic\Test.cpp" />
     <ClCompile Include="Source\Helper\SimpleIniParser.cpp" />
@@ -257,6 +259,7 @@
     <ClInclude Include="Source\Component\Iterator\RendererStaticIterator.h" />
     <ClInclude Include="Source\Component\Light.h" />
     <ClInclude Include="Source\Component\MeshRenderer.h" />
+    <ClInclude Include="Source\Component\PointLight.h" />
     <ClInclude Include="Source\Component\Renderer.h" />
     <ClInclude Include="Source\Component\Transform.h" />
     <ClInclude Include="Source\Component\Core\ServerComponent.h" />
@@ -355,6 +358,7 @@
     <ClInclude Include="Source\Core\ResourceManagement\Thread.h" />
     <ClInclude Include="Source\Core\ResourceManagement\Thread_Server.h" />
     <ClInclude Include="Source\Core\Time\Time_Server.h" />
+    <ClInclude Include="Source\GameLogic\CustomComponent\AutoRotate.h" />
     <ClInclude Include="Source\GameLogic\CustomComponent\Move_WASD.h" />
     <ClInclude Include="Source\GameLogic\Doom_Core.h" />
     <ClInclude Include="Source\GameLogic\TEST.h" />
@@ -403,6 +407,17 @@
     <None Include="Assets\Shader\common\sampling.txt" />
     <None Include="Assets\Shader\common\shadows.txt" />
     <None Include="Assets\Shader\common\uniforms.txt" />
+    <None Include="Assets\Shader\Default\DefaultShader.glsl" />
+    <None Include="Assets\Shader\Default\equirect2cube_cs.glsl" />
+    <None Include="Assets\Shader\Default\irmap_cs.glsl" />
+    <None Include="Assets\Shader\Default\pbr_fs.glsl" />
+    <None Include="Assets\Shader\Default\pbr.glsl" />
+    <None Include="Assets\Shader\Default\skybox_fs.glsl" />
+    <None Include="Assets\Shader\Default\skybox_vs.glsl" />
+    <None Include="Assets\Shader\Default\spbrdf_cs.glsl" />
+    <None Include="Assets\Shader\Default\spmap_cs.glsl" />
+    <None Include="Assets\Shader\Default\tonemap_fs.glsl" />
+    <None Include="Assets\Shader\Default\tonemap_vs.glsl" />
     <None Include="dependency\glfw-3.3.2.bin.WIN64\docs\html\bug.html" />
     <None Include="dependency\glfw-3.3.2.bin.WIN64\docs\html\build_8dox.html" />
     <None Include="dependency\glfw-3.3.2.bin.WIN64\docs\html\build_guide.html" />

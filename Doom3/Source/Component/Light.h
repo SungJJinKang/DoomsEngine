@@ -1,5 +1,6 @@
 #pragma once
 #include "Core/PlainComponent.h"
+#include "Vector4.h"
 
 namespace doom
 {
@@ -17,8 +18,23 @@ namespace doom
 		virtual void OnEndOfFrame_Component();
 
 	protected:
-		Light() {}
-		virtual ~Light() {}
+
+		float mIntensity{ 1 };
+		float mIndirectMultiplier{ 1 };
+		math::Vector4 mColor{ 1 };
+		
+	public:
+		Light() = default;
+		virtual ~Light(){}
+
+		void SetIntensity(float intensity);
+		void SetIndirectMultiplier(float indirectMultiplier);
+		void SetColor(const math::Vector4& color);
+		float GetIntensity();
+		float GetIndirectMultiplier();
+		math::Vector4 GetColor();
+		const math::Vector4& GetColor() const;
+		math::Vector4 GetRadiance();
 	};
 }
 

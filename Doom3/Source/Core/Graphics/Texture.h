@@ -288,6 +288,7 @@ namespace doom
 		protected:
 			unsigned int mID;
 
+		
 
 			Texture() = delete;
 
@@ -348,12 +349,7 @@ namespace doom
 
 
 			virtual inline void TexImage1D(
-				int level,
-				eInternalFormat internalformat,
-				int width,
-				eDataFormat format,
-				eDataType type,
-				const void* data
+				int level, const void* data
 			) = 0;
 
 			/// <summary>
@@ -369,16 +365,10 @@ namespace doom
 			/// <param name="type"></param>
 			/// <param name="data"></param>
 			virtual inline void TexImage2D(
-				int level,
-				eInternalFormat internalformat,
-				int width,
-				int height,
-				eDataFormat format,
-				eDataType type,
-				const void* data
+				int level, const void* data
 			) = 0;
 
-
+			unsigned int GetID();
 
 			void SetWrapMode(eWrapMode wrapMode, bool bBind);
 			void SetFilterMin(eFilterMode filterMode, bool bBind);

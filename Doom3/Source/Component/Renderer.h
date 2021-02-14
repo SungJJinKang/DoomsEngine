@@ -19,11 +19,11 @@ namespace doom
 		friend class Enity;
 	private:
 		
-
 		Renderer(const Renderer&) = delete;
 		Renderer(Renderer&&) noexcept = delete;
 		Renderer& operator=(const Renderer&) = delete;
 		Renderer& operator=(Renderer&&) noexcept = delete;
+
 	protected:
 		
 		graphics::Material* mTargetMaterial;
@@ -48,7 +48,7 @@ namespace doom
 
 	public:
 		Renderer();
-		virtual ~Renderer();
+		virtual ~Renderer() {}
 
 
 		virtual void Draw() noexcept = 0;

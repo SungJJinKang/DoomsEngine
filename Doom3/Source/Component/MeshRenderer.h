@@ -37,6 +37,7 @@ namespace doom
 
 	public:
 		MeshRenderer();
+		virtual ~MeshRenderer(){}
 		void Draw() noexcept override
 		{
 			this->BindMaterial();

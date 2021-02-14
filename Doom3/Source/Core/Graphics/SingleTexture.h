@@ -17,15 +17,15 @@ namespace doom
 			SingleTexture(eTextureType textureType,
 				eTargetTexture target, eInternalFormat internalFormat, unsigned int width, unsigned int height, eDataFormat format, eDataType type, const void* data);
 
-			inline void TexImage1D(int level, eInternalFormat internalformat, int width, eDataFormat format, eDataType type, const void* data) noexcept final
+			inline void TexImage1D(int level, const void* data) noexcept final
 			{
 				this->BindTexture();
-				glTexImage1D(GL_TEXTURE_1D, level, static_cast<unsigned int>(internalformat), width, 0, static_cast<unsigned int>(format), static_cast<unsigned int>(type), data);
+				glTexImage1D(GL_TEXTURE_1D, level, static_cast<unsigned int>(this->mInternalFormat), this->mWidth, 0, static_cast<unsigned int>(this->mDataFormat), static_cast<unsigned int>(this->mDataType), data);
 			}
-			inline void TexImage2D(int level, eInternalFormat internalformat, int width, int height, eDataFormat format, eDataType type, const void* data) noexcept final
+			inline void TexImage2D(int level, const void* data) noexcept final
 			{
 				this->BindTexture();
-				glTexImage2D(GL_TEXTURE_2D, level, static_cast<unsigned int>(internalformat), width, height, 0, static_cast<unsigned int>(format), static_cast<unsigned int>(type), data);
+				glTexImage2D(GL_TEXTURE_2D, level, static_cast<unsigned int>(this->mInternalFormat), this->mWidth, this->mHeight, 0, static_cast<unsigned int>(this->mDataFormat), static_cast<unsigned int>(this->mDataType), data);
 			}
 
 		};

@@ -1,6 +1,8 @@
 #pragma once
 
 #define GLOBAL_UNIFORM_BLOCK_BINDING_POINT 0
+#define MAX_DIRECTIONAL_LIGHT_COUNT 5
+#define MAX_POINT_LIGHT_COUNT 16
 
 namespace doom
 {
@@ -43,6 +45,24 @@ namespace doom
 			pointLight6_Col = 704,
 			pointLight7_Pos = 720,
 			pointLight7_Col = 736,
+			pointLight8_Pos = 752,
+			pointLight8_Col = 768,
+			pointLight9_Pos = 784,
+			pointLight9_Col = 800,
+			pointLight10_Pos = 816,
+			pointLight10_Col = 832,
+			pointLight11_Pos = 848,
+			pointLight11_Col = 864,
+			pointLight12_Pos = 880,
+			pointLight12_Col = 896,
+			pointLight13_Pos = 912,
+			pointLight13_Col = 928,
+			pointLight14_Pos = 944,
+			pointLight14_Col = 960,
+			pointLight15_Pos = 976,
+			pointLight15_Col = 992,
+			dirLightCount = 1008,
+			pointLightCount = 1012
         };
    
 

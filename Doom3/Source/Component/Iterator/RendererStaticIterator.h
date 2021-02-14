@@ -25,14 +25,12 @@ namespace doom
 		friend class graphics::SceneGraphics;
 
 		using this_type = typename ComponentStaticIterater<Renderer>;
-		using layer_container_type = typename std::vector<Renderer*>;
-		using container_type = typename std::array<layer_container_type, MAX_LAYER_COUNT>;
-		
+
 	private:
 
 		Renderer* mRenderer_ptr;
 
-		static inline container_type mComponentsInLayer{};
+		static inline std::array<std::vector<Renderer*>, MAX_LAYER_COUNT> mComponentsInLayer{};
 		
 	protected:
 
@@ -43,7 +41,7 @@ namespace doom
 		/// Component constructor should be called before StaticIterator constructor
 		/// </summary>
 		ComponentStaticIterater();
-		~ComponentStaticIterater();
+		virtual ~ComponentStaticIterater();
 
 		virtual void OnEntityLayerChanged(Entity& entity);
 

@@ -57,6 +57,7 @@ namespace doom
 	public:
 
 		Camera() = default;
+		virtual ~Camera() = default;
 
 		void SetProjectionMode(eProjectionType value);
 		void SetFieldOfView(float value);

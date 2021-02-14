@@ -1,9 +1,10 @@
 #pragma once
 #include "Light.h"
-
+#include "Iterator/ComponentStaticIterater.h"
+#include "Graphics/Buffer/UniformBufferObjectTempBufferUpdater.h"
 namespace doom
 {
-	class DirectionalLight : public Light
+	class DirectionalLight : public Light, public ComponentStaticIterater<DirectionalLight>, public graphics::UniformBufferObjectTempBufferUpdater
 	{
 
 	private:
@@ -13,8 +14,19 @@ namespace doom
 		DirectionalLight& operator=(const DirectionalLight&) = delete;
 		DirectionalLight& operator=(DirectionalLight&&) noexcept = delete;
 
+
+		void InitComponent() final;
+		void UpdateComponent() final;
+		void OnEndOfFrame_Component() final;
+
 	protected:
 
+
+		void UpdateUniformBufferObjectTempBuffer(graphics::UniformBufferObjectManager& uboManager) override;
+
 	public:
+		DirectionalLight() = default;
+		~DirectionalLight(){}
+
 	};
 }

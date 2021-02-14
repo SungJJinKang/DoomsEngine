@@ -44,7 +44,7 @@ namespace doom
 		Transform() : mPosition{ 0.0f }, mRotation{}, mScale{ 1.0f }, bmIsDirtyModelMatrix{ true }
 		{
 		}
-
+		virtual ~Transform() = default;
 		std::string ToString();
 
 		constexpr void SetPosition(const math::Vector3& position)
@@ -80,6 +80,10 @@ namespace doom
 			this->mScale = scale;
 			this->SetDirtyTrueAtThisFrame();
 			this->bmIsDirtyModelMatrix = true;
+		}
+		constexpr void SetScale(const float x, const float y, const float z)
+		{
+			this->SetScale({ x,y,z });
 		}
 
 		constexpr math::Vector3 GetPosition()

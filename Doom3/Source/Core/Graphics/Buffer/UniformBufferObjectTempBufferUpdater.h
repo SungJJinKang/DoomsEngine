@@ -23,8 +23,7 @@ namespace doom
 		private:
 
 		protected:
-		
-			
+					
 			/// <summary>
 			/// Implement This Function!!!!
 			/// Update Uniform Buffer Object's TempBuffer
@@ -41,9 +40,6 @@ namespace doom
 
 			UniformBufferObjectTempBufferUpdater();
 			virtual ~UniformBufferObjectTempBufferUpdater();
-
-		
-
 
 		};
 

@@ -14,10 +14,7 @@ Component::Component() : bIsAddedToEntity{}, mOwnerEntity{}, mTransform{}, mIsAc
 
 }
 
-Component::~Component() // Never put parameter to component Destructor (including derived class)
-{
 
-}
 
 void doom::Component::InitComponent_Internal(Entity* entity)
 {

@@ -39,32 +39,53 @@ namespace doom
 	class ComponentStaticIterater //Never inherit Component
 	{
 		using this_type = typename ComponentStaticIterater<T>;
-		using container_type = typename std::vector<T*>;
+	
 	private:
 
-		static inline container_type mComponents{};
+		static inline std::vector<T*> mComponents{};
 
+		/// <summary>
+		/// why don't use iterator
+		/// iterator can be invalidated when vector's size is over capacity
+		/// </summary>
+		size_t mComponentStaticIndex;
+
+	protected:
+		
 		constexpr virtual void AddComponentToStaticContainer()
 		{
 			this_type::mComponents.push_back(reinterpret_cast<T*>(this));
+			this->mComponentStaticIndex = this_type::mComponents.size() - 1;
 		}
 
 		virtual void RemoveComponentToStaticContainer()
 		{
-			auto iter = std::find(this_type::mComponents.begin(), this_type::mComponents.end(), reinterpret_cast<T*>(this));
-
-			D_ASSERT(iter != this_type::mComponents.end());
-			std::vector_swap_erase(this_type::mComponents, iter);
+			typename std::vector<T*>::iterator swapedElementIter = std::vector_swap_erase(this_type::mComponents, this->mComponentStaticIndex);
+			if (swapedElementIter != this_type::mComponents.end())
+			{
+				(*swapedElementIter)->mComponentStaticIndex = this->mComponentStaticIndex;
+			}
 		}
 
+		size_t GetComponentStaticIndex()
+		{
+			return this->mComponentStaticIndex;
+		}
+
+		size_t GetComponentStaticCount()
+		{
+			return this_type::mComponents.size();
+		}
 	protected:
+
+		
 
 		constexpr ComponentStaticIterater()
 		{
 			this->AddComponentToStaticContainer();
 		}
 
-		~ComponentStaticIterater()
+		virtual ~ComponentStaticIterater()
 		{
 			this->RemoveComponentToStaticContainer();
 		}

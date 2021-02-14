@@ -287,7 +287,7 @@ void doom::ShaderAsset::checkCompileError(unsigned int id, ShaderType shaderType
 	if (!success)
 	{
 		glGetShaderInfoLog(id, 1024, NULL, infoLog);
-		D_DEBUG_LOG({ "ERROR::SHADER_COMPILATION_ERROR of type: ", shaderTypeStr.c_str(), "\n", infoLog, "\n -- --------------------------------------------------- -- " });
+		D_DEBUG_LOG({ this->GetAssetFileName(), "ERROR::SHADER_COMPILATION_ERROR of type: ", shaderTypeStr.c_str(), "\n", infoLog, "\n -- --------------------------------------------------- -- " });
 	}
 }
 

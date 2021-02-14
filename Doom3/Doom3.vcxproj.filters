@@ -219,6 +219,12 @@
     <ClCompile Include="Source\Core\Asset\TextureAsset.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Component\PointLight.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\GameLogic\CustomComponent\AutoRotate.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="dependency\glad\include\glad\glad.h">
@@ -686,6 +692,12 @@
     <ClInclude Include="Source\Core\Graphics\FrameBuffer\RenderBuffer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Component\PointLight.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\GameLogic\CustomComponent\AutoRotate.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="dependency\glfw-3.3.2.bin.WIN64\docs\html\search\all_0.html" />
@@ -827,6 +839,17 @@
     <None Include="Assets\Shader\common\random.txt" />
     <None Include="Assets\Shader\common\constants.txt" />
     <None Include="Assets\Shader\common\brdf.txt" />
+    <None Include="Assets\Shader\Default\DefaultShader.glsl" />
+    <None Include="Assets\Shader\Default\equirect2cube_cs.glsl" />
+    <None Include="Assets\Shader\Default\irmap_cs.glsl" />
+    <None Include="Assets\Shader\Default\pbr_fs.glsl" />
+    <None Include="Assets\Shader\Default\skybox_fs.glsl" />
+    <None Include="Assets\Shader\Default\skybox_vs.glsl" />
+    <None Include="Assets\Shader\Default\spbrdf_cs.glsl" />
+    <None Include="Assets\Shader\Default\spmap_cs.glsl" />
+    <None Include="Assets\Shader\Default\tonemap_fs.glsl" />
+    <None Include="Assets\Shader\Default\tonemap_vs.glsl" />
+    <None Include="Assets\Shader\Default\pbr.glsl" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="Source\Core\Graphics\ReamThis!!!!.txt" />
