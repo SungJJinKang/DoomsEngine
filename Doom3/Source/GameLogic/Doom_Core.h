@@ -1,5 +1,6 @@
 #pragma once
 
+#include <Core.h>
 #include <Scene.h>
 #include <Entity.h>
 #include <Transform.h>

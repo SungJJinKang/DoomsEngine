@@ -90,5 +90,13 @@ namespace doom
 		/// <returns></returns>
 		math::Matrix4x4 GetViewMatrix();
 
+		math::Vector3 ScreenToViewportPoint(math::Vector3 position);
+		math::Vector3 ViewportToScreenPoint(math::Vector3 position);
+
+		math::Vector3 WorldToViewportPoint(math::Vector3 position);
+		math::Vector3 ViewportToWorldPoint(math::Vector3 position);
+
+		math::Vector3 WorldToScreenPoint(math::Vector3 position);
+		math::Vector3 ScreenToWorldPoint(math::Vector3 position);
 	};
 }

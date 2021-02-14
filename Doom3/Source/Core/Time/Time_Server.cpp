@@ -19,5 +19,5 @@ void doom::time::Time_Server::Update() noexcept
 
 void doom::time::Time_Server::OnEndOfFrame() noexcept
 {
-	
+	++mFrameCounter;
 }

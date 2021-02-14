@@ -29,9 +29,6 @@ void doom::TEST::Init()
 	}
 
 
-
-
-
 	auto entity1 = currenScene->CreateNewEntity();
 	auto entity1Camera = entity1->AddComponent<Camera>();
 	entity1Camera->SetProjectionMode(doom::Camera::eProjectionType::Perspective);

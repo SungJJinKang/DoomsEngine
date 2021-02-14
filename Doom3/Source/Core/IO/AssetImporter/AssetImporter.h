@@ -11,6 +11,7 @@
 #include "AssetApiImporter.h"
 #include "AssetImporterWorker.h"
 
+#define THREADPOOL_DEBUG
 #include "../../../Helper/ThreadPool_Cpp/ThreadPool.h"
 
 namespace doom

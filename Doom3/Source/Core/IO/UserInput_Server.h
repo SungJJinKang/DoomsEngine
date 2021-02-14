@@ -161,11 +161,11 @@ namespace doom
 			static inline double mScrollOffsetX{};
 			static inline double mScrollOffsetY{};
 
-			static inline double mCursorPositionX{};
-			static inline double mCursorPositionY{};
+			static inline double mCursorScreenPositionX{};
+			static inline double mCursorScreenPositionY{};
 
-			static inline double mDeltaCursorPositionX{};
-			static inline double mDeltaCursorPositionY{};
+			static inline double mDeltaCursorScreenPositionX{};
+			static inline double mDeltaCursorScreenPositionY{};
 
 			virtual void Init() final;
 			virtual void Update() final;
@@ -222,7 +222,7 @@ namespace doom
 			/// <returns></returns>
 			[[nodiscard]] static double GetMouseScreenPositionX() noexcept
 			{
-				return UserInput_Server::mCursorPositionX;
+				return UserInput_Server::mCursorScreenPositionX;
 			}
 			/// <summary>
 			/// Screen Position 
@@ -230,7 +230,7 @@ namespace doom
 			/// <returns></returns>
 			[[nodiscard]] static double GetMouseScreenPositionY() noexcept
 			{
-				return UserInput_Server::mCursorPositionY;
+				return UserInput_Server::mCursorScreenPositionY;
 			}
 
 			/// <summary>
@@ -239,7 +239,7 @@ namespace doom
 			/// <returns></returns>
 			[[nodiscard]] static double GetDeltaMouseScreenPositionX() noexcept
 			{
-				return UserInput_Server::mDeltaCursorPositionX;
+				return UserInput_Server::mDeltaCursorScreenPositionX;
 			}
 			/// <summary>
 			/// Delta
@@ -247,7 +247,7 @@ namespace doom
 			/// <returns></returns>
 			[[nodiscard]] static double GetDeltaMouseScreenPositionY() noexcept
 			{
-				return UserInput_Server::mDeltaCursorPositionY;
+				return UserInput_Server::mDeltaCursorScreenPositionY;
 			}
 
 			/// <summary>

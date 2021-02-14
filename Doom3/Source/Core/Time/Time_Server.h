@@ -8,11 +8,13 @@
 
 namespace doom
 {
+	class GameCore;
+
 	namespace time
 	{
 		class Time_Server : public IGameFlow, public ISingleton<Time_Server>
 		{
-			friend class GameCore;
+			friend class ::doom::GameCore;
 
 		private:
 
@@ -22,10 +24,15 @@ namespace doom
 			/// </summary>
 			static inline long long mCurrentTime{};
 			static inline double mDeltaTime{};
+			static inline double mFixedDeltaTime{};
+
+			static inline unsigned int mFrameCounter{ 0 };
 
 			void Init() noexcept override;
 			void Update() noexcept override;
 			void OnEndOfFrame() noexcept override;
+
+			
 
 		public:
 
@@ -39,6 +46,16 @@ namespace doom
 			[[nodiscard]] static double GetDeltaTime() noexcept
 			{
 				return Time_Server::mDeltaTime;
+			}
+			[[nodiscard]] static double GetFixedDeltaTime() noexcept
+			{
+				return Time_Server::mDeltaTime;
+			}
+
+			[[nodiscard]] static bool GetFrameStep(unsigned int step) noexcept
+			{
+				D_ASSERT(step != 0);
+				return mFrameCounter % step == 0;
 			}
 		};
 	}

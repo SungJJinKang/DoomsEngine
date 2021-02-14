@@ -12,23 +12,23 @@ void UserInput_Server::CursorEnterCallback(GLFWwindow* window, int entered)
 
 	D_DEBUG_LOG({ "Mouse Cursor Enter?? : ", std::to_string(entered)}, eLogType::D_LOG);
 
-	if (entered == true)
+	if (entered != 0)
 	{
 		double xpos, ypos;
 		glfwGetCursorPos(doom::graphics::Graphics_Server::Window, &xpos, &ypos);
-		UserInput_Server::mCursorPositionX = xpos;
-		UserInput_Server::mCursorPositionY = ypos;
+		UserInput_Server::mCursorScreenPositionX = xpos;
+		UserInput_Server::mCursorScreenPositionY = ypos;
 	}
 }
 
 
 void UserInput_Server::CursorPosition_Callback(GLFWwindow* window, double xpos, double ypos)
 {
-	UserInput_Server::mDeltaCursorPositionX = xpos - UserInput_Server::mCursorPositionX;
-	UserInput_Server::mDeltaCursorPositionY = ypos - UserInput_Server::mCursorPositionY;
+	UserInput_Server::mDeltaCursorScreenPositionX = xpos - UserInput_Server::mCursorScreenPositionX;
+	UserInput_Server::mDeltaCursorScreenPositionY = ypos - UserInput_Server::mCursorScreenPositionY;
 
-	UserInput_Server::mCursorPositionX = xpos;
-	UserInput_Server::mCursorPositionY = ypos;
+	UserInput_Server::mCursorScreenPositionX = xpos;
+	UserInput_Server::mCursorScreenPositionY = ypos;
 
 	//D_DEBUG_LOG({ "Mouse Cursor Position : Pos X ( ", std::to_string(xpos), " ) , Pos Y ( ", std::to_string(ypos), " )" }, eLogType::D_LOG);
 }
@@ -73,8 +73,8 @@ void UserInput_Server::Init()
 
 void UserInput_Server::Update()
 {
-	UserInput_Server::mDeltaCursorPositionX = 0;
-	UserInput_Server::mDeltaCursorPositionY = 0;
+	UserInput_Server::mDeltaCursorScreenPositionX = 0;
+	UserInput_Server::mDeltaCursorScreenPositionY = 0;
 
 	glfwPollEvents();
 

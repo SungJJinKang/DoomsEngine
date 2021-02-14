@@ -5,8 +5,8 @@
 using namespace doom::graphics;
 
 
-FrameBuffer::FrameBuffer(unsigned int width, unsigned int height) 
-	: mWidth{ width }, mHeight{ height }
+FrameBuffer::FrameBuffer(unsigned int defaultWidth, unsigned int defaultHeight)
+	: mDefaultWidth{ defaultWidth }, mDefaultHeight{ defaultHeight }
 {
 	mAttachedRenderBuffers.reserve(RESERVED_RENDERBUFFER_COUNT);
 	mAttachedColorTextures.reserve(RESERVED_COLOR_TEXTURE_COUNT);
@@ -33,21 +33,22 @@ void FrameBuffer::CheckIsFrameBufferSuccesfullyCreated() noexcept
 	}
 }
 
-void FrameBuffer::AttachRenderBuffer(GraphicsAPI::eBufferType renderBufferType)
+void FrameBuffer::AttachRenderBuffer(GraphicsAPI::eBufferType renderBufferType, unsgined int width, unsigned int height)
 {
-	this->mAttachedRenderBuffers.emplace_back(*this, renderBufferType, this->mWidth, this->mHeight);
+	this->mAttachedRenderBuffers.emplace_back(*this, renderBufferType, this->mDefaultWidth, this->mDefaultHeight);
 	FrameBuffer::CheckIsFrameBufferSuccesfullyCreated();
 }
 
-void FrameBuffer::AttachTextureBuffer(GraphicsAPI::eBufferType frameBufferType)
+void FrameBuffer::AttachTextureBuffer(GraphicsAPI::eBufferType frameBufferType, unsigned int width, unsigned int height)
 {
 	this->BindFrameBuffer();
 
-	/*
+	
 	switch (frameBufferType)
 	{
-	case FrameBufferType::COLOR:
-		SingleTexture texture{ Texture::eTextureType::DIFFUSE, Texture::eTargetTexture::TEXTURE_2D, Texture::eInternalFormat:: };
+	case GraphicsAPI::eBufferType::COLOR:
+		SingleTexture texture{ Texture::eTextureType::DIFFUSE, Texture::eTargetTexture::TEXTURE_2D, 
+			Texture::eInternalFormat::RGB, width  };
 
 		singleTexture->ResetTexture(textureTarget, ColorTextureFormat, width, height, GL_RGB, GL_UNSIGNED_BYTE); // FOR HDR , USE RGB16F
 	
@@ -58,7 +59,7 @@ void FrameBuffer::AttachTextureBuffer(GraphicsAPI::eBufferType frameBufferType)
 		this->clearBufferBitfield |= GL_COLOR_BUFFER_BIT;
 		break;
 
-	case FrameBufferType::DEPTH:
+	case GraphicsAPI::eBufferType::DEPTH:
 		SingleTexture texture{ Texture::eTextureType::DIFFUSE, Texture::eTargetTexture::TEXTURE_2D, Texture::eInternalFormat:: };
 
 		singleTexture->ResetTexture(textureTarget, GL_DEPTH_COMPONENT, width, height, GL_DEPTH_COMPONENT, GL_UNSIGNED_BYTE, std::bind(&(FrameBuffer::ConfigureDepthTexture), singleTexture));
@@ -69,7 +70,7 @@ void FrameBuffer::AttachTextureBuffer(GraphicsAPI::eBufferType frameBufferType)
 		this->clearBufferBitfield |= GL_DEPTH_BUFFER_BIT;
 		break;
 
-	case FrameBufferType::DEPTH_STENCIL:
+	case GraphicsAPI::eBufferType::DEPTH_STENCIL:
 		SingleTexture texture{ Texture::eTextureType::DIFFUSE, Texture::eTargetTexture::TEXTURE_2D, Texture::eInternalFormat:: };
 
 		singleTexture->ResetTexture(textureTarget, GL_DEPTH24_STENCIL8, width, height, GL_DEPTH_STENCIL, GL_UNSIGNED_INT_24_8);
@@ -85,7 +86,7 @@ void FrameBuffer::AttachTextureBuffer(GraphicsAPI::eBufferType frameBufferType)
 		break;
 
 	}
-	*/
+	
 }
 
 

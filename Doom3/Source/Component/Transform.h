@@ -45,6 +45,8 @@ namespace doom
 		{
 		}
 
+		std::string ToString();
+
 		constexpr void SetPosition(const math::Vector3& position)
 		{
 			this->mPosition = position;
@@ -147,11 +149,11 @@ namespace doom
 
 		constexpr void Rotate(const math::Quaternion& quat, const eSpace& relativeTo)
 		{
-			if (relativeTo == eSpace::World)
+			if (relativeTo == eSpace::Self)
 			{
 				this->SetRotation(this->mRotation * quat);
 			}
-			else if (relativeTo == eSpace::Self)
+			else if (relativeTo == eSpace::World)
 			{
 				this->SetRotation(quat * this->mRotation);
 			}
@@ -159,11 +161,11 @@ namespace doom
 		}
 		constexpr void Rotate(const math::Vector3& eulerAngles, const eSpace& relativeTo)
 		{
-			if (relativeTo == eSpace::World)
+			if (relativeTo == eSpace::Self)
 			{
 				this->SetRotation(this->mRotation * math::Quaternion(eulerAngles));
 			}
-			else if (relativeTo == eSpace::Self)
+			else if (relativeTo == eSpace::World)
 			{
 				this->SetRotation(math::Quaternion(eulerAngles) * this->mRotation);
 			}
@@ -196,6 +198,7 @@ namespace doom
 				this->SetPosition(this->mPosition + this->TransformVector(translation));
 			}
 		}
+
 
 	};
 

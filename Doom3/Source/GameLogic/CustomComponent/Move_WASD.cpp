@@ -61,9 +61,30 @@ void doom::Move_WASD::UpdateComponent()
 
 	math::Vector3 rotation{ UserInput_Server::GetDeltaMouseScreenPositionY(), -UserInput_Server::GetDeltaMouseScreenPositionX(), 0.0f };
 	
+	if (UserInput_Server::GetKey(eKEY_CODE::KEY_UP))
+	{
+		rotation.x -= 1;
+	}
+	else if (UserInput_Server::GetKey(eKEY_CODE::KEY_DOWN))
+	{
+		rotation.x += 1;
+	}
+
+	if (UserInput_Server::GetKey(eKEY_CODE::KEY_LEFT))
+	{
+		rotation.y += 1;
+	}
+	else if (UserInput_Server::GetKey(eKEY_CODE::KEY_RIGHT))
+	{
+		rotation.y -= 1;
+	}
+
 	this->GetTransform()->Rotate(rotation.normalized() * delta, eSpace::Self);
 
-	
+	if (Time_Server::GetFrameStep(120))
+	{
+		//D_DEBUG_LOG(this->GetTransform()->ToString());
+	}
 }
 
 void doom::Move_WASD::OnEndOfFrame_Component()
