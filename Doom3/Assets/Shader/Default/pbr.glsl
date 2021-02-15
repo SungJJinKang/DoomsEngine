@@ -6,7 +6,7 @@
 
 #VERTEX
 
-#version 450 core
+#version 460 core
 
 
 layout (location = 0) in vec3 aPos; 
@@ -72,7 +72,7 @@ void main()
 // This implementation is based on "Real Shading in Unreal Engine 4" SIGGRAPH 2013 course notes by Epic Games.
 // See: http://blog.selfshadow.com/publications/s2013-shading-course/karis/s2013_pbs_epic_notes_v2.pdf
 #FRAGMENT
-#version 450 core
+#version 460 core
 
 
 
@@ -231,5 +231,3 @@ void main()
 	FragColor = vec4(directLighting + ambientLighting, 1.0);
 }
 
-#GEOMETRY
-#version 450 core

@@ -1,6 +1,6 @@
 #VERTEX
 
-#version 450 core
+#version 460 core
 
 layout (location = 0) in vec3 aPos; // this should be world space
 
@@ -12,13 +12,15 @@ void main()
 }
 
 #FRAGMENT
-#version 450 core
 
-layout (location = 0) out vec4 FragColor; // viewpos
+#version 460 core
 
-layout(binding=0) uniform vec4 Color;
+layout (location = 0) out vec4 FragColor; // viewpos, 
+
+layout(location = 0) uniform vec4 Color; // location != binding , output and uniform 's explicit location isn't associated with each other
 
 void main() 
 { 
 	FragColor = Color; 
+
 }

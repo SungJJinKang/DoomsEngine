@@ -205,11 +205,33 @@ std::array<std::string, 3> doom::ShaderAsset::ClassifyShader(const std::string& 
 			}
 		}
 		
+		
+
 		if (currentShaderType != ShaderType::None)
 		{
 			currentShaderStr += line; // getline stil contain newline character(\n)
 			currentShaderStr += '\n';
 		}
+	}
+
+	if (currentShaderStr.size() != 0)
+	{
+		switch (currentShaderType)
+		{
+		case ShaderType::Vertex:
+			classifiedShader[0] = std::move(currentShaderStr);
+			break;
+
+		case ShaderType::Fragment:
+			classifiedShader[1] = std::move(currentShaderStr);
+			break;
+
+		case ShaderType::Geometry:
+			classifiedShader[2] = std::move(currentShaderStr);
+			break;
+		}
+
+		currentShaderStr.clear();
 	}
 
 	return classifiedShader;

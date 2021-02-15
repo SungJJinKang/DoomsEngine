@@ -1,6 +1,6 @@
 #VERTEX
 
-#version 450 core
+#version 460 core
 
 layout (location = 0) in vec3 aPos; 
 layout (location = 1) in vec2 aUV0; 
@@ -48,7 +48,7 @@ void main()
 }
 
 #FRAGMENT
-#version 450 core
+#version 460 core
 
 layout (location = 0) out vec4 FragColor; // viewpos
 
@@ -66,5 +66,3 @@ void main()
 	FragColor = vec4(texture(Texture1, UV0)); 
 }
 
-// #GEOMETRY
-// #version 450 core

@@ -22,7 +22,11 @@ namespace doom
 
 				std::function<void()> newTask;
 				this->WaitingTaskQueue.wait_dequeue(newTask);
-				newTask();
+				if (newTask)
+				{
+					newTask();
+				}
+				
 			}
 		}
 

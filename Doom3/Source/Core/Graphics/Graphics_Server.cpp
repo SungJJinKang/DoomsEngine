@@ -10,6 +10,7 @@
 #include "../Game/AssetManager.h"
 #include "Material.h"
 #include <iostream>
+#include <string>
 
 using namespace doom::graphics;
 
@@ -22,8 +23,8 @@ void Graphics_Server::Init()
 	Graphics_Server::ScreenSize = { width, height };
 
 	glfwInit();
-	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
-	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 4);
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4); // 4.5 -> MAJOR 4  MINOR 5 , 3.1 -> MAJOR 3  MINOR 1
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 6);
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 	glfwWindowHint(GLFW_OPENGL_DEBUG_CONTEXT, true);
 	glfwWindowHint(GLFW_SAMPLES, 4);
@@ -54,6 +55,7 @@ void Graphics_Server::Init()
 		return;
 	}
 
+	D_DEBUG_LOG({ "Current OpenGL version is : ", std::string(reinterpret_cast<char const*>(glGetString(GL_VERSION))) });
 	glfwSetInputMode(Window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
 	//
 
@@ -96,7 +98,9 @@ void Graphics_Server::Update()
 	this->mDebugMaterial->UseProgram();
 	for (unsigned int i = 0; i < this->mDebugMeshCount; i++)
 	{
-		this->mDebugMaterial->SetVector4(0, this->mDebugMeshes[i].mColor); // set color ( see defulat line debug shader )
+		
+		//this->mDebugMaterial->SetVector4(0, this->mDebugMeshes[i].mColor); // set color ( see defulat line debug shader )
+		this->mDebugMaterial->SetVector4("Color", this->mDebugMeshes[i].mColor); // set color ( see defulat line debug shader )
 		this->mDebugMeshes[i].mMesh.Draw();
 		
 	}

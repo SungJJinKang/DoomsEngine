@@ -337,16 +337,22 @@ namespace doom
 				D_CHECK_OVERLAP_BIND("Texture", this->mID);
 				glBindTexture(static_cast<unsigned int>(this->mBindTarget), this->mID);
 			}
+			inline void ActiveTexture(unsigned int bindingPoint) noexcept
+			{
+				glActiveTexture(GL_TEXTURE0 + bindingPoint);
+			}
+
+
 			inline void UnBindTexture() noexcept
 			{
 				glBindTexture(static_cast<unsigned int>(this->mBindTarget), 0);
 			}
 
-			inline void ActiveTexture(unsigned int index) noexcept
+			inline void BindTextureWithUnit(unsigned int bindingPoint)
 			{
-				glActiveTexture(GL_TEXTURE0 + index);
+				D_CHECK_OVERLAP_BIND("Texture", this->mID);
+				glBindTextureUnit(bindingPoint, this->mID);
 			}
-
 
 			virtual inline void TexImage1D(
 				int level, const void* data

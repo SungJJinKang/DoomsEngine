@@ -45,9 +45,12 @@ namespace doom
 			{
 				for (unsigned int i = 0; i < this->mTargetTextures.size(); i++)
 				{
+					/*
 					auto& texture = *(this->mTargetTextures[i]);
 					texture.ActiveTexture(i);
 					texture.BindTexture();
+					*/
+					this->mTargetTextures[i]->BindTextureWithUnit(i);
 				}
 
 				D_CHECK_OVERLAP_BIND("Material", this->mID);

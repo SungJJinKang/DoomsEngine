@@ -40,9 +40,10 @@ void Material::SetShaderAsset(ShaderAsset& shaderAsset)
 
 	glLinkProgram(this->mID);
 
-#ifdef DEBUG_MODE
+
 	int isSuccess = 0;
 	glGetProgramiv(this->mID, GL_LINK_STATUS, &isSuccess);
+#ifdef DEBUG_MODE
 	if (!isSuccess)
 	{
 		char infoLog[512];
