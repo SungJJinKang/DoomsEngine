@@ -2,11 +2,20 @@
 
 #include <initializer_list>
 #include <string>
+
+namespace math
+{
+	template <size_t ComponentCount, typename T>
+	struct Vector;
+
+	using Vector3 = typename Vector<3, float>;
+	using Vector4 = typename Vector<4, float>;
+}
+
 namespace doom
 {
 	namespace logger
 	{
-		
 		enum class eLogType
 		{
 			D_LOG,
@@ -14,18 +23,34 @@ namespace doom
 			D_ERROR
 		};
 
-		void Log(const char* log, eLogType logType = eLogType::D_LOG) noexcept;
-		void Log(const std::string log, eLogType logType = eLogType::D_LOG) noexcept;
-		void Log(std::initializer_list<const char*> logs, eLogType logType = eLogType::D_LOG) noexcept;
-		void Log(std::initializer_list<const std::string> logs, eLogType logType = eLogType::D_LOG) noexcept;
+		class Debug
+		{
+		public:
+			
+
+			static void Log(const char* log, eLogType logType = eLogType::D_LOG) noexcept;
+			static void Log(const std::string log, eLogType logType = eLogType::D_LOG) noexcept;
+			static void Log(std::initializer_list<const char*> logs, eLogType logType = eLogType::D_LOG) noexcept;
+			static void Log(std::initializer_list<const std::string> logs, eLogType logType = eLogType::D_LOG) noexcept;
+			
+			static void DrawLine(const math::Vector3& startPosition, const math::Vector3& endPosition, const math::Vector4& color) noexcept;
+			static void DrawSphere(const math::Vector3& centerPosition, float radius, const math::Vector4& color) noexcept;
+		};
+		
+	
 	}
 }
+
+using namespace doom::logger;
 using doom::logger::eLogType;
 
 #ifdef MACRO_IMPLEMENTATION
 
 #include <cstdarg>
 #include <string>
+#include "../Graphics/Graphics_Server.h"
+#include "../Math/LightMath_Cpp/Vector3.h"
+#include "../Math/LightMath_Cpp/Vector4.h"
 
 namespace doom
 {
@@ -72,21 +97,30 @@ namespace doom
 
 		constexpr inline StdStreamLogger Logger{};
 
-		void Log(const char* log, eLogType logType) noexcept
+		void Debug::Log(const char* log, eLogType logType) noexcept
 		{
 			Logger.Log(log, logType);
 		}
-		void Log(const std::string log, eLogType logType) noexcept
+		void Debug::Log(const std::string log, eLogType logType) noexcept
 		{
 			Logger.Log(log, logType);
 		}
-		void Log(std::initializer_list<const char*> logs, eLogType logType) noexcept
+		void Debug::Log(std::initializer_list<const char*> logs, eLogType logType) noexcept
 		{
 			Logger.Log(logs, logType);
 		}
-		void Log(std::initializer_list<const std::string> logs, eLogType logType) noexcept
+		void Debug::Log(std::initializer_list<const std::string> logs, eLogType logType) noexcept
 		{
 			Logger.Log(logs, logType);
+		}
+
+		void Debug::DrawLine(const math::Vector3& startPosition, const math::Vector3& endPosition, const math::Vector4& color) noexcept
+		{
+			doom::graphics::Graphics_Server::GetSingleton()->DebugDrawLine(startPosition, endPosition, color);
+		}
+		void Debug::DrawSphere(const math::Vector3& centerPosition, float radius, const math::Vector4& color) noexcept
+		{
+			doom::graphics::Graphics_Server::GetSingleton()->DebugDrawSphere(centerPosition, radius, color);
 		}
 
 	}

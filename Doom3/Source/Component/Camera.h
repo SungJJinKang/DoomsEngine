@@ -1,6 +1,10 @@
 #pragma once
 #include "Core/PlainComponent.h"
+
+#include "../Core/Math/LightMath_Cpp/Vector4.h"
 #include "../Core/Math/LightMath_Cpp/Matrix4x4.h"
+
+#include <array>
 #include "../Core/Graphics/Buffer/UniformBufferObjectTempBufferUpdater.h"
 
 
@@ -25,7 +29,7 @@ namespace doom
 		eProjectionType mProjectionMode{ eProjectionType::Perspective };
 
 		///
-		float mFieldOfView = 60;
+		float mFieldOfViewInDegree = 60;
 
 		float mClippingPlaneNear = 0.3f;
 		float mClippingPlaneFar = 1000.0f;
@@ -47,6 +51,16 @@ namespace doom
 		/// opengl -1 ~ 1
 		/// </summary>
 		float mViewportRectHeight = 2.0f;
+
+		bool bmIsProjectionMatrixDirty{ true };
+		bool bmIsViewMatrixDirty{ true };
+		bool bmIsViewProjectionMatrixDirty{ true };
+		bool bmIsFrustumPlaneMatrixDirty{ true };
+		math::Matrix4x4 mViewMatrix{};
+		math::Matrix4x4 mProjectionMatrix{};
+		math::Matrix4x4 mViewProjectionMatrix{};
+		std::array<math::Vector4, 6> mFrustumPlane{};
+		const std::array<math::Vector4, 6>& CalculateFrustumPlane();
 
 		virtual void InitComponent() final;
 		virtual void UpdateComponent() final;
@@ -79,25 +93,25 @@ namespace doom
 	
 		
 
-		math::Matrix4x4 mProjectionMatrixCache{};
 		/// <summary>
 		/// this function will be called at every frame
 		/// </summary>
 		/// <returns></returns>
-		math::Matrix4x4 GetProjectionMatrix();
+		const math::Matrix4x4& GetProjectionMatrix();
 		/// <summary>
 		/// this function will be called at every frame
 		/// </summary>
 		/// <returns></returns>
-		math::Matrix4x4 GetViewMatrix();
+		const math::Matrix4x4& GetViewMatrix();
+		const math::Matrix4x4& GetViewProjectionMatrix();
 
-		math::Vector3 ScreenToViewportPoint(math::Vector3 position);
-		math::Vector3 ViewportToScreenPoint(math::Vector3 position);
+		math::Vector3 ScreenToViewportPoint(const math::Vector3& position);
+		math::Vector3 ViewportToScreenPoint(const math::Vector3& position);
 
-		math::Vector3 WorldToViewportPoint(math::Vector3 position);
-		math::Vector3 ViewportToWorldPoint(math::Vector3 position);
+		math::Vector3 WorldToViewportPoint(const math::Vector3& position);
+		math::Vector3 ViewportToWorldPoint(const math::Vector3& position);
 
-		math::Vector3 WorldToScreenPoint(math::Vector3 position);
-		math::Vector3 ScreenToWorldPoint(math::Vector3 position);
+		math::Vector3 WorldToScreenPoint(const math::Vector3& position);
+		math::Vector3 ScreenToWorldPoint(const math::Vector3& position);
 	};
 }

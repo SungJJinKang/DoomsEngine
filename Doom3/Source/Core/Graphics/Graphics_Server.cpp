@@ -7,6 +7,8 @@
 #include "../Scene/Layer.h"
 #include "../Game/GameCore.h"
 #include "Renderer.h"
+#include "../Game/AssetManager.h"
+#include "Material.h"
 #include <iostream>
 
 using namespace doom::graphics;
@@ -14,8 +16,10 @@ using namespace doom::graphics;
 
 void Graphics_Server::Init()
 {
-	Graphics_Server::SCREEN_WIDTH = GameCore::GetSingleton()->GetConfigData().GetValue<int>("Graphics", "SCREEN_WIDHT");
-	Graphics_Server::SCREEN_HEIGHT = GameCore::GetSingleton()->GetConfigData().GetValue<int>("Graphics", "SCREEN_HEIGHT");
+	int width = GameCore::GetSingleton()->GetConfigData().GetValue<int>("Graphics", "SCREEN_WIDHT");
+	int height = GameCore::GetSingleton()->GetConfigData().GetValue<int>("Graphics", "SCREEN_HEIGHT");
+
+	Graphics_Server::ScreenSize = { width, height };
 
 	glfwInit();
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
@@ -30,7 +34,7 @@ void Graphics_Server::Init()
 
 	// glfw window creation
 	// --------------------
-	Window = glfwCreateWindow(SCREEN_WIDTH, SCREEN_HEIGHT, "LearnOpenGL", NULL, NULL);
+	Window = glfwCreateWindow(Graphics_Server::ScreenSize.x, Graphics_Server::ScreenSize.y, "LearnOpenGL", NULL, NULL);
 	if (Window == NULL)
 	{
 		D_DEBUG_LOG("Failed to create GLFW window");
@@ -39,7 +43,7 @@ void Graphics_Server::Init()
 	}
 	glfwMakeContextCurrent(Window);
 	glfwSetFramebufferSizeCallback(Window,
-		[](GLFWwindow*, int, int) {glViewport(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT); }
+		[](GLFWwindow*, int, int) {glViewport(0, 0, Graphics_Server::ScreenSize.x, Graphics_Server::ScreenSize.y); }
 	);
 
 	// glad: load all OpenGL function pointers
@@ -72,6 +76,13 @@ void Graphics_Server::Init()
 	return;
 }
 
+void doom::graphics::Graphics_Server::LateInit()
+{
+	auto& debugShader = doom::assetimporter::AssetManager::GetAsset<eAssetType::SHADER>(Graphics_Server::DEBUG_SHADER).value().get();
+	this->mDebugMaterial = new Material{ debugShader };
+
+}
+
 void Graphics_Server::Update()
 {
 	GraphicsAPI::ClearColor(1.0f, 1.0f, 1.0f, 1.0f);
@@ -81,6 +92,15 @@ void Graphics_Server::Update()
 
 	sceneGraphics->mUniformBufferObjectManager.Update_Internal();
 	sceneGraphics->mUniformBufferObjectManager.Update();
+
+	this->mDebugMaterial->UseProgram();
+	for (unsigned int i = 0; i < this->mDebugMeshCount; i++)
+	{
+		this->mDebugMaterial->SetVector4(0, this->mDebugMeshes[i].mColor); // set color ( see defulat line debug shader )
+		this->mDebugMeshes[i].mMesh.Draw();
+		
+	}
+
 
 	for (unsigned int i = 0; i < MAX_LAYER_COUNT; i++)
 	{
@@ -104,6 +124,8 @@ void Graphics_Server::Update()
 
 void Graphics_Server::OnEndOfFrame()
 {
+	this->mDebugMeshCount = 0;
+
 	auto sceneGraphics = SceneGraphics::GetSingleton();
 
 	sceneGraphics->mUniformBufferObjectManager.OnEndOfFrame_Internal();
@@ -127,12 +149,42 @@ void Graphics_Server::OnEndOfFrame()
 
 int Graphics_Server::GetScreenWidth()
 {
-	return Graphics_Server::SCREEN_WIDTH;
+	return Graphics_Server::Graphics_Server::ScreenSize.x;
 }
 
 int Graphics_Server::GetScreenHeight()
 {
-	return Graphics_Server::SCREEN_HEIGHT;
+	return Graphics_Server::Graphics_Server::ScreenSize.y;
+}
+
+math::Vector2 doom::graphics::Graphics_Server::GetScreenSize()
+{
+	return Graphics_Server::ScreenSize;
+}
+
+const math::Vector2& doom::graphics::Graphics_Server::GetScreenSize_const()
+{
+	return Graphics_Server::ScreenSize;
+}
+
+void doom::graphics::Graphics_Server::DebugDrawLine(const math::Vector3& startWorldPos, const math::Vector3& endWorldPos, const math::Vector4& color)
+{
+	//Don't Remove, ReCreate Mesh
+	//Use previous frame's Mesh
+
+	++this->mDebugMeshCount;
+	while (this->mDebugMeshes.size() < this->mDebugMeshCount)
+	{
+		this->mDebugMeshes.emplace_back();
+	}
+
+	float vertex[6]{ startWorldPos.x,startWorldPos.y, startWorldPos.z, endWorldPos.x, endWorldPos.y, endWorldPos.z };
+	this->mDebugMeshes[this->mDebugMeshCount - 1].mColor = color;
+	this->mDebugMeshes[this->mDebugMeshCount - 1].mMesh.BufferData(6, vertex, ePrimitiveType::LINE, Mesh::eVertexArrayFlag::Vertex);
+}
+
+void doom::graphics::Graphics_Server::DebugDrawSphere(const math::Vector3& centerWorldPos, float radius, const math::Vector4& color)
+{
 }
 
 void Graphics_Server::OpenGlDebugCallback(GLenum source, GLenum type, GLuint id, GLenum severity, GLsizei length, const GLchar* msg, const void* data)

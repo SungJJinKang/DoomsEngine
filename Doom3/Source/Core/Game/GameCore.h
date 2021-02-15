@@ -58,6 +58,7 @@ namespace doom
 
 
 		virtual void Init() final;
+		virtual void LateInit() final;
 		/// <summary>
 		/// Frame Loop
 		/// </summary>

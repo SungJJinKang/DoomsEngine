@@ -23,12 +23,13 @@ namespace doom
 			Buffer& operator=(Buffer&& buffer) noexcept;
 
 			void GenBuffer();
+			virtual void GenBufferIfNotGened();
 			virtual void DeleteBuffers();
 
 		public:
 			inline virtual void BindBuffer() noexcept = 0;
 			inline virtual void UnBindBuffer() noexcept = 0;
-			bool IsBufferGenerated();
+			virtual bool IsBufferGenerated();
 		};
 	}
 }

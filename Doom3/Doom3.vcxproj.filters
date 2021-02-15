@@ -225,6 +225,12 @@
     <ClCompile Include="Source\GameLogic\CustomComponent\AutoRotate.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Core\Physics\AABB.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Core\IO\Picking.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="dependency\glad\include\glad\glad.h">
@@ -698,6 +704,12 @@
     <ClInclude Include="Source\GameLogic\CustomComponent\AutoRotate.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Core\Physics\AABB.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Core\IO\Picking.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="dependency\glfw-3.3.2.bin.WIN64\docs\html\search\all_0.html" />
@@ -850,6 +862,7 @@
     <None Include="Assets\Shader\Default\tonemap_fs.glsl" />
     <None Include="Assets\Shader\Default\tonemap_vs.glsl" />
     <None Include="Assets\Shader\Default\pbr.glsl" />
+    <None Include="Assets\Shader\Default\DebugLineShader.glsl" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="Source\Core\Graphics\ReamThis!!!!.txt" />

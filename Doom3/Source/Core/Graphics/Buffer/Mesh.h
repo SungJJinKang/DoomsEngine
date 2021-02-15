@@ -12,23 +12,27 @@ namespace doom
 
 	namespace graphics
 	{
+		class Graphics_Server;
 		class Mesh : public Buffer
 		{
+			friend class Graphics_Server;
+		private:
+
 			enum eVertexArrayFlag : unsigned int
 			{
 				None = 0x0,
-				Vertex = 1 < 0,
-				TexCoord = 1 < 1,
-				mNormal = 1 < 2,
-				mTangent = 1 < 3,
-				mBitangent = 1 < 4,
+				Vertex =  1,
+				TexCoord = 2,
+				mNormal = 4,
+				mTangent = 8,
+				mBitangent = 16,
 			};
 
 
 		private:
 			unsigned int mVertexArrayObject;
-			unsigned int& mVertexBufferObject = this->mBufferID;
 			unsigned int mElementBufferObject;
+			//unsigned int mVertexBufferObject; <- Use Buffer::mBufferID
 
 			//const ThreeDModelMesh* mThreeDModelMesh; don't save ModelMeshAssetData
 			unsigned int mNumOfIndices;
@@ -38,11 +42,12 @@ namespace doom
 		protected:
 			void GenMeshBuffer(bool hasIndice);
 			void DeleteBuffers() final;
+			virtual void GenBufferIfNotGened(bool hasIndice) final;
 		public:
 			Mesh();
 			virtual ~Mesh();
 			
-			Mesh(GLsizeiptr dataCount, const void* data, unsigned int vertexArrayFlag) noexcept;
+			Mesh(GLsizeiptr dataCount, const void* data, ePrimitiveType primitiveType, unsigned int vertexArrayFlag) noexcept;
 			Mesh(const ThreeDModelMesh& threeDModelMesh) noexcept;
 			Mesh& operator=(const ThreeDModelMesh& threeDModelMesh) noexcept;
 
@@ -58,6 +63,7 @@ namespace doom
 			/// <returns></returns>
 			void BindBuffer() noexcept final
 			{
+				D_ASSERT(this->mVertexArrayObject != 0);
 				D_CHECK_OVERLAP_BIND("VertexArray", this->mVertexArrayObject);
 				glBindVertexArray(this->mVertexArrayObject);
 			}
@@ -78,9 +84,13 @@ namespace doom
 			/// aPos(0)  aUV0  aNormal  aTangent  aBitangent
 			/// 
 			/// </summary>
-			/// <param name="size">size of data in byte</param>
-			/// <param name="data"></param>
-			void BufferData(GLsizeiptr dataCount, const void* data, unsigned int vertexArrayFlag) noexcept;
+			/// <param name="dataCount">count of data, vec3 -> 3 </param>
+			/// <param name="data">first element address of data array's element</param>
+			/// <param name="primitiveType"></param>
+			/// <param name="vertexArrayFlag"></param>
+			/// <returns></returns>
+			void BufferData(GLsizeiptr dataCount, const void* data, ePrimitiveType primitiveType, unsigned int vertexArrayFlag) noexcept;
+			void BindVertexBufferObject();
 			void BufferDataFromModelMesh(const ThreeDModelMesh& threeDModelMesh) noexcept;
 			void Draw()
 			{
@@ -99,6 +109,9 @@ namespace doom
 
 			static inline Mesh* QuadMesh{ nullptr };
 			static const Mesh& GetQuadMesh();
+
+			virtual bool IsBufferGenerated() final;
+
 		};
 	}
 }

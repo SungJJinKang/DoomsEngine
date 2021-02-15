@@ -11,18 +11,17 @@ doom::graphics::Mesh::Mesh()
 
 }
 
-doom::graphics::Mesh::Mesh(GLsizeiptr dataCount, const void* data, unsigned int vertexArrayFlag) noexcept : Buffer()
+doom::graphics::Mesh::Mesh(GLsizeiptr dataCount, const void* data, ePrimitiveType primitiveType, unsigned int vertexArrayFlag) noexcept : Buffer()
 {
 	this->GenMeshBuffer(false);
-	this->BufferData(dataCount, data, vertexArrayFlag);
+	this->BufferData(dataCount, data, primitiveType, vertexArrayFlag);
 }
 
-doom::graphics::Mesh::Mesh(Mesh&& mesh) noexcept : Buffer(std::move(mesh)), mVertexArrayObject{ mesh.mVertexArrayObject }, mVertexBufferObject{ mesh.mVertexBufferObject }
-, mElementBufferObject{ mesh.mElementBufferObject }, mNumOfIndices{ mesh.mNumOfIndices }, mNumOfVertices{ mesh.mNumOfVertices }
+doom::graphics::Mesh::Mesh(Mesh&& mesh) noexcept : Buffer(std::move(mesh)), mVertexArrayObject{ mesh.mVertexArrayObject },
+mElementBufferObject{ mesh.mElementBufferObject }, mNumOfIndices{ mesh.mNumOfIndices }, mNumOfVertices{ mesh.mNumOfVertices }
 , mPrimitiveType{ mesh.mPrimitiveType }
 {
 	mesh.mVertexArrayObject = 0;
-	mesh.mVertexBufferObject = 0;
 	mesh.mElementBufferObject = 0;
 	mesh.mNumOfIndices = 0;
 	mesh.mNumOfVertices = 0;
@@ -34,14 +33,12 @@ doom::graphics::Mesh::Mesh(Mesh&& mesh) noexcept : Buffer(std::move(mesh)), mVer
 doom::graphics::Mesh& doom::graphics::Mesh::operator=(Mesh&& mesh) noexcept
 {
 	this->mVertexArrayObject = mesh.mVertexArrayObject;
-	this->mVertexBufferObject = mesh.mVertexBufferObject;
 	this->mElementBufferObject = mesh.mElementBufferObject;
 	this->mNumOfIndices = mesh.mNumOfIndices;
 	this->mNumOfVertices = mesh.mNumOfVertices;
 	this->mPrimitiveType = mesh.mPrimitiveType;
 
 	mesh.mVertexArrayObject = 0;
-	mesh.mVertexBufferObject = 0;
 	mesh.mElementBufferObject = 0;
 	mesh.mNumOfIndices = 0;
 	mesh.mNumOfVertices = 0;
@@ -90,6 +87,14 @@ void doom::graphics::Mesh::DeleteBuffers()
 	}
 }
 
+void doom::graphics::Mesh::GenBufferIfNotGened(bool hasIndice)
+{
+	if (this->IsBufferGenerated() == true)
+		return;
+
+	this->GenMeshBuffer(hasIndice);
+}
+
 doom::graphics::Mesh& doom::graphics::Mesh::operator=(const ThreeDModelMesh& threeDModelMesh) noexcept
 {
 	this->DeleteBuffers();
@@ -101,12 +106,14 @@ doom::graphics::Mesh& doom::graphics::Mesh::operator=(const ThreeDModelMesh& thr
 }
 
 
-void doom::graphics::Mesh::BufferData(GLsizeiptr dataCount, const void* data, unsigned int vertexArrayFlag) noexcept
+void doom::graphics::Mesh::BufferData(GLsizeiptr dataCount, const void* data, ePrimitiveType primitiveType, unsigned int vertexArrayFlag) noexcept
 {
+	this->GenBufferIfNotGened(false);
+
 	this->BindBuffer(); // bind vertex array buffer
 
 
-	glBindBuffer(GL_ARRAY_BUFFER, this->mVertexBufferObject);
+	this->BindVertexBufferObject();
 	glBufferData(GL_ARRAY_BUFFER, sizeof(float) * dataCount, data, GL_STATIC_DRAW);
 
 	unsigned int offset = 0;
@@ -155,18 +162,26 @@ void doom::graphics::Mesh::BufferData(GLsizeiptr dataCount, const void* data, un
 	}
 
 #pragma warning( disable : 4244 )
-	this->mNumOfVertices = dataCount / offset;
+	this->mNumOfVertices = dataCount * sizeof(float) / offset;
 	this->mNumOfIndices = 0;
 
-	mPrimitiveType = ePrimitiveType::TRIANGLE;
+	mPrimitiveType = primitiveType;
+}
+
+void doom::graphics::Mesh::BindVertexBufferObject()
+{
+	D_ASSERT(this->mBufferID != 0);
+	glBindBuffer(GL_ARRAY_BUFFER, this->mBufferID);
 }
 
 
 void doom::graphics::Mesh::BufferDataFromModelMesh(const ThreeDModelMesh& threeDModelMesh) noexcept
 {
+	this->GenBufferIfNotGened(threeDModelMesh.bHasIndices);
+
 	this->BindBuffer(); // bind vertex array buffer first
 
-	glBindBuffer(GL_ARRAY_BUFFER, this->mVertexBufferObject); // and bind VBO
+	this->BindVertexBufferObject();
 	glBufferData(GL_ARRAY_BUFFER, sizeof(std::remove_pointer_t<decltype(threeDModelMesh.mMeshVertexDatas)>) * threeDModelMesh.mNumOfVertexs, &(threeDModelMesh.mMeshVertexDatas[0]), GL_STATIC_DRAW);
 
 	size_t offset = 0;
@@ -263,10 +278,15 @@ const doom::graphics::Mesh& doom::graphics::Mesh::GetQuadMesh()
 {
 	if (doom::graphics::Mesh::QuadMesh == nullptr)
 	{
-		doom::graphics::Mesh::QuadMesh = new doom::graphics::Mesh(sizeof(QuadMeshData) / sizeof(float), (void*)QuadMeshData, eVertexArrayFlag::Vertex | eVertexArrayFlag::TexCoord);
+		doom::graphics::Mesh::QuadMesh = new doom::graphics::Mesh(sizeof(QuadMeshData) / sizeof(float), (void*)QuadMeshData, ePrimitiveType::TRIANGLE, eVertexArrayFlag::Vertex | eVertexArrayFlag::TexCoord);
 	}
 
 	return *doom::graphics::Mesh::QuadMesh;
+}
+
+bool doom::graphics::Mesh::IsBufferGenerated()
+{
+	return Buffer::IsBufferGenerated() && this->mVertexArrayObject != 0;
 }
 
 

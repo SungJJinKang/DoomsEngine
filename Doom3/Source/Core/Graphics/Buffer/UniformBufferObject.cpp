@@ -25,7 +25,7 @@ void doom::graphics::UniformBufferObject::GenerateUniformBufferObject(unsigned i
 
 	this->BindBuffer();
 	glBufferData(GL_UNIFORM_BUFFER, uniformBlockSizeInByte, NULL, GL_STATIC_DRAW);
-	glBindBufferBase(GL_UNIFORM_BUFFER, bindingPoint, this->mUniformBufferID);
+	glBindBufferBase(GL_UNIFORM_BUFFER, bindingPoint, this->mBufferID);
 
 	this->mSizeInByte = uniformBlockSizeInByte;
 	this->mUniformBufferTempData = new char[uniformBlockSizeInByte];

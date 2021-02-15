@@ -29,7 +29,7 @@ namespace doom
 			/// <summary>
 			/// Buffer::mBufferID is same with mUniformBufferID
 			/// </summary>
-			unsigned int& mUniformBufferID = this->mBufferID;
+			//unsigned int& mUniformBufferID = this->mBufferID; USE mBufferID
 
 
 			// TODO: Check Which is faster : 
@@ -54,8 +54,8 @@ namespace doom
 
 			inline void BindBuffer() noexcept final
 			{
-				D_CHECK_OVERLAP_BIND("UniformBlock", this->mUniformBufferID);
-				glBindBuffer(GL_UNIFORM_BUFFER, this->mUniformBufferID);
+				D_CHECK_OVERLAP_BIND("UniformBlock", this->mBufferID);
+				glBindBuffer(GL_UNIFORM_BUFFER, this->mBufferID);
 			}
 			inline virtual void UnBindBuffer() noexcept final
 			{

@@ -20,7 +20,7 @@ namespace doom
 		/// why don't use FrameDirtyChecker::IsDirty -> FrameDirtyChecker is changed when pass frame
 		/// but this modelMatrix is calculated when this is needed ( not every frame )
 		/// </summary>
-		math::Matrix4x4 mModelMatrixCache;
+		math::Matrix4x4 mModelMatrix;
 		bool bmIsDirtyModelMatrix;
 
 		math::Matrix4x4 mLocalToWorldMatrix{ 1.0f };
@@ -119,17 +119,17 @@ namespace doom
 		{
 			if (this->bmIsDirtyModelMatrix == false)
 			{
-				return this->mModelMatrixCache;
+				return this->mModelMatrix;
 			}
 			else
 			{
-				this->mModelMatrixCache = math::translate(this->mPosition) * static_cast<math::Matrix4x4>(this->mRotation) * math::scale(this->mScale);
+				this->mModelMatrix = math::translate(this->mPosition) * static_cast<math::Matrix4x4>(this->mRotation) * math::scale(this->mScale);
 			
-				//this->mModelMatrixCache *= this->mLocalToWorldMatrix;
+				//this->mModelMatrix *= this->mLocalToWorldMatrix;
 
 				this->bmIsDirtyModelMatrix = false;
 
-				return this->mModelMatrixCache;
+				return this->mModelMatrix;
 			}
 		}
 

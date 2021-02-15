@@ -29,14 +29,20 @@ void doom::TEST::Init()
 	material->AddTexture(assetimporter::AssetManager::GetAsset<eAssetType::TEXTURE>("cerberus_M.png").value().get());
 	material->AddTexture(assetimporter::AssetManager::GetAsset<eAssetType::TEXTURE>("cerberus_R.png").value().get());
 
-	for (int i = 0; i < threedasset.GetMeshCount(); i++)
+	for (int i = 0; i < 30; i++)
 	{
-		auto entity = currenScene->CreateNewEntity();
-		entity->GetTransform()->SetScale(0.02f, 0.02f, 0.02f);
-		auto meshRenderer = entity->AddComponent<MeshRenderer>();
-		meshRenderer->SetMesh(threedasset.GetMesh(i));
-		meshRenderer->SetMaterial(material);
+		for (int i = 0; i < threedasset.GetMeshCount(); i++)
+		{
+			auto entity = currenScene->CreateNewEntity();
+			entity->GetTransform()->SetScale(0.02f, 0.02f, 0.02f);
+			entity->GetTransform()->SetPosition(Random::RandomFloatNumber(-10, 10), Random::RandomFloatNumber(-10, 10), Random::RandomFloatNumber(-10, 10));
+			auto meshRenderer = entity->AddComponent<MeshRenderer>();
+			meshRenderer->SetMesh(threedasset.GetMesh(i));
+			meshRenderer->SetMaterial(material);
+			entity->AddComponent<AutoRotate>();
+		}
 	}
+	
 
 
 	auto entity1 = currenScene->CreateNewEntity();

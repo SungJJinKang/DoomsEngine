@@ -27,6 +27,16 @@ void Buffer::GenBuffer()
 	glGenBuffers(1, &(this->mBufferID));
 }
 
+void doom::graphics::Buffer::GenBufferIfNotGened()
+{
+	if (this->IsBufferGenerated() == true)
+	{
+		return;
+	}
+		
+	this->GenBuffer();
+}
+
 Buffer::~Buffer()
 {
 	this->DeleteBuffers();

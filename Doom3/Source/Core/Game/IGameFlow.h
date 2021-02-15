@@ -21,6 +21,7 @@ namespace doom
 		/// </summary>
 		void Init_Internal();
 		virtual void Init() = 0;
+		virtual void LateInit();
 
 		/// <summary>
 		/// Don't put virtual

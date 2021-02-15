@@ -57,6 +57,26 @@ void doom::GameCore::Init()
 
 	this->mThreadManager.InitializeThreads();
 
+	this->LateInit();
+}
+
+void doom::GameCore::LateInit()
+{
+	/*
+	D_START_PROFILING("Init Physics_Server", eProfileLayers::CPU);
+	this->mPhysics_Server.Init();
+	D_END_PROFILING("Init Physics_Server");
+	*/
+
+	D_START_PROFILING("LateInit Graphics_Server", eProfileLayers::GPU);
+	this->mGraphics_Server.LateInit();
+	D_END_PROFILING("LateInit Graphics_Server");
+
+	/*
+	D_START_PROFILING("Init UserInput_Server", eProfileLayers::CPU);
+	this->mUserImput_Server.Init();
+	D_END_PROFILING("Init UserInput_Server");
+	*/
 	TEST::Init();
 }
 

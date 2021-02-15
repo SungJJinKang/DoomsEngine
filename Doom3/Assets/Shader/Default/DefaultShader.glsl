@@ -66,5 +66,5 @@ void main()
 	FragColor = vec4(texture(Texture1, UV0)); 
 }
 
-#GEOMETRY
-#version 450 core
+// #GEOMETRY
+// #version 450 core

@@ -1,4 +1,5 @@
 #pragma once
+#include "../Core.h"
 #include "../Game/IGameFlow.h"
 #include "../Singleton.h"
 
