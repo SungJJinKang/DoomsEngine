@@ -17,10 +17,7 @@ out vec4 PrevClipSpacePos;
 
 #include ../common/uniforms.txt
 
-uniform mat4 model;
-uniform mat4 prevModel;
-
-float time;
+layout(location = 0) uniform mat4 model;
 
 void main()
 {
@@ -41,8 +38,8 @@ void main()
     TBN = mat3(T, B, N);
     invertedTBN = transpose(TBN);
 
-    ClipSpacePos     = viewProjection * model * vec4(aPos, 1.0);
-    PrevClipSpacePos = prevViewProjection * prevModel * vec4(aPos, 1.0);
+    //ClipSpacePos     = viewProjection * model * vec4(aPos, 1.0);
+    //PrevClipSpacePos = prevViewProjection * prevModel * vec4(aPos, 1.0);
 	
 	gl_Position =  projection * view * vec4(FragPos, 1.0);
 }
@@ -50,7 +47,17 @@ void main()
 #FRAGMENT
 #version 460 core
 
-layout (location = 0) out vec4 FragColor; // viewpos
+layout (location = 0) out vec4 oPosition; // 
+layout (location = 1) out vec4 oNormal; // 
+layout (location = 2) out vec4 oAlbedoSpec; // 
+
+layout(binding=0) uniform sampler2D albedoTexture;
+layout(binding=1) uniform sampler2D normalTexture;
+layout(binding=2) uniform sampler2D metalnessTexture;
+layout(binding=3) uniform sampler2D roughnessTexture;
+layout(binding=4) uniform samplerCube specularTexture;
+layout(binding=5) uniform samplerCube irradianceTexture;
+layout(binding=6) uniform sampler2D specularBRDF_LUT;
 
 in vec2 UV0;
 in vec3 FragPos;
@@ -59,10 +66,15 @@ in mat3 invertedTBN;
 in vec4 ClipSpacePos;
 in vec4 PrevClipSpacePos;
 
-layout(binding=0) uniform sampler2D Texture1;
-
 void main() 
 { 
-	FragColor = vec4(texture(Texture1, UV0)); 
+	oPosition = vec4(FragPos, 1.0); 
+
+    vec3 Normal = normalize(2.0 * texture(normalTexture, UV0).rgb - 1.0);
+	Normal = normalize(TBN * Normal);
+	oNormal = vec4(Normal, 1.0); 
+
+	oAlbedoSpec.rgb = vec3(texture(albedoTexture, UV0)); 
+	//oAlbedoSpec.a = texture(specularTexture, UV0).r; 
 }
 

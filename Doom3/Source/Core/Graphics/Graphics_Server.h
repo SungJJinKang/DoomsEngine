@@ -8,8 +8,10 @@
 #include "../Math/LightMath_Cpp/Vector2.h"
 #include "../Math/LightMath_Cpp/Vector3.h"
 #include "../Math/LightMath_Cpp/Vector4.h"
-#include "Buffer/Mesh.h"
 
+#include "Buffer/Mesh.h"
+#include "FrameBuffer/FrameBuffer.h"
+#include "Material.h"
 
 struct GLFWwindow;
 
@@ -24,7 +26,6 @@ namespace doom
 	class Renderer;
 	namespace graphics
 	{
-		class Material;
 		class Graphics_Server : public IGameFlow, public ISingleton<Graphics_Server>
 		{
 
@@ -39,6 +40,12 @@ namespace doom
 				Mesh mMesh;
 			};
 
+			enum class eRenderingMode
+			{
+				ForwardRendering,
+				DeferredRendering
+			};
+
 		private:
 
 			static inline const std::string DEBUG_SHADER{ "DebugLineShader.glsl" };
@@ -50,10 +57,26 @@ namespace doom
 			
 			static inline GLFWwindow* Window{};
 			static inline math::Vector<2, int> ScreenSize{};
-			static inline bool Is_MULTI_SAMPLE{};
+			static inline unsigned int MultiSamplingNum;
 
 			std::vector<DebugMesh> mDebugMeshes{};
 			unsigned int mDebugMeshCount;
+
+			eRenderingMode mCurrentRenderingMode{ eRenderingMode::ForwardRendering };
+			
+			/// <summary>
+			/// Gbuffer drawer material.
+			/// this will be used in Quad Mesh
+			/// </summary>
+			Material mGbufferDrawerMaterial{};
+			/// <summary>
+			/// Default Gbuffer Writer material
+			/// </summary>
+			Material mGbufferWriterMaterial{};
+			Mesh* mQuadMesh{ nullptr };
+			FrameBuffer mFrameBufferForDeferredRendering{};
+			void InitFrameBufferForDeferredRendering();
+			void DeferredRendering();
 				
 			static void OpenGlDebugCallback(GLenum source, GLenum type, GLuint id, GLenum severity, GLsizei length, const GLchar* msg, const void* data);
 		public:
@@ -62,6 +85,8 @@ namespace doom
 			static int GetScreenHeight();
 			static math::Vector2 GetScreenSize();
 			static const math::Vector2& GetScreenSize_const();
+
+			void SetRenderingMode(eRenderingMode renderingMode);
 
 			Material* mDebugMaterial;
 			/// <summary>

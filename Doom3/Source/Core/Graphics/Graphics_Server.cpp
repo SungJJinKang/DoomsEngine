@@ -1,24 +1,30 @@
 #include "Graphics_Server.h"
 
-#include "Buffer/UniformBufferObjectManager.h"
-#include "GraphicsAPI.h"
-#include "SceneGraphics.h"
-#include "Iterator/RendererStaticIterator.h"
-#include "../Scene/Layer.h"
-#include "../Game/GameCore.h"
-#include "Renderer.h"
-#include "../Game/AssetManager.h"
-#include "Material.h"
 #include <iostream>
 #include <string>
+
+#include "../Game/GameCore.h"
+#include "../Scene/Layer.h"
+#include "../Game/AssetManager.h"
+
+#include "GraphicsAPI.h"
+#include "SceneGraphics.h"
+
+#include "Buffer/UniformBufferObjectManager.h"
+
+#include "Renderer.h"
+#include "Material.h"
+#include "Iterator/RendererStaticIterator.h"
+
 
 using namespace doom::graphics;
 
 
 void Graphics_Server::Init()
 {
-	int width = GameCore::GetSingleton()->GetConfigData().GetValue<int>("Graphics", "SCREEN_WIDHT");
+	int width = GameCore::GetSingleton()->GetConfigData().GetValue<int>("Graphics", "SCREEN_WIDTH");
 	int height = GameCore::GetSingleton()->GetConfigData().GetValue<int>("Graphics", "SCREEN_HEIGHT");
+	Graphics_Server::MultiSamplingNum = GameCore::GetSingleton()->GetConfigData().GetValue<int>("Graphics", "MULTI_SAMPLE");
 
 	Graphics_Server::ScreenSize = { width, height };
 
@@ -27,7 +33,12 @@ void Graphics_Server::Init()
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 6);
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 	glfwWindowHint(GLFW_OPENGL_DEBUG_CONTEXT, true);
-	glfwWindowHint(GLFW_SAMPLES, 4);
+
+	if (Graphics_Server::MultiSamplingNum > 0)
+	{
+		glfwWindowHint(GLFW_SAMPLES, Graphics_Server::MultiSamplingNum);
+	}
+	
 #ifdef __APPLE__
 	glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
 #endif
@@ -80,48 +91,19 @@ void Graphics_Server::Init()
 
 void doom::graphics::Graphics_Server::LateInit()
 {
-	auto& debugShader = doom::assetimporter::AssetManager::GetAsset<eAssetType::SHADER>(Graphics_Server::DEBUG_SHADER).value().get();
-	this->mDebugMaterial = new Material{ debugShader };
+	auto debugShader = doom::assetimporter::AssetManager::GetAsset<eAssetType::SHADER>(Graphics_Server::DEBUG_SHADER);
+	this->mDebugMaterial = new Material{ *debugShader };
 
+	this->SetRenderingMode(Graphics_Server::eRenderingMode::DeferredRendering);
+	this->mQuadMesh = Mesh::GetQuadMesh();
+
+	
 }
 
 void Graphics_Server::Update()
 {
-	GraphicsAPI::ClearColor(1.0f, 1.0f, 1.0f, 1.0f);
-	GraphicsAPI::Clear(GraphicsAPI::eClearMask::COLOR_BUFFER_BIT, GraphicsAPI::eClearMask::DEPTH_BUFFER_BIT);
-
-	auto sceneGraphics = SceneGraphics::GetSingleton();
-
-	sceneGraphics->mUniformBufferObjectManager.Update_Internal();
-	sceneGraphics->mUniformBufferObjectManager.Update();
-
-	this->mDebugMaterial->UseProgram();
-	for (unsigned int i = 0; i < this->mDebugMeshCount; i++)
-	{
-		
-		//this->mDebugMaterial->SetVector4(0, this->mDebugMeshes[i].mColor); // set color ( see defulat line debug shader )
-		this->mDebugMaterial->SetVector4("Color", this->mDebugMeshes[i].mColor); // set color ( see defulat line debug shader )
-		this->mDebugMeshes[i].mMesh.Draw();
-		
-	}
-
-
-	for (unsigned int i = 0; i < MAX_LAYER_COUNT; i++)
-	{
-		auto rendererComponentPair = RendererComponentStaticIterator::GetAllComponentsWithLayerIndex(i);
-		auto components = rendererComponentPair.first;
-		size_t length = rendererComponentPair.second;
-		for (size_t i = 0; i < length; ++i)
-		{
-			components[i]->UpdateComponent_Internal();
-			components[i]->UpdateComponent();
-		}
-	}
-
-
-	// glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)
-	// -------------------------------------------------------------------------------
-
+	this->DeferredRendering();
+	
 
 
 }
@@ -171,6 +153,84 @@ const math::Vector2& doom::graphics::Graphics_Server::GetScreenSize_const()
 	return Graphics_Server::ScreenSize;
 }
 
+void doom::graphics::Graphics_Server::InitFrameBufferForDeferredRendering()
+{
+	if (this->mFrameBufferForDeferredRendering.IsGenerated() == true)
+		return;
+
+	auto gBufferDrawerShader = doom::assetimporter::AssetManager::GetAsset<eAssetType::SHADER>("GbufferDrawer.glsl");
+	this->mGbufferDrawerMaterial.SetShaderAsset(*gBufferDrawerShader);
+
+	auto gBufferWriterShader = doom::assetimporter::AssetManager::GetAsset<eAssetType::SHADER>("GbufferWriter.glsl");
+	this->mGbufferWriterMaterial.SetShaderAsset(*gBufferWriterShader);
+
+	this->mFrameBufferForDeferredRendering.GenerateBuffer(Graphics_Server::ScreenSize.x, Graphics_Server::ScreenSize.y);
+	this->mFrameBufferForDeferredRendering.AttachTextureBuffer(GraphicsAPI::eBufferType::COLOR, Graphics_Server::ScreenSize.x, Graphics_Server::ScreenSize.y);
+	this->mFrameBufferForDeferredRendering.AttachTextureBuffer(GraphicsAPI::eBufferType::COLOR, Graphics_Server::ScreenSize.x, Graphics_Server::ScreenSize.y);
+	this->mFrameBufferForDeferredRendering.AttachTextureBuffer(GraphicsAPI::eBufferType::COLOR, Graphics_Server::ScreenSize.x, Graphics_Server::ScreenSize.y);
+	this->mFrameBufferForDeferredRendering.AttachRenderBuffer(GraphicsAPI::eBufferType::DEPTH, Graphics_Server::ScreenSize.x, Graphics_Server::ScreenSize.y);
+
+	this->mGbufferDrawerMaterial.AddTexture(0, &this->mFrameBufferForDeferredRendering.mAttachedColorTextures[0]);
+	this->mGbufferDrawerMaterial.AddTexture(1, &this->mFrameBufferForDeferredRendering.mAttachedColorTextures[1]);
+	this->mGbufferDrawerMaterial.AddTexture(2, &this->mFrameBufferForDeferredRendering.mAttachedColorTextures[2]);
+	
+}
+
+void doom::graphics::Graphics_Server::DeferredRendering()
+{
+	this->mFrameBufferForDeferredRendering.BindFrameBuffer();
+	GraphicsAPI::ClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+	GraphicsAPI::Clear(this->mFrameBufferForDeferredRendering.mClearBit);
+
+	auto sceneGraphics = SceneGraphics::GetSingleton();
+
+	sceneGraphics->mUniformBufferObjectManager.Update_Internal();
+	sceneGraphics->mUniformBufferObjectManager.Update();
+
+	for (unsigned int i = 0; i < MAX_LAYER_COUNT; i++)
+	{
+		auto rendererComponentPair = RendererComponentStaticIterator::GetAllComponentsWithLayerIndex(i);
+		doom::Renderer** renderers = rendererComponentPair.first;
+		size_t length = rendererComponentPair.second;
+		for (size_t i = 0; i < length; ++i)
+		{
+			renderers[i]->UpdateComponent_Internal();
+			renderers[i]->UpdateComponent();
+		}
+	}
+	
+	FrameBuffer::UnBindFrameBuffer();
+	GraphicsAPI::ClearColor(1.0f, 1.0f, 1.0f, 1.0f);
+	GraphicsAPI::Clear(GraphicsAPI::eClearMask::COLOR_BUFFER_BIT, GraphicsAPI::eClearMask::DEPTH_BUFFER_BIT);
+
+	this->mFrameBufferForDeferredRendering.BlitBufferTo(0, 0, 0, this->mFrameBufferForDeferredRendering.mDefaultWidth, this->mFrameBufferForDeferredRendering.mDefaultHeight, 0, 0, Graphics_Server::ScreenSize.x, Graphics_Server::ScreenSize.y, GraphicsAPI::eBufferType::DEPTH, FrameBuffer::eImageInterpolation::NEAREST);
+	
+
+	//TO DO : Draw Quad
+	this->mGbufferDrawerMaterial.UseProgram();
+	this->mQuadMesh->Draw();
+	
+	this->mDebugMaterial->UseProgram();
+	for (unsigned int i = 0; i < this->mDebugMeshCount; i++)
+	{
+
+		//this->mDebugMaterial->SetVector4(0, this->mDebugMeshes[i].mColor); // set color ( see defulat line debug shader )
+		this->mDebugMaterial->SetVector4("Color", this->mDebugMeshes[i].mColor); // set color ( see defulat line debug shader )
+		this->mDebugMeshes[i].mMesh.Draw();
+
+	}
+
+}
+
+void doom::graphics::Graphics_Server::SetRenderingMode(eRenderingMode renderingMode)
+{
+	this->mCurrentRenderingMode = renderingMode;
+	if (this->mCurrentRenderingMode == eRenderingMode::DeferredRendering && this->mFrameBufferForDeferredRendering.IsGenerated() == false)
+	{
+		this->InitFrameBufferForDeferredRendering();
+	}
+}
+
 void doom::graphics::Graphics_Server::DebugDrawLine(const math::Vector3& startWorldPos, const math::Vector3& endWorldPos, const math::Vector4& color)
 {
 	//Don't Remove, ReCreate Mesh
@@ -191,12 +251,13 @@ void doom::graphics::Graphics_Server::DebugDrawSphere(const math::Vector3& cente
 {
 }
 
+
+
 void Graphics_Server::OpenGlDebugCallback(GLenum source, GLenum type, GLuint id, GLenum severity, GLsizei length, const GLchar* msg, const void* data)
 {
 	//https://www.khronos.org/registry/OpenGL/extensions/KHR/KHR_debug.txt
 	if (type == 0x824C || type == 0x824E)
 	{
-		std::cout << msg << std::endl;
 		D_DEBUG_LOG(msg, eLogType::D_ERROR);
 	}
 	

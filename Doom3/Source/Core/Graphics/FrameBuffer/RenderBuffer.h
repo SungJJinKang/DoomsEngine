@@ -11,7 +11,7 @@ namespace doom
 		class RenderBuffer
 		{
 		private:
-			unsigned int mID;
+			unsigned int mID{ 0 };
 		public:
 			RenderBuffer(FrameBuffer& ownerFrameBuffer, GraphicsAPI::eBufferType frameBufferType, unsigned int width, unsigned int height);
 			inline void BindRenderBuffer() noexcept

@@ -88,7 +88,7 @@ namespace doom
 					if (ApiImporterQueue.empty())
 					{
 						ApiImporterMutex.unlock();
-						D_DEBUG_LOG("Create New AssetApiImporter", logger::eLogType::D_ERROR);
+						//D_DEBUG_LOG("Create New AssetApiImporter", logger::eLogType::D_ERROR);
 						importer = std::make_unique<api_importer_type_t<assetType>>();
 					}
 					else

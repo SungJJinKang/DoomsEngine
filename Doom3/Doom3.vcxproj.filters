@@ -863,6 +863,9 @@
     <None Include="Assets\Shader\Default\tonemap_vs.glsl" />
     <None Include="Assets\Shader\Default\pbr.glsl" />
     <None Include="Assets\Shader\Default\DebugLineShader.glsl" />
+    <None Include="Assets\Shader\Default\GbufferWriter.glsl" />
+    <None Include="Assets\Shader\Default\GbufferDrawer.glsl" />
+    <None Include="Assets\Shader\Default\GbufferWriter_PBR.glsl" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="Source\Core\Graphics\ReamThis!!!!.txt" />

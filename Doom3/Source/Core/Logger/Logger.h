@@ -27,7 +27,7 @@ namespace doom
 		{
 		public:
 			
-
+			static void StopIfError(eLogType logType);
 			static void Log(const char* log, eLogType logType = eLogType::D_LOG) noexcept;
 			static void Log(const std::string log, eLogType logType = eLogType::D_LOG) noexcept;
 			static void Log(std::initializer_list<const char*> logs, eLogType logType = eLogType::D_LOG) noexcept;
@@ -48,6 +48,9 @@ using doom::logger::eLogType;
 
 #include <cstdarg>
 #include <string>
+
+#include <intrin.h>
+
 #include "../Graphics/Graphics_Server.h"
 #include "../Math/LightMath_Cpp/Vector3.h"
 #include "../Math/LightMath_Cpp/Vector4.h"
@@ -97,21 +100,33 @@ namespace doom
 
 		constexpr inline StdStreamLogger Logger{};
 
-		void Debug::Log(const char* log, eLogType logType) noexcept
+		void Debug::StopIfError(eLogType logType)
 		{
-			Logger.Log(log, logType);
+			if (logType == eLogType::D_ERROR)
+			{
+				std::cout.flush();
+				__debugbreak();
+			}
+		}
+		void Debug::Log(const char* log, eLogType logType) noexcept
+		{			Logger.Log(log, logType);
+			StopIfError(logType);
 		}
 		void Debug::Log(const std::string log, eLogType logType) noexcept
 		{
 			Logger.Log(log, logType);
+			StopIfError(logType);
 		}
 		void Debug::Log(std::initializer_list<const char*> logs, eLogType logType) noexcept
 		{
 			Logger.Log(logs, logType);
+			StopIfError(logType);
 		}
 		void Debug::Log(std::initializer_list<const std::string> logs, eLogType logType) noexcept
 		{
+			StopIfError(logType);
 			Logger.Log(logs, logType);
+			StopIfError(logType);
 		}
 
 		void Debug::DrawLine(const math::Vector3& startPosition, const math::Vector3& endPosition, const math::Vector4& color) noexcept

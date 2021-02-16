@@ -76,10 +76,15 @@ IniData SimpleIniParser::ParseIniFile(std::string fileDirectory)
 			std::smatch matches;
 			if (std::regex_search(line, matches, variablePattern, std::regex_constants::match_flag_type::match_default))
 			{
-				IniData::ValueType value;
+				IniData::ini_data_type value;
 
 				std::string valueStr = matches[2].str();
-				if (int i = std::atoi(valueStr.c_str()))
+
+				if (valueStr == "0")
+				{
+					value = 0;
+				}
+				else if (int i = std::atoi(valueStr.c_str()))
 				{
 					value = i;
 				}
@@ -92,7 +97,7 @@ IniData SimpleIniParser::ParseIniFile(std::string fileDirectory)
 					value = valueStr;
 				}
 
-				iniData.InsertVariable(currentSection, std::pair(matches[1], value));
+				iniData.InsertVariable(currentSection, matches[1], value);
 			}
 			break;
 		}
@@ -104,7 +109,7 @@ IniData SimpleIniParser::ParseIniFile(std::string fileDirectory)
 
 void IniData::AddSection(const std::string& section)
 {
-	this->data[section]; // just accessing to unordered_map with key make hash table
+	this->mIniDatas[section]; // just accessing to unordered_map with key make hash table
 	D_DEBUG_LOG({ "Add New Section : ", section });
 }
 
@@ -114,21 +119,23 @@ struct ConverToString
 	{
 		return str;
 	}
-	std::string operator()(const int& str)
+	std::string operator()(int str)
 	{
 		return std::to_string(str);
 	}
-	std::string operator()(const double& str)
+	std::string operator()(double str)
 	{
 		return std::to_string(str);
 	}
 };
 
 
-void IniData::InsertVariable(const std::string& section, const VariableType& variable)
+void IniData::InsertVariable(const std::string& section, const std::string& key, ini_data_type data)
 {
-	this->data[section].push_back(variable);
+	auto IsInsert = this->mIniDatas[section].insert_or_assign(key, data);
+	D_ASSERT(IsInsert.second == true); // insert return true, assignment return false
 
+#ifdef DEBUG_MODE
 	/*
 	* //Evaluated at compile time
 	auto sdf = std::visit([](auto&& arg) {
@@ -141,9 +148,9 @@ void IniData::InsertVariable(const std::string& section, const VariableType& var
 			static_assert(std::false_type, "non-exhaustive visitor!");
 		}, variable.second);
 	*/
-	auto valueString = std::visit(ConverToString(), variable.second);
-	D_DEBUG_LOG({ "Add New Variable = ", "Section : ", section, " , Key : ", variable.first, " , Value : ", valueString });
-
+	auto valueString = std::visit(ConverToString(), data);
+	D_DEBUG_LOG({ "Add New Variable = ", "Section : ", section, " , Key : ", key, " , Value : ", valueString });
+#endif
 
 	
 }

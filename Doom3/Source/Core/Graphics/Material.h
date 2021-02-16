@@ -23,34 +23,57 @@ namespace doom
 	class TextureAsset;
 	namespace graphics
 	{
+		enum eUniformLocation : unsigned int
+		{
+			ModelMatrix = 0
+		};
+		/// <summary>
+		/// Texture binding point
+		/// Bindin != location
+		/// </summary>
+		enum eTextureBindingPoint : unsigned int
+		{
+			AlbedoTexture = 0,
+			NormalTexture = 1,
+			MetalnessTexture = 2,
+			RoughnessTexture = 3,
+			SpecularTexture = 4,
+			IrradianceTexture = 5,
+			SpecularBRDF_LUT = 6
+		};
+
 		class UniformBufferObject;
 		class Material
 		{
+			
 		private:
 			unsigned int mID;
 			ShaderAsset* mShaderAsset;
-			std::vector<Texture*> mTargetTextures{};
-			std::array<UniformBufferObject*, MAX_UNIFORM_BLOCK_BINDING_POINT> mUniformBufferObjects;
+			static constexpr inline unsigned int MAX_TEXTURE_COUNT{ 7 };
+			std::array<Texture*, MAX_TEXTURE_COUNT> mTargetTextures{ nullptr };
+			std::array<UniformBufferObject*, MAX_UNIFORM_BLOCK_BINDING_POINT> mUniformBufferObjects{ nullptr };
 
-			void SetShaderAsset(ShaderAsset& shaderAsset);
+			
 		public:
+			Material();
 			Material(ShaderAsset& shaderAsset);
 			~Material();
 
-			void AddTexture(Texture& texture);
-			void AddTexture(::doom::TextureAsset& textureAsset);
-			void AddTextures(std::vector<Texture*> textures);
+			bool IsGenerated();
+			void SetShaderAsset(ShaderAsset& shaderAsset);
+
+			void AddTexture(unsigned int bindingPoint, Texture* texture);
+			void AddTexture(unsigned int bindingPoint, ::doom::TextureAsset& textureAsset);
+			void AddTextures(std::array<Texture*, MAX_TEXTURE_COUNT> textures);
 
 			void UseProgram()
 			{
 				for (unsigned int i = 0; i < this->mTargetTextures.size(); i++)
 				{
-					/*
-					auto& texture = *(this->mTargetTextures[i]);
-					texture.ActiveTexture(i);
-					texture.BindTexture();
-					*/
-					this->mTargetTextures[i]->BindTextureWithUnit(i);
+					if (this->mTargetTextures[i] != nullptr)
+					{
+						this->mTargetTextures[i]->BindTextureWithUnit(i);
+					}
 				}
 
 				D_CHECK_OVERLAP_BIND("Material", this->mID);

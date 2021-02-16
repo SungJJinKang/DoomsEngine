@@ -1,7 +1,7 @@
 #include "MeshRenderer.h"
 
 
-doom::MeshRenderer::MeshRenderer() : Renderer(), mModelMatrixUniformLocation{ -1 }
+doom::MeshRenderer::MeshRenderer() : Renderer()
 {
 
 }

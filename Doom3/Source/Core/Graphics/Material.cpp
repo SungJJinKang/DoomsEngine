@@ -61,6 +61,10 @@ void Material::SetShaderAsset(ShaderAsset& shaderAsset)
 }
 
 
+doom::graphics::Material::Material() : mID{ 0 }, mShaderAsset{ nullptr }
+{
+}
+
 Material::Material(ShaderAsset& shaderAsset) : mID{ 0 }, mShaderAsset{ nullptr }
 {
 	this->SetShaderAsset(shaderAsset);
@@ -74,19 +78,24 @@ Material::~Material()
 	}
 }
 
-void Material::AddTexture(Texture& texture)
+bool doom::graphics::Material::IsGenerated()
 {
-	this->mTargetTextures.push_back(&texture);
+	return this->mID != 0;
 }
 
-void Material::AddTexture(::doom::TextureAsset& textureAsset)
+void Material::AddTexture(unsigned int bindingPoint, Texture* texture)
 {
-	this->mTargetTextures.push_back(textureAsset.mTexture);
+	this->mTargetTextures[bindingPoint] = texture;
 }
 
-void Material::AddTextures(std::vector<Texture*> textures)
+void Material::AddTexture(unsigned int bindingPoint, ::doom::TextureAsset& textureAsset)
 {
-	this->mTargetTextures.insert(this->mTargetTextures.end(), textures.begin(), textures.end());
+	this->mTargetTextures[bindingPoint] = textureAsset.mTexture;
+}
+
+void Material::AddTextures(std::array<Texture*, MAX_TEXTURE_COUNT> textures)
+{
+	this->mTargetTextures = textures;
 }
 
 /*

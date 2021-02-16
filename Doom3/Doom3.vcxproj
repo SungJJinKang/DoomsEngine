@@ -414,6 +414,9 @@
     <None Include="Assets\Shader\Default\DebugLineShader.glsl" />
     <None Include="Assets\Shader\Default\DefaultShader.glsl" />
     <None Include="Assets\Shader\Default\equirect2cube_cs.glsl" />
+    <None Include="Assets\Shader\Default\GbufferDrawer.glsl" />
+    <None Include="Assets\Shader\Default\GbufferWriter.glsl" />
+    <None Include="Assets\Shader\Default\GbufferWriter_PBR.glsl" />
     <None Include="Assets\Shader\Default\irmap_cs.glsl" />
     <None Include="Assets\Shader\Default\pbr_fs.glsl" />
     <None Include="Assets\Shader\Default\pbr.glsl" />

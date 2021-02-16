@@ -78,7 +78,15 @@ namespace doom
 			enum class eInternalFormat : unsigned int
 			{
 				DEPTH_COMPONENT = GL_DEPTH_COMPONENT,
+				DEPTH_COMPONENT16 = GL_DEPTH_COMPONENT16,
+				DEPTH_COMPONENT24 = GL_DEPTH_COMPONENT24,
+				DEPTH_COMPONENT32 = GL_DEPTH_COMPONENT32,
+				DEPTH_COMPONENT32F = GL_DEPTH_COMPONENT32F,
 				DEPTH_STENCIL = GL_DEPTH_STENCIL,
+				DEPTH24_STENCIL8 = GL_DEPTH24_STENCIL8,
+				DEPTH32F_STENCIL8 = GL_DEPTH32F_STENCIL8,
+				STENCIL_INDEX = GL_STENCIL_INDEX,
+				STENCIL_INDEX8 = GL_STENCIL_INDEX8,
 				RED = GL_RED,
 				RG = GL_RG,
 				RGB = GL_RGB,
@@ -203,7 +211,9 @@ namespace doom
 				UNSIGNED_INT_8_8_8_8 = GL_UNSIGNED_INT_8_8_8_8,
 				UNSIGNED_INT_8_8_8_8_REV = GL_UNSIGNED_INT_8_8_8_8_REV,
 				UNSIGNED_INT_10_10_10_2 = GL_UNSIGNED_INT_10_10_10_2,
-				UNSIGNED_INT_2_10_10_10_REV = GL_UNSIGNED_INT_2_10_10_10_REV
+				UNSIGNED_INT_2_10_10_10_REV = GL_UNSIGNED_INT_2_10_10_10_REV,
+				UNSIGNED_INT_24_8 = GL_UNSIGNED_INT_24_8,
+				FLOAT_32_UNSIGNED_INT_24_8_REV = GL_FLOAT_32_UNSIGNED_INT_24_8_REV
 			};
 			static constexpr eDataType DEFAULT_DATA_TYPE = eDataType::UNSIGNED_BYTE;
 
@@ -286,12 +296,15 @@ namespace doom
 			}
 
 		protected:
-			unsigned int mID;
+			unsigned int mID{ 0 };
 
 		
 
 			Texture() = delete;
-
+			Texture(const Texture&) = delete;
+			Texture(Texture&& texture) noexcept;
+			Texture& operator=(const Texture&) = delete;
+			Texture& operator=(Texture&& texture) noexcept = delete;
 			/// <summary>
 			/// for 1d texture
 			/// </summary>

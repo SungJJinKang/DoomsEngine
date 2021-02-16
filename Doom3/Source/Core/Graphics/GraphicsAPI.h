@@ -103,6 +103,10 @@ namespace doom
 			{
 				glClear(static_cast<unsigned int>(mask1) | static_cast<unsigned int>(mask2) | static_cast<unsigned int>(mask3));
 			}
+			static inline void Clear(unsigned int clearBitFlags) noexcept
+			{
+				glClear(clearBitFlags);
+			}
 
 			enum class eCapability
 			{

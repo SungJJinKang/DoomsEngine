@@ -48,6 +48,12 @@ namespace doom
 			std::vector<std::reference_wrapper<container_asset_type_t>> mAssetsForIterating;
 
 			/// <summary>
+			/// this will be used when find Asset with assetName
+			/// AssetName contain extension!!
+			/// </summary>
+			std::unordered_map<std::string, std::reference_wrapper<container_asset_type_t>> mAssetsForAssetName;
+
+			/// <summary>
 			/// store imported asset futue temporally
 			/// </summary>
 			std::vector<container_imported_asset_future_t> ImportedAssetFutures;

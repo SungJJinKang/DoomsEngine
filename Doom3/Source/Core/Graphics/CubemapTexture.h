@@ -8,6 +8,11 @@ namespace doom
 		class CubemapTexture : public Texture
 		{
 		public:
+			CubemapTexture() = delete;
+			CubemapTexture(const CubemapTexture&) = delete;
+			CubemapTexture(CubemapTexture&& cubmap) noexcept = default;
+			CubemapTexture& operator=(const CubemapTexture&) = delete;
+			CubemapTexture& operator=(CubemapTexture&& cubmap) noexcept = delete;
 
 			CubemapTexture(eTextureType textureType,
 				eTargetTexture target, eInternalFormat internalFormat, unsigned int width, eDataFormat format, eDataType type, const void* data);

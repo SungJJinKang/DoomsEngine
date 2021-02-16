@@ -65,46 +65,53 @@ namespace doom
 
 		
 			template<eAssetType assetType>
-			static std::optional<std::reference_wrapper<typename AssetContainer<assetType>::container_asset_type_t>> GetAsset(const D_UUID& UUID) 
+			static typename AssetContainer<assetType>::container_asset_type_t* GetAsset(const D_UUID& UUID) 
 			{
 				auto& assetCotainer = AssetManager::ImportedAssets<assetType>;
 
 				auto iter = assetCotainer.mAssets.find(UUID);
 				if (iter != assetCotainer.mAssets.end())
 				{//find!!
-					return iter->second;
+					return &(iter->second.get());
 				}
 				else
 				{//element containing UUID key doesn't exist
-					return {};
+					return nullptr;
 				}
 			}
 
 			template<eAssetType assetType>
-			static std::optional<std::reference_wrapper<typename AssetContainer<assetType>::container_asset_type_t>> GetAsset(const unsigned int index)
+			static typename AssetContainer<assetType>::container_asset_type_t* GetAsset(const unsigned int index)
 			{
 				if (index >= 0 && index < AssetManager::ImportedAssets<assetType>.mAssetsForIterating.size())
 				{
-					return AssetManager::ImportedAssets<assetType>.mAssetsForIterating[index];
+					return &(AssetManager::ImportedAssets<assetType>.mAssetsForIterating[index]);
 				}
 				else
 				{
-					return {};
+					return nullptr;
 				}
 			}
 
+			/// <summary>
+			/// BE CAREFUL, This function is so slow
+			/// </summary>
+			/// <param name="filename"></param>
+			/// <returns></returns>
 			template<eAssetType assetType>
-			static std::optional<std::reference_wrapper<typename AssetContainer<assetType>::container_asset_type_t>> GetAsset(const std::string& filename)
+			static typename AssetContainer<assetType>::container_asset_type_t* GetAsset(const std::string& filename)
 			{
-				for (auto& asset : AssetManager::ImportedAssets<assetType>.mAssetsForIterating)
-				{
-					if (asset.get().GetAssetFileName() == filename)
-					{
-						return asset;
-					}
+				auto& assetCotainer = AssetManager::ImportedAssets<assetType>;
+
+				auto iter = assetCotainer.mAssetsForAssetName.find(filename);
+				if (iter != assetCotainer.mAssetsForAssetName.end())
+				{//find!!
+					return &(iter->second.get());
 				}
-				
-				return {};
+				else
+				{//element containing UUID key doesn't exist
+					return nullptr;
+				}
 			}
 
 

@@ -20,24 +20,24 @@ void doom::TEST::Init()
 	lightEntity->AddComponent<AutoRotate>();
 
 	//TODO : Asset 가져오는 것만 해도 존나 복잡하다 이거 해결하다
-	//auto& threedasset = assetimporter::AssetManager::GetAsset<eAssetType::THREE_D_MODEL>(0).value().get();
-	auto& threedasset = assetimporter::AssetManager::GetAsset<eAssetType::THREE_D_MODEL>("cerberus.fbx").value().get();
-	auto& shader = assetimporter::AssetManager::GetAsset<eAssetType::SHADER>("pbr.glsl").value().get();
-	auto material = new graphics::Material(shader);
-	material->AddTexture(assetimporter::AssetManager::GetAsset<eAssetType::TEXTURE>("cerberus_A.png").value().get());
-	material->AddTexture(assetimporter::AssetManager::GetAsset<eAssetType::TEXTURE>("cerberus_N.png").value().get());
-	material->AddTexture(assetimporter::AssetManager::GetAsset<eAssetType::TEXTURE>("cerberus_M.png").value().get());
-	material->AddTexture(assetimporter::AssetManager::GetAsset<eAssetType::TEXTURE>("cerberus_R.png").value().get());
+	//auto& threedasset = assetimporter::AssetManager::GetAsset<eAssetType::THREE_D_MODEL>(0);
+	auto threedasset = assetimporter::AssetManager::GetAsset<eAssetType::THREE_D_MODEL>("cerberus.fbx");
+	auto shader = assetimporter::AssetManager::GetAsset<eAssetType::SHADER>("GbufferWriter_PBR.glsl");
+	auto material = new graphics::Material(*shader);
+	material->AddTexture(graphics::eTextureBindingPoint::AlbedoTexture, *assetimporter::AssetManager::GetAsset<eAssetType::TEXTURE>("cerberus_A.png"));
+	material->AddTexture(graphics::eTextureBindingPoint::NormalTexture, *assetimporter::AssetManager::GetAsset<eAssetType::TEXTURE>("cerberus_N.png"));
+	material->AddTexture(graphics::eTextureBindingPoint::MetalnessTexture, *assetimporter::AssetManager::GetAsset<eAssetType::TEXTURE>("cerberus_M.png"));
+	material->AddTexture(graphics::eTextureBindingPoint::RoughnessTexture, *assetimporter::AssetManager::GetAsset<eAssetType::TEXTURE>("cerberus_R.png"));
 
 	for (int i = 0; i < 30; i++)
 	{
-		for (int i = 0; i < threedasset.GetMeshCount(); i++)
+		for (int i = 0; i < threedasset->GetMeshCount(); i++)
 		{
 			auto entity = currenScene->CreateNewEntity();
 			entity->GetTransform()->SetScale(0.02f, 0.02f, 0.02f);
 			entity->GetTransform()->SetPosition(Random::RandomFloatNumber(-10, 10), Random::RandomFloatNumber(-10, 10), Random::RandomFloatNumber(-10, 10));
 			auto meshRenderer = entity->AddComponent<MeshRenderer>();
-			meshRenderer->SetMesh(threedasset.GetMesh(i));
+			meshRenderer->SetMesh(threedasset->GetMesh(i));
 			meshRenderer->SetMaterial(material);
 			entity->AddComponent<AutoRotate>();
 		}

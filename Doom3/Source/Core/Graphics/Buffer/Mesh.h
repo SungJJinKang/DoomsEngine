@@ -108,7 +108,7 @@ namespace doom
 			static constexpr unsigned int GetStride(unsigned int vertexArrayFlag);
 
 			static inline Mesh* QuadMesh{ nullptr };
-			static const Mesh& GetQuadMesh();
+			static Mesh* GetQuadMesh();
 
 			virtual bool IsBufferGenerated() final;
 

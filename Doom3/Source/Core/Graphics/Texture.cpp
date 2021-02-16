@@ -7,6 +7,15 @@
 using namespace doom::graphics;
 
 
+doom::graphics::Texture::Texture(Texture&& texture) noexcept
+	:mBindTarget{ texture.mBindTarget }, mDataFormat{ texture.mDataFormat }, mDataType{ texture.mDataType },
+	mHeight{ texture.mHeight }, mInternalFormat{ texture.mInternalFormat }, mTarget{ texture.mTarget },
+	mTextureType{ texture.mTextureType }, mWidth{ texture.mWidth }, mID{ texture.mID }
+{
+	texture.mID = 0;
+}
+
+
 Texture::Texture(eTextureType textureType, eBindTarget bindTarget,
 	eTargetTexture targetTexture, eInternalFormat internalFormat, unsigned int width, eDataFormat format, eDataType type, const void* data = nullptr)
 	: mTextureType{ textureType }, mBindTarget{ bindTarget },
@@ -37,7 +46,11 @@ void Texture::OnEndContructor()
 
 Texture::~Texture()
 {
-	glDeleteTextures(1, &(this->mID));
+	if (this->mID != 0)
+	{
+		glDeleteTextures(1, &(this->mID));
+	}
+	
 }
 
 void Texture::SetWrapMode(eWrapMode wrapMode, bool bBind)

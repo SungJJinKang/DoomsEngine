@@ -12,7 +12,7 @@ template class AssetContainer<eAssetType::THREE_D_MODEL>;
 
 
 template <eAssetType assetType>
-constexpr AssetContainer<assetType>::AssetContainer() : mAssets{}, mAssetsForIterating{}, ImportedAssetFutures{}
+constexpr AssetContainer<assetType>::AssetContainer() : mAssets{}, mAssetsForIterating{}, mAssetsForAssetName{}, ImportedAssetFutures{}
 {
 
 }
@@ -25,7 +25,9 @@ void AssetContainer<assetType>::AddAsset(AssetContainer<assetType>::container_as
 	if (pair.second == true)
 	{
 		D_DEBUG_LOG({ "Asset is completely imported : ", pair.first->second.GetAssetFileName() }, eLogType::D_LOG);
-		mAssetsForIterating.push_back(pair.first->second);
+		this->mAssetsForIterating.push_back(pair.first->second);
+		this->mAssetsForAssetName.emplace(std::make_pair(pair.first->second.GetAssetFileName(), std::ref(pair.first->second)));
+		
 	}
 	else
 	{

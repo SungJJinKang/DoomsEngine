@@ -274,14 +274,14 @@ static constexpr float QuadMeshData[]
 	-1.0f, 1.0f, 0.0f, 0.0f, 1.0f,
 };
 
-const doom::graphics::Mesh& doom::graphics::Mesh::GetQuadMesh()
+doom::graphics::Mesh* doom::graphics::Mesh::GetQuadMesh()
 {
 	if (doom::graphics::Mesh::QuadMesh == nullptr)
 	{
 		doom::graphics::Mesh::QuadMesh = new doom::graphics::Mesh(sizeof(QuadMeshData) / sizeof(float), (void*)QuadMeshData, ePrimitiveType::TRIANGLE, eVertexArrayFlag::Vertex | eVertexArrayFlag::TexCoord);
 	}
 
-	return *doom::graphics::Mesh::QuadMesh;
+	return doom::graphics::Mesh::QuadMesh;
 }
 
 bool doom::graphics::Mesh::IsBufferGenerated()
