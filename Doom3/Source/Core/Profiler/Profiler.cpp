@@ -1,17 +1,30 @@
-#define MACRO_IMPLEMENTATION
-
 #include "Profiler.h"
 
 #include <iostream>
 #include <thread>
 
+#include <chrono>
+#include <unordered_map>
+#include <mutex>
+
 namespace doom
 {
 	namespace profiler
 	{
-		std::unordered_map<std::thread::id, std::unordered_map<std::string, std::chrono::time_point<std::chrono::high_resolution_clock>>> Profiler::_ProfilingData{};
-		bool Profiler::bIsInitProfiling{ false };
-		std::mutex Profiler::mProfilerMutex{};
+
+		class Profiler
+		{
+		private:
+			static inline std::unordered_map<std::thread::id, std::unordered_map<std::string, std::chrono::time_point<std::chrono::high_resolution_clock>>> _ProfilingData{};
+
+			static inline std::mutex mProfilerMutex{};
+			static inline bool bIsInitProfiling{ false };
+			static void _InitProfiling() noexcept;
+			static std::unordered_map<std::string, std::chrono::time_point<std::chrono::high_resolution_clock>>& GetCurrentThreadData(const std::thread::id& thread_id);
+		public:
+			static void _StartProfiling(const char* name, eProfileLayers layer) noexcept;
+			static void _EndProfiling(const char* name) noexcept;
+		};
 
 		void Profiler::_InitProfiling() noexcept
 		{
@@ -48,6 +61,17 @@ namespace doom
 			{
 				std::cout << '\n' << "Profiler ( " << currentThread << " ) : " << name << "  -  " << consumedTimeInMS << " microseconds" << std::endl;
 			}
+		}
+
+
+
+		void StartProfiling(const char* name, eProfileLayers layer) noexcept
+		{
+			Profiler::_StartProfiling(name, layer);
+		}
+		void EndProfiling(const char* name) noexcept
+		{
+			Profiler::_EndProfiling(name);
 		}
 	}
 }

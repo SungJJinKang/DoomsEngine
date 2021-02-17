@@ -2,6 +2,9 @@
 
 #include <string>
 #include <filesystem>
+#include <utility>
+#include <memory>
+
 #include "../Core.h"
 #include "../API/UUID.h"
 
@@ -59,13 +62,7 @@ namespace doom
 
 	protected:
 
-		Asset();
-		Asset(bool isConatiningData);
-
-		Asset(const Asset&) = delete;
-		Asset(Asset&&) noexcept = default;
-		Asset& operator=(const Asset&) = delete;
-		Asset& operator=(Asset&&) = default;
+	
 
 		/// <summary>
 		/// post processing after asset imported.
@@ -76,6 +73,14 @@ namespace doom
 
 	public:
 		
+		Asset();
+		Asset(bool isConatiningData);
+		Asset(const Asset&) = delete;
+		Asset(Asset&&) noexcept = default;
+		Asset& operator=(const Asset&) = delete;
+		Asset& operator=(Asset&&) noexcept = default;
+		virtual ~Asset() {}
+
 		D_UUID GetUUID();
 		std::string GetAssetFileName();
 		const std::string& GetAssetFileName() const;

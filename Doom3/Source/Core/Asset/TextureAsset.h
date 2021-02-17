@@ -25,7 +25,7 @@ namespace doom
 		friend struct assetimporter::OnEndImportInMainThreadFunctor;
 
 	public:
-		enum eTextureComponent
+		enum class eTextureComponent
 		{
 			Grey = 1,
 			GreyAlpha = 2,
@@ -38,19 +38,20 @@ namespace doom
 		int mWidth;
 		int mHeight;
 		eTextureComponent mComponentType; // 1 ~ 4 ( rgb, rgba ~~ )
-		unsigned char* mData;
+		std::unique_ptr<unsigned char[]> mData;
 
 		graphics::Texture* mTexture;
 		void CreateTexture();
 	protected:
-
+	
 	public:
 		
 		TextureAsset(int width, int height, int componentCount, unsigned char* data);
 		TextureAsset(const TextureAsset&) = delete;
-		TextureAsset(TextureAsset&&) noexcept = default;
-		TextureAsset& operator=(const TextureAsset&) = delete;
-		TextureAsset& operator=(TextureAsset&&) noexcept = default;
+		TextureAsset(TextureAsset&& textureAsset) noexcept = default;
+		TextureAsset& operator=(const TextureAsset& ) = delete;
+		TextureAsset& operator=(TextureAsset&& textureAsset) noexcept = default;
+		virtual ~TextureAsset() = default;
 
 		void OnEndImportInMainThread() final;
 	};

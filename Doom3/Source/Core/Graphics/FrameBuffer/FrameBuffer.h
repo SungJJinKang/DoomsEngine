@@ -23,7 +23,7 @@ namespace doom
 			std::vector<SingleTexture> mAttachedColorTextures;
 
 			static constexpr unsigned int RESERVED_DEPTH_TEXTURE_COUNT = 1; 
-			std::vector<SingleTexture> mAttachedDepthextures;
+			std::vector<SingleTexture> mAttachedDepthTextures;
 
 			static constexpr unsigned int RESERVED_DEPTH_STENCIL_TEXTURE_COUNT = 1; 
 			std::vector<SingleTexture> mAttachedDepthStencilTextures;
@@ -84,6 +84,8 @@ namespace doom
 
 			void AttachRenderBuffer(GraphicsAPI::eBufferType renderBufferType, unsigned int width, unsigned int height);
 			void AttachTextureBuffer(GraphicsAPI::eBufferType frameBufferType, unsigned int width, unsigned int height);
+			const SingleTexture& GetFrameBufferTexture(GraphicsAPI::eBufferType bufferType, unsigned int index) const;
+			SingleTexture& GetFrameBufferTexture(GraphicsAPI::eBufferType bufferType, unsigned int index);
 
 			static void CheckIsFrameBufferSuccesfullyCreated() noexcept;
 

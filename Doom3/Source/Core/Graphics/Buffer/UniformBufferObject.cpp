@@ -35,7 +35,7 @@ void doom::graphics::UniformBufferObject::GenerateUniformBufferObject(unsigned i
 void doom::graphics::UniformBufferObject::DeleteBuffers()
 {
 	Buffer::DeleteBuffers();
-	delete this->mUniformBufferTempData;
+	delete[] this->mUniformBufferTempData;
 }
 
 void doom::graphics::UniformBufferObject::BufferData() noexcept

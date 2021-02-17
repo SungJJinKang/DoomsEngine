@@ -17,7 +17,7 @@ namespace doom
 	private:
 
 	protected:
-
+	
 	public:
 
 		AudioAsset() = default;
@@ -25,7 +25,7 @@ namespace doom
 		AudioAsset(AudioAsset&&) noexcept = default;
 		AudioAsset& operator=(const AudioAsset&) = delete;
 		AudioAsset& operator=(AudioAsset&&) noexcept = default;
-		
+		virtual ~AudioAsset() {}
 	};
 	template <> struct Asset::asset_type<eAssetType::AUDIO> { using type = AudioAsset; };
 }

@@ -22,7 +22,7 @@ namespace doom
 
 	protected:
 
-	
+		
 
 	public:
 	
@@ -34,7 +34,7 @@ namespace doom
 		TextAsset(TextAsset&&) noexcept = default;
 		TextAsset& operator=(const TextAsset&) = delete;
 		TextAsset& operator=(TextAsset&&) noexcept = default;
-
+		virtual ~TextAsset() = default;
 	};
 	template <> struct Asset::asset_type<eAssetType::TEXT> { using type = typename TextAsset; };
 }

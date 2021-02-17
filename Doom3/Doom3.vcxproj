@@ -185,6 +185,7 @@
     <ClCompile Include="Source\Core\Asset\ThreeDModelAsset.cpp" />
     <ClCompile Include="Source\Component\Core\ServerComponent.cpp" />
     <ClCompile Include="Source\Core\Game\IGameFlow.cpp" />
+    <ClCompile Include="Source\Core\Graphics\DebugGraphics.cpp" />
     <ClCompile Include="Source\Core\Graphics\Graphics_Server.cpp" />
     <ClCompile Include="Source\Core\IO\AssetImporter\AssetImporterWorker_Texture.cpp" />
     <ClCompile Include="Source\Core\IO\Picking.cpp" />
@@ -268,6 +269,8 @@
     <ClInclude Include="Source\Core\Asset\ePrimitiveType.h" />
     <ClInclude Include="Source\Core\Game\FrameDirtyChecker.h" />
     <ClInclude Include="Source\Core\Game\IGameFlow.h" />
+    <ClInclude Include="Source\Core\Graphics\Color.h" />
+    <ClInclude Include="Source\Core\Graphics\DebugGraphics.h" />
     <ClInclude Include="Source\Core\Graphics\Graphics_Server.h" />
     <ClInclude Include="Source\Core\IO\Picking.h" />
     <ClInclude Include="Source\Core\Physics\AABB.h" />
@@ -403,6 +406,7 @@
     <ClInclude Include="Source\Core\Asset\TextureAsset.h" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="..\CodingRule.md" />
     <None Include="..\README.md" />
     <None Include="Assets\Shader\common\brdf.txt" />
     <None Include="Assets\Shader\common\constants.txt" />
@@ -411,7 +415,8 @@
     <None Include="Assets\Shader\common\sampling.txt" />
     <None Include="Assets\Shader\common\shadows.txt" />
     <None Include="Assets\Shader\common\uniforms.txt" />
-    <None Include="Assets\Shader\Default\DebugLineShader.glsl" />
+    <None Include="Assets\Shader\Default\Debug2DShader.glsl" />
+    <None Include="Assets\Shader\Default\Debug3DShader.glsl" />
     <None Include="Assets\Shader\Default\DefaultShader.glsl" />
     <None Include="Assets\Shader\Default\equirect2cube_cs.glsl" />
     <None Include="Assets\Shader\Default\GbufferDrawer.glsl" />

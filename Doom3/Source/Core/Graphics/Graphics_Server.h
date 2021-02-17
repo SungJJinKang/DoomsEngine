@@ -5,13 +5,14 @@
 #include "../Game/IGameFlow.h"
 
 #include <vector>
+#include <memory>
 #include "../Math/LightMath_Cpp/Vector2.h"
 #include "../Math/LightMath_Cpp/Vector3.h"
-#include "../Math/LightMath_Cpp/Vector4.h"
 
 #include "Buffer/Mesh.h"
 #include "FrameBuffer/FrameBuffer.h"
 #include "Material.h"
+#include "DebugGraphics.h"
 
 struct GLFWwindow;
 
@@ -34,11 +35,7 @@ namespace doom
 			friend class RenderBuffer;
 			friend class ::doom::userinput::UserInput_Server;
 
-			struct DebugMesh
-			{
-				math::Vector4 mColor;
-				Mesh mMesh;
-			};
+			
 
 			enum class eRenderingMode
 			{
@@ -48,7 +45,7 @@ namespace doom
 
 		private:
 
-			static inline const std::string DEBUG_SHADER{ "DebugLineShader.glsl" };
+		
 
 			virtual void Init() final;
 			virtual void LateInit() final;
@@ -59,8 +56,9 @@ namespace doom
 			static inline math::Vector<2, int> ScreenSize{};
 			static inline unsigned int MultiSamplingNum;
 
-			std::vector<DebugMesh> mDebugMeshes{};
-			unsigned int mDebugMeshCount;
+#ifdef DEBUG_MODE
+			DebugGraphics mDebugGraphics{};
+#endif
 
 			eRenderingMode mCurrentRenderingMode{ eRenderingMode::ForwardRendering };
 			
@@ -73,7 +71,7 @@ namespace doom
 			/// Default Gbuffer Writer material
 			/// </summary>
 			Material mGbufferWriterMaterial{};
-			Mesh* mQuadMesh{ nullptr };
+			std::shared_ptr<Mesh> mQuadMesh{ };
 			FrameBuffer mFrameBufferForDeferredRendering{};
 			void InitFrameBufferForDeferredRendering();
 			void DeferredRendering();
@@ -85,26 +83,14 @@ namespace doom
 			static int GetScreenHeight();
 			static math::Vector2 GetScreenSize();
 			static const math::Vector2& GetScreenSize_const();
+			
+			const FrameBuffer& GetGBuffer() const;
+			FrameBuffer& GetGBuffer();
 
 			void SetRenderingMode(eRenderingMode renderingMode);
 
-			Material* mDebugMaterial;
-			/// <summary>
-			/// Draw Debug Line
-			/// You should call this every frame
-			/// </summary>
-			/// <param name="startWorldPos"></param>
-			/// <param name="endWorldPos"></param>
-			/// <param name="color"></param>
-			void DebugDrawLine(const math::Vector3& startWorldPos, const math::Vector3& endWorldPos, const math::Vector4& color);
-			/// <summary>
-			///	Draw Debug Sphere
-			/// You should call this every frame
-			/// </summary>
-			/// <param name="centerWorldPos"></param>
-			/// <param name="radius"></param>
-			/// <param name="color"></param>
-			void DebugDrawSphere(const math::Vector3& centerWorldPos, float radius, const math::Vector4& color);
+			
+	
 		};
 	}
 }

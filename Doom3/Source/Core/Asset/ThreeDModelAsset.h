@@ -6,6 +6,7 @@
 #include "../Math/LightMath_Cpp/Vector2.h"
 #include "../Math/LightMath_Cpp/Vector3.h"
 #include "../Graphics/Buffer/Mesh.h"
+#include "../Graphics/Buffer/MeshNode.h"
 #include "ePrimitiveType.h"
 #include <optional>
 
@@ -42,6 +43,7 @@ namespace doom
 		MeshVertexData(MeshVertexData&&) noexcept = default;
 		MeshVertexData& operator=(const MeshVertexData&) = default;
 		MeshVertexData& operator=(MeshVertexData&&) noexcept = default;
+		~MeshVertexData() = default;
 	};
 
 	/*
@@ -64,7 +66,7 @@ namespace doom
 		/// <summary>
 		/// mMeshIndices count is mNumOfIndiecs
 		/// </summary>
-		unsigned int* mMeshIndices;
+		std::unique_ptr<unsigned int[]> mMeshIndices;
 
 		unsigned int mNumOfVertexs;
 		/// <summary>
@@ -74,18 +76,14 @@ namespace doom
 		/// ( O ) Vertex TexCoord Normal Tangent Bitangent | Vertex TexCoord Normal Tangent Bitangent | Vertex TexCoord Normal Tangent Bitangent
 		/// ( X ) Vertex Vertex Vertex | TexCoord TexCoord TexCoord | Normal Normal Normal | Tangent Tangent Tangent | Bitangent Bitangent Bitangent
 		/// </summary>
-		MeshVertexData* mMeshVertexDatas;
+		std::unique_ptr<MeshVertexData[]> mMeshVertexDatas;
 
 		ThreeDModelMesh() = default;
 		ThreeDModelMesh(const ThreeDModelMesh&) = delete;
 		ThreeDModelMesh(ThreeDModelMesh&&) noexcept = default;
 		ThreeDModelMesh& operator=(const ThreeDModelMesh&) = delete;
 		ThreeDModelMesh& operator=(ThreeDModelMesh&&) noexcept = default;
-		~ThreeDModelMesh()
-		{
-			delete[] mMeshIndices;
-			delete[] mMeshVertexDatas;
-		}
+		~ThreeDModelMesh() = default;
 	};
 
 	struct ThreeDModelNode
@@ -100,16 +98,16 @@ namespace doom
 		/// <summary>
 		/// don't clear this
 		/// </summary>
-		ThreeDModelNode* mThreeDModelNodeParent;
+		ThreeDModelNode* mThreeDModelNodeParent; // why don't use unique_ptr at here, Parent node will be deleted later
 
-		ThreeDModelNode* mThreeDModelNodeChildrens;
+		std::unique_ptr<ThreeDModelNode[]> mThreeDModelNodeChildrens;
 		unsigned int mNumOfThreeDModelNodeChildrens;
 
 		/// <summary>
 		/// each component contain index of ThreeDModelAsset::ThreeDModelMesh 
 		/// so use like this->ThreeDModelAsset->mModelMeshAssets[mModelMeshIndexs[0]]
 		/// </summary>
-		unsigned int* mModelMeshIndexs;
+		std::unique_ptr<unsigned int[]> mModelMeshIndexs;
 		unsigned int mNumOfModelMeshes;
 
 		ThreeDModelNode() = default;
@@ -117,30 +115,9 @@ namespace doom
 		ThreeDModelNode(ThreeDModelNode&&) noexcept = default;
 		ThreeDModelNode& operator=(const ThreeDModelNode&) = delete;
 		ThreeDModelNode& operator=(ThreeDModelNode&&) noexcept = default;
-		~ThreeDModelNode()
-		{
-			if (mNumOfThreeDModelNodeChildrens != 0)
-			{
-				delete[] mThreeDModelNodeChildrens;
-			}
-			/*
-			for (unsigned int i = 0; i < mNumOfThreeDModelNodeChildrens; i++)
-			{
-				delete 
-			}
-			*/
-
-			delete[] mModelMeshIndexs;
-		}
+		~ThreeDModelNode() = default;
 	};
 
-	namespace graphics
-	{
-		class Mesh;
-		struct MeshNode;
-	}
-
-	
 
 
 	class ThreeDModelAsset : public Asset
@@ -156,14 +133,14 @@ namespace doom
 		friend struct assetimporter::OnEndImportInMainThreadFunctor;
 
 	private:
-		ThreeDModelNode* mRootModelNode{};
+		std::unique_ptr<ThreeDModelNode> mRootModelNode{};
 
-		ThreeDModelMesh* mModelMeshAssets{};
+		std::unique_ptr<ThreeDModelMesh[]> mModelMeshAssets{};
 		unsigned int mNumOfModelMeshAssets;
 
 		///////////
 
-		graphics::MeshNode* mRootMeshNode{};
+		std::unique_ptr<graphics::MeshNode> mRootMeshNode{};
 		std::vector<graphics::Mesh> mMeshes{};
 		
 		unsigned int mNumOfMeshes;
@@ -193,10 +170,10 @@ namespace doom
 
 		ThreeDModelAsset() = default;
 		ThreeDModelAsset(const ThreeDModelAsset&) = delete;
-		ThreeDModelAsset(ThreeDModelAsset&&) noexcept = default;
+		ThreeDModelAsset(ThreeDModelAsset&& threeDAsset) noexcept = default;
 		ThreeDModelAsset& operator=(const ThreeDModelAsset&) = delete;
-		ThreeDModelAsset& operator=(ThreeDModelAsset&&) noexcept = default;
-	
+		ThreeDModelAsset& operator=(ThreeDModelAsset&& threeDAsset) noexcept = default;
+		~ThreeDModelAsset();
 		
 	};
 

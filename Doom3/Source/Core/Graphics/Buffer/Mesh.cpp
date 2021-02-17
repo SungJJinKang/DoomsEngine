@@ -3,6 +3,7 @@
 #include <utility>
 #include <type_traits>
 #include "../Graphics_Core.h"
+#include "../GraphicsAPI.h"
 #include "../Asset/ThreeDModelAsset.h"
 
 doom::graphics::Mesh::Mesh()
@@ -110,10 +111,9 @@ void doom::graphics::Mesh::BufferData(GLsizeiptr dataCount, const void* data, eP
 {
 	this->GenBufferIfNotGened(false);
 
-	this->BindBuffer(); // bind vertex array buffer
-
-
+	this->BindVertexArrayObject(); // bind vertex array buffer
 	this->BindVertexBufferObject();
+	D_DEBUG_LOG(std::to_string(sizeof(float) * dataCount));
 	glBufferData(GL_ARRAY_BUFFER, sizeof(float) * dataCount, data, GL_STATIC_DRAW);
 
 	unsigned int offset = 0;
@@ -162,15 +162,28 @@ void doom::graphics::Mesh::BufferData(GLsizeiptr dataCount, const void* data, eP
 	}
 
 #pragma warning( disable : 4244 )
-	this->mNumOfVertices = dataCount * sizeof(float) / offset;
+	this->mNumOfVertices = static_cast<unsigned int>(dataCount) * sizeof(float) / offset;
 	this->mNumOfIndices = 0;
-
+	
 	mPrimitiveType = primitiveType;
+
+	this->mVertexArrayFlag = mVertexArrayFlag;
+}
+
+void doom::graphics::Mesh::BufferSubData(GLsizeiptr dataCount, const void* data, khronos_intptr_t offsetInByte) noexcept
+{
+	D_ASSERT(this->mBufferID != 0);
+	D_ASSERT(GraphicsAPI::GetInteger64v(GraphicsAPI::GetParameter::ARRAY_BUFFER_BINDING) == this->mBufferID);
+
+	// GL_INVALID_VALUE is generated if offset or size is negative, or if offset+size is greater than the value of GL_BUFFER_SIZE for the specified buffer object.
+	glBufferSubData(GL_ARRAY_BUFFER, offsetInByte, sizeof(float) * dataCount, data);
+
 }
 
 void doom::graphics::Mesh::BindVertexBufferObject()
 {
 	D_ASSERT(this->mBufferID != 0);
+	D_CHECK_OVERLAP_BIND("VertexBufferObject", this->mBufferID);
 	glBindBuffer(GL_ARRAY_BUFFER, this->mBufferID);
 }
 
@@ -179,7 +192,7 @@ void doom::graphics::Mesh::BufferDataFromModelMesh(const ThreeDModelMesh& threeD
 {
 	this->GenBufferIfNotGened(threeDModelMesh.bHasIndices);
 
-	this->BindBuffer(); // bind vertex array buffer first
+	this->BindVertexArrayObject(); // bind vertex array buffer first
 
 	this->BindVertexBufferObject();
 	glBufferData(GL_ARRAY_BUFFER, sizeof(std::remove_pointer_t<decltype(threeDModelMesh.mMeshVertexDatas)>) * threeDModelMesh.mNumOfVertexs, &(threeDModelMesh.mMeshVertexDatas[0]), GL_STATIC_DRAW);
@@ -274,11 +287,11 @@ static constexpr float QuadMeshData[]
 	-1.0f, 1.0f, 0.0f, 0.0f, 1.0f,
 };
 
-doom::graphics::Mesh* doom::graphics::Mesh::GetQuadMesh()
+std::shared_ptr<doom::graphics::Mesh> doom::graphics::Mesh::GetQuadMesh()
 {
 	if (doom::graphics::Mesh::QuadMesh == nullptr)
 	{
-		doom::graphics::Mesh::QuadMesh = new doom::graphics::Mesh(sizeof(QuadMeshData) / sizeof(float), (void*)QuadMeshData, ePrimitiveType::TRIANGLE, eVertexArrayFlag::Vertex | eVertexArrayFlag::TexCoord);
+		doom::graphics::Mesh::QuadMesh = std::make_shared<Mesh>(sizeof(QuadMeshData) / sizeof(float), (void*)QuadMeshData, ePrimitiveType::TRIANGLES, eVertexArrayFlag::Vertex | eVertexArrayFlag::TexCoord);
 	}
 
 	return doom::graphics::Mesh::QuadMesh;

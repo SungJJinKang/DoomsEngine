@@ -54,7 +54,7 @@ namespace doom
 
 			inline void BindBuffer() noexcept final
 			{
-				D_CHECK_OVERLAP_BIND("UniformBlock", this->mBufferID);
+				D_CHECK_OVERLAP_BIND("UniformBlockObject", this->mBufferID);
 				glBindBuffer(GL_UNIFORM_BUFFER, this->mBufferID);
 			}
 			inline virtual void UnBindBuffer() noexcept final

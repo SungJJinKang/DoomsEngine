@@ -98,18 +98,36 @@ namespace doom
 
 					//Copy Asset meshes
 					asset.mNumOfModelMeshAssets = scene->mNumMeshes;
-					asset.mModelMeshAssets = new ThreeDModelMesh[asset.mNumOfModelMeshAssets];
+					asset.mModelMeshAssets = std::make_unique<ThreeDModelMesh[]>(asset.mNumOfModelMeshAssets);
 					for (unsigned int meshIndex = 0; meshIndex < scene->mNumMeshes; meshIndex++)
 					{
 						auto mesh = scene->mMeshes[meshIndex];
 
 						asset.mModelMeshAssets[meshIndex].mName = mesh->mName.C_Str();
-						asset.mModelMeshAssets[meshIndex].mPrimitiveType = static_cast<ePrimitiveType>(mesh->mPrimitiveTypes);
+
+						switch (mesh->mPrimitiveTypes)
+						{
+						case aiPrimitiveType::aiPrimitiveType_LINE:
+							asset.mModelMeshAssets[meshIndex].mPrimitiveType = ePrimitiveType::LINES;
+							break;
+						case aiPrimitiveType::aiPrimitiveType_POINT:
+							asset.mModelMeshAssets[meshIndex].mPrimitiveType = ePrimitiveType::POINTS;
+							break;
+						case aiPrimitiveType::aiPrimitiveType_POLYGON:
+							asset.mModelMeshAssets[meshIndex].mPrimitiveType = ePrimitiveType::TRIANGLES;
+							break;
+						case aiPrimitiveType::aiPrimitiveType_TRIANGLE:
+							asset.mModelMeshAssets[meshIndex].mPrimitiveType = ePrimitiveType::TRIANGLES;
+							break;
+						case aiPrimitiveType::_aiPrimitiveType_Force32Bit:
+							asset.mModelMeshAssets[meshIndex].mPrimitiveType = ePrimitiveType::TRIANGLES;
+							break;
+						}
 
 
 						// store Vertices
 						asset.mModelMeshAssets[meshIndex].mNumOfVertexs = mesh->mNumVertices;
-						asset.mModelMeshAssets[meshIndex].mMeshVertexDatas = new MeshVertexData[asset.mModelMeshAssets[meshIndex].mNumOfVertexs];
+						asset.mModelMeshAssets[meshIndex].mMeshVertexDatas = std::make_unique<MeshVertexData[]>(asset.mModelMeshAssets[meshIndex].mNumOfVertexs);
 
 						D_ASSERT(mesh->mNumUVComponents[0] == 2);
 						D_ASSERT(mesh->HasTangentsAndBitangents());
@@ -142,7 +160,7 @@ namespace doom
 							}
 
 
-							asset.mModelMeshAssets[meshIndex].mMeshIndices = new unsigned int[asset.mModelMeshAssets[meshIndex].mNumOfIndices]; // reserve indices space
+							asset.mModelMeshAssets[meshIndex].mMeshIndices = std::make_unique<unsigned int[]>(asset.mModelMeshAssets[meshIndex].mNumOfIndices); // reserve indices space
 							unsigned int indiceIndex = 0;
 							for (unsigned int faceIndex = 0; faceIndex < mesh->mNumFaces; faceIndex++)
 							{
@@ -157,9 +175,9 @@ namespace doom
 					}
 
 					//scene->mRootNode
-					asset.mRootModelNode = new ThreeDModelNode();
+					asset.mRootModelNode = std::make_unique<ThreeDModelNode>();
 					asset.mRootModelNode->mThreeDModelNodeParent = nullptr;
-					SetThreeDModelNodesData(asset.mRootModelNode, scene->mRootNode, nullptr, asset, scene);
+					SetThreeDModelNodesData(asset.mRootModelNode.get(), scene->mRootNode, nullptr, asset, scene);
 					apiImporter->FreeScene();
 					apiImporterContainer.Release();
 					return std::move(asset);
@@ -189,7 +207,7 @@ namespace doom
 				currentNode->mNumOfModelMeshes = currentAssimpNode->mNumMeshes;
 				if (currentAssimpNode->mNumMeshes > 0)
 				{
-					currentNode->mModelMeshIndexs = new unsigned int[currentNode->mNumOfModelMeshes];
+					currentNode->mModelMeshIndexs = std::make_unique<unsigned int[]>(currentNode->mNumOfModelMeshes);
 					for (unsigned int meshIndex = 0; meshIndex < currentNode->mNumOfModelMeshes; meshIndex++)
 					{
 						currentNode->mModelMeshIndexs[meshIndex] = currentAssimpNode->mMeshes[meshIndex];
@@ -203,7 +221,7 @@ namespace doom
 				currentNode->mNumOfThreeDModelNodeChildrens = currentAssimpNode->mNumChildren;
 				if (currentAssimpNode->mNumChildren > 0)
 				{
-					currentNode->mThreeDModelNodeChildrens = new ThreeDModelNode[currentNode->mNumOfThreeDModelNodeChildrens];
+					currentNode->mThreeDModelNodeChildrens = std::make_unique<ThreeDModelNode[]>(currentNode->mNumOfThreeDModelNodeChildrens);
 					for (unsigned int childrenIndex = 0; childrenIndex < currentNode->mNumOfThreeDModelNodeChildrens; childrenIndex++)
 					{
 						SetThreeDModelNodesData(&(currentNode->mThreeDModelNodeChildrens[childrenIndex]), currentAssimpNode->mChildren[childrenIndex], currentNode, modelAsset, assimpScene);

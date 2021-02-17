@@ -20,16 +20,17 @@ doom::ShaderAsset::ShaderAsset(const std::string& shaderStr) : mVertexId{ 0 }, m
 
 doom::ShaderAsset::ShaderAsset(ShaderAsset&& shader) noexcept 
 	: Asset(std::move(shader)), mVertexId{ shader.mVertexId }, mFragmentId{ shader.mFragmentId }, mGeometryId{ shader.mGeometryId }, 
-	mShaderFileText{ shader.mShaderFileText }
+	mShaderFileText{ std::move(shader.mShaderFileText) }
 {
 	shader.mVertexId = 0;
 	shader.mFragmentId = 0;
 	shader.mGeometryId = 0;
-	shader.mShaderFileText.clear();
 }
 
 doom::ShaderAsset& doom::ShaderAsset::operator=(ShaderAsset&& shader) noexcept
 {
+	Asset::operator=(std::move(shader));
+
 	this->mVertexId = shader.mVertexId;
 	shader.mVertexId = 0;
 
@@ -39,8 +40,7 @@ doom::ShaderAsset& doom::ShaderAsset::operator=(ShaderAsset&& shader) noexcept
 	this->mGeometryId = shader.mGeometryId;
 	shader.mGeometryId = 0;
 
-	this->mShaderFileText = shader.mShaderFileText;
-	shader.mShaderFileText.clear();
+	this->mShaderFileText = std::move(shader.mShaderFileText);
 
 	return *this;
 }

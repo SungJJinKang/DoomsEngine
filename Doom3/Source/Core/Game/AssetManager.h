@@ -89,6 +89,7 @@ namespace doom
 				}
 				else
 				{
+					D_DEBUG_LOG({ "Cant Find Asset Index : ", std::to_string(index) }, eLogType::D_ERROR);
 					return nullptr;
 				}
 			}
@@ -110,6 +111,7 @@ namespace doom
 				}
 				else
 				{//element containing UUID key doesn't exist
+					D_DEBUG_LOG({ "Cant Find Asset Name : ", filename }, eLogType::D_ERROR);
 					return nullptr;
 				}
 			}

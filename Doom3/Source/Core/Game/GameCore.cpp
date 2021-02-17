@@ -32,7 +32,7 @@ void doom::GameCore::Init()
 	this->mTime_Server.Init();
 
 	D_START_PROFILING("Loading Config File", eProfileLayers::CPU);
-	this->mConfigData = { SimpleIniParser::ParseIniFile(GET_RELATIVE_PATH("config.ini")) };
+	this->mConfigData = { SimpleIniParser::ParseIniFile(ASSET_FOLDER_DIRECTORY + "config.ini") };
 	D_END_PROFILING("Loading Config File");
 
 

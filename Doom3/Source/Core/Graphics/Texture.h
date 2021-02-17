@@ -371,17 +371,11 @@ namespace doom
 				int level, const void* data
 			) = 0;
 
+			
 			/// <summary>
 			/// https://www.khronos.org/registry/OpenGL-Refpages/gl4/html/glTexImage2D.xhtml
 			/// </summary>
-			/// <param name="target"></param>
 			/// <param name="level"></param>
-			/// <param name="internalformat"></param>
-			/// <param name="width"></param>
-			/// <param name="height"></param>
-			/// <param name="border"></param>
-			/// <param name="format"></param>
-			/// <param name="type"></param>
 			/// <param name="data"></param>
 			virtual inline void TexImage2D(
 				int level, const void* data

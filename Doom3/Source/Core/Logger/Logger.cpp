@@ -1,10 +1,129 @@
-#define MACRO_IMPLEMENTATION
 
-#include "Logger.h"
-
+#include <cstdarg>
+#include <string>
+#include <intrin.h>
 #include <iostream>
+#include <type_traits>
+
+#include "../Graphics/DebugGraphics.h"
+#include "../Math/LightMath_Cpp/Vector3.h"
+
 
 using namespace doom::logger;
+
+namespace doom
+{
+	namespace logger
+	{
+		const char* LogTypeStr(eLogType logType) noexcept;
+
+		class StdStreamLogger
+		{
+		private:
+
+
+		public:
+			constexpr StdStreamLogger() noexcept
+			{
+
+			}
+
+
+			void Log(const char* log, eLogType logType = eLogType::D_LOG) const noexcept;
+			void Log(const std::string log, eLogType logType = eLogType::D_LOG) const noexcept;
+			void Log(std::initializer_list<const char*> logs, eLogType logType = eLogType::D_LOG) const noexcept;
+			void Log(std::initializer_list<const std::string> logs, eLogType logType = eLogType::D_LOG) const noexcept;
+
+			
+
+		};
+
+		class EmptyLogger
+		{
+		private:
+			EmptyLogger()
+			{
+
+			}
+
+		public:
+			friend class Debug;
+
+			inline void Log(const char* log, eLogType logType = eLogType::D_LOG) const noexcept {}
+			inline void Log(const std::string log, eLogType logType = eLogType::D_LOG) const noexcept {}
+			inline void Log(std::initializer_list<const char*> logs, eLogType logType = eLogType::D_LOG) const noexcept {}
+			inline void Log(std::initializer_list<const std::string> logs, eLogType logType = eLogType::D_LOG) const noexcept {}
+		};
+
+		constexpr inline StdStreamLogger Logger{};
+
+		void Debug::StopIfError(eLogType logType)
+		{
+			if (logType == eLogType::D_ERROR)
+			{
+				std::cout.flush();
+				__debugbreak();
+			}
+		}
+		void Debug::Log(const char* log, eLogType logType) noexcept
+		{
+			Logger.Log(log, logType);
+			StopIfError(logType);
+		}
+		void Debug::Log(const std::string log, eLogType logType) noexcept
+		{
+			Logger.Log(log, logType);
+			StopIfError(logType);
+		}
+		void Debug::Log(std::initializer_list<const char*> logs, eLogType logType) noexcept
+		{
+			Logger.Log(logs, logType);
+			StopIfError(logType);
+		}
+		void Debug::Log(std::initializer_list<const std::string> logs, eLogType logType) noexcept
+		{
+			Logger.Log(logs, logType);
+			StopIfError(logType);
+		}
+
+		/*
+		template <typename Last>
+		void Debug::Log(Last arg, eLogType logType) noexcept
+		{
+			if constexpr (std::is_same_v<char, std::remove_cv<Last>> || std::is_same_v< wchar_t, std::remove_cv<Last>> || std::is_same_v<std::string, std::remove_cv<Last>> || std::is_same_v<std::wstring, std::remove_cv<Last>>)
+			{
+				Logger.Log(firstArg);
+			}
+			else
+			{
+				Logger.Log(std::to_string(firstArg));
+			}
+		}
+		template <typename First, typename... Args>
+		void Debug::Log(First firstArg, Args... args, eLogType logType) noexcept
+		{
+			Debug::Log(firstArg, logType);
+
+			Debug::Log(args..., logType);
+		}
+		*/
+
+		void Debug::Draw3DLine(const math::Vector3& startPosition, const math::Vector3& endPosition, eColor color) noexcept
+		{
+			doom::graphics::DebugGraphics::GetSingleton()->DebugDraw3DLine(startPosition, endPosition, color);
+		}
+		void Debug::DrawSphere(const math::Vector3& centerPosition, float radius, eColor color) noexcept
+		{
+			doom::graphics::DebugGraphics::GetSingleton()->DebugDrawSphere(centerPosition, radius, color);
+		}
+
+	}
+}
+
+
+
+
+
 
 
 const char* doom::logger::LogTypeStr(eLogType logType) noexcept

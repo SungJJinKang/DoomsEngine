@@ -71,6 +71,7 @@ void Graphics_Server::Init()
 	//
 
 	GraphicsAPI::Enable(GraphicsAPI::eCapability::DEPTH_TEST);
+	GraphicsAPI::DepthFunc(GraphicsAPI::eDepthFuncType::LEQUAL);;
 
 	GraphicsAPI::Enable(GraphicsAPI::eCapability::BLEND);
 	GraphicsAPI::BlendFunc(GraphicsAPI::eSourceFactor::SRC_ALPHA, GraphicsAPI::eDestinationFactor::ONE_MINUS_SRC_ALPHA);
@@ -91,13 +92,11 @@ void Graphics_Server::Init()
 
 void doom::graphics::Graphics_Server::LateInit()
 {
-	auto debugShader = doom::assetimporter::AssetManager::GetAsset<eAssetType::SHADER>(Graphics_Server::DEBUG_SHADER);
-	this->mDebugMaterial = new Material{ *debugShader };
+	this->mDebugGraphics.Init();
 
 	this->SetRenderingMode(Graphics_Server::eRenderingMode::DeferredRendering);
 	this->mQuadMesh = Mesh::GetQuadMesh();
 
-	
 }
 
 void Graphics_Server::Update()
@@ -110,7 +109,7 @@ void Graphics_Server::Update()
 
 void Graphics_Server::OnEndOfFrame()
 {
-	this->mDebugMeshCount = 0;
+	this->mDebugGraphics.Reset();
 
 	auto sceneGraphics = SceneGraphics::GetSingleton();
 
@@ -168,11 +167,11 @@ void doom::graphics::Graphics_Server::InitFrameBufferForDeferredRendering()
 	this->mFrameBufferForDeferredRendering.AttachTextureBuffer(GraphicsAPI::eBufferType::COLOR, Graphics_Server::ScreenSize.x, Graphics_Server::ScreenSize.y);
 	this->mFrameBufferForDeferredRendering.AttachTextureBuffer(GraphicsAPI::eBufferType::COLOR, Graphics_Server::ScreenSize.x, Graphics_Server::ScreenSize.y);
 	this->mFrameBufferForDeferredRendering.AttachTextureBuffer(GraphicsAPI::eBufferType::COLOR, Graphics_Server::ScreenSize.x, Graphics_Server::ScreenSize.y);
-	this->mFrameBufferForDeferredRendering.AttachRenderBuffer(GraphicsAPI::eBufferType::DEPTH, Graphics_Server::ScreenSize.x, Graphics_Server::ScreenSize.y);
+	this->mFrameBufferForDeferredRendering.AttachTextureBuffer(GraphicsAPI::eBufferType::DEPTH, Graphics_Server::ScreenSize.x, Graphics_Server::ScreenSize.y);
 
-	this->mGbufferDrawerMaterial.AddTexture(0, &this->mFrameBufferForDeferredRendering.mAttachedColorTextures[0]);
-	this->mGbufferDrawerMaterial.AddTexture(1, &this->mFrameBufferForDeferredRendering.mAttachedColorTextures[1]);
-	this->mGbufferDrawerMaterial.AddTexture(2, &this->mFrameBufferForDeferredRendering.mAttachedColorTextures[2]);
+	this->mGbufferDrawerMaterial.AddTexture(0, &this->mFrameBufferForDeferredRendering.GetFrameBufferTexture(GraphicsAPI::eBufferType::COLOR, 0));
+	this->mGbufferDrawerMaterial.AddTexture(1, &this->mFrameBufferForDeferredRendering.GetFrameBufferTexture(GraphicsAPI::eBufferType::COLOR, 1));
+	this->mGbufferDrawerMaterial.AddTexture(2, &this->mFrameBufferForDeferredRendering.GetFrameBufferTexture(GraphicsAPI::eBufferType::COLOR, 2));
 	
 }
 
@@ -187,6 +186,8 @@ void doom::graphics::Graphics_Server::DeferredRendering()
 	sceneGraphics->mUniformBufferObjectManager.Update_Internal();
 	sceneGraphics->mUniformBufferObjectManager.Update();
 
+	this->mDebugGraphics.DrawDebug();
+
 	for (unsigned int i = 0; i < MAX_LAYER_COUNT; i++)
 	{
 		auto rendererComponentPair = RendererComponentStaticIterator::GetAllComponentsWithLayerIndex(i);
@@ -200,26 +201,30 @@ void doom::graphics::Graphics_Server::DeferredRendering()
 	}
 	
 	FrameBuffer::UnBindFrameBuffer();
-	GraphicsAPI::ClearColor(1.0f, 1.0f, 1.0f, 1.0f);
+
+	GraphicsAPI::ClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 	GraphicsAPI::Clear(GraphicsAPI::eClearMask::COLOR_BUFFER_BIT, GraphicsAPI::eClearMask::DEPTH_BUFFER_BIT);
 
 	this->mFrameBufferForDeferredRendering.BlitBufferTo(0, 0, 0, this->mFrameBufferForDeferredRendering.mDefaultWidth, this->mFrameBufferForDeferredRendering.mDefaultHeight, 0, 0, Graphics_Server::ScreenSize.x, Graphics_Server::ScreenSize.y, GraphicsAPI::eBufferType::DEPTH, FrameBuffer::eImageInterpolation::NEAREST);
 	
 
+
 	//TO DO : Draw Quad
 	this->mGbufferDrawerMaterial.UseProgram();
 	this->mQuadMesh->Draw();
 	
-	this->mDebugMaterial->UseProgram();
-	for (unsigned int i = 0; i < this->mDebugMeshCount; i++)
-	{
 
-		//this->mDebugMaterial->SetVector4(0, this->mDebugMeshes[i].mColor); // set color ( see defulat line debug shader )
-		this->mDebugMaterial->SetVector4("Color", this->mDebugMeshes[i].mColor); // set color ( see defulat line debug shader )
-		this->mDebugMeshes[i].mMesh.Draw();
 
-	}
+}
 
+const doom::graphics::FrameBuffer& Graphics_Server::GetGBuffer() const
+{
+	return this->mFrameBufferForDeferredRendering;
+}
+
+doom::graphics::FrameBuffer& Graphics_Server::GetGBuffer()
+{
+	return this->mFrameBufferForDeferredRendering;
 }
 
 void doom::graphics::Graphics_Server::SetRenderingMode(eRenderingMode renderingMode)
@@ -231,25 +236,7 @@ void doom::graphics::Graphics_Server::SetRenderingMode(eRenderingMode renderingM
 	}
 }
 
-void doom::graphics::Graphics_Server::DebugDrawLine(const math::Vector3& startWorldPos, const math::Vector3& endWorldPos, const math::Vector4& color)
-{
-	//Don't Remove, ReCreate Mesh
-	//Use previous frame's Mesh
 
-	++this->mDebugMeshCount;
-	while (this->mDebugMeshes.size() < this->mDebugMeshCount)
-	{
-		this->mDebugMeshes.emplace_back();
-	}
-
-	float vertex[6]{ startWorldPos.x,startWorldPos.y, startWorldPos.z, endWorldPos.x, endWorldPos.y, endWorldPos.z };
-	this->mDebugMeshes[this->mDebugMeshCount - 1].mColor = color;
-	this->mDebugMeshes[this->mDebugMeshCount - 1].mMesh.BufferData(6, vertex, ePrimitiveType::LINE, Mesh::eVertexArrayFlag::Vertex);
-}
-
-void doom::graphics::Graphics_Server::DebugDrawSphere(const math::Vector3& centerWorldPos, float radius, const math::Vector4& color)
-{
-}
 
 
 

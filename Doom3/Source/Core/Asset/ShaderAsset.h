@@ -70,7 +70,7 @@ namespace doom
 		ShaderAsset(ShaderAsset && shader) noexcept;
 		ShaderAsset operator=(const ShaderAsset & shader) = delete;
 		ShaderAsset& operator=(ShaderAsset && shader) noexcept;
-		~ShaderAsset();
+		virtual ~ShaderAsset();
 
 		void OnEndImportInMainThread() final;
 

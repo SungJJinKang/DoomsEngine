@@ -1,5 +1,6 @@
 #include "TextureAsset.h"
 
+
 #include "../Graphics/Texture.h"
 #include "../Graphics/SingleTexture.h"
 
@@ -11,6 +12,10 @@ doom::TextureAsset::TextureAsset(int width, int height, int componentCount, unsi
 {
 
 }
+
+
+
+
 
 void doom::TextureAsset::OnEndImportInMainThread()
 {
@@ -90,5 +95,5 @@ void doom::TextureAsset::CreateTexture()
 
 
 	this->mTexture =
-		new graphics::SingleTexture(Texture::eTextureType::DIFFUSE, Texture::eTargetTexture::TEXTURE_2D, internalFormat, mWidth, mHeight, dataFormat, dataType, mData);
+		new graphics::SingleTexture(Texture::eTextureType::DIFFUSE, Texture::eTargetTexture::TEXTURE_2D, internalFormat, mWidth, mHeight, dataFormat, dataType, mData.get());
 }

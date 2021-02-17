@@ -23,18 +23,16 @@ void doom::ThreeDModelAsset::SendMeshDataToGPU()
 	}
 
 
-	this->mRootMeshNode = new doom::graphics::MeshNode();
-	this->CreateNode(this->mRootMeshNode, this->mRootModelNode);
+	this->mRootMeshNode = std::make_unique<doom::graphics::MeshNode>();
+	this->CreateNode(this->mRootMeshNode.get(), this->mRootModelNode.get());
 }
 
 
 void doom::ThreeDModelAsset::ClearMeshData()
 {
-	delete[] this->mModelMeshAssets;
-	delete this->mRootModelNode;
+	this->mModelMeshAssets.reset();
+	this->mRootModelNode.reset();
 
-	this->mModelMeshAssets = nullptr;
-	this->mRootModelNode = nullptr;
 }
 
 void doom::ThreeDModelAsset::CreateNode(graphics::MeshNode* currentNode, ThreeDModelNode* currentModelNodeAsset)
@@ -78,12 +76,21 @@ void doom::ThreeDModelAsset::OnEndImportInMainThread()
 	D_DEBUG_LOG("Cleared Mesh Data", eLogType::D_LOG);
 }
 
-const std::vector<doom::graphics::Mesh>& doom::ThreeDModelAsset::GetMeshes()
+
+doom::ThreeDModelAsset::~ThreeDModelAsset()
+{
+	if (this->mRootModelNode != nullptr)
+	{//check is destroyed
+		this->ClearMeshData();
+	}
+}
+
+const std::vector<doom::graphics::Mesh>& doom::ThreeDModelAsset::GetMeshes() 
 {
 	return this->mMeshes;
 }
 
-doom::graphics::Mesh& doom::ThreeDModelAsset::GetMesh(unsigned int index)
+doom::graphics::Mesh& doom::ThreeDModelAsset::GetMesh(unsigned int index) 
 {
 	D_ASSERT(index >= 0 && index < GetMeshCount());
 	return this->mMeshes[index];
@@ -93,3 +100,4 @@ size_t doom::ThreeDModelAsset::GetMeshCount() const
 {
 	return this->mMeshes.size();
 }
+

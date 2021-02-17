@@ -37,6 +37,20 @@ void doom::graphics::Buffer::GenBufferIfNotGened()
 	this->GenBuffer();
 }
 
+int64_t Buffer::GetBufferParameteri64v(eBufferBindingTarget bindingTarget, eBufferParameter bufferParameter)
+{
+	int64_t value;
+	glGetBufferParameteri64v(static_cast<unsigned int>(bindingTarget), static_cast<unsigned int>(bufferParameter), &value);
+	return value;
+}
+
+int64_t Buffer::GetNamedBufferParameteri64v(eBufferParameter bufferParameter)
+{
+	int64_t value;
+	glGetNamedBufferParameteri64v(this->mBufferID, static_cast<unsigned int>(bufferParameter), &value);
+	return value;
+}
+
 Buffer::~Buffer()
 {
 	this->DeleteBuffers();

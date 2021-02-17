@@ -45,7 +45,7 @@ namespace doom
 		class UniformBufferObject;
 		class Material
 		{
-			
+
 		private:
 			unsigned int mID;
 			ShaderAsset* mShaderAsset;
