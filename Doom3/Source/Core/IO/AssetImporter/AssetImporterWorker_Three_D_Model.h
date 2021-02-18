@@ -59,7 +59,7 @@ namespace doom
 
 				if (IsAssimpDebuggerInitialized == false)
 				{
-					Assimp::DefaultLogger::create("", Assimp::Logger::VERBOSE);
+					Assimp::DefaultLogger::create("", Assimp::Logger::NORMAL);
 					// Select the kinds of messages you want to receive on this log stream
 					const unsigned int severity = Assimp::Logger::Err;// | Assimp::Logger::Warn;
 

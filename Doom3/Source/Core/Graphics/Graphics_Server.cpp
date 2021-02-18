@@ -248,5 +248,4 @@ void Graphics_Server::OpenGlDebugCallback(GLenum source, GLenum type, GLuint id,
 		D_DEBUG_LOG(msg, eLogType::D_ERROR);
 		
 	}
-	D_DEBUG_LOG(msg, eLogType::D_LOG);
 }
