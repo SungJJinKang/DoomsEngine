@@ -102,7 +102,7 @@ namespace doom
 			void BufferSubData(GLsizeiptr dataCount, const void* data, khronos_intptr_t offsetInByte) noexcept;
 			void BindVertexBufferObject();
 			void BufferDataFromModelMesh(const ThreeDModelMesh& threeDModelMesh) noexcept;
-			void Draw()
+			void Draw() noexcept
 			{
 				D_ASSERT(this->mPrimitiveType != ePrimitiveType::NONE);
 
@@ -110,14 +110,14 @@ namespace doom
 				if (mNumOfIndices > 0)
 				{
 					// you don't need bind mVertexArrayObject everytime, EBO will be bound automatically when bind VAO
-					glDrawElements(GL_TRIANGLES, this->mNumOfIndices, GL_UNSIGNED_INT, 0);
+					glDrawElements(static_cast<unsigned int>(this->mPrimitiveType), this->mNumOfIndices, GL_UNSIGNED_INT, 0);
 				}
 				else
 				{
 					glDrawArrays(static_cast<unsigned int>(this->mPrimitiveType), 0, this->mNumOfVertices);
 				}
 			}
-			void DrawArray(int startIndex, unsigned int vertexCount)
+			void DrawArray(int startIndex, unsigned int vertexCount) noexcept
 			{
 				D_ASSERT(this->mPrimitiveType != ePrimitiveType::NONE);
 

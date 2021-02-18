@@ -1,5 +1,5 @@
 #pragma once
-
+#include <memory>
 namespace doom
 {
 	namespace graphics
@@ -13,10 +13,10 @@ namespace doom
 			/// Nodes can reference same mesh
 			/// array
 			/// </summary>
-			Mesh** mMeshes;
+			std::unique_ptr<Mesh*[]> mMeshes;
 			size_t mNumOfMeshes;
 
-			MeshNode* mChilds;
+			std::unique_ptr<MeshNode[]> mChilds;
 			size_t mNumOfChilds;
 		};
 	}

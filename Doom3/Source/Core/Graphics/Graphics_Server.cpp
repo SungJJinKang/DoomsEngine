@@ -71,7 +71,7 @@ void Graphics_Server::Init()
 	//
 
 	GraphicsAPI::Enable(GraphicsAPI::eCapability::DEPTH_TEST);
-	GraphicsAPI::DepthFunc(GraphicsAPI::eDepthFuncType::LEQUAL);;
+	//GraphicsAPI::DepthFunc(GraphicsAPI::eDepthFuncType::LEQUAL);;
 
 	GraphicsAPI::Enable(GraphicsAPI::eCapability::BLEND);
 	GraphicsAPI::BlendFunc(GraphicsAPI::eSourceFactor::SRC_ALPHA, GraphicsAPI::eDestinationFactor::ONE_MINUS_SRC_ALPHA);
@@ -246,6 +246,7 @@ void Graphics_Server::OpenGlDebugCallback(GLenum source, GLenum type, GLuint id,
 	if (type == 0x824C || type == 0x824E)
 	{
 		D_DEBUG_LOG(msg, eLogType::D_ERROR);
+		
 	}
-	
+	D_DEBUG_LOG(msg, eLogType::D_LOG);
 }

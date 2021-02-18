@@ -14,7 +14,7 @@ void doom::ThreeDModelAsset::SendMeshDataToGPU()
 		this->mMeshes.reserve(this->mNumOfMeshes);
 		for (unsigned int i = 0; i < this->mNumOfMeshes; i++)
 		{
-			this->mMeshes.push_back(this->mModelMeshAssets[i]);
+			this->mMeshes.emplace_back(this->mModelMeshAssets[i]);
 		}
 	}
 	else
@@ -40,7 +40,7 @@ void doom::ThreeDModelAsset::CreateNode(graphics::MeshNode* currentNode, ThreeDM
 	currentNode->mNumOfMeshes = currentModelNodeAsset->mNumOfModelMeshes;
 	if (currentNode->mNumOfMeshes != 0)
 	{
-		currentNode->mMeshes = new doom::graphics::Mesh*[currentNode->mNumOfMeshes];
+		currentNode->mMeshes = std::make_unique< doom::graphics::Mesh* []>(currentNode->mNumOfMeshes);
 		for (unsigned int i = 0; i < currentNode->mNumOfMeshes; i++)
 		{
 			currentNode->mMeshes[i] = &(this->mMeshes[currentModelNodeAsset->mModelMeshIndexs[i]]);
@@ -54,7 +54,7 @@ void doom::ThreeDModelAsset::CreateNode(graphics::MeshNode* currentNode, ThreeDM
 	currentNode->mNumOfChilds = currentModelNodeAsset->mNumOfThreeDModelNodeChildrens;
 	if (currentNode->mNumOfChilds != 0)
 	{
-		currentNode->mChilds = new doom::graphics::MeshNode[currentNode->mNumOfChilds];
+		currentNode->mChilds = std::make_unique< doom::graphics::MeshNode[]>(currentNode->mNumOfChilds);
 		for (unsigned int i = 0; i < currentNode->mNumOfChilds; i++)
 		{
 			currentNode->mChilds[i].mParent = currentNode;

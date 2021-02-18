@@ -155,9 +155,6 @@ namespace doom
 		void CreateNode(graphics::MeshNode* currentNode, ThreeDModelNode* currentModelNodeAsset);
 		void OnEndImportInMainThread() final;
 		
-	protected:
-
-	
 
 	public:
 		/// <summary>
