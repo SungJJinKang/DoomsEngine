@@ -6,7 +6,7 @@
 void doom::graphics::DebugGraphics::Init()
 {
 	this->mDebugMesh.GenMeshBuffer(false);
-	this->mDebugMesh.BufferData(MAX_DEBUG_LINE_COUNT * 6, NULL, ePrimitiveType::LINES, Mesh::eVertexArrayFlag::Vertex);
+	this->mDebugMesh.BufferData(MAX_DEBUG_VERTEX_COUNT * 3, NULL, ePrimitiveType::LINES, Mesh::eVertexArrayFlag::Vertex);
 
 	auto debug2DShader = doom::assetimporter::AssetManager::GetAsset<eAssetType::SHADER>(DebugGraphics::DEBUG_2D_SHADER);
 	this->m2DMaterial = std::make_unique<Material>(*debug2DShader);
@@ -18,8 +18,6 @@ void doom::graphics::DebugGraphics::Init()
 void doom::graphics::DebugGraphics::Reset()
 {
 	this->mDebugMeshCount = 0;
-	this->bmIs2dLineDataAdded = false;
-	this->bmIs3dLineDataAdded = false;
 	for (size_t i = 0; i < this->m2dLine.size(); i++)
 	{
 		this->m2dLine[i].clear();
@@ -50,84 +48,79 @@ void doom::graphics::DebugGraphics::DrawDebug()
 {
 	//DRAW 2D FIRST
 
-	khronos_intptr_t offsetInByte{ 0 };
-	unsigned int twoDVertexCount{ 0 };
-	unsigned int threeDVertexCount{ 0 };
-	unsigned int vertexCount{ 0 };
+	/// <summary>
+	/// vector3 -> 3, vector4 -> 4
+	/// </summary>
+	khronos_intptr_t exOffsetComponentCount{ 0 };
+	khronos_intptr_t offsetComponentCount{ 0 };
+	unsigned int alreadyDrawedVertexCount{ 0 };
 
-	if (this->bmIs2dLineDataAdded == true || this->bmIs3dLineDataAdded == true)
+
+	this->mDebugMesh.BindVertexArrayObject();
+	this->mDebugMesh.BindVertexBufferObject();
+	
+	if (this->m2dLine.size())
 	{
-		this->mDebugMesh.BindVertexBufferObject();
+		this->m2DMaterial->UseProgram();
+		for (size_t i = 0; i < this->m2dLine.size(); i++)
+		{
+			unsigned int lineCount = static_cast<unsigned int>(this->m2dLine[i].size());
+			if (lineCount > 0)
+			{
+				this->m2DMaterial->SetVector4(0, Color::GetColor(static_cast<eColor>(i)));
+
+				this->mDebugMesh.BufferSubData(lineCount * 6, this->m2dLine[i].data(), offsetComponentCount * sizeof(float));
+
+				offsetComponentCount += lineCount * 6;
+				alreadyDrawedVertexCount += lineCount * 2;
+
+				D_ASSERT(MAX_DEBUG_VERTEX_COUNT >= alreadyDrawedVertexCount);
+			}
+		}
+		this->mDebugMesh.DrawArray(ePrimitiveType::LINES, exOffsetComponentCount, alreadyDrawedVertexCount);
+		exOffsetComponentCount = offsetComponentCount;
+	}
+
+	if (this->m3dLine.size())
+	{
 		
-
-		if (this->bmIs2dLineDataAdded)
+		this->m3DMaterial->UseProgram();
+		for (size_t i = 0; i < this->m3dLine.size(); i++)
 		{
-			this->m2DMaterial->UseProgram();
-			for (size_t i = 0; i < this->m2dLine.size(); i++)
+			unsigned int lineCount = static_cast<unsigned int>(this->m3dLine[i].size());
+			if (lineCount > 0)
 			{
-				unsigned int lineCount = static_cast<unsigned int>(this->m2dLine[i].size());
-				if (lineCount > 0)
-				{
-					this->m2DMaterial->SetVector4(0, Color::GetColor(static_cast<eColor>(i)));
+				this->m3DMaterial->SetVector4(0, Color::GetColor(static_cast<eColor>(i)));
 
-					khronos_intptr_t dataCount = lineCount * 6;
-					this->mDebugMesh.BufferSubData(dataCount, this->m2dLine[i].data(), offsetInByte);
+				this->mDebugMesh.BufferSubData(lineCount * 6, this->m3dLine[i].data(), offsetComponentCount * sizeof(float));
+				
+				offsetComponentCount += lineCount * 6;
+				alreadyDrawedVertexCount += lineCount * 2;
 
-					offsetInByte += dataCount * sizeof(float);
-					vertexCount += lineCount * 2;
-
-					D_ASSERT(MAX_DEBUG_LINE_COUNT * 2 >= vertexCount);
-				}
+				D_ASSERT(MAX_DEBUG_VERTEX_COUNT >= alreadyDrawedVertexCount);
 			}
-
-			twoDVertexCount = vertexCount;
 		}
-
-		if (this->bmIs3dLineDataAdded)
-		{
-			this->m3DMaterial->UseProgram();
-			for (size_t i = 0; i < this->m3dLine.size(); i++)
-			{
-				unsigned int lineCount = static_cast<unsigned int>(this->m3dLine[i].size());
-				if (lineCount > 0)
-				{
-					this->m3DMaterial->SetVector4(0, Color::GetColor(static_cast<eColor>(i)));
-
-					GLsizeiptr dataCount = lineCount * 6;
-					this->mDebugMesh.BufferSubData(dataCount, this->m3dLine[i].data(), offsetInByte);
-					offsetInByte += dataCount * sizeof(float);
-					vertexCount += lineCount * 2;
-
-					D_ASSERT(MAX_DEBUG_LINE_COUNT * 2 >= vertexCount);
-				}
-			}
-			threeDVertexCount = vertexCount - twoDVertexCount;
-		}
-
-		this->mDebugMesh.BindVertexArrayObject();
-		if (twoDVertexCount > 0)
-		{
-			this->mDebugMesh.DrawArray(0, twoDVertexCount);
-		}
-
-		if (threeDVertexCount > 0)
-		{
-			this->mDebugMesh.DrawArray(twoDVertexCount * 12, threeDVertexCount);
-		}
+		this->mDebugMesh.DrawArray(ePrimitiveType::LINES, exOffsetComponentCount, alreadyDrawedVertexCount);
+		exOffsetComponentCount = offsetComponentCount;
 	}
 }
 
 void doom::graphics::DebugGraphics::DebugDraw3DLine(const math::Vector3& startWorldPos, const math::Vector3& endWorldPos, eColor color)
 {
 	this->m3dLine[static_cast<unsigned int>(color)].emplace_back(startWorldPos, endWorldPos);
-	this->bmIs3dLineDataAdded = true;
 }
 
-
+/// <summary>
+/// Why Use Vector3 not Vector2??
+/// Debug mesh's Vertex Array Object have already define that Vector atribute have 3 component.
+/// So For reducing complexity, Just use vector3
+/// </summary>
+/// <param name="startNDCPos"></param>
+/// <param name="endNDCPos"></param>
+/// <param name="color"></param>
 void doom::graphics::DebugGraphics::DebugDraw2DLine(const math::Vector3& startNDCPos, const math::Vector3& endNDCPos, eColor color)
 {
 	this->m2dLine[static_cast<unsigned int>(color)].emplace_back(startNDCPos, startNDCPos);
-	this->bmIs2dLineDataAdded = true;
 }
 
 void doom::graphics::DebugGraphics::DebugDrawSphere(const math::Vector3& centerWorldPos, float radius, eColor color)

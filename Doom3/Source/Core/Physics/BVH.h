@@ -44,7 +44,7 @@ namespace doom
 					if (tree.mNodes[index].mIsLeaf)
 					{
 						int objectIndex = tree.mNodes[index].mObjectIndex;
-						if()
+						
 					}
 					else
 					{

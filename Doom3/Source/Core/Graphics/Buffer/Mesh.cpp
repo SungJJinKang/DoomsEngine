@@ -7,7 +7,7 @@
 #include "../Asset/ThreeDModelAsset.h"
 
 doom::graphics::Mesh::Mesh()
-	: Buffer(), mVertexArrayObject{ 0 }, mElementBufferObject{ 0 }, mNumOfVertices{ 0 }, mNumOfIndices{ 0 }, mPrimitiveType{ ePrimitiveType::NONE }
+	: Buffer(), mVertexArrayObjectID{ 0 }, mElementBufferObjectID{ 0 }, mNumOfVertices{ 0 }, mNumOfIndices{ 0 }, mPrimitiveType{ ePrimitiveType::NONE }
 {
 
 }
@@ -16,35 +16,6 @@ doom::graphics::Mesh::Mesh(GLsizeiptr dataCount, const void* data, ePrimitiveTyp
 {
 	this->GenMeshBuffer(false);
 	this->BufferData(dataCount, data, primitiveType, vertexArrayFlag);
-}
-
-doom::graphics::Mesh::Mesh(Mesh&& mesh) noexcept : Buffer(std::move(mesh)), mVertexArrayObject{ mesh.mVertexArrayObject },
-mElementBufferObject{ mesh.mElementBufferObject }, mNumOfIndices{ mesh.mNumOfIndices }, mNumOfVertices{ mesh.mNumOfVertices }
-, mPrimitiveType{ mesh.mPrimitiveType }
-{
-	mesh.mVertexArrayObject = 0;
-	mesh.mElementBufferObject = 0;
-	mesh.mNumOfIndices = 0;
-	mesh.mNumOfVertices = 0;
-	mesh.mPrimitiveType = ePrimitiveType::NONE;
-
-}
-
-
-doom::graphics::Mesh& doom::graphics::Mesh::operator=(Mesh&& mesh) noexcept
-{
-	this->mVertexArrayObject = mesh.mVertexArrayObject;
-	this->mElementBufferObject = mesh.mElementBufferObject;
-	this->mNumOfIndices = mesh.mNumOfIndices;
-	this->mNumOfVertices = mesh.mNumOfVertices;
-	this->mPrimitiveType = mesh.mPrimitiveType;
-
-	mesh.mVertexArrayObject = 0;
-	mesh.mElementBufferObject = 0;
-	mesh.mNumOfIndices = 0;
-	mesh.mNumOfVertices = 0;
-	mesh.mPrimitiveType = ePrimitiveType::NONE;
-	return *this;
 }
 
 
@@ -63,14 +34,20 @@ doom::graphics::Mesh::~Mesh()
 void doom::graphics::Mesh::GenMeshBuffer(bool hasIndice)
 {
 	Buffer::GenBuffer();
-	glGenVertexArrays(1, &(this->mVertexArrayObject));
+	if (this->mVertexArrayObjectID.GetReference() == 0)
+	{
+		glGenVertexArrays(1, &(this->mVertexArrayObjectID.GetReference()));
+	}
 	if (hasIndice)
 	{
-		glGenBuffers(1, &(this->mElementBufferObject));
+		if (this->mElementBufferObjectID.GetReference() == 0)
+		{
+			glGenBuffers(1, &(this->mElementBufferObjectID.GetReference()));
+		}
 	}
 	else
 	{
-		this->mElementBufferObject = 0;
+		this->mElementBufferObjectID = 0;
 	}
 }
 
@@ -78,13 +55,13 @@ void doom::graphics::Mesh::DeleteBuffers()
 {
 	Buffer::DeleteBuffers();
 
-	if (this->mVertexArrayObject != 0)
+	if (this->mVertexArrayObjectID != 0)
 	{
-		glDeleteVertexArrays(1, &(this->mVertexArrayObject));
+		glDeleteVertexArrays(1, &(this->mVertexArrayObjectID.GetReference()));
 	}
-	if (this->mElementBufferObject != 0)
+	if (this->mElementBufferObjectID != 0)
 	{
-		glDeleteBuffers(1, &(this->mElementBufferObject));
+		glDeleteBuffers(1, &(this->mElementBufferObjectID.GetReference()));
 	}
 }
 
@@ -107,14 +84,14 @@ doom::graphics::Mesh& doom::graphics::Mesh::operator=(const ThreeDModelMesh& thr
 }
 
 
-void doom::graphics::Mesh::BufferData(GLsizeiptr dataCount, const void* data, ePrimitiveType primitiveType, unsigned int vertexArrayFlag) noexcept
+void doom::graphics::Mesh::BufferData(GLsizeiptr dataComponentCount, const void* data, ePrimitiveType primitiveType, unsigned int vertexArrayFlag) noexcept
 {
 	this->GenBufferIfNotGened(false);
 
 	this->BindVertexArrayObject(); // bind vertex array buffer
 	this->BindVertexBufferObject();
-	D_DEBUG_LOG(std::to_string(sizeof(float) * dataCount));
-	glBufferData(GL_ARRAY_BUFFER, sizeof(float) * dataCount, data, GL_STATIC_DRAW);
+	D_DEBUG_LOG(std::to_string(sizeof(float) * dataComponentCount));
+	glBufferData(GL_ARRAY_BUFFER, sizeof(float) * dataComponentCount, data, GL_STATIC_DRAW);
 
 	unsigned int offset = 0;
 	unsigned int stride = Mesh::GetStride(vertexArrayFlag);
@@ -162,7 +139,7 @@ void doom::graphics::Mesh::BufferData(GLsizeiptr dataCount, const void* data, eP
 	}
 
 #pragma warning( disable : 4244 )
-	this->mNumOfVertices = static_cast<unsigned int>(dataCount) * sizeof(float) / offset;
+	this->mNumOfVertices = static_cast<unsigned int>(dataComponentCount * sizeof(float) / offset);
 	this->mNumOfIndices = 0;
 	
 	mPrimitiveType = primitiveType;
@@ -170,13 +147,13 @@ void doom::graphics::Mesh::BufferData(GLsizeiptr dataCount, const void* data, eP
 	this->mVertexArrayFlag = mVertexArrayFlag;
 }
 
-void doom::graphics::Mesh::BufferSubData(GLsizeiptr dataCount, const void* data, khronos_intptr_t offsetInByte) noexcept
+void doom::graphics::Mesh::BufferSubData(GLsizeiptr dataComponentCount, const void* data, khronos_intptr_t offsetInByte) noexcept
 {
 	D_ASSERT(this->mBufferID != 0);
 	D_ASSERT(GraphicsAPI::GetInteger64v(GraphicsAPI::GetParameter::ARRAY_BUFFER_BINDING) == this->mBufferID);
 
 	// GL_INVALID_VALUE is generated if offset or size is negative, or if offset+size is greater than the value of GL_BUFFER_SIZE for the specified buffer object.
-	glBufferSubData(GL_ARRAY_BUFFER, offsetInByte, sizeof(float) * dataCount, data);
+	glBufferSubData(GL_ARRAY_BUFFER, offsetInByte, sizeof(float) * dataComponentCount, data);
 
 }
 
@@ -231,7 +208,7 @@ void doom::graphics::Mesh::BufferDataFromModelMesh(const ThreeDModelMesh& threeD
 	this->mNumOfIndices = 0;
 	if (threeDModelMesh.bHasIndices == true && threeDModelMesh.mNumOfIndices > 0)
 	{
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, this->mElementBufferObject);
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, this->mElementBufferObjectID);
 		glBufferData(GL_ELEMENT_ARRAY_BUFFER, threeDModelMesh.mNumOfIndices * sizeof(unsigned int), &(threeDModelMesh.mMeshIndices[0]), GL_STATIC_DRAW);
 		this->mNumOfIndices = threeDModelMesh.mNumOfIndices;
 	}
@@ -299,7 +276,7 @@ std::shared_ptr<doom::graphics::Mesh> doom::graphics::Mesh::GetQuadMesh()
 
 bool doom::graphics::Mesh::IsBufferGenerated()
 {
-	return Buffer::IsBufferGenerated() && this->mVertexArrayObject != 0;
+	return Buffer::IsBufferGenerated() && this->mVertexArrayObjectID != 0;
 }
 
 

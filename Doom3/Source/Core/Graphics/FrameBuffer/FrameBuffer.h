@@ -7,7 +7,7 @@
 #include "RenderBuffer.h"
 #include "../SingleTexture.h"
 #include "../OverlapBindChecker.h"
-
+#include "../ZeroResetMoveContainer.h"
 namespace doom
 {
 	namespace graphics
@@ -35,19 +35,25 @@ namespace doom
 			unsigned int mDefaultHeight;
 		public:
 			
-			unsigned int mFbo{ 0 };
+			BufferID mFrameBufferID{};
 
 			FrameBuffer();
 			FrameBuffer(unsigned int defaultWidth, unsigned int defaultHeight);
-			void GenerateBuffer(unsigned int defaultWidth, unsigned int defaultHeight);
 			virtual ~FrameBuffer();
 
+			FrameBuffer(const FrameBuffer&) = delete;
+			FrameBuffer& operator=(const FrameBuffer&) noexcept = delete;
+
+			FrameBuffer(FrameBuffer&&) noexcept = default;
+			FrameBuffer& operator=(FrameBuffer &&) noexcept = default;
+
+			void GenerateBuffer(unsigned int defaultWidth, unsigned int defaultHeight);
 
 			inline void BindFrameBuffer() noexcept
 			{
-				D_ASSERT(this->mFbo != 0);
-				D_CHECK_OVERLAP_BIND("FramgBuffer", this->mFbo);
-				glBindFramebuffer(GL_FRAMEBUFFER, this->mFbo);
+				D_ASSERT(this->mFrameBufferID != 0);
+				D_CHECK_OVERLAP_BIND("FramgBuffer", this->mFrameBufferID);
+				glBindFramebuffer(GL_FRAMEBUFFER, this->mFrameBufferID);
 			}
 			static inline void UnBindFrameBuffer() noexcept
 			{
@@ -69,7 +75,7 @@ namespace doom
 			inline void BlitBufferTo(unsigned int DrawFrameBufferId, int srcX0, int srcY0, int srcX1, int srcY1
 				, int dstX0, int dstY0, int dstX1, int dstY1, GraphicsAPI::eBufferType mask, eImageInterpolation filter) noexcept
 			{
-				glBindFramebuffer(GL_READ_FRAMEBUFFER, this->mFbo);
+				glBindFramebuffer(GL_READ_FRAMEBUFFER, this->mFrameBufferID);
 				glBindFramebuffer(GL_DRAW_FRAMEBUFFER, DrawFrameBufferId);
 				glBlitFramebuffer(srcX0, srcY0, srcX1, srcY1, dstX0, dstY0, dstX1, dstY1, static_cast<unsigned int>(mask), static_cast<unsigned int>(filter));
 			}
@@ -78,7 +84,7 @@ namespace doom
 				, int dstX0, int dstY0, int dstX1, int dstY1, GraphicsAPI::eBufferType mask, eImageInterpolation filter) noexcept
 			{
 				glBindFramebuffer(GL_READ_FRAMEBUFFER, ReadFrameBufferId);
-				glBindFramebuffer(GL_DRAW_FRAMEBUFFER, this->mFbo);
+				glBindFramebuffer(GL_DRAW_FRAMEBUFFER, this->mFrameBufferID);
 				glBlitFramebuffer(srcX0, srcY0, srcX1, srcY1, dstX0, dstY0, dstX1, dstY1, static_cast<unsigned int>(mask), static_cast<unsigned int>(filter));
 			}
 

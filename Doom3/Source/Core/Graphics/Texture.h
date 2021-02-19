@@ -4,7 +4,7 @@
 
 #include "Graphics_Core.h"
 #include "OverlapBindChecker.h"
-
+#include "ZeroResetMoveContainer.h"
 namespace doom
 {
 	namespace graphics
@@ -296,15 +296,17 @@ namespace doom
 			}
 
 		protected:
-			unsigned int mID{ 0 };
+			BufferID mBufferID{};
 
 		
 
 			Texture() = delete;
 			Texture(const Texture&) = delete;
-			Texture(Texture&& texture) noexcept;
-			Texture& operator=(const Texture&) = delete;
-			Texture& operator=(Texture&& texture) noexcept = delete;
+			Texture& operator=(const Texture&) noexcept = delete;
+
+			Texture(Texture&&) noexcept = default;
+			Texture& operator=(Texture&&) noexcept = default;
+
 			/// <summary>
 			/// for 1d texture
 			/// </summary>
@@ -347,8 +349,8 @@ namespace doom
 
 			inline void BindTexture() noexcept
 			{
-				D_CHECK_OVERLAP_BIND("Texture", this->mID);
-				glBindTexture(static_cast<unsigned int>(this->mBindTarget), this->mID);
+				D_CHECK_OVERLAP_BIND("Texture", this->mBufferID);
+				glBindTexture(static_cast<unsigned int>(this->mBindTarget), this->mBufferID);
 			}
 			inline void ActiveTexture(unsigned int bindingPoint) noexcept
 			{
@@ -363,8 +365,8 @@ namespace doom
 
 			inline void BindTextureWithUnit(unsigned int bindingPoint)
 			{
-				D_CHECK_OVERLAP_BIND("Texture", this->mID);
-				glBindTextureUnit(bindingPoint, this->mID);
+				D_CHECK_OVERLAP_BIND("Texture", this->mBufferID);
+				glBindTextureUnit(bindingPoint, this->mBufferID);
 			}
 
 			virtual inline void TexImage1D(

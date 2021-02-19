@@ -10,7 +10,7 @@ RenderBuffer::RenderBuffer(FrameBuffer& ownerFrameBuffer, GraphicsAPI::eBufferTy
 {
 	ownerFrameBuffer.BindFrameBuffer();
 
-	glGenRenderbuffers(1, &(this->mID));
+	glGenRenderbuffers(1, &(this->mRenderBufferID.GetReference()));
 	this->BindRenderBuffer();
 
 
@@ -27,7 +27,7 @@ RenderBuffer::RenderBuffer(FrameBuffer& ownerFrameBuffer, GraphicsAPI::eBufferTy
 			glRenderbufferStorageMultisample(GL_RENDERBUFFER, Graphics_Server::MultiSamplingNum, static_cast<unsigned int>(Texture::eInternalFormat::RGBA16F), width, height);
 		}
 				
-		glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_RENDERBUFFER, this->mID);
+		glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_RENDERBUFFER, this->mRenderBufferID);
 		break;
 
 	case GraphicsAPI::eBufferType::DEPTH:
@@ -40,7 +40,7 @@ RenderBuffer::RenderBuffer(FrameBuffer& ownerFrameBuffer, GraphicsAPI::eBufferTy
 			glRenderbufferStorageMultisample(GL_RENDERBUFFER, Graphics_Server::MultiSamplingNum, static_cast<unsigned int>(Texture::eInternalFormat::DEPTH_COMPONENT), width, height);
 		}
 
-		glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, this->mID);
+		glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, this->mRenderBufferID);
 		break;
 
 	case GraphicsAPI::eBufferType::DEPTH_STENCIL:
@@ -53,13 +53,21 @@ RenderBuffer::RenderBuffer(FrameBuffer& ownerFrameBuffer, GraphicsAPI::eBufferTy
 			glRenderbufferStorageMultisample(GL_RENDERBUFFER, Graphics_Server::MultiSamplingNum, static_cast<unsigned int>(Texture::eInternalFormat::DEPTH24_STENCIL8), width, height);
 		}
 
-		glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_RENDERBUFFER, this->mID);
+		glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_RENDERBUFFER, this->mRenderBufferID);
 		break;
 
 	default:
 		NODEFAULT;
 		break;
 
+	}
+}
+
+doom::graphics::RenderBuffer::~RenderBuffer()
+{
+	if (this->mRenderBufferID.GetReference() != 0)
+	{
+		glDeleteRenderbuffers(1, &(this->mRenderBufferID.GetReference()));
 	}
 }
 

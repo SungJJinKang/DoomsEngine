@@ -25,12 +25,16 @@ void doom::graphics::FrameBuffer::GenerateBuffer(unsigned int defaultWidth, unsi
 {
 	this->mDefaultWidth = defaultWidth;
 	this->mDefaultHeight = defaultHeight;
-	glGenFramebuffers(1, &(this->mFbo));
+	glGenFramebuffers(1, &(this->mFrameBufferID.GetReference()));
 }
 
 FrameBuffer::~FrameBuffer()
 {
-	glDeleteFramebuffers(1, &(this->mFbo));
+	if (this->mFrameBufferID != 0)
+	{
+		glDeleteFramebuffers(1, &(this->mFrameBufferID.GetReference()));
+	}
+	
 }
 
 
@@ -86,12 +90,12 @@ doom::graphics::SingleTexture& FrameBuffer::GetFrameBufferTexture(GraphicsAPI::e
 
 bool doom::graphics::FrameBuffer::IsGenerated()
 {
-	return this->mFbo != 0;
+	return this->mFrameBufferID != 0;
 }
 
 void FrameBuffer::AttachRenderBuffer(GraphicsAPI::eBufferType renderBufferType, unsigned int width, unsigned int height)
 {
-	D_ASSERT(this->mFbo != 0);
+	D_ASSERT(this->mFrameBufferID != 0);
 	this->mAttachedRenderBuffers.emplace_back(*this, renderBufferType, width, height);
 	this->mClearBit |= static_cast<unsigned int>(renderBufferType);
 
@@ -100,7 +104,7 @@ void FrameBuffer::AttachRenderBuffer(GraphicsAPI::eBufferType renderBufferType, 
 
 void FrameBuffer::AttachTextureBuffer(GraphicsAPI::eBufferType frameBufferType, unsigned int width, unsigned int height)
 {
-	D_ASSERT(this->mFbo != 0);
+	D_ASSERT(this->mFrameBufferID != 0);
 
 	this->BindFrameBuffer();
 

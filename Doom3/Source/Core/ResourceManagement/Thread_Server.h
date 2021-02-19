@@ -20,7 +20,7 @@ namespace doom
 		/// 
 		/// 
 		/// Each Thread have a role
-		/// So Use GetThread(index) function and Get thread reference and Pass Task!!!!
+		/// So Use GetThread(index) function and GetReference thread reference and Pass Task!!!!
 		/// </summary>
 		class Thread_Server : public IGameFlow, public ISingleton<Thread_Server>
 		{

@@ -9,15 +9,17 @@ namespace doom
 		{
 		public:
 			CubemapTexture() = delete;
-			CubemapTexture(const CubemapTexture&) = delete;
-			CubemapTexture(CubemapTexture&& cubmap) noexcept = default;
-			CubemapTexture& operator=(const CubemapTexture&) = delete;
-			CubemapTexture& operator=(CubemapTexture&& cubmap) noexcept = delete;
-
 			CubemapTexture(eTextureType textureType,
 				eTargetTexture target, eInternalFormat internalFormat, unsigned int width, eDataFormat format, eDataType type, const void* data);
 			CubemapTexture(eTextureType textureType,
 				eTargetTexture target, eInternalFormat internalFormat, unsigned int width, unsigned int height, eDataFormat format, eDataType type, const void* data);
+			virtual ~CubemapTexture() = default;
+			CubemapTexture(const CubemapTexture&) = delete;
+			CubemapTexture& operator=(const CubemapTexture&) noexcept = delete;
+
+			CubemapTexture(CubemapTexture&&) noexcept = default;
+			CubemapTexture& operator=(CubemapTexture&&) noexcept = default;
+
 
 			inline void TexImage1D(int level, const void* data) noexcept override
 			{

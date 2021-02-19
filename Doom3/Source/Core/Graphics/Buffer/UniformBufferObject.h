@@ -27,9 +27,9 @@ namespace doom
 			std::string mUniformBlockName;
 
 			/// <summary>
-			/// Buffer::mBufferID is same with mUniformBufferID
+			/// Buffer::data is same with mUniformBufferID
 			/// </summary>
-			//unsigned int& mUniformBufferID = this->mBufferID; USE mBufferID
+			//unsigned int& mUniformBufferID = this->data; USE data
 
 
 			// TODO: Check Which is faster : 
@@ -40,7 +40,7 @@ namespace doom
 			/// Use life mUniformBuffers[0][offset in byte]
 			///
 			/// </summary>
-			char* mUniformBufferTempData;
+			ZeroResetMoveContainer<char*> mUniformBufferTempData{ nullptr };
 			unsigned int mSizeInByte;
 			unsigned int mBindingPoint;
 
@@ -75,6 +75,11 @@ namespace doom
 			UniformBufferObject(unsigned int bindingPoint, unsigned int uniformBlockSize);
 			~UniformBufferObject();
 
+			UniformBufferObject(const UniformBufferObject&) = delete;
+			UniformBufferObject(UniformBufferObject&&) noexcept = default;
+			UniformBufferObject& operator=(const UniformBufferObject&) = delete;
+			UniformBufferObject& operator=(UniformBufferObject&&) noexcept = default;
+			
 			/// <summary>
 			/// Store data in temporary buffer
 			/// data isn't send to gpu instantly, it is stored in temp buffer

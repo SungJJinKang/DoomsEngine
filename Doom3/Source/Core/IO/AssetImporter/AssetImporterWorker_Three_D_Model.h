@@ -71,7 +71,7 @@ namespace doom
 #endif
 
 				AssetApiImporter<eAssetType::THREE_D_MODEL> apiImporterContainer = AssetApiImporter<eAssetType::THREE_D_MODEL>::GetApiImporter();
-				auto apiImporter = apiImporterContainer.Get();
+				auto apiImporter = apiImporterContainer.GetReference();
 
 				// And have it read the given file with some example postprocessing
 				// Usually - if speed is not the most important aspect for you - you'll

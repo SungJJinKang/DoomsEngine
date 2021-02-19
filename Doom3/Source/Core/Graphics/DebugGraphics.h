@@ -26,7 +26,18 @@ namespace doom
 			}
 		};
 
-	
+		struct Triangle
+		{
+			math::Vector3 PointA;
+			math::Vector3 PointB;
+			math::Vector3 PointC;
+
+			Triangle(const math::Vector3& A, const math::Vector3& B, const math::Vector3& C)
+				: PointA{ A }, PointB{ B }, PointC{ C }
+			{
+
+			}
+		};
 
 
 
@@ -47,12 +58,12 @@ namespace doom
 			static inline constexpr unsigned int DEBUG_2D_TRIANGLE_INDEX{ 2 };
 			static inline constexpr unsigned int DEBUG_3D_TRIANGLE_INDEX{ 3 };
 
-			static inline constexpr unsigned int MAX_DEBUG_LINE_COUNT{ 100 };
+			static inline constexpr unsigned int MAX_DEBUG_LINE_COUNT{ 1000 }; // 24 * 1000byte -> 0.024mb
+			static inline constexpr unsigned int MAX_DEBUG_TRIANGLE_COUNT{ 2000 }; // 24 * 2000byte -> 0.048mb
+			static inline constexpr unsigned int MAX_DEBUG_VERTEX_COUNT{ MAX_DEBUG_LINE_COUNT * 2 + MAX_DEBUG_TRIANGLE_COUNT * 3 }; // 24 * 2000byte -> 0.048mb
 			Mesh mDebugMesh{};
 
-			bool bmIs2dLineDataAdded{ false };
 			std::array<std::vector<Line>, ENUM_COLOR_COUNT> m2dLine;
-			bool bmIs3dLineDataAdded{ false };
 			std::array<std::vector<Line>, ENUM_COLOR_COUNT> m3dLine;
 
 			unsigned int mDebugMeshCount{ 0 };

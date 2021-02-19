@@ -8,6 +8,7 @@ namespace math
 	template <size_t ComponentCount, typename T>
 	struct Vector;
 
+	using Vector2 = typename Vector<2, float>;
 	using Vector3 = typename Vector<3, float>;
 	using Vector4 = typename Vector<4, float>;
 }
@@ -43,6 +44,7 @@ namespace doom
 			//static void Log(First firstArg, Args... args, eLogType logType = eLogType::D_LOG) noexcept;
 			
 
+			static void Draw2DLine(const math::Vector2& startPosition, const math::Vector2& endPosition, eColor color) noexcept;
 			static void Draw3DLine(const math::Vector3& startPosition, const math::Vector3& endPosition, eColor color) noexcept;
 			static void DrawSphere(const math::Vector3& centerPosition, float radius, eColor color) noexcept;
 		};

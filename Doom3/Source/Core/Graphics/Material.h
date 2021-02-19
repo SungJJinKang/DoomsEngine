@@ -6,6 +6,7 @@
 #include "Graphics_Core.h"
 #include "Texture.h"
 #include "OverlapBindChecker.h"
+#include "ZeroResetMoveContainer.h"
 
 #include "../Math/LightMath_Cpp/Vector1.h"
 #include "../Math/LightMath_Cpp/Vector2.h"
@@ -47,7 +48,7 @@ namespace doom
 		{
 
 		private:
-			unsigned int mID;
+			BufferID mProgramID;
 			ShaderAsset* mShaderAsset;
 			static constexpr inline unsigned int MAX_TEXTURE_COUNT{ 7 };
 			std::array<Texture*, MAX_TEXTURE_COUNT> mTargetTextures{ nullptr };
@@ -58,6 +59,12 @@ namespace doom
 			Material();
 			Material(ShaderAsset& shaderAsset);
 			~Material();
+
+			Material(const Material&) = delete;
+			Material& operator=(const Material&) noexcept = delete;
+
+			Material(Material&&) noexcept = default;
+			Material& operator=(Material&&) noexcept = default;
 
 			bool IsGenerated();
 			void SetShaderAsset(ShaderAsset& shaderAsset);
@@ -76,13 +83,13 @@ namespace doom
 					}
 				}
 
-				D_CHECK_OVERLAP_BIND("Material", this->mID);
-				glUseProgram(this->mID);
+				D_CHECK_OVERLAP_BIND("Material", this->mProgramID);
+				glUseProgram(this->mProgramID);
 			}
 
 			[[nodiscard]] int GetUniformLocation(const char* str) noexcept
 			{
-				return glGetUniformLocation(this->mID, str);
+				return glGetUniformLocation(this->mProgramID, str);
 			}
 
 			void SetBool(int location, bool value1)

@@ -47,7 +47,7 @@ namespace doom
 				: apiImporter{ std::move(importer) }
 			{
 			}
-			api_importer_type_t<assetType>* Get()
+			api_importer_type_t<assetType>* GetReference()
 			{
 				return apiImporter.get();
 			}

@@ -1,7 +1,7 @@
 #pragma once
 
 #include "../Graphics_Core.h"
-
+#include "../ZeroResetMoveContainer.h"
 namespace doom
 {
 	namespace graphics
@@ -13,16 +13,16 @@ namespace doom
 			friend class Mesh;
 			friend class UniformBufferObject;
 		private:
-			unsigned int mBufferID;
+			BufferID mBufferID;
 
 			Buffer();
-			~Buffer();
+			virtual ~Buffer();
 
 			Buffer(const Buffer&) = delete;
 			Buffer& operator=(const Buffer&) noexcept = delete;
 
-			Buffer(Buffer&& buffer) noexcept;
-			Buffer& operator=(Buffer&& buffer) noexcept;
+			Buffer(Buffer&& buffer) noexcept = default;
+			Buffer& operator=(Buffer&& buffer) noexcept = default;
 
 			void GenBuffer();
 			virtual void GenBufferIfNotGened();

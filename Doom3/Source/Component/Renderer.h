@@ -51,7 +51,7 @@ namespace doom
 		virtual ~Renderer() {}
 
 
-		virtual void Draw() noexcept = 0;
+		virtual void Draw() = 0;
 
 		/// <summary>
 		/// Why this function is inline function.

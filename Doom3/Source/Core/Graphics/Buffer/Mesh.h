@@ -4,7 +4,7 @@
 #include <functional>
 #include <memory>
 #include "../OverlapBindChecker.h"
-#include "../Asset/ePrimitiveType.h"
+#include "../ePrimitiveType.h"
 
 namespace doom
 {
@@ -32,9 +32,9 @@ namespace doom
 
 
 		private:
-			unsigned int mVertexArrayObject;
-			unsigned int mElementBufferObject;
-			//unsigned int mVertexBufferObject; <- Use Buffer::mBufferID
+			BufferID mVertexArrayObjectID;
+			BufferID mElementBufferObjectID;
+			//unsigned int mVertexBufferObject; <- Use Buffer::data
 
 			//const ThreeDModelMesh* mThreeDModelMesh; don't save ModelMeshAssetData
 			unsigned int mNumOfIndices;
@@ -49,9 +49,9 @@ namespace doom
 			/// <returns></returns>
 			void BindBuffer() noexcept final
 			{
-				D_ASSERT(this->mVertexArrayObject != 0);
-				D_CHECK_OVERLAP_BIND("VertexArray", this->mVertexArrayObject);
-				glBindVertexArray(this->mVertexArrayObject);
+				D_ASSERT(this->mVertexArrayObjectID != 0);
+				D_CHECK_OVERLAP_BIND("VertexArrayObject", this->mVertexArrayObjectID);
+				glBindVertexArray(this->mVertexArrayObjectID);
 			}
 		protected:
 			void GenMeshBuffer(bool hasIndice);
@@ -65,12 +65,11 @@ namespace doom
 			Mesh(const ThreeDModelMesh& threeDModelMesh) noexcept;
 			Mesh& operator=(const ThreeDModelMesh& threeDModelMesh) noexcept;
 
-			Mesh(Mesh&& mesh) noexcept;
-			Mesh& operator=(Mesh&& mesh) noexcept;
-
 			Mesh(const Mesh&) = delete;
 			Mesh& operator=(const Mesh&) = delete;
 
+			Mesh(Mesh&&) noexcept = default;
+			Mesh& operator=(Mesh&&) noexcept = default;
 			
 			void BindVertexArrayObject() noexcept
 			{
@@ -98,18 +97,18 @@ namespace doom
 			/// <param name="primitiveType"></param>
 			/// <param name="vertexArrayFlag">use eVertexArrayFlag!!!! </param>
 			/// <returns></returns>
-			void BufferData(GLsizeiptr dataCount, const void* data, ePrimitiveType primitiveType, unsigned int vertexArrayFlag) noexcept;
-			void BufferSubData(GLsizeiptr dataCount, const void* data, khronos_intptr_t offsetInByte) noexcept;
+			void BufferData(GLsizeiptr dataComponentCount, const void* data, ePrimitiveType primitiveType, unsigned int vertexArrayFlag) noexcept;
+			void BufferSubData(GLsizeiptr dataComponentCount, const void* data, khronos_intptr_t offsetInByte) noexcept;
 			void BindVertexBufferObject();
 			void BufferDataFromModelMesh(const ThreeDModelMesh& threeDModelMesh) noexcept;
-			void Draw() noexcept
+			void Draw()
 			{
 				D_ASSERT(this->mPrimitiveType != ePrimitiveType::NONE);
 
 				this->BindVertexArrayObject();
 				if (mNumOfIndices > 0)
 				{
-					// you don't need bind mVertexArrayObject everytime, EBO will be bound automatically when bind VAO
+					// you don't need bind mVertexArrayObjectID everytime, EBO will be bound automatically when bind VAO
 					glDrawElements(static_cast<unsigned int>(this->mPrimitiveType), this->mNumOfIndices, GL_UNSIGNED_INT, 0);
 				}
 				else
@@ -117,11 +116,18 @@ namespace doom
 					glDrawArrays(static_cast<unsigned int>(this->mPrimitiveType), 0, this->mNumOfVertices);
 				}
 			}
-			void DrawArray(int startIndex, unsigned int vertexCount) noexcept
+			void DrawArray(int startIndex, unsigned int vertexCount)
 			{
 				D_ASSERT(this->mPrimitiveType != ePrimitiveType::NONE);
 
 				glDrawArrays(static_cast<unsigned int>(this->mPrimitiveType), startIndex, vertexCount);
+			}
+
+			void DrawArray(ePrimitiveType primitiveType, int startIndex, unsigned int vertexCount)
+			{
+				D_ASSERT(primitiveType != ePrimitiveType::NONE);
+
+				glDrawArrays(static_cast<unsigned int>(primitiveType), startIndex, vertexCount);
 			}
 
 			static constexpr unsigned int GetStride(unsigned int vertexArrayFlag);

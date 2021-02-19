@@ -6,6 +6,7 @@
 #include <type_traits>
 
 #include "../Graphics/DebugGraphics.h"
+#include "../Math/LightMath_Cpp/Vector2.h"
 #include "../Math/LightMath_Cpp/Vector3.h"
 
 
@@ -108,6 +109,10 @@ namespace doom
 		}
 		*/
 
+		void Debug::Draw2DLine(const math::Vector2& startPosition, const math::Vector2& endPosition, eColor color) noexcept
+		{
+			doom::graphics::DebugGraphics::GetSingleton()->DebugDraw2DLine(startPosition, endPosition, color);
+		}
 		void Debug::Draw3DLine(const math::Vector3& startPosition, const math::Vector3& endPosition, eColor color) noexcept
 		{
 			doom::graphics::DebugGraphics::GetSingleton()->DebugDraw3DLine(startPosition, endPosition, color);

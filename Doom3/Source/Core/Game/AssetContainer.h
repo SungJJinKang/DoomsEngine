@@ -71,7 +71,7 @@ namespace doom
 			/// <param name="asset"></param>
 			void AddAssetFutures(std::vector<container_imported_asset_future_t>&& assets);
 			/// <summary>
-			/// Get Stored Asset Futures and Move it's asset to Assets
+			/// GetReference Stored Asset Futures and Move it's asset to Assets
 			/// </summary>
 			void GetAssetFutures();
 

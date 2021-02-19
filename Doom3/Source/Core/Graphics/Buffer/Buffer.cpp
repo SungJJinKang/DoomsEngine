@@ -8,23 +8,15 @@ Buffer::Buffer() : mBufferID{ 0 }
 
 }
 
-Buffer::Buffer(Buffer&& buffer) noexcept : mBufferID{ buffer.mBufferID }
-{
-	buffer.mBufferID = 0;
-}
 
-doom::graphics::Buffer& Buffer::operator=(Buffer&& buffer) noexcept
-{
-	this->mBufferID = buffer.mBufferID;
-	buffer.mBufferID = 0;
-	return *this;
-}
 
 void Buffer::GenBuffer()
 {
-	D_ASSERT(this->mBufferID == 0);
+	if (this->mBufferID.GetReference() == 0)
+	{
+		glGenBuffers(1, &(this->mBufferID.GetReference()));
+	}
 
-	glGenBuffers(1, &(this->mBufferID));
 }
 
 void doom::graphics::Buffer::GenBufferIfNotGened()
@@ -58,15 +50,15 @@ Buffer::~Buffer()
 
 void Buffer::DeleteBuffers()
 {
-	if (this->mBufferID != 0)
+	if (this->mBufferID.GetReference() != 0)
 	{
-		glDeleteBuffers(1, &(this->mBufferID));
+		glDeleteBuffers(1, &(this->mBufferID.GetReference()));
 		this->mBufferID = 0;
 	}
 }
 
 bool Buffer::IsBufferGenerated()
 {
-	return this->mBufferID != 0;
+	return this->mBufferID.GetReference() != 0;
 }
 

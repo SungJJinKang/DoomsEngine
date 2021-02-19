@@ -13,9 +13,10 @@ namespace doom
 		public:
 			SingleTexture() = delete;
 			SingleTexture(const SingleTexture&) = delete;
-			SingleTexture(SingleTexture&& singleTexture) noexcept = default;
-			SingleTexture& operator=(const SingleTexture&) = delete;
-			SingleTexture& operator=(SingleTexture&& singleTexture) noexcept = delete;
+			SingleTexture& operator=(const SingleTexture&) noexcept = delete;
+
+			SingleTexture(SingleTexture&&) noexcept = default;
+			SingleTexture& operator=(SingleTexture&&) noexcept = default;
 
 			SingleTexture(eTextureType textureType,
 				eTargetTexture target, eInternalFormat internalFormat, unsigned int width, eDataFormat format, eDataType type, const void* data);
