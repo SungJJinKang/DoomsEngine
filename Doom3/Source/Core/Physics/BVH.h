@@ -36,10 +36,10 @@ namespace doom
 					int index = stack.top();
 					stack.pop();
 
-					if (IsOverlap(tree.mNodes[index].mAABB, aabb) == false)
-					{
-						continue;
-					}
+					//if (IsOverlap(tree.mNodes[index].mAABB, aabb) == false)
+					//{
+					//	continue;
+					//}
 
 					if (tree.mNodes[index].mIsLeaf)
 					{

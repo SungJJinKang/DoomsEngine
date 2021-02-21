@@ -1,5 +1,6 @@
 #include "AABB.h"
 
+using namespace doom::physics;
 
 bool doom::physics::AABB2D::IsValid()
 {
@@ -63,12 +64,12 @@ void doom::physics::AABB3D::Validate()
 }
 
 
-doom::physics::AABB2D doom::physics::Union(const AABB2D& A, const AABB2D& B)
+doom::physics::AABB2D doom::physics::AABB2D::Union(const AABB2D& A, const AABB2D& B)
 {
 	return AABB2D(math::min(A.mLowerBound, B.mLowerBound), math::max(A.mUpperBound, B.mUpperBound));
 }
 
-doom::physics::AABB3D doom::physics::Union(const AABB3D& A, const AABB3D& B)
+doom::physics::AABB3D doom::physics::AABB3D::Union(const AABB3D& A, const AABB3D& B)
 {
 	return AABB3D(math::min(A.mLowerBound, B.mLowerBound), math::max(A.mUpperBound, B.mUpperBound));
 }
@@ -78,67 +79,67 @@ doom::physics::AABB3D doom::physics::Union(const AABB3D& A, const AABB3D& B)
 /// </summary>
 /// <param name="A"></param>
 /// <returns></returns>
-float doom::physics::Area(const AABB3D& A)
+float doom::physics::AABB3D::GetArea(const AABB3D& A)
 {
 	math::Vector3 d = A.mUpperBound - A.mLowerBound;
 	return 2.0f * (d.x * d.y + d.y * d.z + d.z * d.x);
 }
 
-float doom::physics::Area(const AABB2D& A)
+float doom::physics::AABB2D::GetArea(const AABB2D& A)
 {
 	math::Vector2 d = A.mUpperBound - A.mLowerBound;
 	return d.x * d.y;
 }
 
-bool doom::physics::IsOverlap(const AABB2D& A, const math::Vector2& Point)
+bool doom::physics::AABB2D::IsOverlap(const math::Vector2& Point)
 {
-	return (Point.x >= A.mLowerBound.x && Point.x <= A.mUpperBound.x) &&
-		(Point.y >= A.mLowerBound.y && Point.y <= A.mUpperBound.y);
+	return (Point.x >= this->mLowerBound.x && Point.x <= this->mUpperBound.x) &&
+		(Point.y >= this->mLowerBound.y && Point.y <= this->mUpperBound.y);
 }
 
-bool doom::physics::IsOverlap(const AABB2D& A, const AABB2D& B)
+bool doom::physics::AABB2D::IsOverlap(const AABB2D& B)
 {
-	return A.mUpperBound.x > B.mLowerBound.x && A.mLowerBound.x < B.mUpperBound.x&&
-		A.mUpperBound.y  > B.mLowerBound.y && A.mLowerBound.y < B.mUpperBound.y;
+	return this->mUpperBound.x > B.mLowerBound.x && this->mLowerBound.x < B.mUpperBound.x&&
+		this->mUpperBound.y  > B.mLowerBound.y && this->mLowerBound.y < B.mUpperBound.y;
 }
 
-bool doom::physics::IsOverlap(const AABB3D& A, const math::Vector3& Point)
+bool doom::physics::AABB3D::IsOverlap(const math::Vector3& Point)
 {
-	return (Point.x >= A.mLowerBound.x && Point.x <= A.mUpperBound.x) &&
-		(Point.y >= A.mLowerBound.y && Point.y <= A.mUpperBound.y) &&
-		(Point.z >= A.mLowerBound.z && Point.z <= A.mUpperBound.z);
+	return (Point.x >= this->mLowerBound.x && Point.x <= this->mUpperBound.x) &&
+		(Point.y >= this->mLowerBound.y && Point.y <= this->mUpperBound.y) &&
+		(Point.z >= this->mLowerBound.z && Point.z <= this->mUpperBound.z);
 }
 
-bool doom::physics::IsOverlap(const AABB3D& A, const AABB3D& B)
+bool doom::physics::AABB3D::IsOverlap(const AABB3D& B)
 {
-	return (A.mLowerBound.x <= B.mUpperBound.x && A.mUpperBound.x >= B.mLowerBound.x) &&
-		(A.mLowerBound.y <= B.mUpperBound.y && A.mUpperBound.y >= B.mLowerBound.y) &&
-		(A.mLowerBound.z <= B.mUpperBound.z && A.mUpperBound.z >= B.mLowerBound.z);
+	return (this->mLowerBound.x <= B.mUpperBound.x && this->mUpperBound.x >= B.mLowerBound.x) &&
+		(this->mLowerBound.y <= B.mUpperBound.y && this->mUpperBound.y >= B.mLowerBound.y) &&
+		(this->mLowerBound.z <= B.mUpperBound.z && this->mUpperBound.z >= B.mLowerBound.z);
 }
 
-math::Vector2 doom::physics::ClosestPointToPoint(const AABB2D& A, const math::Vector2& point)
+math::Vector2 doom::physics::AABB2D::ClosestPointToPoint(const math::Vector2& point)
 {
 	math::Vector2 result{};
-	if (A.mLowerBound.x > point.x)
+	if (this->mLowerBound.x > point.x)
 	{
-		result.x = A.mLowerBound.x;
+		result.x = this->mLowerBound.x;
 	}
-	else if (A.mUpperBound.x < point.x)
+	else if (this->mUpperBound.x < point.x)
 	{
-		result.x = A.mUpperBound.x;
+		result.x = this->mUpperBound.x;
 	}
 	else
 	{
 		result.x = point.x;
 	}
 
-	if (A.mLowerBound.y > point.y)
+	if (this->mLowerBound.y > point.y)
 	{
-		result.y = A.mLowerBound.y;
+		result.y = this->mLowerBound.y;
 	}
-	else if (A.mUpperBound.y < point.y)
+	else if (this->mUpperBound.y < point.y)
 	{
-		result.y = A.mUpperBound.y;
+		result.y = this->mUpperBound.y;
 	}
 	else
 	{
@@ -148,29 +149,29 @@ math::Vector2 doom::physics::ClosestPointToPoint(const AABB2D& A, const math::Ve
 	return result;
 }
 
-math::Vector3 doom::physics::ClosestPointToPoint(const AABB3D& A, const math::Vector3& point)
+math::Vector3 doom::physics::AABB3D::ClosestPointToPoint(const math::Vector3& point)
 {
 	math::Vector3 result{};
-	if (A.mLowerBound.x > point.x)
+	if (this->mLowerBound.x > point.x)
 	{
-		result.x = A.mLowerBound.x;
+		result.x = this->mLowerBound.x;
 	}
-	else if (A.mUpperBound.x < point.x)
+	else if (this->mUpperBound.x < point.x)
 	{
-		result.x = A.mUpperBound.x;
+		result.x = this->mUpperBound.x;
 	}
 	else
 	{
 		result.x = point.x;
 	}
 
-	if (A.mLowerBound.y > point.y)
+	if (this->mLowerBound.y > point.y)
 	{
-		result.y = A.mLowerBound.y;
+		result.y = this->mLowerBound.y;
 	}
-	else if (A.mUpperBound.y < point.y)
+	else if (this->mUpperBound.y < point.y)
 	{
-		result.y = A.mUpperBound.y;
+		result.y = this->mUpperBound.y;
 	}
 	else
 	{
@@ -178,13 +179,13 @@ math::Vector3 doom::physics::ClosestPointToPoint(const AABB3D& A, const math::Ve
 	}
 
 
-	if (A.mLowerBound.z > point.z)
+	if (this->mLowerBound.z > point.z)
 	{
-		result.z = A.mLowerBound.z;
+		result.z = this->mLowerBound.z;
 	}
-	else if (A.mUpperBound.z < point.z)
+	else if (this->mUpperBound.z < point.z)
 	{
-		result.z = A.mUpperBound.z;
+		result.z = this->mUpperBound.z;
 	}
 	else
 	{
@@ -194,13 +195,15 @@ math::Vector3 doom::physics::ClosestPointToPoint(const AABB3D& A, const math::Ve
 	return result;
 }
 
-float doom::physics::Raycast(Ray ray, AABB3D aabb) {
-	float t1 = (aabb.mLowerBound.x - ray.mPosition.x) / ray.mNormal.x;
-	float t2 = (aabb.mUpperBound.x - ray.mPosition.x) / ray.mNormal.x;
-	float t3 = (aabb.mLowerBound.y - ray.mPosition.y) / ray.mNormal.y;
-	float t4 = (aabb.mUpperBound.y - ray.mPosition.y) / ray.mNormal.y;
-	float t5 = (aabb.mLowerBound.z - ray.mPosition.z) / ray.mNormal.z;
-	float t6 = (aabb.mUpperBound.z - ray.mPosition.z) / ray.mNormal.z;
+float doom::physics::AABB3D::Raycast(Ray ray, AABB3D aabb) {
+	auto normal = ray.GetNormal();
+
+	float t1 = (aabb.mLowerBound.x - ray.mPosition.x) / normal.x;
+	float t2 = (aabb.mUpperBound.x - ray.mPosition.x) / normal.x;
+	float t3 = (aabb.mLowerBound.y - ray.mPosition.y) / normal.y;
+	float t4 = (aabb.mUpperBound.y - ray.mPosition.y) / normal.y;
+	float t5 = (aabb.mLowerBound.z - ray.mPosition.z) / normal.z;
+	float t6 = (aabb.mUpperBound.z - ray.mPosition.z) / normal.z;
 
 	float tmin = math::max(math::max(math::min(t1, t2), math::min(t3, t4)), math::min(t5, t6));
 	float tmax = math::min(math::min(math::max(t1, t2), math::max(t3, t4)), math::max(t5, t6));
@@ -220,3 +223,4 @@ float doom::physics::Raycast(Ray ray, AABB3D aabb) {
 	}
 	return tmin;
 }
+

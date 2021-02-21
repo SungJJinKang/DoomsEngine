@@ -19,21 +19,23 @@ namespace doom
 
 			float GetDistance() const;
 			math::Vector3 GetNormal() const;
+
+			static bool IsPointOnPlane(const Plane& plane, const math::Vector3& point);
+			/// <summary>
+			/// return if point is in front of plane ( is at half space where normal vector forward )
+			/// </summary>
+			/// <param name="point"></param>
+			/// <returns></returns>
+			static bool IsPointOnPositiveSide(const Plane& plane, const math::Vector3& point);
+			/// <summary>
+			/// Get Closest Point To Point
+			/// </summary>
+			/// <param name="point"></param>
+			/// <returns></returns>
+			static math::Vector3 GetClosestPoint(const Plane& plane, const math::Vector3& point);
 		};
 
-		bool IsPointOnPlane(const Plane& plane, const math::Vector3& point);
-		/// <summary>
-		/// return if point is in front of plane ( is at half space where normal vector forward )
-		/// </summary>
-		/// <param name="point"></param>
-		/// <returns></returns>
-		bool IsPointOnPositiveSide(const Plane& plane, const math::Vector3& point);
-		/// <summary>
-		/// Get Closest Point To Point
-		/// </summary>
-		/// <param name="point"></param>
-		/// <returns></returns>
-		math::Vector3 GetClosestPoint(const Plane& plane, const math::Vector3& point);
+		
 	}
 }
 

@@ -243,6 +243,9 @@
     <ClCompile Include="Source\Core\Physics\Line.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Core\Physics\Ray.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="dependency\glad\include\glad\glad.h">
@@ -405,9 +408,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\Core\Math\LightMath_Cpp\Utility.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Core\Math\LightMath_Cpp\Vector.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\Core\Math\LightMath_Cpp\Vector1.h">
@@ -741,6 +741,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\Core\Physics\Line.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Core\Math\LightMath_Cpp\Vector.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Core\Physics\Ray.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

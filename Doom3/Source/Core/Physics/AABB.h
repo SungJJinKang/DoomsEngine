@@ -4,15 +4,12 @@
 #include <Utility.h>
 #include <Vector2.h>
 #include <Vector3.h>
+#include "Ray.h"
 namespace doom
 {
 	namespace physics
 	{
-		struct Ray
-		{
-			math::Vector3 mPosition;
-			math::Vector3 mNormal;
-		};
+		
 
 		/// <summary>
 		/// reference : https://box2d.org/files/ErinCatto_DynamicBVH_GDC2019.pdf
@@ -34,6 +31,21 @@ namespace doom
 			void Validate();
 
 			void Render();
+
+			/// <summary>
+			/// 부피
+			/// </summary>
+			/// <param name="A"></param>
+			/// <returns></returns>
+			float GetArea(const AABB3D& A);
+			static AABB3D Union(const AABB3D& A, const AABB3D& B);
+
+			bool IsOverlap(const math::Vector3& Point);
+			bool IsOverlap(const AABB3D& B);
+
+			math::Vector3 ClosestPointToPoint(const math::Vector3& point);
+
+			static float Raycast(Ray ray, AABB3D aabb);
 		};
 
 		struct AABB2D 
@@ -53,28 +65,22 @@ namespace doom
 			void Validate();
 
 			void Render();
+
+			float GetArea(const AABB2D& A);
+			
+			static AABB2D Union(const AABB2D& A, const AABB2D& B);
+
+			bool IsOverlap(const math::Vector2& Point);
+			bool IsOverlap(const AABB2D& B);
+
+			math::Vector2 ClosestPointToPoint(const math::Vector2& point);
+
+		
 		};
 
-		AABB2D Union(const AABB2D& A, const AABB2D& B);
-		AABB3D Union(const AABB3D& A, const AABB3D& B);
-
-		/// <summary>
-		/// 부피
-		/// </summary>
-		/// <param name="A"></param>
-		/// <returns></returns>
-		float Area(const AABB3D& A);
-		float Area(const AABB2D& A);
-
-		bool IsOverlap(const AABB2D& A, const math::Vector2& Point);
-		bool IsOverlap(const AABB2D& A, const AABB2D& B);
-		bool IsOverlap(const AABB3D& A, const math::Vector3& Point);
-		bool IsOverlap(const AABB3D& A, const AABB3D& B);
-
-		math::Vector2 ClosestPointToPoint(const AABB2D& A, const math::Vector2& point);
-		math::Vector3 ClosestPointToPoint(const AABB3D& A, const math::Vector3& point);
-
-		float Raycast(Ray ray, AABB3D aabb);
+		
+		
+	
 	}
 }
 

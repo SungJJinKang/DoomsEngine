@@ -20,17 +20,17 @@ math::Vector3 doom::physics::Plane::GetNormal() const
 	return this->mNormal;
 }
 
-bool doom::physics::IsPointOnPlane(const doom::physics::Plane& plane, const math::Vector3& point)
+bool doom::physics::Plane::IsPointOnPlane(const doom::physics::Plane& plane, const math::Vector3& point)
 {
 	return math::dot(plane.GetNormal(), point) - plane.GetDistance() < math::epsilon<float>();
 }
 
-bool doom::physics::IsPointOnPositiveSide(const doom::physics::Plane& plane, const math::Vector3& point)
+bool doom::physics::Plane::IsPointOnPositiveSide(const doom::physics::Plane& plane, const math::Vector3& point)
 {
 	return math::dot(plane.GetNormal(), point) - plane.GetDistance() > 0.0f;
 }
 
-math::Vector3 doom::physics::GetClosestPoint(const doom::physics::Plane& plane, const math::Vector3& point)
+math::Vector3 doom::physics::Plane::GetClosestPoint(const doom::physics::Plane& plane, const math::Vector3& point)
 {
 	return point - (math::dot(plane.GetNormal(), point) - plane.GetDistance()) * plane.GetNormal();
 }
