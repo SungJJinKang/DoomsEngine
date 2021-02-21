@@ -1,9 +1,7 @@
 #include "Plane.h"
-
 doom::physics::Plane::Plane(float distance, const math::Vector3& normal)
-	:mDistance(distance), mNormal(normal)
+	:mDistance{ distance }, mNormal{ normal.normalized() }
 {
-	D_ASSERT(normal.sqrMagnitude() == 1.0); // valid check
 }
 
 doom::physics::Plane::Plane(const math::Vector3& A, const math::Vector3& B, const math::Vector3& C)
@@ -12,22 +10,27 @@ doom::physics::Plane::Plane(const math::Vector3& A, const math::Vector3& B, cons
 	this->mDistance = math::dot(this->mNormal, A);
 }
 
-float doom::physics::Plane::GetDistance()
+float doom::physics::Plane::GetDistance() const
 {
 	return this->mDistance;
 }
 
-math::Vector3 doom::physics::Plane::GetNormal()
+math::Vector3 doom::physics::Plane::GetNormal() const
 {
 	return this->mNormal;
 }
 
-bool doom::physics::Plane::IsPointOnPlane(const math::Vector3& point)
+bool doom::physics::IsPointOnPlane(const doom::physics::Plane& plane, const math::Vector3& point)
 {
-	return math::dot(this->mNormal, point) - this->mDistance < math::epsilon<float>();
+	return math::dot(plane.GetNormal(), point) - plane.GetDistance() < math::epsilon<float>();
 }
 
-bool doom::physics::Plane::IsPointOnPositiveSide(const math::Vector3& point)
+bool doom::physics::IsPointOnPositiveSide(const doom::physics::Plane& plane, const math::Vector3& point)
 {
-	return math::dot(this->mNormal, point) - this->mDistance > 0.0f;
+	return math::dot(plane.GetNormal(), point) - plane.GetDistance() > 0.0f;
+}
+
+math::Vector3 doom::physics::GetClosestPoint(const doom::physics::Plane& plane, const math::Vector3& point)
+{
+	return point - (math::dot(plane.GetNormal(), point) - plane.GetDistance()) * plane.GetNormal();
 }

@@ -188,6 +188,7 @@
     <ClCompile Include="Source\Core\Graphics\DebugGraphics.cpp" />
     <ClCompile Include="Source\Core\Graphics\Graphics_Server.cpp" />
     <ClCompile Include="Source\Core\IO\AssetImporter\AssetImporterWorker_Texture.cpp" />
+    <ClCompile Include="Source\Core\Physics\Line.cpp" />
     <ClCompile Include="Source\Core\Physics\Picking.cpp" />
     <ClCompile Include="Source\Core\Physics\AABB.cpp" />
     <ClCompile Include="Source\Core\Physics\BVH.cpp" />
@@ -275,6 +276,7 @@
     <ClInclude Include="Source\Core\Graphics\Color.h" />
     <ClInclude Include="Source\Core\Graphics\DebugGraphics.h" />
     <ClInclude Include="Source\Core\Graphics\Graphics_Server.h" />
+    <ClInclude Include="Source\Core\Physics\Line.h" />
     <ClInclude Include="Source\Core\Physics\Picking.h" />
     <ClInclude Include="Source\Core\Math\LightMath_Cpp\Collision.h" />
     <ClInclude Include="Source\Core\Physics\AABB.h" />
