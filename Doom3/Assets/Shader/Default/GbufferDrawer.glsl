@@ -49,5 +49,6 @@ void main()
         lighting += diffuse;
     }
     
-    FragColor = vec4(lighting, 1.0);
+    //FragColor = vec4(lighting, 1.0);
+    FragColor = vec4(Albedo, 1.0);
 }  

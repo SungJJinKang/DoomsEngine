@@ -9,6 +9,7 @@
 #include "Move_WASD.h"
 #include "DirectionalLight.h"
 #include "AutoRotate.h"
+#include <TestComponent.h>
 
 void doom::TEST::Init()
 {
@@ -51,5 +52,8 @@ void doom::TEST::Init()
 
 	entity1->GetTransform()->SetPosition(0.0f, 0.0f, 1.0f);
 	entity1->AddComponent<Move_WASD>();
-	//meshRenderer->
+
+
+	auto physicsEntity = currenScene->CreateNewEntity();
+	entity1->AddComponent<TestComponent>();
 }

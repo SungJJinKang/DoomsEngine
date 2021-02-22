@@ -117,10 +117,15 @@ namespace doom
 		{
 			doom::graphics::DebugGraphics::GetSingleton()->DebugDraw3DLine(startPosition, endPosition, color);
 		}
-		void Debug::DrawSphere(const math::Vector3& centerPosition, float radius, eColor color) noexcept
+		void Draw2DTriangle(const math::Vector3& pointA, const math::Vector3& pointB, const math::Vector3& pointC, eColor color) noexcept
 		{
-			doom::graphics::DebugGraphics::GetSingleton()->DebugDrawSphere(centerPosition, radius, color);
+			doom::graphics::DebugGraphics::GetSingleton()->DebugDraw2DTriangle(pointA, pointB, pointC, color);
 		}
+		void Draw3DTriangle(const math::Vector3& pointA, const math::Vector3& pointB, const math::Vector3& pointC, eColor color) noexcept
+		{
+			doom::graphics::DebugGraphics::GetSingleton()->DebugDraw3DTriangle(pointA, pointB, pointC, color);
+		}
+
 
 	}
 }

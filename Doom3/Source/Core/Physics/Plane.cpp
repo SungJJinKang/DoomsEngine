@@ -1,4 +1,5 @@
 #include "Plane.h"
+#include "Graphics/DebugGraphics.h"
 doom::physics::Plane::Plane(float distance, const math::Vector3& normal)
 	:mDistance{ distance }, mNormal{ normal.normalized() }
 {
@@ -33,4 +34,12 @@ bool doom::physics::Plane::IsPointOnPositiveSide(const doom::physics::Plane& pla
 math::Vector3 doom::physics::Plane::GetClosestPoint(const doom::physics::Plane& plane, const math::Vector3& point)
 {
 	return point - (math::dot(plane.GetNormal(), point) - plane.GetDistance()) * plane.GetNormal();
+}
+
+void doom::physics::Plane::_DebugRender()
+{
+	//auto up = math::cross()
+	//auto center = this->mNormal * this->mDistance;
+	
+	//graphics::DebugGraphics::GetSingleton()->DebugDraw3DTriangle(center - center.right - center.up, eColor::White);
 }

@@ -2,15 +2,19 @@
 
 #include "../Core.h"
 #include <Vector3.h>
+#include "IRenderPhysics.h"
 namespace doom
 {
 	namespace physics
 	{
-		class Plane
+		class Plane : public IRenderPhysics
 		{
 		private:
 			float mDistance;
 			math::Vector3 mNormal;
+
+		protected:
+			virtual void _DebugRender() final;
 
 		public:
 
@@ -33,6 +37,8 @@ namespace doom
 			/// <param name="point"></param>
 			/// <returns></returns>
 			static math::Vector3 GetClosestPoint(const Plane& plane, const math::Vector3& point);
+	
+
 		};
 
 		

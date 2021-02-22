@@ -8,6 +8,7 @@ void doom::graphics::DebugGraphics::Init()
 	this->mDebugMesh.GenMeshBuffer(false);
 	this->mDebugMesh.BufferData(MAX_DEBUG_VERTEX_COUNT * 3, NULL, ePrimitiveType::LINES, Mesh::eVertexArrayFlag::Vertex);
 
+
 	auto debug2DShader = doom::assetimporter::AssetManager::GetAsset<eAssetType::SHADER>(DebugGraphics::DEBUG_2D_SHADER);
 	this->m2DMaterial = std::make_unique<Material>(*debug2DShader);
 
@@ -27,11 +28,21 @@ void doom::graphics::DebugGraphics::Reset()
 	{
 		this->m3dLine[i].clear();
 	}
+
+	for (size_t i = 0; i < this->m2dTriangle.size(); i++)
+	{
+		this->m2dTriangle[i].clear();
+	}
+
+	for (size_t i = 0; i < this->m3dTriangle.size(); i++)
+	{
+		this->m3dTriangle[i].clear();
+	}
 }
 
 
 
-doom::graphics::DebugGraphics::DebugGraphics() : m2DMaterial{}, m3DMaterial{}, m2dLine{}, m3dLine{}
+doom::graphics::DebugGraphics::DebugGraphics() : m2DMaterial{}, m3DMaterial{}, m2dLine{}, m3dLine{}, m2dTriangle{}, m3dTriangle{}
 {
 	for (size_t i = 0; i < this->m2dLine.size(); i++)
 	{
@@ -41,6 +52,16 @@ doom::graphics::DebugGraphics::DebugGraphics() : m2DMaterial{}, m3DMaterial{}, m
 	for (size_t i = 0; i < this->m3dLine.size(); i++)
 	{
 		this->m3dLine[i].reserve(100);
+	}
+
+	for (size_t i = 0; i < this->m2dTriangle.size(); i++)
+	{
+		this->m2dTriangle[i].reserve(100);
+	}
+
+	for (size_t i = 0; i < this->m3dTriangle.size(); i++)
+	{
+		this->m3dTriangle[i].reserve(100);
 	}
 }
 
@@ -103,6 +124,54 @@ void doom::graphics::DebugGraphics::DrawDebug()
 		this->mDebugMesh.DrawArray(ePrimitiveType::LINES, exOffsetComponentCount, alreadyDrawedVertexCount);
 		exOffsetComponentCount = offsetComponentCount;
 	}
+
+	/////////
+	//TRIANGLE
+
+	if (this->m2dTriangle.size())
+	{
+		this->m2DMaterial->UseProgram();
+		for (size_t i = 0; i < this->m2dLine.size(); i++)
+		{
+			unsigned int triangleCount = static_cast<unsigned int>(this->m2dTriangle[i].size());
+			if (triangleCount > 0)
+			{
+				this->m2DMaterial->SetVector4(0, Color::GetColor(static_cast<eColor>(i)));
+
+				this->mDebugMesh.BufferSubData(triangleCount * 9, this->m2dTriangle[i].data(), offsetComponentCount * sizeof(float));
+
+				offsetComponentCount += triangleCount * 9;
+				alreadyDrawedVertexCount += triangleCount * 3;
+
+				D_ASSERT(MAX_DEBUG_VERTEX_COUNT >= alreadyDrawedVertexCount);
+			}
+		}
+		this->mDebugMesh.DrawArray(ePrimitiveType::TRIANGLES, exOffsetComponentCount, alreadyDrawedVertexCount);
+		exOffsetComponentCount = offsetComponentCount;
+	}
+
+	if (this->m3dTriangle.size())
+	{
+
+		this->m3DMaterial->UseProgram();
+		for (size_t i = 0; i < this->m3dTriangle.size(); i++)
+		{
+			unsigned int triangleCount = static_cast<unsigned int>(this->m3dTriangle[i].size());
+			if (triangleCount > 0)
+			{
+				this->m3DMaterial->SetVector4(0, Color::GetColor(static_cast<eColor>(i)));
+
+				this->mDebugMesh.BufferSubData(triangleCount * 9, this->m3dTriangle[i].data(), offsetComponentCount * sizeof(float));
+
+				offsetComponentCount += triangleCount * 9;
+				alreadyDrawedVertexCount += triangleCount * 3;
+
+				D_ASSERT(MAX_DEBUG_VERTEX_COUNT >= alreadyDrawedVertexCount);
+			}
+		}
+		this->mDebugMesh.DrawArray(ePrimitiveType::TRIANGLES, exOffsetComponentCount, alreadyDrawedVertexCount);
+		exOffsetComponentCount = offsetComponentCount;
+	}
 }
 
 void doom::graphics::DebugGraphics::DebugDraw3DLine(const math::Vector3& startWorldPos, const math::Vector3& endWorldPos, eColor color)
@@ -123,8 +192,13 @@ void doom::graphics::DebugGraphics::DebugDraw2DLine(const math::Vector3& startND
 	this->m2dLine[static_cast<unsigned int>(color)].emplace_back(startNDCPos, startNDCPos);
 }
 
-void doom::graphics::DebugGraphics::DebugDrawSphere(const math::Vector3& centerWorldPos, float radius, eColor color)
+void doom::graphics::DebugGraphics::DebugDraw2DTriangle(const math::Vector3& pointA, const math::Vector3& pointB, const math::Vector3& pointC, eColor color)
 {
+	this->m2dTriangle[static_cast<unsigned int>(color)].emplace_back(pointA, pointB, pointC);
 }
 
+void doom::graphics::DebugGraphics::DebugDraw3DTriangle(const math::Vector3& pointA, const math::Vector3& pointB, const math::Vector3& pointC, eColor color)
+{
+	this->m3dTriangle[static_cast<unsigned int>(color)].emplace_back(pointA, pointB, pointC);
+}
 

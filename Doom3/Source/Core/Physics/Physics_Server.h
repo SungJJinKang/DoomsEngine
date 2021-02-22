@@ -18,6 +18,9 @@ namespace doom
 			virtual void Update() final;
 			virtual void OnEndOfFrame() final;
 
+		public:
+			bool IsShowDebug{ false };
+
 		};
 
 	}

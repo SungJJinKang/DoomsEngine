@@ -4,7 +4,9 @@
 #include <Utility.h>
 #include <Vector2.h>
 #include <Vector3.h>
+#include "IRenderPhysics.h"
 #include "Ray.h"
+
 namespace doom
 {
 	namespace physics
@@ -14,7 +16,7 @@ namespace doom
 		/// <summary>
 		/// reference : https://box2d.org/files/ErinCatto_DynamicBVH_GDC2019.pdf
 		/// </summary>
-		struct AABB3D 
+		struct AABB3D : public IRenderPhysics
 		{
 			math::Vector3 mLowerBound; // minimum extent
 			math::Vector3 mUpperBound; // maximum extent
@@ -30,7 +32,7 @@ namespace doom
 			bool IsValid();
 			void Validate();
 
-			void Render();
+			virtual void _DebugRender() final;
 
 			/// <summary>
 			/// ºÎÇÇ
@@ -48,7 +50,7 @@ namespace doom
 			static float Raycast(Ray ray, AABB3D aabb);
 		};
 
-		struct AABB2D 
+		struct AABB2D : public IRenderPhysics
 		{
 			math::Vector2 mLowerBound; // minimum extent
 			math::Vector2 mUpperBound; // maximum extent
@@ -64,7 +66,7 @@ namespace doom
 			bool IsValid();
 			void Validate();
 
-			void Render();
+			virtual void _DebugRender() final;
 
 			float GetArea(const AABB2D& A);
 			

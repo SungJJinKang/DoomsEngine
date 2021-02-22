@@ -1,4 +1,5 @@
 #include "AABB.h"
+#include "../Graphics/DebugGraphics.h"
 
 using namespace doom::physics;
 
@@ -26,8 +27,17 @@ void doom::physics::AABB2D::Validate()
 	}
 }
 
-void doom::physics::AABB2D::Render()
+void doom::physics::AABB2D::_DebugRender()
 {
+	auto debugGraphics = graphics::DebugGraphics::GetSingleton();
+
+	float x = this->mUpperBound.x - this->mLowerBound.x;
+	float y = this->mUpperBound.y - this->mLowerBound.y;
+
+	debugGraphics->DebugDraw2DLine(this->mLowerBound, this->mLowerBound + x, eColor::White);
+	debugGraphics->DebugDraw2DLine(this->mLowerBound, this->mLowerBound + y, eColor::White);
+	debugGraphics->DebugDraw2DLine(this->mLowerBound + x, this->mLowerBound + x + y, eColor::White);
+	debugGraphics->DebugDraw3DLine(this->mLowerBound + y, this->mLowerBound + y + x, eColor::White);
 
 }
 
@@ -63,6 +73,32 @@ void doom::physics::AABB3D::Validate()
 	}
 }
 
+
+void AABB3D::_DebugRender()
+{
+	auto debugGraphics = graphics::DebugGraphics::GetSingleton();
+
+	float x = this->mUpperBound.x - this->mLowerBound.x;
+	float y = this->mUpperBound.y - this->mLowerBound.y;
+	float z = this->mUpperBound.z - this->mLowerBound.z;
+
+	debugGraphics->DebugDraw3DLine(this->mLowerBound, this->mLowerBound + x, eColor::White);
+	debugGraphics->DebugDraw3DLine(this->mLowerBound, this->mLowerBound + y, eColor::White);
+	debugGraphics->DebugDraw3DLine(this->mLowerBound, this->mLowerBound + z, eColor::White);
+
+	debugGraphics->DebugDraw3DLine(this->mLowerBound + x, this->mLowerBound + x + y, eColor::White);
+	debugGraphics->DebugDraw3DLine(this->mLowerBound + x, this->mLowerBound + x + z, eColor::White);
+
+	debugGraphics->DebugDraw3DLine(this->mLowerBound + y, this->mLowerBound + y + x, eColor::White);
+	debugGraphics->DebugDraw3DLine(this->mLowerBound + y, this->mLowerBound + y + z, eColor::White);
+
+	debugGraphics->DebugDraw3DLine(this->mLowerBound + z, this->mLowerBound + z + x, eColor::White);
+	debugGraphics->DebugDraw3DLine(this->mLowerBound + z, this->mLowerBound + z + y, eColor::White);
+
+	debugGraphics->DebugDraw3DLine(this->mLowerBound + x + y, this->mLowerBound + x + y + z, eColor::White);
+	debugGraphics->DebugDraw3DLine(this->mLowerBound + y + z, this->mLowerBound + y + z + x, eColor::White);
+	debugGraphics->DebugDraw3DLine(this->mLowerBound + x + z, this->mLowerBound + x + z + y, eColor::White);
+}
 
 doom::physics::AABB2D doom::physics::AABB2D::Union(const AABB2D& A, const AABB2D& B)
 {

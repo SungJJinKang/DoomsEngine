@@ -1,11 +1,17 @@
 #pragma once
 #include <Vector3.h>
+#include "IRenderPhysics.h"
 namespace doom
 {
 	namespace physics
 	{
-		class Line
+		class Line : public IRenderPhysics
 		{
+		protected:
+
+
+			void _DebugRender() override;
+
 		public:
 			math::Vector3 mStartPoint;
 			math::Vector3 mEndPoint;

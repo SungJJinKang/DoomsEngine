@@ -1,4 +1,10 @@
 #include "Line.h"
+#include "../Graphics/DebugGraphics.h"
+
+void doom::physics::Line::_DebugRender()
+{
+	graphics::DebugGraphics::GetSingleton()->DebugDraw3DLine(this->mStartPoint, this->mEndPoint, eColor::White);
+}
 
 doom::physics::Line::Line(const math::Vector3& startPos, const math::Vector3& endPos)
 	: mStartPoint{ startPos }, mEndPoint{ endPos }

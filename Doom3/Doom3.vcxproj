@@ -236,6 +236,7 @@
     <ClCompile Include="Source\Core\Time\Time_Server.cpp" />
     <ClCompile Include="Source\GameLogic\CustomComponent\AutoRotate.cpp" />
     <ClCompile Include="Source\GameLogic\CustomComponent\Move_WASD.cpp" />
+    <ClCompile Include="Source\GameLogic\CustomComponent\TestComponent.cpp" />
     <ClCompile Include="Source\GameLogic\Test.cpp" />
     <ClCompile Include="Source\Helper\SimpleIniParser.cpp" />
     <ClCompile Include="Source\Helper\TextImporter.cpp" />
@@ -277,6 +278,7 @@
     <ClInclude Include="Source\Core\Graphics\Color.h" />
     <ClInclude Include="Source\Core\Graphics\DebugGraphics.h" />
     <ClInclude Include="Source\Core\Graphics\Graphics_Server.h" />
+    <ClInclude Include="Source\Core\Physics\IRenderPhysics.h" />
     <ClInclude Include="Source\Core\Physics\Line.h" />
     <ClInclude Include="Source\Core\Physics\Picking.h" />
     <ClInclude Include="Source\Core\Math\LightMath_Cpp\Collision.h" />
@@ -377,6 +379,7 @@
     <ClInclude Include="Source\Core\Time\Time_Server.h" />
     <ClInclude Include="Source\GameLogic\CustomComponent\AutoRotate.h" />
     <ClInclude Include="Source\GameLogic\CustomComponent\Move_WASD.h" />
+    <ClInclude Include="Source\GameLogic\CustomComponent\TestComponent.h" />
     <ClInclude Include="Source\GameLogic\Doom_Core.h" />
     <ClInclude Include="Source\GameLogic\TEST.h" />
     <ClInclude Include="Source\Helper\concurrentqueue\blockingconcurrentqueue.h" />

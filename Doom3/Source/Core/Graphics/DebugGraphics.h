@@ -58,13 +58,13 @@ namespace doom
 			static inline constexpr unsigned int DEBUG_2D_TRIANGLE_INDEX{ 2 };
 			static inline constexpr unsigned int DEBUG_3D_TRIANGLE_INDEX{ 3 };
 
-			static inline constexpr unsigned int MAX_DEBUG_LINE_COUNT{ 1000 }; // 24 * 1000byte -> 0.024mb
-			static inline constexpr unsigned int MAX_DEBUG_TRIANGLE_COUNT{ 2000 }; // 24 * 2000byte -> 0.048mb
-			static inline constexpr unsigned int MAX_DEBUG_VERTEX_COUNT{ MAX_DEBUG_LINE_COUNT * 2 + MAX_DEBUG_TRIANGLE_COUNT * 3 }; // 24 * 2000byte -> 0.048mb
+			static inline constexpr unsigned int MAX_DEBUG_VERTEX_COUNT{ 50 * 2 + 30 * 3 }; // 24 * 1000byte -> 0.024mb
 			Mesh mDebugMesh{};
 
 			std::array<std::vector<Line>, ENUM_COLOR_COUNT> m2dLine;
 			std::array<std::vector<Line>, ENUM_COLOR_COUNT> m3dLine;
+			std::array<std::vector<Triangle>, ENUM_COLOR_COUNT> m2dTriangle;
+			std::array<std::vector<Triangle>, ENUM_COLOR_COUNT> m3dTriangle;
 
 			unsigned int mDebugMeshCount{ 0 };
 
@@ -94,7 +94,8 @@ namespace doom
 			/// <param name="endNDCPos">-1 ~ 1</param>
 			/// <param name="color"></param>
 			void DebugDraw2DLine(const math::Vector3& startNDCPos, const math::Vector3& endNDCPos, eColor color);
-			void DebugDrawSphere(const math::Vector3& centerWorldPos, float radius, eColor color);
+			void DebugDraw2DTriangle(const math::Vector3& pointA, const math::Vector3& pointB, const math::Vector3& pointC, eColor color);
+			void DebugDraw3DTriangle(const math::Vector3& pointA, const math::Vector3& pointB, const math::Vector3& pointC, eColor color);
 
 
 			

@@ -1,9 +1,14 @@
 #include "Ray.h"
-
+#include "../Graphics/DebugGraphics.h"
 doom::physics::Ray::Ray(const math::Vector3& pos, const math::Vector3& normal)
 	: mPosition{ pos }, mNormal{ normal.normalized() }
 {
 
+}
+
+void doom::physics::Ray::_DebugRender()
+{
+	graphics::DebugGraphics::GetSingleton()->DebugDraw3DLine(this->mPosition, this->mPosition + this->mNormal * 100000000.0f, eColor::White);
 }
 
 math::Vector3 doom::physics::Ray::GetNormal() const

@@ -46,7 +46,9 @@ namespace doom
 
 			static void Draw2DLine(const math::Vector2& startPosition, const math::Vector2& endPosition, eColor color) noexcept;
 			static void Draw3DLine(const math::Vector3& startPosition, const math::Vector3& endPosition, eColor color) noexcept;
-			static void DrawSphere(const math::Vector3& centerPosition, float radius, eColor color) noexcept;
+			static void Draw2DTriangle(const math::Vector3& pointA, const math::Vector3& pointB, const math::Vector3& pointC, eColor color) noexcept;
+			static void Draw3DTriangle(const math::Vector3& pointA, const math::Vector3& pointB, const math::Vector3& pointC, eColor color) noexcept;
+	
 		};
 		
 	

@@ -2,14 +2,18 @@
 
 #include "../Core.h"
 #include <Vector3.h>
+#include "IRenderPhysics.h"
 namespace doom
 {
 	namespace physics
 	{
-		class Ray
+		class Ray : public IRenderPhysics
 		{
 		private:
 			math::Vector3 mNormal;
+
+		protected:
+			virtual void _DebugRender() final;
 
 		public:
 			math::Vector3 mPosition;
