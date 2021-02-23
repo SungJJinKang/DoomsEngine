@@ -17,7 +17,7 @@ math::Vector3 doom::physics::Line::ToVector()
 	return this->mEndPoint - this->mStartPoint;
 }
 
-bool doom::physics::Line::IsPointOnLine(const Line& line, math::Vector3& point)
+bool doom::physics::IsPointOnLine(const Line& line, math::Vector3& point)
 {
 	float m = (line.mEndPoint.y - line.mStartPoint.y) / (line.mEndPoint.x - line.mStartPoint.x);
 	float d = line.mEndPoint.y - m * line.mEndPoint.x;
@@ -32,7 +32,7 @@ bool doom::physics::Line::IsPointOnLine(const Line& line, math::Vector3& point)
 	}
 }
 
-math::Vector3 doom::physics::Line::GetClosestPoint(const Line& line, math::Vector3& point)
+math::Vector3 doom::physics::GetClosestPoint(const Line& line, math::Vector3& point)
 {
 	auto lineVec = line.mEndPoint - line.mStartPoint;
 	auto lineNormal = lineVec.normalized();

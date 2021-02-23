@@ -11,29 +11,40 @@ doom::physics::Plane::Plane(const math::Vector3& A, const math::Vector3& B, cons
 	this->mDistance = math::dot(this->mNormal, A);
 }
 
-float doom::physics::Plane::GetDistance() const
-{
-	return this->mDistance;
-}
 
 math::Vector3 doom::physics::Plane::GetNormal() const
 {
 	return this->mNormal;
 }
 
-bool doom::physics::Plane::IsPointOnPlane(const doom::physics::Plane& plane, const math::Vector3& point)
+bool doom::physics::IsOverlap(const Plane& plane1, const Plane& plane2)
 {
-	return math::dot(plane.GetNormal(), point) - plane.GetDistance() < math::epsilon<float>();
+	auto cross = math::cross(plane1.GetNormal(), plane2.GetNormal());
+
+	if (math::dot(cross, cross) < math::epsilon<float>())
+	{
+		//if parallel
+		return false;
+	}
+	else
+	{
+		return true;
+	}
 }
 
-bool doom::physics::Plane::IsPointOnPositiveSide(const doom::physics::Plane& plane, const math::Vector3& point)
+bool doom::physics::IsPointOnPlane(const doom::physics::Plane& plane, const math::Vector3& point)
 {
-	return math::dot(plane.GetNormal(), point) - plane.GetDistance() > 0.0f;
+	return math::dot(plane.GetNormal(), point) - plane.mDistance < math::epsilon<float>();
 }
 
-math::Vector3 doom::physics::Plane::GetClosestPoint(const doom::physics::Plane& plane, const math::Vector3& point)
+bool doom::physics::IsPointOnPositiveSide(const doom::physics::Plane& plane, const math::Vector3& point)
 {
-	return point - (math::dot(plane.GetNormal(), point) - plane.GetDistance()) * plane.GetNormal();
+	return math::dot(plane.GetNormal(), point) - plane.mDistance > 0.0f;
+}
+
+math::Vector3 doom::physics::GetClosestPoint(const doom::physics::Plane& plane, const math::Vector3& point)
+{
+	return point - (math::dot(plane.GetNormal(), point) - plane.mDistance) * plane.GetNormal();
 }
 
 void doom::physics::Plane::_DebugRender()

@@ -11,6 +11,7 @@ void doom::TestComponent::UpdateComponent()
 {
 	this->line.DebugRender();
 	this->plane.DebugRender();
+	this->aabb.DebugRender();
 }
 
 void doom::TestComponent::OnEndOfFrame_Component()

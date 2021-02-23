@@ -20,11 +20,12 @@ namespace doom
 
 			math::Vector3 ToVector();
 
-			static bool IsPointOnLine(const Line& line, math::Vector3& point);
-			static math::Vector3 GetClosestPoint(const Line& line, math::Vector3& point);
+			
 		};
 
-		
+		bool IsPointOnLine(const Line& line, math::Vector3& point);
+		math::Vector3 GetClosestPoint(const Line& line, math::Vector3& point);
+
 	}
 }
 
