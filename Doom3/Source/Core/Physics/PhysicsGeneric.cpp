@@ -74,18 +74,18 @@ bool doom::physics::Raycast(const Ray& ray, const AABB3D& aabb) {
 
 	// if tmax < 0, ray (line) is intersecting AABB, but whole AABB is behing us
 	if (tmax < 0) {
-		return -1;
+		return false;
 	}
 
 	// if tmin > tmax, ray doesn't intersect AABB
 	if (tmin > tmax) {
-		return -1;
+		return false;
 	}
 
-	if (tmin < 0.0f) {
-		return tmax;
-	}
-	return tmin;
+	//if (tmin < 0.0f) {
+	//	return true;
+	//}
+	return true;
 }
 
 /// <summary>
@@ -124,6 +124,8 @@ bool doom::physics::Raycast(const Ray& ray, const Plane& plane)
 		float t = math::dot(p0l0, plane.GetNormal()) / denom;
 		return (t >= 0);
 	}
-
-	return false;
+	else
+	{
+		return false;
+	}
 }

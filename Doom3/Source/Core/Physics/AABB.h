@@ -33,7 +33,7 @@ namespace doom
 			bool IsValid();
 			void Validate();
 
-			math::Vector3 GetExtent();
+			math::Vector3 GetHalfExtent();
 
 			virtual void _DebugRender() final;
 
@@ -71,7 +71,7 @@ namespace doom
 			bool IsValid();
 			void Validate();
 
-			math::Vector2 GetExtent();
+			math::Vector2 GetHalfExtent();
 
 			virtual void _DebugRender() final;
 		};

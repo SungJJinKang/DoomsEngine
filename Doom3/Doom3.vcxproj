@@ -128,7 +128,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)dependency;$(SolutionDir)dependency\glad\include;$(SolutionDir)dependency\assimp\include;$(SolutionDir)dependency\assimp\build\include;$(SolutionDir)Source\Component;$(SolutionDir)Source\Core\Scene;$(SolutionDir)Source\Component\Core;$(SolutionDir)Source\Helper/crossguid;$(SolutionDir)Source\GameLogic\CustomComponent;$(SolutionDir)Source\Core\Math\LightMath_Cpp;$(SolutionDir)Source\Core\IO;$(SolutionDir)Source\Core\Time;$(SolutionDir)Source\GameLogic;$(SolutionDir)Source\Core;$(SolutionDir)Source\Core\Logger;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)dependency;$(SolutionDir)dependency\glad\include;$(SolutionDir)dependency\assimp\include;$(SolutionDir)dependency\assimp\build\include;$(SolutionDir)Source\Component;$(SolutionDir)Source\Core\Scene;$(SolutionDir)Source\Component\Core;$(SolutionDir)Source\Helper/crossguid;$(SolutionDir)Source\GameLogic\CustomComponent;$(SolutionDir)Source\Core\Math\LightMath_Cpp;$(SolutionDir)Source\Core\IO;$(SolutionDir)Source\Core\Time;$(SolutionDir)Source\GameLogic;$(SolutionDir)Source\Core;$(SolutionDir)Source\Core\Logger;$(SolutionDir)Source\Core\Physics;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
@@ -163,6 +163,9 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Source\Component\PhysicsComponent\BoxCollider2D.cpp" />
+    <ClCompile Include="Source\Core\Physics\CapsuleCollider.cpp" />
+    <ClCompile Include="Source\Component\PhysicsComponent\CapsuleCollider3D.cpp" />
     <ClCompile Include="dependency\glad\src\glad.c" />
     <ClCompile Include="dependency\imgui\imgui.cpp" />
     <ClCompile Include="dependency\imgui\imgui_draw.cpp" />
@@ -176,6 +179,12 @@
     <ClCompile Include="Source\Component\Iterator\RendererStaticIterator.cpp" />
     <ClCompile Include="Source\Component\Light.cpp" />
     <ClCompile Include="Source\Component\MeshRenderer.cpp" />
+    <ClCompile Include="Source\Component\PhysicsComponent\BoxCollider3D.cpp" />
+    <ClCompile Include="Source\Core\Physics\Circle2D.cpp" />
+    <ClCompile Include="Source\Component\PhysicsComponent\CircleCollider2D.cpp" />
+    <ClCompile Include="Source\Component\PhysicsComponent\Collider.cpp" />
+    <ClCompile Include="Source\Component\PhysicsComponent\Collider2D.cpp" />
+    <ClCompile Include="Source\Component\PhysicsComponent\Collider3D.cpp" />
     <ClCompile Include="Source\Component\PointLight.cpp" />
     <ClCompile Include="Source\Component\Renderer.cpp" />
     <ClCompile Include="Source\Component\Transform.cpp" />
@@ -242,6 +251,7 @@
     <ClCompile Include="Source\GameLogic\Test.cpp" />
     <ClCompile Include="Source\Helper\SimpleIniParser.cpp" />
     <ClCompile Include="Source\Helper\TextImporter.cpp" />
+    <ClCompile Include="Source\Component\PhysicsComponent\SphereCollider3D.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
@@ -250,6 +260,9 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Source\Component\PhysicsComponent\BoxCollider2D.h" />
+    <ClInclude Include="Source\Core\Physics\CapsuleCollider.h" />
+    <ClInclude Include="Source\Component\PhysicsComponent\CapsuleCollider3D.h" />
     <ClInclude Include="dependency\glad\include\glad\glad.h" />
     <ClInclude Include="dependency\glad\include\KHR\khrplatform.h" />
     <ClInclude Include="dependency\glfw-3.3.2.bin.WIN64\include\GLFW\glfw3.h" />
@@ -269,6 +282,12 @@
     <ClInclude Include="Source\Component\Iterator\RendererStaticIterator.h" />
     <ClInclude Include="Source\Component\Light.h" />
     <ClInclude Include="Source\Component\MeshRenderer.h" />
+    <ClInclude Include="Source\Component\PhysicsComponent\BoxCollider3D.h" />
+    <ClInclude Include="Source\Core\Physics\Circle2D.h" />
+    <ClInclude Include="Source\Component\PhysicsComponent\CircleCollider2D.h" />
+    <ClInclude Include="Source\Component\PhysicsComponent\Collider.h" />
+    <ClInclude Include="Source\Component\PhysicsComponent\Collider2D.h" />
+    <ClInclude Include="Source\Component\PhysicsComponent\Collider3D.h" />
     <ClInclude Include="Source\Component\PointLight.h" />
     <ClInclude Include="Source\Component\Renderer.h" />
     <ClInclude Include="Source\Component\Transform.h" />
@@ -403,6 +422,7 @@
     <ClInclude Include="Source\Helper\ThreadPool_Cpp\ThreadPool.h" />
     <ClInclude Include="Source\Helper\trim.h" />
     <ClInclude Include="Source\Helper\vector_erase_move_lastelement\vector_swap_erase.h" />
+    <ClInclude Include="Source\Component\PhysicsComponent\SphereCollider3D.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="Source\Core\Asset\Base_Asset.h" />
     <ClInclude Include="Source\Core\Asset\AudioAsset.h" />

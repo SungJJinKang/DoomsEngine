@@ -27,7 +27,7 @@ void doom::physics::AABB2D::Validate()
 	}
 }
 
-math::Vector2 doom::physics::AABB2D::GetExtent()
+math::Vector2 doom::physics::AABB2D::GetHalfExtent()
 {
 	return (this->mUpperBound + this->mLowerBound) * 0.5f;
 }
@@ -78,7 +78,7 @@ void doom::physics::AABB3D::Validate()
 	}
 }
 
-math::Vector3 doom::physics::AABB3D::GetExtent()
+math::Vector3 doom::physics::AABB3D::GetHalfExtent()
 {
 	return (this->mUpperBound + this->mLowerBound) * 0.5f;
 }

@@ -16,6 +16,9 @@ namespace doom
 
 			virtual void Init() final;
 			virtual void Update() final;
+
+			void UpdateColliders();
+
 			virtual void OnEndOfFrame() final;
 
 		public:

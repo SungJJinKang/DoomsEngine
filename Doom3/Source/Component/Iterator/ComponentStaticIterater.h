@@ -52,13 +52,13 @@ namespace doom
 
 	protected:
 		
-		constexpr virtual void AddComponentToStaticContainer()
+		constexpr void AddComponentToStaticContainer()
 		{
 			this_type::mComponents.push_back(reinterpret_cast<T*>(this));
 			this->mComponentStaticIndex = this_type::mComponents.size() - 1;
 		}
 
-		virtual void RemoveComponentToStaticContainer()
+		void RemoveComponentToStaticContainer()
 		{
 			typename std::vector<T*>::iterator swapedElementIter = std::vector_swap_erase(this_type::mComponents, this->mComponentStaticIndex);
 			if (swapedElementIter != this_type::mComponents.end())
