@@ -59,33 +59,33 @@ bool doom::physics::IsOverlap(const AABB3D& aabb, const Plane& plane)
 
 
 
-bool doom::physics::Raycast(const Ray& ray, const AABB3D& aabb) {
+float doom::physics::Raycast(const Ray& ray, const AABB3D& aabb) {
 	auto normal = ray.GetNormal();
 
-	float t1 = (aabb.mLowerBound.x - ray.mPosition.x) / normal.x;
-	float t2 = (aabb.mUpperBound.x - ray.mPosition.x) / normal.x;
-	float t3 = (aabb.mLowerBound.y - ray.mPosition.y) / normal.y;
-	float t4 = (aabb.mUpperBound.y - ray.mPosition.y) / normal.y;
-	float t5 = (aabb.mLowerBound.z - ray.mPosition.z) / normal.z;
-	float t6 = (aabb.mUpperBound.z - ray.mPosition.z) / normal.z;
+	float t1 = (aabb.mLowerBound.x - ray.mOrigin.x) / normal.x;
+	float t2 = (aabb.mUpperBound.x - ray.mOrigin.x) / normal.x;
+	float t3 = (aabb.mLowerBound.y - ray.mOrigin.y) / normal.y;
+	float t4 = (aabb.mUpperBound.y - ray.mOrigin.y) / normal.y;
+	float t5 = (aabb.mLowerBound.z - ray.mOrigin.z) / normal.z;
+	float t6 = (aabb.mUpperBound.z - ray.mOrigin.z) / normal.z;
 
 	float tmin = math::max(math::max(math::min(t1, t2), math::min(t3, t4)), math::min(t5, t6));
 	float tmax = math::min(math::min(math::max(t1, t2), math::max(t3, t4)), math::max(t5, t6));
 
 	// if tmax < 0, ray (line) is intersecting AABB, but whole AABB is behing us
 	if (tmax < 0) {
-		return false;
+		return -1;
 	}
 
 	// if tmin > tmax, ray doesn't intersect AABB
 	if (tmin > tmax) {
-		return false;
+		return -1;
 	}
 
-	//if (tmin < 0.0f) {
-	//	return true;
-	//}
-	return true;
+	if (tmin < 0.0f) {
+		return tmax;
+	}
+	return tmin;
 }
 
 /// <summary>
@@ -94,9 +94,9 @@ bool doom::physics::Raycast(const Ray& ray, const AABB3D& aabb) {
 /// <param name="ray"></param>
 /// <param name="sphere"></param>
 /// <returns></returns>
-bool doom::physics::Raycast(const Ray& ray, const Sphere& sphere)
+float doom::physics::Raycast(const Ray& ray, const Sphere& sphere)
 {
-	math::Vector3 fromRayToSphere = sphere.mCenter - ray.mPosition;
+	math::Vector3 fromRayToSphere = sphere.mCenter - ray.mOrigin;
 	float e = fromRayToSphere.magnitude();
 	float a = math::dot(fromRayToSphere, ray.GetNormal());
 	float b = math::sqrt(e * e - a * a);
@@ -105,27 +105,59 @@ bool doom::physics::Raycast(const Ray& ray, const Sphere& sphere)
 
 	// No collision
 	if (sphere.mRadius * sphere.mRadius - fromRayToSphere.sqrMagnitude() + a * a < 0.0f) {
-		return false; // -1 is invalid.
+		return -1; // -1 is invalid.
 	}
 	// Ray is inside
 	else if (fromRayToSphere.sqrMagnitude() < sphere.mRadius * sphere.mRadius) {
-		return true; // Just reverse direction
+		return a + f; // Just reverse direction
 	}
 	// else Normal intersection
 	return a - f;
 }
 
-bool doom::physics::Raycast(const Ray& ray, const Plane& plane)
+float doom::physics::Raycast(const Ray& ray, const Plane& plane)
 {
 	float denom = math::dot(ray.GetNormal(), plane.GetNormal());
-	if (denom > math::epsilon<float>())
+	if (math::abs(denom) > math::epsilon<float>())
 	{
-		math::Vector3 p0l0 = plane.GetNormal() * plane.mDistance - ray.mPosition;
+		math::Vector3 p0l0 = plane.GetNormal() * plane.mDistance - ray.mOrigin;
 		float t = math::dot(p0l0, plane.GetNormal()) / denom;
-		return (t >= 0);
+		return t;
+	}
+	else
+	{// when ray and normal parallel
+		return -1;
+	}
+}
+
+
+float doom::physics::CheckLenghIsShorterThanLine(const Line& line, float length)
+{
+	if (length < 0)
+	{
+		return length;
+	}
+	else if ((line.mEndPoint - line.mOrigin).sqrMagnitude() < length)
+	{
+		return length;
 	}
 	else
 	{
-		return false;
+		return -1;
 	}
+}
+
+float doom::physics::Raycast(const Line& line, const AABB3D& aabb)
+{
+	return CheckLenghIsShorterThanLine(line, Raycast(static_cast<Ray>(line), aabb));
+}
+
+float doom::physics::Raycast(const Line& line, const Sphere& sphere)
+{
+	return CheckLenghIsShorterThanLine(line, Raycast(static_cast<Ray>(line), sphere));
+}
+
+float doom::physics::Raycast(const Line& line, const Plane& plane)
+{
+	return CheckLenghIsShorterThanLine(line, Raycast(static_cast<Ray>(line), plane));
 }

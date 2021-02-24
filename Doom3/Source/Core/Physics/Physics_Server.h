@@ -22,7 +22,7 @@ namespace doom
 			virtual void OnEndOfFrame() final;
 
 		public:
-			bool IsShowDebug{ false };
+			static inline bool IsShowDebug{ true };
 
 		};
 

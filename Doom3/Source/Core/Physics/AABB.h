@@ -4,7 +4,7 @@
 #include <Utility.h>
 #include <Vector2.h>
 #include <Vector3.h>
-#include "IRenderPhysics.h"
+#include "RenderPhysics.h"
 #include "Ray.h"
 
 namespace doom
@@ -16,7 +16,7 @@ namespace doom
 		/// <summary>
 		/// reference : https://box2d.org/files/ErinCatto_DynamicBVH_GDC2019.pdf
 		/// </summary>
-		class AABB3D : public IRenderPhysics
+		class AABB3D : public RenderPhysics
 		{
 		public:
 			math::Vector3 mLowerBound; // minimum extent
@@ -35,7 +35,7 @@ namespace doom
 
 			math::Vector3 GetHalfExtent();
 
-			virtual void _DebugRender() final;
+			virtual void Render(eColor color) final;
 
 		};
 
@@ -54,7 +54,7 @@ namespace doom
 
 
 
-		class AABB2D : public IRenderPhysics
+		class AABB2D : public RenderPhysics
 		{
 		public:
 			math::Vector2 mLowerBound; // minimum extent
@@ -73,7 +73,7 @@ namespace doom
 
 			math::Vector2 GetHalfExtent();
 
-			virtual void _DebugRender() final;
+			virtual void Render(eColor color) final;
 		};
 
 		

@@ -3,6 +3,8 @@
 #include "../Core.h"
 #include "../Graphics/Graphics_Server.h"
 
+#include <PhysicsComponent/Collider.h>
+#include <Vector2.h>
 namespace doom
 {
 	class GameCore;
@@ -16,6 +18,9 @@ namespace doom
 		protected:
 
 		public:
+
+			// TODO : BVH
+			static Collider TryPicking(const math::Vector2 mousePoint);
 		};
 	}
 }

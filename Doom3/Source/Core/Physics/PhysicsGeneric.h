@@ -25,9 +25,21 @@ namespace doom
 
 
 
-		bool Raycast(const Ray& ray, const AABB3D& aabb);
-		bool Raycast(const Ray& ray, const Sphere& sphere);
-		bool Raycast(const Ray& ray, const Plane& plane);
+		float Raycast(const Ray& ray, const AABB3D& aabb);
+		float Raycast(const Ray& ray, const Sphere& sphere);
+		float Raycast(const Ray& ray, const Plane& plane);
+
+		/// <summary>
+		/// return lenght if line's length is larger than argumnet length
+		/// if not, return -1
+		/// </summary>
+		/// <param name="line"></param>
+		/// <param name="length"></param>
+		/// <returns></returns>
+		float CheckLenghIsShorterThanLine(const Line& line, float length);
+		float Raycast(const Line& line, const AABB3D& aabb);
+		float Raycast(const Line& line, const Sphere& sphere);
+		float Raycast(const Line& line, const Plane& plane);
 
 	}
 }

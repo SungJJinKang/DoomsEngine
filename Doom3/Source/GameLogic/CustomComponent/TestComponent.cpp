@@ -9,9 +9,11 @@ void doom::TestComponent::InitComponent()
 
 void doom::TestComponent::UpdateComponent()
 {
-	this->line.DebugRender();
-	this->plane.DebugRender();
-	this->aabb.DebugRender();
+	this->line.DrawPhysicsDebug();
+	this->plane.DrawPhysicsDebug();
+	this->aabb.DrawPhysicsDebug();
+	//this->circle2d.DrawPhysicsDebug();
+	this->sphere.DrawPhysicsDebug();
 }
 
 void doom::TestComponent::OnEndOfFrame_Component()

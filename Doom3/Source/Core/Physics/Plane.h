@@ -2,18 +2,18 @@
 
 #include "../Core.h"
 #include <Vector3.h>
-#include "IRenderPhysics.h"
+#include "RenderPhysics.h"
 namespace doom
 {
 	namespace physics
 	{
-		class Plane : public IRenderPhysics
+		class Plane : public RenderPhysics
 		{
 		private:
 			math::Vector3 mNormal;
 
 		protected:
-			virtual void _DebugRender() final;
+			virtual void Render(eColor color) final;
 
 		public:
 			float mDistance;

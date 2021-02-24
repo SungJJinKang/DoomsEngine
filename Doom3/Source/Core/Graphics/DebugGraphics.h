@@ -58,7 +58,7 @@ namespace doom
 			static inline constexpr unsigned int DEBUG_2D_TRIANGLE_INDEX{ 2 };
 			static inline constexpr unsigned int DEBUG_3D_TRIANGLE_INDEX{ 3 };
 
-			static inline constexpr unsigned int MAX_DEBUG_VERTEX_COUNT{ 50 * 2 + 30 * 3 }; // 24 * 1000byte -> 0.024mb
+			static inline constexpr unsigned int MAX_DEBUG_VERTEX_COUNT{ 200 * 2 + 300 * 3 }; // 24 * 1000byte -> 0.024mb
 			Mesh mDebugMesh{};
 
 			std::array<std::vector<Line>, ENUM_COLOR_COUNT> m2dLine;
@@ -78,6 +78,9 @@ namespace doom
 			void Reset();
 		public:
 
+			static inline bool mbDrawDebug{ true };
+			static inline eColor mDefaultDebugColor{ eColor::White };
+
 			/// <summary>
 			/// Why limit color.
 			/// if allow any color user want, we should draw line per color. This will make so many draw call
@@ -87,16 +90,25 @@ namespace doom
 			/// <param name="color"></param>
 			void DebugDraw3DLine(const math::Vector3& startWorldPos, const math::Vector3& endWorldPos, eColor color);
 			/// <summary>
+			/// You Should pass triangle points ordered counter clockwise
+			/// </summary>
+			void DebugDraw3DTriangle(const math::Vector3& pointA, const math::Vector3& pointB, const math::Vector3& pointC, eColor color);
+
+			/// <summary>
 			/// z value will be ignored
 			/// pass -1 ~ 1 ( NDC pos )
 			/// </summary>
 			/// <param name="startNDCPos">-1 ~ 1</param>
 			/// <param name="endNDCPos">-1 ~ 1</param>
 			/// <param name="color"></param>
-			void DebugDraw2DLine(const math::Vector3& startNDCPos, const math::Vector3& endNDCPos, eColor color);
-			void DebugDraw2DTriangle(const math::Vector3& pointA, const math::Vector3& pointB, const math::Vector3& pointC, eColor color);
-			void DebugDraw3DTriangle(const math::Vector3& pointA, const math::Vector3& pointB, const math::Vector3& pointC, eColor color);
-
+			void DebugDraw2DLine(const math::Vector3& startNDCPos, const math::Vector3& endNDCPos, eColor color, bool resizeByScreenRatio = true);
+			/// <summary>
+			/// z value will be ignored
+			/// pass -1 ~ 1 ( NDC pos )
+			/// You Should pass triangle points ordered counter clockwise
+			/// </summary>
+			void DebugDraw2DTriangle(const math::Vector3& pointA, const math::Vector3& pointB, const math::Vector3& pointC, eColor color, bool resizeByScreenRatio = true);
+			
 
 			
 

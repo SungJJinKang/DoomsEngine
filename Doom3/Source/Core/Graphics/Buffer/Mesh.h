@@ -106,7 +106,7 @@ namespace doom
 				D_ASSERT(this->mPrimitiveType != ePrimitiveType::NONE);
 
 				this->BindVertexArrayObject();
-				if (mNumOfIndices > 0)
+				if (false && mNumOfIndices > 0)
 				{
 					// you don't need bind mVertexArrayObjectID everytime, EBO will be bound automatically when bind VAO
 					glDrawElements(static_cast<unsigned int>(this->mPrimitiveType), this->mNumOfIndices, GL_UNSIGNED_INT, 0);
@@ -116,18 +116,18 @@ namespace doom
 					glDrawArrays(static_cast<unsigned int>(this->mPrimitiveType), 0, this->mNumOfVertices);
 				}
 			}
-			void DrawArray(int startIndex, unsigned int vertexCount)
+			void DrawArray(int startIndexInComponent, unsigned int vertexCount)
 			{
 				D_ASSERT(this->mPrimitiveType != ePrimitiveType::NONE);
 
-				glDrawArrays(static_cast<unsigned int>(this->mPrimitiveType), startIndex, vertexCount);
+				glDrawArrays(static_cast<unsigned int>(this->mPrimitiveType), startIndexInComponent, vertexCount);
 			}
 
-			void DrawArray(ePrimitiveType primitiveType, int startIndex, unsigned int vertexCount)
+			void DrawArray(ePrimitiveType primitiveType, int startIndexInComponent, unsigned int vertexCount)
 			{
 				D_ASSERT(primitiveType != ePrimitiveType::NONE);
 
-				glDrawArrays(static_cast<unsigned int>(primitiveType), startIndex, vertexCount);
+				glDrawArrays(static_cast<unsigned int>(primitiveType), startIndexInComponent, vertexCount);
 			}
 
 			static constexpr unsigned int GetStride(unsigned int vertexArrayFlag);

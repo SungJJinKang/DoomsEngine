@@ -3,20 +3,21 @@
 
 #include "../Core.h"
 #include <Vector3.h>
-#include "IRenderPhysics.h"
+#include "RenderPhysics.h"
 namespace doom
 {
 	namespace physics
 	{
-		class Sphere : public IRenderPhysics
+		class Sphere : public RenderPhysics
 		{
 		private:
 			
 
-			// Inherited via IRenderPhysics
-			virtual void _DebugRender() final;
+			// Inherited via RenderPhysics
+			virtual void Render(eColor color) final;
 
 		public:
+			Sphere(const math::Vector3& center, float radius);
 			math::Vector3 mCenter;
 			float mRadius;
 

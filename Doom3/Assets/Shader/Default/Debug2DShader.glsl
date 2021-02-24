@@ -15,12 +15,12 @@ void main()
 
 #version 460 core
 
-layout (location = 0) out vec4 FragColor; // viewpos, 
+layout (location = 2) out vec4 oAlbedoSpec; // 
 
 layout(location = 0) uniform vec4 Color; // location != binding , output and uniform 's explicit location isn't associated with each other
 
 void main() 
 { 
-	FragColor = Color; 
+	oAlbedoSpec = Color; 
 
 }

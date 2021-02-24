@@ -1,19 +1,18 @@
 #pragma once
 #include <Vector3.h>
-#include "IRenderPhysics.h"
+#include "RenderPhysics.h"
+#include "Ray.h"
 namespace doom
 {
 	namespace physics
 	{
-		class Line : public IRenderPhysics
+		class Line : public Ray
 		{
 		protected:
 
-
-			void _DebugRender() override;
+			virtual void Render(eColor color) override;
 
 		public:
-			math::Vector3 mStartPoint;
 			math::Vector3 mEndPoint;
 
 			Line(const math::Vector3& startPos, const math::Vector3& endPos);

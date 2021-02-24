@@ -285,6 +285,9 @@
     <ClCompile Include="Source\Component\PhysicsComponent\SphereCollider3D.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Core\Physics\RenderPhysics.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="dependency\glad\include\glad\glad.h">
@@ -788,9 +791,6 @@
     <ClInclude Include="Source\Core\Physics\Ray.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Core\Physics\IRenderPhysics.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Source\GameLogic\CustomComponent\TestComponent.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -828,6 +828,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\Component\PhysicsComponent\SphereCollider3D.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Core\Physics\RenderPhysics.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -54,6 +54,10 @@ namespace doom
 			
 			static inline GLFWwindow* Window{};
 			static inline math::Vector<2, int> ScreenSize{};
+			/// <summary>
+			/// ScreenSize Height / ScreenSize Width
+			/// </summary>
+			static inline float ScreenRatio{};
 			static inline unsigned int MultiSamplingNum;
 
 #ifdef DEBUG_MODE
@@ -82,6 +86,7 @@ namespace doom
 			static int GetScreenWidth();
 			static int GetScreenHeight();
 			static math::Vector2 GetScreenSize();
+			static float GetScreenRatio();
 			static const math::Vector2& GetScreenSize_const();
 			
 			const FrameBuffer& GetGBuffer() const;

@@ -1,6 +1,17 @@
 #include "Sphere.h"
+#include "../Graphics/DebugGraphics.h"
+void doom::physics::Sphere::Render(eColor color)
+{
+	auto debugGraphics = graphics::DebugGraphics::GetSingleton();
 
-void doom::physics::Sphere::_DebugRender()
+	const float intervalRadian = math::PI * 2 / 72.0f;
+
+	// TODO: MAKE THIS LATER
+	// https://github.com/caosdoar/spheres
+}
+
+doom::physics::Sphere::Sphere(const math::Vector3& center, float radius)
+	:mCenter{ center }, mRadius{ radius }
 {
 }
 

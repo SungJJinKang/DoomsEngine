@@ -27,7 +27,7 @@ void Graphics_Server::Init()
 	Graphics_Server::MultiSamplingNum = GameCore::GetSingleton()->GetConfigData().GetValue<int>("Graphics", "MULTI_SAMPLE");
 
 	Graphics_Server::ScreenSize = { width, height };
-
+	Graphics_Server::ScreenRatio = static_cast<float>(height) / static_cast<float>(width);
 	glfwInit();
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4); // 4.5 -> MAJOR 4  MINOR 5 , 3.1 -> MAJOR 3  MINOR 1
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 6);
@@ -109,7 +109,6 @@ void Graphics_Server::Update()
 
 void Graphics_Server::OnEndOfFrame()
 {
-	this->mDebugGraphics.Reset();
 
 	auto sceneGraphics = SceneGraphics::GetSingleton();
 
@@ -145,6 +144,11 @@ int Graphics_Server::GetScreenHeight()
 math::Vector2 doom::graphics::Graphics_Server::GetScreenSize()
 {
 	return Graphics_Server::ScreenSize;
+}
+
+float doom::graphics::Graphics_Server::GetScreenRatio()
+{
+	return Graphics_Server::ScreenRatio;
 }
 
 const math::Vector2& doom::graphics::Graphics_Server::GetScreenSize_const()
