@@ -179,14 +179,12 @@ const std::array<math::Vector4, 6>& doom::Camera::CalculateFrustumPlane()
 	return mFrustumPlane;
 }
 
+
+
 void Camera::InitComponent()
 {
-	auto currentWorld = Scene::GetSingleton();
-	Camera* currentMainCamera = currentWorld->GetMainCamera();
-	if (currentMainCamera == nullptr)
-	{
-		currentWorld->SetMainCamera(this);
-	}
+	UpdateMainCamera();
+
 }
 
 void Camera::UpdateComponent()
@@ -202,6 +200,45 @@ void Camera::OnEndOfFrame_Component()
 {
 
 }
+
+void Camera::UpdateMainCamera()
+{
+	auto currentWorld = Scene::GetSingleton();
+	Camera* currentMainCamera = currentWorld->GetMainCamera();
+	if (currentMainCamera == nullptr)
+	{
+		currentWorld->SetMainCamera(this);
+	}
+}
+
+void Camera::OnSetMainCamera()
+{
+
+}
+
+
+
+doom::Camera* Camera::GetMainCamera()
+{
+	auto currentWorld = Scene::GetSingleton();
+	return currentWorld->GetMainCamera();
+}
+
+void Camera::OnDestroy()
+{
+	auto currentWorld = Scene::GetSingleton();
+	Camera* currentMainCamera = currentWorld->GetMainCamera();
+	if (currentMainCamera == this)
+	{
+		currentWorld->SetMainCamera(nullptr);
+		auto foremostComponent = ComponentStaticIterater<Camera>::GetForemostComponentWithHint(this);
+		if (foremostComponent != nullptr)
+		{
+			currentWorld->SetMainCamera(foremostComponent);
+		}
+	}
+}
+
 
 const math::Matrix4x4& doom::Camera::GetProjectionMatrix()
 {
@@ -246,27 +283,64 @@ const math::Matrix4x4& doom::Camera::GetViewProjectionMatrix()
 	return this->mViewProjectionMatrix;
 }
 
-math::Vector3 doom::Camera::ScreenToViewportPoint(const math::Vector3& position)
+math::Vector3 Camera::NDCToScreenPoint(const math::Vector3& ndcPoint)
 {
-	math::Vector3 viewportPoint = position * 2; 
-	viewportPoint.x /= graphics::Graphics_Server::GetScreenSize_const().x;
-	viewportPoint.y /= graphics::Graphics_Server::GetScreenSize_const().y;
-	viewportPoint -= 1;
-	viewportPoint.z = 1 / (this->mFieldOfViewInDegree * math::DEGREE_TO_RADIAN / 2);
-
-	return viewportPoint;
+	math::Vector3 screenPoint = ndcPoint + 1.0f;
+	screenPoint /= 2;
+	screenPoint.x *= graphics::Graphics_Server::GetScreenSize_const().x;
+	screenPoint.y *= -graphics::Graphics_Server::GetScreenSize_const().y; // top of screen position has negative y value, put minus when conver to screenPoint positiSon
+	return screenPoint;
 }
 
-math::Vector3 doom::Camera::ViewportToScreenPoint(const math::Vector3& position)
+math::Vector3 Camera::ScreenToNDCPoint(const math::Vector3& screenPoint)
 {
-	math::Vector3 screenPoint = position + 1.0f;
-	screenPoint.x *= graphics::Graphics_Server::GetScreenSize_const().x;
-	screenPoint.y *= graphics::Graphics_Server::GetScreenSize_const().y;
-	screenPoint /= 2;
-	screenPoint.z = 0;
+	math::Vector3 ndcPoint{ screenPoint };
+	ndcPoint.x /= graphics::Graphics_Server::GetScreenSize_const().x;
+	ndcPoint.y /= graphics::Graphics_Server::GetScreenSize_const().y; // top of screen position has negative y value, put minus when conver to viewPort positiSon
+	ndcPoint *= 2.0f;
+	ndcPoint -= 1;
+	ndcPoint.y = -ndcPoint.y;
 
+	ndcPoint.z = 0;
 
-	return screenPoint;
+	return ndcPoint;
+}
+
+math::Vector3 doom::Camera::ScreenToWorldPoint(const math::Vector3& screenPosition)
+{
+	math::Vector4 ndcPoint{ ScreenToNDCPoint(screenPosition) };
+	ndcPoint.w = 1;
+
+	return NDCToWorldPoint(ndcPoint);
+}
+
+math::Vector3 doom::Camera::WorldToScreenPoint(const math::Vector3& worldPosition)
+{
+	return NDCToScreenPoint(WorldToNDCPoint(worldPosition));
+}
+
+math::Vector3 doom::Camera::NDCToWorldPoint(const math::Vector3& ndcPoint)
+{
+	math::Matrix4x4 invViewAndProjectionMatrix{ this->GetProjectionMatrix() * this->GetViewMatrix() };
+	invViewAndProjectionMatrix = invViewAndProjectionMatrix.inverse();
+
+	math::Vector4 vec4NDCPoint{ ndcPoint };
+	vec4NDCPoint.w = 1;
+
+	math::Vector4 resultPoint{ invViewAndProjectionMatrix * vec4NDCPoint };
+	resultPoint /= resultPoint.w;
+	return resultPoint;
+}
+
+math::Vector3 doom::Camera::WorldToNDCPoint(const math::Vector3& worldPosition)
+{
+	math::Vector4 resultPoint{ worldPosition };
+	resultPoint.w = 1;
+
+	resultPoint = this->GetProjectionMatrix() * this->GetViewMatrix() * resultPoint;
+	resultPoint /= resultPoint.w;
+
+	return resultPoint;
 }
 
 void Camera::UpdateUniformBufferObjectTempBuffer(graphics::UniformBufferObjectManager& uboManager)

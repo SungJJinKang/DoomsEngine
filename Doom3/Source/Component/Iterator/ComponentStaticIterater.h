@@ -76,9 +76,6 @@ namespace doom
 		{
 			return this_type::mComponents.size();
 		}
-	protected:
-
-		
 
 		constexpr ComponentStaticIterater()
 		{
@@ -98,6 +95,32 @@ namespace doom
 			return std::make_pair(this_type::mComponents.data(), this_type::mComponents.size());
 		}
 
+		[[nodiscard]] static constexpr T* GetComponentWithIndex(unsigned int index)
+		{
+			D_ASSERT(index >= 0);
+			if (index < this_type::mComponents.size())
+			{
+				return this_type::mComponents[index];
+			}
+			else
+			{
+				return nullptr;
+			}
+		}
+
+		// return foremost component except for passed argumnet component
+		[[nodiscard]] static constexpr T* GetForemostComponentWithHint(T* excludedObject)
+		{
+			for (unsigned int i = 0; i < this_type::mComponents.size(); i++)
+			{
+				if (this_type::mComponents[i] != excludedObject)
+				{
+					return this_type::mComponents[i];
+				}
+			}
+			
+			return nullptr;
+		}
 	
 	};
 

@@ -52,6 +52,8 @@ namespace doom
 				return Time_Server::mDeltaTime;
 			}
 
+			
+			//If you want to get true value per n frame, use this function
 			[[nodiscard]] static bool GetFrameStep(unsigned int step) noexcept
 			{
 				D_ASSERT(step != 0);

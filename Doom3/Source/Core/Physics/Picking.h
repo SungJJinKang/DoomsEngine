@@ -3,24 +3,26 @@
 #include "../Core.h"
 #include "../Graphics/Graphics_Server.h"
 
-#include <PhysicsComponent/Collider.h>
 #include <Vector2.h>
+#include "../Singleton.h"
+
 namespace doom
 {
 	class GameCore;
-
-	namespace userinput
+	class Collider;
+	namespace physics
 	{
-		class Picking
+		class Picking : public ISingleton<Picking>
 		{
+			friend class Physics_Server;
 		private:
 
-		protected:
+			void UpdatePicking();
 
 		public:
 
 			// TODO : BVH
-			static Collider TryPicking(const math::Vector2 mousePoint);
+			static ::doom::Collider* TryPicking(const math::Vector2 mousePoint);
 		};
 	}
 }

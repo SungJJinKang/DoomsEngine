@@ -39,6 +39,8 @@ namespace doom
 		void OnDeActivated() override;
 
 		virtual void _UpdatePhysics() = 0;
+
+
 	public:
 
 		void UpdatePhysics();

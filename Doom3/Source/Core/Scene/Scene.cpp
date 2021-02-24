@@ -74,6 +74,7 @@ void Scene::SetMainCamera(Camera* camera)
 	if (this->mMainCamera != nullptr)
 	{
 		this->mMainCamera->SetDirtyTrueAtThisFrame(); // make dirty for update new projection
+		this->mMainCamera->OnSetMainCamera();
 	}
 	
 }

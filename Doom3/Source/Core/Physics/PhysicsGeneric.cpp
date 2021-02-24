@@ -137,7 +137,7 @@ float doom::physics::CheckLenghIsShorterThanLine(const Line& line, float length)
 	{
 		return length;
 	}
-	else if ((line.mEndPoint - line.mOrigin).sqrMagnitude() < length)
+	else if ((line.mEndPoint - line.mOrigin).sqrMagnitude() < length * length)
 	{
 		return length;
 	}

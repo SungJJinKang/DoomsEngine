@@ -76,8 +76,8 @@ void doom::graphics::DebugGraphics::DrawDebug()
 	/// <summary>
 	/// vector3 -> 3, vector4 -> 4
 	/// </summary>
-	khronos_intptr_t exOffsetComponentCount{ 0 };
-	khronos_intptr_t offsetComponentCount{ 0 };
+	int exOffsetComponentCount{ 0 };
+	int offsetComponentCount{ 0 };
 	unsigned int alreadyDrawedVertexCount{ 0 };
 
 

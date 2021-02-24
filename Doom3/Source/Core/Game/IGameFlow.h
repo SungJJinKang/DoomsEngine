@@ -6,7 +6,7 @@ namespace doom
 	/// <summary>
 	/// Interface for In Game Loop
 	/// 
-	/// Only Manager class can inherit this class
+	/// Only Server class can inherit this class
 	/// 
 	/// WARNING : Be careful virtual function would be shadowed by children class
 	/// </summary>

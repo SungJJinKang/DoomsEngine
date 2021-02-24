@@ -6,12 +6,13 @@
 
 #include <array>
 #include "../Core/Graphics/Buffer/UniformBufferObjectTempBufferUpdater.h"
-
+#include "Iterator/ComponentStaticIterater.h"
 
 namespace doom
 {
-	class Camera : public PlainComponent, public graphics::UniformBufferObjectTempBufferUpdater
+	class Camera : public PlainComponent, public graphics::UniformBufferObjectTempBufferUpdater, public ComponentStaticIterater<Camera>
 	{
+		friend class Scene;
 	public:
 		enum class eProjectionType
 		{
@@ -68,6 +69,11 @@ namespace doom
 
 		void UpdateUniformBufferObjectTempBuffer(graphics::UniformBufferObjectManager& uboManager) final;
 
+		void UpdateMainCamera();
+		/// <summary>
+		/// This object Component is set to Scene's MainCamera
+		/// </summary>
+		void OnSetMainCamera();
 	public:
 
 		Camera() = default;
@@ -91,7 +97,7 @@ namespace doom
 		float GetViewportRectWidth() const;
 		float GetViewportRectHeight() const;
 	
-		
+		static Camera* GetMainCamera();
 
 		/// <summary>
 		/// this function will be called at every frame
@@ -105,13 +111,38 @@ namespace doom
 		const math::Matrix4x4& GetViewMatrix();
 		const math::Matrix4x4& GetViewProjectionMatrix();
 
-		math::Vector3 ScreenToViewportPoint(const math::Vector3& position);
-		math::Vector3 ViewportToScreenPoint(const math::Vector3& position);
+		[[nodiscard]] math::Vector3 NDCToScreenPoint(const math::Vector3& ndcPoint);
+		[[nodiscard]] math::Vector3 ScreenToNDCPoint(const math::Vector3& screenPoint);
+		
+		[[nodiscard]] math::Vector3 WorldToNDCPoint(const math::Vector3& worldPosition);
+		[[nodiscard]] math::Vector3 NDCToWorldPoint(const math::Vector3& ndcPoint);
 
-		math::Vector3 WorldToViewportPoint(const math::Vector3& position);
-		math::Vector3 ViewportToWorldPoint(const math::Vector3& position);
+		[[nodiscard]] math::Vector3 WorldToScreenPoint(const math::Vector3& worldPosition);
+		[[nodiscard]] math::Vector3 ScreenToWorldPoint(const math::Vector3& screenPosition);
 
-		math::Vector3 WorldToScreenPoint(const math::Vector3& position);
-		math::Vector3 ScreenToWorldPoint(const math::Vector3& position);
+		// we don't use ViewPort
+		// We use NDC. x : -1 ~ 1, y : -1 ~ 1, z : depth value * 2 - 1, relative to bottom-left corner
+
+		/// <summary>
+		/// Top of screen has negative y value
+		/// 
+		/// Screen coordinate is relative to top-left corner of screen
+		/// </summary>
+		/// <param name="screenPosition"></param>
+		/// <returns></returns>
+		[[deprecated]] math::Vector3 ScreenToViewportPoint(const math::Vector3& screenPosition);
+		/// <summary>
+		/// Top of screen has negative y value
+		/// 
+		/// Screen coordinate is relative to top-left corner of screen
+		/// </summary>
+		/// <param name="viewportPosition"></param>
+		/// <returns></returns>
+		[[deprecated]] math::Vector3 ViewportToScreenPoint(const math::Vector3& viewportPosition);
+
+		
+protected:
+	void OnDestroy() override;
+
 	};
 }

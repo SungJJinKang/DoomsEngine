@@ -106,8 +106,8 @@ namespace doom
 				D_ASSERT(this->mPrimitiveType != ePrimitiveType::NONE);
 
 				this->BindVertexArrayObject();
-				if (false && mNumOfIndices > 0)
-				{
+				if (mNumOfIndices > 0)
+				{// TODO : WHY THIS MAKE ERROR ON RADEON GPU, CHECK THIS https://stackoverflow.com/questions/18299646/gldrawelements-emits-gl-invalid-operation-when-using-amd-driver-on-linux
 					// you don't need bind mVertexArrayObjectID everytime, EBO will be bound automatically when bind VAO
 					glDrawElements(static_cast<unsigned int>(this->mPrimitiveType), this->mNumOfIndices, GL_UNSIGNED_INT, 0);
 				}

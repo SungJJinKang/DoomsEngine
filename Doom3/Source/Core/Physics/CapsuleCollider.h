@@ -14,6 +14,11 @@ namespace doom
 			math::Vector3 mCenter;
 			float mHeight;
 			float mRadius;
+
+			CapsuleCollider(const math::Vector3& center, float height, float radius);
+		protected:
+			void Render(eColor color) override;
+
 		};
 
 

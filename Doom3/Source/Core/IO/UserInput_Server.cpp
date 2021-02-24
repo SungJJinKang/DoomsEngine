@@ -29,7 +29,6 @@ void UserInput_Server::CursorPosition_Callback(GLFWwindow* window, double xpos, 
 
 	UserInput_Server::mCursorScreenPositionX = xpos;
 	UserInput_Server::mCursorScreenPositionY = ypos;
-
 	//D_DEBUG_LOG({ "Mouse Cursor Position : Pos X ( ", std::to_string(xpos), " ) , Pos Y ( ", std::to_string(ypos), " )" }, eLogType::D_LOG);
 }
 

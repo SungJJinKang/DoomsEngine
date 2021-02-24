@@ -2,6 +2,7 @@
 #include "../Core.h"
 #include "../Game/IGameFlow.h"
 #include "../Singleton.h"
+#include "Picking.h"
 
 namespace doom
 {
@@ -13,6 +14,7 @@ namespace doom
 			friend class GameCore;
 
 		private:
+			Picking mPicking{};
 
 			virtual void Init() final;
 			virtual void Update() final;

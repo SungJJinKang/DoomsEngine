@@ -162,6 +162,11 @@ namespace doom
 			static inline double mScrollOffsetY{};
 
 			static inline double mCursorScreenPositionX{};
+			/// <summary>
+			/// The callback functions receives the cursor position, measured in screen coordinates but relative to the top-left corner of the window content area. 
+			/// In Opengl, Screen Point is relative to top-left corner
+			/// So Top of Screen will return y value -1
+			/// </summary>
 			static inline double mCursorScreenPositionY{};
 
 			static inline double mDeltaCursorScreenPositionX{};
