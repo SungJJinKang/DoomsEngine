@@ -306,6 +306,32 @@ math::Vector3 Camera::ScreenToNDCPoint(const math::Vector3& screenPoint)
 	return ndcPoint;
 }
 
+math::Vector3 doom::Camera::NDCToWorldPoint(const math::Vector3& ndcPoint)
+{
+	math::Matrix4x4 invViewAndProjectionMatrix{ this->GetProjectionMatrix() * this->GetViewMatrix() };
+	invViewAndProjectionMatrix = invViewAndProjectionMatrix.inverse();
+
+	math::Vector4 vec4NDCPoint{ ndcPoint };
+	vec4NDCPoint.w = 1;
+
+	math::Vector4 resultPoint{ invViewAndProjectionMatrix * vec4NDCPoint };
+	resultPoint /= resultPoint.w;
+	resultPoint.z = -resultPoint.z; // OpenGl basically use right hand coordinate, but NDC use left hand coordinate
+	return resultPoint;
+}
+
+math::Vector3 doom::Camera::WorldToNDCPoint(const math::Vector3& worldPosition)
+{
+	math::Vector4 resultPoint{ worldPosition };
+	resultPoint.w = 1;
+
+	resultPoint = this->GetProjectionMatrix() * this->GetViewMatrix() * resultPoint;
+	resultPoint /= resultPoint.w;
+
+	resultPoint.z = -resultPoint.z; // OpenGl basically use right hand coordinate, but NDC use left hand coordinate
+	return resultPoint;
+}
+
 math::Vector3 doom::Camera::ScreenToWorldPoint(const math::Vector3& screenPosition)
 {
 	math::Vector4 ndcPoint{ ScreenToNDCPoint(screenPosition) };
@@ -319,29 +345,7 @@ math::Vector3 doom::Camera::WorldToScreenPoint(const math::Vector3& worldPositio
 	return NDCToScreenPoint(WorldToNDCPoint(worldPosition));
 }
 
-math::Vector3 doom::Camera::NDCToWorldPoint(const math::Vector3& ndcPoint)
-{
-	math::Matrix4x4 invViewAndProjectionMatrix{ this->GetProjectionMatrix() * this->GetViewMatrix() };
-	invViewAndProjectionMatrix = invViewAndProjectionMatrix.inverse();
 
-	math::Vector4 vec4NDCPoint{ ndcPoint };
-	vec4NDCPoint.w = 1;
-
-	math::Vector4 resultPoint{ invViewAndProjectionMatrix * vec4NDCPoint };
-	resultPoint /= resultPoint.w;
-	return resultPoint;
-}
-
-math::Vector3 doom::Camera::WorldToNDCPoint(const math::Vector3& worldPosition)
-{
-	math::Vector4 resultPoint{ worldPosition };
-	resultPoint.w = 1;
-
-	resultPoint = this->GetProjectionMatrix() * this->GetViewMatrix() * resultPoint;
-	resultPoint /= resultPoint.w;
-
-	return resultPoint;
-}
 
 void Camera::UpdateUniformBufferObjectTempBuffer(graphics::UniformBufferObjectManager& uboManager)
 {
