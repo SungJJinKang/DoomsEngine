@@ -11,8 +11,7 @@
 #include "AssetApiImporter.h"
 #include "AssetImporterWorker.h"
 
-#define THREADPOOL_DEBUG
-#include "../../../Helper/ThreadPool_Cpp/ThreadPool.h"
+#include "../ResourceManagement/Thread_Server.h"
 
 namespace doom
 {
@@ -29,16 +28,11 @@ namespace doom
 		private:
 
 			static const std::map<std::string, doom::eAssetType> AssetExtension;
-			static inline std::unique_ptr<::ThreadPool> threadPool{};
-			static void InitializeThreadPool(size_t poolSize);
 
 		public:
 
 			Assetimporter(size_t poolSize);
 			~Assetimporter();
-			static const std::unique_ptr<::ThreadPool>& GetThreadPool();
-			static bool IsThreadPoolInitialized();
-
 			
 			template <eAssetType assetType>
 			static std::optional<Asset::asset_type_t<assetType>> ImportAsset(std::filesystem::path path)
@@ -63,12 +57,9 @@ namespace doom
 			template <eAssetType assetType>
 			[[nodiscard]] static imported_asset_future_t<assetType> PushImportingAssetJobToThreadPool(const std::filesystem::path& path)
 			{
-				D_ASSERT(static_cast<bool>(threadPool) != false);
-
 				std::function<std::optional<Asset::asset_type_t<assetType>>()> newTask = std::bind(ImportAsset<assetType>, path);
 
-				D_DEBUG_LOG("Add new task to threadpool");
-				return threadPool->push_back(std::move(newTask));
+				return resource::Thread_Server::GetSingleton()->PushBackJobToAnySleepingThread(std::move(newTask));
 			}
 
 
@@ -84,22 +75,19 @@ namespace doom
 			template <eAssetType assetType>
 			[[nodiscard]] static std::vector<imported_asset_future_t<assetType>> PushImportingAssetJobToThreadPool(const std::vector<std::filesystem::path>& paths)
 			{
-				D_ASSERT(static_cast<bool>(threadPool) != false);
-
-				std::vector<std::function<std::optional<Asset::asset_type_t<assetType>>()>> Tasks{};
-				Tasks.reserve(paths.size());
+				std::vector<std::function<std::optional<Asset::asset_type_t<assetType>>()>> tasks{};
+				tasks.reserve(paths.size());
 				for (auto& path : paths)
 				{
-					Tasks.push_back(std::bind(ImportAsset<assetType>, path));
+					tasks.push_back(std::bind(ImportAsset<assetType>, path));
 				}
 
-				D_DEBUG_LOG("Add new task to threadpool");
 				/// <summary>
 				/// maybe will be copied
 				/// </summary>
 				/// <param name="paths"></param>
 				/// <returns></returns>
-				return threadPool->PushBackJobChunk(std::move(Tasks));
+				return resource::Thread_Server::GetSingleton()->PushBackJobChunkToAnySleepingThread(tasks);
 			}
 
 			///////////////////

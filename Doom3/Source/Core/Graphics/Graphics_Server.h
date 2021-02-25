@@ -87,7 +87,6 @@ namespace doom
 			static int GetScreenHeight();
 			static math::Vector2 GetScreenSize();
 			static float GetScreenRatio();
-			static const math::Vector2& GetScreenSize_const();
 			
 			const FrameBuffer& GetGBuffer() const;
 			FrameBuffer& GetGBuffer();

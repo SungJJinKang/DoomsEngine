@@ -1,3 +1,5 @@
+/*
+
 #include "Thread.h"
 
 #include <sstream>
@@ -81,3 +83,5 @@ namespace doom
 
 	}
 }
+
+*/

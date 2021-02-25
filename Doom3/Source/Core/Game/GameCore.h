@@ -63,6 +63,7 @@ namespace doom
 		bool Tick()
 		{
 			this->mTime_Server.Update();
+			this->mThreadManager.Update();
 
 			D_START_PROFILING("Update Physics", eProfileLayers::CPU);
 			this->mPhysics_Server.Update();
@@ -90,6 +91,7 @@ namespace doom
 		virtual void OnEndOfFrame() final
 		{
 			this->mTime_Server.OnEndOfFrame();
+			this->mThreadManager.OnEndOfFrame();
 
 			this->mPhysics_Server.OnEndOfFrame();
 

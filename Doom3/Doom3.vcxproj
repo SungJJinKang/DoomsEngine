@@ -243,7 +243,6 @@
     <ClCompile Include="Source\Core\Profiler\Profiler.cpp" />
     <ClCompile Include="Source\Core\Random.cpp" />
     <ClCompile Include="Source\Core\ResourceManagement\MemoryPool.cpp" />
-    <ClCompile Include="Source\Core\ResourceManagement\Thread.cpp" />
     <ClCompile Include="Source\Core\ResourceManagement\Thread_Server.cpp" />
     <ClCompile Include="Source\Core\Time\MainTimer.cpp" />
     <ClCompile Include="Source\Core\Time\Time_Server.cpp" />
@@ -401,7 +400,6 @@
     <ClInclude Include="Source\Core\Profiler\Profiler.h" />
     <ClInclude Include="Source\Core\Random.h" />
     <ClInclude Include="Source\Core\ResourceManagement\MemoryPool.h" />
-    <ClInclude Include="Source\Core\ResourceManagement\Thread.h" />
     <ClInclude Include="Source\Core\ResourceManagement\Thread_Server.h" />
     <ClInclude Include="Source\Core\Time\MainTimer.h" />
     <ClInclude Include="Source\Core\Time\TickCount.h" />

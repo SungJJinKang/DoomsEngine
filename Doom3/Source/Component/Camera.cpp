@@ -287,16 +287,16 @@ math::Vector3 Camera::NDCToScreenPoint(const math::Vector3& ndcPoint)
 {
 	math::Vector3 screenPoint = ndcPoint + 1.0f;
 	screenPoint /= 2;
-	screenPoint.x *= graphics::Graphics_Server::GetScreenSize_const().x;
-	screenPoint.y *= -graphics::Graphics_Server::GetScreenSize_const().y; // top of screen position has negative y value, put minus when conver to screenPoint positiSon
+	screenPoint.x *= graphics::Graphics_Server::GetScreenWidth();
+	screenPoint.y *= -graphics::Graphics_Server::GetScreenHeight(); // top of screen position has negative y value, put minus when conver to screenPoint positiSon
 	return screenPoint;
 }
 
 math::Vector3 Camera::ScreenToNDCPoint(const math::Vector3& screenPoint)
 {
 	math::Vector3 ndcPoint{ screenPoint };
-	ndcPoint.x /= graphics::Graphics_Server::GetScreenSize_const().x;
-	ndcPoint.y /= graphics::Graphics_Server::GetScreenSize_const().y; // top of screen position has negative y value, put minus when conver to viewPort positiSon
+	ndcPoint.x /= graphics::Graphics_Server::GetScreenWidth();
+	ndcPoint.y /= graphics::Graphics_Server::GetScreenHeight();// top of screen position has negative y value, put minus when conver to viewPort positiSon
 	ndcPoint *= 2.0f;
 	ndcPoint -= 1;
 	ndcPoint.y = -ndcPoint.y;

@@ -1,3 +1,4 @@
+/*
 #pragma once
 
 #include <thread>
@@ -143,12 +144,7 @@ namespace doom
 				}
 
 				this->WaitingTaskQueue.enqueue_bulk(taskContainer.begin(), taskCount); // enqueue_bulk will copy element ( bulk doesn't support move )
-				/*
-				for (size_t i = 0; i < taskCount; i++)
-				{
-					this->WaitingTaskQueue.enqueue(std::move(taskContainer[i]));
-				}
-				*/
+			
 				return future_vector;
 			}
 
@@ -180,12 +176,7 @@ namespace doom
 				}
 
 				this->WaitingTaskQueue.enqueue_bulk(std::make_move_iterator(taskContainer.begin()), taskCount); // enqueue_bulk will copy element ( bulk doesn't support move )
-				/*
-				for (size_t i = 0; i < taskCount; i++)
-				{
-					this->WaitingTaskQueue.enqueue(std::move(taskContainer[i]));
-				}
-				*/
+			
 				return future_vector;
 			}
 
@@ -281,3 +272,4 @@ namespace doom
 		};
 	}
 }
+*/

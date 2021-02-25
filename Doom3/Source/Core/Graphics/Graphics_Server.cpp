@@ -151,11 +151,6 @@ float doom::graphics::Graphics_Server::GetScreenRatio()
 	return Graphics_Server::ScreenRatio;
 }
 
-const math::Vector2& doom::graphics::Graphics_Server::GetScreenSize_const()
-{
-	return Graphics_Server::ScreenSize;
-}
-
 void doom::graphics::Graphics_Server::InitFrameBufferForDeferredRendering()
 {
 	if (this->mFrameBufferForDeferredRendering.IsGenerated() == true)

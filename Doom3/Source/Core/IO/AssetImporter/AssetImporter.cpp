@@ -96,47 +96,10 @@ std::optional<doom::eAssetType> Assetimporter::GetAssetType(const std::filesyste
 
 Assetimporter::Assetimporter(size_t poolSize)
 {
-	if (!threadPool)
-	{
-		InitializeThreadPool(poolSize);
-	}
-	else
-	{
-		D_DEBUG_LOG("AssetImporter Thread Pool is already initialized");
-	}
 }
 
 
 Assetimporter::~Assetimporter()
 {
-	if (threadPool)
-	{
-		D_DEBUG_LOG("Deleting Importer Thread Pool");
-		Assetimporter::threadPool.reset(nullptr); // reset(nullptr) will delete managed object of unique_ptr
-		D_DEBUG_LOG("Complete Delete Importer Thread Pool");
-
-		ClearAllApiImporterQueue();
-	}
-
 }
 
-void Assetimporter::InitializeThreadPool(size_t poolSize)
-{
-	D_DEBUG_LOG({ "Create Asset Importer Thread Pool", std::to_string(poolSize) });
-	Assetimporter::threadPool = std::make_unique<::ThreadPool>(poolSize);
-}
-
-const std::unique_ptr<ThreadPool>& Assetimporter::GetThreadPool()
-{
-	if (!threadPool)
-	{
-		InitializeThreadPool(1);
-	}
-
-	return threadPool;
-}
-
-bool Assetimporter::IsThreadPoolInitialized()
-{
-	return static_cast<bool>(threadPool);
-}

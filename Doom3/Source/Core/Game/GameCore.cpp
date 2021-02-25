@@ -30,11 +30,11 @@ std::unique_ptr<doom::Scene> doom::GameCore::CreateNewScene(std::string sceneNam
 void doom::GameCore::Init()
 {
 	this->mTime_Server.Init();
+	this->mThreadManager.Init();
 
 	D_START_PROFILING("Loading Config File", eProfileLayers::CPU);
 	this->mConfigData = { SimpleIniParser::ParseIniFile(ASSET_FOLDER_DIRECTORY + "config.ini") };
 	D_END_PROFILING("Loading Config File");
-
 
 	//
 	//Read This : https://docs.unity3d.com/Manual/class-TimeManager.html
@@ -56,7 +56,7 @@ void doom::GameCore::Init()
 	this->mAssetManager.ImportEntireAsset();
 	D_END_PROFILING("ImportEntireAsset");
 
-	this->mThreadManager.InitializeThreads();
+
 
 	this->LateInit();
 }
@@ -81,4 +81,8 @@ void doom::GameCore::LateInit()
 	TEST::Init();
 }
 
+void doom::GameCore::CleanUp()
+{
+
+}
 
