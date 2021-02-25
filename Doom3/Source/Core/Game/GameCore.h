@@ -59,10 +59,8 @@ namespace doom
 
 		virtual void Init() final;
 		virtual void LateInit() final;
-		/// <summary>
-		/// Frame Loop
-		/// </summary>
-		virtual void Update() final
+
+		bool Tick()
 		{
 			this->mTime_Server.Update();
 
@@ -81,10 +79,13 @@ namespace doom
 			D_START_PROFILING("GraphicsUpdate", eProfileLayers::GPU);
 			this->mGraphics_Server.Update();
 			D_END_PROFILING("GraphicsUpdate");
-			
+
 
 			this->OnEndOfFrame();
+
+			return true;
 		}
+		
 
 		virtual void OnEndOfFrame() final
 		{
@@ -100,5 +101,22 @@ namespace doom
 
 		}
 
+		/// <summary>
+		/// Clean Game Resources
+		/// </summary>
+		void CleanUp();
+
+
+
+
+
+
+
+		/// <summary>
+		/// Frame Loop
+		/// </summary>
+		virtual void Update() final
+		{
+		}
 	};
 }

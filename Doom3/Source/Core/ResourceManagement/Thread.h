@@ -3,11 +3,11 @@
 #include <thread>
 #include <queue>
 #include <functional>
-#include <mutex>
 #include <future>
 
 #include "../Core.h"
-#include "../../Helper/concurrentqueue/blockingconcurrentqueue.h"
+#include "Thread_Core.h"
+#include <concurrentqueue/blockingconcurrentqueue.h>
 
 namespace doom
 {
@@ -22,8 +22,12 @@ namespace doom
 		class Thread
 		{
 			friend class Thread_Server;
+
+		public:
+			using thread_thread_job_type = typename std::function<void()>;
+
 		private:
-			bool bmIsThreadDestructed;
+			std::atomic<bool> bmIsThreadDestructed;
 			std::thread mThread;
 			std::thread::id mThreadId;
 
@@ -31,7 +35,7 @@ namespace doom
 			/// This is lock free queue
 			/// 
 			/// </summary>
-			moodycamel::BlockingConcurrentQueue<std::function<void()>> WaitingTaskQueue;
+			moodycamel::BlockingConcurrentQueue<thread_job_type> WaitingTaskQueue;
 			static constexpr size_t QUEUE_INITIAL_RESERVED_SIZE = 30;
 			
 			Thread();
@@ -48,9 +52,9 @@ namespace doom
 
 
 			template <typename ReturnType>
-			std::function<void()> _Make_Std_Function_Copy(const std::shared_ptr<std::promise<ReturnType>>&& promise_shared_ptr, const std::function<ReturnType()>& task)
+			thread_job_type _Make_Thread_Job(const std::shared_ptr<std::promise<ReturnType>>&& promise_shared_ptr, const std::function<ReturnType()>& task)
 			{
-				return std::function<void()>([_promise_shared_ptr = std::move(promise_shared_ptr), task = task]()
+				return thread_job_type([_promise_shared_ptr = std::move(promise_shared_ptr), task = task]()
 				{
 					if constexpr (!std::is_void_v<ReturnType>)
 					{
@@ -65,9 +69,9 @@ namespace doom
 				);
 			}
 			template <typename ReturnType>
-			std::function<void()> _Make_Std_Function_Move(const std::shared_ptr<std::promise<ReturnType>>&& promise_shared_ptr, const std::function<ReturnType()>&& task)
+			thread_job_type _Make_Thread_Job(const std::shared_ptr<std::promise<ReturnType>>&& promise_shared_ptr, const std::function<ReturnType()>&& task)
 			{
-				return std::function<void()>([_promise_shared_ptr = std::move(promise_shared_ptr), task = std::move(task)]()
+				return thread_job_type([_promise_shared_ptr = std::move(promise_shared_ptr), task = std::move(task)]()
 				{
 					if constexpr (!std::is_void_v<ReturnType>)
 					{
@@ -83,40 +87,36 @@ namespace doom
 			}
 
 			template <typename ReturnType>
-			inline std::future<ReturnType> _Enqueue_Copy(const std::function<ReturnType()>& task, bool bIsPushAtFront)
+			inline std::future<ReturnType> _Enqueue_Job_Copy(const std::function<ReturnType()>& task, bool bIsPushAtFront)
 			{
-				D_ASSERT(this->bmIsThreadDestructed == false);
-
 				std::shared_ptr<std::promise<ReturnType>> promise_shared_ptr{ new std::promise<ReturnType> };
 				auto future = promise_shared_ptr->get_future();
 
-				std::function<void()> taskForTaskQueue = this->_Make_Std_Function_Copy(std::move(promise_shared_ptr), task);
+				thread_job_type taskForTaskQueue = this->_Make_Std_Function_Copy(std::move(promise_shared_ptr), task);
 
 				this->WaitingTaskQueue.enqueue(std::move(taskForTaskQueue));
 
 				return future;
 			}
 			template <typename ReturnType>
-			inline std::future<ReturnType> _Enqueue_Move(const std::function<ReturnType()>&& task, bool bIsPushAtFront)
+			inline std::future<ReturnType> _Enqueue_Job_Move(const std::function<ReturnType()>&& task, bool bIsPushAtFront)
 			{
-				D_ASSERT(this->bmIsThreadDestructed == false);
-
 				std::shared_ptr<std::promise<ReturnType>> promise_shared_ptr{ new std::promise<ReturnType> };
 				auto future = promise_shared_ptr->get_future();
 
-				std::function<void()> taskForTaskQueue = this->_Make_Std_Function_Move(std::move(promise_shared_ptr), std::move(task));
+				thread_job_type taskForTaskQueue = this->_Make_Thread_Job(std::move(promise_shared_ptr), std::move(task));
 
 				this->WaitingTaskQueue.enqueue(std::move(taskForTaskQueue));
 
 				return future;
 			}
 			/// <summary>
-			/// Add Multiple Task, This can reduce mutex lock cost(mutex lock is expensive)
+			/// Add Multiple Task
 			/// Tasks will be added at end of queue
-			/// If tasks have different return type, pass std::function<void()> with reference variable as function argument ( example. std::bind(Function, int& result)  )
+			/// If tasks have different return type, pass thread_job_type with reference variable as function argument ( example. std::bind(Function, int& result)  )
 			/// </summary>
 			template <typename ReturnType>
-			std::vector<std::future<ReturnType>> _Enqueue_Chunk_Copy(const std::vector<std::function<ReturnType()>>& tasks, bool bIsPushAtFront)
+			std::vector<std::future<ReturnType>> _Enqueue_Job_Chunk_Copy(const std::vector<std::function<ReturnType()>>& tasks, bool bIsPushAtFront)
 			{
 				size_t taskCount = tasks.size();
 
@@ -134,7 +134,7 @@ namespace doom
 					future_vector.push_back(promise_shared_ptr_vector[i]->get_future());
 				}
 
-				std::vector<std::function<void()>> taskContainer{  };
+				std::vector<thread_job_type> taskContainer{  };
 				taskContainer.reserve(taskCount);
 
 				for (size_t i = 0; i < taskCount; i++)
@@ -153,7 +153,7 @@ namespace doom
 			}
 
 			template <typename ReturnType>
-			std::vector<std::future<ReturnType>> _Enqueue_Chunk_Move(const std::vector<std::function<ReturnType()>>&& tasks, bool bIsPushAtFront)
+			std::vector<std::future<ReturnType>> _Enqueue_Job_Chunk_Move(const std::vector<std::function<ReturnType()>>&& tasks, bool bIsPushAtFront)
 			{
 				size_t taskCount = tasks.size();
 
@@ -171,7 +171,7 @@ namespace doom
 					future_vector.push_back(promise_shared_ptr_vector[i]->get_future());
 				}
 
-				std::vector<std::function<void()>> taskContainer{};
+				std::vector<thread_job_type> taskContainer{};
 				taskContainer.reserve(taskCount);
 
 				for (size_t i = 0; i < taskCount; i++)
@@ -179,7 +179,7 @@ namespace doom
 					taskContainer.push_back(_Make_Std_Function(std::move(promise_shared_ptr_vector[i]), std::move(tasks[i])));
 				}
 
-				this->WaitingTaskQueue.enqueue_bulk(taskContainer.begin(), taskCount); // enqueue_bulk will copy element ( bulk doesn't support move )
+				this->WaitingTaskQueue.enqueue_bulk(std::make_move_iterator(taskContainer.begin()), taskCount); // enqueue_bulk will copy element ( bulk doesn't support move )
 				/*
 				for (size_t i = 0; i < taskCount; i++)
 				{
@@ -206,35 +206,23 @@ namespace doom
 			Thread& operator=(const Thread&) = delete;
 			Thread& operator=(Thread&&) noexcept = delete;
 
-			// TODO : Support function pushing element at front of queue
+			
 
-			/// <summary>
-			/// push task to first(front) of queue
-			/// this task will be executed firstly after job being executed end
-			/// </summary>
-			/// <typeparam name="ReturnType"></typeparam>
-			/// <param name="task"></param>
-			/// <returns></returns>
-			template <typename ReturnType>
-			inline std::future<ReturnType> push_front(const std::function<ReturnType()>& task)
-			{
-				return this->_Enqueue_Copy(task, true);
-			}
-			template <typename ReturnType>
-			inline std::future<ReturnType> push_front(const std::function<ReturnType()>&& task)
-			{
-				return this->_Enqueue_Move(std::move(task), true);
-			}
+
 
 			template <typename ReturnType>
-			inline std::future<ReturnType> push_back(const std::function<ReturnType()>& task)
+			inline std::future<ReturnType> PushBackJob(const std::function<ReturnType()>& task)
 			{
-				return this->_Enqueue_Copy(task, false);
+				D_ASSERT(this->bmIsThreadDestructed == false);
+
+				return this->_Enqueue_Job_Copy(task, false);
 			}
 			template <typename ReturnType>
-			inline std::future<ReturnType> push_back(const std::function<ReturnType()>&& task)
+			inline std::future<ReturnType> PushBackJob(const std::function<ReturnType()>&& task)
 			{
-				return this->_Enqueue_Move(std::move(task), false);
+				D_ASSERT(this->bmIsThreadDestructed == false);
+
+				return this->_Enqueue_Job_Move(std::move(task), false);
 			}
 
 			/// <summary>
@@ -247,13 +235,13 @@ namespace doom
 			/// <param name="...args"></param>
 			/// <returns></returns>
 			template <typename Function, typename... Args>
-			inline std::future<return_type_of_function_pointer<Function>> emplace_front(Function&& f, Args&&... args)
+			inline std::future<return_type_of_function_pointer<Function>> EmplaceBackJob(Function&& f, Args&&... args)
 			{
 				D_ASSERT(this->bmIsThreadDestructed == false);
 
 				static_assert(std::is_invocable_v<Function, Args...>);
 				std::function<return_type_of_function_pointer<Function>()> task = std::bind(std::forward<Function>(f), std::forward<Args>(args)...);
-				return this->_Enqueue_Move(std::move(task), true);
+				return this->_Enqueue_Job_Move(std::move(task), true);
 
 			}
 
@@ -266,35 +254,29 @@ namespace doom
 			/// <param name="f"></param>
 			/// <param name="...args"></param>
 			template <typename Function, typename... Args>
-			inline std::future<return_type_of_function_pointer<Function>> emplace_back(Function&& f, Args&&... args)
+			inline std::future<return_type_of_function_pointer<Function>> EmplaceBackJob(Function&& f, Args&&... args)
 			{
 				D_ASSERT(this->bmIsThreadDestructed == false);
 
 				static_assert(std::is_invocable_v<Function, Args...>);
 				std::function<return_type_of_function_pointer<Function>()> task = std::bind(std::forward<Function>(f), std::forward<Args>(args)...);
-				return this->_Enqueue_Move(std::move(task), false);
+				return this->_Enqueue_Job_Move(std::move(task), false);
 			}
 
 			
 			template <typename ReturnType>
-			std::vector<std::future<ReturnType>> enqeue_chunk_front(const std::vector<std::function<ReturnType()>>& tasks)
+			std::vector<std::future<ReturnType>> EmplaceBackJobChunk(std::vector<std::function<ReturnType()>>::iterator tasks, const size_t size)
 			{
-				return this->_Enqueue_Chunk_Copy(tasks, true);
+				D_ASSERT(this->bmIsThreadDestructed == false);
+
+				return this->_Enqueue_Job_Chunk_Copy(tasks, false);
 			}
 			template <typename ReturnType>
-			std::vector<std::future<ReturnType>> enqeue_chunk_front(const std::vector<std::function<ReturnType()>>&& tasks)
+			std::vector<std::future<ReturnType>> EmplaceBackJobChunk(std::move_iterator<std::vector<std::function<ReturnType()>>::iterator> tasks, const size_t size)
 			{
-				return this->_Enqueue_Chunk_Move(std::move(tasks), true);
-			}
-			template <typename ReturnType>
-			std::vector<std::future<ReturnType>> enqeue_chunk_back(const std::vector<std::function<ReturnType()>>& tasks)
-			{
-				return this->_Enqueue_Chunk_Copy(tasks, false);
-			}
-			template <typename ReturnType>
-			std::vector<std::future<ReturnType>> enqeue_chunk_back(const std::vector<std::function<ReturnType()>>&& tasks)
-			{
-				return this->_Enqueue_Chunk_Move(std::move(tasks), false);
+				D_ASSERT(this->bmIsThreadDestructed == false);
+
+				return this->_Enqueue_Job_Chunk_Move(std::move(tasks), false);
 			}
 		};
 	}

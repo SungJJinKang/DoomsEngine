@@ -20,7 +20,8 @@ namespace doom
 					return;
 				}
 
-				std::function<void()> newTask;
+			
+				thread_job_type newTask;
 				this->WaitingTaskQueue.wait_dequeue(newTask);
 				if (newTask)
 				{
@@ -33,6 +34,7 @@ namespace doom
 		Thread::Thread()
 			: mThread{ &Thread::WorkerJob, this }, mThreadId{ mThread.get_id() }, bmIsThreadDestructed{ false }, WaitingTaskQueue{ Thread::QUEUE_INITIAL_RESERVED_SIZE }
 		{
+			D_ASSERT(this->WaitingTaskQueue.is_lock_free() == true);
 		}
 
 
@@ -47,6 +49,8 @@ namespace doom
 				return;
 
 			bmIsThreadDestructed = true;
+			std::function<void()> dummyFunction{ []() {} };
+			this->PushBackJob(dummyFunction);
 
 			std::stringstream sstream;
 			sstream << this->mThreadId;

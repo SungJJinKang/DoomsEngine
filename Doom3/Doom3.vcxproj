@@ -128,7 +128,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)dependency;$(SolutionDir)dependency\glad\include;$(SolutionDir)dependency\assimp\include;$(SolutionDir)dependency\assimp\build\include;$(SolutionDir)Source\Component;$(SolutionDir)Source\Core\Scene;$(SolutionDir)Source\Component\Core;$(SolutionDir)Source\Helper/crossguid;$(SolutionDir)Source\GameLogic\CustomComponent;$(SolutionDir)Source\Core\Math\LightMath_Cpp;$(SolutionDir)Source\Core\IO;$(SolutionDir)Source\Core\Time;$(SolutionDir)Source\GameLogic;$(SolutionDir)Source\Core;$(SolutionDir)Source\Core\Logger;$(SolutionDir)Source\Core\Physics;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Source\Helper;$(SolutionDir)dependency;$(SolutionDir)dependency\glad\include;$(SolutionDir)dependency\assimp\include;$(SolutionDir)dependency\assimp\build\include;$(SolutionDir)Source\Component;$(SolutionDir)Source\Core\Scene;$(SolutionDir)Source\Component\Core;$(SolutionDir)Source\Helper/crossguid;$(SolutionDir)Source\GameLogic\CustomComponent;$(SolutionDir)Source\Core\Math\LightMath_Cpp;$(SolutionDir)Source\Core\IO;$(SolutionDir)Source\Core\Time;$(SolutionDir)Source\GameLogic;$(SolutionDir)Source\Core;$(SolutionDir)Source\Core\Logger;$(SolutionDir)Source\Core\Physics</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
@@ -148,7 +148,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)dependency;$(SolutionDir)dependency\glad\include;$(SolutionDir)dependency\assimp\include;$(SolutionDir)dependency\assimp\build\include;$(SolutionDir)Source\Component;$(SolutionDir)Source\Core\Scene;$(SolutionDir)Source\Component\Core;$(SolutionDir)Source\Helper/crossguid;$(SolutionDir)Source\GameLogic\CustomComponent;$(SolutionDir)Source\Core\Math\LightMath_Cpp;$(SolutionDir)Source\Core\IO;$(SolutionDir)Source\Core\Time;$(SolutionDir)Source\GameLogic;$(SolutionDir)Source\Core;$(SolutionDir)Source\Core\Logger;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Source\Helper;$(SolutionDir)dependency;$(SolutionDir)dependency\glad\include;$(SolutionDir)dependency\assimp\include;$(SolutionDir)dependency\assimp\build\include;$(SolutionDir)Source\Component;$(SolutionDir)Source\Core\Scene;$(SolutionDir)Source\Component\Core;$(SolutionDir)Source\Helper/crossguid;$(SolutionDir)Source\GameLogic\CustomComponent;$(SolutionDir)Source\Core\Math\LightMath_Cpp;$(SolutionDir)Source\Core\IO;$(SolutionDir)Source\Core\Time;$(SolutionDir)Source\GameLogic;$(SolutionDir)Source\Core;$(SolutionDir)Source\Core\Logger;$(SolutionDir)Source\Core\Physics</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
@@ -245,8 +245,10 @@
     <ClCompile Include="Source\Core\ResourceManagement\MemoryPool.cpp" />
     <ClCompile Include="Source\Core\ResourceManagement\Thread.cpp" />
     <ClCompile Include="Source\Core\ResourceManagement\Thread_Server.cpp" />
+    <ClCompile Include="Source\Core\Time\MainTimer.cpp" />
     <ClCompile Include="Source\Core\Time\Time_Server.cpp" />
     <ClCompile Include="Source\GameLogic\CustomComponent\AutoRotate.cpp" />
+    <ClCompile Include="Source\GameLogic\CustomComponent\AxisDebugger.cpp" />
     <ClCompile Include="Source\GameLogic\CustomComponent\Move_WASD.cpp" />
     <ClCompile Include="Source\GameLogic\CustomComponent\TestComponent.cpp" />
     <ClCompile Include="Source\GameLogic\Test.cpp" />
@@ -312,6 +314,7 @@
     <ClInclude Include="Source\Core\Physics\Plane.h" />
     <ClInclude Include="Source\Core\Physics\Ray.h" />
     <ClInclude Include="Source\Core\Physics\Sphere.h" />
+    <ClInclude Include="Source\Core\ResourceManagement\Thread_Core.h" />
     <ClInclude Include="Source\Core\Scene\IWorldIndependent.h" />
     <ClInclude Include="Source\Core\Scene\Layer.h" />
     <ClInclude Include="Source\Core\Scene\SharedScene.h" />
@@ -400,8 +403,11 @@
     <ClInclude Include="Source\Core\ResourceManagement\MemoryPool.h" />
     <ClInclude Include="Source\Core\ResourceManagement\Thread.h" />
     <ClInclude Include="Source\Core\ResourceManagement\Thread_Server.h" />
+    <ClInclude Include="Source\Core\Time\MainTimer.h" />
+    <ClInclude Include="Source\Core\Time\TickCount.h" />
     <ClInclude Include="Source\Core\Time\Time_Server.h" />
     <ClInclude Include="Source\GameLogic\CustomComponent\AutoRotate.h" />
+    <ClInclude Include="Source\GameLogic\CustomComponent\AxisDebugger.h" />
     <ClInclude Include="Source\GameLogic\CustomComponent\Move_WASD.h" />
     <ClInclude Include="Source\GameLogic\CustomComponent\TestComponent.h" />
     <ClInclude Include="Source\GameLogic\Doom_Core.h" />

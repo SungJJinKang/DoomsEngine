@@ -17,11 +17,10 @@ int main()
 	GameCore gameCore{};
 
 	gameCore.Init();
-	while (true)
+	while (gameCore.Tick())
 	{
-		gameCore.Update();
 	}
-
+	gameCore.CleanUp();
 	//window terminated
 
 	std::cout << std::endl;

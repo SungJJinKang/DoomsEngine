@@ -99,7 +99,7 @@ namespace doom
 				/// </summary>
 				/// <param name="paths"></param>
 				/// <returns></returns>
-				return threadPool->push_back_chunk(std::move(Tasks));
+				return threadPool->PushBackJobChunk(std::move(Tasks));
 			}
 
 			///////////////////

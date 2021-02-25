@@ -47,7 +47,7 @@ void doom::Move_WASD::UpdateComponent()
 		isMove = true;
 	}
 
-	auto delta = Time_Server::GetDeltaTime();
+	auto delta = MainTimer::GetDeltaTime();
 	if (isMove == true)
 	{
 		translation.Normalize();
@@ -85,7 +85,7 @@ void doom::Move_WASD::UpdateComponent()
 
 	this->GetTransform()->Rotate(rotation.normalized() * delta, eSpace::Self);
 
-	if (Time_Server::GetFrameStep(120))
+	if (MainTimer::GetFrameStep(120))
 	{
 		//D_DEBUG_LOG(this->GetTransform()->ToString());
 	}

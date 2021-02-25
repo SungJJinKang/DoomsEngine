@@ -36,7 +36,8 @@ void doom::GameCore::Init()
 	D_END_PROFILING("Loading Config File");
 
 
-
+	//
+	//Read This : https://docs.unity3d.com/Manual/class-TimeManager.html
 	D_START_PROFILING("Init Physics_Server", eProfileLayers::CPU);
 	this->mPhysics_Server.Init();
 	D_END_PROFILING("Init Physics_Server");

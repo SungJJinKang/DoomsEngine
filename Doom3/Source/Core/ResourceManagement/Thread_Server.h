@@ -6,6 +6,9 @@
 #include "../../Helper/Singleton.h"
 #include "../Game/IGameFlow.h"
 
+#include "Thread_Core.h"
+#include <concurrentqueue/blockingconcurrentqueue.h>
+
 #define THREAD_COUNT (5)
 
 namespace doom
@@ -24,15 +27,22 @@ namespace doom
 		/// </summary>
 		class Thread_Server : public IGameFlow, public ISingleton<Thread_Server>
 		{
+
 		private:
 			std::thread::id mMainThreadId{};
 			Thread* mManagedSubThreads{ nullptr };
 			bool bmIsInitialized{ false };
 
-		protected:
+			/// <summary>
+			/// Waiting Task Queue.
+			/// This
+			/// </summary>
+			moodycamel::BlockingConcurrentQueue<thread_job_type> WaitingTaskQueue;
+
 			virtual void Init() final;
 			virtual void Update() final;
 			virtual void OnEndOfFrame() final;
+
 		public:
 			void InitializeThreads();
 			void DestroyThreads();
