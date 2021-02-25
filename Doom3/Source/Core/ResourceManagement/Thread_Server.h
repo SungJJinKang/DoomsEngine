@@ -70,8 +70,9 @@ namespace doom
 			{
 				D_ASSERT(this->bmIsInitialized == true);
 
+				auto future = ThreadPool::PushBackJob(this->mPriorityWaitingTaskQueue, task);
 				this->WakeUpAllThreads();
-				return ThreadPool::PushBackJob(this->mPriorityWaitingTaskQueue, task);
+				return future;
 			}
 
 			template <typename Function, typename... Args>
@@ -79,8 +80,9 @@ namespace doom
 			{
 				D_ASSERT(this->bmIsInitialized == true);
 
+				auto future = ThreadPool::EmplaceBackJob(this->mPriorityWaitingTaskQueue, std::forward<Function>(f), std::forward<Function>(args)...);
 				this->WakeUpAllThreads();
-				return ThreadPool::EmplaceBackJob(this->mPriorityWaitingTaskQueue, std::forward<Function>(f), std::forward<Function>(args)...);
+				return future;
 			}
 
 			template <typename ReturnType>
@@ -88,8 +90,9 @@ namespace doom
 			{
 				D_ASSERT(this->bmIsInitialized == true);
 
+				auto futures = ThreadPool::PushBackJobChunk(this->mPriorityWaitingTaskQueue, tasks);
 				this->WakeUpAllThreads();
-				return ThreadPool::PushBackJobChunk(this->mPriorityWaitingTaskQueue, tasks);
+				return futures;
 			}
 
 			//
