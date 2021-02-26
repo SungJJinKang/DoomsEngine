@@ -23,6 +23,15 @@ namespace doom
 				
 			bool IsPointOnRay(const math::Vector3& point);
 			static math::Vector3 GetClosestPoint(const Ray& ray, const math::Vector3& point);
+
+			/// <summary>
+			/// https://gamedev.stackexchange.com/questions/67719/how-do-raymarch-shaders-work
+			/// </summary>
+			/// <param name="ray"></param>
+			/// <param name="maxDistance"></param>
+			/// <returns></returns>
+			static float RayMarching(const Ray& ray, float maxDistance);
+			static bool RayTracing(const Ray& ray);
 		};
 	}
 }
