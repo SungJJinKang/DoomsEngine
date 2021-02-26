@@ -19,9 +19,17 @@ namespace doom
 		class AABB3D : public RenderPhysics
 		{
 		public:
+			/// <summary>
+			/// this is local coordinate, you should map to your world coordinate
+			/// </summary>
 			math::Vector3 mLowerBound; // minimum extent
+			/// <summary>
+			/// this is local coordinate, you should map to your world coordinate
+			/// </summary>
 			math::Vector3 mUpperBound; // maximum extent
 
+			AABB3D() : mLowerBound{}, mUpperBound{}
+			{}
 			AABB3D(const math::Vector3& lowerBound, const math::Vector3& upperBound)
 				:mLowerBound(lowerBound), mUpperBound(upperBound)
 			{
@@ -29,6 +37,10 @@ namespace doom
 				this->Validate();
 #endif
 			}
+			AABB3D(const AABB3D&) = default;
+			AABB3D(AABB3D&&) noexcept = default;
+			AABB3D& operator=(const AABB3D&) = default;
+			AABB3D& operator=(AABB3D&&) noexcept = default;
 
 			bool IsValid();
 			void Validate();
@@ -57,9 +69,17 @@ namespace doom
 		class AABB2D : public RenderPhysics
 		{
 		public:
+			/// <summary>
+			/// this is local coordinate, you should map to your world coordinate
+			/// </summary>
 			math::Vector2 mLowerBound; // minimum extent
+			/// <summary>
+			/// this is local coordinate, you should map to your world coordinate
+			/// </summary>
 			math::Vector2 mUpperBound; // maximum extent
 
+			AABB2D() : mLowerBound{}, mUpperBound{}
+			{}
 			AABB2D(const math::Vector2& lowerBound, const math::Vector2& upperBound)
 				:mLowerBound(lowerBound), mUpperBound(upperBound)
 			{
@@ -67,6 +87,10 @@ namespace doom
 				this->Validate();
 #endif
 			}
+			AABB2D(const AABB2D&) = default;
+			AABB2D(AABB2D&&) noexcept = default;
+			AABB2D& operator=(const AABB2D&) = default;
+			AABB2D& operator=(AABB2D&&) noexcept = default;
 
 			bool IsValid();
 			void Validate();

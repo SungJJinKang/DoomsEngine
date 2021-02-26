@@ -9,6 +9,7 @@
 #include "../Graphics/Buffer/MeshNode.h"
 #include "../Graphics/ePrimitiveType.h"
 #include <optional>
+#include <Physics/AABB.h>
 
 using namespace math;
 
@@ -77,6 +78,8 @@ namespace doom
 		/// ( X ) Vertex Vertex Vertex | TexCoord TexCoord TexCoord | Normal Normal Normal | Tangent Tangent Tangent | Bitangent Bitangent Bitangent
 		/// </summary>
 		std::unique_ptr<MeshVertexData[]> mMeshVertexDatas;
+
+		physics::AABB3D mAABB3D;
 
 		ThreeDModelMesh() = default;
 		ThreeDModelMesh(const ThreeDModelMesh&) = delete;
@@ -161,7 +164,7 @@ namespace doom
 		/// why const? to protect asset data
 		/// </summary>
 		/// <returns></returns>
-		const std::vector<graphics::Mesh>& GetMeshes();
+		const std::vector<graphics::Mesh>& GetMeshes() const;
 		graphics::Mesh& GetMesh(unsigned int index);
 		size_t GetMeshCount() const;
 

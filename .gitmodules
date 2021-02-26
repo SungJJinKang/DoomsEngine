@@ -37,3 +37,6 @@
 [submodule "Doom3/dependency/bullet3"]
 	path = Doom3/dependency/bullet3
 	url = https://github.com/bulletphysics/bullet3.git
+[submodule "Doom3/Source/Helper/EasyDirtyChecker"]
+	path = Doom3/Source/Helper/EasyDirtyChecker
+	url = https://github.com/SungJJinKang/EasyDirtyChecker.git

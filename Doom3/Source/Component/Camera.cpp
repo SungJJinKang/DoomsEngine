@@ -189,6 +189,7 @@ void Camera::InitComponent()
 
 void Camera::UpdateComponent()
 {
+	//TODO : Change To BufferUpdater
 	if (this->GetTransform()->GetIsDirtyAtPreviousFrame())
 	{
 		this->bmIsViewMatrixDirty = true;

@@ -251,6 +251,8 @@
     <ClCompile Include="Source\GameLogic\CustomComponent\Move_WASD.cpp" />
     <ClCompile Include="Source\GameLogic\CustomComponent\TestComponent.cpp" />
     <ClCompile Include="Source\GameLogic\Test.cpp" />
+    <ClCompile Include="Source\Helper\EasyDirtyChecker\DirtyReceiver.cpp" />
+    <ClCompile Include="Source\Helper\EasyDirtyChecker\DirtySender.cpp" />
     <ClCompile Include="Source\Helper\SimpleIniParser.cpp" />
     <ClCompile Include="Source\Helper\TextImporter.cpp" />
     <ClCompile Include="Source\Component\PhysicsComponent\SphereCollider3D.cpp" />
@@ -414,6 +416,8 @@
     <ClInclude Include="Source\Helper\crossguid\Guid.hpp" />
     <ClInclude Include="Source\Helper\DeferredConstant\DeferredConstant.h" />
     <ClInclude Include="Source\Helper\EasyCallback_cpp\EasyCallback_Container.h" />
+    <ClInclude Include="Source\Helper\EasyDirtyChecker\DirtyReceiver.h" />
+    <ClInclude Include="Source\Helper\EasyDirtyChecker\DirtySender.h" />
     <ClInclude Include="Source\Helper\ForLoop_Compile_Time\ForLoop_Compile.h" />
     <ClInclude Include="Source\Core\Graphics\OverlapBindChecker.h" />
     <ClInclude Include="Source\Helper\std_future_wrapper\CustomFutureWrapper.h" />
@@ -599,6 +603,7 @@
     <None Include="config.ini" />
     <None Include="Source\Helper\DeferredConstant\.git" />
     <None Include="Source\Helper\DeferredConstant\README.md" />
+    <None Include="Source\Helper\EasyDirtyChecker\README.md" />
     <None Include="Source\Helper\ForLoop_Compile_Time\.git" />
     <None Include="Source\Helper\ForLoop_Compile_Time\README.md" />
     <None Include="Source\Helper\std_future_wrapper\.git" />

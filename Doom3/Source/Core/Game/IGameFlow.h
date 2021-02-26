@@ -29,6 +29,9 @@ namespace doom
 		void Update_Internal();
 		virtual void Update() = 0;
 
+		void FixedUpdate_Internal();
+		virtual void FixedUpdated() {}
+
 		/// <summary>
 		/// Don't put virtual
 		/// </summary>

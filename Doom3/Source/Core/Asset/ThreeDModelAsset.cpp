@@ -85,7 +85,7 @@ doom::ThreeDModelAsset::~ThreeDModelAsset()
 	}
 }
 
-const std::vector<doom::graphics::Mesh>& doom::ThreeDModelAsset::GetMeshes() 
+const std::vector<doom::graphics::Mesh>& doom::ThreeDModelAsset::GetMeshes() const
 {
 	return this->mMeshes;
 }

@@ -85,7 +85,8 @@ namespace doom
 					aiProcess_CalcTangentSpace |
 					aiProcess_TransformUVCoords |
 					aiProcess_SortByPType |
-					aiProcess_ImproveCacheLocality
+					aiProcess_ImproveCacheLocality |
+					aiProcess_GenBoundingBoxes
 				);
 
 				Asset::asset_type_t<eAssetType::THREE_D_MODEL> asset{};
@@ -103,7 +104,13 @@ namespace doom
 					{
 						auto mesh = scene->mMeshes[meshIndex];
 
+						
 						asset.mModelMeshAssets[meshIndex].mName = mesh->mName.C_Str();
+
+						//why address of mAABB3D.mLowerBound
+						//because mAABB is virtual class, it has virtual table pointer internally ( we can't access )
+						//so if you access to mAABB3D, virtual table pointer take up foremost 4 byte of mAABB3D
+						std::memmove(&(asset.mModelMeshAssets[meshIndex].mAABB3D.mLowerBound), &(mesh->mAABB), sizeof(math::Vector3) * 2);
 
 						switch (mesh->mPrimitiveTypes)
 						{

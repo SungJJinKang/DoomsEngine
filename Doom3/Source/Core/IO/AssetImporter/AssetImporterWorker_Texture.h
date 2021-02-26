@@ -5,6 +5,8 @@
 #include "AssetImporterWorker_Base.h"
 
 #include <utility>
+#include <type_traits>
+
 #include "../../Asset/TextureAsset.h"
 #include "../../API/STB_IMAGE.h"
 
@@ -12,6 +14,8 @@ namespace doom
 {
 	namespace assetimporter
 	{
+		//static_assert(std::is_same_v<ai_real, float>); // ai_real is type of assimp vector's element, So we check if it is float type
+
 		template <>
 		class AssetImporterWorker<eAssetType::TEXTURE>
 		{

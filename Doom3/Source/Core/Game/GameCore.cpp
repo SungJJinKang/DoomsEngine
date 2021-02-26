@@ -16,7 +16,7 @@ doom::GameCore::GameCore()
 	this->mCurrentScene = this->CreateNewScene();
 }
 
-IniData& doom::GameCore::GetConfigData()
+const IniData& doom::GameCore::GetConfigData() const
 {
 	return this->mConfigData;
 }
@@ -27,6 +27,11 @@ std::unique_ptr<doom::Scene> doom::GameCore::CreateNewScene(std::string sceneNam
 	return std::unique_ptr<doom::Scene>{new Scene(sceneName)};
 }
 
+void doom::GameCore::InitGameSetting()
+{
+	this->mFixedTimeStep = this->mConfigData.GetValue<double>("SYSTEM", "FIXED_TIME_STEP");
+}
+
 void doom::GameCore::Init()
 {
 	this->mTime_Server.Init();
@@ -35,6 +40,8 @@ void doom::GameCore::Init()
 	D_START_PROFILING("Loading Config File", eProfileLayers::CPU);
 	this->mConfigData = { SimpleIniParser::ParseIniFile(ASSET_FOLDER_DIRECTORY + "config.ini") };
 	D_END_PROFILING("Loading Config File");
+
+
 
 	//
 	//Read This : https://docs.unity3d.com/Manual/class-TimeManager.html
@@ -86,3 +93,4 @@ void doom::GameCore::CleanUp()
 
 }
 
+\

@@ -291,6 +291,12 @@
     <ClCompile Include="Source\GameLogic\CustomComponent\AxisDebugger.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Helper\EasyDirtyChecker\DirtySender.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Helper\EasyDirtyChecker\DirtyReceiver.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="dependency\glad\include\glad\glad.h">
@@ -845,6 +851,12 @@
     <ClInclude Include="Source\Core\ResourceManagement\Thread_Core.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Helper\EasyDirtyChecker\DirtySender.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Helper\EasyDirtyChecker\DirtyReceiver.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="dependency\glfw-3.3.2.bin.WIN64\docs\html\search\all_0.html" />
@@ -1003,6 +1015,7 @@
     <None Include="Assets\Shader\Default\Debug2DShader.glsl" />
     <None Include="Assets\Shader\Default\Debug3DShader.glsl" />
     <None Include="..\CodingRule.md" />
+    <None Include="Source\Helper\EasyDirtyChecker\README.md" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="Source\Core\Graphics\ReamThis!!!!.txt" />

@@ -31,6 +31,9 @@ namespace doom
 		const char* mConfigFilePath{};
 		IniData mConfigData{};
 
+
+		float mFixedTimeStep{};
+
 		//Servers
 		assetimporter::AssetManager mAssetManager{};
 		graphics::Graphics_Server mGraphics_Server{};
@@ -44,6 +47,7 @@ namespace doom
 
 		SharedScene mSharedWorld{};
 
+		void InitGameSetting() ;
 		
 	public:
 		
@@ -54,7 +58,7 @@ namespace doom
 		GameCore& operator=(const GameCore&) = delete;
 		GameCore& operator=(GameCore&&) = delete;
 
-		IniData& GetConfigData();
+		const IniData& GetConfigData() const;
 
 
 		virtual void Init() final;
@@ -62,25 +66,9 @@ namespace doom
 
 		bool Tick()
 		{
-			this->mTime_Server.Update();
-			this->mThreadManager.Update();
+			this->FixedUpdated();
 
-			D_START_PROFILING("Update Physics", eProfileLayers::CPU);
-			this->mPhysics_Server.Update();
-			D_END_PROFILING("Update Physics");
-
-			D_START_PROFILING("Process UserInput", eProfileLayers::CPU);
-			this->mUserImput_Server.Update();
-			D_END_PROFILING("Process UserInput");
-
-			D_START_PROFILING("Update PlainComponents", eProfileLayers::CPU);
-			this->mCurrentScene->UpdatePlainComponents();
-			D_END_PROFILING("Update PlainComponents");
-
-			D_START_PROFILING("GraphicsUpdate", eProfileLayers::GPU);
-			this->mGraphics_Server.Update();
-			D_END_PROFILING("GraphicsUpdate");
-
+			this->Update();
 
 			this->OnEndOfFrame();
 
@@ -90,15 +78,21 @@ namespace doom
 
 		virtual void OnEndOfFrame() final
 		{
+			this->mTime_Server.OnEndOfFrame_Internal();
 			this->mTime_Server.OnEndOfFrame();
+			
+			this->mThreadManager.OnEndOfFrame_Internal();
 			this->mThreadManager.OnEndOfFrame();
 
+			this->mPhysics_Server.OnEndOfFrame_Internal();
 			this->mPhysics_Server.OnEndOfFrame();
 
+			this->mUserImput_Server.OnEndOfFrame_Internal();
 			this->mUserImput_Server.OnEndOfFrame();
 
-			this->mCurrentScene->OnEndOfFrameOfEntities();
+			this->mCurrentScene->OnEndOfFrameOfEntities(); // Update Plain Components ( Game Logic )
 
+			this->mGraphics_Server.OnEndOfFrame_Internal();
 			this->mGraphics_Server.OnEndOfFrame();
 
 		}
@@ -119,6 +113,42 @@ namespace doom
 		/// </summary>
 		virtual void Update() final
 		{
+			this->mTime_Server.Update_Internal();
+			this->mTime_Server.Update();
+
+			this->mThreadManager.Update_Internal();
+			this->mThreadManager.Update();
+
+			D_START_PROFILING("Update Physics", eProfileLayers::CPU);
+			this->mPhysics_Server.Update_Internal();
+			this->mPhysics_Server.Update();
+			D_END_PROFILING("Update Physics");
+
+			D_START_PROFILING("Process UserInput", eProfileLayers::CPU);
+			this->mUserImput_Server.Update_Internal();
+			this->mUserImput_Server.Update();
+			D_END_PROFILING("Process UserInput");
+
+			D_START_PROFILING("Update PlainComponents", eProfileLayers::CPU);
+			this->mCurrentScene->UpdatePlainComponents(); // Update plain Components ( Game Logic )
+			D_END_PROFILING("Update PlainComponents");
+
+			D_START_PROFILING("GraphicsUpdate", eProfileLayers::GPU);
+			this->mGraphics_Server.Update_Internal();
+			this->mGraphics_Server.Update();
+			D_END_PROFILING("GraphicsUpdate");
+		}
+
+		/// <summary>
+		/// Fixed Update may be called more than once per frame 
+		/// if the fixed time step is less than the actual frame update time
+		/// </summary>
+		virtual void FixedUpdated() final
+		{
+			D_START_PROFILING("FixedUpdate Physics", eProfileLayers::CPU);
+			this->mPhysics_Server.FixedUpdate_Internal();
+			this->mPhysics_Server.FixedUpdated();
+			D_END_PROFILING("FixedUpdate Physics");
 		}
 	};
 }

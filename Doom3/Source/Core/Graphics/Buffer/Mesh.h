@@ -5,6 +5,7 @@
 #include <memory>
 #include "../OverlapBindChecker.h"
 #include "../ePrimitiveType.h"
+#include <Physics/AABB.h>
 
 namespace doom
 {
@@ -53,11 +54,21 @@ namespace doom
 				D_CHECK_OVERLAP_BIND("VertexArrayObject", this->mVertexArrayObjectID);
 				glBindVertexArray(this->mVertexArrayObjectID);
 			}
+
+			/// <summary>
+			/// this is local coordinate, you should map to your world coordinate
+			/// </summary>
+			physics::AABB3D mAABB3D;
+
 		protected:
 			void GenMeshBuffer(bool hasIndice);
 			void DeleteBuffers() final;
 			virtual void GenBufferIfNotGened(bool hasIndice) final;
+
 		public:
+
+			
+
 			Mesh();
 			virtual ~Mesh();
 			
@@ -136,6 +147,10 @@ namespace doom
 			static std::shared_ptr<Mesh> GetQuadMesh();
 
 			virtual bool IsBufferGenerated() final;
+
+			const physics::AABB3D& GetAABB() const;
+			physics::AABB3D GetAABB();
+
 
 		};
 	}

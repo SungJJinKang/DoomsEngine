@@ -214,6 +214,9 @@ void doom::graphics::Mesh::BufferDataFromModelMesh(const ThreeDModelMesh& threeD
 	}
 
 	this->mPrimitiveType = threeDModelMesh.mPrimitiveType;
+
+	this->mAABB3D = threeDModelMesh.mAABB3D;
+
 	D_ASSERT(this->mPrimitiveType != ePrimitiveType::NONE);
 }
 
@@ -277,6 +280,16 @@ std::shared_ptr<doom::graphics::Mesh> doom::graphics::Mesh::GetQuadMesh()
 bool doom::graphics::Mesh::IsBufferGenerated()
 {
 	return Buffer::IsBufferGenerated() && this->mVertexArrayObjectID != 0;
+}
+
+const doom::physics::AABB3D& doom::graphics::Mesh::GetAABB() const
+{
+	return this->mAABB3D;
+}
+
+doom::physics::AABB3D doom::graphics::Mesh::GetAABB()
+{
+	return this->mAABB3D;
 }
 
 

@@ -8,11 +8,6 @@ void doom::physics::Physics_Server::Init()
 
 }
 
-void doom::physics::Physics_Server::Update()
-{
-	this->UpdateColliders();
-	this->mPicking.UpdatePicking();
-}
 
 void doom::physics::Physics_Server::UpdateColliders()
 

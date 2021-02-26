@@ -17,7 +17,12 @@ namespace doom
 			Picking mPicking{};
 
 			virtual void Init() final;
-			virtual void Update() final;
+			virtual void Update() final {}
+			virtual void FixedUpdated() final
+			{
+				this->UpdateColliders();
+				this->mPicking.UpdatePicking();
+			}
 
 			void UpdateColliders();
 

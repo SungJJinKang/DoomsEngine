@@ -3,6 +3,7 @@
 #include "Core/ServerComponent.h"
 #include "Iterator/RendererStaticIterator.h"
 
+#include <Physics/AABB.h>
 namespace doom
 {
 	namespace graphics
@@ -23,6 +24,15 @@ namespace doom
 		Renderer(Renderer&&) noexcept = delete;
 		Renderer& operator=(const Renderer&) = delete;
 		Renderer& operator=(Renderer&&) noexcept = delete;
+
+		/// <summary>
+		/// Entity's Model Matrix * Local AABB
+		/// </summary>
+		physics::AABB3D mWorldAABB3D{};
+	
+		void UpadteWorldAABB3D();
+
+		physics::AABB3D mLocalAABB3D{};
 
 	protected:
 		
@@ -45,6 +55,9 @@ namespace doom
 		{
 
 		}
+
+		void SetLocalAABB3D(const physics::AABB3D& aabb3d);
+
 
 	public:
 		Renderer();
