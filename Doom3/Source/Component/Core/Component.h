@@ -4,6 +4,7 @@
 #include "../../Core/Game/IGameFlow.h"
 #include "../../Core/Game/FrameDirtyChecker.h"
 
+class DirtyReceiver;
 namespace doom
 {
 	class Entity;
@@ -118,6 +119,8 @@ namespace doom
 		{
 			//DONT PUT ANYTHING HERE, PUT AT HERE
 		}
+
+		void ConnectDirtyReceiverWithTransformDirtySender(DirtyReceiver* receiver);
 
 	public:
 

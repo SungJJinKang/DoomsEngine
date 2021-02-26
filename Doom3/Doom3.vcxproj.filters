@@ -297,6 +297,9 @@
     <ClCompile Include="Source\Helper\EasyDirtyChecker\DirtyReceiver.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Helper\EasyDirtyChecker\LocalDirty.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="dependency\glad\include\glad\glad.h">
@@ -855,6 +858,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\Helper\EasyDirtyChecker\DirtyReceiver.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Helper\EasyDirtyChecker\LocalDirty.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

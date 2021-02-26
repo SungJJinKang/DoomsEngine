@@ -183,18 +183,18 @@ const std::array<math::Vector4, 6>& doom::Camera::CalculateFrustumPlane()
 
 void Camera::InitComponent()
 {
-	UpdateMainCamera();
+	this->ConnectDirtyReceiverWithTransformDirtySender(&(this->mDirtyReceiver));
+	this->mDirtyReceiver.AddLocalIsDirtyVariable(&(this->bmIsViewMatrixDirty));
+	this->mDirtyReceiver.AddLocalIsDirtyVariable(&(this->bmIsProjectionMatrixDirty));
+	this->mDirtyReceiver.AddLocalIsDirtyVariable(&(this->bmIsViewProjectionMatrixDirty));
+	this->mDirtyReceiver.AddLocalIsDirtyVariable(&(this->bmIsUboDirty));
 
+	this->UpdateMainCamera();
+	
 }
 
 void Camera::UpdateComponent()
 {
-	//TODO : Change To BufferUpdater
-	if (this->GetTransform()->GetIsDirtyAtPreviousFrame())
-	{
-		this->bmIsViewMatrixDirty = true;
-		this->bmIsViewProjectionMatrixDirty = true;
-	}
 }
 
 void Camera::OnEndOfFrame_Component()
@@ -243,7 +243,7 @@ void Camera::OnDestroy()
 
 const math::Matrix4x4& doom::Camera::GetProjectionMatrix()
 {
-	if (this->bmIsProjectionMatrixDirty == true)
+	if (this->bmIsProjectionMatrixDirty.GetIsDirty(true))
 	{
 		if (this->mProjectionMode == eProjectionType::Perspective)
 		{
@@ -254,7 +254,6 @@ const math::Matrix4x4& doom::Camera::GetProjectionMatrix()
 			this->mProjectionMatrix = math::ortho(this->mViewportRectX, this->mViewportRectX + this->mViewportRectWidth, this->mViewportRectY, this->mViewportRectY + this->mViewportRectHeight, this->mClippingPlaneNear, this->mViewportRectHeight);
 		}
 
-		this->bmIsProjectionMatrixDirty = false;
 	}
 
 	return this->mProjectionMatrix;
@@ -262,12 +261,11 @@ const math::Matrix4x4& doom::Camera::GetProjectionMatrix()
 
 const math::Matrix4x4& Camera::GetViewMatrix()
 {
-	if (this->bmIsViewMatrixDirty == true)
+	if (this->bmIsViewMatrixDirty.GetIsDirty(true))
 	{
 		auto transform = this->GetTransform();
 		auto pos = transform->GetPosition();
 		this->mViewMatrix = math::lookAt(pos, pos + transform->forward(), transform->up());
-		this->bmIsViewMatrixDirty = false;
 	}
 
 	return this->mViewMatrix;
@@ -275,7 +273,7 @@ const math::Matrix4x4& Camera::GetViewMatrix()
 
 const math::Matrix4x4& doom::Camera::GetViewProjectionMatrix()
 {
-	if (this->bmIsViewProjectionMatrixDirty == true)
+	if (this->bmIsViewProjectionMatrixDirty.GetIsDirty(true))
 	{
 		auto& viewMatrix = this->GetViewMatrix();
 		auto& projectionMatrix = this->GetProjectionMatrix();
@@ -357,15 +355,15 @@ void Camera::UpdateUniformBufferObjectTempBuffer(graphics::UniformBufferObjectMa
 		//!!!! Opengl Use column major of matrix data layout
 		uboManager.StoreDataAtTempBufferOfBindingPoint(GLOBAL_UNIFORM_BLOCK_BINDING_POINT, (void*)projectionMatrix.data(), sizeof(projectionMatrix), graphics::eUniformBlock_Global::projection);
 
-		auto transform = this->GetTransform();
-		if (transform->GetIsDirtyAtPreviousFrame() == true)
+		
+		if (this->bmIsUboDirty.GetIsDirty(true))
 		{//when transform value is changed
 			auto& viewMatrix = this->GetViewMatrix(); 
+			auto transform = this->GetTransform();
 			const auto& camPos = transform->GetPosition();
 
 			uboManager.StoreDataAtTempBufferOfBindingPoint(GLOBAL_UNIFORM_BLOCK_BINDING_POINT, (void*)viewMatrix.data(), sizeof(viewMatrix), graphics::eUniformBlock_Global::view);
 			uboManager.StoreDataAtTempBufferOfBindingPoint(GLOBAL_UNIFORM_BLOCK_BINDING_POINT, (void*)camPos.data(), sizeof(camPos), graphics::eUniformBlock_Global::camPos);
-
 		}
 	}
 }

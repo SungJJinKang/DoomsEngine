@@ -8,6 +8,8 @@
 #include "../Core/Graphics/Buffer/UniformBufferObjectTempBufferUpdater.h"
 #include "Iterator/ComponentStaticIterater.h"
 
+#include <EasyDirtyChecker/DirtyReceiver.h>
+
 namespace doom
 {
 	class Camera : public PlainComponent, public graphics::UniformBufferObjectTempBufferUpdater, public ComponentStaticIterater<Camera>
@@ -26,6 +28,8 @@ namespace doom
 		Camera(Camera&&) noexcept = delete;
 		Camera& operator=(const Camera&) = delete;
 		Camera& operator=(Camera&&) noexcept = delete;
+
+		DirtyReceiver mDirtyReceiver{};
 
 		eProjectionType mProjectionMode{ eProjectionType::Perspective };
 
@@ -53,10 +57,10 @@ namespace doom
 		/// </summary>
 		float mViewportRectHeight = 2.0f;
 
-		bool bmIsProjectionMatrixDirty{ true };
-		bool bmIsViewMatrixDirty{ true };
-		bool bmIsViewProjectionMatrixDirty{ true };
-		bool bmIsFrustumPlaneMatrixDirty{ true };
+		LocalDirty bmIsProjectionMatrixDirty{ true };
+		LocalDirty bmIsViewMatrixDirty{ true };
+		LocalDirty bmIsViewProjectionMatrixDirty{ true };
+		LocalDirty bmIsFrustumPlaneMatrixDirty{ true };
 		math::Matrix4x4 mViewMatrix{};
 		math::Matrix4x4 mProjectionMatrix{};
 		math::Matrix4x4 mViewProjectionMatrix{};
@@ -67,6 +71,7 @@ namespace doom
 		virtual void UpdateComponent() final;
 		virtual void OnEndOfFrame_Component() final;
 
+		LocalDirty bmIsUboDirty{ true };
 		void UpdateUniformBufferObjectTempBuffer(graphics::UniformBufferObjectManager& uboManager) final;
 
 		void UpdateMainCamera();

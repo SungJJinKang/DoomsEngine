@@ -21,9 +21,9 @@ void doom::DirectionalLight::OnEndOfFrame_Component()
 
 void doom::DirectionalLight::UpdateUniformBufferObjectTempBuffer(graphics::UniformBufferObjectManager& uboManager)
 {
-	auto transform = this->GetTransform();
-	if (transform->GetIsDirtyAtPreviousFrame() == true)
+	if (this->bmIsLightUboDirty.GetIsDirty(true))
 	{//when transform value is changed
+		auto transform = this->GetTransform();
 		math::Vector3 dir = transform->forward();
 		math::Vector4 radiance = this->GetRadiance();
 

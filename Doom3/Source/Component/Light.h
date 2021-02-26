@@ -22,6 +22,9 @@ namespace doom
 		float mIntensity{ 1 };
 		float mIndirectMultiplier{ 1 };
 		math::Vector4 mColor{ 1 };
+
+		DirtyReceiver mLightDirtyReceiver{};
+		LocalDirty bmIsLightUboDirty{ true };
 		
 	public:
 		Light() = default;

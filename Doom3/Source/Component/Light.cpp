@@ -2,7 +2,8 @@
 
 void doom::Light::InitComponent()
 {
-
+	this->ConnectDirtyReceiverWithTransformDirtySender(&(this->mLightDirtyReceiver));
+	this->mLightDirtyReceiver.AddLocalIsDirtyVariable(&(this->bmIsLightUboDirty));
 }
 
 void doom::Light::UpdateComponent()

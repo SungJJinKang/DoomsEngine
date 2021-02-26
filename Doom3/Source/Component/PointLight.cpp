@@ -22,9 +22,9 @@ void doom::PointLight::OnEndOfFrame_Component()
 
 void doom::PointLight::UpdateUniformBufferObjectTempBuffer(graphics::UniformBufferObjectManager& uboManager)
 {
-	auto transform = this->GetTransform();
-	if (transform->GetIsDirtyAtPreviousFrame() == true)
+	if (this->bmIsLightUboDirty.GetIsDirty(true))
 	{//when transform value is changed
+		auto transform = this->GetTransform();
 		math::Vector3 pos = transform->GetPosition();
 		math::Vector4 radiance = this->GetRadiance();
 

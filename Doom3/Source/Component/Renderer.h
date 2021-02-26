@@ -29,10 +29,13 @@ namespace doom
 		/// Entity's Model Matrix * Local AABB
 		/// </summary>
 		physics::AABB3D mWorldAABB3D{};
-	
-		void UpadteWorldAABB3D();
-
+		void UpdateWorldAABB3D();
 		physics::AABB3D mLocalAABB3D{};
+	
+		LocalDirty IsWorldAABBDirty{ true };
+		DirtyReceiver mDirtyReceiver{};
+
+		
 
 	protected:
 		
@@ -41,6 +44,8 @@ namespace doom
 		virtual void InitComponent() override
 		{
 			RendererComponentStaticIterator::AddRendererToStaticContainer();
+			this->ConnectDirtyReceiverWithTransformDirtySender(&(this->mDirtyReceiver));
+			this->mDirtyReceiver.AddLocalIsDirtyVariable(&(this->IsWorldAABBDirty));
 		}
 		virtual void UpdateComponent() override
 		{
@@ -57,7 +62,7 @@ namespace doom
 		}
 
 		void SetLocalAABB3D(const physics::AABB3D& aabb3d);
-
+		physics::AABB3D GetWorldAABB3D();
 
 	public:
 		Renderer();

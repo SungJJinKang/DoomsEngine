@@ -7,6 +7,16 @@ void doom::Renderer::SetLocalAABB3D(const physics::AABB3D& aabb3d)
 {
 	this->mLocalAABB3D.mLowerBound = aabb3d.mLowerBound;
 	this->mLocalAABB3D.mUpperBound = aabb3d.mUpperBound;
+	this->IsWorldAABBDirty = true;
+}
+
+doom::physics::AABB3D doom::Renderer::GetWorldAABB3D()
+{
+	if (this->IsWorldAABBDirty.GetIsDirty(true))
+	{
+		this->UpdateWorldAABB3D();
+	}
+	return this->mWorldAABB3D;
 }
 
 doom::Renderer::Renderer() : ServerComponent(), ComponentStaticIterater(), mTargetMaterial{}
@@ -32,7 +42,7 @@ void doom::Renderer::SetMaterial(graphics::Material& material) noexcept
 	this->SetMaterial(&material);
 }
 
-void doom::Renderer::UpadteWorldAABB3D()
+void doom::Renderer::UpdateWorldAABB3D()
 {
 	this->mWorldAABB3D.mLowerBound = this->GetTransform()->GetModelMatrix() * this->mLocalAABB3D.mLowerBound;
 	this->mWorldAABB3D.mUpperBound = this->GetTransform()->GetModelMatrix() * this->mLocalAABB3D.mUpperBound;

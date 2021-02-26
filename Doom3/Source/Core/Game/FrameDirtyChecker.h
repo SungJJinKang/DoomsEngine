@@ -1,6 +1,6 @@
 #pragma once
 #include <vector>
-
+#include <EasyDirtyChecker/DirtySender.h>
 namespace doom
 {
 	/// <summary>
@@ -25,15 +25,19 @@ namespace doom
 
 		bool bmIsDirtyAtThisFrame{ true };
 
+		DirtySender mDirtySender{};
+
 	protected:
+		
 		
 		
 		/// <summary>
 		/// Use can't set dirty false
 		/// </summary>
-		constexpr void SetDirtyTrueAtThisFrame() noexcept
+		void SetDirtyTrueAtThisFrame() noexcept
 		{
 			this->bmIsDirtyAtThisFrame = true;
+			this->mDirtySender.NotifyDirty();
 		}
 
 		/// <summary>
@@ -57,6 +61,12 @@ namespace doom
 		{
 			return this->bmIsDirtyAtPreviousFrame;
 		}
+
+		DirtySender* GetDirtySender()
+		{
+			return &(this->mDirtySender);
+		}
+
 
 	};
 

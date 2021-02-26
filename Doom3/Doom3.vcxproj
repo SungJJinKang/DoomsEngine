@@ -253,6 +253,7 @@
     <ClCompile Include="Source\GameLogic\Test.cpp" />
     <ClCompile Include="Source\Helper\EasyDirtyChecker\DirtyReceiver.cpp" />
     <ClCompile Include="Source\Helper\EasyDirtyChecker\DirtySender.cpp" />
+    <ClCompile Include="Source\Helper\EasyDirtyChecker\LocalDirty.cpp" />
     <ClCompile Include="Source\Helper\SimpleIniParser.cpp" />
     <ClCompile Include="Source\Helper\TextImporter.cpp" />
     <ClCompile Include="Source\Component\PhysicsComponent\SphereCollider3D.cpp" />
@@ -418,6 +419,7 @@
     <ClInclude Include="Source\Helper\EasyCallback_cpp\EasyCallback_Container.h" />
     <ClInclude Include="Source\Helper\EasyDirtyChecker\DirtyReceiver.h" />
     <ClInclude Include="Source\Helper\EasyDirtyChecker\DirtySender.h" />
+    <ClInclude Include="Source\Helper\EasyDirtyChecker\LocalDirty.h" />
     <ClInclude Include="Source\Helper\ForLoop_Compile_Time\ForLoop_Compile.h" />
     <ClInclude Include="Source\Core\Graphics\OverlapBindChecker.h" />
     <ClInclude Include="Source\Helper\std_future_wrapper\CustomFutureWrapper.h" />

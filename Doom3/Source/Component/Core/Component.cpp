@@ -47,6 +47,12 @@ void doom::Component::OnDeActivated_Internal()
 {
 }
 
+void Component::ConnectDirtyReceiverWithTransformDirtySender(DirtyReceiver* receiver)
+{
+	DirtySender* sender = this->GetTransform()->GetDirtySender();
+	receiver->SetDirtySender(sender);
+}
+
 unsigned int Component::GetOwnerEntityLayerIndex() const
 {
 	return this->GetOwnerEntity()->GetLayerIndex();
