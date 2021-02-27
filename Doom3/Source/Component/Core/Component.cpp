@@ -16,6 +16,20 @@ Component::Component() : bIsAddedToEntity{}, mOwnerEntity{}, mTransform{}, mIsAc
 
 
 
+void Component::CreateTransformDirtyReceiver()
+{
+	this->mTransformDirtyReceiver = std::make_unique<DirtyReceiver>();
+
+	DirtySender* sender = this->GetTransform()->GetDirtySender();
+	this->mTransformDirtyReceiver->SetDirtySender(sender);
+}
+
+void Component::AddLocalDirtyToTransformDirtyReceiver(LocalDirty& localDirty)
+{
+	D_ASSERT(this->mTransformDirtyReceiver);
+	this->mTransformDirtyReceiver->AddLocalIsDirtyVariable(&localDirty);
+}
+
 void doom::Component::InitComponent_Internal(Entity* entity)
 {
 	D_ASSERT(bIsAddedToEntity == false);
@@ -28,6 +42,11 @@ void doom::Component::UpdateComponent_Internal()
 {
 }
 
+
+void Component::FixedUpdateComponent_Internal()
+{
+
+}
 
 void doom::Component::OnEndOfFrame_Component_Internal()
 {
@@ -45,12 +64,6 @@ void doom::Component::OnActivated_Internal()
 
 void doom::Component::OnDeActivated_Internal()
 {
-}
-
-void Component::ConnectDirtyReceiverWithTransformDirtySender(DirtyReceiver* receiver)
-{
-	DirtySender* sender = this->GetTransform()->GetDirtySender();
-	receiver->SetDirtySender(sender);
 }
 
 unsigned int Component::GetOwnerEntityLayerIndex() const

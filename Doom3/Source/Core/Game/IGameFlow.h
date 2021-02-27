@@ -30,7 +30,7 @@ namespace doom
 		virtual void Update() = 0;
 
 		void FixedUpdate_Internal();
-		virtual void FixedUpdated() {}
+		virtual void FixedUpdate() {}
 
 		/// <summary>
 		/// Don't put virtual

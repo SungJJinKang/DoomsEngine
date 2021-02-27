@@ -46,7 +46,6 @@ namespace doom
 		}
 
 		void SetMesh(graphics::Mesh* mesh);
-		void SetMesh(graphics::Mesh& mesh);
 		
 		
 

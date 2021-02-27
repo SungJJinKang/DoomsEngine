@@ -1,21 +1,45 @@
 #include "MainTimer.h"
 
-#include "TickCount.h"
+#include <OS.h>
 
 void doom::time::MainTimer::InitTimer()
 {
-	doom::time::MainTimer::mLastTickCount = TickCount::GetTickCount();
+	unsigned long long currentTickCount = OS::GetSingleton()->_GetTickCount();
+	doom::time::MainTimer::mFrameTime.mLastTickCount = currentTickCount;
+	doom::time::MainTimer::mFixedTime.mLastTickCount = currentTickCount;
 }
 
-void doom::time::MainTimer::UpdateTimer()
+void doom::time::MainTimer::UpdateFrameTimer()
 {
-	unsigned long long currentTime = TickCount::GetTickCount();
-	doom::time::MainTimer::mCurrentTickCount = currentTime;
+	unsigned long long currentTime = OS::GetSingleton()->_GetTickCount();
+	doom::time::MainTimer::mFrameTime.mCurrentTickCount = currentTime;
 
-	doom::time::MainTimer::mDeltaTime = (currentTime - doom::time::MainTimer::mLastTickCount) * 0.001f;
-	doom::time::MainTimer::mLastTickCount = currentTime;
+	doom::time::MainTimer::mFrameTime.mDeltaTime = (currentTime - doom::time::MainTimer::mFrameTime.mLastTickCount) * 0.001f;
+	doom::time::MainTimer::mFrameTime.mLastTickCount = currentTime;
 
 	//D_DEBUG_LOG({ "Current Frame : ", std::to_string(1.0 / doom::time::Time_Server::mDeltaTime) });
-	//D_DEBUG_LOG({ "Delta Frame : ", std::to_string(mDeltaTime) });
+	//D_DEBUG_LOG({ "Delta Frame : ", std::to_string(doom::time::MainTimer::mFrameTime.mDeltaTime) });
 	++mFrameCounter;
+}
+
+void doom::time::MainTimer::ResetFixedTimer()
+{
+	doom::time::MainTimer::mFixedTime.mLastTickCount = OS::GetSingleton()->_GetTickCount();
+}
+
+void doom::time::MainTimer::UpdateFixedTimer()
+{
+	unsigned long long currentTime = OS::GetSingleton()->_GetTickCount();
+	doom::time::MainTimer::mFixedTime.mCurrentTickCount = currentTime;
+
+	doom::time::MainTimer::mFixedTime.mDeltaTime = (currentTime - doom::time::MainTimer::mFixedTime.mLastTickCount) * 0.001f;
+	doom::time::MainTimer::mFixedTime.mLastTickCount = currentTime;
+
+	//D_DEBUG_LOG({ "Current Frame : ", std::to_string(1.0 / doom::time::Time_Server::mDeltaTime) });
+	//D_DEBUG_LOG({ "Fixed Delta Frame : ", std::to_string(doom::time::MainTimer::mFixedTime.mDeltaTime) });
+}
+
+void doom::time::MainTimer::AdvanceAFrame()
+{
+
 }

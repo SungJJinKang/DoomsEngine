@@ -7,17 +7,17 @@
 
 using namespace doom;
 
-doom::ComponentStaticIterater<Renderer>::ComponentStaticIterater() : mRenderer_ptr{ nullptr }
+doom::StaticContainer<Renderer>::StaticContainer() : mRenderer_ptr{ nullptr }
 {
 	//this->AddRendererToStaticContainer(); at contructor, entity is not set
 }
 
-doom::ComponentStaticIterater<Renderer>::~ComponentStaticIterater()
+doom::StaticContainer<Renderer>::~StaticContainer()
 {
 	this->RemoveRendererToStaticContainer();
 }
 
-void doom::ComponentStaticIterater<Renderer>::AddRendererToStaticContainer()
+void doom::StaticContainer<Renderer>::AddRendererToStaticContainer()
 {
 	if (mRenderer_ptr == nullptr)
 	{
@@ -31,7 +31,7 @@ void doom::ComponentStaticIterater<Renderer>::AddRendererToStaticContainer()
 }
 
 
-void doom::ComponentStaticIterater<Renderer>::RemoveRendererToStaticContainer()
+void doom::StaticContainer<Renderer>::RemoveRendererToStaticContainer()
 {
 	unsigned int currentEntityLayerIndex = mRenderer_ptr->GetOwnerEntityLayerIndex();
 
@@ -43,14 +43,14 @@ void doom::ComponentStaticIterater<Renderer>::RemoveRendererToStaticContainer()
 }
 
 
-std::pair<Renderer**, size_t> doom::ComponentStaticIterater<Renderer>::GetAllComponentsWithLayerIndex(unsigned int layerIndex)
+std::pair<Renderer**, size_t> doom::StaticContainer<Renderer>::GetAllComponentsWithLayerIndex(unsigned int layerIndex)
 {
 	D_ASSERT(layerIndex >= 0 && layerIndex < MAX_LAYER_COUNT);
 	return std::make_pair(this_type::mComponentsInLayer[layerIndex].data(), this_type::mComponentsInLayer[layerIndex].size());
 }
 
 // TODO : Add this to Entity's EntityLayerChanged Callback
-void doom::ComponentStaticIterater<Renderer>::OnEntityLayerChanged(Entity& entity)
+void doom::StaticContainer<Renderer>::OnEntityLayerChanged(Entity& entity)
 {
 	this->RemoveRendererToStaticContainer();
 	this->AddRendererToStaticContainer();

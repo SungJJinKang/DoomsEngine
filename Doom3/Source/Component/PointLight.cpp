@@ -28,8 +28,8 @@ void doom::PointLight::UpdateUniformBufferObjectTempBuffer(graphics::UniformBuff
 		math::Vector3 pos = transform->GetPosition();
 		math::Vector4 radiance = this->GetRadiance();
 
-		unsigned int staticIndex = this->GetComponentStaticIndex();
-		unsigned int staticCount = this->GetComponentStaticCount();
+		unsigned int staticIndex = this->GetStaticElementIndex();
+		unsigned int staticCount = this->GetStaticElementCount();
 		if (staticIndex < MAX_POINT_LIGHT_COUNT)
 		{
 			uboManager.StoreDataAtTempBufferOfBindingPoint(GLOBAL_UNIFORM_BLOCK_BINDING_POINT, (void*)pos.data(), sizeof(pos), graphics::eUniformBlock_Global::pointLight0_Pos + 32 * staticIndex);

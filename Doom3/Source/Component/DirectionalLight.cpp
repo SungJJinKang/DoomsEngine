@@ -27,8 +27,8 @@ void doom::DirectionalLight::UpdateUniformBufferObjectTempBuffer(graphics::Unifo
 		math::Vector3 dir = transform->forward();
 		math::Vector4 radiance = this->GetRadiance();
 
-		unsigned int staticIndex = this->GetComponentStaticIndex();
-		unsigned int staticCount = this->GetComponentStaticCount();
+		unsigned int staticIndex = this->GetStaticElementIndex();
+		unsigned int staticCount = this->GetStaticElementCount();
 		if (staticIndex < MAX_DIRECTIONAL_LIGHT_COUNT)
 		{
 			uboManager.StoreDataAtTempBufferOfBindingPoint(GLOBAL_UNIFORM_BLOCK_BINDING_POINT, (void*)dir.data(), sizeof(dir), graphics::eUniformBlock_Global::dirLight0_Dir + 32 * staticIndex);

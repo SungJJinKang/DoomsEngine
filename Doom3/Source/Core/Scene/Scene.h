@@ -53,6 +53,7 @@ namespace doom
 		void SetMainCamera(Camera* camera);
 
 	protected:
+		void FixedUpdatePlainComponents();
 		void UpdatePlainComponents();
 		void OnEndOfFrameOfEntities();
 

@@ -7,9 +7,20 @@ void doom::CapsuleCollider3D::UpdateCorePhysicsVariable()
 	this->mCapsuleCollider.mHeight = this->mHeight;
 }
 
-void doom::CapsuleCollider3D::_UpdatePhysics()
+void doom::CapsuleCollider3D::SolveCollision()
 {
 
+}
+
+void doom::CapsuleCollider3D::AutoColliderSetting()
+{
+	physics::AABB3D aabb3d{};
+	bool isHaveMeshAABB3D = this->GetMeshAABB3D(aabb3d);
+	if (isHaveMeshAABB3D == true)
+	{
+		this->mHeight = (aabb3d.mUpperBound.y - aabb3d.mLowerBound.y);
+		this->mRadius = aabb3d.GetDiagonarLineLength();
+	}
 }
 
 
@@ -34,3 +45,4 @@ float doom::CapsuleCollider3D::GetRadius()
 {
 	return this->mRadius;
 }
+

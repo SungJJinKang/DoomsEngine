@@ -7,8 +7,8 @@
 #include "../Core/Core.h"
 #include "trim.h"
 
-static const std::regex sectionPattern{R"(\s*\[\s*(\w+)\s*\]\s*)"};
-static const std::regex variablePattern{ R"(\s*(\w+)\s*=\s*(\w+)\s*)" };
+static const std::regex sectionPattern{R"(\s*\[\s*(\S+)\s*\]\s*)"};
+static const std::regex variablePattern{ R"(\s*(\S+)\s*=\s*(\S+)\s*)" };
 
 
 
@@ -79,18 +79,23 @@ IniData SimpleIniParser::ParseIniFile(std::string fileDirectory)
 				IniData::ini_data_type value;
 
 				std::string valueStr = matches[2].str();
+				valueStr = std::trim(valueStr, ' ');
+				valueStr = std::trim(valueStr, ';');
 
-				if (valueStr == "0")
+				if (valueStr.size() == 1 && valueStr == "0")
 				{
 					value = 0;
 				}
-				else if (int i = std::atoi(valueStr.c_str()))
+				else if (double d = std::stod(valueStr))
 				{
-					value = i;
-				}
-				else if (double d = std::atof(valueStr.c_str()))
-				{
-					value = d;
+					if (valueStr.find('.') != std::string::npos)
+					{
+						value = d;
+					}
+					else
+					{
+						value = static_cast<int>(d);
+					}
 				}
 				else
 				{

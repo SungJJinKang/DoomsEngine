@@ -6,13 +6,13 @@
 
 #include <array>
 #include "../Core/Graphics/Buffer/UniformBufferObjectTempBufferUpdater.h"
-#include "Iterator/ComponentStaticIterater.h"
+#include <StaticContainer/StaticContainer.h>
 
 #include <EasyDirtyChecker/DirtyReceiver.h>
 
 namespace doom
 {
-	class Camera : public PlainComponent, public graphics::UniformBufferObjectTempBufferUpdater, public ComponentStaticIterater<Camera>
+	class Camera : public PlainComponent, public graphics::UniformBufferObjectTempBufferUpdater, public StaticContainer<Camera>
 	{
 		friend class Scene;
 	public:
@@ -28,8 +28,6 @@ namespace doom
 		Camera(Camera&&) noexcept = delete;
 		Camera& operator=(const Camera&) = delete;
 		Camera& operator=(Camera&&) noexcept = delete;
-
-		DirtyReceiver mDirtyReceiver{};
 
 		eProjectionType mProjectionMode{ eProjectionType::Perspective };
 

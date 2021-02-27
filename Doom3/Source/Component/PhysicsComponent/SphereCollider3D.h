@@ -1,24 +1,32 @@
 #pragma once
-#include "Collider3D.h"
+#include "Collider3DComponent.h"
 #include <Vector3.h>
-#include <Sphere.h>
+#include <Collider/Sphere.h>
 namespace doom
 {
-	class SphereCollider3D : public Collider3D
+	class SphereCollider3D : public Collider3DComponent
 	{
+		friend class physics::Physics_Server;
 	private:
 		physics::Sphere mSpere;
 
 		float mRadius;
 
 		void UpdateCorePhysicsVariable() override;
-		virtual void _UpdatePhysics() final;
+		virtual void SolveCollision() final;
+
+	protected:
+		void AutoColliderSetting() override;
 
 	public:
 	
 
 		void SetRadius(float radius);
 		float GetRadius();
+
+
+
+
 
 	};
 }

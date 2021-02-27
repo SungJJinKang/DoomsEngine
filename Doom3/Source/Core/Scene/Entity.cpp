@@ -32,6 +32,17 @@ void doom::Entity::OnEndOfFramePlainComponentsAndEntity()
 	this->FrameDirtyChecker_EndOfFrame();
 }
 
+
+void Entity::FixedUpdate_PlainComponent()
+{
+	for (auto& plainComponent : this->mPlainComponents)
+	{
+		plainComponent->FixedUpdateComponent_Internal();
+		plainComponent->FixedUpdateComponent();
+	}
+}
+
+
 void doom::Entity::Update_PlainComponent()
 {
 	for (auto& plainComponent : this->mPlainComponents)

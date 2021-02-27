@@ -1,11 +1,12 @@
 #pragma once
-#include "Collider2D.h"
+#include "Collider2DComponent.h"
 #include <Vector2.h>
-#include <AABB.h>
+#include <Collider/AABB.h>
 namespace doom
 {
-	class BoxCollider2D : public Collider2D
+	class BoxCollider2D : public Collider2DComponent
 	{
+		friend class physics::Physics_Server;
 	private:
 
 		physics::AABB2D mAABB2D;
@@ -16,12 +17,12 @@ namespace doom
 		math::Vector2 mHalfExtent;
 
 		void UpdateCorePhysicsVariable() override;
-		virtual void _UpdatePhysics() final;
+		virtual void SolveCollision() final;
+		void UpdateHalfExtent();
+		void AutoColliderSetting() override;
 
 	public:
-	
-			
-		void SetHalfExtent(const math::Vector2& halfExtent);
+		void SetAABB2D(const physics::AABB2D& aabb2D);
 		math::Vector2 GetHalfExtent();
 
 	};

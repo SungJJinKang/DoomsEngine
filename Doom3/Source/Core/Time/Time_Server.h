@@ -19,6 +19,7 @@ namespace doom
 
 		private:
 
+			
 		
 			void Init() noexcept override;
 			void Update() noexcept override;

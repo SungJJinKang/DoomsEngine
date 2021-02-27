@@ -1,45 +1,60 @@
 #pragma once
 
 #include "../Core.h"
+#include "Singleton.h"
+
 namespace doom
 {
 	namespace time
 	{
-		class MainTimer
+		class MainTimer : public ISingleton<MainTimer>
 		{
 			friend class Time_Server;
+
+			struct TimeStep
+			{
+				unsigned long long mLastTickCount{};
+				unsigned long long mCurrentTickCount{};
+				float mDeltaTime{};
+			};
 		private:
 
-			static inline unsigned long long mLastTickCount{};
+			static inline TimeStep mFrameTime{};
+			static inline TimeStep mFixedTime{};
 
-			/// <summary>
-			/// https://en.cppreference.com/w/cpp/chrono/time_point/time_since_epoch
-			/// </summary>
-			static inline unsigned long long mCurrentTickCount{};
-			static inline float mDeltaTime{};
-			static inline unsigned long long mFixedDeltaTime{};
 
 			static inline unsigned int mFrameCounter{ 0 };
 
 			static void InitTimer();
-			static void UpdateTimer();
+			
 
 		public:
 
 			/// <summary>
+			/// This value will be updated at every frame
+			/// If you want to check whether frame pass without OnEndFrame, use this tickcount and compare last one
 			/// https://en.cppreference.com/w/cpp/chrono/time_point/time_since_epoch
 			/// </summary>
-			[[nodiscard]] static unsigned long long GetCurrentTime() noexcept
+			[[nodiscard]] static unsigned long long GetCurrentFrameTime() noexcept
 			{
-				return MainTimer::mCurrentTickCount;
+				return MainTimer::mFrameTime.mCurrentTickCount;
 			}
+			
+			/// <summary>
+			/// Frame Dependent Delta time
+			///  Don't use at FixedUpdate, Use at Update
+			/// </summary>
 			[[nodiscard]] static float GetDeltaTime() noexcept
 			{
-				return MainTimer::mDeltaTime ;
+				return MainTimer::mFrameTime.mDeltaTime ;
 			}
+
+			/// <summary>
+			/// Don't use at Update, Use at FixedUpdate
+			/// </summary>
 			[[nodiscard]] static float GetFixedDeltaTime() noexcept
 			{
-				return MainTimer::mDeltaTime;
+				return MainTimer::mFixedTime.mDeltaTime;
 			}
 
 
@@ -49,6 +64,11 @@ namespace doom
 				D_ASSERT(step != 0);
 				return mFrameCounter % step == 0;
 			}
+
+			static void UpdateFrameTimer();
+			static void ResetFixedTimer();
+			static void UpdateFixedTimer();
+			static void AdvanceAFrame();
 		};
 	}
 }

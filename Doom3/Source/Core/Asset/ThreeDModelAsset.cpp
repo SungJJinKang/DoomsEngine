@@ -90,10 +90,10 @@ const std::vector<doom::graphics::Mesh>& doom::ThreeDModelAsset::GetMeshes() con
 	return this->mMeshes;
 }
 
-doom::graphics::Mesh& doom::ThreeDModelAsset::GetMesh(unsigned int index) 
+doom::graphics::Mesh* doom::ThreeDModelAsset::GetMesh(unsigned int index) 
 {
 	D_ASSERT(index >= 0 && index < GetMeshCount());
-	return this->mMeshes[index];
+	return &(this->mMeshes[index]);
 }
 
 size_t doom::ThreeDModelAsset::GetMeshCount() const

@@ -3,6 +3,7 @@
 #include "../../Helper/Singleton.h"
 #include "../Game/IGameFlow.h"
 #include "Buffer/UniformBufferObjectManager.h"
+#include "ePrimitiveType.h"
 
 
 
@@ -479,6 +480,38 @@ namespace doom
 				return value;
 			}
 
+			static inline unsigned int DrawCallCounter{ 0 };
+			static void DrawArray(ePrimitiveType mode, int first, int count)
+			{
+				glDrawArrays(static_cast<unsigned int>(mode), first, count);
+#ifdef DEBUG_MODE
+				++DrawCallCounter;
+#endif
+			}
+
+			static void DrawElement(ePrimitiveType mode, int count, unsigned int type, const void* indices)
+			{
+				glDrawElements(static_cast<unsigned int>(mode), count, type, indices);
+#ifdef DEBUG_MODE
+				++DrawCallCounter;
+#endif
+			}
+
+			static void DrawArraysInstanced(ePrimitiveType mode, int first, unsigned int count, int instancecount)
+			{
+				glDrawArraysInstanced(static_cast<unsigned int>(mode), first, count, instancecount);
+#ifdef DEBUG_MODE
+				++DrawCallCounter;
+#endif
+			}
+
+			static void DrawElementsInstanced(ePrimitiveType mode, int count, unsigned int type, const void* indices, int instancecount)
+			{
+				glDrawElementsInstanced(static_cast<unsigned int>(mode), count, type, indices, instancecount);
+#ifdef DEBUG_MODE
+				++DrawCallCounter;
+#endif
+			}
 
 		};
 	}

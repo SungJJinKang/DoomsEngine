@@ -25,9 +25,9 @@ in vec2 UV0;
 
 #include ../common/uniforms.txt
 
-layout(location = 0) uniform sampler2D gPosition;
-layout(location = 1) uniform sampler2D gNormal;
-layout(location = 2) uniform sampler2D gAlbedoSpec;
+layout(binding = 0) uniform sampler2D gPosition;
+layout(binding = 1) uniform sampler2D gNormal;
+layout(binding = 2) uniform sampler2D gAlbedoSpec;
 
 void main()
 {             

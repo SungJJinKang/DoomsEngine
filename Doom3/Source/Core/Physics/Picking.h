@@ -9,7 +9,7 @@
 namespace doom
 {
 	class GameCore;
-	class Collider;
+	class ColliderComponent;
 	namespace physics
 	{
 		class Picking : public ISingleton<Picking>
@@ -22,7 +22,7 @@ namespace doom
 		public:
 
 			// TODO : BVH
-			static ::doom::Collider* TryPicking(const math::Vector2 mousePoint);
+			static ::doom::ColliderComponent* TryPicking(const math::Vector2 mousePoint);
 		};
 	}
 }

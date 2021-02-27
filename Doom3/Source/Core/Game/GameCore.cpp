@@ -7,6 +7,7 @@
 #include "AssetManager.h"
 
 #include "../../GameLogic/TEST.h"
+#include "ConfigData.h"
 
 
 
@@ -16,10 +17,7 @@ doom::GameCore::GameCore()
 	this->mCurrentScene = this->CreateNewScene();
 }
 
-const IniData& doom::GameCore::GetConfigData() const
-{
-	return this->mConfigData;
-}
+
 
 
 std::unique_ptr<doom::Scene> doom::GameCore::CreateNewScene(std::string sceneName /*= ""*/)
@@ -29,17 +27,23 @@ std::unique_ptr<doom::Scene> doom::GameCore::CreateNewScene(std::string sceneNam
 
 void doom::GameCore::InitGameSetting()
 {
-	this->mFixedTimeStep = this->mConfigData.GetValue<double>("SYSTEM", "FIXED_TIME_STEP");
+	this->ITERATION_PER_SECOND = this->mMainConfigData.GetConfigData().GetValue<int>("SYSTEM", "ITERATION_PER_SECOND");
+	this->TARGET_FRAME_RATE = this->mMainConfigData.GetConfigData().GetValue<int>("SYSTEM", "TARGET_FRAME_RATE");
+	this->FRAME_DELAY_MILLISECOND = this->mMainConfigData.GetConfigData().GetValue<int>("SYSTEM", "FRAME_DELAY_MILLISECOND");
+
+	this->mPhysics_Server.FIXED_TIME_STEP = static_cast<float>(this->mMainConfigData.GetConfigData().GetValue<double>("PHYSICS", "FIXED_TIME_STEP"));
+	this->mPhysics_Server.MAX_PHYSICS_STEP = this->mMainConfigData.GetConfigData().GetValue<int>("PHYSICS", "MAX_PHYSICS_STEP");
 }
 
 void doom::GameCore::Init()
 {
+	this->InitGameSetting();
+
+
 	this->mTime_Server.Init();
 	this->mThreadManager.Init();
 
-	D_START_PROFILING("Loading Config File", eProfileLayers::CPU);
-	this->mConfigData = { SimpleIniParser::ParseIniFile(ASSET_FOLDER_DIRECTORY + "config.ini") };
-	D_END_PROFILING("Loading Config File");
+	
 
 
 
@@ -92,5 +96,3 @@ void doom::GameCore::CleanUp()
 {
 
 }
-
-\

@@ -121,6 +121,14 @@ void FrameBuffer::AttachTextureBuffer(GraphicsAPI::eBufferType frameBufferType, 
 		this->mDrawTarget |= GL_COLOR_ATTACHMENT0 + this->mAttachedColorTextures.size();
 
 		this->mAttachedColorTextures.emplace_back(std::move(colorTexture));
+
+		std::vector<unsigned int> drawBufferTarget{};
+		for (unsigned int i = 0; i < this->mAttachedColorTextures.size(); i++)
+		{
+			drawBufferTarget.emplace_back(GL_COLOR_ATTACHMENT0 + i);
+		}
+		glDrawBuffers(this->mAttachedColorTextures.size(), drawBufferTarget.data());
+		
 		break;
 	}
 	case GraphicsAPI::eBufferType::DEPTH:

@@ -52,6 +52,9 @@
 */
 
 #define DISABLE_PROFILING
+#ifdef RELEASE_MODE
+#define DISABLE_PROFILING
+#endif
 
 #if defined(DEBUG_MODE) && !defined(DISABLE_PROFILING)
 #include "../Profiler/Profiler.h"

@@ -3,7 +3,8 @@
 #include <array>
 #include <utility>
 
-#include "ComponentStaticIterater.h"
+#include <StaticContainer/StaticContainer.h>
+#include <Entity.h>
 #include "../Core/Scene/Layer.h"
 
 
@@ -20,11 +21,11 @@ namespace doom
 
 	
 	template <>
-	class ComponentStaticIterater<Renderer>
+	class StaticContainer<Renderer>
 	{
 		friend class graphics::SceneGraphics;
 
-		using this_type = typename ComponentStaticIterater<Renderer>;
+		using this_type = typename StaticContainer<Renderer>;
 
 	private:
 
@@ -40,8 +41,8 @@ namespace doom
 		/// <summary>
 		/// Component constructor should be called before StaticIterator constructor
 		/// </summary>
-		ComponentStaticIterater();
-		virtual ~ComponentStaticIterater();
+		StaticContainer();
+		virtual ~StaticContainer();
 
 		virtual void OnEntityLayerChanged(Entity& entity);
 
@@ -51,6 +52,6 @@ namespace doom
 
 	};
 
-	using RendererComponentStaticIterator = ComponentStaticIterater<Renderer>;
+	using RendererComponentStaticIterator = StaticContainer<Renderer>;
 }
 

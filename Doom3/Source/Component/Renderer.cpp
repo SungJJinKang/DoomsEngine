@@ -19,7 +19,17 @@ doom::physics::AABB3D doom::Renderer::GetWorldAABB3D()
 	return this->mWorldAABB3D;
 }
 
-doom::Renderer::Renderer() : ServerComponent(), ComponentStaticIterater(), mTargetMaterial{}
+const doom::physics::AABB3D& doom::Renderer::GetLocalAABB3D() const
+{
+	return this->mLocalAABB3D;
+}
+
+doom::physics::AABB3D doom::Renderer::GetLocalAABB3D()
+{
+	return this->mLocalAABB3D;
+}
+
+doom::Renderer::Renderer() : ServerComponent(), StaticContainer(), mTargetMaterial{}
 {
 
 }

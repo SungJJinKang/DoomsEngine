@@ -1,11 +1,12 @@
 #pragma once
-#include "Collider3D.h"
+#include "Collider3DComponent.h"
 #include <Vector3.h>
-#include <CapsuleCollider.h>
+#include <Collider/CapsuleCollider.h>
 namespace doom
 {
-	class CapsuleCollider3D : public Collider3D
+	class CapsuleCollider3D : public Collider3DComponent
 	{
+		friend class physics::Physics_Server;
 	private:
 
 		physics::CapsuleCollider mCapsuleCollider;
@@ -14,7 +15,10 @@ namespace doom
 		float mRadius;
 
 		void UpdateCorePhysicsVariable() override;
-		virtual void _UpdatePhysics() final;
+		virtual void SolveCollision() final;
+
+	protected:
+		void AutoColliderSetting() override;
 
 	public:
 		
@@ -23,5 +27,7 @@ namespace doom
 		float GetHeight();
 		void SetRadius(float radius);
 		float GetRadius();
+
+
 	};
 }

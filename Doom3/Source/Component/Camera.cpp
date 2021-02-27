@@ -183,11 +183,11 @@ const std::array<math::Vector4, 6>& doom::Camera::CalculateFrustumPlane()
 
 void Camera::InitComponent()
 {
-	this->ConnectDirtyReceiverWithTransformDirtySender(&(this->mDirtyReceiver));
-	this->mDirtyReceiver.AddLocalIsDirtyVariable(&(this->bmIsViewMatrixDirty));
-	this->mDirtyReceiver.AddLocalIsDirtyVariable(&(this->bmIsProjectionMatrixDirty));
-	this->mDirtyReceiver.AddLocalIsDirtyVariable(&(this->bmIsViewProjectionMatrixDirty));
-	this->mDirtyReceiver.AddLocalIsDirtyVariable(&(this->bmIsUboDirty));
+	this->CreateTransformDirtyReceiver();
+	this->AddLocalDirtyToTransformDirtyReceiver(this->bmIsViewMatrixDirty);
+	this->AddLocalDirtyToTransformDirtyReceiver(this->bmIsProjectionMatrixDirty);
+	this->AddLocalDirtyToTransformDirtyReceiver(this->bmIsViewProjectionMatrixDirty);
+	this->AddLocalDirtyToTransformDirtyReceiver(this->bmIsUboDirty);
 
 	this->UpdateMainCamera();
 	
@@ -232,7 +232,7 @@ void Camera::OnDestroy()
 	if (currentMainCamera == this)
 	{
 		currentWorld->SetMainCamera(nullptr);
-		auto foremostComponent = ComponentStaticIterater<Camera>::GetForemostComponentWithHint(this);
+		auto foremostComponent = StaticContainer<Camera>::GetForemostComponentWithHint(this);
 		if (foremostComponent != nullptr)
 		{
 			currentWorld->SetMainCamera(foremostComponent);

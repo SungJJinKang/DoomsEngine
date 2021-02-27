@@ -128,7 +128,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)Source\Helper;$(SolutionDir)dependency;$(SolutionDir)dependency\glad\include;$(SolutionDir)dependency\assimp\include;$(SolutionDir)dependency\assimp\build\include;$(SolutionDir)Source\Component;$(SolutionDir)Source\Core\Scene;$(SolutionDir)Source\Component\Core;$(SolutionDir)Source\Helper/crossguid;$(SolutionDir)Source\GameLogic\CustomComponent;$(SolutionDir)Source\Core\Math\LightMath_Cpp;$(SolutionDir)Source\Core\IO;$(SolutionDir)Source\Core\Time;$(SolutionDir)Source\GameLogic;$(SolutionDir)Source\Core;$(SolutionDir)Source\Core\Logger;$(SolutionDir)Source\Core\Physics</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Source\Helper;$(SolutionDir)dependency;$(SolutionDir)dependency\glad\include;$(SolutionDir)dependency\assimp\include;$(SolutionDir)dependency\assimp\build\include;$(SolutionDir)Source\Component;$(SolutionDir)Source\Core\Scene;$(SolutionDir)Source\Component\Core;$(SolutionDir)Source\Helper/crossguid;$(SolutionDir)Source\GameLogic\CustomComponent;$(SolutionDir)Source\Core\Math\LightMath_Cpp;$(SolutionDir)Source\Core\IO;$(SolutionDir)Source\Core\Time;$(SolutionDir)Source\GameLogic;$(SolutionDir)Source\Core;$(SolutionDir)Source\Core\Logger;$(SolutionDir)Source\Core\Physics;$(SolutionDir)Source\Core\OS</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
@@ -164,7 +164,11 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Source\Component\PhysicsComponent\BoxCollider2D.cpp" />
-    <ClCompile Include="Source\Core\Physics\CapsuleCollider.cpp" />
+    <ClCompile Include="Source\Component\PhysicsComponent\MeshCollider.cpp" />
+    <ClCompile Include="Source\Core\OS\OS_Server.cpp" />
+    <ClCompile Include="Source\Core\OS\Window.cpp" />
+    <ClCompile Include="Source\Core\Physics\ColliderTestRoom.cpp" />
+    <ClCompile Include="Source\Core\Physics\Collider\CapsuleCollider.cpp" />
     <ClCompile Include="Source\Component\PhysicsComponent\CapsuleCollider3D.cpp" />
     <ClCompile Include="dependency\glad\src\glad.c" />
     <ClCompile Include="dependency\imgui\imgui.cpp" />
@@ -180,11 +184,11 @@
     <ClCompile Include="Source\Component\Light.cpp" />
     <ClCompile Include="Source\Component\MeshRenderer.cpp" />
     <ClCompile Include="Source\Component\PhysicsComponent\BoxCollider3D.cpp" />
-    <ClCompile Include="Source\Core\Physics\Circle2D.cpp" />
+    <ClCompile Include="Source\Core\Physics\Collider\Circle2D.cpp" />
     <ClCompile Include="Source\Component\PhysicsComponent\CircleCollider2D.cpp" />
-    <ClCompile Include="Source\Component\PhysicsComponent\Collider.cpp" />
-    <ClCompile Include="Source\Component\PhysicsComponent\Collider2D.cpp" />
-    <ClCompile Include="Source\Component\PhysicsComponent\Collider3D.cpp" />
+    <ClCompile Include="Source\Component\PhysicsComponent\ColliderComponent.cpp" />
+    <ClCompile Include="Source\Component\PhysicsComponent\Collider2DComponent.cpp" />
+    <ClCompile Include="Source\Component\PhysicsComponent\Collider3DComponent.cpp" />
     <ClCompile Include="Source\Component\PointLight.cpp" />
     <ClCompile Include="Source\Component\Renderer.cpp" />
     <ClCompile Include="Source\Component\Transform.cpp" />
@@ -197,17 +201,18 @@
     <ClCompile Include="Source\Core\Graphics\DebugGraphics.cpp" />
     <ClCompile Include="Source\Core\Graphics\Graphics_Server.cpp" />
     <ClCompile Include="Source\Core\IO\AssetImporter\AssetImporterWorker_Texture.cpp" />
-    <ClCompile Include="Source\Core\Physics\Line.cpp" />
-    <ClCompile Include="Source\Core\Physics\PhysicsGeneric.cpp" />
+    <ClCompile Include="Source\Core\Physics\Collider\ColliderSolution.cpp" />
+    <ClCompile Include="Source\Core\Physics\Collider\Line.cpp" />
+    <ClCompile Include="Source\Core\Physics\Collider\PhysicsGeneric.cpp" />
     <ClCompile Include="Source\Core\Physics\Picking.cpp" />
-    <ClCompile Include="Source\Core\Physics\AABB.cpp" />
+    <ClCompile Include="Source\Core\Physics\Collider\AABB.cpp" />
     <ClCompile Include="Source\Core\Physics\BVH.cpp" />
     <ClCompile Include="Source\Core\Physics\Physics_Server.cpp" />
     <ClCompile Include="Source\Core\Physics\PhysicsSetting.cpp" />
-    <ClCompile Include="Source\Core\Physics\Plane.cpp" />
-    <ClCompile Include="Source\Core\Physics\Ray.cpp" />
-    <ClCompile Include="Source\Core\Physics\RenderPhysics.cpp" />
-    <ClCompile Include="Source\Core\Physics\Sphere.cpp" />
+    <ClCompile Include="Source\Core\Physics\Collider\Plane.cpp" />
+    <ClCompile Include="Source\Core\Physics\Collider\Ray.cpp" />
+    <ClCompile Include="Source\Core\Physics\Collider\RenderPhysics.cpp" />
+    <ClCompile Include="Source\Core\Physics\Collider\Sphere.cpp" />
     <ClCompile Include="Source\Core\Scene\SharedScene.cpp" />
     <ClCompile Include="Source\Core\Scene\Scene.cpp" />
     <ClCompile Include="Source\Core\Scene\SharedSceneSetting.cpp" />
@@ -266,7 +271,14 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Component\PhysicsComponent\BoxCollider2D.h" />
-    <ClInclude Include="Source\Core\Physics\CapsuleCollider.h" />
+    <ClInclude Include="Source\Component\PhysicsComponent\MeshCollider.h" />
+    <ClInclude Include="Source\Core\Game\ConfigData.h" />
+    <ClInclude Include="Source\Core\Math\LightMath_Cpp\Trigonometric.h" />
+    <ClInclude Include="Source\Core\OS\OS.h" />
+    <ClInclude Include="Source\Core\OS\OS_Server.h" />
+    <ClInclude Include="Source\Core\OS\Window.h" />
+    <ClInclude Include="Source\Core\Physics\ColliderTestRoom.h" />
+    <ClInclude Include="Source\Core\Physics\Collider\CapsuleCollider.h" />
     <ClInclude Include="Source\Component\PhysicsComponent\CapsuleCollider3D.h" />
     <ClInclude Include="dependency\glad\include\glad\glad.h" />
     <ClInclude Include="dependency\glad\include\KHR\khrplatform.h" />
@@ -281,18 +293,17 @@
     <ClInclude Include="dependency\imgui\imstb_truetype.h" />
     <ClInclude Include="Source\Component\Camera.h" />
     <ClInclude Include="Source\Component\Core\Component.h" />
-    <ClInclude Include="Source\Component\Iterator\ComponentStaticIterater.h" />
     <ClInclude Include="Source\Component\Core\PlainComponent.h" />
     <ClInclude Include="Source\Component\DirectionalLight.h" />
     <ClInclude Include="Source\Component\Iterator\RendererStaticIterator.h" />
     <ClInclude Include="Source\Component\Light.h" />
     <ClInclude Include="Source\Component\MeshRenderer.h" />
     <ClInclude Include="Source\Component\PhysicsComponent\BoxCollider3D.h" />
-    <ClInclude Include="Source\Core\Physics\Circle2D.h" />
+    <ClInclude Include="Source\Core\Physics\Collider\Circle2D.h" />
     <ClInclude Include="Source\Component\PhysicsComponent\CircleCollider2D.h" />
-    <ClInclude Include="Source\Component\PhysicsComponent\Collider.h" />
-    <ClInclude Include="Source\Component\PhysicsComponent\Collider2D.h" />
-    <ClInclude Include="Source\Component\PhysicsComponent\Collider3D.h" />
+    <ClInclude Include="Source\Component\PhysicsComponent\ColliderComponent.h" />
+    <ClInclude Include="Source\Component\PhysicsComponent\Collider2DComponent.h" />
+    <ClInclude Include="Source\Component\PhysicsComponent\Collider3DComponent.h" />
     <ClInclude Include="Source\Component\PointLight.h" />
     <ClInclude Include="Source\Component\Renderer.h" />
     <ClInclude Include="Source\Component\Transform.h" />
@@ -304,18 +315,22 @@
     <ClInclude Include="Source\Core\Graphics\Color.h" />
     <ClInclude Include="Source\Core\Graphics\DebugGraphics.h" />
     <ClInclude Include="Source\Core\Graphics\Graphics_Server.h" />
-    <ClInclude Include="Source\Core\Physics\RenderPhysics.h" />
-    <ClInclude Include="Source\Core\Physics\Line.h" />
-    <ClInclude Include="Source\Core\Physics\PhysicsGeneric.h" />
+    <ClInclude Include="Source\Core\Physics\Collider\Collider.h" />
+    <ClInclude Include="Source\Core\Physics\Collider\ColliderSolution.h" />
+    <ClInclude Include="Source\Core\Physics\Collider\ColliderType.h" />
+    <ClInclude Include="Source\Core\Physics\Collider\CollisionAlgorithm.h" />
+    <ClInclude Include="Source\Core\Physics\Collider\RenderPhysics.h" />
+    <ClInclude Include="Source\Core\Physics\Collider\Line.h" />
+    <ClInclude Include="Source\Core\Physics\Collider\PhysicsGeneric.h" />
     <ClInclude Include="Source\Core\Physics\Picking.h" />
     <ClInclude Include="Source\Core\Math\LightMath_Cpp\Collision.h" />
-    <ClInclude Include="Source\Core\Physics\AABB.h" />
+    <ClInclude Include="Source\Core\Physics\Collider\AABB.h" />
     <ClInclude Include="Source\Core\Physics\BVH.h" />
     <ClInclude Include="Source\Core\Physics\Physics_Server.h" />
     <ClInclude Include="Source\Core\Physics\PhysicsSetting.h" />
-    <ClInclude Include="Source\Core\Physics\Plane.h" />
-    <ClInclude Include="Source\Core\Physics\Ray.h" />
-    <ClInclude Include="Source\Core\Physics\Sphere.h" />
+    <ClInclude Include="Source\Core\Physics\Collider\Plane.h" />
+    <ClInclude Include="Source\Core\Physics\Collider\Ray.h" />
+    <ClInclude Include="Source\Core\Physics\Collider\Sphere.h" />
     <ClInclude Include="Source\Core\ResourceManagement\Thread_Core.h" />
     <ClInclude Include="Source\Core\Scene\IWorldIndependent.h" />
     <ClInclude Include="Source\Core\Scene\Layer.h" />
@@ -405,7 +420,6 @@
     <ClInclude Include="Source\Core\ResourceManagement\MemoryPool.h" />
     <ClInclude Include="Source\Core\ResourceManagement\Thread_Server.h" />
     <ClInclude Include="Source\Core\Time\MainTimer.h" />
-    <ClInclude Include="Source\Core\Time\TickCount.h" />
     <ClInclude Include="Source\Core\Time\Time_Server.h" />
     <ClInclude Include="Source\GameLogic\CustomComponent\AutoRotate.h" />
     <ClInclude Include="Source\GameLogic\CustomComponent\AxisDebugger.h" />
@@ -422,6 +436,7 @@
     <ClInclude Include="Source\Helper\EasyDirtyChecker\LocalDirty.h" />
     <ClInclude Include="Source\Helper\ForLoop_Compile_Time\ForLoop_Compile.h" />
     <ClInclude Include="Source\Core\Graphics\OverlapBindChecker.h" />
+    <ClInclude Include="Source\Helper\StaticContainer\StaticContainer.h" />
     <ClInclude Include="Source\Helper\std_future_wrapper\CustomFutureWrapper.h" />
     <ClInclude Include="Source\Helper\std_future_wrapper\DummyFuture.h" />
     <ClInclude Include="Source\Helper\std_future_wrapper\FutureWrapper.h" />
@@ -602,7 +617,6 @@
     <None Include="dependency\glfw-3.3.2.bin.WIN64\docs\html\vulkan_guide.html" />
     <None Include="dependency\glfw-3.3.2.bin.WIN64\docs\html\window_8dox.html" />
     <None Include="dependency\glfw-3.3.2.bin.WIN64\docs\html\window_guide.html" />
-    <None Include="config.ini" />
     <None Include="Source\Helper\DeferredConstant\.git" />
     <None Include="Source\Helper\DeferredConstant\README.md" />
     <None Include="Source\Helper\EasyDirtyChecker\README.md" />

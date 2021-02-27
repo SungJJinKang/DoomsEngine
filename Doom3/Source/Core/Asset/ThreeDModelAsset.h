@@ -9,7 +9,7 @@
 #include "../Graphics/Buffer/MeshNode.h"
 #include "../Graphics/ePrimitiveType.h"
 #include <optional>
-#include <Physics/AABB.h>
+#include <Physics/Collider/AABB.h>
 
 using namespace math;
 
@@ -165,7 +165,7 @@ namespace doom
 		/// </summary>
 		/// <returns></returns>
 		const std::vector<graphics::Mesh>& GetMeshes() const;
-		graphics::Mesh& GetMesh(unsigned int index);
+		graphics::Mesh* GetMesh(unsigned int index);
 		size_t GetMeshCount() const;
 
 		ThreeDModelAsset() = default;

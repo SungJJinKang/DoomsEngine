@@ -44,7 +44,13 @@ doom::Scene* Scene::GetCurrentWorld()
 	return GetSingleton();
 }
 
-
+void Scene::FixedUpdatePlainComponents()
+{
+	for (auto& spawnedEntity : this->mSpawnedEntities)
+	{
+		spawnedEntity->FixedUpdate_PlainComponent();
+	}
+}
 
 void Scene::UpdatePlainComponents()
 {

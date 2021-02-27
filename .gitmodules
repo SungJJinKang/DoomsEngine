@@ -40,3 +40,6 @@
 [submodule "Doom3/Source/Helper/EasyDirtyChecker"]
 	path = Doom3/Source/Helper/EasyDirtyChecker
 	url = https://github.com/SungJJinKang/EasyDirtyChecker.git
+[submodule "Doom3/Source/Helper/StaticContainer"]
+	path = Doom3/Source/Helper/StaticContainer
+	url = https://github.com/SungJJinKang/StaticContainer.git

@@ -1,7 +1,7 @@
 #pragma once
 
 #include <type_traits>
-#include "AABB.h"
+#include "Collider/AABB.h"
 #include <stack>
 
 namespace doom

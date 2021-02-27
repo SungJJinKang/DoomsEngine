@@ -1,10 +1,10 @@
 #pragma once
 #include "Light.h"
-#include "Iterator/ComponentStaticIterater.h"
+#include <StaticContainer/StaticContainer.h>
 #include "Graphics/Buffer/UniformBufferObjectTempBufferUpdater.h"
 namespace doom
 {
-	class DirectionalLight : public Light, public ComponentStaticIterater<DirectionalLight>, public graphics::UniformBufferObjectTempBufferUpdater
+	class DirectionalLight : public Light, public StaticContainer<DirectionalLight>, public graphics::UniformBufferObjectTempBufferUpdater
 	{
 
 	private:

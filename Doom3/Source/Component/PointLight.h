@@ -1,11 +1,11 @@
 #pragma once
 #include "Light.h"
-#include "Iterator/ComponentStaticIterater.h"
+#include <StaticContainer/StaticContainer.h>
 #include "Graphics/Buffer/UniformBufferObjectTempBufferUpdater.h"
 
 namespace doom
 {
-	class PointLight : public Light, public ComponentStaticIterater<PointLight>, public graphics::UniformBufferObjectTempBufferUpdater
+	class PointLight : public Light, public StaticContainer<PointLight>, public graphics::UniformBufferObjectTempBufferUpdater
 	{
 
 	private:

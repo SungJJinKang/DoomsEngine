@@ -52,8 +52,13 @@ namespace doom
 		
 		bool mIsActivated;
 
+		std::unique_ptr<DirtyReceiver> mTransformDirtyReceiver{ nullptr };
+	
 	
 	protected:
+
+		void CreateTransformDirtyReceiver();
+		void AddLocalDirtyToTransformDirtyReceiver(LocalDirty& localDirty);
 
 		Component();
 
@@ -76,6 +81,13 @@ namespace doom
 		{
 			//DONT PUT ANYTHING HERE, PUT AT HERE
 		}
+
+		virtual void FixedUpdateComponent_Internal();
+		virtual void FixedUpdateComponent()
+		{
+			//DONT PUT ANYTHING HERE, PUT AT HERE
+		}
+
 		virtual void OnEndOfFrame_Component_Internal();
 		virtual void OnEndOfFrame_Component()
 		{
@@ -120,7 +132,20 @@ namespace doom
 			//DONT PUT ANYTHING HERE, PUT AT HERE
 		}
 
-		void ConnectDirtyReceiverWithTransformDirtySender(DirtyReceiver* receiver);
+
+		/* can't do this because of recursive dependent
+		template<typename T, std::enable_if_t<std::is_base_of_v<Component, T>, bool> = true>
+		[[nodiscard]] constexpr T* GetComponent() // never return unique_ptr reference, just return pointer
+		{
+			return this->GetOwnerEntity()->GetComponent<T>();
+		}
+
+		template<typename T, std::enable_if_t<std::is_base_of_v<Component, T>, bool> = true>
+		[[nodiscard]] constexpr std::vector<T*> GetComponents()
+		{
+			return this->GetOwnerEntity()->GetComponents<T>();
+		}
+		*/
 
 	public:
 

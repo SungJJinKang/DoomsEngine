@@ -156,8 +156,10 @@ namespace doom
 		void UpdateEntity();
 		void OnEndOfFramePlainComponentsAndEntity();
 
+		void FixedUpdate_PlainComponent();
 		void Update_PlainComponent();
 		void EndOfFrame_PlainComponent();
+
 	public:
 
 		
@@ -209,7 +211,7 @@ namespace doom
 					T* componentPtr = dynamic_cast<T*>(ServerComponent.get());
 					if (componentPtr != nullptr)
 					{
-						mComponentPtrCache = ServerComponent;
+						mComponentPtrCache = ServerComponent.get();
 						return componentPtr;
 					}
 				}

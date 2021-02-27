@@ -11,7 +11,6 @@ void doom::time::Time_Server::Init() noexcept
 
 void doom::time::Time_Server::Update() noexcept
 {
-	MainTimer::UpdateTimer();
 }
 
 void doom::time::Time_Server::OnEndOfFrame() noexcept

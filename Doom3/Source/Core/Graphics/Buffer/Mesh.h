@@ -5,8 +5,9 @@
 #include <memory>
 #include "../OverlapBindChecker.h"
 #include "../ePrimitiveType.h"
-#include <Physics/AABB.h>
+#include <Physics/Collider/AABB.h>
 
+#include "../GraphicsAPI.h"
 namespace doom
 {
 
@@ -120,25 +121,25 @@ namespace doom
 				if (mNumOfIndices > 0)
 				{// TODO : WHY THIS MAKE ERROR ON RADEON GPU, CHECK THIS https://stackoverflow.com/questions/18299646/gldrawelements-emits-gl-invalid-operation-when-using-amd-driver-on-linux
 					// you don't need bind mVertexArrayObjectID everytime, EBO will be bound automatically when bind VAO
-					glDrawElements(static_cast<unsigned int>(this->mPrimitiveType), this->mNumOfIndices, GL_UNSIGNED_INT, 0);
+					GraphicsAPI::DrawElement(this->mPrimitiveType, this->mNumOfIndices, GL_UNSIGNED_INT, 0);
 				}
 				else
 				{
-					glDrawArrays(static_cast<unsigned int>(this->mPrimitiveType), 0, this->mNumOfVertices);
+					GraphicsAPI::DrawArray(this->mPrimitiveType, 0, this->mNumOfVertices);
 				}
 			}
 			void DrawArray(int startIndexInComponent, unsigned int vertexCount)
 			{
 				D_ASSERT(this->mPrimitiveType != ePrimitiveType::NONE);
 
-				glDrawArrays(static_cast<unsigned int>(this->mPrimitiveType), startIndexInComponent, vertexCount);
+				GraphicsAPI::DrawArray(this->mPrimitiveType, startIndexInComponent, vertexCount);
 			}
 
 			void DrawArray(ePrimitiveType primitiveType, int startIndexInComponent, unsigned int vertexCount)
 			{
 				D_ASSERT(primitiveType != ePrimitiveType::NONE);
 
-				glDrawArrays(static_cast<unsigned int>(primitiveType), startIndexInComponent, vertexCount);
+				GraphicsAPI::DrawArray(primitiveType, startIndexInComponent, vertexCount);
 			}
 
 			static constexpr unsigned int GetStride(unsigned int vertexArrayFlag);

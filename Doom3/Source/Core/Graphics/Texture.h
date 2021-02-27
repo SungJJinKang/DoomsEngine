@@ -367,6 +367,9 @@ namespace doom
 			{
 				D_CHECK_OVERLAP_BIND("Texture", this->mBufferID);
 				glBindTextureUnit(bindingPoint, this->mBufferID);
+
+				//glActiveTexture(GL_TEXTURE0 + bindingPoint);
+				//glBindTexture(GL_TEXTURE_2D, this->mBufferID);
 			}
 
 			virtual inline void TexImage1D(

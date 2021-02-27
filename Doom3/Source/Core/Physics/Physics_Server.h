@@ -3,6 +3,7 @@
 #include "../Game/IGameFlow.h"
 #include "../Singleton.h"
 #include "Picking.h"
+#include "ColliderTestRoom.h"
 
 namespace doom
 {
@@ -15,22 +16,33 @@ namespace doom
 
 		private:
 			Picking mPicking{};
-
+#ifdef DEBUG_MODE
+			ColliderTestRoom mColliderTestRoom{};
+#endif
 			virtual void Init() final;
 			virtual void Update() final {}
-			virtual void FixedUpdated() final
+			virtual void FixedUpdate() final
 			{
-				this->UpdateColliders();
+				D_START_PROFILING("FixedUpdateCollision", eProfileLayers::CPU);
+				this->FixedUpdateCollision();
+				D_END_PROFILING("FixedUpdateCollision");
+
+				D_START_PROFILING("UpdatePicking", eProfileLayers::CPU);
 				this->mPicking.UpdatePicking();
+				D_END_PROFILING("UpdatePicking");
 			}
 
-			void UpdateColliders();
+			void FixedUpdateCollision();
 
 			virtual void OnEndOfFrame() final;
+
+			void QueryCollision();
 
 		public:
 			static inline bool IsShowDebug{ true };
 
+			float FIXED_TIME_STEP{};
+			int MAX_PHYSICS_STEP{ 8 };
 		};
 
 	}

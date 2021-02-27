@@ -3,7 +3,7 @@
 #include "Core/ServerComponent.h"
 #include "Iterator/RendererStaticIterator.h"
 
-#include <Physics/AABB.h>
+#include <Physics/Collider/AABB.h>
 namespace doom
 {
 	namespace graphics
@@ -33,7 +33,6 @@ namespace doom
 		physics::AABB3D mLocalAABB3D{};
 	
 		LocalDirty IsWorldAABBDirty{ true };
-		DirtyReceiver mDirtyReceiver{};
 
 		
 
@@ -44,8 +43,8 @@ namespace doom
 		virtual void InitComponent() override
 		{
 			RendererComponentStaticIterator::AddRendererToStaticContainer();
-			this->ConnectDirtyReceiverWithTransformDirtySender(&(this->mDirtyReceiver));
-			this->mDirtyReceiver.AddLocalIsDirtyVariable(&(this->IsWorldAABBDirty));
+			this->CreateTransformDirtyReceiver();
+			this->AddLocalDirtyToTransformDirtyReceiver(this->IsWorldAABBDirty);
 		}
 		virtual void UpdateComponent() override
 		{
@@ -62,7 +61,6 @@ namespace doom
 		}
 
 		void SetLocalAABB3D(const physics::AABB3D& aabb3d);
-		physics::AABB3D GetWorldAABB3D();
 
 	public:
 		Renderer();
@@ -80,5 +78,9 @@ namespace doom
 		void BindMaterial() noexcept;
 		void SetMaterial(graphics::Material* material) noexcept;
 		void SetMaterial(graphics::Material& material) noexcept;
+
+		physics::AABB3D GetWorldAABB3D();
+		const physics::AABB3D& GetLocalAABB3D() const;
+		physics::AABB3D GetLocalAABB3D();
 	};
 }

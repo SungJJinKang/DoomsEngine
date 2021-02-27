@@ -4,7 +4,7 @@
 #ifdef _DEBUG
 #define DEBUG_MODE
 #else
-#define BUILD_MODE
+#define RELEASE_MODE
 #endif
 
 #ifdef _WIN64 // Only WIn 64

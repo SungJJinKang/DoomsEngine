@@ -4,6 +4,7 @@
 #include <string>
 
 #include "../Game/GameCore.h"
+#include "../Game/ConfigData.h"
 #include "../Scene/Layer.h"
 #include "../Game/AssetManager.h"
 
@@ -17,14 +18,15 @@
 #include "Iterator/RendererStaticIterator.h"
 
 
+
 using namespace doom::graphics;
 
 
 void Graphics_Server::Init()
 {
-	int width = GameCore::GetSingleton()->GetConfigData().GetValue<int>("Graphics", "SCREEN_WIDTH");
-	int height = GameCore::GetSingleton()->GetConfigData().GetValue<int>("Graphics", "SCREEN_HEIGHT");
-	Graphics_Server::MultiSamplingNum = GameCore::GetSingleton()->GetConfigData().GetValue<int>("Graphics", "MULTI_SAMPLE");
+	int width = ConfigData::GetSingleton()->GetConfigData().GetValue<int>("Graphics", "SCREEN_WIDTH");
+	int height = ConfigData::GetSingleton()->GetConfigData().GetValue<int>("Graphics", "SCREEN_HEIGHT");
+	Graphics_Server::MultiSamplingNum = ConfigData::GetSingleton()->GetConfigData().GetValue<int>("Graphics", "MULTI_SAMPLE");
 
 	Graphics_Server::ScreenSize = { width, height };
 	Graphics_Server::ScreenRatio = static_cast<float>(height) / static_cast<float>(width);
@@ -92,7 +94,9 @@ void Graphics_Server::Init()
 
 void doom::graphics::Graphics_Server::LateInit()
 {
+#ifdef DEBUG_MODE
 	this->mDebugGraphics.Init();
+#endif
 
 	this->SetRenderingMode(Graphics_Server::eRenderingMode::DeferredRendering);
 	this->mQuadMesh = Mesh::GetQuadMesh();
@@ -127,7 +131,9 @@ void Graphics_Server::OnEndOfFrame()
 		}
 	}
 
-
+#ifdef DEBUG_MODE
+	GraphicsAPI::DrawCallCounter = 0;
+#endif
 	glfwSwapBuffers(Graphics_Server::Window);
 }
 
@@ -185,7 +191,9 @@ void doom::graphics::Graphics_Server::DeferredRendering()
 	sceneGraphics->mUniformBufferObjectManager.Update_Internal();
 	sceneGraphics->mUniformBufferObjectManager.Update();
 
+#ifdef DEBUG_MODE
 	this->mDebugGraphics.DrawDebug();
+#endif
 
 	for (unsigned int i = 0; i < MAX_LAYER_COUNT; i++)
 	{
