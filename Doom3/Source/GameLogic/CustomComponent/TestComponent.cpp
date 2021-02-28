@@ -18,7 +18,6 @@ void doom::TestComponent::UpdateComponent()
 
 	auto pickingRay = physics::Picking::GetCurrentCursorPointWorldRay();
 	pickingRay.DrawPhysicsDebug(eColor::Green);
-	D_DEBUG_LOG({ "origin : ", pickingRay.mOrigin.toString(), " normal : ", pickingRay.GetNormal().toString() });
 }
 
 void doom::TestComponent::OnEndOfFrame_Component()

@@ -96,7 +96,7 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(SolutionDir)dependency\assimp;$(SolutionDir)dependency\glfw\lib;$(SolutionDir)Source\Helper\crossguid\build\Debug;$(SolutionDir)dependency\crossguid\build\Debug;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(SolutionDir)dependency\glfw\lib;$(SolutionDir)Source\Helper\crossguid\build\Debug;$(SolutionDir)dependency\crossguid\build\Debug;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>glfw3.lib;assimp-vc142-mtd.lib;xg.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
@@ -136,7 +136,7 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(SolutionDir)dependency\glfw\build\src\Debug;$(SolutionDir)dependency\assimp\build\code\Debug;$(SolutionDir)Source\Helper\crossguid\build\Debug;$(SolutionDir)dependency\crossguid\build\Debug;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(SolutionDir)dependency\glfw\build\src\Debug;$(SolutionDir)Source\Helper\crossguid\build\Debug;$(SolutionDir)dependency\crossguid\build\Debug;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>glfw3.lib;assimp-vc142-mtd.lib;xg.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
@@ -172,10 +172,6 @@
     <ClCompile Include="Source\Core\Physics\Collider\CapsuleCollider.cpp" />
     <ClCompile Include="Source\Component\PhysicsComponent\CapsuleCollider3D.cpp" />
     <ClCompile Include="dependency\glad\src\glad.c" />
-    <ClCompile Include="dependency\imgui\imgui.cpp" />
-    <ClCompile Include="dependency\imgui\imgui_draw.cpp" />
-    <ClCompile Include="dependency\imgui\imgui_tables.cpp" />
-    <ClCompile Include="dependency\imgui\imgui_widgets.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Source\Component\Camera.cpp" />
     <ClCompile Include="Source\Component\Core\Component.cpp" />

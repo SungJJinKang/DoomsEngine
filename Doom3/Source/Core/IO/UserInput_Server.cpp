@@ -61,7 +61,8 @@ inline void doom::userinput::UserInput_Server::UpdateCurrentCursorScreenPosition
 {
 	doom::userinput::UserInput_Server::mCurrentCursorNDCPosition = Camera::GetMainCamera()->ScreenToNDCPoint(doom::userinput::UserInput_Server::mCurrentCursorScreenPosition);
 
-	doom::userinput::UserInput_Server::mCurrentCursorWorldPosition = Camera::GetMainCamera()->ScreenToWorldPoint(doom::userinput::UserInput_Server::mCurrentCursorScreenPosition);
+	math::Vector3 ndcPoint{ doom::userinput::UserInput_Server::mCurrentCursorNDCPosition.x, doom::userinput::UserInput_Server::mCurrentCursorNDCPosition.y, 0 };
+	doom::userinput::UserInput_Server::mCurrentCursorWorldPosition = Camera::GetMainCamera()->NDCToWorldPoint(ndcPoint);
 }
 
 void UserInput_Server::Init()

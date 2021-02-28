@@ -22,15 +22,9 @@
 [submodule "Doom3/Source/Helper/crossguid"]
 	path = Doom3/Source/Helper/crossguid
 	url = https://github.com/graeme-hill/crossguid.git
-[submodule "Doom3/dependency/assimp"]
-	path = Doom3/dependency/assimp
-	url = https://github.com/assimp/assimp.git
 [submodule "Doom3/dependency/glfw"]
 	path = Doom3/dependency/glfw
 	url = https://github.com/glfw/glfw.git
-[submodule "Doom3/dependency/imgui"]
-	path = Doom3/dependency/imgui
-	url = https://github.com/ocornut/imgui.git
 [submodule "Doom3/Source/Helper/EasyCallback_cpp"]
 	path = Doom3/Source/Helper/EasyCallback_cpp
 	url = https://github.com/SungJJinKang/EasyCallback_cpp.git
@@ -43,3 +37,6 @@
 [submodule "Doom3/Source/Helper/Simple_SingleTon"]
 	path = Doom3/Source/Helper/Simple_SingleTon
 	url = https://github.com/SungJJinKang/Simple_SingleTon.git
+[submodule "Doom3/dependency/vcpkg"]
+	path = Doom3/dependency/vcpkg
+	url = https://github.com/Microsoft/vcpkg.git
