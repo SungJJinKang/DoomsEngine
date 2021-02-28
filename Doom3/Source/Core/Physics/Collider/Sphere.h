@@ -27,7 +27,8 @@ namespace doom
 
 		};
 
-		bool IsOverlap(const Sphere& sphere1, const Sphere& sphere2);
+		bool IsOverlapSphereAndSphere(const Sphere& sphere1, const Sphere& sphere2);
+		bool IsOverlapSphereAndSphere(Collider* sphere1, Collider* sphere2);
 	}
 }
 

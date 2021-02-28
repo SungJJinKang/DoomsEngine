@@ -12,12 +12,18 @@ namespace doom
 		class Collider;
 		class ColliderSolution
 		{
-		public:
+		private:
+
+			using is_overlap_algorithm_func = bool (*)(Collider* colA, Collider* colB);
+			using raycast_algorithm_func = float (*)(Collider* colA, Collider* colB);
+
 			/// <summary>
 			/// How to use : Get Algorithm with CollisionAlgorithms[A ColliderType][B ColliderType]
 			/// </summary>
-			static CollisionAlgorithm CollisionAlgorithms[COLLIDER_TYPE_COUNT][COLLIDER_TYPE_COUNT];
-			static bool IsOverlap(Collider* a, Collider* b);
+			static is_overlap_algorithm_func CollisionAlgorithms[COLLIDER_TYPE_COUNT][COLLIDER_TYPE_COUNT];
+
+		public:
+			static is_overlap_algorithm_func GetCollisionAlgorithm(Collider* colliderA, Collider* colliderB);
 		};
 	}
 }

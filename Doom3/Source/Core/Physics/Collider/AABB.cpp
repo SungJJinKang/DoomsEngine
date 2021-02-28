@@ -170,30 +170,40 @@ float doom::physics::GetArea(const AABB2D& A)
 	return d.x * d.y;
 }
 
-bool doom::physics::IsOverlap(const AABB2D& aabb, const math::Vector2& Point)
+bool doom::physics::IsOverlapAABB2DAndPoint(const AABB2D& aabb, const math::Vector2& Point)
 {
 	return (Point.x >= aabb.mLowerBound.x && Point.x <= aabb.mUpperBound.x) &&
 		(Point.y >= aabb.mLowerBound.y && Point.y <= aabb.mUpperBound.y);
 }
 
-bool doom::physics::IsOverlap(const AABB2D& aabb, const AABB2D& B)
+bool doom::physics::IsOverlapAABB2DAndAABB2D(const AABB2D& aabb, const AABB2D& B)
 {
 	return aabb.mUpperBound.x > B.mLowerBound.x && aabb.mLowerBound.x < B.mUpperBound.x&&
 		aabb.mUpperBound.y  > B.mLowerBound.y && aabb.mLowerBound.y < B.mUpperBound.y;
 }
 
-bool doom::physics::IsOverlap(const AABB3D& aabb, const math::Vector3& Point)
+bool doom::physics::IsOverlapAABB2DAndAABB2D(Collider* aabb, Collider* B)
+{
+	return IsOverlapAABB2DAndAABB2D(*static_cast<AABB2D*>(aabb), *static_cast<AABB2D*>(B));
+}
+
+bool doom::physics::IsOverlapAABB3DAndPoint(const AABB3D& aabb, const math::Vector3& Point)
 {
 	return (Point.x >= aabb.mLowerBound.x && Point.x <= aabb.mUpperBound.x) &&
 		(Point.y >= aabb.mLowerBound.y && Point.y <= aabb.mUpperBound.y) &&
 		(Point.z >= aabb.mLowerBound.z && Point.z <= aabb.mUpperBound.z);
 }
 
-bool doom::physics::IsOverlap(const AABB3D& aabb, const AABB3D& B)
+bool doom::physics::IsOverlapAABB3DAndAABB3D(const AABB3D& aabb, const AABB3D& B)
 {
 	return (aabb.mLowerBound.x <= B.mUpperBound.x && aabb.mUpperBound.x >= B.mLowerBound.x) &&
 		(aabb.mLowerBound.y <= B.mUpperBound.y && aabb.mUpperBound.y >= B.mLowerBound.y) &&
 		(aabb.mLowerBound.z <= B.mUpperBound.z && aabb.mUpperBound.z >= B.mLowerBound.z);
+}
+
+bool doom::physics::IsOverlapAABB3DAndAABB3D(Collider* aabb, Collider* B)
+{
+	return IsOverlapAABB3DAndAABB3D(*static_cast<AABB3D*>(aabb), *static_cast<AABB3D*>(B));
 }
 
 math::Vector2 doom::physics::ClosestPointToPoint(const AABB2D& aabb, const math::Vector2& point)

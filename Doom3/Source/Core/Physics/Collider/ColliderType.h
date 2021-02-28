@@ -12,8 +12,9 @@ namespace doom
 			Line,
 			Plane,
 			Ray,
-			Sphere
+			Sphere,
+			Triangle
 		};
-		inline constexpr int COLLIDER_TYPE_COUNT{ 8 };
+		inline constexpr int COLLIDER_TYPE_COUNT{ 9 };
 	}
 }

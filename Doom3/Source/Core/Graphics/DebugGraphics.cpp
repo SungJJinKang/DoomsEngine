@@ -82,7 +82,6 @@ void doom::graphics::DebugGraphics::DrawDebug()
 	/// <summary>
 	/// vector3 -> 3, vector4 -> 4
 	/// </summary>
-	int exOffsetComponentCount{ 0 };
 	int offsetComponentCount{ 0 };
 	unsigned int alreadyDrawedVertexCount{ 0 };
 
@@ -98,14 +97,13 @@ void doom::graphics::DebugGraphics::DrawDebug()
 		{
 			this->mDebugMesh.BufferSubData(lineCount * 6, this->m2dLine[i].data(), offsetComponentCount * sizeof(float));
 
-			offsetComponentCount += lineCount * 6;
-			alreadyDrawedVertexCount += lineCount * 2;
-
-			D_ASSERT(MAX_DEBUG_VERTEX_COUNT >= alreadyDrawedVertexCount);
+			D_ASSERT(MAX_DEBUG_VERTEX_COUNT >= alreadyDrawedVertexCount + lineCount * 3);
 
 			this->m2DMaterial->SetVector4(0, Color::GetColor(static_cast<eColor>(i)));
-			this->mDebugMesh.DrawArray(ePrimitiveType::LINES, exOffsetComponentCount, lineCount * 2);
-			exOffsetComponentCount = offsetComponentCount;
+			this->mDebugMesh.DrawArray(ePrimitiveType::LINES, alreadyDrawedVertexCount, lineCount * 2);
+
+			offsetComponentCount += lineCount * 6;
+			alreadyDrawedVertexCount += lineCount * 2;
 		}
 	}
 
@@ -116,14 +114,15 @@ void doom::graphics::DebugGraphics::DrawDebug()
 		{
 			this->mDebugMesh.BufferSubData(triangleCount * 9, this->m2dTriangle[i].data(), offsetComponentCount * sizeof(float));
 
-			offsetComponentCount += triangleCount * 9;
-			alreadyDrawedVertexCount += triangleCount * 3;
+			
 
-			D_ASSERT(MAX_DEBUG_VERTEX_COUNT >= alreadyDrawedVertexCount);
+			D_ASSERT(MAX_DEBUG_VERTEX_COUNT >= alreadyDrawedVertexCount + triangleCount * 3);
 
 			this->m2DMaterial->SetVector4(0, Color::GetColor(static_cast<eColor>(i)));
-			this->mDebugMesh.DrawArray(ePrimitiveType::TRIANGLES, exOffsetComponentCount, triangleCount * 3);
-			exOffsetComponentCount = offsetComponentCount;
+			this->mDebugMesh.DrawArray(ePrimitiveType::TRIANGLES, alreadyDrawedVertexCount, triangleCount * 3);
+
+			offsetComponentCount += triangleCount * 9;
+			alreadyDrawedVertexCount += triangleCount * 3;
 		}
 	}
 
@@ -136,14 +135,15 @@ void doom::graphics::DebugGraphics::DrawDebug()
 		{
 			this->mDebugMesh.BufferSubData(lineCount * 6, this->m3dLine[i].data(), offsetComponentCount * sizeof(float));
 
-			offsetComponentCount += lineCount * 6;
-			alreadyDrawedVertexCount += lineCount * 2;
+		
 
-			D_ASSERT(MAX_DEBUG_VERTEX_COUNT >= alreadyDrawedVertexCount);
+			D_ASSERT(MAX_DEBUG_VERTEX_COUNT >= alreadyDrawedVertexCount + lineCount * 3);
 
 			this->m3DMaterial->SetVector4(0, Color::GetColor(static_cast<eColor>(i)));
-			this->mDebugMesh.DrawArray(ePrimitiveType::LINES, exOffsetComponentCount, lineCount * 2);
-			exOffsetComponentCount = offsetComponentCount;
+			this->mDebugMesh.DrawArray(ePrimitiveType::LINES, alreadyDrawedVertexCount, lineCount * 2);
+
+			offsetComponentCount += lineCount * 6;
+			alreadyDrawedVertexCount += lineCount * 2;
 		}
 	}
 
@@ -154,14 +154,15 @@ void doom::graphics::DebugGraphics::DrawDebug()
 		{
 			this->mDebugMesh.BufferSubData(triangleCount * 9, this->m3dTriangle[i].data(), offsetComponentCount * sizeof(float));
 
-			offsetComponentCount += triangleCount * 9;
-			alreadyDrawedVertexCount += triangleCount * 3;
+			
 
-			D_ASSERT(MAX_DEBUG_VERTEX_COUNT >= alreadyDrawedVertexCount);
+			D_ASSERT(MAX_DEBUG_VERTEX_COUNT >= alreadyDrawedVertexCount + triangleCount * 3);
 
 			this->m3DMaterial->SetVector4(0, Color::GetColor(static_cast<eColor>(i)));
-			this->mDebugMesh.DrawArray(ePrimitiveType::TRIANGLES, exOffsetComponentCount, triangleCount * 3);
-			exOffsetComponentCount = offsetComponentCount;
+			this->mDebugMesh.DrawArray(ePrimitiveType::TRIANGLES, alreadyDrawedVertexCount, triangleCount * 3);
+
+			offsetComponentCount += triangleCount * 9;
+			alreadyDrawedVertexCount += triangleCount * 3;
 		}
 	}
 

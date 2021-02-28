@@ -135,11 +135,11 @@ namespace doom
 				GraphicsAPI::DrawArray(this->mPrimitiveType, startIndexInComponent, vertexCount);
 			}
 
-			void DrawArray(ePrimitiveType primitiveType, int startIndexInComponent, unsigned int vertexCount)
+			void DrawArray(ePrimitiveType primitiveType, int startVertexIndex, unsigned int vertexCount)
 			{
 				D_ASSERT(primitiveType != ePrimitiveType::NONE);
 
-				GraphicsAPI::DrawArray(primitiveType, startIndexInComponent, vertexCount);
+				GraphicsAPI::DrawArray(primitiveType, startVertexIndex, vertexCount);
 			}
 
 			static constexpr unsigned int GetStride(unsigned int vertexArrayFlag);

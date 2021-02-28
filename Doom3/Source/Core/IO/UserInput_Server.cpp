@@ -18,8 +18,8 @@ void UserInput_Server::CursorEnterCallback(GLFWwindow* window, int entered)
 	{
 		double xpos, ypos;
 		glfwGetCursorPos(doom::graphics::Graphics_Server::Window, &xpos, &ypos);
-		doom::userinput::UserInput_Server::mCurrentCursorScreenPosition.x = xpos;
-		doom::userinput::UserInput_Server::mCurrentCursorScreenPosition.y = ypos;
+		doom::userinput::UserInput_Server::mCurrentCursorScreenPosition.x = static_cast<float>(xpos);
+		doom::userinput::UserInput_Server::mCurrentCursorScreenPosition.y = static_cast<float>(ypos);
 	}
 }
 
@@ -29,16 +29,16 @@ void UserInput_Server::CursorPosition_Callback(GLFWwindow* window, double xpos, 
 	UserInput_Server::mDeltaCursorScreenPosition.x = static_cast<float>(xpos) - UserInput_Server::mCurrentCursorScreenPosition.x;
 	UserInput_Server::mDeltaCursorScreenPosition.y = static_cast<float>(ypos) - UserInput_Server::mCurrentCursorScreenPosition.y;
 
-	doom::userinput::UserInput_Server::mCurrentCursorScreenPosition.x = xpos;
-	doom::userinput::UserInput_Server::mCurrentCursorScreenPosition.y = ypos;
+	doom::userinput::UserInput_Server::mCurrentCursorScreenPosition.x = static_cast<float>(xpos);
+	doom::userinput::UserInput_Server::mCurrentCursorScreenPosition.y = static_cast<float>(ypos);
 	//D_DEBUG_LOG({ "Mouse Cursor Position : Pos X ( ", std::to_string(xpos), " ) , Pos Y ( ", std::to_string(ypos), " )" }, eLogType::D_LOG);
 }
 
 
 void UserInput_Server::Scroll_Callback(GLFWwindow* window, double xoffset, double yoffset)
 {
-	UserInput_Server::mScrollOffset.x = xoffset;
-	UserInput_Server::mScrollOffset.y = yoffset;
+	UserInput_Server::mScrollOffset.x = static_cast<float>(xoffset);
+	UserInput_Server::mScrollOffset.y = static_cast<float>(yoffset);
 	UserInput_Server::mScrollChangedAtPreviousFrame = true;
 
 	D_DEBUG_LOG({ "Mouse Scroll Callback  : Offset X ( ", std::to_string(xoffset), " ) , Offset Y ( ", std::to_string(yoffset), " )" }, eLogType::D_LOG);

@@ -69,8 +69,9 @@ namespace doom
 		float GetArea(const AABB3D& A);
 		AABB3D Union(const AABB3D& A, const AABB3D& B);
 
-		bool IsOverlap(const AABB3D& aabb, const math::Vector3& Point);
-		bool IsOverlap(const AABB3D& aabb, const AABB3D& B);
+		bool IsOverlapAABB3DAndPoint(const AABB3D& aabb, const math::Vector3& Point);
+		bool IsOverlapAABB3DAndAABB3D(const AABB3D& aabb, const AABB3D& B);
+		bool IsOverlapAABB3DAndAABB3D(Collider* aabb, Collider* B);
 
 		math::Vector3 ClosestPointToPoint(const AABB3D& aabb, const math::Vector3& point);
 
@@ -120,8 +121,9 @@ namespace doom
 
 		AABB2D Union(const AABB2D& A, const AABB2D& B);
 
-		bool IsOverlap(const AABB2D& aabb, const math::Vector2& Point);
-		bool IsOverlap(const AABB2D& aabb, const AABB2D& B);
+		bool IsOverlapAABB2DAndPoint(const AABB2D& aabb, const math::Vector2& Point);
+		bool IsOverlapAABB2DAndAABB2D(const AABB2D& aabb, const AABB2D& B);
+		bool IsOverlapAABB2DAndAABB2D(Collider* aabb, Collider* B);
 		math::Vector2 ClosestPointToPoint(const AABB2D& aabb, const math::Vector2& point);
 	
 	}

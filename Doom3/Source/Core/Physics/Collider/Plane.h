@@ -27,7 +27,8 @@ namespace doom
 
 		};
 
-		bool IsOverlap(const Plane& plane1, const Plane & plane2);
+		bool IsOverlapPlaneAndPlane(const Plane& plane1, const Plane & plane2);
+		bool IsOverlapPlaneAndPlane(Collider* plane1, Collider* plane2);
 		bool IsPointOnPlane(const Plane& plane, const math::Vector3& point);
 		/// <summary>
 		/// return if point is in front of plane ( is at half space where normal vector forward )

@@ -22,7 +22,12 @@ doom::physics::ColliderType doom::physics::Sphere::GetColliderType() const
 	return doom::physics::ColliderType::Sphere;
 }
 
-bool doom::physics::IsOverlap(const Sphere& sphere1, const Sphere& sphere2)
+bool doom::physics::IsOverlapSphereAndSphere(const Sphere& sphere1, const Sphere& sphere2)
 {
 	return (sphere1.mCenter - sphere2.mCenter).sqrMagnitude() < math::pow(sphere1.mRadius + sphere2.mRadius, 2);
+}
+
+bool doom::physics::IsOverlapSphereAndSphere(Collider* sphere1, Collider* sphere2)
+{
+	return IsOverlapSphereAndSphere(*static_cast<Sphere*>(sphere1), *static_cast<Sphere*>(sphere2));
 }

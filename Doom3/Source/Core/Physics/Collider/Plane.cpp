@@ -26,7 +26,7 @@ doom::physics::ColliderType doom::physics::Plane::GetColliderType() const
 	return doom::physics::ColliderType::Plane;
 }
 
-bool doom::physics::IsOverlap(const Plane& plane1, const Plane& plane2)
+bool doom::physics::IsOverlapPlaneAndPlane(const Plane& plane1, const Plane& plane2)
 {
 	auto cross = math::cross(plane1.GetNormal(), plane2.GetNormal());
 
@@ -39,6 +39,11 @@ bool doom::physics::IsOverlap(const Plane& plane1, const Plane& plane2)
 	{
 		return true;
 	}
+}
+
+bool doom::physics::IsOverlapPlaneAndPlane(Collider* plane1, Collider* plane2)
+{
+	return IsOverlapPlaneAndPlane(*static_cast<Plane*>(plane1), *static_cast<Plane*>(plane2));
 }
 
 bool doom::physics::IsPointOnPlane(const doom::physics::Plane& plane, const math::Vector3& point)
