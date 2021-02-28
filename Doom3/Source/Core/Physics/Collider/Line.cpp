@@ -18,9 +18,9 @@ math::Vector3 doom::physics::Line::ToVector()
 	return this->mEndPoint - this->mOrigin;
 }
 
-doom::physics::Collider::ColliderType doom::physics::Line::GetColliderType() const
+doom::physics::ColliderType doom::physics::Line::GetColliderType() const
 {
-	return doom::physics::Collider::ColliderType::Line;
+	return doom::physics::ColliderType::Line;
 }
 
 bool doom::physics::IsPointOnLine(const Line& line, math::Vector3& point)

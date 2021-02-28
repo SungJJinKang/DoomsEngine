@@ -1,7 +1,6 @@
 #pragma once
 #include "../Core.h"
 #include "../Game/IGameFlow.h"
-#include "../Singleton.h"
 #include "Picking.h"
 #include "ColliderTestRoom.h"
 
@@ -27,9 +26,9 @@ namespace doom
 				this->FixedUpdateCollision();
 				D_END_PROFILING("FixedUpdateCollision");
 
-				D_START_PROFILING("UpdatePicking", eProfileLayers::CPU);
-				this->mPicking.UpdatePicking();
-				D_END_PROFILING("UpdatePicking");
+				//D_START_PROFILING("UpdatePicking", eProfileLayers::CPU);
+				//this->mPicking.UpdatePicking();
+				//D_END_PROFILING("UpdatePicking");
 			}
 
 			void FixedUpdateCollision();

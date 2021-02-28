@@ -4,7 +4,7 @@
 #include "../Graphics/Graphics_Server.h"
 
 #include <Vector2.h>
-#include "../Singleton.h"
+#include <Physics/Collider/Ray.h>
 
 namespace doom
 {
@@ -12,17 +12,22 @@ namespace doom
 	class ColliderComponent;
 	namespace physics
 	{
+		class Collider;
 		class Picking : public ISingleton<Picking>
 		{
 			friend class Physics_Server;
 		private:
 
-			void UpdatePicking();
+			//void UpdatePicking();
 
+			//bool mIsTryPickingAtCurrentFrame{ false };
+			//math::Vector2 mPickingNDCPoint{};
 		public:
 
-			// TODO : BVH
-			static ::doom::ColliderComponent* TryPicking(const math::Vector2 mousePoint);
+
+			static doom::physics::Ray GetCurrentCursorPointWorldRay();
+			static ::doom::ColliderComponent* TryPicking();
+			static bool CheckPicking(Collider* collider);
 		};
 	}
 }

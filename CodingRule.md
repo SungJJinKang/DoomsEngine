@@ -14,9 +14,30 @@ Smart pointer can have pointer of array also. So Use smart pointer.
 This let you free from making move, copy constructor.   
 
 4. For performance, sacrifice memory.   
-I don't release this game on mobile platform.   
+I don't release this game on mobile platform.  
+So cache datas.    
 
 5. If possible, Don't use static variable.   
-You can't know when it is initialized, you can't constrol it.   
+You can't know in what order they are initialized, you can't constrol it.   
 This can make bugs.   
 
+6. Use Pointer instead of reference.     
+I think this can be controversial.    
+but For me, Pointer is better than reference.    
+You can be in trouble if you usally use auto type.    
+```c++
+ClassA& GetClassAByReference()
+{
+	return this->classAInstance;
+}
+
+auto classA = GetClassAByReference();
+
+```
+What is the problem in this code??     
+classA variable is copy-constructed with return value of GetClassAByReference.    
+For me, sometimes I forgot putting & to auto specifier.    
+And this was disaster.   
+
+7. If possible, Implement RAII Style.    
+This will prevent memory leak.     

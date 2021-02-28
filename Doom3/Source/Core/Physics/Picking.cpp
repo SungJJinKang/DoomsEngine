@@ -2,14 +2,41 @@
 #include <PhysicsComponent/ColliderComponent.h>
 #include <Camera.h>
 #include <UserInput_Server.h>
-
+#include <Transform.h>
+/*
 void doom::physics::Picking::UpdatePicking()
 {
-	auto MouseNDCPosition = Camera::GetMainCamera()->ScreenToNDCPoint({ userinput::UserInput_Server::GetMouseScreenPositionX(), userinput::UserInput_Server::GetMouseScreenPositionY(), 0.0 });
-	//D_DEBUG_LOG(MouseViewPortPosition.toString());
+
+	
+	
+}
+*/
+
+doom::physics::Ray doom::physics::Picking::GetCurrentCursorPointWorldRay()
+{
+	auto normalWorldPoint = Camera::GetMainCamera()->NDCToWorldPoint(Camera::GetMainCamera()->GetProjectionMatrix() *  -math::Vector3::forward); // In NDC coordinate, forward had positive z value, so put minus
+	 
+	//math::inverse(Camera::GetMainCamera()->GetViewMatrix()) * -math::Vector3::forward
+
+	
+	//auto normalWorldPoint = Camera::GetMainCamera()->GetTransform()->forward(); // In NDC coordinate, forward had positive z value, so put minus
+
+	return physics::Ray(userinput::UserInput_Server::GetCurrentMouseWorldPosition(), normalWorldPoint);
+
 }
 
-::doom::ColliderComponent* doom::physics::Picking::TryPicking(const math::Vector2 mousePoint)
+::doom::ColliderComponent* doom::physics::Picking::TryPicking()
 {
+	auto ray = Picking::GetCurrentCursorPointWorldRay();
+
+	//Loop Possible All Colliders
+
 	return nullptr;
+}
+
+bool doom::physics::Picking::CheckPicking(Collider* collider)
+{
+	auto ray = Picking::GetCurrentCursorPointWorldRay();
+
+	return true;
 }

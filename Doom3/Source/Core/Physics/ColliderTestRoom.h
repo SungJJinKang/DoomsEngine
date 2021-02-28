@@ -1,8 +1,8 @@
 #pragma once
 
 #include <vector>
+#include "../Core.h"
 #include "Game/IGameFlow.h"
-#include "Singleton.h"
 
 namespace doom
 {

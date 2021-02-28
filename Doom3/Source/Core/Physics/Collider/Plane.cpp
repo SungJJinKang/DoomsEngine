@@ -21,9 +21,9 @@ math::Vector3 doom::physics::Plane::GetNormal() const
 	return this->mNormal;
 }
 
-doom::physics::Collider::ColliderType doom::physics::Plane::GetColliderType() const
+doom::physics::ColliderType doom::physics::Plane::GetColliderType() const
 {
-	return doom::physics::Collider::ColliderType::Plane;
+	return doom::physics::ColliderType::Plane;
 }
 
 bool doom::physics::IsOverlap(const Plane& plane1, const Plane& plane2)

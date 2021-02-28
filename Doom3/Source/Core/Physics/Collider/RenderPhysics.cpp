@@ -12,13 +12,13 @@ void doom::physics::RenderPhysics::DrawPhysicsDebug(eColor color)
 {
 	if (Physics_Server::IsShowDebug == true)
 	{
-		unsigned long long frameTickCount = MainTimer::GetCurrentFrameTime();
+		//unsigned long long frameTickCount = MainTimer::GetCurrentFrameTime();
 
-		if (this->mLastRenderFrameTickCount != frameTickCount)
-		{
+		//if (this->mLastRenderFrameTickCount != frameTickCount)
+		//{
 			Render(color);
-		}
+		//}
 
-		this->mLastRenderFrameTickCount = frameTickCount;
+		//this->mLastRenderFrameTickCount = frameTickCount;
 	}
 }

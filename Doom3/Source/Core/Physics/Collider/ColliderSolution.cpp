@@ -24,36 +24,7 @@
 doom::physics::CollisionAlgorithm doom::physics::ColliderSolution::CollisionAlgorithms[COLLIDER_TYPE_COUNT][COLLIDER_TYPE_COUNT]
 {
 	{ 
-		
-		[](Collider* colA, Collider* colB)->bool
-		{
-			
-		},
-
-		[](Collider* colA, Collider* colB)->bool
-		{
-
-		},
-
-		[](Collider* colA, Collider* colB)->bool
-		{
-
-		},
-
-		[](Collider* colA, Collider* colB)->bool
-		{
-
-		},
-
-		[](Collider* colA, Collider* colB)->bool
-		{
-
-		},
-
-		[](Collider* colA, Collider* colB)->bool
-		{
-
-		},
+		//physics::IsOverlap()
 
 	},
 	{
@@ -81,6 +52,6 @@ doom::physics::CollisionAlgorithm doom::physics::ColliderSolution::CollisionAlgo
 
 bool doom::physics::ColliderSolution::IsOverlap(Collider* a, Collider* b)
 {
-
+	return true;
 }
 

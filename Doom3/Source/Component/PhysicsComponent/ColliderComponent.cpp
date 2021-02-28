@@ -27,6 +27,10 @@ void doom::ColliderComponent::UpdateComponent()
 	this->UpdatePhysics();
 }
 
+void doom::ColliderComponent::FixedUpdateComponent()
+{
+}
+
 void doom::ColliderComponent::OnEndOfFrame_Component()
 {
 

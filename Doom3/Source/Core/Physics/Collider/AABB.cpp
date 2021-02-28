@@ -1,7 +1,7 @@
 #include "AABB.h"
 #include "../Graphics/DebugGraphics.h"
 
-#include <Trigonometric.h>
+//#include <Trigonometric.h>
 
 using namespace doom::physics;
 
@@ -63,9 +63,9 @@ void doom::physics::AABB2D::Render(eColor color)
 
 
 
-doom::physics::Collider::ColliderType doom::physics::AABB2D::GetColliderType() const
+doom::physics::ColliderType doom::physics::AABB2D::GetColliderType() const
 {
-	return doom::physics::Collider::ColliderType::AABB2D;
+	return doom::physics::ColliderType::AABB2D;
 }
 
 bool doom::physics::AABB3D::IsValid() const
@@ -109,7 +109,7 @@ math::Vector3 doom::physics::AABB3D::GetHalfExtent() const
 float AABB3D::GetDiagonarLineLength()
 {
 	auto halfExtent = this->GetHalfExtent();
-	return math::Pythagorean(halfExtent.x, halfExtent.y, halfExtent.z);
+	return math::sqrt(halfExtent.x * halfExtent.x + halfExtent.y * halfExtent.y + halfExtent.z * halfExtent.z);
 }
 
 void doom::physics::AABB3D::Render(eColor color)
@@ -138,9 +138,9 @@ void doom::physics::AABB3D::Render(eColor color)
 	debugGraphics->DebugDraw3DLine(this->mLowerBound + x + z, this->mLowerBound + x + z + y, color);
 }
 
-doom::physics::Collider::ColliderType doom::physics::AABB3D::GetColliderType() const
+doom::physics::ColliderType doom::physics::AABB3D::GetColliderType() const
 {
-	return doom::physics::Collider::ColliderType::AABB3D;
+	return doom::physics::ColliderType::AABB3D;
 }
 
 doom::physics::AABB2D doom::physics::Union(const AABB2D& A, const AABB2D& B)

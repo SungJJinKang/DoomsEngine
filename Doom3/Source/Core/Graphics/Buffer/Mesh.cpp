@@ -150,7 +150,7 @@ void doom::graphics::Mesh::BufferData(GLsizeiptr dataComponentCount, const void*
 void doom::graphics::Mesh::BufferSubData(GLsizeiptr dataComponentCount, const void* data, khronos_intptr_t offsetInByte) noexcept
 {
 	D_ASSERT(this->mBufferID != 0);
-	D_ASSERT(GraphicsAPI::GetInteger64v(GraphicsAPI::GetParameter::ARRAY_BUFFER_BINDING) == this->mBufferID);
+	D_ASSERT(GraphicsAPI::GetInteger64v(GraphicsAPI::GetIntegerParameter::ARRAY_BUFFER_BINDING) == this->mBufferID);
 
 	// GL_INVALID_VALUE is generated if offset or size is negative, or if offset+size is greater than the value of GL_BUFFER_SIZE for the specified buffer object.
 	glBufferSubData(GL_ARRAY_BUFFER, offsetInByte, sizeof(float) * dataComponentCount, data);

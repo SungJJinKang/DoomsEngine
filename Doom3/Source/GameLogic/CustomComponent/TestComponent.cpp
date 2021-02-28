@@ -1,6 +1,7 @@
 #include "TestComponent.h"
 #include "Physics/Physics_Server.h"
 
+#include <Picking.h>
 
 void doom::TestComponent::InitComponent()
 {
@@ -14,6 +15,10 @@ void doom::TestComponent::UpdateComponent()
 	this->aabb.DrawPhysicsDebug();
 	//this->circle2d.DrawPhysicsDebug();
 	this->sphere.DrawPhysicsDebug();
+
+	auto pickingRay = physics::Picking::GetCurrentCursorPointWorldRay();
+	pickingRay.DrawPhysicsDebug(eColor::Green);
+	D_DEBUG_LOG({ "origin : ", pickingRay.mOrigin.toString(), " normal : ", pickingRay.GetNormal().toString() });
 }
 
 void doom::TestComponent::OnEndOfFrame_Component()

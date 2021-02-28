@@ -4,7 +4,7 @@
 #include <thread>
 #include <utility>
 
-#include "../../Helper/Singleton.h"
+#include "../Core.h"
 #include "../Game/IGameFlow.h"
 
 #include "Thread_Core.h"

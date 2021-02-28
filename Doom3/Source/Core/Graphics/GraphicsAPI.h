@@ -1,6 +1,5 @@
 #pragma once
 #include "Graphics_Core.h"
-#include "../../Helper/Singleton.h"
 #include "../Game/IGameFlow.h"
 #include "Buffer/UniformBufferObjectManager.h"
 #include "ePrimitiveType.h"
@@ -241,7 +240,7 @@ namespace doom
 				DEPTH_STENCIL = GL_STENCIL_BUFFER_BIT
 			};
 
-			enum class GetParameter
+			enum class GetIntegerParameter
 			{
 				ACTIVE_TEXTURE = GL_ACTIVE_TEXTURE,
 				ALIASED_LINE_WIDTH_RANGE = GL_ALIASED_LINE_WIDTH_RANGE,
@@ -472,16 +471,28 @@ namespace doom
 
 			};
 
-
-			static int64_t GetInteger64v(GetParameter pname)
+			enum class GetStringParameter
+			{
+				VENDOR = GL_VENDOR,
+				RENDERER = GL_VENDOR,
+				VERSION = GL_VENDOR,
+				SHADING_LANGUAGE_VERSION = GL_VENDOR,
+			};
+			
+			static int64_t GetInteger64v(GetIntegerParameter pname)
 			{
 				int64_t value{ 0 };
 				glGetInteger64v(static_cast<unsigned int>(pname), &value);
 				return value;
 			}
 
+			static const char* GetString(GetStringParameter pname)
+			{
+				return reinterpret_cast<const char*>(glGetString(static_cast<unsigned int>(pname)));
+			}
+
 			static inline unsigned int DrawCallCounter{ 0 };
-			static void DrawArray(ePrimitiveType mode, int first, int count)
+			static inline void DrawArray(ePrimitiveType mode, int first, int count)
 			{
 				glDrawArrays(static_cast<unsigned int>(mode), first, count);
 #ifdef DEBUG_MODE
@@ -489,7 +500,7 @@ namespace doom
 #endif
 			}
 
-			static void DrawElement(ePrimitiveType mode, int count, unsigned int type, const void* indices)
+			static inline void DrawElement(ePrimitiveType mode, int count, unsigned int type, const void* indices)
 			{
 				glDrawElements(static_cast<unsigned int>(mode), count, type, indices);
 #ifdef DEBUG_MODE
@@ -497,7 +508,7 @@ namespace doom
 #endif
 			}
 
-			static void DrawArraysInstanced(ePrimitiveType mode, int first, unsigned int count, int instancecount)
+			static inline void DrawArraysInstanced(ePrimitiveType mode, int first, unsigned int count, int instancecount)
 			{
 				glDrawArraysInstanced(static_cast<unsigned int>(mode), first, count, instancecount);
 #ifdef DEBUG_MODE
@@ -505,7 +516,7 @@ namespace doom
 #endif
 			}
 
-			static void DrawElementsInstanced(ePrimitiveType mode, int count, unsigned int type, const void* indices, int instancecount)
+			static inline void DrawElementsInstanced(ePrimitiveType mode, int count, unsigned int type, const void* indices, int instancecount)
 			{
 				glDrawElementsInstanced(static_cast<unsigned int>(mode), count, type, indices, instancecount);
 #ifdef DEBUG_MODE

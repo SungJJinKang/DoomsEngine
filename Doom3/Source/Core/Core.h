@@ -27,6 +27,6 @@
 // And Define implemations in MACRO_IMPLEMENTATION
 
 #include "Macros/Macros.h"
-#include "../Helper/Singleton.h"
+#include "../Helper/Simple_SingleTon/Singleton.h"
 
 

@@ -47,6 +47,13 @@ namespace doom
 		{
 			//DON'T PUT ANYTHING AT HERE
 		}
+
+		virtual void FixedUpdateComponent_Internal() final;
+		virtual void FixedUpdateComponent()
+		{
+			//DONT PUT ANYTHING HERE, PUT AT HERE
+		}
+
 		virtual void OnEndOfFrame_Component_Internal() final;
 		virtual void OnEndOfFrame_Component()
 		{
@@ -90,6 +97,9 @@ namespace doom
 		{
 			//DON'T PUT ANYTHING AT HERE
 		}
+
+		virtual void OnComponentAttachedToOwnerEntity(Component* newComponent) override {}
+		virtual void OnComponentDettachedToOwnerEntity(Component* newComponent) override {}
 
 	public:
 	

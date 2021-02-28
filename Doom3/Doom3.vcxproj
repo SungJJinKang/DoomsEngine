@@ -163,6 +163,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Source\Component\EventSystem.cpp" />
     <ClCompile Include="Source\Component\PhysicsComponent\BoxCollider2D.cpp" />
     <ClCompile Include="Source\Component\PhysicsComponent\MeshCollider.cpp" />
     <ClCompile Include="Source\Core\OS\OS_Server.cpp" />
@@ -270,6 +271,7 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Source\Component\EventSystem.h" />
     <ClInclude Include="Source\Component\PhysicsComponent\BoxCollider2D.h" />
     <ClInclude Include="Source\Component\PhysicsComponent\MeshCollider.h" />
     <ClInclude Include="Source\Core\Game\ConfigData.h" />
@@ -436,6 +438,7 @@
     <ClInclude Include="Source\Helper\EasyDirtyChecker\LocalDirty.h" />
     <ClInclude Include="Source\Helper\ForLoop_Compile_Time\ForLoop_Compile.h" />
     <ClInclude Include="Source\Core\Graphics\OverlapBindChecker.h" />
+    <ClInclude Include="Source\Helper\Simple_SingleTon\Singleton.h" />
     <ClInclude Include="Source\Helper\StaticContainer\StaticContainer.h" />
     <ClInclude Include="Source\Helper\std_future_wrapper\CustomFutureWrapper.h" />
     <ClInclude Include="Source\Helper\std_future_wrapper\DummyFuture.h" />
@@ -464,7 +467,6 @@
     <ClInclude Include="Source\Core\Logger\Logger.h" />
     <ClInclude Include="Source\Core\Graphics\GraphicsAPI.h" />
     <ClInclude Include="Source\Helper\SimpleIniParser.h" />
-    <ClInclude Include="Source\Helper\Singleton.h" />
     <ClInclude Include="Source\Core\Asset\ThreeDModelAsset.h" />
     <ClInclude Include="Source\Core\Asset\TextureAsset.h" />
   </ItemGroup>
@@ -627,7 +629,7 @@
     <None Include="Source\Helper\vector_erase_move_lastelement\README.md" />
   </ItemGroup>
   <ItemGroup>
-    <Text Include="Source\Core\Graphics\ReamThis!!!!.txt" />
+    <Text Include="Source\Core\Graphics\ReadThis!!!!.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

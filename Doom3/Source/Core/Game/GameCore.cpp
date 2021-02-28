@@ -33,6 +33,8 @@ void doom::GameCore::InitGameSetting()
 
 	this->mPhysics_Server.FIXED_TIME_STEP = static_cast<float>(this->mMainConfigData.GetConfigData().GetValue<double>("PHYSICS", "FIXED_TIME_STEP"));
 	this->mPhysics_Server.MAX_PHYSICS_STEP = this->mMainConfigData.GetConfigData().GetValue<int>("PHYSICS", "MAX_PHYSICS_STEP");
+
+
 }
 
 void doom::GameCore::Init()

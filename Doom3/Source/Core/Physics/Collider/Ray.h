@@ -18,8 +18,15 @@ namespace doom
 		public:
 			math::Vector3 mOrigin;
 
+			Ray();
 			Ray(const math::Vector3 & origin, const math::Vector3& normal);
 			math::Vector3 GetNormal() const;
+			void SetNomral(const math::Vector3& normal);
+			/// <summary>
+			/// This don't check whether vector is normal vector
+			/// </summary>
+			/// <param name="normal"></param>
+			void SetNomral_Unsafe(const math::Vector3& normal);
 				
 			bool IsPointOnRay(const math::Vector3& point);
 			static math::Vector3 GetClosestPoint(const Ray& ray, const math::Vector3& point);

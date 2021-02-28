@@ -1,7 +1,6 @@
 #pragma once
 #include "../Core.h"
 #include "IGameFlow.h"
-#include "../../Helper/Singleton.h"
 #include "../../Helper/SimpleIniParser.h"
 
 #include <memory>

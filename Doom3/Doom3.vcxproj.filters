@@ -315,6 +315,9 @@
     <ClCompile Include="Source\Core\Physics\Collider\ColliderSolution.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Component\EventSystem.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="dependency\glad\include\glad\glad.h">
@@ -327,9 +330,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="dependency\glfw-3.3.2.bin.WIN64\include\GLFW\glfw3native.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Helper\Singleton.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\Core\API\OpenglAPI.h">
@@ -908,6 +908,12 @@
     <ClInclude Include="Source\Core\Physics\Collider\ColliderType.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Helper\Simple_SingleTon\Singleton.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Component\EventSystem.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="dependency\glfw-3.3.2.bin.WIN64\docs\html\search\all_0.html" />
@@ -1068,6 +1074,6 @@
     <None Include="Source\Helper\EasyDirtyChecker\README.md" />
   </ItemGroup>
   <ItemGroup>
-    <Text Include="Source\Core\Graphics\ReamThis!!!!.txt" />
+    <Text Include="Source\Core\Graphics\ReadThis!!!!.txt" />
   </ItemGroup>
 </Project>

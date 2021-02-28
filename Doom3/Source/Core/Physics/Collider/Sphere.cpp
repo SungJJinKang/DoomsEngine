@@ -17,9 +17,9 @@ doom::physics::Sphere::Sphere(const math::Vector3& center, float radius)
 
 
 
-doom::physics::Collider::ColliderType doom::physics::Sphere::GetColliderType() const
+doom::physics::ColliderType doom::physics::Sphere::GetColliderType() const
 {
-	return doom::physics::Collider::ColliderType::Sphere;
+	return doom::physics::ColliderType::Sphere;
 }
 
 bool doom::physics::IsOverlap(const Sphere& sphere1, const Sphere& sphere2)

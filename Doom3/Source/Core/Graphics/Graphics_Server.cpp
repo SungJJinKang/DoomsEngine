@@ -68,7 +68,9 @@ void Graphics_Server::Init()
 		return;
 	}
 
-	D_DEBUG_LOG({ "Current OpenGL version is : ", std::string(reinterpret_cast<char const*>(glGetString(GL_VERSION))) });
+	D_DEBUG_LOG({ "Current OpenGL version is : ", std::string(GraphicsAPI::GetString(GraphicsAPI::GetStringParameter::VERSION)) });
+	D_DEBUG_LOG({ "Vendor is : ", std::string(GraphicsAPI::GetString(GraphicsAPI::GetStringParameter::VENDOR)) });
+	D_DEBUG_LOG({ "Renderer is : ", std::string(GraphicsAPI::GetString(GraphicsAPI::GetStringParameter::RENDERER)) });
 	glfwSetInputMode(Window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
 	//
 

@@ -36,6 +36,7 @@ namespace doom
 
 		void InitComponent() override;
 		void UpdateComponent() final;
+		virtual void FixedUpdateComponent() override;
 		void OnEndOfFrame_Component() override;
 		void OnDestroy() override;
 		void OnActivated() override;

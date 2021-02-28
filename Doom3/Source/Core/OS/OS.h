@@ -1,7 +1,6 @@
 #pragma once
 
 #include "../Core.h"
-#include "Singleton.h"
 
 namespace doom
 {

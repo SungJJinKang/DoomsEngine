@@ -39,8 +39,8 @@ namespace doom
 			//unsigned int mVertexBufferObject; <- Use Buffer::data
 
 			//const ThreeDModelMesh* mThreeDModelMesh; don't save ModelMeshAssetData
-			unsigned int mNumOfIndices;
-			unsigned int mNumOfVertices;
+			int mNumOfIndices;
+			int mNumOfVertices;
 			ePrimitiveType mPrimitiveType;
 
 			unsigned int mVertexArrayFlag;

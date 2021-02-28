@@ -7,7 +7,7 @@
 
 void doom::Move_WASD::InitComponent()
 {
-	doom::userinput::UserInput_Server::SetIsCursorLockedInScreen(true);
+	//doom::userinput::UserInput_Server::SetIsCursorLockedInScreen(true);
 }
 
 void doom::Move_WASD::UpdateComponent()

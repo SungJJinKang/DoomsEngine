@@ -71,6 +71,12 @@ void doom::graphics::DebugGraphics::DrawDebug()
 	if (DebugGraphics::mbDrawDebug == false)
 		return;
 
+	//
+	this->DebugDraw3DLine(math::Vector3::right * -100, math::Vector3::right * 100, eColor::Red);
+	this->DebugDraw3DLine(math::Vector3::up * -100, math::Vector3::up * 100, eColor::Green);
+	this->DebugDraw3DLine(math::Vector3::forward * -100, math::Vector3::forward * 100, eColor::Blue);
+	//
+
 	//DRAW 2D FIRST
 
 	/// <summary>

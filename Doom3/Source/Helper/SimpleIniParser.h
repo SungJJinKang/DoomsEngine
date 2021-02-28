@@ -15,7 +15,7 @@
 class IniData
 {
 public:
-	using ini_data_type = typename  std::variant<std::string, int, double>;
+	using ini_data_type = typename  std::variant<std::string, int, double, bool>;
 	//using VariableType = typename  std::pair<std::string, ini_data_type>;
 	
 private:

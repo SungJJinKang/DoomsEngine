@@ -6,9 +6,9 @@ doom::physics::CapsuleCollider::CapsuleCollider(const math::Vector3& center, flo
 
 }
 
-doom::physics::Collider::ColliderType doom::physics::CapsuleCollider::GetColliderType() const
+doom::physics::ColliderType doom::physics::CapsuleCollider::GetColliderType() const
 {
-	return doom::physics::Collider::ColliderType::CapsuleCollider;
+	return doom::physics::ColliderType::CapsuleCollider;
 }
 
 void doom::physics::CapsuleCollider::Render(eColor color)

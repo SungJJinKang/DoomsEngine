@@ -17,6 +17,11 @@ void doom::ServerComponent::UpdateComponent_Internal()
 	Component::UpdateComponent_Internal();
 }
 
+void doom::ServerComponent::FixedUpdateComponent_Internal()
+{
+	Component::FixedUpdateComponent_Internal();
+}
+
 void doom::ServerComponent::OnEndOfFrame_Component_Internal()
 {
 	Component::OnEndOfFrame_Component_Internal();

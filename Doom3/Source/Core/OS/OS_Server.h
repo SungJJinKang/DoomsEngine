@@ -1,6 +1,5 @@
 #pragma once
 #include "../Core.h"
-#include "Singleton.h"
 
 #if defined(WINDOW32) || defined(WINDOW64)
 #include "Window.h"

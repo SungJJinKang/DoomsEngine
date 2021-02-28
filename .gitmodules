@@ -43,3 +43,6 @@
 [submodule "Doom3/Source/Helper/StaticContainer"]
 	path = Doom3/Source/Helper/StaticContainer
 	url = https://github.com/SungJJinKang/StaticContainer.git
+[submodule "Doom3/Source/Helper/Simple_SingleTon"]
+	path = Doom3/Source/Helper/Simple_SingleTon
+	url = https://github.com/SungJJinKang/Simple_SingleTon.git

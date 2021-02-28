@@ -15,6 +15,11 @@ void PlainComponent::UpdateComponent_Internal()
 	Component::UpdateComponent_Internal();
 }
 
+void doom::PlainComponent::FixedUpdateComponent_Internal()
+{
+	Component::FixedUpdateComponent_Internal();
+}
+
 void PlainComponent::OnEndOfFrame_Component_Internal()
 {
 	Component::OnEndOfFrame_Component_Internal();

@@ -28,7 +28,7 @@ doom::physics::Circle2D::Circle2D(const math::Vector2& center, float radius)
 {
 }
 
-doom::physics::Collider::ColliderType doom::physics::Circle2D::GetColliderType() const
+doom::physics::ColliderType doom::physics::Circle2D::GetColliderType() const
 {
-	return doom::physics::Collider::ColliderType::Circle2D;
+	return doom::physics::ColliderType::Circle2D;
 }

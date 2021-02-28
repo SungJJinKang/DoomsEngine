@@ -82,9 +82,21 @@ IniData SimpleIniParser::ParseIniFile(std::string fileDirectory)
 				valueStr = std::trim(valueStr, ' ');
 				valueStr = std::trim(valueStr, ';');
 
+				std::string upperStr{};
+				upperStr.resize(valueStr.size());
+				std::transform(valueStr.begin(), valueStr.end(), upperStr.begin(), ::toupper);
+		
 				if (valueStr.size() == 1 && valueStr == "0")
 				{
 					value = 0;
+				}
+				else if (upperStr == "TRUE")
+				{
+					value = true;
+				}
+				else if (upperStr == "FALSE")
+				{
+					value = false;
 				}
 				else if (double d = std::stod(valueStr))
 				{

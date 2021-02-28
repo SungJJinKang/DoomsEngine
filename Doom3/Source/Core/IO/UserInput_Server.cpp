@@ -2,7 +2,9 @@
 
 #include "../Core.h"
 #include "../Graphics/Graphics_Server.h"
-
+#include "../Game/ConfigData.h"
+#include <Camera.h>
+#include <Vector3.h>
 using namespace doom::userinput;
 
 
@@ -16,27 +18,27 @@ void UserInput_Server::CursorEnterCallback(GLFWwindow* window, int entered)
 	{
 		double xpos, ypos;
 		glfwGetCursorPos(doom::graphics::Graphics_Server::Window, &xpos, &ypos);
-		UserInput_Server::mCursorScreenPositionX = xpos;
-		UserInput_Server::mCursorScreenPositionY = ypos;
+		doom::userinput::UserInput_Server::mCurrentCursorScreenPosition.x = xpos;
+		doom::userinput::UserInput_Server::mCurrentCursorScreenPosition.y = ypos;
 	}
 }
 
 
 void UserInput_Server::CursorPosition_Callback(GLFWwindow* window, double xpos, double ypos)
 {
-	UserInput_Server::mDeltaCursorScreenPositionX = xpos - UserInput_Server::mCursorScreenPositionX;
-	UserInput_Server::mDeltaCursorScreenPositionY = ypos - UserInput_Server::mCursorScreenPositionY;
+	UserInput_Server::mDeltaCursorScreenPosition.x = static_cast<float>(xpos) - UserInput_Server::mCurrentCursorScreenPosition.x;
+	UserInput_Server::mDeltaCursorScreenPosition.y = static_cast<float>(ypos) - UserInput_Server::mCurrentCursorScreenPosition.y;
 
-	UserInput_Server::mCursorScreenPositionX = xpos;
-	UserInput_Server::mCursorScreenPositionY = ypos;
+	doom::userinput::UserInput_Server::mCurrentCursorScreenPosition.x = xpos;
+	doom::userinput::UserInput_Server::mCurrentCursorScreenPosition.y = ypos;
 	//D_DEBUG_LOG({ "Mouse Cursor Position : Pos X ( ", std::to_string(xpos), " ) , Pos Y ( ", std::to_string(ypos), " )" }, eLogType::D_LOG);
 }
 
 
 void UserInput_Server::Scroll_Callback(GLFWwindow* window, double xoffset, double yoffset)
 {
-	UserInput_Server::mScrollOffsetX = xoffset;
-	UserInput_Server::mScrollOffsetY = yoffset;
+	UserInput_Server::mScrollOffset.x = xoffset;
+	UserInput_Server::mScrollOffset.y = yoffset;
 	UserInput_Server::mScrollChangedAtPreviousFrame = true;
 
 	D_DEBUG_LOG({ "Mouse Scroll Callback  : Offset X ( ", std::to_string(xoffset), " ) , Offset Y ( ", std::to_string(yoffset), " )" }, eLogType::D_LOG);
@@ -55,6 +57,13 @@ void UserInput_Server::MouseButton_Callback(GLFWwindow* window, int button, int 
 }
 
 
+inline void doom::userinput::UserInput_Server::UpdateCurrentCursorScreenPosition()
+{
+	doom::userinput::UserInput_Server::mCurrentCursorNDCPosition = Camera::GetMainCamera()->ScreenToNDCPoint(doom::userinput::UserInput_Server::mCurrentCursorScreenPosition);
+
+	doom::userinput::UserInput_Server::mCurrentCursorWorldPosition = Camera::GetMainCamera()->ScreenToWorldPoint(doom::userinput::UserInput_Server::mCurrentCursorScreenPosition);
+}
+
 void UserInput_Server::Init()
 {
 	glfwSetCursorEnterCallback(doom::graphics::Graphics_Server::Window, &(UserInput_Server::CursorEnterCallback));
@@ -66,24 +75,24 @@ void UserInput_Server::Init()
 	glfwSetMouseButtonCallback(doom::graphics::Graphics_Server::Window, &(UserInput_Server::MouseButton_Callback));
 #endif
 
-	UserInput_Server::SetIsCursorVisible(true);
-	UserInput_Server::SetIsCursorLockedInScreen(false);
+	UserInput_Server::SetIsCursorVisible(ConfigData::GetSingleton()->GetConfigData().GetValue<bool>("USERINPUT", "CURSOR_IS_VISIBLE"));
+	UserInput_Server::SetIsCursorLockedInScreen(ConfigData::GetSingleton()->GetConfigData().GetValue<bool>("USERINPUT", "CURSOR_LOCKED_IN_SCREEN"));
 }
 
 void UserInput_Server::Update()
 {
-	UserInput_Server::mDeltaCursorScreenPositionX = 0;
-	UserInput_Server::mDeltaCursorScreenPositionY = 0;
+	UserInput_Server::mDeltaCursorScreenPosition.x = 0;
+	UserInput_Server::mDeltaCursorScreenPosition.y = 0;
 
 	glfwPollEvents();
 
 	if (UserInput_Server::mScrollChangedAtPreviousFrame == false)
 	{
-		UserInput_Server::mScrollOffsetX = 0;
-		UserInput_Server::mScrollOffsetY = 0;
+		UserInput_Server::mScrollOffset.x = 0;
+		UserInput_Server::mScrollOffset.y = 0;
 	}
 
-	
+	this->UpdateCurrentCursorScreenPosition();
 }
 
 void UserInput_Server::OnEndOfFrame()

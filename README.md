@@ -32,6 +32,10 @@ but i can't make some librarys like graphics api, audio api....
   * glfw 3.3.2
   * assimp, sdl_image
 
+## WARNING
+On AMD GPU, OpenGL sometimes makes driver error.     
+Use NVIDEA GPU.     
+
 ## Coding Standard
 [English](https://docs.google.com/document/d/1cT8EPgMXe0eopeHvwuFmbHG4TJr5kUmcovkr5irQZmo/edit)   
 [Korean](https://docs.popekim.com/ko/coding-standards/cpp)

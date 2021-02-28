@@ -13,9 +13,9 @@ namespace doom
 		Light& operator=(const Light&) = delete;
 		Light& operator=(Light&&) noexcept = delete;
 
-		virtual void InitComponent();
-		virtual void UpdateComponent();
-		virtual void OnEndOfFrame_Component();
+		virtual void InitComponent() override;
+		virtual void UpdateComponent() override;
+		virtual void OnEndOfFrame_Component() override;
 
 	protected:
 

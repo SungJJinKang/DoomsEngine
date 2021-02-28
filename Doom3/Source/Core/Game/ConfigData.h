@@ -1,6 +1,5 @@
 #pragma once
 #include "../Core.h"
-#include "Singleton.h"
 #include "SimpleIniParser.h"
 
 namespace doom

@@ -1,8 +1,9 @@
 #pragma once
+#include "../Core.h"
 #include"../Game/IGameFlow.h"
-#include"../../Helper/Singleton.h"
 #include"../API/OpenglAPI.h"
 #include "../Graphics/Graphics_Server.h"
+#include <Vector2.h>
 
 namespace doom
 {
@@ -158,19 +159,19 @@ namespace doom
 			friend class::doom::GameCore;
 		private:
 
-			static inline double mScrollOffsetX{};
-			static inline double mScrollOffsetY{};
+			static inline math::Vector2 mScrollOffset{};
 
-			static inline double mCursorScreenPositionX{};
 			/// <summary>
 			/// The callback functions receives the cursor position, measured in screen coordinates but relative to the top-left corner of the window content area. 
 			/// In Opengl, Screen Point is relative to top-left corner
 			/// So Top of Screen will return y value -1
 			/// </summary>
-			static inline double mCursorScreenPositionY{};
-
-			static inline double mDeltaCursorScreenPositionX{};
-			static inline double mDeltaCursorScreenPositionY{};
+			static inline math::Vector2  mCurrentCursorScreenPosition{};
+			static inline math::Vector2  mCurrentCursorNDCPosition{};
+			static inline math::Vector3  mCurrentCursorWorldPosition{};
+			static inline void UpdateCurrentCursorScreenPosition();
+		
+			static inline math::Vector2  mDeltaCursorScreenPosition{};
 
 			virtual void Init() final;
 			virtual void Update() final;
@@ -220,31 +221,50 @@ namespace doom
 			{
 				return glfwGetKey(doom::graphics::Graphics_Server::Window, keyCode) == GLFW_PRESS;
 			}
-			
-			/// <summary>
-			/// Screen Position 
-			/// </summary>
-			/// <returns></returns>
-			[[nodiscard]] static double GetMouseScreenPositionX() noexcept
+
+		
+			[[nodiscard]] static math::Vector2 GetCurrentMouseScreenPosition() noexcept
 			{
-				return UserInput_Server::mCursorScreenPositionX;
+				return UserInput_Server::mCurrentCursorScreenPosition;
 			}
-			/// <summary>
-			/// Screen Position 
-			/// </summary>
-			/// <returns></returns>
-			[[nodiscard]] static double GetMouseScreenPositionY() noexcept
+			[[nodiscard]] static math::Vector2 GetCurrentMouseNDCPosition() noexcept
 			{
-				return UserInput_Server::mCursorScreenPositionY;
+				return UserInput_Server::mCurrentCursorNDCPosition;
+			}
+			[[nodiscard]] static math::Vector3 GetCurrentMouseWorldPosition() noexcept
+			{
+				return UserInput_Server::mCurrentCursorWorldPosition;
 			}
 
+			/// <summary>
+			/// Screen Position 
+			/// </summary>
+			/// <returns></returns>
+			[[nodiscard]] static double GetCurrentMouseScreenPositionX() noexcept
+			{
+				return UserInput_Server::mCurrentCursorScreenPosition.x;
+			}
+			/// <summary>
+			/// Screen Position 
+			/// </summary>
+			/// <returns></returns>
+			[[nodiscard]] static double GetCurrentMouseScreenPositionY() noexcept
+			{
+				return UserInput_Server::mCurrentCursorScreenPosition.y;
+			}
+
+
+			[[nodiscard]] static math::Vector2 GetDeltaMouseScreenPosition() noexcept
+			{
+				return UserInput_Server::mDeltaCursorScreenPosition;
+			}
 			/// <summary>
 			/// Delta
 			/// </summary>
 			/// <returns></returns>
 			[[nodiscard]] static double GetDeltaMouseScreenPositionX() noexcept
 			{
-				return UserInput_Server::mDeltaCursorScreenPositionX;
+				return UserInput_Server::mDeltaCursorScreenPosition.x;
 			}
 			/// <summary>
 			/// Delta
@@ -252,16 +272,21 @@ namespace doom
 			/// <returns></returns>
 			[[nodiscard]] static double GetDeltaMouseScreenPositionY() noexcept
 			{
-				return UserInput_Server::mDeltaCursorScreenPositionY;
+				return UserInput_Server::mDeltaCursorScreenPosition.y;
 			}
 
+
+			[[nodiscard]] static math::Vector2 GetMouseScrollOffset() noexcept
+			{
+				return UserInput_Server::mScrollOffset;
+			}
 			/// <summary>
 			/// -1 ~ 1
 			/// </summary>
 			/// <returns></returns>
 			[[nodiscard]] static double GetMouseScrollOffsetX() noexcept
 			{
-				return UserInput_Server::mScrollOffsetX;
+				return UserInput_Server::mScrollOffset.x;
 			}
 			/// <summary>
 			/// -1 ~ 1
@@ -269,7 +294,7 @@ namespace doom
 			/// <returns></returns>
 			[[nodiscard]] static double GetMouseScrollOffsetY() noexcept
 			{
-				return UserInput_Server::mScrollOffsetY;
+				return UserInput_Server::mScrollOffset.y;
 			}
 
 			[[nodiscard]] static bool GetMouseButtonPress(eMouse_Button_Type mouse_button_type) noexcept
