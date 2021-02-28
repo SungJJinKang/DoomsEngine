@@ -13,9 +13,6 @@
 [submodule "Doom3/Source/Helper/vector_erase_move_lastelement"]
 	path = Doom3/Source/Helper/vector_erase_move_lastelement
 	url = https://github.com/SungJJinKang/vector_erase_move_lastelement.git
-[submodule "Doom3/Source/Helper/concurrentqueue"]
-	path = Doom3/Source/Helper/concurrentqueue
-	url = https://github.com/SungJJinKang/concurrentqueue.git
 [submodule "Doom3/Source/Helper/crossguid"]
 	path = Doom3/Source/Helper/crossguid
 	url = https://github.com/graeme-hill/crossguid.git
