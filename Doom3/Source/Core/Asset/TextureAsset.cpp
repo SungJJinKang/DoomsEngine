@@ -7,8 +7,8 @@
 using namespace doom::graphics;
 
 
-doom::TextureAsset::TextureAsset(int width, int height, int componentCount, unsigned char* data)
-	: mWidth{ width }, mHeight{ height }, mComponentType{ static_cast<eTextureComponent>(componentCount) }, mData{ data }
+doom::TextureAsset::TextureAsset(int width, int height, int componentCount, unsigned char* data, eTextureCompressionType compressionType)
+	: mWidth{ width }, mHeight{ height }, mComponentType{ static_cast<eTextureComponent>(componentCount) }, mTexturerCompressionType{ compressionType }, mData{ data }
 {
 
 }

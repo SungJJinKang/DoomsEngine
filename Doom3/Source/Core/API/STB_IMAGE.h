@@ -8,3 +8,4 @@
 
 #endif
 #include <stb_image.h>
+#include <stb_dxt.h>

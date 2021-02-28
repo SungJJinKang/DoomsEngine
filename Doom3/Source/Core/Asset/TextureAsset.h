@@ -32,12 +32,22 @@ namespace doom
 			RGB = 3,
 			RGBA = 4
 		};
+
+		enum class eTextureCompressionType
+		{
+			NONE,
+			DXT,
+			BC4,
+			BC5
+		};
+
 	private:
 
 
 		int mWidth;
 		int mHeight;
 		eTextureComponent mComponentType; // 1 ~ 4 ( rgb, rgba ~~ )
+		eTextureCompressionType mTexturerCompressionType;
 		std::unique_ptr<unsigned char[]> mData;
 
 		graphics::Texture* mTexture;
@@ -46,7 +56,7 @@ namespace doom
 	
 	public:
 		
-		TextureAsset(int width, int height, int componentCount, unsigned char* data);
+		TextureAsset(int width, int height, int componentCount, unsigned char* data, eTextureCompressionType compressionType);
 		TextureAsset(const TextureAsset&) = delete;
 		TextureAsset(TextureAsset&& textureAsset) noexcept = default;
 		TextureAsset& operator=(const TextureAsset& ) = delete;
