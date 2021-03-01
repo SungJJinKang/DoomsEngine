@@ -1,6 +1,13 @@
 #pragma once
 #include "Base_Asset.h"
 
+#include "../Graphics/TextureFormat.h"
+
+namespace DirectX
+{
+	class ScratchImage;
+}
+
 namespace doom
 {
 	namespace graphics
@@ -24,31 +31,23 @@ namespace doom
 		template<eAssetType loopVariable>
 		friend struct assetimporter::OnEndImportInMainThreadFunctor;
 
-	public:
-		enum class eTextureComponent
-		{
-			Grey = 1,
-			GreyAlpha = 2,
-			RGB = 3,
-			RGBA = 4
-		};
-
-		enum class eTextureCompressionType
-		{
-			NONE,
-			DXT,
-			BC4,
-			BC5
-		};
-
 	private:
 
 
 		int mWidth;
 		int mHeight;
-		eTextureComponent mComponentType; // 1 ~ 4 ( rgb, rgba ~~ )
-		eTextureCompressionType mTexturerCompressionType;
-		std::unique_ptr<unsigned char[]> mData;
+		int mMipMapLevel;
+		/// <summary>
+		/// Size in bytes of All Images ( All mipmaps )
+		/// </summary>
+		size_t mEntireImageSize;
+
+		bool bmIsCompressed;
+		graphics::eTextureComponentFormat mComponentFormat; // 1 ~ 4 ( rgb, rgba ~~ )
+		graphics::eTextureInternalFormat mInternalFormat;
+		graphics::eTextureCompressedInternalFormat mCompressedInternalFormat;
+
+		DirectX::ScratchImage* mScratchImage;
 
 		graphics::Texture* mTexture;
 		void CreateTexture();
@@ -56,7 +55,7 @@ namespace doom
 	
 	public:
 		
-		TextureAsset(int width, int height, int componentCount, unsigned char* data, eTextureCompressionType compressionType);
+		TextureAsset(DirectX::ScratchImage* scratchImage);
 		TextureAsset(const TextureAsset&) = delete;
 		TextureAsset(TextureAsset&& textureAsset) noexcept = default;
 		TextureAsset& operator=(const TextureAsset& ) = delete;

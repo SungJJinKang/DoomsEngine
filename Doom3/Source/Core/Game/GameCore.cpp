@@ -9,6 +9,8 @@
 #include "../../GameLogic/TEST.h"
 #include "ConfigData.h"
 
+#include "AssetImporter/AssetImporterWorker_Texture.h"
+
 
 
 
@@ -34,7 +36,9 @@ void doom::GameCore::InitGameSetting()
 	this->mPhysics_Server.FIXED_TIME_STEP = static_cast<float>(this->mMainConfigData.GetConfigData().GetValue<double>("PHYSICS", "FIXED_TIME_STEP"));
 	this->mPhysics_Server.MAX_PHYSICS_STEP = this->mMainConfigData.GetConfigData().GetValue<int>("PHYSICS", "MAX_PHYSICS_STEP");
 
-
+	assetimporter::AssetImporterWorker<eAssetType::TEXTURE>::TEXTURE_COMPRESSION_QUALITY = static_cast<float>(this->mMainConfigData.GetConfigData().GetValue<double>("TEXTURE", "COMPRESSION_QUALITY"));
+	assetimporter::AssetImporterWorker<eAssetType::TEXTURE>::MIP_MAP_LEVELS = this->mMainConfigData.GetConfigData().GetValue<int>("TEXTURE", "MIP_MAP_LEVELS");
+	assetimporter::AssetImporterWorker<eAssetType::TEXTURE>::MAX_IMAGE_SIZE = this->mMainConfigData.GetConfigData().GetValue<int>("TEXTURE", "MAX_IMAGE_SIZE");
 }
 
 void doom::GameCore::Init()

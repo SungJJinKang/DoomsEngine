@@ -55,6 +55,7 @@ namespace doom
 		D_UUID mUUID;
 		std::string mAssetFileName;
 		std::filesystem::path mAssetPath;
+		unsigned int mAssetFileSize;
 
 		bool bmIsDataLoaded;
 

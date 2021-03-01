@@ -13,7 +13,12 @@ static const std::regex variablePattern{ R"(\s*(\S+)\s*=\s*(\S+)\s*)" };
 
 
 
-
+bool is_number(const std::string& s)
+{
+	std::string::const_iterator it = s.begin();
+	while (it != s.end() && (std::isdigit(*it) || *it == '.')) ++it;
+	return !s.empty() && it == s.end();
+}
 
 IniData SimpleIniParser::ParseIniFile(std::string fileDirectory)
 {
@@ -79,8 +84,15 @@ IniData SimpleIniParser::ParseIniFile(std::string fileDirectory)
 				IniData::ini_data_type value;
 
 				std::string valueStr = matches[2].str();
+				size_t commnetPos = valueStr.find_first_of("//");
+				if (commnetPos != std::string::npos)
+				{
+					valueStr.resize(commnetPos);
+				}
 				valueStr = std::trim(valueStr, ' ');
 				valueStr = std::trim(valueStr, ';');
+
+				
 
 				std::string upperStr{};
 				upperStr.resize(valueStr.size());
@@ -98,8 +110,9 @@ IniData SimpleIniParser::ParseIniFile(std::string fileDirectory)
 				{
 					value = false;
 				}
-				else if (double d = std::stod(valueStr))
+				else if (is_number(valueStr))
 				{
+					double d = std::stod(valueStr);
 					if (valueStr.find('.') != std::string::npos)
 					{
 						value = d;

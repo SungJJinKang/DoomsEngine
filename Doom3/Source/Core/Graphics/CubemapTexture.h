@@ -10,9 +10,15 @@ namespace doom
 		public:
 			CubemapTexture() = delete;
 			CubemapTexture(eTextureType textureType,
-				eTargetTexture target, eInternalFormat internalFormat, unsigned int width, eDataFormat format, eDataType type, const void* data);
+				eTargetTexture target, eTextureInternalFormat internalFormat, unsigned int width, eTextureComponentFormat format, eDataType type, const void* data);
 			CubemapTexture(eTextureType textureType,
-				eTargetTexture target, eInternalFormat internalFormat, unsigned int width, unsigned int height, eDataFormat format, eDataType type, const void* data);
+				eTargetTexture target, eTextureInternalFormat internalFormat, unsigned int width, unsigned int height, eTextureComponentFormat format, eDataType type, const void* data);
+			CubemapTexture(eTextureType textureType,
+				eTargetTexture target, eTextureCompressedInternalFormat compressedInternalFormat, unsigned int width, eTextureComponentFormat format, eDataType type, const void* data);
+			CubemapTexture(eTextureType textureType,
+				eTargetTexture target, eTextureCompressedInternalFormat compressedInternalFormat, unsigned int width, unsigned int height, eTextureComponentFormat format, eDataType type, const void* data);
+
+			
 			virtual ~CubemapTexture() = default;
 			CubemapTexture(const CubemapTexture&) = delete;
 			CubemapTexture& operator=(const CubemapTexture&) noexcept = delete;

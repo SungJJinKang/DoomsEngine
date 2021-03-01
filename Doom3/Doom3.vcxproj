@@ -88,7 +88,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)Source\Helper;$(SolutionDir)Source\Component;$(SolutionDir)Source\Core\Scene;$(SolutionDir)Source\Component\Core;$(SolutionDir)Source\Helper/crossguid;$(SolutionDir)Source\GameLogic\CustomComponent;$(SolutionDir)Source\Core\Math\LightMath_Cpp;$(SolutionDir)Source\Core\IO;$(SolutionDir)Source\Core\Time;$(SolutionDir)Source\GameLogic;$(SolutionDir)Source\Core;$(SolutionDir)Source\Core\Logger;$(SolutionDir)Source\Core\Physics;$(SolutionDir)Source\Core\OS;$(VcpkgInstalledDir)x84-windows\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Source\Helper;$(SolutionDir)Source\Component;$(SolutionDir)Source\Core\Scene;$(SolutionDir)Source\Component\Core;$(SolutionDir)Source\Helper/crossguid;$(SolutionDir)Source\GameLogic\CustomComponent;$(SolutionDir)Source\Core\Math\LightMath_Cpp;$(SolutionDir)Source\Core\IO;$(SolutionDir)Source\Core\Time;$(SolutionDir)Source\GameLogic;$(SolutionDir)Source\Core;$(SolutionDir)Source\Core\Logger;$(SolutionDir)Source\Core\Physics;$(SolutionDir)Source\Core\OS;$(VcpkgInstalledDir)x84-windows\include;$(SolutionDir)dependency\Compressonator\include</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
@@ -108,7 +108,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>C:\Doom3FromScratch\Doom3\dependency\;$(SolutionDir)dependency\glad\include;$(SolutionDir)dependency\assimp\;$(SolutionDir)dependency\glfw-3.3.2.bin.WIN64\include\;$(SolutionDir)dependency\glad\include;%(AdditionalIncludeDirectories);$(SolutionDir)dependency\glad\include;$(SolutionDir)dependency\glfw-3.3.2.bin.WIN64\include\</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Doom3FromScratch\Doom3\dependency\;$(SolutionDir)dependency\glad\include;$(SolutionDir)dependency\assimp\;$(SolutionDir)dependency\glfw-3.3.2.bin.WIN64\include\;%(AdditionalIncludeDirectories);$(SolutionDir)dependency\Compressonator\include</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
@@ -118,8 +118,8 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(SolutionDir)dependency\assimp;$(SolutionDir)dependency\glfw\lib;$(SolutionDir)dependency\crossguid\build\Release;$(SolutionDir)Source\Helper\crossguid\build\Release;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>glfw3.lib;assimp-vc142-mt.lib;xg.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)dependency\Compressonator\lib\VS2017\x86;$(SolutionDir)dependency\assimp;$(SolutionDir)dependency\glfw\lib;$(SolutionDir)dependency\crossguid\build\Release;$(SolutionDir)Source\Helper\crossguid\build\Release;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>xg.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -148,7 +148,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)Source\Helper;$(SolutionDir)dependency;$(SolutionDir)dependency\glad\include;$(SolutionDir)dependency\assimp\include;$(SolutionDir)dependency\assimp\build\include;$(SolutionDir)Source\Component;$(SolutionDir)Source\Core\Scene;$(SolutionDir)Source\Component\Core;$(SolutionDir)Source\Helper/crossguid;$(SolutionDir)Source\GameLogic\CustomComponent;$(SolutionDir)Source\Core\Math\LightMath_Cpp;$(SolutionDir)Source\Core\IO;$(SolutionDir)Source\Core\Time;$(SolutionDir)Source\GameLogic;$(SolutionDir)Source\Core;$(SolutionDir)Source\Core\Logger;$(SolutionDir)Source\Core\Physics</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Source\Helper;$(SolutionDir)dependency;$(SolutionDir)dependency\glad\include;$(SolutionDir)dependency\assimp\include;$(SolutionDir)dependency\assimp\build\include;$(SolutionDir)Source\Component;$(SolutionDir)Source\Core\Scene;$(SolutionDir)Source\Component\Core;$(SolutionDir)Source\Helper/crossguid;$(SolutionDir)Source\GameLogic\CustomComponent;$(SolutionDir)Source\Core\Math\LightMath_Cpp;$(SolutionDir)Source\Core\IO;$(SolutionDir)Source\Core\Time;$(SolutionDir)Source\GameLogic;$(SolutionDir)Source\Core;$(SolutionDir)Source\Core\Logger;$(SolutionDir)Source\Core\Physics;$(SolutionDir)dependency\Compressonator\include</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
@@ -158,14 +158,16 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(SolutionDir)dependency\glfw\build\src\Release;$(SolutionDir)dependency\assimp\build\code\Release;$(SolutionDir)dependency\crossguid\build\Release;$(SolutionDir)Source\Helper\crossguid\build\Release;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>glfw3.lib;assimp-vc142-mt.lib;xg.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)dependency\Compressonator\lib\VS2017\x64;$(SolutionDir)dependency\glfw\build\src\Release;$(SolutionDir)dependency\assimp\build\code\Release;$(SolutionDir)dependency\crossguid\build\Release;$(SolutionDir)Source\Helper\crossguid\build\Release;%(AdditionalLibraryDirectories);$(SolutionDir)dependency\Compressonator\lib\VS2017\x64;$(SolutionDir)dependency\Compressonator\lib\VS2017\x64</AdditionalLibraryDirectories>
+      <AdditionalDependencies>xg.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Source\Component\EventSystem.cpp" />
     <ClCompile Include="Source\Component\PhysicsComponent\BoxCollider2D.cpp" />
     <ClCompile Include="Source\Component\PhysicsComponent\MeshCollider.cpp" />
+    <ClCompile Include="Source\Core\IO\AssetImporter\AssetApiImporter.cpp" />
+    <ClCompile Include="Source\Core\IO\AssetImporter\AssetImporterWorker_Three_D_Model.cpp" />
     <ClCompile Include="Source\Core\OS\OS_Server.cpp" />
     <ClCompile Include="Source\Core\OS\Window.cpp" />
     <ClCompile Include="Source\Core\Physics\ColliderTestRoom.cpp" />
@@ -270,6 +272,7 @@
     <ClInclude Include="Source\Component\PhysicsComponent\BoxCollider2D.h" />
     <ClInclude Include="Source\Component\PhysicsComponent\MeshCollider.h" />
     <ClInclude Include="Source\Core\Game\ConfigData.h" />
+    <ClInclude Include="Source\Core\Graphics\TextureFormat.h" />
     <ClInclude Include="Source\Core\Math\LightMath_Cpp\Trigonometric.h" />
     <ClInclude Include="Source\Core\OS\OS.h" />
     <ClInclude Include="Source\Core\OS\OS_Server.h" />

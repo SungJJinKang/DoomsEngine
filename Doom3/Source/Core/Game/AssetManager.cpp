@@ -26,18 +26,23 @@ void doom::assetimporter::AssetManager::OnEndOfFrame()
 
 void doom::assetimporter::AssetManager::ImportEntireAsset()
 {
-	std::array<std::vector<std::filesystem::path>, doom::Asset::GetAssetTypeCount()> AssetPaths{};
+	
 	
 	/// <summary>
 	/// Check file extension
 	/// </summary>
 	for (const auto& entry : std::filesystem::recursive_directory_iterator(AssetFolderPath))
 	{
+		if (entry.is_regular_file() == false)
+		{
+			continue; // if directory if folder, continue
+		}
+
 		std::filesystem::path path = entry.path();
 		auto assetType = doom::assetimporter::Assetimporter::GetAssetType(path);
 		if (assetType.has_value())
 		{
-			AssetPaths[static_cast<unsigned int>(assetType.value())].push_back(std::move(path));
+			doom::assetimporter::AssetManager::AssetPaths[static_cast<unsigned int>(assetType.value())].push_back(std::move(path));
 		}
 	}
 		
@@ -49,5 +54,10 @@ void doom::assetimporter::AssetManager::ImportEntireAsset()
 	}
 	ForLoop_CompileTime<eAssetType>::Loop<Asset::FirstElementOfAssetType, Asset::LastElementOfAssetType, 1, doom::assetimporter::OnEndImportInMainThreadFunctor>();
 	
+}
+
+const std::array<std::vector<std::filesystem::path>, doom::Asset::GetAssetTypeCount()>& doom::assetimporter::AssetManager::GetAllAssetPath()
+{
+	return AssetPaths;
 }
 

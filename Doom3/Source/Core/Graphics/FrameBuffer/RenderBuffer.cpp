@@ -20,11 +20,11 @@ RenderBuffer::RenderBuffer(FrameBuffer& ownerFrameBuffer, GraphicsAPI::eBufferTy
 	case GraphicsAPI::eBufferType::COLOR:
 		if (Graphics_Server::MultiSamplingNum > 0)
 		{
-			glRenderbufferStorage(GL_RENDERBUFFER, static_cast<unsigned int>(Texture::eInternalFormat::RGBA16F), width, height);
+			glRenderbufferStorage(GL_RENDERBUFFER, static_cast<unsigned int>(eTextureInternalFormat::RGBA16F), width, height);
 		}
 		else
 		{
-			glRenderbufferStorageMultisample(GL_RENDERBUFFER, Graphics_Server::MultiSamplingNum, static_cast<unsigned int>(Texture::eInternalFormat::RGBA16F), width, height);
+			glRenderbufferStorageMultisample(GL_RENDERBUFFER, Graphics_Server::MultiSamplingNum, static_cast<unsigned int>(eTextureInternalFormat::RGBA16F), width, height);
 		}
 				
 		glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_RENDERBUFFER, this->mRenderBufferID);
@@ -33,11 +33,11 @@ RenderBuffer::RenderBuffer(FrameBuffer& ownerFrameBuffer, GraphicsAPI::eBufferTy
 	case GraphicsAPI::eBufferType::DEPTH:
 		if (Graphics_Server::MultiSamplingNum > 0)
 		{
-			glRenderbufferStorage(GL_RENDERBUFFER, static_cast<unsigned int>(Texture::eInternalFormat::DEPTH_COMPONENT), width, height);
+			glRenderbufferStorage(GL_RENDERBUFFER, static_cast<unsigned int>(eTextureInternalFormat::DEPTH_COMPONENT), width, height);
 		}
 		else
 		{
-			glRenderbufferStorageMultisample(GL_RENDERBUFFER, Graphics_Server::MultiSamplingNum, static_cast<unsigned int>(Texture::eInternalFormat::DEPTH_COMPONENT), width, height);
+			glRenderbufferStorageMultisample(GL_RENDERBUFFER, Graphics_Server::MultiSamplingNum, static_cast<unsigned int>(eTextureInternalFormat::DEPTH_COMPONENT), width, height);
 		}
 
 		glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, this->mRenderBufferID);
@@ -46,11 +46,11 @@ RenderBuffer::RenderBuffer(FrameBuffer& ownerFrameBuffer, GraphicsAPI::eBufferTy
 	case GraphicsAPI::eBufferType::DEPTH_STENCIL:
 		if (Graphics_Server::MultiSamplingNum > 0)
 		{
-			glRenderbufferStorage(GL_RENDERBUFFER, static_cast<unsigned int>(Texture::eInternalFormat::DEPTH24_STENCIL8), width, height);
+			glRenderbufferStorage(GL_RENDERBUFFER, static_cast<unsigned int>(eTextureInternalFormat::DEPTH24_STENCIL8), width, height);
 		}
 		else
 		{
-			glRenderbufferStorageMultisample(GL_RENDERBUFFER, Graphics_Server::MultiSamplingNum, static_cast<unsigned int>(Texture::eInternalFormat::DEPTH24_STENCIL8), width, height);
+			glRenderbufferStorageMultisample(GL_RENDERBUFFER, Graphics_Server::MultiSamplingNum, static_cast<unsigned int>(eTextureInternalFormat::DEPTH24_STENCIL8), width, height);
 		}
 
 		glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_RENDERBUFFER, this->mRenderBufferID);

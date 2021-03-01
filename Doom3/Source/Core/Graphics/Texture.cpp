@@ -9,9 +9,9 @@ using namespace doom::graphics;
 
 
 Texture::Texture(eTextureType textureType, eBindTarget bindTarget,
-	eTargetTexture targetTexture, eInternalFormat internalFormat, unsigned int width, eDataFormat format, eDataType type, const void* data = nullptr)
+	eTargetTexture targetTexture, eTextureInternalFormat internalFormat, eTextureCompressedInternalFormat compressedInternalFormat, unsigned int width, eTextureComponentFormat format, eDataType type)
 	: mTextureType{ textureType }, mBindTarget{ bindTarget },
-	mTarget{ targetTexture }, mInternalFormat{ internalFormat }, mWidth{ width }, mHeight{ 0 }, mDataFormat{ format }, mDataType{ type }
+	mTarget{ targetTexture }, mInternalFormat{ internalFormat }, mCompressedInternalFormat{ compressedInternalFormat }, mWidth{ width }, mHeight{ 0 }, mDataFormat{ format }, mDataType{ type }
 {
 	D_ASSERT(mWidth > 0 && mHeight > 0);
 	glGenTextures(1, &(this->mBufferID.GetReference()));
@@ -19,9 +19,9 @@ Texture::Texture(eTextureType textureType, eBindTarget bindTarget,
 
 
 Texture::Texture(eTextureType textureType, eBindTarget bindTarget,
-	eTargetTexture targetTexture, eInternalFormat internalFormat, unsigned int width, unsigned int height, eDataFormat format, eDataType type, const void* data = nullptr)
+	eTargetTexture targetTexture, eTextureInternalFormat internalFormat, eTextureCompressedInternalFormat compressedInternalFormat, unsigned int width, unsigned int height, eTextureComponentFormat format, eDataType type)
 	: mTextureType{ textureType }, mBindTarget{ bindTarget },
-	mTarget{ targetTexture }, mInternalFormat{ internalFormat }, mWidth{ width }, mHeight{ height }, mDataFormat{ format }, mDataType{ type }
+	mTarget{ targetTexture }, mInternalFormat{ internalFormat }, mCompressedInternalFormat{ compressedInternalFormat }, mWidth{ width }, mHeight{ height }, mDataFormat{ format }, mDataType{ type }
 {
 	D_ASSERT(mWidth > 0 && mHeight > 0);
 	glGenTextures(1, &(this->mBufferID.GetReference()));

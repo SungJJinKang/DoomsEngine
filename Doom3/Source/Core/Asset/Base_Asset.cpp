@@ -4,8 +4,9 @@ using namespace doom;
 
 void Asset::SetBaseMetaData(const std::filesystem::path& path)
 {
-	mAssetFileName = path.has_filename() ? path.filename().string() : "";
-	mAssetPath = path.string();
+	this->mAssetFileName = path.has_filename() ? path.filename().string() : "";
+	this->mAssetPath = path.string();
+	this->mAssetFileSize = std::filesystem::file_size(path);
 }
 
 Asset::Asset() : mUUID{ GenerateUUID() }, bmIsDataLoaded{ true }

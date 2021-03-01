@@ -52,6 +52,8 @@ namespace doom
 		private:
 			const std::filesystem::path AssetFolderPath{ ASSET_FOLDER_DIRECTORY };
 
+			static inline std::array<std::vector<std::filesystem::path>, doom::Asset::GetAssetTypeCount()> AssetPaths{};
+
 			template<eAssetType assetType>
 			static inline AssetContainer<assetType> ImportedAssets{};
 
@@ -122,6 +124,8 @@ namespace doom
 				return AssetManager::ImportedAssets<assetType>.mAssetsForIterating;
 			}
 
+			static const std::array<std::vector<std::filesystem::path>, doom::Asset::GetAssetTypeCount()>& GetAllAssetPath();
+			
 		};
 
 		template<eAssetType loopVariable>

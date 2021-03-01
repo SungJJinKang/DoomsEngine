@@ -67,11 +67,9 @@ const std::map<std::string, doom::eAssetType> doom::assetimporter::Assetimporter
 	{ ".jpeg", doom::eAssetType::TEXTURE },
 	{ ".png", doom::eAssetType::TEXTURE },
 	{ ".bmp", doom::eAssetType::TEXTURE },
-	{ ".psd", doom::eAssetType::TEXTURE },
 	{ ".tga", doom::eAssetType::TEXTURE },
-	{ ".hdr", doom::eAssetType::TEXTURE },
-	{ ".pic", doom::eAssetType::TEXTURE },
-	{ ".pnm", doom::eAssetType::TEXTURE }
+	//{ ".hdr", doom::eAssetType::TEXTURE },
+	{ ".dds", doom::eAssetType::TEXTURE }
 };
 
 std::optional<doom::eAssetType> Assetimporter::GetAssetType(const std::filesystem::path& path)
