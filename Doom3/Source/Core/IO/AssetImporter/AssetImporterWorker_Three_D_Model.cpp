@@ -19,25 +19,36 @@ void doom::assetimporter::AssetApiImporter<eAssetType::THREE_D_MODEL>::InitApiIm
 		aiComponent_TEXTURES
 	);// set removed components flags
 }
-void doom::assetimporter::AssetImporterWorker<eAssetType::THREE_D_MODEL>::InitSetting()
+
+namespace doom
+{
+	namespace assetimporter 
+	{
+		class AssimpLogStream : public Assimp::LogStream {
+		public:
+			// Write womethink using your own functionality
+			inline void write(const char* message)
+			{
+				D_DEBUG_LOG({ "Assimp Debugger : ", message });
+			}
+		};
+	}
+}
+
+
+template <>
+void doom::assetimporter::InitAssetSetting<eAssetType::THREE_D_MODEL>()
 {
 #ifdef DEBUG_MODE
-	static std::atomic<bool> IsAssimpDebuggerInitialized;
+	Assimp::DefaultLogger::create("", Assimp::Logger::NORMAL);
+	// Select the kinds of messages you want to receive on this log stream
+	const unsigned int severity = Assimp::Logger::Err;// | Assimp::Logger::Warn;
 
-	//TODO : 이거 atomic쓰지말고 그냥 메인스레드에서 ImportEntire 전에 실행 되도록 밖으로 빼버리자
-	if (IsAssimpDebuggerInitialized.exchange(true) == false)
-	{
-		Assimp::DefaultLogger::create("", Assimp::Logger::NORMAL);
-		// Select the kinds of messages you want to receive on this log stream
-		const unsigned int severity = Assimp::Logger::Err;// | Assimp::Logger::Warn;
-
-		// Attaching it to the default logger
-		Assimp::DefaultLogger::get()->attachStream(new AssimpLogStream, severity);
-
-		IsAssimpDebuggerInitialized = true;
-	}
+	// Attaching it to the default logger
+	Assimp::DefaultLogger::get()->attachStream(new doom::assetimporter::AssimpLogStream, severity);
 #endif
 }
+
 
 std::optional<Asset::asset_type_t<eAssetType::THREE_D_MODEL>> doom::assetimporter::AssetImporterWorker<eAssetType::THREE_D_MODEL>::ImportSpecificAsset(const std::filesystem::path& path)
 {

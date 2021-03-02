@@ -11,12 +11,14 @@ namespace doom
 	namespace assetimporter
 	{
 		template <eAssetType assetType>
+		void InitAssetSetting() {}
+		template <eAssetType assetType>
 		class AssetImporterWorker
 		{
 			friend class Assetimporter;
 		private:
 			static std::optional<Asset::asset_type_t<assetType>> ImportSpecificAsset(const std::filesystem::path& path);
-			static void InitSetting() {}
+			
 		};
 		
 	}

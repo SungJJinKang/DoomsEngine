@@ -19,26 +19,18 @@ namespace doom
 		template<>
 		void AssetApiImporter<eAssetType::THREE_D_MODEL>::InitApiImporter(api_importer_type_t<eAssetType::THREE_D_MODEL>& apiImporter);
 
+		template <>
+		void InitAssetSetting<eAssetType::THREE_D_MODEL>();
 
 		template <>
 		class AssetImporterWorker<eAssetType::THREE_D_MODEL>
 		{
 			friend class GameCore;
 			friend class Assetimporter;
-#ifdef DEBUG_MODE
-			class AssimpLogStream : public Assimp::LogStream {
-			public:
-				// Write womethink using your own functionality
-				inline void write(const char* message)
-				{
-					D_DEBUG_LOG({ "Assimp Debugger : ", message });
-				}
-			};
-#endif
 
 		private:
 
-			static void InitSetting();
+			
 			static std::optional<Asset::asset_type_t<eAssetType::THREE_D_MODEL>> ImportSpecificAsset(const std::filesystem::path& path);
 			/// Create Nodes Recursively
 			/// </summary>
@@ -52,7 +44,7 @@ namespace doom
 
 		};
 
-		
+
 		extern template class AssetApiImporter<eAssetType::THREE_D_MODEL>;
 		extern template class AssetImporterWorker<eAssetType::THREE_D_MODEL>;
 

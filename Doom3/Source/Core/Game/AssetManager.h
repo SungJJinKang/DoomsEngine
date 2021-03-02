@@ -133,7 +133,7 @@ namespace doom
 		{
 			constexpr inline void operator()()
 			{
-				doom::assetimporter::AssetImporterWorker<loopVariable>::InitSetting();
+				doom::assetimporter::InitAssetSetting<loopVariable>();
 			}
 
 		};
