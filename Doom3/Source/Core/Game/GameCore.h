@@ -16,7 +16,7 @@
 #include "../OS/OS_Server.h"
 #include "../Graphics/Graphics_Server.h"
 #include "../Physics/Physics_Server.h"
-#include "../ResourceManagement/Thread_Server.h"
+#include "../ResourceManagement/JobSystem.h"
 #include "../IO/UserInput_Server.h"
 #include "../Time/Time_Server.h"
 #include "../Time/MainTimer.h"
@@ -49,7 +49,7 @@ namespace doom
 		assetimporter::AssetManager mAssetManager{};
 		graphics::Graphics_Server mGraphics_Server{};
 		physics::Physics_Server mPhysics_Server{};
-		resource::Thread_Server mThreadManager{};
+		resource::JobSystem mThreadManager{};
 		userinput::UserInput_Server mUserImput_Server{};
 		time::Time_Server mTime_Server{};
 

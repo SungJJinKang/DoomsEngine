@@ -168,9 +168,6 @@
     <ClCompile Include="Source\Core\Physics\Physics_Server.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Core\ResourceManagement\Thread_Server.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Source\Component\Core\ServerComponent.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -307,6 +304,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Source\Core\IO\AssetImporter\AssetApiImporter.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Core\ResourceManagement\JobSystem.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -734,9 +734,6 @@
     <ClInclude Include="Source\Core\Physics\Physics_Server.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Core\ResourceManagement\Thread_Server.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Component\Core\ServerComponent.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -906,6 +903,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\Core\Graphics\TextureFormat.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Core\ResourceManagement\JobSystem.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

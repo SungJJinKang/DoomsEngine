@@ -34,7 +34,7 @@ namespace doom
 		///
 		float mFieldOfViewInDegree = 60;
 
-		float mClippingPlaneNear = 0.3f;
+		float mClippingPlaneNear = 0.1f;
 		float mClippingPlaneFar = 1000.0f;
 
 		/// <summary>

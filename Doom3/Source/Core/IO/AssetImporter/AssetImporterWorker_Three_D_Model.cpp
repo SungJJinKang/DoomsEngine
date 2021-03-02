@@ -19,19 +19,13 @@ void doom::assetimporter::AssetApiImporter<eAssetType::THREE_D_MODEL>::InitApiIm
 		aiComponent_TEXTURES
 	);// set removed components flags
 }
-
-std::optional<Asset::asset_type_t<eAssetType::THREE_D_MODEL>> doom::assetimporter::AssetImporterWorker<eAssetType::THREE_D_MODEL>::ImportSpecificAsset(const std::filesystem::path& path)
+void doom::assetimporter::AssetImporterWorker<eAssetType::THREE_D_MODEL>::InitSetting()
 {
-	std::stringstream stream;
-	stream << std::this_thread::get_id();
-
-	D_DEBUG_LOG(stream.str());
-
-
 #ifdef DEBUG_MODE
-	static bool IsAssimpDebuggerInitialized;
+	static std::atomic<bool> IsAssimpDebuggerInitialized;
 
-	if (IsAssimpDebuggerInitialized == false)
+	//TODO : 이거 atomic쓰지말고 그냥 메인스레드에서 ImportEntire 전에 실행 되도록 밖으로 빼버리자
+	if (IsAssimpDebuggerInitialized.exchange(true) == false)
 	{
 		Assimp::DefaultLogger::create("", Assimp::Logger::NORMAL);
 		// Select the kinds of messages you want to receive on this log stream
@@ -43,6 +37,17 @@ std::optional<Asset::asset_type_t<eAssetType::THREE_D_MODEL>> doom::assetimporte
 		IsAssimpDebuggerInitialized = true;
 	}
 #endif
+}
+
+std::optional<Asset::asset_type_t<eAssetType::THREE_D_MODEL>> doom::assetimporter::AssetImporterWorker<eAssetType::THREE_D_MODEL>::ImportSpecificAsset(const std::filesystem::path& path)
+{
+	std::stringstream stream;
+	stream << std::this_thread::get_id();
+
+	D_DEBUG_LOG(stream.str());
+
+
+
 	AssetApiImporter<eAssetType::THREE_D_MODEL> apiImporterContainer = AssetApiImporter<eAssetType::THREE_D_MODEL>::GetApiImporter();
 	auto apiImporter = apiImporterContainer.GetReference();
 

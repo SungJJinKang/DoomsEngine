@@ -37,7 +37,7 @@ void doom::assetimporter::AssetManager::ImportEntireAsset()
 		{
 			continue; // if directory if folder, continue
 		}
-
+		 //TODO : 텍스쳐의 경우 같은 이름의 dds파일 있으면 제외시키는 기능 추가
 		std::filesystem::path path = entry.path();
 		auto assetType = doom::assetimporter::Assetimporter::GetAssetType(path);
 		if (assetType.has_value())
@@ -47,8 +47,7 @@ void doom::assetimporter::AssetManager::ImportEntireAsset()
 	}
 		
 	{
-		doom::assetimporter::Assetimporter threadPool{ 5 };
-
+		ForLoop_CompileTime<eAssetType>::Loop<Asset::FirstElementOfAssetType, Asset::LastElementOfAssetType, 1, doom::assetimporter::ImportAssetInitSetting>();
 		ForLoop_CompileTime<eAssetType>::Loop<Asset::FirstElementOfAssetType, Asset::LastElementOfAssetType, 1, doom::assetimporter::ImportAssetFutureFunctor>(AssetPaths);
 		ForLoop_CompileTime<eAssetType>::Loop<Asset::FirstElementOfAssetType, Asset::LastElementOfAssetType, 1, doom::assetimporter::GetAssetFutureFunctor>();
 	}

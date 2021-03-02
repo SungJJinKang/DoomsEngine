@@ -37,6 +37,8 @@ namespace doom
 #endif
 
 		private:
+
+			static void InitSetting();
 			static std::optional<Asset::asset_type_t<eAssetType::THREE_D_MODEL>> ImportSpecificAsset(const std::filesystem::path& path);
 			/// Create Nodes Recursively
 			/// </summary>

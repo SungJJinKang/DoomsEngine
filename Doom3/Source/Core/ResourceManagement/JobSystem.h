@@ -22,6 +22,9 @@ namespace doom
 	{
 		class Thread;
 		/// <summary>
+		/// https://www.youtube.com/watch?v=M1e9nmmD3II
+		/// JoStealing ±¸Çö, ¸Ê¸®µà½º, ±ÕµîÇÏ°Ô ½º·¹µå¿¡ job³ª´²ÁÖ±â
+		/// 
 		/// ThreadManager manage threads
 		/// Never make thread without this ThreadManager class
 		/// Thread count is limited to THREAD_COUNT
@@ -30,7 +33,7 @@ namespace doom
 		/// Each Thread have a role
 		/// So Use GetThread(index) function and GetReference thread reference and Pass Task!!!!
 		/// </summary>
-		class Thread_Server : public IGameFlow, public ISingleton<Thread_Server>
+		class JobSystem : public IGameFlow, public ISingleton<JobSystem>
 		{
 			friend class ::doom::GameCore;
 

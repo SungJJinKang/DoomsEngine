@@ -179,22 +179,6 @@ namespace doom
 			eWrapMode mWrapT;
 			eWrapMode mWrapR;
 
-			inline void TexParameterf(eBindTarget target, eTextureParameterType pname, eTextureParameterValue param) noexcept
-			{
-				glTexParameterf(static_cast<unsigned int>(target), static_cast<unsigned int>(pname), static_cast<float>(param));
-			}
-			inline void TexParameteri(eBindTarget target, eTextureParameterType pname, eTextureParameterValue param) noexcept
-			{
-				glTexParameteri(static_cast<unsigned int>(target), static_cast<unsigned int>(pname), static_cast<int>(param));
-			}
-			inline void TexParameterf(eBindTarget target, eTextureParameterType pname, float param) noexcept
-			{
-				glTexParameterf(static_cast<unsigned int>(target), static_cast<unsigned int>(pname), param);
-			}
-			inline void TexParameteri(eBindTarget target, eTextureParameterType pname, int param) noexcept
-			{
-				glTexParameteri(static_cast<unsigned int>(target), static_cast<unsigned int>(pname), param);
-			}
 
 		protected:
 
@@ -296,6 +280,24 @@ namespace doom
 			eWrapMode GetWrapModeS();
 			eWrapMode GetWrapModeT();
 			eWrapMode GetWrapModeR();
+
+			inline void TexParameterf(eBindTarget target, eTextureParameterType pname, eTextureParameterValue param) noexcept
+			{
+				glTexParameterf(static_cast<unsigned int>(target), static_cast<unsigned int>(pname), static_cast<float>(param));
+			}
+			inline void TexParameteri(eBindTarget target, eTextureParameterType pname, eTextureParameterValue param) noexcept
+			{
+				glTexParameteri(static_cast<unsigned int>(target), static_cast<unsigned int>(pname), static_cast<int>(param));
+			}
+			inline void TexParameterf(eBindTarget target, eTextureParameterType pname, float param) noexcept
+			{
+				glTexParameterf(static_cast<unsigned int>(target), static_cast<unsigned int>(pname), param);
+			}
+			inline void TexParameteri(eBindTarget target, eTextureParameterType pname, int param) noexcept
+			{
+				glTexParameteri(static_cast<unsigned int>(target), static_cast<unsigned int>(pname), param);
+			}
+
 		};
 	}
 }

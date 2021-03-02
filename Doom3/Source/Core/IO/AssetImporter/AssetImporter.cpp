@@ -92,12 +92,3 @@ std::optional<doom::eAssetType> Assetimporter::GetAssetType(const std::filesyste
 	}
 }
 
-Assetimporter::Assetimporter(size_t poolSize)
-{
-}
-
-
-Assetimporter::~Assetimporter()
-{
-}
-

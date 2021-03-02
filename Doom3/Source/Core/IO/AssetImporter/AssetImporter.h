@@ -11,7 +11,7 @@
 #include "AssetApiImporter.h"
 #include "AssetImporterWorker.h"
 
-#include "../ResourceManagement/Thread_Server.h"
+#include "../ResourceManagement/JobSystem.h"
 
 namespace doom
 {
@@ -30,10 +30,6 @@ namespace doom
 			static const std::map<std::string, doom::eAssetType> AssetExtension;
 
 		public:
-
-			Assetimporter(size_t poolSize);
-			~Assetimporter();
-			
 			template <eAssetType assetType>
 			static std::optional<Asset::asset_type_t<assetType>> ImportAsset(std::filesystem::path path)
 			{
@@ -59,7 +55,7 @@ namespace doom
 			{
 				std::function<std::optional<Asset::asset_type_t<assetType>>()> newTask = std::bind(ImportAsset<assetType>, path);
 
-				return resource::Thread_Server::GetSingleton()->PushBackJobToAnySleepingThread(std::move(newTask));
+				return resource::JobSystem::GetSingleton()->PushBackJobToAnySleepingThread(std::move(newTask));
 			}
 
 
@@ -87,7 +83,7 @@ namespace doom
 				/// </summary>
 				/// <param name="paths"></param>
 				/// <returns></returns>
-				return resource::Thread_Server::GetSingleton()->PushBackJobChunkToAnySleepingThread(tasks);
+				return resource::JobSystem::GetSingleton()->PushBackJobChunkToAnySleepingThread(tasks);
 			}
 
 			///////////////////

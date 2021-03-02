@@ -56,8 +56,8 @@ std::optional <Asset::asset_type_t<eAssetType::TEXTURE>> doom::assetimporter::As
 			compressTargetFormat = DXGI_FORMAT::DXGI_FORMAT_BC3_UNORM;
 			break;
 			
-			//TODO : CHECK 24 BIT texture And USE DXGI_FORMAT_BC1_UNORM
-			// 현재는 24비트 RGB 이미지도 Compress 후 RGBA로 바뀌고 있다.
+		//TODO : CHECK 24 BIT texture And USE DXGI_FORMAT_BC1_UNORM
+		// 현재는 24비트 RGB 이미지도 Compress 후 RGBA로 바뀌고 있다.
 		//case DXGI_FORMAT::DXGI_FORMAT_r_UNORM:
 		//	compressTargetFormat = DXGI_FORMAT::DXGI_FORMAT_BC1_UNORM;
 		//	break;
@@ -115,11 +115,15 @@ std::optional <Asset::asset_type_t<eAssetType::TEXTURE>> doom::assetimporter::As
 		auto destinationPath = path;
 		destinationPath.replace_extension(".dds");
 
-		hr = SaveToDDSFile(*(ResultCompressedImage->GetImages()), DDS_FLAGS::DDS_FLAGS_NONE, destinationPath.c_str());
+		hr = SaveToDDSFile(ResultCompressedImage->GetImages(), ResultCompressedImage->GetImageCount(), ResultCompressedImage->GetMetadata(), DDS_FLAGS::DDS_FLAGS_NONE, destinationPath.c_str());
 		if (FAILED(hr))
 		{
 			D_DEBUG_LOG("Fail To Save DDS Texture", eLogType::D_ERROR);
 			return {};
+		}
+		else
+		{
+			D_DEBUG_LOG({"Success To Save DDS Texture : ", destinationPath.string()}, eLogType::D_LOG);
 		}
 
 	}

@@ -25,10 +25,10 @@ void doom::TEST::Init()
 	auto threedasset = assetimporter::AssetManager::GetAsset<eAssetType::THREE_D_MODEL>("cerberus.fbx");
 	auto shader = assetimporter::AssetManager::GetAsset<eAssetType::SHADER>("GbufferWriter_PBR.glsl");
 	auto material = new graphics::Material(*shader);
-	material->AddTexture(graphics::eTextureBindingPoint::AlbedoTexture, *assetimporter::AssetManager::GetAsset<eAssetType::TEXTURE>("cerberus_A.png"));
-	material->AddTexture(graphics::eTextureBindingPoint::NormalTexture, *assetimporter::AssetManager::GetAsset<eAssetType::TEXTURE>("cerberus_N.png"));
-	material->AddTexture(graphics::eTextureBindingPoint::MetalnessTexture, *assetimporter::AssetManager::GetAsset<eAssetType::TEXTURE>("cerberus_M.png"));
-	material->AddTexture(graphics::eTextureBindingPoint::RoughnessTexture, *assetimporter::AssetManager::GetAsset<eAssetType::TEXTURE>("cerberus_R.png"));
+	material->AddTexture(graphics::eTextureBindingPoint::AlbedoTexture, *assetimporter::AssetManager::GetAsset<eAssetType::TEXTURE>("cerberus_A.dds"));
+	material->AddTexture(graphics::eTextureBindingPoint::NormalTexture, *assetimporter::AssetManager::GetAsset<eAssetType::TEXTURE>("cerberus_N.dds"));
+	material->AddTexture(graphics::eTextureBindingPoint::MetalnessTexture, *assetimporter::AssetManager::GetAsset<eAssetType::TEXTURE>("cerberus_M.dds"));
+	material->AddTexture(graphics::eTextureBindingPoint::RoughnessTexture, *assetimporter::AssetManager::GetAsset<eAssetType::TEXTURE>("cerberus_R.dds"));
 
 	for (int i = 0; i < 30; i++)
 	{

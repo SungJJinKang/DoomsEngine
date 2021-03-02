@@ -16,6 +16,7 @@ namespace doom
 			friend class Assetimporter;
 		private:
 			static std::optional<Asset::asset_type_t<assetType>> ImportSpecificAsset(const std::filesystem::path& path);
+			static void InitSetting() {}
 		};
 		
 	}

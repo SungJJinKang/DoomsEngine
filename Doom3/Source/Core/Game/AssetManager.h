@@ -129,6 +129,15 @@ namespace doom
 		};
 
 		template<eAssetType loopVariable>
+		struct ImportAssetInitSetting
+		{
+			constexpr inline void operator()()
+			{
+				doom::assetimporter::AssetImporterWorker<loopVariable>::InitSetting();
+			}
+
+		};
+		template<eAssetType loopVariable>
 		struct ImportAssetFutureFunctor
 		{
 			constexpr inline void operator()(const std::array<std::vector<std::filesystem::path>, doom::Asset::GetAssetTypeCount()>& AssetPaths)

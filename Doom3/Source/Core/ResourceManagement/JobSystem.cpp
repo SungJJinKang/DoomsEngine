@@ -1,25 +1,25 @@
-#include "Thread_Server.h"
+#include "JobSystem.h"
 
 #include "../Core.h"
 #include "Thread.h"
 
 using namespace doom::resource;
 
-void Thread_Server::Init()
+void JobSystem::Init()
 {
 	this->InitializeThreads();
 }
 
-void Thread_Server::Update()
+void JobSystem::Update()
 {
 
 }
 
-void doom::resource::Thread_Server::OnEndOfFrame()
+void doom::resource::JobSystem::OnEndOfFrame()
 {
 }
 
-void Thread_Server::WakeUpAllThreads()
+void JobSystem::WakeUpAllThreads()
 {
 	for (auto& thread : this->mManagedSubThreads)
 	{
@@ -30,7 +30,7 @@ void Thread_Server::WakeUpAllThreads()
 	}
 }
 
-void Thread_Server::InitializeThreads()
+void JobSystem::InitializeThreads()
 {
 	this->mMainThreadId = std::this_thread::get_id();
 
@@ -42,7 +42,7 @@ void Thread_Server::InitializeThreads()
 	this->bmIsInitialized = true;
 }
 
-void Thread_Server::DestroyThreads()
+void JobSystem::DestroyThreads()
 {
 	for (auto& thread : this->mManagedSubThreads)
 	{
@@ -51,7 +51,7 @@ void Thread_Server::DestroyThreads()
 	this->bmIsInitialized = false;
 }
 
-ThreadPool& doom::resource::Thread_Server::GetThread(size_t threadIndex)
+ThreadPool& doom::resource::JobSystem::GetThread(size_t threadIndex)
 {
 	D_ASSERT(this->bmIsInitialized == true);
 	D_ASSERT(threadIndex >= 0 && threadIndex < THREAD_COUNT);

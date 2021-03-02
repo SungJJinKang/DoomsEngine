@@ -40,7 +40,7 @@ namespace doom
 			SingleTexture(eTextureType textureType,
 				eTargetTexture target, eTextureCompressedInternalFormat compressedInternalFormat, unsigned int width, unsigned int height, eTextureComponentFormat format, eDataType type, std::vector<const DirectX::Image*> mipmapDatas);
 
-			void TexMipMapImages(std::vector<const DirectX::Image*> mipmapDatas);
+			void Tex2DMipMapImages(std::vector<const DirectX::Image*> mipmapDatas);
 			inline void TexImage1D(int level, const void* data) noexcept final
 			{
 				this->BindTexture();
