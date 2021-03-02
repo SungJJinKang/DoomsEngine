@@ -15,11 +15,9 @@ namespace doom
 		{
 			friend class Assetimporter;
 		private:
-			static std::optional <Asset::asset_type_t<eAssetType::FONT>> ImportSpecificAsset(const std::filesystem::path& path)
-			{
-				return {};
-			}
+			static std::optional <Asset::asset_type_t<eAssetType::FONT>> ImportSpecificAsset(const std::filesystem::path& path);
 		};
 
+		extern template class AssetApiImporter<eAssetType::FONT>;
 	}
 }

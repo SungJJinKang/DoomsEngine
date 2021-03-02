@@ -1,6 +1,6 @@
 #pragma once
 #include <optional>
-#include <map>
+#include <unordered_map>
 #include <string>
 #include <functional>
 
@@ -17,19 +17,33 @@ namespace doom
 {
 	namespace assetimporter
 	{
+		class AssetManager;
+
 		template <eAssetType assetType>
 		using imported_asset_future_t = typename std::future<std::optional<Asset::asset_type_t<assetType>>>;
 
 		class Assetimporter
 		{
+			friend class AssetManager;
+
 			template <eAssetType assetType>
 			friend class AssetImporterWorker;
 
+			template<eAssetType loopVariable>
+			friend struct ImportAssetFutureFunctor;
+
 		private:
 
-			static const std::map<std::string, doom::eAssetType> AssetExtension;
+			/// <summary>
+			/// Avaliable Asset Extensions of doom::eAssetType
+			/// </summary>
+			static const std::unordered_map<std::string, doom::eAssetType> AssetExtension;
+			/// <summary>
+			/// This extensions will be included in build(release) version
+			/// if there is no InBuildExtension of AssetType(doom::eAssetType), Any extensions is allowed
+			/// </summary>
+			static const std::unordered_map<doom::eAssetType, std::string> AssetInBuildExtension;
 
-		public:
 			template <eAssetType assetType>
 			static std::optional<Asset::asset_type_t<assetType>> ImportAsset(std::filesystem::path path)
 			{

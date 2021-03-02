@@ -11,7 +11,11 @@ namespace doom
 	namespace assetimporter
 	{
 		template <eAssetType assetType>
-		void InitAssetSetting() {}
+		void InitAssetImport() {}
+
+		template <eAssetType assetType>
+		void EndAssetImport() {}
+
 		template <eAssetType assetType>
 		class AssetImporterWorker
 		{

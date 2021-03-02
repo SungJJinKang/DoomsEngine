@@ -30,37 +30,52 @@ namespace doom
 		using api_importer_type_t = typename api_importer_type<assetType>::type;
 
 		/// <summary>
-		/// RAII
+		/// Contain Asset Api side Importer object
 		/// </summary>
 		template <eAssetType assetType>
 		class AssetApiImporter
 		{
+			template <eAssetType assetType>
+			friend class AssetImporterWorker;
+
+			template<eAssetType loopVariable>
+			friend struct ClearApiImporterQueueFunctor;
 		private:
 			std::unique_ptr<api_importer_type_t<assetType>> apiImporter;
 
 			void InitApiImporter(api_importer_type_t<assetType>& apiImporter) {}
 			static inline std::mutex ApiImporterMutex{};
 			static inline std::queue<std::unique_ptr<api_importer_type_t<assetType>>> ApiImporterQueue{};
-		public:
 
 			constexpr AssetApiImporter(std::unique_ptr<api_importer_type_t<assetType>> importer)
 				: apiImporter{ std::move(importer) }
 			{
 			}
-			api_importer_type_t<assetType>* GetReference()
+			~AssetApiImporter()
+			{
+				this->Release();
+			}
+
+			api_importer_type_t<assetType>* operator->() const
 			{
 				return apiImporter.get();
+			}
+
+			api_importer_type_t<assetType>& operator*() const
+			{
+				return *(apiImporter.get());
 			}
 
 			void Release()
 			{
 				if constexpr (!std::is_same_v<api_importer_type_t<assetType>, DummyApiImporter>)
 				{
-					D_DEBUG_LOG("Release Api Importer");
-					auto lck = std::scoped_lock(ApiImporterMutex);
-					ApiImporterQueue.push(std::move(apiImporter));
-
-					//DEBUG_LOG({ std::to_string(assetType), "   ", std::to_string(ApiImporterQueue.size()) });
+					if (apiImporter != nullptr)
+					{
+						D_DEBUG_LOG("Release Api Importer");
+						auto lck = std::scoped_lock(ApiImporterMutex);
+						ApiImporterQueue.push(std::move(apiImporter));
+					}
 				}
 				else
 				{

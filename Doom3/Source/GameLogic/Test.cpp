@@ -22,7 +22,7 @@ void doom::TEST::Init()
 
 	//TODO : Asset 가져오는 것만 해도 존나 복잡하다 이거 해결하다
 	//auto& threedasset = assetimporter::AssetManager::GetAsset<eAssetType::THREE_D_MODEL>(0);
-	auto threedasset = assetimporter::AssetManager::GetAsset<eAssetType::THREE_D_MODEL>("cerberus.fbx");
+	auto threedasset = assetimporter::AssetManager::GetAsset<eAssetType::THREE_D_MODEL>("cerberus.assbin");
 	auto shader = assetimporter::AssetManager::GetAsset<eAssetType::SHADER>("GbufferWriter_PBR.glsl");
 	auto material = new graphics::Material(*shader);
 	material->AddTexture(graphics::eTextureBindingPoint::AlbedoTexture, *assetimporter::AssetManager::GetAsset<eAssetType::TEXTURE>("cerberus_A.dds"));

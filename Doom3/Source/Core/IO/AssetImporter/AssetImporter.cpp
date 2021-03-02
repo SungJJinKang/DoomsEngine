@@ -4,7 +4,7 @@ using namespace doom;
 using namespace assetimporter;
 
 
-const std::map<std::string, doom::eAssetType> doom::assetimporter::Assetimporter::AssetExtension
+const std::unordered_map<std::string, doom::eAssetType> doom::assetimporter::Assetimporter::AssetExtension
 {
 	//3D Model Asset Formats
 	{".dae", doom::eAssetType::THREE_D_MODEL},
@@ -52,6 +52,8 @@ const std::map<std::string, doom::eAssetType> doom::assetimporter::Assetimporter
 	{ ".cob", doom::eAssetType::THREE_D_MODEL },
 	{ ".scn", doom::eAssetType::THREE_D_MODEL },
 	{ ".fbx", doom::eAssetType::THREE_D_MODEL },
+	{ ".assbin", doom::eAssetType::THREE_D_MODEL },
+
 	//////////////////////////////////////////////////////////////////////////
 
 	{ ".txt", doom::eAssetType::TEXT },
@@ -70,6 +72,13 @@ const std::map<std::string, doom::eAssetType> doom::assetimporter::Assetimporter
 	{ ".tga", doom::eAssetType::TEXTURE },
 	//{ ".hdr", doom::eAssetType::TEXTURE },
 	{ ".dds", doom::eAssetType::TEXTURE }
+};
+
+const std::unordered_map<doom::eAssetType, std::string>  doom::assetimporter::Assetimporter::AssetInBuildExtension
+{
+	{doom::eAssetType::TEXTURE, ".dds"},
+	{doom::eAssetType::THREE_D_MODEL, ".assbin"}
+
 };
 
 std::optional<doom::eAssetType> Assetimporter::GetAssetType(const std::filesystem::path& path)

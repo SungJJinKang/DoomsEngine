@@ -4,7 +4,7 @@
 
 #include "../../Asset/ShaderAsset.h"
 
-#include "../../../Helper/TextImporter.h"
+
 
 namespace doom
 {
@@ -15,12 +15,9 @@ namespace doom
 		{
 			friend class Assetimporter;
 		private:
-			static std::optional<Asset::asset_type_t<eAssetType::SHADER>> ImportSpecificAsset(const std::filesystem::path& path)
-			{
-				return GetTextFromFile(path);
-			}
+			static std::optional<Asset::asset_type_t<eAssetType::SHADER>> ImportSpecificAsset(const std::filesystem::path& path);
 		};
 		
-
+		extern template class AssetApiImporter<eAssetType::SHADER>;
 	}
 }

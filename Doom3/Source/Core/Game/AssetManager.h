@@ -64,7 +64,17 @@ namespace doom
 		public:
 			void ImportEntireAsset();
 
-		
+			template<eAssetType assetType>
+			void ImportAsset(const std::filesystem::path& path)
+			{
+				AssetManager::ImportedAssets<assetType>.AddAssetFuture(doom::assetimporter::Assetimporter::PushImportingAssetJobToThreadPool<assetType>(path));
+			}
+			template<eAssetType assetType>
+			void ImportAsset(const std::vector<std::filesystem::path>& paths)
+			{
+				AssetManager::ImportedAssets<assetType>.AddAssetFuture(doom::assetimporter::Assetimporter::PushImportingAssetJobToThreadPool<assetType>(paths));
+			}
+
 			template<eAssetType assetType>
 			static typename AssetContainer<assetType>::container_asset_type_t* GetAsset(const D_UUID& UUID) 
 			{
@@ -133,7 +143,7 @@ namespace doom
 		{
 			constexpr inline void operator()()
 			{
-				doom::assetimporter::InitAssetSetting<loopVariable>();
+				doom::assetimporter::InitAssetImport<loopVariable>();
 			}
 
 		};
@@ -142,9 +152,7 @@ namespace doom
 		{
 			constexpr inline void operator()(const std::array<std::vector<std::filesystem::path>, doom::Asset::GetAssetTypeCount()>& AssetPaths)
 			{
-				std::string name{ "Add Importing Asset To ThreadPool : " };
-				name += doom::Asset::GetAssetTypeString(loopVariable);
-				D_START_PROFILING(name.c_str(), doom::profiler::eProfileLayers::CPU);
+				D_START_PROFILING("Add Importing Asset To ThreadPool : " + doom::Asset::GetAssetTypeString(loopVariable), doom::profiler::eProfileLayers::CPU);
 
 				AssetManager::ImportedAssets<loopVariable>.AddAssetFutures(doom::assetimporter::Assetimporter::PushImportingAssetJobToThreadPool<loopVariable>(AssetPaths[static_cast<unsigned int>(loopVariable)]));
 

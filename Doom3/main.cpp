@@ -11,12 +11,13 @@ void ExitGame();
 
 int main()
 {
-	D_START_PROFILING("Start Game", doom::profiler::eProfileLayers::CPU);
-	D_END_PROFILING("Start Game");
 
 	GameCore gameCore{};
 
+	D_START_PROFILING("Init Game", doom::profiler::eProfileLayers::CPU);
 	gameCore.Init();
+	D_END_PROFILING("Init Game");
+
 	while (gameCore.Tick())
 	{
 	}

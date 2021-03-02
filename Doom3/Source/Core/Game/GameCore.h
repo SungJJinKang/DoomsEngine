@@ -76,7 +76,6 @@ namespace doom
 
 		bool Tick()
 		{
-			
 			D_START_PROFILING("Fixed Update", eProfileLayers::CPU);
 			MainTimer::ResetFixedTimer();
 			for (int i = 0; i < this->mPhysics_Server.MAX_PHYSICS_STEP; ++i)

@@ -28,7 +28,6 @@ namespace doom
 			template<eAssetType loopVariable>
 			friend struct assetimporter::GetAssetFutureFunctor;
 
-
 			using container_asset_type_t = typename Asset::asset_type_t<assetType>;
 			using container_imported_asset_future_t = typename std::future<std::optional<Asset::asset_type_t<assetType>>>;
 
@@ -75,7 +74,6 @@ namespace doom
 			/// </summary>
 			void GetAssetFutures();
 
-		public:
 
 		};
 

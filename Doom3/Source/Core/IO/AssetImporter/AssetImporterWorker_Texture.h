@@ -5,7 +5,7 @@
 #include "AssetImporterWorker_Base.h"
 
 #include <utility>
-#include <type_traits>
+
 #include <optional>
 
 #include "../../Asset/TextureAsset.h"
@@ -16,6 +16,12 @@ namespace doom
 	class GameCore;
 	namespace assetimporter
 	{
+
+		template <>
+		void InitAssetImport<eAssetType::TEXTURE>();
+		template <>
+		void EndAssetImport<eAssetType::TEXTURE>();
+
 		template <>
 		class AssetImporterWorker<eAssetType::TEXTURE>
 		{

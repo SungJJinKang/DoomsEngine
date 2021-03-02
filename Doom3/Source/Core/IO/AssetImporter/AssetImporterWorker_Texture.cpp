@@ -8,21 +8,24 @@ using namespace DirectX;
 
 template class doom::assetimporter::AssetImporterWorker<eAssetType::TEXTURE>;
 
+template<>
+void doom::assetimporter::InitAssetImport<eAssetType::TEXTURE>()
+{
+	HRESULT hr = CoInitializeEx(nullptr, COINIT_MULTITHREADED);
+	if (FAILED(hr))
+	{
+		D_DEBUG_LOG("Fail To CoInitializeEx", eLogType::D_ERROR);
+		NODEFAULT;
+	}
+}
+template <>
+void doom::assetimporter::EndAssetImport<eAssetType::TEXTURE>()
+{
+
+}
+
 std::optional <Asset::asset_type_t<eAssetType::TEXTURE>> doom::assetimporter::AssetImporterWorker<eAssetType::TEXTURE>::ImportSpecificAsset(const std::filesystem::path& path)
 {
-	//CreateiM
-	if (doom::assetimporter::AssetImporterWorker<eAssetType::TEXTURE>::bmIsInitialized == false)
-	{
-		HRESULT hr = CoInitializeEx(nullptr, COINIT_MULTITHREADED);
-		if (FAILED(hr))
-		{
-			D_DEBUG_LOG("Fail To CoInitializeEx", eLogType::D_ERROR);
-			return {};
-		}
-		doom::assetimporter::AssetImporterWorker<eAssetType::TEXTURE>::bmIsInitialized = true;
-		
-	}
-
 	HRESULT hr;
 	auto ResultCompressedImage = std::make_unique<ScratchImage>();
 
@@ -30,6 +33,8 @@ std::optional <Asset::asset_type_t<eAssetType::TEXTURE>> doom::assetimporter::As
 	if (sourceExtention == ".bmp" || sourceExtention == ".png" || sourceExtention == ".tiff" ||
 		sourceExtention == ".jpeg" || sourceExtention == ".jpg")
 	{
+		//IF file is not DDS file, import file and postprocess and export to DDS file
+
 		auto sourcepathCstr = path.c_str();
 
 	
