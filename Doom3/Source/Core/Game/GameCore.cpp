@@ -39,6 +39,9 @@ void doom::GameCore::InitGameSetting()
 	assetimporter::AssetImporterWorker<eAssetType::TEXTURE>::TEXTURE_COMPRESSION_QUALITY = static_cast<float>(this->mMainConfigData.GetConfigData().GetValue<double>("TEXTURE", "COMPRESSION_QUALITY"));
 	assetimporter::AssetImporterWorker<eAssetType::TEXTURE>::MIP_MAP_LEVELS = this->mMainConfigData.GetConfigData().GetValue<int>("TEXTURE", "MIP_MAP_LEVELS");
 	assetimporter::AssetImporterWorker<eAssetType::TEXTURE>::MAX_IMAGE_SIZE = this->mMainConfigData.GetConfigData().GetValue<int>("TEXTURE", "MAX_IMAGE_SIZE");
+
+	this->mJobSystem.SUB_THREAD_COUNT = this->mMainConfigData.GetConfigData().GetValue<int>("SYSTEM", "SUB_THREAD_COUNT");
+
 }
 
 void doom::GameCore::Init()
@@ -47,7 +50,7 @@ void doom::GameCore::Init()
 
 
 	this->mTime_Server.Init();
-	this->mThreadManager.Init();
+	this->mJobSystem.Init();
 
 	
 

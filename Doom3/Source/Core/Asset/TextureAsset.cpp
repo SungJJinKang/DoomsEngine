@@ -1,3 +1,5 @@
+
+
 #include "TextureAsset.h"
 
 
@@ -7,7 +9,7 @@
 #include <DirectXTex.h>
 
 using namespace doom::graphics;
-
+using namespace DirectX;
 /*
 doom::TextureAsset::TextureAsset(int width, int height, int componentCount, unsigned char* data, eTextureCompressionType compressionType)
 	: mWidth{ width }, mHeight{ height }, mDataComponentFormat{ static_cast<eTextureComponent>(componentCount) }, mTexturerCompressionType{ compressionType }, mData{ data }
@@ -59,11 +61,11 @@ doom::TextureAsset::TextureAsset()
 	
 }
 */
-doom::TextureAsset::TextureAsset(DirectX::ScratchImage* scratchImage)
-	: mWidth{ static_cast<int>(scratchImage->GetMetadata().width) }, mHeight{ static_cast<int>(scratchImage->GetMetadata().height) }, mMipMapLevel{ static_cast<int>(scratchImage->GetMetadata().mipLevels) },
-	bmIsCompressed{}, mComponentFormat{ }, mInternalFormat{ }, mScratchImage{ scratchImage }, mEntireImageSize{ scratchImage->GetPixelsSize() }
+doom::TextureAsset::TextureAsset(std::unique_ptr<DirectX::ScratchImage>&& scratchImage)
+	:mScratchImage{ std::move(scratchImage) }, mWidth{ static_cast<int>(mScratchImage->GetMetadata().width) }, mHeight{ static_cast<int>(mScratchImage->GetMetadata().height) }, mMipMapLevel{ static_cast<int>(mScratchImage->GetMetadata().mipLevels) },
+	bmIsCompressed{}, mComponentFormat{ }, mInternalFormat{ }, mEntireImageSize{ mScratchImage->GetPixelsSize() }
 {
-	switch (scratchImage->GetMetadata().format)
+	switch (mScratchImage->GetMetadata().format)
 	{
 	case DXGI_FORMAT::DXGI_FORMAT_BC4_UNORM:
 		this->mComponentFormat = graphics::eTextureComponentFormat::RED;
@@ -129,6 +131,9 @@ void doom::TextureAsset::CreateTexture()
 		this->mTexture =
 			new graphics::SingleTexture(Texture::eTextureType::DIFFUSE, Texture::eTargetTexture::TEXTURE_2D, this->mCompressedInternalFormat, mWidth, mHeight, this->mComponentFormat, Texture::eDataType::UNSIGNED_BYTE, mipmapPixels);
 	}
+	if (this->mScratchImage)
+	{
+		this->mScratchImage.reset();
+	}
 
-	delete this->mScratchImage; //!!!
 }

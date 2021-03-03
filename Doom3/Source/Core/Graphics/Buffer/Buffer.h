@@ -1,7 +1,7 @@
 #pragma once
 
 #include "../Graphics_Core.h"
-#include "../ZeroResetMoveContainer.h"
+#include <ZeroResetMoveContainer.h>
 namespace doom
 {
 	namespace graphics

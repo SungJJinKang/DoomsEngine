@@ -40,7 +40,7 @@ void doom::assetimporter::AssetManager::ImportEntireAsset()
 			
 			continue; // if directory if folder, continue
 		}
-		 //TODO : 텍스쳐의 경우 같은 이름의 dds파일 있으면 제외시키는 기능 추가
+
 		std::filesystem::path currentEntryPath = entry.path();
 		std::optional<doom::eAssetType> optionalAssetType = Assetimporter::GetAssetType(currentEntryPath);
 

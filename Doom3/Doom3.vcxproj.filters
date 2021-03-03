@@ -350,9 +350,6 @@
     <ClInclude Include="Source\Component\DirectionalLight.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Core\API\STB_IMAGE.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Core\API\ASSIMP.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -794,9 +791,6 @@
     <ClInclude Include="Source\Core\Physics\Picking.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Core\Graphics\ZeroResetMoveContainer.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Core\Math\LightMath_Cpp\Vector.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -918,6 +912,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\Core\ResourceManagement\JobSystem.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Helper\ZeroResetMoveContainer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -1078,6 +1075,7 @@
     <None Include="Assets\Shader\Default\Debug3DShader.glsl" />
     <None Include="..\CodingRule.md" />
     <None Include="Source\Helper\EasyDirtyChecker\README.md" />
+    <None Include="Source\Core\ResourceManagement\MultithreadingJobSystemStrategy.md" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="Source\Core\Graphics\ReadThis!!!!.txt" />

@@ -39,6 +39,9 @@ public:
 	}
 };
 
+/// <summary>
+/// Portable Ini Parser
+/// </summary>
 class SimpleIniParser
 {
 public:

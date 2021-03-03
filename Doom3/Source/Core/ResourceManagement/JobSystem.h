@@ -3,6 +3,7 @@
 #include <array>
 #include <thread>
 #include <utility>
+#include <memory>
 
 #include "../Core.h"
 #include "../Game/IGameFlow.h"
@@ -13,7 +14,6 @@ using namespace moodycamel;
 
 #include <ThreadPool_Cpp/ThreadPool.h>
 
-#define THREAD_COUNT (6)
 
 namespace doom
 {
@@ -23,7 +23,7 @@ namespace doom
 		class Thread;
 		/// <summary>
 		/// https://www.youtube.com/watch?v=M1e9nmmD3II
-		/// JoStealing ±¸Çö, ¸Ê¸®µà½º, ±ÕµîÇÏ°Ô ½º·¹µå¿¡ job³ª´²ÁÖ±â
+		/// Job Stealing ±¸Çö, ¸Ê¸®µà½º, ±ÕµîÇÏ°Ô ½º·¹µå¿¡ job³ª´²ÁÖ±â
 		/// 
 		/// ThreadManager manage threads
 		/// Never make thread without this ThreadManager class
@@ -45,7 +45,9 @@ namespace doom
 
 		private:
 			std::thread::id mMainThreadId{};
-			std::array<ThreadPool, THREAD_COUNT> mManagedSubThreads{};
+
+			unsigned int SUB_THREAD_COUNT{};
+			std::unique_ptr<ThreadPool[]> mManagedSubThreads{};
 			bool bmIsInitialized{ false };
 
 			/// <summary>
@@ -103,7 +105,7 @@ namespace doom
 			template <typename ReturnType>
 			inline std::future<ReturnType> PushBackJobToSpecificThread(size_t threadIndex, const std::function<ReturnType()>& task)
 			{
-				D_ASSERT(threadIndex >= 0 && threadIndex < THREAD_COUNT);
+				D_ASSERT(threadIndex >= 0 && threadIndex < SUB_THREAD_COUNT);
 				D_ASSERT(this->bmIsInitialized == true);
 
 				return this->mManagedSubThreads[threadIndex].PushBackJob(task);
@@ -112,7 +114,7 @@ namespace doom
 			template <typename Function, typename... Args>
 			std::future<return_type_of_function_pointer<Function>> EmplaceBackJobToSpecificThread(size_t threadIndex, Function&& f, Args&&... args)
 			{
-				D_ASSERT(threadIndex >= 0 && threadIndex < THREAD_COUNT);
+				D_ASSERT(threadIndex >= 0 && threadIndex < SUB_THREAD_COUNT);
 				D_ASSERT(this->bmIsInitialized == true);
 
 				return this->mManagedSubThreads[threadIndex].EmplaceBackJob(std::forward<Function>(f), std::forward<Args>(args)...);
@@ -121,7 +123,7 @@ namespace doom
 			template <typename ReturnType>
 			std::vector<std::future<ReturnType>> PushBackJobChunkToSpecificThread(size_t threadIndex, const std::vector<std::function<ReturnType()>>& tasks)
 			{
-				D_ASSERT(threadIndex >= 0 && threadIndex < THREAD_COUNT);
+				D_ASSERT(threadIndex >= 0 && threadIndex < SUB_THREAD_COUNT);
 				D_ASSERT(this->bmIsInitialized == true);
 
 				return this->mManagedSubThreads[threadIndex].PushBackJobChunk(tasks);

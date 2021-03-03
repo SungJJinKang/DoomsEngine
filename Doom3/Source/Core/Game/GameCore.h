@@ -49,7 +49,7 @@ namespace doom
 		assetimporter::AssetManager mAssetManager{};
 		graphics::Graphics_Server mGraphics_Server{};
 		physics::Physics_Server mPhysics_Server{};
-		resource::JobSystem mThreadManager{};
+		resource::JobSystem mJobSystem{};
 		userinput::UserInput_Server mUserImput_Server{};
 		time::Time_Server mTime_Server{};
 
@@ -108,8 +108,8 @@ namespace doom
 			this->mTime_Server.OnEndOfFrame_Internal();
 			this->mTime_Server.OnEndOfFrame();
 			
-			this->mThreadManager.OnEndOfFrame_Internal();
-			this->mThreadManager.OnEndOfFrame();
+			this->mJobSystem.OnEndOfFrame_Internal();
+			this->mJobSystem.OnEndOfFrame();
 
 			this->mPhysics_Server.OnEndOfFrame_Internal();
 			this->mPhysics_Server.OnEndOfFrame();
@@ -143,8 +143,8 @@ namespace doom
 			this->mTime_Server.Update_Internal();
 			this->mTime_Server.Update();
 
-			this->mThreadManager.Update_Internal();
-			this->mThreadManager.Update();
+			this->mJobSystem.Update_Internal();
+			this->mJobSystem.Update();
 
 			D_START_PROFILING("Update Physics", eProfileLayers::CPU);
 			this->mPhysics_Server.Update_Internal();

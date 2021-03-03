@@ -31,3 +31,6 @@
 [submodule "Doom3/dependency/vcpkg"]
 	path = Doom3/dependency/vcpkg
 	url = https://github.com/Microsoft/vcpkg.git
+[submodule "Doom3/Source/Helper/SuperLightSerialization"]
+	path = Doom3/Source/Helper/SuperLightSerialization
+	url = https://github.com/SungJJinKang/SuperLightSerialization.git

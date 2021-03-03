@@ -21,11 +21,11 @@ void doom::resource::JobSystem::OnEndOfFrame()
 
 void JobSystem::WakeUpAllThreads()
 {
-	for (auto& thread : this->mManagedSubThreads)
+	for (unsigned int i = 0; i < SUB_THREAD_COUNT; i++)
 	{
-		if (thread.GetIsThreadSleeping() == true)
+		if (this->mManagedSubThreads[i].GetIsThreadSleeping() == true)
 		{
-			thread.PushBackJob(std::function<void()>()); // push dummy job
+			this->mManagedSubThreads[i].PushBackJob(std::function<void()>()); // push dummy job
 		}
 	}
 }
@@ -34,9 +34,12 @@ void JobSystem::InitializeThreads()
 {
 	this->mMainThreadId = std::this_thread::get_id();
 
-	for (auto& thread : this->mManagedSubThreads)
+	this->mManagedSubThreads = std::make_unique<ThreadPool[]>(SUB_THREAD_COUNT);
+	
+
+	for (unsigned int i = 0; i < SUB_THREAD_COUNT; i++)
 	{
-		thread.SetPriorityWaitingTaskQueue(&(this->mPriorityWaitingTaskQueue));
+		this->mManagedSubThreads[i].SetPriorityWaitingTaskQueue(&(this->mPriorityWaitingTaskQueue));
 	}
 
 	this->bmIsInitialized = true;
@@ -44,9 +47,9 @@ void JobSystem::InitializeThreads()
 
 void JobSystem::DestroyThreads()
 {
-	for (auto& thread : this->mManagedSubThreads)
+	for (unsigned int i = 0; i < SUB_THREAD_COUNT; i++)
 	{
-		thread.TerminateThreadPool(true);
+		this->mManagedSubThreads[i].TerminateThreadPool(true);
 	}
 	this->bmIsInitialized = false;
 }
@@ -54,6 +57,6 @@ void JobSystem::DestroyThreads()
 ThreadPool& doom::resource::JobSystem::GetThread(size_t threadIndex)
 {
 	D_ASSERT(this->bmIsInitialized == true);
-	D_ASSERT(threadIndex >= 0 && threadIndex < THREAD_COUNT);
+	D_ASSERT(threadIndex >= 0 && threadIndex < SUB_THREAD_COUNT);
 	return this->mManagedSubThreads[threadIndex];
 }

@@ -144,7 +144,6 @@ std::optional <Asset::asset_type_t<eAssetType::TEXTURE>> doom::assetimporter::As
 		}
 
 	}
-	auto ResultCompressedImagePointer = ResultCompressedImage.get();
-	ResultCompressedImage.release(); // not destroy Object, just set null pointer to unique_ptr
-	return ResultCompressedImagePointer;
+	
+	return  Asset::asset_type_t<eAssetType::TEXTURE>(std::move(ResultCompressedImage));
 }
