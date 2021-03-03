@@ -10,6 +10,7 @@
 
 namespace doom
 {
+	
 
 	class AudioAsset;
 	class FontAsset;
@@ -35,8 +36,13 @@ namespace doom
 		template <eAssetType assetType>
 		class AssetImporterWorker;
 
+		template<eAssetType assetType>
+		class AssetContainer;
+
 		template<eAssetType loopVariable>
 		struct OnEndImportInMainThreadFunctor;
+
+	
 	}
 
 	class Asset
@@ -50,12 +56,15 @@ namespace doom
 		template<eAssetType loopVariable>
 		friend struct assetimporter::OnEndImportInMainThreadFunctor;
 
+		template<eAssetType loopVariable>
+		friend class assetimporter::AssetContainer;
+
 	private:
 
 		D_UUID mUUID;
 		std::string mAssetFileName;
 		std::filesystem::path mAssetPath;
-		unsigned int mAssetFileSize;
+		unsigned long long mAssetFileSize;
 
 		bool bmIsDataLoaded;
 
@@ -83,8 +92,10 @@ namespace doom
 		virtual ~Asset() {}
 
 		D_UUID GetUUID();
+		D_UUID GetUUID() const;
 		std::string GetAssetFileName();
 		const std::string& GetAssetFileName() const;
+		unsigned long long GetAssetFileSize() const;
 		std::filesystem::path GetAssetPath();
 		bool GetIsDataLoaded();
 		

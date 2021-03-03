@@ -62,9 +62,10 @@ doom::TextureAsset::TextureAsset()
 }
 */
 doom::TextureAsset::TextureAsset(std::unique_ptr<DirectX::ScratchImage>&& scratchImage)
-	:mScratchImage{ std::move(scratchImage) }, mWidth{ static_cast<int>(mScratchImage->GetMetadata().width) }, mHeight{ static_cast<int>(mScratchImage->GetMetadata().height) }, mMipMapLevel{ static_cast<int>(mScratchImage->GetMetadata().mipLevels) },
-	bmIsCompressed{}, mComponentFormat{ }, mInternalFormat{ }, mEntireImageSize{ mScratchImage->GetPixelsSize() }
+	:mScratchImage{ nullptr }, mWidth{ static_cast<int>(scratchImage->GetMetadata().width) }, mHeight{ static_cast<int>(scratchImage->GetMetadata().height) }, mMipMapLevel{ static_cast<int>(scratchImage->GetMetadata().mipLevels) },
+	bmIsCompressed{}, mComponentFormat{ }, mInternalFormat{ }, mEntireImageSize{ scratchImage->GetPixelsSize() }
 {
+	mScratchImage = std::move(scratchImage);
 	switch (mScratchImage->GetMetadata().format)
 	{
 	case DXGI_FORMAT::DXGI_FORMAT_BC4_UNORM:

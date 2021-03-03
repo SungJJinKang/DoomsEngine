@@ -1,7 +1,5 @@
 #pragma once
 
-#include <unordered_map>
-
 #include "Graphics_Core.h"
 #include "OverlapBindChecker.h"
 #include "ZeroResetMoveContainer.h"
@@ -9,7 +7,7 @@
 
 namespace DirectX
 {
-	class Image;
+	struct Image;
 	class ScratchImage;
 }
 

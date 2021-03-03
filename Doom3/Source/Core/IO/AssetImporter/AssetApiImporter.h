@@ -1,11 +1,13 @@
 #pragma once
 #include <type_traits>
-#include <queue>
 #include <memory>
-#include <mutex>
 
 #include "../../Asset/Asset.h"
 #include "../../../Helper/ForLoop_Compile_Time/ForLoop_Compile.h"
+
+
+#include <concurrentqueue/blockingconcurrentqueue.h>
+using namespace moodycamel;
 
 namespace doom
 {
@@ -44,8 +46,7 @@ namespace doom
 			std::unique_ptr<api_importer_type_t<assetType>> apiImporter;
 
 			void InitApiImporter(api_importer_type_t<assetType>& apiImporter) {}
-			static inline std::mutex ApiImporterMutex{};
-			static inline std::queue<std::unique_ptr<api_importer_type_t<assetType>>> ApiImporterQueue{};
+			static inline BlockingConcurrentQueue<std::unique_ptr<api_importer_type_t<assetType>>> ApiImporterQueue{};
 
 			constexpr AssetApiImporter(std::unique_ptr<api_importer_type_t<assetType>> importer)
 				: apiImporter{ std::move(importer) }
@@ -73,8 +74,7 @@ namespace doom
 					if (apiImporter != nullptr)
 					{
 						D_DEBUG_LOG("Release Api Importer");
-						auto lck = std::scoped_lock(ApiImporterMutex);
-						ApiImporterQueue.push(std::move(apiImporter));
+						ApiImporterQueue.enqueue(std::move(apiImporter));
 					}
 				}
 				else
@@ -86,9 +86,9 @@ namespace doom
 			{
 				if constexpr (!std::is_same_v<api_importer_type_t<assetType>, DummyApiImporter>)
 				{
-					while (ApiImporterQueue.size() > 0)
+					std::unique_ptr<api_importer_type_t<assetType>> temp{};
+					while (ApiImporterQueue.try_dequeue(temp))
 					{
-						ApiImporterQueue.pop();
 					}
 					D_DEBUG_LOG({ "Clear ApiImporterQueue ", static_cast<unsigned int>(assetType) });
 				}
@@ -97,21 +97,11 @@ namespace doom
 			{
 				if constexpr (!std::is_same_v<api_importer_type_t<assetType>, DummyApiImporter>)
 				{
-					ApiImporterMutex.lock();
-
 					std::unique_ptr<api_importer_type_t<assetType>> importer{};
-					if (ApiImporterQueue.empty())
+					if (ApiImporterQueue.try_dequeue(importer) == false)
 					{
-						ApiImporterMutex.unlock();
 						//D_DEBUG_LOG("Create New AssetApiImporter", logger::eLogType::D_ERROR);
 						importer = std::make_unique<api_importer_type_t<assetType>>();
-					}
-					else
-					{
-						importer = std::move(ApiImporterQueue.front());
-						ApiImporterQueue.pop();
-						ApiImporterMutex.unlock();
-						//DEBUG_LOG({ std::to_string(assetType), "   ", std::to_string(ApiImporterQueue.size()) });
 					}
 
 					return std::move(importer);

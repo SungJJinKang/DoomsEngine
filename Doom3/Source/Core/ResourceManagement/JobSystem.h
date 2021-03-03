@@ -9,10 +9,11 @@
 #include "../Game/IGameFlow.h"
 
 #include "Thread_Core.h"
+#include "Thread.h"
 #include <concurrentqueue/blockingconcurrentqueue.h>
 using namespace moodycamel;
 
-#include <ThreadPool_Cpp/ThreadPool.h>
+
 
 
 namespace doom
@@ -20,10 +21,15 @@ namespace doom
 	class GameCore;
 	namespace resource
 	{
+		//TODO : Thread가 쉬는지 일하는지 확인할 수 있게 Profiling 기능 추가
+
 		class Thread;
 		/// <summary>
 		/// https://www.youtube.com/watch?v=M1e9nmmD3II
 		/// Job Stealing 구현, 맵리듀스, 균등하게 스레드에 job나눠주기
+		/// 
+		/// 
+		/// 
 		/// 
 		/// ThreadManager manage threads
 		/// Never make thread without this ThreadManager class
@@ -47,14 +53,14 @@ namespace doom
 			std::thread::id mMainThreadId{};
 
 			unsigned int SUB_THREAD_COUNT{};
-			std::unique_ptr<ThreadPool[]> mManagedSubThreads{};
+			std::unique_ptr<Thread[]> mManagedSubThreads{};
 			bool bmIsInitialized{ false };
 
 			/// <summary>
 			/// Priority Waiting Task Queue.
 			/// Every sub threads check this mPriorityWaitingTaskQueue before their's own waiting queue
 			/// </summary>
-			BlockingConcurrentQueue<ThreadPool::job_type> mPriorityWaitingTaskQueue{};
+			BlockingConcurrentQueue<Thread::job_type> mPriorityWaitingTaskQueue{};
 
 			virtual void Init() final;
 			virtual void Update() final;
@@ -65,17 +71,29 @@ namespace doom
 			/// </summary>
 			void WakeUpAllThreads();
 
-		public:
+			/// <summary>
+			/// return reference of Sleeping Thread
+			/// if every thread is working, return thread having fewest waiting job count
+			/// </summary>
+			/// <returns></returns>
+			Thread& GetSleepingThread() const;
+
 			void InitializeThreads();
 			void DestroyThreads();
-			ThreadPool& GetThread(size_t threadIndex);
+			Thread& GetThread(size_t threadIndex);
+
+		public:
+			
+			virtual ~JobSystem();
+
+			std::thread::id GetMainThreadID() const;
 	
 			template <typename ReturnType>
-			inline std::future<ReturnType> PushBackJobToAnySleepingThread(const std::function<ReturnType()>& task)
+			std::future<ReturnType> PushBackJobToAnySleepingThread(const std::function<ReturnType()>& task)
 			{
 				D_ASSERT(this->bmIsInitialized == true);
 
-				auto future = ThreadPool::PushBackJob(this->mPriorityWaitingTaskQueue, task);
+				auto future = this->GetSleepingThread().PushBackJob(this->mPriorityWaitingTaskQueue, task);
 				this->WakeUpAllThreads();
 				return future;
 			}
@@ -85,7 +103,7 @@ namespace doom
 			{
 				D_ASSERT(this->bmIsInitialized == true);
 
-				auto future = ThreadPool::EmplaceBackJob(this->mPriorityWaitingTaskQueue, std::forward<Function>(f), std::forward<Function>(args)...);
+				auto future = this->GetSleepingThread().EmplaceBackJob(this->mPriorityWaitingTaskQueue, std::forward<Function>(f), std::forward<Function>(args)...);
 				this->WakeUpAllThreads();
 				return future;
 			}
@@ -95,7 +113,7 @@ namespace doom
 			{
 				D_ASSERT(this->bmIsInitialized == true);
 
-				auto futures = ThreadPool::PushBackJobChunk(this->mPriorityWaitingTaskQueue, tasks);
+				auto futures = this->GetSleepingThread().PushBackJobChunk(this->mPriorityWaitingTaskQueue, tasks);
 				this->WakeUpAllThreads();
 				return futures;
 			}
@@ -132,4 +150,6 @@ namespace doom
 	}
 }
 
+///Check current statement is called on MainThread
+#define CHECK_IS_EXECUTED_ON_MAIN_THREAD D_ASSERT(doom::resource::JobSystem::GetSingleton()->GetMainThreadID() == std::this_thread::get_id())
 

@@ -4,7 +4,7 @@
 #include "../Graphics/Graphics_Server.h"
 
 #include "../../Helper/SimpleIniParser.h"
-#include "AssetManager.h"
+#include "AssetManager/AssetManager.h"
 
 #include "../../GameLogic/TEST.h"
 #include "ConfigData.h"

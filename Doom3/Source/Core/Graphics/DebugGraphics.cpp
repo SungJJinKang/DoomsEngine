@@ -1,7 +1,7 @@
 #include "DebugGraphics.h"
 
 #include "Graphics_Server.h"
-#include "../Game/AssetManager.h"
+#include "../Game/AssetManager/AssetManager.h"
 #include "Material.h"
 
 void doom::graphics::DebugGraphics::Init()

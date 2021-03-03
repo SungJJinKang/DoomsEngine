@@ -44,6 +44,7 @@ public:
 
 	ZeroResetMoveContainer(T ID) : data{ ID }
 	{}
+
 	void operator=(T iD) noexcept
 	{
 		this->data = iD;

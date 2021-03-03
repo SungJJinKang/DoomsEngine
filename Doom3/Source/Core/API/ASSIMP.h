@@ -11,6 +11,6 @@
 #include <assimp/Exporter.hpp>
 #endif
 
-#ifdef DEBUG_MODE
+#if defined(DEBUG_MODE) && defined(ASSIMP_DETAIL)
 #include <assimp/DefaultLogger.hpp>
 #endif

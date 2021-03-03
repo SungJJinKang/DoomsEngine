@@ -6,7 +6,7 @@
 #include "../Game/GameCore.h"
 #include "../Game/ConfigData.h"
 #include "../Scene/Layer.h"
-#include "../Game/AssetManager.h"
+#include "../Game/AssetManager/AssetManager.h"
 
 #include "GraphicsAPI.h"
 #include "SceneGraphics.h"

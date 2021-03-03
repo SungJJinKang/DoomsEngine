@@ -1,87 +1,114 @@
-/*
-
 #include "Thread.h"
 
-#include <sstream>
-
-namespace doom
+void doom::resource::Thread::WorkerJob()
 {
-	namespace resource
+	while (true)
 	{
+		this->mIsThreadSleeping = true;
 
+		if (this->mIsPoolTerminated == true)
+		{
+			return;
+		}
+
+		job_type newTask;
 		
-
-		void Thread::WorkerJob()
-		{
-			while (true)
-			{
-				//lck Lock
-				if (this->bmIsThreadDestructed)
-				{
-					// exit thread
-					return;
-				}
-
-			
-				thread_job_type newTask;
-				this->WaitingTaskQueue.wait_dequeue(newTask);
-				if (newTask)
-				{
-					newTask();
-				}
-				
-			}
+		if (mPriorityWaitingTaskQueue != nullptr)
+		{// Check Priority Queue first
+			mPriorityWaitingTaskQueue->try_dequeue(newTask); // try_dequeue don't block thread
 		}
 
-		Thread::Thread()
-			: mThread{ &Thread::WorkerJob, this }, mThreadId{ mThread.get_id() }, bmIsThreadDestructed{ false }, WaitingTaskQueue{ Thread::QUEUE_INITIAL_RESERVED_SIZE }
+		if (!newTask)
 		{
-			D_ASSERT(this->WaitingTaskQueue.is_lock_free() == true);
+			this->mWaitingTaskQueue.wait_dequeue(newTask); // block thread until take element from queue
 		}
 
 
-		Thread::~Thread()
+		if (newTask)
 		{
-			this->TerminateThread(true);
+			this->mIsThreadSleeping = false;
+#ifdef Thread_DEBUG
+			std::cout << "Start New Task " << std::this_doom::resource::Thread::get_id() << std::endl;
+#endif
+			newTask();
 		}
-
-		void Thread::TerminateThread(bool isDoBlock)
-		{
-			if (bmIsThreadDestructed)
-				return;
-
-			bmIsThreadDestructed = true;
-			std::function<void()> dummyFunction{ []() {} };
-			this->PushBackJob(dummyFunction);
-
-			std::stringstream sstream;
-			sstream << this->mThreadId;
-			D_DEBUG_LOG({ "Destructing Thread : ", sstream.str() }, eLogType::D_LOG);
-
-			if (isDoBlock)
-			{
-				this->mThread.join();
-			}
-			else
-			{
-				this->mThread.detach();
-			}
-			
-
-			D_DEBUG_LOG({ "Thread is destructed : ", sstream.str() }, eLogType::D_LOG);
-		}
-
-		bool Thread::operator==(const Thread& thread)
-		{
-			return this->mThreadId == thread.mThreadId;
-		}
-
-		bool Thread::operator==(const std::thread::id& threadId)
-		{
-			return this->mThreadId == threadId;
-		}
-
-	}
+}
 }
 
-*/
+doom::resource::Thread::Thread() : mWaitingTaskQueue{}, mIsPoolTerminated{ false }, mIsThreadSleeping{ false }, mThread{ &doom::resource::Thread::WorkerJob, this }
+{
+#ifdef Thread_DEBUG
+	std::cout << "Initializing Thread" << std::endl;
+#endif
+}
+
+void doom::resource::Thread::TerminateThread(bool bIsBlockThread)
+{
+	if (mIsPoolTerminated)
+		return;
+
+#ifdef Thread_DEBUG
+	std::cout << "Destructing Thread Pool" << std::endl;
+#endif
+
+	mIsPoolTerminated = true;
+
+	//For stop queue, push dummy job ( i can't stop wait_dequeue, so make WorkerJob loop pushing dummy job )
+	this->_Push_Back_Job(this->mWaitingTaskQueue, job_type([]() {}));
+
+	if (bIsBlockThread == true)
+	{
+		this->mThread.join();
+#ifdef Thread_DEBUG
+		std::cout << "Thread is terminated" << std::endl;
+#endif
+	}
+	else
+	{
+		this->mThread.detach();
+#ifdef Thread_DEBUG
+		std::cout << "Thread is detached" << std::endl;
+#endif
+	}
+
+#ifdef Thread_DEBUG
+	std::cout << "Thread is completely terminated" << std::endl;
+	if (unsigned int lastJobs = this->mWaitingTaskQueue.size_approx() > 0)
+	{
+		std::cout << "but Thread Jobs remains : " << lastJobs << std::endl;
+	}
+#endif
+}
+
+doom::resource::Thread::~Thread()
+{
+	this->TerminateThread(true);
+}
+
+/// <summary>
+/// This can be not inaccurate
+/// </summary>
+/// <returns></returns>
+bool doom::resource::Thread::GetIsTerminated() const
+{
+	return this->mIsPoolTerminated;
+}
+
+/// <summary>
+/// This can be not inaccurate
+/// </summary>
+/// <returns></returns>
+bool doom::resource::Thread::GetIsThreadSleeping() const
+{
+	return this->mIsThreadSleeping;
+}
+
+size_t doom::resource::Thread::GetWaitingJobCount() const
+{
+	return mWaitingTaskQueue.size_approx();
+}
+
+void doom::resource::Thread::SetPriorityWaitingTaskQueue(BlockingConcurrentQueue<job_type>* queuePointer)
+{
+	this->mPriorityWaitingTaskQueue = queuePointer;
+}

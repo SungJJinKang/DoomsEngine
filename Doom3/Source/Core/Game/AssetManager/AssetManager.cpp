@@ -8,6 +8,11 @@
 
 using namespace doom::assetimporter;
 
+bool AssetManager::CheckFileIsValidAssetFile(const std::filesystem::directory_entry& entry)
+{
+	return entry.is_regular_file() == true;
+}
+
 void doom::assetimporter::AssetManager::Init()
 {
 
@@ -27,6 +32,8 @@ void doom::assetimporter::AssetManager::OnEndOfFrame()
 
 void doom::assetimporter::AssetManager::ImportEntireAsset()
 {
+	CHECK_IS_EXECUTED_ON_MAIN_THREAD;
+
 	std::filesystem::path lastEntryPath{};
 
 	std::array<std::vector<std::filesystem::path>, doom::Asset::GetAssetTypeCount()> entireAssetPaths{};
@@ -35,9 +42,8 @@ void doom::assetimporter::AssetManager::ImportEntireAsset()
 	/// </summary>
 	for (const auto& entry : std::filesystem::recursive_directory_iterator(AssetFolderPath))
 	{
-		if (entry.is_regular_file() == false)
+		if (CheckFileIsValidAssetFile(entry)== false)
 		{
-			
 			continue; // if directory if folder, continue
 		}
 
@@ -90,6 +96,10 @@ void doom::assetimporter::AssetManager::ImportEntireAsset()
 		}
 		
 	}
+
+	//TODO : 시간 많이 안걸리는 text타입같은거는 굳이 thread에 맞길 필요없다 오히려 더 느림, 사이즈 작은건 그냥 메인 스레드에서 처리하자.
+	//->원래는 메인스레드가 get future하면서 거의 노는데 이렇게 하면 메인스레드도 열심히 일 돌릴 수 있다.
+
 
 	//push stored paths to AssetManager::AssetPaths
 	for (size_t i = 0; i < entireAssetPaths.size(); ++i)

@@ -55,7 +55,7 @@ namespace doom
 	
 	public:
 		
-		TextureAsset() = delete;
+		TextureAsset() = default;
 		TextureAsset(std::unique_ptr<DirectX::ScratchImage>&& scratchImage);
 		TextureAsset(const TextureAsset&) = delete;
 		TextureAsset(TextureAsset&& textureAsset) noexcept = default;

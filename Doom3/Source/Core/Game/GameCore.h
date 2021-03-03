@@ -6,7 +6,7 @@
 #include <memory>
 
 
-#include "AssetManager.h"
+#include "AssetManager/AssetManager.h"
 
 #include "../Scene/SharedScene.h"
 #include "../Scene/Scene.h"
@@ -74,67 +74,6 @@ namespace doom
 		virtual void Init() final;
 		virtual void LateInit() final;
 
-		bool Tick()
-		{
-			D_START_PROFILING("Fixed Update", eProfileLayers::CPU);
-			MainTimer::ResetFixedTimer();
-			for (int i = 0; i < this->mPhysics_Server.MAX_PHYSICS_STEP; ++i)
-			{
-				this->FixedUpdate();
-				MainTimer::UpdateFixedTimer();
-				if (MainTimer::GetFixedDeltaTime() > this->mPhysics_Server.FIXED_TIME_STEP)
-				{
-					break;
-				}
-			}
-			D_END_PROFILING("Fixed Update");
-			
-
-			MainTimer::UpdateFrameTimer();
-			D_START_PROFILING("Update", eProfileLayers::CPU);
-			this->Update();
-			D_END_PROFILING("Update");
-
-
-			D_START_PROFILING("OnEndOfFrame", eProfileLayers::CPU);
-			this->OnEndOfFrame();
-			D_END_PROFILING("OnEndOfFrame");
-			return true;
-		}
-		
-
-		virtual void OnEndOfFrame() final
-		{
-			this->mTime_Server.OnEndOfFrame_Internal();
-			this->mTime_Server.OnEndOfFrame();
-			
-			this->mJobSystem.OnEndOfFrame_Internal();
-			this->mJobSystem.OnEndOfFrame();
-
-			this->mPhysics_Server.OnEndOfFrame_Internal();
-			this->mPhysics_Server.OnEndOfFrame();
-
-			this->mUserImput_Server.OnEndOfFrame_Internal();
-			this->mUserImput_Server.OnEndOfFrame();
-
-			this->mCurrentScene->OnEndOfFrameOfEntities(); // Update Plain Components ( Game Logic )
-
-			this->mGraphics_Server.OnEndOfFrame_Internal();
-			this->mGraphics_Server.OnEndOfFrame();
-
-		}
-
-		/// <summary>
-		/// Clean Game Resources
-		/// </summary>
-		void CleanUp();
-
-
-
-
-
-
-
 		/// <summary>
 		/// Frame Loop
 		/// </summary>
@@ -184,5 +123,70 @@ namespace doom
 			this->mCurrentScene->FixedUpdatePlainComponents(); // Update plain Components ( Game Logic )
 			D_END_PROFILING("FixedUpdate PlainComponents");
 		}
+
+		virtual void OnEndOfFrame() final
+		{
+			this->mTime_Server.OnEndOfFrame_Internal();
+			this->mTime_Server.OnEndOfFrame();
+
+			this->mJobSystem.OnEndOfFrame_Internal();
+			this->mJobSystem.OnEndOfFrame();
+
+			this->mPhysics_Server.OnEndOfFrame_Internal();
+			this->mPhysics_Server.OnEndOfFrame();
+
+			this->mUserImput_Server.OnEndOfFrame_Internal();
+			this->mUserImput_Server.OnEndOfFrame();
+
+			this->mCurrentScene->OnEndOfFrameOfEntities(); // Update Plain Components ( Game Logic )
+
+			this->mGraphics_Server.OnEndOfFrame_Internal();
+			this->mGraphics_Server.OnEndOfFrame();
+
+		}
+
+		bool Tick()
+		{
+			D_START_PROFILING("Fixed Update", eProfileLayers::CPU);
+			MainTimer::ResetFixedTimer();
+			for (int i = 0; i < this->mPhysics_Server.MAX_PHYSICS_STEP; ++i)
+			{
+				this->FixedUpdate();
+				MainTimer::UpdateFixedTimer();
+				if (MainTimer::GetFixedDeltaTime() > this->mPhysics_Server.FIXED_TIME_STEP)
+				{
+					break;
+				}
+			}
+			D_END_PROFILING("Fixed Update");
+			
+
+			MainTimer::UpdateFrameTimer();
+			D_START_PROFILING("Update", eProfileLayers::CPU);
+			this->Update();
+			D_END_PROFILING("Update");
+
+
+			D_START_PROFILING("OnEndOfFrame", eProfileLayers::CPU);
+			this->OnEndOfFrame();
+			D_END_PROFILING("OnEndOfFrame");
+			return true;
+		}
+		
+
+		
+
+		/// <summary>
+		/// Clean Game Resources
+		/// </summary>
+		void CleanUp();
+
+
+
+
+
+
+
+		
 	};
 }

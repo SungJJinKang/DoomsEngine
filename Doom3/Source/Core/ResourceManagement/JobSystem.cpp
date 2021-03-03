@@ -1,5 +1,7 @@
 #include "JobSystem.h"
 
+#include <limits>
+
 #include "../Core.h"
 #include "Thread.h"
 
@@ -19,6 +21,27 @@ void doom::resource::JobSystem::OnEndOfFrame()
 {
 }
 
+doom::resource::Thread& JobSystem::GetSleepingThread() const
+{
+	doom::resource::Thread* fewestWaitingThread{ &(this->mManagedSubThreads[0]) };
+	size_t fewestWaitingJobCount = std::numeric_limits<size_t>::max();
+
+	for (unsigned int i = 0; i < SUB_THREAD_COUNT; i++)
+	{
+		if (this->mManagedSubThreads[i].GetIsThreadSleeping() == true)
+		{
+			return this->mManagedSubThreads[i];
+		}
+		else if (size_t waitingJobCount = this->mManagedSubThreads[i].GetWaitingJobCount() < fewestWaitingJobCount)
+		{
+			fewestWaitingThread = &this->mManagedSubThreads[i];
+			fewestWaitingJobCount = waitingJobCount;
+		}
+	}
+
+	return *fewestWaitingThread;
+}
+
 void JobSystem::WakeUpAllThreads()
 {
 	for (unsigned int i = 0; i < SUB_THREAD_COUNT; i++)
@@ -34,7 +57,7 @@ void JobSystem::InitializeThreads()
 {
 	this->mMainThreadId = std::this_thread::get_id();
 
-	this->mManagedSubThreads = std::make_unique<ThreadPool[]>(SUB_THREAD_COUNT);
+	this->mManagedSubThreads = std::make_unique<Thread[]>(SUB_THREAD_COUNT);
 	
 
 	for (unsigned int i = 0; i < SUB_THREAD_COUNT; i++)
@@ -49,14 +72,24 @@ void JobSystem::DestroyThreads()
 {
 	for (unsigned int i = 0; i < SUB_THREAD_COUNT; i++)
 	{
-		this->mManagedSubThreads[i].TerminateThreadPool(true);
+		this->mManagedSubThreads[i].TerminateThread(true);
 	}
 	this->bmIsInitialized = false;
 }
 
-ThreadPool& doom::resource::JobSystem::GetThread(size_t threadIndex)
+Thread& doom::resource::JobSystem::GetThread(size_t threadIndex)
 {
 	D_ASSERT(this->bmIsInitialized == true);
 	D_ASSERT(threadIndex >= 0 && threadIndex < SUB_THREAD_COUNT);
 	return this->mManagedSubThreads[threadIndex];
+}
+
+std::thread::id JobSystem::GetMainThreadID() const
+{
+	return this->mMainThreadId;
+}
+
+JobSystem::~JobSystem()
+{
+	this->DestroyThreads();
 }

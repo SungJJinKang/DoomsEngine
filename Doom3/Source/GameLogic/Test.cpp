@@ -1,7 +1,7 @@
 #include "TEST.h"
 
 #include <Doom_Core.h>
-#include "../Game/AssetManager.h"
+#include "../Game/AssetManager/AssetManager.h"
 #include "../Graphics/Material.h"
 #include "MeshRenderer.h"
 #include "Camera.h"

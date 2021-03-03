@@ -5,7 +5,7 @@ using namespace doom;
 void Asset::SetBaseMetaData(const std::filesystem::path& path)
 {
 	this->mAssetFileName = path.has_filename() ? path.filename().string() : "";
-	this->mAssetPath = path.string();
+	this->mAssetPath = path;
 	this->mAssetFileSize = std::filesystem::file_size(path);
 }
 
@@ -61,6 +61,11 @@ doom::D_UUID Asset::GetUUID()
 	return this->mUUID;
 }
 
+doom::D_UUID Asset::GetUUID() const
+{
+	return this->mUUID;
+}
+
 std::string Asset::GetAssetFileName()
 {
 	return this->mAssetFileName;
@@ -81,5 +86,10 @@ std::filesystem::path Asset::GetAssetPath()
 bool Asset::GetIsDataLoaded()
 {
 	return this->bmIsDataLoaded;
+}
+
+unsigned long long Asset::GetAssetFileSize() const
+{
+	return this->mAssetFileSize;
 }
 

@@ -1,12 +1,9 @@
 #pragma once
-
+#include <utility>
+#include <optional>
 
 #include "AssetApiImporter.h"
 #include "AssetImporterWorker_Base.h"
-
-#include <utility>
-
-#include <optional>
 
 #include "../../Asset/TextureAsset.h"
 
