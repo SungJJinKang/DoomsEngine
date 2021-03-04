@@ -34,15 +34,15 @@ doom::graphics::Mesh::~Mesh()
 void doom::graphics::Mesh::GenMeshBuffer(bool hasIndice)
 {
 	Buffer::GenBuffer();
-	if (this->mVertexArrayObjectID.GetReference() == 0)
+	if (this->mVertexArrayObjectID.Get() == 0)
 	{
-		glGenVertexArrays(1, &(this->mVertexArrayObjectID.GetReference()));
+		glGenVertexArrays(1, &(this->mVertexArrayObjectID));
 	}
 	if (hasIndice)
 	{
-		if (this->mElementBufferObjectID.GetReference() == 0)
+		if (this->mElementBufferObjectID.Get() == 0)
 		{
-			glGenBuffers(1, &(this->mElementBufferObjectID.GetReference()));
+			glGenBuffers(1, &(this->mElementBufferObjectID));
 		}
 	}
 	else
@@ -57,11 +57,13 @@ void doom::graphics::Mesh::DeleteBuffers()
 
 	if (this->mVertexArrayObjectID != 0)
 	{
-		glDeleteVertexArrays(1, &(this->mVertexArrayObjectID.GetReference()));
+		glDeleteVertexArrays(1, &(this->mVertexArrayObjectID));
+		this->mVertexArrayObjectID = 0;
 	}
 	if (this->mElementBufferObjectID != 0)
 	{
-		glDeleteBuffers(1, &(this->mElementBufferObjectID.GetReference()));
+		glDeleteBuffers(1, &(this->mElementBufferObjectID));
+		this->mElementBufferObjectID = 0;
 	}
 }
 

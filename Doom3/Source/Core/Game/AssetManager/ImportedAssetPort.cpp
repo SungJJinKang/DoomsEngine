@@ -41,7 +41,7 @@ template <eAssetType assetType>
 AssetContainer<assetType>& ImportedAssetPort<assetType>::AddAssetFuture(doom::assetimporter::imported_asset_future_t<assetType>&& assetFuture, const std::filesystem::path& path)
 {
 	D_UUID reservedUUID = GenerateUUID();
-	auto pair = this->mAssets.emplace(std::make_pair(reservedUUID, AssetContainer<assetType>(std::move(assetFuture), reservedUUID)));
+	auto pair = this->mAssets.emplace(std::make_pair(reservedUUID, AssetContainer<assetType>(std::move(assetFuture), path, reservedUUID)));
 
 	if (pair.second == true)
 	{
@@ -65,7 +65,7 @@ std::vector<std::reference_wrapper<AssetContainer<assetType>>> ImportedAssetPort
 	std::vector<std::reference_wrapper<AssetContainer<assetType>>> waitingGetFutureAssets{};
 	for (size_t i = 0 ; i < assetFutures.size() ; i++)
 	{
-		auto& getAssetWaitingAsset = ImportedAssetPort<assetType>::AddAssetFuture(std::move(assetFutures[i]), paths[i]);
+		auto& getAssetWaitingAsset = this->AddAssetFuture(std::move(assetFutures[i]), paths[i]);
 		waitingGetFutureAssets.emplace_back(getAssetWaitingAsset);
 	}
 

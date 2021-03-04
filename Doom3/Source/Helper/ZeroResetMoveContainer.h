@@ -1,5 +1,6 @@
 #pragma once
 #include <cassert>
+
 /// <summary>
 /// Why need this?
 /// Read this : https://sungjjinkang.github.io/c++/2021/02/20/problemWhenUseMoveContrucotrCompilerMade.html
@@ -8,66 +9,71 @@ template <typename T>
 class ZeroResetMoveContainer
 {
 private:
-	T data;
+	T mData;
 public:
-	ZeroResetMoveContainer() : data{ 0 }
+	constexpr ZeroResetMoveContainer() : mData{ NULL }
 	{}
 
-	ZeroResetMoveContainer(const ZeroResetMoveContainer&)
+	constexpr ZeroResetMoveContainer(const ZeroResetMoveContainer& bufferID)
 	{
-		assert(0);
-		// Don't try ZeroResetMoveContainer
-		// Think if you copy ZeroResetMoveContainer and Copyed Object is destroyed
-		// Other ZeroResetMoveContainer Objects can't know their bufferId is invalidated.
-		// This will make bugs hard to find, debug
+		this->mData = bufferID.mData;
 	}
-	ZeroResetMoveContainer(ZeroResetMoveContainer&& bufferID) noexcept
+	constexpr ZeroResetMoveContainer(ZeroResetMoveContainer&& bufferID) noexcept
 	{
-		this->data = bufferID.data;
-		bufferID.data = 0;
+		this->mData = std::move(bufferID.mData);
+		bufferID.mData = NULL;
 	}
 
-	ZeroResetMoveContainer& operator=(const ZeroResetMoveContainer&)
+	constexpr ZeroResetMoveContainer& operator=(const ZeroResetMoveContainer& bufferID)
 	{
-		assert(0);
-		// Don't try ZeroResetMoveContainer
-		// Think if you copy ZeroResetMoveContainer and Copyed Object is destroyed
-		// Other ZeroResetMoveContainer Objects can't know their bufferId is invalidated.
-		// This will make bugs hard to find, debug
+		this->mData = bufferID.mData;
+		return *this;
 	}
-	ZeroResetMoveContainer& operator=(ZeroResetMoveContainer&& bufferID) noexcept
+	constexpr ZeroResetMoveContainer& operator=(ZeroResetMoveContainer&& bufferID) noexcept
 	{
-		this->data = bufferID.data;
-		bufferID.data = 0;
+		this->mData = std::move(bufferID.mData);
+		bufferID.mData = NULL;
 		return *this;
 	}
 
-	ZeroResetMoveContainer(T ID) : data{ ID }
+	constexpr ZeroResetMoveContainer(T data) : mData{ data }
 	{}
 
-	void operator=(T iD) noexcept
+	constexpr void operator=(const T& data)
 	{
-		this->data = iD;
+		this->mData = data;
+	}
+	constexpr void operator=(T&& data) noexcept
+	{
+		this->mData = std::move(data);
+		data = NULL;
 	}
 
-	operator T()
+	constexpr operator T()
 	{
-		return this->data;
+		return this->mData;
+	}
+	constexpr operator T& () const
+	{
+		return this->mData;
 	}
 
-	operator T* ()
+	constexpr T* operator& ()
 	{
-		return &(this->data);
+		return &(this->mData);
+	}
+	constexpr const T* operator& () const
+	{
+		return &(this->mData);
 	}
 
-	T& GetReference()
+	constexpr T Get()
 	{
-		return this->data;
+		return this->mData;
 	}
-
-	const T& GetReference() const
+	constexpr const T Get() const
 	{
-		return this->data;
+		return this->mData;
 	}
 };
 using BufferID = typename ZeroResetMoveContainer<unsigned int>;

@@ -72,7 +72,7 @@ Material::Material(ShaderAsset& shaderAsset) : mProgramID{ }, mShaderAsset{ null
 
 Material::~Material()
 {
-	if (this->mProgramID.GetReference() != 0)
+	if (this->mProgramID.Get() != 0)
 	{
 		glDeleteProgram(this->mProgramID);
 	}

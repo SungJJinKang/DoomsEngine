@@ -12,9 +12,9 @@ Buffer::Buffer() : mBufferID{ 0 }
 
 void Buffer::GenBuffer()
 {
-	if (this->mBufferID.GetReference() == 0)
+	if (this->mBufferID == 0)
 	{
-		glGenBuffers(1, &(this->mBufferID.GetReference()));
+		glGenBuffers(1, &(this->mBufferID));
 	}
 
 }
@@ -50,15 +50,15 @@ Buffer::~Buffer()
 
 void Buffer::DeleteBuffers()
 {
-	if (this->mBufferID.GetReference() != 0)
+	if (this->mBufferID.Get() != 0)
 	{
-		glDeleteBuffers(1, &(this->mBufferID.GetReference()));
+		glDeleteBuffers(1, &(this->mBufferID));
 		this->mBufferID = 0;
 	}
 }
 
 bool Buffer::IsBufferGenerated()
 {
-	return this->mBufferID.GetReference() != 0;
+	return this->mBufferID.Get() != 0;
 }
 

@@ -1,5 +1,7 @@
 #pragma once
 
+#include <filesystem>
+
 #include "../Core.h"
 #include "../Asset/Asset.h"
 #include "../IO/AssetImporter/AssetImporter.h"
@@ -32,6 +34,9 @@ namespace doom
 			ZeroResetMoveContainer<bool> mbIsImported;
 			ZeroResetMoveContainer<bool> mbIsFutureWaiting;
 
+			std::filesystem::path mFilePath;
+			D_UUID mReservedUUID;
+
 			/// <summary>
 			/// Completly Imported Asset
 			/// </summary>
@@ -40,7 +45,8 @@ namespace doom
 			/// 
 			/// </summary>
 			typename imported_asset_future_t<assetType> mWaitingFuture;
-			D_UUID mReservedUUID;
+
+		
 
 			void SetAsset(typename asset_type&& importedAsset)
 			{
@@ -54,20 +60,20 @@ namespace doom
 			
 		public:
 			
-			AssetContainer()
-				:mbIsImported{ false }, mbIsFutureWaiting{ false }, mImportedAsset{}, mWaitingFuture{}, mReservedUUID{}
+			AssetContainer(const std::filesystem::path& filePath)
+				:mbIsImported{ false }, mbIsFutureWaiting{ false }, mImportedAsset{}, mWaitingFuture{}, mFilePath{ filePath }, mReservedUUID{}
 			{
 				CHECK_IS_EXECUTED_ON_MAIN_THREAD;
 			}
 
-			AssetContainer(typename imported_asset_future_t<assetType>&& importedAssetFuture, const D_UUID& reservedUUID)
-				:mbIsImported{ false }, mbIsFutureWaiting{ true }, mImportedAsset{}, mReservedUUID{ reservedUUID }, mWaitingFuture{ std::move(importedAssetFuture) }
+			AssetContainer(typename imported_asset_future_t<assetType>&& importedAssetFuture, const std::filesystem::path& filePath, const D_UUID& reservedUUID)
+				:mbIsImported{ false }, mbIsFutureWaiting{ true }, mImportedAsset{}, mFilePath{ filePath }, mReservedUUID{ reservedUUID }, mWaitingFuture{ std::move(importedAssetFuture) }
 			{
 				CHECK_IS_EXECUTED_ON_MAIN_THREAD;
 			}
 
 			AssetContainer(typename asset_type&& importedAsset)
-				:mbIsImported{ true }, mbIsFutureWaiting{ false }, mImportedAsset{ std::move(importedAsset) }, mWaitingFuture{}
+				:mbIsImported{ true }, mbIsFutureWaiting{ false }, mFilePath{ importedAsset.GetAssetPath() }, mImportedAsset{ std::move(importedAsset) }, mWaitingFuture{}
 			{
 				CHECK_IS_EXECUTED_ON_MAIN_THREAD;
 			}
@@ -126,7 +132,16 @@ namespace doom
 					NEVER_HAPPEN;
 				}
 			}
+
+			bool GetIsFutureWaiting() const
+			{
+				return this->mbIsFutureWaiting;
+			}
 			
+			bool GetIsImported() const
+			{
+				return this->mbIsImported;
+			}
 		};
 
 	

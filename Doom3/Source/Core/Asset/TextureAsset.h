@@ -33,6 +33,7 @@ namespace doom
 
 	private:
 
+		std::unique_ptr<DirectX::ScratchImage> mScratchImage;
 
 		int mWidth;
 		int mHeight;
@@ -46,8 +47,6 @@ namespace doom
 		graphics::eTextureComponentFormat mComponentFormat; // 1 ~ 4 ( rgb, rgba ~~ )
 		graphics::eTextureInternalFormat mInternalFormat;
 		graphics::eTextureCompressedInternalFormat mCompressedInternalFormat;
-
-		std::unique_ptr<DirectX::ScratchImage> mScratchImage;
 
 		graphics::Texture* mTexture{ nullptr };
 		void CreateTexture();

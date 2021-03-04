@@ -14,7 +14,7 @@ Texture::Texture(eTextureType textureType, eBindTarget bindTarget,
 	mTarget{ targetTexture }, mInternalFormat{ internalFormat }, mCompressedInternalFormat{ compressedInternalFormat }, mWidth{ width }, mHeight{ 0 }, mDataFormat{ format }, mDataType{ type }
 {
 	D_ASSERT(mWidth > 0 && mHeight > 0);
-	glGenTextures(1, &(this->mBufferID.GetReference()));
+	glGenTextures(1, &(this->mBufferID));
 }
 
 
@@ -24,7 +24,7 @@ Texture::Texture(eTextureType textureType, eBindTarget bindTarget,
 	mTarget{ targetTexture }, mInternalFormat{ internalFormat }, mCompressedInternalFormat{ compressedInternalFormat }, mWidth{ width }, mHeight{ height }, mDataFormat{ format }, mDataType{ type }
 {
 	D_ASSERT(mWidth > 0 && mHeight > 0);
-	glGenTextures(1, &(this->mBufferID.GetReference()));
+	glGenTextures(1, &(this->mBufferID));
 }
 
 
@@ -38,9 +38,9 @@ void Texture::OnEndContructor()
 
 Texture::~Texture()
 {
-	if (this->mBufferID.GetReference() != 0)
+	if (this->mBufferID.Get() != 0)
 	{
-		glDeleteTextures(1, &(this->mBufferID.GetReference()));
+		glDeleteTextures(1, &(this->mBufferID));
 	}
 	
 }

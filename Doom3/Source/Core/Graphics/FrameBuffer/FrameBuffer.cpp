@@ -25,14 +25,14 @@ void doom::graphics::FrameBuffer::GenerateBuffer(unsigned int defaultWidth, unsi
 {
 	this->mDefaultWidth = defaultWidth;
 	this->mDefaultHeight = defaultHeight;
-	glGenFramebuffers(1, &(this->mFrameBufferID.GetReference()));
+	glGenFramebuffers(1, &(this->mFrameBufferID));
 }
 
 FrameBuffer::~FrameBuffer()
 {
 	if (this->mFrameBufferID != 0)
 	{
-		glDeleteFramebuffers(1, &(this->mFrameBufferID.GetReference()));
+		glDeleteFramebuffers(1, &(this->mFrameBufferID));
 	}
 	
 }

@@ -10,7 +10,7 @@ RenderBuffer::RenderBuffer(FrameBuffer& ownerFrameBuffer, GraphicsAPI::eBufferTy
 {
 	ownerFrameBuffer.BindFrameBuffer();
 
-	glGenRenderbuffers(1, &(this->mRenderBufferID.GetReference()));
+	glGenRenderbuffers(1, &(this->mRenderBufferID));
 	this->BindRenderBuffer();
 
 
@@ -65,9 +65,9 @@ RenderBuffer::RenderBuffer(FrameBuffer& ownerFrameBuffer, GraphicsAPI::eBufferTy
 
 doom::graphics::RenderBuffer::~RenderBuffer()
 {
-	if (this->mRenderBufferID.GetReference() != 0)
+	if (this->mRenderBufferID.Get() != 0)
 	{
-		glDeleteRenderbuffers(1, &(this->mRenderBufferID.GetReference()));
+		glDeleteRenderbuffers(1, &(this->mRenderBufferID));
 	}
 }
 

@@ -161,13 +161,15 @@ const char* doom::logger::LogTypeStr(eLogType logType) noexcept
 
 void StdStreamLogger::Log(const char* log, eLogType logType /*= Doom::LogType::LOG*/) const noexcept
 {
-	std::cerr << LogTypeStr(logType) << log << std::endl;
+	std::cerr << LogTypeStr(logType) << log;
+	std::cout.put('\n');
 }
 
 
 void StdStreamLogger::Log(std::string log, eLogType logType /*= Doom::LogType::D_LOG*/) const noexcept
 {
-	std::cerr << LogTypeStr(logType) << log << std::endl;
+	std::cerr << LogTypeStr(logType) << log;
+	std::cout.put('\n');
 }
 
 
@@ -176,7 +178,7 @@ void StdStreamLogger::Log(std::initializer_list<const char*> logs, eLogType logT
 	std::cerr << LogTypeStr(logType);
 	for (auto c : logs)
 		std::cerr << c;
-	std::cerr << std::endl;
+	std::cout.put('\n');
 }
 
 void StdStreamLogger::Log(std::initializer_list<const std::string> logs, eLogType logType /*= Doom::LogType::LOG*/) const noexcept
@@ -184,5 +186,5 @@ void StdStreamLogger::Log(std::initializer_list<const std::string> logs, eLogTyp
 	std::cerr << LogTypeStr(logType);
 	for (auto c : logs)
 		std::cerr << c;
-	std::cerr << std::endl;
+	std::cout.put('\n');
 }

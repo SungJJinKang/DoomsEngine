@@ -92,11 +92,12 @@ namespace doom
 		virtual ~Asset() {}
 
 		D_UUID GetUUID();
-		D_UUID GetUUID() const;
+		const D_UUID& GetUUID() const;
 		std::string GetAssetFileName();
 		const std::string& GetAssetFileName() const;
 		unsigned long long GetAssetFileSize() const;
 		std::filesystem::path GetAssetPath();
+		const std::filesystem::path& GetAssetPath() const;
 		bool GetIsDataLoaded();
 		
 		static std::string GetAssetTypeString(const eAssetType& assetType);

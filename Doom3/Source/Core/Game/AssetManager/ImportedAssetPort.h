@@ -19,6 +19,7 @@ namespace doom
 
 		/// <summary>
 		/// Store Imported or Scheduled to be imported Assets 
+		/// Store AssetContainer
 		/// </summary>
 		template <eAssetType assetType>
 		class ImportedAssetPort

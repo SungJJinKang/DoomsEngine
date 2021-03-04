@@ -61,7 +61,7 @@ doom::D_UUID Asset::GetUUID()
 	return this->mUUID;
 }
 
-doom::D_UUID Asset::GetUUID() const
+const D_UUID& Asset::GetUUID() const
 {
 	return this->mUUID;
 }
@@ -81,6 +81,10 @@ std::filesystem::path Asset::GetAssetPath()
 	return this->mAssetPath;
 }
 
+const std::filesystem::path& Asset::GetAssetPath() const
+{
+	return this->mAssetPath;
+}
 
 
 bool Asset::GetIsDataLoaded()
