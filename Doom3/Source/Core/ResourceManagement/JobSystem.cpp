@@ -9,7 +9,8 @@ using namespace doom::resource;
 
 void JobSystem::Init()
 {
-	this->InitializeThreads();
+	JobSystem::SUB_THREAD_COUNT = std::thread::hardware_concurrency() - 1; // Set core count - 1 to  sub thread count 
+	this->InitializeSubThreads();
 }
 
 void JobSystem::Update()
@@ -21,7 +22,7 @@ void doom::resource::JobSystem::OnEndOfFrame()
 {
 }
 
-doom::resource::Thread& JobSystem::GetSleepingThread() const
+doom::resource::Thread& JobSystem::GetSleepingSubThread() const
 {
 	doom::resource::Thread* fewestWaitingThread{ &(this->mManagedSubThreads[0]) };
 	size_t fewestWaitingJobCount = std::numeric_limits<size_t>::max();
@@ -42,7 +43,7 @@ doom::resource::Thread& JobSystem::GetSleepingThread() const
 	return *fewestWaitingThread;
 }
 
-void JobSystem::WakeUpAllThreads()
+void JobSystem::WakeUpAllSubThreads()
 {
 	for (unsigned int i = 0; i < SUB_THREAD_COUNT; i++)
 	{
@@ -53,7 +54,7 @@ void JobSystem::WakeUpAllThreads()
 	}
 }
 
-void JobSystem::InitializeThreads()
+void JobSystem::InitializeSubThreads()
 {
 	this->mMainThreadId = std::this_thread::get_id();
 
@@ -68,7 +69,7 @@ void JobSystem::InitializeThreads()
 	this->bmIsInitialized = true;
 }
 
-void JobSystem::DestroyThreads()
+void JobSystem::DestroySubThreads()
 {
 	for (unsigned int i = 0; i < SUB_THREAD_COUNT; i++)
 	{
@@ -91,5 +92,5 @@ std::thread::id JobSystem::GetMainThreadID() const
 
 JobSystem::~JobSystem()
 {
-	this->DestroyThreads();
+	this->DestroySubThreads();
 }

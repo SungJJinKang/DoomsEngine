@@ -104,7 +104,7 @@ std::optional<Asset::asset_type_t<eAssetType::THREE_D_MODEL>> doom::assetimporte
 	if (modelScene == NULL)
 	{
 		D_DEBUG_LOG(apiImporter->GetErrorString(), eLogType::D_ERROR);
-		NODEFAULT;
+		NEVER_HAPPEN;
 	}
 	
 
@@ -288,6 +288,6 @@ void doom::assetimporter::AssetImporterWorker<eAssetType::THREE_D_MODEL>::Export
 	if (status == aiReturn::aiReturn_FAILURE || status == aiReturn::aiReturn_OUTOFMEMORY)
 	{
 		D_DEBUG_LOG("Fail To Export ASS File", eLogType::D_ERROR);
-		NODEFAULT;
+		NEVER_HAPPEN;
 	}
 }

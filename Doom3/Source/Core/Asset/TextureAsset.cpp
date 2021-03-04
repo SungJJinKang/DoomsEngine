@@ -56,7 +56,7 @@ doom::TextureAsset::TextureAsset()
 		break;
 
 	default:
-		NODEFAULT;
+		NEVER_HAPPEN;
 	}
 	
 }
@@ -99,7 +99,7 @@ doom::TextureAsset::TextureAsset(std::unique_ptr<DirectX::ScratchImage>&& scratc
 
 	default:
 		D_DEBUG_LOG("Worng Texture Format, We Only Support Compressed Type", eLogType::D_ERROR);
-		NODEFAULT;
+		NEVER_HAPPEN;
 	}
 
 	//delete scratchImage;

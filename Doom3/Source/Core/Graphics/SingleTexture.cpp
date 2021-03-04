@@ -45,7 +45,7 @@ void doom::graphics::SingleTexture::Tex2DMipMapImages(std::vector<const DirectX:
 	{
 		for (unsigned int i = 0; i < mipmapDatas.size(); i++)
 		{
-			glTexImage2D(GL_TEXTURE_2D, i, static_cast<unsigned int>(this->mInternalFormat), mipmapDatas[i]->width, mipmapDatas[i]->height, 0, static_cast<unsigned int>(this->mDataFormat), static_cast<unsigned int>(this->mDataType), mipmapDatas[i]->pixels);
+			glTexImage2D(GL_TEXTURE_2D, i, static_cast<unsigned int>(this->mInternalFormat), static_cast<int>(mipmapDatas[i]->width), static_cast<int>(mipmapDatas[i]->height), 0, static_cast<unsigned int>(this->mDataFormat), static_cast<unsigned int>(this->mDataType), mipmapDatas[i]->pixels);
 		}
 
 	}
@@ -53,18 +53,18 @@ void doom::graphics::SingleTexture::Tex2DMipMapImages(std::vector<const DirectX:
 	{
 		for (unsigned int i = 0; i < mipmapDatas.size(); i++)
 		{
-			glCompressedTexImage2D(GL_TEXTURE_2D, i, static_cast<unsigned int>(this->mCompressedInternalFormat), mipmapDatas[i]->width, mipmapDatas[i]->height, 0, mipmapDatas[i]->slicePitch, mipmapDatas[i]->pixels);
+			glCompressedTexImage2D(GL_TEXTURE_2D, i, static_cast<unsigned int>(this->mCompressedInternalFormat), static_cast<int>(mipmapDatas[i]->width), static_cast<int>(mipmapDatas[i]->height), 0, static_cast<int>(mipmapDatas[i]->slicePitch), mipmapDatas[i]->pixels);
 		}
 
 	}
 	else
 	{
-		NODEFAULT;
+		NEVER_HAPPEN;
 	}
 
 	
 	this->TexParameteri(Texture::eBindTarget::TEXTURE_2D, Texture::eTextureParameterType::TEXTURE_BASE_LEVEL, 0);
-	this->TexParameteri(Texture::eBindTarget::TEXTURE_2D, Texture::eTextureParameterType::TEXTURE_MAX_LEVEL, mipmapDatas.size() - 1);
+	this->TexParameteri(Texture::eBindTarget::TEXTURE_2D, Texture::eTextureParameterType::TEXTURE_MAX_LEVEL, static_cast<int>(mipmapDatas.size() - 1));
 
 
 	/*
@@ -79,15 +79,15 @@ void SingleTexture::TexImage1D(int level, const DirectX::Image* directXImage) no
 {
 	if (this->mInternalFormat != eTextureInternalFormat::NONE)
 	{
-		glTexImage1D(GL_TEXTURE_1D, level, static_cast<unsigned int>(this->mInternalFormat), directXImage->width,  0, static_cast<unsigned int>(this->mDataFormat), static_cast<unsigned int>(this->mDataType), directXImage->pixels);
+		glTexImage1D(GL_TEXTURE_1D, level, static_cast<unsigned int>(this->mInternalFormat), static_cast<int>(directXImage->width),  0, static_cast<unsigned int>(this->mDataFormat), static_cast<unsigned int>(this->mDataType), directXImage->pixels);
 	}
 	else if (this->mCompressedInternalFormat != eTextureCompressedInternalFormat::NONE)
 	{
-		glCompressedTexImage1D(GL_TEXTURE_1D, level, static_cast<unsigned int>(this->mCompressedInternalFormat), directXImage->width, 0, directXImage->slicePitch, directXImage->pixels);
+		glCompressedTexImage1D(GL_TEXTURE_1D, level, static_cast<unsigned int>(this->mCompressedInternalFormat), static_cast<int>(directXImage->width), 0, static_cast<int>(directXImage->slicePitch), directXImage->pixels);
 	}
 	else
 	{
-		NODEFAULT;
+		NEVER_HAPPEN;
 	}
 }
 
@@ -95,17 +95,17 @@ void SingleTexture::TexImage2D(int level, const DirectX::Image* directXImage) no
 {
 	if (this->mInternalFormat != eTextureInternalFormat::NONE)
 	{
-		glTexImage2D(GL_TEXTURE_2D, level, static_cast<unsigned int>(this->mInternalFormat), directXImage->width, directXImage->height, 0, static_cast<unsigned int>(this->mDataFormat), static_cast<unsigned int>(this->mDataType), directXImage->pixels);
+		glTexImage2D(GL_TEXTURE_2D, level, static_cast<unsigned int>(this->mInternalFormat), static_cast<int>(directXImage->width), static_cast<int>(directXImage->height), 0, static_cast<unsigned int>(this->mDataFormat), static_cast<unsigned int>(this->mDataType), directXImage->pixels);
 	}
 	else if (this->mCompressedInternalFormat != eTextureCompressedInternalFormat::NONE)
 	{
 // 		img.rowPitch = /*<number of bytes in a scanline of the source data>*/;
 // 		img.slicePitch = /*<number of bytes in the entire 2D image>*/;
-		glCompressedTexImage2D(GL_TEXTURE_2D, level, static_cast<unsigned int>(this->mCompressedInternalFormat), directXImage->width, directXImage->height, 0, directXImage->slicePitch, directXImage->pixels);
+		glCompressedTexImage2D(GL_TEXTURE_2D, level, static_cast<unsigned int>(this->mCompressedInternalFormat), static_cast<int>(directXImage->width), static_cast<int>(directXImage->height), 0, static_cast<int>(directXImage->slicePitch), directXImage->pixels);
 	}
 	else
 	{
-		NODEFAULT;
+		NEVER_HAPPEN;
 	}
 }
 

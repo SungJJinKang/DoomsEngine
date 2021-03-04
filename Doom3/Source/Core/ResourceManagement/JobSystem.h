@@ -69,18 +69,23 @@ namespace doom
 			/// <summary>
 			/// Use this function To WakeUp sleeping threads
 			/// </summary>
-			void WakeUpAllThreads();
+			void WakeUpAllSubThreads();
 
 			/// <summary>
 			/// return reference of Sleeping Thread
 			/// if every thread is working, return thread having fewest waiting job count
 			/// </summary>
 			/// <returns></returns>
-			Thread& GetSleepingThread() const;
+			Thread& GetSleepingSubThread() const;
 
-			void InitializeThreads();
-			void DestroyThreads();
-			Thread& GetThread(size_t threadIndex);
+			void InitializeSubThreads();
+			void DestroySubThreads();
+			/// <summary>
+			/// Don't use this
+			/// </summary>
+			/// <param name="threadIndex"></param>
+			/// <returns></returns>
+			[[deprecated]] Thread& GetThread(size_t threadIndex);
 
 		public:
 			
@@ -93,8 +98,8 @@ namespace doom
 			{
 				D_ASSERT(this->bmIsInitialized == true);
 
-				auto future = this->GetSleepingThread().PushBackJob(this->mPriorityWaitingTaskQueue, task);
-				this->WakeUpAllThreads();
+				auto future = this->GetSleepingSubThread().PushBackJob(this->mPriorityWaitingTaskQueue, task);
+				this->WakeUpAllSubThreads();
 				return future;
 			}
 
@@ -103,8 +108,8 @@ namespace doom
 			{
 				D_ASSERT(this->bmIsInitialized == true);
 
-				auto future = this->GetSleepingThread().EmplaceBackJob(this->mPriorityWaitingTaskQueue, std::forward<Function>(f), std::forward<Function>(args)...);
-				this->WakeUpAllThreads();
+				auto future = this->GetSleepingSubThread().EmplaceBackJob(this->mPriorityWaitingTaskQueue, std::forward<Function>(f), std::forward<Function>(args)...);
+				this->WakeUpAllSubThreads();
 				return future;
 			}
 
@@ -113,8 +118,8 @@ namespace doom
 			{
 				D_ASSERT(this->bmIsInitialized == true);
 
-				auto futures = this->GetSleepingThread().PushBackJobChunk(this->mPriorityWaitingTaskQueue, tasks);
-				this->WakeUpAllThreads();
+				auto futures = this->GetSleepingSubThread().PushBackJobChunk(this->mPriorityWaitingTaskQueue, tasks);
+				this->WakeUpAllSubThreads();
 				return futures;
 			}
 

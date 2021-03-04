@@ -3,11 +3,11 @@
 #include <Doom_Core.h>
 #include "../Game/AssetManager/AssetManager.h"
 #include "../Graphics/Material.h"
-#include "MeshRenderer.h"
-#include "Camera.h"
+#include <Rendering/Renderer/MeshRenderer.h>
+#include <Rendering/Camera.h>
 #include "UserInput_Server.h"
 #include "Move_WASD.h"
-#include "DirectionalLight.h"
+#include <Rendering/Light/DirectionalLight.h>
 #include "AutoRotate.h"
 #include <TestComponent.h>
 

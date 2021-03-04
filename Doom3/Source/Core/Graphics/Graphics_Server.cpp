@@ -13,9 +13,9 @@
 
 #include "Buffer/UniformBufferObjectManager.h"
 
-#include "Renderer.h"
+#include <Rendering/Renderer/Renderer.h>
 #include "Material.h"
-#include "Iterator/RendererStaticIterator.h"
+#include <Rendering/Renderer/RendererStaticIterator.h>
 
 
 

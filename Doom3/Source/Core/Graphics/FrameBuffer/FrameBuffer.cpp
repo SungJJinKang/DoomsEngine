@@ -64,7 +64,7 @@ const doom::graphics::SingleTexture& FrameBuffer::GetFrameBufferTexture(Graphics
 		return this->mAttachedDepthStencilTextures[index];
 		break;
 	default:
-		NODEFAULT;
+		NEVER_HAPPEN;
 	}
 }
 
@@ -84,7 +84,7 @@ doom::graphics::SingleTexture& FrameBuffer::GetFrameBufferTexture(GraphicsAPI::e
 		return this->mAttachedDepthStencilTextures[index];
 		break;
 	default:
-		NODEFAULT;
+		NEVER_HAPPEN;
 	}
 }
 
@@ -160,7 +160,7 @@ void FrameBuffer::AttachTextureBuffer(GraphicsAPI::eBufferType frameBufferType, 
 	}
 		
 	default:
-		NODEFAULT;
+		NEVER_HAPPEN;
 		break;
 
 	}

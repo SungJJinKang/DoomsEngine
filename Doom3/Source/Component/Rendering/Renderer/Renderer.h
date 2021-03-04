@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Core/ServerComponent.h"
-#include "Iterator/RendererStaticIterator.h"
+#include "RendererStaticIterator.h"
 
 #include <Physics/Collider/AABB.h>
 namespace doom

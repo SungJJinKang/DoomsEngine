@@ -15,7 +15,7 @@ void doom::assetimporter::InitAssetImport<eAssetType::TEXTURE>()
 	if (FAILED(hr))
 	{
 		D_DEBUG_LOG("Fail To CoInitializeEx", eLogType::D_ERROR);
-		NODEFAULT;
+		NEVER_HAPPEN;
 	}
 }
 template <>
@@ -69,7 +69,7 @@ std::optional <Asset::asset_type_t<eAssetType::TEXTURE>> doom::assetimporter::As
 
 		default:
 			D_DEBUG_LOG("Cant Find Format", eLogType::D_ERROR);
-			NODEFAULT;
+			NEVER_HAPPEN;
 		}
 
 		// TODO : 한번 쓰건 또 써도 된다 나중에 수정

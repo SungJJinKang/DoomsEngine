@@ -57,7 +57,7 @@ RenderBuffer::RenderBuffer(FrameBuffer& ownerFrameBuffer, GraphicsAPI::eBufferTy
 		break;
 
 	default:
-		NODEFAULT;
+		NEVER_HAPPEN;
 		break;
 
 	}

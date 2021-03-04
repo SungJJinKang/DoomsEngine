@@ -52,7 +52,7 @@ AssetContainer<assetType>& ImportedAssetPort<assetType>::AddAssetFuture(doom::as
 	else
 	{
 		D_DEBUG_LOG("UUID is already inserted", logger::eLogType::D_ERROR);
-		NODEFAULT;
+		NEVER_HAPPEN;
 	}
 
 	this->GetFutureWaitingAssets.emplace_back(pair.first->second);

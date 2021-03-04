@@ -1,7 +1,7 @@
 #include "ColliderComponent.h"
 
 #include <Entity.h>
-#include "../Renderer.h"
+#include <Rendering/Renderer/Renderer.h>
 
 void doom::ColliderComponent::ResetAllCollisionState()
 {

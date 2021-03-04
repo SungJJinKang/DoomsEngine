@@ -2,7 +2,7 @@
 
 #include "Entity.h"
 #include "../../Helper/vector_erase_move_lastelement/vector_swap_erase.h"
-#include "../../Component/Camera.h"
+#include <Rendering/Camera.h>
 using namespace doom;
 
 Scene::Scene(std::string sceneName) 

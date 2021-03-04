@@ -54,7 +54,7 @@ namespace doom
 				}
 				else
 				{
-					NODEFAULT;
+					NEVER_HAPPEN;
 				}
 			
 			}
@@ -72,7 +72,7 @@ namespace doom
 				}
 				else
 				{
-					NODEFAULT;
+					NEVER_HAPPEN;
 				}
 			}
 			void TexImage1D(int level, const DirectX::Image* directXImage) noexcept;

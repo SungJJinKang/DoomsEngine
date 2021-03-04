@@ -123,7 +123,7 @@ namespace doom
 				else
 				{
 					D_DEBUG_LOG("Fail To Get Future Asset", eLogType::D_ERROR);
-					nullptr;
+					NEVER_HAPPEN;
 				}
 			}
 			

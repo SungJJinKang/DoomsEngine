@@ -54,7 +54,7 @@ namespace doom
 			BlockingConcurrentQueue<job_type>* mPriorityWaitingTaskQueue{ nullptr };
 
 			template <typename ReturnType>
-			job_type MakeThreadJob(const std::shared_ptr<std::promise<ReturnType>>&& promise_shared_ptr, const std::function<ReturnType()>& task)
+			job_type _MakeThreadJob(const std::shared_ptr<std::promise<ReturnType>>&& promise_shared_ptr, const std::function<ReturnType()>& task)
 			{
 				return job_type([_promise_shared_ptr = std::move(promise_shared_ptr), task = std::move(task)]() // if task's wrapped object has move constructor, it will be moved. if not, it will be copyed
 				{
@@ -81,10 +81,11 @@ namespace doom
 			template <typename ReturnType>
 			inline std::future<ReturnType> _Push_Back_Job(BlockingConcurrentQueue<job_type>& queue, const std::function<ReturnType()>& task)
 			{
+				//TODO : Use packaged_task
 				std::shared_ptr<std::promise<ReturnType>> promise_ptr{ new std::promise<ReturnType> };
 				auto future = promise_ptr->get_future();
 
-				queue.enqueue(Thread::MakeThreadJob(std::move(promise_ptr), task)); //push new task to task queue
+				queue.enqueue(Thread::_MakeThreadJob(std::move(promise_ptr), task)); //push new task to task queue
 
 				return future;
 			}
@@ -213,6 +214,7 @@ namespace doom
 			{
 				size_t size = tasks.size();
 
+				// TODO: Why use allocate promise at heap, Use packaged_task
 				std::vector<std::shared_ptr<std::promise<ReturnType>>> promise_ptr_vec{};
 				promise_ptr_vec.reserve(size);
 				for (size_t i = 0; i < size; i++)
@@ -232,7 +234,7 @@ namespace doom
 
 				for (size_t i = 0; i < size; i++)
 				{
-					taskContainer.push_back(Thread::MakeThreadJob(std::move(promise_ptr_vec[i]), tasks[i]));
+					taskContainer.push_back(Thread::_MakeThreadJob(std::move(promise_ptr_vec[i]), tasks[i]));
 				}
 
 				queue.enqueue_bulk(std::make_move_iterator(taskContainer.begin()), taskContainer.size()); //push new task to task queue

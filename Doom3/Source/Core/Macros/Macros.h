@@ -10,5 +10,5 @@
 #include "Assert.h"
 #include "Profiling.h"
 
-#define NODEFAULT __assume(0) // https://docs.microsoft.com/en-us/cpp/intrinsics/assume?view=msvc-160
+#define NEVER_HAPPEN __assume(0) // https://docs.microsoft.com/en-us/cpp/intrinsics/assume?view=msvc-160
 

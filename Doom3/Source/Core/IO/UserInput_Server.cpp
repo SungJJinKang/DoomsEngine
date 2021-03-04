@@ -3,7 +3,7 @@
 #include "../Core.h"
 #include "../Graphics/Graphics_Server.h"
 #include "../Game/ConfigData.h"
-#include <Camera.h>
+#include <Rendering/Camera.h>
 #include <Vector3.h>
 using namespace doom::userinput;
 

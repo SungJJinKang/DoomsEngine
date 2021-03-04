@@ -1,6 +1,6 @@
 #include "Picking.h"
 #include <PhysicsComponent/ColliderComponent.h>
-#include <Camera.h>
+#include <Rendering/Camera.h>
 #include <UserInput_Server.h>
 #include <Transform.h>
 /*
