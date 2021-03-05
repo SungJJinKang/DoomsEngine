@@ -5,8 +5,6 @@
 #include <thread>
 #include <future>
 
-#include <cassert>
-
 #include <concurrentqueue/blockingconcurrentqueue.h>
 using namespace moodycamel;
 //#define Thread_DEBUG // FOR MONITORING

@@ -52,6 +52,7 @@ namespace doom
 		private:
 			std::thread::id mMainThreadId{};
 
+			unsigned int MAX_SUB_THREAD_COUNT{};
 			unsigned int SUB_THREAD_COUNT{};
 			std::unique_ptr<Thread[]> mManagedSubThreads{};
 			bool bmIsInitialized{ false };

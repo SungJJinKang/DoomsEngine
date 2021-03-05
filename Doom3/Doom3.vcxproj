@@ -278,6 +278,7 @@
     <ClInclude Include="Source\Component\PhysicsComponent\BoxCollider2D.h" />
     <ClInclude Include="Source\Component\PhysicsComponent\MeshCollider.h" />
     <ClInclude Include="Source\Core\API\Font.h" />
+    <ClInclude Include="Source\Core\Asset\AssetMetaData.h" />
     <ClInclude Include="Source\Core\Game\AssetManager\AssetContainer.h" />
     <ClInclude Include="Source\Core\Game\ConfigData.h" />
     <ClInclude Include="Source\Core\Graphics\TextureFormat.h" />
