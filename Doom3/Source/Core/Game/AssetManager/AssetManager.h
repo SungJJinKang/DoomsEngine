@@ -176,11 +176,11 @@ namespace doom
 			constexpr inline void operator()(const std::array<std::vector<std::filesystem::path>, doom::Asset::GetAssetTypeCount()>& AssetPaths)
 			{
 
-				D_START_PROFILING("Add Importing Asset To ThreadPool : " + doom::Asset::GetAssetTypeString(loopVariable), doom::profiler::eProfileLayers::CPU);
+				//D_START_PROFILING("Add Importing Asset To ThreadPool : " + doom::Asset::GetAssetTypeString(loopVariable), doom::profiler::eProfileLayers::CPU);
 
 				AssetManager::ImportedAssetPorts<loopVariable>.AddAssetFutures(doom::assetimporter::Assetimporter::PushImportingAssetJobToThreadPool<loopVariable>(AssetPaths[static_cast<unsigned int>(loopVariable)]), AssetPaths[static_cast<unsigned int>(loopVariable)]);
 
-				D_END_PROFILING(name.c_str());
+				//D_END_PROFILING("Add Importing Asset To ThreadPool : " + doom::Asset::GetAssetTypeString(loopVariable));
 			}
 		};
 

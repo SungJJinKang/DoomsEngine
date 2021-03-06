@@ -9,10 +9,14 @@ void ExitGame();
 
 #include <iostream>
 
+
+
 int main()
 {
 
 	GameCore gameCore{};
+
+	D_START_PROFILING("Fixed Update", eProfileLayers::CPU);
 
 	D_START_PROFILING("Init Game", doom::profiler::eProfileLayers::CPU);
 	gameCore.Init();
