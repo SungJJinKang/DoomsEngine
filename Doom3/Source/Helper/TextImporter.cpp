@@ -22,3 +22,22 @@ std::string GetTextFromFile(const std::filesystem::path& path)
 		return "";
 	}
 }
+
+bool GetTextFromFile(const std::filesystem::path& path, std::string& text)
+{
+	std::ifstream inputFileStream(path, std::ios::in | std::ios::binary | std::ios::ate);
+
+	if (inputFileStream.is_open())
+	{
+		text.reserve(inputFileStream.tellg()); // prevent reallocation. reallocation is really really expensive
+		inputFileStream.seekg(0, std::ios::beg);
+		text.assign(std::istreambuf_iterator{ inputFileStream }, {});
+		inputFileStream.close();
+
+		return true;
+	}
+	else
+	{
+		return false;
+	}
+}

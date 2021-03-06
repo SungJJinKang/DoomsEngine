@@ -2,9 +2,9 @@
 
 using namespace doom;
 using namespace doom::assetimporter;
-template class doom::assetimporter::AssetImporterWorker<eAssetType::AUDIO>;
+template class doom::assetimporter::AssetImporterWorker<::doom::asset::eAssetType::AUDIO>;
 
-std::optional<Asset::asset_type_t<eAssetType::AUDIO>> doom::assetimporter::AssetImporterWorker<eAssetType::AUDIO>::ImportSpecificAsset(const std::filesystem::path& path)
+bool doom::assetimporter::AssetImporterWorker<::doom::asset::eAssetType::AUDIO>::ImportSpecificAsset(const std::filesystem::path& path, ::doom::asset::Asset::asset_type_t<::doom::asset::eAssetType::AUDIO>& asset)
 {
-	return {};
+	return false;
 }

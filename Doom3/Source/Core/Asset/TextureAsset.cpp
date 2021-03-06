@@ -11,14 +11,14 @@
 using namespace doom::graphics;
 using namespace DirectX;
 /*
-doom::TextureAsset::TextureAsset(int width, int height, int componentCount, unsigned char* data, eTextureCompressionType compressionType)
+doom::asset::TextureAsset::TextureAsset(int width, int height, int componentCount, unsigned char* data, eTextureCompressionType compressionType)
 	: mWidth{ width }, mHeight{ height }, mDataComponentFormat{ static_cast<eTextureComponent>(componentCount) }, mTexturerCompressionType{ compressionType }, mData{ data }
 {
 
 }
 
 
-doom::TextureAsset::TextureAsset()
+doom::asset::TextureAsset::TextureAsset()
 {
 	this->mWidth = cmp_MipSet.m_nWidth;
 	this->mHeight = cmp_MipSet.m_nHeight;
@@ -61,10 +61,13 @@ doom::TextureAsset::TextureAsset()
 	
 }
 */
-doom::TextureAsset::TextureAsset(std::unique_ptr<DirectX::ScratchImage>&& scratchImage)
-	:mScratchImage{ std::move(scratchImage) }, mWidth{ static_cast<int>(mScratchImage->GetMetadata().width) }, mHeight{ static_cast<int>(mScratchImage->GetMetadata().height) }, mMipMapLevel{ static_cast<int>(mScratchImage->GetMetadata().mipLevels) },
-	bmIsCompressed{}, mComponentFormat{ }, mInternalFormat{ }, mEntireImageSize{ mScratchImage->GetPixelsSize() }
+void doom::asset::TextureAsset::SetScratchImage(std::unique_ptr<DirectX::ScratchImage>&& scratchImage)
 {
+	this->mScratchImage = std::move(scratchImage);
+	this->mWidth = static_cast<int>(mScratchImage->GetMetadata().width);
+	this->mHeight = static_cast<int>(mScratchImage->GetMetadata().height);
+	this->mMipMapLevel = static_cast<int>(mScratchImage->GetMetadata().mipLevels);
+
 	switch (mScratchImage->GetMetadata().format)
 	{
 	case DXGI_FORMAT::DXGI_FORMAT_BC4_UNORM:
@@ -104,12 +107,12 @@ doom::TextureAsset::TextureAsset(std::unique_ptr<DirectX::ScratchImage>&& scratc
 	//delete scratchImage;
 }
 
-void doom::TextureAsset::OnEndImportInMainThread()
+void doom::asset::TextureAsset::OnEndImportInMainThread_Internal()
 {
 	this->CreateTexture();
 }
 
-void doom::TextureAsset::CreateTexture()
+void doom::asset::TextureAsset::CreateTexture()
 {
 	D_ASSERT(mScratchImage->GetImageCount() != 0);
 	std::vector<const DirectX::Image*> mipmapPixels{};

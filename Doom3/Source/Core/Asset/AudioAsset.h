@@ -3,30 +3,35 @@
 #include "Base_Asset.h"
 namespace doom
 {
-
-	class AudioAsset : public Asset
+	namespace asset
 	{
-		friend class assetimporter::AssetManager;
+		class AudioAsset : public Asset
+		{
+			friend class ::doom::assetimporter::ImportedAssetPort<eAssetType::AUDIO>;
 
-		template <eAssetType assetType>
-		friend class assetimporter::AssetImporterWorker;
+			friend class ::doom::assetimporter::AssetManager;
+			friend class ::doom::assetimporter::Assetimporter;
 
-		template<eAssetType loopVariable>
-		friend struct assetimporter::OnEndImportInMainThreadFunctor;
+			template <eAssetType assetType>
+			friend class ::doom::assetimporter::AssetImporterWorker;
 
-	private:
+			template<eAssetType loopVariable>
+			friend struct ::doom::assetimporter::OnEndImportInMainThreadFunctor;
 
-	protected:
-	
-	public:
+		private:
 
-		AudioAsset() = default;
-		AudioAsset(const AudioAsset&) = delete;
-		AudioAsset(AudioAsset&&) noexcept = default;
-		AudioAsset& operator=(const AudioAsset&) = delete;
-		AudioAsset& operator=(AudioAsset&&) noexcept = default;
-		virtual ~AudioAsset() {}
-	};
-	template <> struct Asset::asset_type<eAssetType::AUDIO> { using type = AudioAsset; };
+		protected:
+
+		public:
+
+			AudioAsset() = default;
+			AudioAsset(const AudioAsset&) = delete;
+			AudioAsset(AudioAsset&&) noexcept = default;
+			AudioAsset& operator=(const AudioAsset&) = delete;
+			AudioAsset& operator=(AudioAsset&&) noexcept = default;
+			virtual ~AudioAsset() {}
+		};
+		template <> struct Asset::asset_type<eAssetType::AUDIO> { using type = AudioAsset; };
+	}
 }
 

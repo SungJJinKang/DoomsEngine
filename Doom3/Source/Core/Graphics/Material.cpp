@@ -9,15 +9,15 @@
 using namespace doom::graphics;
 
 
-void Material::SetShaderAsset(ShaderAsset& shaderAsset)
+void Material::SetShaderAsset(::doom::asset::ShaderAsset* shaderAsset)
 {
-	mShaderAsset = &shaderAsset;
+	mShaderAsset = shaderAsset;
 
 	D_ASSERT(this->mProgramID == 0); // error : you're overlapping program
 
-	unsigned int vertexId = shaderAsset.GetVertexId();
-	unsigned int fragmentId = shaderAsset.GetFragmentId();
-	unsigned int geometryId = shaderAsset.GetGeometryId();
+	unsigned int vertexId = shaderAsset->GetVertexId();
+	unsigned int fragmentId = shaderAsset->GetFragmentId();
+	unsigned int geometryId = shaderAsset->GetGeometryId();
 	D_ASSERT(vertexId != 0 || fragmentId != 0 || geometryId != 0);
 
 
@@ -65,7 +65,7 @@ doom::graphics::Material::Material() : mProgramID{ }, mShaderAsset{ nullptr }
 {
 }
 
-Material::Material(ShaderAsset& shaderAsset) : mProgramID{ }, mShaderAsset{ nullptr }
+Material::Material(::doom::asset::ShaderAsset* shaderAsset) : mProgramID{}, mShaderAsset{ nullptr }
 {
 	this->SetShaderAsset(shaderAsset);
 }
@@ -88,9 +88,9 @@ void Material::AddTexture(unsigned int bindingPoint, Texture* texture)
 	this->mTargetTextures[bindingPoint] = texture;
 }
 
-void Material::AddTexture(unsigned int bindingPoint, ::doom::TextureAsset& textureAsset)
+void Material::AddTexture(unsigned int bindingPoint, ::doom::asset::TextureAsset* textureAsset)
 {
-	this->mTargetTextures[bindingPoint] = textureAsset.mTexture;
+	this->mTargetTextures[bindingPoint] = textureAsset->mTexture;
 }
 
 void Material::AddTextures(std::array<Texture*, MAX_TEXTURE_COUNT> textures)

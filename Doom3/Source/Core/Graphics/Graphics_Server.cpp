@@ -164,11 +164,11 @@ void doom::graphics::Graphics_Server::InitFrameBufferForDeferredRendering()
 	if (this->mFrameBufferForDeferredRendering.IsGenerated() == true)
 		return;
 
-	auto gBufferDrawerShader = doom::assetimporter::AssetManager::GetAsset<eAssetType::SHADER>("GbufferDrawer.glsl");
-	this->mGbufferDrawerMaterial.SetShaderAsset(*gBufferDrawerShader);
+	auto gBufferDrawerShader = doom::assetimporter::AssetManager::GetAsset<asset::eAssetType::SHADER>("GbufferDrawer.glsl");
+	this->mGbufferDrawerMaterial.SetShaderAsset(gBufferDrawerShader);
 
-	auto gBufferWriterShader = doom::assetimporter::AssetManager::GetAsset<eAssetType::SHADER>("GbufferWriter.glsl");
-	this->mGbufferWriterMaterial.SetShaderAsset(*gBufferWriterShader);
+	auto gBufferWriterShader = doom::assetimporter::AssetManager::GetAsset<asset::eAssetType::SHADER>("GbufferWriter.glsl");
+	this->mGbufferWriterMaterial.SetShaderAsset(gBufferWriterShader);
 
 	this->mFrameBufferForDeferredRendering.GenerateBuffer(Graphics_Server::ScreenSize.x, Graphics_Server::ScreenSize.y);
 	this->mFrameBufferForDeferredRendering.AttachTextureBuffer(GraphicsAPI::eBufferType::COLOR, Graphics_Server::ScreenSize.x, Graphics_Server::ScreenSize.y);

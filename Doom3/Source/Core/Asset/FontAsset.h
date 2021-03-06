@@ -3,29 +3,34 @@
 #include "Base_Asset.h"
 namespace doom
 {
-
-	class FontAsset : public Asset
+	namespace asset
 	{
-		friend class assetimporter::AssetManager;
+		class FontAsset : public Asset
+		{
+			friend class ::doom::assetimporter::ImportedAssetPort<eAssetType::FONT>;
 
-		template <eAssetType assetType>
-		friend class assetimporter::AssetImporterWorker;
+			friend class ::doom::assetimporter::AssetManager;
+			friend class ::doom::assetimporter::Assetimporter;
 
-		template<eAssetType loopVariable>
-		friend struct assetimporter::OnEndImportInMainThreadFunctor;
+			template <eAssetType assetType>
+			friend class ::doom::assetimporter::AssetImporterWorker;
 
-	private:
-		
-	protected:
-		
-	public:
+			template<eAssetType loopVariable>
+			friend struct ::doom::assetimporter::OnEndImportInMainThreadFunctor;
 
-		FontAsset() = default;
-		FontAsset(const FontAsset&) = delete;
-		FontAsset(FontAsset&&) noexcept = default;
-		FontAsset& operator=(const FontAsset&) = delete;
-		FontAsset& operator=(FontAsset&&) noexcept = default;
-		virtual ~FontAsset() = default;
-	};
-	template <> struct Asset::asset_type<eAssetType::FONT> { using type = typename FontAsset; };
+		private:
+
+		protected:
+
+		public:
+
+			FontAsset() = default;
+			FontAsset(const FontAsset&) = delete;
+			FontAsset(FontAsset&&) noexcept = default;
+			FontAsset& operator=(const FontAsset&) = delete;
+			FontAsset& operator=(FontAsset&&) noexcept = default;
+			virtual ~FontAsset() = default;
+		};
+		template <> struct Asset::asset_type<eAssetType::FONT> { using type = typename FontAsset; };
+	}
 }

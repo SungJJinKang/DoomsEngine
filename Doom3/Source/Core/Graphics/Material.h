@@ -18,6 +18,9 @@
 #include "../Math/LightMath_Cpp/Matrix3x3.h"
 #include "../Math/LightMath_Cpp/Matrix4x4.h"
 
+#include "Asset/ShaderAsset.h"
+#include "Asset/TextureAsset.h"
+
 namespace doom
 {
 	class ShaderAsset;
@@ -49,7 +52,7 @@ namespace doom
 
 		private:
 			BufferID mProgramID;
-			ShaderAsset* mShaderAsset;
+			::doom::asset::ShaderAsset* mShaderAsset;
 			static constexpr inline unsigned int MAX_TEXTURE_COUNT{ 7 };
 			std::array<Texture*, MAX_TEXTURE_COUNT> mTargetTextures{ nullptr };
 			std::array<UniformBufferObject*, MAX_UNIFORM_BLOCK_BINDING_POINT> mUniformBufferObjects{ nullptr };
@@ -57,7 +60,7 @@ namespace doom
 			
 		public:
 			Material();
-			Material(ShaderAsset& shaderAsset);
+			Material(::doom::asset::ShaderAsset* shaderAsset);
 			~Material();
 
 			Material(const Material&) = delete;
@@ -67,10 +70,10 @@ namespace doom
 			Material& operator=(Material&&) noexcept = default;
 
 			bool IsGenerated();
-			void SetShaderAsset(ShaderAsset& shaderAsset);
+			void SetShaderAsset(::doom::asset::ShaderAsset* shaderAsset);
 
 			void AddTexture(unsigned int bindingPoint, Texture* texture);
-			void AddTexture(unsigned int bindingPoint, ::doom::TextureAsset& textureAsset);
+			void AddTexture(unsigned int bindingPoint, ::doom::asset::TextureAsset* textureAsset);
 			void AddTextures(std::array<Texture*, MAX_TEXTURE_COUNT> textures);
 
 			void UseProgram()

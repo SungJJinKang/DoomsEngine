@@ -4,6 +4,7 @@
 
 #include "../IO/AssetImporter/AssetImporter.h"
 #include "../../Helper/ForLoop_Compile_Time/ForLoop_Compile.h"
+#include "AssetImporter/AssetApiImporter.h"
 
 
 using namespace doom::assetimporter;
@@ -11,6 +12,14 @@ using namespace doom::assetimporter;
 bool AssetManager::CheckFileIsValidAssetFile(const std::filesystem::directory_entry& entry)
 {
 	return entry.is_regular_file() == true;
+}
+
+void AssetManager::GetWaitingImportFuture()
+{
+	for (auto& future : this->mWaitingImportFuture)
+	{
+		future.get();
+	}
 }
 
 void doom::assetimporter::AssetManager::Init()
@@ -36,7 +45,7 @@ void doom::assetimporter::AssetManager::ImportEntireAsset()
 
 	std::filesystem::path lastEntryPath{};
 
-	std::array<std::vector<std::filesystem::path>, doom::Asset::GetAssetTypeCount()> entireAssetPaths{};
+	std::array<std::vector<std::filesystem::path>, ::doom::asset::AssetTypeCount> entireAssetPaths{};
 	/// <summary>
 	/// Check file extension
 	/// </summary>
@@ -48,14 +57,14 @@ void doom::assetimporter::AssetManager::ImportEntireAsset()
 		}
 
 		std::filesystem::path currentEntryPath = entry.path();
-		std::optional<doom::eAssetType> optionalAssetType = Assetimporter::GetAssetType(currentEntryPath);
+		std::optional<::doom::asset::eAssetType> optionalAssetType = Assetimporter::GetAssetType(currentEntryPath);
 
 	
 		
 		if (optionalAssetType.has_value())
 		{
 			std::string extension = currentEntryPath.extension().string();
-			doom::eAssetType assetType = optionalAssetType.value();
+			::doom::asset::eAssetType assetType = optionalAssetType.value();
 
 			// same file name with difference extension will be iterated sequentially
 			// if Non-In Build Extension come first
@@ -109,18 +118,20 @@ void doom::assetimporter::AssetManager::ImportEntireAsset()
 	
 		
 	{
-		ForLoop_CompileTime<eAssetType>::Loop<Asset::FirstElementOfAssetType, Asset::LastElementOfAssetType, 1, ImportAssetInitSetting>();
-		ForLoop_CompileTime<eAssetType>::Loop<Asset::FirstElementOfAssetType, Asset::LastElementOfAssetType, 1, ImportAssetFutureFunctor>(entireAssetPaths);
-		ForLoop_CompileTime<eAssetType>::Loop<Asset::FirstElementOfAssetType, Asset::LastElementOfAssetType, 1, GetAssetFutureFunctor>();
+		ForLoop_CompileTime<::doom::asset::eAssetType>::Loop<::doom::asset::FirstAssetType, ::doom::asset::LastAssetType, 1, ImportAssetInitSetting>();
+		ForLoop_CompileTime<::doom::asset::eAssetType>::Loop<::doom::asset::FirstAssetType, ::doom::asset::LastAssetType, 1, ImportAssetFunctor>(entireAssetPaths);
+		this->GetWaitingImportFuture();
+
 	}
-	ForLoop_CompileTime<eAssetType>::Loop<Asset::FirstElementOfAssetType, Asset::LastElementOfAssetType, 1, OnEndImportInMainThreadFunctor>();
+	ForLoop_CompileTime<::doom::asset::eAssetType>::Loop<::doom::asset::FirstAssetType, ::doom::asset::LastAssetType, 1, OnEndImportInMainThreadFunctor>();
+	doom::assetimporter::ClearAllApiImporterQueue();
 	
 }
 
 
 
-const std::array<std::vector<std::filesystem::path>, doom::Asset::GetAssetTypeCount()>& AssetManager::GetAllAssetPath()
+const std::array<std::vector<std::filesystem::path>, doom::asset::AssetTypeCount>& AssetManager::GetAllAssetPath()
 {
-	return AssetManager::AssetPaths;
+	return this->AssetPaths;
 }
 

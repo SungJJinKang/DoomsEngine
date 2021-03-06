@@ -95,35 +95,48 @@ namespace doom
 			std::thread::id GetMainThreadID() const;
 	
 			template <typename ReturnType>
-			std::future<ReturnType> PushBackJobToAnySleepingThread(const std::function<ReturnType()>& task)
+			std::future<ReturnType> PushBackJobToPriorityQueue(const std::function<ReturnType()>& task)
 			{
 				D_ASSERT(this->bmIsInitialized == true);
 
-				auto future = this->GetSleepingSubThread().PushBackJob(this->mPriorityWaitingTaskQueue, task);
+				auto pair = _MakeThreadJob(task);
+				this->mPriorityWaitingTaskQueue.enqueue(std::move(pair.first)); //push new task to task queue
+
 				this->WakeUpAllSubThreads();
-				return future;
+				return std::move(pair.second);
 			}
-
-			template <typename Function, typename... Args>
-			std::future<return_type_of_function_pointer<Function>> EmplaceBackJobToAnySleepingThread(Function&& f, Args&&... args)
+			template <typename ReturnType>
+			std::future<ReturnType> PushBackJobToPriorityQueue(std::function<ReturnType()>&& task)
 			{
 				D_ASSERT(this->bmIsInitialized == true);
 
-				auto future = this->GetSleepingSubThread().EmplaceBackJob(this->mPriorityWaitingTaskQueue, std::forward<Function>(f), std::forward<Function>(args)...);
+				auto pair = _MakeThreadJob(std::move(task));
+				this->mPriorityWaitingTaskQueue.enqueue(std::move(pair.first)); //push new task to task queue
+
 				this->WakeUpAllSubThreads();
-				return future;
+				return std::move(pair.second);
 			}
 
 			template <typename ReturnType>
-			std::vector<std::future<ReturnType>> PushBackJobChunkToAnySleepingThread(const std::vector<std::function<ReturnType()>>& tasks)
+			std::vector<std::future<ReturnType>> PushBackJobChunkToPriorityQueue(const std::vector<std::function<ReturnType()>>& tasks)
 			{
 				D_ASSERT(this->bmIsInitialized == true);
 
-				auto futures = this->GetSleepingSubThread().PushBackJobChunk(this->mPriorityWaitingTaskQueue, tasks);
+				auto pair = Thread::_MakeThreadJobChunk(tasks);
+				this->mPriorityWaitingTaskQueue.enqueue_bulk(std::make_move_iterator(pair.first.begin()), pair.first.size());
 				this->WakeUpAllSubThreads();
-				return futures;
+				return std::move(pair.second);
 			}
+			template <typename ReturnType>
+			std::vector<std::future<ReturnType>> PushBackJobChunkToPriorityQueue(std::vector<std::function<ReturnType()>>&& tasks)
+			{
+				D_ASSERT(this->bmIsInitialized == true);
 
+				auto pair = Thread::_MakeThreadJobChunk(std::move(tasks));
+				this->mPriorityWaitingTaskQueue.enqueue_bulk(std::make_move_iterator(pair.first.begin()), pair.first.size());
+				this->WakeUpAllSubThreads();
+				return std::move(pair.second);
+			}
 			//
 
 			template <typename ReturnType>
@@ -133,6 +146,14 @@ namespace doom
 				D_ASSERT(this->bmIsInitialized == true);
 
 				return this->mManagedSubThreads[threadIndex].PushBackJob(task);
+			}
+			template <typename ReturnType>
+			inline std::future<ReturnType> PushBackJobToSpecificThread(size_t threadIndex, std::function<ReturnType()>&& task)
+			{
+				D_ASSERT(threadIndex >= 0 && threadIndex < SUB_THREAD_COUNT);
+				D_ASSERT(this->bmIsInitialized == true);
+
+				return this->mManagedSubThreads[threadIndex].PushBackJob(std::move(task));
 			}
 
 			template <typename Function, typename... Args>
@@ -151,6 +172,14 @@ namespace doom
 				D_ASSERT(this->bmIsInitialized == true);
 
 				return this->mManagedSubThreads[threadIndex].PushBackJobChunk(tasks);
+			}
+			template <typename ReturnType>
+			std::vector<std::future<ReturnType>> PushBackJobChunkToSpecificThread(size_t threadIndex, std::vector<std::function<ReturnType()>>&& tasks)
+			{
+				D_ASSERT(threadIndex >= 0 && threadIndex < SUB_THREAD_COUNT);
+				D_ASSERT(this->bmIsInitialized == true);
+
+				return this->mManagedSubThreads[threadIndex].PushBackJobChunk(std::move(tasks));
 			}
 		};
 	}

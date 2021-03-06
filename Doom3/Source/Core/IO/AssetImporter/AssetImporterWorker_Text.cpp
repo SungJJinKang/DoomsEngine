@@ -4,9 +4,19 @@
 
 using namespace doom;
 using namespace doom::assetimporter;
-template class doom::assetimporter::AssetImporterWorker<eAssetType::TEXT>;
+template class doom::assetimporter::AssetImporterWorker<::doom::asset::eAssetType::TEXT>;
 
-std::optional<Asset::asset_type_t<eAssetType::TEXT>> doom::assetimporter::AssetImporterWorker<eAssetType::TEXT>::ImportSpecificAsset(const std::filesystem::path& path)
+bool doom::assetimporter::AssetImporterWorker<::doom::asset::eAssetType::TEXT>::ImportSpecificAsset(const std::filesystem::path& path, ::doom::asset::Asset::asset_type_t<::doom::asset::eAssetType::TEXT>& asset)
 {
-	return GetTextFromFile(path);
+	std::string text{};
+	bool isSuccess = GetTextFromFile(path, text);
+	if (isSuccess)
+	{
+		asset.SetText(text);
+		return true;
+	}
+	else
+	{
+		return false;
+	}
 }

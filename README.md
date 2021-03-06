@@ -8,32 +8,36 @@ i had maked some indie games with Unity game engine [Google PlayStore](https://p
 But Unity gives everything what I need. I didn't have to know How does Unity Engine work behind Editor UI.   
 So Even if i had made many games for 3 years, i can't make just tiny game without Game Engine still.   
 
-It's suck
+It's suck    
 
-So I decided making game without game engine.   
-And I choose Doom3 as My first game from sractch Project.    
-Maybe i will make doom's voxel version and Add many things what i want ( like vehicle, guns...).   
-I don't know How long it takes to complete this project.   
-But I will complete this project!!   
+So I decided making game without game engine.     
+And I choose Doom3 as My first game from sractch Project.     
+Maybe i will make doom's voxel version and Add many things what i want ( like vehicle, guns...).    
+I don't know How long it takes to complete this project.    
+But I will complete this project!!    
 
-And i never make game without game engine.   
-So if you wanna good and clean code for learning something, Find other project.   
+And i never make game without game engine.     
+So if you wanna good and clean code for learning something, Find other project.      
 
 ## Key features
 
-  * C++17
-  * Garbage Collector (In Game Code dosen't need to call new and delete)
+  * C++17             
+  * Exception free ( i removed all run-time exeption )       
 
 ## Dependency
-I will try to make everything what i need.   
-but i can't make some librarys like graphics api, audio api....
+I will try to make everything what i need.     
+but i can't make some librarys like graphics api, audio api....           
 
-  * opengl 4.6
-  * glfw 3.3.2
-  * assimp, sdl_image
+  * opengl 4.6       
+  * glfw 3.3.2         
+  * assimp       
+  * DirectxTex        
+  * concurrentqueue       
+  * crossguid         
+  * free type2       
 
 ## WARNING
-On AMD GPU, OpenGL sometimes makes driver error.     
+On AMD On Board GPU, OpenGL sometimes makes driver error.      
 Use NVIDEA GPU.     
 
 ## Coding Standard

@@ -6,7 +6,7 @@
 
 static_assert(std::is_standard_layout_v<doom::MeshVertexData>);
 
-void doom::ThreeDModelAsset::SendMeshDataToGPU()
+void doom::asset::ThreeDModelAsset::SendMeshDataToGPU()
 {
 	this->mNumOfMeshes = this->mNumOfModelMeshAssets;
 	if (this->mNumOfMeshes > 0)
@@ -28,14 +28,14 @@ void doom::ThreeDModelAsset::SendMeshDataToGPU()
 }
 
 
-void doom::ThreeDModelAsset::ClearMeshData()
+void doom::asset::ThreeDModelAsset::ClearMeshData()
 {
 	this->mModelMeshAssets.reset();
 	this->mRootModelNode.reset();
 
 }
 
-void doom::ThreeDModelAsset::CreateNode(graphics::MeshNode* currentNode, ThreeDModelNode* currentModelNodeAsset)
+void doom::asset::ThreeDModelAsset::CreateNode(graphics::MeshNode* currentNode, ThreeDModelNode* currentModelNodeAsset)
 {
 	currentNode->mNumOfMeshes = currentModelNodeAsset->mNumOfModelMeshes;
 	if (currentNode->mNumOfMeshes != 0)
@@ -69,7 +69,7 @@ void doom::ThreeDModelAsset::CreateNode(graphics::MeshNode* currentNode, ThreeDM
 	
 }
 
-void doom::ThreeDModelAsset::OnEndImportInMainThread()
+void doom::asset::ThreeDModelAsset::OnEndImportInMainThread_Internal()
 {
 	this->SendMeshDataToGPU();
 	this->ClearMeshData(); // after send mesh data to gpu, delete all meshes data for memory space
@@ -77,7 +77,7 @@ void doom::ThreeDModelAsset::OnEndImportInMainThread()
 }
 
 
-doom::ThreeDModelAsset::~ThreeDModelAsset()
+doom::asset::ThreeDModelAsset::~ThreeDModelAsset()
 {
 	if (this->mRootModelNode != nullptr)
 	{//check is destroyed
@@ -85,18 +85,18 @@ doom::ThreeDModelAsset::~ThreeDModelAsset()
 	}
 }
 
-const std::vector<doom::graphics::Mesh>& doom::ThreeDModelAsset::GetMeshes() const
+const std::vector<doom::graphics::Mesh>& doom::asset::ThreeDModelAsset::GetMeshes() const
 {
 	return this->mMeshes;
 }
 
-doom::graphics::Mesh* doom::ThreeDModelAsset::GetMesh(unsigned int index) 
+doom::graphics::Mesh* doom::asset::ThreeDModelAsset::GetMesh(unsigned int index) 
 {
 	D_ASSERT(index >= 0 && index < GetMeshCount());
 	return &(this->mMeshes[index]);
 }
 
-size_t doom::ThreeDModelAsset::GetMeshCount() const
+size_t doom::asset::ThreeDModelAsset::GetMeshCount() const
 {
 	return this->mMeshes.size();
 }

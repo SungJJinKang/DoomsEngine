@@ -166,7 +166,6 @@
     <ClCompile Include="Source\Component\EventSystem.cpp" />
     <ClCompile Include="Source\Component\PhysicsComponent\BoxCollider2D.cpp" />
     <ClCompile Include="Source\Component\PhysicsComponent\MeshCollider.cpp" />
-    <ClCompile Include="Source\Core\Game\AssetManager\AssetContainer.cpp" />
     <ClCompile Include="Source\Core\IO\AssetImporter\AssetApiImporter.cpp" />
     <ClCompile Include="Source\Core\IO\AssetImporter\AssetImporterWorker_Audio.cpp" />
     <ClCompile Include="Source\Core\IO\AssetImporter\AssetImporterWorker_Font.cpp" />
@@ -279,7 +278,7 @@
     <ClInclude Include="Source\Component\PhysicsComponent\MeshCollider.h" />
     <ClInclude Include="Source\Core\API\Font.h" />
     <ClInclude Include="Source\Core\Asset\AssetMetaData.h" />
-    <ClInclude Include="Source\Core\Game\AssetManager\AssetContainer.h" />
+    <ClInclude Include="Source\Core\Asset\eAssetType.h" />
     <ClInclude Include="Source\Core\Game\ConfigData.h" />
     <ClInclude Include="Source\Core\Graphics\TextureFormat.h" />
     <ClInclude Include="Source\Core\Math\LightMath_Cpp\Trigonometric.h" />
@@ -444,6 +443,7 @@
     <ClInclude Include="Source\Helper\EasyDirtyChecker\LocalDirty.h" />
     <ClInclude Include="Source\Helper\ForLoop_Compile_Time\ForLoop_Compile.h" />
     <ClInclude Include="Source\Core\Graphics\OverlapBindChecker.h" />
+    <ClInclude Include="Source\Helper\magic_enum.hpp" />
     <ClInclude Include="Source\Helper\Simple_SingleTon\Singleton.h" />
     <ClInclude Include="Source\Helper\StaticContainer\StaticContainer.h" />
     <ClInclude Include="Source\Helper\std_future_wrapper\CustomFutureWrapper.h" />

@@ -21,26 +21,26 @@ namespace doom
 		inline DummyApiImporter _DummyApiImporter{};
 
 
-		template <eAssetType assetType>
+		template <::doom::asset::eAssetType assetType>
 		struct api_importer_type
 		{
 			using type = typename DummyApiImporter;
 		};
 
 
-		template <eAssetType assetType>
+		template <::doom::asset::eAssetType assetType>
 		using api_importer_type_t = typename api_importer_type<assetType>::type;
 
 		/// <summary>
 		/// Contain Asset Api side Importer object
 		/// </summary>
-		template <eAssetType assetType>
+		template <::doom::asset::eAssetType assetType>
 		class AssetApiImporter
 		{
-			template <eAssetType assetType>
+			template <::doom::asset::eAssetType assetType>
 			friend class AssetImporterWorker;
 
-			template<eAssetType loopVariable>
+			template<::doom::asset::eAssetType loopVariable>
 			friend struct ClearApiImporterQueueFunctor;
 		private:
 			std::unique_ptr<api_importer_type_t<assetType>> apiImporter;
@@ -111,10 +111,13 @@ namespace doom
 					return std::unique_ptr<api_importer_type_t<assetType>>(&_DummyApiImporter);
 				}
 			}
+
+			
+
 		};
 
 
-		template<eAssetType loopVariable>
+		template<::doom::asset::eAssetType loopVariable>
 		struct ClearApiImporterQueueFunctor
 		{
 			constexpr void operator()()
@@ -122,13 +125,9 @@ namespace doom
 				AssetApiImporter<loopVariable>::ClearApiImporterQueue();
 			}
 		};
+		void ClearAllApiImporterQueue();
+	
 
-		
-
-		inline void ClearAllApiImporterQueue()
-		{
-			ForLoop_CompileTime<eAssetType>::Loop<Asset::FirstElementOfAssetType, Asset::LastElementOfAssetType, 1, ClearApiImporterQueueFunctor>();
-		}
 		
 	}
 }

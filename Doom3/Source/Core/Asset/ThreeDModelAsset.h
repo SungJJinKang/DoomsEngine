@@ -20,7 +20,12 @@ namespace doom
 {
 	struct ThreeDModelMesh;
 	struct ThreeDModelNode;
-	class ThreeDModelAsset;
+
+	namespace asset
+	{
+		class ThreeDModelAsset;
+	}
+
 
 	/// <summary>
 	/// layout(location = 0) in vec3 aPos;
@@ -94,7 +99,7 @@ namespace doom
 		/// <summary>
 		/// don't clear this
 		/// </summary>
-		doom::ThreeDModelAsset* mThreeDModelAsset;
+		doom::asset::ThreeDModelAsset* mThreeDModelAsset;
 
 		std::string mName;
 
@@ -122,62 +127,67 @@ namespace doom
 	};
 
 
-
-	class ThreeDModelAsset : public Asset
+	namespace asset
 	{
-		//friend class std::optional<ThreeDModelAsset>;
+		class ThreeDModelAsset : public Asset
+		{
+			//friend class std::optional<ThreeDModelAsset>;
 
-		friend class assetimporter::AssetManager;
+			friend class ::doom::assetimporter::ImportedAssetPort<eAssetType::THREE_D_MODEL>;
 
-		template <eAssetType assetType>
-		friend class assetimporter::AssetImporterWorker;
+			friend class ::doom::assetimporter::AssetManager;
+			friend class ::doom::assetimporter::Assetimporter;
 
-		template<eAssetType loopVariable>
-		friend struct assetimporter::OnEndImportInMainThreadFunctor;
+			template <eAssetType assetType>
+			friend class ::doom::assetimporter::AssetImporterWorker;
 
-	private:
-		std::unique_ptr<ThreeDModelNode> mRootModelNode{};
+			template<eAssetType loopVariable>
+			friend struct ::doom::assetimporter::OnEndImportInMainThreadFunctor;
 
-		std::unique_ptr<ThreeDModelMesh[]> mModelMeshAssets{};
-		unsigned int mNumOfModelMeshAssets;
+		private:
+			std::unique_ptr<ThreeDModelNode> mRootModelNode{};
 
-		///////////
+			std::unique_ptr<ThreeDModelMesh[]> mModelMeshAssets{};
+			unsigned int mNumOfModelMeshAssets{};
 
-		std::unique_ptr<graphics::MeshNode> mRootMeshNode{};
-		std::vector<graphics::Mesh> mMeshes{};
-		
-		unsigned int mNumOfMeshes;
+			///////////
 
-		/// <summary>
-		/// Send Meshdata to GPU
-		/// GPU Buffer
-		/// </summary>
-		void SendMeshDataToGPU();
+			std::unique_ptr<graphics::MeshNode> mRootMeshNode{};
+			std::vector<graphics::Mesh> mMeshes{};
 
-		void ClearMeshData();
-		void CreateNode(graphics::MeshNode* currentNode, ThreeDModelNode* currentModelNodeAsset);
-		void OnEndImportInMainThread() final;
-		
+			unsigned int mNumOfMeshes{};
 
-	public:
-		/// <summary>
-		/// why const? to protect asset data
-		/// </summary>
-		/// <returns></returns>
-		const std::vector<graphics::Mesh>& GetMeshes() const;
-		graphics::Mesh* GetMesh(unsigned int index);
-		size_t GetMeshCount() const;
+			/// <summary>
+			/// Send Meshdata to GPU
+			/// GPU Buffer
+			/// </summary>
+			void SendMeshDataToGPU();
 
-		ThreeDModelAsset() = default;
-		ThreeDModelAsset(const ThreeDModelAsset&) = delete;
-		ThreeDModelAsset(ThreeDModelAsset&& threeDAsset) noexcept = default;
-		ThreeDModelAsset& operator=(const ThreeDModelAsset&) = delete;
-		ThreeDModelAsset& operator=(ThreeDModelAsset&& threeDAsset) noexcept = default;
-		~ThreeDModelAsset();
-		
-	};
+			void ClearMeshData();
+			void CreateNode(graphics::MeshNode* currentNode, ThreeDModelNode* currentModelNodeAsset);
+			void OnEndImportInMainThread_Internal() final;
 
-	template <> struct Asset::asset_type<eAssetType::THREE_D_MODEL> { using type = typename ThreeDModelAsset; };
+
+		public:
+			/// <summary>
+			/// why const? to protect asset data
+			/// </summary>
+			/// <returns></returns>
+			const std::vector<graphics::Mesh>& GetMeshes() const;
+			graphics::Mesh* GetMesh(unsigned int index);
+			size_t GetMeshCount() const;
+
+			ThreeDModelAsset() = default;
+			ThreeDModelAsset(const ThreeDModelAsset&) = delete;
+			ThreeDModelAsset(ThreeDModelAsset&& threeDAsset) noexcept = default;
+			ThreeDModelAsset& operator=(const ThreeDModelAsset&) = delete;
+			ThreeDModelAsset& operator=(ThreeDModelAsset&& threeDAsset) noexcept = default;
+			~ThreeDModelAsset();
+
+		};
+
+		template <> struct Asset::asset_type<eAssetType::THREE_D_MODEL> { using type = typename ThreeDModelAsset; };
+	}
 }
 
 

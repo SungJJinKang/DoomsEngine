@@ -15,25 +15,21 @@ namespace doom
 {
 	namespace assetimporter
 	{
-		template<eAssetType loopVariable>
-		struct ImportAssetFutureFunctor;
-		template<eAssetType loopVariable>
-		struct GetAssetFutureFunctor;
-		template<eAssetType loopVariable>
+		template<::doom::asset::eAssetType loopVariable>
+		struct ImportAssetFunctor;
+
+		template<::doom::asset::eAssetType loopVariable>
 		struct OnEndImportInMainThreadFunctor;
 
 		class AssetManager : public IGameFlow, public ISingleton<AssetManager>
 		{
-			template<eAssetType loopVariable>
-			friend struct ImportAssetFutureFunctor;
+			template<::doom::asset::eAssetType loopVariable>
+			friend struct ImportAssetFunctor;
 
-			template<eAssetType loopVariable>
-			friend struct GetAssetFutureFunctor;
-
-			template<eAssetType loopVariable>
+			template<::doom::asset::eAssetType loopVariable>
 			friend struct OnEndImportInMainThreadFunctor;
 			/*
-			template<eAssetType loopVariable>
+			template<::doom::asset::eAssetType loopVariable>
 			struct OnEndImportInSubThreadFunctor
 			{
 				constexpr inline void operator()()
@@ -51,28 +47,34 @@ namespace doom
 		private:
 			const std::filesystem::path AssetFolderPath{ ASSET_FOLDER_DIRECTORY };
 
-			static inline std::array<std::vector<std::filesystem::path>, doom::Asset::GetAssetTypeCount()> AssetPaths{};
+			std::array<std::vector<std::filesystem::path>, doom::asset::AssetTypeCount> AssetPaths{};
 
-			template<eAssetType assetType>
+			template<::doom::asset::eAssetType assetType>
 			static inline ImportedAssetPort<assetType> ImportedAssetPorts{};
 
 			static bool CheckFileIsValidAssetFile(const std::filesystem::directory_entry& entry);
 
+			std::vector<std::future<bool>> mWaitingImportFuture{};
+			void GetWaitingImportFuture();
 		protected:
 			virtual void Init() final;
 			virtual void Update() final;
 			virtual void OnEndOfFrame() final;
+
 		public:
 			void ImportEntireAsset();
 			
-			template<eAssetType assetType>
-			static typename ImportedAssetPort<assetType>::container_asset_type_t* ImportAsset(const std::filesystem::path& path)
+			template<::doom::asset::eAssetType assetType>
+			static ::doom::asset::Asset::asset_type_t<assetType>* ImportAssetInstantly(std::filesystem::path& path)
 			{
-				auto importedAsset = doom::assetimporter::Assetimporter::ImportAsset<assetType>(path);
-				if (importedAsset.has_value())
+				path.make_preferred();
+				doom::asset::Asset::asset_type_t<assetType>* newAsset = AssetManager::ImportedAssetPorts<assetType>.AddNewAsset(path);
+				bool IsSuccess = doom::assetimporter::Assetimporter::ImportAssetJob<assetType>(path, newAsset);
+
+				if (IsSuccess)
 				{
-					importedAsset.value().OnEndImportInMainThread();
-					return AssetManager::ImportedAssetPorts<assetType>.SetAsset(std::move(importedAsset.value()));
+					newAsset->OnEndImportInMainThread_Internal();
+					return newAsset;
 				}			
 				else
 				{
@@ -81,46 +83,59 @@ namespace doom
 			}
 
 			/// TODO : return 값으로 AssetContainer 안에 있는 asset container return 해주자
-			template<eAssetType assetType>
-			AssetContainer<assetType>& ImportAssetAsync(const std::filesystem::path& path)
+			template<::doom::asset::eAssetType assetType>
+			void ImportAssetAsync(std::filesystem::path& path)
 			{
-				return AssetManager::ImportedAssetPorts<assetType>.AddAssetFuture(doom::assetimporter::Assetimporter::PushImportingAssetJobToThreadPool<assetType>(path));
+				path.make_preferred();
+				doom::asset::Asset::asset_type_t<assetType>* newAsset = AssetManager::ImportedAssetPorts<assetType>.AddNewAsset(path);
+				std::future<bool> assetFuture{ doom::assetimporter::Assetimporter::PushImportingAssetJobToThreadPool<assetType>(path, newAsset) };
+				this->mWaitingImportFuture.push_back(std::move(assetFuture));
 			}
 
-			template<eAssetType assetType>
-			std::vector<std::reference_wrapper<AssetContainer<assetType>>> ImportAssetAsync(const std::vector<std::filesystem::path>& paths)
+			template<::doom::asset::eAssetType assetType>
+			void ImportAssetAsync(std::vector<std::filesystem::path>& paths)
 			{
-				return AssetManager::ImportedAssetPorts<assetType>.AddAssetFuture(doom::assetimporter::Assetimporter::PushImportingAssetJobToThreadPool<assetType>(paths));
+				std::vector<::doom::asset::Asset::asset_type_t<assetType>*> newAssets{};
+				newAssets.reserve(paths.size());
+				for (unsigned int i = 0; i < paths.size(); i++)
+				{
+					paths[i].make_preferred();
+					newAssets.push_back(AssetManager::ImportedAssetPorts<assetType>.AddNewAsset(paths[i]));
+				}
+
+				std::vector<std::future<bool>> assetFutures = doom::assetimporter::Assetimporter::PushImportingAssetJobToThreadPool<assetType>(paths, newAssets);
+				this->mWaitingImportFuture.insert(this->mWaitingImportFuture.end(), std::make_move_iterator(assetFutures.begin()), std::make_move_iterator(assetFutures.end()));
 			}
 
 			
 
-			template<eAssetType assetType>
-			static typename ImportedAssetPort<assetType>::container_asset_type_t::asset_type* GetAsset(const D_UUID& UUID)
+			template<::doom::asset::eAssetType assetType>
+			static typename ::doom::asset::Asset::asset_type_t<assetType>* GetAsset(const D_UUID& UUID)
 			{
 				auto& assetCotainer = AssetManager::ImportedAssetPorts<assetType>;
 
 				auto iter = assetCotainer.mAssets.find(UUID);
 				if (iter != assetCotainer.mAssets.end())
 				{//find!!
-					return &(iter->second.get().GetImportedAsset());
+					return &(iter->second);
 				}
 				else
 				{//element containing UUID key doesn't exist
+					D_ASSERT("Can't Find Asset");
 					return nullptr;
 				}
 			}
 
-			template<eAssetType assetType>
-			static typename ImportedAssetPort<assetType>::container_asset_type_t::asset_type* GetAsset(const unsigned int index)
+			template<::doom::asset::eAssetType assetType>
+			static typename ::doom::asset::Asset::asset_type_t<assetType>* GetAsset(const unsigned int index)
 			{
 				if (index >= 0 && index < AssetManager::ImportedAssetPorts<assetType>.mAssetsForIterating.size())
 				{
-					return AssetManager::ImportedAssetPorts<assetType>.mAssetsForIterating[index].GetImportedAsset();
+					return AssetManager::ImportedAssetPorts<assetType>.mAssetsForIterating[index];
 				}
 				else
 				{
-					D_DEBUG_LOG({ "Cant Find Asset Index : ", std::to_string(index) }, eLogType::D_ERROR);
+					D_ASSERT("Can't Find Asset");
 					return nullptr;
 				}
 			}
@@ -130,38 +145,36 @@ namespace doom
 			/// </summary>
 			/// <param name="filename"></param>
 			/// <returns></returns>
-			template<eAssetType assetType>
-			static typename ImportedAssetPort<assetType>::container_asset_type_t::asset_type* GetAsset(const std::string& filename)
+			template<::doom::asset::eAssetType assetType>
+			static typename ::doom::asset::Asset::asset_type_t<assetType>* GetAsset(const std::string& filename)
 			{
 				auto iter = AssetManager::ImportedAssetPorts<assetType>.mAssetsForAssetName.find(filename);
 				if (iter != AssetManager::ImportedAssetPorts<assetType>.mAssetsForAssetName.end())
 				{//find!!
-					return iter->second.get().GetImportedAsset();
+					return iter->second;
 				}
 				else
 				{//element containing UUID key doesn't exist
-					D_DEBUG_LOG({ "Cant Find Asset Name : ", filename }, eLogType::D_ERROR);
+					D_ASSERT("Can't Find Asset");
 					return nullptr;
 				}
 			}
 
 
-			template<eAssetType assetType>
-			static const std::vector<typename ImportedAssetPort<assetType>::container_asset_type_t::asset_type*> GetAssets()
+			template<::doom::asset::eAssetType assetType>
+			static std::vector<::doom::asset::Asset::asset_type_t<assetType>*> GetAssets()
 			{
-				std::vector<typename ImportedAssetPort<assetType>::container_asset_type_t::asset_type*> importedAssets{};
-				for (auto& assetContainer : AssetManager::ImportedAssetPorts<assetType>.mAssetsForIterating)
-				{
-					importedAssets.push_back(assetContainer.get().GetImportedAsset());
-				}
+				std::vector<typename ::doom::asset::Asset::asset_type_t<assetType>* > importedAssets{};
+				importedAssets.reserve(AssetManager::ImportedAssetPorts<assetType>.mAssetsForIterating.size());
+				importedAssets.insert(importedAssets.end(), AssetManager::ImportedAssetPorts<assetType>.mAssetsForIterating.begin(), AssetManager::ImportedAssetPorts<assetType>.mAssetsForIterating.end());
 				return importedAssets;
 			}
 
-			static const std::array<std::vector<std::filesystem::path>, doom::Asset::GetAssetTypeCount()>& GetAllAssetPath();
+			const std::array<std::vector<std::filesystem::path>, doom::asset::AssetTypeCount>& GetAllAssetPath();
 			
 		};
 
-		template<eAssetType loopVariable>
+		template<::doom::asset::eAssetType loopVariable>
 		struct ImportAssetInitSetting
 		{
 			constexpr inline void operator()()
@@ -170,44 +183,24 @@ namespace doom
 			}
 
 		};
-		template<eAssetType loopVariable>
-		struct ImportAssetFutureFunctor
+		template<::doom::asset::eAssetType loopVariable>
+		struct ImportAssetFunctor
 		{
-			constexpr inline void operator()(const std::array<std::vector<std::filesystem::path>, doom::Asset::GetAssetTypeCount()>& AssetPaths)
+			constexpr inline void operator()(std::array<std::vector<std::filesystem::path>, doom::asset::AssetTypeCount>& assetPaths)
 			{
-
-				//D_START_PROFILING("Add Importing Asset To ThreadPool : " + doom::Asset::GetAssetTypeString(loopVariable), doom::profiler::eProfileLayers::CPU);
-
-				AssetManager::ImportedAssetPorts<loopVariable>.AddAssetFutures(doom::assetimporter::Assetimporter::PushImportingAssetJobToThreadPool<loopVariable>(AssetPaths[static_cast<unsigned int>(loopVariable)]), AssetPaths[static_cast<unsigned int>(loopVariable)]);
-
-				//D_END_PROFILING("Add Importing Asset To ThreadPool : " + doom::Asset::GetAssetTypeString(loopVariable));
-			}
-		};
-
-		template<eAssetType loopVariable>
-		struct GetAssetFutureFunctor
-		{
-			constexpr inline void operator()()
-			{
-				std::string name{ "Get Imported Assets's Future : " };
-				name += doom::Asset::GetAssetTypeString(loopVariable);
-				D_START_PROFILING(name.c_str(), doom::profiler::eProfileLayers::CPU);
-
-				AssetManager::ImportedAssetPorts<loopVariable>.GetAssetFutures();
-
-				D_END_PROFILING(name.c_str());
+				AssetManager::GetSingleton()->ImportAssetAsync<loopVariable>(assetPaths[static_cast<unsigned int>(loopVariable)]);
 			}
 		};
 
 		/// <summary>
 		/// 
 		/// </summary>
-		template<eAssetType loopVariable>
+		template<::doom::asset::eAssetType loopVariable>
 		struct OnEndImportInMainThreadFunctor
 		{
 			constexpr inline void operator()()
 			{
-				for (auto& asset : AssetManager::GetAssets<loopVariable>())
+				for (auto asset : AssetManager::GetAssets<loopVariable>())
 				{
 					asset->OnEndImportInMainThread();
 				}

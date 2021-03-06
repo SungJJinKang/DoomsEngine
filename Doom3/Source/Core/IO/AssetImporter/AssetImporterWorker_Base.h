@@ -10,18 +10,18 @@ namespace doom
 {
 	namespace assetimporter
 	{
-		template <eAssetType assetType>
+		template <::doom::asset::eAssetType assetType>
 		void InitAssetImport() {}
 
-		template <eAssetType assetType>
+		template <::doom::asset::eAssetType assetType>
 		void EndAssetImport() {}
 
-		template <eAssetType assetType>
+		template <::doom::asset::eAssetType assetType>
 		class AssetImporterWorker
 		{
 			friend class Assetimporter;
 		private:
-			static std::optional<Asset::asset_type_t<assetType>> ImportSpecificAsset(const std::filesystem::path& path);
+			static bool ImportSpecificAsset(const std::filesystem::path& path, ::doom::asset::Asset::asset_type_t<assetType>& asset);
 			
 		};
 		

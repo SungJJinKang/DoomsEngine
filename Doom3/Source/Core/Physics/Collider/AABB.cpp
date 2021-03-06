@@ -1,5 +1,8 @@
+#define NOMINMAX
+
 #include "AABB.h"
 #include "../Graphics/DebugGraphics.h"
+
 
 //#include <Trigonometric.h>
 

@@ -21,14 +21,14 @@ void doom::TEST::Init()
 	lightEntity->AddComponent<AutoRotate>();
 
 	//TODO : Asset 가져오는 것만 해도 존나 복잡하다 이거 해결하다
-	//auto& threedasset = assetimporter::AssetManager::GetAsset<eAssetType::THREE_D_MODEL>(0);
-	auto threedasset = assetimporter::AssetManager::GetAsset<eAssetType::THREE_D_MODEL>("cerberus.assbin");
-	auto shader = assetimporter::AssetManager::GetAsset<eAssetType::SHADER>("GbufferWriter_PBR.glsl");
-	auto material = new graphics::Material(*shader);
-	material->AddTexture(graphics::eTextureBindingPoint::AlbedoTexture, *assetimporter::AssetManager::GetAsset<eAssetType::TEXTURE>("cerberus_A.dds"));
-	material->AddTexture(graphics::eTextureBindingPoint::NormalTexture, *assetimporter::AssetManager::GetAsset<eAssetType::TEXTURE>("cerberus_N.dds"));
-	material->AddTexture(graphics::eTextureBindingPoint::MetalnessTexture, *assetimporter::AssetManager::GetAsset<eAssetType::TEXTURE>("cerberus_M.dds"));
-	material->AddTexture(graphics::eTextureBindingPoint::RoughnessTexture, *assetimporter::AssetManager::GetAsset<eAssetType::TEXTURE>("cerberus_R.dds"));
+	//auto& threedasset = assetimporter::AssetManager::GetAsset<asset::eAssetType::THREE_D_MODEL>(0);
+	auto threedasset = assetimporter::AssetManager::GetAsset<asset::eAssetType::THREE_D_MODEL>("cerberus.assbin");
+	auto shader = assetimporter::AssetManager::GetAsset<asset::eAssetType::SHADER>("GbufferWriter_PBR.glsl");
+	auto material = new graphics::Material(shader);
+	material->AddTexture(graphics::eTextureBindingPoint::AlbedoTexture, assetimporter::AssetManager::GetAsset<asset::eAssetType::TEXTURE>("cerberus_A.dds"));
+	material->AddTexture(graphics::eTextureBindingPoint::NormalTexture, assetimporter::AssetManager::GetAsset<asset::eAssetType::TEXTURE>("cerberus_N.dds"));
+	material->AddTexture(graphics::eTextureBindingPoint::MetalnessTexture, assetimporter::AssetManager::GetAsset<asset::eAssetType::TEXTURE>("cerberus_M.dds"));
+	material->AddTexture(graphics::eTextureBindingPoint::RoughnessTexture, assetimporter::AssetManager::GetAsset<asset::eAssetType::TEXTURE>("cerberus_R.dds"));
 
 	for (int i = 0; i < 30; i++)
 	{

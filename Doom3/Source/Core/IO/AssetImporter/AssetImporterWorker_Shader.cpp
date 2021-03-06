@@ -4,9 +4,19 @@
 
 using namespace doom;
 using namespace doom::assetimporter;
-template class doom::assetimporter::AssetImporterWorker<eAssetType::SHADER>;
+template class doom::assetimporter::AssetImporterWorker<::doom::asset::eAssetType::SHADER>;
 
-std::optional<Asset::asset_type_t<eAssetType::SHADER>> doom::assetimporter::AssetImporterWorker<eAssetType::SHADER>::ImportSpecificAsset(const std::filesystem::path& path)
+bool doom::assetimporter::AssetImporterWorker<::doom::asset::eAssetType::SHADER>::ImportSpecificAsset(const std::filesystem::path& path, ::doom::asset::Asset::asset_type_t<::doom::asset::eAssetType::SHADER>& asset)
 {
-	return GetTextFromFile(path);
+	std::string text{};
+	bool isSuccess = GetTextFromFile(path, text);
+	if (isSuccess)
+	{
+		asset.SetShaderText(text);
+		return true;
+	}
+	else
+	{
+		return false;
+	}
 }

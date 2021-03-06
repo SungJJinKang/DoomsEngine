@@ -54,7 +54,7 @@ void doom::resource::Thread::TerminateThread(bool bIsBlockThread)
 	mIsPoolTerminated = true;
 
 	//For stop queue, push dummy job ( i can't stop wait_dequeue, so make WorkerJob loop pushing dummy job )
-	this->_Push_Back_Job(this->mWaitingTaskQueue, job_type([]() {}));
+	this->PushBackJob(job_type([]() {}));
 
 	if (bIsBlockThread == true)
 	{

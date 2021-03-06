@@ -294,9 +294,6 @@
     <ClCompile Include="Source\Core\ResourceManagement\Thread.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Core\Game\AssetManager\AssetContainer.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Source\Core\Game\AssetManager\AssetManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -899,9 +896,6 @@
     <ClInclude Include="Source\Core\ResourceManagement\Thread.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Core\Game\AssetManager\AssetContainer.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Core\Game\AssetManager\AssetManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -933,6 +927,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\Core\Asset\AssetMetaData.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Helper\magic_enum.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Core\Asset\eAssetType.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

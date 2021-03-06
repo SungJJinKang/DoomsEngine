@@ -5,6 +5,7 @@
 #include <thread>
 #include <future>
 
+#include "../Core.h"
 #include <concurrentqueue/blockingconcurrentqueue.h>
 using namespace moodycamel;
 //#define Thread_DEBUG // FOR MONITORING
@@ -35,6 +36,7 @@ namespace doom
 		/// </summary>
 		class Thread
 		{
+			friend class JobSystem;
 		public:
 			using job_type = typename std::function<void()>;
 
@@ -52,10 +54,14 @@ namespace doom
 			BlockingConcurrentQueue<job_type>* mPriorityWaitingTaskQueue{ nullptr };
 
 			template <typename ReturnType>
-			job_type _MakeThreadJob(const std::shared_ptr<std::promise<ReturnType>>&& promise_shared_ptr, const std::function<ReturnType()>& task)
+			static std::pair<job_type, std::future<ReturnType>> _MakeThreadJob(const std::function<ReturnType()>& task)
 			{
-				return job_type([_promise_shared_ptr = std::move(promise_shared_ptr), task = std::move(task)]() // if task's wrapped object has move constructor, it will be moved. if not, it will be copyed
-				{
+				std::shared_ptr<std::promise<ReturnType>> promise_ptr{ new std::promise<ReturnType> };
+				auto future = promise_ptr->get_future();
+
+				return {
+					job_type([_promise_shared_ptr = std::move(promise_ptr), task = task]() // if task's wrapped object has move constructor, it will be moved. if not, it will be copyed
+					{
 					if constexpr (!std::is_void_v<ReturnType>)
 					{
 						assert(task); // task having return type should be valid
@@ -67,26 +73,74 @@ namespace doom
 						{
 							task();
 						}
-
 						_promise_shared_ptr->set_value();
 					}
+					})
+					,
+					std::move(future) };
+			}
+
+			template <typename ReturnType>
+			static std::pair<job_type, std::future<ReturnType>> _MakeThreadJob(std::function<ReturnType()>&& task)
+			{
+				std::shared_ptr<std::promise<ReturnType>> promise_ptr{ new std::promise<ReturnType> };
+				auto future = promise_ptr->get_future();
+
+				return {
+					job_type([_promise_shared_ptr = std::move(promise_ptr), task = std::move(task)]() // if task's wrapped object has move constructor, it will be moved. if not, it will be copyed
+					{
+					if constexpr (!std::is_void_v<ReturnType>)
+					{
+						assert(task); // task having return type should be valid
+						_promise_shared_ptr->set_value(task());
+					}
+					else
+					{//if return type is void
+						if (task)
+						{
+							task();
+						}
+						_promise_shared_ptr->set_value();
+					}
+					})
+					,
+					std::move(future) };
+			}
+
+			template <typename ReturnType>
+			static std::pair<std::vector<job_type>, std::vector<std::future<ReturnType>>>  _MakeThreadJobChunk(const std::vector<std::function<ReturnType()>>& tasks)
+			{
+				std::pair<std::vector<job_type>, std::vector<std::future<ReturnType>>> pairs{};
+				pairs.first.reserve(tasks.size());
+				pairs.second.reserve(tasks.size());
+				for (size_t i = 0; i < tasks.size(); i++)
+				{
+					auto pair = Thread::_MakeThreadJob(tasks[i]); 
+					pairs.first.push_back(std::move(pair.first)); // why move ? job type will be created in _MakeThreadJob
+					pairs.second.push_back(std::move(pair.second));
 				}
-				);
+
+				return pairs;
+			}
+			template <typename ReturnType>
+			static std::pair<std::vector<job_type>, std::vector<std::future<ReturnType>>>  _MakeThreadJobChunk(std::vector<std::function<ReturnType()>>&& tasks)
+			{
+				std::pair<std::vector<job_type>, std::vector<std::future<ReturnType>>> pairs{};
+				pairs.first.reserve(tasks.size());
+				pairs.second.reserve(tasks.size());
+				for (size_t i = 0; i < tasks.size(); i++)
+				{
+					auto pair = Thread::_MakeThreadJob(std::move(tasks[i]));
+					pairs.first.push_back(std::move(pair.first)); // why move ? job type will be created in _MakeThreadJob
+					pairs.second.push_back(std::move(pair.second));
+				}
+
+				return pairs;
 			}
 
 			void WorkerJob();
 
-			template <typename ReturnType>
-			inline std::future<ReturnType> _Push_Back_Job(BlockingConcurrentQueue<job_type>& queue, const std::function<ReturnType()>& task)
-			{
-				//TODO : Use packaged_task
-				std::shared_ptr<std::promise<ReturnType>> promise_ptr{ new std::promise<ReturnType> };
-				auto future = promise_ptr->get_future();
-
-				queue.enqueue(Thread::_MakeThreadJob(std::move(promise_ptr), task)); //push new task to task queue
-
-				return future;
-			}
+		
 
 			template<typename STD_FUNCTION>
 			using return_type_of_std_function = typename STD_FUNCTION::result_type;
@@ -96,25 +150,7 @@ namespace doom
 
 		public:
 
-			/*
-			Thread(std::thread** pointerOfThreadArray, size_t mPoolSize)
-				: mPoolSize{ mPoolSize }, mWaitingTaskQueue{}, mIsPoolTerminated{ false }
-			{
-				assert(mPoolSize > 0);
-
-				*pointerOfThreadArray = new std::thread[this->mPoolSize];
-				this->mThreadWorkers = *pointerOfThreadArray;
-
-				for (size_t i = 0; i < mPoolSize; i++)
-				{
-		#ifdef Thread_DEBUG
-					std::cout << "Initializing mThreadWorkers(Threads)" << std::endl;
-		#endif
-					this->mThreadWorkers[i] = std::thread{ &Thread::WorkerJob, this };
-				}
-
-			}
-			*/
+		
 
 			Thread();
 
@@ -152,36 +188,24 @@ namespace doom
 			void SetPriorityWaitingTaskQueue(BlockingConcurrentQueue<job_type>* queuePointer);
 
 			template <typename ReturnType>
-			inline std::future<ReturnType> PushBackJob(BlockingConcurrentQueue<job_type>& queue, const std::function<ReturnType()>& task)
-			{
-				return this->_Push_Back_Job(queue, task);
-			}
-
-			template <typename ReturnType>
 			inline std::future<ReturnType> PushBackJob(const std::function<ReturnType()>& task)
 			{
-				assert(this->mIsPoolTerminated == false);
+				D_ASSERT(this->mIsPoolTerminated == false);
 
-				return this->PushBackJob(this->mWaitingTaskQueue, task);
+				auto pair = _MakeThreadJob(task);
+				this->mWaitingTaskQueue.enqueue(std::move(pair.first)); // why move ? job type will be created in _MakeThreadJob
+				return std::move(pair.second);
 			}
-
-			/// <summary>
-			/// Pass
-			/// Don't use placeholder
-			/// 
-			/// if you want pass by reference, pass with std::ref!!!!!!!!
-			/// </summary>
-			/// <typeparam name="Function"></typeparam>
-			/// <typeparam name="...Args"></typeparam>
-			/// <param name="f"></param>
-			/// <param name="...args"></param>
-			template <typename Function, typename... Args>
-			std::future<return_type_of_function_pointer<Function>> EmplaceBackJob(BlockingConcurrentQueue<job_type>& queue, Function&& f, Args&&... args)
+			template <typename ReturnType>
+			inline std::future<ReturnType> PushBackJob(std::function<ReturnType()>&& task)
 			{
-				std::function<return_type_of_function_pointer<Function>()> task = std::bind(std::forward<Function>(f), std::forward<Args>(args)...);
-				return this->_Push_Back_Job(queue, task);
+				D_ASSERT(this->mIsPoolTerminated == false);
 
+				auto pair = _MakeThreadJob(std::move(task));
+				this->mWaitingTaskQueue.enqueue(std::move(pair.first));
+				return std::move(pair.second);
 			}
+
 
 			/// <summary>
 			/// Pass
@@ -196,48 +220,12 @@ namespace doom
 			template <typename Function, typename... Args>
 			std::future<return_type_of_function_pointer<Function>> EmplaceBackJob(Function&& f, Args&&... args)
 			{
-				assert(this->mIsPoolTerminated == false);
+				D_ASSERT(this->mIsPoolTerminated == false);
 
-				return this->EmplaceBackJob(this->mWaitingTaskQueue, std::forward<Function>(f), std::forward<Args>(args)...);
-
+				std::function<return_type_of_function_pointer<Function>()> task = std::bind(std::forward<Function>(f), std::forward<Args>(args)...);
+				return this->PushBackJob(std::move(task));
 			}
 
-			/// <summary>
-			/// Add Multiple Task
-			/// 
-			/// If tasks have different return type, pass job_type with reference variable as function argument ( example. std::bind(Function, int& result)  )
-			/// </summary>
-			template <typename ReturnType>
-			std::vector<std::future<ReturnType>> PushBackJobChunk(BlockingConcurrentQueue<job_type>& queue, const std::vector<std::function<ReturnType()>>& tasks)
-			{
-				size_t size = tasks.size();
-
-				// TODO: Why use allocate promise at heap, Use packaged_task
-				std::vector<std::shared_ptr<std::promise<ReturnType>>> promise_ptr_vec{};
-				promise_ptr_vec.reserve(size);
-				for (size_t i = 0; i < size; i++)
-				{
-					promise_ptr_vec.emplace_back(new std::promise<ReturnType>());
-				}
-
-				std::vector<std::future<ReturnType>> future_vec{};
-				future_vec.reserve(size);
-				for (size_t i = 0; i < size; i++)
-				{
-					future_vec.push_back(promise_ptr_vec[i]->get_future());
-				}
-
-				std::vector<job_type> taskContainer{};
-				taskContainer.reserve(size);
-
-				for (size_t i = 0; i < size; i++)
-				{
-					taskContainer.push_back(Thread::_MakeThreadJob(std::move(promise_ptr_vec[i]), tasks[i]));
-				}
-
-				queue.enqueue_bulk(std::make_move_iterator(taskContainer.begin()), taskContainer.size()); //push new task to task queue
-				return future_vec;
-			}
 
 			/// <summary>
 			/// Add Multiple Task
@@ -247,11 +235,22 @@ namespace doom
 			template <typename ReturnType>
 			std::vector<std::future<ReturnType>> PushBackJobChunk(const std::vector<std::function<ReturnType()>>& tasks)
 			{
-				assert(this->mIsPoolTerminated == false);
+				D_ASSERT(this->mIsPoolTerminated == false);
 
-				return this->PushBackJobChunk(this->mWaitingTaskQueue, tasks);
+				auto pair = _MakeThreadJobChunk(std::move(tasks)); // why move ? job type will be created in _MakeThreadJob
+				this->mWaitingTaskQueue.enqueue_bulk(std::make_move_iterator(pair.first.begin()), pair.first.size()); //push new task to task queue
+				return std::move(pair.second);
 			}
+			template <typename ReturnType>
+			std::vector<std::future<ReturnType>> PushBackJobChunk(std::vector<std::function<ReturnType()>>&& tasks)
+			{
+				D_ASSERT(this->mIsPoolTerminated == false);
 
+				auto pair = _MakeThreadJobChunk(std::move(tasks));
+
+				this->mWaitingTaskQueue.enqueue_bulk(std::make_move_iterator(pair.first.begin()), pair.first.size()); //push new task to task queue
+				return std::move(pair.second);
+			}
 
 		};
 

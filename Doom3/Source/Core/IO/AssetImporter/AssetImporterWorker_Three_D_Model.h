@@ -14,18 +14,18 @@ namespace doom
 	class GameCore;
 	namespace assetimporter
 	{
-		template <> struct api_importer_type<eAssetType::THREE_D_MODEL> { using type = typename Assimp::Importer; };
+		template <> struct api_importer_type<::doom::asset::eAssetType::THREE_D_MODEL> { using type = typename Assimp::Importer; };
 		
 		template<>
-		void AssetApiImporter<eAssetType::THREE_D_MODEL>::InitApiImporter(api_importer_type_t<eAssetType::THREE_D_MODEL>& apiImporter);
+		void AssetApiImporter<::doom::asset::eAssetType::THREE_D_MODEL>::InitApiImporter(api_importer_type_t<::doom::asset::eAssetType::THREE_D_MODEL>& apiImporter);
 
 		template <>
-		void InitAssetImport<eAssetType::THREE_D_MODEL>();
+		void InitAssetImport<::doom::asset::eAssetType::THREE_D_MODEL>();
 		template <>
-		void EndAssetImport<eAssetType::THREE_D_MODEL>();
+		void EndAssetImport<::doom::asset::eAssetType::THREE_D_MODEL>();
 
 		template <>
-		class AssetImporterWorker<eAssetType::THREE_D_MODEL>
+		class AssetImporterWorker<::doom::asset::eAssetType::THREE_D_MODEL>
 		{
 			friend class GameCore;
 			friend class Assetimporter;
@@ -41,9 +41,9 @@ namespace doom
 			static void ExportToAssFile(const std::filesystem::path& path, const aiScene* pScene);
 		
 
-			static std::optional<Asset::asset_type_t<eAssetType::THREE_D_MODEL>> Creat3DModelAsset(const aiScene* pScene);
+			static void Creat3DModelAsset(const aiScene* pScene, ::doom::asset::Asset::asset_type_t<::doom::asset::eAssetType::THREE_D_MODEL>& asset);
 
-			static std::optional<Asset::asset_type_t<eAssetType::THREE_D_MODEL>> ImportSpecificAsset(const std::filesystem::path& path);
+			static bool ImportSpecificAsset(const std::filesystem::path& path, ::doom::asset::Asset::asset_type_t<::doom::asset::eAssetType::THREE_D_MODEL>& asset);
 			/// Create Nodes Recursively
 			/// </summary>
 			/// <param name="currentNode"></param>
@@ -52,7 +52,7 @@ namespace doom
 			/// <param name="modelAsset"></param>
 			/// <param name="assimpScene"></param>
 			/// <returns></returns>
-			static void SetThreeDModelNodesData(ThreeDModelNode* currentNode, aiNode* currentAssimpNode, ThreeDModelNode* parentNode, ThreeDModelAsset& modelAsset, const aiScene* assimpScene);
+			static void SetThreeDModelNodesData(ThreeDModelNode* currentNode, aiNode* currentAssimpNode, ThreeDModelNode* parentNode, ::doom::asset::Asset::asset_type_t<::doom::asset::eAssetType::THREE_D_MODEL>& modelAsset, const aiScene* assimpScene);
 
 		public:
 			/// <summary>
@@ -69,8 +69,8 @@ namespace doom
 		
 		
 
-		extern template class AssetApiImporter<eAssetType::THREE_D_MODEL>;
-		extern template class AssetImporterWorker<eAssetType::THREE_D_MODEL>;
+		extern template class AssetApiImporter<::doom::asset::eAssetType::THREE_D_MODEL>;
+		extern template class AssetImporterWorker<::doom::asset::eAssetType::THREE_D_MODEL>;
 
 
 		

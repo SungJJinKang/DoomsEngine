@@ -6,10 +6,10 @@ using namespace doom;
 using namespace doom::assetimporter;
 using namespace DirectX;
 
-template class doom::assetimporter::AssetImporterWorker<eAssetType::TEXTURE>;
+template class doom::assetimporter::AssetImporterWorker<::doom::asset::eAssetType::TEXTURE>;
 
 template<>
-void doom::assetimporter::InitAssetImport<eAssetType::TEXTURE>()
+void doom::assetimporter::InitAssetImport<::doom::asset::eAssetType::TEXTURE>()
 {
 	HRESULT hr = CoInitializeEx(nullptr, COINIT_MULTITHREADED);
 	if (FAILED(hr))
@@ -19,12 +19,12 @@ void doom::assetimporter::InitAssetImport<eAssetType::TEXTURE>()
 	}
 }
 template <>
-void doom::assetimporter::EndAssetImport<eAssetType::TEXTURE>()
+void doom::assetimporter::EndAssetImport<::doom::asset::eAssetType::TEXTURE>()
 {
 
 }
 
-std::optional <Asset::asset_type_t<eAssetType::TEXTURE>> doom::assetimporter::AssetImporterWorker<eAssetType::TEXTURE>::ImportSpecificAsset(const std::filesystem::path& path)
+bool doom::assetimporter::AssetImporterWorker<::doom::asset::eAssetType::TEXTURE>::ImportSpecificAsset(const std::filesystem::path& path, ::doom::asset::Asset::asset_type_t<::doom::asset::eAssetType::TEXTURE>& asset)
 {
 	HRESULT hr;
 	auto ResultCompressedImage = std::make_unique<ScratchImage>();
@@ -43,7 +43,7 @@ std::optional <Asset::asset_type_t<eAssetType::TEXTURE>> doom::assetimporter::As
 		if (FAILED(hr))
 		{
 			D_DEBUG_LOG("Fail To Load Texture", eLogType::D_ERROR);
-			return {};
+			return false;
 		}
 
 		DXGI_FORMAT compressTargetFormat{};
@@ -70,6 +70,7 @@ std::optional <Asset::asset_type_t<eAssetType::TEXTURE>> doom::assetimporter::As
 		default:
 			D_DEBUG_LOG("Cant Find Format", eLogType::D_ERROR);
 			NEVER_HAPPEN;
+			return false;
 		}
 
 		// TODO : 한번 쓰건 또 써도 된다 나중에 수정
@@ -79,8 +80,8 @@ std::optional <Asset::asset_type_t<eAssetType::TEXTURE>> doom::assetimporter::As
 		auto resizedImage = std::make_unique<ScratchImage>();
 
 		size_t maxSize = max(sourceImage->width, sourceImage->height);
-		size_t resizeRatio = maxSize > AssetImporterWorker<eAssetType::TEXTURE>::MAX_IMAGE_SIZE
-		? maxSize / AssetImporterWorker<eAssetType::TEXTURE>::MAX_IMAGE_SIZE : 1;
+		size_t resizeRatio = maxSize > AssetImporterWorker<::doom::asset::eAssetType::TEXTURE>::MAX_IMAGE_SIZE
+		? maxSize / AssetImporterWorker<::doom::asset::eAssetType::TEXTURE>::MAX_IMAGE_SIZE : 1;
 		
 		if (resizeRatio == 1)
 		{
@@ -93,24 +94,24 @@ std::optional <Asset::asset_type_t<eAssetType::TEXTURE>> doom::assetimporter::As
 			if (FAILED(hr))
 			{
 				D_DEBUG_LOG("Fail To Resize Texture", eLogType::D_ERROR);
-				return {};
+				return false;
 			}
 		}
 		
 	
 		auto mipmapedImage = std::make_unique<ScratchImage>();
-		hr = GenerateMipMaps(*(resizedImage->GetImage(0, 0, 0)), TEX_FILTER_FLAGS::TEX_FILTER_DEFAULT, AssetImporterWorker<eAssetType::TEXTURE>::MIP_MAP_LEVELS, *mipmapedImage, false);
+		hr = GenerateMipMaps(*(resizedImage->GetImage(0, 0, 0)), TEX_FILTER_FLAGS::TEX_FILTER_DEFAULT, AssetImporterWorker<::doom::asset::eAssetType::TEXTURE>::MIP_MAP_LEVELS, *mipmapedImage, false);
 		if (FAILED(hr))
 		{
 			D_DEBUG_LOG("Fail To Save DDS Texture", eLogType::D_ERROR);
-			return {};
+			return false;
 		}
 
 		hr = Compress(mipmapedImage->GetImages(), mipmapedImage->GetImageCount(), mipmapedImage->GetMetadata(), compressTargetFormat, TEX_COMPRESS_FLAGS::TEX_COMPRESS_DEFAULT, TEX_THRESHOLD_DEFAULT, *(ResultCompressedImage));
 		if (FAILED(hr))
 		{
 			D_DEBUG_LOG("Fail To Compress Texture", eLogType::D_ERROR);
-			return {};
+			return false;
 		}
 		
 
@@ -124,11 +125,12 @@ std::optional <Asset::asset_type_t<eAssetType::TEXTURE>> doom::assetimporter::As
 		if (FAILED(hr))
 		{
 			D_DEBUG_LOG("Fail To Save DDS Texture", eLogType::D_ERROR);
-			return {};
+			return false;
 		}
 		else
 		{
 			D_DEBUG_LOG({"Success To Save DDS Texture : ", destinationPath.string()}, eLogType::D_LOG);
+			return false;
 		}
 
 	}
@@ -140,10 +142,11 @@ std::optional <Asset::asset_type_t<eAssetType::TEXTURE>> doom::assetimporter::As
 		if (FAILED(hr))
 		{
 			D_DEBUG_LOG("Fail To Load DDS Texture", eLogType::D_ERROR);
-			return {};
+			return false;
 		}
 
 	}
 	
-	return  Asset::asset_type_t<eAssetType::TEXTURE>(std::move(ResultCompressedImage));
+	asset.SetScratchImage(std::move(ResultCompressedImage));
+	return true;
 }

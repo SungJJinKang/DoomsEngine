@@ -5,36 +5,41 @@
 
 namespace doom
 {
-
-	class TextAsset : public Asset
+	namespace asset
 	{
-		friend class assetimporter::AssetManager;
+		class TextAsset : public Asset
+		{
+			friend class ::doom::assetimporter::ImportedAssetPort<eAssetType::TEXT>;
 
-		template <eAssetType assetType>
-		friend class assetimporter::AssetImporterWorker;
+			friend class ::doom::assetimporter::AssetManager;
+			friend class ::doom::assetimporter::Assetimporter;
 
-		template<eAssetType loopVariable>
-		friend struct assetimporter::OnEndImportInMainThreadFunctor;
+			template <eAssetType assetType>
+			friend class ::doom::assetimporter::AssetImporterWorker;
 
-	private:
+			template<eAssetType loopVariable>
+			friend struct ::doom::assetimporter::OnEndImportInMainThreadFunctor;
 
-		std::string mText;
+		private:
 
-	protected:
+			std::string mText;
 
-		
+		protected:
 
-	public:
-	
-		const std::string& GetText();
 
-		TextAsset(const std::string& str);
-		TextAsset() = default;
-		TextAsset(const TextAsset&) = delete;
-		TextAsset(TextAsset&&) noexcept = default;
-		TextAsset& operator=(const TextAsset&) = delete;
-		TextAsset& operator=(TextAsset&&) noexcept = default;
-		virtual ~TextAsset() = default;
-	};
-	template <> struct Asset::asset_type<eAssetType::TEXT> { using type = typename TextAsset; };
+
+		public:
+
+			const std::string& GetText();
+
+			void SetText(const std::string& str);
+			TextAsset() = default;
+			TextAsset(const TextAsset&) = delete;
+			TextAsset(TextAsset&&) noexcept = default;
+			TextAsset& operator=(const TextAsset&) = delete;
+			TextAsset& operator=(TextAsset&&) noexcept = default;
+			virtual ~TextAsset() = default;
+		};
+		template <> struct Asset::asset_type<eAssetType::TEXT> { using type = typename TextAsset; };
+	}
 }

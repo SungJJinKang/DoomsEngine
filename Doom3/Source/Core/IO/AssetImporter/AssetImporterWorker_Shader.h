@@ -11,13 +11,13 @@ namespace doom
 	namespace assetimporter
 	{
 		template <>
-		class AssetImporterWorker<eAssetType::SHADER>
+		class AssetImporterWorker<::doom::asset::eAssetType::SHADER>
 		{
 			friend class Assetimporter;
 		private:
-			static std::optional<Asset::asset_type_t<eAssetType::SHADER>> ImportSpecificAsset(const std::filesystem::path& path);
+			static bool ImportSpecificAsset(const std::filesystem::path& path, ::doom::asset::Asset::asset_type_t<::doom::asset::eAssetType::SHADER>& asset);
 		};
 		
-		extern template class AssetApiImporter<eAssetType::SHADER>;
+		extern template class AssetApiImporter<::doom::asset::eAssetType::SHADER>;
 	}
 }

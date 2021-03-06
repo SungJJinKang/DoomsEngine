@@ -1,99 +1,70 @@
 #include "Base_Asset.h"
 
 using namespace doom;
+using namespace doom::asset;
 
-void Asset::SetBaseMetaData(const std::filesystem::path& path)
+void Asset::SetBaseMetaData(const std::filesystem::path& path, const D_UUID& uuid)
 {
-	this->mAssetFileName = path.has_filename() ? path.filename().string() : "";
-	this->mAssetPath = path;
-	this->mAssetFileSize = std::filesystem::file_size(path);
+	this->mAssetMetaData.mFileName = path.has_filename() ? path.filename().string() : "";
+	this->mAssetMetaData.mFileDirectory = path;
+	this->mAssetMetaData.mFileSize = std::filesystem::file_size(path);
+	this->mAssetMetaData.mUUID = uuid;
 }
 
-Asset::Asset() : mUUID{ GenerateUUID() }, bmIsDataLoaded{ true }
+
+
+Asset::Asset()
 {
 
 }
 
-Asset::Asset(bool isConatiningData) : bmIsDataLoaded{ isConatiningData }
-{
-	if (isConatiningData == true)
-	{
-		this->mUUID = GenerateUUID();
-	}
-}
-
-std::string Asset::GetAssetTypeString(const eAssetType& assetType)
-{
-	switch (assetType)
-	{
-	case eAssetType::AUDIO:
-		return "AUDIO";
-		break;
-
-	case eAssetType::FONT:
-		return "FONT";
-		break;
-
-	case eAssetType::TEXT:
-		return "TEXT";
-		break;
-
-	case eAssetType::TEXTURE:
-		return "TEXTURE";
-		break;
-
-	case eAssetType::THREE_D_MODEL:
-		return "THREE_D_MODEL";
-		break;
-
-	case eAssetType::SHADER:
-		return "SHADER";
-		break;
-
-	default:
-		return "";
-	}
-	return "";
-}
 
 doom::D_UUID Asset::GetUUID()
 {
-	return this->mUUID;
+	return this->mAssetMetaData.mUUID;
 }
 
 const D_UUID& Asset::GetUUID() const
 {
-	return this->mUUID;
+	return this->mAssetMetaData.mUUID;
 }
 
 std::string Asset::GetAssetFileName()
 {
-	return this->mAssetFileName;
+	return this->mAssetMetaData.mFileName;
 }
 
 const std::string& Asset::GetAssetFileName() const
 {
-	return this->mAssetFileName;
+	return this->mAssetMetaData.mFileName;
 }
 
 std::filesystem::path Asset::GetAssetPath()
 {
-	return this->mAssetPath;
+	return this->mAssetMetaData.mFileDirectory;
 }
 
 const std::filesystem::path& Asset::GetAssetPath() const
 {
-	return this->mAssetPath;
+	return this->mAssetMetaData.mFileDirectory;
 }
 
-
-bool Asset::GetIsDataLoaded()
+Asset::AssetStatus Asset::GetAssetStatus()
 {
-	return this->bmIsDataLoaded;
+	return this->mAssetStatus;
 }
 
 unsigned long long Asset::GetAssetFileSize() const
 {
-	return this->mAssetFileSize;
+	return this->mAssetMetaData.mFileSize;
+}
+
+void Asset::OnEndImportInMainThread()
+{
+	if (this->IsCalledEndImportInMainThread == false)
+	{
+		this->OnEndImportInMainThread_Internal();
+		this->IsCalledEndImportInMainThread = true;
+	}
 }
 

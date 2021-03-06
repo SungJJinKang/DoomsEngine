@@ -17,55 +17,61 @@ namespace doom
 		class Material;
 	}
 
-	class TextureAsset : public Asset
+	namespace asset
 	{
-		friend class graphics::SingleTexture;
-		friend class graphics::Texture;
-		friend class graphics::Material;
+		class TextureAsset : public Asset
+		{
+			friend class graphics::SingleTexture;
+			friend class graphics::Texture;
+			friend class graphics::Material;
 
-		friend class assetimporter::AssetManager;
+			friend class ::doom::assetimporter::ImportedAssetPort<eAssetType::TEXTURE>;
 
-		template <eAssetType assetType>
-		friend class assetimporter::AssetImporterWorker;
+			friend class ::doom::assetimporter::AssetManager;
+			friend class ::doom::assetimporter::Assetimporter;
 
-		template<eAssetType loopVariable>
-		friend struct assetimporter::OnEndImportInMainThreadFunctor;
+			template <eAssetType assetType>
+			friend class ::doom::assetimporter::AssetImporterWorker;
 
-	private:
+			template<eAssetType loopVariable>
+			friend struct ::doom::assetimporter::OnEndImportInMainThreadFunctor;
 
-		std::unique_ptr<DirectX::ScratchImage> mScratchImage;
+		private:
 
-		int mWidth;
-		int mHeight;
-		int mMipMapLevel;
-		/// <summary>
-		/// Size in bytes of All Images ( All mipmaps )
-		/// </summary>
-		size_t mEntireImageSize;
+			std::unique_ptr<DirectX::ScratchImage> mScratchImage{};
 
-		bool bmIsCompressed;
-		graphics::eTextureComponentFormat mComponentFormat; // 1 ~ 4 ( rgb, rgba ~~ )
-		graphics::eTextureInternalFormat mInternalFormat;
-		graphics::eTextureCompressedInternalFormat mCompressedInternalFormat;
+			int mWidth{};
+			int mHeight{};
+			int mMipMapLevel{};
+			/// <summary>
+			/// Size in bytes of All Images ( All mipmaps )
+			/// </summary>
+			size_t mEntireImageSize{};
 
-		graphics::Texture* mTexture{ nullptr };
-		void CreateTexture();
-	protected:
-	
-	public:
-		
-		TextureAsset() = default;
-		TextureAsset(std::unique_ptr<DirectX::ScratchImage>&& scratchImage);
-		TextureAsset(const TextureAsset&) = delete;
-		TextureAsset(TextureAsset&& textureAsset) noexcept = default;
-		TextureAsset& operator=(const TextureAsset& ) = delete;
-		TextureAsset& operator=(TextureAsset&& textureAsset) noexcept = default;
-		virtual ~TextureAsset() = default;
+			bool bmIsCompressed{ false };
+			graphics::eTextureComponentFormat mComponentFormat{}; // 1 ~ 4 ( rgb, rgba ~~ )
+			graphics::eTextureInternalFormat mInternalFormat{};
+			graphics::eTextureCompressedInternalFormat mCompressedInternalFormat{};
 
-		void OnEndImportInMainThread() final;
-	};
+			graphics::Texture* mTexture{ nullptr };
+			void CreateTexture();
+		protected:
 
-	template <> struct Asset::asset_type<eAssetType::TEXTURE> { using type = typename TextureAsset; };
+		public:
+
+			TextureAsset() = default;
+			void SetScratchImage(std::unique_ptr<DirectX::ScratchImage>&& scratchImage);
+			TextureAsset(const TextureAsset&) = delete;
+			TextureAsset(TextureAsset&& textureAsset) noexcept = default;
+			TextureAsset& operator=(const TextureAsset&) = delete;
+			TextureAsset& operator=(TextureAsset&& textureAsset) noexcept = default;
+			virtual ~TextureAsset() = default;
+
+			void OnEndImportInMainThread_Internal() final;
+		};
+
+		template <> struct Asset::asset_type<eAssetType::TEXTURE> { using type = typename TextureAsset; };
+	}
 }
 
 

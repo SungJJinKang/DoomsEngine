@@ -19,42 +19,51 @@ namespace doom
 	{
 		class AssetManager;
 
-		template <eAssetType assetType>
-		using imported_asset_future_t = typename std::future<std::optional<Asset::asset_type_t<assetType>>>;
+		
 
 		class Assetimporter
 		{
 			friend class AssetManager;
 
-			template <eAssetType assetType>
+			template <::doom::asset::eAssetType assetType>
 			friend class AssetImporterWorker;
 
-			template<eAssetType loopVariable>
-			friend struct ImportAssetFutureFunctor;
+			template<::doom::asset::eAssetType loopVariable>
+			friend struct ImportAssetFunctor;
 
 		private:
 
 			/// <summary>
-			/// Avaliable Asset Extensions of doom::eAssetType
+			/// Avaliable Asset Extensions of ::doom::asset::eAssetType
 			/// </summary>
-			static const std::unordered_map<std::string, doom::eAssetType> AssetExtension;
+			static const std::unordered_map<std::string, ::doom::asset::eAssetType> AssetExtension;
 			/// <summary>
 			/// This extensions will be included in build(release) version
-			/// if there is no InBuildExtension of AssetType(doom::eAssetType), Any extensions is allowed
+			/// if there is no InBuildExtension of AssetType(::doom::asset::eAssetType), Any extensions is allowed
 			/// </summary>
-			static const std::unordered_map<doom::eAssetType, std::string> AssetInBuildExtension;
+			static const std::unordered_map<::doom::asset::eAssetType, std::string> AssetInBuildExtension;
 
-			template <eAssetType assetType>
-			static std::optional<Asset::asset_type_t<assetType>> ImportAsset(std::filesystem::path path)
+			/// <summary>
+			/// 
+			/// </summary>
+			/// <param name="path"></param>
+			/// <param name="asset"></param>
+			/// <returns>Is Success??</returns>
+			template <::doom::asset::eAssetType assetType>
+			static bool ImportAssetJob(const std::filesystem::path& path, ::doom::asset::Asset::asset_type_t<assetType>* asset)
 			{
-				path.make_preferred();
-				std::optional<Asset::asset_type_t<assetType>> ImportedAsset = AssetImporterWorker<assetType>::ImportSpecificAsset(path);
-
-				if (ImportedAsset.has_value())
+				bool isSuccess = AssetImporterWorker<assetType>::ImportSpecificAsset(path, *asset);
+				if (isSuccess)
 				{
-					ImportedAsset.value().SetBaseMetaData(path);
+					asset->mAssetStatus = ::doom::asset::Asset::AssetStatus::CompletlyImported;
 				}
-				return ImportedAsset;
+				else
+				{
+					asset->mAssetStatus = ::doom::asset::Asset::AssetStatus::FailToImport;
+				}
+				
+				return isSuccess;
+				
 			}
 			
 
@@ -64,12 +73,13 @@ namespace doom
 			/// </summary>
 			/// <param name="path"></param>
 			/// <returns></returns>
-			template <eAssetType assetType>
-			[[nodiscard]] static imported_asset_future_t<assetType> PushImportingAssetJobToThreadPool(const std::filesystem::path& path)
+			template <::doom::asset::eAssetType assetType>
+			[[nodiscard]] static std::future<bool> PushImportingAssetJobToThreadPool(const std::filesystem::path& path, ::doom::asset::Asset::asset_type_t<assetType>* asset)
 			{
-				std::function<std::optional<Asset::asset_type_t<assetType>>()> newTask = std::bind(ImportAsset<assetType>, path);
+				std::function<bool()> newTask = std::bind(ImportAssetJob<assetType>, path, asset);
+				asset->mAssetStatus = ::doom::asset::Asset::AssetStatus::WaitingImport;
 
-				return resource::JobSystem::GetSingleton()->PushBackJobToAnySleepingThread(std::move(newTask));
+				return resource::JobSystem::GetSingleton()->PushBackJobToPriorityQueue(std::move(newTask));
 			}
 
 
@@ -82,14 +92,17 @@ namespace doom
 			/// <param name="path"></param>
 			/// <param name="assets"></param>
 			/// <returns></returns>
-			template <eAssetType assetType>
-			[[nodiscard]] static std::vector<imported_asset_future_t<assetType>> PushImportingAssetJobToThreadPool(const std::vector<std::filesystem::path>& paths)
+			template <::doom::asset::eAssetType assetType>
+			[[nodiscard]] static std::vector<std::future<bool>> PushImportingAssetJobToThreadPool(const std::vector<std::filesystem::path>& paths, const std::vector<::doom::asset::Asset::asset_type_t<assetType>*>& assets)
 			{
-				std::vector<std::function<std::optional<Asset::asset_type_t<assetType>>()>> tasks{};
-				tasks.reserve(paths.size());
-				for (auto& path : paths)
+				D_ASSERT(paths.size() == assets.size());
+
+				std::vector<std::function<bool()>> newTasks{};
+				newTasks.reserve(paths.size());
+				for (unsigned int i = 0 ; i < paths.size() ; i++)
 				{
-					tasks.push_back(std::bind(ImportAsset<assetType>, path));
+					newTasks.push_back(std::bind(ImportAssetJob<assetType>, paths[i], assets[i]));
+					assets[i]->mAssetStatus = ::doom::asset::Asset::AssetStatus::WaitingImport;
 				}
 
 				/// <summary>
@@ -97,12 +110,12 @@ namespace doom
 				/// </summary>
 				/// <param name="paths"></param>
 				/// <returns></returns>
-				return resource::JobSystem::GetSingleton()->PushBackJobChunkToAnySleepingThread(tasks);
+				return resource::JobSystem::GetSingleton()->PushBackJobChunkToPriorityQueue(std::move(newTasks));
 			}
 
 			///////////////////
 
-			static std::optional<doom::eAssetType> GetAssetType(const std::filesystem::path& path);
+			static std::optional<::doom::asset::eAssetType> GetAssetType(const std::filesystem::path& path);
 		};
 
 		

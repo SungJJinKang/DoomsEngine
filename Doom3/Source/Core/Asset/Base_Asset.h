@@ -2,11 +2,15 @@
 
 #include <string>
 #include <filesystem>
-#include <utility>
-#include <memory>
+#include <optional>
+#include <future>
 
 #include "../Core.h"
 #include "../API/UUID.h"
+
+#include "eAssetType.h"
+#include "AssetMetaData.h"
+#include "ZeroResetMoveContainer.h"
 
 namespace doom
 {
@@ -18,112 +22,121 @@ namespace doom
 	class TextureAsset;
 	class ThreeDModelAsset;
 
-	enum class eAssetType
-	{
-		AUDIO = 0,
-		FONT,
-		TEXT,
-		TEXTURE,
-		THREE_D_MODEL,
-		SHADER,
-	};
+
 
 
 	namespace assetimporter
 	{
 		class AssetManager;
 		class Assetimporter;
-		template <eAssetType assetType>
+		template <::doom::asset::eAssetType assetType >
 		class AssetImporterWorker;
 
-		template<eAssetType assetType>
+		template <::doom::asset::eAssetType assetType >
+		class ImportedAssetPort;
+
+		template<::doom::asset::eAssetType assetType>
 		class AssetContainer;
 
-		template<eAssetType loopVariable>
+		template<::doom::asset::eAssetType loopVariable>
 		struct OnEndImportInMainThreadFunctor;
 
 	
 	}
 
-	class Asset
+	namespace asset
 	{
-		friend class assetimporter::AssetManager;
-		friend class assetimporter::Assetimporter;
 
-		template <eAssetType assetType>
-		friend class assetimporter::AssetImporterWorker;
-
-		template<eAssetType loopVariable>
-		friend struct assetimporter::OnEndImportInMainThreadFunctor;
-
-		template<eAssetType loopVariable>
-		friend class assetimporter::AssetContainer;
-
-	private:
-
-		D_UUID mUUID;
-		std::string mAssetFileName;
-		std::filesystem::path mAssetPath;
-		unsigned long long mAssetFileSize;
-
-		bool bmIsDataLoaded;
-
-		void SetBaseMetaData(const std::filesystem::path& path);
-
-	protected:
-
-	
-
-		/// <summary>
-		/// post processing after asset imported.
-		/// this function should be called at main thread
-		/// </summary>
-		virtual void OnEndImportInMainThread() {}
-		virtual void OnEndImportInSubThread() {}
-
-	public:
-		
-		Asset();
-		Asset(bool isConatiningData);
-		Asset(const Asset&) = delete;
-		Asset(Asset&&) noexcept = default;
-		Asset& operator=(const Asset&) = delete;
-		Asset& operator=(Asset&&) noexcept = default;
-		virtual ~Asset() {}
-
-		D_UUID GetUUID();
-		const D_UUID& GetUUID() const;
-		std::string GetAssetFileName();
-		const std::string& GetAssetFileName() const;
-		unsigned long long GetAssetFileSize() const;
-		std::filesystem::path GetAssetPath();
-		const std::filesystem::path& GetAssetPath() const;
-		bool GetIsDataLoaded();
-		
-		static std::string GetAssetTypeString(const eAssetType& assetType);
-
-		template <eAssetType assetType>
-		struct asset_type
+		class Asset
 		{
-			using type = void;
+			friend class ::doom::assetimporter::AssetManager;
+			friend class ::doom::assetimporter::Assetimporter;
+
+			template <eAssetType assetType>
+			friend class ::doom::assetimporter::AssetImporterWorker;
+
+			template <eAssetType assetType>
+			friend class ::doom::assetimporter::ImportedAssetPort;
+
+			template<eAssetType loopVariable>
+			friend struct ::doom::assetimporter::OnEndImportInMainThreadFunctor;
+
+			template<eAssetType loopVariable>
+			friend class ::doom::assetimporter::AssetContainer;
+
+		public:
+
+			template <eAssetType assetType>
+			struct asset_type
+			{
+				using type = void;
+			};
+
+			template <eAssetType assetType>
+			using asset_type_t = typename asset_type<assetType>::type;
+
+			template <eAssetType assetType>
+			using imported_asset_future_t = typename std::future<std::optional<Asset::asset_type_t<assetType>>>;
+
+			enum AssetStatus
+			{
+				FailToImport,
+
+				/// <summary>
+				/// Only Meta Data is imported
+				/// </summary>
+				NotImported,
+
+				/// <summary>
+				/// Be being imported
+				/// </summary>
+				WaitingImport,
+
+				/// <summary>
+				/// All data is imported
+				/// </summary>
+				CompletlyImported
+			};
+
+		private:
+
+			AssetMetaData mAssetMetaData{};
+			void SetBaseMetaData(const std::filesystem::path& path, const D_UUID& uuid);
+
+		protected:
+
+			AssetStatus mAssetStatus{ AssetStatus::NotImported };
+
+			bool IsCalledEndImportInMainThread{ false };
+			/// <summary>
+			/// post processing after asset imported.
+			/// this function should be called at main thread
+			/// </summary>
+			//void OnEndImportInMainThread_Internal();
+			virtual void OnEndImportInMainThread_Internal() {}
+			void OnEndImportInMainThread();
+			virtual void OnEndImportInSubThread() {};
+
+		public:
+
+			Asset();
+			Asset(const Asset&) = delete;
+			Asset(Asset&&) noexcept = default;
+			Asset& operator=(const Asset&) = delete;
+			Asset& operator=(Asset&&) noexcept = default;
+			virtual ~Asset() {}
+
+			D_UUID GetUUID();
+			const D_UUID& GetUUID() const;
+			std::string GetAssetFileName();
+			const std::string& GetAssetFileName() const;
+			unsigned long long GetAssetFileSize() const;
+			std::filesystem::path GetAssetPath();
+			const std::filesystem::path& GetAssetPath() const;
+			AssetStatus GetAssetStatus();
+
 		};
-
-		template <eAssetType assetType>
-		using asset_type_t = typename asset_type<assetType>::type;
-
-		static constexpr inline eAssetType FirstElementOfAssetType = eAssetType::AUDIO;
-		static constexpr inline eAssetType LastElementOfAssetType = eAssetType::SHADER;
-		static constexpr inline unsigned int GetAssetTypeCount() {
-			return static_cast<unsigned int>(LastElementOfAssetType) + 1u;
-		}
-
-	
-
-		
-
-		
-	};
-
+	}
 
 	
 }
