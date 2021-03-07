@@ -48,6 +48,7 @@ namespace doom
 		virtual void UpdateComponent() override
 		{
 			this->Draw();
+			this->DrawAABB3D();
 		}
 
 		virtual void OnEndOfFrame_Component() override
@@ -67,6 +68,7 @@ namespace doom
 
 
 		virtual void Draw() = 0;
+		void DrawAABB3D();
 
 		/// <summary>
 		/// Why this function is inline function.
@@ -79,6 +81,7 @@ namespace doom
 		void SetMaterial(graphics::Material& material) noexcept;
 
 		physics::AABB3D GetWorldAABB3D();
+		const physics::AABB3D& GetWorldAABB3DByReference();
 		const physics::AABB3D& GetLocalAABB3D() const;
 		physics::AABB3D GetLocalAABB3D();
 	};

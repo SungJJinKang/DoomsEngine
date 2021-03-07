@@ -1,7 +1,6 @@
 #pragma once
 
 #include "../Core.h"
-#include "CollisionAlgorithm.h"
 #include "ColliderType.h"
 namespace doom
 {

@@ -368,9 +368,6 @@
     <ClInclude Include="Source\Core\API\UUID.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Helper\ThreadPool_Cpp\ThreadPool.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Core\Math\Vector.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -713,9 +710,6 @@
     <ClInclude Include="Source\GameLogic\TEST.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Helper\EasyCallback_cpp\EasyCallback_Container.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Core\Graphics\Graphics_Server.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -861,9 +855,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\Core\Physics\Collider\ColliderSolution.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Core\Physics\Collider\CollisionAlgorithm.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\Core\Physics\Collider\ColliderType.h">

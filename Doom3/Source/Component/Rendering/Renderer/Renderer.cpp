@@ -12,6 +12,13 @@ void doom::Renderer::SetLocalAABB3D(const physics::AABB3D& aabb3d)
 
 doom::physics::AABB3D doom::Renderer::GetWorldAABB3D()
 {
+	return this->GetWorldAABB3DByReference();
+}
+
+
+
+const doom::physics::AABB3D& doom::Renderer::GetWorldAABB3DByReference()
+{
 	if (this->IsWorldAABBDirty.GetIsDirty(true))
 	{
 		this->UpdateWorldAABB3D();
@@ -32,6 +39,11 @@ doom::physics::AABB3D doom::Renderer::GetLocalAABB3D()
 doom::Renderer::Renderer() : ServerComponent(), StaticContainer(), mTargetMaterial{}
 {
 
+}
+
+void doom::Renderer::DrawAABB3D()
+{
+	this->GetWorldAABB3D().Render(graphics::eColor::Green);
 }
 
 void doom::Renderer::BindMaterial() noexcept

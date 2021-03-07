@@ -325,7 +325,6 @@
     <ClInclude Include="Source\Core\Physics\Collider\Collider.h" />
     <ClInclude Include="Source\Core\Physics\Collider\ColliderSolution.h" />
     <ClInclude Include="Source\Core\Physics\Collider\ColliderType.h" />
-    <ClInclude Include="Source\Core\Physics\Collider\CollisionAlgorithm.h" />
     <ClInclude Include="Source\Core\Physics\Collider\RenderPhysics.h" />
     <ClInclude Include="Source\Core\Physics\Collider\Line.h" />
     <ClInclude Include="Source\Core\Physics\Collider\PhysicsGeneric.h" />
@@ -437,7 +436,6 @@
     <ClInclude Include="Source\Helper\concurrentqueue\blockingconcurrentqueue.h" />
     <ClInclude Include="Source\Helper\crossguid\Guid.hpp" />
     <ClInclude Include="Source\Helper\DeferredConstant\DeferredConstant.h" />
-    <ClInclude Include="Source\Helper\EasyCallback_cpp\EasyCallback_Container.h" />
     <ClInclude Include="Source\Helper\EasyDirtyChecker\DirtySender.h" />
     <ClInclude Include="Source\Helper\EasyDirtyChecker\DirtyReceiver.h" />
     <ClInclude Include="Source\Helper\ForLoop_Compile_Time\ForLoop_Compile.h" />
@@ -453,7 +451,6 @@
     <ClInclude Include="Source\Helper\std_future_wrapper\shared_future\StdSharedFuture.h" />
     <ClInclude Include="Source\Helper\std_future_wrapper\StdFuture.h" />
     <ClInclude Include="Source\Helper\TextImporter.h" />
-    <ClInclude Include="Source\Helper\ThreadPool_Cpp\ThreadPool.h" />
     <ClInclude Include="Source\Helper\trim.h" />
     <ClInclude Include="Source\Helper\vector_erase_move_lastelement\vector_swap_erase.h" />
     <ClInclude Include="Source\Component\PhysicsComponent\SphereCollider3D.h" />
