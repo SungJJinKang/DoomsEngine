@@ -3,6 +3,8 @@
 #include "PhysicsComponent/ColliderComponent.h"
 #include <StaticContainer/StaticContainer.h>
 
+#include <UserInput_Server.h>
+
 void doom::physics::Physics_Server::Init()
 {
 
@@ -12,6 +14,7 @@ void doom::physics::Physics_Server::Init()
 void doom::physics::Physics_Server::Update()
 {
 	this->mColliderTestRoom.DrawDebug();
+	ONLY_WHEN_KEY_TOGGLE_ON(userinput::eKEY_CODE::KEY_F11, this->DrawDebugColliderComponents());
 }
 
 void doom::physics::Physics_Server::FixedUpdateCollision()
@@ -19,18 +22,44 @@ void doom::physics::Physics_Server::FixedUpdateCollision()
 #ifdef DEBUG_MODE
 	this->mColliderTestRoom.FixedUpdatePhysics();
 #endif
-	auto componentPair = doom::StaticContainer<ColliderComponent>::GetAllStaticComponents();
-	for (unsigned int i = 0; i < componentPair.second; i++)
+	SolveColliderComponents();
+
+}
+
+void doom::physics::Physics_Server::DrawDebugColliderComponents()
+{
+	auto components = doom::StaticContainer<ColliderComponent>::GetAllStaticComponents();
+	for (auto component : components)
 	{
-		componentPair.first[i]->OnPreUpdatePhysics();
+		component->GetWorldCollider()->DrawPhysicsDebug();
 	}
-	for (unsigned int i = 0; i < componentPair.second; i++)
+}
+
+void doom::physics::Physics_Server::SolveColliderComponents()
+{
+	auto components = doom::StaticContainer<ColliderComponent>::GetAllStaticComponents();
+	for (auto component : components)
 	{
-		componentPair.first[i]->UpdatePhysics();
+		component->OnPreUpdatePhysics();
 	}
-	for (unsigned int i = 0; i < componentPair.second; i++)
+
+	for (unsigned int i = 0; i < components.size(); i++)
 	{
-		componentPair.first[i]->OnPostUpdatePhysics();
+		for (unsigned int j = i + 1; j < components.size(); j++)
+		{
+			Collider* col1 = components[i]->GetWorldCollider();
+
+			if (col1 != nullptr)
+			{
+				Collider* col2 = components[j]->GetWorldCollider();
+				col1->CheckCollision(col2);
+			}
+		}
+	}
+
+	for (auto component : components)
+	{
+		component->OnPostUpdatePhysics();
 	}
 }
 
@@ -38,4 +67,5 @@ void doom::physics::Physics_Server::OnEndOfFrame()
 {
 
 }
+
 

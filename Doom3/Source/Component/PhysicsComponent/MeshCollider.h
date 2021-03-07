@@ -9,15 +9,14 @@ namespace doom
 		friend class physics::Physics_Server;
 	private:
 
-		void UpdateCorePhysicsVariable() override;
-		virtual void SolveCollision() final;
-
-	protected:
+		virtual void UpdateLocalCollider() final;
+		virtual void UpdateWorldCollider() final;
 
 		void AutoColliderSetting() override;
-
+		virtual physics::Collider* GetWorldCollider() final;
 	public:
 
+	
 	};
 
 }

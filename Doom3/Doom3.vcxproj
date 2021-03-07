@@ -172,6 +172,7 @@
     <ClCompile Include="Source\Core\IO\AssetImporter\AssetImporterWorker_Shader.cpp" />
     <ClCompile Include="Source\Core\IO\AssetImporter\AssetImporterWorker_Text.cpp" />
     <ClCompile Include="Source\Core\IO\AssetImporter\AssetImporterWorker_Three_D_Model.cpp" />
+    <ClCompile Include="Source\Core\Macros\KeyCallback.cpp" />
     <ClCompile Include="Source\Core\OS\OS_Server.cpp" />
     <ClCompile Include="Source\Core\OS\Window.cpp" />
     <ClCompile Include="Source\Core\Physics\ColliderPickingTestRoom.cpp" />
@@ -281,6 +282,7 @@
     <ClInclude Include="Source\Core\Asset\eAssetType.h" />
     <ClInclude Include="Source\Core\Game\ConfigData.h" />
     <ClInclude Include="Source\Core\Graphics\TextureFormat.h" />
+    <ClInclude Include="Source\Core\Macros\KeyCallback.h" />
     <ClInclude Include="Source\Core\Math\LightMath_Cpp\Trigonometric.h" />
     <ClInclude Include="Source\Core\OS\OS.h" />
     <ClInclude Include="Source\Core\OS\OS_Server.h" />

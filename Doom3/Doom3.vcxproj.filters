@@ -324,6 +324,9 @@
     <ClCompile Include="Source\Core\Physics\ColliderPickingTestRoom.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Core\Macros\KeyCallback.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="dependency\glad\include\glad\glad.h">
@@ -921,6 +924,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\Core\Physics\ColliderPickingTestRoom.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Core\Macros\KeyCallback.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

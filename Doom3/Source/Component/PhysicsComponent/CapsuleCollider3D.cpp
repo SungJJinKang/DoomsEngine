@@ -1,16 +1,25 @@
 #include "CapsuleCollider3D.h"
 #include <Transform.h>
-void doom::CapsuleCollider3D::UpdateCorePhysicsVariable()
+
+void doom::CapsuleCollider3D::UpdateLocalCollider()
 {
-	this->mCapsuleCollider.mCenter = this->GetTransform()->GetPosition() + this->mOffset;
-	this->mCapsuleCollider.mRadius = this->mRadius;
-	this->mCapsuleCollider.mHeight = this->mHeight;
+	this->mLocalCapsuleCollider.mCenter = this->mOffset;
+	this->mLocalCapsuleCollider.mRadius = this->mRadius;
+	this->mLocalCapsuleCollider.mHeight = this->mHeight;
 }
 
-void doom::CapsuleCollider3D::SolveCollision()
+void doom::CapsuleCollider3D::UpdateWorldCollider()
 {
+	auto transform = this->GetTransform();
+	auto translate = transform->GetPosition();
+	auto scale = transform->GetScale();
 
+	this->mWorldCapsuleCollider.mCenter = this->mOffset + translate;
+	this->mWorldCapsuleCollider.mRadius = this->mRadius * scale.x;
+	this->mWorldCapsuleCollider.mHeight = this->mHeight * scale.y;
 }
+
+
 
 void doom::CapsuleCollider3D::AutoColliderSetting()
 {
@@ -27,7 +36,7 @@ void doom::CapsuleCollider3D::AutoColliderSetting()
 void doom::CapsuleCollider3D::SetHeight(float height)
 {
 	this->mHeight = height;
-	this->bmIsCorePhysicsVariableDirty = true;
+	this->bmIsLocalColliderDirty = true;
 }
 
 float doom::CapsuleCollider3D::GetHeight()
@@ -38,11 +47,16 @@ float doom::CapsuleCollider3D::GetHeight()
 void doom::CapsuleCollider3D::SetRadius(float radius)
 {
 	this->mRadius = radius;
-	this->bmIsCorePhysicsVariableDirty = true;
+	this->bmIsLocalColliderDirty = true;
 }
 
 float doom::CapsuleCollider3D::GetRadius()
 {
 	return this->mRadius;
+}
+
+doom::physics::Collider* doom::CapsuleCollider3D::GetWorldCollider()
+{
+	return &(this->mWorldCapsuleCollider);
 }
 

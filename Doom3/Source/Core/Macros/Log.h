@@ -12,9 +12,9 @@
 #else
 #define D_DEBUG_LOG(...)
 
-#define D_DEBUG_DRAW_2D_LINE(...)  
-#define D_DEBUG_DRAW_3D_LINE(...)  
+#define D_DEBUG_DRAW_2D_LINE(...)
+#define D_DEBUG_DRAW_3D_LINE(...)
 
-#define D_DEBUG_DRAW_2D_TRIANGLE(...)  
-#define D_DEBUG_DRAW_3D_TRIANGLE(...)  
+#define D_DEBUG_DRAW_2D_TRIANGLE(...)
+#define D_DEBUG_DRAW_3D_TRIANGLE(...)
 #endif

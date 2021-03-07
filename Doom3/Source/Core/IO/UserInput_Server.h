@@ -160,6 +160,7 @@ namespace doom
 		private:
 
 			static inline math::Vector2 mScrollOffset{};
+			static inline std::unordered_map<int, bool> mKeyToggle{};
 
 			/// <summary>
 			/// The callback functions receives the cursor position, measured in screen coordinates but relative to the top-left corner of the window content area. 
@@ -192,6 +193,11 @@ namespace doom
 
 			void UpdateCursorMode();
 		public:
+
+			[[nodiscard]] static bool GetKeyToggle(eKEY_CODE keyCode) noexcept
+			{
+				return UserInput_Server::mKeyToggle[keyCode];
+			}
 
 			/// <summary>
 			/// Key is being pressed ?

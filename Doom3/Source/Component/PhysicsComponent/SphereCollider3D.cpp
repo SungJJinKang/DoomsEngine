@@ -1,27 +1,36 @@
 #include "SphereCollider3D.h"
 #include <Transform.h>
-void doom::SphereCollider3D::UpdateCorePhysicsVariable()
+
+void doom::SphereCollider3D::UpdateLocalCollider()
 {
-	math::Vector2 pos = this->GetTransform()->GetPosition();
-	this->mSpere.mCenter = pos + this->mOffset;
-	this->mSpere.mRadius = this->mRadius;
+	this->mLocalSpere.mCenter = this->mOffset;
+	this->mLocalSpere.mRadius = this->mRadius;
 }
 
-void doom::SphereCollider3D::SolveCollision()
+void doom::SphereCollider3D::UpdateWorldCollider()
 {
+	auto transform = this->GetTransform();
+	auto translate = transform->GetPosition();
+	auto scale = transform->GetScale();
 
+	this->mWorldSpere.mCenter = this->mOffset + translate;
+	this->mWorldSpere.mRadius = this->mRadius * math::Max(math::Max(scale.x, scale.y), scale.z);
 }
-
 
 void doom::SphereCollider3D::SetRadius(float radius)
 {
 	this->mRadius = radius;
-	this->bmIsCorePhysicsVariableDirty = true;
+	this->bmIsLocalColliderDirty = true;
 }
 
 float doom::SphereCollider3D::GetRadius()
 {
 	return this->mRadius;
+}
+
+doom::physics::Collider* doom::SphereCollider3D::GetWorldCollider()
+{
+	return &(this->mWorldSpere);
 }
 
 void doom::SphereCollider3D::AutoColliderSetting()

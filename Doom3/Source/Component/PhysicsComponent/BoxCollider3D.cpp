@@ -1,32 +1,41 @@
 #include "BoxCollider3D.h"
 #include <Transform.h>
-void doom::BoxCollider3D::UpdateCorePhysicsVariable()
+
+void doom::BoxCollider3D::UpdateLocalCollider()
 {
-	math::Vector2 pos = this->GetTransform()->GetPosition();
-	this->mAABB3D.mLowerBound = pos + this->mOffset - this->mHalfExtent;
-	this->mAABB3D.mUpperBound = pos + this->mOffset + this->mHalfExtent;
+	this->mLocalAABB3D.mLowerBound = this->mOffset - this->mHalfExtent;
+	this->mLocalAABB3D.mUpperBound = this->mOffset + this->mHalfExtent;
 }
 
-void doom::BoxCollider3D::SolveCollision()
+void doom::BoxCollider3D::UpdateWorldCollider()
 {
+	auto transform = this->GetTransform();
 
+	physics::ApplyModelMatrixToAABB3D(this->mLocalAABB3D, transform->GetModelMatrix(), this->mWorldAABB3D);
 }
+
 
 void doom::BoxCollider3D::SetAABB3D(const physics::AABB3D& aabb3D)
 {
-	this->mAABB3D = aabb3D;
-	this->UpdateHalfExtent();
+	this->mOffset = (aabb3D.mLowerBound + aabb3D.mUpperBound) * 0.5f;
+	this->mHalfExtent = (aabb3D.mUpperBound - aabb3D.mLowerBound) * 0.5f;
+	this->bmIsLocalColliderDirty = true;
 }
 
-void doom::BoxCollider3D::UpdateHalfExtent()
+void doom::BoxCollider3D::SetHalfExtent(const math::Vector3& halfExtent)
 {
-	this->mHalfExtent = this->mAABB3D.GetHalfExtent();
-	this->bmIsCorePhysicsVariableDirty = true;
+	this->mHalfExtent = halfExtent;
+	this->bmIsLocalColliderDirty = true;
 }
 
-math::Vector3 doom::BoxCollider3D::GetHalfExtent()
+math::Vector3 doom::BoxCollider3D::GetHalfExtent() const
 {
 	return this->mHalfExtent;
+}
+
+doom::physics::Collider* doom::BoxCollider3D::GetWorldCollider()
+{
+	return &(this->mWorldAABB3D);
 }
 
 void doom::BoxCollider3D::AutoColliderSetting()

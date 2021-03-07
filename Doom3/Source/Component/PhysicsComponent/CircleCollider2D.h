@@ -9,15 +9,16 @@ namespace doom
 		friend class physics::Physics_Server;
 	private:
 
-		physics::Circle2D mCircle2D;
+		physics::Circle2D mLocalCircle2D;
+		physics::Circle2D mWorldCircle2D;
 
 		float mRadius;
 
-		void UpdateCorePhysicsVariable() override;
-		virtual void SolveCollision() final;
+		virtual void UpdateLocalCollider() final;
+		virtual void UpdateWorldCollider() final;
 
-	protected:
 		void AutoColliderSetting() override;
+		virtual physics::Collider* GetWorldCollider() final;
 
 	public:
 	
@@ -25,6 +26,7 @@ namespace doom
 		void SetRadius(float radius);
 		float GetRadius();
 
+		
 
 	};
 }

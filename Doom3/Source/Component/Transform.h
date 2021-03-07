@@ -23,7 +23,7 @@ namespace doom
 		/// but this modelMatrix is calculated when this is needed ( not every frame )
 		/// </summary>
 		math::Matrix4x4 mModelMatrix;
-		bool bmIsDirtyModelMatrix;
+		DirtyReceiver bmIsDirtyModelMatrix;
 
 		math::Matrix4x4 mLocalToWorldMatrix{ 1.0f };
 		math::Matrix4x4 mWorldToLocalMatrix{ 1.0f };
@@ -68,9 +68,7 @@ namespace doom
 		}
 		void SetRotation(const math::Vector3& eulerAngle)
 		{
-			this->mRotation = eulerAngle;
-			this->SetDirtyTrueAtThisFrame();
-			this->bmIsDirtyModelMatrix = true;
+			this->SetRotation(math::Quaternion(eulerAngle));
 		}
 		void SetRotation(const float eulerAngleX, const float eulerAngleY, const float eulerAngleZ)
 		{
@@ -126,7 +124,7 @@ namespace doom
 			else
 			{
 				this->mModelMatrix = math::translate(this->mPosition) * static_cast<math::Matrix4x4>(this->mRotation) * math::scale(this->mScale);
-			
+				
 				//this->mModelMatrix *= this->mLocalToWorldMatrix;
 
 				this->bmIsDirtyModelMatrix = false;

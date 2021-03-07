@@ -10,10 +10,7 @@ void doom::physics::ColliderPickingTestRoom::FixedUpdatePhysics()
 	auto cursorRay{ physics::Picking::GetCurrentCursorPointWorldRay() };
 	for (unsigned int i = 0; i < this->mTestColliders.size(); i++)
 	{
-		for (unsigned int j = 0; j < this->mTestColliders.size(); j++)
-		{
-			cursorRay.CheckCollision(this->mTestColliders[j]);
-		}
+		cursorRay.CheckCollision(this->mTestColliders[i]);
 	}
 }
 

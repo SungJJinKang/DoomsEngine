@@ -135,7 +135,7 @@ namespace doom
 				GraphicsAPI::DrawArray(this->mPrimitiveType, startIndexInComponent, vertexCount);
 			}
 
-			void DrawArray(ePrimitiveType primitiveType, int startVertexIndex, unsigned int vertexCount)
+			void DrawArray(ePrimitiveType primitiveType, int startVertexIndex, int vertexCount)
 			{
 				D_ASSERT(primitiveType != ePrimitiveType::NONE);
 

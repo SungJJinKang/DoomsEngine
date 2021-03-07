@@ -10,6 +10,7 @@
 #include <Rendering/Light/DirectionalLight.h>
 #include "AutoRotate.h"
 #include <TestComponent.h>
+#include "PhysicsComponent/BoxCollider3D.h"
 
 void doom::TEST::Init()
 {
@@ -30,12 +31,12 @@ void doom::TEST::Init()
 	material->AddTexture(graphics::eTextureBindingPoint::MetalnessTexture, assetimporter::AssetManager::GetAsset<asset::eAssetType::TEXTURE>("cerberus_M.dds"));
 	material->AddTexture(graphics::eTextureBindingPoint::RoughnessTexture, assetimporter::AssetManager::GetAsset<asset::eAssetType::TEXTURE>("cerberus_R.dds"));
 
-	for (int i = 0; i < 30; i++)
+	for (int i = 0; i < 1; i++)
 	{
 		for (int i = 0; i < threedasset->GetMeshCount(); i++)
 		{
 			auto entity = currenScene->CreateNewEntity();
-			entity->GetTransform()->SetScale(0.02f, 0.02f, 0.02f);
+			entity->GetTransform()->SetScale(0.2f, 0.2f, 0.2f);
 			entity->GetTransform()->SetPosition(Random::RandomFloatNumber(-10, 10), Random::RandomFloatNumber(-10, 10), Random::RandomFloatNumber(-10, 10));
 			auto meshRenderer = entity->AddComponent<MeshRenderer>();
 			meshRenderer->SetMesh(threedasset->GetMesh(i));
@@ -56,4 +57,10 @@ void doom::TEST::Init()
 
 	auto physicsEntity = currenScene->CreateNewEntity();
 	entity1->AddComponent<TestComponent>();
+
+	auto entity2 = currenScene->CreateNewEntity();
+	entity2->GetTransform()->SetPosition(2.0f, 1.0f, -1.0f);
+	auto entity2BoxCollider3D = entity2->AddComponent<BoxCollider3D>();
+	entity2BoxCollider3D->SetHalfExtent(math::Vector3(1.0f, 2.0f, 3.0f));
+	entity2->AddComponent<AutoRotate>();
 }

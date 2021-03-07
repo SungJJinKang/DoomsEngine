@@ -47,22 +47,22 @@ doom::graphics::DebugGraphics::DebugGraphics() : m2DMaterial{}, m3DMaterial{}, m
 {
 	for (size_t i = 0; i < this->m2dLine.size(); i++)
 	{
-		this->m2dLine[i].reserve(100);
+		this->m2dLine[i].reserve(10000);
 	}
 
 	for (size_t i = 0; i < this->m3dLine.size(); i++)
 	{
-		this->m3dLine[i].reserve(100);
+		this->m3dLine[i].reserve(10000);
 	}
 
 	for (size_t i = 0; i < this->m2dTriangle.size(); i++)
 	{
-		this->m2dTriangle[i].reserve(100);
+		this->m2dTriangle[i].reserve(10000);
 	}
 
 	for (size_t i = 0; i < this->m3dTriangle.size(); i++)
 	{
-		this->m3dTriangle[i].reserve(100);
+		this->m3dTriangle[i].reserve(10000);
 	}
 }
 
@@ -97,7 +97,7 @@ void doom::graphics::DebugGraphics::DrawDebug()
 		{
 			this->mDebugMesh.BufferSubData(lineCount * 6, this->m2dLine[i].data(), offsetComponentCount * sizeof(float));
 
-			D_ASSERT(MAX_DEBUG_VERTEX_COUNT >= alreadyDrawedVertexCount + lineCount * 3);
+			D_ASSERT(MAX_DEBUG_VERTEX_COUNT >= alreadyDrawedVertexCount + lineCount * 2);
 
 			this->m2DMaterial->SetVector4(0, Color::GetColor(static_cast<eColor>(i)));
 			this->mDebugMesh.DrawArray(ePrimitiveType::LINES, alreadyDrawedVertexCount, lineCount * 2);
@@ -137,7 +137,7 @@ void doom::graphics::DebugGraphics::DrawDebug()
 
 		
 
-			D_ASSERT(MAX_DEBUG_VERTEX_COUNT >= alreadyDrawedVertexCount + lineCount * 3);
+			D_ASSERT(MAX_DEBUG_VERTEX_COUNT >= alreadyDrawedVertexCount + lineCount * 2);
 
 			this->m3DMaterial->SetVector4(0, Color::GetColor(static_cast<eColor>(i)));
 			this->mDebugMesh.DrawArray(ePrimitiveType::LINES, alreadyDrawedVertexCount, lineCount * 2);

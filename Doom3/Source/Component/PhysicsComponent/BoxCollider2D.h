@@ -9,21 +9,29 @@ namespace doom
 		friend class physics::Physics_Server;
 	private:
 
-		physics::AABB2D mAABB2D;
+		/// <summary>
+		/// world aabb
+		/// </summary>
+		physics::AABB2D mLocalAABB2D;
+		physics::AABB2D mWorldAABB2D;
 
 		/// <summary>
 		/// positive extent,
 		/// </summary>
 		math::Vector2 mHalfExtent;
 
-		void UpdateCorePhysicsVariable() override;
-		virtual void SolveCollision() final;
-		void UpdateHalfExtent();
+		virtual void UpdateLocalCollider() final;
+		virtual void UpdateWorldCollider() final;
+
 		void AutoColliderSetting() override;
+
+		virtual physics::Collider* GetWorldCollider() final;
 
 	public:
 		void SetAABB2D(const physics::AABB2D& aabb2D);
-		math::Vector2 GetHalfExtent();
+
+		void SetHalfExtent(const math::Vector2& halfExtent);
+		math::Vector2 GetHalfExtent() const;
 
 	};
 }

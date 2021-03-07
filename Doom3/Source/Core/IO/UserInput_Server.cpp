@@ -47,6 +47,11 @@ void UserInput_Server::Scroll_Callback(GLFWwindow* window, double xoffset, doubl
 
 void UserInput_Server::Key_Callback(GLFWwindow* window, int key, int scancode, int action, int mods)
 {
+	if (action == GLFW_RELEASE)
+	{
+		UserInput_Server::mKeyToggle[key] = !UserInput_Server::mKeyToggle[key];
+	}
+
 	//D_DEBUG_LOG({ "Key Input Callback  :  ", std::to_string(key), "  ", std::to_string(action) }, eLogType::D_LOG);
 }
 

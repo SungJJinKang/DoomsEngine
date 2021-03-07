@@ -33,6 +33,9 @@ namespace doom
 
 			void FixedUpdateCollision();
 
+			void DrawDebugColliderComponents();
+			void SolveColliderComponents();
+
 			virtual void OnEndOfFrame() final;
 
 			void QueryCollision();

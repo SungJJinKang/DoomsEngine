@@ -11,7 +11,8 @@ void doom::physics::Collider::ClearCollision()
 
 void doom::physics::Collider::CheckCollision(Collider* collider)
 {
-	D_ASSERT(collider != nullptr);
+	if (collider == nullptr)
+		return;
 
 	auto solution = ColliderSolution::GetCollisionAlgorithm(this, collider);
 	if (solution != nullptr)

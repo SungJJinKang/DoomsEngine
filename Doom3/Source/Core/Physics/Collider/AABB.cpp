@@ -240,6 +240,35 @@ math::Vector2 doom::physics::ClosestPointToPoint(const AABB2D& aabb, const math:
 	return result;
 }
 
+void doom::physics::ApplyModelMatrixToAABB2D(const AABB2D& localAABB, const math::Matrix4x4& modelMatrix, AABB2D& resultAABB)
+{
+
+}
+
+void doom::physics::ApplyModelMatrixToAABB3D(const AABB3D& localAABB, const math::Matrix4x4& modelMatrix, AABB3D& resultAABB)
+{
+	for (int i = 0; i < 3; i++)
+	{
+		resultAABB.mLowerBound[i] = resultAABB.mUpperBound[i] = modelMatrix[3][i];
+
+		for (int j = 0; j < 3; j++)
+		{
+			float e = modelMatrix[i][j] * localAABB.mLowerBound[j];
+			float f = modelMatrix[i][j] * localAABB.mUpperBound[j];
+			if (e < f)
+			{
+				resultAABB.mLowerBound[i] += e;
+				resultAABB.mUpperBound[i] += f;
+			}
+			else
+			{
+				resultAABB.mLowerBound[i] += f;
+				resultAABB.mUpperBound[i] += e;
+			}
+		}
+	}
+}
+
 math::Vector3 doom::physics::ClosestPointToPoint(const AABB3D& aabb, const math::Vector3& point)
 {
 	math::Vector3 result{};

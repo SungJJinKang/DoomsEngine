@@ -17,9 +17,14 @@ namespace doom
 
 		void ResetAllCollisionState();
 	
+		void OnPreUpdatePhysics();
+		void UpdatePhysics();
+		void OnPostUpdatePhysics();
+
 	protected:
 
-		DirtyReceiver bmIsCorePhysicsVariableDirty{ true };
+		DirtyReceiver bmIsWorldColliderDirty{ true };
+		DirtyReceiver bmIsLocalColliderDirty{ true };
 
 		bool bmIsTrigger{ false };
 
@@ -41,8 +46,8 @@ namespace doom
 		void OnActivated() override;
 		void OnDeActivated() override;
 
-		virtual void UpdateCorePhysicsVariable() = 0;
-		virtual void SolveCollision() = 0;
+		virtual void UpdateWorldCollider() = 0;
+		virtual void UpdateLocalCollider() = 0;
 
 		/// <summary>
 		/// Set Collider variable depending on Renderer's mesh
@@ -55,11 +60,10 @@ namespace doom
 		/// <returns></returns>
 		bool GetMeshAABB3D(physics::AABB3D& aabb3D);
 
+		virtual physics::Collider* GetWorldCollider() = 0;
 	public:
 
-		void OnPreUpdatePhysics();
-		void UpdatePhysics();
-		void OnPostUpdatePhysics();
+	
 
 		bool GetIsColliderEnter()
 		{
@@ -91,6 +95,8 @@ namespace doom
 		{
 			return this->mbIsTriggerStay;
 		}
+
+		
 
 	};
 }

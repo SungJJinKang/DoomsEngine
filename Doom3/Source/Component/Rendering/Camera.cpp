@@ -12,7 +12,6 @@ void Camera::SetProjectionMode(eProjectionType value)
 	this->mProjectionMode = value;
 	this->SetDirtyTrueAtThisFrame();
 	this->bmIsProjectionMatrixDirty = true;
-	this->bmIsViewMatrixDirty = true;
 	this->bmIsViewProjectionMatrixDirty = true;
 }
 
@@ -21,7 +20,6 @@ void Camera::SetFieldOfView(float value)
 	this->mFieldOfViewInDegree = value;
 	this->SetDirtyTrueAtThisFrame();
 	this->bmIsProjectionMatrixDirty = true;
-	this->bmIsViewMatrixDirty = true;
 	this->bmIsViewProjectionMatrixDirty = true;
 }
 
@@ -30,7 +28,6 @@ void Camera::SetClippingPlaneNear(float value)
 	this->mClippingPlaneNear = value;
 	this->SetDirtyTrueAtThisFrame();
 	this->bmIsProjectionMatrixDirty = true;
-	this->bmIsViewMatrixDirty = true;
 	this->bmIsViewProjectionMatrixDirty = true;
 }
 
@@ -39,7 +36,6 @@ void Camera::SetClippingPlaneFar(float value)
 	this->mClippingPlaneFar = value;
 	this->SetDirtyTrueAtThisFrame();
 	this->bmIsProjectionMatrixDirty = true;
-	this->bmIsViewMatrixDirty = true;
 	this->bmIsViewProjectionMatrixDirty = true;
 }
 
@@ -48,7 +44,6 @@ void Camera::SetViewportRectX(float value)
 	this->mViewportRectX = value;
 	this->SetDirtyTrueAtThisFrame();
 	this->bmIsProjectionMatrixDirty = true;
-	this->bmIsViewMatrixDirty = true;
 	this->bmIsViewProjectionMatrixDirty = true;
 }
 
@@ -57,7 +52,6 @@ void Camera::SetViewportRectY(float value)
 	this->mViewportRectY = value;
 	this->SetDirtyTrueAtThisFrame();
 	this->bmIsProjectionMatrixDirty = true;
-	this->bmIsViewMatrixDirty = true;
 	this->bmIsViewProjectionMatrixDirty = true;
 }
 
@@ -66,7 +60,6 @@ void Camera::SetViewportRectWidth(float value)
 	this->mViewportRectWidth = value;
 	this->SetDirtyTrueAtThisFrame();
 	this->bmIsProjectionMatrixDirty = true;
-	this->bmIsViewMatrixDirty = true;
 	this->bmIsViewProjectionMatrixDirty = true;
 }
 
@@ -75,7 +68,6 @@ void Camera::SetViewportRectHeight(float value)
 	this->mViewportRectHeight = value;
 	this->SetDirtyTrueAtThisFrame();
 	this->bmIsProjectionMatrixDirty = true;
-	this->bmIsViewMatrixDirty = true;
 	this->bmIsViewProjectionMatrixDirty = true;
 }
 
@@ -184,7 +176,6 @@ const std::array<math::Vector4, 6>& doom::Camera::CalculateFrustumPlane()
 void Camera::InitComponent()
 {
 	this->AddLocalDirtyToTransformDirtyReceiver(this->bmIsViewMatrixDirty);
-	this->AddLocalDirtyToTransformDirtyReceiver(this->bmIsProjectionMatrixDirty);
 	this->AddLocalDirtyToTransformDirtyReceiver(this->bmIsViewProjectionMatrixDirty);
 	this->AddLocalDirtyToTransformDirtyReceiver(this->bmIsUboDirty);
 

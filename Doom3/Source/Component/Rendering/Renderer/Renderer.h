@@ -4,6 +4,9 @@
 #include "RendererStaticIterator.h"
 
 #include <Physics/Collider/AABB.h>
+
+#include <UserInput_Server.h>
+
 namespace doom
 {
 	namespace graphics
@@ -34,7 +37,7 @@ namespace doom
 	
 		DirtyReceiver IsWorldAABBDirty{ true };
 
-		
+		physics::AABB3D& GetWorldAABB3DByReference();
 
 	protected:
 		
@@ -48,7 +51,9 @@ namespace doom
 		virtual void UpdateComponent() override
 		{
 			this->Draw();
-			this->DrawAABB3D();
+
+			ONLY_WHEN_KEY_TOGGLE_ON(userinput::eKEY_CODE::KEY_F11, this->DrawAABB3D());
+		
 		}
 
 		virtual void OnEndOfFrame_Component() override
@@ -81,7 +86,7 @@ namespace doom
 		void SetMaterial(graphics::Material& material) noexcept;
 
 		physics::AABB3D GetWorldAABB3D();
-		const physics::AABB3D& GetWorldAABB3DByReference();
+	
 		const physics::AABB3D& GetLocalAABB3D() const;
 		physics::AABB3D GetLocalAABB3D();
 	};

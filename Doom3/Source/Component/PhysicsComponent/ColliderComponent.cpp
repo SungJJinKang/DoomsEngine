@@ -16,7 +16,7 @@ void doom::ColliderComponent::ResetAllCollisionState()
 
 void doom::ColliderComponent::InitComponent()
 {
-	this->AddLocalDirtyToTransformDirtyReceiver(this->bmIsCorePhysicsVariableDirty);
+	this->AddLocalDirtyToTransformDirtyReceiver(this->bmIsWorldColliderDirty);
 
 	this->AutoColliderSetting();
 }
@@ -68,19 +68,23 @@ void doom::ColliderComponent::OnPreUpdatePhysics()
 {
 	this->ResetAllCollisionState();
 
-	if (this->bmIsCorePhysicsVariableDirty.GetIsDirty(true))
+	if (this->bmIsLocalColliderDirty.GetIsDirty(true))
 	{
-		this->UpdateCorePhysicsVariable();
+		this->UpdateLocalCollider();
+		this->bmIsWorldColliderDirty.SetDirty(true);
+	}
+
+	if (this->bmIsWorldColliderDirty.GetIsDirty(true))
+	{
+		this->UpdateWorldCollider();
 	}
 }
 
 void doom::ColliderComponent::UpdatePhysics()
 {
-	this->SolveCollision();
 }
 
 void doom::ColliderComponent::OnPostUpdatePhysics()
 {
-
 }
 

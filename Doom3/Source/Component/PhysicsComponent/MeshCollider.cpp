@@ -1,11 +1,11 @@
 #include "MeshCollider.h"
 
-void doom::MeshCollider::UpdateCorePhysicsVariable()
+void doom::MeshCollider::UpdateLocalCollider()
 {
 
 }
 
-void doom::MeshCollider::SolveCollision()
+void doom::MeshCollider::UpdateWorldCollider()
 {
 
 }
@@ -13,4 +13,9 @@ void doom::MeshCollider::SolveCollision()
 void doom::MeshCollider::AutoColliderSetting()
 {
 
+}
+
+doom::physics::Collider* doom::MeshCollider::GetWorldCollider()
+{
+	return nullptr;
 }

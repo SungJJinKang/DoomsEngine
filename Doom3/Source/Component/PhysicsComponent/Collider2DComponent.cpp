@@ -3,7 +3,7 @@
 void doom::Collider2DComponent::SetOffset(const math::Vector2& offset)
 {
 	this->mOffset = offset;
-	this->bmIsCorePhysicsVariableDirty = true;
+	this->bmIsLocalColliderDirty = true;
 }
 
 math::Vector2 doom::Collider2DComponent::GetOffset()
