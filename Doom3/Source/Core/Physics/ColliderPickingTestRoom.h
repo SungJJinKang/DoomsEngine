@@ -21,7 +21,7 @@ namespace doom
 
 		public:
 			void FixedUpdatePhysics();
-
+			void DrawDebug();
 			void AddTestCollider(Collider* collider);
 		};
 	}

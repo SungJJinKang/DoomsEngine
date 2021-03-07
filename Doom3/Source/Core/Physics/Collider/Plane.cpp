@@ -63,6 +63,33 @@ math::Vector3 doom::physics::GetClosestPoint(const doom::physics::Plane& plane, 
 
 void doom::physics::Plane::Render(eColor color)
 {
+	auto debugGraphics = graphics::DebugGraphics::GetSingleton();
+
+	math::Vector3 arbitaryVector =
+		math::abs(this->mNormal.y) > math::epsilon<float>() || math::abs(this->mNormal.z) > math::epsilon<float>() ?
+		math::Vector3::right : math::Vector3::up;
+	
+	math::Vector3 Parallel1VectorToPlane = math::cross(this->mNormal, arbitaryVector);
+	math::Vector3 Parallel2VectorToPlane = math::cross(this->mNormal, Parallel1VectorToPlane);
+
+	float halfExtent = 10;
+	math::Vector3 center = this->mNormal * this->mDistance;
+
+
+	math::Vector3 a = center + Parallel1VectorToPlane * halfExtent + Parallel2VectorToPlane * halfExtent;
+	math::Vector3 b = center - Parallel1VectorToPlane * halfExtent + Parallel2VectorToPlane * halfExtent;
+	math::Vector3 c = center - Parallel1VectorToPlane * halfExtent - Parallel2VectorToPlane * halfExtent;
+	math::Vector3 d = center + Parallel1VectorToPlane * halfExtent - Parallel2VectorToPlane * halfExtent;
+	
+	debugGraphics->DebugDraw3DTriangle(a, b, c, color);
+	debugGraphics->DebugDraw3DTriangle(c, d, a, color);
+
+// 	debugGraphics->DebugDraw3DLine(a, b, color);
+// 	debugGraphics->DebugDraw3DLine(b, c, color);
+// 	debugGraphics->DebugDraw3DLine(c, d, color);
+// 	debugGraphics->DebugDraw3DLine(d, a, color);
+
+
 	/*
 	math::lookat
 	math::Quaternion quat{ this->mNormal };

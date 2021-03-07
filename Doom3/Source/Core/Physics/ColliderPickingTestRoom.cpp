@@ -15,7 +15,10 @@ void doom::physics::ColliderPickingTestRoom::FixedUpdatePhysics()
 			cursorRay.CheckCollision(this->mTestColliders[j]);
 		}
 	}
+}
 
+void doom::physics::ColliderPickingTestRoom::DrawDebug()
+{
 	for (unsigned int i = 0; i < this->mTestColliders.size(); i++)
 	{
 		this->mTestColliders[i]->DrawPhysicsDebug();

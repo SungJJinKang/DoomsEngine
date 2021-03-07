@@ -14,9 +14,9 @@ namespace doom
 	{
 	private:
 		doom::physics::Line line{ math::Vector3(0.0f), math::Vector3(10.0f, 10.0f, 10.0f) };
-		doom::physics::Plane plane{ 1, math::Vector3(1.0f, 0.0f, 0.0f) };
+		doom::physics::Plane plane{ 10, math::Vector3(-1.0f, 0.0f, 0.0f) };
 		doom::physics::AABB3D aabb{math::Vector3(20.0f), math::Vector3(25.0f)};
-		doom::physics::Sphere sphere{math::Vector3(0.0f), 0.5f };
+		doom::physics::Sphere sphere{math::Vector3(-15.0f, 0.0f, 0.0f), 5.0f };
 		doom::physics::Circle2D circle2d{ math::Vector2{0}, 0.5f };
 	protected:
 		void InitComponent() override;

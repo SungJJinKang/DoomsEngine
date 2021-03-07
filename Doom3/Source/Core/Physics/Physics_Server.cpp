@@ -9,6 +9,11 @@ void doom::physics::Physics_Server::Init()
 }
 
 
+void doom::physics::Physics_Server::Update()
+{
+	this->mColliderTestRoom.DrawDebug();
+}
+
 void doom::physics::Physics_Server::FixedUpdateCollision()
 {
 #ifdef DEBUG_MODE

@@ -19,7 +19,7 @@ namespace doom
 			ColliderPickingTestRoom mColliderTestRoom{};
 #endif
 			virtual void Init() final;
-			virtual void Update() final {}
+			virtual void Update() final;
 			virtual void FixedUpdate() final
 			{
 				D_START_PROFILING("FixedUpdateCollision", eProfileLayers::CPU);
