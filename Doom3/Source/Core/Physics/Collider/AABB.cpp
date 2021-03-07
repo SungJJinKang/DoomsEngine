@@ -1,4 +1,3 @@
-#define NOMINMAX
 
 #include "AABB.h"
 #include "../Graphics/DebugGraphics.h"
@@ -148,12 +147,12 @@ doom::physics::ColliderType doom::physics::AABB3D::GetColliderType() const
 
 doom::physics::AABB2D doom::physics::Union(const AABB2D& A, const AABB2D& B)
 {
-	return AABB2D(math::min(A.mLowerBound, B.mLowerBound), math::max(A.mUpperBound, B.mUpperBound));
+	return AABB2D(math::Min(A.mLowerBound, B.mLowerBound), math::Max(A.mUpperBound, B.mUpperBound));
 }
 
 doom::physics::AABB3D doom::physics::Union(const AABB3D& A, const AABB3D& B)
 {
-	return AABB3D(math::min(A.mLowerBound, B.mLowerBound), math::max(A.mUpperBound, B.mUpperBound));
+	return AABB3D(math::Min(A.mLowerBound, B.mLowerBound), math::Max(A.mUpperBound, B.mUpperBound));
 }
 
 /// <summary>

@@ -183,7 +183,6 @@ const std::array<math::Vector4, 6>& doom::Camera::CalculateFrustumPlane()
 
 void Camera::InitComponent()
 {
-	this->CreateTransformDirtyReceiver();
 	this->AddLocalDirtyToTransformDirtyReceiver(this->bmIsViewMatrixDirty);
 	this->AddLocalDirtyToTransformDirtyReceiver(this->bmIsProjectionMatrixDirty);
 	this->AddLocalDirtyToTransformDirtyReceiver(this->bmIsViewProjectionMatrixDirty);

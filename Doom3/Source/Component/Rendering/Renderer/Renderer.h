@@ -32,7 +32,7 @@ namespace doom
 		void UpdateWorldAABB3D();
 		physics::AABB3D mLocalAABB3D{};
 	
-		LocalDirty IsWorldAABBDirty{ true };
+		DirtyReceiver IsWorldAABBDirty{ true };
 
 		
 
@@ -43,7 +43,6 @@ namespace doom
 		virtual void InitComponent() override
 		{
 			RendererComponentStaticIterator::AddRendererToStaticContainer();
-			this->CreateTransformDirtyReceiver();
 			this->AddLocalDirtyToTransformDirtyReceiver(this->IsWorldAABBDirty);
 		}
 		virtual void UpdateComponent() override

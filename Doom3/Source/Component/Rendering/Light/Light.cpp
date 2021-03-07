@@ -2,7 +2,6 @@
 
 void doom::Light::InitComponent()
 {
-	this->CreateTransformDirtyReceiver();
 	this->AddLocalDirtyToTransformDirtyReceiver(bmIsLightUboDirty);
 }
 

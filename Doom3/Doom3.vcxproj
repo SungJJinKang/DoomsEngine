@@ -174,7 +174,7 @@
     <ClCompile Include="Source\Core\IO\AssetImporter\AssetImporterWorker_Three_D_Model.cpp" />
     <ClCompile Include="Source\Core\OS\OS_Server.cpp" />
     <ClCompile Include="Source\Core\OS\Window.cpp" />
-    <ClCompile Include="Source\Core\Physics\ColliderTestRoom.cpp" />
+    <ClCompile Include="Source\Core\Physics\ColliderPickingTestRoom.cpp" />
     <ClCompile Include="Source\Core\Physics\Collider\CapsuleCollider.cpp" />
     <ClCompile Include="Source\Component\PhysicsComponent\CapsuleCollider3D.cpp" />
     <ClCompile Include="main.cpp" />
@@ -203,6 +203,7 @@
     <ClCompile Include="Source\Core\Graphics\DebugGraphics.cpp" />
     <ClCompile Include="Source\Core\Graphics\Graphics_Server.cpp" />
     <ClCompile Include="Source\Core\IO\AssetImporter\AssetImporterWorker_Texture.cpp" />
+    <ClCompile Include="Source\Core\Physics\Collider\Collider.cpp" />
     <ClCompile Include="Source\Core\Physics\Collider\ColliderSolution.cpp" />
     <ClCompile Include="Source\Core\Physics\Collider\Line.cpp" />
     <ClCompile Include="Source\Core\Physics\Collider\PhysicsGeneric.cpp" />
@@ -259,9 +260,8 @@
     <ClCompile Include="Source\GameLogic\CustomComponent\Move_WASD.cpp" />
     <ClCompile Include="Source\GameLogic\CustomComponent\TestComponent.cpp" />
     <ClCompile Include="Source\GameLogic\Test.cpp" />
-    <ClCompile Include="Source\Helper\EasyDirtyChecker\DirtyReceiver.cpp" />
     <ClCompile Include="Source\Helper\EasyDirtyChecker\DirtySender.cpp" />
-    <ClCompile Include="Source\Helper\EasyDirtyChecker\LocalDirty.cpp" />
+    <ClCompile Include="Source\Helper\EasyDirtyChecker\DirtyReceiver.cpp" />
     <ClCompile Include="Source\Helper\SimpleIniParser.cpp" />
     <ClCompile Include="Source\Helper\TextImporter.cpp" />
     <ClCompile Include="Source\Component\PhysicsComponent\SphereCollider3D.cpp" />
@@ -285,7 +285,7 @@
     <ClInclude Include="Source\Core\OS\OS.h" />
     <ClInclude Include="Source\Core\OS\OS_Server.h" />
     <ClInclude Include="Source\Core\OS\Window.h" />
-    <ClInclude Include="Source\Core\Physics\ColliderTestRoom.h" />
+    <ClInclude Include="Source\Core\Physics\ColliderPickingTestRoom.h" />
     <ClInclude Include="Source\Core\Physics\Collider\CapsuleCollider.h" />
     <ClInclude Include="Source\Component\PhysicsComponent\CapsuleCollider3D.h" />
     <ClInclude Include="dependency\glad\include\glad\glad.h" />
@@ -438,9 +438,8 @@
     <ClInclude Include="Source\Helper\crossguid\Guid.hpp" />
     <ClInclude Include="Source\Helper\DeferredConstant\DeferredConstant.h" />
     <ClInclude Include="Source\Helper\EasyCallback_cpp\EasyCallback_Container.h" />
-    <ClInclude Include="Source\Helper\EasyDirtyChecker\DirtyReceiver.h" />
     <ClInclude Include="Source\Helper\EasyDirtyChecker\DirtySender.h" />
-    <ClInclude Include="Source\Helper\EasyDirtyChecker\LocalDirty.h" />
+    <ClInclude Include="Source\Helper\EasyDirtyChecker\DirtyReceiver.h" />
     <ClInclude Include="Source\Helper\ForLoop_Compile_Time\ForLoop_Compile.h" />
     <ClInclude Include="Source\Core\Graphics\OverlapBindChecker.h" />
     <ClInclude Include="Source\Helper\magic_enum.hpp" />

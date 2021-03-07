@@ -55,10 +55,10 @@ namespace doom
 		/// </summary>
 		float mViewportRectHeight = 2.0f;
 
-		LocalDirty bmIsProjectionMatrixDirty{ true };
-		LocalDirty bmIsViewMatrixDirty{ true };
-		LocalDirty bmIsViewProjectionMatrixDirty{ true };
-		LocalDirty bmIsFrustumPlaneMatrixDirty{ true };
+		DirtyReceiver bmIsProjectionMatrixDirty{ true };
+		DirtyReceiver bmIsViewMatrixDirty{ true };
+		DirtyReceiver bmIsViewProjectionMatrixDirty{ true };
+		DirtyReceiver bmIsFrustumPlaneMatrixDirty{ true };
 		math::Matrix4x4 mViewMatrix{};
 		math::Matrix4x4 mProjectionMatrix{};
 		math::Matrix4x4 mViewProjectionMatrix{};
@@ -69,7 +69,7 @@ namespace doom
 		virtual void UpdateComponent() final;
 		virtual void OnEndOfFrame_Component() final;
 
-		LocalDirty bmIsUboDirty{ true };
+		DirtyReceiver bmIsUboDirty{ true };
 		void UpdateUniformBufferObjectTempBuffer(graphics::UniformBufferObjectManager& uboManager) final;
 
 		void UpdateMainCamera();

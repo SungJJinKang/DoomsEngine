@@ -9,6 +9,8 @@
 
 #include <type_traits>
 
+#define DISABLE_PROFILING
+
 namespace doom
 {
 	namespace profiler
@@ -85,11 +87,17 @@ namespace doom
 
 		void StartProfiling(const char* name, eProfileLayers layer) noexcept
 		{
+#ifndef DISABLE_PROFILING
 			Profiler::_StartProfiling(name, layer);
+#endif // ! DISABLE_PROFILING
+
+			
 		}
 		void EndProfiling(const char* name) noexcept
 		{
+#ifndef DISABLE_PROFILING
 			Profiler::_EndProfiling(name);
+#endif // ! DISABLE_PROFILING
 		}
 	}
 }

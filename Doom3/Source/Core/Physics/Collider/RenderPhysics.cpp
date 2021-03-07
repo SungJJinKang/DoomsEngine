@@ -3,12 +3,9 @@
 #include "../Graphics/DebugGraphics.h"
 #include <MainTimer.h>
 
-void doom::physics::RenderPhysics::DrawPhysicsDebug()
-{
-	doom::physics::RenderPhysics::DrawPhysicsDebug(graphics::DebugGraphics::mDefaultDebugColor);
-}
 
-void doom::physics::RenderPhysics::DrawPhysicsDebug(eColor color)
+
+void doom::physics::RenderPhysics::DrawPhysicsDebugColor(eColor color)
 {
 	if (Physics_Server::IsShowDebug == true)
 	{

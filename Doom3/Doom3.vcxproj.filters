@@ -213,12 +213,6 @@
     <ClCompile Include="Source\Helper\EasyDirtyChecker\DirtySender.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Helper\EasyDirtyChecker\DirtyReceiver.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Helper\EasyDirtyChecker\LocalDirty.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Source\Component\PhysicsComponent\ColliderComponent.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -262,9 +256,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Source\Core\OS\OS_Server.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Core\Physics\ColliderTestRoom.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Source\Core\Physics\Collider\ColliderSolution.cpp">
@@ -322,6 +313,15 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Source\Component\Rendering\Renderer\RendererStaticIterator.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Helper\EasyDirtyChecker\DirtyReceiver.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Core\Physics\Collider\Collider.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Core\Physics\ColliderPickingTestRoom.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -800,12 +800,6 @@
     <ClInclude Include="Source\Helper\EasyDirtyChecker\DirtySender.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Helper\EasyDirtyChecker\DirtyReceiver.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Helper\EasyDirtyChecker\LocalDirty.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Core\Math\LightMath_Cpp\Trigonometric.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -861,9 +855,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\Core\Game\ConfigData.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Core\Physics\ColliderTestRoom.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\Helper\StaticContainer\StaticContainer.h">
@@ -933,6 +924,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\Core\Asset\eAssetType.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Helper\EasyDirtyChecker\DirtyReceiver.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Core\Physics\ColliderPickingTestRoom.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -1,4 +1,5 @@
 #define ASSIMP_DETAIL
+#define NOMINMAX
 #include "AssetImporterWorker_Three_D_Model.h"
 
 #include <cstring>

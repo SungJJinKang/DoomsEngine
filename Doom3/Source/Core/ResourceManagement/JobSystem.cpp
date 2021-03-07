@@ -9,7 +9,7 @@ using namespace doom::resource;
 
 void JobSystem::Init()
 {
-	JobSystem::SUB_THREAD_COUNT = math::max(MAX_SUB_THREAD_COUNT, std::thread::hardware_concurrency() - 1); // Set core count - 1 to  sub thread count 
+	JobSystem::SUB_THREAD_COUNT = math::Max(MAX_SUB_THREAD_COUNT, std::thread::hardware_concurrency() - 1); // Set core count - 1 to  sub thread count 
 	this->InitializeSubThreads();
 }
 

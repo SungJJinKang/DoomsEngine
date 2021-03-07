@@ -19,8 +19,7 @@ namespace doom
 	
 	protected:
 
-		DirtyReceiver mTransformDirtyReceiver;
-		LocalDirty bmIsCorePhysicsVariableDirty{ true };
+		DirtyReceiver bmIsCorePhysicsVariableDirty{ true };
 
 		bool bmIsTrigger{ false };
 

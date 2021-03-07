@@ -51,12 +51,7 @@
 * }
 */
 
-#define DISABLE_PROFILING
-#ifdef RELEASE_MODE
-#define DISABLE_PROFILING
-#endif
-
-#if defined(DEBUG_MODE) && !defined(DISABLE_PROFILING)
+#if defined(DEBUG_MODE)
 #include "../Profiler/Profiler.h"
 #define D_START_PROFILING(name, layer) doom::profiler::StartProfiling(name, layer)
 #define D_END_PROFILING(name) doom::profiler::EndProfiling(name)

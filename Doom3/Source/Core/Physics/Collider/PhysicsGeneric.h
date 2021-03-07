@@ -29,9 +29,9 @@ namespace doom
 
 
 
-		bool RaycastRayAndAABB3D(const Ray& ray, const AABB3D& aabb);
-		bool RaycastRayAndSphere(const Ray& ray, const Sphere& sphere);
-		bool RaycastRayAndPlane(const Ray& ray, const Plane& plane); 
+		float RaycastRayAndAABB3D(const Ray& ray, const AABB3D& aabb);
+		float RaycastRayAndSphere(const Ray& ray, const Sphere& sphere);
+		float RaycastRayAndPlane(const Ray& ray, const Plane& plane); 
 		bool RaycastRayAndAABB3D(Collider* ray, Collider* aabb);
 		bool RaycastRayAndSphere(Collider* ray, Collider* sphere);
 		bool RaycastRayAndPlane(Collider* ray, Collider* plane);

@@ -20,9 +20,9 @@ bool doom::physics::IsOverlapSphereAndAABB3D(Collider* sphere, Collider* aabb)
 math::Vector3 doom::physics::GetClosestPointOnAABB(const Sphere& sphere, const AABB3D& aabb)
 {
 	math::Vector3 closestPoint{};
-	closestPoint.x = math::min(math::max(sphere.mCenter.x, aabb.mLowerBound.x), aabb.mUpperBound.x);
-	closestPoint.y = math::min(math::max(sphere.mCenter.y, aabb.mLowerBound.y), aabb.mUpperBound.y);
-	closestPoint.z = math::min(math::max(sphere.mCenter.z, aabb.mLowerBound.z), aabb.mUpperBound.z);
+	closestPoint.x = math::Min(math::Max(sphere.mCenter.x, aabb.mLowerBound.x), aabb.mUpperBound.x);
+	closestPoint.y = math::Min(math::Max(sphere.mCenter.y, aabb.mLowerBound.y), aabb.mUpperBound.y);
+	closestPoint.z = math::Min(math::Max(sphere.mCenter.z, aabb.mLowerBound.z), aabb.mUpperBound.z);
 
 	return closestPoint;
 }
@@ -73,7 +73,7 @@ bool doom::physics::IsOverlapAABB3DAndPlane(Collider* aabb, Collider* plane)
 	return IsOverlapAABB3DAndPlane(*static_cast<AABB3D*>(aabb), *static_cast<Plane*>(plane));
 }
 
-bool doom::physics::RaycastRayAndAABB3D(const Ray& ray, const AABB3D& aabb) {
+float doom::physics::RaycastRayAndAABB3D(const Ray& ray, const AABB3D& aabb) {
 	auto normal = ray.GetNormal();
 
 	float t1 = (aabb.mLowerBound.x - ray.mOrigin.x) / normal.x;
@@ -83,28 +83,28 @@ bool doom::physics::RaycastRayAndAABB3D(const Ray& ray, const AABB3D& aabb) {
 	float t5 = (aabb.mLowerBound.z - ray.mOrigin.z) / normal.z;
 	float t6 = (aabb.mUpperBound.z - ray.mOrigin.z) / normal.z;
 
-	float tmin = math::max(math::max(math::min(t1, t2), math::min(t3, t4)), math::min(t5, t6));
-	float tmax = math::min(math::min(math::max(t1, t2), math::max(t3, t4)), math::max(t5, t6));
+	float tMin = math::Max(math::Max(math::Min(t1, t2), math::Min(t3, t4)), math::Min(t5, t6));
+	float tMax = math::Min(math::Min(math::Max(t1, t2), math::Max(t3, t4)), math::Max(t5, t6));
 
-	// if tmax < 0, ray (line) is intersecting AABB, but whole AABB is behing us
-	if (tmax < 0) {
+	// if tMax < 0, ray (line) is intersecting AABB, but whole AABB is behing us
+	if (tMax < 0) {
 		return -1;
 	}
 
-	// if tmin > tmax, ray doesn't intersect AABB
-	if (tmin > tmax) {
+	// if tMin > tMax, ray doesn't intersect AABB
+	if (tMin > tMax) {
 		return -1;
 	}
 
-	if (tmin < 0.0f) {
-		return tmax;
+	if (tMin < 0.0f) {
+		return tMax;
 	}
-	return tmin;
+	return tMin;
 }
 
 bool doom::physics::RaycastRayAndAABB3D(Collider* ray, Collider* aabb)
 {
-	return RaycastRayAndAABB3D(*static_cast<Ray*>(ray), *static_cast<AABB3D*>(aabb));
+	return RaycastRayAndAABB3D(*static_cast<Ray*>(ray), *static_cast<AABB3D*>(aabb)) > 0;
 }
 
 /// <summary>
@@ -113,7 +113,7 @@ bool doom::physics::RaycastRayAndAABB3D(Collider* ray, Collider* aabb)
 /// <param name="ray"></param>
 /// <param name="sphere"></param>
 /// <returns></returns>
-bool doom::physics::RaycastRayAndSphere(const Ray& ray, const Sphere& sphere)
+float doom::physics::RaycastRayAndSphere(const Ray& ray, const Sphere& sphere)
 {
 	math::Vector3 fromRayToSphere = sphere.mCenter - ray.mOrigin;
 	float e = fromRayToSphere.magnitude();
@@ -136,10 +136,10 @@ bool doom::physics::RaycastRayAndSphere(const Ray& ray, const Sphere& sphere)
 
 bool doom::physics::RaycastRayAndSphere(Collider* ray, Collider* sphere)
 {
-	return RaycastRayAndSphere(*static_cast<Ray*>(ray), *static_cast<Sphere*>(sphere));
+	return RaycastRayAndSphere(*static_cast<Ray*>(ray), *static_cast<Sphere*>(sphere)) > 0;
 }
 
-bool doom::physics::RaycastRayAndPlane(const Ray& ray, const Plane& plane)
+float doom::physics::RaycastRayAndPlane(const Ray& ray, const Plane& plane)
 {
 	float denom = math::dot(ray.GetNormal(), plane.GetNormal());
 	if (math::abs(denom) > math::epsilon<float>())
@@ -156,7 +156,7 @@ bool doom::physics::RaycastRayAndPlane(const Ray& ray, const Plane& plane)
 
 bool doom::physics::RaycastRayAndPlane(Collider* ray, Collider* plane)
 {
-	return RaycastRayAndPlane(*static_cast<Ray*>(ray), *static_cast<Plane*>(plane));
+	return RaycastRayAndPlane(*static_cast<Ray*>(ray), *static_cast<Plane*>(plane)) > 0;
 }
 
 float doom::physics::CheckLenghIsShorterThanLine(const Line& line, float length)
@@ -177,7 +177,7 @@ float doom::physics::CheckLenghIsShorterThanLine(const Line& line, float length)
 
 bool doom::physics::RaycastLineAndAABB3D(const Line& line, const AABB3D& aabb)
 {
-	return CheckLenghIsShorterThanLine(line, RaycastRayAndAABB3D(static_cast<Ray>(line), aabb));
+	return CheckLenghIsShorterThanLine(line, RaycastRayAndAABB3D(static_cast<Ray>(line), aabb)) > 0;
 }
 
 bool doom::physics::RaycastLineAndAABB3D(Collider* line, Collider* aabb)
@@ -187,7 +187,7 @@ bool doom::physics::RaycastLineAndAABB3D(Collider* line, Collider* aabb)
 
 bool doom::physics::RaycastLineAndSphere(const Line& line, const Sphere& sphere)
 {
-	return CheckLenghIsShorterThanLine(line, RaycastRayAndSphere(static_cast<Ray>(line), sphere));
+	return CheckLenghIsShorterThanLine(line, RaycastRayAndSphere(static_cast<Ray>(line), sphere)) > 0;
 }
 
 bool doom::physics::RaycastLineAndSphere(Collider* line, Collider* sphere)
@@ -197,7 +197,7 @@ bool doom::physics::RaycastLineAndSphere(Collider* line, Collider* sphere)
 
 bool doom::physics::RaycastLineAndPlane(const Line& line, const Plane& plane)
 {
-	return CheckLenghIsShorterThanLine(line, RaycastRayAndPlane(static_cast<Ray>(line), plane));
+	return CheckLenghIsShorterThanLine(line, RaycastRayAndPlane(static_cast<Ray>(line), plane)) > 0;
 }
 
 bool doom::physics::RaycastLineAndPlane(Collider* line, Collider* plane)

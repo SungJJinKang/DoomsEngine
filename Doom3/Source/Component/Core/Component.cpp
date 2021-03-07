@@ -14,20 +14,9 @@ Component::Component() : bIsAddedToEntity{}, mOwnerEntity{}, mTransform{}, mIsAc
 
 }
 
-
-
-void Component::CreateTransformDirtyReceiver()
+void Component::AddLocalDirtyToTransformDirtyReceiver(DirtyReceiver& localDirty)
 {
-	this->mTransformDirtyReceiver = std::make_unique<DirtyReceiver>();
-
-	DirtySender* sender = this->GetTransform()->GetDirtySender();
-	this->mTransformDirtyReceiver->SetDirtySender(sender);
-}
-
-void Component::AddLocalDirtyToTransformDirtyReceiver(LocalDirty& localDirty)
-{
-	D_ASSERT(this->mTransformDirtyReceiver);
-	this->mTransformDirtyReceiver->AddLocalIsDirtyVariable(&localDirty);
+	this->GetTransform()->mDirtySender.AddDirtyReceiver(&localDirty);
 }
 
 void doom::Component::InitComponent_Internal(Entity* entity)

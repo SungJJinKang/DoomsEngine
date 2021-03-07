@@ -171,7 +171,9 @@ void doom::graphics::DebugGraphics::DrawDebug()
 
 void doom::graphics::DebugGraphics::DebugDraw3DLine(const math::Vector3& startWorldPos, const math::Vector3& endWorldPos, eColor color)
 {
+#ifdef DEBUG_MODE
 	this->m3dLine[static_cast<unsigned int>(color)].emplace_back(startWorldPos, endWorldPos);
+#endif
 }
 
 /// <summary>
@@ -184,6 +186,7 @@ void doom::graphics::DebugGraphics::DebugDraw3DLine(const math::Vector3& startWo
 /// <param name="color"></param>
 void doom::graphics::DebugGraphics::DebugDraw2DLine(const math::Vector3& startNDCPos, const math::Vector3& endNDCPos, eColor color, bool resizeByScreenRatio)
 {
+#ifdef DEBUG_MODE
 	if (resizeByScreenRatio)
 	{
 		float screenRatio = Graphics_Server::GetScreenRatio();
@@ -196,11 +199,12 @@ void doom::graphics::DebugGraphics::DebugDraw2DLine(const math::Vector3& startND
 	{
 		this->m2dLine[static_cast<unsigned int>(color)].emplace_back(startNDCPos, startNDCPos);
 	}
-	
+#endif
 }
 
 void doom::graphics::DebugGraphics::DebugDraw2DTriangle(const math::Vector3& pointA, const math::Vector3& pointB, const math::Vector3& pointC, eColor color, bool resizeByScreenRatio)
 {
+#ifdef DEBUG_MODE
 	if (resizeByScreenRatio)
 	{
 		float screenRatio = Graphics_Server::GetScreenRatio();
@@ -214,13 +218,16 @@ void doom::graphics::DebugGraphics::DebugDraw2DTriangle(const math::Vector3& poi
 	{
 		this->m2dTriangle[static_cast<unsigned int>(color)].emplace_back(pointA, pointB, pointC);
 	}
+#endif
 }
 
 void doom::graphics::DebugGraphics::DebugDraw3DTriangle(const math::Vector3& pointA, const math::Vector3& pointB, const math::Vector3& pointC, eColor color)
 {
+#ifdef DEBUG_MODE
 	this->m3dTriangle[static_cast<unsigned int>(color)].emplace_back(pointA, pointB, pointC);
 
 	//For Drawing both face
 	this->m3dTriangle[static_cast<unsigned int>(color)].emplace_back(pointC, pointB, pointA);
+#endif
 }
 

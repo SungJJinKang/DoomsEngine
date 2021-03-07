@@ -2,7 +2,7 @@
 #include "../Core.h"
 #include "../Game/IGameFlow.h"
 #include "Picking.h"
-#include "ColliderTestRoom.h"
+#include "ColliderPickingTestRoom.h"
 
 namespace doom
 {
@@ -16,7 +16,7 @@ namespace doom
 		private:
 			Picking mPicking{};
 #ifdef DEBUG_MODE
-			ColliderTestRoom mColliderTestRoom{};
+			ColliderPickingTestRoom mColliderTestRoom{};
 #endif
 			virtual void Init() final;
 			virtual void Update() final {}

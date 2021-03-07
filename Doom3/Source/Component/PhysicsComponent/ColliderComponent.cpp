@@ -16,7 +16,6 @@ void doom::ColliderComponent::ResetAllCollisionState()
 
 void doom::ColliderComponent::InitComponent()
 {
-	this->CreateTransformDirtyReceiver();
 	this->AddLocalDirtyToTransformDirtyReceiver(this->bmIsCorePhysicsVariableDirty);
 
 	this->AutoColliderSetting();

@@ -1,6 +1,7 @@
 #pragma once
 #include <vector>
 #include <EasyDirtyChecker/DirtySender.h>
+#include <EasyDirtyChecker/DirtyReceiver.h>
 namespace doom
 {
 	/// <summary>
@@ -25,11 +26,11 @@ namespace doom
 
 		bool bmIsDirtyAtThisFrame{ true };
 
-		DirtySender mDirtySender{};
+		
 
 	protected:
 		
-		
+		DirtySender mDirtySender{};
 		
 		/// <summary>
 		/// Use can't set dirty false
@@ -60,11 +61,6 @@ namespace doom
 		[[nodiscard]] constexpr bool GetIsDirtyAtPreviousFrame() noexcept
 		{
 			return this->bmIsDirtyAtPreviousFrame;
-		}
-
-		DirtySender* GetDirtySender()
-		{
-			return &(this->mDirtySender);
 		}
 
 

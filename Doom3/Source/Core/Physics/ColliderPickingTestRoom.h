@@ -9,7 +9,7 @@ namespace doom
 	namespace physics
 	{
 		class Collider;
-		class ColliderTestRoom : public ISingleton<ColliderTestRoom>
+		class ColliderPickingTestRoom : public ISingleton<ColliderPickingTestRoom>
 		{
 			friend class Physics_Server;
 		private:

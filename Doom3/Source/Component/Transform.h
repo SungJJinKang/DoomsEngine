@@ -15,6 +15,8 @@ namespace doom
 
 	class Transform : public PlainComponent
 	{
+		friend class Component;
+
 	private:
 		/// <summary>
 		/// why don't use FrameDirtyChecker::IsDirty -> FrameDirtyChecker is changed when pass frame

@@ -23,7 +23,7 @@ namespace doom
 		float mIndirectMultiplier{ 1 };
 		math::Vector4 mColor{ 1 };
 
-		LocalDirty bmIsLightUboDirty{ true };
+		DirtyReceiver bmIsLightUboDirty{ true };
 		
 	public:
 		Light() = default;

@@ -52,13 +52,10 @@ namespace doom
 		
 		bool mIsActivated;
 
-		std::unique_ptr<DirtyReceiver> mTransformDirtyReceiver{ nullptr };
-	
 	
 	protected:
 
-		void CreateTransformDirtyReceiver();
-		void AddLocalDirtyToTransformDirtyReceiver(LocalDirty& localDirty);
+		void AddLocalDirtyToTransformDirtyReceiver(DirtyReceiver& localDirty);
 
 		Component();
 

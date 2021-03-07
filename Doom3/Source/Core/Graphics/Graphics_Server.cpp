@@ -68,8 +68,16 @@ void Graphics_Server::Init()
 		return;
 	}
 
+#ifdef DEBUG_MODE
+	std::string vendor{ GraphicsAPI::GetString(GraphicsAPI::GetStringParameter::VENDOR) };
+	if (vendor.find("ATI") != std::string::npos)
+	{
+		D_DEBUG_LOG("Using AMD on board GPU, Maybe This will make driver error", eLogType::D_ERROR);
+	}
+#endif // 
+	
 	D_DEBUG_LOG({ "Current OpenGL version is : ", std::string(GraphicsAPI::GetString(GraphicsAPI::GetStringParameter::VERSION)) });
-	D_DEBUG_LOG({ "Vendor is : ", std::string(GraphicsAPI::GetString(GraphicsAPI::GetStringParameter::VENDOR)) });
+	D_DEBUG_LOG({ "Vendor is : ", vendor});
 	D_DEBUG_LOG({ "Renderer is : ", std::string(GraphicsAPI::GetString(GraphicsAPI::GetStringParameter::RENDERER)) });
 	glfwSetInputMode(Window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
 	//
