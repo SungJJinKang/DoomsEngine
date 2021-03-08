@@ -5,7 +5,6 @@
 #include <Vector2.h>
 #include <Vector3.h>
 #include "Collider.h"
-#include "Ray.h"
 #include <Matrix4x4.h>
 
 namespace doom
@@ -76,6 +75,12 @@ namespace doom
 
 		math::Vector3 ClosestPointToPoint(const AABB3D& aabb, const math::Vector3& point);
 
+		/// <summary>
+		/// https://twitter.com/Herschel/status/1188613724665335808
+		/// </summary>
+		/// <param name="localAABB"></param>
+		/// <param name="modelMatrix"></param>
+		/// <param name="resultAABB"></param>
 		void ApplyModelMatrixToAABB3D(const AABB3D& localAABB, const math::Matrix4x4& modelMatrix, AABB3D& resultAABB);
 
 		class AABB2D : public Collider
@@ -127,6 +132,12 @@ namespace doom
 		bool IsOverlapAABB2DAndAABB2D(Collider* aabb, Collider* B);
 		math::Vector2 ClosestPointToPoint(const AABB2D& aabb, const math::Vector2& point);
 	
+		/// <summary>
+		/// https://twitter.com/Herschel/status/1188613724665335808
+		/// </summary>
+		/// <param name="localAABB"></param>
+		/// <param name="modelMatrix"></param>
+		/// <param name="resultAABB"></param>
 		void ApplyModelMatrixToAABB2D(const AABB2D& localAABB, const math::Matrix4x4& modelMatrix, AABB2D& resultAABB);
 	}
 }

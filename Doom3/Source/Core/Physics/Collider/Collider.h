@@ -9,6 +9,7 @@ namespace doom
 		class Collider : public RenderPhysics, public StaticContainer<Collider>
 		{
 			friend class ColliderPickingTestRoom;
+			friend class Physics_Server;
 		private :
 			bool bmIsCollision{ false };
 			void ClearCollision();
@@ -20,7 +21,6 @@ namespace doom
 		public:
 			
 			virtual ColliderType GetColliderType() const = 0;
-			void CheckCollision(Collider* collider);
 
 			virtual void DrawPhysicsDebug() final;
 		};

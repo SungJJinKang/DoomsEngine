@@ -9,6 +9,7 @@ namespace doom
 		class Collider;
 		class AABB2D;
 		class AABB3D;
+		class Circle2D;
 		class Line;
 		class Plane;
 		class Ray;
@@ -29,10 +30,10 @@ namespace doom
 
 
 
-		float RaycastRayAndAABB3D(const Ray& ray, const AABB3D& aabb);
+		float RaycastRayAndAABB3D(const Ray& rayCollider, const AABB3D& aabbCollider);
 		float RaycastRayAndSphere(const Ray& ray, const Sphere& sphere);
 		float RaycastRayAndPlane(const Ray& ray, const Plane& plane); 
-		bool RaycastRayAndAABB3D(Collider* ray, Collider* aabb);
+		bool RaycastRayAndAABB3D(Collider * rayCollider, Collider * aabbCollider);
 		bool RaycastRayAndSphere(Collider* ray, Collider* sphere);
 		bool RaycastRayAndPlane(Collider* ray, Collider* plane);
 
@@ -44,12 +45,26 @@ namespace doom
 		/// <param name="length"></param>
 		/// <returns></returns>
 		float CheckLenghIsShorterThanLine(const Line& line, float length);
-		bool RaycastLineAndAABB3D(const Line& line, const AABB3D& aabb);
-		bool RaycastLineAndSphere(const Line& line, const Sphere& sphere);
-		bool RaycastLineAndPlane(const Line& line, const Plane& plane); 
+		float RaycastLineAndAABB3D(const Line& line, const AABB3D& aabb);
+		float RaycastLineAndSphere(const Line& line, const Sphere& sphere);
+		float RaycastLineAndPlane(const Line& line, const Plane& plane);
 		bool RaycastLineAndAABB3D(Collider* line, Collider* aabb);
 		bool RaycastLineAndSphere(Collider* line, Collider* sphere);
 		bool RaycastLineAndPlane(Collider* line, Collider* plane);
+
+
+		//
+		// 2D
+
+		float RaycastRayAndAABB2D(const Ray& ray, const AABB2D& aabb);
+		float RaycastRayAndCirecle2D(const Ray& ray, const Circle2D& circle2d);
+		bool RaycastRayAndAABB2D(Collider* rayCollider, Collider* aabbCollider);
+		bool RaycastRayAndCirecle2D(Collider* rayCollider, Collider* circle2dCollider);
+
+		float RaycastLineAndAABB2D(const Line& line, const AABB2D& aabb);
+		float RaycastLineAndCirecle2D(const Line& line, const Circle2D& circle2d);
+		bool RaycastLineAndAABB2D(Collider* lineCollider, Collider* aabbCollider);
+		bool RaycastLineAndCirecle2D(Collider* lineCollider, Collider* circle2dCollider);
 
 	}
 }

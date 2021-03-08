@@ -304,9 +304,8 @@ math::Vector3 doom::Camera::NDCToWorldPoint(const math::Vector3& ndcPoint)
 	vec4NDCPoint.w = 1;
 
 	math::Vector4 resultPoint{ invViewAndProjectionMatrix * vec4NDCPoint };
-	resultPoint /= resultPoint.w;
 	//resultPoint.z = -resultPoint.z; // OpenGl basically use right hand coordinate, but NDC use left hand coordinate
-	return resultPoint;
+	return resultPoint /= resultPoint.w;
 }
 
 math::Vector3 doom::Camera::WorldToNDCPoint(const math::Vector3& worldPosition)

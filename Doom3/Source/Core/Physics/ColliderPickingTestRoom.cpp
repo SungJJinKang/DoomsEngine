@@ -10,7 +10,11 @@ void doom::physics::ColliderPickingTestRoom::FixedUpdatePhysics()
 	auto cursorRay{ physics::Picking::GetCurrentCursorPointWorldRay() };
 	for (unsigned int i = 0; i < this->mTestColliders.size(); i++)
 	{
-		cursorRay.CheckCollision(this->mTestColliders[i]);
+		bool isOverlap = ColliderSolution::CheckIsOverlap(&cursorRay, this->mTestColliders[i]);
+		if (isOverlap)
+		{
+			this->mTestColliders[i]->bmIsCollision = true;
+		}
 	}
 }
 

@@ -170,7 +170,7 @@ namespace doom
 			static inline math::Vector2  mCurrentCursorScreenPosition{};
 			static inline math::Vector2  mCurrentCursorNDCPosition{};
 			static inline math::Vector3  mCurrentCursorWorldPosition{};
-			static inline void UpdateCurrentCursorScreenPosition();
+			static void UpdateCurrentCursorScreenPosition();
 		
 			static inline math::Vector2  mDeltaCursorScreenPosition{};
 

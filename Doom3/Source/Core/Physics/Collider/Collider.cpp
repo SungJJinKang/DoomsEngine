@@ -9,32 +9,6 @@ void doom::physics::Collider::ClearCollision()
 	this->bmIsCollision = false;
 }
 
-void doom::physics::Collider::CheckCollision(Collider* collider)
-{
-	if (collider == nullptr)
-		return;
-
-	auto solution = ColliderSolution::GetCollisionAlgorithm(this, collider);
-	if (solution != nullptr)
-	{
-		bool IsCollision = solution(this, collider);
-		if (IsCollision == true)
-		{
-			this->bmIsCollision = true;
-			collider->bmIsCollision = true;
-		}
-		else
-		{
-			//Never Do This, Reset will be called in Physcis_Server
-			//this->bmIsCollision = false;
-			//collider->bmIsCollision = false;
-		}
-
-	}
-	
-}
-
-
 void doom::physics::Collider::DrawPhysicsDebug()
 {
 	if (this->bmIsCollision)

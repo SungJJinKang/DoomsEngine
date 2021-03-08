@@ -31,13 +31,13 @@ void doom::TEST::Init()
 	material->AddTexture(graphics::eTextureBindingPoint::MetalnessTexture, assetimporter::AssetManager::GetAsset<asset::eAssetType::TEXTURE>("cerberus_M.dds"));
 	material->AddTexture(graphics::eTextureBindingPoint::RoughnessTexture, assetimporter::AssetManager::GetAsset<asset::eAssetType::TEXTURE>("cerberus_R.dds"));
 
-	for (int i = 0; i < 1; i++)
+	for (int i = 0; i < 15; i++)
 	{
 		for (int i = 0; i < threedasset->GetMeshCount(); i++)
 		{
 			auto entity = currenScene->CreateNewEntity();
-			entity->GetTransform()->SetScale(0.2f, 0.2f, 0.2f);
-			entity->GetTransform()->SetPosition(Random::RandomFloatNumber(-10, 10), Random::RandomFloatNumber(-10, 10), Random::RandomFloatNumber(-10, 10));
+			entity->GetTransform()->SetScale(0.1f, 0.1f, 0.1f);
+			entity->GetTransform()->SetPosition(Random::RandomFloatNumber(-20, 20), Random::RandomFloatNumber(-20, 20), Random::RandomFloatNumber(-20, 20));
 			auto meshRenderer = entity->AddComponent<MeshRenderer>();
 			meshRenderer->SetMesh(threedasset->GetMesh(i));
 			meshRenderer->SetMaterial(material);

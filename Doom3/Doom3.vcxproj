@@ -210,7 +210,7 @@
     <ClCompile Include="Source\Core\Physics\Collider\PhysicsGeneric.cpp" />
     <ClCompile Include="Source\Core\Physics\Picking.cpp" />
     <ClCompile Include="Source\Core\Physics\Collider\AABB.cpp" />
-    <ClCompile Include="Source\Core\Physics\BVH.cpp" />
+    <ClCompile Include="Source\Core\Physics\BVH\BVH.cpp" />
     <ClCompile Include="Source\Core\Physics\Physics_Server.cpp" />
     <ClCompile Include="Source\Core\Physics\PhysicsSetting.cpp" />
     <ClCompile Include="Source\Core\Physics\Collider\Plane.cpp" />
@@ -333,7 +333,7 @@
     <ClInclude Include="Source\Core\Physics\Picking.h" />
     <ClInclude Include="Source\Core\Math\LightMath_Cpp\Collision.h" />
     <ClInclude Include="Source\Core\Physics\Collider\AABB.h" />
-    <ClInclude Include="Source\Core\Physics\BVH.h" />
+    <ClInclude Include="Source\Core\Physics\BVH\BVH.h" />
     <ClInclude Include="Source\Core\Physics\Physics_Server.h" />
     <ClInclude Include="Source\Core\Physics\PhysicsSetting.h" />
     <ClInclude Include="Source\Core\Physics\Collider\Plane.h" />

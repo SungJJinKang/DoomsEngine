@@ -1,5 +1,8 @@
 #include "Physics_Server.h"
 
+#include "Collider/ColliderSolution.h"
+#include "Collider/Collider.h"
+
 #include "PhysicsComponent/ColliderComponent.h"
 #include <StaticContainer/StaticContainer.h>
 
@@ -48,11 +51,12 @@ void doom::physics::Physics_Server::SolveColliderComponents()
 		for (unsigned int j = i + 1; j < components.size(); j++)
 		{
 			Collider* col1 = components[i]->GetWorldCollider();
-
-			if (col1 != nullptr)
+			Collider* col2 = components[j]->GetWorldCollider();
+			bool isOverlap = ColliderSolution::CheckIsOverlap(col1, col2);
+			if (isOverlap)
 			{
-				Collider* col2 = components[j]->GetWorldCollider();
-				col1->CheckCollision(col2);
+				col1->bmIsCollision = true;
+				col2->bmIsCollision = true;
 			}
 		}
 	}
@@ -66,6 +70,10 @@ void doom::physics::Physics_Server::SolveColliderComponents()
 void doom::physics::Physics_Server::OnEndOfFrame()
 {
 
+}
+
+void doom::physics::Physics_Server::QueryCollision()
+{
 }
 
 

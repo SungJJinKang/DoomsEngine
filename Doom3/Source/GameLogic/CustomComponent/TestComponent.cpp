@@ -9,10 +9,10 @@ void doom::TestComponent::InitComponent()
 	physics::Physics_Server::GetSingleton()->IsShowDebug = true;
 
 	physics::ColliderPickingTestRoom::GetSingleton()->AddTestCollider(&(this->line));
-	physics::ColliderPickingTestRoom::GetSingleton()->AddTestCollider(&(this->line));
 	physics::ColliderPickingTestRoom::GetSingleton()->AddTestCollider(&(this->plane));
 	physics::ColliderPickingTestRoom::GetSingleton()->AddTestCollider(&(this->aabb));
 	physics::ColliderPickingTestRoom::GetSingleton()->AddTestCollider(&(this->sphere));
+	physics::ColliderPickingTestRoom::GetSingleton()->AddTestCollider(&(this->circle2d));
 		
 }
 

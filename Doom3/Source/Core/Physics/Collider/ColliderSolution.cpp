@@ -9,6 +9,8 @@
 #include "Sphere.h"
 #include "PhysicsGeneric.h"
 
+#include <magic_enum.hpp>
+
 // enum class ColliderType
 // {
 // 	AABB2D,
@@ -31,9 +33,9 @@ doom::physics::ColliderSolution::is_overlap_algorithm_func doom::physics::Collid
 		nullptr, //AABB3D
 		nullptr, //Circle2D
 		nullptr, //CapsuleCollider
-		nullptr, //Line
+		&(physics::RaycastLineAndAABB2D), //Line
 		nullptr, //Plane
-		nullptr, //Ray
+		& (physics::RaycastRayAndAABB2D), //Ray
 		nullptr, //Sphere
 		nullptr, //Triangle
 	},
@@ -57,11 +59,11 @@ doom::physics::ColliderSolution::is_overlap_algorithm_func doom::physics::Collid
 	{
 		nullptr, //AABB2D
 		nullptr, //AABB3D
-		nullptr, //Circle2D
+		& (physics::IsOverlapCircle2DAndCircle2D), //Circle2D
 		nullptr, //CapsuleCollider
-		nullptr, //Line
+		& (physics::RaycastLineAndCirecle2D), //Line
 		nullptr, //Plane
-		nullptr, //Ray
+		& (physics::RaycastRayAndCirecle2D), //Ray
 		nullptr, //Sphere
 		nullptr, //Triangle
 	},
@@ -83,9 +85,9 @@ doom::physics::ColliderSolution::is_overlap_algorithm_func doom::physics::Collid
 
 	//Line
 	{
-		nullptr, //AABB2D
+		&(physics::RaycastLineAndAABB2D), //AABB2D
 		& (physics::RaycastLineAndAABB3D), //AABB3D
-		nullptr, //Circle2D
+		& (physics::RaycastLineAndCirecle2D), //Circle2D
 		nullptr, //CapsuleCollider
 		nullptr, //Line
 		& (physics::RaycastLineAndPlane), //Plane
@@ -111,9 +113,9 @@ doom::physics::ColliderSolution::is_overlap_algorithm_func doom::physics::Collid
 
 	//Ray
 	{
-		nullptr, //AABB2D
+		&(physics::RaycastRayAndAABB2D), //AABB2D
 		& (physics::RaycastRayAndAABB3D), //AABB3D
-		nullptr, //Circle2D
+		& (physics::RaycastRayAndCirecle2D), //Circle2D
 		nullptr, //CapsuleCollider
 		nullptr, //Line
 		& (physics::RaycastRayAndPlane), //Plane
@@ -153,4 +155,23 @@ doom::physics::ColliderSolution::is_overlap_algorithm_func doom::physics::Collid
 doom::physics::ColliderSolution::is_overlap_algorithm_func doom::physics::ColliderSolution::GetCollisionAlgorithm(Collider* colliderA, Collider* colliderB)
 {
 	return doom::physics::ColliderSolution::CollisionAlgorithms[static_cast<unsigned int>(colliderA->GetColliderType())][static_cast<unsigned int>(colliderB->GetColliderType())];
+}
+
+bool doom::physics::ColliderSolution::CheckIsOverlap(Collider* colliderA, Collider* colliderB)
+{
+	auto solution = ColliderSolution::GetCollisionAlgorithm(colliderA, colliderB);
+	if (solution != nullptr)
+	{
+		return solution(colliderA, colliderB);
+	}
+	else
+	{
+#ifdef DEBUG_MODE
+		std::string name1{ magic_enum::enum_name(colliderA->GetColliderType()) };
+		std::string name2{ magic_enum::enum_name(colliderB->GetColliderType()) };
+
+		D_DEBUG_LOG({ "Cant FInd Collider Solution : " + name1 + ' ' + name2 }, eLogType::D_WARNING);
+#endif
+		return false;
+	}
 }

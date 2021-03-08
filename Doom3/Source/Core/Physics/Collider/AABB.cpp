@@ -2,6 +2,8 @@
 #include "AABB.h"
 #include "../Graphics/DebugGraphics.h"
 
+#include "Ray.h"
+#include <Matrix4x4.h>
 
 //#include <Trigonometric.h>
 

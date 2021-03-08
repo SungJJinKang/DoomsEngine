@@ -20,9 +20,10 @@ namespace doom
 			/// How to use : Get Algorithm with CollisionAlgorithms[A ColliderType][B ColliderType]
 			/// </summary>
 			static is_overlap_algorithm_func CollisionAlgorithms[COLLIDER_TYPE_COUNT][COLLIDER_TYPE_COUNT];
-
-		public:
 			static is_overlap_algorithm_func GetCollisionAlgorithm(Collider* colliderA, Collider* colliderB);
+		public:
+			
+			static bool CheckIsOverlap(Collider* colliderA, Collider* colliderB);
 		};
 	}
 }
