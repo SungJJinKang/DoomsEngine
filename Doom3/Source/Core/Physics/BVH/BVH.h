@@ -5,6 +5,8 @@
 #include <stack>
 #include <vector>
 
+//BVH is used for rendering, collision detect, raycast, stero audio ......
+
 namespace doom
 {
 	namespace physics
