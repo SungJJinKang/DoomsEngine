@@ -9,41 +9,12 @@
 
 using namespace doom::physics;
 
-AABB2D::AABB2D(const AABB3D& aabb3D)
-{
-	this->mLowerBound = aabb3D.mLowerBound;
-	this->mUpperBound = aabb3D.mUpperBound;
-}
 
 doom::physics::AABB2D& AABB2D::operator=(const AABB3D& aabb3D)
 {
 	this->mLowerBound = aabb3D.mLowerBound;
 	this->mUpperBound = aabb3D.mUpperBound;
 	return *this;
-}
-
-bool doom::physics::AABB2D::IsValid() const
-{
-	return mUpperBound.x > mLowerBound.x && mUpperBound.y > mLowerBound.y;
-}
-
-void doom::physics::AABB2D::Validate()
-{
-	if (mUpperBound.x < mLowerBound.x)
-	{
-		float temp = mLowerBound.x;
-		mLowerBound.x = mUpperBound.x;
-		mUpperBound.x = temp;
-		D_DEBUG_LOG("AABB bound is worng");
-	}
-
-	if (mUpperBound.y < mLowerBound.y)
-	{
-		float temp = mLowerBound.y;
-		mLowerBound.y = mUpperBound.y;
-		mUpperBound.y = temp;
-		D_DEBUG_LOG("AABB bound is worng");
-	}
 }
 
 math::Vector2 doom::physics::AABB2D::GetHalfExtent() const
@@ -72,36 +43,9 @@ doom::physics::ColliderType doom::physics::AABB2D::GetColliderType() const
 	return doom::physics::ColliderType::AABB2D;
 }
 
-bool doom::physics::AABB3D::IsValid() const
+math::Vector2 AABB2D::GetCenter()
 {
-	return mUpperBound.x > mLowerBound.x && mUpperBound.y > mLowerBound.y && mUpperBound.z > mLowerBound.z;
-}
-
-void doom::physics::AABB3D::Validate()
-{
-	if (mUpperBound.x < mLowerBound.x)
-	{
-		float temp = mLowerBound.x;
-		mLowerBound.x = mUpperBound.x;
-		mUpperBound.x = temp;
-		D_DEBUG_LOG("AABB bound is wrong");
-	}
-
-	if (mUpperBound.y < mLowerBound.y)
-	{
-		float temp = mLowerBound.y;
-		mLowerBound.y = mUpperBound.y;
-		mUpperBound.y = temp;
-		D_DEBUG_LOG("AABB bound is wrong");
-	}
-
-	if (mUpperBound.z < mLowerBound.z)
-	{
-		float temp = mLowerBound.z;
-		mLowerBound.z = mUpperBound.z;
-		mUpperBound.z = temp;
-		D_DEBUG_LOG("AABB bound is wrong");
-	}
+	return (this->mLowerBound + this->mUpperBound) / 2;
 }
 
 math::Vector3 doom::physics::AABB3D::GetHalfExtent() const
@@ -147,32 +91,9 @@ doom::physics::ColliderType doom::physics::AABB3D::GetColliderType() const
 	return doom::physics::ColliderType::AABB3D;
 }
 
-doom::physics::AABB2D doom::physics::Union(const AABB2D& A, const AABB2D& B)
-{
-	return AABB2D(math::Min(A.mLowerBound, B.mLowerBound), math::Max(A.mUpperBound, B.mUpperBound));
-}
 
-doom::physics::AABB3D doom::physics::Union(const AABB3D& A, const AABB3D& B)
-{
-	return AABB3D(math::Min(A.mLowerBound, B.mLowerBound), math::Max(A.mUpperBound, B.mUpperBound));
-}
+////////////////////////////////////////
 
-/// <summary>
-/// ºÎÇÇ
-/// </summary>
-/// <param name="A"></param>
-/// <returns></returns>
-float doom::physics::GetArea(const AABB3D& A)
-{
-	math::Vector3 d = A.mUpperBound - A.mLowerBound;
-	return 2.0f * (d.x * d.y + d.y * d.z + d.z * d.x);
-}
-
-float doom::physics::GetArea(const AABB2D& A)
-{
-	math::Vector2 d = A.mUpperBound - A.mLowerBound;
-	return d.x * d.y;
-}
 
 bool doom::physics::IsOverlapAABB2DAndPoint(const AABB2D& aabb, const math::Vector2& Point)
 {

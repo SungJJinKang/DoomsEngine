@@ -35,9 +35,9 @@ doom::physics::ColliderSolution::is_overlap_algorithm_func doom::physics::Collid
 		nullptr, //CapsuleCollider
 		&(physics::RaycastLineAndAABB2D), //Line
 		nullptr, //Plane
-		& (physics::RaycastRayAndAABB2D), //Ray
+		&(physics::RaycastRayAndAABB2D), //Ray
 		nullptr, //Sphere
-		nullptr, //Triangle
+		nullptr //Triangle
 	},
 
 
@@ -47,11 +47,11 @@ doom::physics::ColliderSolution::is_overlap_algorithm_func doom::physics::Collid
 		&(physics::IsOverlapAABB3DAndAABB3D), //AABB3D
 		nullptr, //Circle2D
 		nullptr, //CapsuleCollider
-		& (physics::RaycastLineAndAABB3D), //Line
-		& (physics::IsOverlapAABB3DAndPlane), //Plane
-		& (physics::RaycastRayAndAABB3D), //Ray
+		&(physics::RaycastLineAndAABB3D), //Line
+		&(physics::IsOverlapAABB3DAndPlane), //Plane
+		&(physics::RaycastRayAndAABB3D), //Ray
 		&(physics::IsOverlapSphereAndAABB3D), //Sphere
-		nullptr, //Triangle
+		nullptr //Triangle
 	},
 
 
@@ -59,13 +59,13 @@ doom::physics::ColliderSolution::is_overlap_algorithm_func doom::physics::Collid
 	{
 		nullptr, //AABB2D
 		nullptr, //AABB3D
-		& (physics::IsOverlapCircle2DAndCircle2D), //Circle2D
+		&(physics::IsOverlapCircle2DAndCircle2D), //Circle2D
 		nullptr, //CapsuleCollider
-		& (physics::RaycastLineAndCirecle2D), //Line
+		&(physics::RaycastLineAndCirecle2D), //Line
 		nullptr, //Plane
-		& (physics::RaycastRayAndCirecle2D), //Ray
+		&(physics::RaycastRayAndCirecle2D), //Ray
 		nullptr, //Sphere
-		nullptr, //Triangle
+		nullptr //Triangle
 	},
 
 
@@ -79,63 +79,63 @@ doom::physics::ColliderSolution::is_overlap_algorithm_func doom::physics::Collid
 		nullptr, //Plane
 		nullptr, //Ray
 		nullptr, //Sphere
-		nullptr, //Triangle
+		nullptr //Triangle
 	},
 
 
 	//Line
 	{
 		&(physics::RaycastLineAndAABB2D), //AABB2D
-		& (physics::RaycastLineAndAABB3D), //AABB3D
-		& (physics::RaycastLineAndCirecle2D), //Circle2D
+		&(physics::RaycastLineAndAABB3D), //AABB3D
+		&(physics::RaycastLineAndCirecle2D), //Circle2D
 		nullptr, //CapsuleCollider
 		nullptr, //Line
-		& (physics::RaycastLineAndPlane), //Plane
+		&(physics::RaycastLineAndPlane), //Plane
 		nullptr, //Ray
-		& (physics::RaycastLineAndSphere), //Sphere
-		nullptr, //Triangle
+		&(physics::RaycastLineAndSphere), //Sphere
+		nullptr //Triangle
 	},
 
 
 	//Plane
 	{
 		nullptr, //AABB2D
-		& (physics::IsOverlapAABB3DAndPlane), //AABB3D
+		&(physics::IsOverlapAABB3DAndPlane), //AABB3D
 		nullptr, //Circle2D
 		nullptr, //CapsuleCollider
-		& (physics::RaycastLineAndPlane), //Line
-		& (physics::IsOverlapPlaneAndPlane),  //Plane
-		& (physics::RaycastRayAndPlane),  //Ray
-		& (physics::IsOverlapSphereAndPlane), //Sphere
-		nullptr, //Triangle
+		&(physics::RaycastLineAndPlane), //Line
+		&(physics::IsOverlapPlaneAndPlane),  //Plane
+		&(physics::RaycastRayAndPlane),  //Ray
+		&(physics::IsOverlapSphereAndPlane), //Sphere
+		nullptr //Triangle
 	},
 
 
 	//Ray
 	{
 		&(physics::RaycastRayAndAABB2D), //AABB2D
-		& (physics::RaycastRayAndAABB3D), //AABB3D
-		& (physics::RaycastRayAndCirecle2D), //Circle2D
+		&(physics::RaycastRayAndAABB3D), //AABB3D
+		&(physics::RaycastRayAndCirecle2D), //Circle2D
 		nullptr, //CapsuleCollider
 		nullptr, //Line
-		& (physics::RaycastRayAndPlane), //Plane
+		&(physics::RaycastRayAndPlane), //Plane
 		nullptr, //Ray
 		&(physics::RaycastRayAndSphere), //Sphere
-		nullptr, //Triangle
+		nullptr //Triangle
 	},
 
 
 	//Sphere
 	{
 		nullptr, //AABB2D
-		& (physics::IsOverlapSphereAndAABB3D), //AABB3D
+		&(physics::IsOverlapSphereAndAABB3D), //AABB3D
 		nullptr, //Circle2D
 		nullptr, //CapsuleCollider
-		& (physics::RaycastLineAndSphere), //Line
-		& (physics::IsOverlapSphereAndPlane), //Plane
-		& (physics::RaycastRayAndSphere), //Ray
-		& (physics::IsOverlapSphereAndSphere), //Sphere
-		nullptr, //Triangle
+		&(physics::RaycastLineAndSphere), //Line
+		&(physics::IsOverlapSphereAndPlane), //Plane
+		&(physics::RaycastRayAndSphere), //Ray
+		&(physics::IsOverlapSphereAndSphere), //Sphere
+		nullptr //Triangle
 	},
 
 	//Triangle
@@ -148,7 +148,7 @@ doom::physics::ColliderSolution::is_overlap_algorithm_func doom::physics::Collid
 		nullptr, //Plane
 		nullptr, //Ray
 		nullptr, //Sphere
-		nullptr, //Triangle
+		nullptr //Triangle
 	}
 };
 

@@ -6,6 +6,7 @@
 #include <Vector3.h>
 #include "Collider.h"
 #include <Matrix4x4.h>
+#include <functional>
 
 namespace doom
 {
@@ -29,22 +30,37 @@ namespace doom
 			/// </summary>
 			math::Vector3 mUpperBound; // maximum extent
 
-			AABB3D() : mLowerBound{}, mUpperBound{}
-			{}
-			AABB3D(const math::Vector3& lowerBound, const math::Vector3& upperBound)
-				:mLowerBound(lowerBound), mUpperBound(upperBound)
+			constexpr bool IsValid() const
 			{
-#ifdef DEBUG_MODE
-				this->Validate();
-#endif
+				return mUpperBound.x > mLowerBound.x && mUpperBound.y > mLowerBound.y && mUpperBound.z > mLowerBound.z;
 			}
-			AABB3D(const AABB3D&) = default;
-			AABB3D(AABB3D&&) noexcept = default;
-			AABB3D& operator=(const AABB3D&) = default;
-			AABB3D& operator=(AABB3D&&) noexcept = default;
-			
-			bool IsValid() const;
-			void Validate();
+
+			constexpr void Validate()
+			{
+				if (mUpperBound.x < mLowerBound.x)
+				{
+					float temp = mLowerBound.x;
+					mLowerBound.x = mUpperBound.x;
+					mUpperBound.x = temp;
+					D_DEBUG_LOG("AABB bound is wrong");
+				}
+
+				if (mUpperBound.y < mLowerBound.y)
+				{
+					float temp = mLowerBound.y;
+					mLowerBound.y = mUpperBound.y;
+					mUpperBound.y = temp;
+					D_DEBUG_LOG("AABB bound is wrong");
+				}
+
+				if (mUpperBound.z < mLowerBound.z)
+				{
+					float temp = mLowerBound.z;
+					mLowerBound.z = mUpperBound.z;
+					mUpperBound.z = temp;
+					D_DEBUG_LOG("AABB bound is wrong");
+				}
+			}
 
 			math::Vector3 GetHalfExtent() const;
 			/// <summary>
@@ -58,16 +74,49 @@ namespace doom
 
 			ColliderType GetColliderType() const override;
 
+			math::Vector3 GetCenter()
+			{
+				return (this->mLowerBound + this->mUpperBound) / 2;
+			}
+
+			/// <summary>
+			/// 부피
+			/// </summary>
+			/// <param name="A"></param>
+			/// <returns></returns>
+			static constexpr float GetArea(const AABB3D& A)
+			{
+				math::Vector3 d = A.mUpperBound - A.mLowerBound;
+				return 2.0f * (d.x * d.y + d.y * d.z + d.z * d.x);
+			}
+			static AABB3D Union(const AABB3D& A, const AABB3D& B)
+			{
+				return AABB3D(math::Min(A.mLowerBound, B.mLowerBound), math::Max(A.mUpperBound, B.mUpperBound));
+			}
+			static constexpr float GetUnionArea(const AABB3D& A, const AABB3D& B)
+			{
+				math::Vector3 d = math::Max(A.mUpperBound, B.mUpperBound) - math::Min(A.mLowerBound, B.mLowerBound);
+				return 2.0f * (d.x * d.y + d.y * d.z + d.z * d.x);
+			}
+
+			constexpr AABB3D() : mLowerBound{}, mUpperBound{}
+			{}
+			constexpr AABB3D(const math::Vector3& lowerBound, const math::Vector3& upperBound)
+				: mLowerBound(lowerBound), mUpperBound(upperBound)
+			{
+#ifdef DEBUG_MODE
+				this->Validate();
+#endif
+			}
+			constexpr AABB3D(const AABB3D&) = default;
+			constexpr AABB3D(AABB3D&&) noexcept = default;
+			constexpr AABB3D& operator=(const AABB3D&) = default;
+			constexpr AABB3D& operator=(AABB3D&&) noexcept = default;
 		};
 
 	
-		/// <summary>
-		/// 부피
-		/// </summary>
-		/// <param name="A"></param>
-		/// <returns></returns>
-		float GetArea(const AABB3D& A);
-		AABB3D Union(const AABB3D& A, const AABB3D& B);
+	
+		
 
 		bool IsOverlapAABB3DAndPoint(const AABB3D& aabb, const math::Vector3& Point);
 		bool IsOverlapAABB3DAndAABB3D(const AABB3D& aabb, const AABB3D& B);
@@ -95,37 +144,75 @@ namespace doom
 			/// </summary>
 			math::Vector2 mUpperBound; // maximum extent
 
-			AABB2D() : mLowerBound{}, mUpperBound{}
+		
+
+			constexpr bool IsValid() const
+			{
+				return mUpperBound.x > mLowerBound.x && mUpperBound.y > mLowerBound.y;
+			}
+			constexpr void Validate()
+			{
+				if (mUpperBound.x < mLowerBound.x)
+				{
+					float temp = mLowerBound.x;
+					mLowerBound.x = mUpperBound.x;
+					mUpperBound.x = temp;
+					D_DEBUG_LOG("AABB bound is worng");
+				}
+
+				if (mUpperBound.y < mLowerBound.y)
+				{
+					float temp = mLowerBound.y;
+					mLowerBound.y = mUpperBound.y;
+					mUpperBound.y = temp;
+					D_DEBUG_LOG("AABB bound is worng");
+				}
+			}
+
+			math::Vector2 GetHalfExtent() const;
+			virtual void Render(eColor color) final;
+			ColliderType GetColliderType() const override;
+			math::Vector2 GetCenter();
+
+			static constexpr float GetArea(const AABB2D& A)
+			{
+				math::Vector2 d = A.mUpperBound - A.mLowerBound;
+				return d.x * d.y;
+			}
+			static AABB2D Union(const AABB2D& A, const AABB2D& B)
+			{
+				return AABB2D(math::Min(A.mLowerBound, B.mLowerBound), math::Max(A.mUpperBound, B.mUpperBound));
+			}
+			static constexpr float GetUnionArea(const AABB2D& A, const AABB2D& B)
+			{
+				math::Vector2 d = math::Max(A.mUpperBound, B.mUpperBound) - math::Min(A.mLowerBound, B.mLowerBound);
+				return d.x * d.y;
+			}
+
+			constexpr AABB2D() : mLowerBound{}, mUpperBound{}
 			{}
-			AABB2D(const math::Vector2& lowerBound, const math::Vector2& upperBound)
-				:mLowerBound(lowerBound), mUpperBound(upperBound)
+			constexpr AABB2D(const math::Vector2& lowerBound, const math::Vector2& upperBound)
+				: mLowerBound(lowerBound), mUpperBound(upperBound)
 			{
 #ifdef DEBUG_MODE
 				this->Validate();
 #endif
 			}
-			AABB2D(const AABB2D&) = default;
-			AABB2D(AABB2D&&) noexcept = default;
-			AABB2D(const AABB3D& aabb3D);
+
+			constexpr AABB2D(const AABB2D&) = default;
+			constexpr AABB2D(AABB2D&&) noexcept = default;
+			constexpr AABB2D(const AABB3D & aabb3D)
+			{
+				this->mLowerBound = aabb3D.mLowerBound;
+				this->mUpperBound = aabb3D.mUpperBound;
+			}
 			AABB2D& operator=(const AABB2D&) = default;
 			AABB2D& operator=(AABB2D&&) noexcept = default;
-			AABB2D& operator=(const AABB3D& aabb3D);
-
-			bool IsValid() const;
-			void Validate();
-
-			math::Vector2 GetHalfExtent() const;
-
-			virtual void Render(eColor color) final;
-
-			ColliderType GetColliderType() const override;
-
+			AABB2D& operator=(const AABB3D & aabb3D);
 		};
 
-
-		float GetArea(const AABB2D& A);
-
-		AABB2D Union(const AABB2D& A, const AABB2D& B);
+		
+	
 
 		bool IsOverlapAABB2DAndPoint(const AABB2D& aabb, const math::Vector2& Point);
 		bool IsOverlapAABB2DAndAABB2D(const AABB2D& aabb, const AABB2D& B);
@@ -142,3 +229,20 @@ namespace doom
 	}
 }
 
+template<>
+struct std::greater <doom::physics::AABB2D>
+{
+	constexpr bool operator()(const doom::physics::AABB2D& lhs, const doom::physics::AABB2D& rhs) const
+	{
+		return doom::physics::AABB2D::GetArea(lhs) > doom::physics::AABB2D::GetArea(rhs);
+	}
+};
+
+template<>
+struct std::greater <doom::physics::AABB3D>
+{
+	constexpr bool operator()(const doom::physics::AABB3D& lhs, const doom::physics::AABB3D& rhs) const
+	{
+		return doom::physics::AABB3D::GetArea(lhs) > doom::physics::AABB3D::GetArea(rhs);
+	}
+};

@@ -13,6 +13,8 @@ namespace doom
 		protected:
 			virtual void Render(eColor color) = 0;
 		public:
+			constexpr RenderPhysics() {}
+
 			virtual void DrawPhysicsDebug() = 0;
 			void DrawPhysicsDebugColor(eColor color);
 		};

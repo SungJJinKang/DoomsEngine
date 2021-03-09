@@ -10,16 +10,17 @@ namespace doom
 		{
 			friend class ColliderPickingTestRoom;
 			friend class Physics_Server;
-		private :
+		private:
 			bool bmIsCollision{ false };
 			void ClearCollision();
 
 		protected:
 
-			
+
 
 		public:
-			
+			constexpr Collider() {}
+
 			virtual ColliderType GetColliderType() const = 0;
 
 			virtual void DrawPhysicsDebug() final;

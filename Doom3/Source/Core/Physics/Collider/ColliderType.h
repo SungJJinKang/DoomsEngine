@@ -8,17 +8,18 @@ namespace doom
 	{
 		enum class ColliderType : unsigned int
 		{
-			AABB2D = 1,
-			AABB3D = 1 < 1,
-			Circle2D = 1 < 2,
-			CapsuleCollider = 1 < 3,
-			Line = 1 < 4,
-			Plane = 1 < 5,
-			Ray = 1 < 6,
-			Sphere = 1 < 7,
-			Triangle = 1 < 8
+			AABB2D,
+			AABB3D,
+			Circle2D,
+			CapsuleCollider,
+			Line,
+			Plane,
+			Ray,
+			Sphere,
+			Triangle
 		};
 
+		/*
 		inline constexpr unsigned int TWO_D_COLLIDER_TYPE{ static_cast<unsigned int>(ColliderType::AABB2D) | static_cast<unsigned int>(ColliderType::Circle2D) };
 		inline constexpr unsigned int THREE_D_COLLIDER_TYPE{ 
 			static_cast<unsigned int>(ColliderType::AABB3D) | static_cast<unsigned int>(ColliderType::CapsuleCollider) | 
@@ -26,7 +27,8 @@ namespace doom
 			static_cast<unsigned int>(ColliderType::Ray) | static_cast<unsigned int>(ColliderType::Sphere) | 
 			static_cast<unsigned int>(ColliderType::Triangle)
 		};
+		*/
 
-		inline constexpr unsigned int COLLIDER_TYPE_COUNT{ static_cast<unsigned int>(magic_enum::enum_count<ColliderType>()) };
+		inline constexpr size_t COLLIDER_TYPE_COUNT{ static_cast<size_t>(magic_enum::enum_count<ColliderType>()) };
 	}
 }
