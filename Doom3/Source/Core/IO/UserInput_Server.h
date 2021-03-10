@@ -8,7 +8,11 @@
 #include "../Graphics/Graphics_Server.h"
 #include <Vector2.h>
 
+
 #include <magic_enum.hpp>
+
+
+
 
 namespace doom
 {
@@ -150,6 +154,7 @@ namespace doom
 			UP
 		};
 
+
 		inline constexpr eKEY_CODE FIRST_KEY_CODE{ magic_enum::enum_value<eKEY_CODE>(0) };
 		inline constexpr eKEY_CODE LAST_KEY_CODE{ magic_enum::enum_value<eKEY_CODE>(magic_enum::enum_count<eKEY_CODE>() - 1) };
 
@@ -227,6 +232,9 @@ namespace doom
 
 			[[nodiscard]] static bool GetKeyToggle(eKEY_CODE keyCode) noexcept
 			{
+				auto firt = FIRST_KEY_CODE;
+				auto firt1 = LAST_KEY_CODE;
+				auto c = magic_enum::enum_count<eKEY_CODE>();
 				return UserInput_Server::mKeyToggle[keyCode - FIRST_KEY_CODE];
 			}
 

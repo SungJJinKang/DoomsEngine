@@ -45,7 +45,7 @@ void doom::assetimporter::AssetManager::ImportEntireAsset()
 
 	std::filesystem::path lastEntryPath{};
 
-	std::array<std::vector<std::filesystem::path>, ::doom::asset::AssetTypeCount> entireAssetPaths{};
+	std::array<std::vector<std::filesystem::path>, ::doom::asset::ENUM_ASSETTYPE_COUNT> entireAssetPaths{};
 	/// <summary>
 	/// Check file extension
 	/// </summary>
@@ -118,19 +118,19 @@ void doom::assetimporter::AssetManager::ImportEntireAsset()
 	
 		
 	{
-		ForLoop_CompileTime<::doom::asset::eAssetType>::Loop<::doom::asset::FirstAssetType, ::doom::asset::LastAssetType, eCondition_OperatorType::SmallerThanOrEqual, 1, ImportAssetInitSetting>();
-		ForLoop_CompileTime<::doom::asset::eAssetType>::Loop<::doom::asset::FirstAssetType, ::doom::asset::LastAssetType, eCondition_OperatorType::SmallerThanOrEqual, 1, ImportAssetFunctor>(entireAssetPaths);
+		ForLoop_CompileTime<::doom::asset::eAssetType>::Loop<::doom::asset::FIRST_ENUM_ASSETTYPE_VALUE, ::doom::asset::LAST_ENUM_ASSETTYPE_VALUE, eCondition_OperatorType::SmallerThanOrEqual, 1, ImportAssetInitSetting>();
+		ForLoop_CompileTime<::doom::asset::eAssetType>::Loop<::doom::asset::FIRST_ENUM_ASSETTYPE_VALUE, ::doom::asset::LAST_ENUM_ASSETTYPE_VALUE, eCondition_OperatorType::SmallerThanOrEqual, 1, ImportAssetFunctor>(entireAssetPaths);
 		this->GetWaitingImportFuture();
 
 	}
-	ForLoop_CompileTime<::doom::asset::eAssetType>::Loop<::doom::asset::FirstAssetType, ::doom::asset::LastAssetType, eCondition_OperatorType::SmallerThanOrEqual, 1, OnEndImportInMainThreadFunctor>();
+	ForLoop_CompileTime<::doom::asset::eAssetType>::Loop<::doom::asset::FIRST_ENUM_ASSETTYPE_VALUE, ::doom::asset::LAST_ENUM_ASSETTYPE_VALUE, eCondition_OperatorType::SmallerThanOrEqual, 1, OnEndImportInMainThreadFunctor>();
 	doom::assetimporter::ClearAllApiImporterQueue();
 	
 }
 
 
 
-const std::array<std::vector<std::filesystem::path>, doom::asset::AssetTypeCount>& AssetManager::GetAllAssetPath()
+const std::array<std::vector<std::filesystem::path>, doom::asset::ENUM_ASSETTYPE_COUNT>& AssetManager::GetAllAssetPath()
 {
 	return this->AssetPaths;
 }

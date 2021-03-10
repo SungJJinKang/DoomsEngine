@@ -324,9 +324,6 @@
     <ClCompile Include="Source\Core\Physics\BVH\BVH.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Helper\EasyDirtyChecker\utility\DirtyContainer.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Source\Core\Physics\BVH\test\BVH_TestRoom.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -933,9 +930,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\Core\Physics\BVH\BVH.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Helper\EasyDirtyChecker\utility\DirtyContainer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\Core\Physics\BVH\test\BVH_TestRoom.h">

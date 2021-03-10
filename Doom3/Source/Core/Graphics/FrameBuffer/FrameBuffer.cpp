@@ -127,7 +127,7 @@ void FrameBuffer::AttachTextureBuffer(GraphicsAPI::eBufferType frameBufferType, 
 		{
 			drawBufferTarget.emplace_back(GL_COLOR_ATTACHMENT0 + i);
 		}
-		glDrawBuffers(this->mAttachedColorTextures.size(), drawBufferTarget.data());
+		glDrawBuffers(static_cast<int>(this->mAttachedColorTextures.size()), drawBufferTarget.data());
 		
 		break;
 	}

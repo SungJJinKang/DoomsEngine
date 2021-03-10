@@ -2,6 +2,8 @@
 
 //#include "../Core.h" don't do this ( recursive dependency )
 
+#include <magic_enum.hpp>
+
 #include <Vector4.h>
 
 namespace doom
@@ -18,7 +20,7 @@ namespace doom
 			
 		};
 
-#define ENUM_COLOR_COUNT 5
+		inline constexpr unsigned int ENUM_COLOR_COUNT{ static_cast<unsigned int>(magic_enum::enum_count<eColor>()) };
 
 		class Color
 		{

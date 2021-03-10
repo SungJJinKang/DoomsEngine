@@ -14,10 +14,10 @@ namespace doom
 			THREE_D_MODEL,
 			SHADER
 		};
-		constexpr inline size_t AssetTypeCount = magic_enum::enum_count<eAssetType>();
+		constexpr inline size_t ENUM_ASSETTYPE_COUNT = magic_enum::enum_count<eAssetType>();
 
-		constexpr inline eAssetType FirstAssetType = magic_enum::enum_value<eAssetType>(0);
-		constexpr inline eAssetType LastAssetType = magic_enum::enum_value<eAssetType>(AssetTypeCount - 1);
+		constexpr inline eAssetType FIRST_ENUM_ASSETTYPE_VALUE = magic_enum::enum_value<eAssetType>(0);
+		constexpr inline eAssetType LAST_ENUM_ASSETTYPE_VALUE = magic_enum::enum_value<eAssetType>(ENUM_ASSETTYPE_COUNT - 1);
 
 		constexpr auto GetAssetTypeName(eAssetType assetType)
 		{

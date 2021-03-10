@@ -59,15 +59,17 @@ namespace doom
 		};
 
 		constexpr inline StdStreamLogger mLogger{};
-		eLogType DEBUG_LEVEL{ eLogType::D_LOG };
+		eLogType MIN_DEBUG_LEVEL{ eLogType::D_LOG };
+		eLogType MAX_DEBUG_LEVEL{ eLogType::D_LOG };
 		void Logger::InitLogger()
 		{
-			DEBUG_LEVEL = static_cast<eLogType>(::doom::ConfigData::GetSingleton()->GetConfigData().GetValue<int>("SYSTEM", "DEBUG_LEVEL"));
+			MIN_DEBUG_LEVEL = static_cast<eLogType>(::doom::ConfigData::GetSingleton()->GetConfigData().GetValue<int>("SYSTEM", "MIN_DEBUG_LEVEL"));
+			MAX_DEBUG_LEVEL = static_cast<eLogType>(::doom::ConfigData::GetSingleton()->GetConfigData().GetValue<int>("SYSTEM", "MAX_DEBUG_LEVEL"));
 		}
 
 		void Logger::StopIfError(eLogType logType)
 		{
-			if (logType >= eLogType::D_ERROR)
+			if (logType == eLogType::D_ERROR)
 			{
 				std::cout.flush();
 				psnip_trap();
@@ -75,7 +77,7 @@ namespace doom
 		}
 		void Logger::Log(const char* log, eLogType logType) noexcept
 		{
-			if (logType >= DEBUG_LEVEL)
+			if (logType >= MIN_DEBUG_LEVEL && logType <= MAX_DEBUG_LEVEL)
 			{
 				mLogger.Log(log, logType);
 				StopIfError(logType);
@@ -83,7 +85,7 @@ namespace doom
 		}
 		void Logger::Log(const std::string log, eLogType logType) noexcept
 		{
-			if (logType >= DEBUG_LEVEL)
+			if (logType >= MIN_DEBUG_LEVEL && logType <= MAX_DEBUG_LEVEL)
 			{
 				mLogger.Log(log, logType);
 				StopIfError(logType);
@@ -91,7 +93,7 @@ namespace doom
 		}
 		void Logger::Log(std::initializer_list<const char*> logs, eLogType logType) noexcept
 		{
-			if (logType >= DEBUG_LEVEL)
+			if (logType >= MIN_DEBUG_LEVEL && logType <= MAX_DEBUG_LEVEL)
 			{
 				mLogger.Log(logs, logType);
 				StopIfError(logType);
@@ -99,7 +101,7 @@ namespace doom
 		}
 		void Logger::Log(std::initializer_list<const std::string> logs, eLogType logType) noexcept
 		{
-			if (logType >= DEBUG_LEVEL)
+			if (logType >= MIN_DEBUG_LEVEL && logType <= MAX_DEBUG_LEVEL)
 			{
 				mLogger.Log(logs, logType);
 				StopIfError(logType);

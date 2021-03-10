@@ -47,7 +47,7 @@ namespace doom
 		private:
 			const std::filesystem::path AssetFolderPath{ ASSET_FOLDER_DIRECTORY };
 
-			std::array<std::vector<std::filesystem::path>, doom::asset::AssetTypeCount> AssetPaths{};
+			std::array<std::vector<std::filesystem::path>, doom::asset::ENUM_ASSETTYPE_COUNT> AssetPaths{};
 
 			template<::doom::asset::eAssetType assetType>
 			static inline ImportedAssetPort<assetType> ImportedAssetPorts{};
@@ -170,7 +170,7 @@ namespace doom
 				return importedAssets;
 			}
 
-			const std::array<std::vector<std::filesystem::path>, doom::asset::AssetTypeCount>& GetAllAssetPath();
+			const std::array<std::vector<std::filesystem::path>, doom::asset::ENUM_ASSETTYPE_COUNT>& GetAllAssetPath();
 			
 		};
 
@@ -186,7 +186,7 @@ namespace doom
 		template<::doom::asset::eAssetType loopVariable>
 		struct ImportAssetFunctor
 		{
-			constexpr inline void operator()(std::array<std::vector<std::filesystem::path>, doom::asset::AssetTypeCount>& assetPaths)
+			constexpr inline void operator()(std::array<std::vector<std::filesystem::path>, doom::asset::ENUM_ASSETTYPE_COUNT>& assetPaths)
 			{
 				AssetManager::GetSingleton()->ImportAssetAsync<loopVariable>(assetPaths[static_cast<unsigned int>(loopVariable)]);
 			}

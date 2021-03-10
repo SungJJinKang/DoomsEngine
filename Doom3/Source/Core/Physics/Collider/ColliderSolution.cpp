@@ -170,7 +170,7 @@ bool doom::physics::ColliderSolution::CheckIsOverlap(Collider* colliderA, Collid
 		std::string name1{ magic_enum::enum_name(colliderA->GetColliderType()) };
 		std::string name2{ magic_enum::enum_name(colliderB->GetColliderType()) };
 
-		D_DEBUG_LOG({ "Cant FInd Collider Solution : " + name1 + ' ' + name2 }, eLogType::D_WARNING);
+		D_DEBUG_LOG({ "Cant FInd Collider Solution : " + name1 + ' ' + name2 }, eLogType::D_ERROR);
 #endif
 		return false;
 	}
