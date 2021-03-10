@@ -9,15 +9,15 @@ void doom::physics::Collider::ClearCollision()
 	this->bmIsCollision = false;
 }
 
-void doom::physics::Collider::DrawPhysicsDebug()
+void doom::physics::Collider::DrawPhysicsDebug(bool drawInstantly)
 {
 	if (this->bmIsCollision)
 	{
-		RenderPhysics::DrawPhysicsDebugColor(eColor::Red);
+		RenderPhysics::DrawPhysicsDebugColor(eColor::Red, drawInstantly);
 	}
 	else
 	{
-		RenderPhysics::DrawPhysicsDebugColor(graphics::DebugGraphics::mDefaultDebugColor);
+		RenderPhysics::DrawPhysicsDebugColor(graphics::DebugGraphics::mDefaultDebugColor, drawInstantly);
 	}
 	
 }

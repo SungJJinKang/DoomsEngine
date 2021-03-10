@@ -13,7 +13,7 @@ namespace doom
 			math::Vector3 mNormal;
 
 		protected:
-			virtual void Render(eColor color) override;
+			virtual void Render(eColor color, bool drawInstantly = false) override;
 
 		public:
 			math::Vector3 mOrigin;

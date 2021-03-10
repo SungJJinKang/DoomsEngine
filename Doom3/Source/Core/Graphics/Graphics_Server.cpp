@@ -30,75 +30,8 @@ void Graphics_Server::Init()
 
 	Graphics_Server::ScreenSize = { width, height };
 	Graphics_Server::ScreenRatio = static_cast<float>(height) / static_cast<float>(width);
-	glfwInit();
-	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4); // 4.5 -> MAJOR 4  MINOR 5 , 3.1 -> MAJOR 3  MINOR 1
-	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 6);
-	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-	glfwWindowHint(GLFW_OPENGL_DEBUG_CONTEXT, true);
-
-	if (Graphics_Server::MultiSamplingNum > 0)
-	{
-		glfwWindowHint(GLFW_SAMPLES, Graphics_Server::MultiSamplingNum);
-	}
 	
-#ifdef __APPLE__
-	glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
-#endif
-
-
-	// glfw window creation
-	// --------------------
-	Window = glfwCreateWindow(Graphics_Server::ScreenSize.x, Graphics_Server::ScreenSize.y, "LearnOpenGL", NULL, NULL);
-	if (Window == NULL)
-	{
-		D_DEBUG_LOG("Failed to create GLFW window");
-		glfwTerminate();
-		return;
-	}
-	glfwMakeContextCurrent(Window);
-	glfwSetFramebufferSizeCallback(Window,
-		[](GLFWwindow*, int, int) {glViewport(0, 0, Graphics_Server::ScreenSize.x, Graphics_Server::ScreenSize.y); }
-	);
-
-	// glad: load all OpenGL function pointers
-	// ---------------------------------------
-	if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
-	{
-		D_DEBUG_LOG("Failed to initialize GLAD");
-		return;
-	}
-
-#ifdef DEBUG_MODE
-	std::string vendor{ GraphicsAPI::GetString(GraphicsAPI::GetStringParameter::VENDOR) };
-	if (vendor.find("ATI") != std::string::npos)
-	{
-		D_DEBUG_LOG("Using AMD on board GPU, Maybe This will make driver error", eLogType::D_ERROR);
-	}
-#endif // 
-	
-	D_DEBUG_LOG({ "Current OpenGL version is : ", std::string(GraphicsAPI::GetString(GraphicsAPI::GetStringParameter::VERSION)) });
-	D_DEBUG_LOG({ "Vendor is : ", vendor});
-	D_DEBUG_LOG({ "Renderer is : ", std::string(GraphicsAPI::GetString(GraphicsAPI::GetStringParameter::RENDERER)) });
-	glfwSetInputMode(Window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
-	//
-
-	GraphicsAPI::Enable(GraphicsAPI::eCapability::DEPTH_TEST);
-	//GraphicsAPI::DepthFunc(GraphicsAPI::eDepthFuncType::LEQUAL);;
-
-	GraphicsAPI::Enable(GraphicsAPI::eCapability::BLEND);
-	GraphicsAPI::BlendFunc(GraphicsAPI::eSourceFactor::SRC_ALPHA, GraphicsAPI::eDestinationFactor::ONE_MINUS_SRC_ALPHA);
-
-	GraphicsAPI::Enable(GraphicsAPI::eCapability::CULL_FACE);
-	GraphicsAPI::CullFace(GraphicsAPI::eCullFaceMode::BACK);
-
-	GraphicsAPI::FrontFace(GraphicsAPI::eFrontFaceMode::CCW);
-
-#ifdef DEBUG_MODE
-	GraphicsAPI::Enable(GraphicsAPI::eCapability::DEBUG_OUTPUT);
-	GraphicsAPI::Enable(GraphicsAPI::eCapability::DEBUG_OUTPUT_SYNCHRONOUS);
-
-	glDebugMessageCallback(Graphics_Server::OpenGlDebugCallback, NULL);
-#endif
+	this->InitGLFW();
 	return;
 }
 
@@ -157,6 +90,11 @@ int Graphics_Server::GetScreenHeight()
 	return Graphics_Server::Graphics_Server::ScreenSize.y;
 }
 
+bool Graphics_Server::GetIsGLFWInitialized()
+{
+	return this->bmIsGLFWInitialized;
+}
+
 math::Vector2 doom::graphics::Graphics_Server::GetScreenSize()
 {
 	return Graphics_Server::ScreenSize;
@@ -165,6 +103,91 @@ math::Vector2 doom::graphics::Graphics_Server::GetScreenSize()
 float doom::graphics::Graphics_Server::GetScreenRatio()
 {
 	return Graphics_Server::ScreenRatio;
+}
+
+void Graphics_Server::InitGLFW()
+{
+	glfwInit();
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4); // 4.5 -> MAJOR 4  MINOR 5 , 3.1 -> MAJOR 3  MINOR 1
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 6);
+	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+	glfwWindowHint(GLFW_OPENGL_DEBUG_CONTEXT, true);
+
+	if (Graphics_Server::MultiSamplingNum > 0)
+	{
+		glfwWindowHint(GLFW_SAMPLES, Graphics_Server::MultiSamplingNum);
+	}
+
+#ifdef __APPLE__
+	glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
+#endif
+
+
+	// glfw window creation
+	// --------------------
+	Window = glfwCreateWindow(Graphics_Server::ScreenSize.x, Graphics_Server::ScreenSize.y, "LearnOpenGL", NULL, NULL);
+	if (Window == NULL)
+	{
+		D_DEBUG_LOG("Failed to create GLFW window");
+		glfwTerminate();
+		return;
+	}
+	glfwMakeContextCurrent(Window);
+	glfwSetFramebufferSizeCallback(Window,
+		[](GLFWwindow*, int, int) {glViewport(0, 0, Graphics_Server::ScreenSize.x, Graphics_Server::ScreenSize.y); }
+	);
+
+	// glad: load all OpenGL function pointers
+	// ---------------------------------------
+	if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
+	{
+		D_DEBUG_LOG("Failed to initialize GLAD");
+		return;
+	}
+
+#ifdef DEBUG_MODE
+	std::string vendor{ GraphicsAPI::GetString(GraphicsAPI::GetStringParameter::VENDOR) };
+	if (vendor.find("ATI") != std::string::npos)
+	{
+		D_DEBUG_LOG("Using AMD on board GPU, Maybe This will make driver error", eLogType::D_ERROR);
+	}
+#endif // 
+
+	D_DEBUG_LOG({ "Current OpenGL version is : ", std::string(GraphicsAPI::GetString(GraphicsAPI::GetStringParameter::VERSION)) });
+	D_DEBUG_LOG({ "Vendor is : ", vendor });
+	D_DEBUG_LOG({ "Renderer is : ", std::string(GraphicsAPI::GetString(GraphicsAPI::GetStringParameter::RENDERER)) });
+	glfwSetInputMode(Window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
+	//
+
+	GraphicsAPI::Enable(GraphicsAPI::eCapability::DEPTH_TEST);
+	//GraphicsAPI::DepthFunc(GraphicsAPI::eDepthFuncType::LEQUAL);;
+
+	GraphicsAPI::Enable(GraphicsAPI::eCapability::BLEND);
+	GraphicsAPI::BlendFunc(GraphicsAPI::eSourceFactor::SRC_ALPHA, GraphicsAPI::eDestinationFactor::ONE_MINUS_SRC_ALPHA);
+
+	GraphicsAPI::Enable(GraphicsAPI::eCapability::CULL_FACE);
+	GraphicsAPI::CullFace(GraphicsAPI::eCullFaceMode::BACK);
+
+	GraphicsAPI::FrontFace(GraphicsAPI::eFrontFaceMode::CCW);
+
+#ifdef DEBUG_MODE
+	GraphicsAPI::Enable(GraphicsAPI::eCapability::DEBUG_OUTPUT);
+	GraphicsAPI::Enable(GraphicsAPI::eCapability::DEBUG_OUTPUT_SYNCHRONOUS);
+
+	glDebugMessageCallback(Graphics_Server::OpenGlDebugCallback, NULL);
+#endif
+
+	bmIsGLFWInitialized = true;
+}
+
+void Graphics_Server::DrawPIPs()
+{
+	for (auto& pip : this->mAutoDrawedPIPs)
+	{
+		GraphicsAPI::ClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+		GraphicsAPI::Clear(GraphicsAPI::eClearMask::COLOR_BUFFER_BIT, GraphicsAPI::eClearMask::DEPTH_BUFFER_BIT);
+		pip.get().DrawPictureInPicture();
+	}
 }
 
 void doom::graphics::Graphics_Server::InitFrameBufferForDeferredRendering()
@@ -227,10 +250,12 @@ void doom::graphics::Graphics_Server::DeferredRendering()
 
 
 	//TO DO : Draw Quad
+	this->DrawPIPs(); // drawing pip before gbuffer will increase performance ( early depth testing )
+
 	this->mGbufferDrawerMaterial.UseProgram();
 	this->mQuadMesh->Draw();
 	
-
+	
 
 }
 
@@ -254,8 +279,10 @@ void doom::graphics::Graphics_Server::SetRenderingMode(eRenderingMode renderingM
 }
 
 
-
-
+void Graphics_Server::AddAutoDrawedPIPs(PicktureInPickture& pip)
+{
+	this->mAutoDrawedPIPs.push_back(std::ref(pip));
+}
 
 void Graphics_Server::OpenGlDebugCallback(GLenum source, GLenum type, GLuint id, GLenum severity, GLsizei length, const GLchar* msg, const void* data)
 {

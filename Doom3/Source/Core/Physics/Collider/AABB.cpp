@@ -22,17 +22,17 @@ math::Vector2 doom::physics::AABB2D::GetHalfExtent() const
 	return (this->mUpperBound + this->mLowerBound) * 0.5f;
 }
 
-void doom::physics::AABB2D::Render(eColor color)
+void doom::physics::AABB2D::Render(eColor color, bool drawInstantly /*= false*/)
 {
 	auto debugGraphics = graphics::DebugGraphics::GetSingleton();
 
 	math::Vector3 x{ this->mUpperBound.x - this->mLowerBound.x, 0, 0 };
 	math::Vector3 y{ 0, this->mUpperBound.y - this->mLowerBound.y, 0 };
 
-	debugGraphics->DebugDraw2DLine(this->mLowerBound, this->mLowerBound + x, color);
-	debugGraphics->DebugDraw2DLine(this->mLowerBound, this->mLowerBound + y, color);
-	debugGraphics->DebugDraw2DLine(this->mLowerBound + x, this->mLowerBound + x + y, color);
-	debugGraphics->DebugDraw2DLine(this->mLowerBound + y, this->mLowerBound + y + x, color);
+	debugGraphics->DebugDraw2DLine(this->mLowerBound, this->mLowerBound + x, color, false, drawInstantly);
+	debugGraphics->DebugDraw2DLine(this->mLowerBound, this->mLowerBound + y, color, false, drawInstantly);
+	debugGraphics->DebugDraw2DLine(this->mLowerBound + x, this->mLowerBound + x + y, color, false, drawInstantly);
+	debugGraphics->DebugDraw2DLine(this->mLowerBound + y, this->mLowerBound + y + x, color, false, drawInstantly);
 
 }
 
@@ -60,7 +60,7 @@ float AABB3D::GetDiagonarLineLength()
 	return math::sqrt(halfExtent.x * halfExtent.x + halfExtent.y * halfExtent.y + halfExtent.z * halfExtent.z);
 }
 
-void doom::physics::AABB3D::Render(eColor color)
+void doom::physics::AABB3D::Render(eColor color, bool drawInstantly /*= false*/)
 {
 	auto debugGraphics = graphics::DebugGraphics::GetSingleton();
 
@@ -68,22 +68,36 @@ void doom::physics::AABB3D::Render(eColor color)
 	math::Vector3 y{ 0, this->mUpperBound.y - this->mLowerBound.y, 0 };
 	math::Vector3 z{ 0, 0, this->mUpperBound.z - this->mLowerBound.z };
 
-	debugGraphics->DebugDraw3DLine(this->mLowerBound, this->mLowerBound + x, color);
-	debugGraphics->DebugDraw3DLine(this->mLowerBound, this->mLowerBound + y, color);
-	debugGraphics->DebugDraw3DLine(this->mLowerBound, this->mLowerBound + z, color);
+	debugGraphics->DebugDraw3DLine(this->mLowerBound, this->mLowerBound + x, color, drawInstantly);
+	debugGraphics->DebugDraw3DLine(this->mLowerBound, this->mLowerBound + y, color, drawInstantly);
+	debugGraphics->DebugDraw3DLine(this->mLowerBound, this->mLowerBound + z, color, drawInstantly);
 
-	debugGraphics->DebugDraw3DLine(this->mLowerBound + x, this->mLowerBound + x + y, color);
-	debugGraphics->DebugDraw3DLine(this->mLowerBound + x, this->mLowerBound + x + z, color);
+	debugGraphics->DebugDraw3DLine(this->mLowerBound + x, this->mLowerBound + x + y, color, drawInstantly);
+	debugGraphics->DebugDraw3DLine(this->mLowerBound + x, this->mLowerBound + x + z, color, drawInstantly);
 
-	debugGraphics->DebugDraw3DLine(this->mLowerBound + y, this->mLowerBound + y + x, color);
-	debugGraphics->DebugDraw3DLine(this->mLowerBound + y, this->mLowerBound + y + z, color);
+	debugGraphics->DebugDraw3DLine(this->mLowerBound + y, this->mLowerBound + y + x, color, drawInstantly);
+	debugGraphics->DebugDraw3DLine(this->mLowerBound + y, this->mLowerBound + y + z, color, drawInstantly);
 
-	debugGraphics->DebugDraw3DLine(this->mLowerBound + z, this->mLowerBound + z + x, color);
-	debugGraphics->DebugDraw3DLine(this->mLowerBound + z, this->mLowerBound + z + y, color);
+	debugGraphics->DebugDraw3DLine(this->mLowerBound + z, this->mLowerBound + z + x, color, drawInstantly);
+	debugGraphics->DebugDraw3DLine(this->mLowerBound + z, this->mLowerBound + z + y, color, drawInstantly);
 
-	debugGraphics->DebugDraw3DLine(this->mLowerBound + x + y, this->mLowerBound + x + y + z, color);
-	debugGraphics->DebugDraw3DLine(this->mLowerBound + y + z, this->mLowerBound + y + z + x, color);
-	debugGraphics->DebugDraw3DLine(this->mLowerBound + x + z, this->mLowerBound + x + z + y, color);
+	debugGraphics->DebugDraw3DLine(this->mLowerBound + x + y, this->mLowerBound + x + y + z, color, drawInstantly);
+	debugGraphics->DebugDraw3DLine(this->mLowerBound + y + z, this->mLowerBound + y + z + x, color, drawInstantly);
+	debugGraphics->DebugDraw3DLine(this->mLowerBound + x + z, this->mLowerBound + x + z + y, color, drawInstantly);
+}
+
+void doom::physics::AABB3D::Render2DTopView(eColor color, bool drawInstantly /*= false*/)
+{
+	auto debugGraphics = graphics::DebugGraphics::GetSingleton();
+
+	math::Vector3 lower{ this->mLowerBound.x, this->mLowerBound.z, 0.0f };
+	math::Vector3 width{ this->mUpperBound.x - this->mLowerBound.x, 0.0f, 0.0f };
+	math::Vector3 height{ 0.0f, this->mUpperBound.z - this->mLowerBound.z, 0.0f };
+
+	debugGraphics->DebugDraw2DLine(lower, lower + width, color, false, drawInstantly);
+	debugGraphics->DebugDraw2DLine(lower + width, lower + width + height, color, false, drawInstantly);
+	debugGraphics->DebugDraw2DLine(lower , lower + height, color, false, drawInstantly);
+	debugGraphics->DebugDraw2DLine(lower + height, lower + width + height, color, false, drawInstantly);
 }
 
 doom::physics::ColliderType doom::physics::AABB3D::GetColliderType() const

@@ -84,14 +84,11 @@ namespace doom
 		}
 
 
-
 		void StartProfiling(const char* name, eProfileLayers layer) noexcept
 		{
 #ifndef DISABLE_PROFILING
 			Profiler::_StartProfiling(name, layer);
 #endif // ! DISABLE_PROFILING
-
-			
 		}
 		void EndProfiling(const char* name) noexcept
 		{

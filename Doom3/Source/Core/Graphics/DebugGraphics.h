@@ -76,6 +76,12 @@ namespace doom
 
 			void Init();
 			void Reset();
+
+			Material* mDrawInstantlyMaterial{ nullptr };
+
+			void DebugDraw2DLineInstantly(const math::Vector3& startNDCPos, const math::Vector3& endNDCPos, eColor color);
+			void DebugDraw2DTriangleInstantly(const math::Vector3& pointA, const math::Vector3& pointB, const math::Vector3& pointC, eColor color);
+
 		public:
 
 			static inline bool mbDrawDebug{ true };
@@ -88,11 +94,11 @@ namespace doom
 			/// <param name="startWorldPos"></param>
 			/// <param name="endWorldPos"></param>
 			/// <param name="color"></param>
-			void DebugDraw3DLine(const math::Vector3& startWorldPos, const math::Vector3& endWorldPos, eColor color);
+			void DebugDraw3DLine(const math::Vector3& startWorldPos, const math::Vector3& endWorldPos, eColor color, bool drawInstantly = false);
 			/// <summary>
 			/// You Should pass triangle points ordered counter clockwise
 			/// </summary>
-			void DebugDraw3DTriangle(const math::Vector3& pointA, const math::Vector3& pointB, const math::Vector3& pointC, eColor color);
+			void DebugDraw3DTriangle(const math::Vector3& pointA, const math::Vector3& pointB, const math::Vector3& pointC, eColor color, bool drawInstantly = false);
 
 			/// <summary>
 			/// z value will be ignored
@@ -101,16 +107,17 @@ namespace doom
 			/// <param name="startNDCPos">-1 ~ 1</param>
 			/// <param name="endNDCPos">-1 ~ 1</param>
 			/// <param name="color"></param>
-			void DebugDraw2DLine(const math::Vector3& startNDCPos, const math::Vector3& endNDCPos, eColor color, bool resizeByScreenRatio = true);
+			void DebugDraw2DLine(const math::Vector3& startNDCPos, const math::Vector3& endNDCPos, eColor color, bool resizeByScreenRatio = true, bool drawInstantly = false);
+	
 			/// <summary>
 			/// z value will be ignored
 			/// pass -1 ~ 1 ( NDC pos )
 			/// You Should pass triangle points ordered counter clockwise
 			/// </summary>
-			void DebugDraw2DTriangle(const math::Vector3& pointA, const math::Vector3& pointB, const math::Vector3& pointC, eColor color, bool resizeByScreenRatio = true);
+			void DebugDraw2DTriangle(const math::Vector3& pointA, const math::Vector3& pointB, const math::Vector3& pointC, eColor color, bool resizeByScreenRatio = true, bool drawInstantly = false);
 			
 
-			
+			void SetDrawInstantlyMaterial(Material* material);
 
 		};
 

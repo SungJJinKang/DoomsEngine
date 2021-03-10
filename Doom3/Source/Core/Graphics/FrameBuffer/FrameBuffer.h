@@ -5,7 +5,7 @@
 #include "../Graphics_Core.h"
 #include "../GraphicsAPI.h"
 #include "RenderBuffer.h"
-#include "../SingleTexture.h"
+#include "../Texture/SingleTexture.h"
 #include "../OverlapBindChecker.h"
 #include <ZeroResetMoveContainer.h>
 namespace doom
@@ -33,6 +33,15 @@ namespace doom
 
 			unsigned int mDefaultWidth;
 			unsigned int mDefaultHeight;
+
+			/// <summary>
+			/// nullptr mean default ScreenBuffer
+			/// </summary>
+			static inline FrameBuffer* PreviousFrameBuffer{ nullptr };
+			/// <summary>
+			/// nullptr mean default ScreenBuffer
+			/// </summary>
+			static inline FrameBuffer* CurrentFrameBuffer{ nullptr };
 		public:
 			
 			BufferID mFrameBufferID{};
@@ -52,13 +61,35 @@ namespace doom
 			inline void BindFrameBuffer() noexcept
 			{
 				D_ASSERT(this->mFrameBufferID != 0);
-				D_CHECK_OVERLAP_BIND("FramgBuffer", this->mFrameBufferID);
+				D_CHECK_OVERLAP_BIND_AND_SAVE_BIND("FramgBuffer", this->mFrameBufferID);
+
+				FrameBuffer::PreviousFrameBuffer = CurrentFrameBuffer;
+
 				glBindFramebuffer(GL_FRAMEBUFFER, this->mFrameBufferID);
+				FrameBuffer::CurrentFrameBuffer = this;
 			}
 			static inline void UnBindFrameBuffer() noexcept
 			{
 				glBindFramebuffer(GL_FRAMEBUFFER, 0);
 				glBindRenderbuffer(GL_RENDERBUFFER, 0);
+
+				FrameBuffer::PreviousFrameBuffer = CurrentFrameBuffer;
+				FrameBuffer::CurrentFrameBuffer = nullptr;
+			}
+
+			/// <summary>
+			/// Rebind privous bound framebuffer
+			/// </summary>
+			static inline void RevertFrameBuffer()
+			{
+				if (FrameBuffer::PreviousFrameBuffer != nullptr)
+				{
+					FrameBuffer::PreviousFrameBuffer->BindFrameBuffer();
+				}
+				else
+				{
+					FrameBuffer::UnBindFrameBuffer(); // bind defualt screen buffer
+				}
 			}
 
 			inline void Clear()
@@ -88,8 +119,8 @@ namespace doom
 				glBlitFramebuffer(srcX0, srcY0, srcX1, srcY1, dstX0, dstY0, dstX1, dstY1, static_cast<unsigned int>(mask), static_cast<unsigned int>(filter));
 			}
 
-			void AttachRenderBuffer(GraphicsAPI::eBufferType renderBufferType, unsigned int width, unsigned int height);
-			void AttachTextureBuffer(GraphicsAPI::eBufferType frameBufferType, unsigned int width, unsigned int height);
+			RenderBuffer& AttachRenderBuffer(GraphicsAPI::eBufferType renderBufferType, unsigned int width, unsigned int height);
+			SingleTexture& AttachTextureBuffer(GraphicsAPI::eBufferType frameBufferType, unsigned int width, unsigned int height);
 			const SingleTexture& GetFrameBufferTexture(GraphicsAPI::eBufferType bufferType, unsigned int index) const;
 			SingleTexture& GetFrameBufferTexture(GraphicsAPI::eBufferType bufferType, unsigned int index);
 

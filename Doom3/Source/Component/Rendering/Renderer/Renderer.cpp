@@ -42,7 +42,7 @@ doom::Renderer::Renderer() : ServerComponent(), StaticContainer(), mTargetMateri
 
 void doom::Renderer::DrawAABB3D()
 {
-	this->GetWorldAABB3DByReference().Render(graphics::eColor::Green);
+	this->GetWorldAABB3DByReference().DrawPhysicsDebugColor(graphics::eColor::Green);
 }
 
 void doom::Renderer::BindMaterial() noexcept

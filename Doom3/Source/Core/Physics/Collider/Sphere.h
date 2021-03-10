@@ -14,7 +14,7 @@ namespace doom
 			
 
 			// Inherited via RenderPhysics
-			virtual void Render(eColor color) final;
+			virtual void Render(eColor color, bool drawInstantly = false);
 
 		public:
 			Sphere(const math::Vector3& center, float radius);

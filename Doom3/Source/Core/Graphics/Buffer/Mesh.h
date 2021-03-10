@@ -22,20 +22,25 @@ namespace doom
 		{
 			friend class Graphics_Server;
 			friend class DebugGraphics;
+
+		public:
+
+			static inline const char* VERTEX_ARRAY_TAG{ "VERTEX_ARRAY" };
+			static inline const char* VERTEX_BUFFER_TAG{ "VERTEX_BUFFER" };
+
 		private:
 
 			enum eVertexArrayFlag : unsigned int
 			{
 				None = 0x0,
-				Vertex =  1,
-				TexCoord = 2,
-				mNormal = 4,
-				mTangent = 8,
-				mBitangent = 16,
+				VertexVector3 =  1,
+				VertexVector2 =  2,
+				TexCoord = 4,
+				mNormal = 8,
+				mTangent = 16,
+				mBitangent = 32,
 			};
 
-
-		private:
 			BufferID mVertexArrayObjectID;
 			BufferID mElementBufferObjectID;
 			//unsigned int mVertexBufferObject; <- Use Buffer::data
@@ -54,8 +59,12 @@ namespace doom
 			void BindBuffer() noexcept final
 			{
 				D_ASSERT(this->mVertexArrayObjectID != 0);
-				D_CHECK_OVERLAP_BIND("VertexArrayObject", this->mVertexArrayObjectID);
-				glBindVertexArray(this->mVertexArrayObjectID);
+
+				if (OverlapBindChecker::GetBoundID(VERTEX_ARRAY_TAG) != this->mVertexArrayObjectID)
+				{
+					D_CHECK_OVERLAP_BIND_AND_SAVE_BIND(VERTEX_ARRAY_TAG, this->mVertexArrayObjectID);
+					glBindVertexArray(this->mVertexArrayObjectID);
+				}
 			}
 
 			/// <summary>
@@ -91,6 +100,7 @@ namespace doom
 			}
 			void UnBindBuffer() noexcept final
 			{
+				D_CHECK_OVERLAP_BIND_AND_SAVE_BIND(VERTEX_ARRAY_TAG, 0);
 				glBindVertexArray(0);
 			}
 
@@ -134,12 +144,16 @@ namespace doom
 			{
 				D_ASSERT(this->mPrimitiveType != ePrimitiveType::NONE);
 
+				this->BindVertexArrayObject();
+
 				GraphicsAPI::DrawArray(this->mPrimitiveType, startIndexInComponent, vertexCount);
 			}
 
 			void DrawArray(ePrimitiveType primitiveType, int startVertexIndex, int vertexCount)
 			{
 				D_ASSERT(primitiveType != ePrimitiveType::NONE);
+
+				this->BindVertexArrayObject();
 
 				GraphicsAPI::DrawArray(primitiveType, startVertexIndex, vertexCount);
 			}
@@ -162,7 +176,8 @@ namespace doom
 			const physics::AABB3D& GetAABB() const;
 			physics::AABB3D GetAABB();
 
-
+			unsigned int GetVertexArrayObjectID();
+			unsigned int GetElementBufferObjectID();
 		};
 	}
 }

@@ -7,7 +7,7 @@
 void doom::graphics::DebugGraphics::Init()
 {
 	this->mDebugMesh.GenMeshBuffer(false);
-	this->mDebugMesh.BufferData(MAX_DEBUG_VERTEX_COUNT * 3, NULL, ePrimitiveType::LINES, Mesh::eVertexArrayFlag::Vertex);
+	this->mDebugMesh.BufferData(MAX_DEBUG_VERTEX_COUNT * 3, NULL, ePrimitiveType::LINES, Mesh::eVertexArrayFlag::VertexVector3);
 
 
 	auto debug2DShader = doom::assetimporter::AssetManager::GetAsset<asset::eAssetType::SHADER>(DebugGraphics::DEBUG_2D_SHADER);
@@ -85,9 +85,6 @@ void doom::graphics::DebugGraphics::DrawDebug()
 	int offsetComponentCount{ 0 };
 	unsigned int alreadyDrawedVertexCount{ 0 };
 
-
-	this->mDebugMesh.BindVertexArrayObject();
-	this->mDebugMesh.BindVertexBufferObject();
 	
 	this->m2DMaterial->UseProgram();
 	for (size_t i = 0; i < this->m2dLine.size(); i++)
@@ -154,8 +151,6 @@ void doom::graphics::DebugGraphics::DrawDebug()
 		{
 			this->mDebugMesh.BufferSubData(triangleCount * 9, this->m3dTriangle[i].data(), offsetComponentCount * sizeof(float));
 
-			
-
 			D_ASSERT(MAX_DEBUG_VERTEX_COUNT >= alreadyDrawedVertexCount + triangleCount * 3);
 
 			this->m3DMaterial->SetVector4(0, Color::GetColor(static_cast<eColor>(i)));
@@ -169,12 +164,24 @@ void doom::graphics::DebugGraphics::DrawDebug()
 	this->Reset();
 }
 
-void doom::graphics::DebugGraphics::DebugDraw3DLine(const math::Vector3& startWorldPos, const math::Vector3& endWorldPos, eColor color)
+void doom::graphics::DebugGraphics::DebugDraw3DLine(const math::Vector3& startWorldPos, const math::Vector3& endWorldPos, eColor color, bool drawInstantly /*= false*/)
 {
-#ifdef DEBUG_MODE
-	this->m3dLine[static_cast<unsigned int>(color)].emplace_back(startWorldPos, endWorldPos);
-#endif
+	if (drawInstantly == false)
+	{
+		this->m3dLine[static_cast<unsigned int>(color)].emplace_back(startWorldPos, endWorldPos);
+	}
+	else
+	{
+		this->m3DMaterial->UseProgram();
+		this->m3DMaterial->SetVector4(0, Color::GetColor(static_cast<eColor>(color)));
+		float data[6]{ startWorldPos.x, startWorldPos.y, startWorldPos.z, endWorldPos.x, endWorldPos.y, endWorldPos.z };
+		this->mDebugMesh.BufferSubData(6, data, 0);
+		this->mDebugMesh.DrawArray(ePrimitiveType::LINES, 0, 2);
+	}
+
 }
+
+
 
 /// <summary>
 /// Why Use Vector3 not Vector2??
@@ -184,50 +191,140 @@ void doom::graphics::DebugGraphics::DebugDraw3DLine(const math::Vector3& startWo
 /// <param name="startNDCPos"></param>
 /// <param name="endNDCPos"></param>
 /// <param name="color"></param>
-void doom::graphics::DebugGraphics::DebugDraw2DLine(const math::Vector3& startNDCPos, const math::Vector3& endNDCPos, eColor color, bool resizeByScreenRatio)
+void doom::graphics::DebugGraphics::DebugDraw2DLine(const math::Vector3& startNDCPos, const math::Vector3& endNDCPos, eColor color, bool resizeByScreenRatio /*= true*/, bool drawInstantly /*= false*/)
 {
-#ifdef DEBUG_MODE
-	if (resizeByScreenRatio)
+	if (drawInstantly == false)
 	{
-		float screenRatio = Graphics_Server::GetScreenRatio();
-		math::Vector3 newStartNDCPos{ startNDCPos.x * screenRatio , startNDCPos.y, startNDCPos.z };
-		math::Vector3 newEndNDCPos{ endNDCPos.x * screenRatio , endNDCPos.y, endNDCPos.z };
+		if (resizeByScreenRatio)
+		{
+			float screenRatio = Graphics_Server::GetScreenRatio();
+			math::Vector3 newStartNDCPos{ startNDCPos.x * screenRatio , startNDCPos.y, startNDCPos.z };
+			math::Vector3 newEndNDCPos{ endNDCPos.x * screenRatio , endNDCPos.y, endNDCPos.z };
+
+			this->m2dLine[static_cast<unsigned int>(color)].emplace_back(newStartNDCPos, newEndNDCPos);
+		}
+		else
+		{
+			this->m2dLine[static_cast<unsigned int>(color)].emplace_back(startNDCPos, startNDCPos);
+		}
+	}
+	else
+	{
+		if (resizeByScreenRatio)
+		{
+			float screenRatio = Graphics_Server::GetScreenRatio();
+			math::Vector3 newStartNDCPos{ startNDCPos.x * screenRatio , startNDCPos.y, startNDCPos.z };
+			math::Vector3 newEndNDCPos{ endNDCPos.x * screenRatio , endNDCPos.y, endNDCPos.z };
+
+			this->DebugDraw2DLineInstantly(newStartNDCPos, newEndNDCPos, color);
+		}
+		else
+		{
+			this->DebugDraw2DLineInstantly(startNDCPos, endNDCPos, color);
+		}
+
+		
+	}
+}
+
+void doom::graphics::DebugGraphics::DebugDraw2DLineInstantly(const math::Vector3& startNDCPos, const math::Vector3& endNDCPos, eColor color)
+{
+	if (mDrawInstantlyMaterial != nullptr)
+	{
+		mDrawInstantlyMaterial->UseProgram();
+		mDrawInstantlyMaterial->SetVector4(0, Color::GetColor(static_cast<eColor>(color)));
+	}
+	else
+	{
+		DEBUG_MODE("Please set mDrawInstantlyMaterial", eLogType::D_WARNING);
+		this->m2DMaterial->UseProgram();
+		this->m2DMaterial->SetVector4(0, Color::GetColor(static_cast<eColor>(color)));
+	}
 	
-		this->m2dLine[static_cast<unsigned int>(color)].emplace_back(newStartNDCPos, newEndNDCPos);
+	float data[6]{ startNDCPos.x, startNDCPos.y, startNDCPos.z, endNDCPos.x, endNDCPos.y, endNDCPos.z };
+
+	this->mDebugMesh.BufferSubData(6, data, 0);
+	this->mDebugMesh.DrawArray(ePrimitiveType::LINES, 0, 2);
+}
+
+
+
+void doom::graphics::DebugGraphics::DebugDraw2DTriangleInstantly(const math::Vector3& pointA, const math::Vector3& pointB, const math::Vector3& pointC, eColor color)
+{
+	if (mDrawInstantlyMaterial != nullptr)
+	{
+		DEBUG_MODE("Please set mDrawInstantlyMaterial", eLogType::D_WARNING);
+		mDrawInstantlyMaterial->UseProgram();
+		mDrawInstantlyMaterial->SetVector4(0, Color::GetColor(static_cast<eColor>(color)));
 	}
 	else
 	{
-		this->m2dLine[static_cast<unsigned int>(color)].emplace_back(startNDCPos, startNDCPos);
+		this->m2DMaterial->UseProgram();
+		this->m2DMaterial->SetVector4(0, Color::GetColor(static_cast<eColor>(color)));
 	}
-#endif
+
+	float data[9]{ pointA.x, pointA.y, pointA.z, pointB.x, pointB.y, pointB.z, pointC.x, pointC.y, pointC.z };
+	this->mDebugMesh.BufferSubData(9, data, 0);
+	this->mDebugMesh.DrawArray(ePrimitiveType::TRIANGLES, 0, 3);
 }
 
-void doom::graphics::DebugGraphics::DebugDraw2DTriangle(const math::Vector3& pointA, const math::Vector3& pointB, const math::Vector3& pointC, eColor color, bool resizeByScreenRatio)
+void doom::graphics::DebugGraphics::DebugDraw2DTriangle(const math::Vector3& pointA, const math::Vector3& pointB, const math::Vector3& pointC, eColor color, bool resizeByScreenRatio /*= true*/, bool drawInstantly /*= false*/)
 {
-#ifdef DEBUG_MODE
-	if (resizeByScreenRatio)
+	if (drawInstantly == false)
 	{
-		float screenRatio = Graphics_Server::GetScreenRatio();
-		math::Vector3 newPointA{ pointA.x * screenRatio , pointA.y, pointA.z };
-		math::Vector3 newPointB{ pointB.x * screenRatio , pointB.y, pointB.z };
-		math::Vector3 newPointC{ pointC.x * screenRatio , pointC.y, pointC.z };
+		if (resizeByScreenRatio)
+		{
+			float screenRatio = Graphics_Server::GetScreenRatio();
+			math::Vector3 newPointA{ pointA.x * screenRatio , pointA.y, pointA.z };
+			math::Vector3 newPointB{ pointB.x * screenRatio , pointB.y, pointB.z };
+			math::Vector3 newPointC{ pointC.x * screenRatio , pointC.y, pointC.z };
 
-		this->m2dTriangle[static_cast<unsigned int>(color)].emplace_back(newPointA, newPointB, newPointC);
+			this->m2dTriangle[static_cast<unsigned int>(color)].emplace_back(newPointA, newPointB, newPointC);
+		}
+		else
+		{
+			this->m2dTriangle[static_cast<unsigned int>(color)].emplace_back(pointA, pointB, pointC);
+		}
 	}
 	else
 	{
-		this->m2dTriangle[static_cast<unsigned int>(color)].emplace_back(pointA, pointB, pointC);
+		if (resizeByScreenRatio)
+		{
+			float screenRatio = Graphics_Server::GetScreenRatio();
+			math::Vector3 newPointA{ pointA.x * screenRatio , pointA.y, pointA.z };
+			math::Vector3 newPointB{ pointB.x * screenRatio , pointB.y, pointB.z };
+			math::Vector3 newPointC{ pointC.x * screenRatio , pointC.y, pointC.z };
+
+			this->DebugDraw2DTriangleInstantly(newPointA, newPointB, newPointC, color);
+		}
+		else
+		{
+			this->DebugDraw2DTriangleInstantly(pointA, pointB, pointC, color);
+		}
 	}
-#endif
 }
 
-void doom::graphics::DebugGraphics::DebugDraw3DTriangle(const math::Vector3& pointA, const math::Vector3& pointB, const math::Vector3& pointC, eColor color)
+void doom::graphics::DebugGraphics::SetDrawInstantlyMaterial(Material* material)
 {
-#ifdef DEBUG_MODE
-	this->m3dTriangle[static_cast<unsigned int>(color)].emplace_back(pointA, pointB, pointC);
+	this->mDrawInstantlyMaterial = material;
+}
 
-	//For Drawing both face
-	this->m3dTriangle[static_cast<unsigned int>(color)].emplace_back(pointC, pointB, pointA);
-#endif
+void doom::graphics::DebugGraphics::DebugDraw3DTriangle(const math::Vector3& pointA, const math::Vector3& pointB, const math::Vector3& pointC, eColor color, bool drawInstantly /*= false*/)
+{
+	if (drawInstantly == false)
+	{
+		this->m3dTriangle[static_cast<unsigned int>(color)].emplace_back(pointA, pointB, pointC);
+
+		//For Drawing both face
+		this->m3dTriangle[static_cast<unsigned int>(color)].emplace_back(pointC, pointB, pointA);
+	}
+	else
+	{
+		this->m3DMaterial->UseProgram();
+		this->m3DMaterial->SetVector4(0, Color::GetColor(static_cast<eColor>(color)));
+		float data[9]{ pointA.x, pointA.y, pointA.z, pointB.x, pointB.y, pointB.z, pointC.x, pointC.y, pointC.z };
+		this->mDebugMesh.BufferSubData(9, data, 0);
+		this->mDebugMesh.DrawArray(ePrimitiveType::TRIANGLES, 0, 3);
+	}
 }
 

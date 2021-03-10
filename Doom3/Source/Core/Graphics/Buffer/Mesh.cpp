@@ -92,6 +92,7 @@ void doom::graphics::Mesh::BufferData(GLsizeiptr dataComponentCount, const void*
 
 	this->BindVertexArrayObject(); // bind vertex array buffer
 	this->BindVertexBufferObject();
+
 	D_DEBUG_LOG(std::to_string(sizeof(float) * dataComponentCount));
 	glBufferData(GL_ARRAY_BUFFER, sizeof(float) * dataComponentCount, data, GL_STATIC_DRAW);
 
@@ -100,14 +101,25 @@ void doom::graphics::Mesh::BufferData(GLsizeiptr dataComponentCount, const void*
 
 #pragma warning( disable : 4312 )
 
-	if (vertexArrayFlag & eVertexArrayFlag::Vertex)
+	D_ASSERT(((vertexArrayFlag & eVertexArrayFlag::VertexVector2)) > 0 != ((vertexArrayFlag & eVertexArrayFlag::VertexVector3) > 0));
+
+
+	if (vertexArrayFlag & eVertexArrayFlag::VertexVector2)
+	{
+		//mVertex
+		glEnableVertexAttribArray(0);
+		glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, stride, (GLvoid*)offset);
+		offset += 2 * sizeof(float);
+	}
+
+	if (vertexArrayFlag & eVertexArrayFlag::VertexVector3)
 	{
 		//mVertex
 		glEnableVertexAttribArray(0);
 		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, stride, (GLvoid*)offset);
 		offset += 3 * sizeof(float);
 	}
-	
+
 	if (vertexArrayFlag & eVertexArrayFlag::TexCoord)
 	{
 		//mTexCoord
@@ -152,6 +164,10 @@ void doom::graphics::Mesh::BufferData(GLsizeiptr dataComponentCount, const void*
 void doom::graphics::Mesh::BufferSubData(GLsizeiptr dataComponentCount, const void* data, khronos_intptr_t offsetInByte) noexcept
 {
 	D_ASSERT(this->mBufferID != 0);
+
+	this->BindVertexArrayObject();
+	this->BindVertexBufferObject();
+
 	D_ASSERT(GraphicsAPI::GetInteger64v(GraphicsAPI::GetIntegerParameter::ARRAY_BUFFER_BINDING) == this->mBufferID);
 
 	// GL_INVALID_VALUE is generated if offset or size is negative, or if offset+size is greater than the value of GL_BUFFER_SIZE for the specified buffer object.
@@ -162,8 +178,14 @@ void doom::graphics::Mesh::BufferSubData(GLsizeiptr dataComponentCount, const vo
 void doom::graphics::Mesh::BindVertexBufferObject()
 {
 	D_ASSERT(this->mBufferID != 0);
-	D_CHECK_OVERLAP_BIND("VertexBufferObject", this->mBufferID);
-	glBindBuffer(GL_ARRAY_BUFFER, this->mBufferID);
+
+	if (OverlapBindChecker::GetBoundID(VERTEX_BUFFER_TAG) != this->mBufferID)
+	{
+		D_CHECK_OVERLAP_BIND_AND_SAVE_BIND(VERTEX_BUFFER_TAG, this->mBufferID);
+		glBindBuffer(GL_ARRAY_BUFFER, this->mBufferID);
+	}
+
+	
 }
 
 
@@ -172,8 +194,8 @@ void doom::graphics::Mesh::BufferDataFromModelMesh(const ThreeDModelMesh& threeD
 	this->GenBufferIfNotGened(threeDModelMesh.bHasIndices);
 
 	this->BindVertexArrayObject(); // bind vertex array buffer first
-
 	this->BindVertexBufferObject();
+
 	glBufferData(GL_ARRAY_BUFFER, sizeof(MeshVertexData) * threeDModelMesh.mNumOfVertexs, &(threeDModelMesh.mMeshVertexDatas[0]), GL_STATIC_DRAW);
 	
 	size_t offset = 0;
@@ -225,7 +247,7 @@ void doom::graphics::Mesh::BufferDataFromModelMesh(const ThreeDModelMesh& threeD
 constexpr unsigned int doom::graphics::Mesh::GetStride(unsigned int vertexArrayFlag)
 {
 	unsigned int offset = 0;
-	if (vertexArrayFlag & eVertexArrayFlag::Vertex)
+	if (vertexArrayFlag & eVertexArrayFlag::VertexVector3)
 	{
 		//mVertex
 		offset += 3 * sizeof(float);
@@ -273,7 +295,7 @@ std::shared_ptr<doom::graphics::Mesh> doom::graphics::Mesh::GetQuadMesh()
 {
 	if (doom::graphics::Mesh::QuadMesh == nullptr)
 	{
-		doom::graphics::Mesh::QuadMesh = std::make_shared<Mesh>(sizeof(QuadMeshData) / sizeof(float), (void*)QuadMeshData, ePrimitiveType::TRIANGLES, eVertexArrayFlag::Vertex | eVertexArrayFlag::TexCoord);
+		doom::graphics::Mesh::QuadMesh = std::make_shared<Mesh>(sizeof(QuadMeshData) / sizeof(float), (void*)QuadMeshData, ePrimitiveType::TRIANGLES, eVertexArrayFlag::VertexVector3 | eVertexArrayFlag::TexCoord);
 	}
 
 	return doom::graphics::Mesh::QuadMesh;
@@ -283,16 +305,16 @@ doom::graphics::Mesh doom::graphics::Mesh::GetQuadMesh(const math::Vector2& left
 {
 	float QuadMeshData[]
 	{
-		-1.0f * leftbottom.x, 1.0f * rightup.y, 0.0f, 0.0f, 1.0f,
-		-1.0f * leftbottom.x, -1.0f * leftbottom.y, 0.0f, 0.0f, 0.0f,
-		1.0f * rightup.x, -1.0f * leftbottom.y, 0.0f, 1.0f, 0.0f,
+		leftbottom.x, rightup.y, 0.0f, 0.0f, 1.0f,
+		leftbottom.x, leftbottom.y, 0.0f, 0.0f, 0.0f,
+		rightup.x, leftbottom.y, 0.0f, 1.0f, 0.0f,
 
-		1.0f * rightup.x, -1.0f * leftbottom.y, 0.0f, 1.0f, 0.0f,
-		1.0f * rightup.x, 1.0f * rightup.y, 0.0f, 1.0f, 1.0f,
-		-1.0f * leftbottom.x, 1.0f * rightup.y, 0.0f, 0.0f, 1.0f,
+		rightup.x, leftbottom.y, 0.0f, 1.0f, 0.0f,
+		rightup.x, rightup.y, 0.0f, 1.0f, 1.0f,
+		leftbottom.x, rightup.y, 0.0f, 0.0f, 1.0f,
 	};
 
-	return Mesh(sizeof(QuadMeshData) / sizeof(float), (void*)QuadMeshData, ePrimitiveType::TRIANGLES, eVertexArrayFlag::Vertex | eVertexArrayFlag::TexCoord);
+	return Mesh(sizeof(QuadMeshData) / sizeof(float), (void*)QuadMeshData, ePrimitiveType::TRIANGLES, eVertexArrayFlag::VertexVector3 | eVertexArrayFlag::TexCoord);
 }
 
 
@@ -304,6 +326,16 @@ bool doom::graphics::Mesh::IsBufferGenerated()
 const doom::physics::AABB3D& doom::graphics::Mesh::GetAABB() const
 {
 	return this->mAABB3D;
+}
+
+unsigned int doom::graphics::Mesh::GetVertexArrayObjectID()
+{
+	return this->mVertexArrayObjectID;
+}
+
+unsigned int doom::graphics::Mesh::GetElementBufferObjectID()
+{
+	return this->mElementBufferObjectID;
 }
 
 doom::physics::AABB3D doom::graphics::Mesh::GetAABB()

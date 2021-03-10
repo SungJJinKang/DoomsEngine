@@ -10,9 +10,9 @@ doom::physics::Ray::Ray(const math::Vector3 & origin, const math::Vector3& norma
 
 }
 
-void doom::physics::Ray::Render(eColor color)
+void doom::physics::Ray::Render(eColor color, bool drawInstantly /*= false*/)
 {
-	graphics::DebugGraphics::GetSingleton()->DebugDraw3DLine(this->mOrigin, this->mOrigin + this->mNormal * 100000000.0f, color);
+	graphics::DebugGraphics::GetSingleton()->DebugDraw3DLine(this->mOrigin, this->mOrigin + this->mNormal * 100000000.0f, color, drawInstantly);
 }
 
 math::Vector3 doom::physics::Ray::GetNormal() const

@@ -25,7 +25,7 @@ namespace doom
 
 			virtual ColliderType GetColliderType() const = 0;
 
-			virtual void DrawPhysicsDebug() final;
+			virtual void DrawPhysicsDebug(bool drawInstantly = false) final;
 
 
 		};

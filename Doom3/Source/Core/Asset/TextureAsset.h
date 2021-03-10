@@ -1,7 +1,7 @@
 #pragma once
 #include "Base_Asset.h"
 
-#include "../Graphics/TextureFormat.h"
+#include "../Graphics/Texture/TextureFormat.h"
 #include <DirectXTex.h>
 namespace DirectX
 {

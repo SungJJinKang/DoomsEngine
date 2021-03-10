@@ -1,6 +1,6 @@
 #include "Sphere.h"
 #include "../Graphics/DebugGraphics.h"
-void doom::physics::Sphere::Render(eColor color)
+void doom::physics::Sphere::Render(eColor color, bool drawInstantly /*= false*/)
 {
 	auto debugGraphics = graphics::DebugGraphics::GetSingleton();
 
@@ -29,7 +29,7 @@ void doom::physics::Sphere::Render(eColor color)
 
 			if (point != 0)
 			{
-				debugGraphics->DebugDraw3DLine(exVertex, currentVertex, color);
+				debugGraphics->DebugDraw3DLine(exVertex, currentVertex, color, drawInstantly);
 			}
 			exVertex = currentVertex;
 		}
@@ -49,7 +49,7 @@ void doom::physics::Sphere::Render(eColor color)
 
 			if (point != 0)
 			{
-				debugGraphics->DebugDraw3DLine(exVertex, currentVertex, color);
+				debugGraphics->DebugDraw3DLine(exVertex, currentVertex, color, drawInstantly);
 			}
 			exVertex = currentVertex;
 		}

@@ -10,8 +10,11 @@
 
 #include "Buffer/Mesh.h"
 #include "FrameBuffer/FrameBuffer.h"
+#include "FrameBuffer/utility/PicktureInPickture.h"
+
 #include "Material.h"
 #include "DebugGraphics.h"
+
 
 struct GLFWwindow;
 
@@ -44,7 +47,7 @@ namespace doom
 
 		private:
 
-		
+			bool bmIsGLFWInitialized{ false };
 
 			virtual void Init() final;
 			virtual void LateInit() final;
@@ -76,11 +79,22 @@ namespace doom
 			Material mGbufferWriterMaterial{};
 			std::shared_ptr<Mesh> mQuadMesh{ };
 			FrameBuffer mFrameBufferForDeferredRendering{};
+
+			/// <summary>
+			/// Pips will drawed before gbuffer screen mesh
+			/// </summary>
+			std::vector<std::reference_wrapper<PicktureInPickture>> mAutoDrawedPIPs{};
+			void DrawPIPs();
+
+			void InitGLFW();
+
 			void InitFrameBufferForDeferredRendering();
 			void DeferredRendering();
 				
 			static void OpenGlDebugCallback(GLenum source, GLenum type, GLuint id, GLenum severity, GLsizei length, const GLchar* msg, const void* data);
 		public:
+
+			bool GetIsGLFWInitialized();
 
 			static int GetScreenWidth();
 			static int GetScreenHeight();
@@ -92,6 +106,7 @@ namespace doom
 
 			void SetRenderingMode(eRenderingMode renderingMode);
 
+			void AddAutoDrawedPIPs(PicktureInPickture& pip);
 			
 	
 		};

@@ -4,7 +4,7 @@
 #include <array>
 
 #include "Graphics_Core.h"
-#include "Texture.h"
+#include "Texture/Texture.h"
 #include "OverlapBindChecker.h"
 #include "ZeroResetMoveContainer.h"
 
@@ -78,6 +78,8 @@ namespace doom
 
 			void UseProgram()
 			{
+				D_ASSERT(this->mProgramID != 0);
+
 				for (unsigned int i = 0; i < this->mTargetTextures.size(); i++)
 				{
 					if (this->mTargetTextures[i] != nullptr)
@@ -86,7 +88,7 @@ namespace doom
 					}
 				}
 
-				D_CHECK_OVERLAP_BIND("Material", this->mProgramID);
+				D_CHECK_OVERLAP_BIND_AND_SAVE_BIND("Material", this->mProgramID);
 				glUseProgram(this->mProgramID);
 			}
 

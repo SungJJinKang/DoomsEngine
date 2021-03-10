@@ -13,7 +13,7 @@ namespace doom
 			math::Vector3 mNormal;
 
 		protected:
-			virtual void Render(eColor color) final;
+			virtual void Render(eColor color, bool drawInstantly = false);
 
 		public:
 			float mDistance;

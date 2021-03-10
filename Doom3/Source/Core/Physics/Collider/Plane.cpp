@@ -61,7 +61,7 @@ math::Vector3 doom::physics::GetClosestPoint(const doom::physics::Plane& plane, 
 	return point - (math::dot(plane.GetNormal(), point) - plane.mDistance) * plane.GetNormal();
 }
 
-void doom::physics::Plane::Render(eColor color)
+void doom::physics::Plane::Render(eColor color, bool drawInstantly /*= false*/)
 {
 	auto debugGraphics = graphics::DebugGraphics::GetSingleton();
 
@@ -81,8 +81,8 @@ void doom::physics::Plane::Render(eColor color)
 	math::Vector3 c = center - Parallel1VectorToPlane * halfExtent - Parallel2VectorToPlane * halfExtent;
 	math::Vector3 d = center + Parallel1VectorToPlane * halfExtent - Parallel2VectorToPlane * halfExtent;
 	
-	debugGraphics->DebugDraw3DTriangle(a, b, c, color);
-	debugGraphics->DebugDraw3DTriangle(c, d, a, color);
+	debugGraphics->DebugDraw3DTriangle(a, b, c, color, drawInstantly);
+	debugGraphics->DebugDraw3DTriangle(c, d, a, color, drawInstantly);
 
 // 	debugGraphics->DebugDraw3DLine(a, b, color);
 // 	debugGraphics->DebugDraw3DLine(b, c, color);

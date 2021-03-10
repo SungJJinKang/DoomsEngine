@@ -1,9 +1,9 @@
 #include "Line.h"
 #include "../Graphics/DebugGraphics.h"
 
-void doom::physics::Line::Render(eColor color)
+void doom::physics::Line::Render(eColor color, bool drawInstantly /*= false*/)
 {
-	graphics::DebugGraphics::GetSingleton()->DebugDraw3DLine(this->mOrigin, this->mEndPoint, color);
+	graphics::DebugGraphics::GetSingleton()->DebugDraw3DLine(this->mOrigin, this->mEndPoint, color, drawInstantly);
 }
 
 doom::physics::Line::Line(const math::Vector3& startPos, const math::Vector3& endPos)

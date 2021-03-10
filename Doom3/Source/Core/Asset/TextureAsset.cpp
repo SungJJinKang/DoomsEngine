@@ -3,8 +3,8 @@
 #include "TextureAsset.h"
 
 
-#include "../Graphics/Texture.h"
-#include "../Graphics/SingleTexture.h"
+#include "../Graphics/Texture/Texture.h"
+#include "../Graphics/Texture/SingleTexture.h"
 
 #include <DirectXTex.h>
 

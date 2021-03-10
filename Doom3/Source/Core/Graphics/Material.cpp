@@ -11,7 +11,9 @@ using namespace doom::graphics;
 
 void Material::SetShaderAsset(::doom::asset::ShaderAsset* shaderAsset)
 {
-	mShaderAsset = shaderAsset;
+	D_ASSERT(shaderAsset != nullptr);
+
+	this->mShaderAsset = shaderAsset;
 
 	D_ASSERT(this->mProgramID == 0); // error : you're overlapping program
 
@@ -85,16 +87,19 @@ bool doom::graphics::Material::IsGenerated()
 
 void Material::AddTexture(unsigned int bindingPoint, Texture* texture)
 {
+	D_ASSERT(this->IsGenerated() == true);
 	this->mTargetTextures[bindingPoint] = texture;
 }
 
 void Material::AddTexture(unsigned int bindingPoint, ::doom::asset::TextureAsset* textureAsset)
 {
+	D_ASSERT(this->IsGenerated() == true);
 	this->mTargetTextures[bindingPoint] = textureAsset->mTexture;
 }
 
 void Material::AddTextures(std::array<Texture*, MAX_TEXTURE_COUNT> textures)
 {
+	D_ASSERT(this->IsGenerated() == true);
 	this->mTargetTextures = textures;
 }
 

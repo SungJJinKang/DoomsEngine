@@ -11,7 +11,7 @@ namespace doom
 		private:
 		
 		protected:
-			void Render(eColor color) override;
+			void Render(eColor color, bool drawInstantly = false) override;
 
 		public:
 			Circle2D(const math::Vector2& center, float radius);

@@ -3,7 +3,7 @@
 #include <utility>
 #include <Vector2.h>
 
-void doom::physics::Circle2D::Render(eColor color)
+void doom::physics::Circle2D::Render(eColor color, bool drawInstantly /*= false*/)
 {
 	auto debugGraphics = graphics::DebugGraphics::GetSingleton();
 
@@ -12,12 +12,13 @@ void doom::physics::Circle2D::Render(eColor color)
 	math::Vector2 exPoint{ this->mCenter + math::Vector2::right * mRadius};
 	for (float radian = 0; radian < math::PI * 2; radian += intervalRadian)
 	{
-		math::Vector2 newPoint
+		math::Vector3 newPoint
 		{
 			this->mCenter.x + this->mRadius * math::cos(radian + intervalRadian),
-			this->mCenter.y + this->mRadius * math::sin(radian + intervalRadian)
+			this->mCenter.y + this->mRadius * math::sin(radian + intervalRadian),
+			0
 		};
-		debugGraphics->DebugDraw2DLine(newPoint, exPoint, color, true);
+		debugGraphics->DebugDraw2DLine(newPoint, exPoint, color, true, drawInstantly);
 
 		exPoint = newPoint;
 	}

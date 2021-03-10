@@ -8,7 +8,7 @@ namespace doom
 		class BVH_TestRoom
 		{
 		private:
-			BVH3D mBVH{};
+			BVH2D mBVH{};
 
 			void AddNewRandomLeafNode();
 			

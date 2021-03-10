@@ -1,19 +1,21 @@
 #include "BVH.h"
 
+#include <stack>
+#include <queue>
+#include <type_traits>
+#include <utility>
 
 #include "../Collider/Collider.h"
 #include "../Collider/Ray.h"
 #include "../Collider/PhysicsGeneric.h"
 #include "../Collider/ColliderSolution.h"
 
-#include <type_traits>
-#include <utility>
+#include "../../Graphics/DebugGraphics.h"
 
-template<typename AABB>
-inline void doom::physics::Tree<AABB>::LogTree()
-{
-	
-}
+#include "Graphics/Graphics_Server.h"
+#include "Graphics/GraphicsAPI.h"
+#include "Game/AssetManager/AssetManager.h"
+#include "Graphics/Material.h"
 
 
 template <typename AABB>
@@ -240,6 +242,38 @@ void doom::physics::BVH<AABB>::SimpleDebug()
 	{
 		node.mAABB.DrawPhysicsDebug();
 	}
+
+
+	if (static_cast<bool>(this->mPIPForDebug))
+	{
+		this->mPIPForDebug->BindFrameBuffer();
+
+		graphics::GraphicsAPI::ClearColor(1.0f, 1.0f, 1.0f, 1.0f);
+		this->mPIPForDebug->ClearFrameBuffer();
+
+		graphics::DebugGraphics::GetSingleton()->SetDrawInstantlyMaterial(mBVHDebugMaterial.get());
+
+		if constexpr (std::is_same_v<doom::physics::AABB2D, AABB> == true)
+		{
+			for (auto& node : this->mTree.mNodes)
+			{
+				node.mAABB.DrawPhysicsDebugColor(eColor::Red, true);
+			}
+
+		}
+		else if (std::is_same_v<doom::physics::AABB3D, AABB> == true)
+		{
+			for (auto& node : this->mTree.mNodes)
+			{
+				node.mAABB.Render2DTopView(eColor::Red, true);
+			}
+		}
+
+		graphics::DebugGraphics::GetSingleton()->SetDrawInstantlyMaterial(nullptr);
+
+		this->mPIPForDebug->RevertFrameBuffer();
+	}
+	
 }
 
 
@@ -262,6 +296,22 @@ float doom::physics::BVH<AABB>::ComputeCost()
 		}
 	}
 	return cost;
+}
+
+
+template <typename AABB>
+void doom::physics::BVH<AABB>::InitializeDebugging()
+{
+	if (static_cast<bool>(this->mPIPForDebug) == false)
+	{
+		this->mPIPForDebug = std::make_unique<graphics::PicktureInPickture>(512, 256, math::Vector2(-1.0f, 0.4f), math::Vector2(-0.4f, 1.0f));
+		graphics::Graphics_Server::GetSingleton()->AddAutoDrawedPIPs(*(this->mPIPForDebug.get()));
+	}
+
+	if (static_cast<bool>(this->mBVHDebugMaterial) == false)
+	{
+		this->mBVHDebugMaterial = std::make_unique<graphics::Material>( doom::assetimporter::AssetManager::GetAsset<asset::eAssetType::SHADER>("Default2DColorShader.glsl"));
+	}
 }
 
 template class doom::physics::BVH<doom::physics::AABB3D>;

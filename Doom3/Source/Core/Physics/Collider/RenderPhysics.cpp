@@ -5,7 +5,7 @@
 
 
 
-void doom::physics::RenderPhysics::DrawPhysicsDebugColor(eColor color)
+void doom::physics::RenderPhysics::DrawPhysicsDebugColor(eColor color, bool drawInstantly /*= false*/)
 {
 	if (Physics_Server::IsShowDebug == true)
 	{
@@ -13,7 +13,7 @@ void doom::physics::RenderPhysics::DrawPhysicsDebugColor(eColor color)
 
 		//if (this->mLastRenderFrameTickCount != frameTickCount)
 		//{
-			Render(color);
+			Render(color, drawInstantly);
 		//}
 
 		//this->mLastRenderFrameTickCount = frameTickCount;

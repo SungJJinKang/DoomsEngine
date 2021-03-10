@@ -11,12 +11,12 @@ namespace doom
 			unsigned long long mLastRenderFrameTickCount{};
 
 		protected:
-			virtual void Render(eColor color) = 0;
+			virtual void Render(eColor color, bool drawInstantly = false) = 0;
 		public:
 			constexpr RenderPhysics() {}
 
-			virtual void DrawPhysicsDebug() = 0;
-			void DrawPhysicsDebugColor(eColor color);
+			virtual void DrawPhysicsDebug(bool drawInstantly = false) = 0;
+			void DrawPhysicsDebugColor(eColor color, bool drawInstantly = false);
 		};
 	}
 }

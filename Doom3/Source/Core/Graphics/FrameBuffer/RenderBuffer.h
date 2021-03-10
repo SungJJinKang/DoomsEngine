@@ -26,7 +26,7 @@ namespace doom
 
 			inline void BindRenderBuffer() noexcept
 			{
-				D_CHECK_OVERLAP_BIND("RenderBuffer", this->mRenderBufferID);
+				D_CHECK_OVERLAP_BIND_AND_SAVE_BIND("RenderBuffer", this->mRenderBufferID);
 				glBindRenderbuffer(GL_RENDERBUFFER, this->mRenderBufferID);
 			}
 			static inline void UnBindRenderBuffer() noexcept

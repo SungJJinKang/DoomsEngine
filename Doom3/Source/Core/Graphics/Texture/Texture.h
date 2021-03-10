@@ -1,8 +1,8 @@
 #pragma once
 
-#include "Graphics_Core.h"
-#include "OverlapBindChecker.h"
-#include "ZeroResetMoveContainer.h"
+#include "../Graphics_Core.h"
+#include "../OverlapBindChecker.h"
+#include <ZeroResetMoveContainer.h>
 #include "TextureFormat.h"
 
 namespace DirectX
@@ -232,7 +232,7 @@ namespace doom
 
 			inline void BindTexture() noexcept
 			{
-				D_CHECK_OVERLAP_BIND("Texture", this->mBufferID);
+				D_CHECK_OVERLAP_BIND_AND_SAVE_BIND("Texture", this->mBufferID);
 				glBindTexture(static_cast<unsigned int>(this->mBindTarget), this->mBufferID);
 			}
 			inline void ActiveTexture(unsigned int bindingPoint) noexcept
@@ -248,7 +248,7 @@ namespace doom
 
 			inline void BindTextureWithUnit(unsigned int bindingPoint)
 			{
-				D_CHECK_OVERLAP_BIND("Texture", this->mBufferID);
+				D_CHECK_OVERLAP_BIND_AND_SAVE_BIND("Texture", this->mBufferID);
 				glBindTextureUnit(bindingPoint, this->mBufferID);
 
 				//glActiveTexture(GL_TEXTURE0 + bindingPoint);

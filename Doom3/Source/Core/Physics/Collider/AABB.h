@@ -20,6 +20,9 @@ namespace doom
 		/// </summary>
 		class AABB3D : public Collider
 		{
+		private:
+			virtual void Render(eColor color, bool drawInstantly = false);
+
 		public:
 			/// <summary>
 			/// this is local coordinate, you should map to your world coordinate
@@ -69,7 +72,8 @@ namespace doom
 			/// <returns></returns>
 			float GetDiagonarLineLength();
 
-			virtual void Render(eColor color) final;
+		
+			virtual void Render2DTopView(eColor color, bool drawInstantly = false);
 
 
 			ColliderType GetColliderType() const override;
@@ -134,6 +138,9 @@ namespace doom
 
 		class AABB2D : public Collider
 		{
+		private:
+			virtual void Render(eColor color, bool drawInstantly = false);
+
 		public:
 			/// <summary>
 			/// this is local coordinate, you should map to your world coordinate
@@ -170,7 +177,6 @@ namespace doom
 			}
 
 			math::Vector2 GetHalfExtent() const;
-			virtual void Render(eColor color) final;
 			ColliderType GetColliderType() const override;
 			math::Vector2 GetCenter();
 

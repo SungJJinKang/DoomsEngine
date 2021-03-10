@@ -1,16 +1,16 @@
 #pragma once
 
-#include <type_traits>
-#include <stack>
 #include <vector>
-#include <queue>
+#include <memory>
 
 #include "../Collider/AABB.h"
+#include "Graphics/FrameBuffer/utility/PicktureInPickture.h"
 
 //BVH is used for rendering, collision detect, raycast, stero audio ......
 
 namespace doom
 {
+
 	namespace physics
 	{
 		class Ray;
@@ -77,7 +77,6 @@ namespace doom
 			/// </summary>
 			int mRootIndex{ 0 };
 
-			void LogTree();
 		};
 
 		using Tree2D = typename Tree<physics::AABB2D>;
@@ -101,10 +100,13 @@ namespace doom
 		public:
 			using NodeCost = typename std::pair<unsigned int, float>;
 
-		protected:
+		private:
 
 			BVH_Tree mTree{};
-
+#ifdef DEBUG_MODE
+			std::unique_ptr<graphics::PicktureInPickture> mPIPForDebug{};
+			std::unique_ptr<graphics::Material> mBVHDebugMaterial{};
+#endif
 			int PickBest(AABB& L);
 			int AllocateInternalNode();
 			int AllocateLeafNode(AABB& aabb, Collider* collider);
@@ -118,6 +120,8 @@ namespace doom
 			/// <param name="sumOfAreaSize"></param>
 			/// <returns></returns>
 			float InheritedCost(const AABB& L, const AABB& candidate);
+
+
 		public:
 
 			constexpr BVH()
@@ -134,6 +138,7 @@ namespace doom
 			/// <param name="newObjectBox"></param>
 			void InsertLeaf(AABB& L, Collider* collider);
 
+			void InitializeDebugging();
 			void SimpleDebug();
 		};
 

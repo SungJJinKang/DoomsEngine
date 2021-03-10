@@ -1,15 +1,14 @@
 #include "OverlapBindChecker.h"
 
-std::unordered_map<std::string, unsigned int> doom::graphics::OverlapBindChecker::mCurrentBoundId{};
+std::unordered_map<const char*, unsigned int> doom::graphics::OverlapBindChecker::mCurrentBoundId{};
 
 void doom::graphics::OverlapBindChecker::Bind(const char* str, unsigned int id)
 {
-	std::string key{ str };
-	auto element = OverlapBindChecker::mCurrentBoundId.find(key);
+	auto element = OverlapBindChecker::mCurrentBoundId.find(str);
 
 	if (element == OverlapBindChecker::mCurrentBoundId.end())
 	{//if key doesn't exitst
-		OverlapBindChecker::mCurrentBoundId.insert({ key, id });
+		OverlapBindChecker::mCurrentBoundId.insert({ str, id });
 	}
 	else
 	{//key exist
@@ -21,5 +20,29 @@ void doom::graphics::OverlapBindChecker::Bind(const char* str, unsigned int id)
 		{
 			(*element).second = id;
 		}
+	}
+}
+
+void doom::graphics::OverlapBindChecker::CheckIsBound(const char* str, unsigned int id)
+{
+	auto element = OverlapBindChecker::mCurrentBoundId.find(str);
+
+	if (element == OverlapBindChecker::mCurrentBoundId.end() || (*element).second != id)
+	{
+		D_DEBUG_LOG({ std::string("Please Bind : ") + str + "  Required ID : " + std::to_string(id) }, eLogType::D_ERROR);
+	}
+}
+
+unsigned int doom::graphics::OverlapBindChecker::GetBoundID(const char* str)
+{
+	auto element = OverlapBindChecker::mCurrentBoundId.find(str);
+
+	if (element == OverlapBindChecker::mCurrentBoundId.end())
+	{//if key doesn't exitst
+		return 0;
+	}
+	else
+	{//key exist
+		return (*element).second;
 	}
 }
