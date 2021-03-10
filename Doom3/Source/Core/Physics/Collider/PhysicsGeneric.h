@@ -37,6 +37,8 @@ namespace doom
 		bool RaycastRayAndSphere(Collider* ray, Collider* sphere);
 		bool RaycastRayAndPlane(Collider* ray, Collider* plane);
 
+		bool IsOverlapRayAndAABB3D(const Ray& ray, const AABB3D& aabb);
+
 		/// <summary>
 		/// return lenght if line's length is larger than argumnet length
 		/// if not, return -1
@@ -45,7 +47,7 @@ namespace doom
 		/// <param name="length"></param>
 		/// <returns></returns>
 		float CheckLenghIsShorterThanLine(const Line& line, float length);
-		float RaycastLineAndAABB3D(const Line& line, const AABB3D& aabb);
+		float RaycastLineAndAABB3D(const Line& line, const AABB3D& aabb3d);
 		float RaycastLineAndSphere(const Line& line, const Sphere& sphere);
 		float RaycastLineAndPlane(const Line& line, const Plane& plane);
 		bool RaycastLineAndAABB3D(Collider* line, Collider* aabb);
@@ -58,6 +60,8 @@ namespace doom
 
 		float RaycastRayAndAABB2D(const Ray& ray, const AABB2D& aabb);
 		float RaycastRayAndCirecle2D(const Ray& ray, const Circle2D& circle2d);
+
+		bool IsOverlapRayAndAABB2D(const Ray& ray, const AABB2D& aabb2d);
 		bool RaycastRayAndAABB2D(Collider* rayCollider, Collider* aabbCollider);
 		bool RaycastRayAndCirecle2D(Collider* rayCollider, Collider* circle2dCollider);
 

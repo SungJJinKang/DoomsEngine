@@ -34,3 +34,6 @@
 [submodule "Doom3/Source/Helper/SuperLightSerialization"]
 	path = Doom3/Source/Helper/SuperLightSerialization
 	url = https://github.com/SungJJinKang/SuperLightSerialization.git
+[submodule "Doom3/Source/Helper/portable-snippets"]
+	path = Doom3/Source/Helper/portable-snippets
+	url = https://github.com/nemequ/portable-snippets.git

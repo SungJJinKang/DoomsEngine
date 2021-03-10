@@ -5,6 +5,8 @@
 #include "Collider/Collider.h"
 #include "Collider/ColliderSolution.h"
 
+#include "BVH/BVH.h"
+
 void doom::physics::ColliderPickingTestRoom::FixedUpdatePhysics()
 {
 	auto cursorRay{ physics::Picking::GetCurrentCursorPointWorldRay() };

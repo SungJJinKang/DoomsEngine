@@ -3,6 +3,7 @@
 #include <initializer_list>
 #include <string>
 #include "../Graphics/Color.h"
+
 namespace math
 {
 	template <size_t ComponentCount, typename T>
@@ -19,15 +20,17 @@ namespace doom
 	{
 		enum class eLogType
 		{
-			D_LOG,
-			D_WARNING,
-			D_ERROR
+			D_LOG = 0,
+			D_WARNING = 1,
+			D_ERROR = 2
 		};
 
-		class Debug
+		class Logger
 		{
 		public:
 			
+			static void InitLogger();
+
 			static void StopIfError(eLogType logType);
 			static void Log(const char* log, eLogType logType = eLogType::D_LOG) noexcept;
 			static void Log(const std::string log, eLogType logType = eLogType::D_LOG) noexcept;

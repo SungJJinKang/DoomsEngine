@@ -1,10 +1,11 @@
 #pragma once
 
 #include <type_traits>
-#include "../Collider/AABB.h"
 #include <stack>
 #include <vector>
 #include <queue>
+
+#include "../Collider/AABB.h"
 
 //BVH is used for rendering, collision detect, raycast, stero audio ......
 
@@ -24,11 +25,13 @@ namespace doom
 			/// </summary>
 			AABB mAABB;
 
+			Collider* mCollider{ nullptr };
+
 			/// <summary>
 			/// World Object Unqieu ID
 			/// Will be used when mIsLeaf is true
 			/// </summary>
-			int mObjectIndex{ NULL_NODE_INDEX };
+			//Collider* mCollider;
 
 			/// <summary>
 			/// Node Index in Tree::mNodes
@@ -73,6 +76,8 @@ namespace doom
 			/// Root Node Index in mNodes
 			/// </summary>
 			int mRootIndex{ 0 };
+
+			void LogTree();
 		};
 
 		using Tree2D = typename Tree<physics::AABB2D>;
@@ -100,43 +105,47 @@ namespace doom
 
 			BVH_Tree mTree{};
 
-		public:
-
-			constexpr BVH()
-			{
-				AllocateInternalNode();
-
-				AABB aabb{ 0.0f, 1.0f };
-				this->InsertLeaf(0, aabb);
-			}
-
-			static bool TreeRayCast(BVH_Tree& tree, Ray& ray);
-
-			int PickBest(AABB& aabb);
-
+			int PickBest(AABB& L);
 			int AllocateInternalNode();
-
-			int AllocateLeafNode(int objectIndex, AABB& box);
-
-			void InsertLeaf(int newOjectIndex, AABB& newObjectBox);
-
+			int AllocateLeafNode(AABB& aabb, Collider* collider);
 			float ComputeCost();
 
 			/// <summary>
-			/// see pdf 84page
+			/// https://box2d.org/files/ErinCatto_DynamicBVH_Full.pdf see pdf 84 page
 			/// </summary>
 			/// <param name="newNodeAABB">Inserted AABB</param>
 			/// <param name="silbingNodeIndexOfNewNode">Node what will be unioned with Inseted AABB</param>
 			/// <param name="sumOfAreaSize"></param>
 			/// <returns></returns>
-			float InheritedCost(AABB L, AABB candidate);
+			float InheritedCost(const AABB& L, const AABB& candidate);
+		public:
+
+			constexpr BVH()
+			{
+				AllocateInternalNode();
+			}
+
+			static bool TreeRayCast(BVH_Tree& tree, Ray& ray);
+
+			/// <summary>
+			/// Inser New Object(Leaf)
+			/// </summary>
+			/// <param name="newOjectIndex"></param>
+			/// <param name="newObjectBox"></param>
+			void InsertLeaf(AABB& L, Collider* collider);
+
+			void SimpleDebug();
 		};
 
 		
 		using BVH3D = typename BVH<physics::AABB3D>;
 		using BVH2D = typename BVH<physics::AABB2D>;
+		
+		extern template class BVH<physics::AABB3D>;
+		extern template class BVH<physics::AABB2D>;
+		
 
-	}
+}
 }
 
 template <>

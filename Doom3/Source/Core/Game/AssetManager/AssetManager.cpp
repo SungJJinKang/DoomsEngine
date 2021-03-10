@@ -118,12 +118,12 @@ void doom::assetimporter::AssetManager::ImportEntireAsset()
 	
 		
 	{
-		ForLoop_CompileTime<::doom::asset::eAssetType>::Loop<::doom::asset::FirstAssetType, ::doom::asset::LastAssetType, 1, ImportAssetInitSetting>();
-		ForLoop_CompileTime<::doom::asset::eAssetType>::Loop<::doom::asset::FirstAssetType, ::doom::asset::LastAssetType, 1, ImportAssetFunctor>(entireAssetPaths);
+		ForLoop_CompileTime<::doom::asset::eAssetType>::Loop<::doom::asset::FirstAssetType, ::doom::asset::LastAssetType, eCondition_OperatorType::SmallerThanOrEqual, 1, ImportAssetInitSetting>();
+		ForLoop_CompileTime<::doom::asset::eAssetType>::Loop<::doom::asset::FirstAssetType, ::doom::asset::LastAssetType, eCondition_OperatorType::SmallerThanOrEqual, 1, ImportAssetFunctor>(entireAssetPaths);
 		this->GetWaitingImportFuture();
 
 	}
-	ForLoop_CompileTime<::doom::asset::eAssetType>::Loop<::doom::asset::FirstAssetType, ::doom::asset::LastAssetType, 1, OnEndImportInMainThreadFunctor>();
+	ForLoop_CompileTime<::doom::asset::eAssetType>::Loop<::doom::asset::FirstAssetType, ::doom::asset::LastAssetType, eCondition_OperatorType::SmallerThanOrEqual, 1, OnEndImportInMainThreadFunctor>();
 	doom::assetimporter::ClearAllApiImporterQueue();
 	
 }

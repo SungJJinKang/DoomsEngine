@@ -11,6 +11,7 @@
 
 #include "AssetImporter/AssetImporterWorker_Texture.h"
 
+#include "../Logger/Logger.h"
 
 
 
@@ -42,6 +43,7 @@ void doom::GameCore::InitGameSetting()
 
 	this->mJobSystem.MAX_SUB_THREAD_COUNT = this->mMainConfigData.GetConfigData().GetValue<int>("SYSTEM", "MAX_SUB_THREAD_COUNT");
 
+	doom::logger::Logger::InitLogger();
 }
 
 void doom::GameCore::Init()

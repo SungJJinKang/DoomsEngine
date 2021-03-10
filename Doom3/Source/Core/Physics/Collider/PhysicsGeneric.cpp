@@ -105,12 +105,10 @@ float doom::physics::RaycastRayAndAABB3D(const Ray& ray, const AABB3D& aabb)
 	
 }
 
-bool doom::physics::RaycastRayAndAABB3D(Collider * rayCollider, Collider * aabbCollider)
+bool doom::physics::IsOverlapRayAndAABB3D(const Ray& ray, const AABB3D& aabb3d)
 {
 	/// reference : https://web.archive.org/web/20090803054252/http://tog.acm.org/resources/GraphicsGems/gems/RayBox.c
 
-	Ray& ray{ *static_cast<Ray*>(rayCollider) };
-	AABB3D& aabb{ *static_cast<AABB3D*>(aabbCollider) };
 
 	static constexpr unsigned NUMDIM{ 3 };
 	static constexpr unsigned RIGHT{ 0 };
@@ -131,16 +129,16 @@ bool doom::physics::RaycastRayAndAABB3D(Collider * rayCollider, Collider * aabbC
 	rays cast all from the eye(assume perpsective view) */
 	for (unsigned int i = 0; i < NUMDIM; i++)
 	{
-		if (ray.mOrigin[i] < aabb.mLowerBound[i])
+		if (ray.mOrigin[i] < aabb3d.mLowerBound[i])
 		{
 			quadrant[i] = LEFT;
-			candidatePlane[i] = aabb.mLowerBound[i];
+			candidatePlane[i] = aabb3d.mLowerBound[i];
 			inside = false;
 		}
-		else if (ray.mOrigin[i] > aabb.mUpperBound[i])
+		else if (ray.mOrigin[i] > aabb3d.mUpperBound[i])
 		{
 			quadrant[i] = RIGHT;
-			candidatePlane[i] = aabb.mUpperBound[i];
+			candidatePlane[i] = aabb3d.mUpperBound[i];
 			inside = false;
 		}
 		else {
@@ -188,7 +186,7 @@ bool doom::physics::RaycastRayAndAABB3D(Collider * rayCollider, Collider * aabbC
 		if (whichPlane != i)
 		{
 			hitPoint[i] = ray.mOrigin[i] + maxT[whichPlane] * normal[i];
-			if (hitPoint[i] < aabb.mLowerBound[i] || hitPoint[i] > aabb.mUpperBound[i])
+			if (hitPoint[i] < aabb3d.mLowerBound[i] || hitPoint[i] > aabb3d.mUpperBound[i])
 			{
 				return false;
 			}
@@ -199,7 +197,14 @@ bool doom::physics::RaycastRayAndAABB3D(Collider * rayCollider, Collider * aabbC
 	}
 
 	return true;
+}
 
+bool doom::physics::RaycastRayAndAABB3D(Collider * rayCollider, Collider * aabbCollider)
+{
+
+	Ray& ray{ *static_cast<Ray*>(rayCollider) };
+	AABB3D& aabb{ *static_cast<AABB3D*>(aabbCollider) };
+	return IsOverlapRayAndAABB3D(ray, aabb);
 }
 
 /// <summary>
@@ -253,6 +258,8 @@ bool doom::physics::RaycastRayAndPlane(Collider* ray, Collider* plane)
 {
 	return RaycastRayAndPlane(*static_cast<Ray*>(ray), *static_cast<Plane*>(plane)) > 0;
 }
+
+
 
 float doom::physics::CheckLenghIsShorterThanLine(const Line& line, float length)
 {
@@ -310,12 +317,17 @@ float doom::physics::RaycastRayAndCirecle2D(const Ray& ray, const Circle2D& circ
 	return 0.0f;
 }
 
+bool doom::physics::IsOverlapRayAndAABB2D(const Ray& ray, const AABB2D& aabb2d)
+{
+	return ray.mOrigin.x > aabb2d.mLowerBound.x && ray.mOrigin.y > aabb2d.mLowerBound.y
+		&& ray.mOrigin.x < aabb2d.mUpperBound.x&& ray.mOrigin.y < aabb2d.mUpperBound.x;
+}
+
 bool doom::physics::RaycastRayAndAABB2D(Collider* rayCollider, Collider* aabbCollider)
 {
 	Ray& ray = *static_cast<Ray*>(rayCollider);
 	AABB2D& aabb2d = *static_cast<AABB2D*>(aabbCollider);
-	return ray.mOrigin.x > aabb2d.mLowerBound.x && ray.mOrigin.y > aabb2d.mLowerBound.y
-		&& ray.mOrigin.x < aabb2d.mUpperBound.x && ray.mOrigin.y < aabb2d.mUpperBound.x;
+	return IsOverlapRayAndAABB2D(ray, aabb2d);
 }
 
 bool doom::physics::RaycastRayAndCirecle2D(Collider* rayCollider, Collider* circle2dCollider)

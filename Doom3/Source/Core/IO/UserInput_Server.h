@@ -1,9 +1,14 @@
 #pragma once
+
+#include <array>
+
 #include "../Core.h"
 #include"../Game/IGameFlow.h"
 #include"../API/OpenglAPI.h"
 #include "../Graphics/Graphics_Server.h"
 #include <Vector2.h>
+
+#include <magic_enum.hpp>
 
 namespace doom
 {
@@ -14,7 +19,6 @@ namespace doom
 
 		enum eKEY_CODE : int
 		{
-			KEY_UNKNOWN = GLFW_KEY_UNKNOWN,
 			KEY_SPACE = GLFW_KEY_SPACE,
 			KEY_APOSTROPHE = GLFW_KEY_APOSTROPHE,
 			KEY_COMMA = GLFW_KEY_COMMA,
@@ -138,6 +142,18 @@ namespace doom
 
 		};
 
+		enum eKeyState : int
+		{
+			NONE = 0,
+			PRESS_DOWN,
+			PRESSING,
+			UP
+		};
+
+		inline constexpr eKEY_CODE FIRST_KEY_CODE{ magic_enum::enum_value<eKEY_CODE>(0) };
+		inline constexpr eKEY_CODE LAST_KEY_CODE{ magic_enum::enum_value<eKEY_CODE>(magic_enum::enum_count<eKEY_CODE>() - 1) };
+
+
 		enum eMouse_Button_Type : int
 		{
 			MOUST_BUTTON_LEFT = GLFW_MOUSE_BUTTON_LEFT,
@@ -157,10 +173,25 @@ namespace doom
 		class UserInput_Server : public IGameFlow, public ISingleton<UserInput_Server>
 		{
 			friend class::doom::GameCore;
+
+			
+
 		private:
 
 			static inline math::Vector2 mScrollOffset{};
-			static inline std::unordered_map<int, bool> mKeyToggle{};
+
+			static inline std::array<bool, LAST_KEY_CODE - FIRST_KEY_CODE + 1> mKeyToggle{};
+			static inline std::array<eKeyState, LAST_KEY_CODE - FIRST_KEY_CODE + 1> mKeyState{};
+
+			/// <summary>
+			/// Keys what was down at last frame
+			/// </summary>
+			static inline std::vector<int> mDownKeys{};
+			/// <summary>
+			/// Keys what was up at last frame
+			/// </summary>
+			static inline std::vector<int> mUpKeys{};
+			void UpdateKeyStates();
 
 			/// <summary>
 			/// The callback functions receives the cursor position, measured in screen coordinates but relative to the top-left corner of the window content area. 
@@ -196,7 +227,7 @@ namespace doom
 
 			[[nodiscard]] static bool GetKeyToggle(eKEY_CODE keyCode) noexcept
 			{
-				return UserInput_Server::mKeyToggle[keyCode];
+				return UserInput_Server::mKeyToggle[keyCode - FIRST_KEY_CODE];
 			}
 
 			/// <summary>
@@ -206,7 +237,7 @@ namespace doom
 			/// <returns></returns>
 			[[nodiscard]] static bool GetKey(eKEY_CODE keyCode) noexcept
 			{
-				return glfwGetKey(doom::graphics::Graphics_Server::Window, keyCode) == GLFW_PRESS;
+				return UserInput_Server::mKeyState[keyCode - FIRST_KEY_CODE] == eKeyState::PRESSING;
 			}
 			/// <summary>
 			/// Key is Released ?
@@ -215,17 +246,19 @@ namespace doom
 			/// <returns></returns>
 			[[nodiscard]] static bool GetKeyUp(eKEY_CODE keyCode) noexcept
 			{
-				return glfwGetKey(doom::graphics::Graphics_Server::Window, keyCode) == GLFW_RELEASE;
+				return UserInput_Server::mKeyState[keyCode - FIRST_KEY_CODE] == eKeyState::UP;
 			}
 
 			/// <summary>
 			/// Key is pressed? ( not being pressed, if you want this use GetKey )
+			/// TODO : 현재는 그냥 안누른 상태를 TRUE로 리턴한다
+			/// TODO : 내가 원하는건 누르고 있다 안누른 그 순간을 TRUE로 리턴하는거다
 			/// </summary>
 			/// <param name="keyCode"></param>
 			/// <returns></returns>
 			[[nodiscard]] static bool GetKeyDown(eKEY_CODE keyCode) noexcept
 			{
-				return glfwGetKey(doom::graphics::Graphics_Server::Window, keyCode) == GLFW_PRESS;
+				return UserInput_Server::mKeyState[keyCode - FIRST_KEY_CODE] == eKeyState::PRESS_DOWN;
 			}
 
 		

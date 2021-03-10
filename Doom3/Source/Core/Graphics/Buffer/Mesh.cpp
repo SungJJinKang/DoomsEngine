@@ -279,6 +279,23 @@ std::shared_ptr<doom::graphics::Mesh> doom::graphics::Mesh::GetQuadMesh()
 	return doom::graphics::Mesh::QuadMesh;
 }
 
+doom::graphics::Mesh doom::graphics::Mesh::GetQuadMesh(const math::Vector2& leftbottom, const math::Vector2& rightup)
+{
+	float QuadMeshData[]
+	{
+		-1.0f * leftbottom.x, 1.0f * rightup.y, 0.0f, 0.0f, 1.0f,
+		-1.0f * leftbottom.x, -1.0f * leftbottom.y, 0.0f, 0.0f, 0.0f,
+		1.0f * rightup.x, -1.0f * leftbottom.y, 0.0f, 1.0f, 0.0f,
+
+		1.0f * rightup.x, -1.0f * leftbottom.y, 0.0f, 1.0f, 0.0f,
+		1.0f * rightup.x, 1.0f * rightup.y, 0.0f, 1.0f, 1.0f,
+		-1.0f * leftbottom.x, 1.0f * rightup.y, 0.0f, 0.0f, 1.0f,
+	};
+
+	return Mesh(sizeof(QuadMeshData) / sizeof(float), (void*)QuadMeshData, ePrimitiveType::TRIANGLES, eVertexArrayFlag::Vertex | eVertexArrayFlag::TexCoord);
+}
+
+
 bool doom::graphics::Mesh::IsBufferGenerated()
 {
 	return Buffer::IsBufferGenerated() && this->mVertexArrayObjectID != 0;

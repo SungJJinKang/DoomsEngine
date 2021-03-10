@@ -47,14 +47,36 @@ void UserInput_Server::Scroll_Callback(GLFWwindow* window, double xoffset, doubl
 
 void UserInput_Server::Key_Callback(GLFWwindow* window, int key, int scancode, int action, int mods)
 {
-	if (action == GLFW_RELEASE)
+	if (action == GLFW_PRESS)
 	{
-		UserInput_Server::mKeyToggle[key] = !UserInput_Server::mKeyToggle[key];
+		UserInput_Server::mKeyState[key - FIRST_KEY_CODE] = eKeyState::PRESS_DOWN;
+		UserInput_Server::mDownKeys.push_back(key);
+	}
+	else if (action == GLFW_RELEASE)
+	{
+		UserInput_Server::mKeyState[key - FIRST_KEY_CODE] = eKeyState::UP;
+		UserInput_Server::mUpKeys.push_back(key);
 	}
 
 	//D_DEBUG_LOG({ "Key Input Callback  :  ", std::to_string(key), "  ", std::to_string(action) }, eLogType::D_LOG);
 }
 
+
+void doom::userinput::UserInput_Server::UpdateKeyStates()
+{
+	for (auto upKey : UserInput_Server::mUpKeys)
+	{
+		UserInput_Server::mKeyState[upKey - FIRST_KEY_CODE] = eKeyState::NONE;
+	}
+
+	for (auto downKey : UserInput_Server::mDownKeys)
+	{
+		UserInput_Server::mKeyState[downKey - FIRST_KEY_CODE] = eKeyState::PRESSING;
+	}
+
+	UserInput_Server::mUpKeys.clear();
+	UserInput_Server::mDownKeys.clear();
+}
 
 void UserInput_Server::MouseButton_Callback(GLFWwindow* window, int button, int action, int mods)
 {
@@ -70,6 +92,7 @@ void doom::userinput::UserInput_Server::UpdateCurrentCursorScreenPosition()
 	doom::userinput::UserInput_Server::mCurrentCursorWorldPosition = Camera::GetMainCamera()->NDCToWorldPoint(doom::userinput::UserInput_Server::mCurrentCursorNDCPosition);
 	//D_DEBUG_LOG(doom::userinput::UserInput_Server::mCurrentCursorWorldPosition.toString());
 }
+
 
 void UserInput_Server::Init()
 {
@@ -91,6 +114,7 @@ void UserInput_Server::Update()
 	UserInput_Server::mDeltaCursorScreenPosition.x = 0;
 	UserInput_Server::mDeltaCursorScreenPosition.y = 0;
 
+	this->UpdateKeyStates();
 	glfwPollEvents();
 
 	if (UserInput_Server::mScrollChangedAtPreviousFrame == false)
@@ -105,6 +129,7 @@ void UserInput_Server::Update()
 void UserInput_Server::OnEndOfFrame()
 {
 	UserInput_Server::mScrollChangedAtPreviousFrame = false;
+
 
 	//glfwPollEvents(); // this function should be called last
 }

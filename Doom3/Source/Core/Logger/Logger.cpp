@@ -8,7 +8,9 @@
 #include "../Graphics/DebugGraphics.h"
 #include "../Math/LightMath_Cpp/Vector2.h"
 #include "../Math/LightMath_Cpp/Vector3.h"
+#include "../Game/ConfigData.h"
 
+#include <portable-snippets/debug-trap/debug-trap.h>
 
 using namespace doom::logger;
 
@@ -35,7 +37,7 @@ namespace doom
 			void Log(std::initializer_list<const char*> logs, eLogType logType = eLogType::D_LOG) const noexcept;
 			void Log(std::initializer_list<const std::string> logs, eLogType logType = eLogType::D_LOG) const noexcept;
 
-			
+
 
 		};
 
@@ -48,7 +50,7 @@ namespace doom
 			}
 
 		public:
-			friend class Debug;
+			friend class Logger;
 
 			inline void Log(const char* log, eLogType logType = eLogType::D_LOG) const noexcept {}
 			inline void Log(const std::string log, eLogType logType = eLogType::D_LOG) const noexcept {}
@@ -56,40 +58,57 @@ namespace doom
 			inline void Log(std::initializer_list<const std::string> logs, eLogType logType = eLogType::D_LOG) const noexcept {}
 		};
 
-		constexpr inline StdStreamLogger Logger{};
-
-		void Debug::StopIfError(eLogType logType)
+		constexpr inline StdStreamLogger mLogger{};
+		eLogType DEBUG_LEVEL{ eLogType::D_LOG };
+		void Logger::InitLogger()
 		{
-			if (logType == eLogType::D_ERROR)
+			DEBUG_LEVEL = static_cast<eLogType>(::doom::ConfigData::GetSingleton()->GetConfigData().GetValue<int>("SYSTEM", "DEBUG_LEVEL"));
+		}
+
+		void Logger::StopIfError(eLogType logType)
+		{
+			if (logType >= eLogType::D_ERROR)
 			{
 				std::cout.flush();
-				__debugbreak();
+				psnip_trap();
 			}
 		}
-		void Debug::Log(const char* log, eLogType logType) noexcept
+		void Logger::Log(const char* log, eLogType logType) noexcept
 		{
-			Logger.Log(log, logType);
-			StopIfError(logType);
+			if (logType >= DEBUG_LEVEL)
+			{
+				mLogger.Log(log, logType);
+				StopIfError(logType);
+			}
 		}
-		void Debug::Log(const std::string log, eLogType logType) noexcept
+		void Logger::Log(const std::string log, eLogType logType) noexcept
 		{
-			Logger.Log(log, logType);
-			StopIfError(logType);
+			if (logType >= DEBUG_LEVEL)
+			{
+				mLogger.Log(log, logType);
+				StopIfError(logType);
+			}
 		}
-		void Debug::Log(std::initializer_list<const char*> logs, eLogType logType) noexcept
+		void Logger::Log(std::initializer_list<const char*> logs, eLogType logType) noexcept
 		{
-			Logger.Log(logs, logType);
-			StopIfError(logType);
+			if (logType >= DEBUG_LEVEL)
+			{
+				mLogger.Log(logs, logType);
+				StopIfError(logType);
+			}
 		}
-		void Debug::Log(std::initializer_list<const std::string> logs, eLogType logType) noexcept
+		void Logger::Log(std::initializer_list<const std::string> logs, eLogType logType) noexcept
 		{
-			Logger.Log(logs, logType);
-			StopIfError(logType);
+			if (logType >= DEBUG_LEVEL)
+			{
+				mLogger.Log(logs, logType);
+				StopIfError(logType);
+			}
 		}
 
 		/*
 		template <typename Last>
-		void Debug::Log(Last arg, eLogType logType) noexcept
+		void Logger::Log(Last arg, eLogType logType) noexcept
 		{
 			if constexpr (std::is_same_v<char, std::remove_cv<Last>> || std::is_same_v< wchar_t, std::remove_cv<Last>> || std::is_same_v<std::string, std::remove_cv<Last>> || std::is_same_v<std::wstring, std::remove_cv<Last>>)
 			{
@@ -101,27 +120,27 @@ namespace doom
 			}
 		}
 		template <typename First, typename... Args>
-		void Debug::Log(First firstArg, Args... args, eLogType logType) noexcept
+		void Logger::Log(First firstArg, Args... args, eLogType logType) noexcept
 		{
-			Debug::Log(firstArg, logType);
+			Logger::Log(firstArg, logType);
 
-			Debug::Log(args..., logType);
+			Logger::Log(args..., logType);
 		}
 		*/
 
-		void Debug::Draw2DLine(const math::Vector2& startPosition, const math::Vector2& endPosition, eColor color) noexcept
+		void Logger::Draw2DLine(const math::Vector2& startPosition, const math::Vector2& endPosition, eColor color) noexcept
 		{
 			doom::graphics::DebugGraphics::GetSingleton()->DebugDraw2DLine(startPosition, endPosition, color);
 		}
-		void Debug::Draw3DLine(const math::Vector3& startPosition, const math::Vector3& endPosition, eColor color) noexcept
+		void Logger::Draw3DLine(const math::Vector3& startPosition, const math::Vector3& endPosition, eColor color) noexcept
 		{
 			doom::graphics::DebugGraphics::GetSingleton()->DebugDraw3DLine(startPosition, endPosition, color);
 		}
-		void Debug::Draw2DTriangle(const math::Vector3& pointA, const math::Vector3& pointB, const math::Vector3& pointC, eColor color) noexcept
+		void Logger::Draw2DTriangle(const math::Vector3& pointA, const math::Vector3& pointB, const math::Vector3& pointC, eColor color) noexcept
 		{
 			doom::graphics::DebugGraphics::GetSingleton()->DebugDraw2DTriangle(pointA, pointB, pointC, color);
 		}
-		void Debug::Draw3DTriangle(const math::Vector3& pointA, const math::Vector3& pointB, const math::Vector3& pointC, eColor color) noexcept
+		void Logger::Draw3DTriangle(const math::Vector3& pointA, const math::Vector3& pointB, const math::Vector3& pointC, eColor color) noexcept
 		{
 			doom::graphics::DebugGraphics::GetSingleton()->DebugDraw3DTriangle(pointA, pointB, pointC, color);
 		}

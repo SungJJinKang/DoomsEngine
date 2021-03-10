@@ -6,6 +6,15 @@
 #include "../Collider/PhysicsGeneric.h"
 #include "../Collider/ColliderSolution.h"
 
+#include <type_traits>
+#include <utility>
+
+template<typename AABB>
+inline void doom::physics::Tree<AABB>::LogTree()
+{
+	
+}
+
 
 template <typename AABB>
 bool doom::physics::BVH<AABB>::TreeRayCast(BVH<AABB>::BVH_Tree& tree, Ray & ray)
@@ -18,18 +27,30 @@ bool doom::physics::BVH<AABB>::TreeRayCast(BVH<AABB>::BVH_Tree& tree, Ray & ray)
 		int index = stack.top();
 		stack.pop();
 
-		
-		if (RaycastRayAndAABB3D(ray, tree.mNodes[index].mAABB) == false)
-		{// if don't hit with bounding box
-			continue;
+		if constexpr (std::is_same_v<doom::physics::AABB2D, AABB> == true)
+		{
+			if (doom::physics::IsOverlapRayAndAABB2D(ray, tree.mNodes[index].mAABB) == false)
+			{// if don't hit with bounding box
+				continue;
+			}
 		}
+		else if (std::is_same_v<doom::physics::AABB3D, AABB> == true)
+		{
+			if (doom::physics::IsOverlapRayAndAABB3D(ray, tree.mNodes[index].mAABB) == false)
+			{// if don't hit with bounding box
+				continue;
+			}
+		}
+		else
+		{
+			NEVER_HAPPEN;
+		}
+
 
 		if (tree.mNodes[index].mIsLeaf)
 		{//if node is world object
-			int objectIndex = tree.mNodes[index].mObjectIndex;
 
-			Collider* objectCollider{};
-			if (ColliderSolution::CheckIsOverlap(objectCollider, static_cast<Collider*>(&ray)) == true)
+			if (ColliderSolution::CheckIsOverlap(tree.mNodes[index].mCollider, static_cast<Collider*>(&ray)) == true)
 			{// check collision with ray and world object collider
 				return true;
 			}
@@ -67,7 +88,7 @@ int doom::physics::BVH<AABB>::PickBest(AABB& L)
 	queue.push(std::make_pair(this->mTree.mRootIndex, InheritedCost(L, this->mTree.mNodes[this->mTree.mRootIndex].mAABB)));
 
 	float toInsertSurfaceArea = AABB::GetArea(L);
-	float bestCost = FLT_MAX;
+	float bestCost = math::infinity<float>();
 	int bestIndex = NULL_NODE_INDEX;
 	int searchIndex;
 	float searchInheritedCost;
@@ -80,15 +101,20 @@ int doom::physics::BVH<AABB>::PickBest(AABB& L)
 		searchIndex = node.first;
 		searchInheritedCost = node.second;
 
-		AABB search_aabb = this->mTree.mNodes[searchIndex].mAABB;
+		AABB& search_aabb = this->mTree.mNodes[searchIndex].mAABB;
+
+		//Why Get UnionArea L with Ancestors  ??
+		//If you want ancester's area of newly inserted node, you just be needed to compute unioned area with them
 		float cost = AABB::GetUnionArea(L, search_aabb) + searchInheritedCost;
 		if (cost < bestCost) {
 			bestCost = cost;
 			bestIndex = searchIndex;
 		}
 
+		//https://box2d.org/files/ErinCatto_DynamicBVH_Full.pdf 86 Page
 		float inheritedCost = InheritedCost(L, search_aabb) + searchInheritedCost;
 		float lowerBound = toInsertSurfaceArea + inheritedCost;
+
 		if (lowerBound < bestCost) {
 			int child1 = this->mTree.mNodes[searchIndex].mChild1;
 			int child2 = this->mTree.mNodes[searchIndex].mChild2;
@@ -104,11 +130,12 @@ int doom::physics::BVH<AABB>::PickBest(AABB& L)
 }
 
 template <typename AABB>
-int doom::physics::BVH<AABB>::AllocateLeafNode(int objectIndex, AABB& box)
+int doom::physics::BVH<AABB>::AllocateLeafNode(AABB& aabb, Collider* collider)
 {
 	auto& newNode = this->mTree.mNodes.emplace_back();
-	newNode.mObjectIndex = objectIndex;
-	newNode.mAABB = box;
+	//newNode.mCollider = collider;
+	newNode.mAABB = aabb;
+	newNode.mCollider = collider;
 	newNode.mIsLeaf = true;
 	return static_cast<int>(this->mTree.mNodes.size() - 1);
 }
@@ -128,23 +155,23 @@ int doom::physics::BVH<AABB>::AllocateInternalNode()
 
 
 template <typename AABB>
-void doom::physics::BVH<AABB>::InsertLeaf(int newOjectIndex, AABB& newObjectBox)
+void doom::physics::BVH<AABB>::InsertLeaf(AABB& L, Collider* collider)
 {
-	int newObjectLeafIndex = AllocateLeafNode(newOjectIndex, newObjectBox);
+	int newObjectLeafIndex = AllocateLeafNode(L, collider);
 	if (this->mTree.mNodes.size() == 1)
 	{
 		this->mTree.mRootIndex = newObjectLeafIndex;
 		return;
 	}
 
-	int bestSiblingIndex = PickBest(newObjectBox);
+	int bestSiblingIndex = PickBest(L);
 
 
 
 	int oldParentIndex = this->mTree.mNodes[bestSiblingIndex].mParentIndex;
 	int newParentIndex = AllocateInternalNode();
 	this->mTree.mNodes[newParentIndex].mParentIndex = oldParentIndex;
-	this->mTree.mNodes[newParentIndex].mAABB = AABB::Union(newObjectBox, this->mTree.mNodes[bestSiblingIndex].mAABB);
+	this->mTree.mNodes[newParentIndex].mAABB = AABB::Union(L, this->mTree.mNodes[bestSiblingIndex].mAABB);
 
 	if (oldParentIndex != NULL_NODE_INDEX)
 	{
@@ -187,33 +214,55 @@ void doom::physics::BVH<AABB>::InsertLeaf(int newOjectIndex, AABB& newObjectBox)
 		index = this->mTree.mNodes[index].mParentIndex;
 	}
 }
-	//see pdf 84page
+
+/// <summary>
+/// When union with new aabb,
+/// How much is AABB larger than before
+/// 
+/// https://box2d.org/files/ErinCatto_DynamicBVH_Full.pdf 77p
+/// SA mean area of aabb
+/// 세모SA(Node) = SA(Node U L) - SA(Node)  -----> 한 AABB에서 새 AABB를 합치면 얼만큼 Area가 추가되는지
+/// </summary>
+/// <typeparam name="AABB"></typeparam>
+/// <param name="L"></param>
+/// <param name="candidate"></param>
+/// <returns></returns>
 template <typename AABB>
-float doom::physics::BVH<AABB>::InheritedCost(AABB L, AABB candidate)
+float doom::physics::BVH<AABB>::InheritedCost(const AABB& L, const AABB& candidate)
 {
 	return AABB::GetUnionArea(L, candidate) - AABB::GetArea(candidate);
 }
 
-
-	/// <summary>
-	/// We will get sum of Internal Nodes's area
-	/// 
-	/// Less sum of Internal Nodes's area -> More fast Ray cast
-	/// </summary>
-	/// <typeparam name="AABB"></typeparam>
-	/// <returns></returns>
-	template <typename AABB>
-	float doom::physics::BVH<AABB>::ComputeCost()
+template<typename AABB>
+void doom::physics::BVH<AABB>::SimpleDebug()
+{
+	for (auto& node : this->mTree.mNodes)
 	{
-		float cost{ 0.0f };
-		for (auto& node : this->mTree.mNodes)
-		{
-			if (node.mIsLeaf == false)
-			{
-				cost += AABB::GetArea(node.mAABB);
-			}
-		}
-		return cost;
+		node.mAABB.DrawPhysicsDebug();
 	}
+}
 
-	doom::physics::BVH<doom::physics::AABB3D> bvh{};
+
+/// <summary>
+/// We will get sum of Internal Nodes's area
+/// 
+/// Less sum of Internal Nodes's area -> More fast Ray cast
+/// </summary>
+/// <typeparam name="AABB"></typeparam>
+/// <returns></returns>
+template <typename AABB>
+float doom::physics::BVH<AABB>::ComputeCost()
+{
+	float cost{ 0.0f };
+	for (auto& node : this->mTree.mNodes)
+	{
+		if (node.mIsLeaf == false)
+		{
+			cost += AABB::GetArea(node.mAABB);
+		}
+	}
+	return cost;
+}
+
+template class doom::physics::BVH<doom::physics::AABB3D>;
+template class doom::physics::BVH<doom::physics::AABB2D>;

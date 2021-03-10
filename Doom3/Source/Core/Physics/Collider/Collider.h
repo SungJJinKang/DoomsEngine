@@ -14,6 +14,8 @@ namespace doom
 			bool bmIsCollision{ false };
 			void ClearCollision();
 
+			
+
 		protected:
 
 
@@ -24,6 +26,8 @@ namespace doom
 			virtual ColliderType GetColliderType() const = 0;
 
 			virtual void DrawPhysicsDebug() final;
+
+
 		};
 
 	

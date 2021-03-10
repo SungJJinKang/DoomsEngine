@@ -8,6 +8,8 @@
 #include <Physics/Collider/AABB.h>
 
 #include "../GraphicsAPI.h"
+#include <Vector2.h>
+
 namespace doom
 {
 
@@ -146,6 +148,14 @@ namespace doom
 
 			static inline std::shared_ptr<Mesh> QuadMesh{};
 			static std::shared_ptr<Mesh> GetQuadMesh();
+			/// <summary>
+			/// If you want mesh for postprocessin or ren
+			/// If you want mesh for postprocessin or rendering 2d quad on screen
+			/// </summary>
+			/// <param name="leftbottom"></param>
+			/// <param name="rightup"></param>
+			/// <returns></returns>
+			static Mesh GetQuadMesh(const math::Vector2& leftbottom, const math::Vector2& rightup);
 
 			virtual bool IsBufferGenerated() final;
 

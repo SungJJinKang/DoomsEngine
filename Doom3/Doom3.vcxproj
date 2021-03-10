@@ -163,6 +163,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="main.cpp" />
     <ClCompile Include="Source\Component\EventSystem.cpp" />
     <ClCompile Include="Source\Component\PhysicsComponent\BoxCollider2D.cpp" />
     <ClCompile Include="Source\Component\PhysicsComponent\MeshCollider.cpp" />
@@ -175,10 +176,10 @@
     <ClCompile Include="Source\Core\Macros\KeyCallback.cpp" />
     <ClCompile Include="Source\Core\OS\OS_Server.cpp" />
     <ClCompile Include="Source\Core\OS\Window.cpp" />
+    <ClCompile Include="Source\Core\Physics\BVH\test\BVH_TestRoom.cpp" />
     <ClCompile Include="Source\Core\Physics\ColliderPickingTestRoom.cpp" />
     <ClCompile Include="Source\Core\Physics\Collider\CapsuleCollider.cpp" />
     <ClCompile Include="Source\Component\PhysicsComponent\CapsuleCollider3D.cpp" />
-    <ClCompile Include="main.cpp" />
     <ClCompile Include="Source\Component\Rendering\Camera.cpp" />
     <ClCompile Include="Source\Component\Core\Component.cpp" />
     <ClCompile Include="Source\Component\Core\PlainComponent.cpp" />
@@ -263,6 +264,7 @@
     <ClCompile Include="Source\GameLogic\Test.cpp" />
     <ClCompile Include="Source\Helper\EasyDirtyChecker\DirtySender.cpp" />
     <ClCompile Include="Source\Helper\EasyDirtyChecker\DirtyReceiver.cpp" />
+    <ClCompile Include="Source\Helper\EasyDirtyChecker\utility\DirtyContainer.cpp" />
     <ClCompile Include="Source\Helper\SimpleIniParser.cpp" />
     <ClCompile Include="Source\Helper\TextImporter.cpp" />
     <ClCompile Include="Source\Component\PhysicsComponent\SphereCollider3D.cpp" />
@@ -287,6 +289,7 @@
     <ClInclude Include="Source\Core\OS\OS.h" />
     <ClInclude Include="Source\Core\OS\OS_Server.h" />
     <ClInclude Include="Source\Core\OS\Window.h" />
+    <ClInclude Include="Source\Core\Physics\BVH\test\BVH_TestRoom.h" />
     <ClInclude Include="Source\Core\Physics\ColliderPickingTestRoom.h" />
     <ClInclude Include="Source\Core\Physics\Collider\CapsuleCollider.h" />
     <ClInclude Include="Source\Component\PhysicsComponent\CapsuleCollider3D.h" />
@@ -440,6 +443,7 @@
     <ClInclude Include="Source\Helper\DeferredConstant\DeferredConstant.h" />
     <ClInclude Include="Source\Helper\EasyDirtyChecker\DirtySender.h" />
     <ClInclude Include="Source\Helper\EasyDirtyChecker\DirtyReceiver.h" />
+    <ClInclude Include="Source\Helper\EasyDirtyChecker\utility\DirtyContainer.h" />
     <ClInclude Include="Source\Helper\ForLoop_Compile_Time\ForLoop_Compile.h" />
     <ClInclude Include="Source\Core\Graphics\OverlapBindChecker.h" />
     <ClInclude Include="Source\Helper\magic_enum.hpp" />
