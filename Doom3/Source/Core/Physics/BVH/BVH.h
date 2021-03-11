@@ -14,24 +14,26 @@ namespace doom
 	namespace physics
 	{
 		class Ray;
+		template <typename AABB>
+		class BVH;
 
 		constexpr inline int NULL_NODE_INDEX{ -1 };
 
+		//TODO : 이거 그냥 클래스로 바꾸고 AABB랑 데이터들 private으로 보호하자, 그리고 BVH를 friendclass로 두자
 		template <typename AABB>
 		struct Node
 		{
+			BVH<AABB>* mOwnerBVH{ nullptr };
+
 			/// <summary>
 			/// Node Bounding Box
 			/// </summary>
 			AABB mAABB;
+			AABB mEnlargedAABB;
 
 			Collider* mCollider{ nullptr };
 
-			/// <summary>
-			/// World Object Unqieu ID
-			/// Will be used when mIsLeaf is true
-			/// </summary>
-			//Collider* mCollider;
+			int mIndex{ NULL_NODE_INDEX };
 
 			/// <summary>
 			/// Node Index in Tree::mNodes
@@ -51,6 +53,18 @@ namespace doom
 			/// Is Leaf? = Is World Object?
 			/// </summary>
 			bool mIsLeaf{ false };
+
+			/// <summary>
+			/// this function don't chagne mEnlargedAABB if newAABB is still completly enclosed by mEnlargedAABB
+			/// </summary>
+			/// <param name="newAABB"></param>
+			Node<AABB>* UpdateAABB(const AABB& newAABB);
+			/// <summary>
+			/// this function don't chagne mEnlargedAABB if updated mAABB is still completly enclosed by mEnlargedAABB
+			/// </summary>
+			/// <param name="movedVector"></param>
+			Node<AABB>* UpdateAABB(const typename AABB::component_type& movedVector);
+			Node<AABB>* UpdateIfInnerAABBMoveOutsideOfEnlargedAABB();
 		};
 
 		using Node2D = typename Node<physics::AABB2D>;
@@ -68,6 +82,8 @@ namespace doom
 		{
 			/// <summary>
 			/// array
+			/// Never pop inserted node
+			/// Just make it dangling
 			/// </summary>
 			std::vector<Node<AABB>> mNodes{};
 
@@ -98,7 +114,7 @@ namespace doom
 			using BVH_Node = typename Node<AABB>;
 
 		public:
-			using NodeCost = typename std::pair<unsigned int, float>;
+			using NodeCost = typename std::pair<int, float>;
 
 		private:
 
@@ -107,9 +123,13 @@ namespace doom
 			std::unique_ptr<graphics::PicktureInPickture> mPIPForDebug{};
 			std::unique_ptr<graphics::Material> mBVHDebugMaterial{};
 #endif
+			int GetSibling(int nodeIndex);
 			int PickBest(AABB& L);
 			int AllocateInternalNode();
 			int AllocateLeafNode(AABB& aabb, Collider* collider);
+			bool RotateNode(int nodeAIndex, int nodeBIndex);
+			void RemoveLeafNode(BVH_Node& targetLeafNode);
+			void ReConstructNodeAABB(int targetNodeIndex);
 			float ComputeCost();
 
 			/// <summary>
@@ -136,7 +156,18 @@ namespace doom
 			/// </summary>
 			/// <param name="newOjectIndex"></param>
 			/// <param name="newObjectBox"></param>
-			void InsertLeaf(AABB& L, Collider* collider);
+			BVH_Node* InsertLeaf(AABB& L, Collider* collider);
+
+			/// <summary>
+			/// file:///C:/Users/hour3/Desktop/ErinCatto_DynamicBVH_Full.pdf 96 page
+			/// Will Remove updatedNode And Re-insert updateNode
+			///
+			/// when update leaf node, original leaf node will be destroyed(be dangled)
+			/// and return new node
+			/// </summary>
+			/// <param name="updatedNode"></param>
+			/// <returns></returns>
+			BVH_Node* UpdateLeaf(BVH_Node& updatedNode);
 
 			void InitializeDebugging();
 			void SimpleDebug();
@@ -149,6 +180,8 @@ namespace doom
 		extern template class BVH<physics::AABB3D>;
 		extern template class BVH<physics::AABB2D>;
 		
+
+	
 
 }
 }

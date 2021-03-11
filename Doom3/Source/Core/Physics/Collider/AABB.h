@@ -20,18 +20,15 @@ namespace doom
 		/// </summary>
 		class AABB3D : public Collider
 		{
+		public:
+			using component_type = typename math::Vector3;
 		private:
 			virtual void Render(eColor color, bool drawInstantly = false);
 
 		public:
-			/// <summary>
-			/// this is local coordinate, you should map to your world coordinate
-			/// </summary>
-			math::Vector3 mLowerBound; // minimum extent
-			/// <summary>
-			/// this is local coordinate, you should map to your world coordinate
-			/// </summary>
-			math::Vector3 mUpperBound; // maximum extent
+
+			math::Vector3 mLowerBound; 
+			math::Vector3 mUpperBound; 
 
 			constexpr bool IsValid() const
 			{
@@ -71,16 +68,14 @@ namespace doom
 			/// </summary>
 			/// <returns></returns>
 			float GetDiagonarLineLength();
-
-		
 			virtual void Render2DTopView(eColor color, bool drawInstantly = false);
-
-
 			ColliderType GetColliderType() const override;
+			math::Vector3 GetCenter();
 
-			math::Vector3 GetCenter()
+			constexpr void MoveAABB(const math::Vector3& movedVector)
 			{
-				return (this->mLowerBound + this->mUpperBound) / 2;
+				this->mLowerBound += movedVector;
+				this->mUpperBound += movedVector;
 			}
 
 			/// <summary>
@@ -102,6 +97,7 @@ namespace doom
 				math::Vector3 d = math::Max(A.mUpperBound, B.mUpperBound) - math::Min(A.mLowerBound, B.mLowerBound);
 				return 2.0f * (d.x * d.y + d.y * d.z + d.z * d.x);
 			}
+			static AABB3D EnlargeAABB(const AABB3D& aabb);
 
 			constexpr AABB3D() : mLowerBound{}, mUpperBound{}
 			{}
@@ -118,10 +114,14 @@ namespace doom
 			constexpr AABB3D& operator=(AABB3D&&) noexcept = default;
 		};
 
-	
-	
-		
-
+		/// <summary>
+		/// This is different with IsOverlap
+		/// This function check if innerAABB is completly enclosed by outerAABB
+		/// </summary>
+		/// <param name="A"></param>
+		/// <param name="B"></param>
+		/// <returns></returns>
+		bool CheckIsAABBCompletlyEnclosed(const AABB3D& innerAABB, const AABB3D& outerAABB);
 		bool IsOverlapAABB3DAndPoint(const AABB3D& aabb, const math::Vector3& Point);
 		bool IsOverlapAABB3DAndAABB3D(const AABB3D& aabb, const AABB3D& B);
 		bool IsOverlapAABB3DAndAABB3D(Collider* aabb, Collider* B);
@@ -138,18 +138,16 @@ namespace doom
 
 		class AABB2D : public Collider
 		{
+		public:
+			using component_type = typename math::Vector2;
+
 		private:
 			virtual void Render(eColor color, bool drawInstantly = false);
 
 		public:
-			/// <summary>
-			/// this is local coordinate, you should map to your world coordinate
-			/// </summary>
-			math::Vector2 mLowerBound; // minimum extent
-			/// <summary>
-			/// this is local coordinate, you should map to your world coordinate
-			/// </summary>
-			math::Vector2 mUpperBound; // maximum extent
+
+			math::Vector2 mLowerBound; 
+			math::Vector2 mUpperBound; 
 
 		
 
@@ -180,6 +178,12 @@ namespace doom
 			ColliderType GetColliderType() const override;
 			math::Vector2 GetCenter();
 
+			constexpr void MoveAABB(const math::Vector2& movedVector)
+			{
+				this->mLowerBound += movedVector;
+				this->mUpperBound += movedVector;
+			}
+
 			static constexpr float GetArea(const AABB2D& A)
 			{
 				math::Vector2 d = A.mUpperBound - A.mLowerBound;
@@ -194,6 +198,7 @@ namespace doom
 				math::Vector2 d = math::Max(A.mUpperBound, B.mUpperBound) - math::Min(A.mLowerBound, B.mLowerBound);
 				return d.x * d.y;
 			}
+			static AABB2D EnlargeAABB(const AABB2D& aabb);
 
 			constexpr AABB2D() : mLowerBound{}, mUpperBound{}
 			{}
@@ -218,8 +223,14 @@ namespace doom
 		};
 
 		
-	
-
+		/// <summary>
+		/// This is different with IsOverlap
+		/// This function check if innerAABB is completly enclosed by outerAABB
+		/// </summary>
+		/// <param name="innerAABB"></param>
+		/// <param name="outerAABB"></param>
+		/// <returns></returns>
+		bool CheckIsAABBCompletlyEnclosed(const AABB2D& innerAABB, const AABB2D& outerAABB);
 		bool IsOverlapAABB2DAndPoint(const AABB2D& aabb, const math::Vector2& Point);
 		bool IsOverlapAABB2DAndAABB2D(const AABB2D& aabb, const AABB2D& B);
 		bool IsOverlapAABB2DAndAABB2D(Collider* aabb, Collider* B);

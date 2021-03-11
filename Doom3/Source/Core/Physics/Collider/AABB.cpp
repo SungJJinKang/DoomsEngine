@@ -1,5 +1,7 @@
 
 #include "AABB.h"
+
+#include "../Physics_Server.h"
 #include "../Graphics/DebugGraphics.h"
 
 #include "Ray.h"
@@ -46,6 +48,12 @@ doom::physics::ColliderType doom::physics::AABB2D::GetColliderType() const
 math::Vector2 AABB2D::GetCenter()
 {
 	return (this->mLowerBound + this->mUpperBound) / 2;
+}
+
+AABB2D doom::physics::AABB2D::EnlargeAABB(const AABB2D& aabb)
+{
+	float offset = doom::physics::Physics_Server::GetSingleton()->ENLARGED_AABB2D_OFFSET;
+	return AABB2D(aabb.mLowerBound - offset, aabb.mUpperBound + offset);
 }
 
 math::Vector3 doom::physics::AABB3D::GetHalfExtent() const
@@ -105,9 +113,28 @@ doom::physics::ColliderType doom::physics::AABB3D::GetColliderType() const
 	return doom::physics::ColliderType::AABB3D;
 }
 
+math::Vector3 doom::physics::AABB3D::GetCenter()
+{
+	return (this->mLowerBound + this->mUpperBound) / 2;
+}
+
+AABB3D doom::physics::AABB3D::EnlargeAABB(const AABB3D& aabb)
+{
+	float offset = doom::physics::Physics_Server::GetSingleton()->ENLARGED_AABB3D_OFFSET;
+	return AABB3D(aabb.mLowerBound - offset, aabb.mUpperBound + offset);
+}
+
 
 ////////////////////////////////////////
 
+
+bool doom::physics::CheckIsAABBCompletlyEnclosed(const AABB2D& innerAABB, const AABB2D& outerAABB)
+{
+	return innerAABB.mLowerBound.x >= outerAABB.mLowerBound.x &&
+		innerAABB.mLowerBound.y >= outerAABB.mLowerBound.y &&
+		innerAABB.mUpperBound.x <= outerAABB.mUpperBound.x &&
+		innerAABB.mUpperBound.y <= outerAABB.mUpperBound.y;
+}
 
 bool doom::physics::IsOverlapAABB2DAndPoint(const AABB2D& aabb, const math::Vector2& Point)
 {
@@ -124,6 +151,16 @@ bool doom::physics::IsOverlapAABB2DAndAABB2D(const AABB2D& aabb, const AABB2D& B
 bool doom::physics::IsOverlapAABB2DAndAABB2D(Collider* aabb, Collider* B)
 {
 	return IsOverlapAABB2DAndAABB2D(*static_cast<AABB2D*>(aabb), *static_cast<AABB2D*>(B));
+}
+
+bool doom::physics::CheckIsAABBCompletlyEnclosed(const AABB3D& innerAABB, const AABB3D& outerAABB)
+{
+	return innerAABB.mLowerBound.x >= outerAABB.mLowerBound.x &&
+		innerAABB.mLowerBound.y >= outerAABB.mLowerBound.y &&
+		innerAABB.mLowerBound.z >= outerAABB.mLowerBound.z &&
+		innerAABB.mUpperBound.x <= outerAABB.mUpperBound.x &&
+		innerAABB.mUpperBound.y <= outerAABB.mUpperBound.y &&
+		innerAABB.mUpperBound.z <= outerAABB.mUpperBound.z;
 }
 
 bool doom::physics::IsOverlapAABB3DAndPoint(const AABB3D& aabb, const math::Vector3& Point)

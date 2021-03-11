@@ -13,8 +13,17 @@ namespace doom
 		{
 
 			friend class GameCore;
-
+			friend class AABB3D;
+			friend class AABB2D;
 		private:
+
+			float FIXED_TIME_STEP{};
+			int MAX_PHYSICS_STEP{ 8 };
+
+			float ENLARGED_AABB2D_OFFSET{};
+			float ENLARGED_AABB3D_OFFSET{};
+			
+
 			Picking mPicking{};
 #ifdef DEBUG_MODE
 			ColliderPickingTestRoom mColliderTestRoom{};
@@ -45,8 +54,7 @@ namespace doom
 		public:
 			static inline bool IsShowDebug{ true };
 
-			float FIXED_TIME_STEP{};
-			int MAX_PHYSICS_STEP{ 8 };
+			
 		};
 
 	}
