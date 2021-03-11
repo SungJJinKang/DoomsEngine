@@ -175,6 +175,8 @@ int doom::physics::BVH<AABB>::AllocateLeafNode(AABB& aabb, Collider* collider)
 	newNode.mCollider = collider;
 	newNode.mIsLeaf = true;
 
+	recentAddedLeaf = newNode.mIndex;
+
 	return newNode.mIndex;
 }
 
@@ -201,7 +203,7 @@ typename doom::physics::BVH<AABB>::BVH_Node* doom::physics::BVH<AABB>::InsertLea
 {
 	int newObjectLeafIndex = AllocateLeafNode(L, collider);
 	if (this->mTree.mNodes.size() == 1)
-	{
+	{// if allocate first node, this->mTree.mNodes.size() will be 1
 		this->mTree.mRootIndex = newObjectLeafIndex;
 	}
 	else
@@ -246,8 +248,12 @@ typename doom::physics::BVH<AABB>::BVH_Node* doom::physics::BVH<AABB>::InsertLea
 		int index = this->mTree.mNodes[newObjectLeafIndex].mParentIndex;
 		while (index != NULL_NODE_INDEX)
 		{
+			//index = Balance(index);
+
 			int child1 = this->mTree.mNodes[index].mChild1;
 			int child2 = this->mTree.mNodes[index].mChild2;
+
+			D_ASSERT(child1 != NULL_NODE_INDEX && child2 != NULL_NODE_INDEX);
 
 			//AABB originalAABB = this->mTree.mNodes[index].mAABB;
 			this->mTree.mNodes[index].mAABB = AABB::Union(this->mTree.mNodes[child1].mAABB, this->mTree.mNodes[child2].mAABB);
@@ -376,6 +382,18 @@ bool doom::physics::BVH<AABB>::RotateNode(int nodeAIndex, int nodeBIndex)
 
 }
 
+/// <summary>
+/// https://www.computer.org/csdl/pds/api/csdl/proceedings/download-article/12OmNwEJ11o/pdf
+/// </summary>
+/// <typeparam name="AABB"></typeparam>
+/// <param name="index"></param>
+/// <returns></returns>
+template <typename AABB>
+int doom::physics::BVH<AABB>::Balance(int index)
+{
+	return 0;
+}
+
 template<typename AABB>
 void doom::physics::BVH<AABB>::RemoveLeafNode(doom::physics::BVH<AABB>::BVH_Node& targetLeafNode)
 {
@@ -384,20 +402,56 @@ void doom::physics::BVH<AABB>::RemoveLeafNode(doom::physics::BVH<AABB>::BVH_Node
 	D_ASSERT(this->mTree.mNodes[targetLeafNodeIndex].mIsLeaf == true);
 
 	int parentIndex = this->mTree.mNodes[targetLeafNodeIndex].mParentIndex;
+	int grandParentIndex = this->mTree.mNodes[parentIndex].mParentIndex;
+	int siblingIndex;
 	if (this->mTree.mNodes[parentIndex].mChild1 == targetLeafNodeIndex)
 	{
-		this->mTree.mNodes[parentIndex].mChild1 = NULL_NODE_INDEX; // all linkages of targetLeafNode is breaked
-		//targetLeafNode become dangling Node
-		//We never pop this->mTree.mNodes's element ( dangling nodes is acceptable for performance )
+		siblingIndex = this->mTree.mNodes[parentIndex].mChild2;
 	}
 	else if(this->mTree.mNodes[parentIndex].mChild2 == targetLeafNodeIndex)
 	{
-		this->mTree.mNodes[parentIndex].mChild2 = NULL_NODE_INDEX; // all linkages of targetLeafNode is breaked
-		//targetLeafNode become dangling Node
+		siblingIndex = this->mTree.mNodes[parentIndex].mChild1;
 	}
 	else
 	{
 		NEVER_HAPPEN;
+	}
+
+	if (grandParentIndex == NULL_NODE_INDEX)
+	{
+		this->mTree.mRootIndex = siblingIndex;
+		this->mTree.mNodes[siblingIndex].mParentIndex = NULL_NODE_INDEX;
+	}
+	else
+	{
+		if (this->mTree.mNodes[grandParentIndex].mChild1 == parentIndex)
+		{
+			this->mTree.mNodes[grandParentIndex].mChild1 = siblingIndex;
+		}
+		else if (this->mTree.mNodes[grandParentIndex].mChild2 == parentIndex)
+		{
+			this->mTree.mNodes[grandParentIndex].mChild2 = siblingIndex;
+		}
+		else
+		{
+			NEVER_HAPPEN;
+		}
+
+		this->mTree.mNodes[siblingIndex].mParentIndex = grandParentIndex;
+
+		int index = grandParentIndex;
+		while (index != NULL_NODE_INDEX)
+		{
+			//index = Balance(index);
+
+			int child1 = this->mTree.mNodes[index].mChild1;
+			int child2 = this->mTree.mNodes[index].mChild2;
+
+			this->mTree.mNodes[index].mAABB = AABB::Union(this->mTree.mNodes[child1].mAABB, this->mTree.mNodes[child2].mAABB);
+			this->mTree.mNodes[index].mEnlargedAABB = AABB::EnlargeAABB(this->mTree.mNodes[index].mAABB);
+
+			index = this->mTree.mNodes[index].mParentIndex;
+		}
 	}
 }
 
@@ -429,47 +483,76 @@ void doom::physics::BVH<AABB>::ReConstructNodeAABB(int targetNodeIndex)
 	}
 }
 
+#define DebugBVHTreeOffsetX 0.1f
+#define DebugBVHTreeOffsetY 0.1f
 
+float additionalWeight(float x, float l)
+{
+	return x + math::lerp(0, x > 0 ? 1 : -1, math::abs(l));
+}
+
+template <typename AABB>
+void doom::physics::BVH<AABB>::DebugBVHTree(BVH_Node& node, float x, float y, int depth)
+{
+	float offsetX = 1.0f / (math::pow(2, depth + 1));
+	if (node.mChild1 != NULL_NODE_INDEX)
+	{
+		graphics::DebugGraphics::GetSingleton()->DebugDraw2DLine({ x, y, 0 }, { x - offsetX, y - DebugBVHTreeOffsetY, 0 }, this->mTree.mNodes[node.mChild1].mIsLeaf == false ? eColor::Black : (doom::physics::BVH<AABB>::recentAddedLeaf == node.mChild1 ? eColor::Red : eColor::Blue), false, true);
+		DebugBVHTree(this->mTree.mNodes[node.mChild1], x - offsetX, y - DebugBVHTreeOffsetY, depth + 1);
+	}
+	if (node.mChild2 != NULL_NODE_INDEX)
+	{
+		graphics::DebugGraphics::GetSingleton()->DebugDraw2DLine({ x, y, 0 }, { x + offsetX, y - DebugBVHTreeOffsetY, 0 }, this->mTree.mNodes[node.mChild2].mIsLeaf == false ? eColor::Black : (doom::physics::BVH<AABB>::recentAddedLeaf == node.mChild2 ? eColor::Red : eColor::Blue), false, true);
+		DebugBVHTree(this->mTree.mNodes[node.mChild2], x + offsetX, y - DebugBVHTreeOffsetY, depth + 1);
+	}
+}
 
 template<typename AABB>
 void doom::physics::BVH<AABB>::SimpleDebug()
 {
-	for (auto& node : this->mTree.mNodes)
+	if (this->mTree.mRootIndex != NULL_NODE_INDEX)
 	{
-		node.mAABB.DrawPhysicsDebug();
-	}
-
-
-	if (static_cast<bool>(this->mPIPForDebug))
-	{
-		this->mPIPForDebug->BindFrameBuffer();
-
-		graphics::GraphicsAPI::ClearColor(1.0f, 1.0f, 1.0f, 1.0f);
-		this->mPIPForDebug->ClearFrameBuffer();
-
-		graphics::DebugGraphics::GetSingleton()->SetDrawInstantlyMaterial(mBVHDebugMaterial.get());
-
-		if constexpr (std::is_same_v<doom::physics::AABB2D, AABB> == true)
+		for (auto& node : this->mTree.mNodes)
 		{
-			for (auto& node : this->mTree.mNodes)
-			{
-				node.mAABB.DrawPhysicsDebugColor(eColor::Red, true);
-			}
-
-		}
-		else if (std::is_same_v<doom::physics::AABB3D, AABB> == true)
-		{
-			for (auto& node : this->mTree.mNodes)
-			{
-				node.mAABB.Render2DTopView(eColor::Red, true);
-			}
+			node.mAABB.DrawPhysicsDebug(); // TODO : Draw recursively, don't draw all nodes
 		}
 
-		graphics::DebugGraphics::GetSingleton()->SetDrawInstantlyMaterial(nullptr);
 
-		this->mPIPForDebug->RevertFrameBuffer();
+
+		if (static_cast<bool>(this->mPIPForDebug))
+		{
+			this->mPIPForDebug->BindFrameBuffer();
+
+			graphics::GraphicsAPI::ClearColor(1.0f, 1.0f, 1.0f, 1.0f);
+			this->mPIPForDebug->ClearFrameBuffer();
+
+			graphics::DebugGraphics::GetSingleton()->SetDrawInstantlyMaterial(mBVHDebugMaterial.get());
+
+			DebugBVHTree(this->mTree.mNodes[this->mTree.mRootIndex], 0, 1, 0);
+
+			/*
+			if constexpr (std::is_same_v<doom::physics::AABB2D, AABB> == true)
+			{
+				for (auto& node : this->mTree.mNodes)
+				{
+					node.mAABB.DrawPhysicsDebugColor(eColor::Red, true);
+				}
+
+			}
+			else if (std::is_same_v<doom::physics::AABB3D, AABB> == true)
+			{
+				for (auto& node : this->mTree.mNodes)
+				{
+					node.mAABB.Render2DTopView(eColor::Red, true);
+				}
+			}
+			*/
+
+			graphics::DebugGraphics::GetSingleton()->SetDrawInstantlyMaterial(nullptr);
+
+			this->mPIPForDebug->RevertFrameBuffer();
+		}
 	}
-	
 }
 
 
@@ -500,7 +583,7 @@ void doom::physics::BVH<AABB>::InitializeDebugging()
 {
 	if (static_cast<bool>(this->mPIPForDebug) == false)
 	{
-		this->mPIPForDebug = std::make_unique<graphics::PicktureInPickture>(512, 256, math::Vector2(-1.0f, 0.4f), math::Vector2(-0.4f, 1.0f));
+		this->mPIPForDebug = std::make_unique<graphics::PicktureInPickture>(1024, 1024, math::Vector2(-1.0f, -1.0f), math::Vector2(1.0f, 1.0f));
 		graphics::Graphics_Server::GetSingleton()->AddAutoDrawedPIPs(*(this->mPIPForDebug.get()));
 	}
 

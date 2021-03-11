@@ -15,11 +15,18 @@ void doom::physics::BVH_TestRoom::AddNewRandomLeafNode()
 
 void doom::physics::BVH_TestRoom::Update()
 {
-	this->mBVH.SimpleDebug();
+	if (doom::userinput::UserInput_Server::GetKeyUp(eKEY_CODE::KEY_F9))
+	{
+		this->mBVH.InitializeDebugging();
+	}
+
+	if (doom::userinput::UserInput_Server::GetKeyToggle(eKEY_CODE::KEY_F9))
+	{
+		this->mBVH.SimpleDebug();
+	}
 
 	if (doom::userinput::UserInput_Server::GetKeyUp(eKEY_CODE::KEY_F10))
 	{
-		this->mBVH.InitializeDebugging();
 		this->AddNewRandomLeafNode();
 	}
 }

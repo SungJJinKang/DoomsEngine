@@ -134,7 +134,10 @@ void Graphics_Server::InitGLFW()
 	}
 	glfwMakeContextCurrent(Window);
 	glfwSetFramebufferSizeCallback(Window,
-		[](GLFWwindow*, int, int) {glViewport(0, 0, Graphics_Server::ScreenSize.x, Graphics_Server::ScreenSize.y); }
+		[](GLFWwindow*, int width, int height) 
+		{
+			glViewport(0, 0, width, height); 
+		}
 	);
 
 	// glad: load all OpenGL function pointers

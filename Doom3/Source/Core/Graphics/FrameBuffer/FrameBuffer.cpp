@@ -1,4 +1,5 @@
 #include "FrameBuffer.h"
+#include "../Graphics_Server.h"
 
 
 
@@ -25,6 +26,21 @@ void doom::graphics::FrameBuffer::GenerateBuffer(unsigned int defaultWidth, unsi
 	glGenFramebuffers(1, &(this->mFrameBufferID));
 }
 
+void FrameBuffer::BindFrameBuffer(FrameBuffer* frameBuffer)
+{
+
+	if (frameBuffer == nullptr)
+	{
+		glBindFramebuffer(GL_FRAMEBUFFER, 0);
+		glViewport(0, 0, graphics::Graphics_Server::GetScreenWidth(), graphics::Graphics_Server::GetScreenHeight());
+	}
+	else
+	{
+		glBindFramebuffer(GL_FRAMEBUFFER, frameBuffer->mFrameBufferID);
+		glViewport(0, 0, frameBuffer->mDefaultWidth, frameBuffer->mDefaultHeight);
+	}
+	FrameBuffer::CurrentFrameBuffer = frameBuffer;
+}
 FrameBuffer::~FrameBuffer()
 {
 	if (this->mFrameBufferID != 0)

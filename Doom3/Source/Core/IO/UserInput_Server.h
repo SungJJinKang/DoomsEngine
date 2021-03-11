@@ -232,9 +232,6 @@ namespace doom
 
 			[[nodiscard]] static bool GetKeyToggle(eKEY_CODE keyCode) noexcept
 			{
-				auto firt = FIRST_KEY_CODE;
-				auto firt1 = LAST_KEY_CODE;
-				auto c = magic_enum::enum_count<eKEY_CODE>();
 				return UserInput_Server::mKeyToggle[keyCode - FIRST_KEY_CODE];
 			}
 

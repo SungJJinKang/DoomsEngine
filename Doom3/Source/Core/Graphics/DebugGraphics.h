@@ -79,7 +79,20 @@ namespace doom
 
 			Material* mDrawInstantlyMaterial{ nullptr };
 
+			/// <summary>
+			/// Don't call this directly, use DebugDraw2DLine
+			/// </summary>
+			/// <param name="startNDCPos"></param>
+			/// <param name="endNDCPos"></param>
+			/// <param name="color"></param>
 			void DebugDraw2DLineInstantly(const math::Vector3& startNDCPos, const math::Vector3& endNDCPos, eColor color);
+			/// <summary>
+			/// Don't call this directly, use DebugDraw2DTriangle
+			/// </summary>
+			/// <param name="pointA"></param>
+			/// <param name="pointB"></param>
+			/// <param name="pointC"></param>
+			/// <param name="color"></param>
 			void DebugDraw2DTriangleInstantly(const math::Vector3& pointA, const math::Vector3& pointB, const math::Vector3& pointC, eColor color);
 
 		public:
@@ -119,6 +132,7 @@ namespace doom
 
 			void SetDrawInstantlyMaterial(Material* material);
 
+			
 		};
 
 		

@@ -91,7 +91,7 @@ namespace doom
 			/// <summary>
 			/// Root Node Index in mNodes
 			/// </summary>
-			int mRootIndex{ 0 };
+			int mRootIndex{ NULL_NODE_INDEX };
 
 		};
 
@@ -118,6 +118,8 @@ namespace doom
 
 		private:
 
+			static inline int recentAddedLeaf{ NULL_NODE_INDEX };
+
 			BVH_Tree mTree{};
 #ifdef DEBUG_MODE
 			std::unique_ptr<graphics::PicktureInPickture> mPIPForDebug{};
@@ -128,6 +130,7 @@ namespace doom
 			int AllocateInternalNode();
 			int AllocateLeafNode(AABB& aabb, Collider* collider);
 			bool RotateNode(int nodeAIndex, int nodeBIndex);
+			int Balance(int index);
 			void RemoveLeafNode(BVH_Node& targetLeafNode);
 			void ReConstructNodeAABB(int targetNodeIndex);
 			float ComputeCost();
@@ -141,12 +144,11 @@ namespace doom
 			/// <returns></returns>
 			float InheritedCost(const AABB& L, const AABB& candidate);
 
-
+			void DebugBVHTree(BVH_Node& node, float x, float y, int depth = 0);
 		public:
 
 			constexpr BVH()
 			{
-				AllocateInternalNode();
 			}
 
 			static bool TreeRayCast(BVH_Tree& tree, Ray& ray);

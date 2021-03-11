@@ -42,6 +42,9 @@ namespace doom
 			/// nullptr mean default ScreenBuffer
 			/// </summary>
 			static inline FrameBuffer* CurrentFrameBuffer{ nullptr };
+
+			static void BindFrameBuffer(FrameBuffer* frameBuffer);
+			
 		public:
 			
 			BufferID mFrameBufferID{};
@@ -65,16 +68,17 @@ namespace doom
 
 				FrameBuffer::PreviousFrameBuffer = CurrentFrameBuffer;
 
-				glBindFramebuffer(GL_FRAMEBUFFER, this->mFrameBufferID);
-				FrameBuffer::CurrentFrameBuffer = this;
+				FrameBuffer::BindFrameBuffer(this);
+
+				
 			}
 			static inline void UnBindFrameBuffer() noexcept
 			{
-				glBindFramebuffer(GL_FRAMEBUFFER, 0);
+				FrameBuffer::BindFrameBuffer(nullptr);
+
 				glBindRenderbuffer(GL_RENDERBUFFER, 0);
 
 				FrameBuffer::PreviousFrameBuffer = CurrentFrameBuffer;
-				FrameBuffer::CurrentFrameBuffer = nullptr;
 			}
 
 			/// <summary>

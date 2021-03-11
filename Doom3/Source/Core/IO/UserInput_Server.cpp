@@ -55,6 +55,7 @@ void UserInput_Server::Key_Callback(GLFWwindow* window, int key, int scancode, i
 	else if (action == GLFW_RELEASE)
 	{
 		UserInput_Server::mKeyState[key - FIRST_KEY_CODE] = eKeyState::UP;
+		UserInput_Server::mKeyToggle[key - FIRST_KEY_CODE] = !UserInput_Server::mKeyToggle[key - FIRST_KEY_CODE];
 		UserInput_Server::mUpKeys.push_back(key);
 	}
 
