@@ -8,9 +8,10 @@ namespace doom
 		class BVH_TestRoom
 		{
 		private:
-			BVH2D mBVH{};
+			BVH2D mBVH{ 1000 };
 
 			void AddNewRandomLeafNode();
+			void RemoveRecentAddedLeafNode();
 			
 		public:
 

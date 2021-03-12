@@ -156,7 +156,7 @@ namespace doom
 
 
 		inline constexpr eKEY_CODE FIRST_KEY_CODE{ magic_enum::enum_value<eKEY_CODE>(0) };
-		inline constexpr eKEY_CODE LAST_KEY_CODE{ magic_enum::enum_value<eKEY_CODE>(magic_enum::enum_count<eKEY_CODE>() - 1) };
+		inline constexpr eKEY_CODE LAST_KEY_CODE{ eKEY_CODE::KEY_MENU };
 
 
 		enum eMouse_Button_Type : int

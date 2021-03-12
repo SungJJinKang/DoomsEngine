@@ -1,6 +1,6 @@
 #pragma once
 
-#include <vector>
+#include <queue>
 #include <memory>
 
 #include "../Collider/AABB.h"
@@ -35,6 +35,15 @@ namespace doom
 
 			int mIndex{ NULL_NODE_INDEX };
 
+			bool bmIsActive{ false };
+			
+			/// <summary>
+			/// leaf node to this node
+			/// leaf node's height value is zero
+			/// </summary>
+			/// <typeparam name="AABB"></typeparam>
+			int mHeight{ NULL_NODE_INDEX };
+
 			/// <summary>
 			/// Node Index in Tree::mNodes
 			/// </summary>
@@ -67,6 +76,12 @@ namespace doom
 			Node<AABB>* UpdateAABB(const typename AABB::component_type& movedVector, const typename AABB::component_type& margin);
 			//Node<AABB>* UpdateAABB(const typename AABB::component_type& margin);
 			Node<AABB>* UpdateIfInnerAABBMoveOutsideOfEnlargedAABB();
+
+			void Clear();
+			/// <summary>
+			/// Check Node is valid
+			/// </summary>
+			void ValidCheck();
 		};
 
 		using Node2D = typename Node<physics::AABB2D>;
@@ -82,24 +97,46 @@ namespace doom
 		template <typename AABB>
 		struct Tree
 		{
+			int mRootNodeIndex{ NULL_NODE_INDEX };
+
 			/// <summary>
 			/// array
 			/// Never pop inserted node
 			/// Just make it dangling
 			/// </summary>
-			std::vector<Node<AABB>> mNodes{};
-
+			Node<AABB>* mNodes { nullptr };
+			const int mNodeCapacity;
 
 			/// <summary>
-			/// Root Node Index in mNodes
+			/// Ever used Node Count
+			/// this value contain freed node count
 			/// </summary>
-			int mRootIndex{ NULL_NODE_INDEX };
+			int mCurrentAllocatedNodeCount{ 0 };
+			/// <summary>
+			/// Current used node count
+			/// this value doesn't contain freed node count
+			/// </summary>
+			int mCurrentActiveNodeCount{ 0 };
+			/// <summary>
+			/// if you want parallel access, Use concurrentQueue
+			/// </summary>
+			std::queue<int> freedNodeIndexList{};
+
+			Tree(int nodeCapacity)
+				: mNodeCapacity{ nodeCapacity }
+			{
+				this->mNodes = new Node<AABB>[mNodeCapacity]();
+			}
 
 		};
 
-		using Tree2D = typename Tree<physics::AABB2D>;
-		using Tree3D = typename Tree<physics::AABB3D>;
+		/*
+		template <int NodeCount>
+		using Tree2D = typename Tree<physics::AABB2D, NodeCount>;
 
+		template <int NodeCount>
+		using Tree3D = typename Tree<physics::AABB3D, NodeCount>;
+		*/
 
 		//////////////////////////
 
@@ -109,6 +146,11 @@ namespace doom
 		///This is a very fast broadphase, especially for very dynamic worlds where many objects are moving. Its insert/add and remove of objects is generally faster than the sweep and prune broadphases b3AxisSweep3 and b332BitAxisSweep3.
 		//struct b3DynamicBvhBroadphase
 		//https://github.com/bulletphysics/bullet3/blob/master/src/Bullet3Collision/BroadPhaseCollision/b3DynamicBvhBroadphase.h
+
+		//TODO : make Parallel BVH construction 
+		//https://meistdan.github.io/publications/phr/paper.pdf
+
+		//https://graphics.cg.uni-saarland.de/courses/cg1-2019/slides/Building_Good_BVHs.pdf
 
 		/// <summary>
 		/// Dynamic(Incremental) BVH
@@ -129,20 +171,25 @@ namespace doom
 
 		private:
 
-			static inline int recentAddedLeaf{ NULL_NODE_INDEX };
+			
+			BVH_Tree mTree;
 
-			BVH_Tree mTree{};
 #ifdef DEBUG_MODE
 			std::unique_ptr<graphics::PicktureInPickture> mPIPForDebug{};
 			std::unique_ptr<graphics::Material> mBVHDebugMaterial{};
 #endif
+			
+
 			int GetSibling(int nodeIndex);
 			int PickBest(AABB& L);
+
+			int AllocateNewNode();
 			int AllocateInternalNode();
 			int AllocateLeafNode(AABB& aabb, Collider* collider);
+			void FreeNode(int nodeIndex);
+
 			bool RotateNode(int nodeAIndex, int nodeBIndex);
 			int Balance(int index);
-			void RemoveLeafNode(BVH_Node& targetLeafNode);
 			void ReConstructNodeAABB(int targetNodeIndex);
 			float ComputeCost();
 
@@ -157,12 +204,16 @@ namespace doom
 
 			void DebugBVHTree(BVH_Node& node, float x, float y, int depth = 0);
 
-			void CountDepthRecursive(BVH_Node& node, int& depth);
-
+		
+			void ValidCheck(BVH_Node* node);
 		public:
-
-			constexpr BVH()
+#ifdef DEBUG_MODE
+			static inline int recentAddedLeaf{ NULL_NODE_INDEX };
+#endif
+			constexpr BVH(int nodeCapacity)
+				: mTree{ nodeCapacity }
 			{
+
 			}
 
 			static bool TreeRayCast(BVH_Tree& tree, Ray& ray);
@@ -173,7 +224,7 @@ namespace doom
 			/// <param name="newOjectIndex"></param>
 			/// <param name="newObjectBox"></param>
 			BVH_Node* InsertLeaf(AABB& L, Collider* collider);
-
+			void RemoveLeafNode(BVH_Node& targetLeafNode);
 			/// <summary>
 			/// file:///C:/Users/hour3/Desktop/ErinCatto_DynamicBVH_Full.pdf 96 page
 			/// Will Remove updatedNode And Re-insert updateNode
@@ -189,6 +240,15 @@ namespace doom
 			void SimpleDebug();
 
 			int GetMaxDepth(BVH_Node& node);
+
+			BVH_Node* GetNode(int nodeIndex);
+
+
+			/// <summary>
+			/// Check all active nodes can be traversed from rootNodeIndex
+			/// </summary>
+			void ValidCheck();
+		
 		};
 
 		

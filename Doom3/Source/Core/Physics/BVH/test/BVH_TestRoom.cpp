@@ -13,6 +13,12 @@ void doom::physics::BVH_TestRoom::AddNewRandomLeafNode()
 
 }
 
+void doom::physics::BVH_TestRoom::RemoveRecentAddedLeafNode()
+{
+	auto node = this->mBVH.GetNode(this->mBVH.recentAddedLeaf);
+	this->mBVH.RemoveLeafNode(*node);
+}
+
 void doom::physics::BVH_TestRoom::Update()
 {
 	if (doom::userinput::UserInput_Server::GetKeyUp(eKEY_CODE::KEY_F9))
