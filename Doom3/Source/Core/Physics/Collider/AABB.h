@@ -72,10 +72,43 @@ namespace doom
 			ColliderType GetColliderType() const override;
 			math::Vector3 GetCenter();
 
-			constexpr void MoveAABB(const math::Vector3& movedVector)
+			constexpr void Expand(const math::Vector3& movedVector)
 			{
-				this->mLowerBound += movedVector;
-				this->mUpperBound += movedVector;
+				math::Vector3 expandVec{ math::abs(movedVector.x) ,  math::abs(movedVector.y) ,  math::abs(movedVector.z) };
+				this->mUpperBound += expandVec;
+				this->mLowerBound -= expandVec;
+			}
+
+			constexpr void SignedExpand(const math::Vector3& movedVector)
+			{
+				if (movedVector.x > 0)
+				{
+					this->mUpperBound.x += movedVector.x;
+				}
+				else
+				{
+					this->mLowerBound.x += movedVector.x;
+				}
+
+
+				if (movedVector.y > 0)
+				{
+					this->mUpperBound.y += movedVector.y;
+				}
+				else
+				{
+					this->mLowerBound.y += movedVector.y;
+				}
+
+
+				if (movedVector.z > 0)
+				{
+					this->mUpperBound.z += movedVector.z;
+				}
+				else
+				{
+					this->mLowerBound.z += movedVector.z;
+				}
 			}
 
 			/// <summary>
@@ -178,10 +211,33 @@ namespace doom
 			ColliderType GetColliderType() const override;
 			math::Vector2 GetCenter();
 
-			constexpr void MoveAABB(const math::Vector2& movedVector)
+			constexpr void Expand(const math::Vector2& movedVector)
 			{
-				this->mLowerBound += movedVector;
-				this->mUpperBound += movedVector;
+				math::Vector2 expandVec{ math::abs(movedVector.x) ,  math::abs(movedVector.y) };
+				this->mUpperBound += expandVec;
+				this->mLowerBound -= expandVec;
+			}
+
+			constexpr void SignedExpand(const math::Vector2& movedVector)
+			{
+				if (movedVector.x > 0)
+				{
+					this->mUpperBound.x += movedVector.x;
+				}
+				else
+				{
+					this->mLowerBound.x += movedVector.x;
+				}
+
+
+				if (movedVector.y > 0)
+				{
+					this->mUpperBound.y += movedVector.y;
+				}
+				else
+				{
+					this->mLowerBound.y += movedVector.y;
+				}
 			}
 
 			static constexpr float GetArea(const AABB2D& A)

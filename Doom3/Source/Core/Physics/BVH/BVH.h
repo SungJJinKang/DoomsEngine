@@ -64,6 +64,8 @@ namespace doom
 			/// </summary>
 			/// <param name="movedVector"></param>
 			Node<AABB>* UpdateAABB(const typename AABB::component_type& movedVector);
+			Node<AABB>* UpdateAABB(const typename AABB::component_type& movedVector, const typename AABB::component_type& margin);
+			//Node<AABB>* UpdateAABB(const typename AABB::component_type& margin);
 			Node<AABB>* UpdateIfInnerAABBMoveOutsideOfEnlargedAABB();
 		};
 
@@ -101,10 +103,19 @@ namespace doom
 
 		//////////////////////////
 
+		//TODO : Two BVH ±¸Çö
+		///The b3DynamicBvhBroadphase implements a broadphase using two dynamic AABB bounding volume hierarchies/trees (see b3DynamicBvh).
+		///One tree is used for static/non-moving objects, and another tree is used for dynamic objects. Objects can move from one tree to the other.
+		///This is a very fast broadphase, especially for very dynamic worlds where many objects are moving. Its insert/add and remove of objects is generally faster than the sweep and prune broadphases b3AxisSweep3 and b332BitAxisSweep3.
+		//struct b3DynamicBvhBroadphase
+		//https://github.com/bulletphysics/bullet3/blob/master/src/Bullet3Collision/BroadPhaseCollision/b3DynamicBvhBroadphase.h
 
 		/// <summary>
 		/// Dynamic(Incremental) BVH
-		/// reference : https://box2d.org/files/ErinCatto_DynamicBVH_Full.pdf
+		/// reference : 
+		/// https://box2d.org/files/ErinCatto_DynamicBVH_Full.pdf
+		/// https://www.researchgate.net/publication/270704721_Incremental_BVH_construction_for_ray_tracing
+		/// https://github.com/bulletphysics/bullet3/blob/master/src/BulletCollision/BroadphaseCollision/btDbvt.cpp
 		/// </summary>
 		/// <typeparam name="AABB"></typeparam>
 		template <typename AABB>
@@ -145,6 +156,9 @@ namespace doom
 			float InheritedCost(const AABB& L, const AABB& candidate);
 
 			void DebugBVHTree(BVH_Node& node, float x, float y, int depth = 0);
+
+			void CountDepthRecursive(BVH_Node& node, int& depth);
+
 		public:
 
 			constexpr BVH()
@@ -173,6 +187,8 @@ namespace doom
 
 			void InitializeDebugging();
 			void SimpleDebug();
+
+			int GetMaxDepth(BVH_Node& node);
 		};
 
 		

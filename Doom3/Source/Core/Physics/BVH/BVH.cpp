@@ -29,9 +29,29 @@ template<typename AABB>
 doom::physics::Node<AABB>* doom::physics::Node<AABB>::UpdateAABB(const typename AABB::component_type& movedVector)
 {
 	D_ASSERT(this->mIsLeaf == true); // Don try aabb of internalnode arbitrary, InternalNode should be changed only by BVH algorithm
-	this->mAABB.MoveAABB(movedVector);
+	this->mAABB.SignedExpand(movedVector);
 	return this->UpdateIfInnerAABBMoveOutsideOfEnlargedAABB();
 }
+
+
+template <typename AABB>
+doom::physics::Node<AABB>* doom::physics::Node<AABB>::UpdateAABB(const typename AABB::component_type& movedVector, const typename AABB::component_type& margin)
+{
+	D_ASSERT(this->mIsLeaf == true); // Don try aabb of internalnode arbitrary, InternalNode should be changed only by BVH algorithm
+	this->mAABB.Expand(margin);
+	this->mAABB.SignedExpand(movedVector);
+	return this->UpdateIfInnerAABBMoveOutsideOfEnlargedAABB();
+}
+
+/*
+template <typename AABB>
+doom::physics::Node<AABB>* doom::physics::Node<AABB>::UpdateAABB(const typename AABB::component_type& margin)
+{
+	D_ASSERT(this->mIsLeaf == true); // Don try aabb of internalnode arbitrary, InternalNode should be changed only by BVH algorithm
+	this->mAABB.Expand(margin);
+	return this->UpdateIfInnerAABBMoveOutsideOfEnlargedAABB();
+}
+*/
 
 template<typename AABB>
 doom::physics::Node<AABB>* doom::physics::Node<AABB>::UpdateIfInnerAABBMoveOutsideOfEnlargedAABB()
@@ -248,7 +268,7 @@ typename doom::physics::BVH<AABB>::BVH_Node* doom::physics::BVH<AABB>::InsertLea
 		int index = this->mTree.mNodes[newObjectLeafIndex].mParentIndex;
 		while (index != NULL_NODE_INDEX)
 		{
-			//index = Balance(index);
+			index = Balance(index);
 
 			int child1 = this->mTree.mNodes[index].mChild1;
 			int child2 = this->mTree.mNodes[index].mChild2;
@@ -391,7 +411,14 @@ bool doom::physics::BVH<AABB>::RotateNode(int nodeAIndex, int nodeBIndex)
 template <typename AABB>
 int doom::physics::BVH<AABB>::Balance(int index)
 {
+	if (this->mTree.mNodes[index].mIsLeaf == true)
+	{
+		return index;
+	}
 	return 0;
+
+	// 발란스를 할때는 두개가 rotate되는 데 rotate시 더 아래에 있는(height가 더 높은) node의 부모의 area가 줄어드는 경우에만 balance를 실행한다.
+	// https://box2d.org/files/ErinCatto_DynamicBVH_Full.pdf 123p
 }
 
 template<typename AABB>
@@ -442,7 +469,7 @@ void doom::physics::BVH<AABB>::RemoveLeafNode(doom::physics::BVH<AABB>::BVH_Node
 		int index = grandParentIndex;
 		while (index != NULL_NODE_INDEX)
 		{
-			//index = Balance(index);
+			index = Balance(index);
 
 			int child1 = this->mTree.mNodes[index].mChild1;
 			int child2 = this->mTree.mNodes[index].mChild2;
@@ -591,6 +618,20 @@ void doom::physics::BVH<AABB>::InitializeDebugging()
 	{
 		this->mBVHDebugMaterial = std::make_unique<graphics::Material>( doom::assetimporter::AssetManager::GetAsset<asset::eAssetType::SHADER>("Default2DColorShader.glsl"));
 	}
+}
+
+
+template <typename AABB>
+void doom::physics::BVH<AABB>::CountDepthRecursive(BVH_Node& node, int& depth)
+{
+
+}
+
+
+template <typename AABB>
+int doom::physics::BVH<AABB>::GetMaxDepth(BVH_Node& node)
+{
+	int depth = 1;
 }
 
 template class doom::physics::BVH<doom::physics::AABB3D>;
