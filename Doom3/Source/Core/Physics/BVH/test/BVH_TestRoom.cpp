@@ -19,8 +19,29 @@ void doom::physics::BVH_TestRoom::RemoveRecentAddedLeafNode()
 	this->mBVH.RemoveLeafNode(*node);
 }
 
+void doom::physics::BVH_TestRoom::BalanceRecentAddedLeafNode()
+{
+	this->mBVH.Balance(this->mBVH.recentAddedLeaf);
+}
+
 void doom::physics::BVH_TestRoom::Update()
 {
+	if (doom::userinput::UserInput_Server::GetKeyUp(eKEY_CODE::KEY_F6))
+	{
+		D_DEBUG_LOG(std::to_string(this->mBVH.mTree.mCurrentActiveNodeCount), eLogType::D_TEMP);
+		D_DEBUG_LOG(std::to_string(this->mBVH.GetLeafNodeCount()), eLogType::D_TEMP);
+	}
+
+	if (doom::userinput::UserInput_Server::GetKeyUp(eKEY_CODE::KEY_F7))
+	{
+		this->BalanceRecentAddedLeafNode();
+	}
+
+	if (doom::userinput::UserInput_Server::GetKeyUp(eKEY_CODE::KEY_F8))
+	{
+		this->mBVH.ValidCheck();
+	}
+
 	if (doom::userinput::UserInput_Server::GetKeyUp(eKEY_CODE::KEY_F9))
 	{
 		this->mBVH.InitializeDebugging();
@@ -28,10 +49,15 @@ void doom::physics::BVH_TestRoom::Update()
 
 	if (doom::userinput::UserInput_Server::GetKeyToggle(eKEY_CODE::KEY_F9))
 	{
-		this->mBVH.SimpleDebug();
+		this->mBVH.TreeDebug();
 	}
 
-	if (doom::userinput::UserInput_Server::GetKeyUp(eKEY_CODE::KEY_F10))
+	if (doom::userinput::UserInput_Server::GetKeyToggle(eKEY_CODE::KEY_F10))
+	{
+		this->mBVH.AABBDebug(this->mBVH.recentAddedLeaf);
+	}
+
+	if (doom::userinput::UserInput_Server::GetKeyUp(eKEY_CODE::KEY_F11))
 	{
 		this->AddNewRandomLeafNode();
 	}

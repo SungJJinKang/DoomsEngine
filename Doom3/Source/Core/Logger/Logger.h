@@ -22,7 +22,12 @@ namespace doom
 		{
 			D_LOG = 0,
 			D_WARNING = 1,
-			D_ERROR = 2
+			D_ERROR = 2,
+			/// <summary>
+			/// always call
+			/// Remove this after use this
+			/// </summary>
+			D_TEMP = 3
 		};
 
 		class Logger

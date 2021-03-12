@@ -33,16 +33,14 @@ namespace doom
 
 			Collider* mCollider{ nullptr };
 
+			/// <summary>
+			/// Don't change this except in AllocateNewNode
+			/// </summary>
 			int mIndex{ NULL_NODE_INDEX };
 
 			bool bmIsActive{ false };
 			
-			/// <summary>
-			/// leaf node to this node
-			/// leaf node's height value is zero
-			/// </summary>
-			/// <typeparam name="AABB"></typeparam>
-			int mHeight{ NULL_NODE_INDEX };
+		
 
 			/// <summary>
 			/// Node Index in Tree::mNodes
@@ -97,6 +95,7 @@ namespace doom
 		template <typename AABB>
 		struct Tree
 		{
+
 			int mRootNodeIndex{ NULL_NODE_INDEX };
 
 			/// <summary>
@@ -163,6 +162,8 @@ namespace doom
 		template <typename AABB>
 		class BVH
 		{
+			friend class BVH_TestRoom;
+
 			using BVH_Tree = typename Tree<AABB>;
 			using BVH_Node = typename Node<AABB>;
 
@@ -178,9 +179,6 @@ namespace doom
 			std::unique_ptr<graphics::PicktureInPickture> mPIPForDebug{};
 			std::unique_ptr<graphics::Material> mBVHDebugMaterial{};
 #endif
-			
-
-			int GetSibling(int nodeIndex);
 			int PickBest(AABB& L);
 
 			int AllocateNewNode();
@@ -188,8 +186,9 @@ namespace doom
 			int AllocateLeafNode(AABB& aabb, Collider* collider);
 			void FreeNode(int nodeIndex);
 
-			bool RotateNode(int nodeAIndex, int nodeBIndex);
-			int Balance(int index);
+			int Balance(int lowerNodeIndex);
+			void HillClimingReconstruct(int index);
+			//int Balance(int index);
 			void ReConstructNodeAABB(int targetNodeIndex);
 			float ComputeCost();
 
@@ -205,7 +204,10 @@ namespace doom
 			void DebugBVHTree(BVH_Node& node, float x, float y, int depth = 0);
 
 		
-			void ValidCheck(BVH_Node* node);
+			void CheckActiveNode(BVH_Node& node, std::vector<int>& activeNodeList);
+
+			int GetSibling(int index);
+			bool IsHasChild(int index);
 		public:
 #ifdef DEBUG_MODE
 			static inline int recentAddedLeaf{ NULL_NODE_INDEX };
@@ -237,9 +239,9 @@ namespace doom
 			BVH_Node* UpdateLeaf(BVH_Node& updatedNode);
 
 			void InitializeDebugging();
-			void SimpleDebug();
+			void TreeDebug();
+			void AABBDebug(int targetNode);
 
-			int GetMaxDepth(BVH_Node& node);
 
 			BVH_Node* GetNode(int nodeIndex);
 
@@ -248,7 +250,19 @@ namespace doom
 			/// Check all active nodes can be traversed from rootNodeIndex
 			/// </summary>
 			void ValidCheck();
-		
+
+			/// <summary>
+			/// longest path from node to leaf
+			/// leaf node will have 0 height
+			/// </summary>
+			/// <param name="node"></param>
+			/// <param name="index"></param>
+			/// <param name="currentHeight"></param>
+			/// <returns></returns>
+			int GetHeight(int index, int& longestHeight = 0, int currentHeight = -1);
+			int GetDepth(int index);
+			
+			int GetLeafNodeCount();
 		};
 
 		

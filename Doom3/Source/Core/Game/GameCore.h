@@ -149,8 +149,10 @@ namespace doom
 		{
 			D_START_PROFILING("Fixed Update", eProfileLayers::CPU);
 			MainTimer::ResetFixedTimer();
+			int fixedUpdateCount{ 0 };
 			for (int i = 0; i < this->mPhysics_Server.MAX_PHYSICS_STEP; ++i)
 			{
+				fixedUpdateCount++;
 				this->FixedUpdate();
 				MainTimer::UpdateFixedTimer();
 				if (MainTimer::GetFixedDeltaTime() > this->mPhysics_Server.FIXED_TIME_STEP)
@@ -158,6 +160,7 @@ namespace doom
 					break;
 				}
 			}
+			D_DEBUG_LOG("FixedUpdate Count : " + std::to_string(fixedUpdateCount), eLogType::D_LOG);
 			D_END_PROFILING("Fixed Update");
 			
 

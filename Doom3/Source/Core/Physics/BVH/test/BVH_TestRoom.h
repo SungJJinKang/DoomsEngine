@@ -12,6 +12,7 @@ namespace doom
 
 			void AddNewRandomLeafNode();
 			void RemoveRecentAddedLeafNode();
+			void BalanceRecentAddedLeafNode();
 			
 		public:
 
