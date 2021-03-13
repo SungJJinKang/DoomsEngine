@@ -10,10 +10,9 @@
 #include <unordered_set>
 #endif
 
-#include "../Collider/Collider.h"
-#include "../Collider/Ray.h"
-#include "../Collider/PhysicsGeneric.h"
-#include "../Collider/ColliderSolution.h"
+#include "Physics/Collider/Collider.h"
+#include "Physics/Collider/PhysicsGeneric.h"
+#include "Physics/Collider/ColliderSolution.h"
 
 #include "../../Graphics/DebugGraphics.h"
 
@@ -25,91 +24,14 @@
 #ifdef DEBUG_MODE
 #include <vector_erase_move_lastelement/vector_swap_erase.h>
 #endif
-template<typename AABB>
-doom::physics::Node<AABB>* doom::physics::Node<AABB>::UpdateAABB(const AABB& newAABB)
-{
-	D_ASSERT(this->mIsLeaf == true); // Don try aabb of internalnode arbitrary, InternalNode should be changed only by BVH algorithm
-	this->mAABB = newAABB;
-	return this->UpdateIfInnerAABBMoveOutsideOfEnlargedAABB();
-}
-
-template<typename AABB>
-doom::physics::Node<AABB>* doom::physics::Node<AABB>::UpdateAABB(const typename AABB::component_type& movedVector)
-{
-	D_ASSERT(this->mIsLeaf == true); // Don try aabb of internalnode arbitrary, InternalNode should be changed only by BVH algorithm
-	this->mAABB.SignedExpand(movedVector);
-	return this->UpdateIfInnerAABBMoveOutsideOfEnlargedAABB();
-}
 
 
 template <typename AABB>
-doom::physics::Node<AABB>* doom::physics::Node<AABB>::UpdateAABB(const typename AABB::component_type& movedVector, const typename AABB::component_type& margin)
-{
-	D_ASSERT(this->mIsLeaf == true); // Don try aabb of internalnode arbitrary, InternalNode should be changed only by BVH algorithm
-	this->mAABB.Expand(margin);
-	this->mAABB.SignedExpand(movedVector);
-	return this->UpdateIfInnerAABBMoveOutsideOfEnlargedAABB();
-}
-
-/*
-template <typename AABB>
-doom::physics::Node<AABB>* doom::physics::Node<AABB>::UpdateAABB(const typename AABB::component_type& margin)
-{
-	D_ASSERT(this->mIsLeaf == true); // Don try aabb of internalnode arbitrary, InternalNode should be changed only by BVH algorithm
-	this->mAABB.Expand(margin);
-	return this->UpdateIfInnerAABBMoveOutsideOfEnlargedAABB();
-}
-*/
-
-template<typename AABB>
-doom::physics::Node<AABB>* doom::physics::Node<AABB>::UpdateIfInnerAABBMoveOutsideOfEnlargedAABB()
-{
-	D_ASSERT(this->mIsLeaf == true); // Only Leaf Nodes can be updated by UpdateLeaf Function
-	if (CheckIsAABBCompletlyEnclosed(this->mAABB, this->mEnlargedAABB) == false)
-	{
-		return this->mOwnerBVH->UpdateLeaf(*this);
-	}
-	else
-	{
-		return this;
-	}
-}
-
-template<typename AABB>
-void doom::physics::Node<AABB>::Clear()
-{
-	this->mOwnerBVH = nullptr;
-	this->mCollider = nullptr ;
-	this->mIndex = NULL_NODE_INDEX ;
-	this->mParentIndex = NULL_NODE_INDEX ;
-	this->mChild1 = NULL_NODE_INDEX ;
-	this->mChild2 = NULL_NODE_INDEX ;
-	this->mIsLeaf = false;
-	this->bmIsActive = false;
-}
-
-template<typename AABB>
-void doom::physics::Node<AABB>::ValidCheck()
-{
-#ifdef DEBUG_MODE
-	if (this->bmIsActive == true)
-	{
-		D_ASSERT(this->mOwnerBVH != nullptr);
-		D_ASSERT(this->mIndex != NULL_NODE_INDEX);
-		if (&(this->mOwnerBVH->mTree.mNodes[this->mIndex]) == this);
-
-	}
-	D_ASSERT(this->bmIsActive == true);
-#endif
-}
-
-
-template <typename AABB>
-bool doom::physics::BVH<AABB>::TreeRayCast(BVH<AABB>::BVH_Tree& tree, Ray & ray)
+bool doom::BVH<AABB>::BVHRayCast(doom::physics::Ray & ray)
 
 {
 	std::stack<int> stack{};
-	stack.push(tree.mRootNodeIndex);
+	stack.push(this->mTree.mRootNodeIndex);
 	while (stack.empty() == false)
 	{
 		int index = stack.top();
@@ -117,14 +39,14 @@ bool doom::physics::BVH<AABB>::TreeRayCast(BVH<AABB>::BVH_Tree& tree, Ray & ray)
 
 		if constexpr (std::is_same_v<doom::physics::AABB2D, AABB> == true)
 		{
-			if (doom::physics::IsOverlapRayAndAABB2D(ray, tree.mNodes[index].mAABB) == false)
+			if (doom::physics::IsOverlapRayAndAABB2D(ray, this->mTree.mNodes[index].mAABB) == false)
 			{// if don't hit with bounding box
 				continue;
 			}
 		}
 		else if (std::is_same_v<doom::physics::AABB3D, AABB> == true)
 		{
-			if (doom::physics::IsOverlapRayAndAABB3D(ray, tree.mNodes[index].mAABB) == false)
+			if (doom::physics::IsOverlapRayAndAABB3D(ray, this->mTree.mNodes[index].mAABB) == false)
 			{// if don't hit with bounding box
 				continue;
 			}
@@ -135,10 +57,10 @@ bool doom::physics::BVH<AABB>::TreeRayCast(BVH<AABB>::BVH_Tree& tree, Ray & ray)
 		}
 
 
-		if (tree.mNodes[index].mIsLeaf)
+		if (this->mTree.mNodes[index].mIsLeaf)
 		{//if node is world object
 
-			if (ColliderSolution::CheckIsOverlap(tree.mNodes[index].mCollider, static_cast<Collider*>(&ray)) == true)
+			if (physics::ColliderSolution::CheckIsOverlap(this->mTree.mNodes[index].mCollider, static_cast<physics::Collider*>(&ray)) == true)
 			{// check collision with ray and world object collider
 				return true;
 			}
@@ -149,8 +71,8 @@ bool doom::physics::BVH<AABB>::TreeRayCast(BVH<AABB>::BVH_Tree& tree, Ray & ray)
 		}
 		else
 		{
-			stack.push(tree.mNodes[index].mChild1);
-			stack.push(tree.mNodes[index].mChild2);
+			stack.push(this->mTree.mNodes[index].mChild1);
+			stack.push(this->mTree.mNodes[index].mChild2);
 		}
 	}
 	return false;
@@ -170,7 +92,7 @@ bool doom::physics::BVH<AABB>::TreeRayCast(BVH<AABB>::BVH_Tree& tree, Ray & ray)
 /// <param name="computedAreaSize"></param>
 /// <returns></returns>
 template <typename AABB>
-int doom::physics::BVH<AABB>::PickBest(AABB& L)
+int doom::BVH<AABB>::PickBest(const AABB& L)
 {
 	//https://github.com/selimanac/DAABBCC/blob/v2.0/daabbcc/src/DynamicTree/b2DynamicTree.cpp
 
@@ -222,7 +144,7 @@ int doom::physics::BVH<AABB>::PickBest(AABB& L)
 }
 
 template<typename AABB>
-int doom::physics::BVH<AABB>::AllocateNewNode()
+int doom::BVH<AABB>::AllocateNewNode()
 {
 	int newNodeIndex;
 	if (this->mTree.freedNodeIndexList.empty() == false)
@@ -248,7 +170,7 @@ int doom::physics::BVH<AABB>::AllocateNewNode()
 }
 
 template <typename AABB>
-int doom::physics::BVH<AABB>::AllocateLeafNode(AABB& aabb, Collider* collider)
+int doom::BVH<AABB>::AllocateLeafNode(const AABB& aabb, physics::Collider* collider)
 {
 	int newNodexIndex = this->AllocateNewNode();
 	auto& newNode = this->mTree.mNodes[newNodexIndex];
@@ -269,7 +191,7 @@ int doom::physics::BVH<AABB>::AllocateLeafNode(AABB& aabb, Collider* collider)
 }
 
 template <typename AABB>
-int doom::physics::BVH<AABB>::AllocateInternalNode()
+int doom::BVH<AABB>::AllocateInternalNode()
 {
 	int newNodexIndex = this->AllocateNewNode();
 	auto& newNode = this->mTree.mNodes[newNodexIndex];
@@ -283,7 +205,7 @@ int doom::physics::BVH<AABB>::AllocateInternalNode()
 
 
 template<typename AABB>
-void doom::physics::BVH<AABB>::FreeNode(int nodeIndex)
+void doom::BVH<AABB>::FreeNode(int nodeIndex)
 {
 	D_ASSERT(nodeIndex != NULL_NODE_INDEX);
 	
@@ -294,7 +216,7 @@ void doom::physics::BVH<AABB>::FreeNode(int nodeIndex)
 }
 
 template <typename AABB>
-int doom::physics::BVH<AABB>::GetSibling(int index)
+int doom::BVH<AABB>::GetSibling(int index)
 {
 	D_ASSERT(index != NULL_NODE_INDEX);
 	int parentIndex = this->mTree.mNodes[index].mParentIndex;
@@ -319,14 +241,14 @@ int doom::physics::BVH<AABB>::GetSibling(int index)
 }
 
 template <typename AABB>
-bool doom::physics::BVH<AABB>::IsHasChild(int index)
+bool doom::BVH<AABB>::IsHasChild(int index)
 {
 	D_ASSERT(index != NULL_NODE_INDEX);
 	return (this->mTree.mNodes[index].mChild1 != NULL_NODE_INDEX) || (this->mTree.mNodes[index].mChild2 != NULL_NODE_INDEX);
 }
 
 template <typename AABB>
-typename doom::physics::BVH<AABB>::BVH_Node* doom::physics::BVH<AABB>::InsertLeaf(AABB& L, Collider* collider)
+typename doom::BVH<AABB>::node_type* doom::BVH<AABB>::InsertLeaf(const AABB& L, physics::Collider* collider)
 {
 	int newObjectLeafIndex = AllocateLeafNode(L, collider);
 	if (this->mTree.mCurrentActiveNodeCount == 1)
@@ -387,7 +309,7 @@ typename doom::physics::BVH<AABB>::BVH_Node* doom::physics::BVH<AABB>::InsertLea
 }
 
 template <typename AABB>
-typename doom::physics::BVH<AABB>::BVH_Node* doom::physics::BVH<AABB>::UpdateLeaf(BVH_Node* updatedNode)
+typename doom::BVH<AABB>::node_type* doom::BVH<AABB>::UpdateLeaf(node_type* updatedNode)
 {
 	if (updatedNode == nullptr)
 	{
@@ -412,13 +334,13 @@ typename doom::physics::BVH<AABB>::BVH_Node* doom::physics::BVH<AABB>::UpdateLea
 /// <param name="candidate"></param>
 /// <returns></returns>
 template <typename AABB>
-float doom::physics::BVH<AABB>::InheritedCost(const AABB& L, const AABB& candidate)
+float doom::BVH<AABB>::InheritedCost(const AABB& L, const AABB& candidate)
 {
 	return AABB::GetUnionArea(L, candidate) - AABB::GetArea(candidate);
 }
 
 template <typename AABB>
-void doom::physics::BVH<AABB>::HillClimingReconstruct(int index)
+void doom::BVH<AABB>::HillClimingReconstruct(int index)
 {
 	D_ASSERT(index != NULL_NODE_INDEX);
 	while (index != NULL_NODE_INDEX)
@@ -445,7 +367,7 @@ void doom::physics::BVH<AABB>::HillClimingReconstruct(int index)
 /// <param name="nodeAIndex"></param>
 /// <param name="nodeBIndex"></param>
 template <typename AABB>
-int doom::physics::BVH<AABB>::Balance(int lowerNodeIndex)
+int doom::BVH<AABB>::Balance(int lowerNodeIndex)
 {
 	if (this->IsHasChild(lowerNodeIndex) == false)
 	{
@@ -527,7 +449,7 @@ int doom::physics::BVH<AABB>::Balance(int lowerNodeIndex)
 }
 
 template<typename AABB>
-void doom::physics::BVH<AABB>::RemoveLeafNode(int targetLeafNodeIndex)
+void doom::BVH<AABB>::RemoveLeafNode(int targetLeafNodeIndex)
 {
 	if (targetLeafNodeIndex == NULL_NODE_INDEX)
 	{
@@ -542,7 +464,7 @@ void doom::physics::BVH<AABB>::RemoveLeafNode(int targetLeafNodeIndex)
 }
 
 template<typename AABB>
-void doom::physics::BVH<AABB>::RemoveLeafNode(doom::physics::BVH<AABB>::BVH_Node* targetLeafNode)
+void doom::BVH<AABB>::RemoveLeafNode(doom::BVH<AABB>::node_type* targetLeafNode)
 {
 	if (targetLeafNode == nullptr)
 	{
@@ -614,7 +536,7 @@ void doom::physics::BVH<AABB>::RemoveLeafNode(doom::physics::BVH<AABB>::BVH_Node
 }
 
 template<typename AABB>
-void doom::physics::BVH<AABB>::ReConstructNodeAABB(int targetNodeIndex)
+void doom::BVH<AABB>::ReConstructNodeAABB(int targetNodeIndex)
 {
 	if (this->mTree.mNodes[targetNodeIndex].mIsLeaf == true)
 	{
@@ -635,7 +557,7 @@ float additionalWeight(float x, float l)
 }
 
 template <typename AABB>
-void doom::physics::BVH<AABB>::DebugBVHTree(BVH_Node* node, float x, float y, int depth)
+void doom::BVH<AABB>::DebugBVHTree(node_type* node, float x, float y, int depth)
 {
 	if (node == nullptr)
 	{
@@ -645,18 +567,18 @@ void doom::physics::BVH<AABB>::DebugBVHTree(BVH_Node* node, float x, float y, in
 	float offsetX = static_cast<float>(1.0f / (math::pow(2, depth + 1)));
 	if (node->mChild1 != NULL_NODE_INDEX)
 	{
-		graphics::DebugGraphics::GetSingleton()->DebugDraw2DLine({ x, y, 0 }, { x - offsetX, y - DebugBVHTreeOffsetY, 0 }, this->mTree.mNodes[node->mChild1].mIsLeaf == false ? eColor::Black : ((doom::physics::BVH<AABB>::recentAddedLeaf.empty() == false && doom::physics::BVH<AABB>::recentAddedLeaf.top() == node->mChild1) ? eColor::Red : eColor::Blue), false, true);
+		graphics::DebugGraphics::GetSingleton()->DebugDraw2DLine({ x, y, 0 }, { x - offsetX, y - DebugBVHTreeOffsetY, 0 }, this->mTree.mNodes[node->mChild1].mIsLeaf == false ? eColor::Black : ((doom::BVH<AABB>::recentAddedLeaf.empty() == false && doom::BVH<AABB>::recentAddedLeaf.top() == node->mChild1) ? eColor::Red : eColor::Blue), false, true);
 		DebugBVHTree(&(this->mTree.mNodes[node->mChild1]), x - offsetX, y - DebugBVHTreeOffsetY, depth + 1);
 	}
 	if (node->mChild2 != NULL_NODE_INDEX)
 	{
-		graphics::DebugGraphics::GetSingleton()->DebugDraw2DLine({ x, y, 0 }, { x + offsetX, y - DebugBVHTreeOffsetY, 0 }, this->mTree.mNodes[node->mChild2].mIsLeaf == false ? eColor::Black : ((doom::physics::BVH<AABB>::recentAddedLeaf.empty() == false && doom::physics::BVH<AABB>::recentAddedLeaf.top() == node->mChild2) ? eColor::Red : eColor::Blue), false, true);
+		graphics::DebugGraphics::GetSingleton()->DebugDraw2DLine({ x, y, 0 }, { x + offsetX, y - DebugBVHTreeOffsetY, 0 }, this->mTree.mNodes[node->mChild2].mIsLeaf == false ? eColor::Black : ((doom::BVH<AABB>::recentAddedLeaf.empty() == false && doom::BVH<AABB>::recentAddedLeaf.top() == node->mChild2) ? eColor::Red : eColor::Blue), false, true);
 		DebugBVHTree(&(this->mTree.mNodes[node->mChild2]), x + offsetX, y - DebugBVHTreeOffsetY, depth + 1);
 	}
 }
 
 template<typename AABB>
-void doom::physics::BVH<AABB>::TreeDebug()
+void doom::BVH<AABB>::TreeDebug()
 {
 	if (this->mTree.mRootNodeIndex != NULL_NODE_INDEX)
 	{
@@ -685,7 +607,7 @@ void doom::physics::BVH<AABB>::TreeDebug()
 }
 
 template<typename AABB>
-void doom::physics::BVH<AABB>::AABBDebug()
+void doom::BVH<AABB>::AABBDebug()
 {
 	if (static_cast<bool>(this->mPIPForDebug))
 	{
@@ -727,7 +649,7 @@ void doom::physics::BVH<AABB>::AABBDebug()
 	}
 }
 template<typename AABB>
-void doom::physics::BVH<AABB>::AABBDebug(int targetNode)
+void doom::BVH<AABB>::AABBDebug(int targetNode)
 {
 	if (static_cast<bool>(this->mPIPForDebug))
 	{
@@ -769,7 +691,7 @@ void doom::physics::BVH<AABB>::AABBDebug(int targetNode)
 /// <typeparam name="AABB"></typeparam>
 /// <returns></returns>
 template <typename AABB>
-float doom::physics::BVH<AABB>::ComputeCost()
+float doom::BVH<AABB>::ComputeCost()
 {
 	float cost{ 0.0f };
 	for (int i = 0 ; i < this->mTree.mCurrentAllocatedNodeCount; i++)
@@ -784,7 +706,7 @@ float doom::physics::BVH<AABB>::ComputeCost()
 
 
 template <typename AABB>
-void doom::physics::BVH<AABB>::InitializeDebugging()
+void doom::BVH<AABB>::InitializeDebugging()
 {
 	if (static_cast<bool>(this->mPIPForDebug) == false)
 	{
@@ -800,7 +722,7 @@ void doom::physics::BVH<AABB>::InitializeDebugging()
 
 
 template <typename AABB>
-int doom::physics::BVH<AABB>::GetHeight(int index, int& longestHeight, int currentHeight)
+int doom::BVH<AABB>::GetHeight(int index, int& longestHeight, int currentHeight)
 {
 	D_ASSERT(index != NULL_NODE_INDEX);
 	
@@ -823,7 +745,7 @@ int doom::physics::BVH<AABB>::GetHeight(int index, int& longestHeight, int curre
 }
 
 template <typename AABB>
-int doom::physics::BVH<AABB>::GetDepth(int index)
+int doom::BVH<AABB>::GetDepth(int index)
 {
 	D_ASSERT(index != NULL_NODE_INDEX);
 
@@ -838,7 +760,7 @@ int doom::physics::BVH<AABB>::GetDepth(int index)
 }
 
 template<typename AABB>
-typename doom::physics::BVH<AABB>::BVH_Node* doom::physics::BVH<AABB>::GetNode(int nodeIndex)
+typename doom::BVH<AABB>::node_type* doom::BVH<AABB>::GetNode(int nodeIndex)
 {
 	D_ASSERT(nodeIndex >= 0);
 	D_ASSERT(this->mTree.mNodes[nodeIndex].bmIsActive == true);
@@ -848,7 +770,7 @@ typename doom::physics::BVH<AABB>::BVH_Node* doom::physics::BVH<AABB>::GetNode(i
 
 
 template <typename AABB>
-int doom::physics::BVH<AABB>::GetLeafNodeCount()
+int doom::BVH<AABB>::GetLeafNodeCount()
 {
 	int count{ 0 };
 	for (int i = 0; i < this->mTree.mCurrentAllocatedNodeCount; i++)
@@ -862,7 +784,7 @@ int doom::physics::BVH<AABB>::GetLeafNodeCount()
 }
 
 template <typename AABB>
-int doom::physics::BVH<AABB>::GetLeaf(int index)
+int doom::BVH<AABB>::GetLeaf(int index)
 {
 	int count = 0;
 	for (int i = 0; i < this->mTree.mCurrentAllocatedNodeCount; i++)
@@ -883,7 +805,7 @@ int doom::physics::BVH<AABB>::GetLeaf(int index)
 }
 
 template<typename AABB>
-bool doom::physics::BVH<AABB>::IsAncesterOf(int ancesterIndex, int decesterIndex)
+bool doom::BVH<AABB>::IsAncesterOf(int ancesterIndex, int decesterIndex)
 {
 	int index = this->mTree.mNodes[decesterIndex].mParentIndex;
 	while (index != NULL_NODE_INDEX)
@@ -899,7 +821,7 @@ bool doom::physics::BVH<AABB>::IsAncesterOf(int ancesterIndex, int decesterIndex
 }
 
 template<typename AABB>
-void doom::physics::BVH<AABB>::CheckActiveNode(BVH_Node* node, std::vector<int>& activeNodeList)
+void doom::BVH<AABB>::CheckActiveNode(node_type* node, std::vector<int>& activeNodeList)
 {
 	if (node == nullptr)
 	{
@@ -926,7 +848,7 @@ void doom::physics::BVH<AABB>::CheckActiveNode(BVH_Node* node, std::vector<int>&
 
 
 template<typename AABB>
-void doom::physics::BVH<AABB>::ValidCheck()
+void doom::BVH<AABB>::ValidCheck()
 {
 #ifdef DEBUG_MODE
 	if (this->mTree.mRootNodeIndex != NULL_NODE_INDEX)
@@ -1026,7 +948,9 @@ void doom::physics::BVH<AABB>::ValidCheck()
 
 	}
 #endif
+
+	
 }
 
-template class doom::physics::BVH<doom::physics::AABB3D>;
-template class doom::physics::BVH<doom::physics::AABB2D>;
+template class doom::BVH<doom::physics::AABB2D>;
+template class doom::BVH<doom::physics::AABB3D>;

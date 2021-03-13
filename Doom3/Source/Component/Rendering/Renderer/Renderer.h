@@ -3,9 +3,12 @@
 #include "Core/ServerComponent.h"
 #include "RendererStaticIterator.h"
 
-#include <Physics/Collider/AABB.h>
-
 #include <UserInput_Server.h>
+
+#include "Physics/Collider/AABB.h"
+#include "utility/BVH/BVH_Node_Object.h"
+
+#include "Graphics/Graphics_Server.h"
 
 namespace doom
 {
@@ -17,27 +20,20 @@ namespace doom
 
 
 
-	class Renderer : public ServerComponent, public RendererComponentStaticIterator
+	class Renderer : public ServerComponent, public RendererComponentStaticIterator, public BVH3D_Node_Object
 	{
 		friend graphics::Graphics_Server;
 		friend class Enity;
+
 	private:
-		
+
+				
 		Renderer(const Renderer&) = delete;
 		Renderer(Renderer&&) noexcept = delete;
 		Renderer& operator=(const Renderer&) = delete;
 		Renderer& operator=(Renderer&&) noexcept = delete;
 
-		/// <summary>
-		/// Entity's Model Matrix * Local AABB
-		/// </summary>
-		physics::AABB3D mWorldAABB3D{};
-		void UpdateWorldAABB3D();
-		physics::AABB3D mLocalAABB3D{};
-	
-		DirtyReceiver IsWorldAABBDirty{ true };
-
-		physics::AABB3D& GetWorldAABB3DByReference();
+		
 
 	protected:
 		
@@ -46,14 +42,12 @@ namespace doom
 		virtual void InitComponent() override
 		{
 			RendererComponentStaticIterator::AddRendererToStaticContainer();
-			this->AddLocalDirtyToTransformDirtyReceiver(this->IsWorldAABBDirty);
+			this->AddLocalDirtyToTransformDirtyReceiver(this->IsWorld_BVH_AABBDirty);
+
+			this->InsertBVHLeafNode(graphics::Graphics_Server::GetSingleton()->mViewFrustumCulling.mViewFrustumBVH, this->GetWorldAABB3D(), nullptr);
 		}
 		virtual void UpdateComponent() override
 		{
-			this->Draw();
-
-			ONLY_WHEN_KEY_TOGGLE_ON(userinput::eKEY_CODE::KEY_F11, this->DrawAABB3D());
-		
 		}
 
 		virtual void OnEndOfFrame_Component() override
@@ -64,8 +58,6 @@ namespace doom
 		{
 
 		}
-
-		void SetLocalAABB3D(const physics::AABB3D& aabb3d);
 
 	public:
 		Renderer();
@@ -84,10 +76,5 @@ namespace doom
 		void BindMaterial() noexcept;
 		void SetMaterial(graphics::Material* material) noexcept;
 		void SetMaterial(graphics::Material& material) noexcept;
-
-		physics::AABB3D GetWorldAABB3D();
-	
-		const physics::AABB3D& GetLocalAABB3D() const;
-		physics::AABB3D GetLocalAABB3D();
 	};
 }

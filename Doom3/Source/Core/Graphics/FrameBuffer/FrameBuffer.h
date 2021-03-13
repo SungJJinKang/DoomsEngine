@@ -16,6 +16,9 @@ namespace doom
 		{
 			friend class Graphics_Server;
 		private:
+
+			static inline constexpr const char* FRAMEBUFFER_TAG = "FrameBuffer";
+
 			static constexpr unsigned int RESERVED_RENDERBUFFER_COUNT = 3;
 			std::vector<RenderBuffer> mAttachedRenderBuffers;
 
@@ -64,21 +67,11 @@ namespace doom
 			inline void BindFrameBuffer() noexcept
 			{
 				D_ASSERT(this->mFrameBufferID != 0);
-				D_CHECK_OVERLAP_BIND_AND_SAVE_BIND("FramgBuffer", this->mFrameBufferID);
-
-				FrameBuffer::PreviousFrameBuffer = CurrentFrameBuffer;
-
 				FrameBuffer::BindFrameBuffer(this);
-
-				
 			}
 			static inline void UnBindFrameBuffer() noexcept
 			{
 				FrameBuffer::BindFrameBuffer(nullptr);
-
-				glBindRenderbuffer(GL_RENDERBUFFER, 0);
-
-				FrameBuffer::PreviousFrameBuffer = CurrentFrameBuffer;
 			}
 
 			/// <summary>

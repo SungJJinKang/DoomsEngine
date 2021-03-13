@@ -15,8 +15,10 @@
 #include "Material.h"
 #include "DebugGraphics.h"
 
+#include "ViewFrustumCulling.h"
 
 struct GLFWwindow;
+
 
 namespace doom
 {
@@ -37,7 +39,7 @@ namespace doom
 			friend class RenderBuffer;
 			friend class ::doom::userinput::UserInput_Server;
 
-			
+			friend class ::doom::Renderer;
 
 			enum class eRenderingMode
 			{
@@ -46,6 +48,8 @@ namespace doom
 			};
 
 		private:
+
+			static inline int AVAILIABLE_TEXTURE_UNIT_COUNT{};
 
 			bool bmIsGLFWInitialized{ false };
 
@@ -61,6 +65,9 @@ namespace doom
 			/// </summary>
 			static inline float ScreenRatio{};
 			static inline unsigned int MultiSamplingNum;
+
+			ViewFrustumCulling mViewFrustumCulling{};
+
 
 #ifdef DEBUG_MODE
 			DebugGraphics mDebugGraphics{};
@@ -107,8 +114,6 @@ namespace doom
 			void SetRenderingMode(eRenderingMode renderingMode);
 
 			void AddAutoDrawedPIPs(PicktureInPickture& pip);
-			
-	
 		};
 	}
 }

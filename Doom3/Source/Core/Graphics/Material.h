@@ -51,12 +51,15 @@ namespace doom
 		{
 
 		private:
+			static inline constexpr const char* MATERIAL_TAG = "Material";
+
 			BufferID mProgramID;
 			::doom::asset::ShaderAsset* mShaderAsset;
 			static constexpr inline unsigned int MAX_TEXTURE_COUNT{ 7 };
 			std::array<Texture*, MAX_TEXTURE_COUNT> mTargetTextures{ nullptr };
 			std::array<UniformBufferObject*, MAX_UNIFORM_BLOCK_BINDING_POINT> mUniformBufferObjects{ nullptr };
 
+	
 			
 		public:
 			Material();
@@ -88,8 +91,11 @@ namespace doom
 					}
 				}
 
-				D_CHECK_OVERLAP_BIND_AND_SAVE_BIND("Material", this->mProgramID);
-				glUseProgram(this->mProgramID);
+				if (OverlapBindChecker::GetBoundID(MATERIAL_TAG) != this->mProgramID)
+				{
+					D_CHECK_OVERLAP_BIND_AND_SAVE_BIND(MATERIAL_TAG, this->mProgramID);
+					glUseProgram(this->mProgramID);
+				}
 			}
 
 			[[nodiscard]] int GetUniformLocation(const char* str) noexcept

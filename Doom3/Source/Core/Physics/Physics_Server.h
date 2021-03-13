@@ -3,10 +3,14 @@
 #include "../Game/IGameFlow.h"
 #include "Picking.h"
 #include "ColliderPickingTestRoom.h"
-#include "BVH/test/BVH_TestRoom.h"
+
+#include "utility/BVH/BVH.h"
+
+#define PHYSICS_COLLIDER_BVH_MAX_NODE_COUNT 1000 // this include all internal node, leaf node
 
 namespace doom
 {
+	class ColliderComponent;
 	namespace physics
 	{
 		class Physics_Server : public IGameFlow, public ISingleton<Physics_Server>
@@ -15,7 +19,10 @@ namespace doom
 			friend class GameCore;
 			friend class AABB3D;
 			friend class AABB2D;
+			friend class ::doom::ColliderComponent;
 		private:
+
+			BVH3D mPhysicsColliderBVH{ PHYSICS_COLLIDER_BVH_MAX_NODE_COUNT };
 
 			float FIXED_TIME_STEP{};
 			int MAX_PHYSICS_STEP{ 8 };
@@ -27,7 +34,6 @@ namespace doom
 			Picking mPicking{};
 #ifdef DEBUG_MODE
 			ColliderPickingTestRoom mColliderTestRoom{};
-			BVH_TestRoom mBVH_TestRoom{};
 #endif
 			virtual void Init() final;
 			virtual void Update() final;
@@ -54,7 +60,6 @@ namespace doom
 		public:
 			static inline bool IsShowDebug{ true };
 
-			
 		};
 
 	}

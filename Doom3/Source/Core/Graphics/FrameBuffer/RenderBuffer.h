@@ -11,6 +11,7 @@ namespace doom
 		class RenderBuffer
 		{
 		private:
+			static inline const char* RENDERBUFFER_TAG = "RenderBuffer";
 			BufferID mRenderBufferID{};
 		public:
 			RenderBuffer(FrameBuffer& ownerFrameBuffer, GraphicsAPI::eBufferType frameBufferType, unsigned int width, unsigned int height);
@@ -22,16 +23,22 @@ namespace doom
 			RenderBuffer(RenderBuffer&&) noexcept = default;
 			RenderBuffer& operator=(RenderBuffer &&) noexcept = default;
 			
-
+			inline static void BindRenderBuffer(int renderBufferID)
+			{
+				if (OverlapBindChecker::GetBoundID(RENDERBUFFER_TAG) != renderBufferID)
+				{
+					D_CHECK_OVERLAP_BIND_AND_SAVE_BIND(RENDERBUFFER_TAG, renderBufferID);
+					glBindRenderbuffer(GL_RENDERBUFFER, renderBufferID);
+				}
+			}
 
 			inline void BindRenderBuffer() noexcept
 			{
-				D_CHECK_OVERLAP_BIND_AND_SAVE_BIND("RenderBuffer", this->mRenderBufferID);
-				glBindRenderbuffer(GL_RENDERBUFFER, this->mRenderBufferID);
+				BindRenderBuffer(this->mRenderBufferID);
 			}
 			static inline void UnBindRenderBuffer() noexcept
 			{
-				glBindRenderbuffer(GL_RENDERBUFFER, 0);
+				BindRenderBuffer(0);
 			}
 		};
 	}

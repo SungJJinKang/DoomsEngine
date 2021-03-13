@@ -31,7 +31,7 @@ void doom::TEST::Init()
 	material->AddTexture(graphics::eTextureBindingPoint::MetalnessTexture, assetimporter::AssetManager::GetAsset<asset::eAssetType::TEXTURE>("cerberus_M.dds"));
 	material->AddTexture(graphics::eTextureBindingPoint::RoughnessTexture, assetimporter::AssetManager::GetAsset<asset::eAssetType::TEXTURE>("cerberus_R.dds"));
 
-	for (int i = 0; i < 15; i++)
+	for (int i = 0; i < 25; i++)
 	{
 		for (int i = 0; i < threedasset->GetMeshCount(); i++)
 		{

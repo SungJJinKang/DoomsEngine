@@ -1,7 +1,10 @@
 #include "ColliderComponent.h"
 
+#include "Physics_Server.h"
+
 #include <Entity.h>
 #include <Rendering/Renderer/Renderer.h>
+
 
 void doom::ColliderComponent::ResetAllCollisionState()
 {
@@ -19,6 +22,8 @@ void doom::ColliderComponent::InitComponent()
 	this->AddLocalDirtyToTransformDirtyReceiver(this->bmIsWorldColliderDirty);
 
 	this->AutoColliderSetting();
+
+	this->InsertBVHLeafNode(physics::Physics_Server::GetSingleton()->mPhysicsColliderBVH, this->GetWorldAABB3D(), this->GetWorldCollider());
 }
 
 void doom::ColliderComponent::UpdateComponent()

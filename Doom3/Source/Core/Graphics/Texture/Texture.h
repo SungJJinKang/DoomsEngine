@@ -1,9 +1,14 @@
 #pragma once
 
+#include <vector>
+#include <string>
+
 #include "../Graphics_Core.h"
 #include "../OverlapBindChecker.h"
 #include <ZeroResetMoveContainer.h>
 #include "TextureFormat.h"
+
+#include <magic_enum.hpp>
 
 namespace DirectX
 {
@@ -21,6 +26,8 @@ namespace doom
 		/// </summary>
 		class Texture
 		{
+			friend class Graphics_Server;
+
 		public:
 
 			enum class eTextureType : unsigned int {
@@ -60,7 +67,7 @@ namespace doom
 				TEXTURE_2D_MULTISAMPLE_ARRAY = GL_TEXTURE_2D_MULTISAMPLE_ARRAY
 			};
 			static constexpr eBindTarget DEFAULT_BIND_TARGET = eBindTarget::TEXTURE_2D;
-
+			
 			enum class eTargetTexture : unsigned int
 			{
 				TEXTURE_1D = GL_TEXTURE_1D,
@@ -173,6 +180,46 @@ namespace doom
 
 		private:
 
+			/// <summary>
+			/// some times primitive ways works well
+			/// </summary>
+			/// <param name="bindTarget"></param>
+			/// <returns></returns>
+			static const char* GetBindTargetTag(eBindTarget bindTarget)
+			{
+				switch (bindTarget)
+				{
+				case eBindTarget::TEXTURE_1D:
+					return "TEXTURE_1D";
+				case eBindTarget::TEXTURE_2D:
+					return "TEXTURE_2D";
+				case eBindTarget::TEXTURE_3D:
+					return "TEXTURE_3D";
+				case eBindTarget::TEXTURE_1D_ARRAY:
+					return "TEXTURE_1D_ARRAY";
+				case eBindTarget::TEXTURE_2D_ARRAY:
+					return "TEXTURE_2D_ARRAY";
+				case eBindTarget::TEXTURE_RECTANGLE:
+					return "TEXTURE_RECTANGLE";
+				case eBindTarget::TEXTURE_CUBE_MAP:
+					return "TEXTURE_CUBE_MAP";
+				case eBindTarget::TEXTURE_CUBE_MAP_ARRAY:
+					return "TEXTURE_CUBE_MAP_ARRAY";
+				case eBindTarget::TEXTURE_BUFFER:
+					return "TEXTURE_BUFFER";
+				case eBindTarget::TEXTURE_2D_MULTISAMPLE:
+					return "TEXTURE_2D_MULTISAMPLE";
+				case eBindTarget::TEXTURE_2D_MULTISAMPLE_ARRAY:
+					return "TEXTURE_2D_MULTISAMPLE_ARRAY";
+				default:
+					NEVER_HAPPEN;
+				}
+			}
+
+			static inline std::vector<std::string> TEXTURE_UNIT_TAG{};
+			static inline const char* ACTIVE_TEXTURE_TAG{ "ActiveTexture" };
+			static void InitTextureUnitTag(int availiableTextureUnitCount);
+
 			eWrapMode mWrapS;
 			eWrapMode mWrapT;
 			eWrapMode mWrapR;
@@ -232,25 +279,38 @@ namespace doom
 
 			inline void BindTexture() noexcept
 			{
-				D_CHECK_OVERLAP_BIND_AND_SAVE_BIND("Texture", this->mBufferID);
-				glBindTexture(static_cast<unsigned int>(this->mBindTarget), this->mBufferID);
+				if (OverlapBindChecker::GetBoundID(GetBindTargetTag(this->mBindTarget)) != this->mBufferID)
+				{
+					D_CHECK_OVERLAP_BIND_AND_SAVE_BIND(GetBindTargetTag(this->mBindTarget), this->mBufferID);
+					glBindTexture(static_cast<unsigned int>(this->mBindTarget), this->mBufferID);
+				}
 			}
 			inline void ActiveTexture(unsigned int bindingPoint) noexcept
 			{
-				glActiveTexture(GL_TEXTURE0 + bindingPoint);
+				if (OverlapBindChecker::GetBoundID(ACTIVE_TEXTURE_TAG) != bindingPoint)
+				{
+					D_CHECK_OVERLAP_BIND_AND_SAVE_BIND(ACTIVE_TEXTURE_TAG, bindingPoint);
+					glActiveTexture(GL_TEXTURE0 + bindingPoint);
+				}
 			}
 
 
 			inline void UnBindTexture() noexcept
 			{
-				glBindTexture(static_cast<unsigned int>(this->mBindTarget), 0);
+				if (OverlapBindChecker::GetBoundID(GetBindTargetTag(this->mBindTarget)) != 0)
+				{
+					D_CHECK_OVERLAP_BIND_AND_SAVE_BIND(GetBindTargetTag(this->mBindTarget), 0);
+					glBindTexture(static_cast<unsigned int>(this->mBindTarget), 0);
+				}
 			}
 
 			inline void BindTextureWithUnit(unsigned int bindingPoint)
 			{
-				D_CHECK_OVERLAP_BIND_AND_SAVE_BIND("Texture", this->mBufferID);
-				glBindTextureUnit(bindingPoint, this->mBufferID);
-
+				if (OverlapBindChecker::GetBoundID(TEXTURE_UNIT_TAG[bindingPoint].data()) != this->mBufferID)
+				{
+					D_CHECK_OVERLAP_BIND_AND_SAVE_BIND(TEXTURE_UNIT_TAG[bindingPoint].data(), this->mBufferID);
+					glBindTextureUnit(bindingPoint, this->mBufferID);
+				}
 				//glActiveTexture(GL_TEXTURE0 + bindingPoint);
 				//glBindTexture(GL_TEXTURE_2D, this->mBufferID);
 			}

@@ -19,7 +19,6 @@ void doom::physics::Physics_Server::Update()
 #ifdef DEBUG_MODE
 	this->mColliderTestRoom.DrawDebug();
 	ONLY_WHEN_KEY_TOGGLE_ON(userinput::eKEY_CODE::KEY_F11, this->DrawDebugColliderComponents());
-	this->mBVH_TestRoom.Update();
 #endif
 }
 
@@ -78,5 +77,3 @@ void doom::physics::Physics_Server::OnEndOfFrame()
 void doom::physics::Physics_Server::QueryCollision()
 {
 }
-
-

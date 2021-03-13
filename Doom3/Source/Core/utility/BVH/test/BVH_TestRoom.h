@@ -1,4 +1,7 @@
 #pragma once
+
+#include <memory>
+
 #include "../BVH.h"
 
 namespace doom
@@ -8,7 +11,7 @@ namespace doom
 		class BVH_TestRoom
 		{
 		private:
-			BVH2D mBVH{ 1000 };
+			std::unique_ptr<BVH3D> mBVH;
 
 			void AddNewRandomLeafNode();
 			void AddNewRandomLeafNodeWithMouse();
@@ -17,6 +20,7 @@ namespace doom
 			
 		public:
 
+			void SetBVH3D(BVH3D* bvh3D);
 			void Update();
 		};
 	}

@@ -100,8 +100,11 @@ namespace doom
 			}
 			void UnBindBuffer() noexcept final
 			{
-				D_CHECK_OVERLAP_BIND_AND_SAVE_BIND(VERTEX_ARRAY_TAG, 0);
-				glBindVertexArray(0);
+				if (OverlapBindChecker::GetBoundID(VERTEX_ARRAY_TAG) != 0)
+				{
+					D_CHECK_OVERLAP_BIND_AND_SAVE_BIND(VERTEX_ARRAY_TAG, 0);
+					glBindVertexArray(0);
+				}
 			}
 
 			/// <summary>

@@ -1,7 +1,9 @@
 #pragma once
 #include "../Core/ServerComponent.h"
 #include <StaticContainer/StaticContainer.h>
-#include <Physics/Collider/AABB.h>
+
+#include "Physics/Collider/AABB.h"
+#include "utility/BVH/BVH_Node_Object.h"
 
 namespace doom
 {
@@ -10,9 +12,10 @@ namespace doom
 		class Physics_Server;
 	}
 
-	class ColliderComponent : public ServerComponent, public StaticContainer<ColliderComponent>
+	class ColliderComponent : public ServerComponent, public StaticContainer<ColliderComponent>, public BVH3D_Node_Object
 	{
 		friend class physics::Physics_Server;
+
 	private:
 
 		void ResetAllCollisionState();
@@ -36,8 +39,6 @@ namespace doom
 		bool mbIsTriggerExit{ false };
 		bool mbIsTriggerStay{ false };
 		
-
-
 		void InitComponent() override;
 		void UpdateComponent() final;
 		virtual void FixedUpdateComponent() override;
@@ -46,6 +47,10 @@ namespace doom
 		void OnActivated() override;
 		void OnDeActivated() override;
 
+		/// <summary>
+		/// Never Update collider(like AABB3D, Circle2D, Ray) directly!!!
+		/// Store collider information 
+		/// </summary>
 		virtual void UpdateWorldCollider() = 0;
 		virtual void UpdateLocalCollider() = 0;
 

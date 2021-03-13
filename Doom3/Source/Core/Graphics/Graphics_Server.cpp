@@ -15,7 +15,9 @@
 
 #include <Rendering/Renderer/Renderer.h>
 #include "Material.h"
+#include "Texture/Texture.h"
 #include <Rendering/Renderer/RendererStaticIterator.h>
+
 
 
 
@@ -179,6 +181,11 @@ void Graphics_Server::InitGLFW()
 
 	glDebugMessageCallback(Graphics_Server::OpenGlDebugCallback, NULL);
 #endif
+	
+	int maxTextureUnitCount{ 0 };
+	glGetIntegerv(GL_MAX_TEXTURE_IMAGE_UNITS, &maxTextureUnitCount);
+	D_ASSERT(maxTextureUnitCount != 0);
+	Texture::InitTextureUnitTag(maxTextureUnitCount);
 
 	bmIsGLFWInitialized = true;
 }
@@ -240,6 +247,7 @@ void doom::graphics::Graphics_Server::DeferredRendering()
 		{
 			renderers[i]->UpdateComponent_Internal();
 			renderers[i]->UpdateComponent();
+			renderers[i]->Draw();
 		}
 	}
 	

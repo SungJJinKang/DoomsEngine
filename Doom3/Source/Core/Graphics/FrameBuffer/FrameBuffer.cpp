@@ -28,19 +28,25 @@ void doom::graphics::FrameBuffer::GenerateBuffer(unsigned int defaultWidth, unsi
 
 void FrameBuffer::BindFrameBuffer(FrameBuffer* frameBuffer)
 {
-
-	if (frameBuffer == nullptr)
+	if (OverlapBindChecker::GetBoundID(FRAMEBUFFER_TAG) != ((frameBuffer != nullptr) ? frameBuffer->mFrameBufferID.Get() : 0))
 	{
-		glBindFramebuffer(GL_FRAMEBUFFER, 0);
-		glViewport(0, 0, graphics::Graphics_Server::GetScreenWidth(), graphics::Graphics_Server::GetScreenHeight());
+		FrameBuffer::PreviousFrameBuffer = CurrentFrameBuffer;
+		if (frameBuffer == nullptr)
+		{
+			D_CHECK_OVERLAP_BIND_AND_SAVE_BIND(FRAMEBUFFER_TAG, 0);
+			glBindFramebuffer(GL_FRAMEBUFFER, 0);
+			glViewport(0, 0, graphics::Graphics_Server::GetScreenWidth(), graphics::Graphics_Server::GetScreenHeight());
+		}
+		else
+		{
+			D_CHECK_OVERLAP_BIND_AND_SAVE_BIND(FRAMEBUFFER_TAG, frameBuffer->mFrameBufferID);
+			glBindFramebuffer(GL_FRAMEBUFFER, frameBuffer->mFrameBufferID);
+			glViewport(0, 0, frameBuffer->mDefaultWidth, frameBuffer->mDefaultHeight);
+		}
+		FrameBuffer::CurrentFrameBuffer = frameBuffer;
 	}
-	else
-	{
-		glBindFramebuffer(GL_FRAMEBUFFER, frameBuffer->mFrameBufferID);
-		glViewport(0, 0, frameBuffer->mDefaultWidth, frameBuffer->mDefaultHeight);
-	}
-	FrameBuffer::CurrentFrameBuffer = frameBuffer;
 }
+
 FrameBuffer::~FrameBuffer()
 {
 	if (this->mFrameBufferID != 0)
