@@ -243,7 +243,7 @@ namespace doom
 			static constexpr float GetArea(const AABB2D& A)
 			{
 				math::Vector2 d = A.mUpperBound - A.mLowerBound;
-				return d.x * d.y;
+				return 2.0f * (d.x + d.y);
 			}
 			static AABB2D Union(const AABB2D& A, const AABB2D& B)
 			{

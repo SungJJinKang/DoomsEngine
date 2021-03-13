@@ -6,6 +6,10 @@
 #include "../Collider/AABB.h"
 #include "Graphics/FrameBuffer/utility/PicktureInPickture.h"
 
+#ifdef DEBUG_MODE
+#include <stack>
+#endif
+
 //BVH is used for rendering, collision detect, raycast, stero audio ......
 
 namespace doom
@@ -201,16 +205,16 @@ namespace doom
 			/// <returns></returns>
 			float InheritedCost(const AABB& L, const AABB& candidate);
 
-			void DebugBVHTree(BVH_Node& node, float x, float y, int depth = 0);
+			void DebugBVHTree(BVH_Node* node, float x, float y, int depth = 0);
 
 		
-			void CheckActiveNode(BVH_Node& node, std::vector<int>& activeNodeList);
+			void CheckActiveNode(BVH_Node* node, std::vector<int>& activeNodeList);
 
 			int GetSibling(int index);
 			bool IsHasChild(int index);
 		public:
 #ifdef DEBUG_MODE
-			static inline int recentAddedLeaf{ NULL_NODE_INDEX };
+			static inline std::stack<int> recentAddedLeaf{};
 #endif
 			constexpr BVH(int nodeCapacity)
 				: mTree{ nodeCapacity }
@@ -226,7 +230,8 @@ namespace doom
 			/// <param name="newOjectIndex"></param>
 			/// <param name="newObjectBox"></param>
 			BVH_Node* InsertLeaf(AABB& L, Collider* collider);
-			void RemoveLeafNode(BVH_Node& targetLeafNode);
+			void RemoveLeafNode(BVH_Node* targetLeafNode);
+			void RemoveLeafNode(int targetLeafNodeIndex);
 			/// <summary>
 			/// file:///C:/Users/hour3/Desktop/ErinCatto_DynamicBVH_Full.pdf 96 page
 			/// Will Remove updatedNode And Re-insert updateNode
@@ -236,11 +241,12 @@ namespace doom
 			/// </summary>
 			/// <param name="updatedNode"></param>
 			/// <returns></returns>
-			BVH_Node* UpdateLeaf(BVH_Node& updatedNode);
+			BVH_Node* UpdateLeaf(BVH_Node* updatedNode);
 
 			void InitializeDebugging();
 			void TreeDebug();
 			void AABBDebug(int targetNode);
+			void AABBDebug();
 
 
 			BVH_Node* GetNode(int nodeIndex);
@@ -263,6 +269,13 @@ namespace doom
 			int GetDepth(int index);
 			
 			int GetLeafNodeCount();
+
+			/// <summary>
+			/// Get Leaf with index
+			/// </summary>
+			/// <typeparam name="AABB"></typeparam>
+			int GetLeaf(int index);
+			bool IsAncesterOf(int ancesterIndex, int decesterIndex);
 		};
 
 		
