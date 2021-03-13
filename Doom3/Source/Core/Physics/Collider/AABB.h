@@ -42,7 +42,7 @@ namespace doom
 					float temp = mLowerBound.x;
 					mLowerBound.x = mUpperBound.x;
 					mUpperBound.x = temp;
-					D_DEBUG_LOG("AABB bound is wrong");
+					D_DEBUG_LOG("AABB bound is wrong", eLogType::D_ERROR);
 				}
 
 				if (mUpperBound.y < mLowerBound.y)
@@ -50,7 +50,7 @@ namespace doom
 					float temp = mLowerBound.y;
 					mLowerBound.y = mUpperBound.y;
 					mUpperBound.y = temp;
-					D_DEBUG_LOG("AABB bound is wrong");
+					D_DEBUG_LOG("AABB bound is wrong", eLogType::D_ERROR);
 				}
 
 				if (mUpperBound.z < mLowerBound.z)
@@ -58,7 +58,7 @@ namespace doom
 					float temp = mLowerBound.z;
 					mLowerBound.z = mUpperBound.z;
 					mUpperBound.z = temp;
-					D_DEBUG_LOG("AABB bound is wrong");
+					D_DEBUG_LOG("AABB bound is wrong", eLogType::D_ERROR);
 				}
 			}
 
@@ -195,7 +195,7 @@ namespace doom
 					float temp = mLowerBound.x;
 					mLowerBound.x = mUpperBound.x;
 					mUpperBound.x = temp;
-					D_DEBUG_LOG("AABB bound is worng");
+					D_DEBUG_LOG("AABB bound is worng", eLogType::D_ERROR);
 				}
 
 				if (mUpperBound.y < mLowerBound.y)
@@ -203,7 +203,7 @@ namespace doom
 					float temp = mLowerBound.y;
 					mLowerBound.y = mUpperBound.y;
 					mUpperBound.y = temp;
-					D_DEBUG_LOG("AABB bound is worng");
+					D_DEBUG_LOG("AABB bound is worng", eLogType::D_ERROR);
 				}
 			}
 
@@ -252,7 +252,7 @@ namespace doom
 			static constexpr float GetUnionArea(const AABB2D& A, const AABB2D& B)
 			{
 				math::Vector2 d = math::Max(A.mUpperBound, B.mUpperBound) - math::Min(A.mLowerBound, B.mLowerBound);
-				return d.x * d.y;
+				return 2.0f * (d.x + d.y);
 			}
 			static AABB2D EnlargeAABB(const AABB2D& aabb);
 

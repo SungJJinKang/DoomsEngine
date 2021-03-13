@@ -21,7 +21,7 @@ namespace doom
 	namespace userinput
 	{
 
-		enum eKEY_CODE : int
+		enum class eKEY_CODE : int
 		{
 			KEY_SPACE = GLFW_KEY_SPACE,
 			KEY_APOSTROPHE = GLFW_KEY_APOSTROPHE,
@@ -146,7 +146,7 @@ namespace doom
 
 		};
 
-		enum eKeyState : int
+		enum class eKeyState : int
 		{
 			NONE = 0,
 			PRESS_DOWN,
@@ -159,18 +159,24 @@ namespace doom
 		inline constexpr eKEY_CODE LAST_KEY_CODE{ eKEY_CODE::KEY_MENU };
 
 
-		enum eMouse_Button_Type : int
+		enum class eMouse_Button_Type : int
 		{
 			MOUST_BUTTON_LEFT = GLFW_MOUSE_BUTTON_LEFT,
 			MOUST_BUTTON_RIGHT = GLFW_MOUSE_BUTTON_RIGHT,
 			MOUST_BUTTON_MIDDLE = GLFW_MOUSE_BUTTON_MIDDLE
 		};
+		
 
-		enum eMouse_Button_Action : int
+		enum class eMouse_Button_Action : int
 		{
-			PRESS = GLFW_PRESS,
-			RELEASE = GLFW_RELEASE
+			NONE,
+			PRESSING,
+			DOWN,
+			RELEASE	
 		};
+
+		inline constexpr eMouse_Button_Type FIRST_MOUSE_BUTTON_TYPE{ magic_enum::enum_value<eMouse_Button_Type>(0) };
+		inline constexpr eMouse_Button_Type LAST_MOUSE_BUTTON_TYPE{ eMouse_Button_Type::MOUST_BUTTON_MIDDLE };
 
 		/// <summary>
 		/// https://www.glfw.org/docs/3.3/input_guide.html
@@ -185,8 +191,8 @@ namespace doom
 
 			static inline math::Vector2 mScrollOffset{};
 
-			static inline std::array<bool, LAST_KEY_CODE - FIRST_KEY_CODE + 1> mKeyToggle{};
-			static inline std::array<eKeyState, LAST_KEY_CODE - FIRST_KEY_CODE + 1> mKeyState{};
+			static inline std::array<bool, static_cast<int>(LAST_KEY_CODE) - static_cast<int>(FIRST_KEY_CODE) + 1> mKeyToggle{};
+			static inline std::array<eKeyState, static_cast<int>(LAST_KEY_CODE) - static_cast<int>(FIRST_KEY_CODE) + 1> mKeyState{};
 
 			/// <summary>
 			/// Keys what was down at last frame
@@ -198,6 +204,8 @@ namespace doom
 			static inline std::vector<int> mUpKeys{};
 			void UpdateKeyStates();
 
+			static inline std::array<eMouse_Button_Action, static_cast<int>(LAST_MOUSE_BUTTON_TYPE) - static_cast<int>(FIRST_MOUSE_BUTTON_TYPE) + 1> mMouseButtonState{};
+			void UpdateMouseButtonStates();
 			/// <summary>
 			/// The callback functions receives the cursor position, measured in screen coordinates but relative to the top-left corner of the window content area. 
 			/// In Opengl, Screen Point is relative to top-left corner
@@ -232,7 +240,7 @@ namespace doom
 
 			[[nodiscard]] static bool GetKeyToggle(eKEY_CODE keyCode) noexcept
 			{
-				return UserInput_Server::mKeyToggle[keyCode - FIRST_KEY_CODE];
+				return UserInput_Server::mKeyToggle[static_cast<int>(keyCode) - static_cast<int>(FIRST_KEY_CODE)];
 			}
 
 			/// <summary>
@@ -242,7 +250,7 @@ namespace doom
 			/// <returns></returns>
 			[[nodiscard]] static bool GetKey(eKEY_CODE keyCode) noexcept
 			{
-				return UserInput_Server::mKeyState[keyCode - FIRST_KEY_CODE] == eKeyState::PRESSING;
+				return UserInput_Server::mKeyState[static_cast<int>(keyCode) - static_cast<int>(FIRST_KEY_CODE)] == eKeyState::PRESSING;
 			}
 			/// <summary>
 			/// Key is Released ?
@@ -251,7 +259,7 @@ namespace doom
 			/// <returns></returns>
 			[[nodiscard]] static bool GetKeyUp(eKEY_CODE keyCode) noexcept
 			{
-				return UserInput_Server::mKeyState[keyCode - FIRST_KEY_CODE] == eKeyState::UP;
+				return UserInput_Server::mKeyState[static_cast<int>(keyCode) - static_cast<int>(FIRST_KEY_CODE)] == eKeyState::UP;
 			}
 
 			/// <summary>
@@ -263,7 +271,7 @@ namespace doom
 			/// <returns></returns>
 			[[nodiscard]] static bool GetKeyDown(eKEY_CODE keyCode) noexcept
 			{
-				return UserInput_Server::mKeyState[keyCode - FIRST_KEY_CODE] == eKeyState::PRESS_DOWN;
+				return UserInput_Server::mKeyState[static_cast<int>(keyCode) - static_cast<int>(FIRST_KEY_CODE)] == eKeyState::PRESS_DOWN;
 			}
 
 		
@@ -341,13 +349,17 @@ namespace doom
 				return UserInput_Server::mScrollOffset.y;
 			}
 
-			[[nodiscard]] static bool GetMouseButtonPress(eMouse_Button_Type mouse_button_type) noexcept
+			[[nodiscard]] static bool GetMouseButtonPressing(eMouse_Button_Type mouse_button_type) noexcept
 			{
-				return glfwGetMouseButton(doom::graphics::Graphics_Server::Window, mouse_button_type) == eMouse_Button_Action::PRESS;
+				return UserInput_Server::mMouseButtonState[static_cast<int>(mouse_button_type)] == eMouse_Button_Action::PRESSING;
+			}
+			[[nodiscard]] static bool GetMouseButtonDown(eMouse_Button_Type mouse_button_type) noexcept
+			{
+				return UserInput_Server::mMouseButtonState[static_cast<int>(mouse_button_type)] == eMouse_Button_Action::DOWN;
 			}
 			[[nodiscard]] static bool GetMouseButtonRelease(eMouse_Button_Type mouse_button_type) noexcept
 			{
-				return glfwGetMouseButton(doom::graphics::Graphics_Server::Window, mouse_button_type) == eMouse_Button_Action::RELEASE;
+				return UserInput_Server::mMouseButtonState[static_cast<int>(mouse_button_type)] == eMouse_Button_Action::RELEASE;
 			}
 
 			static bool GetIsCursorOnScreenWindow() noexcept

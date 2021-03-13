@@ -49,13 +49,13 @@ void UserInput_Server::Key_Callback(GLFWwindow* window, int key, int scancode, i
 {
 	if (action == GLFW_PRESS)
 	{
-		UserInput_Server::mKeyState[key - FIRST_KEY_CODE] = eKeyState::PRESS_DOWN;
+		UserInput_Server::mKeyState[key - static_cast<int>(FIRST_KEY_CODE)] = eKeyState::PRESS_DOWN;
 		UserInput_Server::mDownKeys.push_back(key);
 	}
 	else if (action == GLFW_RELEASE)
 	{
-		UserInput_Server::mKeyState[key - FIRST_KEY_CODE] = eKeyState::UP;
-		UserInput_Server::mKeyToggle[key - FIRST_KEY_CODE] = !UserInput_Server::mKeyToggle[key - FIRST_KEY_CODE];
+		UserInput_Server::mKeyState[key - static_cast<int>(FIRST_KEY_CODE)] = eKeyState::UP;
+		UserInput_Server::mKeyToggle[key - static_cast<int>(FIRST_KEY_CODE)] = !UserInput_Server::mKeyToggle[key - static_cast<int>(FIRST_KEY_CODE)];
 		UserInput_Server::mUpKeys.push_back(key);
 	}
 
@@ -67,21 +67,43 @@ void doom::userinput::UserInput_Server::UpdateKeyStates()
 {
 	for (auto upKey : UserInput_Server::mUpKeys)
 	{
-		UserInput_Server::mKeyState[upKey - FIRST_KEY_CODE] = eKeyState::NONE;
+		UserInput_Server::mKeyState[upKey - static_cast<int>(FIRST_KEY_CODE)] = eKeyState::NONE;
 	}
 
 	for (auto downKey : UserInput_Server::mDownKeys)
 	{
-		UserInput_Server::mKeyState[downKey - FIRST_KEY_CODE] = eKeyState::PRESSING;
+		UserInput_Server::mKeyState[downKey - static_cast<int>(FIRST_KEY_CODE)] = eKeyState::PRESSING;
 	}
 
 	UserInput_Server::mUpKeys.clear();
 	UserInput_Server::mDownKeys.clear();
 }
 
+void doom::userinput::UserInput_Server::UpdateMouseButtonStates()
+{
+	for (unsigned int i = 0; i < UserInput_Server::mMouseButtonState.size(); i++)
+	{
+		if (UserInput_Server::mMouseButtonState[i] == eMouse_Button_Action::RELEASE)
+		{
+			UserInput_Server::mMouseButtonState[i] = eMouse_Button_Action::NONE;
+		}
+		else if (UserInput_Server::mMouseButtonState[i] == eMouse_Button_Action::DOWN)
+		{
+			UserInput_Server::mMouseButtonState[i] = eMouse_Button_Action::PRESSING;
+		}
+	}
+}
+
 void UserInput_Server::MouseButton_Callback(GLFWwindow* window, int button, int action, int mods)
 {
-	D_DEBUG_LOG({ "Mouse Button Callback  :  ", std::to_string(button), "  ", std::to_string(action) }, eLogType::D_LOG);
+	if (action == GLFW_PRESS)
+	{
+		UserInput_Server::mMouseButtonState[button - static_cast<int>(FIRST_MOUSE_BUTTON_TYPE)] = eMouse_Button_Action::DOWN;
+	}
+	else if (action == GLFW_RELEASE)
+	{
+		UserInput_Server::mMouseButtonState[button - static_cast<int>(FIRST_MOUSE_BUTTON_TYPE)] = eMouse_Button_Action::RELEASE;
+	}
 }
 
 
@@ -116,6 +138,7 @@ void UserInput_Server::Update()
 	UserInput_Server::mDeltaCursorScreenPosition.y = 0;
 
 	this->UpdateKeyStates();
+	this->UpdateMouseButtonStates();
 	glfwPollEvents();
 
 	if (UserInput_Server::mScrollChangedAtPreviousFrame == false)

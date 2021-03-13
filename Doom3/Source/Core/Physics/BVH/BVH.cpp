@@ -335,17 +335,27 @@ typename doom::physics::BVH<AABB>::BVH_Node* doom::physics::BVH<AABB>::InsertLea
 	}
 	else
 	{
-		int bestSiblingIndex = PickBest(L);
+		int bestSibling = PickBest(L);
 
-		int oldParentIndex = this->mTree.mNodes[bestSiblingIndex].mParentIndex;
+		/*
+		for (int i = 0; i < this->mTree.mCurrentAllocatedNodeCount; ++i)
+		{
+			if (this->mTree.mNodes[i].bmIsActive == true)
+			{
+				
+			}
+		}
+		*/
+
+		int oldParentIndex = this->mTree.mNodes[bestSibling].mParentIndex;
 		int newParentIndex = AllocateInternalNode();
 		this->mTree.mNodes[newParentIndex].mParentIndex = oldParentIndex;
-		this->mTree.mNodes[newParentIndex].mAABB = AABB::Union(L, this->mTree.mNodes[bestSiblingIndex].mAABB);
+		this->mTree.mNodes[newParentIndex].mAABB = AABB::Union(L, this->mTree.mNodes[bestSibling].mAABB);
 		this->mTree.mNodes[newParentIndex].mEnlargedAABB = AABB::EnlargeAABB(this->mTree.mNodes[newParentIndex].mAABB);
 
 		if (oldParentIndex != NULL_NODE_INDEX)
 		{
-			if (this->mTree.mNodes[oldParentIndex].mChild1 == bestSiblingIndex)
+			if (this->mTree.mNodes[oldParentIndex].mChild1 == bestSibling)
 			{
 				this->mTree.mNodes[oldParentIndex].mChild1 = newParentIndex;
 			}
@@ -354,16 +364,16 @@ typename doom::physics::BVH<AABB>::BVH_Node* doom::physics::BVH<AABB>::InsertLea
 				this->mTree.mNodes[oldParentIndex].mChild2 = newParentIndex;
 			}
 
-			this->mTree.mNodes[newParentIndex].mChild1 = bestSiblingIndex;
+			this->mTree.mNodes[newParentIndex].mChild1 = bestSibling;
 			this->mTree.mNodes[newParentIndex].mChild2 = newObjectLeafIndex;
-			this->mTree.mNodes[bestSiblingIndex].mParentIndex = newParentIndex;
+			this->mTree.mNodes[bestSibling].mParentIndex = newParentIndex;
 			this->mTree.mNodes[newObjectLeafIndex].mParentIndex = newParentIndex;
 		}
 		else
 		{
-			this->mTree.mNodes[newParentIndex].mChild1 = bestSiblingIndex;
+			this->mTree.mNodes[newParentIndex].mChild1 = bestSibling;
 			this->mTree.mNodes[newParentIndex].mChild2 = newObjectLeafIndex;
-			this->mTree.mNodes[bestSiblingIndex].mParentIndex = newParentIndex;
+			this->mTree.mNodes[bestSibling].mParentIndex = newParentIndex;
 			this->mTree.mNodes[newObjectLeafIndex].mParentIndex = newParentIndex;
 			this->mTree.mRootNodeIndex = newParentIndex;
 
@@ -416,7 +426,7 @@ void doom::physics::BVH<AABB>::HillClimingReconstruct(int index)
 		D_ASSERT(this->mTree.mNodes[index].mChild1 != NULL_NODE_INDEX && this->mTree.mNodes[index].mChild2 != NULL_NODE_INDEX);
 
 		this->ReConstructNodeAABB(index);
-		index = Balance(index);
+		index = Balance(index); // TODO : Balancing만 하면 이상해진다.
 
 		index = this->mTree.mNodes[index].mParentIndex;
 	}
@@ -459,8 +469,14 @@ int doom::physics::BVH<AABB>::Balance(int lowerNodeIndex)
 		return lowerNodeIndex;
 	}
 	*/
-
 	int higerNodeIndex = siblingIndexOfParentOfLowerNode;
+
+	int siblingIndexOfLowerNode = this->GetSibling(lowerNodeIndex);
+	if (AABB::GetArea(this->mTree.mNodes[parentIndexOfLowerNode].mAABB) < AABB::GetUnionArea(this->mTree.mNodes[siblingIndexOfLowerNode].mAABB, this->mTree.mNodes[higerNodeIndex].mAABB))
+	{// when SA(parent of lowernode) < SA(sibling of lowerNode U upperNode), don't rotate 
+		return lowerNodeIndex;
+	}
+	
 
 
 	D_ASSERT(higerNodeIndex != NULL_NODE_INDEX);
@@ -504,6 +520,9 @@ int doom::physics::BVH<AABB>::Balance(int lowerNodeIndex)
 	this->mTree.mNodes[lowerNodeIndex].mParentIndex = parentIndexOfimbalancedHigherNode;
 
 	ReConstructNodeAABB(this->mTree.mNodes[parentIndexOfimbalancedLowerNodeIndex].mIndex);
+
+	D_DEBUG_LOG("Balance!!", eLogType::D_TEMP);
+
 	return higerNodeIndex;
 }
 
@@ -859,6 +878,8 @@ int doom::physics::BVH<AABB>::GetLeaf(int index)
 			count++;
 		}
 	}
+
+	return NULL_NODE_INDEX;
 }
 
 template<typename AABB>

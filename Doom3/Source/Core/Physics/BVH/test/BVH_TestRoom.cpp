@@ -2,6 +2,8 @@
 
 #include <Random.h>
 #include <UserInput_Server.h>
+#include <Vector2.h>
+
 void doom::physics::BVH_TestRoom::AddNewRandomLeafNode()
 {
 	math::Vector3 newLower{ doom::random::Random::RandomFloatNumber(-1, 1), doom::random::Random::RandomFloatNumber(-1, 1) , doom::random::Random::RandomFloatNumber(-1, 1) };
@@ -11,6 +13,41 @@ void doom::physics::BVH_TestRoom::AddNewRandomLeafNode()
 	doom::physics::AABB2D newAABB{ math::Min(newLower, newUpper), math::Max(newLower, newUpper) };
 	this->mBVH.InsertLeaf(newAABB, nullptr);
 
+}
+
+
+math::Vector2 leftPos{};
+math::Vector2 rightPos{};
+
+
+void doom::physics::BVH_TestRoom::AddNewRandomLeafNodeWithMouse()
+{
+	bool leftClick = userinput::UserInput_Server::GetMouseButtonRelease(userinput::eMouse_Button_Type::MOUST_BUTTON_LEFT);
+	bool rightClick = userinput::UserInput_Server::GetMouseButtonRelease(userinput::eMouse_Button_Type::MOUST_BUTTON_RIGHT);
+	bool middleClick = userinput::UserInput_Server::GetMouseButtonRelease(userinput::eMouse_Button_Type::MOUST_BUTTON_MIDDLE);
+
+	if (leftClick || rightClick)
+	{
+		math::Vector2 ndcPoint = userinput::UserInput_Server::GetCurrentMouseNDCPosition();
+		if (leftClick)
+		{
+			leftPos = ndcPoint;
+			D_DEBUG_LOG({ "Set BVH Left NDC Pos : ", leftPos.toString() }, eLogType::D_TEMP);
+		}
+		else
+		{
+			rightPos = ndcPoint;
+			D_DEBUG_LOG({ "Set BVH Right NDC Pos : ", rightPos.toString() }, eLogType::D_TEMP);
+		}
+	}
+
+	if (middleClick)
+	{
+		physics::AABB2D aabb{ leftPos, rightPos };
+		this->mBVH.InsertLeaf(aabb, nullptr);
+		D_DEBUG_LOG("Create New LeafNode ", eLogType::D_TEMP);
+	}
+	
 }
 
 void doom::physics::BVH_TestRoom::RemoveRecentAddedLeafNode()
@@ -73,4 +110,6 @@ void doom::physics::BVH_TestRoom::Update()
 	{
 		this->AddNewRandomLeafNode();
 	}
+
+	this->AddNewRandomLeafNodeWithMouse();
 }
