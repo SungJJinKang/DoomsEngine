@@ -3,7 +3,7 @@
 template <typename AABB>
 void doom::BVH_AABB_Container<AABB>::ApplyModelMatrixToWorld_BVH_AABB()
 {
-	doom::physics::ApplyModelMatrixToAABB3D(this->GetLocalAABB3D(), this->GetModelMatrix(), this->GetWorldAABB3D());
+	doom::physics::ApplyModelMatrixToAABB3D(this->GetLocal_BVH_AABB3D(), this->GetModelMatrix(), this->GetWorld_BVH_AABB3D());
 }
 
 template <typename AABB>
@@ -14,19 +14,19 @@ void doom::BVH_AABB_Container<AABB>::UpdateLocalAABB3D(const physics::AABB3D& aa
 }
 
 template <typename AABB>
-doom::physics::AABB3D doom::BVH_AABB_Container<AABB>::GetLocalAABB3D()
+doom::physics::AABB3D doom::BVH_AABB_Container<AABB>::GetLocal_BVH_AABB3D()
 {
 	return this->mLocalAABB3D;
 }
 
 template <typename AABB>
-const doom::physics::AABB3D& doom::BVH_AABB_Container<AABB>::GetLocalAABB3D() const
+const doom::physics::AABB3D& doom::BVH_AABB_Container<AABB>::GetLocal_BVH_AABB3D() const
 {
 	return this->mLocalAABB3D;
 }
 
 template <typename AABB>
-doom::physics::AABB3D doom::BVH_AABB_Container<AABB>::GetWorldAABB3D()
+doom::physics::AABB3D doom::BVH_AABB_Container<AABB>::GetWorld_BVH_AABB3D()
 {
 	D_ASSERT(this->IsWorldBVHAABBDirty.HasDirtySender() == true);
 
@@ -38,7 +38,7 @@ doom::physics::AABB3D doom::BVH_AABB_Container<AABB>::GetWorldAABB3D()
 }
 
 template <typename AABB>
-const doom::physics::AABB3D& doom::BVH_AABB_Container<AABB>::GetWorldAABB3D() const
+const doom::physics::AABB3D& doom::BVH_AABB_Container<AABB>::GetWorld_BVH_AABB3D() const
 {
 	D_ASSERT(this->IsWorldBVHAABBDirty.HasDirtySender() == true);
 

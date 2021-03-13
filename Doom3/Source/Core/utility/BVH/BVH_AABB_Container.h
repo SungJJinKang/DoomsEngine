@@ -42,10 +42,10 @@ namespace doom
 
 	public:
 		
-		physics::AABB3D GetLocalAABB3D();
-		const physics::AABB3D& GetLocalAABB3D() const;
-		physics::AABB3D GetWorldAABB3D();
-		const physics::AABB3D& GetWorldAABB3D() const;
+		physics::AABB3D GetLocal_BVH_AABB3D();
+		const physics::AABB3D& GetLocal_BVH_AABB3D() const;
+		physics::AABB3D GetWorld_BVH_AABB3D();
+		const physics::AABB3D& GetWorld_BVH_AABB3D() const;
 	};
 	
 	extern template class BVH_AABB_Container<doom::physics::AABB2D>;

@@ -11,10 +11,10 @@ void doom::MeshRenderer::SetMesh(graphics::Mesh* mesh)
 	this->mTargetMesh = mesh;
 	if (this->mTargetMesh != nullptr)
 	{
-		this->SetLocalAABB3D(this->mTargetMesh->GetAABB());
+		this->UpdateLocalAABB3D(this->mTargetMesh->GetAABB());
 	}
 	else
 	{
-		this->SetLocalAABB3D({});
+		this->UpdateLocalAABB3D({});
 	}
 }

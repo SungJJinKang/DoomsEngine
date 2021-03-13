@@ -24,7 +24,17 @@ namespace doom
 	protected:
 
 		void InsertBVHLeafNode(BVH<AABB>& BVH, const AABB& AABB, doom::physics::Collider* collider);
+
+		/// <summary>
+		/// UpdateBVH_Node(const typename AABB::component_type& movedVector) is recommended than this function
+		/// </summary>
+		/// <param name="AABB"></param>
 		void UpdateBVH_Node(const AABB& AABB);
+		/// <summary>
+		/// This function is recommended
+		/// </summary>
+		/// <param name="movedVector"></param>
+		void UpdateBVH_Node(const typename AABB::component_type& movedVector);
 		void RemoveBVH_Node();
 
 	public:

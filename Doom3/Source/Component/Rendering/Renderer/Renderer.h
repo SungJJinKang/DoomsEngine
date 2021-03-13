@@ -44,7 +44,7 @@ namespace doom
 			RendererComponentStaticIterator::AddRendererToStaticContainer();
 			this->AddLocalDirtyToTransformDirtyReceiver(this->IsWorld_BVH_AABBDirty);
 
-			this->InsertBVHLeafNode(graphics::Graphics_Server::GetSingleton()->mViewFrustumCulling.mViewFrustumBVH, this->GetWorldAABB3D(), nullptr);
+			this->InsertBVHLeafNode(graphics::Graphics_Server::GetSingleton()->mViewFrustumCulling.mViewFrustumBVH, this->GetWorld_BVH_AABB3D(), nullptr);
 		}
 		virtual void UpdateComponent() override
 		{
@@ -58,6 +58,9 @@ namespace doom
 		{
 
 		}
+
+
+		const math::Matrix4x4& GetModelMatrix() const final;
 
 	public:
 		Renderer();

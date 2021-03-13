@@ -5,6 +5,11 @@
 
 
 
+const math::Matrix4x4& doom::Renderer::GetModelMatrix() const
+{
+	return this->GetTransform()->GetModelMatrix();
+}
+
 doom::Renderer::Renderer() : ServerComponent(), StaticContainer(), mTargetMaterial{}
 {
 
@@ -12,7 +17,7 @@ doom::Renderer::Renderer() : ServerComponent(), StaticContainer(), mTargetMateri
 
 void doom::Renderer::DrawAABB3D()
 {
-	this->GetWorldAABB3DByReference().DrawPhysicsDebugColor(graphics::eColor::Green);
+	this->GetWorld_BVH_AABB3D().DrawPhysicsDebugColor(graphics::eColor::Green);
 }
 
 void doom::Renderer::BindMaterial() noexcept

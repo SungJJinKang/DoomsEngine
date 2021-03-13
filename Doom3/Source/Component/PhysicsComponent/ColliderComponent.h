@@ -66,6 +66,9 @@ namespace doom
 		bool GetMeshAABB3D(physics::AABB3D& aabb3D);
 
 		virtual physics::Collider* GetWorldCollider() = 0;
+
+		const math::Matrix4x4& GetModelMatrix() const final;
+
 	public:
 
 	

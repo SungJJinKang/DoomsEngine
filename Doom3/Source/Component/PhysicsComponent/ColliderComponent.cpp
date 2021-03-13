@@ -23,7 +23,7 @@ void doom::ColliderComponent::InitComponent()
 
 	this->AutoColliderSetting();
 
-	this->InsertBVHLeafNode(physics::Physics_Server::GetSingleton()->mPhysicsColliderBVH, this->GetWorldAABB3D(), this->GetWorldCollider());
+	this->InsertBVHLeafNode(physics::Physics_Server::GetSingleton()->mPhysicsColliderBVH, this->GetWorld_BVH_AABB3D(), this->GetWorldCollider());
 }
 
 void doom::ColliderComponent::UpdateComponent()
@@ -60,13 +60,18 @@ bool doom::ColliderComponent::GetMeshAABB3D(physics::AABB3D& aabb3D)
 	const Renderer* renderer = this->GetOwnerEntity()->GetComponent<Renderer>();
 	if (renderer != nullptr)
 	{
-		aabb3D = renderer->GetLocalAABB3D();
+		aabb3D = renderer->GetLocal_BVH_AABB3D();
 		return true;
 	}
 	else
 	{
 		return false;
 	}
+}
+
+const math::Matrix4x4& doom::ColliderComponent::GetModelMatrix() const
+{
+	return this->GetTransform()->GetModelMatrix();
 }
 
 void doom::ColliderComponent::OnPreUpdatePhysics()
