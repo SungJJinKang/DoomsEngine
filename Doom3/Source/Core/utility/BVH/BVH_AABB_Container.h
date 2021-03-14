@@ -27,7 +27,7 @@ namespace doom
 		/// </summary>
 		AABB mWorldBVhAABBCache{};
 	
-		void ApplyModelMatrixToWorldBVhAABBCache();
+	
 
 	protected:
 		
@@ -45,7 +45,9 @@ namespace doom
 		
 		AABB GetLocalBVhAABB3DCache();
 		const AABB& GetLocalBVhAABB3DCache() const;
+
 		const AABB& GetWorldBVhAABB3DCacheByReference();
+		void UpdateWorldBVhAABBCache(bool force);
 
 		void DrawWorldBVhAABBCache(eColor color = eColor::Green);
 	};

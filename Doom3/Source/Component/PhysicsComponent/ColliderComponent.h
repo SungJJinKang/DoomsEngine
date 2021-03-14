@@ -16,6 +16,10 @@ namespace doom
 	{
 		friend class physics::Physics_Server;
 
+	public:
+
+		
+
 	private:
 
 		void ResetAllCollisionState();

@@ -30,6 +30,14 @@ namespace doom
 		friend class BVH_Tree<AABB>;
 		friend class doom::physics::BVH_TestRoom;
 
+	public:
+
+		enum class eBVH_NodeType
+		{
+			Stationary,
+			Dynamic
+		};
+
 	private:
 
 	
@@ -78,7 +86,7 @@ namespace doom
 		BVH_Node() = default;
 		~BVH_Node() = default;
 		
-		BVH_Node<AABB>* UpdateIfInnerAABBMoveOutsideOfEnlargedAABB();
+		BVH_Node<AABB>* UpdateNode();
 
 		////////////////////////////////////////////////////////////////////////
 

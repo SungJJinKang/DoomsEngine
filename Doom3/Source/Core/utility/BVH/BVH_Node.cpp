@@ -31,17 +31,10 @@ void doom::BVH_Node<AABB>::ValidCheck()
 }
 
 template <typename AABB>
-doom::BVH_Node<AABB>* doom::BVH_Node<AABB>::UpdateIfInnerAABBMoveOutsideOfEnlargedAABB()
+doom::BVH_Node<AABB>* doom::BVH_Node<AABB>::UpdateNode()
 {
-	D_ASSERT(this->mIsLeaf == true); // Only Leaf Nodes can be updated by UpdateLeaf Function
-	if (physics::CheckIsAABBCompletlyEnclosed(this->mAABB, this->mEnlargedAABB) == false)
-	{
-		return this->mOwnerBVH->UpdateLeaf(this);
-	}
-	else
-	{
-		return this;
-	}
+	D_ASSERT(this->mIsLeaf == true); // Only Leaf Nodes can be updated by UpdateLeafNode Function
+	return this->mOwnerBVH->UpdateLeafNode(this);
 }
 
 template <typename AABB>
@@ -49,7 +42,7 @@ doom::BVH_Node<AABB>* doom::BVH_Node<AABB>::UpdateAABB(const AABB& newAABB)
 {
 	D_ASSERT(this->mIsLeaf == true); // Don try aabb of internalnode arbitrary, InternalNode should be changed only by BVH algorithm
 	this->mAABB = newAABB;
-	return this->UpdateIfInnerAABBMoveOutsideOfEnlargedAABB();
+	return this->UpdateNode();
 }
 
 /// <summary>
@@ -61,7 +54,7 @@ doom::BVH_Node<AABB>* doom::BVH_Node<AABB>::UpdateAABB(const typename AABB::comp
 {
 	D_ASSERT(this->mIsLeaf == true); // Don try aabb of internalnode arbitrary, InternalNode should be changed only by BVH algorithm
 	this->mAABB.SignedExpand(movedVector);
-	return this->UpdateIfInnerAABBMoveOutsideOfEnlargedAABB();
+	return this->UpdateNode();
 }
 
 template <typename AABB>
@@ -70,7 +63,7 @@ doom::BVH_Node<AABB>* doom::BVH_Node<AABB>::UpdateAABB(const typename AABB::comp
 	D_ASSERT(this->mIsLeaf == true); // Don try aabb of internalnode arbitrary, InternalNode should be changed only by BVH algorithm
 	this->mAABB.Expand(margin);
 	this->mAABB.SignedExpand(movedVector);
-	return this->UpdateIfInnerAABBMoveOutsideOfEnlargedAABB();
+	return this->UpdateNode();
 }
 
 template <typename AABB>

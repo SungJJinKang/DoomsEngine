@@ -33,33 +33,37 @@ void doom::TEST::Init()
 
 	auto planetAsset = assetimporter::AssetManager::GetAsset<asset::eAssetType::THREE_D_MODEL>("planet.assbin");
 
-
-	for (int i = 0; i < 25; i++)
-	{
-		for (int i = 0; i < threedasset->GetMeshCount(); i++)
-		{
-			auto entity = currenScene->CreateNewEntity();
-			entity->GetTransform()->SetScale(0.1f, 0.1f, 0.1f);
-			entity->GetTransform()->SetPosition(Random::RandomFloatNumber(-20, 20), Random::RandomFloatNumber(-20, 20), Random::RandomFloatNumber(-20, 20));
-			auto meshRenderer = entity->AddComponent<MeshRenderer>();
-			meshRenderer->SetMesh(threedasset->GetMesh(i));
-			meshRenderer->SetMaterial(material);
-			entity->AddComponent<AutoRotate>();
-		}
-	}
+	
+// 	for (int i = 0; i < 25; i++)
+// 	{
+// 		for (int i = 0; i < threedasset->GetMeshCount(); i++)
+// 		{
+// 			auto entity = currenScene->CreateNewEntity();
+// 			entity->GetTransform()->SetScale(0.1f, 0.1f, 0.1f);
+// 			entity->GetTransform()->SetPosition(Random::RandomFloatNumber(-20, 20), Random::RandomFloatNumber(-20, 20), Random::RandomFloatNumber(-20, 20));
+// 			auto meshRenderer = entity->AddComponent<MeshRenderer>();
+// 			meshRenderer->SetMesh(threedasset->GetMesh(i));
+// 			meshRenderer->SetMaterial(material);
+// 			entity->AddComponent<AutoRotate>();
+// 			entity->AddComponent<BoxCollider3D>();
+// 		}
+// 	}
 	
 	for (int i = 0; i < 25; i++)
 	{
 		for (int i = 0; i < planetAsset->GetMeshCount(); i++)
 		{
 			auto entity = currenScene->CreateNewEntity();
-			entity->GetTransform()->SetScale(0.1f, 0.1f, 0.1f);
+			entity->GetTransform()->SetScale(0.8f, 0.8f, 0.8f);
 			entity->GetTransform()->SetPosition(Random::RandomFloatNumber(-20, 20), Random::RandomFloatNumber(-20, 20), Random::RandomFloatNumber(-20, 20));
 			auto meshRenderer = entity->AddComponent<MeshRenderer>();
 			meshRenderer->SetMesh(planetAsset->GetMesh(i));
+			meshRenderer->SetMaterial(material);
 			entity->AddComponent<AutoRotate>();
+			entity->AddComponent<BoxCollider3D>();
 		}
 	}
+	
 
 	auto entity1 = currenScene->CreateNewEntity();
 	auto entity1Camera = entity1->AddComponent<Camera>();

@@ -41,8 +41,14 @@ namespace doom
 		{
 			this->BindMaterial();
 
-			this->mTargetMaterial->SetMatrix4x4(graphics::eUniformLocation::ModelMatrix, this->GetTransform()->GetModelMatrix());
-			this->mTargetMesh->Draw();
+			if (this->mTargetMaterial != nullptr)
+			{
+				this->mTargetMaterial->SetMatrix4x4(graphics::eUniformLocation::ModelMatrix, this->GetTransform()->GetModelMatrix());
+			}
+			if (this->mTargetMesh != nullptr)
+			{
+				this->mTargetMesh->Draw();
+			}
 		}
 
 		void SetMesh(graphics::Mesh* mesh);

@@ -20,6 +20,7 @@ void doom::ColliderComponent::ResetAllCollisionState()
 void doom::ColliderComponent::InitComponent()
 {
 	this->AddLocalDirtyToTransformDirtyReceiver(this->bmIsWorldColliderDirty);
+	this->AddLocalDirtyToTransformDirtyReceiver(this->IsWorldBVhAABBCacheDirty);
 
 	this->AutoColliderSetting();
 

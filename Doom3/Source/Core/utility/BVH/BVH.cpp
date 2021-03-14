@@ -309,16 +309,23 @@ typename doom::BVH<AABB>::node_type* doom::BVH<AABB>::InsertLeaf(const AABB& L, 
 }
 
 template <typename AABB>
-typename doom::BVH<AABB>::node_type* doom::BVH<AABB>::UpdateLeaf(node_type* updatedNode)
+typename doom::BVH<AABB>::node_type* doom::BVH<AABB>::UpdateLeafNode(node_type* targetLeafNode, bool force)
 {
-	if (updatedNode == nullptr)
-	{
-		return nullptr;
-	}
+	D_ASSERT(targetLeafNode != nullptr);
+	D_ASSERT(targetLeafNode->mIsLeaf == true);
 
-	//we will remove node and re-insert node
-	this->RemoveLeafNode(updatedNode);
-	return this->InsertLeaf(updatedNode->mAABB, updatedNode->mCollider);
+	if (physics::CheckIsAABBCompletlyEnclosed(targetLeafNode->mAABB, targetLeafNode->mEnlargedAABB) == false || force == true)
+	{
+		D_DEBUG_LOG("Update Leaf Node!!!", eLogType::D_TEMP);
+		//we will remove node and re-insert node
+		//you don't need reset mEnlargedAABB at here
+		this->RemoveLeafNode(targetLeafNode);
+		return this->InsertLeaf(targetLeafNode->mAABB, targetLeafNode->mCollider);
+	}
+	else
+	{
+		return targetLeafNode;
+	}
 }
 
 /// <summary>

@@ -183,6 +183,7 @@
     <ClCompile Include="Source\Core\utility\BVH\BVH_Node_Container.cpp" />
     <ClCompile Include="Source\Core\utility\BVH\BVH_Node_Object.cpp" />
     <ClCompile Include="Source\Core\utility\BVH\BVH_Tree.cpp" />
+    <ClCompile Include="Source\Core\utility\BVH\extension\BVH_AxisSweep3.cpp" />
     <ClCompile Include="Source\Core\utility\BVH\test\BVH_TestRoom.cpp" />
     <ClCompile Include="Source\Core\Physics\ColliderPickingTestRoom.cpp" />
     <ClCompile Include="Source\Core\Physics\Collider\CapsuleCollider.cpp" />
@@ -302,6 +303,7 @@
     <ClInclude Include="Source\Core\utility\BVH\BVH_Node_Container.h" />
     <ClInclude Include="Source\Core\utility\BVH\BVH_Node_Object.h" />
     <ClInclude Include="Source\Core\utility\BVH\BVH_Tree.h" />
+    <ClInclude Include="Source\Core\utility\BVH\extension\BVH_AxisSweep3.h" />
     <ClInclude Include="Source\Core\utility\BVH\test\BVH_TestRoom.h" />
     <ClInclude Include="Source\Core\Physics\ColliderPickingTestRoom.h" />
     <ClInclude Include="Source\Core\Physics\Collider\CapsuleCollider.h" />

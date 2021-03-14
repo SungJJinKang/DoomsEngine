@@ -1,9 +1,14 @@
 #include "BVH_AABB_Container.h"
 
 template <typename AABB>
-void doom::BVH_AABB_Container<AABB>::ApplyModelMatrixToWorldBVhAABBCache()
+void doom::BVH_AABB_Container<AABB>::UpdateWorldBVhAABBCache(bool force)
 {
-	doom::physics::ApplyModelMatrixToAABB(this->mLocalBVhAABBCache, this->GetModelMatrix(), this->mWorldBVhAABBCache);
+	if (this->IsWorldBVhAABBCacheDirty.GetIsDirty(true) || force)
+	{
+		//	TO DO : When Rotate Object, AABB can be larged. 
+		//			then whenever rotate object, BVH_Node can be reinserted everytime. this is expensive.
+		doom::physics::ApplyModelMatrixToAABB(this->mLocalBVhAABBCache, this->GetModelMatrix(), this->mWorldBVhAABBCache);
+	}
 }
 
 
@@ -32,10 +37,7 @@ const AABB& doom::BVH_AABB_Container<AABB>::GetWorldBVhAABB3DCacheByReference()
 {
 	D_ASSERT(this->IsWorldBVhAABBCacheDirty.HasDirtySender() == true); // must register IsWorldBVhAABBCacheDirty to Object's Transform DirtySencer
 
-	if (this->IsWorldBVhAABBCacheDirty.GetIsDirty(true))
-	{
-		this->ApplyModelMatrixToWorldBVhAABBCache();
-	}
+	this->UpdateWorldBVhAABBCache(false);
 	return this->mWorldBVhAABBCache;
 }
 

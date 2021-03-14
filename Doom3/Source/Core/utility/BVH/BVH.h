@@ -135,16 +135,17 @@ namespace doom
 		node_type* InsertLeaf(const AABB& L, doom::physics::Collider* collider);
 		void RemoveLeafNode(node_type* targetLeafNode);
 		void RemoveLeafNode(int targetLeafNodeIndex);
+		
 		/// <summary>
-		/// file:///C:/Users/hour3/Desktop/ErinCatto_DynamicBVH_Full.pdf 96 page
-		/// Will Remove updatedNode And Re-insert updateNode
+		/// Remove paased Node And Re-insert the node
 		///
 		/// when update leaf node, original leaf node will be destroyed(be dangled)
 		/// and return new node
 		/// </summary>
 		/// <param name="updatedNode"></param>
+		/// <param name="force"></param>
 		/// <returns></returns>
-		node_type* UpdateLeaf(node_type* updatedNode);
+		node_type* UpdateLeafNode(node_type* targetLeafNode, bool force = false);
 
 		void InitializeDebugging();
 		void TreeDebug();
