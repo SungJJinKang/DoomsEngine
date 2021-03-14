@@ -39,13 +39,7 @@ namespace doom
 		
 		graphics::Material* mTargetMaterial;
 
-		virtual void InitComponent() override
-		{
-			RendererComponentStaticIterator::AddRendererToStaticContainer();
-			this->AddLocalDirtyToTransformDirtyReceiver(this->IsWorld_BVH_AABBDirty);
-
-			this->InsertBVHLeafNode(graphics::Graphics_Server::GetSingleton()->mViewFrustumCulling.mViewFrustumBVH, this->GetWorld_BVH_AABB3D(), nullptr);
-		}
+		virtual void InitComponent() override;
 		virtual void UpdateComponent() override
 		{
 		}
@@ -68,7 +62,6 @@ namespace doom
 
 
 		virtual void Draw() = 0;
-		void DrawAABB3D();
 
 		/// <summary>
 		/// Why this function is inline function.

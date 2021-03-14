@@ -23,15 +23,18 @@ namespace doom
 		virtual void UpdateLocalCollider() final;
 		virtual void UpdateWorldCollider() final;
 
-		void AutoColliderSetting() override;
+		void AutoColliderSettingFromAABB3D(const physics::AABB3D& aabb3dFromMesh) final;
 
 		virtual physics::Collider* GetWorldCollider() final;
 
 	public:
-		void SetAABB2D(const physics::AABB2D& aabb2D);
+		void SetFromAABB2D(const physics::AABB2D& aabb2D);
 
 		void SetHalfExtent(const math::Vector2& halfExtent);
 		math::Vector2 GetHalfExtent() const;
+		
+		// Inherited via Collider2DComponent
+		virtual doom::physics::AABB3D ExtractLocalAABB3D() final;
 
 	};
 }

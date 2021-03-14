@@ -45,7 +45,7 @@ doom::physics::ColliderType doom::physics::AABB2D::GetColliderType() const
 	return doom::physics::ColliderType::AABB2D;
 }
 
-math::Vector2 AABB2D::GetCenter()
+math::Vector2 AABB2D::GetCenter() const
 {
 	return (this->mLowerBound + this->mUpperBound) / 2;
 }
@@ -62,7 +62,7 @@ math::Vector3 doom::physics::AABB3D::GetHalfExtent() const
 }
 
 
-float AABB3D::GetDiagonarLineLength()
+float AABB3D::GetDiagonarLineLength() const
 {
 	auto halfExtent = this->GetHalfExtent();
 	return math::sqrt(halfExtent.x * halfExtent.x + halfExtent.y * halfExtent.y + halfExtent.z * halfExtent.z);
@@ -113,7 +113,7 @@ doom::physics::ColliderType doom::physics::AABB3D::GetColliderType() const
 	return doom::physics::ColliderType::AABB3D;
 }
 
-math::Vector3 doom::physics::AABB3D::GetCenter()
+math::Vector3 doom::physics::AABB3D::GetCenter() const
 {
 	return (this->mLowerBound + this->mUpperBound) / 2;
 }
@@ -123,6 +123,7 @@ AABB3D doom::physics::AABB3D::EnlargeAABB(const AABB3D& aabb)
 	float offset = doom::physics::Physics_Server::GetSingleton()->ENLARGED_AABB3D_OFFSET;
 	return AABB3D(aabb.mLowerBound - offset, aabb.mUpperBound + offset);
 }
+
 
 
 ////////////////////////////////////////
@@ -214,12 +215,32 @@ math::Vector2 doom::physics::ClosestPointToPoint(const AABB2D& aabb, const math:
 	return result;
 }
 
-void doom::physics::ApplyModelMatrixToAABB2D(const AABB2D& localAABB, const math::Matrix4x4& modelMatrix, AABB2D& resultAABB)
+// this function is not tested
+void doom::physics::ApplyModelMatrixToAABB(const AABB2D& localAABB, const math::Matrix4x4& modelMatrix, AABB2D& resultAABB)
 {
+	for (int i = 0; i < 2; i++)
+	{
+		resultAABB.mLowerBound[i] = resultAABB.mUpperBound[i] = modelMatrix[3][i];
 
+		for (int j = 0; j < 2; j++)
+		{
+			float e = modelMatrix[i][j] * localAABB.mLowerBound[j];
+			float f = modelMatrix[i][j] * localAABB.mUpperBound[j];
+			if (e < f)
+			{
+				resultAABB.mLowerBound[i] += e;
+				resultAABB.mUpperBound[i] += f;
+			}
+			else
+			{
+				resultAABB.mLowerBound[i] += f;
+				resultAABB.mUpperBound[i] += e;
+			}
+		}
+	}
 }
 
-void doom::physics::ApplyModelMatrixToAABB3D(const AABB3D& localAABB, const math::Matrix4x4& modelMatrix, AABB3D& resultAABB)
+void doom::physics::ApplyModelMatrixToAABB(const AABB3D& localAABB, const math::Matrix4x4& modelMatrix, AABB3D& resultAABB)
 {
 	for (int i = 0; i < 3; i++)
 	{

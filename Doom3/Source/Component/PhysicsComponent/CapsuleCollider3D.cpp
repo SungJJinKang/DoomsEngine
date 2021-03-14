@@ -1,6 +1,8 @@
 #include "CapsuleCollider3D.h"
 #include <Transform.h>
 
+#include <Utility.h>
+
 void doom::CapsuleCollider3D::UpdateLocalCollider()
 {
 	this->mLocalCapsuleCollider.mCenter = this->mOffset;
@@ -21,15 +23,10 @@ void doom::CapsuleCollider3D::UpdateWorldCollider()
 
 
 
-void doom::CapsuleCollider3D::AutoColliderSetting()
+void doom::CapsuleCollider3D::AutoColliderSettingFromAABB3D(const physics::AABB3D& aabb3dFromMesh)
 {
-	physics::AABB3D aabb3d{};
-	bool isHaveMeshAABB3D = this->GetMeshAABB3D(aabb3d);
-	if (isHaveMeshAABB3D == true)
-	{
-		this->mHeight = (aabb3d.mUpperBound.y - aabb3d.mLowerBound.y);
-		this->mRadius = aabb3d.GetDiagonarLineLength();
-	}
+	this->mHeight = (aabb3dFromMesh.mUpperBound.y - aabb3dFromMesh.mLowerBound.y);
+	this->mRadius = aabb3dFromMesh.GetDiagonarLineLength();
 }
 
 
@@ -54,6 +51,29 @@ float doom::CapsuleCollider3D::GetRadius()
 {
 	return this->mRadius;
 }
+
+doom::physics::AABB3D doom::CapsuleCollider3D::ExtractLocalAABB3D()
+{
+	float height = math::Max(this->mLocalCapsuleCollider.mHeight / 2.0f, this->mLocalCapsuleCollider.mRadius);
+
+	math::Vector3 lowerBound
+	{
+		this->mLocalCapsuleCollider.mCenter.x - this->mLocalCapsuleCollider.mRadius,
+		this->mLocalCapsuleCollider.mCenter.y - height,
+		this->mLocalCapsuleCollider.mCenter.z - this->mLocalCapsuleCollider.mRadius
+	};
+
+	math::Vector3 upperBound
+	{
+		this->mLocalCapsuleCollider.mCenter.x + this->mLocalCapsuleCollider.mRadius,
+		this->mLocalCapsuleCollider.mCenter.y + height,
+		this->mLocalCapsuleCollider.mCenter.z + this->mLocalCapsuleCollider.mRadius
+	};
+
+	return doom::physics::AABB3D(lowerBound, upperBound);
+}
+
+
 
 doom::physics::Collider* doom::CapsuleCollider3D::GetWorldCollider()
 {

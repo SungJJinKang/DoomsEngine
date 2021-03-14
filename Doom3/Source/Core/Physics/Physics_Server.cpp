@@ -45,6 +45,7 @@ void doom::physics::Physics_Server::SolveColliderComponents()
 	auto components = doom::StaticContainer<ColliderComponent>::GetAllStaticComponents();
 	for (auto component : components)
 	{
+		component->ResetAllCollisionState();
 		component->OnPreUpdatePhysics();
 	}
 
@@ -52,6 +53,10 @@ void doom::physics::Physics_Server::SolveColliderComponents()
 	{
 		for (unsigned int j = i + 1; j < components.size(); j++)
 		{
+			//First : Do BVH Test
+
+
+			//Second : If pass BVH Test, Test Collider
 			Collider* col1 = components[i]->GetWorldCollider();
 			Collider* col2 = components[j]->GetWorldCollider();
 			bool isOverlap = ColliderSolution::CheckIsOverlap(col1, col2);

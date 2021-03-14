@@ -34,7 +34,7 @@ namespace doom
 		/// This function is recommended
 		/// </summary>
 		/// <param name="movedVector"></param>
-		void UpdateBVH_Node(const typename AABB::component_type& movedVector);
+		//void UpdateBVH_Node(const typename AABB::component_type& movedVector);
 		void RemoveBVH_Node();
 
 	public:

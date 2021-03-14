@@ -2,8 +2,13 @@
 #include "../Core/Graphics/Material.h"
 #include <Transform.h>
 
+void doom::Renderer::InitComponent()
+{
+	RendererComponentStaticIterator::AddRendererToStaticContainer();
 
-
+	this->AddLocalDirtyToTransformDirtyReceiver(this->IsWorldBVhAABBCacheDirty);
+	this->InsertBVHLeafNode(graphics::Graphics_Server::GetSingleton()->mViewFrustumCulling.mViewFrustumBVH, this->GetWorldBVhAABB3DCacheByReference(), nullptr);
+}
 
 const math::Matrix4x4& doom::Renderer::GetModelMatrix() const
 {
@@ -13,11 +18,6 @@ const math::Matrix4x4& doom::Renderer::GetModelMatrix() const
 doom::Renderer::Renderer() : ServerComponent(), StaticContainer(), mTargetMaterial{}
 {
 
-}
-
-void doom::Renderer::DrawAABB3D()
-{
-	this->GetWorld_BVH_AABB3D().DrawPhysicsDebugColor(graphics::eColor::Green);
 }
 
 void doom::Renderer::BindMaterial() noexcept

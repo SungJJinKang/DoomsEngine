@@ -27,7 +27,7 @@
 
 
 template <typename AABB>
-bool doom::BVH<AABB>::BVHRayCast(doom::physics::Ray & ray)
+bool doom::BVH<AABB>::BVHRayCast(const doom::physics::Ray & ray)
 
 {
 	std::stack<int> stack{};
@@ -60,7 +60,7 @@ bool doom::BVH<AABB>::BVHRayCast(doom::physics::Ray & ray)
 		if (this->mTree.mNodes[index].mIsLeaf)
 		{//if node is world object
 
-			if (physics::ColliderSolution::CheckIsOverlap(this->mTree.mNodes[index].mCollider, static_cast<physics::Collider*>(&ray)) == true)
+			if (physics::ColliderSolution::CheckIsOverlap(this->mTree.mNodes[index].mCollider, static_cast<physics::Collider*>(const_cast<physics::Ray*>(&ray))) == true)
 			{// check collision with ray and world object collider
 				return true;
 			}

@@ -20,14 +20,22 @@ namespace doom
 
 		void ResetAllCollisionState();
 	
+		void UpdateLocalColliderAndLocalBVhAABBCache();
+
 		void OnPreUpdatePhysics();
 		void UpdatePhysics();
 		void OnPostUpdatePhysics();
+
+		/// <summary>
+		/// Set Collider variable depending on Renderer's mesh
+		/// </summary>
+		void AutoColliderSetting();
 
 	protected:
 
 		DirtyReceiver bmIsWorldColliderDirty{ true };
 		DirtyReceiver bmIsLocalColliderDirty{ true };
+		void SetIsLocalColliderDirty();
 
 		bool bmIsTrigger{ false };
 
@@ -55,9 +63,21 @@ namespace doom
 		virtual void UpdateLocalCollider() = 0;
 
 		/// <summary>
-		/// Set Collider variable depending on Renderer's mesh
+		/// Local AABB of Local Collider
+		/// AABB is tighted to Local Collider
+		/// 
+		/// Returned AABB3D contain offset of Collider
 		/// </summary>
-		virtual void AutoColliderSetting() = 0;
+		/// <returns></returns>
+		virtual doom::physics::AABB3D ExtractLocalAABB3D() = 0;
+		/// <summary>
+		/// Call this function : UpdateLocalBVhAABBCache
+		/// </summary>
+		void UpdateLocalBVhAABBCacheFromLocalCollider();
+		
+		virtual const math::Vector3& GetOffsetVector3() const = 0;
+		
+		virtual void AutoColliderSettingFromAABB3D(const physics::AABB3D & aabb3dFromMesh) = 0;
 		/// <summary>
 		/// return true if There is Renderer and have AABB3D
 		/// </summary>

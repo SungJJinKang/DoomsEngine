@@ -28,17 +28,31 @@ float doom::SphereCollider3D::GetRadius()
 	return this->mRadius;
 }
 
+doom::physics::AABB3D doom::SphereCollider3D::ExtractLocalAABB3D()
+{
+	math::Vector3 lowerBound
+	{
+		this->mLocalSpere.mCenter.x - this->mLocalSpere.mRadius,
+		this->mLocalSpere.mCenter.y - this->mLocalSpere.mRadius,
+		this->mLocalSpere.mCenter.z - this->mLocalSpere.mRadius
+	};
+
+	math::Vector3 upperBound
+	{
+		this->mLocalSpere.mCenter.x + this->mLocalSpere.mRadius,
+		this->mLocalSpere.mCenter.y + this->mLocalSpere.mRadius,
+		this->mLocalSpere.mCenter.z + this->mLocalSpere.mRadius
+	};
+
+	return doom::physics::AABB3D(lowerBound, upperBound);
+}
+
 doom::physics::Collider* doom::SphereCollider3D::GetWorldCollider()
 {
 	return &(this->mWorldSpere);
 }
 
-void doom::SphereCollider3D::AutoColliderSetting()
+void doom::SphereCollider3D::AutoColliderSettingFromAABB3D(const physics::AABB3D & aabb3dFromMesh)
 {
-	physics::AABB3D aabb3d{};
-	bool isHaveMeshAABB3D =	this->GetMeshAABB3D(aabb3d);
-	if (isHaveMeshAABB3D == true)
-	{
-		this->mRadius = aabb3d.GetDiagonarLineLength();
-	}
+	this->mRadius = aabb3dFromMesh.GetDiagonarLineLength();	
 }

@@ -1,5 +1,6 @@
 #include "BVH_Node_Container.h"
 
+#include "BVH.h"
 template <typename AABB>
 void doom::BVH_Node_Container<AABB>::InsertBVHLeafNode(BVH<AABB>& BVH, const AABB& AABB, doom::physics::Collider* collider)
 {
@@ -14,13 +15,14 @@ void doom::BVH_Node_Container<AABB>::UpdateBVH_Node(const AABB& AABB)
 	this->mBVH_NODE = this->mBVH_NODE->UpdateAABB(AABB);
 }
 
-
+/*
 template <typename AABB>
 void doom::BVH_Node_Container<AABB>::UpdateBVH_Node(const typename AABB::component_type& movedVector)
 {
 	D_ASSERT(this->mBVH_NODE != nullptr);
 	this->mBVH_NODE = this->mBVH_NODE->UpdateAABB(movedVector);
 }
+*/
 
 template <typename AABB>
 void doom::BVH_Node_Container<AABB>::RemoveBVH_Node()

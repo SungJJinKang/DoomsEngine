@@ -39,6 +39,7 @@ namespace doom
 	//https://meistdan.github.io/publications/phr/paper.pdf
 
 	//https://graphics.cg.uni-saarland.de/courses/cg1-2019/slides/Building_Good_BVHs.pdf
+	//http://www.cs.uu.nl/docs/vakken/magr/2016-2017/slides/lecture%2003%20-%20the%20perfect%20BVH.pdf
 
 	/// <summary>
 	/// Dynamic(Incremental) BVH
@@ -124,7 +125,7 @@ namespace doom
 		{
 		}
 
-		bool BVHRayCast(doom::physics::Ray& ray);
+		bool BVHRayCast(const doom::physics::Ray& ray);
 
 		/// <summary>
 		/// Inser New Object(Leaf)

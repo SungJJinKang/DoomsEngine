@@ -1,52 +1,48 @@
 #include "BVH_AABB_Container.h"
 
 template <typename AABB>
-void doom::BVH_AABB_Container<AABB>::ApplyModelMatrixToWorld_BVH_AABB()
+void doom::BVH_AABB_Container<AABB>::ApplyModelMatrixToWorldBVhAABBCache()
 {
-	doom::physics::ApplyModelMatrixToAABB3D(this->GetLocal_BVH_AABB3D(), this->GetModelMatrix(), this->GetWorld_BVH_AABB3D());
+	doom::physics::ApplyModelMatrixToAABB(this->mLocalBVhAABBCache, this->GetModelMatrix(), this->mWorldBVhAABBCache);
+}
+
+
+template <typename AABB>
+void doom::BVH_AABB_Container<AABB>::UpdateLocalBVhAABBCache(const AABB& aabb3d)
+{
+	this->mLocalBVhAABBCache = aabb3d;
+	this->IsWorldBVhAABBCacheDirty = true;
+}
+
+
+template <typename AABB>
+AABB doom::BVH_AABB_Container<AABB>::GetLocalBVhAABB3DCache()
+{
+	return this->mLocalBVhAABBCache;
 }
 
 template <typename AABB>
-void doom::BVH_AABB_Container<AABB>::UpdateLocalAABB3D(const physics::AABB3D& aabb3d)
+const AABB& doom::BVH_AABB_Container<AABB>::GetLocalBVhAABB3DCache() const
 {
-	this->mLocalAABB3D = aabb3d;
-	this->IsWorldBVHAABBDirty = true;
+	return this->mLocalBVhAABBCache;
 }
 
 template <typename AABB>
-doom::physics::AABB3D doom::BVH_AABB_Container<AABB>::GetLocal_BVH_AABB3D()
+const AABB& doom::BVH_AABB_Container<AABB>::GetWorldBVhAABB3DCacheByReference()
 {
-	return this->mLocalAABB3D;
-}
+	D_ASSERT(this->IsWorldBVhAABBCacheDirty.HasDirtySender() == true); // must register IsWorldBVhAABBCacheDirty to Object's Transform DirtySencer
 
-template <typename AABB>
-const doom::physics::AABB3D& doom::BVH_AABB_Container<AABB>::GetLocal_BVH_AABB3D() const
-{
-	return this->mLocalAABB3D;
-}
-
-template <typename AABB>
-doom::physics::AABB3D doom::BVH_AABB_Container<AABB>::GetWorld_BVH_AABB3D()
-{
-	D_ASSERT(this->IsWorldBVHAABBDirty.HasDirtySender() == true);
-
-	if (this->IsWorldBVHAABBDirty.GetIsDirty(true))
+	if (this->IsWorldBVhAABBCacheDirty.GetIsDirty(true))
 	{
-		this->ApplyModelMatrixToWorld_BVH_AABB();
+		this->ApplyModelMatrixToWorldBVhAABBCache();
 	}
-	return this->mWorldAABB3D;
+	return this->mWorldBVhAABBCache;
 }
 
-template <typename AABB>
-const doom::physics::AABB3D& doom::BVH_AABB_Container<AABB>::GetWorld_BVH_AABB3D() const
+template<typename AABB>
+void doom::BVH_AABB_Container<AABB>::DrawWorldBVhAABBCache(eColor color)
 {
-	D_ASSERT(this->IsWorldBVHAABBDirty.HasDirtySender() == true);
-
-	if (this->IsWorldBVHAABBDirty.GetIsDirty(true))
-	{
-		this->ApplyModelMatrixToWorld_BVH_AABB();
-	}
-	return this->mWorldAABB3D;
+	this->mWorldBVhAABBCache.DrawPhysicsDebugColor(color);
 }
 
 

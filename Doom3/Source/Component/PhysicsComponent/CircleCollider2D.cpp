@@ -31,17 +31,31 @@ float doom::CircleCollider2D::GetRadius()
 	return this->mRadius;
 }
 
+doom::physics::AABB3D doom::CircleCollider2D::ExtractLocalAABB3D()
+{
+	math::Vector3 lowerBound
+	{
+		this->mLocalCircle2D.mCenter.x - this->mLocalCircle2D.mRadius,
+		this->mLocalCircle2D.mCenter.y - this->mLocalCircle2D.mRadius,
+		0
+	};
+
+	math::Vector3 upperBound
+	{
+		this->mLocalCircle2D.mCenter.x + this->mLocalCircle2D.mRadius,
+		this->mLocalCircle2D.mCenter.y + this->mLocalCircle2D.mRadius,
+		0
+	};
+
+	return doom::physics::AABB3D(lowerBound, upperBound);
+}
+
 doom::physics::Collider* doom::CircleCollider2D::GetWorldCollider()
 {
 	return &(this->mWorldCircle2D);
 }
 
-void doom::CircleCollider2D::AutoColliderSetting()
+void doom::CircleCollider2D::AutoColliderSettingFromAABB3D(const physics::AABB3D& aabb3dFromMesh)
 {
-	physics::AABB3D aabb3d{};
-	bool isHaveMeshAABB3D = this->GetMeshAABB3D(aabb3d);
-	if (isHaveMeshAABB3D == true)
-	{
-		this->mRadius = aabb3d.GetDiagonarLineLength();
-	}
+	this->mRadius = aabb3dFromMesh.GetDiagonarLineLength();
 }

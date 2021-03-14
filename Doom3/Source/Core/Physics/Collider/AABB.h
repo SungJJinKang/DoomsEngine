@@ -67,10 +67,10 @@ namespace doom
 			/// Get ´ë°¢¼±
 			/// </summary>
 			/// <returns></returns>
-			float GetDiagonarLineLength();
+			float GetDiagonarLineLength() const;
 			virtual void Render2DTopView(eColor color, bool drawInstantly = false);
 			ColliderType GetColliderType() const override;
-			math::Vector3 GetCenter();
+			math::Vector3 GetCenter() const;
 
 			constexpr void Expand(const math::Vector3& movedVector)
 			{
@@ -141,6 +141,7 @@ namespace doom
 				this->Validate();
 #endif
 			}
+			constexpr AABB3D(const AABB2D& aabb2D);
 			constexpr AABB3D(const AABB3D&) = default;
 			constexpr AABB3D(AABB3D&&) noexcept = default;
 			constexpr AABB3D& operator=(const AABB3D&) = default;
@@ -167,7 +168,7 @@ namespace doom
 		/// <param name="localAABB"></param>
 		/// <param name="modelMatrix"></param>
 		/// <param name="resultAABB"></param>
-		void ApplyModelMatrixToAABB3D(const AABB3D& localAABB, const math::Matrix4x4& modelMatrix, AABB3D& resultAABB);
+		void ApplyModelMatrixToAABB(const AABB3D& localAABB, const math::Matrix4x4& modelMatrix, AABB3D& resultAABB);
 
 		class AABB2D : public Collider
 		{
@@ -209,7 +210,7 @@ namespace doom
 
 			math::Vector2 GetHalfExtent() const;
 			ColliderType GetColliderType() const override;
-			math::Vector2 GetCenter();
+			math::Vector2 GetCenter() const;
 
 			constexpr void Expand(const math::Vector2& movedVector)
 			{
@@ -298,7 +299,15 @@ namespace doom
 		/// <param name="localAABB"></param>
 		/// <param name="modelMatrix"></param>
 		/// <param name="resultAABB"></param>
-		void ApplyModelMatrixToAABB2D(const AABB2D& localAABB, const math::Matrix4x4& modelMatrix, AABB2D& resultAABB);
+		void ApplyModelMatrixToAABB(const AABB2D& localAABB, const math::Matrix4x4& modelMatrix, AABB2D& resultAABB);
+	
+
+		inline constexpr doom::physics::AABB3D::AABB3D(const AABB2D& aabb2D)
+		{
+			this->mLowerBound = aabb2D.mLowerBound;
+			this->mUpperBound = aabb2D.mUpperBound;
+		}
+
 	}
 }
 

@@ -43,8 +43,6 @@ namespace doom
 
 			this->mTargetMaterial->SetMatrix4x4(graphics::eUniformLocation::ModelMatrix, this->GetTransform()->GetModelMatrix());
 			this->mTargetMesh->Draw();
-
-			ONLY_WHEN_KEY_TOGGLE_ON(userinput::eKEY_CODE::KEY_F11, this->DrawAABB3D());
 		}
 
 		void SetMesh(graphics::Mesh* mesh);

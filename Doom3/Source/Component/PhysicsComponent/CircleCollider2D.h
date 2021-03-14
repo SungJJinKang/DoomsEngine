@@ -17,7 +17,7 @@ namespace doom
 		virtual void UpdateLocalCollider() final;
 		virtual void UpdateWorldCollider() final;
 
-		void AutoColliderSetting() override;
+		void AutoColliderSettingFromAABB3D(const physics::AABB3D& aabb3dFromMesh) final;
 		virtual physics::Collider* GetWorldCollider() final;
 
 	public:
@@ -26,7 +26,9 @@ namespace doom
 		void SetRadius(float radius);
 		float GetRadius();
 
-		
+
+		// Inherited via Collider2DComponent
+		virtual doom::physics::AABB3D ExtractLocalAABB3D() override;
 
 	};
 }

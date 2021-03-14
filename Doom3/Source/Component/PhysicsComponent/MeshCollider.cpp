@@ -10,7 +10,7 @@ void doom::MeshCollider::UpdateWorldCollider()
 
 }
 
-void doom::MeshCollider::AutoColliderSetting()
+void doom::MeshCollider::AutoColliderSettingFromAABB3D(const physics::AABB3D& aabb3dFromMesh)
 {
 
 }
@@ -18,4 +18,9 @@ void doom::MeshCollider::AutoColliderSetting()
 doom::physics::Collider* doom::MeshCollider::GetWorldCollider()
 {
 	return nullptr;
+}
+
+doom::physics::AABB3D doom::MeshCollider::ExtractLocalAABB3D()
+{
+	return this->GetLocalBVhAABB3DCache();
 }

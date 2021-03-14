@@ -6,6 +6,7 @@
 
 #include "Physics/Collider/AABB.h"
 #include <EasyDirtyChecker/DirtyReceiver.h>
+#include "Graphics/Color.h"
 
 namespace doom
 {
@@ -20,32 +21,33 @@ namespace doom
 	{
 	private:
 
-		AABB mLocal_BVH_AABB{};
+		AABB mLocalBVhAABBCache{};
 		/// <summary>
 		/// Entity's Model Matrix * Local AABB
 		/// </summary>
-		AABB mWorld_BVH_AABB{};
+		AABB mWorldBVhAABBCache{};
 	
-		void ApplyModelMatrixToWorld_BVH_AABB();
+		void ApplyModelMatrixToWorldBVhAABBCache();
 
 	protected:
 		
-		DirtyReceiver IsWorld_BVH_AABBDirty{ true };
+		DirtyReceiver IsWorldBVhAABBCacheDirty{ true };
 		
 		/// <summary>
 		/// Local AABB should be updated instantly. 
 		/// this function doesn't change BVH_TREE, just be stored locally. this is fine
 		/// </summary>
 		/// <param name="aabb3d"></param>
-		void UpdateLocalAABB3D(const physics::AABB3D& aabb3d);
+		void UpdateLocalBVhAABBCache(const AABB& aabb);
 		virtual const math::Matrix4x4& GetModelMatrix() const = 0;
 
 	public:
 		
-		physics::AABB3D GetLocal_BVH_AABB3D();
-		const physics::AABB3D& GetLocal_BVH_AABB3D() const;
-		physics::AABB3D GetWorld_BVH_AABB3D();
-		const physics::AABB3D& GetWorld_BVH_AABB3D() const;
+		AABB GetLocalBVhAABB3DCache();
+		const AABB& GetLocalBVhAABB3DCache() const;
+		const AABB& GetWorldBVhAABB3DCacheByReference();
+
+		void DrawWorldBVhAABBCache(eColor color = eColor::Green);
 	};
 	
 	extern template class BVH_AABB_Container<doom::physics::AABB2D>;
