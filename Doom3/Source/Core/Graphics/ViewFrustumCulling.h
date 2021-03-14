@@ -1,7 +1,7 @@
 #pragma once
 #include "utility/BVH/BVH.h"
 
-#define VIEWFRUSTUM_BVH_MAX_NODE_COUNT 1000
+#define VIEWFRUSTUM_BVH_MAX_NODE_COUNT 30000
 
 namespace doom
 {

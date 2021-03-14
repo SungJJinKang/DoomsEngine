@@ -212,6 +212,8 @@ void doom::graphics::Graphics_Server::InitFrameBufferForDeferredRendering()
 	this->mGbufferWriterMaterial.SetShaderAsset(gBufferWriterShader);
 
 	this->mFrameBufferForDeferredRendering.GenerateBuffer(Graphics_Server::ScreenSize.x, Graphics_Server::ScreenSize.y);
+
+	//with renderbuffer, can't do post-processing
 	this->mFrameBufferForDeferredRendering.AttachTextureBuffer(GraphicsAPI::eBufferType::COLOR, Graphics_Server::ScreenSize.x, Graphics_Server::ScreenSize.y);
 	this->mFrameBufferForDeferredRendering.AttachTextureBuffer(GraphicsAPI::eBufferType::COLOR, Graphics_Server::ScreenSize.x, Graphics_Server::ScreenSize.y);
 	this->mFrameBufferForDeferredRendering.AttachTextureBuffer(GraphicsAPI::eBufferType::COLOR, Graphics_Server::ScreenSize.x, Graphics_Server::ScreenSize.y);
@@ -235,7 +237,10 @@ void doom::graphics::Graphics_Server::DeferredRendering()
 	sceneGraphics->mUniformBufferObjectManager.Update();
 
 #ifdef DEBUG_MODE
-	this->mDebugGraphics.DrawDebug();
+	if (userinput::UserInput_Server::GetKeyToggle(eKEY_CODE::KEY_INSERT) == true)
+	{
+		this->mDebugGraphics.DrawDebug();
+	}
 #endif
 
 	for (unsigned int i = 0; i < MAX_LAYER_COUNT; i++)

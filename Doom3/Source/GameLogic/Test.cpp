@@ -36,31 +36,34 @@ void doom::TEST::Init()
 	
 // 	for (int i = 0; i < 25; i++)
 // 	{
-// 		for (int i = 0; i < threedasset->GetMeshCount(); i++)
+// 		for (int j = 0; j < threedasset->GetMeshCount(); j++)
 // 		{
 // 			auto entity = currenScene->CreateNewEntity();
 // 			entity->GetTransform()->SetScale(0.1f, 0.1f, 0.1f);
 // 			entity->GetTransform()->SetPosition(Random::RandomFloatNumber(-20, 20), Random::RandomFloatNumber(-20, 20), Random::RandomFloatNumber(-20, 20));
 // 			auto meshRenderer = entity->AddComponent<MeshRenderer>();
-// 			meshRenderer->SetMesh(threedasset->GetMesh(i));
+// 			meshRenderer->SetMesh(threedasset->GetMesh(j));
 // 			meshRenderer->SetMaterial(material);
 // 			entity->AddComponent<AutoRotate>();
 // 			entity->AddComponent<BoxCollider3D>();
 // 		}
 // 	}
 	
-	for (int i = 0; i < 25; i++)
+	for (int i = -50; i < 50; i = i + 10)
 	{
-		for (int i = 0; i < planetAsset->GetMeshCount(); i++)
+		for (int j = -50; j < 50; j = j + 10)
 		{
-			auto entity = currenScene->CreateNewEntity();
-			entity->GetTransform()->SetScale(0.8f, 0.8f, 0.8f);
-			entity->GetTransform()->SetPosition(Random::RandomFloatNumber(-20, 20), Random::RandomFloatNumber(-20, 20), Random::RandomFloatNumber(-20, 20));
-			auto meshRenderer = entity->AddComponent<MeshRenderer>();
-			meshRenderer->SetMesh(planetAsset->GetMesh(i));
-			meshRenderer->SetMaterial(material);
-			entity->AddComponent<AutoRotate>();
-			entity->AddComponent<BoxCollider3D>();
+			for (int k = -50; k < 50; k = k + 10)
+			{
+				auto entity = currenScene->CreateNewEntity();
+				entity->GetTransform()->SetScale(0.8f, 0.8f, 0.8f);
+				entity->GetTransform()->SetPosition(i, j, k);
+				auto meshRenderer = entity->AddComponent<MeshRenderer>();
+				meshRenderer->SetMesh(planetAsset->GetMesh(0));
+				meshRenderer->SetMaterial(material);
+				entity->AddComponent<AutoRotate>();
+				entity->AddComponent<BoxCollider3D>();
+			}
 		}
 	}
 	
@@ -76,9 +79,11 @@ void doom::TEST::Init()
 	auto physicsEntity = currenScene->CreateNewEntity();
 	entity1->AddComponent<TestComponent>();
 
+	/*
 	auto entity2 = currenScene->CreateNewEntity();
 	entity2->GetTransform()->SetPosition(2.0f, 1.0f, -1.0f);
 	auto entity2BoxCollider3D = entity2->AddComponent<BoxCollider3D>();
 	entity2BoxCollider3D->SetHalfExtent(math::Vector3(1.0f, 2.0f, 3.0f));
 	entity2->AddComponent<AutoRotate>();
+	*/
 }
