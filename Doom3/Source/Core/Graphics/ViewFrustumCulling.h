@@ -15,7 +15,10 @@ namespace doom
 		/// reference : https://cgvr.informatik.uni-bremen.de/teaching/cg_literatur/lighthouse3d_view_frustum_culling/index.html
 		/// 
 		/// 
+		/// Study this github : https://gist.github.com/podgorskiy/e698d18879588ada9014768e3e82a644 
+		/// ...
 		/// 
+		/// Do something for accelerate View Frustum Culling
 		/// KD트리는 렌더링 성능이 가장 좋지만 동적인 물체에 좋지 않다.
 		/// BVH는 성능은 좀 떨어지지만, 동적인 물체에 대응이 가능하다.
 		/// BVH는 KD트리를 포함한다고 볼 수 있다.
