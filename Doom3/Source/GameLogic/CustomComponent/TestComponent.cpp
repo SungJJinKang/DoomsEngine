@@ -26,6 +26,12 @@ void doom::TestComponent::UpdateComponent()
 
 	auto pickingRay = physics::Picking::GetCurrentCursorPointWorldRay();
 	pickingRay.DrawPhysicsDebugColor(eColor::Green);
+
+	if (userinput::UserInput_Server::GetKeyToggle(eKEY_CODE::KEY_F2))
+	{
+		D_DEBUG_LOG(std::to_string(time::MainTimer::GetCurrentFrame()), eLogType::D_ALWAYS);
+	}
+
 }
 
 void doom::TestComponent::OnEndOfFrame_Component()

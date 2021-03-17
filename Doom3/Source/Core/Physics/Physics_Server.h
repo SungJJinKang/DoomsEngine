@@ -22,6 +22,8 @@ namespace doom
 			friend class ::doom::ColliderComponent;
 		private:
 
+			bool bmIsPhysicsOn{ true };
+
 			BVH3D mPhysicsColliderBVH{ PHYSICS_COLLIDER_BVH_MAX_NODE_COUNT };
 
 			float FIXED_TIME_STEP{};

@@ -16,6 +16,11 @@ void doom::physics::Physics_Server::Init()
 
 void doom::physics::Physics_Server::Update()
 {
+	if (bmIsPhysicsOn == false)
+	{
+		return;
+	}
+
 #ifdef DEBUG_MODE
 	this->mColliderTestRoom.DrawDebug();
 	ONLY_WHEN_KEY_TOGGLE_ON(userinput::eKEY_CODE::KEY_F11, this->DrawDebugColliderComponents());
@@ -35,6 +40,11 @@ void doom::physics::Physics_Server::Update()
 
 void doom::physics::Physics_Server::FixedUpdateCollision()
 {
+	if (bmIsPhysicsOn == false)
+	{
+		return;
+	}
+
 #ifdef DEBUG_MODE
 	this->mColliderTestRoom.FixedUpdatePhysics();
 #endif

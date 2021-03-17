@@ -316,7 +316,7 @@ typename doom::BVH<AABB>::node_type* doom::BVH<AABB>::UpdateLeafNode(node_type* 
 
 	if (physics::CheckIsAABBCompletlyEnclosed(targetLeafNode->mAABB, targetLeafNode->mEnlargedAABB) == false || force == true)
 	{
-		D_DEBUG_LOG("Update Leaf Node!!!", eLogType::D_TEMP);
+		D_DEBUG_LOG("Update Leaf Node!!!", eLogType::D_ALWAYS);
 		//we will remove node and re-insert node
 		//you don't need reset mEnlargedAABB at here
 		this->RemoveLeafNode(targetLeafNode);
@@ -450,7 +450,7 @@ int doom::BVH<AABB>::Balance(int lowerNodeIndex)
 
 	ReConstructNodeAABB(this->mTree.mNodes[parentIndexOfimbalancedLowerNodeIndex].mIndex);
 
-	D_DEBUG_LOG("Balance!!", eLogType::D_TEMP);
+	D_DEBUG_LOG("Balance!!", eLogType::D_ALWAYS);
 
 	return higerNodeIndex;
 }

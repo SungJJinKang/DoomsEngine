@@ -27,7 +27,7 @@ namespace doom
 			/// always call
 			/// Remove this after use this
 			/// </summary>
-			D_TEMP = 3
+			D_ALWAYS = 3
 		};
 
 		class Logger

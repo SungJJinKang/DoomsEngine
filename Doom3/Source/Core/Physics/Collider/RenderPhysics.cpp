@@ -9,7 +9,7 @@ void doom::physics::RenderPhysics::DrawPhysicsDebugColor(eColor color, bool draw
 {
 	if (Physics_Server::IsShowDebug == true)
 	{
-		//unsigned long long frameTickCount = MainTimer::GetCurrentFrameTime();
+		//unsigned long long frameTickCount = MainTimer::GetCurrentTickCount();
 
 		//if (this->mLastRenderFrameTickCount != frameTickCount)
 		//{

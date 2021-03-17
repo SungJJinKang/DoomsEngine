@@ -16,9 +16,9 @@ void doom::time::MainTimer::UpdateFrameTimer()
 
 	doom::time::MainTimer::mFrameTime.mDeltaTime = (currentTime - doom::time::MainTimer::mFrameTime.mLastTickCount) * 0.001f;
 	doom::time::MainTimer::mFrameTime.mLastTickCount = currentTime;
-
-	//D_DEBUG_LOG({ "Current Frame : ", std::to_string(1.0 / doom::time::Time_Server::mDeltaTime) });
-	//D_DEBUG_LOG({ "Delta Frame : ", std::to_string(doom::time::MainTimer::mFrameTime.mDeltaTime) });
+	
+	MainTimer::CurrentFrame = static_cast<float>(1.0 / doom::time::MainTimer::mFrameTime.mDeltaTime);
+	
 	++mFrameCounter;
 }
 

@@ -147,6 +147,7 @@ namespace doom
 
 		bool Tick()
 		{
+			
 			D_START_PROFILING("Fixed Update", eProfileLayers::CPU);
 			MainTimer::ResetFixedTimer();
 			int fixedUpdateCount{ 0 };
@@ -160,19 +161,20 @@ namespace doom
 					break;
 				}
 			}
-			D_DEBUG_LOG("FixedUpdate Count : " + std::to_string(fixedUpdateCount), eLogType::D_LOG);
 			D_END_PROFILING("Fixed Update");
 			
 
 			MainTimer::UpdateFrameTimer();
+			
 			D_START_PROFILING("Update", eProfileLayers::CPU);
 			this->Update();
 			D_END_PROFILING("Update");
-
-
+			
+			
 			D_START_PROFILING("OnEndOfFrame", eProfileLayers::CPU);
 			this->OnEndOfFrame();
 			D_END_PROFILING("OnEndOfFrame");
+			
 			return true;
 		}
 		

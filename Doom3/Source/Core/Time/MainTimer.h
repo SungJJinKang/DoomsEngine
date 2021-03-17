@@ -20,6 +20,7 @@ namespace doom
 
 			static inline TimeStep mFrameTime{};
 			static inline TimeStep mFixedTime{};
+			static inline float CurrentFrame{};
 
 
 			static inline unsigned int mFrameCounter{ 0 };
@@ -34,7 +35,7 @@ namespace doom
 			/// If you want to check whether frame pass without OnEndFrame, use this tickcount and compare last one
 			/// https://en.cppreference.com/w/cpp/chrono/time_point/time_since_epoch
 			/// </summary>
-			[[nodiscard]] static unsigned long long GetCurrentFrameTime() noexcept
+			[[nodiscard]] static unsigned long long GetCurrentTickCount() noexcept
 			{
 				return MainTimer::mFrameTime.mCurrentTickCount;
 			}
@@ -56,6 +57,10 @@ namespace doom
 				return MainTimer::mFixedTime.mDeltaTime;
 			}
 
+			[[nodiscard]] static float GetCurrentFrame() noexcept
+			{
+				return MainTimer::CurrentFrame;
+			}
 
 			//If you want to get true value per n frame, use this function
 			[[nodiscard]] static bool GetFrameStep(unsigned int step) noexcept

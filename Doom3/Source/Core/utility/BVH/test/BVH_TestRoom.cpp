@@ -32,12 +32,12 @@ void doom::physics::BVH_TestRoom::AddNewRandomLeafNodeWithMouse()
 		if (leftClick)
 		{
 			leftPos = ndcPoint;
-			D_DEBUG_LOG({ "Set BVH Left NDC Pos : ", leftPos.toString() }, eLogType::D_TEMP);
+			D_DEBUG_LOG({ "Set BVH Left NDC Pos : ", leftPos.toString() }, eLogType::D_ALWAYS);
 		}
 		else
 		{
 			rightPos = ndcPoint;
-			D_DEBUG_LOG({ "Set BVH Right NDC Pos : ", rightPos.toString() }, eLogType::D_TEMP);
+			D_DEBUG_LOG({ "Set BVH Right NDC Pos : ", rightPos.toString() }, eLogType::D_ALWAYS);
 		}
 	}
 
@@ -45,7 +45,7 @@ void doom::physics::BVH_TestRoom::AddNewRandomLeafNodeWithMouse()
 	{
 		physics::AABB3D aabb{ leftPos, rightPos };
 		this->mBVH->InsertLeaf(aabb, nullptr);
-		D_DEBUG_LOG("Create New LeafNode ", eLogType::D_TEMP);
+		D_DEBUG_LOG("Create New LeafNode ", eLogType::D_ALWAYS);
 	}
 	
 }
@@ -87,8 +87,8 @@ void doom::physics::BVH_TestRoom::Update()
 
 	if (doom::userinput::UserInput_Server::GetKeyUp(eKEY_CODE::KEY_F6))
 	{
-		D_DEBUG_LOG(std::to_string(this->mBVH->mTree.mCurrentActiveNodeCount), eLogType::D_TEMP);
-		D_DEBUG_LOG(std::to_string(this->mBVH->GetLeafNodeCount()), eLogType::D_TEMP);
+		D_DEBUG_LOG(std::to_string(this->mBVH->mTree.mCurrentActiveNodeCount), eLogType::D_ALWAYS);
+		D_DEBUG_LOG(std::to_string(this->mBVH->GetLeafNodeCount()), eLogType::D_ALWAYS);
 	}
 
 	if (doom::userinput::UserInput_Server::GetKeyUp(eKEY_CODE::KEY_F7))

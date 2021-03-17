@@ -10,6 +10,8 @@
 
 #include <EasyDirtyChecker/DirtyReceiver.h>
 
+#include <Physics/Collider/Plane.h>
+
 namespace doom
 {
 	class Camera : public PlainComponent, public graphics::UniformBufferObjectTempBufferUpdater, public StaticContainer<Camera>
