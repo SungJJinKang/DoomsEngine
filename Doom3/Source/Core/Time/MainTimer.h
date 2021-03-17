@@ -4,10 +4,12 @@
 
 namespace doom
 {
+	class GameCore;
 	namespace time
 	{
 		class MainTimer : public ISingleton<MainTimer>
 		{
+			friend class ::doom::GameCore;
 			friend class Time_Server;
 
 			struct TimeStep
@@ -27,6 +29,10 @@ namespace doom
 
 			static void InitTimer();
 			
+			static void UpdateFrameTimer();
+			static void ResetFixedTimer();
+			static void UpdateFixedTimer();
+			static void AdvanceAFrame();
 
 		public:
 
@@ -69,10 +75,7 @@ namespace doom
 				return mFrameCounter % step == 0;
 			}
 
-			static void UpdateFrameTimer();
-			static void ResetFixedTimer();
-			static void UpdateFixedTimer();
-			static void AdvanceAFrame();
+			
 		};
 	}
 }

@@ -14,10 +14,10 @@ void doom::time::MainTimer::UpdateFrameTimer()
 	unsigned long long currentTime = OS::GetSingleton()->_GetTickCount();
 	doom::time::MainTimer::mFrameTime.mCurrentTickCount = currentTime;
 
-	doom::time::MainTimer::mFrameTime.mDeltaTime = (currentTime - doom::time::MainTimer::mFrameTime.mLastTickCount) * 0.001f;
+	doom::time::MainTimer::mFrameTime.mDeltaTime = static_cast<float>((currentTime - doom::time::MainTimer::mFrameTime.mLastTickCount)) * 0.001f;
 	doom::time::MainTimer::mFrameTime.mLastTickCount = currentTime;
 	
-	MainTimer::CurrentFrame = static_cast<float>(1.0 / doom::time::MainTimer::mFrameTime.mDeltaTime);
+	MainTimer::CurrentFrame = static_cast<float>(1.0f / doom::time::MainTimer::mFrameTime.mDeltaTime);
 	
 	++mFrameCounter;
 }

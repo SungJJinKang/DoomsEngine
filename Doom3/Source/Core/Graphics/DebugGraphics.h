@@ -120,14 +120,14 @@ namespace doom
 			/// <param name="startNDCPos">-1 ~ 1</param>
 			/// <param name="endNDCPos">-1 ~ 1</param>
 			/// <param name="color"></param>
-			void DebugDraw2DLine(const math::Vector3& startNDCPos, const math::Vector3& endNDCPos, eColor color, bool resizeByScreenRatio = true, bool drawInstantly = false);
+			void DebugDraw2DLine(const math::Vector3& startNDCPos, const math::Vector3& endNDCPos, eColor color, bool drawInstantly = false);
 	
 			/// <summary>
 			/// z value will be ignored
 			/// pass -1 ~ 1 ( NDC pos )
 			/// You Should pass triangle points ordered counter clockwise
 			/// </summary>
-			void DebugDraw2DTriangle(const math::Vector3& pointA, const math::Vector3& pointB, const math::Vector3& pointC, eColor color, bool resizeByScreenRatio = true, bool drawInstantly = false);
+			void DebugDraw2DTriangle(const math::Vector3& pointA, const math::Vector3& pointB, const math::Vector3& pointC, eColor color, bool drawInstantly = false);
 			
 
 			void SetDrawInstantlyMaterial(Material* material);

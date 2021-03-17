@@ -48,12 +48,12 @@ void doom::TEST::Init()
 // 			entity->AddComponent<BoxCollider3D>();
 // 		}
 // 	}
-	
-	for (int i = -50; i < 50; i = i + 10)
+	int count = 50;
+	for (int i = -count; i < count; i = i + 10)
 	{
-		for (int j = -50; j < 50; j = j + 10)
+		for (int j = -count; j < count; j = j + 10)
 		{
-			for (int k = -50; k < 50; k = k + 10)
+			for (int k = -count; k < count; k = k + 10)
 			{
 				auto entity = currenScene->CreateNewEntity();
 				entity->GetTransform()->SetScale(0.8f, 0.8f, 0.8f);

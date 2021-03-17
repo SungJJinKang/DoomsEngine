@@ -12,7 +12,7 @@ using namespace doom::graphics;
 using namespace DirectX;
 /*
 doom::asset::TextureAsset::TextureAsset(int width, int height, int componentCount, unsigned char* data, eTextureCompressionType compressionType)
-	: mWidth{ width }, mHeight{ height }, mDataComponentFormat{ static_cast<eTextureComponent>(componentCount) }, mTexturerCompressionType{ compressionType }, mData{ data }
+	: mNearWidth{ width }, mNearHeight{ height }, mDataComponentFormat{ static_cast<eTextureComponent>(componentCount) }, mTexturerCompressionType{ compressionType }, mData{ data }
 {
 
 }
@@ -20,8 +20,8 @@ doom::asset::TextureAsset::TextureAsset(int width, int height, int componentCoun
 
 doom::asset::TextureAsset::TextureAsset()
 {
-	this->mWidth = cmp_MipSet.m_nWidth;
-	this->mHeight = cmp_MipSet.m_nHeight;
+	this->mNearWidth = cmp_MipSet.m_nWidth;
+	this->mNearHeight = cmp_MipSet.m_nHeight;
 	this->mMipMapLevel = cmp_MipSet.m_nMipLevels;
 
 	this->bmIsCompressed = cmp_MipSet.m_compressed;

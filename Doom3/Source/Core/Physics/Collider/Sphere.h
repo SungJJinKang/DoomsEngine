@@ -8,6 +8,8 @@ namespace doom
 {
 	namespace physics
 	{
+		class AABB3D;
+
 		class Sphere : public Collider
 		{
 		private:
@@ -17,7 +19,10 @@ namespace doom
 			virtual void Render(eColor color, bool drawInstantly = false);
 
 		public:
+			Sphere();
 			Sphere(const math::Vector3& center, float radius);
+			Sphere(const AABB3D& aabb3D);
+			
 			math::Vector3 mCenter;
 			float mRadius;
 

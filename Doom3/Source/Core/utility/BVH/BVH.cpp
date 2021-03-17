@@ -574,12 +574,12 @@ void doom::BVH<AABB>::DebugBVHTree(node_type* node, float x, float y, int depth)
 	float offsetX = static_cast<float>(1.0f / (math::pow(2, depth + 1)));
 	if (node->mChild1 != NULL_NODE_INDEX)
 	{
-		graphics::DebugGraphics::GetSingleton()->DebugDraw2DLine({ x, y, 0 }, { x - offsetX, y - DebugBVHTreeOffsetY, 0 }, this->mTree.mNodes[node->mChild1].mIsLeaf == false ? eColor::Black : ((doom::BVH<AABB>::recentAddedLeaf.empty() == false && doom::BVH<AABB>::recentAddedLeaf.top() == node->mChild1) ? eColor::Red : eColor::Blue), false, true);
+		graphics::DebugGraphics::GetSingleton()->DebugDraw2DLine({ x, y, 0 }, { x - offsetX, y - DebugBVHTreeOffsetY, 0 }, this->mTree.mNodes[node->mChild1].mIsLeaf == false ? eColor::Black : ((doom::BVH<AABB>::recentAddedLeaf.empty() == false && doom::BVH<AABB>::recentAddedLeaf.top() == node->mChild1) ? eColor::Red : eColor::Blue), true);
 		DebugBVHTree(&(this->mTree.mNodes[node->mChild1]), x - offsetX, y - DebugBVHTreeOffsetY, depth + 1);
 	}
 	if (node->mChild2 != NULL_NODE_INDEX)
 	{
-		graphics::DebugGraphics::GetSingleton()->DebugDraw2DLine({ x, y, 0 }, { x + offsetX, y - DebugBVHTreeOffsetY, 0 }, this->mTree.mNodes[node->mChild2].mIsLeaf == false ? eColor::Black : ((doom::BVH<AABB>::recentAddedLeaf.empty() == false && doom::BVH<AABB>::recentAddedLeaf.top() == node->mChild2) ? eColor::Red : eColor::Blue), false, true);
+		graphics::DebugGraphics::GetSingleton()->DebugDraw2DLine({ x, y, 0 }, { x + offsetX, y - DebugBVHTreeOffsetY, 0 }, this->mTree.mNodes[node->mChild2].mIsLeaf == false ? eColor::Black : ((doom::BVH<AABB>::recentAddedLeaf.empty() == false && doom::BVH<AABB>::recentAddedLeaf.top() == node->mChild2) ? eColor::Red : eColor::Blue), true);
 		DebugBVHTree(&(this->mTree.mNodes[node->mChild2]), x + offsetX, y - DebugBVHTreeOffsetY, depth + 1);
 	}
 }

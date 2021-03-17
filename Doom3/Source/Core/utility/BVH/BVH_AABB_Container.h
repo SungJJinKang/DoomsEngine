@@ -49,7 +49,7 @@ namespace doom
 		const AABB& GetWorldBVhAABB3DCacheByReference();
 		void UpdateWorldBVhAABBCache(bool force);
 
-		void DrawWorldBVhAABBCache(eColor color = eColor::Green);
+		void DrawWorldBVhAABBCache(eColor color = eColor::Green, bool drawInstantly = false);
 	};
 	
 	extern template class BVH_AABB_Container<doom::physics::AABB2D>;

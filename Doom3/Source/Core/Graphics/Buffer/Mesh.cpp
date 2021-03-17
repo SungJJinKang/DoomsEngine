@@ -240,6 +240,7 @@ void doom::graphics::Mesh::BufferDataFromModelMesh(const ThreeDModelMesh& threeD
 	this->mPrimitiveType = threeDModelMesh.mPrimitiveType;
 
 	this->mAABB3D = threeDModelMesh.mAABB3D;
+	this->mSphere = threeDModelMesh.mSphere;
 
 	D_ASSERT(this->mPrimitiveType != ePrimitiveType::NONE);
 }

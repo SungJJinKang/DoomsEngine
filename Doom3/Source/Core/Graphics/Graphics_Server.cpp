@@ -31,7 +31,7 @@ void Graphics_Server::Init()
 	Graphics_Server::MultiSamplingNum = ConfigData::GetSingleton()->GetConfigData().GetValue<int>("Graphics", "MULTI_SAMPLE");
 
 	Graphics_Server::ScreenSize = { width, height };
-	Graphics_Server::ScreenRatio = static_cast<float>(height) / static_cast<float>(width);
+	Graphics_Server::ScreenRatio = static_cast<float>(width) / static_cast<float>(height);
 	
 	this->InitGLFW();
 	return;
@@ -77,6 +77,10 @@ void Graphics_Server::OnEndOfFrame()
 	}
 
 #ifdef DEBUG_MODE
+	if (userinput::UserInput_Server::GetKeyToggle(eKEY_CODE::KEY_F3))
+	{
+		D_DEBUG_LOG(std::to_string(GraphicsAPI::DrawCallCounter), eLogType::D_ALWAYS);
+	}
 	GraphicsAPI::DrawCallCounter = 0;
 #endif
 	glfwSwapBuffers(Graphics_Server::Window);
@@ -154,7 +158,7 @@ void Graphics_Server::InitGLFW()
 	std::string vendor{ GraphicsAPI::GetString(GraphicsAPI::GetStringParameter::VENDOR) };
 	if (vendor.find("ATI") != std::string::npos)
 	{
-		D_DEBUG_LOG("Using AMD on board GPU, Maybe This will make driver error", eLogType::D_ERROR);
+	D_DEBUG_LOG("Using AMD on board GPU, Maybe This will make driver error", eLogType::D_ERROR);
 	}
 #endif // 
 
@@ -175,13 +179,15 @@ void Graphics_Server::InitGLFW()
 
 	GraphicsAPI::FrontFace(GraphicsAPI::eFrontFaceMode::CCW);
 
+	glfwSwapInterval(0); // disable v-sync
+
 #ifdef DEBUG_MODE
 	GraphicsAPI::Enable(GraphicsAPI::eCapability::DEBUG_OUTPUT);
 	GraphicsAPI::Enable(GraphicsAPI::eCapability::DEBUG_OUTPUT_SYNCHRONOUS);
 
 	glDebugMessageCallback(Graphics_Server::OpenGlDebugCallback, NULL);
 #endif
-	
+
 	int maxTextureUnitCount{ 0 };
 	glGetIntegerv(GL_MAX_TEXTURE_IMAGE_UNITS, &maxTextureUnitCount);
 	D_ASSERT(maxTextureUnitCount != 0);
@@ -222,7 +228,7 @@ void doom::graphics::Graphics_Server::InitFrameBufferForDeferredRendering()
 	this->mGbufferDrawerMaterial.AddTexture(0, &this->mFrameBufferForDeferredRendering.GetFrameBufferTexture(GraphicsAPI::eBufferType::COLOR, 0));
 	this->mGbufferDrawerMaterial.AddTexture(1, &this->mFrameBufferForDeferredRendering.GetFrameBufferTexture(GraphicsAPI::eBufferType::COLOR, 1));
 	this->mGbufferDrawerMaterial.AddTexture(2, &this->mFrameBufferForDeferredRendering.GetFrameBufferTexture(GraphicsAPI::eBufferType::COLOR, 2));
-	
+
 }
 
 void doom::graphics::Graphics_Server::DeferredRendering()
@@ -250,10 +256,16 @@ void doom::graphics::Graphics_Server::DeferredRendering()
 		size_t length = rendererComponentPair.second;
 		for (size_t i = 0; i < length; ++i)
 		{
-			renderers[i]->UpdateComponent_Internal();
-			renderers[i]->UpdateComponent();
-			renderers[i]->Draw();
+			
+			if (this->mViewFrustumCulling.IsInFrustum(renderers[i]->GetBoudingSphere()) == true)
+			{
+				renderers[i]->UpdateComponent_Internal();
+				renderers[i]->UpdateComponent();
+				renderers[i]->Draw();
+			}
 		}
+
+
 	}
 	
 	FrameBuffer::UnBindFrameBuffer();

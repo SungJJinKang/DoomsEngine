@@ -6,6 +6,7 @@
 #include "../OverlapBindChecker.h"
 #include "../ePrimitiveType.h"
 #include <Physics/Collider/AABB.h>
+#include <Physics/Collider/Sphere.h>
 
 #include "../GraphicsAPI.h"
 #include <Vector2.h>
@@ -71,6 +72,7 @@ namespace doom
 			/// this is local coordinate, you should map to your world coordinate
 			/// </summary>
 			physics::AABB3D mAABB3D;
+			physics::Sphere mSphere;
 
 		protected:
 			void GenMeshBuffer(bool hasIndice);

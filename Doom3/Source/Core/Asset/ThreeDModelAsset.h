@@ -10,6 +10,7 @@
 #include "../Graphics/ePrimitiveType.h"
 #include <optional>
 #include <Physics/Collider/AABB.h>
+#include <Physics/Collider/Sphere.h>
 
 using namespace math;
 
@@ -85,6 +86,7 @@ namespace doom
 		std::unique_ptr<MeshVertexData[]> mMeshVertexDatas;
 
 		physics::AABB3D mAABB3D;
+		physics::Sphere mSphere;
 
 		ThreeDModelMesh() = default;
 		ThreeDModelMesh(const ThreeDModelMesh&) = delete;

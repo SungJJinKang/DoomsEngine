@@ -42,9 +42,9 @@ const AABB& doom::BVH_AABB_Container<AABB>::GetWorldBVhAABB3DCacheByReference()
 }
 
 template<typename AABB>
-void doom::BVH_AABB_Container<AABB>::DrawWorldBVhAABBCache(eColor color)
+void doom::BVH_AABB_Container<AABB>::DrawWorldBVhAABBCache(eColor color, bool drawInstantly)
 {
-	this->mWorldBVhAABBCache.DrawPhysicsDebugColor(color);
+	this->mWorldBVhAABBCache.DrawPhysicsDebugColor(color, drawInstantly);
 }
 
 

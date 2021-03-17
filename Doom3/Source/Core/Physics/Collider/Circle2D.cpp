@@ -18,7 +18,7 @@ void doom::physics::Circle2D::Render(eColor color, bool drawInstantly /*= false*
 			this->mCenter.y + this->mRadius * math::sin(radian + intervalRadian),
 			0
 		};
-		debugGraphics->DebugDraw2DLine(newPoint, exPoint, color, true, drawInstantly);
+		debugGraphics->DebugDraw2DLine(newPoint, exPoint, color, drawInstantly);
 
 		exPoint = newPoint;
 	}

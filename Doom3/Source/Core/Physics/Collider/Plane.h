@@ -16,12 +16,16 @@ namespace doom
 			virtual void Render(eColor color, bool drawInstantly = false);
 
 		public:
+			/// <summary>
+			/// can be negative value
+			/// </summary>
 			float mDistance;
 
 			Plane(float distance, const math::Vector3& normal);
 			Plane(const math::Vector3& A, const math::Vector3& B, const math::Vector3& C);
 
-			math::Vector3 GetNormal() const;
+			math::Vector3 GetNormal();
+			const math::Vector3& GetNormal() const;
 
 			ColliderType GetColliderType() const override;
 

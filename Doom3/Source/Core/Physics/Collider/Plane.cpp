@@ -15,8 +15,12 @@ doom::physics::Plane::Plane(const math::Vector3& A, const math::Vector3& B, cons
 	this->mDistance = math::dot(this->mNormal, A);
 }
 
+math::Vector3 doom::physics::Plane::GetNormal()
+{
+	return this->mNormal;
+}
 
-math::Vector3 doom::physics::Plane::GetNormal() const
+const math::Vector3& doom::physics::Plane::GetNormal() const
 {
 	return this->mNormal;
 }

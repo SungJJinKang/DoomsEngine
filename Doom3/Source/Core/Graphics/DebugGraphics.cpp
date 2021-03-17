@@ -191,39 +191,15 @@ void doom::graphics::DebugGraphics::DebugDraw3DLine(const math::Vector3& startWo
 /// <param name="startNDCPos"></param>
 /// <param name="endNDCPos"></param>
 /// <param name="color"></param>
-void doom::graphics::DebugGraphics::DebugDraw2DLine(const math::Vector3& startNDCPos, const math::Vector3& endNDCPos, eColor color, bool resizeByScreenRatio /*= true*/, bool drawInstantly /*= false*/)
+void doom::graphics::DebugGraphics::DebugDraw2DLine(const math::Vector3& startNDCPos, const math::Vector3& endNDCPos, eColor color, bool drawInstantly /*= false*/)
 {
 	if (drawInstantly == false)
 	{
-		if (resizeByScreenRatio)
-		{
-			float screenRatio = Graphics_Server::GetScreenRatio();
-			math::Vector3 newStartNDCPos{ startNDCPos.x * screenRatio , startNDCPos.y, startNDCPos.z };
-			math::Vector3 newEndNDCPos{ endNDCPos.x * screenRatio , endNDCPos.y, endNDCPos.z };
-
-			this->m2dLine[static_cast<unsigned int>(color)].emplace_back(newStartNDCPos, newEndNDCPos);
-		}
-		else
-		{
-			this->m2dLine[static_cast<unsigned int>(color)].emplace_back(startNDCPos, startNDCPos);
-		}
+		this->m2dLine[static_cast<unsigned int>(color)].emplace_back(startNDCPos, startNDCPos);
 	}
 	else
 	{
-		if (resizeByScreenRatio)
-		{
-			float screenRatio = Graphics_Server::GetScreenRatio();
-			math::Vector3 newStartNDCPos{ startNDCPos.x * screenRatio , startNDCPos.y, startNDCPos.z };
-			math::Vector3 newEndNDCPos{ endNDCPos.x * screenRatio , endNDCPos.y, endNDCPos.z };
-
-			this->DebugDraw2DLineInstantly(newStartNDCPos, newEndNDCPos, color);
-		}
-		else
-		{
-			this->DebugDraw2DLineInstantly(startNDCPos, endNDCPos, color);
-		}
-
-		
+		this->DebugDraw2DLineInstantly(startNDCPos, endNDCPos, color);
 	}
 }
 
@@ -268,39 +244,15 @@ void doom::graphics::DebugGraphics::DebugDraw2DTriangleInstantly(const math::Vec
 	this->mDebugMesh.DrawArray(ePrimitiveType::TRIANGLES, 0, 3);
 }
 
-void doom::graphics::DebugGraphics::DebugDraw2DTriangle(const math::Vector3& pointA, const math::Vector3& pointB, const math::Vector3& pointC, eColor color, bool resizeByScreenRatio /*= true*/, bool drawInstantly /*= false*/)
+void doom::graphics::DebugGraphics::DebugDraw2DTriangle(const math::Vector3& pointA, const math::Vector3& pointB, const math::Vector3& pointC, eColor color, bool drawInstantly /*= false*/)
 {
 	if (drawInstantly == false)
 	{
-		if (resizeByScreenRatio)
-		{
-			float screenRatio = Graphics_Server::GetScreenRatio();
-			math::Vector3 newPointA{ pointA.x * screenRatio , pointA.y, pointA.z };
-			math::Vector3 newPointB{ pointB.x * screenRatio , pointB.y, pointB.z };
-			math::Vector3 newPointC{ pointC.x * screenRatio , pointC.y, pointC.z };
-
-			this->m2dTriangle[static_cast<unsigned int>(color)].emplace_back(newPointA, newPointB, newPointC);
-		}
-		else
-		{
-			this->m2dTriangle[static_cast<unsigned int>(color)].emplace_back(pointA, pointB, pointC);
-		}
+		this->m2dTriangle[static_cast<unsigned int>(color)].emplace_back(pointA, pointB, pointC);
 	}
 	else
 	{
-		if (resizeByScreenRatio)
-		{
-			float screenRatio = Graphics_Server::GetScreenRatio();
-			math::Vector3 newPointA{ pointA.x * screenRatio , pointA.y, pointA.z };
-			math::Vector3 newPointB{ pointB.x * screenRatio , pointB.y, pointB.z };
-			math::Vector3 newPointC{ pointC.x * screenRatio , pointC.y, pointC.z };
-
-			this->DebugDraw2DTriangleInstantly(newPointA, newPointB, newPointC, color);
-		}
-		else
-		{
-			this->DebugDraw2DTriangleInstantly(pointA, pointB, pointC, color);
-		}
+		this->DebugDraw2DTriangleInstantly(pointA, pointB, pointC, color);
 	}
 }
 

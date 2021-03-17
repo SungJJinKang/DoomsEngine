@@ -57,7 +57,7 @@ float doom::physics::DistanceFromAABBToPlane(const AABB3D& aabb, const Plane& pl
 bool doom::physics::IsOverlapAABB3DAndPlane(const AABB3D& aabb, const Plane& plane)
 {
 	const math::Vector3 positiveExtent = aabb.GetHalfExtent();
-
+	 
 	const math::Vector3 normalOfPlane = plane.GetNormal();
 	float r = positiveExtent.x * math::abs(normalOfPlane.x)
 		+ positiveExtent.y * math::abs(normalOfPlane.y)
@@ -68,6 +68,16 @@ bool doom::physics::IsOverlapAABB3DAndPlane(const AABB3D& aabb, const Plane& pla
 }
 
 
+
+float doom::physics::DistanceFromPointToPlane(const math::Vector3& point, const Plane& plane)
+{
+	return math::dot(plane.GetNormal(), point) - plane.mDistance;
+}
+
+bool doom::physics::IsOverlapPointAndPlane(const math::Vector3& point, const Plane& plane)
+{
+	return math::abs(DistanceFromPointToPlane(point, plane)) < math::epsilon<float>();
+}
 
 bool doom::physics::IsOverlapAABB3DAndPlane(Collider* aabb, Collider* plane)
 {

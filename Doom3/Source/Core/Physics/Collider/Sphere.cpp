@@ -1,5 +1,8 @@
 #include "Sphere.h"
 #include "../Graphics/DebugGraphics.h"
+
+#include "AABB.h"
+
 void doom::physics::Sphere::Render(eColor color, bool drawInstantly /*= false*/)
 {
 	auto debugGraphics = graphics::DebugGraphics::GetSingleton();
@@ -57,13 +60,23 @@ void doom::physics::Sphere::Render(eColor color, bool drawInstantly /*= false*/)
 
 }
 
+doom::physics::Sphere::Sphere()
+	:mCenter{}, mRadius{}
+{
+
+}
+
+doom::physics::Sphere::Sphere(const AABB3D& aabb3D)
+	: mCenter{ (aabb3D.mUpperBound + aabb3D.mLowerBound) * 0.5f }, mRadius{ ((aabb3D.mUpperBound - aabb3D.mLowerBound) * 0.5f).magnitude() }
+{
+
+}
+
 doom::physics::Sphere::Sphere(const math::Vector3& center, float radius)
 	:mCenter{ center }, mRadius{ radius }
 {
 	
 }
-
-
 
 doom::physics::ColliderType doom::physics::Sphere::GetColliderType() const
 {

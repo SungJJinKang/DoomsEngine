@@ -31,10 +31,10 @@ void doom::physics::AABB2D::Render(eColor color, bool drawInstantly /*= false*/)
 	math::Vector3 x{ this->mUpperBound.x - this->mLowerBound.x, 0, 0 };
 	math::Vector3 y{ 0, this->mUpperBound.y - this->mLowerBound.y, 0 };
 
-	debugGraphics->DebugDraw2DLine(this->mLowerBound, this->mLowerBound + x, color, false, drawInstantly);
-	debugGraphics->DebugDraw2DLine(this->mLowerBound, this->mLowerBound + y, color, false, drawInstantly);
-	debugGraphics->DebugDraw2DLine(this->mLowerBound + x, this->mLowerBound + x + y, color, false, drawInstantly);
-	debugGraphics->DebugDraw2DLine(this->mLowerBound + y, this->mLowerBound + y + x, color, false, drawInstantly);
+	debugGraphics->DebugDraw2DLine(this->mLowerBound, this->mLowerBound + x, color, drawInstantly);
+	debugGraphics->DebugDraw2DLine(this->mLowerBound, this->mLowerBound + y, color, drawInstantly);
+	debugGraphics->DebugDraw2DLine(this->mLowerBound + x, this->mLowerBound + x + y, color, drawInstantly);
+	debugGraphics->DebugDraw2DLine(this->mLowerBound + y, this->mLowerBound + y + x, color, drawInstantly);
 
 }
 
@@ -102,10 +102,10 @@ void doom::physics::AABB3D::Render2DTopView(eColor color, bool drawInstantly /*=
 	math::Vector3 width{ this->mUpperBound.x - this->mLowerBound.x, 0.0f, 0.0f };
 	math::Vector3 height{ 0.0f, this->mUpperBound.z - this->mLowerBound.z, 0.0f };
 
-	debugGraphics->DebugDraw2DLine(lower, lower + width, color, false, drawInstantly);
-	debugGraphics->DebugDraw2DLine(lower + width, lower + width + height, color, false, drawInstantly);
-	debugGraphics->DebugDraw2DLine(lower , lower + height, color, false, drawInstantly);
-	debugGraphics->DebugDraw2DLine(lower + height, lower + width + height, color, false, drawInstantly);
+	debugGraphics->DebugDraw2DLine(lower, lower + width, color, drawInstantly);
+	debugGraphics->DebugDraw2DLine(lower + width, lower + width + height, color, drawInstantly);
+	debugGraphics->DebugDraw2DLine(lower , lower + height, color, drawInstantly);
+	debugGraphics->DebugDraw2DLine(lower + height, lower + width + height, color, drawInstantly);
 }
 
 doom::physics::ColliderType doom::physics::AABB3D::GetColliderType() const

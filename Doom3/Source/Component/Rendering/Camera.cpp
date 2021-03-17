@@ -4,6 +4,7 @@
 #include "../Core/Math/LightMath_Cpp/Vector3.h"
 #include "Transform.h"
 #include "../Graphics/Graphics_Server.h"
+#include "../Graphics/Acceleration/ViewFrustumCulling.h"
 
 using namespace doom;
 
@@ -15,9 +16,19 @@ void Camera::SetProjectionMode(eProjectionType value)
 	this->bmIsViewProjectionMatrixDirty = true;
 }
 
-void Camera::SetFieldOfView(float value)
+void Camera::SetFieldOfViewInDegree(float degree)
 {
-	this->mFieldOfViewInDegree = value;
+	this->mFieldOfViewInDegree = degree;
+	this->mFieldOfViewInRadian = degree * math::DEGREE_TO_RADIAN;
+	this->SetDirtyTrueAtThisFrame();
+	this->bmIsProjectionMatrixDirty = true;
+	this->bmIsViewProjectionMatrixDirty = true;
+}
+
+void Camera::SetFieldOfViewInRadian(float radian)
+{
+	this->mFieldOfViewInDegree = radian * math::RADIAN_TO_DEGREE;
+	this->mFieldOfViewInRadian = radian;
 	this->SetDirtyTrueAtThisFrame();
 	this->bmIsProjectionMatrixDirty = true;
 	this->bmIsViewProjectionMatrixDirty = true;
@@ -76,9 +87,14 @@ doom::Camera::eProjectionType Camera::GetProjectionMode() const
 	return this->mProjectionMode;
 }
 
-float Camera::GetFieldOfView() const
+float Camera::GetFieldOfViewInDegree() const
 {
 	return this->mFieldOfViewInDegree;
+}
+
+float Camera::GetFieldOfViewInRadian() const
+{
+	return this->mFieldOfViewInRadian;
 }
 
 float Camera::GetClippingPlaneNear() const
@@ -237,11 +253,13 @@ const math::Matrix4x4& doom::Camera::GetProjectionMatrix()
 	{
 		if (this->mProjectionMode == eProjectionType::Perspective)
 		{
-			this->mProjectionMatrix = math::perspectiveFov(math::DEGREE_TO_RADIAN * this->mFieldOfViewInDegree, static_cast<float>(doom::graphics::Graphics_Server::GetScreenWidth()), static_cast<float>(doom::graphics::Graphics_Server::GetScreenHeight()), this->mClippingPlaneNear, this->mClippingPlaneFar);
+			this->mProjectionMatrix = math::perspectiveFov(this->mFieldOfViewInRadian, static_cast<float>(doom::graphics::Graphics_Server::GetScreenWidth()), static_cast<float>(doom::graphics::Graphics_Server::GetScreenHeight()), this->mClippingPlaneNear, this->mClippingPlaneFar);
+			graphics::ViewFrustumCulling::GetSingleton()->SetCamera(this->mFieldOfViewInRadian, doom::graphics::Graphics_Server::GetScreenRatio(), this->mClippingPlaneNear, this->mClippingPlaneFar);
 		}
 		else
 		{
 			this->mProjectionMatrix = math::ortho(this->mViewportRectX, this->mViewportRectX + this->mViewportRectWidth, this->mViewportRectY, this->mViewportRectY + this->mViewportRectHeight, this->mClippingPlaneNear, this->mViewportRectHeight);
+			graphics::ViewFrustumCulling::GetSingleton()->SetCamera(180.0f * math::DEGREE_TO_RADIAN, doom::graphics::Graphics_Server::GetScreenRatio(), this->mClippingPlaneNear, this->mClippingPlaneFar);
 		}
 
 	}
@@ -255,7 +273,11 @@ const math::Matrix4x4& Camera::GetViewMatrix()
 	{
 		auto transform = this->GetTransform();
 		auto pos = transform->GetPosition();
-		this->mViewMatrix = math::lookAt(pos, pos + transform->forward(), transform->up());
+		auto forward = transform->forward();
+		auto up = transform->up();
+		this->mViewMatrix = math::lookAt(pos, pos + forward, up);
+		graphics::ViewFrustumCulling::GetSingleton()->UpdateLookAt(pos, forward, up);
+
 	}
 
 	return this->mViewMatrix;

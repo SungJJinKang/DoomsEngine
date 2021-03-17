@@ -7,7 +7,8 @@ void doom::Renderer::InitComponent()
 	RendererComponentStaticIterator::AddRendererToStaticContainer();
 
 	this->AddLocalDirtyToTransformDirtyReceiver(this->IsWorldBVhAABBCacheDirty);
-	this->InsertBVHLeafNode(graphics::Graphics_Server::GetSingleton()->mViewFrustumCulling.mViewFrustumBVH, this->GetWorldBVhAABB3DCacheByReference(), nullptr);
+	this->AddLocalDirtyToTransformDirtyReceiver(this->mIsBoundingSphereDirty);
+	//this->InsertBVHLeafNode(graphics::Graphics_Server::GetSingleton()->mViewFrustumCulling.mViewFrustumBVH, this->GetWorldBVhAABB3DCacheByReference(), nullptr);
 }
 
 const math::Matrix4x4& doom::Renderer::GetModelMatrix() const
@@ -31,6 +32,16 @@ void doom::Renderer::BindMaterial() noexcept
 void doom::Renderer::SetMaterial(graphics::Material* material) noexcept
 {
 	this->mTargetMaterial = material;
+}
+
+const doom::physics::Sphere& doom::Renderer::GetBoudingSphere()
+{
+	this->UpdateWorldBVhAABBCache(false);
+	if (mIsBoundingSphereDirty.GetIsDirty(true) == true)
+	{
+		this->mBoundingSphere = this->GetWorldBVhAABB3DCacheByReference();
+	}
+	return this->mBoundingSphere;
 }
 
 void doom::Renderer::SetMaterial(graphics::Material& material) noexcept

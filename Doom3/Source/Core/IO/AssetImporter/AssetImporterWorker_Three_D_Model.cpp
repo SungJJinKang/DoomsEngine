@@ -202,6 +202,7 @@ void doom::assetimporter::AssetImporterWorker<::doom::asset::eAssetType::THREE_D
 		//because mAABB is virtual class, it has virtual table pointer internally ( we can't access )
 		//so if you access to mAABB3D, virtual table pointer take up foremost 4 byte of mAABB3D
 		std::memmove(&(asset.mModelMeshAssets[meshIndex].mAABB3D.mLowerBound), &(mesh->mAABB), sizeof(math::Vector3) * 2);
+		asset.mModelMeshAssets[meshIndex].mSphere.mRadius = (asset.mModelMeshAssets[meshIndex].mAABB3D.mUpperBound - asset.mModelMeshAssets[meshIndex].mAABB3D.mLowerBound).magnitude() * 0.5f;
 
 		switch (mesh->mPrimitiveTypes)
 		{

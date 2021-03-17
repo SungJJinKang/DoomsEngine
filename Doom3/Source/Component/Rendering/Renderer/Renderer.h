@@ -10,6 +10,8 @@
 
 #include "Graphics/Graphics_Server.h"
 
+#include <Physics/Collider/Sphere.h>
+
 namespace doom
 {
 	namespace graphics
@@ -38,6 +40,9 @@ namespace doom
 	protected:
 		
 		graphics::Material* mTargetMaterial;
+
+		DirtyReceiver mIsBoundingSphereDirty{ true };
+		physics::Sphere mBoundingSphere{};
 
 		virtual void InitComponent() override;
 		virtual void UpdateComponent() override
@@ -72,5 +77,7 @@ namespace doom
 		void BindMaterial() noexcept;
 		void SetMaterial(graphics::Material* material) noexcept;
 		void SetMaterial(graphics::Material& material) noexcept;
+
+		const physics::Sphere& GetBoudingSphere();
 	};
 }

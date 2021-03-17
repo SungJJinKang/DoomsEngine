@@ -28,7 +28,15 @@ namespace doom
 		bool IsOverlapAABB3DAndPlane(const AABB3D& aabb, const Plane& plane);
 		bool IsOverlapAABB3DAndPlane(Collider* aabb, Collider* plane);
 
-
+		/// <summary>
+		/// if return positive value, point is on normal side of plane,
+		/// otherwise
+		/// </summary>
+		/// <param name="point"></param>
+		/// <param name="plane"></param>
+		/// <returns></returns>
+		float DistanceFromPointToPlane(const math::Vector3& point, const Plane& plane);
+		bool IsOverlapPointAndPlane(const math::Vector3& point, const Plane& plane);
 
 		float RaycastRayAndAABB3D(const Ray& rayCollider, const AABB3D& aabbCollider);
 		float RaycastRayAndSphere(const Ray& ray, const Sphere& sphere);

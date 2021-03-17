@@ -15,7 +15,7 @@
 #include "Material.h"
 #include "DebugGraphics.h"
 
-#include "ViewFrustumCulling.h"
+#include "Acceleration/ViewFrustumCulling.h"
 
 struct GLFWwindow;
 
@@ -61,7 +61,7 @@ namespace doom
 			static inline GLFWwindow* Window{};
 			static inline math::Vector<2, int> ScreenSize{};
 			/// <summary>
-			/// ScreenSize Height / ScreenSize Width
+			/// ScreenSize Width / ScreenSize Height
 			/// </summary>
 			static inline float ScreenRatio{};
 			static inline unsigned int MultiSamplingNum;

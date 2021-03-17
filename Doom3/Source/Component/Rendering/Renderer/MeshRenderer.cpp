@@ -16,6 +16,7 @@ void doom::MeshRenderer::SetMesh(graphics::Mesh* mesh)
 		/// </summary>
 		/// <param name="mesh"></param>
 		this->UpdateLocalBVhAABBCache(this->mTargetMesh->GetAABB());
+		mIsBoundingSphereDirty.SetDirty(true);
 	}
 	else
 	{

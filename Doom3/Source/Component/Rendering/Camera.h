@@ -35,6 +35,7 @@ namespace doom
 
 		///
 		float mFieldOfViewInDegree = 60;
+		float mFieldOfViewInRadian = mFieldOfViewInDegree * math::DEGREE_TO_RADIAN;
 
 		float mClippingPlaneNear = 0.1f;
 		float mClippingPlaneFar = 1000.0f;
@@ -85,7 +86,8 @@ namespace doom
 		virtual ~Camera() = default;
 
 		void SetProjectionMode(eProjectionType value);
-		void SetFieldOfView(float value);
+		void SetFieldOfViewInDegree(float degree);
+		void SetFieldOfViewInRadian(float radian);
 		void SetClippingPlaneNear(float value);
 		void SetClippingPlaneFar(float value);
 		void SetViewportRectX(float value);
@@ -94,7 +96,8 @@ namespace doom
 		void SetViewportRectHeight(float value);
 
 		eProjectionType GetProjectionMode() const;
-		float GetFieldOfView() const;
+		float GetFieldOfViewInDegree() const;
+		float GetFieldOfViewInRadian() const;
 		float GetClippingPlaneNear() const;
 		float GetClippingPlaneFar() const;
 		float GetViewportRectX() const;
