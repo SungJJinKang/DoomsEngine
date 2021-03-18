@@ -75,7 +75,7 @@ namespace doom
 		/// <returns></returns>
 		virtual doom::physics::AABB3D ExtractLocalAABB3D() = 0;
 		/// <summary>
-		/// Call this function : UpdateLocalBVhAABBCache
+		/// Call this function : UpdateLocalBVhColliderCache
 		/// </summary>
 		void UpdateLocalBVhAABBCacheFromLocalCollider();
 		

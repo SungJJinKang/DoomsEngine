@@ -11,7 +11,7 @@ void doom::BoxCollider2D::UpdateWorldCollider()
 {
 	auto transform = this->GetTransform();
 
-	physics::ApplyModelMatrixToAABB(this->mLocalAABB2D, transform->GetModelMatrix(), this->mWorldAABB2D);
+	physics::AABB2D::ApplyModelMatrix(this->mLocalAABB2D, transform->GetModelMatrix(), this->mWorldAABB2D);
 }
 
 

@@ -181,6 +181,9 @@ namespace doom
 			const physics::AABB3D& GetAABB() const;
 			physics::AABB3D GetAABB();
 
+			const physics::Sphere& GetSphere() const;
+			physics::Sphere GetSphere();
+
 			unsigned int GetVertexArrayObjectID();
 			unsigned int GetElementBufferObjectID();
 		};

@@ -48,7 +48,7 @@ void doom::TEST::Init()
 // 			entity->AddComponent<BoxCollider3D>();
 // 		}
 // 	}
-	int count = 50;
+	int count = 80;
 	for (int i = -count; i < count; i = i + 10)
 	{
 		for (int j = -count; j < count; j = j + 10)

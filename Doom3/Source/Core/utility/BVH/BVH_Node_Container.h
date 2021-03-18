@@ -11,30 +11,30 @@ namespace doom
 		class Ray;
 	}
 
-	template <typename AABB>
+	template <typename ColliderType>
 	class BVH_Node;
 
-	template <typename AABB>
+	template <typename ColliderType>
 	class BVH_Node_Container
 	{
 	private:
 
-		BVH_Node<AABB>* mBVH_NODE{ nullptr };
+		BVH_Node<ColliderType>* mBVH_NODE{ nullptr };
 
 	protected:
 
-		void InsertBVHLeafNode(BVH<AABB>& BVH, const AABB& AABB, doom::physics::Collider* collider);
+		void InsertBVHLeafNode(BVH<ColliderType>& BVH, const ColliderType& Collider, doom::physics::Collider* collider);
 
 		/// <summary>
-		/// UpdateBVH_Node(const typename AABB::component_type& movedVector) is recommended than this function
+		/// UpdateBVH_Node(const typename ColliderType::component_type& movedVector) is recommended than this function
 		/// </summary>
-		/// <param name="AABB"></param>
-		void UpdateBVH_Node(const AABB& AABB);
+		/// <param name="ColliderType"></param>
+		void UpdateBVH_Node(const ColliderType& Collider);
 		/// <summary>
 		/// This function is recommended
 		/// </summary>
 		/// <param name="movedVector"></param>
-		//void UpdateBVH_Node(const typename AABB::component_type& movedVector);
+		//void UpdateBVH_Node(const typename ColliderType::component_type& movedVector);
 		void RemoveBVH_Node();
 
 	public:
@@ -54,7 +54,9 @@ namespace doom
 
 	using BVH_Node_Container2D = typename BVH_Node_Container<doom::physics::AABB2D>;
 	using BVH_Node_Container3D = typename BVH_Node_Container<doom::physics::AABB3D>;
+	using BVH_Node_ContainerSphere = typename BVH_Node_Container<doom::physics::Sphere>;
 
 	extern template class BVH_Node_Container<doom::physics::AABB2D>;
 	extern template class BVH_Node_Container<doom::physics::AABB3D>;
+	extern template class BVH_Node_Container<doom::physics::Sphere>;
 }

@@ -1,31 +1,31 @@
 #include "BVH_Node_Container.h"
 
 #include "BVH.h"
-template <typename AABB>
-void doom::BVH_Node_Container<AABB>::InsertBVHLeafNode(BVH<AABB>& BVH, const AABB& AABB, doom::physics::Collider* collider)
+template <typename ColliderType>
+void doom::BVH_Node_Container<ColliderType>::InsertBVHLeafNode(BVH<ColliderType>& BVH, const ColliderType& Collider, doom::physics::Collider* collider)
 {
 	D_ASSERT(this->mBVH_NODE == nullptr);
-	this->mBVH_NODE = BVH.InsertLeaf(AABB, collider);
+	this->mBVH_NODE = BVH.InsertLeaf(Collider, collider);
 }
 
-template <typename AABB>
-void doom::BVH_Node_Container<AABB>::UpdateBVH_Node(const AABB& AABB)
+template <typename ColliderType>
+void doom::BVH_Node_Container<ColliderType>::UpdateBVH_Node(const ColliderType& Collider)
 {
 	D_ASSERT(this->mBVH_NODE != nullptr);
-	this->mBVH_NODE = this->mBVH_NODE->UpdateAABB(AABB);
+	this->mBVH_NODE = this->mBVH_NODE->Update(Collider);
 }
 
 /*
-template <typename AABB>
-void doom::BVH_Node_Container<AABB>::UpdateBVH_Node(const typename AABB::component_type& movedVector)
+template <typename ColliderType>
+void doom::BVH_Node_Container<ColliderType>::UpdateBVH_Node(const typename ColliderType::component_type& movedVector)
 {
 	D_ASSERT(this->mBVH_NODE != nullptr);
-	this->mBVH_NODE = this->mBVH_NODE->UpdateAABB(movedVector);
+	this->mBVH_NODE = this->mBVH_NODE->Update(movedVector);
 }
 */
 
-template <typename AABB>
-void doom::BVH_Node_Container<AABB>::RemoveBVH_Node()
+template <typename ColliderType>
+void doom::BVH_Node_Container<ColliderType>::RemoveBVH_Node()
 {
 	if (this->mBVH_NODE != nullptr)
 	{
@@ -34,15 +34,15 @@ void doom::BVH_Node_Container<AABB>::RemoveBVH_Node()
 	}
 }
 
-template <typename AABB>
-doom::BVH_Node_Container<AABB>::~BVH_Node_Container()
+template <typename ColliderType>
+doom::BVH_Node_Container<ColliderType>::~BVH_Node_Container()
 {
 	this->RemoveBVH_Node();
 }
 
 
-template <typename AABB>
-bool doom::BVH_Node_Container<AABB>::RaycastToBVHNode(const physics::Ray& ray)
+template <typename ColliderType>
+bool doom::BVH_Node_Container<ColliderType>::RaycastToBVHNode(const physics::Ray& ray)
 {
 	D_ASSERT(this->mBVH_NODE != nullptr);
 	return this->mBVH_NODE->GetOwnerBVH()->BVHRayCast(ray);
@@ -50,4 +50,5 @@ bool doom::BVH_Node_Container<AABB>::RaycastToBVHNode(const physics::Ray& ray)
 
 template class doom::BVH_Node_Container<doom::physics::AABB2D>;
 template class doom::BVH_Node_Container<doom::physics::AABB3D>;
+template class doom::BVH_Node_Container<doom::physics::Sphere>;
 

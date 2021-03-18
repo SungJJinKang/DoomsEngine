@@ -257,7 +257,7 @@ void doom::graphics::Graphics_Server::DeferredRendering()
 		for (size_t i = 0; i < length; ++i)
 		{
 			
-			if (this->mViewFrustumCulling.IsInFrustum(renderers[i]->GetBoudingSphere()) == true)
+			if (this->mViewFrustumCulling.IsVisible(renderers[i]) == true)
 			{
 				renderers[i]->UpdateComponent_Internal();
 				renderers[i]->UpdateComponent();

@@ -31,7 +31,6 @@ void doom::TestComponent::UpdateComponent()
 	{
 		D_DEBUG_LOG(std::to_string(time::MainTimer::GetCurrentFrame()), eLogType::D_ALWAYS);
 	}
-
 }
 
 void doom::TestComponent::OnEndOfFrame_Component()

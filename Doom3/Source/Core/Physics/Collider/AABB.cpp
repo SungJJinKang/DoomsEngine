@@ -129,7 +129,7 @@ AABB3D doom::physics::AABB3D::EnlargeAABB(const AABB3D& aabb)
 ////////////////////////////////////////
 
 
-bool doom::physics::CheckIsAABBCompletlyEnclosed(const AABB2D& innerAABB, const AABB2D& outerAABB)
+bool doom::physics::AABB2D::CheckIsCompletlyEnclosed(const AABB2D& innerAABB, const AABB2D& outerAABB)
 {
 	return innerAABB.mLowerBound.x >= outerAABB.mLowerBound.x &&
 		innerAABB.mLowerBound.y >= outerAABB.mLowerBound.y &&
@@ -154,7 +154,7 @@ bool doom::physics::IsOverlapAABB2DAndAABB2D(Collider* aabb, Collider* B)
 	return IsOverlapAABB2DAndAABB2D(*static_cast<AABB2D*>(aabb), *static_cast<AABB2D*>(B));
 }
 
-bool doom::physics::CheckIsAABBCompletlyEnclosed(const AABB3D& innerAABB, const AABB3D& outerAABB)
+bool doom::physics::AABB3D::CheckIsCompletlyEnclosed(const AABB3D& innerAABB, const AABB3D& outerAABB)
 {
 	return innerAABB.mLowerBound.x >= outerAABB.mLowerBound.x &&
 		innerAABB.mLowerBound.y >= outerAABB.mLowerBound.y &&
@@ -216,7 +216,7 @@ math::Vector2 doom::physics::ClosestPointToPoint(const AABB2D& aabb, const math:
 }
 
 // this function is not tested
-void doom::physics::ApplyModelMatrixToAABB(const AABB2D& localAABB, const math::Matrix4x4& modelMatrix, AABB2D& resultAABB)
+void doom::physics::AABB2D::ApplyModelMatrix(const AABB2D& localAABB, const math::Matrix4x4& modelMatrix, AABB2D& resultAABB)
 {
 	for (int i = 0; i < 2; i++)
 	{
@@ -240,7 +240,7 @@ void doom::physics::ApplyModelMatrixToAABB(const AABB2D& localAABB, const math::
 	}
 }
 
-void doom::physics::ApplyModelMatrixToAABB(const AABB3D& localAABB, const math::Matrix4x4& modelMatrix, AABB3D& resultAABB)
+void doom::physics::AABB3D::ApplyModelMatrix(const AABB3D& localAABB, const math::Matrix4x4& modelMatrix, AABB3D& resultAABB)
 {
 	for (int i = 0; i < 3; i++)
 	{

@@ -26,8 +26,8 @@
 #endif
 
 
-template <typename AABB>
-bool doom::BVH<AABB>::BVHRayCast(const doom::physics::Ray & ray)
+template <typename ColliderType>
+bool doom::BVH<ColliderType>::BVHRayCast(const doom::physics::Ray & ray)
 
 {
 	std::stack<int> stack{};
@@ -37,16 +37,23 @@ bool doom::BVH<AABB>::BVHRayCast(const doom::physics::Ray & ray)
 		int index = stack.top();
 		stack.pop();
 
-		if constexpr (std::is_same_v<doom::physics::AABB2D, AABB> == true)
+		if constexpr (std::is_same_v<doom::physics::AABB2D, ColliderType> == true)
 		{
-			if (doom::physics::IsOverlapRayAndAABB2D(ray, this->mTree.mNodes[index].mAABB) == false)
+			if (doom::physics::IsOverlapRayAndAABB2D(ray, this->mTree.mNodes[index].mBoundingCollider) == false)
 			{// if don't hit with bounding box
 				continue;
 			}
 		}
-		else if (std::is_same_v<doom::physics::AABB3D, AABB> == true)
+		else if constexpr (std::is_same_v<doom::physics::AABB3D, ColliderType> == true)
 		{
-			if (doom::physics::IsOverlapRayAndAABB3D(ray, this->mTree.mNodes[index].mAABB) == false)
+			if (doom::physics::IsOverlapRayAndAABB3D(ray, this->mTree.mNodes[index].mBoundingCollider) == false)
+			{// if don't hit with bounding box
+				continue;
+			}
+		}
+		else if constexpr (std::is_same_v<doom::physics::Sphere, ColliderType> == true)
+		{
+			if (doom::physics::IsOverlapRayAndSphere(ray, this->mTree.mNodes[index].mBoundingCollider) == false)
 			{// if don't hit with bounding box
 				continue;
 			}
@@ -87,21 +94,21 @@ bool doom::BVH<AABB>::BVHRayCast(const doom::physics::Ray & ray)
 /// When new leaf node is added, Pick
 /// Added areas size of ancesters should be at least
 /// </summary>
-/// <typeparam name="AABB"></typeparam>
+/// <typeparam name="ColliderType"></typeparam>
 /// <param name="siblindInex"></param>
 /// <param name="computedAreaSize"></param>
 /// <returns></returns>
-template <typename AABB>
-int doom::BVH<AABB>::PickBest(const AABB& L)
+template <typename ColliderType>
+int doom::BVH<ColliderType>::PickBest(const ColliderType& L)
 {
 	//https://github.com/selimanac/DAABBCC/blob/v2.0/daabbcc/src/DynamicTree/b2DynamicTree.cpp
 
 
 	using node_priority_queue_type_t = typename std::priority_queue<NodeCost, std::vector<NodeCost>, std::greater<NodeCost>>;
 	node_priority_queue_type_t queue{};
-	queue.push(std::make_pair(this->mTree.mRootNodeIndex, InheritedCost(L, this->mTree.mNodes[this->mTree.mRootNodeIndex].mAABB)));
+	queue.push(std::make_pair(this->mTree.mRootNodeIndex, InheritedCost(L, this->mTree.mNodes[this->mTree.mRootNodeIndex].mBoundingCollider)));
 
-	float toInsertSurfaceArea = AABB::GetArea(L);
+	float toInsertSurfaceArea = ColliderType::GetArea(L);
 	float bestCost = math::infinity<float>();
 	int bestIndex = NULL_NODE_INDEX;
 	int searchIndex;
@@ -115,11 +122,11 @@ int doom::BVH<AABB>::PickBest(const AABB& L)
 		searchIndex = node.first;
 		searchInheritedCost = node.second;
 
-		AABB& search_aabb = this->mTree.mNodes[searchIndex].mAABB;
+		ColliderType& search_aabb = this->mTree.mNodes[searchIndex].mBoundingCollider;
 
 		//Why Get UnionArea L with Ancestors  ??
 		//If you want ancester's area of newly inserted node, you just be needed to compute unioned area with them
-		float cost = AABB::GetUnionArea(L, search_aabb) + searchInheritedCost;
+		float cost = ColliderType::GetUnionArea(L, search_aabb) + searchInheritedCost;
 		if (cost < bestCost) {
 			bestCost = cost;
 			bestIndex = searchIndex;
@@ -143,8 +150,8 @@ int doom::BVH<AABB>::PickBest(const AABB& L)
 	return bestIndex;
 }
 
-template<typename AABB>
-int doom::BVH<AABB>::AllocateNewNode()
+template<typename ColliderType>
+int doom::BVH<ColliderType>::AllocateNewNode()
 {
 	int newNodeIndex;
 	if (this->mTree.freedNodeIndexList.empty() == false)
@@ -169,16 +176,16 @@ int doom::BVH<AABB>::AllocateNewNode()
 	return newNodeIndex;
 }
 
-template <typename AABB>
-int doom::BVH<AABB>::AllocateLeafNode(const AABB& aabb, physics::Collider* collider)
+template <typename ColliderType>
+int doom::BVH<ColliderType>::AllocateLeafNode(const ColliderType& boundingCollider, physics::Collider* collider)
 {
 	int newNodexIndex = this->AllocateNewNode();
 	auto& newNode = this->mTree.mNodes[newNodexIndex];
 
 	newNode.mOwnerBVH = this;
-	//newNode.mCollider = collider;
-	newNode.mAABB = aabb;
-	newNode.mEnlargedAABB = AABB::EnlargeAABB(newNode.mAABB);
+	//newNode.mBoundingCollider = collider;
+	newNode.mBoundingCollider = boundingCollider;
+	newNode.mEnlargedBoundingCollider = ColliderType::EnlargeAABB(newNode.mBoundingCollider);
 
 	newNode.mCollider = collider;
 	newNode.mIsLeaf = true;
@@ -190,8 +197,8 @@ int doom::BVH<AABB>::AllocateLeafNode(const AABB& aabb, physics::Collider* colli
 	return newNode.mIndex;
 }
 
-template <typename AABB>
-int doom::BVH<AABB>::AllocateInternalNode()
+template <typename ColliderType>
+int doom::BVH<ColliderType>::AllocateInternalNode()
 {
 	int newNodexIndex = this->AllocateNewNode();
 	auto& newNode = this->mTree.mNodes[newNodexIndex];
@@ -204,8 +211,8 @@ int doom::BVH<AABB>::AllocateInternalNode()
 }
 
 
-template<typename AABB>
-void doom::BVH<AABB>::FreeNode(int nodeIndex)
+template<typename ColliderType>
+void doom::BVH<ColliderType>::FreeNode(int nodeIndex)
 {
 	D_ASSERT(nodeIndex != NULL_NODE_INDEX);
 	
@@ -215,8 +222,8 @@ void doom::BVH<AABB>::FreeNode(int nodeIndex)
 	this->mTree.freedNodeIndexList.push(nodeIndex);
 }
 
-template <typename AABB>
-int doom::BVH<AABB>::GetSibling(int index)
+template <typename ColliderType>
+int doom::BVH<ColliderType>::GetSibling(int index)
 {
 	D_ASSERT(index != NULL_NODE_INDEX);
 	int parentIndex = this->mTree.mNodes[index].mParentIndex;
@@ -240,15 +247,15 @@ int doom::BVH<AABB>::GetSibling(int index)
 	}
 }
 
-template <typename AABB>
-bool doom::BVH<AABB>::IsHasChild(int index)
+template <typename ColliderType>
+bool doom::BVH<ColliderType>::IsHasChild(int index)
 {
 	D_ASSERT(index != NULL_NODE_INDEX);
 	return (this->mTree.mNodes[index].mChild1 != NULL_NODE_INDEX) || (this->mTree.mNodes[index].mChild2 != NULL_NODE_INDEX);
 }
 
-template <typename AABB>
-typename doom::BVH<AABB>::node_type* doom::BVH<AABB>::InsertLeaf(const AABB& L, physics::Collider* collider)
+template <typename ColliderType>
+typename doom::BVH<ColliderType>::node_type* doom::BVH<ColliderType>::InsertLeaf(const ColliderType& L, physics::Collider* collider)
 {
 	int newObjectLeafIndex = AllocateLeafNode(L, collider);
 	if (this->mTree.mCurrentActiveNodeCount == 1)
@@ -272,8 +279,8 @@ typename doom::BVH<AABB>::node_type* doom::BVH<AABB>::InsertLeaf(const AABB& L, 
 		int oldParentIndex = this->mTree.mNodes[bestSibling].mParentIndex;
 		int newParentIndex = AllocateInternalNode();
 		this->mTree.mNodes[newParentIndex].mParentIndex = oldParentIndex;
-		this->mTree.mNodes[newParentIndex].mAABB = AABB::Union(L, this->mTree.mNodes[bestSibling].mAABB);
-		this->mTree.mNodes[newParentIndex].mEnlargedAABB = AABB::EnlargeAABB(this->mTree.mNodes[newParentIndex].mAABB);
+		this->mTree.mNodes[newParentIndex].mBoundingCollider = ColliderType::Union(L, this->mTree.mNodes[bestSibling].mBoundingCollider);
+		this->mTree.mNodes[newParentIndex].mEnlargedBoundingCollider = ColliderType::EnlargeAABB(this->mTree.mNodes[newParentIndex].mBoundingCollider);
 
 		if (oldParentIndex != NULL_NODE_INDEX)
 		{
@@ -308,19 +315,19 @@ typename doom::BVH<AABB>::node_type* doom::BVH<AABB>::InsertLeaf(const AABB& L, 
 	return &(this->mTree.mNodes[newObjectLeafIndex]);
 }
 
-template <typename AABB>
-typename doom::BVH<AABB>::node_type* doom::BVH<AABB>::UpdateLeafNode(node_type* targetLeafNode, bool force)
+template <typename ColliderType>
+typename doom::BVH<ColliderType>::node_type* doom::BVH<ColliderType>::UpdateLeafNode(node_type* targetLeafNode, bool force)
 {
 	D_ASSERT(targetLeafNode != nullptr);
 	D_ASSERT(targetLeafNode->mIsLeaf == true);
 
-	if (physics::CheckIsAABBCompletlyEnclosed(targetLeafNode->mAABB, targetLeafNode->mEnlargedAABB) == false || force == true)
+	if (ColliderType::CheckIsCompletlyEnclosed(targetLeafNode->mBoundingCollider, targetLeafNode->mEnlargedBoundingCollider) == false || force == true)
 	{
 		D_DEBUG_LOG("Update Leaf Node!!!", eLogType::D_ALWAYS);
 		//we will remove node and re-insert node
-		//you don't need reset mEnlargedAABB at here
+		//you don't need reset mEnlargedBoundingCollider at here
 		this->RemoveLeafNode(targetLeafNode);
-		return this->InsertLeaf(targetLeafNode->mAABB, targetLeafNode->mCollider);
+		return this->InsertLeaf(targetLeafNode->mBoundingCollider, targetLeafNode->mCollider);
 	}
 	else
 	{
@@ -329,25 +336,25 @@ typename doom::BVH<AABB>::node_type* doom::BVH<AABB>::UpdateLeafNode(node_type* 
 }
 
 /// <summary>
-/// When union with new aabb,
-/// How much is AABB larger than before
+/// When union with new boundingCollider,
+/// How much is ColliderType larger than before
 /// 
 /// https://box2d.org/files/ErinCatto_DynamicBVH_Full.pdf 77p
-/// SA mean area of aabb
+/// SA mean area of boundingCollider
 /// 세모SA(Node) = SA(Node U L) - SA(Node)  -----> 한 AABB에서 새 AABB를 합치면 얼만큼 Area가 추가되는지
 /// </summary>
-/// <typeparam name="AABB"></typeparam>
+/// <typeparam name="ColliderType"></typeparam>
 /// <param name="L"></param>
 /// <param name="candidate"></param>
 /// <returns></returns>
-template <typename AABB>
-float doom::BVH<AABB>::InheritedCost(const AABB& L, const AABB& candidate)
+template <typename ColliderType>
+float doom::BVH<ColliderType>::InheritedCost(const ColliderType& L, const ColliderType& candidate)
 {
-	return AABB::GetUnionArea(L, candidate) - AABB::GetArea(candidate);
+	return ColliderType::GetUnionArea(L, candidate) - ColliderType::GetArea(candidate);
 }
 
-template <typename AABB>
-void doom::BVH<AABB>::HillClimingReconstruct(int index)
+template <typename ColliderType>
+void doom::BVH<ColliderType>::HillClimingReconstruct(int index)
 {
 	D_ASSERT(index != NULL_NODE_INDEX);
 	while (index != NULL_NODE_INDEX)
@@ -368,13 +375,13 @@ void doom::BVH<AABB>::HillClimingReconstruct(int index)
 /// return newNodeIndex at passed lowerNodeIndex position
 /// Really Really fast
 /// 
-/// We just need reconstruct only aabb of imbalancedLowerNodeIndex's parent
+/// We just need reconstruct only boundingCollider of imbalancedLowerNodeIndex's parent
 /// </summary>
-/// <typeparam name="AABB"></typeparam>
+/// <typeparam name="ColliderType"></typeparam>
 /// <param name="nodeAIndex"></param>
 /// <param name="nodeBIndex"></param>
-template <typename AABB>
-int doom::BVH<AABB>::Balance(int lowerNodeIndex)
+template <typename ColliderType>
+int doom::BVH<ColliderType>::Balance(int lowerNodeIndex)
 {
 	if (this->IsHasChild(lowerNodeIndex) == false)
 	{
@@ -401,7 +408,7 @@ int doom::BVH<AABB>::Balance(int lowerNodeIndex)
 	int higerNodeIndex = siblingIndexOfParentOfLowerNode;
 
 	int siblingIndexOfLowerNode = this->GetSibling(lowerNodeIndex);
-	if (AABB::GetArea(this->mTree.mNodes[parentIndexOfLowerNode].mAABB) < AABB::GetUnionArea(this->mTree.mNodes[siblingIndexOfLowerNode].mAABB, this->mTree.mNodes[higerNodeIndex].mAABB))
+	if (ColliderType::GetArea(this->mTree.mNodes[parentIndexOfLowerNode].mBoundingCollider) < ColliderType::GetUnionArea(this->mTree.mNodes[siblingIndexOfLowerNode].mBoundingCollider, this->mTree.mNodes[higerNodeIndex].mBoundingCollider))
 	{// when SA(parent of lowernode) < SA(sibling of lowerNode U upperNode), don't rotate 
 		return lowerNodeIndex;
 	}
@@ -455,8 +462,8 @@ int doom::BVH<AABB>::Balance(int lowerNodeIndex)
 	return higerNodeIndex;
 }
 
-template<typename AABB>
-void doom::BVH<AABB>::RemoveLeafNode(int targetLeafNodeIndex)
+template<typename ColliderType>
+void doom::BVH<ColliderType>::RemoveLeafNode(int targetLeafNodeIndex)
 {
 	if (targetLeafNodeIndex == NULL_NODE_INDEX)
 	{
@@ -470,8 +477,8 @@ void doom::BVH<AABB>::RemoveLeafNode(int targetLeafNodeIndex)
 	}
 }
 
-template<typename AABB>
-void doom::BVH<AABB>::RemoveLeafNode(doom::BVH<AABB>::node_type* targetLeafNode)
+template<typename ColliderType>
+void doom::BVH<ColliderType>::RemoveLeafNode(doom::BVH<ColliderType>::node_type* targetLeafNode)
 {
 	if (targetLeafNode == nullptr)
 	{
@@ -542,8 +549,8 @@ void doom::BVH<AABB>::RemoveLeafNode(doom::BVH<AABB>::node_type* targetLeafNode)
 	this->FreeNode(targetLeafNodeIndex);
 }
 
-template<typename AABB>
-void doom::BVH<AABB>::ReConstructNodeAABB(int targetNodeIndex)
+template<typename ColliderType>
+void doom::BVH<ColliderType>::ReConstructNodeAABB(int targetNodeIndex)
 {
 	if (this->mTree.mNodes[targetNodeIndex].mIsLeaf == true)
 	{
@@ -551,8 +558,8 @@ void doom::BVH<AABB>::ReConstructNodeAABB(int targetNodeIndex)
 	}
 
 	D_ASSERT(this->mTree.mNodes[targetNodeIndex].mChild1 != NULL_NODE_INDEX && this->mTree.mNodes[targetNodeIndex].mChild2 != NULL_NODE_INDEX);
-	this->mTree.mNodes[targetNodeIndex].mAABB = AABB::Union(this->mTree.mNodes[this->mTree.mNodes[targetNodeIndex].mChild1].mAABB, this->mTree.mNodes[this->mTree.mNodes[targetNodeIndex].mChild2].mAABB);
-	this->mTree.mNodes[targetNodeIndex].mEnlargedAABB = AABB::EnlargeAABB(this->mTree.mNodes[targetNodeIndex].mAABB);
+	this->mTree.mNodes[targetNodeIndex].mBoundingCollider = ColliderType::Union(this->mTree.mNodes[this->mTree.mNodes[targetNodeIndex].mChild1].mBoundingCollider, this->mTree.mNodes[this->mTree.mNodes[targetNodeIndex].mChild2].mBoundingCollider);
+	this->mTree.mNodes[targetNodeIndex].mEnlargedBoundingCollider = ColliderType::EnlargeAABB(this->mTree.mNodes[targetNodeIndex].mBoundingCollider);
 }
 
 #define DebugBVHTreeOffsetX 0.1f
@@ -563,8 +570,8 @@ float additionalWeight(float x, float l)
 	return x + math::lerp(0, x > 0 ? 1 : -1, math::abs(l));
 }
 
-template <typename AABB>
-void doom::BVH<AABB>::DebugBVHTree(node_type* node, float x, float y, int depth)
+template <typename ColliderType>
+void doom::BVH<ColliderType>::DebugBVHTree(node_type* node, float x, float y, int depth)
 {
 	if (node == nullptr)
 	{
@@ -574,25 +581,25 @@ void doom::BVH<AABB>::DebugBVHTree(node_type* node, float x, float y, int depth)
 	float offsetX = static_cast<float>(1.0f / (math::pow(2, depth + 1)));
 	if (node->mChild1 != NULL_NODE_INDEX)
 	{
-		graphics::DebugGraphics::GetSingleton()->DebugDraw2DLine({ x, y, 0 }, { x - offsetX, y - DebugBVHTreeOffsetY, 0 }, this->mTree.mNodes[node->mChild1].mIsLeaf == false ? eColor::Black : ((doom::BVH<AABB>::recentAddedLeaf.empty() == false && doom::BVH<AABB>::recentAddedLeaf.top() == node->mChild1) ? eColor::Red : eColor::Blue), true);
+		graphics::DebugGraphics::GetSingleton()->DebugDraw2DLine({ x, y, 0 }, { x - offsetX, y - DebugBVHTreeOffsetY, 0 }, this->mTree.mNodes[node->mChild1].mIsLeaf == false ? eColor::Black : ((doom::BVH<ColliderType>::recentAddedLeaf.empty() == false && doom::BVH<ColliderType>::recentAddedLeaf.top() == node->mChild1) ? eColor::Red : eColor::Blue), true);
 		DebugBVHTree(&(this->mTree.mNodes[node->mChild1]), x - offsetX, y - DebugBVHTreeOffsetY, depth + 1);
 	}
 	if (node->mChild2 != NULL_NODE_INDEX)
 	{
-		graphics::DebugGraphics::GetSingleton()->DebugDraw2DLine({ x, y, 0 }, { x + offsetX, y - DebugBVHTreeOffsetY, 0 }, this->mTree.mNodes[node->mChild2].mIsLeaf == false ? eColor::Black : ((doom::BVH<AABB>::recentAddedLeaf.empty() == false && doom::BVH<AABB>::recentAddedLeaf.top() == node->mChild2) ? eColor::Red : eColor::Blue), true);
+		graphics::DebugGraphics::GetSingleton()->DebugDraw2DLine({ x, y, 0 }, { x + offsetX, y - DebugBVHTreeOffsetY, 0 }, this->mTree.mNodes[node->mChild2].mIsLeaf == false ? eColor::Black : ((doom::BVH<ColliderType>::recentAddedLeaf.empty() == false && doom::BVH<ColliderType>::recentAddedLeaf.top() == node->mChild2) ? eColor::Red : eColor::Blue), true);
 		DebugBVHTree(&(this->mTree.mNodes[node->mChild2]), x + offsetX, y - DebugBVHTreeOffsetY, depth + 1);
 	}
 }
 
-template<typename AABB>
-void doom::BVH<AABB>::TreeDebug()
+template<typename ColliderType>
+void doom::BVH<ColliderType>::TreeDebug()
 {
 	if (this->mTree.mRootNodeIndex != NULL_NODE_INDEX)
 	{
 		/*
 		for (int i = 0; i < this->mTree.mNodeCapacity; i++)
 		{
-			this->mTree.mNodes[i].mAABB.DrawPhysicsDebug(); // TODO : Draw recursively, don't draw all nodes
+			this->mTree.mNodes[i].mBoundingCollider.DrawPhysicsDebug(); // TODO : Draw recursively, don't draw all nodes
 		}
 		*/
 
@@ -613,8 +620,8 @@ void doom::BVH<AABB>::TreeDebug()
 	}
 }
 
-template<typename AABB>
-void doom::BVH<AABB>::AABBDebug()
+template<typename ColliderType>
+void doom::BVH<ColliderType>::AABBDebug()
 {
 	if (static_cast<bool>(this->mPIPForDebug))
 	{
@@ -632,19 +639,19 @@ void doom::BVH<AABB>::AABBDebug()
 			{
 				if (this->recentAddedLeaf.empty() == false && i == this->recentAddedLeaf.top())
 				{
-					this->mTree.mNodes[i].mAABB.DrawPhysicsDebugColor(eColor::Red, true);
+					this->mTree.mNodes[i].mBoundingCollider.DrawPhysicsDebugColor(eColor::Red, true);
 				}
 				else if (this->recentAddedLeaf.empty() == false && this->IsAncesterOf(i, this->recentAddedLeaf.top()))
 				{
-					this->mTree.mNodes[i].mAABB.DrawPhysicsDebugColor(eColor::Blue, true);
+					this->mTree.mNodes[i].mBoundingCollider.DrawPhysicsDebugColor(eColor::Blue, true);
 				}
 				else if(this->mTree.mNodes[i].mIsLeaf == false)
 				{
-					this->mTree.mNodes[i].mAABB.DrawPhysicsDebugColor(eColor::Black, true);
+					this->mTree.mNodes[i].mBoundingCollider.DrawPhysicsDebugColor(eColor::Black, true);
 				}
 				else if (this->mTree.mNodes[i].mIsLeaf == true)
 				{
-					this->mTree.mNodes[i].mAABB.DrawPhysicsDebugColor(eColor::Green, true);
+					this->mTree.mNodes[i].mBoundingCollider.DrawPhysicsDebugColor(eColor::Green, true);
 				}
 				
 			}
@@ -655,8 +662,8 @@ void doom::BVH<AABB>::AABBDebug()
 		this->mPIPForDebug->RevertFrameBuffer();
 	}
 }
-template<typename AABB>
-void doom::BVH<AABB>::AABBDebug(int targetNode)
+template<typename ColliderType>
+void doom::BVH<ColliderType>::AABBDebug(int targetNode)
 {
 	if (static_cast<bool>(this->mPIPForDebug))
 	{
@@ -672,7 +679,7 @@ void doom::BVH<AABB>::AABBDebug(int targetNode)
 		{
 			if (this->mTree.mNodes[i].bmIsActive == true)
 			{
-				this->mTree.mNodes[i].mAABB.DrawPhysicsDebugColor(eColor::Black, true);
+				this->mTree.mNodes[i].mBoundingCollider.DrawPhysicsDebugColor(eColor::Black, true);
 			}
 		}
 		*/
@@ -680,7 +687,7 @@ void doom::BVH<AABB>::AABBDebug(int targetNode)
 		int index = targetNode;
 		while (index != NULL_NODE_INDEX)
 		{
-			this->mTree.mNodes[index].mAABB.DrawPhysicsDebugColor(eColor::Red, true);
+			this->mTree.mNodes[index].mBoundingCollider.DrawPhysicsDebugColor(eColor::Red, true);
 			index = this->mTree.mNodes[index].mParentIndex;
 		}
 
@@ -695,25 +702,25 @@ void doom::BVH<AABB>::AABBDebug(int targetNode)
 /// 
 /// Less sum of Internal Nodes's area -> More fast Ray cast
 /// </summary>
-/// <typeparam name="AABB"></typeparam>
+/// <typeparam name="ColliderType"></typeparam>
 /// <returns></returns>
-template <typename AABB>
-float doom::BVH<AABB>::ComputeCost()
+template <typename ColliderType>
+float doom::BVH<ColliderType>::ComputeCost()
 {
 	float cost{ 0.0f };
 	for (int i = 0 ; i < this->mTree.mCurrentAllocatedNodeCount; i++)
 	{
 		if (this->mTree.mNodes[i].mIsLeaf == false)
 		{
-			cost += AABB::GetArea(this->mTree.mNodes[i].mAABB);
+			cost += ColliderType::GetArea(this->mTree.mNodes[i].mBoundingCollider);
 		}
 	}
 	return cost;
 }
 
 
-template <typename AABB>
-void doom::BVH<AABB>::InitializeDebugging()
+template <typename ColliderType>
+void doom::BVH<ColliderType>::InitializeDebugging()
 {
 	if (static_cast<bool>(this->mPIPForDebug) == false)
 	{
@@ -728,8 +735,8 @@ void doom::BVH<AABB>::InitializeDebugging()
 }
 
 
-template <typename AABB>
-int doom::BVH<AABB>::GetHeight(int index, int& longestHeight, int currentHeight)
+template <typename ColliderType>
+int doom::BVH<ColliderType>::GetHeight(int index, int& longestHeight, int currentHeight)
 {
 	D_ASSERT(index != NULL_NODE_INDEX);
 	
@@ -751,8 +758,8 @@ int doom::BVH<AABB>::GetHeight(int index, int& longestHeight, int currentHeight)
 	return longestHeight;
 }
 
-template <typename AABB>
-int doom::BVH<AABB>::GetDepth(int index)
+template <typename ColliderType>
+int doom::BVH<ColliderType>::GetDepth(int index)
 {
 	D_ASSERT(index != NULL_NODE_INDEX);
 
@@ -766,8 +773,8 @@ int doom::BVH<AABB>::GetDepth(int index)
 	return depth;
 }
 
-template<typename AABB>
-typename doom::BVH<AABB>::node_type* doom::BVH<AABB>::GetNode(int nodeIndex)
+template<typename ColliderType>
+typename doom::BVH<ColliderType>::node_type* doom::BVH<ColliderType>::GetNode(int nodeIndex)
 {
 	D_ASSERT(nodeIndex >= 0);
 	D_ASSERT(this->mTree.mNodes[nodeIndex].bmIsActive == true);
@@ -776,8 +783,8 @@ typename doom::BVH<AABB>::node_type* doom::BVH<AABB>::GetNode(int nodeIndex)
 }
 
 
-template <typename AABB>
-int doom::BVH<AABB>::GetLeafNodeCount()
+template <typename ColliderType>
+int doom::BVH<ColliderType>::GetLeafNodeCount()
 {
 	int count{ 0 };
 	for (int i = 0; i < this->mTree.mCurrentAllocatedNodeCount; i++)
@@ -790,8 +797,8 @@ int doom::BVH<AABB>::GetLeafNodeCount()
 	return count;
 }
 
-template <typename AABB>
-int doom::BVH<AABB>::GetLeaf(int index)
+template <typename ColliderType>
+int doom::BVH<ColliderType>::GetLeaf(int index)
 {
 	int count = 0;
 	for (int i = 0; i < this->mTree.mCurrentAllocatedNodeCount; i++)
@@ -811,8 +818,8 @@ int doom::BVH<AABB>::GetLeaf(int index)
 	return NULL_NODE_INDEX;
 }
 
-template<typename AABB>
-bool doom::BVH<AABB>::IsAncesterOf(int ancesterIndex, int decesterIndex)
+template<typename ColliderType>
+bool doom::BVH<ColliderType>::IsAncesterOf(int ancesterIndex, int decesterIndex)
 {
 	int index = this->mTree.mNodes[decesterIndex].mParentIndex;
 	while (index != NULL_NODE_INDEX)
@@ -827,8 +834,8 @@ bool doom::BVH<AABB>::IsAncesterOf(int ancesterIndex, int decesterIndex)
 	return false;
 }
 
-template<typename AABB>
-void doom::BVH<AABB>::CheckActiveNode(node_type* node, std::vector<int>& activeNodeList)
+template<typename ColliderType>
+void doom::BVH<ColliderType>::CheckActiveNode(node_type* node, std::vector<int>& activeNodeList)
 {
 	if (node == nullptr)
 	{
@@ -854,8 +861,8 @@ void doom::BVH<AABB>::CheckActiveNode(node_type* node, std::vector<int>& activeN
 }
 
 
-template<typename AABB>
-void doom::BVH<AABB>::ValidCheck()
+template<typename ColliderType>
+void doom::BVH<ColliderType>::ValidCheck()
 {
 #ifdef DEBUG_MODE
 	if (this->mTree.mRootNodeIndex != NULL_NODE_INDEX)
@@ -961,3 +968,4 @@ void doom::BVH<AABB>::ValidCheck()
 
 template class doom::BVH<doom::physics::AABB2D>;
 template class doom::BVH<doom::physics::AABB3D>;
+template class doom::BVH<doom::physics::Sphere>;

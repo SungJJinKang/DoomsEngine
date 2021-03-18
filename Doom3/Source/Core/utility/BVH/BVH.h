@@ -3,6 +3,7 @@
 #include <memory>
 
 #include "Physics/Collider/AABB.h"
+#include "Physics/Collider/Sphere.h"
 #include "Physics/Collider/Ray.h"
 #include "Graphics/FrameBuffer/utility/PicktureInPickture.h"
 
@@ -23,13 +24,13 @@ namespace doom
 	}
 
 	class Ray;
-	template <typename AABB>
+	template <typename ColliderType>
 	class BVH;
 
 	//////////////////////////
 
 	//TODO : Two BVH ±¸Çö
-	///The b3DynamicBvhBroadphase implements a broadphase using two dynamic AABB bounding volume hierarchies/trees (see b3DynamicBvh).
+	///The b3DynamicBvhBroadphase implements a broadphase using two dynamic ColliderType bounding volume hierarchies/trees (see b3DynamicBvh).
 	///One tree is used for static/non-moving objects, and another tree is used for dynamic objects. Objects can move from one tree to the other.
 	///This is a very fast broadphase, especially for very dynamic worlds where many objects are moving. Its insert/add and remove of objects is generally faster than the sweep and prune broadphases b3AxisSweep3 and b332BitAxisSweep3.
 	//struct b3DynamicBvhBroadphase
@@ -48,16 +49,16 @@ namespace doom
 	/// https://www.researchgate.net/publication/270704721_Incremental_BVH_construction_for_ray_tracing
 	/// https://github.com/bulletphysics/bullet3/blob/master/src/BulletCollision/BroadphaseCollision/btDbvt.cpp
 	/// </summary>
-	/// <typeparam name="AABB"></typeparam>
-	template <typename AABB>
+	/// <typeparam name="ColliderType"></typeparam>
+	template <typename ColliderType>
 	class BVH
 	{
-		using tree_type = typename BVH_Tree<AABB>;
-		using node_type = typename BVH_Node<AABB>;
+		using tree_type = typename BVH_Tree<ColliderType>;
+		using node_type = typename BVH_Node<ColliderType>;
 
 		friend class doom::physics::BVH_TestRoom;
-		friend class BVH_Tree<AABB>;
-		friend class BVH_Node<AABB>;
+		friend class BVH_Tree<ColliderType>;
+		friend class BVH_Node<ColliderType>;
 	private:
 
 		tree_type mTree;
@@ -67,11 +68,11 @@ namespace doom
 		std::unique_ptr<graphics::Material> mBVHDebugMaterial{};
 		static inline std::stack<int> recentAddedLeaf{};
 #endif
-		int PickBest(const AABB& L);
+		int PickBest(const ColliderType& L);
 
 		int AllocateNewNode();
 		int AllocateInternalNode();
-		int AllocateLeafNode(const AABB& aabb, doom::physics::Collider* collider);
+		int AllocateLeafNode(const ColliderType& boundingCollider, doom::physics::Collider* collider);
 		void FreeNode(int nodeIndex);
 
 		int Balance(int lowerNodeIndex);
@@ -83,11 +84,11 @@ namespace doom
 		/// <summary>
 		/// https://box2d.org/files/ErinCatto_DynamicBVH_Full.pdf see pdf 84 page
 		/// </summary>
-		/// <param name="newNodeAABB">Inserted AABB</param>
-		/// <param name="silbingNodeIndexOfNewNode">Node what will be unioned with Inseted AABB</param>
+		/// <param name="newNodeAABB">Inserted ColliderType</param>
+		/// <param name="silbingNodeIndexOfNewNode">Node what will be unioned with Inseted ColliderType</param>
 		/// <param name="sumOfAreaSize"></param>
 		/// <returns></returns>
-		float InheritedCost(const AABB& L, const AABB& candidate);
+		float InheritedCost(const ColliderType& L, const ColliderType& candidate);
 
 		void DebugBVHTree(node_type* node, float x, float y, int depth = 0);
 
@@ -110,7 +111,7 @@ namespace doom
 		/// <summary>
 		/// Get Leaf with index
 		/// </summary>
-		/// <typeparam name="AABB"></typeparam>
+		/// <typeparam name="ColliderType"></typeparam>
 		int GetLeaf(int index);
 		bool IsAncesterOf(int ancesterIndex, int decesterIndex);
 
@@ -132,7 +133,7 @@ namespace doom
 		/// </summary>
 		/// <param name="newOjectIndex"></param>
 		/// <param name="newObjectBox"></param>
-		node_type* InsertLeaf(const AABB& L, doom::physics::Collider* collider);
+		node_type* InsertLeaf(const ColliderType& L, doom::physics::Collider* collider);
 		void RemoveLeafNode(node_type* targetLeafNode);
 		void RemoveLeafNode(int targetLeafNodeIndex);
 		
@@ -160,9 +161,11 @@ namespace doom
 
 	using BVH2D = typename BVH<doom::physics::AABB2D>;
 	using BVH3D = typename BVH<doom::physics::AABB3D>;
+	using BVHSphere = typename BVH<doom::physics::Sphere>;
 	
 	extern template class BVH<doom::physics::AABB2D>;
 	extern template class BVH<doom::physics::AABB3D>;
+	extern template class BVH<doom::physics::Sphere>;
 
 }
 

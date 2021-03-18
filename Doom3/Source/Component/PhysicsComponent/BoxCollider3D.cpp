@@ -9,7 +9,7 @@ void doom::BoxCollider3D::UpdateLocalCollider()
 
 void doom::BoxCollider3D::UpdateWorldCollider()
 {
-	physics::ApplyModelMatrixToAABB(this->mLocalAABB3D, this->GetTransform()->GetModelMatrix(), this->mWorldAABB3D);
+	physics::AABB3D::ApplyModelMatrix(this->mLocalAABB3D, this->GetTransform()->GetModelMatrix(), this->mWorldAABB3D);
 }
 
 

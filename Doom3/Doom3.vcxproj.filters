@@ -342,7 +342,7 @@
     <ClCompile Include="Source\Core\utility\BVH\BVH_Node_Container.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Core\utility\BVH\BVH_AABB_Container.cpp">
+    <ClCompile Include="Source\Core\utility\BVH\BVH_Collider_Container.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Source\Core\utility\BVH\BVH_Node_Object.cpp">
@@ -974,7 +974,7 @@
     <ClInclude Include="Source\Core\utility\BVH\BVH_Node_Container.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Core\utility\BVH\BVH_AABB_Container.h">
+    <ClInclude Include="Source\Core\utility\BVH\BVH_Collider_Container.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\Core\utility\BVH\BVH_Node_Object.h">

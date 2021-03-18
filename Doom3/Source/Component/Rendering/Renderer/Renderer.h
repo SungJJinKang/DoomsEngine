@@ -22,7 +22,7 @@ namespace doom
 
 
 
-	class Renderer : public ServerComponent, public RendererComponentStaticIterator, public BVH3D_Node_Object
+	class Renderer : public ServerComponent, public RendererComponentStaticIterator, public BVHSphere_Node_Object
 	{
 		friend graphics::Graphics_Server;
 		friend class Enity;
@@ -41,8 +41,8 @@ namespace doom
 		
 		graphics::Material* mTargetMaterial;
 
-		DirtyReceiver mIsBoundingSphereDirty{ true };
-		physics::Sphere mBoundingSphere{};
+		//DirtyReceiver mIsBoundingSphereDirty{ true };
+		//physics::Sphere mBoundingSphere{};
 
 		virtual void InitComponent() override;
 		virtual void UpdateComponent() override
@@ -78,6 +78,6 @@ namespace doom
 		void SetMaterial(graphics::Material* material) noexcept;
 		void SetMaterial(graphics::Material& material) noexcept;
 
-		const physics::Sphere& GetBoudingSphere();
+		//const physics::Sphere& GetBoudingSphere();
 	};
 }

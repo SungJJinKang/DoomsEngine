@@ -47,6 +47,11 @@ void UserInput_Server::Scroll_Callback(GLFWwindow* window, double xoffset, doubl
 
 void UserInput_Server::Key_Callback(GLFWwindow* window, int key, int scancode, int action, int mods)
 {
+	if (key < static_cast<int>(FIRST_KEY_CODE) || key > static_cast<int>(LAST_KEY_CODE))
+	{
+		return;
+	}
+
 	if (action == GLFW_PRESS)
 	{
 		UserInput_Server::mKeyState[key - static_cast<int>(FIRST_KEY_CODE)] = eKeyState::PRESS_DOWN;

@@ -132,6 +132,22 @@ namespace doom
 			}
 			static AABB3D EnlargeAABB(const AABB3D& aabb);
 
+			/// <summary>
+			/// https://twitter.com/Herschel/status/1188613724665335808
+			/// </summary>
+			/// <param name="localAABB"></param>
+			/// <param name="modelMatrix"></param>
+			/// <param name="resultAABB"></param>
+			static void ApplyModelMatrix(const AABB3D& localAABB, const math::Matrix4x4& modelMatrix, AABB3D& resultAABB);
+			/// <summary>
+			/// This is different with IsOverlap
+			/// This function check if innerAABB is completly enclosed by outerAABB
+			/// </summary>
+			/// <param name="A"></param>
+			/// <param name="B"></param>
+			/// <returns></returns>
+			static bool CheckIsCompletlyEnclosed(const AABB3D& innerAABB, const AABB3D& outerAABB);
+
 			constexpr AABB3D() : mLowerBound{}, mUpperBound{}
 			{}
 			constexpr AABB3D(const math::Vector3& lowerBound, const math::Vector3& upperBound)
@@ -148,28 +164,14 @@ namespace doom
 			constexpr AABB3D& operator=(AABB3D&&) noexcept = default;
 		};
 
-		/// <summary>
-		/// This is different with IsOverlap
-		/// This function check if innerAABB is completly enclosed by outerAABB
-		/// </summary>
-		/// <param name="A"></param>
-		/// <param name="B"></param>
-		/// <returns></returns>
-		bool CheckIsAABBCompletlyEnclosed(const AABB3D& innerAABB, const AABB3D& outerAABB);
+		
 		bool IsOverlapAABB3DAndPoint(const AABB3D& aabb, const math::Vector3& Point);
 		bool IsOverlapAABB3DAndAABB3D(const AABB3D& aabb, const AABB3D& B);
 		bool IsOverlapAABB3DAndAABB3D(Collider* aabb, Collider* B);
 
 		math::Vector3 ClosestPointToPoint(const AABB3D& aabb, const math::Vector3& point);
 
-		/// <summary>
-		/// https://twitter.com/Herschel/status/1188613724665335808
-		/// </summary>
-		/// <param name="localAABB"></param>
-		/// <param name="modelMatrix"></param>
-		/// <param name="resultAABB"></param>
-		void ApplyModelMatrixToAABB(const AABB3D& localAABB, const math::Matrix4x4& modelMatrix, AABB3D& resultAABB);
-
+		
 		class AABB2D : public Collider
 		{
 		public:
@@ -256,6 +258,21 @@ namespace doom
 				return 2.0f * (d.x + d.y);
 			}
 			static AABB2D EnlargeAABB(const AABB2D& aabb);
+			/// <summary>
+			/// https://twitter.com/Herschel/status/1188613724665335808
+			/// </summary>
+			/// <param name="localAABB"></param>
+			/// <param name="modelMatrix"></param>
+			/// <param name="resultAABB"></param>
+			static void ApplyModelMatrix(const AABB2D& localAABB, const math::Matrix4x4& modelMatrix, AABB2D& resultAABB);
+			/// <summary>
+			/// This is different with IsOverlap
+			/// This function check if innerAABB is completly enclosed by outerAABB
+			/// </summary>
+			/// <param name="innerAABB"></param>
+			/// <param name="outerAABB"></param>
+			/// <returns></returns>
+			static bool CheckIsCompletlyEnclosed(const AABB2D& innerAABB, const AABB2D& outerAABB);
 
 			constexpr AABB2D() : mLowerBound{}, mUpperBound{}
 			{}
@@ -280,27 +297,13 @@ namespace doom
 		};
 
 		
-		/// <summary>
-		/// This is different with IsOverlap
-		/// This function check if innerAABB is completly enclosed by outerAABB
-		/// </summary>
-		/// <param name="innerAABB"></param>
-		/// <param name="outerAABB"></param>
-		/// <returns></returns>
-		bool CheckIsAABBCompletlyEnclosed(const AABB2D& innerAABB, const AABB2D& outerAABB);
+		
 		bool IsOverlapAABB2DAndPoint(const AABB2D& aabb, const math::Vector2& Point);
 		bool IsOverlapAABB2DAndAABB2D(const AABB2D& aabb, const AABB2D& B);
 		bool IsOverlapAABB2DAndAABB2D(Collider* aabb, Collider* B);
 		math::Vector2 ClosestPointToPoint(const AABB2D& aabb, const math::Vector2& point);
 	
-		/// <summary>
-		/// https://twitter.com/Herschel/status/1188613724665335808
-		/// </summary>
-		/// <param name="localAABB"></param>
-		/// <param name="modelMatrix"></param>
-		/// <param name="resultAABB"></param>
-		void ApplyModelMatrixToAABB(const AABB2D& localAABB, const math::Matrix4x4& modelMatrix, AABB2D& resultAABB);
-	
+		
 
 		inline constexpr doom::physics::AABB3D::AABB3D(const AABB2D& aabb2D)
 		{

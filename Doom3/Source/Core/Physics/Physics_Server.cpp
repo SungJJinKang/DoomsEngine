@@ -30,8 +30,8 @@ void doom::physics::Physics_Server::Update()
 		auto components = doom::StaticContainer<ColliderComponent>::GetAllStaticComponents();
 		for (auto component : components)
 		{
-			component->UpdateWorldBVhAABBCache(true);
-			component->DrawWorldBVhAABBCache();
+			component->UpdateWorldBVhColliderCache(true);
+			component->DrawWorldBVhColliderCache();
 		}
 	}
 	

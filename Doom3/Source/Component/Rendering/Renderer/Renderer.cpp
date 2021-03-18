@@ -6,9 +6,9 @@ void doom::Renderer::InitComponent()
 {
 	RendererComponentStaticIterator::AddRendererToStaticContainer();
 
-	this->AddLocalDirtyToTransformDirtyReceiver(this->IsWorldBVhAABBCacheDirty);
-	this->AddLocalDirtyToTransformDirtyReceiver(this->mIsBoundingSphereDirty);
-	//this->InsertBVHLeafNode(graphics::Graphics_Server::GetSingleton()->mViewFrustumCulling.mViewFrustumBVH, this->GetWorldBVhAABB3DCacheByReference(), nullptr);
+	this->AddLocalDirtyToTransformDirtyReceiver(this->IsWorldBVhColliderCacheDirty);
+	//this->AddLocalDirtyToTransformDirtyReceiver(this->mIsBoundingSphereDirty);
+	this->InsertBVHLeafNode(graphics::Graphics_Server::GetSingleton()->mViewFrustumCulling.mBVHSphere, this->GetWorldBVhColliderCacheByReference(), nullptr);
 }
 
 const math::Matrix4x4& doom::Renderer::GetModelMatrix() const
@@ -34,15 +34,17 @@ void doom::Renderer::SetMaterial(graphics::Material* material) noexcept
 	this->mTargetMaterial = material;
 }
 
+/*
 const doom::physics::Sphere& doom::Renderer::GetBoudingSphere()
 {
-	this->UpdateWorldBVhAABBCache(false);
+	this->UpdateWorldBVhColliderCache(false);
 	if (mIsBoundingSphereDirty.GetIsDirty(true) == true)
 	{
-		this->mBoundingSphere = this->GetWorldBVhAABB3DCacheByReference();
+		this->mBoundingSphere = this->GetWorldBVhColliderCacheByReference();
 	}
 	return this->mBoundingSphere;
 }
+*/
 
 void doom::Renderer::SetMaterial(graphics::Material& material) noexcept
 {

@@ -44,8 +44,8 @@ namespace doom
 			friend class ::doom::Camera;
 
 		private:
-			//BVH3D mViewFrustumBVH{ VIEWFRUSTUM_BVH_MAX_NODE_COUNT };
-			//void DebugDraw();
+			BVHSphere mBVHSphere { VIEWFRUSTUM_BVH_MAX_NODE_COUNT };
+			
 
 			enum class ePlaneType
 			{
@@ -100,6 +100,7 @@ namespace doom
 			/// <param name="sphere"></param>
 			/// <returns></returns>
 			bool IsInFrustum(const physics::Sphere& sphere);
+			bool IsInFrustumWithBVH(const physics::Sphere& sphere);
 			/// <summary>
 			/// retrun true if intersect or inside in frustum
 			/// 
@@ -108,6 +109,14 @@ namespace doom
 			/// <param name="point"></param>
 			/// <returns></returns>
 			bool IsInFrustum(const math::Vector3& point);
+
+			bool IsVisible(Renderer* renderer);
+
+			/// <summary>
+			/// Travel BVH recursively, set IsVisible Value
+			/// if Ancester sphere isn't visible, desesters is all invisible
+			/// </summary>
+			void PreUpdateBVH();
 		};
 	}
 }

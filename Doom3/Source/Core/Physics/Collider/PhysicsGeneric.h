@@ -37,6 +37,7 @@ namespace doom
 		/// <returns></returns>
 		float DistanceFromPointToPlane(const math::Vector3& point, const Plane& plane);
 		bool IsOverlapPointAndPlane(const math::Vector3& point, const Plane& plane);
+		bool IsOverlapRayAndSphere(const Ray& ray, const Sphere& sphere);
 
 		float RaycastRayAndAABB3D(const Ray& rayCollider, const AABB3D& aabbCollider);
 		float RaycastRayAndSphere(const Ray& ray, const Sphere& sphere);

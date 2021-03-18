@@ -344,5 +344,15 @@ doom::physics::AABB3D doom::graphics::Mesh::GetAABB()
 	return this->mAABB3D;
 }
 
+const doom::physics::Sphere& doom::graphics::Mesh::GetSphere() const
+{
+	return this->mSphere;
+}
+
+doom::physics::Sphere doom::graphics::Mesh::GetSphere()
+{
+	return this->mSphere;
+}
+
 
 

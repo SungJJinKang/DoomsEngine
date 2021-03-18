@@ -2,8 +2,8 @@
 
 #include "BVH.h"
 
-template<typename AABB>
-void doom::BVH_Node<AABB>::Clear()
+template<typename ColliderType>
+void doom::BVH_Node<ColliderType>::Clear()
 {
 	this->mOwnerBVH = nullptr;
 	this->mCollider = nullptr;
@@ -15,8 +15,8 @@ void doom::BVH_Node<AABB>::Clear()
 	this->bmIsActive = false;
 }
 
-template<typename AABB>
-void doom::BVH_Node<AABB>::ValidCheck()
+template<typename ColliderType>
+void doom::BVH_Node<ColliderType>::ValidCheck()
 {
 #ifdef DEBUG_MODE
 	if (this->bmIsActive == true)
@@ -30,53 +30,54 @@ void doom::BVH_Node<AABB>::ValidCheck()
 #endif
 }
 
-template <typename AABB>
-doom::BVH_Node<AABB>* doom::BVH_Node<AABB>::UpdateNode()
+template <typename ColliderType>
+doom::BVH_Node<ColliderType>* doom::BVH_Node<ColliderType>::UpdateNode()
 {
 	D_ASSERT(this->mIsLeaf == true); // Only Leaf Nodes can be updated by UpdateLeafNode Function
 	return this->mOwnerBVH->UpdateLeafNode(this);
 }
 
-template <typename AABB>
-doom::BVH_Node<AABB>* doom::BVH_Node<AABB>::UpdateAABB(const AABB& newAABB)
+template <typename ColliderType>
+doom::BVH_Node<ColliderType>* doom::BVH_Node<ColliderType>::Update(const ColliderType& collider)
 {
 	D_ASSERT(this->mIsLeaf == true); // Don try aabb of internalnode arbitrary, InternalNode should be changed only by BVH algorithm
-	this->mAABB = newAABB;
+	this->mBoundingCollider = collider;
 	return this->UpdateNode();
 }
 
 /// <summary>
-/// this function don't chagne mEnlargedAABB if updated mAABB is still completly enclosed by mEnlargedAABB
+/// this function don't chagne mEnlargedBoundingCollider if updated mBoundingCollider is still completly enclosed by mEnlargedBoundingCollider
 /// </summary>
 /// <param name="movedVector"></param>
-template <typename AABB>
-doom::BVH_Node<AABB>* doom::BVH_Node<AABB>::UpdateAABB(const typename AABB::component_type& movedVector)
+template <typename ColliderType>
+doom::BVH_Node<ColliderType>* doom::BVH_Node<ColliderType>::Update(const typename ColliderType::component_type& movedVector)
 {
 	D_ASSERT(this->mIsLeaf == true); // Don try aabb of internalnode arbitrary, InternalNode should be changed only by BVH algorithm
-	this->mAABB.SignedExpand(movedVector);
+	this->mBoundingCollider.SignedExpand(movedVector);
 	return this->UpdateNode();
 }
 
-template <typename AABB>
-doom::BVH_Node<AABB>* doom::BVH_Node<AABB>::UpdateAABB(const typename AABB::component_type& movedVector, const typename AABB::component_type& margin)
+template <typename ColliderType>
+doom::BVH_Node<ColliderType>* doom::BVH_Node<ColliderType>::Update(const typename ColliderType::component_type& movedVector, const typename ColliderType::component_type& margin)
 {
 	D_ASSERT(this->mIsLeaf == true); // Don try aabb of internalnode arbitrary, InternalNode should be changed only by BVH algorithm
-	this->mAABB.Expand(margin);
-	this->mAABB.SignedExpand(movedVector);
+	this->mBoundingCollider.Expand(margin);
+	this->mBoundingCollider.SignedExpand(movedVector);
 	return this->UpdateNode();
 }
 
-template <typename AABB>
-void doom::BVH_Node<AABB>::RemoveNode()
+template <typename ColliderType>
+void doom::BVH_Node<ColliderType>::RemoveNode()
 {
 	this->mOwnerBVH->RemoveLeafNode(this);
 }
 
-template <typename AABB>
-doom::BVH<AABB>* doom::BVH_Node<AABB>::GetOwnerBVH()
+template <typename ColliderType>
+doom::BVH<ColliderType>* doom::BVH_Node<ColliderType>::GetOwnerBVH()
 {
 	return this->mOwnerBVH;
 }
 
 template class doom::BVH_Node<doom::physics::AABB2D>;
 template class doom::BVH_Node<doom::physics::AABB3D>;
+template class doom::BVH_Node<doom::physics::Sphere>;

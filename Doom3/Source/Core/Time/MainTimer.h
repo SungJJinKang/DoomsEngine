@@ -14,8 +14,8 @@ namespace doom
 
 			struct TimeStep
 			{
-				unsigned long long mLastTickCount{};
-				unsigned long long mCurrentTickCount{};
+				double mLastTickCount{};
+				double mCurrentTickCount{};
 				float mDeltaTime{};
 			};
 		private:
@@ -41,7 +41,7 @@ namespace doom
 			/// If you want to check whether frame pass without OnEndFrame, use this tickcount and compare last one
 			/// https://en.cppreference.com/w/cpp/chrono/time_point/time_since_epoch
 			/// </summary>
-			[[nodiscard]] static unsigned long long GetCurrentTickCount() noexcept
+			[[nodiscard]] static double GetCurrentTickCount() noexcept
 			{
 				return MainTimer::mFrameTime.mCurrentTickCount;
 			}

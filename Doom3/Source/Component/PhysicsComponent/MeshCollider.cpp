@@ -22,5 +22,5 @@ doom::physics::Collider* doom::MeshCollider::GetWorldCollider()
 
 doom::physics::AABB3D doom::MeshCollider::ExtractLocalAABB3D()
 {
-	return this->GetLocalBVhAABB3DCache();
+	return this->GetLocalBVhColliderCache();
 }

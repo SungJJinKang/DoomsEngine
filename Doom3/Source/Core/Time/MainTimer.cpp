@@ -2,19 +2,21 @@
 
 #include <OS.h>
 
+#include <API/OpenglAPI.h>
+
 void doom::time::MainTimer::InitTimer()
 {
-	unsigned long long currentTickCount = OS::GetSingleton()->_GetTickCount();
+	double currentTickCount = glfwGetTime();
 	doom::time::MainTimer::mFrameTime.mLastTickCount = currentTickCount;
 	doom::time::MainTimer::mFixedTime.mLastTickCount = currentTickCount;
 }
 
 void doom::time::MainTimer::UpdateFrameTimer()
 {
-	unsigned long long currentTime = OS::GetSingleton()->_GetTickCount();
+	double currentTime = glfwGetTime();// OS::GetSingleton()->_GetTickCount();
 	doom::time::MainTimer::mFrameTime.mCurrentTickCount = currentTime;
 
-	doom::time::MainTimer::mFrameTime.mDeltaTime = static_cast<float>((currentTime - doom::time::MainTimer::mFrameTime.mLastTickCount)) * 0.001f;
+	doom::time::MainTimer::mFrameTime.mDeltaTime = static_cast<float>(currentTime - doom::time::MainTimer::mFrameTime.mLastTickCount);
 	doom::time::MainTimer::mFrameTime.mLastTickCount = currentTime;
 	
 	MainTimer::CurrentFrame = static_cast<float>(1.0f / doom::time::MainTimer::mFrameTime.mDeltaTime);
@@ -24,15 +26,15 @@ void doom::time::MainTimer::UpdateFrameTimer()
 
 void doom::time::MainTimer::ResetFixedTimer()
 {
-	doom::time::MainTimer::mFixedTime.mLastTickCount = OS::GetSingleton()->_GetTickCount();
+	doom::time::MainTimer::mFixedTime.mLastTickCount = glfwGetTime();
 }
 
 void doom::time::MainTimer::UpdateFixedTimer()
 {
-	unsigned long long currentTime = OS::GetSingleton()->_GetTickCount();
+	double currentTime = glfwGetTime();
 	doom::time::MainTimer::mFixedTime.mCurrentTickCount = currentTime;
 
-	doom::time::MainTimer::mFixedTime.mDeltaTime = (currentTime - doom::time::MainTimer::mFixedTime.mLastTickCount) * 0.001f;
+	doom::time::MainTimer::mFixedTime.mDeltaTime = static_cast<float>(currentTime - doom::time::MainTimer::mFixedTime.mLastTickCount);
 	doom::time::MainTimer::mFixedTime.mLastTickCount = currentTime;
 
 	//D_DEBUG_LOG({ "Current Frame : ", std::to_string(1.0 / doom::time::Time_Server::mDeltaTime) });

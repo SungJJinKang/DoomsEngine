@@ -79,6 +79,21 @@ bool doom::physics::IsOverlapPointAndPlane(const math::Vector3& point, const Pla
 	return math::abs(DistanceFromPointToPlane(point, plane)) < math::epsilon<float>();
 }
 
+bool doom::physics::IsOverlapRayAndSphere(const Ray& ray, const Sphere& sphere)
+{
+	math::Vector3 fromRayToSphere = sphere.mCenter - ray.mOrigin;
+	float a = math::dot(fromRayToSphere, ray.GetNormal());
+
+	// No collision
+	if (sphere.mRadius * sphere.mRadius - fromRayToSphere.sqrMagnitude() + a * a < 0.0f) {
+		return false;
+	}
+	else
+	{
+		return true;
+	}
+}
+
 bool doom::physics::IsOverlapAABB3DAndPlane(Collider* aabb, Collider* plane)
 {
 	return IsOverlapAABB3DAndPlane(*static_cast<AABB3D*>(aabb), *static_cast<Plane*>(plane));

@@ -3,6 +3,7 @@
 #include <memory>
 
 #include "Physics/Collider/AABB.h"
+#include "Physics/Collider/Sphere.h"
 #include "BVH_Node.h"
 
 namespace doom
@@ -12,20 +13,20 @@ namespace doom
 		class BVH_TestRoom;
 	}
 
-	template <typename AABB>
+	template <typename ColliderType>
 	class BVH;
 
-	template <typename AABB>
+	template <typename ColliderType>
 	class BVH_Node;
 
 	/// <summary>
 	/// 
 	/// </summary>
-	template <typename AABB>
+	template <typename ColliderType>
 	class BVH_Tree
 	{
-		friend class BVH<AABB>;
-		friend class BVH_Node<AABB>;
+		friend class BVH<ColliderType>;
+		friend class BVH_Node<ColliderType>;
 		friend class doom::physics::BVH_TestRoom;
 
 	private:
@@ -35,7 +36,7 @@ namespace doom
 		/// Never pop inserted node
 		/// Just make it dangling
 		/// </summary>
-		BVH_Node<AABB>* mNodes;
+		BVH_Node<ColliderType>* mNodes;
 		const int mNodeCapacity;
 
 	
@@ -70,11 +71,7 @@ namespace doom
 	};
 
 	
-
-
-	using BVH_Tree2D = typename BVH_Tree<doom::physics::AABB2D>;
-	using BVH_Tree3D = typename BVH_Tree<doom::physics::AABB3D>;
-
 	extern template class BVH_Tree<doom::physics::AABB2D>;
 	extern template class BVH_Tree<doom::physics::AABB3D>;
+	extern template class BVH_Tree<doom::physics::Sphere>;
 }
