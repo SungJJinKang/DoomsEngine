@@ -6,9 +6,9 @@ void doom::Renderer::InitComponent()
 {
 	RendererComponentStaticIterator::AddRendererToStaticContainer();
 
-	this->AddLocalDirtyToTransformDirtyReceiver(this->IsWorldBVhColliderCacheDirty);
+	this->AddLocalDirtyToTransformDirtyReceiver(BVH_Sphere_Node_Object::IsWorldBVhColliderCacheDirty);
 	//this->AddLocalDirtyToTransformDirtyReceiver(this->mIsBoundingSphereDirty);
-	this->InsertBVHLeafNode(graphics::Graphics_Server::GetSingleton()->mViewFrustumCulling.mBVHSphere, this->GetWorldBVhColliderCacheByReference(), nullptr);
+	BVH_Sphere_Node_Object::InsertBVHLeafNode(graphics::Graphics_Server::GetSingleton()->mViewFrustumCulling.mBVHSphere, BVH_Sphere_Node_Object::GetWorldBVhColliderCacheByReference(), nullptr);
 }
 
 const math::Matrix4x4& doom::Renderer::GetModelMatrix() const

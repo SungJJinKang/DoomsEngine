@@ -34,6 +34,8 @@ void Graphics_Server::Init()
 	Graphics_Server::ScreenRatio = static_cast<float>(width) / static_cast<float>(height);
 	
 	this->InitGLFW();
+
+	this->mHWOcclusionCulling.InitHWOcclusionCulling();
 	return;
 }
 

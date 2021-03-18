@@ -35,6 +35,16 @@ namespace doom
 				delete entity;
 			}
 		};
+
+		enum eEntityFlags : unsigned int
+		{
+			OcculuderStatic = 1,
+			Occuludee = 1 << 1
+		};
+
+		unsigned int mEntityFlag{ eEntityFlags::OcculuderStatic | eEntityFlags::Occuludee };
+
+
 	private:
 		
 		/// <summary>

@@ -516,6 +516,30 @@ namespace doom
 #endif
 			}
 
+// 			enum class eQueryType
+// 			{
+// 				SAMPLES_PASSED = GL_SAMPLES_PASSED,
+// 				ANY_SAMPLES_PASSED = GL_ANY_SAMPLES_PASSED,
+// 				ANY_SAMPLES_PASSED_CONSERVATIVE = GL_ANY_SAMPLES_PASSED_CONSERVATIVE,
+// 				PRIMITIVES_GENERATED = GL_PRIMITIVES_GENERATED,
+// 				TRANSFORM_FEEDBACK_PRIMITIVES_WRITTEN = GL_TRANSFORM_FEEDBACK_PRIMITIVES_WRITTEN,
+// 				TIME_ELAPSED = GL_TIME_ELAPSED
+// 			};
+// 
+// 			static inline void GenQueries(int size, unsigned int* ids)
+// 			{
+// 				glGenQueries(size, ids);
+// 			}
+// 
+// 			static inline void BeginQuery(eQueryType queryType, unsigned int id)
+// 			{
+// 				glBeginQuery(static_cast<unsigned int>(queryType), id);
+// 			}
+// 			static inline void EndQuery(eQueryType queryType)
+// 			{
+// 				glEndQuery(static_cast<unsigned int>(queryType));
+// 			}
+
 		};
 	}
 }

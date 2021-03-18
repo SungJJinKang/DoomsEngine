@@ -16,6 +16,7 @@
 #include "DebugGraphics.h"
 
 #include "Acceleration/ViewFrustumCulling.h"
+#include "Acceleration/OcclusionCulling/HW/QueryOcclusionCulling.h"
 
 struct GLFWwindow;
 
@@ -67,7 +68,7 @@ namespace doom
 			static inline unsigned int MultiSamplingNum;
 
 			ViewFrustumCulling mViewFrustumCulling{};
-
+			QueryOcclusionCulling mQueryOcclusionCulling{};
 
 #ifdef DEBUG_MODE
 			DebugGraphics mDebugGraphics{};

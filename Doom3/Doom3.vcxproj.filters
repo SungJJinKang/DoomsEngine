@@ -354,7 +354,13 @@
     <ClCompile Include="Source\Core\Graphics\Acceleration\ViewFrustumCulling.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Core\Graphics\Acceleration\OcclusionCulling.cpp">
+    <ClCompile Include="Source\Core\Graphics\Acceleration\OcclusionCulling\HW\HierarchicalZMapOcclusionCulling.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Core\Graphics\Acceleration\OcclusionCulling\HW\QueryOcclusionCulling.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Core\Graphics\Acceleration\OcclusionCulling\SW\SWOcclusionCulling.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -986,7 +992,13 @@
     <ClInclude Include="Source\Core\Graphics\Acceleration\ViewFrustumCulling.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Core\Graphics\Acceleration\OcclusionCulling.h">
+    <ClInclude Include="Source\Core\Graphics\Acceleration\OcclusionCulling\HW\HierarchicalZMapOcclusionCulling.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Core\Graphics\Acceleration\OcclusionCulling\HW\QueryOcclusionCulling.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Core\Graphics\Acceleration\OcclusionCulling\SW\SWOcclusionCulling.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -1150,6 +1162,7 @@
     <None Include="Source\Core\ResourceManagement\MultithreadingJobSystemStrategy.md" />
     <None Include="Assets\Shader\Default\Default2DTextureShader.glsl" />
     <None Include="Assets\Shader\Default\Default2DColorShader.glsl" />
+    <None Include="Assets\Shader\Default\OcclusionCullingBoundingBox.glsl" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="Source\Core\Graphics\ReadThis!!!!.txt" />

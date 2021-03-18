@@ -12,7 +12,7 @@ namespace doom
 		class Physics_Server;
 	}
 
-	class ColliderComponent : public ServerComponent, public StaticContainer<ColliderComponent>, public BVH3D_Node_Object
+	class ColliderComponent : public ServerComponent, public StaticContainer<ColliderComponent>, public BVH_AABB3D_Node_Object
 	{
 		friend class physics::Physics_Server;
 

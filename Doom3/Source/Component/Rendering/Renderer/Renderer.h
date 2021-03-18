@@ -22,11 +22,14 @@ namespace doom
 
 
 
-	class Renderer : public ServerComponent, public RendererComponentStaticIterator, public BVHSphere_Node_Object
+	class Renderer : public ServerComponent, public RendererComponentStaticIterator, public BVH_Sphere_Node_Object, public BVH_AABB3D_Node_Object
 	{
 		friend graphics::Graphics_Server;
 		friend class Enity;
 
+	public:
+
+	
 	private:
 
 				
@@ -59,7 +62,7 @@ namespace doom
 		}
 
 
-		const math::Matrix4x4& GetModelMatrix() const final;
+		virtual const math::Matrix4x4& GetModelMatrix() const final;
 
 	public:
 		Renderer();

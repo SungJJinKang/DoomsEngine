@@ -27,9 +27,9 @@ namespace doom
 
 	
 
-	using BVH2D_Node_Object = typename BVH_Node_Object<physics::AABB2D>;
-	using BVH3D_Node_Object = typename BVH_Node_Object<physics::AABB3D>;
-	using BVHSphere_Node_Object = typename BVH_Node_Object<physics::Sphere>;
+	using BVH_AABB2D_Node_Object = typename BVH_Node_Object<physics::AABB2D>;
+	using BVH_AABB3D_Node_Object = typename BVH_Node_Object<physics::AABB3D>;
+	using BVH_Sphere_Node_Object = typename BVH_Node_Object<physics::Sphere>;
 
 	extern template class BVH_Node_Object<doom::physics::AABB2D>;
 	extern template class BVH_Node_Object<doom::physics::AABB3D>;

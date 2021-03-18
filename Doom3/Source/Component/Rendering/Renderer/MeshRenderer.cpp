@@ -15,7 +15,7 @@ void doom::MeshRenderer::SetMesh(graphics::Mesh* mesh)
 		/// MeshRenderer is required to UpdateLocalBVhColliderCache only when Mesh is changed
 		/// </summary>
 		/// <param name="mesh"></param>
-		this->UpdateLocalBVhColliderCache(this->mTargetMesh->GetSphere());
+		BVH_Sphere_Node_Object::UpdateLocalBVhColliderCache(this->mTargetMesh->GetSphere());
 		//mIsBoundingSphereDirty.SetDirty(true);
 	}
 	else
