@@ -9,8 +9,8 @@ void doom::BVH_Node<ColliderType>::Clear()
 	this->mCollider = nullptr;
 	this->mIndex = NULL_NODE_INDEX;
 	this->mParentIndex = NULL_NODE_INDEX;
-	this->mChild1 = NULL_NODE_INDEX;
-	this->mChild2 = NULL_NODE_INDEX;
+	this->mLeftNode = NULL_NODE_INDEX;
+	this->mRightNode = NULL_NODE_INDEX;
 	this->mIsLeaf = false;
 	this->bmIsActive = false;
 }

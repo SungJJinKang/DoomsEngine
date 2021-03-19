@@ -132,8 +132,8 @@ bool doom::graphics::ViewFrustumCulling::IsInFrustumWithBVH(const physics::Spher
 // 		}
 // 		else
 // 		{
-// 			stack.push(this->mTree.mNodes[index].mChild1);
-// 			stack.push(this->mTree.mNodes[index].mChild2);
+// 			stack.push(this->mTree.mNodes[index].mLeftNode);
+// 			stack.push(this->mTree.mNodes[index].mRightNode);
 // 		}
 // 	}
 // 	return false;

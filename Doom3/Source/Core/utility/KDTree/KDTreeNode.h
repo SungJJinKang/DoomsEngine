@@ -29,12 +29,12 @@ namespace doom
 		/// <summary>
 		/// Node index in BVH_Tree::mNodes
 		/// </summary>
-		int mChild1{ NULL_NODE_INDEX };
+		int mLeftNode{ NULL_NODE_INDEX };
 
 		/// <summary>
 		/// Node index in BVH_Tree::mNodes
 		/// </summary>
-		int mChild2{ NULL_NODE_INDEX };
+		int mRightNode{ NULL_NODE_INDEX };
 	};
 
 	using KDTreeNode_2D = KDTreeNode<2>;

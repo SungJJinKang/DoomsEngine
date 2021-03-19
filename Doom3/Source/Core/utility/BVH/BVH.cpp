@@ -78,8 +78,8 @@ bool doom::BVH<ColliderType>::BVHRayCast(const doom::physics::Ray & ray)
 		}
 		else
 		{
-			stack.push(this->mTree.mNodes[index].mChild1);
-			stack.push(this->mTree.mNodes[index].mChild2);
+			stack.push(this->mTree.mNodes[index].mLeftNode);
+			stack.push(this->mTree.mNodes[index].mRightNode);
 		}
 	}
 	return false;
@@ -137,8 +137,8 @@ int doom::BVH<ColliderType>::PickBest(const ColliderType& L)
 		float lowerBound = toInsertSurfaceArea + inheritedCost;
 
 		if (lowerBound < bestCost) {
-			int child1 = this->mTree.mNodes[searchIndex].mChild1;
-			int child2 = this->mTree.mNodes[searchIndex].mChild2;
+			int child1 = this->mTree.mNodes[searchIndex].mLeftNode;
+			int child2 = this->mTree.mNodes[searchIndex].mRightNode;
 			if (child1 != NULL_NODE_INDEX) {
 				assert(child2 != NULL_NODE_INDEX);
 				queue.emplace(child1, inheritedCost);
@@ -233,13 +233,13 @@ int doom::BVH<ColliderType>::GetSibling(int index)
 		return NULL_NODE_INDEX;
 	}
 
-	if (this->mTree.mNodes[parentIndex].mChild1 == index)
+	if (this->mTree.mNodes[parentIndex].mLeftNode == index)
 	{
-		return this->mTree.mNodes[parentIndex].mChild2;
+		return this->mTree.mNodes[parentIndex].mRightNode;
 	}
-	else if (this->mTree.mNodes[parentIndex].mChild2 == index)
+	else if (this->mTree.mNodes[parentIndex].mRightNode == index)
 	{
-		return this->mTree.mNodes[parentIndex].mChild1;
+		return this->mTree.mNodes[parentIndex].mLeftNode;
 	}
 	else
 	{
@@ -251,7 +251,7 @@ template <typename ColliderType>
 bool doom::BVH<ColliderType>::IsHasChild(int index)
 {
 	D_ASSERT(index != NULL_NODE_INDEX);
-	return (this->mTree.mNodes[index].mChild1 != NULL_NODE_INDEX) || (this->mTree.mNodes[index].mChild2 != NULL_NODE_INDEX);
+	return (this->mTree.mNodes[index].mLeftNode != NULL_NODE_INDEX) || (this->mTree.mNodes[index].mRightNode != NULL_NODE_INDEX);
 }
 
 template <typename ColliderType>
@@ -284,24 +284,24 @@ typename doom::BVH<ColliderType>::node_view_type doom::BVH<ColliderType>::Insert
 
 		if (oldParentIndex != NULL_NODE_INDEX)
 		{
-			if (this->mTree.mNodes[oldParentIndex].mChild1 == bestSibling)
+			if (this->mTree.mNodes[oldParentIndex].mLeftNode == bestSibling)
 			{
-				this->mTree.mNodes[oldParentIndex].mChild1 = newParentIndex;
+				this->mTree.mNodes[oldParentIndex].mLeftNode = newParentIndex;
 			}
 			else
 			{
-				this->mTree.mNodes[oldParentIndex].mChild2 = newParentIndex;
+				this->mTree.mNodes[oldParentIndex].mRightNode = newParentIndex;
 			}
 
-			this->mTree.mNodes[newParentIndex].mChild1 = bestSibling;
-			this->mTree.mNodes[newParentIndex].mChild2 = newObjectLeafIndex;
+			this->mTree.mNodes[newParentIndex].mLeftNode = bestSibling;
+			this->mTree.mNodes[newParentIndex].mRightNode = newObjectLeafIndex;
 			this->mTree.mNodes[bestSibling].mParentIndex = newParentIndex;
 			this->mTree.mNodes[newObjectLeafIndex].mParentIndex = newParentIndex;
 		}
 		else
 		{
-			this->mTree.mNodes[newParentIndex].mChild1 = bestSibling;
-			this->mTree.mNodes[newParentIndex].mChild2 = newObjectLeafIndex;
+			this->mTree.mNodes[newParentIndex].mLeftNode = bestSibling;
+			this->mTree.mNodes[newParentIndex].mRightNode = newObjectLeafIndex;
 			this->mTree.mNodes[bestSibling].mParentIndex = newParentIndex;
 			this->mTree.mNodes[newObjectLeafIndex].mParentIndex = newParentIndex;
 			this->mTree.mRootNodeIndex = newParentIndex;
@@ -362,7 +362,7 @@ void doom::BVH<ColliderType>::HillClimingReconstruct(int index)
 	D_ASSERT(index != NULL_NODE_INDEX);
 	while (index != NULL_NODE_INDEX)
 	{
-		D_ASSERT(this->mTree.mNodes[index].mChild1 != NULL_NODE_INDEX && this->mTree.mNodes[index].mChild2 != NULL_NODE_INDEX);
+		D_ASSERT(this->mTree.mNodes[index].mLeftNode != NULL_NODE_INDEX && this->mTree.mNodes[index].mRightNode != NULL_NODE_INDEX);
 
 		this->ReConstructNodeAABB(index);
 		index = Balance(index); // TODO : Balancing만 하면 이상해진다.
@@ -424,30 +424,30 @@ int doom::BVH<ColliderType>::Balance(int lowerNodeIndex)
 	int parentIndexOfimbalancedHigherNode = this->mTree.mNodes[higerNodeIndex].mParentIndex;
 	int parentIndexOfimbalancedLowerNodeIndex = this->mTree.mNodes[lowerNodeIndex].mParentIndex;
 
-	if (this->mTree.mNodes[parentIndexOfimbalancedHigherNode].mChild1 == higerNodeIndex)
+	if (this->mTree.mNodes[parentIndexOfimbalancedHigherNode].mLeftNode == higerNodeIndex)
 	{
-		if (this->mTree.mNodes[parentIndexOfimbalancedLowerNodeIndex].mChild1 == lowerNodeIndex)
+		if (this->mTree.mNodes[parentIndexOfimbalancedLowerNodeIndex].mLeftNode == lowerNodeIndex)
 		{
-			this->mTree.mNodes[parentIndexOfimbalancedLowerNodeIndex].mChild1 = higerNodeIndex;
-			this->mTree.mNodes[parentIndexOfimbalancedHigherNode].mChild1 = lowerNodeIndex;
+			this->mTree.mNodes[parentIndexOfimbalancedLowerNodeIndex].mLeftNode = higerNodeIndex;
+			this->mTree.mNodes[parentIndexOfimbalancedHigherNode].mLeftNode = lowerNodeIndex;
 		}
-		else if (this->mTree.mNodes[parentIndexOfimbalancedLowerNodeIndex].mChild2 == lowerNodeIndex)
+		else if (this->mTree.mNodes[parentIndexOfimbalancedLowerNodeIndex].mRightNode == lowerNodeIndex)
 		{
-			this->mTree.mNodes[parentIndexOfimbalancedLowerNodeIndex].mChild2 = higerNodeIndex;
-			this->mTree.mNodes[parentIndexOfimbalancedHigherNode].mChild1 = lowerNodeIndex;
+			this->mTree.mNodes[parentIndexOfimbalancedLowerNodeIndex].mRightNode = higerNodeIndex;
+			this->mTree.mNodes[parentIndexOfimbalancedHigherNode].mLeftNode = lowerNodeIndex;
 		}
 	}
-	else if (this->mTree.mNodes[parentIndexOfimbalancedHigherNode].mChild2 == higerNodeIndex)
+	else if (this->mTree.mNodes[parentIndexOfimbalancedHigherNode].mRightNode == higerNodeIndex)
 	{
-		if (this->mTree.mNodes[parentIndexOfimbalancedLowerNodeIndex].mChild1 == lowerNodeIndex)
+		if (this->mTree.mNodes[parentIndexOfimbalancedLowerNodeIndex].mLeftNode == lowerNodeIndex)
 		{
-			this->mTree.mNodes[parentIndexOfimbalancedLowerNodeIndex].mChild1 = higerNodeIndex;
-			this->mTree.mNodes[parentIndexOfimbalancedHigherNode].mChild2 = lowerNodeIndex;
+			this->mTree.mNodes[parentIndexOfimbalancedLowerNodeIndex].mLeftNode = higerNodeIndex;
+			this->mTree.mNodes[parentIndexOfimbalancedHigherNode].mRightNode = lowerNodeIndex;
 		}
-		else if (this->mTree.mNodes[parentIndexOfimbalancedLowerNodeIndex].mChild2 == lowerNodeIndex)
+		else if (this->mTree.mNodes[parentIndexOfimbalancedLowerNodeIndex].mRightNode == lowerNodeIndex)
 		{
-			this->mTree.mNodes[parentIndexOfimbalancedLowerNodeIndex].mChild2 = higerNodeIndex;
-			this->mTree.mNodes[parentIndexOfimbalancedHigherNode].mChild2 = lowerNodeIndex;
+			this->mTree.mNodes[parentIndexOfimbalancedLowerNodeIndex].mRightNode = higerNodeIndex;
+			this->mTree.mNodes[parentIndexOfimbalancedHigherNode].mRightNode = lowerNodeIndex;
 		}
 	}
 	else
@@ -499,13 +499,13 @@ void doom::BVH<ColliderType>::RemoveLeafNode(doom::BVH<ColliderType>::node_type*
 	if (parentIndex != NULL_NODE_INDEX)
 	{
 		grandParentIndex = this->mTree.mNodes[parentIndex].mParentIndex;
-		if (this->mTree.mNodes[parentIndex].mChild1 == targetLeafNodeIndex)
+		if (this->mTree.mNodes[parentIndex].mLeftNode == targetLeafNodeIndex)
 		{
-			siblingIndex = this->mTree.mNodes[parentIndex].mChild2;
+			siblingIndex = this->mTree.mNodes[parentIndex].mRightNode;
 		}
-		else if (this->mTree.mNodes[parentIndex].mChild2 == targetLeafNodeIndex)
+		else if (this->mTree.mNodes[parentIndex].mRightNode == targetLeafNodeIndex)
 		{
-			siblingIndex = this->mTree.mNodes[parentIndex].mChild1;
+			siblingIndex = this->mTree.mNodes[parentIndex].mLeftNode;
 		}
 		else
 		{
@@ -524,13 +524,13 @@ void doom::BVH<ColliderType>::RemoveLeafNode(doom::BVH<ColliderType>::node_type*
 		}
 		else
 		{
-			if (this->mTree.mNodes[grandParentIndex].mChild1 == parentIndex)
+			if (this->mTree.mNodes[grandParentIndex].mLeftNode == parentIndex)
 			{
-				this->mTree.mNodes[grandParentIndex].mChild1 = siblingIndex;
+				this->mTree.mNodes[grandParentIndex].mLeftNode = siblingIndex;
 			}
-			else if (this->mTree.mNodes[grandParentIndex].mChild2 == parentIndex)
+			else if (this->mTree.mNodes[grandParentIndex].mRightNode == parentIndex)
 			{
-				this->mTree.mNodes[grandParentIndex].mChild2 = siblingIndex;
+				this->mTree.mNodes[grandParentIndex].mRightNode = siblingIndex;
 			}
 			else
 			{
@@ -560,8 +560,8 @@ void doom::BVH<ColliderType>::ReConstructNodeAABB(int targetNodeIndex)
 		return;
 	}
 
-	D_ASSERT(this->mTree.mNodes[targetNodeIndex].mChild1 != NULL_NODE_INDEX && this->mTree.mNodes[targetNodeIndex].mChild2 != NULL_NODE_INDEX);
-	this->mTree.mNodes[targetNodeIndex].mBoundingCollider = ColliderType::Union(this->mTree.mNodes[this->mTree.mNodes[targetNodeIndex].mChild1].mBoundingCollider, this->mTree.mNodes[this->mTree.mNodes[targetNodeIndex].mChild2].mBoundingCollider);
+	D_ASSERT(this->mTree.mNodes[targetNodeIndex].mLeftNode != NULL_NODE_INDEX && this->mTree.mNodes[targetNodeIndex].mRightNode != NULL_NODE_INDEX);
+	this->mTree.mNodes[targetNodeIndex].mBoundingCollider = ColliderType::Union(this->mTree.mNodes[this->mTree.mNodes[targetNodeIndex].mLeftNode].mBoundingCollider, this->mTree.mNodes[this->mTree.mNodes[targetNodeIndex].mRightNode].mBoundingCollider);
 	this->mTree.mNodes[targetNodeIndex].mEnlargedBoundingCollider = ColliderType::EnlargeAABB(this->mTree.mNodes[targetNodeIndex].mBoundingCollider);
 }
 
@@ -582,15 +582,15 @@ void doom::BVH<ColliderType>::DebugBVHTree(node_type* node, float x, float y, in
 	}
 
 	float offsetX = static_cast<float>(1.0f / (math::pow(2, depth + 1)));
-	if (node->mChild1 != NULL_NODE_INDEX)
+	if (node->mLeftNode != NULL_NODE_INDEX)
 	{
-		graphics::DebugGraphics::GetSingleton()->DebugDraw2DLine({ x, y, 0 }, { x - offsetX, y - DebugBVHTreeOffsetY, 0 }, this->mTree.mNodes[node->mChild1].mIsLeaf == false ? eColor::Black : ((doom::BVH<ColliderType>::recentAddedLeaf.empty() == false && doom::BVH<ColliderType>::recentAddedLeaf.top() == node->mChild1) ? eColor::Red : eColor::Blue), true);
-		DebugBVHTree(&(this->mTree.mNodes[node->mChild1]), x - offsetX, y - DebugBVHTreeOffsetY, depth + 1);
+		graphics::DebugGraphics::GetSingleton()->DebugDraw2DLine({ x, y, 0 }, { x - offsetX, y - DebugBVHTreeOffsetY, 0 }, this->mTree.mNodes[node->mLeftNode].mIsLeaf == false ? eColor::Black : ((doom::BVH<ColliderType>::recentAddedLeaf.empty() == false && doom::BVH<ColliderType>::recentAddedLeaf.top() == node->mLeftNode) ? eColor::Red : eColor::Blue), true);
+		DebugBVHTree(&(this->mTree.mNodes[node->mLeftNode]), x - offsetX, y - DebugBVHTreeOffsetY, depth + 1);
 	}
-	if (node->mChild2 != NULL_NODE_INDEX)
+	if (node->mRightNode != NULL_NODE_INDEX)
 	{
-		graphics::DebugGraphics::GetSingleton()->DebugDraw2DLine({ x, y, 0 }, { x + offsetX, y - DebugBVHTreeOffsetY, 0 }, this->mTree.mNodes[node->mChild2].mIsLeaf == false ? eColor::Black : ((doom::BVH<ColliderType>::recentAddedLeaf.empty() == false && doom::BVH<ColliderType>::recentAddedLeaf.top() == node->mChild2) ? eColor::Red : eColor::Blue), true);
-		DebugBVHTree(&(this->mTree.mNodes[node->mChild2]), x + offsetX, y - DebugBVHTreeOffsetY, depth + 1);
+		graphics::DebugGraphics::GetSingleton()->DebugDraw2DLine({ x, y, 0 }, { x + offsetX, y - DebugBVHTreeOffsetY, 0 }, this->mTree.mNodes[node->mRightNode].mIsLeaf == false ? eColor::Black : ((doom::BVH<ColliderType>::recentAddedLeaf.empty() == false && doom::BVH<ColliderType>::recentAddedLeaf.top() == node->mRightNode) ? eColor::Red : eColor::Blue), true);
+		DebugBVHTree(&(this->mTree.mNodes[node->mRightNode]), x + offsetX, y - DebugBVHTreeOffsetY, depth + 1);
 	}
 }
 
@@ -749,14 +749,14 @@ int doom::BVH<ColliderType>::GetHeight(int index, int& longestHeight, int curren
 		longestHeight = currentHeight;
 	}
 
-	if (this->mTree.mNodes[index].mChild1 != NULL_NODE_INDEX)
+	if (this->mTree.mNodes[index].mLeftNode != NULL_NODE_INDEX)
 	{
-		GetHeight(this->mTree.mNodes[index].mChild1, longestHeight, currentHeight);
+		GetHeight(this->mTree.mNodes[index].mLeftNode, longestHeight, currentHeight);
 	}
 
-	if (this->mTree.mNodes[index].mChild2 != NULL_NODE_INDEX)
+	if (this->mTree.mNodes[index].mRightNode != NULL_NODE_INDEX)
 	{
-		GetHeight(this->mTree.mNodes[index].mChild2, longestHeight, currentHeight);
+		GetHeight(this->mTree.mNodes[index].mRightNode, longestHeight, currentHeight);
 	}
 	return longestHeight;
 }
@@ -851,14 +851,14 @@ void doom::BVH<ColliderType>::CheckActiveNode(node_type* node, std::vector<int>&
 		auto iter = std::vector_find_swap_erase(activeNodeList, node->mIndex);
 	}
 
-	if (node->mChild1 != NULL_NODE_INDEX)
+	if (node->mLeftNode != NULL_NODE_INDEX)
 	{
-		CheckActiveNode(&(this->mTree.mNodes[node->mChild1]), activeNodeList);
+		CheckActiveNode(&(this->mTree.mNodes[node->mLeftNode]), activeNodeList);
 	}
 
-	if (node->mChild2 != NULL_NODE_INDEX)
+	if (node->mRightNode != NULL_NODE_INDEX)
 	{
-		CheckActiveNode(&(this->mTree.mNodes[node->mChild2]), activeNodeList);
+		CheckActiveNode(&(this->mTree.mNodes[node->mRightNode]), activeNodeList);
 	}
 #endif
 }
@@ -915,11 +915,11 @@ void doom::BVH<ColliderType>::ValidCheck()
 			{
 				if (this->mTree.mNodes[i].mIsLeaf == false)
 				{// leaf node must have 2 child
-					D_ASSERT(this->mTree.mNodes[i].mChild1 != NULL_NODE_INDEX && this->mTree.mNodes[i].mChild2 != NULL_NODE_INDEX);
+					D_ASSERT(this->mTree.mNodes[i].mLeftNode != NULL_NODE_INDEX && this->mTree.mNodes[i].mRightNode != NULL_NODE_INDEX);
 				}
 				else
 				{// leaf node must have no childs
-					D_ASSERT(this->mTree.mNodes[i].mChild1 == NULL_NODE_INDEX && this->mTree.mNodes[i].mChild2 == NULL_NODE_INDEX);
+					D_ASSERT(this->mTree.mNodes[i].mLeftNode == NULL_NODE_INDEX && this->mTree.mNodes[i].mRightNode == NULL_NODE_INDEX);
 				}
 			}
 		}
@@ -932,11 +932,11 @@ void doom::BVH<ColliderType>::ValidCheck()
 		{
 			if (this->mTree.mNodes[i].bmIsActive == true && this->mTree.mNodes[i].mIsLeaf == false)
 			{
-				D_ASSERT(checkedChildIndexs.find(this->mTree.mNodes[i].mChild1) == checkedChildIndexs.end());
-				D_ASSERT(checkedChildIndexs.find(this->mTree.mNodes[i].mChild2) == checkedChildIndexs.end());
+				D_ASSERT(checkedChildIndexs.find(this->mTree.mNodes[i].mLeftNode) == checkedChildIndexs.end());
+				D_ASSERT(checkedChildIndexs.find(this->mTree.mNodes[i].mRightNode) == checkedChildIndexs.end());
 
-				checkedChildIndexs.insert(this->mTree.mNodes[i].mChild1);
-				checkedChildIndexs.insert(this->mTree.mNodes[i].mChild2);
+				checkedChildIndexs.insert(this->mTree.mNodes[i].mLeftNode);
+				checkedChildIndexs.insert(this->mTree.mNodes[i].mRightNode);
 			}
 		}
 
@@ -946,19 +946,19 @@ void doom::BVH<ColliderType>::ValidCheck()
 		{
 			if (this->mTree.mNodes[i].bmIsActive == true)
 			{
-				if (this->mTree.mNodes[i].mChild1 != NULL_NODE_INDEX)
+				if (this->mTree.mNodes[i].mLeftNode != NULL_NODE_INDEX)
 				{
-					D_ASSERT(this->mTree.mNodes[this->mTree.mNodes[i].mChild1].mParentIndex == i);
+					D_ASSERT(this->mTree.mNodes[this->mTree.mNodes[i].mLeftNode].mParentIndex == i);
 				}
 
-				if (this->mTree.mNodes[i].mChild2 != NULL_NODE_INDEX)
+				if (this->mTree.mNodes[i].mRightNode != NULL_NODE_INDEX)
 				{
-					D_ASSERT(this->mTree.mNodes[this->mTree.mNodes[i].mChild2].mParentIndex == i);
+					D_ASSERT(this->mTree.mNodes[this->mTree.mNodes[i].mRightNode].mParentIndex == i);
 				}
 
 				if (this->mTree.mNodes[i].mParentIndex != NULL_NODE_INDEX)
 				{
-					D_ASSERT(this->mTree.mNodes[this->mTree.mNodes[i].mParentIndex].mChild1 == i || this->mTree.mNodes[this->mTree.mNodes[i].mParentIndex].mChild2 == i);
+					D_ASSERT(this->mTree.mNodes[this->mTree.mNodes[i].mParentIndex].mLeftNode == i || this->mTree.mNodes[this->mTree.mNodes[i].mParentIndex].mRightNode == i);
 				}
 			}
 		}

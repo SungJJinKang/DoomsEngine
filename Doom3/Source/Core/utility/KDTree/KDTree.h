@@ -52,6 +52,7 @@ namespace doom
 		int _Insert(const typename node_type::component_type & point, int searchIndex, int parentIndex, const int searchDimension);
 		int _FineMin(const int index, const int searchDimension, const int targetMinNodeDimension);
 		int _Delete(const typename node_type::component_type& point, int searchIndex, int parentIndex, const int searchDimension, const int targetMinNodeDimension);
+		void _SwapNode(int nodeIndex1, int nodeIndex2);
 
 	public:
 		KDTree(int capacity);
@@ -73,7 +74,11 @@ namespace doom
 			D_ASSERT(index < this->mNodeCapacity);
 			return node_view_type(&(this->mKDTreeNodes), index);
 		}
+
+		void ValidCheck();
 	};
+
+	
 
 	using KDTree_2D = typename KDTree<2>;
 	using KDTree_3D = typename KDTree<3>;
