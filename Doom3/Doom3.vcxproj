@@ -187,6 +187,7 @@
     <ClCompile Include="Source\Core\OS\Window.cpp" />
     <ClCompile Include="Source\Core\utility\BVH\BVH_Collider_Container.cpp" />
     <ClCompile Include="Source\Core\utility\BVH\BVH_Node.cpp" />
+    <ClCompile Include="Source\Core\utility\BVH\BVH_Node_View.cpp" />
     <ClCompile Include="Source\Core\utility\BVH\BVH_Node_Container.cpp" />
     <ClCompile Include="Source\Core\utility\BVH\BVH_Node_Object.cpp" />
     <ClCompile Include="Source\Core\utility\BVH\BVH_Tree.cpp" />
@@ -272,6 +273,8 @@
     <ClCompile Include="Source\Core\ResourceManagement\JobSystem.cpp" />
     <ClCompile Include="Source\Core\Time\MainTimer.cpp" />
     <ClCompile Include="Source\Core\Time\Time_Server.cpp" />
+    <ClCompile Include="Source\Core\utility\KDTree\KDTree.cpp" />
+    <ClCompile Include="Source\Core\utility\KDTree\KDTreeNodeView.cpp" />
     <ClCompile Include="Source\GameLogic\CustomComponent\AutoRotate.cpp" />
     <ClCompile Include="Source\GameLogic\CustomComponent\AxisDebugger.cpp" />
     <ClCompile Include="Source\GameLogic\CustomComponent\Move_WASD.cpp" />
@@ -309,7 +312,9 @@
     <ClInclude Include="Source\Core\OS\OS_Server.h" />
     <ClInclude Include="Source\Core\OS\Window.h" />
     <ClInclude Include="Source\Core\utility\BVH\BVH_Collider_Container.h" />
+    <ClInclude Include="Source\Core\utility\BVH\BVH_Core.h" />
     <ClInclude Include="Source\Core\utility\BVH\BVH_Node.h" />
+    <ClInclude Include="Source\Core\utility\BVH\BVH_Node_View.h" />
     <ClInclude Include="Source\Core\utility\BVH\BVH_Node_Container.h" />
     <ClInclude Include="Source\Core\utility\BVH\BVH_Node_Object.h" />
     <ClInclude Include="Source\Core\utility\BVH\BVH_Tree.h" />
@@ -457,6 +462,10 @@
     <ClInclude Include="Source\Core\ResourceManagement\JobSystem.h" />
     <ClInclude Include="Source\Core\Time\MainTimer.h" />
     <ClInclude Include="Source\Core\Time\Time_Server.h" />
+    <ClInclude Include="Source\Core\utility\KDTree\KDTree.h" />
+    <ClInclude Include="Source\Core\utility\KDTree\KDTreeCore.h" />
+    <ClInclude Include="Source\Core\utility\KDTree\KDTreeNode.h" />
+    <ClInclude Include="Source\Core\utility\KDTree\KDTreeNodeView.h" />
     <ClInclude Include="Source\GameLogic\CustomComponent\AutoRotate.h" />
     <ClInclude Include="Source\GameLogic\CustomComponent\AxisDebugger.h" />
     <ClInclude Include="Source\GameLogic\CustomComponent\Move_WASD.h" />

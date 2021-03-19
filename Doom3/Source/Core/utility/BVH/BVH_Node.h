@@ -5,6 +5,9 @@
 #include <Physics/Collider/AABB.h>
 #include <Physics/Collider/Sphere.h>
 
+#include "BVH_Core.h"
+#include "BVH_Node_View.h"
+
 namespace doom
 {
 	namespace physics
@@ -30,6 +33,8 @@ namespace doom
 		friend class BVH<ColliderType>;
 		friend class BVH_Tree<ColliderType>;
 		friend class doom::physics::BVH_TestRoom;
+
+		using node_view_type = typename BVH_Node_View<ColliderType>;
 
 	public:
 
@@ -91,7 +96,7 @@ namespace doom
 		BVH_Node() = default;
 		~BVH_Node() = default;
 		
-		BVH_Node<ColliderType>* UpdateNode();
+		node_view_type UpdateNode();
 
 		////////////////////////////////////////////////////////////////////////
 
@@ -106,13 +111,13 @@ namespace doom
 		/// this function don't chagne mEnlargedBoundingCollider if newAABB is still completly enclosed by mEnlargedBoundingCollider
 		/// </summary>
 		/// <param name="collider"></param>
-		BVH_Node<ColliderType>* Update(const ColliderType& collider);
+		node_view_type Update(const ColliderType& collider);
 		/// <summary>
 		/// this function don't chagne mEnlargedBoundingCollider if updated mBoundingCollider is still completly enclosed by mEnlargedBoundingCollider
 		/// </summary>
 		/// <param name="movedVector"></param>
-		BVH_Node<ColliderType>* Update(const typename ColliderType::component_type& movedVector);
-		BVH_Node<ColliderType>* Update(const typename ColliderType::component_type& movedVector, const typename ColliderType::component_type& margin);
+		node_view_type Update(const typename ColliderType::component_type& movedVector);
+		node_view_type Update(const typename ColliderType::component_type& movedVector, const typename ColliderType::component_type& margin);
 		//Node<ColliderType>* Update(const typename ColliderType::component_type& margin);
 		void RemoveNode();
 
@@ -132,5 +137,5 @@ namespace doom
 	extern template class BVH_Node<doom::physics::AABB3D>;
 	extern template class BVH_Node<doom::physics::Sphere>;
 
-	constexpr inline int NULL_NODE_INDEX{ -1 };
+	
 }

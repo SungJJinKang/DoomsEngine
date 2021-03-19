@@ -4,6 +4,8 @@
 
 #include "Physics/Collider/AABB.h"
 #include "Physics/Collider/Sphere.h"
+
+#include "BVH_Core.h"
 #include "BVH_Node.h"
 
 namespace doom

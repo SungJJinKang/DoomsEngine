@@ -255,7 +255,7 @@ bool doom::BVH<ColliderType>::IsHasChild(int index)
 }
 
 template <typename ColliderType>
-typename doom::BVH<ColliderType>::node_type* doom::BVH<ColliderType>::InsertLeaf(const ColliderType& L, physics::Collider* collider)
+typename doom::BVH<ColliderType>::node_view_type doom::BVH<ColliderType>::InsertLeaf(const ColliderType& L, physics::Collider* collider)
 {
 	int newObjectLeafIndex = AllocateLeafNode(L, collider);
 	if (this->mTree.mCurrentActiveNodeCount == 1)
@@ -312,13 +312,16 @@ typename doom::BVH<ColliderType>::node_type* doom::BVH<ColliderType>::InsertLeaf
 		HillClimingReconstruct(this->mTree.mNodes[newObjectLeafIndex].mParentIndex);
 	}
 
-	return &(this->mTree.mNodes[newObjectLeafIndex]);
+	return this->MakeBVH_Node_View(newObjectLeafIndex);
 }
 
 template <typename ColliderType>
-typename doom::BVH<ColliderType>::node_type* doom::BVH<ColliderType>::UpdateLeafNode(node_type* targetLeafNode, bool force)
+typename doom::BVH<ColliderType>::node_view_type doom::BVH<ColliderType>::UpdateLeafNode(int targetLeafNodeIndex, bool force)
 {
-	D_ASSERT(targetLeafNode != nullptr);
+	D_ASSERT(targetLeafNodeIndex != NULL_NODE_INDEX);
+
+	node_type* targetLeafNode = this->GetNode(targetLeafNodeIndex);
+
 	D_ASSERT(targetLeafNode->mIsLeaf == true);
 
 	if (ColliderType::CheckIsCompletlyEnclosed(targetLeafNode->mBoundingCollider, targetLeafNode->mEnlargedBoundingCollider) == false || force == true)
@@ -331,7 +334,7 @@ typename doom::BVH<ColliderType>::node_type* doom::BVH<ColliderType>::UpdateLeaf
 	}
 	else
 	{
-		return targetLeafNode;
+		return this->MakeBVH_Node_View(targetLeafNodeIndex);
 	}
 }
 

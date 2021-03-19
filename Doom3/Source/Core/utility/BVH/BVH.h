@@ -5,13 +5,15 @@
 #include "Physics/Collider/AABB.h"
 #include "Physics/Collider/Sphere.h"
 #include "Physics/Collider/Ray.h"
-#include "Graphics/FrameBuffer/utility/PicktureInPickture.h"
 
+#include "BVH_Core.h"
 #include "BVH_Node.h"
 #include "BVH_Tree.h"
+#include "BVH_Node_View.h"
 
 #ifdef DEBUG_MODE
 #include <stack>
+#include "Graphics/FrameBuffer/utility/PicktureInPickture.h"
 #endif
 
 //BVH is used for rendering, collision detect, raycast, stero audio ......
@@ -55,6 +57,7 @@ namespace doom
 	{
 		using tree_type = typename BVH_Tree<ColliderType>;
 		using node_type = typename BVH_Node<ColliderType>;
+		using node_view_type = typename BVH_Node_View<ColliderType>;
 
 		friend class doom::physics::BVH_TestRoom;
 		friend class BVH_Tree<ColliderType>;
@@ -133,7 +136,7 @@ namespace doom
 		/// </summary>
 		/// <param name="newOjectIndex"></param>
 		/// <param name="newObjectBox"></param>
-		node_type* InsertLeaf(const ColliderType& L, doom::physics::Collider* collider);
+		node_view_type InsertLeaf(const ColliderType& L, doom::physics::Collider* collider);
 		void RemoveLeafNode(node_type* targetLeafNode);
 		void RemoveLeafNode(int targetLeafNodeIndex);
 		
@@ -146,7 +149,7 @@ namespace doom
 		/// <param name="updatedNode"></param>
 		/// <param name="force"></param>
 		/// <returns></returns>
-		node_type* UpdateLeafNode(node_type* targetLeafNode, bool force = false);
+		node_view_type UpdateLeafNode(int targetLeafNodeIndex, bool force = false);
 
 		void InitializeDebugging();
 		void TreeDebug();
@@ -157,6 +160,12 @@ namespace doom
 		/// Check all active nodes can be traversed from rootNodeIndex
 		/// </summary>
 		void ValidCheck();
+
+		constexpr node_view_type MakeBVH_Node_View(int index)
+		{
+			D_ASSERT(index < this->mTree.mNodeCapacity);
+			return node_view_type(&(this->mTree.mNodes), index);
+		}
 	};
 
 	using BVH2D = typename BVH<doom::physics::AABB2D>;

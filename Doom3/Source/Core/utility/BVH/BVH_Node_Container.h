@@ -1,7 +1,9 @@
 #pragma once
 #include "../../Core.h"
 
+#include "BVH_Core.h"
 #include "BVH_Node.h"
+#include "BVH_Node_View.h"
 
 namespace doom
 {
@@ -17,9 +19,11 @@ namespace doom
 	template <typename ColliderType>
 	class BVH_Node_Container
 	{
+		using node_view_type = typename BVH_Node_View<ColliderType>;
+
 	private:
 
-		BVH_Node<ColliderType>* mBVH_NODE{ nullptr };
+		node_view_type mBVH_NODE{};
 
 	protected:
 

@@ -4,14 +4,14 @@
 template <typename ColliderType>
 void doom::BVH_Node_Container<ColliderType>::InsertBVHLeafNode(BVH<ColliderType>& BVH, const ColliderType& Collider, doom::physics::Collider* collider)
 {
-	D_ASSERT(this->mBVH_NODE == nullptr);
+	D_ASSERT(this->mBVH_NODE.IsValid() == true);
 	this->mBVH_NODE = BVH.InsertLeaf(Collider, collider);
 }
 
 template <typename ColliderType>
 void doom::BVH_Node_Container<ColliderType>::UpdateBVH_Node(const ColliderType& Collider)
 {
-	D_ASSERT(this->mBVH_NODE != nullptr);
+	D_ASSERT(this->mBVH_NODE.IsValid() == true);
 	this->mBVH_NODE = this->mBVH_NODE->Update(Collider);
 }
 
@@ -27,10 +27,10 @@ void doom::BVH_Node_Container<ColliderType>::UpdateBVH_Node(const typename Colli
 template <typename ColliderType>
 void doom::BVH_Node_Container<ColliderType>::RemoveBVH_Node()
 {
-	if (this->mBVH_NODE != nullptr)
+	if (this->mBVH_NODE.IsValid())
 	{
 		this->mBVH_NODE->RemoveNode();
-		this->mBVH_NODE = nullptr;
+		this->mBVH_NODE.Reset();
 	}
 }
 
@@ -44,7 +44,7 @@ doom::BVH_Node_Container<ColliderType>::~BVH_Node_Container()
 template <typename ColliderType>
 bool doom::BVH_Node_Container<ColliderType>::RaycastToBVHNode(const physics::Ray& ray)
 {
-	D_ASSERT(this->mBVH_NODE != nullptr);
+	D_ASSERT(this->mBVH_NODE.IsValid() == true);
 	return this->mBVH_NODE->GetOwnerBVH()->BVHRayCast(ray);
 }
 

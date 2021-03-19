@@ -31,14 +31,16 @@ void doom::BVH_Node<ColliderType>::ValidCheck()
 }
 
 template <typename ColliderType>
-doom::BVH_Node<ColliderType>* doom::BVH_Node<ColliderType>::UpdateNode()
+typename doom::BVH_Node<ColliderType>::node_view_type doom::BVH_Node<ColliderType>::UpdateNode()
 {
 	D_ASSERT(this->mIsLeaf == true); // Only Leaf Nodes can be updated by UpdateLeafNode Function
-	return this->mOwnerBVH->UpdateLeafNode(this);
+	D_ASSERT(&(this->mOwnerBVH->mTree.mNodes[this->mIndex]) == this);
+
+	return this->mOwnerBVH->UpdateLeafNode(this->mIndex);
 }
 
 template <typename ColliderType>
-doom::BVH_Node<ColliderType>* doom::BVH_Node<ColliderType>::Update(const ColliderType& collider)
+typename doom::BVH_Node<ColliderType>::node_view_type doom::BVH_Node<ColliderType>::Update(const ColliderType& collider)
 {
 	D_ASSERT(this->mIsLeaf == true); // Don try aabb of internalnode arbitrary, InternalNode should be changed only by BVH algorithm
 	this->mBoundingCollider = collider;
@@ -50,7 +52,7 @@ doom::BVH_Node<ColliderType>* doom::BVH_Node<ColliderType>::Update(const Collide
 /// </summary>
 /// <param name="movedVector"></param>
 template <typename ColliderType>
-doom::BVH_Node<ColliderType>* doom::BVH_Node<ColliderType>::Update(const typename ColliderType::component_type& movedVector)
+typename doom::BVH_Node<ColliderType>::node_view_type doom::BVH_Node<ColliderType>::Update(const typename ColliderType::component_type& movedVector)
 {
 	D_ASSERT(this->mIsLeaf == true); // Don try aabb of internalnode arbitrary, InternalNode should be changed only by BVH algorithm
 	this->mBoundingCollider.SignedExpand(movedVector);
@@ -58,7 +60,7 @@ doom::BVH_Node<ColliderType>* doom::BVH_Node<ColliderType>::Update(const typenam
 }
 
 template <typename ColliderType>
-doom::BVH_Node<ColliderType>* doom::BVH_Node<ColliderType>::Update(const typename ColliderType::component_type& movedVector, const typename ColliderType::component_type& margin)
+typename doom::BVH_Node<ColliderType>::node_view_type doom::BVH_Node<ColliderType>::Update(const typename ColliderType::component_type& movedVector, const typename ColliderType::component_type& margin)
 {
 	D_ASSERT(this->mIsLeaf == true); // Don try aabb of internalnode arbitrary, InternalNode should be changed only by BVH algorithm
 	this->mBoundingCollider.Expand(margin);

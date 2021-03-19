@@ -1,7 +1,5 @@
 #pragma once
 
-#include "../../Core.h"
-
 #include <Matrix4x4.h>
 
 #include "Physics/Collider/AABB.h"
@@ -9,6 +7,8 @@
 
 #include <EasyDirtyChecker/DirtyReceiver.h>
 #include "Graphics/Color.h"
+
+#include "BVH_Core.h"
 
 namespace doom
 {
