@@ -16,6 +16,7 @@ void doom::MeshRenderer::SetMesh(graphics::Mesh* mesh)
 		/// </summary>
 		/// <param name="mesh"></param>
 		BVH_Sphere_Node_Object::UpdateLocalBVhColliderCache(this->mTargetMesh->GetSphere());
+		BVH_AABB3D_Node_Object::UpdateLocalBVhColliderCache(this->mTargetMesh->GetAABB());
 		//mIsBoundingSphereDirty.SetDirty(true);
 	}
 	else

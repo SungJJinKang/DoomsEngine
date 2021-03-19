@@ -35,7 +35,7 @@ void Graphics_Server::Init()
 	
 	this->InitGLFW();
 
-	this->mHWOcclusionCulling.InitHWOcclusionCulling();
+	this->mQueryOcclusionCulling.InitHWOcclusionCulling();
 	return;
 }
 

@@ -7,6 +7,7 @@ void doom::Renderer::InitComponent()
 	RendererComponentStaticIterator::AddRendererToStaticContainer();
 
 	this->AddLocalDirtyToTransformDirtyReceiver(BVH_Sphere_Node_Object::IsWorldBVhColliderCacheDirty);
+	this->AddLocalDirtyToTransformDirtyReceiver(BVH_AABB3D_Node_Object::IsWorldBVhColliderCacheDirty);
 	//this->AddLocalDirtyToTransformDirtyReceiver(this->mIsBoundingSphereDirty);
 	BVH_Sphere_Node_Object::InsertBVHLeafNode(graphics::Graphics_Server::GetSingleton()->mViewFrustumCulling.mBVHSphere, BVH_Sphere_Node_Object::GetWorldBVhColliderCacheByReference(), nullptr);
 }
