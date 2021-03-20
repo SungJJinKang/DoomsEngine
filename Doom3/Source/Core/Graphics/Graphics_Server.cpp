@@ -35,7 +35,7 @@ void Graphics_Server::Init()
 	
 	this->InitGLFW();
 
-	this->mQueryOcclusionCulling.InitHWOcclusionCulling();
+
 	return;
 }
 
@@ -48,10 +48,13 @@ void doom::graphics::Graphics_Server::LateInit()
 	this->SetRenderingMode(Graphics_Server::eRenderingMode::DeferredRendering);
 	this->mQuadMesh = Mesh::GetQuadMesh();
 
+	this->mQueryOcclusionCulling.InitHWOcclusionCulling();
+	this->mCullDistance.Initialize();
 }
 
 void Graphics_Server::Update()
 {
+	this->mCullDistance.OnStartDraw();
 	this->DeferredRendering();
 	
 
@@ -258,12 +261,14 @@ void doom::graphics::Graphics_Server::DeferredRendering()
 		size_t length = rendererComponentPair.second;
 		for (size_t i = 0; i < length; ++i)
 		{
-			
-			if (this->mViewFrustumCulling.IsVisible(renderers[i]) == true)
+			if (this->mCullDistance.GetIsVisible(renderers[i]) == true)
 			{
-				renderers[i]->UpdateComponent_Internal();
-				renderers[i]->UpdateComponent();
-				renderers[i]->Draw();
+				if (this->mViewFrustumCulling.IsVisible(renderers[i]) == true)
+				{
+					renderers[i]->UpdateComponent_Internal();
+					renderers[i]->UpdateComponent();
+					renderers[i]->Draw();
+				}
 			}
 		}
 

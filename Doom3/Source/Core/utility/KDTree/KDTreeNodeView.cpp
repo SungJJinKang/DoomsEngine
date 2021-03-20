@@ -1,5 +1,6 @@
 #include "KDTreeNodeView.h"
 
+#include "KDTree.h"
 #include "KDTreeNode.h"
 
 template<int Dimension>

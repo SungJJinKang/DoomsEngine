@@ -12,11 +12,12 @@ void doom::Transform::InitComponent()
 
 void doom::Transform::UpdateComponent()
 {
+
 }
 
 void doom::Transform::OnEndOfFrame_Component()
 {
-
+	this->mLastFramePosition = this->mPosition;
 }
 
 std::string doom::Transform::ToString()

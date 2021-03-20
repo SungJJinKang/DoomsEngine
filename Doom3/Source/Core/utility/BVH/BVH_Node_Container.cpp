@@ -4,7 +4,7 @@
 template <typename ColliderType>
 void doom::BVH_Node_Container<ColliderType>::InsertBVHLeafNode(BVH<ColliderType>& BVH, const ColliderType& Collider, doom::physics::Collider* collider)
 {
-	D_ASSERT(this->mBVH_NODE.IsValid() == true);
+	//D_ASSERT(this->mBVH_NODE.IsValid() == true);
 	this->mBVH_NODE = BVH.InsertLeaf(Collider, collider);
 }
 

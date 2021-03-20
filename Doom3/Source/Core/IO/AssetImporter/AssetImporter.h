@@ -56,6 +56,7 @@ namespace doom
 				if (isSuccess)
 				{
 					asset->mAssetStatus = ::doom::asset::Asset::AssetStatus::CompletlyImported;
+					D_DEBUG_LOG("Import Success : " + path.string(), eLogType::D_ALWAYS);
 				}
 				else
 				{

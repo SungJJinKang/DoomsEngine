@@ -3,7 +3,7 @@
 #include <algorithm>
 
 #include"Scene.h"
-#include <SequenceStringGenerator/SequenceStringGenerator.h>
+
 
 using namespace doom;
 
@@ -35,30 +35,29 @@ void doom::Entity::OnEndOfFramePlainComponentsAndEntity()
 
 void Entity::FixedUpdate_PlainComponent()
 {
-	for (size_t i = 0; i < this->mPlainComponents.size(); i++)
+	for (auto& plainComponent : this->mPlainComponents)
 	{
-		this->mPlainComponents[i]->FixedUpdateComponent_Internal();
-		this->mPlainComponents[i]->FixedUpdateComponent();
+		plainComponent->FixedUpdateComponent_Internal();
+		plainComponent->FixedUpdateComponent();
 	}
 }
 
+
 void doom::Entity::Update_PlainComponent()
 {
-	for (size_t i = 0; i < this->mPlainComponents.size(); i++)
+	for (auto& plainComponent : this->mPlainComponents)
 	{
-		D_START_PROFILING(SequenceStringGenerator::GetLiteralString("Update PlainComponents ", i), eProfileLayers::CPU);
-		this->mPlainComponents[i]->UpdateComponent_Internal();
-		this->mPlainComponents[i]->UpdateComponent();
-		D_END_PROFILING(SequenceStringGenerator::GetLiteralString("Update PlainComponents ", i));
+		plainComponent->UpdateComponent_Internal();
+		plainComponent->UpdateComponent();
 	}
 }
 
 void doom::Entity::EndOfFrame_PlainComponent()
 {
-	for (size_t i = 0; i < this->mPlainComponents.size(); i++)
+	for (auto& plainComponent : this->mPlainComponents)
 	{
-		this->mPlainComponents[i]->OnEndOfFrame_Component_Internal();
-		this->mPlainComponents[i]->OnEndOfFrame_Component();
+		plainComponent->OnEndOfFrame_Component_Internal();
+		plainComponent->OnEndOfFrame_Component();
 	}
 }
 

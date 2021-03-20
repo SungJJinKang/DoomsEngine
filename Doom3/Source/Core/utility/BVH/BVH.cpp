@@ -442,9 +442,6 @@ int doom::BVH<ColliderType>::Balance(int lowerNodeIndex)
 	this->mTree.mNodes[lowerNodeIndex].mParentIndex = parentIndexOfimbalancedHigherNode;
 
 	ReConstructNodeAABB(this->mTree.mNodes[parentIndexOfimbalancedLowerNodeIndex].mIndex);
-
-	D_DEBUG_LOG("Balance!!", eLogType::D_ALWAYS);
-
 	return higerNodeIndex;
 }
 

@@ -37,3 +37,6 @@
 [submodule "Doom3/Source/Helper/portable-snippets"]
 	path = Doom3/Source/Helper/portable-snippets
 	url = https://github.com/nemequ/portable-snippets.git
+[submodule "Doom3/Source/Helper/SequenceStringGenerator"]
+	path = Doom3/Source/Helper/SequenceStringGenerator
+	url = https://github.com/SungJJinKang/SequenceStringGenerator.git

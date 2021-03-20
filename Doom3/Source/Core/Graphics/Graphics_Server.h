@@ -17,6 +17,7 @@
 
 #include "Acceleration/ViewFrustumCulling.h"
 #include "Acceleration/OcclusionCulling/HW/QueryOcclusionCulling.h"
+#include "Acceleration/CullDistance/CullDistance.h"
 
 struct GLFWwindow;
 
@@ -69,6 +70,7 @@ namespace doom
 
 			ViewFrustumCulling mViewFrustumCulling{};
 			QueryOcclusionCulling mQueryOcclusionCulling{};
+			CullDistance mCullDistance{};
 
 #ifdef DEBUG_MODE
 			DebugGraphics mDebugGraphics{};

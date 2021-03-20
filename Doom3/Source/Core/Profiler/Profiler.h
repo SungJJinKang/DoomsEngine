@@ -2,6 +2,7 @@
 
 namespace doom
 {
+	class GameCore;
 	namespace profiler
 	{
 		enum class eProfileLayers
@@ -13,20 +14,21 @@ namespace doom
 			SOUND
 		};
 
-		/// <summary>
-		/// Never Pass std::string, Do Pass Only literal string
-		/// </summary>
-		/// <param name="name"></param>
-		/// <param name="layer"></param>
-		/// <returns></returns>
-		void StartProfiling(const char* name, eProfileLayers layer) noexcept;
+		class Profiler
+		{
+			friend class GameCore;
 
-		/// <summary>
-		/// Never Pass std::string, Do Pass Only literal string
-		/// </summary>
-		/// <param name="name"></param>
-		/// <returns></returns>
-		void EndProfiling(const char* name) noexcept;
+			class ProfilerPimpl;
+			static inline ProfilerPimpl* mProfilerPimpl{ nullptr };
+			
+			static bool IsInitialized();
+			static void InitProfiling() noexcept;
+			
+		public:
+			
+			static void StartProfiling(const char* name, eProfileLayers layer) noexcept;
+			static void EndProfiling(const char* name) noexcept;
+		};
 
 	}
 }

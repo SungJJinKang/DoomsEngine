@@ -46,25 +46,25 @@ doom::Scene* Scene::GetCurrentWorld()
 
 void Scene::FixedUpdatePlainComponents()
 {
-	for (size_t i = 0; i < this->mSpawnedEntities.size(); i++)
+	for (auto& spawnedEntity : this->mSpawnedEntities)
 	{
-		this->mSpawnedEntities[i]->FixedUpdate_PlainComponent();
+		spawnedEntity->FixedUpdate_PlainComponent();
 	}
 }
 
 void Scene::UpdatePlainComponents()
 {
-	for (size_t i = 0; i < this->mSpawnedEntities.size(); i++)
+	for (auto& spawnedEntity : this->mSpawnedEntities)
 	{
-		this->mSpawnedEntities[i]->Update_PlainComponent();
+		spawnedEntity->Update_PlainComponent();
 	}
 }
 
 void doom::Scene::OnEndOfFrameOfEntities()
 {
-	for (size_t i = 0; i < this->mSpawnedEntities.size(); i++)
+	for (auto& spawnedEntity : this->mSpawnedEntities)
 	{
-		this->mSpawnedEntities[i]->OnEndOfFramePlainComponentsAndEntity();
+		spawnedEntity->OnEndOfFramePlainComponentsAndEntity();
 	}
 }
 

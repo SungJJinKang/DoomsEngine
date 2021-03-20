@@ -171,6 +171,8 @@
     <ClCompile Include="Source\Component\EventSystem.cpp" />
     <ClCompile Include="Source\Component\PhysicsComponent\BoxCollider2D.cpp" />
     <ClCompile Include="Source\Component\PhysicsComponent\MeshCollider.cpp" />
+    <ClCompile Include="Source\Core\Graphics\Acceleration\CullDistance\CullDistance.cpp" />
+    <ClCompile Include="Source\Core\Graphics\Acceleration\CullDistance\CullDistanceRenderer.cpp" />
     <ClCompile Include="Source\Core\Graphics\Acceleration\OcclusionCulling\HW\HierarchicalZMapOcclusionCulling.cpp" />
     <ClCompile Include="Source\Core\Graphics\Acceleration\OcclusionCulling\HW\QueryOcclusionCulling.cpp" />
     <ClCompile Include="Source\Core\Graphics\Acceleration\OcclusionCulling\SW\SWOcclusionCulling.cpp" />
@@ -283,6 +285,7 @@
     <ClCompile Include="Source\GameLogic\Test.cpp" />
     <ClCompile Include="Source\Helper\EasyDirtyChecker\DirtySender.cpp" />
     <ClCompile Include="Source\Helper\EasyDirtyChecker\DirtyReceiver.cpp" />
+    <ClCompile Include="Source\Helper\SequenceStringGenerator\SequenceStringGenerator.cpp" />
     <ClCompile Include="Source\Helper\SimpleIniParser.cpp" />
     <ClCompile Include="Source\Helper\TextImporter.cpp" />
     <ClCompile Include="Source\Component\PhysicsComponent\SphereCollider3D.cpp" />
@@ -301,6 +304,8 @@
     <ClInclude Include="Source\Core\Asset\AssetMetaData.h" />
     <ClInclude Include="Source\Core\Asset\eAssetType.h" />
     <ClInclude Include="Source\Core\Game\ConfigData.h" />
+    <ClInclude Include="Source\Core\Graphics\Acceleration\CullDistance\CullDistance.h" />
+    <ClInclude Include="Source\Core\Graphics\Acceleration\CullDistance\CullDistanceRenderer.h" />
     <ClInclude Include="Source\Core\Graphics\Acceleration\OcclusionCulling\HW\HierarchicalZMapOcclusionCulling.h" />
     <ClInclude Include="Source\Core\Graphics\Acceleration\OcclusionCulling\HW\QueryOcclusionCulling.h" />
     <ClInclude Include="Source\Core\Graphics\Acceleration\OcclusionCulling\SW\SWOcclusionCulling.h" />
@@ -483,6 +488,7 @@
     <ClInclude Include="Source\Helper\ForLoop_Compile_Time\ForLoop_Compile.h" />
     <ClInclude Include="Source\Core\Graphics\OverlapBindChecker.h" />
     <ClInclude Include="Source\Helper\magic_enum.hpp" />
+    <ClInclude Include="Source\Helper\SequenceStringGenerator\SequenceStringGenerator.h" />
     <ClInclude Include="Source\Helper\Simple_SingleTon\Singleton.h" />
     <ClInclude Include="Source\Helper\StaticContainer\StaticContainer.h" />
     <ClInclude Include="Source\Helper\std_future_wrapper\CustomFutureWrapper.h" />

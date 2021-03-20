@@ -11,6 +11,7 @@ namespace doom
 	struct KDTreeNode
 	{
 		friend class KDTree_TestRoom;
+		friend class KDTreeNodeView<Dimension>;
 
 		using component_type = typename math::Vector<Dimension, float>;
 

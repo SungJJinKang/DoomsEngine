@@ -28,6 +28,7 @@ namespace doom
 		math::Matrix4x4 mLocalToWorldMatrix{ 1.0f };
 		math::Matrix4x4 mWorldToLocalMatrix{ 1.0f };
 
+		math::Vector3 mLastFramePosition;
 		math::Vector3 mPosition;
 		math::Quaternion mRotation;
 		math::Vector3 mScale;
@@ -43,7 +44,7 @@ namespace doom
 
 	public:
 
-		Transform() : mPosition{ 0.0f }, mRotation{}, mScale{ 1.0f }, bmIsDirtyModelMatrix{ true }
+		Transform() : mLastFramePosition{ 0.0f }, mPosition{ 0.0f }, mRotation{}, mScale{ 1.0f }, bmIsDirtyModelMatrix{ true }
 		{
 		}
 		virtual ~Transform() = default;

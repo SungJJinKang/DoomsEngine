@@ -163,7 +163,7 @@ struct ConverToString
 void IniData::InsertVariable(const std::string& section, const std::string& key, ini_data_type data)
 {
 	auto IsInsert = this->mIniDatas[section].insert_or_assign(key, data);
-	D_ASSERT(IsInsert.second == true); // insert return true, assignment return false
+	D_ASSERT(IsInsert.second == true); // if already key is exsist, make exeption
 
 #ifdef DEBUG_MODE
 	/*

@@ -23,6 +23,7 @@ namespace doom
 	class KDTree
 	{
 		friend class KDTree_TestRoom;
+		friend class KDTreeNodeView<Dimension>;
 
 		using node_type = typename KDTreeNode<Dimension>;
 		using node_view_type = typename KDTreeNodeView<Dimension>;
