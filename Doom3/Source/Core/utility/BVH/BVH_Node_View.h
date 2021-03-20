@@ -19,20 +19,21 @@ namespace doom
 		friend class BVH_Node<ColliderType>;
 		friend class BVH_Node_Container<ColliderType>;
 
+		using bvh_type = typename BVH<ColliderType>;
 		using node_type = typename BVH_Node<ColliderType>;
 		using this_type = typename BVH_Node_View<ColliderType>;
 
 	private:
-		node_type** mNodeArrayPointer;
+		bvh_type* mOwnerBVH;
 		int mNodeIndex;
 
 		constexpr BVH_Node_View()
-			:mNodeArrayPointer{ nullptr }, mNodeIndex{ NULL_NODE_INDEX }
+			:mOwnerBVH{ nullptr }, mNodeIndex{ NULL_NODE_INDEX }
 		{
 
 		}
-		constexpr BVH_Node_View(node_type** nodeArrayPointer, int nodeIndex)
-			:mNodeArrayPointer{ nodeArrayPointer }, mNodeIndex{ nodeIndex }
+		constexpr BVH_Node_View(bvh_type* ownerBVH, int nodeIndex)
+			: mOwnerBVH{ ownerBVH }, mNodeIndex{ nodeIndex }
 		{
 
 		}
@@ -52,7 +53,7 @@ namespace doom
 
 		constexpr bool IsValid()
 		{
-			return (this->mNodeIndex != NULL_NODE_INDEX) && (this->mNodeArrayPointer != nullptr);
+			return (this->mNodeIndex != NULL_NODE_INDEX) && (this->mOwnerBVH != nullptr);
 		}
 		constexpr operator bool()
 		{
@@ -60,7 +61,7 @@ namespace doom
 		}
 		constexpr void Reset()
 		{
-			this->mNodeArrayPointer = nullptr;
+			this->mOwnerBVH = nullptr;
 			this->mNodeIndex = NULL_NODE_INDEX;
 		}
 

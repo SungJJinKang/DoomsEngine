@@ -2,28 +2,15 @@
 
 #include <stack>
 #include <queue>
-#include <type_traits>
 #include <utility>
-
-#ifdef DEBUG_MODE
-#include <vector>
-#include <unordered_set>
-#endif
 
 #include "Physics/Collider/Collider.h"
 #include "Physics/Collider/PhysicsGeneric.h"
 #include "Physics/Collider/ColliderSolution.h"
 
-#include "../../Graphics/DebugGraphics.h"
 
-#include "Graphics/Graphics_Server.h"
-#include "Graphics/GraphicsAPI.h"
-#include "Game/AssetManager/AssetManager.h"
-#include "Graphics/Material.h"
 
-#ifdef DEBUG_MODE
-#include <vector_erase_move_lastelement/vector_swap_erase.h>
-#endif
+
 
 
 template <typename ColliderType>
@@ -189,10 +176,6 @@ int doom::BVH<ColliderType>::AllocateLeafNode(const ColliderType& boundingCollid
 
 	newNode.mCollider = collider;
 	newNode.mIsLeaf = true;
-
-#ifdef DEBUG_MODE
-	recentAddedLeaf.push(newNode.mIndex);
-#endif
 
 	return newNode.mIndex;
 }
@@ -565,140 +548,13 @@ void doom::BVH<ColliderType>::ReConstructNodeAABB(int targetNodeIndex)
 	this->mTree.mNodes[targetNodeIndex].mEnlargedBoundingCollider = ColliderType::EnlargeAABB(this->mTree.mNodes[targetNodeIndex].mBoundingCollider);
 }
 
-#define DebugBVHTreeOffsetX 0.1f
-#define DebugBVHTreeOffsetY 0.1f
+
 
 float additionalWeight(float x, float l)
 {
 	return x + math::lerp(0, x > 0 ? 1 : -1, math::abs(l));
 }
 
-template <typename ColliderType>
-void doom::BVH<ColliderType>::DebugBVHTree(node_type* node, float x, float y, int depth)
-{
-	if (node == nullptr)
-	{
-		return;
-	}
-
-	float offsetX = static_cast<float>(1.0f / (math::pow(2, depth + 1)));
-	if (node->mLeftNode != NULL_NODE_INDEX)
-	{
-		graphics::DebugGraphics::GetSingleton()->DebugDraw2DLine({ x, y, 0 }, { x - offsetX, y - DebugBVHTreeOffsetY, 0 }, this->mTree.mNodes[node->mLeftNode].mIsLeaf == false ? eColor::Black : ((doom::BVH<ColliderType>::recentAddedLeaf.empty() == false && doom::BVH<ColliderType>::recentAddedLeaf.top() == node->mLeftNode) ? eColor::Red : eColor::Blue), true);
-		DebugBVHTree(&(this->mTree.mNodes[node->mLeftNode]), x - offsetX, y - DebugBVHTreeOffsetY, depth + 1);
-	}
-	if (node->mRightNode != NULL_NODE_INDEX)
-	{
-		graphics::DebugGraphics::GetSingleton()->DebugDraw2DLine({ x, y, 0 }, { x + offsetX, y - DebugBVHTreeOffsetY, 0 }, this->mTree.mNodes[node->mRightNode].mIsLeaf == false ? eColor::Black : ((doom::BVH<ColliderType>::recentAddedLeaf.empty() == false && doom::BVH<ColliderType>::recentAddedLeaf.top() == node->mRightNode) ? eColor::Red : eColor::Blue), true);
-		DebugBVHTree(&(this->mTree.mNodes[node->mRightNode]), x + offsetX, y - DebugBVHTreeOffsetY, depth + 1);
-	}
-}
-
-template<typename ColliderType>
-void doom::BVH<ColliderType>::TreeDebug()
-{
-	if (this->mTree.mRootNodeIndex != NULL_NODE_INDEX)
-	{
-		/*
-		for (int i = 0; i < this->mTree.mNodeCapacity; i++)
-		{
-			this->mTree.mNodes[i].mBoundingCollider.DrawPhysicsDebug(); // TODO : Draw recursively, don't draw all nodes
-		}
-		*/
-
-		if (static_cast<bool>(this->mPIPForDebug))
-		{
-			this->mPIPForDebug->BindFrameBuffer();
-
-			graphics::GraphicsAPI::ClearColor(1.0f, 1.0f, 1.0f, 1.0f);
-			this->mPIPForDebug->ClearFrameBuffer();
-
-			graphics::DebugGraphics::GetSingleton()->SetDrawInstantlyMaterial(mBVHDebugMaterial.get());
-
-			DebugBVHTree(&(this->mTree.mNodes[this->mTree.mRootNodeIndex]), 0, 1, 0);
-
-			graphics::DebugGraphics::GetSingleton()->SetDrawInstantlyMaterial(nullptr);
-			this->mPIPForDebug->RevertFrameBuffer();
-		}
-	}
-}
-
-template<typename ColliderType>
-void doom::BVH<ColliderType>::AABBDebug()
-{
-	if (static_cast<bool>(this->mPIPForDebug))
-	{
-		this->mPIPForDebug->BindFrameBuffer();
-
-		graphics::GraphicsAPI::ClearColor(1.0f, 1.0f, 1.0f, 1.0f);
-		this->mPIPForDebug->ClearFrameBuffer();
-
-		graphics::DebugGraphics::GetSingleton()->SetDrawInstantlyMaterial(mBVHDebugMaterial.get());
-
-	
-		for (int i = 0; i < this->mTree.mCurrentAllocatedNodeCount; i++)
-		{
-			if (this->mTree.mNodes[i].bmIsActive == true)
-			{
-				if (this->recentAddedLeaf.empty() == false && i == this->recentAddedLeaf.top())
-				{
-					this->mTree.mNodes[i].mBoundingCollider.DrawPhysicsDebugColor(eColor::Red, true);
-				}
-				else if (this->recentAddedLeaf.empty() == false && this->IsAncesterOf(i, this->recentAddedLeaf.top()))
-				{
-					this->mTree.mNodes[i].mBoundingCollider.DrawPhysicsDebugColor(eColor::Blue, true);
-				}
-				else if(this->mTree.mNodes[i].mIsLeaf == false)
-				{
-					this->mTree.mNodes[i].mBoundingCollider.DrawPhysicsDebugColor(eColor::Black, true);
-				}
-				else if (this->mTree.mNodes[i].mIsLeaf == true)
-				{
-					this->mTree.mNodes[i].mBoundingCollider.DrawPhysicsDebugColor(eColor::Green, true);
-				}
-				
-			}
-		}
-	
-
-		graphics::DebugGraphics::GetSingleton()->SetDrawInstantlyMaterial(nullptr);
-		this->mPIPForDebug->RevertFrameBuffer();
-	}
-}
-template<typename ColliderType>
-void doom::BVH<ColliderType>::AABBDebug(int targetNode)
-{
-	if (static_cast<bool>(this->mPIPForDebug))
-	{
-		this->mPIPForDebug->BindFrameBuffer();
-
-		graphics::GraphicsAPI::ClearColor(1.0f, 1.0f, 1.0f, 1.0f);
-		this->mPIPForDebug->ClearFrameBuffer();
-
-		graphics::DebugGraphics::GetSingleton()->SetDrawInstantlyMaterial(mBVHDebugMaterial.get());
-
-		/*
-		for (int i = 0; i < this->mTree.mCurrentAllocatedNodeCount; i++)
-		{
-			if (this->mTree.mNodes[i].bmIsActive == true)
-			{
-				this->mTree.mNodes[i].mBoundingCollider.DrawPhysicsDebugColor(eColor::Black, true);
-			}
-		}
-		*/
-
-		int index = targetNode;
-		while (index != NULL_NODE_INDEX)
-		{
-			this->mTree.mNodes[index].mBoundingCollider.DrawPhysicsDebugColor(eColor::Red, true);
-			index = this->mTree.mNodes[index].mParentIndex;
-		}
-
-
-		graphics::DebugGraphics::GetSingleton()->SetDrawInstantlyMaterial(nullptr);
-		this->mPIPForDebug->RevertFrameBuffer();
-	}
-}
 
 /// <summary>
 /// We will get sum of Internal Nodes's area
@@ -721,21 +577,6 @@ float doom::BVH<ColliderType>::ComputeCost()
 	return cost;
 }
 
-
-template <typename ColliderType>
-void doom::BVH<ColliderType>::InitializeDebugging()
-{
-	if (static_cast<bool>(this->mPIPForDebug) == false)
-	{
-		this->mPIPForDebug = std::make_unique<graphics::PicktureInPickture>(1024, 1024, math::Vector2(-1.0f, -1.0f), math::Vector2(1.0f, 1.0f));
-		graphics::Graphics_Server::GetSingleton()->AddAutoDrawedPIPs(*(this->mPIPForDebug.get()));
-	}
-
-	if (static_cast<bool>(this->mBVHDebugMaterial) == false)
-	{
-		this->mBVHDebugMaterial = std::make_unique<graphics::Material>( doom::assetimporter::AssetManager::GetAsset<asset::eAssetType::SHADER>("Default2DColorShader.glsl"));
-	}
-}
 
 
 template <typename ColliderType>
@@ -837,137 +678,9 @@ bool doom::BVH<ColliderType>::IsAncesterOf(int ancesterIndex, int decesterIndex)
 	return false;
 }
 
-template<typename ColliderType>
-void doom::BVH<ColliderType>::CheckActiveNode(node_type* node, std::vector<int>& activeNodeList)
-{
-	if (node == nullptr)
-	{
-		return;
-	}
-
-#ifdef DEBUG_MODE
-	if (node->bmIsActive == true)
-	{
-		auto iter = std::vector_find_swap_erase(activeNodeList, node->mIndex);
-	}
-
-	if (node->mLeftNode != NULL_NODE_INDEX)
-	{
-		CheckActiveNode(&(this->mTree.mNodes[node->mLeftNode]), activeNodeList);
-	}
-
-	if (node->mRightNode != NULL_NODE_INDEX)
-	{
-		CheckActiveNode(&(this->mTree.mNodes[node->mRightNode]), activeNodeList);
-	}
-#endif
-}
 
 
-template<typename ColliderType>
-void doom::BVH<ColliderType>::ValidCheck()
-{
-#ifdef DEBUG_MODE
-	if (this->mTree.mRootNodeIndex != NULL_NODE_INDEX)
-	{
-		//first check : recursively traverse all active nodes from rootIndex, Every active nodes in mTree.mNodes array should be traversed
-		//				every active nodes in mTree.mNodes should be checked
-		//				And call Node::ValidCheck();
-		std::vector<int> checkedIndexs{};
-		for (int i = 0; i < this->mTree.mCurrentAllocatedNodeCount; i++)
-		{
-			if (this->mTree.mNodes[i].bmIsActive == true)
-			{
-				checkedIndexs.push_back(i);
-			}
-		}
-		D_ASSERT(checkedIndexs.size() == this->mTree.mCurrentActiveNodeCount);
-		CheckActiveNode(&(this->mTree.mNodes[this->mTree.mRootNodeIndex]), checkedIndexs);
-		D_ASSERT(checkedIndexs.size() == 0);
 
-		//second check : traverse from each Leaf Nodes to RootNode. Check if Traversing arrived at mTree.rootIndex
-		for (int i = 0; i < this->mTree.mCurrentAllocatedNodeCount; i++)
-		{
-			if (this->mTree.mNodes[i].bmIsActive == true && this->mTree.mNodes[i].mIsLeaf == true)
-			{
-				int index{ i };
-				bool isSuccess{ false };
-				while (index != NULL_NODE_INDEX)
-				{
-					if (index == this->mTree.mRootNodeIndex)
-					{
-						isSuccess = true;
-						break;
-					}
-
-					index = this->mTree.mNodes[index].mParentIndex;
-				}
-
-				D_ASSERT(isSuccess == true);
-			}
-		}
-
-
-		//third check : check all internal nodes must have 2 child,  all leaf nodes must have no child
-		for (int i = 0; i < this->mTree.mCurrentAllocatedNodeCount; i++)
-		{
-			if (this->mTree.mNodes[i].bmIsActive == true)
-			{
-				if (this->mTree.mNodes[i].mIsLeaf == false)
-				{// leaf node must have 2 child
-					D_ASSERT(this->mTree.mNodes[i].mLeftNode != NULL_NODE_INDEX && this->mTree.mNodes[i].mRightNode != NULL_NODE_INDEX);
-				}
-				else
-				{// leaf node must have no childs
-					D_ASSERT(this->mTree.mNodes[i].mLeftNode == NULL_NODE_INDEX && this->mTree.mNodes[i].mRightNode == NULL_NODE_INDEX);
-				}
-			}
-		}
-
-
-		//fourth check : check all nodes have unique child id ( all nodes have unique child id )
-		//				 checked child id shouldn't be checked again
-		std::unordered_set<int> checkedChildIndexs{};
-		for (int i = 0; i < this->mTree.mCurrentAllocatedNodeCount; i++)
-		{
-			if (this->mTree.mNodes[i].bmIsActive == true && this->mTree.mNodes[i].mIsLeaf == false)
-			{
-				D_ASSERT(checkedChildIndexs.find(this->mTree.mNodes[i].mLeftNode) == checkedChildIndexs.end());
-				D_ASSERT(checkedChildIndexs.find(this->mTree.mNodes[i].mRightNode) == checkedChildIndexs.end());
-
-				checkedChildIndexs.insert(this->mTree.mNodes[i].mLeftNode);
-				checkedChildIndexs.insert(this->mTree.mNodes[i].mRightNode);
-			}
-		}
-
-
-		//fifth check : compare one node's parent index and parent index's child index
-		for (int i = 0; i < this->mTree.mCurrentAllocatedNodeCount; i++)
-		{
-			if (this->mTree.mNodes[i].bmIsActive == true)
-			{
-				if (this->mTree.mNodes[i].mLeftNode != NULL_NODE_INDEX)
-				{
-					D_ASSERT(this->mTree.mNodes[this->mTree.mNodes[i].mLeftNode].mParentIndex == i);
-				}
-
-				if (this->mTree.mNodes[i].mRightNode != NULL_NODE_INDEX)
-				{
-					D_ASSERT(this->mTree.mNodes[this->mTree.mNodes[i].mRightNode].mParentIndex == i);
-				}
-
-				if (this->mTree.mNodes[i].mParentIndex != NULL_NODE_INDEX)
-				{
-					D_ASSERT(this->mTree.mNodes[this->mTree.mNodes[i].mParentIndex].mLeftNode == i || this->mTree.mNodes[this->mTree.mNodes[i].mParentIndex].mRightNode == i);
-				}
-			}
-		}
-
-	}
-#endif
-
-	
-}
 
 template class doom::BVH<doom::physics::AABB2D>;
 template class doom::BVH<doom::physics::AABB3D>;

@@ -10,6 +10,8 @@ namespace doom
 	template <int Dimension>
 	struct KDTreeNode
 	{
+		friend class KDTree_TestRoom;
+
 		using component_type = typename math::Vector<Dimension, float>;
 
 		math::Vector<Dimension, float> mPoint;
@@ -37,6 +39,6 @@ namespace doom
 		int mRightNode{ NULL_NODE_INDEX };
 	};
 
-	using KDTreeNode_2D = KDTreeNode<2>;
-	using KDTreeNode_3D = KDTreeNode<3>;
+	using KDTreeNode2D = KDTreeNode<2>;
+	using KDTreeNode3D = KDTreeNode<3>;
 }

@@ -275,6 +275,7 @@
     <ClCompile Include="Source\Core\Time\Time_Server.cpp" />
     <ClCompile Include="Source\Core\utility\KDTree\KDTree.cpp" />
     <ClCompile Include="Source\Core\utility\KDTree\KDTreeNodeView.cpp" />
+    <ClCompile Include="Source\Core\utility\KDTree\test\KDTree_TestRoom.cpp" />
     <ClCompile Include="Source\GameLogic\CustomComponent\AutoRotate.cpp" />
     <ClCompile Include="Source\GameLogic\CustomComponent\AxisDebugger.cpp" />
     <ClCompile Include="Source\GameLogic\CustomComponent\Move_WASD.cpp" />
@@ -462,10 +463,12 @@
     <ClInclude Include="Source\Core\ResourceManagement\JobSystem.h" />
     <ClInclude Include="Source\Core\Time\MainTimer.h" />
     <ClInclude Include="Source\Core\Time\Time_Server.h" />
+    <ClInclude Include="Source\Core\utility\ITester.h" />
     <ClInclude Include="Source\Core\utility\KDTree\KDTree.h" />
     <ClInclude Include="Source\Core\utility\KDTree\KDTreeCore.h" />
     <ClInclude Include="Source\Core\utility\KDTree\KDTreeNode.h" />
     <ClInclude Include="Source\Core\utility\KDTree\KDTreeNodeView.h" />
+    <ClInclude Include="Source\Core\utility\KDTree\test\KDTree_TestRoom.h" />
     <ClInclude Include="Source\GameLogic\CustomComponent\AutoRotate.h" />
     <ClInclude Include="Source\GameLogic\CustomComponent\AxisDebugger.h" />
     <ClInclude Include="Source\GameLogic\CustomComponent\Move_WASD.h" />
@@ -675,6 +678,7 @@
     <None Include="Source\Helper\vector_erase_move_lastelement\README.md" />
   </ItemGroup>
   <ItemGroup>
+    <Text Include="Source\Core\Graphics\Acceleration\Culling.md" />
     <Text Include="Source\Core\Graphics\ReadThis!!!!.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

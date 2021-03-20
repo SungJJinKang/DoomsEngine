@@ -10,11 +10,6 @@
 
 namespace doom
 {
-	namespace physics
-	{
-		class BVH_TestRoom;
-	}
-
 	template <typename ColliderType>
 	class BVH;
 
@@ -29,7 +24,8 @@ namespace doom
 	{
 		friend class BVH<ColliderType>;
 		friend class BVH_Node<ColliderType>;
-		friend class doom::physics::BVH_TestRoom;
+		friend class BVH_TestRoom;
+		friend class BVH_Node_View<ColliderType>;
 
 	private:
 

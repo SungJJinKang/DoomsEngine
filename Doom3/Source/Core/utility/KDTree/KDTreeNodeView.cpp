@@ -6,7 +6,7 @@ template<int Dimension>
 typename doom::KDTreeNodeView<Dimension>::node_type* doom::KDTreeNodeView<Dimension>::operator->()
 {
 	D_ASSERT(this->IsValid() == true);
-	return (*mNodeArrayPointer) + this->mNodeIndex;
+	return this->mKDTreePointer->mKDTreeNodes + this->mNodeIndex;
 }
 
 template class doom::KDTreeNodeView<2>;

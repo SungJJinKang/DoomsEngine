@@ -11,20 +11,13 @@
 #include "BVH_Tree.h"
 #include "BVH_Node_View.h"
 
-#ifdef DEBUG_MODE
-#include <stack>
-#include "Graphics/FrameBuffer/utility/PicktureInPickture.h"
-#endif
+
 
 //BVH is used for rendering, collision detect, raycast, stero audio ......
 
 namespace doom
 {
-	namespace physics
-	{
-		class BVH_TestRoom;
-	}
-
+	
 	class Ray;
 	template <typename ColliderType>
 	class BVH;
@@ -55,22 +48,19 @@ namespace doom
 	template <typename ColliderType>
 	class BVH
 	{
+		friend class BVH_TestRoom;
+		friend class BVH_Tree<ColliderType>;
+		friend class BVH_Node<ColliderType>;
+		friend class BVH_Node_View<ColliderType>;
+
 		using tree_type = typename BVH_Tree<ColliderType>;
 		using node_type = typename BVH_Node<ColliderType>;
 		using node_view_type = typename BVH_Node_View<ColliderType>;
 
-		friend class doom::physics::BVH_TestRoom;
-		friend class BVH_Tree<ColliderType>;
-		friend class BVH_Node<ColliderType>;
 	private:
 
 		tree_type mTree;
 
-#ifdef DEBUG_MODE
-		std::unique_ptr<graphics::PicktureInPickture> mPIPForDebug{};
-		std::unique_ptr<graphics::Material> mBVHDebugMaterial{};
-		static inline std::stack<int> recentAddedLeaf{};
-#endif
 		int PickBest(const ColliderType& L);
 
 		int AllocateNewNode();
@@ -93,10 +83,6 @@ namespace doom
 		/// <returns></returns>
 		float InheritedCost(const ColliderType& L, const ColliderType& candidate);
 
-		void DebugBVHTree(node_type* node, float x, float y, int depth = 0);
-
-
-		void CheckActiveNode(node_type* node, std::vector<int>& activeNodeList);
 		int GetSibling(int index);
 		bool IsHasChild(int index);
 		node_type* GetNode(int nodeIndex);
@@ -151,20 +137,14 @@ namespace doom
 		/// <returns></returns>
 		node_view_type UpdateLeafNode(int targetLeafNodeIndex, bool force = false);
 
-		void InitializeDebugging();
-		void TreeDebug();
-		void AABBDebug(int targetNode);
-		void AABBDebug();
 
-		/// <summary>
-		/// Check all active nodes can be traversed from rootNodeIndex
-		/// </summary>
-		void ValidCheck();
+
+		
 
 		constexpr node_view_type MakeBVH_Node_View(int index)
 		{
-			D_ASSERT(index < this->mTree.mNodeCapacity);
-			return node_view_type(&(this->mTree.mNodes), index);
+			D_ASSERT(index < this->mTree.mCurrentAllocatedNodeCount);
+			return node_view_type(this, index);
 		}
 	};
 
