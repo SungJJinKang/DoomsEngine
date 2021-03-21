@@ -46,10 +46,10 @@ void doom::Entity::Update_PlainComponent()
 {
 	for (size_t i = 0; i < this->mPlainComponents.size(); i++)
 	{
-		D_START_PROFILING(SequenceStringGenerator::GetLiteralString("Update PlainComponents ", i), eProfileLayers::CPU);
+		//D_START_PROFILING(SequenceStringGenerator::GetLiteralString("Update PlainComponents ", i), eProfileLayers::CPU);
 		this->mPlainComponents[i]->UpdateComponent_Internal();
 		this->mPlainComponents[i]->UpdateComponent();
-		D_END_PROFILING(SequenceStringGenerator::GetLiteralString("Update PlainComponents ", i));
+		//D_END_PROFILING(SequenceStringGenerator::GetLiteralString("Update PlainComponents ", i));
 	}
 }
 

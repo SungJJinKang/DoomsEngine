@@ -61,7 +61,7 @@ void doom::TEST::Init()
 				auto meshRenderer = entity->AddComponent<MeshRenderer>();
 				meshRenderer->SetMesh(planetAsset->GetMesh(0));
 				meshRenderer->SetMaterial(material);
-				entity->AddComponent<AutoRotate>();
+				//entity->AddComponent<AutoRotate>();
 				entity->AddComponent<BoxCollider3D>();
 			}
 		}

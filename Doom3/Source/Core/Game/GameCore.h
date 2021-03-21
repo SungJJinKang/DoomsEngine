@@ -59,6 +59,8 @@ namespace doom
 		SharedScene mSharedWorld{};
 
 		void InitGameSetting() ;
+
+		void UpdateGameCore();
 		
 	public:
 		
@@ -79,6 +81,8 @@ namespace doom
 		/// </summary>
 		virtual void Update() final
 		{
+			this->UpdateGameCore();
+
 			this->mTime_Server.Update_Internal();
 			this->mTime_Server.Update();
 

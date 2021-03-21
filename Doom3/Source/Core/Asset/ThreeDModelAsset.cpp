@@ -71,9 +71,10 @@ void doom::asset::ThreeDModelAsset::CreateNode(graphics::MeshNode* currentNode, 
 
 void doom::asset::ThreeDModelAsset::OnEndImportInMainThread_Internal()
 {
+	D_START_PROFILING("Postprocess 3D Model", eProfileLayers::Rendering);
 	this->SendMeshDataToGPU();
 	this->ClearMeshData(); // after send mesh data to gpu, delete all meshes data for memory space
-	D_DEBUG_LOG("Cleared Mesh Data", eLogType::D_LOG);
+	D_END_PROFILING("Postprocess 3D Model");
 }
 
 

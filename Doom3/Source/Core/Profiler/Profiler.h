@@ -8,11 +8,12 @@ namespace doom
 		enum class eProfileLayers
 		{
 			CPU,
-			GPU,
+			Rendering,
 			PHYSICS,
 			UI,
 			SOUND
 		};
+
 
 		class Profiler
 		{
@@ -28,6 +29,7 @@ namespace doom
 			
 			static void StartProfiling(const char* name, eProfileLayers layer) noexcept;
 			static void EndProfiling(const char* name) noexcept;
+			static void SetActiveToggle();
 		};
 
 	}

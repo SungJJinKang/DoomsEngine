@@ -47,8 +47,20 @@ void doom::GameCore::InitGameSetting()
 
 	this->mJobSystem.MAX_SUB_THREAD_COUNT = this->mMainConfigData.GetConfigData().GetValue<int>("SYSTEM", "MAX_SUB_THREAD_COUNT");
 
+#ifdef DEBUG_MODE
 	doom::logger::Logger::InitLogger();
 	doom::profiler::Profiler::InitProfiling();
+#endif
+
+}
+
+void doom::GameCore::UpdateGameCore()
+{
+	if (userinput::UserInput_Server::GetKeyUp(eKEY_CODE::KEY_0))
+	{
+		doom::profiler::Profiler::SetActiveToggle();
+	}
+	
 }
 
 void doom::GameCore::Init()
@@ -69,7 +81,7 @@ void doom::GameCore::Init()
 	this->mPhysics_Server.Init();
 	D_END_PROFILING("Init Physics_Server");
 
-	D_START_PROFILING("Init Graphics_Server", eProfileLayers::GPU);
+	D_START_PROFILING("Init Graphics_Server", eProfileLayers::Rendering);
 	this->mGraphics_Server.Init();
 	D_END_PROFILING("Init Graphics_Server");
 
@@ -96,7 +108,7 @@ void doom::GameCore::LateInit()
 	D_END_PROFILING("Init Physics_Server");
 	*/
 
-	D_START_PROFILING("LateInit Graphics_Server", eProfileLayers::GPU);
+	D_START_PROFILING("LateInit Graphics_Server", eProfileLayers::Rendering);
 	this->mGraphics_Server.LateInit();
 	D_END_PROFILING("LateInit Graphics_Server");
 

@@ -285,7 +285,6 @@
     <ClCompile Include="Source\GameLogic\Test.cpp" />
     <ClCompile Include="Source\Helper\EasyDirtyChecker\DirtySender.cpp" />
     <ClCompile Include="Source\Helper\EasyDirtyChecker\DirtyReceiver.cpp" />
-    <ClCompile Include="Source\Helper\SequenceStringGenerator\SequenceStringGenerator.cpp" />
     <ClCompile Include="Source\Helper\SimpleIniParser.cpp" />
     <ClCompile Include="Source\Helper\TextImporter.cpp" />
     <ClCompile Include="Source\Component\PhysicsComponent\SphereCollider3D.cpp" />

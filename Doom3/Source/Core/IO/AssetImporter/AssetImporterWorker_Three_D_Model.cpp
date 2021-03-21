@@ -201,7 +201,7 @@ void doom::assetimporter::AssetImporterWorker<::doom::asset::eAssetType::THREE_D
 		//why address of mAABB3D.mLowerBound
 		//because mAABB is virtual class, it has virtual table pointer internally ( we can't access )
 		//so if you access to mAABB3D, virtual table pointer take up foremost 4 byte of mAABB3D
-		std::memmove(&(asset.mModelMeshAssets[meshIndex].mAABB3D.mLowerBound), &(mesh->mAABB), sizeof(math::Vector3) * 2);
+		std::memcpy(&(asset.mModelMeshAssets[meshIndex].mAABB3D.mLowerBound), &(mesh->mAABB), sizeof(math::Vector3) * 2);
 		asset.mModelMeshAssets[meshIndex].mSphere.mRadius = (asset.mModelMeshAssets[meshIndex].mAABB3D.mUpperBound - asset.mModelMeshAssets[meshIndex].mAABB3D.mLowerBound).magnitude() * 0.5f;
 
 		switch (mesh->mPrimitiveTypes)
@@ -236,11 +236,11 @@ void doom::assetimporter::AssetImporterWorker<::doom::asset::eAssetType::THREE_D
 		// we support only uv one channel
 		for (unsigned int verticeIndex = 0; verticeIndex < asset.mModelMeshAssets[meshIndex].mNumOfVertexs; verticeIndex++)
 		{
-			std::memmove(&(asset.mModelMeshAssets[meshIndex].mMeshVertexDatas[verticeIndex].mVertex), &(mesh->mVertices[verticeIndex]), sizeof(decltype(asset.mModelMeshAssets[meshIndex].mMeshVertexDatas[verticeIndex].mVertex)));
-			std::memmove(&(asset.mModelMeshAssets[meshIndex].mMeshVertexDatas[verticeIndex].mTexCoord), &(mesh->mTextureCoords[0][verticeIndex]), sizeof(decltype(asset.mModelMeshAssets[meshIndex].mMeshVertexDatas[verticeIndex].mTexCoord)));
-			std::memmove(&(asset.mModelMeshAssets[meshIndex].mMeshVertexDatas[verticeIndex].mNormal), &(mesh->mNormals[verticeIndex]), sizeof(decltype(asset.mModelMeshAssets[meshIndex].mMeshVertexDatas[verticeIndex].mNormal)));
-			std::memmove(&(asset.mModelMeshAssets[meshIndex].mMeshVertexDatas[verticeIndex].mTangent), &(mesh->mTangents[verticeIndex]), sizeof(decltype(asset.mModelMeshAssets[meshIndex].mMeshVertexDatas[verticeIndex].mTangent)));
-			std::memmove(&(asset.mModelMeshAssets[meshIndex].mMeshVertexDatas[verticeIndex].mBitangent), &(mesh->mBitangents[verticeIndex]), sizeof(decltype(asset.mModelMeshAssets[meshIndex].mMeshVertexDatas[verticeIndex].mBitangent)));
+			std::memcpy(&(asset.mModelMeshAssets[meshIndex].mMeshVertexDatas[verticeIndex].mVertex), &(mesh->mVertices[verticeIndex]), sizeof(decltype(asset.mModelMeshAssets[meshIndex].mMeshVertexDatas[verticeIndex].mVertex)));
+			std::memcpy(&(asset.mModelMeshAssets[meshIndex].mMeshVertexDatas[verticeIndex].mTexCoord), &(mesh->mTextureCoords[0][verticeIndex]), sizeof(decltype(asset.mModelMeshAssets[meshIndex].mMeshVertexDatas[verticeIndex].mTexCoord)));
+			std::memcpy(&(asset.mModelMeshAssets[meshIndex].mMeshVertexDatas[verticeIndex].mNormal), &(mesh->mNormals[verticeIndex]), sizeof(decltype(asset.mModelMeshAssets[meshIndex].mMeshVertexDatas[verticeIndex].mNormal)));
+			std::memcpy(&(asset.mModelMeshAssets[meshIndex].mMeshVertexDatas[verticeIndex].mTangent), &(mesh->mTangents[verticeIndex]), sizeof(decltype(asset.mModelMeshAssets[meshIndex].mMeshVertexDatas[verticeIndex].mTangent)));
+			std::memcpy(&(asset.mModelMeshAssets[meshIndex].mMeshVertexDatas[verticeIndex].mBitangent), &(mesh->mBitangents[verticeIndex]), sizeof(decltype(asset.mModelMeshAssets[meshIndex].mMeshVertexDatas[verticeIndex].mBitangent)));
 		}
 
 
@@ -264,7 +264,7 @@ void doom::assetimporter::AssetImporterWorker<::doom::asset::eAssetType::THREE_D
 			for (unsigned int faceIndex = 0; faceIndex < mesh->mNumFaces; faceIndex++)
 			{
 				// copy indice datas from indices of face of mesh of assimp to my asset's indices
-				memmove(&(asset.mModelMeshAssets[meshIndex].mMeshIndices[indiceIndex]), &(mesh->mFaces[faceIndex].mIndices[0]), sizeof(unsigned int) * mesh->mFaces[faceIndex].mNumIndices);
+				memcpy(&(asset.mModelMeshAssets[meshIndex].mMeshIndices[indiceIndex]), &(mesh->mFaces[faceIndex].mIndices[0]), sizeof(unsigned int) * mesh->mFaces[faceIndex].mNumIndices);
 				indiceIndex += mesh->mFaces[faceIndex].mNumIndices;
 			}
 		}

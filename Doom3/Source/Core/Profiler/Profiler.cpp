@@ -33,6 +33,7 @@ namespace doom
 		class Profiler::ProfilerPimpl
 		{
 			friend class Profiler;
+			friend class GameCore;
 
 			using key_type = typename std::conditional_t<"TEST LITEAL STRING" == "TEST LITEAL STRING", const char*, std::string>;
 
@@ -40,6 +41,8 @@ namespace doom
 			std::unordered_map<std::thread::id, std::unordered_map<key_type, std::chrono::time_point<std::chrono::high_resolution_clock>>> _ProfilingData{};
 			std::mutex mProfilerMutex{};
 			bool bmIsProfilerActivated{ false };
+
+			bool bmIsActive{ true };
 
 			 std::unordered_map<key_type, std::chrono::time_point<std::chrono::high_resolution_clock>>& GetCurrentThreadData(const std::thread::id& thread_id)
 			{
@@ -68,7 +71,7 @@ namespace doom
 #ifdef DISABLE_PROFILING
 				return;
 #endif
-				if (bmIsProfilerActivated == false)
+				if (bmIsProfilerActivated == false || bmIsActive == false)
 				{
 					return;
 				}
@@ -84,7 +87,7 @@ namespace doom
 				return;
 #endif
 
-				if (bmIsProfilerActivated == false)
+				if (bmIsProfilerActivated == false || bmIsActive == false)
 				{
 					return;
 				}
@@ -130,6 +133,14 @@ namespace doom
 			if (Profiler::IsInitialized() == true)
 			{
 				mProfilerPimpl->EndProfiling(name);
+			}
+		}
+
+		void Profiler::SetActiveToggle()
+{
+			if (Profiler::IsInitialized() == true)
+			{
+				mProfilerPimpl->bmIsActive = !(mProfilerPimpl->bmIsActive);
 			}
 		}
 

@@ -83,17 +83,16 @@ namespace doom
 			{
 				D_ASSERT(this->mProgramID != 0);
 
-				for (unsigned int i = 0; i < this->mTargetTextures.size(); i++)
-				{
-					if (this->mTargetTextures[i] != nullptr)
-					{
-						this->mTargetTextures[i]->BindTextureWithUnit(i);
-					}
-				}
-
 				if (OverlapBindChecker::GetBoundID(MATERIAL_TAG) != this->mProgramID)
 				{
 					D_CHECK_OVERLAP_BIND_AND_SAVE_BIND(MATERIAL_TAG, this->mProgramID);
+					for (unsigned int i = 0; i < this->mTargetTextures.size(); i++)
+					{
+						if (this->mTargetTextures[i] != nullptr)
+						{
+							this->mTargetTextures[i]->BindTextureWithUnit(i);
+						}
+					}
 					glUseProgram(this->mProgramID);
 				}
 			}

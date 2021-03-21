@@ -244,8 +244,10 @@ void doom::graphics::Graphics_Server::DeferredRendering()
 
 	auto sceneGraphics = SceneGraphics::GetSingleton();
 
+	D_START_PROFILING("Update Uniform Buffer", doom::profiler::eProfileLayers::Rendering);
 	sceneGraphics->mUniformBufferObjectManager.Update_Internal();
 	sceneGraphics->mUniformBufferObjectManager.Update();
+	D_END_PROFILING("Update Uniform Buffer");
 
 #ifdef DEBUG_MODE
 	if (userinput::UserInput_Server::GetKeyToggle(eKEY_CODE::KEY_INSERT) == true)
@@ -254,27 +256,30 @@ void doom::graphics::Graphics_Server::DeferredRendering()
 	}
 #endif
 
+	D_START_PROFILING("Draw Objects", doom::profiler::eProfileLayers::Rendering);
 	for (unsigned int i = 0; i < MAX_LAYER_COUNT; i++)
 	{
 		auto rendererComponentPair = RendererComponentStaticIterator::GetAllComponentsWithLayerIndex(i);
 		doom::Renderer** renderers = rendererComponentPair.first;
 		size_t length = rendererComponentPair.second;
+	
 		for (size_t i = 0; i < length; ++i)
 		{
-			if (this->mCullDistance.GetIsVisible(renderers[i]) == true)
+			if (this->mCullDistance.GetIsVisible(renderers[i]) == true) // HEAVY
 			{
 				if (this->mViewFrustumCulling.IsVisible(renderers[i]) == true)
 				{
 					renderers[i]->UpdateComponent_Internal();
 					renderers[i]->UpdateComponent();
-					renderers[i]->Draw();
+					renderers[i]->Draw(); // HEAVY
 				}
 			}
 		}
 
 
 	}
-	
+	D_END_PROFILING("Draw Objects");
+
 	FrameBuffer::UnBindFrameBuffer();
 
 	GraphicsAPI::ClearColor(0.0f, 0.0f, 0.0f, 1.0f);
@@ -283,10 +288,9 @@ void doom::graphics::Graphics_Server::DeferredRendering()
 	this->mFrameBufferForDeferredRendering.BlitBufferTo(0, 0, 0, this->mFrameBufferForDeferredRendering.mDefaultWidth, this->mFrameBufferForDeferredRendering.mDefaultHeight, 0, 0, Graphics_Server::ScreenSize.x, Graphics_Server::ScreenSize.y, GraphicsAPI::eBufferType::DEPTH, FrameBuffer::eImageInterpolation::NEAREST);
 	
 
-
 	//TO DO : Draw Quad
 	this->DrawPIPs(); // drawing pip before gbuffer will increase performance ( early depth testing )
-
+	
 	this->mGbufferDrawerMaterial.UseProgram();
 	this->mQuadMesh->Draw();
 	

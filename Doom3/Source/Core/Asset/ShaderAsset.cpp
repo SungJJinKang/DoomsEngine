@@ -109,15 +109,12 @@ void doom::asset::ShaderAsset::CompileSpecificShader(const std::string& shaderSt
 		shaderTypeFlag = GL_GEOMETRY_SHADER;
 	}
 
-	D_START_PROFILING("Compiling Shader", eProfileLayers::GPU);
 
 	shaderId = glCreateShader(shaderTypeFlag);
 
 	const char* shaderCode = shaderStr.c_str();
 	glShaderSource(shaderId, 1, &shaderCode, NULL);
 	glCompileShader(shaderId);
-
-	D_END_PROFILING("Compiling Shader");
 
 #ifdef DEBUG_MODE
 	this->checkCompileError(shaderId, shaderType);
@@ -322,7 +319,9 @@ bool doom::asset::ShaderAsset::GetIsValid()
 
 void doom::asset::ShaderAsset::OnEndImportInMainThread_Internal()
 {
+	D_START_PROFILING("Compile Shader", eProfileLayers::Rendering);
 	this->CompileShaders(this->mShaderFileText);
+	D_END_PROFILING("Compile Shader");
 }
 
 unsigned int doom::asset::ShaderAsset::GetVertexId()
