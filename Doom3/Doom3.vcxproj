@@ -312,7 +312,11 @@
     <ClInclude Include="Source\Core\Graphics\Acceleration\ViewFrustumCulling.h" />
     <ClInclude Include="Source\Core\Graphics\TextureFormat.h" />
     <ClInclude Include="Source\Core\Macros\KeyCallback.h" />
+    <ClInclude Include="Source\Core\Math\LightMath_Cpp\Matrix4x4_SIMD.h" />
+    <ClInclude Include="Source\Core\Math\LightMath_Cpp\SIMD.h" />
     <ClInclude Include="Source\Core\Math\LightMath_Cpp\Trigonometric.h" />
+    <ClInclude Include="Source\Core\Math\LightMath_Cpp\Vector4_SIMD.h" />
+    <ClInclude Include="Source\Core\Math\LightMath_Cpp\Vector_SIMD.h" />
     <ClInclude Include="Source\Core\OS\OS.h" />
     <ClInclude Include="Source\Core\OS\OS_Server.h" />
     <ClInclude Include="Source\Core\OS\Window.h" />
