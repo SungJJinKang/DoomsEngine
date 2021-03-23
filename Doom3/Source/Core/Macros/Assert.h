@@ -2,11 +2,17 @@
 #include "Log.h"
 
 #ifndef DEBUG_MODE // if not debug mode, don't throw assert
-#define NDEBUG 
+
+#ifndef NDEBUG
+#define NDEBUG
+#endif
+
 #endif
 #include <cassert>
 #ifndef NDEBUG
 #include <iostream>
+
+#ifndef D_ASSERT
 #   define D_ASSERT(condition) \
     do { \
         if (! (condition)) { \
@@ -15,7 +21,13 @@
             std::terminate(); \
         } \
     } while (false)
+#endif
+
 #else
-#   define ASSERT(condition, message) do { } while (false)
+
+#ifndef D_ASSERT
+#define D_ASSERT(condition) do { } while (false)
+#endif
+
 #endif
 

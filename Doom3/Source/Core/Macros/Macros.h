@@ -11,5 +11,7 @@
 #include "Profiling.h"
 #include "KeyCallback.h"
 
+#ifndef NEVER_HAPPEN
 #define NEVER_HAPPEN __assume(0) // https://docs.microsoft.com/en-us/cpp/intrinsics/assume?view=msvc-160
+#endif
 

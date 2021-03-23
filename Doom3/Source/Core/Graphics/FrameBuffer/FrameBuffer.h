@@ -17,7 +17,7 @@ namespace doom
 			friend class Graphics_Server;
 		private:
 
-			static inline constexpr const char* FRAMEBUFFER_TAG = "FrameBuffer";
+			inline static constexpr const char* FRAMEBUFFER_TAG = "FrameBuffer";
 
 			static constexpr unsigned int RESERVED_RENDERBUFFER_COUNT = 3;
 			std::vector<RenderBuffer> mAttachedRenderBuffers;
@@ -40,11 +40,11 @@ namespace doom
 			/// <summary>
 			/// nullptr mean default ScreenBuffer
 			/// </summary>
-			static inline FrameBuffer* PreviousFrameBuffer{ nullptr };
+			inline static FrameBuffer* PreviousFrameBuffer{ nullptr };
 			/// <summary>
 			/// nullptr mean default ScreenBuffer
 			/// </summary>
-			static inline FrameBuffer* CurrentFrameBuffer{ nullptr };
+			inline static FrameBuffer* CurrentFrameBuffer{ nullptr };
 
 			static void BindFrameBuffer(FrameBuffer* frameBuffer);
 			
@@ -69,7 +69,7 @@ namespace doom
 				D_ASSERT(this->mFrameBufferID != 0);
 				FrameBuffer::BindFrameBuffer(this);
 			}
-			static inline void UnBindFrameBuffer() noexcept
+			inline static void UnBindFrameBuffer() noexcept
 			{
 				FrameBuffer::BindFrameBuffer(nullptr);
 			}
@@ -77,7 +77,7 @@ namespace doom
 			/// <summary>
 			/// Rebind privous bound framebuffer
 			/// </summary>
-			static inline void RevertFrameBuffer()
+			inline static void RevertFrameBuffer()
 			{
 				if (FrameBuffer::PreviousFrameBuffer != nullptr)
 				{

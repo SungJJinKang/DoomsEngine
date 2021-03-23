@@ -16,7 +16,7 @@ namespace doom
 			static std::unordered_map<const char*, unsigned int> mCurrentBoundId;
 		public:
 
-			static void Bind(const char* str, unsigned int id)
+			inline static void Bind(const char* str, unsigned int id)
 			{
 				auto element = OverlapBindChecker::mCurrentBoundId.find(str);
 
@@ -43,17 +43,18 @@ namespace doom
 			/// <param name="str"></param>
 			/// <param name="id"></param>
 
-			static void CheckIsBound(const char* str, unsigned int id)
+			inline static void CheckIsBound(const char* str, unsigned int id)
 			{
 				auto element = OverlapBindChecker::mCurrentBoundId.find(str);
-
+#ifdef DEBUG_MODE
 				if (element == OverlapBindChecker::mCurrentBoundId.end() || (*element).second != id)
 				{
 					D_DEBUG_LOG({ std::string("Please Bind : ") + str + "  Required ID : " + std::to_string(id) }, eLogType::D_ERROR);
 				}
+#endif
 			}
 
-			static unsigned int GetBoundID(const char* str)
+			inline static unsigned int GetBoundID(const char* str)
 			{
 				auto element = OverlapBindChecker::mCurrentBoundId.find(str);
 

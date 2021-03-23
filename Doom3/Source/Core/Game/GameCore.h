@@ -79,7 +79,7 @@ namespace doom
 		/// <summary>
 		/// Frame Loop
 		/// </summary>
-		virtual void Update() final
+		inline virtual void Update() final
 		{
 			this->UpdateGameCore();
 
@@ -113,7 +113,7 @@ namespace doom
 		/// Fixed Update may be called more than once per frame 
 		/// if the fixed time step is less than the actual frame update time
 		/// </summary>
-		virtual void FixedUpdate() final
+		inline virtual void FixedUpdate() final
 		{
 			D_START_PROFILING("FixedUpdate_Internal Physics", eProfileLayers::CPU);
 			this->mPhysics_Server.FixedUpdate_Internal();
@@ -128,7 +128,7 @@ namespace doom
 			D_END_PROFILING("FixedUpdate PlainComponents");
 		}
 
-		virtual void OnEndOfFrame() final
+		inline virtual void OnEndOfFrame() final
 		{
 			this->mTime_Server.OnEndOfFrame_Internal();
 			this->mTime_Server.OnEndOfFrame();
@@ -149,7 +149,7 @@ namespace doom
 
 		}
 
-		bool Tick()
+		inline bool Tick()
 		{
 			
 			D_START_PROFILING("Fixed Update", eProfileLayers::CPU);
