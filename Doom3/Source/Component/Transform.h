@@ -18,19 +18,28 @@ namespace doom
 		friend class Component;
 
 	private:
+
+		
+
 		/// <summary>
 		/// why don't use FrameDirtyChecker::IsDirty -> FrameDirtyChecker is changed when pass frame
 		/// but this modelMatrix is calculated when this is needed ( not every frame )
 		/// </summary>
 		math::Matrix4x4 mModelMatrixCache;
-		DirtyReceiver bmIsDirtyModelMatrix;
-
 		math::Matrix4x4 mLocalToWorldMatrix{ 1.0f };
 		math::Matrix4x4 mWorldToLocalMatrix{ 1.0f };
+		math::Matrix4x4 mTranslationMatrix{ 1.0f };
+		math::Matrix4x4 mRotationMatrix{ 1.0f };
+		math::Matrix4x4 mScaleMatrix{ 1.0f };
+		math::Quaternion mRotation;
+
+		//Matrix4X4 and Vector4 is aligned to 32, 16 byte
+		//So To save memory, it is declared next to next
+
+		DirtyReceiver bmIsDirtyModelMatrix;
 
 		math::Vector3 mLastFramePosition;
 		math::Vector3 mPosition;
-		math::Quaternion mRotation;
 		math::Vector3 mScale;
 
 		Transform(const Transform&) = delete;
@@ -42,6 +51,11 @@ namespace doom
 		virtual void UpdateComponent() final;
 		virtual void OnEndOfFrame_Component() final;
 
+		const math::Matrix4x4 GetRotationMatrix()
+		{
+
+		}
+
 	public:
 
 		Transform() : mLastFramePosition{ 0.0f }, mPosition{ 0.0f }, mRotation{}, mScale{ 1.0f }, bmIsDirtyModelMatrix{ true }
@@ -52,6 +66,7 @@ namespace doom
 
 		void SetPosition(const math::Vector3& position)
 		{
+			this->mTranslationMatrix = math::translate(position);
 			this->mPosition = position;
 			this->SetDirtyTrueAtThisFrame();
 			this->bmIsDirtyModelMatrix = true;
@@ -63,8 +78,10 @@ namespace doom
 
 		void SetRotation(const math::Quaternion& rotation)
 		{
+			mRotationMatrix = static_cast<math::Matrix4x4>(rotation);
 			this->mRotation = rotation;
 			this->SetDirtyTrueAtThisFrame();
+
 			this->bmIsDirtyModelMatrix = true;
 		}
 		void SetRotation(const math::Vector3& eulerAngle)
@@ -78,6 +95,7 @@ namespace doom
 
 		void SetScale(const math::Vector3& scale)
 		{
+			this->mScaleMatrix = math::scale(scale);
 			this->mScale = scale;
 			this->SetDirtyTrueAtThisFrame();
 			this->bmIsDirtyModelMatrix = true;
@@ -87,53 +105,53 @@ namespace doom
 			this->SetScale({ x,y,z });
 		}
 
-		constexpr math::Vector3 GetPosition()
+		FORCE_INLINE constexpr math::Vector3 GetPosition()
 		{
 			return this->mPosition;
 		}
-		constexpr const math::Vector3& GetPosition() const
+		FORCE_INLINE constexpr const math::Vector3& GetPosition() const
 		{
 			return this->mPosition;
 		}
 
-		constexpr math::Quaternion GetRotation()
+		FORCE_INLINE constexpr math::Quaternion GetRotation()
 		{
 			return this->mRotation;
 		}
-		constexpr const math::Quaternion& GetRotation() const
+		FORCE_INLINE constexpr const math::Quaternion& GetRotation() const
 		{
 			return this->mRotation;
 		}
 
-		constexpr math::Vector3 GetScale()
+		FORCE_INLINE constexpr math::Vector3 GetScale()
 		{
 			return this->mScale;
 		}
-		constexpr const math::Vector3& GetScale() const
+		FORCE_INLINE constexpr const math::Vector3& GetScale() const
 		{
 			return this->mScale;
 		}
 
-
+		
 
 		constexpr const math::Matrix4x4& GetModelMatrix() 
 		{
 			if (this->bmIsDirtyModelMatrix.GetIsDirty(true))
 			{
-				this->mModelMatrixCache = math::translate(this->mPosition) * static_cast<math::Matrix4x4>(this->mRotation) * math::scale(this->mScale);
+				this->mModelMatrixCache = this->mTranslationMatrix * this->mRotationMatrix * this->mScaleMatrix;
 			}
 			return this->mModelMatrixCache;
 		}
 
-		constexpr math::Vector3 forward() const
+		FORCE_INLINE constexpr math::Vector3 forward() const
 		{
 			return this->mRotation * math::Vector3::forward;
 		}
-		constexpr math::Vector3 right() const
+		FORCE_INLINE constexpr math::Vector3 right() const
 		{
 			return this->mRotation * math::Vector3::right;
 		}
-		constexpr math::Vector3 up() const
+		FORCE_INLINE constexpr math::Vector3 up() const
 		{
 			return this->mRotation * math::Vector3::up;
 		}
@@ -171,15 +189,15 @@ namespace doom
 
 		}
 
-		constexpr math::Vector3 TransformDirection(math::Vector3& direction) const
+		FORCE_INLINE constexpr math::Vector3 TransformDirection(math::Vector3& direction) const
 		{
 			return this->mRotation * direction.normalized();
 		}
-		constexpr math::Vector3 TransformPoint(const math::Vector3& point) const
+		FORCE_INLINE constexpr math::Vector3 TransformPoint(const math::Vector3& point) const
 		{
 			return this->mRotation * point;
 		}
-		constexpr math::Vector3 TransformVector(const math::Vector3& vector) const
+		FORCE_INLINE constexpr math::Vector3 TransformVector(const math::Vector3& vector) const
 		{
 			return this->mRotation * vector;
 		}

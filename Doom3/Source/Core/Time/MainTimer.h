@@ -41,7 +41,7 @@ namespace doom
 			/// If you want to check whether frame pass without OnEndFrame, use this tickcount and compare last one
 			/// https://en.cppreference.com/w/cpp/chrono/time_point/time_since_epoch
 			/// </summary>
-			[[nodiscard]] static double GetCurrentTickCount() noexcept
+			[[nodiscard]] FORCE_INLINE static double GetCurrentTickCount() noexcept
 			{
 				return MainTimer::mFrameTime.mCurrentTickCount;
 			}
@@ -50,7 +50,7 @@ namespace doom
 			/// Frame Dependent Delta time
 			///  Don't use at FixedUpdate, Use at Update
 			/// </summary>
-			[[nodiscard]] static float GetDeltaTime() noexcept
+			[[nodiscard]] FORCE_INLINE static float GetDeltaTime() noexcept
 			{
 				return MainTimer::mFrameTime.mDeltaTime ;
 			}
@@ -58,18 +58,18 @@ namespace doom
 			/// <summary>
 			/// Don't use at Update, Use at FixedUpdate
 			/// </summary>
-			[[nodiscard]] static float GetFixedDeltaTime() noexcept
+			[[nodiscard]] FORCE_INLINE static float GetFixedDeltaTime() noexcept
 			{
 				return MainTimer::mFixedTime.mDeltaTime;
 			}
 
-			[[nodiscard]] static float GetCurrentFrame() noexcept
+			[[nodiscard]] FORCE_INLINE static float GetCurrentFrame() noexcept
 			{
 				return MainTimer::CurrentFrame;
 			}
 
 			//If you want to get true value per n frame, use this function
-			[[nodiscard]] static bool GetFrameStep(unsigned int step) noexcept
+			[[nodiscard]] FORCE_INLINE static bool GetFrameStep(unsigned int step) noexcept
 			{
 				D_ASSERT(step != 0);
 				return mFrameCounter % step == 0;

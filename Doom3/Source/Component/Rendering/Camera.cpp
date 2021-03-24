@@ -287,8 +287,8 @@ const math::Matrix4x4& doom::Camera::GetViewProjectionMatrix()
 {
 	if (this->bmIsViewProjectionMatrixDirty.GetIsDirty(true))
 	{
-		auto& viewMatrix = this->GetViewMatrix();
-		auto& projectionMatrix = this->GetProjectionMatrix();
+		const math::Matrix4x4& viewMatrix = this->GetViewMatrix();
+		const math::Matrix4x4& projectionMatrix = this->GetProjectionMatrix();
 		this->mViewProjectionMatrix = projectionMatrix * viewMatrix;
 	}
 	return this->mViewProjectionMatrix;
