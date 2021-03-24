@@ -114,7 +114,7 @@ int doom::BVH<ColliderType>::PickBest(const ColliderType& L)
 		//Why Get UnionArea L with Ancestors  ??
 		//If you want ancester's area of newly inserted node, you just be needed to compute unioned area with them
 		float cost = ColliderType::GetUnionArea(L, search_aabb) + searchInheritedCost;
-		if (cost < bestCost) {
+		if (cost <= bestCost) {
 			bestCost = cost;
 			bestIndex = searchIndex;
 		}

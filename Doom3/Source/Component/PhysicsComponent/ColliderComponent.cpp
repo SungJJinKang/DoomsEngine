@@ -84,7 +84,7 @@ bool doom::ColliderComponent::GetMeshAABB3D(physics::AABB3D& aabb3D)
 	const Renderer* renderer = this->GetOwnerEntity()->GetComponent<Renderer>();
 	if (renderer != nullptr)
 	{
-		aabb3D = BVH_AABB3D_Node_Object::GetLocalBVhColliderCache();
+		aabb3D = renderer->BVH_AABB3D_Node_Object::GetLocalBVhColliderCache();
 		return true;
 	}
 	else

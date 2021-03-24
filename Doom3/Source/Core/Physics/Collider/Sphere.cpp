@@ -60,52 +60,10 @@ void doom::physics::Sphere::Render(eColor color, bool drawInstantly /*= false*/)
 
 }
 
-doom::physics::Sphere::Sphere()
-	:mCenter{}, mRadius{}
-{
 
-}
-
-doom::physics::Sphere::Sphere(const AABB3D& aabb3D)
-	: mCenter{ (aabb3D.mUpperBound + aabb3D.mLowerBound) * 0.5f }, mRadius{ ((aabb3D.mUpperBound - aabb3D.mLowerBound) * 0.5f).magnitude() }
-{
-
-}
-
-doom::physics::Sphere::Sphere(const math::Vector3& center, float radius)
-	:mCenter{ center }, mRadius{ radius }
-{
-	
-}
 
 doom::physics::ColliderType doom::physics::Sphere::GetColliderType() const
 {
 	return doom::physics::ColliderType::Sphere;
 }
 
-doom::physics::Sphere doom::physics::Sphere::EnlargeAABB(const Sphere& sphere)
-{
-	return sphere;
-}
-
-void doom::physics::Sphere::ApplyModelMatrix(const Sphere& localSphere, const math::Matrix4x4& modelMatrix, Sphere& resultSphere)
-{
-	resultSphere.mCenter = modelMatrix * localSphere.mCenter;
-	float largestScale{ math::Max(math::Max(modelMatrix[0].sqrMagnitude(), modelMatrix[1].sqrMagnitude()), modelMatrix[2].sqrMagnitude()) };
-	resultSphere.mRadius = localSphere.mRadius * largestScale;
-}
-
-bool doom::physics::Sphere::CheckIsCompletlyEnclosed(const Sphere& innerSphere, const Sphere& outerSphere)
-{
-	return (outerSphere.mCenter - innerSphere.mCenter).sqrMagnitude() < math::pow(outerSphere.mRadius - innerSphere.mRadius, 2);
-}
-
-bool doom::physics::IsOverlapSphereAndSphere(const Sphere& sphere1, const Sphere& sphere2)
-{
-	return (sphere1.mCenter - sphere2.mCenter).sqrMagnitude() < math::pow(sphere1.mRadius + sphere2.mRadius, 2);
-}
-
-bool doom::physics::IsOverlapSphereAndSphere(Collider* sphere1, Collider* sphere2)
-{
-	return IsOverlapSphereAndSphere(*static_cast<Sphere*>(sphere1), *static_cast<Sphere*>(sphere2));
-}

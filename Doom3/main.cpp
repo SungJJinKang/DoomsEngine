@@ -1,6 +1,8 @@
 #include "Source/Core/Core.h"
 #include "Source/Core/Game/GameCore.h"
 
+#include <Matrix4x4.h>
+#include "Physics/Collider/AABB.h"
 
 using namespace doom;
 
@@ -13,10 +15,7 @@ void ExitGame();
 
 int main()
 {
-
 	GameCore gameCore{};
-
-	D_START_PROFILING("Fixed Update", eProfileLayers::CPU);
 
 	D_START_PROFILING("Init Game", doom::profiler::eProfileLayers::CPU);
 	gameCore.Init();

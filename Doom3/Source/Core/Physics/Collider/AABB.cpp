@@ -19,6 +19,30 @@ doom::physics::AABB2D& AABB2D::operator=(const AABB3D& aabb3D)
 	return *this;
 }
 
+bool AABB2D::IsValid() const
+{
+	return mUpperBound.x > mLowerBound.x && mUpperBound.y > mLowerBound.y;
+}
+
+void AABB2D::Validate()
+{
+	if (mUpperBound.x < mLowerBound.x)
+	{
+		float temp = mLowerBound.x;
+		mLowerBound.x = mUpperBound.x;
+		mUpperBound.x = temp;
+		D_DEBUG_LOG("AABB bound is worng", eLogType::D_ERROR);
+	}
+
+	if (mUpperBound.y < mLowerBound.y)
+	{
+		float temp = mLowerBound.y;
+		mLowerBound.y = mUpperBound.y;
+		mUpperBound.y = temp;
+		D_DEBUG_LOG("AABB bound is worng", eLogType::D_ERROR);
+	}
+}
+
 math::Vector2 doom::physics::AABB2D::GetHalfExtent() const
 {
 	return (this->mUpperBound + this->mLowerBound) * 0.5f;
@@ -45,15 +69,44 @@ doom::physics::ColliderType doom::physics::AABB2D::GetColliderType() const
 	return doom::physics::ColliderType::AABB2D;
 }
 
-math::Vector2 AABB2D::GetCenter() const
-{
-	return (this->mLowerBound + this->mUpperBound) / 2;
-}
 
-AABB2D doom::physics::AABB2D::EnlargeAABB(const AABB2D& aabb)
+
+AABB2D AABB2D::EnlargeAABB(const AABB2D& aabb)
 {
 	float offset = doom::physics::Physics_Server::GetSingleton()->ENLARGED_AABB2D_OFFSET;
 	return AABB2D(aabb.mLowerBound - offset, aabb.mUpperBound + offset);
+}
+
+bool AABB3D::IsValid() const
+{
+	return mUpperBound.x > mLowerBound.x && mUpperBound.y > mLowerBound.y && mUpperBound.z > mLowerBound.z;
+}
+
+void AABB3D::Validate()
+{
+	if (mUpperBound.x < mLowerBound.x)
+	{
+		float temp = mLowerBound.x;
+		mLowerBound.x = mUpperBound.x;
+		mUpperBound.x = temp;
+		D_DEBUG_LOG("AABB bound is wrong", eLogType::D_ERROR);
+	}
+
+	if (mUpperBound.y < mLowerBound.y)
+	{
+		float temp = mLowerBound.y;
+		mLowerBound.y = mUpperBound.y;
+		mUpperBound.y = temp;
+		D_DEBUG_LOG("AABB bound is wrong", eLogType::D_ERROR);
+	}
+
+	if (mUpperBound.z < mLowerBound.z)
+	{
+		float temp = mLowerBound.z;
+		mLowerBound.z = mUpperBound.z;
+		mUpperBound.z = temp;
+		D_DEBUG_LOG("AABB bound is wrong", eLogType::D_ERROR);
+	}
 }
 
 math::Vector3 doom::physics::AABB3D::GetHalfExtent() const
@@ -113,75 +166,58 @@ doom::physics::ColliderType doom::physics::AABB3D::GetColliderType() const
 	return doom::physics::ColliderType::AABB3D;
 }
 
-math::Vector3 doom::physics::AABB3D::GetCenter() const
-{
-	return (this->mLowerBound + this->mUpperBound) / 2;
-}
 
-AABB3D doom::physics::AABB3D::EnlargeAABB(const AABB3D& aabb)
+AABB3D AABB3D::EnlargeAABB(const AABB3D& aabb)
 {
 	float offset = doom::physics::Physics_Server::GetSingleton()->ENLARGED_AABB3D_OFFSET;
 	return AABB3D(aabb.mLowerBound - offset, aabb.mUpperBound + offset);
 }
 
+void AABB3D::SignedExpand(const math::Vector3& movedVector)
+{
+	if (movedVector.x > 0)
+	{
+		this->mUpperBound.x += movedVector.x;
+	}
+	else
+	{
+		this->mLowerBound.x += movedVector.x;
+	}
+
+
+	if (movedVector.y > 0)
+	{
+		this->mUpperBound.y += movedVector.y;
+	}
+	else
+	{
+		this->mLowerBound.y += movedVector.y;
+	}
+
+
+	if (movedVector.z > 0)
+	{
+		this->mUpperBound.z += movedVector.z;
+	}
+	else
+	{
+		this->mLowerBound.z += movedVector.z;
+	}
+}
+
+void AABB3D::Expand(const math::Vector3& movedVector)
+{
+	math::Vector3 expandVec{ math::abs(movedVector.x) ,  math::abs(movedVector.y) ,  math::abs(movedVector.z) };
+	this->mUpperBound += expandVec;
+	this->mLowerBound -= expandVec;
+}
 
 
 ////////////////////////////////////////
 
 
-bool doom::physics::AABB2D::CheckIsCompletlyEnclosed(const AABB2D& innerAABB, const AABB2D& outerAABB)
-{
-	return innerAABB.mLowerBound.x >= outerAABB.mLowerBound.x &&
-		innerAABB.mLowerBound.y >= outerAABB.mLowerBound.y &&
-		innerAABB.mUpperBound.x <= outerAABB.mUpperBound.x &&
-		innerAABB.mUpperBound.y <= outerAABB.mUpperBound.y;
-}
 
-bool doom::physics::IsOverlapAABB2DAndPoint(const AABB2D& aabb, const math::Vector2& Point)
-{
-	return (Point.x >= aabb.mLowerBound.x && Point.x <= aabb.mUpperBound.x) &&
-		(Point.y >= aabb.mLowerBound.y && Point.y <= aabb.mUpperBound.y);
-}
 
-bool doom::physics::IsOverlapAABB2DAndAABB2D(const AABB2D& aabb, const AABB2D& B)
-{
-	return aabb.mUpperBound.x > B.mLowerBound.x && aabb.mLowerBound.x < B.mUpperBound.x&&
-		aabb.mUpperBound.y  > B.mLowerBound.y && aabb.mLowerBound.y < B.mUpperBound.y;
-}
-
-bool doom::physics::IsOverlapAABB2DAndAABB2D(Collider* aabb, Collider* B)
-{
-	return IsOverlapAABB2DAndAABB2D(*static_cast<AABB2D*>(aabb), *static_cast<AABB2D*>(B));
-}
-
-bool doom::physics::AABB3D::CheckIsCompletlyEnclosed(const AABB3D& innerAABB, const AABB3D& outerAABB)
-{
-	return innerAABB.mLowerBound.x >= outerAABB.mLowerBound.x &&
-		innerAABB.mLowerBound.y >= outerAABB.mLowerBound.y &&
-		innerAABB.mLowerBound.z >= outerAABB.mLowerBound.z &&
-		innerAABB.mUpperBound.x <= outerAABB.mUpperBound.x &&
-		innerAABB.mUpperBound.y <= outerAABB.mUpperBound.y &&
-		innerAABB.mUpperBound.z <= outerAABB.mUpperBound.z;
-}
-
-bool doom::physics::IsOverlapAABB3DAndPoint(const AABB3D& aabb, const math::Vector3& Point)
-{
-	return (Point.x >= aabb.mLowerBound.x && Point.x <= aabb.mUpperBound.x) &&
-		(Point.y >= aabb.mLowerBound.y && Point.y <= aabb.mUpperBound.y) &&
-		(Point.z >= aabb.mLowerBound.z && Point.z <= aabb.mUpperBound.z);
-}
-
-bool doom::physics::IsOverlapAABB3DAndAABB3D(const AABB3D& aabb, const AABB3D& B)
-{
-	return (aabb.mLowerBound.x <= B.mUpperBound.x && aabb.mUpperBound.x >= B.mLowerBound.x) &&
-		(aabb.mLowerBound.y <= B.mUpperBound.y && aabb.mUpperBound.y >= B.mLowerBound.y) &&
-		(aabb.mLowerBound.z <= B.mUpperBound.z && aabb.mUpperBound.z >= B.mLowerBound.z);
-}
-
-bool doom::physics::IsOverlapAABB3DAndAABB3D(Collider* aabb, Collider* B)
-{
-	return IsOverlapAABB3DAndAABB3D(*static_cast<AABB3D*>(aabb), *static_cast<AABB3D*>(B));
-}
 
 math::Vector2 doom::physics::ClosestPointToPoint(const AABB2D& aabb, const math::Vector2& point)
 {
@@ -213,55 +249,6 @@ math::Vector2 doom::physics::ClosestPointToPoint(const AABB2D& aabb, const math:
 	}
 
 	return result;
-}
-
-// this function is not tested
-void doom::physics::AABB2D::ApplyModelMatrix(const AABB2D& localAABB, const math::Matrix4x4& modelMatrix, AABB2D& resultAABB)
-{
-	for (int i = 0; i < 2; i++)
-	{
-		resultAABB.mLowerBound[i] = resultAABB.mUpperBound[i] = modelMatrix[3][i];
-
-		for (int j = 0; j < 2; j++)
-		{
-			float e = modelMatrix[i][j] * localAABB.mLowerBound[j];
-			float f = modelMatrix[i][j] * localAABB.mUpperBound[j];
-			if (e < f)
-			{
-				resultAABB.mLowerBound[i] += e;
-				resultAABB.mUpperBound[i] += f;
-			}
-			else
-			{
-				resultAABB.mLowerBound[i] += f;
-				resultAABB.mUpperBound[i] += e;
-			}
-		}
-	}
-}
-
-void doom::physics::AABB3D::ApplyModelMatrix(const AABB3D& localAABB, const math::Matrix4x4& modelMatrix, AABB3D& resultAABB)
-{
-	for (int i = 0; i < 3; i++)
-	{
-		resultAABB.mLowerBound[i] = resultAABB.mUpperBound[i] = modelMatrix[3][i];
-
-		for (int j = 0; j < 3; j++)
-		{
-			float e = modelMatrix[i][j] * localAABB.mLowerBound[j];
-			float f = modelMatrix[i][j] * localAABB.mUpperBound[j];
-			if (e < f)
-			{
-				resultAABB.mLowerBound[i] += e;
-				resultAABB.mUpperBound[i] += f;
-			}
-			else
-			{
-				resultAABB.mLowerBound[i] += f;
-				resultAABB.mUpperBound[i] += e;
-			}
-		}
-	}
 }
 
 math::Vector3 doom::physics::ClosestPointToPoint(const AABB3D& aabb, const math::Vector3& point)

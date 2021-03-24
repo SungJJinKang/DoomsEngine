@@ -312,11 +312,9 @@
     <ClInclude Include="Source\Core\Graphics\Acceleration\ViewFrustumCulling.h" />
     <ClInclude Include="Source\Core\Graphics\TextureFormat.h" />
     <ClInclude Include="Source\Core\Macros\KeyCallback.h" />
-    <ClInclude Include="Source\Core\Math\LightMath_Cpp\Matrix4x4_SIMD.h" />
     <ClInclude Include="Source\Core\Math\LightMath_Cpp\SIMD.h" />
+    <ClInclude Include="Source\Core\Math\LightMath_Cpp\SIMD_Core.h" />
     <ClInclude Include="Source\Core\Math\LightMath_Cpp\Trigonometric.h" />
-    <ClInclude Include="Source\Core\Math\LightMath_Cpp\Vector4_SIMD.h" />
-    <ClInclude Include="Source\Core\Math\LightMath_Cpp\Vector_SIMD.h" />
     <ClInclude Include="Source\Core\OS\OS.h" />
     <ClInclude Include="Source\Core\OS\OS_Server.h" />
     <ClInclude Include="Source\Core\OS\Window.h" />
@@ -676,6 +674,10 @@
     <None Include="dependency\glfw-3.3.2.bin.WIN64\docs\html\vulkan_guide.html" />
     <None Include="dependency\glfw-3.3.2.bin.WIN64\docs\html\window_8dox.html" />
     <None Include="dependency\glfw-3.3.2.bin.WIN64\docs\html\window_guide.html" />
+    <None Include="Source\Core\Math\LightMath_Cpp\LICENSE" />
+    <None Include="Source\Core\Math\LightMath_Cpp\Matrix4x4Float_Aligned.inl" />
+    <None Include="Source\Core\Math\LightMath_Cpp\README.md" />
+    <None Include="Source\Core\Math\LightMath_Cpp\Vector4Float_Aligned.inl" />
     <None Include="Source\Core\ResourceManagement\MultithreadingJobSystemStrategy.md" />
     <None Include="Source\Helper\DeferredConstant\.git" />
     <None Include="Source\Helper\DeferredConstant\README.md" />

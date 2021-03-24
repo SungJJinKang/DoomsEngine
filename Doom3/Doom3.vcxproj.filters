@@ -1052,16 +1052,10 @@
     <ClInclude Include="Source\Helper\SequenceStringGenerator\SequenceStringGenerator.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Core\Math\LightMath_Cpp\Matrix4x4_SIMD.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Core\Math\LightMath_Cpp\SIMD.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Core\Math\LightMath_Cpp\Vector_SIMD.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Core\Math\LightMath_Cpp\Vector4_SIMD.h">
+    <ClInclude Include="Source\Core\Math\LightMath_Cpp\SIMD_Core.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -1226,6 +1220,14 @@
     <None Include="Assets\Shader\Default\Default2DTextureShader.glsl" />
     <None Include="Assets\Shader\Default\Default2DColorShader.glsl" />
     <None Include="Assets\Shader\Default\OcclusionCullingBoundingBox.glsl" />
+    <None Include="Source\Core\Math\LightMath_Cpp\LICENSE" />
+    <None Include="Source\Core\Math\LightMath_Cpp\Matrix4x4Float_Aligned.inl">
+      <Filter>Header Files</Filter>
+    </None>
+    <None Include="Source\Core\Math\LightMath_Cpp\README.md" />
+    <None Include="Source\Core\Math\LightMath_Cpp\Vector4Float_Aligned.inl">
+      <Filter>Header Files</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Text Include="Source\Core\Graphics\ReadThis!!!!.txt" />

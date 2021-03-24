@@ -53,7 +53,7 @@ namespace doom
 			/// 
 			/// </summary>
 
-			FORCE_INLINE void OnStartDraw();
+			void OnStartDraw();
 
 			//void OnEndFrame();
 
@@ -61,7 +61,7 @@ namespace doom
 			// {
 			// 
 			// }
-			FORCE_INLINE bool GetIsVisible(Renderer* renderer);
+			bool GetIsVisible(Renderer* renderer);
 
 			/*void SetIsDrawed(bool isDrawed);*/
 		};
