@@ -23,7 +23,7 @@ namespace doom
 			RenderBuffer(RenderBuffer&&) noexcept = default;
 			RenderBuffer& operator=(RenderBuffer &&) noexcept = default;
 			
-			inline static void BindRenderBuffer(int renderBufferID)
+			FORCE_INLINE static void BindRenderBuffer(int renderBufferID)
 			{
 				if (OverlapBindChecker::GetBoundID(RENDERBUFFER_TAG) != renderBufferID)
 				{
@@ -32,11 +32,11 @@ namespace doom
 				}
 			}
 
-			inline void BindRenderBuffer() noexcept
+			FORCE_INLINE void BindRenderBuffer() noexcept
 			{
 				BindRenderBuffer(this->mRenderBufferID);
 			}
-			static inline void UnBindRenderBuffer() noexcept
+			FORCE_INLINE static void UnBindRenderBuffer() noexcept
 			{
 				BindRenderBuffer(0);
 			}

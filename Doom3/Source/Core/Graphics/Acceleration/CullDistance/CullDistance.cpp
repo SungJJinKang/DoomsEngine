@@ -124,28 +124,6 @@ void doom::graphics::CullDistance::RemoveCullDistance(int index)
 	this->mCullDistanceSetting.erase(this->mCullDistanceSetting.begin() + index);
 }
 
-
-
-
-void doom::graphics::CullDistance::OnStartDraw()
-{
-	this->mCameraPosition = Camera::GetMainCamera()->GetTransform()->GetPosition();
-}
-
-// void doom::graphics::CullDistance::OnEndFrame()
-// {
-// 
-// }
-
-bool doom::graphics::CullDistance::GetIsVisible(Renderer* renderer)
-{
-	float distanceSqr = (renderer->GetTransform()->GetPosition() - this->mCameraPosition).sqrMagnitude();
-
-	float cullDistance = this->PickCullDistanceSqr(renderer->BVH_Sphere_Node_Object::GetWorldBVhColliderCacheByReference().mRadius);
-
-	return distanceSqr < cullDistance;
-}
-
 // void doom::graphics::CullDistance::SetIsDrawed(bool isDrawed)
 // {
 // 

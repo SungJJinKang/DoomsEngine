@@ -52,10 +52,27 @@ namespace doom
 			/// <summary>
 			/// 
 			/// </summary>
-			void OnStartDraw();
+
+			FORCE_INLINE void OnStartDraw()
+			{
+				this->mCameraPosition = Camera::GetMainCamera()->GetTransform()->GetPosition();
+			}
+
 			//void OnEndFrame();
 
-			bool GetIsVisible(Renderer* renderer);
+			// void doom::graphics::CullDistance::OnEndFrame()
+			// {
+			// 
+			// }
+			FORCE_INLINE bool GetIsVisible(Renderer* renderer)
+			{
+				float distanceSqr = (renderer->GetTransform()->GetPosition() - this->mCameraPosition).sqrMagnitude();
+
+				float cullDistance = this->PickCullDistanceSqr(renderer->BVH_Sphere_Node_Object::GetWorldBVhColliderCacheByReference().mRadius);
+
+				return distanceSqr < cullDistance;
+			}
+
 			/*void SetIsDrawed(bool isDrawed);*/
 		};
 

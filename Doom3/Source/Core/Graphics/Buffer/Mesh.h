@@ -57,7 +57,7 @@ namespace doom
 			/// bind buffer array object
 			/// </summary>
 			/// <returns></returns>
-			void BindBuffer() noexcept final
+			FORCE_INLINE void BindBuffer() noexcept final
 			{
 				D_ASSERT(this->mVertexArrayObjectID != 0);
 
@@ -96,11 +96,11 @@ namespace doom
 			Mesh(Mesh&&) noexcept = default;
 			Mesh& operator=(Mesh&&) noexcept = default;
 			
-			void BindVertexArrayObject() noexcept
+			FORCE_INLINE void BindVertexArrayObject() noexcept
 			{
 				this->BindBuffer();
 			}
-			void UnBindBuffer() noexcept final
+			FORCE_INLINE void UnBindBuffer() noexcept final
 			{
 				if (OverlapBindChecker::GetBoundID(VERTEX_ARRAY_TAG) != 0)
 				{
@@ -130,7 +130,7 @@ namespace doom
 			void BufferSubData(GLsizeiptr dataComponentCount, const void* data, khronos_intptr_t offsetInByte) noexcept;
 			void BindVertexBufferObject();
 			void BufferDataFromModelMesh(const ThreeDModelMesh& threeDModelMesh) noexcept;
-			void Draw()
+			FORCE_INLINE void Draw()
 			{
 				D_ASSERT(this->mPrimitiveType != ePrimitiveType::NONE);
 
@@ -145,7 +145,7 @@ namespace doom
 					GraphicsAPI::DrawArray(this->mPrimitiveType, 0, this->mNumOfVertices);
 				}
 			}
-			void DrawArray(int startIndexInComponent, unsigned int vertexCount)
+			FORCE_INLINE void DrawArray(int startIndexInComponent, unsigned int vertexCount)
 			{
 				D_ASSERT(this->mPrimitiveType != ePrimitiveType::NONE);
 
@@ -154,7 +154,7 @@ namespace doom
 				GraphicsAPI::DrawArray(this->mPrimitiveType, startIndexInComponent, vertexCount);
 			}
 
-			void DrawArray(ePrimitiveType primitiveType, int startVertexIndex, int vertexCount)
+			FORCE_INLINE void DrawArray(ePrimitiveType primitiveType, int startVertexIndex, int vertexCount)
 			{
 				D_ASSERT(primitiveType != ePrimitiveType::NONE);
 

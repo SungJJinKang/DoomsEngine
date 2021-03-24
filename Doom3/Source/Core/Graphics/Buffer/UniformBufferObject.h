@@ -52,12 +52,12 @@ namespace doom
 			void GenerateUniformBufferObject(unsigned int bindingPoint, unsigned int uniformBlockSizeInByte);
 			void DeleteBuffers() final;
 
-			inline void BindBuffer() noexcept final
+			FORCE_INLINE void BindBuffer() noexcept final
 			{
 				D_CHECK_OVERLAP_BIND_AND_SAVE_BIND("UniformBlockObject", this->mBufferID);
 				glBindBuffer(GL_UNIFORM_BUFFER, this->mBufferID);
 			}
-			inline virtual void UnBindBuffer() noexcept final
+			FORCE_INLINE virtual void UnBindBuffer() noexcept final
 			{
 				glBindBuffer(GL_UNIFORM_BUFFER, 0);
 			}

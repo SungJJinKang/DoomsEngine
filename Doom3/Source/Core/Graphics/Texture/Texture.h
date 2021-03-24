@@ -277,7 +277,7 @@ namespace doom
 
 			
 
-			inline void BindTexture() noexcept
+			FORCE_INLINE void BindTexture() noexcept
 			{
 				if (OverlapBindChecker::GetBoundID(GetBindTargetTag(this->mBindTarget)) != this->mBufferID)
 				{
@@ -285,7 +285,7 @@ namespace doom
 					glBindTexture(static_cast<unsigned int>(this->mBindTarget), this->mBufferID);
 				}
 			}
-			inline void ActiveTexture(unsigned int bindingPoint) noexcept
+			FORCE_INLINE void ActiveTexture(unsigned int bindingPoint) noexcept
 			{
 				if (OverlapBindChecker::GetBoundID(ACTIVE_TEXTURE_TAG) != bindingPoint)
 				{
@@ -295,7 +295,7 @@ namespace doom
 			}
 
 
-			inline void UnBindTexture() noexcept
+			FORCE_INLINE void UnBindTexture() noexcept
 			{
 				if (OverlapBindChecker::GetBoundID(GetBindTargetTag(this->mBindTarget)) != 0)
 				{
@@ -304,7 +304,7 @@ namespace doom
 				}
 			}
 
-			inline void BindTextureWithUnit(unsigned int bindingPoint)
+			FORCE_INLINE void BindTextureWithUnit(unsigned int bindingPoint)
 			{
 				if (OverlapBindChecker::GetBoundID(TEXTURE_UNIT_TAG[bindingPoint].data()) != this->mBufferID)
 				{
@@ -339,19 +339,19 @@ namespace doom
 			eWrapMode GetWrapModeT();
 			eWrapMode GetWrapModeR();
 
-			inline void TexParameterf(eBindTarget target, eTextureParameterType pname, eTextureParameterValue param) noexcept
+			FORCE_INLINE void TexParameterf(eBindTarget target, eTextureParameterType pname, eTextureParameterValue param) noexcept
 			{
 				glTexParameterf(static_cast<unsigned int>(target), static_cast<unsigned int>(pname), static_cast<float>(param));
 			}
-			inline void TexParameteri(eBindTarget target, eTextureParameterType pname, eTextureParameterValue param) noexcept
+			FORCE_INLINE void TexParameteri(eBindTarget target, eTextureParameterType pname, eTextureParameterValue param) noexcept
 			{
 				glTexParameteri(static_cast<unsigned int>(target), static_cast<unsigned int>(pname), static_cast<int>(param));
 			}
-			inline void TexParameterf(eBindTarget target, eTextureParameterType pname, float param) noexcept
+			FORCE_INLINE void TexParameterf(eBindTarget target, eTextureParameterType pname, float param) noexcept
 			{
 				glTexParameterf(static_cast<unsigned int>(target), static_cast<unsigned int>(pname), param);
 			}
-			inline void TexParameteri(eBindTarget target, eTextureParameterType pname, int param) noexcept
+			FORCE_INLINE void TexParameteri(eBindTarget target, eTextureParameterType pname, int param) noexcept
 			{
 				glTexParameteri(static_cast<unsigned int>(target), static_cast<unsigned int>(pname), param);
 			}

@@ -102,183 +102,183 @@ namespace doom
 				return glGetUniformLocation(this->mProgramID, str);
 			}
 
-			inline void SetBool(int location, bool value1)
+			FORCE_INLINE void SetBool(int location, bool value1)
 			{
 				glUniform1i(location, static_cast<int>(value1));
 			}
-			inline void SetBool(const char* str, bool value1)
+			FORCE_INLINE void SetBool(const char* str, bool value1)
 			{
 				glUniform1i(GetUniformLocation(str), static_cast<int>(value1));
 			}
 
-			inline void SetBool(int location, bool value1, bool value2)
+			FORCE_INLINE void SetBool(int location, bool value1, bool value2)
 			{
 				glUniform2i(location, static_cast<int>(value1), static_cast<int>(value2));
 			}
-			inline void SetBool(const char* str, bool value1, bool value2)
+			FORCE_INLINE void SetBool(const char* str, bool value1, bool value2)
 			{
 				glUniform2i(GetUniformLocation(str), static_cast<int>(value1), static_cast<int>(value2));
 			}
 
-			inline void SetBool(int location, bool value1, bool value2, bool value3)
+			FORCE_INLINE void SetBool(int location, bool value1, bool value2, bool value3)
 			{
 				glUniform3i(location, static_cast<int>(value1), static_cast<int>(value2), static_cast<int>(value3));
 			}
-			inline void SetBool(const char* str, bool value1, bool value2, bool value3)
+			FORCE_INLINE void SetBool(const char* str, bool value1, bool value2, bool value3)
 			{
 				glUniform3i(GetUniformLocation(str), static_cast<int>(value1), static_cast<int>(value2), static_cast<int>(value3));
 			}
 
-			inline void SetBool(int location, bool value1, bool value2, bool value3, bool value4)
+			FORCE_INLINE void SetBool(int location, bool value1, bool value2, bool value3, bool value4)
 			{
 				glUniform4i(location, static_cast<int>(value1), static_cast<int>(value2), static_cast<int>(value3), static_cast<int>(value4));
 			}
-			inline void SetBool(const char* str, bool value1, bool value2, bool value3, bool value4)
+			FORCE_INLINE void SetBool(const char* str, bool value1, bool value2, bool value3, bool value4)
 			{
 				glUniform4i(GetUniformLocation(str), static_cast<int>(value1), static_cast<int>(value2), static_cast<int>(value3), static_cast<int>(value4));
 			}
 
-			inline void SetInt(int location, int value1)
+			FORCE_INLINE void SetInt(int location, int value1)
 			{
 				glUniform1i(location, value1);
 			}
-			inline void SetInt(const char* str, int value1)
+			FORCE_INLINE void SetInt(const char* str, int value1)
 			{
 				glUniform1i(GetUniformLocation(str), value1);
 			}
 
-			inline void SetInt(int location, int value1, int value2)
+			FORCE_INLINE void SetInt(int location, int value1, int value2)
 			{
 				glUniform2i(location, value1, value2);
 			}
-			inline void SetInt(const char* str, int value1, int value2)
+			FORCE_INLINE void SetInt(const char* str, int value1, int value2)
 			{
 				glUniform2i(GetUniformLocation(str), value1, value2);
 			}
 
-			inline void SetInt(int location, int value1, int value2, int value3)
+			FORCE_INLINE void SetInt(int location, int value1, int value2, int value3)
 			{
 				glUniform3i(location, value1, value2, value3);
 			}
-			inline void SetInt(const char* str, int value1, int value2, int value3)
+			FORCE_INLINE void SetInt(const char* str, int value1, int value2, int value3)
 			{
 				glUniform3i(GetUniformLocation(str), value1, value2, value3);
 			}
 
-			inline void SetInt(int location, int value1, int value2, int value3, int value4)
+			FORCE_INLINE void SetInt(int location, int value1, int value2, int value3, int value4)
 			{
 				glUniform4i(location, value1, value2, value3, value4);
 			}
-			inline void SetInt(const char* str, int value1, int value2, int value3, int value4)
+			FORCE_INLINE void SetInt(const char* str, int value1, int value2, int value3, int value4)
 			{
 				glUniform4i(GetUniformLocation(str), value1, value2, value3, value4);
 			}
 
-			inline void SetFloat(int location, float value1)
+			FORCE_INLINE void SetFloat(int location, float value1)
 			{
 				glUniform1f(location, value1);
 			}
-			inline void SetFloat(const char* str, float value1)
+			FORCE_INLINE void SetFloat(const char* str, float value1)
 			{
 				glUniform1f(GetUniformLocation(str), value1);
 			}
 
-			inline void SetFloat(int location, float value1, float value2)
+			FORCE_INLINE void SetFloat(int location, float value1, float value2)
 			{
 				glUniform2f(location, value1, value2);
 			}
-			inline void SetFloat(const char* str, float value1, float value2)
+			FORCE_INLINE void SetFloat(const char* str, float value1, float value2)
 			{
 				glUniform2f(GetUniformLocation(str), value1, value2);
 			}
 
-			inline void SetFloat(int location, float value1, float value2, float value3)
+			FORCE_INLINE void SetFloat(int location, float value1, float value2, float value3)
 			{
 				glUniform3f(location, value1, value2, value3);
 			}
-			inline void SetFloat(const char* str, float value1, float value2, float value3)
+			FORCE_INLINE void SetFloat(const char* str, float value1, float value2, float value3)
 			{
 				glUniform3f(GetUniformLocation(str), value1, value2, value3);
 			}
 
-			inline void SetFloat(int location, float value1, float value2, float value3, float value4)
+			FORCE_INLINE void SetFloat(int location, float value1, float value2, float value3, float value4)
 			{
 				glUniform4f(location, value1, value2, value3, value4);
 			}
-			inline void SetFloat(const char* str, float value1, float value2, float value3, float value4)
+			FORCE_INLINE void SetFloat(const char* str, float value1, float value2, float value3, float value4)
 			{
 				glUniform4f(GetUniformLocation(str), value1, value2, value3, value4);
 			}
 
-			inline void SetMatrix1x1(int location, const math::Matrix1x1& matrix1x1)
+			FORCE_INLINE void SetMatrix1x1(int location, const math::Matrix1x1& matrix1x1)
 			{
 				glUniformMatrix4fv(location, 1, GL_FALSE, matrix1x1.data());
 			}
-			inline void SetMatrix1x1(const char* str, const math::Matrix1x1& matrix1x1)
+			FORCE_INLINE void SetMatrix1x1(const char* str, const math::Matrix1x1& matrix1x1)
 			{
 				glUniformMatrix4fv(GetUniformLocation(str), 1, GL_FALSE, matrix1x1.data());
 			}
 
-			inline void SetMatrix2x2(int location, const math::Matrix2x2& matrix2x2)
+			FORCE_INLINE void SetMatrix2x2(int location, const math::Matrix2x2& matrix2x2)
 			{
 				glUniformMatrix4fv(location, 1, GL_FALSE, matrix2x2.data());
 			}
-			inline void SetMatrix2x2(const char* str, const math::Matrix2x2& matrix2x2)
+			FORCE_INLINE void SetMatrix2x2(const char* str, const math::Matrix2x2& matrix2x2)
 			{
 				glUniformMatrix4fv(GetUniformLocation(str), 1, GL_FALSE, matrix2x2.data());
 			}
 
-			inline void SetMatrix3x3(int location, const math::Matrix3x3& matrix3x3)
+			FORCE_INLINE void SetMatrix3x3(int location, const math::Matrix3x3& matrix3x3)
 			{
 				glUniformMatrix4fv(location, 1, GL_FALSE, matrix3x3.data());
 			}
-			inline void SetMatrix3x3(const char* str, const math::Matrix3x3& matrix3x3)
+			FORCE_INLINE void SetMatrix3x3(const char* str, const math::Matrix3x3& matrix3x3)
 			{
 				glUniformMatrix4fv(GetUniformLocation(str), 1, GL_FALSE, matrix3x3.data());
 			}
 
-			inline void SetMatrix4x4(int location, const math::Matrix4x4& matrix4x4)
+			FORCE_INLINE void SetMatrix4x4(int location, const math::Matrix4x4& matrix4x4)
 			{
 				glUniformMatrix4fv(location, 1, GL_FALSE, matrix4x4.data());
 			}
-			inline void SetMatrix4x4(const char* str, const math::Matrix4x4& matrix4x4)
+			FORCE_INLINE void SetMatrix4x4(const char* str, const math::Matrix4x4& matrix4x4)
 			{
 				glUniformMatrix4fv(GetUniformLocation(str), 1, GL_FALSE, matrix4x4.data());
 			}
 
 
-			inline void SetVector1(int location, const math::Vector1& vector1)
+			FORCE_INLINE void SetVector1(int location, const math::Vector1& vector1)
 			{
 				glUniform1f(location, vector1.x);
 			}
-			inline void SetVector1(const char* str, const math::Vector1& vector1)
+			FORCE_INLINE void SetVector1(const char* str, const math::Vector1& vector1)
 			{
 				glUniform1f(GetUniformLocation(str), vector1.x);
 			}
 
-			inline void SetVector2(int location, const math::Vector2& vector2)
+			FORCE_INLINE void SetVector2(int location, const math::Vector2& vector2)
 			{
 				glUniform2f(location, vector2.x, vector2.y);
 			}
-			inline void SetVector2(const char* str, const math::Vector2& vector2)
+			FORCE_INLINE void SetVector2(const char* str, const math::Vector2& vector2)
 			{
 				glUniform2f(GetUniformLocation(str), vector2.x, vector2.y);
 			}
 
-			inline void SetVector3(int location, const math::Vector3& vector3)
+			FORCE_INLINE void SetVector3(int location, const math::Vector3& vector3)
 			{
 				glUniform3f(location, vector3.x, vector3.y, vector3.z);
 			}
-			inline void SetVector3(const char* str, const math::Vector3& vector3)
+			FORCE_INLINE void SetVector3(const char* str, const math::Vector3& vector3)
 			{
 				glUniform3f(GetUniformLocation(str), vector3.x, vector3.y, vector3.z);
 			}
 
-			inline void SetVector4(int location, const math::Vector4& vector4)
+			FORCE_INLINE void SetVector4(int location, const math::Vector4& vector4)
 			{
 				glUniform4f(location, vector4.x, vector4.y, vector4.z, vector4.w);
 			}
-			inline void SetVector4(const char* str, const math::Vector4& vector4)
+			FORCE_INLINE void SetVector4(const char* str, const math::Vector4& vector4)
 			{
 				glUniform4f(GetUniformLocation(str), vector4.x, vector4.y, vector4.z, vector4.w);
 			}

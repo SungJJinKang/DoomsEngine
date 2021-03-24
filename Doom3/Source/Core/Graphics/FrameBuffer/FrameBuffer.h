@@ -64,12 +64,12 @@ namespace doom
 
 			void GenerateBuffer(unsigned int defaultWidth, unsigned int defaultHeight);
 
-			inline void BindFrameBuffer() noexcept
+			FORCE_INLINE void BindFrameBuffer() noexcept
 			{
 				D_ASSERT(this->mFrameBufferID != 0);
 				FrameBuffer::BindFrameBuffer(this);
 			}
-			inline static void UnBindFrameBuffer() noexcept
+			FORCE_INLINE static void UnBindFrameBuffer() noexcept
 			{
 				FrameBuffer::BindFrameBuffer(nullptr);
 			}
@@ -77,7 +77,7 @@ namespace doom
 			/// <summary>
 			/// Rebind privous bound framebuffer
 			/// </summary>
-			inline static void RevertFrameBuffer()
+			FORCE_INLINE static void RevertFrameBuffer()
 			{
 				if (FrameBuffer::PreviousFrameBuffer != nullptr)
 				{
@@ -89,7 +89,7 @@ namespace doom
 				}
 			}
 
-			inline void Clear()
+			FORCE_INLINE void Clear()
 			{
 				glClear(this->mClearBit);
 			}
@@ -100,7 +100,7 @@ namespace doom
 				LINEAR = GL_LINEAR
 			};
 
-			inline void BlitBufferTo(unsigned int DrawFrameBufferId, int srcX0, int srcY0, int srcX1, int srcY1
+			FORCE_INLINE void BlitBufferTo(unsigned int DrawFrameBufferId, int srcX0, int srcY0, int srcX1, int srcY1
 				, int dstX0, int dstY0, int dstX1, int dstY1, GraphicsAPI::eBufferType mask, eImageInterpolation filter) noexcept
 			{
 				glBindFramebuffer(GL_READ_FRAMEBUFFER, this->mFrameBufferID);
@@ -108,7 +108,7 @@ namespace doom
 				glBlitFramebuffer(srcX0, srcY0, srcX1, srcY1, dstX0, dstY0, dstX1, dstY1, static_cast<unsigned int>(mask), static_cast<unsigned int>(filter));
 			}
 
-			inline void BlitBufferFrom(unsigned int ReadFrameBufferId, int srcX0, int srcY0, int srcX1, int srcY1
+			FORCE_INLINE void BlitBufferFrom(unsigned int ReadFrameBufferId, int srcX0, int srcY0, int srcX1, int srcY1
 				, int dstX0, int dstY0, int dstX1, int dstY1, GraphicsAPI::eBufferType mask, eImageInterpolation filter) noexcept
 			{
 				glBindFramebuffer(GL_READ_FRAMEBUFFER, ReadFrameBufferId);

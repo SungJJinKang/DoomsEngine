@@ -43,7 +43,7 @@ namespace doom
 			/// <param name="str"></param>
 			/// <param name="id"></param>
 
-			inline static void CheckIsBound(const char* str, unsigned int id)
+			FORCE_INLINE static void CheckIsBound(const char* str, unsigned int id)
 			{
 				auto element = OverlapBindChecker::mCurrentBoundId.find(str);
 #ifdef DEBUG_MODE
@@ -54,7 +54,7 @@ namespace doom
 #endif
 			}
 
-			inline static unsigned int GetBoundID(const char* str)
+			FORCE_INLINE static unsigned int GetBoundID(const char* str)
 			{
 				auto element = OverlapBindChecker::mCurrentBoundId.find(str);
 
@@ -74,6 +74,9 @@ namespace doom
 	}
 }
 
+#define D_CHECK_OVERLAP_BIND_AND_SAVE_BIND(str, id) OverlapBindChecker::Bind(str, id);
+#define D_CHECK_IS_BOUND(str, id) OverlapBindChecker::CheckIsBound(str, id);
+/*
 //TODO : 무조건 Overlap 체크하는게 빠른지 보고 그냥 macro를 함수로 호출로 바꾸자
 #if defined(DEBUG_MODE) && !defined(DISABLE_OVERLAP_CHECK)
 #define D_CHECK_OVERLAP_BIND_AND_SAVE_BIND(str, id) OverlapBindChecker::Bind(str, id);
@@ -82,3 +85,4 @@ namespace doom
 #define D_CHECK_OVERLAP_BIND_AND_SAVE_BIND(str, id) 
 #define D_CHECK_IS_BOUND(str, id) 
 #endif
+*/
