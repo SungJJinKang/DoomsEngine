@@ -53,10 +53,7 @@ namespace doom
 			/// 
 			/// </summary>
 
-			FORCE_INLINE void OnStartDraw()
-			{
-				this->mCameraPosition = Camera::GetMainCamera()->GetTransform()->GetPosition();
-			}
+			FORCE_INLINE void OnStartDraw();
 
 			//void OnEndFrame();
 
@@ -64,14 +61,7 @@ namespace doom
 			// {
 			// 
 			// }
-			FORCE_INLINE bool GetIsVisible(Renderer* renderer)
-			{
-				float distanceSqr = (renderer->GetTransform()->GetPosition() - this->mCameraPosition).sqrMagnitude();
-
-				float cullDistance = this->PickCullDistanceSqr(renderer->BVH_Sphere_Node_Object::GetWorldBVhColliderCacheByReference().mRadius);
-
-				return distanceSqr < cullDistance;
-			}
+			FORCE_INLINE bool GetIsVisible(Renderer* renderer);
 
 			/*void SetIsDrawed(bool isDrawed);*/
 		};

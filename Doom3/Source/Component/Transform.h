@@ -60,6 +60,9 @@ namespace doom
 
 		Transform() : mLastFramePosition{ 0.0f }, mPosition{ 0.0f }, mRotation{}, mScale{ 1.0f }, bmIsDirtyModelMatrix{ true }
 		{
+			this->SetPosition(this->mPosition);
+			this->SetRotation(this->mRotation);
+			this->SetScale(this->mScale);
 		}
 		virtual ~Transform() = default;
 		std::string ToString();

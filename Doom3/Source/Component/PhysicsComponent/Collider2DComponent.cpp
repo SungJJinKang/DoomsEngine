@@ -1,6 +1,6 @@
 #include "Collider2DComponent.h"
 
-const math::Vector3& doom::Collider2DComponent::GetOffsetVector3() const
+math::Vector3 doom::Collider2DComponent::GetOffsetVector3() const
 {
 	return this->mOffset;
 }

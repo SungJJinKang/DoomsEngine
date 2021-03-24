@@ -9,7 +9,7 @@ namespace doom
 	protected:
 		math::Vector2 mOffset;
 
-		virtual const math::Vector3& GetOffsetVector3() const final;
+		virtual math::Vector3 GetOffsetVector3() const final;
 
 	public:
 		void SetOffset(const math::Vector2& offset);

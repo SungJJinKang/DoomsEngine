@@ -79,7 +79,7 @@ namespace doom
 		/// </summary>
 		void UpdateLocalBVhAABBCacheFromLocalCollider();
 		
-		virtual const math::Vector3& GetOffsetVector3() const = 0;
+		virtual math::Vector3 GetOffsetVector3() const = 0;
 		
 		virtual void AutoColliderSettingFromAABB3D(const physics::AABB3D & aabb3dFromMesh) = 0;
 		/// <summary>

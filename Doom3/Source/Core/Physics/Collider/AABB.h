@@ -150,7 +150,7 @@ namespace doom
 
 			constexpr AABB3D() : mLowerBound{}, mUpperBound{}
 			{}
-			constexpr AABB3D(const math::Vector3& lowerBound, const math::Vector3& upperBound)
+			AABB3D(const math::Vector3& lowerBound, const math::Vector3& upperBound)
 				: mLowerBound(lowerBound), mUpperBound(upperBound)
 			{
 #ifdef DEBUG_MODE
@@ -276,7 +276,7 @@ namespace doom
 
 			constexpr AABB2D() : mLowerBound{}, mUpperBound{}
 			{}
-			constexpr AABB2D(const math::Vector2& lowerBound, const math::Vector2& upperBound)
+			AABB2D(const math::Vector2& lowerBound, const math::Vector2& upperBound)
 				: mLowerBound(lowerBound), mUpperBound(upperBound)
 			{
 #ifdef DEBUG_MODE
