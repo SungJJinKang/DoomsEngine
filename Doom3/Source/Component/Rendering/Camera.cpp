@@ -254,12 +254,12 @@ const math::Matrix4x4& doom::Camera::GetProjectionMatrix()
 		if (this->mProjectionMode == eProjectionType::Perspective)
 		{
 			this->mProjectionMatrix = math::perspectiveFov(this->mFieldOfViewInRadian, static_cast<float>(doom::graphics::Graphics_Server::GetScreenWidth()), static_cast<float>(doom::graphics::Graphics_Server::GetScreenHeight()), this->mClippingPlaneNear, this->mClippingPlaneFar);
-			graphics::ViewFrustumCulling::GetSingleton()->SetCamera(this->mFieldOfViewInRadian, doom::graphics::Graphics_Server::GetScreenRatio(), this->mClippingPlaneNear, this->mClippingPlaneFar);
+			this->mViewFrumstum.SetCamera(this->mFieldOfViewInRadian, doom::graphics::Graphics_Server::GetScreenRatio(), this->mClippingPlaneNear, this->mClippingPlaneFar);
 		}
 		else
 		{
 			this->mProjectionMatrix = math::ortho(this->mViewportRectX, this->mViewportRectX + this->mViewportRectWidth, this->mViewportRectY, this->mViewportRectY + this->mViewportRectHeight, this->mClippingPlaneNear, this->mViewportRectHeight);
-			graphics::ViewFrustumCulling::GetSingleton()->SetCamera(180.0f * math::DEGREE_TO_RADIAN, doom::graphics::Graphics_Server::GetScreenRatio(), this->mClippingPlaneNear, this->mClippingPlaneFar);
+			this->mViewFrumstum.SetCamera(180.0f * math::DEGREE_TO_RADIAN, doom::graphics::Graphics_Server::GetScreenRatio(), this->mClippingPlaneNear, this->mClippingPlaneFar);
 		}
 
 	}
@@ -276,7 +276,7 @@ const math::Matrix4x4& Camera::GetViewMatrix()
 		auto forward = transform->forward();
 		auto up = transform->up();
 		this->mViewMatrix = math::lookAt(pos, pos + forward, up);
-		graphics::ViewFrustumCulling::GetSingleton()->UpdateLookAt(pos, forward, up);
+		this->mViewFrumstum.UpdateLookAt(pos, forward, up);
 
 	}
 

@@ -65,12 +65,17 @@ void doom::GameCore::UpdateGameCore()
 
 void doom::GameCore::Init()
 {
+	D_START_PROFILING("InitGameSetting", eProfileLayers::CPU);
 	this->InitGameSetting();
+	D_END_PROFILING("InitGameSetting");
 
-
+	D_START_PROFILING("mTime_Server Init", eProfileLayers::CPU);
 	this->mTime_Server.Init();
-	this->mJobSystem.Init();
+	D_END_PROFILING("mTime_Server Init");
 
+	D_START_PROFILING("mJobSystem Init", eProfileLayers::CPU);
+	this->mJobSystem.Init();
+	D_END_PROFILING("mJobSystem Init");
 	
 
 

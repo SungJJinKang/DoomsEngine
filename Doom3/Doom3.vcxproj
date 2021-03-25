@@ -176,6 +176,7 @@
     <ClCompile Include="Source\Core\Graphics\Acceleration\OcclusionCulling\HW\HierarchicalZMapOcclusionCulling.cpp" />
     <ClCompile Include="Source\Core\Graphics\Acceleration\OcclusionCulling\HW\QueryOcclusionCulling.cpp" />
     <ClCompile Include="Source\Core\Graphics\Acceleration\OcclusionCulling\SW\SWOcclusionCulling.cpp" />
+    <ClCompile Include="Source\Core\Graphics\Acceleration\ViewFrustum.cpp" />
     <ClCompile Include="Source\Core\Graphics\FrameBuffer\utility\PicktureInPickture.cpp" />
     <ClCompile Include="Source\Core\Graphics\Acceleration\ViewFrustumCulling.cpp" />
     <ClCompile Include="Source\Core\IO\AssetImporter\AssetApiImporter.cpp" />
@@ -187,6 +188,7 @@
     <ClCompile Include="Source\Core\Macros\KeyCallback.cpp" />
     <ClCompile Include="Source\Core\OS\OS_Server.cpp" />
     <ClCompile Include="Source\Core\OS\Window.cpp" />
+    <ClCompile Include="Source\Core\Physics\Collider\OBB.cpp" />
     <ClCompile Include="Source\Core\utility\BVH\BVH_Collider_Container.cpp" />
     <ClCompile Include="Source\Core\utility\BVH\BVH_Node.cpp" />
     <ClCompile Include="Source\Core\utility\BVH\BVH_Node_View.cpp" />
@@ -305,9 +307,11 @@
     <ClInclude Include="Source\Core\Game\ConfigData.h" />
     <ClInclude Include="Source\Core\Graphics\Acceleration\CullDistance\CullDistance.h" />
     <ClInclude Include="Source\Core\Graphics\Acceleration\CullDistance\CullDistanceRenderer.h" />
+    <ClInclude Include="Source\Core\Graphics\Acceleration\Culling.h" />
     <ClInclude Include="Source\Core\Graphics\Acceleration\OcclusionCulling\HW\HierarchicalZMapOcclusionCulling.h" />
     <ClInclude Include="Source\Core\Graphics\Acceleration\OcclusionCulling\HW\QueryOcclusionCulling.h" />
     <ClInclude Include="Source\Core\Graphics\Acceleration\OcclusionCulling\SW\SWOcclusionCulling.h" />
+    <ClInclude Include="Source\Core\Graphics\Acceleration\ViewFrustum.h" />
     <ClInclude Include="Source\Core\Graphics\FrameBuffer\utility\PicktureInPickture.h" />
     <ClInclude Include="Source\Core\Graphics\Acceleration\ViewFrustumCulling.h" />
     <ClInclude Include="Source\Core\Graphics\TextureFormat.h" />
@@ -318,6 +322,8 @@
     <ClInclude Include="Source\Core\OS\OS.h" />
     <ClInclude Include="Source\Core\OS\OS_Server.h" />
     <ClInclude Include="Source\Core\OS\Window.h" />
+    <ClInclude Include="Source\Core\Physics\Collider\OBB.h" />
+    <ClInclude Include="Source\Core\utility\AccelerationBitFlag.h" />
     <ClInclude Include="Source\Core\utility\BVH\BVH_Collider_Container.h" />
     <ClInclude Include="Source\Core\utility\BVH\BVH_Core.h" />
     <ClInclude Include="Source\Core\utility\BVH\BVH_Node.h" />
@@ -475,6 +481,7 @@
     <ClInclude Include="Source\Core\utility\KDTree\KDTreeNode.h" />
     <ClInclude Include="Source\Core\utility\KDTree\KDTreeNodeView.h" />
     <ClInclude Include="Source\Core\utility\KDTree\test\KDTree_TestRoom.h" />
+    <ClInclude Include="Source\Core\utility\TreeNode.h" />
     <ClInclude Include="Source\GameLogic\CustomComponent\AutoRotate.h" />
     <ClInclude Include="Source\GameLogic\CustomComponent\AxisDebugger.h" />
     <ClInclude Include="Source\GameLogic\CustomComponent\Move_WASD.h" />

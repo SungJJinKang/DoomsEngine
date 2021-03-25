@@ -132,6 +132,10 @@ bool doom::graphics::CullDistance::GetIsVisible(Renderer* renderer)
 	return distanceSqr < cullDistance;
 }
 
+void doom::graphics::CullDistance::PreComputeCulling()
+{
+}
+
 void doom::graphics::CullDistance::RemoveCullDistance(int index)
 {
 	D_ASSERT(this->mCullDistanceSetting.size() > index);

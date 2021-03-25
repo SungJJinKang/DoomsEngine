@@ -23,7 +23,7 @@ namespace doom
 
 
 
-	class Renderer : public ServerComponent, public RendererComponentStaticIterator, public BVH_Sphere_Node_Object, public BVH_AABB3D_Node_Object, public graphics::CullDistanceRenderer
+	class Renderer : public ServerComponent, public RendererComponentStaticIterator, public BVH_Sphere_Node_Object, public BVH_AABB3D_Node_Object // public graphics::CullDistanceRenderer
 	{
 		friend graphics::Graphics_Server;
 		friend class Enity;

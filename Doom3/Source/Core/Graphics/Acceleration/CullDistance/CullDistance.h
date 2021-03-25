@@ -3,9 +3,11 @@
 #include <vector>
 #include <utility>
 
+#include "Simple_SingleTon/Singleton.h"
+#include "../Culling.h"
+
 #include <Vector3.h>
 
-#include "Simple_SingleTon/Singleton.h"
 
 namespace doom
 {
@@ -17,7 +19,7 @@ namespace doom
 		/// <summary>
 		/// https://docs.unrealengine.com/en-US/RenderingAndGraphics/VisibilityCulling/CullDistanceVolume/index.html
 		/// </summary>
-		class CullDistance : ISingleton<CullDistance>
+		class CullDistance : public ICulling, ISingleton<CullDistance>
 		{
 			friend class Graphics_Server;
 
@@ -62,6 +64,10 @@ namespace doom
 			// 
 			// }
 			bool GetIsVisible(Renderer* renderer);
+
+
+			// Inherited via ICulling
+			virtual void PreComputeCulling() override;
 
 			/*void SetIsDrawed(bool isDrawed);*/
 		};

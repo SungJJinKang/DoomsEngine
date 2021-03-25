@@ -138,6 +138,7 @@ namespace doom
 		node_view_type UpdateLeafNode(int targetLeafNodeIndex, bool force = false);
 
 
+		void Traverse();
 
 		
 

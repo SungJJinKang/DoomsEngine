@@ -10,13 +10,21 @@
 
 #include <EasyDirtyChecker/DirtyReceiver.h>
 
-#include <Physics/Collider/Plane.h>
+#include "Physics/Collider/Plane.h"
+
+#include "Graphics/Acceleration/ViewFrustum.h"
 
 namespace doom
 {
+	namespace graphics
+	{
+		class Graphics_Server;
+	}
+
 	class Camera : public PlainComponent, public graphics::UniformBufferObjectTempBufferUpdater, public StaticContainer<Camera>
 	{
 		friend class Scene;
+		friend class graphics::Graphics_Server;
 	public:
 		enum class eProjectionType
 		{
@@ -66,8 +74,11 @@ namespace doom
 		math::Matrix4x4 mProjectionMatrix{};
 		math::Matrix4x4 mViewProjectionMatrix{};
 		std::array<math::Vector4, 6> mFrustumPlane{};
-		const std::array<math::Vector4, 6>& CalculateFrustumPlane();
 
+		graphics::ViewFrustum mViewFrumstum{};
+
+		const std::array<math::Vector4, 6>& CalculateFrustumPlane();
+		
 		virtual void InitComponent() final;
 		virtual void UpdateComponent() final;
 		virtual void OnEndOfFrame_Component() final;

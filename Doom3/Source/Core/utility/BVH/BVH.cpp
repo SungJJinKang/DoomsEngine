@@ -157,6 +157,7 @@ int doom::BVH<ColliderType>::AllocateNewNode()
 
 	this->mTree.mCurrentActiveNodeCount++;
 
+	this->mTree.mNodes[newNodeIndex].mOwnerBVH = this;
 	this->mTree.mNodes[newNodeIndex].mIndex = newNodeIndex;
 	this->mTree.mNodes[newNodeIndex].bmIsActive = true;
 
@@ -169,7 +170,6 @@ int doom::BVH<ColliderType>::AllocateLeafNode(const ColliderType& boundingCollid
 	int newNodexIndex = this->AllocateNewNode();
 	auto& newNode = this->mTree.mNodes[newNodexIndex];
 
-	newNode.mOwnerBVH = this;
 	//newNode.mBoundingCollider = collider;
 	newNode.mBoundingCollider = boundingCollider;
 	newNode.mEnlargedBoundingCollider = ColliderType::EnlargeAABB(newNode.mBoundingCollider);
@@ -186,7 +186,7 @@ int doom::BVH<ColliderType>::AllocateInternalNode()
 	int newNodexIndex = this->AllocateNewNode();
 	auto& newNode = this->mTree.mNodes[newNodexIndex];
 
-	newNode.mOwnerBVH = this;
+
 
 	newNode.mIsLeaf = false;
 

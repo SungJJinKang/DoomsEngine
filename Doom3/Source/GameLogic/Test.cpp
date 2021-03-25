@@ -48,12 +48,12 @@ void doom::TEST::Init()
 // 			entity->AddComponent<BoxCollider3D>();
 // 		}
 // 	}
-	int count = 80;
-	for (int i = -count; i < count; i = i + 10)
+	int count = 150;
+	for (int i = -count; i < count; i = i + 15)
 	{
-		for (int j = -count; j < count; j = j + 10)
+		for (int j = -count; j < count; j = j + 15)
 		{
-			for (int k = -count; k < count; k = k + 10)
+			for (int k = -count; k < count; k = k + 15)
 			{
 				auto entity = currenScene->CreateNewEntity();
 				entity->GetTransform()->SetScale(0.8f, 0.8f, 0.8f);
@@ -62,7 +62,7 @@ void doom::TEST::Init()
 				meshRenderer->SetMesh(planetAsset->GetMesh(0));
 				meshRenderer->SetMaterial(material);
 				//entity->AddComponent<AutoRotate>();
-				entity->AddComponent<BoxCollider3D>();
+				//entity->AddComponent<BoxCollider3D>();
 			}
 		}
 	}

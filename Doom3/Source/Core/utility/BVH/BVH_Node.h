@@ -8,6 +8,9 @@
 #include "BVH_Core.h"
 #include "BVH_Node_View.h"
 
+#include "../TreeNode.h"
+#include "../AccelerationBitFlag.h"
+
 namespace doom
 {
 	template <typename ColliderType>
@@ -23,7 +26,7 @@ namespace doom
 	/// </summary>
 	/// <typeparam name="ColliderType"></typeparam>
 	template <typename ColliderType>
-	class BVH_Node
+	class BVH_Node : public TreeNode, public AccelerationBitFlag
 	{
 		friend class BVH<ColliderType>;
 		friend class BVH_Tree<ColliderType>;
@@ -43,9 +46,10 @@ namespace doom
 
 		/// <summary>
 		/// use this as ways you want
+		/// For example, you can save if this bvh entity will be drawed..
 		/// </summary>
-		bool bmTempValue;
-	
+		unsigned int mBitflag;
+
 		doom::physics::Collider* mCollider{ nullptr };
 
 		BVH<ColliderType>* mOwnerBVH{ nullptr };
@@ -56,26 +60,10 @@ namespace doom
 		ColliderType mBoundingCollider;
 		ColliderType mEnlargedBoundingCollider;
 
-		/// <summary>
-		/// Don't change this except in AllocateNewNode
-		/// </summary>
-		int mIndex{ NULL_NODE_INDEX };
 
 		bool bmIsActive{ false };
 
-		/// <summary>
-		/// Node Index in BVH_Tree::mNodes
-		/// </summary>
-		int mParentIndex{ NULL_NODE_INDEX };
-		/// <summary>
-		/// Node index in BVH_Tree::mNodes
-		/// </summary>
-		int mLeftNode{ NULL_NODE_INDEX };
-
-		/// <summary>
-		/// Node index in BVH_Tree::mNodes
-		/// </summary>
-		int mRightNode{ NULL_NODE_INDEX };
+		
 
 		/// <summary>
 		/// Is Leaf? = Is World Object?
