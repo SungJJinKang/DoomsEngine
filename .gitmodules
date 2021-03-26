@@ -40,3 +40,6 @@
 [submodule "Doom3/Source/Helper/SequenceStringGenerator"]
 	path = Doom3/Source/Helper/SequenceStringGenerator
 	url = https://github.com/SungJJinKang/SequenceStringGenerator.git
+[submodule "Doom3/Source/Core/Graphics/Acceleration/LinearData_ViewFrustumCulling"]
+	path = Doom3/Source/Core/Graphics/Acceleration/LinearData_ViewFrustumCulling
+	url = https://github.com/SungJJinKang/LinearData_ViewFrustumCulling.git
