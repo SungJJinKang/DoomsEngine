@@ -3,6 +3,7 @@
 #include "Core.h"
 #include <Vector3.h>
 #include <Vector4.h>
+#include <Matrix4x4.h>
 
 namespace doom
 {
@@ -34,6 +35,10 @@ namespace doom
 				Far
 			};
 
+			/// <summary>
+			/// normal : x, y, z
+			/// distance : w
+			/// </summary>
 			math::Vector4 mPlanes[6];
 
 			math::Vector3 mCameraPosition{};
@@ -61,6 +66,10 @@ namespace doom
 				/// <param name="viewProjectionMatrix"></param>
 			void SetCamera(float fovInRadian, float ratio, float nearDistance, float farDistance);
 			void UpdateLookAt(const math::Vector3& cameraPosition, const math::Vector3& forwardDirection, const math::Vector3& updirection);
+			
+			//use math::ExtractPlanesFromMVPMatrix
+			//void ExtractPlanesFromMVPMatrix(const math::Matrix4x4& mvpMatrix, bool normalize);
+
 
 		public:
 

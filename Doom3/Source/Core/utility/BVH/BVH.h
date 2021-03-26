@@ -1,6 +1,7 @@
 #pragma once
 
 #include <memory>
+#include <queue>
 
 #include "Physics/Collider/AABB.h"
 #include "Physics/Collider/Sphere.h"
@@ -8,7 +9,6 @@
 
 #include "BVH_Core.h"
 #include "BVH_Node.h"
-#include "BVH_Tree.h"
 #include "BVH_Node_View.h"
 
 
@@ -49,17 +49,38 @@ namespace doom
 	class BVH
 	{
 		friend class BVH_TestRoom;
-		friend class BVH_Tree<ColliderType>;
 		friend class BVH_Node<ColliderType>;
 		friend class BVH_Node_View<ColliderType>;
 
-		using tree_type = typename BVH_Tree<ColliderType>;
 		using node_type = typename BVH_Node<ColliderType>;
 		using node_view_type = typename BVH_Node_View<ColliderType>;
 
 	private:
 
-		tree_type mTree;
+		/// <summary>
+		/// array
+		/// Never pop inserted node
+		/// Just make it dangling
+		/// </summary>
+		BVH_Node<ColliderType>* mNodes;
+		const int mNodeCapacity;
+
+		int mRootNodeIndex{ NULL_NODE_INDEX };
+
+		/// <summary>
+		/// Ever used Node Count
+		/// this value contain freed node count
+		/// </summary>
+		int mCurrentAllocatedNodeCount{ 0 };
+		/// <summary>
+		/// Current used node count
+		/// this value doesn't contain freed node count
+		/// </summary>
+		int mCurrentActiveNodeCount{ 0 };
+		/// <summary>
+		/// if you want parallel access, Use concurrentQueue
+		/// </summary>
+		std::queue<int> freedNodeIndexList{};
 
 		int PickBest(const ColliderType& L);
 
@@ -106,13 +127,15 @@ namespace doom
 
 	public:
 
-		constexpr BVH(int nodeCapacity)
-			: mTree{ nodeCapacity }
+		constexpr BVH(int nodeCapacity) 
+			:mNodeCapacity{ nodeCapacity }
 		{
+			this->mNodes = new BVH_Node<ColliderType>[mNodeCapacity];
 		}
 
 		~BVH()
 		{
+			delete[] this->mNodes;
 		}
 
 		bool BVHRayCast(const doom::physics::Ray& ray);
@@ -144,13 +167,13 @@ namespace doom
 
 		constexpr node_view_type MakeBVH_Node_View(int index)
 		{
-			D_ASSERT(index < this->mTree.mCurrentAllocatedNodeCount);
+			D_ASSERT(index < this->mCurrentAllocatedNodeCount);
 			return node_view_type(this, index);
 		}
 	};
 
-	using BVH2D = typename BVH<doom::physics::AABB2D>;
-	using BVH3D = typename BVH<doom::physics::AABB3D>;
+	using BVHAABB2D = typename BVH<doom::physics::AABB2D>;
+	using BVHAABB3D = typename BVH<doom::physics::AABB3D>;
 	using BVHSphere = typename BVH<doom::physics::Sphere>;
 	
 	extern template class BVH<doom::physics::AABB2D>;

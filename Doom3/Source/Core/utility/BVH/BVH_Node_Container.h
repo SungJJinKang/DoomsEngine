@@ -23,9 +23,11 @@ namespace doom
 
 	private:
 
-		node_view_type mBVH_NODE{};
+		
 
 	protected:
+
+		node_view_type mBVH_Node_View{};
 
 		void InsertBVHLeafNode(BVH<ColliderType>& BVH, const ColliderType& Collider, doom::physics::Collider* collider);
 

@@ -58,6 +58,7 @@ namespace doom
 
 			/// <summary>
 			/// draw Simple bounding volume(Occluder) after this function call
+			/// TODO : Disable Pixel Shading, Texturing
 			/// </summary>
 			void StartQuery();
 			void StopQuery();

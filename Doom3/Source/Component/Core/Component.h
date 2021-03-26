@@ -150,13 +150,13 @@ namespace doom
 	public:
 
 	
-		constexpr Entity* GetOwnerEntity() const
+		FORCE_INLINE constexpr Entity* GetOwnerEntity() const
 		{
 			D_ASSERT(this->mOwnerEntity); // mOwnerEntity is set at InitComponent_Internal ( not Constructor )
 			return this->mOwnerEntity;
 		}
 		unsigned int GetOwnerEntityLayerIndex() const;
-		constexpr Transform* GetTransform() const
+		FORCE_INLINE constexpr Transform* GetTransform() const
 		{
 			return this->mTransform;
 		}

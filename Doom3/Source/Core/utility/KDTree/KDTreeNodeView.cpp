@@ -3,12 +3,13 @@
 #include "KDTree.h"
 #include "KDTreeNode.h"
 
-template<int Dimension>
-typename doom::KDTreeNodeView<Dimension>::node_type* doom::KDTreeNodeView<Dimension>::operator->()
+template<typename T>
+typename doom::KDTreeNodeView<T>::node_type* doom::KDTreeNodeView<T>::operator->()
 {
 	D_ASSERT(this->IsValid() == true);
 	return this->mKDTreePointer->mKDTreeNodes + this->mNodeIndex;
 }
 
-template class doom::KDTreeNodeView<2>;
-template class doom::KDTreeNodeView<3>;
+extern template class doom::KDTreeNodeView<math::Vector2>;
+extern template class doom::KDTreeNodeView<math::Vector3>;
+extern template class doom::KDTreeNodeView<doom::physics::AABB3D>;

@@ -9,22 +9,24 @@
 
 namespace doom
 {
-	template <int Dimension>
-	struct KDTreeNode : public TreeNode, public AccelerationBitFlag
+	template <typename T>
+	struct KDTreeNode : public TreeNode
 	{
 		friend class KDTree_TestRoom;
-		friend class KDTreeNodeView<Dimension>;
+		friend class KDTreeNodeView<T>;
 
-		using component_type = typename math::Vector<Dimension, float>;
+		using component_type = typename T;
 
-		math::Vector<Dimension, float> mPoint;
+		T mComponentValue;
 
 	
 		int mDimension{ NULL_NODE_INDEX };
 
-		bool bmIsActive{ false };
+		
 	};
 
-	using KDTreeNode2D = KDTreeNode<2>;
-	using KDTreeNode3D = KDTreeNode<3>;
+	using KDTreeNode2DPoint = typename KDTree<math::Vector2>;
+	using KDTreeNode3DPoint = typename KDTree<math::Vector3>;
+	using KDTreeNodeAABB3D = typename KDTree<physics::AABB3D>;
+
 }

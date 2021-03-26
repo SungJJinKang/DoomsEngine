@@ -15,6 +15,6 @@ namespace doom
 		class OBB : public Collider
 		{
 
-		}
+		};
 	}
 }

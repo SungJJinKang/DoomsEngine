@@ -12,6 +12,7 @@
 
 #include <Physics/Collider/Sphere.h>
 #include "Graphics/Acceleration/CullDistance/CullDistanceRenderer.h"
+#include "Graphics/RenderingBitFlag.h"
 
 namespace doom
 {
@@ -32,14 +33,18 @@ namespace doom
 
 	
 	private:
-
-				
+							
 		Renderer(const Renderer&) = delete;
 		Renderer(Renderer&&) noexcept = delete;
 		Renderer& operator=(const Renderer&) = delete;
 		Renderer& operator=(Renderer&&) noexcept = delete;
 
-		
+		/// <summary>
+		/// Check RenderingBitFlag.h
+		/// </summary>
+		unsigned int mRenderingBitFlag{ 0 };
+		void MergeBVHBitFlag();
+		void ClearRenderingBitFlag();
 
 	protected:
 		
@@ -81,6 +86,11 @@ namespace doom
 		void BindMaterial() noexcept;
 		void SetMaterial(graphics::Material* material) noexcept;
 		void SetMaterial(graphics::Material& material) noexcept;
+
+		FORCE_INLINE bool GetIsVisible()
+		{
+			return this->mRenderingBitFlag | graphics::eRenderingBitflag::IsVisible;
+		}
 
 		//const physics::Sphere& GetBoudingSphere();
 	};

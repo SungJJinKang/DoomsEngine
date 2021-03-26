@@ -36,7 +36,9 @@ namespace doom
 			friend class Graphics_Server;
 
 		private:
-			BVHSphere mBVHSphere { VIEWFRUSTUM_BVH_MAX_NODE_COUNT };
+
+			BVHAABB3D mBVHAABB3D{ VIEWFRUSTUM_BVH_MAX_NODE_COUNT };
+			BVHSphere mBVHSphere{ VIEWFRUSTUM_BVH_MAX_NODE_COUNT };
 			
 
 			bool IsInFrustumWithBVH(const physics::Sphere& sphere);

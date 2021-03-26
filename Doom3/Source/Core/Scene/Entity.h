@@ -36,17 +36,26 @@ namespace doom
 			}
 		};
 
+		enum class eEntityMobility
+		{
+			Static,
+			Dynamic
+		};
+
 		enum eEntityFlags : unsigned int
 		{
 			OcculuderStatic = 1,
-			Occuludee = 1 << 1
+			OcculudeeStatic = 1 << 1
 		};
 
-		unsigned int mEntityFlag{ eEntityFlags::OcculuderStatic | eEntityFlags::Occuludee };
+		
 
 
 	private:
 		
+		eEntityMobility mEntityMobility{ eEntityMobility::Dynamic };
+		unsigned int mEntityFlag{ eEntityFlags::OcculuderStatic | eEntityFlags::OcculudeeStatic };
+
 		/// <summary>
 		/// Entity Constructor should be called through Scene class
 		///  To Protect User create entity not thourgh Scene class
@@ -207,7 +216,6 @@ namespace doom
 
 	public:
 
-		
 		
 
 		//TODO : Prevent Programmer Add TransformComponent.
@@ -415,19 +423,40 @@ namespace doom
 		void OnPostUpdate() {}
 
 		[[nodiscard]] std::string_view GetEntityName() const;
-		[[nodiscard]] constexpr Transform* GetTransform() const
+		[[nodiscard]] FORCE_INLINE constexpr Transform* GetTransform() const
 		{
 			return this->mTransform;
 		}
 
 		void SetLayerIndex(unsigned int layerIndex);
-		[[nodiscard]] constexpr unsigned int GetLayerIndex() const
+		[[nodiscard]] FORCE_INLINE constexpr unsigned int GetLayerIndex() const
 		{
 			return this->mLayerIndex;
 		}
 
 		void AddLayerChangedCallback(void(*callback_ptr)(Entity&));
 		void RemoveLayerChangedCallback(void(*callback_ptr)(Entity&));
+
+		FORCE_INLINE eEntityMobility GetEntityMobility()
+		{
+			return this->mEntityMobility;
+		}
+		FORCE_INLINE void SetEntityMobility(eEntityMobility entityMobility)
+		{
+			this->mEntityMobility = entityMobility;
+		}
+		FORCE_INLINE unsigned int GetEntityFlag()
+		{	
+			return this->mEntityFlag;
+		}
+		FORCE_INLINE void SetEntityFlag(eEntityFlags flag)
+		{
+			this->mEntityFlag |= flag;
+		}
+		FORCE_INLINE void ClearEntityFlag()
+		{
+			this->mEntityFlag &= 0;
+		}
 	};
 
 

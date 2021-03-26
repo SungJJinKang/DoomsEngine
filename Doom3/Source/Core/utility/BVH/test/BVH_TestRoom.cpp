@@ -86,9 +86,9 @@ void doom::BVH_TestRoom::BalanceRecentAddedLeafNode()
 	this->mBVH->Balance(this->recentAddedLeaf.top());
 }
 
-void doom::BVH_TestRoom::SetBVH3D(BVH3D* bvh3D)
+void doom::BVH_TestRoom::SetBVH3D(BVHAABB3D* bvh3D)
 {
-	this->mBVH = std::unique_ptr<BVH3D>(bvh3D);
+	this->mBVH = std::unique_ptr<BVHAABB3D>(bvh3D);
 }
 
 void doom::BVH_TestRoom::Update()
@@ -100,7 +100,7 @@ void doom::BVH_TestRoom::Update()
 
 	if (doom::userinput::UserInput_Server::GetKeyUp(eKEY_CODE::KEY_F6))
 	{
-		D_DEBUG_LOG(std::to_string(this->mBVH->mTree.mCurrentActiveNodeCount), eLogType::D_ALWAYS);
+		D_DEBUG_LOG(std::to_string(this->mBVH->mCurrentActiveNodeCount), eLogType::D_ALWAYS);
 		D_DEBUG_LOG(std::to_string(this->mBVH->GetLeafNodeCount()), eLogType::D_ALWAYS);
 	}
 
@@ -141,7 +141,7 @@ void doom::BVH_TestRoom::Update()
 #define DebugBVHTreeOffsetY 0.1f
 
 
-void doom::BVH_TestRoom::DebugBVHTree(doom::BVH3D::node_type* node, float x, float y, int depth)
+void doom::BVH_TestRoom::DebugBVHTree(doom::BVHAABB3D::node_type* node, float x, float y, int depth)
 {
 	if (node == nullptr)
 	{
@@ -151,13 +151,13 @@ void doom::BVH_TestRoom::DebugBVHTree(doom::BVH3D::node_type* node, float x, flo
 	float offsetX = static_cast<float>(1.0f / (math::pow(2, depth + 1)));
 	if (node->mLeftNode != NULL_NODE_INDEX)
 	{
-		graphics::DebugGraphics::GetSingleton()->DebugDraw2DLine({ x, y, 0 }, { x - offsetX, y - DebugBVHTreeOffsetY, 0 }, this->mBVH->mTree.mNodes[node->mLeftNode].mIsLeaf == false ? eColor::Black : ((this->recentAddedLeaf.empty() == false && this->recentAddedLeaf.top() == node->mLeftNode) ? eColor::Red : eColor::Blue), true);
-		DebugBVHTree(&(this->mBVH->mTree.mNodes[node->mLeftNode]), x - offsetX, y - DebugBVHTreeOffsetY, depth + 1);
+		graphics::DebugGraphics::GetSingleton()->DebugDraw2DLine({ x, y, 0 }, { x - offsetX, y - DebugBVHTreeOffsetY, 0 }, this->mBVH->mNodes[node->mLeftNode].mIsLeaf == false ? eColor::Black : ((this->recentAddedLeaf.empty() == false && this->recentAddedLeaf.top() == node->mLeftNode) ? eColor::Red : eColor::Blue), true);
+		DebugBVHTree(&(this->mBVH->mNodes[node->mLeftNode]), x - offsetX, y - DebugBVHTreeOffsetY, depth + 1);
 	}
 	if (node->mRightNode != NULL_NODE_INDEX)
 	{
-		graphics::DebugGraphics::GetSingleton()->DebugDraw2DLine({ x, y, 0 }, { x + offsetX, y - DebugBVHTreeOffsetY, 0 }, this->mBVH->mTree.mNodes[node->mRightNode].mIsLeaf == false ? eColor::Black : ((this->recentAddedLeaf.empty() == false && this->recentAddedLeaf.top() == node->mRightNode) ? eColor::Red : eColor::Blue), true);
-		DebugBVHTree(&(this->mBVH->mTree.mNodes[node->mRightNode]), x + offsetX, y - DebugBVHTreeOffsetY, depth + 1);
+		graphics::DebugGraphics::GetSingleton()->DebugDraw2DLine({ x, y, 0 }, { x + offsetX, y - DebugBVHTreeOffsetY, 0 }, this->mBVH->mNodes[node->mRightNode].mIsLeaf == false ? eColor::Black : ((this->recentAddedLeaf.empty() == false && this->recentAddedLeaf.top() == node->mRightNode) ? eColor::Red : eColor::Blue), true);
+		DebugBVHTree(&(this->mBVH->mNodes[node->mRightNode]), x + offsetX, y - DebugBVHTreeOffsetY, depth + 1);
 	}
 }
 
@@ -166,7 +166,7 @@ void doom::BVH_TestRoom::Init()
 {
 	if (static_cast<bool>(this->mBVH) == false)
 	{
-		this->mBVH = std::make_unique<BVH3D>(10000);
+		this->mBVH = std::make_unique<BVHAABB3D>(10000);
 	}
 
 	if (static_cast<bool>(this->mPIPForDebug) == false)
@@ -184,12 +184,12 @@ void doom::BVH_TestRoom::Init()
 
 void doom::BVH_TestRoom::TreeDebug()
 {
-	if (this->mBVH->mTree.mRootNodeIndex != NULL_NODE_INDEX)
+	if (this->mBVH->mRootNodeIndex != NULL_NODE_INDEX)
 	{
 		/*
-		for (int i = 0; i < this->mBVH->mTree.mNodeCapacity; i++)
+		for (int i = 0; i < this->mBVH->mNodeCapacity; i++)
 		{
-			this->mBVH->mTree.mNodes[i].mBoundingCollider.DrawPhysicsDebug(); // TODO : Draw recursively, don't draw all nodes
+			this->mBVH->mNodes[i].mBoundingCollider.DrawPhysicsDebug(); // TODO : Draw recursively, don't draw all nodes
 		}
 		*/
 
@@ -202,7 +202,7 @@ void doom::BVH_TestRoom::TreeDebug()
 
 			graphics::DebugGraphics::GetSingleton()->SetDrawInstantlyMaterial(mBVHDebugMaterial.get());
 
-			DebugBVHTree(&(this->mBVH->mTree.mNodes[this->mBVH->mTree.mRootNodeIndex]), 0, 1, 0);
+			DebugBVHTree(&(this->mBVH->mNodes[this->mBVH->mRootNodeIndex]), 0, 1, 0);
 
 			graphics::DebugGraphics::GetSingleton()->SetDrawInstantlyMaterial(nullptr);
 			this->mPIPForDebug->RevertFrameBuffer();
@@ -222,25 +222,25 @@ void doom::BVH_TestRoom::AABBDebug()
 		graphics::DebugGraphics::GetSingleton()->SetDrawInstantlyMaterial(mBVHDebugMaterial.get());
 
 
-		for (int i = 0; i < this->mBVH->mTree.mCurrentAllocatedNodeCount; i++)
+		for (int i = 0; i < this->mBVH->mCurrentAllocatedNodeCount; i++)
 		{
-			if (this->mBVH->mTree.mNodes[i].bmIsActive == true)
+			if (this->mBVH->mNodes[i].bmIsActive == true)
 			{
 				if (this->recentAddedLeaf.empty() == false && i == this->recentAddedLeaf.top())
 				{
-					this->mBVH->mTree.mNodes[i].mBoundingCollider.DrawPhysicsDebugColor(eColor::Red, true);
+					this->mBVH->mNodes[i].mBoundingCollider.DrawPhysicsDebugColor(eColor::Red, true);
 				}
 				else if (this->recentAddedLeaf.empty() == false && this->mBVH->IsAncesterOf(i, this->recentAddedLeaf.top()))
 				{
-					this->mBVH->mTree.mNodes[i].mBoundingCollider.DrawPhysicsDebugColor(eColor::Blue, true);
+					this->mBVH->mNodes[i].mBoundingCollider.DrawPhysicsDebugColor(eColor::Blue, true);
 				}
-				else if (this->mBVH->mTree.mNodes[i].mIsLeaf == false)
+				else if (this->mBVH->mNodes[i].mIsLeaf == false)
 				{
-					this->mBVH->mTree.mNodes[i].mBoundingCollider.DrawPhysicsDebugColor(eColor::Black, true);
+					this->mBVH->mNodes[i].mBoundingCollider.DrawPhysicsDebugColor(eColor::Black, true);
 				}
-				else if (this->mBVH->mTree.mNodes[i].mIsLeaf == true)
+				else if (this->mBVH->mNodes[i].mIsLeaf == true)
 				{
-					this->mBVH->mTree.mNodes[i].mBoundingCollider.DrawPhysicsDebugColor(eColor::Green, true);
+					this->mBVH->mNodes[i].mBoundingCollider.DrawPhysicsDebugColor(eColor::Green, true);
 				}
 
 			}
@@ -264,11 +264,11 @@ void doom::BVH_TestRoom::AABBDebug(int targetNode)
 		graphics::DebugGraphics::GetSingleton()->SetDrawInstantlyMaterial(mBVHDebugMaterial.get());
 
 		/*
-		for (int i = 0; i < this->mBVH->mTree.mCurrentAllocatedNodeCount; i++)
+		for (int i = 0; i < this->mBVH->mCurrentAllocatedNodeCount; i++)
 		{
-			if (this->mBVH->mTree.mNodes[i].bmIsActive == true)
+			if (this->mBVH->mNodes[i].bmIsActive == true)
 			{
-				this->mBVH->mTree.mNodes[i].mBoundingCollider.DrawPhysicsDebugColor(eColor::Black, true);
+				this->mBVH->mNodes[i].mBoundingCollider.DrawPhysicsDebugColor(eColor::Black, true);
 			}
 		}
 		*/
@@ -276,8 +276,8 @@ void doom::BVH_TestRoom::AABBDebug(int targetNode)
 		int index = targetNode;
 		while (index != NULL_NODE_INDEX)
 		{
-			this->mBVH->mTree.mNodes[index].mBoundingCollider.DrawPhysicsDebugColor(eColor::Red, true);
-			index = this->mBVH->mTree.mNodes[index].mParentIndex;
+			this->mBVH->mNodes[index].mBoundingCollider.DrawPhysicsDebugColor(eColor::Red, true);
+			index = this->mBVH->mNodes[index].mParentIndex;
 		}
 
 
@@ -286,7 +286,7 @@ void doom::BVH_TestRoom::AABBDebug(int targetNode)
 	}
 }
 
-void doom::BVH_TestRoom::CheckActiveNode(doom::BVH3D::node_type* node, std::vector<int>& activeNodeList)
+void doom::BVH_TestRoom::CheckActiveNode(doom::BVHAABB3D::node_type* node, std::vector<int>& activeNodeList)
 {
 	if (node == nullptr)
 	{
@@ -301,12 +301,12 @@ void doom::BVH_TestRoom::CheckActiveNode(doom::BVH3D::node_type* node, std::vect
 
 	if (node->mLeftNode != NULL_NODE_INDEX)
 	{
-		CheckActiveNode(&(this->mBVH->mTree.mNodes[node->mLeftNode]), activeNodeList);
+		CheckActiveNode(&(this->mBVH->mNodes[node->mLeftNode]), activeNodeList);
 	}
 
 	if (node->mRightNode != NULL_NODE_INDEX)
 	{
-		CheckActiveNode(&(this->mBVH->mTree.mNodes[node->mRightNode]), activeNodeList);
+		CheckActiveNode(&(this->mBVH->mNodes[node->mRightNode]), activeNodeList);
 	}
 #endif
 }
@@ -314,41 +314,41 @@ void doom::BVH_TestRoom::CheckActiveNode(doom::BVH3D::node_type* node, std::vect
 void doom::BVH_TestRoom::ValidCheck()
 {
 #ifdef DEBUG_MODE
-	if (this->mBVH->mTree.mRootNodeIndex != NULL_NODE_INDEX)
+	if (this->mBVH->mRootNodeIndex != NULL_NODE_INDEX)
 	{
 		D_DEBUG_LOG("Valid Check : BVH", eLogType::D_ALWAYS);
 
-		//first check : recursively traverse all active nodes from rootIndex, Every active nodes in mBVH->mTree.mNodes array should be traversed
-		//				every active nodes in mBVH->mTree.mNodes should be checked
+		//first check : recursively traverse all active nodes from rootIndex, Every active nodes in mBVH->mNodes array should be traversed
+		//				every active nodes in mBVH->mNodes should be checked
 		//				And call Node::ValidCheck();
 		std::vector<int> checkedIndexs{};
-		for (int i = 0; i < this->mBVH->mTree.mCurrentAllocatedNodeCount; i++)
+		for (int i = 0; i < this->mBVH->mCurrentAllocatedNodeCount; i++)
 		{
-			if (this->mBVH->mTree.mNodes[i].bmIsActive == true)
+			if (this->mBVH->mNodes[i].bmIsActive == true)
 			{
 				checkedIndexs.push_back(i);
 			}
 		}
-		D_ASSERT(checkedIndexs.size() == this->mBVH->mTree.mCurrentActiveNodeCount);
-		CheckActiveNode(&(this->mBVH->mTree.mNodes[this->mBVH->mTree.mRootNodeIndex]), checkedIndexs);
+		D_ASSERT(checkedIndexs.size() == this->mBVH->mCurrentActiveNodeCount);
+		CheckActiveNode(&(this->mBVH->mNodes[this->mBVH->mRootNodeIndex]), checkedIndexs);
 		D_ASSERT(checkedIndexs.size() == 0);
 
-		//second check : traverse from each Leaf Nodes to RootNode. Check if Traversing arrived at mBVH->mTree.rootIndex
-		for (int i = 0; i < this->mBVH->mTree.mCurrentAllocatedNodeCount; i++)
+		//second check : traverse from each Leaf Nodes to RootNode. Check if Traversing arrived at mBVH->rootIndex
+		for (int i = 0; i < this->mBVH->mCurrentAllocatedNodeCount; i++)
 		{
-			if (this->mBVH->mTree.mNodes[i].bmIsActive == true)//&& this->mBVH->mTree.mNodes[i].mIsLeaf == true)
+			if (this->mBVH->mNodes[i].bmIsActive == true)//&& this->mBVH->mNodes[i].mIsLeaf == true)
 			{
 				int index{ i };
 				bool isSuccess{ false };
 				while (index != NULL_NODE_INDEX)
 				{
-					if (index == this->mBVH->mTree.mRootNodeIndex)
+					if (index == this->mBVH->mRootNodeIndex)
 					{
 						isSuccess = true;
 						break;
 					}
 
-					index = this->mBVH->mTree.mNodes[index].mParentIndex;
+					index = this->mBVH->mNodes[index].mParentIndex;
 				}
 
 				D_ASSERT(isSuccess == true);
@@ -357,17 +357,17 @@ void doom::BVH_TestRoom::ValidCheck()
 
 
 		//third check : check all internal nodes must have 2 child,  all leaf nodes must have no child
-		for (int i = 0; i < this->mBVH->mTree.mCurrentAllocatedNodeCount; i++)
+		for (int i = 0; i < this->mBVH->mCurrentAllocatedNodeCount; i++)
 		{
-			if (this->mBVH->mTree.mNodes[i].bmIsActive == true)
+			if (this->mBVH->mNodes[i].bmIsActive == true)
 			{
-				if (this->mBVH->mTree.mNodes[i].mIsLeaf == false)
+				if (this->mBVH->mNodes[i].mIsLeaf == false)
 				{// leaf node must have 2 child
-					D_ASSERT(this->mBVH->mTree.mNodes[i].mLeftNode != NULL_NODE_INDEX && this->mBVH->mTree.mNodes[i].mRightNode != NULL_NODE_INDEX);
+					D_ASSERT(this->mBVH->mNodes[i].mLeftNode != NULL_NODE_INDEX && this->mBVH->mNodes[i].mRightNode != NULL_NODE_INDEX);
 				}
 				else
 				{// leaf node must have no childs
-					D_ASSERT(this->mBVH->mTree.mNodes[i].mLeftNode == NULL_NODE_INDEX && this->mBVH->mTree.mNodes[i].mRightNode == NULL_NODE_INDEX);
+					D_ASSERT(this->mBVH->mNodes[i].mLeftNode == NULL_NODE_INDEX && this->mBVH->mNodes[i].mRightNode == NULL_NODE_INDEX);
 				}
 			}
 		}
@@ -376,38 +376,38 @@ void doom::BVH_TestRoom::ValidCheck()
 		//fourth check : check all nodes have unique child id ( all nodes have unique child id )
 		//				 checked child id shouldn't be checked again
 		std::unordered_set<int> checkedChildIndexs{};
-		for (int i = 0; i < this->mBVH->mTree.mCurrentAllocatedNodeCount; i++)
+		for (int i = 0; i < this->mBVH->mCurrentAllocatedNodeCount; i++)
 		{
-			if (this->mBVH->mTree.mNodes[i].bmIsActive == true && this->mBVH->mTree.mNodes[i].mIsLeaf == false)
+			if (this->mBVH->mNodes[i].bmIsActive == true && this->mBVH->mNodes[i].mIsLeaf == false)
 			{
-				D_ASSERT(checkedChildIndexs.find(this->mBVH->mTree.mNodes[i].mLeftNode) == checkedChildIndexs.end());
-				D_ASSERT(checkedChildIndexs.find(this->mBVH->mTree.mNodes[i].mRightNode) == checkedChildIndexs.end());
+				D_ASSERT(checkedChildIndexs.find(this->mBVH->mNodes[i].mLeftNode) == checkedChildIndexs.end());
+				D_ASSERT(checkedChildIndexs.find(this->mBVH->mNodes[i].mRightNode) == checkedChildIndexs.end());
 
-				checkedChildIndexs.insert(this->mBVH->mTree.mNodes[i].mLeftNode);
-				checkedChildIndexs.insert(this->mBVH->mTree.mNodes[i].mRightNode);
+				checkedChildIndexs.insert(this->mBVH->mNodes[i].mLeftNode);
+				checkedChildIndexs.insert(this->mBVH->mNodes[i].mRightNode);
 			}
 		}
 
 
 		//fifth check : compare one node's parent index and parent index's child index
-		for (int i = 0; i < this->mBVH->mTree.mCurrentAllocatedNodeCount; i++)
+		for (int i = 0; i < this->mBVH->mCurrentAllocatedNodeCount; i++)
 		{
-			if (this->mBVH->mTree.mNodes[i].bmIsActive == true)
+			if (this->mBVH->mNodes[i].bmIsActive == true)
 			{
-				if (this->mBVH->mTree.mNodes[i].mLeftNode != NULL_NODE_INDEX)
+				if (this->mBVH->mNodes[i].mLeftNode != NULL_NODE_INDEX)
 				{
-					D_ASSERT(this->mBVH->mTree.mNodes[this->mBVH->mTree.mNodes[i].mLeftNode].mParentIndex == i);
+					D_ASSERT(this->mBVH->mNodes[this->mBVH->mNodes[i].mLeftNode].mParentIndex == i);
 				}
 
-				if (this->mBVH->mTree.mNodes[i].mRightNode != NULL_NODE_INDEX)
+				if (this->mBVH->mNodes[i].mRightNode != NULL_NODE_INDEX)
 				{
-					D_ASSERT(this->mBVH->mTree.mNodes[this->mBVH->mTree.mNodes[i].mRightNode].mParentIndex == i);
+					D_ASSERT(this->mBVH->mNodes[this->mBVH->mNodes[i].mRightNode].mParentIndex == i);
 				}
 
-				if (this->mBVH->mTree.mNodes[i].mParentIndex != NULL_NODE_INDEX)
+				if (this->mBVH->mNodes[i].mParentIndex != NULL_NODE_INDEX)
 				{
-					D_ASSERT(this->mBVH->mTree.mNodes[this->mBVH->mTree.mNodes[i].mParentIndex].mLeftNode == i || this->mBVH->mTree.mNodes[this->mBVH->mTree.mNodes[i].mParentIndex].mRightNode == i);
-					D_ASSERT(this->mBVH->mTree.mNodes[this->mBVH->mTree.mNodes[i].mParentIndex].mLeftNode == i != this->mBVH->mTree.mNodes[this->mBVH->mTree.mNodes[i].mParentIndex].mRightNode == i);
+					D_ASSERT(this->mBVH->mNodes[this->mBVH->mNodes[i].mParentIndex].mLeftNode == i || this->mBVH->mNodes[this->mBVH->mNodes[i].mParentIndex].mRightNode == i);
+					D_ASSERT(this->mBVH->mNodes[this->mBVH->mNodes[i].mParentIndex].mLeftNode == i != this->mBVH->mNodes[this->mBVH->mNodes[i].mParentIndex].mRightNode == i);
 				}
 			}
 		}

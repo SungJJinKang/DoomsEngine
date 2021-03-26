@@ -11,8 +11,8 @@ void doom::Renderer::InitComponent()
 	//this->AddLocalDirtyToTransformDirtyReceiver(this->mIsBoundingSphereDirty);
 	//this->BVH_Sphere_Node_Object::UpdateWorldBVhColliderCache(true);
 	
-	BVH_Sphere_Node_Object::InsertBVHLeafNode(graphics::Graphics_Server::GetSingleton()->mCullDistance.m, BVH_Sphere_Node_Object::GetWorldBVhColliderCacheByReference(), nullptr);
-	BVH_AABB3D_Node_Object::InsertBVHLeafNode(graphics::Graphics_Server::GetSingleton()->mViewFrustumCulling.mBVHSphere, BVH_AABB3D_Node_Object:::GetWorldBVhColliderCacheByReference(), nullptr);
+	//BVH_Sphere_Node_Object::InsertBVHLeafNode(graphics::Graphics_Server::GetSingleton()->mCullDistance.mp, BVH_Sphere_Node_Object::GetWorldBVhColliderCacheByReference(), nullptr);
+	//BVH_AABB3D_Node_Object::InsertBVHLeafNode(graphics::Graphics_Server::GetSingleton()->mViewFrustumCulling.mBVHSphere, BVH_AABB3D_Node_Object:::GetWorldBVhColliderCacheByReference(), nullptr);
 }
 
 const math::Matrix4x4& doom::Renderer::GetModelMatrix() const
@@ -23,6 +23,16 @@ const math::Matrix4x4& doom::Renderer::GetModelMatrix() const
 doom::Renderer::Renderer() : ServerComponent(), StaticContainer(), mTargetMaterial{}
 {
 
+}
+
+void doom::Renderer::MergeBVHBitFlag()
+{
+	this->mRenderingBitFlag |= graphics::eRenderingBitflag::IsVisible & ( BVH_Sphere_Node_Object::mBVH_Node_View->GetBitFlag() | BVH_AABB3D_Node_Object::mBVH_Node_View->GetBitFlag() );
+}
+
+void doom::Renderer::ClearRenderingBitFlag()
+{
+	this->mRenderingBitFlag = 0;
 }
 
 void doom::Renderer::BindMaterial() noexcept

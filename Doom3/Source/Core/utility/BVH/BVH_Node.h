@@ -9,15 +9,12 @@
 #include "BVH_Node_View.h"
 
 #include "../TreeNode.h"
-#include "../AccelerationBitFlag.h"
 
 namespace doom
 {
 	template <typename ColliderType>
 	class BVH;
 
-	template <typename ColliderType>
-	class BVH_Tree;
 
 	/// <summary>
 	/// Node Class of BVH
@@ -26,30 +23,18 @@ namespace doom
 	/// </summary>
 	/// <typeparam name="ColliderType"></typeparam>
 	template <typename ColliderType>
-	class BVH_Node : public TreeNode, public AccelerationBitFlag
+	class BVH_Node : public TreeNode
 	{
 		friend class BVH<ColliderType>;
-		friend class BVH_Tree<ColliderType>;
 		friend class BVH_TestRoom;
+		friend class BVH_Node_View<ColliderType>;
 
 		using node_view_type = typename BVH_Node_View<ColliderType>;
 
 	public:
 
-		enum class eBVH_NodeType
-		{
-			Stationary,
-			Dynamic
-		};
-
 	private:
-
-		/// <summary>
-		/// use this as ways you want
-		/// For example, you can save if this bvh entity will be drawed..
-		/// </summary>
-		unsigned int mBitflag;
-
+		
 		doom::physics::Collider* mCollider{ nullptr };
 
 		BVH<ColliderType>* mOwnerBVH{ nullptr };
@@ -59,11 +44,6 @@ namespace doom
 		/// </summary>
 		ColliderType mBoundingCollider;
 		ColliderType mEnlargedBoundingCollider;
-
-
-		bool bmIsActive{ false };
-
-		
 
 		/// <summary>
 		/// Is Leaf? = Is World Object?

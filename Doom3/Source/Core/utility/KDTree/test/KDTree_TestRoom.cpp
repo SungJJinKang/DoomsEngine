@@ -41,7 +41,7 @@ void doom::KDTree_TestRoom::RemoveRecentAddedPoint()
 	int index = this->recentAddedLeaf.top();
 	this->recentAddedLeaf.pop();
 	
-	this->mKDTree->Delete(this->mKDTree->mKDTreeNodes[index].mPoint);
+	this->mKDTree->Delete(this->mKDTree->mKDTreeNodes[index].mComponentValue);
 }
 
 #define DebugBVHTreeOffsetX 0.1f

@@ -259,7 +259,7 @@ void doom::graphics::Graphics_Server::DeferredRendering()
 	D_START_PROFILING("Draw Objects", doom::profiler::eProfileLayers::Rendering);
 	
 	this->mCullDistance.PreComputeCulling();
-	this->mViewFrustumCulling.
+	this->mViewFrustumCulling.PreComputeCulling();
 
 	for (unsigned int i = 0; i < MAX_LAYER_COUNT; i++)
 	{
@@ -269,14 +269,11 @@ void doom::graphics::Graphics_Server::DeferredRendering()
 	
 		for (size_t i = 0; i < length; ++i)
 		{
-			if (this->mCullDistance.GetIsVisible(renderers[i]) == true) // HEAVY
+			if (renderers[i]->GetIsVisible() == true) // HEAVY
 			{
-				if (this->mViewFrustumCulling.IsVisible() == true)
-				{
-					renderers[i]->UpdateComponent_Internal();
-					renderers[i]->UpdateComponent();
-					renderers[i]->Draw(); // HEAVY
-				}
+				renderers[i]->UpdateComponent_Internal();
+				renderers[i]->UpdateComponent();
+				renderers[i]->Draw(); // HEAVY
 			}
 		}
 

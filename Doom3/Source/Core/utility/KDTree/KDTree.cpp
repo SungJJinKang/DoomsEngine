@@ -2,8 +2,8 @@
 
 
 
-template<int Dimension>
-int doom::KDTree<Dimension>::AllocateNode(const typename node_type::component_type& point)
+template<typename T>
+int doom::KDTree<T>::AllocateNode(const typename node_type::component_type& componentValue)
 {
 	int newNodeIndex;
 	if (this->mFreedNodeIndexList.empty() == false)
@@ -22,15 +22,15 @@ int doom::KDTree<Dimension>::AllocateNode(const typename node_type::component_ty
 
 	this->mCurrentActiveNodeCount++;
 
-	this->mKDTreeNodes[newNodeIndex].mPoint = point;
+	this->mKDTreeNodes[newNodeIndex].mComponentValue = componentValue;
 	this->mKDTreeNodes[newNodeIndex].mIndex = newNodeIndex;
 	this->mKDTreeNodes[newNodeIndex].bmIsActive = true;
 
 	return newNodeIndex;
 }
 
-template<int Dimension>
-void doom::KDTree<Dimension>::FreeNode(const int index)
+template<typename T>
+void doom::KDTree<T>::FreeNode(const int index)
 {
 	D_ASSERT(index != NULL_NODE_INDEX);
 
@@ -64,7 +64,7 @@ void doom::KDTree<Dimension>::FreeNode(const int index)
 	}
 
 	this->mKDTreeNodes[index].mIndex = NULL_NODE_INDEX;
-	this->mKDTreeNodes[index].mDimension = NULL_NODE_INDEX;
+	this->mKDTreeNodes[index].mT = NULL_NODE_INDEX;
 	this->mKDTreeNodes[index].bmIsActive = false;
 	this->mKDTreeNodes[index].mParentIndex = NULL_NODE_INDEX;
 	this->mKDTreeNodes[index].mLeftNode = NULL_NODE_INDEX;
@@ -74,65 +74,65 @@ void doom::KDTree<Dimension>::FreeNode(const int index)
 	this->mFreedNodeIndexList.push(index);
 }
 
-template<int Dimension>
-int doom::KDTree<Dimension>::_Insert(const typename node_type::component_type & point, int searchIndex, int parentIndex, const int searchDimension, int& insertedIndex)
+template<typename T>
+int doom::KDTree<T>::_Insert(const typename node_type::component_type & componentValue, int searchIndex, int parentIndex, const int searchT, int& insertedIndex)
 {
 	if (searchIndex == NULL_NODE_INDEX)
 	{// find empty node
 		//create inserted node
-		searchIndex = this->AllocateNode(point);
-		this->mKDTreeNodes[searchIndex].mDimension = searchDimension;
+		searchIndex = this->AllocateNode(componentValue);
+		this->mKDTreeNodes[searchIndex].mT = searchT;
 		this->mKDTreeNodes[searchIndex].mParentIndex = parentIndex;
 
 		insertedIndex = searchIndex;
 	}
-	else if (point == this->mKDTreeNodes[searchIndex].mPoint)
+	else if (componentValue == this->mKDTreeNodes[searchIndex].mComponentValue)
 	{// when equal
 		NEVER_HAPPEN;
 	}
-	else if (point[searchDimension] < this->mKDTreeNodes[searchIndex].mPoint[searchDimension])
+	else if (componentValue[searchT] < this->mKDTreeNodes[searchIndex].mComponentValue[searchT])
 	{
-		int childIndex = _Insert(point, this->mKDTreeNodes[searchIndex].mLeftNode, searchIndex, (searchDimension + 1) % Dimension, insertedIndex);
+		int childIndex = _Insert(componentValue, this->mKDTreeNodes[searchIndex].mLeftNode, searchIndex, (searchT + 1) % T, insertedIndex);
 		this->_PutChildNode(searchIndex, childIndex, true);
 	}
 	else
 	{
-		int childIndex = _Insert(point, this->mKDTreeNodes[searchIndex].mRightNode, searchIndex, (searchDimension + 1) % Dimension, insertedIndex);
+		int childIndex = _Insert(componentValue, this->mKDTreeNodes[searchIndex].mRightNode, searchIndex, (searchT + 1) % T, insertedIndex);
 		this->_PutChildNode(searchIndex, childIndex, false);
 	}
 	
 	return searchIndex;
 }
 
-template<int Dimension>
-int doom::KDTree<Dimension>::_FineMin(const int index, const int searchDimension, const int targetMinNodeDimension)
+template<typename T>
+int doom::KDTree<T>::_FineMin(const int index, const int searchT, const int targetMinNodeT)
 {
 	int minNode{ NULL_NODE_INDEX };
 	
-	int nextDimension = (searchDimension + 1) % Dimension;
+	int nextT = (searchT + 1) % T;
 
 	if (index == NULL_NODE_INDEX)
 	{
 		return NULL_NODE_INDEX;
 	}
-	else if (searchDimension == targetMinNodeDimension)
+	else if (searchT == targetMinNodeT)
 	{
 		minNode = index;
 		if (this->mKDTreeNodes[index].mLeftNode != NULL_NODE_INDEX)
 		{
-			minNode = this->_FineMin(this->mKDTreeNodes[index].mLeftNode, nextDimension, targetMinNodeDimension);
+			minNode = this->_FineMin(this->mKDTreeNodes[index].mLeftNode, nextT, targetMinNodeT);
 		}
 		return minNode;
 	}
 	else
 	{
 		minNode = NULL_NODE_INDEX;
-		int minLeft = _FineMin(this->mKDTreeNodes[index].mLeftNode, nextDimension, targetMinNodeDimension);
-		int minRigth = _FineMin(this->mKDTreeNodes[index].mRightNode, nextDimension, targetMinNodeDimension);
+		int minLeft = _FineMin(this->mKDTreeNodes[index].mLeftNode, nextT, targetMinNodeT);
+		int minRigth = _FineMin(this->mKDTreeNodes[index].mRightNode, nextT, targetMinNodeT);
 
 		if (minLeft != NULL_NODE_INDEX && minRigth != NULL_NODE_INDEX)
 		{
-			if (this->mKDTreeNodes[minLeft].mPoint[searchDimension] < this->mKDTreeNodes[minRigth].mPoint[searchDimension])
+			if (this->mKDTreeNodes[minLeft].mComponentValue[searchT] < this->mKDTreeNodes[minRigth].mComponentValue[searchT])
 			{
 				minNode = minLeft;
 			}
@@ -148,7 +148,7 @@ int doom::KDTree<Dimension>::_FineMin(const int index, const int searchDimension
 
 		if (minNode != NULL_NODE_INDEX)
 		{
-			if (this->mKDTreeNodes[index].mPoint[searchDimension] < this->mKDTreeNodes[minNode].mPoint[searchDimension])
+			if (this->mKDTreeNodes[index].mComponentValue[searchT] < this->mKDTreeNodes[minNode].mComponentValue[searchT])
 			{
 				minNode = index;
 			}
@@ -163,40 +163,40 @@ int doom::KDTree<Dimension>::_FineMin(const int index, const int searchDimension
 	
 }
 
-template<int Dimension>
-int doom::KDTree<Dimension>::_Delete(const typename node_type::component_type& point, int searchIndex, const int parentIndex, const int searchDimension)
+template<typename T>
+int doom::KDTree<T>::_Delete(const typename node_type::component_type& componentValue, int searchIndex, const int parentIndex, const int searchT)
 {
-	int nextDimension = (searchDimension + 1) % Dimension;
+	int nextT = (searchT + 1) % T;
 	if (searchIndex == NULL_NODE_INDEX)
 	{
 		NEVER_HAPPEN;
 	}
-	else if (this->mKDTreeNodes[searchIndex].mPoint == point)
+	else if (this->mKDTreeNodes[searchIndex].mComponentValue == componentValue)
 	{
 		if (this->mKDTreeNodes[searchIndex].mRightNode != NULL_NODE_INDEX)
 		{
-			//swap searchpoint Node with right min node
-			int replacedNodeIndex = this->_FineMin(this->mKDTreeNodes[searchIndex].mRightNode, nextDimension, searchDimension);
+			//swap searchcomponentValue Node with right min node
+			int replacedNodeIndex = this->_FineMin(this->mKDTreeNodes[searchIndex].mRightNode, nextT, searchT);
 			this->_SwapNode(searchIndex, replacedNodeIndex);
 
 			//searchIndex will be removed
-			this->mKDTreeNodes[searchIndex].mPoint = this->mKDTreeNodes[replacedNodeIndex].mPoint;
+			this->mKDTreeNodes[searchIndex].mComponentValue = this->mKDTreeNodes[replacedNodeIndex].mComponentValue;
 
 			//delete replaced ndoe
-			int rightNodeIndex = this->_Delete(this->mKDTreeNodes[searchIndex].mPoint, this->mKDTreeNodes[replacedNodeIndex].mRightNode, searchIndex, nextDimension);
+			int rightNodeIndex = this->_Delete(this->mKDTreeNodes[searchIndex].mComponentValue, this->mKDTreeNodes[replacedNodeIndex].mRightNode, searchIndex, nextT);
 			this->_PutChildNode(searchIndex, rightNodeIndex, false); // put as right child
 		}
 		else if (this->mKDTreeNodes[searchIndex].mLeftNode != NULL_NODE_INDEX)
 		{
-			//swap searchpoint Node with left min node
-			int replacedNodeIndex = this->_FineMin(this->mKDTreeNodes[searchIndex].mLeftNode, nextDimension, searchDimension);
+			//swap searchcomponentValue Node with left min node
+			int replacedNodeIndex = this->_FineMin(this->mKDTreeNodes[searchIndex].mLeftNode, nextT, searchT);
 			this->_SwapNode(searchIndex, replacedNodeIndex);
 
 			//searchIndex will be removed
-			this->mKDTreeNodes[searchIndex].mPoint = this->mKDTreeNodes[replacedNodeIndex].mPoint;
+			this->mKDTreeNodes[searchIndex].mComponentValue = this->mKDTreeNodes[replacedNodeIndex].mComponentValue;
 
 			//delete replaced ndoe
-			int leftNodeIndex = this->_Delete(this->mKDTreeNodes[searchIndex].mPoint, this->mKDTreeNodes[searchIndex].mLeftNode, searchIndex, nextDimension);
+			int leftNodeIndex = this->_Delete(this->mKDTreeNodes[searchIndex].mComponentValue, this->mKDTreeNodes[searchIndex].mLeftNode, searchIndex, nextT);
 			this->_PutChildNode(searchIndex, leftNodeIndex, false); // put as right child
 		}
 		else
@@ -209,22 +209,22 @@ int doom::KDTree<Dimension>::_Delete(const typename node_type::component_type& p
 		
 
 	}
-	else if (point[searchDimension] < this->mKDTreeNodes[searchIndex].mPoint[searchDimension])
+	else if (componentValue[searchT] < this->mKDTreeNodes[searchIndex].mComponentValue[searchT])
 	{
-		int leftNodeIndex = this->_Delete(point, this->mKDTreeNodes[searchIndex].mLeftNode, searchIndex, nextDimension);
+		int leftNodeIndex = this->_Delete(componentValue, this->mKDTreeNodes[searchIndex].mLeftNode, searchIndex, nextT);
 		this->_PutChildNode(searchIndex, leftNodeIndex, true);
 	}
 	else
 	{
-		int rightNodeIndex = this->_Delete(point, this->mKDTreeNodes[searchIndex].mRightNode, searchIndex, nextDimension);
+		int rightNodeIndex = this->_Delete(componentValue, this->mKDTreeNodes[searchIndex].mRightNode, searchIndex, nextT);
 		this->_PutChildNode(searchIndex, rightNodeIndex, false);
 	}
 
 	return searchIndex;
 }
 
-template <int Dimension>
-void doom::KDTree<Dimension>::_SwapNode(int nodeIndex1, int nodeIndex2)
+template <typename T>
+void doom::KDTree<T>::_SwapNode(int nodeIndex1, int nodeIndex2)
 {
 	if (nodeIndex1 == nodeIndex2)
 	{
@@ -298,8 +298,8 @@ void doom::KDTree<Dimension>::_SwapNode(int nodeIndex1, int nodeIndex2)
 	this->mKDTreeNodes[nodeIndex1].mRightNode = rightChildIndex2;
 }
 
-template<int Dimension>
-void doom::KDTree<Dimension>::_PutChildNode(int parentIndex, int childIndex, bool isLeftNode)
+template<typename T>
+void doom::KDTree<T>::_PutChildNode(int parentIndex, int childIndex, bool isLeftNode)
 {
 	D_ASSERT(parentIndex != NULL_NODE_INDEX || childIndex != NULL_NODE_INDEX);
 
@@ -321,68 +321,60 @@ void doom::KDTree<Dimension>::_PutChildNode(int parentIndex, int childIndex, boo
 	}	
 }
 
-template<int Dimension>
-doom::KDTree<Dimension>::KDTree(int capacity)
+template<typename T>
+doom::KDTree<T>::KDTree(int capacity)
 	:mNodeCapacity{ capacity }
 {
-	this->mKDTreeNodes = new KDTreeNode<Dimension>[capacity]();
+	this->mKDTreeNodes = new KDTreeNode<T>[capacity]();
 }
 
-template<int Dimension>
-typename doom::KDTree<Dimension>::node_view_type doom::KDTree<Dimension>::Insert(const typename node_type::component_type& point)
+template<typename T>
+typename doom::KDTree<T>::node_view_type doom::KDTree<T>::Insert(const typename node_type::component_type& componentValue)
 {
 	int newNodexIndex = NULL_NODE_INDEX;
 	if (this->mRootNodeIndex == NULL_NODE_INDEX)
 	{
-		newNodexIndex = this->AllocateNode(point);
+		newNodexIndex = this->AllocateNode(componentValue);
 		this->mRootNodeIndex = newNodexIndex;
 		return this->MakeKDTree_Node_View(newNodexIndex);
 	}
 
-	this->_Insert(point, this->mRootNodeIndex, NULL_NODE_INDEX, 0, newNodexIndex);
+	this->_Insert(componentValue, this->mRootNodeIndex, NULL_NODE_INDEX, 0, newNodexIndex);
 
 	return this->MakeKDTree_Node_View(newNodexIndex);
 }
 
-template<int Dimension>
-void doom::KDTree<Dimension>::Delete(const typename node_type::component_type& point)
+template<typename T>
+void doom::KDTree<T>::Delete(const typename node_type::component_type& componentValue)
 {
 	if(this->mRootNodeIndex == NULL_NODE_INDEX)
 	{
 		D_DEBUG_LOG("There is no RootNode", eLogType::D_WARNING);
 		return;
 	}
-	this->_Delete(point, this->mRootNodeIndex, NULL_NODE_INDEX, 0);
+	this->_Delete(componentValue, this->mRootNodeIndex, NULL_NODE_INDEX, 0);
 }
 
-template<int Dimension>
-void doom::KDTree<Dimension>::Delete(int nodeIndex)
+template<typename T>
+void doom::KDTree<T>::Delete(int nodeIndex)
 {
 }
 
-template<int Dimension>
-typename doom::KDTree<Dimension>::node_view_type doom::KDTree<Dimension>::FineMin(const int targetMinNodeDimension)
+template<typename T>
+typename doom::KDTree<T>::node_view_type doom::KDTree<T>::FineMin(const int targetMinNodeT)
 {
-	D_ASSERT(targetMinNodeDimension >= 0 && targetMinNodeDimension < Dimension);
+	D_ASSERT(targetMinNodeT >= 0 && targetMinNodeT < T);
 	if (this->mRootNodeIndex == NULL_NODE_INDEX)
 	{
 		D_DEBUG_LOG("There is no RootNode", eLogType::D_WARNING);
 		return this->MakeKDTree_Node_View(NULL_NODE_INDEX);
 	}
-	int minNodeIndex = this->_FineMin(this->mRootNodeIndex, 0, targetMinNodeDimension);
+	int minNodeIndex = this->_FineMin(this->mRootNodeIndex, 0, targetMinNodeT);
 	return this->MakeKDTree_Node_View(minNodeIndex);
 }
 
-template<int Dimension>
-typename doom::KDTree<Dimension>::node_view_type doom::KDTree<Dimension>::FindNearestNode(const typename node_type::component_type& point)
-{
-	return node_view_type();
-}
 
 
-
-
-
-
-template class doom::KDTree<2>;
-template class doom::KDTree<3>;
+template class doom::KDTree<math::Vector2>;
+template class doom::KDTree<math::Vector3>;
+template class doom::KDTree<doom::physics::AABB3D>;

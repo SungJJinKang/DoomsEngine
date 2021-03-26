@@ -4,7 +4,7 @@
 
 namespace doom
 {
-	template <int Dimension>
+	template <typename T>
 	class KDTreeNodeView
 	{
 		friend class KDTree<Dimension>;
@@ -58,10 +58,12 @@ namespace doom
 
 	};
 
-	using KDTreeNodeView2D = typename KDTreeNodeView<2>;
-	using KDTreeNodeView3D = typename KDTreeNodeView<3>;
+	using KDTreeView2DPoint = typename KDTree<math::Vector2>;
+	using KDTreeView3DPoint = typename KDTree<math::Vector3>;
+	using KDTreeViewAABB3D = typename KDTree<physics::AABB3D>;
 
-	extern template class KDTreeNodeView<2>;
-	extern template class KDTreeNodeView<3>;
+	extern template class KDTreeNodeView<math::Vector2>;
+	extern template class KDTreeNodeView<math::Vector3>;
+	extern template class KDTreeNodeView<physics::AABB3D>;
 	
 }

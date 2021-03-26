@@ -114,7 +114,7 @@ namespace doom
 			{
 				resultSphere.mCenter = modelMatrix * localSphere.mCenter;
 				float largestScale{ math::Max(math::Max(modelMatrix[0].sqrMagnitude(), modelMatrix[1].sqrMagnitude()), modelMatrix[2].sqrMagnitude()) };
-				resultSphere.mRadius = localSphere.mRadius * largestScale;
+				resultSphere.mRadius = localSphere.mRadius * largestScale; // TODO : should i square largesScale??
 			}
 
 			/// <summary>

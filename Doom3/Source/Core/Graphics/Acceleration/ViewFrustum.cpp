@@ -5,6 +5,7 @@
 
 #include "Rendering/Renderer/Renderer.h"
 
+
 void doom::graphics::ViewFrustum::SetCamera(float fovInRadian, float ratio, float nearDistance, float farDistance)
 {
 	this->mNearDistance = nearDistance;
@@ -34,11 +35,16 @@ void doom::graphics::ViewFrustum::UpdateLookAt(const math::Vector3& cameraPositi
 	this->mForwardDirection = forwardDirection;
 }
 
+
 bool doom::graphics::ViewFrustum::IsInFrustum(const doom::physics::AABB3D& aabb3D)
 {
 	return true;
 }
 
+
+
+
+/* Too slow, We use upper way For SIMD computation
 bool doom::graphics::ViewFrustum::IsInFrustum(const doom::physics::Sphere& sphere)
 {
 	bool result{ false };
@@ -81,6 +87,7 @@ bool doom::graphics::ViewFrustum::IsInFrustum(const doom::physics::Sphere& spher
 
 	return true;
 }
+*/
 
 /// <summary>
 /// https://cgvr.informatik.uni-bremen.de/teaching/cg_literatur/lighthouse3d_view_frustum_culling/index.html

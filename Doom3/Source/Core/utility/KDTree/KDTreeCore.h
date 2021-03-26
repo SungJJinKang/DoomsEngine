@@ -6,12 +6,12 @@ constexpr inline int NULL_NODE_INDEX{ -1 };
 
 namespace doom
 {
-	template <int Dimension>
+	template <typename T>
 	class KDTree;
 
-	template <int Dimension>
+	template <typename T>
 	struct KDTreeNode;
 
-	template <int Dimension>
+	template <typename T>
 	class KDTreeNodeView;
 }

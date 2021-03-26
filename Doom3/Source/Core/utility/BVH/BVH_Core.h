@@ -11,9 +11,6 @@ namespace doom
 	
 	template <typename ColliderType>
 	class BVH_Node;
-	
-	template <typename ColliderType>
-	class BVH_Tree;
 
 	template <typename ColliderType>
 	class BVH_Collider_Container;

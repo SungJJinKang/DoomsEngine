@@ -23,7 +23,7 @@ void doom::BVH_Node<ColliderType>::ValidCheck()
 	{
 		D_ASSERT(this->mOwnerBVH != nullptr);
 		D_ASSERT(this->mIndex != NULL_NODE_INDEX);
-		D_ASSERT(&(this->mOwnerBVH->mTree.mNodes[this->mIndex]) == this);
+		D_ASSERT(&(this->mOwnerBVH->mNodes[this->mIndex]) == this);
 
 	}
 	D_ASSERT(this->bmIsActive == true);
@@ -34,7 +34,7 @@ template <typename ColliderType>
 typename doom::BVH_Node<ColliderType>::node_view_type doom::BVH_Node<ColliderType>::UpdateNode()
 {
 	D_ASSERT(this->mIsLeaf == true); // Only Leaf Nodes can be updated by UpdateLeafNode Function
-	D_ASSERT(&(this->mOwnerBVH->mTree.mNodes[this->mIndex]) == this);
+	D_ASSERT(&(this->mOwnerBVH->mNodes[this->mIndex]) == this);
 
 	return this->mOwnerBVH->UpdateLeafNode(this->mIndex);
 }
