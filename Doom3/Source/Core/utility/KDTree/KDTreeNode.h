@@ -12,6 +12,7 @@ namespace doom
 	template <typename T>
 	struct KDTreeNode : public TreeNode
 	{
+		friend class KDTree<T>
 		friend class KDTree_TestRoom;
 		friend class KDTreeNodeView<T>;
 

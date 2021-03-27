@@ -7,12 +7,12 @@ namespace doom
 	template <typename T>
 	class KDTreeNodeView
 	{
-		friend class KDTree<Dimension>;
-		friend struct KDTreeNode<Dimension>;
+		friend class KDTree<T>;
+		friend struct KDTreeNode<T>;
 
-		using kd_tree_type = typename KDTree<Dimension>;
-		using node_type = typename KDTreeNode<Dimension>;
-		using this_type = typename KDTreeNodeView<Dimension>;
+		using kd_tree_type = typename KDTree<T>;
+		using node_type = typename KDTreeNode<T>;
+		using this_type = typename KDTreeNodeView<T>;
 
 	private:
 		kd_tree_type* mKDTreePointer;

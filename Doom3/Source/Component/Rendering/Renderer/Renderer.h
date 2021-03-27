@@ -75,7 +75,7 @@ namespace doom
 		virtual ~Renderer() {}
 
 
-		virtual void Draw() = 0;
+		FORCE_INLINE virtual void Draw() = 0;
 
 		/// <summary>
 		/// Why this function is inline function.
@@ -83,7 +83,13 @@ namespace doom
 		/// because We should render a lot of triangles 30 times in a second
 		/// 
 		/// </summary>
-		void BindMaterial() noexcept;
+		FORCE_INLINE void BindMaterial() noexcept
+		{
+			if (this->mTargetMaterial != nullptr)
+			{
+				this->mTargetMaterial->UseProgram();
+			}
+		}
 		void SetMaterial(graphics::Material* material) noexcept;
 		void SetMaterial(graphics::Material& material) noexcept;
 

@@ -35,14 +35,6 @@ void doom::Renderer::ClearRenderingBitFlag()
 	this->mRenderingBitFlag = 0;
 }
 
-void doom::Renderer::BindMaterial() noexcept
-{
-	if (this->mTargetMaterial != nullptr)
-	{
-		this->mTargetMaterial->UseProgram();
-	}
-}
-
 void doom::Renderer::SetMaterial(graphics::Material* material) noexcept
 {
 	this->mTargetMaterial = material;

@@ -173,7 +173,7 @@
     <ClCompile Include="Source\Component\PhysicsComponent\MeshCollider.cpp" />
     <ClCompile Include="Source\Core\Graphics\Acceleration\CullDistance\CullDistance.cpp" />
     <ClCompile Include="Source\Core\Graphics\Acceleration\CullDistance\CullDistanceRenderer.cpp" />
-    <ClCompile Include="Source\Core\Graphics\Acceleration\LinearViewFrustumCulling\LinearViewFrustumCulling.cpp" />
+    <ClCompile Include="Source\Core\Graphics\Acceleration\LinearData_ViewFrustumCulling\LinearTransformDataCulling.cpp" />
     <ClCompile Include="Source\Core\Graphics\Acceleration\OcclusionCulling\HW\HierarchicalZMapOcclusionCulling.cpp" />
     <ClCompile Include="Source\Core\Graphics\Acceleration\OcclusionCulling\HW\QueryOcclusionCulling.cpp" />
     <ClCompile Include="Source\Core\Graphics\Acceleration\OcclusionCulling\SW\SWOcclusionCulling.cpp" />
@@ -311,6 +311,13 @@
     <ClInclude Include="Source\Core\Graphics\Acceleration\CullDistance\CullDistance.h" />
     <ClInclude Include="Source\Core\Graphics\Acceleration\CullDistance\CullDistanceRenderer.h" />
     <ClInclude Include="Source\Core\Graphics\Acceleration\Culling.h" />
+    <ClInclude Include="Source\Core\Graphics\Acceleration\LinearData_ViewFrustumCulling\DataStructure\EntityBlock.h" />
+    <ClInclude Include="Source\Core\Graphics\Acceleration\LinearData_ViewFrustumCulling\DataStructure\EntityBlockViewer.h" />
+    <ClInclude Include="Source\Core\Graphics\Acceleration\LinearData_ViewFrustumCulling\DataStructure\EntityGridCell.h" />
+    <ClInclude Include="Source\Core\Graphics\Acceleration\LinearData_ViewFrustumCulling\DataStructure\TransformData.h" />
+    <ClInclude Include="Source\Core\Graphics\Acceleration\LinearData_ViewFrustumCulling\DataStructure\EntityHandle.h" />
+    <ClInclude Include="Source\Core\Graphics\Acceleration\LinearData_ViewFrustumCulling\LinearTransformDataCulling.h" />
+    <ClInclude Include="Source\Core\Graphics\Acceleration\LinearData_ViewFrustumCulling\LinearTransformDataCulling_Core.h" />
     <ClInclude Include="Source\Core\Graphics\Acceleration\LinearViewFrustumCulling\DataStructure\EntityBlock.h" />
     <ClInclude Include="Source\Core\Graphics\Acceleration\LinearViewFrustumCulling\DataStructure\EntityGridCell.h" />
     <ClInclude Include="Source\Core\Graphics\Acceleration\LinearViewFrustumCulling\DataStructure\TrnasformHandle.h" />

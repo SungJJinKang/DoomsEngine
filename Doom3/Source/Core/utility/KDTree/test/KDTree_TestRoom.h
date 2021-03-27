@@ -14,7 +14,7 @@ namespace doom
 	class KDTree_TestRoom : public ITester
 	{
 	private:
-		std::unique_ptr<KDTree3D> mKDTree;
+		std::unique_ptr<KDTree3DPoint> mKDTree;
 
 		std::unique_ptr<graphics::PicktureInPickture> mPIPForDebug{};
 		std::unique_ptr<graphics::Material> mBVHDebugMaterial{};
@@ -25,18 +25,18 @@ namespace doom
 		void AddNewPointWithMouse();
 		void RemoveRecentAddedPoint();
 
-		void DebugBVHTree(KDTree3D::node_type* node, float x, float y, int depth);
+		void DebugBVHTree(KDTree3DPoint::node_type* node, float x, float y, int depth);
 		void DrawTree();
 		void DrawTopView();
 
 	public:
 
-		void SetKDTree3D(KDTree3D* kdtree);
+		void SetKDTree3D(KDTree3DPoint* kdtree);
 
 		virtual void Init() final;
 		virtual void Update() final;
 
-		void CheckActiveNode(KDTree3D::node_type* node, std::vector<int>& activeNodeList);
+		void CheckActiveNode(KDTree3DPoint::node_type* node, std::vector<int>& activeNodeList);
 		void ValidCheck();
 	};
 }

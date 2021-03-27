@@ -47,7 +47,7 @@ void doom::KDTree_TestRoom::RemoveRecentAddedPoint()
 #define DebugBVHTreeOffsetX 0.1f
 #define DebugBVHTreeOffsetY 0.1f
 
-void doom::KDTree_TestRoom::DebugBVHTree(KDTree3D::node_type* node, float x, float y, int depth)
+void doom::KDTree_TestRoom::DebugBVHTree(KDTree3DPoint::node_type* node, float x, float y, int depth)
 {
 	if (node == nullptr)
 	{
@@ -99,7 +99,7 @@ void doom::KDTree_TestRoom::DrawTopView()
 {
 }
 
-void doom::KDTree_TestRoom::SetKDTree3D(KDTree3D* kdtree)
+void doom::KDTree_TestRoom::SetKDTree3D(KDTree3DPoint* kdtree)
 {
 }
 
@@ -107,7 +107,7 @@ void doom::KDTree_TestRoom::Init()
 {
 	if (static_cast<bool>(this->mKDTree) == false)
 	{
-		this->mKDTree = std::make_unique<KDTree3D>(10000);
+		this->mKDTree = std::make_unique<KDTree3DPoint>(10000);
 	}
 
 	if (static_cast<bool>(this->mPIPForDebug) == false)
@@ -164,7 +164,7 @@ void doom::KDTree_TestRoom::Update()
 	this->AddNewPointWithMouse();
 }
 
-void doom::KDTree_TestRoom::CheckActiveNode(KDTree3D::node_type* node, std::vector<int>& activeNodeList)
+void doom::KDTree_TestRoom::CheckActiveNode(KDTree3DPoint::node_type* node, std::vector<int>& activeNodeList)
 {
 	if (node == nullptr)
 	{
