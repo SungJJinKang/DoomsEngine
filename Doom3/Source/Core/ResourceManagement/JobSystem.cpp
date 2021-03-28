@@ -73,7 +73,7 @@ void JobSystem::DestroySubThreads()
 {
 	for (unsigned int i = 0; i < SUB_THREAD_COUNT; i++)
 	{
-		this->mManagedSubThreads[i].TerminateThread(true);
+		this->mManagedSubThreads[i].TerminateThread(true); // main thread wait until sub threads finish their last job
 	}
 	this->bmIsInitialized = false;
 }

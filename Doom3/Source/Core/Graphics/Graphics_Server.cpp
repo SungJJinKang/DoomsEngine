@@ -277,7 +277,7 @@ void doom::graphics::Graphics_Server::DeferredRendering()
 
 
 
-	if (userinput::UserInput_Server::GetKeyToggle(eKEY_CODE::KEY_INSERT) == true)
+	if (userinput::UserInput_Server::GetKeyToggle(eKEY_CODE::KEY_F5) == true)
 	{
 		this->mDebugGraphics.DrawDebug();
 	}
@@ -346,7 +346,9 @@ void Graphics_Server::SolveLinearDataCulling()
 		// Don't update frustumplane always
 		//
 		// for testing, update always
-		this->mLinearTransformDataCulling.UpdateFrustumPlane(i, spawnedCameraList[i]->GetViewProjectionMatrix());
+		
+		D_DEBUG_LOG(this->mLinearTransformDataCulling.GetSIMDPlanes()->mFrustumPlanes[0].toString(), eLogType::D_ALWAYS);
+		this->mLinearTransformDataCulling.UpdateFrustumPlane(i, spawnedCameraList[i]->GetModelViewProjectionMatrix());
 	}
 
 	

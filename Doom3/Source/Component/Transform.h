@@ -77,7 +77,7 @@ namespace doom
 		virtual ~Transform() = default;
 		std::string ToString();
 
-		void SetPosition(const math::Vector3& position)
+		inline void SetPosition(const math::Vector3& position)
 		{
 			this->mTranslationMatrix = math::translate(position);
 			this->mPosition = position;
@@ -86,12 +86,12 @@ namespace doom
 			this->SetDirtyTrueAtThisFrame();
 			this->bmIsDirtyModelMatrix = true;
 		}
-		void SetPosition(float x, float y, float z)
+		FORCE_INLINE void SetPosition(float x, float y, float z)
 		{
 			this->SetPosition({x, y, z});
 		}
 
-		void SetRotation(const math::Quaternion& rotation)
+		inline void SetRotation(const math::Quaternion& rotation)
 		{
 			mRotationMatrix = static_cast<math::Matrix4x4>(rotation);
 			this->mRotation = rotation;
@@ -99,23 +99,23 @@ namespace doom
 
 			this->bmIsDirtyModelMatrix = true;
 		}
-		void SetRotation(const math::Vector3& eulerAngle)
+		FORCE_INLINE void SetRotation(const math::Vector3& eulerAngle)
 		{
 			this->SetRotation(math::Quaternion(eulerAngle));
 		}
-		void SetRotation(const float eulerAngleX, const float eulerAngleY, const float eulerAngleZ)
+		FORCE_INLINE void SetRotation(const float eulerAngleX, const float eulerAngleY, const float eulerAngleZ)
 		{
 			this->SetRotation({eulerAngleX, eulerAngleY, eulerAngleZ});
 		}
 
-		void SetScale(const math::Vector3& scale)
+		inline void SetScale(const math::Vector3& scale)
 		{
 			this->mScaleMatrix = math::scale(scale);
 			this->mScale = scale;
 			this->SetDirtyTrueAtThisFrame();
 			this->bmIsDirtyModelMatrix = true;
 		}
-		void SetScale(const float x, const float y, const float z)
+		FORCE_INLINE void SetScale(const float x, const float y, const float z)
 		{
 			this->SetScale({ x,y,z });
 		}
@@ -149,7 +149,7 @@ namespace doom
 
 		
 
-		constexpr const math::Matrix4x4& GetModelMatrix() 
+		FORCE_INLINE const math::Matrix4x4& GetModelMatrix() 
 		{
 			if (this->bmIsDirtyModelMatrix.GetIsDirty(true))
 			{
@@ -171,12 +171,12 @@ namespace doom
 			return this->mRotation * math::Vector3::up;
 		}
 
-		void LookAt(const Transform& target, const math::Vector3& up)
+		FORCE_INLINE void LookAt(const Transform& target, const math::Vector3& up)
 		{
 			this->SetRotation(static_cast<math::Quaternion>(math::lookAt(this->mPosition, target.mPosition, up)));
 		}
 
-		void Rotate(const math::Quaternion& quat, const eSpace& relativeTo)
+		FORCE_INLINE void Rotate(const math::Quaternion& quat, const eSpace& relativeTo)
 		{
 			if (relativeTo == eSpace::Self)
 			{
@@ -188,7 +188,7 @@ namespace doom
 			}
 			
 		}
-		void Rotate(const math::Vector3& eulerAngles, const eSpace& relativeTo)
+		FORCE_INLINE void Rotate(const math::Vector3& eulerAngles, const eSpace& relativeTo)
 		{
 			if (relativeTo == eSpace::Self)
 			{
@@ -216,7 +216,7 @@ namespace doom
 		{
 			return this->mRotation * vector;
 		}
-		void Translate(const math::Vector3& translation, const eSpace& relativeTo = eSpace::World) 
+		FORCE_INLINE void Translate(const math::Vector3& translation, const eSpace& relativeTo = eSpace::World)
 		{
 			if (relativeTo == eSpace::World)
 			{

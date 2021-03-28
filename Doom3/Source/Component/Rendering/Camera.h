@@ -1,8 +1,10 @@
 #pragma once
 #include "Core/PlainComponent.h"
 
+#include "../Core/Math/LightMath_Cpp/Vector3.h"
 #include "../Core/Math/LightMath_Cpp/Vector4.h"
 #include "../Core/Math/LightMath_Cpp/Matrix4x4.h"
+#include "../Core/Math/LightMath_Cpp/Matrix_utility.h"
 
 #include <array>
 #include "../Core/Graphics/Buffer/UniformBufferObjectTempBufferUpdater.h"
@@ -13,6 +15,8 @@
 #include "Physics/Collider/Plane.h"
 
 #include "Graphics/Acceleration/ViewFrustum.h"
+
+#include "Transform.h"
 
 namespace doom
 {
@@ -69,10 +73,12 @@ namespace doom
 		DirtyReceiver bmIsProjectionMatrixDirty{ true };
 		DirtyReceiver bmIsViewMatrixDirty{ true };
 		DirtyReceiver bmIsViewProjectionMatrixDirty{ true };
+		DirtyReceiver bmIsModelViewProjectionMatrixDirty{ true };
 		DirtyReceiver bmIsFrustumPlaneMatrixDirty{ true };
 		math::Matrix4x4 mViewMatrix{};
 		math::Matrix4x4 mProjectionMatrix{};
 		math::Matrix4x4 mViewProjectionMatrix{};
+		math::Matrix4x4 mMovelViewProjectionMatrix{};
 		std::array<math::Vector4, 6> mFrustumPlane{};
 
 		//graphics::ViewFrustum mViewFrumstum{};
@@ -127,9 +133,41 @@ namespace doom
 		/// this function will be called at every frame
 		/// </summary>
 		/// <returns></returns>
-		const math::Matrix4x4& GetViewMatrix();
-		const math::Matrix4x4& GetViewProjectionMatrix();
-		bool GetIsViewProjectionMatrixDirty() const;
+		FORCE_INLINE const math::Matrix4x4& GetViewMatrix()
+		{
+			if (this->bmIsViewMatrixDirty.GetIsDirty(true))
+			{
+				auto transform = this->GetTransform();
+				auto pos = transform->GetPosition();
+				auto forward = transform->forward();
+				auto up = transform->up();
+				this->mViewMatrix = math::lookAt(pos, pos + forward, up);
+				//this->mViewFrumstum.UpdateLookAt(pos, forward, up);
+
+			}
+
+			return this->mViewMatrix;
+		}
+		FORCE_INLINE const math::Matrix4x4& GetViewProjectionMatrix()
+		{
+			if (this->bmIsViewProjectionMatrixDirty.GetIsDirty(true))
+			{
+				this->mViewProjectionMatrix = this->GetProjectionMatrix() * this->GetViewMatrix();
+			}
+			return this->mViewProjectionMatrix;
+		}
+		FORCE_INLINE math::Matrix4x4& GetModelViewProjectionMatrix()
+		{
+			if (this->bmIsModelViewProjectionMatrixDirty.GetIsDirty(true))
+			{
+				this->mMovelViewProjectionMatrix =  this->GetViewProjectionMatrix() * this->GetTransform()->GetModelMatrix();
+			}
+			return this->mMovelViewProjectionMatrix;
+		}
+		FORCE_INLINE bool GetIsViewProjectionMatrixDirty() const
+		{
+			return static_cast<bool>(this->bmIsViewProjectionMatrixDirty);
+		}
 
 		[[nodiscard]] math::Vector3 NDCToScreenPoint(const math::Vector3& ndcPoint);
 		[[nodiscard]] math::Vector3 ScreenToNDCPoint(const math::Vector3& screenPoint);

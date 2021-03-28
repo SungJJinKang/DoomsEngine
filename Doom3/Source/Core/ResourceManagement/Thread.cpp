@@ -13,9 +13,9 @@ void doom::resource::Thread::WorkerJob()
 
 		job_type newTask;
 		
-		if (mPriorityWaitingTaskQueue != nullptr)
+		if (this->mPriorityWaitingTaskQueue != nullptr)
 		{// Check Priority Queue first
-			mPriorityWaitingTaskQueue->try_dequeue(newTask); // try_dequeue don't block thread
+			this->mPriorityWaitingTaskQueue->try_dequeue(newTask); // try_dequeue don't block thread
 		}
 
 		if (!newTask)
@@ -51,14 +51,14 @@ void doom::resource::Thread::TerminateThread(bool bIsBlockThread)
 	std::cout << "Destructing Thread Pool" << std::endl;
 #endif
 
-	mIsPoolTerminated = true;
+	mIsPoolTerminated = true; // TO DOO : Should this eclosed by mutex, because sub thread can't see this variable changed
 
 	//For stop queue, push dummy job ( i can't stop wait_dequeue, so make WorkerJob loop pushing dummy job )
 	this->PushBackJob(job_type([]() {}));
 
 	if (bIsBlockThread == true)
 	{
-		this->mThread.join();
+		this->mThread.join(); // main thread will wait until sub thread finish it's last job
 #ifdef Thread_DEBUG
 		std::cout << "Thread is terminated" << std::endl;
 #endif

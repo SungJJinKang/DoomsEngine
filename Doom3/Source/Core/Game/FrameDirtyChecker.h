@@ -35,7 +35,7 @@ namespace doom
 		/// <summary>
 		/// Use can't set dirty false
 		/// </summary>
-		void SetDirtyTrueAtThisFrame() noexcept
+		inline void SetDirtyTrueAtThisFrame() noexcept
 		{
 			this->bmIsDirtyAtThisFrame = true;
 			this->mDirtySender.NotifyDirty();

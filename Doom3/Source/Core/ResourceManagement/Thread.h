@@ -2,6 +2,7 @@
 
 #include <vector>
 
+#include <atomic>
 #include <thread>
 #include <future>
 
@@ -41,8 +42,8 @@ namespace doom
 			using job_type = typename std::function<void()>;
 
 		private:
-			bool mIsPoolTerminated;
-			bool mIsThreadSleeping;
+			std::atomic<bool> mIsPoolTerminated;
+			std::atomic<bool> mIsThreadSleeping;
 
 			/// <summary>
 			/// Maintain Thread Life Until Thread instace will be destructed

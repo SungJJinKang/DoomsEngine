@@ -1,8 +1,7 @@
 #include "Camera.h"
 #include "../Core/Scene/Scene.h"
-#include "../Core/Math/LightMath_Cpp/Matrix_utility.h"
-#include "../Core/Math/LightMath_Cpp/Vector3.h"
-#include "Transform.h"
+
+
 #include "../Graphics/Graphics_Server.h"
 #include "../Graphics/Acceleration/ViewFrustumCulling.h"
 
@@ -14,6 +13,7 @@ void Camera::SetProjectionMode(eProjectionType value)
 	this->SetDirtyTrueAtThisFrame();
 	this->bmIsProjectionMatrixDirty = true;
 	this->bmIsViewProjectionMatrixDirty = true;
+	this->bmIsModelViewProjectionMatrixDirty = true;
 	this->bmIsFrustumPlaneMatrixDirty = true;
 }
 
@@ -24,6 +24,7 @@ void Camera::SetFieldOfViewInDegree(float degree)
 	this->SetDirtyTrueAtThisFrame();
 	this->bmIsProjectionMatrixDirty = true;
 	this->bmIsViewProjectionMatrixDirty = true;
+	this->bmIsModelViewProjectionMatrixDirty = true;
 	this->bmIsFrustumPlaneMatrixDirty = true;
 }
 
@@ -34,6 +35,7 @@ void Camera::SetFieldOfViewInRadian(float radian)
 	this->SetDirtyTrueAtThisFrame();
 	this->bmIsProjectionMatrixDirty = true;
 	this->bmIsViewProjectionMatrixDirty = true;
+	this->bmIsModelViewProjectionMatrixDirty = true;
 	this->bmIsFrustumPlaneMatrixDirty = true;
 }
 
@@ -43,6 +45,7 @@ void Camera::SetClippingPlaneNear(float value)
 	this->SetDirtyTrueAtThisFrame();
 	this->bmIsProjectionMatrixDirty = true;
 	this->bmIsViewProjectionMatrixDirty = true;
+	this->bmIsModelViewProjectionMatrixDirty = true;
 	this->bmIsFrustumPlaneMatrixDirty = true;
 }
 
@@ -52,6 +55,7 @@ void Camera::SetClippingPlaneFar(float value)
 	this->SetDirtyTrueAtThisFrame();
 	this->bmIsProjectionMatrixDirty = true;
 	this->bmIsViewProjectionMatrixDirty = true;
+	this->bmIsModelViewProjectionMatrixDirty = true;
 	this->bmIsFrustumPlaneMatrixDirty = true;
 }
 
@@ -61,6 +65,7 @@ void Camera::SetViewportRectX(float value)
 	this->SetDirtyTrueAtThisFrame();
 	this->bmIsProjectionMatrixDirty = true;
 	this->bmIsViewProjectionMatrixDirty = true;
+	this->bmIsModelViewProjectionMatrixDirty = true;
 	this->bmIsFrustumPlaneMatrixDirty = true;
 }
 
@@ -70,6 +75,7 @@ void Camera::SetViewportRectY(float value)
 	this->SetDirtyTrueAtThisFrame();
 	this->bmIsProjectionMatrixDirty = true;
 	this->bmIsViewProjectionMatrixDirty = true;
+	this->bmIsModelViewProjectionMatrixDirty = true;
 	this->bmIsFrustumPlaneMatrixDirty = true;
 }
 
@@ -79,6 +85,7 @@ void Camera::SetViewportRectWidth(float value)
 	this->SetDirtyTrueAtThisFrame();
 	this->bmIsProjectionMatrixDirty = true;
 	this->bmIsViewProjectionMatrixDirty = true;
+	this->bmIsModelViewProjectionMatrixDirty = true;
 	this->bmIsFrustumPlaneMatrixDirty = true;
 }
 
@@ -88,6 +95,7 @@ void Camera::SetViewportRectHeight(float value)
 	this->SetDirtyTrueAtThisFrame();
 	this->bmIsProjectionMatrixDirty = true;
 	this->bmIsViewProjectionMatrixDirty = true;
+	this->bmIsModelViewProjectionMatrixDirty = true;
 	this->bmIsFrustumPlaneMatrixDirty = true;
 }
 
@@ -204,7 +212,8 @@ void Camera::InitComponent()
 	this->AddLocalDirtyToTransformDirtyReceiver(this->bmIsViewProjectionMatrixDirty);
 	this->AddLocalDirtyToTransformDirtyReceiver(this->bmIsUboDirty);
 	this->AddLocalDirtyToTransformDirtyReceiver(this->bmIsFrustumPlaneMatrixDirty);
-
+	this->AddLocalDirtyToTransformDirtyReceiver(this->bmIsModelViewProjectionMatrixDirty);
+	
 	this->UpdateMainCamera();
 	
 }
@@ -241,21 +250,10 @@ doom::Camera* Camera::GetMainCamera()
 	return currentWorld->GetMainCamera();
 }
 
-void Camera::OnDestroy()
-{
-	auto currentWorld = Scene::GetSingleton();
-	Camera* currentMainCamera = currentWorld->GetMainCamera();
-	if (currentMainCamera == this)
-	{
-		currentWorld->SetMainCamera(nullptr);
-		auto foremostComponent = StaticContainer<Camera>::GetForemostComponentWithHint(this);
-		if (foremostComponent != nullptr)
-		{
-			currentWorld->SetMainCamera(foremostComponent);
-		}
-	}
-}
-
+/// <summary>
+/// this function will be called at every frame
+/// </summary>
+/// <returns></returns>
 
 const math::Matrix4x4& doom::Camera::GetProjectionMatrix()
 {
@@ -277,37 +275,21 @@ const math::Matrix4x4& doom::Camera::GetProjectionMatrix()
 	return this->mProjectionMatrix;
 }
 
-const math::Matrix4x4& Camera::GetViewMatrix()
+void Camera::OnDestroy()
 {
-	if (this->bmIsViewMatrixDirty.GetIsDirty(true))
+	auto currentWorld = Scene::GetSingleton();
+	Camera* currentMainCamera = currentWorld->GetMainCamera();
+	if (currentMainCamera == this)
 	{
-		auto transform = this->GetTransform();
-		auto pos = transform->GetPosition();
-		auto forward = transform->forward();
-		auto up = transform->up();
-		this->mViewMatrix = math::lookAt(pos, pos + forward, up);
-		//this->mViewFrumstum.UpdateLookAt(pos, forward, up);
-
+		currentWorld->SetMainCamera(nullptr);
+		auto foremostComponent = StaticContainer<Camera>::GetForemostComponentWithHint(this);
+		if (foremostComponent != nullptr)
+		{
+			currentWorld->SetMainCamera(foremostComponent);
+		}
 	}
-
-	return this->mViewMatrix;
 }
 
-const math::Matrix4x4& doom::Camera::GetViewProjectionMatrix()
-{
-	if (this->bmIsViewProjectionMatrixDirty.GetIsDirty(true))
-	{
-		const math::Matrix4x4& viewMatrix = this->GetViewMatrix();
-		const math::Matrix4x4& projectionMatrix = this->GetProjectionMatrix();
-		this->mViewProjectionMatrix = projectionMatrix * viewMatrix;
-	}
-	return this->mViewProjectionMatrix;
-}
-
-bool Camera::GetIsViewProjectionMatrixDirty() const
-{
-	return static_cast<bool>(this->bmIsViewProjectionMatrixDirty);
-}
 
 math::Vector3 Camera::NDCToScreenPoint(const math::Vector3& ndcPoint)
 {
