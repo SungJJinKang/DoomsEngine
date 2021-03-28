@@ -51,7 +51,7 @@ namespace doom
 			void RemoveCullDistance(int volumeSphereSize, int cullDistance);
 			void RemoveCullDistance(int index);
 
-			float PickCullDistanceSqr(int sphereRadius);
+			float PickCullDistanceSqr(float sphereRadius);
 
 			void Initialize();
 			/// <summary>

@@ -1,5 +1,6 @@
 #pragma once
 
+/*
 #include "Core.h"
 #include <Vector3.h>
 #include <Vector4.h>
@@ -67,8 +68,8 @@ namespace doom
 			void SetCamera(float fovInRadian, float ratio, float nearDistance, float farDistance);
 			void UpdateLookAt(const math::Vector3& cameraPosition, const math::Vector3& forwardDirection, const math::Vector3& updirection);
 			
-			//use math::ExtractPlanesFromMVPMatrix
-			//void ExtractPlanesFromMVPMatrix(const math::Matrix4x4& mvpMatrix, bool normalize);
+			//use math::ExtractPlanesFromViewProjectionMatrix
+			//void ExtractPlanesFromViewProjectionMatrix(const math::Matrix4x4& mvpMatrix, bool normalize);
 
 
 		public:
@@ -102,3 +103,4 @@ namespace doom
 	}
 	
 }
+*/

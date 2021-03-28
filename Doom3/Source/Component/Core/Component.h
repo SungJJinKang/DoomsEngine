@@ -144,8 +144,8 @@ namespace doom
 		}
 		*/
 
-		virtual void OnComponentAttachedToOwnerEntity(Component* newComponent) {}
-		virtual void OnComponentDettachedToOwnerEntity(Component* newComponent) {}
+// 		virtual void OnComponentAttachedToOwnerEntity(Component* newComponent) {}
+// 		virtual void OnComponentDettachedToOwnerEntity(Component* newComponent) {}
 
 	public:
 

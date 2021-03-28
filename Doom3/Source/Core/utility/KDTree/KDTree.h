@@ -28,8 +28,11 @@ namespace doom
 
 		using node_type = typename KDTreeNode<T>;
 		using node_view_type = typename KDTreeNodeView<T>;
-
+		
 	private:
+
+		static constexpr unsigned int GetDimensionCount();
+
 		node_type* mKDTreeNodes;
 		const int mNodeCapacity;
 
@@ -72,7 +75,7 @@ namespace doom
 		void Delete(const typename node_type::component_type& vector);
 		void Delete(int nodeIndex);
 
-		node_view_type FineMin(const int targetMinNodeDimension);
+		node_view_type FineMin(const unsigned int targetMinNodeDimension);
 
 		/// <summary>
 		/// Only used when type T is Vector
@@ -91,13 +94,27 @@ namespace doom
 	
 	};
 
-	
+	template <>
+	static constexpr unsigned int KDTree<math::Vector2>::GetDimensionCount()
+	{
+		return 2;
+	}
+	template <>
+	static constexpr unsigned int KDTree<math::Vector3>::GetDimensionCount()
+	{
+		return 3;
+	}
+	template <>
+	static constexpr unsigned int KDTree<physics::AABB3D>::GetDimensionCount()
+	{
+		return 3;
+	}
 
 	using KDTree2DPoint = typename KDTree<math::Vector2>;
 	using KDTree3DPoint = typename KDTree<math::Vector3>;
-	using KDTreeAABB3D = typename KDTree<physics::AABB3D>;
+	//using KDTreeAABB3D = typename KDTree<physics::AABB3D>;
 	
 	extern template class KDTree<math::Vector2>;
 	extern template class KDTree<math::Vector3>;
-	extern template class KDTree<physics::AABB3D>;
+	//extern template class KDTree<physics::AABB3D>;
 }

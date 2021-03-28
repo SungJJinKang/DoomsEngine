@@ -11,7 +11,7 @@
 template <>
 typename doom::KDTree<math::Vector<3, float>>::node_view_type doom::KDTree<math::Vector<3, float>>::FindNearestNode(const typename node_type::component_type& componentValue)
 {
-
+	return {};
 }
 
 template<typename T>

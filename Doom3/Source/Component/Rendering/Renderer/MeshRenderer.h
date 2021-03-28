@@ -34,6 +34,8 @@ namespace doom
 
 	protected:
 
+		
+
 	public:
 		MeshRenderer();
 		virtual ~MeshRenderer(){}
@@ -53,7 +55,7 @@ namespace doom
 
 		void SetMesh(graphics::Mesh* mesh);
 		
-		
+		virtual physics::AABB3D GetLocalAABBBound() const final;
 
 	};
 }

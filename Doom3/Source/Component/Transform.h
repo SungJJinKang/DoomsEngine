@@ -5,6 +5,8 @@
 #include "../Core/Math/LightMath_Cpp/Matrix4x4.h"
 #include "../Core/Math/LightMath_Cpp/Matrix_utility.h"
 
+#include "Graphics/Acceleration/LinearData_ViewFrustumCulling/DataStructure/EntityBlockViewer.h"
+
 namespace doom
 {
 	enum class eSpace
@@ -16,7 +18,7 @@ namespace doom
 	class Transform : public PlainComponent
 	{
 		friend class Component;
-
+		friend class Renderer;
 	private:
 
 		
@@ -42,6 +44,13 @@ namespace doom
 		math::Vector3 mPosition;
 		math::Vector3 mScale;
 
+		/// <summary>
+		/// This will be used for Render Culling
+		/// 
+		/// EntityBlockViewer never be cheanged on a entity
+		/// </summary>
+		graphics::EntityBlockViewer mEntityBlockViewer;
+
 		Transform(const Transform&) = delete;
 		Transform(Transform&&) noexcept = delete;
 		Transform& operator=(const Transform&) = delete;
@@ -50,6 +59,7 @@ namespace doom
 		virtual void InitComponent() final;
 		virtual void UpdateComponent() final;
 		virtual void OnEndOfFrame_Component() final;
+		virtual void OnDestroy() final;
 
 		const math::Matrix4x4 GetRotationMatrix()
 		{
@@ -60,9 +70,9 @@ namespace doom
 
 		Transform() : mLastFramePosition{ 0.0f }, mPosition{ 0.0f }, mRotation{}, mScale{ 1.0f }, bmIsDirtyModelMatrix{ true }
 		{
-			this->SetPosition(this->mPosition);
-			this->SetRotation(this->mRotation);
-			this->SetScale(this->mScale);
+// 			this->SetPosition(this->mPosition);
+// 			this->SetRotation(this->mRotation);
+// 			this->SetScale(this->mScale);
 		}
 		virtual ~Transform() = default;
 		std::string ToString();
@@ -71,6 +81,8 @@ namespace doom
 		{
 			this->mTranslationMatrix = math::translate(position);
 			this->mPosition = position;
+			this->mEntityBlockViewer.SetEntityPosition(position);
+
 			this->SetDirtyTrueAtThisFrame();
 			this->bmIsDirtyModelMatrix = true;
 		}

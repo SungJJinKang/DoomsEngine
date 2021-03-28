@@ -98,8 +98,8 @@ namespace doom
 			//DON'T PUT ANYTHING AT HERE
 		}
 
-		virtual void OnComponentAttachedToOwnerEntity(Component* newComponent) override {}
-		virtual void OnComponentDettachedToOwnerEntity(Component* newComponent) override {}
+// 		virtual void OnComponentAttachedToOwnerEntity(Component* newComponent) override {}
+// 		virtual void OnComponentDettachedToOwnerEntity(Component* newComponent) override {}
 
 	public:
 	

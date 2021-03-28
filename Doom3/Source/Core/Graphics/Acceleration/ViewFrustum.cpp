@@ -1,3 +1,4 @@
+/*
 #include "ViewFrustum.h"
 
 #include "Physics/Collider/AABB.h"
@@ -87,7 +88,7 @@ bool doom::graphics::ViewFrustum::IsInFrustum(const doom::physics::Sphere& spher
 
 	return true;
 }
-*/
+
 
 /// <summary>
 /// https://cgvr.informatik.uni-bremen.de/teaching/cg_literatur/lighthouse3d_view_frustum_culling/index.html
@@ -134,3 +135,4 @@ bool doom::graphics::ViewFrustum::IsAABBVisible(Renderer* renderer)
 {
 	return this->IsInFrustum(renderer->BVH_AABB3D_Node_Object::GetWorldBVhColliderCacheByReference());
 }
+*/

@@ -15,8 +15,7 @@
 #include "Material.h"
 #include "DebugGraphics.h"
 
-#include "Acceleration/ViewFrustumCulling.h"
-#include "Acceleration/OcclusionCulling/HW/QueryOcclusionCulling.h"
+#include "Acceleration/LinearData_ViewFrustumCulling/LinearTransformDataCulling.h"
 #include "Acceleration/CullDistance/CullDistance.h"
 
 struct GLFWwindow;
@@ -31,6 +30,7 @@ namespace doom
 
 	class GameCore;
 	class Renderer;
+	class Transform;
 	namespace graphics
 	{
 		class Graphics_Server : public IGameFlow, public ISingleton<Graphics_Server>
@@ -41,6 +41,7 @@ namespace doom
 			friend class RenderBuffer;
 			friend class ::doom::userinput::UserInput_Server;
 
+			friend class ::doom::Transform;
 			friend class ::doom::Renderer;
 
 			enum class eRenderingMode
@@ -68,8 +69,7 @@ namespace doom
 			static inline float ScreenRatio{};
 			static inline unsigned int MultiSamplingNum;
 
-			ViewFrustumCulling mViewFrustumCulling{};
-			QueryOcclusionCulling mQueryOcclusionCulling{};
+			LinearTransformDataCulling mLinearTransformDataCulling{};
 			CullDistance mCullDistance{};
 
 #ifdef DEBUG_MODE
@@ -100,7 +100,10 @@ namespace doom
 
 			void InitFrameBufferForDeferredRendering();
 			void DeferredRendering();
-				
+
+			void SolveLinearDataCulling();
+
+
 			static void OpenGlDebugCallback(GLenum source, GLenum type, GLuint id, GLenum severity, GLsizei length, const GLchar* msg, const void* data);
 		public:
 

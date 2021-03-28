@@ -6,12 +6,14 @@ void doom::Renderer::InitComponent()
 {
 	RendererComponentStaticIterator::AddRendererToStaticContainer();
 
+	this->mEntityBlockViewer = this->GetTransform()->mEntityBlockViewer;
+
 	this->AddLocalDirtyToTransformDirtyReceiver(BVH_Sphere_Node_Object::IsWorldBVhColliderCacheDirty);
-	this->AddLocalDirtyToTransformDirtyReceiver(BVH_AABB3D_Node_Object::IsWorldBVhColliderCacheDirty);
-	//this->AddLocalDirtyToTransformDirtyReceiver(this->mIsBoundingSphereDirty);
+	//this->AddLocalDirtyToTransformDirtyReceiver(BVH_AABB3D_Node_Object::IsWorldBVhColliderCacheDirty);
+
 	//this->BVH_Sphere_Node_Object::UpdateWorldBVhColliderCache(true);
 	
-	//BVH_Sphere_Node_Object::InsertBVHLeafNode(graphics::Graphics_Server::GetSingleton()->mCullDistance.mp, BVH_Sphere_Node_Object::GetWorldBVhColliderCacheByReference(), nullptr);
+	//BVH_Sphere_Node_Object::InsertBVHLeafNode(graphics::Graphics_Server::GetSingleton()->mCullDistance., BVH_Sphere_Node_Object::GetWorldBVhColliderCacheByReference(), nullptr);
 	//BVH_AABB3D_Node_Object::InsertBVHLeafNode(graphics::Graphics_Server::GetSingleton()->mViewFrustumCulling.mBVHSphere, BVH_AABB3D_Node_Object:::GetWorldBVhColliderCacheByReference(), nullptr);
 }
 
@@ -25,9 +27,15 @@ doom::Renderer::Renderer() : ServerComponent(), StaticContainer(), mTargetMateri
 
 }
 
+void doom::Renderer::SetBoundingSphereRadiusForCulling(float radius)
+{
+	
+	this->mEntityBlockViewer.SetSphereBoundRadius(radius);
+}
+
 void doom::Renderer::MergeBVHBitFlag()
 {
-	this->mRenderingBitFlag |= graphics::eRenderingBitflag::IsVisible & ( BVH_Sphere_Node_Object::mBVH_Node_View->GetBitFlag() | BVH_AABB3D_Node_Object::mBVH_Node_View->GetBitFlag() );
+	//this->mRenderingBitFlag |= graphics::eRenderingBitflag::IsVisible & ( BVH_Sphere_Node_Object::mBVH_Node_View->GetBitFlag() | BVH_AABB3D_Node_Object::mBVH_Node_View->GetBitFlag() );
 }
 
 void doom::Renderer::ClearRenderingBitFlag()

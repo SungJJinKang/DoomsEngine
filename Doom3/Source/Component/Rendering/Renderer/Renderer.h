@@ -14,6 +14,8 @@
 #include "Graphics/Acceleration/CullDistance/CullDistanceRenderer.h"
 #include "Graphics/RenderingBitFlag.h"
 
+#include "Graphics/Acceleration/LinearData_ViewFrustumCulling/DataStructure/EntityBlockViewer.h"
+
 namespace doom
 {
 	namespace graphics
@@ -24,7 +26,7 @@ namespace doom
 
 
 
-	class Renderer : public ServerComponent, public RendererComponentStaticIterator, public BVH_Sphere_Node_Object, public BVH_AABB3D_Node_Object // public graphics::CullDistanceRenderer
+	class Renderer : public ServerComponent, public RendererComponentStaticIterator, public BVH_Sphere_Node_Object//, public BVH_AABB3D_Node_Object // public graphics::CullDistanceRenderer
 	{
 		friend graphics::Graphics_Server;
 		friend class Enity;
@@ -33,6 +35,10 @@ namespace doom
 
 	
 	private:
+		/// <summary>
+		/// EntityBlockViewer never be cheanged on a entity
+		/// </summary>
+		graphics::EntityBlockViewer mEntityBlockViewer;
 							
 		Renderer(const Renderer&) = delete;
 		Renderer(Renderer&&) noexcept = delete;
@@ -67,6 +73,7 @@ namespace doom
 
 		}
 
+		void SetBoundingSphereRadiusForCulling(float radius);
 
 		virtual const math::Matrix4x4& GetModelMatrix() const final;
 
@@ -93,11 +100,17 @@ namespace doom
 		void SetMaterial(graphics::Material* material) noexcept;
 		void SetMaterial(graphics::Material& material) noexcept;
 
-		FORCE_INLINE bool GetIsVisible()
+		/// <summary>
+		/// cameraIndex can be get from StaticContainer<Camera>
+		/// </summary>
+		/// <param name="cameraIndex"></param>
+		/// <returns></returns>
+		FORCE_INLINE bool GetIsVisible(unsigned int cameraIndex)
 		{
-			return this->mRenderingBitFlag | graphics::eRenderingBitflag::IsVisible;
+			return this->mEntityBlockViewer.GetIsVisibleBitflag(cameraIndex);
 		}
 
+		virtual physics::AABB3D GetLocalAABBBound() const = 0;
 		//const physics::Sphere& GetBoudingSphere();
 	};
 }

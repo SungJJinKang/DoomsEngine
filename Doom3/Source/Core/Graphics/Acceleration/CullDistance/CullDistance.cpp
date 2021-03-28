@@ -58,15 +58,16 @@ void doom::graphics::CullDistance::RemoveCullDistance(int volumeSphereRadius, in
 	this->mCullDistanceSetting.erase(this->mCullDistanceSetting.begin() + index);
 }
 
-float doom::graphics::CullDistance::PickCullDistanceSqr(int sphereRadius)
+float doom::graphics::CullDistance::PickCullDistanceSqr(float sphereRadius)
 {
-	D_ASSERT(sphereRadius >= 0);
+	int radius = static_cast<int>(sphereRadius);
+	D_ASSERT(radius >= 0);
 
 	int mingap{ math::infinity<int>() };
 	float cullDistanceSqr{ math::infinity<float>() };
 	for (int i = 0; i < this->mCullDistanceSetting.size(); i++)
 	{
-		int gap = math::abs(this->mCullDistanceSetting[i].mVolumeSphereRadius - sphereRadius);
+		int gap = math::abs(this->mCullDistanceSetting[i].mVolumeSphereRadius - radius);
 		if (gap < mingap)
 		{
 			mingap = gap;

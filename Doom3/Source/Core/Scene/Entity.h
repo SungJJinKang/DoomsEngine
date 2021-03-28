@@ -135,21 +135,24 @@ namespace doom
 			newComponent_com->OnActivated_Internal();
 			newComponent_com->OnActivated();
 
-			for (auto& serverComponents : this->mServerComponents)
-			{
-				if (serverComponents.get() != newComponent_com)
-				{
-					serverComponents->OnComponentAttachedToOwnerEntity(newComponent_com);
-				}
-			}
 
-			for (auto& plainComponent : this->mPlainComponents)
-			{
-				if (plainComponent.get() != newComponent_com)
-				{
-					plainComponent->OnComponentAttachedToOwnerEntity(newComponent_com);
-				}
-			}
+			//Why need this?
+			//Too slow
+// 			for (auto& serverComponents : this->mServerComponents)
+// 			{
+// 				if (serverComponents.get() != newComponent_com)
+// 				{
+// 					serverComponents->OnComponentAttachedToOwnerEntity(newComponent_com);
+// 				}
+// 			}
+// 
+// 			for (auto& plainComponent : this->mPlainComponents)
+// 			{
+// 				if (plainComponent.get() != newComponent_com)
+// 				{
+// 					plainComponent->OnComponentAttachedToOwnerEntity(newComponent_com);
+// 				}
+// 			}
 			
 
 			return newComponent;
@@ -159,23 +162,23 @@ namespace doom
 		template<typename T>
 		constexpr bool _DestroyComponent(std::unique_ptr<T, Component::Deleter>& component)
 		{
-			for (auto& serverComponents : this->mServerComponents)
-			{
-				auto removedComponent = component.get();
-				if (serverComponents.get() != component.get())
-				{
-					serverComponents->OnComponentDettachedToOwnerEntity(removedComponent);
-				}
-			}
-
-			for (auto& plainComponent : this->mPlainComponents)
-			{
-				auto removedComponent = component.get();
-				if (plainComponent.get() != component.get())
-				{
-					plainComponent->OnComponentDettachedToOwnerEntity(removedComponent);
-				}
-			}
+// 			for (auto& serverComponents : this->mServerComponents)
+// 			{
+// 				auto removedComponent = component.get();
+// 				if (serverComponents.get() != component.get())
+// 				{
+// 					serverComponents->OnComponentDettachedToOwnerEntity(removedComponent);
+// 				}
+// 			}
+// 
+// 			for (auto& plainComponent : this->mPlainComponents)
+// 			{
+// 				auto removedComponent = component.get();
+// 				if (plainComponent.get() != component.get())
+// 				{
+// 					plainComponent->OnComponentDettachedToOwnerEntity(removedComponent);
+// 				}
+// 			}
 
 			component->OnDestroy_Internal();
 			component->OnDestroy();

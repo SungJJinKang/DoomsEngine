@@ -3,11 +3,16 @@
 #include <sstream>
 #include "../Core/Math/LightMath_Cpp/Matrix_utility.h"
 
-
+#include "Graphics/Graphics_Server.h"
 
 
 void doom::Transform::InitComponent()
 {
+	this->mEntityBlockViewer = graphics::Graphics_Server::GetSingleton()->mLinearTransformDataCulling.AllocateNewEntity(this->mPosition, 0);
+
+	this->SetPosition(this->mPosition);
+	this->SetRotation(this->mRotation);
+	this->SetScale(this->mScale);
 }
 
 void doom::Transform::UpdateComponent()
@@ -18,6 +23,11 @@ void doom::Transform::UpdateComponent()
 void doom::Transform::OnEndOfFrame_Component()
 {
 	this->mLastFramePosition = this->mPosition;
+}
+
+void doom::Transform::OnDestroy()
+{
+	graphics::Graphics_Server::GetSingleton()->mLinearTransformDataCulling.RemoveEntityFromBlock(this->mEntityBlockViewer);
 }
 
 std::string doom::Transform::ToString()

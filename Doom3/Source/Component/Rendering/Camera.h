@@ -75,7 +75,7 @@ namespace doom
 		math::Matrix4x4 mViewProjectionMatrix{};
 		std::array<math::Vector4, 6> mFrustumPlane{};
 
-		graphics::ViewFrustum mViewFrumstum{};
+		//graphics::ViewFrustum mViewFrumstum{};
 
 		const std::array<math::Vector4, 6>& CalculateFrustumPlane();
 		
@@ -129,6 +129,7 @@ namespace doom
 		/// <returns></returns>
 		const math::Matrix4x4& GetViewMatrix();
 		const math::Matrix4x4& GetViewProjectionMatrix();
+		bool GetIsViewProjectionMatrixDirty() const;
 
 		[[nodiscard]] math::Vector3 NDCToScreenPoint(const math::Vector3& ndcPoint);
 		[[nodiscard]] math::Vector3 ScreenToNDCPoint(const math::Vector3& screenPoint);
