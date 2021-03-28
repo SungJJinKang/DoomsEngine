@@ -49,7 +49,7 @@ namespace doom
 		float mFieldOfViewInDegree = 60;
 		float mFieldOfViewInRadian = mFieldOfViewInDegree * math::DEGREE_TO_RADIAN;
 
-		float mClippingPlaneNear = 0.1f;
+		float mClippingPlaneNear = 0.001f;
 		float mClippingPlaneFar = 1000.0f;
 
 		/// <summary>
@@ -150,15 +150,15 @@ namespace doom
 		}
 		FORCE_INLINE const math::Matrix4x4& GetViewProjectionMatrix()
 		{
-			if (this->bmIsViewProjectionMatrixDirty.GetIsDirty(true))
+			if (this->bmIsViewProjectionMatrixDirty.GetIsDirty(true) )
 			{
 				this->mViewProjectionMatrix = this->GetProjectionMatrix() * this->GetViewMatrix();
 			}
 			return this->mViewProjectionMatrix;
 		}
-		FORCE_INLINE math::Matrix4x4& GetModelViewProjectionMatrix()
+		FORCE_INLINE math::Matrix4x4& GetModelViewProjectionMatrix( )
 		{
-			if (this->bmIsModelViewProjectionMatrixDirty.GetIsDirty(true))
+			if (this->bmIsModelViewProjectionMatrixDirty.GetIsDirty(true) )
 			{
 				this->mMovelViewProjectionMatrix =  this->GetViewProjectionMatrix() * this->GetTransform()->GetModelMatrix();
 			}

@@ -255,33 +255,10 @@ void doom::graphics::Graphics_Server::DeferredRendering()
 
 #ifdef DEBUG_MODE
 
-	auto simdplane = this->mLinearTransformDataCulling.GetSIMDPlanes()->mFrustumPlanes;
-	physics::Plane plane1{ simdplane[3][0], math::Vector3{simdplane[0][0], simdplane[1][0], simdplane[2][0]} };
-	plane1.DrawPhysicsDebugColor(eColor::Black, false);
-
-	physics::Plane plane2{ simdplane[3][1], math::Vector3{simdplane[0][1], simdplane[1][1], simdplane[2][1]} };
-	plane2.DrawPhysicsDebugColor(eColor::Blue, false);
-
-	physics::Plane plane3{ simdplane[3][2], math::Vector3{simdplane[0][2], simdplane[1][2], simdplane[2][2]} };
-	plane3.DrawPhysicsDebugColor(eColor::Green, false);
-
-	physics::Plane plane4{ simdplane[3][3], math::Vector3{simdplane[0][3], simdplane[1][3], simdplane[2][3]} };
-	plane4.DrawPhysicsDebugColor(eColor::Red, false);
-
-	physics::Plane plane5{ simdplane[7][0], math::Vector3{simdplane[4][0], simdplane[5][0], simdplane[6][0]} };
-	plane5.DrawPhysicsDebugColor(eColor::White, false);
-
-	physics::Plane plane6{ simdplane[7][1], math::Vector3{simdplane[4][1], simdplane[5][1], simdplane[6][1]} };
-	plane6.DrawPhysicsDebugColor(eColor::Black, false);
-
-
-
-
 	if (userinput::UserInput_Server::GetKeyToggle(eKEY_CODE::KEY_F5) == true)
 	{
 		this->mDebugGraphics.DrawDebug();
 	}
-
 
 #endif
 
@@ -291,8 +268,9 @@ void doom::graphics::Graphics_Server::DeferredRendering()
 	//this->mViewFrustumCulling.PreComputeCulling();
 
 	D_START_PROFILING("Wait Cull Job", doom::profiler::eProfileLayers::Rendering);
-	this->mLinearTransformDataCulling.WaitToFinishCullJobs();
+	this->mLinearTransformDataCulling.WaitToFinishCullJobs(); // Waiting time is almost zero
 	D_END_PROFILING("Wait Cull Job");
+
 
 	for (unsigned int i = 0; i < MAX_LAYER_COUNT; i++)
 	{
@@ -302,7 +280,7 @@ void doom::graphics::Graphics_Server::DeferredRendering()
 	
 		for (size_t i = 0; i < length; ++i)
 		{
-			if (renderers[i]->GetIsVisible(0) == true) // HEAVY
+			if (renderers[i]->GetIsVisible(0) != 0) // HEAVY
 			{
 				renderers[i]->UpdateComponent_Internal();
 				renderers[i]->UpdateComponent();
@@ -336,30 +314,13 @@ void Graphics_Server::SolveLinearDataCulling()
 	auto spawnedCameraList = StaticContainer<Camera>::GetAllStaticComponents();
 	for (unsigned int i = 0; i < spawnedCameraList.size(); i++)
 	{
-		//TODO : When camera is desroied, Shoud Update all cameras
-// 		if (spawnedCameraList[i]->bmIsFrustumPlaneMatrixDirty.GetIsDirty(true) == true)
-// 		{
-// 			this->mLinearTransformDataCulling.UpdateFrustumPlane(i, spawnedCameraList[i]->GetViewProjectionMatrix());
-// 		}
-
-		// TODO : should use dirty
-		// Don't update frustumplane always
-		//
-		// for testing, update always
-		
-		D_DEBUG_LOG(this->mLinearTransformDataCulling.GetSIMDPlanes()->mFrustumPlanes[0].toString(), eLogType::D_ALWAYS);
-		this->mLinearTransformDataCulling.UpdateFrustumPlane(i, spawnedCameraList[i]->GetModelViewProjectionMatrix());
+		this->mLinearTransformDataCulling.UpdateFrustumPlane(i, spawnedCameraList[i]->GetViewProjectionMatrix());
 	}
 
 	
-	
-	
-
 	this->mLinearTransformDataCulling.SetCameraCount(spawnedCameraList.size());
 	this->mLinearTransformDataCulling.ResetCullJobState();
-	// TODO : 이렇게 매 프레임마다 std::vector<std::function<void()>> 생성하는 건 매우 큰 overhead이다.
-	auto CullingBlockJobs = this->mLinearTransformDataCulling.GetCullBlockEnityJobs();
-	resource::JobSystem::GetSingleton()->PushBackJobChunkToPriorityQueue(std::move(CullingBlockJobs));
+	resource::JobSystem::GetSingleton()->PushBackJobChunkToPriorityQueue(this->mLinearTransformDataCulling.GetCullBlockEnityJobs());
 	
 }
 

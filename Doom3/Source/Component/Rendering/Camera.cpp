@@ -257,7 +257,7 @@ doom::Camera* Camera::GetMainCamera()
 
 const math::Matrix4x4& doom::Camera::GetProjectionMatrix()
 {
-	if (this->bmIsProjectionMatrixDirty.GetIsDirty(true))
+	if (this->bmIsProjectionMatrixDirty.GetIsDirty(true) )
 	{
 		if (this->mProjectionMode == eProjectionType::Perspective)
 		{

@@ -105,7 +105,7 @@ namespace doom
 		/// </summary>
 		/// <param name="cameraIndex"></param>
 		/// <returns></returns>
-		FORCE_INLINE bool GetIsVisible(unsigned int cameraIndex)
+		FORCE_INLINE char GetIsVisible(unsigned int cameraIndex)
 		{
 			return this->mEntityBlockViewer.GetIsVisibleBitflag(cameraIndex);
 		}
