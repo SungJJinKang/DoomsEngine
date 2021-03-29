@@ -2,6 +2,7 @@
 
 #include <iostream>
 #include <string>
+#include <functional>
 
 #include "../Game/GameCore.h"
 #include "../Game/ConfigData.h"
@@ -274,24 +275,38 @@ void doom::graphics::Graphics_Server::DeferredRendering()
 	this->mLinearTransformDataCulling.WaitToFinishCullJobs(); // Waiting time is almost zero
 	D_END_PROFILING("Wait Cull Job");
 
-
-	for (unsigned int i = 0; i < MAX_LAYER_COUNT; i++)
+	unsigned int CameraCount = this->mLinearTransformDataCulling.GetCameraCount();
+	for (unsigned int cameraIndex = 0; cameraIndex < CameraCount; cameraIndex++)
 	{
-		auto rendererComponentPair = RendererComponentStaticIterator::GetAllComponentsWithLayerIndex(i);
-		doom::Renderer** renderers = rendererComponentPair.first;
-		size_t length = rendererComponentPair.second;
-	
-		for (size_t i = 0; i < length; ++i)
+		std::function<char(Renderer*, unsigned int)> VisibleCheck;
+		if (CameraCount == 1)
 		{
-			//if rendered object is using instancing, don't check isvisible
-			if (renderers[i]->GetIsVisible(0) != 0) // HEAVY
+			VisibleCheck = std::bind(&Renderer::GetIsVisible, std::placeholders::_1);
+		}
+		else
+		{
+			VisibleCheck = std::bind(&Renderer::GetIsVisibleWithCameraIndex, std::placeholders::_1, std::placeholders::_2);
+		}
+	
+		for (unsigned int i = 0; i < MAX_LAYER_COUNT; i++)
+		{
+			auto rendererComponentPair = RendererComponentStaticIterator::GetAllComponentsWithLayerIndex(i);
+			doom::Renderer** renderers = rendererComponentPair.first;
+			size_t length = rendererComponentPair.second;
+
+			for (size_t i = 0; i < length; ++i)
 			{
-				renderers[i]->UpdateComponent_Internal();
-				renderers[i]->UpdateComponent();
-				renderers[i]->Draw(); // HEAVY
+				//if rendered object is using instancing, don't check isvisible
+				if (VisibleCheck(renderers[i], cameraIndex) != 0) // HEAVY
+				{
+					renderers[i]->UpdateComponent_Internal();
+					renderers[i]->UpdateComponent();
+					renderers[i]->Draw(); // HEAVY
+				}
 			}
 		}
 	}
+	
 	D_END_PROFILING("Draw Objects");
 
 	FrameBuffer::UnBindFrameBuffer();
@@ -330,8 +345,11 @@ void Graphics_Server::SolveLinearDataCulling()
 
 
 	/// TODO : This is too slow. Fix It!!!!!!!!!!!!!!!!!!!!
+	D_START_PROFILING("this->mLinearTransformDataCulling.GetCullBlockEnityJobs", doom::profiler::eProfileLayers::Rendering);
+	auto CullJobs{ this->mLinearTransformDataCulling.GetCullBlockEnityJobs() };
+	D_END_PROFILING("this->mLinearTransformDataCulling.GetCullBlockEnityJobs");
 	D_START_PROFILING("Push Culling Job To Linera Culling System", doom::profiler::eProfileLayers::Rendering);
-	resource::JobSystem::GetSingleton()->PushBackJobChunkToPriorityQueue(this->mLinearTransformDataCulling.GetCullBlockEnityJobs());
+	resource::JobSystem::GetSingleton()->PushBackJobChunkToPriorityQueue(std::move(CullJobs));
 	D_END_PROFILING("Push Culling Job To Linera Culling System");
 }
 
