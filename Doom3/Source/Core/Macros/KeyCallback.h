@@ -1,23 +1,31 @@
 #pragma once
 
-#if defined(DEBUG_MODE)
+bool GetKeyToogle(int keyCode);
+bool GetKeyPressing(int keyCode);
+bool GetKeyUp(int keyCode);
+bool GetKeyDown(int keyCode);
 
-bool GetToogle(int keyCode);
+#ifdef DEBUG_MODE
 
-#ifndef ONLY_WHEN_KEY_TOGGLE_ON
-#define ONLY_WHEN_KEY_TOGGLE_ON(keyCode, statement)	\
-	do {	\
-		if (GetToogle(static_cast<int>(keyCode)))	\
-		{	\
-			statement;	\
-		}	\
-	} while (false)
+#ifndef D_DEBUG_ARROW_INCREMENT_DECREMENT
+
+//Put this in loop function
+//If you are pressin Arrow Up Button, Variable with "variablename" variablename will be incremented
+#define D_DEBUG_ARROW_INCREMENT_DECREMENT(variablename) \
+if(GetKeyPressing(265) == true)							\
+{														\
+	variablename++;										\
+}														\
+else if (GetKeyPressing(264) == true)					\
+{														\
+	variablename--;										\
+}
 #endif
 
 #else
 
-#ifndef ONLY_WHEN_KEY_TOGGLE_ON
-#define ONLY_WHEN_KEY_TOGGLE_ON(keyCode, statement) statement
+#ifndef D_DEBUG_ARROW_INCREMENT_DECREMENT
+#define D_DEBUG_ARROW_INCREMENT_DECREMENT(variablename) 
 #endif
 
 #endif

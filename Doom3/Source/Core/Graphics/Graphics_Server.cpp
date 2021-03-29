@@ -20,7 +20,10 @@
 
 #include "Rendering/Camera.h"
 
+#ifdef DEBUG_MODE
 #include "Physics/Collider/Plane.h"
+#include <SequenceStringGenerator/SequenceStringGenerator.h>
+#endif
 
 using namespace doom::graphics;
 
@@ -54,7 +57,7 @@ void doom::graphics::Graphics_Server::LateInit()
 }
 
 void Graphics_Server::Update()
-{
+{		
 	this->mCullDistance.OnStartDraw();
 	this->DeferredRendering();
 	
@@ -280,6 +283,7 @@ void doom::graphics::Graphics_Server::DeferredRendering()
 	
 		for (size_t i = 0; i < length; ++i)
 		{
+			//if rendered object is using instancing, don't check isvisible
 			if (renderers[i]->GetIsVisible(0) != 0) // HEAVY
 			{
 				renderers[i]->UpdateComponent_Internal();
@@ -297,10 +301,11 @@ void doom::graphics::Graphics_Server::DeferredRendering()
 
 	this->mFrameBufferForDeferredRendering.BlitBufferTo(0, 0, 0, this->mFrameBufferForDeferredRendering.mDefaultWidth, this->mFrameBufferForDeferredRendering.mDefaultHeight, 0, 0, Graphics_Server::ScreenSize.x, Graphics_Server::ScreenSize.y, GraphicsAPI::eBufferType::DEPTH, FrameBuffer::eImageInterpolation::NEAREST);
 	
-
-	//TO DO : Draw Quad
-	this->DrawPIPs(); // drawing pip before gbuffer will increase performance ( early depth testing )
 	
+	D_START_PROFILING("DrawPIPs", doom::profiler::eProfileLayers::Rendering);
+	this->DrawPIPs(); // drawing pip before gbuffer will increase performance ( early depth testing )
+	D_END_PROFILING("DrawPIPs");
+
 	this->mGbufferDrawerMaterial.UseProgram();
 	this->mQuadMesh->Draw();
 	
@@ -314,14 +319,20 @@ void Graphics_Server::SolveLinearDataCulling()
 	auto spawnedCameraList = StaticContainer<Camera>::GetAllStaticComponents();
 	for (unsigned int i = 0; i < spawnedCameraList.size(); i++)
 	{
+		D_START_PROFILING(SequenceStringGenerator::GetLiteralString("UpdateFrustumPlane Camera Num: ", i), doom::profiler::eProfileLayers::Rendering);
 		this->mLinearTransformDataCulling.UpdateFrustumPlane(i, spawnedCameraList[i]->GetViewProjectionMatrix());
+		D_END_PROFILING(SequenceStringGenerator::GetLiteralString("UpdateFrustumPlane Camera Num: ", i));
 	}
 
 	
 	this->mLinearTransformDataCulling.SetCameraCount(spawnedCameraList.size());
 	this->mLinearTransformDataCulling.ResetCullJobState();
+
+
+	/// TODO : This is too slow. Fix It!!!!!!!!!!!!!!!!!!!!
+	D_START_PROFILING("Push Culling Job To Linera Culling System", doom::profiler::eProfileLayers::Rendering);
 	resource::JobSystem::GetSingleton()->PushBackJobChunkToPriorityQueue(this->mLinearTransformDataCulling.GetCullBlockEnityJobs());
-	
+	D_END_PROFILING("Push Culling Job To Linera Culling System");
 }
 
 const doom::graphics::FrameBuffer& Graphics_Server::GetGBuffer() const

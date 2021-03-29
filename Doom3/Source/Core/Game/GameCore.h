@@ -83,30 +83,34 @@ namespace doom
 		{
 			this->UpdateGameCore();
 
+			D_START_PROFILING("mTime_Server.Update_Internal", eProfileLayers::CPU);
 			this->mTime_Server.Update_Internal();
 			this->mTime_Server.Update();
+			D_END_PROFILING("mTime_Server.Update_Internal");
 
+			D_START_PROFILING("mJobSystem.Update", eProfileLayers::CPU);
 			this->mJobSystem.Update_Internal();
 			this->mJobSystem.Update();
+			D_END_PROFILING("mJobSystem.Update");
 
-			D_START_PROFILING("Update Physics", eProfileLayers::CPU);
+			D_START_PROFILING("mPhysics_Server.Update", eProfileLayers::CPU);
 			this->mPhysics_Server.Update_Internal();
 			this->mPhysics_Server.Update();
-			D_END_PROFILING("Update Physics");
+			D_END_PROFILING("mPhysics_Server.Update");
 
-			D_START_PROFILING("Process UserInput", eProfileLayers::CPU);
+			D_START_PROFILING("mUserImput_Server.Update", eProfileLayers::CPU);
 			this->mUserImput_Server.Update_Internal();
 			this->mUserImput_Server.Update();
-			D_END_PROFILING("Process UserInput");
+			D_END_PROFILING("mUserImput_Server.Update");
 
-			D_START_PROFILING("Update PlainComponents", eProfileLayers::CPU);
+			D_START_PROFILING("mCurrentScene->UpdatePlainComponents", eProfileLayers::CPU);
 			this->mCurrentScene->UpdatePlainComponents(); // Update plain Components ( Game Logic )
-			D_END_PROFILING("Update PlainComponents");
+			D_END_PROFILING("mCurrentScene->UpdatePlainComponents");
 
-			D_START_PROFILING("GraphicsUpdate", eProfileLayers::CPU);
+			D_START_PROFILING("mGraphics_Server.Update", eProfileLayers::CPU);
 			this->mGraphics_Server.Update_Internal();
 			this->mGraphics_Server.Update();
-			D_END_PROFILING("GraphicsUpdate");
+			D_END_PROFILING("mGraphics_Server.Update");
 		}
 
 		/// <summary>
@@ -115,38 +119,49 @@ namespace doom
 		/// </summary>
 		FORCE_INLINE virtual void FixedUpdate() final
 		{
-			D_START_PROFILING("FixedUpdate_Internal Physics", eProfileLayers::CPU);
+			D_START_PROFILING("mPhysics_Server.FixedUpdate_Internal", eProfileLayers::CPU);
 			this->mPhysics_Server.FixedUpdate_Internal();
-			D_END_PROFILING("FixedUpdate_Internal Physics");
+			D_END_PROFILING("mPhysics_Server.FixedUpdate_Internal");
 
-			D_START_PROFILING("FixedUpdate Physics", eProfileLayers::CPU);
+			D_START_PROFILING("mPhysics_Server.FixedUpdate", eProfileLayers::CPU);
 			this->mPhysics_Server.FixedUpdate();
-			D_END_PROFILING("FixedUpdate Physics");
+			D_END_PROFILING("mPhysics_Server.FixedUpdate");
 
-			D_START_PROFILING("FixedUpdate PlainComponents", eProfileLayers::CPU);
+			D_START_PROFILING("mCurrentScene->FixedUpdatePlainComponents", eProfileLayers::CPU);
 			this->mCurrentScene->FixedUpdatePlainComponents(); // Update plain Components ( Game Logic )
-			D_END_PROFILING("FixedUpdate PlainComponents");
+			D_END_PROFILING("mCurrentScene->FixedUpdatePlainComponents");
 		}
 
 		FORCE_INLINE virtual void OnEndOfFrame() final
 		{
+			D_START_PROFILING("mTime_Server OnEndOfFrame", eProfileLayers::CPU);
 			this->mTime_Server.OnEndOfFrame_Internal();
 			this->mTime_Server.OnEndOfFrame();
+			D_END_PROFILING("mTime_Server OnEndOfFrame");
 
+			D_START_PROFILING("mJobSystem OnEndOfFrame", eProfileLayers::CPU);
 			this->mJobSystem.OnEndOfFrame_Internal();
 			this->mJobSystem.OnEndOfFrame();
+			D_END_PROFILING("mJobSystem OnEndOfFrame");
 
+			D_START_PROFILING("mPhysics_Server OnEndOfFrame", eProfileLayers::CPU);
 			this->mPhysics_Server.OnEndOfFrame_Internal();
 			this->mPhysics_Server.OnEndOfFrame();
+			D_END_PROFILING("mPhysics_Server OnEndOfFrame");
 
+			D_START_PROFILING("mUserImput_Server OnEndOfFrame", eProfileLayers::CPU);
 			this->mUserImput_Server.OnEndOfFrame_Internal();
 			this->mUserImput_Server.OnEndOfFrame();
+			D_END_PROFILING("mUserImput_Server OnEndOfFrame");
 
+			D_START_PROFILING("mCurrentScene OnEndOfFrame", eProfileLayers::CPU);
 			this->mCurrentScene->OnEndOfFrameOfEntities(); // Update Plain Components ( Game Logic )
+			D_END_PROFILING("mCurrentScene OnEndOfFrame");
 
+			D_START_PROFILING("mGraphics_Server OnEndOfFrame", eProfileLayers::CPU);
 			this->mGraphics_Server.OnEndOfFrame_Internal();
 			this->mGraphics_Server.OnEndOfFrame();
-
+			D_END_PROFILING("mGraphics_Server OnEndOfFrame");
 		}
 
 		FORCE_INLINE bool Tick()

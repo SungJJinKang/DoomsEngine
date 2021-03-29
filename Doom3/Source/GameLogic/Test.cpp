@@ -48,7 +48,7 @@ void doom::TEST::Init()
 // 			entity->AddComponent<BoxCollider3D>();
 // 		}
 // 	}
-	int count = 150;
+	int count = 200;
 	for (int i = -count; i < count; i = i + 15)
 	{
 		for (int j = -count; j < count; j = j + 15)
@@ -72,7 +72,7 @@ void doom::TEST::Init()
 	auto entity1Camera = entity1->AddComponent<Camera>();
 	entity1Camera->SetProjectionMode(doom::Camera::eProjectionType::Perspective);
 
-	entity1->GetTransform()->SetPosition(0.0f, 0.0f, 1.0f);
+	entity1->GetTransform()->SetPosition(0.0f, 0.0f, 330.0f);
 	entity1->AddComponent<Move_WASD>();
 
 

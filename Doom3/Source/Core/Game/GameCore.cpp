@@ -77,7 +77,7 @@ void doom::GameCore::Init()
 	this->mJobSystem.Init();
 	D_END_PROFILING("mJobSystem Init");
 	
-
+	
 
 
 	//

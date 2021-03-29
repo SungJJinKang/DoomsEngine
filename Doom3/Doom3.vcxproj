@@ -178,6 +178,7 @@
     <ClCompile Include="Source\Core\Graphics\Acceleration\OcclusionCulling\HW\QueryOcclusionCulling.cpp" />
     <ClCompile Include="Source\Core\Graphics\Acceleration\OcclusionCulling\SW\SWOcclusionCulling.cpp" />
     <ClCompile Include="Source\Core\Graphics\Acceleration\ScreenSpaceCulling\ScreenSpaceCulling.cpp" />
+    <ClCompile Include="Source\Core\Graphics\Acceleration\ScreenSpaceProjectedAABBCulling.cpp" />
     <ClCompile Include="Source\Core\Graphics\Acceleration\ViewFrustum.cpp" />
     <ClCompile Include="Source\Core\Graphics\FrameBuffer\utility\PicktureInPickture.cpp" />
     <ClCompile Include="Source\Core\Graphics\Acceleration\ViewFrustumCulling.cpp" />
@@ -328,6 +329,7 @@
     <ClInclude Include="Source\Core\Graphics\Acceleration\OcclusionCulling\HW\QueryOcclusionCulling.h" />
     <ClInclude Include="Source\Core\Graphics\Acceleration\OcclusionCulling\SW\SWOcclusionCulling.h" />
     <ClInclude Include="Source\Core\Graphics\Acceleration\ScreenSpaceCulling\ScreenSpaceCulling.h" />
+    <ClInclude Include="Source\Core\Graphics\Acceleration\ScreenSpaceProjectedAABBCulling.h" />
     <ClInclude Include="Source\Core\Graphics\Acceleration\ViewFrustum.h" />
     <ClInclude Include="Source\Core\Graphics\FrameBuffer\utility\PicktureInPickture.h" />
     <ClInclude Include="Source\Core\Graphics\Acceleration\ViewFrustumCulling.h" />

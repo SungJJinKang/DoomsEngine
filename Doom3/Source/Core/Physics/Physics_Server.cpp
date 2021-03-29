@@ -23,7 +23,11 @@ void doom::physics::Physics_Server::Update()
 
 #ifdef DEBUG_MODE
 	this->mColliderTestRoom.DrawDebug();
-	ONLY_WHEN_KEY_TOGGLE_ON(userinput::eKEY_CODE::KEY_F11, this->DrawDebugColliderComponents());
+
+	if (userinput::UserInput_Server::GetKeyToggle(userinput::eKEY_CODE::KEY_F11))
+	{
+		this->DrawDebugColliderComponents();
+	}
 
 	if (userinput::UserInput_Server::GetKeyToggle(eKEY_CODE::KEY_F1) == true)
 	{
