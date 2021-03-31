@@ -347,7 +347,7 @@ void Graphics_Server::SolveLinearDataCulling()
 	}
 
 	
-	this->mLinearTransformDataCulling.SetCameraCount(spawnedCameraList.size());
+	this->mLinearTransformDataCulling.SetCameraCount(static_cast<unsigned int>(spawnedCameraList.size()));
 	this->mLinearTransformDataCulling.ResetCullJobState();
 
 

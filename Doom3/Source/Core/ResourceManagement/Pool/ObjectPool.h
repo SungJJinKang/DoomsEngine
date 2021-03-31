@@ -65,6 +65,7 @@ namespace doom
 			{
 				T* NewObject = type::_GetNewObjectFromPool();
 				std::allocator<T>::construct(NewObject, std::forward<Args>(args)...);
+				//std::allocator_traits<
 				return NewObject;
 			}
 
