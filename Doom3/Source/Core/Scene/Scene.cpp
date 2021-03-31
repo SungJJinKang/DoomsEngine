@@ -3,6 +3,9 @@
 #include "Entity.h"
 #include "../../Helper/vector_erase_move_lastelement/vector_swap_erase.h"
 #include <Rendering/Camera.h>
+
+#include "ResourceManagement/Pool/ObjectPool.h"
+
 using namespace doom;
 
 Scene::Scene(std::string sceneName) 
@@ -18,7 +21,8 @@ Scene::~Scene()
 
 [[nodiscard]] Entity* Scene::CreateNewEntity() noexcept
 {
-	Entity* newEntity = new Entity(nullptr);
+	doom::resource::ObjectPool<Entity> pool{};
+	Entity* newEntity = pool.GetNewObjectFromPool(nullptr);
 	this->mSpawnedEntities.emplace_back(newEntity);
 	return newEntity;
 }

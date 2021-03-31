@@ -11,7 +11,7 @@
 #include "AssetApiImporter.h"
 #include "AssetImporterWorker.h"
 
-#include "../ResourceManagement/JobSystem.h"
+#include "../ResourceManagement/MultiThreading/JobSystem.h"
 
 namespace doom
 {

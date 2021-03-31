@@ -278,7 +278,10 @@ void doom::graphics::Graphics_Server::DeferredRendering()
 	unsigned int CameraCount = this->mLinearTransformDataCulling.GetCameraCount();
 	for (unsigned int cameraIndex = 0; cameraIndex < CameraCount; cameraIndex++)
 	{
-		std::function<char(Renderer*, unsigned int)> VisibleCheck;
+		D_START_PROFILING("Bind VisibleFunction", doom::profiler::eProfileLayers::Rendering);
+		/*
+		* Really Really slow, Never use this
+		std::function<size_t(Renderer*, size_t)> VisibleCheck;
 		if (CameraCount == 1)
 		{
 			VisibleCheck = std::bind(&Renderer::GetIsVisible, std::placeholders::_1);
@@ -287,9 +290,12 @@ void doom::graphics::Graphics_Server::DeferredRendering()
 		{
 			VisibleCheck = std::bind(&Renderer::GetIsVisibleWithCameraIndex, std::placeholders::_1, std::placeholders::_2);
 		}
-	
+		*/
+
+
 		for (unsigned int i = 0; i < MAX_LAYER_COUNT; i++)
 		{
+			D_START_PROFILING(SequenceStringGenerator::GetLiteralString("Draw Layer : ", i), doom::profiler::eProfileLayers::Rendering);
 			auto rendererComponentPair = RendererComponentStaticIterator::GetAllComponentsWithLayerIndex(i);
 			doom::Renderer** renderers = rendererComponentPair.first;
 			size_t length = rendererComponentPair.second;
@@ -297,13 +303,14 @@ void doom::graphics::Graphics_Server::DeferredRendering()
 			for (size_t i = 0; i < length; ++i)
 			{
 				//if rendered object is using instancing, don't check isvisible
-				if (VisibleCheck(renderers[i], cameraIndex) != 0) // HEAVY
+				if (renderers[i]->GetIsVisibleWithCameraIndex(cameraIndex) != 0) // HEAVY
 				{
-					renderers[i]->UpdateComponent_Internal();
-					renderers[i]->UpdateComponent();
+					//renderers[i]->UpdateComponent_Internal();
+					//renderers[i]->UpdateComponent();
 					renderers[i]->Draw(); // HEAVY
 				}
 			}
+			D_END_PROFILING(SequenceStringGenerator::GetLiteralString("Draw Layer : ", i));
 		}
 	}
 	

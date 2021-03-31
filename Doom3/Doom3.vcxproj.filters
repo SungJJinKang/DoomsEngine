@@ -54,7 +54,7 @@
     <ClCompile Include="Source\Core\Profiler\Profiler.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Core\ResourceManagement\MemoryPool.cpp">
+    <ClCompile Include="Source\Core\ResourceManagement\Pool\MemoryPool.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Source\Helper\SimpleIniParser.cpp">
@@ -252,7 +252,7 @@
     <ClCompile Include="Source\Core\IO\AssetImporter\AssetApiImporter.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Core\ResourceManagement\JobSystem.cpp">
+    <ClCompile Include="Source\Core\ResourceManagement\MultiThreading\JobSystem.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Source\Core\IO\AssetImporter\AssetImporterWorker_Audio.cpp">
@@ -267,7 +267,7 @@
     <ClCompile Include="Source\Core\IO\AssetImporter\AssetImporterWorker_Text.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Core\ResourceManagement\Thread.cpp">
+    <ClCompile Include="Source\Core\ResourceManagement\MultiThreading\Thread.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Source\Core\Game\AssetManager\AssetManager.cpp">
@@ -677,7 +677,7 @@
     <ClInclude Include="Source\Core\Profiler\Profiler.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Core\ResourceManagement\MemoryPool.h">
+    <ClInclude Include="Source\Core\ResourceManagement\Pool\MemoryPool.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\Helper\SimpleIniParser.h">
@@ -851,7 +851,7 @@
     <ClInclude Include="Source\GameLogic\CustomComponent\AxisDebugger.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Core\ResourceManagement\Thread_Core.h">
+    <ClInclude Include="Source\Core\ResourceManagement\MultiThreading\Thread_Core.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\Helper\EasyDirtyChecker\DirtySender.h">
@@ -929,7 +929,7 @@
     <ClInclude Include="Source\Core\Graphics\TextureFormat.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Core\ResourceManagement\JobSystem.h">
+    <ClInclude Include="Source\Core\ResourceManagement\MultiThreading\JobSystem.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\Helper\ZeroResetMoveContainer.h">
@@ -938,7 +938,7 @@
     <ClInclude Include="Source\Core\API\Font.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Core\ResourceManagement\Thread.h">
+    <ClInclude Include="Source\Core\ResourceManagement\MultiThreading\Thread.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\Core\Game\AssetManager\AssetManager.h">
@@ -1136,6 +1136,9 @@
     <ClInclude Include="Source\Core\Graphics\Acceleration\ScreenSpaceProjectedAABBCulling.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Core\ResourceManagement\Pool\ObjectPool.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="dependency\glfw-3.3.2.bin.WIN64\docs\html\search\all_0.html" />
@@ -1294,7 +1297,7 @@
     <None Include="Assets\Shader\Default\Debug3DShader.glsl" />
     <None Include="..\CodingRule.md" />
     <None Include="Source\Helper\EasyDirtyChecker\README.md" />
-    <None Include="Source\Core\ResourceManagement\MultithreadingJobSystemStrategy.md" />
+    <None Include="Source\Core\ResourceManagement\MultiThreading\MultithreadingJobSystemStrategy.md" />
     <None Include="Assets\Shader\Default\Default2DTextureShader.glsl" />
     <None Include="Assets\Shader\Default\Default2DColorShader.glsl" />
     <None Include="Assets\Shader\Default\OcclusionCullingBoundingBox.glsl" />
