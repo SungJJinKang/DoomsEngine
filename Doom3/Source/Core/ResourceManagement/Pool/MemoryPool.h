@@ -50,6 +50,7 @@ namespace doom
 				}				
 			}
 
+			/*
 			/// <summary>
 			/// For making instances to be aligned to WORD
 			/// </summary>
@@ -59,6 +60,7 @@ namespace doom
 			{
 				return typeSize + (typeSize % sizeof(size_t) == 0 ? 0 : sizeof(size_t) - typeSize % sizeof(size_t));
 			}
+			*/
 
 			template <typename T>
 			FORCE_INLINE static T* _AllocateFromPool()
@@ -68,7 +70,8 @@ namespace doom
 					MemoryPool::_AllocateNewMemoryPoolBlock();
 				}
 
-				size_t typeSize = MemoryPool::_GetAlignedSize(sizeof(T));
+				//size_t typeSize = MemoryPool::_GetAlignedSize(sizeof(T));
+				size_t typeSize = sizeof(T);
 
 				if (MemoryPool::mObjectPoolBlocks[MemoryPool::mObjectPoolBlocks.size() - 1]->mUnusedCapacityInByte < typeSize)
 				{
