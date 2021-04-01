@@ -27,6 +27,14 @@ namespace doom
 		/// </summary>
 		static_assert(sizeof(MemoryPoolBlock) <= 4096);
 
+		/// <summary>
+		///
+		/// Feature : 
+		/// Data objects is aligned to align size
+		/// 
+		/// 
+		/// 
+		/// references : https://github.com/cacay/MemoryPool/tree/master/C-11
 		class MemoryPool
 		{
 
