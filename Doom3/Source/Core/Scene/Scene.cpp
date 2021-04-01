@@ -21,8 +21,7 @@ Scene::~Scene()
 
 [[nodiscard]] Entity* Scene::CreateNewEntity() noexcept
 {
-	doom::resource::ObjectPool<Entity> pool{};
-	Entity* newEntity = pool.GetNewObjectFromPool(nullptr);
+	Entity* newEntity = resource::ObjectPool<Entity>::AllocateFromPool(nullptr);
 	this->mSpawnedEntities.emplace_back(newEntity);
 	return newEntity;
 }
@@ -34,8 +33,7 @@ bool Scene::DestroyEntity(Entity& entity)
 	{
 		if (this->mSpawnedEntities[i].get() == &entity)
 		{
-			std::vector_swap_erase(this->mSpawnedEntities, i);
-			
+			this->mSpawnedEntities.erase(this->mSpawnedEntities.begin() + i);
 			return true;
 		}
 	}

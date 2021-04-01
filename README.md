@@ -27,12 +27,13 @@ So if you wanna good and clean code for learning something, Find other project.
 
   * Profiler
   * Logger
+  * Memory Pool(limited use)
   * Homemade Math Library
   * Homemade Asset Importer 
 
   * Distance Culling (https://docs.unrealengine.com/en-US/RenderingAndGraphics/VisibilityCulling/CullDistanceVolume/index.html)
   * Support SIMD
-  * Occlusion Culling using Query
+  * Occlusion Culling using HW Query(but not used)
 
 ## In Developing
 

@@ -15,6 +15,10 @@
 #define DISABLE_PROFILING
 #endif
 
+#ifndef THREAD_SAFE
+//#define THREAD_SAFE
+#endif
+
 namespace doom
 {
 	namespace profiler
@@ -39,7 +43,9 @@ namespace doom
 
 		private:
 			std::unordered_map<std::thread::id, std::unordered_map<key_type, std::chrono::time_point<std::chrono::high_resolution_clock>>> _ProfilingData{};
+#ifdef THREAD_SAFE
 			std::mutex mProfilerMutex{};
+#endif
 			bool bmIsProfilerActivated{ false };
 
 			bool bmIsActive{ true };
@@ -48,7 +54,9 @@ namespace doom
 			{
 				//TODO : don't need to lock mutex every time.
 				//TODO : mutex lock is required only when insert new key
+#ifdef THREAD_SAFE 
 				std::scoped_lock lock{ this->mProfilerMutex };
+#endif
 				return this->_ProfilingData[thread_id];
 			}
 

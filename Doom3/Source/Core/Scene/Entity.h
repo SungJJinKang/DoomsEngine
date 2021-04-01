@@ -24,10 +24,19 @@
 namespace doom
 {
 	class Scene;
+
+	namespace resource
+	{
+		template <typename T>
+		class ObjectPool;
+	}
+
 	class Entity : public FrameDirtyChecker
 	{
 		friend class Scene;
-
+		template <typename T>
+		friend class resource::ObjectPool;
+	
 		struct Deleter
 		{
 			void operator()(Entity* entity) const
