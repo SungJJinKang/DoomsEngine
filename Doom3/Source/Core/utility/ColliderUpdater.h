@@ -8,7 +8,6 @@
 #include <EasyDirtyChecker/DirtyReceiver.h>
 #include "Graphics/Color.h"
 
-#include "BVH_Core.h"
 
 namespace doom
 {
@@ -19,44 +18,44 @@ namespace doom
 	/// </summary>
 	/// <typeparam name="ColliderType"></typeparam>
 	template <typename ColliderType>
-	class BVH_Collider_Container
+	class ColliderUpdater
 	{
 	private:
 
-		ColliderType mLocalBVhColliderCache{};
+		ColliderType mLocalColliderCache{};
 		/// <summary>
 		/// Entity's Model Matrix * Local ColliderType
 		/// </summary>
-		ColliderType mWorldBVhColliderCache{};
+		ColliderType mWorldColliderCache{};
 	
 	
 
 	protected:
 		
-		DirtyReceiver IsWorldBVhColliderCacheDirty{ true };
+		DirtyReceiver IsWorldColliderCacheDirty{ true };
 		
 		/// <summary>
 		/// Local ColliderType should be updated instantly. 
 		/// this function doesn't change BVH_TREE, just be stored locally. this is fine
 		/// </summary>
 		/// <param name="aabb3d"></param>
-		void UpdateLocalBVhColliderCache(const ColliderType& aabb);
+		void UpdateLocalColliderCache(const ColliderType& aabb);
 		virtual const math::Matrix4x4& GetModelMatrix() const = 0;
 
 	public:
 		
-		ColliderType GetLocalBVhColliderCache();
-		const ColliderType& GetLocalBVhColliderCache() const;
+		ColliderType GetLocalColliderCache();
+		const ColliderType* GetLocalColliderCache() const;
 
-		const ColliderType& GetWorldBVhColliderCacheByReference();
-		void UpdateWorldBVhColliderCache(bool force);
+		const ColliderType* GetWorldColliderCacheByReference();
+		void UpdateWorldColliderCache(bool force);
 
-		void DrawWorldBVhColliderCache(eColor color = eColor::Green, bool drawInstantly = false);
+		void DrawWorldColliderCache(eColor color = eColor::Green, bool drawInstantly = false);
 	};
 	
-	extern template class BVH_Collider_Container<doom::physics::AABB2D>;
-	extern template class BVH_Collider_Container<doom::physics::AABB3D>;
-	extern template class BVH_Collider_Container<doom::physics::Sphere>;
+	extern template class ColliderUpdater<doom::physics::AABB2D>;
+	extern template class ColliderUpdater<doom::physics::AABB3D>;
+	extern template class ColliderUpdater<doom::physics::Sphere>;
 }
 
 

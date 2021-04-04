@@ -44,12 +44,7 @@ namespace doom
 		math::Vector3 mPosition;
 		math::Vector3 mScale;
 
-		/// <summary>
-		/// This will be used for Render Culling
-		/// 
-		/// EntityBlockViewer never be cheanged on a entity
-		/// </summary>
-		graphics::EntityBlockViewer mEntityBlockViewer;
+		
 
 		Transform(const Transform&) = delete;
 		Transform(Transform&&) noexcept = delete;
@@ -81,7 +76,6 @@ namespace doom
 		{
 			this->mTranslationMatrix = math::translate(position);
 			this->mPosition = position;
-			this->mEntityBlockViewer.SetEntityPosition(position);
 
 			this->SetDirtyTrueAtThisFrame();
 			this->bmIsDirtyModelMatrix = true;

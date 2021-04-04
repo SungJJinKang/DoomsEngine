@@ -21,7 +21,7 @@ Scene::~Scene()
 
 [[nodiscard]] Entity* Scene::CreateNewEntity() noexcept
 {
-	Entity* newEntity = resource::ObjectPool<Entity>::AllocateFromPool(nullptr);
+	Entity* newEntity = new Entity(nullptr); // resource::ObjectPool<Entity>::AllocateFromPool(nullptr);
 	this->mSpawnedEntities.emplace_back(newEntity);
 	return newEntity;
 }

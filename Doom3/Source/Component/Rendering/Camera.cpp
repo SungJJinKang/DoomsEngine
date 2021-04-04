@@ -3,7 +3,6 @@
 
 
 #include "../Graphics/Graphics_Server.h"
-#include "../Graphics/Acceleration/ViewFrustumCulling.h"
 
 using namespace doom;
 

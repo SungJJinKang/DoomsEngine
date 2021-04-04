@@ -26,7 +26,7 @@ void doom::graphics::UniformBufferObjectManager::EraseUniformBufferObjectTempBuf
 	D_ASSERT(this_iter != iter_end); // this_iter == iter_end mean mUniformBufferObjectTempBufferUpdaters doesn't contain update_ptr, this is undefined
 
 	//remove this object from mUniformBufferObjectTempBufferUpdaters
-	std::vector_swap_erase(this->mUniformBufferObjectTempBufferUpdaters, this_iter);
+	std::vector_swap_popback(this->mUniformBufferObjectTempBufferUpdaters, this_iter);
 }
 
 void doom::graphics::UniformBufferObjectManager::Init()

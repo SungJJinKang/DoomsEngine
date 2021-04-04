@@ -3,9 +3,9 @@
 template <typename ColliderType>
 void doom::BVH_Node_Object<ColliderType>::UpdateBVH_Node()
 {
-	if (this->IsWorldBVhColliderCacheDirty.GetIsDirty(false) == true)
+	if (this->IsWorldColliderCacheDirty.GetIsDirty(false) == true)
 	{//Only when WorldAABB is updated,
-		doom::BVH_Node_Container<ColliderType>::UpdateBVH_Node(this->GetWorldBVhColliderCacheByReference());
+		doom::BVH_Node_Container<ColliderType>::UpdateBVH_Node(*(this->GetWorldColliderCacheByReference()));
 	}
 	
 }

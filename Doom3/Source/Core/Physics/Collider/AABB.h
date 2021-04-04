@@ -28,11 +28,21 @@ namespace doom
 		public:
 
 			math::Vector3 mLowerBound; 
+			/// <summary>
+			/// Padding is required for FrostbiteCulling System
+			/// </summary>
+			float padding1{ 1.0f };
 			math::Vector3 mUpperBound; 
+			float padding2{ 1.0f };
 
 			bool IsValid() const;
 
 			void Validate();
+
+			FORCE_INLINE virtual void* data() final
+			{
+				return &(this->mLowerBound);
+			}
 
 			math::Vector3 GetHalfExtent() const;
 			/// <summary>
@@ -158,6 +168,11 @@ namespace doom
 
 			bool IsValid() const;
 			void Validate();
+
+			FORCE_INLINE virtual void* data() final
+			{
+				return &(this->mLowerBound);
+			}
 
 			math::Vector2 GetHalfExtent() const;
 			ColliderType GetColliderType() const override;

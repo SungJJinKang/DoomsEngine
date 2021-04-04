@@ -13,7 +13,7 @@ namespace doom
 	class BVH_Node;
 
 	template <typename ColliderType>
-	class BVH_Collider_Container;
+	class ColliderUpdater;
 
 	template <typename ColliderType>
 	class BVH_Node_Container;

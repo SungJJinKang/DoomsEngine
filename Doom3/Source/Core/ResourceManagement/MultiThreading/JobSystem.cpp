@@ -22,35 +22,12 @@ void doom::resource::JobSystem::OnEndOfFrame()
 {
 }
 
-doom::resource::Thread& JobSystem::GetSleepingSubThread() const
-{
-	doom::resource::Thread* fewestWaitingThread{ &(this->mManagedSubThreads[0]) };
-	size_t fewestWaitingJobCount = std::numeric_limits<size_t>::max();
-
-	for (unsigned int i = 0; i < SUB_THREAD_COUNT; i++)
-	{
-		if (this->mManagedSubThreads[i].GetIsThreadSleeping() == true)
-		{
-			return this->mManagedSubThreads[i];
-		}
-		else if (size_t waitingJobCount = this->mManagedSubThreads[i].GetWaitingJobCount() < fewestWaitingJobCount)
-		{
-			fewestWaitingThread = &this->mManagedSubThreads[i];
-			fewestWaitingJobCount = waitingJobCount;
-		}
-	}
-
-	return *fewestWaitingThread;
-}
 
 void JobSystem::WakeUpAllSubThreads()
 {
 	for (unsigned int i = 0; i < SUB_THREAD_COUNT; i++)
 	{
-		if (this->mManagedSubThreads[i].GetIsThreadSleeping() == true)
-		{
-			this->mManagedSubThreads[i].PushBackJob(std::function<void()>()); // push dummy job
-		}
+		this->mManagedSubThreads[i].PushBackJob(std::function<void()>()); // push dummy job
 	}
 }
 
@@ -83,6 +60,14 @@ Thread& doom::resource::JobSystem::GetThread(size_t threadIndex)
 	D_ASSERT(this->bmIsInitialized == true);
 	D_ASSERT(threadIndex >= 0 && threadIndex < SUB_THREAD_COUNT);
 	return this->mManagedSubThreads[threadIndex];
+}
+
+void JobSystem::SetMemoryBarrierOnAllSubThreads()
+{
+	for (unsigned int i = 0; i < SUB_THREAD_COUNT; i++)
+	{
+		this->mManagedSubThreads[i].SetMemoryBarrier();
+	}
 }
 
 std::thread::id JobSystem::GetMainThreadID() const

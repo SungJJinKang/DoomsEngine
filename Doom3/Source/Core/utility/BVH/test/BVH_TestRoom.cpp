@@ -296,7 +296,7 @@ void doom::BVH_TestRoom::CheckActiveNode(doom::BVHAABB3D::node_type* node, std::
 #ifdef DEBUG_MODE
 	if (node->bmIsActive == true)
 	{
-		auto iter = std::vector_find_swap_erase(activeNodeList, node->mIndex);
+		auto iter = std::vector_find_swap_popback(activeNodeList, node->mIndex);
 	}
 
 	if (node->mLeftNode != NULL_NODE_INDEX)

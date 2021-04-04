@@ -19,6 +19,11 @@ namespace doom
 			math::Vector2 mCenter;
 			float mRadius;
 
+			FORCE_INLINE virtual void* data() final
+			{
+				return &(this->mCenter);
+			}
+
 			ColliderType GetColliderType() const override;
 
 		};

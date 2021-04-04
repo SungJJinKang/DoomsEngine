@@ -4,7 +4,10 @@ void doom::resource::Thread::WorkerJob()
 {
 	while (true)
 	{
-		this->mIsThreadSleeping = true;
+		if (this->mIsSetMemoryBarrier == true)
+		{
+			std::atomic_thread_fence(std::memory_order_release);
+		}
 
 		if (this->mIsPoolTerminated == true)
 		{
@@ -26,7 +29,6 @@ void doom::resource::Thread::WorkerJob()
 
 		if (newTask)
 		{
-			this->mIsThreadSleeping = false;
 #ifdef Thread_DEBUG
 			std::cout << "Start New Task " << std::this_doom::resource::Thread::get_id() << std::endl;
 #endif
@@ -35,7 +37,7 @@ void doom::resource::Thread::WorkerJob()
 }
 }
 
-doom::resource::Thread::Thread() : mWaitingTaskQueue{}, mIsPoolTerminated{ false }, mIsThreadSleeping{ false }, mThread{ &doom::resource::Thread::WorkerJob, this }
+doom::resource::Thread::Thread() : mWaitingTaskQueue{}, mIsPoolTerminated{ false }, mThread{ &doom::resource::Thread::WorkerJob, this }
 {
 #ifdef Thread_DEBUG
 	std::cout << "Initializing Thread" << std::endl;
@@ -94,14 +96,7 @@ bool doom::resource::Thread::GetIsTerminated() const
 	return this->mIsPoolTerminated;
 }
 
-/// <summary>
-/// This can be not inaccurate
-/// </summary>
-/// <returns></returns>
-bool doom::resource::Thread::GetIsThreadSleeping() const
-{
-	return this->mIsThreadSleeping;
-}
+
 
 size_t doom::resource::Thread::GetWaitingJobCount() const
 {
@@ -111,4 +106,9 @@ size_t doom::resource::Thread::GetWaitingJobCount() const
 void doom::resource::Thread::SetPriorityWaitingTaskQueue(BlockingConcurrentQueue<job_type>* queuePointer)
 {
 	this->mPriorityWaitingTaskQueue = queuePointer;
+}
+
+void doom::resource::Thread::SetMemoryBarrier()
+{
+	this->mIsSetMemoryBarrier = true;
 }

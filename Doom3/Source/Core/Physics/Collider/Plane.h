@@ -21,6 +21,11 @@ namespace doom
 			/// </summary>
 			float mDistance;
 
+			FORCE_INLINE virtual void* data() final
+			{
+				return &(this->mNormal);
+			}
+
 			Plane(float distance, const math::Vector3& normal);
 			Plane(const math::Vector3& A, const math::Vector3& B, const math::Vector3& C);
 

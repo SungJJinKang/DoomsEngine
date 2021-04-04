@@ -20,6 +20,12 @@ namespace doom
 
 			Ray();
 			Ray(const math::Vector3 & origin, const math::Vector3& normal);
+
+			FORCE_INLINE virtual void* data() final
+			{
+				return &(this->mOrigin);
+			}
+
 			math::Vector3 GetNormal() const;
 			void SetNomral(const math::Vector3& normal);
 			/// <summary>

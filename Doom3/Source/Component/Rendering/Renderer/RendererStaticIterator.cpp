@@ -38,7 +38,7 @@ void doom::StaticContainer<Renderer>::RemoveRendererToStaticContainer()
 	auto iter = std::find(this_type::mComponentsInLayer[currentEntityLayerIndex].begin(), this_type::mComponentsInLayer[currentEntityLayerIndex].end(), mRenderer_ptr);
 	if (iter != this_type::mComponentsInLayer[currentEntityLayerIndex].end())
 	{
-		std::vector_swap_erase(this_type::mComponentsInLayer[currentEntityLayerIndex], iter);
+		std::vector_swap_popback(this_type::mComponentsInLayer[currentEntityLayerIndex], iter);
 	}
 }
 

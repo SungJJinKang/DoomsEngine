@@ -15,7 +15,7 @@
 #include "Material.h"
 #include "DebugGraphics.h"
 
-#include "Acceleration/LinearData_ViewFrustumCulling/LinearTransformDataCulling.h"
+#include "Acceleration/LinearData_ViewFrustumCulling/FrotbiteCullingSystem.h"
 #include "Acceleration/CullDistance/CullDistance.h"
 
 struct GLFWwindow;
@@ -69,7 +69,7 @@ namespace doom
 			static inline float ScreenRatio{};
 			static inline unsigned int MultiSamplingNum;
 
-			LinearTransformDataCulling mLinearTransformDataCulling{};
+			culling::FrotbiteCullingSystem mFrotbiteCullingSystem{};
 			CullDistance mCullDistance{};
 
 #ifdef DEBUG_MODE
@@ -102,6 +102,8 @@ namespace doom
 			void DeferredRendering();
 
 			void SolveLinearDataCulling();
+
+			void PreUpdateEntityBlocks();
 
 
 			static void OpenGlDebugCallback(GLenum source, GLenum type, GLuint id, GLenum severity, GLsizei length, const GLchar* msg, const void* data);

@@ -43,7 +43,7 @@ namespace doom
 
 		private:
 			std::atomic<bool> mIsPoolTerminated;
-			std::atomic<bool> mIsThreadSleeping;
+			std::atomic<bool> mIsSetMemoryBarrier;
 
 			/// <summary>
 			/// Maintain Thread Life Until Thread instace will be destructed
@@ -182,11 +182,10 @@ namespace doom
 
 			bool GetIsTerminated() const;
 
-			bool GetIsThreadSleeping() const;
-
 			size_t GetWaitingJobCount() const;
 
 			void SetPriorityWaitingTaskQueue(BlockingConcurrentQueue<job_type>* queuePointer);
+			void SetMemoryBarrier();
 
 			template <typename ReturnType>
 			inline std::future<ReturnType> PushBackJob(const std::function<ReturnType()>& task)

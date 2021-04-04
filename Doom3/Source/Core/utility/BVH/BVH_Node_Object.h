@@ -4,7 +4,7 @@
 #include <Vector3.h>
 
 #include "BVH_Core.h"
-#include "BVH_Collider_Container.h"
+#include "../ColliderUpdater.h"
 #include "BVH_Node_Container.h"
 
 namespace doom
@@ -15,7 +15,7 @@ namespace doom
 	/// </summary>
 	/// <typeparam name="ColliderType"></typeparam>
 	template <typename ColliderType>
-	class BVH_Node_Object : public doom::BVH_Collider_Container<ColliderType>, public doom::BVH_Node_Container<ColliderType>
+	class BVH_Node_Object : public doom::ColliderUpdater<ColliderType>, public doom::BVH_Node_Container<ColliderType>
 	{
 	private:
 

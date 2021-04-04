@@ -272,10 +272,11 @@ void doom::graphics::Graphics_Server::DeferredRendering()
 	//this->mViewFrustumCulling.PreComputeCulling();
 
 	D_START_PROFILING("Wait Cull Job", doom::profiler::eProfileLayers::Rendering);
-	this->mLinearTransformDataCulling.WaitToFinishCullJobs(); // Waiting time is almost zero
+	this->mFrotbiteCullingSystem.WaitToFinishCullJobs(); // Waiting time is almost zero
+	resource::JobSystem::GetSingleton()->SetMemoryBarrierOnAllSubThreads();
 	D_END_PROFILING("Wait Cull Job");
 
-	unsigned int CameraCount = this->mLinearTransformDataCulling.GetCameraCount();
+	unsigned int CameraCount = this->mFrotbiteCullingSystem.GetCameraCount();
 	for (unsigned int cameraIndex = 0; cameraIndex < CameraCount; cameraIndex++)
 	{
 		D_START_PROFILING("Bind VisibleFunction", doom::profiler::eProfileLayers::Rendering);
@@ -292,7 +293,21 @@ void doom::graphics::Graphics_Server::DeferredRendering()
 		}
 		*/
 
+		auto activeEntityBlockList = this->mFrotbiteCullingSystem.GetActiveEntityBlockList();
+		for (auto& entityBlock : activeEntityBlockList)
+		{
+			for (unsigned int entityIndex = 0; entityIndex < entityBlock->mCurrentEntityCount; entityIndex++)
+			{
+				Renderer* renderer = reinterpret_cast<::doom::Renderer*>(entityBlock->mRenderer[entityIndex]);
+				if (renderer->GetIsVisible() == true)
+				{
+					renderer->Draw();
+				}
+			
 
+			}
+		}
+		/*
 		for (unsigned int i = 0; i < MAX_LAYER_COUNT; i++)
 		{
 			D_START_PROFILING(SequenceStringGenerator::GetLiteralString("Draw Layer : ", i), doom::profiler::eProfileLayers::Rendering);
@@ -312,6 +327,7 @@ void doom::graphics::Graphics_Server::DeferredRendering()
 			}
 			D_END_PROFILING(SequenceStringGenerator::GetLiteralString("Draw Layer : ", i));
 		}
+		*/
 	}
 	
 	D_END_PROFILING("Draw Objects");
@@ -336,25 +352,45 @@ void doom::graphics::Graphics_Server::DeferredRendering()
 }
 
 
+void Graphics_Server::PreUpdateEntityBlocks()
+{
+	auto activeEntityBlockList = this->mFrotbiteCullingSystem.GetActiveEntityBlockList();
+	for (auto& entityBlock : activeEntityBlockList)
+	{
+		for (unsigned int entityIndex = 0; entityIndex < entityBlock->mCurrentEntityCount; entityIndex++)
+		{
+			::doom::Renderer* renderer = reinterpret_cast<::doom::Renderer*>(entityBlock->mRenderer[entityIndex]);
+
+			entityBlock->mPositions[entityIndex] = renderer->GetTransform()->GetPosition();
+
+			std::memcpy(&(entityBlock->mWorldAABB[entityIndex]), const_cast<doom::physics::AABB3D*>(renderer->ColliderUpdater<doom::physics::AABB3D>::GetWorldColliderCacheByReference())->data(), sizeof(culling::AABB));
+			 
+		}
+	}
+}
+
 void Graphics_Server::SolveLinearDataCulling()
 {
 	auto spawnedCameraList = StaticContainer<Camera>::GetAllStaticComponents();
 	for (unsigned int i = 0; i < spawnedCameraList.size(); i++)
 	{
 		D_START_PROFILING(SequenceStringGenerator::GetLiteralString("UpdateFrustumPlane Camera Num: ", i), doom::profiler::eProfileLayers::Rendering);
-		this->mLinearTransformDataCulling.UpdateFrustumPlane(i, spawnedCameraList[i]->GetViewProjectionMatrix());
+		this->mFrotbiteCullingSystem.mViewFrustumCulling.UpdateFrustumPlane(i, spawnedCameraList[i]->GetViewProjectionMatrix());
+		this->mFrotbiteCullingSystem.mScreenSpaceAABBCulling.SetViewProjectionMatrix(spawnedCameraList[i]->GetViewProjectionMatrix());
 		D_END_PROFILING(SequenceStringGenerator::GetLiteralString("UpdateFrustumPlane Camera Num: ", i));
 	}
 
 	
-	this->mLinearTransformDataCulling.SetCameraCount(static_cast<unsigned int>(spawnedCameraList.size()));
-	this->mLinearTransformDataCulling.ResetCullJobState();
+	this->mFrotbiteCullingSystem.SetCameraCount(static_cast<unsigned int>(spawnedCameraList.size()));
+	this->mFrotbiteCullingSystem.ResetCullJobState();
+
+	PreUpdateEntityBlocks();
 
 
 	/// TODO : This is too slow. Fix It!!!!!!!!!!!!!!!!!!!!
-	D_START_PROFILING("this->mLinearTransformDataCulling.GetCullBlockEnityJobs", doom::profiler::eProfileLayers::Rendering);
-	auto CullJobs{ this->mLinearTransformDataCulling.GetCullBlockEnityJobs() };
-	D_END_PROFILING("this->mLinearTransformDataCulling.GetCullBlockEnityJobs");
+	D_START_PROFILING("this->mFrotbiteCullingSystem.GetCullBlockEnityJobs", doom::profiler::eProfileLayers::Rendering);
+	auto CullJobs{ this->mFrotbiteCullingSystem.GetCullBlockEnityJobs(0) };
+	D_END_PROFILING("this->mFrotbiteCullingSystem.GetCullBlockEnityJobs");
 	D_START_PROFILING("Push Culling Job To Linera Culling System", doom::profiler::eProfileLayers::Rendering);
 	resource::JobSystem::GetSingleton()->PushBackJobChunkToPriorityQueue(std::move(CullJobs));
 	D_END_PROFILING("Push Culling Job To Linera Culling System");

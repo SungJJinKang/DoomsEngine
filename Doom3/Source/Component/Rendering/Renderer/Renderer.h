@@ -7,6 +7,7 @@
 
 #include "Physics/Collider/AABB.h"
 #include "utility/BVH/BVH_Node_Object.h"
+#include "utility/ColliderUpdater.h"
 
 #include "Graphics/Graphics_Server.h"
 
@@ -26,7 +27,7 @@ namespace doom
 
 
 
-	class Renderer : public ServerComponent, public RendererComponentStaticIterator, public BVH_Sphere_Node_Object//, public BVH_AABB3D_Node_Object // public graphics::CullDistanceRenderer
+	class Renderer : public ServerComponent, public RendererComponentStaticIterator, public BVH_Sphere_Node_Object, public ColliderUpdater<doom::physics::AABB3D>//, public BVH_AABB3D_Node_Object // public graphics::CullDistanceRenderer
 	{
 		friend graphics::Graphics_Server;
 		friend class Enity;
@@ -38,7 +39,7 @@ namespace doom
 		/// <summary>
 		/// EntityBlockViewer never be cheanged on a entity
 		/// </summary>
-		graphics::EntityBlockViewer mEntityBlockViewer;
+		culling::EntityBlockViewer mEntityBlockViewer;
 							
 		Renderer(const Renderer&) = delete;
 		Renderer(Renderer&&) noexcept = delete;
@@ -76,6 +77,9 @@ namespace doom
 		void SetBoundingSphereRadiusForCulling(float radius);
 
 		virtual const math::Matrix4x4& GetModelMatrix() const final;
+
+
+		void OnDestroy() override;
 
 	public:
 		Renderer();

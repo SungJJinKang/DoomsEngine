@@ -14,7 +14,10 @@ namespace doom
 		/// </summary>
 		class OBB : public Collider
 		{
-
+			FORCE_INLINE virtual void* data() final
+			{
+				return nullptr;
+			}
 		};
 	}
 }

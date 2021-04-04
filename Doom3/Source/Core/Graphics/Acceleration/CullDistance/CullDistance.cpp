@@ -128,7 +128,7 @@ bool doom::graphics::CullDistance::GetIsVisible(Renderer* renderer)
 {
 	float distanceSqr = (renderer->GetTransform()->GetPosition() - this->mCameraPosition).sqrMagnitude();
 
-	float cullDistance = this->PickCullDistanceSqr(renderer->BVH_Sphere_Node_Object::GetWorldBVhColliderCacheByReference().mRadius);
+	float cullDistance = this->PickCullDistanceSqr(renderer->BVH_Sphere_Node_Object::GetWorldColliderCacheByReference()->mRadius);
 
 	return distanceSqr < cullDistance;
 }

@@ -20,11 +20,11 @@ void doom::ColliderComponent::ResetAllCollisionState()
 void doom::ColliderComponent::InitComponent()
 {
 	this->AddLocalDirtyToTransformDirtyReceiver(this->bmIsWorldColliderDirty);
-	this->AddLocalDirtyToTransformDirtyReceiver(this->IsWorldBVhColliderCacheDirty);
+	this->AddLocalDirtyToTransformDirtyReceiver(this->IsWorldColliderCacheDirty);
 
 	this->AutoColliderSetting();
 
-	this->InsertBVHLeafNode(physics::Physics_Server::GetSingleton()->mPhysicsColliderBVH, this->GetWorldBVhColliderCacheByReference(), this->GetWorldCollider());
+	this->InsertBVHLeafNode(physics::Physics_Server::GetSingleton()->mPhysicsColliderBVH, *(this->GetWorldColliderCacheByReference()), this->GetWorldCollider());
 }
 
 void doom::ColliderComponent::UpdateComponent()
@@ -60,7 +60,7 @@ void doom::ColliderComponent::UpdateLocalBVhAABBCacheFromLocalCollider()
 {
 	D_ASSERT(this->bmIsLocalColliderDirty.GetIsDirty(false) == false); // LocalCollider must be already updated before update LocalBVhAABB
 
-	this->UpdateLocalBVhColliderCache(this->ExtractLocalAABB3D());
+	this->UpdateLocalColliderCache(this->ExtractLocalAABB3D());
 }
 
 void doom::ColliderComponent::AutoColliderSetting()
@@ -75,7 +75,7 @@ void doom::ColliderComponent::AutoColliderSetting()
 
 		aabb3dFromMesh.mLowerBound += offset; // add offset of LocalCollider
 		aabb3dFromMesh.mUpperBound += offset;
-		this->UpdateLocalBVhColliderCache(aabb3dFromMesh); // LocalBVhAABBCache contain offset of LocalCollider
+		this->UpdateLocalColliderCache(aabb3dFromMesh); // LocalBVhAABBCache contain offset of LocalCollider
 	}
 }
 

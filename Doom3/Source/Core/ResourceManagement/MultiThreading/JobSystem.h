@@ -71,14 +71,7 @@ namespace doom
 			/// Use this function To WakeUp sleeping threads
 			/// </summary>
 			void WakeUpAllSubThreads();
-
-			/// <summary>
-			/// return reference of Sleeping Thread
-			/// if every thread is working, return thread having fewest waiting job count
-			/// </summary>
-			/// <returns></returns>
-			Thread& GetSleepingSubThread() const;
-
+										
 			void InitializeSubThreads();
 			void DestroySubThreads();
 			/// <summary>
@@ -93,6 +86,8 @@ namespace doom
 			virtual ~JobSystem();
 
 			std::thread::id GetMainThreadID() const;
+
+			void SetMemoryBarrierOnAllSubThreads();
 	
 			template <typename ReturnType>
 			std::future<ReturnType> PushBackJobToPriorityQueue(const std::function<ReturnType()>& task)
@@ -138,6 +133,17 @@ namespace doom
 				return std::move(pair.second);
 			}
 			//
+
+			template <typename ReturnType>
+			inline void PushBackJobToAllThread(const std::function<ReturnType()>& task)
+			{
+				D_ASSERT(this->bmIsInitialized == true);
+
+				for (unsigned int i = 0; i < SUB_THREAD_COUNT; i++)
+				{
+					this->mManagedSubThreads[i].PushBackJob(task);
+				}
+			}
 
 			template <typename ReturnType>
 			inline std::future<ReturnType> PushBackJobToSpecificThread(size_t threadIndex, const std::function<ReturnType()>& task)

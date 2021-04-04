@@ -353,7 +353,7 @@ namespace doom
 					{//Check is sub_class of Component
 						this->_DestroyComponent(this->mServerComponents[i]);
 
-						std::vector_swap_erase(this->mServerComponents, i);
+						std::vector_swap_popback(this->mServerComponents, i);
 						return true;
 					}
 				}
@@ -367,7 +367,7 @@ namespace doom
 					{//Check is sub_class of Component
 						this->_DestroyComponent(this->mServerComponents[i]);
 
-						std::vector_swap_erase(this->mPlainComponents, i);
+						std::vector_swap_popback(this->mPlainComponents, i);
 						return true;
 					}
 				}
@@ -393,7 +393,7 @@ namespace doom
 					{//Check is sub_class of Component
 						this->_DestroyComponent(this->mServerComponents[i]);
 
-						std::vector_swap_erase(this->mServerComponents, i);
+						std::vector_swap_popback(this->mServerComponents, i);
 						--i;
 
 						isRemoveSuccess = true;
@@ -409,7 +409,7 @@ namespace doom
 					{//Check is sub_class of Component
 						this->_DestroyComponent(this->mServerComponents[i]);
 
-						std::vector_swap_erase(this->mPlainComponents, i);
+						std::vector_swap_popback(this->mPlainComponents, i);
 						--i;
 
 						isRemoveSuccess = true;

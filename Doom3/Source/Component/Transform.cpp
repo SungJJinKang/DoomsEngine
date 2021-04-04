@@ -8,8 +8,7 @@
 
 void doom::Transform::InitComponent()
 {
-	this->mEntityBlockViewer = graphics::Graphics_Server::GetSingleton()->mLinearTransformDataCulling.AllocateNewEntity(this->mPosition, 0);
-
+	
 	this->SetPosition(this->mPosition);
 	this->SetRotation(this->mRotation);
 	this->SetScale(this->mScale);
@@ -27,7 +26,7 @@ void doom::Transform::OnEndOfFrame_Component()
 
 void doom::Transform::OnDestroy()
 {
-	graphics::Graphics_Server::GetSingleton()->mLinearTransformDataCulling.RemoveEntityFromBlock(this->mEntityBlockViewer);
+	
 }
 
 std::string doom::Transform::ToString()
