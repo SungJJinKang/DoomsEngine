@@ -24,7 +24,7 @@ void doom::MeshRenderer::SetMesh(graphics::Mesh* mesh)
 		//BVH_AABB3D_Node_Object::UpdateBVH_Node();
 		//mIsBoundingSphereDirty.SetDirty(true);
 
-		this->SetBoundingSphereRadiusForCulling(boudingSphere.mRadius);
+		//this->SetBoundingSphereRadiusForCulling(boudingSphere.mRadius);
 		//this->SetBoundingSphereRadiusForCulling(0);
 
 		//TODO : when model matrix is changed, should update SetBoundingSphereRadiusForCulling

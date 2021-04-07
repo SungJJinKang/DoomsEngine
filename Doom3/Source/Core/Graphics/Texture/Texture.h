@@ -187,33 +187,39 @@ namespace doom
 			/// <returns></returns>
 			static const char* GetBindTargetTag(eBindTarget bindTarget)
 			{
-				switch (bindTarget)
-				{
-				case eBindTarget::TEXTURE_1D:
-					return "TEXTURE_1D";
-				case eBindTarget::TEXTURE_2D:
+				if (bindTarget == eBindTarget::TEXTURE_2D)
+				{// for maxmizing branch prediction
 					return "TEXTURE_2D";
-				case eBindTarget::TEXTURE_3D:
-					return "TEXTURE_3D";
-				case eBindTarget::TEXTURE_1D_ARRAY:
-					return "TEXTURE_1D_ARRAY";
-				case eBindTarget::TEXTURE_2D_ARRAY:
-					return "TEXTURE_2D_ARRAY";
-				case eBindTarget::TEXTURE_RECTANGLE:
-					return "TEXTURE_RECTANGLE";
-				case eBindTarget::TEXTURE_CUBE_MAP:
-					return "TEXTURE_CUBE_MAP";
-				case eBindTarget::TEXTURE_CUBE_MAP_ARRAY:
-					return "TEXTURE_CUBE_MAP_ARRAY";
-				case eBindTarget::TEXTURE_BUFFER:
-					return "TEXTURE_BUFFER";
-				case eBindTarget::TEXTURE_2D_MULTISAMPLE:
-					return "TEXTURE_2D_MULTISAMPLE";
-				case eBindTarget::TEXTURE_2D_MULTISAMPLE_ARRAY:
-					return "TEXTURE_2D_MULTISAMPLE_ARRAY";
-				default:
-					NEVER_HAPPEN;
 				}
+				else
+				{
+					switch (bindTarget)
+					{
+					case eBindTarget::TEXTURE_1D:
+						return "TEXTURE_1D";
+					case eBindTarget::TEXTURE_3D:
+						return "TEXTURE_3D";
+					case eBindTarget::TEXTURE_1D_ARRAY:
+						return "TEXTURE_1D_ARRAY";
+					case eBindTarget::TEXTURE_2D_ARRAY:
+						return "TEXTURE_2D_ARRAY";
+					case eBindTarget::TEXTURE_RECTANGLE:
+						return "TEXTURE_RECTANGLE";
+					case eBindTarget::TEXTURE_CUBE_MAP:
+						return "TEXTURE_CUBE_MAP";
+					case eBindTarget::TEXTURE_CUBE_MAP_ARRAY:
+						return "TEXTURE_CUBE_MAP_ARRAY";
+					case eBindTarget::TEXTURE_BUFFER:
+						return "TEXTURE_BUFFER";
+					case eBindTarget::TEXTURE_2D_MULTISAMPLE:
+						return "TEXTURE_2D_MULTISAMPLE";
+					case eBindTarget::TEXTURE_2D_MULTISAMPLE_ARRAY:
+						return "TEXTURE_2D_MULTISAMPLE_ARRAY";
+					default:
+						NEVER_HAPPEN;
+					}
+				}
+				
 			}
 
 			static inline std::vector<std::string> TEXTURE_UNIT_TAG{};
@@ -279,17 +285,15 @@ namespace doom
 
 			FORCE_INLINE void BindTexture() noexcept
 			{
-				if (OverlapBindChecker::GetBoundID(GetBindTargetTag(this->mBindTarget)) != this->mBufferID)
+				if (D_OVERLAP_BIND_CHECK_CHECK_IS_NOT_BOUND_AND_BIND_ID(GetBindTargetTag(this->mBindTarget), this->mBufferID))
 				{
-					D_CHECK_OVERLAP_BIND_AND_SAVE_BIND(GetBindTargetTag(this->mBindTarget), this->mBufferID);
 					glBindTexture(static_cast<unsigned int>(this->mBindTarget), this->mBufferID);
 				}
 			}
 			FORCE_INLINE void ActiveTexture(unsigned int bindingPoint) noexcept
 			{
-				if (OverlapBindChecker::GetBoundID(ACTIVE_TEXTURE_TAG) != bindingPoint)
+				if (D_OVERLAP_BIND_CHECK_CHECK_IS_NOT_BOUND_AND_BIND_ID(ACTIVE_TEXTURE_TAG, bindingPoint))
 				{
-					D_CHECK_OVERLAP_BIND_AND_SAVE_BIND(ACTIVE_TEXTURE_TAG, bindingPoint);
 					glActiveTexture(GL_TEXTURE0 + bindingPoint);
 				}
 			}
@@ -297,18 +301,16 @@ namespace doom
 
 			FORCE_INLINE void UnBindTexture() noexcept
 			{
-				if (OverlapBindChecker::GetBoundID(GetBindTargetTag(this->mBindTarget)) != 0)
+				if (D_OVERLAP_BIND_CHECK_CHECK_IS_NOT_BOUND_AND_BIND_ID(GetBindTargetTag(this->mBindTarget), 0))
 				{
-					D_CHECK_OVERLAP_BIND_AND_SAVE_BIND(GetBindTargetTag(this->mBindTarget), 0);
 					glBindTexture(static_cast<unsigned int>(this->mBindTarget), 0);
 				}
 			}
 
 			FORCE_INLINE void BindTextureWithUnit(unsigned int bindingPoint)
 			{
-				if (OverlapBindChecker::GetBoundID(TEXTURE_UNIT_TAG[bindingPoint].data()) != this->mBufferID)
+				if (D_OVERLAP_BIND_CHECK_CHECK_IS_NOT_BOUND_AND_BIND_ID(TEXTURE_UNIT_TAG[bindingPoint].data(), this->mBufferID))
 				{
-					D_CHECK_OVERLAP_BIND_AND_SAVE_BIND(TEXTURE_UNIT_TAG[bindingPoint].data(), this->mBufferID);
 					glBindTextureUnit(bindingPoint, this->mBufferID);
 				}
 				//glActiveTexture(GL_TEXTURE0 + bindingPoint);

@@ -83,9 +83,8 @@ namespace doom
 			{
 				D_ASSERT(this->mProgramID != 0);
 
-				if (OverlapBindChecker::GetBoundID(MATERIAL_TAG) != this->mProgramID)
+				if (D_OVERLAP_BIND_CHECK_CHECK_IS_NOT_BOUND_AND_BIND_ID(MATERIAL_TAG, this->mProgramID))
 				{
-					D_CHECK_OVERLAP_BIND_AND_SAVE_BIND(MATERIAL_TAG, this->mProgramID);
 					for (unsigned int i = 0; i < this->mTargetTextures.size(); i++)
 					{
 						if (this->mTargetTextures[i] != nullptr)

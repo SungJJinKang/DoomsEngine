@@ -25,9 +25,8 @@ namespace doom
 			
 			FORCE_INLINE static void BindRenderBuffer(int renderBufferID)
 			{
-				if (OverlapBindChecker::GetBoundID(RENDERBUFFER_TAG) != renderBufferID)
+				if (D_OVERLAP_BIND_CHECK_CHECK_IS_NOT_BOUND_AND_BIND_ID(RENDERBUFFER_TAG, renderBufferID))
 				{
-					D_CHECK_OVERLAP_BIND_AND_SAVE_BIND(RENDERBUFFER_TAG, renderBufferID);
 					glBindRenderbuffer(GL_RENDERBUFFER, renderBufferID);
 				}
 			}

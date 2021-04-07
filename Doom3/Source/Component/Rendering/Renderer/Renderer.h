@@ -74,8 +74,6 @@ namespace doom
 
 		}
 
-		void SetBoundingSphereRadiusForCulling(float radius);
-
 		virtual const math::Matrix4x4& GetModelMatrix() const final;
 
 

@@ -3,7 +3,7 @@
 template <typename ColliderType>
 void doom::ColliderUpdater<ColliderType>::UpdateWorldColliderCache(bool force)
 {
-	if (this->IsWorldColliderCacheDirty.GetIsDirty(true) || force)
+	if (this->IsWorldColliderCacheDirty.GetIsDirty(force))
 	{
 		//	TO DO : When Rotate Object, ColliderType can be larged. 
 		//			then whenever rotate object, BVH_Node can be reinserted everytime. this is expensive.

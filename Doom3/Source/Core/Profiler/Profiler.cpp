@@ -5,7 +5,8 @@
 
 #include <chrono>
 #include <unordered_map>
-#include <mutex>
+
+#include <sstream>
 
 #include <type_traits>
 
@@ -17,6 +18,10 @@
 
 #ifndef THREAD_SAFE
 //#define THREAD_SAFE
+#endif
+
+#ifdef THREAD_SAFE
+#include <mutex>
 #endif
 
 namespace doom
@@ -84,9 +89,11 @@ namespace doom
 					return;
 				}
 
+				std::chrono::high_resolution_clock::time_point currentTime = std::chrono::high_resolution_clock::now();
+
 				auto& currentThreadData = this->GetCurrentThreadData(std::this_thread::get_id());
 
-				currentThreadData[name] = std::chrono::high_resolution_clock::now();
+				currentThreadData[name] = currentTime;
 			}
 
 			 void EndProfiling(const char* name) noexcept
@@ -100,20 +107,25 @@ namespace doom
 					return;
 				}
 
+				std::chrono::high_resolution_clock::time_point currentTime = std::chrono::high_resolution_clock::now();
+
 				std::thread::id currentThread = std::this_thread::get_id();
 				auto& currentThreadData = this->GetCurrentThreadData(currentThread);
-				long long consumedTimeInMS = std::chrono::duration_cast<std::chrono::microseconds>(std::chrono::high_resolution_clock::now() - currentThreadData[name]).count();
+				long long consumedTimeInMS = std::chrono::duration_cast<std::chrono::microseconds>(currentTime - currentThreadData[name]).count();
 
-
+				
+				std::ostringstream sstream;
 				// used time in microseconds
 				if (consumedTimeInMS > 1000000)
 				{
-					std::cout << '\n' << "Profiler ( " << currentThread << " ) : " << name << "  -  " << 0.000001 * consumedTimeInMS << " seconds  =  " << consumedTimeInMS << " microseconds" << std::endl;
+					sstream << '\n' << "Profiler ( " << currentThread << " ) : " << name << "  -  " << 0.000001 * consumedTimeInMS << " seconds  =  " << consumedTimeInMS << " microseconds";
 				}
 				else
 				{
-					std::cout << '\n' << "Profiler ( " << currentThread << " ) : " << name << "  -  " << consumedTimeInMS << " microseconds" << std::endl;
+					sstream << '\n' << "Profiler ( " << currentThread << " ) : " << name << "  -  " << consumedTimeInMS << " microseconds";
 				}
+
+				D_DEBUG_LOG(sstream.str(), eLogType::D_ALWAYS);
 			}
 		};
 

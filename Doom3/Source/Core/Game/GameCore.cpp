@@ -45,8 +45,6 @@ void doom::GameCore::InitGameSetting()
 	assetimporter::AssetImporterWorker<::doom::asset::eAssetType::TEXTURE>::MIP_MAP_LEVELS = this->mMainConfigData.GetConfigData().GetValue<int>("TEXTURE", "MIP_MAP_LEVELS");
 	assetimporter::AssetImporterWorker<::doom::asset::eAssetType::TEXTURE>::MAX_IMAGE_SIZE = this->mMainConfigData.GetConfigData().GetValue<int>("TEXTURE", "MAX_IMAGE_SIZE");
 
-	this->mJobSystem.MAX_SUB_THREAD_COUNT = this->mMainConfigData.GetConfigData().GetValue<int>("SYSTEM", "MAX_SUB_THREAD_COUNT");
-
 #ifdef DEBUG_MODE
 	doom::logger::Logger::InitLogger();
 	doom::profiler::Profiler::InitProfiling();
@@ -72,13 +70,6 @@ void doom::GameCore::Init()
 	D_START_PROFILING("mTime_Server Init", eProfileLayers::CPU);
 	this->mTime_Server.Init();
 	D_END_PROFILING("mTime_Server Init");
-
-	D_START_PROFILING("mJobSystem Init", eProfileLayers::CPU);
-	this->mJobSystem.Init();
-	D_END_PROFILING("mJobSystem Init");
-	
-	
-
 
 	//
 	//Read This : https://docs.unity3d.com/Manual/class-TimeManager.html

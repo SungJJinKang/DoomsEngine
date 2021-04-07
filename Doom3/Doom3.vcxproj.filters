@@ -252,9 +252,6 @@
     <ClCompile Include="Source\Core\IO\AssetImporter\AssetApiImporter.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Core\ResourceManagement\MultiThreading\JobSystem.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Source\Core\IO\AssetImporter\AssetImporterWorker_Audio.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -265,9 +262,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Source\Core\IO\AssetImporter\AssetImporterWorker_Text.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Core\ResourceManagement\MultiThreading\Thread.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Source\Core\Game\AssetManager\AssetManager.cpp">
@@ -397,6 +391,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Source\Core\utility\ColliderUpdater.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Core\ResourceManagement\JobSystem_cpp\JobSystem.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Core\ResourceManagement\JobSystem_cpp\Thread.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -851,9 +851,6 @@
     <ClInclude Include="Source\GameLogic\CustomComponent\AxisDebugger.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Core\ResourceManagement\MultiThreading\Thread_Core.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Helper\EasyDirtyChecker\DirtySender.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -929,16 +926,10 @@
     <ClInclude Include="Source\Core\Graphics\TextureFormat.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Core\ResourceManagement\MultiThreading\JobSystem.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Helper\ZeroResetMoveContainer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\Core\API\Font.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Core\ResourceManagement\MultiThreading\Thread.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\Core\Game\AssetManager\AssetManager.h">
@@ -1145,6 +1136,15 @@
     <ClInclude Include="Source\Core\utility\ColliderUpdater.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Core\ResourceManagement\JobSystem_cpp\JobSystem.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Core\ResourceManagement\JobSystem_cpp\Thread.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Core\ResourceManagement\JobSystem_cpp\Thread_Core.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="dependency\glfw-3.3.2.bin.WIN64\docs\html\search\all_0.html" />
@@ -1303,7 +1303,6 @@
     <None Include="Assets\Shader\Default\Debug3DShader.glsl" />
     <None Include="..\CodingRule.md" />
     <None Include="Source\Helper\EasyDirtyChecker\README.md" />
-    <None Include="Source\Core\ResourceManagement\MultiThreading\MultithreadingJobSystemStrategy.md" />
     <None Include="Assets\Shader\Default\Default2DTextureShader.glsl" />
     <None Include="Assets\Shader\Default\Default2DColorShader.glsl" />
     <None Include="Assets\Shader\Default\OcclusionCullingBoundingBox.glsl" />
@@ -1315,6 +1314,7 @@
     <None Include="Source\Core\Math\LightMath_Cpp\Vector4Float_Aligned.inl">
       <Filter>Header Files</Filter>
     </None>
+    <None Include="Source\Core\ResourceManagement\JobSystem_cpp\MultithreadingJobSystemStrategy.md" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="Source\Core\Graphics\ReadThis!!!!.txt" />

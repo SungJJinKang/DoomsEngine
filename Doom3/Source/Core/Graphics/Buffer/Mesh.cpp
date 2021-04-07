@@ -179,9 +179,8 @@ void doom::graphics::Mesh::BindVertexBufferObject()
 {
 	D_ASSERT(this->mBufferID != 0);
 
-	if (OverlapBindChecker::GetBoundID(VERTEX_BUFFER_TAG) != this->mBufferID)
+	if (D_OVERLAP_BIND_CHECK_CHECK_IS_NOT_BOUND_AND_BIND_ID(VERTEX_BUFFER_TAG, this->mBufferID))
 	{
-		D_CHECK_OVERLAP_BIND_AND_SAVE_BIND(VERTEX_BUFFER_TAG, this->mBufferID);
 		glBindBuffer(GL_ARRAY_BUFFER, this->mBufferID);
 	}
 

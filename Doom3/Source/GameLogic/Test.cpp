@@ -56,7 +56,7 @@ void doom::TEST::Init()
 			for (int k = -count; k < count; k = k + 15)
 			{
 				auto entity = currenScene->CreateNewEntity();
-				entity->GetTransform()->SetScale(0.8f, 0.8f, 0.8f);
+				entity->GetTransform()->SetScale(1.5f, 1.5f, 1.5f);
 				entity->GetTransform()->SetPosition(i, j, k);
 				auto meshRenderer = entity->AddComponent<MeshRenderer>();
 				meshRenderer->SetMesh(planetAsset->GetMesh(0));

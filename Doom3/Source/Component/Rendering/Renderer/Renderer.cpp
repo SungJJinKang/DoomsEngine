@@ -32,11 +32,6 @@ doom::Renderer::Renderer() : ServerComponent(), StaticContainer(), mTargetMateri
 
 }
 
-void doom::Renderer::SetBoundingSphereRadiusForCulling(float radius)
-{
-	
-	this->mEntityBlockViewer.SetSphereBoundRadius(radius);
-}
 
 void doom::Renderer::MergeBVHBitFlag()
 {

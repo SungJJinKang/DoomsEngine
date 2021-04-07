@@ -28,18 +28,16 @@ void doom::graphics::FrameBuffer::GenerateBuffer(unsigned int defaultWidth, unsi
 
 void FrameBuffer::BindFrameBuffer(FrameBuffer* frameBuffer)
 {
-	if (OverlapBindChecker::GetBoundID(FRAMEBUFFER_TAG) != ((frameBuffer != nullptr) ? frameBuffer->mFrameBufferID.Get() : 0))
+	if (D_OVERLAP_BIND_CHECK_CHECK_IS_NOT_BOUND_AND_BIND_ID(FRAMEBUFFER_TAG, ((frameBuffer != nullptr) ? frameBuffer->mFrameBufferID.Get() : 0)) )
 	{
 		FrameBuffer::PreviousFrameBuffer = CurrentFrameBuffer;
 		if (frameBuffer == nullptr)
 		{
-			D_CHECK_OVERLAP_BIND_AND_SAVE_BIND(FRAMEBUFFER_TAG, 0);
 			glBindFramebuffer(GL_FRAMEBUFFER, 0);
 			glViewport(0, 0, graphics::Graphics_Server::GetScreenWidth(), graphics::Graphics_Server::GetScreenHeight());
 		}
 		else
 		{
-			D_CHECK_OVERLAP_BIND_AND_SAVE_BIND(FRAMEBUFFER_TAG, frameBuffer->mFrameBufferID);
 			glBindFramebuffer(GL_FRAMEBUFFER, frameBuffer->mFrameBufferID);
 			glViewport(0, 0, frameBuffer->mDefaultWidth, frameBuffer->mDefaultHeight);
 		}

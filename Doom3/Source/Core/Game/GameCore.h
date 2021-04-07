@@ -16,7 +16,7 @@
 #include "../OS/OS_Server.h"
 #include "../Graphics/Graphics_Server.h"
 #include "../Physics/Physics_Server.h"
-#include "../ResourceManagement/MultiThreading/JobSystem.h"
+#include "../ResourceManagement/JobSystem_cpp/JobSystem.h"
 #include "../IO/UserInput_Server.h"
 #include "../Time/Time_Server.h"
 #include "../Time/MainTimer.h"
@@ -88,11 +88,6 @@ namespace doom
 			this->mTime_Server.Update();
 			D_END_PROFILING("mTime_Server.Update_Internal");
 
-			D_START_PROFILING("mJobSystem.Update", eProfileLayers::CPU);
-			this->mJobSystem.Update_Internal();
-			this->mJobSystem.Update();
-			D_END_PROFILING("mJobSystem.Update");
-
 			D_START_PROFILING("mPhysics_Server.Update", eProfileLayers::CPU);
 			this->mPhysics_Server.Update_Internal();
 			this->mPhysics_Server.Update();
@@ -138,11 +133,6 @@ namespace doom
 			this->mTime_Server.OnEndOfFrame_Internal();
 			this->mTime_Server.OnEndOfFrame();
 			D_END_PROFILING("mTime_Server OnEndOfFrame");
-
-			D_START_PROFILING("mJobSystem OnEndOfFrame", eProfileLayers::CPU);
-			this->mJobSystem.OnEndOfFrame_Internal();
-			this->mJobSystem.OnEndOfFrame();
-			D_END_PROFILING("mJobSystem OnEndOfFrame");
 
 			D_START_PROFILING("mPhysics_Server OnEndOfFrame", eProfileLayers::CPU);
 			this->mPhysics_Server.OnEndOfFrame_Internal();

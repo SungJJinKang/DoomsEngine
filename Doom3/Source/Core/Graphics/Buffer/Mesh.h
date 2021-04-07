@@ -61,9 +61,8 @@ namespace doom
 			{
 				D_ASSERT(this->mVertexArrayObjectID != 0);
 
-				if (OverlapBindChecker::GetBoundID(VERTEX_ARRAY_TAG) != this->mVertexArrayObjectID)
+				if (D_OVERLAP_BIND_CHECK_CHECK_IS_NOT_BOUND_AND_BIND_ID(VERTEX_ARRAY_TAG, this->mVertexArrayObjectID))
 				{
-					D_CHECK_OVERLAP_BIND_AND_SAVE_BIND(VERTEX_ARRAY_TAG, this->mVertexArrayObjectID);
 					glBindVertexArray(this->mVertexArrayObjectID);
 				}
 			}
@@ -102,9 +101,8 @@ namespace doom
 			}
 			FORCE_INLINE void UnBindBuffer() noexcept final
 			{
-				if (OverlapBindChecker::GetBoundID(VERTEX_ARRAY_TAG) != 0)
+				if (D_OVERLAP_BIND_CHECK_CHECK_IS_NOT_BOUND_AND_BIND_ID(VERTEX_ARRAY_TAG, 0))
 				{
-					D_CHECK_OVERLAP_BIND_AND_SAVE_BIND(VERTEX_ARRAY_TAG, 0);
 					glBindVertexArray(0);
 				}
 			}
