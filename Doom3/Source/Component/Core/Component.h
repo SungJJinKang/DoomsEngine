@@ -156,11 +156,14 @@ namespace doom
 			return this->mOwnerEntity;
 		}
 		unsigned int GetOwnerEntityLayerIndex() const;
-		FORCE_INLINE constexpr Transform* GetTransform() const
+		FORCE_INLINE constexpr Transform* GetTransform()
 		{
 			return this->mTransform;
 		}
-
+		FORCE_INLINE constexpr const Transform* GetTransform() const
+		{
+			return this->mTransform;
+		}
 		
 
 		

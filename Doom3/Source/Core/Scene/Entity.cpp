@@ -7,7 +7,7 @@
 
 using namespace doom;
 
-Entity::Entity(Entity* parent) : mEntityName{}, mPlainComponents{}, mParent{ parent }, mChilds{}
+Entity::Entity(size_t entityID, Entity* parent) : mEntityID{ entityID }, mEntityName {}, mPlainComponents{}, mParent{ parent }, mChilds{}
 {
 	this->mTransform = this->AddComponent<Transform>();
 }

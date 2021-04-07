@@ -27,8 +27,12 @@ namespace doom
 			
 		public:
 			
-			static void StartProfiling(const char* name, eProfileLayers layer) noexcept;
-			static void EndProfiling(const char* name) noexcept;
+			static void StartElapsedTimeProfiling(const char* name, eProfileLayers layer) noexcept;
+			static void EndElapsedTimeProfiling(const char* name) noexcept;
+
+			static void StartAccumulationTimeProfiling(const char* name, eProfileLayers layer) noexcept;
+			static void EndAccumulationTimeProfiling(const char* name) noexcept;
+			static void EmitAcculationProfiling(const char* name) noexcept;
 			static void SetActiveToggle();
 		};
 

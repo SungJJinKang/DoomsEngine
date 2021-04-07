@@ -43,6 +43,10 @@ namespace doom
 			
 			
 			math::Vector3 mCenter;
+			/// <summary>
+			/// for using SIMD -> Mat4X4 * Vec4 is much faster
+			/// </summary>
+			float padding{ 1.0f };
 			float mRadius;
 
 			FORCE_INLINE virtual void* data() final
@@ -117,8 +121,8 @@ namespace doom
 
 			FORCE_INLINE static void ApplyModelMatrix(const Sphere& localSphere, const math::Matrix4x4& modelMatrix, Sphere& resultSphere)
 			{
+				float largestScale = math::sqrt(math::Max(math::Max(modelMatrix[0].magnitude(), modelMatrix[1].magnitude()), modelMatrix[2].magnitude()));
 				resultSphere.mCenter = modelMatrix * localSphere.mCenter;
-				float largestScale{ math::Max(math::Max(modelMatrix[0].sqrMagnitude(), modelMatrix[1].sqrMagnitude()), modelMatrix[2].sqrMagnitude()) };
 				resultSphere.mRadius = localSphere.mRadius * largestScale; // TODO : should i square largesScale??
 			}
 

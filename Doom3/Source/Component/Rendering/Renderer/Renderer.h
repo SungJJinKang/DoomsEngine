@@ -74,7 +74,7 @@ namespace doom
 
 		}
 
-		virtual const math::Matrix4x4& GetModelMatrix() const final;
+		virtual const math::Matrix4x4& GetModelMatrix() final;
 
 
 		void OnDestroy() override;

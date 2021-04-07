@@ -702,6 +702,7 @@
     <None Include="Source\Core\Math\LightMath_Cpp\README.md" />
     <None Include="Source\Core\Math\LightMath_Cpp\Vector4Float_Aligned.inl" />
     <None Include="Source\Core\ResourceManagement\JobSystem_cpp\MultithreadingJobSystemStrategy.md" />
+    <None Include="Source\Core\ResourceManagement\JobSystem_cpp\README.md" />
     <None Include="Source\Helper\DeferredConstant\.git" />
     <None Include="Source\Helper\DeferredConstant\README.md" />
     <None Include="Source\Helper\EasyDirtyChecker\README.md" />

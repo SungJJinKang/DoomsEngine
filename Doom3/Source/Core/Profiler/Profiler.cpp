@@ -28,49 +28,61 @@ namespace doom
 {
 	namespace profiler
 	{
-
-		template <char* a, char* b>
-		struct LiteralStringOverlapCheck
-		{
-			constexpr operator bool() const noexcept
-			{
-				return a == b;
-			}
-		};
-
-
 		class Profiler::ProfilerPimpl
 		{
 			friend class Profiler;
 			friend class GameCore;
 
 			using key_type = typename std::conditional_t<"TEST LITEAL STRING" == "TEST LITEAL STRING", const char*, std::string>;
+			using time_point = std::chrono::time_point<std::chrono::high_resolution_clock>;
+		
+			using elapsed_time_data_container_type = std::unordered_map<key_type, time_point>;
+			using accumulated_time_data_container_type = std::unordered_map<key_type, std::pair<time_point, long long>>;
 
+			using elapsed_time_thread_container_type_with = std::unordered_map<std::thread::id, elapsed_time_data_container_type>;
+			using accumulated_time_thread_container_type_with = std::unordered_map<std::thread::id, accumulated_time_data_container_type>;
+	
 		private:
-			std::unordered_map<std::thread::id, std::unordered_map<key_type, std::chrono::time_point<std::chrono::high_resolution_clock>>> _ProfilingData{};
+
+			static constexpr time_point time_point_zero{};
+
+			elapsed_time_thread_container_type_with mElapsedTimeProfilingData{};
+			elapsed_time_data_container_type::iterator mRecentElapsedTimeUpdatedNodeIterator;
+			accumulated_time_thread_container_type_with mAccumulatedTimeProfilingData{};
+
+			bool mIsRecentElapsedUpdatedNodeValid{ false };
 #ifdef THREAD_SAFE
 			std::mutex mProfilerMutex{};
 #endif
 			bool bmIsProfilerActivated{ false };
-
 			bool bmIsActive{ true };
 
-			 std::unordered_map<key_type, std::chrono::time_point<std::chrono::high_resolution_clock>>& GetCurrentThreadData(const std::thread::id& thread_id)
+			elapsed_time_data_container_type& GetCurrentThreadElapsedTimeData(const std::thread::id& thread_id)
 			{
 				//TODO : don't need to lock mutex every time.
 				//TODO : mutex lock is required only when insert new key
 #ifdef THREAD_SAFE 
 				std::scoped_lock lock{ this->mProfilerMutex };
 #endif
-				return this->_ProfilingData[thread_id];
+				return this->mElapsedTimeProfilingData[thread_id];
 			}
 
-			 ProfilerPimpl()
-			 {
-				 this->InitProfiling();
-			 }
+			accumulated_time_data_container_type& GetCurrentThreadAccumulatedTimeData(const std::thread::id& thread_id)
+			{
+				//TODO : don't need to lock mutex every time.
+				//TODO : mutex lock is required only when insert new key
+#ifdef THREAD_SAFE 
+				std::scoped_lock lock{ this->mProfilerMutex };
+#endif
+				return this->mAccumulatedTimeProfilingData[thread_id];
+			}
 
-			 void InitProfiling() noexcept
+			ProfilerPimpl()
+			{
+				this->InitProfiling();
+			}
+
+			void InitProfiling() noexcept
 			{
 #ifdef DISABLE_PROFILING
 				return;
@@ -78,55 +90,145 @@ namespace doom
 				bmIsProfilerActivated = !(ConfigData::GetSingleton()->GetConfigData().GetValue<bool>("SYSTEM", "DISABLE_PROFILER"));
 			}
 
-			//
-			 void StartProfiling(const char* name, eProfileLayers layer) noexcept
+			FORCE_INLINE void LogDuration(const std::thread::id& thread, const char* name, long long elapsedTimeCountInMs)
 			{
-#ifdef DISABLE_PROFILING
-				return;
-#endif
-				if (bmIsProfilerActivated == false || bmIsActive == false)
-				{
-					return;
-				}
-
-				std::chrono::high_resolution_clock::time_point currentTime = std::chrono::high_resolution_clock::now();
-
-				auto& currentThreadData = this->GetCurrentThreadData(std::this_thread::get_id());
-
-				currentThreadData[name] = currentTime;
-			}
-
-			 void EndProfiling(const char* name) noexcept
-			{
-#ifdef DISABLE_PROFILING
-				return;
-#endif
-
-				if (bmIsProfilerActivated == false || bmIsActive == false)
-				{
-					return;
-				}
-
-				std::chrono::high_resolution_clock::time_point currentTime = std::chrono::high_resolution_clock::now();
-
-				std::thread::id currentThread = std::this_thread::get_id();
-				auto& currentThreadData = this->GetCurrentThreadData(currentThread);
-				long long consumedTimeInMS = std::chrono::duration_cast<std::chrono::microseconds>(currentTime - currentThreadData[name]).count();
-
-				
 				std::ostringstream sstream;
 				// used time in microseconds
-				if (consumedTimeInMS > 1000000)
+				if (elapsedTimeCountInMs > 1000000)
 				{
-					sstream << '\n' << "Profiler ( " << currentThread << " ) : " << name << "  -  " << 0.000001 * consumedTimeInMS << " seconds  =  " << consumedTimeInMS << " microseconds";
+					sstream << '\n' << "Profiler ( " << thread << " ) : " << name << "  -  " << 0.000001 * elapsedTimeCountInMs << " seconds  =  " << elapsedTimeCountInMs << " microseconds";
 				}
 				else
 				{
-					sstream << '\n' << "Profiler ( " << currentThread << " ) : " << name << "  -  " << consumedTimeInMS << " microseconds";
+					sstream << '\n' << "Profiler ( " << thread << " ) : " << name << "  -  " << elapsedTimeCountInMs << " microseconds";
 				}
 
 				D_DEBUG_LOG(sstream.str(), eLogType::D_ALWAYS);
 			}
+
+			//
+
+			FORCE_INLINE void StartElapsedTimeProfiling(const char* name, eProfileLayers layer) noexcept
+			{
+#ifdef DISABLE_PROFILING
+				return;
+#endif
+				if (bmIsProfilerActivated == false || bmIsActive == false)
+				{
+					return;
+				}
+
+				time_point currentTime = std::chrono::high_resolution_clock::now();
+				auto& currentThreadData = this->GetCurrentThreadElapsedTimeData(std::this_thread::get_id());
+
+				this->mRecentElapsedTimeUpdatedNodeIterator = currentThreadData.insert_or_assign(name, currentTime).first;
+				this->mIsRecentElapsedUpdatedNodeValid = true;
+			}
+
+		
+			FORCE_INLINE void EndElapsedTimeProfiling(const char* name) noexcept
+			{
+#ifdef DISABLE_PROFILING
+				return;
+#endif
+
+				if (bmIsProfilerActivated == false || bmIsActive == false)
+				{
+					return;
+				}
+
+				time_point currentTime = std::chrono::high_resolution_clock::now();
+				std::thread::id currentThread = std::this_thread::get_id();
+				auto& currentThreadData = this->GetCurrentThreadElapsedTimeData(currentThread);
+
+				elapsed_time_data_container_type::iterator timeDataNode;
+				if (this->mIsRecentElapsedUpdatedNodeValid == true && this->mRecentElapsedTimeUpdatedNodeIterator->first == name)
+				{//passed key is same with key of mRecentElapsedTimeUpdatedNodeIterator!
+					timeDataNode = this->mRecentElapsedTimeUpdatedNodeIterator;
+				}
+				else
+				{
+					timeDataNode = currentThreadData.find(name);
+					if(timeDataNode == currentThreadData.end())
+					{
+						return;
+					}
+				}
+				std::chrono::microseconds consumedTimeInMS = std::chrono::duration_cast<std::chrono::microseconds>(currentTime - timeDataNode->second);
+				this->LogDuration(currentThread, name, consumedTimeInMS.count());
+				this->mIsRecentElapsedUpdatedNodeValid = false;
+
+
+			}
+
+	
+
+			FORCE_INLINE void EmitAccumulationProfiling(const char* name) noexcept
+			{
+#ifdef DISABLE_PROFILING
+				return;
+#endif
+				if (bmIsProfilerActivated == false || bmIsActive == false)
+				{
+					return;
+				}
+
+				std::thread::id currentThread = std::this_thread::get_id();
+				auto& currentThreadData = this->GetCurrentThreadAccumulatedTimeData(currentThread);
+
+				auto nodeIter = currentThreadData.find(name);
+				if (nodeIter != currentThreadData.end())
+				{
+					this->LogDuration(currentThread, name, nodeIter->second.second);
+					nodeIter->second.second = 0;
+				}
+			}
+
+			FORCE_INLINE void StartAccumulationTimeProfiling(const char* name, eProfileLayers layer) noexcept
+			{
+#ifdef DISABLE_PROFILING
+				return;
+#endif
+				if (bmIsProfilerActivated == false || bmIsActive == false)
+				{
+					return;
+				}
+
+				time_point currentTime = std::chrono::high_resolution_clock::now();
+				auto& currentThreadData = this->GetCurrentThreadAccumulatedTimeData(std::this_thread::get_id());
+
+			
+				auto [iter, isInserted] = currentThreadData.try_emplace(name, currentTime, 0);
+				iter->second.first = currentTime;
+			}
+
+			FORCE_INLINE void EndAccumulationTimeProfiling(const char* name) noexcept
+			{
+#ifdef DISABLE_PROFILING
+				return;
+#endif
+
+				if (bmIsProfilerActivated == false || bmIsActive == false)
+				{
+					return;
+				}
+
+				time_point currentTime = std::chrono::high_resolution_clock::now();
+
+				std::thread::id currentThread = std::this_thread::get_id();
+				auto& currentThreadData = this->GetCurrentThreadAccumulatedTimeData(currentThread);
+
+				accumulated_time_data_container_type::iterator timeDataNode = currentThreadData.find(name);
+				if (timeDataNode != currentThreadData.end())
+				{
+					std::chrono::microseconds consumedTimeInMS = std::chrono::duration_cast<std::chrono::microseconds>(currentTime - timeDataNode->second.first);
+					timeDataNode->second.first = currentTime;
+					timeDataNode->second.second = 0;
+
+				}
+			}
+
+			
 		};
 
 		bool Profiler::IsInitialized()
@@ -138,26 +240,50 @@ namespace doom
 		{
 			mProfilerPimpl = new ProfilerPimpl();
 		}
-		
 
-		void Profiler::StartProfiling(const char* name, eProfileLayers layer) noexcept
+
+		void Profiler::StartElapsedTimeProfiling(const char* name, eProfileLayers layer) noexcept
 		{
 			if (Profiler::IsInitialized() == true)
 			{
-				mProfilerPimpl->StartProfiling(name, layer);
+				mProfilerPimpl->StartElapsedTimeProfiling(name, layer);
 			}
 		}
 
-		void Profiler::EndProfiling(const char* name) noexcept
+		void Profiler::EndElapsedTimeProfiling(const char* name) noexcept
 		{
 			if (Profiler::IsInitialized() == true)
 			{
-				mProfilerPimpl->EndProfiling(name);
+				mProfilerPimpl->EndElapsedTimeProfiling(name);
+			}
+		}
+
+		void Profiler::StartAccumulationTimeProfiling(const char* name, eProfileLayers layer) noexcept
+		{
+			if (Profiler::IsInitialized() == true)
+			{
+				mProfilerPimpl->StartAccumulationTimeProfiling(name, layer);
+			}
+		}
+
+		void Profiler::EndAccumulationTimeProfiling(const char* name) noexcept
+		{
+			if (Profiler::IsInitialized() == true)
+			{
+				mProfilerPimpl->EndAccumulationTimeProfiling(name);
+			}
+		}
+
+		void Profiler::EmitAcculationProfiling(const char* name) noexcept
+		{
+			if (Profiler::IsInitialized() == true)
+			{
+				mProfilerPimpl->EmitAccumulationProfiling(name);
 			}
 		}
 
 		void Profiler::SetActiveToggle()
-{
+		{
 			if (Profiler::IsInitialized() == true)
 			{
 				mProfilerPimpl->bmIsActive = !(mProfilerPimpl->bmIsActive);

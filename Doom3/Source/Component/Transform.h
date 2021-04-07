@@ -152,6 +152,7 @@ namespace doom
 			return this->mModelMatrixCache;
 		}
 
+
 		FORCE_INLINE constexpr math::Vector3 forward() const
 		{
 			return this->mRotation * math::Vector3::forward;

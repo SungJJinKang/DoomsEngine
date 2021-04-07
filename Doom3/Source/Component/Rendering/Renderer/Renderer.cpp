@@ -17,7 +17,7 @@ void doom::Renderer::InitComponent()
 	//BVH_AABB3D_Node_Object::InsertBVHLeafNode(graphics::Graphics_Server::GetSingleton()->mViewFrustumCulling.mBVHSphere, BVH_AABB3D_Node_Object:::GetWorldBVhColliderCacheByReference(), nullptr);
 }
 
-const math::Matrix4x4& doom::Renderer::GetModelMatrix() const
+const math::Matrix4x4& doom::Renderer::GetModelMatrix()
 {
 	return this->GetTransform()->GetModelMatrix();
 }

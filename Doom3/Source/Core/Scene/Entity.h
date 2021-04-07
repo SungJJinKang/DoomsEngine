@@ -62,6 +62,7 @@ namespace doom
 
 	private:
 		
+		size_t mEntityID;
 		eEntityMobility mEntityMobility{ eEntityMobility::Dynamic };
 		unsigned int mEntityFlag{ eEntityFlags::OcculuderStatic | eEntityFlags::OcculudeeStatic };
 
@@ -69,7 +70,7 @@ namespace doom
 		/// Entity Constructor should be called through Scene class
 		///  To Protect User create entity not thourgh Scene class
 		/// </summary>
-		Entity(Entity* parent);
+		Entity(size_t entityID, Entity* parent);
 
 		/// <summary>
 		/// Entity destructor should be called through Entity::Destory function

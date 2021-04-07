@@ -1297,6 +1297,7 @@
       <Filter>Header Files</Filter>
     </None>
     <None Include="Source\Core\ResourceManagement\JobSystem_cpp\MultithreadingJobSystemStrategy.md" />
+    <None Include="Source\Core\ResourceManagement\JobSystem_cpp\README.md" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="Source\Core\Graphics\ReadThis!!!!.txt" />

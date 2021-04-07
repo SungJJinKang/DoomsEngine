@@ -156,7 +156,7 @@ namespace doom
 			}
 			return this->mViewProjectionMatrix;
 		}
-		FORCE_INLINE math::Matrix4x4& GetModelViewProjectionMatrix( )
+		FORCE_INLINE const math::Matrix4x4& GetModelViewProjectionMatrix( )
 		{
 			if (this->bmIsModelViewProjectionMatrixDirty.GetIsDirty(true) )
 			{

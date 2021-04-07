@@ -40,7 +40,7 @@ namespace doom
 		/// </summary>
 		/// <param name="aabb3d"></param>
 		void UpdateLocalColliderCache(const ColliderType& aabb);
-		virtual const math::Matrix4x4& GetModelMatrix() const = 0;
+		virtual const math::Matrix4x4& GetModelMatrix() = 0;
 
 	public:
 		

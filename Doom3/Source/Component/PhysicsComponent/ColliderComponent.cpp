@@ -93,7 +93,7 @@ bool doom::ColliderComponent::GetMeshAABB3D(physics::AABB3D& aabb3D)
 	}
 }
 
-const math::Matrix4x4& doom::ColliderComponent::GetModelMatrix() const
+const math::Matrix4x4& doom::ColliderComponent::GetModelMatrix()
 {
 	return this->GetTransform()->GetModelMatrix();
 }

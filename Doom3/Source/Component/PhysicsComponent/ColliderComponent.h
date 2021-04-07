@@ -91,7 +91,7 @@ namespace doom
 
 		virtual physics::Collider* GetWorldCollider() = 0;
 
-		const math::Matrix4x4& GetModelMatrix() const final;
+		virtual const math::Matrix4x4& GetModelMatrix() final;
 
 	public:
 

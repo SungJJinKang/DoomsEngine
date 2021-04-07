@@ -1,10 +1,11 @@
 #include "Scene.h"
 
-#include "Entity.h"
 #include "../../Helper/vector_erase_move_lastelement/vector_swap_erase.h"
-#include <Rendering/Camera.h>
 
+#include "Entity.h"
+#include <Rendering/Camera.h>
 #include "ResourceManagement/Pool/ObjectPool.h"
+#include "ResourceManagement/JobSystem_cpp/JobSystem.h"
 
 using namespace doom;
 
@@ -21,7 +22,9 @@ Scene::~Scene()
 
 [[nodiscard]] Entity* Scene::CreateNewEntity() noexcept
 {
-	Entity* newEntity = new Entity(nullptr); // resource::ObjectPool<Entity>::AllocateFromPool(nullptr);
+	CHECK_IS_EXECUTED_ON_MAIN_THREAD; // if you wanna createnewentity in subthread, you should 
+
+	Entity* newEntity = new Entity(mEntityIDCounter++, nullptr); // resource::ObjectPool<Entity>::AllocateFromPool(nullptr);
 	this->mSpawnedEntities.emplace_back(newEntity);
 	return newEntity;
 }
@@ -29,11 +32,15 @@ Scene::~Scene()
 bool Scene::DestroyEntity(Entity& entity)
 {
 	size_t size = this->mSpawnedEntities.size();
+
+	Entity* pointer = &entity;
+	delete pointer;
+
 	for (size_t i = 0; i < size; i++)
 	{
-		if (this->mSpawnedEntities[i].get() == &entity)
+		if (this->mSpawnedEntities[i].get() == pointer)
 		{
-			this->mSpawnedEntities.erase(this->mSpawnedEntities.begin() + i);
+			std::vector_swap_popback(this->mSpawnedEntities, this->mSpawnedEntities.begin() + i);
 			return true;
 		}
 	}
