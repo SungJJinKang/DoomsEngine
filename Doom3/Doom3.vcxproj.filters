@@ -339,13 +339,7 @@
     <ClCompile Include="Source\Core\utility\BVH\extension\BVH_AxisSweep3.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Core\Graphics\Acceleration\OcclusionCulling\HW\HierarchicalZMapOcclusionCulling.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Source\Core\Graphics\Acceleration\OcclusionCulling\HW\QueryOcclusionCulling.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Core\Graphics\Acceleration\OcclusionCulling\SW\SWOcclusionCulling.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Source\Core\utility\KDTree\KDTree.cpp">
@@ -376,9 +370,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Source\Core\utility\KDTree\KDTreeAABB.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Core\Graphics\Acceleration\ScreenSpaceCulling\ScreenSpaceCulling.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Source\Core\Graphics\Acceleration\LinearData_ViewFrustumCulling\FrotbiteCullingSystem.cpp">
@@ -1010,13 +1001,7 @@
     <ClInclude Include="Source\Core\utility\BVH\extension\BVH_AxisSweep3.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Core\Graphics\Acceleration\OcclusionCulling\HW\HierarchicalZMapOcclusionCulling.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Core\Graphics\Acceleration\OcclusionCulling\HW\QueryOcclusionCulling.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Core\Graphics\Acceleration\OcclusionCulling\SW\SWOcclusionCulling.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\Core\utility\KDTree\KDTree.h">
@@ -1086,9 +1071,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\Core\Graphics\Acceleration\LinearViewFrustumCulling\DataStructure\EntityBlock.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Core\Graphics\Acceleration\ScreenSpaceCulling\ScreenSpaceCulling.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\Core\Graphics\Acceleration\LinearViewFrustumCulling\DataStructure\TrnasformHandle.h">

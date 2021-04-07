@@ -176,10 +176,7 @@
     <ClCompile Include="Source\Core\Graphics\Acceleration\LinearData_ViewFrustumCulling\CullingModule\ScreenSpaceAABBCulling.cpp" />
     <ClCompile Include="Source\Core\Graphics\Acceleration\LinearData_ViewFrustumCulling\CullingModule\ViewFrustumCulling.cpp" />
     <ClCompile Include="Source\Core\Graphics\Acceleration\LinearData_ViewFrustumCulling\FrotbiteCullingSystem.cpp" />
-    <ClCompile Include="Source\Core\Graphics\Acceleration\OcclusionCulling\HW\HierarchicalZMapOcclusionCulling.cpp" />
     <ClCompile Include="Source\Core\Graphics\Acceleration\OcclusionCulling\HW\QueryOcclusionCulling.cpp" />
-    <ClCompile Include="Source\Core\Graphics\Acceleration\OcclusionCulling\SW\SWOcclusionCulling.cpp" />
-    <ClCompile Include="Source\Core\Graphics\Acceleration\ScreenSpaceCulling\ScreenSpaceCulling.cpp" />
     <ClCompile Include="Source\Core\Graphics\Acceleration\ViewFrustum.cpp" />
     <ClCompile Include="Source\Core\Graphics\FrameBuffer\utility\PicktureInPickture.cpp" />
     <ClCompile Include="Source\Core\IO\AssetImporter\AssetApiImporter.cpp" />
@@ -329,10 +326,7 @@
     <ClInclude Include="Source\Core\Graphics\Acceleration\LinearViewFrustumCulling\LinearViewFrustumCulling.h" />
     <ClInclude Include="Source\Core\Graphics\Acceleration\LinearViewFrustumCulling\DataStructure\TransformData.h" />
     <ClInclude Include="Source\Core\Graphics\Acceleration\LinearViewFrustumCulling\LinearViewFrustumCulling_Core.h" />
-    <ClInclude Include="Source\Core\Graphics\Acceleration\OcclusionCulling\HW\HierarchicalZMapOcclusionCulling.h" />
     <ClInclude Include="Source\Core\Graphics\Acceleration\OcclusionCulling\HW\QueryOcclusionCulling.h" />
-    <ClInclude Include="Source\Core\Graphics\Acceleration\OcclusionCulling\SW\SWOcclusionCulling.h" />
-    <ClInclude Include="Source\Core\Graphics\Acceleration\ScreenSpaceCulling\ScreenSpaceCulling.h" />
     <ClInclude Include="Source\Core\Graphics\Acceleration\ViewFrustum.h" />
     <ClInclude Include="Source\Core\Graphics\FrameBuffer\utility\PicktureInPickture.h" />
     <ClInclude Include="Source\Core\Graphics\RenderingBitFlag.h" />
