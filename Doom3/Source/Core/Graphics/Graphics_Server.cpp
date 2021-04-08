@@ -273,7 +273,7 @@ void doom::graphics::Graphics_Server::DeferredRendering()
 
 	D_START_PROFILING("Wait Cull Job", doom::profiler::eProfileLayers::Rendering);
 	this->mFrotbiteCullingSystem.WaitToFinishCullJobs(); // Waiting time is almost zero
-	resource::JobSystem::GetSingleton()->SetMemoryBarrierOnAllSubThreads();
+	//resource::JobSystem::GetSingleton()->SetMemoryBarrierOnAllSubThreads();
 	D_END_PROFILING("Wait Cull Job");
 
 	unsigned int CameraCount = this->mFrotbiteCullingSystem.GetCameraCount();
@@ -362,7 +362,10 @@ void Graphics_Server::PreUpdateEntityBlocks()
 		{
 			const ::doom::Renderer* renderer = reinterpret_cast<::doom::Renderer*>(entityBlock->mRenderer[entityIndex]);
 
+			//this is really expensive!!
 			float worldRadius = const_cast<Renderer*>(renderer)->BVH_Sphere_Node_Object::GetWorldColliderCacheByReference()->mRadius;
+
+
 			entityBlock->mPositions[entityIndex] = renderer->GetTransform()->GetPosition();
 			entityBlock->mPositions[entityIndex].w = -(worldRadius + BOUNDING_SPHRE_RADIUS_MARGIN);
 		}
