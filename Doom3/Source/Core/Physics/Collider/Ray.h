@@ -26,6 +26,11 @@ namespace doom
 				return &(this->mOrigin);
 			}
 
+			FORCE_INLINE virtual const void* data() const final
+			{
+				return &(this->mOrigin);
+			}
+
 			math::Vector3 GetNormal() const;
 			void SetNomral(const math::Vector3& normal);
 			/// <summary>

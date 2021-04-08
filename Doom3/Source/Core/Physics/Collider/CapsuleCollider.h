@@ -20,6 +20,11 @@ namespace doom
 				return &(this->mCenter);
 			}
 
+			FORCE_INLINE virtual const void* data() const final
+			{
+				return &(this->mCenter);
+			}
+
 			CapsuleCollider(const math::Vector3& center, float height, float radius);
 
 			ColliderType GetColliderType() const override;

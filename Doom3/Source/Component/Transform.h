@@ -114,29 +114,29 @@ namespace doom
 			this->SetScale({ x,y,z });
 		}
 
-		FORCE_INLINE constexpr math::Vector3 GetPosition()
+		FORCE_INLINE math::Vector3 GetPosition()
 		{
 			return this->mPosition;
 		}
-		FORCE_INLINE constexpr const math::Vector3& GetPosition() const
+		FORCE_INLINE const math::Vector3& GetPosition() const
 		{
 			return this->mPosition;
 		}
 
-		FORCE_INLINE constexpr math::Quaternion GetRotation()
+		FORCE_INLINE math::Quaternion GetRotation()
 		{
 			return this->mRotation;
 		}
-		FORCE_INLINE constexpr const math::Quaternion& GetRotation() const
+		FORCE_INLINE const math::Quaternion& GetRotation() const
 		{
 			return this->mRotation;
 		}
 
-		FORCE_INLINE constexpr math::Vector3 GetScale()
+		FORCE_INLINE math::Vector3 GetScale()
 		{
 			return this->mScale;
 		}
-		FORCE_INLINE constexpr const math::Vector3& GetScale() const
+		FORCE_INLINE const math::Vector3& GetScale() const
 		{
 			return this->mScale;
 		}
@@ -153,15 +153,15 @@ namespace doom
 		}
 
 
-		FORCE_INLINE constexpr math::Vector3 forward() const
+		FORCE_INLINE math::Vector3 forward() const
 		{
 			return this->mRotation * math::Vector3::forward;
 		}
-		FORCE_INLINE constexpr math::Vector3 right() const
+		FORCE_INLINE math::Vector3 right() const
 		{
 			return this->mRotation * math::Vector3::right;
 		}
-		FORCE_INLINE constexpr math::Vector3 up() const
+		FORCE_INLINE math::Vector3 up() const
 		{
 			return this->mRotation * math::Vector3::up;
 		}
@@ -199,15 +199,15 @@ namespace doom
 
 		}
 
-		FORCE_INLINE constexpr math::Vector3 TransformDirection(math::Vector3& direction) const
+		FORCE_INLINE math::Vector3 TransformDirection(math::Vector3& direction) const
 		{
 			return this->mRotation * direction.normalized();
 		}
-		FORCE_INLINE constexpr math::Vector3 TransformPoint(const math::Vector3& point) const
+		FORCE_INLINE math::Vector3 TransformPoint(const math::Vector3& point) const
 		{
 			return this->mRotation * point;
 		}
-		FORCE_INLINE constexpr math::Vector3 TransformVector(const math::Vector3& vector) const
+		FORCE_INLINE math::Vector3 TransformVector(const math::Vector3& vector) const
 		{
 			return this->mRotation * vector;
 		}

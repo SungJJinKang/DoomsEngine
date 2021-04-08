@@ -54,6 +54,11 @@ namespace doom
 				return &(this->mCenter);
 			}
 
+			FORCE_INLINE virtual const void* data() const final
+			{
+				return &(this->mCenter);
+			}
+
 			FORCE_INLINE void Expand(const math::Vector3& movedVector)
 			{
 				this->mRadius += movedVector.magnitude();

@@ -21,6 +21,8 @@
 
 #include "Rendering/Camera.h"
 
+#include "Physics/Collider/AABB.h"
+
 #ifdef DEBUG_MODE
 #include "Physics/Collider/Plane.h"
 #include <SequenceStringGenerator/SequenceStringGenerator.h>
@@ -241,6 +243,68 @@ void doom::graphics::Graphics_Server::InitFrameBufferForDeferredRendering()
 
 }
 
+void Graphics_Server::PreUpdateEntityBlocks()
+{
+	auto activeEntityBlockList = this->mFrotbiteCullingSystem.GetActiveEntityBlockList();
+	for (auto entityBlock : activeEntityBlockList)
+	{
+		unsigned int entityCount = entityBlock->mCurrentEntityCount;
+		for (unsigned int entityIndex = 0; entityIndex < entityCount; entityIndex++)
+		{
+			const ::doom::Renderer* renderer = reinterpret_cast<::doom::Renderer*>(entityBlock->mRenderer[entityIndex]);
+
+			//this is really expensive!!
+			float worldRadius = const_cast<Renderer*>(renderer)->BVH_Sphere_Node_Object::GetWorldColliderCacheByReference()->mRadius;
+
+			entityBlock->mPositions[entityIndex] = renderer->GetTransform()->GetPosition();
+			entityBlock->mPositions[entityIndex].w = -(worldRadius + BOUNDING_SPHRE_RADIUS_MARGIN);
+
+#ifdef ENABLE_SCREEN_SAPCE_AABB_CULLING
+			
+			std::memcpy(
+				&(entityBlock->mWorldAABB[entityIndex]),
+				const_cast<Renderer*>(renderer)->ColliderUpdater<doom::physics::AABB3D>::GetWorldColliderCacheByReference()->data(),
+				sizeof(culling::AABB)
+			);
+			
+#endif
+		}
+	}
+}
+
+void Graphics_Server::SolveLinearDataCulling()
+{
+	auto spawnedCameraList = StaticContainer<Camera>::GetAllStaticComponents();
+	for (unsigned int i = 0; i < spawnedCameraList.size(); i++)
+	{
+		D_START_PROFILING(SequenceStringGenerator::GetLiteralString("UpdateFrustumPlane Camera Num: ", i), doom::profiler::eProfileLayers::Rendering);
+		this->mFrotbiteCullingSystem.mViewFrustumCulling.UpdateFrustumPlane(i, spawnedCameraList[i]->GetViewProjectionMatrix());
+#ifdef ENABLE_SCREEN_SAPCE_AABB_CULLING
+		this->mFrotbiteCullingSystem.mScreenSpaceAABBCulling.SetViewProjectionMatrix(spawnedCameraList[i]->GetViewProjectionMatrix());
+#endif
+		D_END_PROFILING(SequenceStringGenerator::GetLiteralString("UpdateFrustumPlane Camera Num: ", i));
+	}
+
+	this->mFrotbiteCullingSystem.SetCameraCount(static_cast<unsigned int>(spawnedCameraList.size()));
+	D_START_PROFILING("this->mFrotbiteCullingSystem.ResetCullJobStat", doom::profiler::eProfileLayers::Rendering);
+	this->mFrotbiteCullingSystem.ResetCullJobState();
+	D_END_PROFILING("this->mFrotbiteCullingSystem.ResetCullJobStat");
+
+	D_START_PROFILING("PreUpdateEntityBlocks", doom::profiler::eProfileLayers::Rendering);
+	PreUpdateEntityBlocks();
+	D_END_PROFILING("PreUpdateEntityBlocks");
+
+	/// TODO : This is too slow. Fix It!!!!!!!!!!!!!!!!!!!!
+	D_START_PROFILING("this->mFrotbiteCullingSystem.GetCullBlockEnityJobs", doom::profiler::eProfileLayers::Rendering);
+	auto CullJobs{ this->mFrotbiteCullingSystem.GetCullBlockEnityJobs(0) };
+	D_END_PROFILING("this->mFrotbiteCullingSystem.GetCullBlockEnityJobs");
+
+	D_START_PROFILING("Push Culling Job To Linera Culling System", doom::profiler::eProfileLayers::Rendering);
+	resource::JobSystem::GetSingleton()->PushBackJobChunkToPriorityQueueWithNoSTDFuture(std::move(CullJobs));
+	resource::JobSystem::GetSingleton()->PushBackJobToAllThreadWithNoSTDFuture(this->mFrotbiteCullingSystem.GetCommitThreadLocalFinishedCullJobBlockCountStdFunction());
+	D_END_PROFILING("Push Culling Job To Linera Culling System");
+}
+
 void doom::graphics::Graphics_Server::DeferredRendering()
 {
 	SolveLinearDataCulling(); // do this first
@@ -352,59 +416,8 @@ void doom::graphics::Graphics_Server::DeferredRendering()
 }
 
 
-void Graphics_Server::PreUpdateEntityBlocks()
-{
-	auto activeEntityBlockList = this->mFrotbiteCullingSystem.GetActiveEntityBlockList();
-	for (auto entityBlock : activeEntityBlockList)
-	{
-		unsigned int entityCount = entityBlock->mCurrentEntityCount;
-		for (unsigned int entityIndex = 0; entityIndex < entityCount; entityIndex++)
-		{
-			const ::doom::Renderer* renderer = reinterpret_cast<::doom::Renderer*>(entityBlock->mRenderer[entityIndex]);
-
-			//this is really expensive!!
-			float worldRadius = const_cast<Renderer*>(renderer)->BVH_Sphere_Node_Object::GetWorldColliderCacheByReference()->mRadius;
 
 
-			entityBlock->mPositions[entityIndex] = renderer->GetTransform()->GetPosition();
-			entityBlock->mPositions[entityIndex].w = -(worldRadius + BOUNDING_SPHRE_RADIUS_MARGIN);
-		}
-
-		
-	}
-
-}
-
-void Graphics_Server::SolveLinearDataCulling()
-{
-	auto spawnedCameraList = StaticContainer<Camera>::GetAllStaticComponents();
-	for (unsigned int i = 0; i < spawnedCameraList.size(); i++)
-	{
-		D_START_PROFILING(SequenceStringGenerator::GetLiteralString("UpdateFrustumPlane Camera Num: ", i), doom::profiler::eProfileLayers::Rendering);
-		this->mFrotbiteCullingSystem.mViewFrustumCulling.UpdateFrustumPlane(i, spawnedCameraList[i]->GetViewProjectionMatrix());
-		//this->mFrotbiteCullingSystem.mScreenSpaceAABBCulling.SetViewProjectionMatrix(spawnedCameraList[i]->GetViewProjectionMatrix());
-		D_END_PROFILING(SequenceStringGenerator::GetLiteralString("UpdateFrustumPlane Camera Num: ", i));
-	}
-
-
-	this->mFrotbiteCullingSystem.SetCameraCount(static_cast<unsigned int>(spawnedCameraList.size()));
-	D_START_PROFILING("this->mFrotbiteCullingSystem.ResetCullJobStat", doom::profiler::eProfileLayers::Rendering);
-	this->mFrotbiteCullingSystem.ResetCullJobState();
-	D_END_PROFILING("this->mFrotbiteCullingSystem.ResetCullJobStat", doom::profiler::eProfileLayers::Rendering);
-
-	D_START_PROFILING("PreUpdateEntityBlocks", doom::profiler::eProfileLayers::Rendering);
-	PreUpdateEntityBlocks();
-	D_END_PROFILING("PreUpdateEntityBlocks", doom::profiler::eProfileLayers::Rendering);
-
-	/// TODO : This is too slow. Fix It!!!!!!!!!!!!!!!!!!!!
-	D_START_PROFILING("this->mFrotbiteCullingSystem.GetCullBlockEnityJobs", doom::profiler::eProfileLayers::Rendering);
-	auto CullJobs{ this->mFrotbiteCullingSystem.GetCullBlockEnityJobs(0) };
-	D_END_PROFILING("this->mFrotbiteCullingSystem.GetCullBlockEnityJobs");
-
-	D_START_PROFILING("Push Culling Job To Linera Culling System", doom::profiler::eProfileLayers::Rendering);
-	resource::JobSystem::GetSingleton()->PushBackJobChunkToPriorityQueueWithNoSTDFuture(std::move(CullJobs));
-	D_END_PROFILING("Push Culling Job To Linera Culling System");
-}
 
 const doom::graphics::FrameBuffer& Graphics_Server::GetGBuffer() const
 {

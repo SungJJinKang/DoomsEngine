@@ -6,7 +6,7 @@ void doom::Renderer::InitComponent()
 {
 	RendererComponentStaticIterator::AddRendererToStaticContainer();
 
-	this->mEntityBlockViewer = graphics::Graphics_Server::GetSingleton()->mFrotbiteCullingSystem.AllocateNewEntity(this, this->GetTransform()->GetPosition(), 0);
+	this->mEntityBlockViewer = graphics::Graphics_Server::GetSingleton()->mFrotbiteCullingSystem.AllocateNewEntity(this);
 
 	this->AddLocalDirtyToTransformDirtyReceiver(BVH_Sphere_Node_Object::IsWorldColliderCacheDirty);
 	this->AddLocalDirtyToTransformDirtyReceiver(ColliderUpdater<doom::physics::AABB3D>::IsWorldColliderCacheDirty);

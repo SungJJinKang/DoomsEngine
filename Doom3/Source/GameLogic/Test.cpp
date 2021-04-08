@@ -16,6 +16,7 @@ void doom::TEST::Init()
 {
 	auto currenScene = doom::Scene::GetCurrentWorld();
 
+
 	auto lightEntity = currenScene->CreateNewEntity();
 	auto dirLight = lightEntity->AddComponent<DirectionalLight>();
 	dirLight->SetIntensity(5);

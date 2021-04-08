@@ -29,6 +29,7 @@ namespace doom
 			virtual void DrawPhysicsDebug(bool drawInstantly = false) final;
 
 			virtual void* data() = 0;
+			virtual const void* data() const = 0;
 		};
 
 	

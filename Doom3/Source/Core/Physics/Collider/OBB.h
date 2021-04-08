@@ -18,6 +18,11 @@ namespace doom
 			{
 				return nullptr;
 			}
+
+			FORCE_INLINE virtual const void* data() const final
+			{
+				return nullptr;
+			}
 		};
 	}
 }

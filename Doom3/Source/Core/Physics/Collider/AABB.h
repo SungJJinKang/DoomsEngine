@@ -31,15 +31,20 @@ namespace doom
 			/// <summary>
 			/// Padding is required for FrostbiteCulling System
 			/// </summary>
-			float padding1{ 1.0f };
+			//float padding1{ 1.0f };
 			math::Vector3 mUpperBound; 
-			float padding2{ 1.0f };
+			//float padding2{ 1.0f };
 
 			bool IsValid() const;
 
 			void Validate();
 
 			FORCE_INLINE virtual void* data() final
+			{
+				return &(this->mLowerBound);
+			}
+
+			FORCE_INLINE virtual const void* data() const final
 			{
 				return &(this->mLowerBound);
 			}
@@ -170,6 +175,11 @@ namespace doom
 			void Validate();
 
 			FORCE_INLINE virtual void* data() final
+			{
+				return &(this->mLowerBound);
+			}
+
+			FORCE_INLINE virtual const void* data() const final
 			{
 				return &(this->mLowerBound);
 			}

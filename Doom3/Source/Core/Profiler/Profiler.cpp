@@ -33,8 +33,15 @@ namespace doom
 			friend class Profiler;
 			friend class GameCore;
 
-			using key_type = typename std::conditional_t<"TEST LITEAL STRING" == "TEST LITEAL STRING", const char*, std::string>;
 			using time_point = std::chrono::time_point<std::chrono::high_resolution_clock>;
+			struct AvgElapsedTime
+			{
+				float mAvg;
+				unsigned long long mElementCount;
+			};
+
+			using key_type = typename std::conditional_t<"TEST LITEAL STRING" == "TEST LITEAL STRING", const char*, std::string>;
+			
 		
 			using elapsed_time_data_container_type = std::unordered_map<key_type, time_point>;
 			using accumulated_time_data_container_type = std::unordered_map<key_type, std::pair<time_point, long long>>;
@@ -88,6 +95,13 @@ namespace doom
 				return;
 #endif
 				bmIsProfilerActivated = !(ConfigData::GetSingleton()->GetConfigData().GetValue<bool>("SYSTEM", "DISABLE_PROFILER"));
+			}
+
+			FORCE_INLINE float CummulativeAverage(float prevAvg, float newNum, unsigned long long elementCount)
+			{
+				const float oldWeight = (elementCount - 1) / elementCount;
+				const float newWeight = 1 / elementCount;
+				return (prevAvg * oldWeight) + (newNum * newWeight);
 			}
 
 			FORCE_INLINE void LogDuration(const std::thread::id& thread, const char* name, long long elapsedTimeCountInMs)
