@@ -332,6 +332,7 @@
     <ClInclude Include="Source\Core\Graphics\RenderingBitFlag.h" />
     <ClInclude Include="Source\Core\Graphics\TextureFormat.h" />
     <ClInclude Include="Source\Core\Macros\KeyCallback.h" />
+    <ClInclude Include="Source\Core\Math\LightMath_Cpp\Quaternion_SIMD.inl" />
     <ClInclude Include="Source\Core\Math\LightMath_Cpp\SIMD.h" />
     <ClInclude Include="Source\Core\Math\LightMath_Cpp\SIMD_Core.h" />
     <ClInclude Include="Source\Core\Math\LightMath_Cpp\Trigonometric.h" />
@@ -698,9 +699,9 @@
     <None Include="dependency\glfw-3.3.2.bin.WIN64\docs\html\window_8dox.html" />
     <None Include="dependency\glfw-3.3.2.bin.WIN64\docs\html\window_guide.html" />
     <None Include="Source\Core\Math\LightMath_Cpp\LICENSE" />
-    <None Include="Source\Core\Math\LightMath_Cpp\Matrix4x4Float_Aligned.inl" />
+    <None Include="Source\Core\Math\LightMath_Cpp\Matrix4x4Float_SIMD.inl" />
     <None Include="Source\Core\Math\LightMath_Cpp\README.md" />
-    <None Include="Source\Core\Math\LightMath_Cpp\Vector4Float_Aligned.inl" />
+    <None Include="Source\Core\Math\LightMath_Cpp\Vector4Float_SIMD.inl" />
     <None Include="Source\Core\ResourceManagement\JobSystem_cpp\MultithreadingJobSystemStrategy.md" />
     <None Include="Source\Core\ResourceManagement\JobSystem_cpp\README.md" />
     <None Include="Source\Helper\DeferredConstant\.git" />

@@ -1127,6 +1127,9 @@
     <ClInclude Include="Source\Core\Graphics\Acceleration\LinearData_ViewFrustumCulling\CullingModule\ScreenSpaceAABBCulling\ScreenSpaceAABBCulling.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Core\Math\LightMath_Cpp\Quaternion_SIMD.inl">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="dependency\glfw-3.3.2.bin.WIN64\docs\html\search\all_0.html" />
@@ -1289,15 +1292,15 @@
     <None Include="Assets\Shader\Default\Default2DColorShader.glsl" />
     <None Include="Assets\Shader\Default\OcclusionCullingBoundingBox.glsl" />
     <None Include="Source\Core\Math\LightMath_Cpp\LICENSE" />
-    <None Include="Source\Core\Math\LightMath_Cpp\Matrix4x4Float_Aligned.inl">
-      <Filter>Header Files</Filter>
-    </None>
     <None Include="Source\Core\Math\LightMath_Cpp\README.md" />
-    <None Include="Source\Core\Math\LightMath_Cpp\Vector4Float_Aligned.inl">
-      <Filter>Header Files</Filter>
-    </None>
     <None Include="Source\Core\ResourceManagement\JobSystem_cpp\MultithreadingJobSystemStrategy.md" />
     <None Include="Source\Core\ResourceManagement\JobSystem_cpp\README.md" />
+    <None Include="Source\Core\Math\LightMath_Cpp\Vector4Float_SIMD.inl">
+      <Filter>Header Files</Filter>
+    </None>
+    <None Include="Source\Core\Math\LightMath_Cpp\Matrix4x4Float_SIMD.inl">
+      <Filter>Header Files</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Text Include="Source\Core\Graphics\ReadThis!!!!.txt" />
