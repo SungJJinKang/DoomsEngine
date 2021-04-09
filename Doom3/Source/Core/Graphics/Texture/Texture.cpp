@@ -115,14 +115,5 @@ unsigned int Texture::GetID()
 	return this->mBufferID;
 }
 
-void Texture::InitTextureUnitTag(int availiableTextureUnitCount)
-{
-	for (int i = 0; i < availiableTextureUnitCount; i++)
-	{
-		std::string str{ "TextureUnitTag" };
-		str += std::to_string(i);
-		TEXTURE_UNIT_TAG.push_back(str);
-	}
-	
-}
+
 

@@ -17,7 +17,7 @@ namespace doom
 			friend class Graphics_Server;
 		private:
 
-			inline static constexpr const char* FRAMEBUFFER_TAG = "FrameBuffer";
+			inline static const char FRAMEBUFFER_TAG[]{ "FrameBuffer" };
 
 			static constexpr unsigned int RESERVED_RENDERBUFFER_COUNT = 3;
 			std::vector<RenderBuffer> mAttachedRenderBuffers;

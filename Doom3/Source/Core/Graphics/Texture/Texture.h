@@ -67,6 +67,49 @@ namespace doom
 				TEXTURE_2D_MULTISAMPLE_ARRAY = GL_TEXTURE_2D_MULTISAMPLE_ARRAY
 			};
 			static constexpr eBindTarget DEFAULT_BIND_TARGET = eBindTarget::TEXTURE_2D;
+
+			/// <summary>
+			/// why use this?
+			/// Yeah i can use magic_enum::enum_index
+			/// but to do that, i should increase magic_enum::MAGIC_ENUM_RANGE_MAX.
+			/// Then this will increase compile time dramatically
+			/// 
+			/// and if you wanna get real index of enum value, you should use it at compiletime,
+			/// 
+			/// </summary>
+			/// <returns></returns>
+			inline static size_t GetArbitraryIndexOfeBindTarget(eBindTarget bindTarget)
+			{
+				if (bindTarget == eBindTarget::TEXTURE_2D)
+				{
+					return 1;
+				}
+				switch (bindTarget)
+				{
+				case eBindTarget::TEXTURE_1D:
+					return 0;
+				case eBindTarget::TEXTURE_3D:
+					return 2;
+				case eBindTarget::TEXTURE_1D_ARRAY:
+					return 3;
+				case eBindTarget::TEXTURE_2D_ARRAY:
+					return 4;
+				case eBindTarget::TEXTURE_RECTANGLE:
+					return 5;
+				case eBindTarget::TEXTURE_CUBE_MAP:
+					return 6;
+				case eBindTarget::TEXTURE_CUBE_MAP_ARRAY:
+					return 7;
+				case eBindTarget::TEXTURE_BUFFER:
+					return 8;
+				case eBindTarget::TEXTURE_2D_MULTISAMPLE:
+					return 9;
+				case eBindTarget::TEXTURE_2D_MULTISAMPLE_ARRAY:
+					return 10;
+				default:
+					NEVER_HAPPEN;
+				}
+			}
 			
 			enum class eTargetTexture : unsigned int
 			{
@@ -180,51 +223,8 @@ namespace doom
 
 		private:
 
-			/// <summary>
-			/// some times primitive ways works well
-			/// </summary>
-			/// <param name="bindTarget"></param>
-			/// <returns></returns>
-			static const char* GetBindTargetTag(eBindTarget bindTarget)
-			{
-				if (bindTarget == eBindTarget::TEXTURE_2D)
-				{// for maxmizing branch prediction
-					return "TEXTURE_2D";
-				}
-				else
-				{
-					switch (bindTarget)
-					{
-					case eBindTarget::TEXTURE_1D:
-						return "TEXTURE_1D";
-					case eBindTarget::TEXTURE_3D:
-						return "TEXTURE_3D";
-					case eBindTarget::TEXTURE_1D_ARRAY:
-						return "TEXTURE_1D_ARRAY";
-					case eBindTarget::TEXTURE_2D_ARRAY:
-						return "TEXTURE_2D_ARRAY";
-					case eBindTarget::TEXTURE_RECTANGLE:
-						return "TEXTURE_RECTANGLE";
-					case eBindTarget::TEXTURE_CUBE_MAP:
-						return "TEXTURE_CUBE_MAP";
-					case eBindTarget::TEXTURE_CUBE_MAP_ARRAY:
-						return "TEXTURE_CUBE_MAP_ARRAY";
-					case eBindTarget::TEXTURE_BUFFER:
-						return "TEXTURE_BUFFER";
-					case eBindTarget::TEXTURE_2D_MULTISAMPLE:
-						return "TEXTURE_2D_MULTISAMPLE";
-					case eBindTarget::TEXTURE_2D_MULTISAMPLE_ARRAY:
-						return "TEXTURE_2D_MULTISAMPLE_ARRAY";
-					default:
-						NEVER_HAPPEN;
-					}
-				}
-				
-			}
-
-			static inline std::vector<std::string> TEXTURE_UNIT_TAG{};
-			static inline const char* ACTIVE_TEXTURE_TAG{ "ActiveTexture" };
-			static void InitTextureUnitTag(int availiableTextureUnitCount);
+			inline static const char BIND_TARGET_TAG[]{ "BIND_TARGET" };
+			static inline const char ACTIVE_TEXTURE_TAG[]{ "ActiveTexture" };
 
 			eWrapMode mWrapS;
 			eWrapMode mWrapT;
@@ -281,11 +281,18 @@ namespace doom
 			const eTextureComponentFormat mDataFormat;
 			const eDataType mDataType;
 
-			
+			//	BindTarget
+			//					--->	Texture Buffer ID
+			//	BindingPoint
+			// 
+			//
+			//
+			//
+			//
 
 			FORCE_INLINE void BindTexture() noexcept
 			{
-				if (D_OVERLAP_BIND_CHECK_CHECK_IS_NOT_BOUND_AND_BIND_ID(GetBindTargetTag(this->mBindTarget), this->mBufferID))
+				if (D_OVERLAP_BIND_CHECK_CHECK_IS_NOT_BOUND_AND_BIND_ID_WITH_DOUBLE_INDEX(BIND_TARGET_TAG, this->GetArbitraryIndexOfeBindTarget(this->mBindTarget), D_OVERLAP_BIND_GET_BIND_ID(ACTIVE_TEXTURE_TAG), this->mBufferID))
 				{
 					glBindTexture(static_cast<unsigned int>(this->mBindTarget), this->mBufferID);
 				}
@@ -301,7 +308,7 @@ namespace doom
 
 			FORCE_INLINE void UnBindTexture() noexcept
 			{
-				if (D_OVERLAP_BIND_CHECK_CHECK_IS_NOT_BOUND_AND_BIND_ID(GetBindTargetTag(this->mBindTarget), 0))
+				if (D_OVERLAP_BIND_CHECK_CHECK_IS_NOT_BOUND_AND_BIND_ID_WITH_DOUBLE_INDEX(BIND_TARGET_TAG, this->GetArbitraryIndexOfeBindTarget(this->mBindTarget), D_OVERLAP_BIND_GET_BIND_ID(ACTIVE_TEXTURE_TAG), 0))
 				{
 					glBindTexture(static_cast<unsigned int>(this->mBindTarget), 0);
 				}
@@ -309,7 +316,9 @@ namespace doom
 
 			FORCE_INLINE void BindTextureWithUnit(unsigned int bindingPoint)
 			{
-				if (D_OVERLAP_BIND_CHECK_CHECK_IS_NOT_BOUND_AND_BIND_ID(TEXTURE_UNIT_TAG[bindingPoint].data(), this->mBufferID))
+				if (
+					D_OVERLAP_BIND_CHECK_CHECK_IS_NOT_BOUND_AND_BIND_ID_WITH_DOUBLE_INDEX(BIND_TARGET_TAG, this->GetArbitraryIndexOfeBindTarget(this->mBindTarget), bindingPoint, this->mBufferID)
+				)
 				{
 					glBindTextureUnit(bindingPoint, this->mBufferID);
 				}

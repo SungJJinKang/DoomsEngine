@@ -203,7 +203,6 @@ void Graphics_Server::InitGLFW()
 	int maxTextureUnitCount{ 0 };
 	glGetIntegerv(GL_MAX_TEXTURE_IMAGE_UNITS, &maxTextureUnitCount);
 	D_ASSERT(maxTextureUnitCount != 0);
-	Texture::InitTextureUnitTag(maxTextureUnitCount);
 
 	bmIsGLFWInitialized = true;
 }

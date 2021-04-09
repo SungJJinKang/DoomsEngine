@@ -11,7 +11,7 @@ namespace doom
 		class RenderBuffer
 		{
 		private:
-			static inline const char* RENDERBUFFER_TAG = "RenderBuffer";
+			static inline const char RENDERBUFFER_TAG[]{ "RenderBuffer" };
 			BufferID mRenderBufferID{};
 		public:
 			RenderBuffer(FrameBuffer& ownerFrameBuffer, GraphicsAPI::eBufferType frameBufferType, unsigned int width, unsigned int height);

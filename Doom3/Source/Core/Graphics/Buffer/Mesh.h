@@ -26,8 +26,8 @@ namespace doom
 
 		public:
 
-			static inline const char* VERTEX_ARRAY_TAG{ "VERTEX_ARRAY" };
-			static inline const char* VERTEX_BUFFER_TAG{ "VERTEX_BUFFER" };
+			static inline const char VERTEX_ARRAY_TAG[]{ "VERTEX_ARRAY" };
+			static inline const char VERTEX_BUFFER_TAG[]{ "VERTEX_BUFFER" };
 
 		private:
 

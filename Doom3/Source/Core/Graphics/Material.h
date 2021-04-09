@@ -51,7 +51,7 @@ namespace doom
 		{
 
 		private:
-			static inline constexpr const char* MATERIAL_TAG = "Material";
+			static inline const char MATERIAL_TAG[]{ "MATERIAL" };
 
 			BufferID mProgramID;
 			::doom::asset::ShaderAsset* mShaderAsset;

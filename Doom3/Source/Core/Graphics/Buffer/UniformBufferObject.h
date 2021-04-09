@@ -20,6 +20,8 @@ namespace doom
 			friend class UniformBufferObjectManager;
 		private:
 
+			static inline const char GL_UNIFORM_BUFFER_TAG[]{ "GL_UNIFORM_BUFFER" };
+
 			/// <summary>
 			/// for buffer data only when data is dirty
 			/// </summary>
@@ -54,7 +56,7 @@ namespace doom
 
 			FORCE_INLINE void BindBuffer() noexcept final
 			{
-				if (D_OVERLAP_BIND_CHECK_CHECK_IS_NOT_BOUND_AND_BIND_ID("GL_UNIFORM_BUFFER", this->mBufferID))
+				if (D_OVERLAP_BIND_CHECK_CHECK_IS_NOT_BOUND_AND_BIND_ID(GL_UNIFORM_BUFFER_TAG, this->mBufferID))
 				{
 					glBindBuffer(GL_UNIFORM_BUFFER, this->mBufferID);
 				}
@@ -62,7 +64,7 @@ namespace doom
 			}
 			FORCE_INLINE virtual void UnBindBuffer() noexcept final
 			{
-				if (D_OVERLAP_BIND_CHECK_CHECK_IS_NOT_BOUND_AND_BIND_ID("GL_UNIFORM_BUFFER", 0))
+				if (D_OVERLAP_BIND_CHECK_CHECK_IS_NOT_BOUND_AND_BIND_ID(GL_UNIFORM_BUFFER_TAG, 0))
 				{
 					glBindBuffer(GL_UNIFORM_BUFFER, 0);
 				}

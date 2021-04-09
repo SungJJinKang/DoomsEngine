@@ -6,7 +6,7 @@
 #include "../Core.h"
 
 #define USE_OVERLAP_BIND_CHECKER
-
+#define MAX_BOUND_ID_COUNT 30
 namespace doom
 {
 	namespace graphics
@@ -15,12 +15,32 @@ namespace doom
 		class OverlapBindChecker
 		{
 		private:
-			static std::unordered_map<const char*, unsigned int> mCurrentBoundId;
+
+			template <const char* str>
+			inline static unsigned int mCurrentBoundId{};
+			template <const char* str>
+			inline static unsigned int mCurrentBoundIds[MAX_BOUND_ID_COUNT]{};
+			template <const char* str>
+			inline static unsigned int mCurrentBound2DIndexId[MAX_BOUND_ID_COUNT][MAX_BOUND_ID_COUNT]{};
+
 		public:
 
-			FORCE_INLINE static void Bind(const char* str, unsigned int id)
+			template <const char* str>
+			FORCE_INLINE static void Bind(unsigned int id)
 			{
-				OverlapBindChecker::mCurrentBoundId.insert_or_assign(str, id);
+				mCurrentBoundId<str> = id;
+			}
+
+			template <const char* str>
+			FORCE_INLINE static void Bind(size_t index, unsigned int id)
+			{
+				mCurrentBoundIds<str>[index] = id;
+			}
+
+			template <const char* str>
+			FORCE_INLINE static void Bind(size_t index1, size_t index2, unsigned int id )
+			{
+				mCurrentBound2DIndexId<str>[index1][index2] = id;
 			}
 
 			/// <summary>
@@ -41,10 +61,49 @@ namespace doom
 			}
 			*/
 
-			FORCE_INLINE static unsigned int GetBoundID(const char* str)
+			template <const char* str>
+			FORCE_INLINE static unsigned int GetBoundID()
 			{
 				// if key doesn't exist yet, maybe 0 will be set
-				return OverlapBindChecker::mCurrentBoundId[str];
+				return OverlapBindChecker::mCurrentBoundId<str>;
+				/*
+				auto element = OverlapBindChecker::mCurrentBoundId.find(str);
+
+				if (element != OverlapBindChecker::mCurrentBoundId.end())
+				{//if key exitst
+					return (*element).second;
+				}
+				else
+				{//key doesn't exist
+					return 0;
+				}
+				*/
+			}
+
+			template <const char* str>
+			FORCE_INLINE static unsigned int GetBoundID(size_t index)
+			{
+				// if key doesn't exist yet, maybe 0 will be set
+				return OverlapBindChecker::mCurrentBoundIds<str>[index];
+				/*
+				auto element = OverlapBindChecker::mCurrentBoundId.find(str);
+
+				if (element != OverlapBindChecker::mCurrentBoundId.end())
+				{//if key exitst
+					return (*element).second;
+				}
+				else
+				{//key doesn't exist
+					return 0;
+				}
+				*/
+			}
+
+			template <const char* str>
+			FORCE_INLINE static unsigned int GetBoundID(size_t index1, size_t index2)
+			{
+				// if key doesn't exist yet, maybe 0 will be set
+				return OverlapBindChecker::mCurrentBound2DIndexId<str>[index1][index2];
 				/*
 				auto element = OverlapBindChecker::mCurrentBoundId.find(str);
 
@@ -66,19 +125,46 @@ namespace doom
 			/// <param name="str"></param>
 			/// <param name="id"></param>
 			/// <returns></returns>
-			FORCE_INLINE static bool CheckIsNotBoundAndBindID(const char* str, unsigned int id)
+			template <const char* str>
+			FORCE_INLINE static bool CheckIsNotBoundAndBindID(unsigned int id)
 			{
-				if (OverlapBindChecker::GetBoundID(str) == id)
+				if (OverlapBindChecker::GetBoundID<str>() == id)
 				{
 					return false;
 				}
 				else
 				{
-					OverlapBindChecker::Bind(str, id);
+					OverlapBindChecker::Bind<str>(id);
+					return true;
+				}
+			}
+			template <const char* str>
+			FORCE_INLINE static bool CheckIsNotBoundAndBindID(size_t index, unsigned int id)
+			{
+				if (OverlapBindChecker::GetBoundID<str>(index) == id)
+				{
+					return false;
+				}
+				else
+				{
+					OverlapBindChecker::Bind<str>(index, id);
 					return true;
 				}
 			}
 
+			template <const char* str>
+			FORCE_INLINE static bool CheckIsNotBoundAndBindID(size_t index1, size_t index2, unsigned int id)
+			{
+				if (OverlapBindChecker::GetBoundID<str>(index1, index2) == id)
+				{
+					return false;
+				}
+				else
+				{
+					OverlapBindChecker::Bind<str>(index1, index2, id);
+					return true;
+				}
+			}
 		};
 
 
@@ -87,9 +173,20 @@ namespace doom
 
 #ifdef USE_OVERLAP_BIND_CHECKER
 
-#define D_OVERLAP_BIND_CHECK_BINDID(str, id) OverlapBindChecker::Bind(str, id)
-#define D_OVERLAP_BIND_CHECK_IS_ALREADY_BOUND(str, id) OverlapBindChecker::GetBoundID(str) == id
-#define D_OVERLAP_BIND_CHECK_CHECK_IS_NOT_BOUND_AND_BIND_ID(str, id) OverlapBindChecker::CheckIsNotBoundAndBindID(str, id)
+#define D_OVERLAP_BIND_GET_BIND_ID(str) OverlapBindChecker::GetBoundID<str>()
+#define D_OVERLAP_BIND_GET_BIND_ID_WITH_INDEX(str, index) OverlapBindChecker::GetBoundID<str>(index)
+#define D_OVERLAP_BIND_GET_BIND_ID_WITH_DOUBLE_INDEX(str, index1, index2) OverlapBindChecker::GetBoundID<str>(index1, index2)
+#define D_OVERLAP_BIND_CHECK_BINDID(str, id) OverlapBindChecker::Bind<str>(id)
+#define D_OVERLAP_BIND_CHECK_BINDID_WITH_INDEX(str, index, id) OverlapBindChecker::Bind<str>(index, id)
+#define D_OVERLAP_BIND_CHECK_BINDID_WITH_DOUBLE_INDEX(str, index1, index2, id) OverlapBindChecker::Bind<str>(index1, index2, id)
+#define D_OVERLAP_BIND_CHECK_IS_ALREADY_BOUND(str, id) OverlapBindChecker::GetBoundID<str>() == id
+#define D_OVERLAP_BIND_CHECK_IS_ALREADY_BOUND_WITH_INDEX(str, index, id) OverlapBindChecker::GetBoundID<str>(index) == id
+#define D_OVERLAP_BIND_CHECK_IS_ALREADY_BOUND_WITH_DOUBLE_INDEX(str, index1, index2, id) OverlapBindChecker::GetBoundID<str>(index1, index2) == id
+#define D_OVERLAP_BIND_CHECK_CHECK_IS_NOT_BOUND_AND_BIND_ID(str, id) OverlapBindChecker::CheckIsNotBoundAndBindID<str>(id)
+#define D_OVERLAP_BIND_CHECK_CHECK_IS_NOT_BOUND_AND_BIND_ID_WITH_INDEX(str, index, id) OverlapBindChecker::CheckIsNotBoundAndBindID<str>(index, id)
+#define D_OVERLAP_BIND_CHECK_CHECK_IS_NOT_BOUND_AND_BIND_ID_WITH_DOUBLE_INDEX(str, index1, index2, id) OverlapBindChecker::CheckIsNotBoundAndBindID<str>(index1, index2, id)
+
+
 #else
 
 #define D_OVERLAP_BIND_CHECK_BINDID(str, id)
