@@ -60,9 +60,6 @@
     <ClCompile Include="Source\Helper\SimpleIniParser.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Core\Math\LightMath_Cpp\Quaternion.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Source\Core\Math\LightMath_Cpp\Vector3.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -531,9 +528,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\Core\Math\LightMath_Cpp\Matrix4x4.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Core\Math\LightMath_Cpp\Quaternion.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\Core\Math\LightMath_Cpp\Utility.h">
@@ -1127,7 +1121,13 @@
     <ClInclude Include="Source\Core\Graphics\Acceleration\LinearData_ViewFrustumCulling\CullingModule\ScreenSpaceAABBCulling\ScreenSpaceAABBCulling.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Core\Math\LightMath_Cpp\Quaternion_SIMD.inl">
+    <ClInclude Include="Source\Core\Math\LightMath_Cpp\Quaternion.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Core\Math\LightMath_Cpp\Quaternion_SIMD.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Core\Math\LightMath_Cpp\Quaternion_Scalar.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

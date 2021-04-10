@@ -1,9 +1,6 @@
 #include "Source/Core/Core.h"
 #include "Source/Core/Game/GameCore.h"
 
-#include <Matrix4x4.h>
-#include "Physics/Collider/AABB.h"
-
 using namespace doom;
 
 void ExitGame();

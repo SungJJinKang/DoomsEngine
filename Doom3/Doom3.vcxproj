@@ -265,7 +265,6 @@
     <ClCompile Include="Source\Core\Graphics\GraphicsAPI.cpp" />
     <ClCompile Include="Source\Core\Macros\Path.cpp" />
     <ClCompile Include="Source\Core\Math\LightMath_Cpp\Matrix.cpp" />
-    <ClCompile Include="Source\Core\Math\LightMath_Cpp\Quaternion.cpp" />
     <ClCompile Include="Source\Core\Math\LightMath_Cpp\Vector1.cpp" />
     <ClCompile Include="Source\Core\Math\LightMath_Cpp\Vector2.cpp" />
     <ClCompile Include="Source\Core\Math\LightMath_Cpp\Vector3.cpp" />
@@ -332,7 +331,8 @@
     <ClInclude Include="Source\Core\Graphics\RenderingBitFlag.h" />
     <ClInclude Include="Source\Core\Graphics\TextureFormat.h" />
     <ClInclude Include="Source\Core\Macros\KeyCallback.h" />
-    <ClInclude Include="Source\Core\Math\LightMath_Cpp\Quaternion_SIMD.inl" />
+    <ClInclude Include="Source\Core\Math\LightMath_Cpp\Quaternion.h" />
+    <ClInclude Include="Source\Core\Math\LightMath_Cpp\Quaternion_SIMD.h" />
     <ClInclude Include="Source\Core\Math\LightMath_Cpp\SIMD.h" />
     <ClInclude Include="Source\Core\Math\LightMath_Cpp\SIMD_Core.h" />
     <ClInclude Include="Source\Core\Math\LightMath_Cpp\Trigonometric.h" />
@@ -452,7 +452,7 @@
     <ClInclude Include="Source\Core\Math\LightMath_Cpp\Matrix3x3.h" />
     <ClInclude Include="Source\Core\Math\LightMath_Cpp\Matrix4x4.h" />
     <ClInclude Include="Source\Core\Math\LightMath_Cpp\Matrix_utility.h" />
-    <ClInclude Include="Source\Core\Math\LightMath_Cpp\Quaternion.h" />
+    <ClInclude Include="Source\Core\Math\LightMath_Cpp\Quaternion_Scalar.h" />
     <ClInclude Include="Source\Core\Math\LightMath_Cpp\Utility.h" />
     <ClInclude Include="Source\Core\Math\LightMath_Cpp\Vector.h" />
     <ClInclude Include="Source\Core\Math\LightMath_Cpp\Vector1.h" />
