@@ -171,9 +171,13 @@
     <ClCompile Include="Source\Component\EventSystem.cpp" />
     <ClCompile Include="Source\Component\PhysicsComponent\BoxCollider2D.cpp" />
     <ClCompile Include="Source\Component\PhysicsComponent\MeshCollider.cpp" />
+    <ClCompile Include="Source\Component\Rendering\Animation\Animation.cpp" />
+    <ClCompile Include="Source\Component\Rendering\Animation\Animator.cpp" />
     <ClCompile Include="Source\Core\Graphics\Acceleration\CullDistance\CullDistance.cpp" />
     <ClCompile Include="Source\Core\Graphics\Acceleration\CullDistance\CullDistanceRenderer.cpp" />
     <ClCompile Include="Source\Core\Graphics\Acceleration\LinearData_ViewFrustumCulling\CullingModule\ScreenSpaceAABBCulling\ScreenSpaceAABBCulling.cpp" />
+    <ClCompile Include="Source\Core\Graphics\Acceleration\LinearData_ViewFrustumCulling\CullingModule\SWOcclusionCulling\SWFrameBuffer.cpp" />
+    <ClCompile Include="Source\Core\Graphics\Acceleration\LinearData_ViewFrustumCulling\CullingModule\SWOcclusionCulling\TriangleRasterizer.cpp" />
     <ClCompile Include="Source\Core\Graphics\Acceleration\LinearData_ViewFrustumCulling\CullingModule\ViewFrustumCulling\ViewFrustumCulling.cpp" />
     <ClCompile Include="Source\Core\Graphics\Acceleration\LinearData_ViewFrustumCulling\FrotbiteCullingSystem.cpp" />
     <ClCompile Include="Source\Core\Graphics\Acceleration\OcclusionCulling\HW\QueryOcclusionCulling.cpp" />
@@ -280,8 +284,10 @@
     <ClCompile Include="Source\Core\utility\KDTree\KDTreeNodeView.cpp" />
     <ClCompile Include="Source\Core\utility\KDTree\KDTreeVector.cpp" />
     <ClCompile Include="Source\Core\utility\KDTree\test\KDTree_TestRoom.cpp" />
+    <ClCompile Include="Source\Core\WorldEditor\MapLoader.cpp" />
     <ClCompile Include="Source\GameLogic\CustomComponent\AutoRotate.cpp" />
     <ClCompile Include="Source\GameLogic\CustomComponent\AxisDebugger.cpp" />
+    <ClCompile Include="Source\GameLogic\CustomComponent\CharacterSpawner.cpp" />
     <ClCompile Include="Source\GameLogic\CustomComponent\Move_WASD.cpp" />
     <ClCompile Include="Source\GameLogic\CustomComponent\TestComponent.cpp" />
     <ClCompile Include="Source\GameLogic\Test.cpp" />
@@ -301,6 +307,8 @@
     <ClInclude Include="Source\Component\EventSystem.h" />
     <ClInclude Include="Source\Component\PhysicsComponent\BoxCollider2D.h" />
     <ClInclude Include="Source\Component\PhysicsComponent\MeshCollider.h" />
+    <ClInclude Include="Source\Component\Rendering\Animation\Animation.h" />
+    <ClInclude Include="Source\Component\Rendering\Animation\Animator.h" />
     <ClInclude Include="Source\Core\API\Font.h" />
     <ClInclude Include="Source\Core\Asset\AssetMetaData.h" />
     <ClInclude Include="Source\Core\Asset\eAssetType.h" />
@@ -310,6 +318,8 @@
     <ClInclude Include="Source\Core\Graphics\Acceleration\Culling.h" />
     <ClInclude Include="Source\Core\Graphics\Acceleration\LinearData_ViewFrustumCulling\CullingModule\CullingModule.h" />
     <ClInclude Include="Source\Core\Graphics\Acceleration\LinearData_ViewFrustumCulling\CullingModule\ScreenSpaceAABBCulling\ScreenSpaceAABBCulling.h" />
+    <ClInclude Include="Source\Core\Graphics\Acceleration\LinearData_ViewFrustumCulling\CullingModule\SWOcclusionCulling\SWFrameBuffer.h" />
+    <ClInclude Include="Source\Core\Graphics\Acceleration\LinearData_ViewFrustumCulling\CullingModule\SWOcclusionCulling\TriangleRasterizer.h" />
     <ClInclude Include="Source\Core\Graphics\Acceleration\LinearData_ViewFrustumCulling\CullingModule\ViewFrustumCulling\ViewFrustumCulling.h" />
     <ClInclude Include="Source\Core\Graphics\Acceleration\LinearData_ViewFrustumCulling\DataStructure\AABB.h" />
     <ClInclude Include="Source\Core\Graphics\Acceleration\LinearData_ViewFrustumCulling\DataStructure\EntityBlock.h" />
@@ -499,8 +509,10 @@
     <ClInclude Include="Source\Core\utility\KDTree\test\KDTree_TestRoom.h" />
     <ClInclude Include="Source\Core\utility\Tree.h" />
     <ClInclude Include="Source\Core\utility\TreeNode.h" />
+    <ClInclude Include="Source\Core\WorldEditor\MapLoader.h" />
     <ClInclude Include="Source\GameLogic\CustomComponent\AutoRotate.h" />
     <ClInclude Include="Source\GameLogic\CustomComponent\AxisDebugger.h" />
+    <ClInclude Include="Source\GameLogic\CustomComponent\CharacterSpawner.h" />
     <ClInclude Include="Source\GameLogic\CustomComponent\Move_WASD.h" />
     <ClInclude Include="Source\GameLogic\CustomComponent\TestComponent.h" />
     <ClInclude Include="Source\GameLogic\Doom_Core.h" />
@@ -549,6 +561,7 @@
   <ItemGroup>
     <None Include="..\CodingRule.md" />
     <None Include="..\README.md" />
+    <None Include="..\To_DO_List.md" />
     <None Include="Assets\Shader\common\brdf.txt" />
     <None Include="Assets\Shader\common\constants.txt" />
     <None Include="Assets\Shader\common\random.txt" />
@@ -556,6 +569,7 @@
     <None Include="Assets\Shader\common\sampling.txt" />
     <None Include="Assets\Shader\common\shadows.txt" />
     <None Include="Assets\Shader\common\uniforms.txt" />
+    <None Include="Assets\Shader\Default\Billboard.glsl" />
     <None Include="Assets\Shader\Default\Debug2DShader.glsl" />
     <None Include="Assets\Shader\Default\Debug3DShader.glsl" />
     <None Include="Assets\Shader\Default\Default2DColorShader.glsl" />

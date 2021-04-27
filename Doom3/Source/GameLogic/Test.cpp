@@ -11,6 +11,7 @@
 #include "AutoRotate.h"
 #include <TestComponent.h>
 #include "PhysicsComponent/BoxCollider3D.h"
+#include "CustomComponent/CharacterSpawner.h"
 
 void doom::TEST::Init()
 {
@@ -22,7 +23,6 @@ void doom::TEST::Init()
 	dirLight->SetIntensity(5);
 	lightEntity->AddComponent<AutoRotate>();
 
-	//TODO : Asset 가져오는 것만 해도 존나 복잡하다 이거 해결하다
 	//auto& threedasset = assetimporter::AssetManager::GetAsset<asset::eAssetType::THREE_D_MODEL>(0);
 	auto threedasset = assetimporter::AssetManager::GetAsset<asset::eAssetType::THREE_D_MODEL>("cerberus.assbin");
 	auto shader = assetimporter::AssetManager::GetAsset<asset::eAssetType::SHADER>("GbufferWriter_PBR.glsl");
@@ -49,7 +49,7 @@ void doom::TEST::Init()
 // 			entity->AddComponent<BoxCollider3D>();
 // 		}
 // 	}
-	int count = 200;
+	int count = 50;
 	for (int i = -count; i < count; i = i + 15)
 	{
 		for (int j = -count; j < count; j = j + 15)
@@ -68,6 +68,7 @@ void doom::TEST::Init()
 		}
 	}
 	
+	
 
 	auto entity1 = currenScene->CreateNewEntity();
 	auto entity1Camera = entity1->AddComponent<Camera>();
@@ -75,10 +76,13 @@ void doom::TEST::Init()
 
 	entity1->GetTransform()->SetPosition(0.0f, 0.0f, 330.0f);
 	entity1->AddComponent<Move_WASD>();
+	entity1->AddComponent<CharacterSpawner>();
 
 
 	auto physicsEntity = currenScene->CreateNewEntity();
 	entity1->AddComponent<TestComponent>();
+
+	auto emptyEntity = currenScene->CreateNewEntity();
 
 	/*
 	auto entity2 = currenScene->CreateNewEntity();

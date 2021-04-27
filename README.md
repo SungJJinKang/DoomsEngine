@@ -1,7 +1,7 @@
 
 
-# Voxel Doom3 From Scratch
-Voxel  Doom3 Clone From Scratch
+# Voxel Doom2 From Scratch
+Voxel  Doom2 Clone From Scratch
 
 ## Why Do This Proeject
 i had maked some indie games with Unity game engine [Google PlayStore](https://play.google.com/store/apps/details?id=com.milli.findkiller2&hl=ko)  [Google PlayStore1](https://play.google.com/store/apps/details?id=com.NintyNineMillion.FindKiller&hl=ko).   
@@ -25,19 +25,19 @@ So if you wanna good and clean code for learning something, Find other project.
 
 ## Implemented features
 
-  * Profiler
+  * Profiler (reference : https://youtu.be/tD4xRNB0M_Q) 
   * Logger
   * Memory Pool(limited use)
-  * Homemade Math Library
-  * Homemade Asset Importer 
+  * Homemade Math Library (https://github.com/SungJJinKang/LightMath_Cpp)     
+  * Homemade Asset Importer ( I tried to make everything from scratch. but Finally I decided just integrating many 3rd asset importers to one system)
 
+  * Parallel ViewFrustum Culling (https://github.com/SungJJinKang/Frostbite_CullingSystem)
   * Distance Culling (https://docs.unrealengine.com/en-US/RenderingAndGraphics/VisibilityCulling/CullDistanceVolume/index.html)
   * Support SIMD
   * Occlusion Culling using HW Query(but not used)
 
 ## In Developing
 
-  * Hierarchical Z-Map Occlusion Culling
   * SW Occlusion Culling (https://www.ea.com/frostbite/news/culling-the-battlefield-data-oriented-design-in-practice)
 
 ## Dependency

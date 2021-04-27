@@ -54,7 +54,7 @@ void doom::Move_WASD::UpdateComponent()
 
 		if (UserInput_Server::GetKey(eKEY_CODE::KEY_LEFT_SHIFT))
 		{
-			translation *= 10.0f;
+			translation *= 20.0f;
 		}
 		
 		this->GetTransform()->Translate(translation * delta, doom::eSpace::Self);
@@ -83,7 +83,7 @@ void doom::Move_WASD::UpdateComponent()
 		rotation.y -= 1;
 	}
 
-	this->GetTransform()->Rotate(rotation.normalized() * delta, eSpace::Self);
+	this->GetTransform()->Rotate(rotation.normalized() * delta * 2.0f, eSpace::Self);
 
 	if (MainTimer::GetFrameStep(120))
 	{
