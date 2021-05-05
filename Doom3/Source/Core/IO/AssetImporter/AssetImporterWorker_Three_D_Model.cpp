@@ -47,6 +47,7 @@ void doom::assetimporter::AssetApiImporter<::doom::asset::eAssetType::THREE_D_MO
 	);// set removed components flags
 }
 
+#ifdef DEBUG_MODE
 namespace doom
 {
 	namespace assetimporter 
@@ -61,7 +62,7 @@ namespace doom
 		};
 	}
 }
-
+#endif
 
 template <>
 void doom::assetimporter::InitAssetImport<::doom::asset::eAssetType::THREE_D_MODEL>()

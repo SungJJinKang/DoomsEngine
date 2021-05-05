@@ -1,5 +1,7 @@
 #pragma once
 
+#ifdef DEBUG_MODE
+
 #include <vector>
 #include "../Core.h"
 #include "Game/IGameFlow.h"
@@ -27,3 +29,4 @@ namespace doom
 	}
 }
 
+#endif

@@ -49,7 +49,7 @@ void doom::TEST::Init()
 // 			entity->AddComponent<BoxCollider3D>();
 // 		}
 // 	}
-	int count = 50;
+	int count = 330;
 	for (int i = -count; i < count; i = i + 15)
 	{
 		for (int j = -count; j < count; j = j + 15)
@@ -62,19 +62,38 @@ void doom::TEST::Init()
 				auto meshRenderer = entity->AddComponent<MeshRenderer>();
 				meshRenderer->SetMesh(planetAsset->GetMesh(0));
 				meshRenderer->SetMaterial(material);
-				entity->AddComponent<AutoRotate>();
+				//entity->AddComponent<AutoRotate>();
 				//entity->AddComponent<BoxCollider3D>();
 			}
 		}
 	}
-	
-	
+
+	for(int i = -50 ; i < 50;  i += 15)
+	{
+		auto entity = currenScene->CreateNewEntity();
+		entity->GetTransform()->SetScale(1.5f, 1.5f, 1.5f);
+		entity->GetTransform()->SetPosition(i, 0, 500);
+		auto meshRenderer = entity->AddComponent<MeshRenderer>();
+		entity->AddComponent<AutoRotate>();
+		meshRenderer->SetMesh(planetAsset->GetMesh(0));
+		meshRenderer->SetMaterial(material);
+	}
+
+	for (int i = -50; i < 50; i += 15)
+	{
+		auto entity = currenScene->CreateNewEntity();
+		entity->GetTransform()->SetScale(1.5f, 1.5f, 1.5f);
+		entity->GetTransform()->SetPosition(i, 0, 700);
+		auto meshRenderer = entity->AddComponent<MeshRenderer>();
+		entity->AddComponent<AutoRotate>();
+		meshRenderer->SetMesh(planetAsset->GetMesh(0));
+		meshRenderer->SetMaterial(material);
+	}
 
 	auto entity1 = currenScene->CreateNewEntity();
 	auto entity1Camera = entity1->AddComponent<Camera>();
 	entity1Camera->SetProjectionMode(doom::Camera::eProjectionType::Perspective);
-
-	entity1->GetTransform()->SetPosition(0.0f, 0.0f, 330.0f);
+	entity1->GetTransform()->SetPosition(0.0f, 0.0f, 600.0f);
 	entity1->AddComponent<Move_WASD>();
 	entity1->AddComponent<CharacterSpawner>();
 
@@ -84,11 +103,11 @@ void doom::TEST::Init()
 
 	auto emptyEntity = currenScene->CreateNewEntity();
 
-	/*
+	
 	auto entity2 = currenScene->CreateNewEntity();
 	entity2->GetTransform()->SetPosition(2.0f, 1.0f, -1.0f);
 	auto entity2BoxCollider3D = entity2->AddComponent<BoxCollider3D>();
 	entity2BoxCollider3D->SetHalfExtent(math::Vector3(1.0f, 2.0f, 3.0f));
 	entity2->AddComponent<AutoRotate>();
-	*/
+	
 }

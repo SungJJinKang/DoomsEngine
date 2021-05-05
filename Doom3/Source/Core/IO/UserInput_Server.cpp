@@ -128,10 +128,8 @@ void UserInput_Server::Init()
 	glfwSetCursorPosCallback(doom::graphics::Graphics_Server::Window, &(UserInput_Server::CursorPosition_Callback));
 	glfwSetScrollCallback(doom::graphics::Graphics_Server::Window, &(UserInput_Server::Scroll_Callback));
 
-#ifdef DEBUG_MODE
 	glfwSetKeyCallback(doom::graphics::Graphics_Server::Window, &(UserInput_Server::Key_Callback));
 	glfwSetMouseButtonCallback(doom::graphics::Graphics_Server::Window, &(UserInput_Server::MouseButton_Callback));
-#endif
 
 	UserInput_Server::SetIsCursorVisible(ConfigData::GetSingleton()->GetConfigData().GetValue<bool>("USERINPUT", "CURSOR_IS_VISIBLE"));
 	UserInput_Server::SetIsCursorLockedInScreen(ConfigData::GetSingleton()->GetConfigData().GetValue<bool>("USERINPUT", "CURSOR_LOCKED_IN_SCREEN"));

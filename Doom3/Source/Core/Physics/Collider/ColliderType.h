@@ -25,7 +25,7 @@ namespace doom
 			static_cast<unsigned int>(ColliderType::AABB3D) | static_cast<unsigned int>(ColliderType::CapsuleCollider) | 
 			static_cast<unsigned int>(ColliderType::Line) | static_cast<unsigned int>(ColliderType::Plane) | 
 			static_cast<unsigned int>(ColliderType::Ray) | static_cast<unsigned int>(ColliderType::Sphere) | 
-			static_cast<unsigned int>(ColliderType::Triangle)
+			static_cast<unsigned int>(ColliderType::TwoDTriangle)
 		};
 		*/
 

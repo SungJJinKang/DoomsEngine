@@ -50,6 +50,7 @@ math::Vector2 doom::physics::AABB2D::GetHalfExtent() const
 
 void doom::physics::AABB2D::Render(eColor color, bool drawInstantly /*= false*/)
 {
+#ifdef DEBUG_MODE
 	auto debugGraphics = graphics::DebugGraphics::GetSingleton();
 
 	math::Vector3 x{ this->mUpperBound.x - this->mLowerBound.x, 0, 0 };
@@ -59,7 +60,7 @@ void doom::physics::AABB2D::Render(eColor color, bool drawInstantly /*= false*/)
 	debugGraphics->DebugDraw2DLine(this->mLowerBound, this->mLowerBound + y, color, drawInstantly);
 	debugGraphics->DebugDraw2DLine(this->mLowerBound + x, this->mLowerBound + x + y, color, drawInstantly);
 	debugGraphics->DebugDraw2DLine(this->mLowerBound + y, this->mLowerBound + y + x, color, drawInstantly);
-
+#endif
 }
 
 
@@ -123,6 +124,7 @@ float AABB3D::GetDiagonarLineLength() const
 
 void doom::physics::AABB3D::Render(eColor color, bool drawInstantly /*= false*/)
 {
+#ifdef DEBUG_MODE
 	auto debugGraphics = graphics::DebugGraphics::GetSingleton();
 
 	math::Vector3 x{ this->mUpperBound.x - this->mLowerBound.x, 0, 0 };
@@ -145,10 +147,15 @@ void doom::physics::AABB3D::Render(eColor color, bool drawInstantly /*= false*/)
 	debugGraphics->DebugDraw3DLine(this->mLowerBound + x + y, this->mLowerBound + x + y + z, color, drawInstantly);
 	debugGraphics->DebugDraw3DLine(this->mLowerBound + y + z, this->mLowerBound + y + z + x, color, drawInstantly);
 	debugGraphics->DebugDraw3DLine(this->mLowerBound + x + z, this->mLowerBound + x + z + y, color, drawInstantly);
+#endif
+
 }
 
 void doom::physics::AABB3D::Render2DTopView(eColor color, bool drawInstantly /*= false*/)
 {
+
+#ifdef DEBUG_MODE
+
 	auto debugGraphics = graphics::DebugGraphics::GetSingleton();
 
 	math::Vector3 lower{ this->mLowerBound.x, this->mLowerBound.z, 0.0f };
@@ -159,6 +166,9 @@ void doom::physics::AABB3D::Render2DTopView(eColor color, bool drawInstantly /*=
 	debugGraphics->DebugDraw2DLine(lower + width, lower + width + height, color, drawInstantly);
 	debugGraphics->DebugDraw2DLine(lower , lower + height, color, drawInstantly);
 	debugGraphics->DebugDraw2DLine(lower + height, lower + width + height, color, drawInstantly);
+
+#endif
+
 }
 
 doom::physics::ColliderType doom::physics::AABB3D::GetColliderType() const

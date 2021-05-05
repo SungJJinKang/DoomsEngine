@@ -15,7 +15,7 @@
 #include "Graphics/Acceleration/CullDistance/CullDistanceRenderer.h"
 #include "Graphics/RenderingBitFlag.h"
 
-#include "Graphics/Acceleration/LinearData_ViewFrustumCulling/DataStructure/EntityBlockViewer.h"
+#include "Graphics/Acceleration/LinearData_ViewFrustumCulling/DataType/EntityBlockViewer.h"
 
 namespace doom
 {

@@ -1,5 +1,7 @@
 #pragma once
 
+#ifdef DEBUG_MODE
+
 #include <array>
 #include <string>
 #include <memory>
@@ -141,3 +143,4 @@ namespace doom
 
 
 
+#endif

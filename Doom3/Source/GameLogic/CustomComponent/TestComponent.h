@@ -13,10 +13,14 @@ namespace doom
 	class TestComponent : public PlainComponent
 	{
 	private:
+		//Ignore dirty codes
 		doom::physics::Line line{ math::Vector3(0.0f), math::Vector3(10.0f, 10.0f, 10.0f) };
 		doom::physics::Plane plane{ 10, math::Vector3(-2.0f, 0.0f, 0.0f) };
-		doom::physics::AABB3D aabb{math::Vector3(20.0f), math::Vector3(25.0f)};
+		doom::physics::AABB3D aabb1{math::Vector3(20.0f), math::Vector3(25.0f)};
+		doom::physics::AABB3D aabb2{math::Vector3(-15.0f), math::Vector3(-10.0f)};
+		doom::physics::AABB3D aabb3{math::Vector3(5), math::Vector3(10.0f)};
 		doom::physics::Sphere sphere{math::Vector3(-15.0f, 0.0f, 0.0f), 5.0f };
+		doom::physics::Sphere sphere1{math::Vector3(-5.0f, 0.0f, 0.0f), 5.0f };
 		doom::physics::Circle2D circle2d{ math::Vector2{0}, 0.5f };
 	protected:
 		void InitComponent() override;

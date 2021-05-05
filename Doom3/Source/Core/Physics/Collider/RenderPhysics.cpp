@@ -4,6 +4,7 @@
 #include <MainTimer.h>
 
 
+#ifdef DEBUG_MODE
 
 void doom::physics::RenderPhysics::DrawPhysicsDebugColor(eColor color, bool drawInstantly /*= false*/)
 {
@@ -13,9 +14,12 @@ void doom::physics::RenderPhysics::DrawPhysicsDebugColor(eColor color, bool draw
 
 		//if (this->mLastRenderFrameTickCount != frameTickCount)
 		//{
+		//color = eColor::Red;
 			Render(color, drawInstantly);
 		//}
 
 		//this->mLastRenderFrameTickCount = frameTickCount;
 	}
 }
+
+#endif

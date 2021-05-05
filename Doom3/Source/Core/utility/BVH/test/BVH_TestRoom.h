@@ -1,5 +1,7 @@
 #pragma once
 
+#ifdef DEBUG_MODE
+
 #include <memory>
 #include <stack>
 #include <vector>
@@ -49,3 +51,6 @@ namespace doom
 	};
 
 }
+
+
+#endif

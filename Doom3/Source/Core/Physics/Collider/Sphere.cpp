@@ -5,6 +5,8 @@
 
 void doom::physics::Sphere::Render(eColor color, bool drawInstantly /*= false*/)
 {
+
+#ifdef DEBUG_MODE
 	auto debugGraphics = graphics::DebugGraphics::GetSingleton();
 
 	const float intervalRadian = math::PI * 2 / 72.0f;
@@ -57,6 +59,7 @@ void doom::physics::Sphere::Render(eColor color, bool drawInstantly /*= false*/)
 			exVertex = currentVertex;
 		}
 	}
+#endif
 
 }
 

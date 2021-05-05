@@ -26,7 +26,9 @@ namespace doom
 
 			virtual ColliderType GetColliderType() const = 0;
 
+#ifdef DEBUG_MODE
 			virtual void DrawPhysicsDebug(bool drawInstantly = false) final;
+#endif
 
 			virtual void* data() = 0;
 			virtual const void* data() const = 0;

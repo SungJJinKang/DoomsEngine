@@ -1,4 +1,7 @@
+#include "Core.h"
 #include "DebugGraphics.h"
+
+#ifdef DEBUG_MODE
 
 #include "Graphics_Server.h"
 #include "../Game/AssetManager/AssetManager.h"
@@ -280,3 +283,5 @@ void doom::graphics::DebugGraphics::DebugDraw3DTriangle(const math::Vector3& poi
 	}
 }
 
+
+#endif

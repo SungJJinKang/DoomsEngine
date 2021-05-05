@@ -1,7 +1,6 @@
 
 
-# Voxel Doom2 From Scratch
-Voxel  Doom2 Clone From Scratch
+# Modern Doom2 Project
 
 ## Why Do This Proeject
 i had maked some indie games with Unity game engine [Google PlayStore](https://play.google.com/store/apps/details?id=com.milli.findkiller2&hl=ko)  [Google PlayStore1](https://play.google.com/store/apps/details?id=com.NintyNineMillion.FindKiller&hl=ko).   
@@ -11,7 +10,7 @@ So Even if i had made many games for 3 years, i can't make just tiny game withou
 It's suck    
 
 So I decided making game without game engine.     
-And I choose Doom3 as My first game from sractch Project.     
+And I choose Doom2 as My first game from sractch Project.     
 Maybe i will make doom's voxel version and Add many things what i want ( like vehicle, guns...).    
 I don't know How long it takes to complete this project.    
 But I will complete this project!!    
@@ -30,19 +29,18 @@ So if you wanna good and clean code for learning something, Find other project.
   * Memory Pool(limited use)
   * Homemade Math Library (https://github.com/SungJJinKang/LightMath_Cpp)     
   * Homemade Asset Importer ( I tried to make everything from scratch. but Finally I decided just integrating many 3rd asset importers to one system)
-
   * Parallel ViewFrustum Culling (https://github.com/SungJJinKang/Frostbite_CullingSystem)
-  * Distance Culling (https://docs.unrealengine.com/en-US/RenderingAndGraphics/VisibilityCulling/CullDistanceVolume/index.html)
-  * Support SIMD
-  * Occlusion Culling using HW Query(but not used)
+  * Distance Culling ( https://docs.unrealengine.com/en-US/RenderingAndGraphics/VisibilityCulling/CullDistanceVolume/index.html ) ( not used )
+  * Support SIMD ( Currently AVX1 )
+  * Occlusion Culling using HW Query( but not used )
 
 ## In Developing
 
-  * SW Occlusion Culling (https://www.ea.com/frostbite/news/culling-the-battlefield-data-oriented-design-in-practice)
+  * Masked SW Occlusion Culling ( https://software.intel.com/content/dam/develop/external/us/en/documents/masked-software-occlusion-culling.pdf )      
 
 ## Dependency
 I will try to make everything what i need.     
-but i can't make some librarys like graphics api, audio api....           
+but i can't make some librarys like graphics api, audio api, some importers ....           
 
   * opengl 4.6       
   * glfw 3.3.2         
@@ -53,7 +51,7 @@ but i can't make some librarys like graphics api, audio api....
   * free type2       
 
 ## WARNING
-On AMD On Board GPU, OpenGL sometimes makes driver error.      
+On AMD on Board GPU, OpenGL sometimes makes driver error.      
 Use NVIDEA GPU.     
 
 ## Coding Standard

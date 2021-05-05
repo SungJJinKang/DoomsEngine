@@ -1,5 +1,6 @@
 #pragma once
 #include "../Graphics/Color.h"
+#include "Core.h"
 namespace doom
 {
 	namespace physics
@@ -15,8 +16,10 @@ namespace doom
 		public:
 			constexpr RenderPhysics() {}
 
+#ifdef DEBUG_MODE
 			virtual void DrawPhysicsDebug(bool drawInstantly = false) = 0;
 			void DrawPhysicsDebugColor(eColor color, bool drawInstantly = false);
+#endif
 		};
 	}
 }

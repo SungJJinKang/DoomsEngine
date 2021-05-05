@@ -1,3 +1,5 @@
+#ifdef DEBUG_MODE
+
 #include "BVH_TestRoom.h"
 
 #include <Random.h>
@@ -421,3 +423,6 @@ void doom::BVH_TestRoom::ValidCheck()
 
 
 }
+
+
+#endif

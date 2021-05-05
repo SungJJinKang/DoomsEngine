@@ -45,9 +45,9 @@ namespace doom
 				this->FixedUpdateCollision();
 				D_END_PROFILING("FixedUpdateCollision");
 
-				//D_START_PROFILING("UpdatePicking", eProfileLayers::CPU);
+				D_START_PROFILING("UpdatePicking", eProfileLayers::CPU);
 				//this->mPicking.UpdatePicking();
-				//D_END_PROFILING("UpdatePicking");
+				D_END_PROFILING("UpdatePicking");
 			}
 
 			void FixedUpdateCollision();

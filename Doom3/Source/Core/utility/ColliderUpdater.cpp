@@ -41,12 +41,13 @@ const ColliderType* doom::ColliderUpdater<ColliderType>::GetWorldColliderCacheBy
 	return &(this->mWorldColliderCache);
 }
 
+#ifdef DEBUG_MODE
 template<typename ColliderType>
 void doom::ColliderUpdater<ColliderType>::DrawWorldColliderCache(eColor color, bool drawInstantly)
 {
 	this->mWorldColliderCache.DrawPhysicsDebugColor(color, drawInstantly);
 }
-
+#endif
 
 
 template class doom::ColliderUpdater<doom::physics::AABB2D>;

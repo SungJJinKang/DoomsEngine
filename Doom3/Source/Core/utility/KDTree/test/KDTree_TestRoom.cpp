@@ -1,3 +1,5 @@
+#ifdef DEBUG_MODE
+
 #include "KDTree_TestRoom.h"
 
 #include <Random.h>
@@ -319,3 +321,7 @@ void doom::KDTree_TestRoom::ValidCheck()
 
 #endif
 }
+
+
+
+#endif

@@ -1,5 +1,8 @@
 #pragma once
 
+#ifdef DEBUG_MODE
+
+
 namespace doom
 {
 	class GameCore;
@@ -40,3 +43,5 @@ namespace doom
 }
 using doom::profiler::eProfileLayers;
 
+
+#endif

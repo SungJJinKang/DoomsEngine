@@ -9,6 +9,7 @@ void doom::physics::Collider::ClearCollision()
 	this->bmIsCollision = false;
 }
 
+#ifdef DEBUG_MODE
 void doom::physics::Collider::DrawPhysicsDebug(bool drawInstantly)
 {
 	if (this->bmIsCollision)
@@ -21,3 +22,4 @@ void doom::physics::Collider::DrawPhysicsDebug(bool drawInstantly)
 	}
 	
 }
+#endif

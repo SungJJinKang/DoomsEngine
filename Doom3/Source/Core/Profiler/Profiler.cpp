@@ -1,4 +1,7 @@
+#include "Core.h"
 #include "Profiler.h"
+
+#ifdef DEBUG_MODE
 
 #include <iostream>
 #include <thread>
@@ -306,3 +309,6 @@ namespace doom
 
 	}
 }
+
+
+#endif

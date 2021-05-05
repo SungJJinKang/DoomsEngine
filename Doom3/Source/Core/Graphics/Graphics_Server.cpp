@@ -255,8 +255,8 @@ void Graphics_Server::PreUpdateEntityBlocks()
 			//this is really expensive!!
 			float worldRadius = const_cast<Renderer*>(renderer)->BVH_Sphere_Node_Object::GetWorldColliderCacheByReference()->mRadius;
 
-			entityBlock->mPositions[entityIndex] = renderer->GetTransform()->GetPosition();
-			entityBlock->mPositions[entityIndex].w = -(worldRadius + BOUNDING_SPHRE_RADIUS_MARGIN);
+			entityBlock->mPositions[entityIndex] = *reinterpret_cast<const culling::Vector4*>( &(renderer->GetTransform()->GetPosition()) );
+			entityBlock->mPositions[entityIndex].values[3] = -(worldRadius + BOUNDING_SPHRE_RADIUS_MARGIN);
 
 #ifdef ENABLE_SCREEN_SAPCE_AABB_CULLING
 			
@@ -277,7 +277,7 @@ void Graphics_Server::SolveLinearDataCulling()
 	for (unsigned int i = 0; i < spawnedCameraList.size(); i++)
 	{
 		D_START_PROFILING(SequenceStringGenerator::GetLiteralString("UpdateFrustumPlane Camera Num: ", i), doom::profiler::eProfileLayers::Rendering);
-		this->mFrotbiteCullingSystem.mViewFrustumCulling.UpdateFrustumPlane(i, spawnedCameraList[i]->GetViewProjectionMatrix());
+		this->mFrotbiteCullingSystem.mViewFrustumCulling.UpdateFrustumPlane(i, *reinterpret_cast<const culling::Matrix4X4*>( &(spawnedCameraList[i]->GetViewProjectionMatrix()) ) );
 #ifdef ENABLE_SCREEN_SAPCE_AABB_CULLING
 		this->mFrotbiteCullingSystem.mScreenSpaceAABBCulling.SetViewProjectionMatrix(spawnedCameraList[i]->GetViewProjectionMatrix());
 #endif
@@ -300,7 +300,7 @@ void Graphics_Server::SolveLinearDataCulling()
 
 	D_START_PROFILING("Push Culling Job To Linera Culling System", doom::profiler::eProfileLayers::Rendering);
 	resource::JobSystem::GetSingleton()->PushBackJobChunkToPriorityQueueWithNoSTDFuture(std::move(CullJobs));
-	resource::JobSystem::GetSingleton()->PushBackJobToAllThreadWithNoSTDFuture(this->mFrotbiteCullingSystem.GetCommitThreadLocalFinishedCullJobBlockCountStdFunction());
+	resource::JobSystem::GetSingleton()->PushBackJobToAllThreadWithNoSTDFuture(this->mFrotbiteCullingSystem.GetCullJobs());
 	D_END_PROFILING("Push Culling Job To Linera Culling System");
 }
 
@@ -322,10 +322,10 @@ void doom::graphics::Graphics_Server::DeferredRendering()
 
 #ifdef DEBUG_MODE
 
-	if (userinput::UserInput_Server::GetKeyToggle(eKEY_CODE::KEY_F5) == true)
-	{
+	//if (userinput::UserInput_Server::GetKeyToggle(eKEY_CODE::KEY_F5) == true)
+	//{
 		this->mDebugGraphics.DrawDebug();
-	}
+	//}
 
 #endif
 
@@ -339,58 +339,54 @@ void doom::graphics::Graphics_Server::DeferredRendering()
 	//resource::JobSystem::GetSingleton()->SetMemoryBarrierOnAllSubThreads();
 	D_END_PROFILING("Wait Cull Job");
 
-	unsigned int CameraCount = this->mFrotbiteCullingSystem.GetCameraCount();
+	const unsigned int CameraCount = this->mFrotbiteCullingSystem.GetCameraCount();
+
+
 	for (unsigned int cameraIndex = 0; cameraIndex < CameraCount; cameraIndex++)
 	{
 		D_START_PROFILING("Bind VisibleFunction", doom::profiler::eProfileLayers::Rendering);
-		/*
-		* Really Really slow, Never use this
-		std::function<size_t(Renderer*, size_t)> VisibleCheck;
-		if (CameraCount == 1)
-		{
-			VisibleCheck = std::bind(&Renderer::GetIsVisible, std::placeholders::_1);
-		}
-		else
-		{
-			VisibleCheck = std::bind(&Renderer::GetIsVisibleWithCameraIndex, std::placeholders::_1, std::placeholders::_2);
-		}
-		*/
-
+	
 		auto activeEntityBlockList = this->mFrotbiteCullingSystem.GetActiveEntityBlockList();
 		for (auto& entityBlock : activeEntityBlockList)
 		{
-			for (unsigned int entityIndex = 0; entityIndex < entityBlock->mCurrentEntityCount; entityIndex++)
+			const unsigned int currentEntityCount = entityBlock->mCurrentEntityCount;
+			for (unsigned int entityIndex = 0; entityIndex < currentEntityCount; entityIndex++)
 			{
-				Renderer* renderer = reinterpret_cast<::doom::Renderer*>(entityBlock->mRenderer[entityIndex]);
-				if (renderer->GetIsVisible() != 0)
+				/*
+				if (entityIndex % 32 == 0)
 				{
+					//ChunkChecking
+					M256I* is32EntityVisible = reinterpret_cast<M256I*>(entityBlock->mIsVisibleBitflag + entityIndex);
+					if (CameraCount == 1)
+					{//32 Entity is all invisible
+						entityIndex += 32;
+					}
+				}
+
+				if (CameraCount == 1)
+				{
+					if (entityBlock->mIsVisibleBitflag[entityIndex] != 0xFF)
+					{
+
+					}
+				}
+				else
+				{
+
+				}
+				*/
+				
+				if ((entityBlock->mIsVisibleBitflag[entityIndex] & (1 << cameraIndex)) > 0)
+				{
+					Renderer* renderer = reinterpret_cast<::doom::Renderer*>(entityBlock->mRenderer[entityIndex]);
 					renderer->Draw();
 				}
+				
+				
 			
 
 			}
 		}
-		/*
-		for (unsigned int i = 0; i < MAX_LAYER_COUNT; i++)
-		{
-			D_START_PROFILING(SequenceStringGenerator::GetLiteralString("Draw Layer : ", i), doom::profiler::eProfileLayers::Rendering);
-			auto rendererComponentPair = RendererComponentStaticIterator::GetAllComponentsWithLayerIndex(i);
-			doom::Renderer** renderers = rendererComponentPair.first;
-			size_t length = rendererComponentPair.second;
-
-			for (size_t i = 0; i < length; ++i)
-			{
-				//if rendered object is using instancing, don't check isvisible
-				if (renderers[i]->GetIsVisibleWithCameraIndex(cameraIndex) != 0) // HEAVY
-				{
-					//renderers[i]->UpdateComponent_Internal();
-					//renderers[i]->UpdateComponent();
-					renderers[i]->Draw(); // HEAVY
-				}
-			}
-			D_END_PROFILING(SequenceStringGenerator::GetLiteralString("Draw Layer : ", i));
-		}
-		*/
 	}
 	
 	D_END_PROFILING("Draw Objects");

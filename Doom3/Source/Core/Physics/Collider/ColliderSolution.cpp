@@ -37,7 +37,7 @@ doom::physics::ColliderSolution::is_overlap_algorithm_func doom::physics::Collid
 		nullptr, //Plane
 		&(physics::RaycastRayAndAABB2D), //Ray
 		nullptr, //Sphere
-		nullptr //Triangle
+		nullptr //TwoDTriangle
 	},
 
 
@@ -51,7 +51,7 @@ doom::physics::ColliderSolution::is_overlap_algorithm_func doom::physics::Collid
 		&(physics::IsOverlapAABB3DAndPlane), //Plane
 		&(physics::RaycastRayAndAABB3D), //Ray
 		&(physics::IsOverlapSphereAndAABB3D), //Sphere
-		nullptr //Triangle
+		nullptr //TwoDTriangle
 	},
 
 
@@ -65,7 +65,7 @@ doom::physics::ColliderSolution::is_overlap_algorithm_func doom::physics::Collid
 		nullptr, //Plane
 		&(physics::RaycastRayAndCirecle2D), //Ray
 		nullptr, //Sphere
-		nullptr //Triangle
+		nullptr //TwoDTriangle
 	},
 
 
@@ -79,7 +79,7 @@ doom::physics::ColliderSolution::is_overlap_algorithm_func doom::physics::Collid
 		nullptr, //Plane
 		nullptr, //Ray
 		nullptr, //Sphere
-		nullptr //Triangle
+		nullptr //TwoDTriangle
 	},
 
 
@@ -93,7 +93,7 @@ doom::physics::ColliderSolution::is_overlap_algorithm_func doom::physics::Collid
 		&(physics::RaycastLineAndPlane), //Plane
 		nullptr, //Ray
 		&(physics::RaycastLineAndSphere), //Sphere
-		nullptr //Triangle
+		nullptr //TwoDTriangle
 	},
 
 
@@ -107,7 +107,7 @@ doom::physics::ColliderSolution::is_overlap_algorithm_func doom::physics::Collid
 		&(physics::IsOverlapPlaneAndPlane),  //Plane
 		&(physics::RaycastRayAndPlane),  //Ray
 		&(physics::IsOverlapSphereAndPlane), //Sphere
-		nullptr //Triangle
+		nullptr //TwoDTriangle
 	},
 
 
@@ -121,7 +121,7 @@ doom::physics::ColliderSolution::is_overlap_algorithm_func doom::physics::Collid
 		&(physics::RaycastRayAndPlane), //Plane
 		nullptr, //Ray
 		&(physics::RaycastRayAndSphere), //Sphere
-		nullptr //Triangle
+		nullptr //TwoDTriangle
 	},
 
 
@@ -135,10 +135,10 @@ doom::physics::ColliderSolution::is_overlap_algorithm_func doom::physics::Collid
 		&(physics::IsOverlapSphereAndPlane), //Plane
 		&(physics::RaycastRayAndSphere), //Ray
 		&(physics::IsOverlapSphereAndSphere), //Sphere
-		nullptr //Triangle
+		nullptr //TwoDTriangle
 	},
 
-	//Triangle
+	//TwoDTriangle
 	{
 		nullptr, //AABB2D
 		nullptr, //AABB3D
@@ -148,7 +148,7 @@ doom::physics::ColliderSolution::is_overlap_algorithm_func doom::physics::Collid
 		nullptr, //Plane
 		nullptr, //Ray
 		nullptr, //Sphere
-		nullptr //Triangle
+		nullptr //TwoDTriangle
 	}
 };
 

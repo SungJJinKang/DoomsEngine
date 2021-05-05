@@ -56,6 +56,7 @@ void doom::physics::Physics_Server::FixedUpdateCollision()
 
 }
 
+#ifdef DEBUG_MODE
 void doom::physics::Physics_Server::DrawDebugColliderComponents()
 {
 	auto components = doom::StaticContainer<ColliderComponent>::GetAllStaticComponents();
@@ -64,6 +65,7 @@ void doom::physics::Physics_Server::DrawDebugColliderComponents()
 		component->GetWorldCollider()->DrawPhysicsDebug();
 	}
 }
+#endif
 
 void doom::physics::Physics_Server::SolveColliderComponents()
 {

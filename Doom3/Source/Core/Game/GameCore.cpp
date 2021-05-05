@@ -54,11 +54,13 @@ void doom::GameCore::InitGameSetting()
 
 void doom::GameCore::UpdateGameCore()
 {
+#ifdef DEBUG_MODE
 	if (userinput::UserInput_Server::GetKeyUp(eKEY_CODE::KEY_0))
 	{
 		doom::profiler::Profiler::SetActiveToggle();
 	}
-	
+#endif
+
 }
 
 void doom::GameCore::Init()

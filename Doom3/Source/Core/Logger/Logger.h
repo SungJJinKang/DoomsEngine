@@ -1,5 +1,7 @@
 #pragma once
 
+#ifdef DEBUG_MODE
+
 #include <initializer_list>
 #include <string>
 #include "../Graphics/Color.h"
@@ -67,3 +69,4 @@ using namespace doom::logger;
 using doom::logger::eLogType;
 
 
+#endif

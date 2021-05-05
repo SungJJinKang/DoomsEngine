@@ -5,7 +5,7 @@
 #include "../Core/Math/LightMath_Cpp/Matrix4x4.h"
 #include "../Core/Math/LightMath_Cpp/Matrix_utility.h"
 
-#include "Graphics/Acceleration/LinearData_ViewFrustumCulling/DataStructure/EntityBlockViewer.h"
+#include "Graphics/Acceleration/LinearData_ViewFrustumCulling/DataType/EntityBlockViewer.h"
 
 namespace doom
 {

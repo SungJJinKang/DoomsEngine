@@ -1,3 +1,7 @@
+#include "Core.h"
+#include "Logger.h"
+
+#ifdef DEBUG_MODE
 
 #include <cstdarg>
 #include <string>
@@ -11,6 +15,8 @@
 #include "../Game/ConfigData.h"
 
 #include <portable-snippets/debug-trap/debug-trap.h>
+
+
 
 using namespace doom::logger;
 
@@ -209,3 +215,5 @@ void StdStreamLogger::Log(std::initializer_list<const std::string> logs, eLogTyp
 		std::cerr << c;
 	std::cout.put('\n');
 }
+
+#endif

@@ -5,6 +5,7 @@
 
 void doom::physics::Circle2D::Render(eColor color, bool drawInstantly /*= false*/)
 {
+#ifdef DEBUG_MODE
 	auto debugGraphics = graphics::DebugGraphics::GetSingleton();
 
 	const float intervalRadian = math::PI * 2 / 72.0f;
@@ -22,6 +23,7 @@ void doom::physics::Circle2D::Render(eColor color, bool drawInstantly /*= false*
 
 		exPoint = newPoint;
 	}
+#endif
 }
 
 doom::physics::Circle2D::Circle2D(const math::Vector2& center, float radius)

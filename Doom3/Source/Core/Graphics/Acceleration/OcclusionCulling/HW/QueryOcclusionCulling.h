@@ -84,6 +84,7 @@ namespace doom
 			void StartConditionalRender();
 			void StopConditionalRender();
 
+			//TODO : Check ScreenSpace AABB size of rendered mesh, If Size if smaller than setting, It's not valuable to use as Occluder
 			/// <summary>
 			/// Bake Occluder
 			/// This make Occluders's Vertex Data
