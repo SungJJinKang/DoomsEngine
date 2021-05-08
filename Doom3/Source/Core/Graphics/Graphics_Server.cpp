@@ -351,6 +351,21 @@ void doom::graphics::Graphics_Server::DeferredRendering()
 		auto activeEntityBlockList = this->mFrotbiteCullingSystem.GetActiveEntityBlockList();
 		for (auto& entityBlock : activeEntityBlockList)
 		{
+			/*
+			const unsigned int currentEntityCount = entityBlock->mCurrentEntityCount;
+			for (unsigned int entityIndex = 0; entityIndex < currentEntityCount; entityIndex++)
+			{
+				//Test mIsVisibleBitflag using SIMD!!!
+				//Choose _m
+
+				if ((entityBlock->mIsVisibleBitflag[entityIndex] & (1 << cameraIndex)) > 0)
+				{
+					Renderer* renderer = reinterpret_cast<::doom::Renderer*>(entityBlock->mRenderer[entityIndex]);
+					renderer->Draw();
+				}
+
+			}
+			*/
 			const unsigned int currentEntityCount = entityBlock->mCurrentEntityCount;
 
 			static constexpr size_t SIMD_VISIBLE_TEST_LANE = 16 / sizeof( decltype(*(entityBlock->mIsVisibleBitflag) ));
@@ -374,6 +389,8 @@ void doom::graphics::Graphics_Server::DeferredRendering()
 					}
 				}
 			}
+				
+
 		}
 	}
 	
