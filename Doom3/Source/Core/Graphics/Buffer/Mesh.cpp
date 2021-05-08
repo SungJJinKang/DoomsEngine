@@ -97,7 +97,7 @@ void doom::graphics::Mesh::BufferData(GLsizeiptr dataComponentCount, const void*
 	glBufferData(GL_ARRAY_BUFFER, sizeof(float) * dataComponentCount, data, GL_STATIC_DRAW);
 
 	unsigned int offset = 0;
-	unsigned int stride = Mesh::GetStride(vertexArrayFlag);
+	const unsigned int stride = Mesh::GetStride(vertexArrayFlag);
 
 #pragma warning( disable : 4312 )
 
@@ -108,7 +108,7 @@ void doom::graphics::Mesh::BufferData(GLsizeiptr dataComponentCount, const void*
 	{
 		//mVertex
 		glEnableVertexAttribArray(0);
-		glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, stride, (GLvoid*)offset);
+		glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, stride, reinterpret_cast<GLvoid*>(offset));
 		offset += 2 * sizeof(float);
 	}
 
@@ -116,7 +116,7 @@ void doom::graphics::Mesh::BufferData(GLsizeiptr dataComponentCount, const void*
 	{
 		//mVertex
 		glEnableVertexAttribArray(0);
-		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, stride, (GLvoid*)offset);
+		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, stride, reinterpret_cast<GLvoid*>(offset));
 		offset += 3 * sizeof(float);
 	}
 
@@ -124,7 +124,7 @@ void doom::graphics::Mesh::BufferData(GLsizeiptr dataComponentCount, const void*
 	{
 		//mTexCoord
 		glEnableVertexAttribArray(1);
-		glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, stride, (GLvoid*)offset);
+		glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, stride, reinterpret_cast<GLvoid*>(offset));
 		offset += 2 * sizeof(float);
 	}
 
@@ -132,7 +132,7 @@ void doom::graphics::Mesh::BufferData(GLsizeiptr dataComponentCount, const void*
 	{
 		//mNormal
 		glEnableVertexAttribArray(2);
-		glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, stride, (GLvoid*)offset);
+		glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, stride, reinterpret_cast<GLvoid*>(offset));
 		offset += 3 * sizeof(float);
 	}
 
@@ -140,7 +140,7 @@ void doom::graphics::Mesh::BufferData(GLsizeiptr dataComponentCount, const void*
 	{
 		//mTangent
 		glEnableVertexAttribArray(3);
-		glVertexAttribPointer(3, 3, GL_FLOAT, GL_FALSE, stride, (GLvoid*)offset);
+		glVertexAttribPointer(3, 3, GL_FLOAT, GL_FALSE, stride, reinterpret_cast<GLvoid*>(offset));
 		offset += 3 * sizeof(float);
 	}
 
@@ -148,7 +148,7 @@ void doom::graphics::Mesh::BufferData(GLsizeiptr dataComponentCount, const void*
 	{
 		//mBitangent
 		glEnableVertexAttribArray(4);
-		glVertexAttribPointer(4, 3, GL_FLOAT, GL_FALSE, stride, (GLvoid*)offset);
+		glVertexAttribPointer(4, 3, GL_FLOAT, GL_FALSE, stride, reinterpret_cast<GLvoid*>(offset));
 		offset += 3 * sizeof(float);
 	}
 
@@ -195,34 +195,34 @@ void doom::graphics::Mesh::BufferDataFromModelMesh(const ThreeDModelMesh& threeD
 	this->BindVertexArrayObject(); // bind vertex array buffer first
 	this->BindVertexBufferObject();
 
-	glBufferData(GL_ARRAY_BUFFER, sizeof(MeshVertexData) * threeDModelMesh.mNumOfVertexs, &(threeDModelMesh.mMeshVertexDatas[0]), GL_STATIC_DRAW);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(MeshVertexData) * threeDModelMesh.mNumOfVertexs, threeDModelMesh.mMeshVertexDatas.get(), GL_STATIC_DRAW);
 	
 	size_t offset = 0;
-	unsigned int stride = 14 * sizeof(float);
+	const unsigned int stride = 14 * sizeof(float);
 
 	//mVertex
 	glEnableVertexAttribArray(0);
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, stride, (GLvoid*)offset);
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, stride, reinterpret_cast<GLvoid*>(offset));
 	offset += 3 * sizeof(float);
 
 	//mTexCoord
 	glEnableVertexAttribArray(1);
-	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, stride, (GLvoid*)offset);
+	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, stride, reinterpret_cast<GLvoid*>(offset));
 	offset += 2 * sizeof(float);
 
 	//mNormal
 	glEnableVertexAttribArray(2);
-	glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, stride, (GLvoid*)offset);
+	glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, stride, reinterpret_cast<GLvoid*>(offset));
 	offset += 3 * sizeof(float);
 
 	//mTangent
 	glEnableVertexAttribArray(3);
-	glVertexAttribPointer(3, 3, GL_FLOAT, GL_FALSE, stride, (GLvoid*)offset);
+	glVertexAttribPointer(3, 3, GL_FLOAT, GL_FALSE, stride, reinterpret_cast<GLvoid*>(offset));
 	offset += 3 * sizeof(float);
 
 	//mBitangent
 	glEnableVertexAttribArray(4);
-	glVertexAttribPointer(4, 3, GL_FLOAT, GL_FALSE, stride, (GLvoid*)offset);
+	glVertexAttribPointer(4, 3, GL_FLOAT, GL_FALSE, stride, reinterpret_cast<GLvoid*>(offset));
 	offset += 3 * sizeof(float);
 
 	this->mNumOfVertices = threeDModelMesh.mNumOfVertexs;
@@ -280,7 +280,7 @@ constexpr unsigned int doom::graphics::Mesh::GetStride(unsigned int vertexArrayF
 	return offset;
 }
 
-static constexpr float QuadMeshData[]
+inline static constexpr float QuadMeshData[]
 {
 	-1.0f, 1.0f, 0.0f, 0.0f, 1.0f,
 	-1.0f, -1.0f, 0.0f, 0.0f, 0.0f,

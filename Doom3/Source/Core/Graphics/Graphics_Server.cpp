@@ -352,29 +352,6 @@ void doom::graphics::Graphics_Server::DeferredRendering()
 			const unsigned int currentEntityCount = entityBlock->mCurrentEntityCount;
 			for (unsigned int entityIndex = 0; entityIndex < currentEntityCount; entityIndex++)
 			{
-				/*
-				if (entityIndex % 32 == 0)
-				{
-					//ChunkChecking
-					M256I* is32EntityVisible = reinterpret_cast<M256I*>(entityBlock->mIsVisibleBitflag + entityIndex);
-					if (CameraCount == 1)
-					{//32 Entity is all invisible
-						entityIndex += 32;
-					}
-				}
-
-				if (CameraCount == 1)
-				{
-					if (entityBlock->mIsVisibleBitflag[entityIndex] != 0xFF)
-					{
-
-					}
-				}
-				else
-				{
-
-				}
-				*/
 				
 				if ((entityBlock->mIsVisibleBitflag[entityIndex] & (1 << cameraIndex)) > 0)
 				{
@@ -382,9 +359,6 @@ void doom::graphics::Graphics_Server::DeferredRendering()
 					renderer->Draw();
 				}
 				
-				
-			
-
 			}
 		}
 	}
