@@ -293,6 +293,7 @@
     <ClCompile Include="Source\Core\WorldEditor\MapLoader.cpp" />
     <ClCompile Include="Source\GameLogic\CustomComponent\AutoRotate.cpp" />
     <ClCompile Include="Source\GameLogic\CustomComponent\AxisDebugger.cpp" />
+    <ClCompile Include="Source\GameLogic\CustomComponent\ButtonRotate.cpp" />
     <ClCompile Include="Source\GameLogic\CustomComponent\CharacterSpawner.cpp" />
     <ClCompile Include="Source\GameLogic\CustomComponent\Move_WASD.cpp" />
     <ClCompile Include="Source\GameLogic\CustomComponent\TestComponent.cpp" />
@@ -528,6 +529,7 @@
     <ClInclude Include="Source\Core\WorldEditor\MapLoader.h" />
     <ClInclude Include="Source\GameLogic\CustomComponent\AutoRotate.h" />
     <ClInclude Include="Source\GameLogic\CustomComponent\AxisDebugger.h" />
+    <ClInclude Include="Source\GameLogic\CustomComponent\ButtonRotate.h" />
     <ClInclude Include="Source\GameLogic\CustomComponent\CharacterSpawner.h" />
     <ClInclude Include="Source\GameLogic\CustomComponent\Move_WASD.h" />
     <ClInclude Include="Source\GameLogic\CustomComponent\TestComponent.h" />

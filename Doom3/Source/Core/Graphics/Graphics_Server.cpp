@@ -4,6 +4,8 @@
 #include <string>
 #include <functional>
 
+#include <Utility.h>
+
 #include "../Game/GameCore.h"
 #include "../Game/ConfigData.h"
 #include "../Scene/Layer.h"
@@ -350,17 +352,27 @@ void doom::graphics::Graphics_Server::DeferredRendering()
 		for (auto& entityBlock : activeEntityBlockList)
 		{
 			const unsigned int currentEntityCount = entityBlock->mCurrentEntityCount;
-			for (unsigned int entityIndex = 0; entityIndex < currentEntityCount; entityIndex++)
+
+			static constexpr size_t SIMD_VISIBLE_TEST_LANE = 16 / sizeof( decltype(*(entityBlock->mIsVisibleBitflag) ));
+
+			for (size_t simdEntityIndex = 0; simdEntityIndex < currentEntityCount; simdEntityIndex += SIMD_VISIBLE_TEST_LANE)
 			{
 				//Test mIsVisibleBitflag using SIMD!!!
 				//Choose _m
-				
-				if ((entityBlock->mIsVisibleBitflag[entityIndex] & (1 << cameraIndex)) > 0)
+				if (_mm_test_all_zeros(*reinterpret_cast<M128I*>(entityBlock->mIsVisibleBitflag + simdEntityIndex), _mm_set1_epi8(1 << cameraIndex)) == 1)
 				{
-					Renderer* renderer = reinterpret_cast<::doom::Renderer*>(entityBlock->mRenderer[entityIndex]);
-					renderer->Draw();
+					continue;
 				}
 				
+				const size_t targetEntityIndex = math::Min(simdEntityIndex + SIMD_VISIBLE_TEST_LANE, currentEntityCount);
+				for (size_t entityIndex = simdEntityIndex; entityIndex < targetEntityIndex; entityIndex++)
+				{
+					if ((entityBlock->mIsVisibleBitflag[entityIndex] & (1 << cameraIndex)) > 0)
+					{
+						Renderer* renderer = reinterpret_cast<::doom::Renderer*>(entityBlock->mRenderer[entityIndex]);
+						renderer->Draw();
+					}
+				}
 			}
 		}
 	}

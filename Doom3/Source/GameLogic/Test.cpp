@@ -12,6 +12,7 @@
 #include <TestComponent.h>
 #include "PhysicsComponent/BoxCollider3D.h"
 #include "CustomComponent/CharacterSpawner.h"
+#include "CustomComponent/ButtonRotate.h"
 
 void doom::TEST::Init()
 {
@@ -94,8 +95,9 @@ void doom::TEST::Init()
 	auto entity1Camera = entity1->AddComponent<Camera>();
 	entity1Camera->SetProjectionMode(doom::Camera::eProjectionType::Perspective);
 	entity1->GetTransform()->SetPosition(0.0f, 0.0f, 600.0f);
-	entity1->AddComponent<Move_WASD>();
+	//entity1->AddComponent<Move_WASD>();
 	entity1->AddComponent<CharacterSpawner>();
+	entity1->AddComponent<ButtonRotate>();
 
 
 	auto physicsEntity = currenScene->CreateNewEntity();
