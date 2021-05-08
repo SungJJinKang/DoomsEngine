@@ -4,6 +4,8 @@
 
 #include <API/OpenglAPI.h>
 
+#include <UserInput_Server.h>
+
 void doom::time::MainTimer::InitTimer()
 {
 	double currentTickCount = glfwGetTime();
@@ -37,8 +39,12 @@ void doom::time::MainTimer::UpdateFixedTimer()
 	doom::time::MainTimer::mFixedTime.mDeltaTime = static_cast<float>(currentTime - doom::time::MainTimer::mFixedTime.mLastTickCount);
 	doom::time::MainTimer::mFixedTime.mLastTickCount = currentTime;
 
-	//D_DEBUG_LOG({ "Current Frame : ", std::to_string(1.0 / doom::time::Time_Server::mDeltaTime) });
-	//D_DEBUG_LOG({ "Fixed Delta Frame : ", std::to_string(doom::time::MainTimer::mFixedTime.mDeltaTime) });
+#ifdef DEBUG_MODE
+	if (userinput::UserInput_Server::GetKeyToggle(eKEY_CODE::KEY_F5))
+	{
+		D_DEBUG_LOG({ "Current Frame : ", std::to_string(1.0 / doom::time::Time_Server::mDeltaTime) });
+	}
+#endif
 }
 
 void doom::time::MainTimer::AdvanceAFrame()

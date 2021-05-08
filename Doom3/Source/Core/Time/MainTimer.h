@@ -23,8 +23,7 @@ namespace doom
 			static inline TimeStep mFrameTime{};
 			static inline TimeStep mFixedTime{};
 			static inline float CurrentFrame{};
-
-
+			
 			static inline unsigned int mFrameCounter{ 0 };
 
 			static void InitTimer();

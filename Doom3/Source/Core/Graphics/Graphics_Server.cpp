@@ -352,6 +352,8 @@ void doom::graphics::Graphics_Server::DeferredRendering()
 			const unsigned int currentEntityCount = entityBlock->mCurrentEntityCount;
 			for (unsigned int entityIndex = 0; entityIndex < currentEntityCount; entityIndex++)
 			{
+				//Test mIsVisibleBitflag using SIMD!!!
+				//Choose _m
 				
 				if ((entityBlock->mIsVisibleBitflag[entityIndex] & (1 << cameraIndex)) > 0)
 				{
