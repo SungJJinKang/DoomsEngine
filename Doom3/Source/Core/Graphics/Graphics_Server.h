@@ -69,7 +69,7 @@ namespace doom
 			static inline float ScreenRatio{};
 			static inline unsigned int MultiSamplingNum;
 
-			culling::FrotbiteCullingSystem mFrotbiteCullingSystem{};
+			std::unique_ptr<culling::FrotbiteCullingSystem> mCullingSystem;
 			CullDistance mCullDistance{};
 
 #ifdef DEBUG_MODE

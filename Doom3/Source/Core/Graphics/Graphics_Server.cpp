@@ -35,8 +35,8 @@ using namespace doom::graphics;
 
 void Graphics_Server::Init()
 {
-	int width = ConfigData::GetSingleton()->GetConfigData().GetValue<int>("Graphics", "SCREEN_WIDTH");
-	int height = ConfigData::GetSingleton()->GetConfigData().GetValue<int>("Graphics", "SCREEN_HEIGHT");
+	const int width = ConfigData::GetSingleton()->GetConfigData().GetValue<int>("Graphics", "SCREEN_WIDTH");
+	const int height = ConfigData::GetSingleton()->GetConfigData().GetValue<int>("Graphics", "SCREEN_HEIGHT");
 	Graphics_Server::MultiSamplingNum = ConfigData::GetSingleton()->GetConfigData().GetValue<int>("Graphics", "MULTI_SAMPLE");
 
 	Graphics_Server::ScreenSize = { width, height };
@@ -44,6 +44,7 @@ void Graphics_Server::Init()
 	
 	this->InitGLFW();
 
+	this->mCullingSystem = std::make_unique<culling::FrotbiteCullingSystem>(width, height);
 
 	return;
 }
@@ -246,7 +247,7 @@ void doom::graphics::Graphics_Server::InitFrameBufferForDeferredRendering()
 
 void Graphics_Server::PreUpdateEntityBlocks()
 {
-	auto activeEntityBlockList = this->mFrotbiteCullingSystem.GetActiveEntityBlockList();
+	auto activeEntityBlockList = this->mCullingSystem->GetActiveEntityBlockList();
 	for (auto entityBlock : activeEntityBlockList)
 	{
 		unsigned int entityCount = entityBlock->mCurrentEntityCount;
@@ -279,30 +280,24 @@ void Graphics_Server::SolveLinearDataCulling()
 	for (unsigned int i = 0; i < spawnedCameraList.size(); i++)
 	{
 		D_START_PROFILING(SequenceStringGenerator::GetLiteralString("UpdateFrustumPlane Camera Num: ", i), doom::profiler::eProfileLayers::Rendering);
-		this->mFrotbiteCullingSystem.mViewFrustumCulling.UpdateFrustumPlane(i, *reinterpret_cast<const culling::Matrix4X4*>( &(spawnedCameraList[i]->GetViewProjectionMatrix()) ) );
+		this->mCullingSystem->mViewFrustumCulling.UpdateFrustumPlane(i, *reinterpret_cast<const culling::Matrix4X4*>( &(spawnedCameraList[i]->GetViewProjectionMatrix()) ) );
 #ifdef ENABLE_SCREEN_SAPCE_AABB_CULLING
-		this->mFrotbiteCullingSystem.mScreenSpaceAABBCulling.SetViewProjectionMatrix(spawnedCameraList[i]->GetViewProjectionMatrix());
+		this->mCullingSystem->mScreenSpaceAABBCulling.SetViewProjectionMatrix(spawnedCameraList[i]->GetViewProjectionMatrix());
 #endif
 		D_END_PROFILING(SequenceStringGenerator::GetLiteralString("UpdateFrustumPlane Camera Num: ", i));
 	}
 
-	this->mFrotbiteCullingSystem.SetCameraCount(static_cast<unsigned int>(spawnedCameraList.size()));
+	this->mCullingSystem->SetCameraCount(static_cast<unsigned int>(spawnedCameraList.size()));
 	D_START_PROFILING("this->mFrotbiteCullingSystem.ResetCullJobStat", doom::profiler::eProfileLayers::Rendering);
-	this->mFrotbiteCullingSystem.ResetCullJobState();
+	this->mCullingSystem->ResetCullJobState();
 	D_END_PROFILING("this->mFrotbiteCullingSystem.ResetCullJobStat");
 
 	D_START_PROFILING("PreUpdateEntityBlocks", doom::profiler::eProfileLayers::Rendering);
 	PreUpdateEntityBlocks();
 	D_END_PROFILING("PreUpdateEntityBlocks");
 
-	/// TODO : This is too slow. Fix It!!!!!!!!!!!!!!!!!!!!
-	D_START_PROFILING("this->mFrotbiteCullingSystem.GetCullBlockEnityJobs", doom::profiler::eProfileLayers::Rendering);
-	auto CullJobs{ this->mFrotbiteCullingSystem.GetCullBlockEnityJobs(0) };
-	D_END_PROFILING("this->mFrotbiteCullingSystem.GetCullBlockEnityJobs");
-
 	D_START_PROFILING("Push Culling Job To Linera Culling System", doom::profiler::eProfileLayers::Rendering);
-	resource::JobSystem::GetSingleton()->PushBackJobChunkToPriorityQueueWithNoSTDFuture(std::move(CullJobs));
-	resource::JobSystem::GetSingleton()->PushBackJobToAllThreadWithNoSTDFuture(this->mFrotbiteCullingSystem.GetCullJobs());
+	resource::JobSystem::GetSingleton()->PushBackJobToAllThreadWithNoSTDFuture(this->mCullingSystem->GetCullJob());
 	D_END_PROFILING("Push Culling Job To Linera Culling System");
 }
 
@@ -337,18 +332,18 @@ void doom::graphics::Graphics_Server::DeferredRendering()
 	//this->mViewFrustumCulling.PreComputeCulling();
 
 	D_START_PROFILING("Wait Cull Job", doom::profiler::eProfileLayers::Rendering);
-	this->mFrotbiteCullingSystem.WaitToFinishCullJobs(); // Waiting time is almost zero
+	this->mCullingSystem->WaitToFinishCullJobs(); // Waiting time is almost zero
 	//resource::JobSystem::GetSingleton()->SetMemoryBarrierOnAllSubThreads();
 	D_END_PROFILING("Wait Cull Job");
 
-	const unsigned int CameraCount = this->mFrotbiteCullingSystem.GetCameraCount();
+	const unsigned int CameraCount = this->mCullingSystem->GetCameraCount();
 
 
 	for (unsigned int cameraIndex = 0; cameraIndex < CameraCount; cameraIndex++)
 	{
 		D_START_PROFILING("Bind VisibleFunction", doom::profiler::eProfileLayers::Rendering);
 	
-		auto activeEntityBlockList = this->mFrotbiteCullingSystem.GetActiveEntityBlockList();
+		auto activeEntityBlockList = this->mCullingSystem->GetActiveEntityBlockList();
 		for (auto entityBlock : activeEntityBlockList)
 		{
 			const unsigned int currentEntityCount = entityBlock->mCurrentEntityCount;

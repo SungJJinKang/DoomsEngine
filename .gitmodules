@@ -28,9 +28,6 @@
 [submodule "Doom3/Source/Helper/Simple_SingleTon"]
 	path = Doom3/Source/Helper/Simple_SingleTon
 	url = https://github.com/SungJJinKang/Simple_SingleTon.git
-[submodule "Doom3/dependency/vcpkg"]
-	path = Doom3/dependency/vcpkg
-	url = https://github.com/Microsoft/vcpkg.git
 [submodule "Doom3/Source/Helper/SuperLightSerialization"]
 	path = Doom3/Source/Helper/SuperLightSerialization
 	url = https://github.com/SungJJinKang/SuperLightSerialization.git

@@ -6,7 +6,7 @@ void doom::Renderer::InitComponent()
 {
 	RendererComponentStaticIterator::AddRendererToStaticContainer();
 
-	this->mEntityBlockViewer = graphics::Graphics_Server::GetSingleton()->mFrotbiteCullingSystem.AllocateNewEntity(this);
+	this->mEntityBlockViewer = graphics::Graphics_Server::GetSingleton()->mCullingSystem->AllocateNewEntity(this);
 
 	this->AddLocalDirtyToTransformDirtyReceiver(BVH_Sphere_Node_Object::IsWorldColliderCacheDirty);
 	this->AddLocalDirtyToTransformDirtyReceiver(ColliderUpdater<doom::physics::AABB3D>::IsWorldColliderCacheDirty);
@@ -24,7 +24,7 @@ const math::Matrix4x4& doom::Renderer::GetModelMatrix()
 
 void doom::Renderer::OnDestroy()
 {
-	graphics::Graphics_Server::GetSingleton()->mFrotbiteCullingSystem.RemoveEntityFromBlock(this->mEntityBlockViewer);
+	graphics::Graphics_Server::GetSingleton()->mCullingSystem->RemoveEntityFromBlock(this->mEntityBlockViewer);
 }
 
 doom::Renderer::Renderer() : ServerComponent(), StaticContainer(), mTargetMaterial{}
