@@ -184,7 +184,6 @@
     <ClCompile Include="Source\Core\Graphics\Acceleration\LinearData_ViewFrustumCulling\CullingModule\MaskedSWOcclusionCulling\Rasterizer\CoverageRasterizer.cpp" />
     <ClCompile Include="Source\Core\Graphics\Acceleration\LinearData_ViewFrustumCulling\CullingModule\MaskedSWOcclusionCulling\SWDepthBuffer.cpp" />
     <ClCompile Include="Source\Core\Graphics\Acceleration\LinearData_ViewFrustumCulling\CullingModule\ViewFrustumCulling\ViewFrustumCulling.cpp" />
-    <ClCompile Include="Source\Core\Graphics\Acceleration\LinearData_ViewFrustumCulling\DataType\Math\Triangle.cpp" />
     <ClCompile Include="Source\Core\Graphics\Acceleration\LinearData_ViewFrustumCulling\FrotbiteCullingSystem.cpp" />
     <ClCompile Include="Source\Core\Graphics\Acceleration\OcclusionCulling\HW\QueryOcclusionCulling.cpp" />
     <ClCompile Include="Source\Core\Graphics\Acceleration\ViewFrustum.cpp" />

@@ -127,6 +127,8 @@ bool doom::assetimporter::AssetImporterWorker<::doom::asset::eAssetType::THREE_D
 
 	D_ASSERT(modelScene != nullptr);
 
+
+
 	//scene->mMeshes[0]->
 	// If the import failed, report it
 	if (modelScene != nullptr)
@@ -139,9 +141,11 @@ bool doom::assetimporter::AssetImporterWorker<::doom::asset::eAssetType::THREE_D
 	else
 	{
 		D_DEBUG_LOG({ path.string(), " : 3D Model Asset has no scene" });
+		apiImporter->FreeScene();
 		return false;
 	}
 
+	//modelScene->
 	// We're done. Everything will be cleaned up by the importer destructor
 }
 
