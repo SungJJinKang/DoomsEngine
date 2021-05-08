@@ -42,7 +42,7 @@ void doom::time::MainTimer::UpdateFixedTimer()
 #ifdef DEBUG_MODE
 	if (userinput::UserInput_Server::GetKeyToggle(eKEY_CODE::KEY_F5))
 	{
-		D_DEBUG_LOG({ "Current Frame : ", std::to_string(1.0 / doom::time::Time_Server::mDeltaTime) });
+		D_DEBUG_LOG({ "Current Frame : ", std::to_string(1.0 / doom::time::MainTimer::mFrameTime.mDeltaTime) });
 	}
 #endif
 }
