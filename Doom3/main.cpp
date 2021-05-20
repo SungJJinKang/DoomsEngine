@@ -1,8 +1,6 @@
 #include "Source/Core/Core.h"
 #include "Source/Core/Game/GameCore.h"
 
-using namespace doom;
-
 void ExitGame();
 
 

@@ -8,7 +8,7 @@ namespace doom
 	/// refrain from using os call
 	/// use portable library
 	/// </summary>
-	class OS : public ISingleton<OS>
+	class OS
 	{
 	public:
 
@@ -19,11 +19,24 @@ namespace doom
 		/// 
 		/// </summary>
 		/// <returns>millisecond</returns>
-		virtual unsigned long long _GetTickCount() = 0;
+		FORCE_INLINE static unsigned long long _GetTickCount();
 		/// <summary>
 		/// sleep for milliseconds
 		/// </summary>
 		/// <param name="milliseconds">sleep time</param>
-		virtual void _Sleep(unsigned long milliseconds) = 0;
+		FORCE_INLINE static void _Sleep(unsigned long milliseconds);
 	};
 }
+
+#if defined(_WIN32) || defined(_WIN64)
+
+#include "Window.inl"
+
+#elif defined(__unix) || defined(__unix__)
+
+#elif  defined(__APPLE__) || defined(__MACH__)
+
+#else
+	static_assert(false);
+#endif
+

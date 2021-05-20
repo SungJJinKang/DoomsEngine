@@ -13,7 +13,7 @@
 
 #include "ConfigData.h"
 
-#include "../OS/OS_Server.h"
+#include "../OS/OS.h"
 #include "../Graphics/Graphics_Server.h"
 #include "../Physics/Physics_Server.h"
 #include "../ResourceManagement/JobSystem_cpp/JobSystem.h"
@@ -45,7 +45,6 @@ namespace doom
 		ConfigData mMainConfigData{};
 
 		//Servers
-		OS_Server mOS_Server{};
 		assetimporter::AssetManager mAssetManager{};
 		graphics::Graphics_Server mGraphics_Server{};
 		physics::Physics_Server mPhysics_Server{};

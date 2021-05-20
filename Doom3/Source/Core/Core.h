@@ -7,18 +7,6 @@
 #define RELEASE_MODE
 #endif
 
-#ifdef _WIN64 // Only WIn 64
-#define WINDOW64
-
-#elif _WIN32 // Win 32 And Win 64
-#define WINDOW32
-
-#elif __APPLE__
-#define APPLE
-
-#elif __ANDROID__
-#define ANDROID
-#endif
 
 
 // Never include HEAVY header.

@@ -195,8 +195,6 @@
     <ClCompile Include="Source\Core\IO\AssetImporter\AssetImporterWorker_Text.cpp" />
     <ClCompile Include="Source\Core\IO\AssetImporter\AssetImporterWorker_Three_D_Model.cpp" />
     <ClCompile Include="Source\Core\Macros\KeyCallback.cpp" />
-    <ClCompile Include="Source\Core\OS\OS_Server.cpp" />
-    <ClCompile Include="Source\Core\OS\Window.cpp" />
     <ClCompile Include="Source\Core\Physics\Collider\OBB.cpp" />
     <ClCompile Include="Source\Core\ResourceManagement\JobSystem_cpp\JobSystem.cpp" />
     <ClCompile Include="Source\Core\ResourceManagement\JobSystem_cpp\Thread.cpp" />
@@ -363,8 +361,6 @@
     <ClInclude Include="Source\Core\Math\LightMath_Cpp\SIMD_Core.h" />
     <ClInclude Include="Source\Core\Math\LightMath_Cpp\Trigonometric.h" />
     <ClInclude Include="Source\Core\OS\OS.h" />
-    <ClInclude Include="Source\Core\OS\OS_Server.h" />
-    <ClInclude Include="Source\Core\OS\Window.h" />
     <ClInclude Include="Source\Core\Physics\Collider\OBB.h" />
     <ClInclude Include="Source\Core\ResourceManagement\JobSystem_cpp\JobSystem.h" />
     <ClInclude Include="Source\Core\ResourceManagement\JobSystem_cpp\Thread.h" />
