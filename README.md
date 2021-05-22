@@ -37,7 +37,7 @@ So if you wanna good and clean code for learning something, Find other project.
 ## In Developing
 
   * Masked SW Occlusion Culling ( https://software.intel.com/content/dam/develop/external/us/en/documents/masked-software-occlusion-culling.pdf )      
-
+  * ECS System ( Development Specification : https://docs.google.com/document/d/13eVWAFyuVbvDV7zYDqGF8kNTC8AtHP6lgMfDYTm1KXw/edit?usp=sharing )
 ## Dependency
 I will try to make everything what i need.     
 but i can't make some librarys like graphics api, audio api, some importers ....           
