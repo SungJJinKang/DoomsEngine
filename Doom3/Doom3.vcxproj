@@ -335,7 +335,7 @@
     <ClInclude Include="Source\Core\Graphics\Acceleration\LinearData_ViewFrustumCulling\CullingModule\MaskedSWOcclusionCulling\MaskedSWOcclusionCulling.h" />
     <ClInclude Include="Source\Core\Graphics\Acceleration\LinearData_ViewFrustumCulling\CullingModule\MaskedSWOcclusionCulling\Rasterizer\CoverageRasterizer.h" />
     <ClInclude Include="Source\Core\Graphics\Acceleration\LinearData_ViewFrustumCulling\CullingModule\MaskedSWOcclusionCulling\SWDepthBuffer.h" />
-    <ClInclude Include="Source\Core\Graphics\Acceleration\LinearData_ViewFrustumCulling\DataType\Math\Math.h" />
+    <ClInclude Include="Source\Core\Graphics\Acceleration\LinearData_ViewFrustumCulling\DataType\Math\Common.h" />
     <ClInclude Include="Source\Core\Graphics\Acceleration\LinearData_ViewFrustumCulling\DataType\Math\Matrix.h" />
     <ClInclude Include="Source\Core\Graphics\Acceleration\LinearData_ViewFrustumCulling\DataType\Math\Triangle.h" />
     <ClInclude Include="Source\Core\Graphics\Acceleration\LinearData_ViewFrustumCulling\CullingModule\ViewFrustumCulling\ViewFrustumCulling.h" />

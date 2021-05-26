@@ -1199,9 +1199,6 @@
     <ClInclude Include="Source\Core\Graphics\Acceleration\LinearData_ViewFrustumCulling\DataType\Math\Vector.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Core\Graphics\Acceleration\LinearData_ViewFrustumCulling\DataType\Math\Math.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Core\Graphics\Acceleration\LinearData_ViewFrustumCulling\DataType\Math\Matrix.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -1215,6 +1212,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\Core\Graphics\Acceleration\LinearData_ViewFrustumCulling\CullingModule\QueryOcclusionCulling\QueryOcclusionCulling.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Core\Graphics\Acceleration\LinearData_ViewFrustumCulling\DataType\Math\Common.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

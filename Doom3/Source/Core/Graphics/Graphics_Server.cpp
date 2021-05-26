@@ -282,7 +282,7 @@ void Graphics_Server::SolveLinearDataCulling()
 		D_START_PROFILING(SequenceStringGenerator::GetLiteralString("UpdateFrustumPlane Camera Num: ", i), doom::profiler::eProfileLayers::Rendering);
 		this->mCullingSystem->mViewFrustumCulling.UpdateFrustumPlane(i, *reinterpret_cast<const culling::Matrix4X4*>( &(spawnedCameraList[i]->GetViewProjectionMatrix()) ) );
 #ifdef ENABLE_SCREEN_SAPCE_AABB_CULLING
-		this->mCullingSystem->mScreenSpaceAABBCulling.SetViewProjectionMatrix(spawnedCameraList[i]->GetViewProjectionMatrix());
+		this->mCullingSystem->SetViewProjectionMatrix(reinterpret_cast<const culling::Matrix4X4&>(spawnedCameraList[i]->GetViewProjectionMatrix()));
 #endif
 		D_END_PROFILING(SequenceStringGenerator::GetLiteralString("UpdateFrustumPlane Camera Num: ", i));
 	}

@@ -393,3 +393,4 @@ MigrationBackup/
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
 GPUCache
+Doom3/Doom3.vcxproj
