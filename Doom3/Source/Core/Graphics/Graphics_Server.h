@@ -15,7 +15,7 @@
 #include "Material.h"
 #include "DebugGraphics.h"
 
-#include "Acceleration/LinearData_ViewFrustumCulling/FrotbiteCullingSystem.h"
+#include "Acceleration/LinearData_ViewFrustumCulling/EveryCulling.h"
 #include "Acceleration/CullDistance/CullDistance.h"
 
 struct GLFWwindow;
@@ -69,7 +69,7 @@ namespace doom
 			static inline float ScreenRatio{};
 			static inline unsigned int MultiSamplingNum;
 
-			std::unique_ptr<culling::FrotbiteCullingSystem> mCullingSystem;
+			std::unique_ptr<culling::EveryCulling> mCullingSystem;
 			CullDistance mCullDistance{};
 
 #ifdef DEBUG_MODE

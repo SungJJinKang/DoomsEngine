@@ -43,3 +43,6 @@
 [submodule "Doom3/Source/Core/ResourceManagement/JobSystem_cpp"]
 	path = Doom3/Source/Core/ResourceManagement/JobSystem_cpp
 	url = https://github.com/SungJJinKang/JobSystem_cpp.git
+[submodule "Doom3/Source/Core/ECSSystem/easy_ecs"]
+	path = Doom3/Source/Core/ECSSystem/easy_ecs
+	url = https://github.com/SungJJinKang/easy_ecs.git

@@ -37,6 +37,7 @@ namespace doom
 			static const std::string FragmentShaderMacros;
 			static const std::string GeometryShaderMacros;
 
+			bool bmIsShaderCompiled{ false };
 			unsigned int mVertexId, mFragmentId, mGeometryId;
 
 
@@ -75,6 +76,13 @@ namespace doom
 			ShaderAsset operator=(const ShaderAsset& shader) = delete;
 			ShaderAsset& operator=(ShaderAsset&& shader) noexcept;
 			virtual ~ShaderAsset();
+
+			/// <summary>
+			/// You can delete shaders after Linking to material program
+			/// If Shader is linked to material program when the shader is deleted,
+			/// Deleting is delayed until the shader is unlinked to the mateiral  
+			/// </summary>
+			void DeleteShaders();
 
 			void SetShaderText(const std::string& shaderStr);
 

@@ -80,6 +80,7 @@ void doom::graphics::DebugGraphics::DrawDebug()
 	this->DebugDraw3DLine(math::Vector3::forward * -100, math::Vector3::forward * 100, eColor::Blue);
 	//
 
+	//TODO : This function codes is too messy. Clean It!!!
 	//DRAW 2D FIRST
 
 	/// <summary>

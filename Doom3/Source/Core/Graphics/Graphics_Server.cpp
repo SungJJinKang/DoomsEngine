@@ -44,7 +44,7 @@ void Graphics_Server::Init()
 	
 	this->InitGLFW();
 
-	this->mCullingSystem = std::make_unique<culling::FrotbiteCullingSystem>(width, height);
+	this->mCullingSystem = std::make_unique<culling::EveryCulling>(width, height);
 
 	return;
 }
@@ -58,7 +58,7 @@ void doom::graphics::Graphics_Server::LateInit()
 	this->SetRenderingMode(Graphics_Server::eRenderingMode::DeferredRendering);
 	this->mQuadMesh = Mesh::GetQuadMesh();
 
-	//this->mQueryOcclusionCulling.InitHWOcclusionCulling();
+	//this->mQueryOcclusionCulling.InitQueryOcclusionCulling();
 	this->mCullDistance.Initialize();
 }
 

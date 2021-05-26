@@ -44,14 +44,28 @@ doom::asset::ShaderAsset& doom::asset::ShaderAsset::operator=(ShaderAsset&& shad
 
 doom::asset::ShaderAsset::~ShaderAsset()
 {
+	this->DeleteShaders();
+}
+
+void doom::asset::ShaderAsset::DeleteShaders()
+{
 	if (this->mVertexId != 0)
+	{
 		glDeleteShader(this->mVertexId);
+		this->mVertexId = 0;
+	}
 
 	if (this->mFragmentId != 0)
+	{
 		glDeleteShader(this->mFragmentId);
+		this->mFragmentId = 0;
+	}
 
 	if (this->mGeometryId != 0)
+	{
 		glDeleteShader(this->mGeometryId);
+		this->mGeometryId = 0;
+	}
 }
 
 void doom::asset::ShaderAsset::SetShaderText(const std::string& shaderStr) 
