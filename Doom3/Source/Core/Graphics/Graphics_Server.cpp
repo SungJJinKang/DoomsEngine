@@ -364,8 +364,18 @@ void doom::graphics::Graphics_Server::DeferredRendering()
 				{
 					if ((entityBlock->mIsVisibleBitflag[entityIndex] & (1 << cameraIndex)) > 0)
 					{
-						Renderer* renderer = reinterpret_cast<::doom::Renderer*>(entityBlock->mRenderer[entityIndex]);
+						const culling::QueryObject* const queryObject = entityBlock->mQueryObjects[entityIndex];
+
+						if (queryObject != nullptr)
+						{
+							culling::QueryOcclusionCulling::StartConditionalRender(queryObject->mQueryID);
+						}
+						Renderer* const renderer = reinterpret_cast<::doom::Renderer*>(entityBlock->mRenderer[entityIndex]);
 						renderer->Draw();
+						if (queryObject != nullptr)
+						{
+							culling::QueryOcclusionCulling::StopConditionalRender();
+						}
 					}
 				}
 			}
