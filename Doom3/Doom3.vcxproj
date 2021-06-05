@@ -310,6 +310,7 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Source\Core\ComponentPool\ComponentPool.h" />
     <ClInclude Include="Source\Core\Graphics\Acceleration\LinearData_ViewFrustumCulling\DataType\QueryObject.h" />
     <ClInclude Include="Source\Component\EventSystem.h" />
     <ClInclude Include="Source\Component\PhysicsComponent\BoxCollider2D.h" />
