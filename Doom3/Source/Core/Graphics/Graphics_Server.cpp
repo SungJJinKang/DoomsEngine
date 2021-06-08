@@ -287,6 +287,7 @@ void Graphics_Server::SolveLinearDataCulling()
 		D_END_PROFILING(SequenceStringGenerator::GetLiteralString("UpdateFrustumPlane Camera Num: ", i));
 	}
 
+	this->mCullingSystem->SetViewProjectionMatrix(reinterpret_cast<const culling::Matrix4X4&>(Camera::GetMainCamera()->GetViewProjectionMatrix()));
 	this->mCullingSystem->SetCameraCount(static_cast<unsigned int>(spawnedCameraList.size()));
 	D_START_PROFILING("this->mFrotbiteCullingSystem.ResetCullJobStat", doom::profiler::eProfileLayers::Rendering);
 	this->mCullingSystem->ResetCullJobState();

@@ -245,7 +245,7 @@ float doom::physics::RaycastRayAndSphere(const Ray& ray, const Sphere& sphere)
 	float a = math::dot(fromRayToSphere, ray.GetNormal());
 	float b = math::sqrt(e * e - a * a);
 	float f = math::sqrt(sphere.mRadius * sphere.mRadius - b * b);
-	float t = a - f;
+	//float t = a - f;
 
 	// No collision
 	if (sphere.mRadius * sphere.mRadius - fromRayToSphere.sqrMagnitude() + a * a < 0.0f) {

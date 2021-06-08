@@ -168,6 +168,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Source\Core\Profiler\ProfilerUI.cpp" />
     <ClCompile Include="Source\Component\EventSystem.cpp" />
     <ClCompile Include="Source\Component\PhysicsComponent\BoxCollider2D.cpp" />
     <ClCompile Include="Source\Component\PhysicsComponent\MeshCollider.cpp" />
@@ -175,7 +176,6 @@
     <ClCompile Include="Source\Component\Rendering\Animation\Animator.cpp" />
     <ClCompile Include="Source\Core\Graphics\Acceleration\CullDistance\CullDistance.cpp" />
     <ClCompile Include="Source\Core\Graphics\Acceleration\CullDistance\CullDistanceRenderer.cpp" />
-    <ClCompile Include="Source\Core\Graphics\Acceleration\LinearData_ViewFrustumCulling\CullingModule\DistanceCulling\CullDistanceVolume.cpp" />
     <ClCompile Include="Source\Core\Graphics\Acceleration\LinearData_ViewFrustumCulling\CullingModule\DistanceCulling\DistanceCulling.cpp" />
     <ClCompile Include="Source\Core\Graphics\Acceleration\LinearData_ViewFrustumCulling\CullingModule\MaskedSWOcclusionCulling\Stage\BinTrianglesStage.cpp" />
     <ClCompile Include="Source\Core\Graphics\Acceleration\LinearData_ViewFrustumCulling\CullingModule\MaskedSWOcclusionCulling\Stage\DepthTestOccludeeStage.cpp" />
@@ -310,6 +310,7 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Source\Core\Profiler\ProfilerUI.h" />
     <ClInclude Include="Source\Core\Graphics\Acceleration\LinearData_ViewFrustumCulling\DataType\QueryObject.h" />
     <ClInclude Include="Source\Component\EventSystem.h" />
     <ClInclude Include="Source\Component\PhysicsComponent\BoxCollider2D.h" />
@@ -324,7 +325,6 @@
     <ClInclude Include="Source\Core\Graphics\Acceleration\CullDistance\CullDistanceRenderer.h" />
     <ClInclude Include="Source\Core\Graphics\Acceleration\Culling.h" />
     <ClInclude Include="Source\Core\Graphics\Acceleration\LinearData_ViewFrustumCulling\CullingModule\CullingModule.h" />
-    <ClInclude Include="Source\Core\Graphics\Acceleration\LinearData_ViewFrustumCulling\CullingModule\DistanceCulling\CullDistanceVolume.h" />
     <ClInclude Include="Source\Core\Graphics\Acceleration\LinearData_ViewFrustumCulling\CullingModule\DistanceCulling\DistanceCulling.h" />
     <ClInclude Include="Source\Core\Graphics\Acceleration\LinearData_ViewFrustumCulling\CullingModule\MaskedSWOcclusionCulling\Stage\BinTrianglesStage.h" />
     <ClInclude Include="Source\Core\Graphics\Acceleration\LinearData_ViewFrustumCulling\CullingModule\MaskedSWOcclusionCulling\Stage\DepthTestOccludeeStage.h" />
@@ -730,6 +730,7 @@
     <None Include="dependency\glfw-3.3.2.bin.WIN64\docs\html\vulkan_guide.html" />
     <None Include="dependency\glfw-3.3.2.bin.WIN64\docs\html\window_8dox.html" />
     <None Include="dependency\glfw-3.3.2.bin.WIN64\docs\html\window_guide.html" />
+    <None Include="Source\Core\Graphics\Acceleration\LinearData_ViewFrustumCulling\CullingModule\MaskedSWOcclusionCulling\MaskedSWOcclusionCulling_HowWorks.md" />
     <None Include="Source\Core\Math\LightMath_Cpp\LICENSE" />
     <None Include="Source\Core\Math\LightMath_Cpp\Matrix4x4Float_SIMD.inl" />
     <None Include="Source\Core\Math\LightMath_Cpp\README.md" />
