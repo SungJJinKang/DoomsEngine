@@ -5,7 +5,6 @@
 #include <unordered_map>
 #include <type_traits>
 #include <memory>
-#include <optional>
 #include <functional>
 #include <utility>
 
@@ -80,6 +79,8 @@ namespace doom
 
 		std::string mEntityName;
 		static const inline std::string DEFAULT_ENTITY_NAME{ "Entity" };
+
+		//TODO : Every Entity has Transform Component, Just put Transform Component as member variable
 		Transform* mTransform;
 
 		unsigned int mLayerIndex;
@@ -101,6 +102,7 @@ namespace doom
 		Entity* mParent;
 		std::vector<Entity*> mChilds{};
 
+		
 		/// <summary>
 		/// Plain component (not core component ) is stored at this variable
 		/// </summary>
