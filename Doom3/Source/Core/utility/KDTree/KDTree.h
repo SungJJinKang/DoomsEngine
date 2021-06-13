@@ -95,17 +95,17 @@ namespace doom
 	};
 
 	template <>
-	static constexpr unsigned int KDTree<math::Vector2>::GetDimensionCount()
+	inline static constexpr unsigned int KDTree<math::Vector2>::GetDimensionCount()
 	{
 		return 2;
 	}
 	template <>
-	static constexpr unsigned int KDTree<math::Vector3>::GetDimensionCount()
+	inline static constexpr unsigned int KDTree<math::Vector3>::GetDimensionCount()
 	{
 		return 3;
 	}
 	template <>
-	static constexpr unsigned int KDTree<physics::AABB3D>::GetDimensionCount()
+	inline static constexpr unsigned int KDTree<physics::AABB3D>::GetDimensionCount()
 	{
 		return 3;
 	}

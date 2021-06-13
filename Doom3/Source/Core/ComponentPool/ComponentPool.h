@@ -1,4 +1,6 @@
 #pragma once
+
+#include <memory>
 #include <vector>
 #include <cstdlib>
 
@@ -11,15 +13,16 @@ namespace doom
 		
 	}
 
-	template <typename ComponentType>
+	template <typename ComponentType, typename Allocator = std::allocator<ComponentType>>
 	class ComponentPool
 	{
-
+		using alloc = std::allocator_traits<Allocator>;
 	private:
 
 		inline static constexpr size_t DEFAULT_COMPONENT_POOL_SIZE = 20;
 
 		inline static std::vector<ComponentType*> mFreeComponents;
+		inline static Allocator alloc{};
 
 	public:
 
