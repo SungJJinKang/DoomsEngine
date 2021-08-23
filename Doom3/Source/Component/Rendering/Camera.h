@@ -135,38 +135,38 @@ namespace doom
 		/// <returns></returns>
 		FORCE_INLINE const math::Matrix4x4& GetViewMatrix()
 		{
-			if (this->bmIsViewMatrixDirty.GetIsDirty(true))
+			if (bmIsViewMatrixDirty.GetIsDirty(true))
 			{
-				auto transform = this->GetTransform();
+				auto transform = GetTransform();
 				auto pos = transform->GetPosition();
 				auto forward = transform->forward();
 				auto up = transform->up();
-				this->mViewMatrix = math::lookAt(pos, pos + forward, up);
-				//this->mViewFrumstum.UpdateLookAt(pos, forward, up);
+				mViewMatrix = math::lookAt(pos, pos + forward, up);
+				//mViewFrumstum.UpdateLookAt(pos, forward, up);
 
 			}
 
-			return this->mViewMatrix;
+			return mViewMatrix;
 		}
 		FORCE_INLINE const math::Matrix4x4& GetViewProjectionMatrix()
 		{
-			if (this->bmIsViewProjectionMatrixDirty.GetIsDirty(true) )
+			if (bmIsViewProjectionMatrixDirty.GetIsDirty(true) )
 			{
-				this->mViewProjectionMatrix = this->GetProjectionMatrix() * this->GetViewMatrix();
+				mViewProjectionMatrix = GetProjectionMatrix() * GetViewMatrix();
 			}
-			return this->mViewProjectionMatrix;
+			return mViewProjectionMatrix;
 		}
 		FORCE_INLINE const math::Matrix4x4& GetModelViewProjectionMatrix( )
 		{
-			if (this->bmIsModelViewProjectionMatrixDirty.GetIsDirty(true) )
+			if (bmIsModelViewProjectionMatrixDirty.GetIsDirty(true) )
 			{
-				this->mMovelViewProjectionMatrix =  this->GetViewProjectionMatrix() * this->GetTransform()->GetModelMatrix();
+				mMovelViewProjectionMatrix =  GetViewProjectionMatrix() * GetTransform()->GetModelMatrix();
 			}
-			return this->mMovelViewProjectionMatrix;
+			return mMovelViewProjectionMatrix;
 		}
 		FORCE_INLINE bool GetIsViewProjectionMatrixDirty() const
 		{
-			return static_cast<bool>(this->bmIsViewProjectionMatrixDirty);
+			return static_cast<bool>(bmIsViewProjectionMatrixDirty);
 		}
 
 		[[nodiscard]] math::Vector3 NDCToScreenPoint(const math::Vector3& ndcPoint);

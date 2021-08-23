@@ -20,39 +20,39 @@ doom::asset::TextureAsset::TextureAsset(int width, int height, int componentCoun
 
 doom::asset::TextureAsset::TextureAsset()
 {
-	this->mNearWidth = cmp_MipSet.m_nWidth;
-	this->mNearHeight = cmp_MipSet.m_nHeight;
-	this->mMipMapLevel = cmp_MipSet.m_nMipLevels;
+	mNearWidth = cmp_MipSet.m_nWidth;
+	mNearHeight = cmp_MipSet.m_nHeight;
+	mMipMapLevel = cmp_MipSet.m_nMipLevels;
 
-	this->bmIsCompressed = cmp_MipSet.m_compressed;
+	bmIsCompressed = cmp_MipSet.m_compressed;
 
-	this->mInternalFormat; // 1 ~ 4 ( rgb, rgba ~~ )
-	this->mComponentFormat; // 1 ~ 4 ( rgb, rgba ~~ )
-	this->mCompressedInternalFormat;
+	mInternalFormat; // 1 ~ 4 ( rgb, rgba ~~ )
+	mComponentFormat; // 1 ~ 4 ( rgb, rgba ~~ )
+	mCompressedInternalFormat;
 
 	switch (cmp_MipSet.m_format)
 	{
 	case CMP_FORMAT::CMP_FORMAT_DXT5:
 		mCompressedInternalFormat = graphics::eTextureCompressedInternalFormat::COMPRESSED_RGBA_S3TC_DXT5_EXT;
 		mComponentFormat = graphics::eTextureComponentFormat::RGBA;
-		this->bmIsCompressed = true;
+		bmIsCompressed = true;
 		break;
 	case  CMP_FORMAT::CMP_FORMAT_DXT1:
 		mCompressedInternalFormat = graphics::eTextureCompressedInternalFormat::COMPRESSED_RGB_S3TC_DXT1_EXT; // we don't support DXT1 with alpha
 		mComponentFormat = graphics::eTextureComponentFormat::RGB;
-		this->bmIsCompressed = true;
+		bmIsCompressed = true;
 		break;
 
 	case  CMP_FORMAT::CMP_FORMAT_BC4:
 		mInternalFormat = graphics::eTextureInternalFormat::COMPRESSED_RED_RGTC1;
 		mComponentFormat = graphics::eTextureComponentFormat::RG;
-		this->bmIsCompressed = false;
+		bmIsCompressed = false;
 		break;
 
 	case  CMP_FORMAT::CMP_FORMAT_BC5:
 		mInternalFormat = graphics::eTextureInternalFormat::COMPRESSED_RG_RGTC2;
 		mComponentFormat = graphics::eTextureComponentFormat::RED;
-		this->bmIsCompressed = false;
+		bmIsCompressed = false;
 		break;
 
 	default:
@@ -63,38 +63,38 @@ doom::asset::TextureAsset::TextureAsset()
 */
 void doom::asset::TextureAsset::SetScratchImage(std::unique_ptr<DirectX::ScratchImage>&& scratchImage)
 {
-	this->mScratchImage = std::move(scratchImage);
-	this->mWidth = static_cast<int>(mScratchImage->GetMetadata().width);
-	this->mHeight = static_cast<int>(mScratchImage->GetMetadata().height);
-	this->mMipMapLevel = static_cast<int>(mScratchImage->GetMetadata().mipLevels);
+	mScratchImage = std::move(scratchImage);
+	mWidth = static_cast<int>(mScratchImage->GetMetadata().width);
+	mHeight = static_cast<int>(mScratchImage->GetMetadata().height);
+	mMipMapLevel = static_cast<int>(mScratchImage->GetMetadata().mipLevels);
 
 	switch (mScratchImage->GetMetadata().format)
 	{
 	case DXGI_FORMAT::DXGI_FORMAT_BC4_UNORM:
-		this->mComponentFormat = graphics::eTextureComponentFormat::RED;
-		this->mInternalFormat = graphics::eTextureInternalFormat::NONE;
-		this->mCompressedInternalFormat = graphics::eTextureCompressedInternalFormat::COMPRESSED_RED_RGTC1_EXT;
-		this->bmIsCompressed = true;
+		mComponentFormat = graphics::eTextureComponentFormat::RED;
+		mInternalFormat = graphics::eTextureInternalFormat::NONE;
+		mCompressedInternalFormat = graphics::eTextureCompressedInternalFormat::COMPRESSED_RED_RGTC1_EXT;
+		bmIsCompressed = true;
 		break;
 
 	case DXGI_FORMAT::DXGI_FORMAT_BC5_UNORM:
-		this->mComponentFormat = graphics::eTextureComponentFormat::RG;
-		this->mInternalFormat = graphics::eTextureInternalFormat::NONE;
-		this->mCompressedInternalFormat = graphics::eTextureCompressedInternalFormat::COMPRESSED_RED_GREEN_RGTC2_EXT;
+		mComponentFormat = graphics::eTextureComponentFormat::RG;
+		mInternalFormat = graphics::eTextureInternalFormat::NONE;
+		mCompressedInternalFormat = graphics::eTextureCompressedInternalFormat::COMPRESSED_RED_GREEN_RGTC2_EXT;
 		bmIsCompressed = true;
 		break;
 
 	case DXGI_FORMAT::DXGI_FORMAT_BC1_UNORM:
-		this->mComponentFormat = graphics::eTextureComponentFormat::RGB;
-		this->mInternalFormat = graphics::eTextureInternalFormat::NONE;
-		this->mCompressedInternalFormat = graphics::eTextureCompressedInternalFormat::COMPRESSED_RGB_S3TC_DXT1_EXT;
+		mComponentFormat = graphics::eTextureComponentFormat::RGB;
+		mInternalFormat = graphics::eTextureInternalFormat::NONE;
+		mCompressedInternalFormat = graphics::eTextureCompressedInternalFormat::COMPRESSED_RGB_S3TC_DXT1_EXT;
 		bmIsCompressed = true;
 		break;
 
 	case DXGI_FORMAT::DXGI_FORMAT_BC3_UNORM:
-		this->mComponentFormat = graphics::eTextureComponentFormat::RGBA;
-		this->mInternalFormat = graphics::eTextureInternalFormat::NONE;
-		this->mCompressedInternalFormat = graphics::eTextureCompressedInternalFormat::COMPRESSED_RGBA_S3TC_DXT5_EXT;
+		mComponentFormat = graphics::eTextureComponentFormat::RGBA;
+		mInternalFormat = graphics::eTextureInternalFormat::NONE;
+		mCompressedInternalFormat = graphics::eTextureCompressedInternalFormat::COMPRESSED_RGBA_S3TC_DXT5_EXT;
 		bmIsCompressed = true;
 		break;
 
@@ -110,7 +110,7 @@ void doom::asset::TextureAsset::SetScratchImage(std::unique_ptr<DirectX::Scratch
 void doom::asset::TextureAsset::OnEndImportInMainThread_Internal()
 {
 	D_START_PROFILING("Postprocess Texture", eProfileLayers::Rendering);
-	this->CreateTexture();
+	CreateTexture();
 	D_END_PROFILING("Postprocess Texture");
 }
 
@@ -121,24 +121,24 @@ void doom::asset::TextureAsset::CreateTexture()
 	for (unsigned int i = 0; i < mScratchImage->GetImageCount(); i++)
 	{
 		//https://github.com/microsoft/DirectXTex/blob/master/DirectXTex/DirectXTexImage.cpp
-		mipmapPixels.push_back(this->mScratchImage->GetImage(i, 0, 0));
+		mipmapPixels.push_back(mScratchImage->GetImage(i, 0, 0));
 	}
 
-	D_ASSERT(this->mInternalFormat != eTextureInternalFormat::NONE || this->mCompressedInternalFormat != eTextureCompressedInternalFormat::NONE);
-	if (this->mInternalFormat != eTextureInternalFormat::NONE)
+	D_ASSERT(mInternalFormat != eTextureInternalFormat::NONE || mCompressedInternalFormat != eTextureCompressedInternalFormat::NONE);
+	if (mInternalFormat != eTextureInternalFormat::NONE)
 	{
-		this->mTexture =
-			new graphics::SingleTexture(Texture::eTextureType::DIFFUSE, Texture::eTargetTexture::TEXTURE_2D, this->mInternalFormat, mWidth, mHeight, this->mComponentFormat, Texture::eDataType::UNSIGNED_BYTE, mipmapPixels);
+		mTexture =
+			new graphics::SingleTexture(Texture::eTextureType::DIFFUSE, Texture::eTargetTexture::TEXTURE_2D, mInternalFormat, mWidth, mHeight, mComponentFormat, Texture::eDataType::UNSIGNED_BYTE, mipmapPixels);
 
 	}
-	else if (this->mCompressedInternalFormat != eTextureCompressedInternalFormat::NONE)
+	else if (mCompressedInternalFormat != eTextureCompressedInternalFormat::NONE)
 	{
-		this->mTexture =
-			new graphics::SingleTexture(Texture::eTextureType::DIFFUSE, Texture::eTargetTexture::TEXTURE_2D, this->mCompressedInternalFormat, mWidth, mHeight, this->mComponentFormat, Texture::eDataType::UNSIGNED_BYTE, mipmapPixels);
+		mTexture =
+			new graphics::SingleTexture(Texture::eTextureType::DIFFUSE, Texture::eTargetTexture::TEXTURE_2D, mCompressedInternalFormat, mWidth, mHeight, mComponentFormat, Texture::eDataType::UNSIGNED_BYTE, mipmapPixels);
 	}
-	if (this->mScratchImage)
+	if (mScratchImage)
 	{
-		this->mScratchImage.reset();
+		mScratchImage.reset();
 	}
 
 }

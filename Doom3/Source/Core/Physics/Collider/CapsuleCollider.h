@@ -17,12 +17,12 @@ namespace doom
 
 			FORCE_INLINE virtual void* data() final
 			{
-				return &(this->mCenter);
+				return &(mCenter);
 			}
 
 			FORCE_INLINE virtual const void* data() const final
 			{
-				return &(this->mCenter);
+				return &(mCenter);
 			}
 
 			CapsuleCollider(const math::Vector3& center, float height, float radius);

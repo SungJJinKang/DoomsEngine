@@ -11,18 +11,18 @@ doom::physics::Plane::Plane(float distance, const math::Vector3& normal)
 
 doom::physics::Plane::Plane(const math::Vector3& A, const math::Vector3& B, const math::Vector3& C)
 {
-	this->mNormal = math::cross(A - C, B - C).normalized();
-	this->mDistance = math::dot(this->mNormal, A);
+	mNormal = math::cross(A - C, B - C).normalized();
+	mDistance = math::dot(mNormal, A);
 }
 
 math::Vector3 doom::physics::Plane::GetNormal()
 {
-	return this->mNormal;
+	return mNormal;
 }
 
 const math::Vector3& doom::physics::Plane::GetNormal() const
 {
-	return this->mNormal;
+	return mNormal;
 }
 
 doom::physics::ColliderType doom::physics::Plane::GetColliderType() const
@@ -72,14 +72,14 @@ void doom::physics::Plane::Render(eColor color, bool drawInstantly /*= false*/)
 	auto debugGraphics = graphics::DebugGraphics::GetSingleton();
 
 	math::Vector3 arbitaryVector =
-		math::abs(this->mNormal.y) > math::epsilon<float>() || math::abs(this->mNormal.z) > math::epsilon<float>() ?
+		math::abs(mNormal.y) > math::epsilon<float>() || math::abs(mNormal.z) > math::epsilon<float>() ?
 		math::Vector3::right : math::Vector3::up;
 	
-	math::Vector3 Parallel1VectorToPlane = math::cross(this->mNormal, arbitaryVector);
-	math::Vector3 Parallel2VectorToPlane = math::cross(this->mNormal, Parallel1VectorToPlane);
+	math::Vector3 Parallel1VectorToPlane = math::cross(mNormal, arbitaryVector);
+	math::Vector3 Parallel2VectorToPlane = math::cross(mNormal, Parallel1VectorToPlane);
 
 	float halfExtent = 10;
-	math::Vector3 center = this->mNormal * this->mDistance;
+	math::Vector3 center = mNormal * mDistance;
 
 
 	math::Vector3 a = center + Parallel1VectorToPlane * halfExtent + Parallel2VectorToPlane * halfExtent;
@@ -98,8 +98,8 @@ void doom::physics::Plane::Render(eColor color, bool drawInstantly /*= false*/)
 
 	/*
 	math::lookat
-	math::Quaternion quat{ this->mNormal };
-	auto center = this->mNormal * this->mDistance;
+	math::Quaternion quat{ mNormal };
+	auto center = mNormal * mDistance;
 	
 	graphics::DebugGraphics::GetSingleton()->DebugDraw3DTriangle(center - center.right - center.up, eColor::White);
 	*/

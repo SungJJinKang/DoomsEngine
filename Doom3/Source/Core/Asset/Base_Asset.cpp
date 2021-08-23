@@ -5,10 +5,10 @@ using namespace doom::asset;
 
 void Asset::SetBaseMetaData(const std::filesystem::path& path, const D_UUID& uuid)
 {
-	this->mAssetMetaData.mFileName = path.has_filename() ? path.filename().string() : "";
-	this->mAssetMetaData.mFileDirectory = path;
-	this->mAssetMetaData.mFileSize = std::filesystem::file_size(path);
-	this->mAssetMetaData.mUUID = uuid;
+	mAssetMetaData.mFileName = path.has_filename() ? path.filename().string() : "";
+	mAssetMetaData.mFileDirectory = path;
+	mAssetMetaData.mFileSize = std::filesystem::file_size(path);
+	mAssetMetaData.mUUID = uuid;
 }
 
 
@@ -21,50 +21,50 @@ Asset::Asset()
 
 doom::D_UUID Asset::GetUUID()
 {
-	return this->mAssetMetaData.mUUID;
+	return mAssetMetaData.mUUID;
 }
 
 const D_UUID& Asset::GetUUID() const
 {
-	return this->mAssetMetaData.mUUID;
+	return mAssetMetaData.mUUID;
 }
 
 std::string Asset::GetAssetFileName()
 {
-	return this->mAssetMetaData.mFileName;
+	return mAssetMetaData.mFileName;
 }
 
 const std::string& Asset::GetAssetFileName() const
 {
-	return this->mAssetMetaData.mFileName;
+	return mAssetMetaData.mFileName;
 }
 
 std::filesystem::path Asset::GetAssetPath()
 {
-	return this->mAssetMetaData.mFileDirectory;
+	return mAssetMetaData.mFileDirectory;
 }
 
 const std::filesystem::path& Asset::GetAssetPath() const
 {
-	return this->mAssetMetaData.mFileDirectory;
+	return mAssetMetaData.mFileDirectory;
 }
 
 Asset::AssetStatus Asset::GetAssetStatus()
 {
-	return this->mAssetStatus;
+	return mAssetStatus;
 }
 
 unsigned long long Asset::GetAssetFileSize() const
 {
-	return this->mAssetMetaData.mFileSize;
+	return mAssetMetaData.mFileSize;
 }
 
 void Asset::OnEndImportInMainThread()
 {
-	if (this->IsCalledEndImportInMainThread == false)
+	if (IsCalledEndImportInMainThread == false)
 	{
-		this->OnEndImportInMainThread_Internal();
-		this->IsCalledEndImportInMainThread = true;
+		OnEndImportInMainThread_Internal();
+		IsCalledEndImportInMainThread = true;
 	}
 }
 

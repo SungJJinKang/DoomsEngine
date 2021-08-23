@@ -130,12 +130,12 @@ namespace doom
 		constexpr BVH(int nodeCapacity) 
 			:mNodeCapacity{ nodeCapacity }
 		{
-			this->mNodes = new BVH_Node<ColliderType>[mNodeCapacity];
+			mNodes = new BVH_Node<ColliderType>[mNodeCapacity];
 		}
 
 		~BVH()
 		{
-			delete[] this->mNodes;
+			delete[] mNodes;
 		}
 
 		bool BVHRayCast(const doom::physics::Ray& ray);
@@ -167,7 +167,7 @@ namespace doom
 
 		constexpr node_view_type MakeBVH_Node_View(int index)
 		{
-			D_ASSERT(index < this->mCurrentAllocatedNodeCount);
+			D_ASSERT(index < mCurrentAllocatedNodeCount);
 			return node_view_type(this, index);
 		}
 	};

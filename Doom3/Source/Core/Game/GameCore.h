@@ -80,30 +80,30 @@ namespace doom
 		/// </summary>
 		FORCE_INLINE virtual void Update() final
 		{
-			this->UpdateGameCore();
+			UpdateGameCore();
 
 			D_START_PROFILING("mTime_Server.Update_Internal", eProfileLayers::CPU);
-			this->mTime_Server.Update_Internal();
-			this->mTime_Server.Update();
+			mTime_Server.Update_Internal();
+			mTime_Server.Update();
 			D_END_PROFILING("mTime_Server.Update_Internal");
 
 			D_START_PROFILING("mPhysics_Server.Update", eProfileLayers::CPU);
-			this->mPhysics_Server.Update_Internal();
-			this->mPhysics_Server.Update();
+			mPhysics_Server.Update_Internal();
+			mPhysics_Server.Update();
 			D_END_PROFILING("mPhysics_Server.Update");
 
 			D_START_PROFILING("mUserImput_Server.Update", eProfileLayers::CPU);
-			this->mUserImput_Server.Update_Internal();
-			this->mUserImput_Server.Update();
+			mUserImput_Server.Update_Internal();
+			mUserImput_Server.Update();
 			D_END_PROFILING("mUserImput_Server.Update");
 
 			D_START_PROFILING("mCurrentScene->UpdatePlainComponents", eProfileLayers::CPU);
-			this->mCurrentScene->UpdatePlainComponents(); // Update plain Components ( Game Logic )
+			mCurrentScene->UpdatePlainComponents(); // Update plain Components ( Game Logic )
 			D_END_PROFILING("mCurrentScene->UpdatePlainComponents");
 
 			D_START_PROFILING("mGraphics_Server.Update", eProfileLayers::CPU);
-			this->mGraphics_Server.Update_Internal();
-			this->mGraphics_Server.Update();
+			mGraphics_Server.Update_Internal();
+			mGraphics_Server.Update();
 			D_END_PROFILING("mGraphics_Server.Update");
 		}
 
@@ -114,42 +114,42 @@ namespace doom
 		FORCE_INLINE virtual void FixedUpdate() final
 		{
 			D_START_PROFILING("mPhysics_Server.FixedUpdate_Internal", eProfileLayers::CPU);
-			this->mPhysics_Server.FixedUpdate_Internal();
+			mPhysics_Server.FixedUpdate_Internal();
 			D_END_PROFILING("mPhysics_Server.FixedUpdate_Internal");
 
 			D_START_PROFILING("mPhysics_Server.FixedUpdate", eProfileLayers::CPU);
-			this->mPhysics_Server.FixedUpdate();
+			mPhysics_Server.FixedUpdate();
 			D_END_PROFILING("mPhysics_Server.FixedUpdate");
 
 			D_START_PROFILING("mCurrentScene->FixedUpdatePlainComponents", eProfileLayers::CPU);
-			this->mCurrentScene->FixedUpdatePlainComponents(); // Update plain Components ( Game Logic )
+			mCurrentScene->FixedUpdatePlainComponents(); // Update plain Components ( Game Logic )
 			D_END_PROFILING("mCurrentScene->FixedUpdatePlainComponents");
 		}
 
 		FORCE_INLINE virtual void OnEndOfFrame() final
 		{
 			D_START_PROFILING("mTime_Server OnEndOfFrame", eProfileLayers::CPU);
-			this->mTime_Server.OnEndOfFrame_Internal();
-			this->mTime_Server.OnEndOfFrame();
+			mTime_Server.OnEndOfFrame_Internal();
+			mTime_Server.OnEndOfFrame();
 			D_END_PROFILING("mTime_Server OnEndOfFrame");
 
 			D_START_PROFILING("mPhysics_Server OnEndOfFrame", eProfileLayers::CPU);
-			this->mPhysics_Server.OnEndOfFrame_Internal();
-			this->mPhysics_Server.OnEndOfFrame();
+			mPhysics_Server.OnEndOfFrame_Internal();
+			mPhysics_Server.OnEndOfFrame();
 			D_END_PROFILING("mPhysics_Server OnEndOfFrame");
 
 			D_START_PROFILING("mUserImput_Server OnEndOfFrame", eProfileLayers::CPU);
-			this->mUserImput_Server.OnEndOfFrame_Internal();
-			this->mUserImput_Server.OnEndOfFrame();
+			mUserImput_Server.OnEndOfFrame_Internal();
+			mUserImput_Server.OnEndOfFrame();
 			D_END_PROFILING("mUserImput_Server OnEndOfFrame");
 
 			D_START_PROFILING("mCurrentScene OnEndOfFrame", eProfileLayers::CPU);
-			this->mCurrentScene->OnEndOfFrameOfEntities(); // Update Plain Components ( Game Logic )
+			mCurrentScene->OnEndOfFrameOfEntities(); // Update Plain Components ( Game Logic )
 			D_END_PROFILING("mCurrentScene OnEndOfFrame");
 
 			D_START_PROFILING("mGraphics_Server OnEndOfFrame", eProfileLayers::CPU);
-			this->mGraphics_Server.OnEndOfFrame_Internal();
-			this->mGraphics_Server.OnEndOfFrame();
+			mGraphics_Server.OnEndOfFrame_Internal();
+			mGraphics_Server.OnEndOfFrame();
 			D_END_PROFILING("mGraphics_Server OnEndOfFrame");
 		}
 
@@ -159,12 +159,12 @@ namespace doom
 			D_START_PROFILING("Fixed Update", eProfileLayers::CPU);
 			MainTimer::ResetFixedTimer();
 			int fixedUpdateCount{ 0 };
-			for (int i = 0; i < this->mPhysics_Server.MAX_PHYSICS_STEP; ++i)
+			for (int i = 0; i < mPhysics_Server.MAX_PHYSICS_STEP; ++i)
 			{
 				fixedUpdateCount++;
-				this->FixedUpdate();
+				FixedUpdate();
 				MainTimer::UpdateFixedTimer();
-				if (MainTimer::GetFixedDeltaTime() > this->mPhysics_Server.FIXED_TIME_STEP)
+				if (MainTimer::GetFixedDeltaTime() > mPhysics_Server.FIXED_TIME_STEP)
 				{
 					break;
 				}
@@ -175,12 +175,12 @@ namespace doom
 			MainTimer::UpdateFrameTimer();
 			
 			D_START_PROFILING("Update", eProfileLayers::CPU);
-			this->Update();
+			Update();
 			D_END_PROFILING("Update");
 			
 			
 			D_START_PROFILING("OnEndOfFrame", eProfileLayers::CPU);
-			this->OnEndOfFrame();
+			OnEndOfFrame();
 			D_END_PROFILING("OnEndOfFrame");
 			
 			return true;

@@ -2,16 +2,16 @@
 
 math::Vector3 doom::Collider2DComponent::GetOffsetVector3() const
 {
-	return this->mOffset;
+	return mOffset;
 }
 
 void doom::Collider2DComponent::SetOffset(const math::Vector2& offset)
 {
-	this->mOffset = offset;
-	this->bmIsLocalColliderDirty = true;
+	mOffset = offset;
+	bmIsLocalColliderDirty = true;
 }
 
 math::Vector2 doom::Collider2DComponent::GetOffset()
 {
-	return this->mOffset;
+	return mOffset;
 }

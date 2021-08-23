@@ -31,7 +31,7 @@ namespace doom
 			/// <summary>
 			/// Buffer::data is same with mUniformBufferID
 			/// </summary>
-			//unsigned int& mUniformBufferID = this->data; USE data
+			//unsigned int& mUniformBufferID = data; USE data
 
 
 			// TODO: Check Which is faster : 
@@ -56,9 +56,9 @@ namespace doom
 
 			FORCE_INLINE void BindBuffer() noexcept final
 			{
-				if (D_OVERLAP_BIND_CHECK_CHECK_IS_NOT_BOUND_AND_BIND_ID(GL_UNIFORM_BUFFER_TAG, this->mBufferID))
+				if (D_OVERLAP_BIND_CHECK_CHECK_IS_NOT_BOUND_AND_BIND_ID(GL_UNIFORM_BUFFER_TAG, mBufferID))
 				{
-					glBindBuffer(GL_UNIFORM_BUFFER, this->mBufferID);
+					glBindBuffer(GL_UNIFORM_BUFFER, mBufferID);
 				}
 				
 			}

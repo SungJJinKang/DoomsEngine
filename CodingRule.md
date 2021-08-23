@@ -28,7 +28,7 @@ You can be in trouble if you usally use auto type.
 ```c++
 ClassA& GetClassAByReference()
 {
-	return this->classAInstance;
+	return classAInstance;
 }
 
 auto classA = GetClassAByReference();

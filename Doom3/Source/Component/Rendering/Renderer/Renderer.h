@@ -94,9 +94,9 @@ namespace doom
 		/// </summary>
 		FORCE_INLINE void BindMaterial() noexcept
 		{
-			if (this->mTargetMaterial != nullptr)
+			if (mTargetMaterial != nullptr)
 			{
-				this->mTargetMaterial->UseProgram();
+				mTargetMaterial->UseProgram();
 			}
 		}
 		void SetMaterial(graphics::Material* material) noexcept;
@@ -109,12 +109,12 @@ namespace doom
 		/// <returns></returns>
 		FORCE_INLINE char GetIsVisibleWithCameraIndex(unsigned int cameraIndex)
 		{
-			return this->mEntityBlockViewer.GetIsVisibleBitflag(cameraIndex);
+			return mEntityBlockViewer.GetIsVisibleBitflag(cameraIndex);
 		}
 
 		FORCE_INLINE char GetIsVisible()
 		{
-			return this->mEntityBlockViewer.GetIsVisibleBitflag();
+			return mEntityBlockViewer.GetIsVisibleBitflag();
 		}
 
 		virtual physics::AABB3D GetLocalAABBBound() const = 0;

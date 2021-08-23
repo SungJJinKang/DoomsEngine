@@ -89,7 +89,7 @@ namespace doom
 				path.make_preferred();
 				doom::asset::Asset::asset_type_t<assetType>* newAsset = AssetManager::ImportedAssetPorts<assetType>.AddNewAsset(path);
 				std::future<bool> assetFuture{ doom::assetimporter::Assetimporter::PushImportingAssetJobToThreadPool<assetType>(path, newAsset) };
-				this->mWaitingImportFuture.push_back(std::move(assetFuture));
+				mWaitingImportFuture.push_back(std::move(assetFuture));
 			}
 
 			template<::doom::asset::eAssetType assetType>
@@ -104,7 +104,7 @@ namespace doom
 				}
 
 				std::vector<std::future<bool>> assetFutures = doom::assetimporter::Assetimporter::PushImportingAssetJobToThreadPool<assetType>(paths, newAssets);
-				this->mWaitingImportFuture.insert(this->mWaitingImportFuture.end(), std::make_move_iterator(assetFutures.begin()), std::make_move_iterator(assetFutures.end()));
+				mWaitingImportFuture.insert(mWaitingImportFuture.end(), std::make_move_iterator(assetFutures.begin()), std::make_move_iterator(assetFutures.end()));
 			}
 
 			

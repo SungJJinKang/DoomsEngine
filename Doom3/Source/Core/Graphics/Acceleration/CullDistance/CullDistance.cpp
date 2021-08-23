@@ -30,15 +30,15 @@ void doom::graphics::CullDistance::AddCullDistance(int volumeSphereRadius, int c
 
 
 	int index = 0;
-	for (int i = 0; i < this->mCullDistanceSetting.size(); i++)
+	for (int i = 0; i < mCullDistanceSetting.size(); i++)
 	{
-		if (this->mCullDistanceSetting[i].mVolumeSphereRadius > volumeSphereRadius)
+		if (mCullDistanceSetting[i].mVolumeSphereRadius > volumeSphereRadius)
 		{
 			index = i + 1;
 		}
 	}
 
-	this->mCullDistanceSetting.insert(this->mCullDistanceSetting.begin() + index, cullDistanceData);
+	mCullDistanceSetting.insert(mCullDistanceSetting.begin() + index, cullDistanceData);
 }
 
 void doom::graphics::CullDistance::RemoveCullDistance(int volumeSphereRadius, int cullDistance)
@@ -46,16 +46,16 @@ void doom::graphics::CullDistance::RemoveCullDistance(int volumeSphereRadius, in
 	D_ASSERT(volumeSphereRadius >= 0 && cullDistance >= 0);
 
 	int index = 0;
-	for (int i = 0; i < this->mCullDistanceSetting.size(); i++)
+	for (int i = 0; i < mCullDistanceSetting.size(); i++)
 	{
-		if (this->mCullDistanceSetting[i].mVolumeSphereRadius == volumeSphereRadius && this->mCullDistanceSetting[i].mCullDistance == cullDistance)
+		if (mCullDistanceSetting[i].mVolumeSphereRadius == volumeSphereRadius && mCullDistanceSetting[i].mCullDistance == cullDistance)
 		{
 			index = i;
 			break;
 		}
 	}
 
-	this->mCullDistanceSetting.erase(this->mCullDistanceSetting.begin() + index);
+	mCullDistanceSetting.erase(mCullDistanceSetting.begin() + index);
 }
 
 float doom::graphics::CullDistance::PickCullDistanceSqr(float sphereRadius)
@@ -65,13 +65,13 @@ float doom::graphics::CullDistance::PickCullDistanceSqr(float sphereRadius)
 
 	int mingap{ math::infinity<int>() };
 	float cullDistanceSqr{ math::infinity<float>() };
-	for (int i = 0; i < this->mCullDistanceSetting.size(); i++)
+	for (int i = 0; i < mCullDistanceSetting.size(); i++)
 	{
-		int gap = math::abs(this->mCullDistanceSetting[i].mVolumeSphereRadius - radius);
+		int gap = math::abs(mCullDistanceSetting[i].mVolumeSphereRadius - radius);
 		if (gap < mingap)
 		{
 			mingap = gap;
-			cullDistanceSqr = this->mCullDistanceSetting[i].mCullDistanceSqr;
+			cullDistanceSqr = mCullDistanceSetting[i].mCullDistanceSqr;
 		}
 	}
 	return cullDistanceSqr;
@@ -100,12 +100,12 @@ void doom::graphics::CullDistance::Initialize()
 			if (data.IsValueExist("Graphics", distanceKeyStr) == true)
 			{
 				int distance = data.GetValue<int>("Graphics", distanceKeyStr);
-				this->AddCullDistance(radius, distance);
+				AddCullDistance(radius, distance);
 			}
 			else if (data.IsValueExist("Graphics", distanceSqrKeyStr) == true)
 			{
 				float distanceSqr = data.GetValue<float>("Graphics", distanceSqrKeyStr);
-				this->AddCullDistance(radius, static_cast<int>(math::sqrt(distanceSqr)));
+				AddCullDistance(radius, static_cast<int>(math::sqrt(distanceSqr)));
 			}
 			else
 			{
@@ -121,14 +121,14 @@ void doom::graphics::CullDistance::Initialize()
 
 void doom::graphics::CullDistance::OnStartDraw()
 {
-	this->mCameraPosition = Camera::GetMainCamera()->GetTransform()->GetPosition();
+	mCameraPosition = Camera::GetMainCamera()->GetTransform()->GetPosition();
 }
 
 bool doom::graphics::CullDistance::GetIsVisible(Renderer* renderer)
 {
-	float distanceSqr = (renderer->GetTransform()->GetPosition() - this->mCameraPosition).sqrMagnitude();
+	float distanceSqr = (renderer->GetTransform()->GetPosition() - mCameraPosition).sqrMagnitude();
 
-	float cullDistance = this->PickCullDistanceSqr(renderer->BVH_Sphere_Node_Object::GetWorldColliderCacheByReference()->mRadius);
+	float cullDistance = PickCullDistanceSqr(renderer->BVH_Sphere_Node_Object::GetWorldColliderCacheByReference()->mRadius);
 
 	return distanceSqr < cullDistance;
 }
@@ -139,8 +139,8 @@ void doom::graphics::CullDistance::PreComputeCulling()
 
 void doom::graphics::CullDistance::RemoveCullDistance(int index)
 {
-	D_ASSERT(this->mCullDistanceSetting.size() > index);
-	this->mCullDistanceSetting.erase(this->mCullDistanceSetting.begin() + index);
+	D_ASSERT(mCullDistanceSetting.size() > index);
+	mCullDistanceSetting.erase(mCullDistanceSetting.begin() + index);
 }
 
 // void doom::graphics::CullDistance::SetIsDrawed(bool isDrawed)

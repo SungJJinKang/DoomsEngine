@@ -10,25 +10,25 @@ doom::graphics::PicktureInPickture::PicktureInPickture(int textureWidth, int tex
 		PicktureInPickture::mPIPMaterial.SetShaderAsset(pipMaterial);
 	}
 
-	this->mFrameBuffer.GenerateBuffer(textureWidth, textureHeight);
-	this->mScreenTexture = &(this->mFrameBuffer.AttachTextureBuffer(GraphicsAPI::eBufferType::COLOR, textureWidth, textureHeight));
-	this->mFrameBuffer.AttachRenderBuffer(GraphicsAPI::eBufferType::DEPTH, textureWidth, textureHeight);
+	mFrameBuffer.GenerateBuffer(textureWidth, textureHeight);
+	mScreenTexture = &(mFrameBuffer.AttachTextureBuffer(GraphicsAPI::eBufferType::COLOR, textureWidth, textureHeight));
+	mFrameBuffer.AttachRenderBuffer(GraphicsAPI::eBufferType::DEPTH, textureWidth, textureHeight);
 
 }
 
 void doom::graphics::PicktureInPickture::BindFrameBuffer()
 {
-	this->mFrameBuffer.BindFrameBuffer();
+	mFrameBuffer.BindFrameBuffer();
 }
 
 void doom::graphics::PicktureInPickture::UnBindFrameBuffer()
 {
-	this->mFrameBuffer.UnBindFrameBuffer();
+	mFrameBuffer.UnBindFrameBuffer();
 }
 
 void doom::graphics::PicktureInPickture::RevertFrameBuffer()
 {
-	this->mFrameBuffer.RevertFrameBuffer();
+	mFrameBuffer.RevertFrameBuffer();
 }
 
 void doom::graphics::PicktureInPickture::DrawPictureInPicture()
@@ -36,10 +36,10 @@ void doom::graphics::PicktureInPickture::DrawPictureInPicture()
 	PicktureInPickture::mPIPMaterial.UseProgram();
 	mScreenTexture->ActiveTexture(0);
 	mScreenTexture->BindTexture();
-	this->mMesh.Draw();
+	mMesh.Draw();
 }
 
 void doom::graphics::PicktureInPickture::ClearFrameBuffer()
 {
-	this->mFrameBuffer.Clear();
+	mFrameBuffer.Clear();
 }

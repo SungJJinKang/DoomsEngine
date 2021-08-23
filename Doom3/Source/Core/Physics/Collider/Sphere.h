@@ -51,25 +51,25 @@ namespace doom
 
 			FORCE_INLINE virtual void* data() final
 			{
-				return &(this->mCenter);
+				return &(mCenter);
 			}
 
 			FORCE_INLINE virtual const void* data() const final
 			{
-				return &(this->mCenter);
+				return &(mCenter);
 			}
 
 			FORCE_INLINE void Expand(const math::Vector3& movedVector)
 			{
-				this->mRadius += movedVector.magnitude();
+				mRadius += movedVector.magnitude();
 			}
 
 			FORCE_INLINE void SignedExpand(const math::Vector3& movedVector)
 			{
 				float distance = movedVector.magnitude();
 
-				this->mCenter += movedVector * 0.5f;
-				this->mRadius += distance * 0.5f;
+				mCenter += movedVector * 0.5f;
+				mRadius += distance * 0.5f;
 			}
 
 			ColliderType GetColliderType() const override;

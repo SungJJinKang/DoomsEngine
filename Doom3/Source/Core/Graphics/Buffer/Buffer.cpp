@@ -12,21 +12,21 @@ Buffer::Buffer() : mBufferID{ 0 }
 
 void Buffer::GenBuffer()
 {
-	if (this->mBufferID == 0)
+	if (mBufferID == 0)
 	{
-		glGenBuffers(1, &(this->mBufferID));
+		glGenBuffers(1, &(mBufferID));
 	}
 
 }
 
 void doom::graphics::Buffer::GenBufferIfNotGened()
 {
-	if (this->IsBufferGenerated() == true)
+	if (IsBufferGenerated() == true)
 	{
 		return;
 	}
 		
-	this->GenBuffer();
+	GenBuffer();
 }
 
 int64_t Buffer::GetBufferParameteri64v(eBufferBindingTarget bindingTarget, eBufferParameter bufferParameter)
@@ -39,26 +39,26 @@ int64_t Buffer::GetBufferParameteri64v(eBufferBindingTarget bindingTarget, eBuff
 int64_t Buffer::GetNamedBufferParameteri64v(eBufferParameter bufferParameter)
 {
 	int64_t value;
-	glGetNamedBufferParameteri64v(this->mBufferID, static_cast<unsigned int>(bufferParameter), &value);
+	glGetNamedBufferParameteri64v(mBufferID, static_cast<unsigned int>(bufferParameter), &value);
 	return value;
 }
 
 Buffer::~Buffer()
 {
-	this->DeleteBuffers();
+	DeleteBuffers();
 }
 
 void Buffer::DeleteBuffers()
 {
-	if (this->mBufferID.Get() != 0)
+	if (mBufferID.Get() != 0)
 	{
-		glDeleteBuffers(1, &(this->mBufferID));
-		this->mBufferID = 0;
+		glDeleteBuffers(1, &(mBufferID));
+		mBufferID = 0;
 	}
 }
 
 bool Buffer::IsBufferGenerated()
 {
-	return this->mBufferID.Get() != 0;
+	return mBufferID.Get() != 0;
 }
 

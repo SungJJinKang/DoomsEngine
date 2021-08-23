@@ -33,7 +33,7 @@ namespace doom
 
 			FORCE_INLINE void BindRenderBuffer() noexcept
 			{
-				BindRenderBuffer(this->mRenderBufferID);
+				BindRenderBuffer(mRenderBufferID);
 			}
 			FORCE_INLINE static void UnBindRenderBuffer() noexcept
 			{

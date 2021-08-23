@@ -23,12 +23,12 @@ namespace doom
 
 			FORCE_INLINE virtual void* data() final
 			{
-				return &(this->mOrigin);
+				return &(mOrigin);
 			}
 
 			FORCE_INLINE virtual const void* data() const final
 			{
-				return &(this->mOrigin);
+				return &(mOrigin);
 			}
 
 			math::Vector3 GetNormal() const;

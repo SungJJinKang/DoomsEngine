@@ -2,10 +2,10 @@
 
 void doom::asset::TextAsset::SetText(const std::string& str)
 {
-	this->mText = str;
+	mText = str;
 }
 
 const std::string& doom::asset::TextAsset::GetText()
 {
-	return this->mText;
+	return mText;
 }

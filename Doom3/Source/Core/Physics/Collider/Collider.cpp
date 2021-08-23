@@ -6,13 +6,13 @@
 
 void doom::physics::Collider::ClearCollision()
 {
-	this->bmIsCollision = false;
+	bmIsCollision = false;
 }
 
 #ifdef DEBUG_MODE
 void doom::physics::Collider::DrawPhysicsDebug(bool drawInstantly)
 {
-	if (this->bmIsCollision)
+	if (bmIsCollision)
 	{
 		RenderPhysics::DrawPhysicsDebugColor(eColor::Red, drawInstantly);
 	}

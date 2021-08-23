@@ -9,12 +9,12 @@ using namespace doom;
 
 Entity::Entity(size_t entityID, Entity* parent) : mEntityID{ entityID }, mEntityName {}, mPlainComponents{}, mParent{ parent }, mChilds{}
 {
-	this->mTransform = this->AddComponent<Transform>();
+	mTransform = AddComponent<Transform>();
 }
 
 Entity::~Entity()
 {
-	this->ClearComponents();
+	ClearComponents();
 }
 
 
@@ -28,48 +28,48 @@ void doom::Entity::UpdateEntity()
 
 void doom::Entity::OnEndOfFramePlainComponentsAndEntity()
 {
-	this->EndOfFrame_PlainComponent();
-	this->FrameDirtyChecker_EndOfFrame();
+	EndOfFrame_PlainComponent();
+	FrameDirtyChecker_EndOfFrame();
 }
 
 
 void Entity::FixedUpdate_PlainComponent()
 {
-	for (size_t i = 0; i < this->mPlainComponents.size(); i++)
+	for (size_t i = 0; i < mPlainComponents.size(); i++)
 	{
-		this->mPlainComponents[i]->FixedUpdateComponent_Internal();
-		this->mPlainComponents[i]->FixedUpdateComponent();
+		mPlainComponents[i]->FixedUpdateComponent_Internal();
+		mPlainComponents[i]->FixedUpdateComponent();
 	}
 }
 
 void doom::Entity::Update_PlainComponent()
 {
-	for (size_t i = 0; i < this->mPlainComponents.size(); i++)
+	for (size_t i = 0; i < mPlainComponents.size(); i++)
 	{
 		//D_START_PROFILING(SequenceStringGenerator::GetLiteralString("Update PlainComponents ", i), eProfileLayers::CPU);
-		this->mPlainComponents[i]->UpdateComponent_Internal();
-		this->mPlainComponents[i]->UpdateComponent();
+		mPlainComponents[i]->UpdateComponent_Internal();
+		mPlainComponents[i]->UpdateComponent();
 		//D_END_PROFILING(SequenceStringGenerator::GetLiteralString("Update PlainComponents ", i));
 	}
 }
 
 void doom::Entity::EndOfFrame_PlainComponent()
 {
-	for (size_t i = 0; i < this->mPlainComponents.size(); i++)
+	for (size_t i = 0; i < mPlainComponents.size(); i++)
 	{
-		this->mPlainComponents[i]->OnEndOfFrame_Component_Internal();
-		this->mPlainComponents[i]->OnEndOfFrame_Component();
+		mPlainComponents[i]->OnEndOfFrame_Component_Internal();
+		mPlainComponents[i]->OnEndOfFrame_Component();
 	}
 }
 
 void Entity::OnActivated()
 {
-	this->SetDirtyTrueAtThisFrame();
+	SetDirtyTrueAtThisFrame();
 }
 
 std::string_view Entity::GetEntityName() const
 {
-	return this->mEntityName;
+	return mEntityName;
 }
 
 
@@ -77,27 +77,27 @@ void Entity::AddLayerChangedCallback(void(*callback_ptr)(Entity&))
 {
 #ifdef DEBUG_MODE
 	//check is callback is already contained
-	auto iter = std::find(this->mLayerIndexChangedCallback.begin(), this->mLayerIndexChangedCallback.end(), callback_ptr);
-	D_ASSERT(iter == this->mLayerIndexChangedCallback.end());
+	auto iter = std::find(mLayerIndexChangedCallback.begin(), mLayerIndexChangedCallback.end(), callback_ptr);
+	D_ASSERT(iter == mLayerIndexChangedCallback.end());
 #endif
 
-	this->mLayerIndexChangedCallback.push_back(callback_ptr);
+	mLayerIndexChangedCallback.push_back(callback_ptr);
 }
 
 void Entity::RemoveLayerChangedCallback(void(*callback_ptr)(Entity&))
 {
-	auto iter = std::find(this->mLayerIndexChangedCallback.begin(), this->mLayerIndexChangedCallback.end(), callback_ptr);
-	D_ASSERT(iter != this->mLayerIndexChangedCallback.end());
+	auto iter = std::find(mLayerIndexChangedCallback.begin(), mLayerIndexChangedCallback.end(), callback_ptr);
+	D_ASSERT(iter != mLayerIndexChangedCallback.end());
 
-	this->mLayerIndexChangedCallback.erase(iter);
+	mLayerIndexChangedCallback.erase(iter);
 }
 
 void Entity::SetLayerIndex(unsigned int layerIndex)
 {
 	D_ASSERT(layerIndex >= 0 && layerIndex < MAX_LAYER_COUNT);
-	this->mLayerIndex = layerIndex;
+	mLayerIndex = layerIndex;
 
-	for (auto& callback : this->mLayerIndexChangedCallback)
+	for (auto& callback : mLayerIndexChangedCallback)
 	{
 		callback(*this);
 	}

@@ -33,20 +33,20 @@ public:
 	template <typename T>
 	T GetValue(const std::string& section, const std::string& variableKey) const
 	{
-		auto& sectionData = this->mIniDatas.at(section);
+		auto& sectionData = mIniDatas.at(section);
 		return std::get<T>(sectionData.at(variableKey));
 	}
 
 	template <>
 	float GetValue<float>(const std::string& section, const std::string& variableKey) const
 	{
-		auto& sectionData = this->mIniDatas.at(section);
+		auto& sectionData = mIniDatas.at(section);
 		return static_cast<float>(std::get<double>(sectionData.at(variableKey)));
 	}
 
 	bool IsValueExist(const std::string& section, const std::string& variableKey) const
 	{
-		auto& sectionData = this->mIniDatas.at(section);
+		auto& sectionData = mIniDatas.at(section);
 		auto iter = sectionData.find(variableKey);
 
 		return iter != sectionData.end();

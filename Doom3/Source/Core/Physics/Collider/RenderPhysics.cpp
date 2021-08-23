@@ -12,13 +12,13 @@ void doom::physics::RenderPhysics::DrawPhysicsDebugColor(eColor color, bool draw
 	{
 		//unsigned long long frameTickCount = MainTimer::GetCurrentTickCount();
 
-		//if (this->mLastRenderFrameTickCount != frameTickCount)
+		//if (mLastRenderFrameTickCount != frameTickCount)
 		//{
 		//color = eColor::Red;
 			Render(color, drawInstantly);
 		//}
 
-		//this->mLastRenderFrameTickCount = frameTickCount;
+		//mLastRenderFrameTickCount = frameTickCount;
 	}
 }
 

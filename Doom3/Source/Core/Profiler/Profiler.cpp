@@ -72,9 +72,9 @@ namespace doom
 				//TODO : don't need to lock mutex every time.
 				//TODO : mutex lock is required only when insert new key
 #ifdef THREAD_SAFE 
-				std::scoped_lock lock{ this->mProfilerMutex };
+				std::scoped_lock lock{ mProfilerMutex };
 #endif
-				return this->mElapsedTimeProfilingData[thread_id];
+				return mElapsedTimeProfilingData[thread_id];
 			}
 
 			accumulated_time_data_container_type& GetCurrentThreadAccumulatedTimeData(const std::thread::id& thread_id)
@@ -82,14 +82,14 @@ namespace doom
 				//TODO : don't need to lock mutex every time.
 				//TODO : mutex lock is required only when insert new key
 #ifdef THREAD_SAFE 
-				std::scoped_lock lock{ this->mProfilerMutex };
+				std::scoped_lock lock{ mProfilerMutex };
 #endif
-				return this->mAccumulatedTimeProfilingData[thread_id];
+				return mAccumulatedTimeProfilingData[thread_id];
 			}
 
 			ProfilerPimpl()
 			{
-				this->InitProfiling();
+				InitProfiling();
 			}
 
 			void InitProfiling() noexcept
@@ -136,10 +136,10 @@ namespace doom
 				}
 
 				time_point currentTime = std::chrono::high_resolution_clock::now();
-				auto& currentThreadData = this->GetCurrentThreadElapsedTimeData(std::this_thread::get_id());
+				auto& currentThreadData = GetCurrentThreadElapsedTimeData(std::this_thread::get_id());
 
-				this->mRecentElapsedTimeUpdatedNodeIterator = currentThreadData.insert_or_assign(name, currentTime).first;
-				this->mIsRecentElapsedUpdatedNodeValid = true;
+				mRecentElapsedTimeUpdatedNodeIterator = currentThreadData.insert_or_assign(name, currentTime).first;
+				mIsRecentElapsedUpdatedNodeValid = true;
 			}
 
 		
@@ -156,12 +156,12 @@ namespace doom
 
 				time_point currentTime = std::chrono::high_resolution_clock::now();
 				std::thread::id currentThread = std::this_thread::get_id();
-				auto& currentThreadData = this->GetCurrentThreadElapsedTimeData(currentThread);
+				auto& currentThreadData = GetCurrentThreadElapsedTimeData(currentThread);
 
 				elapsed_time_data_container_type::iterator timeDataNode;
-				if (this->mIsRecentElapsedUpdatedNodeValid == true && this->mRecentElapsedTimeUpdatedNodeIterator->first == name)
+				if (mIsRecentElapsedUpdatedNodeValid == true && mRecentElapsedTimeUpdatedNodeIterator->first == name)
 				{//passed key is same with key of mRecentElapsedTimeUpdatedNodeIterator!
-					timeDataNode = this->mRecentElapsedTimeUpdatedNodeIterator;
+					timeDataNode = mRecentElapsedTimeUpdatedNodeIterator;
 				}
 				else
 				{
@@ -172,8 +172,8 @@ namespace doom
 					}
 				}
 				std::chrono::microseconds consumedTimeInMS = std::chrono::duration_cast<std::chrono::microseconds>(currentTime - timeDataNode->second);
-				this->LogDuration(currentThread, name, consumedTimeInMS.count());
-				this->mIsRecentElapsedUpdatedNodeValid = false;
+				LogDuration(currentThread, name, consumedTimeInMS.count());
+				mIsRecentElapsedUpdatedNodeValid = false;
 
 
 			}
@@ -191,12 +191,12 @@ namespace doom
 				}
 
 				std::thread::id currentThread = std::this_thread::get_id();
-				auto& currentThreadData = this->GetCurrentThreadAccumulatedTimeData(currentThread);
+				auto& currentThreadData = GetCurrentThreadAccumulatedTimeData(currentThread);
 
 				auto nodeIter = currentThreadData.find(name);
 				if (nodeIter != currentThreadData.end())
 				{
-					this->LogDuration(currentThread, name, nodeIter->second.second);
+					LogDuration(currentThread, name, nodeIter->second.second);
 					nodeIter->second.second = 0;
 				}
 			}
@@ -212,7 +212,7 @@ namespace doom
 				}
 
 				time_point currentTime = std::chrono::high_resolution_clock::now();
-				auto& currentThreadData = this->GetCurrentThreadAccumulatedTimeData(std::this_thread::get_id());
+				auto& currentThreadData = GetCurrentThreadAccumulatedTimeData(std::this_thread::get_id());
 
 			
 				auto [iter, isInserted] = currentThreadData.try_emplace(name, currentTime, 0);
@@ -233,7 +233,7 @@ namespace doom
 				time_point currentTime = std::chrono::high_resolution_clock::now();
 
 				std::thread::id currentThread = std::this_thread::get_id();
-				auto& currentThreadData = this->GetCurrentThreadAccumulatedTimeData(currentThread);
+				auto& currentThreadData = GetCurrentThreadAccumulatedTimeData(currentThread);
 
 				accumulated_time_data_container_type::iterator timeDataNode = currentThreadData.find(name);
 				if (timeDataNode != currentThreadData.end())

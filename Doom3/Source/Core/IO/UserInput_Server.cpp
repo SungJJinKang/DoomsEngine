@@ -140,8 +140,8 @@ void UserInput_Server::Update()
 	UserInput_Server::mDeltaCursorScreenPosition.x = 0;
 	UserInput_Server::mDeltaCursorScreenPosition.y = 0;
 
-	this->UpdateKeyStates();
-	this->UpdateMouseButtonStates();
+	UpdateKeyStates();
+	UpdateMouseButtonStates();
 	glfwPollEvents();
 
 	if (UserInput_Server::mScrollChangedAtPreviousFrame == false)
@@ -150,7 +150,7 @@ void UserInput_Server::Update()
 		UserInput_Server::mScrollOffset.y = 0;
 	}
 
-	this->UpdateCurrentCursorScreenPosition();
+	UpdateCurrentCursorScreenPosition();
 }
 
 void UserInput_Server::OnEndOfFrame()

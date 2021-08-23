@@ -25,22 +25,22 @@ Scene::~Scene()
 	CHECK_IS_EXECUTED_ON_MAIN_THREAD; // if you wanna createnewentity in subthread, you should 
 
 	Entity* newEntity = new Entity(mEntityIDCounter++, nullptr); // resource::ObjectPool<Entity>::AllocateFromPool(nullptr);
-	this->mSpawnedEntities.emplace_back(newEntity);
+	mSpawnedEntities.emplace_back(newEntity);
 	return newEntity;
 }
 
 bool Scene::DestroyEntity(Entity& entity)
 {
-	size_t size = this->mSpawnedEntities.size();
+	size_t size = mSpawnedEntities.size();
 
 	Entity* pointer = &entity;
 	delete pointer;
 
 	for (size_t i = 0; i < size; i++)
 	{
-		if (this->mSpawnedEntities[i].get() == pointer)
+		if (mSpawnedEntities[i].get() == pointer)
 		{
-			std::vector_swap_popback(this->mSpawnedEntities, this->mSpawnedEntities.begin() + i);
+			std::vector_swap_popback(mSpawnedEntities, mSpawnedEntities.begin() + i);
 			return true;
 		}
 	}
@@ -55,41 +55,41 @@ doom::Scene* Scene::GetCurrentWorld()
 
 void Scene::FixedUpdatePlainComponents()
 {
-	for (size_t i = 0; i < this->mSpawnedEntities.size(); i++)
+	for (size_t i = 0; i < mSpawnedEntities.size(); i++)
 	{
-		this->mSpawnedEntities[i]->FixedUpdate_PlainComponent();
+		mSpawnedEntities[i]->FixedUpdate_PlainComponent();
 	}
 }
 
 void Scene::UpdatePlainComponents()
 {
-	for (size_t i = 0; i < this->mSpawnedEntities.size(); i++)
+	for (size_t i = 0; i < mSpawnedEntities.size(); i++)
 	{
-		this->mSpawnedEntities[i]->Update_PlainComponent();
+		mSpawnedEntities[i]->Update_PlainComponent();
 	}
 }
 
 void doom::Scene::OnEndOfFrameOfEntities()
 {
-	for (size_t i = 0; i < this->mSpawnedEntities.size(); i++)
+	for (size_t i = 0; i < mSpawnedEntities.size(); i++)
 	{
-		this->mSpawnedEntities[i]->OnEndOfFramePlainComponentsAndEntity();
+		mSpawnedEntities[i]->OnEndOfFramePlainComponentsAndEntity();
 	}
 }
 
 
 [[nodiscard]] doom::Camera* Scene::GetMainCamera() const
 {
-	return this->mMainCamera;
+	return mMainCamera;
 }
 
 void Scene::SetMainCamera(Camera* camera)
 {
-	this->mMainCamera = camera;
-	if (this->mMainCamera != nullptr)
+	mMainCamera = camera;
+	if (mMainCamera != nullptr)
 	{
-		this->mMainCamera->SetDirtyTrueAtThisFrame(); // make dirty for update new projection
-		this->mMainCamera->OnSetMainCamera();
+		mMainCamera->SetDirtyTrueAtThisFrame(); // make dirty for update new projection
+		mMainCamera->OnSetMainCamera();
 	}
 	
 }

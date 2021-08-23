@@ -115,7 +115,7 @@ namespace doom
 
 		/// <summary>
 		/// each component contain index of ThreeDModelAsset::ThreeDModelMesh 
-		/// so use like this->ThreeDModelAsset->mModelMeshAssets[mModelMeshIndexs[0]]
+		/// so use like ThreeDModelAsset->mModelMeshAssets[mModelMeshIndexs[0]]
 		/// </summary>
 		std::unique_ptr<unsigned int[]> mModelMeshIndexs;
 		unsigned int mNumOfModelMeshes;

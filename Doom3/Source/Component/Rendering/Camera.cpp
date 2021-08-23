@@ -8,139 +8,139 @@ using namespace doom;
 
 void Camera::SetProjectionMode(eProjectionType value)
 {
-	this->mProjectionMode = value;
-	this->SetDirtyTrueAtThisFrame();
-	this->bmIsProjectionMatrixDirty = true;
-	this->bmIsViewProjectionMatrixDirty = true;
-	this->bmIsModelViewProjectionMatrixDirty = true;
-	this->bmIsFrustumPlaneMatrixDirty = true;
+	mProjectionMode = value;
+	SetDirtyTrueAtThisFrame();
+	bmIsProjectionMatrixDirty = true;
+	bmIsViewProjectionMatrixDirty = true;
+	bmIsModelViewProjectionMatrixDirty = true;
+	bmIsFrustumPlaneMatrixDirty = true;
 }
 
 void Camera::SetFieldOfViewInDegree(float degree)
 {
-	this->mFieldOfViewInDegree = degree;
-	this->mFieldOfViewInRadian = degree * math::DEGREE_TO_RADIAN;
-	this->SetDirtyTrueAtThisFrame();
-	this->bmIsProjectionMatrixDirty = true;
-	this->bmIsViewProjectionMatrixDirty = true;
-	this->bmIsModelViewProjectionMatrixDirty = true;
-	this->bmIsFrustumPlaneMatrixDirty = true;
+	mFieldOfViewInDegree = degree;
+	mFieldOfViewInRadian = degree * math::DEGREE_TO_RADIAN;
+	SetDirtyTrueAtThisFrame();
+	bmIsProjectionMatrixDirty = true;
+	bmIsViewProjectionMatrixDirty = true;
+	bmIsModelViewProjectionMatrixDirty = true;
+	bmIsFrustumPlaneMatrixDirty = true;
 }
 
 void Camera::SetFieldOfViewInRadian(float radian)
 {
-	this->mFieldOfViewInDegree = radian * math::RADIAN_TO_DEGREE;
-	this->mFieldOfViewInRadian = radian;
-	this->SetDirtyTrueAtThisFrame();
-	this->bmIsProjectionMatrixDirty = true;
-	this->bmIsViewProjectionMatrixDirty = true;
-	this->bmIsModelViewProjectionMatrixDirty = true;
-	this->bmIsFrustumPlaneMatrixDirty = true;
+	mFieldOfViewInDegree = radian * math::RADIAN_TO_DEGREE;
+	mFieldOfViewInRadian = radian;
+	SetDirtyTrueAtThisFrame();
+	bmIsProjectionMatrixDirty = true;
+	bmIsViewProjectionMatrixDirty = true;
+	bmIsModelViewProjectionMatrixDirty = true;
+	bmIsFrustumPlaneMatrixDirty = true;
 }
 
 void Camera::SetClippingPlaneNear(float value)
 {
-	this->mClippingPlaneNear = value;
-	this->SetDirtyTrueAtThisFrame();
-	this->bmIsProjectionMatrixDirty = true;
-	this->bmIsViewProjectionMatrixDirty = true;
-	this->bmIsModelViewProjectionMatrixDirty = true;
-	this->bmIsFrustumPlaneMatrixDirty = true;
+	mClippingPlaneNear = value;
+	SetDirtyTrueAtThisFrame();
+	bmIsProjectionMatrixDirty = true;
+	bmIsViewProjectionMatrixDirty = true;
+	bmIsModelViewProjectionMatrixDirty = true;
+	bmIsFrustumPlaneMatrixDirty = true;
 }
 
 void Camera::SetClippingPlaneFar(float value)
 {
-	this->mClippingPlaneFar = value;
-	this->SetDirtyTrueAtThisFrame();
-	this->bmIsProjectionMatrixDirty = true;
-	this->bmIsViewProjectionMatrixDirty = true;
-	this->bmIsModelViewProjectionMatrixDirty = true;
-	this->bmIsFrustumPlaneMatrixDirty = true;
+	mClippingPlaneFar = value;
+	SetDirtyTrueAtThisFrame();
+	bmIsProjectionMatrixDirty = true;
+	bmIsViewProjectionMatrixDirty = true;
+	bmIsModelViewProjectionMatrixDirty = true;
+	bmIsFrustumPlaneMatrixDirty = true;
 }
 
 void Camera::SetViewportRectX(float value)
 {
-	this->mViewportRectX = value;
-	this->SetDirtyTrueAtThisFrame();
-	this->bmIsProjectionMatrixDirty = true;
-	this->bmIsViewProjectionMatrixDirty = true;
-	this->bmIsModelViewProjectionMatrixDirty = true;
-	this->bmIsFrustumPlaneMatrixDirty = true;
+	mViewportRectX = value;
+	SetDirtyTrueAtThisFrame();
+	bmIsProjectionMatrixDirty = true;
+	bmIsViewProjectionMatrixDirty = true;
+	bmIsModelViewProjectionMatrixDirty = true;
+	bmIsFrustumPlaneMatrixDirty = true;
 }
 
 void Camera::SetViewportRectY(float value)
 {
-	this->mViewportRectY = value;
-	this->SetDirtyTrueAtThisFrame();
-	this->bmIsProjectionMatrixDirty = true;
-	this->bmIsViewProjectionMatrixDirty = true;
-	this->bmIsModelViewProjectionMatrixDirty = true;
-	this->bmIsFrustumPlaneMatrixDirty = true;
+	mViewportRectY = value;
+	SetDirtyTrueAtThisFrame();
+	bmIsProjectionMatrixDirty = true;
+	bmIsViewProjectionMatrixDirty = true;
+	bmIsModelViewProjectionMatrixDirty = true;
+	bmIsFrustumPlaneMatrixDirty = true;
 }
 
 void Camera::SetViewportRectWidth(float value)
 {
-	this->mViewportRectWidth = value;
-	this->SetDirtyTrueAtThisFrame();
-	this->bmIsProjectionMatrixDirty = true;
-	this->bmIsViewProjectionMatrixDirty = true;
-	this->bmIsModelViewProjectionMatrixDirty = true;
-	this->bmIsFrustumPlaneMatrixDirty = true;
+	mViewportRectWidth = value;
+	SetDirtyTrueAtThisFrame();
+	bmIsProjectionMatrixDirty = true;
+	bmIsViewProjectionMatrixDirty = true;
+	bmIsModelViewProjectionMatrixDirty = true;
+	bmIsFrustumPlaneMatrixDirty = true;
 }
 
 void Camera::SetViewportRectHeight(float value)
 {
-	this->mViewportRectHeight = value;
-	this->SetDirtyTrueAtThisFrame();
-	this->bmIsProjectionMatrixDirty = true;
-	this->bmIsViewProjectionMatrixDirty = true;
-	this->bmIsModelViewProjectionMatrixDirty = true;
-	this->bmIsFrustumPlaneMatrixDirty = true;
+	mViewportRectHeight = value;
+	SetDirtyTrueAtThisFrame();
+	bmIsProjectionMatrixDirty = true;
+	bmIsViewProjectionMatrixDirty = true;
+	bmIsModelViewProjectionMatrixDirty = true;
+	bmIsFrustumPlaneMatrixDirty = true;
 }
 
 doom::Camera::eProjectionType Camera::GetProjectionMode() const
 {
-	return this->mProjectionMode;
+	return mProjectionMode;
 }
 
 float Camera::GetFieldOfViewInDegree() const
 {
-	return this->mFieldOfViewInDegree;
+	return mFieldOfViewInDegree;
 }
 
 float Camera::GetFieldOfViewInRadian() const
 {
-	return this->mFieldOfViewInRadian;
+	return mFieldOfViewInRadian;
 }
 
 float Camera::GetClippingPlaneNear() const
 {
-	return this->mClippingPlaneNear;
+	return mClippingPlaneNear;
 }
 
 float Camera::GetClippingPlaneFar() const
 {
-	return this->mClippingPlaneFar;
+	return mClippingPlaneFar;
 }
 
 float Camera::GetViewportRectX() const
 {
-	return this->mViewportRectX;
+	return mViewportRectX;
 }
 
 float Camera::GetViewportRectY() const
 {
-	return this->mViewportRectY;
+	return mViewportRectY;
 }
 
 float Camera::GetViewportRectWidth() const
 {
-	return this->mViewportRectWidth;
+	return mViewportRectWidth;
 }
 
 float Camera::GetViewportRectHeight() const
 {
-	return this->mViewportRectHeight;
+	return mViewportRectHeight;
 }
 
 
@@ -150,7 +150,7 @@ float Camera::GetViewportRectHeight() const
 
 const std::array<math::Vector4, 6>& doom::Camera::CalculateFrustumPlane()
 {
-	auto& viewProjectionMatrix = this->GetViewProjectionMatrix();
+	auto& viewProjectionMatrix = GetViewProjectionMatrix();
 	// Left Frustum Plane
    // Add first column of the matrix to the fourth column
 	mFrustumPlane[0].x = viewProjectionMatrix[0][3] + viewProjectionMatrix[0][0];
@@ -207,13 +207,13 @@ const std::array<math::Vector4, 6>& doom::Camera::CalculateFrustumPlane()
 
 void Camera::InitComponent()
 {
-	this->AddLocalDirtyToTransformDirtyReceiver(this->bmIsViewMatrixDirty);
-	this->AddLocalDirtyToTransformDirtyReceiver(this->bmIsViewProjectionMatrixDirty);
-	this->AddLocalDirtyToTransformDirtyReceiver(this->bmIsUboDirty);
-	this->AddLocalDirtyToTransformDirtyReceiver(this->bmIsFrustumPlaneMatrixDirty);
-	this->AddLocalDirtyToTransformDirtyReceiver(this->bmIsModelViewProjectionMatrixDirty);
+	AddLocalDirtyToTransformDirtyReceiver(bmIsViewMatrixDirty);
+	AddLocalDirtyToTransformDirtyReceiver(bmIsViewProjectionMatrixDirty);
+	AddLocalDirtyToTransformDirtyReceiver(bmIsUboDirty);
+	AddLocalDirtyToTransformDirtyReceiver(bmIsFrustumPlaneMatrixDirty);
+	AddLocalDirtyToTransformDirtyReceiver(bmIsModelViewProjectionMatrixDirty);
 	
-	this->UpdateMainCamera();
+	UpdateMainCamera();
 	
 }
 
@@ -256,22 +256,22 @@ doom::Camera* Camera::GetMainCamera()
 
 const math::Matrix4x4& doom::Camera::GetProjectionMatrix()
 {
-	if (this->bmIsProjectionMatrixDirty.GetIsDirty(true) )
+	if (bmIsProjectionMatrixDirty.GetIsDirty(true) )
 	{
-		if (this->mProjectionMode == eProjectionType::Perspective)
+		if (mProjectionMode == eProjectionType::Perspective)
 		{
-			this->mProjectionMatrix = math::perspectiveFov(this->mFieldOfViewInRadian, static_cast<float>(doom::graphics::Graphics_Server::GetScreenWidth()), static_cast<float>(doom::graphics::Graphics_Server::GetScreenHeight()), this->mClippingPlaneNear, this->mClippingPlaneFar);
-			//this->mViewFrumstum.SetCamera(this->mFieldOfViewInRadian, doom::graphics::Graphics_Server::GetScreenRatio(), this->mClippingPlaneNear, this->mClippingPlaneFar);
+			mProjectionMatrix = math::perspectiveFov(mFieldOfViewInRadian, static_cast<float>(doom::graphics::Graphics_Server::GetScreenWidth()), static_cast<float>(doom::graphics::Graphics_Server::GetScreenHeight()), mClippingPlaneNear, mClippingPlaneFar);
+			//mViewFrumstum.SetCamera(mFieldOfViewInRadian, doom::graphics::Graphics_Server::GetScreenRatio(), mClippingPlaneNear, mClippingPlaneFar);
 		}
 		else
 		{
-			this->mProjectionMatrix = math::ortho(this->mViewportRectX, this->mViewportRectX + this->mViewportRectWidth, this->mViewportRectY, this->mViewportRectY + this->mViewportRectHeight, this->mClippingPlaneNear, this->mViewportRectHeight);
-			//this->mViewFrumstum.SetCamera(180.0f * math::DEGREE_TO_RADIAN, doom::graphics::Graphics_Server::GetScreenRatio(), this->mClippingPlaneNear, this->mClippingPlaneFar);
+			mProjectionMatrix = math::ortho(mViewportRectX, mViewportRectX + mViewportRectWidth, mViewportRectY, mViewportRectY + mViewportRectHeight, mClippingPlaneNear, mViewportRectHeight);
+			//mViewFrumstum.SetCamera(180.0f * math::DEGREE_TO_RADIAN, doom::graphics::Graphics_Server::GetScreenRatio(), mClippingPlaneNear, mClippingPlaneFar);
 		}
 
 	}
 
-	return this->mProjectionMatrix;
+	return mProjectionMatrix;
 }
 
 void Camera::OnDestroy()
@@ -315,7 +315,7 @@ math::Vector3 Camera::ScreenToNDCPoint(const math::Vector3& screenPoint)
 
 math::Vector3 doom::Camera::NDCToWorldPoint(const math::Vector3& ndcPoint)
 {
-	math::Matrix4x4 invViewAndProjectionMatrix{ this->GetProjectionMatrix() * this->GetViewMatrix() };
+	math::Matrix4x4 invViewAndProjectionMatrix{ GetProjectionMatrix() * GetViewMatrix() };
 	invViewAndProjectionMatrix = invViewAndProjectionMatrix.inverse();
 
 	math::Vector4 vec4NDCPoint{ ndcPoint };
@@ -331,7 +331,7 @@ math::Vector3 doom::Camera::WorldToNDCPoint(const math::Vector3& worldPosition)
 	math::Vector4 resultPoint{ worldPosition };
 	resultPoint.w = 1;
 
-	resultPoint = this->GetProjectionMatrix() * this->GetViewMatrix() * resultPoint;
+	resultPoint = GetProjectionMatrix() * GetViewMatrix() * resultPoint;
 	resultPoint /= resultPoint.w;
 
 	//resultPoint.z = -resultPoint.z; // OpenGl basically use right hand coordinate, but NDC use left hand coordinate
@@ -357,16 +357,16 @@ void Camera::UpdateUniformBufferObjectTempBuffer(graphics::UniformBufferObjectMa
 {
 	if (Scene::GetSingleton()->GetMainCamera() == this)
 	{//if this camera is mainCamera
-		auto& projectionMatrix = this->GetProjectionMatrix();
+		auto& projectionMatrix = GetProjectionMatrix();
 
 		//!!!! Opengl Use column major of matrix data layout
 		uboManager.StoreDataAtTempBufferOfBindingPoint(GLOBAL_UNIFORM_BLOCK_BINDING_POINT, (void*)projectionMatrix.data(), sizeof(projectionMatrix), graphics::eUniformBlock_Global::projection);
 
 		
-		if (this->bmIsUboDirty.GetIsDirty(true))
+		if (bmIsUboDirty.GetIsDirty(true))
 		{//when transform value is changed
-			auto& viewMatrix = this->GetViewMatrix(); 
-			auto transform = this->GetTransform();
+			auto& viewMatrix = GetViewMatrix(); 
+			auto transform = GetTransform();
 			const auto& camPos = transform->GetPosition();
 
 			uboManager.StoreDataAtTempBufferOfBindingPoint(GLOBAL_UNIFORM_BLOCK_BINDING_POINT, (void*)viewMatrix.data(), sizeof(viewMatrix), graphics::eUniformBlock_Global::view);

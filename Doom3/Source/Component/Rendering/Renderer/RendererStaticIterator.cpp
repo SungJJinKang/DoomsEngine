@@ -9,12 +9,12 @@ using namespace doom;
 
 doom::StaticContainer<Renderer>::StaticContainer() : mRenderer_ptr{ nullptr }
 {
-	//this->AddRendererToStaticContainer(); at contructor, entity is not set
+	//AddRendererToStaticContainer(); at contructor, entity is not set
 }
 
 doom::StaticContainer<Renderer>::~StaticContainer()
 {
-	this->RemoveRendererToStaticContainer();
+	RemoveRendererToStaticContainer();
 }
 
 void doom::StaticContainer<Renderer>::AddRendererToStaticContainer()
@@ -52,6 +52,6 @@ std::pair<Renderer**, size_t> doom::StaticContainer<Renderer>::GetAllComponentsW
 // TODO : Add this to Entity's EntityLayerChanged Callback
 void doom::StaticContainer<Renderer>::OnEntityLayerChanged(Entity& entity)
 {
-	this->RemoveRendererToStaticContainer();
-	this->AddRendererToStaticContainer();
+	RemoveRendererToStaticContainer();
+	AddRendererToStaticContainer();
 }

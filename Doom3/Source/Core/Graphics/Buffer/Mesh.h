@@ -59,11 +59,11 @@ namespace doom
 			/// <returns></returns>
 			FORCE_INLINE void BindBuffer() noexcept final
 			{
-				D_ASSERT(this->mVertexArrayObjectID != 0);
+				D_ASSERT(mVertexArrayObjectID != 0);
 
-				if (D_OVERLAP_BIND_CHECK_CHECK_IS_NOT_BOUND_AND_BIND_ID(VERTEX_ARRAY_TAG, this->mVertexArrayObjectID))
+				if (D_OVERLAP_BIND_CHECK_CHECK_IS_NOT_BOUND_AND_BIND_ID(VERTEX_ARRAY_TAG, mVertexArrayObjectID))
 				{
-					glBindVertexArray(this->mVertexArrayObjectID);
+					glBindVertexArray(mVertexArrayObjectID);
 				}
 			}
 
@@ -97,7 +97,7 @@ namespace doom
 			
 			FORCE_INLINE void BindVertexArrayObject() noexcept
 			{
-				this->BindBuffer();
+				BindBuffer();
 			}
 			FORCE_INLINE void UnBindBuffer() noexcept final
 			{
@@ -130,33 +130,33 @@ namespace doom
 			void BufferDataFromModelMesh(const ThreeDModelMesh& threeDModelMesh) noexcept;
 			FORCE_INLINE void Draw()
 			{
-				D_ASSERT(this->mPrimitiveType != ePrimitiveType::NONE);
+				D_ASSERT(mPrimitiveType != ePrimitiveType::NONE);
 
-				this->BindVertexArrayObject();
+				BindVertexArrayObject();
 				if (mNumOfIndices > 0)
 				{// TODO : WHY THIS MAKE ERROR ON RADEON GPU, CHECK THIS https://stackoverflow.com/questions/18299646/gldrawelements-emits-gl-invalid-operation-when-using-amd-driver-on-linux
 					// you don't need bind mVertexArrayObjectID everytime, EBO will be bound automatically when bind VAO
-					GraphicsAPI::DrawElement(this->mPrimitiveType, this->mNumOfIndices, GL_UNSIGNED_INT, 0);
+					GraphicsAPI::DrawElement(mPrimitiveType, mNumOfIndices, GL_UNSIGNED_INT, 0);
 				}
 				else
 				{
-					GraphicsAPI::DrawArray(this->mPrimitiveType, 0, this->mNumOfVertices);
+					GraphicsAPI::DrawArray(mPrimitiveType, 0, mNumOfVertices);
 				}
 			}
 			FORCE_INLINE void DrawArray(int startIndexInComponent, unsigned int vertexCount)
 			{
-				D_ASSERT(this->mPrimitiveType != ePrimitiveType::NONE);
+				D_ASSERT(mPrimitiveType != ePrimitiveType::NONE);
 
-				this->BindVertexArrayObject();
+				BindVertexArrayObject();
 
-				GraphicsAPI::DrawArray(this->mPrimitiveType, startIndexInComponent, vertexCount);
+				GraphicsAPI::DrawArray(mPrimitiveType, startIndexInComponent, vertexCount);
 			}
 
 			FORCE_INLINE void DrawArray(ePrimitiveType primitiveType, int startVertexIndex, int vertexCount)
 			{
 				D_ASSERT(primitiveType != ePrimitiveType::NONE);
 
-				this->BindVertexArrayObject();
+				BindVertexArrayObject();
 
 				GraphicsAPI::DrawArray(primitiveType, startVertexIndex, vertexCount);
 			}

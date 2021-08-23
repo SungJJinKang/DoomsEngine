@@ -10,8 +10,8 @@ RenderBuffer::RenderBuffer(FrameBuffer& ownerFrameBuffer, GraphicsAPI::eBufferTy
 {
 	ownerFrameBuffer.BindFrameBuffer();
 
-	glGenRenderbuffers(1, &(this->mRenderBufferID));
-	this->BindRenderBuffer();
+	glGenRenderbuffers(1, &(mRenderBufferID));
+	BindRenderBuffer();
 
 
 
@@ -27,7 +27,7 @@ RenderBuffer::RenderBuffer(FrameBuffer& ownerFrameBuffer, GraphicsAPI::eBufferTy
 			glRenderbufferStorageMultisample(GL_RENDERBUFFER, Graphics_Server::MultiSamplingNum, static_cast<unsigned int>(eTextureInternalFormat::RGBA16F), width, height);
 		}
 				
-		glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_RENDERBUFFER, this->mRenderBufferID);
+		glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_RENDERBUFFER, mRenderBufferID);
 		break;
 
 	case GraphicsAPI::eBufferType::DEPTH:
@@ -40,7 +40,7 @@ RenderBuffer::RenderBuffer(FrameBuffer& ownerFrameBuffer, GraphicsAPI::eBufferTy
 			glRenderbufferStorageMultisample(GL_RENDERBUFFER, Graphics_Server::MultiSamplingNum, static_cast<unsigned int>(eTextureInternalFormat::DEPTH_COMPONENT), width, height);
 		}
 
-		glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, this->mRenderBufferID);
+		glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, mRenderBufferID);
 		break;
 
 	case GraphicsAPI::eBufferType::DEPTH_STENCIL:
@@ -53,7 +53,7 @@ RenderBuffer::RenderBuffer(FrameBuffer& ownerFrameBuffer, GraphicsAPI::eBufferTy
 			glRenderbufferStorageMultisample(GL_RENDERBUFFER, Graphics_Server::MultiSamplingNum, static_cast<unsigned int>(eTextureInternalFormat::DEPTH24_STENCIL8), width, height);
 		}
 
-		glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_RENDERBUFFER, this->mRenderBufferID);
+		glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_RENDERBUFFER, mRenderBufferID);
 		break;
 
 	default:
@@ -65,9 +65,9 @@ RenderBuffer::RenderBuffer(FrameBuffer& ownerFrameBuffer, GraphicsAPI::eBufferTy
 
 doom::graphics::RenderBuffer::~RenderBuffer()
 {
-	if (this->mRenderBufferID.Get() != 0)
+	if (mRenderBufferID.Get() != 0)
 	{
-		glDeleteRenderbuffers(1, &(this->mRenderBufferID));
+		glDeleteRenderbuffers(1, &(mRenderBufferID));
 	}
 }
 

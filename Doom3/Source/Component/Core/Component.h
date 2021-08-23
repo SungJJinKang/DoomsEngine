@@ -134,13 +134,13 @@ namespace doom
 		template<typename T, std::enable_if_t<std::is_base_of_v<Component, T>, bool> = true>
 		[[nodiscard]] constexpr T* GetComponent() // never return unique_ptr reference, just return pointer
 		{
-			return this->GetOwnerEntity()->GetComponent<T>();
+			return GetOwnerEntity()->GetComponent<T>();
 		}
 
 		template<typename T, std::enable_if_t<std::is_base_of_v<Component, T>, bool> = true>
 		[[nodiscard]] constexpr std::vector<T*> GetComponents()
 		{
-			return this->GetOwnerEntity()->GetComponents<T>();
+			return GetOwnerEntity()->GetComponents<T>();
 		}
 		*/
 
@@ -152,17 +152,17 @@ namespace doom
 	
 		FORCE_INLINE constexpr Entity* GetOwnerEntity() const
 		{
-			D_ASSERT(this->mOwnerEntity); // mOwnerEntity is set at InitComponent_Internal ( not Constructor )
-			return this->mOwnerEntity;
+			D_ASSERT(mOwnerEntity); // mOwnerEntity is set at InitComponent_Internal ( not Constructor )
+			return mOwnerEntity;
 		}
 		unsigned int GetOwnerEntityLayerIndex() const;
 		FORCE_INLINE constexpr Transform* GetTransform()
 		{
-			return this->mTransform;
+			return mTransform;
 		}
 		FORCE_INLINE constexpr const Transform* GetTransform() const
 		{
-			return this->mTransform;
+			return mTransform;
 		}
 		
 

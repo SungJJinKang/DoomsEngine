@@ -18,7 +18,7 @@ bool doom::BVH<ColliderType>::BVHRayCast(const doom::physics::Ray & ray)
 
 {
 	std::stack<int> stack{};
-	stack.push(this->mRootNodeIndex);
+	stack.push(mRootNodeIndex);
 	while (stack.empty() == false)
 	{
 		int index = stack.top();
@@ -26,21 +26,21 @@ bool doom::BVH<ColliderType>::BVHRayCast(const doom::physics::Ray & ray)
 
 		if constexpr (std::is_same_v<doom::physics::AABB2D, ColliderType> == true)
 		{
-			if (doom::physics::IsOverlapRayAndAABB2D(ray, this->mNodes[index].mBoundingCollider) == false)
+			if (doom::physics::IsOverlapRayAndAABB2D(ray, mNodes[index].mBoundingCollider) == false)
 			{// if don't hit with bounding box
 				continue;
 			}
 		}
 		else if constexpr (std::is_same_v<doom::physics::AABB3D, ColliderType> == true)
 		{
-			if (doom::physics::IsOverlapRayAndAABB3D(ray, this->mNodes[index].mBoundingCollider) == false)
+			if (doom::physics::IsOverlapRayAndAABB3D(ray, mNodes[index].mBoundingCollider) == false)
 			{// if don't hit with bounding box
 				continue;
 			}
 		}
 		else if constexpr (std::is_same_v<doom::physics::Sphere, ColliderType> == true)
 		{
-			if (doom::physics::IsOverlapRayAndSphere(ray, this->mNodes[index].mBoundingCollider) == false)
+			if (doom::physics::IsOverlapRayAndSphere(ray, mNodes[index].mBoundingCollider) == false)
 			{// if don't hit with bounding box
 				continue;
 			}
@@ -51,10 +51,10 @@ bool doom::BVH<ColliderType>::BVHRayCast(const doom::physics::Ray & ray)
 		}
 
 
-		if (this->mNodes[index].mIsLeaf)
+		if (mNodes[index].mIsLeaf)
 		{//if node is world object
 
-			if (physics::ColliderSolution::CheckIsOverlap(this->mNodes[index].mCollider, static_cast<physics::Collider*>(const_cast<physics::Ray*>(&ray))) == true)
+			if (physics::ColliderSolution::CheckIsOverlap(mNodes[index].mCollider, static_cast<physics::Collider*>(const_cast<physics::Ray*>(&ray))) == true)
 			{// check collision with ray and world object collider
 				return true;
 			}
@@ -65,8 +65,8 @@ bool doom::BVH<ColliderType>::BVHRayCast(const doom::physics::Ray & ray)
 		}
 		else
 		{
-			stack.push(this->mNodes[index].mLeftNode);
-			stack.push(this->mNodes[index].mRightNode);
+			stack.push(mNodes[index].mLeftNode);
+			stack.push(mNodes[index].mRightNode);
 		}
 	}
 	return false;
@@ -93,7 +93,7 @@ int doom::BVH<ColliderType>::PickBest(const ColliderType& L)
 
 	using node_priority_queue_type_t = typename std::priority_queue<NodeCost, std::vector<NodeCost>, std::greater<NodeCost>>;
 	node_priority_queue_type_t queue{};
-	queue.push(std::make_pair(this->mRootNodeIndex, InheritedCost(L, this->mNodes[this->mRootNodeIndex].mBoundingCollider)));
+	queue.push(std::make_pair(mRootNodeIndex, InheritedCost(L, mNodes[mRootNodeIndex].mBoundingCollider)));
 
 	float toInsertSurfaceArea = ColliderType::GetArea(L);
 	float bestCost = math::infinity<float>();
@@ -109,7 +109,7 @@ int doom::BVH<ColliderType>::PickBest(const ColliderType& L)
 		searchIndex = node.first;
 		searchInheritedCost = node.second;
 
-		ColliderType& search_aabb = this->mNodes[searchIndex].mBoundingCollider;
+		ColliderType& search_aabb = mNodes[searchIndex].mBoundingCollider;
 
 		//Why Get UnionArea L with Ancestors  ??
 		//If you want ancester's area of newly inserted node, you just be needed to compute unioned area with them
@@ -124,8 +124,8 @@ int doom::BVH<ColliderType>::PickBest(const ColliderType& L)
 		float lowerBound = toInsertSurfaceArea + inheritedCost;
 
 		if (lowerBound < bestCost) {
-			int child1 = this->mNodes[searchIndex].mLeftNode;
-			int child2 = this->mNodes[searchIndex].mRightNode;
+			int child1 = mNodes[searchIndex].mLeftNode;
+			int child2 = mNodes[searchIndex].mRightNode;
 			if (child1 != NULL_NODE_INDEX) {
 				assert(child2 != NULL_NODE_INDEX);
 				queue.emplace(child1, inheritedCost);
@@ -141,25 +141,25 @@ template<typename ColliderType>
 int doom::BVH<ColliderType>::AllocateNewNode()
 {
 	int newNodeIndex;
-	if (this->freedNodeIndexList.empty() == false)
+	if (freedNodeIndexList.empty() == false)
 	{// if there is freedNode
-		newNodeIndex = this->freedNodeIndexList.front();
-		this->freedNodeIndexList.pop();
+		newNodeIndex = freedNodeIndexList.front();
+		freedNodeIndexList.pop();
 	}
 	else
 	{
-		this->mCurrentAllocatedNodeCount++;
+		mCurrentAllocatedNodeCount++;
 
-		D_ASSERT(this->mCurrentAllocatedNodeCount <= this->mNodeCapacity);
+		D_ASSERT(mCurrentAllocatedNodeCount <= mNodeCapacity);
 		
-		newNodeIndex = this->mCurrentAllocatedNodeCount - 1;
+		newNodeIndex = mCurrentAllocatedNodeCount - 1;
 	}
 
-	this->mCurrentActiveNodeCount++;
+	mCurrentActiveNodeCount++;
 
-	this->mNodes[newNodeIndex].mOwnerBVH = this;
-	this->mNodes[newNodeIndex].mIndex = newNodeIndex;
-	this->mNodes[newNodeIndex].bmIsActive = true;
+	mNodes[newNodeIndex].mOwnerBVH = this;
+	mNodes[newNodeIndex].mIndex = newNodeIndex;
+	mNodes[newNodeIndex].bmIsActive = true;
 
 	return newNodeIndex;
 }
@@ -167,8 +167,8 @@ int doom::BVH<ColliderType>::AllocateNewNode()
 template <typename ColliderType>
 int doom::BVH<ColliderType>::AllocateLeafNode(const ColliderType& boundingCollider, physics::Collider* collider)
 {
-	int newNodexIndex = this->AllocateNewNode();
-	auto& newNode = this->mNodes[newNodexIndex];
+	int newNodexIndex = AllocateNewNode();
+	auto& newNode = mNodes[newNodexIndex];
 
 	//newNode.mBoundingCollider = collider;
 	newNode.mBoundingCollider = boundingCollider;
@@ -183,8 +183,8 @@ int doom::BVH<ColliderType>::AllocateLeafNode(const ColliderType& boundingCollid
 template <typename ColliderType>
 int doom::BVH<ColliderType>::AllocateInternalNode()
 {
-	int newNodexIndex = this->AllocateNewNode();
-	auto& newNode = this->mNodes[newNodexIndex];
+	int newNodexIndex = AllocateNewNode();
+	auto& newNode = mNodes[newNodexIndex];
 
 
 
@@ -199,30 +199,30 @@ void doom::BVH<ColliderType>::FreeNode(int nodeIndex)
 {
 	D_ASSERT(nodeIndex != NULL_NODE_INDEX);
 	
-	this->mNodes[nodeIndex].Clear();
+	mNodes[nodeIndex].Clear();
 
-	this->mCurrentActiveNodeCount--;
-	this->freedNodeIndexList.push(nodeIndex);
+	mCurrentActiveNodeCount--;
+	freedNodeIndexList.push(nodeIndex);
 }
 
 template <typename ColliderType>
 int doom::BVH<ColliderType>::GetSibling(int index)
 {
 	D_ASSERT(index != NULL_NODE_INDEX);
-	int parentIndex = this->mNodes[index].mParentIndex;
+	int parentIndex = mNodes[index].mParentIndex;
 	
 	if (parentIndex == NULL_NODE_INDEX)
 	{
 		return NULL_NODE_INDEX;
 	}
 
-	if (this->mNodes[parentIndex].mLeftNode == index)
+	if (mNodes[parentIndex].mLeftNode == index)
 	{
-		return this->mNodes[parentIndex].mRightNode;
+		return mNodes[parentIndex].mRightNode;
 	}
-	else if (this->mNodes[parentIndex].mRightNode == index)
+	else if (mNodes[parentIndex].mRightNode == index)
 	{
-		return this->mNodes[parentIndex].mLeftNode;
+		return mNodes[parentIndex].mLeftNode;
 	}
 	else
 	{
@@ -234,68 +234,68 @@ template <typename ColliderType>
 bool doom::BVH<ColliderType>::IsHasChild(int index)
 {
 	D_ASSERT(index != NULL_NODE_INDEX);
-	return (this->mNodes[index].mLeftNode != NULL_NODE_INDEX) || (this->mNodes[index].mRightNode != NULL_NODE_INDEX);
+	return (mNodes[index].mLeftNode != NULL_NODE_INDEX) || (mNodes[index].mRightNode != NULL_NODE_INDEX);
 }
 
 template <typename ColliderType>
 typename doom::BVH<ColliderType>::node_view_type doom::BVH<ColliderType>::InsertLeaf(const ColliderType& L, physics::Collider* collider)
 {
 	int newObjectLeafIndex = AllocateLeafNode(L, collider);
-	if (this->mCurrentActiveNodeCount == 1)
-	{// if allocate first node, this->mNodes.size() will be 1
-		this->mRootNodeIndex = newObjectLeafIndex;
+	if (mCurrentActiveNodeCount == 1)
+	{// if allocate first node, mNodes.size() will be 1
+		mRootNodeIndex = newObjectLeafIndex;
 	}
 	else
 	{
 		int bestSibling = PickBest(L);
 
 		/*
-		for (int i = 0; i < this->mCurrentAllocatedNodeCount; ++i)
+		for (int i = 0; i < mCurrentAllocatedNodeCount; ++i)
 		{
-			if (this->mNodes[i].bmIsActive == true)
+			if (mNodes[i].bmIsActive == true)
 			{
 				
 			}
 		}
 		*/
 
-		int oldParentIndex = this->mNodes[bestSibling].mParentIndex;
+		int oldParentIndex = mNodes[bestSibling].mParentIndex;
 		int newParentIndex = AllocateInternalNode();
-		this->mNodes[newParentIndex].mParentIndex = oldParentIndex;
-		this->mNodes[newParentIndex].mBoundingCollider = ColliderType::Union(L, this->mNodes[bestSibling].mBoundingCollider);
-		this->mNodes[newParentIndex].mEnlargedBoundingCollider = ColliderType::EnlargeAABB(this->mNodes[newParentIndex].mBoundingCollider);
+		mNodes[newParentIndex].mParentIndex = oldParentIndex;
+		mNodes[newParentIndex].mBoundingCollider = ColliderType::Union(L, mNodes[bestSibling].mBoundingCollider);
+		mNodes[newParentIndex].mEnlargedBoundingCollider = ColliderType::EnlargeAABB(mNodes[newParentIndex].mBoundingCollider);
 
 		if (oldParentIndex != NULL_NODE_INDEX)
 		{
-			if (this->mNodes[oldParentIndex].mLeftNode == bestSibling)
+			if (mNodes[oldParentIndex].mLeftNode == bestSibling)
 			{
-				this->mNodes[oldParentIndex].mLeftNode = newParentIndex;
+				mNodes[oldParentIndex].mLeftNode = newParentIndex;
 			}
 			else
 			{
-				this->mNodes[oldParentIndex].mRightNode = newParentIndex;
+				mNodes[oldParentIndex].mRightNode = newParentIndex;
 			}
 
-			this->mNodes[newParentIndex].mLeftNode = bestSibling;
-			this->mNodes[newParentIndex].mRightNode = newObjectLeafIndex;
-			this->mNodes[bestSibling].mParentIndex = newParentIndex;
-			this->mNodes[newObjectLeafIndex].mParentIndex = newParentIndex;
+			mNodes[newParentIndex].mLeftNode = bestSibling;
+			mNodes[newParentIndex].mRightNode = newObjectLeafIndex;
+			mNodes[bestSibling].mParentIndex = newParentIndex;
+			mNodes[newObjectLeafIndex].mParentIndex = newParentIndex;
 		}
 		else
 		{
-			this->mNodes[newParentIndex].mLeftNode = bestSibling;
-			this->mNodes[newParentIndex].mRightNode = newObjectLeafIndex;
-			this->mNodes[bestSibling].mParentIndex = newParentIndex;
-			this->mNodes[newObjectLeafIndex].mParentIndex = newParentIndex;
-			this->mRootNodeIndex = newParentIndex;
+			mNodes[newParentIndex].mLeftNode = bestSibling;
+			mNodes[newParentIndex].mRightNode = newObjectLeafIndex;
+			mNodes[bestSibling].mParentIndex = newParentIndex;
+			mNodes[newObjectLeafIndex].mParentIndex = newParentIndex;
+			mRootNodeIndex = newParentIndex;
 
 		}
 
 
-		HillClimingReconstruct(this->mNodes[newObjectLeafIndex].mParentIndex);
+		HillClimingReconstruct(mNodes[newObjectLeafIndex].mParentIndex);
 	}
 
-	return this->MakeBVH_Node_View(newObjectLeafIndex);
+	return MakeBVH_Node_View(newObjectLeafIndex);
 }
 
 template <typename ColliderType>
@@ -303,7 +303,7 @@ typename doom::BVH<ColliderType>::node_view_type doom::BVH<ColliderType>::Update
 {
 	D_ASSERT(targetLeafNodeIndex != NULL_NODE_INDEX);
 
-	node_type* targetLeafNode = this->GetNode(targetLeafNodeIndex);
+	node_type* targetLeafNode = GetNode(targetLeafNodeIndex);
 
 	D_ASSERT(targetLeafNode->mIsLeaf == true);
 
@@ -312,12 +312,12 @@ typename doom::BVH<ColliderType>::node_view_type doom::BVH<ColliderType>::Update
 		D_DEBUG_LOG("Update Leaf Node!!!", eLogType::D_ALWAYS);
 		//we will remove node and re-insert node
 		//you don't need reset mEnlargedBoundingCollider at here
-		this->RemoveLeafNode(targetLeafNode);
-		return this->InsertLeaf(targetLeafNode->mBoundingCollider, targetLeafNode->mCollider);
+		RemoveLeafNode(targetLeafNode);
+		return InsertLeaf(targetLeafNode->mBoundingCollider, targetLeafNode->mCollider);
 	}
 	else
 	{
-		return this->MakeBVH_Node_View(targetLeafNodeIndex);
+		return MakeBVH_Node_View(targetLeafNodeIndex);
 	}
 }
 
@@ -345,12 +345,12 @@ void doom::BVH<ColliderType>::HillClimingReconstruct(int index)
 	D_ASSERT(index != NULL_NODE_INDEX);
 	while (index != NULL_NODE_INDEX)
 	{
-		D_ASSERT(this->mNodes[index].mLeftNode != NULL_NODE_INDEX && this->mNodes[index].mRightNode != NULL_NODE_INDEX);
+		D_ASSERT(mNodes[index].mLeftNode != NULL_NODE_INDEX && mNodes[index].mRightNode != NULL_NODE_INDEX);
 
-		this->ReConstructNodeAABB(index);
+		ReConstructNodeAABB(index);
 		index = Balance(index); // TODO : Balancing만 하면 이상해진다.
 
-		index = this->mNodes[index].mParentIndex;
+		index = mNodes[index].mParentIndex;
 	}
 }
 
@@ -369,32 +369,32 @@ void doom::BVH<ColliderType>::HillClimingReconstruct(int index)
 template <typename ColliderType>
 int doom::BVH<ColliderType>::Balance(int lowerNodeIndex)
 {
-	if (this->IsHasChild(lowerNodeIndex) == false)
+	if (IsHasChild(lowerNodeIndex) == false)
 	{
 		return lowerNodeIndex;
 	}
 
-	int parentIndexOfLowerNode = this->mNodes[lowerNodeIndex].mParentIndex;
+	int parentIndexOfLowerNode = mNodes[lowerNodeIndex].mParentIndex;
 	if (parentIndexOfLowerNode == NULL_NODE_INDEX)
 	{
 		return lowerNodeIndex;
 	}
-	int siblingIndexOfParentOfLowerNode = this->GetSibling(parentIndexOfLowerNode);
+	int siblingIndexOfParentOfLowerNode = GetSibling(parentIndexOfLowerNode);
 	if (siblingIndexOfParentOfLowerNode == NULL_NODE_INDEX)
 	{
 		return lowerNodeIndex;
 	}
 
 	/*
-	if (this->IsHasChild(siblingIndexOfParentOfLowerNode) == true)
+	if (IsHasChild(siblingIndexOfParentOfLowerNode) == true)
 	{
 		return lowerNodeIndex;
 	}
 	*/
 	int higerNodeIndex = siblingIndexOfParentOfLowerNode;
 
-	int siblingIndexOfLowerNode = this->GetSibling(lowerNodeIndex);
-	if (ColliderType::GetArea(this->mNodes[parentIndexOfLowerNode].mBoundingCollider) < ColliderType::GetUnionArea(this->mNodes[siblingIndexOfLowerNode].mBoundingCollider, this->mNodes[higerNodeIndex].mBoundingCollider))
+	int siblingIndexOfLowerNode = GetSibling(lowerNodeIndex);
+	if (ColliderType::GetArea(mNodes[parentIndexOfLowerNode].mBoundingCollider) < ColliderType::GetUnionArea(mNodes[siblingIndexOfLowerNode].mBoundingCollider, mNodes[higerNodeIndex].mBoundingCollider))
 	{// when SA(parent of lowernode) < SA(sibling of lowerNode U upperNode), don't rotate 
 		return lowerNodeIndex;
 	}
@@ -404,33 +404,33 @@ int doom::BVH<ColliderType>::Balance(int lowerNodeIndex)
 	D_ASSERT(higerNodeIndex != NULL_NODE_INDEX);
 	D_ASSERT(lowerNodeIndex != NULL_NODE_INDEX);
 
-	int parentIndexOfimbalancedHigherNode = this->mNodes[higerNodeIndex].mParentIndex;
-	int parentIndexOfimbalancedLowerNodeIndex = this->mNodes[lowerNodeIndex].mParentIndex;
+	int parentIndexOfimbalancedHigherNode = mNodes[higerNodeIndex].mParentIndex;
+	int parentIndexOfimbalancedLowerNodeIndex = mNodes[lowerNodeIndex].mParentIndex;
 
-	if (this->mNodes[parentIndexOfimbalancedHigherNode].mLeftNode == higerNodeIndex)
+	if (mNodes[parentIndexOfimbalancedHigherNode].mLeftNode == higerNodeIndex)
 	{
-		if (this->mNodes[parentIndexOfimbalancedLowerNodeIndex].mLeftNode == lowerNodeIndex)
+		if (mNodes[parentIndexOfimbalancedLowerNodeIndex].mLeftNode == lowerNodeIndex)
 		{
-			this->mNodes[parentIndexOfimbalancedLowerNodeIndex].mLeftNode = higerNodeIndex;
-			this->mNodes[parentIndexOfimbalancedHigherNode].mLeftNode = lowerNodeIndex;
+			mNodes[parentIndexOfimbalancedLowerNodeIndex].mLeftNode = higerNodeIndex;
+			mNodes[parentIndexOfimbalancedHigherNode].mLeftNode = lowerNodeIndex;
 		}
-		else if (this->mNodes[parentIndexOfimbalancedLowerNodeIndex].mRightNode == lowerNodeIndex)
+		else if (mNodes[parentIndexOfimbalancedLowerNodeIndex].mRightNode == lowerNodeIndex)
 		{
-			this->mNodes[parentIndexOfimbalancedLowerNodeIndex].mRightNode = higerNodeIndex;
-			this->mNodes[parentIndexOfimbalancedHigherNode].mLeftNode = lowerNodeIndex;
+			mNodes[parentIndexOfimbalancedLowerNodeIndex].mRightNode = higerNodeIndex;
+			mNodes[parentIndexOfimbalancedHigherNode].mLeftNode = lowerNodeIndex;
 		}
 	}
-	else if (this->mNodes[parentIndexOfimbalancedHigherNode].mRightNode == higerNodeIndex)
+	else if (mNodes[parentIndexOfimbalancedHigherNode].mRightNode == higerNodeIndex)
 	{
-		if (this->mNodes[parentIndexOfimbalancedLowerNodeIndex].mLeftNode == lowerNodeIndex)
+		if (mNodes[parentIndexOfimbalancedLowerNodeIndex].mLeftNode == lowerNodeIndex)
 		{
-			this->mNodes[parentIndexOfimbalancedLowerNodeIndex].mLeftNode = higerNodeIndex;
-			this->mNodes[parentIndexOfimbalancedHigherNode].mRightNode = lowerNodeIndex;
+			mNodes[parentIndexOfimbalancedLowerNodeIndex].mLeftNode = higerNodeIndex;
+			mNodes[parentIndexOfimbalancedHigherNode].mRightNode = lowerNodeIndex;
 		}
-		else if (this->mNodes[parentIndexOfimbalancedLowerNodeIndex].mRightNode == lowerNodeIndex)
+		else if (mNodes[parentIndexOfimbalancedLowerNodeIndex].mRightNode == lowerNodeIndex)
 		{
-			this->mNodes[parentIndexOfimbalancedLowerNodeIndex].mRightNode = higerNodeIndex;
-			this->mNodes[parentIndexOfimbalancedHigherNode].mRightNode = lowerNodeIndex;
+			mNodes[parentIndexOfimbalancedLowerNodeIndex].mRightNode = higerNodeIndex;
+			mNodes[parentIndexOfimbalancedHigherNode].mRightNode = lowerNodeIndex;
 		}
 	}
 	else
@@ -438,10 +438,10 @@ int doom::BVH<ColliderType>::Balance(int lowerNodeIndex)
 		NEVER_HAPPEN;
 	}
 
-	this->mNodes[higerNodeIndex].mParentIndex = parentIndexOfimbalancedLowerNodeIndex;
-	this->mNodes[lowerNodeIndex].mParentIndex = parentIndexOfimbalancedHigherNode;
+	mNodes[higerNodeIndex].mParentIndex = parentIndexOfimbalancedLowerNodeIndex;
+	mNodes[lowerNodeIndex].mParentIndex = parentIndexOfimbalancedHigherNode;
 
-	ReConstructNodeAABB(this->mNodes[parentIndexOfimbalancedLowerNodeIndex].mIndex);
+	ReConstructNodeAABB(mNodes[parentIndexOfimbalancedLowerNodeIndex].mIndex);
 	return higerNodeIndex;
 }
 
@@ -453,10 +453,10 @@ void doom::BVH<ColliderType>::RemoveLeafNode(int targetLeafNodeIndex)
 		return;
 	}
 
-	auto nodePointer = this->GetNode(targetLeafNodeIndex);
+	auto nodePointer = GetNode(targetLeafNodeIndex);
 	if (nodePointer != nullptr)
 	{
-		this->RemoveLeafNode(nodePointer);
+		RemoveLeafNode(nodePointer);
 	}
 }
 
@@ -470,22 +470,22 @@ void doom::BVH<ColliderType>::RemoveLeafNode(doom::BVH<ColliderType>::node_type*
 
 	int targetLeafNodeIndex = targetLeafNode->mIndex;
 
-	D_ASSERT(this->mNodes[targetLeafNodeIndex].mIsLeaf == true);
+	D_ASSERT(mNodes[targetLeafNodeIndex].mIsLeaf == true);
 
-	int parentIndex = this->mNodes[targetLeafNodeIndex].mParentIndex;
+	int parentIndex = mNodes[targetLeafNodeIndex].mParentIndex;
 	int grandParentIndex = NULL_NODE_INDEX;
 	int siblingIndex = NULL_NODE_INDEX;
 
 	if (parentIndex != NULL_NODE_INDEX)
 	{
-		grandParentIndex = this->mNodes[parentIndex].mParentIndex;
-		if (this->mNodes[parentIndex].mLeftNode == targetLeafNodeIndex)
+		grandParentIndex = mNodes[parentIndex].mParentIndex;
+		if (mNodes[parentIndex].mLeftNode == targetLeafNodeIndex)
 		{
-			siblingIndex = this->mNodes[parentIndex].mRightNode;
+			siblingIndex = mNodes[parentIndex].mRightNode;
 		}
-		else if (this->mNodes[parentIndex].mRightNode == targetLeafNodeIndex)
+		else if (mNodes[parentIndex].mRightNode == targetLeafNodeIndex)
 		{
-			siblingIndex = this->mNodes[parentIndex].mLeftNode;
+			siblingIndex = mNodes[parentIndex].mLeftNode;
 		}
 		else
 		{
@@ -494,55 +494,55 @@ void doom::BVH<ColliderType>::RemoveLeafNode(doom::BVH<ColliderType>::node_type*
 
 		if (grandParentIndex == NULL_NODE_INDEX)
 		{
-			int originalRootNodeIndex = this->mRootNodeIndex;
+			int originalRootNodeIndex = mRootNodeIndex;
 
-			D_ASSERT(this->mRootNodeIndex == this->mNodes[siblingIndex].mParentIndex);
-			this->mRootNodeIndex = siblingIndex;
-			this->mNodes[siblingIndex].mParentIndex = NULL_NODE_INDEX;
+			D_ASSERT(mRootNodeIndex == mNodes[siblingIndex].mParentIndex);
+			mRootNodeIndex = siblingIndex;
+			mNodes[siblingIndex].mParentIndex = NULL_NODE_INDEX;
 
-			this->FreeNode(originalRootNodeIndex);
+			FreeNode(originalRootNodeIndex);
 		}
 		else
 		{
-			if (this->mNodes[grandParentIndex].mLeftNode == parentIndex)
+			if (mNodes[grandParentIndex].mLeftNode == parentIndex)
 			{
-				this->mNodes[grandParentIndex].mLeftNode = siblingIndex;
+				mNodes[grandParentIndex].mLeftNode = siblingIndex;
 			}
-			else if (this->mNodes[grandParentIndex].mRightNode == parentIndex)
+			else if (mNodes[grandParentIndex].mRightNode == parentIndex)
 			{
-				this->mNodes[grandParentIndex].mRightNode = siblingIndex;
+				mNodes[grandParentIndex].mRightNode = siblingIndex;
 			}
 			else
 			{
 				NEVER_HAPPEN;
 			}
 
-			int originalParentIindex = this->mNodes[siblingIndex].mParentIndex;
-			this->mNodes[siblingIndex].mParentIndex = grandParentIndex;
-			this->FreeNode(originalParentIindex);
+			int originalParentIindex = mNodes[siblingIndex].mParentIndex;
+			mNodes[siblingIndex].mParentIndex = grandParentIndex;
+			FreeNode(originalParentIindex);
 			HillClimingReconstruct(grandParentIndex);
 		}
 	}
 	else
 	{//when target leaf node is root node
-		this->mRootNodeIndex = NULL_NODE_INDEX;
+		mRootNodeIndex = NULL_NODE_INDEX;
 	}
 	
 
-	this->FreeNode(targetLeafNodeIndex);
+	FreeNode(targetLeafNodeIndex);
 }
 
 template<typename ColliderType>
 void doom::BVH<ColliderType>::ReConstructNodeAABB(int targetNodeIndex)
 {
-	if (this->mNodes[targetNodeIndex].mIsLeaf == true)
+	if (mNodes[targetNodeIndex].mIsLeaf == true)
 	{
 		return;
 	}
 
-	D_ASSERT(this->mNodes[targetNodeIndex].mLeftNode != NULL_NODE_INDEX && this->mNodes[targetNodeIndex].mRightNode != NULL_NODE_INDEX);
-	this->mNodes[targetNodeIndex].mBoundingCollider = ColliderType::Union(this->mNodes[this->mNodes[targetNodeIndex].mLeftNode].mBoundingCollider, this->mNodes[this->mNodes[targetNodeIndex].mRightNode].mBoundingCollider);
-	this->mNodes[targetNodeIndex].mEnlargedBoundingCollider = ColliderType::EnlargeAABB(this->mNodes[targetNodeIndex].mBoundingCollider);
+	D_ASSERT(mNodes[targetNodeIndex].mLeftNode != NULL_NODE_INDEX && mNodes[targetNodeIndex].mRightNode != NULL_NODE_INDEX);
+	mNodes[targetNodeIndex].mBoundingCollider = ColliderType::Union(mNodes[mNodes[targetNodeIndex].mLeftNode].mBoundingCollider, mNodes[mNodes[targetNodeIndex].mRightNode].mBoundingCollider);
+	mNodes[targetNodeIndex].mEnlargedBoundingCollider = ColliderType::EnlargeAABB(mNodes[targetNodeIndex].mBoundingCollider);
 }
 
 
@@ -564,11 +564,11 @@ template <typename ColliderType>
 float doom::BVH<ColliderType>::ComputeCost()
 {
 	float cost{ 0.0f };
-	for (int i = 0 ; i < this->mCurrentAllocatedNodeCount; i++)
+	for (int i = 0 ; i < mCurrentAllocatedNodeCount; i++)
 	{
-		if (this->mNodes[i].mIsLeaf == false)
+		if (mNodes[i].mIsLeaf == false)
 		{
-			cost += ColliderType::GetArea(this->mNodes[i].mBoundingCollider);
+			cost += ColliderType::GetArea(mNodes[i].mBoundingCollider);
 		}
 	}
 	return cost;
@@ -587,14 +587,14 @@ int doom::BVH<ColliderType>::GetHeight(int index, int& longestHeight, int curren
 		longestHeight = currentHeight;
 	}
 
-	if (this->mNodes[index].mLeftNode != NULL_NODE_INDEX)
+	if (mNodes[index].mLeftNode != NULL_NODE_INDEX)
 	{
-		GetHeight(this->mNodes[index].mLeftNode, longestHeight, currentHeight);
+		GetHeight(mNodes[index].mLeftNode, longestHeight, currentHeight);
 	}
 
-	if (this->mNodes[index].mRightNode != NULL_NODE_INDEX)
+	if (mNodes[index].mRightNode != NULL_NODE_INDEX)
 	{
-		GetHeight(this->mNodes[index].mRightNode, longestHeight, currentHeight);
+		GetHeight(mNodes[index].mRightNode, longestHeight, currentHeight);
 	}
 	return longestHeight;
 }
@@ -605,10 +605,10 @@ int doom::BVH<ColliderType>::GetDepth(int index)
 	D_ASSERT(index != NULL_NODE_INDEX);
 
 	int depth{ 0 };
-	int parentIndex{ this->mNodes[index].mParentIndex };
+	int parentIndex{ mNodes[index].mParentIndex };
 	while (parentIndex != NULL_NODE_INDEX)
 	{
-		parentIndex = this->mNodes[index].mParentIndex;
+		parentIndex = mNodes[index].mParentIndex;
 		depth++;
 	}
 	return depth;
@@ -618,9 +618,9 @@ template<typename ColliderType>
 typename doom::BVH<ColliderType>::node_type* doom::BVH<ColliderType>::GetNode(int nodeIndex)
 {
 	D_ASSERT(nodeIndex >= 0);
-	D_ASSERT(this->mNodes[nodeIndex].bmIsActive == true);
+	D_ASSERT(mNodes[nodeIndex].bmIsActive == true);
 
-	return &(this->mNodes[nodeIndex]);
+	return &(mNodes[nodeIndex]);
 }
 
 
@@ -628,9 +628,9 @@ template <typename ColliderType>
 int doom::BVH<ColliderType>::GetLeafNodeCount()
 {
 	int count{ 0 };
-	for (int i = 0; i < this->mCurrentAllocatedNodeCount; i++)
+	for (int i = 0; i < mCurrentAllocatedNodeCount; i++)
 	{
-		if (this->mNodes[i].mIsLeaf == true)
+		if (mNodes[i].mIsLeaf == true)
 		{
 			count++;
 		}
@@ -642,9 +642,9 @@ template <typename ColliderType>
 int doom::BVH<ColliderType>::GetLeaf(int index)
 {
 	int count = 0;
-	for (int i = 0; i < this->mCurrentAllocatedNodeCount; i++)
+	for (int i = 0; i < mCurrentAllocatedNodeCount; i++)
 	{
-		auto& node = this->mNodes[i];
+		auto& node = mNodes[i];
 		if (node.bmIsActive == true && node.mIsLeaf == true)
 		{
 			if (index == count)
@@ -662,7 +662,7 @@ int doom::BVH<ColliderType>::GetLeaf(int index)
 template<typename ColliderType>
 bool doom::BVH<ColliderType>::IsAncesterOf(int ancesterIndex, int decesterIndex)
 {
-	int index = this->mNodes[decesterIndex].mParentIndex;
+	int index = mNodes[decesterIndex].mParentIndex;
 	while (index != NULL_NODE_INDEX)
 	{
 		if (ancesterIndex == index)
@@ -670,7 +670,7 @@ bool doom::BVH<ColliderType>::IsAncesterOf(int ancesterIndex, int decesterIndex)
 			return true;
 		}
 
-		index = this->mNodes[index].mParentIndex;
+		index = mNodes[index].mParentIndex;
 	}
 	return false;
 }

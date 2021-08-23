@@ -99,33 +99,33 @@ namespace doom
 
 		bool GetIsColliderEnter()
 		{
-			return this->mbIsColliderEnter;
+			return mbIsColliderEnter;
 		}
 
 		bool GetIsColliderExit()
 		{
-			return this->mbIsColliderExit;
+			return mbIsColliderExit;
 		}
 
 		bool GetIsColliderStay()
 		{
-			return this->mbIsColliderStay;
+			return mbIsColliderStay;
 		}
 
 
 		bool GetIsTriggerEnter()
 		{
-			return this->mbIsTriggerEnter;
+			return mbIsTriggerEnter;
 		}
 
 		bool GetIsTriggerExit()
 		{
-			return this->mbIsTriggerExit;
+			return mbIsTriggerExit;
 		}
 
 		bool GetIsTriggerStay()
 		{
-			return this->mbIsTriggerStay;
+			return mbIsTriggerStay;
 		}
 
 		

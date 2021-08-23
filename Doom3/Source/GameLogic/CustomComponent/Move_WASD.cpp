@@ -57,7 +57,7 @@ void doom::Move_WASD::UpdateComponent()
 			translation *= 20.0f;
 		}
 		
-		this->GetTransform()->Translate(translation * delta, doom::eSpace::Self);
+		GetTransform()->Translate(translation * delta, doom::eSpace::Self);
 	}
 	
 
@@ -83,11 +83,11 @@ void doom::Move_WASD::UpdateComponent()
 		rotation.y -= 1;
 	}
 
-	this->GetTransform()->Rotate(rotation.normalized() * delta * 2.0f, eSpace::Self);
+	GetTransform()->Rotate(rotation.normalized() * delta * 2.0f, eSpace::Self);
 
 	if (MainTimer::GetFrameStep(120))
 	{
-		//D_DEBUG_LOG(this->GetTransform()->ToString());
+		//D_DEBUG_LOG(GetTransform()->ToString());
 	}
 }
 

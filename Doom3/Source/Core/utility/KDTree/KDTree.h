@@ -87,7 +87,7 @@ namespace doom
 
 		constexpr node_view_type MakeKDTree_Node_View(int index)
 		{
-			D_ASSERT(index < this->mCurrentAllocatedNodeCount);
+			D_ASSERT(index < mCurrentAllocatedNodeCount);
 			return node_view_type(this, index);
 		}
 

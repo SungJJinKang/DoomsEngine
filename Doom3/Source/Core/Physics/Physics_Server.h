@@ -42,11 +42,11 @@ namespace doom
 			virtual void FixedUpdate() final
 			{
 				D_START_PROFILING("FixedUpdateCollision", eProfileLayers::CPU);
-				this->FixedUpdateCollision();
+				FixedUpdateCollision();
 				D_END_PROFILING("FixedUpdateCollision");
 
 				D_START_PROFILING("UpdatePicking", eProfileLayers::CPU);
-				//this->mPicking.UpdatePicking();
+				//mPicking.UpdatePicking();
 				D_END_PROFILING("UpdatePicking");
 			}
 

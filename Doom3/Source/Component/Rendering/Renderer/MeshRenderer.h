@@ -41,15 +41,15 @@ namespace doom
 		virtual ~MeshRenderer(){}
 		FORCE_INLINE void Draw() override
 		{
-			this->BindMaterial();
+			BindMaterial();
 
-			if (this->mTargetMaterial != nullptr)
+			if (mTargetMaterial != nullptr)
 			{
-				this->mTargetMaterial->SetMatrix4x4(graphics::eUniformLocation::ModelMatrix, this->GetTransform()->GetModelMatrix());
+				mTargetMaterial->SetMatrix4x4(graphics::eUniformLocation::ModelMatrix, GetTransform()->GetModelMatrix());
 			}
-			if (this->mTargetMesh != nullptr)
+			if (mTargetMesh != nullptr)
 			{
-				this->mTargetMesh->Draw();
+				mTargetMesh->Draw();
 			}
 		}
 

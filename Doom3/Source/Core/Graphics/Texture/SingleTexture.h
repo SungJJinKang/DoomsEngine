@@ -43,12 +43,12 @@ namespace doom
 			void Tex2DMipMapImages(std::vector<const DirectX::Image*> mipmapDatas);
 			inline void TexImage1D(int level, const void* data) noexcept final
 			{
-				this->BindTexture();
-				if (this->mInternalFormat != eTextureInternalFormat::NONE)
+				BindTexture();
+				if (mInternalFormat != eTextureInternalFormat::NONE)
 				{
-					glTexImage1D(GL_TEXTURE_1D, level, static_cast<unsigned int>(this->mInternalFormat), this->mWidth, 0, static_cast<unsigned int>(this->mDataFormat), static_cast<unsigned int>(this->mDataType), data);
+					glTexImage1D(GL_TEXTURE_1D, level, static_cast<unsigned int>(mInternalFormat), mWidth, 0, static_cast<unsigned int>(mDataFormat), static_cast<unsigned int>(mDataType), data);
 				}
-				else if (this->mCompressedInternalFormat != eTextureCompressedInternalFormat::NONE)
+				else if (mCompressedInternalFormat != eTextureCompressedInternalFormat::NONE)
 				{
 					//glCompressedTexImage1D()
 				}
@@ -60,13 +60,13 @@ namespace doom
 			}
 			inline void TexImage2D(int level, const void* data) noexcept final
 			{
-				this->BindTexture();
-				glTexImage2D(GL_TEXTURE_2D, level, static_cast<unsigned int>(this->mInternalFormat), this->mWidth, this->mHeight, 0, static_cast<unsigned int>(this->mDataFormat), static_cast<unsigned int>(this->mDataType), data);
-				if (this->mInternalFormat != eTextureInternalFormat::NONE)
+				BindTexture();
+				glTexImage2D(GL_TEXTURE_2D, level, static_cast<unsigned int>(mInternalFormat), mWidth, mHeight, 0, static_cast<unsigned int>(mDataFormat), static_cast<unsigned int>(mDataType), data);
+				if (mInternalFormat != eTextureInternalFormat::NONE)
 				{
 
 				}
-				else if (this->mCompressedInternalFormat != eTextureCompressedInternalFormat::NONE)
+				else if (mCompressedInternalFormat != eTextureCompressedInternalFormat::NONE)
 				{
 
 				}

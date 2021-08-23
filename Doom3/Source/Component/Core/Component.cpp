@@ -16,7 +16,7 @@ Component::Component() : bIsAddedToEntity{}, mOwnerEntity{}, mTransform{}, mIsAc
 
 void Component::AddLocalDirtyToTransformDirtyReceiver(DirtyReceiver& localDirty)
 {
-	this->GetTransform()->mDirtySender.AddDirtyReceiver(&localDirty);
+	GetTransform()->mDirtySender.AddDirtyReceiver(&localDirty);
 }
 
 void doom::Component::InitComponent_Internal(Entity* entity)
@@ -39,7 +39,7 @@ void Component::FixedUpdateComponent_Internal()
 
 void doom::Component::OnEndOfFrame_Component_Internal()
 {
-	this->FrameDirtyChecker_EndOfFrame();
+	FrameDirtyChecker_EndOfFrame();
 }
 
 void doom::Component::OnDestroy_Internal()
@@ -48,7 +48,7 @@ void doom::Component::OnDestroy_Internal()
 
 void doom::Component::OnActivated_Internal()
 {
-	this->SetDirtyTrueAtThisFrame();
+	SetDirtyTrueAtThisFrame();
 }
 
 void doom::Component::OnDeActivated_Internal()
@@ -57,5 +57,5 @@ void doom::Component::OnDeActivated_Internal()
 
 unsigned int Component::GetOwnerEntityLayerIndex() const
 {
-	return this->GetOwnerEntity()->GetLayerIndex();
+	return GetOwnerEntity()->GetLayerIndex();
 }

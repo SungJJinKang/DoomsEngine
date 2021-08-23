@@ -36,15 +36,15 @@ namespace doom
 
 		FORCE_INLINE unsigned int GetBitFlag()
 		{
-			return this->mBitFlag;
+			return mBitFlag;
 		}
 		FORCE_INLINE void ClearBitFlag()
 		{
-			this->mBitFlag = 0;
+			mBitFlag = 0;
 		}
 		FORCE_INLINE void SetBitFlag(unsigned int bitflag)
 		{
-			this->mBitFlag |= bitflag;
+			mBitFlag |= bitflag;
 		}
 		
 	};

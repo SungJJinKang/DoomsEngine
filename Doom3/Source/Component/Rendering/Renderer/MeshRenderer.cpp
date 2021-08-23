@@ -8,24 +8,24 @@ doom::MeshRenderer::MeshRenderer() : Renderer(), mTargetMesh{ nullptr }
 
 void doom::MeshRenderer::SetMesh(graphics::Mesh* mesh)
 {
-	this->mTargetMesh = mesh;
-	if (this->mTargetMesh != nullptr)
+	mTargetMesh = mesh;
+	if (mTargetMesh != nullptr)
 	{
-		auto boudingSphere = this->mTargetMesh->GetSphere();
+		auto boudingSphere = mTargetMesh->GetSphere();
 		/// <summary>
 		/// MeshRenderer is required to UpdateLocalBVhColliderCache only when Mesh is changed
 		/// </summary>
 		/// <param name="mesh"></param>
 		BVH_Sphere_Node_Object::UpdateLocalColliderCache(boudingSphere);
-		ColliderUpdater<doom::physics::AABB3D>::UpdateLocalColliderCache(this->mTargetMesh->GetAABB());
+		ColliderUpdater<doom::physics::AABB3D>::UpdateLocalColliderCache(mTargetMesh->GetAABB());
 		//BVH_Sphere_Node_Object::UpdateBVH_Node();
 
-		//BVH_AABB3D_Node_Object::UpdateLocalBVhColliderCache(this->mTargetMesh->GetAABB());
+		//BVH_AABB3D_Node_Object::UpdateLocalBVhColliderCache(mTargetMesh->GetAABB());
 		//BVH_AABB3D_Node_Object::UpdateBVH_Node();
 		//mIsBoundingSphereDirty.SetDirty(true);
 
-		//this->SetBoundingSphereRadiusForCulling(boudingSphere.mRadius);
-		//this->SetBoundingSphereRadiusForCulling(0);
+		//SetBoundingSphereRadiusForCulling(boudingSphere.mRadius);
+		//SetBoundingSphereRadiusForCulling(0);
 
 		//TODO : when model matrix is changed, should update SetBoundingSphereRadiusForCulling
 	}
@@ -37,9 +37,9 @@ void doom::MeshRenderer::SetMesh(graphics::Mesh* mesh)
 
 doom::physics::AABB3D doom::MeshRenderer::GetLocalAABBBound() const
 {
-	if (this->mTargetMesh != nullptr)
+	if (mTargetMesh != nullptr)
 	{
-		return this->mTargetMesh->GetAABB();
+		return mTargetMesh->GetAABB();
 	}
 	else
 	{

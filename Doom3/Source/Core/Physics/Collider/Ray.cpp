@@ -13,28 +13,28 @@ doom::physics::Ray::Ray(const math::Vector3 & origin, const math::Vector3& norma
 void doom::physics::Ray::Render(eColor color, bool drawInstantly /*= false*/)
 {
 #ifdef DEBUG_MODE
-	graphics::DebugGraphics::GetSingleton()->DebugDraw3DLine(this->mOrigin, this->mOrigin + this->mNormal * 100000000.0f, color, drawInstantly);
+	graphics::DebugGraphics::GetSingleton()->DebugDraw3DLine(mOrigin, mOrigin + mNormal * 100000000.0f, color, drawInstantly);
 #endif
 }
 
 math::Vector3 doom::physics::Ray::GetNormal() const
 {
-	return this->mNormal;
+	return mNormal;
 }
 
 void doom::physics::Ray::SetNomral(const math::Vector3& normal)
 {
-	this->mNormal = normal.normalized();
+	mNormal = normal.normalized();
 }
 
 void doom::physics::Ray::SetNomral_Unsafe(const math::Vector3& normal)
 {
-	this->mNormal = normal;
+	mNormal = normal;
 }
 
 bool doom::physics::Ray::IsPointOnRay(const math::Vector3& point)
 {
-	return math::dot((point - this->mOrigin).normalized(), this->mNormal) < math::epsilon<float>();
+	return math::dot((point - mOrigin).normalized(), mNormal) < math::epsilon<float>();
 }
 
 math::Vector3 doom::physics::Ray::GetClosestPoint(const Ray& ray, const math::Vector3& point)

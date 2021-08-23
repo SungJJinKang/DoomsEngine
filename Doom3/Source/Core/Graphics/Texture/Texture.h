@@ -292,9 +292,9 @@ namespace doom
 
 			FORCE_INLINE void BindTexture() noexcept
 			{
-				if (D_OVERLAP_BIND_CHECK_CHECK_IS_NOT_BOUND_AND_BIND_ID_WITH_DOUBLE_INDEX(BIND_TARGET_TAG, this->GetArbitraryIndexOfeBindTarget(this->mBindTarget), D_OVERLAP_BIND_GET_BIND_ID(ACTIVE_TEXTURE_TAG), this->mBufferID))
+				if (D_OVERLAP_BIND_CHECK_CHECK_IS_NOT_BOUND_AND_BIND_ID_WITH_DOUBLE_INDEX(BIND_TARGET_TAG, GetArbitraryIndexOfeBindTarget(mBindTarget), D_OVERLAP_BIND_GET_BIND_ID(ACTIVE_TEXTURE_TAG), mBufferID))
 				{
-					glBindTexture(static_cast<unsigned int>(this->mBindTarget), this->mBufferID);
+					glBindTexture(static_cast<unsigned int>(mBindTarget), mBufferID);
 				}
 			}
 			FORCE_INLINE void ActiveTexture(unsigned int bindingPoint) noexcept
@@ -308,22 +308,22 @@ namespace doom
 
 			FORCE_INLINE void UnBindTexture() noexcept
 			{
-				if (D_OVERLAP_BIND_CHECK_CHECK_IS_NOT_BOUND_AND_BIND_ID_WITH_DOUBLE_INDEX(BIND_TARGET_TAG, this->GetArbitraryIndexOfeBindTarget(this->mBindTarget), D_OVERLAP_BIND_GET_BIND_ID(ACTIVE_TEXTURE_TAG), 0))
+				if (D_OVERLAP_BIND_CHECK_CHECK_IS_NOT_BOUND_AND_BIND_ID_WITH_DOUBLE_INDEX(BIND_TARGET_TAG, GetArbitraryIndexOfeBindTarget(mBindTarget), D_OVERLAP_BIND_GET_BIND_ID(ACTIVE_TEXTURE_TAG), 0))
 				{
-					glBindTexture(static_cast<unsigned int>(this->mBindTarget), 0);
+					glBindTexture(static_cast<unsigned int>(mBindTarget), 0);
 				}
 			}
 
 			FORCE_INLINE void BindTextureWithUnit(unsigned int bindingPoint)
 			{
 				if (
-					D_OVERLAP_BIND_CHECK_CHECK_IS_NOT_BOUND_AND_BIND_ID_WITH_DOUBLE_INDEX(BIND_TARGET_TAG, this->GetArbitraryIndexOfeBindTarget(this->mBindTarget), bindingPoint, this->mBufferID)
+					D_OVERLAP_BIND_CHECK_CHECK_IS_NOT_BOUND_AND_BIND_ID_WITH_DOUBLE_INDEX(BIND_TARGET_TAG, GetArbitraryIndexOfeBindTarget(mBindTarget), bindingPoint, mBufferID)
 				)
 				{
-					glBindTextureUnit(bindingPoint, this->mBufferID);
+					glBindTextureUnit(bindingPoint, mBufferID);
 				}
 				//glActiveTexture(GL_TEXTURE0 + bindingPoint);
-				//glBindTexture(GL_TEXTURE_2D, this->mBufferID);
+				//glBindTexture(GL_TEXTURE_2D, mBufferID);
 			}
 
 			virtual inline void TexImage1D(

@@ -81,24 +81,24 @@ namespace doom
 
 			inline void UseProgram()
 			{
-				D_ASSERT(this->mProgramID != 0);
+				D_ASSERT(mProgramID != 0);
 
-				if (D_OVERLAP_BIND_CHECK_CHECK_IS_NOT_BOUND_AND_BIND_ID(MATERIAL_TAG, this->mProgramID))
+				if (D_OVERLAP_BIND_CHECK_CHECK_IS_NOT_BOUND_AND_BIND_ID(MATERIAL_TAG, mProgramID))
 				{
-					for (unsigned int i = 0; i < this->mTargetTextures.size(); i++)
+					for (unsigned int i = 0; i < mTargetTextures.size(); i++)
 					{
-						if (this->mTargetTextures[i] != nullptr)
+						if (mTargetTextures[i] != nullptr)
 						{
-							this->mTargetTextures[i]->BindTextureWithUnit(i);
+							mTargetTextures[i]->BindTextureWithUnit(i);
 						}
 					}
-					glUseProgram(this->mProgramID);
+					glUseProgram(mProgramID);
 				}
 			}
 
 			[[nodiscard]] inline int GetUniformLocation(const char* str) noexcept
 			{
-				return glGetUniformLocation(this->mProgramID, str);
+				return glGetUniformLocation(mProgramID, str);
 			}
 
 			FORCE_INLINE void SetBool(int location, bool value1)

@@ -5,69 +5,69 @@
 
 void doom::CapsuleCollider3D::UpdateLocalCollider()
 {
-	this->mLocalCapsuleCollider.mCenter = this->mOffset;
-	this->mLocalCapsuleCollider.mRadius = this->mRadius;
-	this->mLocalCapsuleCollider.mHeight = this->mHeight;
+	mLocalCapsuleCollider.mCenter = mOffset;
+	mLocalCapsuleCollider.mRadius = mRadius;
+	mLocalCapsuleCollider.mHeight = mHeight;
 }
 
 void doom::CapsuleCollider3D::UpdateWorldCollider()
 {
-	auto transform = this->GetTransform();
+	auto transform = GetTransform();
 	auto translate = transform->GetPosition();
 	auto scale = transform->GetScale();
 
-	this->mWorldCapsuleCollider.mCenter = this->mOffset + translate;
-	this->mWorldCapsuleCollider.mRadius = this->mRadius * scale.x;
-	this->mWorldCapsuleCollider.mHeight = this->mHeight * scale.y;
+	mWorldCapsuleCollider.mCenter = mOffset + translate;
+	mWorldCapsuleCollider.mRadius = mRadius * scale.x;
+	mWorldCapsuleCollider.mHeight = mHeight * scale.y;
 }
 
 
 
 void doom::CapsuleCollider3D::AutoColliderSettingFromAABB3D(const physics::AABB3D& aabb3dFromMesh)
 {
-	this->mHeight = (aabb3dFromMesh.mUpperBound.y - aabb3dFromMesh.mLowerBound.y);
-	this->mRadius = aabb3dFromMesh.GetDiagonarLineLength();
+	mHeight = (aabb3dFromMesh.mUpperBound.y - aabb3dFromMesh.mLowerBound.y);
+	mRadius = aabb3dFromMesh.GetDiagonarLineLength();
 }
 
 
 void doom::CapsuleCollider3D::SetHeight(float height)
 {
-	this->mHeight = height;
-	this->bmIsLocalColliderDirty = true;
+	mHeight = height;
+	bmIsLocalColliderDirty = true;
 }
 
 float doom::CapsuleCollider3D::GetHeight()
 {
-	return this->mHeight;
+	return mHeight;
 }
 
 void doom::CapsuleCollider3D::SetRadius(float radius)
 {
-	this->mRadius = radius;
-	this->bmIsLocalColliderDirty = true;
+	mRadius = radius;
+	bmIsLocalColliderDirty = true;
 }
 
 float doom::CapsuleCollider3D::GetRadius()
 {
-	return this->mRadius;
+	return mRadius;
 }
 
 doom::physics::AABB3D doom::CapsuleCollider3D::ExtractLocalAABB3D()
 {
-	float height = math::Max(this->mLocalCapsuleCollider.mHeight / 2.0f, this->mLocalCapsuleCollider.mRadius);
+	float height = math::Max(mLocalCapsuleCollider.mHeight / 2.0f, mLocalCapsuleCollider.mRadius);
 
 	math::Vector3 lowerBound
 	{
-		this->mLocalCapsuleCollider.mCenter.x - this->mLocalCapsuleCollider.mRadius,
-		this->mLocalCapsuleCollider.mCenter.y - height,
-		this->mLocalCapsuleCollider.mCenter.z - this->mLocalCapsuleCollider.mRadius
+		mLocalCapsuleCollider.mCenter.x - mLocalCapsuleCollider.mRadius,
+		mLocalCapsuleCollider.mCenter.y - height,
+		mLocalCapsuleCollider.mCenter.z - mLocalCapsuleCollider.mRadius
 	};
 
 	math::Vector3 upperBound
 	{
-		this->mLocalCapsuleCollider.mCenter.x + this->mLocalCapsuleCollider.mRadius,
-		this->mLocalCapsuleCollider.mCenter.y + height,
-		this->mLocalCapsuleCollider.mCenter.z + this->mLocalCapsuleCollider.mRadius
+		mLocalCapsuleCollider.mCenter.x + mLocalCapsuleCollider.mRadius,
+		mLocalCapsuleCollider.mCenter.y + height,
+		mLocalCapsuleCollider.mCenter.z + mLocalCapsuleCollider.mRadius
 	};
 
 	return doom::physics::AABB3D(lowerBound, upperBound);
@@ -77,6 +77,6 @@ doom::physics::AABB3D doom::CapsuleCollider3D::ExtractLocalAABB3D()
 
 doom::physics::Collider* doom::CapsuleCollider3D::GetWorldCollider()
 {
-	return &(this->mWorldCapsuleCollider);
+	return &(mWorldCapsuleCollider);
 }
 

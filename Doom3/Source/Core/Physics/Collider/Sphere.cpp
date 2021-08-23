@@ -27,10 +27,10 @@ void doom::physics::Sphere::Render(eColor color, bool drawInstantly /*= false*/)
 		theta += deltaTheta;
 		for (int point = 0 ; point < 11; point++) { // draw a ring
 			phi += deltaPhi;
-			currentVertex.x = sin(theta) * cos(phi) * this->mRadius;
-			currentVertex.y = sin(theta) * sin(phi) * this->mRadius;
-			currentVertex.z = cos(theta) * this->mRadius;
-			currentVertex += this->mCenter;
+			currentVertex.x = sin(theta) * cos(phi) * mRadius;
+			currentVertex.y = sin(theta) * sin(phi) * mRadius;
+			currentVertex.z = cos(theta) * mRadius;
+			currentVertex += mCenter;
 
 			if (point != 0)
 			{
@@ -47,10 +47,10 @@ void doom::physics::Sphere::Render(eColor color, bool drawInstantly /*= false*/)
 		theta += deltaTheta;
 		for (int point = 0; point < 11; point++) { // draw a ring
 			phi += deltaPhi;
-			currentVertex.z = sin(theta) * cos(phi) * this->mRadius;
-			currentVertex.y = sin(theta) * sin(phi) * this->mRadius;
-			currentVertex.x = cos(theta) * this->mRadius;
-			currentVertex += this->mCenter;
+			currentVertex.z = sin(theta) * cos(phi) * mRadius;
+			currentVertex.y = sin(theta) * sin(phi) * mRadius;
+			currentVertex.x = cos(theta) * mRadius;
+			currentVertex += mCenter;
 
 			if (point != 0)
 			{

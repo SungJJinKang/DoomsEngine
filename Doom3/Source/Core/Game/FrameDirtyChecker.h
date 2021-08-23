@@ -37,8 +37,8 @@ namespace doom
 		/// </summary>
 		inline void SetDirtyTrueAtThisFrame() noexcept
 		{
-			this->bmIsDirtyAtThisFrame = true;
-			this->mDirtySender.NotifyDirty();
+			bmIsDirtyAtThisFrame = true;
+			mDirtySender.NotifyDirty();
 		}
 
 		/// <summary>
@@ -46,8 +46,8 @@ namespace doom
 		/// </summary>
 		constexpr void FrameDirtyChecker_EndOfFrame() noexcept
 		{
-			this->bmIsDirtyAtPreviousFrame = this->bmIsDirtyAtThisFrame; // pass current frame dirty to previous frame dirty
-			this->bmIsDirtyAtThisFrame = false;
+			bmIsDirtyAtPreviousFrame = bmIsDirtyAtThisFrame; // pass current frame dirty to previous frame dirty
+			bmIsDirtyAtThisFrame = false;
 		}
 
 
@@ -60,7 +60,7 @@ namespace doom
 		/// <returns></returns>
 		[[nodiscard]] constexpr bool GetIsDirtyAtPreviousFrame() noexcept
 		{
-			return this->bmIsDirtyAtPreviousFrame;
+			return bmIsDirtyAtPreviousFrame;
 		}
 
 

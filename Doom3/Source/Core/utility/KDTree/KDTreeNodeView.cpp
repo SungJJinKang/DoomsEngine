@@ -6,8 +6,8 @@
 template<typename T>
 typename doom::KDTreeNodeView<T>::node_type* doom::KDTreeNodeView<T>::operator->()
 {
-	D_ASSERT(this->IsValid() == true);
-	return this->mKDTreePointer->mKDTreeNodes + this->mNodeIndex;
+	D_ASSERT(IsValid() == true);
+	return mKDTreePointer->mKDTreeNodes + mNodeIndex;
 }
 
 template class doom::KDTreeNodeView<math::Vector2>;

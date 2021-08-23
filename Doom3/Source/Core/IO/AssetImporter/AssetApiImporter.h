@@ -54,7 +54,7 @@ namespace doom
 			}
 			~AssetApiImporter()
 			{
-				this->Release();
+				Release();
 			}
 
 			api_importer_type_t<assetType>* operator->() const

@@ -13,9 +13,9 @@ void Material::SetShaderAsset(::doom::asset::ShaderAsset* shaderAsset)
 {
 	D_ASSERT(shaderAsset != nullptr);
 
-	this->mShaderAsset = shaderAsset;
+	mShaderAsset = shaderAsset;
 
-	D_ASSERT(this->mProgramID == 0); // error : you're overlapping program
+	D_ASSERT(mProgramID == 0); // error : you're overlapping program
 
 	unsigned int vertexId = shaderAsset->GetVertexId();
 	unsigned int fragmentId = shaderAsset->GetFragmentId();
@@ -23,33 +23,33 @@ void Material::SetShaderAsset(::doom::asset::ShaderAsset* shaderAsset)
 	D_ASSERT(vertexId != 0 || fragmentId != 0 || geometryId != 0);
 
 
-	this->mProgramID = glCreateProgram();
+	mProgramID = glCreateProgram();
 
 	if (vertexId != 0)
 	{
-		glAttachShader(this->mProgramID, vertexId);
+		glAttachShader(mProgramID, vertexId);
 	}
 
 	if (fragmentId != 0)
 	{
-		glAttachShader(this->mProgramID, fragmentId);
+		glAttachShader(mProgramID, fragmentId);
 	}
 
 	if (geometryId != 0)
 	{
-		glAttachShader(this->mProgramID, geometryId);
+		glAttachShader(mProgramID, geometryId);
 	}
 
-	glLinkProgram(this->mProgramID);
+	glLinkProgram(mProgramID);
 
 
 	int isSuccess = 0;
-	glGetProgramiv(this->mProgramID, GL_LINK_STATUS, &isSuccess);
+	glGetProgramiv(mProgramID, GL_LINK_STATUS, &isSuccess);
 #ifdef DEBUG_MODE
 	if (!isSuccess)
 	{
 		char infoLog[512];
-		glGetProgramInfoLog(this->mProgramID, 512, NULL, infoLog);
+		glGetProgramInfoLog(mProgramID, 512, NULL, infoLog);
 		std::cout << "ERROR::SHADER::PROGRAM::LINKING_FAILED\n" << infoLog << std::endl;
 	}
 #endif
@@ -69,54 +69,54 @@ doom::graphics::Material::Material() : mProgramID{ }, mShaderAsset{ nullptr }
 
 Material::Material(::doom::asset::ShaderAsset* shaderAsset) : mProgramID{}, mShaderAsset{ nullptr }
 {
-	this->SetShaderAsset(shaderAsset);
+	SetShaderAsset(shaderAsset);
 }
 
 Material::~Material()
 {
-	if (this->mProgramID.Get() != 0)
+	if (mProgramID.Get() != 0)
 	{
-		glDeleteProgram(this->mProgramID);
+		glDeleteProgram(mProgramID);
 	}
 }
 
 bool doom::graphics::Material::IsGenerated()
 {
-	return this->mProgramID != 0;
+	return mProgramID != 0;
 }
 
 void Material::AddTexture(unsigned int bindingPoint, Texture* texture)
 {
-	D_ASSERT(this->IsGenerated() == true);
-	this->mTargetTextures[bindingPoint] = texture;
+	D_ASSERT(IsGenerated() == true);
+	mTargetTextures[bindingPoint] = texture;
 }
 
 void Material::AddTexture(unsigned int bindingPoint, ::doom::asset::TextureAsset* textureAsset)
 {
-	D_ASSERT(this->IsGenerated() == true);
-	this->mTargetTextures[bindingPoint] = textureAsset->mTexture;
+	D_ASSERT(IsGenerated() == true);
+	mTargetTextures[bindingPoint] = textureAsset->mTexture;
 }
 
 void Material::AddTextures(std::array<Texture*, MAX_TEXTURE_COUNT> textures)
 {
-	D_ASSERT(this->IsGenerated() == true);
-	this->mTargetTextures = textures;
+	D_ASSERT(IsGenerated() == true);
+	mTargetTextures = textures;
 }
 
 /*
 void Material::SetUniformBlockPoint(const std::string uniformBlockName, unsigned int bindingPoint)
 {
-	unsigned int uniformBlockIndex = glGetUniformBlockIndex(this->data, uniformBlockName.c_str());
-	glUniformBlockBinding(this->data, uniformBlockIndex, bindingPoint);
+	unsigned int uniformBlockIndex = glGetUniformBlockIndex(data, uniformBlockName.c_str());
+	glUniformBlockBinding(data, uniformBlockIndex, bindingPoint);
 }
 */
 
 int Material::GetUniformBlocksCount()
 {
-	D_ASSERT(this->mProgramID != 0);
+	D_ASSERT(mProgramID != 0);
 
 	int uniformBlockCount = 0;
-	glGetProgramiv(this->mProgramID, GL_ACTIVE_UNIFORM_BLOCKS, &uniformBlockCount);
+	glGetProgramiv(mProgramID, GL_ACTIVE_UNIFORM_BLOCKS, &uniformBlockCount);
 	return uniformBlockCount;
 }
 
@@ -126,20 +126,20 @@ void Material::InitUniformBufferObject()
 	for (int i = 0; i < uniformBlockCount; i++)
 	{
 		int uniformBlockBindingPoint = 0;
-		glGetActiveUniformBlockiv(this->mProgramID, i, GL_UNIFORM_BLOCK_BINDING, &uniformBlockBindingPoint); // https://www.khronos.org/registry/OpenGL-Refpages/gl4/html/glGetActiveUniformBlock.xhtml
+		glGetActiveUniformBlockiv(mProgramID, i, GL_UNIFORM_BLOCK_BINDING, &uniformBlockBindingPoint); // https://www.khronos.org/registry/OpenGL-Refpages/gl4/html/glGetActiveUniformBlock.xhtml
 		
 		int uniformBlockSize = 0;
-		glGetActiveUniformBlockiv(this->mProgramID, i, GL_UNIFORM_BLOCK_DATA_SIZE, &uniformBlockSize);
+		glGetActiveUniformBlockiv(mProgramID, i, GL_UNIFORM_BLOCK_DATA_SIZE, &uniformBlockSize);
 		
 		auto& uniformBufferObject = UniformBufferObjectManager::GetSingleton()->GetOrGenerateUniformBufferObject(uniformBlockBindingPoint, uniformBlockSize);
-		this->mUniformBufferObjects[i] = &uniformBufferObject;
+		mUniformBufferObjects[i] = &uniformBufferObject;
 
 		/*
 		int elementCount = 0;
-		glGetActiveUniformBlockiv(this->data, i, GL_UNIFORM_BLOCK_ACTIVE_UNIFORMS, &elementCount);
+		glGetActiveUniformBlockiv(data, i, GL_UNIFORM_BLOCK_ACTIVE_UNIFORMS, &elementCount);
 
 		int* elementList = new int[100];
-		glGetActiveUniformBlockiv(this->data, i, GL_UNIFORM_BLOCK_ACTIVE_UNIFORM_INDICES, elementList);
+		glGetActiveUniformBlockiv(data, i, GL_UNIFORM_BLOCK_ACTIVE_UNIFORM_INDICES, elementList);
 
 		for (int i = 0; i < elementCount; i++)
 		{

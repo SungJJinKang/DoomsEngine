@@ -16,7 +16,7 @@ bool AssetManager::CheckFileIsValidAssetFile(const std::filesystem::directory_en
 
 void AssetManager::GetWaitingImportFuture()
 {
-	for (auto& future : this->mWaitingImportFuture)
+	for (auto& future : mWaitingImportFuture)
 	{
 		future.get();
 	}
@@ -120,7 +120,7 @@ void doom::assetimporter::AssetManager::ImportEntireAsset()
 	{
 		ForLoop_CompileTime<::doom::asset::eAssetType>::Loop<::doom::asset::FIRST_ENUM_ASSETTYPE_VALUE, ::doom::asset::LAST_ENUM_ASSETTYPE_VALUE, eConditionType::LE, 1, ImportAssetInitSetting>();
 		ForLoop_CompileTime<::doom::asset::eAssetType>::Loop<::doom::asset::FIRST_ENUM_ASSETTYPE_VALUE, ::doom::asset::LAST_ENUM_ASSETTYPE_VALUE, eConditionType::LE, 1, ImportAssetFunctor>(entireAssetPaths);
-		this->GetWaitingImportFuture();
+		GetWaitingImportFuture();
 
 	}
 	ForLoop_CompileTime<::doom::asset::eAssetType>::Loop<::doom::asset::FIRST_ENUM_ASSETTYPE_VALUE, ::doom::asset::LAST_ENUM_ASSETTYPE_VALUE, eConditionType::LE, 1, OnEndImportInMainThreadFunctor>();
@@ -132,6 +132,6 @@ void doom::assetimporter::AssetManager::ImportEntireAsset()
 
 const std::array<std::vector<std::filesystem::path>, doom::asset::ENUM_ASSETTYPE_COUNT>& AssetManager::GetAllAssetPath()
 {
-	return this->AssetPaths;
+	return AssetPaths;
 }
 

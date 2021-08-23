@@ -41,12 +41,12 @@ namespace doom
 
 			FORCE_INLINE virtual void* data() final
 			{
-				return &(this->mLowerBound);
+				return &(mLowerBound);
 			}
 
 			FORCE_INLINE virtual const void* data() const final
 			{
-				return &(this->mLowerBound);
+				return &(mLowerBound);
 			}
 
 			math::Vector3 GetHalfExtent() const;
@@ -59,7 +59,7 @@ namespace doom
 			ColliderType GetColliderType() const override;
 			FORCE_INLINE math::Vector3 GetCenter() const
 			{
-				return (this->mLowerBound + this->mUpperBound) / 2;
+				return (mLowerBound + mUpperBound) / 2;
 			}
 
 			void Expand(const math::Vector3& movedVector);
@@ -125,7 +125,7 @@ namespace doom
 				: mLowerBound(lowerBound), mUpperBound(upperBound)
 			{
 #ifdef DEBUG_MODE
-				this->Validate();
+				Validate();
 #endif
 			}
 			FORCE_INLINE AABB3D(const AABB2D& aabb2D);
@@ -176,12 +176,12 @@ namespace doom
 
 			FORCE_INLINE virtual void* data() final
 			{
-				return &(this->mLowerBound);
+				return &(mLowerBound);
 			}
 
 			FORCE_INLINE virtual const void* data() const final
 			{
-				return &(this->mLowerBound);
+				return &(mLowerBound);
 			}
 
 			math::Vector2 GetHalfExtent() const;
@@ -189,14 +189,14 @@ namespace doom
 
 			FORCE_INLINE math::Vector2 GetCenter() const
 			{
-				return (this->mLowerBound + this->mUpperBound) / 2;
+				return (mLowerBound + mUpperBound) / 2;
 			}
 
 			FORCE_INLINE void Expand(const math::Vector2& movedVector)
 			{
 				math::Vector2 expandVec{ math::abs(movedVector.x) ,  math::abs(movedVector.y) };
-				this->mUpperBound += expandVec;
-				this->mLowerBound -= expandVec;
+				mUpperBound += expandVec;
+				mLowerBound -= expandVec;
 			}
 
 
@@ -204,21 +204,21 @@ namespace doom
 			{
 				if (movedVector.x > 0)
 				{
-					this->mUpperBound.x += movedVector.x;
+					mUpperBound.x += movedVector.x;
 				}
 				else
 				{
-					this->mLowerBound.x += movedVector.x;
+					mLowerBound.x += movedVector.x;
 				}
 
 
 				if (movedVector.y > 0)
 				{
-					this->mUpperBound.y += movedVector.y;
+					mUpperBound.y += movedVector.y;
 				}
 				else
 				{
-					this->mLowerBound.y += movedVector.y;
+					mLowerBound.y += movedVector.y;
 				}
 			}
 
@@ -292,7 +292,7 @@ namespace doom
 				: mLowerBound(lowerBound), mUpperBound(upperBound)
 			{
 #ifdef DEBUG_MODE
-				this->Validate();
+				Validate();
 #endif
 			}
 
@@ -300,8 +300,8 @@ namespace doom
 			constexpr AABB2D(AABB2D&&) noexcept = default;
 			constexpr AABB2D(const AABB3D & aabb3D)
 			{
-				this->mLowerBound = aabb3D.mLowerBound;
-				this->mUpperBound = aabb3D.mUpperBound;
+				mLowerBound = aabb3D.mLowerBound;
+				mUpperBound = aabb3D.mUpperBound;
 			}
 			AABB2D& operator=(const AABB2D&) = default;
 			AABB2D& operator=(AABB2D&&) noexcept = default;
@@ -330,8 +330,8 @@ namespace doom
 
 		FORCE_INLINE doom::physics::AABB3D::AABB3D(const AABB2D& aabb2D)
 		{
-			this->mLowerBound = aabb2D.mLowerBound;
-			this->mUpperBound = aabb2D.mUpperBound;
+			mLowerBound = aabb2D.mLowerBound;
+			mUpperBound = aabb2D.mUpperBound;
 		}
 
 	}

@@ -37,7 +37,7 @@ namespace doom
 		/// </summary>
 		void OnEndOfFrame_Internal()
 		{
-			this->FrameDirtyChecker_EndOfFrame();
+			FrameDirtyChecker_EndOfFrame();
 		}
 		virtual void OnEndOfFrame() = 0;
 

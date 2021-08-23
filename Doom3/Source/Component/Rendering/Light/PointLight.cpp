@@ -22,14 +22,14 @@ void doom::PointLight::OnEndOfFrame_Component()
 
 void doom::PointLight::UpdateUniformBufferObjectTempBuffer(graphics::UniformBufferObjectManager& uboManager)
 {
-	if (this->bmIsLightUboDirty.GetIsDirty(true))
+	if (bmIsLightUboDirty.GetIsDirty(true))
 	{//when transform value is changed
-		auto transform = this->GetTransform();
+		auto transform = GetTransform();
 		math::Vector3 pos = transform->GetPosition();
-		math::Vector4 radiance = this->GetRadiance();
+		math::Vector4 radiance = GetRadiance();
 
-		unsigned int staticIndex = this->GetStaticElementIndex();
-		unsigned int staticCount = this->GetStaticElementCount();
+		unsigned int staticIndex = GetStaticElementIndex();
+		unsigned int staticCount = GetStaticElementCount();
 		if (staticIndex < MAX_POINT_LIGHT_COUNT)
 		{
 			uboManager.StoreDataAtTempBufferOfBindingPoint(GLOBAL_UNIFORM_BLOCK_BINDING_POINT, (void*)pos.data(), sizeof(pos), graphics::eUniformBlock_Global::pointLight0_Pos + 32 * staticIndex);

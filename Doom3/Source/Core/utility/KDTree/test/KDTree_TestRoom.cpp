@@ -22,7 +22,7 @@
 void doom::KDTree_TestRoom::AddNewRandomPoint()
 {
 	math::Vector3 newPoint{ random::Random::RandomFloatNumber(-10,10), random::Random::RandomFloatNumber(-10,10) , random::Random::RandomFloatNumber(-10,10) };
-	this->mKDTree->Insert(newPoint);
+	mKDTree->Insert(newPoint);
 }
 
 void doom::KDTree_TestRoom::AddNewPointWithMouse()
@@ -32,18 +32,18 @@ void doom::KDTree_TestRoom::AddNewPointWithMouse()
 	if (leftClick)
 	{
 		math::Vector2 ndcPoint = userinput::UserInput_Server::GetCurrentMouseNDCPosition();
-		auto newNode = this->mKDTree->Insert(ndcPoint);
-		this->recentAddedLeaf.push(newNode.GetNodeIndex());
+		auto newNode = mKDTree->Insert(ndcPoint);
+		recentAddedLeaf.push(newNode.GetNodeIndex());
 		D_DEBUG_LOG("Create New LeafNode ", eLogType::D_ALWAYS);
 	}
 }
 
 void doom::KDTree_TestRoom::RemoveRecentAddedPoint()
 {
-	int index = this->recentAddedLeaf.top();
-	this->recentAddedLeaf.pop();
+	int index = recentAddedLeaf.top();
+	recentAddedLeaf.pop();
 	
-	this->mKDTree->Delete(this->mKDTree->mKDTreeNodes[index].mComponentValue);
+	mKDTree->Delete(mKDTree->mKDTreeNodes[index].mComponentValue);
 }
 
 #define DebugBVHTreeOffsetX 0.1f
@@ -59,40 +59,40 @@ void doom::KDTree_TestRoom::DebugBVHTree(KDTree3DPoint::node_type* node, float x
 	float offsetX = static_cast<float>(1.0f / (math::pow(2, depth + 1)));
 	if (node->mLeftNode != NULL_NODE_INDEX)
 	{
-		graphics::DebugGraphics::GetSingleton()->DebugDraw2DLine({ x, y, 0 }, { x - offsetX, y - DebugBVHTreeOffsetY, 0 }, this->recentAddedLeaf.empty() == false && this->recentAddedLeaf.top() == node->mLeftNode ? eColor::Red : eColor::Blue, true);
-		DebugBVHTree(&(this->mKDTree->mKDTreeNodes[node->mLeftNode]), x - offsetX, y - DebugBVHTreeOffsetY, depth + 1);
+		graphics::DebugGraphics::GetSingleton()->DebugDraw2DLine({ x, y, 0 }, { x - offsetX, y - DebugBVHTreeOffsetY, 0 }, recentAddedLeaf.empty() == false && recentAddedLeaf.top() == node->mLeftNode ? eColor::Red : eColor::Blue, true);
+		DebugBVHTree(&(mKDTree->mKDTreeNodes[node->mLeftNode]), x - offsetX, y - DebugBVHTreeOffsetY, depth + 1);
 	}
 	if (node->mRightNode != NULL_NODE_INDEX)
 	{
-		graphics::DebugGraphics::GetSingleton()->DebugDraw2DLine({ x, y, 0 }, { x + offsetX, y - DebugBVHTreeOffsetY, 0 }, this->recentAddedLeaf.empty() == false && this->recentAddedLeaf.top() == node->mRightNode ? eColor::Red : eColor::Blue, true);
-		DebugBVHTree(&(this->mKDTree->mKDTreeNodes[node->mRightNode]), x + offsetX, y - DebugBVHTreeOffsetY, depth + 1);
+		graphics::DebugGraphics::GetSingleton()->DebugDraw2DLine({ x, y, 0 }, { x + offsetX, y - DebugBVHTreeOffsetY, 0 }, recentAddedLeaf.empty() == false && recentAddedLeaf.top() == node->mRightNode ? eColor::Red : eColor::Blue, true);
+		DebugBVHTree(&(mKDTree->mKDTreeNodes[node->mRightNode]), x + offsetX, y - DebugBVHTreeOffsetY, depth + 1);
 	}
 }
 
 void doom::KDTree_TestRoom::DrawTree()
 {
-	if (this->mKDTree->mRootNodeIndex != NULL_NODE_INDEX)
+	if (mKDTree->mRootNodeIndex != NULL_NODE_INDEX)
 	{
 		/*
-		for (int i = 0; i < this->mBVH->mTree.mNodeCapacity; i++)
+		for (int i = 0; i < mBVH->mTree.mNodeCapacity; i++)
 		{
-			this->mBVH->mTree.mNodes[i].mBoundingCollider.DrawPhysicsDebug(); // TODO : Draw recursively, don't draw all nodes
+			mBVH->mTree.mNodes[i].mBoundingCollider.DrawPhysicsDebug(); // TODO : Draw recursively, don't draw all nodes
 		}
 		*/
 
-		if (static_cast<bool>(this->mPIPForDebug))
+		if (static_cast<bool>(mPIPForDebug))
 		{
-			this->mPIPForDebug->BindFrameBuffer();
+			mPIPForDebug->BindFrameBuffer();
 
 			graphics::GraphicsAPI::ClearColor(1.0f, 1.0f, 1.0f, 1.0f);
-			this->mPIPForDebug->ClearFrameBuffer();
+			mPIPForDebug->ClearFrameBuffer();
 
 			graphics::DebugGraphics::GetSingleton()->SetDrawInstantlyMaterial(mBVHDebugMaterial.get());
 
-			DebugBVHTree(&(this->mKDTree->mKDTreeNodes[this->mKDTree->mRootNodeIndex]), 0, 1, 0);
+			DebugBVHTree(&(mKDTree->mKDTreeNodes[mKDTree->mRootNodeIndex]), 0, 1, 0);
 
 			graphics::DebugGraphics::GetSingleton()->SetDrawInstantlyMaterial(nullptr);
-			this->mPIPForDebug->RevertFrameBuffer();
+			mPIPForDebug->RevertFrameBuffer();
 		}
 	}
 }
@@ -107,63 +107,63 @@ void doom::KDTree_TestRoom::SetKDTree3D(KDTree3DPoint* kdtree)
 
 void doom::KDTree_TestRoom::Init()
 {
-	if (static_cast<bool>(this->mKDTree) == false)
+	if (static_cast<bool>(mKDTree) == false)
 	{
-		this->mKDTree = std::make_unique<KDTree3DPoint>(10000);
+		mKDTree = std::make_unique<KDTree3DPoint>(10000);
 	}
 
-	if (static_cast<bool>(this->mPIPForDebug) == false)
+	if (static_cast<bool>(mPIPForDebug) == false)
 	{
-		this->mPIPForDebug = std::make_unique<graphics::PicktureInPickture>(1024, 1024, math::Vector2(-1.0f, -1.0f), math::Vector2(1.0f, 1.0f));
-		graphics::Graphics_Server::GetSingleton()->AddAutoDrawedPIPs(*(this->mPIPForDebug.get()));
+		mPIPForDebug = std::make_unique<graphics::PicktureInPickture>(1024, 1024, math::Vector2(-1.0f, -1.0f), math::Vector2(1.0f, 1.0f));
+		graphics::Graphics_Server::GetSingleton()->AddAutoDrawedPIPs(*(mPIPForDebug.get()));
 	}
 
-	if (static_cast<bool>(this->mBVHDebugMaterial) == false)
+	if (static_cast<bool>(mBVHDebugMaterial) == false)
 	{
-		this->mBVHDebugMaterial = std::make_unique<graphics::Material>(doom::assetimporter::AssetManager::GetAsset<asset::eAssetType::SHADER>("Default2DColorShader.glsl"));
+		mBVHDebugMaterial = std::make_unique<graphics::Material>(doom::assetimporter::AssetManager::GetAsset<asset::eAssetType::SHADER>("Default2DColorShader.glsl"));
 	}
 
 }
 
 void doom::KDTree_TestRoom::Update()
 {
-	if (static_cast<bool>(this->mKDTree) == false)
+	if (static_cast<bool>(mKDTree) == false)
 	{
 		return;
 	}
 
 	if (doom::userinput::UserInput_Server::GetKeyUp(eKEY_CODE::KEY_F6))
 	{
-		D_DEBUG_LOG("KDTree mCurrentAllocatedNodeCount : " + std::to_string(this->mKDTree->mCurrentAllocatedNodeCount), eLogType::D_ALWAYS);
-		D_DEBUG_LOG("KDTree mCurrentActiveNodeCount : " + std::to_string(this->mKDTree->mCurrentActiveNodeCount), eLogType::D_ALWAYS);
+		D_DEBUG_LOG("KDTree mCurrentAllocatedNodeCount : " + std::to_string(mKDTree->mCurrentAllocatedNodeCount), eLogType::D_ALWAYS);
+		D_DEBUG_LOG("KDTree mCurrentActiveNodeCount : " + std::to_string(mKDTree->mCurrentActiveNodeCount), eLogType::D_ALWAYS);
 	}
 
 	if (doom::userinput::UserInput_Server::GetKeyUp(eKEY_CODE::KEY_F7))
 	{
-		this->AddNewRandomPoint();
+		AddNewRandomPoint();
 	}
 
 	if (doom::userinput::UserInput_Server::GetKeyUp(eKEY_CODE::KEY_F8))
 	{
-		this->ValidCheck();
+		ValidCheck();
 	}
 
 	if (doom::userinput::UserInput_Server::GetKeyUp(eKEY_CODE::KEY_F9))
 	{
-		this->Init();
+		Init();
 	}
 
 	if (doom::userinput::UserInput_Server::GetKeyToggle(eKEY_CODE::KEY_F9))
 	{
-		this->DrawTree();
+		DrawTree();
 	}
 
 	if (doom::userinput::UserInput_Server::GetKeyToggle(eKEY_CODE::KEY_F10))
 	{
-		this->DrawTopView();
+		DrawTopView();
 	}
 
-	this->AddNewPointWithMouse();
+	AddNewPointWithMouse();
 }
 
 void doom::KDTree_TestRoom::CheckActiveNode(KDTree3DPoint::node_type* node, std::vector<int>& activeNodeList)
@@ -181,12 +181,12 @@ void doom::KDTree_TestRoom::CheckActiveNode(KDTree3DPoint::node_type* node, std:
 
 	if (node->mLeftNode != NULL_NODE_INDEX)
 	{
-		CheckActiveNode(&(this->mKDTree->mKDTreeNodes[node->mLeftNode]), activeNodeList);
+		CheckActiveNode(&(mKDTree->mKDTreeNodes[node->mLeftNode]), activeNodeList);
 	}
 
 	if (node->mRightNode != NULL_NODE_INDEX)
 	{
-		CheckActiveNode(&(this->mKDTree->mKDTreeNodes[node->mRightNode]), activeNodeList);
+		CheckActiveNode(&(mKDTree->mKDTreeNodes[node->mRightNode]), activeNodeList);
 	}
 #endif
 }
@@ -195,7 +195,7 @@ void doom::KDTree_TestRoom::ValidCheck()
 {
 #ifdef DEBUG_MODE
 
-	if (this->mKDTree->mRootNodeIndex != NULL_NODE_INDEX)
+	if (mKDTree->mRootNodeIndex != NULL_NODE_INDEX)
 	{
 		D_DEBUG_LOG("Valid Check : KDTree", eLogType::D_ALWAYS);
 
@@ -203,33 +203,33 @@ void doom::KDTree_TestRoom::ValidCheck()
 		//				every active nodes in mKDTreeNodes should be checked
 		//				And call Node::ValidCheck();
 		std::vector<int> checkedIndexs{};
-		for (int i = 0; i < this->mKDTree->mCurrentAllocatedNodeCount; i++)
+		for (int i = 0; i < mKDTree->mCurrentAllocatedNodeCount; i++)
 		{
-			if (this->mKDTree->mKDTreeNodes[i].bmIsActive == true)
+			if (mKDTree->mKDTreeNodes[i].bmIsActive == true)
 			{
 				checkedIndexs.push_back(i);
 			}
 		}
-		D_ASSERT(checkedIndexs.size() == this->mKDTree->mCurrentActiveNodeCount);
-		CheckActiveNode(&(this->mKDTree->mKDTreeNodes[this->mKDTree->mRootNodeIndex]), checkedIndexs);
+		D_ASSERT(checkedIndexs.size() == mKDTree->mCurrentActiveNodeCount);
+		CheckActiveNode(&(mKDTree->mKDTreeNodes[mKDTree->mRootNodeIndex]), checkedIndexs);
 		D_ASSERT(checkedIndexs.size() == 0);
 
 		//second check : traverse from each Leaf Nodes to RootNode. Check if Traversing arrived at rootIndex
-		for (int i = 0; i < this->mKDTree->mCurrentAllocatedNodeCount; i++)
+		for (int i = 0; i < mKDTree->mCurrentAllocatedNodeCount; i++)
 		{
-			if (this->mKDTree->mKDTreeNodes[i].bmIsActive == true)
+			if (mKDTree->mKDTreeNodes[i].bmIsActive == true)
 			{
 				int index{ i };
 				bool isSuccess{ false };
 				while (index != NULL_NODE_INDEX)
 				{
-					if (index == this->mKDTree->mRootNodeIndex)
+					if (index == mKDTree->mRootNodeIndex)
 					{
 						isSuccess = true;
 						break;
 					}
 
-					index = this->mKDTree->mKDTreeNodes[index].mParentIndex;
+					index = mKDTree->mKDTreeNodes[index].mParentIndex;
 				}
 
 				D_ASSERT(isSuccess == true);
@@ -240,51 +240,51 @@ void doom::KDTree_TestRoom::ValidCheck()
 		//fourth check : check all nodes have unique child id ( all nodes have unique child id )
 		//				 checked child id shouldn't be checked again
 		std::unordered_set<int> checkedChildIndexs{};
-		for (int i = 0; i < this->mKDTree->mCurrentAllocatedNodeCount; i++)
+		for (int i = 0; i < mKDTree->mCurrentAllocatedNodeCount; i++)
 		{
-			if (this->mKDTree->mKDTreeNodes[i].bmIsActive == true)
+			if (mKDTree->mKDTreeNodes[i].bmIsActive == true)
 			{
-				if (this->mKDTree->mKDTreeNodes[i].mLeftNode != NULL_NODE_INDEX)
+				if (mKDTree->mKDTreeNodes[i].mLeftNode != NULL_NODE_INDEX)
 				{
-					D_ASSERT(checkedChildIndexs.find(this->mKDTree->mKDTreeNodes[i].mLeftNode) == checkedChildIndexs.end());
+					D_ASSERT(checkedChildIndexs.find(mKDTree->mKDTreeNodes[i].mLeftNode) == checkedChildIndexs.end());
 				}
-				if (this->mKDTree->mKDTreeNodes[i].mRightNode != NULL_NODE_INDEX)
+				if (mKDTree->mKDTreeNodes[i].mRightNode != NULL_NODE_INDEX)
 				{
-					D_ASSERT(checkedChildIndexs.find(this->mKDTree->mKDTreeNodes[i].mRightNode) == checkedChildIndexs.end());
-				}
-
-				if (this->mKDTree->mKDTreeNodes[i].mLeftNode != NULL_NODE_INDEX)
-				{
-					checkedChildIndexs.insert(this->mKDTree->mKDTreeNodes[i].mLeftNode);
+					D_ASSERT(checkedChildIndexs.find(mKDTree->mKDTreeNodes[i].mRightNode) == checkedChildIndexs.end());
 				}
 
-				if (this->mKDTree->mKDTreeNodes[i].mRightNode != NULL_NODE_INDEX)
+				if (mKDTree->mKDTreeNodes[i].mLeftNode != NULL_NODE_INDEX)
 				{
-					checkedChildIndexs.insert(this->mKDTree->mKDTreeNodes[i].mRightNode);
+					checkedChildIndexs.insert(mKDTree->mKDTreeNodes[i].mLeftNode);
+				}
+
+				if (mKDTree->mKDTreeNodes[i].mRightNode != NULL_NODE_INDEX)
+				{
+					checkedChildIndexs.insert(mKDTree->mKDTreeNodes[i].mRightNode);
 				}
 			}
 		}
 
 
 		//fifth check : compare one node's parent index and parent index's child index
-		for (int i = 0; i < this->mKDTree->mCurrentAllocatedNodeCount; i++)
+		for (int i = 0; i < mKDTree->mCurrentAllocatedNodeCount; i++)
 		{
-			if (this->mKDTree->mKDTreeNodes[i].bmIsActive == true)
+			if (mKDTree->mKDTreeNodes[i].bmIsActive == true)
 			{
-				if (this->mKDTree->mKDTreeNodes[i].mLeftNode != NULL_NODE_INDEX)
+				if (mKDTree->mKDTreeNodes[i].mLeftNode != NULL_NODE_INDEX)
 				{
-					D_ASSERT(this->mKDTree->mKDTreeNodes[this->mKDTree->mKDTreeNodes[i].mLeftNode].mParentIndex == i);
+					D_ASSERT(mKDTree->mKDTreeNodes[mKDTree->mKDTreeNodes[i].mLeftNode].mParentIndex == i);
 				}
 
-				if (this->mKDTree->mKDTreeNodes[i].mRightNode != NULL_NODE_INDEX)
+				if (mKDTree->mKDTreeNodes[i].mRightNode != NULL_NODE_INDEX)
 				{
-					D_ASSERT(this->mKDTree->mKDTreeNodes[this->mKDTree->mKDTreeNodes[i].mRightNode].mParentIndex == i);
+					D_ASSERT(mKDTree->mKDTreeNodes[mKDTree->mKDTreeNodes[i].mRightNode].mParentIndex == i);
 				}
 
-				if (this->mKDTree->mKDTreeNodes[i].mParentIndex != NULL_NODE_INDEX)
+				if (mKDTree->mKDTreeNodes[i].mParentIndex != NULL_NODE_INDEX)
 				{
-					D_ASSERT(this->mKDTree->mKDTreeNodes[this->mKDTree->mKDTreeNodes[i].mParentIndex].mLeftNode == i || this->mKDTree->mKDTreeNodes[this->mKDTree->mKDTreeNodes[i].mParentIndex].mRightNode == i);
-					D_ASSERT(this->mKDTree->mKDTreeNodes[this->mKDTree->mKDTreeNodes[i].mParentIndex].mLeftNode == i != this->mKDTree->mKDTreeNodes[this->mKDTree->mKDTreeNodes[i].mParentIndex].mRightNode == i);
+					D_ASSERT(mKDTree->mKDTreeNodes[mKDTree->mKDTreeNodes[i].mParentIndex].mLeftNode == i || mKDTree->mKDTreeNodes[mKDTree->mKDTreeNodes[i].mParentIndex].mRightNode == i);
+					D_ASSERT(mKDTree->mKDTreeNodes[mKDTree->mKDTreeNodes[i].mParentIndex].mLeftNode == i != mKDTree->mKDTreeNodes[mKDTree->mKDTreeNodes[i].mParentIndex].mRightNode == i);
 				}
 			}
 		}
@@ -299,16 +299,16 @@ void doom::KDTree_TestRoom::ValidCheck()
 				auto top = nodeContainer.top();
 				nodeContainer.pop();
 
-				D_ASSERT(this->mKDTree->mKDTreeNodes[top.first].mDimension == top.second);
+				D_ASSERT(mKDTree->mKDTreeNodes[top.first].mDimension == top.second);
 
 				int nextDimension = (top.second + 1) % 3;
-				if (this->mKDTree->mKDTreeNodes[top.first].mLeftNode != NULL_NODE_INDEX)
+				if (mKDTree->mKDTreeNodes[top.first].mLeftNode != NULL_NODE_INDEX)
 				{
-					nodeContainer.emplace(this->mKDTree->mKDTreeNodes[top.first].mLeftNode, nextDimension);
+					nodeContainer.emplace(mKDTree->mKDTreeNodes[top.first].mLeftNode, nextDimension);
 				}
-				if (this->mKDTree->mKDTreeNodes[top.first].mRightNode != NULL_NODE_INDEX)
+				if (mKDTree->mKDTreeNodes[top.first].mRightNode != NULL_NODE_INDEX)
 				{
-					nodeContainer.emplace(this->mKDTree->mKDTreeNodes[top.first].mRightNode, nextDimension);
+					nodeContainer.emplace(mKDTree->mKDTreeNodes[top.first].mRightNode, nextDimension);
 				}
 			}
 		}

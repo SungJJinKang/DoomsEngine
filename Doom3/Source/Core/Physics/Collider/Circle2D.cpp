@@ -10,13 +10,13 @@ void doom::physics::Circle2D::Render(eColor color, bool drawInstantly /*= false*
 
 	const float intervalRadian = math::PI * 2 / 72.0f;
 
-	math::Vector2 exPoint{ this->mCenter + math::Vector2::right * mRadius};
+	math::Vector2 exPoint{ mCenter + math::Vector2::right * mRadius};
 	for (float radian = 0; radian < math::PI * 2; radian += intervalRadian)
 	{
 		math::Vector3 newPoint
 		{
-			this->mCenter.x + this->mRadius * math::cos(radian + intervalRadian),
-			this->mCenter.y + this->mRadius * math::sin(radian + intervalRadian),
+			mCenter.x + mRadius * math::cos(radian + intervalRadian),
+			mCenter.y + mRadius * math::sin(radian + intervalRadian),
 			0
 		};
 		debugGraphics->DebugDraw2DLine(newPoint, exPoint, color, drawInstantly);

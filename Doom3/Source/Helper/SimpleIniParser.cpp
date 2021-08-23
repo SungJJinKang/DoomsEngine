@@ -139,7 +139,7 @@ IniData SimpleIniParser::ParseIniFile(std::string fileDirectory)
 
 void IniData::AddSection(const std::string& section)
 {
-	this->mIniDatas[section]; // just accessing to unordered_map with key make hash table
+	mIniDatas[section]; // just accessing to unordered_map with key make hash table
 	D_DEBUG_LOG({ "Add New Section : ", section });
 }
 
@@ -162,7 +162,7 @@ struct ConverToString
 
 void IniData::InsertVariable(const std::string& section, const std::string& key, ini_data_type data)
 {
-	auto IsInsert = this->mIniDatas[section].insert_or_assign(key, data);
+	auto IsInsert = mIniDatas[section].insert_or_assign(key, data);
 	D_ASSERT(IsInsert.second == true); // if already key is exsist, make exeption
 
 #ifdef DEBUG_MODE

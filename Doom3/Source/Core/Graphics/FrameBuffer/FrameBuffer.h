@@ -66,7 +66,7 @@ namespace doom
 
 			FORCE_INLINE void BindFrameBuffer() noexcept
 			{
-				D_ASSERT(this->mFrameBufferID != 0);
+				D_ASSERT(mFrameBufferID != 0);
 				FrameBuffer::BindFrameBuffer(this);
 			}
 			FORCE_INLINE static void UnBindFrameBuffer() noexcept
@@ -91,7 +91,7 @@ namespace doom
 
 			FORCE_INLINE void Clear()
 			{
-				glClear(this->mClearBit);
+				glClear(mClearBit);
 			}
 
 			enum class eImageInterpolation
@@ -103,7 +103,7 @@ namespace doom
 			FORCE_INLINE void BlitBufferTo(unsigned int DrawFrameBufferId, int srcX0, int srcY0, int srcX1, int srcY1
 				, int dstX0, int dstY0, int dstX1, int dstY1, GraphicsAPI::eBufferType mask, eImageInterpolation filter) noexcept
 			{
-				glBindFramebuffer(GL_READ_FRAMEBUFFER, this->mFrameBufferID);
+				glBindFramebuffer(GL_READ_FRAMEBUFFER, mFrameBufferID);
 				glBindFramebuffer(GL_DRAW_FRAMEBUFFER, DrawFrameBufferId);
 				glBlitFramebuffer(srcX0, srcY0, srcX1, srcY1, dstX0, dstY0, dstX1, dstY1, static_cast<unsigned int>(mask), static_cast<unsigned int>(filter));
 			}
@@ -112,7 +112,7 @@ namespace doom
 				, int dstX0, int dstY0, int dstX1, int dstY1, GraphicsAPI::eBufferType mask, eImageInterpolation filter) noexcept
 			{
 				glBindFramebuffer(GL_READ_FRAMEBUFFER, ReadFrameBufferId);
-				glBindFramebuffer(GL_DRAW_FRAMEBUFFER, this->mFrameBufferID);
+				glBindFramebuffer(GL_DRAW_FRAMEBUFFER, mFrameBufferID);
 				glBlitFramebuffer(srcX0, srcY0, srcX1, srcY1, dstX0, dstY0, dstX1, dstY1, static_cast<unsigned int>(mask), static_cast<unsigned int>(filter));
 			}
 

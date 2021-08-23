@@ -11,8 +11,8 @@ void doom::CharacterSpawner::CreateEnemy(const math::Vector3& position)
 	auto newEntity = currenScene->CreateNewEntity();
 	newEntity->GetTransform()->SetPosition(position);
 
-	D_ASSERT(this->mBillboardShader != nullptr);
-	auto material = new graphics::Material(this->mBillboardShader);
+	D_ASSERT(mBillboardShader != nullptr);
+	auto material = new graphics::Material(mBillboardShader);
 	material->AddTexture(graphics::eTextureBindingPoint::AlbedoTexture, assetimporter::AssetManager::GetAsset<asset::eAssetType::TEXTURE>("Enemy1.dds"));
 
 
@@ -25,9 +25,9 @@ void doom::CharacterSpawner::CreateEnemy(const math::Vector3& position)
 
 void doom::CharacterSpawner::InitComponent()
 {
-	if (this->mBillboardShader == nullptr)
+	if (mBillboardShader == nullptr)
 	{
-		this->mBillboardShader = assetimporter::AssetManager::GetAsset<asset::eAssetType::SHADER>("Billboard.glsl");
+		mBillboardShader = assetimporter::AssetManager::GetAsset<asset::eAssetType::SHADER>("Billboard.glsl");
 	}
 }
 
@@ -35,8 +35,8 @@ void doom::CharacterSpawner::UpdateComponent()
 {
 	if (UserInput_Server::GetKeyUp(userinput::eKEY_CODE::KEY_9))
 	{
-		auto tr = this->GetTransform();
+		auto tr = GetTransform();
 
-		this->CreateEnemy(tr->GetPosition() + tr->forward() * 2);
+		CreateEnemy(tr->GetPosition() + tr->forward() * 2);
 	}
 }

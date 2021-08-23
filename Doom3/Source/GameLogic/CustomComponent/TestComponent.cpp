@@ -10,14 +10,14 @@ void doom::TestComponent::InitComponent()
 
 #ifdef DEBUG_MODE
 	//Ignore dirty codes
-	physics::ColliderPickingTestRoom::GetSingleton()->AddTestCollider(&(this->line));
-	physics::ColliderPickingTestRoom::GetSingleton()->AddTestCollider(&(this->plane));
-	physics::ColliderPickingTestRoom::GetSingleton()->AddTestCollider(&(this->aabb1));
-	physics::ColliderPickingTestRoom::GetSingleton()->AddTestCollider(&(this->aabb2));
-	physics::ColliderPickingTestRoom::GetSingleton()->AddTestCollider(&(this->aabb3));
-	physics::ColliderPickingTestRoom::GetSingleton()->AddTestCollider(&(this->sphere));
-	physics::ColliderPickingTestRoom::GetSingleton()->AddTestCollider(&(this->sphere1));
-	physics::ColliderPickingTestRoom::GetSingleton()->AddTestCollider(&(this->circle2d));
+	physics::ColliderPickingTestRoom::GetSingleton()->AddTestCollider(&(line));
+	physics::ColliderPickingTestRoom::GetSingleton()->AddTestCollider(&(plane));
+	physics::ColliderPickingTestRoom::GetSingleton()->AddTestCollider(&(aabb1));
+	physics::ColliderPickingTestRoom::GetSingleton()->AddTestCollider(&(aabb2));
+	physics::ColliderPickingTestRoom::GetSingleton()->AddTestCollider(&(aabb3));
+	physics::ColliderPickingTestRoom::GetSingleton()->AddTestCollider(&(sphere));
+	physics::ColliderPickingTestRoom::GetSingleton()->AddTestCollider(&(sphere1));
+	physics::ColliderPickingTestRoom::GetSingleton()->AddTestCollider(&(circle2d));
 #endif
 
 }
@@ -27,14 +27,14 @@ void doom::TestComponent::UpdateComponent()
 
 	//Ignore dirty codes
 #ifdef DEBUG_MODE
-	this->line.DrawPhysicsDebug();
-	this->plane.DrawPhysicsDebug();
-	this->aabb1.DrawPhysicsDebug();
-	this->aabb2.DrawPhysicsDebug();
-	this->aabb3.DrawPhysicsDebug();
-	this->circle2d.DrawPhysicsDebug();
-	this->sphere.DrawPhysicsDebug();
-	this->sphere1.DrawPhysicsDebug();
+	line.DrawPhysicsDebug();
+	plane.DrawPhysicsDebug();
+	aabb1.DrawPhysicsDebug();
+	aabb2.DrawPhysicsDebug();
+	aabb3.DrawPhysicsDebug();
+	circle2d.DrawPhysicsDebug();
+	sphere.DrawPhysicsDebug();
+	sphere1.DrawPhysicsDebug();
 
 	auto pickingRay = physics::Picking::GetCurrentCursorPointWorldRay();
 	pickingRay.DrawPhysicsDebugColor(eColor::Green);

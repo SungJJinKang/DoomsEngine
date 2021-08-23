@@ -26,14 +26,14 @@ typename ::doom::asset::Asset::asset_type_t<assetType>* ImportedAssetPort<assetT
 	newAsset.SetBaseMetaData(assetFileDirectory, uuid);
 	newAsset.mAssetStatus = ::doom::asset::Asset::AssetStatus::NotImported;
 
-	auto pair = this->mAssets.emplace(std::make_pair(uuid, std::move(newAsset)));
+	auto pair = mAssets.emplace(std::make_pair(uuid, std::move(newAsset)));
 
 	if (pair.second == true)
 	{
 		D_DEBUG_LOG({ "Asset is completely imported : ", pair.first->second.GetAssetFileName() }, eLogType::D_LOG);
-		this->mAssetsForIterating.push_back(&(pair.first->second));
+		mAssetsForIterating.push_back(&(pair.first->second));
 		std::string assetName = pair.first->second.GetAssetFileName();
-		this->mAssetsForAssetName.emplace(std::make_pair(assetName, &(pair.first->second)));
+		mAssetsForAssetName.emplace(std::make_pair(assetName, &(pair.first->second)));
 		return &(pair.first->second);
 	}
 	else

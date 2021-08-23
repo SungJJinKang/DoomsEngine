@@ -14,13 +14,13 @@
 void doom::physics::ColliderPickingTestRoom::FixedUpdatePhysics()
 {
 	auto cursorRay{ physics::Picking::GetCurrentCursorPointWorldRay() };
-	for (unsigned int i = 0; i < this->mTestColliders.size(); i++)
+	for (unsigned int i = 0; i < mTestColliders.size(); i++)
 	{
-		this->mTestColliders[i]->ClearCollision();
-		bool isOverlap = ColliderSolution::CheckIsOverlap(&cursorRay, this->mTestColliders[i]);
+		mTestColliders[i]->ClearCollision();
+		bool isOverlap = ColliderSolution::CheckIsOverlap(&cursorRay, mTestColliders[i]);
 		if (isOverlap)
 		{
-			this->mTestColliders[i]->bmIsCollision = true;
+			mTestColliders[i]->bmIsCollision = true;
 		}
 	}
 
@@ -28,16 +28,16 @@ void doom::physics::ColliderPickingTestRoom::FixedUpdatePhysics()
 
 void doom::physics::ColliderPickingTestRoom::DrawDebug()
 {
-	for (unsigned int i = 0; i < this->mTestColliders.size(); i++)
+	for (unsigned int i = 0; i < mTestColliders.size(); i++)
 	{
-		this->mTestColliders[i]->DrawPhysicsDebug();
+		mTestColliders[i]->DrawPhysicsDebug();
 		
 	}
 }
 
 void doom::physics::ColliderPickingTestRoom::AddTestCollider(Collider* collider)
 {
-	this->mTestColliders.push_back(collider);
+	mTestColliders.push_back(collider);
 }
 
 #endif

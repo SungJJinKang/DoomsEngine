@@ -23,12 +23,12 @@ namespace doom
 
 			FORCE_INLINE virtual void* data() final
 			{
-				return &(this->mNormal);
+				return &(mNormal);
 			}
 
 			FORCE_INLINE virtual const void* data() const final
 			{
-				return &(this->mNormal);
+				return &(mNormal);
 			}
 
 			Plane(float distance, const math::Vector3& normal);

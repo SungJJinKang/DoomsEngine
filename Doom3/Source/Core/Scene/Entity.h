@@ -132,11 +132,11 @@ namespace doom
 
 			if constexpr (Entity::IsServerComponent<T>() == true)
 			{
-				this->mServerComponents.emplace_back(newComponent);
+				mServerComponents.emplace_back(newComponent);
 			}
 			else
 			{
-				this->mPlainComponents.emplace_back(newComponent);
+				mPlainComponents.emplace_back(newComponent);
 			}
 		
 
@@ -150,7 +150,7 @@ namespace doom
 
 			//Why need this?
 			//Too slow
-// 			for (auto& serverComponents : this->mServerComponents)
+// 			for (auto& serverComponents : mServerComponents)
 // 			{
 // 				if (serverComponents.get() != newComponent_com)
 // 				{
@@ -158,7 +158,7 @@ namespace doom
 // 				}
 // 			}
 // 
-// 			for (auto& plainComponent : this->mPlainComponents)
+// 			for (auto& plainComponent : mPlainComponents)
 // 			{
 // 				if (plainComponent.get() != newComponent_com)
 // 				{
@@ -174,7 +174,7 @@ namespace doom
 		template<typename T>
 		constexpr bool _DestroyComponent(std::unique_ptr<T, Component::Deleter>& component)
 		{
-// 			for (auto& serverComponents : this->mServerComponents)
+// 			for (auto& serverComponents : mServerComponents)
 // 			{
 // 				auto removedComponent = component.get();
 // 				if (serverComponents.get() != component.get())
@@ -183,7 +183,7 @@ namespace doom
 // 				}
 // 			}
 // 
-// 			for (auto& plainComponent : this->mPlainComponents)
+// 			for (auto& plainComponent : mPlainComponents)
 // 			{
 // 				auto removedComponent = component.get();
 // 				if (plainComponent.get() != component.get())
@@ -203,19 +203,19 @@ namespace doom
 		/// </summary>
 		void ClearComponents()
 		{
-			for (auto& plainComponent : this->mPlainComponents)
+			for (auto& plainComponent : mPlainComponents)
 			{
 				//Why doesn't erase from vector instantly : for performance
-				this->_DestroyComponent(plainComponent);
+				_DestroyComponent(plainComponent);
 			}
-			this->mPlainComponents.clear();
+			mPlainComponents.clear();
 
-			for (auto& ServerComponent : this->mServerComponents)
+			for (auto& ServerComponent : mServerComponents)
 			{
 				//Why doesn't erase from vector instantly : for performance
-				this->_DestroyComponent(ServerComponent);
+				_DestroyComponent(ServerComponent);
 			}
-			this->mServerComponents.clear();
+			mServerComponents.clear();
 
 		}
 
@@ -239,14 +239,14 @@ namespace doom
 		template<typename T, std::enable_if_t<std::is_base_of_v<Component, T>, bool> = true>
 		constexpr T* AddComponent() noexcept
 		{
-			return this->_AddComponent<T>();
+			return _AddComponent<T>();
 		}
 
 		/* THIS function can make mistake, Don't make this function(passing argumnet)
 		template<typename T, typename... arguments>
 		constexpr std::enable_if_t<std::is_base_of_v<Component, T>, T&> AddComponent(arguments&&... a) noexcept
 		{
-			return this->_AddComponent<T>(new T(std::forward<arguments>(a)...));
+			return _AddComponent<T>(new T(std::forward<arguments>(a)...));
 		}
 		*/
 
@@ -274,7 +274,7 @@ namespace doom
 
 			if constexpr (Entity::IsServerComponent<T>() == true)
 			{// when component is ServerComponent
-				for (auto& ServerComponent : this->mServerComponents)
+				for (auto& ServerComponent : mServerComponents)
 				{
 					T* componentPtr = dynamic_cast<T*>(ServerComponent.get());
 					if (componentPtr != nullptr)
@@ -286,7 +286,7 @@ namespace doom
 			}
 			else
 			{// when component is plainComponent
-				for (auto& plainComponent : this->mPlainComponents)
+				for (auto& plainComponent : mPlainComponents)
 				{
 					T* componentPtr = dynamic_cast<T*>(plainComponent.get());
 					if (componentPtr != nullptr)
@@ -309,7 +309,7 @@ namespace doom
 
 			if constexpr (Entity::IsServerComponent<T>() == true)
 			{// when component is ServerComponent
-				for (auto& ServerComponent : this->mServerComponents)
+				for (auto& ServerComponent : mServerComponents)
 				{
 					T* componentPtr = dynamic_cast<T*>(ServerComponent.get());
 					if (componentPtr != nullptr)
@@ -320,7 +320,7 @@ namespace doom
 			}
 			else
 			{// when component is plain component
-				for (auto& plainComponent : this->mPlainComponents)
+				for (auto& plainComponent : mPlainComponents)
 				{
 					T* componentPtr = dynamic_cast<T*>(plainComponent.get());
 					if (componentPtr != nullptr)
@@ -349,28 +349,28 @@ namespace doom
 
 			if constexpr (Entity::IsServerComponent<T>() == true)
 			{// when component is ServerComponent
-				for (size_t i = 0; i < this->mServerComponents.size(); i++)
+				for (size_t i = 0; i < mServerComponents.size(); i++)
 				{
-					T* componentPtr = dynamic_cast<T*>(this->mServerComponents[i].get());
+					T* componentPtr = dynamic_cast<T*>(mServerComponents[i].get());
 					if (componentPtr != nullptr)
 					{//Check is sub_class of Component
-						this->_DestroyComponent(this->mServerComponents[i]);
+						_DestroyComponent(mServerComponents[i]);
 
-						std::vector_swap_popback(this->mServerComponents, i);
+						std::vector_swap_popback(mServerComponents, i);
 						return true;
 					}
 				}
 			}
 			else
 			{// when component is plainComponent
-				for (size_t i = 0; i < this->mPlainComponents.size(); i++)
+				for (size_t i = 0; i < mPlainComponents.size(); i++)
 				{
-					T* componentPtr = dynamic_cast<T*>(this->mPlainComponents[i].get());
+					T* componentPtr = dynamic_cast<T*>(mPlainComponents[i].get());
 					if (componentPtr != nullptr)
 					{//Check is sub_class of Component
-						this->_DestroyComponent(this->mServerComponents[i]);
+						_DestroyComponent(mServerComponents[i]);
 
-						std::vector_swap_popback(this->mPlainComponents, i);
+						std::vector_swap_popback(mPlainComponents, i);
 						return true;
 					}
 				}
@@ -389,14 +389,14 @@ namespace doom
 			bool isRemoveSuccess{ false };
 			if constexpr (Entity::IsServerComponent<T>() == true)
 			{// when component is ServerComponent
-				for (size_t i = 0; i < this->mServerComponents.size(); i++)
+				for (size_t i = 0; i < mServerComponents.size(); i++)
 				{
-					T* componentPtr = dynamic_cast<T*>(this->mServerComponents[i].get());
+					T* componentPtr = dynamic_cast<T*>(mServerComponents[i].get());
 					if (componentPtr != nullptr)
 					{//Check is sub_class of Component
-						this->_DestroyComponent(this->mServerComponents[i]);
+						_DestroyComponent(mServerComponents[i]);
 
-						std::vector_swap_popback(this->mServerComponents, i);
+						std::vector_swap_popback(mServerComponents, i);
 						--i;
 
 						isRemoveSuccess = true;
@@ -405,14 +405,14 @@ namespace doom
 			}
 			else
 			{// when component is plainComponent
-				for (size_t i = 0; i < this->mPlainComponents.size(); i++)
+				for (size_t i = 0; i < mPlainComponents.size(); i++)
 				{
-					T* componentPtr = dynamic_cast<T*>(this->mPlainComponents[i].get());
+					T* componentPtr = dynamic_cast<T*>(mPlainComponents[i].get());
 					if (componentPtr != nullptr)
 					{//Check is sub_class of Component
-						this->_DestroyComponent(this->mServerComponents[i]);
+						_DestroyComponent(mServerComponents[i]);
 
-						std::vector_swap_popback(this->mPlainComponents, i);
+						std::vector_swap_popback(mPlainComponents, i);
 						--i;
 
 						isRemoveSuccess = true;
@@ -440,13 +440,13 @@ namespace doom
 		[[nodiscard]] std::string_view GetEntityName() const;
 		[[nodiscard]] FORCE_INLINE constexpr Transform* GetTransform() const
 		{
-			return this->mTransform;
+			return mTransform;
 		}
 
 		void SetLayerIndex(unsigned int layerIndex);
 		[[nodiscard]] FORCE_INLINE constexpr unsigned int GetLayerIndex() const
 		{
-			return this->mLayerIndex;
+			return mLayerIndex;
 		}
 
 		void AddLayerChangedCallback(void(*callback_ptr)(Entity&));
@@ -454,23 +454,23 @@ namespace doom
 
 		FORCE_INLINE eEntityMobility GetEntityMobility()
 		{
-			return this->mEntityMobility;
+			return mEntityMobility;
 		}
 		FORCE_INLINE void SetEntityMobility(eEntityMobility entityMobility)
 		{
-			this->mEntityMobility = entityMobility;
+			mEntityMobility = entityMobility;
 		}
 		FORCE_INLINE unsigned int GetEntityFlag()
 		{	
-			return this->mEntityFlag;
+			return mEntityFlag;
 		}
 		FORCE_INLINE void SetEntityFlag(eEntityFlags flag)
 		{
-			this->mEntityFlag |= flag;
+			mEntityFlag |= flag;
 		}
 		FORCE_INLINE void ClearEntityFlag()
 		{
-			this->mEntityFlag &= 0;
+			mEntityFlag &= 0;
 		}
 	};
 

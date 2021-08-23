@@ -43,21 +43,21 @@ namespace doom
 		typename node_type* operator->();
 		constexpr int GetNodeIndex()
 		{
-			return this->mNodeIndex;
+			return mNodeIndex;
 		}
 
 		constexpr bool IsValid()
 		{
-			return (this->mNodeIndex != NULL_NODE_INDEX) && (this->mKDTreePointer != nullptr);
+			return (mNodeIndex != NULL_NODE_INDEX) && (mKDTreePointer != nullptr);
 		}
 		constexpr operator bool()
 		{
-			return this->IsValid();
+			return IsValid();
 		}
 		constexpr void Reset()
 		{
-			this->mKDTreePointer = nullptr;
-			this->mNodeIndex = NULL_NODE_INDEX;
+			mKDTreePointer = nullptr;
+			mNodeIndex = NULL_NODE_INDEX;
 		}
 
 	};

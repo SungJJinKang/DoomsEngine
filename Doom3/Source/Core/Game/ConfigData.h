@@ -16,7 +16,7 @@ namespace doom
 		ConfigData()
 		{
 			D_START_PROFILING("Loading Config File", eProfileLayers::CPU);
-			this->mConfigData = { SimpleIniParser::ParseIniFile(ASSET_FOLDER_DIRECTORY + "config.ini") };
+			mConfigData = { SimpleIniParser::ParseIniFile(ASSET_FOLDER_DIRECTORY + "config.ini") };
 			D_END_PROFILING("Loading Config File");
 		}
 
@@ -25,7 +25,7 @@ namespace doom
 
 		const IniData& GetConfigData() const
 		{
-			return this->mConfigData;
+			return mConfigData;
 		}
 	};
 }

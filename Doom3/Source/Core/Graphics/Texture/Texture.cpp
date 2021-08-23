@@ -14,7 +14,7 @@ Texture::Texture(eTextureType textureType, eBindTarget bindTarget,
 	mTarget{ targetTexture }, mInternalFormat{ internalFormat }, mCompressedInternalFormat{ compressedInternalFormat }, mWidth{ width }, mHeight{ 0 }, mDataFormat{ format }, mDataType{ type }
 {
 	D_ASSERT(mWidth > 0 && mHeight > 0);
-	glGenTextures(1, &(this->mBufferID));
+	glGenTextures(1, &(mBufferID));
 }
 
 
@@ -24,23 +24,23 @@ Texture::Texture(eTextureType textureType, eBindTarget bindTarget,
 	mTarget{ targetTexture }, mInternalFormat{ internalFormat }, mCompressedInternalFormat{ compressedInternalFormat }, mWidth{ width }, mHeight{ height }, mDataFormat{ format }, mDataType{ type }
 {
 	D_ASSERT(mWidth > 0 && mHeight > 0);
-	glGenTextures(1, &(this->mBufferID));
+	glGenTextures(1, &(mBufferID));
 }
 
 
 void Texture::OnEndContructor()
 {
-	this->SetFilterMin(Texture::eFilterMode::LINEAR, false);
-	this->SetFilterMax(Texture::eFilterMode::LINEAR, false);
-	this->SetWrapMode(Texture::eWrapMode::REPEAT, false);
-	//this->UnBindTexture();
+	SetFilterMin(Texture::eFilterMode::LINEAR, false);
+	SetFilterMax(Texture::eFilterMode::LINEAR, false);
+	SetWrapMode(Texture::eWrapMode::REPEAT, false);
+	//UnBindTexture();
 }
 
 Texture::~Texture()
 {
-	if (this->mBufferID.Get() != 0)
+	if (mBufferID.Get() != 0)
 	{
-		glDeleteTextures(1, &(this->mBufferID));
+		glDeleteTextures(1, &(mBufferID));
 	}
 	
 }
@@ -49,29 +49,29 @@ void Texture::SetWrapMode(eWrapMode wrapMode, bool bBind)
 {
 	if (bBind)
 	{
-		this->BindTexture();
+		BindTexture();
 	}
 
-	if (this->mTarget == eTargetTexture::TEXTURE_1D)
+	if (mTarget == eTargetTexture::TEXTURE_1D)
 	{
-		this->mWrapS = wrapMode;
-		TexParameteri(this->mBindTarget, eTextureParameterType::TEXTURE_WRAP_S, static_cast<eTextureParameterValue>(wrapMode));
+		mWrapS = wrapMode;
+		TexParameteri(mBindTarget, eTextureParameterType::TEXTURE_WRAP_S, static_cast<eTextureParameterValue>(wrapMode));
 	}
-	else if (this->mTarget == eTargetTexture::TEXTURE_2D)
+	else if (mTarget == eTargetTexture::TEXTURE_2D)
 	{
-		this->mWrapS = wrapMode;
-		this->mWrapT = wrapMode;
-		TexParameteri(this->mBindTarget, eTextureParameterType::TEXTURE_WRAP_S, static_cast<eTextureParameterValue>(wrapMode));
-		TexParameteri(this->mBindTarget, eTextureParameterType::TEXTURE_WRAP_T, static_cast<eTextureParameterValue>(wrapMode));
+		mWrapS = wrapMode;
+		mWrapT = wrapMode;
+		TexParameteri(mBindTarget, eTextureParameterType::TEXTURE_WRAP_S, static_cast<eTextureParameterValue>(wrapMode));
+		TexParameteri(mBindTarget, eTextureParameterType::TEXTURE_WRAP_T, static_cast<eTextureParameterValue>(wrapMode));
 	}
-	else if (this->mTarget == eTargetTexture::TEXTURE_3D)
+	else if (mTarget == eTargetTexture::TEXTURE_3D)
 	{
-		this->mWrapS = wrapMode;
-		this->mWrapT = wrapMode;
-		this->mWrapR = wrapMode;
-		TexParameteri(this->mBindTarget, eTextureParameterType::TEXTURE_WRAP_S, static_cast<eTextureParameterValue>(wrapMode));
-		TexParameteri(this->mBindTarget, eTextureParameterType::TEXTURE_WRAP_T, static_cast<eTextureParameterValue>(wrapMode));
-		TexParameteri(this->mBindTarget, eTextureParameterType::TEXTURE_WRAP_R, static_cast<eTextureParameterValue>(wrapMode));
+		mWrapS = wrapMode;
+		mWrapT = wrapMode;
+		mWrapR = wrapMode;
+		TexParameteri(mBindTarget, eTextureParameterType::TEXTURE_WRAP_S, static_cast<eTextureParameterValue>(wrapMode));
+		TexParameteri(mBindTarget, eTextureParameterType::TEXTURE_WRAP_T, static_cast<eTextureParameterValue>(wrapMode));
+		TexParameteri(mBindTarget, eTextureParameterType::TEXTURE_WRAP_R, static_cast<eTextureParameterValue>(wrapMode));
 	}
 }
 
@@ -79,40 +79,40 @@ void Texture::SetFilterMin(eFilterMode filterMode, bool bBind)
 {
 	if (bBind)
 	{
-		this->BindTexture();
+		BindTexture();
 	}
 
-	TexParameteri(this->mBindTarget, eTextureParameterType::TEXTURE_MIN_FILTER, static_cast<eTextureParameterValue>(filterMode));
+	TexParameteri(mBindTarget, eTextureParameterType::TEXTURE_MIN_FILTER, static_cast<eTextureParameterValue>(filterMode));
 }
 
 void Texture::SetFilterMax(eFilterMode filterMode, bool bBind)
 {
 	if (bBind)
 	{
-		this->BindTexture();
+		BindTexture();
 	}
 
-	TexParameteri(this->mBindTarget, eTextureParameterType::TEXTURE_MAG_FILTER, static_cast<eTextureParameterValue>(filterMode));
+	TexParameteri(mBindTarget, eTextureParameterType::TEXTURE_MAG_FILTER, static_cast<eTextureParameterValue>(filterMode));
 }
 
 doom::graphics::Texture::eWrapMode Texture::GetWrapModeS()
 {
-	return this->mWrapS;
+	return mWrapS;
 }
 
 doom::graphics::Texture::eWrapMode Texture::GetWrapModeT()
 {
-	return this->mWrapT;
+	return mWrapT;
 }
 
 doom::graphics::Texture::eWrapMode Texture::GetWrapModeR()
 {
-	return this->mWrapR;
+	return mWrapR;
 }
 
 unsigned int Texture::GetID()
 {
-	return this->mBufferID;
+	return mBufferID;
 }
 
 

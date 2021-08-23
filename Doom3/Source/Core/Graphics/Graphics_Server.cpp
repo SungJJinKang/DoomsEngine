@@ -42,9 +42,9 @@ void Graphics_Server::Init()
 	Graphics_Server::ScreenSize = { width, height };
 	Graphics_Server::ScreenRatio = static_cast<float>(width) / static_cast<float>(height);
 	
-	this->InitGLFW();
+	InitGLFW();
 
-	this->mCullingSystem = std::make_unique<culling::EveryCulling>(width, height);
+	mCullingSystem = std::make_unique<culling::EveryCulling>(width, height);
 
 	return;
 }
@@ -52,20 +52,20 @@ void Graphics_Server::Init()
 void doom::graphics::Graphics_Server::LateInit()
 {
 #ifdef DEBUG_MODE
-	this->mDebugGraphics.Init();
+	mDebugGraphics.Init();
 #endif
 
-	this->SetRenderingMode(Graphics_Server::eRenderingMode::DeferredRendering);
-	this->mQuadMesh = Mesh::GetQuadMesh();
+	SetRenderingMode(Graphics_Server::eRenderingMode::DeferredRendering);
+	mQuadMesh = Mesh::GetQuadMesh();
 
-	//this->mQueryOcclusionCulling.InitQueryOcclusionCulling();
-	this->mCullDistance.Initialize();
+	//mQueryOcclusionCulling.InitQueryOcclusionCulling();
+	mCullDistance.Initialize();
 }
 
 void Graphics_Server::Update()
 {		
-	this->mCullDistance.OnStartDraw();
-	this->DeferredRendering();
+	mCullDistance.OnStartDraw();
+	DeferredRendering();
 	
 
 
@@ -113,7 +113,7 @@ int Graphics_Server::GetScreenHeight()
 
 bool Graphics_Server::GetIsGLFWInitialized()
 {
-	return this->bmIsGLFWInitialized;
+	return bmIsGLFWInitialized;
 }
 
 math::Vector2 doom::graphics::Graphics_Server::GetScreenSize()
@@ -212,7 +212,7 @@ void Graphics_Server::InitGLFW()
 
 void Graphics_Server::DrawPIPs()
 {
-	for (auto& pip : this->mAutoDrawedPIPs)
+	for (auto& pip : mAutoDrawedPIPs)
 	{
 		GraphicsAPI::ClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 		GraphicsAPI::Clear(GraphicsAPI::eClearMask::COLOR_BUFFER_BIT, GraphicsAPI::eClearMask::DEPTH_BUFFER_BIT);
@@ -222,32 +222,32 @@ void Graphics_Server::DrawPIPs()
 
 void doom::graphics::Graphics_Server::InitFrameBufferForDeferredRendering()
 {
-	if (this->mFrameBufferForDeferredRendering.IsGenerated() == true)
+	if (mFrameBufferForDeferredRendering.IsGenerated() == true)
 		return;
 
 	auto gBufferDrawerShader = doom::assetimporter::AssetManager::GetAsset<asset::eAssetType::SHADER>("GbufferDrawer.glsl");
-	this->mGbufferDrawerMaterial.SetShaderAsset(gBufferDrawerShader);
+	mGbufferDrawerMaterial.SetShaderAsset(gBufferDrawerShader);
 
 	auto gBufferWriterShader = doom::assetimporter::AssetManager::GetAsset<asset::eAssetType::SHADER>("GbufferWriter.glsl");
-	this->mGbufferWriterMaterial.SetShaderAsset(gBufferWriterShader);
+	mGbufferWriterMaterial.SetShaderAsset(gBufferWriterShader);
 
-	this->mFrameBufferForDeferredRendering.GenerateBuffer(Graphics_Server::ScreenSize.x, Graphics_Server::ScreenSize.y);
+	mFrameBufferForDeferredRendering.GenerateBuffer(Graphics_Server::ScreenSize.x, Graphics_Server::ScreenSize.y);
 
 	//with renderbuffer, can't do post-processing
-	this->mFrameBufferForDeferredRendering.AttachTextureBuffer(GraphicsAPI::eBufferType::COLOR, Graphics_Server::ScreenSize.x, Graphics_Server::ScreenSize.y);
-	this->mFrameBufferForDeferredRendering.AttachTextureBuffer(GraphicsAPI::eBufferType::COLOR, Graphics_Server::ScreenSize.x, Graphics_Server::ScreenSize.y);
-	this->mFrameBufferForDeferredRendering.AttachTextureBuffer(GraphicsAPI::eBufferType::COLOR, Graphics_Server::ScreenSize.x, Graphics_Server::ScreenSize.y);
-	this->mFrameBufferForDeferredRendering.AttachTextureBuffer(GraphicsAPI::eBufferType::DEPTH, Graphics_Server::ScreenSize.x, Graphics_Server::ScreenSize.y);
+	mFrameBufferForDeferredRendering.AttachTextureBuffer(GraphicsAPI::eBufferType::COLOR, Graphics_Server::ScreenSize.x, Graphics_Server::ScreenSize.y);
+	mFrameBufferForDeferredRendering.AttachTextureBuffer(GraphicsAPI::eBufferType::COLOR, Graphics_Server::ScreenSize.x, Graphics_Server::ScreenSize.y);
+	mFrameBufferForDeferredRendering.AttachTextureBuffer(GraphicsAPI::eBufferType::COLOR, Graphics_Server::ScreenSize.x, Graphics_Server::ScreenSize.y);
+	mFrameBufferForDeferredRendering.AttachTextureBuffer(GraphicsAPI::eBufferType::DEPTH, Graphics_Server::ScreenSize.x, Graphics_Server::ScreenSize.y);
 
-	this->mGbufferDrawerMaterial.AddTexture(0, &this->mFrameBufferForDeferredRendering.GetFrameBufferTexture(GraphicsAPI::eBufferType::COLOR, 0));
-	this->mGbufferDrawerMaterial.AddTexture(1, &this->mFrameBufferForDeferredRendering.GetFrameBufferTexture(GraphicsAPI::eBufferType::COLOR, 1));
-	this->mGbufferDrawerMaterial.AddTexture(2, &this->mFrameBufferForDeferredRendering.GetFrameBufferTexture(GraphicsAPI::eBufferType::COLOR, 2));
+	mGbufferDrawerMaterial.AddTexture(0, &mFrameBufferForDeferredRendering.GetFrameBufferTexture(GraphicsAPI::eBufferType::COLOR, 0));
+	mGbufferDrawerMaterial.AddTexture(1, &mFrameBufferForDeferredRendering.GetFrameBufferTexture(GraphicsAPI::eBufferType::COLOR, 1));
+	mGbufferDrawerMaterial.AddTexture(2, &mFrameBufferForDeferredRendering.GetFrameBufferTexture(GraphicsAPI::eBufferType::COLOR, 2));
 
 }
 
 void Graphics_Server::PreUpdateEntityBlocks()
 {
-	auto activeEntityBlockList = this->mCullingSystem->GetActiveEntityBlockList();
+	auto activeEntityBlockList = mCullingSystem->GetActiveEntityBlockList();
 	for (auto entityBlock : activeEntityBlockList)
 	{
 		unsigned int entityCount = entityBlock->mCurrentEntityCount;
@@ -280,25 +280,25 @@ void Graphics_Server::SolveLinearDataCulling()
 	for (unsigned int i = 0; i < spawnedCameraList.size(); i++)
 	{
 		D_START_PROFILING(SequenceStringGenerator::GetLiteralString("UpdateFrustumPlane Camera Num: ", i), doom::profiler::eProfileLayers::Rendering);
-		this->mCullingSystem->mViewFrustumCulling.UpdateFrustumPlane(i, *reinterpret_cast<const culling::Matrix4X4*>( &(spawnedCameraList[i]->GetViewProjectionMatrix()) ) );
+		mCullingSystem->mViewFrustumCulling.UpdateFrustumPlane(i, *reinterpret_cast<const culling::Matrix4X4*>( &(spawnedCameraList[i]->GetViewProjectionMatrix()) ) );
 #ifdef ENABLE_SCREEN_SAPCE_AABB_CULLING
-		this->mCullingSystem->SetViewProjectionMatrix(reinterpret_cast<const culling::Matrix4X4&>(spawnedCameraList[i]->GetViewProjectionMatrix()));
+		mCullingSystem->SetViewProjectionMatrix(reinterpret_cast<const culling::Matrix4X4&>(spawnedCameraList[i]->GetViewProjectionMatrix()));
 #endif
 		D_END_PROFILING(SequenceStringGenerator::GetLiteralString("UpdateFrustumPlane Camera Num: ", i));
 	}
 
-	this->mCullingSystem->SetViewProjectionMatrix(reinterpret_cast<const culling::Matrix4X4&>(Camera::GetMainCamera()->GetViewProjectionMatrix()));
-	this->mCullingSystem->SetCameraCount(static_cast<unsigned int>(spawnedCameraList.size()));
-	D_START_PROFILING("this->mFrotbiteCullingSystem.ResetCullJobStat", doom::profiler::eProfileLayers::Rendering);
-	this->mCullingSystem->ResetCullJobState();
-	D_END_PROFILING("this->mFrotbiteCullingSystem.ResetCullJobStat");
+	mCullingSystem->SetViewProjectionMatrix(reinterpret_cast<const culling::Matrix4X4&>(Camera::GetMainCamera()->GetViewProjectionMatrix()));
+	mCullingSystem->SetCameraCount(static_cast<unsigned int>(spawnedCameraList.size()));
+	D_START_PROFILING("mFrotbiteCullingSystem.ResetCullJobStat", doom::profiler::eProfileLayers::Rendering);
+	mCullingSystem->ResetCullJobState();
+	D_END_PROFILING("mFrotbiteCullingSystem.ResetCullJobStat");
 
 	D_START_PROFILING("PreUpdateEntityBlocks", doom::profiler::eProfileLayers::Rendering);
 	PreUpdateEntityBlocks();
 	D_END_PROFILING("PreUpdateEntityBlocks");
 
 	D_START_PROFILING("Push Culling Job To Linera Culling System", doom::profiler::eProfileLayers::Rendering);
-	resource::JobSystem::GetSingleton()->PushBackJobToAllThreadWithNoSTDFuture(this->mCullingSystem->GetCullJob());
+	resource::JobSystem::GetSingleton()->PushBackJobToAllThreadWithNoSTDFuture(mCullingSystem->GetCullJob());
 	D_END_PROFILING("Push Culling Job To Linera Culling System");
 }
 
@@ -307,9 +307,9 @@ void doom::graphics::Graphics_Server::DeferredRendering()
 	SolveLinearDataCulling(); // do this first
 	//TODO : Think where put this, as early as good
 
-	this->mFrameBufferForDeferredRendering.BindFrameBuffer();
+	mFrameBufferForDeferredRendering.BindFrameBuffer();
 	GraphicsAPI::ClearColor(0.0f, 0.0f, 0.0f, 1.0f);
-	GraphicsAPI::Clear(this->mFrameBufferForDeferredRendering.mClearBit);
+	GraphicsAPI::Clear(mFrameBufferForDeferredRendering.mClearBit);
 
 	auto sceneGraphics = SceneGraphics::GetSingleton();
 
@@ -322,29 +322,29 @@ void doom::graphics::Graphics_Server::DeferredRendering()
 
 	//if (userinput::UserInput_Server::GetKeyToggle(eKEY_CODE::KEY_F5) == true)
 	//{
-		this->mDebugGraphics.DrawDebug();
+		mDebugGraphics.DrawDebug();
 	//}
 
 #endif
 
 	D_START_PROFILING("Draw Objects", doom::profiler::eProfileLayers::Rendering);
 	
-	//this->mCullDistance.PreComputeCulling();
-	//this->mViewFrustumCulling.PreComputeCulling();
+	//mCullDistance.PreComputeCulling();
+	//mViewFrustumCulling.PreComputeCulling();
 
 	D_START_PROFILING("Wait Cull Job", doom::profiler::eProfileLayers::Rendering);
-	this->mCullingSystem->WaitToFinishCullJobs(); // Waiting time is almost zero
+	mCullingSystem->WaitToFinishCullJobs(); // Waiting time is almost zero
 	//resource::JobSystem::GetSingleton()->SetMemoryBarrierOnAllSubThreads();
 	D_END_PROFILING("Wait Cull Job");
 
-	const unsigned int CameraCount = this->mCullingSystem->GetCameraCount();
+	const unsigned int CameraCount = mCullingSystem->GetCameraCount();
 
 
 	for (unsigned int cameraIndex = 0; cameraIndex < CameraCount; cameraIndex++)
 	{
 		D_START_PROFILING("Bind VisibleFunction", doom::profiler::eProfileLayers::Rendering);
 	
-		auto activeEntityBlockList = this->mCullingSystem->GetActiveEntityBlockList();
+		auto activeEntityBlockList = mCullingSystem->GetActiveEntityBlockList();
 		for (auto entityBlock : activeEntityBlockList)
 		{
 			const unsigned int currentEntityCount = entityBlock->mCurrentEntityCount;
@@ -390,15 +390,15 @@ void doom::graphics::Graphics_Server::DeferredRendering()
 	GraphicsAPI::ClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 	GraphicsAPI::Clear(GraphicsAPI::eClearMask::COLOR_BUFFER_BIT, GraphicsAPI::eClearMask::DEPTH_BUFFER_BIT);
 
-	this->mFrameBufferForDeferredRendering.BlitBufferTo(0, 0, 0, this->mFrameBufferForDeferredRendering.mDefaultWidth, this->mFrameBufferForDeferredRendering.mDefaultHeight, 0, 0, Graphics_Server::ScreenSize.x, Graphics_Server::ScreenSize.y, GraphicsAPI::eBufferType::DEPTH, FrameBuffer::eImageInterpolation::NEAREST);
+	mFrameBufferForDeferredRendering.BlitBufferTo(0, 0, 0, mFrameBufferForDeferredRendering.mDefaultWidth, mFrameBufferForDeferredRendering.mDefaultHeight, 0, 0, Graphics_Server::ScreenSize.x, Graphics_Server::ScreenSize.y, GraphicsAPI::eBufferType::DEPTH, FrameBuffer::eImageInterpolation::NEAREST);
 	
 	
 	D_START_PROFILING("DrawPIPs", doom::profiler::eProfileLayers::Rendering);
-	this->DrawPIPs(); // drawing pip before gbuffer will increase performance ( early depth testing )
+	DrawPIPs(); // drawing pip before gbuffer will increase performance ( early depth testing )
 	D_END_PROFILING("DrawPIPs");
 
-	this->mGbufferDrawerMaterial.UseProgram();
-	this->mQuadMesh->Draw();
+	mGbufferDrawerMaterial.UseProgram();
+	mQuadMesh->Draw();
 	
 	
 
@@ -410,27 +410,27 @@ void doom::graphics::Graphics_Server::DeferredRendering()
 
 const doom::graphics::FrameBuffer& Graphics_Server::GetGBuffer() const
 {
-	return this->mFrameBufferForDeferredRendering;
+	return mFrameBufferForDeferredRendering;
 }
 
 doom::graphics::FrameBuffer& Graphics_Server::GetGBuffer()
 {
-	return this->mFrameBufferForDeferredRendering;
+	return mFrameBufferForDeferredRendering;
 }
 
 void doom::graphics::Graphics_Server::SetRenderingMode(eRenderingMode renderingMode)
 {
-	this->mCurrentRenderingMode = renderingMode;
-	if (this->mCurrentRenderingMode == eRenderingMode::DeferredRendering && this->mFrameBufferForDeferredRendering.IsGenerated() == false)
+	mCurrentRenderingMode = renderingMode;
+	if (mCurrentRenderingMode == eRenderingMode::DeferredRendering && mFrameBufferForDeferredRendering.IsGenerated() == false)
 	{
-		this->InitFrameBufferForDeferredRendering();
+		InitFrameBufferForDeferredRendering();
 	}
 }
 
 
 void Graphics_Server::AddAutoDrawedPIPs(PicktureInPickture& pip)
 {
-	this->mAutoDrawedPIPs.push_back(std::ref(pip));
+	mAutoDrawedPIPs.push_back(std::ref(pip));
 }
 
 void Graphics_Server::OpenGlDebugCallback(GLenum source, GLenum type, GLuint id, GLenum severity, GLsizei length, const GLchar* msg, const void* data)
