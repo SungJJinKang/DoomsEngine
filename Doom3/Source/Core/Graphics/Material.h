@@ -4,9 +4,6 @@
 #include <array>
 
 #include "Graphics_Core.h"
-#include "Texture/Texture.h"
-#include "OverlapBindChecker.h"
-#include "ZeroResetMoveContainer.h"
 
 #include "../Math/LightMath_Cpp/Vector1.h"
 #include "../Math/LightMath_Cpp/Vector2.h"
@@ -18,13 +15,16 @@
 #include "../Math/LightMath_Cpp/Matrix3x3.h"
 #include "../Math/LightMath_Cpp/Matrix4x4.h"
 
-#include "Asset/ShaderAsset.h"
-#include "Asset/TextureAsset.h"
+#include "Buffer/BufferID.h"
 
 namespace doom
 {
-	class ShaderAsset;
-	class TextureAsset;
+	namespace asset
+	{
+		class ShaderAsset;
+		class TextureAsset;
+	}
+	
 	namespace graphics
 	{
 		enum eUniformLocation : unsigned int
@@ -47,6 +47,8 @@ namespace doom
 		};
 
 		class UniformBufferObject;
+		class Texture;
+
 		class Material
 		{
 
@@ -77,7 +79,7 @@ namespace doom
 
 			void AddTexture(unsigned int bindingPoint, Texture* texture);
 			void AddTexture(unsigned int bindingPoint, ::doom::asset::TextureAsset* textureAsset);
-			void AddTextures(std::array<Texture*, MAX_TEXTURE_COUNT> textures);
+			void AddTextures(const std::array<Texture*, MAX_TEXTURE_COUNT>& textures);
 
 			void UseProgram();
 

@@ -314,6 +314,7 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Source\Core\Graphics\Buffer\BufferID.h" />
     <ClInclude Include="Source\Core\Graphics\PrimitiveType\Line.h" />
     <ClInclude Include="Source\Core\ComponentPool\ComponentPool.h" />
     <ClInclude Include="Source\Core\ECSSystem\easy_ecs\easy_ecs.h" />
@@ -567,7 +568,6 @@
     <ClInclude Include="Source\Helper\trim.h" />
     <ClInclude Include="Source\Helper\vector_erase_move_lastelement\vector_swap_erase.h" />
     <ClInclude Include="Source\Component\PhysicsComponent\SphereCollider3D.h" />
-    <ClInclude Include="Source\Helper\ZeroResetMoveContainer.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="Source\Core\Asset\Base_Asset.h" />
     <ClInclude Include="Source\Core\Asset\AudioAsset.h" />

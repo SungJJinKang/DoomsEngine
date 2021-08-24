@@ -10,7 +10,6 @@
 
 #include "eAssetType.h"
 #include "AssetMetaData.h"
-#include "ZeroResetMoveContainer.h"
 
 namespace doom
 {

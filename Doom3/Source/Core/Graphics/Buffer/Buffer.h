@@ -1,7 +1,8 @@
 #pragma once
 
 #include "../Graphics_Core.h"
-#include <ZeroResetMoveContainer.h>
+#include "BufferID.h"
+
 namespace doom
 {
 	namespace graphics

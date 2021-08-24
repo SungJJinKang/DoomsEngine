@@ -5,7 +5,7 @@
 
 #include "../Graphics_Core.h"
 #include "../OverlapBindChecker.h"
-#include <ZeroResetMoveContainer.h>
+#include "../Buffer/BufferID.h"
 #include "TextureFormat.h"
 
 #include <magic_enum.hpp>

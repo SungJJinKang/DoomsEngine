@@ -31,6 +31,7 @@
 #include "Physics/Collider/Plane.h"
 #include <SequenceStringGenerator/SequenceStringGenerator.h>
 #endif
+#include "Buffer/Mesh.h"
 
 using namespace doom::graphics;
 

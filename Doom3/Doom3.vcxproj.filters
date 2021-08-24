@@ -953,9 +953,6 @@
     <ClInclude Include="Source\Core\Graphics\TextureFormat.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Helper\ZeroResetMoveContainer.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Core\API\Font.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -1248,6 +1245,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\Core\Graphics\PrimitiveType\Triangle.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Core\Graphics\Buffer\BufferID.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

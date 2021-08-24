@@ -7,7 +7,8 @@
 #include "RenderBuffer.h"
 #include "../Texture/SingleTexture.h"
 #include "../OverlapBindChecker.h"
-#include <ZeroResetMoveContainer.h>
+#include "../Buffer/BufferID.h"
+
 namespace doom
 {
 	namespace graphics

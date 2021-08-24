@@ -5,6 +5,7 @@
 
 #include "Buffer/UniformBufferObjectManager.h"
 #include "../Asset/TextureAsset.h"
+#include "Texture/Texture.h"
 
 using namespace doom::graphics;
 
@@ -97,7 +98,7 @@ void Material::AddTexture(unsigned int bindingPoint, ::doom::asset::TextureAsset
 	mTargetTextures[bindingPoint] = textureAsset->mTexture;
 }
 
-void Material::AddTextures(std::array<Texture*, MAX_TEXTURE_COUNT> textures)
+void doom::graphics::Material::AddTextures(const std::array<Texture*, MAX_TEXTURE_COUNT>& textures)
 {
 	D_ASSERT(IsGenerated() == true);
 	mTargetTextures = textures;

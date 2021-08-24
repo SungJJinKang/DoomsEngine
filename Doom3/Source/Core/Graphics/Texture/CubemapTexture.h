@@ -27,36 +27,14 @@ namespace doom
 			CubemapTexture& operator=(CubemapTexture&&) noexcept = default;
 
 
-			inline void TexImage1D(int level, const void* data) noexcept override
-			{
-				BindTexture();
-				for (unsigned int i = 0; i < 6; i++)
-				{
-					glTexImage1D(GL_TEXTURE_CUBE_MAP_POSITIVE_X + i, level, static_cast<unsigned int>(mInternalFormat), mWidth, 0, static_cast<unsigned int>(mDataFormat), static_cast<unsigned int>(mDataType), data);
-				}
-			}
+			void TexImage1D(int level, const void* data) noexcept override;
 
-			inline void TexImage1D(int face, int level, const void* data) noexcept
-			{
-				BindTexture();
-				glTexImage1D(GL_TEXTURE_CUBE_MAP_POSITIVE_X + face, level, static_cast<unsigned int>(mInternalFormat), mWidth, 0, static_cast<unsigned int>(mDataFormat), static_cast<unsigned int>(mDataType), data);
-			}
+			void TexImage1D(int face, int level, const void* data) noexcept;
 
 
-			inline void TexImage2D(int level, const void* data) noexcept override
-			{
-				BindTexture();
-				for (unsigned int i = 0; i < 6; i++)
-				{
-					glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X + i, level, static_cast<unsigned int>(mInternalFormat), mWidth, mHeight, 0, static_cast<unsigned int>(mDataFormat), static_cast<unsigned int>(mDataType), data);
-				}
-			}
+			void TexImage2D(int level, const void* data) noexcept override;
 
-			inline void TexImage2D(int face, int level, const void* data) noexcept
-			{
-				BindTexture();
-				glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X + face, level, static_cast<unsigned int>(mInternalFormat), mWidth,mHeight, 0, static_cast<unsigned int>(mDataFormat), static_cast<unsigned int>(mDataType), data);
-			}
+			void TexImage2D(int face, int level, const void* data) noexcept;
 
 		};
 	}

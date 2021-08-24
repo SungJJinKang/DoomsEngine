@@ -42,7 +42,7 @@ namespace doom
 			/// Use life mUniformBuffers[0][offset in byte]
 			///
 			/// </summary>
-			ZeroResetMoveContainer<char*> mUniformBufferTempData{ nullptr };
+			char* mUniformBufferTempData{ nullptr };
 			unsigned int mSizeInByte;
 			unsigned int mBindingPoint;
 

@@ -35,9 +35,10 @@ void doom::graphics::UniformBufferObject::GenerateUniformBufferObject(unsigned i
 void doom::graphics::UniformBufferObject::DeleteBuffers()
 {
 	Buffer::DeleteBuffers();
-	if (mUniformBufferTempData.Get() != nullptr)
+	if (mUniformBufferTempData != nullptr)
 	{
-		delete[] mUniformBufferTempData.Get();
+		delete[] mUniformBufferTempData;
+		mUniformBufferTempData = nullptr;
 	}
 	
 }
@@ -51,7 +52,7 @@ void doom::graphics::UniformBufferObject::BufferData() noexcept
 		return;
 
 	BindBuffer();
-	glBufferData(GL_UNIFORM_BUFFER, mSizeInByte, mUniformBufferTempData.Get(), GL_STATIC_DRAW);
+	glBufferData(GL_UNIFORM_BUFFER, mSizeInByte, mUniformBufferTempData, GL_STATIC_DRAW);
 	bmIsDirty = false;
 }
 
@@ -59,7 +60,7 @@ void doom::graphics::UniformBufferObject::StoreDataAtTempBuffer(const void* sour
 {
 	D_ASSERT(offsetInUniformBlock + sizeInByteOfSourceData <= mSizeInByte);
 	//D_DEBUG_LOG({ "Store Data At Uniform Buffer Object TempBuffer ", std::to_string(sizeInByteOfSourceData) , std::to_string(offsetInUniformBlock) }, eLogType::D_LOG);
-	std::memcpy(mUniformBufferTempData.Get() + offsetInUniformBlock, sourceData, sizeInByteOfSourceData);
+	std::memcpy(mUniformBufferTempData + offsetInUniformBlock, sourceData, sizeInByteOfSourceData);
 	bmIsDirty = true;
 }
 

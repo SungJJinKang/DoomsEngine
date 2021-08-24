@@ -8,7 +8,6 @@
 #include "../Math/LightMath_Cpp/Vector2.h"
 #include "../Math/LightMath_Cpp/Vector3.h"
 
-#include "Buffer/Mesh.h"
 #include "FrameBuffer/FrameBuffer.h"
 #include "FrameBuffer/utility/PicktureInPickture.h"
 
@@ -35,6 +34,8 @@ namespace doom
 	class GameCore;
 	class Renderer;
 	class Transform;
+	class Mesh;
+
 	namespace graphics
 	{
 		class Graphics_Server : public IGameFlow, public ISingleton<Graphics_Server>
