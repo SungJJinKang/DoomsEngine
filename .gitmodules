@@ -46,3 +46,6 @@
 [submodule "Doom3/Source/Core/ECSSystem/easy_ecs"]
 	path = Doom3/Source/Core/ECSSystem/easy_ecs
 	url = https://github.com/SungJJinKang/easy_ecs.git
+[submodule "Doom3/Source/Helper/CacheLineSize"]
+	path = Doom3/Source/Helper/CacheLineSize
+	url = https://github.com/NickStrupat/CacheLineSize.git
