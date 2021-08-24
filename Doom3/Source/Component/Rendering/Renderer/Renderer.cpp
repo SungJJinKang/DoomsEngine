@@ -1,6 +1,9 @@
 #include "Renderer.h"
+
 #include "../Core/Graphics/Material.h"
 #include <Transform.h>
+#include "Graphics/Acceleration/LinearData_ViewFrustumCulling/EveryCulling.h"
+
 
 void doom::Renderer::InitComponent()
 {
@@ -46,6 +49,16 @@ void doom::Renderer::ClearRenderingBitFlag()
 void doom::Renderer::SetMaterial(graphics::Material* material) noexcept
 {
 	mTargetMaterial = material;
+}
+
+char doom::Renderer::GetIsVisibleWithCameraIndex(unsigned int cameraIndex)
+{
+	return mEntityBlockViewer.GetIsVisibleBitflag(cameraIndex);
+}
+
+char doom::Renderer::GetIsVisible()
+{
+	return mEntityBlockViewer.GetIsVisibleBitflag();
 }
 
 /*

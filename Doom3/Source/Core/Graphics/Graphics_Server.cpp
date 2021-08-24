@@ -25,6 +25,8 @@
 
 #include "Physics/Collider/AABB.h"
 
+#include "Acceleration/LinearData_ViewFrustumCulling/EveryCulling.h"
+
 #ifdef DEBUG_MODE
 #include "Physics/Collider/Plane.h"
 #include <SequenceStringGenerator/SequenceStringGenerator.h>
@@ -114,6 +116,16 @@ int Graphics_Server::GetScreenHeight()
 bool Graphics_Server::GetIsGLFWInitialized()
 {
 	return bmIsGLFWInitialized;
+}
+
+Graphics_Server::Graphics_Server()
+{
+
+}
+
+Graphics_Server::~Graphics_Server()
+{
+
 }
 
 math::Vector2 doom::graphics::Graphics_Server::GetScreenSize()

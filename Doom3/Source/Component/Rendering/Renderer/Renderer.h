@@ -9,13 +9,9 @@
 #include "utility/BVH/BVH_Node_Object.h"
 #include "utility/ColliderUpdater.h"
 
-#include "Graphics/Graphics_Server.h"
-
-#include <Physics/Collider/Sphere.h>
-#include "Graphics/Acceleration/CullDistance/CullDistanceRenderer.h"
-#include "Graphics/RenderingBitFlag.h"
 
 #include "Graphics/Acceleration/LinearData_ViewFrustumCulling/DataType/EntityBlockViewer.h"
+
 
 namespace doom
 {
@@ -107,15 +103,8 @@ namespace doom
 		/// </summary>
 		/// <param name="cameraIndex"></param>
 		/// <returns></returns>
-		FORCE_INLINE char GetIsVisibleWithCameraIndex(unsigned int cameraIndex)
-		{
-			return mEntityBlockViewer.GetIsVisibleBitflag(cameraIndex);
-		}
-
-		FORCE_INLINE char GetIsVisible()
-		{
-			return mEntityBlockViewer.GetIsVisibleBitflag();
-		}
+		char GetIsVisibleWithCameraIndex(unsigned int cameraIndex);
+		char GetIsVisible();
 
 		virtual physics::AABB3D GetLocalAABBBound() const = 0;
 		//const physics::Sphere& GetBoudingSphere();

@@ -103,7 +103,7 @@ void Material::AddTextures(std::array<Texture*, MAX_TEXTURE_COUNT> textures)
 	mTargetTextures = textures;
 }
 
-inline void doom::graphics::Material::UseProgram()
+void doom::graphics::Material::UseProgram()
 {
 	D_ASSERT(mProgramID != 0);
 

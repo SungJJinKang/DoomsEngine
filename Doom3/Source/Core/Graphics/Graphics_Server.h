@@ -14,11 +14,15 @@
 
 #include "Material.h"
 #include "DebugGraphics.h"
-
-#include "Acceleration/LinearData_ViewFrustumCulling/EveryCulling.h"
 #include "Acceleration/CullDistance/CullDistance.h"
 
+
 struct GLFWwindow;
+
+namespace culling
+{
+	class EveryCulling;
+}
 
 
 namespace doom
@@ -108,6 +112,9 @@ namespace doom
 
 			static void OpenGlDebugCallback(GLenum source, GLenum type, GLuint id, GLenum severity, GLsizei length, const GLchar* msg, const void* data);
 		public:
+
+			Graphics_Server();
+			~Graphics_Server();
 
 			bool GetIsGLFWInitialized();
 

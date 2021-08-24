@@ -5,8 +5,6 @@
 #include "../Core/Math/LightMath_Cpp/Matrix4x4.h"
 #include "../Core/Math/LightMath_Cpp/Matrix_utility.h"
 
-#include "Graphics/Acceleration/LinearData_ViewFrustumCulling/DataType/EntityBlockViewer.h"
-
 namespace doom
 {
 	enum class eSpace
@@ -72,47 +70,15 @@ namespace doom
 		virtual ~Transform() = default;
 		std::string ToString();
 
-		inline void SetPosition(const math::Vector3& position)
-		{
-			mTranslationMatrix = math::translate(position);
-			mPosition = position;
+		void SetPosition(const math::Vector3& position);
+		void SetPosition(float x, float y, float z);
 
-			SetDirtyTrueAtThisFrame();
-			bmIsDirtyModelMatrix = true;
-		}
-		FORCE_INLINE void SetPosition(float x, float y, float z)
-		{
-			SetPosition({x, y, z});
-		}
+		void SetRotation(const math::Quaternion& rotation);
+		void SetRotation(const math::Vector3& eulerAngle);
+		void SetRotation(const float eulerAngleX, const float eulerAngleY, const float eulerAngleZ);
 
-		inline void SetRotation(const math::Quaternion& rotation)
-		{
-			mRotationMatrix = static_cast<math::Matrix4x4>(rotation);
-			mRotation = rotation;
-			SetDirtyTrueAtThisFrame();
-
-			bmIsDirtyModelMatrix = true;
-		}
-		FORCE_INLINE void SetRotation(const math::Vector3& eulerAngle)
-		{
-			SetRotation(math::Quaternion(eulerAngle));
-		}
-		FORCE_INLINE void SetRotation(const float eulerAngleX, const float eulerAngleY, const float eulerAngleZ)
-		{
-			SetRotation({eulerAngleX, eulerAngleY, eulerAngleZ});
-		}
-
-		inline void SetScale(const math::Vector3& scale)
-		{
-			mScaleMatrix = math::scale(scale);
-			mScale = scale;
-			SetDirtyTrueAtThisFrame();
-			bmIsDirtyModelMatrix = true;
-		}
-		FORCE_INLINE void SetScale(const float x, const float y, const float z)
-		{
-			SetScale({ x,y,z });
-		}
+		void SetScale(const math::Vector3& scale);
+		void SetScale(const float x, const float y, const float z);
 
 		FORCE_INLINE math::Vector3 GetPosition()
 		{
@@ -143,14 +109,7 @@ namespace doom
 
 		
 
-		FORCE_INLINE const math::Matrix4x4& GetModelMatrix() 
-		{
-			if (bmIsDirtyModelMatrix.GetIsDirty(true))
-			{
-				mModelMatrixCache = mTranslationMatrix * mRotationMatrix * mScaleMatrix;
-			}
-			return mModelMatrixCache;
-		}
+		const math::Matrix4x4& GetModelMatrix();
 
 
 		FORCE_INLINE math::Vector3 forward() const
