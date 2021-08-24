@@ -11,38 +11,13 @@
 #include "Material.h"
 #include "Color.h"
 
+#include "PrimitiveType/Line.h"
+#include "PrimitiveType/Triangle.h"
+
 namespace doom
 {
 	namespace graphics
 	{
-		
-		struct Line
-		{
-			math::Vector3 startPoint;
-			math::Vector3 endPoint;
-
-			Line(const math::Vector3& sPoint, const math::Vector3& ePoint)
-				: startPoint{ sPoint }, endPoint{ ePoint }
-			{
-
-			}
-		};
-
-		struct Triangle
-		{
-			math::Vector3 PointA;
-			math::Vector3 PointB;
-			math::Vector3 PointC;
-
-			Triangle(const math::Vector3& A, const math::Vector3& B, const math::Vector3& C)
-				: PointA{ A }, PointB{ B }, PointC{ C }
-			{
-
-			}
-		};
-
-
-
 		class Material;
 		class Graphics_Server;
 		class DebugGraphics : public ISingleton<DebugGraphics>

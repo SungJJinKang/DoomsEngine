@@ -79,22 +79,7 @@ namespace doom
 			void AddTexture(unsigned int bindingPoint, ::doom::asset::TextureAsset* textureAsset);
 			void AddTextures(std::array<Texture*, MAX_TEXTURE_COUNT> textures);
 
-			inline void UseProgram()
-			{
-				D_ASSERT(mProgramID != 0);
-
-				if (D_OVERLAP_BIND_CHECK_CHECK_IS_NOT_BOUND_AND_BIND_ID(MATERIAL_TAG, mProgramID))
-				{
-					for (unsigned int i = 0; i < mTargetTextures.size(); i++)
-					{
-						if (mTargetTextures[i] != nullptr)
-						{
-							mTargetTextures[i]->BindTextureWithUnit(i);
-						}
-					}
-					glUseProgram(mProgramID);
-				}
-			}
+			void UseProgram();
 
 			[[nodiscard]] inline int GetUniformLocation(const char* str) noexcept
 			{
