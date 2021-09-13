@@ -104,7 +104,7 @@ namespace doom
 		/// <param name="cameraIndex"></param>
 		/// <returns></returns>
 		char GetIsVisibleWithCameraIndex(unsigned int cameraIndex);
-		char GetIsVisible();
+		bool GetIsCulled(const unsigned int cameraIndex) const;
 
 		virtual physics::AABB3D GetLocalAABBBound() const = 0;
 		//const physics::Sphere& GetBoudingSphere();

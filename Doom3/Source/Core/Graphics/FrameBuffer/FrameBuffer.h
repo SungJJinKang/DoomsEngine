@@ -72,7 +72,7 @@ namespace doom
 			}
 			FORCE_INLINE static void UnBindFrameBuffer() noexcept
 			{
-				FrameBuffer::BindFrameBuffer(nullptr);
+				FrameBuffer::BindFrameBuffer(nullptr); // bind MainFrameBuffer
 			}
 
 			/// <summary>

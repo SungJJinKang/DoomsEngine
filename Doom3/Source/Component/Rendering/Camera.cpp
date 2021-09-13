@@ -98,9 +98,16 @@ void Camera::SetViewportRectHeight(float value)
 	bmIsFrustumPlaneMatrixDirty = true;
 }
 
-void doom::Camera::SetIsDoCullJob(const bool _isDoCullJob)
+void doom::Camera::SetCameraFlag(const eCameraFlag cameraFlag, const bool isSet)
 {
-	isDoCullJob = _isDoCullJob;
+	if (isSet == true)
+	{
+		mCameraFlag |= cameraFlag ;
+	}
+	else
+	{
+		mCameraFlag &= ~cameraFlag;
+	}
 }
 
 doom::Camera::eProjectionType Camera::GetProjectionMode() const
@@ -147,13 +154,6 @@ float Camera::GetViewportRectHeight() const
 {
 	return mViewportRectHeight;
 }
-
-bool doom::Camera::GetIsDoCullJob() const
-{
-	return isDoCullJob;
-}
-
-
 
 
 
@@ -372,7 +372,7 @@ void Camera::UpdateUniformBufferObjectTempBuffer(graphics::UniformBufferObjectMa
 {
 	if (Scene::GetSingleton()->GetMainCamera() == this)
 	{//if this camera is mainCamera
-		auto& projectionMatrix = GetProjectionMatrix();
+		const math::Matrix4x4& projectionMatrix = GetProjectionMatrix();
 
 		//!!!! Opengl Use column major of matrix data layout
 		uboManager.StoreDataAtTempBufferOfBindingPoint(GLOBAL_UNIFORM_BLOCK_BINDING_POINT, (void*)projectionMatrix.data(), sizeof(projectionMatrix), graphics::eUniformBlock_Global::projection);
@@ -381,8 +381,8 @@ void Camera::UpdateUniformBufferObjectTempBuffer(graphics::UniformBufferObjectMa
 		if (bmIsUboDirty.GetIsDirty(true))
 		{//when transform value is changed
 			auto& viewMatrix = GetViewMatrix(); 
-			auto transform = GetTransform();
-			const auto& camPos = transform->GetPosition();
+			doom::Transform* const transform = GetTransform();
+			const math::Vector3& camPos = transform->GetPosition();
 
 			uboManager.StoreDataAtTempBufferOfBindingPoint(GLOBAL_UNIFORM_BLOCK_BINDING_POINT, (void*)viewMatrix.data(), sizeof(viewMatrix), graphics::eUniformBlock_Global::view);
 			uboManager.StoreDataAtTempBufferOfBindingPoint(GLOBAL_UNIFORM_BLOCK_BINDING_POINT, (void*)camPos.data(), sizeof(camPos), graphics::eUniformBlock_Global::camPos);

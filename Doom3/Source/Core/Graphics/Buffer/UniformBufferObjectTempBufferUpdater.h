@@ -24,6 +24,12 @@ namespace doom
 
 		protected:
 					
+			
+		public:
+
+			UniformBufferObjectTempBufferUpdater();
+			virtual ~UniformBufferObjectTempBufferUpdater();
+
 			/// <summary>
 			/// Implement This Function!!!!
 			/// Update Uniform Buffer Object's TempBuffer
@@ -36,10 +42,7 @@ namespace doom
 			/// </summary>
 			virtual void UpdateUniformBufferObjectTempBuffer(graphics::UniformBufferObjectManager& uboManager) = 0; // Never remove = 0, This function must be implemented
 
-		public:
-
-			UniformBufferObjectTempBufferUpdater();
-			virtual ~UniformBufferObjectTempBufferUpdater();
+			void UpdateUniformBufferObjectTempBuffer();
 
 		};
 

@@ -260,19 +260,20 @@ void doom::graphics::Graphics_Server::InitFrameBufferForDeferredRendering()
 
 void Graphics_Server::PreUpdateEntityBlocks()
 {
-	auto activeEntityBlockList = mCullingSystem->GetActiveEntityBlockList();
-	for (auto entityBlock : activeEntityBlockList)
+	const std::vector<culling::EntityBlock*>& activeEntityBlockList = mCullingSystem->GetActiveEntityBlockList();
+	for (culling::EntityBlock* entityBlock : activeEntityBlockList)
 	{
-		unsigned int entityCount = entityBlock->mCurrentEntityCount;
+		const unsigned int entityCount = entityBlock->mCurrentEntityCount;
 		for (unsigned int entityIndex = 0; entityIndex < entityCount; entityIndex++)
 		{
-			const ::doom::Renderer* renderer = reinterpret_cast<::doom::Renderer*>(entityBlock->mRenderer[entityIndex]);
+			::doom::Renderer* const renderer = reinterpret_cast<::doom::Renderer*>(entityBlock->mRenderer[entityIndex]);
 
 			//this is really expensive!!
-			float worldRadius = const_cast<Renderer*>(renderer)->BVH_Sphere_Node_Object::GetWorldColliderCacheByReference()->mRadius;
-			const culling::Vector3* const renderedObjectPos = reinterpret_cast<const culling::Vector3*>(&(renderer->GetTransform()->GetPosition()));
+			float worldRadius = renderer->BVH_Sphere_Node_Object::GetWorldColliderCacheByReference()->mRadius;
 
-			entityBlock->mPositions[entityIndex].SetPosition(*renderedObjectPos);
+			const math::Vector3 renderedObjectPos = renderer->GetTransform()->GetPosition();
+
+			entityBlock->mPositions[entityIndex].SetPosition(*reinterpret_cast<const culling::Vector3*>(&renderedObjectPos));
 			entityBlock->mPositions[entityIndex].SetBoundingSphereRadius(worldRadius);
 
 #ifdef ENABLE_SCREEN_SAPCE_AABB_CULLING
@@ -288,20 +289,29 @@ void Graphics_Server::PreUpdateEntityBlocks()
 	}
 }
 
-void Graphics_Server::SolveLinearDataCulling()
+void Graphics_Server::DoCullJob()
 {
-	auto spawnedCameraList = StaticContainer<Camera>::GetAllStaticComponents();
+	std::vector<doom::Camera*> spawnedCameraList = StaticContainer<doom::Camera>::GetAllStaticComponents();
 
-	mCullingSystem->SetCameraCount(static_cast<unsigned int>(spawnedCameraList.size()));
-
-	for (unsigned int cameraIndex = 0; cameraIndex < spawnedCameraList.size() ; cameraIndex++)
+	unsigned int CullJobAvailiableCameraCount = 0;
+	for (doom::Camera* camera : spawnedCameraList)
 	{
-		D_START_PROFILING(SequenceStringGenerator::GetLiteralString("UpdateFrustumPlane Camera Num: ", cameraIndex), doom::profiler::eProfileLayers::Rendering);
-		
-		mCullingSystem->SetViewProjectionMatrix(cameraIndex, *reinterpret_cast<const culling::Matrix4X4*>(&(spawnedCameraList[cameraIndex]->GetViewProjectionMatrix())));
+		if ((camera->mCameraFlag & doom::eCameraFlag::IS_CULLED) != 0)
+		{
+			camera->CameraIndexInCullingSystem = CullJobAvailiableCameraCount;
 
-		D_END_PROFILING(SequenceStringGenerator::GetLiteralString("UpdateFrustumPlane Camera Num: ", cameraIndex));
+			D_START_PROFILING(SequenceStringGenerator::GetLiteralString("UpdateFrustumPlane Camera Num: ", CullJobAvailiableCameraCount), doom::profiler::eProfileLayers::Rendering);
+
+			mCullingSystem->SetViewProjectionMatrix(CullJobAvailiableCameraCount, *reinterpret_cast<const culling::Matrix4X4*>(&(camera->GetViewProjectionMatrix())));
+
+			D_END_PROFILING(SequenceStringGenerator::GetLiteralString("UpdateFrustumPlane Camera Num: ", CullJobAvailiableCameraCount));
+
+			CullJobAvailiableCameraCount++;
+		}
+	
 	}
+
+	mCullingSystem->SetCameraCount(CullJobAvailiableCameraCount);
 
 	D_START_PROFILING("mFrotbiteCullingSystem.ResetCullJobStat", doom::profiler::eProfileLayers::Rendering);
 	mCullingSystem->ResetCullJobState();
@@ -318,7 +328,7 @@ void Graphics_Server::SolveLinearDataCulling()
 
 void doom::graphics::Graphics_Server::DeferredRendering()
 {
-	SolveLinearDataCulling(); // do this first
+	DoCullJob(); // do this first
 	//TODO : Think where put this, as early as good
 
 	mFrameBufferForDeferredRendering.BindFrameBuffer();
@@ -351,55 +361,12 @@ void doom::graphics::Graphics_Server::DeferredRendering()
 	//resource::JobSystem::GetSingleton()->SetMemoryBarrierOnAllSubThreads();
 	D_END_PROFILING("Wait Cull Job");
 
-	const unsigned int CameraCount = mCullingSystem->GetCameraCount();
-
-
-	for (unsigned int cameraIndex = 0; cameraIndex < CameraCount; cameraIndex++)
-	{
-		D_START_PROFILING("Bind VisibleFunction", doom::profiler::eProfileLayers::Rendering);
+	RenderObjects();
 	
-		auto activeEntityBlockList = mCullingSystem->GetActiveEntityBlockList();
-		for (auto entityBlock : activeEntityBlockList)
-		{
-			const unsigned int currentEntityCount = entityBlock->mCurrentEntityCount;
+	mFrameBufferForDeferredRendering.UnBindFrameBuffer();
 
-			static constexpr size_t SIMD_VISIBLE_TEST_LANE = 16 / sizeof( decltype(*(entityBlock->mIsVisibleBitflag) ));
-
-			for (size_t simdEntityIndex = 0; simdEntityIndex < currentEntityCount; simdEntityIndex += SIMD_VISIBLE_TEST_LANE)
-			{
-				//Test mIsVisibleBitflag using SIMD!!!
-				//Choose _m
-				if (_mm_test_all_zeros(*reinterpret_cast<M128I*>(entityBlock->mIsVisibleBitflag + simdEntityIndex), _mm_set1_epi8(1 << cameraIndex)) == 1)
-				{
-					continue;
-				}
-				
-				const size_t targetEntityIndex = math::Min(simdEntityIndex + SIMD_VISIBLE_TEST_LANE, currentEntityCount);
-				for (size_t entityIndex = simdEntityIndex; entityIndex < targetEntityIndex; entityIndex++)
-				{
-					if ((entityBlock->mIsVisibleBitflag[entityIndex] & (1 << cameraIndex)) > 0)
-					{
-						const culling::QueryObject* const queryObject = entityBlock->mQueryObjects[entityIndex];
-
-						if (queryObject != nullptr)
-						{
-							culling::QueryOcclusionCulling::StartConditionalRender(queryObject->mQueryID);
-						}
-						Renderer* const renderer = reinterpret_cast<::doom::Renderer*>(entityBlock->mRenderer[entityIndex]);
-						renderer->Draw();
-						if (queryObject != nullptr)
-						{
-							culling::QueryOcclusionCulling::StopConditionalRender();
-						}
-					}
-				}
-			}
-		}
-	}
-	
 	D_END_PROFILING("Draw Objects");
 
-	FrameBuffer::UnBindFrameBuffer();
 
 	GraphicsAPI::ClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 	GraphicsAPI::Clear(GraphicsAPI::eClearMask::COLOR_BUFFER_BIT, GraphicsAPI::eClearMask::DEPTH_BUFFER_BIT);
@@ -416,6 +383,61 @@ void doom::graphics::Graphics_Server::DeferredRendering()
 	
 	
 
+}
+
+void doom::graphics::Graphics_Server::RenderObject(const unsigned int cameraIndex)
+{
+	const std::vector<culling::EntityBlock*>& activeEntityBlockList = mCullingSystem->GetActiveEntityBlockList();
+	for (const culling::EntityBlock* entityBlock : activeEntityBlockList)
+	{
+		const unsigned int currentEntityCount = entityBlock->mCurrentEntityCount;
+
+		static constexpr size_t SIMD_VISIBLE_TEST_LANE = 16 / sizeof(decltype(*(entityBlock->mIsVisibleBitflag)));
+
+		for (size_t simdEntityIndex = 0; simdEntityIndex < currentEntityCount ; simdEntityIndex += SIMD_VISIBLE_TEST_LANE)
+		{
+			//Test mIsVisibleBitflag using SIMD!!!
+			//Choose _m
+			if (_mm_test_all_zeros(*reinterpret_cast<const M128I*>(entityBlock->mIsVisibleBitflag + simdEntityIndex), _mm_set1_epi8(1 << cameraIndex)) == 1)
+			{
+				continue;
+			}
+
+			const size_t targetEntityIndex = math::Min(simdEntityIndex + SIMD_VISIBLE_TEST_LANE, currentEntityCount);
+			for (size_t entityIndex = simdEntityIndex; entityIndex < targetEntityIndex; entityIndex++)
+			{
+
+				/*const culling::QueryObject* const queryObject = entityBlock->mQueryObjects[entityIndex];
+
+				if (queryObject != nullptr)
+				{
+					culling::QueryOcclusionCulling::StartConditionalRender(queryObject->mQueryID);
+				}*/
+
+				Renderer* const renderer = reinterpret_cast<::doom::Renderer*>(entityBlock->mRenderer[entityIndex]);
+				if (renderer->GetIsCulled(cameraIndex) == false)
+				{
+					renderer->Draw();
+				}
+
+				/*if (queryObject != nullptr)
+				{
+					culling::QueryOcclusionCulling::StopConditionalRender();
+				}*/
+
+			}
+		}
+	}
+}
+
+void doom::graphics::Graphics_Server::RenderObjects()
+{
+	const unsigned int CameraCount = mCullingSystem->GetCameraCount();
+
+	for (unsigned int cameraIndex = 0; cameraIndex < CameraCount; cameraIndex++)
+	{
+		RenderObject(cameraIndex);
+	}
 }
 
 

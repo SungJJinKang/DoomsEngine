@@ -106,7 +106,10 @@ namespace doom
 			void InitFrameBufferForDeferredRendering();
 			void DeferredRendering();
 
-			void SolveLinearDataCulling();
+			void RenderObject(const unsigned int cameraIndex);
+			void RenderObjects();
+
+			void DoCullJob();
 
 			void PreUpdateEntityBlocks();
 

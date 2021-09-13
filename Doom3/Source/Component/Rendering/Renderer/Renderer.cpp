@@ -53,12 +53,12 @@ void doom::Renderer::SetMaterial(graphics::Material* material) noexcept
 
 char doom::Renderer::GetIsVisibleWithCameraIndex(unsigned int cameraIndex)
 {
-	return mEntityBlockViewer.GetIsVisibleBitflag(cameraIndex);
+	return mEntityBlockViewer.GetIsCulled(cameraIndex);
 }
 
-char doom::Renderer::GetIsVisible()
+bool doom::Renderer::GetIsCulled(unsigned int cameraIndexled) const
 {
-	return mEntityBlockViewer.GetIsVisibleBitflag();
+	return mEntityBlockViewer.GetIsCulled(cameraIndexled);
 }
 
 /*

@@ -25,6 +25,11 @@ namespace doom
 		class Graphics_Server;
 	}
 
+	enum eCameraFlag : unsigned int
+	{
+		IS_CULLED = 1 << 0
+	};
+
 	class Camera : public PlainComponent, public graphics::UniformBufferObjectTempBufferUpdater, public StaticContainer<Camera>
 	{
 		friend class Scene;
@@ -99,7 +104,15 @@ namespace doom
 		/// This object Component is set to Scene's MainCamera
 		/// </summary>
 		void OnSetMainCamera();
+	
+	
 	public:
+
+		unsigned int CameraIndexInCullingSystem;
+
+		static constexpr unsigned int DEFAULT_CAMERA_FLAG = eCameraFlag::IS_CULLED;
+
+		unsigned int mCameraFlag = DEFAULT_CAMERA_FLAG;
 
 		Camera() = default;
 		virtual ~Camera() = default;
@@ -113,7 +126,7 @@ namespace doom
 		void SetViewportRectY(float value);
 		void SetViewportRectWidth(float value);
 		void SetViewportRectHeight(float value);
-		void SetIsDoCullJob(const bool _isDoCullJob);
+		void SetCameraFlag(const eCameraFlag cameraFlag, const bool isSet);
 
 		eProjectionType GetProjectionMode() const;
 		float GetFieldOfViewInDegree() const;
@@ -124,7 +137,7 @@ namespace doom
 		float GetViewportRectY() const;
 		float GetViewportRectWidth() const;
 		float GetViewportRectHeight() const;
-		bool GetIsDoCullJob() const;
+
 	
 		static Camera* GetMainCamera();
 
