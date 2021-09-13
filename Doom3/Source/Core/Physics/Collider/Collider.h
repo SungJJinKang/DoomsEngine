@@ -22,7 +22,7 @@ namespace doom
 
 
 		public:
-			constexpr Collider() {}
+			Collider() {}
 
 			virtual ColliderType GetColliderType() const = 0;
 

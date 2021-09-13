@@ -127,7 +127,7 @@ namespace doom
 
 	public:
 
-		constexpr BVH(int nodeCapacity) 
+		BVH(int nodeCapacity) 
 			:mNodeCapacity{ nodeCapacity }
 		{
 			mNodes = new BVH_Node<ColliderType>[mNodeCapacity];
@@ -165,7 +165,7 @@ namespace doom
 
 		
 
-		constexpr node_view_type MakeBVH_Node_View(int index)
+		node_view_type MakeBVH_Node_View(int index)
 		{
 			D_ASSERT(index < mCurrentAllocatedNodeCount);
 			return node_view_type(this, index);
@@ -185,7 +185,7 @@ namespace doom
 template <>
 struct std::greater<typename doom::NodeCost>
 {
-	constexpr bool operator()(const doom::NodeCost& lhs, const doom::NodeCost& rhs) const
+	bool operator()(const doom::NodeCost& lhs, const doom::NodeCost& rhs) const
 	{
 		return lhs.second > lhs.second;
 	}

@@ -31,7 +31,7 @@ namespace doom
 		
 	private:
 
-		static constexpr unsigned int GetDimensionCount();
+		static unsigned int GetDimensionCount();
 
 		node_type* mKDTreeNodes;
 		const int mNodeCapacity;
@@ -85,7 +85,7 @@ namespace doom
 		/// <returns></returns>
 		node_view_type FindNearestNode(const typename node_type::component_type& componentValue);
 
-		constexpr node_view_type MakeKDTree_Node_View(int index)
+		node_view_type MakeKDTree_Node_View(int index)
 		{
 			D_ASSERT(index < mCurrentAllocatedNodeCount);
 			return node_view_type(this, index);
@@ -95,17 +95,17 @@ namespace doom
 	};
 
 	template <>
-	inline static constexpr unsigned int KDTree<math::Vector2>::GetDimensionCount()
+	inline static unsigned int KDTree<math::Vector2>::GetDimensionCount()
 	{
 		return 2;
 	}
 	template <>
-	inline static constexpr unsigned int KDTree<math::Vector3>::GetDimensionCount()
+	inline static unsigned int KDTree<math::Vector3>::GetDimensionCount()
 	{
 		return 3;
 	}
 	template <>
-	inline static constexpr unsigned int KDTree<physics::AABB3D>::GetDimensionCount()
+	inline static unsigned int KDTree<physics::AABB3D>::GetDimensionCount()
 	{
 		return 3;
 	}

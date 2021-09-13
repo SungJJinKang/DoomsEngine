@@ -119,7 +119,7 @@ namespace doom
 					innerAABB.mUpperBound.z <= outerAABB.mUpperBound.z;
 			}
 
-			FORCE_INLINE constexpr AABB3D() : mLowerBound{}, mUpperBound{}
+			FORCE_INLINE AABB3D() : mLowerBound{}, mUpperBound{}
 			{}
 			FORCE_INLINE AABB3D(const math::Vector3& lowerBound, const math::Vector3& upperBound)
 				: mLowerBound(lowerBound), mUpperBound(upperBound)
@@ -129,10 +129,10 @@ namespace doom
 #endif
 			}
 			FORCE_INLINE AABB3D(const AABB2D& aabb2D);
-			constexpr AABB3D(const AABB3D&) = default;
-			constexpr AABB3D(AABB3D&&) noexcept = default;
-			constexpr AABB3D& operator=(const AABB3D&) = default;
-			constexpr AABB3D& operator=(AABB3D&&) noexcept = default;
+			AABB3D(const AABB3D&) = default;
+			AABB3D(AABB3D&&) noexcept = default;
+			AABB3D& operator=(const AABB3D&) = default;
+			AABB3D& operator=(AABB3D&&) noexcept = default;
 		};
 
 		
@@ -222,7 +222,7 @@ namespace doom
 				}
 			}
 
-			FORCE_INLINE static constexpr float GetArea(const AABB2D& A)
+			FORCE_INLINE static float GetArea(const AABB2D& A)
 			{
 				math::Vector2 d = A.mUpperBound - A.mLowerBound;
 				return 2.0f * (d.x + d.y);
@@ -231,7 +231,7 @@ namespace doom
 			{
 				return AABB2D(math::Min(A.mLowerBound, B.mLowerBound), math::Max(A.mUpperBound, B.mUpperBound));
 			}
-			FORCE_INLINE static constexpr float GetUnionArea(const AABB2D& A, const AABB2D& B)
+			FORCE_INLINE static float GetUnionArea(const AABB2D& A, const AABB2D& B)
 			{
 				math::Vector2 d = math::Max(A.mUpperBound, B.mUpperBound) - math::Min(A.mLowerBound, B.mLowerBound);
 				return 2.0f * (d.x + d.y);
@@ -286,7 +286,7 @@ namespace doom
 					innerAABB.mUpperBound.y <= outerAABB.mUpperBound.y;
 			}
 
-			FORCE_INLINE constexpr AABB2D() : mLowerBound{}, mUpperBound{}
+			FORCE_INLINE AABB2D() : mLowerBound{}, mUpperBound{}
 			{}
 			FORCE_INLINE AABB2D(const math::Vector2& lowerBound, const math::Vector2& upperBound)
 				: mLowerBound(lowerBound), mUpperBound(upperBound)
@@ -296,9 +296,9 @@ namespace doom
 #endif
 			}
 
-			constexpr AABB2D(const AABB2D&) = default;
-			constexpr AABB2D(AABB2D&&) noexcept = default;
-			constexpr AABB2D(const AABB3D & aabb3D)
+			AABB2D(const AABB2D&) = default;
+			AABB2D(AABB2D&&) noexcept = default;
+			AABB2D(const AABB3D & aabb3D)
 			{
 				mLowerBound = aabb3D.mLowerBound;
 				mUpperBound = aabb3D.mUpperBound;
