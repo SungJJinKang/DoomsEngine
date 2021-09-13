@@ -98,6 +98,11 @@ void Camera::SetViewportRectHeight(float value)
 	bmIsFrustumPlaneMatrixDirty = true;
 }
 
+void doom::Camera::SetIsDoCullJob(const bool _isDoCullJob)
+{
+	isDoCullJob = _isDoCullJob;
+}
+
 doom::Camera::eProjectionType Camera::GetProjectionMode() const
 {
 	return mProjectionMode;
@@ -141,6 +146,11 @@ float Camera::GetViewportRectWidth() const
 float Camera::GetViewportRectHeight() const
 {
 	return mViewportRectHeight;
+}
+
+bool doom::Camera::GetIsDoCullJob() const
+{
+	return isDoCullJob;
 }
 
 
@@ -228,7 +238,7 @@ void Camera::OnEndOfFrame_Component()
 
 void Camera::UpdateMainCamera()
 {
-	auto currentWorld = Scene::GetSingleton();
+	doom::Scene* const currentWorld = Scene::GetSingleton();
 	Camera* currentMainCamera = currentWorld->GetMainCamera();
 	if (currentMainCamera == nullptr)
 	{
@@ -276,7 +286,12 @@ const math::Matrix4x4& doom::Camera::GetProjectionMatrix()
 
 void Camera::OnDestroy()
 {
-	auto currentWorld = Scene::GetSingleton();
+	RemoveThisCameraFromMainCamera();
+}
+
+void doom::Camera::RemoveThisCameraFromMainCamera()
+{
+	doom::Scene* const currentWorld = Scene::GetSingleton();
 	Camera* currentMainCamera = currentWorld->GetMainCamera();
 	if (currentMainCamera == this)
 	{

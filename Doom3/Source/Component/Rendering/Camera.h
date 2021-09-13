@@ -70,6 +70,8 @@ namespace doom
 		/// </summary>
 		float mViewportRectHeight = 2.0f;
 
+		bool isDoCullJob = true;
+
 		DirtyReceiver bmIsProjectionMatrixDirty{ true };
 		DirtyReceiver bmIsViewMatrixDirty{ true };
 		DirtyReceiver bmIsViewProjectionMatrixDirty{ true };
@@ -111,6 +113,7 @@ namespace doom
 		void SetViewportRectY(float value);
 		void SetViewportRectWidth(float value);
 		void SetViewportRectHeight(float value);
+		void SetIsDoCullJob(const bool _isDoCullJob);
 
 		eProjectionType GetProjectionMode() const;
 		float GetFieldOfViewInDegree() const;
@@ -121,6 +124,7 @@ namespace doom
 		float GetViewportRectY() const;
 		float GetViewportRectWidth() const;
 		float GetViewportRectHeight() const;
+		bool GetIsDoCullJob() const;
 	
 		static Camera* GetMainCamera();
 
@@ -198,9 +202,13 @@ namespace doom
 		/// <returns></returns>
 		[[deprecated]] math::Vector3 ViewportToScreenPoint(const math::Vector3& viewportPosition);
 
-		
+		void RemoveThisCameraFromMainCamera();
+
 protected:
+
 	void OnDestroy() override;
+
+
 
 	};
 }
