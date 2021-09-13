@@ -42,7 +42,7 @@ namespace doom
 			/// Use life mUniformBuffers[0][offset in byte]
 			///
 			/// </summary>
-			char* mUniformBufferTempData{ nullptr };
+			char* mUniformBufferTempData;
 			unsigned int mSizeInByte;
 			unsigned int mBindingPoint;
 
@@ -71,11 +71,7 @@ namespace doom
 			
 			}
 
-			/// <summary>
-			/// Send data in mUniformBufferData to gpu 
-			/// </summary>
-			/// <returns></returns>
-			virtual void BufferData() noexcept;
+		
 			
 
 		public:
@@ -90,6 +86,12 @@ namespace doom
 			UniformBufferObject& operator=(UniformBufferObject&&) noexcept = default;
 			
 			/// <summary>
+			/// Send data in mUniformBufferData to gpu 
+			/// </summary>
+			/// <returns></returns>
+			virtual void BufferData() noexcept;
+
+			/// <summary>
 			/// Store data in temporary buffer
 			/// data isn't send to gpu instantly, it is stored in temp buffer
 			/// if you want buffer data ( send data to gpu ), call BufferData function
@@ -97,7 +99,7 @@ namespace doom
 			/// <param name="sourceData">souce data address</param>
 			/// <param name="sizeInByte">data size in byte</param>
 			/// <param name="offsetInUniformBlock"></param>
-			void StoreDataAtTempBuffer(const void* sourceData, unsigned int sizeInByteOfSourceData, unsigned int offsetInUniformBlock);
+			void StoreDataAtTempBuffer(const void* sourceData, const unsigned int sizeInByteOfSourceData, const unsigned int offsetInUniformBlock);
 			//void StoreDataAtTempBuffer(const void* sourceData, const std::string& elementName);
 
 			unsigned int GetAlignedOffset(const std::string elementName);

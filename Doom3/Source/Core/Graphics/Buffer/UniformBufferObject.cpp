@@ -2,7 +2,8 @@
 
 #include "../Graphics_Core.h"
 
-doom::graphics::UniformBufferObject::UniformBufferObject() : Buffer(), mUniformBufferTempData{}, mSizeInByte{ 0 }, mBindingPoint{ 0 }
+doom::graphics::UniformBufferObject::UniformBufferObject() 
+	: Buffer(), mUniformBufferTempData{nullptr}, mSizeInByte{ 0 }, mBindingPoint{ 0 }
 {
 
 }
@@ -12,7 +13,8 @@ doom::graphics::UniformBufferObject::~UniformBufferObject()
 	DeleteBuffers();
 }
 
-doom::graphics::UniformBufferObject::UniformBufferObject(unsigned int bindingPoint, unsigned int uniformBlockSize) : Buffer(), mUniformBufferTempData{}, mSizeInByte{ uniformBlockSize }, mBindingPoint{ bindingPoint }
+doom::graphics::UniformBufferObject::UniformBufferObject(unsigned int bindingPoint, unsigned int uniformBlockSize) 
+	: Buffer(), mUniformBufferTempData{ nullptr }, mSizeInByte{ uniformBlockSize }, mBindingPoint{ bindingPoint }
 {
 	GenerateUniformBufferObject(bindingPoint, uniformBlockSize);
 }
@@ -29,7 +31,7 @@ void doom::graphics::UniformBufferObject::GenerateUniformBufferObject(unsigned i
 
 	mSizeInByte = uniformBlockSizeInByte;
 	mUniformBufferTempData = new char[uniformBlockSizeInByte];
-
+	std::memset(mUniformBufferTempData, 0x00, uniformBlockSizeInByte);
 }
 
 void doom::graphics::UniformBufferObject::DeleteBuffers()
@@ -56,7 +58,7 @@ void doom::graphics::UniformBufferObject::BufferData() noexcept
 	bmIsDirty = false;
 }
 
-void doom::graphics::UniformBufferObject::StoreDataAtTempBuffer(const void* sourceData, unsigned int sizeInByteOfSourceData, unsigned int offsetInUniformBlock)
+void doom::graphics::UniformBufferObject::StoreDataAtTempBuffer(const void* sourceData, const unsigned int sizeInByteOfSourceData, const unsigned int offsetInUniformBlock)
 {
 	D_ASSERT(offsetInUniformBlock + sizeInByteOfSourceData <= mSizeInByte);
 	//D_DEBUG_LOG({ "Store Data At Uniform Buffer Object TempBuffer ", std::to_string(sizeInByteOfSourceData) , std::to_string(offsetInUniformBlock) }, eLogType::D_LOG);

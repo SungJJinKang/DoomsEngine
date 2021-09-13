@@ -35,6 +35,7 @@ namespace doom
 	class Renderer;
 	class Transform;
 	class Mesh;
+	class Camera;
 
 	namespace graphics
 	{
@@ -106,7 +107,7 @@ namespace doom
 			void InitFrameBufferForDeferredRendering();
 			void DeferredRendering();
 
-			void RenderObject(const unsigned int cameraIndex);
+			void RenderObject(doom::Camera* const camera);
 			void RenderObjects();
 
 			void DoCullJob();

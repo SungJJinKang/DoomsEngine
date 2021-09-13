@@ -40,10 +40,17 @@ namespace doom
 			/// </summary>
 			virtual void Update() final;
 			virtual void OnEndOfFrame() final;
+			
+		
+		public:
+
+			UniformBufferObjectManager();
+			void StoreDataAtTempBufferOfBindingPoint(unsigned int bindingPoint, const void* sourceData, unsigned int sizeInByteOfSourceData, unsigned int offsetInUniformBlock);
+
 			/// <summary>
 			/// Send Uniform Buffer Object to gpu ( Buffer Data )
 			/// </summary>
-			void BufferDateOfUniformBufferObjects();			
+			void BufferDateOfUniformBufferObjects();
 
 			/// <summary>
 			/// return Uniform Buffer Object class
@@ -51,11 +58,6 @@ namespace doom
 			/// </summary>
 			UniformBufferObject& GetOrGenerateUniformBufferObject(unsigned int bindingPoint, unsigned int uniformBlockSize);
 			UniformBufferObject& GetUniformBufferObject(unsigned int bindingPoint);
-		
-		public:
-
-			UniformBufferObjectManager();
-			void StoreDataAtTempBufferOfBindingPoint(unsigned int bindingPoint, const void* sourceData, unsigned int sizeInByteOfSourceData, unsigned int offsetInUniformBlock);
 
 			/// <summary>
 			/// Call UpdateUniformBufferObjectTempBuffer of UBO Temp Buffer Updaters 
@@ -72,6 +74,8 @@ namespace doom
 			/// </summary>
 			/// <param name="update_ptr"></param>
 			void EraseUniformBufferObjectTempBufferUpdater(UniformBufferObjectTempBufferUpdater* update_ptr);
+
+
 		};
 	}
 }

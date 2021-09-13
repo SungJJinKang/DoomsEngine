@@ -98,6 +98,12 @@ void Camera::SetViewportRectHeight(float value)
 	bmIsFrustumPlaneMatrixDirty = true;
 }
 
+Camera::Camera()
+	:UniformBufferObjectTempBufferUpdater(false)
+{
+
+}
+
 void doom::Camera::SetCameraFlag(const eCameraFlag cameraFlag, const bool isSet)
 {
 	if (isSet == true)

@@ -5,9 +5,12 @@
 
 void doom::graphics::UniformBufferObjectManager::UpdateUniformBufferObjectTempBufferUpdaters()
 {
-	for (auto updater : mUniformBufferObjectTempBufferUpdaters)
+	for (UniformBufferObjectTempBufferUpdater* updater : mUniformBufferObjectTempBufferUpdaters)
 	{
-		updater->UpdateUniformBufferObjectTempBuffer();
+		if (updater->bmUpdateWhenManagerUpdate == true)
+		{
+			updater->UpdateUniformBufferObjectTempBuffer();
+		}
 	}
 }
 
@@ -46,7 +49,7 @@ void doom::graphics::UniformBufferObjectManager::OnEndOfFrame()
 
 void doom::graphics::UniformBufferObjectManager::BufferDateOfUniformBufferObjects()
 {
-	for (auto& uniformBufferObject : UniformBufferObjectManager::mUniformBufferObjects)
+	for (doom::graphics::UniformBufferObject& uniformBufferObject : UniformBufferObjectManager::mUniformBufferObjects)
 	{
 		uniformBufferObject.BufferData();
 	}

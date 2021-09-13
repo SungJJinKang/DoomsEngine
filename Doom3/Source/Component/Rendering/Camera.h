@@ -45,7 +45,6 @@ namespace doom
 
 	private:
 
-	
 		Camera(const Camera&) = delete;
 		Camera(Camera&&) noexcept = delete;
 		Camera& operator=(const Camera&) = delete;
@@ -122,7 +121,7 @@ namespace doom
 
 		unsigned int mCameraFlag = DEFAULT_CAMERA_FLAG;
 
-		Camera() = default;
+		Camera();
 		virtual ~Camera() = default;
 
 		void SetProjectionMode(eProjectionType value);

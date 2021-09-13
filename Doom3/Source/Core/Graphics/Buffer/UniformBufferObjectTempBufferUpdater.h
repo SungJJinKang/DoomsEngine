@@ -28,7 +28,10 @@ namespace doom
 			
 		public:
 
+			bool bmUpdateWhenManagerUpdate;
+
 			UniformBufferObjectTempBufferUpdater();
+			UniformBufferObjectTempBufferUpdater(const bool _updateWhenManagerUpdate);
 			virtual ~UniformBufferObjectTempBufferUpdater();
 
 			/// <summary>

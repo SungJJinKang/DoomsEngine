@@ -16,6 +16,7 @@ void doom::ViewFrustumCullingDebug::InitComponent()
 	entity1Camera->SetProjectionMode(doom::Camera::eProjectionType::Perspective);
 	entity1->GetTransform()->SetPosition(0.0f, 200.0f, 0.0f);
 	entity1->GetTransform()->SetRotation(math::Vector3(90.0f, 0.0f, 0.0f));
+	
 
 
 }
