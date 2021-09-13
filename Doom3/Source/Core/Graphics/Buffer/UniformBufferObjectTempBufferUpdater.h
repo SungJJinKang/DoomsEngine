@@ -13,13 +13,14 @@ namespace doom
 	namespace graphics
 	{
 		class UniformBufferObjectManager;
+
 		/// <summary>
 		/// interface for Sending Data to Temp container of Uniform Buffer Object
 		/// Inherit this class for Update Uniform Buffer Object's TempBuffer
 		/// </summary>
 		class UniformBufferObjectTempBufferUpdater // Don't put IFlow
 		{
-			friend class UniformBufferObjectManager;
+
 		private:
 
 		protected:
@@ -40,9 +41,8 @@ namespace doom
 			/// uboManager.StoreDataAtTempBufferOfBindingPoint(0, ~~~);
 			/// 
 			/// </summary>
-			virtual void UpdateUniformBufferObjectTempBuffer(graphics::UniformBufferObjectManager& uboManager) = 0; // Never remove = 0, This function must be implemented
+			virtual void UpdateUniformBufferObjectTempBuffer() = 0; // Never remove = 0, This function must be implemented
 
-			void UpdateUniformBufferObjectTempBuffer();
 
 		};
 

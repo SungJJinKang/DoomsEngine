@@ -15,12 +15,3 @@ doom::graphics::UniformBufferObjectTempBufferUpdater::~UniformBufferObjectTempBu
 {
 	UniformBufferObjectManager::GetSingleton()->EraseUniformBufferObjectTempBufferUpdater(this);
 }
-
-void doom::graphics::UniformBufferObjectTempBufferUpdater::UpdateUniformBufferObjectTempBuffer()
-{
-	graphics::UniformBufferObjectManager* const uniformBufferObjectMgr = graphics::UniformBufferObjectManager::GetSingleton();
-	if (uniformBufferObjectMgr != nullptr)
-	{
-		UpdateUniformBufferObjectTempBuffer(*uniformBufferObjectMgr);
-	}
-}

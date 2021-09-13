@@ -11,8 +11,8 @@
 #include "Material.h"
 #include "Color.h"
 
-#include "PrimitiveType/Line.h"
-#include "PrimitiveType/Triangle.h"
+#include "PrimitiveType/PrimitiveLine.h"
+#include "PrimitiveType/PrimitiveTriangle.h"
 
 namespace doom
 {
@@ -38,10 +38,10 @@ namespace doom
 			static inline constexpr unsigned int MAX_DEBUG_VERTEX_COUNT{ 3000 * 2 + 300 * 3 }; // 24 * 1000byte -> 0.024mb
 			Mesh mDebugMesh{};
 
-			std::array<std::vector<Line>, ENUM_COLOR_COUNT> m2dLine;
-			std::array<std::vector<Line>, ENUM_COLOR_COUNT> m3dLine;
-			std::array<std::vector<Triangle>, ENUM_COLOR_COUNT> m2dTriangle;
-			std::array<std::vector<Triangle>, ENUM_COLOR_COUNT> m3dTriangle;
+			std::array<std::vector<PrimitiveLine>, ENUM_COLOR_COUNT> m2dLine;
+			std::array<std::vector<PrimitiveLine>, ENUM_COLOR_COUNT> m3dLine;
+			std::array<std::vector<PrimitiveTriangle>, ENUM_COLOR_COUNT> m2dTriangle;
+			std::array<std::vector<PrimitiveTriangle>, ENUM_COLOR_COUNT> m3dTriangle;
 
 			unsigned int mDebugMeshCount{ 0 };
 

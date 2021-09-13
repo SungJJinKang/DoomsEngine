@@ -34,12 +34,15 @@ namespace doom
 	{
 		friend class Scene;
 		friend class graphics::Graphics_Server;
+
 	public:
+
 		enum class eProjectionType
 		{
 			Perspective,
 			Orthographic
 		};
+
 	private:
 
 	
@@ -97,15 +100,20 @@ namespace doom
 		virtual void OnEndOfFrame_Component() final;
 
 		DirtyReceiver bmIsUboDirty{ true };
-		void UpdateUniformBufferObjectTempBuffer(graphics::UniformBufferObjectManager& uboManager) final;
-
+	
 		void UpdateMainCamera();
 		/// <summary>
 		/// This object Component is set to Scene's MainCamera
 		/// </summary>
 		void OnSetMainCamera();
 	
-	
+
+	protected:
+
+
+		void OnDestroy() override;
+
+
 	public:
 
 		unsigned int CameraIndexInCullingSystem;
@@ -217,9 +225,8 @@ namespace doom
 
 		void RemoveThisCameraFromMainCamera();
 
-protected:
+		virtual void UpdateUniformBufferObjectTempBuffer() final;
 
-	void OnDestroy() override;
 
 
 

@@ -368,14 +368,14 @@ math::Vector3 doom::Camera::WorldToScreenPoint(const math::Vector3& worldPositio
 
 
 
-void Camera::UpdateUniformBufferObjectTempBuffer(graphics::UniformBufferObjectManager& uboManager)
+void Camera::UpdateUniformBufferObjectTempBuffer()
 {
 	if (Scene::GetSingleton()->GetMainCamera() == this)
 	{//if this camera is mainCamera
 		const math::Matrix4x4& projectionMatrix = GetProjectionMatrix();
 
 		//!!!! Opengl Use column major of matrix data layout
-		uboManager.StoreDataAtTempBufferOfBindingPoint(GLOBAL_UNIFORM_BLOCK_BINDING_POINT, (void*)projectionMatrix.data(), sizeof(projectionMatrix), graphics::eUniformBlock_Global::projection);
+		doom::graphics::UniformBufferObjectManager::GetSingleton()->StoreDataAtTempBufferOfBindingPoint(GLOBAL_UNIFORM_BLOCK_BINDING_POINT, (void*)projectionMatrix.data(), sizeof(projectionMatrix), graphics::eUniformBlock_Global::projection);
 
 		
 		if (bmIsUboDirty.GetIsDirty(true))
@@ -384,8 +384,8 @@ void Camera::UpdateUniformBufferObjectTempBuffer(graphics::UniformBufferObjectMa
 			doom::Transform* const transform = GetTransform();
 			const math::Vector3& camPos = transform->GetPosition();
 
-			uboManager.StoreDataAtTempBufferOfBindingPoint(GLOBAL_UNIFORM_BLOCK_BINDING_POINT, (void*)viewMatrix.data(), sizeof(viewMatrix), graphics::eUniformBlock_Global::view);
-			uboManager.StoreDataAtTempBufferOfBindingPoint(GLOBAL_UNIFORM_BLOCK_BINDING_POINT, (void*)camPos.data(), sizeof(camPos), graphics::eUniformBlock_Global::camPos);
+			doom::graphics::UniformBufferObjectManager::GetSingleton()->StoreDataAtTempBufferOfBindingPoint(GLOBAL_UNIFORM_BLOCK_BINDING_POINT, (void*)viewMatrix.data(), sizeof(viewMatrix), graphics::eUniformBlock_Global::view);
+			doom::graphics::UniformBufferObjectManager::GetSingleton()->StoreDataAtTempBufferOfBindingPoint(GLOBAL_UNIFORM_BLOCK_BINDING_POINT, (void*)camPos.data(), sizeof(camPos), graphics::eUniformBlock_Global::camPos);
 		}
 	}
 }

@@ -43,7 +43,7 @@ void doom::StaticContainer<Renderer>::RemoveRendererToStaticContainer()
 }
 
 
-std::pair<Renderer**, size_t> doom::StaticContainer<Renderer>::GetAllComponentsWithLayerIndex(unsigned int layerIndex)
+std::pair<Renderer**, size_t> doom::StaticContainer<Renderer>::GetAllComponentsWithLayerIndex(const unsigned int layerIndex)
 {
 	D_ASSERT(layerIndex >= 0 && layerIndex < MAX_LAYER_COUNT);
 	return std::make_pair(this_type::mComponentsInLayer[layerIndex].data(), this_type::mComponentsInLayer[layerIndex].size());

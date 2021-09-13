@@ -1,6 +1,7 @@
 #include "DirectionalLight.h"
 #include "Transform.h"
 #include "Vector3.h"
+#include "Graphics/Buffer/UniformBufferObjectManager.h"
 
 void doom::DirectionalLight::InitComponent()
 {
@@ -19,7 +20,7 @@ void doom::DirectionalLight::OnEndOfFrame_Component()
 
 #pragma warning( disable : 4267 )
 
-void doom::DirectionalLight::UpdateUniformBufferObjectTempBuffer(graphics::UniformBufferObjectManager& uboManager)
+void doom::DirectionalLight::UpdateUniformBufferObjectTempBuffer()
 {
 	if (bmIsLightUboDirty.GetIsDirty(true))
 	{//when transform value is changed
@@ -31,9 +32,9 @@ void doom::DirectionalLight::UpdateUniformBufferObjectTempBuffer(graphics::Unifo
 		unsigned int staticCount = GetStaticElementCount();
 		if (staticIndex < MAX_DIRECTIONAL_LIGHT_COUNT)
 		{
-			uboManager.StoreDataAtTempBufferOfBindingPoint(GLOBAL_UNIFORM_BLOCK_BINDING_POINT, (void*)dir.data(), sizeof(dir), graphics::eUniformBlock_Global::dirLight0_Dir + 32 * staticIndex);
-			uboManager.StoreDataAtTempBufferOfBindingPoint(GLOBAL_UNIFORM_BLOCK_BINDING_POINT, (void*)radiance.data(), sizeof(radiance), graphics::eUniformBlock_Global::dirLight0_Col + 32 * staticIndex);
-			uboManager.StoreDataAtTempBufferOfBindingPoint(GLOBAL_UNIFORM_BLOCK_BINDING_POINT, (void*)&staticCount, sizeof(staticCount), graphics::eUniformBlock_Global::dirLightCount);
+			doom::graphics::UniformBufferObjectManager::GetSingleton()->StoreDataAtTempBufferOfBindingPoint(GLOBAL_UNIFORM_BLOCK_BINDING_POINT, (void*)dir.data(), sizeof(dir), graphics::eUniformBlock_Global::dirLight0_Dir + 32 * staticIndex);
+			doom::graphics::UniformBufferObjectManager::GetSingleton()->StoreDataAtTempBufferOfBindingPoint(GLOBAL_UNIFORM_BLOCK_BINDING_POINT, (void*)radiance.data(), sizeof(radiance), graphics::eUniformBlock_Global::dirLight0_Col + 32 * staticIndex);
+			doom::graphics::UniformBufferObjectManager::GetSingleton()->StoreDataAtTempBufferOfBindingPoint(GLOBAL_UNIFORM_BLOCK_BINDING_POINT, (void*)&staticCount, sizeof(staticCount), graphics::eUniformBlock_Global::dirLightCount);
 		}
 		else
 		{

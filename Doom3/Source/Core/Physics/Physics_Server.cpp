@@ -31,7 +31,7 @@ void doom::physics::Physics_Server::Update()
 
 	if (userinput::UserInput_Server::GetKeyToggle(eKEY_CODE::KEY_F1) == true)
 	{
-		auto components = doom::StaticContainer<ColliderComponent>::GetAllStaticComponents();
+		const std::vector<ColliderComponent*>& components = doom::StaticContainer<ColliderComponent>::GetAllStaticComponents();
 		for (auto component : components)
 		{
 			component->UpdateWorldColliderCache(true);
@@ -59,7 +59,7 @@ void doom::physics::Physics_Server::FixedUpdateCollision()
 #ifdef DEBUG_MODE
 void doom::physics::Physics_Server::DrawDebugColliderComponents()
 {
-	auto components = doom::StaticContainer<ColliderComponent>::GetAllStaticComponents();
+	const std::vector<ColliderComponent*>& components = doom::StaticContainer<ColliderComponent>::GetAllStaticComponents();
 	for (auto component : components)
 	{
 		component->GetWorldCollider()->DrawPhysicsDebug();
@@ -69,7 +69,7 @@ void doom::physics::Physics_Server::DrawDebugColliderComponents()
 
 void doom::physics::Physics_Server::SolveColliderComponents()
 {
-	auto components = doom::StaticContainer<ColliderComponent>::GetAllStaticComponents();
+	const std::vector<ColliderComponent*>& components = doom::StaticContainer<ColliderComponent>::GetAllStaticComponents();
 	for (auto component : components)
 	{
 		component->ResetAllCollisionState();

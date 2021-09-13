@@ -48,7 +48,7 @@ namespace doom
 
 	public:
 
-		[[nodiscard]] static std::pair<Renderer**, size_t> GetAllComponentsWithLayerIndex(unsigned int layerIndex);
+		[[nodiscard]] static std::pair<Renderer**, size_t> GetAllComponentsWithLayerIndex(const unsigned int layerIndex);
 
 	};
 

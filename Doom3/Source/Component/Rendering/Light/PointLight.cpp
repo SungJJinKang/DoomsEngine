@@ -20,7 +20,7 @@ void doom::PointLight::OnEndOfFrame_Component()
 
 #pragma warning( disable : 4267 )
 
-void doom::PointLight::UpdateUniformBufferObjectTempBuffer(graphics::UniformBufferObjectManager& uboManager)
+void doom::PointLight::UpdateUniformBufferObjectTempBuffer()
 {
 	if (bmIsLightUboDirty.GetIsDirty(true))
 	{//when transform value is changed
@@ -32,9 +32,9 @@ void doom::PointLight::UpdateUniformBufferObjectTempBuffer(graphics::UniformBuff
 		unsigned int staticCount = GetStaticElementCount();
 		if (staticIndex < MAX_POINT_LIGHT_COUNT)
 		{
-			uboManager.StoreDataAtTempBufferOfBindingPoint(GLOBAL_UNIFORM_BLOCK_BINDING_POINT, (void*)pos.data(), sizeof(pos), graphics::eUniformBlock_Global::pointLight0_Pos + 32 * staticIndex);
-			uboManager.StoreDataAtTempBufferOfBindingPoint(GLOBAL_UNIFORM_BLOCK_BINDING_POINT, (void*)radiance.data(), sizeof(radiance), graphics::eUniformBlock_Global::pointLight0_Col + 32 * staticIndex);
-			uboManager.StoreDataAtTempBufferOfBindingPoint(GLOBAL_UNIFORM_BLOCK_BINDING_POINT, (void*)&staticCount, sizeof(staticCount), graphics::eUniformBlock_Global::dirLightCount); // TODO : DO this from every lights, just one call is enough per frame
+			doom::graphics::UniformBufferObjectManager::GetSingleton()->StoreDataAtTempBufferOfBindingPoint(GLOBAL_UNIFORM_BLOCK_BINDING_POINT, (void*)pos.data(), sizeof(pos), graphics::eUniformBlock_Global::pointLight0_Pos + 32 * staticIndex);
+			doom::graphics::UniformBufferObjectManager::GetSingleton()->StoreDataAtTempBufferOfBindingPoint(GLOBAL_UNIFORM_BLOCK_BINDING_POINT, (void*)radiance.data(), sizeof(radiance), graphics::eUniformBlock_Global::pointLight0_Col + 32 * staticIndex);
+			doom::graphics::UniformBufferObjectManager::GetSingleton()->StoreDataAtTempBufferOfBindingPoint(GLOBAL_UNIFORM_BLOCK_BINDING_POINT, (void*)&staticCount, sizeof(staticCount), graphics::eUniformBlock_Global::dirLightCount); // TODO : DO this from every lights, just one call is enough per frame
 		}
 		else
 		{

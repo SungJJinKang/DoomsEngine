@@ -19,7 +19,6 @@ namespace doom
 		{
 			friend class Graphics_Server;
 			friend class Material;
-			friend class UniformBufferObjectTempBufferUpdater;
 			friend class SceneGraphics;
 
 		private:
@@ -31,21 +30,7 @@ namespace doom
 			std::array<UniformBufferObject, MAX_UNIFORM_BLOCK_BINDING_POINT> mUniformBufferObjects{};
 			std::vector<UniformBufferObjectTempBufferUpdater*> mUniformBufferObjectTempBufferUpdaters{};
 			
-			/// <summary>
-			/// Call UpdateUniformBufferObjectTempBuffer of UBO Temp Buffer Updaters 
-			/// </summary>
-			void UpdateUniformBufferObjectTempBufferUpdaters();
-
-			/// <summary>
-			/// Push Instance inheritings UniformBufferObjectTempBufferUpdater to container
-			/// </summary>
-			/// <param name="update_ptr"></param>
-			void PushUniformBufferObjectTempBufferUpdater(UniformBufferObjectTempBufferUpdater* update_ptr);
-			/// <summary>
-			/// Remove Instance inheritings UniformBufferObjectTempBufferUpdater from container
-			/// </summary>
-			/// <param name="update_ptr"></param>
-			void EraseUniformBufferObjectTempBufferUpdater(UniformBufferObjectTempBufferUpdater* update_ptr);
+		
 
 		protected:
 
@@ -66,9 +51,27 @@ namespace doom
 			/// </summary>
 			UniformBufferObject& GetOrGenerateUniformBufferObject(unsigned int bindingPoint, unsigned int uniformBlockSize);
 			UniformBufferObject& GetUniformBufferObject(unsigned int bindingPoint);
+		
 		public:
+
+			UniformBufferObjectManager();
 			void StoreDataAtTempBufferOfBindingPoint(unsigned int bindingPoint, const void* sourceData, unsigned int sizeInByteOfSourceData, unsigned int offsetInUniformBlock);
 
+			/// <summary>
+			/// Call UpdateUniformBufferObjectTempBuffer of UBO Temp Buffer Updaters 
+			/// </summary>
+			void UpdateUniformBufferObjectTempBufferUpdaters();
+
+			/// <summary>
+			/// Push Instance inheritings UniformBufferObjectTempBufferUpdater to container
+			/// </summary>
+			/// <param name="update_ptr"></param>
+			void PushUniformBufferObjectTempBufferUpdater(UniformBufferObjectTempBufferUpdater* update_ptr);
+			/// <summary>
+			/// Remove Instance inheritings UniformBufferObjectTempBufferUpdater from container
+			/// </summary>
+			/// <param name="update_ptr"></param>
+			void EraseUniformBufferObjectTempBufferUpdater(UniformBufferObjectTempBufferUpdater* update_ptr);
 		};
 	}
 }

@@ -17,7 +17,7 @@ namespace doom
 	protected:
 
 
-		void UpdateUniformBufferObjectTempBuffer(graphics::UniformBufferObjectManager& uboManager) override;
+		void UpdateUniformBufferObjectTempBuffer() override;
 
 	public:
 

@@ -7,7 +7,7 @@ void doom::graphics::UniformBufferObjectManager::UpdateUniformBufferObjectTempBu
 {
 	for (auto updater : mUniformBufferObjectTempBufferUpdaters)
 	{
-		updater->UpdateUniformBufferObjectTempBuffer(*this);
+		updater->UpdateUniformBufferObjectTempBuffer();
 	}
 }
 
@@ -65,6 +65,11 @@ doom::graphics::UniformBufferObject& doom::graphics::UniformBufferObjectManager:
 doom::graphics::UniformBufferObject& doom::graphics::UniformBufferObjectManager::GetUniformBufferObject(unsigned int bindingPoint)
 {
 	return UniformBufferObjectManager::mUniformBufferObjects[bindingPoint];
+}
+
+doom::graphics::UniformBufferObjectManager::UniformBufferObjectManager()
+{
+
 }
 
 void doom::graphics::UniformBufferObjectManager::StoreDataAtTempBufferOfBindingPoint(unsigned int bindingPoint, const void* sourceData, unsigned int sizeInByteOfSourceData, unsigned int offsetInUniformBlock)
