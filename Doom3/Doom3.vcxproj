@@ -167,6 +167,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Source\Core\Graphics\Acceleration\LinearData_ViewFrustumCulling\CullingModule\CullingModule.cpp" />
     <ClCompile Include="Source\Core\Graphics\Acceleration\LinearData_ViewFrustumCulling\DataType\EntityBlockViewer.cpp" />
     <ClCompile Include="Source\Core\Graphics\PrimitiveType\Line.cpp" />
     <ClCompile Include="main.cpp" />
@@ -299,6 +300,7 @@
     <ClCompile Include="Source\GameLogic\CustomComponent\ButtonRotate.cpp" />
     <ClCompile Include="Source\GameLogic\CustomComponent\CharacterSpawner.cpp" />
     <ClCompile Include="Source\GameLogic\CustomComponent\Move_WASD.cpp" />
+    <ClCompile Include="Source\GameLogic\CustomComponent\Portfolio\ViewFrustumCullingDebug.cpp" />
     <ClCompile Include="Source\GameLogic\CustomComponent\TestComponent.cpp" />
     <ClCompile Include="Source\GameLogic\Test.cpp" />
     <ClCompile Include="Source\Helper\EasyDirtyChecker\DirtySender.cpp" />
@@ -314,6 +316,7 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Source\Core\Graphics\Acceleration\LinearData_ViewFrustumCulling\DataType\Position_BoundingSphereRadius.h" />
     <ClInclude Include="Source\Core\Graphics\Buffer\BufferID.h" />
     <ClInclude Include="Source\Core\Graphics\PrimitiveType\Line.h" />
     <ClInclude Include="Source\Core\ComponentPool\ComponentPool.h" />
@@ -543,6 +546,7 @@
     <ClInclude Include="Source\GameLogic\CustomComponent\ButtonRotate.h" />
     <ClInclude Include="Source\GameLogic\CustomComponent\CharacterSpawner.h" />
     <ClInclude Include="Source\GameLogic\CustomComponent\Move_WASD.h" />
+    <ClInclude Include="Source\GameLogic\CustomComponent\Portfolio\ViewFrustumCullingDebug.h" />
     <ClInclude Include="Source\GameLogic\CustomComponent\TestComponent.h" />
     <ClInclude Include="Source\GameLogic\Doom_Core.h" />
     <ClInclude Include="Source\GameLogic\TEST.h" />

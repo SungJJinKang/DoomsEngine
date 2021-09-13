@@ -270,9 +270,10 @@ void Graphics_Server::PreUpdateEntityBlocks()
 
 			//this is really expensive!!
 			float worldRadius = const_cast<Renderer*>(renderer)->BVH_Sphere_Node_Object::GetWorldColliderCacheByReference()->mRadius;
+			const culling::Vector3* const renderedObjectPos = reinterpret_cast<const culling::Vector3*>(&(renderer->GetTransform()->GetPosition()));
 
-			entityBlock->mPositions[entityIndex] = *reinterpret_cast<const culling::Vector4*>( &(renderer->GetTransform()->GetPosition()) );
-			entityBlock->mPositions[entityIndex].values[3] = -(worldRadius + BOUNDING_SPHRE_RADIUS_MARGIN);
+			entityBlock->mPositions[entityIndex].SetPosition(*renderedObjectPos);
+			entityBlock->mPositions[entityIndex].SetBoundingSphereRadius(worldRadius);
 
 #ifdef ENABLE_SCREEN_SAPCE_AABB_CULLING
 			
@@ -290,18 +291,18 @@ void Graphics_Server::PreUpdateEntityBlocks()
 void Graphics_Server::SolveLinearDataCulling()
 {
 	auto spawnedCameraList = StaticContainer<Camera>::GetAllStaticComponents();
-	for (unsigned int i = 0; i < spawnedCameraList.size(); i++)
+
+	mCullingSystem->SetCameraCount(static_cast<unsigned int>(spawnedCameraList.size()));
+
+	for (unsigned int cameraIndex = 0; cameraIndex < spawnedCameraList.size() ; cameraIndex++)
 	{
-		D_START_PROFILING(SequenceStringGenerator::GetLiteralString("UpdateFrustumPlane Camera Num: ", i), doom::profiler::eProfileLayers::Rendering);
-		mCullingSystem->mViewFrustumCulling.UpdateFrustumPlane(i, *reinterpret_cast<const culling::Matrix4X4*>( &(spawnedCameraList[i]->GetViewProjectionMatrix()) ) );
-#ifdef ENABLE_SCREEN_SAPCE_AABB_CULLING
-		mCullingSystem->SetViewProjectionMatrix(reinterpret_cast<const culling::Matrix4X4&>(spawnedCameraList[i]->GetViewProjectionMatrix()));
-#endif
-		D_END_PROFILING(SequenceStringGenerator::GetLiteralString("UpdateFrustumPlane Camera Num: ", i));
+		D_START_PROFILING(SequenceStringGenerator::GetLiteralString("UpdateFrustumPlane Camera Num: ", cameraIndex), doom::profiler::eProfileLayers::Rendering);
+		
+		mCullingSystem->SetViewProjectionMatrix(cameraIndex, *reinterpret_cast<const culling::Matrix4X4*>(&(spawnedCameraList[cameraIndex]->GetViewProjectionMatrix())));
+
+		D_END_PROFILING(SequenceStringGenerator::GetLiteralString("UpdateFrustumPlane Camera Num: ", cameraIndex));
 	}
 
-	mCullingSystem->SetViewProjectionMatrix(reinterpret_cast<const culling::Matrix4X4&>(Camera::GetMainCamera()->GetViewProjectionMatrix()));
-	mCullingSystem->SetCameraCount(static_cast<unsigned int>(spawnedCameraList.size()));
 	D_START_PROFILING("mFrotbiteCullingSystem.ResetCullJobStat", doom::profiler::eProfileLayers::Rendering);
 	mCullingSystem->ResetCullJobState();
 	D_END_PROFILING("mFrotbiteCullingSystem.ResetCullJobStat");
