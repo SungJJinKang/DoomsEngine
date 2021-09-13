@@ -13,6 +13,7 @@
 #include "PhysicsComponent/BoxCollider3D.h"
 #include "CustomComponent/CharacterSpawner.h"
 #include "CustomComponent/ButtonRotate.h"
+#include "CustomComponent/Portfolio/ViewFrustumCullingDebug.h"
 
 void doom::TEST::Init()
 {
@@ -111,5 +112,8 @@ void doom::TEST::Init()
 	auto entity2BoxCollider3D = entity2->AddComponent<BoxCollider3D>();
 	entity2BoxCollider3D->SetHalfExtent(math::Vector3(1.0f, 2.0f, 3.0f));
 	entity2->AddComponent<AutoRotate>();
+
+	auto entity3 = currenScene->CreateNewEntity();
+	//entity3->AddComponent<ViewFrustumCullingDebug>();
 	
 }
