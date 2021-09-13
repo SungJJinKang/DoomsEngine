@@ -53,11 +53,11 @@ namespace doom
 		FORCE_INLINE static THREAD_HANDLE _GetCurrenThreadHandle();
 		FORCE_INLINE static unsigned int _GetCurrenThreadID();
 
-		/*
-		FORCE_INLINE static unsigned long long _SetThreadAffinity(const THREAD_HANDLE threadHandle, const unsigned long long threadAffinitMask);
 		
-		FORCE_INLINE static unsigned long long _GetThreadAffinity(const THREAD_HANDLE threadHandle);
-		*/
+		FORCE_INLINE static void _SetThreadAffinity(const THREAD_HANDLE threadHandle, const unsigned long long threadAffinitMask);
+		
+		FORCE_INLINE static unsigned long long _GetCurrentThreadAffinity(const THREAD_HANDLE threadHandle);
+		
 	};
 }
 
