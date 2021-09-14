@@ -1,10 +1,12 @@
 #include "UserInput_Server.h"
 
 #include "../Core.h"
-#include "../Graphics/Graphics_Server.h"
 #include "../Game/ConfigData.h"
+#include "../Graphics/Graphics_Setting.h"
+
 #include <Rendering/Camera.h>
 #include <Vector3.h>
+
 using namespace doom::userinput;
 
 
@@ -17,7 +19,7 @@ void UserInput_Server::CursorEnterCallback(GLFWwindow* window, int entered)
 	if (entered != 0)
 	{
 		double xpos, ypos;
-		glfwGetCursorPos(doom::graphics::Graphics_Server::Window, &xpos, &ypos);
+		glfwGetCursorPos(doom::graphics::Graphics_Setting::GetWindow(), &xpos, &ypos);
 		doom::userinput::UserInput_Server::mCurrentCursorScreenPosition.x = static_cast<float>(xpos);
 		doom::userinput::UserInput_Server::mCurrentCursorScreenPosition.y = static_cast<float>(ypos);
 	}
@@ -124,12 +126,12 @@ void doom::userinput::UserInput_Server::UpdateCurrentCursorScreenPosition()
 
 void UserInput_Server::Init()
 {
-	glfwSetCursorEnterCallback(doom::graphics::Graphics_Server::Window, &(UserInput_Server::CursorEnterCallback));
-	glfwSetCursorPosCallback(doom::graphics::Graphics_Server::Window, &(UserInput_Server::CursorPosition_Callback));
-	glfwSetScrollCallback(doom::graphics::Graphics_Server::Window, &(UserInput_Server::Scroll_Callback));
+	glfwSetCursorEnterCallback(doom::graphics::Graphics_Setting::GetWindow(), &(UserInput_Server::CursorEnterCallback));
+	glfwSetCursorPosCallback(doom::graphics::Graphics_Setting::GetWindow(), &(UserInput_Server::CursorPosition_Callback));
+	glfwSetScrollCallback(doom::graphics::Graphics_Setting::GetWindow(), &(UserInput_Server::Scroll_Callback));
 
-	glfwSetKeyCallback(doom::graphics::Graphics_Server::Window, &(UserInput_Server::Key_Callback));
-	glfwSetMouseButtonCallback(doom::graphics::Graphics_Server::Window, &(UserInput_Server::MouseButton_Callback));
+	glfwSetKeyCallback(doom::graphics::Graphics_Setting::GetWindow(), &(UserInput_Server::Key_Callback));
+	glfwSetMouseButtonCallback(doom::graphics::Graphics_Setting::GetWindow(), &(UserInput_Server::MouseButton_Callback));
 
 	UserInput_Server::SetIsCursorVisible(ConfigData::GetSingleton()->GetConfigData().GetValue<bool>("USERINPUT", "CURSOR_IS_VISIBLE"));
 	UserInput_Server::SetIsCursorLockedInScreen(ConfigData::GetSingleton()->GetConfigData().GetValue<bool>("USERINPUT", "CURSOR_LOCKED_IN_SCREEN"));
@@ -166,20 +168,20 @@ void UserInput_Server::UpdateCursorMode()
 {
 	if (UserInput_Server::IsCursorLockedInScreen == false && UserInput_Server::IsCursorVisible == true)
 	{
-		glfwSetInputMode(doom::graphics::Graphics_Server::Window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
+		glfwSetInputMode(doom::graphics::Graphics_Setting::GetWindow(), GLFW_CURSOR, GLFW_CURSOR_NORMAL);
 	}
 	else if (UserInput_Server::IsCursorLockedInScreen == false && UserInput_Server::IsCursorVisible == false)
 	{
-		glfwSetInputMode(doom::graphics::Graphics_Server::Window, GLFW_CURSOR, GLFW_CURSOR_HIDDEN);
+		glfwSetInputMode(doom::graphics::Graphics_Setting::GetWindow(), GLFW_CURSOR, GLFW_CURSOR_HIDDEN);
 	}
 	else if (UserInput_Server::IsCursorLockedInScreen == true && UserInput_Server::IsCursorVisible == false)
 	{
-		glfwSetInputMode(doom::graphics::Graphics_Server::Window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+		glfwSetInputMode(doom::graphics::Graphics_Setting::GetWindow(), GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 	}
 	else if (UserInput_Server::IsCursorLockedInScreen == true && UserInput_Server::IsCursorVisible == true)
 	{
 		D_DEBUG_LOG("Undefined Cursor Mode, There is no mode that locked in screen and visible", eLogType::D_WARNING); // https://www.glfw.org/docs/3.3/input_guide.html
-		glfwSetInputMode(doom::graphics::Graphics_Server::Window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+		glfwSetInputMode(doom::graphics::Graphics_Setting::GetWindow(), GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 	}
 }
 

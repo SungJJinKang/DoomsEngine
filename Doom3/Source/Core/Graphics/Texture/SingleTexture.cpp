@@ -78,14 +78,14 @@ void doom::graphics::SingleTexture::Tex2DMipMapImages(std::vector<const DirectX:
 void SingleTexture::TexImage2D(int level, const void* data) noexcept
 {
 	BindTexture();
-	glTexImage2D(GL_TEXTURE_2D, level, static_cast<unsigned int>(mInternalFormat), mWidth, mHeight, 0, static_cast<unsigned int>(mDataFormat), static_cast<unsigned int>(mDataType), data);
+	
 	if (mInternalFormat != eTextureInternalFormat::NONE)
 	{
-
+		glTexImage2D(GL_TEXTURE_2D, level, static_cast<unsigned int>(mInternalFormat), mWidth, mHeight, 0, static_cast<unsigned int>(mDataFormat), static_cast<unsigned int>(mDataType), data);
 	}
 	else if (mCompressedInternalFormat != eTextureCompressedInternalFormat::NONE)
 	{
-
+		NEVER_HAPPEN;
 	}
 	else
 	{
@@ -102,7 +102,7 @@ void SingleTexture::TexImage1D(int level, const void* data) noexcept
 	}
 	else if (mCompressedInternalFormat != eTextureCompressedInternalFormat::NONE)
 	{
-		//glCompressedTexImage1D()
+		NEVER_HAPPEN;
 	}
 	else
 	{

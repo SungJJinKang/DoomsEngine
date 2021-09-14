@@ -122,7 +122,7 @@ namespace doom
 			const SingleTexture& GetFrameBufferTexture(GraphicsAPI::eBufferType bufferType, unsigned int index) const;
 			SingleTexture& GetFrameBufferTexture(GraphicsAPI::eBufferType bufferType, unsigned int index);
 
-			static void CheckIsFrameBufferSuccesfullyCreated() noexcept;
+			void CheckIsFrameBufferSuccesfullyCreated() noexcept;
 
 			bool IsGenerated();
 		};
