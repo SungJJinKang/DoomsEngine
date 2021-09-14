@@ -68,14 +68,7 @@ namespace doom
 			virtual void Update() final;
 			virtual void OnEndOfFrame() final;
 			
-			static inline GLFWwindow* Window{};
-			static inline math::Vector<2, int> ScreenSize{};
-			/// <summary>
-			/// ScreenSize Width / ScreenSize Height
-			/// </summary>
-			static inline float ScreenRatio{};
-			static inline unsigned int MultiSamplingNum;
-
+		
 			std::unique_ptr<culling::EveryCulling> mCullingSystem;
 			//CullDistance mCullDistance{};
 
@@ -90,10 +83,7 @@ namespace doom
 			/// this will be used in Quad Mesh
 			/// </summary>
 			Material mGbufferDrawerMaterial{};
-			/// <summary>
-			/// Default Gbuffer Writer material
-			/// </summary>
-			Material mGbufferWriterMaterial{};
+		
 			std::shared_ptr<Mesh> mQuadMesh{ };
 
 			void InitGLFW();
@@ -109,8 +99,7 @@ namespace doom
 			void PreUpdateEntityBlocks();
 
 
-			static void OpenGlDebugCallback(GLenum source, GLenum type, GLuint id, GLenum severity, GLsizei length, const GLchar* msg, const void* data);
-		
+			
 		public:
 
 			graphics::PIPManager mPIPManager;
@@ -120,10 +109,7 @@ namespace doom
 
 			bool GetIsGLFWInitialized();
 
-			static int GetScreenWidth();
-			static int GetScreenHeight();
-			static math::Vector2 GetScreenSize();
-			static float GetScreenRatio();
+			
 			
 			void SetRenderingMode(eRenderingMode renderingMode);
 		};

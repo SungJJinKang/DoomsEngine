@@ -15,7 +15,7 @@
 #include "SceneGraphics.h"
 
 #include "Buffer/UniformBufferObjectManager.h"
-#include "Buffer/UniformBufferObjectTempBufferUpdater.h"
+#include "Buffer/UniformBufferObjectUpdater.h"
 
 #include <Rendering/Renderer/Renderer.h>
 #include "Material.h"
@@ -35,21 +35,18 @@
 #endif
 #include "Buffer/Mesh.h"
 
+#include "GraphicsAPIManager.h"
+#include "Graphics_Setting.h"
+
 using namespace doom::graphics;
 
 
 void Graphics_Server::Init()
 {
-	const int width = ConfigData::GetSingleton()->GetConfigData().GetValue<int>("Graphics", "SCREEN_WIDTH");
-	const int height = ConfigData::GetSingleton()->GetConfigData().GetValue<int>("Graphics", "SCREEN_HEIGHT");
-	Graphics_Server::MultiSamplingNum = ConfigData::GetSingleton()->GetConfigData().GetValue<int>("Graphics", "MULTI_SAMPLE");
+	Graphics_Setting::LoadData();
+	GraphicsAPIManager::Initialize();
 
-	Graphics_Server::ScreenSize = { width, height };
-	Graphics_Server::ScreenRatio = static_cast<float>(width) / static_cast<float>(height);
-	
-	InitGLFW();
-
-	mCullingSystem = std::make_unique<culling::EveryCulling>(width, height);
+	mCullingSystem = std::make_unique<culling::EveryCulling>(Graphics_Setting::GetScreenWidth(), Graphics_Setting::GetScreenHeight());
 
 	return;
 }
@@ -103,18 +100,10 @@ void Graphics_Server::OnEndOfFrame()
 	}
 	GraphicsAPI::DrawCallCounter = 0;
 #endif
-	glfwSwapBuffers(Graphics_Server::Window);
+
+	GraphicsAPIManager::SwapBuffer();
 }
 
-int Graphics_Server::GetScreenWidth()
-{
-	return Graphics_Server::Graphics_Server::ScreenSize.x;
-}
-
-int Graphics_Server::GetScreenHeight()
-{
-	return Graphics_Server::Graphics_Server::ScreenSize.y;
-}
 
 bool Graphics_Server::GetIsGLFWInitialized()
 {
@@ -131,96 +120,11 @@ Graphics_Server::~Graphics_Server()
 
 }
 
-math::Vector2 doom::graphics::Graphics_Server::GetScreenSize()
-{
-	return Graphics_Server::ScreenSize;
-}
 
-float doom::graphics::Graphics_Server::GetScreenRatio()
-{
-	return Graphics_Server::ScreenRatio;
-}
 
 void Graphics_Server::InitGLFW()
 {
-	glfwInit();
-	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4); // 4.5 -> MAJOR 4  MINOR 5 , 3.1 -> MAJOR 3  MINOR 1
-	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 6);
-	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-	glfwWindowHint(GLFW_OPENGL_DEBUG_CONTEXT, true);
-
-	if (Graphics_Server::MultiSamplingNum > 0)
-	{
-		glfwWindowHint(GLFW_SAMPLES, Graphics_Server::MultiSamplingNum);
-	}
-
-#ifdef __APPLE__
-	glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
-#endif
-
-
-	// glfw window creation
-	// --------------------
-	Window = glfwCreateWindow(Graphics_Server::ScreenSize.x, Graphics_Server::ScreenSize.y, "LearnOpenGL", NULL, NULL);
-	if (Window == NULL)
-	{
-		D_DEBUG_LOG("Failed to create GLFW window");
-		glfwTerminate();
-		return;
-	}
-	glfwMakeContextCurrent(Window);
-	glfwSetFramebufferSizeCallback(Window,
-		[](GLFWwindow*, int width, int height) 
-		{
-			glViewport(0, 0, width, height); 
-		}
-	);
-
-	// glad: load all OpenGL function pointers
-	// ---------------------------------------
-	if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
-	{
-		D_DEBUG_LOG("Failed to initialize GLAD");
-		return;
-	}
-
-#ifdef DEBUG_MODE
-	std::string vendor{ GraphicsAPI::GetString(GraphicsAPI::GetStringParameter::VENDOR) };
-	if (vendor.find("ATI") != std::string::npos)
-	{
-	D_DEBUG_LOG("Using AMD on board GPU, Maybe This will make driver error", eLogType::D_ERROR);
-	}
-#endif // 
-
-	D_DEBUG_LOG({ "Current OpenGL version is : ", std::string(GraphicsAPI::GetString(GraphicsAPI::GetStringParameter::VERSION)) });
-	D_DEBUG_LOG({ "Vendor is : ", vendor });
-	D_DEBUG_LOG({ "Renderer is : ", std::string(GraphicsAPI::GetString(GraphicsAPI::GetStringParameter::RENDERER)) });
-	glfwSetInputMode(Window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
-	//
-
-	GraphicsAPI::Enable(GraphicsAPI::eCapability::DEPTH_TEST);
-	//GraphicsAPI::DepthFunc(GraphicsAPI::eDepthFuncType::LEQUAL);;
-
-	GraphicsAPI::Enable(GraphicsAPI::eCapability::BLEND);
-	GraphicsAPI::BlendFunc(GraphicsAPI::eSourceFactor::SRC_ALPHA, GraphicsAPI::eDestinationFactor::ONE_MINUS_SRC_ALPHA);
-
-	GraphicsAPI::Enable(GraphicsAPI::eCapability::CULL_FACE);
-	GraphicsAPI::CullFace(GraphicsAPI::eCullFaceMode::BACK);
-
-	GraphicsAPI::FrontFace(GraphicsAPI::eFrontFaceMode::CCW);
-
-	glfwSwapInterval(0); // disable v-sync
-
-#ifdef DEBUG_MODE
-	GraphicsAPI::Enable(GraphicsAPI::eCapability::DEBUG_OUTPUT);
-	GraphicsAPI::Enable(GraphicsAPI::eCapability::DEBUG_OUTPUT_SYNCHRONOUS);
-
-	glDebugMessageCallback(Graphics_Server::OpenGlDebugCallback, NULL);
-#endif
-
-	int maxTextureUnitCount{ 0 };
-	glGetIntegerv(GL_MAX_TEXTURE_IMAGE_UNITS, &maxTextureUnitCount);
-	D_ASSERT(maxTextureUnitCount != 0);
+	
 
 	bmIsGLFWInitialized = true;
 }
@@ -231,14 +135,6 @@ void doom::graphics::Graphics_Server::InitFrameBufferForDeferredRendering()
 	auto gBufferDrawerShader = doom::assetimporter::AssetManager::GetAsset<asset::eAssetType::SHADER>("GbufferDrawer.glsl");
 	mGbufferDrawerMaterial.SetShaderAsset(gBufferDrawerShader);
 
-	auto gBufferWriterShader = doom::assetimporter::AssetManager::GetAsset<asset::eAssetType::SHADER>("GbufferWriter.glsl");
-	mGbufferWriterMaterial.SetShaderAsset(gBufferWriterShader);
-
-	/*
-	mGbufferDrawerMaterial.AddTexture(0, &mFrameBufferForDeferredRendering.GetFrameBufferTexture(GraphicsAPI::eBufferType::COLOR, 0));
-	mGbufferDrawerMaterial.AddTexture(1, &mFrameBufferForDeferredRendering.GetFrameBufferTexture(GraphicsAPI::eBufferType::COLOR, 1));
-	mGbufferDrawerMaterial.AddTexture(2, &mFrameBufferForDeferredRendering.GetFrameBufferTexture(GraphicsAPI::eBufferType::COLOR, 2));
-	*/
 }
 
 void Graphics_Server::PreUpdateEntityBlocks()
@@ -330,17 +226,13 @@ void doom::graphics::Graphics_Server::DeferredRendering()
 
 	for (doom::Camera* camera : spawnedCameraList)
 	{
+		camera->UpdateUniformBufferObject();
+
 		camera->mDefferedRenderingFrameBuffer.BindFrameBuffer();
 
 		GraphicsAPI::ClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 		camera->mDefferedRenderingFrameBuffer.ClearFrameBuffer();
 
-#ifdef DEBUG_MODE
-		//if (userinput::UserInput_Server::GetKeyToggle(eKEY_CODE::KEY_F5) == true)
-		//{
-		mDebugGraphics.DrawDebug();
-		//}
-#endif
 
 		//D_START_PROFILING("Draw Objects", doom::profiler::eProfileLayers::Rendering);
 
@@ -355,11 +247,14 @@ void doom::graphics::Graphics_Server::DeferredRendering()
 		{
 			//Only Main Camera can draw to screen buffer
 			
-			camera->mDefferedRenderingFrameBuffer.BlitBufferTo(0, 0, 0, camera->mDefferedRenderingFrameBuffer.mDefaultWidth, camera->mDefferedRenderingFrameBuffer.mDefaultHeight, 0, 0, Graphics_Server::ScreenSize.x, Graphics_Server::ScreenSize.y, GraphicsAPI::eBufferType::DEPTH, FrameBuffer::eImageInterpolation::NEAREST);
+			camera->mDefferedRenderingFrameBuffer.BlitBufferTo(0, 0, 0, camera->mDefferedRenderingFrameBuffer.mDefaultWidth, camera->mDefferedRenderingFrameBuffer.mDefaultHeight, 0, 0, Graphics_Setting::GetScreenWidth(), Graphics_Setting::GetScreenHeight(), GraphicsAPI::eBufferType::DEPTH, FrameBuffer::eImageInterpolation::NEAREST);
 
 			camera->mDefferedRenderingFrameBuffer.BindGBufferTextures();
 			mGbufferDrawerMaterial.UseProgram();
+
+			GraphicsAPI::Disable(GraphicsAPI::eCapability::DEPTH_TEST);
 			mQuadMesh->Draw();
+			GraphicsAPI::Enable(GraphicsAPI::eCapability::DEPTH_TEST);
 		}
 		
 	}
@@ -377,9 +272,15 @@ void doom::graphics::Graphics_Server::DeferredRendering()
 
 void doom::graphics::Graphics_Server::RenderObject(doom::Camera* const camera)
 {
-	camera->UpdateUniformBufferObjectTempBuffer();
+	camera->UpdateUniformBufferObject();
 
-	SceneGraphics::GetSingleton()->mUniformBufferObjectManager.BufferDateOfUniformBufferObjects();
+#ifdef DEBUG_MODE
+	//if (userinput::UserInput_Server::GetKeyToggle(eKEY_CODE::KEY_F5) == true)
+	//{
+	mDebugGraphics.DrawDebug();
+	//}
+#endif
+
 
 	if ( (camera->mCameraFlag & eCameraFlag::IS_CULLED) == 0)
 	{
@@ -470,12 +371,3 @@ void doom::graphics::Graphics_Server::SetRenderingMode(eRenderingMode renderingM
 
 
 
-void Graphics_Server::OpenGlDebugCallback(GLenum source, GLenum type, GLuint id, GLenum severity, GLsizei length, const GLchar* msg, const void* data)
-{
-	//https://www.khronos.org/registry/OpenGL/extensions/KHR/KHR_debug.txt
-	if (type == 0x824C || type == 0x824E)
-	{
-		D_DEBUG_LOG(msg, eLogType::D_ERROR);
-		
-	}
-}
