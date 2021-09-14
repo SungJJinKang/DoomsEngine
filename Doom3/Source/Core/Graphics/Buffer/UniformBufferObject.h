@@ -90,6 +90,7 @@ namespace doom
 			/// </summary>
 			/// <returns></returns>
 			virtual void BufferData() noexcept;
+			virtual void BufferSubData(const void* sourceData, const unsigned int sizeOfSourceData, const unsigned int offsetInUniformBlock) noexcept;
 
 			/// <summary>
 			/// Store data in temporary buffer
@@ -99,7 +100,7 @@ namespace doom
 			/// <param name="sourceData">souce data address</param>
 			/// <param name="sizeInByte">data size in byte</param>
 			/// <param name="offsetInUniformBlock"></param>
-			void StoreDataAtTempBuffer(const void* sourceData, const unsigned int sizeInByteOfSourceData, const unsigned int offsetInUniformBlock);
+			void StoreDataAtTempBuffer(const void* sourceData, const unsigned int sizeOfSourceData, const unsigned int offsetInUniformBlock);
 			//void StoreDataAtTempBuffer(const void* sourceData, const std::string& elementName);
 
 			unsigned int GetAlignedOffset(const std::string elementName);

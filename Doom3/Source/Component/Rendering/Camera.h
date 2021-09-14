@@ -7,7 +7,7 @@
 #include "../Core/Math/LightMath_Cpp/Matrix_utility.h"
 
 #include <array>
-#include "../Core/Graphics/Buffer/UniformBufferObjectTempBufferUpdater.h"
+#include "../Core/Graphics/Buffer/UniformBufferObjectUpdater.h"
 #include <StaticContainer/StaticContainer.h>
 
 #include <EasyDirtyChecker/DirtyReceiver.h>
@@ -33,7 +33,7 @@ namespace doom
 
 	};
 
-	class Camera : public PlainComponent, public graphics::UniformBufferObjectTempBufferUpdater, public StaticContainer<Camera>
+	class Camera : public PlainComponent, public graphics::UniformBufferObjectUpdater, public StaticContainer<Camera>
 	{
 		friend class Scene;
 		friend class graphics::Graphics_Server;
@@ -230,7 +230,7 @@ namespace doom
 		bool IsMainCamera() const;
 		void RemoveThisCameraFromMainCamera();
 
-		virtual void UpdateUniformBufferObjectTempBuffer() final;
+		virtual void UpdateUniformBufferObject() final;
 
 
 

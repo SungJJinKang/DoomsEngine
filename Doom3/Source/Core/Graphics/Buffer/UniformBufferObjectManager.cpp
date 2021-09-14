@@ -1,30 +1,30 @@
 #include "UniformBufferObjectManager.h"
 
-#include "UniformBufferObjectTempBufferUpdater.h"
-#include "../../../Helper/vector_erase_move_lastelement/vector_swap_erase.h"
+#include "UniformBufferObjectUpdater.h"
+#include "../../../Helper/vector_erase_move_lastelement/vector_swap_popback.h"
 
-void doom::graphics::UniformBufferObjectManager::UpdateUniformBufferObjectTempBufferUpdaters()
+void doom::graphics::UniformBufferObjectManager::UpdateUniformBufferObjects()
 {
-	for (UniformBufferObjectTempBufferUpdater* updater : mUniformBufferObjectTempBufferUpdaters)
+	for (UniformBufferObjectUpdater* updater : mUniformBufferObjectTempBufferUpdaters)
 	{
 		if (updater->bmUpdateWhenManagerUpdate == true)
 		{
-			updater->UpdateUniformBufferObjectTempBuffer();
+			updater->UpdateUniformBufferObject();
 		}
 	}
 }
 
-void doom::graphics::UniformBufferObjectManager::PushUniformBufferObjectTempBufferUpdater(UniformBufferObjectTempBufferUpdater* update_ptr)
+void doom::graphics::UniformBufferObjectManager::PushUniformBufferObjectTempBufferUpdater(UniformBufferObjectUpdater* update_ptr)
 {
 	mUniformBufferObjectTempBufferUpdaters.push_back(update_ptr);
 }
 
-void doom::graphics::UniformBufferObjectManager::EraseUniformBufferObjectTempBufferUpdater(UniformBufferObjectTempBufferUpdater* update_ptr)
+void doom::graphics::UniformBufferObjectManager::EraseUniformBufferObjectTempBufferUpdater(UniformBufferObjectUpdater* update_ptr)
 {
 	auto iter_end = mUniformBufferObjectTempBufferUpdaters.end();
 	auto this_iter = std::find_if(mUniformBufferObjectTempBufferUpdaters.begin(),
 		iter_end,
-		[update_ptr](const UniformBufferObjectTempBufferUpdater* stored_update_ptr) {return stored_update_ptr == update_ptr; });
+		[update_ptr](const UniformBufferObjectUpdater* stored_update_ptr) {return stored_update_ptr == update_ptr; });
 
 	D_ASSERT(this_iter != iter_end); // this_iter == iter_end mean mUniformBufferObjectTempBufferUpdaters doesn't contain update_ptr, this is undefined
 
@@ -39,7 +39,7 @@ void doom::graphics::UniformBufferObjectManager::Init()
 
 void doom::graphics::UniformBufferObjectManager::Update()
 {
-	UpdateUniformBufferObjectTempBufferUpdaters();
+	UpdateUniformBufferObjects();
 	BufferDateOfUniformBufferObjects();
 }
 
@@ -51,7 +51,10 @@ void doom::graphics::UniformBufferObjectManager::BufferDateOfUniformBufferObject
 {
 	for (doom::graphics::UniformBufferObject& uniformBufferObject : UniformBufferObjectManager::mUniformBufferObjects)
 	{
-		uniformBufferObject.BufferData();
+		if (uniformBufferObject.IsBufferGenerated())
+		{
+			uniformBufferObject.BufferData();
+		}	
 	}
 }
 
@@ -73,10 +76,5 @@ doom::graphics::UniformBufferObject& doom::graphics::UniformBufferObjectManager:
 doom::graphics::UniformBufferObjectManager::UniformBufferObjectManager()
 {
 
-}
-
-void doom::graphics::UniformBufferObjectManager::StoreDataAtTempBufferOfBindingPoint(unsigned int bindingPoint, const void* sourceData, unsigned int sizeInByteOfSourceData, unsigned int offsetInUniformBlock)
-{
-	GetUniformBufferObject(bindingPoint).StoreDataAtTempBuffer(sourceData, sizeInByteOfSourceData, offsetInUniformBlock);
 }
 

@@ -27,5 +27,8 @@ layout (std140, binding = 0) uniform Global
     PointLight pointLight[16];
     int dirLightCount;
     int pointLightCount;
+    //
+    float camNear;
+    float camFar;
 };
 

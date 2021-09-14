@@ -3,6 +3,7 @@
 
 
 #include "../Graphics/Graphics_Server.h"
+#include "../Graphics/Graphics_Setting.h"
 
 using namespace doom;
 
@@ -99,7 +100,7 @@ void Camera::SetViewportRectHeight(float value)
 }
 
 Camera::Camera()
-	:UniformBufferObjectTempBufferUpdater(false)
+	:UniformBufferObjectUpdater(false)
 {
 
 }
@@ -276,7 +277,7 @@ const math::Matrix4x4& doom::Camera::GetProjectionMatrix()
 	{
 		if (mProjectionMode == eProjectionType::Perspective)
 		{
-			mProjectionMatrix = math::perspectiveFov(mFieldOfViewInRadian, static_cast<float>(doom::graphics::Graphics_Server::GetScreenWidth()), static_cast<float>(doom::graphics::Graphics_Server::GetScreenHeight()), mClippingPlaneNear, mClippingPlaneFar);
+			mProjectionMatrix = math::perspectiveFov(mFieldOfViewInRadian, static_cast<float>(graphics::Graphics_Setting::GetScreenWidth()), static_cast<float>(graphics::Graphics_Setting::GetScreenHeight()), mClippingPlaneNear, mClippingPlaneFar);
 			//mViewFrumstum.SetCamera(mFieldOfViewInRadian, doom::graphics::Graphics_Server::GetScreenRatio(), mClippingPlaneNear, mClippingPlaneFar);
 		}
 		else
@@ -320,16 +321,16 @@ math::Vector3 Camera::NDCToScreenPoint(const math::Vector3& ndcPoint)
 {
 	math::Vector3 screenPoint = ndcPoint + 1.0f;
 	screenPoint /= 2;
-	screenPoint.x *= graphics::Graphics_Server::GetScreenWidth();
-	screenPoint.y *= -graphics::Graphics_Server::GetScreenHeight(); // top of screen position has negative y value, put minus when conver to screenPoint positiSon
+	screenPoint.x *= graphics::Graphics_Setting::GetScreenWidth();
+	screenPoint.y *= -graphics::Graphics_Setting::GetScreenHeight(); // top of screen position has negative y value, put minus when conver to screenPoint positiSon
 	return screenPoint;
 }
 
 math::Vector3 Camera::ScreenToNDCPoint(const math::Vector3& screenPoint)
 {
 	math::Vector3 ndcPoint{ screenPoint };
-	ndcPoint.x /= graphics::Graphics_Server::GetScreenWidth();
-	ndcPoint.y /= graphics::Graphics_Server::GetScreenHeight();// top of screen position has negative y value, put minus when conver to viewPort positiSon
+	ndcPoint.x /= graphics::Graphics_Setting::GetScreenWidth();
+	ndcPoint.y /= graphics::Graphics_Setting::GetScreenHeight();// top of screen position has negative y value, put minus when conver to viewPort positiSon
 	ndcPoint *= 2.0f;
 	ndcPoint -= 1;
 	ndcPoint.y = -ndcPoint.y;
@@ -379,14 +380,16 @@ math::Vector3 doom::Camera::WorldToScreenPoint(const math::Vector3& worldPositio
 
 
 
-void Camera::UpdateUniformBufferObjectTempBuffer()
+void Camera::UpdateUniformBufferObject()
 {
 	if (Scene::GetSingleton()->GetMainCamera() == this)
 	{//if this camera is mainCamera
 		const math::Matrix4x4& projectionMatrix = GetProjectionMatrix();
 
 		//!!!! Opengl Use column major of matrix data layout
-		doom::graphics::UniformBufferObjectManager::GetSingleton()->StoreDataAtTempBufferOfBindingPoint(GLOBAL_UNIFORM_BLOCK_BINDING_POINT, (void*)projectionMatrix.data(), sizeof(projectionMatrix), graphics::eUniformBlock_Global::projection);
+		doom::graphics::UniformBufferObjectManager::GetSingleton()->GetUniformBufferObject(GLOBAL_UNIFORM_BLOCK_BINDING_POINT).BufferSubData((void*)projectionMatrix.data(), sizeof(projectionMatrix), graphics::eUniformBlock_Global::projection);
+		doom::graphics::UniformBufferObjectManager::GetSingleton()->GetUniformBufferObject(GLOBAL_UNIFORM_BLOCK_BINDING_POINT).BufferSubData((void*)&mClippingPlaneNear, sizeof(float), graphics::eUniformBlock_Global::camNear);
+		doom::graphics::UniformBufferObjectManager::GetSingleton()->GetUniformBufferObject(GLOBAL_UNIFORM_BLOCK_BINDING_POINT).BufferSubData((void*)&mClippingPlaneFar, sizeof(float), graphics::eUniformBlock_Global::camFar);
 
 		
 		if (bmIsUboDirty.GetIsDirty(true))
@@ -395,8 +398,8 @@ void Camera::UpdateUniformBufferObjectTempBuffer()
 			doom::Transform* const transform = GetTransform();
 			const math::Vector3& camPos = transform->GetPosition();
 
-			doom::graphics::UniformBufferObjectManager::GetSingleton()->StoreDataAtTempBufferOfBindingPoint(GLOBAL_UNIFORM_BLOCK_BINDING_POINT, (void*)viewMatrix.data(), sizeof(viewMatrix), graphics::eUniformBlock_Global::view);
-			doom::graphics::UniformBufferObjectManager::GetSingleton()->StoreDataAtTempBufferOfBindingPoint(GLOBAL_UNIFORM_BLOCK_BINDING_POINT, (void*)camPos.data(), sizeof(camPos), graphics::eUniformBlock_Global::camPos);
+			doom::graphics::UniformBufferObjectManager::GetSingleton()->GetUniformBufferObject(GLOBAL_UNIFORM_BLOCK_BINDING_POINT).BufferSubData((void*)viewMatrix.data(), sizeof(viewMatrix), graphics::eUniformBlock_Global::view);
+			doom::graphics::UniformBufferObjectManager::GetSingleton()->GetUniformBufferObject(GLOBAL_UNIFORM_BLOCK_BINDING_POINT).BufferSubData((void*)camPos.data(), sizeof(camPos), graphics::eUniformBlock_Global::camPos);
 		}
 	}
 }

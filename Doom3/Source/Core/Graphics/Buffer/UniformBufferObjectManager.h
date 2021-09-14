@@ -14,7 +14,7 @@ namespace doom
 {
 	namespace graphics
 	{
-		class UniformBufferObjectTempBufferUpdater;
+		class UniformBufferObjectUpdater;
 		class UniformBufferObjectManager : public IGameFlow, public ISingleton<UniformBufferObjectManager>
 		{
 			friend class Graphics_Server;
@@ -28,7 +28,7 @@ namespace doom
 			/// index is same with binding point
 			/// </summary>
 			std::array<UniformBufferObject, MAX_UNIFORM_BLOCK_BINDING_POINT> mUniformBufferObjects{};
-			std::vector<UniformBufferObjectTempBufferUpdater*> mUniformBufferObjectTempBufferUpdaters{};
+			std::vector<UniformBufferObjectUpdater*> mUniformBufferObjectTempBufferUpdaters{};
 			
 		
 
@@ -45,7 +45,6 @@ namespace doom
 		public:
 
 			UniformBufferObjectManager();
-			void StoreDataAtTempBufferOfBindingPoint(unsigned int bindingPoint, const void* sourceData, unsigned int sizeInByteOfSourceData, unsigned int offsetInUniformBlock);
 
 			/// <summary>
 			/// Send Uniform Buffer Object to gpu ( Buffer Data )
@@ -60,20 +59,20 @@ namespace doom
 			UniformBufferObject& GetUniformBufferObject(unsigned int bindingPoint);
 
 			/// <summary>
-			/// Call UpdateUniformBufferObjectTempBuffer of UBO Temp Buffer Updaters 
+			/// Call UpdateUniformBufferObject of UBO Temp Buffer Updaters 
 			/// </summary>
-			void UpdateUniformBufferObjectTempBufferUpdaters();
+			void UpdateUniformBufferObjects();
 
 			/// <summary>
-			/// Push Instance inheritings UniformBufferObjectTempBufferUpdater to container
+			/// Push Instance inheritings UniformBufferObjectUpdater to container
 			/// </summary>
 			/// <param name="update_ptr"></param>
-			void PushUniformBufferObjectTempBufferUpdater(UniformBufferObjectTempBufferUpdater* update_ptr);
+			void PushUniformBufferObjectTempBufferUpdater(UniformBufferObjectUpdater* update_ptr);
 			/// <summary>
-			/// Remove Instance inheritings UniformBufferObjectTempBufferUpdater from container
+			/// Remove Instance inheritings UniformBufferObjectUpdater from container
 			/// </summary>
 			/// <param name="update_ptr"></param>
-			void EraseUniformBufferObjectTempBufferUpdater(UniformBufferObjectTempBufferUpdater* update_ptr);
+			void EraseUniformBufferObjectTempBufferUpdater(UniformBufferObjectUpdater* update_ptr);
 
 
 		};

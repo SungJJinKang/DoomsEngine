@@ -1,10 +1,10 @@
 #pragma once
 #include "Light.h"
 #include <StaticContainer/StaticContainer.h>
-#include "Graphics/Buffer/UniformBufferObjectTempBufferUpdater.h"
+#include "Graphics/Buffer/UniformBufferObjectUpdater.h"
 namespace doom
 {
-	class DirectionalLight : public Light, public StaticContainer<DirectionalLight>, public graphics::UniformBufferObjectTempBufferUpdater
+	class DirectionalLight : public Light, public StaticContainer<DirectionalLight>, public graphics::UniformBufferObjectUpdater
 	{
 
 	private:
@@ -22,7 +22,7 @@ namespace doom
 	protected:
 
 
-		void UpdateUniformBufferObjectTempBuffer() override;
+		void UpdateUniformBufferObject() override;
 
 	public:
 		DirectionalLight() = default;

@@ -62,7 +62,9 @@ namespace doom
 			pointLight15_Pos = 976,
 			pointLight15_Col = 992,
 			dirLightCount = 1008,
-			pointLightCount = 1012
+			pointLightCount = 1012,
+			camNear = 1016,
+			camFar = 1020
         };
    
 
