@@ -3,7 +3,7 @@
 #include "PicktureInPickture.h"
 
 #include <algorithm>
-#include <vector_erase_move_lastelement/vector_swap_erase.h>
+#include <vector_erase_move_lastelement/vector_swap_popback.h>
 
 doom::graphics::PIPManager::PIPManager()
 	: mPicktureInPicktures()

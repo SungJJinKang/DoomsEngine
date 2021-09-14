@@ -14,7 +14,7 @@
 
 #include "../../Component/Transform.h"
 
-#include "../../Helper/vector_erase_move_lastelement/vector_swap_erase.h"
+#include "../../Helper/vector_erase_move_lastelement/vector_swap_popback.h"
 #include "../Game/IGameFlow.h"
 #include "../Game/FrameDirtyChecker.h"
 
