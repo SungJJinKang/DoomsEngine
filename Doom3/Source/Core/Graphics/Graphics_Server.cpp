@@ -225,15 +225,6 @@ void Graphics_Server::InitGLFW()
 	bmIsGLFWInitialized = true;
 }
 
-void Graphics_Server::DrawPIPs()
-{
-	for (std::shared_ptr<PicktureInPickture>& pip : mAutoDrawedPIPs)
-	{
-		GraphicsAPI::ClearColor(0.0f, 0.0f, 0.0f, 1.0f);
-		GraphicsAPI::Clear(GraphicsAPI::eClearMask::COLOR_BUFFER_BIT, GraphicsAPI::eClearMask::DEPTH_BUFFER_BIT);
-		pip->DrawPictureInPicture();
-	}
-}
 
 void doom::graphics::Graphics_Server::InitFrameBufferForDeferredRendering()
 {
@@ -333,7 +324,7 @@ void doom::graphics::Graphics_Server::DeferredRendering()
 
 	FrameBuffer::UnBindFrameBuffer();
 
-	//Clear MainBuffer
+	//Clear ScreenBuffer
 	GraphicsAPI::ClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 	GraphicsAPI::Clear(GraphicsAPI::eClearMask::COLOR_BUFFER_BIT, GraphicsAPI::eClearMask::DEPTH_BUFFER_BIT);
 
@@ -342,42 +333,46 @@ void doom::graphics::Graphics_Server::DeferredRendering()
 		camera->mDefferedRenderingFrameBuffer.BindFrameBuffer();
 
 		GraphicsAPI::ClearColor(0.0f, 0.0f, 0.0f, 1.0f);
-		GraphicsAPI::Clear(camera->mDefferedRenderingFrameBuffer.mClearBit);
+		camera->mDefferedRenderingFrameBuffer.ClearFrameBuffer();
 
 #ifdef DEBUG_MODE
-
 		//if (userinput::UserInput_Server::GetKeyToggle(eKEY_CODE::KEY_F5) == true)
 		//{
 		mDebugGraphics.DrawDebug();
 		//}
-
 #endif
 
-		D_START_PROFILING("Draw Objects", doom::profiler::eProfileLayers::Rendering);
+		//D_START_PROFILING("Draw Objects", doom::profiler::eProfileLayers::Rendering);
 
 		RenderObject(camera);
 
 		camera->mDefferedRenderingFrameBuffer.UnBindFrameBuffer();
-
-		D_END_PROFILING("Draw Objects");
-
+		//D_END_PROFILING("Draw Objects");
+		// 
 		//Blit DepthBuffer To ScreenBuffer
-		camera->mDefferedRenderingFrameBuffer.BlitBufferTo(0, 0, 0, camera->mDefferedRenderingFrameBuffer.mDefaultWidth, camera->mDefferedRenderingFrameBuffer.mDefaultHeight, 0, 0, Graphics_Server::ScreenSize.x, Graphics_Server::ScreenSize.y, GraphicsAPI::eBufferType::DEPTH, FrameBuffer::eImageInterpolation::NEAREST);
 
-		camera->mDefferedRenderingFrameBuffer.BindGBufferTextures();
-		mGbufferDrawerMaterial.UseProgram();
-		mQuadMesh->Draw();
+		if (camera->IsMainCamera() == true)
+		{
+			//Only Main Camera can draw to screen buffer
+			
+			camera->mDefferedRenderingFrameBuffer.BlitBufferTo(0, 0, 0, camera->mDefferedRenderingFrameBuffer.mDefaultWidth, camera->mDefferedRenderingFrameBuffer.mDefaultHeight, 0, 0, Graphics_Server::ScreenSize.x, Graphics_Server::ScreenSize.y, GraphicsAPI::eBufferType::DEPTH, FrameBuffer::eImageInterpolation::NEAREST);
+
+			camera->mDefferedRenderingFrameBuffer.BindGBufferTextures();
+			mGbufferDrawerMaterial.UseProgram();
+			mQuadMesh->Draw();
+		}
+		
 	}
 
+	//Why do this ? : because deffered rendering's quad have 0 depth value
+	GraphicsAPI::Disable(GraphicsAPI::eCapability::DEPTH_TEST);
 
+	D_START_PROFILING("DrawPIPs", doom::profiler::eProfileLayers::Rendering);
+	mPIPManager.DrawPIPs(); // drawing pip before gbuffer will increase performance ( early depth testing )
+	D_END_PROFILING("DrawPIPs");
 
-	//D_START_PROFILING("DrawPIPs", doom::profiler::eProfileLayers::Rendering);
-	//DrawPIPs(); // drawing pip before gbuffer will increase performance ( early depth testing )
-	//D_END_PROFILING("DrawPIPs");
+	GraphicsAPI::Enable(GraphicsAPI::eCapability::DEPTH_TEST);
 	
-	
-	
-
 }
 
 void doom::graphics::Graphics_Server::RenderObject(doom::Camera* const camera)
@@ -400,7 +395,7 @@ void doom::graphics::Graphics_Server::RenderObject(doom::Camera* const camera)
 	else
 	{
 		D_START_PROFILING("Wait Cull Job", doom::profiler::eProfileLayers::Rendering);
-		mCullingSystem->WaitToFinishCullJobs(); // Waiting time is almost zero
+		mCullingSystem->WaitToFinishCullJob(camera->CameraIndexInCullingSystem); // Waiting time is almost zero
 		//resource::JobSystem::GetSingleton()->SetMemoryBarrierOnAllSubThreads();
 		D_END_PROFILING("Wait Cull Job");
 
@@ -474,10 +469,6 @@ void doom::graphics::Graphics_Server::SetRenderingMode(eRenderingMode renderingM
 }
 
 
-void Graphics_Server::AddAutoDrawedPIPs(const std::shared_ptr<PicktureInPickture>& pip)
-{
-	mAutoDrawedPIPs.push_back(pip);
-}
 
 void Graphics_Server::OpenGlDebugCallback(GLenum source, GLenum type, GLuint id, GLenum severity, GLsizei length, const GLchar* msg, const void* data)
 {

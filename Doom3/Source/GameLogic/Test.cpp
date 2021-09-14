@@ -14,6 +14,7 @@
 #include "CustomComponent/CharacterSpawner.h"
 #include "CustomComponent/ButtonRotate.h"
 #include "CustomComponent/Portfolio/ViewFrustumCullingDebug.h"
+#include "Graphics/PictureInPicture/PIPManager.h"
 
 void doom::TEST::Init()
 {
@@ -95,6 +96,16 @@ void doom::TEST::Init()
 	auto entity1 = currenScene->CreateNewEntity();
 	auto entity1Camera = entity1->AddComponent<Camera>();
 	entity1Camera->SetProjectionMode(doom::Camera::eProjectionType::Perspective);
+	
+	doom::graphics::PIPManager::GetSingleton()->AddNewPIP({ -1.0f, -1.0f }, { -0.6f, -0.6f }, &entity1Camera->mDefferedRenderingFrameBuffer.GetFrameBufferTexture(doom::graphics::GraphicsAPI::eBufferType::COLOR, 0));
+	doom::graphics::PIPManager::GetSingleton()->AddNewPIP({ -0.6f, -1.0f }, { -0.2f, -0.6f }, &entity1Camera->mDefferedRenderingFrameBuffer.GetFrameBufferTexture(doom::graphics::GraphicsAPI::eBufferType::COLOR, 1));
+	doom::graphics::PIPManager::GetSingleton()->AddNewPIP({ -0.2f, -1.0f }, { 0.2f, -0.6f }, &entity1Camera->mDefferedRenderingFrameBuffer.GetFrameBufferTexture(doom::graphics::GraphicsAPI::eBufferType::COLOR, 2));
+	doom::graphics::PIPManager::GetSingleton()->AddNewPIP({ 0.2f, -1.0f }, { 0.6f, -0.6f }, &entity1Camera->mDefferedRenderingFrameBuffer.GetFrameBufferTexture(doom::graphics::GraphicsAPI::eBufferType::DEPTH, 0));
+
+	
+	
+	
+	
 	entity1->GetTransform()->SetPosition(0.0f, 0.0f, 600.0f);
 	entity1->AddComponent<Move_WASD>();
 	entity1->AddComponent<CharacterSpawner>();

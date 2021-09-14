@@ -90,9 +90,9 @@ namespace doom
 				}
 			}
 
-			FORCE_INLINE void Clear()
+			FORCE_INLINE void ClearFrameBuffer()
 			{
-				glClear(mClearBit);
+				GraphicsAPI::Clear(mClearBit);
 			}
 
 			enum class eImageInterpolation

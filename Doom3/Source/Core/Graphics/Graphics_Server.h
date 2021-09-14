@@ -9,7 +9,8 @@
 #include "../Math/LightMath_Cpp/Vector3.h"
 
 #include "FrameBuffer/FrameBuffer.h"
-#include "FrameBuffer/utility/PicktureInPickture.h"
+
+#include "PictureInPicture/PIPManager.h"
 
 #include "Material.h"
 #include "DebugGraphics.h"
@@ -95,12 +96,6 @@ namespace doom
 			Material mGbufferWriterMaterial{};
 			std::shared_ptr<Mesh> mQuadMesh{ };
 
-			/// <summary>
-			/// Pips will drawed before gbuffer screen mesh
-			/// </summary>
-			std::vector<std::shared_ptr<PicktureInPickture>> mAutoDrawedPIPs{};
-			void DrawPIPs();
-
 			void InitGLFW();
 
 			void InitFrameBufferForDeferredRendering();
@@ -115,7 +110,10 @@ namespace doom
 
 
 			static void OpenGlDebugCallback(GLenum source, GLenum type, GLuint id, GLenum severity, GLsizei length, const GLchar* msg, const void* data);
+		
 		public:
+
+			graphics::PIPManager mPIPManager;
 
 			Graphics_Server();
 			~Graphics_Server();
@@ -127,12 +125,7 @@ namespace doom
 			static math::Vector2 GetScreenSize();
 			static float GetScreenRatio();
 			
-			const FrameBuffer& GetGBuffer() const;
-			FrameBuffer& GetGBuffer();
-
 			void SetRenderingMode(eRenderingMode renderingMode);
-
-			void AddAutoDrawedPIPs(const std::shared_ptr<PicktureInPickture>& pip);
 		};
 	}
 }

@@ -309,7 +309,7 @@
     <ClCompile Include="Source\Core\Graphics\Texture\CubemapTexture.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Core\Graphics\FrameBuffer\utility\PicktureInPickture.cpp">
+    <ClCompile Include="Source\Core\Graphics\PictureInPicture\PicktureInPickture.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Source\Core\utility\BVH\test\BVH_TestRoom.cpp">
@@ -442,6 +442,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Source\Core\Graphics\FrameBuffer\DefferedRenderingFrameBuffer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Core\Graphics\PictureInPicture\PIPManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -1022,7 +1025,7 @@
     <ClInclude Include="Source\Core\Graphics\Texture\CubemapTexture.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Core\Graphics\FrameBuffer\utility\PicktureInPickture.h">
+    <ClInclude Include="Source\Core\Graphics\PictureInPicture\PicktureInPickture.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\Core\utility\BVH\test\BVH_TestRoom.h">
@@ -1266,6 +1269,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\Core\Graphics\FrameBuffer\DefferedRenderingFrameBuffer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Core\Graphics\PictureInPicture\PIPManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

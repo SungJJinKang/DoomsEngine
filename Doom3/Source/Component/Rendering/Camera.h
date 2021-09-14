@@ -29,7 +29,8 @@ namespace doom
 
 	enum eCameraFlag : unsigned int
 	{
-		IS_CULLED = 1 << 0
+		IS_CULLED = 1 << 0,
+
 	};
 
 	class Camera : public PlainComponent, public graphics::UniformBufferObjectTempBufferUpdater, public StaticContainer<Camera>
@@ -226,6 +227,7 @@ namespace doom
 		/// <returns></returns>
 		[[deprecated]] math::Vector3 ViewportToScreenPoint(const math::Vector3& viewportPosition);
 
+		bool IsMainCamera() const;
 		void RemoveThisCameraFromMainCamera();
 
 		virtual void UpdateUniformBufferObjectTempBuffer() final;

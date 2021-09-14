@@ -170,6 +170,7 @@
     <ClCompile Include="Source\Core\Graphics\Acceleration\LinearData_ViewFrustumCulling\CullingModule\CullingModule.cpp" />
     <ClCompile Include="Source\Core\Graphics\Acceleration\LinearData_ViewFrustumCulling\DataType\EntityBlockViewer.cpp" />
     <ClCompile Include="Source\Core\Graphics\FrameBuffer\DefferedRenderingFrameBuffer.cpp" />
+    <ClCompile Include="Source\Core\Graphics\PictureInPicture\PIPManager.cpp" />
     <ClCompile Include="Source\Core\Graphics\PrimitiveType\PrimitiveLine.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Source\Core\ECSSystem\easy_ecs\easy_ecs.cpp" />
@@ -195,7 +196,7 @@
     <ClCompile Include="Source\Core\Graphics\Acceleration\LinearData_ViewFrustumCulling\CullingModule\ViewFrustumCulling\ViewFrustumCulling.cpp" />
     <ClCompile Include="Source\Core\Graphics\Acceleration\LinearData_ViewFrustumCulling\EveryCulling.cpp" />
     <ClCompile Include="Source\Core\Graphics\Acceleration\ViewFrustum.cpp" />
-    <ClCompile Include="Source\Core\Graphics\FrameBuffer\utility\PicktureInPickture.cpp" />
+    <ClCompile Include="Source\Core\Graphics\PictureInPicture\PicktureInPickture.cpp" />
     <ClCompile Include="Source\Core\IO\AssetImporter\AssetApiImporter.cpp" />
     <ClCompile Include="Source\Core\IO\AssetImporter\AssetImporterWorker_Audio.cpp" />
     <ClCompile Include="Source\Core\IO\AssetImporter\AssetImporterWorker_Font.cpp" />
@@ -320,6 +321,7 @@
     <ClInclude Include="Source\Core\Graphics\Acceleration\LinearData_ViewFrustumCulling\DataType\Position_BoundingSphereRadius.h" />
     <ClInclude Include="Source\Core\Graphics\Buffer\BufferID.h" />
     <ClInclude Include="Source\Core\Graphics\FrameBuffer\DefferedRenderingFrameBuffer.h" />
+    <ClInclude Include="Source\Core\Graphics\PictureInPicture\PIPManager.h" />
     <ClInclude Include="Source\Core\Graphics\PrimitiveType\PrimitiveLine.h" />
     <ClInclude Include="Source\Core\ComponentPool\ComponentPool.h" />
     <ClInclude Include="Source\Core\ECSSystem\easy_ecs\easy_ecs.h" />
@@ -372,7 +374,7 @@
     <ClInclude Include="Source\Core\Graphics\Acceleration\LinearViewFrustumCulling\DataStructure\TransformData.h" />
     <ClInclude Include="Source\Core\Graphics\Acceleration\LinearViewFrustumCulling\LinearViewFrustumCulling_Core.h" />
     <ClInclude Include="Source\Core\Graphics\Acceleration\ViewFrustum.h" />
-    <ClInclude Include="Source\Core\Graphics\FrameBuffer\utility\PicktureInPickture.h" />
+    <ClInclude Include="Source\Core\Graphics\PictureInPicture\PicktureInPickture.h" />
     <ClInclude Include="Source\Core\Graphics\RenderingBitFlag.h" />
     <ClInclude Include="Source\Core\Graphics\TextureFormat.h" />
     <ClInclude Include="Source\Core\Macros\KeyCallback.h" />

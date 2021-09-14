@@ -295,6 +295,11 @@ void Camera::OnDestroy()
 	RemoveThisCameraFromMainCamera();
 }
 
+bool doom::Camera::IsMainCamera() const
+{
+	return Camera::GetMainCamera() == this;
+}
+
 void doom::Camera::RemoveThisCameraFromMainCamera()
 {
 	doom::Scene* const currentWorld = Scene::GetSingleton();
