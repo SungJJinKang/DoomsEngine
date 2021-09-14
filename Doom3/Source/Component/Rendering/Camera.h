@@ -18,6 +18,8 @@
 
 #include "Transform.h"
 
+#include "Graphics/FrameBuffer/DefferedRenderingFrameBuffer.h"
+
 namespace doom
 {
 	namespace graphics
@@ -114,6 +116,8 @@ namespace doom
 
 
 	public:
+
+		graphics::DefferedRenderingFrameBuffer mDefferedRenderingFrameBuffer;
 
 		unsigned int CameraIndexInCullingSystem;
 

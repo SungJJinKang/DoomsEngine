@@ -169,6 +169,7 @@
   <ItemGroup>
     <ClCompile Include="Source\Core\Graphics\Acceleration\LinearData_ViewFrustumCulling\CullingModule\CullingModule.cpp" />
     <ClCompile Include="Source\Core\Graphics\Acceleration\LinearData_ViewFrustumCulling\DataType\EntityBlockViewer.cpp" />
+    <ClCompile Include="Source\Core\Graphics\FrameBuffer\DefferedRenderingFrameBuffer.cpp" />
     <ClCompile Include="Source\Core\Graphics\PrimitiveType\PrimitiveLine.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Source\Core\ECSSystem\easy_ecs\easy_ecs.cpp" />
@@ -318,6 +319,7 @@
   <ItemGroup>
     <ClInclude Include="Source\Core\Graphics\Acceleration\LinearData_ViewFrustumCulling\DataType\Position_BoundingSphereRadius.h" />
     <ClInclude Include="Source\Core\Graphics\Buffer\BufferID.h" />
+    <ClInclude Include="Source\Core\Graphics\FrameBuffer\DefferedRenderingFrameBuffer.h" />
     <ClInclude Include="Source\Core\Graphics\PrimitiveType\PrimitiveLine.h" />
     <ClInclude Include="Source\Core\ComponentPool\ComponentPool.h" />
     <ClInclude Include="Source\Core\ECSSystem\easy_ecs\easy_ecs.h" />

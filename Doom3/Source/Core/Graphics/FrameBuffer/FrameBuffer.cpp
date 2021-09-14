@@ -90,14 +90,17 @@ doom::graphics::SingleTexture& FrameBuffer::GetFrameBufferTexture(GraphicsAPI::e
 	switch (bufferType)
 	{
 	case GraphicsAPI::eBufferType::COLOR:
+		D_ASSERT(index >= 0 && index < mAttachedColorTextures.size());
 		return mAttachedColorTextures[index];
 		break;
 
 	case GraphicsAPI::eBufferType::DEPTH:
+		D_ASSERT(index >= 0 && index < mAttachedDepthTextures.size());
 		return mAttachedDepthTextures[index];
 		break;
 
 	case GraphicsAPI::eBufferType::DEPTH_STENCIL:
+		D_ASSERT(index >= 0 && index < mAttachedDepthStencilTextures.size());
 		return mAttachedDepthStencilTextures[index];
 		break;
 	default:

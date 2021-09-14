@@ -76,7 +76,7 @@ namespace doom
 			static inline unsigned int MultiSamplingNum;
 
 			std::unique_ptr<culling::EveryCulling> mCullingSystem;
-			CullDistance mCullDistance{};
+			//CullDistance mCullDistance{};
 
 #ifdef DEBUG_MODE
 			DebugGraphics mDebugGraphics{};
@@ -94,12 +94,11 @@ namespace doom
 			/// </summary>
 			Material mGbufferWriterMaterial{};
 			std::shared_ptr<Mesh> mQuadMesh{ };
-			FrameBuffer mFrameBufferForDeferredRendering{};
 
 			/// <summary>
 			/// Pips will drawed before gbuffer screen mesh
 			/// </summary>
-			std::vector<std::reference_wrapper<PicktureInPickture>> mAutoDrawedPIPs{};
+			std::vector<std::shared_ptr<PicktureInPickture>> mAutoDrawedPIPs{};
 			void DrawPIPs();
 
 			void InitGLFW();
@@ -133,7 +132,7 @@ namespace doom
 
 			void SetRenderingMode(eRenderingMode renderingMode);
 
-			void AddAutoDrawedPIPs(PicktureInPickture& pip);
+			void AddAutoDrawedPIPs(const std::shared_ptr<PicktureInPickture>& pip);
 		};
 	}
 }

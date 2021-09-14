@@ -20,6 +20,7 @@
 #include <Rendering/Renderer/Renderer.h>
 #include "Material.h"
 #include "Texture/Texture.h"
+#include "FrameBuffer/DefferedRenderingFrameBuffer.h"
 #include <Rendering/Renderer/RendererStaticIterator.h>
 
 #include "Rendering/Camera.h"
@@ -63,12 +64,12 @@ void doom::graphics::Graphics_Server::LateInit()
 	mQuadMesh = Mesh::GetQuadMesh();
 
 	//mQueryOcclusionCulling.InitQueryOcclusionCulling();
-	mCullDistance.Initialize();
+	//mCullDistance.Initialize();
 }
 
 void Graphics_Server::Update()
 {		
-	mCullDistance.OnStartDraw();
+	//mCullDistance.OnStartDraw();
 	DeferredRendering();
 	
 
@@ -226,37 +227,27 @@ void Graphics_Server::InitGLFW()
 
 void Graphics_Server::DrawPIPs()
 {
-	for (auto& pip : mAutoDrawedPIPs)
+	for (std::shared_ptr<PicktureInPickture>& pip : mAutoDrawedPIPs)
 	{
 		GraphicsAPI::ClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 		GraphicsAPI::Clear(GraphicsAPI::eClearMask::COLOR_BUFFER_BIT, GraphicsAPI::eClearMask::DEPTH_BUFFER_BIT);
-		pip.get().DrawPictureInPicture();
+		pip->DrawPictureInPicture();
 	}
 }
 
 void doom::graphics::Graphics_Server::InitFrameBufferForDeferredRendering()
 {
-	if (mFrameBufferForDeferredRendering.IsGenerated() == true)
-		return;
-
 	auto gBufferDrawerShader = doom::assetimporter::AssetManager::GetAsset<asset::eAssetType::SHADER>("GbufferDrawer.glsl");
 	mGbufferDrawerMaterial.SetShaderAsset(gBufferDrawerShader);
 
 	auto gBufferWriterShader = doom::assetimporter::AssetManager::GetAsset<asset::eAssetType::SHADER>("GbufferWriter.glsl");
 	mGbufferWriterMaterial.SetShaderAsset(gBufferWriterShader);
 
-	mFrameBufferForDeferredRendering.GenerateBuffer(Graphics_Server::ScreenSize.x, Graphics_Server::ScreenSize.y);
-
-	//with renderbuffer, can't do post-processing
-	mFrameBufferForDeferredRendering.AttachTextureBuffer(GraphicsAPI::eBufferType::COLOR, Graphics_Server::ScreenSize.x, Graphics_Server::ScreenSize.y);
-	mFrameBufferForDeferredRendering.AttachTextureBuffer(GraphicsAPI::eBufferType::COLOR, Graphics_Server::ScreenSize.x, Graphics_Server::ScreenSize.y);
-	mFrameBufferForDeferredRendering.AttachTextureBuffer(GraphicsAPI::eBufferType::COLOR, Graphics_Server::ScreenSize.x, Graphics_Server::ScreenSize.y);
-	mFrameBufferForDeferredRendering.AttachTextureBuffer(GraphicsAPI::eBufferType::DEPTH, Graphics_Server::ScreenSize.x, Graphics_Server::ScreenSize.y);
-
+	/*
 	mGbufferDrawerMaterial.AddTexture(0, &mFrameBufferForDeferredRendering.GetFrameBufferTexture(GraphicsAPI::eBufferType::COLOR, 0));
 	mGbufferDrawerMaterial.AddTexture(1, &mFrameBufferForDeferredRendering.GetFrameBufferTexture(GraphicsAPI::eBufferType::COLOR, 1));
 	mGbufferDrawerMaterial.AddTexture(2, &mFrameBufferForDeferredRendering.GetFrameBufferTexture(GraphicsAPI::eBufferType::COLOR, 2));
-
+	*/
 }
 
 void Graphics_Server::PreUpdateEntityBlocks()
@@ -333,45 +324,57 @@ void doom::graphics::Graphics_Server::DeferredRendering()
 	DoCullJob(); // do this first
 	//TODO : Think where put this, as early as good
 
-	mFrameBufferForDeferredRendering.BindFrameBuffer();
-	GraphicsAPI::ClearColor(0.0f, 0.0f, 0.0f, 1.0f);
-	GraphicsAPI::Clear(mFrameBufferForDeferredRendering.mClearBit);
+	const std::vector<doom::Camera*>& spawnedCameraList = StaticContainer<doom::Camera>::GetAllStaticComponents();
 
 	D_START_PROFILING("Update Uniform Buffer", doom::profiler::eProfileLayers::Rendering);
 	SceneGraphics::GetSingleton()->mUniformBufferObjectManager.Update_Internal();
 	SceneGraphics::GetSingleton()->mUniformBufferObjectManager.Update();
 	D_END_PROFILING("Update Uniform Buffer");
 
-#ifdef DEBUG_MODE
+	FrameBuffer::UnBindFrameBuffer();
 
-	//if (userinput::UserInput_Server::GetKeyToggle(eKEY_CODE::KEY_F5) == true)
-	//{
-		mDebugGraphics.DrawDebug();
-	//}
-
-#endif
-
-	D_START_PROFILING("Draw Objects", doom::profiler::eProfileLayers::Rendering);
-	
-	RenderObjects();
-	
-	mFrameBufferForDeferredRendering.UnBindFrameBuffer();
-
-	D_END_PROFILING("Draw Objects");
-
-
+	//Clear MainBuffer
 	GraphicsAPI::ClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 	GraphicsAPI::Clear(GraphicsAPI::eClearMask::COLOR_BUFFER_BIT, GraphicsAPI::eClearMask::DEPTH_BUFFER_BIT);
 
-	mFrameBufferForDeferredRendering.BlitBufferTo(0, 0, 0, mFrameBufferForDeferredRendering.mDefaultWidth, mFrameBufferForDeferredRendering.mDefaultHeight, 0, 0, Graphics_Server::ScreenSize.x, Graphics_Server::ScreenSize.y, GraphicsAPI::eBufferType::DEPTH, FrameBuffer::eImageInterpolation::NEAREST);
-	
-	
-	D_START_PROFILING("DrawPIPs", doom::profiler::eProfileLayers::Rendering);
-	DrawPIPs(); // drawing pip before gbuffer will increase performance ( early depth testing )
-	D_END_PROFILING("DrawPIPs");
+	for (doom::Camera* camera : spawnedCameraList)
+	{
+		camera->mDefferedRenderingFrameBuffer.BindFrameBuffer();
 
-	mGbufferDrawerMaterial.UseProgram();
-	mQuadMesh->Draw();
+		GraphicsAPI::ClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+		GraphicsAPI::Clear(camera->mDefferedRenderingFrameBuffer.mClearBit);
+
+#ifdef DEBUG_MODE
+
+		//if (userinput::UserInput_Server::GetKeyToggle(eKEY_CODE::KEY_F5) == true)
+		//{
+		mDebugGraphics.DrawDebug();
+		//}
+
+#endif
+
+		D_START_PROFILING("Draw Objects", doom::profiler::eProfileLayers::Rendering);
+
+		RenderObject(camera);
+
+		camera->mDefferedRenderingFrameBuffer.UnBindFrameBuffer();
+
+		D_END_PROFILING("Draw Objects");
+
+		//Blit DepthBuffer To ScreenBuffer
+		camera->mDefferedRenderingFrameBuffer.BlitBufferTo(0, 0, 0, camera->mDefferedRenderingFrameBuffer.mDefaultWidth, camera->mDefferedRenderingFrameBuffer.mDefaultHeight, 0, 0, Graphics_Server::ScreenSize.x, Graphics_Server::ScreenSize.y, GraphicsAPI::eBufferType::DEPTH, FrameBuffer::eImageInterpolation::NEAREST);
+
+		camera->mDefferedRenderingFrameBuffer.BindGBufferTextures();
+		mGbufferDrawerMaterial.UseProgram();
+		mQuadMesh->Draw();
+	}
+
+
+
+	//D_START_PROFILING("DrawPIPs", doom::profiler::eProfileLayers::Rendering);
+	//DrawPIPs(); // drawing pip before gbuffer will increase performance ( early depth testing )
+	//D_END_PROFILING("DrawPIPs");
+	
 	
 	
 
@@ -460,29 +463,20 @@ void doom::graphics::Graphics_Server::RenderObjects()
 
 
 
-const doom::graphics::FrameBuffer& Graphics_Server::GetGBuffer() const
-{
-	return mFrameBufferForDeferredRendering;
-}
-
-doom::graphics::FrameBuffer& Graphics_Server::GetGBuffer()
-{
-	return mFrameBufferForDeferredRendering;
-}
 
 void doom::graphics::Graphics_Server::SetRenderingMode(eRenderingMode renderingMode)
 {
 	mCurrentRenderingMode = renderingMode;
-	if (mCurrentRenderingMode == eRenderingMode::DeferredRendering && mFrameBufferForDeferredRendering.IsGenerated() == false)
+	if (mCurrentRenderingMode == eRenderingMode::DeferredRendering)
 	{
 		InitFrameBufferForDeferredRendering();
 	}
 }
 
 
-void Graphics_Server::AddAutoDrawedPIPs(PicktureInPickture& pip)
+void Graphics_Server::AddAutoDrawedPIPs(const std::shared_ptr<PicktureInPickture>& pip)
 {
-	mAutoDrawedPIPs.push_back(std::ref(pip));
+	mAutoDrawedPIPs.push_back(pip);
 }
 
 void Graphics_Server::OpenGlDebugCallback(GLenum source, GLenum type, GLuint id, GLenum severity, GLsizei length, const GLchar* msg, const void* data)

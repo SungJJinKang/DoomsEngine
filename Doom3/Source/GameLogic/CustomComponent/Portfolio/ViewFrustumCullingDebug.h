@@ -18,7 +18,7 @@ namespace doom
 
 	private:
 
-		std::unique_ptr<graphics::PicktureInPickture> PIP;
+		std::shared_ptr<graphics::PicktureInPickture> PIP;
 
 	protected:
 

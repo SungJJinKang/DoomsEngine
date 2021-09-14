@@ -5,9 +5,6 @@
 
 void doom::ViewFrustumCullingDebug::InitComponent()
 {
-	PIP = std::make_unique<graphics::PicktureInPickture>(1024, 1024, math::Vector2(-1.0f, -1.0f), math::Vector2(-0.6f, -0.7f));
-	graphics::Graphics_Server::GetSingleton()->AddAutoDrawedPIPs(*(PIP.get()));
-
 	auto currenScene = doom::Scene::GetCurrentWorld();
 
 	auto entity1 = currenScene->CreateNewEntity();
