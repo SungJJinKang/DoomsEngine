@@ -209,6 +209,7 @@
     <ClCompile Include="Source\Core\Physics\Collider\OBB.cpp" />
     <ClCompile Include="Source\Core\ResourceManagement\JobSystem_cpp\JobSystem.cpp" />
     <ClCompile Include="Source\Core\ResourceManagement\JobSystem_cpp\Thread.cpp" />
+    <ClCompile Include="Source\Core\UI\PrintText.cpp" />
     <ClCompile Include="Source\Core\utility\ColliderUpdater.cpp" />
     <ClCompile Include="Source\Core\utility\BVH\BVH_Node.cpp" />
     <ClCompile Include="Source\Core\utility\BVH\BVH_Node_View.cpp" />
@@ -393,6 +394,7 @@
     <ClInclude Include="Source\Core\ResourceManagement\JobSystem_cpp\Thread.h" />
     <ClInclude Include="Source\Core\ResourceManagement\JobSystem_cpp\Thread_Core.h" />
     <ClInclude Include="Source\Core\ResourceManagement\Pool\ObjectPool.h" />
+    <ClInclude Include="Source\Core\UI\PrintText.h" />
     <ClInclude Include="Source\Core\utility\ColliderUpdater.h" />
     <ClInclude Include="Source\Core\utility\BVH\BVH_Core.h" />
     <ClInclude Include="Source\Core\utility\BVH\BVH_Node.h" />

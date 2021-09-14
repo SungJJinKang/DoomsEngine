@@ -64,13 +64,17 @@ void Material::SetShaderAsset(::doom::asset::ShaderAsset* shaderAsset)
 }
 
 
-doom::graphics::Material::Material() : mProgramID{ }, mShaderAsset{ nullptr }
+doom::graphics::Material::Material() : mProgramID{ 0}, mShaderAsset{ nullptr }
 {
 }
 
-Material::Material(::doom::asset::ShaderAsset* shaderAsset) : mProgramID{}, mShaderAsset{ nullptr }
+Material::Material(::doom::asset::ShaderAsset* shaderAsset) : mProgramID{0}, mShaderAsset{ nullptr }
 {
-	SetShaderAsset(shaderAsset);
+	if (shaderAsset != nullptr)
+	{
+		SetShaderAsset(shaderAsset);
+	}
+
 }
 
 Material::~Material()

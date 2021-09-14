@@ -6,6 +6,7 @@
 
 #include "../Core/Core.h"
 #include "trim.h"
+#include "UI/PrintText.h"
 
 static const std::regex sectionPattern{R"(\s*\[\s*(\S+)\s*\]\s*)"};
 static const std::regex variablePattern{ R"(\s*(\S+)\s*=\s*(\S+)\s*)" };
@@ -140,7 +141,7 @@ IniData SimpleIniParser::ParseIniFile(std::string fileDirectory)
 void IniData::AddSection(const std::string& section)
 {
 	mIniDatas[section]; // just accessing to unordered_map with key make hash table
-	D_DEBUG_LOG({ "Add New Section : ", section });
+	doom::ui::PrintText("Add New Section : %s", section.c_str());
 }
 
 struct ConverToString
@@ -165,7 +166,6 @@ void IniData::InsertVariable(const std::string& section, const std::string& key,
 	auto IsInsert = mIniDatas[section].insert_or_assign(key, data);
 	D_ASSERT(IsInsert.second == true); // if already key is exsist, make exeption
 
-#ifdef DEBUG_MODE
 	/*
 	* //Evaluated at compile time
 	auto sdf = std::visit([](auto&& arg) {
@@ -179,8 +179,7 @@ void IniData::InsertVariable(const std::string& section, const std::string& key,
 		}, variable.second);
 	*/
 	auto valueString = std::visit(ConverToString(), data);
-	D_DEBUG_LOG({ "Add New Variable = ", "Section : ", section, " , Key : ", key, " , Value : ", valueString });
-#endif
+	doom::ui::PrintText("Add New Variable : Section ( %s ), Key( %s ), Value( %s ) ", section.c_str(), key.c_str(), valueString.c_str());
 
 	
 }

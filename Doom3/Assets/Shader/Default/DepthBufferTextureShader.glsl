@@ -34,6 +34,6 @@ float LinearizeDepth(float depth)
 
 void main() 
 { 
-	float depth = LinearizeDepth(ColorTexture.x) / camFar;
+	float depth = LinearizeDepth(vec4(texture(ColorTexture, UV0)).r) / camFar;
 	oColor = vec4(vec3(depth), 1.0);
 }

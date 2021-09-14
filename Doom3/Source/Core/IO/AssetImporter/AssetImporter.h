@@ -12,6 +12,7 @@
 #include "AssetImporterWorker.h"
 
 #include "../ResourceManagement/JobSystem_cpp/JobSystem.h"
+#include "UI/PrintText.h"
 
 namespace doom
 {
@@ -56,7 +57,7 @@ namespace doom
 				if (isSuccess)
 				{
 					asset->mAssetStatus = ::doom::asset::Asset::AssetStatus::CompletlyImported;
-					D_DEBUG_LOG("Import Success : " + path.string(), eLogType::D_ALWAYS);
+					doom::ui::PrintText("Import Success : %s", path.string().c_str());
 				}
 				else
 				{
