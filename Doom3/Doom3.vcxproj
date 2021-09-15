@@ -309,7 +309,7 @@
     <ClCompile Include="Source\GameLogic\CustomComponent\Move_WASD.cpp" />
     <ClCompile Include="Source\GameLogic\CustomComponent\Portfolio\ViewFrustumCullingDebug.cpp" />
     <ClCompile Include="Source\GameLogic\CustomComponent\TestComponent.cpp" />
-    <ClCompile Include="Source\GameLogic\Test.cpp" />
+    <ClCompile Include="Source\GameLogic\GameLogicStartPoint.cpp" />
     <ClCompile Include="Source\Helper\EasyDirtyChecker\DirtySender.cpp" />
     <ClCompile Include="Source\Helper\EasyDirtyChecker\DirtyReceiver.cpp" />
     <ClCompile Include="Source\Helper\SimpleIniParser.cpp" />
@@ -563,7 +563,7 @@
     <ClInclude Include="Source\GameLogic\CustomComponent\Portfolio\ViewFrustumCullingDebug.h" />
     <ClInclude Include="Source\GameLogic\CustomComponent\TestComponent.h" />
     <ClInclude Include="Source\GameLogic\Doom_Core.h" />
-    <ClInclude Include="Source\GameLogic\TEST.h" />
+    <ClInclude Include="Source\GameLogic\GameLogicStartPoint.h" />
     <ClInclude Include="Source\Helper\concurrentqueue\blockingconcurrentqueue.h" />
     <ClInclude Include="Source\Helper\crossguid\Guid.hpp" />
     <ClInclude Include="Source\Helper\DeferredConstant\DeferredConstant.h" />
@@ -777,6 +777,7 @@
   <ItemGroup>
     <Text Include="Source\Core\Graphics\Acceleration\Culling.md" />
     <Text Include="Source\Core\Graphics\ReadThis!!!!.txt" />
+    <Text Include="Source\GameLogic\DeferredRenderingDebug.inl" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

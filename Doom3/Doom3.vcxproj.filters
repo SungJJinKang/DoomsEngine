@@ -126,9 +126,6 @@
     <ClCompile Include="Source\Component\Core\ServerComponent.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\GameLogic\Test.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Source\Core\Game\IGameFlow.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -460,6 +457,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Source\Core\Graphics\GraphicsStatistics.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\GameLogic\GameLogicStartPoint.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -825,9 +825,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\Core\Physics\PhysicsSetting.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\GameLogic\TEST.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\Core\Graphics\Graphics_Server.h">
@@ -1304,6 +1301,9 @@
     <ClInclude Include="Source\Core\Graphics\GraphicsStatistics.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Source\GameLogic\GameLogicStartPoint.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="dependency\glfw-3.3.2.bin.WIN64\docs\html\search\all_0.html" />
@@ -1482,5 +1482,6 @@
   <ItemGroup>
     <Text Include="Source\Core\Graphics\ReadThis!!!!.txt" />
     <Text Include="Source\Core\Graphics\Acceleration\Culling.md" />
+    <Text Include="Source\GameLogic\DeferredRenderingDebug.inl" />
   </ItemGroup>
 </Project>

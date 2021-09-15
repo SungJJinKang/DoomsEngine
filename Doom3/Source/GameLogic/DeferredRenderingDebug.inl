@@ -1,4 +1,6 @@
-#include "TEST.h"
+#pragma once
+
+#include "GameLogicStartPoint.h"
 
 #include <Doom_Core.h>
 #include "../Game/AssetManager/AssetManager.h"
@@ -20,7 +22,7 @@
 #include "Graphics/LightManager.h"
 #include "Graphics/Graphics_Setting.h"
 
-void doom::TEST::Init()
+void doom::GameLogicStartPoint::StartGameLogic()
 {
 	ISingleton<graphics::LightManager>::GetSingleton()->SetAmbientLightIntensity(0.1f);
 	doom::graphics::Graphics_Setting::ClearColor = { 1.0f, 1.0f, 1.0f, 1.0f };
@@ -46,21 +48,21 @@ void doom::TEST::Init()
 
 	auto planetAsset = assetimporter::AssetManager::GetAsset<asset::eAssetType::THREE_D_MODEL>("planet.assbin");
 
-	
-// 	for (int i = 0; i < 25; i++)
-// 	{
-// 		for (int j = 0; j < threedasset->GetMeshCount(); j++)
-// 		{
-// 			auto entity = currenScene->CreateNewEntity();
-// 			entity->GetTransform()->SetScale(0.1f, 0.1f, 0.1f);
-// 			entity->GetTransform()->SetPosition(Random::RandomFloatNumber(-20, 20), Random::RandomFloatNumber(-20, 20), Random::RandomFloatNumber(-20, 20));
-// 			auto meshRenderer = entity->AddComponent<MeshRenderer>();
-// 			meshRenderer->SetMesh(threedasset->GetMesh(j));
-// 			meshRenderer->SetMaterial(material);
-// 			entity->AddComponent<AutoRotate>();
-// 			entity->AddComponent<BoxCollider3D>();
-// 		}
-// 	}
+
+	// 	for (int i = 0; i < 25; i++)
+	// 	{
+	// 		for (int j = 0; j < threedasset->GetMeshCount(); j++)
+	// 		{
+	// 			auto entity = currenScene->CreateNewEntity();
+	// 			entity->GetTransform()->SetScale(0.1f, 0.1f, 0.1f);
+	// 			entity->GetTransform()->SetPosition(Random::RandomFloatNumber(-20, 20), Random::RandomFloatNumber(-20, 20), Random::RandomFloatNumber(-20, 20));
+	// 			auto meshRenderer = entity->AddComponent<MeshRenderer>();
+	// 			meshRenderer->SetMesh(threedasset->GetMesh(j));
+	// 			meshRenderer->SetMaterial(material);
+	// 			entity->AddComponent<AutoRotate>();
+	// 			entity->AddComponent<BoxCollider3D>();
+	// 		}
+	// 	}
 	int count = 50;
 	for (int i = -count; i < count; i = i + 15)
 	{
@@ -95,7 +97,7 @@ void doom::TEST::Init()
 		autoRotateAround->mRotateAxis = { 0.0f, 1.0f, 0.0f };
 	}
 
-	for(int i = -50 ; i < 50;  i += 15)
+	for (int i = -50; i < 50; i += 15)
 	{
 		auto entity = currenScene->CreateNewEntity();
 		entity->GetTransform()->SetScale(1.5f, 1.5f, 1.5f);
@@ -120,7 +122,7 @@ void doom::TEST::Init()
 	auto entity1 = currenScene->CreateNewEntity();
 	auto entity1Camera = entity1->AddComponent<Camera>();
 	entity1Camera->SetProjectionMode(doom::Camera::eProjectionType::Perspective);
-	
+
 	doom::graphics::PIPManager::GetSingleton()->AddNewPIP({ -1.0f, -1.0f }, { -0.6f, -0.6f }, &entity1Camera->mDefferedRenderingFrameBuffer.GetFrameBufferTexture(doom::graphics::GraphicsAPI::eBufferBitType::COLOR, 0));
 	doom::graphics::PIPManager::GetSingleton()->AddNewPIP({ -0.6f, -1.0f }, { -0.2f, -0.6f }, &entity1Camera->mDefferedRenderingFrameBuffer.GetFrameBufferTexture(doom::graphics::GraphicsAPI::eBufferBitType::COLOR, 1));
 	doom::graphics::PIPManager::GetSingleton()->AddNewPIP({ -0.2f, -1.0f }, { 0.2f, -0.6f }, &entity1Camera->mDefferedRenderingFrameBuffer.GetFrameBufferTexture(doom::graphics::GraphicsAPI::eBufferBitType::COLOR, 2));
@@ -132,11 +134,11 @@ void doom::TEST::Init()
 		//depthMaterial->SetShaderAsset(depthTextureShader);
 		depthTexturePIP->SetMaterial(depthMaterial);
 	}
-	
-	
-	
-	
-	
+
+
+
+
+
 	entity1->GetTransform()->SetPosition(0.0f, 0.0f, 600.0f);
 	entity1->AddComponent<Move_WASD>();
 	entity1->AddComponent<CharacterSpawner>();
@@ -148,7 +150,7 @@ void doom::TEST::Init()
 
 	auto emptyEntity = currenScene->CreateNewEntity();
 
-	
+
 	auto entity2 = currenScene->CreateNewEntity();
 	entity2->GetTransform()->SetPosition(2.0f, 1.0f, -1.0f);
 	auto entity2BoxCollider3D = entity2->AddComponent<BoxCollider3D>();
@@ -157,5 +159,5 @@ void doom::TEST::Init()
 
 	auto entity3 = currenScene->CreateNewEntity();
 	//entity3->AddComponent<ViewFrustumCullingDebug>();
-	
+
 }

@@ -6,7 +6,7 @@
 #include "../../Helper/SimpleIniParser.h"
 #include "AssetManager/AssetManager.h"
 
-#include "../../GameLogic/TEST.h"
+#include "../../GameLogic/GameLogicStartPoint.h"
 #include "ConfigData.h"
 
 #include "AssetImporter/AssetImporterWorker_Texture.h"
@@ -115,7 +115,7 @@ void doom::GameCore::LateInit()
 	mUserImput_Server.Init();
 	D_END_PROFILING("Init UserInput_Server");
 	*/
-	TEST::Init();
+	GameLogicStartPoint::StartGameLogic();
 }
 
 void doom::GameCore::CleanUp()
