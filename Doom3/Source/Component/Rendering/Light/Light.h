@@ -13,9 +13,7 @@ namespace doom
 		Light& operator=(const Light&) = delete;
 		Light& operator=(Light&&) noexcept = delete;
 
-		virtual void InitComponent() override;
-		virtual void UpdateComponent() override;
-		virtual void OnEndOfFrame_Component() override;
+	
 
 	protected:
 
@@ -24,6 +22,10 @@ namespace doom
 		math::Vector4 mColor{ 1 };
 
 		DirtyReceiver bmIsLightUboDirty{ true };
+
+		virtual void InitComponent() override;
+		virtual void UpdateComponent() override;
+		virtual void OnEndOfFrame_Component() override;
 		
 	public:
 		Light() = default;

@@ -5,17 +5,17 @@
 
 void doom::PointLight::InitComponent()
 {
-
+	Light::InitComponent();
 }
 
 void doom::PointLight::UpdateComponent()
 {
-
+	Light::UpdateComponent();
 }
 
 void doom::PointLight::OnEndOfFrame_Component()
 {
-
+	Light::OnEndOfFrame_Component();
 }
 
 #pragma warning( disable : 4267 )
@@ -34,7 +34,7 @@ void doom::PointLight::UpdateUniformBufferObject()
 		{
 			doom::graphics::UniformBufferObjectManager::GetSingleton()->GetUniformBufferObject(GLOBAL_UNIFORM_BLOCK_BINDING_POINT).StoreDataAtTempBuffer((void*)pos.data(), sizeof(pos), graphics::eUniformBlock_Global::pointLight0_Pos + 32 * staticIndex);
 			doom::graphics::UniformBufferObjectManager::GetSingleton()->GetUniformBufferObject(GLOBAL_UNIFORM_BLOCK_BINDING_POINT).StoreDataAtTempBuffer((void*)radiance.data(), sizeof(radiance), graphics::eUniformBlock_Global::pointLight0_Col + 32 * staticIndex);
-			doom::graphics::UniformBufferObjectManager::GetSingleton()->GetUniformBufferObject(GLOBAL_UNIFORM_BLOCK_BINDING_POINT).StoreDataAtTempBuffer((void*)&staticCount, sizeof(staticCount), graphics::eUniformBlock_Global::dirLightCount); // TODO : DO this from every lights, just one call is enough per frame
+			doom::graphics::UniformBufferObjectManager::GetSingleton()->GetUniformBufferObject(GLOBAL_UNIFORM_BLOCK_BINDING_POINT).StoreDataAtTempBuffer((void*)&staticCount, sizeof(staticCount), graphics::eUniformBlock_Global::pointLightCount); // TODO : DO this from every lights, just one call is enough per frame
 		}
 		else
 		{

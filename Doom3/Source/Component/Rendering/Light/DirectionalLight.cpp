@@ -5,17 +5,17 @@
 
 void doom::DirectionalLight::InitComponent()
 {
-
+	Light::InitComponent();
 }
 
 void doom::DirectionalLight::UpdateComponent()
 {
-
+	Light::UpdateComponent();
 }
 
 void doom::DirectionalLight::OnEndOfFrame_Component()
 {
-
+	Light::OnEndOfFrame_Component();
 }
 
 #pragma warning( disable : 4267 )
