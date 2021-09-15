@@ -8,10 +8,18 @@ doom::graphics::DefferedRenderingFrameBuffer::DefferedRenderingFrameBuffer()
 	FrameBuffer::GenerateBuffer(Graphics_Setting::GetScreenWidth(), Graphics_Setting::GetScreenHeight());
 
 	//with renderbuffer, can't do post-processing
-	FrameBuffer::AttachTextureBuffer(GraphicsAPI::eBufferType::COLOR, Graphics_Setting::GetScreenWidth(), Graphics_Setting::GetScreenHeight());
-	FrameBuffer::AttachTextureBuffer(GraphicsAPI::eBufferType::COLOR, Graphics_Setting::GetScreenWidth(), Graphics_Setting::GetScreenHeight());
-	FrameBuffer::AttachTextureBuffer(GraphicsAPI::eBufferType::COLOR, Graphics_Setting::GetScreenWidth(), Graphics_Setting::GetScreenHeight());
-	FrameBuffer::AttachTextureBuffer(GraphicsAPI::eBufferType::DEPTH, Graphics_Setting::GetScreenWidth(), Graphics_Setting::GetScreenHeight());
+
+	//Position
+	FrameBuffer::AttachTextureBuffer(GraphicsAPI::eBufferBitType::COLOR, Graphics_Setting::GetScreenWidth(), Graphics_Setting::GetScreenHeight());
+	
+	//Normal
+	FrameBuffer::AttachTextureBuffer(GraphicsAPI::eBufferBitType::COLOR, Graphics_Setting::GetScreenWidth(), Graphics_Setting::GetScreenHeight());
+	
+	//Albedo
+	FrameBuffer::AttachTextureBuffer(GraphicsAPI::eBufferBitType::COLOR, Graphics_Setting::GetScreenWidth(), Graphics_Setting::GetScreenHeight());
+	
+	//Depth
+	FrameBuffer::AttachTextureBuffer(GraphicsAPI::eBufferBitType::DEPTH, Graphics_Setting::GetScreenWidth(), Graphics_Setting::GetScreenHeight());
 
 	CheckIsFrameBufferSuccesfullyCreated();
 }
@@ -20,6 +28,6 @@ void doom::graphics::DefferedRenderingFrameBuffer::BindGBufferTextures()
 {
 	for (unsigned int i = 0; i < 3; i++)
 	{
-		FrameBuffer::GetFrameBufferTexture(GraphicsAPI::eBufferType::COLOR, i).BindTextureWithUnit(i);
+		FrameBuffer::GetFrameBufferTexture(GraphicsAPI::eBufferBitType::COLOR, i).BindTextureWithUnit(i);
 	}
 }

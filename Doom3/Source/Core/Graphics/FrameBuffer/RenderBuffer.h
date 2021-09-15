@@ -2,6 +2,8 @@
 #include "../Graphics_Core.h"
 #include "../GraphicsAPI.h"
 #include "../OverlapBindChecker.h"
+#include "../Buffer/BufferID.h"
+
 namespace doom
 {
 	namespace graphics
@@ -14,7 +16,7 @@ namespace doom
 			static inline const char RENDERBUFFER_TAG[]{ "RenderBuffer" };
 			BufferID mRenderBufferID{};
 		public:
-			RenderBuffer(FrameBuffer& ownerFrameBuffer, GraphicsAPI::eBufferType frameBufferType, unsigned int width, unsigned int height);
+			RenderBuffer(FrameBuffer& ownerFrameBuffer, GraphicsAPI::eBufferBitType frameBufferType, unsigned int width, unsigned int height);
 			virtual ~RenderBuffer();
 
 			RenderBuffer(const RenderBuffer&) = delete;

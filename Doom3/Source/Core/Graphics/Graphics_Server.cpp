@@ -215,19 +215,17 @@ void doom::graphics::Graphics_Server::DeferredRendering()
 	D_END_PROFILING("Update Uniform Buffer");
 
 	FrameBuffer::UnBindFrameBuffer();
-
 	//Clear ScreenBuffer
-	GraphicsAPI::ClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+	GraphicsAPI::ClearColor(Graphics_Setting::ClearColor);
 	GraphicsAPI::Clear(GraphicsAPI::eClearMask::COLOR_BUFFER_BIT, GraphicsAPI::eClearMask::DEPTH_BUFFER_BIT);
 
 	for (doom::Camera* camera : spawnedCameraList)
 	{
 		camera->UpdateUniformBufferObject();
 
-		camera->mDefferedRenderingFrameBuffer.BindFrameBuffer();
-
-		GraphicsAPI::ClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 		camera->mDefferedRenderingFrameBuffer.ClearFrameBuffer();
+		camera->mDefferedRenderingFrameBuffer.BindFrameBuffer();
+		
 
 
 		//D_START_PROFILING("Draw Objects", doom::profiler::eProfileLayers::Rendering);
@@ -243,7 +241,7 @@ void doom::graphics::Graphics_Server::DeferredRendering()
 		{
 			//Only Main Camera can draw to screen buffer
 			
-			camera->mDefferedRenderingFrameBuffer.BlitBufferTo(0, 0, 0, camera->mDefferedRenderingFrameBuffer.mDefaultWidth, camera->mDefferedRenderingFrameBuffer.mDefaultHeight, 0, 0, Graphics_Setting::GetScreenWidth(), Graphics_Setting::GetScreenHeight(), GraphicsAPI::eBufferType::DEPTH, FrameBuffer::eImageInterpolation::NEAREST);
+			camera->mDefferedRenderingFrameBuffer.BlitBufferTo(0, 0, 0, camera->mDefferedRenderingFrameBuffer.mDefaultWidth, camera->mDefferedRenderingFrameBuffer.mDefaultHeight, 0, 0, Graphics_Setting::GetScreenWidth(), Graphics_Setting::GetScreenHeight(), GraphicsAPI::eBufferBitType::DEPTH, FrameBuffer::eImageInterpolation::NEAREST);
 
 			camera->mDefferedRenderingFrameBuffer.BindGBufferTextures();
 			mGbufferDrawerMaterial.UseProgram();

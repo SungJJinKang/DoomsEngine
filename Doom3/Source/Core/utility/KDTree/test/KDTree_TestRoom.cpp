@@ -82,7 +82,7 @@ void doom::KDTree_TestRoom::DrawTree()
 
 		if (static_cast<bool>(mPIPForDebug))
 		{
-			mPIPForDebug->BindFrameBuffer();
+			mPIPForDebug->StaticBindFrameBuffer();
 
 			graphics::GraphicsAPI::ClearColor(1.0f, 1.0f, 1.0f, 1.0f);
 			mPIPForDebug->ClearFrameBuffer();

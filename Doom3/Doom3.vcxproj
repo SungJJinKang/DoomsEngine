@@ -48,7 +48,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>ClangCL</PlatformToolset>
+    <PlatformToolset>v142</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
@@ -171,6 +171,7 @@
     <ClCompile Include="Source\Core\Graphics\Acceleration\LinearData_ViewFrustumCulling\DataType\EntityBlockViewer.cpp" />
     <ClCompile Include="Source\Core\Graphics\FrameBuffer\DefferedRenderingFrameBuffer.cpp" />
     <ClCompile Include="Source\Core\Graphics\GraphicsAPIManager.cpp" />
+    <ClCompile Include="Source\Core\Graphics\GraphicsStatistics.cpp" />
     <ClCompile Include="Source\Core\Graphics\Graphics_Setting.cpp" />
     <ClCompile Include="Source\Core\Graphics\LightManager.cpp" />
     <ClCompile Include="Source\Core\Graphics\PictureInPicture\PIPManager.cpp" />
@@ -326,6 +327,7 @@
     <ClInclude Include="Source\Core\Graphics\Buffer\BufferID.h" />
     <ClInclude Include="Source\Core\Graphics\FrameBuffer\DefferedRenderingFrameBuffer.h" />
     <ClInclude Include="Source\Core\Graphics\GraphicsAPIManager.h" />
+    <ClInclude Include="Source\Core\Graphics\GraphicsStatistics.h" />
     <ClInclude Include="Source\Core\Graphics\Graphics_Setting.h" />
     <ClInclude Include="Source\Core\Graphics\LightManager.h" />
     <ClInclude Include="Source\Core\Graphics\PictureInPicture\PIPManager.h" />

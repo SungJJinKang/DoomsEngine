@@ -3,6 +3,7 @@
 
 #include "../Core.h"
 #include "../Graphics_Core.h"
+#include "../Graphics_Setting.h"
 #include "../GraphicsAPI.h"
 #include "RenderBuffer.h"
 #include "../Texture/SingleTexture.h"
@@ -32,6 +33,8 @@ namespace doom
 			static constexpr unsigned int RESERVED_DEPTH_STENCIL_TEXTURE_COUNT = 1; 
 			std::vector<SingleTexture> mAttachedDepthStencilTextures;
 
+			std::vector<unsigned int> mTargetDrawBufferContainer;
+
 			unsigned int mClearBit{ 0 };
 			unsigned int mDrawTarget{ 0 };
 
@@ -47,8 +50,7 @@ namespace doom
 			/// </summary>
 			inline static FrameBuffer* CurrentFrameBuffer{ nullptr };
 
-			static void BindFrameBuffer(FrameBuffer* frameBuffer);
-			
+
 		public:
 			
 			BufferID mFrameBufferID{};
@@ -64,15 +66,36 @@ namespace doom
 			FrameBuffer& operator=(FrameBuffer &&) noexcept = default;
 
 			void GenerateBuffer(unsigned int defaultWidth, unsigned int defaultHeight);
+			void RefreshTargetDrawBufferContainer();
+			void SetTargetDrawBuffer();
+
+			FORCE_INLINE static void StaticBindFrameBuffer(FrameBuffer* const frameBuffer)
+			{
+				if (D_OVERLAP_BIND_CHECK_CHECK_IS_NOT_BOUND_AND_BIND_ID(FRAMEBUFFER_TAG, ((frameBuffer != nullptr) ? frameBuffer->mFrameBufferID.Get() : 0)))
+				{
+					FrameBuffer::PreviousFrameBuffer = CurrentFrameBuffer;
+					if (frameBuffer == nullptr)
+					{
+						glBindFramebuffer(GL_FRAMEBUFFER, 0);
+						glViewport(0, 0, graphics::Graphics_Setting::GetScreenWidth(), graphics::Graphics_Setting::GetScreenHeight());
+					}
+					else
+					{
+						glBindFramebuffer(GL_FRAMEBUFFER, frameBuffer->mFrameBufferID);
+						glViewport(0, 0, frameBuffer->mDefaultWidth, frameBuffer->mDefaultHeight);
+					}
+					FrameBuffer::CurrentFrameBuffer = frameBuffer;
+				}
+			}
 
 			FORCE_INLINE void BindFrameBuffer() noexcept
 			{
 				D_ASSERT(mFrameBufferID != 0);
-				FrameBuffer::BindFrameBuffer(this);
+				FrameBuffer::StaticBindFrameBuffer(this);
 			}
-			FORCE_INLINE static void UnBindFrameBuffer() noexcept
+			FORCE_INLINE static void UnBindFrameBuffer()  noexcept 
 			{
-				FrameBuffer::BindFrameBuffer(nullptr); // bind MainFrameBuffer
+				FrameBuffer::StaticBindFrameBuffer(nullptr); // bind MainFrameBuffer
 			}
 
 			/// <summary>
@@ -90,7 +113,7 @@ namespace doom
 				}
 			}
 
-			FORCE_INLINE void ClearFrameBuffer()
+			FORCE_INLINE virtual void ClearFrameBuffer()
 			{
 				GraphicsAPI::Clear(mClearBit);
 			}
@@ -102,7 +125,7 @@ namespace doom
 			};
 
 			FORCE_INLINE void BlitBufferTo(unsigned int DrawFrameBufferId, int srcX0, int srcY0, int srcX1, int srcY1
-				, int dstX0, int dstY0, int dstX1, int dstY1, GraphicsAPI::eBufferType mask, eImageInterpolation filter) noexcept
+				, int dstX0, int dstY0, int dstX1, int dstY1, GraphicsAPI::eBufferBitType mask, eImageInterpolation filter) noexcept
 			{
 				glBindFramebuffer(GL_READ_FRAMEBUFFER, mFrameBufferID);
 				glBindFramebuffer(GL_DRAW_FRAMEBUFFER, DrawFrameBufferId);
@@ -110,17 +133,17 @@ namespace doom
 			}
 
 			FORCE_INLINE void BlitBufferFrom(unsigned int ReadFrameBufferId, int srcX0, int srcY0, int srcX1, int srcY1
-				, int dstX0, int dstY0, int dstX1, int dstY1, GraphicsAPI::eBufferType mask, eImageInterpolation filter) noexcept
+				, int dstX0, int dstY0, int dstX1, int dstY1, GraphicsAPI::eBufferBitType mask, eImageInterpolation filter) noexcept
 			{
 				glBindFramebuffer(GL_READ_FRAMEBUFFER, ReadFrameBufferId);
 				glBindFramebuffer(GL_DRAW_FRAMEBUFFER, mFrameBufferID);
 				glBlitFramebuffer(srcX0, srcY0, srcX1, srcY1, dstX0, dstY0, dstX1, dstY1, static_cast<unsigned int>(mask), static_cast<unsigned int>(filter));
 			}
 
-			RenderBuffer& AttachRenderBuffer(GraphicsAPI::eBufferType renderBufferType, unsigned int width, unsigned int height);
-			SingleTexture& AttachTextureBuffer(GraphicsAPI::eBufferType frameBufferType, unsigned int width, unsigned int height);
-			const SingleTexture& GetFrameBufferTexture(GraphicsAPI::eBufferType bufferType, unsigned int index) const;
-			SingleTexture& GetFrameBufferTexture(GraphicsAPI::eBufferType bufferType, unsigned int index);
+			RenderBuffer& AttachRenderBuffer(GraphicsAPI::eBufferBitType renderBufferType, unsigned int width, unsigned int height);
+			SingleTexture& AttachTextureBuffer(GraphicsAPI::eBufferBitType frameBufferType, unsigned int width, unsigned int height);
+			const SingleTexture& GetFrameBufferTexture(GraphicsAPI::eBufferBitType bufferType, unsigned int index) const;
+			SingleTexture& GetFrameBufferTexture(GraphicsAPI::eBufferBitType bufferType, unsigned int index);
 
 			void CheckIsFrameBufferSuccesfullyCreated() noexcept;
 

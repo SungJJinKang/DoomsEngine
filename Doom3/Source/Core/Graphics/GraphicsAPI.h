@@ -1,9 +1,8 @@
 #pragma once
 #include "Graphics_Core.h"
-#include "../Game/IGameFlow.h"
-#include "Buffer/UniformBufferObjectManager.h"
-#include "ePrimitiveType.h"
 
+#include "ePrimitiveType.h"
+#include <Vector4.h>
 
 
 namespace doom
@@ -46,8 +45,8 @@ namespace doom
 				COLOR_ATTACHMENT7 = GL_COLOR_ATTACHMENT7,
 				COLOR_ATTACHMENT8 = GL_COLOR_ATTACHMENT8,
 				COLOR_ATTACHMENT9 = GL_COLOR_ATTACHMENT9,
-				COLOR_ATTACHMENT10 = GL_COLOR_ATTACHMENT10
-
+				COLOR_ATTACHMENT10 = GL_COLOR_ATTACHMENT10,
+				NONE = GL_NONE
 			};
 
 			enum class eCullFaceMode : unsigned int
@@ -55,6 +54,13 @@ namespace doom
 				FRONT = GL_FRONT,
 				BACK = GL_BACK,
 				FRONT_AND_BACK = GL_FRONT_AND_BACK
+			};
+
+			enum class eBufferBitType : unsigned int
+			{
+				COLOR = GL_COLOR_BUFFER_BIT,
+				DEPTH = GL_DEPTH_BUFFER_BIT,
+				DEPTH_STENCIL = GL_STENCIL_BUFFER_BIT
 			};
 
 			FORCE_INLINE static void ReadBuffer(eBufferMode mode) noexcept
@@ -65,6 +71,10 @@ namespace doom
 			{
 				glDrawBuffer(static_cast<unsigned int>(mode));
 			}
+			FORCE_INLINE static void WriteBuffer(const int count, const eBufferMode* modes) noexcept
+			{
+				glDrawBuffers(count, reinterpret_cast<const unsigned int*>(modes));
+			}
 			FORCE_INLINE static void CullFace(eCullFaceMode mode) noexcept
 			{
 				glCullFace(static_cast<unsigned int>(mode));
@@ -73,6 +83,34 @@ namespace doom
 			FORCE_INLINE static void ClearColor(float r, float g, float b, float a) noexcept
 			{
 				glClearColor(r, g, b, a);
+			}
+
+			FORCE_INLINE static void ClearColor(const math::Vector4& color) noexcept
+			{
+				glClearColor(color.r, color.g, color.b, color.a);
+			}
+
+			enum class eBufferType : unsigned int
+			{
+				COLOR = GL_COLOR,
+				DEPTH = GL_COLOR,
+				DEPTH_STENCIL = GL_COLOR
+			};
+
+			FORCE_INLINE static void ClearSpecificBuffer(const int targetBufferCount, const eBufferType* bufferType, const GraphicsAPI::eBufferMode* targetBuffer, const math::Vector4* color) noexcept
+			{
+				GraphicsAPI::WriteBuffer(targetBufferCount, targetBuffer);
+
+				for (int i = 0; i < targetBufferCount; i++)
+				{
+					glClearBufferfv(static_cast<GLenum>(bufferType[i]), i, color[i].data());
+				}
+
+			}
+						
+			FORCE_INLINE static void ClearDepth() noexcept
+			{
+				glClearDepth(1);
 			}
 
 			FORCE_INLINE static void ClearDepth(double depth) noexcept
@@ -107,6 +145,7 @@ namespace doom
 				DEPTH_BUFFER_BIT = GL_DEPTH_BUFFER_BIT,
 				STENCIL_BUFFER_BIT = GL_STENCIL_BUFFER_BIT
 			};
+
 			FORCE_INLINE static void Clear(eClearMask mask1) noexcept
 			{
 				glClear(static_cast<unsigned int>(mask1));
@@ -225,12 +264,7 @@ namespace doom
 				glViewport(x, y, width, height);
 			}
 
-			enum class eBufferType
-			{
-				COLOR = GL_COLOR_BUFFER_BIT,
-				DEPTH = GL_DEPTH_BUFFER_BIT,
-				DEPTH_STENCIL = GL_STENCIL_BUFFER_BIT
-			};
+		
 
 			enum class GetIntegerParameter
 			{
@@ -483,37 +517,33 @@ namespace doom
 				return reinterpret_cast<const char*>(glGetString(static_cast<unsigned int>(pname)));
 			}
 
-			static inline unsigned int DrawCallCounter{ 0 };
+			
 			FORCE_INLINE static void DrawArray(ePrimitiveType mode, int first, int count)
 			{
 				glDrawArrays(static_cast<unsigned int>(mode), first, count);
-#ifdef DEBUG_MODE
-				++DrawCallCounter;
-#endif
+
+				doom::graphics::DrawCallCounter++;
 			}
 
 			FORCE_INLINE static void DrawElement(ePrimitiveType mode, int count, unsigned int type, const void* indices)
 			{
 				glDrawElements(static_cast<unsigned int>(mode), count, type, indices);
-#ifdef DEBUG_MODE
-				++DrawCallCounter;
-#endif
+
+				doom::graphics::DrawCallCounter++;
 			}
 
 			FORCE_INLINE static void DrawArraysInstanced(ePrimitiveType mode, int first, unsigned int count, int instancecount)
 			{
 				glDrawArraysInstanced(static_cast<unsigned int>(mode), first, count, instancecount);
-#ifdef DEBUG_MODE
-				++DrawCallCounter;
-#endif
+
+				doom::graphics::DrawCallCounter++;
 			}
 
 			FORCE_INLINE static void DrawElementsInstanced(ePrimitiveType mode, int count, unsigned int type, const void* indices, int instancecount)
 			{
 				glDrawElementsInstanced(static_cast<unsigned int>(mode), count, type, indices, instancecount);
-#ifdef DEBUG_MODE
-				++DrawCallCounter;
-#endif
+
+				doom::graphics::DrawCallCounter++;
 			}
 
 // 			enum class eQueryType

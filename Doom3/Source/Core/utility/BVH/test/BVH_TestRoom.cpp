@@ -197,7 +197,7 @@ void doom::BVH_TestRoom::TreeDebug()
 
 		if (static_cast<bool>(mPIPForDebug))
 		{
-			mPIPForDebug->BindFrameBuffer();
+			mPIPForDebug->StaticBindFrameBuffer();
 
 			graphics::GraphicsAPI::ClearColor(1.0f, 1.0f, 1.0f, 1.0f);
 			mPIPForDebug->ClearFrameBuffer();
@@ -216,7 +216,7 @@ void doom::BVH_TestRoom::AABBDebug()
 {
 	if (static_cast<bool>(mPIPForDebug))
 	{
-		mPIPForDebug->BindFrameBuffer();
+		mPIPForDebug->StaticBindFrameBuffer();
 
 		graphics::GraphicsAPI::ClearColor(1.0f, 1.0f, 1.0f, 1.0f);
 		mPIPForDebug->ClearFrameBuffer();
@@ -258,7 +258,7 @@ void doom::BVH_TestRoom::AABBDebug(int targetNode)
 {
 	if (static_cast<bool>(mPIPForDebug))
 	{
-		mPIPForDebug->BindFrameBuffer();
+		mPIPForDebug->StaticBindFrameBuffer();
 
 		graphics::GraphicsAPI::ClearColor(1.0f, 1.0f, 1.0f, 1.0f);
 		mPIPForDebug->ClearFrameBuffer();

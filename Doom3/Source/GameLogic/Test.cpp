@@ -18,10 +18,12 @@
 #include "Graphics/PictureInPicture/PIPManager.h"
 #include "AutoRotateAround.h"
 #include "Graphics/LightManager.h"
+#include "Graphics/Graphics_Setting.h"
 
 void doom::TEST::Init()
 {
-	ISingleton<graphics::LightManager>::GetSingleton()->SetAmbientLightIntensity(0.01f);
+	ISingleton<graphics::LightManager>::GetSingleton()->SetAmbientLightIntensity(0.1f);
+	doom::graphics::Graphics_Setting::ClearColor = { 1.0f, 1.0f, 1.0f, 1.0f };
 
 	auto currenScene = doom::Scene::GetCurrentWorld();
 
@@ -29,7 +31,7 @@ void doom::TEST::Init()
 	auto lightEntity = currenScene->CreateNewEntity();
 	lightEntity->GetTransform()->SetRotation(-30.0f, 0.0f, 0.0f);
 	auto dirLight = lightEntity->AddComponent<DirectionalLight>();
-	dirLight->SetIntensity(0.6f);
+	dirLight->SetIntensity(0.9f);
 	dirLight->SetColor({ 1.0f, 1.0f, 1.0f, 1.0f });
 	//lightEntity->AddComponent<AutoRotate>();
 
@@ -119,10 +121,10 @@ void doom::TEST::Init()
 	auto entity1Camera = entity1->AddComponent<Camera>();
 	entity1Camera->SetProjectionMode(doom::Camera::eProjectionType::Perspective);
 	
-	doom::graphics::PIPManager::GetSingleton()->AddNewPIP({ -1.0f, -1.0f }, { -0.6f, -0.6f }, &entity1Camera->mDefferedRenderingFrameBuffer.GetFrameBufferTexture(doom::graphics::GraphicsAPI::eBufferType::COLOR, 0));
-	doom::graphics::PIPManager::GetSingleton()->AddNewPIP({ -0.6f, -1.0f }, { -0.2f, -0.6f }, &entity1Camera->mDefferedRenderingFrameBuffer.GetFrameBufferTexture(doom::graphics::GraphicsAPI::eBufferType::COLOR, 1));
-	doom::graphics::PIPManager::GetSingleton()->AddNewPIP({ -0.2f, -1.0f }, { 0.2f, -0.6f }, &entity1Camera->mDefferedRenderingFrameBuffer.GetFrameBufferTexture(doom::graphics::GraphicsAPI::eBufferType::COLOR, 2));
-	doom::graphics::PicktureInPickture* depthTexturePIP = doom::graphics::PIPManager::GetSingleton()->AddNewPIP({ 0.2f, -1.0f }, { 0.6f, -0.6f }, &entity1Camera->mDefferedRenderingFrameBuffer.GetFrameBufferTexture(doom::graphics::GraphicsAPI::eBufferType::DEPTH, 0));
+	doom::graphics::PIPManager::GetSingleton()->AddNewPIP({ -1.0f, -1.0f }, { -0.6f, -0.6f }, &entity1Camera->mDefferedRenderingFrameBuffer.GetFrameBufferTexture(doom::graphics::GraphicsAPI::eBufferBitType::COLOR, 0));
+	doom::graphics::PIPManager::GetSingleton()->AddNewPIP({ -0.6f, -1.0f }, { -0.2f, -0.6f }, &entity1Camera->mDefferedRenderingFrameBuffer.GetFrameBufferTexture(doom::graphics::GraphicsAPI::eBufferBitType::COLOR, 1));
+	doom::graphics::PIPManager::GetSingleton()->AddNewPIP({ -0.2f, -1.0f }, { 0.2f, -0.6f }, &entity1Camera->mDefferedRenderingFrameBuffer.GetFrameBufferTexture(doom::graphics::GraphicsAPI::eBufferBitType::COLOR, 2));
+	doom::graphics::PicktureInPickture* depthTexturePIP = doom::graphics::PIPManager::GetSingleton()->AddNewPIP({ 0.2f, -1.0f }, { 0.6f, -0.6f }, &entity1Camera->mDefferedRenderingFrameBuffer.GetFrameBufferTexture(doom::graphics::GraphicsAPI::eBufferBitType::DEPTH, 0));
 	if (depthTexturePIP != nullptr)
 	{
 		doom::asset::ShaderAsset* const depthTextureShader = doom::assetimporter::AssetManager::GetAsset<asset::eAssetType::SHADER>("DepthBufferTextureShader.glsl");

@@ -7,7 +7,7 @@
 
 using namespace doom::graphics;
 
-RenderBuffer::RenderBuffer(FrameBuffer& ownerFrameBuffer, GraphicsAPI::eBufferType frameBufferType, unsigned int width, unsigned int height)
+RenderBuffer::RenderBuffer(FrameBuffer& ownerFrameBuffer, GraphicsAPI::eBufferBitType frameBufferType, unsigned int width, unsigned int height)
 {
 	ownerFrameBuffer.BindFrameBuffer();
 
@@ -18,7 +18,7 @@ RenderBuffer::RenderBuffer(FrameBuffer& ownerFrameBuffer, GraphicsAPI::eBufferTy
 
 	switch (frameBufferType)
 	{
-	case GraphicsAPI::eBufferType::COLOR:
+	case GraphicsAPI::eBufferBitType::COLOR:
 		if (Graphics_Setting::GetMultiSamplingNum() > 0)
 		{
 			glRenderbufferStorage(GL_RENDERBUFFER, static_cast<unsigned int>(eTextureInternalFormat::RGBA16F), width, height);
@@ -31,7 +31,7 @@ RenderBuffer::RenderBuffer(FrameBuffer& ownerFrameBuffer, GraphicsAPI::eBufferTy
 		glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_RENDERBUFFER, mRenderBufferID);
 		break;
 
-	case GraphicsAPI::eBufferType::DEPTH:
+	case GraphicsAPI::eBufferBitType::DEPTH:
 		if (Graphics_Setting::GetMultiSamplingNum() > 0)
 		{
 			glRenderbufferStorage(GL_RENDERBUFFER, static_cast<unsigned int>(eTextureInternalFormat::DEPTH_COMPONENT), width, height);
@@ -44,7 +44,7 @@ RenderBuffer::RenderBuffer(FrameBuffer& ownerFrameBuffer, GraphicsAPI::eBufferTy
 		glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, mRenderBufferID);
 		break;
 
-	case GraphicsAPI::eBufferType::DEPTH_STENCIL:
+	case GraphicsAPI::eBufferBitType::DEPTH_STENCIL:
 		if (Graphics_Setting::GetMultiSamplingNum() > 0)
 		{
 			glRenderbufferStorage(GL_RENDERBUFFER, static_cast<unsigned int>(eTextureInternalFormat::DEPTH24_STENCIL8), width, height);

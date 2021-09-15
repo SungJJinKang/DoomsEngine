@@ -27,24 +27,23 @@ void doom::graphics::FrameBuffer::GenerateBuffer(unsigned int defaultWidth, unsi
 	glGenFramebuffers(1, &(mFrameBufferID));
 }
 
-void FrameBuffer::BindFrameBuffer(FrameBuffer* frameBuffer)
+
+void FrameBuffer::RefreshTargetDrawBufferContainer()
 {
-	if (D_OVERLAP_BIND_CHECK_CHECK_IS_NOT_BOUND_AND_BIND_ID(FRAMEBUFFER_TAG, ((frameBuffer != nullptr) ? frameBuffer->mFrameBufferID.Get() : 0)) )
+	mTargetDrawBufferContainer.clear();
+	mTargetDrawBufferContainer.reserve(mAttachedColorTextures.size());
+
+	for (unsigned int i = 0; i < mAttachedColorTextures.size(); i++)
 	{
-		FrameBuffer::PreviousFrameBuffer = CurrentFrameBuffer;
-		if (frameBuffer == nullptr)
-		{
-			glBindFramebuffer(GL_FRAMEBUFFER, 0);
-			glViewport(0, 0, graphics::Graphics_Setting::GetScreenWidth(), graphics::Graphics_Setting::GetScreenHeight());
-		}
-		else
-		{
-			glBindFramebuffer(GL_FRAMEBUFFER, frameBuffer->mFrameBufferID);
-			glViewport(0, 0, frameBuffer->mDefaultWidth, frameBuffer->mDefaultHeight);
-		}
-		FrameBuffer::CurrentFrameBuffer = frameBuffer;
+		mTargetDrawBufferContainer.emplace_back(GL_COLOR_ATTACHMENT0 + i);
 	}
 }
+
+void FrameBuffer::SetTargetDrawBuffer()
+{
+	glDrawBuffers(static_cast<int>(mTargetDrawBufferContainer.size()), mTargetDrawBufferContainer.data());
+}
+
 
 FrameBuffer::~FrameBuffer()
 {
@@ -68,19 +67,19 @@ void FrameBuffer::CheckIsFrameBufferSuccesfullyCreated() noexcept
 	}
 }
 
-const doom::graphics::SingleTexture& FrameBuffer::GetFrameBufferTexture(GraphicsAPI::eBufferType bufferType, unsigned int index) const
+const doom::graphics::SingleTexture& FrameBuffer::GetFrameBufferTexture(GraphicsAPI::eBufferBitType bufferType, unsigned int index) const
 {
 	switch (bufferType)
 	{
-	case GraphicsAPI::eBufferType::COLOR:
+	case GraphicsAPI::eBufferBitType::COLOR:
 		return mAttachedColorTextures[index];
 		break;
 
-	case GraphicsAPI::eBufferType::DEPTH:
+	case GraphicsAPI::eBufferBitType::DEPTH:
 		return mAttachedDepthTextures[index];
 		break;
 
-	case GraphicsAPI::eBufferType::DEPTH_STENCIL:
+	case GraphicsAPI::eBufferBitType::DEPTH_STENCIL:
 		return mAttachedDepthStencilTextures[index];
 		break;
 	default:
@@ -88,21 +87,21 @@ const doom::graphics::SingleTexture& FrameBuffer::GetFrameBufferTexture(Graphics
 	}
 }
 
-doom::graphics::SingleTexture& FrameBuffer::GetFrameBufferTexture(GraphicsAPI::eBufferType bufferType, unsigned int index)
+doom::graphics::SingleTexture& FrameBuffer::GetFrameBufferTexture(GraphicsAPI::eBufferBitType bufferType, unsigned int index)
 {
 	switch (bufferType)
 	{
-	case GraphicsAPI::eBufferType::COLOR:
+	case GraphicsAPI::eBufferBitType::COLOR:
 		D_ASSERT(index >= 0 && index < mAttachedColorTextures.size());
 		return mAttachedColorTextures[index];
 		break;
 
-	case GraphicsAPI::eBufferType::DEPTH:
+	case GraphicsAPI::eBufferBitType::DEPTH:
 		D_ASSERT(index >= 0 && index < mAttachedDepthTextures.size());
 		return mAttachedDepthTextures[index];
 		break;
 
-	case GraphicsAPI::eBufferType::DEPTH_STENCIL:
+	case GraphicsAPI::eBufferBitType::DEPTH_STENCIL:
 		D_ASSERT(index >= 0 && index < mAttachedDepthStencilTextures.size());
 		return mAttachedDepthStencilTextures[index];
 		break;
@@ -116,7 +115,7 @@ bool doom::graphics::FrameBuffer::IsGenerated()
 	return mFrameBufferID != 0;
 }
 
-RenderBuffer& FrameBuffer::AttachRenderBuffer(GraphicsAPI::eBufferType renderBufferType, unsigned int width, unsigned int height)
+RenderBuffer& FrameBuffer::AttachRenderBuffer(GraphicsAPI::eBufferBitType renderBufferType, unsigned int width, unsigned int height)
 {
 	D_ASSERT(mFrameBufferID != 0);
 	auto& createdRenderBuffer = mAttachedRenderBuffers.emplace_back(*this, renderBufferType, width, height);
@@ -126,7 +125,7 @@ RenderBuffer& FrameBuffer::AttachRenderBuffer(GraphicsAPI::eBufferType renderBuf
 	return createdRenderBuffer;
 }
 
-SingleTexture& FrameBuffer::AttachTextureBuffer(GraphicsAPI::eBufferType frameBufferType, unsigned int width, unsigned int height)
+SingleTexture& FrameBuffer::AttachTextureBuffer(GraphicsAPI::eBufferBitType frameBufferType, unsigned int width, unsigned int height)
 {
 	D_ASSERT(mFrameBufferID != 0);
 
@@ -136,26 +135,23 @@ SingleTexture& FrameBuffer::AttachTextureBuffer(GraphicsAPI::eBufferType frameBu
 	
 	switch (frameBufferType)
 	{
-	case GraphicsAPI::eBufferType::COLOR:
+	case GraphicsAPI::eBufferBitType::COLOR:
 	{
 		SingleTexture colorTexture{ Texture::eTextureType::DIFFUSE, Texture::eTargetTexture::TEXTURE_2D,
 			eTextureInternalFormat::RGBA16F, width, height, eTextureComponentFormat::RGBA, Texture::eDataType::FLOAT, NULL };
 		glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0 + static_cast<unsigned int>(mAttachedColorTextures.size()), static_cast<unsigned int>(Texture::eBindTarget::TEXTURE_2D), colorTexture.GetID(), 0);
 
-		mClearBit |= static_cast<unsigned int>(GraphicsAPI::eBufferType::COLOR);
+		mClearBit |= static_cast<unsigned int>(GraphicsAPI::eBufferBitType::COLOR);
 		mDrawTarget |= GL_COLOR_ATTACHMENT0 + mAttachedColorTextures.size();
 
 		createdTexture = &mAttachedColorTextures.emplace_back(std::move(colorTexture));
 
-		std::vector<unsigned int> drawBufferTarget{};
-		for (unsigned int i = 0; i < mAttachedColorTextures.size(); i++)
-		{
-			drawBufferTarget.emplace_back(GL_COLOR_ATTACHMENT0 + i);
-		}
-		glDrawBuffers(static_cast<int>(mAttachedColorTextures.size()), drawBufferTarget.data());
+		RefreshTargetDrawBufferContainer();
+		SetTargetDrawBuffer();
+		
 		break;
 	}
-	case GraphicsAPI::eBufferType::DEPTH:
+	case GraphicsAPI::eBufferBitType::DEPTH:
 	{
 		D_ASSERT(mAttachedDepthTextures.size() == 0);
 
@@ -166,11 +162,11 @@ SingleTexture& FrameBuffer::AttachTextureBuffer(GraphicsAPI::eBufferType frameBu
 		mAttachedDepthTextures.push_back(std::move(depthTexture));
 		createdTexture = &mAttachedDepthTextures.back();
 
-		mClearBit |= static_cast<unsigned int>(GraphicsAPI::eBufferType::DEPTH);
+		mClearBit |= static_cast<unsigned int>(GraphicsAPI::eBufferBitType::DEPTH);
 
 		break;
 	}
-	case GraphicsAPI::eBufferType::DEPTH_STENCIL:
+	case GraphicsAPI::eBufferBitType::DEPTH_STENCIL:
 	{
 		D_ASSERT(mAttachedDepthStencilTextures.size() == 0);
 
@@ -181,7 +177,7 @@ SingleTexture& FrameBuffer::AttachTextureBuffer(GraphicsAPI::eBufferType frameBu
 		mAttachedDepthStencilTextures.push_back(std::move(depthStencilTexture));
 		createdTexture = &mAttachedDepthStencilTextures.back();
 
-		mClearBit |= static_cast<unsigned int>(GraphicsAPI::eBufferType::DEPTH_STENCIL);
+		mClearBit |= static_cast<unsigned int>(GraphicsAPI::eBufferBitType::DEPTH_STENCIL);
 		break;
 
 	}
