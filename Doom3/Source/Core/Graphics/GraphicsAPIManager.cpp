@@ -2,6 +2,7 @@
 
 #include "Graphics_Server.h"
 #include "Graphics_Setting.h"
+#include "UI/PrintText.h"
 
 void doom::graphics::GraphicsAPIManager::Initialize()
 {
@@ -98,4 +99,7 @@ void doom::graphics::GraphicsAPIManager::DEBUG_CALLBACK(GLenum source, GLenum ty
 void doom::graphics::GraphicsAPIManager::SwapBuffer()
 {
 	glfwSwapBuffers(Graphics_Setting::GetWindow());
+
+	doom::ui::PrintText("Draw Call : %d", graphics::DrawCallCounter);
+	graphics::DrawCallCounter = 0;
 }
