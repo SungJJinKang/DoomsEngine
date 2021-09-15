@@ -89,14 +89,6 @@ void Graphics_Server::OnEndOfFrame()
 		}
 	}
 
-#ifdef DEBUG_MODE
-	if (userinput::UserInput_Server::GetKeyToggle(eKEY_CODE::KEY_F3))
-	{
-		D_DEBUG_LOG(std::to_string(GraphicsAPI::DrawCallCounter), eLogType::D_ALWAYS);
-	}
-	GraphicsAPI::DrawCallCounter = 0;
-#endif
-
 	GraphicsAPIManager::SwapBuffer();
 }
 
