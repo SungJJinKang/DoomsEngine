@@ -70,15 +70,48 @@ namespace doom
 		virtual ~Transform() = default;
 		std::string ToString();
 
-		void SetPosition(const math::Vector3& position);
-		void SetPosition(float x, float y, float z);
+		void SetPosition(const math::Vector3& position)
+		{
+			mTranslationMatrix = math::translate(position);
+			mPosition = position;
 
-		void SetRotation(const math::Quaternion& rotation);
-		void SetRotation(const math::Vector3& eulerAngle);
-		void SetRotation(const float eulerAngleX, const float eulerAngleY, const float eulerAngleZ);
+			SetDirtyTrueAtThisFrame();
+			bmIsDirtyModelMatrix = true;
+		}
+		void SetPosition(float x, float y, float z)
+		{
+			SetPosition({ x, y, z });
+		}
 
-		void SetScale(const math::Vector3& scale);
-		void SetScale(const float x, const float y, const float z);
+		void SetRotation(const math::Quaternion& rotation)
+		{
+			mRotationMatrix = static_cast<math::Matrix4x4>(rotation);
+			mRotation = rotation;
+			SetDirtyTrueAtThisFrame();
+
+			bmIsDirtyModelMatrix = true;
+		}
+		void SetRotation(const math::Vector3& eulerAngle)
+		{
+			SetRotation(math::Quaternion(eulerAngle));
+		}
+
+		void SetRotation(const float eulerAngleX, const float eulerAngleY, const float eulerAngleZ)
+		{
+			SetRotation({ eulerAngleX, eulerAngleY, eulerAngleZ });
+		}
+
+		void SetScale(const math::Vector3& scale)
+		{
+			mScaleMatrix = math::scale(scale);
+			mScale = scale;
+			SetDirtyTrueAtThisFrame();
+			bmIsDirtyModelMatrix = true;
+		}
+		void SetScale(const float x, const float y, const float z)
+		{
+			SetScale({ x,y,z });
+		}
 
 		FORCE_INLINE math::Vector3 GetPosition()
 		{
@@ -107,10 +140,14 @@ namespace doom
 			return mScale;
 		}
 
-		
-
-		const math::Matrix4x4& GetModelMatrix();
-
+		const math::Matrix4x4& GetModelMatrix() 
+		{
+			if (bmIsDirtyModelMatrix.GetIsDirty(true))
+			{
+				mModelMatrixCache = mTranslationMatrix * mRotationMatrix * mScaleMatrix;
+			}
+			return mModelMatrixCache;
+		}
 
 		FORCE_INLINE math::Vector3 forward() const
 		{
@@ -153,9 +190,17 @@ namespace doom
 				SetRotation(math::Quaternion(eulerAngles) * mRotation);
 			}
 		}
-		void RotateAround(const math::Vector3& point, const math::Vector3& axis, float angle)
+		FORCE_INLINE void RotateAround(const math::Vector3& centerPoint, const math::Vector3& axis, const float angle)
 		{
+			math::Vector3 worldPos = GetPosition();
+			const math::Quaternion q = math::Quaternion::angleAxis(angle, axis);
+			math::Vector3 dif = worldPos - centerPoint;
+			dif = q * dif;
+			worldPos = centerPoint + dif;
+			SetPosition(worldPos);
 
+			
+			SetRotation(math::Quaternion(angle * math::DEGREE_TO_RADIAN, axis));
 		}
 
 		FORCE_INLINE math::Vector3 TransformDirection(math::Vector3& direction) const
