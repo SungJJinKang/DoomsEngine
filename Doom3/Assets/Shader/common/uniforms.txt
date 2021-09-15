@@ -30,5 +30,6 @@ layout (std140, binding = 0) uniform Global
     //
     float camNear;
     float camFar;
+    float ambientLightIntensity;
 };
 
