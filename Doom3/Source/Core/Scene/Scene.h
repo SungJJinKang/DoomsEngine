@@ -4,7 +4,6 @@
 #include "Entity.h"
 #include "../Game/IGameFlow.h"
 #include "SharedSceneSetting.h"
-#include "../Graphics/SceneGraphics.h"
 
 namespace doom
 {
@@ -29,8 +28,6 @@ namespace doom
 		size_t mEntityIDCounter{ 0 };
 		std::vector<std::unique_ptr<Entity, Entity::Deleter>> mSpawnedEntities{};
 		Camera* mMainCamera{ nullptr };
-
-		graphics::SceneGraphics mSceneGraphics{};
 
 		Scene(std::string sceneName = "");
 

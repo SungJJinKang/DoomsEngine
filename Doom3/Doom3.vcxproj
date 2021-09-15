@@ -48,7 +48,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v142</PlatformToolset>
+    <PlatformToolset>ClangCL</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
@@ -172,6 +172,7 @@
     <ClCompile Include="Source\Core\Graphics\FrameBuffer\DefferedRenderingFrameBuffer.cpp" />
     <ClCompile Include="Source\Core\Graphics\GraphicsAPIManager.cpp" />
     <ClCompile Include="Source\Core\Graphics\Graphics_Setting.cpp" />
+    <ClCompile Include="Source\Core\Graphics\LightManager.cpp" />
     <ClCompile Include="Source\Core\Graphics\PictureInPicture\PIPManager.cpp" />
     <ClCompile Include="Source\Core\Graphics\PrimitiveType\PrimitiveLine.cpp" />
     <ClCompile Include="main.cpp" />
@@ -271,7 +272,6 @@
     <ClCompile Include="Source\Core\Graphics\Texture\CubemapTexture.cpp" />
     <ClCompile Include="Source\Core\Scene\Entity.cpp" />
     <ClCompile Include="Source\Core\Graphics\FrameBuffer\FrameBuffer.cpp" />
-    <ClCompile Include="Source\Core\Graphics\SceneGraphics.cpp" />
     <ClCompile Include="Source\Core\Graphics\Material.cpp" />
     <ClCompile Include="Source\Core\Asset\ShaderAsset.cpp" />
     <ClCompile Include="Source\Core\Graphics\FrameBuffer\RenderBuffer.cpp" />
@@ -301,6 +301,7 @@
     <ClCompile Include="Source\Core\utility\KDTree\test\KDTree_TestRoom.cpp" />
     <ClCompile Include="Source\Core\WorldEditor\MapLoader.cpp" />
     <ClCompile Include="Source\GameLogic\CustomComponent\AutoRotate.cpp" />
+    <ClCompile Include="Source\GameLogic\CustomComponent\AutoRotateAround.cpp" />
     <ClCompile Include="Source\GameLogic\CustomComponent\AxisDebugger.cpp" />
     <ClCompile Include="Source\GameLogic\CustomComponent\ButtonRotate.cpp" />
     <ClCompile Include="Source\GameLogic\CustomComponent\CharacterSpawner.cpp" />
@@ -326,6 +327,7 @@
     <ClInclude Include="Source\Core\Graphics\FrameBuffer\DefferedRenderingFrameBuffer.h" />
     <ClInclude Include="Source\Core\Graphics\GraphicsAPIManager.h" />
     <ClInclude Include="Source\Core\Graphics\Graphics_Setting.h" />
+    <ClInclude Include="Source\Core\Graphics\LightManager.h" />
     <ClInclude Include="Source\Core\Graphics\PictureInPicture\PIPManager.h" />
     <ClInclude Include="Source\Core\Graphics\PrimitiveType\PrimitiveLine.h" />
     <ClInclude Include="Source\Core\ComponentPool\ComponentPool.h" />
@@ -476,7 +478,6 @@
     <ClInclude Include="Source\Core\Graphics\Texture\CubemapTexture.h" />
     <ClInclude Include="Source\Core\Scene\Entity.h" />
     <ClInclude Include="Source\Core\Graphics\FrameBuffer\FrameBuffer.h" />
-    <ClInclude Include="Source\Core\Graphics\SceneGraphics.h" />
     <ClInclude Include="Source\Core\Graphics\Graphics_Core.h" />
     <ClInclude Include="Source\Core\Graphics\FrameBuffer\RenderBuffer.h" />
     <ClInclude Include="Source\Core\Graphics\Texture\SingleTexture.h" />
@@ -552,6 +553,7 @@
     <ClInclude Include="Source\Core\utility\TreeNode.h" />
     <ClInclude Include="Source\Core\WorldEditor\MapLoader.h" />
     <ClInclude Include="Source\GameLogic\CustomComponent\AutoRotate.h" />
+    <ClInclude Include="Source\GameLogic\CustomComponent\AutoRotateAround.h" />
     <ClInclude Include="Source\GameLogic\CustomComponent\AxisDebugger.h" />
     <ClInclude Include="Source\GameLogic\CustomComponent\ButtonRotate.h" />
     <ClInclude Include="Source\GameLogic\CustomComponent\CharacterSpawner.h" />

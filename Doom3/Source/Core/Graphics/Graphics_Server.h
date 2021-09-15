@@ -10,11 +10,15 @@
 
 #include "FrameBuffer/FrameBuffer.h"
 
+#include "Buffer/UniformBufferObjectManager.h"
+#include "LightManager.h"
 #include "PictureInPicture/PIPManager.h"
 
 #include "Material.h"
 #include "DebugGraphics.h"
 #include "Acceleration/CullDistance/CullDistance.h"
+
+
 
 
 struct GLFWwindow;
@@ -102,6 +106,8 @@ namespace doom
 			
 		public:
 
+			UniformBufferObjectManager mUniformBufferObjectManager;
+			graphics::LightManager mLightManager;
 			graphics::PIPManager mPIPManager;
 
 			Graphics_Server();

@@ -64,7 +64,8 @@ namespace doom
 			dirLightCount = 1008,
 			pointLightCount = 1012,
 			camNear = 1016,
-			camFar = 1020
+			camFar = 1020,
+			ambientLightIntensity = 1024,
         };
    
 

@@ -6,6 +6,10 @@
 
 namespace doom
 {
+	namespace graphics 
+	{
+		class Material;
+	}
 	namespace asset
 	{
 		class ShaderAsset : public Asset
@@ -92,6 +96,7 @@ namespace doom
 			unsigned int GetFragmentId();
 			unsigned int GetGeometryId();
 
+			graphics::Material* CreateMatrialWithThisShader();
 		};
 
 		template <> struct Asset::asset_type<eAssetType::SHADER> { using type = ShaderAsset; };

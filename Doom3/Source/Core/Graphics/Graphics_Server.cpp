@@ -12,7 +12,6 @@
 #include "../Game/AssetManager/AssetManager.h"
 
 #include "GraphicsAPI.h"
-#include "SceneGraphics.h"
 
 #include "Buffer/UniformBufferObjectManager.h"
 #include "Buffer/UniformBufferObjectUpdater.h"
@@ -75,11 +74,8 @@ void Graphics_Server::Update()
 
 void Graphics_Server::OnEndOfFrame()
 {
-
-	auto sceneGraphics = SceneGraphics::GetSingleton();
-
-	sceneGraphics->mUniformBufferObjectManager.OnEndOfFrame_Internal();
-	sceneGraphics->mUniformBufferObjectManager.OnEndOfFrame();
+	mUniformBufferObjectManager.OnEndOfFrame_Internal();
+	mUniformBufferObjectManager.OnEndOfFrame();
 
 	for (unsigned int i = 0; i < MAX_LAYER_COUNT; i++)
 	{
@@ -214,8 +210,8 @@ void doom::graphics::Graphics_Server::DeferredRendering()
 	const std::vector<doom::Camera*>& spawnedCameraList = StaticContainer<doom::Camera>::GetAllStaticComponents();
 
 	D_START_PROFILING("Update Uniform Buffer", doom::profiler::eProfileLayers::Rendering);
-	SceneGraphics::GetSingleton()->mUniformBufferObjectManager.Update_Internal();
-	SceneGraphics::GetSingleton()->mUniformBufferObjectManager.Update();
+	mUniformBufferObjectManager.Update_Internal();
+	mUniformBufferObjectManager.Update();
 	D_END_PROFILING("Update Uniform Buffer");
 
 	FrameBuffer::UnBindFrameBuffer();

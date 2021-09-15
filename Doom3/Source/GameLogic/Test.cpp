@@ -8,6 +8,7 @@
 #include "UserInput_Server.h"
 #include "Move_WASD.h"
 #include <Rendering/Light/DirectionalLight.h>
+#include <Rendering/Light/PointLight.h>
 #include "AutoRotate.h"
 #include <TestComponent.h>
 #include "PhysicsComponent/BoxCollider3D.h"
@@ -15,6 +16,7 @@
 #include "CustomComponent/ButtonRotate.h"
 #include "CustomComponent/Portfolio/ViewFrustumCullingDebug.h"
 #include "Graphics/PictureInPicture/PIPManager.h"
+#include "AutoRotateAround.h"
 
 void doom::TEST::Init()
 {
@@ -22,9 +24,11 @@ void doom::TEST::Init()
 
 
 	auto lightEntity = currenScene->CreateNewEntity();
+	lightEntity->GetTransform()->SetRotation(-30.0f, 0.0f, 0.0f);
 	auto dirLight = lightEntity->AddComponent<DirectionalLight>();
-	dirLight->SetIntensity(5);
-	lightEntity->AddComponent<AutoRotate>();
+	dirLight->SetIntensity(0.1f);
+	dirLight->SetColor({ 1.0f, 1.0f, 0.0f, 1.0f });
+	//lightEntity->AddComponent<AutoRotate>();
 
 	//auto& threedasset = assetimporter::AssetManager::GetAsset<asset::eAssetType::THREE_D_MODEL>(0);
 	auto threedasset = assetimporter::AssetManager::GetAsset<asset::eAssetType::THREE_D_MODEL>("cerberus.assbin");
@@ -69,6 +73,21 @@ void doom::TEST::Init()
 				//entity->AddComponent<BoxCollider3D>();
 			}
 		}
+	}
+
+	{
+		auto entity = currenScene->CreateNewEntity();
+		entity->GetTransform()->SetPosition(100.0f, 0.0f, 0.0f);
+		auto meshRenderer = entity->AddComponent<MeshRenderer>();
+		meshRenderer->SetMesh(planetAsset->GetMesh(0));
+		meshRenderer->SetMaterial(material);
+		PointLight* pointLight = entity->AddComponent<PointLight>();
+		AutoRotateAround* autoRotateAround = entity->AddComponent<AutoRotateAround>();
+		pointLight->SetColor({ 1.0f, 0.0f, 0.0f, 1.0f });
+		pointLight->SetIntensity(3000.0f);
+		autoRotateAround->mCenterPos = math::Vector3{ 0.0f, 0.0f, 0.0f };
+		autoRotateAround->mRotateAngle = 1;
+		autoRotateAround->mRotateAxis = { 0.0f, 1.0f, 0.0f };
 	}
 
 	for(int i = -50 ; i < 50;  i += 15)

@@ -13,18 +13,12 @@
 
 namespace doom
 {
-	namespace graphics
-	{
-		class SceneGraphics;
-	}
 	class Renderer;
 
 	
 	template <>
 	class StaticContainer<Renderer>
 	{
-		friend class graphics::SceneGraphics;
-
 		using this_type = typename StaticContainer<Renderer>;
 
 	private:

@@ -353,3 +353,8 @@ unsigned int doom::asset::ShaderAsset::GetGeometryId()
 	return mGeometryId;
 }
 
+doom::graphics::Material* doom::asset::ShaderAsset::CreateMatrialWithThisShader()
+{
+	return new doom::graphics::Material(this);
+}
+

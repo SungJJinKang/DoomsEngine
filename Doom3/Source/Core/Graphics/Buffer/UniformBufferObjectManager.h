@@ -19,7 +19,6 @@ namespace doom
 		{
 			friend class Graphics_Server;
 			friend class Material;
-			friend class SceneGraphics;
 
 		private:
 

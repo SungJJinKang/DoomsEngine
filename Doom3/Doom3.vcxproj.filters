@@ -90,9 +90,6 @@
     <ClCompile Include="Source\Core\Graphics\OverlapBindChecker.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Core\Graphics\SceneGraphics.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Source\Component\Core\Component.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -456,6 +453,12 @@
     <ClCompile Include="Source\Core\UI\PrintText.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Source\GameLogic\CustomComponent\AutoRotateAround.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Core\Graphics\LightManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="dependency\glad\include\glad\glad.h">
@@ -786,9 +789,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="dependency\imgui\imstb_truetype.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Core\Graphics\SceneGraphics.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\Component\Core\Component.h">
@@ -1290,6 +1290,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\Core\UI\PrintText.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\GameLogic\CustomComponent\AutoRotateAround.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Core\Graphics\LightManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
