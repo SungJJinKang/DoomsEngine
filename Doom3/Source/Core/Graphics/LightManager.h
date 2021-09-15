@@ -1,12 +1,13 @@
 #pragma once
 
+#include <Core.h>
 #include "Buffer/UniformBufferObjectUpdater.h"
 
 namespace doom
 {
 	namespace graphics
 	{
-		class LightManager : public graphics::UniformBufferObjectUpdater
+		class LightManager : public ISingleton<LightManager>, public graphics::UniformBufferObjectUpdater
 		{
 
 		private:

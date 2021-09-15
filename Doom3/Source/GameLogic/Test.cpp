@@ -17,17 +17,20 @@
 #include "CustomComponent/Portfolio/ViewFrustumCullingDebug.h"
 #include "Graphics/PictureInPicture/PIPManager.h"
 #include "AutoRotateAround.h"
+#include "Graphics/LightManager.h"
 
 void doom::TEST::Init()
 {
+	ISingleton<graphics::LightManager>::GetSingleton()->SetAmbientLightIntensity(0.01f);
+
 	auto currenScene = doom::Scene::GetCurrentWorld();
 
 
 	auto lightEntity = currenScene->CreateNewEntity();
 	lightEntity->GetTransform()->SetRotation(-30.0f, 0.0f, 0.0f);
 	auto dirLight = lightEntity->AddComponent<DirectionalLight>();
-	dirLight->SetIntensity(0.1f);
-	dirLight->SetColor({ 1.0f, 1.0f, 0.0f, 1.0f });
+	dirLight->SetIntensity(0.6f);
+	dirLight->SetColor({ 1.0f, 1.0f, 1.0f, 1.0f });
 	//lightEntity->AddComponent<AutoRotate>();
 
 	//auto& threedasset = assetimporter::AssetManager::GetAsset<asset::eAssetType::THREE_D_MODEL>(0);
