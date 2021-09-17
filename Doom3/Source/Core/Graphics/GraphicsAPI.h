@@ -522,28 +522,28 @@ namespace doom
 			{
 				glDrawArrays(static_cast<unsigned int>(mode), first, count);
 
-				doom::graphics::DrawCallCounter++;
+				doom::graphics::RenderingDebugger::IncrementDrawCallCounter();
 			}
 
 			FORCE_INLINE static void DrawElement(ePrimitiveType mode, int count, unsigned int type, const void* indices)
 			{
 				glDrawElements(static_cast<unsigned int>(mode), count, type, indices);
 
-				doom::graphics::DrawCallCounter++;
+				doom::graphics::RenderingDebugger::IncrementDrawCallCounter();
 			}
 
 			FORCE_INLINE static void DrawArraysInstanced(ePrimitiveType mode, int first, unsigned int count, int instancecount)
 			{
 				glDrawArraysInstanced(static_cast<unsigned int>(mode), first, count, instancecount);
 
-				doom::graphics::DrawCallCounter++;
+				doom::graphics::RenderingDebugger::IncrementDrawCallCounter();
 			}
 
 			FORCE_INLINE static void DrawElementsInstanced(ePrimitiveType mode, int count, unsigned int type, const void* indices, int instancecount)
 			{
 				glDrawElementsInstanced(static_cast<unsigned int>(mode), count, type, indices, instancecount);
 
-				doom::graphics::DrawCallCounter++;
+				doom::graphics::RenderingDebugger::IncrementDrawCallCounter();
 			}
 
 // 			enum class eQueryType
