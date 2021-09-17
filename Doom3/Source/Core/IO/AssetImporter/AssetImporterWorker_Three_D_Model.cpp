@@ -206,7 +206,17 @@ void doom::assetimporter::AssetImporterWorker<::doom::asset::eAssetType::THREE_D
 		//why address of mAABB3D.mLowerBound
 		//because mAABB is virtual class, it has virtual table pointer internally ( we can't access )
 		//so if you access to mAABB3D, virtual table pointer take up foremost 4 byte of mAABB3D
-		std::memcpy(&(asset.mModelMeshAssets[meshIndex].mAABB3D.mLowerBound), &(mesh->mAABB), sizeof(math::Vector3) * 2);
+
+		asset.mModelMeshAssets[meshIndex].mAABB3D.mLowerBound.x = mesh->mAABB.mMin.x;
+		asset.mModelMeshAssets[meshIndex].mAABB3D.mLowerBound.y = mesh->mAABB.mMin.y;
+		asset.mModelMeshAssets[meshIndex].mAABB3D.mLowerBound.z = mesh->mAABB.mMin.z;
+		asset.mModelMeshAssets[meshIndex].mAABB3D.mLowerBound.w = 0.0f;
+
+		asset.mModelMeshAssets[meshIndex].mAABB3D.mUpperBound.x = mesh->mAABB.mMax.x;
+		asset.mModelMeshAssets[meshIndex].mAABB3D.mUpperBound.y = mesh->mAABB.mMax.y;
+		asset.mModelMeshAssets[meshIndex].mAABB3D.mUpperBound.z = mesh->mAABB.mMax.z;
+		asset.mModelMeshAssets[meshIndex].mAABB3D.mUpperBound.w = 0.0f;
+
 		asset.mModelMeshAssets[meshIndex].mSphere.mRadius = (asset.mModelMeshAssets[meshIndex].mAABB3D.mUpperBound - asset.mModelMeshAssets[meshIndex].mAABB3D.mLowerBound).magnitude() * 0.5f;
 
 		switch (mesh->mPrimitiveTypes)

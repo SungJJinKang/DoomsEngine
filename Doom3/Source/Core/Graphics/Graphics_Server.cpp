@@ -52,7 +52,9 @@ void Graphics_Server::Init()
 
 void doom::graphics::Graphics_Server::LateInit()
 {
+#ifdef DEBUG_MODE
 	mDebugGraphics.Init();
+#endif 
 
 	SetRenderingMode(Graphics_Server::eRenderingMode::DeferredRendering);
 	mQuadMesh = Mesh::GetQuadMesh();
@@ -74,6 +76,10 @@ void Graphics_Server::Update()
 void Graphics_Server::OnEndOfFrame()
 {
 	Renderder_OnEndOfFrameComponent();
+
+#ifdef DEBUG_MODE
+	mDebugGraphics.Reset();
+#endif
 
 	GraphicsAPIManager::SwapBuffer();
 }
@@ -176,7 +182,7 @@ void Graphics_Server::PreUpdateEntityBlocks()
 			::doom::Renderer* const renderer = reinterpret_cast<::doom::Renderer*>(entityBlock->mRenderer[entityIndex]);
 
 			//this is really expensive!!
-			float worldRadius = renderer->BVH_Sphere_Node_Object::GetWorldColliderCacheByReference()->mRadius;
+			float worldRadius = renderer->BVH_Sphere_Node_Object::GetWorldColliderCache()->mRadius;
 
 			const math::Vector3 renderedObjectPos = renderer->GetTransform()->GetPosition();
 
@@ -187,7 +193,7 @@ void Graphics_Server::PreUpdateEntityBlocks()
 			
 			std::memcpy(
 				entityBlock->mWorldAABB + entityIndex,
-				const_cast<Renderer*>(renderer)->ColliderUpdater<doom::physics::AABB3D>::GetWorldColliderCacheByReference()->data(),
+				const_cast<Renderer*>(renderer)->ColliderUpdater<doom::physics::AABB3D>::GetWorldColliderCache()->data(),
 				sizeof(culling::AABB)
 			);
 			
@@ -246,6 +252,11 @@ void doom::graphics::Graphics_Server::DeferredRendering()
 	DoCullJob(); // do this first
 	//TODO : Think where put this, as early as good
 
+	Renderder_DrawRenderingBoundingBox();
+#ifdef DEBUG_MODE
+	mDebugGraphics.BufferVertexDataToGPU();
+#endif
+
 	const std::vector<doom::Camera*>& spawnedCameraList = StaticContainer<doom::Camera>::GetAllStaticComponents();
 
 	D_START_PROFILING("Update Uniform Buffer", doom::profiler::eProfileLayers::Rendering);
@@ -267,7 +278,7 @@ void doom::graphics::Graphics_Server::DeferredRendering()
 
 
 		//D_START_PROFILING("Draw Objects", doom::profiler::eProfileLayers::Rendering);
-
+		GraphicsAPI::Enable(GraphicsAPI::eCapability::DEPTH_TEST);
 		RenderObject(camera);
 
 		camera->mDefferedRenderingFrameBuffer.UnBindFrameBuffer();
@@ -288,7 +299,12 @@ void doom::graphics::Graphics_Server::DeferredRendering()
 			mQuadMesh->Draw();
 			GraphicsAPI::Enable(GraphicsAPI::eCapability::DEPTH_TEST);
 
-			Renderder_DrawRenderingBoundingBox();
+#ifdef DEBUG_MODE
+			if (userinput::UserInput_Server::GetKeyToggle(eKEY_CODE::KEY_F6) == true)
+			{
+				mDebugGraphics.Draw();
+			}
+#endif
 		}
 		
 	}
@@ -308,10 +324,6 @@ void doom::graphics::Graphics_Server::RenderObject(doom::Camera* const camera)
 {
 	camera->UpdateUniformBufferObject();
 
-	if (userinput::UserInput_Server::GetKeyToggle(eKEY_CODE::KEY_F6) == true)
-	{
-		mDebugGraphics.DrawDebug();
-	}
 
 	if ( (camera->mCameraFlag & eCameraFlag::IS_CULLED) == 0)
 	{

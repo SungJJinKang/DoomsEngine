@@ -1,5 +1,10 @@
 #pragma once
 
+#include "Core.h"
+
+#ifdef DEBUG_MODE
+
+
 #include <array>
 #include <string>
 #include <memory>
@@ -20,9 +25,6 @@ namespace doom
 		class Graphics_Server;
 		class DebugGraphics : public ISingleton<DebugGraphics>
 		{
-			friend class Graphics_Server;
-
-			
 		private:
 
 			static inline const std::string DEBUG_2D_SHADER{ "Debug2DShader.glsl" };
@@ -33,7 +35,7 @@ namespace doom
 			static inline constexpr unsigned int DEBUG_2D_TRIANGLE_INDEX{ 2 };
 			static inline constexpr unsigned int DEBUG_3D_TRIANGLE_INDEX{ 3 };
 
-			static inline constexpr unsigned int MAX_DEBUG_VERTEX_COUNT{ 3000 * 2 + 300 * 3 }; // 24 * 1000byte -> 0.024mb
+			static inline constexpr unsigned int MAX_DEBUG_VERTEX_COUNT{ 1000 * 12 }; 
 			Mesh mDebugMesh{};
 
 			std::array<std::vector<PrimitiveLine>, ENUM_COLOR_COUNT> m2dLine;
@@ -46,11 +48,8 @@ namespace doom
 			std::unique_ptr<Material> m2DMaterial;
 			std::unique_ptr<Material> m3DMaterial;
 
-			DebugGraphics();
-			void DrawDebug();
+			
 
-			void Init();
-			void Reset();
 
 			Material* mDrawInstantlyMaterial{ nullptr };
 
@@ -74,6 +73,8 @@ namespace doom
 
 			static inline bool mbDrawDebug{ true };
 			static inline eColor mDefaultDebugColor{ eColor::White };
+
+			DebugGraphics();
 
 			/// <summary>
 			/// Why limit color.
@@ -104,12 +105,19 @@ namespace doom
 			/// </summary>
 			void DebugDraw2DTriangle(const math::Vector3& pointA, const math::Vector3& pointB, const math::Vector3& pointC, eColor color, bool drawInstantly = false);
 			
-
 			void SetDrawInstantlyMaterial(Material* material);
 
-			
+
+			void Init();
+			void Reset();
+
+			void BufferVertexDataToGPU();
+			void Draw();
 		};
 
 		
 	}
 }
+
+
+#endif

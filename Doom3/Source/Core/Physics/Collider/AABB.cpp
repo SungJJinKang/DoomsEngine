@@ -50,6 +50,7 @@ math::Vector2 doom::physics::AABB2D::GetHalfExtent() const
 
 void doom::physics::AABB2D::Render(eColor color, bool drawInstantly /*= false*/)
 {
+#ifdef DEBUG_MODE
 	auto debugGraphics = graphics::DebugGraphics::GetSingleton();
 
 	const math::Vector3 x{ mUpperBound.x - mLowerBound.x, 0, 0 };
@@ -59,6 +60,7 @@ void doom::physics::AABB2D::Render(eColor color, bool drawInstantly /*= false*/)
 	debugGraphics->DebugDraw2DLine(mLowerBound, mLowerBound + y, color, drawInstantly);
 	debugGraphics->DebugDraw2DLine(mLowerBound + x, mLowerBound + x + y, color, drawInstantly);
 	debugGraphics->DebugDraw2DLine(mLowerBound + y, mLowerBound + y + x, color, drawInstantly);
+#endif
 }
 
 
@@ -186,6 +188,7 @@ float AABB3D::GetDiagonarLineLength() const
 
 void doom::physics::AABB3D::Render(eColor color, bool drawInstantly /*= false*/)
 {
+#ifdef DEBUG_MODE
 	auto debugGraphics = graphics::DebugGraphics::GetSingleton();
 
 	const math::Vector3 mLowerBoundVec3 = mLowerBound;
@@ -212,10 +215,12 @@ void doom::physics::AABB3D::Render(eColor color, bool drawInstantly /*= false*/)
 	debugGraphics->DebugDraw3DLine(mLowerBoundVec3 + y + z, mLowerBoundVec3 + y + z + x, color, drawInstantly);
 	debugGraphics->DebugDraw3DLine(mLowerBoundVec3 + x + z, mLowerBoundVec3 + x + z + y, color, drawInstantly);
 
+#endif
 }
 
 void doom::physics::AABB3D::Render2DTopView(eColor color, bool drawInstantly /*= false*/)
 {
+#ifdef DEBUG_MODE
 	auto debugGraphics = graphics::DebugGraphics::GetSingleton();
 
 	math::Vector3 lower{ mLowerBound.x, mLowerBound.z, 0.0f };
@@ -226,6 +231,7 @@ void doom::physics::AABB3D::Render2DTopView(eColor color, bool drawInstantly /*=
 	debugGraphics->DebugDraw2DLine(lower + width, lower + width + height, color, drawInstantly);
 	debugGraphics->DebugDraw2DLine(lower , lower + height, color, drawInstantly);
 	debugGraphics->DebugDraw2DLine(lower + height, lower + width + height, color, drawInstantly);
+#endif
 }
 
 doom::physics::ColliderType doom::physics::AABB3D::GetColliderType() const

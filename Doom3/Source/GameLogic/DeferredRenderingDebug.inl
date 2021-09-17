@@ -21,6 +21,7 @@
 #include "AutoRotateAround.h"
 #include "Graphics/LightManager.h"
 #include "Graphics/Graphics_Setting.h"
+#include "Portfolio/RenderingAABBController.h"
 
 void doom::GameLogicStartPoint::StartGameLogic()
 {
@@ -63,7 +64,7 @@ void doom::GameLogicStartPoint::StartGameLogic()
 	// 			entity->AddComponent<BoxCollider3D>();
 	// 		}
 	// 	}
-	int count = 30;
+	int count = 50;
 	for (int i = -count; i < count; i = i + 15)
 	{
 		for (int j = -count; j < count; j = j + 15)
@@ -71,7 +72,7 @@ void doom::GameLogicStartPoint::StartGameLogic()
 			for (int k = -count; k < count; k = k + 15)
 			{
 				auto entity = currenScene->CreateNewEntity();
-				entity->GetTransform()->SetScale(1.5f, 1.5f, 1.5f);
+				entity->GetTransform()->SetScale(1.2f, 1.2f, 1.2f);
 				entity->GetTransform()->SetPosition(i, j, k);
 				auto meshRenderer = entity->AddComponent<MeshRenderer>();
 				meshRenderer->SetMesh(planetAsset->GetMesh(0));
@@ -121,6 +122,7 @@ void doom::GameLogicStartPoint::StartGameLogic()
 
 	auto entity1 = currenScene->CreateNewEntity();
 	auto entity1Camera = entity1->AddComponent<Camera>();
+	entity1->AddComponent<RenderingAABBController>();
 	entity1Camera->SetProjectionMode(doom::Camera::eProjectionType::Perspective);
 
 	doom::graphics::PIPManager::GetSingleton()->AddNewPIP({ -1.0f, -1.0f }, { -0.6f, -0.6f }, &entity1Camera->mDefferedRenderingFrameBuffer.GetFrameBufferTexture(doom::graphics::GraphicsAPI::eBufferBitType::COLOR, 0));

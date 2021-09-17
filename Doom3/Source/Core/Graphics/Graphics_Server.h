@@ -80,7 +80,9 @@ namespace doom
 			std::unique_ptr<culling::EveryCulling> mCullingSystem;
 			//CullDistance mCullDistance{};
 
+#ifdef DEBUG_MODE
 			DebugGraphics mDebugGraphics{};
+#endif
 
 			eRenderingMode mCurrentRenderingMode{ eRenderingMode::ForwardRendering };
 			

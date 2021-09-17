@@ -78,7 +78,9 @@ namespace doom
 			if (logType == eLogType::D_ERROR)
 			{
 				std::cout.flush();
+#ifdef DEBUG_MODE
 				psnip_trap();
+#endif
 			}
 		}
 		void Logger::Log(const char* log, eLogType logType) noexcept
@@ -136,22 +138,6 @@ namespace doom
 		}
 		*/
 
-		void Logger::Draw2DLine(const math::Vector2& startPosition, const math::Vector2& endPosition, eColor color) noexcept
-		{
-			doom::graphics::DebugGraphics::GetSingleton()->DebugDraw2DLine(startPosition, endPosition, color);
-		}
-		void Logger::Draw3DLine(const math::Vector3& startPosition, const math::Vector3& endPosition, eColor color) noexcept
-		{
-			doom::graphics::DebugGraphics::GetSingleton()->DebugDraw3DLine(startPosition, endPosition, color);
-		}
-		void Logger::Draw2DTriangle(const math::Vector3& pointA, const math::Vector3& pointB, const math::Vector3& pointC, eColor color) noexcept
-		{
-			doom::graphics::DebugGraphics::GetSingleton()->DebugDraw2DTriangle(pointA, pointB, pointC, color);
-		}
-		void Logger::Draw3DTriangle(const math::Vector3& pointA, const math::Vector3& pointB, const math::Vector3& pointC, eColor color) noexcept
-		{
-			doom::graphics::DebugGraphics::GetSingleton()->DebugDraw3DTriangle(pointA, pointB, pointC, color);
-		}
 
 
 	}
