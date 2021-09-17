@@ -70,7 +70,7 @@ namespace doom
 		virtual ~Transform() = default;
 		std::string ToString();
 
-		void SetPosition(const math::Vector3& position)
+		FORCE_INLINE void SetPosition(const math::Vector3& position) noexcept
 		{
 			mTranslationMatrix = math::translate(position);
 			mPosition = position;
@@ -78,42 +78,42 @@ namespace doom
 			SetDirtyTrueAtThisFrame();
 			bmIsDirtyModelMatrix = true;
 		}
-		void SetPosition(float x, float y, float z)
+		FORCE_INLINE void SetPosition(float x, float y, float z) noexcept
 		{
 			SetPosition({ x, y, z });
 		}
 
-		void SetRotation(const math::Quaternion& rotation)
+		FORCE_INLINE void SetRotation(const math::Quaternion& rotation) noexcept
 		{
 			mRotationMatrix = static_cast<math::Matrix4x4>(rotation);
 			mRotation = rotation;
 			SetDirtyTrueAtThisFrame();
 
 			bmIsDirtyModelMatrix = true;
-		}
-		void SetRotation(const math::Vector3& eulerAngle)
+		} 
+		FORCE_INLINE void SetRotation(const math::Vector3& eulerAngle) noexcept
 		{
 			SetRotation(math::Quaternion(eulerAngle));
 		}
 
-		void SetRotation(const float eulerAngleX, const float eulerAngleY, const float eulerAngleZ)
+		FORCE_INLINE void SetRotation(const float eulerAngleX, const float eulerAngleY, const float eulerAngleZ) noexcept
 		{
 			SetRotation({ eulerAngleX, eulerAngleY, eulerAngleZ });
 		}
 
-		void SetScale(const math::Vector3& scale)
+		FORCE_INLINE void SetScale(const math::Vector3& scale) noexcept
 		{
 			mScaleMatrix = math::scale(scale);
 			mScale = scale;
 			SetDirtyTrueAtThisFrame();
 			bmIsDirtyModelMatrix = true;
 		}
-		void SetScale(const float x, const float y, const float z)
+		FORCE_INLINE void SetScale(const float x, const float y, const float z) noexcept
 		{
 			SetScale({ x,y,z });
 		}
 
-		FORCE_INLINE math::Vector3 GetPosition()
+		FORCE_INLINE math::Vector3 GetPosition() noexcept
 		{
 			return mPosition;
 		}
@@ -122,25 +122,25 @@ namespace doom
 			return mPosition;
 		}
 
-		FORCE_INLINE math::Quaternion GetRotation()
+		FORCE_INLINE math::Quaternion GetRotation() noexcept
 		{
 			return mRotation;
 		}
-		FORCE_INLINE const math::Quaternion& GetRotation() const
+		FORCE_INLINE const math::Quaternion& GetRotation() const noexcept
 		{
 			return mRotation;
 		}
 
-		FORCE_INLINE math::Vector3 GetScale()
+		FORCE_INLINE math::Vector3 GetScale() noexcept
 		{
 			return mScale;
 		}
-		FORCE_INLINE const math::Vector3& GetScale() const
+		FORCE_INLINE const math::Vector3& GetScale() const noexcept
 		{
 			return mScale;
 		}
 
-		const math::Matrix4x4& GetModelMatrix() 
+		FORCE_INLINE const math::Matrix4x4& GetModelMatrix() noexcept
 		{
 			if (bmIsDirtyModelMatrix.GetIsDirty(true))
 			{
@@ -149,25 +149,25 @@ namespace doom
 			return mModelMatrixCache;
 		}
 
-		FORCE_INLINE math::Vector3 forward() const
+		FORCE_INLINE math::Vector3 forward() const noexcept
 		{
 			return mRotation * math::Vector3::forward;
 		}
-		FORCE_INLINE math::Vector3 right() const
+		FORCE_INLINE math::Vector3 right() const noexcept
 		{
 			return mRotation * math::Vector3::right;
 		}
-		FORCE_INLINE math::Vector3 up() const
+		FORCE_INLINE math::Vector3 up() const noexcept
 		{
 			return mRotation * math::Vector3::up;
 		}
 
-		FORCE_INLINE void LookAt(const Transform& target, const math::Vector3& up)
+		FORCE_INLINE void LookAt(const Transform& target, const math::Vector3& up) noexcept
 		{
 			SetRotation(static_cast<math::Quaternion>(math::lookAt(mPosition, target.mPosition, up)));
 		}
 
-		FORCE_INLINE void Rotate(const math::Quaternion& quat, const eSpace& relativeTo)
+		FORCE_INLINE void Rotate(const math::Quaternion& quat, const eSpace& relativeTo) noexcept
 		{
 			if (relativeTo == eSpace::Self)
 			{
@@ -179,7 +179,7 @@ namespace doom
 			}
 			
 		}
-		FORCE_INLINE void Rotate(const math::Vector3& eulerAngles, const eSpace& relativeTo)
+		FORCE_INLINE void Rotate(const math::Vector3& eulerAngles, const eSpace& relativeTo) noexcept
 		{
 			if (relativeTo == eSpace::Self)
 			{
@@ -190,7 +190,7 @@ namespace doom
 				SetRotation(math::Quaternion(eulerAngles) * mRotation);
 			}
 		}
-		FORCE_INLINE void RotateAround(const math::Vector3& centerPoint, const math::Vector3& axis, const float angle)
+		FORCE_INLINE void RotateAround(const math::Vector3& centerPoint, const math::Vector3& axis, const float angle) noexcept
 		{
 			math::Vector3 worldPos = GetPosition();
 			const math::Quaternion q = math::Quaternion::angleAxis(angle, axis);
@@ -203,19 +203,19 @@ namespace doom
 			SetRotation(math::Quaternion(angle * math::DEGREE_TO_RADIAN, axis));
 		}
 
-		FORCE_INLINE math::Vector3 TransformDirection(math::Vector3& direction) const
+		FORCE_INLINE math::Vector3 TransformDirection(math::Vector3& direction) const noexcept
 		{
 			return mRotation * direction.normalized();
 		}
-		FORCE_INLINE math::Vector3 TransformPoint(const math::Vector3& point) const
+		FORCE_INLINE math::Vector3 TransformPoint(const math::Vector3& point) const noexcept
 		{
 			return mRotation * point;
 		}
-		FORCE_INLINE math::Vector3 TransformVector(const math::Vector3& vector) const
+		FORCE_INLINE math::Vector3 TransformVector(const math::Vector3& vector) const noexcept
 		{
 			return mRotation * vector;
 		}
-		FORCE_INLINE void Translate(const math::Vector3& translation, const eSpace& relativeTo = eSpace::World)
+		FORCE_INLINE void Translate(const math::Vector3& translation, const eSpace& relativeTo = eSpace::World) noexcept
 		{
 			if (relativeTo == eSpace::World)
 			{
