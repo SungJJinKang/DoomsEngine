@@ -1,4 +1,5 @@
 #pragma once
+
 #include "Graphics_Core.h"
 
 #include "../Game/IGameFlow.h"
@@ -16,7 +17,6 @@
 
 #include "Material.h"
 #include "DebugGraphics.h"
-#include "Acceleration/CullDistance/CullDistance.h"
 
 
 
@@ -72,13 +72,10 @@ namespace doom
 			virtual void Update() final;
 			virtual void OnEndOfFrame() final;
 			
-		
 			std::unique_ptr<culling::EveryCulling> mCullingSystem;
 			//CullDistance mCullDistance{};
 
-#ifdef DEBUG_MODE
 			DebugGraphics mDebugGraphics{};
-#endif
 
 			eRenderingMode mCurrentRenderingMode{ eRenderingMode::ForwardRendering };
 			
@@ -106,6 +103,7 @@ namespace doom
 			
 		public:
 
+			RenderingDebugger mRenderingDebugger;
 			UniformBufferObjectManager mUniformBufferObjectManager;
 			graphics::LightManager mLightManager;
 			graphics::PIPManager mPIPManager;

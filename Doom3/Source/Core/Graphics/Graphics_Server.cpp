@@ -52,9 +52,7 @@ void Graphics_Server::Init()
 
 void doom::graphics::Graphics_Server::LateInit()
 {
-#ifdef DEBUG_MODE
 	mDebugGraphics.Init();
-#endif
 
 	SetRenderingMode(Graphics_Server::eRenderingMode::DeferredRendering);
 	mQuadMesh = Mesh::GetQuadMesh();
@@ -65,11 +63,11 @@ void doom::graphics::Graphics_Server::LateInit()
 
 void Graphics_Server::Update()
 {		
-	//mCullDistance.OnStartDraw();
+	
 	DeferredRendering();
 	
 
-
+	mRenderingDebugger.UpdateDebugger();
 }
 
 void Graphics_Server::OnEndOfFrame()
@@ -164,7 +162,10 @@ void Graphics_Server::DoCullJob()
 	unsigned int CullJobAvailiableCameraCount = 0;
 	for (doom::Camera* camera : spawnedCameraList)
 	{
-		if ((camera->mCameraFlag & doom::eCameraFlag::IS_CULLED) != 0)
+		if (
+			camera->GetCameraFlag(doom::eCameraFlag::IS_CULLED) == true &&
+			camera->GetCameraFlag(doom::eCameraFlag::PAUSE_CULL_JOB) == false
+		)
 		{
 			camera->CameraIndexInCullingSystem = CullJobAvailiableCameraCount;
 
@@ -179,19 +180,23 @@ void Graphics_Server::DoCullJob()
 	
 	}
 
-	mCullingSystem->SetCameraCount(CullJobAvailiableCameraCount);
+	if (CullJobAvailiableCameraCount > 0)
+	{
+		mCullingSystem->SetCameraCount(CullJobAvailiableCameraCount);
 
-	D_START_PROFILING("mFrotbiteCullingSystem.ResetCullJobStat", doom::profiler::eProfileLayers::Rendering);
-	mCullingSystem->ResetCullJobState();
-	D_END_PROFILING("mFrotbiteCullingSystem.ResetCullJobStat");
+		D_START_PROFILING("mFrotbiteCullingSystem.ResetCullJobStat", doom::profiler::eProfileLayers::Rendering);
+		mCullingSystem->ResetCullJobState();
+		D_END_PROFILING("mFrotbiteCullingSystem.ResetCullJobStat");
 
-	D_START_PROFILING("PreUpdateEntityBlocks", doom::profiler::eProfileLayers::Rendering);
-	PreUpdateEntityBlocks();
-	D_END_PROFILING("PreUpdateEntityBlocks");
+		D_START_PROFILING("PreUpdateEntityBlocks", doom::profiler::eProfileLayers::Rendering);
+		PreUpdateEntityBlocks();
+		D_END_PROFILING("PreUpdateEntityBlocks");
 
-	D_START_PROFILING("Push Culling Job To Linera Culling System", doom::profiler::eProfileLayers::Rendering);
-	resource::JobSystem::GetSingleton()->PushBackJobToAllThreadWithNoSTDFuture(mCullingSystem->GetCullJob());
-	D_END_PROFILING("Push Culling Job To Linera Culling System");
+		D_START_PROFILING("Push Culling Job To Linera Culling System", doom::profiler::eProfileLayers::Rendering);
+		resource::JobSystem::GetSingleton()->PushBackJobToAllThreadWithNoSTDFuture(mCullingSystem->GetCullJob());
+		D_END_PROFILING("Push Culling Job To Linera Culling System");
+	}
+	
 }
 
 void doom::graphics::Graphics_Server::DeferredRendering()
@@ -260,13 +265,10 @@ void doom::graphics::Graphics_Server::RenderObject(doom::Camera* const camera)
 {
 	camera->UpdateUniformBufferObject();
 
-#ifdef DEBUG_MODE
-	//if (userinput::UserInput_Server::GetKeyToggle(eKEY_CODE::KEY_F5) == true)
-	//{
-	mDebugGraphics.DrawDebug();
-	//}
-#endif
-
+	if (userinput::UserInput_Server::GetKeyToggle(eKEY_CODE::KEY_F6) == true)
+	{
+		mDebugGraphics.DrawDebug();
+	}
 
 	if ( (camera->mCameraFlag & eCameraFlag::IS_CULLED) == 0)
 	{

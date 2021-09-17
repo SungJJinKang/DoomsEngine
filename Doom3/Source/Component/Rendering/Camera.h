@@ -30,7 +30,7 @@ namespace doom
 	enum eCameraFlag : unsigned int
 	{
 		IS_CULLED = 1 << 0,
-
+		PAUSE_CULL_JOB = 1 << 1,
 	};
 
 	class Camera : public PlainComponent, public graphics::UniformBufferObjectUpdater, public StaticContainer<Camera>
@@ -149,7 +149,7 @@ namespace doom
 		float GetViewportRectY() const;
 		float GetViewportRectWidth() const;
 		float GetViewportRectHeight() const;
-
+		bool GetCameraFlag(const eCameraFlag cameraFlag) const;
 	
 		static Camera* GetMainCamera();
 

@@ -24,6 +24,7 @@ namespace doom
 
 		public:
 
+
 			static inline math::Vector4 ClearColor{ 0.0f, 0.0f, 0.0f, 1.0f };
 
 			static void LoadData();

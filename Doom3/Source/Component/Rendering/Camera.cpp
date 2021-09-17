@@ -162,6 +162,11 @@ float Camera::GetViewportRectHeight() const
 	return mViewportRectHeight;
 }
 
+bool doom::Camera::GetCameraFlag(const eCameraFlag cameraFlag) const
+{
+	return ( mCameraFlag & static_cast<unsigned int>(cameraFlag) ) != 0;
+}
+
 
 
 
