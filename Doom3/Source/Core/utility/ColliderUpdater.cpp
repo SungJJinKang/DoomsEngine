@@ -1,9 +1,9 @@
 #include "ColliderUpdater.h"
 
 template <typename ColliderType>
-void doom::ColliderUpdater<ColliderType>::UpdateWorldColliderCache(bool force)
+void doom::ColliderUpdater<ColliderType>::UpdateWorldColliderCache(bool clearDirty)
 {
-	if (IsWorldColliderCacheDirty.GetIsDirty(force))
+	if (IsWorldColliderCacheDirty.GetIsDirty(clearDirty))
 	{
 		//	TO DO : When Rotate Object, ColliderType can be larged. 
 		//			then whenever rotate object, BVH_Node can be reinserted everytime. this is expensive.
@@ -37,14 +37,14 @@ const ColliderType* doom::ColliderUpdater<ColliderType>::GetWorldColliderCache()
 {
 	D_ASSERT(IsWorldColliderCacheDirty.HasDirtySender() == true); // must register IsWorldBVhColliderCacheDirty to Object's Transform DirtySencer
 
-	UpdateWorldColliderCache(false);
+	UpdateWorldColliderCache(true);
 	return &(mWorldColliderCache);
 }
 
 template<typename ColliderType>
 void doom::ColliderUpdater<ColliderType>::DrawWorldColliderCache(eColor color, bool drawInstantly)
 {
-	UpdateWorldColliderCache(false);
+	UpdateWorldColliderCache(true);
 	mWorldColliderCache.Render(color, drawInstantly);
 }
 

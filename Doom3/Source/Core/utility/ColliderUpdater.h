@@ -48,7 +48,7 @@ namespace doom
 		const ColliderType* GetLocalColliderCache() const;
 
 		const ColliderType* GetWorldColliderCache();
-		void UpdateWorldColliderCache(bool force);
+		void UpdateWorldColliderCache(bool clearDirty);
 
 		void DrawWorldColliderCache(eColor color = eColor::Green, bool drawInstantly = false);
 	};
