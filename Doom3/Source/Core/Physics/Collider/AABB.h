@@ -20,12 +20,11 @@ namespace doom
 		/// </summary>
 		class AABB3D : public Collider
 		{
-		public:
-			using component_type = typename math::Vector3;
-		private:
-			virtual void Render(eColor color, bool drawInstantly = false);
 
 		public:
+			using component_type = typename math::Vector3;
+		
+			virtual void Render(eColor color, bool drawInstantly = false);
 
 			math::Vector3 mLowerBound; 
 			/// <summary>
@@ -159,12 +158,10 @@ namespace doom
 		class AABB2D : public Collider
 		{
 		public:
+
 			using component_type = typename math::Vector2;
 
-		private:
 			virtual void Render(eColor color, bool drawInstantly = false);
-
-		public:
 
 			math::Vector2 mLowerBound; 
 			math::Vector2 mUpperBound; 

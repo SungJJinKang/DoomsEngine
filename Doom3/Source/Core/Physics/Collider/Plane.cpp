@@ -67,8 +67,6 @@ math::Vector3 doom::physics::GetClosestPoint(const doom::physics::Plane& plane, 
 
 void doom::physics::Plane::Render(eColor color, bool drawInstantly /*= false*/)
 {
-
-#ifdef DEBUG_MODE
 	auto debugGraphics = graphics::DebugGraphics::GetSingleton();
 
 	math::Vector3 arbitaryVector =
@@ -103,6 +101,5 @@ void doom::physics::Plane::Render(eColor color, bool drawInstantly /*= false*/)
 	
 	graphics::DebugGraphics::GetSingleton()->DebugDraw3DTriangle(center - center.right - center.up, eColor::White);
 	*/
-#endif
 
 }

@@ -3,9 +3,7 @@
 
 void doom::physics::Line::Render(eColor color, bool drawInstantly /*= false*/)
 {
-#ifdef DEBUG_MODE
 	graphics::DebugGraphics::GetSingleton()->DebugDraw3DLine(mOrigin, mEndPoint, color, drawInstantly);
-#endif
 }
 
 doom::physics::Line::Line(const math::Vector3& startPos, const math::Vector3& endPos)

@@ -12,10 +12,10 @@ namespace doom
 		private:
 			math::Vector3 mNormal;
 
-		protected:
-			virtual void Render(eColor color, bool drawInstantly = false) override;
-
 		public:
+
+			virtual void Render(eColor color, bool drawInstantly = false) override;
+					
 			math::Vector3 mOrigin;
 
 			Ray();

@@ -63,7 +63,7 @@ void doom::GameLogicStartPoint::StartGameLogic()
 	// 			entity->AddComponent<BoxCollider3D>();
 	// 		}
 	// 	}
-	int count = 30;
+	int count = 300;
 	for (int i = -count; i < count; i = i + 15)
 	{
 		for (int j = -count; j < count; j = j + 15)
@@ -91,7 +91,7 @@ void doom::GameLogicStartPoint::StartGameLogic()
 		PointLight* pointLight = entity->AddComponent<PointLight>();
 		AutoRotateAround* autoRotateAround = entity->AddComponent<AutoRotateAround>();
 		pointLight->SetColor({ 1.0f, 0.0f, 0.0f, 1.0f });
-		pointLight->SetIntensity(8000.0f);
+		pointLight->SetIntensity(3000.0f);
 		autoRotateAround->mCenterPos = math::Vector3{ 0.0f, 0.0f, 0.0f };
 		autoRotateAround->mRotateAngle = 1;
 		autoRotateAround->mRotateAxis = { 0.0f, 1.0f, 0.0f };
@@ -120,21 +120,9 @@ void doom::GameLogicStartPoint::StartGameLogic()
 	}
 
 	auto entity1 = currenScene->CreateNewEntity();
+	entity1->AddComponent<ViewFrustumCullingDebug>();
 	auto entity1Camera = entity1->AddComponent<Camera>();
 	entity1Camera->SetProjectionMode(doom::Camera::eProjectionType::Perspective);
-
-	doom::graphics::PIPManager::GetSingleton()->AddNewPIP({ -1.0f, -1.0f }, { -0.6f, -0.6f }, &entity1Camera->mDefferedRenderingFrameBuffer.GetFrameBufferTexture(doom::graphics::GraphicsAPI::eBufferBitType::COLOR, 0));
-	doom::graphics::PIPManager::GetSingleton()->AddNewPIP({ -0.6f, -1.0f }, { -0.2f, -0.6f }, &entity1Camera->mDefferedRenderingFrameBuffer.GetFrameBufferTexture(doom::graphics::GraphicsAPI::eBufferBitType::COLOR, 1));
-	doom::graphics::PIPManager::GetSingleton()->AddNewPIP({ -0.2f, -1.0f }, { 0.2f, -0.6f }, &entity1Camera->mDefferedRenderingFrameBuffer.GetFrameBufferTexture(doom::graphics::GraphicsAPI::eBufferBitType::COLOR, 2));
-	doom::graphics::PicktureInPickture* depthTexturePIP = doom::graphics::PIPManager::GetSingleton()->AddNewPIP({ 0.2f, -1.0f }, { 0.6f, -0.6f }, &entity1Camera->mDefferedRenderingFrameBuffer.GetFrameBufferTexture(doom::graphics::GraphicsAPI::eBufferBitType::DEPTH, 0));
-	if (depthTexturePIP != nullptr)
-	{
-		doom::asset::ShaderAsset* const depthTextureShader = doom::assetimporter::AssetManager::GetAsset<asset::eAssetType::SHADER>("DepthBufferTextureShader.glsl");
-		graphics::Material* const depthMaterial = new graphics::Material(depthTextureShader);
-		//depthMaterial->SetShaderAsset(depthTextureShader);
-		depthTexturePIP->SetMaterial(depthMaterial);
-	}
-
 
 
 

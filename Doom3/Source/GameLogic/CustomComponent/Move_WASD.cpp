@@ -12,7 +12,7 @@ void doom::Move_WASD::InitComponent()
 
 void doom::Move_WASD::UpdateComponent()
 {
-	math::Vector3 translation{};
+	math::Vector3 translation{0.0f, 0.0f, 0.0f};
 	bool isMove{ false };
 	if (UserInput_Server::GetKey(eKEY_CODE::KEY_W))
 	{

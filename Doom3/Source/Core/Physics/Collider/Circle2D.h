@@ -8,12 +8,11 @@ namespace doom
 	{
 		class Circle2D : public Collider
 		{
-		private:
-		
-		protected:
-			void Render(eColor color, bool drawInstantly = false) override;
 
 		public:
+
+			void Render(eColor color, bool drawInstantly = false) override;
+
 			Circle2D(const math::Vector2& center, float radius);
 
 			math::Vector2 mCenter;

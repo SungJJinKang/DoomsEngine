@@ -1,8 +1,6 @@
 #include "Core.h"
 #include "DebugGraphics.h"
 
-#ifdef DEBUG_MODE
-
 #include "Graphics_Server.h"
 #include "../Game/AssetManager/AssetManager.h"
 #include "Material.h"
@@ -216,7 +214,7 @@ void doom::graphics::DebugGraphics::DebugDraw2DLineInstantly(const math::Vector3
 	}
 	else
 	{
-		DEBUG_MODE("Please set mDrawInstantlyMaterial", eLogType::D_WARNING);
+		D_DEBUG_LOG("Please set mDrawInstantlyMaterial", eLogType::D_WARNING);
 		m2DMaterial->UseProgram();
 		m2DMaterial->SetVector4(0, Color::GetColor(static_cast<eColor>(color)));
 	}
@@ -233,7 +231,7 @@ void doom::graphics::DebugGraphics::DebugDraw2DTriangleInstantly(const math::Vec
 {
 	if (mDrawInstantlyMaterial != nullptr)
 	{
-		DEBUG_MODE("Please set mDrawInstantlyMaterial", eLogType::D_WARNING);
+		D_DEBUG_LOG("Please set mDrawInstantlyMaterial", eLogType::D_WARNING);
 		mDrawInstantlyMaterial->UseProgram();
 		mDrawInstantlyMaterial->SetVector4(0, Color::GetColor(static_cast<eColor>(color)));
 	}
@@ -283,6 +281,3 @@ void doom::graphics::DebugGraphics::DebugDraw3DTriangle(const math::Vector3& poi
 		mDebugMesh.DrawArray(ePrimitiveType::TRIANGLES, 0, 3);
 	}
 }
-
-
-#endif

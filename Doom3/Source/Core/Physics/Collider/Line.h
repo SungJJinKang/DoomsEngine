@@ -7,11 +7,11 @@ namespace doom
 	{
 		class Line : public Ray
 		{
-		protected:
+	
+		public:
 
 			virtual void Render(eColor color, bool drawInstantly = false) override;
-
-		public:
+					
 			math::Vector3 mEndPoint;
 
 			Line(const math::Vector3& startPos, const math::Vector3& endPos);

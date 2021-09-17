@@ -9,13 +9,15 @@ namespace doom
 	{
 		class Plane : public Collider
 		{
+
 		private:
+			
 			math::Vector3 mNormal;
 
-		protected:
+		public:
+
 			virtual void Render(eColor color, bool drawInstantly = false);
 
-		public:
 			/// <summary>
 			/// can be negative value
 			/// </summary>
