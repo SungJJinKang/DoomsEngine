@@ -75,10 +75,12 @@ void main()
     for(int i = 0; i < dirLightCount; ++i)
     {
         vec3 diffuse = max(dot(Normal, -directionalLight[i].Direction), 0.0) * Albedo * directionalLight[i].Radiance;
-        // specular
+       
+       // specular
         vec3 halfwayDir = normalize(-directionalLight[i].Direction + viewDir);  
-        float spec = pow(max(dot(Normal, halfwayDir), 0.0), 16.0);
+        float spec = pow(max(dot(Normal, halfwayDir), 0.0), 32.0);
         vec3 specular = directionalLight[i].Radiance * spec * Specular;
+
         lighting += diffuse + specular;
     }
     FragColor = vec4(lighting, 1.0);

@@ -75,6 +75,6 @@ void main()
 	oNormal = vec4(Normal, 1.0); 
 
 	oAlbedoSpec = vec4(vec3(texture(albedoTexture, UV0)), 1.0); 
-	//oAlbedoSpec.a = texture(specularTexture, UV0).r; 
+	oAlbedoSpec.a = texture(metalnessTexture, UV0).r; 
 }
 

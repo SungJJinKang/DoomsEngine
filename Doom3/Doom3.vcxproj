@@ -171,7 +171,6 @@
     <ClCompile Include="Source\Core\Graphics\Acceleration\LinearData_ViewFrustumCulling\DataType\EntityBlockViewer.cpp" />
     <ClCompile Include="Source\Core\Graphics\FrameBuffer\DefferedRenderingFrameBuffer.cpp" />
     <ClCompile Include="Source\Core\Graphics\GraphicsAPIManager.cpp" />
-    <ClCompile Include="Source\Core\Graphics\GraphicsStatistics.cpp" />
     <ClCompile Include="Source\Core\Graphics\Graphics_Setting.cpp" />
     <ClCompile Include="Source\Core\Graphics\LightManager.cpp" />
     <ClCompile Include="Source\Core\Graphics\PictureInPicture\PIPManager.cpp" />
@@ -179,6 +178,7 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Source\Core\ECSSystem\easy_ecs\easy_ecs.cpp" />
     <ClCompile Include="Source\Core\Graphics\PrimitiveType\PrimitiveTriangle.cpp" />
+    <ClCompile Include="Source\Core\Graphics\RenderingDebugger.cpp" />
     <ClCompile Include="Source\Core\Profiler\ProfilerUI.cpp" />
     <ClCompile Include="Source\Component\EventSystem.cpp" />
     <ClCompile Include="Source\Component\PhysicsComponent\BoxCollider2D.cpp" />
@@ -327,7 +327,6 @@
     <ClInclude Include="Source\Core\Graphics\Buffer\BufferID.h" />
     <ClInclude Include="Source\Core\Graphics\FrameBuffer\DefferedRenderingFrameBuffer.h" />
     <ClInclude Include="Source\Core\Graphics\GraphicsAPIManager.h" />
-    <ClInclude Include="Source\Core\Graphics\GraphicsStatistics.h" />
     <ClInclude Include="Source\Core\Graphics\Graphics_Setting.h" />
     <ClInclude Include="Source\Core\Graphics\LightManager.h" />
     <ClInclude Include="Source\Core\Graphics\PictureInPicture\PIPManager.h" />
@@ -337,6 +336,7 @@
     <ClInclude Include="Source\Core\ECSSystem\easy_ecs\SparseSet.h" />
     <ClInclude Include="Source\Core\Graphics\Acceleration\LinearData_ViewFrustumCulling\DataType\VertexData.h" />
     <ClInclude Include="Source\Core\Graphics\PrimitiveType\PrimitiveTriangle.h" />
+    <ClInclude Include="Source\Core\Graphics\RenderingDebugger.h" />
     <ClInclude Include="Source\Core\Profiler\ProfilerUI.h" />
     <ClInclude Include="Source\Core\Graphics\Acceleration\LinearData_ViewFrustumCulling\DataType\QueryObject.h" />
     <ClInclude Include="Source\Component\EventSystem.h" />
@@ -765,6 +765,7 @@
     <None Include="Source\Core\Math\LightMath_Cpp\Vector4Float_SIMD.inl" />
     <None Include="Source\Core\ResourceManagement\JobSystem_cpp\MultithreadingJobSystemStrategy.md" />
     <None Include="Source\Core\ResourceManagement\JobSystem_cpp\README.md" />
+    <None Include="Source\GameLogic\ViewFrustumCullingDebug.inl" />
     <None Include="Source\Helper\DeferredConstant\.git" />
     <None Include="Source\Helper\DeferredConstant\README.md" />
     <None Include="Source\Helper\EasyDirtyChecker\README.md" />

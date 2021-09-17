@@ -456,10 +456,10 @@
     <ClCompile Include="Source\Core\Graphics\LightManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Core\Graphics\GraphicsStatistics.cpp">
+    <ClCompile Include="Source\GameLogic\GameLogicStartPoint.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\GameLogic\GameLogicStartPoint.cpp">
+    <ClCompile Include="Source\Core\Graphics\RenderingDebugger.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -1298,10 +1298,10 @@
     <ClInclude Include="Source\Core\Graphics\LightManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Core\Graphics\GraphicsStatistics.h">
+    <ClInclude Include="Source\GameLogic\GameLogicStartPoint.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\GameLogic\GameLogicStartPoint.h">
+    <ClInclude Include="Source\Core\Graphics\RenderingDebugger.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -1478,6 +1478,9 @@
     <None Include="Assets\Shader\Default\Billboard.glsl" />
     <None Include="Source\Core\Graphics\Acceleration\LinearData_ViewFrustumCulling\CullingModule\MaskedSWOcclusionCulling\MaskedSWOcclusionCulling_HowWorks.md" />
     <None Include="Assets\Shader\Default\DepthBufferTextureShader.glsl" />
+    <None Include="Source\GameLogic\ViewFrustumCullingDebug.inl">
+      <Filter>Header Files</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Text Include="Source\Core\Graphics\ReadThis!!!!.txt" />
