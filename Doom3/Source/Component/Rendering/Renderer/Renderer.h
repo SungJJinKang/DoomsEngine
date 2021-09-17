@@ -1,6 +1,9 @@
 #pragma once
 
 #include "Core/ServerComponent.h"
+
+#include <Graphics/Graphics_Core.h>
+
 #include "RendererStaticIterator.h"
 
 #include <UserInput_Server.h>
@@ -30,7 +33,6 @@ namespace doom
 
 	public:
 
-	
 	private:
 		/// <summary>
 		/// EntityBlockViewer never be cheanged on a entity
@@ -57,14 +59,16 @@ namespace doom
 		//physics::Sphere mBoundingSphere{};
 
 		virtual void InitComponent() override;
-		virtual void UpdateComponent() override
-		{
-		}
-
-		virtual void OnEndOfFrame_Component() override
+		FORCE_INLINE virtual void UpdateComponent() override
 		{
 			
 		}
+
+		FORCE_INLINE virtual void OnEndOfFrame_Component() override
+		{
+			
+		}
+
 		void OnEntityLayerChanged(Renderer* renderer)
 		{
 

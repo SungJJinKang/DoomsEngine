@@ -71,6 +71,11 @@ namespace doom
 			virtual void LateInit() final;
 			virtual void Update() final;
 			virtual void OnEndOfFrame() final;
+
+			void Renderder_InitComponent();
+			void Renderder_UpdateComponent();
+			void Renderder_OnEndOfFrameComponent();
+			void Renderder_DrawRenderingBoundingBox();
 			
 			std::unique_ptr<culling::EveryCulling> mCullingSystem;
 			//CullDistance mCullDistance{};

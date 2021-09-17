@@ -71,7 +71,7 @@ void doom::ColliderComponent::AutoColliderSetting()
 	{
 		AutoColliderSettingFromAABB3D(aabb3dFromMesh);
 
-		math::Vector3 offset{ GetOffsetVector3() };
+		math::Vector4 offset{ GetOffsetVector3() };
 
 		aabb3dFromMesh.mLowerBound += offset; // add offset of LocalCollider
 		aabb3dFromMesh.mUpperBound += offset;

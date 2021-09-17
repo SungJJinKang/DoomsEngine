@@ -73,7 +73,7 @@ void doom::asset::ThreeDModelAsset::OnEndImportInMainThread_Internal()
 {
 	D_START_PROFILING("Postprocess 3D Model", eProfileLayers::Rendering);
 	SendMeshDataToGPU();
-	ClearMeshData(); // after send mesh data to gpu, delete all meshes data for memory space
+	//ClearMeshData(); // after send mesh data to gpu, delete all meshes data for memory space
 	D_END_PROFILING("Postprocess 3D Model");
 }
 

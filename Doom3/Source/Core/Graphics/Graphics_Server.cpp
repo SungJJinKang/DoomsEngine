@@ -63,6 +63,7 @@ void doom::graphics::Graphics_Server::LateInit()
 
 void Graphics_Server::Update()
 {		
+	Renderder_UpdateComponent();
 	
 	DeferredRendering();
 	
@@ -72,22 +73,63 @@ void Graphics_Server::Update()
 
 void Graphics_Server::OnEndOfFrame()
 {
-	mUniformBufferObjectManager.OnEndOfFrame_Internal();
-	mUniformBufferObjectManager.OnEndOfFrame();
-
-	for (unsigned int i = 0; i < MAX_LAYER_COUNT; i++)
-	{
-		auto rendererComponentPair = RendererComponentStaticIterator::GetAllComponentsWithLayerIndex(i);
-		auto components = rendererComponentPair.first;
-		size_t length = rendererComponentPair.second;
-		for (size_t i = 0; i < length; ++i)
-		{
-			components[i]->OnEndOfFrame_Component_Internal();
-			components[i]->OnEndOfFrame_Component();
-		}
-	}
+	Renderder_OnEndOfFrameComponent();
 
 	GraphicsAPIManager::SwapBuffer();
+}
+
+void doom::graphics::Graphics_Server::Renderder_InitComponent()
+{
+	for (unsigned int layerIndex = 0; layerIndex < MAX_LAYER_COUNT; layerIndex++)
+	{
+		const std::vector<Renderer*>& renderersInLayer = RendererComponentStaticIterator::GetRendererInLayer(layerIndex);
+		for (size_t rendererIndex = 0; rendererIndex < renderersInLayer.size(); rendererIndex++)
+		{
+			//renderersInLayer[rendererIndex]->InitComponent_Internal();
+			renderersInLayer[rendererIndex]->InitComponent();
+		}
+	}
+}
+
+void doom::graphics::Graphics_Server::Renderder_UpdateComponent()
+{
+	for (unsigned int layerIndex = 0; layerIndex < MAX_LAYER_COUNT; layerIndex++)
+	{
+		const std::vector<Renderer*>& renderersInLayer = RendererComponentStaticIterator::GetRendererInLayer(layerIndex);
+		for (size_t rendererIndex = 0; rendererIndex < renderersInLayer.size(); rendererIndex++)
+		{
+			renderersInLayer[rendererIndex]->UpdateComponent_Internal();
+			renderersInLayer[rendererIndex]->UpdateComponent();
+		}
+	}
+}
+
+void doom::graphics::Graphics_Server::Renderder_OnEndOfFrameComponent()
+{
+	for (unsigned int layerIndex = 0; layerIndex < MAX_LAYER_COUNT; layerIndex++)
+	{
+		const std::vector<Renderer*>& renderersInLayer = RendererComponentStaticIterator::GetRendererInLayer(layerIndex);
+		for (size_t rendererIndex = 0; rendererIndex < renderersInLayer.size(); rendererIndex++)
+		{
+			renderersInLayer[rendererIndex]->OnEndOfFrame_Component_Internal();
+			renderersInLayer[rendererIndex]->OnEndOfFrame_Component();
+		}
+	}
+}
+
+void doom::graphics::Graphics_Server::Renderder_DrawRenderingBoundingBox()
+{
+	if (Graphics_Setting::mDrawRenderingBoundingBox == true)
+	{
+		for (unsigned int layerIndex = 0; layerIndex < MAX_LAYER_COUNT; layerIndex++)
+		{
+			const std::vector<Renderer*>& renderersInLayer = RendererComponentStaticIterator::GetRendererInLayer(layerIndex);
+			for (size_t rendererIndex = 0; rendererIndex < renderersInLayer.size(); rendererIndex++)
+			{
+				renderersInLayer[rendererIndex]->ColliderUpdater<doom::physics::AABB3D>::DrawWorldColliderCache();
+			}
+		}
+	}
 }
 
 
@@ -207,8 +249,7 @@ void doom::graphics::Graphics_Server::DeferredRendering()
 	const std::vector<doom::Camera*>& spawnedCameraList = StaticContainer<doom::Camera>::GetAllStaticComponents();
 
 	D_START_PROFILING("Update Uniform Buffer", doom::profiler::eProfileLayers::Rendering);
-	mUniformBufferObjectManager.Update_Internal();
-	mUniformBufferObjectManager.Update();
+	mUniformBufferObjectManager.UpdateUniformObjects();
 	D_END_PROFILING("Update Uniform Buffer");
 
 	FrameBuffer::UnBindFrameBuffer();
@@ -246,6 +287,8 @@ void doom::graphics::Graphics_Server::DeferredRendering()
 			GraphicsAPI::Disable(GraphicsAPI::eCapability::DEPTH_TEST);
 			mQuadMesh->Draw();
 			GraphicsAPI::Enable(GraphicsAPI::eCapability::DEPTH_TEST);
+
+			Renderder_DrawRenderingBoundingBox();
 		}
 		
 	}
@@ -274,10 +317,10 @@ void doom::graphics::Graphics_Server::RenderObject(doom::Camera* const camera)
 	{
 		for (unsigned int layerIndex = 0; layerIndex < MAX_LAYER_COUNT; layerIndex++)
 		{
-			std::pair<Renderer**, size_t> renderersInLayer = RendererComponentStaticIterator::GetAllComponentsWithLayerIndex(layerIndex);
-			for (size_t rendererIndex = 0; rendererIndex < renderersInLayer.second; rendererIndex++)
+			const std::vector<Renderer*>& renderersInLayer = RendererComponentStaticIterator::GetRendererInLayer(layerIndex);
+			for (size_t rendererIndex = 0; rendererIndex < renderersInLayer.size(); rendererIndex++)
 			{
-				renderersInLayer.first[rendererIndex]->Draw();
+				renderersInLayer[rendererIndex]->Draw();
 			}
 		}
 	}

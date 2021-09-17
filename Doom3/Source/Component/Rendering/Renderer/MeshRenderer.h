@@ -22,12 +22,12 @@ namespace doom
 		{
 			Renderer::InitComponent();
 		}
-		virtual void UpdateComponent() final
+		FORCE_INLINE virtual void UpdateComponent() final
 		{
 			Renderer::UpdateComponent();
 		}
 
-		virtual void OnEndOfFrame_Component() final
+		FORCE_INLINE virtual void OnEndOfFrame_Component() final
 		{
 			Renderer::OnEndOfFrame_Component();
 		}

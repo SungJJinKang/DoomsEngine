@@ -43,15 +43,15 @@ void doom::StaticContainer<Renderer>::RemoveRendererToStaticContainer()
 }
 
 
-std::pair<Renderer**, size_t> doom::StaticContainer<Renderer>::GetAllComponentsWithLayerIndex(const unsigned int layerIndex)
-{
-	D_ASSERT(layerIndex >= 0 && layerIndex < MAX_LAYER_COUNT);
-	return std::make_pair(this_type::mComponentsInLayer[layerIndex].data(), this_type::mComponentsInLayer[layerIndex].size());
-}
-
 // TODO : Add this to Entity's EntityLayerChanged Callback
 void doom::StaticContainer<Renderer>::OnEntityLayerChanged(Entity& entity)
 {
 	RemoveRendererToStaticContainer();
 	AddRendererToStaticContainer();
+}
+
+const std::vector<Renderer*>& doom::StaticContainer<Renderer>::GetRendererInLayer(const unsigned int layerIndex)
+{
+	D_ASSERT(layerIndex >= 0 && layerIndex < MAX_LAYER_COUNT);
+	return this_type::mComponentsInLayer[layerIndex];
 }

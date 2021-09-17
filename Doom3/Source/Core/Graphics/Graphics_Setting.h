@@ -1,9 +1,9 @@
 #pragma once
 
-#include "Graphics_Core.h"
-
 #include <Vector2.h>
 #include <Vector4.h>
+
+struct GLFWwindow;
 
 namespace doom
 {
@@ -24,7 +24,7 @@ namespace doom
 
 		public:
 
-
+			static inline bool mDrawRenderingBoundingBox{ false };
 			static inline math::Vector4 ClearColor{ 0.0f, 0.0f, 0.0f, 1.0f };
 
 			static void LoadData();

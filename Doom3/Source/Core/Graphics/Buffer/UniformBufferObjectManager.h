@@ -15,11 +15,8 @@ namespace doom
 	namespace graphics
 	{
 		class UniformBufferObjectUpdater;
-		class UniformBufferObjectManager : public IGameFlow, public ISingleton<UniformBufferObjectManager>
+		class UniformBufferObjectManager : public ISingleton<UniformBufferObjectManager>
 		{
-			friend class Graphics_Server;
-			friend class Material;
-
 		private:
 
 
@@ -31,24 +28,22 @@ namespace doom
 			
 		
 
-		protected:
-
-			virtual void Init() final;
-			/// <summary>
-			/// Update uniform Buffer Object's TempBuffer -> Buffer Data to gpu
-			/// </summary>
-			virtual void Update() final;
-			virtual void OnEndOfFrame() final;
-			
-		
 		public:
 
+			
+			
+		
 			UniformBufferObjectManager();
 
 			/// <summary>
 			/// Send Uniform Buffer Object to gpu ( Buffer Data )
 			/// </summary>
 			void BufferDateOfUniformBufferObjects();
+
+			/// <summary>
+			/// Update uniform Buffer Object's TempBuffer -> Buffer Data to gpu
+			/// </summary>
+			void UpdateUniformObjects();
 
 			/// <summary>
 			/// return Uniform Buffer Object class

@@ -32,20 +32,12 @@ void doom::graphics::UniformBufferObjectManager::EraseUniformBufferObjectTempBuf
 	std::vector_swap_popback(mUniformBufferObjectTempBufferUpdaters, this_iter);
 }
 
-void doom::graphics::UniformBufferObjectManager::Init()
-{
-
-}
-
-void doom::graphics::UniformBufferObjectManager::Update()
+void doom::graphics::UniformBufferObjectManager::UpdateUniformObjects()
 {
 	UpdateUniformBufferObjects();
 	BufferDateOfUniformBufferObjects();
 }
 
-void doom::graphics::UniformBufferObjectManager::OnEndOfFrame()
-{
-}
 
 void doom::graphics::UniformBufferObjectManager::BufferDateOfUniformBufferObjects()
 {

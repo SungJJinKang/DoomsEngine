@@ -462,6 +462,9 @@
     <ClCompile Include="Source\Core\Graphics\RenderingDebugger.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Source\GameLogic\CustomComponent\Portfolio\RenderingAABBController.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="dependency\glad\include\glad\glad.h">
@@ -1302,6 +1305,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\Core\Graphics\RenderingDebugger.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\GameLogic\CustomComponent\Portfolio\RenderingAABBController.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
