@@ -1,2 +1,2 @@
-//#include "ViewFrustumCullingDebug.inl"
-#include "DeferredRenderingDebug.inl"
+#include "ViewFrustumCullingDebug.inl"
+//#include "DeferredRenderingDebug.inl"

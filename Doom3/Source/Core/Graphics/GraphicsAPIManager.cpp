@@ -65,6 +65,9 @@ void doom::graphics::GraphicsAPIManager::Initialize()
 	GraphicsAPI::DepthFunc(GraphicsAPI::eDepthFuncType::LEQUAL);;
 
 	GraphicsAPI::Disable(GraphicsAPI::eCapability::BLEND);
+	GraphicsAPI::Disable(GraphicsAPI::eCapability::SAMPLE_ALPHA_TO_COVERAGE);
+	GraphicsAPI::Disable(GraphicsAPI::eCapability::SAMPLE_ALPHA_TO_ONE);
+	glDisable(GL_ALPHA_TEST);
 	//GraphicsAPI::BlendFunc(GraphicsAPI::eSourceFactor::SRC_ALPHA, GraphicsAPI::eDestinationFactor::ONE_MINUS_SRC_ALPHA);
 
 	GraphicsAPI::Enable(GraphicsAPI::eCapability::CULL_FACE);

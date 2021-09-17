@@ -97,10 +97,10 @@ void doom::GameLogicStartPoint::StartGameLogic()
 		autoRotateAround->mRotateAxis = { 0.0f, 1.0f, 0.0f };
 	}
 
-	for (int i = -50; i < 50; i += 15)
+	for (int i = -200; i < 200; i += 70)
 	{
 		auto entity = currenScene->CreateNewEntity();
-		entity->GetTransform()->SetScale(1.5f, 1.5f, 1.5f);
+		entity->GetTransform()->SetScale(10.0f, 10.0f, 10.0f);
 		entity->GetTransform()->SetPosition(i, 0, 500);
 		auto meshRenderer = entity->AddComponent<MeshRenderer>();
 		entity->AddComponent<AutoRotate>();

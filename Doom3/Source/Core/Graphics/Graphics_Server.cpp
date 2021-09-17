@@ -268,7 +268,10 @@ void doom::graphics::Graphics_Server::DeferredRendering()
 	GraphicsAPI::ClearColor(Graphics_Setting::ClearColor);
 	GraphicsAPI::Clear(GraphicsAPI::eClearMask::COLOR_BUFFER_BIT, GraphicsAPI::eClearMask::DEPTH_BUFFER_BIT);
 
-	RendererComponentStaticIterator::CacheDistanceFromRenderersToCamera(spawnedCameraList);
+	if (doom::time::MainTimer::GetFrameStep(2))
+	{
+		RendererComponentStaticIterator::CacheDistanceFromRenderersToCamera(spawnedCameraList);
+	}
 
 	for (size_t cameraIndex = 0 ; cameraIndex < spawnedCameraList.size() ; cameraIndex++)
 	{
@@ -327,13 +330,17 @@ void doom::graphics::Graphics_Server::RenderObject(doom::Camera* const targetCam
 {
 	targetCamera->UpdateUniformBufferObject();
 
-	const bool IsCullingEnabled =
+
+	if (doom::time::MainTimer::GetFrameStep(2))
+	{
+		RendererComponentStaticIterator::SortByDistanceToCamera(targetCamera, cameraIndex);
+	}
+
+
+	if (
 		targetCamera->GetCameraFlag(doom::eCameraFlag::IS_CULLED) == true &&
-		targetCamera->GetCameraFlag(doom::eCameraFlag::PAUSE_CULL_JOB) == false;
-
-	RendererComponentStaticIterator::SortByDistanceToCamera(targetCamera, cameraIndex);
-
-	if (IsCullingEnabled == true)
+		targetCamera->GetCameraFlag(doom::eCameraFlag::PAUSE_CULL_JOB) == false
+		)
 	{
 		D_START_PROFILING("Wait Cull Job", doom::profiler::eProfileLayers::Rendering);
 		mCullingSystem->WaitToFinishCullJob(targetCamera->CameraIndexInCullingSystem); // Waiting time is almost zero
@@ -347,7 +354,10 @@ void doom::graphics::Graphics_Server::RenderObject(doom::Camera* const targetCam
 		const std::vector<Renderer*>& renderersInLayer = RendererComponentStaticIterator::GetRendererInLayer(layerIndex);
 		for (Renderer* renderer : renderersInLayer)
 		{
-			if (IsCullingEnabled == false || renderer->GetIsCulled(targetCamera->CameraIndexInCullingSystem) == false)
+			if (
+				targetCamera->GetCameraFlag(doom::eCameraFlag::IS_CULLED) == false ||
+				renderer->GetIsCulled(targetCamera->CameraIndexInCullingSystem) == false
+				)
 			{
 				renderer->Draw();
 			}
