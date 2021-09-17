@@ -2,6 +2,8 @@
 
 #include "Core/ServerComponent.h"
 
+#include <vector>
+
 #include <Graphics/Graphics_Core.h>
 
 #include "RendererStaticIterator.h"
@@ -24,16 +26,18 @@ namespace doom
 		class Graphics_Server;
 	}
 
-
+	class Camera;
 
 	class Renderer : public ServerComponent, public RendererComponentStaticIterator, public BVH_Sphere_Node_Object, public ColliderUpdater<doom::physics::AABB3D>//, public BVH_AABB3D_Node_Object // public graphics::CullDistanceRenderer
 	{
 		friend graphics::Graphics_Server;
 		friend class Enity;
-
-	public:
-
+		
 	private:
+
+		//For Sorting Renderers front to back
+		std::vector<float> mDistancesToCamera;
+
 		/// <summary>
 		/// EntityBlockViewer never be cheanged on a entity
 		/// </summary>
@@ -52,8 +56,12 @@ namespace doom
 		void ClearRenderingBitFlag();
 
 	protected:
-		
+
 		graphics::Material* mTargetMaterial;
+
+	public:
+		
+	
 
 		//DirtyReceiver mIsBoundingSphereDirty{ true };
 		//physics::Sphere mBoundingSphere{};
@@ -79,7 +87,6 @@ namespace doom
 
 		void OnDestroy() override;
 
-	public:
 		Renderer();
 		virtual ~Renderer() {}
 
@@ -112,5 +119,18 @@ namespace doom
 
 		virtual physics::AABB3D GetLocalAABBBound() const = 0;
 		//const physics::Sphere& GetBoudingSphere();
+
+		void CacheDistanceToCamera(const size_t cameraIndex, const Camera* const camera);
+		/// <summary>
+		/// This function doesn't ensure that distance is up to date 
+		/// </summary>
+		/// <param name="cameraIndex"></param>
+		/// <returns></returns>
+		FORCE_INLINE float GetDistanceToCamera(const size_t cameraIndex) const
+		{
+			D_ASSERT(cameraIndex >= 0 && cameraIndex < mDistancesToCamera.size());
+
+			return mDistancesToCamera[cameraIndex];
+		}
 	};
 }

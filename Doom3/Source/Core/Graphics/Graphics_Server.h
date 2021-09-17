@@ -99,9 +99,8 @@ namespace doom
 			void InitFrameBufferForDeferredRendering();
 			void DeferredRendering();
 
-			void RenderObject(doom::Camera* const camera);
-			void RenderObjects();
-
+			void RenderObject(doom::Camera* const targetCamera, const size_t cameraIndex);
+		
 			void DoCullJob();
 
 			void PreUpdateEntityBlocks();

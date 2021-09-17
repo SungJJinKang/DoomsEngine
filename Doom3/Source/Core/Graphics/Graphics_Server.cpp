@@ -268,31 +268,34 @@ void doom::graphics::Graphics_Server::DeferredRendering()
 	GraphicsAPI::ClearColor(Graphics_Setting::ClearColor);
 	GraphicsAPI::Clear(GraphicsAPI::eClearMask::COLOR_BUFFER_BIT, GraphicsAPI::eClearMask::DEPTH_BUFFER_BIT);
 
-	for (doom::Camera* camera : spawnedCameraList)
-	{
-		camera->UpdateUniformBufferObject();
+	RendererComponentStaticIterator::CacheDistanceFromRenderersToCamera(spawnedCameraList);
 
-		camera->mDefferedRenderingFrameBuffer.ClearFrameBuffer();
-		camera->mDefferedRenderingFrameBuffer.BindFrameBuffer();
+	for (size_t cameraIndex = 0 ; cameraIndex < spawnedCameraList.size() ; cameraIndex++)
+	{
+		doom::Camera* const targetCamera = spawnedCameraList[cameraIndex];
+		targetCamera->UpdateUniformBufferObject();
+
+		targetCamera->mDefferedRenderingFrameBuffer.ClearFrameBuffer();
+		targetCamera->mDefferedRenderingFrameBuffer.BindFrameBuffer();
 		
 
 
 		//D_START_PROFILING("Draw Objects", doom::profiler::eProfileLayers::Rendering);
 		GraphicsAPI::Enable(GraphicsAPI::eCapability::DEPTH_TEST);
-		RenderObject(camera);
+		RenderObject(targetCamera, cameraIndex);
 
-		camera->mDefferedRenderingFrameBuffer.UnBindFrameBuffer();
+		targetCamera->mDefferedRenderingFrameBuffer.UnBindFrameBuffer();
 		//D_END_PROFILING("Draw Objects");
 		// 
 		//Blit DepthBuffer To ScreenBuffer
 
-		if (camera->IsMainCamera() == true)
+		if (targetCamera->IsMainCamera() == true)
 		{
 			//Only Main Camera can draw to screen buffer
 			
-			camera->mDefferedRenderingFrameBuffer.BlitBufferTo(0, 0, 0, camera->mDefferedRenderingFrameBuffer.mDefaultWidth, camera->mDefferedRenderingFrameBuffer.mDefaultHeight, 0, 0, Graphics_Setting::GetScreenWidth(), Graphics_Setting::GetScreenHeight(), GraphicsAPI::eBufferBitType::DEPTH, FrameBuffer::eImageInterpolation::NEAREST);
+			targetCamera->mDefferedRenderingFrameBuffer.BlitBufferTo(0, 0, 0, targetCamera->mDefferedRenderingFrameBuffer.mDefaultWidth, targetCamera->mDefferedRenderingFrameBuffer.mDefaultHeight, 0, 0, Graphics_Setting::GetScreenWidth(), Graphics_Setting::GetScreenHeight(), GraphicsAPI::eBufferBitType::DEPTH, FrameBuffer::eImageInterpolation::NEAREST);
 
-			camera->mDefferedRenderingFrameBuffer.BindGBufferTextures();
+			targetCamera->mDefferedRenderingFrameBuffer.BindGBufferTextures();
 			mGbufferDrawerMaterial.UseProgram();
 
 			GraphicsAPI::Disable(GraphicsAPI::eCapability::DEPTH_TEST);
@@ -320,83 +323,40 @@ void doom::graphics::Graphics_Server::DeferredRendering()
 	
 }
 
-void doom::graphics::Graphics_Server::RenderObject(doom::Camera* const camera)
+void doom::graphics::Graphics_Server::RenderObject(doom::Camera* const targetCamera, const size_t cameraIndex)
 {
-	camera->UpdateUniformBufferObject();
+	targetCamera->UpdateUniformBufferObject();
 
+	const bool IsCullingEnabled =
+		targetCamera->GetCameraFlag(doom::eCameraFlag::IS_CULLED) == true &&
+		targetCamera->GetCameraFlag(doom::eCameraFlag::PAUSE_CULL_JOB) == false;
 
-	if ( (camera->mCameraFlag & eCameraFlag::IS_CULLED) == 0)
-	{
-		for (unsigned int layerIndex = 0; layerIndex < MAX_LAYER_COUNT; layerIndex++)
-		{
-			const std::vector<Renderer*>& renderersInLayer = RendererComponentStaticIterator::GetRendererInLayer(layerIndex);
-			for (size_t rendererIndex = 0; rendererIndex < renderersInLayer.size(); rendererIndex++)
-			{
-				renderersInLayer[rendererIndex]->Draw();
-			}
-		}
-	}
-	else
+	RendererComponentStaticIterator::SortByDistanceToCamera(targetCamera, cameraIndex);
+
+	if (IsCullingEnabled == true)
 	{
 		D_START_PROFILING("Wait Cull Job", doom::profiler::eProfileLayers::Rendering);
-		mCullingSystem->WaitToFinishCullJob(camera->CameraIndexInCullingSystem); // Waiting time is almost zero
+		mCullingSystem->WaitToFinishCullJob(targetCamera->CameraIndexInCullingSystem); // Waiting time is almost zero
 		//resource::JobSystem::GetSingleton()->SetMemoryBarrierOnAllSubThreads();
 		D_END_PROFILING("Wait Cull Job");
+	}
 
-		const std::vector<culling::EntityBlock*>& activeEntityBlockList = mCullingSystem->GetActiveEntityBlockList();
-		for (const culling::EntityBlock* entityBlock : activeEntityBlockList)
+
+	for (unsigned int layerIndex = 0; layerIndex < MAX_LAYER_COUNT; layerIndex++)
+	{
+		const std::vector<Renderer*>& renderersInLayer = RendererComponentStaticIterator::GetRendererInLayer(layerIndex);
+		for (Renderer* renderer : renderersInLayer)
 		{
-			const unsigned int currentEntityCount = entityBlock->mCurrentEntityCount;
-
-			static constexpr size_t SIMD_VISIBLE_TEST_LANE = 16 / sizeof(decltype(*(entityBlock->mIsVisibleBitflag)));
-
-			for (size_t simdEntityIndex = 0; simdEntityIndex < currentEntityCount; simdEntityIndex += SIMD_VISIBLE_TEST_LANE)
+			if (IsCullingEnabled == false || renderer->GetIsCulled(targetCamera->CameraIndexInCullingSystem) == false)
 			{
-				//Test mIsVisibleBitflag using SIMD!!!
-				//Choose _m
-				if (_mm_test_all_zeros(*reinterpret_cast<const M128I*>(entityBlock->mIsVisibleBitflag + simdEntityIndex), _mm_set1_epi8(1 << camera->CameraIndexInCullingSystem)) == 1)
-				{
-					continue;
-				}
-
-				const size_t targetEntityIndex = math::Min(simdEntityIndex + SIMD_VISIBLE_TEST_LANE, currentEntityCount);
-				for (size_t entityIndex = simdEntityIndex; entityIndex < targetEntityIndex; entityIndex++)
-				{
-
-					/*const culling::QueryObject* const queryObject = entityBlock->mQueryObjects[entityIndex];
-
-					if (queryObject != nullptr)
-					{
-						culling::QueryOcclusionCulling::StartConditionalRender(queryObject->mQueryID);
-					}*/
-
-					Renderer* const renderer = reinterpret_cast<::doom::Renderer*>(entityBlock->mRenderer[entityIndex]);
-					if (renderer->GetIsCulled(camera->CameraIndexInCullingSystem) == false)
-					{
-						renderer->Draw();
-					}
-
-					/*if (queryObject != nullptr)
-					{
-						culling::QueryOcclusionCulling::StopConditionalRender();
-					}*/
-
-				}
+				renderer->Draw();
 			}
 		}
 	}
 	
 }
 
-void doom::graphics::Graphics_Server::RenderObjects()
-{
-	const std::vector<doom::Camera*>& cameraList = StaticContainer<doom::Camera>::GetAllStaticComponents();
-	
-	for (doom::Camera* camera : cameraList)
-	{
-		RenderObject(camera);
-	}
-}
+
 
 
 

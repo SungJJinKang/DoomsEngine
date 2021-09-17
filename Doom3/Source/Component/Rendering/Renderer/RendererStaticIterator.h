@@ -14,7 +14,7 @@
 namespace doom
 {
 	class Renderer;
-
+	class Camera;
 	
 	template <>
 	class StaticContainer<Renderer>
@@ -25,8 +25,13 @@ namespace doom
 
 		Renderer* mRenderer_ptr;
 
-		static inline std::array<std::vector<Renderer*>, MAX_LAYER_COUNT> mComponentsInLayer{};
+		static inline std::array<std::vector<Renderer*>, MAX_LAYER_COUNT> mRenderersInLayer{};
 		
+		static void CacheDistanceFromRenderersToCamera(std::vector<Renderer*>& renderersInLayer, const std::vector<Camera*>& cameras);
+
+		//For Rendering front to back
+		static void SortByDistanceToCamera(const size_t layerIndex, const size_t cameraIndex);
+	
 	protected:
 
 		void AddRendererToStaticContainer();
@@ -44,6 +49,10 @@ namespace doom
 
 		[[nodiscard]] static const std::vector<Renderer*>& GetRendererInLayer(const unsigned int layerIndex);
 
+	
+		static void CacheDistanceFromRenderersToCamera(const std::vector<Camera*> cameras);
+		
+		static void SortByDistanceToCamera(const Camera* const camera, const size_t cameraIndex);
 	};
 
 	using RendererComponentStaticIterator = StaticContainer<Renderer>;

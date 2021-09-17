@@ -2,6 +2,7 @@
 
 #include "../Core/Graphics/Material.h"
 #include <Transform.h>
+#include <Rendering/Camera.h>
 #include "Graphics/Acceleration/LinearData_ViewFrustumCulling/EveryCulling.h"
 
 
@@ -59,6 +60,21 @@ char doom::Renderer::GetIsVisibleWithCameraIndex(unsigned int cameraIndex)
 bool doom::Renderer::GetIsCulled(unsigned int cameraIndexled) const
 {
 	return mEntityBlockViewer.GetIsCulled(cameraIndexled);
+}
+
+void doom::Renderer::CacheDistanceToCamera(const size_t cameraIndex, const Camera* const camera)
+{
+	D_ASSERT(camera != nullptr);
+
+	if (mDistancesToCamera.size() <= cameraIndex)
+	{
+		mDistancesToCamera.resize(cameraIndex + 1);
+	}
+
+	mDistancesToCamera[cameraIndex] = (GetTransform()->GetPosition() - camera->GetTransform()->GetPosition()).magnitude() - BVH_Sphere_Node_Object::GetWorldColliderCache()->mRadius;
+	
+	
+
 }
 
 /*
