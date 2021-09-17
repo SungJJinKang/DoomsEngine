@@ -6,7 +6,9 @@
 #include <Vector3.h>
 #include "Collider.h"
 #include <Matrix4x4.h>
+#include <Utility.h>
 #include <functional>
+
 
 namespace doom
 {
@@ -22,16 +24,16 @@ namespace doom
 		{
 
 		public:
-			using component_type = typename math::Vector3;
+			using component_type = typename math::Vector4;
 		
 			virtual void Render(eColor color, bool drawInstantly = false);
 
-			math::Vector3 mLowerBound; 
+			math::Vector4 mLowerBound; 
 			/// <summary>
 			/// Padding is required for FrostbiteCulling System
 			/// </summary>
 			//float padding1{ 1.0f };
-			math::Vector3 mUpperBound; 
+			math::Vector4 mUpperBound; 
 			//float padding2{ 1.0f };
 
 			bool IsValid() const;
@@ -72,7 +74,7 @@ namespace doom
 			/// <returns></returns>
 			FORCE_INLINE static float GetArea(const AABB3D& A)
 			{
-				math::Vector3 d = A.mUpperBound - A.mLowerBound;
+				math::Vector4 d = A.mUpperBound - A.mLowerBound;
 				return 2.0f * (d.x * d.y + d.y * d.z + d.z * d.x);
 			}
 			FORCE_INLINE static AABB3D Union(const AABB3D& A, const AABB3D& B)
@@ -88,17 +90,14 @@ namespace doom
 
 
 			/// <summary>
-			/// https://twitter.com/Herschel/status/1188613724665335808
+			/// /// See Christer Ericson's Real-time Collision Detection, p. 87, or
+			/// James Arvo's "Transforming Axis-aligned Bounding Boxes" in Graphics Gems 1, pp. 548-550.
+			/// http://www.graphicsgems.org/
 			/// </summary>
 			/// <param name="localAABB"></param>
 			/// <param name="modelMatrix"></param>
 			/// <param name="resultAABB"></param>
-
-			inline static void ApplyModelMatrix(const AABB3D& localAABB, const math::Matrix4x4& modelMatrix, AABB3D& resultAABB)
-			{
-				resultAABB.mLowerBound = modelMatrix * localAABB.mLowerBound;
-				resultAABB.mUpperBound = modelMatrix * localAABB.mUpperBound;
-			}
+			static void ApplyModelMatrix(const AABB3D& localAABB, const math::Matrix4x4& modelMatrix, AABB3D& resultAABB);
 
 			
 			/// <summary>
@@ -108,18 +107,19 @@ namespace doom
 			/// <param name="A"></param>
 			/// <param name="B"></param>
 			/// <returns></returns>
-			FORCE_INLINE static bool CheckIsCompletlyEnclosed(const AABB3D& innerAABB, const AABB3D& outerAABB)
-			{
-				return innerAABB.mLowerBound.x >= outerAABB.mLowerBound.x &&
-					innerAABB.mLowerBound.y >= outerAABB.mLowerBound.y &&
-					innerAABB.mLowerBound.z >= outerAABB.mLowerBound.z &&
-					innerAABB.mUpperBound.x <= outerAABB.mUpperBound.x &&
-					innerAABB.mUpperBound.y <= outerAABB.mUpperBound.y &&
-					innerAABB.mUpperBound.z <= outerAABB.mUpperBound.z;
-			}
+			static bool CheckIsCompletlyEnclosed(const AABB3D& innerAABB, const AABB3D& outerAABB);
 
 			FORCE_INLINE AABB3D() : mLowerBound{}, mUpperBound{}
 			{}
+
+			FORCE_INLINE AABB3D(const math::Vector4& lowerBound, const math::Vector4& upperBound)
+				: mLowerBound(lowerBound), mUpperBound(upperBound)
+			{
+#ifdef DEBUG_MODE
+				Validate();
+#endif
+			}
+
 			FORCE_INLINE AABB3D(const math::Vector3& lowerBound, const math::Vector3& upperBound)
 				: mLowerBound(lowerBound), mUpperBound(upperBound)
 			{
@@ -135,22 +135,9 @@ namespace doom
 		};
 
 		
-		FORCE_INLINE bool IsOverlapAABB3DAndPoint(const AABB3D& aabb, const math::Vector3& Point)
-		{
-			return (Point.x >= aabb.mLowerBound.x && Point.x <= aabb.mUpperBound.x) &&
-				(Point.y >= aabb.mLowerBound.y && Point.y <= aabb.mUpperBound.y) &&
-				(Point.z >= aabb.mLowerBound.z && Point.z <= aabb.mUpperBound.z);
-		}
-		FORCE_INLINE bool IsOverlapAABB3DAndAABB3D(const AABB3D& aabb, const AABB3D& B)
-		{
-			return (aabb.mLowerBound.x <= B.mUpperBound.x && aabb.mUpperBound.x >= B.mLowerBound.x) &&
-				(aabb.mLowerBound.y <= B.mUpperBound.y && aabb.mUpperBound.y >= B.mLowerBound.y) &&
-				(aabb.mLowerBound.z <= B.mUpperBound.z && aabb.mUpperBound.z >= B.mLowerBound.z);
-		}
-		FORCE_INLINE bool IsOverlapAABB3DAndAABB3D(Collider* aabb, Collider* B)
-		{
-			return IsOverlapAABB3DAndAABB3D(*static_cast<AABB3D*>(aabb), *static_cast<AABB3D*>(B));
-		}
+		bool IsOverlapAABB3DAndPoint(const AABB3D& aabb, const math::Vector3& Point);
+		bool IsOverlapAABB3DAndAABB3D(const AABB3D& aabb, const AABB3D& B);
+		bool IsOverlapAABB3DAndAABB3D(Collider* aabb, Collider* B);
 
 		math::Vector3 ClosestPointToPoint(const AABB3D& aabb, const math::Vector3& point);
 
@@ -197,27 +184,7 @@ namespace doom
 			}
 
 
-			inline void SignedExpand(const math::Vector2& movedVector)
-			{
-				if (movedVector.x > 0)
-				{
-					mUpperBound.x += movedVector.x;
-				}
-				else
-				{
-					mLowerBound.x += movedVector.x;
-				}
-
-
-				if (movedVector.y > 0)
-				{
-					mUpperBound.y += movedVector.y;
-				}
-				else
-				{
-					mLowerBound.y += movedVector.y;
-				}
-			}
+			void SignedExpand(const math::Vector2& movedVector);
 
 			FORCE_INLINE static float GetArea(const AABB2D& A)
 			{
@@ -244,29 +211,7 @@ namespace doom
 			/// <param name="resultAABB"></param>
 
 			// this function is not tested
-			inline static void ApplyModelMatrix(const AABB2D& localAABB, const math::Matrix4x4& modelMatrix, AABB2D& resultAABB)
-			{
-				for (int i = 0; i < 2; i++)
-				{
-					resultAABB.mLowerBound[i] = resultAABB.mUpperBound[i] = modelMatrix[3][i];
-
-					for (int j = 0; j < 2; j++)
-					{
-						float e = modelMatrix[i][j] * localAABB.mLowerBound[j];
-						float f = modelMatrix[i][j] * localAABB.mUpperBound[j];
-						if (e < f)
-						{
-							resultAABB.mLowerBound[i] += e;
-							resultAABB.mUpperBound[i] += f;
-						}
-						else
-						{
-							resultAABB.mLowerBound[i] += f;
-							resultAABB.mUpperBound[i] += e;
-						}
-					}
-				}
-			}
+			static void ApplyModelMatrix(const AABB2D& localAABB, const math::Matrix4x4& modelMatrix, AABB2D& resultAABB);
 
 			/// <summary>
 			/// This is different with IsOverlap
@@ -275,13 +220,7 @@ namespace doom
 			/// <param name="innerAABB"></param>
 			/// <param name="outerAABB"></param>
 			/// <returns></returns>
-			FORCE_INLINE static bool CheckIsCompletlyEnclosed(const AABB2D& innerAABB, const AABB2D& outerAABB)
-			{
-				return innerAABB.mLowerBound.x >= outerAABB.mLowerBound.x &&
-					innerAABB.mLowerBound.y >= outerAABB.mLowerBound.y &&
-					innerAABB.mUpperBound.x <= outerAABB.mUpperBound.x &&
-					innerAABB.mUpperBound.y <= outerAABB.mUpperBound.y;
-			}
+			static bool CheckIsCompletlyEnclosed(const AABB2D& innerAABB, const AABB2D& outerAABB);
 
 			FORCE_INLINE AABB2D() : mLowerBound{}, mUpperBound{}
 			{}
