@@ -321,7 +321,15 @@ void doom::asset::ShaderAsset::checkCompileError(unsigned int id, ShaderType sha
 	if (!success)
 	{
 		glGetShaderInfoLog(id, 1024, NULL, infoLog);
-		D_DEBUG_LOG({ GetAssetFileName(), "ERROR::SHADER_COMPILATION_ERROR of type: ", shaderTypeStr.c_str(), "\n", infoLog, "\n -- --------------------------------------------------- -- " });
+		D_DEBUG_LOG(
+			{ "Shader File Name : ", GetAssetFileName(),
+			"\nSHADER_COMPILATION_ERROR\n", 
+			shaderTypeStr.c_str(), 
+			"\n", 
+			infoLog, 
+			}
+		, eLogType::D_ERROR
+		);
 	}
 }
 

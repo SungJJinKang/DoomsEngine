@@ -51,7 +51,7 @@ void Material::SetShaderAsset(::doom::asset::ShaderAsset* shaderAsset)
 	{
 		char infoLog[512];
 		glGetProgramInfoLog(mProgramID, 512, NULL, infoLog);
-		std::cout << "ERROR::SHADER::PROGRAM::LINKING_FAILED\n" << infoLog << std::endl;
+		D_DEBUG_LOG({ "Shader File Name : ", shaderAsset->GetAssetFileName(), " - SHADER::PROGRAM::LINKING_FAILED", infoLog}, eLogType::D_ERROR);
 	}
 #endif
 
