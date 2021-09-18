@@ -6,7 +6,7 @@
 #include <cstdarg>
 #include <string>
 #include <intrin.h>
-#include <iostream>
+#include <cstdio>
 #include <type_traits>
 
 #include "../Graphics/DebugGraphics.h"
@@ -14,7 +14,7 @@
 #include "../Math/LightMath_Cpp/Vector3.h"
 #include "../Game/ConfigData.h"
 
-#include <portable-snippets/debug-trap/debug-trap.h>
+#include <exception>
 
 
 
@@ -38,10 +38,10 @@ namespace doom
 			}
 
 
-			void Log(const char* log, eLogType logType = eLogType::D_LOG) const noexcept;
-			void Log(const std::string log, eLogType logType = eLogType::D_LOG) const noexcept;
-			void Log(std::initializer_list<const char*> logs, eLogType logType = eLogType::D_LOG) const noexcept;
-			void Log(std::initializer_list<const std::string> logs, eLogType logType = eLogType::D_LOG) const noexcept;
+			FORCE_INLINE void Log(const char* fileName, long codeLineNum, const char* log, eLogType logType = eLogType::D_LOG) const noexcept;
+			FORCE_INLINE void Log(const char* fileName, long codeLineNum, const std::string log, eLogType logType = eLogType::D_LOG) const noexcept;
+			FORCE_INLINE void Log(const char* fileName, long codeLineNum, std::initializer_list<const char*> logs, eLogType logType = eLogType::D_LOG) const noexcept;
+			FORCE_INLINE void Log(const char* fileName, long codeLineNum, std::initializer_list<const std::string>& logs, eLogType logType = eLogType::D_LOG) const noexcept;
 
 
 
@@ -58,10 +58,10 @@ namespace doom
 		public:
 			friend class Logger;
 
-			inline void Log(const char* log, eLogType logType = eLogType::D_LOG) const noexcept {}
-			inline void Log(const std::string log, eLogType logType = eLogType::D_LOG) const noexcept {}
-			inline void Log(std::initializer_list<const char*> logs, eLogType logType = eLogType::D_LOG) const noexcept {}
-			inline void Log(std::initializer_list<const std::string> logs, eLogType logType = eLogType::D_LOG) const noexcept {}
+			FORCE_INLINE void Log(const char* fileName, long codeLineNum, const char* log, eLogType logType = eLogType::D_LOG) const noexcept {}
+			FORCE_INLINE void Log(const char* fileName, long codeLineNum, const std::string log, eLogType logType = eLogType::D_LOG) const noexcept {}
+			FORCE_INLINE void Log(const char* fileName, long codeLineNum, std::initializer_list<const char*> logs, eLogType logType = eLogType::D_LOG) const noexcept {}
+			FORCE_INLINE void Log(const char* fileName, long codeLineNum, std::initializer_list<const std::string>& logs, eLogType logType = eLogType::D_LOG) const noexcept {}
 		};
 
 		constexpr inline StdStreamLogger mLogger{};
@@ -73,45 +73,43 @@ namespace doom
 			MAX_DEBUG_LEVEL = static_cast<eLogType>(::doom::ConfigData::GetSingleton()->GetConfigData().GetValue<int>("SYSTEM", "MAX_DEBUG_LEVEL"));
 		}
 
-		void Logger::StopIfError(eLogType logType)
+		FORCE_INLINE void Logger::StopIfError(eLogType logType)
 		{
 			if (logType == eLogType::D_ERROR)
 			{
-				std::cout.flush();
-#ifdef DEBUG_MODE
-				psnip_trap();
-#endif
+				std::fflush(stdout);
+				std::terminate();
 			}
 		}
-		void Logger::Log(const char* log, eLogType logType) noexcept
+		void Logger::Log(const char* fileName, long codeLineNum, const char* log, eLogType logType) noexcept
 		{
 			if (logType == eLogType::D_ALWAYS || (logType >= MIN_DEBUG_LEVEL && logType <= MAX_DEBUG_LEVEL))
 			{
-				mLogger.Log(log, logType);
+				mLogger.Log(fileName, codeLineNum, log, logType);
 				StopIfError(logType);
 			}
 		}
-		void Logger::Log(const std::string log, eLogType logType) noexcept
+		void Logger::Log(const char* fileName, long codeLineNum, const std::string log, eLogType logType) noexcept
 		{
 			if (logType == eLogType::D_ALWAYS || (logType >= MIN_DEBUG_LEVEL && logType <= MAX_DEBUG_LEVEL))
 			{
-				mLogger.Log(log, logType);
+				mLogger.Log(fileName, codeLineNum, log, logType);
 				StopIfError(logType);
 			}
 		}
-		void Logger::Log(std::initializer_list<const char*> logs, eLogType logType) noexcept
+		void Logger::Log(const char* fileName, long codeLineNum, std::initializer_list<const char*> logs, eLogType logType) noexcept
 		{
 			if (logType == eLogType::D_ALWAYS || (logType >= MIN_DEBUG_LEVEL && logType <= MAX_DEBUG_LEVEL))
 			{
-				mLogger.Log(logs, logType);
+				mLogger.Log(fileName, codeLineNum, logs, logType);
 				StopIfError(logType);
 			}
 		}
-		void Logger::Log(std::initializer_list<const std::string> logs, eLogType logType) noexcept
+		void Logger::Log(const char* fileName, long codeLineNum, std::initializer_list<const std::string> logs, eLogType logType) noexcept
 		{
 			if (logType == eLogType::D_ALWAYS || (logType >= MIN_DEBUG_LEVEL && logType <= MAX_DEBUG_LEVEL))
 			{
-				mLogger.Log(logs, logType);
+				mLogger.Log(fileName, codeLineNum, logs, logType);
 				StopIfError(logType);
 			}
 		}
@@ -149,57 +147,60 @@ namespace doom
 
 
 
-const char* doom::logger::LogTypeStr(eLogType logType) noexcept
+FORCE_INLINE const char* doom::logger::LogTypeStr(eLogType logType) noexcept
 {
 	switch (logType)
 	{
 	case eLogType::D_LOG:
-		return "LOG : ";
+		return "LOG";
 		break;
 
 	case eLogType::D_WARNING:
-		return "WARNING : ";
+		return "WARNING";
 		break;
 
 	case eLogType::D_ERROR:
-		return "ERROR : ";
+		return "ERROR";
 		break;
 
 	default:
 		__assume(0);
 	}
 
-	return "ERROR : ";
+	return "ERROR";
 }
 
-void StdStreamLogger::Log(const char* log, eLogType logType /*= Doom::LogType::LOG*/) const noexcept
+FORCE_INLINE void StdStreamLogger::Log(const char* fileName, long codeLineNum, const char* log, eLogType logType /*= Doom::LogType::LOG*/) const noexcept
 {
-	std::cerr << LogTypeStr(logType) << log;
-	std::cout.put('\n');
-}
-
-
-void StdStreamLogger::Log(std::string log, eLogType logType /*= Doom::LogType::D_LOG*/) const noexcept
-{
-	std::cerr << LogTypeStr(logType) << log;
-	std::cout.put('\n');
+	std::printf("( %s ) %s at File : %s , Code Line : %d\n", LogTypeStr(logType), log, fileName, codeLineNum);
 }
 
 
-void StdStreamLogger::Log(std::initializer_list<const char*> logs, eLogType logType /*= Doom::LogType::LOG*/) const noexcept
+
+FORCE_INLINE void StdStreamLogger::Log(const char* fileName, long codeLineNum, std::string log, eLogType logType /*= Doom::LogType::D_LOG*/) const noexcept
 {
-	std::cerr << LogTypeStr(logType);
-	for (auto c : logs)
-		std::cerr << c;
-	std::cout.put('\n');
+	std::printf("( %s ) %s at File : %s , Code Line : %d\n", LogTypeStr(logType), log.c_str(), fileName, codeLineNum);
 }
 
-void StdStreamLogger::Log(std::initializer_list<const std::string> logs, eLogType logType /*= Doom::LogType::LOG*/) const noexcept
+
+FORCE_INLINE void StdStreamLogger::Log(const char* fileName, long codeLineNum, std::initializer_list<const char*> logs, eLogType logType /*= Doom::LogType::LOG*/) const noexcept
 {
-	std::cerr << LogTypeStr(logType);
-	for (auto c : logs)
-		std::cerr << c;
-	std::cout.put('\n');
+	std::printf("( %s ) ", LogTypeStr(logType));
+	for (const char* log : logs)
+	{
+		std::printf("%s", log);
+	}
+	std::printf("at File : %s , Code Line : %d\n", fileName, codeLineNum);
+}
+
+FORCE_INLINE void StdStreamLogger::Log(const char* fileName, long codeLineNum, std::initializer_list<const std::string>& logs, eLogType logType /*= Doom::LogType::LOG*/) const noexcept
+{
+	std::printf("( %s ) ", LogTypeStr(logType));
+	for (const std::string& log : logs)
+	{
+		std::printf("%s", log.c_str());
+	}
+	std::printf("at File : %s , Code Line : %d\n", fileName, codeLineNum);
 }
 
 #endif

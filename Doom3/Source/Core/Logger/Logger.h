@@ -38,10 +38,10 @@ namespace doom
 			static void InitLogger();
 
 			static void StopIfError(eLogType logType);
-			static void Log(const char* log, eLogType logType = eLogType::D_LOG) noexcept;
-			static void Log(const std::string log, eLogType logType = eLogType::D_LOG) noexcept;
-			static void Log(std::initializer_list<const char*> logs, eLogType logType = eLogType::D_LOG) noexcept;
-			static void Log(std::initializer_list<const std::string> logs, eLogType logType = eLogType::D_LOG) noexcept;
+			static void Log(const char* fileName, long codeLineNum, const char* log, eLogType logType = eLogType::D_LOG) noexcept;
+			static void Log(const char* fileName, long codeLineNum, const std::string log, eLogType logType = eLogType::D_LOG) noexcept;
+			static void Log(const char* fileName, long codeLineNum, std::initializer_list<const char*> logs, eLogType logType = eLogType::D_LOG) noexcept;
+			static void Log(const char* fileName, long codeLineNum, std::initializer_list<const std::string> logs, eLogType logType = eLogType::D_LOG) noexcept;
 			
 			//TODO : Support various type and multiple items
 			//TODO : Requirement 
