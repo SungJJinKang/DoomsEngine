@@ -101,7 +101,7 @@ bool doom::assetimporter::AssetImporterWorker<::doom::asset::eAssetType::THREE_D
 	AssetApiImporter<::doom::asset::eAssetType::THREE_D_MODEL> apiImporter = AssetApiImporter<::doom::asset::eAssetType::THREE_D_MODEL>::GetApiImporter();
 
 	/// read http://sir-kimmi.de/assimp/lib_html/assfile.html
-	const aiScene* modelScene = apiImporter->ReadFile(path.string(), ASSIMP_IMPORT_PROCESSING_SETTING);
+	const aiScene* modelScene = apiImporter->ReadFile(path.generic_u8string(), ASSIMP_IMPORT_PROCESSING_SETTING);
 
 	if (modelScene == NULL)
 	{
@@ -111,7 +111,7 @@ bool doom::assetimporter::AssetImporterWorker<::doom::asset::eAssetType::THREE_D
 	}
 	
 
-	if (path.extension().string() != AssetImporterWorker<::doom::asset::eAssetType::THREE_D_MODEL>::MAIN_3D_MODEL_FILE_FORMAT)
+	if (path.extension().generic_u8string() != AssetImporterWorker<::doom::asset::eAssetType::THREE_D_MODEL>::MAIN_3D_MODEL_FILE_FORMAT)
 	{//when file isn't assbin file
 
 		//need post process and exporting to .ass file
@@ -120,7 +120,7 @@ bool doom::assetimporter::AssetImporterWorker<::doom::asset::eAssetType::THREE_D
 		// Usually - if speed is not the most important aspect for you - you'll
 		// probably to request more postprocessing than we do in this example.
 
-		auto exportPath = path;
+		std::filesystem::path exportPath = path;
 		exportPath.replace_extension(MAIN_3D_MODEL_FILE_FORMAT);
 		AssetImporterWorker<::doom::asset::eAssetType::THREE_D_MODEL>::ExportToAssFile(exportPath, modelScene);
 	}
@@ -140,7 +140,7 @@ bool doom::assetimporter::AssetImporterWorker<::doom::asset::eAssetType::THREE_D
 	}
 	else
 	{
-		D_DEBUG_LOG({ path.string(), " : 3D Model Asset has no scene" });
+		D_DEBUG_LOG({ path.generic_u8string(), " : 3D Model Asset has no scene" });
 		apiImporter->FreeScene();
 		return false;
 	}
@@ -298,7 +298,7 @@ void doom::assetimporter::AssetImporterWorker<::doom::asset::eAssetType::THREE_D
 	D_ASSERT(AssetImporterWorker<::doom::asset::eAssetType::THREE_D_MODEL>::mAssFileFormatId.size() > 0);
 	Assimp::Exporter assimpExporter{};
 	//what is ExportProperties see https://github.com/assimp/assimp/blob/master/include/assimp/config.h.in -> AI_CONFIG_EXPORT_XFILE_64BIT 
-	aiReturn status = assimpExporter.Export(pScene, AssetImporterWorker<::doom::asset::eAssetType::THREE_D_MODEL>::mAssFileFormatId, path.string(), ASSIMP_EXPORT_PROCESSING_SETTING);
+	aiReturn status = assimpExporter.Export(pScene, AssetImporterWorker<::doom::asset::eAssetType::THREE_D_MODEL>::mAssFileFormatId, path.generic_u8string(), ASSIMP_EXPORT_PROCESSING_SETTING);
 	if (status == aiReturn::aiReturn_FAILURE || status == aiReturn::aiReturn_OUTOFMEMORY)
 	{
 		D_DEBUG_LOG("Fail To Export ASS File", eLogType::D_ERROR);

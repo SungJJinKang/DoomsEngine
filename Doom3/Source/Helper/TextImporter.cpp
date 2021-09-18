@@ -7,6 +7,9 @@ std::string GetTextFromFile(const std::filesystem::path& path)
 {
 	std::ifstream inputFileStream(path, std::ios::in | std::ios::binary | std::ios::ate);
 
+	D_ASSERT_LOG(inputFileStream.is_open() == true, "Fail to Load File ( %ls )", path.c_str());
+
+
 	if (inputFileStream.is_open())
 	{
 		std::string str{};

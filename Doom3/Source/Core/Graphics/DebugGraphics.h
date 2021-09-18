@@ -34,8 +34,8 @@ namespace doom
 			static inline constexpr unsigned int DEBUG_3D_LINE_INDEX{ 1 };
 			static inline constexpr unsigned int DEBUG_2D_TRIANGLE_INDEX{ 2 };
 			static inline constexpr unsigned int DEBUG_3D_TRIANGLE_INDEX{ 3 };
-
-			static inline constexpr unsigned int MAX_DEBUG_VERTEX_COUNT{ 1000 * 12 }; 
+			
+			static inline constexpr unsigned int MAX_DEBUG_VERTEX_COUNT{ 20000000 };
 			Mesh mDebugMesh{};
 
 			std::array<std::vector<PrimitiveLine>, ENUM_COLOR_COUNT> m2dLine;

@@ -394,3 +394,4 @@ MigrationBackup/
 FodyWeavers.xsd
 GPUCache
 Doom3/Doom3.vcxproj
+*.diagsession

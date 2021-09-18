@@ -29,17 +29,17 @@ bool doom::assetimporter::AssetImporterWorker<::doom::asset::eAssetType::TEXTURE
 	HRESULT hr;
 	auto ResultCompressedImage = std::make_unique<ScratchImage>();
 
-	auto sourceExtention = path.extension().string();
+	std::string sourceExtention = path.extension().generic_u8string();
 	if (sourceExtention == ".bmp" || sourceExtention == ".png" || sourceExtention == ".tiff" ||
 		sourceExtention == ".jpeg" || sourceExtention == ".jpg")
 	{
 		//IF file is not DDS file, import file and postprocess and export to DDS file
 
-		auto sourcepathCstr = path.c_str();
+		std::wstring sourcepathUTF8 = path.generic_wstring();
 
 	
 		auto sourceScratchImage = std::make_unique<ScratchImage>();
-		hr = LoadFromWICFile(path.c_str(), WIC_FLAGS::WIC_FLAGS_NONE, nullptr, *sourceScratchImage);
+		hr = LoadFromWICFile(sourcepathUTF8.c_str(), WIC_FLAGS::WIC_FLAGS_NONE, nullptr, *sourceScratchImage);
 		if (FAILED(hr))
 		{
 			D_DEBUG_LOG("Fail To Load Texture", eLogType::D_ERROR);
@@ -118,10 +118,10 @@ bool doom::assetimporter::AssetImporterWorker<::doom::asset::eAssetType::TEXTURE
 // 		img.rowPitch = /*<number of bytes in a scanline of the source data>*/;
 // 		img.slicePitch = /*<number of bytes in the entire 2D image>*/;
 
-		auto destinationPath = path;
+		std::filesystem::path destinationPath = path;
 		destinationPath.replace_extension(".dds");
 
-		hr = SaveToDDSFile(ResultCompressedImage->GetImages(), ResultCompressedImage->GetImageCount(), ResultCompressedImage->GetMetadata(), DDS_FLAGS::DDS_FLAGS_NONE, destinationPath.c_str());
+		hr = SaveToDDSFile(ResultCompressedImage->GetImages(), ResultCompressedImage->GetImageCount(), ResultCompressedImage->GetMetadata(), DDS_FLAGS::DDS_FLAGS_NONE, destinationPath.generic_wstring().c_str());
 		if (FAILED(hr))
 		{
 			D_DEBUG_LOG("Fail To Save DDS Texture", eLogType::D_ERROR);
@@ -138,7 +138,7 @@ bool doom::assetimporter::AssetImporterWorker<::doom::asset::eAssetType::TEXTURE
 	{	//already compressed, just send to gpu. 
 		//you don't need decompress if you use DXT
 		TexMetadata info;
-		hr = LoadFromDDSFile(path.c_str(), DDS_FLAGS::DDS_FLAGS_NONE, &info,*ResultCompressedImage);
+		hr = LoadFromDDSFile(path.generic_wstring().c_str(), DDS_FLAGS::DDS_FLAGS_NONE, &info,*ResultCompressedImage);
 		if (FAILED(hr))
 		{
 			D_DEBUG_LOG("Fail To Load DDS Texture", eLogType::D_ERROR);

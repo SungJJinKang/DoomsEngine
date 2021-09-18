@@ -5,7 +5,7 @@ void ExitGame();
 
 
 #include <iostream>
-
+#include <cstdio>
 
 
 int main()
@@ -23,6 +23,7 @@ int main()
 	//window terminated
 
 	std::cout << std::endl;
+	std::fflush(stdout);
 }
 
 
