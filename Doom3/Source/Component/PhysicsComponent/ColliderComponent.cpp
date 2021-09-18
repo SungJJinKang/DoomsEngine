@@ -24,7 +24,7 @@ void doom::ColliderComponent::InitComponent()
 
 	AutoColliderSetting();
 
-	InsertBVHLeafNode(physics::Physics_Server::GetSingleton()->mPhysicsColliderBVH, *(GetWorldColliderCache()), GetWorldCollider());
+	InsertBVHLeafNode(physics::Physics_Server::GetSingleton()->mPhysicsColliderBVH, *BVH_AABB3D_Node_Object::GetWorldCollider(), GetWorldCollider());
 }
 
 void doom::ColliderComponent::UpdateComponent()

@@ -29,7 +29,7 @@ namespace doom
 
 			ColliderType GetColliderType() const override;
 
-			void DrawCollider(eColor color, bool drawInstantly = false) override;
+			void DrawCollider(eColor color, bool drawInstantly = false) const override;
 
 		};
 

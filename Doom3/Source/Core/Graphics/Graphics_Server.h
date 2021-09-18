@@ -64,7 +64,6 @@ namespace doom
 			void RenderObject(doom::Camera* const targetCamera, const size_t cameraIndex);
 		
 			void DoCullJob();
-
 			void PreUpdateEntityBlocks();
 
 
@@ -81,7 +80,6 @@ namespace doom
 			void Renderder_InitComponent();
 			void Renderder_UpdateComponent();
 			void Renderder_OnEndOfFrameComponent();
-			void Renderder_DrawRenderingBoundingBox();
 
 			RenderingDebugger mRenderingDebugger;
 			UniformBufferObjectManager mUniformBufferObjectManager;

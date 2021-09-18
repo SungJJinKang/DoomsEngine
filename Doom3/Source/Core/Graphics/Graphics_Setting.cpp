@@ -10,7 +10,6 @@ void doom::graphics::Graphics_Setting::LoadData()
 	Graphics_Setting::ScreenSize = { width, height };
 	Graphics_Setting::ScreenRatio = static_cast<float>(width) / static_cast<float>(height);
 
-	bmIsGraphicsSettingLoaded = true;
 }
 
 void doom::graphics::Graphics_Setting::SetWindow(GLFWwindow* const _window)

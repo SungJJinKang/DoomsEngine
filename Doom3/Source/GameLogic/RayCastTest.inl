@@ -134,8 +134,6 @@ void doom::GameLogicStartPoint::StartGameLogic()
 	entity1->AddComponent<ButtonRotate>();
 
 
-	auto physicsEntity = currenScene->CreateNewEntity();
-	entity1->AddComponent<TestComponent>();
 
 	auto emptyEntity = currenScene->CreateNewEntity();
 

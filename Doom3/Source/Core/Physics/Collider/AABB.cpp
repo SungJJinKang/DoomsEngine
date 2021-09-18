@@ -48,7 +48,7 @@ math::Vector2 doom::physics::AABB2D::GetHalfExtent() const
 	return (mUpperBound + mLowerBound) * 0.5f;
 }
 
-void doom::physics::AABB2D::DrawCollider(eColor color, bool drawInstantly /*= false*/)
+void doom::physics::AABB2D::DrawCollider(eColor color, bool drawInstantly /*= false*/) const
 {
 #ifdef DEBUG_MODE
 	auto debugGraphics = graphics::DebugGraphics::GetSingleton();
@@ -186,7 +186,7 @@ float AABB3D::GetDiagonarLineLength() const
 	return math::sqrt(halfExtent.x * halfExtent.x + halfExtent.y * halfExtent.y + halfExtent.z * halfExtent.z);
 }
 
-void doom::physics::AABB3D::DrawCollider(eColor color, bool drawInstantly /*= false*/)
+void doom::physics::AABB3D::DrawCollider(eColor color, bool drawInstantly /*= false*/) const
 {
 #ifdef DEBUG_MODE
 	auto debugGraphics = graphics::DebugGraphics::GetSingleton();
@@ -412,9 +412,9 @@ bool doom::physics::IsOverlapAABB3DAndAABB3D(const AABB3D& aabb, const AABB3D& B
 		(aabb.mLowerBound.z <= B.mUpperBound.z && aabb.mUpperBound.z >= B.mLowerBound.z);
 }
 
-bool doom::physics::IsOverlapAABB3DAndAABB3D(Collider* aabb, Collider* B)
+bool doom::physics::IsOverlapAABB3DAndAABB3D(const Collider* const aabb, const Collider* const B)
 {
-	return IsOverlapAABB3DAndAABB3D(*static_cast<AABB3D*>(aabb), *static_cast<AABB3D*>(B));
+	return IsOverlapAABB3DAndAABB3D(*static_cast<const AABB3D*>(aabb), *static_cast<const AABB3D*>(B));
 }
 
 math::Vector3 doom::physics::ClosestPointToPoint(const AABB3D& aabb, const math::Vector3& point)

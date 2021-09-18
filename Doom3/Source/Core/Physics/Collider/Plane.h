@@ -16,7 +16,7 @@ namespace doom
 
 		public:
 
-			virtual void DrawCollider(eColor color, bool drawInstantly = false);
+			virtual void DrawCollider(eColor color, bool drawInstantly = false) const;
 
 			/// <summary>
 			/// can be negative value
@@ -44,7 +44,7 @@ namespace doom
 		};
 
 		bool IsOverlapPlaneAndPlane(const Plane& plane1, const Plane & plane2);
-		bool IsOverlapPlaneAndPlane(Collider* plane1, Collider* plane2);
+		bool IsOverlapPlaneAndPlane(const Collider* const plane1, const Collider* const plane2);
 		bool IsPointOnPlane(const Plane& plane, const math::Vector3& point);
 		/// <summary>
 		/// return if point is in front of plane ( is at half space where normal vector forward )

@@ -11,7 +11,7 @@ namespace doom
 
 		public:
 
-			void DrawCollider(eColor color, bool drawInstantly = false) override;
+			void DrawCollider(eColor color, bool drawInstantly = false) const override;
 
 			Circle2D(const math::Vector2& center, float radius);
 
@@ -33,7 +33,7 @@ namespace doom
 		};
 
 		bool IsOverlapCircle2DAndCircle2D(const Circle2D& circle2d1, const Circle2D& circle2d2);
-		bool IsOverlapCircle2DAndCircle2D(Collider* circle2d1, Collider* circle2d2);
+		bool IsOverlapCircle2DAndCircle2D(const Collider* const circle2d1, const Collider* const circle2d2);
 	}
 }
 

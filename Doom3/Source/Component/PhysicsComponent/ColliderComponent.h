@@ -14,22 +14,11 @@ namespace doom
 
 	class ColliderComponent : public ServerComponent, public StaticContainer<ColliderComponent>, public BVH_AABB3D_Node_Object
 	{
-		friend class physics::Physics_Server;
-
-	public:
-
-		
 
 	private:
 
-		void ResetAllCollisionState();
+		
 	
-		void UpdateLocalColliderAndLocalBVhAABBCache();
-
-		void OnPreUpdatePhysics();
-		void UpdatePhysics();
-		void OnPostUpdatePhysics();
-
 		/// <summary>
 		/// Set Collider variable depending on Renderer's mesh
 		/// </summary>
@@ -82,20 +71,19 @@ namespace doom
 		virtual math::Vector3 GetOffsetVector3() const = 0;
 		
 		virtual void AutoColliderSettingFromAABB3D(const physics::AABB3D & aabb3dFromMesh) = 0;
-		/// <summary>
-		/// return true if There is Renderer and have AABB3D
-		/// </summary>
-		/// <param name="aabb3D">aabb will be set by reference</param>
-		/// <returns></returns>
-		bool GetMeshAABB3D(physics::AABB3D& aabb3D);
-
-		virtual physics::Collider* GetWorldCollider() = 0;
+		
+		
 
 		virtual const math::Matrix4x4& GetModelMatrix() final;
 
 	public:
 
-	
+		void ResetAllCollisionState();
+		void UpdateLocalColliderAndLocalBVhAABBCache();
+
+		void OnPreUpdatePhysics();
+		void UpdatePhysics();
+		void OnPostUpdatePhysics();
 
 		bool GetIsColliderEnter()
 		{
@@ -128,7 +116,15 @@ namespace doom
 			return mbIsTriggerStay;
 		}
 
-		
+		/// <summary>
+		/// return true if There is Renderer and have AABB3D
+		/// </summary>
+		/// <param name="aabb3D">aabb will be set by reference</param>
+		/// <returns></returns>
+		bool GetMeshAABB3D(physics::AABB3D& aabb3D);
+
+
+		virtual physics::Collider* GetWorldCollider() = 0;
 
 	};
 }

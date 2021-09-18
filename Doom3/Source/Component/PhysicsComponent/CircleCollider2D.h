@@ -18,7 +18,7 @@ namespace doom
 		virtual void UpdateWorldCollider() final;
 
 		void AutoColliderSettingFromAABB3D(const physics::AABB3D& aabb3dFromMesh) final;
-		virtual physics::Collider* GetWorldCollider() final;
+		
 
 	public:
 	
@@ -30,5 +30,6 @@ namespace doom
 		// Inherited via Collider2DComponent
 		virtual doom::physics::AABB3D ExtractLocalAABB3D() override;
 
+		virtual physics::Collider* GetWorldCollider() final;
 	};
 }

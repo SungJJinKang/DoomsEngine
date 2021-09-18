@@ -25,7 +25,6 @@ namespace doom
 
 		void AutoColliderSettingFromAABB3D(const physics::AABB3D& aabb3dFromMesh) final;
 
-		virtual physics::Collider* GetWorldCollider() final;
 
 	public:
 		void SetFromAABB2D(const physics::AABB2D& aabb2D);
@@ -36,5 +35,6 @@ namespace doom
 		// Inherited via Collider2DComponent
 		virtual doom::physics::AABB3D ExtractLocalAABB3D() final;
 
+		virtual physics::Collider* GetWorldCollider() final;
 	};
 }

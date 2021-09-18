@@ -20,7 +20,7 @@ namespace doom
 			using component_type = typename math::Vector3;
 
 			// Inherited via RenderPhysics
-			virtual void DrawCollider(eColor color, bool drawInstantly = false);
+			virtual void DrawCollider(eColor color, bool drawInstantly = false) const;
 
 			FORCE_INLINE Sphere()
 				:mCenter{}, mRadius{}
@@ -148,9 +148,9 @@ namespace doom
 		{
 			return (sphere1.mCenter - sphere2.mCenter).sqrMagnitude() < math::pow(sphere1.mRadius + sphere2.mRadius, 2);
 		}
-		FORCE_INLINE bool IsOverlapSphereAndSphere(Collider* sphere1, Collider* sphere2)
+		FORCE_INLINE bool IsOverlapSphereAndSphere(const Collider* const sphere1, const Collider* const sphere2)
 		{
-			return IsOverlapSphereAndSphere(*static_cast<Sphere*>(sphere1), *static_cast<Sphere*>(sphere2));
+			return IsOverlapSphereAndSphere(*static_cast<const Sphere*>(sphere1), *static_cast<const Sphere*>(sphere2));
 		}
 
 	}

@@ -14,7 +14,7 @@ namespace doom
 
 		public:
 
-			virtual void DrawCollider(eColor color, bool drawInstantly = false) override;
+			virtual void DrawCollider(eColor color, bool drawInstantly = false) const override;
 					
 			math::Vector3 mOrigin;
 

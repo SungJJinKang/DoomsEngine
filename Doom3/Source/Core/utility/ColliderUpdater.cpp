@@ -33,7 +33,7 @@ const ColliderType* doom::ColliderUpdater<ColliderType>::GetLocalColliderCache()
 }
 
 template <typename ColliderType>
-const ColliderType* doom::ColliderUpdater<ColliderType>::GetWorldColliderCache()
+const ColliderType* doom::ColliderUpdater<ColliderType>::GetWorldCollider()
 {
 	D_ASSERT(IsWorldColliderCacheDirty.HasDirtySender() == true); // must register IsWorldBVhColliderCacheDirty to Object's Transform DirtySencer
 

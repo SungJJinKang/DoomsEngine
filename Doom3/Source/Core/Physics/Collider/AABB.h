@@ -26,7 +26,7 @@ namespace doom
 		public:
 			using component_type = typename math::Vector4;
 		
-			virtual void DrawCollider(eColor color, bool drawInstantly = false);
+			virtual void DrawCollider(eColor color, bool drawInstantly = false) const;
 
 			math::Vector4 mLowerBound; 
 			/// <summary>
@@ -137,7 +137,7 @@ namespace doom
 		
 		bool IsOverlapAABB3DAndPoint(const AABB3D& aabb, const math::Vector3& Point);
 		bool IsOverlapAABB3DAndAABB3D(const AABB3D& aabb, const AABB3D& B);
-		bool IsOverlapAABB3DAndAABB3D(Collider* aabb, Collider* B);
+		bool IsOverlapAABB3DAndAABB3D(const Collider* const aabb, const Collider* const B);
 
 		math::Vector3 ClosestPointToPoint(const AABB3D& aabb, const math::Vector3& point);
 
@@ -148,7 +148,7 @@ namespace doom
 
 			using component_type = typename math::Vector2;
 
-			virtual void DrawCollider(eColor color, bool drawInstantly = false);
+			virtual void DrawCollider(eColor color, bool drawInstantly = false) const;
 
 			math::Vector2 mLowerBound; 
 			math::Vector2 mUpperBound; 
@@ -256,9 +256,9 @@ namespace doom
 			return aabb.mUpperBound.x > B.mLowerBound.x && aabb.mLowerBound.x < B.mUpperBound.x&&
 				aabb.mUpperBound.y  > B.mLowerBound.y && aabb.mLowerBound.y < B.mUpperBound.y;
 		}
-		FORCE_INLINE bool IsOverlapAABB2DAndAABB2D(Collider* aabb, Collider* B)
+		FORCE_INLINE bool IsOverlapAABB2DAndAABB2D(const Collider* const aabb, const Collider* const B)
 		{
-			return IsOverlapAABB2DAndAABB2D(*static_cast<AABB2D*>(aabb), *static_cast<AABB2D*>(B));
+			return IsOverlapAABB2DAndAABB2D(*static_cast<const AABB2D*>(aabb), *static_cast<const AABB2D*>(B));
 		}
 		math::Vector2 ClosestPointToPoint(const AABB2D& aabb, const math::Vector2& point);
 	

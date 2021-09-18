@@ -12,6 +12,7 @@ namespace doom
 		private:
 
 			void DrawMouseRayCast();
+			void DrawPhysicsColliderBoundingBox();
 
 		public:
 
@@ -19,6 +20,7 @@ namespace doom
 			void UpdateDebugger()
 			{
 				DrawMouseRayCast();
+				DrawPhysicsColliderBoundingBox();
 			}
 #else
 			void UpdateDebugger()

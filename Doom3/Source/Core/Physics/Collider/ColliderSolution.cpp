@@ -152,12 +152,12 @@ doom::physics::ColliderSolution::is_overlap_algorithm_func doom::physics::Collid
 	}
 };
 
-doom::physics::ColliderSolution::is_overlap_algorithm_func doom::physics::ColliderSolution::GetCollisionAlgorithm(Collider* colliderA, Collider* colliderB)
+doom::physics::ColliderSolution::is_overlap_algorithm_func doom::physics::ColliderSolution::GetCollisionAlgorithm(const Collider* const colliderA, const Collider* const colliderB)
 {
 	return doom::physics::ColliderSolution::CollisionAlgorithms[static_cast<unsigned int>(colliderA->GetColliderType())][static_cast<unsigned int>(colliderB->GetColliderType())];
 }
 
-bool doom::physics::ColliderSolution::CheckIsOverlap(Collider* colliderA, Collider* colliderB)
+bool doom::physics::ColliderSolution::CheckIsOverlap(const Collider* const colliderA, const Collider* const colliderB)
 {
 	auto solution = ColliderSolution::GetCollisionAlgorithm(colliderA, colliderB);
 	if (solution != nullptr)

@@ -3,7 +3,7 @@
 #include <utility>
 #include <Vector2.h>
 
-void doom::physics::Circle2D::DrawCollider(eColor color, bool drawInstantly /*= false*/)
+void doom::physics::Circle2D::DrawCollider(eColor color, bool drawInstantly /*= false*/) const
 {
 #ifdef DEBUG_MODE
 	auto debugGraphics = graphics::DebugGraphics::GetSingleton();
@@ -42,7 +42,7 @@ bool doom::physics::IsOverlapCircle2DAndCircle2D(const Circle2D& circle2d1, cons
 	return distanceSqr < math::pow(circle2d1.mRadius + circle2d2.mRadius, 2);
 }
 
-bool doom::physics::IsOverlapCircle2DAndCircle2D(Collider* circle2d1, Collider* circle2d2)
+bool doom::physics::IsOverlapCircle2DAndCircle2D(const Collider* const circle2d1, const Collider* const circle2d2)
 {
-	return IsOverlapCircle2DAndCircle2D(*static_cast<Circle2D*>(circle2d1), *static_cast<Circle2D*>(circle2d2));
+	return IsOverlapCircle2DAndCircle2D(*static_cast<const Circle2D*>(circle2d1), *static_cast<const Circle2D*>(circle2d2));
 }

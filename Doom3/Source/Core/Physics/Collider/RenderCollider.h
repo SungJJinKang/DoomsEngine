@@ -13,19 +13,19 @@ namespace doom
 
 		protected:
 
-			virtual void DrawCollider(eColor color, bool drawInstantly = false) = 0;
+			virtual void DrawCollider(eColor color, bool drawInstantly = false) const = 0;
 
 		public:
 
 			constexpr RenderCollider() {}
 
 #ifdef DEBUG_MODE
-			void DrawPhysicsDebugColor(eColor color)
+			void DrawPhysicsDebugColor(eColor color) const
 			{
 				DrawCollider(color, false);
 			}
 #else
-			void DrawPhysicsDebugColor(eColor color)
+			void DrawPhysicsDebugColor(eColor color) const
 			{
 			}
 #endif

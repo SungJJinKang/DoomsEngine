@@ -12,9 +12,13 @@ namespace doom
 
 			inline static unsigned long long DrawCallCounter = 0;
 
+		
+
 		public :
 
-			void UpdateDebugger();
+			
+
+		
 
 			FORCE_INLINE static void IncrementDrawCallCounter()
 			{
@@ -31,7 +35,9 @@ namespace doom
 				return DrawCallCounter;
 			}
 
-			static void PrintDrawCallCounter();
+			void PrintDrawCallCounter();
+			void UpdateInputForPrintDrawCallCounter();
+			void DrawRenderingBoundingBox();
 		};
 	}
 }

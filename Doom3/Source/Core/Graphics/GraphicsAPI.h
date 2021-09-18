@@ -3,6 +3,7 @@
 
 #include "ePrimitiveType.h"
 #include <Vector4.h>
+#include "RenderingDebugger.h"
 
 
 namespace doom

@@ -7,6 +7,7 @@
 #include "Graphics_Server.h"
 #include "../Game/AssetManager/AssetManager.h"
 #include "Material.h"
+#include <IO/UserInput_Server.h>
 
 void doom::graphics::DebugGraphics::Init()
 {
@@ -19,6 +20,14 @@ void doom::graphics::DebugGraphics::Init()
 
 	auto debug3DShader = doom::assetimporter::AssetManager::GetAsset<asset::eAssetType::SHADER>(DebugGraphics::DEBUG_3D_SHADER);
 	m3DMaterial = std::make_unique<Material>(debug3DShader);
+}
+
+void doom::graphics::DebugGraphics::Update()
+{
+	if (doom::userinput::UserInput_Server::GetKeyUp(userinput::eKEY_CODE::KEY_F5))
+	{
+		Graphics_Setting::bmIsDrawDebuggersEnabled = !Graphics_Setting::bmIsDrawDebuggersEnabled;
+	}
 }
 
 void doom::graphics::DebugGraphics::Reset()
@@ -47,14 +56,24 @@ void doom::graphics::DebugGraphics::Reset()
 
 
 
-doom::graphics::DebugGraphics::DebugGraphics() : 
+void doom::graphics::DebugGraphics::SetIsVertexDataSendToGPUAtCurrentFrame(const bool isSet)
+{
+	bmIsVertexDataSendToGPUAtCurrentFrame = isSet;
+}
+
+bool doom::graphics::DebugGraphics::GetIsVertexDataSendToGPUAtCurrentFrame() const
+{
+	return bmIsVertexDataSendToGPUAtCurrentFrame;
+}
+
+doom::graphics::DebugGraphics::DebugGraphics() :
 	m2DMaterial{}, m3DMaterial{}, m2dLine{}, m3dLine{}, m2dTriangle{}, m3dTriangle{}
 {
 }
 
 void doom::graphics::DebugGraphics::Draw()
 {
-	if (DebugGraphics::mbDrawDebug == true)
+	if (Graphics_Setting::bmIsDrawDebuggersEnabled == true)
 	{
 		/// <summary>
 		/// vector3 -> 3, vector4 -> 4
@@ -129,6 +148,7 @@ void doom::graphics::DebugGraphics::DebugDraw3DLine(const math::Vector3& startWo
 {
 	if (drawInstantly == false)
 	{
+		D_ASSERT_LOG(bmIsVertexDataSendToGPUAtCurrentFrame == false, "Debugging Vertex Data is already send to GPU");
 		m3dLine[static_cast<unsigned int>(color)].emplace_back(startWorldPos, endWorldPos);
 	}
 	else
@@ -156,6 +176,7 @@ void doom::graphics::DebugGraphics::DebugDraw2DLine(const math::Vector3& startND
 {
 	if (drawInstantly == false)
 	{
+		D_ASSERT_LOG(bmIsVertexDataSendToGPUAtCurrentFrame == false, "Debugging Vertex Data is already send to GPU");
 		m2dLine[static_cast<unsigned int>(color)].emplace_back(startNDCPos, startNDCPos);
 	}
 	else
@@ -209,6 +230,7 @@ void doom::graphics::DebugGraphics::DebugDraw2DTriangle(const math::Vector3& poi
 {
 	if (drawInstantly == false)
 	{
+		D_ASSERT_LOG(bmIsVertexDataSendToGPUAtCurrentFrame == false, "Debugging Vertex Data is already send to GPU");
 		m2dTriangle[static_cast<unsigned int>(color)].emplace_back(pointA, pointB, pointC);
 	}
 	else
@@ -224,7 +246,7 @@ void doom::graphics::DebugGraphics::SetDrawInstantlyMaterial(Material* material)
 
 void doom::graphics::DebugGraphics::BufferVertexDataToGPU()
 {
-	if (DebugGraphics::mbDrawDebug == true)
+	if (Graphics_Setting::bmIsDrawDebuggersEnabled == true)
 	{
 		unsigned int offsetComponentCount{ 0 };
 		unsigned int alreadyDrawedVertexCount{ 0 };
@@ -286,6 +308,8 @@ void doom::graphics::DebugGraphics::BufferVertexDataToGPU()
 				}
 			}
 		}
+
+		bmIsVertexDataSendToGPUAtCurrentFrame = true;
 	}
 }
 
@@ -293,6 +317,8 @@ void doom::graphics::DebugGraphics::DebugDraw3DTriangle(const math::Vector3& poi
 {
 	if (drawInstantly == false)
 	{
+		D_ASSERT_LOG(bmIsVertexDataSendToGPUAtCurrentFrame == false, "Debugging Vertex Data is already send to GPU");
+
 		m3dTriangle[static_cast<unsigned int>(color)].emplace_back(pointA, pointB, pointC);
 
 		//For Drawing both face

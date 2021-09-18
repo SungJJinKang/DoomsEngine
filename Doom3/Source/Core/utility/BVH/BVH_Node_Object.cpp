@@ -5,7 +5,7 @@ void doom::BVH_Node_Object<ColliderType>::UpdateBVH_Node()
 {
 	if (doom::ColliderUpdater<ColliderType>::IsWorldColliderCacheDirty.GetIsDirty(false) == true)
 	{//Only when WorldAABB is updated,
-		doom::BVH_Node_Container<ColliderType>::UpdateBVH_Node(*(doom::ColliderUpdater<ColliderType>::GetWorldColliderCache()));
+		doom::BVH_Node_Container<ColliderType>::UpdateBVH_Node(*(doom::ColliderUpdater<ColliderType>::GetWorldCollider()));
 	}
 	
 }

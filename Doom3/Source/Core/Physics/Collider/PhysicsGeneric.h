@@ -16,17 +16,17 @@ namespace doom
 		class Sphere;
 
 		bool IsOverlapSphereAndAABB3D(const Sphere& sphere, const AABB3D& aabb);
-		bool IsOverlapSphereAndAABB3D(Collider* sphere, Collider* aabb);
+		bool IsOverlapSphereAndAABB3D(const Collider* const sphere, const Collider* const aabb);
 		math::Vector3 GetClosestPointOnAABB(const Sphere& sphere, const AABB3D& aabb);
 
 		bool IsOverlapSphereAndPlane(const Sphere& sphere, const Plane& plane);
-		bool IsOverlapSphereAndPlane(Collider* sphere, Collider* plane);
+		bool IsOverlapSphereAndPlane(const Collider* const sphere, const Collider* const plane);
 		float DistanceFromSphereToPlane(const Sphere& sphere, const Plane& plane);
 		math::Vector3 GetClosestPointOnPlane(const Sphere& sphere, const Plane& plane);
 
 		float DistanceFromAABBToPlane(const AABB3D& aabb, const Plane& plane);
 		bool IsOverlapAABB3DAndPlane(const AABB3D& aabb, const Plane& plane);
-		bool IsOverlapAABB3DAndPlane(Collider* aabb, Collider* plane);
+		bool IsOverlapAABB3DAndPlane(const Collider* const aabb, const Collider* const plane);
 
 		/// <summary>
 		/// if return positive value, point is on normal side of plane,
@@ -42,9 +42,9 @@ namespace doom
 		float RaycastRayAndAABB3D(const Ray& rayCollider, const AABB3D& aabbCollider);
 		float RaycastRayAndSphere(const Ray& ray, const Sphere& sphere);
 		float RaycastRayAndPlane(const Ray& ray, const Plane& plane); 
-		bool RaycastRayAndAABB3D(Collider * rayCollider, Collider * aabbCollider);
-		bool RaycastRayAndSphere(Collider* ray, Collider* sphere);
-		bool RaycastRayAndPlane(Collider* ray, Collider* plane);
+		bool RaycastRayAndAABB3D(const Collider* const rayCollider, const Collider* const aabbCollider);
+		bool RaycastRayAndSphere(const Collider* const ray, const Collider* const sphere);
+		bool RaycastRayAndPlane(const Collider* const ray, const Collider* const plane);
 
 		bool IsOverlapRayAndAABB3D(const Ray& ray, const AABB3D& aabb);
 
@@ -59,9 +59,9 @@ namespace doom
 		float RaycastLineAndAABB3D(const Line& line, const AABB3D& aabb3d);
 		float RaycastLineAndSphere(const Line& line, const Sphere& sphere);
 		float RaycastLineAndPlane(const Line& line, const Plane& plane);
-		bool RaycastLineAndAABB3D(Collider* line, Collider* aabb);
-		bool RaycastLineAndSphere(Collider* line, Collider* sphere);
-		bool RaycastLineAndPlane(Collider* line, Collider* plane);
+		bool RaycastLineAndAABB3D(const Collider* const line, const Collider* const aabb);
+		bool RaycastLineAndSphere(const Collider* const line, const Collider* const sphere);
+		bool RaycastLineAndPlane(const Collider* const line, const Collider* const plane);
 
 
 		//
@@ -71,13 +71,13 @@ namespace doom
 		float RaycastRayAndCirecle2D(const Ray& ray, const Circle2D& circle2d);
 
 		bool IsOverlapRayAndAABB2D(const Ray& ray, const AABB2D& aabb2d);
-		bool RaycastRayAndAABB2D(Collider* rayCollider, Collider* aabbCollider);
-		bool RaycastRayAndCirecle2D(Collider* rayCollider, Collider* circle2dCollider);
+		bool RaycastRayAndAABB2D(const Collider* const rayCollider, const Collider* const aabbCollider);
+		bool RaycastRayAndCirecle2D(const Collider* const rayCollider, const Collider* const circle2dCollider);
 
 		float RaycastLineAndAABB2D(const Line& line, const AABB2D& aabb);
 		float RaycastLineAndCirecle2D(const Line& line, const Circle2D& circle2d);
-		bool RaycastLineAndAABB2D(Collider* lineCollider, Collider* aabbCollider);
-		bool RaycastLineAndCirecle2D(Collider* lineCollider, Collider* circle2dCollider);
+		bool RaycastLineAndAABB2D(const Collider* const lineCollider, const Collider* const aabbCollider);
+		bool RaycastLineAndCirecle2D(const Collider* const lineCollider, const Collider* const circle2dCollider);
 
 	}
 }

@@ -36,6 +36,9 @@ namespace doom
 			static inline constexpr unsigned int DEBUG_3D_TRIANGLE_INDEX{ 3 };
 			
 			static inline constexpr unsigned int MAX_DEBUG_VERTEX_COUNT{ 20000000 };
+			
+			bool bmIsVertexDataSendToGPUAtCurrentFrame{ false };
+			
 			Mesh mDebugMesh{};
 
 			std::array<std::vector<PrimitiveLine>, ENUM_COLOR_COUNT> m2dLine;
@@ -71,9 +74,9 @@ namespace doom
 
 		public:
 
-			static inline bool mbDrawDebug{ true };
-			static inline eColor mDefaultDebugColor{ eColor::White };
-
+			void SetIsVertexDataSendToGPUAtCurrentFrame(const bool isSet);
+			bool GetIsVertexDataSendToGPUAtCurrentFrame() const;
+			
 			DebugGraphics();
 
 			/// <summary>
@@ -109,6 +112,7 @@ namespace doom
 
 
 			void Init();
+			void Update();
 			void Reset();
 
 			void BufferVertexDataToGPU();

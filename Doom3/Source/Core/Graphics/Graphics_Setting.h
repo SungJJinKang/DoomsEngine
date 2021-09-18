@@ -2,6 +2,7 @@
 
 #include <Vector2.h>
 #include <Vector4.h>
+#include "Color.h"
 
 struct GLFWwindow;
 
@@ -13,8 +14,6 @@ namespace doom
 		{
 			static inline GLFWwindow* Window{ nullptr };
 
-			static inline bool bmIsGraphicsSettingLoaded{ false };
-
 			static inline math::Vector<2, int> ScreenSize{};
 			/// <summary>
 			/// ScreenSize Width / ScreenSize Height
@@ -23,6 +22,9 @@ namespace doom
 			static inline unsigned int MultiSamplingNum;
 
 		public:
+
+			static inline bool bmIsDrawDebuggersEnabled{ true };
+			static inline eColor mDrawDebuggersDefualtColor{ eColor::Green };
 
 			static inline bool mDrawRenderingBoundingBox{ false };
 			static inline math::Vector4 ClearColor{ 0.0f, 0.0f, 0.0f, 1.0f };

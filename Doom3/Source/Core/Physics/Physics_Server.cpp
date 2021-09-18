@@ -73,8 +73,8 @@ void doom::physics::Physics_Server::SolveColliderComponents()
 
 
 			//Second : If pass BVH Test, Test Collider
-			Collider* col1 = colliderComponents[i]->GetWorldCollider();
-			Collider* col2 = colliderComponents[j]->GetWorldCollider();
+			Collider* const col1 = colliderComponents[i]->GetWorldCollider();
+			Collider* const col2 = colliderComponents[j]->GetWorldCollider();
 			bool isOverlap = ColliderSolution::CheckIsOverlap(col1, col2);
 			if (isOverlap)
 			{

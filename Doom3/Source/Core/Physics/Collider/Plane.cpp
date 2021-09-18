@@ -45,9 +45,9 @@ bool doom::physics::IsOverlapPlaneAndPlane(const Plane& plane1, const Plane& pla
 	}
 }
 
-bool doom::physics::IsOverlapPlaneAndPlane(Collider* plane1, Collider* plane2)
+bool doom::physics::IsOverlapPlaneAndPlane(const Collider* const plane1, const Collider* const plane2)
 {
-	return IsOverlapPlaneAndPlane(*static_cast<Plane*>(plane1), *static_cast<Plane*>(plane2));
+	return IsOverlapPlaneAndPlane(*static_cast<const Plane*>(plane1), *static_cast<const Plane*>(plane2));
 }
 
 bool doom::physics::IsPointOnPlane(const doom::physics::Plane& plane, const math::Vector3& point)
@@ -65,7 +65,7 @@ math::Vector3 doom::physics::GetClosestPoint(const doom::physics::Plane& plane, 
 	return point - (math::dot(plane.GetNormal(), point) - plane.mDistance) * plane.GetNormal();
 }
 
-void doom::physics::Plane::DrawCollider(eColor color, bool drawInstantly /*= false*/)
+void doom::physics::Plane::DrawCollider(eColor color, bool drawInstantly /*= false*/) const
 {
 #ifdef DEBUG_MODE
 	auto debugGraphics = graphics::DebugGraphics::GetSingleton();
