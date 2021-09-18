@@ -57,7 +57,7 @@ void doom::graphics::Graphics_Server::LateInit()
 #endif 
 
 	SetRenderingMode(Graphics_Server::eRenderingMode::DeferredRendering);
-	mQuadMesh = Mesh::GetQuadMesh();
+
 
 	//mQueryOcclusionCulling.InitQueryOcclusionCulling();
 	//mCullDistance.Initialize();
@@ -69,7 +69,6 @@ void Graphics_Server::Update()
 	
 	DeferredRendering();
 	
-
 	mRenderingDebugger.UpdateDebugger();
 }
 
@@ -139,11 +138,6 @@ void doom::graphics::Graphics_Server::Renderder_DrawRenderingBoundingBox()
 }
 
 
-bool Graphics_Server::GetIsGLFWInitialized()
-{
-	return bmIsGLFWInitialized;
-}
-
 Graphics_Server::Graphics_Server()
 {
 
@@ -155,21 +149,6 @@ Graphics_Server::~Graphics_Server()
 }
 
 
-
-void Graphics_Server::InitGLFW()
-{
-	
-
-	bmIsGLFWInitialized = true;
-}
-
-
-void doom::graphics::Graphics_Server::InitFrameBufferForDeferredRendering()
-{
-	auto gBufferDrawerShader = doom::assetimporter::AssetManager::GetAsset<asset::eAssetType::SHADER>("GbufferDrawer.glsl");
-	mGbufferDrawerMaterial.SetShaderAsset(gBufferDrawerShader);
-
-}
 
 void Graphics_Server::PreUpdateEntityBlocks()
 {
@@ -299,11 +278,8 @@ void doom::graphics::Graphics_Server::DeferredRendering()
 			targetCamera->mDefferedRenderingFrameBuffer.BlitBufferTo(0, 0, 0, targetCamera->mDefferedRenderingFrameBuffer.mDefaultWidth, targetCamera->mDefferedRenderingFrameBuffer.mDefaultHeight, 0, 0, Graphics_Setting::GetScreenWidth(), Graphics_Setting::GetScreenHeight(), GraphicsAPI::eBufferBitType::DEPTH, FrameBuffer::eImageInterpolation::NEAREST);
 
 			targetCamera->mDefferedRenderingFrameBuffer.BindGBufferTextures();
-			mGbufferDrawerMaterial.UseProgram();
-
-			GraphicsAPI::Disable(GraphicsAPI::eCapability::DEPTH_TEST);
-			mQuadMesh->Draw();
-			GraphicsAPI::Enable(GraphicsAPI::eCapability::DEPTH_TEST);
+			
+			mDeferredRenderingDrawer.DrawDeferredRenderingQuadDrawer();
 
 #ifdef DEBUG_MODE
 			if (userinput::UserInput_Server::GetKeyToggle(eKEY_CODE::KEY_F6) == true)
@@ -378,7 +354,7 @@ void doom::graphics::Graphics_Server::SetRenderingMode(eRenderingMode renderingM
 	mCurrentRenderingMode = renderingMode;
 	if (mCurrentRenderingMode == eRenderingMode::DeferredRendering)
 	{
-		InitFrameBufferForDeferredRendering();
+		mDeferredRenderingDrawer.Initialize();
 	}
 }
 

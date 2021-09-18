@@ -11,9 +11,8 @@ namespace doom
 		class UniformBufferObject;
 		class Buffer
 		{
-			friend class Mesh;
-			friend class UniformBufferObject;
-		private:
+		protected:
+
 			BufferID mBufferID;
 
 			Buffer();
@@ -28,10 +27,12 @@ namespace doom
 			void GenBuffer();
 			virtual void GenBufferIfNotGened();
 			virtual void DeleteBuffers();
+
 		protected:
 			
 
 		public:
+
 			inline virtual void BindBuffer() noexcept = 0;
 			inline virtual void UnBindBuffer() noexcept = 0;
 			virtual bool IsBufferGenerated();

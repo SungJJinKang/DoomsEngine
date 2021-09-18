@@ -9,7 +9,7 @@ doom::physics::Ray doom::physics::Picking::GetCurrentCursorPointWorldRay()
 	math::Vector3 currentNDCCursorPoint{ userinput::UserInput_Server::GetCurrentMouseNDCPosition() };
 	currentNDCCursorPoint.z = 1;
 
-	auto normalWorldPoint = Camera::GetMainCamera()->NDCToWorldPoint(currentNDCCursorPoint); // In NDC coordinate, forward had positive z value, so put minus
+	math::Vector3 normalWorldPoint = Camera::GetMainCamera()->NDCToWorldPoint(currentNDCCursorPoint); // In NDC coordinate, forward had positive z value, so put minus
 
 	return physics::Ray(userinput::UserInput_Server::GetCurrentMouseWorldPosition(), normalWorldPoint);
 

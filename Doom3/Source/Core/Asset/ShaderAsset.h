@@ -66,7 +66,7 @@ namespace doom
 			/// return shader is valid??
 			/// </summary>
 			/// <returns></returns>
-			bool GetIsValid();
+			bool GetIsValid() const;
 
 		protected:
 
@@ -92,9 +92,9 @@ namespace doom
 
 			void OnEndImportInMainThread_Internal() final;
 
-			unsigned int GetVertexId();
-			unsigned int GetFragmentId();
-			unsigned int GetGeometryId();
+			unsigned int GetVertexId() const;
+			unsigned int GetFragmentId() const;
+			unsigned int GetGeometryId() const;
 
 			graphics::Material* CreateMatrialWithThisShader();
 		};

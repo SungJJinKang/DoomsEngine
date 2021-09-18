@@ -334,7 +334,7 @@ void doom::asset::ShaderAsset::checkCompileError(unsigned int id, ShaderType sha
 }
 
 
-bool doom::asset::ShaderAsset::GetIsValid()
+bool doom::asset::ShaderAsset::GetIsValid() const
 {
 	return mVertexId || mFragmentId || mGeometryId;
 }
@@ -346,17 +346,17 @@ void doom::asset::ShaderAsset::OnEndImportInMainThread_Internal()
 	D_END_PROFILING("Compile Shader");
 }
 
-unsigned int doom::asset::ShaderAsset::GetVertexId()
+unsigned int doom::asset::ShaderAsset::GetVertexId() const
 {
 	return mVertexId;
 }
 
-unsigned int doom::asset::ShaderAsset::GetFragmentId()
+unsigned int doom::asset::ShaderAsset::GetFragmentId() const
 {
 	return mFragmentId;
 }
 
-unsigned int doom::asset::ShaderAsset::GetGeometryId()
+unsigned int doom::asset::ShaderAsset::GetGeometryId() const
 {
 	return mGeometryId;
 }
