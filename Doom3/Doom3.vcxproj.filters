@@ -111,7 +111,7 @@
     <ClCompile Include="Source\Component\Core\PlainComponent.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Core\Physics\PhysicsSetting.cpp">
+    <ClCompile Include="Source\Core\Physics\Physics_Setting.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Source\Core\Asset\TextAsset.cpp">
@@ -222,7 +222,7 @@
     <ClCompile Include="Source\Core\Physics\Collider\Sphere.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Core\Physics\Collider\RenderPhysics.cpp">
+    <ClCompile Include="Source\Core\Physics\Collider\RenderCollider.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Source\Core\Physics\Collider\ColliderSolution.cpp">
@@ -463,6 +463,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Source\GameLogic\CustomComponent\Portfolio\RenderingAABBController.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Core\Physics\PhysicsDebugger.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -827,7 +830,7 @@
     <ClInclude Include="Source\Core\Game\FrameDirtyChecker.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Core\Physics\PhysicsSetting.h">
+    <ClInclude Include="Source\Core\Physics\Physics_Setting.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\Core\Graphics\Graphics_Server.h">
@@ -950,7 +953,7 @@
     <ClInclude Include="Source\Core\Physics\Collider\Sphere.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Core\Physics\Collider\RenderPhysics.h">
+    <ClInclude Include="Source\Core\Physics\Collider\RenderCollider.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\Core\OS\OS.h">
@@ -1310,6 +1313,9 @@
     <ClInclude Include="Source\GameLogic\CustomComponent\Portfolio\RenderingAABBController.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Core\Physics\PhysicsDebugger.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="dependency\glfw-3.3.2.bin.WIN64\docs\html\search\all_0.html" />
@@ -1483,6 +1489,9 @@
     <None Include="Source\Core\Graphics\Acceleration\LinearData_ViewFrustumCulling\CullingModule\MaskedSWOcclusionCulling\MaskedSWOcclusionCulling_HowWorks.md" />
     <None Include="Assets\Shader\Default\DepthBufferTextureShader.glsl" />
     <None Include="Source\GameLogic\ViewFrustumCullingDebug.inl">
+      <Filter>Header Files</Filter>
+    </None>
+    <None Include="Source\GameLogic\RayCastTest.inl">
       <Filter>Header Files</Filter>
     </None>
   </ItemGroup>

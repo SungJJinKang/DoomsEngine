@@ -6,7 +6,7 @@
 
 void doom::TestComponent::InitComponent()
 {
-	physics::Physics_Server::GetSingleton()->IsShowDebug = true;
+	physics::Physics_Setting::bmIsRenderPhysicsCollider = true;
 
 #ifdef DEBUG_MODE
 	//Ignore dirty codes
@@ -27,22 +27,19 @@ void doom::TestComponent::UpdateComponent()
 
 	//Ignore dirty codes
 #ifdef DEBUG_MODE
-	line.DrawPhysicsDebug();
-	plane.DrawPhysicsDebug();
-	aabb1.DrawPhysicsDebug();
-	aabb2.DrawPhysicsDebug();
-	aabb3.DrawPhysicsDebug();
-	circle2d.DrawPhysicsDebug();
-	sphere.DrawPhysicsDebug();
-	sphere1.DrawPhysicsDebug();
+	line.DrawPhysicsDebugColor(eColor::Green);
+	plane.DrawPhysicsDebugColor(eColor::Green);
+	aabb1.DrawPhysicsDebugColor(eColor::Green);
+	aabb2.DrawPhysicsDebugColor(eColor::Green);
+	aabb3.DrawPhysicsDebugColor(eColor::Green);
+	circle2d.DrawPhysicsDebugColor(eColor::Green);
+	sphere.DrawPhysicsDebugColor(eColor::Green);
+	sphere1.DrawPhysicsDebugColor(eColor::Green);
 
-	auto pickingRay = physics::Picking::GetCurrentCursorPointWorldRay();
+	auto pickingRay = doom::physics::Physics_Server::GetSingleton()->mPicking.GetCurrentCursorPointWorldRay();
 	pickingRay.DrawPhysicsDebugColor(eColor::Green);
 
-	if (userinput::UserInput_Server::GetKeyToggle(eKEY_CODE::KEY_F2))
-	{
-		D_DEBUG_LOG(std::to_string(time::MainTimer::GetCurrentFrame()), eLogType::D_ALWAYS);
-	}
+
 #endif
 
 }

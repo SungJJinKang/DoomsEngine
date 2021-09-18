@@ -16,7 +16,7 @@ namespace doom
 
 		public:
 
-			virtual void Render(eColor color, bool drawInstantly = false);
+			virtual void DrawCollider(eColor color, bool drawInstantly = false);
 
 			/// <summary>
 			/// can be negative value

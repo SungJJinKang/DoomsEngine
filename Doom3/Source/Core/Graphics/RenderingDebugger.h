@@ -14,7 +14,7 @@ namespace doom
 
 		public :
 
-			static void UpdateDebugger();
+			void UpdateDebugger();
 
 			FORCE_INLINE static void IncrementDrawCallCounter()
 			{

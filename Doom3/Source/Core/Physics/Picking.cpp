@@ -3,14 +3,6 @@
 #include <Rendering/Camera.h>
 #include <UserInput_Server.h>
 #include <Transform.h>
-/*
-void doom::physics::Picking::UpdatePicking()
-{
-
-	
-	
-}
-*/
 
 doom::physics::Ray doom::physics::Picking::GetCurrentCursorPointWorldRay()
 {

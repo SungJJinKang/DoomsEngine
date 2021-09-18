@@ -1,5 +1,8 @@
 #include "Physics_Server.h"
 
+#include "Game/GameCore.h"
+#include "Physics_Setting.h"
+
 #include "Collider/ColliderSolution.h"
 #include "Collider/Collider.h"
 
@@ -8,94 +11,80 @@
 
 #include <UserInput_Server.h>
 
+void doom::physics::Physics_Server::UpdatePhysicsOnOff()
+{
+	if (doom::userinput::UserInput_Server::GetKeyUp(doom::userinput::eKEY_CODE::KEY_F11))
+	{
+		Physics_Setting::SetIsPhysicsOn(!Physics_Setting::GetIsPhysicsOn());
+	}
+}
+
+void doom::physics::Physics_Server::LoadPhysicsSetting()
+{
+	Physics_Setting::SetIsPhysicsOn(static_cast<bool>(GameCore::GetSingleton()->mGameConfigData.GetConfigData().GetValue<int>("PHYSICS", "ENABLE")));
+
+	Physics_Setting::ENLARGED_AABB2D_OFFSET = static_cast<float>(GameCore::GetSingleton()->mGameConfigData.GetConfigData().GetValue<double>("PHYSICS", "ENLARGED_AABB2D_OFFSET"));
+	Physics_Setting::ENLARGED_AABB3D_OFFSET = static_cast<float>(GameCore::GetSingleton()->mGameConfigData.GetConfigData().GetValue<double>("PHYSICS", "ENLARGED_AABB3D_OFFSET"));
+
+}
+
 void doom::physics::Physics_Server::Init()
 {
-
+	
+	LoadPhysicsSetting();
+	
 }
 
 
 void doom::physics::Physics_Server::Update()
 {
-	if (bmIsPhysicsOn == false)
-	{
-		return;
-	}
+	UpdatePhysicsOnOff();
 
-#ifdef DEBUG_MODE
-	mColliderTestRoom.DrawDebug();
-
-	if (userinput::UserInput_Server::GetKeyToggle(userinput::eKEY_CODE::KEY_F11))
+	if (Physics_Setting::GetIsPhysicsOn() == true)
 	{
-		DrawDebugColliderComponents();
+		mPhysicsDebugger.UpdateDebugger();
 	}
-
-	if (userinput::UserInput_Server::GetKeyToggle(eKEY_CODE::KEY_F1) == true)
-	{
-		const std::vector<ColliderComponent*>& components = doom::StaticContainer<ColliderComponent>::GetAllStaticComponents();
-		for (auto component : components)
-		{
-			component->UpdateWorldColliderCache(true);
-			component->DrawWorldColliderCache();
-		}
-	}
-	
-#endif
 }
 
 void doom::physics::Physics_Server::FixedUpdateCollision()
 {
-	if (bmIsPhysicsOn == false)
+	if (Physics_Setting::GetIsPhysicsOn() == true)
 	{
-		return;
-	}
-
-#ifdef DEBUG_MODE
-	mColliderTestRoom.FixedUpdatePhysics();
-#endif
-	SolveColliderComponents();
-
-}
-
-#ifdef DEBUG_MODE
-void doom::physics::Physics_Server::DrawDebugColliderComponents()
-{
-	const std::vector<ColliderComponent*>& components = doom::StaticContainer<ColliderComponent>::GetAllStaticComponents();
-	for (auto component : components)
-	{
-		component->GetWorldCollider()->DrawPhysicsDebug();
+		SolveColliderComponents();
 	}
 }
-#endif
+
+
 
 void doom::physics::Physics_Server::SolveColliderComponents()
 {
-	const std::vector<ColliderComponent*>& components = doom::StaticContainer<ColliderComponent>::GetAllStaticComponents();
-	for (auto component : components)
+	const std::vector<ColliderComponent*>& colliderComponents = doom::StaticContainer<ColliderComponent>::GetAllStaticComponents();
+	for (ColliderComponent* colliderComp : colliderComponents)
 	{
-		component->ResetAllCollisionState();
-		component->OnPreUpdatePhysics();
+		colliderComp->ResetAllCollisionState();
+		colliderComp->OnPreUpdatePhysics();
 	}
 
-	for (unsigned int i = 0; i < components.size(); i++)
+	for (unsigned int i = 0; i < colliderComponents.size(); i++)
 	{
-		for (unsigned int j = i + 1; j < components.size(); j++)
+		for (unsigned int j = i + 1; j < colliderComponents.size(); j++)
 		{
 			//First : Do BVH Test
 
 
 			//Second : If pass BVH Test, Test Collider
-			Collider* col1 = components[i]->GetWorldCollider();
-			Collider* col2 = components[j]->GetWorldCollider();
+			Collider* col1 = colliderComponents[i]->GetWorldCollider();
+			Collider* col2 = colliderComponents[j]->GetWorldCollider();
 			bool isOverlap = ColliderSolution::CheckIsOverlap(col1, col2);
 			if (isOverlap)
 			{
-				col1->bmIsCollision = true;
-				col2->bmIsCollision = true;
+				col1->bmIsCollideAtCurrentFrame = true;
+				col2->bmIsCollideAtCurrentFrame = true;
 			}
 		}
 	}
 
-	for (auto component : components)
+	for (auto component : colliderComponents)
 	{
 		component->OnPostUpdatePhysics();
 	}

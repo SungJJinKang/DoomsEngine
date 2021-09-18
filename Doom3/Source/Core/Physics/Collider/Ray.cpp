@@ -10,7 +10,7 @@ doom::physics::Ray::Ray(const math::Vector3 & origin, const math::Vector3& norma
 
 }
 
-void doom::physics::Ray::Render(eColor color, bool drawInstantly /*= false*/)
+void doom::physics::Ray::DrawCollider(eColor color, bool drawInstantly /*= false*/)
 {
 #ifdef DEBUG_MODE
 	graphics::DebugGraphics::GetSingleton()->DebugDraw3DLine(mOrigin, mOrigin + mNormal * 100000000.0f, color, drawInstantly);

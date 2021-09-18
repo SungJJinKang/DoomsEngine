@@ -65,7 +65,7 @@ math::Vector3 doom::physics::GetClosestPoint(const doom::physics::Plane& plane, 
 	return point - (math::dot(plane.GetNormal(), point) - plane.mDistance) * plane.GetNormal();
 }
 
-void doom::physics::Plane::Render(eColor color, bool drawInstantly /*= false*/)
+void doom::physics::Plane::DrawCollider(eColor color, bool drawInstantly /*= false*/)
 {
 #ifdef DEBUG_MODE
 	auto debugGraphics = graphics::DebugGraphics::GetSingleton();

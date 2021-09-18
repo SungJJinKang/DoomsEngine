@@ -20,7 +20,7 @@ namespace doom
 			using component_type = typename math::Vector3;
 
 			// Inherited via RenderPhysics
-			virtual void Render(eColor color, bool drawInstantly = false);
+			virtual void DrawCollider(eColor color, bool drawInstantly = false);
 
 			FORCE_INLINE Sphere()
 				:mCenter{}, mRadius{}

@@ -14,7 +14,7 @@ namespace doom
 	{
 	private:
 		
-	protected:
+	public:
 
 		/// <summary>
 		/// Don't put virtual
@@ -41,8 +41,6 @@ namespace doom
 		}
 		virtual void OnEndOfFrame() = 0;
 
-		
-	public:
 		virtual ~IGameFlow();
 	};
 }

@@ -45,6 +45,7 @@ namespace doom
 			
 
 		private:
+
 			const std::filesystem::path AssetFolderPath{ ASSET_FOLDER_DIRECTORY };
 
 			std::array<std::vector<std::filesystem::path>, doom::asset::ENUM_ASSETTYPE_COUNT> AssetPaths{};
@@ -52,17 +53,22 @@ namespace doom
 			template<::doom::asset::eAssetType assetType>
 			static inline ImportedAssetPort<assetType> ImportedAssetPorts{};
 
+			void LoadAssetManagerSetting();
+
 			static bool CheckFileIsValidAssetFile(const std::filesystem::directory_entry& entry);
 
 			std::vector<std::future<bool>> mWaitingImportFuture{};
 			void GetWaitingImportFuture();
-		protected:
+		
+			void ImportEntireAsset();
+
+		public:
+
+	
+
 			virtual void Init() final;
 			virtual void Update() final;
 			virtual void OnEndOfFrame() final;
-
-		public:
-			void ImportEntireAsset();
 			
 			template<::doom::asset::eAssetType assetType>
 			static ::doom::asset::Asset::asset_type_t<assetType>* ImportAssetInstantly(std::filesystem::path& path)

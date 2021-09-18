@@ -1,7 +1,7 @@
 #include "Line.h"
 #include "../Graphics/DebugGraphics.h"
 
-void doom::physics::Line::Render(eColor color, bool drawInstantly /*= false*/)
+void doom::physics::Line::DrawCollider(eColor color, bool drawInstantly /*= false*/)
 {
 #ifdef DEBUG_MODE
 	graphics::DebugGraphics::GetSingleton()->DebugDraw3DLine(mOrigin, mEndPoint, color, drawInstantly);

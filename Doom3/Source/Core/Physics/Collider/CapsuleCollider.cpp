@@ -11,7 +11,7 @@ doom::physics::ColliderType doom::physics::CapsuleCollider::GetColliderType() co
 	return doom::physics::ColliderType::CapsuleCollider;
 }
 
-void doom::physics::CapsuleCollider::Render(eColor color, bool drawInstantly /*= false*/)
+void doom::physics::CapsuleCollider::DrawCollider(eColor color, bool drawInstantly /*= false*/)
 {
 	//throw std::logic_error("The method or operation is not implemented.");
 }

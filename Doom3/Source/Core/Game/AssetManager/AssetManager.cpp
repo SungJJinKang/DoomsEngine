@@ -2,12 +2,21 @@
 
 #include <iterator>
 
+#include <Game/GameCore.h>
+
 #include "../IO/AssetImporter/AssetImporter.h"
 #include "../../Helper/ForLoop_Compile_Time/ForLoop_Compile.h"
 #include "AssetImporter/AssetApiImporter.h"
 
 
 using namespace doom::assetimporter;
+
+void doom::assetimporter::AssetManager::LoadAssetManagerSetting()
+{
+	assetimporter::AssetImporterWorker<::doom::asset::eAssetType::TEXTURE>::TEXTURE_COMPRESSION_QUALITY = static_cast<float>(GameCore::GetSingleton()->mGameConfigData.GetConfigData().GetValue<double>("TEXTURE", "COMPRESSION_QUALITY"));
+	assetimporter::AssetImporterWorker<::doom::asset::eAssetType::TEXTURE>::MIP_MAP_LEVELS = GameCore::GetSingleton()->mGameConfigData.GetConfigData().GetValue<int>("TEXTURE", "MIP_MAP_LEVELS");
+	assetimporter::AssetImporterWorker<::doom::asset::eAssetType::TEXTURE>::MAX_IMAGE_SIZE = GameCore::GetSingleton()->mGameConfigData.GetConfigData().GetValue<int>("TEXTURE", "MAX_IMAGE_SIZE");
+}
 
 bool AssetManager::CheckFileIsValidAssetFile(const std::filesystem::directory_entry& entry)
 {
@@ -24,6 +33,11 @@ void AssetManager::GetWaitingImportFuture()
 
 void doom::assetimporter::AssetManager::Init()
 {
+	LoadAssetManagerSetting();
+
+	D_START_PROFILING("ImportEntireAsset", doom::profiler::eProfileLayers::CPU);
+	ImportEntireAsset();
+	D_END_PROFILING("ImportEntireAsset");
 
 }
 

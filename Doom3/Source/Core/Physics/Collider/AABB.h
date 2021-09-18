@@ -26,7 +26,7 @@ namespace doom
 		public:
 			using component_type = typename math::Vector4;
 		
-			virtual void Render(eColor color, bool drawInstantly = false);
+			virtual void DrawCollider(eColor color, bool drawInstantly = false);
 
 			math::Vector4 mLowerBound; 
 			/// <summary>
@@ -148,7 +148,7 @@ namespace doom
 
 			using component_type = typename math::Vector2;
 
-			virtual void Render(eColor color, bool drawInstantly = false);
+			virtual void DrawCollider(eColor color, bool drawInstantly = false);
 
 			math::Vector2 mLowerBound; 
 			math::Vector2 mUpperBound; 

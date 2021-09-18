@@ -179,6 +179,7 @@
     <ClCompile Include="Source\Core\ECSSystem\easy_ecs\easy_ecs.cpp" />
     <ClCompile Include="Source\Core\Graphics\PrimitiveType\PrimitiveTriangle.cpp" />
     <ClCompile Include="Source\Core\Graphics\RenderingDebugger.cpp" />
+    <ClCompile Include="Source\Core\Physics\PhysicsDebugger.cpp" />
     <ClCompile Include="Source\Core\Profiler\ProfilerUI.cpp" />
     <ClCompile Include="Source\Component\EventSystem.cpp" />
     <ClCompile Include="Source\Component\PhysicsComponent\BoxCollider2D.cpp" />
@@ -255,10 +256,10 @@
     <ClCompile Include="Source\Core\Physics\Collider\AABB.cpp" />
     <ClCompile Include="Source\Core\utility\BVH\BVH.cpp" />
     <ClCompile Include="Source\Core\Physics\Physics_Server.cpp" />
-    <ClCompile Include="Source\Core\Physics\PhysicsSetting.cpp" />
+    <ClCompile Include="Source\Core\Physics\Physics_Setting.cpp" />
     <ClCompile Include="Source\Core\Physics\Collider\Plane.cpp" />
     <ClCompile Include="Source\Core\Physics\Collider\Ray.cpp" />
-    <ClCompile Include="Source\Core\Physics\Collider\RenderPhysics.cpp" />
+    <ClCompile Include="Source\Core\Physics\Collider\RenderCollider.cpp" />
     <ClCompile Include="Source\Core\Physics\Collider\Sphere.cpp" />
     <ClCompile Include="Source\Core\Scene\SharedScene.cpp" />
     <ClCompile Include="Source\Core\Scene\Scene.cpp" />
@@ -338,6 +339,7 @@
     <ClInclude Include="Source\Core\Graphics\Acceleration\LinearData_ViewFrustumCulling\DataType\VertexData.h" />
     <ClInclude Include="Source\Core\Graphics\PrimitiveType\PrimitiveTriangle.h" />
     <ClInclude Include="Source\Core\Graphics\RenderingDebugger.h" />
+    <ClInclude Include="Source\Core\Physics\PhysicsDebugger.h" />
     <ClInclude Include="Source\Core\Profiler\ProfilerUI.h" />
     <ClInclude Include="Source\Core\Graphics\Acceleration\LinearData_ViewFrustumCulling\DataType\QueryObject.h" />
     <ClInclude Include="Source\Component\EventSystem.h" />
@@ -448,7 +450,7 @@
     <ClInclude Include="Source\Core\Physics\Collider\Collider.h" />
     <ClInclude Include="Source\Core\Physics\Collider\ColliderSolution.h" />
     <ClInclude Include="Source\Core\Physics\Collider\ColliderType.h" />
-    <ClInclude Include="Source\Core\Physics\Collider\RenderPhysics.h" />
+    <ClInclude Include="Source\Core\Physics\Collider\RenderCollider.h" />
     <ClInclude Include="Source\Core\Physics\Collider\Line.h" />
     <ClInclude Include="Source\Core\Physics\Collider\PhysicsGeneric.h" />
     <ClInclude Include="Source\Core\Physics\Picking.h" />
@@ -456,7 +458,7 @@
     <ClInclude Include="Source\Core\Physics\Collider\AABB.h" />
     <ClInclude Include="Source\Core\utility\BVH\BVH.h" />
     <ClInclude Include="Source\Core\Physics\Physics_Server.h" />
-    <ClInclude Include="Source\Core\Physics\PhysicsSetting.h" />
+    <ClInclude Include="Source\Core\Physics\Physics_Setting.h" />
     <ClInclude Include="Source\Core\Physics\Collider\Plane.h" />
     <ClInclude Include="Source\Core\Physics\Collider\Ray.h" />
     <ClInclude Include="Source\Core\Physics\Collider\Sphere.h" />
@@ -765,6 +767,7 @@
     <None Include="Source\Core\Math\LightMath_Cpp\Vector4Float_SIMD.inl" />
     <None Include="Source\Core\ResourceManagement\JobSystem_cpp\MultithreadingJobSystemStrategy.md" />
     <None Include="Source\Core\ResourceManagement\JobSystem_cpp\README.md" />
+    <None Include="Source\GameLogic\RayCastTest.inl" />
     <None Include="Source\GameLogic\ViewFrustumCullingDebug.inl" />
     <None Include="Source\Helper\DeferredConstant\.git" />
     <None Include="Source\Helper\DeferredConstant\README.md" />

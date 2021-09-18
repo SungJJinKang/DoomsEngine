@@ -45,7 +45,7 @@ template<typename ColliderType>
 void doom::ColliderUpdater<ColliderType>::DrawWorldColliderCache(eColor color, bool drawInstantly)
 {
 	UpdateWorldColliderCache(true);
-	mWorldColliderCache.Render(color, drawInstantly);
+	mWorldColliderCache.DrawCollider(color, drawInstantly);
 }
 
 

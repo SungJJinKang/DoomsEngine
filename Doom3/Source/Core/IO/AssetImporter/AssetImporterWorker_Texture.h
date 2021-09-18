@@ -24,9 +24,7 @@ namespace doom
 		{
 			//static constexpr inline unsigned int AVAILIABLE_FORMAT_TYPE = CMP_FORMAT_DXT5 | CMP_FORMAT_DXT1 | CMP_FORMAT_BC5 | CMP_FORMAT_BC4;
 
-			friend class GameCore;
-			friend class Assetimporter;
-		private:
+		public:
 
 			static inline float TEXTURE_COMPRESSION_QUALITY{};
 			static inline int MIP_MAP_LEVELS{};

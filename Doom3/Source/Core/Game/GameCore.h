@@ -28,8 +28,6 @@ namespace doom
 
 	class GameCore : public IGameFlow, public ISingleton<GameCore>
 	{
-		friend class graphics::Graphics_Server;
-		friend class AssetManager;
 	private:
 		
 		// Then, non-static data members are initialized in the order they were declared 
@@ -41,8 +39,8 @@ namespace doom
 		/// check this : https://github.com/godotengine/godot/blob/master/core/os/os.cpp -> add_frame_delay function
 		/// </summary>
 		int	FRAME_DELAY_MILLISECOND{};
-
-		ConfigData mMainConfigData{};
+		float FIXED_TIME_STEP{};
+		int MAX_PHYSICS_STEP{ 8 };
 
 		//Servers
 		assetimporter::AssetManager mAssetManager{};
@@ -63,7 +61,7 @@ namespace doom
 		
 	public:
 		
-
+		ConfigData mGameConfigData{};
 
 		GameCore();
 		GameCore(const GameCore&) = delete;
@@ -73,6 +71,7 @@ namespace doom
 
 
 		virtual void Init() final;
+		void InitServers();
 		virtual void LateInit() final;
 
 		/// <summary>
@@ -159,12 +158,12 @@ namespace doom
 			D_START_PROFILING("Fixed Update", eProfileLayers::CPU);
 			MainTimer::ResetFixedTimer();
 			int fixedUpdateCount{ 0 };
-			for (int i = 0; i < mPhysics_Server.MAX_PHYSICS_STEP; ++i)
+			for (int i = 0; i < MAX_PHYSICS_STEP; ++i)
 			{
 				fixedUpdateCount++;
 				FixedUpdate();
 				MainTimer::UpdateFixedTimer();
-				if (MainTimer::GetFixedDeltaTime() > mPhysics_Server.FIXED_TIME_STEP)
+				if (MainTimer::GetFixedDeltaTime() > FIXED_TIME_STEP)
 				{
 					break;
 				}

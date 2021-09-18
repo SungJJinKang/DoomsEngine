@@ -11,7 +11,7 @@ namespace doom
 
 		public:
 
-			void Render(eColor color, bool drawInstantly = false) override;
+			void DrawCollider(eColor color, bool drawInstantly = false) override;
 
 			Circle2D(const math::Vector2& center, float radius);
 

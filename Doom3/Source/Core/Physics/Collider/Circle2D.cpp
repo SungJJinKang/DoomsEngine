@@ -3,7 +3,7 @@
 #include <utility>
 #include <Vector2.h>
 
-void doom::physics::Circle2D::Render(eColor color, bool drawInstantly /*= false*/)
+void doom::physics::Circle2D::DrawCollider(eColor color, bool drawInstantly /*= false*/)
 {
 #ifdef DEBUG_MODE
 	auto debugGraphics = graphics::DebugGraphics::GetSingleton();

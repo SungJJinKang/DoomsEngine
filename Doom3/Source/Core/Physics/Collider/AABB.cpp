@@ -48,7 +48,7 @@ math::Vector2 doom::physics::AABB2D::GetHalfExtent() const
 	return (mUpperBound + mLowerBound) * 0.5f;
 }
 
-void doom::physics::AABB2D::Render(eColor color, bool drawInstantly /*= false*/)
+void doom::physics::AABB2D::DrawCollider(eColor color, bool drawInstantly /*= false*/)
 {
 #ifdef DEBUG_MODE
 	auto debugGraphics = graphics::DebugGraphics::GetSingleton();
@@ -96,7 +96,7 @@ void doom::physics::AABB2D::SignedExpand(const math::Vector2& movedVector)
 
 AABB2D AABB2D::EnlargeAABB(const AABB2D& aabb)
 {
-	float offset = doom::physics::Physics_Server::GetSingleton()->ENLARGED_AABB2D_OFFSET;
+	const float offset = doom::physics::Physics_Setting::ENLARGED_AABB2D_OFFSET;
 	return AABB2D(aabb.mLowerBound - offset, aabb.mUpperBound + offset);
 }
 
@@ -186,7 +186,7 @@ float AABB3D::GetDiagonarLineLength() const
 	return math::sqrt(halfExtent.x * halfExtent.x + halfExtent.y * halfExtent.y + halfExtent.z * halfExtent.z);
 }
 
-void doom::physics::AABB3D::Render(eColor color, bool drawInstantly /*= false*/)
+void doom::physics::AABB3D::DrawCollider(eColor color, bool drawInstantly /*= false*/)
 {
 #ifdef DEBUG_MODE
 	auto debugGraphics = graphics::DebugGraphics::GetSingleton();
@@ -242,7 +242,7 @@ doom::physics::ColliderType doom::physics::AABB3D::GetColliderType() const
 
 AABB3D AABB3D::EnlargeAABB(const AABB3D& aabb)
 {
-	float offset = doom::physics::Physics_Server::GetSingleton()->ENLARGED_AABB3D_OFFSET;
+	float offset = doom::physics::Physics_Setting::ENLARGED_AABB3D_OFFSET;
 	return AABB3D(aabb.mLowerBound - offset, aabb.mUpperBound + offset);
 }
 

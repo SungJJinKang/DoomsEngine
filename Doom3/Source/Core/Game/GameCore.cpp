@@ -30,20 +30,14 @@ std::unique_ptr<doom::Scene> doom::GameCore::CreateNewScene(std::string sceneNam
 
 void doom::GameCore::InitGameSetting()
 {
-	ITERATION_PER_SECOND = mMainConfigData.GetConfigData().GetValue<int>("SYSTEM", "ITERATION_PER_SECOND");
-	TARGET_FRAME_RATE = mMainConfigData.GetConfigData().GetValue<int>("SYSTEM", "TARGET_FRAME_RATE");
-	FRAME_DELAY_MILLISECOND = mMainConfigData.GetConfigData().GetValue<int>("SYSTEM", "FRAME_DELAY_MILLISECOND");
+	ITERATION_PER_SECOND = mGameConfigData.GetConfigData().GetValue<int>("SYSTEM", "ITERATION_PER_SECOND");
+	TARGET_FRAME_RATE = mGameConfigData.GetConfigData().GetValue<int>("SYSTEM", "TARGET_FRAME_RATE");
+	FRAME_DELAY_MILLISECOND = mGameConfigData.GetConfigData().GetValue<int>("SYSTEM", "FRAME_DELAY_MILLISECOND");
+	FIXED_TIME_STEP = static_cast<float>(mGameConfigData.GetConfigData().GetValue<double>("PHYSICS", "FIXED_TIME_STEP"));
+	MAX_PHYSICS_STEP = mGameConfigData.GetConfigData().GetValue<int>("PHYSICS", "MAX_PHYSICS_STEP");
 
-	mPhysics_Server.bmIsPhysicsOn = static_cast<bool>(mMainConfigData.GetConfigData().GetValue<int>("PHYSICS", "ENABLE"));
-	mPhysics_Server.FIXED_TIME_STEP = static_cast<float>(mMainConfigData.GetConfigData().GetValue<double>("PHYSICS", "FIXED_TIME_STEP"));
-	mPhysics_Server.MAX_PHYSICS_STEP = mMainConfigData.GetConfigData().GetValue<int>("PHYSICS", "MAX_PHYSICS_STEP");
 	
-	mPhysics_Server.ENLARGED_AABB2D_OFFSET = static_cast<float>(mMainConfigData.GetConfigData().GetValue<double>("PHYSICS", "ENLARGED_AABB2D_OFFSET"));
-	mPhysics_Server.ENLARGED_AABB3D_OFFSET = static_cast<float>(mMainConfigData.GetConfigData().GetValue<double>("PHYSICS", "ENLARGED_AABB3D_OFFSET"));
-	
-	assetimporter::AssetImporterWorker<::doom::asset::eAssetType::TEXTURE>::TEXTURE_COMPRESSION_QUALITY = static_cast<float>(mMainConfigData.GetConfigData().GetValue<double>("TEXTURE", "COMPRESSION_QUALITY"));
-	assetimporter::AssetImporterWorker<::doom::asset::eAssetType::TEXTURE>::MIP_MAP_LEVELS = mMainConfigData.GetConfigData().GetValue<int>("TEXTURE", "MIP_MAP_LEVELS");
-	assetimporter::AssetImporterWorker<::doom::asset::eAssetType::TEXTURE>::MAX_IMAGE_SIZE = mMainConfigData.GetConfigData().GetValue<int>("TEXTURE", "MAX_IMAGE_SIZE");
+
 
 #ifdef DEBUG_MODE
 	doom::logger::Logger::InitLogger();
@@ -69,6 +63,19 @@ void doom::GameCore::Init()
 	InitGameSetting();
 	D_END_PROFILING("InitGameSetting");
 
+
+	InitServers();
+
+
+
+
+
+	LateInit();
+}
+
+void doom::GameCore::InitServers()
+{
+
 	D_START_PROFILING("mTime_Server Init", eProfileLayers::CPU);
 	mTime_Server.Init();
 	D_END_PROFILING("mTime_Server Init");
@@ -87,15 +94,9 @@ void doom::GameCore::Init()
 	mUserImput_Server.Init();
 	D_END_PROFILING("Init UserInput_Server");
 
-
-
-	D_START_PROFILING("ImportEntireAsset", doom::profiler::eProfileLayers::CPU);
-	mAssetManager.ImportEntireAsset();
-	D_END_PROFILING("ImportEntireAsset");
-
-
-
-	LateInit();
+	D_START_PROFILING("Init AssetManager", eProfileLayers::CPU);
+	mAssetManager.Init();
+	D_END_PROFILING("Init AssetManager");
 }
 
 void doom::GameCore::LateInit()

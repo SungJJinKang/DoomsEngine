@@ -64,12 +64,12 @@ void doom::GameLogicStartPoint::StartGameLogic()
 	// 			entity->AddComponent<BoxCollider3D>();
 	// 		}
 	// 	}
-	int count = 80;
-	for (int i = -count; i < count; i = i + 15)
+	int count = 30;
+	for (int i = -count; i < count; i = i + 30)
 	{
-		for (int j = -count; j < count; j = j + 15)
+		for (int j = -count; j < count; j = j + 30)
 		{
-			for (int k = -count; k < count; k = k + 15)
+			for (int k = -count; k < count; k = k + 30)
 			{
 				auto entity = currenScene->CreateNewEntity();
 				entity->GetTransform()->SetScale(1.2f, 1.2f, 1.2f);
@@ -77,42 +77,13 @@ void doom::GameLogicStartPoint::StartGameLogic()
 				auto meshRenderer = entity->AddComponent<MeshRenderer>();
 				meshRenderer->SetMesh(planetAsset->GetMesh(0));
 				meshRenderer->SetMaterial(material);
-				//entity->AddComponent<AutoRotate>();
-				//entity->AddComponent<BoxCollider3D>();
+				BoxCollider3D* box3D = entity->AddComponent<BoxCollider3D>();
+				box3D->SetFromAABB3D(planetAsset->GetMesh(0)->GetAABB());
 			}
 		}
 	}
 
-	{
-		auto entity = currenScene->CreateNewEntity();
-		entity->GetTransform()->SetPosition(150.0f, 0.0f, 0.0f);
-		auto meshRenderer = entity->AddComponent<MeshRenderer>();
-		meshRenderer->SetMesh(planetAsset->GetMesh(0));
-		meshRenderer->SetMaterial(material);
-		PointLight* pointLight = entity->AddComponent<PointLight>();
-		AutoRotateAround* autoRotateAround = entity->AddComponent<AutoRotateAround>();
-		pointLight->SetColor({ 1.0f, 0.0f, 0.0f, 1.0f });
-		pointLight->SetIntensity(9500.0f);
-		autoRotateAround->mCenterPos = math::Vector3{ 0.0f, 0.0f, 0.0f };
-		autoRotateAround->mRotateAngle = 1;
-		autoRotateAround->mRotateAxis = { 0.0f, 1.0f, 0.0f };
-	}
-
-	{
-		auto entity = currenScene->CreateNewEntity();
-		entity->GetTransform()->SetPosition(0.0f, 150.0f, 0.0f);
-		auto meshRenderer = entity->AddComponent<MeshRenderer>();
-		meshRenderer->SetMesh(planetAsset->GetMesh(0));
-		meshRenderer->SetMaterial(material);
-		PointLight* pointLight = entity->AddComponent<PointLight>();
-		AutoRotateAround* autoRotateAround = entity->AddComponent<AutoRotateAround>();
-		pointLight->SetColor({ 0.0f, 1.0f, 0.0f, 1.0f });
-		pointLight->SetIntensity(9500.0f);
-		autoRotateAround->mCenterPos = math::Vector3{ 0.0f, 0.0f, 0.0f };
-		autoRotateAround->mRotateAngle = 1;
-		autoRotateAround->mRotateAxis = { 1.0f, 0.0f, 0.0f };
-	}
-
+	
 
 	for (int i = -50; i < 50; i += 15)
 	{

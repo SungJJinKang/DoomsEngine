@@ -15,7 +15,6 @@ namespace doom
 		class Collider;
 		class Picking : public ISingleton<Picking>
 		{
-			friend class Physics_Server;
 		private:
 
 			//void UpdatePicking();
@@ -24,10 +23,9 @@ namespace doom
 			//math::Vector2 mPickingNDCPoint{};
 		public:
 
-
-			static doom::physics::Ray GetCurrentCursorPointWorldRay();
-			static ::doom::ColliderComponent* TryPicking();
-			static bool CheckPicking(Collider* collider);
+			doom::physics::Ray GetCurrentCursorPointWorldRay();
+			::doom::ColliderComponent* TryPicking();
+			bool CheckPicking(Collider* collider);
 		};
 	}
 }

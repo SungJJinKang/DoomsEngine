@@ -7,20 +7,23 @@
 
 #include "Picking.h"
 
+#include <Physics/Physics_Server.h>
+
 #include "Collider/Collider.h"
 #include "Collider/ColliderSolution.h"
 
 
 void doom::physics::ColliderPickingTestRoom::FixedUpdatePhysics()
 {
-	auto cursorRay{ physics::Picking::GetCurrentCursorPointWorldRay() };
+
+	doom::physics::Ray cursorRay{ Physics_Server::GetSingleton()->mPicking.GetCurrentCursorPointWorldRay() };
 	for (unsigned int i = 0; i < mTestColliders.size(); i++)
 	{
 		mTestColliders[i]->ClearCollision();
 		bool isOverlap = ColliderSolution::CheckIsOverlap(&cursorRay, mTestColliders[i]);
 		if (isOverlap)
 		{
-			mTestColliders[i]->bmIsCollision = true;
+			mTestColliders[i]->bmIsCollideAtCurrentFrame = true;
 		}
 	}
 
@@ -30,7 +33,7 @@ void doom::physics::ColliderPickingTestRoom::DrawDebug()
 {
 	for (unsigned int i = 0; i < mTestColliders.size(); i++)
 	{
-		mTestColliders[i]->DrawPhysicsDebug();
+		mTestColliders[i]->DrawPhysicsDebugColor(eColor::Green);
 		
 	}
 }
