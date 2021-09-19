@@ -26,12 +26,8 @@ namespace doom
 	class BVH_Node : public TreeNode
 	{
 		friend class BVH<ColliderType>;
-		friend class BVH_TestRoom;
-		friend class BVH_Node_View<ColliderType>;
 
 		using node_view_type = typename BVH_Node_View<ColliderType>;
-
-	public:
 
 	private:
 		
@@ -54,21 +50,22 @@ namespace doom
 		/// <summary>
 		/// Check Node is valid
 		/// </summary>
-		void ValidCheck();
+		void ValidCheck() const;
+	
+		node_view_type UpdateNode();
+
+
+	public:
 
 		BVH_Node() = default;
 		~BVH_Node() = default;
-		
-		node_view_type UpdateNode();
-
-		////////////////////////////////////////////////////////////////////////
-
-	public:
 
 		BVH_Node(const BVH_Node&) = delete;
 		BVH_Node(BVH_Node&&) noexcept = delete;
 		BVH_Node& operator=(const BVH_Node&) = delete;
 		BVH_Node& operator=(BVH_Node&&) noexcept = delete;
+
+		bool GetIsValid() const;
 
 		/// <summary>
 		/// this function don't chagne mEnlargedBoundingCollider if newAABB is still completly enclosed by mEnlargedBoundingCollider
@@ -85,7 +82,18 @@ namespace doom
 		void RemoveNode();
 
 		BVH<ColliderType>* GetOwnerBVH();
+		const BVH<ColliderType>* GetOwnerBVH() const;
 	
+		ColliderType& GetBoundingCollider();
+		const ColliderType& GetBoundingCollider() const;
+		ColliderType& GetEnlargedBoundingCollider();
+		const ColliderType& GetEnlargedBoundingCollider() const;
+		//doom::physics::Collider* GetBVHNode
+
+		const BVH_Node<ColliderType>* GetParentNode() const;
+		const BVH_Node<ColliderType>* GetLeftChildNode() const;
+		const BVH_Node<ColliderType>* GetRightChildNode() const;
+		
 	};
 
 	

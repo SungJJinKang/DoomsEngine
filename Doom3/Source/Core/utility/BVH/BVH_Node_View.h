@@ -19,47 +19,55 @@ namespace doom
 		friend class BVH_Node<ColliderType>;
 		friend class BVH_Node_Container<ColliderType>;
 
+	public:
+
 		using bvh_type = typename BVH<ColliderType>;
 		using node_type = typename BVH_Node<ColliderType>;
 		using this_type = typename BVH_Node_View<ColliderType>;
 
 	private:
+
 		bvh_type* mOwnerBVH;
 		int mNodeIndex;
 
-		constexpr BVH_Node_View()
+	public:
+
+		BVH_Node_View()
 			:mOwnerBVH{ nullptr }, mNodeIndex{ NULL_NODE_INDEX }
 		{
 
 		}
-		constexpr BVH_Node_View(bvh_type* ownerBVH, int nodeIndex)
+		BVH_Node_View(bvh_type* const ownerBVH, const int nodeIndex)
 			: mOwnerBVH{ ownerBVH }, mNodeIndex{ nodeIndex }
 		{
 
 		}
-
-	public:
 		
-		constexpr BVH_Node_View(const this_type&) = default;
-		constexpr BVH_Node_View(this_type&&) noexcept = default;
-		constexpr this_type& operator=(const this_type&) = default;
-		constexpr this_type& operator=(this_type&&) noexcept = default;
+		BVH_Node_View(const this_type&) = default;
+		BVH_Node_View(this_type&&) noexcept = default;
+		this_type& operator=(const this_type&) = default;
+		this_type& operator=(this_type&&) noexcept = default;
 
 		typename node_type* operator->();
-		constexpr int GetNodeIndex()
+		const typename node_type* operator->() const;
+
+		node_type* GetNode();
+		const node_type* GetNode() const;
+
+		int GetNodeIndex() const
 		{
 			return mNodeIndex;
 		}
 
-		constexpr bool IsValid()
+		bool IsValid() const
 		{
 			return (mNodeIndex != NULL_NODE_INDEX) && (mOwnerBVH != nullptr);
 		}
-		constexpr operator bool()
+		operator bool() const
 		{
 			return IsValid();
 		}
-		constexpr void Reset()
+		void Reset()
 		{
 			mOwnerBVH = nullptr;
 			mNodeIndex = NULL_NODE_INDEX;

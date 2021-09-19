@@ -10,8 +10,18 @@
 
 
 
+template <typename ColliderType>
+doom::BVH<ColliderType>::BVH(const int nodeCapacity)
+	:mNodeCapacity{ nodeCapacity }
+{
+	mNodes = new BVH_Node<ColliderType>[mNodeCapacity];
+}
 
-
+template <typename ColliderType>
+doom::BVH<ColliderType>::~BVH()
+{
+	delete[] mNodes;
+}
 
 template <typename ColliderType>
 bool doom::BVH<ColliderType>::BVHRayCast(const doom::physics::Ray & ray)
@@ -206,7 +216,7 @@ void doom::BVH<ColliderType>::FreeNode(int nodeIndex)
 }
 
 template <typename ColliderType>
-int doom::BVH<ColliderType>::GetSibling(int index)
+int doom::BVH<ColliderType>::GetSibling(const int index)
 {
 	D_ASSERT(index != NULL_NODE_INDEX);
 	int parentIndex = mNodes[index].mParentIndex;
@@ -231,7 +241,7 @@ int doom::BVH<ColliderType>::GetSibling(int index)
 }
 
 template <typename ColliderType>
-bool doom::BVH<ColliderType>::IsHasChild(int index)
+bool doom::BVH<ColliderType>::IsHasChild(const int index)
 {
 	D_ASSERT(index != NULL_NODE_INDEX);
 	return (mNodes[index].mLeftNode != NULL_NODE_INDEX) || (mNodes[index].mRightNode != NULL_NODE_INDEX);
@@ -577,7 +587,7 @@ float doom::BVH<ColliderType>::ComputeCost()
 
 
 template <typename ColliderType>
-int doom::BVH<ColliderType>::GetHeight(int index, int& longestHeight, int currentHeight)
+int doom::BVH<ColliderType>::GetHeight(const int index, int& longestHeight, int currentHeight)
 {
 	D_ASSERT(index != NULL_NODE_INDEX);
 	
@@ -600,7 +610,7 @@ int doom::BVH<ColliderType>::GetHeight(int index, int& longestHeight, int curren
 }
 
 template <typename ColliderType>
-int doom::BVH<ColliderType>::GetDepth(int index)
+int doom::BVH<ColliderType>::GetDepth(const int index)
 {
 	D_ASSERT(index != NULL_NODE_INDEX);
 
@@ -615,14 +625,26 @@ int doom::BVH<ColliderType>::GetDepth(int index)
 }
 
 template<typename ColliderType>
-typename doom::BVH<ColliderType>::node_type* doom::BVH<ColliderType>::GetNode(int nodeIndex)
+typename doom::BVH<ColliderType>::node_type* doom::BVH<ColliderType>::GetNode(const int nodeIndex)
 {
-	D_ASSERT(nodeIndex >= 0);
-	D_ASSERT(mNodes[nodeIndex].bmIsActive == true);
+	D_ASSERT(GetIsNodeValid(nodeIndex) == true);
 
 	return &(mNodes[nodeIndex]);
 }
 
+template<typename ColliderType>
+const typename doom::BVH<ColliderType>::node_type* doom::BVH<ColliderType>::GetNode(const int nodeIndex) const
+{
+	D_ASSERT(GetIsNodeValid(nodeIndex) == true);
+
+	return &(mNodes[nodeIndex]);
+}
+
+template<typename ColliderType>
+bool doom::BVH<ColliderType>::GetIsNodeValid(const int nodeIndex) const
+{
+	return nodeIndex >= 0 && mNodes[nodeIndex].bmIsActive == true;
+}
 
 template <typename ColliderType>
 int doom::BVH<ColliderType>::GetLeafNodeCount()
@@ -639,40 +661,47 @@ int doom::BVH<ColliderType>::GetLeafNodeCount()
 }
 
 template <typename ColliderType>
-int doom::BVH<ColliderType>::GetLeaf(int index)
+int doom::BVH<ColliderType>::GetLeaf(const int index)
 {
+	int targetLeafNodeIndex = NULL_NODE_INDEX;
+
 	int count = 0;
-	for (int i = 0; i < mCurrentAllocatedNodeCount; i++)
+	for (int nodeIndex = 0; nodeIndex < mCurrentAllocatedNodeCount; nodeIndex++)
 	{
-		auto& node = mNodes[i];
+		auto& node = mNodes[nodeIndex];
 		if (node.bmIsActive == true && node.mIsLeaf == true)
 		{
 			if (index == count)
 			{
-				return i;
+				targetLeafNodeIndex = nodeIndex;
+				break;
 			}
 			
 			count++;
 		}
 	}
 
-	return NULL_NODE_INDEX;
+	return targetLeafNodeIndex;
 }
 
 template<typename ColliderType>
-bool doom::BVH<ColliderType>::IsAncesterOf(int ancesterIndex, int decesterIndex)
+bool doom::BVH<ColliderType>::IsAncesterOf(const int ancesterIndex, const int decesterIndex)
 {
+	bool isAncester = false;
+
 	int index = mNodes[decesterIndex].mParentIndex;
 	while (index != NULL_NODE_INDEX)
 	{
 		if (ancesterIndex == index)
 		{
-			return true;
+			isAncester = true;
+			break;
 		}
 
 		index = mNodes[index].mParentIndex;
 	}
-	return false;
+
+	return isAncester;
 }
 
 

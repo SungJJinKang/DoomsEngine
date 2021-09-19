@@ -16,25 +16,22 @@ void doom::BVH_Node<ColliderType>::Clear()
 }
 
 template<typename ColliderType>
-void doom::BVH_Node<ColliderType>::ValidCheck()
+void doom::BVH_Node<ColliderType>::ValidCheck() const
 {
-#ifdef DEBUG_MODE
-	if (bmIsActive == true)
-	{
-		D_ASSERT(mOwnerBVH != nullptr);
-		D_ASSERT(mIndex != NULL_NODE_INDEX);
-		D_ASSERT(&(mOwnerBVH->mNodes[mIndex]) == this);
+	D_ASSERT(GetIsValid() == true);
+}
 
-	}
-	D_ASSERT(bmIsActive == true);
-#endif
+template<typename ColliderType>
+bool doom::BVH_Node<ColliderType>::GetIsValid() const
+{
+	return bmIsActive == true && mOwnerBVH != nullptr && mIndex != NULL_NODE_INDEX && mOwnerBVH->GetNode(mIndex);
 }
 
 template <typename ColliderType>
 typename doom::BVH_Node<ColliderType>::node_view_type doom::BVH_Node<ColliderType>::UpdateNode()
 {
 	D_ASSERT(mIsLeaf == true); // Only Leaf Nodes can be updated by UpdateLeafNode Function
-	D_ASSERT(&(mOwnerBVH->mNodes[mIndex]) == this);
+	D_ASSERT(mOwnerBVH->GetNode(mIndex) == this);
 
 	return mOwnerBVH->UpdateLeafNode(mIndex);
 }
@@ -78,6 +75,69 @@ template <typename ColliderType>
 doom::BVH<ColliderType>* doom::BVH_Node<ColliderType>::GetOwnerBVH()
 {
 	return mOwnerBVH;
+}
+
+template <typename ColliderType>
+const doom::BVH<ColliderType>* doom::BVH_Node<ColliderType>::GetOwnerBVH() const
+{
+	return mOwnerBVH;
+}
+
+template<typename ColliderType>
+ColliderType& doom::BVH_Node<ColliderType>::GetBoundingCollider()
+{
+	return mBoundingCollider;
+}
+
+template<typename ColliderType>
+const ColliderType& doom::BVH_Node<ColliderType>::GetBoundingCollider() const
+{
+	return mBoundingCollider;
+}
+
+template<typename ColliderType>
+ColliderType& doom::BVH_Node<ColliderType>::GetEnlargedBoundingCollider()
+{
+	return mEnlargedBoundingCollider;
+}
+
+template<typename ColliderType>
+const ColliderType& doom::BVH_Node<ColliderType>::GetEnlargedBoundingCollider() const
+{
+	return mEnlargedBoundingCollider;
+}
+
+template<typename ColliderType>
+const doom::BVH_Node<ColliderType>* doom::BVH_Node<ColliderType>::GetParentNode() const
+{
+	doom::BVH_Node<ColliderType>* targetNode = nullptr;
+	if (mOwnerBVH->GetIsNodeValid(mParentIndex) == true)
+	{
+		targetNode = mOwnerBVH->GetNode(mParentIndex);
+	}
+	return targetNode;
+}
+
+template<typename ColliderType>
+const doom::BVH_Node<ColliderType>* doom::BVH_Node<ColliderType>::GetLeftChildNode() const
+{
+	doom::BVH_Node<ColliderType>* targetNode = nullptr;
+	if (mOwnerBVH->GetIsNodeValid(mLeftNode) == true)
+	{
+		targetNode = mOwnerBVH->GetNode(mLeftNode);
+	}
+	return targetNode;
+}
+
+template<typename ColliderType>
+const doom::BVH_Node<ColliderType>* doom::BVH_Node<ColliderType>::GetRightChildNode() const
+{
+	doom::BVH_Node<ColliderType>* targetNode = nullptr;
+	if (mOwnerBVH->GetIsNodeValid(mRightNode) == true)
+	{
+		targetNode = mOwnerBVH->GetNode(mRightNode);
+	}
+	return targetNode;
 }
 
 template class doom::BVH_Node<doom::physics::AABB2D>;

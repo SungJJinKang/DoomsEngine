@@ -19,6 +19,8 @@ namespace doom
 	template <typename ColliderType>
 	class BVH_Node_Container
 	{
+	public:
+
 		using node_view_type = typename BVH_Node_View<ColliderType>;
 
 	private:
@@ -27,7 +29,7 @@ namespace doom
 
 	protected:
 
-		node_view_type mBVH_Node_View{};
+		
 
 		void InsertBVHLeafNode(BVH<ColliderType>& BVH, const ColliderType& Collider, doom::physics::Collider* collider);
 
@@ -45,6 +47,8 @@ namespace doom
 
 	public:
 		
+		node_view_type mBVH_Node_View{};
+
 		BVH_Node_Container() {}
 		~BVH_Node_Container();
 

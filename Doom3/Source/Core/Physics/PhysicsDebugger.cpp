@@ -19,8 +19,18 @@ void doom::physics::PhysicsDebugger::DrawPhysicsColliderBoundingBox()
 	const std::vector<ColliderComponent*> colliderComponents = StaticContainer<ColliderComponent>::GetAllStaticComponents();
 	for (ColliderComponent* col : colliderComponents)
 	{
-		bool isOverlap = ColliderSolution::CheckIsOverlap(&mouseRay, col->GetWorldCollider());
+		const bool isOverlap = ColliderSolution::CheckIsOverlap(&mouseRay, col->GetWorldCollider());
 		const eColor debugColor = (isOverlap == true ? eColor::Red : eColor::Blue);
 		col->GetWorldCollider()->DrawPhysicsDebugColor(debugColor);
+		if (isOverlap == true)
+		{
+			const ColliderComponent::node_view_type::node_type* bvhNode = col->BVH_AABB3D_Node_Object::mBVH_Node_View.GetNode();
+			while (bvhNode != nullptr && bvhNode->GetIsValid() == true)
+			{
+				bvhNode->GetBoundingCollider().DrawPhysicsDebugColor(debugColor);
+				bvhNode = bvhNode->GetParentNode();
+			}
+			
+		}
 	}
 }

@@ -34,7 +34,7 @@ namespace doom
 
 	public:
 
-		FORCE_INLINE unsigned int GetBitFlag()
+		FORCE_INLINE unsigned int GetBitFlag() const
 		{
 			return mBitFlag;
 		}

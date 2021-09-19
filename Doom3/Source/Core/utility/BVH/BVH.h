@@ -48,10 +48,6 @@ namespace doom
 	template <typename ColliderType>
 	class BVH
 	{
-		friend class BVH_TestRoom;
-		friend class BVH_Node<ColliderType>;
-		friend class BVH_Node_View<ColliderType>;
-
 		using node_type = typename BVH_Node<ColliderType>;
 		using node_view_type = typename BVH_Node_View<ColliderType>;
 
@@ -104,39 +100,12 @@ namespace doom
 		/// <returns></returns>
 		float InheritedCost(const ColliderType& L, const ColliderType& candidate);
 
-		int GetSibling(int index);
-		bool IsHasChild(int index);
-		node_type* GetNode(int nodeIndex);
-		/// <summary>
-		/// longest path from node to leaf
-		/// leaf node will have 0 height
-		/// </summary>
-		/// <param name="node"></param>
-		/// <param name="index"></param>
-		/// <param name="currentHeight"></param>
-		/// <returns></returns>
-		int GetHeight(int index, int& longestHeight = 0, int currentHeight = -1);
-		int GetDepth(int index);
-		int GetLeafNodeCount();
-		/// <summary>
-		/// Get Leaf with index
-		/// </summary>
-		/// <typeparam name="ColliderType"></typeparam>
-		int GetLeaf(int index);
-		bool IsAncesterOf(int ancesterIndex, int decesterIndex);
-
 	public:
 
-		BVH(int nodeCapacity) 
-			:mNodeCapacity{ nodeCapacity }
-		{
-			mNodes = new BVH_Node<ColliderType>[mNodeCapacity];
-		}
+		
 
-		~BVH()
-		{
-			delete[] mNodes;
-		}
+		BVH(const int nodeCapacity);
+		~BVH();
 
 		bool BVHRayCast(const doom::physics::Ray& ray);
 
@@ -160,9 +129,35 @@ namespace doom
 		/// <returns></returns>
 		node_view_type UpdateLeafNode(int targetLeafNodeIndex, bool force = false);
 
+		template <typename UnaryFunction>
+		void Traverse(UnaryFunction f)
+		{
 
-		void Traverse();
+		}
 
+		int GetSibling(const int index);
+		bool IsHasChild(const int index);
+		node_type* GetNode(const int nodeIndex);
+		const node_type* GetNode(const int nodeIndex) const;
+		bool GetIsNodeValid(const int nodeIndex) const;
+
+		/// <summary>
+		/// longest path from node to leaf
+		/// leaf node will have 0 height
+		/// </summary>
+		/// <param name="node"></param>
+		/// <param name="index"></param>
+		/// <param name="currentHeight"></param>
+		/// <returns></returns>
+		int GetHeight(const int index, int& longestHeight = 0, int currentHeight = -1);
+		int GetDepth(const int index);
+		int GetLeafNodeCount();
+		/// <summary>
+		/// Get Leaf with index
+		/// </summary>
+		/// <typeparam name="ColliderType"></typeparam>
+		int GetLeaf(const int index);
+		bool IsAncesterOf(const int ancesterIndex, const int decesterIndex);
 		
 
 		node_view_type MakeBVH_Node_View(int index)
