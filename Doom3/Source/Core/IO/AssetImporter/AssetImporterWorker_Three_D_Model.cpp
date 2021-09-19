@@ -236,6 +236,8 @@ void doom::assetimporter::AssetImporterWorker<::doom::asset::eAssetType::THREE_D
 		case aiPrimitiveType::_aiPrimitiveType_Force32Bit:
 			asset.mModelMeshAssets[meshIndex].mPrimitiveType = ePrimitiveType::TRIANGLES;
 			break;
+		default:
+			D_ASSERT(0);
 		}
 
 

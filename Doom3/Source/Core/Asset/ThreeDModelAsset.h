@@ -108,7 +108,7 @@ namespace doom
 		/// <summary>
 		/// don't clear this
 		/// </summary>
-		ThreeDModelNode* mThreeDModelNodeParent; // why don't use unique_ptr at here, Parent node will be deleted later
+		ThreeDModelNode* mThreeDModelNodeParent; // Parent node will be deleted later
 
 		std::unique_ptr<ThreeDModelNode[]> mThreeDModelNodeChildrens;
 		unsigned int mNumOfThreeDModelNodeChildrens;
