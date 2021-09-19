@@ -94,6 +94,8 @@ void doom::GameLogicStartPoint::StartGameLogic()
 		entity->AddComponent<AutoRotate>();
 		meshRenderer->SetMesh(planetAsset->GetMesh(0));
 		meshRenderer->SetMaterial(material);
+		BoxCollider3D* box3D = entity->AddComponent<BoxCollider3D>();
+		box3D->SetFromAABB3D(planetAsset->GetMesh(0)->GetAABB());
 	}
 
 	for (int i = -50; i < 50; i += 15)
@@ -105,6 +107,8 @@ void doom::GameLogicStartPoint::StartGameLogic()
 		entity->AddComponent<AutoRotate>();
 		meshRenderer->SetMesh(planetAsset->GetMesh(0));
 		meshRenderer->SetMaterial(material);
+		BoxCollider3D* box3D = entity->AddComponent<BoxCollider3D>();
+		box3D->SetFromAABB3D(planetAsset->GetMesh(0)->GetAABB());
 	}
 
 	auto entity1 = currenScene->CreateNewEntity();
