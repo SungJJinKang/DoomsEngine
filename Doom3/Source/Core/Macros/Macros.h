@@ -5,11 +5,7 @@
 // Use Forward declaration.
 // And Define implemations in MACRO_IMPLEMENTATION
 
-#include "Path.h"
-#include "Log.h"
-#include "Assert.h"
-#include "Profiling.h"
-#include "KeyCallback.h"
+
 
 #ifndef NEVER_HAPPEN
 #define NEVER_HAPPEN __assume(0) // https://docs.microsoft.com/en-us/cpp/intrinsics/assume?view=msvc-160
@@ -32,3 +28,9 @@
 #  define RESTRICT __restrict
 #  define VLA_ARRAY_ON_STACK(type__, varname__, size__) type__ *varname__ = (type__*)_alloca(size__ * sizeof(type__))
 #endif
+
+#include "Path.h"
+#include "Log.h"
+#include "Assert.h"
+#include "Profiling.h"
+#include "KeyCallback.h"

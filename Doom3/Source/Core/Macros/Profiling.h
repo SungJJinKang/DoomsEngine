@@ -1,6 +1,6 @@
 #pragma once
 
-#if defined(DEBUG_MODE)
+#ifdef DEBUG_MODE
 
 #include "../Profiler/Profiler.h"
 

@@ -280,7 +280,9 @@ void doom::graphics::Graphics_Server::DeferredRendering()
 		
 	}
 
+#ifdef DEBUG_MODE
 	mDebugGraphics.SetIsVertexDataSendToGPUAtCurrentFrame(false);
+#endif
 
 	//Why do this ? : because deffered rendering's quad have 0 depth value
 	GraphicsAPI::Disable(GraphicsAPI::eCapability::DEPTH_TEST);

@@ -81,7 +81,7 @@ namespace doom
 		static const inline std::string DEFAULT_ENTITY_NAME{ "Entity" };
 
 		//TODO : Every Entity has Transform Component, Just put Transform Component as member variable
-		Transform* mTransform;
+		Transform mTransform;
 
 		unsigned int mLayerIndex;
 		/// <summary>
@@ -438,13 +438,17 @@ namespace doom
 		void OnPostUpdate() {}
 
 		[[nodiscard]] std::string_view GetEntityName() const;
-		[[nodiscard]] FORCE_INLINE constexpr Transform* GetTransform() const
+		[[nodiscard]] FORCE_INLINE Transform* GetTransform()
 		{
-			return mTransform;
+			return &mTransform;
+		}
+		[[nodiscard]] FORCE_INLINE const Transform* GetTransform() const
+		{
+			return &mTransform;
 		}
 
 		void SetLayerIndex(unsigned int layerIndex);
-		[[nodiscard]] FORCE_INLINE constexpr unsigned int GetLayerIndex() const
+		[[nodiscard]] FORCE_INLINE unsigned int GetLayerIndex() const
 		{
 			return mLayerIndex;
 		}
