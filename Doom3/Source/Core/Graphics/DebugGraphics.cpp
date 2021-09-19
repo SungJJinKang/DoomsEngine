@@ -146,20 +146,22 @@ void doom::graphics::DebugGraphics::Draw()
 
 void doom::graphics::DebugGraphics::DebugDraw3DLine(const math::Vector3& startWorldPos, const math::Vector3& endWorldPos, eColor color, bool drawInstantly /*= false*/)
 {
-	if (drawInstantly == false)
+	if (Graphics_Setting::bmIsDrawDebuggersEnabled == true)
 	{
-		D_ASSERT_LOG(bmIsVertexDataSendToGPUAtCurrentFrame == false, "Debugging Vertex Data is already send to GPU");
-		m3dLine[static_cast<unsigned int>(color)].emplace_back(startWorldPos, endWorldPos);
+		if (drawInstantly == false)
+		{
+			D_ASSERT_LOG(bmIsVertexDataSendToGPUAtCurrentFrame == false, "Debugging Vertex Data is already send to GPU");
+			m3dLine[static_cast<unsigned int>(color)].emplace_back(startWorldPos, endWorldPos);
+		}
+		else
+		{
+			m3DMaterial->UseProgram();
+			m3DMaterial->SetVector4(0, Color::GetColor(static_cast<eColor>(color)));
+			float data[6]{ startWorldPos.x, startWorldPos.y, startWorldPos.z, endWorldPos.x, endWorldPos.y, endWorldPos.z };
+			mDebugMesh.BufferSubData(6, data, 0);
+			mDebugMesh.DrawArray(ePrimitiveType::LINES, 0, 2);
+		}
 	}
-	else
-	{
-		m3DMaterial->UseProgram();
-		m3DMaterial->SetVector4(0, Color::GetColor(static_cast<eColor>(color)));
-		float data[6]{ startWorldPos.x, startWorldPos.y, startWorldPos.z, endWorldPos.x, endWorldPos.y, endWorldPos.z };
-		mDebugMesh.BufferSubData(6, data, 0);
-		mDebugMesh.DrawArray(ePrimitiveType::LINES, 0, 2);
-	}
-
 }
 
 
@@ -174,14 +176,17 @@ void doom::graphics::DebugGraphics::DebugDraw3DLine(const math::Vector3& startWo
 /// <param name="color"></param>
 void doom::graphics::DebugGraphics::DebugDraw2DLine(const math::Vector3& startNDCPos, const math::Vector3& endNDCPos, eColor color, bool drawInstantly /*= false*/)
 {
-	if (drawInstantly == false)
+	if (Graphics_Setting::bmIsDrawDebuggersEnabled == true)
 	{
-		D_ASSERT_LOG(bmIsVertexDataSendToGPUAtCurrentFrame == false, "Debugging Vertex Data is already send to GPU");
-		m2dLine[static_cast<unsigned int>(color)].emplace_back(startNDCPos, startNDCPos);
-	}
-	else
-	{
-		DebugDraw2DLineInstantly(startNDCPos, endNDCPos, color);
+		if (drawInstantly == false)
+		{
+			D_ASSERT_LOG(bmIsVertexDataSendToGPUAtCurrentFrame == false, "Debugging Vertex Data is already send to GPU");
+			m2dLine[static_cast<unsigned int>(color)].emplace_back(startNDCPos, startNDCPos);
+		}
+		else
+		{
+			DebugDraw2DLineInstantly(startNDCPos, endNDCPos, color);
+		}
 	}
 }
 
@@ -228,14 +233,17 @@ void doom::graphics::DebugGraphics::DebugDraw2DTriangleInstantly(const math::Vec
 
 void doom::graphics::DebugGraphics::DebugDraw2DTriangle(const math::Vector3& pointA, const math::Vector3& pointB, const math::Vector3& pointC, eColor color, bool drawInstantly /*= false*/)
 {
-	if (drawInstantly == false)
+	if (Graphics_Setting::bmIsDrawDebuggersEnabled == true)
 	{
-		D_ASSERT_LOG(bmIsVertexDataSendToGPUAtCurrentFrame == false, "Debugging Vertex Data is already send to GPU");
-		m2dTriangle[static_cast<unsigned int>(color)].emplace_back(pointA, pointB, pointC);
-	}
-	else
-	{
-		DebugDraw2DTriangleInstantly(pointA, pointB, pointC, color);
+		if (drawInstantly == false)
+		{
+			D_ASSERT_LOG(bmIsVertexDataSendToGPUAtCurrentFrame == false, "Debugging Vertex Data is already send to GPU");
+			m2dTriangle[static_cast<unsigned int>(color)].emplace_back(pointA, pointB, pointC);
+		}
+		else
+		{
+			DebugDraw2DTriangleInstantly(pointA, pointB, pointC, color);
+		}
 	}
 }
 
@@ -315,22 +323,25 @@ void doom::graphics::DebugGraphics::BufferVertexDataToGPU()
 
 void doom::graphics::DebugGraphics::DebugDraw3DTriangle(const math::Vector3& pointA, const math::Vector3& pointB, const math::Vector3& pointC, eColor color, bool drawInstantly /*= false*/)
 {
-	if (drawInstantly == false)
+	if (Graphics_Setting::bmIsDrawDebuggersEnabled == true)
 	{
-		D_ASSERT_LOG(bmIsVertexDataSendToGPUAtCurrentFrame == false, "Debugging Vertex Data is already send to GPU");
+		if (drawInstantly == false)
+		{
+			D_ASSERT_LOG(bmIsVertexDataSendToGPUAtCurrentFrame == false, "Debugging Vertex Data is already send to GPU");
 
-		m3dTriangle[static_cast<unsigned int>(color)].emplace_back(pointA, pointB, pointC);
+			m3dTriangle[static_cast<unsigned int>(color)].emplace_back(pointA, pointB, pointC);
 
-		//For Drawing both face
-		m3dTriangle[static_cast<unsigned int>(color)].emplace_back(pointC, pointB, pointA);
-	}
-	else
-	{
-		m3DMaterial->UseProgram();
-		m3DMaterial->SetVector4(0, Color::GetColor(static_cast<eColor>(color)));
-		float data[9]{ pointA.x, pointA.y, pointA.z, pointB.x, pointB.y, pointB.z, pointC.x, pointC.y, pointC.z };
-		mDebugMesh.BufferSubData(9, data, 0);
-		mDebugMesh.DrawArray(ePrimitiveType::TRIANGLES, 0, 3);
+			//For Drawing both face
+			m3dTriangle[static_cast<unsigned int>(color)].emplace_back(pointC, pointB, pointA);
+		}
+		else
+		{
+			m3DMaterial->UseProgram();
+			m3DMaterial->SetVector4(0, Color::GetColor(static_cast<eColor>(color)));
+			float data[9]{ pointA.x, pointA.y, pointA.z, pointB.x, pointB.y, pointB.z, pointC.x, pointC.y, pointC.z };
+			mDebugMesh.BufferSubData(9, data, 0);
+			mDebugMesh.DrawArray(ePrimitiveType::TRIANGLES, 0, 3);
+		}
 	}
 }
 

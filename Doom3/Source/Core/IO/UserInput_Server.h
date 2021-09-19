@@ -183,10 +183,6 @@ namespace doom
 		/// </summary>
 		class UserInput_Server : public IGameFlow, public ISingleton<UserInput_Server>
 		{
-			friend class::doom::GameCore;
-
-			
-
 		private:
 
 			static inline math::Vector2 mScrollOffset{};
@@ -218,11 +214,9 @@ namespace doom
 		
 			static inline math::Vector2  mDeltaCursorScreenPosition{};
 
-			virtual void Init() final;
-			virtual void Update() final;
-			virtual void OnEndOfFrame() final;
+		
 
-			UserInput_Server();
+		
 
 			static void CursorEnterCallback(GLFWwindow* window, int entered);
 			static void CursorPosition_Callback(GLFWwindow* window, double xpos, double ypos);
@@ -236,7 +230,14 @@ namespace doom
 			static inline bool mScrollChangedAtPreviousFrame{ true };
 
 			void UpdateCursorMode();
+
 		public:
+
+			UserInput_Server();
+
+			virtual void Init() final;
+			virtual void Update() final;
+			virtual void OnEndOfFrame() final;
 
 			[[nodiscard]] FORCE_INLINE static bool GetKeyToggle(eKEY_CODE keyCode) noexcept
 			{

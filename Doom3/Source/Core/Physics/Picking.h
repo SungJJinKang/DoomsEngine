@@ -17,15 +17,11 @@ namespace doom
 		{
 		private:
 
-			//void UpdatePicking();
 
-			//bool mIsTryPickingAtCurrentFrame{ false };
-			//math::Vector2 mPickingNDCPoint{};
 		public:
 
 			doom::physics::Ray GetCurrentCursorPointWorldRay();
-			::doom::ColliderComponent* TryPicking();
-			bool CheckPicking(Collider* collider);
+
 		};
 	}
 }

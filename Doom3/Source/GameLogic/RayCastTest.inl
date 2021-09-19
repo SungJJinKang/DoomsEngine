@@ -64,7 +64,7 @@ void doom::GameLogicStartPoint::StartGameLogic()
 	// 			entity->AddComponent<BoxCollider3D>();
 	// 		}
 	// 	}
-	int count = 30;
+	int count = 100;
 	for (int i = -count; i < count; i = i + 30)
 	{
 		for (int j = -count; j < count; j = j + 30)
