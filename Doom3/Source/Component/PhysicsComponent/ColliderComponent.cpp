@@ -121,6 +121,7 @@ void doom::ColliderComponent::OnPreUpdatePhysics()
 		// WorldBVhAABBCache will be updated when Raycast or CollisionCheck
 
 		UpdateWorldCollider(); 
+		UpdateBVH_Node();
 		
 	}
 }

@@ -136,8 +136,8 @@ namespace doom
 
 		}
 
-		node_type* GetRootNode();
-		const node_type* GetRootNode() const;
+		typename node_type* GetRootNode();
+		const typename node_type* GetRootNode() const;
 		int GetRootNodeIndex() const;
 
 		int GetSibling(const int index);

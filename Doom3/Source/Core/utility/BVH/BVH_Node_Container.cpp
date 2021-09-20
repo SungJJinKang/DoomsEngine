@@ -12,7 +12,7 @@ template <typename ColliderType>
 void doom::BVH_Node_Container<ColliderType>::UpdateBVH_Node(const ColliderType& Collider)
 {
 	D_ASSERT(mBVH_Node_View.IsValid() == true);
-	mBVH_Node_View = mBVH_Node_View->Update(Collider);
+	mBVH_Node_View = mBVH_Node_View.GetNode()->Update(Collider);
 }
 
 /*

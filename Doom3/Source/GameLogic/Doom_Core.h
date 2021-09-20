@@ -10,3 +10,4 @@
 #include <ServerComponent.h>
 #include <PlainComponent.h>
 #include <Logger.h>
+#include <Game/AssetManager/AssetManager.h>

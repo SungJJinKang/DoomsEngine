@@ -15,22 +15,25 @@ void doom::physics::PhysicsDebugger::DrawPhysicsColliderBoundingBox()
 {
 	doom::physics::Ray mouseRay = Physics_Server::GetSingleton()->mPicking.GetCurrentCursorPointWorldRay();
 
-
+	/*
 	const std::vector<ColliderComponent*> colliderComponents = StaticContainer<ColliderComponent>::GetAllStaticComponents();
 	for (ColliderComponent* col : colliderComponents)
 	{
-		const bool isOverlap = ColliderSolution::CheckIsOverlap(&mouseRay, col->GetWorldCollider());
-		const eColor debugColor = (isOverlap == true ? eColor::Red : eColor::Blue);
-		col->GetWorldCollider()->DrawPhysicsDebugColor(debugColor);
-		if (isOverlap == true)
+		col->GetWorldCollider()->DrawPhysicsDebugColor(eColor::Blue);
+	}
+	*/
+	
+	for (auto hitBVHNode : Physics_Server::GetSingleton()->GetCollideBVHNodes(&mouseRay))
+	{
+		while (hitBVHNode != nullptr && hitBVHNode->GetIsValid() == true)
 		{
-			const ColliderComponent::node_view_type::node_type* bvhNode = col->BVH_AABB3D_Node_Object::mBVH_Node_View.GetNode();
-			while (bvhNode != nullptr && bvhNode->GetIsValid() == true)
-			{
-				bvhNode->GetBoundingCollider().DrawPhysicsDebugColor(debugColor);
-				bvhNode = bvhNode->GetParentNode();
-			}
-			
+			hitBVHNode->GetBoundingCollider().DrawPhysicsDebugColor(eColor::Red);
+			hitBVHNode = hitBVHNode->GetParentNode();
+		}
+
+		if (hitBVHNode != nullptr)
+		{
+			hitBVHNode->GetCollider()->DrawPhysicsDebugColor(eColor::Red);
 		}
 	}
 }

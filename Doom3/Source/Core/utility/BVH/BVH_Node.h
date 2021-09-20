@@ -52,7 +52,7 @@ namespace doom
 		/// </summary>
 		void ValidCheck() const;
 	
-		node_view_type UpdateNode();
+	
 
 
 	public:
@@ -116,6 +116,7 @@ namespace doom
 
 		bool GetIsLeafNode() const;
 		
+		node_view_type UpdateNode();
 	};
 
 	

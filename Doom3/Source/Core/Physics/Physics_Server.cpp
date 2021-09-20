@@ -10,6 +10,7 @@
 #include <StaticContainer/StaticContainer.h>
 
 #include <UserInput_Server.h>
+#include <stack>
 
 void doom::physics::Physics_Server::UpdatePhysicsOnOff()
 {
@@ -56,6 +57,8 @@ void doom::physics::Physics_Server::FixedUpdateCollision()
 
 
 
+
+
 void doom::physics::Physics_Server::SolveColliderComponents()
 {
 	const std::vector<ColliderComponent*>& colliderComponents = doom::StaticContainer<ColliderComponent>::GetAllStaticComponents();
@@ -67,27 +70,103 @@ void doom::physics::Physics_Server::SolveColliderComponents()
 
 	for (unsigned int i = 0; i < colliderComponents.size(); i++)
 	{
-		for (unsigned int j = i + 1; j < colliderComponents.size(); j++)
+		//First : Do BVH Test
+
+		/*
+		Collider* const testedCollider = colliderComponents[i]->GetWorldCollider();
+		const std::vector<doom::physics::Collider*> hitBVHLeafNodes = GetCollideColliders(testedCollider);
+
+		bool isCollideWithAnyCollider = false;
+		for (doom::physics::Collider* leafNodeCollider : hitBVHLeafNodes)
 		{
-			//First : Do BVH Test
-
-
-			//Second : If pass BVH Test, Test Collider
-			Collider* const col1 = colliderComponents[i]->GetWorldCollider();
-			Collider* const col2 = colliderComponents[j]->GetWorldCollider();
-			bool isOverlap = ColliderSolution::CheckIsOverlap(col1, col2);
-			if (isOverlap)
-			{
-				col1->bmIsCollideAtCurrentFrame = true;
-				col2->bmIsCollideAtCurrentFrame = true;
-			}
+			leafNodeCollider->bmIsCollideAtCurrentFrame = true;
+			isCollideWithAnyCollider = true;
 		}
+
+		if (isCollideWithAnyCollider == true)
+		{
+			testedCollider->bmIsCollideAtCurrentFrame = true;
+		}
+		*/
 	}
 
 	for (auto component : colliderComponents)
 	{
 		component->OnPostUpdatePhysics();
 	}
+}
+
+const std::vector<const typename BVHAABB3D::node_type*> doom::physics::Physics_Server::GetCollideBVHNodes(const doom::physics::Collider* const col) const
+{
+	std::vector<const typename BVHAABB3D::node_type*> hitLeafNodeColliders;
+
+	std::stack<const BVHAABB3D::node_type*> stack{};
+	stack.push(mPhysicsColliderBVH.GetRootNode());
+
+	while (stack.empty() == false)
+	{
+		const BVHAABB3D::node_type* const targetNode = stack.top();
+		stack.pop();
+
+		if (targetNode != nullptr && targetNode->GetIsValid() == true)
+		{
+			if (targetNode->GetIsLeafNode() == true)
+			{//if node is world object
+				doom::physics::Collider* const leafNodeCollider = targetNode->GetCollider();
+				if (ColliderSolution::CheckIsOverlap(col, leafNodeCollider) == true)
+				{
+					hitLeafNodeColliders.push_back(targetNode);
+				}
+			}
+			else
+			{
+				if (doom::physics::ColliderSolution::CheckIsOverlap(col, &(targetNode->GetBoundingCollider())) == true)
+				{
+					stack.push(targetNode->GetLeftChildNode());
+					stack.push(targetNode->GetRightChildNode());
+				}
+			}
+
+		}
+	}
+	return hitLeafNodeColliders;
+}
+
+
+const std::vector<doom::physics::Collider*> doom::physics::Physics_Server::GetCollideColliders(const doom::physics::Collider* const col) const
+{
+	std::vector<Collider*> hitLeafNodeColliders;
+
+	std::stack<const BVHAABB3D::node_type*> stack{};
+	stack.push(mPhysicsColliderBVH.GetRootNode());
+
+	while (stack.empty() == false)
+	{
+		const BVHAABB3D::node_type* const targetNode = stack.top();
+		stack.pop();
+
+		if (targetNode != nullptr && targetNode->GetIsValid() == true)
+		{
+			if (targetNode->GetIsLeafNode() == true)
+			{//if node is world object
+				doom::physics::Collider* const leafNodeCollider = targetNode->GetCollider();
+				if (ColliderSolution::CheckIsOverlap(col, leafNodeCollider) == true)
+				{
+					hitLeafNodeColliders.push_back(leafNodeCollider);
+				}
+			}
+			else
+			{
+				if (doom::physics::ColliderSolution::CheckIsOverlap(col, &(targetNode->GetBoundingCollider())) == true)
+				{
+					stack.push(targetNode->GetLeftChildNode());
+					stack.push(targetNode->GetRightChildNode());
+				}
+			}
+			
+		}
+	}
+	return hitLeafNodeColliders;
 }
 
 void doom::physics::Physics_Server::OnEndOfFrame()

@@ -44,6 +44,13 @@ namespace doom
 			}
 			void FixedUpdateCollision();
 
+			/// <summary>
+			/// return Hit BVH Leaf Node Index List
+			/// </summary>
+			const std::vector<doom::physics::Collider*> GetCollideColliders(const doom::physics::Collider* const col) const;
+			const std::vector<const typename BVHAABB3D::node_type*> GetCollideBVHNodes(const doom::physics::Collider* const col) const;
+
+
 			void SolveColliderComponents();
 
 			virtual void OnEndOfFrame() final;
