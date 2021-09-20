@@ -10,7 +10,7 @@
 #include <StaticContainer/StaticContainer.h>
 
 #include <UserInput_Server.h>
-#include <stack>
+#include <UI/PrintText.h>
 
 void doom::physics::Physics_Server::UpdatePhysicsOnOff()
 {
@@ -72,22 +72,27 @@ void doom::physics::Physics_Server::SolveColliderComponents()
 	{
 		//First : Do BVH Test
 
-		/*
+		
 		Collider* const testedCollider = colliderComponents[i]->GetWorldCollider();
 		const std::vector<doom::physics::Collider*> hitBVHLeafNodes = GetCollideColliders(testedCollider);
 
 		bool isCollideWithAnyCollider = false;
 		for (doom::physics::Collider* leafNodeCollider : hitBVHLeafNodes)
 		{
-			leafNodeCollider->bmIsCollideAtCurrentFrame = true;
-			isCollideWithAnyCollider = true;
+			if (testedCollider != leafNodeCollider)
+			{
+				leafNodeCollider->bmIsCollideAtCurrentFrame = true;
+				isCollideWithAnyCollider = true;
+			}
+		
 		}
 
 		if (isCollideWithAnyCollider == true)
 		{
+			doom::ui::PrintText("Collide");
 			testedCollider->bmIsCollideAtCurrentFrame = true;
 		}
-		*/
+		
 	}
 
 	for (auto component : colliderComponents)
@@ -96,17 +101,48 @@ void doom::physics::Physics_Server::SolveColliderComponents()
 	}
 }
 
+const std::vector<const typename BVHAABB3D::node_type*> doom::physics::Physics_Server::GetCollideBVHNodes(const typename BVHAABB3D::node_type* const leafBVHNode) const
+{
+	D_ASSERT(leafBVHNode != nullptr && leafBVHNode->GetIsValid() == true && leafBVHNode->GetIsLeafNode() == true);
+	std::vector<const typename BVHAABB3D::node_type*> hitLeafNodeColliders;
+
+	std::vector<const BVHAABB3D::node_type*> stack{};
+	stack.push_back(leafBVHNode);
+
+	while (stack.empty() == false)
+	{
+		const BVHAABB3D::node_type* const targetNode = stack.back();
+		stack.pop_back();
+
+		if (targetNode != nullptr && targetNode->GetIsValid() == true)
+		{
+			//형제 노드와 충돌하면 
+		}
+	}
+}
+
+const std::vector<doom::physics::Collider*> doom::physics::Physics_Server::GetCollideColliders(const typename BVHAABB3D::node_type* const leafBVHNode) const
+{
+	D_ASSERT(leafBVHNode != nullptr && leafBVHNode->GetIsValid() == true && leafBVHNode->GetIsLeafNode() == true);
+	std::vector<doom::physics::Collider*> hitLeafNodeColliders;
+
+	//std::stack<const BVHAABB3D::node_type*> stack{};
+	//stack.push(leafBVHNode);
+
+
+}
+
 const std::vector<const typename BVHAABB3D::node_type*> doom::physics::Physics_Server::GetCollideBVHNodes(const doom::physics::Collider* const col) const
 {
 	std::vector<const typename BVHAABB3D::node_type*> hitLeafNodeColliders;
 
-	std::stack<const BVHAABB3D::node_type*> stack{};
-	stack.push(mPhysicsColliderBVH.GetRootNode());
+	std::vector<const BVHAABB3D::node_type*> stack{};
+	stack.push_back(mPhysicsColliderBVH.GetRootNode());
 
 	while (stack.empty() == false)
 	{
-		const BVHAABB3D::node_type* const targetNode = stack.top();
-		stack.pop();
+		const BVHAABB3D::node_type* const targetNode = stack.back();
+		stack.pop_back();
 
 		if (targetNode != nullptr && targetNode->GetIsValid() == true)
 		{
@@ -122,8 +158,8 @@ const std::vector<const typename BVHAABB3D::node_type*> doom::physics::Physics_S
 			{
 				if (doom::physics::ColliderSolution::CheckIsOverlap(col, &(targetNode->GetBoundingCollider())) == true)
 				{
-					stack.push(targetNode->GetLeftChildNode());
-					stack.push(targetNode->GetRightChildNode());
+					stack.push_back(targetNode->GetLeftChildNode());
+					stack.push_back(targetNode->GetRightChildNode());
 				}
 			}
 
@@ -137,13 +173,13 @@ const std::vector<doom::physics::Collider*> doom::physics::Physics_Server::GetCo
 {
 	std::vector<Collider*> hitLeafNodeColliders;
 
-	std::stack<const BVHAABB3D::node_type*> stack{};
-	stack.push(mPhysicsColliderBVH.GetRootNode());
+	std::vector<const BVHAABB3D::node_type*> stack{};
+	stack.push_back(mPhysicsColliderBVH.GetRootNode());
 
 	while (stack.empty() == false)
 	{
-		const BVHAABB3D::node_type* const targetNode = stack.top();
-		stack.pop();
+		const BVHAABB3D::node_type* const targetNode = stack.back();
+		stack.pop_back();
 
 		if (targetNode != nullptr && targetNode->GetIsValid() == true)
 		{
@@ -159,8 +195,8 @@ const std::vector<doom::physics::Collider*> doom::physics::Physics_Server::GetCo
 			{
 				if (doom::physics::ColliderSolution::CheckIsOverlap(col, &(targetNode->GetBoundingCollider())) == true)
 				{
-					stack.push(targetNode->GetLeftChildNode());
-					stack.push(targetNode->GetRightChildNode());
+					stack.push_back(targetNode->GetLeftChildNode());
+					stack.push_back(targetNode->GetRightChildNode());
 				}
 			}
 			

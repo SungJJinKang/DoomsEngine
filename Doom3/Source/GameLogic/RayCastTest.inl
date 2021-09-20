@@ -79,29 +79,12 @@ void doom::GameLogicStartPoint::StartGameLogic()
 				auto meshRenderer = entity->AddComponent<MeshRenderer>();
 				meshRenderer->SetMesh(planetAsset->GetMesh(0));
 				meshRenderer->SetMaterial(material);
-				SphereCollider3D* sphere3D = entity->AddComponent<SphereCollider3D>();
-				sphere3D->SetRadius(3.0f);
+				BoxCollider3D* box3D = entity->AddComponent<BoxCollider3D>();
+				box3D->SetFromAABB3D(planetAsset->GetMesh(0)->GetAABB());
 			}
 		}
 	}
 
-	{
-		auto entity = currenScene->CreateNewEntity();
-		entity->GetTransform()->SetPosition(150.0f, 0.0f, 0.0f);
-		auto meshRenderer = entity->AddComponent<MeshRenderer>();
-		entity->AddComponent<MeshRenderer>();
-		meshRenderer->SetMesh(planetAsset->GetMesh(0));
-		meshRenderer->SetMaterial(material);
-		PointLight* pointLight = entity->AddComponent<PointLight>();
-		AutoRotateAround* autoRotateAround = entity->AddComponent<AutoRotateAround>();
-		pointLight->SetColor({ 1.0f, 0.0f, 0.0f, 1.0f });
-		pointLight->SetIntensity(9500.0f);
-		autoRotateAround->mCenterPos = math::Vector3{ 0.0f, 0.0f, 0.0f };
-		autoRotateAround->mRotateAngle = 1;
-		autoRotateAround->mRotateAxis = { 0.0f, 1.0f, 0.0f };
-		BoxCollider3D* box3D = entity->AddComponent<BoxCollider3D>();
-		box3D->SetFromAABB3D(planetAsset->GetMesh(0)->GetAABB());
-	}
 
 	for (int i = -50; i < 50; i += 15)
 	{
@@ -129,19 +112,23 @@ void doom::GameLogicStartPoint::StartGameLogic()
 		box3D->SetFromAABB3D(planetAsset->GetMesh(0)->GetAABB());
 	}
 
-	auto entity1 = currenScene->CreateNewEntity();
-	auto entity1Camera = entity1->AddComponent<Camera>();
-	entity1->AddComponent<RenderingAABBController>();
-	entity1->AddComponent<BoxAdder>();
-	entity1Camera->SetProjectionMode(doom::Camera::eProjectionType::Perspective);
+	{
+		auto entity1 = currenScene->CreateNewEntity();
+		auto entity1Camera = entity1->AddComponent<Camera>();
+		entity1->AddComponent<RenderingAABBController>();
+		entity1->AddComponent<BoxAdder>();
+		entity1Camera->SetProjectionMode(doom::Camera::eProjectionType::Perspective);
+		BoxCollider3D* box3D = entity1->AddComponent<BoxCollider3D>();
+		box3D->SetFromAABB3D(planetAsset->GetMesh(0)->GetAABB());
 
 
 
-
-	entity1->GetTransform()->SetPosition(0.0f, 0.0f, 600.0f);
-	entity1->AddComponent<Move_WASD>();
-	entity1->AddComponent<CharacterSpawner>();
-	entity1->AddComponent<ButtonRotate>();
+		entity1->GetTransform()->SetPosition(0.0f, 0.0f, 600.0f);
+		entity1->AddComponent<Move_WASD>();
+		entity1->AddComponent<CharacterSpawner>();
+		entity1->AddComponent<ButtonRotate>();
+	}
+	
 
 
 
