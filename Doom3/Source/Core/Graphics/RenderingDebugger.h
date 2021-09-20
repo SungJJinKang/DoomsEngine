@@ -11,6 +11,7 @@ namespace doom
 		private:
 
 			inline static unsigned long long DrawCallCounter = 0;
+			inline static unsigned long long PreviousFrameDrawCallCounter = 0;
 
 		
 
@@ -27,6 +28,7 @@ namespace doom
 
 			FORCE_INLINE static void ResetDrawCallCounter()
 			{
+				PreviousFrameDrawCallCounter = DrawCallCounter;
 				DrawCallCounter = 0;
 			}
 

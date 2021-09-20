@@ -30,7 +30,7 @@ void doom::graphics::RenderingDebugger::DrawRenderingBoundingBox()
 
 void doom::graphics::RenderingDebugger::PrintDrawCallCounter()
 {
-	doom::ui::PrintText("Draw Call : %d", RenderingDebugger::DrawCallCounter);
+	doom::ui::PrintText("Draw Call : %d", RenderingDebugger::PreviousFrameDrawCallCounter);
 }
 
 void doom::graphics::RenderingDebugger::UpdateInputForPrintDrawCallCounter()

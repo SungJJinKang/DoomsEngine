@@ -1,3 +1,3 @@
-//#include "ViewFrustumCullingDebug.inl"
+#include "ViewFrustumCullingDebug.inl"
 //#include "DeferredRenderingDebug.inl"
-#include "RayCastTest.inl"
+//#include "RayCastTest.inl"
