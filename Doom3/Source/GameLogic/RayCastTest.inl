@@ -22,6 +22,7 @@
 #include "Graphics/LightManager.h"
 #include "Graphics/Graphics_Setting.h"
 #include "Portfolio/RenderingAABBController.h"
+#include "BoxAdder.h"
 
 void doom::GameLogicStartPoint::StartGameLogic()
 {
@@ -114,20 +115,8 @@ void doom::GameLogicStartPoint::StartGameLogic()
 	auto entity1 = currenScene->CreateNewEntity();
 	auto entity1Camera = entity1->AddComponent<Camera>();
 	entity1->AddComponent<RenderingAABBController>();
+	entity1->AddComponent<BoxAdder>();
 	entity1Camera->SetProjectionMode(doom::Camera::eProjectionType::Perspective);
-
-	doom::graphics::PIPManager::GetSingleton()->AddNewPIP({ -1.0f, -1.0f }, { -0.6f, -0.6f }, &entity1Camera->mDefferedRenderingFrameBuffer.GetFrameBufferTexture(doom::graphics::GraphicsAPI::eBufferBitType::COLOR, 0));
-	doom::graphics::PIPManager::GetSingleton()->AddNewPIP({ -0.6f, -1.0f }, { -0.2f, -0.6f }, &entity1Camera->mDefferedRenderingFrameBuffer.GetFrameBufferTexture(doom::graphics::GraphicsAPI::eBufferBitType::COLOR, 1));
-	doom::graphics::PIPManager::GetSingleton()->AddNewPIP({ -0.2f, -1.0f }, { 0.2f, -0.6f }, &entity1Camera->mDefferedRenderingFrameBuffer.GetFrameBufferTexture(doom::graphics::GraphicsAPI::eBufferBitType::COLOR, 2));
-	doom::graphics::PicktureInPickture* depthTexturePIP = doom::graphics::PIPManager::GetSingleton()->AddNewPIP({ 0.2f, -1.0f }, { 0.6f, -0.6f }, &entity1Camera->mDefferedRenderingFrameBuffer.GetFrameBufferTexture(doom::graphics::GraphicsAPI::eBufferBitType::DEPTH, 0));
-	if (depthTexturePIP != nullptr)
-	{
-		doom::asset::ShaderAsset* const depthTextureShader = doom::assetimporter::AssetManager::GetAsset<asset::eAssetType::SHADER>("DepthBufferTextureShader.glsl");
-		graphics::Material* const depthMaterial = new graphics::Material(depthTextureShader);
-		//depthMaterial->SetShaderAsset(depthTextureShader);
-		depthTexturePIP->SetMaterial(depthMaterial);
-	}
-
 
 
 

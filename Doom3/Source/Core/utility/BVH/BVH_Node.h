@@ -81,18 +81,40 @@ namespace doom
 		//Node<ColliderType>* Update(const typename ColliderType::component_type& margin);
 		void RemoveNode();
 
-		BVH<ColliderType>* GetOwnerBVH();
-		const BVH<ColliderType>* GetOwnerBVH() const;
+		FORCE_INLINE doom::physics::Collider* GetCollider()
+		{
+			return mCollider;
+		}
+		FORCE_INLINE doom::physics::Collider* GetCollider() const
+		{
+			return mCollider;
+		}
+
+		FORCE_INLINE const BVH<ColliderType>* GetOwnerBVH() const
+		{
+			return mOwnerBVH;
+		}
 	
-		ColliderType& GetBoundingCollider();
-		const ColliderType& GetBoundingCollider() const;
-		ColliderType& GetEnlargedBoundingCollider();
-		const ColliderType& GetEnlargedBoundingCollider() const;
-		//doom::physics::Collider* GetBVHNode
+		FORCE_INLINE const ColliderType& GetBoundingCollider() const
+		{
+			return mBoundingCollider;
+		}
+
+		FORCE_INLINE const ColliderType& GetEnlargedBoundingCollider() const
+		{
+			return mEnlargedBoundingCollider;
+		}
+
 
 		const BVH_Node<ColliderType>* GetParentNode() const;
 		const BVH_Node<ColliderType>* GetLeftChildNode() const;
 		const BVH_Node<ColliderType>* GetRightChildNode() const;
+
+		int GetParentNodeIndex() const;
+		int GetLeftChildNodeIndex() const;
+		int GetRightChildNodeIndex() const;
+
+		bool GetIsLeafNode() const;
 		
 	};
 

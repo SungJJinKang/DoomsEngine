@@ -41,12 +41,7 @@ doom::BVH_Node_Container<ColliderType>::~BVH_Node_Container()
 }
 
 
-template <typename ColliderType>
-bool doom::BVH_Node_Container<ColliderType>::RaycastToBVHNode(const physics::Ray& ray)
-{
-	D_ASSERT(mBVH_Node_View.IsValid() == true);
-	return mBVH_Node_View->GetOwnerBVH()->BVHRayCast(ray);
-}
+
 
 template class doom::BVH_Node_Container<doom::physics::AABB2D>;
 template class doom::BVH_Node_Container<doom::physics::AABB3D>;

@@ -71,42 +71,6 @@ void doom::BVH_Node<ColliderType>::RemoveNode()
 	mOwnerBVH->RemoveLeafNode(this);
 }
 
-template <typename ColliderType>
-doom::BVH<ColliderType>* doom::BVH_Node<ColliderType>::GetOwnerBVH()
-{
-	return mOwnerBVH;
-}
-
-template <typename ColliderType>
-const doom::BVH<ColliderType>* doom::BVH_Node<ColliderType>::GetOwnerBVH() const
-{
-	return mOwnerBVH;
-}
-
-template<typename ColliderType>
-ColliderType& doom::BVH_Node<ColliderType>::GetBoundingCollider()
-{
-	return mBoundingCollider;
-}
-
-template<typename ColliderType>
-const ColliderType& doom::BVH_Node<ColliderType>::GetBoundingCollider() const
-{
-	return mBoundingCollider;
-}
-
-template<typename ColliderType>
-ColliderType& doom::BVH_Node<ColliderType>::GetEnlargedBoundingCollider()
-{
-	return mEnlargedBoundingCollider;
-}
-
-template<typename ColliderType>
-const ColliderType& doom::BVH_Node<ColliderType>::GetEnlargedBoundingCollider() const
-{
-	return mEnlargedBoundingCollider;
-}
-
 template<typename ColliderType>
 const doom::BVH_Node<ColliderType>* doom::BVH_Node<ColliderType>::GetParentNode() const
 {
@@ -138,6 +102,30 @@ const doom::BVH_Node<ColliderType>* doom::BVH_Node<ColliderType>::GetRightChildN
 		targetNode = mOwnerBVH->GetNode(mRightNode);
 	}
 	return targetNode;
+}
+
+template<typename ColliderType>
+int doom::BVH_Node<ColliderType>::GetParentNodeIndex() const
+{
+	return mParentIndex;
+}
+
+template<typename ColliderType>
+int doom::BVH_Node<ColliderType>::GetLeftChildNodeIndex() const
+{
+	return mLeftNode;
+}
+
+template<typename ColliderType>
+int doom::BVH_Node<ColliderType>::GetRightChildNodeIndex() const
+{
+	return mRightNode;
+}
+
+template<typename ColliderType>
+bool doom::BVH_Node<ColliderType>::GetIsLeafNode() const
+{
+	return mIsLeaf;
 }
 
 template class doom::BVH_Node<doom::physics::AABB2D>;

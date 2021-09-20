@@ -23,65 +23,6 @@ doom::BVH<ColliderType>::~BVH()
 	delete[] mNodes;
 }
 
-template <typename ColliderType>
-bool doom::BVH<ColliderType>::BVHRayCast(const doom::physics::Ray & ray)
-
-{
-	std::stack<int> stack{};
-	stack.push(mRootNodeIndex);
-	while (stack.empty() == false)
-	{
-		int index = stack.top();
-		stack.pop();
-
-		if constexpr (std::is_same_v<doom::physics::AABB2D, ColliderType> == true)
-		{
-			if (doom::physics::IsOverlapRayAndAABB2D(ray, mNodes[index].mBoundingCollider) == false)
-			{// if don't hit with bounding box
-				continue;
-			}
-		}
-		else if constexpr (std::is_same_v<doom::physics::AABB3D, ColliderType> == true)
-		{
-			if (doom::physics::IsOverlapRayAndAABB3D(ray, mNodes[index].mBoundingCollider) == false)
-			{// if don't hit with bounding box
-				continue;
-			}
-		}
-		else if constexpr (std::is_same_v<doom::physics::Sphere, ColliderType> == true)
-		{
-			if (doom::physics::IsOverlapRayAndSphere(ray, mNodes[index].mBoundingCollider) == false)
-			{// if don't hit with bounding box
-				continue;
-			}
-		}
-		else
-		{
-			NEVER_HAPPEN;
-		}
-
-
-		if (mNodes[index].mIsLeaf)
-		{//if node is world object
-
-			if (physics::ColliderSolution::CheckIsOverlap(mNodes[index].mCollider, static_cast<physics::Collider*>(const_cast<physics::Ray*>(&ray))) == true)
-			{// check collision with ray and world object collider
-				return true;
-			}
-			else
-			{
-				return false;
-			}
-		}
-		else
-		{
-			stack.push(mNodes[index].mLeftNode);
-			stack.push(mNodes[index].mRightNode);
-		}
-	}
-	return false;
-}
-
 
 
 /// <summary>
@@ -213,6 +154,24 @@ void doom::BVH<ColliderType>::FreeNode(int nodeIndex)
 
 	mCurrentActiveNodeCount--;
 	freedNodeIndexList.push(nodeIndex);
+}
+
+template<typename ColliderType>
+doom::BVH<ColliderType>::node_type* doom::BVH<ColliderType>::GetRootNode()
+{
+	return GetNode(mRootNodeIndex);
+}
+
+template<typename ColliderType>
+const doom::BVH<ColliderType>::node_type* doom::BVH<ColliderType>::GetRootNode() const
+{
+	return GetNode(mRootNodeIndex);
+}
+
+template<typename ColliderType>
+int doom::BVH<ColliderType>::GetRootNodeIndex() const
+{
+	return mRootNodeIndex;
 }
 
 template <typename ColliderType>

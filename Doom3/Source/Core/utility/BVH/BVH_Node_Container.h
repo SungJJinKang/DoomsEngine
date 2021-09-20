@@ -10,7 +10,6 @@ namespace doom
 	namespace physics
 	{
 		class Collider;
-		class Ray;
 	}
 
 	template <typename ColliderType>
@@ -57,7 +56,6 @@ namespace doom
 		BVH_Node_Container& operator=(const BVH_Node_Container&) = delete;
 		BVH_Node_Container& operator=(BVH_Node_Container&&) noexcept = delete;
 
-		bool RaycastToBVHNode(const physics::Ray& ray);
 	};
 
 

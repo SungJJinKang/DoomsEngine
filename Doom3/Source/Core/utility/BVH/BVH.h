@@ -48,6 +48,9 @@ namespace doom
 	template <typename ColliderType>
 	class BVH
 	{
+
+	public:
+
 		using node_type = typename BVH_Node<ColliderType>;
 		using node_view_type = typename BVH_Node_View<ColliderType>;
 
@@ -107,8 +110,6 @@ namespace doom
 		BVH(const int nodeCapacity);
 		~BVH();
 
-		bool BVHRayCast(const doom::physics::Ray& ray);
-
 		/// <summary>
 		/// Inser New Object(Leaf)
 		/// </summary>
@@ -134,6 +135,10 @@ namespace doom
 		{
 
 		}
+
+		node_type* GetRootNode();
+		const node_type* GetRootNode() const;
+		int GetRootNodeIndex() const;
 
 		int GetSibling(const int index);
 		bool IsHasChild(const int index);
