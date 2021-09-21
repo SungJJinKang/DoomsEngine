@@ -15,8 +15,6 @@ namespace doom
 
 	class Transform : public PlainComponent
 	{
-		friend class Component;
-		friend class Renderer;
 	private:
 
 		
@@ -147,6 +145,11 @@ namespace doom
 				mModelMatrixCache = mTranslationMatrix * mRotationMatrix * mScaleMatrix;
 			}
 			return mModelMatrixCache;
+		}
+		
+		FORCE_INLINE bool GetIsModelMatrixChangedAtCurrentFrame() const
+		{
+			return bmIsDirtyModelMatrix.GetIsDirty();
 		}
 
 		FORCE_INLINE math::Vector3 forward() const noexcept
