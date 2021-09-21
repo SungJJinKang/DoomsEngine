@@ -1,6 +1,8 @@
 #include "Source/Core/Core.h"
 #include "Source/Core/Game/GameCore.h"
 
+#include <DObject/DObjectManager.h>
+
 void ExitGame();
 
 
@@ -10,6 +12,8 @@ void ExitGame();
 
 int main()
 {
+	DObjectManager mDObjectManager;
+
 	GameCore gameCore{};
 
 	D_START_PROFILING("Init Game", doom::profiler::eProfileLayers::CPU);

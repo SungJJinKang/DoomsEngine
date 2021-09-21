@@ -24,6 +24,12 @@ doom::graphics::DefferedRenderingFrameBuffer::DefferedRenderingFrameBuffer()
 	CheckIsFrameBufferSuccesfullyCreated();
 }
 
+void doom::graphics::DefferedRenderingFrameBuffer::BlitDepthBufferToScreenBuffer() const
+{
+	FrameBuffer::BlitBufferTo(0, 0, 0, GetDefaultWidth(), GetDefaultHeight(), 0, 0, Graphics_Setting::GetScreenWidth(), Graphics_Setting::GetScreenHeight(), GraphicsAPI::eBufferBitType::DEPTH, FrameBuffer::eImageInterpolation::NEAREST);
+
+}
+
 void doom::graphics::DefferedRenderingFrameBuffer::BindGBufferTextures()
 {
 	for (unsigned int i = 0; i < 3; i++)

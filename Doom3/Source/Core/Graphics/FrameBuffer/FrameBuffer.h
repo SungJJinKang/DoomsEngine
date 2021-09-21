@@ -16,7 +16,6 @@ namespace doom
 	{
 		class FrameBuffer
 		{
-			friend class Graphics_Server;
 		private:
 
 			inline static const char FRAMEBUFFER_TAG[]{ "FrameBuffer" };
@@ -68,6 +67,16 @@ namespace doom
 			void GenerateBuffer(unsigned int defaultWidth, unsigned int defaultHeight);
 			void RefreshTargetDrawBufferContainer();
 			void SetTargetDrawBuffer();
+
+			FORCE_INLINE unsigned int GetDefaultWidth() const
+			{
+				return mDefaultWidth;
+			}
+
+			FORCE_INLINE unsigned int GetDefaultHeight() const
+			{
+				return mDefaultHeight;
+			}
 
 			FORCE_INLINE static void StaticBindFrameBuffer(FrameBuffer* const frameBuffer)
 			{
@@ -125,7 +134,7 @@ namespace doom
 			};
 
 			FORCE_INLINE void BlitBufferTo(unsigned int DrawFrameBufferId, int srcX0, int srcY0, int srcX1, int srcY1
-				, int dstX0, int dstY0, int dstX1, int dstY1, GraphicsAPI::eBufferBitType mask, eImageInterpolation filter) noexcept
+				, int dstX0, int dstY0, int dstX1, int dstY1, GraphicsAPI::eBufferBitType mask, eImageInterpolation filter) const noexcept
 			{
 				glBindFramebuffer(GL_READ_FRAMEBUFFER, mFrameBufferID);
 				glBindFramebuffer(GL_DRAW_FRAMEBUFFER, DrawFrameBufferId);
@@ -133,7 +142,7 @@ namespace doom
 			}
 
 			FORCE_INLINE void BlitBufferFrom(unsigned int ReadFrameBufferId, int srcX0, int srcY0, int srcX1, int srcY1
-				, int dstX0, int dstY0, int dstX1, int dstY1, GraphicsAPI::eBufferBitType mask, eImageInterpolation filter) noexcept
+				, int dstX0, int dstY0, int dstX1, int dstY1, GraphicsAPI::eBufferBitType mask, eImageInterpolation filter) const noexcept
 			{
 				glBindFramebuffer(GL_READ_FRAMEBUFFER, ReadFrameBufferId);
 				glBindFramebuffer(GL_DRAW_FRAMEBUFFER, mFrameBufferID);

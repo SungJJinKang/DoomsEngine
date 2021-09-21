@@ -70,9 +70,6 @@ void doom::physics::Physics_Server::SolveColliderComponents()
 
 	for (unsigned int i = 0; i < colliderComponents.size(); i++)
 	{
-		//First : Do BVH Test
-
-		
 		Collider* const testedCollider = colliderComponents[i]->GetWorldCollider();
 		const std::vector<doom::physics::Collider*> hitBVHLeafNodes = GetCollideColliders(testedCollider);
 

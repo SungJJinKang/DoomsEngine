@@ -17,7 +17,7 @@ namespace doom
 	/// <summary>
 	/// This class is same with SCENE in unity game engine
 	/// </summary>
-	class Scene : public ISingleton<Scene>//, public GameFlow
+	class Scene : public DObject, public ISingleton<Scene>//, public GameFlow
 	{
 
 		friend class GameCore;

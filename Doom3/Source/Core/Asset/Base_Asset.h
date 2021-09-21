@@ -46,7 +46,7 @@ namespace doom
 	namespace asset
 	{
 
-		class Asset
+		class Asset : public DObject
 		{
 			friend class ::doom::assetimporter::AssetManager;
 			friend class ::doom::assetimporter::Assetimporter;

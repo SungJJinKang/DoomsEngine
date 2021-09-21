@@ -24,6 +24,7 @@ namespace doom
 			void ClearCollision();
 
 			Collider() {}
+			~Collider() {}
 
 			virtual ColliderType GetColliderType() const = 0;
 

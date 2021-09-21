@@ -31,21 +31,21 @@ Scene::~Scene()
 
 bool Scene::DestroyEntity(Entity& entity)
 {
-	size_t size = mSpawnedEntities.size();
+	bool isSuccess = false;
 
-	Entity* pointer = &entity;
-	delete pointer;
+	size_t size = mSpawnedEntities.size();
 
 	for (size_t i = 0; i < size; i++)
 	{
-		if (mSpawnedEntities[i].get() == pointer)
+		if (mSpawnedEntities[i].get() == &entity)
 		{
 			std::vector_swap_popback(mSpawnedEntities, mSpawnedEntities.begin() + i);
-			return true;
+			isSuccess = true;
+			break;
 		}
 	}
 
-	return false;
+	return isSuccess;
 }
 
 doom::Scene* Scene::GetCurrentWorld()

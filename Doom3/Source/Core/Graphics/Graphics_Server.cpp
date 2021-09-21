@@ -153,24 +153,26 @@ void Graphics_Server::PreUpdateEntityBlocks()
 		{
 			::doom::Renderer* const renderer = reinterpret_cast<::doom::Renderer*>(entityBlock->mRenderer[entityIndex]);
 
-			//this is really expensive!!
-			const float worldRadius = renderer->BVH_Sphere_Node_Object::GetWorldCollider()->mRadius;
+			if (renderer != nullptr)
+			{
+				//this is really expensive!!
+				const float worldRadius = renderer->BVH_Sphere_Node_Object::GetWorldCollider()->mRadius;
 
-			const math::Vector3 renderedObjectPos = renderer->GetTransform()->GetPosition();
+				const math::Vector3 renderedObjectPos = renderer->GetTransform()->GetPosition();
 
-			entityBlock->mPositions[entityIndex].SetPosition(*reinterpret_cast<const culling::Vector3*>(&renderedObjectPos));
-			entityBlock->mPositions[entityIndex].SetBoundingSphereRadius(worldRadius);
+				entityBlock->mPositions[entityIndex].SetPosition(*reinterpret_cast<const culling::Vector3*>(&renderedObjectPos));
+				entityBlock->mPositions[entityIndex].SetBoundingSphereRadius(worldRadius);
 
 #ifdef ENABLE_SCREEN_SAPCE_AABB_CULLING
-			
-			std::memcpy(
-				entityBlock->mWorldAABB + entityIndex,
-				const_cast<Renderer*>(renderer)->ColliderUpdater<doom::physics::AABB3D>::GetWorldCollider()Cache()->data(),
-				sizeof(culling::AABB)
-			);
-			
-#endif
 
+				std::memcpy(
+					entityBlock->mWorldAABB + entityIndex,
+					const_cast<Renderer*>(renderer)->ColliderUpdater<doom::physics::AABB3D>::GetWorldCollider()Cache()->data(),
+					sizeof(culling::AABB)
+				);
+
+#endif
+			}
 		}
 	}
 }
@@ -224,9 +226,6 @@ void doom::graphics::Graphics_Server::DeferredRendering()
 	DoCullJob(); // do this first
 	//TODO : Think where put this, as early as good
 
-#ifdef DEBUG_MODE
-	mDebugGraphics.BufferVertexDataToGPU();
-#endif
 
 	const std::vector<doom::Camera*>& spawnedCameraList = StaticContainer<doom::Camera>::GetAllStaticComponents();
 
@@ -267,13 +266,15 @@ void doom::graphics::Graphics_Server::DeferredRendering()
 		{
 			//Only Main Camera can draw to screen buffer
 			
-			targetCamera->mDefferedRenderingFrameBuffer.BlitBufferTo(0, 0, 0, targetCamera->mDefferedRenderingFrameBuffer.mDefaultWidth, targetCamera->mDefferedRenderingFrameBuffer.mDefaultHeight, 0, 0, Graphics_Setting::GetScreenWidth(), Graphics_Setting::GetScreenHeight(), GraphicsAPI::eBufferBitType::DEPTH, FrameBuffer::eImageInterpolation::NEAREST);
+			targetCamera->mDefferedRenderingFrameBuffer.BlitDepthBufferToScreenBuffer();
 
 			targetCamera->mDefferedRenderingFrameBuffer.BindGBufferTextures();
 			
 			mDeferredRenderingDrawer.DrawDeferredRenderingQuadDrawer();
 
 #ifdef DEBUG_MODE
+			//이거 느려도 상관없다. 그냥 여기다 두자.
+			mDebugGraphics.BufferVertexDataToGPU();
 			mDebugGraphics.Draw();
 #endif
 		}
@@ -328,6 +329,7 @@ void doom::graphics::Graphics_Server::RenderObject(doom::Camera* const targetCam
 				renderer->GetIsCulled(targetCamera->CameraIndexInCullingSystem) == false
 				)
 			{
+				//renderer->ColliderUpdater<doom::physics::AABB3D>::GetWorldCollider()->DrawPhysicsDebugColor(eColor::Blue);
 				renderer->Draw();
 			}
 		}

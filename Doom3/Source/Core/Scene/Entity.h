@@ -30,7 +30,7 @@ namespace doom
 		class ObjectPool;
 	}
 
-	class Entity : public FrameDirtyChecker
+	class Entity : public DObject, public FrameDirtyChecker
 	{
 		friend class Scene;
 		template <typename T>
@@ -62,8 +62,7 @@ namespace doom
 	private:
 		
 		size_t mEntityID;
-		eEntityMobility mEntityMobility{ eEntityMobility::Dynamic };
-		unsigned int mEntityFlag{ eEntityFlags::OcculuderStatic | eEntityFlags::OcculudeeStatic };
+		
 
 		/// <summary>
 		/// Entity Constructor should be called through Scene class
@@ -231,10 +230,9 @@ namespace doom
 
 	public:
 
-		
+		eEntityMobility mEntityMobility{ eEntityMobility::Dynamic };
+		unsigned int mEntityFlag{ eEntityFlags::OcculuderStatic | eEntityFlags::OcculudeeStatic };
 
-		//TODO : Prevent Programmer Add TransformComponent.
-		//TODO : Because All entity should have only one Transform Component
 
 		template<typename T, std::enable_if_t<std::is_base_of_v<Component, T>, bool> = true>
 		constexpr T* AddComponent() noexcept

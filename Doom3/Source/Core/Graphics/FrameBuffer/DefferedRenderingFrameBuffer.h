@@ -21,6 +21,7 @@ namespace doom
 
 			DefferedRenderingFrameBuffer();
 
+			void BlitDepthBufferToScreenBuffer() const;
 			void BindGBufferTextures();
 
 			FORCE_INLINE virtual void ClearFrameBuffer() final

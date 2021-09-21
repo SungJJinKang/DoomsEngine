@@ -85,33 +85,33 @@ namespace doom
 		void UpdatePhysics();
 		void OnPostUpdatePhysics();
 
-		bool GetIsColliderEnter()
+		FORCE_INLINE bool GetIsColliderEnter() const
 		{
 			return mbIsColliderEnter;
 		}
 
-		bool GetIsColliderExit()
+		FORCE_INLINE bool GetIsColliderExit() const
 		{
 			return mbIsColliderExit;
 		}
 
-		bool GetIsColliderStay()
+		FORCE_INLINE bool GetIsColliderStay() const
 		{
 			return mbIsColliderStay;
 		}
 
 
-		bool GetIsTriggerEnter()
+		FORCE_INLINE bool GetIsTriggerEnter() const
 		{
 			return mbIsTriggerEnter;
 		}
 
-		bool GetIsTriggerExit()
+		FORCE_INLINE bool GetIsTriggerExit() const
 		{
 			return mbIsTriggerExit;
 		}
 
-		bool GetIsTriggerStay()
+		FORCE_INLINE bool GetIsTriggerStay() const
 		{
 			return mbIsTriggerStay;
 		}
