@@ -55,7 +55,7 @@ bool doom::DObjectManager::RemoveDObject(DObject* const dObject)
     auto dObjectIter = mDObjectsHashMap.find(dObject->GetDObjectID());
     if (dObjectIter != mDObjectsHashMap.end())
     {
-        mDObjectsHashMap.erase(dObjectIter);
+        dObjectIter->second = nullptr;
         isSuccess = true;
     }
 
@@ -73,4 +73,19 @@ doom::DObject* doom::DObjectManager::GetDObject(const size_t dObjectID)
         dObject = dObjectIter->second;
     }
     return dObject;
+}
+
+doom::DObjectManager::DObjectManager()
+{
+}
+
+doom::DObjectManager::~DObjectManager()
+{
+    for (auto dObject : mDObjectsHashMap)
+    {
+        if (dObject.second != nullptr)
+        {
+            delete dObject.second;
+        }
+    }
 }

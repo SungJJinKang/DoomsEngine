@@ -24,6 +24,8 @@ namespace doom
 
 		DObject* GetDObject(const size_t dObjectID);
 	
+		DObjectManager();
+		~DObjectManager();
 
 	};
 }
