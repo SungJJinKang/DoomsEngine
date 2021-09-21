@@ -21,6 +21,7 @@
 #include "AutoRotateAround.h"
 #include "Graphics/LightManager.h"
 #include "Graphics/Graphics_Setting.h"
+#include "Graphics/GraphicsAPIManager.h"
 
 void doom::GameLogicStartPoint::StartGameLogic()
 {
@@ -147,5 +148,8 @@ void doom::GameLogicStartPoint::StartGameLogic()
 
 	auto entity3 = currenScene->CreateNewEntity();
 	//entity3->AddComponent<ViewFrustumCullingDebug>();
+
+	doom::graphics::GraphicsAPIManager::SetWindowTitle("Space Key : MultiThreaded ViewFrustumCulling On/Off, F5 : Print Draw Call Count");
+	doom::ui::PrintText("Space Key : MultiThreaded ViewFrustumCulling On/Off, F5 : Print Draw Call Count");
 
 }

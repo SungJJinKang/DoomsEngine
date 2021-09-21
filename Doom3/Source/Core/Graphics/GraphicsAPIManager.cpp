@@ -22,9 +22,10 @@ void doom::graphics::GraphicsAPIManager::Initialize()
 #endif
 
 
+
 	// glfw window creation
 	// --------------------
-	Graphics_Setting::SetWindow(glfwCreateWindow(Graphics_Setting::GetScreenWidth(), Graphics_Setting::GetScreenHeight(), "LearnOpenGL", NULL, NULL));
+	Graphics_Setting::SetWindow(glfwCreateWindow(Graphics_Setting::GetScreenWidth(), Graphics_Setting::GetScreenHeight(), "SUNG JIN KANG", NULL, NULL));
 	if (Graphics_Setting::GetWindow() == NULL)
 	{
 		D_DEBUG_LOG("Failed to create GLFW window");
@@ -101,7 +102,14 @@ void doom::graphics::GraphicsAPIManager::DEBUG_CALLBACK(GLenum source, GLenum ty
 
 void doom::graphics::GraphicsAPIManager::SwapBuffer()
 {
+	D_ASSERT(Graphics_Setting::GetWindow() != nullptr);
 	glfwSwapBuffers(Graphics_Setting::GetWindow());
 		
 	graphics::RenderingDebugger::ResetDrawCallCounter();
+}
+
+void doom::graphics::GraphicsAPIManager::SetWindowTitle(const char* const title)
+{
+	D_ASSERT(Graphics_Setting::GetWindow() != nullptr);
+	glfwSetWindowTitle(Graphics_Setting::GetWindow(), title);
 }
