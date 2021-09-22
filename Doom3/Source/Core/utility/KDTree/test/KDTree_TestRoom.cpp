@@ -84,7 +84,7 @@ void doom::KDTree_TestRoom::DrawTree()
 		{
 			mPIPForDebug->StaticBindFrameBuffer();
 
-			graphics::GraphicsAPI::ClearColor(1.0f, 1.0f, 1.0f, 1.0f);
+			graphics::GraphicsAPI::DefaultClearColor(1.0f, 1.0f, 1.0f, 1.0f);
 			mPIPForDebug->ClearFrameBuffer();
 
 			graphics::DebugDrawer::GetSingleton()->SetDrawInstantlyMaterial(mBVHDebugMaterial.get());

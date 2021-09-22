@@ -28,6 +28,7 @@ void doom::graphics::OverDrawVisualization::Initialize()
 
 	mOverDrawVisualizationPimpl->mOverDrawVisualizationFrameBuffer.GenerateBuffer(doom::graphics::Graphics_Setting::GetScreenWidth(), doom::graphics::Graphics_Setting::GetScreenHeight());
 	mOverDrawVisualizationPimpl->mOverDrawVisualizationFrameBuffer.AttachTextureBuffer(GraphicsAPI::eBufferBitType::COLOR);
+	mOverDrawVisualizationPimpl->mOverDrawVisualizationFrameBuffer.AttachRenderBuffer(GraphicsAPI::eBufferBitType::DEPTH);
 
 	bmIsInitialized = true;
 }
@@ -39,7 +40,7 @@ void doom::graphics::OverDrawVisualization::ShowOverDrawVisualizationPIP(const b
 		if (mOverDrawVisualizationPimpl->OverDrawVisualizationPIP == nullptr)
 		{
 			mOverDrawVisualizationPimpl->OverDrawVisualizationPIP = doom::graphics::Graphics_Server::GetSingleton()->mPIPManager.AddNewPIP(
-				math::Vector2(0.4f, 0.4f),
+				math::Vector2(0.1f, 0.1f),
 				math::Vector2(1.0f, 1.0f),
 				mOverDrawVisualizationPimpl->mOverDrawVisualizationFrameBuffer.GetFrameBufferTexture(GraphicsAPI::eBufferBitType::COLOR, 0)
 			);
@@ -79,8 +80,8 @@ void doom::graphics::OverDrawVisualization::SetOverDrawVisualizationRenderingSta
 		doom::graphics::FixedMaterial::SetFixedMaterial(&(mOverDrawVisualizationPimpl->mOverDrawVisualizationObjectDrawMaterial));
 		mOverDrawVisualizationPimpl->mOverDrawVisualizationFrameBuffer.BindFrameBuffer();
 
-		GraphicsAPI::ClearColor(math::Vector4(0.0f, 0.0f, 0.0f, 1.0f));
-		GraphicsAPI::Clear(GraphicsAPI::eClearMask::COLOR_BUFFER_BIT);
+		GraphicsAPI::DefaultClearColor(math::Vector4(0.0f, 0.0f, 0.0f, 1.0f));
+		GraphicsAPI::Clear(GraphicsAPI::eClearMask::COLOR_BUFFER_BIT, GraphicsAPI::eClearMask::DEPTH_BUFFER_BIT);
 	}
 	else
 	{

@@ -26,7 +26,7 @@
 void doom::GameLogicStartPoint::StartGameLogic()
 {
 	ISingleton<graphics::LightManager>::GetSingleton()->SetAmbientLightIntensity(0.1f);
-	doom::graphics::Graphics_Setting::ClearColor = { 1.0f, 1.0f, 1.0f, 1.0f };
+	doom::graphics::Graphics_Setting::DefaultClearColor = { 1.0f, 1.0f, 1.0f, 1.0f };
 
 	auto currenScene = doom::Scene::GetCurrentWorld();
 

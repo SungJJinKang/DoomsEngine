@@ -199,7 +199,7 @@ void doom::BVH_TestRoom::TreeDebug()
 		{
 			mPIPForDebug->StaticBindFrameBuffer();
 
-			graphics::GraphicsAPI::ClearColor(1.0f, 1.0f, 1.0f, 1.0f);
+			graphics::GraphicsAPI::DefaultClearColor(1.0f, 1.0f, 1.0f, 1.0f);
 			mPIPForDebug->ClearFrameBuffer();
 
 			graphics::DebugDrawer::GetSingleton()->SetDrawInstantlyMaterial(mBVHDebugMaterial.get());
@@ -218,7 +218,7 @@ void doom::BVH_TestRoom::AABBDebug()
 	{
 		mPIPForDebug->StaticBindFrameBuffer();
 
-		graphics::GraphicsAPI::ClearColor(1.0f, 1.0f, 1.0f, 1.0f);
+		graphics::GraphicsAPI::DefaultClearColor(1.0f, 1.0f, 1.0f, 1.0f);
 		mPIPForDebug->ClearFrameBuffer();
 
 		graphics::DebugDrawer::GetSingleton()->SetDrawInstantlyMaterial(mBVHDebugMaterial.get());
@@ -260,7 +260,7 @@ void doom::BVH_TestRoom::AABBDebug(int targetNode)
 	{
 		mPIPForDebug->StaticBindFrameBuffer();
 
-		graphics::GraphicsAPI::ClearColor(1.0f, 1.0f, 1.0f, 1.0f);
+		graphics::GraphicsAPI::DefaultClearColor(1.0f, 1.0f, 1.0f, 1.0f);
 		mPIPForDebug->ClearFrameBuffer();
 
 		graphics::DebugDrawer::GetSingleton()->SetDrawInstantlyMaterial(mBVHDebugMaterial.get());

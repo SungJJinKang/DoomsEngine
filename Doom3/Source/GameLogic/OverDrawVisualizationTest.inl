@@ -16,12 +16,12 @@
 #include "PhysicsComponent/BoxCollider3D.h"
 #include "CustomComponent/CharacterSpawner.h"
 #include "CustomComponent/ButtonRotate.h"
-#include "CustomComponent/Portfolio/ViewFrustumCullingDebug.h"
 #include "Graphics/PictureInPicture/PIPManager.h"
 #include "AutoRotateAround.h"
 #include "Graphics/LightManager.h"
 #include "Graphics/Graphics_Setting.h"
 #include "Graphics/GraphicsAPIManager.h"
+#include "Portfolio/OverDrawVisualizationDebugger.h"
 
 void doom::GameLogicStartPoint::StartGameLogic()
 {
@@ -64,7 +64,7 @@ void doom::GameLogicStartPoint::StartGameLogic()
 	// 			entity->AddComponent<BoxCollider3D>();
 	// 		}
 	// 	}
-	int count = 300;
+	int count = 100;
 	for (int i = -count; i < count; i = i + 15)
 	{
 		for (int j = -count; j < count; j = j + 15)
@@ -81,21 +81,6 @@ void doom::GameLogicStartPoint::StartGameLogic()
 				//entity->AddComponent<BoxCollider3D>();
 			}
 		}
-	}
-
-	{
-		auto entity = currenScene->CreateNewEntity();
-		entity->GetTransform()->SetPosition(100.0f, 0.0f, 0.0f);
-		auto meshRenderer = entity->AddComponent<MeshRenderer>();
-		meshRenderer->SetMesh(planetAsset->GetMesh(0));
-		meshRenderer->SetMaterial(material);
-		PointLight* pointLight = entity->AddComponent<PointLight>();
-		AutoRotateAround* autoRotateAround = entity->AddComponent<AutoRotateAround>();
-		pointLight->SetColor({ 1.0f, 0.0f, 0.0f, 1.0f });
-		pointLight->SetIntensity(3000.0f);
-		autoRotateAround->mCenterPos = math::Vector3{ 0.0f, 0.0f, 0.0f };
-		autoRotateAround->mRotateAngle = 1;
-		autoRotateAround->mRotateAxis = { 0.0f, 1.0f, 0.0f };
 	}
 
 	for (int i = -200; i < 200; i += 70)
@@ -121,10 +106,10 @@ void doom::GameLogicStartPoint::StartGameLogic()
 	}
 
 	auto entity1 = currenScene->CreateNewEntity();
-
 	auto entity1Camera = entity1->AddComponent<Camera>();
+	entity1->AddComponent<OverDrawVisualizationDebugger>();
 	entity1Camera->SetProjectionMode(doom::Camera::eProjectionType::Perspective);
-	entity1->AddComponent<ViewFrustumCullingDebug>();
+
 
 
 
@@ -148,5 +133,8 @@ void doom::GameLogicStartPoint::StartGameLogic()
 
 	auto entity3 = currenScene->CreateNewEntity();
 	//entity3->AddComponent<ViewFrustumCullingDebug>();
+
+
+	graphics::Graphics_Setting::IsOverDrawVisualizationEnabled = true;
 
 }

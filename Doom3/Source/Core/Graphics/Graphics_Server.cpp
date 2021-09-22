@@ -236,12 +236,15 @@ void doom::graphics::Graphics_Server::DeferredRendering()
 
 	FrameBuffer::UnBindFrameBuffer();
 	//Clear ScreenBuffer
-	GraphicsAPI::ClearColor(Graphics_Setting::ClearColor);
+	GraphicsAPI::DefaultClearColor(Graphics_Setting::DefaultClearColor);
 	GraphicsAPI::Clear(GraphicsAPI::eClearMask::COLOR_BUFFER_BIT, GraphicsAPI::eClearMask::DEPTH_BUFFER_BIT);
 
-	if (doom::time::MainTimer::GetFrameStep(2))
+	if (Graphics_Setting::IsSortObjectFrontToBack == true)
 	{
-		RendererComponentStaticIterator::CacheDistanceFromRenderersToCamera(spawnedCameraList);
+		if (doom::time::MainTimer::GetFrameStep(2))
+		{
+			RendererComponentStaticIterator::CacheDistanceFromRenderersToCamera(spawnedCameraList);
+		}
 	}
 
 	for (size_t cameraIndex = 0 ; cameraIndex < spawnedCameraList.size() ; cameraIndex++)
@@ -267,8 +270,8 @@ void doom::graphics::Graphics_Server::DeferredRendering()
 			//Only Main Camera can draw to screen buffer
 
 #ifdef DEBUG_MODE
-			mRenderingDebugger.mOverDrawVisualization.ShowOverDrawVisualizationPIP(Graphics_Setting::bmIsOverDrawVisualizationEnabled);
-			if (Graphics_Setting::bmIsOverDrawVisualizationEnabled == true)
+			mRenderingDebugger.mOverDrawVisualization.ShowOverDrawVisualizationPIP(Graphics_Setting::IsOverDrawVisualizationEnabled);
+			if (Graphics_Setting::IsOverDrawVisualizationEnabled == true)
 			{
 				mRenderingDebugger.mOverDrawVisualization.SetOverDrawVisualizationRenderingState(true);
 				RenderObject(targetCamera, cameraIndex);
@@ -317,9 +320,12 @@ void doom::graphics::Graphics_Server::RenderObject(doom::Camera* const targetCam
 	targetCamera->UpdateUniformBufferObject();
 
 
-	if (doom::time::MainTimer::GetFrameStep(2))
+	if (Graphics_Setting::IsSortObjectFrontToBack == true)
 	{
-		RendererComponentStaticIterator::SortByDistanceToCamera(targetCamera, cameraIndex);
+		if (doom::time::MainTimer::GetFrameStep(2))
+		{
+			RendererComponentStaticIterator::SortByDistanceToCamera(targetCamera, cameraIndex);
+		}
 	}
 
 

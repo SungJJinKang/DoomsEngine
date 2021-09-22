@@ -85,12 +85,12 @@ namespace doom
 				glCullFace(static_cast<unsigned int>(mode));
 			}
 
-			FORCE_INLINE static void ClearColor(float r, float g, float b, float a) noexcept
+			FORCE_INLINE static void DefaultClearColor(float r, float g, float b, float a) noexcept
 			{
 				glClearColor(r, g, b, a);
 			}
 
-			FORCE_INLINE static void ClearColor(const math::Vector4& color) noexcept
+			FORCE_INLINE static void DefaultClearColor(const math::Vector4& color) noexcept
 			{
 				glClearColor(color.r, color.g, color.b, color.a);
 			}

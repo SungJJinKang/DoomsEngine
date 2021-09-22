@@ -26,7 +26,7 @@ void doom::graphics::DebugDrawer::Update()
 {
 	if (doom::userinput::UserInput_Server::GetKeyUp(userinput::eKEY_CODE::KEY_F5))
 	{
-		Graphics_Setting::bmIsDrawDebuggersEnabled = !Graphics_Setting::bmIsDrawDebuggersEnabled;
+		Graphics_Setting::IsDrawDebuggersEnabled = !Graphics_Setting::IsDrawDebuggersEnabled;
 	}
 }
 
@@ -73,7 +73,7 @@ doom::graphics::DebugDrawer::DebugDrawer() :
 
 void doom::graphics::DebugDrawer::Draw()
 {
-	if (Graphics_Setting::bmIsDrawDebuggersEnabled == true)
+	if (Graphics_Setting::IsDrawDebuggersEnabled == true)
 	{
 		/// <summary>
 		/// vector3 -> 3, vector4 -> 4
@@ -146,7 +146,7 @@ void doom::graphics::DebugDrawer::Draw()
 
 void doom::graphics::DebugDrawer::DebugDraw3DLine(const math::Vector3& startWorldPos, const math::Vector3& endWorldPos, eColor color, bool drawInstantly /*= false*/)
 {
-	if (Graphics_Setting::bmIsDrawDebuggersEnabled == true)
+	if (Graphics_Setting::IsDrawDebuggersEnabled == true)
 	{
 		if (drawInstantly == false)
 		{
@@ -176,7 +176,7 @@ void doom::graphics::DebugDrawer::DebugDraw3DLine(const math::Vector3& startWorl
 /// <param name="color"></param>
 void doom::graphics::DebugDrawer::DebugDraw2DLine(const math::Vector3& startNDCPos, const math::Vector3& endNDCPos, eColor color, bool drawInstantly /*= false*/)
 {
-	if (Graphics_Setting::bmIsDrawDebuggersEnabled == true)
+	if (Graphics_Setting::IsDrawDebuggersEnabled == true)
 	{
 		if (drawInstantly == false)
 		{
@@ -233,7 +233,7 @@ void doom::graphics::DebugDrawer::DebugDraw2DTriangleInstantly(const math::Vecto
 
 void doom::graphics::DebugDrawer::DebugDraw2DTriangle(const math::Vector3& pointA, const math::Vector3& pointB, const math::Vector3& pointC, eColor color, bool drawInstantly /*= false*/)
 {
-	if (Graphics_Setting::bmIsDrawDebuggersEnabled == true)
+	if (Graphics_Setting::IsDrawDebuggersEnabled == true)
 	{
 		if (drawInstantly == false)
 		{
@@ -254,7 +254,7 @@ void doom::graphics::DebugDrawer::SetDrawInstantlyMaterial(Material* material)
 
 void doom::graphics::DebugDrawer::BufferVertexDataToGPU()
 {
-	if (Graphics_Setting::bmIsDrawDebuggersEnabled == true)
+	if (Graphics_Setting::IsDrawDebuggersEnabled == true)
 	{
 		unsigned int offsetComponentCount{ 0 };
 		unsigned int alreadyDrawedVertexCount{ 0 };
@@ -323,7 +323,7 @@ void doom::graphics::DebugDrawer::BufferVertexDataToGPU()
 
 void doom::graphics::DebugDrawer::DebugDraw3DTriangle(const math::Vector3& pointA, const math::Vector3& pointB, const math::Vector3& pointC, eColor color, bool drawInstantly /*= false*/)
 {
-	if (Graphics_Setting::bmIsDrawDebuggersEnabled == true)
+	if (Graphics_Setting::IsDrawDebuggersEnabled == true)
 	{
 		if (drawInstantly == false)
 		{

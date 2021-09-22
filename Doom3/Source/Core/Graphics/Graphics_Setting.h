@@ -24,13 +24,15 @@ namespace doom
 
 		public:
 
-			static inline bool bmIsDrawDebuggersEnabled{ true };
-			static inline eColor mDrawDebuggersDefualtColor{ eColor::Green };
+			static inline bool IsSortObjectFrontToBack{ true };
 
-			static inline bool bmIsOverDrawVisualizationEnabled{ true };
+			static inline bool IsDrawDebuggersEnabled{ true };
+			static inline eColor DrawDebuggersDefualtColor{ eColor::Green };
 
-			static inline bool mDrawRenderingBoundingBox{ false };
-			static inline math::Vector4 ClearColor{ 0.0f, 0.0f, 0.0f, 1.0f };
+			static inline bool IsOverDrawVisualizationEnabled{ false };
+
+			static inline bool DrawRenderingBoundingBox{ false };
+			static inline math::Vector4 DefaultClearColor{ 0.0f, 0.0f, 0.0f, 1.0f };
 
 			static inline bool DefaultIsAlphaTestOn{ false };
 

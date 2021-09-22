@@ -20,9 +20,11 @@ namespace doom
 
 		std::shared_ptr<graphics::PicktureInPickture> PIP;
 
-	protected:
+	public:
 
 		void InitComponent() override;
+
+		void ShowIsViewFrustumCullingActivated();
 
 
 		void UpdateComponent() override;

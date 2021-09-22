@@ -52,7 +52,7 @@ namespace doom
 					math::Vector4::zero
 				};
 
-				TARGET_COLORS[2] = Graphics_Setting::ClearColor;
+				TARGET_COLORS[2] = Graphics_Setting::DefaultClearColor;
 
 				GraphicsAPI::ClearSpecificBuffer(3, BUFFER_TYPES, BUFFER_MODES, TARGET_COLORS);
 				GraphicsAPI::Clear(GraphicsAPI::eClearMask::DEPTH_BUFFER_BIT);

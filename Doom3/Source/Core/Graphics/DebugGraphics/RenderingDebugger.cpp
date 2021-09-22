@@ -14,10 +14,10 @@ void doom::graphics::RenderingDebugger::DrawRenderingBoundingBox()
 {
 	if (doom::userinput::UserInput_Server::GetKeyUp(eKEY_CODE::KEY_F6))
 	{
-		doom::graphics::Graphics_Setting::mDrawRenderingBoundingBox = !doom::graphics::Graphics_Setting::mDrawRenderingBoundingBox;
+		doom::graphics::Graphics_Setting::DrawRenderingBoundingBox = !doom::graphics::Graphics_Setting::DrawRenderingBoundingBox;
 	}
 
-	if (Graphics_Setting::mDrawRenderingBoundingBox == true)
+	if (Graphics_Setting::DrawRenderingBoundingBox == true)
 	{
 		for (unsigned int layerIndex = 0; layerIndex < MAX_LAYER_COUNT; layerIndex++)
 		{
