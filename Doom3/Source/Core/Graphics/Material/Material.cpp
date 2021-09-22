@@ -1,11 +1,13 @@
 #include "Material.h"
 
-#include "Graphics_Core.h"
-#include "../Asset/ShaderAsset.h"
+#include "../Graphics_Core.h"
+#include <Asset/ShaderAsset.h>
 
-#include "Buffer/UniformBufferObjectManager.h"
-#include "../Asset/TextureAsset.h"
-#include "Texture/Texture.h"
+#include "FixedMaterial.h"
+
+#include "../Buffer/UniformBufferObjectManager.h"
+#include <Asset/TextureAsset.h>
+#include "../Texture/Texture.h"
 
 using namespace doom::graphics;
 
@@ -112,17 +114,22 @@ void doom::graphics::Material::UseProgram()
 {
 	D_ASSERT(mProgramID != 0);
 
-	if (D_OVERLAP_BIND_CHECK_CHECK_IS_NOT_BOUND_AND_BIND_ID(MATERIAL_TAG, mProgramID))
+	if (FixedMaterial::GetIsFixedMaterialExist() == false)
 	{
-		for (unsigned int i = 0; i < mTargetTextures.size(); i++)
+		if (D_OVERLAP_BIND_CHECK_CHECK_IS_NOT_BOUND_AND_BIND_ID(MATERIAL_TAG, mProgramID))
 		{
-			if (mTargetTextures[i] != nullptr)
+			for (unsigned int i = 0; i < mTargetTextures.size(); i++)
 			{
-				mTargetTextures[i]->BindTextureWithUnit(i);
+				if (mTargetTextures[i] != nullptr)
+				{
+					mTargetTextures[i]->BindTextureWithUnit(i);
+				}
 			}
+			glUseProgram(mProgramID);
 		}
-		glUseProgram(mProgramID);
 	}
+
+	
 }
 
 /*
