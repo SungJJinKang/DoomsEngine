@@ -17,7 +17,7 @@
 #include "Buffer/UniformBufferObjectUpdater.h"
 
 #include <Rendering/Renderer/Renderer.h>
-#include "Material.h"
+#include "Material/Material.h"
 #include "Texture/Texture.h"
 #include "FrameBuffer/DefferedRenderingFrameBuffer.h"
 #include <Rendering/Renderer/RendererStaticIterator.h>
@@ -67,13 +67,14 @@ void Graphics_Server::Update()
 {		
 #ifdef DEBUG_MODE
 	mDebugGraphics.Update();
-#endif
-
 	mRenderingDebugger.DrawRenderingBoundingBox();
+#endif
 
 	Renderder_UpdateComponent();
 
+#ifdef DEBUG_MODE
 	mRenderingDebugger.UpdateInputForPrintDrawCallCounter();
+#endif
 
 	DeferredRendering();
 	
@@ -253,12 +254,13 @@ void doom::graphics::Graphics_Server::DeferredRendering()
 		
 
 
-		//D_START_PROFILING("Draw Objects", doom::profiler::eProfileLayers::Rendering);
-		GraphicsAPI::Enable(GraphicsAPI::eCapability::DEPTH_TEST);
+		D_START_PROFILING("RenderObject", doom::profiler::eProfileLayers::Rendering);
+		//GraphicsAPI::Enable(GraphicsAPI::eCapability::DEPTH_TEST);
 		RenderObject(targetCamera, cameraIndex);
+		D_END_PROFILING("RenderObject");
 
 		targetCamera->mDefferedRenderingFrameBuffer.UnBindFrameBuffer();
-		//D_END_PROFILING("Draw Objects");
+	
 		// 
 		//Blit DepthBuffer To ScreenBuffer
 
@@ -285,14 +287,19 @@ void doom::graphics::Graphics_Server::DeferredRendering()
 	mDebugGraphics.SetIsVertexDataSendToGPUAtCurrentFrame(false);
 #endif
 
-	//Why do this ? : because deffered rendering's quad have 0 depth value
-	GraphicsAPI::Disable(GraphicsAPI::eCapability::DEPTH_TEST);
 
-	D_START_PROFILING("DrawPIPs", doom::profiler::eProfileLayers::Rendering);
-	mPIPManager.DrawPIPs(); // drawing pip before gbuffer will increase performance ( early depth testing )
-	D_END_PROFILING("DrawPIPs");
+	if (mPIPManager.GetPIPCount() != 0)
+	{
+		//Why do this ? : because deffered rendering's quad have 0 depth value
+		GraphicsAPI::Disable(GraphicsAPI::eCapability::DEPTH_TEST);
 
-	GraphicsAPI::Enable(GraphicsAPI::eCapability::DEPTH_TEST);
+		D_START_PROFILING("DrawPIPs", doom::profiler::eProfileLayers::Rendering);
+		mPIPManager.DrawPIPs(); // drawing pip before gbuffer will increase performance ( early depth testing )
+		D_END_PROFILING("DrawPIPs");
+
+		GraphicsAPI::Enable(GraphicsAPI::eCapability::DEPTH_TEST);
+	}
+	
 	
 }
 
@@ -307,8 +314,10 @@ void doom::graphics::Graphics_Server::RenderObject(doom::Camera* const targetCam
 	}
 
 
+	const bool targetCamera_IS_CULLED_flag_on = targetCamera->GetCameraFlag(doom::eCameraFlag::IS_CULLED);
+
 	if (
-		targetCamera->GetCameraFlag(doom::eCameraFlag::IS_CULLED) == true &&
+		targetCamera_IS_CULLED_flag_on == true &&
 		targetCamera->GetCameraFlag(doom::eCameraFlag::PAUSE_CULL_JOB) == false
 		)
 	{
@@ -318,7 +327,7 @@ void doom::graphics::Graphics_Server::RenderObject(doom::Camera* const targetCam
 		D_END_PROFILING("Wait Cull Job");
 	}
 
-	const bool targetCamera_IS_CULLED_flag_on = targetCamera->GetCameraFlag(doom::eCameraFlag::IS_CULLED);
+
 
 	for (unsigned int layerIndex = 0; layerIndex < MAX_LAYER_COUNT; layerIndex++)
 	{

@@ -8,11 +8,12 @@ using namespace doom::graphics;
 
 
 doom::graphics::FrameBuffer::FrameBuffer()
+	: mDefaultWidth{ 0 }, mDefaultHeight{ 0 }, mClearBit{ 0 }, mFrameBufferID()
 {
 }
 
 FrameBuffer::FrameBuffer(unsigned int defaultWidth, unsigned int defaultHeight)
-	: mDefaultWidth{ defaultWidth }, mDefaultHeight{ defaultHeight }, mClearBit{ 0 }
+	: mDefaultWidth{ defaultWidth }, mDefaultHeight{ defaultHeight }, mClearBit{ 0 }, mFrameBufferID()
 {
 	mAttachedRenderBuffers.reserve(RESERVED_RENDERBUFFER_COUNT);
 	mAttachedColorTextures.reserve(RESERVED_COLOR_TEXTURE_COUNT);
@@ -22,6 +23,8 @@ FrameBuffer::FrameBuffer(unsigned int defaultWidth, unsigned int defaultHeight)
 
 void doom::graphics::FrameBuffer::GenerateBuffer(unsigned int defaultWidth, unsigned int defaultHeight)
 {
+	D_ASSERT(defaultWidth != 0 && defaultHeight != 0);
+
 	mDefaultWidth = defaultWidth;
 	mDefaultHeight = defaultHeight;
 	glGenFramebuffers(1, &(mFrameBufferID));
@@ -125,6 +128,11 @@ RenderBuffer& FrameBuffer::AttachRenderBuffer(GraphicsAPI::eBufferBitType render
 	return createdRenderBuffer;
 }
 
+RenderBuffer& doom::graphics::FrameBuffer::AttachRenderBuffer(GraphicsAPI::eBufferBitType renderBufferType)
+{
+	return AttachRenderBuffer(renderBufferType, mDefaultWidth, mDefaultHeight);
+}
+
 SingleTexture& FrameBuffer::AttachTextureBuffer(GraphicsAPI::eBufferBitType frameBufferType, unsigned int width, unsigned int height)
 {
 	D_ASSERT(mFrameBufferID != 0);
@@ -189,6 +197,11 @@ SingleTexture& FrameBuffer::AttachTextureBuffer(GraphicsAPI::eBufferBitType fram
 	}
 	
 	return *createdTexture;
+}
+
+SingleTexture& doom::graphics::FrameBuffer::AttachTextureBuffer(GraphicsAPI::eBufferBitType frameBufferType)
+{
+	return AttachTextureBuffer(frameBufferType, mDefaultWidth, mDefaultHeight);
 }
 
 

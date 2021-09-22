@@ -400,11 +400,13 @@ void Camera::UpdateUniformBufferObject()
 		if (bmIsUboDirty.GetIsDirty(true))
 		{//when transform value is changed
 			auto& viewMatrix = GetViewMatrix(); 
-			doom::Transform* const transform = GetTransform();
+			const doom::Transform* const transform = GetTransform();
 			const math::Vector3& camPos = transform->GetPosition();
+			auto& viewProjectionMatrix = GetViewProjectionMatrix();
 
 			doom::graphics::UniformBufferObjectManager::GetSingleton()->GetUniformBufferObject(GLOBAL_UNIFORM_BLOCK_BINDING_POINT).BufferSubData((void*)viewMatrix.data(), sizeof(viewMatrix), graphics::eUniformBlock_Global::view);
 			doom::graphics::UniformBufferObjectManager::GetSingleton()->GetUniformBufferObject(GLOBAL_UNIFORM_BLOCK_BINDING_POINT).BufferSubData((void*)camPos.data(), sizeof(camPos), graphics::eUniformBlock_Global::camPos);
+			doom::graphics::UniformBufferObjectManager::GetSingleton()->GetUniformBufferObject(GLOBAL_UNIFORM_BLOCK_BINDING_POINT).BufferSubData((void*)viewProjectionMatrix.data(), sizeof(viewProjectionMatrix), graphics::eUniformBlock_Global::viewProjection);
 		}
 	}
 }

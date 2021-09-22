@@ -3,7 +3,7 @@
 #include <string>
 
 #include "../Buffer/Mesh.h"
-#include "../Material.h"
+#include "../Material/Material.h"
 
 #include <Vector2.h>
 

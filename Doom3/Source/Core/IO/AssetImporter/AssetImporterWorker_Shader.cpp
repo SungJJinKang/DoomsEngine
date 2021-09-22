@@ -10,9 +10,12 @@ bool doom::assetimporter::AssetImporterWorker<::doom::asset::eAssetType::SHADER>
 {
 	std::string text{};
 	bool isSuccess = GetTextFromFile(path, text);
+
+	D_ASSERT(text.empty() == false);
+
 	if (isSuccess)
 	{
-		asset.SetShaderText(text);
+		asset.SetShaderText(text, false);
 		return true;
 	}
 	else

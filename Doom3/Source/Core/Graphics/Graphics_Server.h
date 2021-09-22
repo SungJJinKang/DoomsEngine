@@ -81,7 +81,9 @@ namespace doom
 			void Renderder_UpdateComponent();
 			void Renderder_OnEndOfFrameComponent();
 
+#ifdef DEBUG_MODE
 			RenderingDebugger mRenderingDebugger;
+#endif
 			UniformBufferObjectManager mUniformBufferObjectManager;
 			graphics::LightManager mLightManager;
 			graphics::PIPManager mPIPManager;

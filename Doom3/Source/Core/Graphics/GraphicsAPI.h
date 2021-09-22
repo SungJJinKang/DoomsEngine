@@ -1,10 +1,14 @@
 #pragma once
 #include "Graphics_Core.h"
 
+#include "../API/OpenglAPI.h"
+
 #include "ePrimitiveType.h"
 #include <Vector4.h>
-#include "RenderingDebugger.h"
 
+#ifdef DEBUG_MODE
+#include "Debug/RenderingDebugger.h"
+#endif
 
 namespace doom
 {
@@ -523,28 +527,28 @@ namespace doom
 			{
 				glDrawArrays(static_cast<unsigned int>(mode), first, count);
 
-				doom::graphics::RenderingDebugger::IncrementDrawCallCounter();
+				INCREMENT_DRAWCALL_COUNTER;
 			}
 
 			FORCE_INLINE static void DrawElement(ePrimitiveType mode, int count, unsigned int type, const void* indices)
 			{
 				glDrawElements(static_cast<unsigned int>(mode), count, type, indices);
 
-				doom::graphics::RenderingDebugger::IncrementDrawCallCounter();
+				INCREMENT_DRAWCALL_COUNTER;
 			}
 
 			FORCE_INLINE static void DrawArraysInstanced(ePrimitiveType mode, int first, unsigned int count, int instancecount)
 			{
 				glDrawArraysInstanced(static_cast<unsigned int>(mode), first, count, instancecount);
 
-				doom::graphics::RenderingDebugger::IncrementDrawCallCounter();
+				INCREMENT_DRAWCALL_COUNTER;
 			}
 
 			FORCE_INLINE static void DrawElementsInstanced(ePrimitiveType mode, int count, unsigned int type, const void* indices, int instancecount)
 			{
 				glDrawElementsInstanced(static_cast<unsigned int>(mode), count, type, indices, instancecount);
 
-				doom::graphics::RenderingDebugger::IncrementDrawCallCounter();
+				INCREMENT_DRAWCALL_COUNTER;
 			}
 
 // 			enum class eQueryType

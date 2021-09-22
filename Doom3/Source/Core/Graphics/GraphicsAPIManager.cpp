@@ -105,7 +105,7 @@ void doom::graphics::GraphicsAPIManager::SwapBuffer()
 	D_ASSERT(Graphics_Setting::GetWindow() != nullptr);
 	glfwSwapBuffers(Graphics_Setting::GetWindow());
 		
-	graphics::RenderingDebugger::ResetDrawCallCounter();
+	RESET_DRAWCALL_COUNTER;
 }
 
 void doom::graphics::GraphicsAPIManager::SetWindowTitle(const char* const title)

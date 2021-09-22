@@ -1,6 +1,7 @@
 #pragma once
 
 #include "../Graphics_Core.h"
+#include "../API/OpenglAPI.h"
 #include "BufferID.h"
 
 namespace doom

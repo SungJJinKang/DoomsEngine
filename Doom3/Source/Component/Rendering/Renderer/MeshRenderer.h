@@ -1,7 +1,7 @@
 #pragma once
 #include "Renderer.h"
 
-#include "../Core/Graphics/Material.h"
+#include "../Core/Graphics/Material/Material.h"
 #include "../Core/Graphics/Buffer/Mesh.h"
 #include "Transform.h"
 
@@ -45,7 +45,7 @@ namespace doom
 
 			if (mTargetMaterial != nullptr)
 			{
-				mTargetMaterial->SetMatrix4x4(graphics::eUniformLocation::ModelMatrix, GetTransform()->GetModelMatrix());
+				graphics::Material::SetMatrix4x4(graphics::eUniformLocation::ModelMatrix, GetTransform()->GetModelMatrix());
 			}
 			if (mTargetMesh != nullptr)
 			{

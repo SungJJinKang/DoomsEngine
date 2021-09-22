@@ -6,7 +6,7 @@
 
 #include "Graphics_Server.h"
 #include "../Game/AssetManager/AssetManager.h"
-#include "Material.h"
+#include "Material/Material.h"
 #include <IO/UserInput_Server.h>
 
 void doom::graphics::DebugGraphics::Init()

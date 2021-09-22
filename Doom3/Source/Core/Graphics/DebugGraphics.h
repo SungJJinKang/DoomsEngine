@@ -11,7 +11,7 @@
 
 #include "../Math/LightMath_Cpp/Vector3.h"
 #include "Buffer/Mesh.h"
-#include "Material.h"
+#include "Material/Material.h"
 #include "Color.h"
 
 #include "PrimitiveType/PrimitiveLine.h"

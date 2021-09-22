@@ -33,7 +33,7 @@
     <ClCompile Include="Source\Core\Asset\ShaderAsset.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Core\Graphics\Material.cpp">
+    <ClCompile Include="Source\Core\Graphics\Material\Material.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Source\Core\Math\LightMath_Cpp\Matrix.cpp">
@@ -459,7 +459,7 @@
     <ClCompile Include="Source\GameLogic\GameLogicStartPoint.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Core\Graphics\RenderingDebugger.cpp">
+    <ClCompile Include="Source\Core\Graphics\Debug\RenderingDebugger.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Source\GameLogic\CustomComponent\Portfolio\RenderingAABBController.cpp">
@@ -484,6 +484,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Source\Component\PhysicsComponent\Rigidbody\Rigidbody.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Core\Graphics\Debug\OverDrawVisualization.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Core\Graphics\Material\FixedMaterial.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -722,7 +728,7 @@
     <ClInclude Include="Source\Core\Graphics\Graphics_Core.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Core\Graphics\Material.h">
+    <ClInclude Include="Source\Core\Graphics\Material\Material.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\Core\Math\LightMath_Cpp\Euler.h">
@@ -1325,7 +1331,7 @@
     <ClInclude Include="Source\GameLogic\GameLogicStartPoint.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Core\Graphics\RenderingDebugger.h">
+    <ClInclude Include="Source\Core\Graphics\Debug\RenderingDebugger.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\GameLogic\CustomComponent\Portfolio\RenderingAABBController.h">
@@ -1350,6 +1356,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\Component\PhysicsComponent\Rigidbody\Rigidbody.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Core\Graphics\Debug\OverDrawVisualization.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Core\Graphics\Material\FixedMaterial.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

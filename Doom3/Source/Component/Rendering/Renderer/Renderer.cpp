@@ -1,6 +1,6 @@
 #include "Renderer.h"
 
-#include "../Core/Graphics/Material.h"
+#include "../Core/Graphics/Material/Material.h"
 #include <Transform.h>
 #include <Rendering/Camera.h>
 #include "Graphics/Acceleration/LinearData_ViewFrustumCulling/EveryCulling.h"

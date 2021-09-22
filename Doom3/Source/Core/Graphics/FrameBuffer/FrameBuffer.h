@@ -52,7 +52,7 @@ namespace doom
 
 		public:
 			
-			BufferID mFrameBufferID{};
+			BufferID mFrameBufferID;
 
 			FrameBuffer();
 			FrameBuffer(unsigned int defaultWidth, unsigned int defaultHeight);
@@ -100,6 +100,7 @@ namespace doom
 			FORCE_INLINE void BindFrameBuffer() noexcept
 			{
 				D_ASSERT(mFrameBufferID != 0);
+				D_ASSERT(mDefaultWidth != 0 && mDefaultHeight != 0);
 				FrameBuffer::StaticBindFrameBuffer(this);
 			}
 			FORCE_INLINE static void UnBindFrameBuffer()  noexcept 
@@ -150,7 +151,9 @@ namespace doom
 			}
 
 			RenderBuffer& AttachRenderBuffer(GraphicsAPI::eBufferBitType renderBufferType, unsigned int width, unsigned int height);
+			RenderBuffer& AttachRenderBuffer(GraphicsAPI::eBufferBitType renderBufferType);
 			SingleTexture& AttachTextureBuffer(GraphicsAPI::eBufferBitType frameBufferType, unsigned int width, unsigned int height);
+			SingleTexture& AttachTextureBuffer(GraphicsAPI::eBufferBitType frameBufferType);
 			const SingleTexture& GetFrameBufferTexture(GraphicsAPI::eBufferBitType bufferType, unsigned int index) const;
 			SingleTexture& GetFrameBufferTexture(GraphicsAPI::eBufferBitType bufferType, unsigned int index);
 
