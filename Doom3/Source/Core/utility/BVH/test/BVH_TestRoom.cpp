@@ -153,12 +153,12 @@ void doom::BVH_TestRoom::DebugBVHTree(doom::BVHAABB3D::node_type* node, float x,
 	float offsetX = static_cast<float>(1.0f / (math::pow(2, depth + 1)));
 	if (node->mLeftNode != NULL_NODE_INDEX)
 	{
-		graphics::DebugGraphics::GetSingleton()->DebugDraw2DLine({ x, y, 0 }, { x - offsetX, y - DebugBVHTreeOffsetY, 0 }, mBVH->mNodes[node->mLeftNode].mIsLeaf == false ? eColor::Black : ((recentAddedLeaf.empty() == false && recentAddedLeaf.top() == node->mLeftNode) ? eColor::Red : eColor::Blue), true);
+		graphics::DebugDrawer::GetSingleton()->DebugDraw2DLine({ x, y, 0 }, { x - offsetX, y - DebugBVHTreeOffsetY, 0 }, mBVH->mNodes[node->mLeftNode].mIsLeaf == false ? eColor::Black : ((recentAddedLeaf.empty() == false && recentAddedLeaf.top() == node->mLeftNode) ? eColor::Red : eColor::Blue), true);
 		DebugBVHTree(&(mBVH->mNodes[node->mLeftNode]), x - offsetX, y - DebugBVHTreeOffsetY, depth + 1);
 	}
 	if (node->mRightNode != NULL_NODE_INDEX)
 	{
-		graphics::DebugGraphics::GetSingleton()->DebugDraw2DLine({ x, y, 0 }, { x + offsetX, y - DebugBVHTreeOffsetY, 0 }, mBVH->mNodes[node->mRightNode].mIsLeaf == false ? eColor::Black : ((recentAddedLeaf.empty() == false && recentAddedLeaf.top() == node->mRightNode) ? eColor::Red : eColor::Blue), true);
+		graphics::DebugDrawer::GetSingleton()->DebugDraw2DLine({ x, y, 0 }, { x + offsetX, y - DebugBVHTreeOffsetY, 0 }, mBVH->mNodes[node->mRightNode].mIsLeaf == false ? eColor::Black : ((recentAddedLeaf.empty() == false && recentAddedLeaf.top() == node->mRightNode) ? eColor::Red : eColor::Blue), true);
 		DebugBVHTree(&(mBVH->mNodes[node->mRightNode]), x + offsetX, y - DebugBVHTreeOffsetY, depth + 1);
 	}
 }
@@ -202,11 +202,11 @@ void doom::BVH_TestRoom::TreeDebug()
 			graphics::GraphicsAPI::ClearColor(1.0f, 1.0f, 1.0f, 1.0f);
 			mPIPForDebug->ClearFrameBuffer();
 
-			graphics::DebugGraphics::GetSingleton()->SetDrawInstantlyMaterial(mBVHDebugMaterial.get());
+			graphics::DebugDrawer::GetSingleton()->SetDrawInstantlyMaterial(mBVHDebugMaterial.get());
 
 			DebugBVHTree(&(mBVH->mNodes[mBVH->mRootNodeIndex]), 0, 1, 0);
 
-			graphics::DebugGraphics::GetSingleton()->SetDrawInstantlyMaterial(nullptr);
+			graphics::DebugDrawer::GetSingleton()->SetDrawInstantlyMaterial(nullptr);
 			mPIPForDebug->RevertFrameBuffer();
 		}
 	}
@@ -221,7 +221,7 @@ void doom::BVH_TestRoom::AABBDebug()
 		graphics::GraphicsAPI::ClearColor(1.0f, 1.0f, 1.0f, 1.0f);
 		mPIPForDebug->ClearFrameBuffer();
 
-		graphics::DebugGraphics::GetSingleton()->SetDrawInstantlyMaterial(mBVHDebugMaterial.get());
+		graphics::DebugDrawer::GetSingleton()->SetDrawInstantlyMaterial(mBVHDebugMaterial.get());
 
 
 		for (int i = 0; i < mBVH->mCurrentAllocatedNodeCount; i++)
@@ -249,7 +249,7 @@ void doom::BVH_TestRoom::AABBDebug()
 		}
 
 
-		graphics::DebugGraphics::GetSingleton()->SetDrawInstantlyMaterial(nullptr);
+		graphics::DebugDrawer::GetSingleton()->SetDrawInstantlyMaterial(nullptr);
 		mPIPForDebug->RevertFrameBuffer();
 	}
 }
@@ -263,7 +263,7 @@ void doom::BVH_TestRoom::AABBDebug(int targetNode)
 		graphics::GraphicsAPI::ClearColor(1.0f, 1.0f, 1.0f, 1.0f);
 		mPIPForDebug->ClearFrameBuffer();
 
-		graphics::DebugGraphics::GetSingleton()->SetDrawInstantlyMaterial(mBVHDebugMaterial.get());
+		graphics::DebugDrawer::GetSingleton()->SetDrawInstantlyMaterial(mBVHDebugMaterial.get());
 
 		/*
 		for (int i = 0; i < mBVH->mCurrentAllocatedNodeCount; i++)
@@ -283,7 +283,7 @@ void doom::BVH_TestRoom::AABBDebug(int targetNode)
 		}
 
 
-		graphics::DebugGraphics::GetSingleton()->SetDrawInstantlyMaterial(nullptr);
+		graphics::DebugDrawer::GetSingleton()->SetDrawInstantlyMaterial(nullptr);
 		mPIPForDebug->RevertFrameBuffer();
 	}
 }

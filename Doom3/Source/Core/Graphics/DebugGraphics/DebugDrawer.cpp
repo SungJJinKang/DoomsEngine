@@ -2,27 +2,27 @@
 
 #ifdef DEBUG_MODE
 
-#include "DebugGraphics.h"
+#include "DebugDrawer.h"
 
-#include "Graphics_Server.h"
-#include "../Game/AssetManager/AssetManager.h"
-#include "Material/Material.h"
+#include "../Graphics_Server.h"
+#include <Game/AssetManager/AssetManager.h>
+#include "../Material/Material.h"
 #include <IO/UserInput_Server.h>
 
-void doom::graphics::DebugGraphics::Init()
+void doom::graphics::DebugDrawer::Init()
 {
 	mDebugMesh.GenMeshBuffer(false);
 	mDebugMesh.BufferData(MAX_DEBUG_VERTEX_COUNT * 3, NULL, ePrimitiveType::LINES, Mesh::eVertexArrayFlag::VertexVector3);
 
 
-	auto debug2DShader = doom::assetimporter::AssetManager::GetAsset<asset::eAssetType::SHADER>(DebugGraphics::DEBUG_2D_SHADER);
+	auto debug2DShader = doom::assetimporter::AssetManager::GetAsset<asset::eAssetType::SHADER>(DebugDrawer::DEBUG_2D_SHADER);
 	m2DMaterial = std::make_unique<Material>(debug2DShader);
 
-	auto debug3DShader = doom::assetimporter::AssetManager::GetAsset<asset::eAssetType::SHADER>(DebugGraphics::DEBUG_3D_SHADER);
+	auto debug3DShader = doom::assetimporter::AssetManager::GetAsset<asset::eAssetType::SHADER>(DebugDrawer::DEBUG_3D_SHADER);
 	m3DMaterial = std::make_unique<Material>(debug3DShader);
 }
 
-void doom::graphics::DebugGraphics::Update()
+void doom::graphics::DebugDrawer::Update()
 {
 	if (doom::userinput::UserInput_Server::GetKeyUp(userinput::eKEY_CODE::KEY_F5))
 	{
@@ -30,7 +30,7 @@ void doom::graphics::DebugGraphics::Update()
 	}
 }
 
-void doom::graphics::DebugGraphics::Reset()
+void doom::graphics::DebugDrawer::Reset()
 {
 	mDebugMeshCount = 0;
 	for (size_t i = 0; i < m2dLine.size(); i++)
@@ -56,22 +56,22 @@ void doom::graphics::DebugGraphics::Reset()
 
 
 
-void doom::graphics::DebugGraphics::SetIsVertexDataSendToGPUAtCurrentFrame(const bool isSet)
+void doom::graphics::DebugDrawer::SetIsVertexDataSendToGPUAtCurrentFrame(const bool isSet)
 {
 	bmIsVertexDataSendToGPUAtCurrentFrame = isSet;
 }
 
-bool doom::graphics::DebugGraphics::GetIsVertexDataSendToGPUAtCurrentFrame() const
+bool doom::graphics::DebugDrawer::GetIsVertexDataSendToGPUAtCurrentFrame() const
 {
 	return bmIsVertexDataSendToGPUAtCurrentFrame;
 }
 
-doom::graphics::DebugGraphics::DebugGraphics() :
+doom::graphics::DebugDrawer::DebugDrawer() :
 	m2DMaterial{}, m3DMaterial{}, m2dLine{}, m3dLine{}, m2dTriangle{}, m3dTriangle{}
 {
 }
 
-void doom::graphics::DebugGraphics::Draw()
+void doom::graphics::DebugDrawer::Draw()
 {
 	if (Graphics_Setting::bmIsDrawDebuggersEnabled == true)
 	{
@@ -144,7 +144,7 @@ void doom::graphics::DebugGraphics::Draw()
 	}
 }
 
-void doom::graphics::DebugGraphics::DebugDraw3DLine(const math::Vector3& startWorldPos, const math::Vector3& endWorldPos, eColor color, bool drawInstantly /*= false*/)
+void doom::graphics::DebugDrawer::DebugDraw3DLine(const math::Vector3& startWorldPos, const math::Vector3& endWorldPos, eColor color, bool drawInstantly /*= false*/)
 {
 	if (Graphics_Setting::bmIsDrawDebuggersEnabled == true)
 	{
@@ -174,7 +174,7 @@ void doom::graphics::DebugGraphics::DebugDraw3DLine(const math::Vector3& startWo
 /// <param name="startNDCPos"></param>
 /// <param name="endNDCPos"></param>
 /// <param name="color"></param>
-void doom::graphics::DebugGraphics::DebugDraw2DLine(const math::Vector3& startNDCPos, const math::Vector3& endNDCPos, eColor color, bool drawInstantly /*= false*/)
+void doom::graphics::DebugDrawer::DebugDraw2DLine(const math::Vector3& startNDCPos, const math::Vector3& endNDCPos, eColor color, bool drawInstantly /*= false*/)
 {
 	if (Graphics_Setting::bmIsDrawDebuggersEnabled == true)
 	{
@@ -190,7 +190,7 @@ void doom::graphics::DebugGraphics::DebugDraw2DLine(const math::Vector3& startND
 	}
 }
 
-void doom::graphics::DebugGraphics::DebugDraw2DLineInstantly(const math::Vector3& startNDCPos, const math::Vector3& endNDCPos, eColor color)
+void doom::graphics::DebugDrawer::DebugDraw2DLineInstantly(const math::Vector3& startNDCPos, const math::Vector3& endNDCPos, eColor color)
 {
 	if (mDrawInstantlyMaterial != nullptr)
 	{
@@ -212,7 +212,7 @@ void doom::graphics::DebugGraphics::DebugDraw2DLineInstantly(const math::Vector3
 
 
 
-void doom::graphics::DebugGraphics::DebugDraw2DTriangleInstantly(const math::Vector3& pointA, const math::Vector3& pointB, const math::Vector3& pointC, eColor color)
+void doom::graphics::DebugDrawer::DebugDraw2DTriangleInstantly(const math::Vector3& pointA, const math::Vector3& pointB, const math::Vector3& pointC, eColor color)
 {
 	if (mDrawInstantlyMaterial != nullptr)
 	{
@@ -231,7 +231,7 @@ void doom::graphics::DebugGraphics::DebugDraw2DTriangleInstantly(const math::Vec
 	mDebugMesh.DrawArray(ePrimitiveType::TRIANGLES, 0, 3);
 }
 
-void doom::graphics::DebugGraphics::DebugDraw2DTriangle(const math::Vector3& pointA, const math::Vector3& pointB, const math::Vector3& pointC, eColor color, bool drawInstantly /*= false*/)
+void doom::graphics::DebugDrawer::DebugDraw2DTriangle(const math::Vector3& pointA, const math::Vector3& pointB, const math::Vector3& pointC, eColor color, bool drawInstantly /*= false*/)
 {
 	if (Graphics_Setting::bmIsDrawDebuggersEnabled == true)
 	{
@@ -247,12 +247,12 @@ void doom::graphics::DebugGraphics::DebugDraw2DTriangle(const math::Vector3& poi
 	}
 }
 
-void doom::graphics::DebugGraphics::SetDrawInstantlyMaterial(Material* material)
+void doom::graphics::DebugDrawer::SetDrawInstantlyMaterial(Material* material)
 {
 	mDrawInstantlyMaterial = material;
 }
 
-void doom::graphics::DebugGraphics::BufferVertexDataToGPU()
+void doom::graphics::DebugDrawer::BufferVertexDataToGPU()
 {
 	if (Graphics_Setting::bmIsDrawDebuggersEnabled == true)
 	{
@@ -321,7 +321,7 @@ void doom::graphics::DebugGraphics::BufferVertexDataToGPU()
 	}
 }
 
-void doom::graphics::DebugGraphics::DebugDraw3DTriangle(const math::Vector3& pointA, const math::Vector3& pointB, const math::Vector3& pointC, eColor color, bool drawInstantly /*= false*/)
+void doom::graphics::DebugDrawer::DebugDraw3DTriangle(const math::Vector3& pointA, const math::Vector3& pointB, const math::Vector3& pointC, eColor color, bool drawInstantly /*= false*/)
 {
 	if (Graphics_Setting::bmIsDrawDebuggersEnabled == true)
 	{

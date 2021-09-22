@@ -16,14 +16,14 @@ void doom::graphics::PicktureInPickture::InitializeDefaultPIPMaterial()
 }
 
 doom::graphics::PicktureInPickture::PicktureInPickture(const math::Vector2& leftBottomNDCPoint, const math::Vector2& rightTopNDCPoint, SingleTexture* const _drawedTexture)
-	:mPlaneMesh{ Mesh::GetQuadMesh(leftBottomNDCPoint, rightTopNDCPoint) }, mDrawedTexture(_drawedTexture), mPIPMaterial(nullptr)
+	:mPlaneMesh{ Mesh::GetQuadMesh(leftBottomNDCPoint, rightTopNDCPoint) }, mDrawedTexture(_drawedTexture), mPIPMaterial(nullptr), bmIsDrawOnScreen(true)
 {
 	InitializeDefaultPIPMaterial();
 	mPIPMaterial = &(PicktureInPickture::mDefualtPIPMaterial);
 }
 
 doom::graphics::PicktureInPickture::PicktureInPickture(const math::Vector2& leftBottomNDCPoint, const math::Vector2& rightTopNDCPoint, SingleTexture* const _drawedTexture, Material* const _pipMaterial)
-	:mPlaneMesh{ Mesh::GetQuadMesh(leftBottomNDCPoint, rightTopNDCPoint) }, mDrawedTexture(_drawedTexture), mPIPMaterial(_pipMaterial)
+	:mPlaneMesh{ Mesh::GetQuadMesh(leftBottomNDCPoint, rightTopNDCPoint) }, mDrawedTexture(_drawedTexture), mPIPMaterial(_pipMaterial), bmIsDrawOnScreen(true)
 {
 	
 }
@@ -44,17 +44,21 @@ void doom::graphics::PicktureInPickture::SetMaterial(Material* const _pipMateria
 
 void doom::graphics::PicktureInPickture::DrawPictureInPicture()
 {
-	if (mDrawedTexture != nullptr && mPIPMaterial != nullptr)
+	if (bmIsDrawOnScreen == true)
 	{
-		mPIPMaterial->UseProgram();
-		mDrawedTexture->ActiveTexture(0);
-		mDrawedTexture->BindTexture();
-		mPlaneMesh.Draw();
+		if (mDrawedTexture != nullptr && mPIPMaterial != nullptr)
+		{
+			mPIPMaterial->UseProgram();
+			mDrawedTexture->ActiveTexture(0);
+			mDrawedTexture->BindTexture();
+			mPlaneMesh.Draw();
+		}
+		else
+		{
+			D_DEBUG_LOG("Plase Set Texture of PIP", eLogType::D_ERROR);
+		}
 	}
-	else
-	{
-		D_DEBUG_LOG("Plase Set Texture of PIP", eLogType::D_ERROR);
-	}
+	
 	
 }
 

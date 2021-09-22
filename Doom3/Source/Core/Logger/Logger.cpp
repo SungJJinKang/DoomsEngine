@@ -9,7 +9,7 @@
 #include <cstdio>
 #include <type_traits>
 
-#include "../Graphics/DebugGraphics.h"
+#include <Graphics/DebugGraphics/DebugDrawer.h>
 #include "../Math/LightMath_Cpp/Vector2.h"
 #include "../Math/LightMath_Cpp/Vector3.h"
 #include "../Game/ConfigData.h"

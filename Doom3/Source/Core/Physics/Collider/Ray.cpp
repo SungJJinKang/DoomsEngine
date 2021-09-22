@@ -1,5 +1,5 @@
 #include "Ray.h"
-#include "../Graphics/DebugGraphics.h"
+#include <Graphics/DebugGraphics/DebugDrawer.h>
 doom::physics::Ray::Ray()
 	: mOrigin{}, mNormal{0, 0, -1}
 {
@@ -13,7 +13,7 @@ doom::physics::Ray::Ray(const math::Vector3 & origin, const math::Vector3& norma
 void doom::physics::Ray::DrawCollider(eColor color, bool drawInstantly /*= false*/) const
 {
 #ifdef DEBUG_MODE
-	graphics::DebugGraphics::GetSingleton()->DebugDraw3DLine(mOrigin, mOrigin + mNormal * 100000000.0f, color, drawInstantly);
+	graphics::DebugDrawer::GetSingleton()->DebugDraw3DLine(mOrigin, mOrigin + mNormal * 100000000.0f, color, drawInstantly);
 #endif
 }
 

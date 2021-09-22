@@ -70,47 +70,76 @@ void FrameBuffer::CheckIsFrameBufferSuccesfullyCreated() noexcept
 	}
 }
 
-const doom::graphics::SingleTexture& FrameBuffer::GetFrameBufferTexture(GraphicsAPI::eBufferBitType bufferType, unsigned int index) const
+const doom::graphics::SingleTexture* FrameBuffer::GetFrameBufferTexture(GraphicsAPI::eBufferBitType bufferType, unsigned int index) const
 {
-	switch (bufferType)
-	{
-	case GraphicsAPI::eBufferBitType::COLOR:
-		return mAttachedColorTextures[index];
-		break;
-
-	case GraphicsAPI::eBufferBitType::DEPTH:
-		return mAttachedDepthTextures[index];
-		break;
-
-	case GraphicsAPI::eBufferBitType::DEPTH_STENCIL:
-		return mAttachedDepthStencilTextures[index];
-		break;
-	default:
-		NEVER_HAPPEN;
-	}
-}
-
-doom::graphics::SingleTexture& FrameBuffer::GetFrameBufferTexture(GraphicsAPI::eBufferBitType bufferType, unsigned int index)
-{
+	const doom::graphics::SingleTexture* targetTexture = nullptr;
 	switch (bufferType)
 	{
 	case GraphicsAPI::eBufferBitType::COLOR:
 		D_ASSERT(index >= 0 && index < mAttachedColorTextures.size());
-		return mAttachedColorTextures[index];
+		if (index >= 0 && index < mAttachedColorTextures.size())
+		{
+			targetTexture = &mAttachedColorTextures[index];
+		}
 		break;
 
 	case GraphicsAPI::eBufferBitType::DEPTH:
 		D_ASSERT(index >= 0 && index < mAttachedDepthTextures.size());
-		return mAttachedDepthTextures[index];
+		if (index >= 0 && index < mAttachedDepthTextures.size())
+		{
+			targetTexture = &mAttachedDepthTextures[index];
+		}
 		break;
 
 	case GraphicsAPI::eBufferBitType::DEPTH_STENCIL:
 		D_ASSERT(index >= 0 && index < mAttachedDepthStencilTextures.size());
-		return mAttachedDepthStencilTextures[index];
+		if (index >= 0 && index < mAttachedDepthStencilTextures.size())
+		{
+			targetTexture = &mAttachedDepthStencilTextures[index];
+		}
 		break;
+
 	default:
 		NEVER_HAPPEN;
 	}
+
+	return targetTexture;
+}
+
+doom::graphics::SingleTexture* FrameBuffer::GetFrameBufferTexture(GraphicsAPI::eBufferBitType bufferType, unsigned int index)
+{
+	doom::graphics::SingleTexture* targetTexture = nullptr;
+	switch (bufferType)
+	{
+	case GraphicsAPI::eBufferBitType::COLOR:
+		D_ASSERT(index >= 0 && index < mAttachedColorTextures.size());
+		if (index >= 0 && index < mAttachedColorTextures.size())
+		{
+			targetTexture = &mAttachedColorTextures[index];
+		}
+		break;
+
+	case GraphicsAPI::eBufferBitType::DEPTH:
+		D_ASSERT(index >= 0 && index < mAttachedDepthTextures.size());
+		if (index >= 0 && index < mAttachedDepthTextures.size())
+		{
+			targetTexture = &mAttachedDepthTextures[index];
+		}
+		break;
+
+	case GraphicsAPI::eBufferBitType::DEPTH_STENCIL:
+		D_ASSERT(index >= 0 && index < mAttachedDepthStencilTextures.size());
+		if (index >= 0 && index < mAttachedDepthStencilTextures.size())
+		{
+			targetTexture = &mAttachedDepthStencilTextures[index];
+		}
+		break;
+
+	default:
+		NEVER_HAPPEN;
+	}
+
+	return targetTexture;
 }
 
 bool doom::graphics::FrameBuffer::IsGenerated()

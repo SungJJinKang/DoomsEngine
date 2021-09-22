@@ -22,7 +22,7 @@ namespace doom
 		class Mesh : protected Buffer
 		{
 			friend class Graphics_Server;
-			friend class DebugGraphics;
+			friend class DebugDrawer;
 
 		public:
 

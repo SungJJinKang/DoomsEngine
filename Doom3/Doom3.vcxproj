@@ -172,7 +172,7 @@
     <ClCompile Include="Source\Core\Graphics\Acceleration\LinearData_ViewFrustumCulling\CullingModule\CullingModule.cpp" />
     <ClCompile Include="Source\Core\Graphics\Acceleration\LinearData_ViewFrustumCulling\CullingModule\OcclusionCullingWithComputeShader\OcclusionCullingWithComputeShader.cpp" />
     <ClCompile Include="Source\Core\Graphics\Acceleration\LinearData_ViewFrustumCulling\DataType\EntityBlockViewer.cpp" />
-    <ClCompile Include="Source\Core\Graphics\Debug\OverDrawVisualization.cpp" />
+    <ClCompile Include="Source\Core\Graphics\DebugGraphics\OverDrawVisualization.cpp" />
     <ClCompile Include="Source\Core\Graphics\DeferredRenderingDrawer.cpp" />
     <ClCompile Include="Source\Core\Graphics\FrameBuffer\DefferedRenderingFrameBuffer.cpp" />
     <ClCompile Include="Source\Core\Graphics\GraphicsAPIManager.cpp" />
@@ -184,7 +184,7 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Source\Core\ECSSystem\easy_ecs\easy_ecs.cpp" />
     <ClCompile Include="Source\Core\Graphics\PrimitiveType\PrimitiveTriangle.cpp" />
-    <ClCompile Include="Source\Core\Graphics\Debug\RenderingDebugger.cpp" />
+    <ClCompile Include="Source\Core\Graphics\DebugGraphics\RenderingDebugger.cpp" />
     <ClCompile Include="Source\Core\DObject\DObject.cpp" />
     <ClCompile Include="Source\Core\Physics\PhysicsDebugger.cpp" />
     <ClCompile Include="Source\Core\Profiler\ProfilerUI.cpp" />
@@ -252,7 +252,7 @@
     <ClCompile Include="Source\Core\Asset\ThreeDModelAsset.cpp" />
     <ClCompile Include="Source\Component\Core\ServerComponent.cpp" />
     <ClCompile Include="Source\Core\Game\IGameFlow.cpp" />
-    <ClCompile Include="Source\Core\Graphics\DebugGraphics.cpp" />
+    <ClCompile Include="Source\Core\Graphics\DebugGraphics\DebugDrawer.cpp" />
     <ClCompile Include="Source\Core\Graphics\Graphics_Server.cpp" />
     <ClCompile Include="Source\Core\IO\AssetImporter\AssetImporterWorker_Texture.cpp" />
     <ClCompile Include="Source\Core\Physics\Collider\Collider.cpp" />
@@ -338,7 +338,7 @@
     <ClInclude Include="Source\Core\Graphics\Acceleration\LinearData_ViewFrustumCulling\CullingModule\OcclusionCullingWithComputeShader\OcclusionCullingWithComputeShader.h" />
     <ClInclude Include="Source\Core\Graphics\Acceleration\LinearData_ViewFrustumCulling\DataType\Position_BoundingSphereRadius.h" />
     <ClInclude Include="Source\Core\Graphics\Buffer\BufferID.h" />
-    <ClInclude Include="Source\Core\Graphics\Debug\OverDrawVisualization.h" />
+    <ClInclude Include="Source\Core\Graphics\DebugGraphics\OverDrawVisualization.h" />
     <ClInclude Include="Source\Core\Graphics\DeferredRenderingDrawer.h" />
     <ClInclude Include="Source\Core\Graphics\FrameBuffer\DefferedRenderingFrameBuffer.h" />
     <ClInclude Include="Source\Core\Graphics\GraphicsAPIManager.h" />
@@ -352,7 +352,7 @@
     <ClInclude Include="Source\Core\ECSSystem\easy_ecs\SparseSet.h" />
     <ClInclude Include="Source\Core\Graphics\Acceleration\LinearData_ViewFrustumCulling\DataType\VertexData.h" />
     <ClInclude Include="Source\Core\Graphics\PrimitiveType\PrimitiveTriangle.h" />
-    <ClInclude Include="Source\Core\Graphics\Debug\RenderingDebugger.h" />
+    <ClInclude Include="Source\Core\Graphics\DebugGraphics\RenderingDebugger.h" />
     <ClInclude Include="Source\Core\DObject\DObject.h" />
     <ClInclude Include="Source\Core\Physics\PhysicsDebugger.h" />
     <ClInclude Include="Source\Core\Profiler\ProfilerUI.h" />
@@ -460,7 +460,7 @@
     <ClInclude Include="Source\Core\Game\FrameDirtyChecker.h" />
     <ClInclude Include="Source\Core\Game\IGameFlow.h" />
     <ClInclude Include="Source\Core\Graphics\Color.h" />
-    <ClInclude Include="Source\Core\Graphics\DebugGraphics.h" />
+    <ClInclude Include="Source\Core\Graphics\DebugGraphics\DebugDrawer.h" />
     <ClInclude Include="Source\Core\Graphics\Graphics_Server.h" />
     <ClInclude Include="Source\Core\Physics\Collider\Collider.h" />
     <ClInclude Include="Source\Core\Physics\Collider\ColliderSolution.h" />
@@ -647,6 +647,7 @@
     <None Include="Assets\Shader\Default\GbufferWriter_PBR.glsl" />
     <None Include="Assets\Shader\Default\irmap_cs.glsl" />
     <None Include="Assets\Shader\Default\OcclusionCullingBoundingBox.glsl" />
+    <None Include="Assets\Shader\Default\OverDrawVisualizationShader.glsl" />
     <None Include="Assets\Shader\Default\skybox_fs.glsl" />
     <None Include="Assets\Shader\Default\skybox_vs.glsl" />
     <None Include="Assets\Shader\Default\spbrdf_cs.glsl" />

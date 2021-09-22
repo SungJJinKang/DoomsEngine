@@ -7,7 +7,7 @@
 #include <Vector4.h>
 
 #ifdef DEBUG_MODE
-#include "Debug/RenderingDebugger.h"
+#include "DebugGraphics/RenderingDebugger.h"
 #endif
 
 namespace doom

@@ -34,6 +34,6 @@ void doom::graphics::DefferedRenderingFrameBuffer::BindGBufferTextures()
 {
 	for (unsigned int i = 0; i < 3; i++)
 	{
-		FrameBuffer::GetFrameBufferTexture(GraphicsAPI::eBufferBitType::COLOR, i).BindTextureWithUnit(i);
+		FrameBuffer::GetFrameBufferTexture(GraphicsAPI::eBufferBitType::COLOR, i)->BindTextureWithUnit(i);
 	}
 }

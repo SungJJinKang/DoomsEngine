@@ -153,7 +153,7 @@
     <ClCompile Include="Source\GameLogic\CustomComponent\AutoRotate.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Core\Graphics\DebugGraphics.cpp">
+    <ClCompile Include="Source\Core\Graphics\DebugGraphics\DebugDrawer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Source\Core\Physics\Picking.cpp">
@@ -459,7 +459,7 @@
     <ClCompile Include="Source\GameLogic\GameLogicStartPoint.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Core\Graphics\Debug\RenderingDebugger.cpp">
+    <ClCompile Include="Source\Core\Graphics\DebugGraphics\RenderingDebugger.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Source\GameLogic\CustomComponent\Portfolio\RenderingAABBController.cpp">
@@ -486,7 +486,7 @@
     <ClCompile Include="Source\Component\PhysicsComponent\Rigidbody\Rigidbody.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Core\Graphics\Debug\OverDrawVisualization.cpp">
+    <ClCompile Include="Source\Core\Graphics\DebugGraphics\OverDrawVisualization.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Source\Core\Graphics\Material\FixedMaterial.cpp">
@@ -890,7 +890,7 @@
     <ClInclude Include="Source\GameLogic\CustomComponent\AutoRotate.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Core\Graphics\DebugGraphics.h">
+    <ClInclude Include="Source\Core\Graphics\DebugGraphics\DebugDrawer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\Core\Graphics\Color.h">
@@ -1331,7 +1331,7 @@
     <ClInclude Include="Source\GameLogic\GameLogicStartPoint.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Core\Graphics\Debug\RenderingDebugger.h">
+    <ClInclude Include="Source\Core\Graphics\DebugGraphics\RenderingDebugger.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\GameLogic\CustomComponent\Portfolio\RenderingAABBController.h">
@@ -1358,7 +1358,7 @@
     <ClInclude Include="Source\Component\PhysicsComponent\Rigidbody\Rigidbody.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Core\Graphics\Debug\OverDrawVisualization.h">
+    <ClInclude Include="Source\Core\Graphics\DebugGraphics\OverDrawVisualization.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\Core\Graphics\Material\FixedMaterial.h">
@@ -1542,6 +1542,7 @@
     <None Include="Source\GameLogic\RayCastTest.inl">
       <Filter>Header Files</Filter>
     </None>
+    <None Include="Assets\Shader\Default\OverDrawVisualizationShader.glsl" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="Source\Core\Graphics\ReadThis!!!!.txt" />

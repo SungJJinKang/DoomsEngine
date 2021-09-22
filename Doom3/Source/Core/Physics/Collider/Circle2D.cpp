@@ -1,12 +1,12 @@
 #include "Circle2D.h"
-#include "../Graphics/DebugGraphics.h"
+#include <Graphics/DebugGraphics/DebugDrawer.h>
 #include <utility>
 #include <Vector2.h>
 
 void doom::physics::Circle2D::DrawCollider(eColor color, bool drawInstantly /*= false*/) const
 {
 #ifdef DEBUG_MODE
-	auto debugGraphics = graphics::DebugGraphics::GetSingleton();
+	auto debugGraphics = graphics::DebugDrawer::GetSingleton();
 
 	const float intervalRadian = math::PI * 2 / 72.0f;
 

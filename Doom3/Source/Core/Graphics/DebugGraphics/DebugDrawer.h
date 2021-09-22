@@ -9,13 +9,13 @@
 #include <string>
 #include <memory>
 
-#include "../Math/LightMath_Cpp/Vector3.h"
-#include "Buffer/Mesh.h"
-#include "Material/Material.h"
-#include "Color.h"
+#include "../../Math/LightMath_Cpp/Vector3.h"
+#include "../Buffer/Mesh.h"
+#include "../Material/Material.h"
+#include "../Color.h"
 
-#include "PrimitiveType/PrimitiveLine.h"
-#include "PrimitiveType/PrimitiveTriangle.h"
+#include "../PrimitiveType/PrimitiveLine.h"
+#include "../PrimitiveType/PrimitiveTriangle.h"
 
 namespace doom
 {
@@ -23,7 +23,7 @@ namespace doom
 	{
 		class Material;
 		class Graphics_Server;
-		class DebugGraphics : public ISingleton<DebugGraphics>
+		class DebugDrawer : public ISingleton<DebugDrawer>
 		{
 		private:
 
@@ -77,7 +77,7 @@ namespace doom
 			void SetIsVertexDataSendToGPUAtCurrentFrame(const bool isSet);
 			bool GetIsVertexDataSendToGPUAtCurrentFrame() const;
 			
-			DebugGraphics();
+			DebugDrawer();
 
 			/// <summary>
 			/// Why limit color.

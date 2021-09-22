@@ -2,7 +2,7 @@
 #include "AABB.h"
 
 #include "../Physics_Server.h"
-#include "../Graphics/DebugGraphics.h"
+#include <Graphics/DebugGraphics/DebugDrawer.h>
 
 #include "Ray.h"
 #include <Matrix4x4.h>
@@ -50,7 +50,7 @@ math::Vector2 doom::physics::AABB2D::GetHalfExtent() const
 void doom::physics::AABB2D::DrawCollider(eColor color, bool drawInstantly /*= false*/) const
 {
 #ifdef DEBUG_MODE
-	auto debugGraphics = graphics::DebugGraphics::GetSingleton();
+	auto debugGraphics = graphics::DebugDrawer::GetSingleton();
 
 	const math::Vector3 x{ mUpperBound.x - mLowerBound.x, 0, 0 };
 	const math::Vector3 y{ 0, mUpperBound.y - mLowerBound.y, 0 };
@@ -188,7 +188,7 @@ float AABB3D::GetDiagonarLineLength() const
 void doom::physics::AABB3D::DrawCollider(eColor color, bool drawInstantly /*= false*/) const
 {
 #ifdef DEBUG_MODE
-	auto debugGraphics = graphics::DebugGraphics::GetSingleton();
+	auto debugGraphics = graphics::DebugDrawer::GetSingleton();
 
 	const math::Vector3 mLowerBoundVec3 = mLowerBound;
 	const math::Vector3 mUpperBoundVec3 = mUpperBound;
@@ -220,7 +220,7 @@ void doom::physics::AABB3D::DrawCollider(eColor color, bool drawInstantly /*= fa
 void doom::physics::AABB3D::Render2DTopView(eColor color, bool drawInstantly /*= false*/)
 {
 #ifdef DEBUG_MODE
-	auto debugGraphics = graphics::DebugGraphics::GetSingleton();
+	auto debugGraphics = graphics::DebugDrawer::GetSingleton();
 
 	math::Vector3 lower{ mLowerBound.x, mLowerBound.z, 0.0f };
 	math::Vector3 width{ mUpperBound.x - mLowerBound.x, 0.0f, 0.0f };

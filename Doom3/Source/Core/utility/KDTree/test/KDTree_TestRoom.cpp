@@ -59,12 +59,12 @@ void doom::KDTree_TestRoom::DebugBVHTree(KDTree3DPoint::node_type* node, float x
 	float offsetX = static_cast<float>(1.0f / (math::pow(2, depth + 1)));
 	if (node->mLeftNode != NULL_NODE_INDEX)
 	{
-		graphics::DebugGraphics::GetSingleton()->DebugDraw2DLine({ x, y, 0 }, { x - offsetX, y - DebugBVHTreeOffsetY, 0 }, recentAddedLeaf.empty() == false && recentAddedLeaf.top() == node->mLeftNode ? eColor::Red : eColor::Blue, true);
+		graphics::DebugDrawer::GetSingleton()->DebugDraw2DLine({ x, y, 0 }, { x - offsetX, y - DebugBVHTreeOffsetY, 0 }, recentAddedLeaf.empty() == false && recentAddedLeaf.top() == node->mLeftNode ? eColor::Red : eColor::Blue, true);
 		DebugBVHTree(&(mKDTree->mKDTreeNodes[node->mLeftNode]), x - offsetX, y - DebugBVHTreeOffsetY, depth + 1);
 	}
 	if (node->mRightNode != NULL_NODE_INDEX)
 	{
-		graphics::DebugGraphics::GetSingleton()->DebugDraw2DLine({ x, y, 0 }, { x + offsetX, y - DebugBVHTreeOffsetY, 0 }, recentAddedLeaf.empty() == false && recentAddedLeaf.top() == node->mRightNode ? eColor::Red : eColor::Blue, true);
+		graphics::DebugDrawer::GetSingleton()->DebugDraw2DLine({ x, y, 0 }, { x + offsetX, y - DebugBVHTreeOffsetY, 0 }, recentAddedLeaf.empty() == false && recentAddedLeaf.top() == node->mRightNode ? eColor::Red : eColor::Blue, true);
 		DebugBVHTree(&(mKDTree->mKDTreeNodes[node->mRightNode]), x + offsetX, y - DebugBVHTreeOffsetY, depth + 1);
 	}
 }
@@ -87,11 +87,11 @@ void doom::KDTree_TestRoom::DrawTree()
 			graphics::GraphicsAPI::ClearColor(1.0f, 1.0f, 1.0f, 1.0f);
 			mPIPForDebug->ClearFrameBuffer();
 
-			graphics::DebugGraphics::GetSingleton()->SetDrawInstantlyMaterial(mBVHDebugMaterial.get());
+			graphics::DebugDrawer::GetSingleton()->SetDrawInstantlyMaterial(mBVHDebugMaterial.get());
 
 			DebugBVHTree(&(mKDTree->mKDTreeNodes[mKDTree->mRootNodeIndex]), 0, 1, 0);
 
-			graphics::DebugGraphics::GetSingleton()->SetDrawInstantlyMaterial(nullptr);
+			graphics::DebugDrawer::GetSingleton()->SetDrawInstantlyMaterial(nullptr);
 			mPIPForDebug->RevertFrameBuffer();
 		}
 	}

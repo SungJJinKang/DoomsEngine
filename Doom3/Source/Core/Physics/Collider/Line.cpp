@@ -1,10 +1,10 @@
 #include "Line.h"
-#include "../Graphics/DebugGraphics.h"
+#include <Graphics/DebugGraphics/DebugDrawer.h>
 
 void doom::physics::Line::DrawCollider(eColor color, bool drawInstantly /*= false*/) const
 {
 #ifdef DEBUG_MODE
-	graphics::DebugGraphics::GetSingleton()->DebugDraw3DLine(mOrigin, mEndPoint, color, drawInstantly);
+	graphics::DebugDrawer::GetSingleton()->DebugDraw3DLine(mOrigin, mEndPoint, color, drawInstantly);
 #endif
 }
 

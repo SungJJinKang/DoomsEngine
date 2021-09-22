@@ -1,5 +1,5 @@
 #include "Plane.h"
-#include "Graphics/DebugGraphics.h"
+#include <Graphics/DebugGraphics/DebugDrawer.h>
 #include <Quaternion.h>
 #include <Utility.h>
 
@@ -68,7 +68,7 @@ math::Vector3 doom::physics::GetClosestPoint(const doom::physics::Plane& plane, 
 void doom::physics::Plane::DrawCollider(eColor color, bool drawInstantly /*= false*/) const
 {
 #ifdef DEBUG_MODE
-	auto debugGraphics = graphics::DebugGraphics::GetSingleton();
+	auto debugGraphics = graphics::DebugDrawer::GetSingleton();
 
 	math::Vector3 arbitaryVector =
 		math::abs(mNormal.y) > math::epsilon<float>() || math::abs(mNormal.z) > math::epsilon<float>() ?
@@ -100,7 +100,7 @@ void doom::physics::Plane::DrawCollider(eColor color, bool drawInstantly /*= fal
 	math::Quaternion quat{ mNormal };
 	auto center = mNormal * mDistance;
 	
-	graphics::DebugGraphics::GetSingleton()->DebugDraw3DTriangle(center - center.right - center.up, eColor::White);
+	graphics::DebugDrawer::GetSingleton()->DebugDraw3DTriangle(center - center.right - center.up, eColor::White);
 	*/
 #endif
 

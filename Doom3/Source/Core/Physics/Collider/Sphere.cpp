@@ -1,5 +1,5 @@
 #include "Sphere.h"
-#include "../Graphics/DebugGraphics.h"
+#include <Graphics/DebugGraphics/DebugDrawer.h>
 
 #include "AABB.h"
 
@@ -7,7 +7,7 @@ void doom::physics::Sphere::DrawCollider(eColor color, bool drawInstantly /*= fa
 {
 
 #ifdef DEBUG_MODE
-	auto debugGraphics = graphics::DebugGraphics::GetSingleton();
+	auto debugGraphics = graphics::DebugDrawer::GetSingleton();
 
 	const float intervalRadian = math::PI * 2 / 72.0f;
 

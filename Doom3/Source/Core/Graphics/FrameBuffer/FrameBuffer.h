@@ -154,8 +154,8 @@ namespace doom
 			RenderBuffer& AttachRenderBuffer(GraphicsAPI::eBufferBitType renderBufferType);
 			SingleTexture& AttachTextureBuffer(GraphicsAPI::eBufferBitType frameBufferType, unsigned int width, unsigned int height);
 			SingleTexture& AttachTextureBuffer(GraphicsAPI::eBufferBitType frameBufferType);
-			const SingleTexture& GetFrameBufferTexture(GraphicsAPI::eBufferBitType bufferType, unsigned int index) const;
-			SingleTexture& GetFrameBufferTexture(GraphicsAPI::eBufferBitType bufferType, unsigned int index);
+			const SingleTexture* GetFrameBufferTexture(GraphicsAPI::eBufferBitType bufferType, unsigned int index) const;
+			SingleTexture* GetFrameBufferTexture(GraphicsAPI::eBufferBitType bufferType, unsigned int index);
 
 			void CheckIsFrameBufferSuccesfullyCreated() noexcept;
 

@@ -252,8 +252,6 @@ void doom::graphics::Graphics_Server::DeferredRendering()
 		targetCamera->mDefferedRenderingFrameBuffer.ClearFrameBuffer();
 		targetCamera->mDefferedRenderingFrameBuffer.BindFrameBuffer();
 		
-
-
 		D_START_PROFILING("RenderObject", doom::profiler::eProfileLayers::Rendering);
 		//GraphicsAPI::Enable(GraphicsAPI::eCapability::DEPTH_TEST);
 		RenderObject(targetCamera, cameraIndex);
@@ -267,6 +265,17 @@ void doom::graphics::Graphics_Server::DeferredRendering()
 		if (targetCamera->IsMainCamera() == true)
 		{
 			//Only Main Camera can draw to screen buffer
+
+#ifdef DEBUG_MODE
+			mRenderingDebugger.mOverDrawVisualization.ShowOverDrawVisualizationPIP(Graphics_Setting::bmIsOverDrawVisualizationEnabled);
+			if (Graphics_Setting::bmIsOverDrawVisualizationEnabled == true)
+			{
+				mRenderingDebugger.mOverDrawVisualization.SetOverDrawVisualizationRenderingState(true);
+				RenderObject(targetCamera, cameraIndex);
+				mRenderingDebugger.mOverDrawVisualization.SetOverDrawVisualizationRenderingState(false);
+			}
+#endif
+		
 			
 			targetCamera->mDefferedRenderingFrameBuffer.BlitDepthBufferToScreenBuffer();
 

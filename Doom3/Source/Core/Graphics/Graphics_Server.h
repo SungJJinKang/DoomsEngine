@@ -11,7 +11,7 @@
 #include "PictureInPicture/PIPManager.h"
 #include "DeferredRenderingDrawer.h"
 
-#include "DebugGraphics.h"
+#include "DebugGraphics/DebugDrawer.h"
 
 
 
@@ -54,7 +54,7 @@ namespace doom
 			//CullDistance mCullDistance{};
 
 #ifdef DEBUG_MODE
-			DebugGraphics mDebugGraphics{};
+			DebugDrawer mDebugGraphics{};
 #endif
 
 			eRenderingMode mCurrentRenderingMode{ eRenderingMode::ForwardRendering };
