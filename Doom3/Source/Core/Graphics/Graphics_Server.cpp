@@ -318,6 +318,7 @@ void doom::graphics::Graphics_Server::RenderObject(doom::Camera* const targetCam
 		D_END_PROFILING("Wait Cull Job");
 	}
 
+	const bool targetCamera_IS_CULLED_flag_on = targetCamera->GetCameraFlag(doom::eCameraFlag::IS_CULLED);
 
 	for (unsigned int layerIndex = 0; layerIndex < MAX_LAYER_COUNT; layerIndex++)
 	{
@@ -325,7 +326,7 @@ void doom::graphics::Graphics_Server::RenderObject(doom::Camera* const targetCam
 		for (Renderer* renderer : renderersInLayer)
 		{
 			if (
-				targetCamera->GetCameraFlag(doom::eCameraFlag::IS_CULLED) == false ||
+				targetCamera_IS_CULLED_flag_on == false ||
 				renderer->GetIsCulled(targetCamera->CameraIndexInCullingSystem) == false
 				)
 			{

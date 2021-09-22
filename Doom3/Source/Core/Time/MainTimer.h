@@ -29,7 +29,7 @@ namespace doom
 			static inline TimeStep mFixedTime{};
 			static inline float CurrentFrame{};
 			
-			static inline unsigned int mFrameCounter{ 0 };
+			static inline unsigned int mFrameCounterForStep{ 0 };
 
 			static void InitTimer();
 			
@@ -79,7 +79,7 @@ namespace doom
 			[[nodiscard]] FORCE_INLINE static bool GetFrameStep(unsigned int step) noexcept
 			{
 				D_ASSERT(step != 0);
-				return mFrameCounter % step == 0;
+				return mFrameCounterForStep % step == 0;
 			}
 
 			

@@ -4,6 +4,7 @@
 
 namespace doom
 {
+	//references : http://www.peroxide.dk/download/tutorials/tut10/pxdtut10.html
 	class Rigidbody : public ServerComponent, public StaticContainer<Rigidbody>
 	{
 

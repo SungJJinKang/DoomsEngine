@@ -265,11 +265,11 @@ typename doom::BVH<ColliderType>::node_view_type doom::BVH<ColliderType>::Insert
 }
 
 template <typename ColliderType>
-typename doom::BVH<ColliderType>::node_view_type doom::BVH<ColliderType>::UpdateLeafNode(int targetLeafNodeIndex, bool force)
+typename doom::BVH<ColliderType>::node_view_type doom::BVH<ColliderType>::UpdateLeafNode(const int targetLeafNodeIndex, const bool force)
 {
 	D_ASSERT(targetLeafNodeIndex != NULL_NODE_INDEX);
 
-	node_type* targetLeafNode = GetNode(targetLeafNodeIndex);
+	node_type* const targetLeafNode = GetNode(targetLeafNodeIndex);
 
 	D_ASSERT(targetLeafNode->mIsLeaf == true);
 

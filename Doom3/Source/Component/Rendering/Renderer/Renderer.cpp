@@ -57,11 +57,6 @@ char doom::Renderer::GetIsVisibleWithCameraIndex(unsigned int cameraIndex)
 	return mEntityBlockViewer.GetIsCulled(cameraIndex);
 }
 
-bool doom::Renderer::GetIsCulled(unsigned int cameraIndexled) const
-{
-	return mEntityBlockViewer.GetIsCulled(cameraIndexled);
-}
-
 void doom::Renderer::CacheDistanceToCamera(const size_t cameraIndex, const Camera* const camera)
 {
 	D_ASSERT(camera != nullptr);

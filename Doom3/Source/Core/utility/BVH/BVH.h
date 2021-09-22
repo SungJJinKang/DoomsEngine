@@ -128,7 +128,7 @@ namespace doom
 		/// <param name="updatedNode"></param>
 		/// <param name="force"></param>
 		/// <returns></returns>
-		node_view_type UpdateLeafNode(int targetLeafNodeIndex, bool force = false);
+		node_view_type UpdateLeafNode(const int targetLeafNodeIndex, const bool force = false);
 
 		template <typename UnaryFunction>
 		void Traverse(UnaryFunction f)

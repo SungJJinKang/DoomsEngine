@@ -115,7 +115,10 @@ namespace doom
 		/// <param name="cameraIndex"></param>
 		/// <returns></returns>
 		char GetIsVisibleWithCameraIndex(unsigned int cameraIndex);
-		bool GetIsCulled(const unsigned int cameraIndex) const;
+		FORCE_INLINE bool GetIsCulled(const unsigned int cameraIndex) const
+		{
+			return mEntityBlockViewer.GetIsCulled(cameraIndex);
+		}
 
 		virtual physics::AABB3D GetLocalAABBBound() const = 0;
 		//const physics::Sphere& GetBoudingSphere();

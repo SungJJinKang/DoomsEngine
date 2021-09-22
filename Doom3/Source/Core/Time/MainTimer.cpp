@@ -1,6 +1,6 @@
 #include "MainTimer.h"
 
-
+#include <Graphics/GraphicsAPIManager.h>
 void doom::time::MainTimer::InitTimer()
 {
 	double currentTickCount = glfwGetTime();
@@ -10,15 +10,17 @@ void doom::time::MainTimer::InitTimer()
 
 void doom::time::MainTimer::UpdateFrameTimer()
 {
-	double currentTime = glfwGetTime();// OS::GetSingleton()->_GetTickCount();
+	const double currentTime = glfwGetTime();// OS::GetSingleton()->_GetTickCount();
 	doom::time::MainTimer::mFrameTime.mCurrentTickCount = currentTime;
 
 	doom::time::MainTimer::mFrameTime.mDeltaTime = static_cast<float>(currentTime - doom::time::MainTimer::mFrameTime.mLastTickCount);
 	doom::time::MainTimer::mFrameTime.mLastTickCount = currentTime;
 
+	doom::time::MainTimer::mFrameCounterForStep++;
 	MainTimer::CurrentFrame = static_cast<float>(1.0f / doom::time::MainTimer::mFrameTime.mDeltaTime);
-
-	++mFrameCounter;
+	
+	
+	
 }
 
 void doom::time::MainTimer::ResetFixedTimer()
