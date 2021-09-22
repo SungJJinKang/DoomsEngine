@@ -18,6 +18,11 @@ But I will complete this project!!
 And i never make game without game engine.     
 So if you wanna good and clean code for learning something, Find other project.      
 
+
+## Video
+
+[구현 영상](https://youtube.com/playlist?list=PLUg9a0kyCgTR3OhYZYSMauDmjv6D96pVz)              
+
 ## Key features
 
   * C++17                   
