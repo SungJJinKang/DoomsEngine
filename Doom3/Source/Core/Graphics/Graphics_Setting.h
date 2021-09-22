@@ -3,6 +3,7 @@
 #include <Vector2.h>
 #include <Vector4.h>
 #include "Color.h"
+#include "GraphicsAPI.h"
 
 struct GLFWwindow;
 
@@ -26,8 +27,16 @@ namespace doom
 			static inline bool bmIsDrawDebuggersEnabled{ true };
 			static inline eColor mDrawDebuggersDefualtColor{ eColor::Green };
 
+			static inline bool bmIsOverDrawVisualizationEnabled{ true };
+
 			static inline bool mDrawRenderingBoundingBox{ false };
 			static inline math::Vector4 ClearColor{ 0.0f, 0.0f, 0.0f, 1.0f };
+
+			static inline bool DefaultIsAlphaTestOn{ false };
+
+			static inline bool DefaultIsBlendOn{ false };
+			static inline GraphicsAPI::eSourceFactor DefaultBlendSourceFactor{ GraphicsAPI::eSourceFactor::SRC_ALPHA };
+			static inline GraphicsAPI::eDestinationFactor DefaultBlendDestinationFactor{ GraphicsAPI::eDestinationFactor::ONE_MINUS_SRC_ALPHA };
 
 			static void LoadData();
 
