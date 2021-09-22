@@ -241,7 +241,7 @@ void doom::graphics::Graphics_Server::DeferredRendering()
 
 	if (Graphics_Setting::IsSortObjectFrontToBack == true)
 	{
-		if (doom::time::MainTimer::GetFrameStep(2))
+		if (doom::time::MainTimer::GetFrameStep(3))
 		{
 			RendererComponentStaticIterator::CacheDistanceFromRenderersToCamera(spawnedCameraList);
 		}
@@ -322,7 +322,7 @@ void doom::graphics::Graphics_Server::RenderObject(doom::Camera* const targetCam
 
 	if (Graphics_Setting::IsSortObjectFrontToBack == true)
 	{
-		if (doom::time::MainTimer::GetFrameStep(2))
+		if (doom::time::MainTimer::GetFrameStep(3))
 		{
 			RendererComponentStaticIterator::SortByDistanceToCamera(targetCamera, cameraIndex);
 		}

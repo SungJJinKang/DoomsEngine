@@ -66,7 +66,7 @@ void doom::Renderer::CacheDistanceToCamera(const size_t cameraIndex, const Camer
 		mDistancesToCamera.resize(cameraIndex + 1);
 	}
 
-	mDistancesToCamera[cameraIndex] = (GetTransform()->GetPosition() - camera->GetTransform()->GetPosition()).sqrMagnitude() - BVH_Sphere_Node_Object::GetWorldCollider()->mRadius;
+	mDistancesToCamera[cameraIndex] = (static_cast<const Transform*>(GetTransform())->GetPosition() - camera->GetTransform()->GetPosition()).sqrMagnitude() - BVH_Sphere_Node_Object::GetWorldCollider()->mRadius;
 	
 	
 
