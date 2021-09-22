@@ -65,7 +65,10 @@ namespace doom
 		BVH_Node& operator=(const BVH_Node&) = delete;
 		BVH_Node& operator=(BVH_Node&&) noexcept = delete;
 
-		bool GetIsValid() const;
+		FORCE_INLINE bool GetIsValid() const
+		{
+			return bmIsActive == true && mOwnerBVH != nullptr && mIndex != NULL_NODE_INDEX && mOwnerBVH->GetNode(mIndex);
+		}
 
 		/// <summary>
 		/// this function don't chagne mEnlargedBoundingCollider if newAABB is still completly enclosed by mEnlargedBoundingCollider
@@ -107,14 +110,33 @@ namespace doom
 
 
 		const BVH_Node<ColliderType>* GetParentNode() const;
-		const BVH_Node<ColliderType>* GetLeftChildNode() const;
-		const BVH_Node<ColliderType>* GetRightChildNode() const;
+		FORCE_INLINE const BVH_Node<ColliderType>* GetLeftChildNode() const
+		{
+			doom::BVH_Node<ColliderType>* targetNode = nullptr;
+			if (mOwnerBVH->GetIsNodeValid(mLeftNode) == true)
+			{
+				targetNode = mOwnerBVH->GetNode(mLeftNode);
+			}
+			return targetNode;
+		}
+		FORCE_INLINE const BVH_Node<ColliderType>* GetRightChildNode() const
+		{
+			doom::BVH_Node<ColliderType>* targetNode = nullptr;
+			if (mOwnerBVH->GetIsNodeValid(mRightNode) == true)
+			{
+				targetNode = mOwnerBVH->GetNode(mRightNode);
+			}
+			return targetNode;
+		}
 
 		int GetParentNodeIndex() const;
 		int GetLeftChildNodeIndex() const;
 		int GetRightChildNodeIndex() const;
 
-		bool GetIsLeafNode() const;
+		FORCE_INLINE bool GetIsLeafNode() const
+		{
+			return mIsLeaf;
+		}
 		
 		node_view_type UpdateNode();
 	};

@@ -6,7 +6,6 @@
 
 #include "Ray.h"
 #include <Matrix4x4.h>
-
 //#include <Trigonometric.h>
 
 using namespace doom::physics;
@@ -398,23 +397,23 @@ math::Vector2 doom::physics::ClosestPointToPoint(const AABB2D& aabb, const math:
 	return result;
 }
 
-bool doom::physics::IsOverlapAABB3DAndPoint(const AABB3D& aabb, const math::Vector3& Point)
+bool doom::physics::IsOverlapAABB3DAndPoint(const AABB3D& A, const math::Vector3& Point)
 {
-	return (Point.x >= aabb.mLowerBound.x && Point.x <= aabb.mUpperBound.x) &&
-		(Point.y >= aabb.mLowerBound.y && Point.y <= aabb.mUpperBound.y) &&
-		(Point.z >= aabb.mLowerBound.z && Point.z <= aabb.mUpperBound.z);
+	return (Point.x >= A.mLowerBound.x && Point.x <= A.mUpperBound.x) &&
+		(Point.y >= A.mLowerBound.y && Point.y <= A.mUpperBound.y) &&
+		(Point.z >= A.mLowerBound.z && Point.z <= A.mUpperBound.z);
 }
 
-bool doom::physics::IsOverlapAABB3DAndAABB3D(const AABB3D& aabb, const AABB3D& B)
+bool doom::physics::IsOverlapAABB3DAndAABB3D(const AABB3D& A, const AABB3D& B)
 {
-	return (aabb.mLowerBound.x <= B.mUpperBound.x && aabb.mUpperBound.x >= B.mLowerBound.x) &&
-		(aabb.mLowerBound.y <= B.mUpperBound.y && aabb.mUpperBound.y >= B.mLowerBound.y) &&
-		(aabb.mLowerBound.z <= B.mUpperBound.z && aabb.mUpperBound.z >= B.mLowerBound.z);
+	return  A.mLowerBound.x <= B.mUpperBound.x && A.mUpperBound.x >= B.mLowerBound.x &&
+			A.mLowerBound.y <= B.mUpperBound.y && A.mUpperBound.y >= B.mLowerBound.y &&
+			A.mLowerBound.z <= B.mUpperBound.z && A.mUpperBound.z >= B.mLowerBound.z;
 }
 
-bool doom::physics::IsOverlapAABB3DAndAABB3D(const Collider* const aabb, const Collider* const B)
+bool doom::physics::IsOverlapAABB3DAndAABB3D(const Collider* const A, const Collider* const B)
 {
-	return IsOverlapAABB3DAndAABB3D(*static_cast<const AABB3D*>(aabb), *static_cast<const AABB3D*>(B));
+	return IsOverlapAABB3DAndAABB3D(*static_cast<const AABB3D*>(A), *static_cast<const AABB3D*>(B));
 }
 
 math::Vector3 doom::physics::ClosestPointToPoint(const AABB3D& aabb, const math::Vector3& point)

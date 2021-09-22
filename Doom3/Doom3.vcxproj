@@ -167,6 +167,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Source\Component\PhysicsComponent\Rigidbody\Rigidbody.cpp" />
     <ClCompile Include="Source\Core\DObject\DObjectManager.cpp" />
     <ClCompile Include="Source\Core\Graphics\Acceleration\LinearData_ViewFrustumCulling\CullingModule\CullingModule.cpp" />
     <ClCompile Include="Source\Core\Graphics\Acceleration\LinearData_ViewFrustumCulling\CullingModule\OcclusionCullingWithComputeShader\OcclusionCullingWithComputeShader.cpp" />
@@ -330,6 +331,7 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Source\Component\PhysicsComponent\Rigidbody\Rigidbody.h" />
     <ClInclude Include="Source\Core\DObject\DObjectManager.h" />
     <ClInclude Include="Source\Core\Graphics\Acceleration\LinearData_ViewFrustumCulling\CullingModule\OcclusionCullingWithComputeShader\OcclusionCullingWithComputeShader.h" />
     <ClInclude Include="Source\Core\Graphics\Acceleration\LinearData_ViewFrustumCulling\DataType\Position_BoundingSphereRadius.h" />

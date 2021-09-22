@@ -135,9 +135,9 @@ namespace doom
 		};
 
 		
-		bool IsOverlapAABB3DAndPoint(const AABB3D& aabb, const math::Vector3& Point);
-		bool IsOverlapAABB3DAndAABB3D(const AABB3D& aabb, const AABB3D& B);
-		bool IsOverlapAABB3DAndAABB3D(const Collider* const aabb, const Collider* const B);
+		bool IsOverlapAABB3DAndPoint(const AABB3D& A, const math::Vector3& Point);
+		bool IsOverlapAABB3DAndAABB3D(const AABB3D& A, const AABB3D& B);
+		bool IsOverlapAABB3DAndAABB3D(const Collider* const A, const Collider* const B);
 
 		math::Vector3 ClosestPointToPoint(const AABB3D& aabb, const math::Vector3& point);
 

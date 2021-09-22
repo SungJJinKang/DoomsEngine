@@ -21,12 +21,6 @@ void doom::BVH_Node<ColliderType>::ValidCheck() const
 	D_ASSERT(GetIsValid() == true);
 }
 
-template<typename ColliderType>
-bool doom::BVH_Node<ColliderType>::GetIsValid() const
-{
-	return bmIsActive == true && mOwnerBVH != nullptr && mIndex != NULL_NODE_INDEX && mOwnerBVH->GetNode(mIndex);
-}
-
 template <typename ColliderType>
 typename doom::BVH_Node<ColliderType>::node_view_type doom::BVH_Node<ColliderType>::UpdateNode()
 {
@@ -83,28 +77,6 @@ const doom::BVH_Node<ColliderType>* doom::BVH_Node<ColliderType>::GetParentNode(
 }
 
 template<typename ColliderType>
-const doom::BVH_Node<ColliderType>* doom::BVH_Node<ColliderType>::GetLeftChildNode() const
-{
-	doom::BVH_Node<ColliderType>* targetNode = nullptr;
-	if (mOwnerBVH->GetIsNodeValid(mLeftNode) == true)
-	{
-		targetNode = mOwnerBVH->GetNode(mLeftNode);
-	}
-	return targetNode;
-}
-
-template<typename ColliderType>
-const doom::BVH_Node<ColliderType>* doom::BVH_Node<ColliderType>::GetRightChildNode() const
-{
-	doom::BVH_Node<ColliderType>* targetNode = nullptr;
-	if (mOwnerBVH->GetIsNodeValid(mRightNode) == true)
-	{
-		targetNode = mOwnerBVH->GetNode(mRightNode);
-	}
-	return targetNode;
-}
-
-template<typename ColliderType>
 int doom::BVH_Node<ColliderType>::GetParentNodeIndex() const
 {
 	return mParentIndex;
@@ -120,12 +92,6 @@ template<typename ColliderType>
 int doom::BVH_Node<ColliderType>::GetRightChildNodeIndex() const
 {
 	return mRightNode;
-}
-
-template<typename ColliderType>
-bool doom::BVH_Node<ColliderType>::GetIsLeafNode() const
-{
-	return mIsLeaf;
 }
 
 template class doom::BVH_Node<doom::physics::AABB2D>;

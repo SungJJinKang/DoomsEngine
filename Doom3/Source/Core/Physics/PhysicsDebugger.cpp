@@ -17,13 +17,13 @@ void doom::physics::PhysicsDebugger::DrawPhysicsColliderBoundingBox()
 {
 	doom::physics::Ray mouseRay = Physics_Server::GetSingleton()->mPicking.GetCurrentCursorPointWorldRay();
 
-	/*
+	
 	const std::vector<ColliderComponent*> colliderComponents = StaticContainer<ColliderComponent>::GetAllStaticComponents();
 	for (ColliderComponent* col : colliderComponents)
 	{
 		col->GetWorldCollider()->DrawPhysicsDebugColor(eColor::Blue);
 	}
-	*/
+	
 
 	const ColliderComponent* const cameraCollider = Camera::GetMainCamera()->GetOwnerEntity()->GetComponent<ColliderComponent>();
 	const doom::BVHAABB3D::node_type* cameraBVHNode = nullptr;
@@ -32,7 +32,9 @@ void doom::physics::PhysicsDebugger::DrawPhysicsColliderBoundingBox()
 		cameraBVHNode = cameraCollider->mBVH_Node_View.GetNode();
 	}
 
-	for (auto hitBVHNode : Physics_Server::GetSingleton()->GetCollideBVHNodes(&mouseRay))
+	size_t stackReservationCount = 0;
+
+	for (auto hitBVHNode : Physics_Server::GetSingleton()->GetCollideBVHNodes(&mouseRay, stackReservationCount))
 	{
 		if (cameraBVHNode != nullptr && hitBVHNode == cameraBVHNode)
 		{

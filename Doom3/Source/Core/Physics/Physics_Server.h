@@ -47,8 +47,8 @@ namespace doom
 			/// <summary>
 			/// return Hit BVH Leaf Node Index List
 			/// </summary>
-			const std::vector<doom::physics::Collider*> GetCollideColliders(const doom::physics::Collider* const col) const;
-			const std::vector<const typename BVHAABB3D::node_type*> GetCollideBVHNodes(const doom::physics::Collider* const col) const;
+			const std::vector<doom::physics::Collider*> GetCollideColliders(const doom::physics::Collider* const col, size_t& stackReservationCount) const;
+			const std::vector<const typename BVHAABB3D::node_type*> GetCollideBVHNodes(const doom::physics::Collider* const col, size_t& stackReservationCount) const;
 
 			const std::vector<doom::physics::Collider*> GetCollideColliders(const typename BVHAABB3D::node_type* const leafBVHNode) const;
 			const std::vector<const typename BVHAABB3D::node_type*> GetCollideBVHNodes(const typename BVHAABB3D::node_type* const leafBVHNode) const;
