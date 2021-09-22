@@ -24,6 +24,23 @@ namespace doom
 
 			template<eAssetType loopVariable>
 			friend struct ::doom::assetimporter::OnEndImportInMainThreadFunctor;
+		
+		public:
+
+			struct ShaderText
+			{
+				std::string mVertexShaderText;
+				std::string mFragmentShaderText;
+				std::string mGeometryShaderText;
+
+				ShaderText() = default;
+				ShaderText(
+					std::string vertexShaderText,
+					std::string fragmentShaderText,
+					std::string geometryShaderText
+				);
+				void Clear();
+			};
 
 		private:
 
@@ -35,7 +52,9 @@ namespace doom
 				Geometry
 			};
 
-			std::string mShaderFileText;
+			
+
+			ShaderText mShaderText;
 
 			static const std::string VertexShaderMacros;
 			static const std::string FragmentShaderMacros;
@@ -49,9 +68,9 @@ namespace doom
 			/// <summary>
 			/// Don't call this subthread, Should Call this at mainthread
 			/// </summary>
-			void CompileShaders(const std::string& str);
+			void CompileShaders();
 			void CompileSpecificShader(const std::string& shaderStr, ShaderType shaderType, unsigned int& shaderId);
-			std::array<std::string, 3> ClassifyShader(const std::string& str);
+			void ClassifyShader(const std::string& shaderText);
 			bool CheckIsSharpInclude(const std::string& str);
 			/// <summary>
 			/// extract shader file
@@ -60,8 +79,9 @@ namespace doom
 			/// <param name="shaderStr"></param>
 			std::string ExtractShaderFile(const std::filesystem::path& path);
 
+#ifdef DEBUG_MODE
 			void checkCompileError(unsigned int id, ShaderType shaderType);
-
+#endif
 			/// <summary>
 			/// return shader is valid??
 			/// </summary>
@@ -74,7 +94,9 @@ namespace doom
 
 		public:
 
-			ShaderAsset() = default;
+			ShaderAsset();
+			ShaderAsset(const std::string& shaderStr);
+			ShaderAsset(ShaderText shaderText);
 			ShaderAsset(const ShaderAsset& shader) = delete;
 			ShaderAsset(ShaderAsset&& shader) noexcept;
 			ShaderAsset operator=(const ShaderAsset& shader) = delete;
@@ -88,7 +110,7 @@ namespace doom
 			/// </summary>
 			void DeleteShaders();
 
-			void SetShaderText(const std::string& shaderStr);
+			void SetShaderText(const std::string& shaderStr, const bool compileShader = true);
 
 			void OnEndImportInMainThread_Internal() final;
 
@@ -96,7 +118,7 @@ namespace doom
 			unsigned int GetFragmentId() const;
 			unsigned int GetGeometryId() const;
 
-			graphics::Material* CreateMatrialWithThisShader();
+			graphics::Material CreateMatrialWithThisShader();
 		};
 
 		template <> struct Asset::asset_type<eAssetType::SHADER> { using type = ShaderAsset; };

@@ -19,6 +19,10 @@ Asset::Asset()
 }
 
 
+doom::asset::Asset::~Asset()
+{
+}
+
 doom::D_UUID Asset::GetUUID()
 {
 	return mAssetMetaData.mUUID;

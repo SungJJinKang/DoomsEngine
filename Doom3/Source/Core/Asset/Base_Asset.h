@@ -123,7 +123,7 @@ namespace doom
 			Asset(Asset&&) noexcept = default;
 			Asset& operator=(const Asset&) = delete;
 			Asset& operator=(Asset&&) noexcept = default;
-			virtual ~Asset() {}
+			virtual ~Asset();
 
 			D_UUID GetUUID();
 			const D_UUID& GetUUID() const;
