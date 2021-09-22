@@ -41,7 +41,7 @@ void main()
     //ClipSpacePos     = viewProjection * model * vec4(aPos, 1.0);
     //PrevClipSpacePos = prevViewProjection * prevModel * vec4(aPos, 1.0);
 	
-	gl_Position =  projection * view * vec4(FragPos, 1.0);
+	gl_Position =  viewProjection * vec4(FragPos, 1.0);
 }
 
 #FRAGMENT

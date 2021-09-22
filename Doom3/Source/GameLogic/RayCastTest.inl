@@ -4,7 +4,7 @@
 
 #include <Doom_Core.h>
 #include "../Game/AssetManager/AssetManager.h"
-#include "../Graphics/Material.h"
+#include "../Graphics/Material/Material.h"
 #include <Rendering/Renderer/MeshRenderer.h>
 #include <Rendering/Camera.h>
 #include "UserInput_Server.h"

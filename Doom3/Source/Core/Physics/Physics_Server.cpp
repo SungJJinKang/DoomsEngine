@@ -88,7 +88,6 @@ void doom::physics::Physics_Server::SolveColliderComponents()
 
 		if (isCollideWithAnyCollider == true)
 		{
-			doom::ui::PrintText("Collide");
 			testedCollider->bmIsCollideAtCurrentFrame = true;
 		}
 		

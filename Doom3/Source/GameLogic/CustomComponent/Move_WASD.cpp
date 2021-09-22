@@ -86,10 +86,7 @@ void doom::Move_WASD::UpdateComponent()
 
 	GetTransform()->Rotate(rotation.normalized() * delta * 2.0f, eSpace::Self);
 
-	if (MainTimer::GetFrameStep(120))
-	{
-		//D_DEBUG_LOG(GetTransform()->ToString());
-	}
+
 }
 
 void doom::Move_WASD::OnEndOfFrame_Component()
