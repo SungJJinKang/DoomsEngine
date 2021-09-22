@@ -6,9 +6,8 @@
 #include "ePrimitiveType.h"
 #include <Vector4.h>
 
-#ifdef DEBUG_MODE
 #include "DebugGraphics/RenderingDebugger.h"
-#endif
+
 
 namespace doom
 {

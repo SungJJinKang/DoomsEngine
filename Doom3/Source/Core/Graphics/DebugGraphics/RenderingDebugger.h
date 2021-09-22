@@ -63,15 +63,15 @@ namespace doom
 #else
 
 #ifndef INCREMENT_DRAWCALL_COUNTER
-#define INCREMENT_DRAWCALL_COUNTER do { } while (false)
+#define INCREMENT_DRAWCALL_COUNTER
 #endif
 
 #ifndef RESET_DRAWCALL_COUNTER
-#define RESET_DRAWCALL_COUNTER do { } while (false)
+#define RESET_DRAWCALL_COUNTER
 #endif
 
 #ifndef GET_DRAWCALL_COUNTER
-#define GET_DRAWCALL_COUNTER do { } while (false)
+#define GET_DRAWCALL_COUNTER
 #endif
 
 #endif
