@@ -111,28 +111,16 @@ namespace doom
 			SetScale({ x,y,z });
 		}
 
-		FORCE_INLINE math::Vector3 GetPosition() noexcept
-		{
-			return mPosition;
-		}
-		FORCE_INLINE const math::Vector3& GetPosition() const
+		FORCE_INLINE const math::Vector3& GetPosition() const noexcept
 		{
 			return mPosition;
 		}
 
-		FORCE_INLINE math::Quaternion GetRotation() noexcept
-		{
-			return mRotation;
-		}
 		FORCE_INLINE const math::Quaternion& GetRotation() const noexcept
 		{
 			return mRotation;
 		}
 
-		FORCE_INLINE math::Vector3 GetScale() noexcept
-		{
-			return mScale;
-		}
 		FORCE_INLINE const math::Vector3& GetScale() const noexcept
 		{
 			return mScale;
