@@ -28,6 +28,13 @@ namespace doom
 
 	class Camera;
 
+	enum eRenderingFlag : unsigned int
+	{
+		STATIC_BATCH = 1 << 0,
+		DYNAMIC_BATCH = 1 << 1
+
+	};
+
 	class Renderer : public ServerComponent, public RendererComponentStaticIterator, public BVH_Sphere_Node_Object, public ColliderUpdater<doom::physics::AABB3D>//, public BVH_AABB3D_Node_Object // public graphics::CullDistanceRenderer
 	{
 		friend graphics::Graphics_Server;
@@ -48,10 +55,7 @@ namespace doom
 		Renderer& operator=(const Renderer&) = delete;
 		Renderer& operator=(Renderer&&) noexcept = delete;
 
-		/// <summary>
-		/// Check RenderingBitFlag.h
-		/// </summary>
-		unsigned int mRenderingBitFlag{ 0 };
+		
 		void MergeBVHBitFlag();
 		void ClearRenderingBitFlag();
 
@@ -61,7 +65,15 @@ namespace doom
 
 	public:
 		
-	
+		/// <summary>
+		/// Check RenderingBitFlag.h
+		/// </summary>
+		unsigned int mRenderingFlag{ 0x00000000 };
+		void SetRenderingFlag(const eRenderingFlag flag, const bool isSet);
+		FORCE_INLINE bool GetRenderingFlag(const eRenderingFlag flag) const
+		{
+			return (mRenderingFlag & static_cast<unsigned int>(flag)) != 0x00000000;
+		}
 
 		//DirtyReceiver mIsBoundingSphereDirty{ true };
 		//physics::Sphere mBoundingSphere{};

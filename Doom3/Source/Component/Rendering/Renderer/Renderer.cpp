@@ -6,6 +6,18 @@
 #include "Graphics/Acceleration/LinearData_ViewFrustumCulling/EveryCulling.h"
 
 
+void doom::Renderer::SetRenderingFlag(const eRenderingFlag flag, const bool isSet)
+{
+	if (isSet == true)
+	{
+		mRenderingFlag |= static_cast<unsigned int>(flag);
+	}
+	else
+	{
+		mRenderingFlag &= (~static_cast<unsigned int>(flag));
+	}
+}
+
 void doom::Renderer::InitComponent()
 {
 	RendererComponentStaticIterator::AddRendererToStaticContainer();
@@ -44,7 +56,7 @@ void doom::Renderer::MergeBVHBitFlag()
 
 void doom::Renderer::ClearRenderingBitFlag()
 {
-	mRenderingBitFlag = 0;
+	mRenderingFlag = 0;
 }
 
 void doom::Renderer::SetMaterial(graphics::Material* material) noexcept

@@ -70,6 +70,8 @@ namespace doom
 
 		FORCE_INLINE void SetPosition(const math::Vector3& position) noexcept
 		{
+			D_ASSERT(GetOwnerEntity()->mEntityMobility != Entity::eEntityMobility::Static);
+
 			mTranslationMatrix = math::translate(position);
 			mPosition = position;
 
@@ -83,6 +85,8 @@ namespace doom
 
 		FORCE_INLINE void SetRotation(const math::Quaternion& rotation) noexcept
 		{
+			D_ASSERT(GetOwnerEntity()->mEntityMobility != Entity::eEntityMobility::Static);
+
 			mRotationMatrix = static_cast<math::Matrix4x4>(rotation);
 			mRotation = rotation;
 			SetDirtyTrueAtThisFrame();
@@ -101,6 +105,8 @@ namespace doom
 
 		FORCE_INLINE void SetScale(const math::Vector3& scale) noexcept
 		{
+			D_ASSERT(GetOwnerEntity()->mEntityMobility != Entity::eEntityMobility::Static);
+
 			mScaleMatrix = math::scale(scale);
 			mScale = scale;
 			SetDirtyTrueAtThisFrame();
@@ -135,10 +141,6 @@ namespace doom
 			return mModelMatrixCache;
 		}
 		
-		FORCE_INLINE bool GetIsModelMatrixChangedAtCurrentFrame() const
-		{
-			return bmIsDirtyModelMatrix.GetIsDirty();
-		}
 
 		FORCE_INLINE math::Vector3 forward() const noexcept
 		{
