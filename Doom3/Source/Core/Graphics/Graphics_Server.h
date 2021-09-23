@@ -61,6 +61,8 @@ namespace doom
 			
 			void DeferredRendering();
 
+			void DrawPIP();
+
 			void RenderObject(doom::Camera* const targetCamera, const size_t cameraIndex);
 		
 			void DoCullJob();

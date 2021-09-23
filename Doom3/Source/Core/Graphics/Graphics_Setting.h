@@ -40,6 +40,8 @@ namespace doom
 			static inline GraphicsAPI::eSourceFactor DefaultBlendSourceFactor{ GraphicsAPI::eSourceFactor::SRC_ALPHA };
 			static inline GraphicsAPI::eDestinationFactor DefaultBlendDestinationFactor{ GraphicsAPI::eDestinationFactor::ONE_MINUS_SRC_ALPHA };
 
+			static inline GraphicsAPI::eDepthFuncType DefualtDepthFuncType{ GraphicsAPI::eDepthFuncType::LESS };
+
 			static void LoadData();
 
 			FORCE_INLINE static GLFWwindow* GetWindow()

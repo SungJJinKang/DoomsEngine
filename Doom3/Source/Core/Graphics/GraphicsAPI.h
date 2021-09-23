@@ -138,6 +138,12 @@ namespace doom
 				glDepthFunc(static_cast<unsigned int>(depthFuncType));
 
 			}
+
+			FORCE_INLINE static void DepthMask(const bool isWriteDepthBuffer)
+			{
+				glDepthMask(static_cast<unsigned char>(isWriteDepthBuffer));
+			}
+
 			FORCE_INLINE static void ClearStencil(unsigned int stencil) noexcept
 			{
 				glClearStencil(stencil);
@@ -166,6 +172,7 @@ namespace doom
 			{
 				glClear(clearBitFlags);
 			}
+
 
 			enum class eCapability
 			{

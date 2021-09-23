@@ -63,7 +63,7 @@ void doom::graphics::GraphicsAPIManager::Initialize()
 	//
 
 	GraphicsAPI::Enable(GraphicsAPI::eCapability::DEPTH_TEST);
-	GraphicsAPI::DepthFunc(GraphicsAPI::eDepthFuncType::LEQUAL);;
+	GraphicsAPI::DepthFunc(Graphics_Setting::DefualtDepthFuncType);
 
 	GraphicsAPI::Disable(GraphicsAPI::eCapability::SAMPLE_ALPHA_TO_COVERAGE);
 	GraphicsAPI::Disable(GraphicsAPI::eCapability::SAMPLE_ALPHA_TO_ONE);
