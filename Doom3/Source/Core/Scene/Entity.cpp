@@ -7,8 +7,16 @@
 
 using namespace doom;
 
-Entity::Entity(size_t entityID, Entity* parent) : mEntityID{ entityID }, mEntityName {}, mPlainComponents{}, mParent{ parent }, mChilds{}
+Entity::Entity(size_t entityID, Entity* parent) : 
+	mEntityID{ entityID }, 
+	mEntityName{}, 
+	mPlainComponents{}, 
+	mParent{ parent }, 
+	mChilds{}, 
+	mComponentPtrCache{ nullptr },
+	mTransform{}
 {
+	InitializeComponent(&mTransform);
 }
 
 Entity::~Entity()

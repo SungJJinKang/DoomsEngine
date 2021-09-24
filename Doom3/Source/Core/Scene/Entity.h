@@ -44,7 +44,9 @@ namespace doom
 			}
 		};
 
-		enum class eEntityMobility
+	public:
+
+		enum eEntityMobility
 		{
 			Static,
 			Dynamic
@@ -111,8 +113,17 @@ namespace doom
 		/// </summary>
 		std::vector<std::unique_ptr<ServerComponent, Component::Deleter>> mServerComponents;
 
+		FORCE_INLINE void InitializeComponent(Component* const newComponent)
+		{
+			newComponent->InitComponent_Internal(this);
+			newComponent->InitComponent();
+
+			newComponent->OnActivated_Internal();
+			newComponent->OnActivated();
+		}
+
 		template<typename T>
-		static constexpr bool IsServerComponent()
+		constexpr static bool IsServerComponent()
 		{
 			return std::is_base_of_v<ServerComponent, T>;
 		}
@@ -124,7 +135,7 @@ namespace doom
 		/// <param name="component"></param>
 		/// <returns></returns>
 		template<typename T, std::enable_if_t<std::is_base_of_v<Component, T>, bool> = true>
-		constexpr T* _AddComponent() noexcept
+		T* _AddComponent() noexcept
 		{
 			T* newComponent = new T();
 			D_ASSERT(newComponent->bIsAddedToEntity == false);
@@ -139,12 +150,7 @@ namespace doom
 			}
 		
 
-			Component* newComponent_com = reinterpret_cast<Component*>(newComponent); // why do this, 
-			newComponent_com->InitComponent_Internal(this);
-			newComponent_com->InitComponent();
-
-			newComponent_com->OnActivated_Internal();
-			newComponent_com->OnActivated();
+			InitializeComponent(static_cast<Component*>(newComponent));
 
 
 			//Why need this?
@@ -171,7 +177,7 @@ namespace doom
 		}
 
 		template<typename T>
-		constexpr bool _DestroyComponent(std::unique_ptr<T, Component::Deleter>& component)
+		bool _DestroyComponent(std::unique_ptr<T, Component::Deleter>& component)
 		{
 // 			for (auto& serverComponents : mServerComponents)
 // 			{
@@ -235,7 +241,7 @@ namespace doom
 
 
 		template<typename T, std::enable_if_t<std::is_base_of_v<Component, T>, bool> = true>
-		constexpr T* AddComponent() noexcept
+		T* AddComponent() noexcept
 		{
 			return _AddComponent<T>();
 		}
@@ -258,7 +264,7 @@ namespace doom
 		/// <typeparam name="T"></typeparam>
 		/// <returns></returns>
 		template<typename T, std::enable_if_t<std::is_base_of_v<Component, T>, bool> = true>
-		[[nodiscard]] constexpr T* GetComponent() // never return unique_ptr reference, just return pointer
+		[[nodiscard]] T* GetComponent() // never return unique_ptr reference, just return pointer
 		{
 			if (mComponentPtrCache != nullptr)
 			{
@@ -289,7 +295,7 @@ namespace doom
 					T* componentPtr = dynamic_cast<T*>(plainComponent.get());
 					if (componentPtr != nullptr)
 					{
-						mComponentPtrCache = plainComponent;
+						mComponentPtrCache = plainComponent.get();
 						return componentPtr;
 					}
 				}
@@ -301,7 +307,7 @@ namespace doom
 
 
 		template<typename T, std::enable_if_t<std::is_base_of_v<Component, T>, bool> = true>
-		[[nodiscard]] constexpr std::vector<T*> GetComponents()
+		[[nodiscard]] std::vector<T*> GetComponents()
 		{
 			std::vector<T*> components;
 
@@ -341,7 +347,7 @@ namespace doom
 		/// <typeparam name="T">if there is removed component</typeparam>
 		/// <returns></returns>
 		template<typename T, std::enable_if_t<std::is_base_of_v<Component, T>, bool> = true>
-		constexpr bool RemoveComponent()
+		bool RemoveComponent()
 		{
 			static_assert(!std::is_same_v<T, Transform>);
 
@@ -380,7 +386,7 @@ namespace doom
 		}
 
 		template<typename T, std::enable_if_t<std::is_base_of_v<Component, T>, bool> = true>
-		constexpr bool RemoveComponents()
+		bool RemoveComponents()
 		{
 			static_assert(!std::is_same_v<T, Transform>);
 

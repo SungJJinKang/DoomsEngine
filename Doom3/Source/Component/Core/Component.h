@@ -152,7 +152,7 @@ namespace doom
 	
 		FORCE_INLINE constexpr Entity* GetOwnerEntity() const
 		{
-			D_ASSERT(mOwnerEntity); // mOwnerEntity is set at InitComponent_Internal ( not Constructor )
+			D_ASSERT(mOwnerEntity != nullptr); // mOwnerEntity is set at InitComponent_Internal ( not Constructor )
 			return mOwnerEntity;
 		}
 		unsigned int GetOwnerEntityLayerIndex() const;

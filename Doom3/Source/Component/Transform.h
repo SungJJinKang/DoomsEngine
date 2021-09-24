@@ -57,6 +57,8 @@ namespace doom
 
 		}
 
+		bool IsEntityMobilityStatic() const;
+
 	public:
 
 		Transform() : mLastFramePosition{ 0.0f }, mPosition{ 0.0f }, mRotation{}, mScale{ 1.0f }, bmIsDirtyModelMatrix{ true }
@@ -70,13 +72,16 @@ namespace doom
 
 		FORCE_INLINE void SetPosition(const math::Vector3& position) noexcept
 		{
-			D_ASSERT(GetOwnerEntity()->mEntityMobility != Entity::eEntityMobility::Static);
+			D_ASSERT(IsEntityMobilityStatic());
 
-			mTranslationMatrix = math::translate(position);
-			mPosition = position;
+			if (IsEntityMobilityStatic())
+			{
+				mTranslationMatrix = math::translate(position);
+				mPosition = position;
 
-			SetDirtyTrueAtThisFrame();
-			bmIsDirtyModelMatrix = true;
+				SetDirtyTrueAtThisFrame();
+				bmIsDirtyModelMatrix = true;
+			}			
 		}
 		FORCE_INLINE void SetPosition(float x, float y, float z) noexcept
 		{
@@ -85,13 +90,16 @@ namespace doom
 
 		FORCE_INLINE void SetRotation(const math::Quaternion& rotation) noexcept
 		{
-			D_ASSERT(GetOwnerEntity()->mEntityMobility != Entity::eEntityMobility::Static);
+			D_ASSERT(IsEntityMobilityStatic());
 
-			mRotationMatrix = static_cast<math::Matrix4x4>(rotation);
-			mRotation = rotation;
-			SetDirtyTrueAtThisFrame();
+			if (IsEntityMobilityStatic())
+			{
+				mRotationMatrix = static_cast<math::Matrix4x4>(rotation);
+				mRotation = rotation;
+				SetDirtyTrueAtThisFrame();
 
-			bmIsDirtyModelMatrix = true;
+				bmIsDirtyModelMatrix = true;
+			}
 		} 
 		FORCE_INLINE void SetRotation(const math::Vector3& eulerAngle) noexcept
 		{
@@ -105,12 +113,15 @@ namespace doom
 
 		FORCE_INLINE void SetScale(const math::Vector3& scale) noexcept
 		{
-			D_ASSERT(GetOwnerEntity()->mEntityMobility != Entity::eEntityMobility::Static);
+			D_ASSERT(IsEntityMobilityStatic());
 
-			mScaleMatrix = math::scale(scale);
-			mScale = scale;
-			SetDirtyTrueAtThisFrame();
-			bmIsDirtyModelMatrix = true;
+			if (IsEntityMobilityStatic())
+			{
+				mScaleMatrix = math::scale(scale);
+				mScale = scale;
+				SetDirtyTrueAtThisFrame();
+				bmIsDirtyModelMatrix = true;
+			}
 		}
 		FORCE_INLINE void SetScale(const float x, const float y, const float z) noexcept
 		{

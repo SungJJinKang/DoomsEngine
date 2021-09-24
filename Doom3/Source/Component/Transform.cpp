@@ -1,10 +1,8 @@
 #include "Transform.h"
 
 #include <sstream>
-#include "../Core/Math/LightMath_Cpp/Matrix_utility.h"
 
-#include "Graphics/Graphics_Server.h"
-
+#include <Scene/Entity.h>
 
 void doom::Transform::InitComponent()
 {
@@ -27,6 +25,11 @@ void doom::Transform::OnEndOfFrame_Component()
 void doom::Transform::OnDestroy()
 {
 	
+}
+
+bool doom::Transform::IsEntityMobilityStatic() const
+{
+	return GetOwnerEntity()->mEntityMobility != Entity::eEntityMobility::Static;
 }
 
 std::string doom::Transform::ToString()
