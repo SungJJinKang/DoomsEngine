@@ -100,14 +100,14 @@ namespace doom
 				bmIsProfilerActivated = !(ConfigData::GetSingleton()->GetConfigData().GetValue<bool>("SYSTEM", "DISABLE_PROFILER"));
 			}
 
-			FORCE_INLINE float CummulativeAverage(float prevAvg, float newNum, unsigned long long elementCount)
+			FORCE_INLINE float CummulativeAverage(float prevAvg, float newNum, unsigned int elementCount)
 			{
 				const float oldWeight = (elementCount - 1) / elementCount;
 				const float newWeight = 1 / elementCount;
 				return (prevAvg * oldWeight) + (newNum * newWeight);
 			}
 
-			FORCE_INLINE void LogDuration(const std::thread::id& thread, const char* name, long long elapsedTimeCountInMs)
+			FORCE_INLINE void LogDuration(const std::thread::id& thread, const char* name, unsigned int elapsedTimeCountInMs)
 			{
 				std::ostringstream sstream;
 				// used time in microseconds

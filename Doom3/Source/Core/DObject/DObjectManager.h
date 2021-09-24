@@ -6,26 +6,23 @@
 namespace doom
 {
 	class DObject;
-	class DObjectManager : public ISingleton<DObjectManager>
+	class DObjectManager
 	{	
 		friend class DObject;
 
 	private:
 
-		size_t mDObjectCounter = 0;
-		std::unordered_map<size_t, DObject*> mDObjectsHashMap;
+		inline static size_t mDObjectCounter = 0;
+		inline static std::unordered_map<size_t, DObject*> mDObjectsHashMap{};
 
-		size_t GenerateNewDObejctID();
-		bool AddDObject(DObject* const dObject);
-		bool ReplaceDObject(DObject& originalDObject, DObject* const newDObject);
-		bool RemoveDObject(DObject* const dObject);
+		static size_t GenerateNewDObejctID();
+		static bool AddDObject(DObject* const dObject);
+		static bool ReplaceDObject(DObject& originalDObject, DObject* const newDObject);
+		static bool RemoveDObject(DObject* const dObject);
 
 	public:
 
-		DObject* GetDObject(const size_t dObjectID);
-	
-		DObjectManager();
-		~DObjectManager();
-
+		static DObject* GetDObject(const size_t dObjectID);
+		static void DestroyAllDObjects();
 	};
 }

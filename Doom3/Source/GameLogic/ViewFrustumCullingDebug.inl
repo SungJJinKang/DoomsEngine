@@ -83,6 +83,7 @@ void doom::GameLogicStartPoint::StartGameLogic()
 		}
 	}
 
+
 	{
 		auto entity = currenScene->CreateNewEntity();
 		entity->GetTransform()->SetPosition(100.0f, 0.0f, 0.0f);

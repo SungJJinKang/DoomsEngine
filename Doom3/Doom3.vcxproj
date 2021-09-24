@@ -336,6 +336,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Component\PhysicsComponent\Rigidbody\Rigidbody.h" />
+    <ClInclude Include="Source\Core\DObject\DObjectGlobals.h" />
     <ClInclude Include="Source\Core\DObject\DObjectManager.h" />
     <ClInclude Include="Source\Core\Graphics\Acceleration\LinearData_ViewFrustumCulling\CullingModule\OcclusionCullingWithComputeShader\OcclusionCullingWithComputeShader.h" />
     <ClInclude Include="Source\Core\Graphics\Acceleration\LinearData_ViewFrustumCulling\DataType\Position_BoundingSphereRadius.h" />

@@ -10,7 +10,7 @@ namespace doom
 	{
 		class Mesh;
 		class UniformBufferObject;
-		class Buffer
+		class Buffer : public DObject
 		{
 		protected:
 

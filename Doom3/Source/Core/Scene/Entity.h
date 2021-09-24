@@ -66,17 +66,7 @@ namespace doom
 		size_t mEntityID;
 		
 
-		/// <summary>
-		/// Entity Constructor should be called through Scene class
-		///  To Protect User create entity not thourgh Scene class
-		/// </summary>
-		Entity(size_t entityID, Entity* parent);
-
-		/// <summary>
-		/// Entity destructor should be called through Entity::Destory function
-		/// To Protect User call delete entity not thourgh Scene or Entity class
-		/// </summary>
-		~Entity();
+		
 
 		std::string mEntityName;
 		static const inline std::string DEFAULT_ENTITY_NAME{ "Entity" };
@@ -239,6 +229,17 @@ namespace doom
 		eEntityMobility mEntityMobility{ eEntityMobility::Dynamic };
 		unsigned int mEntityFlag{ eEntityFlags::OcculuderStatic | eEntityFlags::OcculudeeStatic };
 
+		/// <summary>
+		/// Entity Constructor should be called through Scene class
+		///  To Protect User create entity not thourgh Scene class
+		/// </summary>
+		Entity(size_t entityID, Entity* parent);
+
+		/// <summary>
+		/// Entity destructor should be called through Entity::Destory function
+		/// To Protect User call delete entity not thourgh Scene or Entity class
+		/// </summary>
+		~Entity();
 
 		template<typename T, std::enable_if_t<std::is_base_of_v<Component, T>, bool> = true>
 		T* AddComponent() noexcept

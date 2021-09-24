@@ -75,17 +75,14 @@ doom::DObject* doom::DObjectManager::GetDObject(const size_t dObjectID)
     return dObject;
 }
 
-doom::DObjectManager::DObjectManager()
+void doom::DObjectManager::DestroyAllDObjects()
 {
+	for (auto dObject : mDObjectsHashMap)
+	{
+		if (dObject.second != nullptr)
+		{
+			delete dObject.second;
+		}
+	}
 }
 
-doom::DObjectManager::~DObjectManager()
-{
-    for (auto dObject : mDObjectsHashMap)
-    {
-        if (dObject.second != nullptr)
-        {
-            delete dObject.second;
-        }
-    }
-}

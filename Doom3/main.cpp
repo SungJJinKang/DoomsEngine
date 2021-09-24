@@ -12,8 +12,6 @@ void ExitGame();
 
 int main()
 {
-	DObjectManager mDObjectManager;
-
 	GameCore gameCore{};
 
 	D_START_PROFILING("Init Game", doom::profiler::eProfileLayers::CPU);
@@ -25,6 +23,8 @@ int main()
 	}
 	gameCore.CleanUp();
 	//window terminated
+
+	DObjectManager::DestroyAllDObjects();
 
 	std::cout << std::endl;
 	std::fflush(stdout);

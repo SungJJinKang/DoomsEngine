@@ -1,46 +1,81 @@
 #include "DObject.h"
 
-#include "DObjectManager.h"
 #include <utility>
 
-doom::DObject::DObject()
-	:mDObjectID(INVALID_DOBJECT_ID)
+#include <Macros/Macros.h>
+
+#include "DObjectManager.h"
+
+void doom::DObject::Construct_Internal()
 {
-	InitializeDObject();
+	if (mDObjectID == INVALID_DOBJECT_ID)
+	{
+		mDObjectID = DObjectManager::GenerateNewDObejctID();
+		DObjectManager::AddDObject(this);
+	}
 }
 
-void doom::DObject::InitializeDObject()
+void doom::DObject::InitProperties(const DObjectContructorParams& params)
 {
-	mDObjectID = DObjectManager::GetSingleton()->GenerateNewDObejctID();
-	DObjectManager::GetSingleton()->AddDObject(this);
+	mDObjectProperties.mDObjectFlag |= params.DObjectFlag;
 }
+
+void doom::InitDObjectPropertiesGlobal(DObject* const dObject, DObjectContructorParams& params)
+{
+	dObject->InitProperties(params);
+}
+
+doom::DObject::DObject()
+	:mDObjectID(INVALID_DOBJECT_ID), mDObjectProperties()
+{
+	Construct_Internal();
+}
+
+doom::DObject::DObject(const DObjectContructorParams& params)
+	: mDObjectID(INVALID_DOBJECT_ID), mDObjectProperties{ }
+{
+	mDObjectProperties.mDObjectFlag = params.DObjectFlag;
+	Construct_Internal();
+}
+
+
 
 doom::DObject::DObject(const DObject& dObject)
+	:mDObjectID(INVALID_DOBJECT_ID), mDObjectProperties(mDObjectProperties)
 {
-	InitializeDObject();
+	Construct_Internal();
+}
+doom::DObject& doom::DObject::operator=(const DObject& dObject)
+{
+	mDObjectID = INVALID_DOBJECT_ID;
+	mDObjectProperties.mDObjectFlag = dObject.mDObjectProperties.mDObjectFlag;
+
+	Construct_Internal();
+
+	return *this;
 }
 
 doom::DObject::DObject(DObject&& dObject) noexcept
 {
-	DObjectManager::GetSingleton()->ReplaceDObject(dObject, this);
+	DObjectManager::ReplaceDObject(dObject, this);
 }
 
-doom::DObject& doom::DObject::operator=(const DObject& dObject)
-{
-	InitializeDObject();
-	return *this;
-}
+
 
 doom::DObject& doom::DObject::operator=(DObject&& dObject) noexcept
 {
-	DObjectManager::GetSingleton()->ReplaceDObject(dObject, this);
+	DObjectManager::ReplaceDObject(dObject, this);
 	return *this;
 }
 
 doom::DObject::~DObject()
 {
+	D_ASSERT(mDObjectID != INVALID_DOBJECT_ID);
 	if (mDObjectID != INVALID_DOBJECT_ID)
 	{
-		DObjectManager::GetSingleton()->RemoveDObject(this);
+		DObjectManager::RemoveDObject(this);
 	}
 }
+
+
+
