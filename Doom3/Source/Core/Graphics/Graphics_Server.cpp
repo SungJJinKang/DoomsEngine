@@ -216,7 +216,7 @@ void Graphics_Server::DoCullJob()
 		D_END_PROFILING("PreUpdateEntityBlocks");
 
 		D_START_PROFILING("Push Culling Job To Linera Culling System", doom::profiler::eProfileLayers::Rendering);
-		resource::JobSystem::GetSingleton()->PushBackJobToAllThreadWithNoSTDFuture(mCullingSystem->GetCullJob());
+		resource::JobSystem::GetSingleton()->PushBackJobToAllThreadWithNoSTDFuture(std::function<void()>(mCullingSystem->GetCullJobInLambda()));
 		D_END_PROFILING("Push Culling Job To Linera Culling System");
 	}
 	
