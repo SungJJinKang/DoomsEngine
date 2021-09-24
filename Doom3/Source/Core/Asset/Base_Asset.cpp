@@ -43,11 +43,6 @@ const std::string& Asset::GetAssetFileName() const
 	return mAssetMetaData.mFileName;
 }
 
-std::filesystem::path Asset::GetAssetPath()
-{
-	return mAssetMetaData.mFileDirectory;
-}
-
 const std::filesystem::path& Asset::GetAssetPath() const
 {
 	return mAssetMetaData.mFileDirectory;

@@ -130,7 +130,6 @@ namespace doom
 			std::string GetAssetFileName();
 			const std::string& GetAssetFileName() const;
 			unsigned long long GetAssetFileSize() const;
-			std::filesystem::path GetAssetPath();
 			const std::filesystem::path& GetAssetPath() const;
 			AssetStatus GetAssetStatus();
 

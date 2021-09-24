@@ -8,6 +8,7 @@
 #include "../Graphics/Material/Material.h"
 #include "../../Helper/TextImporter.h"
 #include "../../Helper/trim.h"
+#include <UI/PrintText.h>
 
 const std::string doom::asset::ShaderAsset::VertexShaderMacros = "#VERTEX";
 const std::string doom::asset::ShaderAsset::FragmentShaderMacros = "#FRAGMENT";
@@ -122,9 +123,7 @@ void doom::asset::ShaderAsset::CompileShaders()
 		CompileSpecificShader(mShaderText.mGeometryShaderText, ShaderType::Geometry, mGeometryId);
 	}
 
-#ifndef DEBUG_MODE
-	mShaderText.Clear(); //clear shader text file
-#endif
+	
 }
 
 void doom::asset::ShaderAsset::CompileSpecificShader(const std::string& shaderStr, ShaderType shaderType, unsigned int& shaderId)
@@ -154,6 +153,21 @@ void doom::asset::ShaderAsset::CompileSpecificShader(const std::string& shaderSt
 #ifdef DEBUG_MODE
 	checkCompileError(shaderId, shaderType);
 #endif
+
+	if (shaderType == ShaderType::Vertex)
+	{
+		doom::ui::PrintText("Compile Shader - Vertex ( %s )", GetAssetPath().generic_u8string().c_str());
+	}
+	else if (shaderType == ShaderType::Fragment)
+	{
+		doom::ui::PrintText("Compile Shader - Fragment ( %s )", GetAssetPath().generic_u8string().c_str());
+
+	}
+	else if (shaderType == ShaderType::Geometry)
+	{
+		doom::ui::PrintText("Compile Shader - Geometry ( %s )", GetAssetPath().generic_u8string().c_str());
+	}
+	
 }
 
 
