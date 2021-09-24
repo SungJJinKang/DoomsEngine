@@ -87,7 +87,7 @@ Material::~Material()
 	}
 }
 
-bool doom::graphics::Material::IsGenerated()
+bool doom::graphics::Material::IsGenerated() const
 {
 	return mProgramID != 0;
 }
@@ -110,7 +110,7 @@ void doom::graphics::Material::AddTextures(const std::array<Texture*, MAX_TEXTUR
 	mTargetTextures = textures;
 }
 
-void doom::graphics::Material::UseProgram()
+void doom::graphics::Material::UseProgram() const
 {
 	D_ASSERT(mProgramID != 0);
 
@@ -140,7 +140,7 @@ void Material::SetUniformBlockPoint(const std::string uniformBlockName, unsigned
 }
 */
 
-int Material::GetUniformBlocksCount()
+int Material::GetUniformBlocksCount() const
 {
 	D_ASSERT(mProgramID != 0);
 

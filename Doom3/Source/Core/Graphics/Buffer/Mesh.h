@@ -28,6 +28,7 @@ namespace doom
 
 			static inline const char VERTEX_ARRAY_TAG[]{ "VERTEX_ARRAY" };
 			static inline const char VERTEX_BUFFER_TAG[]{ "VERTEX_BUFFER" };
+			static inline const char INDEX_BUFFER_TAG[]{ "INDEX_BUFFER" };
 
 		private:
 
@@ -67,6 +68,16 @@ namespace doom
 				}
 			}
 
+			FORCE_INLINE void BindElementBuffer() const noexcept
+			{
+				D_ASSERT(mElementBufferObjectID != 0);
+
+				if (D_OVERLAP_BIND_CHECK_CHECK_IS_NOT_BOUND_AND_BIND_ID(INDEX_BUFFER_TAG, mElementBufferObjectID))
+				{
+					glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mElementBufferObjectID);
+				}
+			}
+
 			/// <summary>
 			/// this is local coordinate, you should map to your world coordinate
 			/// </summary>
@@ -74,6 +85,7 @@ namespace doom
 			physics::Sphere mSphere;
 
 		protected:
+
 			void GenMeshBuffer(bool hasIndice);
 			void DeleteBuffers() final;
 			virtual void GenBufferIfNotGened(bool hasIndice) final;
@@ -133,9 +145,9 @@ namespace doom
 				D_ASSERT(mPrimitiveType != ePrimitiveType::NONE);
 
 				BindVertexArrayObject();
-				if (mNumOfIndices > 0)
+				if (IsElementBufferGenerated() == true)
 				{// TODO : WHY THIS MAKE ERROR ON RADEON GPU, CHECK THIS https://stackoverflow.com/questions/18299646/gldrawelements-emits-gl-invalid-operation-when-using-amd-driver-on-linux
-					// you don't need bind mVertexArrayObjectID everytime, EBO will be bound automatically when bind VAO
+					// you don't need bind EBO everytime, EBO will be bound automatically when bind VAO
 					GraphicsAPI::DrawElement(mPrimitiveType, mNumOfIndices, GL_UNSIGNED_INT, 0);
 				}
 				else
@@ -143,7 +155,7 @@ namespace doom
 					GraphicsAPI::DrawArray(mPrimitiveType, 0, mNumOfVertices);
 				}
 			}
-			FORCE_INLINE void DrawArray(int startIndexInComponent, const unsigned int vertexCount) const
+			FORCE_INLINE void DrawArray(const int startIndexInComponent, const unsigned int vertexCount) const
 			{
 				D_ASSERT(mPrimitiveType != ePrimitiveType::NONE);
 
@@ -152,7 +164,7 @@ namespace doom
 				GraphicsAPI::DrawArray(mPrimitiveType, startIndexInComponent, vertexCount);
 			}
 
-			FORCE_INLINE void DrawArray(ePrimitiveType primitiveType, int startVertexIndex, int vertexCount) const
+			FORCE_INLINE void DrawArray(const ePrimitiveType primitiveType, const int startVertexIndex, const int vertexCount) const
 			{
 				D_ASSERT(primitiveType != ePrimitiveType::NONE);
 
@@ -161,7 +173,7 @@ namespace doom
 				GraphicsAPI::DrawArray(primitiveType, startVertexIndex, vertexCount);
 			}
 
-			static constexpr unsigned int GetStride(unsigned int vertexArrayFlag);
+			static constexpr unsigned int GetStride(const unsigned int vertexArrayFlag);
 
 			static inline std::shared_ptr<Mesh> QuadMesh{};
 			static std::shared_ptr<Mesh> GetQuadMesh();
@@ -174,7 +186,14 @@ namespace doom
 			/// <returns></returns>
 			static Mesh GetQuadMesh(const math::Vector2& leftbottom, const math::Vector2& rightup);
 
-			virtual bool IsBufferGenerated() final;
+			virtual bool IsBufferGenerated() const final;
+			FORCE_INLINE bool IsElementBufferGenerated() const 
+			{
+				return mElementBufferObjectID != 0;
+			}
+
+			void UpdateElementBuffer(const unsigned int* indices, const unsigned int indiceCount);
+
 
 			const physics::AABB3D& GetBoundingBox() const;
 			const physics::Sphere& GetBoundingSphere() const;

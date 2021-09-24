@@ -59,12 +59,12 @@ void doom::Renderer::ClearRenderingBitFlag()
 	mRenderingFlag = 0;
 }
 
-void doom::Renderer::SetMaterial(graphics::Material* material) noexcept
+void doom::Renderer::SetMaterial(const graphics::Material* material) noexcept
 {
 	mTargetMaterial = material;
 }
 
-char doom::Renderer::GetIsVisibleWithCameraIndex(unsigned int cameraIndex)
+char doom::Renderer::GetIsVisibleWithCameraIndex(unsigned int cameraIndex) const
 {
 	return mEntityBlockViewer.GetIsCulled(cameraIndex);
 }
@@ -96,7 +96,7 @@ const doom::physics::Sphere& doom::Renderer::GetBoudingSphere()
 }
 */
 
-void doom::Renderer::SetMaterial(graphics::Material& material) noexcept
+void doom::Renderer::SetMaterial(const graphics::Material& material) noexcept
 {
 	SetMaterial(&material);
 }

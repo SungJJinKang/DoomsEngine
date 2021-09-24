@@ -75,7 +75,7 @@ void doom::graphics::SingleTexture::Tex2DMipMapImages(std::vector<const DirectX:
 	*/
 }
 
-void SingleTexture::TexImage2D(int level, const void* data) noexcept
+void SingleTexture::TexImage2D(int level, const void* data) const noexcept
 {
 	BindTexture();
 	
@@ -93,7 +93,7 @@ void SingleTexture::TexImage2D(int level, const void* data) noexcept
 	}
 }
 
-void SingleTexture::TexImage1D(int level, const void* data) noexcept
+void SingleTexture::TexImage1D(int level, const void* data) const noexcept
 {
 	BindTexture();
 	if (mInternalFormat != eTextureInternalFormat::NONE)
@@ -110,7 +110,7 @@ void SingleTexture::TexImage1D(int level, const void* data) noexcept
 	}
 }
 
-void SingleTexture::TexImage1D(int level, const DirectX::Image* directXImage) noexcept
+void SingleTexture::TexImage1D(int level, const DirectX::Image* directXImage) const noexcept
 {
 	if (mInternalFormat != eTextureInternalFormat::NONE)
 	{
@@ -126,7 +126,7 @@ void SingleTexture::TexImage1D(int level, const DirectX::Image* directXImage) no
 	}
 }
 
-void SingleTexture::TexImage2D(int level, const DirectX::Image* directXImage) noexcept
+void SingleTexture::TexImage2D(int level, const DirectX::Image* directXImage) const noexcept
 {
 	if (mInternalFormat != eTextureInternalFormat::NONE)
 	{

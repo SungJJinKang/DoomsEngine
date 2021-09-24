@@ -69,10 +69,10 @@ void doom::graphics::Mesh::DeleteBuffers()
 
 void doom::graphics::Mesh::GenBufferIfNotGened(bool hasIndice)
 {
-	if (IsBufferGenerated() == true)
-		return;
-
-	GenMeshBuffer(hasIndice);
+	if (IsBufferGenerated() == false)
+	{
+		GenMeshBuffer(hasIndice);
+	}
 }
 
 doom::graphics::Mesh& doom::graphics::Mesh::operator=(const ThreeDModelMesh& threeDModelMesh) noexcept
@@ -231,7 +231,7 @@ void doom::graphics::Mesh::BufferDataFromModelMesh(const ThreeDModelMesh& threeD
 	mNumOfIndices = 0;
 	if (threeDModelMesh.bHasIndices == true && threeDModelMesh.mNumOfIndices > 0)
 	{
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mElementBufferObjectID);
+		BindElementBuffer();
 		glBufferData(GL_ELEMENT_ARRAY_BUFFER, threeDModelMesh.mNumOfIndices * sizeof(unsigned int), &(threeDModelMesh.mMeshIndices[0]), GL_STATIC_DRAW);
 		mNumOfIndices = threeDModelMesh.mNumOfIndices;
 	}
@@ -244,7 +244,7 @@ void doom::graphics::Mesh::BufferDataFromModelMesh(const ThreeDModelMesh& threeD
 	D_ASSERT(mPrimitiveType != ePrimitiveType::NONE);
 }
 
-constexpr unsigned int doom::graphics::Mesh::GetStride(unsigned int vertexArrayFlag)
+constexpr unsigned int doom::graphics::Mesh::GetStride(const unsigned int vertexArrayFlag)
 {
 	unsigned int offset = 0;
 	if (vertexArrayFlag & eVertexArrayFlag::VertexVector3)
@@ -314,13 +314,24 @@ doom::graphics::Mesh doom::graphics::Mesh::GetQuadMesh(const math::Vector2& left
 		leftbottom.x, rightup.y, 0.0f, 0.0f, 1.0f,
 	};
 
-	return Mesh(sizeof(QuadMeshData) / sizeof(float), (void*)QuadMeshData, ePrimitiveType::TRIANGLES, eVertexArrayFlag::VertexVector3 | eVertexArrayFlag::TexCoord);
+	return Mesh(sizeof(QuadMeshData) / sizeof(float), reinterpret_cast<void*>(QuadMeshData), ePrimitiveType::TRIANGLES, eVertexArrayFlag::VertexVector3 | eVertexArrayFlag::TexCoord);
 }
 
 
-bool doom::graphics::Mesh::IsBufferGenerated()
+bool doom::graphics::Mesh::IsBufferGenerated() const
 {
 	return Buffer::IsBufferGenerated() && mVertexArrayObjectID != 0;
+}
+
+void doom::graphics::Mesh::UpdateElementBuffer(const unsigned int* indices, const unsigned int indiceCount)
+{
+	D_ASSERT(IsBufferGenerated() == true);
+
+	BindVertexArrayObject();
+	BindElementBuffer();
+
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, indiceCount * sizeof(unsigned int), indices, GL_STATIC_DRAW);
+	mNumOfIndices = indiceCount;
 }
 
 const doom::physics::AABB3D& doom::graphics::Mesh::GetBoundingBox() const

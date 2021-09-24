@@ -290,14 +290,14 @@ namespace doom
 			//
 			//
 
-			FORCE_INLINE void BindTexture() noexcept
+			FORCE_INLINE void BindTexture() const noexcept
 			{
 				if (D_OVERLAP_BIND_CHECK_CHECK_IS_NOT_BOUND_AND_BIND_ID_WITH_DOUBLE_INDEX(BIND_TARGET_TAG, GetArbitraryIndexOfeBindTarget(mBindTarget), D_OVERLAP_BIND_GET_BIND_ID(ACTIVE_TEXTURE_TAG), mBufferID))
 				{
 					glBindTexture(static_cast<unsigned int>(mBindTarget), mBufferID);
 				}
 			}
-			FORCE_INLINE void ActiveTexture(unsigned int bindingPoint) noexcept
+			FORCE_INLINE void ActiveTexture(unsigned int bindingPoint) const noexcept
 			{
 				if (D_OVERLAP_BIND_CHECK_CHECK_IS_NOT_BOUND_AND_BIND_ID(ACTIVE_TEXTURE_TAG, bindingPoint))
 				{
@@ -306,7 +306,7 @@ namespace doom
 			}
 
 
-			FORCE_INLINE void UnBindTexture() noexcept
+			FORCE_INLINE void UnBindTexture() const noexcept
 			{
 				if (D_OVERLAP_BIND_CHECK_CHECK_IS_NOT_BOUND_AND_BIND_ID_WITH_DOUBLE_INDEX(BIND_TARGET_TAG, GetArbitraryIndexOfeBindTarget(mBindTarget), D_OVERLAP_BIND_GET_BIND_ID(ACTIVE_TEXTURE_TAG), 0))
 				{
@@ -314,7 +314,7 @@ namespace doom
 				}
 			}
 
-			FORCE_INLINE void BindTextureWithUnit(unsigned int bindingPoint)
+			FORCE_INLINE void BindTextureWithUnit(unsigned int bindingPoint) const
 			{
 				if (
 					D_OVERLAP_BIND_CHECK_CHECK_IS_NOT_BOUND_AND_BIND_ID_WITH_DOUBLE_INDEX(BIND_TARGET_TAG, GetArbitraryIndexOfeBindTarget(mBindTarget), bindingPoint, mBufferID)
@@ -328,7 +328,7 @@ namespace doom
 
 			virtual inline void TexImage1D(
 				int level, const void* data
-			) = 0;
+			) const = 0;
 
 			
 			/// <summary>
@@ -338,31 +338,31 @@ namespace doom
 			/// <param name="data"></param>
 			virtual inline void TexImage2D(
 				int level, const void* data
-			) = 0;
+			) const  = 0;
 
-			unsigned int GetID();
+			unsigned int GetID() const;
 
 			void SetWrapMode(eWrapMode wrapMode, bool bBind);
 			void SetFilterMin(eFilterMode filterMode, bool bBind);
 			void SetFilterMax(eFilterMode filterMode, bool bBind);
 
-			eWrapMode GetWrapModeS();
-			eWrapMode GetWrapModeT();
-			eWrapMode GetWrapModeR();
+			eWrapMode GetWrapModeS() const;
+			eWrapMode GetWrapModeT() const;
+			eWrapMode GetWrapModeR() const;
 
-			FORCE_INLINE void TexParameterf(eBindTarget target, eTextureParameterType pname, eTextureParameterValue param) noexcept
+			FORCE_INLINE void TexParameterf(eBindTarget target, eTextureParameterType pname, eTextureParameterValue param) const noexcept
 			{
 				glTexParameterf(static_cast<unsigned int>(target), static_cast<unsigned int>(pname), static_cast<float>(param));
 			}
-			FORCE_INLINE void TexParameteri(eBindTarget target, eTextureParameterType pname, eTextureParameterValue param) noexcept
+			FORCE_INLINE void TexParameteri(eBindTarget target, eTextureParameterType pname, eTextureParameterValue param) const noexcept
 			{
 				glTexParameteri(static_cast<unsigned int>(target), static_cast<unsigned int>(pname), static_cast<int>(param));
 			}
-			FORCE_INLINE void TexParameterf(eBindTarget target, eTextureParameterType pname, float param) noexcept
+			FORCE_INLINE void TexParameterf(eBindTarget target, eTextureParameterType pname, float param) const noexcept
 			{
 				glTexParameterf(static_cast<unsigned int>(target), static_cast<unsigned int>(pname), param);
 			}
-			FORCE_INLINE void TexParameteri(eBindTarget target, eTextureParameterType pname, int param) noexcept
+			FORCE_INLINE void TexParameteri(eBindTarget target, eTextureParameterType pname, int param) const noexcept
 			{
 				glTexParameteri(static_cast<unsigned int>(target), static_cast<unsigned int>(pname), param);
 			}

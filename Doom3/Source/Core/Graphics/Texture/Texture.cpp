@@ -95,22 +95,22 @@ void Texture::SetFilterMax(eFilterMode filterMode, bool bBind)
 	TexParameteri(mBindTarget, eTextureParameterType::TEXTURE_MAG_FILTER, static_cast<eTextureParameterValue>(filterMode));
 }
 
-doom::graphics::Texture::eWrapMode Texture::GetWrapModeS()
+doom::graphics::Texture::eWrapMode Texture::GetWrapModeS() const
 {
 	return mWrapS;
 }
 
-doom::graphics::Texture::eWrapMode Texture::GetWrapModeT()
+doom::graphics::Texture::eWrapMode Texture::GetWrapModeT() const
 {
 	return mWrapT;
 }
 
-doom::graphics::Texture::eWrapMode Texture::GetWrapModeR()
+doom::graphics::Texture::eWrapMode Texture::GetWrapModeR() const
 {
 	return mWrapR;
 }
 
-unsigned int Texture::GetID()
+unsigned int Texture::GetID() const
 {
 	return mBufferID;
 }

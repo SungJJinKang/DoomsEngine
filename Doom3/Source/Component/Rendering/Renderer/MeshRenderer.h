@@ -39,7 +39,7 @@ namespace doom
 	public:
 		MeshRenderer();
 		virtual ~MeshRenderer(){}
-		FORCE_INLINE void Draw() override
+		FORCE_INLINE void Draw() const override
 		{
 			BindMaterial();
 

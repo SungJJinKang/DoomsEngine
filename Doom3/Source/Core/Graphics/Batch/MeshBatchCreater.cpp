@@ -7,4 +7,5 @@ doom::graphics::Mesh* doom::graphics::MeshBatchCreater::CreateStaticBatchedMesh(
 )
 {
 	//staticRendererList
+	return nullptr;
 }

@@ -61,7 +61,7 @@ namespace doom
 
 	protected:
 
-		graphics::Material* mTargetMaterial;
+		const graphics::Material* mTargetMaterial;
 
 	public:
 		
@@ -103,7 +103,7 @@ namespace doom
 		virtual ~Renderer() {}
 
 
-		FORCE_INLINE virtual void Draw() = 0;
+		FORCE_INLINE virtual void Draw() const = 0;
 
 		/// <summary>
 		/// Why this function is inline function.
@@ -111,22 +111,27 @@ namespace doom
 		/// because We should render a lot of triangles 30 times in a second
 		/// 
 		/// </summary>
-		FORCE_INLINE void BindMaterial() noexcept
+		FORCE_INLINE void BindMaterial() const noexcept
 		{
 			if (mTargetMaterial != nullptr)
 			{
 				mTargetMaterial->UseProgram();
 			}
 		}
-		void SetMaterial(graphics::Material* material) noexcept;
-		void SetMaterial(graphics::Material& material) noexcept;
+
+		void SetMaterial(const graphics::Material* material) noexcept;
+		void SetMaterial(const graphics::Material& material) noexcept;
+		FORCE_INLINE const doom::graphics::Material* GetMaterial()
+		{
+			return mTargetMaterial;
+		}
 
 		/// <summary>
 		/// cameraIndex can be get from StaticContainer<Camera>
 		/// </summary>
 		/// <param name="cameraIndex"></param>
 		/// <returns></returns>
-		char GetIsVisibleWithCameraIndex(unsigned int cameraIndex);
+		char GetIsVisibleWithCameraIndex(unsigned int cameraIndex) const;
 		FORCE_INLINE bool GetIsCulled(const unsigned int cameraIndex) const
 		{
 			return mEntityBlockViewer.GetIsCulled(cameraIndex);

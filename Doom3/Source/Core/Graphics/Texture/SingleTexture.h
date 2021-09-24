@@ -41,10 +41,10 @@ namespace doom
 				eTargetTexture target, eTextureCompressedInternalFormat compressedInternalFormat, unsigned int width, unsigned int height, eTextureComponentFormat format, eDataType type, std::vector<const DirectX::Image*> mipmapDatas);
 
 			void Tex2DMipMapImages(std::vector<const DirectX::Image*> mipmapDatas);
-			virtual void TexImage1D(int level, const void* data) noexcept final;
-			virtual void TexImage2D(int level, const void* data) noexcept final;
-			void TexImage1D(int level, const DirectX::Image* directXImage) noexcept;
-			void TexImage2D(int level, const DirectX::Image* directXImage) noexcept;
+			virtual void TexImage1D(int level, const void* data) const noexcept final;
+			virtual void TexImage2D(int level, const void* data) const noexcept final;
+			void TexImage1D(int level, const DirectX::Image* directXImage) const noexcept;
+			void TexImage2D(int level, const DirectX::Image* directXImage) const noexcept;
 		};
 	}
 }

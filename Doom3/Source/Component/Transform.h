@@ -23,7 +23,7 @@ namespace doom
 		/// why don't use FrameDirtyChecker::IsDirty -> FrameDirtyChecker is changed when pass frame
 		/// but this modelMatrix is calculated when this is needed ( not every frame )
 		/// </summary>
-		alignas(64) math::Matrix4x4 mModelMatrixCache;
+		alignas(64) mutable math::Matrix4x4 mModelMatrixCache;
 		alignas(64) math::Matrix4x4 mLocalToWorldMatrix{ 1.0f };
 		alignas(64) math::Matrix4x4 mWorldToLocalMatrix{ 1.0f };
 		alignas(64) math::Matrix4x4 mTranslationMatrix{ 1.0f };
@@ -143,7 +143,7 @@ namespace doom
 			return mScale;
 		}
 
-		FORCE_INLINE const math::Matrix4x4& GetModelMatrix() noexcept
+		FORCE_INLINE const math::Matrix4x4& GetModelMatrix() const noexcept
 		{
 			if (bmIsDirtyModelMatrix.GetIsDirty(true))
 			{

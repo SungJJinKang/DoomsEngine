@@ -27,14 +27,14 @@ namespace doom
 			CubemapTexture& operator=(CubemapTexture&&) noexcept = default;
 
 
-			void TexImage1D(int level, const void* data) noexcept override;
+			void TexImage1D(int level, const void* data) const noexcept override;
 
-			void TexImage1D(int face, int level, const void* data) noexcept;
+			void TexImage1D(int face, int level, const void* data) const noexcept;
 
 
-			void TexImage2D(int level, const void* data) noexcept override;
+			void TexImage2D(int level, const void* data) const noexcept override;
 
-			void TexImage2D(int face, int level, const void* data) noexcept;
+			void TexImage2D(int face, int level, const void* data) const noexcept;
 
 		};
 	}
