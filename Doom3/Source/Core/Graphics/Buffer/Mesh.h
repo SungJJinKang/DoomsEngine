@@ -57,7 +57,7 @@ namespace doom
 			/// bind buffer array object
 			/// </summary>
 			/// <returns></returns>
-			FORCE_INLINE void BindBuffer() noexcept final
+			FORCE_INLINE void BindBuffer() const noexcept final
 			{
 				D_ASSERT(mVertexArrayObjectID != 0);
 
@@ -95,11 +95,11 @@ namespace doom
 			Mesh(Mesh&&) noexcept = default;
 			Mesh& operator=(Mesh&&) noexcept = default;
 			
-			FORCE_INLINE void BindVertexArrayObject() noexcept
+			FORCE_INLINE void BindVertexArrayObject() const noexcept
 			{
 				BindBuffer();
 			}
-			FORCE_INLINE void UnBindBuffer() noexcept final
+			FORCE_INLINE void UnBindBuffer() const noexcept final
 			{
 				if (D_OVERLAP_BIND_CHECK_CHECK_IS_NOT_BOUND_AND_BIND_ID(VERTEX_ARRAY_TAG, 0))
 				{
@@ -125,10 +125,10 @@ namespace doom
 			/// <param name="vertexArrayFlag">use eVertexArrayFlag!!!! </param>
 			/// <returns></returns>
 			void BufferData(GLsizeiptr dataComponentCount, const void* data, ePrimitiveType primitiveType, unsigned int vertexArrayFlag) noexcept;
-			void BufferSubData(GLsizeiptr dataComponentCount, const void* data, khronos_intptr_t offsetInByte) noexcept;
-			void BindVertexBufferObject();
+			void BufferSubData(GLsizeiptr dataComponentCount, const void* data, khronos_intptr_t offsetInByte) const noexcept;
+			void BindVertexBufferObject() const;
 			void BufferDataFromModelMesh(const ThreeDModelMesh& threeDModelMesh) noexcept;
-			FORCE_INLINE void Draw()
+			FORCE_INLINE void Draw() const
 			{
 				D_ASSERT(mPrimitiveType != ePrimitiveType::NONE);
 
@@ -143,7 +143,7 @@ namespace doom
 					GraphicsAPI::DrawArray(mPrimitiveType, 0, mNumOfVertices);
 				}
 			}
-			FORCE_INLINE void DrawArray(int startIndexInComponent, unsigned int vertexCount)
+			FORCE_INLINE void DrawArray(int startIndexInComponent, const unsigned int vertexCount) const
 			{
 				D_ASSERT(mPrimitiveType != ePrimitiveType::NONE);
 
@@ -152,7 +152,7 @@ namespace doom
 				GraphicsAPI::DrawArray(mPrimitiveType, startIndexInComponent, vertexCount);
 			}
 
-			FORCE_INLINE void DrawArray(ePrimitiveType primitiveType, int startVertexIndex, int vertexCount)
+			FORCE_INLINE void DrawArray(ePrimitiveType primitiveType, int startVertexIndex, int vertexCount) const
 			{
 				D_ASSERT(primitiveType != ePrimitiveType::NONE);
 
@@ -176,14 +176,11 @@ namespace doom
 
 			virtual bool IsBufferGenerated() final;
 
-			const physics::AABB3D& GetAABB() const;
-			physics::AABB3D GetAABB();
+			const physics::AABB3D& GetBoundingBox() const;
+			const physics::Sphere& GetBoundingSphere() const;
 
-			const physics::Sphere& GetSphere() const;
-			physics::Sphere GetSphere();
-
-			unsigned int GetVertexArrayObjectID();
-			unsigned int GetElementBufferObjectID();
+			unsigned int GetVertexArrayObjectID() const;
+			unsigned int GetElementBufferObjectID() const;
 		};
 	}
 }

@@ -171,6 +171,14 @@ namespace doom
 
 
 		public:
+			
+			ThreeDModelAsset() = default;
+			ThreeDModelAsset(const ThreeDModelAsset&) = delete;
+			ThreeDModelAsset(ThreeDModelAsset&& threeDAsset) noexcept = default;
+			ThreeDModelAsset& operator=(const ThreeDModelAsset&) = delete;
+			ThreeDModelAsset& operator=(ThreeDModelAsset&& threeDAsset) noexcept = default;
+			~ThreeDModelAsset();
+
 			/// <summary>
 			/// why const? to protect asset data
 			/// </summary>
@@ -179,12 +187,6 @@ namespace doom
 			graphics::Mesh* GetMesh(unsigned int index);
 			size_t GetMeshCount() const;
 
-			ThreeDModelAsset() = default;
-			ThreeDModelAsset(const ThreeDModelAsset&) = delete;
-			ThreeDModelAsset(ThreeDModelAsset&& threeDAsset) noexcept = default;
-			ThreeDModelAsset& operator=(const ThreeDModelAsset&) = delete;
-			ThreeDModelAsset& operator=(ThreeDModelAsset&& threeDAsset) noexcept = default;
-			~ThreeDModelAsset();
 
 		};
 

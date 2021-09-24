@@ -34,9 +34,9 @@ namespace doom
 
 		public:
 
-			inline virtual void BindBuffer() noexcept = 0;
-			inline virtual void UnBindBuffer() noexcept = 0;
-			virtual bool IsBufferGenerated();
+			inline virtual void BindBuffer() const noexcept = 0;
+			inline virtual void UnBindBuffer() const noexcept = 0;
+			virtual bool IsBufferGenerated() const;
 
 
 			enum class eBufferBindingTarget

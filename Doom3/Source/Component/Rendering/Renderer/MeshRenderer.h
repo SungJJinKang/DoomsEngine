@@ -10,7 +10,7 @@ namespace doom
 	class MeshRenderer : public Renderer
 	{
 	private:
-		graphics::Mesh* mTargetMesh;
+		const graphics::Mesh* mTargetMesh;
 
 
 		MeshRenderer(const MeshRenderer&) = delete;
@@ -53,7 +53,7 @@ namespace doom
 			}
 		}
 
-		void SetMesh(graphics::Mesh* mesh);
+		void SetMesh(const graphics::Mesh* const mesh);
 		
 		virtual physics::AABB3D GetLocalAABBBound() const final;
 

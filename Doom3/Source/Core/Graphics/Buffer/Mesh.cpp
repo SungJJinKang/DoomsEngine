@@ -161,7 +161,7 @@ void doom::graphics::Mesh::BufferData(GLsizeiptr dataComponentCount, const void*
 	mVertexArrayFlag = mVertexArrayFlag;
 }
 
-void doom::graphics::Mesh::BufferSubData(GLsizeiptr dataComponentCount, const void* data, khronos_intptr_t offsetInByte) noexcept
+void doom::graphics::Mesh::BufferSubData(GLsizeiptr dataComponentCount, const void* data, khronos_intptr_t offsetInByte) const noexcept
 {
 	D_ASSERT(mBufferID != 0);
 
@@ -175,7 +175,7 @@ void doom::graphics::Mesh::BufferSubData(GLsizeiptr dataComponentCount, const vo
 
 }
 
-void doom::graphics::Mesh::BindVertexBufferObject()
+void doom::graphics::Mesh::BindVertexBufferObject() const
 {
 	D_ASSERT(mBufferID != 0);
 
@@ -323,35 +323,27 @@ bool doom::graphics::Mesh::IsBufferGenerated()
 	return Buffer::IsBufferGenerated() && mVertexArrayObjectID != 0;
 }
 
-const doom::physics::AABB3D& doom::graphics::Mesh::GetAABB() const
+const doom::physics::AABB3D& doom::graphics::Mesh::GetBoundingBox() const
 {
 	return mAABB3D;
 }
 
-unsigned int doom::graphics::Mesh::GetVertexArrayObjectID()
+const doom::physics::Sphere& doom::graphics::Mesh::GetBoundingSphere() const
+{
+	return mSphere;
+}
+
+unsigned int doom::graphics::Mesh::GetVertexArrayObjectID() const
 {
 	return mVertexArrayObjectID;
 }
 
-unsigned int doom::graphics::Mesh::GetElementBufferObjectID()
+unsigned int doom::graphics::Mesh::GetElementBufferObjectID() const
 {
 	return mElementBufferObjectID;
 }
 
-doom::physics::AABB3D doom::graphics::Mesh::GetAABB()
-{
-	return mAABB3D;
-}
 
-const doom::physics::Sphere& doom::graphics::Mesh::GetSphere() const
-{
-	return mSphere;
-}
-
-doom::physics::Sphere doom::graphics::Mesh::GetSphere()
-{
-	return mSphere;
-}
 
 
 

@@ -54,7 +54,7 @@ namespace doom
 			void GenerateUniformBufferObject(unsigned int bindingPoint, unsigned int uniformBlockSizeInByte);
 			void DeleteBuffers() final;
 
-			FORCE_INLINE void BindBuffer() noexcept final
+			FORCE_INLINE void BindBuffer() const noexcept final
 			{
 				if (D_OVERLAP_BIND_CHECK_CHECK_IS_NOT_BOUND_AND_BIND_ID(GL_UNIFORM_BUFFER_TAG, mBufferID))
 				{
@@ -62,7 +62,7 @@ namespace doom
 				}
 				
 			}
-			FORCE_INLINE virtual void UnBindBuffer() noexcept final
+			FORCE_INLINE virtual void UnBindBuffer() const noexcept final
 			{
 				if (D_OVERLAP_BIND_CHECK_CHECK_IS_NOT_BOUND_AND_BIND_ID(GL_UNIFORM_BUFFER_TAG, 0))
 				{

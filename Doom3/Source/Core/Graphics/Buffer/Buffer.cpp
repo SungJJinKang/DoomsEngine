@@ -57,7 +57,7 @@ void doom::graphics::Buffer::DeleteBuffers()
 	}
 }
 
-bool doom::graphics::Buffer::IsBufferGenerated()
+bool doom::graphics::Buffer::IsBufferGenerated() const
 {
 	return mBufferID.Get() != 0;
 }

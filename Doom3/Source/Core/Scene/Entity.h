@@ -256,7 +256,7 @@ namespace doom
 
 
 		// TODO : cached component can be destroyed component 
-		Component* mComponentPtrCache;
+		mutable Component* mComponentPtrCache;
 
 		/// <summary>
 		/// GetComponent is expesive, so cache it
@@ -305,6 +305,52 @@ namespace doom
 			return nullptr;
 		}
 
+		/// <summary>
+		/// GetComponent is expesive, so cache it
+		/// </summary>
+		/// <typeparam name="T"></typeparam>
+		/// <returns></returns>
+		template<typename T, std::enable_if_t<std::is_base_of_v<Component, T>, bool> = true>
+		[[nodiscard]] const T* GetComponent() const // never return unique_ptr reference, just return pointer
+		{
+			if (mComponentPtrCache != nullptr)
+			{
+				T* componentPtr = dynamic_cast<T*>(mComponentPtrCache);
+				if (componentPtr != nullptr)
+				{
+					D_DEBUG_LOG("Component Cache hit");
+					return componentPtr;
+				}
+			}
+
+			if constexpr (Entity::IsServerComponent<T>() == true)
+			{// when component is ServerComponent
+				for (auto& ServerComponent : mServerComponents)
+				{
+					T* componentPtr = dynamic_cast<T*>(ServerComponent.get());
+					if (componentPtr != nullptr)
+					{
+						mComponentPtrCache = ServerComponent.get();
+						return componentPtr;
+					}
+				}
+			}
+			else
+			{// when component is plainComponent
+				for (auto& plainComponent : mPlainComponents)
+				{
+					T* componentPtr = dynamic_cast<T*>(plainComponent.get());
+					if (componentPtr != nullptr)
+					{
+						mComponentPtrCache = plainComponent.get();
+						return componentPtr;
+					}
+				}
+			}
+
+
+			return nullptr;
+		}
 
 		template<typename T, std::enable_if_t<std::is_base_of_v<Component, T>, bool> = true>
 		[[nodiscard]] std::vector<T*> GetComponents()
@@ -339,7 +385,40 @@ namespace doom
 			return components;
 		}
 
-		
+		template<typename T, std::enable_if_t<std::is_base_of_v<Component, T>, bool> = true>
+		[[nodiscard]] std::vector<const T*> GetComponents() const
+		{
+			std::vector<const T*> components;
+
+			if constexpr (Entity::IsServerComponent<T>() == true)
+			{// when component is ServerComponent
+				for (auto& ServerComponent : mServerComponents)
+				{
+					T* componentPtr = dynamic_cast<T*>(ServerComponent.get());
+					if (componentPtr != nullptr)
+					{
+						components.push_back(componentPtr);
+					}
+				}
+			}
+			else
+			{// when component is plain component
+				for (auto& plainComponent : mPlainComponents)
+				{
+					T* componentPtr = dynamic_cast<T*>(plainComponent.get());
+					if (componentPtr != nullptr)
+					{
+						components.push_back(componentPtr);
+					}
+				}
+			}
+
+
+
+			return components;
+		}
+
+
 
 		/// <summary>
 		/// 
@@ -460,7 +539,7 @@ namespace doom
 		void AddLayerChangedCallback(void(*callback_ptr)(Entity&));
 		void RemoveLayerChangedCallback(void(*callback_ptr)(Entity&));
 
-		FORCE_INLINE eEntityMobility GetEntityMobility()
+		FORCE_INLINE eEntityMobility GetEntityMobility() const
 		{
 			return mEntityMobility;
 		}
@@ -468,7 +547,7 @@ namespace doom
 		{
 			mEntityMobility = entityMobility;
 		}
-		FORCE_INLINE unsigned int GetEntityFlag()
+		FORCE_INLINE unsigned int GetEntityFlag() const
 		{	
 			return mEntityFlag;
 		}

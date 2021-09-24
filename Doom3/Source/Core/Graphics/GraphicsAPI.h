@@ -516,29 +516,29 @@ namespace doom
 				SHADING_LANGUAGE_VERSION = GL_VENDOR,
 			};
 			
-			FORCE_INLINE static int64_t GetInteger64v(GetIntegerParameter pname)
+			FORCE_INLINE static int64_t GetInteger64v(const GetIntegerParameter pname)
 			{
 				int64_t value{ 0 };
-				glGetInteger64v(static_cast<unsigned int>(pname), &value);
+				glGetInteger64v(static_cast<const unsigned int>(pname), &value);
 				return value;
 			}
 
-			FORCE_INLINE static const char* GetString(GetStringParameter pname)
+			FORCE_INLINE static const char* GetString(const GetStringParameter pname)
 			{
-				return reinterpret_cast<const char*>(glGetString(static_cast<unsigned int>(pname)));
+				return reinterpret_cast<const char*>(glGetString(static_cast<const unsigned int>(pname)));
 			}
 
 			
-			FORCE_INLINE static void DrawArray(ePrimitiveType mode, int first, int count)
+			FORCE_INLINE static void DrawArray(const ePrimitiveType mode, const int first, const int count)
 			{
-				glDrawArrays(static_cast<unsigned int>(mode), first, count);
+				glDrawArrays(static_cast<const unsigned int>(mode), first, count);
 
 				INCREMENT_DRAWCALL_COUNTER;
 			}
 
-			FORCE_INLINE static void DrawElement(ePrimitiveType mode, int count, unsigned int type, const void* indices)
+			FORCE_INLINE static void DrawElement(const ePrimitiveType mode, const int count, const unsigned int type, const void* indices)
 			{
-				glDrawElements(static_cast<unsigned int>(mode), count, type, indices);
+				glDrawElements(static_cast<const unsigned int>(mode), count, type, indices);
 
 				INCREMENT_DRAWCALL_COUNTER;
 			}

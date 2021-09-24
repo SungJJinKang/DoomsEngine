@@ -31,7 +31,7 @@ void doom::BoxAdder::UpdateComponent()
 
 		meshRenderer->SetMaterial(material);
 		BoxCollider3D* box3D = entity->AddComponent<BoxCollider3D>();
-		box3D->SetFromAABB3D(planetAsset->GetMesh(0)->GetAABB());
+		box3D->SetFromAABB3D(planetAsset->GetMesh(0)->GetBoundingBox());
 	}
 	
 }
