@@ -35,7 +35,7 @@ namespace doom
 		/// Contain Asset Api side Importer object
 		/// </summary>
 		template <::doom::asset::eAssetType assetType>
-		class AssetApiImporter
+		class AssetApiImporter : public DObject
 		{
 			template <::doom::asset::eAssetType assetType>
 			friend class AssetImporterWorker;

@@ -3,7 +3,16 @@
 #include "DObject.h"
 size_t doom::DObjectManager::GenerateNewDObejctID()
 {
-    mDObjectCounter++;
+    while (true)
+	{
+		mDObjectCounter++;
+		auto dObjectIter = mDObjectsHashMap.find(mDObjectCounter);
+		if (dObjectIter == mDObjectsHashMap.end() || dObjectIter->second == nullptr)
+		{
+			break;
+		}
+    }
+ 
     return mDObjectCounter;
 }
 

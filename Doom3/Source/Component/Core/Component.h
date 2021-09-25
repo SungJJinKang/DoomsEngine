@@ -66,7 +66,6 @@ namespace doom
 		/// <returns></returns>
 		virtual ~Component(){}
 
-	
 		/// Dont put public to Internal Function For Protect use call Internal Function
 		virtual void InitComponent_Internal(Entity* entity);
 		virtual void InitComponent()
@@ -171,5 +170,8 @@ namespace doom
 		// TODO : Add Preupdate
 		//virtual void OnPreUpdateComponent() {}
 		//virtual void OnPostUpdateComponent() {}
+
+
+
 	};
 }

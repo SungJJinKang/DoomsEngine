@@ -21,7 +21,7 @@ namespace doom
 		template<::doom::asset::eAssetType loopVariable>
 		struct OnEndImportInMainThreadFunctor;
 
-		class AssetManager : public IGameFlow, public ISingleton<AssetManager>
+		class AssetManager : public DObject, public IGameFlow, public ISingleton<AssetManager>
 		{
 			template<::doom::asset::eAssetType loopVariable>
 			friend struct ImportAssetFunctor;
@@ -64,7 +64,8 @@ namespace doom
 
 		public:
 
-	
+			AssetManager() = default;
+			~AssetManager() = default;
 
 			virtual void Init() final;
 			virtual void Update() final;

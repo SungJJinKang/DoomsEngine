@@ -103,6 +103,7 @@ namespace doom
 		/// </summary>
 		std::vector<std::unique_ptr<ServerComponent, Component::Deleter>> mServerComponents;
 
+
 		FORCE_INLINE void InitializeComponent(Component* const newComponent)
 		{
 			newComponent->InitComponent_Internal(this);
@@ -127,7 +128,7 @@ namespace doom
 		template<typename T, std::enable_if_t<std::is_base_of_v<Component, T>, bool> = true>
 		T* _AddComponent() noexcept
 		{
-			T* newComponent = new T();
+			T* newComponent = CreateDObject<T>();
 			D_ASSERT(newComponent->bIsAddedToEntity == false);
 
 			if constexpr (Entity::IsServerComponent<T>() == true)
@@ -196,25 +197,7 @@ namespace doom
 		/// <summary>
 		/// only called through Destructor
 		/// </summary>
-		void ClearComponents()
-		{
-			for (auto& plainComponent : mPlainComponents)
-			{
-				//Why doesn't erase from vector instantly : for performance
-				_DestroyComponent(plainComponent);
-			}
-			mPlainComponents.clear();
-
-			for (auto& ServerComponent : mServerComponents)
-			{
-				//Why doesn't erase from vector instantly : for performance
-				_DestroyComponent(ServerComponent);
-			}
-			mServerComponents.clear();
-
-		}
-
-	protected:
+		void ClearComponents();
 
 		void InitEntity() ;
 		void UpdateEntity();

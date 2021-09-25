@@ -37,7 +37,11 @@ namespace doom
 		Scene& operator=(Scene&&) noexcept = delete;
 
 
-		
+	protected:
+
+		void FixedUpdatePlainComponents();
+		void UpdatePlainComponents();
+		void OnEndOfFrameOfEntities();
 		
 
 	public:
@@ -52,12 +56,7 @@ namespace doom
 		[[nodiscard]] Camera* GetMainCamera() const;
 		void SetMainCamera(Camera* camera);
 
-	protected:
-		void FixedUpdatePlainComponents();
-		void UpdatePlainComponents();
-		void OnEndOfFrameOfEntities();
 
-	public:
 	};
 
 }

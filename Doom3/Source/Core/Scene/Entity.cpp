@@ -69,6 +69,23 @@ void doom::Entity::EndOfFrame_PlainComponent()
 	}
 }
 
+void Entity::ClearComponents()
+{
+	for (auto& plainComponent : mPlainComponents)
+	{
+		//Why doesn't erase from vector instantly : for performance
+		_DestroyComponent(plainComponent);
+	}
+	mPlainComponents.clear();
+
+	for (auto& ServerComponent : mServerComponents)
+	{
+		//Why doesn't erase from vector instantly : for performance
+		_DestroyComponent(ServerComponent);
+	}
+	mServerComponents.clear();
+}
+
 void Entity::OnActivated()
 {
 	SetDirtyTrueAtThisFrame();

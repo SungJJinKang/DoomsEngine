@@ -22,7 +22,7 @@ namespace doom
 
 		
 
-		class Assetimporter
+		class Assetimporter : public DObject
 		{
 			friend class AssetManager;
 
