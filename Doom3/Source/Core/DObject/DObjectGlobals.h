@@ -17,7 +17,7 @@ namespace doom
 		DObjectContructorParams params;
 		params.DObjectFlag |= doom::eDObjectFlag::NewAllocated;
 
-		InitDObjectPropertiesGlobal(static_cast<DObject*>(newDObject), params);
+		static_cast<DObject*>(newDObject)->InitProperties(params);
 
 		return newDObject;
 	}
