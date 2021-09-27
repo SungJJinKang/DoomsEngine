@@ -20,10 +20,6 @@ void doom::DObject::InitProperties(const DObjectContructorParams& params)
 	mDObjectProperties.mDObjectFlag |= params.DObjectFlag;
 }
 
-void doom::InitDObjectPropertiesGlobal(DObject* const dObject, DObjectContructorParams& params)
-{
-	dObject->InitProperties(params);
-}
 
 doom::DObject::DObject()
 	:mDObjectID(INVALID_DOBJECT_ID), mDObjectProperties()

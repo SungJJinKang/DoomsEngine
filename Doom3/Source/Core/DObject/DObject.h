@@ -14,7 +14,6 @@ namespace doom
 		unsigned int DObjectFlag;
 	};
 
-	void InitDObjectPropertiesGlobal(DObject* const dObject, DObjectContructorParams& params);
 
 
 	enum eDObjectFlag : unsigned int
@@ -27,7 +26,6 @@ namespace doom
 	class DObject
 	{
 		friend class DObjectManager;
-		friend void InitDObjectPropertiesGlobal(DObject* const dObject, DObjectContructorParams& params);
 
 		struct DObjectProperties
 		{
@@ -47,7 +45,7 @@ namespace doom
 		DObjectProperties mDObjectProperties;
 
 		void Construct_Internal();
-		void InitProperties(const DObjectContructorParams& params);
+		
 
 	protected:
 
@@ -62,6 +60,8 @@ namespace doom
 
 
 	public:
+
+		void InitProperties(const DObjectContructorParams& params);
 
 		inline size_t GetDObjectID() const
 		{
