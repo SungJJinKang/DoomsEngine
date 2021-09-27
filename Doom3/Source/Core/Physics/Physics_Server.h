@@ -32,16 +32,7 @@ namespace doom
 
 			virtual void Init() final;
 			virtual void Update() final;
-			virtual void FixedUpdate() final
-			{
-				D_START_PROFILING("FixedUpdateCollision", eProfileLayers::CPU);
-				FixedUpdateCollision();
-				D_END_PROFILING("FixedUpdateCollision");
-
-				D_START_PROFILING("UpdatePicking", eProfileLayers::CPU);
-				//mPicking.UpdatePicking();
-				D_END_PROFILING("UpdatePicking");
-			}
+			virtual void FixedUpdate() final;
 			void FixedUpdateCollision();
 
 			/// <summary>

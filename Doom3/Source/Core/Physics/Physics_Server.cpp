@@ -47,6 +47,17 @@ void doom::physics::Physics_Server::Update()
 	}
 }
 
+void doom::physics::Physics_Server::FixedUpdate()
+{
+	D_START_PROFILING("FixedUpdateCollision", eProfileLayers::CPU);
+	FixedUpdateCollision();
+	D_END_PROFILING("FixedUpdateCollision");
+
+	D_START_PROFILING("UpdatePicking", eProfileLayers::CPU);
+	//mPicking.UpdatePicking();
+	D_END_PROFILING("UpdatePicking");
+}
+
 void doom::physics::Physics_Server::FixedUpdateCollision()
 {
 	if (Physics_Setting::GetIsPhysicsOn() == true)
