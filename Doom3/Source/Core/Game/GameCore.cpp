@@ -119,6 +119,110 @@ void doom::GameCore::LateInit()
 	GameLogicStartPoint::StartGameLogic();
 }
 
+void doom::GameCore::Update()
+{
+	UpdateGameCore();
+
+	D_START_PROFILING("mTime_Server.Update_Internal", eProfileLayers::CPU);
+	mTime_Server.Update_Internal();
+	mTime_Server.Update();
+	D_END_PROFILING("mTime_Server.Update_Internal");
+
+	D_START_PROFILING("mPhysics_Server.Update", eProfileLayers::CPU);
+	mPhysics_Server.Update_Internal();
+	mPhysics_Server.Update();
+	D_END_PROFILING("mPhysics_Server.Update");
+
+	D_START_PROFILING("mUserImput_Server.Update", eProfileLayers::CPU);
+	mUserImput_Server.Update_Internal();
+	mUserImput_Server.Update();
+	D_END_PROFILING("mUserImput_Server.Update");
+
+	D_START_PROFILING("mCurrentScene->UpdatePlainComponents", eProfileLayers::CPU);
+	mCurrentScene->UpdatePlainComponents(); // Update plain Components ( Game Logic )
+	D_END_PROFILING("mCurrentScene->UpdatePlainComponents");
+
+	D_START_PROFILING("mGraphics_Server.Update", eProfileLayers::CPU);
+	mGraphics_Server.Update_Internal();
+	mGraphics_Server.Update();
+	D_END_PROFILING("mGraphics_Server.Update");
+}
+
+void doom::GameCore::FixedUpdate()
+{
+	D_START_PROFILING("mPhysics_Server.FixedUpdate_Internal", eProfileLayers::CPU);
+	mPhysics_Server.FixedUpdate_Internal();
+	D_END_PROFILING("mPhysics_Server.FixedUpdate_Internal");
+
+	D_START_PROFILING("mPhysics_Server.FixedUpdate", eProfileLayers::CPU);
+	mPhysics_Server.FixedUpdate();
+	D_END_PROFILING("mPhysics_Server.FixedUpdate");
+
+	D_START_PROFILING("mCurrentScene->FixedUpdatePlainComponents", eProfileLayers::CPU);
+	mCurrentScene->FixedUpdatePlainComponents(); // Update plain Components ( Game Logic )
+	D_END_PROFILING("mCurrentScene->FixedUpdatePlainComponents");
+}
+
+void doom::GameCore::OnEndOfFrame()
+{
+	D_START_PROFILING("mTime_Server OnEndOfFrame", eProfileLayers::CPU);
+	mTime_Server.OnEndOfFrame_Internal();
+	mTime_Server.OnEndOfFrame();
+	D_END_PROFILING("mTime_Server OnEndOfFrame");
+
+	D_START_PROFILING("mPhysics_Server OnEndOfFrame", eProfileLayers::CPU);
+	mPhysics_Server.OnEndOfFrame_Internal();
+	mPhysics_Server.OnEndOfFrame();
+	D_END_PROFILING("mPhysics_Server OnEndOfFrame");
+
+	D_START_PROFILING("mUserImput_Server OnEndOfFrame", eProfileLayers::CPU);
+	mUserImput_Server.OnEndOfFrame_Internal();
+	mUserImput_Server.OnEndOfFrame();
+	D_END_PROFILING("mUserImput_Server OnEndOfFrame");
+
+	D_START_PROFILING("mCurrentScene OnEndOfFrame", eProfileLayers::CPU);
+	mCurrentScene->OnEndOfFrameOfEntities(); // Update Plain Components ( Game Logic )
+	D_END_PROFILING("mCurrentScene OnEndOfFrame");
+
+	D_START_PROFILING("mGraphics_Server OnEndOfFrame", eProfileLayers::CPU);
+	mGraphics_Server.OnEndOfFrame_Internal();
+	mGraphics_Server.OnEndOfFrame();
+	D_END_PROFILING("mGraphics_Server OnEndOfFrame");
+}
+
+bool doom::GameCore::Tick()
+{
+
+	D_START_PROFILING("Fixed Update", eProfileLayers::CPU);
+	MainTimer::ResetFixedTimer();
+	int fixedUpdateCount{ 0 };
+	for (int i = 0; i < MAX_PHYSICS_STEP; ++i)
+	{
+		fixedUpdateCount++;
+		FixedUpdate();
+		MainTimer::UpdateFixedTimer();
+		if (MainTimer::GetFixedDeltaTime() > FIXED_TIME_STEP)
+		{
+			break;
+		}
+	}
+	D_END_PROFILING("Fixed Update");
+
+
+	MainTimer::UpdateFrameTimer();
+
+	D_START_PROFILING("Update", eProfileLayers::CPU);
+	Update();
+	D_END_PROFILING("Update");
+
+
+	D_START_PROFILING("OnEndOfFrame", eProfileLayers::CPU);
+	OnEndOfFrame();
+	D_END_PROFILING("OnEndOfFrame");
+
+	return true;
+}
+
 void doom::GameCore::CleanUp()
 {
 
