@@ -143,41 +143,6 @@ Graphics_Server::~Graphics_Server()
 }
 
 
-
-void Graphics_Server::PreUpdateEntityBlocks()
-{
-	const std::vector<culling::EntityBlock*>& activeEntityBlockList = mCullingSystem->GetActiveEntityBlockList();
-	for (culling::EntityBlock* entityBlock : activeEntityBlockList)
-	{
-		const unsigned int entityCount = entityBlock->mCurrentEntityCount;
-		for (unsigned int entityIndex = 0; entityIndex < entityCount; entityIndex++)
-		{
-			::doom::Renderer* const renderer = reinterpret_cast<::doom::Renderer*>(entityBlock->mRenderer[entityIndex]);
-
-			if (renderer != nullptr)
-			{
-				//this is really expensive!!
-				const float worldRadius = renderer->BVH_Sphere_Node_Object::GetWorldCollider()->mRadius;
-
-				const math::Vector3& renderedObjectPos = renderer->GetTransform()->GetPosition();
-
-				entityBlock->mPositions[entityIndex].SetPosition(*reinterpret_cast<const culling::Vector3*>(&renderedObjectPos));
-				entityBlock->mPositions[entityIndex].SetBoundingSphereRadius(worldRadius);
-
-#ifdef ENABLE_SCREEN_SAPCE_AABB_CULLING
-
-				std::memcpy(
-					entityBlock->mWorldAABB + entityIndex,
-					const_cast<Renderer*>(renderer)->ColliderUpdater<doom::physics::AABB3D>::GetWorldCollider()Cache()->data(),
-					sizeof(culling::AABB)
-				);
-
-#endif
-			}
-		}
-	}
-}
-
 void Graphics_Server::DoCullJob()
 {
 	const std::vector<doom::Camera*>& spawnedCameraList = StaticContainer<doom::Camera>::GetAllStaticComponents();
@@ -210,10 +175,6 @@ void Graphics_Server::DoCullJob()
 		D_START_PROFILING("mFrotbiteCullingSystem.ResetCullJobStat", doom::profiler::eProfileLayers::Rendering);
 		mCullingSystem->ResetCullJobState();
 		D_END_PROFILING("mFrotbiteCullingSystem.ResetCullJobStat");
-
-		D_START_PROFILING("PreUpdateEntityBlocks", doom::profiler::eProfileLayers::Rendering);
-		PreUpdateEntityBlocks();
-		D_END_PROFILING("PreUpdateEntityBlocks");
 
 		D_START_PROFILING("Push Culling Job To Linera Culling System", doom::profiler::eProfileLayers::Rendering);
 		resource::JobSystem::GetSingleton()->PushBackJobToAllThreadWithNoSTDFuture(std::function<void()>(mCullingSystem->GetCullJobInLambda()));
