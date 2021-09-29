@@ -64,7 +64,7 @@ void doom::GameLogicStartPoint::StartGameLogic()
 	// 			entity->AddComponent<BoxCollider3D>();
 	// 		}
 	// 	}
-	int count = 300;
+	int count = 800;
 	for (int i = -count; i < count; i = i + 15)
 	{
 		for (int j = -count; j < count; j = j + 15)
@@ -83,21 +83,6 @@ void doom::GameLogicStartPoint::StartGameLogic()
 		}
 	}
 
-
-	{
-		auto entity = currenScene->CreateNewEntity();
-		entity->GetTransform()->SetPosition(100.0f, 0.0f, 0.0f);
-		auto meshRenderer = entity->AddComponent<MeshRenderer>();
-		meshRenderer->SetMesh(planetAsset->GetMesh(0));
-		meshRenderer->SetMaterial(material);
-		PointLight* pointLight = entity->AddComponent<PointLight>();
-		AutoRotateAround* autoRotateAround = entity->AddComponent<AutoRotateAround>();
-		pointLight->SetColor({ 1.0f, 0.0f, 0.0f, 1.0f });
-		pointLight->SetIntensity(3000.0f);
-		autoRotateAround->mCenterPos = math::Vector3{ 0.0f, 0.0f, 0.0f };
-		autoRotateAround->mRotateAngle = 1;
-		autoRotateAround->mRotateAxis = { 0.0f, 1.0f, 0.0f };
-	}
 
 	for (int i = -200; i < 200; i += 70)
 	{
@@ -129,23 +114,17 @@ void doom::GameLogicStartPoint::StartGameLogic()
 
 
 
-	entity1->GetTransform()->SetPosition(0.0f, 0.0f, 600.0f);
-	entity1->AddComponent<Move_WASD>();
-	entity1->AddComponent<CharacterSpawner>();
-	entity1->AddComponent<ButtonRotate>();
-
+	entity1->GetTransform()->SetPosition(0.0f, 0.0f, 1500.0f);
+	//entity1->AddComponent<Move_WASD>();
+	//entity1->AddComponent<CharacterSpawner>();
+	//entity1->AddComponent<ButtonRotate>();
+	doom::graphics::Graphics_Setting::IsSortObjectFrontToBack = false;
 
 	auto physicsEntity = currenScene->CreateNewEntity();
 	entity1->AddComponent<TestComponent>();
 
 	auto emptyEntity = currenScene->CreateNewEntity();
 
-
-	auto entity2 = currenScene->CreateNewEntity();
-	entity2->GetTransform()->SetPosition(2.0f, 1.0f, -1.0f);
-	auto entity2BoxCollider3D = entity2->AddComponent<BoxCollider3D>();
-	entity2BoxCollider3D->SetHalfExtent(math::Vector3(1.0f, 2.0f, 3.0f));
-	entity2->AddComponent<AutoRotate>();
 
 	auto entity3 = currenScene->CreateNewEntity();
 	//entity3->AddComponent<ViewFrustumCullingDebug>();
