@@ -159,7 +159,7 @@ void Graphics_Server::PreUpdateEntityBlocks()
 				//this is really expensive!!
 				const float worldRadius = renderer->BVH_Sphere_Node_Object::GetWorldCollider()->mRadius;
 
-				const math::Vector3 renderedObjectPos = renderer->GetTransform()->GetPosition();
+				const math::Vector3& renderedObjectPos = renderer->GetTransform()->GetPosition();
 
 				entityBlock->mPositions[entityIndex].SetPosition(*reinterpret_cast<const culling::Vector3*>(&renderedObjectPos));
 				entityBlock->mPositions[entityIndex].SetBoundingSphereRadius(worldRadius);

@@ -18,6 +18,7 @@ namespace doom
 	private:
 
 		
+		
 
 		/// <summary>
 		/// why don't use FrameDirtyChecker::IsDirty -> FrameDirtyChecker is changed when pass frame
@@ -30,12 +31,13 @@ namespace doom
 		alignas(64) math::Matrix4x4 mRotationMatrix{ 1.0f };
 		alignas(64) math::Matrix4x4 mScaleMatrix{ 1.0f };
 		
-		//don't change place of this variable
-		//this position is for cache hit
-		alignas(64) math::Vector3 mPosition;
-		math::Vector3 mLastFramePosition;
+		
+
+		math::Vector3 mPosition;
 		math::Quaternion mRotation;
 		math::Vector3 mScale;
+
+		math::Vector3 mLastFramePosition;
 
 		//Matrix4X4 and Vector4 is aligned to 32, 16 byte
 		//So To save memory, it is declared next to next

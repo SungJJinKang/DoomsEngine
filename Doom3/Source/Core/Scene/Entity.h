@@ -72,7 +72,7 @@ namespace doom
 		static const inline std::string DEFAULT_ENTITY_NAME{ "Entity" };
 
 		//TODO : Every Entity has Transform Component, Just put Transform Component as member variable
-		Transform mTransform;
+	
 
 		unsigned int mLayerIndex;
 		/// <summary>
@@ -98,6 +98,9 @@ namespace doom
 		/// Plain component (not core component ) is stored at this variable
 		/// </summary>
 		std::vector<std::unique_ptr<Component, Component::Deleter>> mPlainComponents;
+
+		Transform mTransform;
+
 		/// <summary>
 		/// Core component is stored at this variable
 		/// </summary>
