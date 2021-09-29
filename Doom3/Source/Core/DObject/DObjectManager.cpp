@@ -3,94 +3,65 @@
 #include "DObject.h"
 size_t doom::DObjectManager::GenerateNewDObejctID()
 {
-    while (true)
-	{
-		mDObjectCounter++;
-		auto dObjectIter = mDObjectsHashMap.find(mDObjectCounter);
-		if (dObjectIter == mDObjectsHashMap.end() || dObjectIter->second == nullptr)
-		{
-			break;
-		}
-    }
- 
+    mDObjectCounter++;
+    
     return mDObjectCounter;
 }
 
 bool doom::DObjectManager::AddDObject(DObject* const dObject)
 {
-    bool isSuccess = false;
-
     D_ASSERT(dObject->GetDObjectID() != INVALID_DOBJECT_ID);
 
-    auto dObjectIter = mDObjectsHashMap.find(dObject->GetDObjectID());
-    if (dObjectIter == mDObjectsHashMap.end())
-    {
-        mDObjectsHashMap.emplace(dObject->GetDObjectID(), dObject);
-        isSuccess = true;
-    }
+	if (mDObjectsList.size() <= dObject->GetDObjectID())
+	{
+		mDObjectsList.resize(mDObjectsList.size() * 2 - 1, nullptr);
+	}
 
-    D_ASSERT(isSuccess == true);
 
-    return isSuccess;
+    mDObjectsList[dObject->GetDObjectID()] = dObject;
+
+    return true;
 }
 
 bool doom::DObjectManager::ReplaceDObject(DObject& originalDObject, DObject* const newDObject)
 {
-    bool isSuccess = false;
-
     D_ASSERT(originalDObject.GetDObjectID() != INVALID_DOBJECT_ID);
 
-    auto dObjectIter = mDObjectsHashMap.find(originalDObject.GetDObjectID());
-    if (dObjectIter != mDObjectsHashMap.end())
-    {
-        dObjectIter->second = newDObject;
-        newDObject->mDObjectID = originalDObject.GetDObjectID();
-        originalDObject.mDObjectID = INVALID_DOBJECT_ID;
+	mDObjectsList[originalDObject.GetDObjectID()] = newDObject;
+	newDObject->mDObjectID = originalDObject.GetDObjectID();
+	originalDObject.mDObjectID = INVALID_DOBJECT_ID;
 
-        isSuccess = true;
-    }
-
-    D_ASSERT(isSuccess == true);
-
-    return isSuccess;
+    return true;
 }
 
 bool doom::DObjectManager::RemoveDObject(DObject* const dObject)
 {
-    bool isSuccess = false;
-
     D_ASSERT(dObject->GetDObjectID() != INVALID_DOBJECT_ID);
 
-    auto dObjectIter = mDObjectsHashMap.find(dObject->GetDObjectID());
-    if (dObjectIter != mDObjectsHashMap.end())
-    {
-        dObjectIter->second = nullptr;
-        isSuccess = true;
-    }
+    mDObjectsList[dObject->GetDObjectID()] = nullptr;
+    dObject->mDObjectID = INVALID_DOBJECT_ID;
 
-    D_ASSERT(isSuccess == true);
-
-    return isSuccess;
+    return true;
 }
 
 doom::DObject* doom::DObjectManager::GetDObject(const size_t dObjectID)
 {
     doom::DObject* dObject = nullptr;
-    auto dObjectIter = mDObjectsHashMap.find(dObjectID);
-    if (dObjectIter != mDObjectsHashMap.end())
+    if (mDObjectsList.size() > dObjectID)
     {
-        dObject = dObjectIter->second;
+        dObject = mDObjectsList[dObjectID];
     }
+  
     return dObject;
 }
 
 void doom::DObjectManager::DestroyAllDObjects()
 {
-	for (auto dObject : mDObjectsHashMap)
+	for (auto dObject : mDObjectsList)
 	{
-		if (dObject.second != nullptr)
+		if (dObject != nullptr)
 		{
-			delete dObject.second;
+			delete dObject;
 		}
 	}
 }

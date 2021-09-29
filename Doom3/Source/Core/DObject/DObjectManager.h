@@ -1,7 +1,7 @@
 #pragma once
 
 #include <Core.h>
-#include <unordered_map>
+#include <vector>
 
 namespace doom
 {
@@ -13,7 +13,7 @@ namespace doom
 	private:
 
 		inline static size_t mDObjectCounter = 0;
-		inline static std::unordered_map<size_t, DObject*> mDObjectsHashMap{};
+		inline static std::vector<DObject*> mDObjectsList{ std::vector<DObject*>(10000, nullptr) };
 
 		static size_t GenerateNewDObejctID();
 		static bool AddDObject(DObject* const dObject);
