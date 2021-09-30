@@ -37,6 +37,8 @@
 #include "GraphicsAPIManager.h"
 #include "Graphics_Setting.h"
 
+#include <Profiler/AMDuProf.h>
+
 using namespace doom::graphics;
 
 
@@ -76,8 +78,31 @@ void Graphics_Server::Update()
 	mRenderingDebugger.UpdateInputForPrintDrawCallCounter();
 #endif
 
+	auto t_start = std::chrono::high_resolution_clock::now();
+
+#ifdef D_DEBUG_AMD_U_PROF
+	if (doom::time::MainTimer::GetCurrentFrameCount() < 4000)
+	{
+		amdProfileResume(AMD_PROFILE_CPU);
+	}
+#endif
+
 	DeferredRendering();
-	
+
+#ifdef D_DEBUG_AMD_U_PROF
+	if (doom::time::MainTimer::GetCurrentFrameCount() < 4000)
+	{
+		amdProfilePause(AMD_PROFILE_CPU);
+	}
+	else
+	{
+		exit(0);
+	}
+#endif
+
+	auto t_end = std::chrono::high_resolution_clock::now();
+	double elapsed_time_ms = std::chrono::duration<double, std::milli>(t_end - t_start).count();
+	doom::ui::PrintText("elapsed tick count : %lf", elapsed_time_ms);
 }
 
 void Graphics_Server::OnEndOfFrame()
