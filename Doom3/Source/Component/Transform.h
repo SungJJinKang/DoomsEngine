@@ -17,7 +17,7 @@ namespace doom
 	{
 	private:
 
-		
+		math::Vector3 mPosition;
 		
 
 		/// <summary>
@@ -33,7 +33,7 @@ namespace doom
 		
 		
 
-		math::Vector3 mPosition;
+		
 		math::Quaternion mRotation;
 		math::Vector3 mScale;
 

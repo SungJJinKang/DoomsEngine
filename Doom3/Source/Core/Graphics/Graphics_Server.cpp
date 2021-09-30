@@ -81,7 +81,7 @@ void Graphics_Server::Update()
 	auto t_start = std::chrono::high_resolution_clock::now();
 
 #ifdef D_DEBUG_AMD_U_PROF
-	if (doom::time::MainTimer::GetCurrentFrameCount() < 4000)
+	if (doom::time::MainTimer::GetCurrentFrameCount() < 1000)
 	{
 		amdProfileResume(AMD_PROFILE_CPU);
 	}
@@ -90,7 +90,7 @@ void Graphics_Server::Update()
 	DeferredRendering();
 
 #ifdef D_DEBUG_AMD_U_PROF
-	if (doom::time::MainTimer::GetCurrentFrameCount() < 4000)
+	if (doom::time::MainTimer::GetCurrentFrameCount() < 1000)
 	{
 		amdProfilePause(AMD_PROFILE_CPU);
 	}
