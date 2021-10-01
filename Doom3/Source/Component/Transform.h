@@ -18,7 +18,7 @@ namespace doom
 	private:
 
 		
-		
+		math::Vector3 mPosition;
 
 		/// <summary>
 		/// why don't use FrameDirtyChecker::IsDirty -> FrameDirtyChecker is changed when pass frame
@@ -30,10 +30,10 @@ namespace doom
 		alignas(64) math::Matrix4x4 mTranslationMatrix{ 1.0f };
 		alignas(64) math::Matrix4x4 mRotationMatrix{ 1.0f };
 		alignas(64) math::Matrix4x4 mScaleMatrix{ 1.0f };
-		
+
 		
 
-		math::Vector3 mPosition;
+		
 		math::Quaternion mRotation;
 		math::Vector3 mScale;
 

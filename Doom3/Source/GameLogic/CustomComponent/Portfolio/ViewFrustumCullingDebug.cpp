@@ -42,19 +42,6 @@ void doom::ViewFrustumCullingDebug::UpdateComponent()
 		ShowIsViewFrustumCullingActivated();
 	}
 
-	if (UserInput_Server::GetKeyUp(eKEY_CODE::KEY_F7))
-	{
-		doom::ui::PrintText("Current Frame : %f", GetTransform()->ToString().c_str());
-	}
-
-	previousTime += doom::time::MainTimer::GetDeltaTime();
-
-	if (previousTime > 1.0f)
-	{
-		previousTime = 0.0f;
-		doom::ui::PrintText("Current Frame : %f", 1.0f / doom::time::MainTimer::GetDeltaTime());
-	}
-
 
 }
 
