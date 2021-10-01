@@ -83,7 +83,7 @@ void Graphics_Server::Update()
 #ifdef D_DEBUG_AMD_U_PROF
 	if (doom::time::MainTimer::GetCurrentFrameCount() < 1000)
 	{
-		amdProfileResume(AMD_PROFILE_CPU);
+		CPU_VENDOR_PROFILER_RESUME;
 	}
 #endif
 
@@ -92,7 +92,7 @@ void Graphics_Server::Update()
 #ifdef D_DEBUG_AMD_U_PROF
 	if (doom::time::MainTimer::GetCurrentFrameCount() < 1000)
 	{
-		amdProfilePause(AMD_PROFILE_CPU);
+		CPU_VENDOR_PROFILER_PAUSE;
 	}
 	else
 	{
