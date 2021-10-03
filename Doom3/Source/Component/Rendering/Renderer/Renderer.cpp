@@ -26,6 +26,7 @@ void doom::Renderer::InitComponent()
 
 	AddLocalDirtyToTransformDirtyReceiver(BVH_Sphere_Node_Object::IsWorldColliderCacheDirty);
 	AddLocalDirtyToTransformDirtyReceiver(ColliderUpdater<doom::physics::AABB3D>::IsWorldColliderCacheDirty);
+	AddLocalDirtyToTransformDirtyReceiver(bmIsModelMatrixDirty);
 
 	//BVH_Sphere_Node_Object::UpdateWorldBVhColliderCache(true);
 	

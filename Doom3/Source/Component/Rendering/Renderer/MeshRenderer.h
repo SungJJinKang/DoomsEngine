@@ -46,6 +46,7 @@ namespace doom
 			if (mTargetMaterial != nullptr)
 			{
 				graphics::Material::SetMatrix4x4(graphics::eUniformLocation::ModelMatrix, GetTransform()->GetModelMatrix());
+				
 			}
 			if (mTargetMesh != nullptr)
 			{

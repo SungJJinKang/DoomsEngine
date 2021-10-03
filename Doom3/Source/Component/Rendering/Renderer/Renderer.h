@@ -49,6 +49,8 @@ namespace doom
 		/// EntityBlockViewer never be cheanged on a entity
 		/// </summary>
 		culling::EntityBlockViewer mEntityBlockViewer;
+
+		
 							
 		Renderer(const Renderer&) = delete;
 		Renderer(Renderer&&) noexcept = delete;
@@ -61,6 +63,7 @@ namespace doom
 
 	protected:
 
+		DirtyReceiver bmIsModelMatrixDirty{ true };
 		const graphics::Material* mTargetMaterial;
 
 	public:
@@ -72,7 +75,7 @@ namespace doom
 		void SetRenderingFlag(const eRenderingFlag flag, const bool isSet);
 		FORCE_INLINE bool GetRenderingFlag(const eRenderingFlag flag) const
 		{
-			return (mRenderingFlag & static_cast<unsigned int>(flag)) != 0x00000000;
+			return (mRenderingFlag & static_cast<unsigned int>(flag));
 		}
 
 		//DirtyReceiver mIsBoundingSphereDirty{ true };
