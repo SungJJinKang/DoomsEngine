@@ -53,20 +53,19 @@ doom::DObject& doom::DObject::operator=(const DObject& dObject)
 
 doom::DObject::DObject(DObject&& dObject) noexcept
 {
-	DObjectManager::ReplaceDObject(dObject, this);
+	DObjectManager::ReplaceDObjectFromDObjectList(std::move(dObject), this);
 }
 
 
 
 doom::DObject& doom::DObject::operator=(DObject&& dObject) noexcept
 {
-	DObjectManager::ReplaceDObject(dObject, this);
+	DObjectManager::ReplaceDObjectFromDObjectList(std::move(dObject), this);
 	return *this;
 }
 
 doom::DObject::~DObject()
 {
-	D_ASSERT(mDObjectID != INVALID_DOBJECT_ID);
 	if (mDObjectID != INVALID_DOBJECT_ID)
 	{
 		DObjectManager::RemoveDObject(this);

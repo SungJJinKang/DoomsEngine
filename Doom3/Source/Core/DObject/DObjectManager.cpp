@@ -23,12 +23,14 @@ bool doom::DObjectManager::AddDObject(DObject* const dObject)
     return true;
 }
 
-bool doom::DObjectManager::ReplaceDObject(DObject& originalDObject, DObject* const newDObject)
+bool doom::DObjectManager::ReplaceDObjectFromDObjectList(DObject&& originalDObject, DObject* const newDObject)
 {
     D_ASSERT(originalDObject.GetDObjectID() != INVALID_DOBJECT_ID);
 
-	mDObjectsList[originalDObject.GetDObjectID()] = newDObject;
-	newDObject->mDObjectID = originalDObject.GetDObjectID();
+    const unsigned long long originalDObjectID = originalDObject.GetDObjectID();
+
+	mDObjectsList[originalDObjectID] = newDObject;
+	newDObject->mDObjectID = originalDObjectID;
 	originalDObject.mDObjectID = INVALID_DOBJECT_ID;
 
     return true;

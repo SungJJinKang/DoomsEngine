@@ -17,7 +17,7 @@ namespace doom
 
 		static size_t GenerateNewDObejctID();
 		static bool AddDObject(DObject* const dObject);
-		static bool ReplaceDObject(DObject& originalDObject, DObject* const newDObject);
+		static bool ReplaceDObjectFromDObjectList(DObject&& originalDObject, DObject* const newDObject);
 		static bool RemoveDObject(DObject* const dObject);
 
 	public:
