@@ -57,6 +57,11 @@ void doom::GameCore::UpdateGameCore()
 
 }
 
+doom::GameCore::~GameCore()
+{
+
+}
+
 void doom::GameCore::Init()
 {
 	D_START_PROFILING("InitGameSetting", eProfileLayers::CPU);
@@ -220,7 +225,16 @@ bool doom::GameCore::Tick()
 	OnEndOfFrame();
 	D_END_PROFILING("OnEndOfFrame");
 
-	return true;
+	if (doom::userinput::UserInput_Server::GetKeyUp(doom::userinput::eKEY_CODE::KEY_ESCAPE) == false)
+	{
+		return true;
+	}
+	else
+	{
+		return false;
+	}
+
+	
 }
 
 void doom::GameCore::CleanUp()

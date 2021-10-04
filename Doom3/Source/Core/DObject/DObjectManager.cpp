@@ -1,6 +1,9 @@
 #include "DObjectManager.h"
 
+#include <cassert>
+
 #include "DObject.h"
+
 size_t doom::DObjectManager::GenerateNewDObejctID()
 {
     mDObjectCounter++;
@@ -8,63 +11,80 @@ size_t doom::DObjectManager::GenerateNewDObejctID()
     return mDObjectCounter;
 }
 
-bool doom::DObjectManager::AddDObject(DObject* const dObject)
+void doom::DObjectManager::SetDObjectID(DObject* const dObject, const unsigned long long dObjectID)
 {
-    D_ASSERT(dObject->GetDObjectID() != INVALID_DOBJECT_ID);
+    assert(dObject != nullptr);
 
-	if (mDObjectsList.size() <= dObject->GetDObjectID())
+    if (dObject != nullptr)
+    {
+        //not thread safe
+		mDObjectsList[dObject] = dObjectID;
+		dObject->mDObjectID = dObjectID;
+    }
+	
+}
+
+bool doom::DObjectManager::AddNewDObject(DObject* const dObject)
+{
+    assert(dObject != nullptr);
+
+    if (dObject != nullptr)
 	{
-		mDObjectsList.resize(mDObjectsList.size() * 2 - 1, nullptr);
-	}
-
-
-    mDObjectsList[dObject->GetDObjectID()] = dObject;
+        const unsigned long long newDObjectID = DObjectManager::GenerateNewDObejctID();
+        SetDObjectID(dObject, newDObjectID);
+    }
+ 
 
     return true;
 }
 
 bool doom::DObjectManager::ReplaceDObjectFromDObjectList(DObject&& originalDObject, DObject* const newDObject)
 {
-    D_ASSERT(originalDObject.GetDObjectID() != INVALID_DOBJECT_ID);
+    assert(originalDObject.GetDObjectID() != INVALID_DOBJECT_ID);
+    assert(&originalDObject != newDObject);
 
     const unsigned long long originalDObjectID = originalDObject.GetDObjectID();
 
-	mDObjectsList[originalDObjectID] = newDObject;
-	newDObject->mDObjectID = originalDObjectID;
-	originalDObject.mDObjectID = INVALID_DOBJECT_ID;
+    SetDObjectID(newDObject, originalDObjectID);
+
+    SetDObjectID(&originalDObject, INVALID_DOBJECT_ID);
 
     return true;
 }
 
 bool doom::DObjectManager::RemoveDObject(DObject* const dObject)
 {
-    D_ASSERT(dObject->GetDObjectID() != INVALID_DOBJECT_ID);
-
-    mDObjectsList[dObject->GetDObjectID()] = nullptr;
-    dObject->mDObjectID = INVALID_DOBJECT_ID;
+    SetDObjectID(dObject, INVALID_DOBJECT_ID);
 
     return true;
 }
 
-doom::DObject* doom::DObjectManager::GetDObject(const size_t dObjectID)
-{
-    doom::DObject* dObject = nullptr;
-    if (mDObjectsList.size() > dObjectID)
-    {
-        dObject = mDObjectsList[dObjectID];
-    }
-  
-    return dObject;
-}
 
 void doom::DObjectManager::DestroyAllDObjects()
 {
 	for (auto dObject : mDObjectsList)
 	{
-		if (dObject != nullptr)
+		if (dObject.second != INVALID_DOBJECT_ID && dObject.first->GetDObjectFlag(eDObjectFlag::NewAllocated) == true)
 		{
-			delete dObject;
+ 			delete dObject.first;
 		}
 	}
+}
+
+bool doom::DObjectManager::IsDObjectValid(DObject* const dObject)
+{
+	bool isValid = false;
+
+	if (dObject != nullptr)
+	{
+		std::unordered_map<DObject*, unsigned long long>::const_iterator iter = mDObjectsList.find(dObject);
+		if (iter != mDObjectsList.end() && iter->second != INVALID_DOBJECT_ID)
+		{
+			isValid = true;
+		}
+	}
+
+
+	return isValid;
 }
 

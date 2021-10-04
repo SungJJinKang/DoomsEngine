@@ -32,7 +32,11 @@ namespace doom
 		{
 			void operator()(Component* component) const
 			{
-				delete component;
+				if(IsValid(component) == true)
+				{
+					delete component;
+				}
+				
 			}
 		};
 	private:

@@ -178,4 +178,8 @@ void doom::GameLogicStartPoint::StartGameLogic()
 	auto entity3 = currenScene->CreateNewEntity();
 	//entity3->AddComponent<ViewFrustumCullingDebug>();
 
+	if (IsValid(entity3))
+	{
+
+	}
 }

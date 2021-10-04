@@ -68,7 +68,7 @@ namespace doom
 		GameCore(GameCore&&) = delete;
 		GameCore& operator=(const GameCore&) = delete;
 		GameCore& operator=(GameCore&&) = delete;
-
+		~GameCore();
 
 		virtual void Init() final;
 		void InitServers();

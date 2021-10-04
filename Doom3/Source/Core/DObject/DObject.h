@@ -11,7 +11,14 @@ namespace doom
 
 	struct DObjectContructorParams
 	{
-		unsigned int DObjectFlag;
+		unsigned int DObjectFlag = 0;
+
+		DObjectContructorParams() = default;
+		DObjectContructorParams(const DObjectContructorParams&) = default;
+		DObjectContructorParams(DObjectContructorParams&&) noexcept = default;
+		DObjectContructorParams& operator=(const DObjectContructorParams&) = default;
+		DObjectContructorParams& operator=(DObjectContructorParams&&) noexcept = default;
+		~DObjectContructorParams() = default;
 	};
 
 
@@ -29,7 +36,7 @@ namespace doom
 
 		struct DObjectProperties
 		{
-			unsigned int mDObjectFlag;
+			unsigned int mDObjectFlag = 0;
 
 			DObjectProperties() = default;
 			DObjectProperties(const DObjectProperties&) = default;

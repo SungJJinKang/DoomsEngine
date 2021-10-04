@@ -40,7 +40,10 @@ namespace doom
 		{
 			void operator()(Entity* entity) const
 			{
-				delete entity;
+				if (IsValid(entity) == true)
+				{
+					delete entity;
+				}
 			}
 		};
 
@@ -191,9 +194,14 @@ namespace doom
 // 				}
 // 			}
 
-			component->OnDestroy_Internal();
-			component->OnDestroy();
-			component.reset();
+			if (doom::IsValid(static_cast<doom::DObject*>(component.get())) == true)
+			{
+				component->OnDestroy_Internal();
+				component->OnDestroy();
+				component.reset();
+			}
+
+		
 			return true;
 		}
 

@@ -12,22 +12,24 @@ void ExitGame();
 
 int main()
 {
-	GameCore gameCore{};
-
-	D_START_PROFILING("Init Game", doom::profiler::eProfileLayers::CPU);
-	gameCore.Init();
-	D_END_PROFILING("Init Game");
-
-	while (gameCore.Tick())
 	{
+		GameCore gameCore{};
+
+		D_START_PROFILING("Init Game", doom::profiler::eProfileLayers::CPU);
+		gameCore.Init();
+		D_END_PROFILING("Init Game");
+
+		while (gameCore.Tick())
+		{
+		}
+		gameCore.CleanUp();
+		//window terminated
+
+		DObjectManager::DestroyAllDObjects();
+
+		std::cout << std::endl;
+		std::fflush(stdout);
 	}
-	gameCore.CleanUp();
-	//window terminated
-
-	DObjectManager::DestroyAllDObjects();
-
-	std::cout << std::endl;
-	std::fflush(stdout);
 }
 
 

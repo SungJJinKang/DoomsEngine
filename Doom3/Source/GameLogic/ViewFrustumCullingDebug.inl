@@ -116,7 +116,7 @@ void doom::GameLogicStartPoint::StartGameLogic()
 
 	entity1->GetTransform()->SetPosition(0.0f, 0.0f, 1500.0f);
 	entity1->AddComponent<Move_WASD>();
-	//entity1->AddComponent<CharacterSpawner>();
+	entity1->AddComponent<CharacterSpawner>();
 	//entity1->AddComponent<ButtonRotate>();
 	doom::graphics::Graphics_Setting::IsSortObjectFrontToBack = false;
 
@@ -128,5 +128,7 @@ void doom::GameLogicStartPoint::StartGameLogic()
 
 	auto entity3 = currenScene->CreateNewEntity();
 	//entity3->AddComponent<ViewFrustumCullingDebug>();
+
+	
 
 }
