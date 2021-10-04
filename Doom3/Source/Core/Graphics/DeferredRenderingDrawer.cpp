@@ -14,6 +14,11 @@ doom::graphics::DeferredRenderingDrawer::DeferredRenderingDrawer()
 {
 }
 
+doom::graphics::DeferredRenderingDrawer::~DeferredRenderingDrawer()
+{
+
+}
+
 void doom::graphics::DeferredRenderingDrawer::DrawDeferredRenderingQuadDrawer()
 {
 	mGbufferDrawerMaterial.UseProgram();

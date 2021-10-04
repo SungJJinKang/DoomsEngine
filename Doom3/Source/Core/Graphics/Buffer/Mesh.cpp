@@ -29,6 +29,8 @@ doom::graphics::Mesh::Mesh(const ThreeDModelMesh& threeDModelMesh) noexcept
 doom::graphics::Mesh::~Mesh()
 {
 	DeleteBuffers();
+
+	QuadMesh.reset();
 }
 
 void doom::graphics::Mesh::GenMeshBuffer(bool hasIndice)

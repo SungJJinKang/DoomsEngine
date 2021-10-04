@@ -14,13 +14,13 @@ namespace doom
 	{
 		class SingleTexture;
 
-		class PicktureInPickture
+		class PicktureInPickture : public DObject
 		{
 
 		private:
 
 			static inline Material mDefualtPIPMaterial{ nullptr };
-			Material* mPIPMaterial;
+			Material* mPIPMaterial = nullptr;
 
 			Mesh mPlaneMesh;
 			SingleTexture* mDrawedTexture;

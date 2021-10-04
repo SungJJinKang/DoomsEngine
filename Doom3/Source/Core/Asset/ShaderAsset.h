@@ -14,8 +14,6 @@ namespace doom
 	{
 		class ShaderAsset : public Asset
 		{
-			friend class ::doom::assetimporter::ImportedAssetPort<eAssetType::SHADER>;
-
 			friend class ::doom::assetimporter::AssetManager;
 			friend class ::doom::assetimporter::Assetimporter;
 

@@ -41,7 +41,7 @@ void doom::GameLogicStartPoint::StartGameLogic()
 	//auto& threedasset = assetimporter::AssetManager::GetAsset<asset::eAssetType::THREE_D_MODEL>(0);
 	auto threedasset = assetimporter::AssetManager::GetAsset<asset::eAssetType::THREE_D_MODEL>("cerberus.assbin");
 	auto shader = assetimporter::AssetManager::GetAsset<asset::eAssetType::SHADER>("GbufferWriter_PBR.glsl");
-	auto material = new graphics::Material(shader);
+	auto material = doom::CreateDObject<graphics::Material>(shader);
 	material->AddTexture(graphics::eTextureBindingPoint::AlbedoTexture, assetimporter::AssetManager::GetAsset<asset::eAssetType::TEXTURE>("cerberus_A.dds"));
 	material->AddTexture(graphics::eTextureBindingPoint::NormalTexture, assetimporter::AssetManager::GetAsset<asset::eAssetType::TEXTURE>("cerberus_N.dds"));
 	material->AddTexture(graphics::eTextureBindingPoint::MetalnessTexture, assetimporter::AssetManager::GetAsset<asset::eAssetType::TEXTURE>("cerberus_M.dds"));
@@ -148,7 +148,7 @@ void doom::GameLogicStartPoint::StartGameLogic()
 	if (depthTexturePIP != nullptr)
 	{
 		doom::asset::ShaderAsset* const depthTextureShader = doom::assetimporter::AssetManager::GetAsset<asset::eAssetType::SHADER>("DepthBufferTextureShader.glsl");
-		graphics::Material* const depthMaterial = new graphics::Material(depthTextureShader);
+		graphics::Material* const depthMaterial = doom::CreateDObject<graphics::Material>(depthTextureShader);
 		//depthMaterial->SetShaderAsset(depthTextureShader);
 		depthTexturePIP->SetMaterial(depthMaterial);
 	}

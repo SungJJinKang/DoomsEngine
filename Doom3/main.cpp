@@ -25,11 +25,14 @@ int main()
 		gameCore.CleanUp();
 		//window terminated
 
-		DObjectManager::DestroyAllDObjects();
+		DObjectManager::DestroyAllDObjects(false);
 
-		std::cout << std::endl;
-		std::fflush(stdout);
+		
 	}
+
+
+	std::cout << "\nLast DObject Count : " << DObjectManager::GetDObjectCount() << std::endl;
+	std::fflush(stdout);
 }
 
 

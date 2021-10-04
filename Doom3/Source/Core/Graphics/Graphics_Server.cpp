@@ -24,8 +24,6 @@
 
 #include "Rendering/Camera.h"
 
-#include "Physics/Collider/AABB.h"
-
 #include "Acceleration/LinearData_ViewFrustumCulling/EveryCulling.h"
 
 #ifdef DEBUG_MODE

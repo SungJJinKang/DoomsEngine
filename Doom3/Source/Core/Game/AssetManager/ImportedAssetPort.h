@@ -52,13 +52,16 @@ namespace doom
 
 			std::vector<::doom::asset::Asset::asset_type_t<assetType>*> PostProcessWaitingAssets{};
 
-			constexpr ImportedAssetPort();
+			
 
 
 			typename ::doom::asset::Asset::asset_type_t<assetType>* AddNewAsset(const std::filesystem::path& assetFileDirectory);
 			//typename ::doom::asset::Asset::asset_type_t<assetType>* AddAsset(::doom::asset::Asset::asset_type_t<assetType>&& asset);
 
-		
+		public:
+
+			constexpr ImportedAssetPort();
+			virtual ~ImportedAssetPort() = default;
 
 
 		};

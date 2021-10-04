@@ -4,7 +4,7 @@
 #include "../Graphics/Buffer/Mesh.h"
 #include "../Graphics/Buffer/MeshNode.h"
 
-static_assert(std::is_standard_layout_v<doom::MeshVertexData>);
+//static_assert(std::is_standard_layout_v<doom::MeshVertexData>);
 
 void doom::asset::ThreeDModelAsset::SendMeshDataToGPU()
 {

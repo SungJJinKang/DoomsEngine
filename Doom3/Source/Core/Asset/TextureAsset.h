@@ -25,8 +25,6 @@ namespace doom
 			friend class graphics::Texture;
 			friend class graphics::Material;
 
-			friend class ::doom::assetimporter::ImportedAssetPort<eAssetType::TEXTURE>;
-
 			friend class ::doom::assetimporter::AssetManager;
 			friend class ::doom::assetimporter::Assetimporter;
 

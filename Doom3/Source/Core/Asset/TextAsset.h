@@ -9,8 +9,6 @@ namespace doom
 	{
 		class TextAsset : public Asset
 		{
-			friend class ::doom::assetimporter::ImportedAssetPort<eAssetType::TEXT>;
-
 			friend class ::doom::assetimporter::AssetManager;
 			friend class ::doom::assetimporter::Assetimporter;
 

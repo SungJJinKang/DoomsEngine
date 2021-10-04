@@ -50,7 +50,7 @@ namespace doom
 		class UniformBufferObject;
 		class Texture;
 
-		class Material
+		class Material : public DObject
 		{
 
 		private:

@@ -7,8 +7,6 @@ namespace doom
 	{
 		class AudioAsset : public Asset
 		{
-			friend class ::doom::assetimporter::ImportedAssetPort<eAssetType::AUDIO>;
-
 			friend class ::doom::assetimporter::AssetManager;
 			friend class ::doom::assetimporter::Assetimporter;
 

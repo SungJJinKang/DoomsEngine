@@ -31,6 +31,17 @@ void AssetManager::GetWaitingImportFuture()
 	}
 }
 
+void AssetManager::DestroyAllAssets()
+{
+	ForLoop_CompileTime<::doom::asset::eAssetType>::Loop<::doom::asset::FIRST_ENUM_ASSETTYPE_VALUE, ::doom::asset::LAST_ENUM_ASSETTYPE_VALUE, eConditionType::LE, 1, OnDestroyAssetsFunctor>();
+}
+
+AssetManager::~AssetManager()
+{
+	DestroyAllAssets();
+
+}
+
 void doom::assetimporter::AssetManager::Init()
 {
 	LoadAssetManagerSetting();

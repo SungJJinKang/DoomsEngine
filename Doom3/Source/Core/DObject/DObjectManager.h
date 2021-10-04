@@ -16,7 +16,7 @@ namespace doom
 
 		static size_t GenerateNewDObejctID();
 
-		static void SetDObjectID(DObject* const dObject, const unsigned long long dObjectID);
+		static std::unordered_map<DObject*, unsigned long long>::iterator SetDObjectID(DObject* const dObject, const unsigned long long dObjectID);
 
 		static bool AddNewDObject(DObject* const dObject);
 		static bool ReplaceDObjectFromDObjectList(DObject&& originalDObject, DObject* const newDObject);
@@ -24,9 +24,13 @@ namespace doom
 
 	public:
 
-		static void DestroyAllDObjects();
+		static void DestroyAllDObjects(const bool force);
 
 		static bool IsDObjectValid(DObject* const dObject);
+
+		static bool IsEmpty();
+
+		static size_t GetDObjectCount();
 
 	};
 }

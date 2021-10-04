@@ -31,6 +31,8 @@ namespace doom
 		public:
 
 			DeferredRenderingDrawer();
+			~DeferredRenderingDrawer();
+
 			void Initialize();
 
 			void DrawDeferredRenderingQuadDrawer();

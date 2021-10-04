@@ -14,7 +14,7 @@ namespace doom
 {
 	namespace graphics
 	{
-		class FrameBuffer
+		class FrameBuffer : public DObject
 		{
 		private:
 

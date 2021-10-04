@@ -11,17 +11,21 @@ size_t doom::DObjectManager::GenerateNewDObejctID()
     return mDObjectCounter;
 }
 
-void doom::DObjectManager::SetDObjectID(DObject* const dObject, const unsigned long long dObjectID)
+std::unordered_map<doom::DObject*, unsigned long long>::iterator  doom::DObjectManager::SetDObjectID(DObject* const dObject, const unsigned long long dObjectID)
 {
     assert(dObject != nullptr);
 
+    std::unordered_map<doom::DObject*, unsigned long long>::iterator iter = mDObjectsList.end();
+
     if (dObject != nullptr)
     {
-        //not thread safe
-		mDObjectsList[dObject] = dObjectID;
+        std::pair< std::unordered_map<doom::DObject*, unsigned long long>::iterator, bool> result = mDObjectsList.insert_or_assign(dObject, dObjectID);
+        iter = result.first;
+
 		dObject->mDObjectID = dObjectID;
     }
-	
+
+    return iter;	
 }
 
 bool doom::DObjectManager::AddNewDObject(DObject* const dObject)
@@ -54,21 +58,33 @@ bool doom::DObjectManager::ReplaceDObjectFromDObjectList(DObject&& originalDObje
 
 bool doom::DObjectManager::RemoveDObject(DObject* const dObject)
 {
-    SetDObjectID(dObject, INVALID_DOBJECT_ID);
+    std::unordered_map<doom::DObject*, unsigned long long>::iterator targetIter = SetDObjectID(dObject, INVALID_DOBJECT_ID);
+    if (targetIter != mDObjectsList.end())
+    {
+        targetIter = mDObjectsList.erase(targetIter);
+    }
+  
 
     return true;
 }
 
 
-void doom::DObjectManager::DestroyAllDObjects()
+void doom::DObjectManager::DestroyAllDObjects(const bool force)
 {
-	for (auto dObject : mDObjectsList)
-	{
-		if (dObject.second != INVALID_DOBJECT_ID && dObject.first->GetDObjectFlag(eDObjectFlag::NewAllocated) == true)
+    std::unordered_map<doom::DObject*, unsigned long long>::iterator erasedIter = mDObjectsList.begin();
+
+    while (erasedIter != mDObjectsList.end())
+    {
+		if (erasedIter->second != INVALID_DOBJECT_ID && ( force || erasedIter->first->GetDObjectFlag(eDObjectFlag::NewAllocated) == true ) )
 		{
- 			delete dObject.first;
+			delete erasedIter->first;
+            erasedIter = mDObjectsList.begin(); //reset
 		}
-	}
+		else
+		{
+			++erasedIter;
+		}
+    }
 }
 
 bool doom::DObjectManager::IsDObjectValid(DObject* const dObject)
@@ -86,5 +102,15 @@ bool doom::DObjectManager::IsDObjectValid(DObject* const dObject)
 
 
 	return isValid;
+}
+
+bool doom::DObjectManager::IsEmpty()
+{
+    return mDObjectsList.empty();
+}
+
+size_t doom::DObjectManager::GetDObjectCount()
+{
+    return mDObjectsList.size();
 }
 

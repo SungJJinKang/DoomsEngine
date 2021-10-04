@@ -2,6 +2,7 @@
 #include <filesystem>
 #include <vector>
 #include <array>
+#include <memory>
 
 #include "../Core.h"
 #include "../Asset/Asset.h"
@@ -21,7 +22,7 @@ namespace doom
 		template<::doom::asset::eAssetType loopVariable>
 		struct OnEndImportInMainThreadFunctor;
 
-		class AssetManager : public DObject, public IGameFlow, public ISingleton<AssetManager>
+		class AssetManager : public IGameFlow, public ISingleton<AssetManager>
 		{
 			template<::doom::asset::eAssetType loopVariable>
 			friend struct ImportAssetFunctor;
@@ -51,7 +52,7 @@ namespace doom
 			std::array<std::vector<std::filesystem::path>, doom::asset::ENUM_ASSETTYPE_COUNT> AssetPaths{};
 
 			template<::doom::asset::eAssetType assetType>
-			static inline ImportedAssetPort<assetType> ImportedAssetPorts{};
+			static inline std::unique_ptr<ImportedAssetPort<assetType>> ImportedAssetPorts{};
 
 			void LoadAssetManagerSetting();
 
@@ -61,21 +62,36 @@ namespace doom
 			void GetWaitingImportFuture();
 		
 			void ImportEntireAsset();
+			void DestroyAllAssets();
 
 		public:
 
 			AssetManager() = default;
-			~AssetManager() = default;
+			~AssetManager();
+
+			
 
 			virtual void Init() final;
 			virtual void Update() final;
 			virtual void OnEndOfFrame() final;
+
+			template<::doom::asset::eAssetType assetType>
+			static void InitAssetPort()
+			{
+				ImportedAssetPorts<assetType> = std::make_unique<ImportedAssetPort<assetType>>();
+			}
+
+			template<::doom::asset::eAssetType assetType>
+			static void ClearAssetPort()
+			{
+				ImportedAssetPorts<assetType>.reset();
+			}
 			
 			template<::doom::asset::eAssetType assetType>
 			static ::doom::asset::Asset::asset_type_t<assetType>* ImportAssetInstantly(std::filesystem::path& path)
 			{
 				path.make_preferred();
-				doom::asset::Asset::asset_type_t<assetType>* newAsset = AssetManager::ImportedAssetPorts<assetType>.AddNewAsset(path);
+				doom::asset::Asset::asset_type_t<assetType>* newAsset = AssetManager::ImportedAssetPorts<assetType>->AddNewAsset(path);
 				bool IsSuccess = doom::assetimporter::Assetimporter::ImportAssetJob<assetType>(path, newAsset);
 
 				if (IsSuccess)
@@ -94,7 +110,7 @@ namespace doom
 			void ImportAssetAsync(std::filesystem::path& path)
 			{
 				path.make_preferred();
-				doom::asset::Asset::asset_type_t<assetType>* newAsset = AssetManager::ImportedAssetPorts<assetType>.AddNewAsset(path);
+				doom::asset::Asset::asset_type_t<assetType>* newAsset = AssetManager::ImportedAssetPorts<assetType>->AddNewAsset(path);
 				std::future<bool> assetFuture{ doom::assetimporter::Assetimporter::PushImportingAssetJobToThreadPool<assetType>(path, newAsset) };
 				mWaitingImportFuture.push_back(std::move(assetFuture));
 			}
@@ -107,7 +123,7 @@ namespace doom
 				for (unsigned int i = 0; i < paths.size(); i++)
 				{
 					paths[i].make_preferred();
-					newAssets.push_back(AssetManager::ImportedAssetPorts<assetType>.AddNewAsset(paths[i]));
+					newAssets.push_back(AssetManager::ImportedAssetPorts<assetType>->AddNewAsset(paths[i]));
 				}
 
 				std::vector<std::future<bool>> assetFutures = doom::assetimporter::Assetimporter::PushImportingAssetJobToThreadPool<assetType>(paths, newAssets);
@@ -121,8 +137,8 @@ namespace doom
 			{
 				auto& assetCotainer = AssetManager::ImportedAssetPorts<assetType>;
 
-				auto iter = assetCotainer.mAssets.find(UUID);
-				if (iter != assetCotainer.mAssets.end())
+				auto iter = assetCotainer->mAssets.find(UUID);
+				if (iter != assetCotainer->mAssets.end())
 				{//find!!
 					return &(iter->second);
 				}
@@ -136,9 +152,9 @@ namespace doom
 			template<::doom::asset::eAssetType assetType>
 			static typename ::doom::asset::Asset::asset_type_t<assetType>* GetAsset(const unsigned int index)
 			{
-				if (index >= 0 && index < AssetManager::ImportedAssetPorts<assetType>.mAssetsForIterating.size())
+				if (index >= 0 && index < AssetManager::ImportedAssetPorts<assetType>->mAssetsForIterating.size())
 				{
-					return AssetManager::ImportedAssetPorts<assetType>.mAssetsForIterating[index];
+					return AssetManager::ImportedAssetPorts<assetType>->mAssetsForIterating[index];
 				}
 				else
 				{
@@ -155,8 +171,8 @@ namespace doom
 			template<::doom::asset::eAssetType assetType>
 			static typename ::doom::asset::Asset::asset_type_t<assetType>* GetAsset(const std::string& filename)
 			{
-				auto iter = AssetManager::ImportedAssetPorts<assetType>.mAssetsForAssetName.find(filename);
-				if (iter != AssetManager::ImportedAssetPorts<assetType>.mAssetsForAssetName.end())
+				auto iter = AssetManager::ImportedAssetPorts<assetType>->mAssetsForAssetName.find(filename);
+				if (iter != AssetManager::ImportedAssetPorts<assetType>->mAssetsForAssetName.end())
 				{//find!!
 					return iter->second;
 				}
@@ -172,8 +188,8 @@ namespace doom
 			static std::vector<::doom::asset::Asset::asset_type_t<assetType>*> GetAssets()
 			{
 				std::vector<typename ::doom::asset::Asset::asset_type_t<assetType>* > importedAssets{};
-				importedAssets.reserve(AssetManager::ImportedAssetPorts<assetType>.mAssetsForIterating.size());
-				importedAssets.insert(importedAssets.end(), AssetManager::ImportedAssetPorts<assetType>.mAssetsForIterating.begin(), AssetManager::ImportedAssetPorts<assetType>.mAssetsForIterating.end());
+				importedAssets.reserve(AssetManager::ImportedAssetPorts<assetType>->mAssetsForIterating.size());
+				importedAssets.insert(importedAssets.end(), AssetManager::ImportedAssetPorts<assetType>->mAssetsForIterating.begin(), AssetManager::ImportedAssetPorts<assetType>->mAssetsForIterating.end());
 				return importedAssets;
 			}
 
@@ -187,6 +203,7 @@ namespace doom
 			constexpr inline void operator()()
 			{
 				doom::assetimporter::InitAssetImport<loopVariable>();
+				doom::assetimporter::AssetManager::InitAssetPort<loopVariable>();
 			}
 
 		};
@@ -211,6 +228,16 @@ namespace doom
 				{
 					asset->OnEndImportInMainThread();
 				}
+			}
+		};
+
+
+		template<::doom::asset::eAssetType loopVariable>
+		struct OnDestroyAssetsFunctor
+		{
+			constexpr inline void operator()()
+			{
+				doom::assetimporter::AssetManager::ClearAssetPort<loopVariable>();
 			}
 		};
 	}

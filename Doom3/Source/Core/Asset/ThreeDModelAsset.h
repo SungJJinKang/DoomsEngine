@@ -134,9 +134,7 @@ namespace doom
 		class ThreeDModelAsset : public Asset
 		{
 			//friend class std::optional<ThreeDModelAsset>;
-
-			friend class ::doom::assetimporter::ImportedAssetPort<eAssetType::THREE_D_MODEL>;
-
+			
 			friend class ::doom::assetimporter::AssetManager;
 			friend class ::doom::assetimporter::Assetimporter;
 
