@@ -71,6 +71,9 @@ bool doom::DObjectManager::RemoveDObject(DObject* const dObject)
 
 void doom::DObjectManager::DestroyAllDObjects(const bool force)
 {
+
+    //TODO : add circular reference checker
+
     std::unordered_map<doom::DObject*, unsigned long long>::iterator erasedIter = mDObjectsList.begin();
 
     while (erasedIter != mDObjectsList.end())

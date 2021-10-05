@@ -41,7 +41,7 @@ void doom::GameLogicStartPoint::StartGameLogic()
 	//auto& threedasset = assetimporter::AssetManager::GetAsset<asset::eAssetType::THREE_D_MODEL>(0);
 	auto threedasset = assetimporter::AssetManager::GetAsset<asset::eAssetType::THREE_D_MODEL>("cerberus.assbin");
 	auto shader = assetimporter::AssetManager::GetAsset<asset::eAssetType::SHADER>("GbufferWriter_PBR.glsl");
-	auto material = new graphics::Material(shader);
+	auto material = doom::CreateDObject<graphics::Material>(shader);
 	material->AddTexture(graphics::eTextureBindingPoint::AlbedoTexture, assetimporter::AssetManager::GetAsset<asset::eAssetType::TEXTURE>("cerberus_A.dds"));
 	material->AddTexture(graphics::eTextureBindingPoint::NormalTexture, assetimporter::AssetManager::GetAsset<asset::eAssetType::TEXTURE>("cerberus_N.dds"));
 	material->AddTexture(graphics::eTextureBindingPoint::MetalnessTexture, assetimporter::AssetManager::GetAsset<asset::eAssetType::TEXTURE>("cerberus_M.dds"));
@@ -64,7 +64,7 @@ void doom::GameLogicStartPoint::StartGameLogic()
 	// 			entity->AddComponent<BoxCollider3D>();
 	// 		}
 	// 	}
-	int count = 800;
+	int count = 700;
 	for (int i = -count; i < count; i = i + 15)
 	{
 		for (int j = -count; j < count; j = j + 15)
@@ -115,8 +115,8 @@ void doom::GameLogicStartPoint::StartGameLogic()
 
 
 	entity1->GetTransform()->SetPosition(0.0f, 0.0f, 1500.0f);
-	entity1->AddComponent<Move_WASD>();
-	entity1->AddComponent<CharacterSpawner>();
+	//entity1->AddComponent<Move_WASD>();
+	//entity1->AddComponent<CharacterSpawner>();
 	//entity1->AddComponent<ButtonRotate>();
 	doom::graphics::Graphics_Setting::IsSortObjectFrontToBack = false;
 
