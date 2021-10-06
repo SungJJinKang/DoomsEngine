@@ -69,7 +69,7 @@ namespace doom
 		//please set mask of local processor
 		//ex) first logical processor -> 1 << 0
 		//ex) first logical processor and second -> (1 << 0) | (1 << 1)
-		FORCE_INLINE static void _SetThreadAffinity(const PLATFORM_HANDLE threadHandle, const unsigned long long threadAffinitMask);
+		FORCE_INLINE static bool _SetThreadAffinity(const PLATFORM_HANDLE threadHandle, const unsigned long long threadAffinitMask);
 		FORCE_INLINE static unsigned long long _GetThreadAffinity(const PLATFORM_HANDLE threadHandle);
 		
 	};

@@ -80,6 +80,10 @@ void doom::GameCore::Init()
 
 void doom::GameCore::InitServers()
 {
+	D_START_PROFILING("mJobSystem Init", eProfileLayers::CPU);
+	mJobSystem.Init();
+	D_END_PROFILING("mJobSystem Init");
+
 
 	D_START_PROFILING("mTime_Server Init", eProfileLayers::CPU);
 	mTime_Server.Init();

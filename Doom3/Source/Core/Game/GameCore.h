@@ -55,8 +55,8 @@ namespace doom
 
 		SharedScene mSharedWorld{};
 
-		void InitGameSetting() ;
-
+		void InitGameSetting();
+		
 		void UpdateGameCore();
 		
 	public:

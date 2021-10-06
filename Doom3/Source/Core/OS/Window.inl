@@ -55,12 +55,15 @@ bool doom::os::_GetCurrentProcessAffinityMask
 	return isSuccess;
 }
 
-void doom::os::_SetThreadAffinity(const PLATFORM_HANDLE threadHandle, const unsigned long long threadAffinitMask)
+bool doom::os::_SetThreadAffinity(const PLATFORM_HANDLE threadHandle, const unsigned long long threadAffinitMask)
 {
 	D_ASSERT(threadHandle != PLATFORM_INVALID_HANDLE_CONSTANT);
-	D_ASSERT(GetLastError() != ERROR_INVALID_PARAMETER);
-
+	
 	SetThreadAffinityMask(threadHandle, static_cast<DWORD_PTR>(threadAffinitMask));
+
+	const bool isSuccess = (GetLastError() != ERROR_INVALID_PARAMETER);
+	D_ASSERT(isSuccess == true);
+	return isSuccess;
 }
 
 
