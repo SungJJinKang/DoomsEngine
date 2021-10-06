@@ -36,6 +36,7 @@ namespace doom
 		Scene& operator=(const Scene&) = delete;
 		Scene& operator=(Scene&&) noexcept = delete;
 
+		void InitializeEntity(doom::Entity* const entity);
 
 	protected:
 

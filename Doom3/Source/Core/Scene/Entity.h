@@ -112,6 +112,8 @@ namespace doom
 
 		FORCE_INLINE void InitializeComponent(Component* const newComponent)
 		{
+			newComponent->SetOwnerDObject(this);
+
 			newComponent->InitComponent_Internal(this);
 			newComponent->InitComponent();
 

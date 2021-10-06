@@ -26,6 +26,11 @@ void doom::DObject::ChangeDObjectName(const std::string& dObjectName)
 	mDObjectProperties.mDObjectName = dObjectName;
 }
 
+void doom::DObject::SetOwnerDObject(const DObject* const ownerDObject)
+{
+	mDObjectProperties.mOwnerDObject = ownerDObject;
+}
+
 doom::DObject::DObject()
 	:mDObjectID(INVALID_DOBJECT_ID), mDObjectProperties()
 {
@@ -36,8 +41,17 @@ doom::DObject::DObject(const std::string& dObjectName)
 	: mDObjectID(INVALID_DOBJECT_ID), mDObjectProperties()
 {
 	mDObjectProperties.mDObjectName = dObjectName;
-
+	Construct_Internal();
 }
+
+doom::DObject::DObject(const DObject* const ownerDObject, const std::string& dObjectName)
+	: mDObjectID(INVALID_DOBJECT_ID), mDObjectProperties()
+{
+	mDObjectProperties.mDObjectName = dObjectName;
+	mDObjectProperties.mOwnerDObject = ownerDObject;
+	Construct_Internal();
+}
+
 
 doom::DObject::DObject(const DObjectContructorParams& params)
 	: mDObjectID(INVALID_DOBJECT_ID)

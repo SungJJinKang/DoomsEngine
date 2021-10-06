@@ -30,7 +30,7 @@ namespace doom
 	};
 
 	
-
+	class DObject;
 	class DObject
 	{
 		friend class DObjectManager;
@@ -39,6 +39,7 @@ namespace doom
 		{
 			unsigned int mDObjectFlag = 0;
 			std::string mDObjectName;
+			const DObject* mOwnerDObject = nullptr;
 
 			DObjectProperties() = default;
 			DObjectProperties(const DObjectProperties&) = default;
@@ -60,6 +61,8 @@ namespace doom
 
 		DObject();
 		DObject(const std::string& dObjectName);
+		DObject(const DObject* const ownerDObject, const std::string& dObjectName);
+
 		DObject(const DObjectContructorParams& params);
 		DObject(const DObject& dObject);
 		DObject(DObject&& dObject) noexcept;
@@ -89,7 +92,7 @@ namespace doom
 		}
 
 		void ChangeDObjectName(const std::string& dObjectName);
-
+		void SetOwnerDObject(const DObject* const ownerDObject);
 	};
 }
 

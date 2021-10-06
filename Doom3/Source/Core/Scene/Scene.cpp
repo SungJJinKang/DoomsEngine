@@ -26,6 +26,10 @@ Scene::~Scene()
 
 	Entity* newEntity = CreateDObject<Entity>(mEntityIDCounter++, nullptr); // resource::ObjectPool<Entity>::AllocateFromPool(nullptr);
 	mSpawnedEntities.emplace_back(newEntity);
+
+
+	InitializeEntity(newEntity);
+
 	return newEntity;
 }
 
@@ -67,6 +71,11 @@ void Scene::UpdatePlainComponents()
 	{
 		mSpawnedEntities[i]->Update_PlainComponent();
 	}
+}
+
+void Scene::InitializeEntity(doom::Entity* const entity)
+{
+	entity->SetOwnerDObject(this);
 }
 
 void doom::Scene::OnEndOfFrameOfEntities()
