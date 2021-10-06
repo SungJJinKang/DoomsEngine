@@ -23,7 +23,7 @@ namespace doom
 	{
 		class Material;
 		class Graphics_Server;
-		class DebugDrawer : public ISingleton<DebugDrawer>
+		class DebugDrawer : public DObject, public ISingleton<DebugDrawer>
 		{
 		private:
 

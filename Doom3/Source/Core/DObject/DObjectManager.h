@@ -28,7 +28,7 @@ namespace doom
 
 		static void DestroyAllDObjects(const bool force);
 
-		static bool IsDObjectValid(DObject* const dObject);
+		static bool IsDObjectValid(const DObject* const dObject);
 
 		static bool IsEmpty();
 

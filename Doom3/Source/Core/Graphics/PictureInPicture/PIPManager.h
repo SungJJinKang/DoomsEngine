@@ -14,7 +14,7 @@ namespace doom
 	{
 		class SingleTexture;
 
-		class PIPManager : public ISingleton<PIPManager>
+		class PIPManager : public DObject, public ISingleton<PIPManager>
 		{
 
 		private:

@@ -7,7 +7,7 @@ namespace doom
 {
 	namespace graphics
 	{
-		class LightManager : public ISingleton<LightManager>, public graphics::UniformBufferObjectUpdater
+		class LightManager : public DObject, public ISingleton<LightManager>, public graphics::UniformBufferObjectUpdater
 		{
 
 		private:

@@ -17,7 +17,7 @@ Scene::Scene(std::string sceneName)
 
 Scene::~Scene()
 {
-
+	DestroyAllEntity();
 }
 
 [[nodiscard]] Entity* Scene::CreateNewEntity() noexcept
@@ -50,6 +50,11 @@ bool Scene::DestroyEntity(Entity& entity)
 	}
 
 	return isSuccess;
+}
+
+void doom::Scene::DestroyAllEntity()
+{
+	mSpawnedEntities.clear();
 }
 
 doom::Scene* Scene::GetCurrentWorld()

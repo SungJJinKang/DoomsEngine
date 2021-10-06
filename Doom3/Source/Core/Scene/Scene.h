@@ -53,6 +53,7 @@ namespace doom
 
 		[[nodiscard]] Entity* CreateNewEntity() noexcept;
 		bool DestroyEntity(Entity& entity);
+		void DestroyAllEntity();
 
 		[[nodiscard]] Camera* GetMainCamera() const;
 		void SetMainCamera(Camera* camera);

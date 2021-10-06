@@ -15,7 +15,7 @@ namespace doom
 	namespace graphics
 	{
 		class UniformBufferObjectUpdater;
-		class UniformBufferObjectManager : public ISingleton<UniformBufferObjectManager>
+		class UniformBufferObjectManager : public DObject, public ISingleton<UniformBufferObjectManager>
 		{
 		private:
 

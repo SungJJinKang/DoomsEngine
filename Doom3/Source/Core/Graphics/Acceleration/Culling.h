@@ -1,10 +1,12 @@
 #pragma once
 
+#include <Core.h>
+
 namespace doom
 {
 	namespace graphics
 	{
-		class ICulling
+		class ICulling : public DObject
 		{
 
 		protected:

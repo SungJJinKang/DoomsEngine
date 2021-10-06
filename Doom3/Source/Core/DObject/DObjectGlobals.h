@@ -39,7 +39,7 @@ namespace doom
 		return newDObject;
 	}
 
-	inline bool IsValid(DObject* const dObject)
+	inline bool IsValid(const DObject* const dObject)
 	{
 		return doom::DObjectManager::IsDObjectValid(dObject);
 	}

@@ -5,6 +5,7 @@
 
 #include <Vector3.h>
 
+#include <Core.h>
 #include "Simple_SingleTon/Singleton.h"
 #include "../Culling.h"
 #include "utility/BVH/BVH.h"

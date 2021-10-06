@@ -15,10 +15,15 @@
 // And Define implemations in MACRO_IMPLEMENTATION
 
 #include "Macros/Macros.h"
-#include "../Helper/Simple_SingleTon/Singleton.h"
 
 #include <DObject/DObject.h>
 #include <DObject/DObjectManager.h>
 #include <DObject/DObjectGlobals.h>
+
+
+
+#include "../Helper/Simple_SingleTon/Singleton.h"
+
+
 
 

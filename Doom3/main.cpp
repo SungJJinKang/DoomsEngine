@@ -25,8 +25,9 @@ int main()
 		gameCore.CleanUp();
 		//window terminated
 
+#ifdef DEBUG_MODE
 		DObjectManager::DestroyAllDObjects(false);
-
+#endif
 		
 	}
 

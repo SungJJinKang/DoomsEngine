@@ -5,7 +5,7 @@
 namespace doom
 {
 	class GameCore;
-	class ConfigData : public ISingleton<ConfigData>
+	class ConfigData : public DObject, public ISingleton<ConfigData>
 	{
 		friend class GameCore;
 

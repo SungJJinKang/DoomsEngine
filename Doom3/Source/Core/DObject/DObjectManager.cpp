@@ -99,13 +99,13 @@ void doom::DObjectManager::DestroyAllDObjects(const bool force)
     }
 }
 
-bool doom::DObjectManager::IsDObjectValid(DObject* const dObject)
+bool doom::DObjectManager::IsDObjectValid(const DObject* const dObject)
 {
 	bool isValid = false;
 
 	if (dObject != nullptr)
 	{
-		std::unordered_map<DObject*, unsigned long long>::const_iterator iter = mDObjectsList.find(dObject);
+		std::unordered_map<DObject*, unsigned long long>::const_iterator iter = mDObjectsList.find(const_cast<DObject *>(dObject));
 		if (iter != mDObjectsList.end() && iter->second != INVALID_DOBJECT_ID)
 		{
 			isValid = true;
