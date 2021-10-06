@@ -516,6 +516,8 @@ namespace doom
 		void OnPostUpdate() {}
 
 		[[nodiscard]] std::string_view GetEntityName() const;
+		void SetEntityName(const std::string& entityName);
+
 		[[nodiscard]] FORCE_INLINE Transform* GetTransform()
 		{
 			return &mTransform;

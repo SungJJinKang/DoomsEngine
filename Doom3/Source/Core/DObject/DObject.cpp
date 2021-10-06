@@ -17,8 +17,14 @@ void doom::DObject::Construct_Internal()
 void doom::DObject::InitProperties(const DObjectContructorParams& params)
 {
 	mDObjectProperties.mDObjectFlag = params.DObjectFlag;
+	mDObjectProperties.mDObjectName = params.mDObjectName;
 }
 
+
+void doom::DObject::ChangeDObjectName(const std::string& dObjectName)
+{
+	mDObjectProperties.mDObjectName = dObjectName;
+}
 
 doom::DObject::DObject()
 	:mDObjectID(INVALID_DOBJECT_ID), mDObjectProperties()
@@ -26,9 +32,17 @@ doom::DObject::DObject()
 	Construct_Internal();
 }
 
-doom::DObject::DObject(const DObjectContructorParams& params)
-	: mDObjectID(INVALID_DOBJECT_ID), mDObjectProperties{ params.DObjectFlag }
+doom::DObject::DObject(const std::string& dObjectName)
+	: mDObjectID(INVALID_DOBJECT_ID), mDObjectProperties()
 {
+	mDObjectProperties.mDObjectName = dObjectName;
+
+}
+
+doom::DObject::DObject(const DObjectContructorParams& params)
+	: mDObjectID(INVALID_DOBJECT_ID)
+{
+	InitProperties(params);
 	Construct_Internal();
 }
 

@@ -1,6 +1,6 @@
 #pragma once
 
-
+#include <string>
 
 #define INVALID_DOBJECT_ID 0x0000000000000000
 
@@ -12,6 +12,7 @@ namespace doom
 	struct DObjectContructorParams
 	{
 		unsigned int DObjectFlag = 0;
+		std::string mDObjectName;
 
 		DObjectContructorParams() = default;
 		DObjectContructorParams(const DObjectContructorParams&) = default;
@@ -37,6 +38,7 @@ namespace doom
 		struct DObjectProperties
 		{
 			unsigned int mDObjectFlag = 0;
+			std::string mDObjectName;
 
 			DObjectProperties() = default;
 			DObjectProperties(const DObjectProperties&) = default;
@@ -57,6 +59,7 @@ namespace doom
 	protected:
 
 		DObject();
+		DObject(const std::string& dObjectName);
 		DObject(const DObjectContructorParams& params);
 		DObject(const DObject& dObject);
 		DObject(DObject&& dObject) noexcept;
@@ -85,6 +88,7 @@ namespace doom
 			return (mDObjectProperties.mDObjectFlag & flag) != 0;
 		}
 
+		void ChangeDObjectName(const std::string& dObjectName);
 
 	};
 }

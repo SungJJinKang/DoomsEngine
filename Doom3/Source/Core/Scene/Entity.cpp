@@ -69,6 +69,12 @@ void doom::Entity::EndOfFrame_PlainComponent()
 	}
 }
 
+void Entity::SetEntityName(const std::string& entityName)
+{
+	mEntityName = entityName;
+	DObject::ChangeDObjectName(entityName);
+}
+
 void Entity::ClearComponents()
 {
 	for (auto& plainComponent : mPlainComponents)
