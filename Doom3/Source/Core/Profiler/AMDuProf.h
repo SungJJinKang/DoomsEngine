@@ -2,9 +2,6 @@
 
 #include <Core.h>
 
-#ifdef RELEASE_MODE
-//#define D_DEBUG_AMD_U_PROF
-#endif
 
 #ifdef D_DEBUG_AMD_U_PROF
 

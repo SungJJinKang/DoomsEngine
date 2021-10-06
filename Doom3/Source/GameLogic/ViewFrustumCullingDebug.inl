@@ -67,7 +67,7 @@ void doom::GameLogicStartPoint::StartGameLogic()
 
 	int entityCount = 0;
 
-	int count = 250;
+	int count = 300;
 	for (int i = -count; i < count; i = i + 15)
 	{
 		for (int j = -count; j < count; j = j + 15)
@@ -119,7 +119,7 @@ void doom::GameLogicStartPoint::StartGameLogic()
 
 
 
-	entity1->GetTransform()->SetPosition(0.0f, 0.0f, 1500.0f);
+	entity1->GetTransform()->SetPosition(0.0f, 0.0f, 800.0f);
 	//entity1->AddComponent<Move_WASD>();
 	//entity1->AddComponent<CharacterSpawner>();
 	//entity1->AddComponent<ButtonRotate>();

@@ -12,6 +12,8 @@ unsigned long long doom::DObjectManager::GenerateNewDObejctID()
 {
     const unsigned long long newDObjectID = mDObjectCounter++;
    
+    assert(newDObjectID != 0xFFFFFFFFFFFFFFFF);
+
     return newDObjectID;
 }
 

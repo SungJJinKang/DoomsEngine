@@ -59,7 +59,7 @@ bool doom::os::_SetThreadAffinity(const PLATFORM_HANDLE threadHandle, const unsi
 {
 	D_ASSERT(threadHandle != PLATFORM_INVALID_HANDLE_CONSTANT);
 	
-	SetThreadAffinityMask(threadHandle, static_cast<DWORD_PTR>(threadAffinitMask));
+	SetThreadAffinityMask(threadHandle, *reinterpret_cast<const DWORD_PTR*>(&threadAffinitMask));
 
 	const bool isSuccess = (GetLastError() != ERROR_INVALID_PARAMETER);
 	D_ASSERT(isSuccess == true);

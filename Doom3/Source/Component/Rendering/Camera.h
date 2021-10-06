@@ -60,7 +60,7 @@ namespace doom
 		float mFieldOfViewInRadian = mFieldOfViewInDegree * math::DEGREE_TO_RADIAN;
 
 		float mClippingPlaneNear = 0.001f;
-		float mClippingPlaneFar = 1000.0f;
+		float mClippingPlaneFar = 1500.0f;
 
 		/// <summary>
 		/// opengl -1 ~ 1
