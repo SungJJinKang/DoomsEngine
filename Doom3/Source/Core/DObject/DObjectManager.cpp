@@ -1,14 +1,18 @@
 #include "DObjectManager.h"
 
 #include <cassert>
+#include <iostream>
 
 #include "DObject.h"
 
-size_t doom::DObjectManager::GenerateNewDObejctID()
+#include <chrono>
+#include <UI/PrintText.h>
+
+unsigned long long doom::DObjectManager::GenerateNewDObejctID()
 {
-    mDObjectCounter++;
-    
-    return mDObjectCounter;
+    const unsigned long long newDObjectID = mDObjectCounter++;
+   
+    return newDObjectID;
 }
 
 std::unordered_map<doom::DObject*, unsigned long long>::iterator  doom::DObjectManager::SetDObjectID(DObject* const dObject, const unsigned long long dObjectID)
@@ -32,14 +36,18 @@ bool doom::DObjectManager::AddNewDObject(DObject* const dObject)
 {
     assert(dObject != nullptr);
 
+    bool isSuccess = false;
+
     if (dObject != nullptr)
 	{
         const unsigned long long newDObjectID = DObjectManager::GenerateNewDObejctID();
         SetDObjectID(dObject, newDObjectID);
+
+        isSuccess = true;
     }
  
 
-    return true;
+    return isSuccess;
 }
 
 bool doom::DObjectManager::ReplaceDObjectFromDObjectList(DObject&& originalDObject, DObject* const newDObject)
@@ -58,28 +66,29 @@ bool doom::DObjectManager::ReplaceDObjectFromDObjectList(DObject&& originalDObje
 
 bool doom::DObjectManager::RemoveDObject(DObject* const dObject)
 {
+    const unsigned long long dObjectID = dObject->GetDObjectID();
+    
     std::unordered_map<doom::DObject*, unsigned long long>::iterator targetIter = SetDObjectID(dObject, INVALID_DOBJECT_ID);
     if (targetIter != mDObjectsList.end())
     {
-        targetIter = mDObjectsList.erase(targetIter);
+        targetIter = mDObjectsList.erase(targetIter); //erasing iterator is much faster than not erasing
     }
   
-
     return true;
 }
 
 
 void doom::DObjectManager::DestroyAllDObjects(const bool force)
 {
-
-    //TODO : add circular reference checker
-
     std::unordered_map<doom::DObject*, unsigned long long>::iterator erasedIter = mDObjectsList.begin();
 
     while (erasedIter != mDObjectsList.end())
     {
 		if (erasedIter->second != INVALID_DOBJECT_ID && ( force || erasedIter->first->GetDObjectFlag(eDObjectFlag::NewAllocated) == true ) )
 		{
+            //std::unordered_map<doom::DObject*, unsigned long long>::iterator deletedIter = erasedIter++;
+			//delete deletedIter->first;
+
 			delete erasedIter->first;
             erasedIter = mDObjectsList.begin(); //reset
 		}

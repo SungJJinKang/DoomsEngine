@@ -54,7 +54,7 @@ doom::DObject::DObject(const DObject* const ownerDObject, const std::string& dOb
 
 
 doom::DObject::DObject(const DObjectContructorParams& params)
-	: mDObjectID(INVALID_DOBJECT_ID)
+	: mDObjectID(INVALID_DOBJECT_ID), mDObjectProperties()
 {
 	InitProperties(params);
 	Construct_Internal();

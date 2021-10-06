@@ -64,7 +64,10 @@ void doom::GameLogicStartPoint::StartGameLogic()
 	// 			entity->AddComponent<BoxCollider3D>();
 	// 		}
 	// 	}
-	int count = 700;
+
+	int entityCount = 0;
+
+	int count = 150;
 	for (int i = -count; i < count; i = i + 15)
 	{
 		for (int j = -count; j < count; j = j + 15)
@@ -77,11 +80,13 @@ void doom::GameLogicStartPoint::StartGameLogic()
 				auto meshRenderer = entity->AddComponent<MeshRenderer>();
 				meshRenderer->SetMesh(planetAsset->GetMesh(0));
 				meshRenderer->SetMaterial(material);
+				entityCount++;
 				//entity->AddComponent<AutoRotate>();
 				//entity->AddComponent<BoxCollider3D>();
 			}
 		}
 	}
+
 
 
 	for (int i = -200; i < 200; i += 70)

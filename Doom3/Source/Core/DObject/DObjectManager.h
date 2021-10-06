@@ -1,5 +1,6 @@
 #pragma once
 
+#include <vector>
 #include <unordered_map>
 
 namespace doom
@@ -12,9 +13,10 @@ namespace doom
 	private:
 
 		inline static unsigned long long mDObjectCounter = 0;
+
 		inline static std::unordered_map<DObject*, unsigned long long> mDObjectsList{};
 
-		static size_t GenerateNewDObejctID();
+		static unsigned long long GenerateNewDObejctID();
 
 		static std::unordered_map<DObject*, unsigned long long>::iterator SetDObjectID(DObject* const dObject, const unsigned long long dObjectID);
 
