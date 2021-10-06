@@ -10,7 +10,7 @@ void doom::time::MainTimer::InitTimer()
 
 void doom::time::MainTimer::UpdateFrameTimer()
 {
-	const double currentTime = glfwGetTime();// OS::GetSingleton()->_GetTickCount();
+	const double currentTime = glfwGetTime();// os::GetSingleton()->_GetTickCount();
 	doom::time::MainTimer::mFrameTime.mCurrentTickCount = currentTime;
 
 	doom::time::MainTimer::mFrameTime.mDeltaTime = static_cast<float>(currentTime - doom::time::MainTimer::mFrameTime.mLastTickCount);

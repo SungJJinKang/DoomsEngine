@@ -14,6 +14,7 @@
 #define PLATFORM_INVALID_HANDLE_CONSTANT INVALID_HANDLE_VALUE 
 #endif
 
+
 #elif defined(__unix) || defined(__unix__)
 
 #elif  defined(__APPLE__) || defined(__MACH__)
@@ -50,20 +51,26 @@ namespace doom
 		FORCE_INLINE static void _Sleep(const unsigned long milliseconds);
 
 		/// <summary>
-		/// Processor Number of Current Thread
+		/// Processor Number what Current Thread is working on
 		/// </summary>
 		/// <returns></returns>
-		FORCE_INLINE static unsigned int _GetCurrentProcessorNumber();
+		FORCE_INLINE static unsigned long long _GetCurrentProcessorNumber();
 		FORCE_INLINE static PLATFORM_HANDLE _GetCurrenThreadHandle();
-		FORCE_INLINE static unsigned int _GetCurrenThreadID();
+		FORCE_INLINE static unsigned long long _GetCurrenThreadID();
 
 
 		FORCE_INLINE static HANDLE _GetCurrenProcess();
-		FORCE_INLINE static bool _SetProcessAffinityMask(const unsigned long long processAffinitMask);
+		FORCE_INLINE static bool _SetCurrentProcessAffinityMask(const unsigned long long processAffinitMask);
+		FORCE_INLINE static bool _GetCurrentProcessAffinityMask(
+			unsigned long long& lpProcessAffinityMask, 
+			unsigned long long& lpSystemAffinityMask
+		);
 
+		//please set mask of local processor
+		//ex) first logical processor -> 1 << 0
+		//ex) first logical processor and second -> (1 << 0) | (1 << 1)
 		FORCE_INLINE static void _SetThreadAffinity(const PLATFORM_HANDLE threadHandle, const unsigned long long threadAffinitMask);
-		
-		FORCE_INLINE static unsigned long long _GetCurrentThreadAffinity(const PLATFORM_HANDLE threadHandle);
+		FORCE_INLINE static unsigned long long _GetThreadAffinity(const PLATFORM_HANDLE threadHandle);
 		
 	};
 }
