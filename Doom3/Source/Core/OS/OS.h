@@ -1,13 +1,17 @@
 #pragma once
 
-#include "../Core.h"
+#include <Core.h>
 
 #if defined(_WIN32) || defined(_WIN64)
 
 #include <Windows.h>
 
-#ifndef THREAD_HANDLE
-#define THREAD_HANDLE HANDLE
+#ifndef PLATFORM_HANDLE
+#define PLATFORM_HANDLE HANDLE
+#endif
+
+#ifndef PLATFORM_INVALID_HANDLE_CONSTANT
+#define PLATFORM_INVALID_HANDLE_CONSTANT INVALID_HANDLE_VALUE 
 #endif
 
 #elif defined(__unix) || defined(__unix__)
@@ -27,7 +31,7 @@ namespace doom
 	/// refrain from using os call
 	/// use portable library
 	/// </summary>
-	class OS
+	class os
 	{
 	public:
 
@@ -50,13 +54,16 @@ namespace doom
 		/// </summary>
 		/// <returns></returns>
 		FORCE_INLINE static unsigned int _GetCurrentProcessorNumber();
-		FORCE_INLINE static THREAD_HANDLE _GetCurrenThreadHandle();
+		FORCE_INLINE static PLATFORM_HANDLE _GetCurrenThreadHandle();
 		FORCE_INLINE static unsigned int _GetCurrenThreadID();
 
+
+		FORCE_INLINE static HANDLE _GetCurrenProcess();
+		FORCE_INLINE static bool _SetProcessAffinityMask(const unsigned long long processAffinitMask);
+
+		FORCE_INLINE static void _SetThreadAffinity(const PLATFORM_HANDLE threadHandle, const unsigned long long threadAffinitMask);
 		
-		FORCE_INLINE static void _SetThreadAffinity(const THREAD_HANDLE threadHandle, const unsigned long long threadAffinitMask);
-		
-		FORCE_INLINE static unsigned long long _GetCurrentThreadAffinity(const THREAD_HANDLE threadHandle);
+		FORCE_INLINE static unsigned long long _GetCurrentThreadAffinity(const PLATFORM_HANDLE threadHandle);
 		
 	};
 }
