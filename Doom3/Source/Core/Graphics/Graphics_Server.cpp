@@ -246,11 +246,15 @@ void doom::graphics::Graphics_Server::DeferredRendering()
 
 			targetCamera->mDefferedRenderingFrameBuffer.BindGBufferTextures();
 			
+			doom::graphics::GraphicsAPI::DepthMask(false);
 			mDeferredRenderingDrawer.DrawDeferredRenderingQuadDrawer();
+			doom::graphics::GraphicsAPI::DepthMask(true);
 
 #ifdef DEBUG_DRAWER
 			//이거 느려도 상관없다. 그냥 여기다 두자.
 			mDebugGraphics.BufferVertexDataToGPU();
+
+		
 			mDebugGraphics.Draw();
 #endif
 		}

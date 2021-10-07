@@ -32,10 +32,16 @@ void doom::graphics::RenderingDebugger::PrintDrawCallCounter()
 
 void doom::graphics::RenderingDebugger::UpdateInputForPrintDrawCallCounter()
 {
+
+#ifdef DEBUG_MODE
+
 	if (doom::userinput::UserInput_Server::GetKeyUp(eKEY_CODE::KEY_F5))
 	{
 		PrintDrawCallCounter();
 	}
+
+#endif
+
 }
 
 #endif

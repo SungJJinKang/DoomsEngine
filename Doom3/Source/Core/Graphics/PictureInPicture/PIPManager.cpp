@@ -15,12 +15,10 @@ void doom::graphics::PIPManager::DrawPIPs()
 	if (GetPIPCount() > 0)
 	{
 		D_START_PROFILING("DrawPIPs", doom::profiler::eProfileLayers::Rendering);
-		GraphicsAPI::Disable(GraphicsAPI::eCapability::DEPTH_TEST);
 		for (std::unique_ptr<PicktureInPickture>& pip : mPicktureInPicktures)
 		{
 			pip->DrawPictureInPicture();
 		}
-		GraphicsAPI::Enable(GraphicsAPI::eCapability::DEPTH_TEST);
 		D_END_PROFILING("DrawPIPs");
 	}	
 }
