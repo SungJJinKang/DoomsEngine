@@ -52,6 +52,7 @@ void doom::graphics::PicktureInPickture::DrawPictureInPicture()
 			mDrawedTexture->ActiveTexture(0);
 			mDrawedTexture->BindTexture();
 			mPlaneMesh.Draw();
+
 		}
 		else
 		{

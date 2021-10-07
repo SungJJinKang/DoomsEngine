@@ -242,7 +242,7 @@ void doom::graphics::Graphics_Server::DeferredRendering()
 
 			targetCamera->mDefferedRenderingFrameBuffer.BlitDepthBufferToScreenBuffer();
 
-			DrawPIP();
+			mPIPManager.DrawPIPs();
 
 			targetCamera->mDefferedRenderingFrameBuffer.BindGBufferTextures();
 			
@@ -281,22 +281,7 @@ void doom::graphics::Graphics_Server::UpdateOverDrawVisualization(doom::Camera* 
 
 }
 
-void doom::graphics::Graphics_Server::DrawPIP()
-{
-	if (mPIPManager.GetPIPCount() != 0)
-	{
-		//Why do this ? : because deffered rendering's quad have 0 depth value
-		
-		GraphicsAPI::DepthFunc(GraphicsAPI::eDepthFuncType::ALWAYS);
 
-		D_START_PROFILING("DrawPIPs", doom::profiler::eProfileLayers::Rendering);
-		mPIPManager.DrawPIPs(); // drawing pip before gbuffer will increase performance ( early depth testing )
-		D_END_PROFILING("DrawPIPs");
-
-		GraphicsAPI::DepthFunc(Graphics_Setting::DefualtDepthFuncType);
-
-	}
-}
 
 void doom::graphics::Graphics_Server::RenderObject(doom::Camera* const targetCamera, const size_t cameraIndex)
 {

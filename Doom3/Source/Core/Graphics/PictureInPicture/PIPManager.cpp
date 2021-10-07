@@ -12,10 +12,17 @@ doom::graphics::PIPManager::PIPManager()
 
 void doom::graphics::PIPManager::DrawPIPs()
 {
-	for (std::unique_ptr<PicktureInPickture>& pip : mPicktureInPicktures)
+	if (GetPIPCount() > 0)
 	{
-		pip->DrawPictureInPicture();
-	}
+		D_START_PROFILING("DrawPIPs", doom::profiler::eProfileLayers::Rendering);
+		GraphicsAPI::Disable(GraphicsAPI::eCapability::DEPTH_TEST);
+		for (std::unique_ptr<PicktureInPickture>& pip : mPicktureInPicktures)
+		{
+			pip->DrawPictureInPicture();
+		}
+		GraphicsAPI::Enable(GraphicsAPI::eCapability::DEPTH_TEST);
+		D_END_PROFILING("DrawPIPs");
+	}	
 }
 
 doom::graphics::PicktureInPickture* doom::graphics::PIPManager::AddNewPIP(const math::Vector2& leftBottomNDCPoint, const math::Vector2& rightTopNDCPoint, SingleTexture* const _drawedTexture)

@@ -104,6 +104,9 @@ void doom::GameLogicStartPoint::StartGameLogic()
 		entity->AddComponent<AutoRotate>();
 		meshRenderer->SetMesh(planetAsset->GetMesh(0));
 		meshRenderer->SetMaterial(material);
+
+		BoxCollider3D* box3D = entity->AddComponent<BoxCollider3D>();
+		box3D->SetFromAABB3D(planetAsset->GetMesh(0)->GetBoundingBox());
 	}
 
 	for (int i = -50; i < 50; i += 15)
@@ -115,6 +118,10 @@ void doom::GameLogicStartPoint::StartGameLogic()
 		entity->AddComponent<AutoRotate>();
 		meshRenderer->SetMesh(planetAsset->GetMesh(0));
 		meshRenderer->SetMaterial(material);
+
+
+		BoxCollider3D* box3D = entity->AddComponent<BoxCollider3D>();
+		box3D->SetFromAABB3D(planetAsset->GetMesh(0)->GetBoundingBox());
 	}
 
 	auto entity1 = currenScene->CreateNewEntity();
@@ -127,37 +134,58 @@ void doom::GameLogicStartPoint::StartGameLogic()
 	entity1->AddComponent<DeferredRenderingDebuggerController>();
 	entity1->AddComponent<OverDrawVisualizationDebugger>();
 	entity1->AddComponent<PhysicsDebuggerController>();
-	
+
 	
 
 	{
 		auto entity = currenScene->CreateNewEntity();
-		entity->GetTransform()->SetPosition(300.0f, 0.0f, 0.0f);
+		entity->GetTransform()->SetPosition(200.0f, 0.0f, 0.0f);
 		auto meshRenderer = entity->AddComponent<MeshRenderer>();
 		meshRenderer->SetMesh(planetAsset->GetMesh(0));
 		meshRenderer->SetMaterial(material);
 		PointLight* pointLight = entity->AddComponent<PointLight>();
 		AutoRotateAround* autoRotateAround = entity->AddComponent<AutoRotateAround>();
 		pointLight->SetColor({ 1.0f, 0.0f, 0.0f, 1.0f });
-		pointLight->SetIntensity(9500.0f);
+		pointLight->SetIntensity(12000.0f);
 		autoRotateAround->mCenterPos = math::Vector3{ 0.0f, 0.0f, 0.0f };
 		autoRotateAround->mRotateAngle = 1;
 		autoRotateAround->mRotateAxis = { 0.0f, 1.0f, 0.0f };
+		BoxCollider3D* box3D = entity->AddComponent<BoxCollider3D>();
+		box3D->SetFromAABB3D(planetAsset->GetMesh(0)->GetBoundingBox());
 	}
 
 	{
 		auto entity = currenScene->CreateNewEntity();
-		entity->GetTransform()->SetPosition(0.0f, 300.0f, 0.0f);
+		entity->GetTransform()->SetPosition(0.0f, 200.0f, 0.0f);
 		auto meshRenderer = entity->AddComponent<MeshRenderer>();
 		meshRenderer->SetMesh(planetAsset->GetMesh(0));
 		meshRenderer->SetMaterial(material);
 		PointLight* pointLight = entity->AddComponent<PointLight>();
 		AutoRotateAround* autoRotateAround = entity->AddComponent<AutoRotateAround>();
 		pointLight->SetColor({ 0.0f, 1.0f, 0.0f, 1.0f });
-		pointLight->SetIntensity(9500.0f);
+		pointLight->SetIntensity(12000.0f);
 		autoRotateAround->mCenterPos = math::Vector3{ 0.0f, 0.0f, 0.0f };
 		autoRotateAround->mRotateAngle = 1;
 		autoRotateAround->mRotateAxis = { 1.0f, 0.0f, 0.0f };
+		BoxCollider3D* box3D = entity->AddComponent<BoxCollider3D>();
+		box3D->SetFromAABB3D(planetAsset->GetMesh(0)->GetBoundingBox());
+	}
+
+	{
+		auto entity = currenScene->CreateNewEntity();
+		entity->GetTransform()->SetPosition(0.0f, 0.0f, 200.0f);
+		auto meshRenderer = entity->AddComponent<MeshRenderer>();
+		meshRenderer->SetMesh(planetAsset->GetMesh(0));
+		meshRenderer->SetMaterial(material);
+		PointLight* pointLight = entity->AddComponent<PointLight>();
+		AutoRotateAround* autoRotateAround = entity->AddComponent<AutoRotateAround>();
+		pointLight->SetColor({ 0.0f, 0.0f, 1.0f, 1.0f });
+		pointLight->SetIntensity(12000.0f);
+		autoRotateAround->mCenterPos = math::Vector3{ 0.0f, 0.0f, 0.0f };
+		autoRotateAround->mRotateAngle = 1;
+		autoRotateAround->mRotateAxis = { 0.0f, 1.0f, 0.0f };
+		BoxCollider3D* box3D = entity->AddComponent<BoxCollider3D>();
+		box3D->SetFromAABB3D(planetAsset->GetMesh(0)->GetBoundingBox());
 	}
 
 	

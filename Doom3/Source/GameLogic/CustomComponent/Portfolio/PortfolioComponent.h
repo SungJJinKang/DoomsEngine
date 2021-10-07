@@ -20,6 +20,8 @@ private:
 
 public:
 
+	bool a, b, c, d, e;
+
 	std::array<doom::graphics::PicktureInPickture*, 4> mDeferredRenderingDebuggerPIPs;
 
 	void InitComponent() override;

@@ -23,9 +23,9 @@ void doom::graphics::DeferredRenderingDrawer::DrawDeferredRenderingQuadDrawer()
 {
 	mGbufferDrawerMaterial.UseProgram();
 
-	//GraphicsAPI::Disable(GraphicsAPI::eCapability::DEPTH_TEST);
+	GraphicsAPI::Disable(GraphicsAPI::eCapability::DEPTH_TEST);
 	mQuadMesh->Draw();
-	//GraphicsAPI::Enable(GraphicsAPI::eCapability::DEPTH_TEST);
+	GraphicsAPI::Enable(GraphicsAPI::eCapability::DEPTH_TEST);
 }
 
 void doom::graphics::DeferredRenderingDrawer::SetShaderToGBufferMaterial()
