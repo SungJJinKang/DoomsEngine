@@ -1,8 +1,10 @@
 #pragma once
 
 #include <Core.h>
+#include "../Graphics_Core.h"
 
-#ifdef DEBUG_MODE
+
+#ifdef DEBUG_DRAWER
 
 #include "OverDrawVisualization.h"
 

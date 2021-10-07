@@ -1,6 +1,6 @@
 #include "RenderingDebugger.h"
 
-#ifdef DEBUG_MODE
+#ifdef DEBUG_DRAWER
 
 #include "../Graphics_Core.h"
 #include <Rendering/Renderer/RendererStaticIterator.h>

@@ -1,7 +1,7 @@
 #include "OverDrawVisualization.h"
 
 
-#ifdef DEBUG_MODE
+#ifdef DEBUG_DRAWER
 
 #include "../Graphics_Setting.h"
 #include "../Material/FixedMaterial.h"

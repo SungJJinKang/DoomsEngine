@@ -19,7 +19,7 @@ namespace doom
 
 			constexpr RenderCollider() {}
 
-#ifdef DEBUG_MODE
+#ifdef DEBUG_DRAWER
 			void DrawPhysicsDebugColor(eColor color) const
 			{
 				DrawCollider(color, false);

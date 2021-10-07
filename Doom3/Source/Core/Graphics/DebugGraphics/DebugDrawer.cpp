@@ -1,6 +1,7 @@
 #include "Core.h"
+#include "../Graphics_Core.h"
 
-#ifdef DEBUG_MODE
+#ifdef DEBUG_DRAWER
 
 #include "DebugDrawer.h"
 
@@ -24,10 +25,6 @@ void doom::graphics::DebugDrawer::Init()
 
 void doom::graphics::DebugDrawer::Update()
 {
-	if (doom::userinput::UserInput_Server::GetKeyUp(userinput::eKEY_CODE::KEY_F5))
-	{
-		Graphics_Setting::IsDrawDebuggersEnabled = !Graphics_Setting::IsDrawDebuggersEnabled;
-	}
 }
 
 void doom::graphics::DebugDrawer::Reset()
@@ -73,94 +70,90 @@ doom::graphics::DebugDrawer::DebugDrawer() :
 
 void doom::graphics::DebugDrawer::Draw()
 {
-	if (Graphics_Setting::IsDrawDebuggersEnabled == true)
+	/// <summary>
+	/// vector3 -> 3, vector4 -> 4
+	/// </summary>
+	int offsetComponentCount{ 0 };
+	unsigned int alreadyDrawedVertexCount{ 0 };
+
+	if (m2dLine.size() != 0 && m2dTriangle.size() != 0)
 	{
-		/// <summary>
-		/// vector3 -> 3, vector4 -> 4
-		/// </summary>
-		int offsetComponentCount{ 0 };
-		unsigned int alreadyDrawedVertexCount{ 0 };
-
-		if (m2dLine.size() != 0 && m2dTriangle.size() != 0)
+		for (size_t i = 0; i < m2dLine.size(); i++)
 		{
-			m2DMaterial->UseProgram();
-			for (size_t i = 0; i < m2dLine.size(); i++)
+			unsigned int lineCount = static_cast<unsigned int>(m2dLine[i].size());
+			if (lineCount > 0)
 			{
-				unsigned int lineCount = static_cast<unsigned int>(m2dLine[i].size());
-				if (lineCount > 0)
-				{
-					m2DMaterial->SetVector4(0, Color::GetColor(static_cast<eColor>(i)));
-					mDebugMesh.DrawArray(ePrimitiveType::LINES, alreadyDrawedVertexCount, lineCount * 2);
+				m2DMaterial->UseProgram();
+				m2DMaterial->SetVector4(0, Color::GetColor(static_cast<eColor>(i)));
+				mDebugMesh.DrawArray(ePrimitiveType::LINES, alreadyDrawedVertexCount, lineCount * 2);
 
-					offsetComponentCount += lineCount * 6;
-					alreadyDrawedVertexCount += lineCount * 2;
-				}
-			}
-
-			for (size_t i = 0; i < m2dTriangle.size(); i++)
-			{
-				unsigned int triangleCount = static_cast<unsigned int>(m2dTriangle[i].size());
-				if (triangleCount > 0)
-				{
-					m2DMaterial->SetVector4(0, Color::GetColor(static_cast<eColor>(i)));
-					mDebugMesh.DrawArray(ePrimitiveType::TRIANGLES, alreadyDrawedVertexCount, triangleCount * 3);
-
-					offsetComponentCount += triangleCount * 9;
-					alreadyDrawedVertexCount += triangleCount * 3;
-				}
+				offsetComponentCount += lineCount * 6;
+				alreadyDrawedVertexCount += lineCount * 2;
 			}
 		}
 
-		if (m3dLine.size() != 0 && m3dTriangle.size() != 0)
+		for (size_t i = 0; i < m2dTriangle.size(); i++)
 		{
-
-			m3DMaterial->UseProgram();
-			for (size_t i = 0; i < m3dLine.size(); i++)
+			unsigned int triangleCount = static_cast<unsigned int>(m2dTriangle[i].size());
+			if (triangleCount > 0)
 			{
-				unsigned int lineCount = static_cast<unsigned int>(m3dLine[i].size());
-				if (lineCount > 0)
-				{
-					m3DMaterial->SetVector4(0, Color::GetColor(static_cast<eColor>(i)));
-					mDebugMesh.DrawArray(ePrimitiveType::LINES, alreadyDrawedVertexCount, lineCount * 2);
+				m2DMaterial->UseProgram();
+				m2DMaterial->SetVector4(0, Color::GetColor(static_cast<eColor>(i)));
+				mDebugMesh.DrawArray(ePrimitiveType::TRIANGLES, alreadyDrawedVertexCount, triangleCount * 3);
 
-					offsetComponentCount += lineCount * 6;
-					alreadyDrawedVertexCount += lineCount * 2;
-				}
-			}
-
-			for (size_t i = 0; i < m3dTriangle.size(); i++)
-			{
-				unsigned int triangleCount = static_cast<unsigned int>(m3dTriangle[i].size());
-				if (triangleCount > 0)
-				{
-					m3DMaterial->SetVector4(0, Color::GetColor(static_cast<eColor>(i)));
-					mDebugMesh.DrawArray(ePrimitiveType::TRIANGLES, alreadyDrawedVertexCount, triangleCount * 3);
-
-					offsetComponentCount += triangleCount * 9;
-					alreadyDrawedVertexCount += triangleCount * 3;
-				}
+				offsetComponentCount += triangleCount * 9;
+				alreadyDrawedVertexCount += triangleCount * 3;
 			}
 		}
 	}
+
+	if (m3dLine.size() != 0 && m3dTriangle.size() != 0)
+	{
+		for (size_t i = 0; i < m3dLine.size(); i++)
+		{
+			unsigned int lineCount = static_cast<unsigned int>(m3dLine[i].size());
+			if (lineCount > 0)
+			{
+				m3DMaterial->UseProgram();
+				m3DMaterial->SetVector4(0, Color::GetColor(static_cast<eColor>(i)));
+				mDebugMesh.DrawArray(ePrimitiveType::LINES, alreadyDrawedVertexCount, lineCount * 2);
+
+				offsetComponentCount += lineCount * 6;
+				alreadyDrawedVertexCount += lineCount * 2;
+			}
+		}
+
+		for (size_t i = 0; i < m3dTriangle.size(); i++)
+		{
+			unsigned int triangleCount = static_cast<unsigned int>(m3dTriangle[i].size());
+			if (triangleCount > 0)
+			{
+				m3DMaterial->UseProgram();
+				m3DMaterial->SetVector4(0, Color::GetColor(static_cast<eColor>(i)));
+				mDebugMesh.DrawArray(ePrimitiveType::TRIANGLES, alreadyDrawedVertexCount, triangleCount * 3);
+
+				offsetComponentCount += triangleCount * 9;
+				alreadyDrawedVertexCount += triangleCount * 3;
+			}
+		}
+	}
+
 }
 
 void doom::graphics::DebugDrawer::DebugDraw3DLine(const math::Vector3& startWorldPos, const math::Vector3& endWorldPos, eColor color, bool drawInstantly /*= false*/)
 {
-	if (Graphics_Setting::IsDrawDebuggersEnabled == true)
+	if (drawInstantly == false)
 	{
-		if (drawInstantly == false)
-		{
-			D_ASSERT_LOG(bmIsVertexDataSendToGPUAtCurrentFrame == false, "Debugging Vertex Data is already send to GPU");
-			m3dLine[static_cast<unsigned int>(color)].emplace_back(startWorldPos, endWorldPos);
-		}
-		else
-		{
-			m3DMaterial->UseProgram();
-			m3DMaterial->SetVector4(0, Color::GetColor(static_cast<eColor>(color)));
-			float data[6]{ startWorldPos.x, startWorldPos.y, startWorldPos.z, endWorldPos.x, endWorldPos.y, endWorldPos.z };
-			mDebugMesh.BufferSubData(6, data, 0);
-			mDebugMesh.DrawArray(ePrimitiveType::LINES, 0, 2);
-		}
+		D_ASSERT_LOG(bmIsVertexDataSendToGPUAtCurrentFrame == false, "Debugging Vertex Data is already send to GPU");
+		m3dLine[static_cast<unsigned int>(color)].emplace_back(startWorldPos, endWorldPos);
+	}
+	else
+	{
+		m3DMaterial->UseProgram();
+		m3DMaterial->SetVector4(0, Color::GetColor(static_cast<eColor>(color)));
+		float data[6]{ startWorldPos.x, startWorldPos.y, startWorldPos.z, endWorldPos.x, endWorldPos.y, endWorldPos.z };
+		mDebugMesh.BufferSubData(6, data, 0);
+		mDebugMesh.DrawArray(ePrimitiveType::LINES, 0, 2);
 	}
 }
 
@@ -176,17 +169,14 @@ void doom::graphics::DebugDrawer::DebugDraw3DLine(const math::Vector3& startWorl
 /// <param name="color"></param>
 void doom::graphics::DebugDrawer::DebugDraw2DLine(const math::Vector3& startNDCPos, const math::Vector3& endNDCPos, eColor color, bool drawInstantly /*= false*/)
 {
-	if (Graphics_Setting::IsDrawDebuggersEnabled == true)
+	if (drawInstantly == false)
 	{
-		if (drawInstantly == false)
-		{
-			D_ASSERT_LOG(bmIsVertexDataSendToGPUAtCurrentFrame == false, "Debugging Vertex Data is already send to GPU");
-			m2dLine[static_cast<unsigned int>(color)].emplace_back(startNDCPos, startNDCPos);
-		}
-		else
-		{
-			DebugDraw2DLineInstantly(startNDCPos, endNDCPos, color);
-		}
+		D_ASSERT_LOG(bmIsVertexDataSendToGPUAtCurrentFrame == false, "Debugging Vertex Data is already send to GPU");
+		m2dLine[static_cast<unsigned int>(color)].emplace_back(startNDCPos, startNDCPos);
+	}
+	else
+	{
+		DebugDraw2DLineInstantly(startNDCPos, endNDCPos, color);
 	}
 }
 
@@ -233,17 +223,14 @@ void doom::graphics::DebugDrawer::DebugDraw2DTriangleInstantly(const math::Vecto
 
 void doom::graphics::DebugDrawer::DebugDraw2DTriangle(const math::Vector3& pointA, const math::Vector3& pointB, const math::Vector3& pointC, eColor color, bool drawInstantly /*= false*/)
 {
-	if (Graphics_Setting::IsDrawDebuggersEnabled == true)
+	if (drawInstantly == false)
 	{
-		if (drawInstantly == false)
-		{
-			D_ASSERT_LOG(bmIsVertexDataSendToGPUAtCurrentFrame == false, "Debugging Vertex Data is already send to GPU");
-			m2dTriangle[static_cast<unsigned int>(color)].emplace_back(pointA, pointB, pointC);
-		}
-		else
-		{
-			DebugDraw2DTriangleInstantly(pointA, pointB, pointC, color);
-		}
+		D_ASSERT_LOG(bmIsVertexDataSendToGPUAtCurrentFrame == false, "Debugging Vertex Data is already send to GPU");
+		m2dTriangle[static_cast<unsigned int>(color)].emplace_back(pointA, pointB, pointC);
+	}
+	else
+	{
+		DebugDraw2DTriangleInstantly(pointA, pointB, pointC, color);
 	}
 }
 
@@ -254,94 +241,89 @@ void doom::graphics::DebugDrawer::SetDrawInstantlyMaterial(Material* material)
 
 void doom::graphics::DebugDrawer::BufferVertexDataToGPU()
 {
-	if (Graphics_Setting::IsDrawDebuggersEnabled == true)
+	unsigned int offsetComponentCount{ 0 };
+	unsigned int alreadyDrawedVertexCount{ 0 };
+
+	if (m2dLine.size() != 0 && m2dTriangle.size() != 0)
 	{
-		unsigned int offsetComponentCount{ 0 };
-		unsigned int alreadyDrawedVertexCount{ 0 };
-
-		if (m2dLine.size() != 0 && m2dTriangle.size() != 0)
+		for (size_t i = 0; i < m2dLine.size(); i++)
 		{
-			for (size_t i = 0; i < m2dLine.size(); i++)
+			unsigned int lineCount = static_cast<unsigned int>(m2dLine[i].size());
+			if (lineCount > 0)
 			{
-				unsigned int lineCount = static_cast<unsigned int>(m2dLine[i].size());
-				if (lineCount > 0)
-				{
-					D_ASSERT(MAX_DEBUG_VERTEX_COUNT >= alreadyDrawedVertexCount + lineCount * 2);
-					mDebugMesh.BufferSubData(lineCount * 6, m2dLine[i].data(), offsetComponentCount * sizeof(float));
+				D_ASSERT(MAX_DEBUG_VERTEX_COUNT >= alreadyDrawedVertexCount + lineCount * 2);
+				mDebugMesh.BufferSubData(lineCount * 6, m2dLine[i].data(), offsetComponentCount * sizeof(float));
 
-					offsetComponentCount += lineCount * 6;
-					alreadyDrawedVertexCount += lineCount * 2;
-				}
-			}
-
-			for (size_t i = 0; i < m2dTriangle.size(); i++)
-			{
-				unsigned int triangleCount = static_cast<unsigned int>(m2dTriangle[i].size());
-				if (triangleCount > 0)
-				{
-					D_ASSERT(MAX_DEBUG_VERTEX_COUNT >= alreadyDrawedVertexCount + triangleCount * 3);
-					mDebugMesh.BufferSubData(triangleCount * 9, m2dTriangle[i].data(), offsetComponentCount * sizeof(float));
-
-					offsetComponentCount += triangleCount * 9;
-					alreadyDrawedVertexCount += triangleCount * 3;
-				}
+				offsetComponentCount += lineCount * 6;
+				alreadyDrawedVertexCount += lineCount * 2;
 			}
 		}
 
-		if (m3dLine.size() != 0 && m3dTriangle.size() != 0)
+		for (size_t i = 0; i < m2dTriangle.size(); i++)
 		{
-			for (size_t i = 0; i < m3dLine.size(); i++)
+			unsigned int triangleCount = static_cast<unsigned int>(m2dTriangle[i].size());
+			if (triangleCount > 0)
 			{
-				unsigned int lineCount = static_cast<unsigned int>(m3dLine[i].size());
-				if (lineCount > 0)
-				{
-					D_ASSERT(MAX_DEBUG_VERTEX_COUNT >= alreadyDrawedVertexCount + lineCount * 2);
-					mDebugMesh.BufferSubData(lineCount * 6, m3dLine[i].data(), offsetComponentCount * sizeof(float));
+				D_ASSERT(MAX_DEBUG_VERTEX_COUNT >= alreadyDrawedVertexCount + triangleCount * 3);
+				mDebugMesh.BufferSubData(triangleCount * 9, m2dTriangle[i].data(), offsetComponentCount * sizeof(float));
 
-					offsetComponentCount += lineCount * 6;
-					alreadyDrawedVertexCount += lineCount * 2;
-				}
-			}
-
-			for (size_t i = 0; i < m3dTriangle.size(); i++)
-			{
-				unsigned int triangleCount = static_cast<unsigned int>(m3dTriangle[i].size());
-				if (triangleCount > 0)
-				{
-					D_ASSERT(MAX_DEBUG_VERTEX_COUNT >= alreadyDrawedVertexCount + triangleCount * 3);
-					mDebugMesh.BufferSubData(triangleCount * 9, m3dTriangle[i].data(), offsetComponentCount * sizeof(float));
-
-					offsetComponentCount += triangleCount * 9;
-					alreadyDrawedVertexCount += triangleCount * 3;
-				}
+				offsetComponentCount += triangleCount * 9;
+				alreadyDrawedVertexCount += triangleCount * 3;
 			}
 		}
-
-		bmIsVertexDataSendToGPUAtCurrentFrame = true;
 	}
+
+	if (m3dLine.size() != 0 && m3dTriangle.size() != 0)
+	{
+		for (size_t i = 0; i < m3dLine.size(); i++)
+		{
+			unsigned int lineCount = static_cast<unsigned int>(m3dLine[i].size());
+			if (lineCount > 0)
+			{
+				D_ASSERT(MAX_DEBUG_VERTEX_COUNT >= alreadyDrawedVertexCount + lineCount * 2);
+				mDebugMesh.BufferSubData(lineCount * 6, m3dLine[i].data(), offsetComponentCount * sizeof(float));
+
+				offsetComponentCount += lineCount * 6;
+				alreadyDrawedVertexCount += lineCount * 2;
+			}
+		}
+
+		for (size_t i = 0; i < m3dTriangle.size(); i++)
+		{
+			unsigned int triangleCount = static_cast<unsigned int>(m3dTriangle[i].size());
+			if (triangleCount > 0)
+			{
+				D_ASSERT(MAX_DEBUG_VERTEX_COUNT >= alreadyDrawedVertexCount + triangleCount * 3);
+				mDebugMesh.BufferSubData(triangleCount * 9, m3dTriangle[i].data(), offsetComponentCount * sizeof(float));
+
+				offsetComponentCount += triangleCount * 9;
+				alreadyDrawedVertexCount += triangleCount * 3;
+			}
+		}
+	}
+
+	bmIsVertexDataSendToGPUAtCurrentFrame = true;
+
 }
 
 void doom::graphics::DebugDrawer::DebugDraw3DTriangle(const math::Vector3& pointA, const math::Vector3& pointB, const math::Vector3& pointC, eColor color, bool drawInstantly /*= false*/)
 {
-	if (Graphics_Setting::IsDrawDebuggersEnabled == true)
+	if (drawInstantly == false)
 	{
-		if (drawInstantly == false)
-		{
-			D_ASSERT_LOG(bmIsVertexDataSendToGPUAtCurrentFrame == false, "Debugging Vertex Data is already send to GPU");
+		D_ASSERT_LOG(bmIsVertexDataSendToGPUAtCurrentFrame == false, "Debugging Vertex Data is already send to GPU");
 
-			m3dTriangle[static_cast<unsigned int>(color)].emplace_back(pointA, pointB, pointC);
+		m3dTriangle[static_cast<unsigned int>(color)].emplace_back(pointA, pointB, pointC);
 
-			//For Drawing both face
-			m3dTriangle[static_cast<unsigned int>(color)].emplace_back(pointC, pointB, pointA);
-		}
-		else
-		{
-			m3DMaterial->UseProgram();
-			m3DMaterial->SetVector4(0, Color::GetColor(static_cast<eColor>(color)));
-			float data[9]{ pointA.x, pointA.y, pointA.z, pointB.x, pointB.y, pointB.z, pointC.x, pointC.y, pointC.z };
-			mDebugMesh.BufferSubData(9, data, 0);
-			mDebugMesh.DrawArray(ePrimitiveType::TRIANGLES, 0, 3);
-		}
+		//For Drawing both face
+		m3dTriangle[static_cast<unsigned int>(color)].emplace_back(pointC, pointB, pointA);
+	}
+	else
+	{
+		m3DMaterial->UseProgram();
+		m3DMaterial->SetVector4(0, Color::GetColor(static_cast<eColor>(color)));
+		float data[9]{ pointA.x, pointA.y, pointA.z, pointB.x, pointB.y, pointB.z, pointC.x, pointC.y, pointC.z };
+		mDebugMesh.BufferSubData(9, data, 0);
+		mDebugMesh.DrawArray(ePrimitiveType::TRIANGLES, 0, 3);
 	}
 }
 

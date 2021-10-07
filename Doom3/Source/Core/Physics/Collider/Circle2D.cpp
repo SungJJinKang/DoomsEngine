@@ -5,7 +5,7 @@
 
 void doom::physics::Circle2D::DrawCollider(eColor color, bool drawInstantly /*= false*/) const
 {
-#ifdef DEBUG_MODE
+#ifdef DEBUG_DRAWER
 	auto debugGraphics = graphics::DebugDrawer::GetSingleton();
 
 	const float intervalRadian = math::PI * 2 / 72.0f;

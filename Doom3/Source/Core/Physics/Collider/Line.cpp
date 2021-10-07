@@ -3,7 +3,7 @@
 
 void doom::physics::Line::DrawCollider(eColor color, bool drawInstantly /*= false*/) const
 {
-#ifdef DEBUG_MODE
+#ifdef DEBUG_DRAWER
 	graphics::DebugDrawer::GetSingleton()->DebugDraw3DLine(mOrigin, mEndPoint, color, drawInstantly);
 #endif
 }

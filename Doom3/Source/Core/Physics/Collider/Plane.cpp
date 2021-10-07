@@ -67,7 +67,7 @@ math::Vector3 doom::physics::GetClosestPoint(const doom::physics::Plane& plane, 
 
 void doom::physics::Plane::DrawCollider(eColor color, bool drawInstantly /*= false*/) const
 {
-#ifdef DEBUG_MODE
+#ifdef DEBUG_DRAWER
 	auto debugGraphics = graphics::DebugDrawer::GetSingleton();
 
 	math::Vector3 arbitaryVector =

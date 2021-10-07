@@ -26,15 +26,12 @@
 
 #include "Acceleration/LinearData_ViewFrustumCulling/EveryCulling.h"
 
-#ifdef DEBUG_MODE
-#include "Physics/Collider/Plane.h"
-#include <SequenceStringGenerator/SequenceStringGenerator.h>
-#endif
 #include "Buffer/Mesh.h"
 
 #include "GraphicsAPIManager.h"
 #include "Graphics_Setting.h"
 
+//#define D_DEBUG_CPU_VENDOR_PROFILER
 #include <Profiler/AMDuProf.h>
 
 using namespace doom::graphics;
@@ -52,7 +49,7 @@ void Graphics_Server::Init()
 
 void doom::graphics::Graphics_Server::LateInit()
 {
-#ifdef DEBUG_MODE
+#ifdef DEBUG_DRAWER
 	mDebugGraphics.Init();
 #endif 
 
@@ -63,53 +60,38 @@ void doom::graphics::Graphics_Server::LateInit()
 	//mCullDistance.Initialize();
 }
 
-#define D_DEBUG_AMD_U_PROF
+
 
 void Graphics_Server::Update()
 {		
-#ifdef DEBUG_MODE
+#ifdef DEBUG_DRAWER
 	mDebugGraphics.Update();
 	mRenderingDebugger.DrawRenderingBoundingBox();
 #endif
 
 	Renderder_UpdateComponent();
 
-#ifdef DEBUG_MODE
+#ifdef DEBUG_DRAWER
 	mRenderingDebugger.UpdateInputForPrintDrawCallCounter();
 #endif
 
-	auto t_start = std::chrono::high_resolution_clock::now();
+	//auto t_start = std::chrono::high_resolution_clock::now();
 
-#ifdef D_DEBUG_AMD_U_PROF
-	if (doom::time::MainTimer::GetCurrentFrameCount() < 1000)
-	{
-		CPU_VENDOR_PROFILER_RESUME;
-	}
-#endif
 
-	DeferredRendering();
+	CONDITIONAL_PROFILING_WITH_CPU_VENDOR_PROFILER(doom::time::MainTimer::GetCurrentFrameCount() < 1000, DeferredRendering());
 
-#ifdef D_DEBUG_AMD_U_PROF
-	if (doom::time::MainTimer::GetCurrentFrameCount() < 1000)
-	{
-		CPU_VENDOR_PROFILER_PAUSE;
-	}
-	else
-	{
-		exit(0);
-	}
-#endif
+	//DeferredRendering();
 
-	auto t_end = std::chrono::high_resolution_clock::now();
-	double elapsed_time_ms = std::chrono::duration<double, std::milli>(t_end - t_start).count();
-	doom::ui::PrintText("elapsed tick count : %lf", elapsed_time_ms);
+	//auto t_end = std::chrono::high_resolution_clock::now();
+	//double elapsed_time_ms = std::chrono::duration<double, std::milli>(t_end - t_start).count();
+	//doom::ui::PrintText("elapsed tick count : %lf", elapsed_time_ms);
 }
 
 void Graphics_Server::OnEndOfFrame()
 {
 	Renderder_OnEndOfFrameComponent();
 
-#ifdef DEBUG_MODE
+#ifdef DEBUG_DRAWER
 	mDebugGraphics.Reset();
 #endif
 
@@ -255,17 +237,9 @@ void doom::graphics::Graphics_Server::DeferredRendering()
 		{
 			//Only Main Camera can draw to screen buffer
 
-#ifdef DEBUG_MODE
-			mRenderingDebugger.mOverDrawVisualization.ShowOverDrawVisualizationPIP(Graphics_Setting::IsOverDrawVisualizationEnabled);
-			if (Graphics_Setting::IsOverDrawVisualizationEnabled == true)
-			{
-				mRenderingDebugger.mOverDrawVisualization.SetOverDrawVisualizationRenderingState(true);
-				RenderObject(targetCamera, cameraIndex);
-				mRenderingDebugger.mOverDrawVisualization.SetOverDrawVisualizationRenderingState(false);
-			}
-#endif
-		
-			
+			UpdateOverDrawVisualization(targetCamera, cameraIndex);
+
+
 			targetCamera->mDefferedRenderingFrameBuffer.BlitDepthBufferToScreenBuffer();
 
 			DrawPIP();
@@ -274,7 +248,7 @@ void doom::graphics::Graphics_Server::DeferredRendering()
 			
 			mDeferredRenderingDrawer.DrawDeferredRenderingQuadDrawer();
 
-#ifdef DEBUG_MODE
+#ifdef DEBUG_DRAWER
 			//이거 느려도 상관없다. 그냥 여기다 두자.
 			mDebugGraphics.BufferVertexDataToGPU();
 			mDebugGraphics.Draw();
@@ -283,13 +257,28 @@ void doom::graphics::Graphics_Server::DeferredRendering()
 		
 	}
 
-#ifdef DEBUG_MODE
+#ifdef DEBUG_DRAWER
 	mDebugGraphics.SetIsVertexDataSendToGPUAtCurrentFrame(false);
 #endif
 
 
 	
 	
+}
+
+void doom::graphics::Graphics_Server::UpdateOverDrawVisualization(doom::Camera* const targetCamera, const size_t cameraIndex)
+{
+
+#ifdef DEBUG_DRAWER
+	mRenderingDebugger.mOverDrawVisualization.ShowOverDrawVisualizationPIP(Graphics_Setting::IsOverDrawVisualizationEnabled);
+	if (Graphics_Setting::IsOverDrawVisualizationEnabled == true)
+	{
+		mRenderingDebugger.mOverDrawVisualization.SetOverDrawVisualizationRenderingState(true);
+		RenderObject(targetCamera, cameraIndex);
+		mRenderingDebugger.mOverDrawVisualization.SetOverDrawVisualizationRenderingState(false);
+	}
+#endif
+
 }
 
 void doom::graphics::Graphics_Server::DrawPIP()

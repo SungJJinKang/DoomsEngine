@@ -53,13 +53,15 @@ namespace doom
 			
 			//CullDistance mCullDistance{};
 
-#ifdef DEBUG_MODE
+#ifdef DEBUG_DRAWER
 			DebugDrawer mDebugGraphics{};
 #endif
 
 			eRenderingMode mCurrentRenderingMode{ eRenderingMode::ForwardRendering };
 			
 			void DeferredRendering();
+
+			void UpdateOverDrawVisualization(doom::Camera* const targetCamera, const size_t cameraIndex);
 
 			void DrawPIP();
 
@@ -83,7 +85,7 @@ namespace doom
 			void Renderder_UpdateComponent();
 			void Renderder_OnEndOfFrameComponent();
 
-#ifdef DEBUG_MODE
+#ifdef DEBUG_DRAWER
 			RenderingDebugger mRenderingDebugger;
 #endif
 			UniformBufferObjectManager mUniformBufferObjectManager;

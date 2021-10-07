@@ -16,7 +16,7 @@ namespace doom
 
 		public:
 
-#ifdef DEBUG_MODE
+#ifdef DEBUG_DRAWER
 			void UpdateDebugger()
 			{
 				DrawMouseRayCast();
