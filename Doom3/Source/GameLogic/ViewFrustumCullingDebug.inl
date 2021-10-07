@@ -67,7 +67,7 @@ void doom::GameLogicStartPoint::StartGameLogic()
 
 	int entityCount = 0;
 
-	int count = 300;
+	int count = 600;
 	for (int i = -count; i < count; i = i + 15)
 	{
 		for (int j = -count; j < count; j = j + 15)

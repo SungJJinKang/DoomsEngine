@@ -63,6 +63,8 @@ void doom::graphics::Graphics_Server::LateInit()
 	//mCullDistance.Initialize();
 }
 
+#define D_DEBUG_AMD_U_PROF
+
 void Graphics_Server::Update()
 {		
 #ifdef DEBUG_MODE
@@ -76,7 +78,7 @@ void Graphics_Server::Update()
 	mRenderingDebugger.UpdateInputForPrintDrawCallCounter();
 #endif
 
-	//auto t_start = std::chrono::high_resolution_clock::now();
+	auto t_start = std::chrono::high_resolution_clock::now();
 
 #ifdef D_DEBUG_AMD_U_PROF
 	if (doom::time::MainTimer::GetCurrentFrameCount() < 1000)
@@ -98,9 +100,9 @@ void Graphics_Server::Update()
 	}
 #endif
 
-	//auto t_end = std::chrono::high_resolution_clock::now();
-	//double elapsed_time_ms = std::chrono::duration<double, std::milli>(t_end - t_start).count();
-	//doom::ui::PrintText("elapsed tick count : %lf", elapsed_time_ms);
+	auto t_end = std::chrono::high_resolution_clock::now();
+	double elapsed_time_ms = std::chrono::duration<double, std::milli>(t_end - t_start).count();
+	doom::ui::PrintText("elapsed tick count : %lf", elapsed_time_ms);
 }
 
 void Graphics_Server::OnEndOfFrame()
