@@ -16,12 +16,15 @@
 #include "PhysicsComponent/BoxCollider3D.h"
 #include "CustomComponent/CharacterSpawner.h"
 #include "CustomComponent/ButtonRotate.h"
+#include "CustomComponent/Portfolio/ViewFrustumCullingDebug.h"
 #include "Graphics/PictureInPicture/PIPManager.h"
 #include "AutoRotateAround.h"
 #include "Graphics/LightManager.h"
 #include "Graphics/Graphics_Setting.h"
 #include "Graphics/GraphicsAPIManager.h"
+#include "Portfolio/DeferredRenderingDebuggerController.h"
 #include "Portfolio/OverDrawVisualizationDebugger.h"
+#include "Portfolio/PhysicsDebuggerController.h"
 
 void doom::GameLogicStartPoint::StartGameLogic()
 {
@@ -41,7 +44,7 @@ void doom::GameLogicStartPoint::StartGameLogic()
 	//auto& threedasset = assetimporter::AssetManager::GetAsset<asset::eAssetType::THREE_D_MODEL>(0);
 	auto threedasset = assetimporter::AssetManager::GetAsset<asset::eAssetType::THREE_D_MODEL>("cerberus.assbin");
 	auto shader = assetimporter::AssetManager::GetAsset<asset::eAssetType::SHADER>("GbufferWriter_PBR.glsl");
-	auto material = new graphics::Material(shader);
+	auto material = doom::CreateDObject<graphics::Material>(shader);
 	material->AddTexture(graphics::eTextureBindingPoint::AlbedoTexture, assetimporter::AssetManager::GetAsset<asset::eAssetType::TEXTURE>("cerberus_A.dds"));
 	material->AddTexture(graphics::eTextureBindingPoint::NormalTexture, assetimporter::AssetManager::GetAsset<asset::eAssetType::TEXTURE>("cerberus_N.dds"));
 	material->AddTexture(graphics::eTextureBindingPoint::MetalnessTexture, assetimporter::AssetManager::GetAsset<asset::eAssetType::TEXTURE>("cerberus_M.dds"));
@@ -64,6 +67,9 @@ void doom::GameLogicStartPoint::StartGameLogic()
 	// 			entity->AddComponent<BoxCollider3D>();
 	// 		}
 	// 	}
+
+	int entityCount = 0;
+
 	int count = 100;
 	for (int i = -count; i < count; i = i + 15)
 	{
@@ -77,11 +83,17 @@ void doom::GameLogicStartPoint::StartGameLogic()
 				auto meshRenderer = entity->AddComponent<MeshRenderer>();
 				meshRenderer->SetMesh(planetAsset->GetMesh(0));
 				meshRenderer->SetMaterial(material);
+				entityCount++;
+
+				BoxCollider3D* box3D = entity->AddComponent<BoxCollider3D>();
+				box3D->SetFromAABB3D(planetAsset->GetMesh(0)->GetBoundingBox());
 				//entity->AddComponent<AutoRotate>();
 				//entity->AddComponent<BoxCollider3D>();
 			}
 		}
 	}
+
+
 
 	for (int i = -200; i < 200; i += 70)
 	{
@@ -106,34 +118,50 @@ void doom::GameLogicStartPoint::StartGameLogic()
 	}
 
 	auto entity1 = currenScene->CreateNewEntity();
+
 	auto entity1Camera = entity1->AddComponent<Camera>();
-	entity1->AddComponent<OverDrawVisualizationDebugger>();
+	entity1->GetTransform()->SetPosition(0, 0, 1000);
 	entity1Camera->SetProjectionMode(doom::Camera::eProjectionType::Perspective);
-
-
-
-
-	entity1->GetTransform()->SetPosition(0.0f, 0.0f, 600.0f);
+	entity1->AddComponent<ViewFrustumCullingDebug>();
 	entity1->AddComponent<Move_WASD>();
-	entity1->AddComponent<CharacterSpawner>();
-	entity1->AddComponent<ButtonRotate>();
+	entity1->AddComponent<DeferredRenderingDebuggerController>();
+	entity1->AddComponent<OverDrawVisualizationDebugger>();
+	entity1->AddComponent<PhysicsDebuggerController>();
+	
+	
 
+	{
+		auto entity = currenScene->CreateNewEntity();
+		entity->GetTransform()->SetPosition(300.0f, 0.0f, 0.0f);
+		auto meshRenderer = entity->AddComponent<MeshRenderer>();
+		meshRenderer->SetMesh(planetAsset->GetMesh(0));
+		meshRenderer->SetMaterial(material);
+		PointLight* pointLight = entity->AddComponent<PointLight>();
+		AutoRotateAround* autoRotateAround = entity->AddComponent<AutoRotateAround>();
+		pointLight->SetColor({ 1.0f, 0.0f, 0.0f, 1.0f });
+		pointLight->SetIntensity(9500.0f);
+		autoRotateAround->mCenterPos = math::Vector3{ 0.0f, 0.0f, 0.0f };
+		autoRotateAround->mRotateAngle = 1;
+		autoRotateAround->mRotateAxis = { 0.0f, 1.0f, 0.0f };
+	}
 
-	auto physicsEntity = currenScene->CreateNewEntity();
-	entity1->AddComponent<TestComponent>();
+	{
+		auto entity = currenScene->CreateNewEntity();
+		entity->GetTransform()->SetPosition(0.0f, 300.0f, 0.0f);
+		auto meshRenderer = entity->AddComponent<MeshRenderer>();
+		meshRenderer->SetMesh(planetAsset->GetMesh(0));
+		meshRenderer->SetMaterial(material);
+		PointLight* pointLight = entity->AddComponent<PointLight>();
+		AutoRotateAround* autoRotateAround = entity->AddComponent<AutoRotateAround>();
+		pointLight->SetColor({ 0.0f, 1.0f, 0.0f, 1.0f });
+		pointLight->SetIntensity(9500.0f);
+		autoRotateAround->mCenterPos = math::Vector3{ 0.0f, 0.0f, 0.0f };
+		autoRotateAround->mRotateAngle = 1;
+		autoRotateAround->mRotateAxis = { 1.0f, 0.0f, 0.0f };
+	}
 
-	auto emptyEntity = currenScene->CreateNewEntity();
-
-
-	auto entity2 = currenScene->CreateNewEntity();
-	entity2->GetTransform()->SetPosition(2.0f, 1.0f, -1.0f);
-	auto entity2BoxCollider3D = entity2->AddComponent<BoxCollider3D>();
-	entity2BoxCollider3D->SetHalfExtent(math::Vector3(1.0f, 2.0f, 3.0f));
-	entity2->AddComponent<AutoRotate>();
-
-	auto entity3 = currenScene->CreateNewEntity();
-	//entity3->AddComponent<ViewFrustumCullingDebug>();
-
-
-	graphics::Graphics_Setting::IsOverDrawVisualizationEnabled = true;
+	
+	doom::graphics::GraphicsAPIManager::SetWindowTitle(
+		u8"F3 : 디퍼드렌더링 디버거 ON/OFF | F4 : 멀티스레드 뷰프러스텀 컬링 ON/OFF | F5 : 오브젝트 FRONT TO BACK ON / OFF | F6 : 오버드로우 디버거 ON / OFF | F7 : 충돌 처리 디버깅 ON / OFF"
+	);
 }

@@ -12,13 +12,7 @@
 #include <UserInput_Server.h>
 #include <UI/PrintText.h>
 
-void doom::physics::Physics_Server::UpdatePhysicsOnOff()
-{
-	if (doom::userinput::UserInput_Server::GetKeyUp(doom::userinput::eKEY_CODE::KEY_F11))
-	{
-		Physics_Setting::SetIsPhysicsOn(!Physics_Setting::GetIsPhysicsOn());
-	}
-}
+
 
 void doom::physics::Physics_Server::LoadPhysicsSetting()
 {
@@ -39,9 +33,8 @@ void doom::physics::Physics_Server::Init()
 
 void doom::physics::Physics_Server::Update()
 {
-	UpdatePhysicsOnOff();
-
-	if (Physics_Setting::GetIsPhysicsOn() == true)
+	
+	if (Physics_Setting::IS_RENDER_PHYSICS_RAYCASTING_DEBUGGER == true)
 	{
 		mPhysicsDebugger.UpdateDebugger();
 	}

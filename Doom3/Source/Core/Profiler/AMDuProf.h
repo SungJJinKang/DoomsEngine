@@ -3,7 +3,7 @@
 #include <Core.h>
 
 
-#ifdef D_DEBUG_AMD_U_PROF
+#ifdef D_DEBUG_CPU_VENDOR_PROFILER
 
 #include <AMDProfileController.h>
 
@@ -17,6 +17,29 @@
 #endif
 
 
+#ifndef PROFILING_WITH_CPU_VENDOR_PROFILER	
+
+#define PROFILING_WITH_CPU_VENDOR_PROFILER(FUNCTION)		\
+			CPU_VENDOR_PROFILER_RESUME;						\
+			FUNCTION;										\
+			CPU_VENDOR_PROFILER_RESUME;						\
+
+#endif
+
+#ifndef CONDITIONAL_PROFILING_WITH_CPU_VENDOR_PROFILER	
+
+#define CONDITIONAL_PROFILING_WITH_CPU_VENDOR_PROFILER(CONDITION, FUNCTION)		\
+			if (CONDITION)														\
+			{																	\
+				PROFILING_WITH_CPU_VENDOR_PROFILER(FUNCTION)					\
+			}																	\
+			else																\
+			{																	\
+				exit(0);														\
+			}																	\
+
+#endif
+
 #else
 
 
@@ -28,5 +51,13 @@
 #define CPU_VENDOR_PROFILER_PAUSE
 #endif
 
+
+#ifndef PROFILING_WITH_CPU_VENDOR_PROFILER	
+#define PROFILING_WITH_CPU_VENDOR_PROFILER
+#endif
+
+#ifndef CONDITIONAL_PROFILING_WITH_CPU_VENDOR_PROFILER	
+#define CONDITIONAL_PROFILING_WITH_CPU_VENDOR_PROFILER
+#endif
 
 #endif

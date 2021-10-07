@@ -20,7 +20,6 @@ namespace doom
 		{
 		private:
 
-			void UpdatePhysicsOnOff();
 			void LoadPhysicsSetting();
 			
 		public:

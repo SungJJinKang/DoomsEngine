@@ -1,7 +1,5 @@
 #pragma once
 
-#include <memory>
-
 #include <Doom_Core.h>
 
 
@@ -18,7 +16,6 @@ namespace doom
 
 	private:
 
-		std::shared_ptr<graphics::PicktureInPickture> PIP;
 
 	public:
 

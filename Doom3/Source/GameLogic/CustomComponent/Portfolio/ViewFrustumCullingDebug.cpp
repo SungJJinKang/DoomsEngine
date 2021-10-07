@@ -19,13 +19,11 @@ void doom::ViewFrustumCullingDebug::ShowIsViewFrustumCullingActivated()
 	{
 		doom::ui::PrintText("%s", "Multi Thread ViewFrustumCulling 중단");
 
-		doom::graphics::GraphicsAPIManager::SetWindowTitle("Space Key : Multi Thread ViewFrustumCulling On/Off ( Current Value : Off )");
 	}
 	else
 	{
 		doom::ui::PrintText("%s", "Multi Thread ViewFrustumCulling 시작");
 
-		doom::graphics::GraphicsAPIManager::SetWindowTitle("Space Key : Multi Thread ViewFrustumCulling On/Off ( Current Value : On )");
 	}
 }
 
@@ -33,7 +31,7 @@ static float previousTime = 0;
 
 void doom::ViewFrustumCullingDebug::UpdateComponent()
 {
-	if (UserInput_Server::GetKeyUp(eKEY_CODE::KEY_SPACE))
+	if (UserInput_Server::GetKeyUp(eKEY_CODE::KEY_F4))
 	{
 		const bool currentFlag = Camera::GetMainCamera()->GetCameraFlag(doom::eCameraFlag::PAUSE_CULL_JOB);
 

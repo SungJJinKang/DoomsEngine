@@ -51,7 +51,7 @@ void doom::Move_WASD::UpdateComponent()
 	if (isMove == true)
 	{
 		translation.Normalize();
-		translation *= 60.0f;
+		translation *= 100.0f;
 
 		if (UserInput_Server::GetKey(eKEY_CODE::KEY_LEFT_SHIFT))
 		{
