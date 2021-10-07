@@ -34,6 +34,8 @@
 //#define D_DEBUG_CPU_VENDOR_PROFILER
 #include <Profiler/AMDuProf.h>
 
+#include <Profiler/ProfilerABTest.h>
+
 using namespace doom::graphics;
 
 

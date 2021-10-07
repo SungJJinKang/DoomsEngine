@@ -1400,6 +1400,9 @@
     <ClInclude Include="Source\GameLogic\CustomComponent\Portfolio\PhysicsDebuggerController.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Core\Profiler\ProfilerABTest.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="dependency\glfw-3.3.2.bin.WIN64\docs\html\search\all_0.html" />

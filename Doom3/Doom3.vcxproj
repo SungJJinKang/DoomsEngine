@@ -378,6 +378,7 @@
     <ClInclude Include="Source\Core\DObject\DObject.h" />
     <ClInclude Include="Source\Core\Physics\PhysicsDebugger.h" />
     <ClInclude Include="Source\Core\Profiler\AMDuProf.h" />
+    <ClInclude Include="Source\Core\Profiler\ProfilerABTest.h" />
     <ClInclude Include="Source\Core\Profiler\ProfilerUI.h" />
     <ClInclude Include="Source\Core\Graphics\Acceleration\LinearData_ViewFrustumCulling\DataType\QueryObject.h" />
     <ClInclude Include="Source\Component\EventSystem.h" />
