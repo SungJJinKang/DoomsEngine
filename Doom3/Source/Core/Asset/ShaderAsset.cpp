@@ -156,16 +156,16 @@ void doom::asset::ShaderAsset::CompileSpecificShader(const std::string& shaderSt
 
 	if (shaderType == ShaderType::Vertex)
 	{
-		doom::ui::PrintText("Compile Shader - Vertex ( %s )", GetAssetPath().generic_u8string().c_str());
+		doom::ui::PrintText("Compile Shader - Vertex ( %s )", GetAssetPath().generic_string().c_str());
 	}
 	else if (shaderType == ShaderType::Fragment)
 	{
-		doom::ui::PrintText("Compile Shader - Fragment ( %s )", GetAssetPath().generic_u8string().c_str());
+		doom::ui::PrintText("Compile Shader - Fragment ( %s )", GetAssetPath().generic_string().c_str());
 
 	}
 	else if (shaderType == ShaderType::Geometry)
 	{
-		doom::ui::PrintText("Compile Shader - Geometry ( %s )", GetAssetPath().generic_u8string().c_str());
+		doom::ui::PrintText("Compile Shader - Geometry ( %s )", GetAssetPath().generic_string().c_str());
 	}
 	
 }
