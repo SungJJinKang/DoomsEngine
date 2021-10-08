@@ -5,6 +5,9 @@
 #if defined(_WIN32) || defined(_WIN64)
 
 #include <Windows.h>
+#include <winternl.h>
+#include <Ntstatus.h>
+
 
 #ifndef PLATFORM_HANDLE
 #define PLATFORM_HANDLE HANDLE
@@ -57,6 +60,8 @@ namespace doom
 		FORCE_INLINE static unsigned long long _GetCurrentProcessorNumber();
 		FORCE_INLINE static PLATFORM_HANDLE _GetCurrenThreadHandle();
 		FORCE_INLINE static unsigned long long _GetCurrenThreadID();
+
+		FORCE_INLINE static unsigned long long _GetThreadStackStartAddress(const PLATFORM_HANDLE threadHandel);
 
 
 		FORCE_INLINE static HANDLE _GetCurrenProcess();
