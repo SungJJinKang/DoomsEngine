@@ -166,11 +166,7 @@ void Graphics_Server::DoCullJob()
 		{
 			camera->CameraIndexInCullingSystem = CullJobAvailiableCameraCount;
 
-			D_START_PROFILING(SequenceStringGenerator::GetLiteralString("UpdateFrustumPlane Camera Num: ", CullJobAvailiableCameraCount), doom::profiler::eProfileLayers::Rendering);
-
 			mCullingSystem->SetViewProjectionMatrix(CullJobAvailiableCameraCount, *reinterpret_cast<const culling::Matrix4X4*>(&(camera->GetViewProjectionMatrix())));
-
-			D_END_PROFILING(SequenceStringGenerator::GetLiteralString("UpdateFrustumPlane Camera Num: ", CullJobAvailiableCameraCount));
 
 			CullJobAvailiableCameraCount++;
 		}
@@ -248,9 +244,9 @@ void doom::graphics::Graphics_Server::DeferredRendering()
 
 			targetCamera->mDefferedRenderingFrameBuffer.BindGBufferTextures();
 			
-			doom::graphics::GraphicsAPI::DepthMask(false);
+			
 			mDeferredRenderingDrawer.DrawDeferredRenderingQuadDrawer();
-			doom::graphics::GraphicsAPI::DepthMask(true);
+			
 
 #ifdef DEBUG_DRAWER
 			//이거 느려도 상관없다. 그냥 여기다 두자.

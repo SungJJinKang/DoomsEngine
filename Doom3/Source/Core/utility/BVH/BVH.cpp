@@ -91,7 +91,7 @@ FORCE_INLINE int doom::BVH<ColliderType>::PickBest(const ColliderType& L)
 template<typename ColliderType>
 FORCE_INLINE int doom::BVH<ColliderType>::AllocateNewNode()
 {
-	D_ASSERT(newNodeIndex < mNodeCapacity);
+	
 
 	int newNodeIndex;
 	if (freedNodeIndexList.empty() == false)
@@ -109,6 +109,8 @@ FORCE_INLINE int doom::BVH<ColliderType>::AllocateNewNode()
 	}
 
 	mCurrentActiveNodeCount++;
+
+	D_ASSERT(newNodeIndex < mNodeCapacity);
 
 	mNodes[newNodeIndex].Clear();
 	mNodes[newNodeIndex].mOwnerBVH = this;
