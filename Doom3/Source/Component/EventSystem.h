@@ -3,7 +3,7 @@
 
 namespace doom
 {
-	class EventSystem : public PlainComponent
+	class DOOM_API EventSystem : public PlainComponent
 	{
 	private:
 

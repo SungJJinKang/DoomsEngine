@@ -25,7 +25,7 @@ namespace doom
 		void EndAssetImport<::doom::asset::eAssetType::THREE_D_MODEL>();
 
 		template <>
-		class AssetImporterWorker<::doom::asset::eAssetType::THREE_D_MODEL>
+		class DOOM_API AssetImporterWorker<::doom::asset::eAssetType::THREE_D_MODEL>
 		{
 			friend class GameCore;
 			friend class Assetimporter;

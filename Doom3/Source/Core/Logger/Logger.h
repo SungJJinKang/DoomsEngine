@@ -5,6 +5,7 @@
 #include <initializer_list>
 #include <string>
 
+
 namespace math
 {
 	template <size_t ComponentCount, typename T>
@@ -31,7 +32,7 @@ namespace doom
 			D_ALWAYS = 3
 		};
 
-		class Logger
+		class DOOM_API Logger
 		{
 		public:
 			

@@ -7,7 +7,7 @@ namespace doom
 {
 	namespace asset
 	{
-		class TextAsset : public Asset
+		class DOOM_API TextAsset : public Asset
 		{
 			friend class ::doom::assetimporter::AssetManager;
 			friend class ::doom::assetimporter::Assetimporter;

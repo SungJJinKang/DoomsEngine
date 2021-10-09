@@ -1,6 +1,9 @@
 #pragma once
+
 #include <vector>
 #include <memory>
+
+#include <Core.h>
 #include "Entity.h"
 #include "../Game/IGameFlow.h"
 #include "SharedSceneSetting.h"
@@ -17,7 +20,7 @@ namespace doom
 	/// <summary>
 	/// This class is same with SCENE in unity game engine
 	/// </summary>
-	class Scene : public DObject, public ISingleton<Scene>//, public GameFlow
+	class DOOM_API Scene : public DObject, public ISingleton<Scene>//, public GameFlow
 	{
 
 		friend class GameCore;

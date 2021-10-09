@@ -20,7 +20,7 @@ namespace doom
 		/// <summary>
 		/// reference : https://box2d.org/files/ErinCatto_DynamicBVH_GDC2019.pdf
 		/// </summary>
-		class AABB3D : public Collider
+		class DOOM_API AABB3D : public Collider
 		{
 
 		public:
@@ -142,7 +142,7 @@ namespace doom
 		math::Vector3 ClosestPointToPoint(const AABB3D& aabb, const math::Vector3& point);
 
 		
-		class AABB2D : public Collider
+		class DOOM_API AABB2D : public Collider
 		{
 		public:
 

@@ -15,7 +15,7 @@ namespace doom
 	/// 2. !!!!!! ServerComponent is updated by ~_Server class
 	/// 
 	/// </summary>
-	class ServerComponent : public Component
+	class DOOM_API ServerComponent : public Component
 	{
 		friend class Entity;
 		friend class Scene;

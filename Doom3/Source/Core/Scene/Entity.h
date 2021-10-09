@@ -30,7 +30,7 @@ namespace doom
 		class ObjectPool;
 	}
 
-	class Entity : public DObject, public FrameDirtyChecker
+	class DOOM_API Entity : public DObject, public FrameDirtyChecker
 	{
 		friend class Scene;
 		template <typename T>

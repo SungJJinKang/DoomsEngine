@@ -11,7 +11,7 @@ namespace doom
 	namespace assetimporter
 	{
 		template <>
-		class AssetImporterWorker<::doom::asset::eAssetType::TEXT>
+		class DOOM_API AssetImporterWorker<::doom::asset::eAssetType::TEXT>
 		{
 			friend class Assetimporter;
 		private:

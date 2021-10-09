@@ -2,6 +2,8 @@
 
 #include <string>
 
+#include <Macros/DllMarcos.h>
+
 #define INVALID_DOBJECT_ID 0x0000000000000000
 
 namespace doom
@@ -9,7 +11,7 @@ namespace doom
 	class DObjectManager;
 	class DObject;
 
-	struct DObjectContructorParams
+	struct DOOM_API DObjectContructorParams
 	{
 		unsigned int DObjectFlag = 0;
 		std::string mDObjectName;
@@ -30,8 +32,8 @@ namespace doom
 	};
 
 	
-	class DObject;
-	class DObject
+	class DOOM_API DObject;
+	class DOOM_API DObject
 	{
 		friend class DObjectManager;
 

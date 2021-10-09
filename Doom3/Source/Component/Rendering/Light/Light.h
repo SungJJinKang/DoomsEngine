@@ -4,7 +4,7 @@
 
 namespace doom
 {
-	class Light : public PlainComponent
+	class DOOM_API Light : public PlainComponent
 	{
 	private:
 

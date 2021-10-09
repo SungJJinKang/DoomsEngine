@@ -5,7 +5,7 @@ namespace doom
 {
 	namespace asset
 	{
-		class FontAsset : public Asset
+		class DOOM_API FontAsset : public Asset
 		{
 			friend class ::doom::assetimporter::ImportedAssetPort<eAssetType::FONT>;
 

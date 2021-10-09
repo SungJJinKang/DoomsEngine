@@ -4,7 +4,7 @@
 
 namespace doom
 {
-	class MeshCollider : public Collider3DComponent
+	class DOOM_API MeshCollider : public Collider3DComponent
 	{
 		friend class physics::Physics_Server;
 	private:

@@ -16,7 +16,7 @@ namespace doom
 	class ColliderComponent;
 	namespace physics
 	{
-		class Physics_Server : public IGameFlow, public ISingleton<Physics_Server>
+		class DOOM_API Physics_Server : public IGameFlow, public ISingleton<Physics_Server>
 		{
 		private:
 

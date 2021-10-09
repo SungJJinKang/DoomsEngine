@@ -6,7 +6,7 @@ namespace doom
 {
 	namespace physics
 	{
-		class PhysicsDebugger
+		class DOOM_API PhysicsDebugger
 		{
 
 		private:

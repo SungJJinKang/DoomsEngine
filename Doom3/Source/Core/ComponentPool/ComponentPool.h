@@ -4,7 +4,7 @@
 #include <vector>
 #include <cstdlib>
 
-#include "../Core.h"
+#include <Core.h>
 
 namespace doom
 {
@@ -14,7 +14,7 @@ namespace doom
 	}
 
 	template <typename ComponentType, typename Allocator = std::allocator<ComponentType>>
-	class ComponentPool
+	class DOOM_API ComponentPool
 	{
 		using alloc = std::allocator_traits<Allocator>;
 	private:

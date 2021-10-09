@@ -131,7 +131,7 @@ namespace doom
 
 	namespace asset
 	{
-		class ThreeDModelAsset : public Asset
+		class DOOM_API ThreeDModelAsset : public Asset
 		{
 			//friend class std::optional<ThreeDModelAsset>;
 			

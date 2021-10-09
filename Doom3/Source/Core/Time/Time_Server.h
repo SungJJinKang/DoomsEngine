@@ -12,7 +12,7 @@ namespace doom
 
 	namespace time
 	{
-		class Time_Server : public IGameFlow, public ISingleton<Time_Server>
+		class DOOM_API Time_Server : public IGameFlow, public ISingleton<Time_Server>
 		{
 			friend class ::doom::GameCore;
 

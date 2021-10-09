@@ -11,7 +11,7 @@ namespace doom
 	namespace physics
 	{
 		class Collider;
-		class ColliderPickingTestRoom : public DObject, public ISingleton<ColliderPickingTestRoom>
+		class DOOM_API ColliderPickingTestRoom : public DObject, public ISingleton<ColliderPickingTestRoom>
 		{
 			friend class Physics_Server;
 		private:

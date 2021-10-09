@@ -4,7 +4,7 @@
 #include <Collider/CapsuleCollider.h>
 namespace doom
 {
-	class CapsuleCollider3D : public Collider3DComponent
+	class DOOM_API CapsuleCollider3D : public Collider3DComponent
 	{
 		friend class physics::Physics_Server;
 	private:

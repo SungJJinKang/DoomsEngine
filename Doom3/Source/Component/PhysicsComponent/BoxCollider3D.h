@@ -4,7 +4,7 @@
 #include <Collider/AABB.h>
 namespace doom
 {
-	class BoxCollider3D : public Collider3DComponent
+	class DOOM_API BoxCollider3D : public Collider3DComponent
 	{
 		friend class physics::Physics_Server;
 	private:

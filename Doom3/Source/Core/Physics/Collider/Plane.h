@@ -7,7 +7,7 @@ namespace doom
 {
 	namespace physics
 	{
-		class Plane : public Collider
+		class DOOM_API Plane : public Collider
 		{
 
 		private:

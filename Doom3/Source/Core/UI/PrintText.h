@@ -4,6 +4,8 @@
 #include <type_traits>
 #include <string>
 
+#include <Core.h>
+
 namespace doom
 {
 	namespace ui

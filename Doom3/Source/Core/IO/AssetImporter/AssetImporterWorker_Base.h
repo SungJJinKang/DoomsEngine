@@ -17,7 +17,7 @@ namespace doom
 		void EndAssetImport() {}
 
 		template <::doom::asset::eAssetType assetType>
-		class AssetImporterWorker
+		class DOOM_API AssetImporterWorker
 		{
 			friend class Assetimporter;
 		private:

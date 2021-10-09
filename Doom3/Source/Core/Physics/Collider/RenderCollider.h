@@ -5,7 +5,7 @@ namespace doom
 {
 	namespace physics
 	{
-		class RenderCollider
+		class DOOM_API RenderCollider
 		{
 		private:
 

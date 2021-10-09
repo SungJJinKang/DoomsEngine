@@ -181,7 +181,7 @@ namespace doom
 		/// <summary>
 		/// https://www.glfw.org/docs/3.3/input_guide.html
 		/// </summary>
-		class UserInput_Server : public IGameFlow, public ISingleton<UserInput_Server>
+		class DOOM_API UserInput_Server : public IGameFlow, public ISingleton<UserInput_Server>
 		{
 		private:
 

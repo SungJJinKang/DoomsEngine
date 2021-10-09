@@ -9,7 +9,7 @@ namespace doom
 	namespace assetimporter
 	{
 		template <>
-		class AssetImporterWorker<::doom::asset::eAssetType::AUDIO>
+		class DOOM_API AssetImporterWorker<::doom::asset::eAssetType::AUDIO>
 		{
 			friend class Assetimporter;
 		private:

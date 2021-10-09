@@ -35,7 +35,7 @@ namespace doom
 		/// Contain Asset Api side Importer object
 		/// </summary>
 		template <::doom::asset::eAssetType assetType>
-		class AssetApiImporter : public DObject
+		class DOOM_API AssetApiImporter : public DObject
 		{
 			template <::doom::asset::eAssetType assetType>
 			friend class AssetImporterWorker;
@@ -118,7 +118,7 @@ namespace doom
 
 
 		template<::doom::asset::eAssetType loopVariable>
-		struct ClearApiImporterQueueFunctor
+		struct DOOM_API ClearApiImporterQueueFunctor
 		{
 			constexpr void operator()()
 			{

@@ -10,7 +10,7 @@ namespace doom
 	/// 
 	/// WARNING : Be careful virtual function would be shadowed by children class
 	/// </summary>
-	class IGameFlow : public DObject, public FrameDirtyChecker
+	class DOOM_API IGameFlow : public DObject, public FrameDirtyChecker
 	{
 	private:
 		

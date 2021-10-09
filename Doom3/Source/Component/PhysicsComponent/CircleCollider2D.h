@@ -4,7 +4,7 @@
 #include <Collider/Circle2D.h>
 namespace doom
 {
-	class CircleCollider2D : public Collider2DComponent
+	class DOOM_API CircleCollider2D : public Collider2DComponent
 	{
 		friend class physics::Physics_Server;
 	private:

@@ -2,6 +2,8 @@
 
 #include <string>
 
+#include <Core.h>
+
 #define MAX_LAYER_COUNT (32)
 #define RESERVED_LAYER_COUNT (10)
 
@@ -14,7 +16,7 @@ namespace doom
 	/// 
 	/// This will be used in camera(render specific layer), light 
 	/// </summary>
-	struct Layer
+	struct DOOM_API Layer
 	{
 		std::string mLayerName;
 	};

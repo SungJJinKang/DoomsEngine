@@ -14,7 +14,7 @@ namespace doom
 	/// Requirement :
 	/// Sprite, MeshAnimation, 
 	/// </summary>
-	class Animator : public ServerComponent
+	class DOOM_API Animator : public ServerComponent
 	{
 		friend class graphics::Graphics_Server;
 

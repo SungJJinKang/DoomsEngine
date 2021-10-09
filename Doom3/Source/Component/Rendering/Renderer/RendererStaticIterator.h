@@ -17,7 +17,7 @@ namespace doom
 	class Camera;
 	
 	template <>
-	class StaticContainer<Renderer>
+	class DOOM_API StaticContainer<Renderer>
 	{
 		using this_type = typename StaticContainer<Renderer>;
 

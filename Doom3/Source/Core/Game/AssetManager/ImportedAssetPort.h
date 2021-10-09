@@ -6,6 +6,8 @@
 
 #include "../Asset/Asset.h"
 
+//template class DOOM_DLL_EXPORTS std::unordered_map<D_UUID, ::doom::asset::Asset::asset_type_t<assetType>>
+
 namespace doom
 {
 	namespace assetimporter
@@ -19,7 +21,7 @@ namespace doom
 		/// Store AssetContainer
 		/// </summary>
 		template <::doom::asset::eAssetType assetType>
-		class ImportedAssetPort
+		class DOOM_API ImportedAssetPort
 		{
 			friend class AssetManager;
 

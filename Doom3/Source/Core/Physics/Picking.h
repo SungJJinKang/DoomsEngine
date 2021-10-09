@@ -13,7 +13,7 @@ namespace doom
 	namespace physics
 	{
 		class Collider;
-		class Picking : public DObject, public ISingleton<Picking>
+		class DOOM_API Picking : public DObject, public ISingleton<Picking>
 		{
 		private:
 

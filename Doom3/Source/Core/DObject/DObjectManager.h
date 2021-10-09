@@ -3,10 +3,12 @@
 #include <vector>
 #include <unordered_map>
 
+#include <Macros/DllMarcos.h>
+
 namespace doom
 {
 	class DObject;
-	class DObjectManager
+	class DOOM_API DObjectManager
 	{	
 		friend class DObject;
 

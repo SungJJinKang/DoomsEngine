@@ -6,7 +6,7 @@ namespace doom
 {
 	namespace physics
 	{
-		class Physics_Setting
+		class DOOM_API Physics_Setting
 		{
 
 		private:

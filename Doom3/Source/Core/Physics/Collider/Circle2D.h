@@ -6,7 +6,7 @@ namespace doom
 {
 	namespace physics
 	{
-		class Circle2D : public Collider
+		class DOOM_API Circle2D : public Collider
 		{
 
 		public:

@@ -1,5 +1,7 @@
 #pragma once
 
+#include <Core.h>
+
 namespace doom
 {
 	/// <summary>
@@ -7,7 +9,7 @@ namespace doom
 	/// 
 	/// Made with imgui
 	/// </summary>
-	class ProfilerUI
+	class DOOM_API ProfilerUI
 	{
 	private:
 

@@ -11,7 +11,7 @@ namespace doom
 	namespace assetimporter
 	{
 		template <>
-		class AssetImporterWorker<::doom::asset::eAssetType::SHADER>
+		class DOOM_API AssetImporterWorker<::doom::asset::eAssetType::SHADER>
 		{
 			friend class Assetimporter;
 		private:

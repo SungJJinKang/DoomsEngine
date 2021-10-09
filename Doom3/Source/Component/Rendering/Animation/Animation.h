@@ -8,7 +8,7 @@ namespace doom
 		class Graphics_Server;
 	}
 
-	class Animation : public ServerComponent
+	class DOOM_API Animation : public ServerComponent
 	{
 		friend class graphics::Graphics_Server;
 

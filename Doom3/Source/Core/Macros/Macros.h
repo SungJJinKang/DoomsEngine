@@ -34,6 +34,7 @@
 #define EXIT_PROGRAM exit(0);
 #endif
 
+#include "DllMarcos.h"
 #include "Path.h"
 #include "Log.h"
 #include "Assert.h"

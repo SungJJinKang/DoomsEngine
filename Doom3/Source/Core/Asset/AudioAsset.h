@@ -5,7 +5,7 @@ namespace doom
 {
 	namespace asset
 	{
-		class AudioAsset : public Asset
+		class DOOM_API AudioAsset : public Asset
 		{
 			friend class ::doom::assetimporter::AssetManager;
 			friend class ::doom::assetimporter::Assetimporter;

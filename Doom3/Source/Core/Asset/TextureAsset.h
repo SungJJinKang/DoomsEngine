@@ -19,7 +19,7 @@ namespace doom
 
 	namespace asset
 	{
-		class TextureAsset : public Asset
+		class DOOM_API TextureAsset : public Asset
 		{
 			friend class graphics::SingleTexture;
 			friend class graphics::Texture;

@@ -5,7 +5,7 @@
 
 namespace doom
 {
-	class PointLight : public Light, public StaticContainer<PointLight>, public graphics::UniformBufferObjectUpdater
+	class DOOM_API PointLight : public Light, public StaticContainer<PointLight>, public graphics::UniformBufferObjectUpdater
 	{
 
 	private:

@@ -20,7 +20,7 @@ namespace doom
 		void EndAssetImport<::doom::asset::eAssetType::TEXTURE>();
 
 		template <>
-		class AssetImporterWorker<::doom::asset::eAssetType::TEXTURE>
+		class DOOM_API AssetImporterWorker<::doom::asset::eAssetType::TEXTURE>
 		{
 			//static constexpr inline unsigned int AVAILIABLE_FORMAT_TYPE = CMP_FORMAT_DXT5 | CMP_FORMAT_DXT1 | CMP_FORMAT_BC5 | CMP_FORMAT_BC4;
 

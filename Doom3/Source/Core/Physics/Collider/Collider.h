@@ -10,7 +10,7 @@ namespace doom
 {
 	namespace physics
 	{
-		class Collider : public RenderCollider, public StaticContainer<Collider>
+		class DOOM_API Collider : public RenderCollider, public StaticContainer<Collider>
 		{
 		private:
 

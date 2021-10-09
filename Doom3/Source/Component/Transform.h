@@ -23,7 +23,7 @@ namespace doom
 
 	static_assert(sizeof(TransformCoreData) < 64);
 
-	class Transform : public PlainComponent
+	class DOOM_API Transform : public PlainComponent
 	{
 	private:
 

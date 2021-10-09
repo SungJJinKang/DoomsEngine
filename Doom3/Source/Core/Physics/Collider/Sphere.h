@@ -12,7 +12,7 @@ namespace doom
 	{
 		class AABB3D;
 
-		class Sphere : public Collider
+		class DOOM_API Sphere : public Collider
 		{
 
 		public:

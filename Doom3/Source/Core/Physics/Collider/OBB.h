@@ -12,7 +12,7 @@ namespace doom
 		/// <summary>
 		/// 
 		/// </summary>
-		class OBB : public Collider
+		class DOOM_API OBB : public Collider
 		{
 			FORCE_INLINE virtual void* data() final
 			{

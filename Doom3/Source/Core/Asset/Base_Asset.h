@@ -5,7 +5,7 @@
 #include <optional>
 #include <future>
 
-#include "../Core.h"
+#include <Core.h>
 #include "../API/UUID.h"
 
 #include "eAssetType.h"
@@ -46,7 +46,7 @@ namespace doom
 	namespace asset
 	{
 
-		class Asset : public DObject
+		class DOOM_API Asset : public DObject
 		{
 			friend class ::doom::assetimporter::AssetManager;
 			friend class ::doom::assetimporter::Assetimporter;

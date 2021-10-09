@@ -12,7 +12,7 @@ namespace doom
 	}
 	namespace asset
 	{
-		class ShaderAsset : public Asset
+		class DOOM_API ShaderAsset : public Asset
 		{
 			friend class ::doom::assetimporter::AssetManager;
 			friend class ::doom::assetimporter::Assetimporter;

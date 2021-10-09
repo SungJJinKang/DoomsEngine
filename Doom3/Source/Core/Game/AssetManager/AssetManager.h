@@ -22,7 +22,7 @@ namespace doom
 		template<::doom::asset::eAssetType loopVariable>
 		struct OnEndImportInMainThreadFunctor;
 
-		class AssetManager : public IGameFlow, public ISingleton<AssetManager>
+		class DOOM_API AssetManager : public IGameFlow, public ISingleton<AssetManager>
 		{
 			template<::doom::asset::eAssetType loopVariable>
 			friend struct ImportAssetFunctor;

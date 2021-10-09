@@ -4,7 +4,7 @@
 #include "Vector2.h"
 namespace doom
 {
-	class Collider2DComponent : public ColliderComponent
+	class DOOM_API Collider2DComponent : public ColliderComponent
 	{
 	protected:
 		math::Vector2 mOffset;

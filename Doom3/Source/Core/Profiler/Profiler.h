@@ -18,7 +18,7 @@ namespace doom
 		};
 
 
-		class Profiler
+		class DOOM_API Profiler
 		{
 			friend class GameCore;
 

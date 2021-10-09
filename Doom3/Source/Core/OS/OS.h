@@ -35,7 +35,7 @@ namespace doom
 	/// refrain from using os call
 	/// use portable library
 	/// </summary>
-	class os
+	class DOOM_API os
 	{
 	public:
 

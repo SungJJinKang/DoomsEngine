@@ -3,7 +3,7 @@
 #include "Vector3.h"
 namespace doom
 {
-	class Collider3DComponent : public ColliderComponent
+	class DOOM_API Collider3DComponent : public ColliderComponent
 	{
 	protected:
 		math::Vector3 mOffset;
