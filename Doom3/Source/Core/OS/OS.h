@@ -6,7 +6,7 @@
 
 #include <Windows.h>
 #include <winternl.h>
-#include <Ntstatus.h>
+
 
 
 #ifndef PLATFORM_HANDLE

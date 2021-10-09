@@ -39,9 +39,9 @@ unsigned long long doom::os::_GetThreadStackStartAddress(const PLATFORM_HANDLE t
 
 	ntStatus = NtQueryInformationThread(threadHandel, (THREADINFOCLASS)ThreadQuerySetWin32StartAddress, (PVOID)(&dwStartAddress), sizeof(DWORD_PTR), NULL);
 	
-	D_ASSERT(ntStatus == STATUS_SUCCESS);
+	D_ASSERT(ntStatus == 0x00000000);
 
-	if (ntStatus == STATUS_SUCCESS)
+	if (ntStatus == 0x00000000)
 	{
 		return static_cast<unsigned long long>(dwStartAddress);
 	}
