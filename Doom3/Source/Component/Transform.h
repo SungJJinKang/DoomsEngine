@@ -17,8 +17,10 @@ namespace doom
 	{
 	private:
 
-		alignas(16) math::Vector3 mPosition;
-		
+		alignas(64) math::Vector3 mPosition;
+		DirtyReceiver bmIsDirtyModelMatrix;
+		math::Quaternion mRotation;
+		math::Vector3 mScale;
 
 		/// <summary>
 		/// why don't use FrameDirtyChecker::IsDirty -> FrameDirtyChecker is changed when pass frame
@@ -34,15 +36,14 @@ namespace doom
 		
 
 		
-		math::Quaternion mRotation;
-		math::Vector3 mScale;
+	
 
 		math::Vector3 mLastFramePosition;
 
 		//Matrix4X4 and Vector4 is aligned to 32, 16 byte
 		//So To save memory, it is declared next to next
 
-		DirtyReceiver bmIsDirtyModelMatrix;
+	
 
 		Transform(const Transform&) = delete;
 		Transform(Transform&&) noexcept = delete;
