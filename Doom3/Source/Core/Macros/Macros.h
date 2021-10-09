@@ -29,6 +29,11 @@
 #  define VLA_ARRAY_ON_STACK(type__, varname__, size__) type__ *varname__ = (type__*)_alloca(size__ * sizeof(type__))
 #endif
 
+
+#ifndef EXIT_PROGRAM
+#define EXIT_PROGRAM exit(0);
+#endif
+
 #include "Path.h"
 #include "Log.h"
 #include "Assert.h"

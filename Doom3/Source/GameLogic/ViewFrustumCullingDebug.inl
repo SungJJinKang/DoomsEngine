@@ -22,6 +22,7 @@
 #include "Graphics/LightManager.h"
 #include "Graphics/Graphics_Setting.h"
 #include "Graphics/GraphicsAPIManager.h"
+#include <PerformanceTestController.h>
 
 void doom::GameLogicStartPoint::StartGameLogic()
 {
@@ -116,6 +117,7 @@ void doom::GameLogicStartPoint::StartGameLogic()
 	auto entity1Camera = entity1->AddComponent<Camera>();
 	entity1Camera->SetProjectionMode(doom::Camera::eProjectionType::Perspective);
 	entity1->AddComponent<ViewFrustumCullingDebug>();
+	entity1->AddComponent<PerformanceTestController>();
 
 
 

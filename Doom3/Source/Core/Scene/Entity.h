@@ -133,10 +133,10 @@ namespace doom
 		/// <typeparam name="T"></typeparam>
 		/// <param name="component"></param>
 		/// <returns></returns>
-		template<typename T, std::enable_if_t<std::is_base_of_v<Component, T>, bool> = true>
-		T* _AddComponent() noexcept
+		template<typename T, typename... Args, std::enable_if_t<std::is_base_of_v<Component, T>, bool> = true>
+		T* _AddComponent(Args... args) noexcept
 		{
-			T* newComponent = CreateDObject<T>();
+			T* newComponent = CreateDObject<T>(std::forward<Args>(args)...);
 			D_ASSERT(newComponent->bIsAddedToEntity == false);
 
 			if constexpr (Entity::IsServerComponent<T>() == true)
@@ -237,10 +237,10 @@ namespace doom
 		/// </summary>
 		~Entity();
 
-		template<typename T, std::enable_if_t<std::is_base_of_v<Component, T>, bool> = true>
-		T* AddComponent() noexcept
+		template<typename T, typename... Args, std::enable_if_t<std::is_base_of_v<Component, T>, bool> = true>
+		T* AddComponent(Args... args) noexcept
 		{
-			return _AddComponent<T>();
+			return _AddComponent<T>(std::forward<Args>(args)...);
 		}
 
 		/* THIS function can make mistake, Don't make this function(passing argumnet)

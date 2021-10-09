@@ -32,7 +32,7 @@
 #include "Graphics_Setting.h"
 
 //#define D_DEBUG_CPU_VENDOR_PROFILER
-#include <Profiler/AMDuProf.h>
+#include <Profiler/CPUVendorProfiler.h>
 
 #include <Profiler/ProfilerABTest.h>
 
@@ -80,7 +80,7 @@ void Graphics_Server::Update()
 	//auto t_start = std::chrono::high_resolution_clock::now();
 
 
-	CONDITIONAL_PROFILING_WITH_CPU_VENDOR_PROFILER(doom::time::MainTimer::GetCurrentFrameCount() < 1000, DeferredRendering());
+	DeferredRendering();
 
 	//DeferredRendering();
 
