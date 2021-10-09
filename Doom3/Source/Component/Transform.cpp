@@ -7,8 +7,8 @@
 void doom::Transform::InitComponent()
 {
 	
-	SetPosition(mPosition);
-	SetRotation(mRotation);
+	SetPosition(mTransformCoreData.mPosition);
+	SetRotation(mTransformCoreData.mRotation);
 	SetScale(mScale);
 }
 
@@ -19,7 +19,7 @@ void doom::Transform::UpdateComponent()
 
 void doom::Transform::OnEndOfFrame_Component()
 {
-	mLastFramePosition = mPosition;
+	mLastFramePosition = mTransformCoreData.mPosition;
 }
 
 void doom::Transform::OnDestroy()
@@ -36,10 +36,10 @@ std::string doom::Transform::ToString()
 {
 	std::stringstream sStream;
 	sStream << "Position : ";
-	sStream << mPosition.toString();
+	sStream << mTransformCoreData.mPosition.toString();
 	sStream << '\n';
 	sStream << "Rotation : ";
-	auto rotEuler = math::Quaternion::QuaternionToEulerAngle(mRotation);
+	auto rotEuler = math::Quaternion::QuaternionToEulerAngle(mTransformCoreData.mRotation);
 	sStream << math::RADIAN_TO_DEGREE * rotEuler.x;
 	sStream << ' ';
 	sStream << math::RADIAN_TO_DEGREE * rotEuler.y;
