@@ -17,7 +17,7 @@ namespace doom
 	{
 	private:
 
-		
+		alignas(16) math::Vector3 mPosition;
 		
 
 		/// <summary>
@@ -30,7 +30,7 @@ namespace doom
 		alignas(64) math::Matrix4x4 mTranslationMatrix{ 1.0f };
 		alignas(64) math::Matrix4x4 mRotationMatrix{ 1.0f };
 		alignas(64) math::Matrix4x4 mScaleMatrix{ 1.0f };
-		alignas(16) math::Vector3 mPosition;
+		
 		
 
 		

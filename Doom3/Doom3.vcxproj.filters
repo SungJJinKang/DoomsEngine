@@ -507,6 +507,9 @@
     <ClCompile Include="Source\GameLogic\CustomComponent\Portfolio\PhysicsDebuggerController.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Source\GameLogic\CustomComponent\PerformanceTestController.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="dependency\glad\include\glad\glad.h">
@@ -1388,7 +1391,7 @@
     <ClInclude Include="Source\Core\DObject\DObjectGlobals.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Core\Profiler\AMDuProf.h">
+    <ClInclude Include="Source\Core\Profiler\CPUVendorProfiler.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\GameLogic\CustomComponent\Portfolio\PortfolioComponent.h">
@@ -1401,6 +1404,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\Core\Profiler\ProfilerABTest.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\GameLogic\CustomComponent\PerformanceTestController.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Component\Core\ComponentGlobals.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

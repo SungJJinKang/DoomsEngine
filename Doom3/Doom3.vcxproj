@@ -340,6 +340,7 @@
     <ClCompile Include="Source\GameLogic\CustomComponent\Portfolio\ViewFrustumCullingDebug.cpp" />
     <ClCompile Include="Source\GameLogic\CustomComponent\TestComponent.cpp" />
     <ClCompile Include="Source\GameLogic\GameLogicStartPoint.cpp" />
+    <ClCompile Include="Source\GameLogic\CustomComponent\PerformanceTestController.cpp" />
     <ClCompile Include="Source\Helper\EasyDirtyChecker\DirtySender.cpp" />
     <ClCompile Include="Source\Helper\EasyDirtyChecker\DirtyReceiver.cpp" />
     <ClCompile Include="Source\Helper\SimpleIniParser.cpp" />
@@ -353,6 +354,7 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Source\Component\Core\ComponentGlobals.h" />
     <ClInclude Include="Source\Component\PhysicsComponent\Rigidbody\Rigidbody.h" />
     <ClInclude Include="Source\Core\DObject\DObjectGlobals.h" />
     <ClInclude Include="Source\Core\DObject\DObjectManager.h" />
@@ -377,7 +379,7 @@
     <ClInclude Include="Source\Core\Graphics\DebugGraphics\RenderingDebugger.h" />
     <ClInclude Include="Source\Core\DObject\DObject.h" />
     <ClInclude Include="Source\Core\Physics\PhysicsDebugger.h" />
-    <ClInclude Include="Source\Core\Profiler\AMDuProf.h" />
+    <ClInclude Include="Source\Core\Profiler\CPUVendorProfiler.h" />
     <ClInclude Include="Source\Core\Profiler\ProfilerABTest.h" />
     <ClInclude Include="Source\Core\Profiler\ProfilerUI.h" />
     <ClInclude Include="Source\Core\Graphics\Acceleration\LinearData_ViewFrustumCulling\DataType\QueryObject.h" />
@@ -603,6 +605,7 @@
     <ClInclude Include="Source\GameLogic\CustomComponent\ButtonRotate.h" />
     <ClInclude Include="Source\GameLogic\CustomComponent\CharacterSpawner.h" />
     <ClInclude Include="Source\GameLogic\CustomComponent\Move_WASD.h" />
+    <ClInclude Include="Source\GameLogic\CustomComponent\PerformanceTestController.h" />
     <ClInclude Include="Source\GameLogic\CustomComponent\Portfolio\DeferredRenderingDebuggerController.h" />
     <ClInclude Include="Source\GameLogic\CustomComponent\Portfolio\OverDrawVisualizationDebugger.h" />
     <ClInclude Include="Source\GameLogic\CustomComponent\Portfolio\PhysicsDebuggerController.h" />
