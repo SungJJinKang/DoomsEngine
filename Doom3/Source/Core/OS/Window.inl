@@ -1,5 +1,6 @@
 
 
+
 unsigned long long doom::os::_GetTickCount()
 {
 #if defined(_WIN32)
@@ -27,6 +28,27 @@ PLATFORM_HANDLE doom::os::_GetCurrenThreadHandle()
 unsigned long long doom::os::_GetCurrenThreadID()
 {
 	return static_cast<unsigned long long>(GetCurrentThreadId());
+}
+
+#define ThreadQuerySetWin32StartAddress 9
+unsigned long long doom::os::_GetThreadStackStartAddress(const PLATFORM_HANDLE threadHandel)
+{
+	NTSTATUS ntStatus;
+	DWORD_PTR dwStartAddress;
+
+
+	ntStatus = NtQueryInformationThread(threadHandel, (THREADINFOCLASS)ThreadQuerySetWin32StartAddress, (PVOID)(&dwStartAddress), sizeof(DWORD_PTR), NULL);
+	
+	D_ASSERT(ntStatus == STATUS_SUCCESS);
+
+	if (ntStatus == STATUS_SUCCESS)
+	{
+		return static_cast<unsigned long long>(dwStartAddress);
+	}
+	else
+	{
+		return 0;
+	}
 }
 
 HANDLE doom::os::_GetCurrenProcess()
