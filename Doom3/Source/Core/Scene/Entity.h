@@ -107,16 +107,7 @@ namespace doom
 		std::vector<std::unique_ptr<ServerComponent, Component::Deleter>> mServerComponents;
 
 
-		FORCE_INLINE void InitializeComponent(Component* const newComponent)
-		{
-			newComponent->SetOwnerDObject(this);
-
-			newComponent->InitComponent_Internal(this);
-			newComponent->InitComponent();
-
-			newComponent->OnActivated_Internal();
-			newComponent->OnActivated();
-		}
+		void InitializeComponent(Component* const newComponent);
 
 		template<typename T>
 		constexpr static bool IsServerComponent()

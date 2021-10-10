@@ -342,9 +342,6 @@
     <ClCompile Include="Source\Core\Physics\Collider\OBB.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Core\Graphics\Acceleration\ViewFrustum.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Source\Core\utility\KDTree\KDTreeVector.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -511,6 +508,15 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Source\Core\Graphics\Acceleration\LinearData_ViewFrustumCulling\DataType\Math\Common.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Core\ResourceManagement\JobSystem_cpp\ThreadProfiler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Core\IO\UserInputHelper.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Core\IO\KEY_CODE.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -1145,9 +1151,6 @@
     <ClInclude Include="Source\Core\Physics\Collider\OBB.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Core\Graphics\Acceleration\ViewFrustum.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Core\Graphics\Acceleration\Culling.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -1416,6 +1419,15 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\Core\Macros\DllMarcos.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Core\ResourceManagement\JobSystem_cpp\ThreadProfiler.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Core\IO\UserInputHelper.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Core\IO\KEY_CODE.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

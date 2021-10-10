@@ -75,6 +75,17 @@ void Entity::SetEntityName(const std::string& entityName)
 	DObject::ChangeDObjectName(entityName);
 }
 
+void Entity::InitializeComponent(Component* const newComponent)
+{
+	newComponent->SetOwnerDObject(this);
+
+	newComponent->InitComponent_Internal(this);
+	newComponent->InitComponent();
+
+	newComponent->OnActivated_Internal();
+	newComponent->OnActivated();
+}
+
 void Entity::ClearComponents()
 {
 	for (auto& plainComponent : mPlainComponents)

@@ -218,6 +218,8 @@
     <ClCompile Include="Source\Core\Graphics\PrimitiveType\PrimitiveTriangle.cpp" />
     <ClCompile Include="Source\Core\Graphics\DebugGraphics\RenderingDebugger.cpp" />
     <ClCompile Include="Source\Core\DObject\DObject.cpp" />
+    <ClCompile Include="Source\Core\IO\KEY_CODE.cpp" />
+    <ClCompile Include="Source\Core\IO\UserInputHelper.cpp" />
     <ClCompile Include="Source\Core\Physics\PhysicsDebugger.cpp" />
     <ClCompile Include="Source\Core\Profiler\ProfilerUI.cpp" />
     <ClCompile Include="Source\Component\EventSystem.cpp" />
@@ -239,7 +241,6 @@
     <ClCompile Include="Source\Core\Graphics\Acceleration\LinearData_ViewFrustumCulling\CullingModule\MaskedSWOcclusionCulling\SWDepthBuffer.cpp" />
     <ClCompile Include="Source\Core\Graphics\Acceleration\LinearData_ViewFrustumCulling\CullingModule\ViewFrustumCulling\ViewFrustumCulling.cpp" />
     <ClCompile Include="Source\Core\Graphics\Acceleration\LinearData_ViewFrustumCulling\EveryCulling.cpp" />
-    <ClCompile Include="Source\Core\Graphics\Acceleration\ViewFrustum.cpp" />
     <ClCompile Include="Source\Core\Graphics\PictureInPicture\PicktureInPickture.cpp" />
     <ClCompile Include="Source\Core\IO\AssetImporter\AssetApiImporter.cpp" />
     <ClCompile Include="Source\Core\IO\AssetImporter\AssetImporterWorker_Audio.cpp" />
@@ -251,6 +252,7 @@
     <ClCompile Include="Source\Core\Physics\Collider\OBB.cpp" />
     <ClCompile Include="Source\Core\ResourceManagement\JobSystem_cpp\JobSystem.cpp" />
     <ClCompile Include="Source\Core\ResourceManagement\JobSystem_cpp\Thread.cpp" />
+    <ClCompile Include="Source\Core\ResourceManagement\JobSystem_cpp\ThreadProfiler.cpp" />
     <ClCompile Include="Source\Core\UI\PrintText.cpp" />
     <ClCompile Include="Source\Core\utility\ColliderUpdater.cpp" />
     <ClCompile Include="Source\Core\utility\BVH\BVH_Node.cpp" />
@@ -394,6 +396,8 @@
     <ClInclude Include="Source\Core\Graphics\PrimitiveType\PrimitiveTriangle.h" />
     <ClInclude Include="Source\Core\Graphics\DebugGraphics\RenderingDebugger.h" />
     <ClInclude Include="Source\Core\DObject\DObject.h" />
+    <ClInclude Include="Source\Core\IO\KEY_CODE.h" />
+    <ClInclude Include="Source\Core\IO\UserInputHelper.h" />
     <ClInclude Include="Source\Core\Macros\DllMarcos.h" />
     <ClInclude Include="Source\Core\Physics\PhysicsDebugger.h" />
     <ClInclude Include="Source\Core\Profiler\CPUVendorProfiler.h" />
@@ -443,7 +447,6 @@
     <ClInclude Include="Source\Core\Graphics\Acceleration\LinearViewFrustumCulling\LinearViewFrustumCulling.h" />
     <ClInclude Include="Source\Core\Graphics\Acceleration\LinearViewFrustumCulling\DataStructure\TransformData.h" />
     <ClInclude Include="Source\Core\Graphics\Acceleration\LinearViewFrustumCulling\LinearViewFrustumCulling_Core.h" />
-    <ClInclude Include="Source\Core\Graphics\Acceleration\ViewFrustum.h" />
     <ClInclude Include="Source\Core\Graphics\PictureInPicture\PicktureInPickture.h" />
     <ClInclude Include="Source\Core\Graphics\RenderingBitFlag.h" />
     <ClInclude Include="Source\Core\Graphics\TextureFormat.h" />
@@ -457,6 +460,7 @@
     <ClInclude Include="Source\Core\Physics\Collider\OBB.h" />
     <ClInclude Include="Source\Core\ResourceManagement\JobSystem_cpp\JobSystem.h" />
     <ClInclude Include="Source\Core\ResourceManagement\JobSystem_cpp\Thread.h" />
+    <ClInclude Include="Source\Core\ResourceManagement\JobSystem_cpp\ThreadProfiler.h" />
     <ClInclude Include="Source\Core\ResourceManagement\JobSystem_cpp\Thread_Core.h" />
     <ClInclude Include="Source\Core\ResourceManagement\Pool\ObjectPool.h" />
     <ClInclude Include="Source\Core\UI\PrintText.h" />

@@ -14,6 +14,7 @@
 #include "PhysicsComponent/BoxCollider3D.h"
 #include "CustomComponent/Portfolio/ViewFrustumCullingDebug.h"
 #include "AutoRotateAround.h"
+#include "TestComponent.h"
 #include "Graphics/LightManager.h"
 #include "Graphics/Graphics_Setting.h"
 #include "Graphics/GraphicsAPIManager.h"
@@ -129,6 +130,7 @@ void doom::GameLogicStartPoint::StartGameLogic()
 	entity1->AddComponent<DeferredRenderingDebuggerController>();
 	entity1->AddComponent<OverDrawVisualizationDebugger>();
 	entity1->AddComponent<PhysicsDebuggerController>();
+	entity1->AddComponent<TestComponent>();
 
 	
 

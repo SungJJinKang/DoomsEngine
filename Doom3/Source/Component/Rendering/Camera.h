@@ -12,8 +12,6 @@
 
 #include <EasyDirtyChecker/DirtyReceiver.h>
 
-#include "Graphics/Acceleration/ViewFrustum.h"
-
 #include "Transform.h"
 
 #include "Graphics/FrameBuffer/DefferedRenderingFrameBuffer.h"
