@@ -130,10 +130,15 @@ void doom::GameCore::Update()
 {
 	UpdateGameCore();
 
-	D_START_PROFILING("mTime_Server.Update_Internal", eProfileLayers::CPU);
+	D_START_PROFILING("mJobSystem.Update", eProfileLayers::CPU);
+	mJobSystem.Update_Internal();
+	mJobSystem.Update();
+	D_END_PROFILING("mJobSystem.Update");
+
+	D_START_PROFILING("mTime_Server.Update", eProfileLayers::CPU);
 	mTime_Server.Update_Internal();
 	mTime_Server.Update();
-	D_END_PROFILING("mTime_Server.Update_Internal");
+	D_END_PROFILING("mTime_Server.Update");
 
 	D_START_PROFILING("mPhysics_Server.Update", eProfileLayers::CPU);
 	mPhysics_Server.Update_Internal();
@@ -157,9 +162,9 @@ void doom::GameCore::Update()
 
 void doom::GameCore::FixedUpdate()
 {
-	D_START_PROFILING("mPhysics_Server.FixedUpdate_Internal", eProfileLayers::CPU);
+	D_START_PROFILING("mPhysics_Server.FixedUpdate", eProfileLayers::CPU);
 	mPhysics_Server.FixedUpdate_Internal();
-	D_END_PROFILING("mPhysics_Server.FixedUpdate_Internal");
+	D_END_PROFILING("mPhysics_Server.FixedUpdate");
 
 	D_START_PROFILING("mPhysics_Server.FixedUpdate", eProfileLayers::CPU);
 	mPhysics_Server.FixedUpdate();
