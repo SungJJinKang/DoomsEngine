@@ -4,9 +4,10 @@
 #include <cstdlib>
 
 
-#include "../Core/Core.h"
-#include "trim.h"
-#include "UI/PrintText.h"
+#include <Core.h>
+
+#include <trim.h>
+#include <UI/PrintText.h>
 
 static const std::regex sectionPattern{R"(\s*\[\s*(\S+)\s*\]\s*)"};
 static const std::regex variablePattern{ R"(\s*(\S+)\s*=\s*(\S+)\s*)" };
@@ -136,6 +137,33 @@ IniData SimpleIniParser::ParseIniFile(std::string fileDirectory)
 	}
 
 	return iniData;
+}
+
+const IniData::ini_data_type* IniData::GetSectionData(const std::string& sectionKey, const std::string& variableKey) const
+{
+	const IniData::ini_data_type* sectionData = nullptr;
+
+	auto sectionIter = mIniDatas.find(sectionKey);
+
+	D_ASSERT_LOG(sectionIter != mIniDatas.end(), "Can't Find Section : %s", sectionKey.c_str());
+	if(sectionIter != mIniDatas.end())
+	{
+		auto sectionDataIter = sectionIter->second.find(variableKey);
+
+		if (sectionDataIter != sectionIter->second.end())
+		{
+			sectionData = &(sectionDataIter->second);
+		}
+
+		D_ASSERT_LOG(sectionData != nullptr, "Can't Find Section Data ( SectionKey : %s, DataKey : %s )", sectionKey.c_str(), variableKey.c_str());
+	}
+
+	if(sectionData == nullptr)
+	{
+		doom::ui::PrintText("Fail to Find Data ( SectionKey : %s, DataKey : %s )", sectionKey.c_str(), variableKey.c_str());
+	}
+
+	return sectionData;
 }
 
 void IniData::AddSection(const std::string& section)

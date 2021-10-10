@@ -17,33 +17,53 @@ private:
 	/// Section -> Data
 	/// </summary>
 	std::unordered_map<std::string, std::unordered_map<std::string, ini_data_type> > mIniDatas{};
+	const std::unordered_map<std::string, ini_data_type>* GetSection(const std::string& sectionKey) const;
+	const ini_data_type* GetSectionData(const std::string& sectionKey, const std::string& variableKey) const;
+
 public:
 
 	
 
 	void AddSection(const std::string& section);
+	
 	void InsertVariable(const std::string& section, const std::string& key, ini_data_type data);
-
+	
 	template <typename T>
 	T GetValue(const std::string& section, const std::string& variableKey) const
 	{
-		auto& sectionData = mIniDatas.at(section);
-		return std::get<T>(sectionData.at(variableKey));
+		auto sectionData = GetSectionData(section, variableKey);
+
+		if(sectionData != nullptr)
+		{
+			return std::get<T>(*sectionData);
+		}
+		else
+		{
+			return T();
+		}
+		
 	}
 
 	template <>
 	float GetValue<float>(const std::string& section, const std::string& variableKey) const
 	{
-		auto& sectionData = mIniDatas.at(section);
-		return static_cast<float>(std::get<double>(sectionData.at(variableKey)));
+		auto sectionData = GetSectionData(section, variableKey);
+
+		if (sectionData != nullptr)
+		{
+			return static_cast<float>(std::get<double>(*sectionData));
+		}
+		else
+		{
+			return 0.0f;
+		}
 	}
 
 	bool IsValueExist(const std::string& section, const std::string& variableKey) const
 	{
-		auto& sectionData = mIniDatas.at(section);
-		auto iter = sectionData.find(variableKey);
+		auto sectionData = GetSectionData(section, variableKey);
 
-		return iter != sectionData.end();
+		return sectionData != nullptr;
 	}
 };
 
