@@ -74,7 +74,9 @@ namespace doom
 		//ex) first logical processor and second -> (1 << 0) | (1 << 1)
 		FORCE_INLINE bool _SetThreadAffinity(const PLATFORM_HANDLE threadHandle, const unsigned long long threadAffinitMask);
 		FORCE_INLINE unsigned long long _GetThreadAffinity(const PLATFORM_HANDLE threadHandle);
+
 		
+		FORCE_INLINE unsigned long long _GetThreadCpuCycle(const PLATFORM_HANDLE threadHandle);
 	}
 }
 

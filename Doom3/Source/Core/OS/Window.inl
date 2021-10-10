@@ -103,6 +103,13 @@ unsigned long long doom::os::_GetThreadAffinity(const PLATFORM_HANDLE threadHand
 	return originalMask;
 }
 
+unsigned long long doom::os::_GetThreadCpuCycle(const PLATFORM_HANDLE threadHandle)
+{
+	unsigned long long cycle;
+	QueryThreadCycleTime(threadHandle, &cycle);
+	return cycle;
+}
+
 /*
 unsigned int doom::os::_GetCurrentProcessorNumber()
 {
