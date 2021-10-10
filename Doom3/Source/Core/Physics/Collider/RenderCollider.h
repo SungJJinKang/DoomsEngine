@@ -1,6 +1,9 @@
 #pragma once
-#include "../Graphics/Color.h"
+
 #include "Core.h"
+#include <Graphics/Graphics_Core.h>
+#include <Graphics/Color.h>
+
 namespace doom
 {
 	namespace physics
