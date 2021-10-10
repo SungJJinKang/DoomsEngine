@@ -2,7 +2,6 @@
 
 #include <Graphics/Graphics_Setting.h>
 #include <UI/PrintText.h>
-#include <Graphics/GraphicsAPIManager.h>
 
 void doom::OverDrawVisualizationDebugger::InitComponent()
 {

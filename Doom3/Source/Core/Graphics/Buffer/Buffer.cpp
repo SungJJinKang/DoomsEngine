@@ -1,7 +1,5 @@
 #include "Buffer.h"
 
-#include "../Graphics_Core.h"
-
 
 doom::graphics::Buffer::Buffer() : mBufferID{ 0 }
 {

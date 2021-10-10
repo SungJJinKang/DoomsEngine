@@ -1,10 +1,7 @@
 #pragma once
 
-#include <Core.h>
-
 #include <memory>
 
-#include "Graphics_Core.h"
 #include "Material/Material.h"
 #include "Buffer/Mesh.h"
 

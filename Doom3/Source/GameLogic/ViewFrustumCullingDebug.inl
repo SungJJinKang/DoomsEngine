@@ -7,21 +7,13 @@
 #include "../Graphics/Material/Material.h"
 #include <Rendering/Renderer/MeshRenderer.h>
 #include <Rendering/Camera.h>
-#include "UserInput_Server.h"
-#include "Move_WASD.h"
 #include <Rendering/Light/DirectionalLight.h>
 #include <Rendering/Light/PointLight.h>
 #include "AutoRotate.h"
 #include <TestComponent.h>
-#include "PhysicsComponent/BoxCollider3D.h"
-#include "CustomComponent/CharacterSpawner.h"
-#include "CustomComponent/ButtonRotate.h"
 #include "CustomComponent/Portfolio/ViewFrustumCullingDebug.h"
-#include "Graphics/PictureInPicture/PIPManager.h"
-#include "AutoRotateAround.h"
 #include "Graphics/LightManager.h"
 #include "Graphics/Graphics_Setting.h"
-#include "Graphics/GraphicsAPIManager.h"
 #include <PerformanceTestController.h>
 
 void doom::GameLogicStartPoint::StartGameLogic()

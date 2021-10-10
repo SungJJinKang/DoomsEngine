@@ -1,6 +1,5 @@
 #include "Circle2D.h"
 #include <Graphics/DebugGraphics/DebugDrawer.h>
-#include <utility>
 #include <Vector2.h>
 
 void doom::physics::Circle2D::DrawCollider(eColor color, bool drawInstantly /*= false*/) const

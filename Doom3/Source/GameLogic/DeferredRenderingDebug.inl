@@ -16,7 +16,6 @@
 #include "PhysicsComponent/BoxCollider3D.h"
 #include "CustomComponent/CharacterSpawner.h"
 #include "CustomComponent/ButtonRotate.h"
-#include "CustomComponent/Portfolio/ViewFrustumCullingDebug.h"
 #include "Graphics/PictureInPicture/PIPManager.h"
 #include "AutoRotateAround.h"
 #include "Graphics/LightManager.h"

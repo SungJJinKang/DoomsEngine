@@ -2,8 +2,6 @@
 
 #include <utility>
 
-#include <Macros/Macros.h>
-
 #include "DObjectManager.h"
 
 void doom::DObject::Construct_Internal()

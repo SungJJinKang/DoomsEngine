@@ -1,9 +1,7 @@
 #pragma once
 
 #include "../Core.h"
-#include "../Graphics/Graphics_Server.h"
 
-#include <Vector2.h>
 #include <Physics/Collider/Ray.h>
 
 namespace doom

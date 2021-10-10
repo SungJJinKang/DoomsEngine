@@ -1,6 +1,5 @@
 #include "GameCore.h"
 
-#include "../Graphics/GraphicsAPI.h"
 #include "../Graphics/Graphics_Server.h"
 
 #include "../../Helper/SimpleIniParser.h"
@@ -8,8 +7,7 @@
 
 #include "../../GameLogic/GameLogicStartPoint.h"
 #include "ConfigData.h"
-
-#include "AssetImporter/AssetImporterWorker_Texture.h"
+#include "MainTimer.h"
 
 #include "../Logger/Logger.h"
 #include "../Profiler/Profiler.h"

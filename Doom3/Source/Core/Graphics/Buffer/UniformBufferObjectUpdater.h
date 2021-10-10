@@ -1,12 +1,4 @@
 #pragma once
-#include <initializer_list>
-#include <vector>
-#include <memory>
-#include <tuple>
-#include <functional>
-
-#include "../../Game/IGameFlow.h"
-#include "UniformBufferObjectManager.h"
 
 namespace doom
 {

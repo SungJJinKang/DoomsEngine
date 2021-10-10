@@ -2,7 +2,6 @@
 
 #include <type_traits>
 
-#include "Component.h"
 #include "ServerComponent.h"
 #include "PlainComponent.h"
 

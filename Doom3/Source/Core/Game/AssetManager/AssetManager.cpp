@@ -1,7 +1,5 @@
 #include "AssetManager.h"
 
-#include <iterator>
-
 #include <Game/GameCore.h>
 
 #include "../IO/AssetImporter/AssetImporter.h"

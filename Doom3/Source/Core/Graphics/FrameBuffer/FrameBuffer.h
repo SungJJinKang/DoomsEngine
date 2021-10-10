@@ -2,7 +2,6 @@
 #include <vector>
 
 #include "../Core.h"
-#include "../Graphics_Core.h"
 #include "../Graphics_Setting.h"
 #include "../GraphicsAPI.h"
 #include "RenderBuffer.h"

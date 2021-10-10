@@ -8,7 +8,6 @@
 #include "../Graphics/Buffer/Mesh.h"
 #include "../Graphics/Buffer/MeshNode.h"
 #include "../Graphics/ePrimitiveType.h"
-#include <optional>
 #include <Physics/Collider/AABB.h>
 #include <Physics/Collider/Sphere.h>
 

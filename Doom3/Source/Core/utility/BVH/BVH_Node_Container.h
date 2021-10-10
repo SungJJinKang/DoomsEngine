@@ -1,8 +1,6 @@
 #pragma once
-#include "../../Core.h"
 
 #include "BVH_Core.h"
-#include "BVH_Node.h"
 #include "BVH_Node_View.h"
 
 namespace doom

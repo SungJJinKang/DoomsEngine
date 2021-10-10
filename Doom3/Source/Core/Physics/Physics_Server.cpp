@@ -9,10 +9,6 @@
 #include "PhysicsComponent/ColliderComponent.h"
 #include <StaticContainer/StaticContainer.h>
 
-#include <UserInput_Server.h>
-#include <UI/PrintText.h>
-
-
 
 void doom::physics::Physics_Server::LoadPhysicsSetting()
 {

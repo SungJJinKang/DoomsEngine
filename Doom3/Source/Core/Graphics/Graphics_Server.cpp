@@ -1,24 +1,16 @@
 #include "Graphics_Server.h"
 
-#include <iostream>
-#include <string>
 #include <functional>
 
-#include <Utility.h>
-
 #include "../Game/GameCore.h"
-#include "../Game/ConfigData.h"
 #include "../Scene/Layer.h"
 #include "../Game/AssetManager/AssetManager.h"
 
 #include "GraphicsAPI.h"
 
 #include "Buffer/UniformBufferObjectManager.h"
-#include "Buffer/UniformBufferObjectUpdater.h"
 
 #include <Rendering/Renderer/Renderer.h>
-#include "Material/Material.h"
-#include "Texture/Texture.h"
 #include "FrameBuffer/DefferedRenderingFrameBuffer.h"
 #include <Rendering/Renderer/RendererStaticIterator.h>
 
@@ -26,15 +18,11 @@
 
 #include "Acceleration/LinearData_ViewFrustumCulling/EveryCulling.h"
 
-#include "Buffer/Mesh.h"
-
 #include "GraphicsAPIManager.h"
 #include "Graphics_Setting.h"
+#include "MainTimer.h"
 
 //#define D_DEBUG_CPU_VENDOR_PROFILER
-#include <Profiler/CPUVendorProfiler.h>
-
-#include <Profiler/ProfilerABTest.h>
 
 using namespace doom::graphics;
 
@@ -166,7 +154,7 @@ void Graphics_Server::DoCullJob()
 		{
 			camera->CameraIndexInCullingSystem = CullJobAvailiableCameraCount;
 
-			mCullingSystem->SetViewProjectionMatrix(CullJobAvailiableCameraCount, *reinterpret_cast<const culling::Matrix4X4*>(&(camera->GetViewProjectionMatrix())));
+			mCullingSystem->SetViewProjectionMatrix(CullJobAvailiableCameraCount, *reinterpret_cast<const culling::Mat4x4*>(&(camera->GetViewProjectionMatrix())));
 
 			CullJobAvailiableCameraCount++;
 		}

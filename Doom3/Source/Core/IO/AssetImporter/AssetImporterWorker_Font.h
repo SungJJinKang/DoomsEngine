@@ -2,8 +2,6 @@
 #include "AssetApiImporter.h"
 #include "AssetImporterWorker_Base.h"
 
-#include "../../Asset/FontAsset.h"
-
 using namespace doom;
 
 namespace doom

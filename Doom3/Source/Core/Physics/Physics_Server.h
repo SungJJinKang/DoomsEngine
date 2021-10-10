@@ -2,10 +2,11 @@
 #include "../Core.h"
 
 #include "../Game/IGameFlow.h"
-#include "Phycis_Core.h"
 
 #include "Picking.h"
 #include "PhysicsDebugger.h"
+
+#include "Physics_Setting.h"
 
 #include "utility/BVH/BVH.h"
 

@@ -1,7 +1,5 @@
 #include "RenderingAABBController.h"
 
-#include "Graphics/Graphics_Setting.h"
-
 void doom::RenderingAABBController::InitComponent()
 {
 }

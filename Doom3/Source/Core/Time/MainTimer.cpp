@@ -1,6 +1,5 @@
 #include "MainTimer.h"
 
-#include <Graphics/GraphicsAPIManager.h>
 void doom::time::MainTimer::InitTimer()
 {
 	double currentTickCount = glfwGetTime();

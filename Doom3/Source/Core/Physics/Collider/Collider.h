@@ -1,7 +1,5 @@
 #pragma once
 
-#include "../Phycis_Core.h"
-
 #include "RenderCollider.h"
 #include <StaticContainer/StaticContainer.h>
 #include "ColliderType.h"

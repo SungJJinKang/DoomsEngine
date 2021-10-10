@@ -1,10 +1,8 @@
 #include "Picking.h"
-#include <PhysicsComponent/ColliderComponent.h>
 #include <Rendering/Camera.h>
 #include <UserInput_Server.h>
 #include <Transform.h>
 
-#include <UI/PrintText.h>
 doom::physics::Ray doom::physics::Picking::GetCurrentCursorPointWorldRay()
 {
 	const math::Vector3 currentNDCCursorPoint{ userinput::UserInput_Server::GetCurrentMouseNDCPosition() };

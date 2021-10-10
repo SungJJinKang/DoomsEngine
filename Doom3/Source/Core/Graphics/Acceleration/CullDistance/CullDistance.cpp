@@ -1,7 +1,5 @@
 #include "CullDistance.h"
 
-#include <algorithm>
-
 #include <Rendering/Camera.h>
 #include <Transform.h>
 #include <Rendering/Renderer/Renderer.h>

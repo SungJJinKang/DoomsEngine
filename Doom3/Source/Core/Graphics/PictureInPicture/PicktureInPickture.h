@@ -1,7 +1,5 @@
 #pragma once
 
-#include <string>
-
 #include "../Buffer/Mesh.h"
 #include "../Material/Material.h"
 

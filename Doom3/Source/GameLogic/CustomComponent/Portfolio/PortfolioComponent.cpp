@@ -1,5 +1,4 @@
 #include "PortfolioComponent.h"
-#include "Graphics/GraphicsAPIManager.h"
 
 void doom::PortfolioComponent::InitComponent()
 {

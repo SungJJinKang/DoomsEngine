@@ -1,6 +1,5 @@
 #pragma once
 #include "Collider2DComponent.h"
-#include <Vector2.h>
 #include <Collider/Circle2D.h>
 namespace doom
 {

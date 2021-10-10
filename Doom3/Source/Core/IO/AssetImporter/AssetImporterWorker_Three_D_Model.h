@@ -2,8 +2,6 @@
 #include "AssetApiImporter.h"
 #include "AssetImporterWorker_Base.h"
 
-#include <utility>
-
 #include "../../API/ASSIMP.h" // don't worry. this dependency is light, see file
 #include "../../Asset/ThreeDModelAsset.h"
 

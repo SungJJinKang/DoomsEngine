@@ -1,4 +1,3 @@
-#include "Core.h"
 #include "Logger.h"
 
 #ifdef DEBUG_MODE

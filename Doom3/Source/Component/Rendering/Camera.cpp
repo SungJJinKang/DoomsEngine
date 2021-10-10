@@ -4,6 +4,7 @@
 
 #include "../Graphics/Graphics_Server.h"
 #include "../Graphics/Graphics_Setting.h"
+#include "Graphics/Buffer/UniformBlockOffsetInfo.h"
 
 using namespace doom;
 

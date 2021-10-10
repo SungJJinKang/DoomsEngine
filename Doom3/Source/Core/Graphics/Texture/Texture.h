@@ -1,14 +1,9 @@
 #pragma once
 
-#include <vector>
-#include <string>
-
 #include "../Graphics_Core.h"
 #include "../OverlapBindChecker.h"
 #include "../Buffer/BufferID.h"
 #include "TextureFormat.h"
-
-#include <magic_enum.hpp>
 
 namespace DirectX
 {

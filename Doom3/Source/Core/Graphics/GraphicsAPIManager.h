@@ -1,6 +1,5 @@
 #pragma once
 
-#include "Graphics_Core.h"
 #include "GraphicsAPI.h"
 
 namespace doom

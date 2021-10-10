@@ -1,6 +1,5 @@
 #include "Material.h"
 
-#include "../Graphics_Core.h"
 #include <Asset/ShaderAsset.h>
 
 #include "FixedMaterial.h"

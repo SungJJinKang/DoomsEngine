@@ -1,7 +1,6 @@
 #pragma once
-#include <vector>
 #include <EasyDirtyChecker/DirtySender.h>
-#include <EasyDirtyChecker/DirtyReceiver.h>
+
 namespace doom
 {
 	/// <summary>

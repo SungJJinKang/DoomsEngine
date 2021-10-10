@@ -1,7 +1,6 @@
 #include "KDTreeNodeView.h"
 
 #include "KDTree.h"
-#include "KDTreeNode.h"
 
 template<typename T>
 typename doom::KDTreeNodeView<T>::node_type* doom::KDTreeNodeView<T>::operator->()

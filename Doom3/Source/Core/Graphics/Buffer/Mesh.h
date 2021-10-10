@@ -1,7 +1,6 @@
 #pragma once
 #include "Buffer.h"
 
-#include <functional>
 #include <memory>
 #include "../OverlapBindChecker.h"
 #include "../ePrimitiveType.h"

@@ -6,8 +6,6 @@
 
 #include "../../Core.h"
 
-#include "../../Asset/Asset.h"
-
 #include "AssetApiImporter.h"
 #include "AssetImporterWorker.h"
 

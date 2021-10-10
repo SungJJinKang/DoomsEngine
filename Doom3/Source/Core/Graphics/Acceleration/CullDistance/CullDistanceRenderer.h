@@ -1,7 +1,5 @@
 #pragma once
 
-#include <Vector3.h>
-
 #include "Core.h"
 
 namespace doom

@@ -1,4 +1,3 @@
-#include "Core.h"
 #include "ColliderPickingTestRoom.h"
 
 #ifdef DEBUG_MODE

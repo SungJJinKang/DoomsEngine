@@ -2,12 +2,11 @@
 
 #include "Buffer.h"
 
-#include <vector>
 #include <unordered_map>
 #include <string>
 
 #include "../OverlapBindChecker.h"
-#include "UniformBlockOffsetInfo.h"
+
 namespace doom
 {
 	namespace graphics

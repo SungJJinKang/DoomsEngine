@@ -1,11 +1,7 @@
 #pragma once
-#include <utility>
-#include <optional>
 
 #include "AssetApiImporter.h"
 #include "AssetImporterWorker_Base.h"
-
-#include "../../Asset/TextureAsset.h"
 
 
 namespace doom

@@ -1,7 +1,6 @@
 #pragma once
 
 #include <cstdio>
-#include <type_traits>
 #include <string>
 
 #include <Core.h>

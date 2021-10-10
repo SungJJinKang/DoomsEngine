@@ -1,6 +1,5 @@
 #include "ThreeDModelAsset.h"
 
-#include <type_traits>
 #include "../Graphics/Buffer/Mesh.h"
 #include "../Graphics/Buffer/MeshNode.h"
 

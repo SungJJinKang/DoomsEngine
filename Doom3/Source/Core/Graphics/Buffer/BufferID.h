@@ -1,5 +1,4 @@
 #pragma once
-#include <cassert>
 
 /// <summary>
 /// Why need this?

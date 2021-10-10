@@ -4,8 +4,6 @@
 
 #include <OS.h>
 
-#include <API/OpenglAPI.h>
-
 #include <UserInput_Server.h>
 namespace doom
 {

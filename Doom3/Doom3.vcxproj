@@ -202,6 +202,7 @@
     <ClCompile Include="Source\Core\Graphics\Acceleration\LinearData_ViewFrustumCulling\CullingModule\CullingModule.cpp" />
     <ClCompile Include="Source\Core\Graphics\Acceleration\LinearData_ViewFrustumCulling\CullingModule\OcclusionCullingWithComputeShader\OcclusionCullingWithComputeShader.cpp" />
     <ClCompile Include="Source\Core\Graphics\Acceleration\LinearData_ViewFrustumCulling\DataType\EntityBlockViewer.cpp" />
+    <ClCompile Include="Source\Core\Graphics\Acceleration\LinearData_ViewFrustumCulling\DataType\Math\Common.cpp" />
     <ClCompile Include="Source\Core\Graphics\Batch\MeshBatchCreater.cpp" />
     <ClCompile Include="Source\Core\Graphics\DebugGraphics\OverDrawVisualization.cpp" />
     <ClCompile Include="Source\Core\Graphics\DeferredRenderingDrawer.cpp" />

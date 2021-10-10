@@ -1,15 +1,9 @@
 #pragma once
 
-#include <vector>
 #include <utility>
 #include <string>
 #include <variant>
 #include <unordered_map>
-#include <type_traits>
-#include <cassert>
-#include "../Core/Core.h"
-
-
 
 
 class IniData

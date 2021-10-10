@@ -1,10 +1,8 @@
 #include <sstream>
-#include <array>
 
 #include "ShaderAsset.h"
 
 #include "../API/OpenglAPI.h"
-#include "../Core.h"
 #include "../Graphics/Material/Material.h"
 #include "../../Helper/TextImporter.h"
 #include "../../Helper/trim.h"

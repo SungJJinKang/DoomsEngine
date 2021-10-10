@@ -12,8 +12,6 @@
 
 #include <EasyDirtyChecker/DirtyReceiver.h>
 
-#include "Physics/Collider/Plane.h"
-
 #include "Graphics/Acceleration/ViewFrustum.h"
 
 #include "Transform.h"

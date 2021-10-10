@@ -1,7 +1,6 @@
 #pragma once
 
 #include "../../Core/Core.h"
-#include "../../Core/Game/IGameFlow.h"
 #include "../../Core/Game/FrameDirtyChecker.h"
 
 class DirtyReceiver;

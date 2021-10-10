@@ -1,7 +1,6 @@
 #include "DObjectManager.h"
 
 #include <cassert>
-#include <iostream>
 
 #include "DObject.h"
 

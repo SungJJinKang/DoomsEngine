@@ -1,7 +1,6 @@
 #pragma once
 
 #include <vector>
-#include <utility>
 
 #include <Vector3.h>
 

@@ -1,7 +1,7 @@
 #include "TextImporter.h"
 #include <fstream>
 
-
+#include <Core.h>
 
 std::string GetTextFromFile(const std::filesystem::path& path)
 {

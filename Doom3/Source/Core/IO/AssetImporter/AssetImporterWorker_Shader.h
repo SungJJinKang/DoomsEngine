@@ -2,9 +2,6 @@
 #include "AssetApiImporter.h"
 #include "AssetImporterWorker_Base.h"
 
-#include "../../Asset/ShaderAsset.h"
-
-
 
 namespace doom
 {

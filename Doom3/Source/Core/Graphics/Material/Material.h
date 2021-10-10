@@ -1,6 +1,4 @@
 #pragma once
-#include <string>
-#include <vector>
 #include <array>
 
 #include "../Graphics_Core.h"

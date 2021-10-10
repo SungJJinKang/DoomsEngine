@@ -1,6 +1,5 @@
 #pragma once
 #include "Collider3DComponent.h"
-#include <Vector3.h>
 #include <Collider/Sphere.h>
 namespace doom
 {

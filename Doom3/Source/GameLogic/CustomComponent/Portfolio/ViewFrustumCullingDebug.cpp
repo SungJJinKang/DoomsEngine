@@ -1,10 +1,7 @@
 #include "ViewFrustumCullingDebug.h"
 
-#include <Graphics/Graphics_Server.h>
 #include <Rendering/Camera.h>
 #include "UI/PrintText.h"
-#include <Graphics/Graphics_Setting.h>
-#include <Graphics/GraphicsAPIManager.h>
 
 void doom::ViewFrustumCullingDebug::InitComponent()
 {

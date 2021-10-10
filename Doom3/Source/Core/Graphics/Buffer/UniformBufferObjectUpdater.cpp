@@ -1,6 +1,5 @@
 #include "UniformBufferObjectUpdater.h"
 
-#include <algorithm>
 #include "../../Core.h"
 #include "UniformBufferObjectManager.h"
 

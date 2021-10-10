@@ -1,7 +1,6 @@
 #pragma once
 
 #include <array>
-#include <utility>
 
 #include <StaticContainer/StaticContainer.h>
 #include <Entity.h>

@@ -1,7 +1,5 @@
 #pragma once
 
-#include "Core.h"
-
 namespace doom
 {
 	constexpr inline int NULL_NODE_INDEX{ -1 };

@@ -1,5 +1,8 @@
 #include "LightManager.h"
 
+#include "Buffer/UniformBlockOffsetInfo.h"
+#include "Buffer/UniformBufferObjectManager.h"
+
 void doom::graphics::LightManager::UpdateUniformBufferObject()
 {
 	if (bmIsAmbientLightIntensityDirty == true)

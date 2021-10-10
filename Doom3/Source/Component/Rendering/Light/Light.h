@@ -1,6 +1,7 @@
 #pragma once
 #include "Core/PlainComponent.h"
 #include "Vector4.h"
+#include "EasyDirtyChecker/DirtyReceiver.h"
 
 namespace doom
 {

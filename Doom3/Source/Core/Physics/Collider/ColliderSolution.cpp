@@ -3,13 +3,9 @@
 #include "AABB.h"
 #include "CapsuleCollider.h"
 #include "Circle2D.h"
-#include "Line.h"
 #include "Plane.h"
-#include "Ray.h"
 #include "Sphere.h"
 #include "PhysicsGeneric.h"
-
-#include <magic_enum.hpp>
 
 // enum class ColliderType
 // {

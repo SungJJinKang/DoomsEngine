@@ -1,7 +1,5 @@
 #include "UniformBufferObject.h"
 
-#include "../Graphics_Core.h"
-
 doom::graphics::UniformBufferObject::UniformBufferObject() 
 	: Buffer(), mUniformBufferTempData{nullptr}, mSizeInByte{ 0 }, mBindingPoint{ 0 }
 {

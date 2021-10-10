@@ -4,6 +4,7 @@
 #include "../Core/Math/LightMath_Cpp/Vector3.h"
 #include "../Core/Math/LightMath_Cpp/Matrix4x4.h"
 #include "../Core/Math/LightMath_Cpp/Matrix_utility.h"
+#include "EasyDirtyChecker/DirtyReceiver.h"
 
 namespace doom
 {

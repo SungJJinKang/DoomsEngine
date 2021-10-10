@@ -2,7 +2,6 @@
 
 #include "FrameBuffer.h"
 #include "../GraphicsAPI.h"
-#include "../Graphics_Server.h"
 #include "../Graphics_Setting.h"
 
 using namespace doom::graphics;

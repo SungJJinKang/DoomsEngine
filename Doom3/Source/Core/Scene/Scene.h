@@ -5,8 +5,6 @@
 
 #include <Core.h>
 #include "Entity.h"
-#include "../Game/IGameFlow.h"
-#include "SharedSceneSetting.h"
 
 namespace doom
 {

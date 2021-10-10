@@ -1,8 +1,5 @@
 #pragma once
 
-#include <Vector2.h>
-#include <Vector3.h>
-
 #include "BVH_Core.h"
 #include "../ColliderUpdater.h"
 #include "BVH_Node_Container.h"

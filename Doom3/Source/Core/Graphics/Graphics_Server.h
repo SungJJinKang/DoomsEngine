@@ -9,7 +9,6 @@
 #include "Buffer/UniformBufferObjectManager.h"
 #include "LightManager.h"
 #include "PictureInPicture/PIPManager.h"
-#include "DeferredRenderingDrawer.h"
 
 #include "DebugGraphics/DebugDrawer.h"
 

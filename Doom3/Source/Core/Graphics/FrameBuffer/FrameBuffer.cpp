@@ -1,8 +1,5 @@
 #include "FrameBuffer.h"
 
-#include "../Graphics_Setting.h"
-
-
 
 using namespace doom::graphics;
 

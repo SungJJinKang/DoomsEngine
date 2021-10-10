@@ -1,5 +1,4 @@
 #pragma once
-#include "../Graphics_Core.h"
 #include "../GraphicsAPI.h"
 #include "../OverlapBindChecker.h"
 #include "../Buffer/BufferID.h"
