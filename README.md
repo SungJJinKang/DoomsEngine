@@ -29,20 +29,26 @@ So if you wanna good and clean code for learning something, Find other project.
 
 ## Implemented features
 
+  * Deferred Rendering
   * Profiler (reference : https://youtu.be/tD4xRNB0M_Q) 
   * Logger
   * Memory Pool(limited use)
   * Homemade Math Library (https://github.com/SungJJinKang/LightMath_Cpp)     
   * Homemade Asset Importer ( I tried to make everything from scratch. but Finally I decided just integrating many 3rd asset importers to one system)
-  * Parallel ViewFrustum Culling (https://github.com/SungJJinKang/Frostbite_CullingSystem)
+  * Multi Thread ViewFrustum Culling (https://github.com/SungJJinKang/EveryCulling)
   * Distance Culling ( https://docs.unrealengine.com/en-US/RenderingAndGraphics/VisibilityCulling/CullDistanceVolume/index.html ) ( not used )
   * Support SIMD ( Currently AVX1 )
-  * Occlusion Culling using HW Query( but not used )
-
+  * HW Query Occlusion Culling, Conditional Rendering
+  * Asset Import Pipeline ( Automatically import assets located in asset folder )
+  * JobSystem ( Thread Pool - https://github.com/SungJJinKang/JobSystem_cpp )
+  * Collision, Raycasting, Picking ( implemented with BVH Tree )
+  * Overdraw Visualization ( implemented with Additive Blending )
+  
 ## In Developing
 
   * Masked SW Occlusion Culling ( https://software.intel.com/content/dam/develop/external/us/en/documents/masked-software-occlusion-culling.pdf )      
   * ECS System ( Development Specification : https://docs.google.com/document/d/13eVWAFyuVbvDV7zYDqGF8kNTC8AtHP6lgMfDYTm1KXw/edit?usp=sharing )
+  
 ## Dependency
 I will try to make everything what i need.     
 but i can't make some librarys like graphics api, audio api, some importers ....           
