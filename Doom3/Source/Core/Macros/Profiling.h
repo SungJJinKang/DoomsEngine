@@ -99,13 +99,13 @@ CONCAT(PROFILING_TAG, _PROFILE_ELAPSED_TIME) = std::chrono::duration<double, std
 
 #ifndef D_START_PROFILING_IN_RELEASE
 
-#define D_START_PROFILING_IN_RELEASE(PROFILING_TAG) D_START_PROFILING_INTERNAL(PROFILING_TAG)																																																			\
+#define D_START_PROFILING_IN_RELEASE(PROFILING_TAG) D_START_PROFILING_PER_SECOND_INTERNAL(PROFILING_TAG)																																																			\
 																																																					
 #endif
 
 #ifndef D_END_PROFILING_IN_RELEASE
 
-#define D_END_PROFILING_IN_RELEASE(PROFILING_TAG) D_END_PROFILING_INTERNAL(PROFILING_TAG)																																																			\
+#define D_END_PROFILING_IN_RELEASE(PROFILING_TAG) D_END_PROFILING_PER_SECOND_INTERNAL(PROFILING_TAG)																																																			\
 
 #endif
 
