@@ -249,7 +249,6 @@
     <ClCompile Include="Source\Core\IO\AssetImporter\AssetImporterWorker_Shader.cpp" />
     <ClCompile Include="Source\Core\IO\AssetImporter\AssetImporterWorker_Text.cpp" />
     <ClCompile Include="Source\Core\IO\AssetImporter\AssetImporterWorker_Three_D_Model.cpp" />
-    <ClCompile Include="Source\Core\Macros\KeyCallback.cpp" />
     <ClCompile Include="Source\Core\Physics\Collider\OBB.cpp" />
     <ClCompile Include="Source\Core\ResourceManagement\JobSystem_cpp\JobSystem.cpp" />
     <ClCompile Include="Source\Core\ResourceManagement\JobSystem_cpp\Thread.cpp" />
@@ -375,6 +374,7 @@
   <ItemGroup>
     <ClInclude Include="Source\Component\Core\ComponentGlobals.h" />
     <ClInclude Include="Source\Component\PhysicsComponent\Rigidbody\Rigidbody.h" />
+    <ClInclude Include="Source\Core\CompilerFlags.h" />
     <ClInclude Include="Source\Core\DObject\DObjectGlobals.h" />
     <ClInclude Include="Source\Core\DObject\DObjectManager.h" />
     <ClInclude Include="Source\Core\Graphics\Acceleration\LinearData_ViewFrustumCulling\CullingModule\OcclusionCullingWithComputeShader\OcclusionCullingWithComputeShader.h" />
@@ -452,7 +452,6 @@
     <ClInclude Include="Source\Core\Graphics\PictureInPicture\PicktureInPickture.h" />
     <ClInclude Include="Source\Core\Graphics\RenderingBitFlag.h" />
     <ClInclude Include="Source\Core\Graphics\TextureFormat.h" />
-    <ClInclude Include="Source\Core\Macros\KeyCallback.h" />
     <ClInclude Include="Source\Core\Math\LightMath_Cpp\Quaternion.h" />
     <ClInclude Include="Source\Core\Math\LightMath_Cpp\Quaternion_SIMD.h" />
     <ClInclude Include="Source\Core\Math\LightMath_Cpp\SIMD.h" />

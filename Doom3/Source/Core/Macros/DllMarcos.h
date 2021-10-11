@@ -1,5 +1,8 @@
 #pragma once
 
+#include <CompilerFlags.h>
+
+
 #define DISABLE_DLL_PROCESS
 
 

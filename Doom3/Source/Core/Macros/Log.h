@@ -1,5 +1,8 @@
 #pragma once
 
+#include <CompilerFlags.h>
+
+
 #ifdef DEBUG_MODE
 #include "../Logger/Logger.h"
 

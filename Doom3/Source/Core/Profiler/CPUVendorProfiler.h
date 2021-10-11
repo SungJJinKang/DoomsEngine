@@ -3,7 +3,7 @@
 #include <Core.h>
 
 
-#ifdef D_DEBUG_CPU_VENDOR_PROFILER
+#if defined(D_DEBUG_CPU_VENDOR_PROFILER) && defined(RELEASE_MODE)
 
 #include <AMDProfileController.h>
 
@@ -35,10 +35,11 @@
 			}																	\
 			else																\
 			{																	\
-				EXIT_PROGRAM;														\
+				EXIT_PROGRAM;													\
 			}																	\
 
 #endif
+
 
 #else
 

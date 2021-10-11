@@ -1,5 +1,7 @@
 #pragma once
 
+#include <CompilerFlags.h>
+
 #ifdef DEBUG_MODE
 
 #include "../Profiler/Profiler.h"

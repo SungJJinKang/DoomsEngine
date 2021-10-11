@@ -4,6 +4,7 @@
 
 #include"Scene.h"
 #include <SequenceStringGenerator/SequenceStringGenerator.h>
+#include <Scene/Layer.h>
 
 using namespace doom;
 

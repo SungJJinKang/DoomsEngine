@@ -47,7 +47,7 @@ namespace doom
 
 		private:
 
-			const std::filesystem::path AssetFolderPath{ ASSET_FOLDER_DIRECTORY };
+			const std::filesystem::path AssetFolderPath{ doom::path::_GetAssetFolderDirectory() };
 
 			std::array<std::vector<std::filesystem::path>, doom::asset::ENUM_ASSETTYPE_COUNT> AssetPaths{};
 

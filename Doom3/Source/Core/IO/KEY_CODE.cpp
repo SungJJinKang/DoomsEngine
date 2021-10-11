@@ -15,6 +15,6 @@ template<> doom::userinput::eKEY_CODE IniData::GetValue<doom::userinput::eKEY_CO
 	}
 	else
 	{
-		doom::userinput::eKEY_CODE::ERROR_CODE;
+		return doom::userinput::eKEY_CODE::ERROR_CODE;
 	}
 }

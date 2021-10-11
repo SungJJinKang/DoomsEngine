@@ -1,14 +1,7 @@
 #pragma once
-#include "Log.h"
 
-#ifndef DEBUG_MODE // if not debug mode, don't throw assert
+#include <CompilerFlags.h>
 
-#ifndef NDEBUG
-#define NDEBUG
-#endif
-
-#endif
-#include <cassert>
 #ifndef NDEBUG
 #include <cstdio>
 

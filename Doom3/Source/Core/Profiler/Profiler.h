@@ -1,5 +1,8 @@
 #pragma once
 
+#include <CompilerFlags.h>
+#include <Macros/DllMarcos.h>
+
 #ifdef DEBUG_MODE
 
 

@@ -285,9 +285,6 @@
     <ClCompile Include="Source\Core\Physics\ColliderPickingTestRoom.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Core\Macros\KeyCallback.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -1079,9 +1076,6 @@
     <ClInclude Include="Source\Core\Physics\ColliderPickingTestRoom.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Core\Macros\KeyCallback.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Core\Graphics\Texture\Texture.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -1434,6 +1428,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\Core\Graphics\Acceleration\SortFrontToBackSolver.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Core\CompilerFlags.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
