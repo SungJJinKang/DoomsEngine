@@ -198,7 +198,10 @@ void doom::graphics::Graphics_Server::Render()
 
 	if (Graphics_Setting::IsSortObjectFrontToBack == true)
 	{
+		//TODO : 이걸 컬링 중에 GetPosition에서 같이해버리자 캐시 사용률 UP
+		D_START_PROFILING_IN_RELEASE(CACHE_DISTANCE_FROM_RENDERER_TO_CAMERA);
 		doom::graphics::SortFrontToBackSolver::CacheDistanceFromRenderersToSpawnedCameras();
+		D_END_PROFILING_IN_RELEASE(CACHE_DISTANCE_FROM_RENDERER_TO_CAMERA);
 	}
 
 	for (size_t cameraIndex = 0 ; cameraIndex < spawnedCameraList.size() ; cameraIndex++)
@@ -280,7 +283,13 @@ void doom::graphics::Graphics_Server::RenderObject(doom::Camera* const targetCam
 
 	if (Graphics_Setting::IsSortObjectFrontToBack == true)
 	{
+		//TODO : RendererStaticIterator의 vector를 기본적으로 두 쌍을 관리하자.
+		//TDOO : 한 쌍이 렌더링 ->Draw에서 사용되고 있으면 다른 쌍을 가지고 서브스레드에 Sorting을 맡기자.
+		//TODO : WaitToFinishCullJob 후 본격적으로 Draw하는 동안 서브 스레드 하나가 Sorting 맡아서한다.
+		//당연히 Rendering 블록 나갈 때는 서브스레드가 Sorting 끝냈는지 확인해야한다.
+		D_START_PROFILING_IN_RELEASE(SORT_RENDERER);
 		doom::graphics::SortFrontToBackSolver::SortRenderer(cameraIndex);
+		D_END_PROFILING_IN_RELEASE(SORT_RENDERER);
 	}
 
 
