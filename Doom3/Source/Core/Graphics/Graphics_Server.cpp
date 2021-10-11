@@ -289,6 +289,7 @@ void doom::graphics::Graphics_Server::RenderObject(doom::Camera* const targetCam
 
 		if (Graphics_Setting::IsSortObjectFrontToBack == true)
 		{
+			//Push Multithread Sorting Renderer Front To Back  TO  JobSystem.
 			IsFinishedSortingReferernceRenderers = resource::JobSystem::GetSingleton()->PushBackJobToPriorityQueue(std::function<void()>(doom::graphics::SortFrontToBackSolver::GetSortRendererLambda(cameraIndex)));
 		}
 	}
@@ -311,6 +312,8 @@ void doom::graphics::Graphics_Server::RenderObject(doom::Camera* const targetCam
 		}
 	}
 
+
+	//Wait Multithread Sorting Renderer Front To Back  TO  JobSystem finished.
 	D_START_PROFILING_IN_RELEASE(WAIT_SORTING_RENDERER_JOB);
 	IsFinishedSortingReferernceRenderers.wait();
 	D_END_PROFILING_IN_RELEASE(WAIT_SORTING_RENDERER_JOB);

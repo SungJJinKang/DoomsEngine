@@ -5,10 +5,11 @@
 #include <StaticContainer/StaticContainer.h>
 #include <Entity.h>
 #include "../Core/Scene/Layer.h"
+#include <Graphics/Graphics_Core.h>
 
 
 
-#define MAX_CAMERA_COUNT 5
+
 
 namespace doom
 {
@@ -25,7 +26,7 @@ namespace doom
 
 		Renderer* mRenderer_ptr;
 
-		inline static unsigned int mWorkingIndexRenderersInLayerVariable = 0;
+		inline static unsigned int mWorkingRendererListIndex = 0;
 		inline static std::array<std::array<std::array<std::vector<Renderer*>, MAX_LAYER_COUNT>, 2>, MAX_CAMERA_COUNT> mRenderersInLayer{};
 		
 	protected:
@@ -44,7 +45,7 @@ namespace doom
 	public:
 
 		[[nodiscard]] static std::vector<Renderer*>& GetWorkingRendererInLayer(const size_t cameraIndex, const size_t layerIndex);
-		[[nodiscard]] static std::vector<Renderer*>& GetReferenceRendererInLayer(const size_t cameraIndex, const size_t layerIndex);
+		[[nodiscard]] static std::vector<Renderer*>& GetSortedRendererInLayer(const size_t cameraIndex, const size_t layerIndex);
 
 		static void ChangeWorkingIndexRenderers();
 	};

@@ -31,7 +31,7 @@ void doom::StaticContainer<Renderer>::AddRendererToStaticContainer()
 	for(size_t cameraIndex = 0 ; cameraIndex < MAX_CAMERA_COUNT ; cameraIndex++)
 	{
 		GetWorkingRendererInLayer(cameraIndex, currentEntityLayerIndex).push_back(mRenderer_ptr);
-		GetReferenceRendererInLayer(cameraIndex, currentEntityLayerIndex).push_back(mRenderer_ptr);
+		GetSortedRendererInLayer(cameraIndex, currentEntityLayerIndex).push_back(mRenderer_ptr);
 	}
 
 }
@@ -50,7 +50,7 @@ void doom::StaticContainer<Renderer>::RemoveRendererToStaticContainer()
 			std::vector_swap_popback(workingRendererInLayer, workingIter);
 		}
 
-		std::vector<Renderer*>& referenceRendererInLayer = GetReferenceRendererInLayer(cameraIndex, currentEntityLayerIndex);
+		std::vector<Renderer*>& referenceRendererInLayer = GetSortedRendererInLayer(cameraIndex, currentEntityLayerIndex);
 		auto referenceIter = std::find(referenceRendererInLayer.begin(), referenceRendererInLayer.end(), mRenderer_ptr);
 		if (referenceIter != referenceRendererInLayer.end())
 		{
@@ -70,18 +70,18 @@ void doom::StaticContainer<Renderer>::OnEntityLayerChanged(Entity& entity)
 std::vector<Renderer*>& doom::StaticContainer<Renderer>::GetWorkingRendererInLayer(const size_t cameraIndex, const size_t layerIndex)
 {
 	D_ASSERT(layerIndex >= 0 && layerIndex < MAX_LAYER_COUNT);
-	return this_type::mRenderersInLayer[cameraIndex][mWorkingIndexRenderersInLayerVariable][layerIndex];
+	return this_type::mRenderersInLayer[cameraIndex][mWorkingRendererListIndex][layerIndex];
 }
 
-std::vector<Renderer*>& StaticContainer<Renderer>::GetReferenceRendererInLayer(const size_t cameraIndex, const size_t layerIndex)
+std::vector<Renderer*>& StaticContainer<Renderer>::GetSortedRendererInLayer(const size_t cameraIndex, const size_t layerIndex)
 {
 	D_ASSERT(layerIndex >= 0 && layerIndex < MAX_LAYER_COUNT);
-	return this_type::mRenderersInLayer[cameraIndex][(mWorkingIndexRenderersInLayerVariable == 0) ? 1 : 0][layerIndex];
+	return this_type::mRenderersInLayer[cameraIndex][(mWorkingRendererListIndex == 0) ? 1 : 0][layerIndex];
 }
 
 void StaticContainer<Renderer>::ChangeWorkingIndexRenderers()
 {
-	mWorkingIndexRenderersInLayerVariable = (mWorkingIndexRenderersInLayerVariable == 0) ? 1 : 0;
+	mWorkingRendererListIndex = (mWorkingRendererListIndex == 0) ? 1 : 0;
 }
 
 

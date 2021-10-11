@@ -103,9 +103,6 @@ FORCE_INLINE int doom::BVH<ColliderType>::AllocateNewNode()
 	else
 	{
 		mCurrentAllocatedNodeCount++;
-
-		D_ASSERT(mCurrentAllocatedNodeCount <= GetNodeCapacity());
-		
 		newNodeIndex = mCurrentAllocatedNodeCount - 1;
 	}
 

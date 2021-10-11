@@ -1,5 +1,7 @@
 #include "ColliderSolution.h"
 
+#include <Core.h>
+
 #include "AABB.h"
 #include "CapsuleCollider.h"
 #include "Circle2D.h"
@@ -156,18 +158,14 @@ FORCE_INLINE doom::physics::ColliderSolution::is_overlap_algorithm_func doom::ph
 bool doom::physics::ColliderSolution::CheckIsOverlap(const Collider* const colliderA, const Collider* const colliderB)
 {
 	auto solution = ColliderSolution::GetCollisionAlgorithm(colliderA, colliderB);
+
+	D_ASSERT(solution != nullptr);
 	if (solution != nullptr)
 	{
 		return solution(colliderA, colliderB);
 	}
 	else
 	{
-#ifdef DEBUG_MODE
-		std::string name1{ magic_enum::enum_name(colliderA->GetColliderType()) };
-		std::string name2{ magic_enum::enum_name(colliderB->GetColliderType()) };
-
-		D_DEBUG_LOG({ "Cant FInd Collider Solution : " + name1 + ' ' + name2 }, eLogType::D_WARNING);
-#endif
 		return false;
 	}
 }

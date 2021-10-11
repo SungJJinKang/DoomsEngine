@@ -38,19 +38,12 @@ void doom::GameCore::InitGameSetting()
 
 #ifdef DEBUG_MODE
 	doom::logger::Logger::InitLogger();
-	doom::profiler::Profiler::InitProfiling();
 #endif
 
 }
 
 void doom::GameCore::UpdateGameCore()
 {
-#ifdef DEBUG_MODE
-	if (userinput::UserInput_Server::GetKeyUp(eKEY_CODE::KEY_0))
-	{
-		doom::profiler::Profiler::SetActiveToggle();
-	}
-#endif
 
 }
 
@@ -161,9 +154,9 @@ void doom::GameCore::Update()
 
 void doom::GameCore::FixedUpdate()
 {
-	D_START_PROFILING(mPhysics_Server_FixedUpdate, eProfileLayers::CPU);
+	D_START_PROFILING(mPhysics_Server_FixedUpdate_Internal, eProfileLayers::CPU);
 	mPhysics_Server.FixedUpdate_Internal();
-	D_END_PROFILING(mPhysics_Server_FixedUpdate);
+	D_END_PROFILING(mPhysics_Server_FixedUpdate_Internal);
 
 	D_START_PROFILING(mPhysics_Server_FixedUpdate, eProfileLayers::CPU);
 	mPhysics_Server.FixedUpdate();
