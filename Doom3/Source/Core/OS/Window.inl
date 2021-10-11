@@ -3,9 +3,9 @@
 
 unsigned long long doom::os::_GetTickCount()
 {
-#if defined(_WIN32)
+#if defined(OS_WIN32)
 	return GetTickCount();
-#elif defined(_WIN64)
+#elif defined(OS_WIN64)
 	return GetTickCount64();
 #endif
 }

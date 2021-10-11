@@ -374,7 +374,7 @@
   <ItemGroup>
     <ClInclude Include="Source\Component\Core\ComponentGlobals.h" />
     <ClInclude Include="Source\Component\PhysicsComponent\Rigidbody\Rigidbody.h" />
-    <ClInclude Include="Source\Core\CompilerFlags.h" />
+    <ClInclude Include="Source\Core\CompilerMacros.h" />
     <ClInclude Include="Source\Core\DObject\DObjectGlobals.h" />
     <ClInclude Include="Source\Core\DObject\DObjectManager.h" />
     <ClInclude Include="Source\Core\Graphics\Acceleration\LinearData_ViewFrustumCulling\CullingModule\OcclusionCullingWithComputeShader\OcclusionCullingWithComputeShader.h" />
@@ -401,6 +401,7 @@
     <ClInclude Include="Source\Core\IO\KEY_CODE.h" />
     <ClInclude Include="Source\Core\IO\UserInputHelper.h" />
     <ClInclude Include="Source\Core\Macros\DllMarcos.h" />
+    <ClInclude Include="Source\Core\Macros\MacrosHelper.h" />
     <ClInclude Include="Source\Core\Physics\PhysicsDebugger.h" />
     <ClInclude Include="Source\Core\Profiler\CPUVendorProfiler.h" />
     <ClInclude Include="Source\Core\Profiler\ProfilerABTest.h" />

@@ -1430,7 +1430,10 @@
     <ClInclude Include="Source\Core\Graphics\Acceleration\SortFrontToBackSolver.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Core\CompilerFlags.h">
+    <ClInclude Include="Source\Core\CompilerMacros.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Core\Macros\MacrosHelper.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

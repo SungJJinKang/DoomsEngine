@@ -1,6 +1,6 @@
 #pragma once
 
-#include <CompilerFlags.h>
+#include <CompilerMacros.h>
 
 #ifndef NDEBUG
 #include <cstdio>

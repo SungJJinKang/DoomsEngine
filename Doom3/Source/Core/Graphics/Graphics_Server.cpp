@@ -69,8 +69,7 @@ void Graphics_Server::Update()
 
 	//auto t_start = std::chrono::high_resolution_clock::now();
 	
-	D_INSTANT_PROFILING(Render());
-
+	D_PROFILING_IN_RELEASE(RENDER, Render());
 	//Render();
 
 	//auto t_end = std::chrono::high_resolution_clock::now();

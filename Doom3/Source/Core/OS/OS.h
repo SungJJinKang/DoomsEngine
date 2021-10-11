@@ -2,7 +2,25 @@
 
 #include <Core.h>
 
-#if defined(_WIN32) || defined(_WIN64)
+#ifdef _WIN64
+
+#define OS_WIN64
+
+#elif _WIN32
+
+#define OS_WIN32
+
+#elif defined(__unix) || defined(__unix__)
+
+#define OS_UNIX
+
+#elif defined(__APPLE__) || defined(__MACH__)
+
+#define OS_APPLE
+
+#endif
+
+#if (defined(OS_WIN32) || defined(OS_WIN64))
 
 #include <Windows.h>
 #include <winternl.h>
@@ -18,9 +36,9 @@
 #endif
 
 
-#elif defined(__unix) || defined(__unix__)
+#elif ( defined(__unix) || defined(__unix__) )
 
-#elif  defined(__APPLE__) || defined(__MACH__)
+#elif ( defined(__APPLE__) || defined(__MACH__) )
 
 #else
 static_assert(false);
@@ -80,13 +98,13 @@ namespace doom
 	}
 }
 
-#if defined(_WIN32) || defined(_WIN64)
+#if ( defined(OS_WIN32) || defined(OS_WIN64) )
 
 #include "Window.inl"
 
-#elif defined(__unix) || defined(__unix__)
+#elif ( defined(OS_UNIX) )
 
-#elif  defined(__APPLE__) || defined(__MACH__)
+#elif ( defined(OS_APPLE) )
 
 #else
 	static_assert(false);

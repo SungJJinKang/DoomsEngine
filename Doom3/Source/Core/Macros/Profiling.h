@@ -1,6 +1,12 @@
 #pragma once
 
-#include <CompilerFlags.h>
+#include <CompilerMacros.h>
+#include "MacrosHelper.h"
+
+#include <iostream>
+#include <chrono>
+
+#include <OS/OS.h>
 
 #ifdef DEBUG_MODE
 
@@ -60,14 +66,25 @@
 #endif
 
 
-#ifndef D_INSTANT_PROFILING
+#ifndef D_PROFILING_IN_RELEASE
 
-#define D_INSTANT_PROFILING(FUNCTION)																\
-																									\
-const auto t_start = std::chrono::high_resolution_clock::now();										\
-FUNCTION;																							\
-const auto t_end = std::chrono::high_resolution_clock::now();										\
-const double elapsed_time_ms = std::chrono::duration<double, std::milli>(t_end - t_start).count();	\
-std::cout << elapsed_time_ms << std::endl;															\
-																									
+#define D_PROFILING_IN_RELEASE(PROFILING_TAG, FUNCTION)																																										\
+																																																							\
+const auto CONCAT(PROFILING_TAG, _CURRENT_TICK_TIME) = std::chrono::high_resolution_clock::now();																															\
+const auto CONCAT(PROFILING_TAG, _START) = CONCAT(PROFILING_TAG, _CURRENT_TICK_TIME);																																		\
+FUNCTION;																																																					\
+const auto CONCAT(PROFILING_TAG, _END) = std::chrono::high_resolution_clock::now();																																			\
+static std::chrono::duration<double, std::milli> CONCAT(PROFILING_TAG, _PROFILE_ELAPSED_TIME) = std::chrono::duration<double, std::milli>::zero();																			\
+CONCAT(PROFILING_TAG, _PROFILE_ELAPSED_TIME) += std::chrono::duration_cast<std::chrono::duration<double, std::milli>>(CONCAT(PROFILING_TAG, _END) - CONCAT(PROFILING_TAG, _START));											\
+																																																							\
+static auto CONCAT(PROFILING_TAG, _EX_TICK_TIME) = std::chrono::high_resolution_clock::now();																																\
+static std::chrono::duration<double, std::milli> CONCAT(PROFILING_TAG, _ELAPSED_TIME) = std::chrono::duration<double, std::milli>::zero();																					\
+CONCAT(PROFILING_TAG, _ELAPSED_TIME) += std::chrono::duration_cast<std::chrono::duration<double, std::milli>>(CONCAT(PROFILING_TAG, _CURRENT_TICK_TIME) - CONCAT(PROFILING_TAG, _EX_TICK_TIME));							\
+CONCAT(PROFILING_TAG, _EX_TICK_TIME) = CONCAT(PROFILING_TAG, _CURRENT_TICK_TIME);																																			\
+if ( CONCAT(PROFILING_TAG, _ELAPSED_TIME).count() >= 1000.0 )																																								\
+{																																																							\
+	std::cout << "Profiler ( " MAKE_STRING(PROFILING_TAG) << " ) : " << ( CONCAT(PROFILING_TAG, _PROFILE_ELAPSED_TIME).count() / ( CONCAT(PROFILING_TAG, _ELAPSED_TIME).count() / 1000 ) ) << " (ms)" << std::endl;			\
+	CONCAT(PROFILING_TAG, _ELAPSED_TIME) = std::chrono::duration<double, std::milli>::zero();																																\
+	CONCAT(PROFILING_TAG, _PROFILE_ELAPSED_TIME) = std::chrono::duration<double, std::milli>::zero();																														\
+}																																																					
 #endif
