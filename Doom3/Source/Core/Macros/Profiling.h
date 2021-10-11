@@ -10,33 +10,32 @@
 
 #ifndef D_START_PROFILING_INTERNAL
 
-#define D_START_PROFILING_INTERNAL(PROFILING_TAG)										\
+#define D_START_PROFILING_INTERNAL(PROFILING_TAG)													\
 																									\
-const auto CONCAT(PROFILING_TAG, _CURRENT_TICK_TIME) = std::chrono::high_resolution_clock::now();	\
-const auto CONCAT(PROFILING_TAG, _START) = CONCAT(PROFILING_TAG, _CURRENT_TICK_TIME);				\
+const auto CONCAT(PROFILING_TAG, _START) = std::chrono::high_resolution_clock::now();				\
 static unsigned int CONCAT(PROFILING_TAG, _EXECUTE_COUNT) = 0										\
 
 #endif
 
 #ifndef D_END_PROFILING_INTERNAL
 
-#define D_END_PROFILING_INTERNAL(PROFILING_TAG, layer)																																										\
-const auto CONCAT(PROFILING_TAG, _END) = std::chrono::high_resolution_clock::now();																																			\
-static std::chrono::duration<double, std::milli> CONCAT(PROFILING_TAG, _PROFILE_ELAPSED_TIME) = std::chrono::duration<double, std::milli>::zero();																			\
-CONCAT(PROFILING_TAG, _PROFILE_ELAPSED_TIME) += std::chrono::duration_cast<std::chrono::duration<double, std::milli>>(CONCAT(PROFILING_TAG, _END) - CONCAT(PROFILING_TAG, _START));											\
-																																																							\
-static auto CONCAT(PROFILING_TAG, _EX_TICK_TIME) = std::chrono::high_resolution_clock::now();																																\
-static std::chrono::duration<double, std::milli> CONCAT(PROFILING_TAG, _ELAPSED_TIME) = std::chrono::duration<double, std::milli>::zero();																					\
-CONCAT(PROFILING_TAG, _ELAPSED_TIME) += std::chrono::duration_cast<std::chrono::duration<double, std::milli>>(CONCAT(PROFILING_TAG, _CURRENT_TICK_TIME) - CONCAT(PROFILING_TAG, _EX_TICK_TIME));							\
-CONCAT(PROFILING_TAG, _EX_TICK_TIME) = CONCAT(PROFILING_TAG, _CURRENT_TICK_TIME);																																			\
-CONCAT(PROFILING_TAG, _EXECUTE_COUNT)++;																																													\
-if (CONCAT(PROFILING_TAG, _ELAPSED_TIME).count() >= 1000.0)																																									\
-{																																																							\
-std::cout << "Profiler ( " MAKE_STRING(PROFILING_TAG) << " ) : " << (CONCAT(PROFILING_TAG, _PROFILE_ELAPSED_TIME).count() / CONCAT(PROFILING_TAG, _EXECUTE_COUNT)) << " (ms/s)" << std::endl;								\
-CONCAT(PROFILING_TAG, _ELAPSED_TIME) = std::chrono::duration<double, std::milli>::zero();																																	\
-CONCAT(PROFILING_TAG, _PROFILE_ELAPSED_TIME) = std::chrono::duration<double, std::milli>::zero();																															\
-CONCAT(PROFILING_TAG, _EXECUTE_COUNT) = 0;																																													\
-}
+#define D_END_PROFILING_INTERNAL(PROFILING_TAG, layer)																																									\
+const auto CONCAT(PROFILING_TAG, _END) = std::chrono::high_resolution_clock::now();																																		\
+static std::chrono::duration<double, std::milli> CONCAT(PROFILING_TAG, _PROFILE_ELAPSED_TIME) = std::chrono::duration<double, std::milli>::zero();																		\
+CONCAT(PROFILING_TAG, _PROFILE_ELAPSED_TIME) += std::chrono::duration_cast<std::chrono::duration<double, std::milli>>(CONCAT(PROFILING_TAG, _END) - CONCAT(PROFILING_TAG, _START));										\
+																																																						\
+static auto CONCAT(PROFILING_TAG, _EX_TICK_TIME) = std::chrono::high_resolution_clock::now();																															\
+static std::chrono::duration<double, std::milli> CONCAT(PROFILING_TAG, _ELAPSED_TIME) = std::chrono::duration<double, std::milli>::zero();																				\
+CONCAT(PROFILING_TAG, _ELAPSED_TIME) += std::chrono::duration_cast<std::chrono::duration<double, std::milli>>(CONCAT(PROFILING_TAG, _END) - CONCAT(PROFILING_TAG, _EX_TICK_TIME));										\
+CONCAT(PROFILING_TAG, _EX_TICK_TIME) = CONCAT(PROFILING_TAG, _END);																																						\
+CONCAT(PROFILING_TAG, _EXECUTE_COUNT)++;																																												\
+if (CONCAT(PROFILING_TAG, _ELAPSED_TIME).count() >= 1000.0)																																								\
+{																																																						\
+std::cout << "Profiler ( " MAKE_STRING(PROFILING_TAG) << " ) : " << ( CONCAT(PROFILING_TAG, _PROFILE_ELAPSED_TIME).count() / static_cast<double>(CONCAT(PROFILING_TAG, _EXECUTE_COUNT))) << " (ms/s)" << std::endl;		\
+CONCAT(PROFILING_TAG, _ELAPSED_TIME) = std::chrono::duration<double, std::milli>::zero();																																\
+CONCAT(PROFILING_TAG, _PROFILE_ELAPSED_TIME) = std::chrono::duration<double, std::milli>::zero();																														\
+CONCAT(PROFILING_TAG, _EXECUTE_COUNT) = 0;																																												\
+}																																																						\
 
 #endif
 
