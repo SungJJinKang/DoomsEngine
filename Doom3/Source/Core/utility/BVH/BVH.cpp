@@ -4,10 +4,13 @@
 #include <queue>
 #include <utility>
 
+#include <Core.h>
+
 #include "Physics/Collider/Collider.h"
 #include "Physics/Collider/PhysicsGeneric.h"
 #include "Physics/Collider/ColliderSolution.h"
 
+#include <UI/PrintText.h>
 
 
 template <typename ColliderType>
@@ -112,6 +115,7 @@ FORCE_INLINE int doom::BVH<ColliderType>::AllocateNewNode()
 	if (newNodeIndex >= nodeCurrentCapacity)
 	{
 		mNodes.resize(nodeCurrentCapacity * 2);
+		D_DEBUG_LOG("Resize BVH Tree");
 	}
 
 	mNodes[newNodeIndex].Clear();

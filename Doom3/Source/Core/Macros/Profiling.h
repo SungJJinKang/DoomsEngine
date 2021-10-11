@@ -8,6 +8,7 @@
 
 #include <OS/OS.h>
 
+// std::chrono::high_resolution_clock::now() has more resolution than OS GetTickCount API 
 #ifndef D_START_PROFILING_INTERNAL
 
 #define D_START_PROFILING_INTERNAL(PROFILING_TAG)																																											\
@@ -30,7 +31,7 @@ CONCAT(PROFILING_TAG, _ELAPSED_TIME) += std::chrono::duration_cast<std::chrono::
 CONCAT(PROFILING_TAG, _EX_TICK_TIME) = CONCAT(PROFILING_TAG, _CURRENT_TICK_TIME);																																			\
 if (CONCAT(PROFILING_TAG, _ELAPSED_TIME).count() >= 1000.0)																																									\
 {																																																							\
-std::cout << "Profiler ( " MAKE_STRING(PROFILING_TAG) << " ) : " << (CONCAT(PROFILING_TAG, _PROFILE_ELAPSED_TIME).count() / (CONCAT(PROFILING_TAG, _ELAPSED_TIME).count() / 1000)) << " (ms)" << std::endl;					\
+std::cout << "Profiler ( " MAKE_STRING(PROFILING_TAG) << " ) : " << (CONCAT(PROFILING_TAG, _PROFILE_ELAPSED_TIME).count() / (CONCAT(PROFILING_TAG, _ELAPSED_TIME).count() / 1000.0)) << " (ms)" << std::endl;				\
 CONCAT(PROFILING_TAG, _ELAPSED_TIME) = std::chrono::duration<double, std::milli>::zero();																																	\
 CONCAT(PROFILING_TAG, _PROFILE_ELAPSED_TIME) = std::chrono::duration<double, std::milli>::zero();																															\
 }

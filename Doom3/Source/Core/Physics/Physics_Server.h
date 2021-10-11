@@ -10,7 +10,7 @@
 
 #include "utility/BVH/BVH.h"
 
-#define PHYSICS_COLLIDER_BVH_MAX_NODE_COUNT 30000 // this include all internal node, leaf node
+#define PHYSICS_COLLIDER_BVH_MAX_NODE_COUNT 3000 // this include all internal node, leaf node
 
 namespace doom
 {
