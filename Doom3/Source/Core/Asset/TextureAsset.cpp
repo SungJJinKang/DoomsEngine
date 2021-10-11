@@ -61,6 +61,9 @@ doom::asset::TextureAsset::TextureAsset()
 	
 }
 */
+
+doom::asset::TextureAsset::TextureAsset() = default;
+
 void doom::asset::TextureAsset::SetScratchImage(std::unique_ptr<DirectX::ScratchImage>&& scratchImage)
 {
 	mScratchImage = std::move(scratchImage);
@@ -107,6 +110,10 @@ void doom::asset::TextureAsset::SetScratchImage(std::unique_ptr<DirectX::Scratch
 	//delete scratchImage;
 }
 
+doom::asset::TextureAsset::TextureAsset(TextureAsset&& textureAsset) noexcept = default;
+doom::asset::TextureAsset& doom::asset::TextureAsset::operator=(TextureAsset&& textureAsset) noexcept = default;
+doom::asset::TextureAsset::~TextureAsset() = default;
+
 void doom::asset::TextureAsset::OnEndImportInMainThread_Internal()
 {
 	D_START_PROFILING(Postprocess_Texture, eProfileLayers::Rendering);
@@ -142,3 +149,4 @@ void doom::asset::TextureAsset::CreateTexture()
 	}
 
 }
+

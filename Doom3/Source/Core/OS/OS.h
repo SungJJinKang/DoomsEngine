@@ -20,25 +20,29 @@
 
 #endif
 
+
+
+
 #if (defined(OS_WIN32) || defined(OS_WIN64))
 
-#include <Windows.h>
-#include <winternl.h>
-
-
+typedef void* HANDLE;
 
 #ifndef PLATFORM_HANDLE
 #define PLATFORM_HANDLE HANDLE
 #endif
 
-#ifndef PLATFORM_INVALID_HANDLE_CONSTANT
-#define PLATFORM_INVALID_HANDLE_CONSTANT INVALID_HANDLE_VALUE 
+#elif ( defined(__unix) || defined(__unix__) )
+
+#ifndef PLATFORM_HANDLE
+#define PLATFORM_HANDLE
 #endif
 
 
-#elif ( defined(__unix) || defined(__unix__) )
-
 #elif ( defined(__APPLE__) || defined(__MACH__) )
+
+#ifndef PLATFORM_HANDLE
+#define PLATFORM_HANDLE
+#endif
 
 #else
 static_assert(false);
@@ -57,32 +61,33 @@ namespace doom
 	{
 		//why put _ -> To prevent definition shadowing
 
+		[[nodiscard]] PLATFORM_HANDLE Get_PLATFORM_INVALID_HANDLE_CONSTANT();
 
 		/// <summary>
 		/// 
 		/// </summary>
 		/// <returns>millisecond</returns>
-		FORCE_INLINE unsigned long long _GetTickCount();
+		[[nodiscard]] unsigned long long _GetTickCount();
 		/// <summary>
 		/// sleep for milliseconds
 		/// </summary>
 		/// <param name="milliseconds">sleep time</param>
-		FORCE_INLINE void _Sleep(const unsigned long milliseconds);
+		void _Sleep(const unsigned long milliseconds);
 
 		/// <summary>
 		/// Processor Number what Current Thread is working on
 		/// </summary>
 		/// <returns></returns>
-		FORCE_INLINE unsigned long long _GetCurrentProcessorNumber();
-		FORCE_INLINE PLATFORM_HANDLE _GetCurrenThreadHandle();
-		FORCE_INLINE unsigned long long _GetCurrenThreadID();
+		[[nodiscard]] unsigned long long _GetCurrentProcessorNumber();
+		[[nodiscard]] PLATFORM_HANDLE _GetCurrenThreadHandle();
+		[[nodiscard]] unsigned long long _GetCurrenThreadID();
 
-		FORCE_INLINE unsigned long long _GetThreadStackStartAddress(const PLATFORM_HANDLE threadHandel);
+		[[nodiscard]] unsigned long long _GetThreadStackStartAddress(const PLATFORM_HANDLE threadHandel);
 
 
-		FORCE_INLINE HANDLE _GetCurrenProcess();
-		FORCE_INLINE bool _SetCurrentProcessAffinityMask(const unsigned long long processAffinitMask);
-		FORCE_INLINE bool _GetCurrentProcessAffinityMask(
+		[[nodiscard]] PLATFORM_HANDLE _GetCurrenProcess();
+		[[nodiscard]] bool _SetCurrentProcessAffinityMask(const unsigned long long processAffinitMask);
+		[[nodiscard]] bool _GetCurrentProcessAffinityMask(
 			unsigned long long& lpProcessAffinityMask, 
 			unsigned long long& lpSystemAffinityMask
 		);
@@ -90,23 +95,12 @@ namespace doom
 		//please set mask of local processor
 		//ex) first logical processor -> 1 << 0
 		//ex) first logical processor and second -> (1 << 0) | (1 << 1)
-		FORCE_INLINE bool _SetThreadAffinity(const PLATFORM_HANDLE threadHandle, const unsigned long long threadAffinitMask);
-		FORCE_INLINE unsigned long long _GetThreadAffinity(const PLATFORM_HANDLE threadHandle);
+		[[nodiscard]] bool _SetThreadAffinity(const PLATFORM_HANDLE threadHandle, const unsigned long long threadAffinitMask);
+		[[nodiscard]] unsigned long long _GetThreadAffinity(const PLATFORM_HANDLE threadHandle);
 
 		
-		FORCE_INLINE unsigned long long _GetThreadCpuCycle(const PLATFORM_HANDLE threadHandle);
+		[[nodiscard]] unsigned long long _GetThreadCpuCycle(const PLATFORM_HANDLE threadHandle);
 	}
 }
 
-#if ( defined(OS_WIN32) || defined(OS_WIN64) )
-
-#include "Window.inl"
-
-#elif ( defined(OS_UNIX) )
-
-#elif ( defined(OS_APPLE) )
-
-#else
-	static_assert(false);
-#endif
 

@@ -4,6 +4,8 @@
 
 #include <cstring>
 
+#include <API/ASSIMP.h>
+
 using namespace doom;
 using namespace doom::assetimporter;
 

@@ -13,15 +13,11 @@ void Asset::SetBaseMetaData(const std::filesystem::path& path, const D_UUID& uui
 
 
 
-Asset::Asset()
-{
+Asset::Asset() = default;
 
-}
-
-
-doom::asset::Asset::~Asset()
-{
-}
+Asset::Asset(Asset&&) noexcept = default;
+Asset& Asset::operator=(Asset&&) noexcept = default;
+doom::asset::Asset::~Asset() = default;
 
 doom::D_UUID Asset::GetUUID()
 {

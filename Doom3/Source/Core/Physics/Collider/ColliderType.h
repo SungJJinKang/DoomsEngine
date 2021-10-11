@@ -1,6 +1,6 @@
 #pragma once
 
-#include <magic_enum.hpp>
+
 
 namespace doom
 {
@@ -29,6 +29,6 @@ namespace doom
 		};
 		*/
 
-		inline constexpr size_t COLLIDER_TYPE_COUNT{ static_cast<size_t>(magic_enum::enum_count<ColliderType>()) };
+		inline constexpr extern size_t COLLIDER_TYPE_COUNT = 9;
 	}
 }

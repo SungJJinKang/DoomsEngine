@@ -2,7 +2,7 @@
 #include "AssetApiImporter.h"
 #include "AssetImporterWorker_Base.h"
 
-#include "../../API/ASSIMP.h" // don't worry. this dependency is light, see file
+#include <assimp/Importer.hpp> 
 #include "../../Asset/ThreeDModelAsset.h"
 
 struct aiScene;

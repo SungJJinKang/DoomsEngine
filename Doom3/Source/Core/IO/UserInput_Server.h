@@ -10,7 +10,7 @@
 #include <Vector2.h>
 
 
-#include <magic_enum.hpp>
+
 
 
 
@@ -29,10 +29,9 @@ namespace doom
 			PRESSING,
 			UP
 		};
-
-
-		inline constexpr eKEY_CODE FIRST_KEY_CODE{ magic_enum::enum_value<eKEY_CODE>(0) };
-		inline constexpr eKEY_CODE LAST_KEY_CODE{ eKEY_CODE::KEY_MENU };
+		
+		inline constexpr extern eKEY_CODE FIRST_KEY_CODE = doom::userinput::eKEY_CODE::KEY_SPACE;;
+		inline constexpr extern eKEY_CODE LAST_KEY_CODE = doom::userinput::eKEY_CODE::KEY_MENU;;
 
 
 		enum class eMouse_Button_Type : int
@@ -51,9 +50,10 @@ namespace doom
 			RELEASE	
 		};
 
-		inline constexpr eMouse_Button_Type FIRST_MOUSE_BUTTON_TYPE{ magic_enum::enum_value<eMouse_Button_Type>(0) };
-		inline constexpr eMouse_Button_Type LAST_MOUSE_BUTTON_TYPE{ eMouse_Button_Type::MOUST_BUTTON_MIDDLE };
+		inline constexpr extern eMouse_Button_Type FIRST_MOUSE_BUTTON_TYPE = eMouse_Button_Type::MOUST_BUTTON_LEFT;
+		inline constexpr extern eMouse_Button_Type LAST_MOUSE_BUTTON_TYPE = eMouse_Button_Type::MOUST_BUTTON_MIDDLE;
 
+		
 		/// <summary>
 		/// https://www.glfw.org/docs/3.3/input_guide.html
 		/// </summary>

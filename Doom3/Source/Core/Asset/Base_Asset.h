@@ -120,9 +120,9 @@ namespace doom
 
 			Asset();
 			Asset(const Asset&) = delete;
-			Asset(Asset&&) noexcept = default;
+			Asset(Asset&&) noexcept;
 			Asset& operator=(const Asset&) = delete;
-			Asset& operator=(Asset&&) noexcept = default;
+			Asset& operator=(Asset&&) noexcept;
 			virtual ~Asset();
 
 			D_UUID GetUUID();

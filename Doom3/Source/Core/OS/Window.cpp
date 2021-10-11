@@ -1,5 +1,23 @@
+#include "OS.h"
 
 
+#if (defined(OS_WIN32) || defined(OS_WIN64))
+
+
+
+
+#include <Windows.h>
+#include <winternl.h>
+
+#ifndef PLATFORM_INVALID_HANDLE_CONSTANT
+#define PLATFORM_INVALID_HANDLE_CONSTANT INVALID_HANDLE_VALUE 
+#endif
+
+
+HANDLE doom::os::Get_PLATFORM_INVALID_HANDLE_CONSTANT()
+{
+	return PLATFORM_INVALID_HANDLE_CONSTANT;
+}
 
 unsigned long long doom::os::_GetTickCount()
 {
@@ -51,7 +69,7 @@ unsigned long long doom::os::_GetThreadStackStartAddress(const PLATFORM_HANDLE t
 	}
 }
 
-HANDLE doom::os::_GetCurrenProcess()
+PLATFORM_HANDLE doom::os::_GetCurrenProcess()
 {
 	return GetCurrentProcess();
 }
@@ -116,3 +134,9 @@ unsigned int doom::os::_GetCurrentProcessorNumber()
 	return GetCurrentProcessorNumber();
 }
 */
+
+
+
+
+
+#endif

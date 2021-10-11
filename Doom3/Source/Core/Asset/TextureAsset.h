@@ -2,7 +2,7 @@
 #include "Base_Asset.h"
 
 #include "../Graphics/Texture/TextureFormat.h"
-#include <DirectXTex.h>
+
 namespace DirectX
 {
 	class ScratchImage;
@@ -36,7 +36,7 @@ namespace doom
 
 		private:
 
-			std::unique_ptr<DirectX::ScratchImage> mScratchImage{};
+			std::unique_ptr<DirectX::ScratchImage> mScratchImage;
 
 			int mWidth{};
 			int mHeight{};
@@ -57,13 +57,13 @@ namespace doom
 
 		public:
 
-			TextureAsset() = default;
+			TextureAsset();
 			void SetScratchImage(std::unique_ptr<DirectX::ScratchImage>&& scratchImage);
 			TextureAsset(const TextureAsset&) = delete;
-			TextureAsset(TextureAsset&& textureAsset) noexcept = default;
+			TextureAsset(TextureAsset&& textureAsset) noexcept;
 			TextureAsset& operator=(const TextureAsset&) = delete;
-			TextureAsset& operator=(TextureAsset&& textureAsset) noexcept = default;
-			virtual ~TextureAsset() = default;
+			TextureAsset& operator=(TextureAsset&& textureAsset) noexcept;
+			virtual ~TextureAsset();
 
 			void OnEndImportInMainThread_Internal() final;
 		};

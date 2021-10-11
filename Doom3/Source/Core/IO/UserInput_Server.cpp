@@ -1,13 +1,12 @@
 #include "UserInput_Server.h"
 
+
 #include "../Core.h"
 #include "../Game/ConfigData.h"
 #include "../Graphics/Graphics_Setting.h"
 
 #include <Rendering/Camera.h>
 #include <Vector3.h>
-
-using namespace doom::userinput;
 
 
 void UserInput_Server::CursorEnterCallback(GLFWwindow* window, int entered)
