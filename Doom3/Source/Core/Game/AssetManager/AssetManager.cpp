@@ -44,9 +44,9 @@ void doom::assetimporter::AssetManager::Init()
 {
 	LoadAssetManagerSetting();
 
-	D_START_PROFILING("ImportEntireAsset", doom::profiler::eProfileLayers::CPU);
+	D_START_PROFILING(ImportEntireAsset, doom::profiler::eProfileLayers::CPU);
 	ImportEntireAsset();
-	D_END_PROFILING("ImportEntireAsset");
+	D_END_PROFILING(ImportEntireAsset);
 
 }
 

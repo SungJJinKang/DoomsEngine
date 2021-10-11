@@ -13,12 +13,12 @@ void doom::graphics::PIPManager::DrawPIPs()
 {
 	if (GetPIPCount() > 0)
 	{
-		D_START_PROFILING("DrawPIPs", doom::profiler::eProfileLayers::Rendering);
+		D_START_PROFILING(DrawPIPs, doom::profiler::eProfileLayers::Rendering);
 		for (std::unique_ptr<PicktureInPickture>& pip : mPicktureInPicktures)
 		{
 			pip->DrawPictureInPicture();
 		}
-		D_END_PROFILING("DrawPIPs");
+		D_END_PROFILING(DrawPIPs);
 	}	
 }
 

@@ -15,9 +15,9 @@ int main()
 	{
 		GameCore gameCore{};
 
-		D_START_PROFILING("Init Game", doom::profiler::eProfileLayers::CPU);
+		D_START_PROFILING(Init_Game, doom::profiler::eProfileLayers::CPU);
 		gameCore.Init();
-		D_END_PROFILING("Init Game");
+		D_END_PROFILING(Init_Game);
 
 		while (gameCore.Tick())
 		{

@@ -332,7 +332,6 @@
     <ClCompile Include="Source\Core\Math\LightMath_Cpp\Vector3.cpp" />
     <ClCompile Include="Source\Core\Math\LightMath_Cpp\Vector4.cpp" />
     <ClCompile Include="Source\Core\Graphics\OverlapBindChecker.cpp" />
-    <ClCompile Include="Source\Core\Profiler\Profiler.cpp" />
     <ClCompile Include="Source\Core\Random.cpp" />
     <ClCompile Include="Source\Core\ResourceManagement\Pool\MemoryPool.cpp" />
     <ClCompile Include="Source\Core\Time\MainTimer.cpp" />
@@ -607,7 +606,6 @@
     <ClInclude Include="Source\Core\Math\VeryLight_Math_For_Game\Vector3.h" />
     <ClInclude Include="Source\Core\Math\VeryLight_Math_For_Game\Vector4.h" />
     <ClInclude Include="Source\Core\Physics\Phycis_Core.h" />
-    <ClInclude Include="Source\Core\Profiler\Profiler.h" />
     <ClInclude Include="Source\Core\Random.h" />
     <ClInclude Include="Source\Core\ResourceManagement\Pool\MemoryPool.h" />
     <ClInclude Include="Source\Core\Time\MainTimer.h" />

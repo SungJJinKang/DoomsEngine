@@ -69,7 +69,10 @@ void Graphics_Server::Update()
 
 	//auto t_start = std::chrono::high_resolution_clock::now();
 	
-	D_PROFILING_IN_RELEASE(RENDER, Render());
+	D_START_PROFILING_IN_RELEASE(RENDER);
+	Render();
+	D_END_PROFILING_IN_RELEASE(RENDER);
+
 	//Render();
 
 	//auto t_end = std::chrono::high_resolution_clock::now();
@@ -165,13 +168,13 @@ void Graphics_Server::DoCullJob()
 	{
 		mCullingSystem->SetCameraCount(CullJobAvailiableCameraCount);
 
-		D_START_PROFILING("mFrotbiteCullingSystem.ResetCullJobStat", doom::profiler::eProfileLayers::Rendering);
+		D_START_PROFILING(mFrotbiteCullingSystem_ResetCullJobStat, doom::profiler::eProfileLayers::Rendering);
 		mCullingSystem->ResetCullJobState();
-		D_END_PROFILING("mFrotbiteCullingSystem.ResetCullJobStat");
+		D_END_PROFILING(mFrotbiteCullingSystem_ResetCullJobStat);
 
-		D_START_PROFILING("Push Culling Job To Linera Culling System", doom::profiler::eProfileLayers::Rendering);
+		D_START_PROFILING(Push_Culling_Job_To_Linera_Culling_System, doom::profiler::eProfileLayers::Rendering);
 		resource::JobSystem::GetSingleton()->PushBackJobToAllThreadWithNoSTDFuture(std::function<void()>(mCullingSystem->GetCullJobInLambda()));
-		D_END_PROFILING("Push Culling Job To Linera Culling System");
+		D_END_PROFILING(Push_Culling_Job_To_Linera_Culling_System);
 	}
 	
 }
@@ -184,9 +187,9 @@ void doom::graphics::Graphics_Server::Render()
 
 	const std::vector<doom::Camera*>& spawnedCameraList = StaticContainer<doom::Camera>::GetAllStaticComponents();
 
-	D_START_PROFILING("Update Uniform Buffer", doom::profiler::eProfileLayers::Rendering);
+	D_START_PROFILING(Update_Uniform_Buffer, doom::profiler::eProfileLayers::Rendering);
 	mUniformBufferObjectManager.UpdateUniformObjects();
-	D_END_PROFILING("Update Uniform Buffer");
+	D_END_PROFILING(Update_Uniform_Buffer);
 
 	FrameBuffer::UnBindFrameBuffer();
 	//Clear ScreenBuffer
@@ -206,10 +209,10 @@ void doom::graphics::Graphics_Server::Render()
 		targetCamera->mDefferedRenderingFrameBuffer.ClearFrameBuffer();
 		targetCamera->mDefferedRenderingFrameBuffer.BindFrameBuffer();
 		
-		D_START_PROFILING("RenderObject", doom::profiler::eProfileLayers::Rendering);
+		D_START_PROFILING(RenderObject, doom::profiler::eProfileLayers::Rendering);
 		//GraphicsAPI::Enable(GraphicsAPI::eCapability::DEPTH_TEST);
 		RenderObject(targetCamera, cameraIndex);
-		D_END_PROFILING("RenderObject");
+		D_END_PROFILING(RenderObject);
 
 		targetCamera->mDefferedRenderingFrameBuffer.UnBindFrameBuffer();
 	
@@ -288,10 +291,10 @@ void doom::graphics::Graphics_Server::RenderObject(doom::Camera* const targetCam
 		targetCamera->GetCameraFlag(doom::eCameraFlag::PAUSE_CULL_JOB) == false
 		)
 	{
-		D_START_PROFILING("Wait Cull Job", doom::profiler::eProfileLayers::Rendering);
+		D_START_PROFILING(Wait_Cull_Job, doom::profiler::eProfileLayers::Rendering);
 		mCullingSystem->WaitToFinishCullJob(targetCamera->CameraIndexInCullingSystem); // Waiting time is almost zero
 		//resource::JobSystem::GetSingleton()->SetMemoryBarrierOnAllSubThreads();
-		D_END_PROFILING("Wait Cull Job");
+		D_END_PROFILING(Wait_Cull_Job);
 	}
 
 

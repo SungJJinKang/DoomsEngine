@@ -377,9 +377,9 @@ bool doom::asset::ShaderAsset::GetIsValid() const
 
 void doom::asset::ShaderAsset::OnEndImportInMainThread_Internal()
 {
-	D_START_PROFILING("Compile Shader", eProfileLayers::Rendering);
+	D_START_PROFILING(Compile_Shader, eProfileLayers::Rendering);
 	CompileShaders();
-	D_END_PROFILING("Compile Shader");
+	D_END_PROFILING(Compile_Shader);
 }
 
 unsigned int doom::asset::ShaderAsset::GetVertexId() const

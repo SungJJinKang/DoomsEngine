@@ -15,9 +15,9 @@ namespace doom
 
 		ConfigData()
 		{
-			D_START_PROFILING("Loading Config File", eProfileLayers::CPU);
+			D_START_PROFILING(Loading_Config_File, eProfileLayers::CPU);
 			mConfigData = { SimpleIniParser::ParseIniFile(doom::path::_GetAssetFolderDirectory() + "config.ini") };
-			D_END_PROFILING("Loading Config File");
+			D_END_PROFILING(Loading_Config_File);
 		}
 
 	public:

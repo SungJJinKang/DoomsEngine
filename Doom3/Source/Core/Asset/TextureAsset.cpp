@@ -109,9 +109,9 @@ void doom::asset::TextureAsset::SetScratchImage(std::unique_ptr<DirectX::Scratch
 
 void doom::asset::TextureAsset::OnEndImportInMainThread_Internal()
 {
-	D_START_PROFILING("Postprocess Texture", eProfileLayers::Rendering);
+	D_START_PROFILING(Postprocess_Texture, eProfileLayers::Rendering);
 	CreateTexture();
-	D_END_PROFILING("Postprocess Texture");
+	D_END_PROFILING(Postprocess_Texture);
 }
 
 void doom::asset::TextureAsset::CreateTexture()

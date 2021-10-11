@@ -51,9 +51,6 @@
     <ClCompile Include="Source\Core\Graphics\Buffer\Mesh.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Core\Profiler\Profiler.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Source\Core\ResourceManagement\Pool\MemoryPool.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -789,9 +786,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\Core\Macros\Profiling.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Core\Profiler\Profiler.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\Core\ResourceManagement\Pool\MemoryPool.h">
