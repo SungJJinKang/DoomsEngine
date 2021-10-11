@@ -1,6 +1,5 @@
 #include "RendererStaticIterator.h"
 
-#include <algorithm>
 #include "Renderer.h"
 #include "Rendering/Camera.h"
 #include "Entity.h"
@@ -18,27 +17,6 @@ doom::StaticContainer<Renderer>::~StaticContainer()
 	RemoveRendererToStaticContainer();
 }
 
-
-
-
-void doom::StaticContainer<Renderer>::CacheDistanceFromRenderersToCamera(std::vector<Renderer*>& renderersInLayer, const std::vector<Camera*>& cameras)
-{
-	for (size_t cameraIndex = 0; cameraIndex < cameras.size(); cameraIndex++)
-	{
-		for (Renderer* renderer : renderersInLayer)
-		{
-			renderer->CacheDistanceToCamera(cameraIndex, cameras[cameraIndex]);
-		}
-	}
-}
-
-void doom::StaticContainer<Renderer>::CacheDistanceFromRenderersToCamera(const std::vector<Camera*> cameras)
-{
-	for (std::vector<Renderer*>& renderersInLayer : this_type::mRenderersInLayer)
-	{
-		CacheDistanceFromRenderersToCamera(renderersInLayer, cameras);
-	}
-}
 
 void doom::StaticContainer<Renderer>::AddRendererToStaticContainer()
 {
@@ -73,32 +51,10 @@ void doom::StaticContainer<Renderer>::OnEntityLayerChanged(Entity& entity)
 	AddRendererToStaticContainer();
 }
 
-const std::vector<Renderer*>& doom::StaticContainer<Renderer>::GetRendererInLayer(const unsigned int layerIndex)
+std::vector<Renderer*>& doom::StaticContainer<Renderer>::GetRendererInLayer(const size_t layerIndex)
 {
 	D_ASSERT(layerIndex >= 0 && layerIndex < MAX_LAYER_COUNT);
 	return this_type::mRenderersInLayer[layerIndex];
 }
 
-void doom::StaticContainer<Renderer>::SortByDistanceToCamera(const size_t layerIndex, const size_t cameraIndex)
-{
-	std::sort(
-		this_type::mRenderersInLayer[layerIndex].begin(), this_type::mRenderersInLayer[layerIndex].end(),
-		[cameraIndex](const Renderer* const lhs, const Renderer* const rhs)
-		{
-			return lhs->GetDistanceToCamera(cameraIndex) < rhs->GetDistanceToCamera(cameraIndex);
-		}
-	);
-}
-
-
-
-void doom::StaticContainer<Renderer>::SortByDistanceToCamera(const Camera* const camera, const size_t cameraIndex)
-{
-	for (size_t layerIndex = 0; layerIndex < this_type::mRenderersInLayer.size() ; layerIndex++)
-	{
-		SortByDistanceToCamera(layerIndex, cameraIndex);
-	}
-	
-
-}
 

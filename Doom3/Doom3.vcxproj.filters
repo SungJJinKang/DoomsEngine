@@ -519,6 +519,9 @@
     <ClCompile Include="Source\Core\IO\KEY_CODE.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Core\Graphics\Acceleration\SortFrontToBackSolver.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="dependency\glad\include\glad\glad.h">
@@ -1430,6 +1433,9 @@
     <ClInclude Include="Source\Core\IO\KEY_CODE.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Core\Graphics\Acceleration\SortFrontToBackSolver.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="dependency\glfw-3.3.2.bin.WIN64\docs\html\search\all_0.html" />
@@ -1598,7 +1604,6 @@
     <None Include="Source\Core\Math\LightMath_Cpp\Matrix4x4Float_SIMD.inl">
       <Filter>Header Files</Filter>
     </None>
-    <None Include="..\To_DO_List.md" />
     <None Include="Assets\Shader\Default\Billboard.glsl" />
     <None Include="Source\Core\Graphics\Acceleration\LinearData_ViewFrustumCulling\CullingModule\MaskedSWOcclusionCulling\MaskedSWOcclusionCulling_HowWorks.md" />
     <None Include="Assets\Shader\Default\DepthBufferTextureShader.glsl" />
@@ -1620,5 +1625,6 @@
     <Text Include="Source\Core\Graphics\ReadThis!!!!.txt" />
     <Text Include="Source\Core\Graphics\Acceleration\Culling.md" />
     <Text Include="Source\GameLogic\DeferredRenderingDebug.inl" />
+    <Text Include="TODO.txt" />
   </ItemGroup>
 </Project>

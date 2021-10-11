@@ -144,6 +144,7 @@ namespace doom
 		//const physics::Sphere& GetBoudingSphere();
 
 		void CacheDistanceToCamera(const size_t cameraIndex, const Camera* const camera);
+		void CacheDistanceToCamera(const size_t cameraIndex, const math::Vector3& cameraPos);
 		/// <summary>
 		/// This function doesn't ensure that distance is up to date 
 		/// </summary>

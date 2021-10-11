@@ -43,23 +43,29 @@
 #define D_EMIT_ACCUMULATE_PROFILING(name) doom::profiler::Profiler::EmitAcculationProfiling(name)
 #endif
 
-#ifndef D_START_INSTANT_PROFILING
-#define D_START_INSTANT_PROFILING auto instantProfilingStart = std::chrono::high_resolution_clock::now();
-#endif
-
-#ifndef D_END_INSTANT_PROFILING
-#define D_END_INSTANT_PROFILING \
-auto instantProfilingEnd = std::chrono::high_resolution_clock::now(); \
-std::cout << std::chrono::duration_cast<std::chrono::milliseconds>(instantProfilingEnd - instantProfilingStart).count() << std::endl;
-#endif
-
 
 
 
 
 #else
+
 #define D_START_PROFILING(name, layer)
 #define D_END_PROFILING(name)
-#define D_START_INSTANT_PROFILING
-#define D_END_INSTANT_PROFILING
+#define D_START_ACCUMULATE_PROFILING(name, layer)
+#define D_END_ACCUMULATE_PROFILING(name)
+#define D_EMIT_ACCUMULATE_PROFILING(name)
+
+#endif
+
+
+#ifndef D_INSTANT_PROFILING
+
+#define D_INSTANT_PROFILING(FUNCTION)																\
+																									\
+const auto t_start = std::chrono::high_resolution_clock::now();										\
+FUNCTION;																							\
+const auto t_end = std::chrono::high_resolution_clock::now();										\
+const double elapsed_time_ms = std::chrono::duration<double, std::milli>(t_end - t_start).count();	\
+std::cout << elapsed_time_ms << std::endl;															\
+																									
 #endif

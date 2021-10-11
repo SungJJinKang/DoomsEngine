@@ -22,6 +22,8 @@
 #include "Graphics_Setting.h"
 #include "MainTimer.h"
 
+#include "Acceleration/SortFrontToBackSolver.h"
+
 //#define D_DEBUG_CPU_VENDOR_PROFILER
 
 using namespace doom::graphics;
@@ -66,11 +68,10 @@ void Graphics_Server::Update()
 #endif
 
 	//auto t_start = std::chrono::high_resolution_clock::now();
+	
+	D_INSTANT_PROFILING(Render());
 
-
-	DeferredRendering();
-
-	//DeferredRendering();
+	//Render();
 
 	//auto t_end = std::chrono::high_resolution_clock::now();
 	//double elapsed_time_ms = std::chrono::duration<double, std::milli>(t_end - t_start).count();
@@ -176,7 +177,7 @@ void Graphics_Server::DoCullJob()
 	
 }
 
-void doom::graphics::Graphics_Server::DeferredRendering()
+void doom::graphics::Graphics_Server::Render()
 {
 	DoCullJob(); // do this first
 	//TODO : Think where put this, as early as good
@@ -195,10 +196,7 @@ void doom::graphics::Graphics_Server::DeferredRendering()
 
 	if (Graphics_Setting::IsSortObjectFrontToBack == true)
 	{
-		if (doom::time::MainTimer::GetFrameStep(3))
-		{
-			RendererComponentStaticIterator::CacheDistanceFromRenderersToCamera(spawnedCameraList);
-		}
+		doom::graphics::SortFrontToBackSolver::CacheDistanceFromRenderersToSpawnedCameras();
 	}
 
 	for (size_t cameraIndex = 0 ; cameraIndex < spawnedCameraList.size() ; cameraIndex++)
@@ -280,10 +278,7 @@ void doom::graphics::Graphics_Server::RenderObject(doom::Camera* const targetCam
 
 	if (Graphics_Setting::IsSortObjectFrontToBack == true)
 	{
-		if (doom::time::MainTimer::GetFrameStep(3))
-		{
-			RendererComponentStaticIterator::SortByDistanceToCamera(targetCamera, cameraIndex);
-		}
+		doom::graphics::SortFrontToBackSolver::SortRenderer(cameraIndex);
 	}
 
 

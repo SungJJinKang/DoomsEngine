@@ -203,6 +203,7 @@
     <ClCompile Include="Source\Core\Graphics\Acceleration\LinearData_ViewFrustumCulling\CullingModule\OcclusionCullingWithComputeShader\OcclusionCullingWithComputeShader.cpp" />
     <ClCompile Include="Source\Core\Graphics\Acceleration\LinearData_ViewFrustumCulling\DataType\EntityBlockViewer.cpp" />
     <ClCompile Include="Source\Core\Graphics\Acceleration\LinearData_ViewFrustumCulling\DataType\Math\Common.cpp" />
+    <ClCompile Include="Source\Core\Graphics\Acceleration\SortFrontToBackSolver.cpp" />
     <ClCompile Include="Source\Core\Graphics\Batch\MeshBatchCreater.cpp" />
     <ClCompile Include="Source\Core\Graphics\DebugGraphics\OverDrawVisualization.cpp" />
     <ClCompile Include="Source\Core\Graphics\DeferredRenderingDrawer.cpp" />
@@ -378,6 +379,7 @@
     <ClInclude Include="Source\Core\DObject\DObjectManager.h" />
     <ClInclude Include="Source\Core\Graphics\Acceleration\LinearData_ViewFrustumCulling\CullingModule\OcclusionCullingWithComputeShader\OcclusionCullingWithComputeShader.h" />
     <ClInclude Include="Source\Core\Graphics\Acceleration\LinearData_ViewFrustumCulling\DataType\Position_BoundingSphereRadius.h" />
+    <ClInclude Include="Source\Core\Graphics\Acceleration\SortFrontToBackSolver.h" />
     <ClInclude Include="Source\Core\Graphics\Batch\MeshBatchCreater.h" />
     <ClInclude Include="Source\Core\Graphics\Buffer\BufferID.h" />
     <ClInclude Include="Source\Core\Graphics\DebugGraphics\OverDrawVisualization.h" />
@@ -679,7 +681,6 @@
   <ItemGroup>
     <None Include="..\CodingRule.md" />
     <None Include="..\README.md" />
-    <None Include="..\To_DO_List.md" />
     <None Include="Assets\Shader\common\brdf.txt" />
     <None Include="Assets\Shader\common\constants.txt" />
     <None Include="Assets\Shader\common\random.txt" />
@@ -853,6 +854,7 @@
     <Text Include="Source\Core\Graphics\Acceleration\Culling.md" />
     <Text Include="Source\Core\Graphics\ReadThis!!!!.txt" />
     <Text Include="Source\GameLogic\DeferredRenderingDebug.inl" />
+    <Text Include="TODO.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
