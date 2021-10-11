@@ -26,9 +26,14 @@ void doom::StaticContainer<Renderer>::AddRendererToStaticContainer()
 	}
 	D_ASSERT(mRenderer_ptr != nullptr);
 
-	unsigned int currentEntityLayerIndex = mRenderer_ptr->GetOwnerEntityLayerIndex();
+	const size_t currentEntityLayerIndex = mRenderer_ptr->GetOwnerEntityLayerIndex();
 
-	this_type::mRenderersInLayer[currentEntityLayerIndex].push_back(mRenderer_ptr);
+	for(size_t cameraIndex = 0 ; cameraIndex < MAX_CAMERA_COUNT ; cameraIndex++)
+	{
+		GetWorkingRendererInLayer(cameraIndex, currentEntityLayerIndex).push_back(mRenderer_ptr);
+		GetReferenceRendererInLayer(cameraIndex, currentEntityLayerIndex).push_back(mRenderer_ptr);
+	}
+
 }
 
 
@@ -36,10 +41,21 @@ void doom::StaticContainer<Renderer>::RemoveRendererToStaticContainer()
 {
 	unsigned int currentEntityLayerIndex = mRenderer_ptr->GetOwnerEntityLayerIndex();
 
-	auto iter = std::find(this_type::mRenderersInLayer[currentEntityLayerIndex].begin(), this_type::mRenderersInLayer[currentEntityLayerIndex].end(), mRenderer_ptr);
-	if (iter != this_type::mRenderersInLayer[currentEntityLayerIndex].end())
+	for (size_t cameraIndex = 0; cameraIndex < MAX_CAMERA_COUNT; cameraIndex++)
 	{
-		std::vector_swap_popback(this_type::mRenderersInLayer[currentEntityLayerIndex], iter);
+		std::vector<Renderer*>& workingRendererInLayer = GetWorkingRendererInLayer(cameraIndex, currentEntityLayerIndex);
+		auto workingIter = std::find(workingRendererInLayer.begin(), workingRendererInLayer.end(), mRenderer_ptr);
+		if (workingIter != workingRendererInLayer.end())
+		{
+			std::vector_swap_popback(workingRendererInLayer, workingIter);
+		}
+
+		std::vector<Renderer*>& referenceRendererInLayer = GetReferenceRendererInLayer(cameraIndex, currentEntityLayerIndex);
+		auto referenceIter = std::find(referenceRendererInLayer.begin(), referenceRendererInLayer.end(), mRenderer_ptr);
+		if (referenceIter != referenceRendererInLayer.end())
+		{
+			std::vector_swap_popback(referenceRendererInLayer, referenceIter);
+		}
 	}
 }
 
@@ -51,10 +67,21 @@ void doom::StaticContainer<Renderer>::OnEntityLayerChanged(Entity& entity)
 	AddRendererToStaticContainer();
 }
 
-std::vector<Renderer*>& doom::StaticContainer<Renderer>::GetRendererInLayer(const size_t layerIndex)
+std::vector<Renderer*>& doom::StaticContainer<Renderer>::GetWorkingRendererInLayer(const size_t cameraIndex, const size_t layerIndex)
 {
 	D_ASSERT(layerIndex >= 0 && layerIndex < MAX_LAYER_COUNT);
-	return this_type::mRenderersInLayer[layerIndex];
+	return this_type::mRenderersInLayer[cameraIndex][mWorkingIndexRenderersInLayerVariable][layerIndex];
+}
+
+std::vector<Renderer*>& StaticContainer<Renderer>::GetReferenceRendererInLayer(const size_t cameraIndex, const size_t layerIndex)
+{
+	D_ASSERT(layerIndex >= 0 && layerIndex < MAX_LAYER_COUNT);
+	return this_type::mRenderersInLayer[cameraIndex][(mWorkingIndexRenderersInLayerVariable == 0) ? 1 : 0][layerIndex];
+}
+
+void StaticContainer<Renderer>::ChangeWorkingIndexRenderers()
+{
+	mWorkingIndexRenderersInLayerVariable = (mWorkingIndexRenderersInLayerVariable == 0) ? 1 : 0;
 }
 
 

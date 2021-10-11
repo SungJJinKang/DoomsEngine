@@ -95,7 +95,7 @@ void doom::graphics::Graphics_Server::Renderder_InitComponent()
 {
 	for (unsigned int layerIndex = 0; layerIndex < MAX_LAYER_COUNT; layerIndex++)
 	{
-		const std::vector<Renderer*>& renderersInLayer = RendererComponentStaticIterator::GetRendererInLayer(layerIndex);
+		const std::vector<Renderer*>& renderersInLayer = RendererComponentStaticIterator::GetWorkingRendererInLayer(0, layerIndex);
 		for (size_t rendererIndex = 0; rendererIndex < renderersInLayer.size(); rendererIndex++)
 		{
 			//renderersInLayer[rendererIndex]->InitComponent_Internal();
@@ -108,7 +108,7 @@ void doom::graphics::Graphics_Server::Renderder_UpdateComponent()
 {
 	for (unsigned int layerIndex = 0; layerIndex < MAX_LAYER_COUNT; layerIndex++)
 	{
-		const std::vector<Renderer*>& renderersInLayer = RendererComponentStaticIterator::GetRendererInLayer(layerIndex);
+		const std::vector<Renderer*>& renderersInLayer = RendererComponentStaticIterator::GetWorkingRendererInLayer(0, layerIndex);
 		for (size_t rendererIndex = 0; rendererIndex < renderersInLayer.size(); rendererIndex++)
 		{
 			renderersInLayer[rendererIndex]->UpdateComponent_Internal();
@@ -121,7 +121,7 @@ void doom::graphics::Graphics_Server::Renderder_OnEndOfFrameComponent()
 {
 	for (unsigned int layerIndex = 0; layerIndex < MAX_LAYER_COUNT; layerIndex++)
 	{
-		const std::vector<Renderer*>& renderersInLayer = RendererComponentStaticIterator::GetRendererInLayer(layerIndex);
+		const std::vector<Renderer*>& renderersInLayer = RendererComponentStaticIterator::GetWorkingRendererInLayer(0, layerIndex);
 		for (size_t rendererIndex = 0; rendererIndex < renderersInLayer.size(); rendererIndex++)
 		{
 			renderersInLayer[rendererIndex]->OnEndOfFrame_Component_Internal();
@@ -148,16 +148,19 @@ void Graphics_Server::DoCullJob()
 	const std::vector<doom::Camera*>& spawnedCameraList = StaticContainer<doom::Camera>::GetAllStaticComponents();
 
 	unsigned int CullJobAvailiableCameraCount = 0;
-	for (doom::Camera* camera : spawnedCameraList)
+	for (size_t cameraIndex = 0; cameraIndex < spawnedCameraList.size(); cameraIndex++)
 	{
-		if (
-			camera->GetCameraFlag(doom::eCameraFlag::IS_CULLED) == true &&
-			camera->GetCameraFlag(doom::eCameraFlag::PAUSE_CULL_JOB) == false
-		)
+		doom::Camera* const camera = spawnedCameraList[cameraIndex];
+
+		if (camera->GetIsCullJobEnabled() == true)
 		{
 			camera->CameraIndexInCullingSystem = CullJobAvailiableCameraCount;
 
 			mCullingSystem->SetViewProjectionMatrix(CullJobAvailiableCameraCount, *reinterpret_cast<const culling::Mat4x4*>(&(camera->GetViewProjectionMatrix())));
+			mCullingSystem->SetCameraPosition(
+				CullJobAvailiableCameraCount,
+				*reinterpret_cast<const culling::Vec3*>(&(camera->GetTransform()->GetPosition()))
+			);
 
 			CullJobAvailiableCameraCount++;
 		}
@@ -183,24 +186,17 @@ void doom::graphics::Graphics_Server::Render()
 {
 	DoCullJob(); // do this first
 	//TODO : Think where put this, as early as good
-
-
-	const std::vector<doom::Camera*>& spawnedCameraList = StaticContainer<doom::Camera>::GetAllStaticComponents();
-
+	
 	D_START_PROFILING(Update_Uniform_Buffer, doom::profiler::eProfileLayers::Rendering);
 	mUniformBufferObjectManager.UpdateUniformObjects();
 	D_END_PROFILING(Update_Uniform_Buffer);
+	
+	const std::vector<doom::Camera*>& spawnedCameraList = StaticContainer<doom::Camera>::GetAllStaticComponents();
 
 	FrameBuffer::UnBindFrameBuffer();
 	//Clear ScreenBuffer
 	GraphicsAPI::DefaultClearColor(Graphics_Setting::DefaultClearColor);
 	GraphicsAPI::Clear(GraphicsAPI::eClearMask::COLOR_BUFFER_BIT, GraphicsAPI::eClearMask::DEPTH_BUFFER_BIT);
-
-	if (Graphics_Setting::IsSortObjectFrontToBack == true)
-	{
-		//TODO : 이걸 컬링 중에 GetPosition에서 같이해버리자 캐시 사용률 UP
-		doom::graphics::SortFrontToBackSolver::CacheDistanceFromRenderersToSpawnedCameras();
-	}
 
 	for (size_t cameraIndex = 0 ; cameraIndex < spawnedCameraList.size() ; cameraIndex++)
 	{
@@ -248,6 +244,8 @@ void doom::graphics::Graphics_Server::Render()
 		
 	}
 
+	RendererComponentStaticIterator::ChangeWorkingIndexRenderers();
+
 #ifdef DEBUG_DRAWER
 	mDebugGraphics.SetIsVertexDataSendToGPUAtCurrentFrame(false);
 #endif
@@ -279,35 +277,27 @@ void doom::graphics::Graphics_Server::RenderObject(doom::Camera* const targetCam
 	targetCamera->UpdateUniformBufferObject();
 
 
-	if (Graphics_Setting::IsSortObjectFrontToBack == true)
-	{
-		//TODO : RendererStaticIterator의 vector를 기본적으로 두 쌍을 관리하자.
-		//TDOO : 한 쌍이 렌더링 ->Draw에서 사용되고 있으면 다른 쌍을 가지고 서브스레드에 Sorting을 맡기자.
-		//TODO : WaitToFinishCullJob 후 본격적으로 Draw하는 동안 서브 스레드 하나가 Sorting 맡아서한다.
-		//당연히 Rendering 블록 나갈 때는 서브스레드가 Sorting 끝냈는지 확인해야한다.
-	
-		doom::graphics::SortFrontToBackSolver::SortRenderer(cameraIndex);
-	}
 
+	std::future<void> IsFinishedSortingReferernceRenderers;
 
-	const bool targetCamera_IS_CULLED_flag_on = targetCamera->GetCameraFlag(doom::eCameraFlag::IS_CULLED);
-
-	if (
-		targetCamera_IS_CULLED_flag_on == true &&
-		targetCamera->GetCameraFlag(doom::eCameraFlag::PAUSE_CULL_JOB) == false
-		)
+	if (targetCamera->GetIsCullJobEnabled() == true)
 	{
 		D_START_PROFILING_IN_RELEASE(WAIT_CULLJOB);
 		mCullingSystem->WaitToFinishCullJob(targetCamera->CameraIndexInCullingSystem); // Waiting time is almost zero
 		//resource::JobSystem::GetSingleton()->SetMemoryBarrierOnAllSubThreads();
 		D_END_PROFILING_IN_RELEASE(WAIT_CULLJOB);
+
+		if (Graphics_Setting::IsSortObjectFrontToBack == true)
+		{
+			IsFinishedSortingReferernceRenderers = resource::JobSystem::GetSingleton()->PushBackJobToPriorityQueue(std::function<void()>(doom::graphics::SortFrontToBackSolver::GetSortRendererLambda(cameraIndex)));
+		}
 	}
 
 
-
+	const bool targetCamera_IS_CULLED_flag_on = targetCamera->GetCameraFlag(doom::eCameraFlag::IS_CULLED);
 	for (unsigned int layerIndex = 0; layerIndex < MAX_LAYER_COUNT; layerIndex++)
 	{
-		const std::vector<Renderer*>& renderersInLayer = RendererComponentStaticIterator::GetRendererInLayer(layerIndex);
+		const std::vector<Renderer*>& renderersInLayer = RendererComponentStaticIterator::GetWorkingRendererInLayer(cameraIndex, layerIndex);
 		for (Renderer* renderer : renderersInLayer)
 		{
 			if (
@@ -320,7 +310,10 @@ void doom::graphics::Graphics_Server::RenderObject(doom::Camera* const targetCam
 			}
 		}
 	}
-	
+
+	D_START_PROFILING_IN_RELEASE(WAIT_SORTING_RENDERER_JOB);
+	IsFinishedSortingReferernceRenderers.wait();
+	D_END_PROFILING_IN_RELEASE(WAIT_SORTING_RENDERER_JOB);
 }
 
 

@@ -17,6 +17,7 @@ void doom::graphics::SortFrontToBackSolver::SortRenderer(std::vector<doom::Rende
 	);
 }
 
+/*
 void doom::graphics::SortFrontToBackSolver::CacheDistanceFromRenderersToCamera(
 	std::vector<Renderer*>& rendereres,
 	const std::vector<math::Vector3>& cameraPositions
@@ -30,18 +31,20 @@ void doom::graphics::SortFrontToBackSolver::CacheDistanceFromRenderersToCamera(
 		}
 	}
 }
+*/
 
 void doom::graphics::SortFrontToBackSolver::SortRenderer(const size_t cameraIndex)
 {
 	for (size_t layerIndex = 0; layerIndex < MAX_LAYER_COUNT; layerIndex++)
 	{
 		doom::graphics::SortFrontToBackSolver::SortRenderer(
-			doom::RendererComponentStaticIterator::GetRendererInLayer(layerIndex),
+			doom::RendererComponentStaticIterator::GetReferenceRendererInLayer(cameraIndex, layerIndex),
 			cameraIndex
 		);
 	}
 }
 
+/*
 void doom::graphics::SortFrontToBackSolver::CacheDistanceFromRenderersToSpawnedCameras()
 {
 	const std::vector<doom::Camera*>& spawnedCameraList = StaticContainer<doom::Camera>::GetAllStaticComponents();
@@ -56,8 +59,9 @@ void doom::graphics::SortFrontToBackSolver::CacheDistanceFromRenderersToSpawnedC
 	for (size_t layerIndex = 0; layerIndex < MAX_LAYER_COUNT; layerIndex++)
 	{
 		doom::graphics::SortFrontToBackSolver::CacheDistanceFromRenderersToCamera(
-			doom::RendererComponentStaticIterator::GetRendererInLayer(layerIndex),
+			doom::RendererComponentStaticIterator::GetWorkingRendererInLayer(0, layerIndex),
 			cameraPositions
 		);
 	}
 }
+*/

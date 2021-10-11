@@ -8,12 +8,13 @@
 
 
 
-
+#define MAX_CAMERA_COUNT 5
 
 namespace doom
 {
 	class Renderer;
 	class Camera;
+	
 	
 	template <>
 	class DOOM_API StaticContainer<Renderer>
@@ -24,7 +25,8 @@ namespace doom
 
 		Renderer* mRenderer_ptr;
 
-		static inline std::array<std::vector<Renderer*>, MAX_LAYER_COUNT> mRenderersInLayer{};
+		inline static unsigned int mWorkingIndexRenderersInLayerVariable = 0;
+		inline static std::array<std::array<std::array<std::vector<Renderer*>, MAX_LAYER_COUNT>, 2>, MAX_CAMERA_COUNT> mRenderersInLayer{};
 		
 	protected:
 
@@ -41,9 +43,10 @@ namespace doom
 
 	public:
 
-		[[nodiscard]] static std::vector<Renderer*>& GetRendererInLayer(const size_t layerIndex);
+		[[nodiscard]] static std::vector<Renderer*>& GetWorkingRendererInLayer(const size_t cameraIndex, const size_t layerIndex);
+		[[nodiscard]] static std::vector<Renderer*>& GetReferenceRendererInLayer(const size_t cameraIndex, const size_t layerIndex);
 
-	
+		static void ChangeWorkingIndexRenderers();
 	};
 
 	using RendererComponentStaticIterator = StaticContainer<Renderer>;

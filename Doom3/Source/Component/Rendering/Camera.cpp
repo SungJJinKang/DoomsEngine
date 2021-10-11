@@ -168,7 +168,10 @@ bool doom::Camera::GetCameraFlag(const eCameraFlag cameraFlag) const
 	return ( mCameraFlag & static_cast<unsigned int>(cameraFlag) ) != 0;
 }
 
-
+bool Camera::GetIsCullJobEnabled() const
+{
+	return (GetCameraFlag(doom::eCameraFlag::IS_CULLED) == true) && (GetCameraFlag(doom::eCameraFlag::PAUSE_CULL_JOB) == false);
+}
 
 
 const std::array<math::Vector4, 6>& doom::Camera::CalculateFrustumPlane()

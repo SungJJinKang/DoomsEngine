@@ -146,7 +146,8 @@ namespace doom
 		float GetViewportRectWidth() const;
 		float GetViewportRectHeight() const;
 		bool GetCameraFlag(const eCameraFlag cameraFlag) const;
-	
+		bool GetIsCullJobEnabled() const;
+
 		static Camera* GetMainCamera();
 
 		/// <summary>
