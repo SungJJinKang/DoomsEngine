@@ -1,7 +1,6 @@
 #include "RendererStaticIterator.h"
 
 #include "Renderer.h"
-#include "Rendering/Camera.h"
 #include "Entity.h"
 #include "../Helper/vector_erase_move_lastelement/vector_swap_popback.h"
 

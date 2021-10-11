@@ -6,7 +6,7 @@
 #include <Entity.h>
 #include "../Core/Scene/Layer.h"
 #include <Graphics/Graphics_Core.h>
-
+#include <Rendering/Camera.h>
 
 
 

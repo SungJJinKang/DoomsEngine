@@ -16,6 +16,10 @@
 
 #include "Graphics/FrameBuffer/DefferedRenderingFrameBuffer.h"
 
+#ifndef MAX_CAMERA_COUNT
+#define MAX_CAMERA_COUNT 5
+#endif
+
 namespace doom
 {
 	namespace graphics
