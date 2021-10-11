@@ -285,6 +285,7 @@ void doom::graphics::Graphics_Server::RenderObject(doom::Camera* const targetCam
 		//TDOO : 한 쌍이 렌더링 ->Draw에서 사용되고 있으면 다른 쌍을 가지고 서브스레드에 Sorting을 맡기자.
 		//TODO : WaitToFinishCullJob 후 본격적으로 Draw하는 동안 서브 스레드 하나가 Sorting 맡아서한다.
 		//당연히 Rendering 블록 나갈 때는 서브스레드가 Sorting 끝냈는지 확인해야한다.
+	
 		doom::graphics::SortFrontToBackSolver::SortRenderer(cameraIndex);
 	}
 
@@ -296,10 +297,10 @@ void doom::graphics::Graphics_Server::RenderObject(doom::Camera* const targetCam
 		targetCamera->GetCameraFlag(doom::eCameraFlag::PAUSE_CULL_JOB) == false
 		)
 	{
-		D_START_PROFILING(Wait_Cull_Job, doom::profiler::eProfileLayers::Rendering);
+		D_START_PROFILING_IN_RELEASE(WAIT_CULLJOB);
 		mCullingSystem->WaitToFinishCullJob(targetCamera->CameraIndexInCullingSystem); // Waiting time is almost zero
 		//resource::JobSystem::GetSingleton()->SetMemoryBarrierOnAllSubThreads();
-		D_END_PROFILING(Wait_Cull_Job);
+		D_END_PROFILING_IN_RELEASE(WAIT_CULLJOB);
 	}
 
 
