@@ -11,16 +11,14 @@
 
 
 template <typename ColliderType>
-doom::BVH<ColliderType>::BVH(const int nodeCapacity)
-	:mNodeCapacity{ nodeCapacity }
+doom::BVH<ColliderType>::BVH(const size_t initializedCapacity)
 {
-	mNodes = new BVH_Node<ColliderType>[mNodeCapacity];
+	mNodes.resize(initializedCapacity);
 }
 
 template <typename ColliderType>
 doom::BVH<ColliderType>::~BVH()
 {
-	delete[] mNodes;
 }
 
 
@@ -94,23 +92,27 @@ FORCE_INLINE int doom::BVH<ColliderType>::AllocateNewNode()
 	
 
 	int newNodeIndex;
-	if (freedNodeIndexList.empty() == false)
+	if (mFreedNodeIndexList.empty() == false)
 	{// if there is freedNode
-		newNodeIndex = freedNodeIndexList.front();
-		freedNodeIndexList.pop();
+		newNodeIndex = mFreedNodeIndexList.front();
+		mFreedNodeIndexList.pop();
 	}
 	else
 	{
 		mCurrentAllocatedNodeCount++;
 
-		D_ASSERT(mCurrentAllocatedNodeCount <= mNodeCapacity);
+		D_ASSERT(mCurrentAllocatedNodeCount <= GetNodeCapacity());
 		
 		newNodeIndex = mCurrentAllocatedNodeCount - 1;
 	}
 
 	mCurrentActiveNodeCount++;
 
-	D_ASSERT(newNodeIndex < mNodeCapacity);
+	const size_t nodeCurrentCapacity = GetNodeCapacity();
+	if (newNodeIndex >= nodeCurrentCapacity)
+	{
+		mNodes.resize(nodeCurrentCapacity * 2);
+	}
 
 	mNodes[newNodeIndex].Clear();
 	mNodes[newNodeIndex].mOwnerBVH = this;
@@ -154,7 +156,7 @@ FORCE_INLINE void doom::BVH<ColliderType>::FreeNode(int nodeIndex)
 	D_ASSERT(nodeIndex != NULL_NODE_INDEX);
 	
 	mCurrentActiveNodeCount--;
-	freedNodeIndexList.push(nodeIndex);
+	mFreedNodeIndexList.push(nodeIndex);
 }
 
 template<typename ColliderType>

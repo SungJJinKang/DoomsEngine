@@ -8,23 +8,23 @@ namespace doom
 
 	protected:
 
-		int mIndex{ NULL_NODE_INDEX };
+		int mIndex;
 
 		/// <summary>
 		/// Node Index in BVH_Tree::mNodes
 		/// </summary>
-		int mParentIndex{ NULL_NODE_INDEX };
+		int mParentIndex;
 		/// <summary>
 		/// Node index in BVH_Tree::mNodes
 		/// </summary>
-		int mLeftNode{ NULL_NODE_INDEX };
+		int mLeftNode;
 
 		/// <summary>
 		/// Node index in BVH_Tree::mNodes
 		/// </summary>
-		int mRightNode{ NULL_NODE_INDEX };
+		int mRightNode;
 		
-		bool bmIsActive{ false };
+		bool bmIsActive;
 
 		/// <summary>
 		/// This variable will be used for various purpose
@@ -33,6 +33,8 @@ namespace doom
 		unsigned int mBitFlag;
 
 	public:
+
+		TreeNode() {}
 
 		FORCE_INLINE unsigned int GetBitFlag() const
 		{

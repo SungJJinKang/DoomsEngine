@@ -31,9 +31,9 @@ namespace doom
 
 	private:
 		
-		doom::physics::Collider* mCollider{ nullptr };
+		doom::physics::Collider* mCollider;
 
-		BVH<ColliderType>* mOwnerBVH{ nullptr };
+		BVH<ColliderType>* mOwnerBVH;
 
 		/// <summary>
 		/// Node Bounding Box
@@ -44,7 +44,7 @@ namespace doom
 		/// <summary>
 		/// Is Leaf? = Is World Object?
 		/// </summary>
-		bool mIsLeaf{ false };
+		bool mIsLeaf;
 
 		void Clear();
 		/// <summary>
@@ -57,13 +57,13 @@ namespace doom
 
 	public:
 
-		BVH_Node() = default;
+		BVH_Node() {}
 		~BVH_Node() = default;
 
-		BVH_Node(const BVH_Node&) = delete;
-		BVH_Node(BVH_Node&&) noexcept = delete;
-		BVH_Node& operator=(const BVH_Node&) = delete;
-		BVH_Node& operator=(BVH_Node&&) noexcept = delete;
+		BVH_Node(const BVH_Node&) = default;
+		BVH_Node(BVH_Node&&) noexcept = default;
+		BVH_Node& operator=(const BVH_Node&) = default;
+		BVH_Node& operator=(BVH_Node&&) noexcept = default;
 
 		FORCE_INLINE bool GetIsValid() const
 		{

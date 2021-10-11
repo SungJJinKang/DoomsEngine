@@ -1,6 +1,7 @@
 #pragma once
 
 #include <queue>
+#include <vector>
 
 #include "Physics/Collider/AABB.h"
 #include "Physics/Collider/Sphere.h"
@@ -59,8 +60,7 @@ namespace doom
 		/// Never pop inserted node
 		/// Just make it dangling
 		/// </summary>
-		BVH_Node<ColliderType>* mNodes;
-		const int mNodeCapacity;
+		std::vector<BVH_Node<ColliderType>> mNodes;
 
 		int mRootNodeIndex{ NULL_NODE_INDEX };
 
@@ -77,7 +77,7 @@ namespace doom
 		/// <summary>
 		/// if you want parallel access, Use concurrentQueue
 		/// </summary>
-		std::queue<int> freedNodeIndexList{};
+		std::queue<int> mFreedNodeIndexList{};
 
 		int PickBest(const ColliderType& L);
 
@@ -105,8 +105,13 @@ namespace doom
 
 		
 
-		BVH(const int nodeCapacity);
+		BVH(const size_t initializedCapacity);
 		~BVH();
+
+		inline size_t GetNodeCapacity() const
+		{
+			return mNodes.capacity();
+		}
 
 		/// <summary>
 		/// Inser New Object(Leaf)
