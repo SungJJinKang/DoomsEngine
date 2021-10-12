@@ -6,6 +6,10 @@
 #include <iostream>
 #include <chrono>
 
+#ifndef ALWAYS_PROFILING
+#define ALWAYS_PROFILING
+#endif
+
 // std::chrono::high_resolution_clock::now() has more resolution than OS GetTickCount API 
 
 #ifndef D_START_PROFILING_INTERNAL
@@ -40,7 +44,7 @@ CONCAT(PROFILING_TAG, _EXECUTE_COUNT) = 0;																																						
 #endif
 
 
-#ifdef DEBUG_MODE
+#if ( defined(DEBUG_MODE) || defined(ALWAYS_PROFILING) )
 
 #ifndef D_START_PROFILING
 #define D_START_PROFILING(PROFILING_TAG) D_START_PROFILING_INTERNAL(PROFILING_TAG)

@@ -62,14 +62,20 @@ void doom::physics::Physics_Server::FixedUpdateCollision()
 void doom::physics::Physics_Server::SolveColliderComponents()
 {
 	const std::vector<ColliderComponent*>& colliderComponents = doom::StaticContainer<ColliderComponent>::GetAllStaticComponents();
+
+	D_START_PROFILING(Physics_Server_SolveColliderComponents_ResetAllCollisionState, eProfileLayers::CPU);
 	for (ColliderComponent* colliderComp : colliderComponents)
 	{
 		colliderComp->ResetAllCollisionState();
 		colliderComp->OnPreUpdatePhysics();
 	}
+	D_END_PROFILING(Physics_Server_SolveColliderComponents_ResetAllCollisionState);
 
 	size_t stackReservationCount = 1;
 
+
+	//TODO : Implement Solve Collide based on BVH Tree
+	D_START_PROFILING(Physics_Server_SolveColliderComponents_SolveCollision, eProfileLayers::CPU);
 	for (unsigned int i = 0; i < colliderComponents.size(); i++)
 	{
 		Collider* const testedCollider = colliderComponents[i]->GetWorldCollider();
@@ -92,11 +98,16 @@ void doom::physics::Physics_Server::SolveColliderComponents()
 		}
 		
 	}
+	D_END_PROFILING(Physics_Server_SolveColliderComponents_SolveCollision);
 
+
+	D_START_PROFILING(Physics_Server_SolveColliderComponents_OnPostUpdatePhysics, eProfileLayers::CPU);
 	for (auto component : colliderComponents)
 	{
 		component->OnPostUpdatePhysics();
 	}
+	D_END_PROFILING(Physics_Server_SolveColliderComponents_OnPostUpdatePhysics);
+
 }
 
 const std::vector<const typename BVHAABB3D::node_type*> doom::physics::Physics_Server::GetCollideBVHNodes(const typename BVHAABB3D::node_type* const leafBVHNode) const
