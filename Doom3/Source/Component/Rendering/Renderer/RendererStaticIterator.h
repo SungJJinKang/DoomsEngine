@@ -45,7 +45,7 @@ namespace doom
 	public:
 
 		[[nodiscard]] static std::vector<Renderer*>& GetWorkingRendererInLayer(const size_t cameraIndex, const size_t layerIndex);
-		[[nodiscard]] static std::vector<Renderer*>& GetSortedRendererInLayer(const size_t cameraIndex, const size_t layerIndex);
+		[[nodiscard]] static std::vector<Renderer*>& GetSortingRendererInLayer(const size_t cameraIndex, const size_t layerIndex);
 
 		static void ChangeWorkingIndexRenderers();
 	};

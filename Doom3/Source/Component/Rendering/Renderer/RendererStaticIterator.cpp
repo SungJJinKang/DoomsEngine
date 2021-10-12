@@ -30,7 +30,7 @@ void doom::StaticContainer<Renderer>::AddRendererToStaticContainer()
 	for(size_t cameraIndex = 0 ; cameraIndex < MAX_CAMERA_COUNT ; cameraIndex++)
 	{
 		GetWorkingRendererInLayer(cameraIndex, currentEntityLayerIndex).push_back(mRenderer_ptr);
-		GetSortedRendererInLayer(cameraIndex, currentEntityLayerIndex).push_back(mRenderer_ptr);
+		GetSortingRendererInLayer(cameraIndex, currentEntityLayerIndex).push_back(mRenderer_ptr);
 	}
 
 }
@@ -49,11 +49,11 @@ void doom::StaticContainer<Renderer>::RemoveRendererToStaticContainer()
 			std::vector_swap_popback(workingRendererInLayer, workingIter);
 		}
 
-		std::vector<Renderer*>& referenceRendererInLayer = GetSortedRendererInLayer(cameraIndex, currentEntityLayerIndex);
-		auto referenceIter = std::find(referenceRendererInLayer.begin(), referenceRendererInLayer.end(), mRenderer_ptr);
-		if (referenceIter != referenceRendererInLayer.end())
+		std::vector<Renderer*>& sortingRendererInLayer = GetSortingRendererInLayer(cameraIndex, currentEntityLayerIndex);
+		auto referenceIter = std::find(sortingRendererInLayer.begin(), sortingRendererInLayer.end(), mRenderer_ptr);
+		if (referenceIter != sortingRendererInLayer.end())
 		{
-			std::vector_swap_popback(referenceRendererInLayer, referenceIter);
+			std::vector_swap_popback(sortingRendererInLayer, referenceIter);
 		}
 	}
 }
@@ -72,7 +72,7 @@ std::vector<Renderer*>& doom::StaticContainer<Renderer>::GetWorkingRendererInLay
 	return this_type::mRenderersInLayer[cameraIndex][mWorkingRendererListIndex][layerIndex];
 }
 
-std::vector<Renderer*>& StaticContainer<Renderer>::GetSortedRendererInLayer(const size_t cameraIndex, const size_t layerIndex)
+std::vector<Renderer*>& StaticContainer<Renderer>::GetSortingRendererInLayer(const size_t cameraIndex, const size_t layerIndex)
 {
 	D_ASSERT(layerIndex >= 0 && layerIndex < MAX_LAYER_COUNT);
 	return this_type::mRenderersInLayer[cameraIndex][(mWorkingRendererListIndex == 0) ? 1 : 0][layerIndex];

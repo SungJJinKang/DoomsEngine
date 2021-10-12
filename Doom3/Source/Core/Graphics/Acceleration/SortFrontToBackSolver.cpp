@@ -38,7 +38,7 @@ void doom::graphics::SortFrontToBackSolver::SortRenderer(const size_t cameraInde
 	for (size_t layerIndex = 0; layerIndex < MAX_LAYER_COUNT; layerIndex++)
 	{
 		doom::graphics::SortFrontToBackSolver::SortRenderer(
-			doom::RendererComponentStaticIterator::GetSortedRendererInLayer(cameraIndex, layerIndex),
+			doom::RendererComponentStaticIterator::GetSortingRendererInLayer(cameraIndex, layerIndex),
 			cameraIndex
 		);
 	}
