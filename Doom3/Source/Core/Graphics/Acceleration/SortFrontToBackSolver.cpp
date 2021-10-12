@@ -12,6 +12,7 @@ void doom::graphics::SortFrontToBackSolver::SortRenderer(std::vector<doom::Rende
 		rendereres.begin(), rendereres.end(),
 		[cameraIndex](const doom::Renderer* const lhs, const doom::Renderer* const rhs)
 		{
+			D_ASSERT(lhs != nullptr && rhs != nullptr);
 			return lhs->GetDistanceToCamera(cameraIndex) < rhs->GetDistanceToCamera(cameraIndex);
 		}
 	);

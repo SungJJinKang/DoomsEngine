@@ -314,9 +314,13 @@ void doom::graphics::Graphics_Server::RenderObject(doom::Camera* const targetCam
 
 
 	//Wait Multithread Sorting Renderer Front To Back  TO  JobSystem finished.
-	D_START_PROFILING_IN_RELEASE(WAIT_SORTING_RENDERER_JOB);
-	IsFinishedSortingReferernceRenderers.wait();
-	D_END_PROFILING_IN_RELEASE(WAIT_SORTING_RENDERER_JOB);
+	if(IsFinishedSortingReferernceRenderers.valid() == true)
+	{
+		D_START_PROFILING_IN_RELEASE(WAIT_SORTING_RENDERER_JOB);
+		IsFinishedSortingReferernceRenderers.wait();
+		D_END_PROFILING_IN_RELEASE(WAIT_SORTING_RENDERER_JOB);
+	}
+	
 }
 
 

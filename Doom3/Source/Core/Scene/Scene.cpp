@@ -25,6 +25,9 @@ Scene::~Scene()
 	CHECK_IS_EXECUTED_ON_MAIN_THREAD; // if you wanna createnewentity in subthread, you should 
 
 	Entity* newEntity = CreateDObject<Entity>(mEntityIDCounter++, nullptr); // resource::ObjectPool<Entity>::AllocateFromPool(nullptr);
+
+	D_ASSERT(newEntity != nullptr);
+
 	mSpawnedEntities.emplace_back(newEntity);
 
 

@@ -125,6 +125,7 @@ namespace doom
 		T* _AddComponent(Args... args) noexcept
 		{
 			T* newComponent = CreateDObject<T>(std::forward<Args>(args)...);
+			D_ASSERT(newComponent != nullptr);
 			D_ASSERT(newComponent->bIsAddedToEntity == false);
 
 			if constexpr (Entity::IsServerComponent<T>() == true)
