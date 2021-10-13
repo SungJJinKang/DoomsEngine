@@ -101,3 +101,8 @@ size_t doom::asset::ThreeDModelAsset::GetMeshCount() const
 	return mMeshes.size();
 }
 
+doom::asset::eAssetType doom::asset::ThreeDModelAsset::GetEAssetType() const
+{
+	return doom::asset::eAssetType::THREE_D_MODEL;
+}
+

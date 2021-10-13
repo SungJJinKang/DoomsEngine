@@ -30,6 +30,6 @@ void doom::graphics::DeferredRenderingDrawer::DrawDeferredRenderingQuadDrawer()
 
 void doom::graphics::DeferredRenderingDrawer::SetShaderToGBufferMaterial()
 {
-	doom::asset::ShaderAsset* const gBufferDrawerShader = doom::assetimporter::AssetManager::GetAsset<asset::eAssetType::SHADER>("GbufferDrawer.glsl");
+	doom::asset::ShaderAsset* const gBufferDrawerShader = doom::assetimporter::AssetManager::GetSingleton()->GetAsset<asset::eAssetType::SHADER>("GbufferDrawer.glsl");
 	mGbufferDrawerMaterial.SetShaderAsset(gBufferDrawerShader);
 }

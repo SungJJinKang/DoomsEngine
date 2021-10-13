@@ -1,7 +1,7 @@
 #pragma once
 #include <string>
 
-#include "Base_Asset.h"
+#include "Asset.h"
 
 #include "../Math/LightMath_Cpp/Vector2.h"
 #include "../Math/LightMath_Cpp/Vector3.h"
@@ -127,21 +127,16 @@ namespace doom
 		~ThreeDModelNode() = default;
 	};
 
+	namespace assetimporter
+	{
+		class AssetImporterWorker_THREE_D_MODEL;
+	}
 
 	namespace asset
 	{
 		class DOOM_API ThreeDModelAsset : public Asset
 		{
-			//friend class std::optional<ThreeDModelAsset>;
-			
-			friend class ::doom::assetimporter::AssetManager;
-			friend class ::doom::assetimporter::Assetimporter;
-
-			template <eAssetType assetType>
-			friend class ::doom::assetimporter::AssetImporterWorker;
-
-			template<eAssetType loopVariable>
-			friend struct ::doom::assetimporter::OnEndImportInMainThreadFunctor;
+			friend class ::doom::assetimporter::AssetImporterWorker_THREE_D_MODEL;
 
 		private:
 			std::unique_ptr<ThreeDModelNode> mRootModelNode{};
@@ -185,9 +180,9 @@ namespace doom
 			size_t GetMeshCount() const;
 
 
+			virtual doom::asset::eAssetType GetEAssetType() const final;
 		};
 
-		template <> struct Asset::asset_type<eAssetType::THREE_D_MODEL> { using type = typename ThreeDModelAsset; };
 	}
 }
 

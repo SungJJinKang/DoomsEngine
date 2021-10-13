@@ -25,7 +25,7 @@ public:
 void doom::graphics::OverDrawVisualization::Initialize()
 {
 	mOverDrawVisualizationPimpl = std::make_unique<doom::graphics::OverDrawVisualization::OverDrawVisualizationPimpl>();
-	doom::asset::ShaderAsset* overDrawVisualizationShader = assetimporter::AssetManager::GetAsset<asset::eAssetType::SHADER>("OverDrawVisualizationShader.glsl");
+	doom::asset::ShaderAsset* overDrawVisualizationShader = assetimporter::AssetManager::GetSingleton()->GetAsset<asset::eAssetType::SHADER>("OverDrawVisualizationShader.glsl");
 	mOverDrawVisualizationPimpl->mOverDrawVisualizationObjectDrawMaterial = overDrawVisualizationShader->CreateMatrialWithThisShader();
 
 	mOverDrawVisualizationPimpl->mOverDrawVisualizationFrameBuffer.GenerateBuffer(doom::graphics::Graphics_Setting::GetScreenWidth(), doom::graphics::Graphics_Setting::GetScreenHeight());

@@ -402,6 +402,11 @@ doom::graphics::Material doom::asset::ShaderAsset::CreateMatrialWithThisShader()
 	return doom::graphics::Material(this);
 }
 
+doom::asset::eAssetType doom::asset::ShaderAsset::GetEAssetType() const
+{
+	return doom::asset::eAssetType::SHADER;
+}
+
 doom::asset::ShaderAsset::ShaderText::ShaderText(
 	std::string vertexShaderText, 
 	std::string fragmentShaderText, 

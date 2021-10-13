@@ -36,7 +36,7 @@
     <ClCompile Include="Source\Core\Math\LightMath_Cpp\Matrix.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Core\Asset\Base_Asset.cpp">
+    <ClCompile Include="Source\Core\Asset\Asset.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Source\Core\Graphics\Buffer\Buffer.cpp">
@@ -132,7 +132,7 @@
     <ClCompile Include="Source\Core\Time\Time_Server.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Core\IO\AssetImporter\AssetImporterWorker_Texture.cpp">
+    <ClCompile Include="Source\Core\IO\AssetImporter\AssetImporterWorker\AssetImporterWorker_Texture.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Source\Core\Graphics\FrameBuffer\FrameBuffer.cpp">
@@ -222,28 +222,25 @@
     <ClCompile Include="Source\Core\Physics\Collider\ColliderSolution.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Core\IO\AssetImporter\AssetImporterWorker_Three_D_Model.cpp">
+    <ClCompile Include="Source\Core\IO\AssetImporter\AssetImporterWorker\AssetImporterWorker_Three_D_Model.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Core\IO\AssetImporter\AssetApiImporter.cpp">
+    <ClCompile Include="Source\Core\IO\AssetImporter\AssetImporterWorker\AssetImporterWorker_Audio.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Core\IO\AssetImporter\AssetImporterWorker_Audio.cpp">
+    <ClCompile Include="Source\Core\IO\AssetImporter\AssetImporterWorker\AssetImporterWorker_Font.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Core\IO\AssetImporter\AssetImporterWorker_Font.cpp">
+    <ClCompile Include="Source\Core\IO\AssetImporter\AssetImporterWorker\AssetImporterWorker_Shader.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Core\IO\AssetImporter\AssetImporterWorker_Shader.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Core\IO\AssetImporter\AssetImporterWorker_Text.cpp">
+    <ClCompile Include="Source\Core\IO\AssetImporter\AssetImporterWorker\AssetImporterWorker_Text.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Source\Core\Game\AssetManager\AssetManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Core\Game\AssetManager\ImportedAssetPort.cpp">
+    <ClCompile Include="Source\Core\Game\AssetManager\AssetContainer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Source\Component\Rendering\Light\Light.cpp">
@@ -522,7 +519,22 @@
     <ClCompile Include="Source\Core\Physics\Collider\ColliderType.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Core\IO\AssetImporter\DummyApiImporter.cpp">
+    <ClCompile Include="Source\Core\IO\AssetImporter\Manager\AssetImporterWorkerManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Core\IO\AssetImporter\AssetImporterWorker\AssetImporterWorker.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Core\Asset\FontAsset.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Core\Asset\AudioAsset.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Core\Asset\Helper\AssetFactory.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Core\Game\AssetManager\AssetFuture.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -692,10 +704,10 @@
     <ClInclude Include="Source\Core\Random.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Core\Asset\Base_Asset.h">
+    <ClInclude Include="Source\Core\Asset\Asset.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Core\Asset\Asset.h">
+    <ClInclude Include="Source\Core\Asset\AssetHeaders.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\Core\Asset\ShaderAsset.h">
@@ -725,34 +737,28 @@
     <ClInclude Include="Source\Helper\ForLoop_Compile_Time\ForLoop_Compile.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Core\IO\AssetImporter\AssetImporterWorker_Three_D_Model.h">
+    <ClInclude Include="Source\Core\IO\AssetImporter\AssetImporterWorker\AssetImporterWorker_Three_D_Model.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Core\IO\AssetImporter\AssetImporterWorker_Texture.h">
+    <ClInclude Include="Source\Core\IO\AssetImporter\AssetImporterWorker\AssetImporterWorker_Texture.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Core\IO\AssetImporter\AssetImporterWorker_Text.h">
+    <ClInclude Include="Source\Core\IO\AssetImporter\AssetImporterWorker\AssetImporterWorker_Text.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Core\IO\AssetImporter\AssetImporterWorker_Shader.h">
+    <ClInclude Include="Source\Core\IO\AssetImporter\AssetImporterWorker\AssetImporterWorker_Shader.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Core\IO\AssetImporter\AssetImporterWorker_Font.h">
+    <ClInclude Include="Source\Core\IO\AssetImporter\AssetImporterWorker\AssetImporterWorker_Font.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Core\IO\AssetImporter\AssetImporterWorker_Audio.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Core\IO\AssetImporter\AssetApiImporter.h">
+    <ClInclude Include="Source\Core\IO\AssetImporter\AssetImporterWorker\AssetImporterWorker_Audio.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\Helper\TextImporter.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Core\IO\AssetImporter\AssetImporterWorker.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Core\IO\AssetImporter\AssetImporterWorker_Base.h">
+    <ClInclude Include="Source\Core\IO\AssetImporter\AssetImporterWorker\AssetImporterWorker.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\Core\Graphics\Graphics_Core.h">
@@ -1034,7 +1040,7 @@
     <ClInclude Include="Source\Core\Game\AssetManager\AssetManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Core\Game\AssetManager\ImportedAssetPort.h">
+    <ClInclude Include="Source\Core\Game\AssetManager\AssetContainer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\Component\Rendering\Light\Light.h">
@@ -1436,7 +1442,16 @@
     <ClInclude Include="Source\Core\Macros\MacrosHelper.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Core\IO\AssetImporter\DummyApiImporter.h">
+    <ClInclude Include="Source\Core\IO\AssetImporter\Manager\AssetImporterWorkerManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Core\Asset\Helper\AssetFactory.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Core\Asset\AssetsForwardDeclaration.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Core\Game\AssetManager\AssetFuture.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

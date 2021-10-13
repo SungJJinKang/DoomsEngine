@@ -2,26 +2,26 @@
 
 #include <string>
 
-#include "Base_Asset.h"
+#include "Asset.h"
 
 namespace doom
 {
+	namespace assetimporter
+	{
+		class AssetImporterWorker_Shader;
+	}
+
 	namespace graphics 
 	{
 		class Material;
 	}
+
 	namespace asset
 	{
 		class DOOM_API ShaderAsset : public Asset
 		{
-			friend class ::doom::assetimporter::AssetManager;
-			friend class ::doom::assetimporter::Assetimporter;
-
-			template <eAssetType assetType>
-			friend class ::doom::assetimporter::AssetImporterWorker;
-
-			template<eAssetType loopVariable>
-			friend struct ::doom::assetimporter::OnEndImportInMainThreadFunctor;
+			friend class ::doom::assetimporter::AssetImporterWorker_Shader;
+			
 		
 		public:
 
@@ -117,8 +117,10 @@ namespace doom
 			unsigned int GetGeometryId() const;
 
 			graphics::Material CreateMatrialWithThisShader();
-		};
 
-		template <> struct Asset::asset_type<eAssetType::SHADER> { using type = ShaderAsset; };
+
+			virtual doom::asset::eAssetType GetEAssetType() const final;
+		};
+		
 	}
 }

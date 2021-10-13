@@ -205,7 +205,12 @@
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Source\Core\IO\AssetImporter\DummyApiImporter.cpp" />
+    <ClCompile Include="Source\Core\Asset\AudioAsset.cpp" />
+    <ClCompile Include="Source\Core\Asset\FontAsset.cpp" />
+    <ClCompile Include="Source\Core\Asset\Helper\AssetFactory.cpp" />
+    <ClCompile Include="Source\Core\Game\AssetManager\AssetFuture.cpp" />
+    <ClCompile Include="Source\Core\IO\AssetImporter\Manager\AssetImporterWorkerManager.cpp" />
+    <ClCompile Include="Source\Core\IO\AssetImporter\AssetImporterWorker\AssetImporterWorker.cpp" />
     <ClCompile Include="Source\Component\PhysicsComponent\Rigidbody\Rigidbody.cpp" />
     <ClCompile Include="Source\Core\DObject\DObjectManager.cpp" />
     <ClCompile Include="Source\Core\Graphics\Acceleration\LinearData_ViewFrustumCulling\CullingModule\CullingModule.cpp" />
@@ -255,12 +260,11 @@
     <ClCompile Include="Source\Core\Graphics\Acceleration\LinearData_ViewFrustumCulling\CullingModule\ViewFrustumCulling\ViewFrustumCulling.cpp" />
     <ClCompile Include="Source\Core\Graphics\Acceleration\LinearData_ViewFrustumCulling\EveryCulling.cpp" />
     <ClCompile Include="Source\Core\Graphics\PictureInPicture\PicktureInPickture.cpp" />
-    <ClCompile Include="Source\Core\IO\AssetImporter\AssetApiImporter.cpp" />
-    <ClCompile Include="Source\Core\IO\AssetImporter\AssetImporterWorker_Audio.cpp" />
-    <ClCompile Include="Source\Core\IO\AssetImporter\AssetImporterWorker_Font.cpp" />
-    <ClCompile Include="Source\Core\IO\AssetImporter\AssetImporterWorker_Shader.cpp" />
-    <ClCompile Include="Source\Core\IO\AssetImporter\AssetImporterWorker_Text.cpp" />
-    <ClCompile Include="Source\Core\IO\AssetImporter\AssetImporterWorker_Three_D_Model.cpp" />
+    <ClCompile Include="Source\Core\IO\AssetImporter\AssetImporterWorker\AssetImporterWorker_Audio.cpp" />
+    <ClCompile Include="Source\Core\IO\AssetImporter\AssetImporterWorker\AssetImporterWorker_Font.cpp" />
+    <ClCompile Include="Source\Core\IO\AssetImporter\AssetImporterWorker\AssetImporterWorker_Shader.cpp" />
+    <ClCompile Include="Source\Core\IO\AssetImporter\AssetImporterWorker\AssetImporterWorker_Text.cpp" />
+    <ClCompile Include="Source\Core\IO\AssetImporter\AssetImporterWorker\AssetImporterWorker_Three_D_Model.cpp" />
     <ClCompile Include="Source\Core\Physics\Collider\OBB.cpp" />
     <ClCompile Include="Source\Core\ResourceManagement\JobSystem_cpp\JobSystem.cpp" />
     <ClCompile Include="Source\Core\ResourceManagement\JobSystem_cpp\Thread.cpp" />
@@ -292,7 +296,7 @@
     <ClCompile Include="Source\Component\Rendering\Light\PointLight.cpp" />
     <ClCompile Include="Source\Component\Rendering\Renderer\Renderer.cpp" />
     <ClCompile Include="Source\Component\Transform.cpp" />
-    <ClCompile Include="Source\Core\Asset\Base_Asset.cpp" />
+    <ClCompile Include="Source\Core\Asset\Asset.cpp" />
     <ClCompile Include="Source\Core\Asset\TextAsset.cpp" />
     <ClCompile Include="Source\Core\Asset\TextureAsset.cpp" />
     <ClCompile Include="Source\Core\Asset\ThreeDModelAsset.cpp" />
@@ -300,7 +304,7 @@
     <ClCompile Include="Source\Core\Game\IGameFlow.cpp" />
     <ClCompile Include="Source\Core\Graphics\DebugGraphics\DebugDrawer.cpp" />
     <ClCompile Include="Source\Core\Graphics\Graphics_Server.cpp" />
-    <ClCompile Include="Source\Core\IO\AssetImporter\AssetImporterWorker_Texture.cpp" />
+    <ClCompile Include="Source\Core\IO\AssetImporter\AssetImporterWorker\AssetImporterWorker_Texture.cpp" />
     <ClCompile Include="Source\Core\Physics\Collider\Collider.cpp" />
     <ClCompile Include="Source\Core\Physics\Collider\ColliderSolution.cpp" />
     <ClCompile Include="Source\Core\Physics\Collider\Line.cpp" />
@@ -317,7 +321,7 @@
     <ClCompile Include="Source\Core\Scene\SharedScene.cpp" />
     <ClCompile Include="Source\Core\Scene\Scene.cpp" />
     <ClCompile Include="Source\Core\Scene\SharedSceneSetting.cpp" />
-    <ClCompile Include="Source\Core\Game\AssetManager\ImportedAssetPort.cpp" />
+    <ClCompile Include="Source\Core\Game\AssetManager\AssetContainer.cpp" />
     <ClCompile Include="Source\Core\Game\AssetManager\AssetManager.cpp" />
     <ClCompile Include="Source\Core\Game\GameCore.cpp" />
     <ClCompile Include="Source\Core\Graphics\Buffer\Buffer.cpp" />
@@ -377,7 +381,10 @@
     <ClCompile Include="Source\Component\PhysicsComponent\SphereCollider3D.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Source\Core\IO\AssetImporter\DummyApiImporter.h" />
+    <ClInclude Include="Source\Core\Asset\AssetsForwardDeclaration.h" />
+    <ClInclude Include="Source\Core\Asset\Helper\AssetFactory.h" />
+    <ClInclude Include="Source\Core\Game\AssetManager\AssetFuture.h" />
+    <ClInclude Include="Source\Core\IO\AssetImporter\Manager\AssetImporterWorkerManager.h" />
     <ClInclude Include="Source\Component\Core\ComponentGlobals.h" />
     <ClInclude Include="Source\Component\PhysicsComponent\Rigidbody\Rigidbody.h" />
     <ClInclude Include="Source\Core\CompilerMacros.h" />
@@ -544,10 +551,10 @@
     <ClInclude Include="Source\Core\API\ASSIMP.h" />
     <ClInclude Include="Source\Core\API\OpenglAPI.h" />
     <ClInclude Include="Source\Core\API\UUID.h" />
-    <ClInclude Include="Source\Core\Asset\Asset.h" />
+    <ClInclude Include="Source\Core\Asset\AssetHeaders.h" />
     <ClInclude Include="Source\Core\Asset\TextAsset.h" />
     <ClInclude Include="Source\Core\Scene\Scene.h" />
-    <ClInclude Include="Source\Core\Game\AssetManager\ImportedAssetPort.h" />
+    <ClInclude Include="Source\Core\Game\AssetManager\AssetContainer.h" />
     <ClInclude Include="Source\Core\Game\AssetManager\AssetManager.h" />
     <ClInclude Include="Source\Core\Graphics\Buffer\UniformBufferObjectManager.h" />
     <ClInclude Include="Source\Core\Graphics\Texture\CubemapTexture.h" />
@@ -556,15 +563,14 @@
     <ClInclude Include="Source\Core\Graphics\Graphics_Core.h" />
     <ClInclude Include="Source\Core\Graphics\FrameBuffer\RenderBuffer.h" />
     <ClInclude Include="Source\Core\Graphics\Texture\SingleTexture.h" />
-    <ClInclude Include="Source\Core\IO\AssetImporter\AssetApiImporter.h" />
     <ClInclude Include="Source\Core\IO\AssetImporter\AssetImporter.h" />
-    <ClInclude Include="Source\Core\IO\AssetImporter\AssetImporterWorker_Audio.h" />
-    <ClInclude Include="Source\Core\IO\AssetImporter\AssetImporterWorker_Base.h" />
-    <ClInclude Include="Source\Core\IO\AssetImporter\AssetImporterWorker_Font.h" />
-    <ClInclude Include="Source\Core\IO\AssetImporter\AssetImporterWorker_Shader.h" />
-    <ClInclude Include="Source\Core\IO\AssetImporter\AssetImporterWorker_Text.h" />
-    <ClInclude Include="Source\Core\IO\AssetImporter\AssetImporterWorker_Texture.h" />
-    <ClInclude Include="Source\Core\IO\AssetImporter\AssetImporterWorker_Three_D_Model.h" />
+    <ClInclude Include="Source\Core\IO\AssetImporter\AssetImporterWorker\AssetImporterWorker_Audio.h" />
+    <ClInclude Include="Source\Core\IO\AssetImporter\AssetImporterWorker\AssetImporterWorker.h" />
+    <ClInclude Include="Source\Core\IO\AssetImporter\AssetImporterWorker\AssetImporterWorker_Font.h" />
+    <ClInclude Include="Source\Core\IO\AssetImporter\AssetImporterWorker\AssetImporterWorker_Shader.h" />
+    <ClInclude Include="Source\Core\IO\AssetImporter\AssetImporterWorker\AssetImporterWorker_Text.h" />
+    <ClInclude Include="Source\Core\IO\AssetImporter\AssetImporterWorker\AssetImporterWorker_Texture.h" />
+    <ClInclude Include="Source\Core\IO\AssetImporter\AssetImporterWorker\AssetImporterWorker_Three_D_Model.h" />
     <ClInclude Include="Source\Core\Macros\Assert.h" />
     <ClInclude Include="Source\Core\Macros\Log.h" />
     <ClInclude Include="Source\Core\Macros\Macros.h" />
@@ -665,7 +671,7 @@
     <ClInclude Include="Source\Helper\trim.h" />
     <ClInclude Include="Source\Helper\vector_erase_move_lastelement\vector_swap_erase.h" />
     <ClInclude Include="Source\Component\PhysicsComponent\SphereCollider3D.h" />
-    <ClInclude Include="Source\Core\Asset\Base_Asset.h" />
+    <ClInclude Include="Source\Core\Asset\Asset.h" />
     <ClInclude Include="Source\Core\Asset\AudioAsset.h" />
     <ClInclude Include="Source\Core\Asset\FontAsset.h" />
     <ClInclude Include="Source\Core\Core.h" />
@@ -674,7 +680,6 @@
     <ClInclude Include="Source\Core\Graphics\Material\Material.h" />
     <ClInclude Include="Source\Core\Asset\ShaderAsset.h" />
     <ClInclude Include="Source\Core\Graphics\Texture\Texture.h" />
-    <ClInclude Include="Source\Core\IO\AssetImporter\AssetImporterWorker.h" />
     <ClInclude Include="Source\Core\IO\UserInput_Server.h" />
     <ClInclude Include="Source\Core\Logger\Logger.h" />
     <ClInclude Include="Source\Core\Graphics\GraphicsAPI.h" />

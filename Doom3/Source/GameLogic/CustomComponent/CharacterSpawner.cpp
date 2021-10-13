@@ -13,7 +13,7 @@ void doom::CharacterSpawner::CreateEnemy(const math::Vector3& position)
 
 	D_ASSERT(mBillboardShader != nullptr);
 	auto material = new graphics::Material(mBillboardShader);
-	material->AddTexture(graphics::eTextureBindingPoint::AlbedoTexture, assetimporter::AssetManager::GetAsset<asset::eAssetType::TEXTURE>("Enemy1.dds"));
+	material->AddTexture(graphics::eTextureBindingPoint::AlbedoTexture, assetimporter::AssetManager::GetSingleton()->GetAsset<asset::eAssetType::TEXTURE>("Enemy1.dds"));
 
 
 	auto meshRenderer = newEntity->AddComponent<MeshRenderer>();
@@ -27,7 +27,7 @@ void doom::CharacterSpawner::InitComponent()
 {
 	if (mBillboardShader == nullptr)
 	{
-		mBillboardShader = assetimporter::AssetManager::GetAsset<asset::eAssetType::SHADER>("Billboard.glsl");
+		mBillboardShader = assetimporter::AssetManager::GetSingleton()->GetAsset<asset::eAssetType::SHADER>("Billboard.glsl");
 	}
 }
 

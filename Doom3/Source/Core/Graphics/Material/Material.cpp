@@ -100,7 +100,7 @@ void Material::AddTexture(unsigned int bindingPoint, Texture* texture)
 void Material::AddTexture(unsigned int bindingPoint, ::doom::asset::TextureAsset* textureAsset)
 {
 	D_ASSERT(IsGenerated() == true);
-	mTargetTextures[bindingPoint] = textureAsset->mTexture;
+	mTargetTextures[bindingPoint] = textureAsset->GetTexture();
 }
 
 void doom::graphics::Material::AddTextures(const std::array<Texture*, MAX_TEXTURE_COUNT>& textures)

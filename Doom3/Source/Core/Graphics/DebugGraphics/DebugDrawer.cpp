@@ -16,10 +16,10 @@ void doom::graphics::DebugDrawer::Init()
 	mDebugMesh.BufferData(MAX_DEBUG_VERTEX_COUNT * 3, NULL, ePrimitiveType::LINES, Mesh::eVertexArrayFlag::VertexVector3);
 
 
-	auto debug2DShader = doom::assetimporter::AssetManager::GetAsset<asset::eAssetType::SHADER>(DebugDrawer::DEBUG_2D_SHADER);
+	auto debug2DShader = doom::assetimporter::AssetManager::GetSingleton()->GetAsset<asset::eAssetType::SHADER>(DebugDrawer::DEBUG_2D_SHADER);
 	m2DMaterial = std::make_unique<Material>(debug2DShader);
 
-	auto debug3DShader = doom::assetimporter::AssetManager::GetAsset<asset::eAssetType::SHADER>(DebugDrawer::DEBUG_3D_SHADER);
+	auto debug3DShader = doom::assetimporter::AssetManager::GetSingleton()->GetAsset<asset::eAssetType::SHADER>(DebugDrawer::DEBUG_3D_SHADER);
 	m3DMaterial = std::make_unique<Material>(debug3DShader);
 }
 

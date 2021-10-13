@@ -107,7 +107,7 @@ void doom::physics::Physics_Server::SolveColliderComponents()
 
 }
 
-const std::vector<const typename BVHAABB3D::node_type*> doom::physics::Physics_Server::GetCollideBVHNodes(const typename BVHAABB3D::node_type* const leafBVHNode) const
+const std::vector<const typename doom::BVHAABB3D::node_type*> doom::physics::Physics_Server::GetCollideBVHNodes(const typename BVHAABB3D::node_type* const leafBVHNode) const
 {
 	D_ASSERT(leafBVHNode != nullptr && leafBVHNode->GetIsValid() == true && leafBVHNode->mIsLeaf == true);
 	std::vector<const typename BVHAABB3D::node_type*> hitLeafNodeColliders;
@@ -138,7 +138,7 @@ const std::vector<doom::physics::Collider*> doom::physics::Physics_Server::GetCo
 
 }
 
-const std::vector<const typename BVHAABB3D::node_type*> doom::physics::Physics_Server::GetCollideBVHNodes(const doom::physics::Collider* const col, size_t& stackReservationCount) const
+const std::vector<const typename doom::BVHAABB3D::node_type*> doom::physics::Physics_Server::GetCollideBVHNodes(const doom::physics::Collider* const col, size_t& stackReservationCount) const
 {
 	std::vector<const typename BVHAABB3D::node_type*> hitLeafNodeColliders;
 

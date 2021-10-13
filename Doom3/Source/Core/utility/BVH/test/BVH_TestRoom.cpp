@@ -179,7 +179,7 @@ void doom::BVH_TestRoom::Init()
 
 	if (static_cast<bool>(mBVHDebugMaterial) == false)
 	{
-		mBVHDebugMaterial = std::make_unique<graphics::Material>(doom::assetimporter::AssetManager::GetAsset<asset::eAssetType::SHADER>("Default2DColorShader.glsl"));
+		mBVHDebugMaterial = std::make_unique<graphics::Material>(doom::assetimporter::AssetManager::GetSingleton()->GetAsset<asset::eAssetType::SHADER>("Default2DColorShader.glsl"));
 	}
 }
 

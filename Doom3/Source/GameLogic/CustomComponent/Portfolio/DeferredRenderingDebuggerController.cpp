@@ -21,7 +21,7 @@ void doom::DeferredRenderingDebuggerController::InitDeferredRenderingDebuggerPIP
 
 	if (depthTexturePIP != nullptr)
 	{
-		doom::asset::ShaderAsset* const depthTextureShader = doom::assetimporter::AssetManager::GetAsset<asset::eAssetType::SHADER>("DepthBufferTextureShader.glsl");
+		doom::asset::ShaderAsset* const depthTextureShader = doom::assetimporter::AssetManager::GetSingleton()->GetAsset<asset::eAssetType::SHADER>("DepthBufferTextureShader.glsl");
 		graphics::Material* const depthMaterial = doom::CreateDObject<graphics::Material>(depthTextureShader);
 		//depthMaterial->SetShaderAsset(depthTextureShader);
 		depthTexturePIP->SetMaterial(depthMaterial);

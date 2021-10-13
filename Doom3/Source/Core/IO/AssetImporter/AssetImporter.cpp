@@ -1,10 +1,13 @@
 #include "AssetImporter.h"
 
-using namespace doom;
-using namespace assetimporter;
+#include "Asset/Asset.h"
+
+#include "Manager/AssetImporterWorkerManager.h"
+#include <UI/PrintText.h>
+#include <ResourceManagement/JobSystem_cpp/JobSystem.h>
 
 
-const std::unordered_map<std::string, ::doom::asset::eAssetType> doom::assetimporter::Assetimporter::AssetExtension
+const std::unordered_map<std::string, ::doom::asset::eAssetType> doom::assetimporter::AssetExtension
 {
 	//3D Model Asset Formats
 	{".dae", ::doom::asset::eAssetType::THREE_D_MODEL},
@@ -74,14 +77,14 @@ const std::unordered_map<std::string, ::doom::asset::eAssetType> doom::assetimpo
 	{ ".dds", ::doom::asset::eAssetType::TEXTURE }
 };
 
-const std::unordered_map<::doom::asset::eAssetType, std::string>  doom::assetimporter::Assetimporter::AssetInBuildExtension
+const std::unordered_map<::doom::asset::eAssetType, std::string>  doom::assetimporter::AssetInBuildExtension
 {
 	{::doom::asset::eAssetType::TEXTURE, ".dds"},
 	{::doom::asset::eAssetType::THREE_D_MODEL, ".assbin"}
 
 };
 
-std::optional<::doom::asset::eAssetType> Assetimporter::GetAssetType(const std::filesystem::path& path)
+std::optional<::doom::asset::eAssetType>  doom::assetimporter::GetAssetType(const std::filesystem::path& path)
 {
 	if (path.has_extension())
 	{
@@ -99,5 +102,66 @@ std::optional<::doom::asset::eAssetType> Assetimporter::GetAssetType(const std::
 	{
 		return {};
 	}
+}
+
+bool doom::assetimporter::ImportAssetJob(const std::filesystem::path& path, doom::asset::Asset* const asset)
+{
+	const doom::asset::eAssetType assetType = asset->GetEAssetType();
+
+	doom::assetimporter::AssetImporterWorker* const importerWorker = 
+		doom::assetimporter::AssetImporterWorkerManager::GetSingleton()->DequeueWorker(assetType);
+
+	D_ASSERT(importerWorker->GetEAssetType() == asset->GetEAssetType());
+
+	const bool isSuccess = importerWorker->ImportSpecificAsset(path, asset);
+
+	if (isSuccess)
+	{
+		asset->SetAssetStatus(::doom::asset::Asset::AssetStatus::CompletlyImported);
+		doom::ui::PrintText("Import Success : %s", path.string().c_str());
+	}
+	else
+	{
+		asset->SetAssetStatus(::doom::asset::Asset::AssetStatus::FailToImport);
+	}
+
+	return isSuccess;
+
+}
+
+std::future<bool> doom::assetimporter::PushImportingAssetJobToThreadPool
+(
+	const std::filesystem::path& path,
+	doom::asset::Asset* const asset
+)
+{
+	std::function<bool()> newTask = std::bind(ImportAssetJob, path, asset);
+	asset->SetAssetStatus(::doom::asset::Asset::AssetStatus::WaitingImport);
+
+	return doom::resource::JobSystem::GetSingleton()->PushBackJobToPriorityQueue(std::move(newTask));
+}
+
+std::vector<std::future<bool>> doom::assetimporter::PushImportingAssetJobToThreadPool
+(
+	const std::vector<std::filesystem::path>& paths, 
+	const std::vector<doom::asset::Asset*>& assets
+)
+{
+	D_ASSERT(paths.size() == assets.size());
+
+	std::vector<std::function<bool()>> newTasks{};
+	newTasks.reserve(paths.size());
+	for (unsigned int i = 0; i < paths.size(); i++)
+	{
+		newTasks.push_back(std::bind(ImportAssetJob, paths[i], assets[i]));
+		assets[i]->SetAssetStatus(::doom::asset::Asset::AssetStatus::WaitingImport);
+	}
+
+	/// <summary>
+			/// maybe will be copied
+			/// </summary>
+			/// <param name="paths"></param>
+			/// <returns></returns>
+	return resource::JobSystem::GetSingleton()->PushBackJobChunkToPriorityQueue(std::move(newTasks));
 }
 

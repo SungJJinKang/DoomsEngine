@@ -1,21 +1,20 @@
 #pragma once
 
-#include "Base_Asset.h"
+#include "Asset.h"
 namespace doom
 {
+	namespace assetimporter
+	{
+		class AssetImporterWorker_Audio;
+	}
+
+
 	namespace asset
 	{
 		class DOOM_API AudioAsset : public Asset
 		{
-			friend class ::doom::assetimporter::AssetManager;
-			friend class ::doom::assetimporter::Assetimporter;
-
-			template <eAssetType assetType>
-			friend class ::doom::assetimporter::AssetImporterWorker;
-
-			template<eAssetType loopVariable>
-			friend struct ::doom::assetimporter::OnEndImportInMainThreadFunctor;
-
+			friend class ::doom::assetimporter::AssetImporterWorker_Audio;
+			
 		private:
 
 		protected:
@@ -28,8 +27,12 @@ namespace doom
 			AudioAsset& operator=(const AudioAsset&) = delete;
 			AudioAsset& operator=(AudioAsset&&) noexcept = default;
 			virtual ~AudioAsset() {}
+
+
+			virtual doom::asset::eAssetType GetEAssetType() const final;
+
 		};
-		template <> struct Asset::asset_type<eAssetType::AUDIO> { using type = AudioAsset; };
+
 	}
 }
 

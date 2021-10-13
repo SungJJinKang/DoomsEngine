@@ -1,23 +1,19 @@
 #pragma once
 
-#include "Base_Asset.h"
+#include "Asset.h"
 namespace doom
 {
+	namespace assetimporter
+	{
+		class AssetImporterWorker_Font;
+	}
+
 	namespace asset
 	{
 		class DOOM_API FontAsset : public Asset
 		{
-			friend class ::doom::assetimporter::ImportedAssetPort<eAssetType::FONT>;
-
-			friend class ::doom::assetimporter::AssetManager;
-			friend class ::doom::assetimporter::Assetimporter;
-
-			template <eAssetType assetType>
-			friend class ::doom::assetimporter::AssetImporterWorker;
-
-			template<eAssetType loopVariable>
-			friend struct ::doom::assetimporter::OnEndImportInMainThreadFunctor;
-
+			friend class ::doom::assetimporter::AssetImporterWorker_Font;
+			
 		private:
 
 		protected:
@@ -30,7 +26,12 @@ namespace doom
 			FontAsset& operator=(const FontAsset&) = delete;
 			FontAsset& operator=(FontAsset&&) noexcept = default;
 			virtual ~FontAsset() = default;
+
+
+			virtual doom::asset::eAssetType GetEAssetType() const final;
+
 		};
-		template <> struct Asset::asset_type<eAssetType::FONT> { using type = typename FontAsset; };
+
+
 	}
 }

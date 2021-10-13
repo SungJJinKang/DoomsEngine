@@ -1,5 +1,5 @@
 #pragma once
-#include "Base_Asset.h"
+#include "Asset.h"
 
 #include "../Graphics/Texture/TextureFormat.h"
 
@@ -17,22 +17,16 @@ namespace doom
 		class Material;
 	}
 
+	namespace assetimporter
+	{
+		class AssetImporterWorker_Texture;
+	}
+
 	namespace asset
 	{
 		class DOOM_API TextureAsset : public Asset
 		{
-			friend class graphics::SingleTexture;
-			friend class graphics::Texture;
-			friend class graphics::Material;
-
-			friend class ::doom::assetimporter::AssetManager;
-			friend class ::doom::assetimporter::Assetimporter;
-
-			template <eAssetType assetType>
-			friend class ::doom::assetimporter::AssetImporterWorker;
-
-			template<eAssetType loopVariable>
-			friend struct ::doom::assetimporter::OnEndImportInMainThreadFunctor;
+			friend class ::doom::assetimporter::AssetImporterWorker_Texture;
 
 		private:
 
@@ -66,9 +60,11 @@ namespace doom
 			virtual ~TextureAsset();
 
 			void OnEndImportInMainThread_Internal() final;
-		};
+			graphics::Texture* GetTexture() const;
 
-		template <> struct Asset::asset_type<eAssetType::TEXTURE> { using type = typename TextureAsset; };
+			virtual doom::asset::eAssetType GetEAssetType() const final;
+		};
+		
 	}
 }
 

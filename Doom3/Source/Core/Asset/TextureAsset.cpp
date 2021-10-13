@@ -121,6 +121,16 @@ void doom::asset::TextureAsset::OnEndImportInMainThread_Internal()
 	D_END_PROFILING(Postprocess_Texture);
 }
 
+Texture* doom::asset::TextureAsset::GetTexture() const
+{
+	return mTexture;
+}
+
+doom::asset::eAssetType doom::asset::TextureAsset::GetEAssetType() const
+{
+	return doom::asset::eAssetType::TEXTURE;
+}
+
 void doom::asset::TextureAsset::CreateTexture()
 {
 	D_ASSERT(mScratchImage->GetImageCount() != 0);

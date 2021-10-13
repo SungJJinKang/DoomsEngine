@@ -13,7 +13,7 @@ void ExitGame();
 int main()
 {
 	{
-		GameCore gameCore{};
+		doom::GameCore gameCore{};
 
 		D_START_PROFILING(Init_Game, doom::profiler::eProfileLayers::CPU);
 		gameCore.Init();
@@ -32,7 +32,7 @@ int main()
 	}
 
 
-	std::cout << "\nLast DObject Count : " << DObjectManager::GetDObjectCount() << std::endl;
+	std::cout << "\nLast DObject Count : " << doom::DObjectManager::GetDObjectCount() << std::endl;
 	std::fflush(stdout);
 }
 

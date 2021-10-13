@@ -1,23 +1,21 @@
 #pragma once
 
-#include "Base_Asset.h"
+#include "Asset.h"
 #include <string>
 
 namespace doom
 {
+	namespace assetimporter
+	{
+		class AssetImporterWorker_Text;
+	}
+
 	namespace asset
 	{
 		class DOOM_API TextAsset : public Asset
 		{
-			friend class ::doom::assetimporter::AssetManager;
-			friend class ::doom::assetimporter::Assetimporter;
-
-			template <eAssetType assetType>
-			friend class ::doom::assetimporter::AssetImporterWorker;
-
-			template<eAssetType loopVariable>
-			friend struct ::doom::assetimporter::OnEndImportInMainThreadFunctor;
-
+			friend class ::doom::assetimporter::AssetImporterWorker_Text;
+			
 		private:
 
 			std::string mText;
@@ -37,7 +35,9 @@ namespace doom
 			TextAsset& operator=(const TextAsset&) = delete;
 			TextAsset& operator=(TextAsset&&) noexcept = default;
 			virtual ~TextAsset() = default;
+
+
+			virtual doom::asset::eAssetType GetEAssetType() const final;
 		};
-		template <> struct Asset::asset_type<eAssetType::TEXT> { using type = typename TextAsset; };
 	}
 }

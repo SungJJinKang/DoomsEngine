@@ -8,7 +8,7 @@ void doom::graphics::PicktureInPickture::InitializeDefaultPIPMaterial()
 {
 	if (PicktureInPickture::mDefualtPIPMaterial.IsGenerated() == false)
 	{
-		doom::asset::ShaderAsset* const pipMaterial = doom::assetimporter::AssetManager::GetAsset<asset::eAssetType::SHADER>("Default2DTextureShader.glsl");
+		doom::asset::ShaderAsset* const pipMaterial = doom::assetimporter::AssetManager::GetSingleton()->GetAsset<asset::eAssetType::SHADER>("Default2DTextureShader.glsl");
 		PicktureInPickture::mDefualtPIPMaterial.SetShaderAsset(pipMaterial);
 	}
 
