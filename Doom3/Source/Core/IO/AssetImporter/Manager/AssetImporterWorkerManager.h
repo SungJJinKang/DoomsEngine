@@ -3,13 +3,13 @@
 #include <Core.h>
 
 #include <array>
-#include <memory>
-#include <vector>
+#include <atomic>
 
 #include <concurrentqueue/blockingconcurrentqueue.h>
 #include <Asset/eAssetType.h>
 
 #include "../AssetImporterWorker/AssetImporterWorker.h"
+
 
 namespace doom
 {
@@ -22,17 +22,21 @@ namespace doom
 
 		private:
 
-			std::array<moodycamel::BlockingConcurrentQueue<doom::assetimporter::AssetImporterWorker*>, doom::asset::ENUM_ASSETTYPE_COUNT> mAssetApiImportersQueue;
-			std::array<std::vector<std::unique_ptr<doom::assetimporter::AssetImporterWorker>>, doom::asset::ENUM_ASSETTYPE_COUNT> mCreatedAssetApiImporters;
+			inline constexpr static unsigned int MAX_ASSETIMPORTER_WORKER_COUNT = 3;
 
+			std::array<moodycamel::BlockingConcurrentQueue<doom::assetimporter::AssetImporterWorker*>, doom::asset::ENUM_ASSETTYPE_COUNT> mAssetApiImportersQueue;
+			std::array<std::atomic<int>, doom::asset::ENUM_ASSETTYPE_COUNT> mAssetApiImportersCount{ 0, 0, 0, 0, 0, 0 };
+			
 			[[nodiscard]] doom::assetimporter::AssetImporterWorker* CreateAssetImporterWorker(const doom::asset::eAssetType eAssetType);
 
+			void InitializeAssetImporterWorkersStatic();
+			
 		public:
-
+		
 			AssetImporterWorkerManager();
 			~AssetImporterWorkerManager();
-			AssetImporterWorkerManager(AssetImporterWorkerManager&&) noexcept;
-			AssetImporterWorkerManager& operator=(AssetImporterWorkerManager&&) noexcept;
+			AssetImporterWorkerManager(AssetImporterWorkerManager&&) noexcept = delete;
+			AssetImporterWorkerManager& operator=(AssetImporterWorkerManager&&) noexcept = delete;
 			AssetImporterWorkerManager(const AssetImporterWorkerManager&) = delete;
 			AssetImporterWorkerManager& operator=(const AssetImporterWorkerManager&) = delete;
 		

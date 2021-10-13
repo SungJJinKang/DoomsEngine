@@ -26,7 +26,7 @@ int main()
 		//window terminated
 
 #ifdef DEBUG_MODE
-		DObjectManager::DestroyAllDObjects(false);
+		doom::DObjectManager::DestroyAllDObjects(false);
 #endif
 		
 	}

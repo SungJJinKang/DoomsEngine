@@ -40,6 +40,7 @@ namespace doom
 		struct DObjectProperties
 		{
 			unsigned int mDObjectFlag = 0;
+			//Used For Debugging
 			std::string mDObjectName;
 			const DObject* mOwnerDObject = nullptr;
 

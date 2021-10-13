@@ -118,43 +118,22 @@ void AssetImporterWorker_THREE_D_MODEL::InitializeAssimp()
 {
 	if(AssetImporterWorker::IsInitialized == false)
 	{
-#ifdef DEBUG_MODE
-		Assimp::DefaultLogger::create("", Assimp::Logger::NORMAL);
-		// Select the kinds of messages you want to receive on this log stream
-		const unsigned int severity = Assimp::Logger::Err;// | Assimp::Logger::Warn;
-
-		// Attaching it to the default logger
-		Assimp::DefaultLogger::get()->attachStream(new doom::assetimporter::AssimpLogStream, severity);
-#endif
-
-		Assimp::Exporter exporter{};
-		size_t formatCount = exporter.GetExportFormatCount();
-		for (size_t i = 0; i < formatCount; i++)
-		{
-			const char* extension = exporter.GetExportFormatDescription(i)->fileExtension;
-			if (std::strcmp(extension, AssetImporterWorker_THREE_D_MODEL::MAIN_3D_MODEL_FILE_FORMAT.data() + 1) == 0)
-			{
-				doom::assetimporter::AssetImporterWorker_THREE_D_MODEL::SetAssFileFormatId(extension);
-				break;
-			}
-		}
+		mAssimpImporter.SetPropertyInteger(AI_CONFIG_PP_RVC_FLAGS,
+			aiComponent_COLORS |
+			aiComponent_BONEWEIGHTS |
+			aiComponent_ANIMATIONS |
+			aiComponent_LIGHTS |
+			aiComponent_CAMERAS |
+			aiComponent_MATERIALS |
+			aiComponent_TEXTURES
+		);// set removed components flags
 
 		AssetImporterWorker::IsInitialized = true;
 	}
-
-
-	mAssimpImporter.SetPropertyInteger(AI_CONFIG_PP_RVC_FLAGS,
-	                                   aiComponent_COLORS |
-	                                   aiComponent_BONEWEIGHTS |
-	                                   aiComponent_ANIMATIONS |
-	                                   aiComponent_LIGHTS |
-	                                   aiComponent_CAMERAS |
-	                                   aiComponent_MATERIALS |
-	                                   aiComponent_TEXTURES
-	);// set removed components flags
 }
 
 AssetImporterWorker_THREE_D_MODEL::AssetImporterWorker_THREE_D_MODEL()
+	:mAssimpImporter()
 {
 	InitializeAssimp();
 }
@@ -346,4 +325,34 @@ bool doom::assetimporter::AssetImporterWorker_THREE_D_MODEL::ImportSpecificAsset
 doom::asset::eAssetType AssetImporterWorker_THREE_D_MODEL::GetEAssetType() const
 {
 	return doom::asset::eAssetType::THREE_D_MODEL;
+}
+
+void AssetImporterWorker_THREE_D_MODEL::InitializeAssetImporterWorkerStatic()
+{
+	if (AssetImporterWorker::IsInitialized == false)
+	{
+#ifdef DEBUG_MODE
+		Assimp::DefaultLogger::create("", Assimp::Logger::NORMAL);
+		// Select the kinds of messages you want to receive on this log stream
+		const unsigned int severity = Assimp::Logger::Err;// | Assimp::Logger::Warn;
+
+		// Attaching it to the default logger
+		Assimp::DefaultLogger::get()->attachStream(new doom::assetimporter::AssimpLogStream, severity);
+#endif
+
+		Assimp::Exporter exporter{};
+		size_t formatCount = exporter.GetExportFormatCount();
+		for (size_t i = 0; i < formatCount; i++)
+		{
+			const char* extension = exporter.GetExportFormatDescription(i)->fileExtension;
+			if (std::strcmp(extension, AssetImporterWorker_THREE_D_MODEL::MAIN_3D_MODEL_FILE_FORMAT.data() + 1) == 0)
+			{
+				doom::assetimporter::AssetImporterWorker_THREE_D_MODEL::SetAssFileFormatId(extension);
+				break;
+			}
+		}
+
+		AssetImporterWorker::IsInitialized = true;
+	}
+
 }

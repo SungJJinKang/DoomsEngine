@@ -39,7 +39,7 @@ namespace doom
 		/// <param name="path"></param>
 		/// <param name="asset"></param>
 		/// <returns>Is Success??</returns>
-		extern bool ImportAssetJob(const std::filesystem::path& path, ::doom::asset::Asset* const asset);
+		extern bool ImportAssetJob(std::filesystem::path path, ::doom::asset::Asset* const asset);
 
 
 		/// <summary>
@@ -49,7 +49,7 @@ namespace doom
 		/// <param name="path"></param>
 		/// <returns></returns>
 		[[nodiscard]] extern std::future<bool> PushImportingAssetJobToThreadPool(
-			const std::filesystem::path& path, ::doom::asset::Asset* const asset
+			std::filesystem::path path, ::doom::asset::Asset* const asset
 		);
 
 

@@ -32,7 +32,7 @@ void AssetManager::DestroyAllAssets()
 
 doom::asset::AssetContainer& AssetManager::GetAssetContainer(const doom::asset::eAssetType _eAssetType)
 {
-	D_ASSERT(static_cast<unsigned int>(eAssetType) < doom::asset::ENUM_ASSETTYPE_COUNT);
+	D_ASSERT(static_cast<unsigned int>(_eAssetType) < doom::asset::ENUM_ASSETTYPE_COUNT);
 
 	return mAssetConatiners[static_cast<unsigned int>(_eAssetType)];
 }
@@ -81,7 +81,7 @@ std::vector<doom::assetimporter::AssetFuture> AssetManager::_ImportAssetAsync
 	const std::vector<doom::asset::eAssetType>& assetTypes
 )
 {
-	D_ASSERT(paths.size() == assets.size());
+	D_ASSERT(paths.size() == assetTypes.size());
 
 	std::vector<doom::assetimporter::AssetFuture> assetFutures;
 	assetFutures.reserve(assetTypes.size());
@@ -223,6 +223,7 @@ void doom::assetimporter::AssetManager::ImportEntireAsset()
 						if (pathList.size() > 0 && pathList.back().stem() == currentEntryPath.stem())
 						{// if Already stored path's  last element file name is same with current file name
 							pathList.pop_back();
+							assetTypeList.pop_back();
 						}
 						else
 						{

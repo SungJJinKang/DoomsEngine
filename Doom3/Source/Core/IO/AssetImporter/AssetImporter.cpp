@@ -104,16 +104,32 @@ std::optional<::doom::asset::eAssetType>  doom::assetimporter::GetAssetType(cons
 	}
 }
 
-bool doom::assetimporter::ImportAssetJob(const std::filesystem::path& path, doom::asset::Asset* const asset)
+bool doom::assetimporter::ImportAssetJob(std::filesystem::path path, doom::asset::Asset* const asset)
 {
 	const doom::asset::eAssetType assetType = asset->GetEAssetType();
 
 	doom::assetimporter::AssetImporterWorker* const importerWorker = 
 		doom::assetimporter::AssetImporterWorkerManager::GetSingleton()->DequeueWorker(assetType);
 
+	D_ASSERT(importerWorker != nullptr);
 	D_ASSERT(importerWorker->GetEAssetType() == asset->GetEAssetType());
 
-	const bool isSuccess = importerWorker->ImportSpecificAsset(path, asset);
+	bool isSuccess = false;
+
+	try
+	{
+		isSuccess = importerWorker->ImportSpecificAsset(path, asset);
+	}
+	catch (...)
+	{
+		
+
+		std::exception_ptr p = std::current_exception();
+		//std::clog << (p ? p._Current_exception(name() : "null") << std::endl;
+
+		D_ASSERT(false);
+	}
+
 
 	if (isSuccess)
 	{
@@ -125,17 +141,19 @@ bool doom::assetimporter::ImportAssetJob(const std::filesystem::path& path, doom
 		asset->SetAssetStatus(::doom::asset::Asset::AssetStatus::FailToImport);
 	}
 
+	doom::assetimporter::AssetImporterWorkerManager::GetSingleton()->EnqueueWorker(importerWorker);
+
 	return isSuccess;
 
 }
 
 std::future<bool> doom::assetimporter::PushImportingAssetJobToThreadPool
 (
-	const std::filesystem::path& path,
+	std::filesystem::path path,
 	doom::asset::Asset* const asset
 )
 {
-	std::function<bool()> newTask = std::bind(ImportAssetJob, path, asset);
+	std::function<bool()> newTask = std::bind(ImportAssetJob, std::move(path), asset);
 	asset->SetAssetStatus(::doom::asset::Asset::AssetStatus::WaitingImport);
 
 	return doom::resource::JobSystem::GetSingleton()->PushBackJobToPriorityQueue(std::move(newTask));
@@ -153,7 +171,7 @@ std::vector<std::future<bool>> doom::assetimporter::PushImportingAssetJobToThrea
 	newTasks.reserve(paths.size());
 	for (unsigned int i = 0; i < paths.size(); i++)
 	{
-		newTasks.push_back(std::bind(ImportAssetJob, paths[i], assets[i]));
+		newTasks.push_back(std::bind(ImportAssetJob, std::move(paths[i]), assets[i]));
 		assets[i]->SetAssetStatus(::doom::asset::Asset::AssetStatus::WaitingImport);
 	}
 

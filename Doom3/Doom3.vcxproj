@@ -384,6 +384,7 @@
     <ClInclude Include="Source\Core\Asset\AssetsForwardDeclaration.h" />
     <ClInclude Include="Source\Core\Asset\Helper\AssetFactory.h" />
     <ClInclude Include="Source\Core\Game\AssetManager\AssetFuture.h" />
+    <ClInclude Include="Source\Core\IO\AssetImporter\AssetImporterWorker\AssetImporterWorkerForwardDeclaration.h" />
     <ClInclude Include="Source\Core\IO\AssetImporter\Manager\AssetImporterWorkerManager.h" />
     <ClInclude Include="Source\Component\Core\ComponentGlobals.h" />
     <ClInclude Include="Source\Component\PhysicsComponent\Rigidbody\Rigidbody.h" />
