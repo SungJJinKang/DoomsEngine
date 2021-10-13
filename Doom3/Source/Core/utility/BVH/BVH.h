@@ -143,11 +143,15 @@ namespace doom
 		const typename node_type* GetRootNode() const;
 		int GetRootNodeIndex() const;
 
-		int GetSibling(const int index);
-		bool IsHasChild(const int index);
+		int GetSiblingNodeIndex(const int index) const;
+		typename node_type* GetSiblingNode(const int index);
+		const typename node_type* GetSiblingNode(const int index) const;
+
+		bool IsHasChild(const int index) const;
 		node_type* GetNode(const int nodeIndex);
 		const node_type* GetNode(const int nodeIndex) const;
 		bool GetIsNodeValid(const int nodeIndex) const;
+		bool GetIsNodeValid(const node_type* const node) const;
 
 		/// <summary>
 		/// longest path from node to leaf

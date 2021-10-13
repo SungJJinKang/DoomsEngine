@@ -179,7 +179,7 @@ FORCE_INLINE int doom::BVH<ColliderType>::GetRootNodeIndex() const
 }
 
 template <typename ColliderType>
-FORCE_INLINE int doom::BVH<ColliderType>::GetSibling(const int index)
+FORCE_INLINE int doom::BVH<ColliderType>::GetSiblingNodeIndex(const int index) const
 {
 	D_ASSERT(index != NULL_NODE_INDEX);
 	int parentIndex = mNodes[index].mParentIndex;
@@ -204,7 +204,20 @@ FORCE_INLINE int doom::BVH<ColliderType>::GetSibling(const int index)
 }
 
 template <typename ColliderType>
-FORCE_INLINE bool doom::BVH<ColliderType>::IsHasChild(const int index)
+typename doom::BVH<ColliderType>::node_type* doom::BVH<ColliderType>::GetSiblingNode(const int index)
+{
+	return GetNode(GetSiblingNodeIndex(index));
+}
+
+template <typename ColliderType>
+const typename doom::BVH<ColliderType>::node_type* doom::BVH<ColliderType>::GetSiblingNode(const int index) const
+{
+	return GetNode(GetSiblingNodeIndex(index));
+}
+
+
+template <typename ColliderType>
+FORCE_INLINE bool doom::BVH<ColliderType>::IsHasChild(const int index) const
 {
 	D_ASSERT(index != NULL_NODE_INDEX);
 	return (mNodes[index].mLeftNode != NULL_NODE_INDEX) || (mNodes[index].mRightNode != NULL_NODE_INDEX);
@@ -351,7 +364,7 @@ FORCE_INLINE int doom::BVH<ColliderType>::Balance(int lowerNodeIndex)
 	{
 		return lowerNodeIndex;
 	}
-	int siblingIndexOfParentOfLowerNode = GetSibling(parentIndexOfLowerNode);
+	int siblingIndexOfParentOfLowerNode = GetSiblingNodeIndex(parentIndexOfLowerNode);
 	if (siblingIndexOfParentOfLowerNode == NULL_NODE_INDEX)
 	{
 		return lowerNodeIndex;
@@ -365,7 +378,7 @@ FORCE_INLINE int doom::BVH<ColliderType>::Balance(int lowerNodeIndex)
 	*/
 	int higerNodeIndex = siblingIndexOfParentOfLowerNode;
 
-	int siblingIndexOfLowerNode = GetSibling(lowerNodeIndex);
+	int siblingIndexOfLowerNode = GetSiblingNodeIndex(lowerNodeIndex);
 	if (ColliderType::GetArea(mNodes[parentIndexOfLowerNode].mBoundingCollider) < ColliderType::GetUnionArea(mNodes[siblingIndexOfLowerNode].mBoundingCollider, mNodes[higerNodeIndex].mBoundingCollider))
 	{// when SA(parent of lowernode) < SA(sibling of lowerNode U upperNode), don't rotate 
 		return lowerNodeIndex;
@@ -606,6 +619,12 @@ template<typename ColliderType>
 bool doom::BVH<ColliderType>::GetIsNodeValid(const int nodeIndex) const
 {
 	return nodeIndex >= 0 && mNodes[nodeIndex].bmIsActive == true;
+}
+
+template <typename ColliderType>
+bool doom::BVH<ColliderType>::GetIsNodeValid(const node_type* const node) const
+{
+	return (node != nullptr) && GetIsNodeValid(node->mIndex);
 }
 
 template <typename ColliderType>
