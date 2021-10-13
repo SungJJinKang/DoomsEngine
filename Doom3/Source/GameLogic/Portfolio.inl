@@ -152,7 +152,7 @@ void doom::GameLogicStartPoint::StartGameLogic()
 			BoxCollider3D* box3D = entity->AddComponent<BoxCollider3D>();
 			box3D->SetFromAABB3D(planetAsset->GetMesh(0)->GetBoundingBox());
 			fireComponent->mBullet = bullet;
-			bullet->mSpeed = 6;
+			bullet->mSpeed = 500;
 		}
 
 	

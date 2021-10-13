@@ -9,5 +9,5 @@ void doom::BulletComponent::UpdateComponent()
 {
 	PlainComponent::UpdateComponent();
 
-	GetTransform()->Translate(GetTransform()->forward() * mSpeed);
+	GetTransform()->Translate(GetTransform()->forward() * mSpeed * doom::time::MainTimer::GetDeltaTime());
 }
