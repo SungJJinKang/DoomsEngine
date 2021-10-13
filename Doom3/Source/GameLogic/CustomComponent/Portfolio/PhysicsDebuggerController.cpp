@@ -17,7 +17,6 @@ void doom::PhysicsDebuggerController::UpdateComponent()
 	}
 
     if (doom::userinput::UserInput_Server::GetKeyUp(doom::userinput::eKEY_CODE::KEY_F7))
-    if (entity != nullptr)
     {
         doom::physics::Physics_Setting::SetIsPhysicsOn(!doom::physics::Physics_Setting::GetIsPhysicsOn());
     }

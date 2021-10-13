@@ -23,6 +23,9 @@
 #include "Portfolio/PhysicsDebuggerController.h"
 #include <Asset/ThreeDModelAsset.h>
 #include <UI/PrintText.h>
+
+#include "BulletComponent.h"
+#include "FireBulletComponent.h"
 #include "PhysicsComponent/Rigidbody/Rigidbody.h"
 
 void doom::GameLogicStartPoint::StartGameLogic()
@@ -69,7 +72,7 @@ void doom::GameLogicStartPoint::StartGameLogic()
 
 	int entityCount = 0;
 
-	int count = 350;
+	int count = 150;
 	for (int i = -count; i < count; i = i + 15)
 	{
 		for (int j = -count; j < count; j = j + 15)
@@ -133,6 +136,7 @@ void doom::GameLogicStartPoint::StartGameLogic()
 		entity1->AddComponent<Move_WASD>();
 		entity1->AddComponent<DeferredRenderingDebuggerController>();
 		entity1->AddComponent<OverDrawVisualizationDebugger>();
+		FireBulletComponent* fireComponent = entity1->AddComponent<FireBulletComponent>();
 		auto physicsDebuggerController = entity1->AddComponent<PhysicsDebuggerController>();
 		entity1->AddComponent<TestComponent>();
 
@@ -142,11 +146,13 @@ void doom::GameLogicStartPoint::StartGameLogic()
 			entity->GetTransform()->SetPosition(0, 0, 0);
 			auto meshRenderer = entity->AddComponent<MeshRenderer>();
 			entity->AddComponent<Rigidbody>();
+			BulletComponent* bullet = entity->AddComponent<BulletComponent>();
 			meshRenderer->SetMesh(planetAsset->GetMesh(0));
 			meshRenderer->SetMaterial(material);
 			BoxCollider3D* box3D = entity->AddComponent<BoxCollider3D>();
 			box3D->SetFromAABB3D(planetAsset->GetMesh(0)->GetBoundingBox());
-			physicsDebuggerController->entity = entity;
+			fireComponent->mBullet = bullet;
+			bullet->mSpeed = 6;
 		}
 
 	
