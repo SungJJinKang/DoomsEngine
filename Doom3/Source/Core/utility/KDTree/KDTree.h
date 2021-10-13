@@ -115,6 +115,12 @@ namespace doom
 	//using KDTreeAABB3D = typename KDTree<physics::AABB3D>;
 	
 	//extern template class KDTree<math::Vector2>;
-	extern template class KDTree<math::Vector3>;
+	
 	//extern template class KDTree<physics::AABB3D>;
+
+
 }
+
+extern template class doom::KDTree<math::Vector3>;
+extern template struct doom::KDTreeNode<math::Vector3>;
+extern template class doom::KDTreeNodeView<math::Vector3>;
