@@ -42,13 +42,13 @@ void doom::physics::PhysicsDebugger::DrawPhysicsColliderBoundingBox()
 
 		while (hitBVHNode != nullptr && hitBVHNode->GetIsValid() == true)
 		{
-			hitBVHNode->GetBoundingCollider().DrawPhysicsDebugColor(eColor::Red);
+			hitBVHNode->mBoundingCollider.DrawPhysicsDebugColor(eColor::Red);
 			hitBVHNode = hitBVHNode->GetParentNode();
 		}
 
 		if (hitBVHNode != nullptr)
 		{
-			hitBVHNode->GetCollider()->DrawPhysicsDebugColor(eColor::Red);
+			hitBVHNode->mCollider->DrawPhysicsDebugColor(eColor::Red);
 		}
 	}
 }

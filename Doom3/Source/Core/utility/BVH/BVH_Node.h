@@ -23,13 +23,9 @@ namespace doom
 	/// </summary>
 	/// <typeparam name="ColliderType"></typeparam>
 	template <typename ColliderType>
-	class BVH_Node : public TreeNode
+	struct BVH_Node : public TreeNode
 	{
-		friend class BVH<ColliderType>;
-
 		using node_view_type = typename BVH_Node_View<ColliderType>;
-
-	private:
 		
 		doom::physics::Collider* mCollider;
 
@@ -53,10 +49,6 @@ namespace doom
 		void ValidCheck() const;
 	
 	
-
-
-	public:
-
 		BVH_Node() {}
 		~BVH_Node() = default;
 
@@ -83,31 +75,7 @@ namespace doom
 		node_view_type Update(const typename ColliderType::component_type& movedVector, const typename ColliderType::component_type& margin);
 		//Node<ColliderType>* Update(const typename ColliderType::component_type& margin);
 		void RemoveNode();
-
-		FORCE_INLINE doom::physics::Collider* GetCollider()
-		{
-			return mCollider;
-		}
-		FORCE_INLINE doom::physics::Collider* GetCollider() const
-		{
-			return mCollider;
-		}
-
-		FORCE_INLINE const BVH<ColliderType>* GetOwnerBVH() const
-		{
-			return mOwnerBVH;
-		}
-	
-		FORCE_INLINE const ColliderType& GetBoundingCollider() const
-		{
-			return mBoundingCollider;
-		}
-
-		FORCE_INLINE const ColliderType& GetEnlargedBoundingCollider() const
-		{
-			return mEnlargedBoundingCollider;
-		}
-
+		
 
 		const BVH_Node<ColliderType>* GetParentNode() const;
 		FORCE_INLINE const BVH_Node<ColliderType>* GetLeftChildNode() const
@@ -128,16 +96,8 @@ namespace doom
 			}
 			return targetNode;
 		}
-
-		int GetParentNodeIndex() const;
-		int GetLeftChildNodeIndex() const;
-		int GetRightChildNodeIndex() const;
-
-		FORCE_INLINE bool GetIsLeafNode() const
-		{
-			return mIsLeaf;
-		}
 		
+
 		node_view_type UpdateNode();
 	};
 
@@ -149,9 +109,9 @@ namespace doom
 	using BVH_Node3D = typename BVH_Node<doom::physics::AABB3D>;
 	using BVH_NodeSphere = typename BVH_Node<doom::physics::Sphere>;
 
-	extern template class BVH_Node<doom::physics::AABB2D>;
-	extern template class BVH_Node<doom::physics::AABB3D>;
-	extern template class BVH_Node<doom::physics::Sphere>;
+	extern template struct BVH_Node<doom::physics::AABB2D>;
+	extern template struct BVH_Node<doom::physics::AABB3D>;
+	extern template struct BVH_Node<doom::physics::Sphere>;
 
 	
 }

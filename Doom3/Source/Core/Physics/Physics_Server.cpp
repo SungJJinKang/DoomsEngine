@@ -41,10 +41,7 @@ void doom::physics::Physics_Server::FixedUpdate()
 	D_START_PROFILING(FixedUpdateCollision, eProfileLayers::CPU);
 	FixedUpdateCollision();
 	D_END_PROFILING(FixedUpdateCollision);
-
-	D_START_PROFILING(UpdatePicking, eProfileLayers::CPU);
-	//mPicking.UpdatePicking();
-	D_END_PROFILING(UpdatePicking);
+	
 }
 
 void doom::physics::Physics_Server::FixedUpdateCollision()
@@ -112,7 +109,7 @@ void doom::physics::Physics_Server::SolveColliderComponents()
 
 const std::vector<const typename BVHAABB3D::node_type*> doom::physics::Physics_Server::GetCollideBVHNodes(const typename BVHAABB3D::node_type* const leafBVHNode) const
 {
-	D_ASSERT(leafBVHNode != nullptr && leafBVHNode->GetIsValid() == true && leafBVHNode->GetIsLeafNode() == true);
+	D_ASSERT(leafBVHNode != nullptr && leafBVHNode->GetIsValid() == true && leafBVHNode->mIsLeaf == true);
 	std::vector<const typename BVHAABB3D::node_type*> hitLeafNodeColliders;
 
 	std::vector<const BVHAABB3D::node_type*> stack{};
@@ -132,7 +129,7 @@ const std::vector<const typename BVHAABB3D::node_type*> doom::physics::Physics_S
 
 const std::vector<doom::physics::Collider*> doom::physics::Physics_Server::GetCollideColliders(const typename BVHAABB3D::node_type* const leafBVHNode) const
 {
-	D_ASSERT(leafBVHNode != nullptr && leafBVHNode->GetIsValid() == true && leafBVHNode->GetIsLeafNode() == true);
+	D_ASSERT(leafBVHNode != nullptr && leafBVHNode->GetIsValid() == true && leafBVHNode->mIsLeaf == true);
 	std::vector<doom::physics::Collider*> hitLeafNodeColliders;
 
 	//std::stack<const BVHAABB3D::node_type*> stack{};
@@ -156,9 +153,9 @@ const std::vector<const typename BVHAABB3D::node_type*> doom::physics::Physics_S
 
 		if (targetNode != nullptr && targetNode->GetIsValid() == true)
 		{
-			if (targetNode->GetIsLeafNode() == true)
+			if (targetNode->mIsLeaf == true)
 			{//if node is world object
-				doom::physics::Collider* const leafNodeCollider = targetNode->GetCollider();
+				doom::physics::Collider* const leafNodeCollider = targetNode->mCollider;
 				if (ColliderSolution::CheckIsOverlap(col, leafNodeCollider) == true)
 				{
 					hitLeafNodeColliders.push_back(targetNode);
@@ -166,7 +163,7 @@ const std::vector<const typename BVHAABB3D::node_type*> doom::physics::Physics_S
 			}
 			else
 			{
-				if (doom::physics::ColliderSolution::CheckIsOverlap(col, &(targetNode->GetBoundingCollider())) == true)
+				if (doom::physics::ColliderSolution::CheckIsOverlap(col, &(targetNode->mBoundingCollider)) == true)
 				{
 					stack.push_back(targetNode->GetLeftChildNode());
 					stack.push_back(targetNode->GetRightChildNode());
@@ -191,16 +188,19 @@ const std::vector<doom::physics::Collider*> doom::physics::Physics_Server::GetCo
 
 	stack.push_back(mPhysicsColliderBVH.GetRootNode());
 
+	size_t k = 0;
+
 	while (stack.empty() == false)
 	{
 		const BVHAABB3D::node_type* const targetNode = stack.back();
 		stack.pop_back();
+		k++;
 
 		if (targetNode != nullptr && targetNode->GetIsValid() == true)
 		{
-			if (targetNode->GetIsLeafNode() == true)
+			if (targetNode->mIsLeaf == true)
 			{//if node is world object
-				doom::physics::Collider* const leafNodeCollider = targetNode->GetCollider();
+				doom::physics::Collider* const leafNodeCollider = targetNode->mCollider;
 				if (ColliderSolution::CheckIsOverlap(col, leafNodeCollider) == true)
 				{
 					hitLeafNodeColliders.push_back(leafNodeCollider);
@@ -208,7 +208,7 @@ const std::vector<doom::physics::Collider*> doom::physics::Physics_Server::GetCo
 			}
 			else
 			{
-				if (doom::physics::ColliderSolution::CheckIsOverlap(col, &(targetNode->GetBoundingCollider())) == true)
+				if (doom::physics::ColliderSolution::CheckIsOverlap(col, &(targetNode->mBoundingCollider)) == true)
 				{
 					stack.push_back(targetNode->GetLeftChildNode());
 					stack.push_back(targetNode->GetRightChildNode());
@@ -216,8 +216,8 @@ const std::vector<doom::physics::Collider*> doom::physics::Physics_Server::GetCo
 			}
 			
 		}
-	}
-
+	} 
+	
 	stackReservationCount = stackReservationCount > stack.capacity() ? stackReservationCount : stack.capacity();
 
 	return hitLeafNodeColliders;

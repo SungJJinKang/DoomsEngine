@@ -10,14 +10,11 @@ namespace doom
 	template <typename ColliderType>
 	class BVH;
 	template <typename ColliderType>
-	class BVH_Node;
+	struct BVH_Node;
 
 	template <typename ColliderType>
 	class BVH_Node_View
 	{
-		friend class BVH<ColliderType>;
-		friend class BVH_Node<ColliderType>;
-		friend class BVH_Node_Container<ColliderType>;
 
 	public:
 

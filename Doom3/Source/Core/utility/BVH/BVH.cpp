@@ -61,7 +61,7 @@ FORCE_INLINE int doom::BVH<ColliderType>::PickBest(const ColliderType& L)
 		searchIndex = node.first;
 		searchInheritedCost = node.second;
 
-		ColliderType& search_aabb = mNodes[searchIndex].mBoundingCollider;
+		const ColliderType& search_aabb = mNodes[searchIndex].mBoundingCollider;
 
 		//Why Get UnionArea L with Ancestors  ??
 		//If you want ancester's area of newly inserted node, you just be needed to compute unioned area with them
@@ -631,7 +631,7 @@ int doom::BVH<ColliderType>::GetLeaf(const int index)
 	for (int nodeIndex = 0; nodeIndex < mCurrentAllocatedNodeCount; nodeIndex++)
 	{
 		auto& node = mNodes[nodeIndex];
-		if (node.bmIsActive == true && node.mIsLeaf == true)
+		if (node.GetIsValid() == true && node.mIsLeaf == true)
 		{
 			if (index == count)
 			{

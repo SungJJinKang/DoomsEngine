@@ -66,7 +66,7 @@ void doom::GameLogicStartPoint::StartGameLogic()
 
 	int entityCount = 0;
 
-	int count = 300;
+	int count = 100;
 	for (int i = -count; i < count; i = i + 15)
 	{
 		for (int j = -count; j < count; j = j + 15)
@@ -91,7 +91,7 @@ void doom::GameLogicStartPoint::StartGameLogic()
 
 
 
-	for (int i = -200; i < 200; i += 70)
+	for (int i = -200; i < 200; i += 30)
 	{
 		auto entity = currenScene->CreateNewEntity();
 		entity->GetTransform()->SetScale(10.0f, 10.0f, 10.0f);
@@ -105,7 +105,7 @@ void doom::GameLogicStartPoint::StartGameLogic()
 		box3D->SetFromAABB3D(planetAsset->GetMesh(0)->GetBoundingBox());
 	}
 
-	for (int i = -50; i < 50; i += 15)
+	for (int i = -50; i < 50; i += 5)
 	{
 		auto entity = currenScene->CreateNewEntity();
 		entity->GetTransform()->SetScale(1.5f, 1.5f, 1.5f);

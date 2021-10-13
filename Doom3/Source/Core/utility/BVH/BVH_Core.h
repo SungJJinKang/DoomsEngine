@@ -8,7 +8,7 @@ namespace doom
 	class BVH;
 	
 	template <typename ColliderType>
-	class BVH_Node;
+	struct BVH_Node;
 
 	template <typename ColliderType>
 	class ColliderUpdater;

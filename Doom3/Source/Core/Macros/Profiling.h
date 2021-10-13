@@ -23,7 +23,7 @@ static unsigned int CONCAT(PROFILING_TAG, _EXECUTE_COUNT) = 0										\
 
 #ifndef D_END_PROFILING_INTERNAL
 
-#define D_END_PROFILING_INTERNAL(PROFILING_TAG, layer)																																									\
+#define D_END_PROFILING_INTERNAL(PROFILING_TAG)																																									\
 const auto CONCAT(PROFILING_TAG, _END) = std::chrono::high_resolution_clock::now();																																		\
 static std::chrono::duration<double, std::milli> CONCAT(PROFILING_TAG, _PROFILE_ELAPSED_TIME) = std::chrono::duration<double, std::milli>::zero();																		\
 CONCAT(PROFILING_TAG, _PROFILE_ELAPSED_TIME) += std::chrono::duration_cast<std::chrono::duration<double, std::milli>>(CONCAT(PROFILING_TAG, _END) - CONCAT(PROFILING_TAG, _START));										\
@@ -47,7 +47,7 @@ CONCAT(PROFILING_TAG, _EXECUTE_COUNT) = 0;																																						
 #if ( defined(DEBUG_MODE) || defined(ALWAYS_PROFILING) )
 
 #ifndef D_START_PROFILING
-#define D_START_PROFILING(PROFILING_TAG) D_START_PROFILING_INTERNAL(PROFILING_TAG)
+#define D_START_PROFILING(PROFILING_TAG, LAYER) D_START_PROFILING_INTERNAL(PROFILING_TAG)
 #endif
 
 #ifndef D_END_PROFILING

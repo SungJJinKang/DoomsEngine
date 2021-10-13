@@ -76,24 +76,7 @@ const doom::BVH_Node<ColliderType>* doom::BVH_Node<ColliderType>::GetParentNode(
 	return targetNode;
 }
 
-template<typename ColliderType>
-int doom::BVH_Node<ColliderType>::GetParentNodeIndex() const
-{
-	return mParentIndex;
-}
 
-template<typename ColliderType>
-int doom::BVH_Node<ColliderType>::GetLeftChildNodeIndex() const
-{
-	return mLeftNode;
-}
-
-template<typename ColliderType>
-int doom::BVH_Node<ColliderType>::GetRightChildNodeIndex() const
-{
-	return mRightNode;
-}
-
-template class doom::BVH_Node<doom::physics::AABB2D>;
-template class doom::BVH_Node<doom::physics::AABB3D>;
-template class doom::BVH_Node<doom::physics::Sphere>;
+template struct doom::BVH_Node<doom::physics::AABB2D>;
+template struct doom::BVH_Node<doom::physics::AABB3D>;
+template struct doom::BVH_Node<doom::physics::Sphere>;

@@ -3,11 +3,8 @@
 namespace doom
 {
 	
-	class TreeNode
+	struct TreeNode
 	{
-
-	protected:
-
 		int mIndex;
 
 		/// <summary>
@@ -31,8 +28,7 @@ namespace doom
 		/// 
 		/// </summary>
 		unsigned int mBitFlag;
-
-	public:
+		
 
 		TreeNode() {}
 

@@ -11,7 +11,7 @@ namespace doom
 	}
 
 	template <typename ColliderType>
-	class BVH_Node;
+	struct BVH_Node;
 
 	template <typename ColliderType>
 	class BVH_Node_Container

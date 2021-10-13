@@ -14,6 +14,11 @@ void doom::PhysicsDebuggerController::UpdateComponent()
 	{
 		doom::physics::Physics_Setting::SetIsPhysicsOn(!doom::physics::Physics_Setting::GetIsPhysicsOn());
 
+		
+	}
+
+	if (doom::userinput::UserInput_Server::GetKeyUp(doom::userinput::eKEY_CODE::KEY_F8))
+	{
 		doom::physics::Physics_Setting::IS_RENDER_PHYSICS_RAYCASTING_DEBUGGER = !(doom::physics::Physics_Setting::IS_RENDER_PHYSICS_RAYCASTING_DEBUGGER);
 	}
 }
