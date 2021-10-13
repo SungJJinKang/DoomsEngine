@@ -8,13 +8,7 @@
 
 void doom::ColliderComponent::ResetAllCollisionState()
 {
-	mbIsColliderEnter = false;
-	mbIsColliderExit = false;
-	mbIsColliderStay = false;
-
-	mbIsTriggerEnter = false;
-	mbIsTriggerExit = false;
-	mbIsTriggerStay = false;
+	GetWorldCollider()->ClearCollision();
 }
 
 void doom::ColliderComponent::InitComponent()

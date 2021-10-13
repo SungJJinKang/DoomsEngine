@@ -239,6 +239,7 @@
     <ClCompile Include="Source\Core\OS\Window.cpp" />
     <ClCompile Include="Source\Core\Physics\Collider\ColliderType.cpp" />
     <ClCompile Include="Source\Core\Physics\PhysicsDebugger.cpp" />
+    <ClCompile Include="Source\Core\Physics\PhysicsSolver.cpp" />
     <ClCompile Include="Source\Core\Profiler\ProfilerUI.cpp" />
     <ClCompile Include="Source\Component\EventSystem.cpp" />
     <ClCompile Include="Source\Component\PhysicsComponent\BoxCollider2D.cpp" />
@@ -417,6 +418,7 @@
     <ClInclude Include="Source\Core\Macros\DllMarcos.h" />
     <ClInclude Include="Source\Core\Macros\MacrosHelper.h" />
     <ClInclude Include="Source\Core\Physics\PhysicsDebugger.h" />
+    <ClInclude Include="Source\Core\Physics\PhysicsSolver.h" />
     <ClInclude Include="Source\Core\Profiler\CPUVendorProfiler.h" />
     <ClInclude Include="Source\Core\Profiler\ProfilerABTest.h" />
     <ClInclude Include="Source\Core\Profiler\ProfilerUI.h" />

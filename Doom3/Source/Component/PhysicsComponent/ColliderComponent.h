@@ -29,16 +29,6 @@ namespace doom
 		DirtyReceiver bmIsWorldColliderDirty{ true };
 		DirtyReceiver bmIsLocalColliderDirty{ true };
 		void SetIsLocalColliderDirty();
-
-		bool bmIsTrigger{ false };
-
-		bool mbIsColliderEnter{ false };
-		bool mbIsColliderExit{ false };
-		bool mbIsColliderStay{ false };
-		
-		bool mbIsTriggerEnter{ false };
-		bool mbIsTriggerExit{ false };
-		bool mbIsTriggerStay{ false };
 		
 		void InitComponent() override;
 		void UpdateComponent() final;
@@ -85,36 +75,7 @@ namespace doom
 		void UpdatePhysics();
 		void OnPostUpdatePhysics();
 
-		FORCE_INLINE bool GetIsColliderEnter() const
-		{
-			return mbIsColliderEnter;
-		}
-
-		FORCE_INLINE bool GetIsColliderExit() const
-		{
-			return mbIsColliderExit;
-		}
-
-		FORCE_INLINE bool GetIsColliderStay() const
-		{
-			return mbIsColliderStay;
-		}
-
-
-		FORCE_INLINE bool GetIsTriggerEnter() const
-		{
-			return mbIsTriggerEnter;
-		}
-
-		FORCE_INLINE bool GetIsTriggerExit() const
-		{
-			return mbIsTriggerExit;
-		}
-
-		FORCE_INLINE bool GetIsTriggerStay() const
-		{
-			return mbIsTriggerStay;
-		}
+	
 
 		/// <summary>
 		/// return true if There is Renderer and have AABB3D

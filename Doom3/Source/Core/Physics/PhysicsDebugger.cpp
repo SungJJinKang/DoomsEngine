@@ -5,6 +5,7 @@
 #include <PhysicsComponent/ColliderComponent.h>
 #include <Rendering/Camera.h>
 #include <Scene/Entity.h>
+#include "PhysicsSolver.h"
 
 void doom::physics::PhysicsDebugger::DrawMouseRayCast()
 {
@@ -18,37 +19,19 @@ void doom::physics::PhysicsDebugger::DrawPhysicsColliderBoundingBox()
 
 	
 	const std::vector<ColliderComponent*> colliderComponents = StaticContainer<ColliderComponent>::GetAllStaticComponents();
-	for (ColliderComponent* col : colliderComponents)
+	for (ColliderComponent* colComponent : colliderComponents)
 	{
-		col->GetWorldCollider()->DrawPhysicsDebugColor(eColor::Blue);
+		doom::physics::Collider* const col = colComponent->GetWorldCollider();
+		if(col->bmIsCollideAtCurrentFrame == true)
+		{
+			col->DrawPhysicsDebugColor(eColor::Red);
+		}
+		else
+		{
+			col->DrawPhysicsDebugColor(eColor::Blue);
+		}
+		
 	}
 	
 
-	const ColliderComponent* const cameraCollider = Camera::GetMainCamera()->GetOwnerEntity()->GetComponent<ColliderComponent>();
-	const doom::BVHAABB3D::node_type* cameraBVHNode = nullptr;
-	if (cameraCollider != nullptr)
-	{
-		cameraBVHNode = cameraCollider->mBVH_Node_View.GetNode();
-	}
-
-	size_t stackReservationCount = 0;
-
-	for (auto hitBVHNode : Physics_Server::GetSingleton()->GetCollideBVHNodes(&mouseRay, stackReservationCount))
-	{
-		if (cameraBVHNode != nullptr && hitBVHNode == cameraBVHNode)
-		{
-			continue;
-		}
-
-		while (hitBVHNode != nullptr && hitBVHNode->GetIsValid() == true)
-		{
-			hitBVHNode->mBoundingCollider.DrawPhysicsDebugColor(eColor::Red);
-			hitBVHNode = hitBVHNode->GetParentNode();
-		}
-
-		if (hitBVHNode != nullptr)
-		{
-			hitBVHNode->mCollider->DrawPhysicsDebugColor(eColor::Red);
-		}
-	}
 }

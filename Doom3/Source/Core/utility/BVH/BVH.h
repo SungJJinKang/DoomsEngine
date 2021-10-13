@@ -187,7 +187,10 @@ namespace doom
 	extern template class BVH<doom::physics::AABB3D>;
 	extern template class BVH<doom::physics::Sphere>;
 
+
+	using NodeCost = typename std::pair<int, float>;
 }
+
 
 template <>
 struct std::greater<typename doom::NodeCost>

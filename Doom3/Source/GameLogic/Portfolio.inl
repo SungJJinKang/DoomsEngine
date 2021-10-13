@@ -68,7 +68,7 @@ void doom::GameLogicStartPoint::StartGameLogic()
 
 	int entityCount = 0;
 
-	int count = 300;
+	int count = 350;
 	for (int i = -count; i < count; i = i + 15)
 	{
 		for (int j = -count; j < count; j = j + 15)
@@ -93,7 +93,7 @@ void doom::GameLogicStartPoint::StartGameLogic()
 
 
 
-	for (int i = -200; i < 200; i += 30)
+	for (int i = -200; i < 200; i += 60)
 	{
 		auto entity = currenScene->CreateNewEntity();
 		entity->GetTransform()->SetScale(10.0f, 10.0f, 10.0f);
@@ -107,7 +107,7 @@ void doom::GameLogicStartPoint::StartGameLogic()
 		box3D->SetFromAABB3D(planetAsset->GetMesh(0)->GetBoundingBox());
 	}
 
-	for (int i = -50; i < 50; i += 5)
+	for (int i = -50; i < 50; i += 30)
 	{
 		auto entity = currenScene->CreateNewEntity();
 		entity->GetTransform()->SetScale(1.5f, 1.5f, 1.5f);
@@ -122,17 +122,34 @@ void doom::GameLogicStartPoint::StartGameLogic()
 		box3D->SetFromAABB3D(planetAsset->GetMesh(0)->GetBoundingBox());
 	}
 
-	auto entity1 = currenScene->CreateNewEntity();
+	{
+		auto entity1 = currenScene->CreateNewEntity();
 
-	auto entity1Camera = entity1->AddComponent<Camera>();
-	entity1->GetTransform()->SetPosition(0, 0, 1000);
-	entity1Camera->SetProjectionMode(doom::Camera::eProjectionType::Perspective);
-	entity1->AddComponent<ViewFrustumCullingDebug>();
-	entity1->AddComponent<Move_WASD>();
-	entity1->AddComponent<DeferredRenderingDebuggerController>();
-	entity1->AddComponent<OverDrawVisualizationDebugger>();
-	entity1->AddComponent<PhysicsDebuggerController>();
-	entity1->AddComponent<TestComponent>();
+		auto entity1Camera = entity1->AddComponent<Camera>();
+		entity1->GetTransform()->SetPosition(0, 0, 1000);
+		entity1Camera->SetProjectionMode(doom::Camera::eProjectionType::Perspective);
+		entity1->AddComponent<ViewFrustumCullingDebug>();
+		entity1->AddComponent<Move_WASD>();
+		entity1->AddComponent<DeferredRenderingDebuggerController>();
+		entity1->AddComponent<OverDrawVisualizationDebugger>();
+		auto physicsDebuggerController = entity1->AddComponent<PhysicsDebuggerController>();
+		entity1->AddComponent<TestComponent>();
+
+		{
+			auto entity = currenScene->CreateNewEntity();
+			entity->GetTransform()->SetScale(1.5f, 1.5f, 1.5f);
+			entity->GetTransform()->SetPosition(0, 0, 0);
+			auto meshRenderer = entity->AddComponent<MeshRenderer>();
+			meshRenderer->SetMesh(planetAsset->GetMesh(0));
+			meshRenderer->SetMaterial(material);
+			BoxCollider3D* box3D = entity->AddComponent<BoxCollider3D>();
+			box3D->SetFromAABB3D(planetAsset->GetMesh(0)->GetBoundingBox());
+			physicsDebuggerController->entity = entity;
+		}
+
+	
+	}
+
 
 	
 

@@ -4,6 +4,7 @@
 #include "Physics/Collider/Sphere.h"
 
 #include "BVH_Core.h"
+#include "BVH.h"
 
 namespace doom
 {
@@ -48,8 +49,16 @@ namespace doom
 		typename node_type* operator->();
 		const typename node_type* operator->() const;
 
-		node_type* GetNode();
-		const node_type* GetNode() const;
+		FORCE_INLINE node_type* GetNode()
+		{
+			D_ASSERT(IsValid() == true);
+			return mOwnerBVH->GetNode(mNodeIndex);
+		}
+		FORCE_INLINE const node_type* GetNode() const
+		{
+			D_ASSERT(IsValid() == true);
+			return mOwnerBVH->GetNode(mNodeIndex);
+		}
 
 		int GetNodeIndex() const
 		{

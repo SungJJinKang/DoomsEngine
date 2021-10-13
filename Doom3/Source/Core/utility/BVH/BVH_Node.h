@@ -103,7 +103,8 @@ namespace doom
 
 	
 
-	using NodeCost = typename std::pair<int, float>;
+	
+
 
 	using BVH_Node2D = typename BVH_Node<doom::physics::AABB2D>;
 	using BVH_Node3D = typename BVH_Node<doom::physics::AABB3D>;

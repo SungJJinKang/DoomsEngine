@@ -9,6 +9,8 @@
 #include "PhysicsComponent/ColliderComponent.h"
 #include <StaticContainer/StaticContainer.h>
 
+#include "PhysicsSolver.h"
+
 
 void doom::physics::Physics_Server::LoadPhysicsSetting()
 {
@@ -48,15 +50,13 @@ void doom::physics::Physics_Server::FixedUpdateCollision()
 {
 	if (Physics_Setting::GetIsPhysicsOn() == true)
 	{
+		ResetCollisionData();
 		SolveColliderComponents();
 	}
 }
 
 
-
-
-
-void doom::physics::Physics_Server::SolveColliderComponents()
+void doom::physics::Physics_Server::ResetCollisionData()
 {
 	const std::vector<ColliderComponent*>& colliderComponents = doom::StaticContainer<ColliderComponent>::GetAllStaticComponents();
 
@@ -67,7 +67,14 @@ void doom::physics::Physics_Server::SolveColliderComponents()
 		colliderComp->OnPreUpdatePhysics();
 	}
 	D_END_PROFILING(Physics_Server_SolveColliderComponents_ResetAllCollisionState);
+}
 
+void doom::physics::Physics_Server::SolveColliderComponents()
+{
+	
+
+	const std::vector<ColliderComponent*>& colliderComponents = doom::StaticContainer<ColliderComponent>::GetAllStaticComponents();
+	
 	size_t stackReservationCount = 1;
 
 
@@ -77,9 +84,11 @@ void doom::physics::Physics_Server::SolveColliderComponents()
 	{
 		Collider* const testedCollider = colliderComponents[i]->GetWorldCollider();
 
-		//const std::vector<doom::physics::Collider*> hitBVHLeafNodes = GetCollideColliders(testedCollider, stackReservationCount);
-		const std::vector<doom::physics::Collider*> hitBVHLeafNodes = GetCollideCollidersHillClimb
+		//const std::vector<doom::physics::Collider*> hitBVHLeafNodes = doom::physics::PhysicsSolver::GetCollideColliders(&mPhysicsColliderBVH, testedCollider, stackReservationCount);
+		
+		const std::vector<doom::physics::Collider*> hitBVHLeafNodes = doom::physics::PhysicsSolver::GetCollideColliders
 		(
+			&mPhysicsColliderBVH,
 			testedCollider, 
 			colliderComponents[i]->BVH_AABB3D_Node_Object::mBVH_Node_View.GetNode(),
 			stackReservationCount
@@ -113,210 +122,6 @@ void doom::physics::Physics_Server::SolveColliderComponents()
 	}
 	D_END_PROFILING(Physics_Server_SolveColliderComponents_OnPostUpdatePhysics);
 
-}
-
-const std::vector<const typename doom::BVHAABB3D::node_type*> doom::physics::Physics_Server::GetCollideBVHNodes
-(
-	const typename BVHAABB3D::node_type* const leafBVHNode
-) const
-{
-	D_ASSERT(leafBVHNode != nullptr && leafBVHNode->GetIsValid() == true && leafBVHNode->mIsLeaf == true);
-	std::vector<const typename BVHAABB3D::node_type*> hitLeafNodeColliders;
-
-	std::vector<const BVHAABB3D::node_type*> stack{};
-	stack.push_back(leafBVHNode);
-
-	while (stack.empty() == false)
-	{
-		const BVHAABB3D::node_type* const targetNode = stack.back();
-		stack.pop_back();
-
-		if (targetNode != nullptr && targetNode->GetIsValid() == true)
-		{
-			//형제 노드와 충돌하면 
-		}
-	}
-}
-
-
-
-const std::vector<doom::physics::Collider*> doom::physics::Physics_Server::GetCollideCollidersHillClimb
-(
-	const doom::physics::Collider* const targetCollider, 
-	const BVHAABB3D::node_type* const targetColliderBVHNode,
-	size_t& stackReservationCount
-) const
-{
-	const BVHAABB3D* const ownerBVH = targetColliderBVHNode->mOwnerBVH;
-
-	D_ASSERT(ownerBVH != nullptr);
-	D_ASSERT(leafBVHNode != nullptr && leafBVHNode->GetIsValid() == true && leafBVHNode->mIsLeaf == true);
-
-	
-	
-	//First. To Find highest node collide with leafBVHNode, Hill Climb until not collide with sibling node 
-	const BVHAABB3D::node_type* currentNode = targetColliderBVHNode;
-
-	while(ownerBVH->GetIsNodeValid(currentNode) && currentNode->mIndex != currentNode->mOwnerBVH->GetRootNodeIndex())
-	{
-		const BVHAABB3D::node_type* const siblingNode = ownerBVH->GetSiblingNode(currentNode->mIndex);
-
-		if(
-			ownerBVH->GetIsNodeValid(siblingNode) == false
-			||
-			ColliderSolution::CheckIsOverlap(&(currentNode->mBoundingCollider), &(siblingNode->mBoundingCollider)) == false
-			)
-		{
-			//If don't collide with sibling, break;
-			break;
-		}
-		
-		currentNode = currentNode->GetParentNode();
-	}
-
-	std::vector<Collider*> hitLeafNodeColliders;
-
-	static std::vector<const BVHAABB3D::node_type*> stack{};
-	stack.reserve(stackReservationCount);
-	stack.push_back(currentNode);
-
-	while (stack.empty() == false)
-	{
-		const BVHAABB3D::node_type* const targetNode = stack.back();
-		stack.pop_back();
-
-		if (targetNode != nullptr && targetNode->GetIsValid() == true)
-		{
-			if (targetNode->mIsLeaf == true)
-			{//if node is world object
-				doom::physics::Collider* const leafNodeCollider = targetNode->mCollider;
-				if (ColliderSolution::CheckIsOverlap(targetCollider, leafNodeCollider) == true)
-				{
-					hitLeafNodeColliders.push_back(leafNodeCollider);
-				}
-			}
-			else
-			{
-				stack.push_back(targetNode->GetLeftChildNode());
-				stack.push_back(targetNode->GetRightChildNode());
-			}
-
-		}
-	}
-
-	stackReservationCount = stackReservationCount > stack.capacity() ? stackReservationCount : stack.capacity();
-
-	stack.clear();
-
-	return hitLeafNodeColliders;
-
-	return hitLeafNodeColliders;
-}
-
-const std::vector<doom::physics::Collider*> doom::physics::Physics_Server::GetCollideColliders
-(
-	const typename BVHAABB3D::node_type* const leafBVHNode
-) const
-{
-	D_ASSERT(leafBVHNode != nullptr && leafBVHNode->GetIsValid() == true && leafBVHNode->mIsLeaf == true);
-	std::vector<doom::physics::Collider*> hitLeafNodeColliders;
-
-	//std::stack<const BVHAABB3D::node_type*> stack{};
-	//stack.push(leafBVHNode);
-
-
-}
-
-const std::vector<const typename doom::BVHAABB3D::node_type*> doom::physics::Physics_Server::GetCollideBVHNodes
-(
-	const doom::physics::Collider* const col, size_t& stackReservationCount
-) const
-{
-	std::vector<const typename BVHAABB3D::node_type*> hitLeafNodeColliders;
-
-	static std::vector<const BVHAABB3D::node_type*> stack{};
-	stack.reserve(stackReservationCount);
-	stack.push_back(mPhysicsColliderBVH.GetRootNode());
-
-	while (stack.empty() == false)
-	{
-		const BVHAABB3D::node_type* const targetNode = stack.back();
-		stack.pop_back();
-
-		if (targetNode != nullptr && targetNode->GetIsValid() == true)
-		{
-			if (targetNode->mIsLeaf == true)
-			{//if node is world object
-				doom::physics::Collider* const leafNodeCollider = targetNode->mCollider;
-				if (ColliderSolution::CheckIsOverlap(col, leafNodeCollider) == true)
-				{
-					hitLeafNodeColliders.push_back(targetNode);
-				}
-			}
-			else
-			{
-				if (doom::physics::ColliderSolution::CheckIsOverlap(col, &(targetNode->mBoundingCollider)) == true)
-				{
-					stack.push_back(targetNode->GetLeftChildNode());
-					stack.push_back(targetNode->GetRightChildNode());
-				}
-			}
-
-		}
-	}
-
-	stackReservationCount = stackReservationCount > stack.capacity() ? stackReservationCount : stack.capacity();
-
-	stack.clear();
-
-	return hitLeafNodeColliders;
-}
-
-
-const std::vector<doom::physics::Collider*> doom::physics::Physics_Server::GetCollideColliders
-(
-	const doom::physics::Collider* const col, size_t& stackReservationCount
-) const
-{
-	std::vector<Collider*> hitLeafNodeColliders;
-
-	static std::vector<const BVHAABB3D::node_type*> stack{};
-	stack.reserve(stackReservationCount);
-
-	stack.push_back(mPhysicsColliderBVH.GetRootNode());
-	
-	while (stack.empty() == false)
-	{
-		const BVHAABB3D::node_type* const targetNode = stack.back();
-		stack.pop_back();
-
-		if (targetNode != nullptr && targetNode->GetIsValid() == true)
-		{
-			if (targetNode->mIsLeaf == true)
-			{//if node is world object
-				doom::physics::Collider* const leafNodeCollider = targetNode->mCollider;
-				if (ColliderSolution::CheckIsOverlap(col, leafNodeCollider) == true)
-				{
-					hitLeafNodeColliders.push_back(leafNodeCollider);
-				}
-			}
-			else
-			{
-				if (doom::physics::ColliderSolution::CheckIsOverlap(col, &(targetNode->mBoundingCollider)) == true)
-				{
-					stack.push_back(targetNode->GetLeftChildNode());
-					stack.push_back(targetNode->GetRightChildNode());
-				}
-			}
-			
-		}
-	} 
-	
-	stackReservationCount = stackReservationCount > stack.capacity() ? stackReservationCount : stack.capacity();
-
-	stack.clear();
-
-	return hitLeafNodeColliders;
 }
 
 void doom::physics::Physics_Server::OnEndOfFrame()
