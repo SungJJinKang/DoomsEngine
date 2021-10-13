@@ -14,7 +14,6 @@ Entity::Entity(size_t entityID, Entity* parent) :
 	mPlainComponents{}, 
 	mParent{ parent }, 
 	mChilds{}, 
-	mComponentPtrCache{ nullptr },
 	mTransform{}
 {
 	InitializeComponent(&mTransform);

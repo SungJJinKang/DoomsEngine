@@ -24,6 +24,9 @@ namespace doom
 		/// </summary>
 		void AutoColliderSetting();
 
+		void AddThisComponentToRigidbody();
+		void RemoveThisComponentFromRigidbody();
+
 	protected:
 
 		DirtyReceiver bmIsWorldColliderDirty{ true };
@@ -67,8 +70,6 @@ namespace doom
 		virtual const math::Matrix4x4& GetModelMatrix() final;
 
 	public:
-
-		void ResetAllCollisionState();
 		void UpdateLocalColliderAndLocalBVhAABBCache();
 
 		void OnPreUpdatePhysics();

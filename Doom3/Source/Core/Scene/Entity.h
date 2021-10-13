@@ -239,11 +239,7 @@ namespace doom
 			return _AddComponent<T>(new T(std::forward<arguments>(a)...));
 		}
 		*/
-
-
-		// TODO : cached component can be destroyed component 
-		mutable Component* mComponentPtrCache;
-
+		
 		/// <summary>
 		/// GetComponent is expesive, so cache it
 		/// </summary>
@@ -252,15 +248,7 @@ namespace doom
 		template<typename T, std::enable_if_t<std::is_base_of_v<Component, T>, bool> = true>
 		[[nodiscard]] T* GetComponent() // never return unique_ptr reference, just return pointer
 		{
-			if (mComponentPtrCache != nullptr)
-			{
-				T* componentPtr = dynamic_cast<T*>(mComponentPtrCache);
-				if (componentPtr != nullptr)
-				{
-					D_DEBUG_LOG("Component Cache hit");
-					return componentPtr;
-				}
-			}
+			T* returnedComponent = nullptr;
 
 			if constexpr (Entity::IsServerComponent<T>() == true)
 			{// when component is ServerComponent
@@ -269,8 +257,7 @@ namespace doom
 					T* componentPtr = dynamic_cast<T*>(ServerComponent.get());
 					if (componentPtr != nullptr)
 					{
-						mComponentPtrCache = ServerComponent.get();
-						return componentPtr;
+						returnedComponent = componentPtr;
 					}
 				}
 			}
@@ -281,14 +268,13 @@ namespace doom
 					T* componentPtr = dynamic_cast<T*>(plainComponent.get());
 					if (componentPtr != nullptr)
 					{
-						mComponentPtrCache = plainComponent.get();
-						return componentPtr;
+						returnedComponent = componentPtr;
 					}
 				}
 			}
 			
 
-			return nullptr;
+			return returnedComponent;
 		}
 
 		/// <summary>
@@ -299,15 +285,7 @@ namespace doom
 		template<typename T, std::enable_if_t<std::is_base_of_v<Component, T>, bool> = true>
 		[[nodiscard]] const T* GetComponent() const // never return unique_ptr reference, just return pointer
 		{
-			if (mComponentPtrCache != nullptr)
-			{
-				T* componentPtr = dynamic_cast<T*>(mComponentPtrCache);
-				if (componentPtr != nullptr)
-				{
-					D_DEBUG_LOG("Component Cache hit");
-					return componentPtr;
-				}
-			}
+			T* returnedComponent = nullptr;
 
 			if constexpr (Entity::IsServerComponent<T>() == true)
 			{// when component is ServerComponent
@@ -316,8 +294,7 @@ namespace doom
 					T* componentPtr = dynamic_cast<T*>(ServerComponent.get());
 					if (componentPtr != nullptr)
 					{
-						mComponentPtrCache = ServerComponent.get();
-						return componentPtr;
+						returnedComponent = componentPtr;
 					}
 				}
 			}
@@ -328,14 +305,13 @@ namespace doom
 					T* componentPtr = dynamic_cast<T*>(plainComponent.get());
 					if (componentPtr != nullptr)
 					{
-						mComponentPtrCache = plainComponent.get();
-						return componentPtr;
+						returnedComponent = componentPtr;
 					}
 				}
 			}
 
 
-			return nullptr;
+			return returnedComponent;
 		}
 
 		template<typename T, std::enable_if_t<std::is_base_of_v<Component, T>, bool> = true>

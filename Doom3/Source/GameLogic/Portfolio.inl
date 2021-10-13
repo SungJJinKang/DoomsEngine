@@ -23,6 +23,7 @@
 #include "Portfolio/PhysicsDebuggerController.h"
 #include <Asset/ThreeDModelAsset.h>
 #include <UI/PrintText.h>
+#include "PhysicsComponent/Rigidbody/Rigidbody.h"
 
 void doom::GameLogicStartPoint::StartGameLogic()
 {
@@ -140,6 +141,7 @@ void doom::GameLogicStartPoint::StartGameLogic()
 			entity->GetTransform()->SetScale(1.5f, 1.5f, 1.5f);
 			entity->GetTransform()->SetPosition(0, 0, 0);
 			auto meshRenderer = entity->AddComponent<MeshRenderer>();
+			entity->AddComponent<Rigidbody>();
 			meshRenderer->SetMesh(planetAsset->GetMesh(0));
 			meshRenderer->SetMaterial(material);
 			BoxCollider3D* box3D = entity->AddComponent<BoxCollider3D>();

@@ -4,21 +4,39 @@
 
 #include <Entity.h>
 #include <Rendering/Renderer/Renderer.h>
+#include "Rigidbody/Rigidbody.h"
 
-
-void doom::ColliderComponent::ResetAllCollisionState()
+void doom::ColliderComponent::AddThisComponentToRigidbody()
 {
-	GetWorldCollider()->ClearCollision();
+	doom::Rigidbody* const attachedRigidbodyComponent = GetOwnerEntity()->GetComponent<Rigidbody>();
+	if(IsValid(attachedRigidbodyComponent) == true)
+	{
+		attachedRigidbodyComponent->AddColliderComponent(this);
+	}
 }
+
+void doom::ColliderComponent::RemoveThisComponentFromRigidbody()
+{
+	doom::Rigidbody* const attachedRigidbodyComponent = GetOwnerEntity()->GetComponent<Rigidbody>();
+	if (IsValid(attachedRigidbodyComponent) == true)
+	{
+		attachedRigidbodyComponent->RemoveColliderComponent(this);
+	}
+}
+
 
 void doom::ColliderComponent::InitComponent()
 {
+	ServerComponent::InitComponent();
+
 	AddLocalDirtyToTransformDirtyReceiver(bmIsWorldColliderDirty);
 	AddLocalDirtyToTransformDirtyReceiver(IsWorldColliderCacheDirty);
 
 	AutoColliderSetting();
 
 	InsertBVHLeafNode(physics::Physics_Server::GetSingleton()->mPhysicsColliderBVH, *BVH_AABB3D_Node_Object::GetWorldCollider(), GetWorldCollider());
+
+	AddThisComponentToRigidbody();
 }
 
 void doom::ColliderComponent::UpdateComponent()
@@ -37,17 +55,16 @@ void doom::ColliderComponent::OnEndOfFrame_Component()
 
 void doom::ColliderComponent::OnDestroy()
 {
-	ResetAllCollisionState();
+	RemoveThisComponentFromRigidbody();
+
 }
 
 void doom::ColliderComponent::OnActivated()
 {
-	ResetAllCollisionState();
 }
 
 void doom::ColliderComponent::OnDeActivated()
 {
-	ResetAllCollisionState();
 }
 
 void doom::ColliderComponent::UpdateLocalBVhAABBCacheFromLocalCollider()
@@ -72,6 +89,7 @@ void doom::ColliderComponent::AutoColliderSetting()
 		UpdateLocalColliderCache(aabb3dFromMesh); // LocalBVhAABBCache contain offset of LocalCollider
 	}
 }
+
 
 bool doom::ColliderComponent::GetMeshAABB3D(physics::AABB3D& aabb3D)
 {

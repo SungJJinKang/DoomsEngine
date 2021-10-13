@@ -18,9 +18,7 @@ namespace doom
 
 		public:
 
-			bool bmIsCollideAtCurrentFrame{ false };
-			void ClearCollision();
-
+		
 			Collider() {}
 			virtual ~Collider() {}
 

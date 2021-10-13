@@ -6,7 +6,8 @@
 #include "Collider/ColliderSolution.h"
 #include "Collider/Collider.h"
 
-#include "PhysicsComponent/ColliderComponent.h"
+#include <PhysicsComponent/ColliderComponent.h>
+#include <PhysicsComponent/Rigidbody/Rigidbody.h>
 #include <StaticContainer/StaticContainer.h>
 
 #include "PhysicsSolver.h"
@@ -63,52 +64,50 @@ void doom::physics::Physics_Server::ResetCollisionData()
 	D_START_PROFILING(Physics_Server_SolveColliderComponents_ResetAllCollisionState, eProfileLayers::CPU);
 	for (ColliderComponent* colliderComp : colliderComponents)
 	{
-		colliderComp->ResetAllCollisionState();
 		colliderComp->OnPreUpdatePhysics();
+	}
+	
+	const std::vector<Rigidbody*>& rigidbodyComponents = doom::StaticContainer<Rigidbody>::GetAllStaticComponents();
+	for (Rigidbody* const rigidbodyComponent : rigidbodyComponents)
+	{
+		rigidbodyComponent->ClearCollideCollidersAtFrame();
 	}
 	D_END_PROFILING(Physics_Server_SolveColliderComponents_ResetAllCollisionState);
 }
 
 void doom::physics::Physics_Server::SolveColliderComponents()
 {
-	
-
-	const std::vector<ColliderComponent*>& colliderComponents = doom::StaticContainer<ColliderComponent>::GetAllStaticComponents();
+	const std::vector<Rigidbody*>& rigidbodyComponents = doom::StaticContainer<Rigidbody>::GetAllStaticComponents();
 	
 	size_t stackReservationCount = 1;
-
-
-	//TODO : Implement Solve Collide based on BVH Tree
+	
 	D_START_PROFILING(Physics_Server_SolveColliderComponents_SolveCollision, eProfileLayers::CPU);
-	for (unsigned int i = 0; i < colliderComponents.size(); i++)
+	for (Rigidbody* const rigidbodyComponent : rigidbodyComponents)
 	{
-		Collider* const testedCollider = colliderComponents[i]->GetWorldCollider();
-
-		//const std::vector<doom::physics::Collider*> hitBVHLeafNodes = doom::physics::PhysicsSolver::GetCollideColliders(&mPhysicsColliderBVH, testedCollider, stackReservationCount);
-		
-		const std::vector<doom::physics::Collider*> hitBVHLeafNodes = doom::physics::PhysicsSolver::GetCollideColliders
-		(
-			&mPhysicsColliderBVH,
-			testedCollider, 
-			colliderComponents[i]->BVH_AABB3D_Node_Object::mBVH_Node_View.GetNode(),
-			stackReservationCount
-		);
-		
-
-		bool isCollideWithAnyCollider = false;
-		for (doom::physics::Collider* leafNodeCollider : hitBVHLeafNodes)
+		const std::vector<ColliderComponent*>& attachedColliderComponents = rigidbodyComponent->GetAttachedColliderComponents();
+		for(ColliderComponent* const colliderComponent : attachedColliderComponents)
 		{
-			if (testedCollider != leafNodeCollider)
+			Collider* const testedCollider = colliderComponent->GetWorldCollider();
+
+			//const std::vector<doom::physics::Collider*> hitBVHLeafNodes = doom::physics::PhysicsSolver::GetCollideColliders(&mPhysicsColliderBVH, testedCollider, stackReservationCount);
+
+			const std::vector<doom::physics::Collider*> hitBVHLeafNodes = doom::physics::PhysicsSolver::GetCollideColliders
+			(
+				&mPhysicsColliderBVH,
+				testedCollider,
+				colliderComponent->BVH_AABB3D_Node_Object::mBVH_Node_View.GetNode(),
+				stackReservationCount
+			);
+
+			
+			for (doom::physics::Collider* leafNodeCollider : hitBVHLeafNodes)
 			{
-				leafNodeCollider->bmIsCollideAtCurrentFrame = true;
-				isCollideWithAnyCollider = true;
+				if (testedCollider != leafNodeCollider)
+				{
+					rigidbodyComponent->AddCollideCollidersAtFrame(leafNodeCollider);
+				}
 			}
-		
-		}
 
-		if (isCollideWithAnyCollider == true)
-		{
-			testedCollider->bmIsCollideAtCurrentFrame = true;
 		}
 		
 	}
@@ -116,9 +115,13 @@ void doom::physics::Physics_Server::SolveColliderComponents()
 
 
 	D_START_PROFILING(Physics_Server_SolveColliderComponents_OnPostUpdatePhysics, eProfileLayers::CPU);
-	for (auto component : colliderComponents)
+	for (const Rigidbody* const rigidbodyComponent : rigidbodyComponents)
 	{
-		component->OnPostUpdatePhysics();
+		const std::vector<ColliderComponent*>& attachedColliderComponents = rigidbodyComponent->GetAttachedColliderComponents();
+		for (ColliderComponent* colliderComponent : attachedColliderComponents)
+		{
+			colliderComponent->OnPostUpdatePhysics();
+		}
 	}
 	D_END_PROFILING(Physics_Server_SolveColliderComponents_OnPostUpdatePhysics);
 
