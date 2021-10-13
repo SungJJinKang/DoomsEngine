@@ -19,3 +19,5 @@ typename doom::KDTree<T>::node_view_type doom::KDTree<T>::FindNearestNode(const 
 {
 	return node_view_type();
 }
+
+template class doom::KDTree<math::Vector3>;

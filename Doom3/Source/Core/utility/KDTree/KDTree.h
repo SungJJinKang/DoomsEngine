@@ -94,27 +94,27 @@ namespace doom
 	
 	};
 
-	template <>
+	/*template <>
 	inline static unsigned int KDTree<math::Vector2>::GetDimensionCount()
 	{
 		return 2;
-	}
+	}*/
 	template <>
 	inline static unsigned int KDTree<math::Vector3>::GetDimensionCount()
 	{
 		return 3;
 	}
-	template <>
+	/*template <>
 	inline static unsigned int KDTree<physics::AABB3D>::GetDimensionCount()
 	{
 		return 3;
-	}
+	}*/
 
-	using KDTree2DPoint = typename KDTree<math::Vector2>;
+	//using KDTree2DPoint = typename KDTree<math::Vector2>;
 	using KDTree3DPoint = typename KDTree<math::Vector3>;
 	//using KDTreeAABB3D = typename KDTree<physics::AABB3D>;
 	
-	extern template class KDTree<math::Vector2>;
+	//extern template class KDTree<math::Vector2>;
 	extern template class KDTree<math::Vector3>;
 	//extern template class KDTree<physics::AABB3D>;
 }

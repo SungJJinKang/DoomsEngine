@@ -205,6 +205,7 @@
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Source\Core\IO\AssetImporter\DummyApiImporter.cpp" />
     <ClCompile Include="Source\Component\PhysicsComponent\Rigidbody\Rigidbody.cpp" />
     <ClCompile Include="Source\Core\DObject\DObjectManager.cpp" />
     <ClCompile Include="Source\Core\Graphics\Acceleration\LinearData_ViewFrustumCulling\CullingModule\CullingModule.cpp" />
@@ -376,6 +377,7 @@
     <ClCompile Include="Source\Component\PhysicsComponent\SphereCollider3D.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Source\Core\IO\AssetImporter\DummyApiImporter.h" />
     <ClInclude Include="Source\Component\Core\ComponentGlobals.h" />
     <ClInclude Include="Source\Component\PhysicsComponent\Rigidbody\Rigidbody.h" />
     <ClInclude Include="Source\Core\CompilerMacros.h" />

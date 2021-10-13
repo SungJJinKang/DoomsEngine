@@ -2,24 +2,16 @@
 #include <type_traits>
 #include <memory>
 
-#include "../../Asset/Asset.h"
-
-
 #include <concurrentqueue/blockingconcurrentqueue.h>
-using namespace moodycamel;
+
+#include "../../Asset/Asset.h"
+#include "DummyApiImporter.h"
+
 
 namespace doom
 {
 	namespace assetimporter
 	{
-		class DummyApiImporter
-		{
-		public:
-			constexpr DummyApiImporter() {}
-		};
-		inline DummyApiImporter _DummyApiImporter{};
-
-
 		template <::doom::asset::eAssetType assetType>
 		struct api_importer_type
 		{
@@ -45,7 +37,8 @@ namespace doom
 			std::unique_ptr<api_importer_type_t<assetType>> apiImporter;
 
 			void InitApiImporter(api_importer_type_t<assetType>& apiImporter) {}
-			static inline BlockingConcurrentQueue<std::unique_ptr<api_importer_type_t<assetType>>> ApiImporterQueue{};
+
+			static moodycamel::BlockingConcurrentQueue<std::unique_ptr<api_importer_type_t<assetType>>> ApiImporterQueue;
 
 			constexpr AssetApiImporter(std::unique_ptr<api_importer_type_t<assetType>> importer)
 				: apiImporter{ std::move(importer) }

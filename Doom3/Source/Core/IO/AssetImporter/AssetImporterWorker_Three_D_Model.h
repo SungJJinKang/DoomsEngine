@@ -1,4 +1,5 @@
 #pragma once
+
 #include "AssetApiImporter.h"
 #include "AssetImporterWorker_Base.h"
 

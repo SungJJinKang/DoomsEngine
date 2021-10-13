@@ -522,6 +522,9 @@
     <ClCompile Include="Source\Core\Physics\Collider\ColliderType.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Core\IO\AssetImporter\DummyApiImporter.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="dependency\glad\include\glad\glad.h">
@@ -1431,6 +1434,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\Core\Macros\MacrosHelper.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Core\IO\AssetImporter\DummyApiImporter.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
