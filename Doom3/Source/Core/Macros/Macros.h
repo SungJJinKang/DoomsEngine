@@ -18,6 +18,7 @@
 #define EXIT_PROGRAM exit(0);
 #endif
 
+#include "MacrosHelper.h"
 #include "DllMarcos.h"
 #include "Path.h"
 #include "Log.h"
