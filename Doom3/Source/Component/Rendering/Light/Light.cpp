@@ -15,12 +15,12 @@ void doom::Light::OnEndOfFrame_Component()
 
 }
 
-void doom::Light::SetIntensity(float intensity)
+void doom::Light::SetIntensity(FLOAT32 intensity)
 {
 	mIntensity = intensity;
 }
 
-void doom::Light::SetIndirectMultiplier(float indirectMultiplier)
+void doom::Light::SetIndirectMultiplier(FLOAT32 indirectMultiplier)
 {
 	mIndirectMultiplier = indirectMultiplier;
 }
@@ -30,12 +30,12 @@ void doom::Light::SetColor(const math::Vector4& color)
 	mColor = color;
 }
 
-float doom::Light::GetIntensity()
+FLOAT32 doom::Light::GetIntensity()
 {
 	return mIntensity;
 }
 
-float doom::Light::GetIndirectMultiplier()
+FLOAT32 doom::Light::GetIndirectMultiplier()
 {
 	return mIndirectMultiplier;
 }

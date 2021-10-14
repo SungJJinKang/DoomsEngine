@@ -62,35 +62,35 @@ namespace doom
 		/// </summary>
 		std::vector<BVH_Node<ColliderType>> mNodes;
 
-		int mRootNodeIndex{ NULL_NODE_INDEX };
+		INT32 mRootNodeIndex{ NULL_NODE_INDEX };
 
 		/// <summary>
 		/// Ever used Node Count
 		/// this value contain freed node count
 		/// </summary>
-		int mCurrentAllocatedNodeCount{ 0 };
+		INT32 mCurrentAllocatedNodeCount{ 0 };
 		/// <summary>
 		/// Current used node count
 		/// this value doesn't contain freed node count
 		/// </summary>
-		int mCurrentActiveNodeCount{ 0 };
+		INT32 mCurrentActiveNodeCount{ 0 };
 		/// <summary>
 		/// if you want parallel access, Use concurrentQueue
 		/// </summary>
-		std::queue<int> mFreedNodeIndexList{};
+		std::queue<INT32> mFreedNodeIndexList{};
 
-		int PickBest(const ColliderType& L);
+		INT32 PickBest(const ColliderType& L);
 
-		int AllocateNewNode();
-		int AllocateInternalNode();
-		int AllocateLeafNode(const ColliderType& boundingCollider, doom::physics::Collider* collider);
-		void FreeNode(int nodeIndex);
+		INT32 AllocateNewNode();
+		INT32 AllocateInternalNode();
+		INT32 AllocateLeafNode(const ColliderType& boundingCollider, doom::physics::Collider* collider);
+		void FreeNode(INT32 nodeIndex);
 
-		int Balance(int lowerNodeIndex);
-		void HillClimingReconstruct(int index);
-		//int Balance(int index);
-		void ReConstructNodeAABB(int targetNodeIndex);
-		float ComputeCost();
+		INT32 Balance(INT32 lowerNodeIndex);
+		void HillClimingReconstruct(INT32 index);
+		//INT32 Balance(INT32 index);
+		void ReConstructNodeAABB(INT32 targetNodeIndex);
+		FLOAT32 ComputeCost();
 
 		/// <summary>
 		/// https://box2d.org/files/ErinCatto_DynamicBVH_Full.pdf see pdf 84 page
@@ -99,16 +99,16 @@ namespace doom
 		/// <param name="silbingNodeIndexOfNewNode">Node what will be unioned with Inseted ColliderType</param>
 		/// <param name="sumOfAreaSize"></param>
 		/// <returns></returns>
-		float InheritedCost(const ColliderType& L, const ColliderType& candidate);
+		FLOAT32 InheritedCost(const ColliderType& L, const ColliderType& candidate);
 
 	public:
 
 		
 
-		BVH(const size_t initializedCapacity);
+		BVH(const SIZE_T initializedCapacity);
 		~BVH();
 
-		inline size_t GetNodeCapacity() const
+		inline SIZE_T GetNodeCapacity() const
 		{
 			return mNodes.capacity();
 		}
@@ -120,7 +120,7 @@ namespace doom
 		/// <param name="newObjectBox"></param>
 		node_view_type InsertLeaf(const ColliderType& L, doom::physics::Collider* collider);
 		void RemoveLeafNode(node_type* targetLeafNode);
-		void RemoveLeafNode(int targetLeafNodeIndex);
+		void RemoveLeafNode(INT32 targetLeafNodeIndex);
 		
 		/// <summary>
 		/// Remove paased Node And Re-insert the node
@@ -131,7 +131,7 @@ namespace doom
 		/// <param name="updatedNode"></param>
 		/// <param name="force"></param>
 		/// <returns></returns>
-		node_view_type UpdateLeafNode(const int targetLeafNodeIndex, const bool force = false);
+		node_view_type UpdateLeafNode(const INT32 targetLeafNodeIndex, const bool force = false);
 
 		template <typename UnaryFunction>
 		void Traverse(UnaryFunction f)
@@ -141,16 +141,16 @@ namespace doom
 
 		typename node_type* GetRootNode();
 		const typename node_type* GetRootNode() const;
-		int GetRootNodeIndex() const;
+		INT32 GetRootNodeIndex() const;
 
-		int GetSiblingNodeIndex(const int index) const;
-		typename node_type* GetSiblingNode(const int index);
-		const typename node_type* GetSiblingNode(const int index) const;
+		INT32 GetSiblingNodeIndex(const INT32 index) const;
+		typename node_type* GetSiblingNode(const INT32 index);
+		const typename node_type* GetSiblingNode(const INT32 index) const;
 
-		bool IsHasChild(const int index) const;
-		node_type* GetNode(const int nodeIndex);
-		const node_type* GetNode(const int nodeIndex) const;
-		bool GetIsNodeValid(const int nodeIndex) const;
+		bool IsHasChild(const INT32 index) const;
+		node_type* GetNode(const INT32 nodeIndex);
+		const node_type* GetNode(const INT32 nodeIndex) const;
+		bool GetIsNodeValid(const INT32 nodeIndex) const;
 		bool GetIsNodeValid(const node_type* const node) const;
 
 		/// <summary>
@@ -161,18 +161,18 @@ namespace doom
 		/// <param name="index"></param>
 		/// <param name="currentHeight"></param>
 		/// <returns></returns>
-		int GetHeight(const int index, int& longestHeight = 0, int currentHeight = -1);
-		int GetDepth(const int index);
-		int GetLeafNodeCount();
+		INT32 GetHeight(const INT32 index, INT32& longestHeight = 0, INT32 currentHeight = -1);
+		INT32 GetDepth(const INT32 index);
+		INT32 GetLeafNodeCount();
 		/// <summary>
 		/// Get Leaf with index
 		/// </summary>
 		/// <typeparam name="ColliderType"></typeparam>
-		int GetLeaf(const int index);
-		bool IsAncesterOf(const int ancesterIndex, const int decesterIndex);
+		INT32 GetLeaf(const INT32 index);
+		bool IsAncesterOf(const INT32 ancesterIndex, const INT32 decesterIndex);
 		
 
-		node_view_type MakeBVH_Node_View(int index)
+		node_view_type MakeBVH_Node_View(INT32 index)
 		{
 			D_ASSERT(index < mCurrentAllocatedNodeCount);
 			return node_view_type(this, index);
@@ -188,7 +188,7 @@ namespace doom
 	extern template class BVH<doom::physics::Sphere>;
 
 
-	using NodeCost = typename std::pair<int, float>;
+	using NodeCost = typename std::pair<INT32, FLOAT32>;
 }
 
 

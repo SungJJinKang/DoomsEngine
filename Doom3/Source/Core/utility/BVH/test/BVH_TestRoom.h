@@ -21,7 +21,7 @@ namespace doom
 
 		std::unique_ptr<graphics::PicktureInPickture> mPIPForDebug{};
 		std::unique_ptr<graphics::Material> mBVHDebugMaterial{};
-		static inline std::stack<int> recentAddedLeaf{};
+		static inline std::stack<INT32> recentAddedLeaf{};
 
 
 		void AddNewRandomLeafNode();
@@ -29,13 +29,13 @@ namespace doom
 		void RemoveRecentAddedLeafNode();
 		void BalanceRecentAddedLeafNode();
 
-		void DebugBVHTree(doom::BVHAABB3D::node_type* node, float x, float y, int depth = 0);
+		void DebugBVHTree(doom::BVHAABB3D::node_type* node, FLOAT32 x, FLOAT32 y, INT32 depth = 0);
 	
 		void TreeDebug();
-		void AABBDebug(int targetNode);
+		void AABBDebug(INT32 targetNode);
 		void AABBDebug();
 
-		void CheckActiveNode(doom::BVHAABB3D::node_type* node, std::vector<int>& activeNodeList);
+		void CheckActiveNode(doom::BVHAABB3D::node_type* node, std::vector<INT32>& activeNodeList);
 
 	public:
 

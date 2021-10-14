@@ -5,7 +5,7 @@
 using namespace doom::graphics;
 
 
-SingleTexture::SingleTexture(eTextureType textureType, eTargetTexture target, eTextureInternalFormat internalFormat, unsigned int width, eTextureComponentFormat format, eDataType type, const void* data)
+SingleTexture::SingleTexture(eTextureType textureType, eTargetTexture target, eTextureInternalFormat internalFormat, UINT32 width, eTextureComponentFormat format, eDataType type, const void* data)
 	: Texture{ textureType, eBindTarget::TEXTURE_2D, target, internalFormat, eTextureCompressedInternalFormat::NONE, width, format, type }
 {
 	TexImage1D(0, data);
@@ -13,7 +13,7 @@ SingleTexture::SingleTexture(eTextureType textureType, eTargetTexture target, eT
 	OnEndContructor();
 }
 
-SingleTexture::SingleTexture(eTextureType textureType, eTargetTexture target, eTextureInternalFormat internalFormat, unsigned int width, unsigned int height, eTextureComponentFormat format, eDataType type, const void* data)
+SingleTexture::SingleTexture(eTextureType textureType, eTargetTexture target, eTextureInternalFormat internalFormat, UINT32 width, UINT32 height, eTextureComponentFormat format, eDataType type, const void* data)
 	: Texture{textureType, eBindTarget::TEXTURE_2D, target, internalFormat, eTextureCompressedInternalFormat::NONE, width, height, format, type }
 {
 	TexImage2D(0, data);
@@ -21,7 +21,7 @@ SingleTexture::SingleTexture(eTextureType textureType, eTargetTexture target, eT
 	OnEndContructor();
 }
 
-SingleTexture::SingleTexture(eTextureType textureType, eTargetTexture target, eTextureCompressedInternalFormat compressedInternalFormat, unsigned int width, eTextureComponentFormat format, eDataType type, const void* data)
+SingleTexture::SingleTexture(eTextureType textureType, eTargetTexture target, eTextureCompressedInternalFormat compressedInternalFormat, UINT32 width, eTextureComponentFormat format, eDataType type, const void* data)
 	: Texture{ textureType, eBindTarget::TEXTURE_2D, target, eTextureInternalFormat::NONE, compressedInternalFormat, width, format, type }
 {
 	TexImage2D(0, data);
@@ -29,7 +29,7 @@ SingleTexture::SingleTexture(eTextureType textureType, eTargetTexture target, eT
 	OnEndContructor();
 }
 
-SingleTexture::SingleTexture(eTextureType textureType, eTargetTexture target, eTextureCompressedInternalFormat compressedInternalFormat, unsigned int width, unsigned int height, eTextureComponentFormat format, eDataType type, const void* data)
+SingleTexture::SingleTexture(eTextureType textureType, eTargetTexture target, eTextureCompressedInternalFormat compressedInternalFormat, UINT32 width, UINT32 height, eTextureComponentFormat format, eDataType type, const void* data)
 	: Texture{ textureType, eBindTarget::TEXTURE_2D, target, eTextureInternalFormat::NONE, compressedInternalFormat, width, height, format, type }
 {
 	TexImage2D(0, data);
@@ -43,17 +43,17 @@ void doom::graphics::SingleTexture::Tex2DMipMapImages(std::vector<const DirectX:
 
 	if (mInternalFormat != eTextureInternalFormat::NONE)
 	{
-		for (unsigned int i = 0; i < mipmapDatas.size(); i++)
+		for (UINT32 i = 0; i < mipmapDatas.size(); i++)
 		{
-			glTexImage2D(GL_TEXTURE_2D, i, static_cast<unsigned int>(mInternalFormat), static_cast<int>(mipmapDatas[i]->width), static_cast<int>(mipmapDatas[i]->height), 0, static_cast<unsigned int>(mDataFormat), static_cast<unsigned int>(mDataType), mipmapDatas[i]->pixels);
+			glTexImage2D(GL_TEXTURE_2D, i, static_cast<UINT32>(mInternalFormat), static_cast<INT32>(mipmapDatas[i]->width), static_cast<INT32>(mipmapDatas[i]->height), 0, static_cast<UINT32>(mDataFormat), static_cast<UINT32>(mDataType), mipmapDatas[i]->pixels);
 		}
 
 	}
 	else if (mCompressedInternalFormat != eTextureCompressedInternalFormat::NONE)
 	{
-		for (unsigned int i = 0; i < mipmapDatas.size(); i++)
+		for (UINT32 i = 0; i < mipmapDatas.size(); i++)
 		{
-			glCompressedTexImage2D(GL_TEXTURE_2D, i, static_cast<unsigned int>(mCompressedInternalFormat), static_cast<int>(mipmapDatas[i]->width), static_cast<int>(mipmapDatas[i]->height), 0, static_cast<int>(mipmapDatas[i]->slicePitch), mipmapDatas[i]->pixels);
+			glCompressedTexImage2D(GL_TEXTURE_2D, i, static_cast<UINT32>(mCompressedInternalFormat), static_cast<INT32>(mipmapDatas[i]->width), static_cast<INT32>(mipmapDatas[i]->height), 0, static_cast<INT32>(mipmapDatas[i]->slicePitch), mipmapDatas[i]->pixels);
 		}
 
 	}
@@ -64,24 +64,24 @@ void doom::graphics::SingleTexture::Tex2DMipMapImages(std::vector<const DirectX:
 
 	
 	TexParameteri(Texture::eBindTarget::TEXTURE_2D, Texture::eTextureParameterType::TEXTURE_BASE_LEVEL, 0);
-	TexParameteri(Texture::eBindTarget::TEXTURE_2D, Texture::eTextureParameterType::TEXTURE_MAX_LEVEL, static_cast<int>(mipmapDatas.size() - 1));
+	TexParameteri(Texture::eBindTarget::TEXTURE_2D, Texture::eTextureParameterType::TEXTURE_MAX_LEVEL, static_cast<INT32>(mipmapDatas.size() - 1));
 
 
 	/*
-	for (unsigned int i = 0; i < mipmapDatas.size(); i++)
+	for (UINT32 i = 0; i < mipmapDatas.size(); i++)
 	{
 		TexImage2D(i, mipmapDatas[i]);
 	}
 	*/
 }
 
-void SingleTexture::TexImage2D(int level, const void* data) const noexcept
+void SingleTexture::TexImage2D(INT32 level, const void* data) const noexcept
 {
 	BindTexture();
 	
 	if (mInternalFormat != eTextureInternalFormat::NONE)
 	{
-		glTexImage2D(GL_TEXTURE_2D, level, static_cast<unsigned int>(mInternalFormat), mWidth, mHeight, 0, static_cast<unsigned int>(mDataFormat), static_cast<unsigned int>(mDataType), data);
+		glTexImage2D(GL_TEXTURE_2D, level, static_cast<UINT32>(mInternalFormat), mWidth, mHeight, 0, static_cast<UINT32>(mDataFormat), static_cast<UINT32>(mDataType), data);
 	}
 	else if (mCompressedInternalFormat != eTextureCompressedInternalFormat::NONE)
 	{
@@ -93,12 +93,12 @@ void SingleTexture::TexImage2D(int level, const void* data) const noexcept
 	}
 }
 
-void SingleTexture::TexImage1D(int level, const void* data) const noexcept
+void SingleTexture::TexImage1D(INT32 level, const void* data) const noexcept
 {
 	BindTexture();
 	if (mInternalFormat != eTextureInternalFormat::NONE)
 	{
-		glTexImage1D(GL_TEXTURE_1D, level, static_cast<unsigned int>(mInternalFormat), mWidth, 0, static_cast<unsigned int>(mDataFormat), static_cast<unsigned int>(mDataType), data);
+		glTexImage1D(GL_TEXTURE_1D, level, static_cast<UINT32>(mInternalFormat), mWidth, 0, static_cast<UINT32>(mDataFormat), static_cast<UINT32>(mDataType), data);
 	}
 	else if (mCompressedInternalFormat != eTextureCompressedInternalFormat::NONE)
 	{
@@ -110,15 +110,15 @@ void SingleTexture::TexImage1D(int level, const void* data) const noexcept
 	}
 }
 
-void SingleTexture::TexImage1D(int level, const DirectX::Image* directXImage) const noexcept
+void SingleTexture::TexImage1D(INT32 level, const DirectX::Image* directXImage) const noexcept
 {
 	if (mInternalFormat != eTextureInternalFormat::NONE)
 	{
-		glTexImage1D(GL_TEXTURE_1D, level, static_cast<unsigned int>(mInternalFormat), static_cast<int>(directXImage->width),  0, static_cast<unsigned int>(mDataFormat), static_cast<unsigned int>(mDataType), directXImage->pixels);
+		glTexImage1D(GL_TEXTURE_1D, level, static_cast<UINT32>(mInternalFormat), static_cast<INT32>(directXImage->width),  0, static_cast<UINT32>(mDataFormat), static_cast<UINT32>(mDataType), directXImage->pixels);
 	}
 	else if (mCompressedInternalFormat != eTextureCompressedInternalFormat::NONE)
 	{
-		glCompressedTexImage1D(GL_TEXTURE_1D, level, static_cast<unsigned int>(mCompressedInternalFormat), static_cast<int>(directXImage->width), 0, static_cast<int>(directXImage->slicePitch), directXImage->pixels);
+		glCompressedTexImage1D(GL_TEXTURE_1D, level, static_cast<UINT32>(mCompressedInternalFormat), static_cast<INT32>(directXImage->width), 0, static_cast<INT32>(directXImage->slicePitch), directXImage->pixels);
 	}
 	else
 	{
@@ -126,17 +126,17 @@ void SingleTexture::TexImage1D(int level, const DirectX::Image* directXImage) co
 	}
 }
 
-void SingleTexture::TexImage2D(int level, const DirectX::Image* directXImage) const noexcept
+void SingleTexture::TexImage2D(INT32 level, const DirectX::Image* directXImage) const noexcept
 {
 	if (mInternalFormat != eTextureInternalFormat::NONE)
 	{
-		glTexImage2D(GL_TEXTURE_2D, level, static_cast<unsigned int>(mInternalFormat), static_cast<int>(directXImage->width), static_cast<int>(directXImage->height), 0, static_cast<unsigned int>(mDataFormat), static_cast<unsigned int>(mDataType), directXImage->pixels);
+		glTexImage2D(GL_TEXTURE_2D, level, static_cast<UINT32>(mInternalFormat), static_cast<INT32>(directXImage->width), static_cast<INT32>(directXImage->height), 0, static_cast<UINT32>(mDataFormat), static_cast<UINT32>(mDataType), directXImage->pixels);
 	}
 	else if (mCompressedInternalFormat != eTextureCompressedInternalFormat::NONE)
 	{
 // 		img.rowPitch = /*<number of bytes in a scanline of the source data>*/;
 // 		img.slicePitch = /*<number of bytes in the entire 2D image>*/;
-		glCompressedTexImage2D(GL_TEXTURE_2D, level, static_cast<unsigned int>(mCompressedInternalFormat), static_cast<int>(directXImage->width), static_cast<int>(directXImage->height), 0, static_cast<int>(directXImage->slicePitch), directXImage->pixels);
+		glCompressedTexImage2D(GL_TEXTURE_2D, level, static_cast<UINT32>(mCompressedInternalFormat), static_cast<INT32>(directXImage->width), static_cast<INT32>(directXImage->height), 0, static_cast<INT32>(directXImage->slicePitch), directXImage->pixels);
 	}
 	else
 	{
@@ -144,7 +144,7 @@ void SingleTexture::TexImage2D(int level, const DirectX::Image* directXImage) co
 	}
 }
 
-SingleTexture::SingleTexture(eTextureType textureType, eTargetTexture target, eTextureInternalFormat internalFormat, unsigned int width, eTextureComponentFormat format, eDataType type, std::vector<const DirectX::Image*> mipmapDatas)
+SingleTexture::SingleTexture(eTextureType textureType, eTargetTexture target, eTextureInternalFormat internalFormat, UINT32 width, eTextureComponentFormat format, eDataType type, std::vector<const DirectX::Image*> mipmapDatas)
 	: Texture{ textureType, eBindTarget::TEXTURE_2D, target, internalFormat,  eTextureCompressedInternalFormat::NONE, width, format, type }
 {
 	Tex2DMipMapImages(mipmapDatas);
@@ -152,7 +152,7 @@ SingleTexture::SingleTexture(eTextureType textureType, eTargetTexture target, eT
 	OnEndContructor();
 }
 
-SingleTexture::SingleTexture(eTextureType textureType, eTargetTexture target, eTextureInternalFormat internalFormat, unsigned int width, unsigned int height, eTextureComponentFormat format, eDataType type, std::vector<const DirectX::Image*> mipmapDatas)
+SingleTexture::SingleTexture(eTextureType textureType, eTargetTexture target, eTextureInternalFormat internalFormat, UINT32 width, UINT32 height, eTextureComponentFormat format, eDataType type, std::vector<const DirectX::Image*> mipmapDatas)
 	: Texture{ textureType, eBindTarget::TEXTURE_2D, target, internalFormat, eTextureCompressedInternalFormat::NONE, width, height, format, type }
 {
 	Tex2DMipMapImages(mipmapDatas);
@@ -160,7 +160,7 @@ SingleTexture::SingleTexture(eTextureType textureType, eTargetTexture target, eT
 	OnEndContructor();
 }
 
-SingleTexture::SingleTexture(eTextureType textureType, eTargetTexture target, eTextureCompressedInternalFormat compressedInternalFormat, unsigned int width, eTextureComponentFormat format, eDataType type, std::vector<const DirectX::Image*> mipmapDatas)
+SingleTexture::SingleTexture(eTextureType textureType, eTargetTexture target, eTextureCompressedInternalFormat compressedInternalFormat, UINT32 width, eTextureComponentFormat format, eDataType type, std::vector<const DirectX::Image*> mipmapDatas)
 	: Texture{ textureType, eBindTarget::TEXTURE_2D, target, eTextureInternalFormat::NONE, compressedInternalFormat, width, format, type }
 {
 	Tex2DMipMapImages(mipmapDatas);
@@ -168,7 +168,7 @@ SingleTexture::SingleTexture(eTextureType textureType, eTargetTexture target, eT
 	OnEndContructor();
 }
 
-SingleTexture::SingleTexture(eTextureType textureType, eTargetTexture target, eTextureCompressedInternalFormat compressedInternalFormat, unsigned int width, unsigned int height, eTextureComponentFormat format, eDataType type, std::vector<const DirectX::Image*> mipmapDatas)
+SingleTexture::SingleTexture(eTextureType textureType, eTargetTexture target, eTextureCompressedInternalFormat compressedInternalFormat, UINT32 width, UINT32 height, eTextureComponentFormat format, eDataType type, std::vector<const DirectX::Image*> mipmapDatas)
 	: Texture{ textureType, eBindTarget::TEXTURE_2D, target, eTextureInternalFormat::NONE, compressedInternalFormat, width, height, format, type }
 {
 	Tex2DMipMapImages(mipmapDatas);

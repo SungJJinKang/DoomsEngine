@@ -25,7 +25,7 @@ namespace doom
 
 		public:
 
-			enum class eTextureType : unsigned int {
+			enum class eTextureType : UINT32 {
 				NONE = 0,
 				DIFFUSE = 1,
 				SPECULAR = 2,
@@ -47,7 +47,7 @@ namespace doom
 				UNKNOWN = 18,
 			};
 
-			enum class eBindTarget : unsigned int
+			enum class eBindTarget : UINT32
 			{
 				TEXTURE_1D = GL_TEXTURE_1D,
 				TEXTURE_2D = GL_TEXTURE_2D,
@@ -73,7 +73,7 @@ namespace doom
 			/// 
 			/// </summary>
 			/// <returns></returns>
-			inline static size_t GetArbitraryIndexOfeBindTarget(eBindTarget bindTarget)
+			inline static SIZE_T GetArbitraryIndexOfeBindTarget(eBindTarget bindTarget)
 			{
 				if (bindTarget == eBindTarget::TEXTURE_2D)
 				{
@@ -106,7 +106,7 @@ namespace doom
 				}
 			}
 			
-			enum class eTargetTexture : unsigned int
+			enum class eTargetTexture : UINT32
 			{
 				TEXTURE_1D = GL_TEXTURE_1D,
 				PROXY_TEXTURE_1D = GL_PROXY_TEXTURE_1D,
@@ -134,7 +134,7 @@ namespace doom
 			
 			static constexpr eTextureComponentFormat DEFAULT_DATA_FORMAT = eTextureComponentFormat::RGBA;
 
-			enum class eDataType : unsigned int
+			enum class eDataType : UINT32
 			{
 				UNSIGNED_BYTE = GL_UNSIGNED_BYTE,
 				BYTE = GL_BYTE,
@@ -161,7 +161,7 @@ namespace doom
 			};
 			static constexpr eDataType DEFAULT_DATA_TYPE = eDataType::UNSIGNED_BYTE;
 
-			enum class eTextureParameterType : unsigned int
+			enum class eTextureParameterType : UINT32
 			{
 				DEPTH_STENCIL_TEXTURE_MODE = GL_DEPTH_STENCIL_TEXTURE_MODE,
 				TEXTURE_BASE_LEVEL = GL_TEXTURE_BASE_LEVEL,
@@ -182,7 +182,7 @@ namespace doom
 				TEXTURE_WRAP_R = GL_TEXTURE_WRAP_R
 			};
 
-			enum class eTextureParameterValue : unsigned int
+			enum class eTextureParameterValue : UINT32
 			{
 				NEAREST = GL_NEAREST,
 				LINEAR = GL_LINEAR,
@@ -197,7 +197,7 @@ namespace doom
 				MIRROR_CLAMP_TO_EDGE = GL_MIRROR_CLAMP_TO_EDGE,
 			};
 
-			enum class eWrapMode : unsigned int
+			enum class eWrapMode : UINT32
 			{
 				CLAMP_TO_EDGE = GL_CLAMP_TO_EDGE,
 				CLAMP_TO_BORDER = GL_CLAMP_TO_BORDER,
@@ -206,7 +206,7 @@ namespace doom
 				MIRROR_CLAMP_TO_EDGE = GL_MIRROR_CLAMP_TO_EDGE,
 			};
 
-			enum class eFilterMode : unsigned int
+			enum class eFilterMode : UINT32
 			{
 				NEAREST = GL_NEAREST,
 				LINEAR = GL_LINEAR,
@@ -241,7 +241,7 @@ namespace doom
 			/// for 1d texture
 			/// </summary>
 			Texture(eTextureType textureType, eBindTarget bindTarget,
-				eTargetTexture targetTexture, eTextureInternalFormat internalFormat, eTextureCompressedInternalFormat compressedInternalFormat, unsigned int width, eTextureComponentFormat format, eDataType type);
+				eTargetTexture targetTexture, eTextureInternalFormat internalFormat, eTextureCompressedInternalFormat compressedInternalFormat, UINT32 width, eTextureComponentFormat format, eDataType type);
 
 			/// <summary>
 			/// for 2d texture
@@ -256,7 +256,7 @@ namespace doom
 			/// <param name="type"></param>
 			/// <param name="data"></param>
 			Texture(eTextureType textureType, eBindTarget bindTarget,
-				eTargetTexture targetTexture, eTextureInternalFormat internalFormat, eTextureCompressedInternalFormat compressedInternalFormat, unsigned int width, unsigned int height, eTextureComponentFormat format, eDataType type);
+				eTargetTexture targetTexture, eTextureInternalFormat internalFormat, eTextureCompressedInternalFormat compressedInternalFormat, UINT32 width, UINT32 height, eTextureComponentFormat format, eDataType type);
 
 			virtual ~Texture();
 			virtual void OnEndContructor();
@@ -271,8 +271,8 @@ namespace doom
 			const eTargetTexture mTarget;
 			const eTextureInternalFormat mInternalFormat;
 			const eTextureCompressedInternalFormat mCompressedInternalFormat;
-			const unsigned int mWidth;
-			const unsigned int mHeight;
+			const UINT32 mWidth;
+			const UINT32 mHeight;
 			const eTextureComponentFormat mDataFormat;
 			const eDataType mDataType;
 
@@ -289,10 +289,10 @@ namespace doom
 			{
 				if (D_OVERLAP_BIND_CHECK_CHECK_IS_NOT_BOUND_AND_BIND_ID_WITH_DOUBLE_INDEX(BIND_TARGET_TAG, GetArbitraryIndexOfeBindTarget(mBindTarget), D_OVERLAP_BIND_GET_BIND_ID(ACTIVE_TEXTURE_TAG), mBufferID))
 				{
-					glBindTexture(static_cast<unsigned int>(mBindTarget), mBufferID);
+					glBindTexture(static_cast<UINT32>(mBindTarget), mBufferID);
 				}
 			}
-			FORCE_INLINE void ActiveTexture(unsigned int bindingPoint) const noexcept
+			FORCE_INLINE void ActiveTexture(UINT32 bindingPoint) const noexcept
 			{
 				if (D_OVERLAP_BIND_CHECK_CHECK_IS_NOT_BOUND_AND_BIND_ID(ACTIVE_TEXTURE_TAG, bindingPoint))
 				{
@@ -305,11 +305,11 @@ namespace doom
 			{
 				if (D_OVERLAP_BIND_CHECK_CHECK_IS_NOT_BOUND_AND_BIND_ID_WITH_DOUBLE_INDEX(BIND_TARGET_TAG, GetArbitraryIndexOfeBindTarget(mBindTarget), D_OVERLAP_BIND_GET_BIND_ID(ACTIVE_TEXTURE_TAG), 0))
 				{
-					glBindTexture(static_cast<unsigned int>(mBindTarget), 0);
+					glBindTexture(static_cast<UINT32>(mBindTarget), 0);
 				}
 			}
 
-			FORCE_INLINE void BindTextureWithUnit(unsigned int bindingPoint) const
+			FORCE_INLINE void BindTextureWithUnit(UINT32 bindingPoint) const
 			{
 				if (
 					D_OVERLAP_BIND_CHECK_CHECK_IS_NOT_BOUND_AND_BIND_ID_WITH_DOUBLE_INDEX(BIND_TARGET_TAG, GetArbitraryIndexOfeBindTarget(mBindTarget), bindingPoint, mBufferID)
@@ -322,7 +322,7 @@ namespace doom
 			}
 
 			virtual inline void TexImage1D(
-				int level, const void* data
+				INT32 level, const void* data
 			) const = 0;
 
 			
@@ -332,10 +332,10 @@ namespace doom
 			/// <param name="level"></param>
 			/// <param name="data"></param>
 			virtual inline void TexImage2D(
-				int level, const void* data
+				INT32 level, const void* data
 			) const  = 0;
 
-			unsigned int GetID() const;
+			UINT32 GetID() const;
 
 			void SetWrapMode(eWrapMode wrapMode, bool bBind);
 			void SetFilterMin(eFilterMode filterMode, bool bBind);
@@ -347,19 +347,19 @@ namespace doom
 
 			FORCE_INLINE void TexParameterf(eBindTarget target, eTextureParameterType pname, eTextureParameterValue param) const noexcept
 			{
-				glTexParameterf(static_cast<unsigned int>(target), static_cast<unsigned int>(pname), static_cast<float>(param));
+				glTexParameterf(static_cast<UINT32>(target), static_cast<UINT32>(pname), static_cast<FLOAT32>(param));
 			}
 			FORCE_INLINE void TexParameteri(eBindTarget target, eTextureParameterType pname, eTextureParameterValue param) const noexcept
 			{
-				glTexParameteri(static_cast<unsigned int>(target), static_cast<unsigned int>(pname), static_cast<int>(param));
+				glTexParameteri(static_cast<UINT32>(target), static_cast<UINT32>(pname), static_cast<INT32>(param));
 			}
-			FORCE_INLINE void TexParameterf(eBindTarget target, eTextureParameterType pname, float param) const noexcept
+			FORCE_INLINE void TexParameterf(eBindTarget target, eTextureParameterType pname, FLOAT32 param) const noexcept
 			{
-				glTexParameterf(static_cast<unsigned int>(target), static_cast<unsigned int>(pname), param);
+				glTexParameterf(static_cast<UINT32>(target), static_cast<UINT32>(pname), param);
 			}
-			FORCE_INLINE void TexParameteri(eBindTarget target, eTextureParameterType pname, int param) const noexcept
+			FORCE_INLINE void TexParameteri(eBindTarget target, eTextureParameterType pname, INT32 param) const noexcept
 			{
-				glTexParameteri(static_cast<unsigned int>(target), static_cast<unsigned int>(pname), param);
+				glTexParameteri(static_cast<UINT32>(target), static_cast<UINT32>(pname), param);
 			}
 
 		};

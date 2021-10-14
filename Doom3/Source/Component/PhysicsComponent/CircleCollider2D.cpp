@@ -20,13 +20,13 @@ void doom::CircleCollider2D::UpdateWorldCollider()
 
 
 
-void doom::CircleCollider2D::SetRadius(float radius)
+void doom::CircleCollider2D::SetRadius(FLOAT32 radius)
 {
 	mRadius = radius;
 	bmIsLocalColliderDirty = true;
 }
 
-float doom::CircleCollider2D::GetRadius()
+FLOAT32 doom::CircleCollider2D::GetRadius()
 {
 	return mRadius;
 }

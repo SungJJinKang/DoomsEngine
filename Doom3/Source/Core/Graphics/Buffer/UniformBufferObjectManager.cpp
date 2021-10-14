@@ -50,7 +50,7 @@ void doom::graphics::UniformBufferObjectManager::BufferDateOfUniformBufferObject
 	}
 }
 
-doom::graphics::UniformBufferObject& doom::graphics::UniformBufferObjectManager::GetOrGenerateUniformBufferObject(unsigned int bindingPoint, unsigned int uniformBlockSizeInByte)
+doom::graphics::UniformBufferObject& doom::graphics::UniformBufferObjectManager::GetOrGenerateUniformBufferObject(UINT32 bindingPoint, UINT32 uniformBlockSizeInByte)
 {
 	auto& uniformBufferObject = UniformBufferObjectManager::mUniformBufferObjects[bindingPoint];
 	if (uniformBufferObject.IsBufferGenerated() == false)
@@ -60,7 +60,7 @@ doom::graphics::UniformBufferObject& doom::graphics::UniformBufferObjectManager:
 	return uniformBufferObject;
 }
 
-doom::graphics::UniformBufferObject& doom::graphics::UniformBufferObjectManager::GetUniformBufferObject(unsigned int bindingPoint)
+doom::graphics::UniformBufferObject& doom::graphics::UniformBufferObjectManager::GetUniformBufferObject(UINT32 bindingPoint)
 {
 	return UniformBufferObjectManager::mUniformBufferObjects[bindingPoint];
 }

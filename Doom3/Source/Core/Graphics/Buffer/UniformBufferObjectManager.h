@@ -45,8 +45,8 @@ namespace doom
 			/// return Uniform Buffer Object class
 			/// if uniform buffer object isn't initialized, Initialize it
 			/// </summary>
-			UniformBufferObject& GetOrGenerateUniformBufferObject(unsigned int bindingPoint, unsigned int uniformBlockSize);
-			UniformBufferObject& GetUniformBufferObject(unsigned int bindingPoint);
+			UniformBufferObject& GetOrGenerateUniformBufferObject(UINT32 bindingPoint, UINT32 uniformBlockSize);
+			UniformBufferObject& GetUniformBufferObject(UINT32 bindingPoint);
 
 			/// <summary>
 			/// Call UpdateUniformBufferObject of UBO Temp Buffer Updaters 

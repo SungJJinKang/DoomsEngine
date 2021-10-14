@@ -17,17 +17,17 @@ namespace doom
 
 			struct TimeStep
 			{
-				double mLastTickCount{};
-				double mCurrentTickCount{};
-				float mDeltaTime{};
+				FLOAT64 mLastTickCount{};
+				FLOAT64 mCurrentTickCount{};
+				FLOAT32 mDeltaTime{};
 			};
 		private:
 
 			static inline TimeStep mFrameTime{};
 			static inline TimeStep mFixedTime{};
-			static inline float CurrentFrame{};
+			static inline FLOAT32 CurrentFrame{};
 			
-			static inline unsigned long long mFrameCounterForStep{ 0 };
+			static inline UINT64 mFrameCounterForStep{ 0 };
 
 			static void InitTimer();
 			
@@ -46,7 +46,7 @@ namespace doom
 			/// If you want to check whether frame pass without OnEndFrame, use this tickcount and compare last one
 			/// https://en.cppreference.com/w/cpp/chrono/time_point/time_since_epoch
 			/// </summary>
-			[[nodiscard]] FORCE_INLINE static double GetCurrentTickCount() noexcept
+			[[nodiscard]] FORCE_INLINE static FLOAT64 GetCurrentTickCount() noexcept
 			{
 				return MainTimer::mFrameTime.mCurrentTickCount;
 			}
@@ -55,7 +55,7 @@ namespace doom
 			/// Frame Dependent Delta time
 			///  Don't use at FixedUpdate, Use at Update
 			/// </summary>
-			[[nodiscard]] FORCE_INLINE static float GetDeltaTime() noexcept
+			[[nodiscard]] FORCE_INLINE static FLOAT32 GetDeltaTime() noexcept
 			{
 				return MainTimer::mFrameTime.mDeltaTime ;
 			}
@@ -63,24 +63,24 @@ namespace doom
 			/// <summary>
 			/// Don't use at Update, Use at FixedUpdate
 			/// </summary>
-			[[nodiscard]] FORCE_INLINE static float GetFixedDeltaTime() noexcept
+			[[nodiscard]] FORCE_INLINE static FLOAT32 GetFixedDeltaTime() noexcept
 			{
 				return MainTimer::mFixedTime.mDeltaTime;
 			}
 
-			[[nodiscard]] FORCE_INLINE static float GetCurrentFrame() noexcept
+			[[nodiscard]] FORCE_INLINE static FLOAT32 GetCurrentFrame() noexcept
 			{
 				return MainTimer::CurrentFrame;
 			}
 
 			//If you want to get true value per n frame, use this function
-			[[nodiscard]] FORCE_INLINE static bool GetFrameStep(unsigned int step) noexcept
+			[[nodiscard]] FORCE_INLINE static bool GetFrameStep(UINT32 step) noexcept
 			{
 				D_ASSERT(step != 0);
 				return MainTimer::mFrameCounterForStep % step == 0;
 			}
 
-			[[nodiscard]] FORCE_INLINE static unsigned long long GetCurrentFrameCount() noexcept
+			[[nodiscard]] FORCE_INLINE static UINT64 GetCurrentFrameCount() noexcept
 			{
 				return MainTimer::mFrameCounterForStep;
 			}

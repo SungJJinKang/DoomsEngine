@@ -16,7 +16,7 @@ void doom::physics::ColliderPickingTestRoom::FixedUpdatePhysics()
 {
 
 	doom::physics::Ray cursorRay{ Physics_Server::GetSingleton()->mPicking.GetCurrentCursorPointWorldRay() };
-	for (unsigned int i = 0; i < mTestColliders.size(); i++)
+	for (UINT32 i = 0; i < mTestColliders.size(); i++)
 	{
 		mTestColliders[i]->ClearCollision();
 		bool isOverlap = ColliderSolution::CheckIsOverlap(&cursorRay, mTestColliders[i]);
@@ -30,7 +30,7 @@ void doom::physics::ColliderPickingTestRoom::FixedUpdatePhysics()
 
 void doom::physics::ColliderPickingTestRoom::DrawDebug()
 {
-	for (unsigned int i = 0; i < mTestColliders.size(); i++)
+	for (UINT32 i = 0; i < mTestColliders.size(); i++)
 	{
 		mTestColliders[i]->DrawPhysicsDebugColor(eColor::Green);
 		

@@ -8,7 +8,7 @@ class BufferID
 {
 
 private:
-	unsigned int mData;
+	UINT32 mData;
 
 public:
 	BufferID() : mData{ NULL }
@@ -36,34 +36,34 @@ public:
 		return *this;
 	}
 
-	BufferID(unsigned int data) : mData{ data }
+	BufferID(UINT32 data) : mData{ data }
 	{}
 
-	void operator=(const unsigned int& data)
+	void operator=(const UINT32& data)
 	{
 		mData = data;
 	}
-	void operator=(unsigned int&& data) noexcept
+	void operator=(UINT32&& data) noexcept
 	{
 		mData = data;
 		data = NULL;
 	}
 
-	operator unsigned int () const
+	operator UINT32 () const
 	{
 		return mData;
 	}
 
-	unsigned int* operator& ()
+	UINT32* operator& ()
 	{
 		return &(mData);
 	}
-	const unsigned int* operator& () const
+	const UINT32* operator& () const
 	{
 		return &(mData);
 	}
 
-	unsigned int Get() const
+	UINT32 Get() const
 	{
 		return mData;
 	}

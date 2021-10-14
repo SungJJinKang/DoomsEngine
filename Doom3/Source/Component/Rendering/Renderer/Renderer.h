@@ -28,7 +28,7 @@ namespace doom
 
 	class Camera;
 
-	enum eRenderingFlag : unsigned int
+	enum eRenderingFlag : UINT32
 	{
 		STATIC_BATCH = 1 << 0,
 		DYNAMIC_BATCH = 1 << 1
@@ -43,7 +43,7 @@ namespace doom
 	private:
 
 		//For Sorting Renderers front to back
-		std::vector<float> mDistancesToCamera;
+		std::vector<FLOAT32> mDistancesToCamera;
 
 		/// <summary>
 		/// EntityBlockViewer never be cheanged on a entity
@@ -71,11 +71,11 @@ namespace doom
 		/// <summary>
 		/// Check RenderingBitFlag.h
 		/// </summary>
-		unsigned int mRenderingFlag{ 0x00000000 };
+		UINT32 mRenderingFlag{ 0x00000000 };
 		void SetRenderingFlag(const eRenderingFlag flag, const bool isSet);
 		FORCE_INLINE bool GetRenderingFlag(const eRenderingFlag flag) const
 		{
-			return (mRenderingFlag & static_cast<unsigned int>(flag));
+			return (mRenderingFlag & static_cast<UINT32>(flag));
 		}
 
 		//DirtyReceiver mIsBoundingSphereDirty{ true };
@@ -134,8 +134,8 @@ namespace doom
 		/// </summary>
 		/// <param name="cameraIndex"></param>
 		/// <returns></returns>
-		char GetIsVisibleWithCameraIndex(unsigned int cameraIndex) const;
-		FORCE_INLINE bool GetIsCulled(const unsigned int cameraIndex) const
+		char GetIsVisibleWithCameraIndex(UINT32 cameraIndex) const;
+		FORCE_INLINE bool GetIsCulled(const UINT32 cameraIndex) const
 		{
 			return mEntityBlockViewer.GetIsCulled(cameraIndex);
 		}
@@ -150,7 +150,7 @@ namespace doom
 		/// </summary>
 		/// <param name="cameraIndex"></param>
 		/// <returns></returns>
-		FORCE_INLINE float GetDistanceToCamera(const size_t cameraIndex) const
+		FORCE_INLINE FLOAT32 GetDistanceToCamera(const size_t cameraIndex) const
 		{
 			D_ASSERT(cameraIndex >= 0 && cameraIndex < mDistancesToCamera.size());
 

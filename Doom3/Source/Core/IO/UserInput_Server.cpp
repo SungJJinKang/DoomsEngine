@@ -9,7 +9,7 @@
 #include <Vector3.h>
 
 
-void UserInput_Server::CursorEnterCallback(GLFWwindow* window, int entered)
+void UserInput_Server::CursorEnterCallback(GLFWwindow* window, INT32 entered)
 {
 	UserInput_Server::IsCursorOnScreenWindow = entered;
 
@@ -17,51 +17,51 @@ void UserInput_Server::CursorEnterCallback(GLFWwindow* window, int entered)
 
 	if (entered != 0)
 	{
-		double xpos, ypos;
+		FLOAT64 xpos, ypos;
 		glfwGetCursorPos(doom::graphics::Graphics_Setting::GetWindow(), &xpos, &ypos);
-		doom::userinput::UserInput_Server::mCurrentCursorScreenPosition.x = static_cast<float>(xpos);
-		doom::userinput::UserInput_Server::mCurrentCursorScreenPosition.y = static_cast<float>(ypos);
+		doom::userinput::UserInput_Server::mCurrentCursorScreenPosition.x = static_cast<FLOAT32>(xpos);
+		doom::userinput::UserInput_Server::mCurrentCursorScreenPosition.y = static_cast<FLOAT32>(ypos);
 	}
 }
 
 
-void UserInput_Server::CursorPosition_Callback(GLFWwindow* window, double xpos, double ypos)
+void UserInput_Server::CursorPosition_Callback(GLFWwindow* window, FLOAT64 xpos, FLOAT64 ypos)
 {
-	UserInput_Server::mDeltaCursorScreenPosition.x = static_cast<float>(xpos) - UserInput_Server::mCurrentCursorScreenPosition.x;
-	UserInput_Server::mDeltaCursorScreenPosition.y = static_cast<float>(ypos) - UserInput_Server::mCurrentCursorScreenPosition.y;
+	UserInput_Server::mDeltaCursorScreenPosition.x = static_cast<FLOAT32>(xpos) - UserInput_Server::mCurrentCursorScreenPosition.x;
+	UserInput_Server::mDeltaCursorScreenPosition.y = static_cast<FLOAT32>(ypos) - UserInput_Server::mCurrentCursorScreenPosition.y;
 
-	doom::userinput::UserInput_Server::mCurrentCursorScreenPosition.x = static_cast<float>(xpos);
-	doom::userinput::UserInput_Server::mCurrentCursorScreenPosition.y = static_cast<float>(ypos);
+	doom::userinput::UserInput_Server::mCurrentCursorScreenPosition.x = static_cast<FLOAT32>(xpos);
+	doom::userinput::UserInput_Server::mCurrentCursorScreenPosition.y = static_cast<FLOAT32>(ypos);
 	//D_DEBUG_LOG({ "Mouse Cursor Position : Pos X ( ", std::to_string(xpos), " ) , Pos Y ( ", std::to_string(ypos), " )" }, eLogType::D_LOG);
 }
 
 
-void UserInput_Server::Scroll_Callback(GLFWwindow* window, double xoffset, double yoffset)
+void UserInput_Server::Scroll_Callback(GLFWwindow* window, FLOAT64 xoffset, FLOAT64 yoffset)
 {
-	UserInput_Server::mScrollOffset.x = static_cast<float>(xoffset);
-	UserInput_Server::mScrollOffset.y = static_cast<float>(yoffset);
+	UserInput_Server::mScrollOffset.x = static_cast<FLOAT32>(xoffset);
+	UserInput_Server::mScrollOffset.y = static_cast<FLOAT32>(yoffset);
 	UserInput_Server::mScrollChangedAtPreviousFrame = true;
 
 	D_DEBUG_LOG({ "Mouse Scroll Callback  : Offset X ( ", std::to_string(xoffset), " ) , Offset Y ( ", std::to_string(yoffset), " )" }, eLogType::D_LOG);
 }
 
 
-void UserInput_Server::Key_Callback(GLFWwindow* window, int key, int scancode, int action, int mods)
+void UserInput_Server::Key_Callback(GLFWwindow* window, INT32 key, INT32 scancode, INT32 action, INT32 mods)
 {
-	if (key < static_cast<int>(FIRST_KEY_CODE) || key > static_cast<int>(LAST_KEY_CODE))
+	if (key < static_cast<INT32>(FIRST_KEY_CODE) || key > static_cast<INT32>(LAST_KEY_CODE))
 	{
 		return;
 	}
 
 	if (action == GLFW_PRESS)
 	{
-		UserInput_Server::mKeyState[key - static_cast<int>(FIRST_KEY_CODE)] = eKeyState::PRESS_DOWN;
+		UserInput_Server::mKeyState[key - static_cast<INT32>(FIRST_KEY_CODE)] = eKeyState::PRESS_DOWN;
 		UserInput_Server::mDownKeys.push_back(key);
 	}
 	else if (action == GLFW_RELEASE)
 	{
-		UserInput_Server::mKeyState[key - static_cast<int>(FIRST_KEY_CODE)] = eKeyState::UP;
-		UserInput_Server::mKeyToggle[key - static_cast<int>(FIRST_KEY_CODE)] = !UserInput_Server::mKeyToggle[key - static_cast<int>(FIRST_KEY_CODE)];
+		UserInput_Server::mKeyState[key - static_cast<INT32>(FIRST_KEY_CODE)] = eKeyState::UP;
+		UserInput_Server::mKeyToggle[key - static_cast<INT32>(FIRST_KEY_CODE)] = !UserInput_Server::mKeyToggle[key - static_cast<INT32>(FIRST_KEY_CODE)];
 		UserInput_Server::mUpKeys.push_back(key);
 	}
 
@@ -73,12 +73,12 @@ void doom::userinput::UserInput_Server::UpdateKeyStates()
 {
 	for (auto upKey : UserInput_Server::mUpKeys)
 	{
-		UserInput_Server::mKeyState[upKey - static_cast<int>(FIRST_KEY_CODE)] = eKeyState::NONE;
+		UserInput_Server::mKeyState[upKey - static_cast<INT32>(FIRST_KEY_CODE)] = eKeyState::NONE;
 	}
 
 	for (auto downKey : UserInput_Server::mDownKeys)
 	{
-		UserInput_Server::mKeyState[downKey - static_cast<int>(FIRST_KEY_CODE)] = eKeyState::PRESSING;
+		UserInput_Server::mKeyState[downKey - static_cast<INT32>(FIRST_KEY_CODE)] = eKeyState::PRESSING;
 	}
 
 	UserInput_Server::mUpKeys.clear();
@@ -87,7 +87,7 @@ void doom::userinput::UserInput_Server::UpdateKeyStates()
 
 void doom::userinput::UserInput_Server::UpdateMouseButtonStates()
 {
-	for (unsigned int i = 0; i < UserInput_Server::mMouseButtonState.size(); i++)
+	for (UINT32 i = 0; i < UserInput_Server::mMouseButtonState.size(); i++)
 	{
 		if (UserInput_Server::mMouseButtonState[i] == eMouse_Button_Action::RELEASE)
 		{
@@ -100,15 +100,15 @@ void doom::userinput::UserInput_Server::UpdateMouseButtonStates()
 	}
 }
 
-void UserInput_Server::MouseButton_Callback(GLFWwindow* window, int button, int action, int mods)
+void UserInput_Server::MouseButton_Callback(GLFWwindow* window, INT32 button, INT32 action, INT32 mods)
 {
 	if (action == GLFW_PRESS)
 	{
-		UserInput_Server::mMouseButtonState[button - static_cast<int>(FIRST_MOUSE_BUTTON_TYPE)] = eMouse_Button_Action::DOWN;
+		UserInput_Server::mMouseButtonState[button - static_cast<INT32>(FIRST_MOUSE_BUTTON_TYPE)] = eMouse_Button_Action::DOWN;
 	}
 	else if (action == GLFW_RELEASE)
 	{
-		UserInput_Server::mMouseButtonState[button - static_cast<int>(FIRST_MOUSE_BUTTON_TYPE)] = eMouse_Button_Action::RELEASE;
+		UserInput_Server::mMouseButtonState[button - static_cast<INT32>(FIRST_MOUSE_BUTTON_TYPE)] = eMouse_Button_Action::RELEASE;
 	}
 }
 

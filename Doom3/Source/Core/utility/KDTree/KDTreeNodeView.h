@@ -20,14 +20,14 @@ namespace doom
 
 	private:
 		kd_tree_type* mKDTreePointer;
-		int mNodeIndex;
+		INT32 mNodeIndex;
 
 		constexpr KDTreeNodeView()
 			:mKDTreePointer{ nullptr }, mNodeIndex{ NULL_NODE_INDEX }
 		{
 
 		}
-		constexpr KDTreeNodeView(kd_tree_type* kdTreePointer, int nodeIndex)
+		constexpr KDTreeNodeView(kd_tree_type* kdTreePointer, INT32 nodeIndex)
 			: mKDTreePointer{ kdTreePointer }, mNodeIndex{ nodeIndex }
 		{
 
@@ -41,7 +41,7 @@ namespace doom
 		constexpr this_type& operator=(this_type&&) noexcept = default;
 
 		typename node_type* operator->();
-		constexpr int GetNodeIndex()
+		constexpr INT32 GetNodeIndex()
 		{
 			return mNodeIndex;
 		}

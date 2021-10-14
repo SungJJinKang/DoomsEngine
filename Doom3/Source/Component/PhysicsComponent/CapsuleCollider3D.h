@@ -11,8 +11,8 @@ namespace doom
 		physics::CapsuleCollider mLocalCapsuleCollider;
 		physics::CapsuleCollider mWorldCapsuleCollider;
 
-		float mHeight;
-		float mRadius;
+		FLOAT32 mHeight;
+		FLOAT32 mRadius;
 
 		virtual void UpdateLocalCollider() final;
 		virtual void UpdateWorldCollider() final;
@@ -23,10 +23,10 @@ namespace doom
 
 	public:
 	
-		void SetHeight(float height);
-		float GetHeight();
-		void SetRadius(float radius);
-		float GetRadius();
+		void SetHeight(FLOAT32 height);
+		FLOAT32 GetHeight();
+		void SetRadius(FLOAT32 radius);
+		FLOAT32 GetRadius();
 		
 		// Inherited via Collider3DComponent
 		virtual doom::physics::AABB3D ExtractLocalAABB3D() override;

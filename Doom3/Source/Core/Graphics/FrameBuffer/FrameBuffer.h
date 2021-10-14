@@ -19,25 +19,25 @@ namespace doom
 
 			inline static const char FRAMEBUFFER_TAG[]{ "FrameBuffer" };
 
-			static constexpr unsigned int RESERVED_RENDERBUFFER_COUNT = 3;
+			static constexpr UINT32 RESERVED_RENDERBUFFER_COUNT = 3;
 			std::vector<RenderBuffer> mAttachedRenderBuffers;
 
-			static constexpr unsigned int RESERVED_COLOR_TEXTURE_COUNT = 3;
+			static constexpr UINT32 RESERVED_COLOR_TEXTURE_COUNT = 3;
 			std::vector<SingleTexture> mAttachedColorTextures;
 
-			static constexpr unsigned int RESERVED_DEPTH_TEXTURE_COUNT = 1; 
+			static constexpr UINT32 RESERVED_DEPTH_TEXTURE_COUNT = 1; 
 			std::vector<SingleTexture> mAttachedDepthTextures;
 
-			static constexpr unsigned int RESERVED_DEPTH_STENCIL_TEXTURE_COUNT = 1; 
+			static constexpr UINT32 RESERVED_DEPTH_STENCIL_TEXTURE_COUNT = 1; 
 			std::vector<SingleTexture> mAttachedDepthStencilTextures;
 
-			std::vector<unsigned int> mTargetDrawBufferContainer;
+			std::vector<UINT32> mTargetDrawBufferContainer;
 
-			unsigned int mClearBit{ 0 };
-			unsigned int mDrawTarget{ 0 };
+			UINT32 mClearBit{ 0 };
+			UINT32 mDrawTarget{ 0 };
 
-			unsigned int mDefaultWidth;
-			unsigned int mDefaultHeight;
+			UINT32 mDefaultWidth;
+			UINT32 mDefaultHeight;
 
 			/// <summary>
 			/// nullptr mean default ScreenBuffer
@@ -54,7 +54,7 @@ namespace doom
 			BufferID mFrameBufferID;
 
 			FrameBuffer();
-			FrameBuffer(unsigned int defaultWidth, unsigned int defaultHeight);
+			FrameBuffer(UINT32 defaultWidth, UINT32 defaultHeight);
 			virtual ~FrameBuffer();
 
 			FrameBuffer(const FrameBuffer&) = delete;
@@ -63,16 +63,16 @@ namespace doom
 			FrameBuffer(FrameBuffer&&) noexcept = default;
 			FrameBuffer& operator=(FrameBuffer &&) noexcept = default;
 
-			void GenerateBuffer(unsigned int defaultWidth, unsigned int defaultHeight);
+			void GenerateBuffer(UINT32 defaultWidth, UINT32 defaultHeight);
 			void RefreshTargetDrawBufferContainer();
 			void SetTargetDrawBuffer();
 
-			FORCE_INLINE unsigned int GetDefaultWidth() const
+			FORCE_INLINE UINT32 GetDefaultWidth() const
 			{
 				return mDefaultWidth;
 			}
 
-			FORCE_INLINE unsigned int GetDefaultHeight() const
+			FORCE_INLINE UINT32 GetDefaultHeight() const
 			{
 				return mDefaultHeight;
 			}
@@ -133,28 +133,28 @@ namespace doom
 				LINEAR = GL_LINEAR
 			};
 
-			FORCE_INLINE void BlitBufferTo(unsigned int DrawFrameBufferId, int srcX0, int srcY0, int srcX1, int srcY1
-				, int dstX0, int dstY0, int dstX1, int dstY1, GraphicsAPI::eBufferBitType mask, eImageInterpolation filter) const noexcept
+			FORCE_INLINE void BlitBufferTo(UINT32 DrawFrameBufferId, INT32 srcX0, INT32 srcY0, INT32 srcX1, INT32 srcY1
+				, INT32 dstX0, INT32 dstY0, INT32 dstX1, INT32 dstY1, GraphicsAPI::eBufferBitType mask, eImageInterpolation filter) const noexcept
 			{
 				glBindFramebuffer(GL_READ_FRAMEBUFFER, mFrameBufferID);
 				glBindFramebuffer(GL_DRAW_FRAMEBUFFER, DrawFrameBufferId);
-				glBlitFramebuffer(srcX0, srcY0, srcX1, srcY1, dstX0, dstY0, dstX1, dstY1, static_cast<unsigned int>(mask), static_cast<unsigned int>(filter));
+				glBlitFramebuffer(srcX0, srcY0, srcX1, srcY1, dstX0, dstY0, dstX1, dstY1, static_cast<UINT32>(mask), static_cast<UINT32>(filter));
 			}
 
-			FORCE_INLINE void BlitBufferFrom(unsigned int ReadFrameBufferId, int srcX0, int srcY0, int srcX1, int srcY1
-				, int dstX0, int dstY0, int dstX1, int dstY1, GraphicsAPI::eBufferBitType mask, eImageInterpolation filter) const noexcept
+			FORCE_INLINE void BlitBufferFrom(UINT32 ReadFrameBufferId, INT32 srcX0, INT32 srcY0, INT32 srcX1, INT32 srcY1
+				, INT32 dstX0, INT32 dstY0, INT32 dstX1, INT32 dstY1, GraphicsAPI::eBufferBitType mask, eImageInterpolation filter) const noexcept
 			{
 				glBindFramebuffer(GL_READ_FRAMEBUFFER, ReadFrameBufferId);
 				glBindFramebuffer(GL_DRAW_FRAMEBUFFER, mFrameBufferID);
-				glBlitFramebuffer(srcX0, srcY0, srcX1, srcY1, dstX0, dstY0, dstX1, dstY1, static_cast<unsigned int>(mask), static_cast<unsigned int>(filter));
+				glBlitFramebuffer(srcX0, srcY0, srcX1, srcY1, dstX0, dstY0, dstX1, dstY1, static_cast<UINT32>(mask), static_cast<UINT32>(filter));
 			}
 
-			RenderBuffer& AttachRenderBuffer(GraphicsAPI::eBufferBitType renderBufferType, unsigned int width, unsigned int height);
+			RenderBuffer& AttachRenderBuffer(GraphicsAPI::eBufferBitType renderBufferType, UINT32 width, UINT32 height);
 			RenderBuffer& AttachRenderBuffer(GraphicsAPI::eBufferBitType renderBufferType);
-			SingleTexture& AttachTextureBuffer(GraphicsAPI::eBufferBitType frameBufferType, unsigned int width, unsigned int height);
+			SingleTexture& AttachTextureBuffer(GraphicsAPI::eBufferBitType frameBufferType, UINT32 width, UINT32 height);
 			SingleTexture& AttachTextureBuffer(GraphicsAPI::eBufferBitType frameBufferType);
-			const SingleTexture* GetFrameBufferTexture(GraphicsAPI::eBufferBitType bufferType, unsigned int index) const;
-			SingleTexture* GetFrameBufferTexture(GraphicsAPI::eBufferBitType bufferType, unsigned int index);
+			const SingleTexture* GetFrameBufferTexture(GraphicsAPI::eBufferBitType bufferType, UINT32 index) const;
+			SingleTexture* GetFrameBufferTexture(GraphicsAPI::eBufferBitType bufferType, UINT32 index);
 
 			void CheckIsFrameBufferSuccesfullyCreated() noexcept;
 

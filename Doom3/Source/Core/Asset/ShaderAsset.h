@@ -59,7 +59,7 @@ namespace doom
 			static const std::string GeometryShaderMacros;
 
 			bool bmIsShaderCompiled{ false };
-			unsigned int mVertexId, mFragmentId, mGeometryId;
+			UINT32 mVertexId, mFragmentId, mGeometryId;
 
 
 
@@ -67,7 +67,7 @@ namespace doom
 			/// Don't call this subthread, Should Call this at mainthread
 			/// </summary>
 			void CompileShaders();
-			void CompileSpecificShader(const std::string& shaderStr, ShaderType shaderType, unsigned int& shaderId);
+			void CompileSpecificShader(const std::string& shaderStr, ShaderType shaderType, UINT32& shaderId);
 			void ClassifyShader(const std::string& shaderText);
 			bool CheckIsSharpInclude(const std::string& str);
 			/// <summary>
@@ -78,7 +78,7 @@ namespace doom
 			std::string ExtractShaderFile(const std::filesystem::path& path);
 
 #ifdef DEBUG_MODE
-			void checkCompileError(unsigned int id, ShaderType shaderType);
+			void checkCompileError(UINT32 id, ShaderType shaderType);
 #endif
 			/// <summary>
 			/// return shader is valid??
@@ -112,9 +112,9 @@ namespace doom
 
 			void OnEndImportInMainThread_Internal() final;
 
-			unsigned int GetVertexId() const;
-			unsigned int GetFragmentId() const;
-			unsigned int GetGeometryId() const;
+			UINT32 GetVertexId() const;
+			UINT32 GetFragmentId() const;
+			UINT32 GetGeometryId() const;
 
 			graphics::Material CreateMatrialWithThisShader();
 

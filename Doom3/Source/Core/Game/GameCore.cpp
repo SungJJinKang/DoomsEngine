@@ -27,11 +27,11 @@ std::unique_ptr<doom::Scene> doom::GameCore::CreateNewScene(std::string sceneNam
 
 void doom::GameCore::InitGameSetting()
 {
-	ITERATION_PER_SECOND = mGameConfigData.GetConfigData().GetValue<int>("SYSTEM", "ITERATION_PER_SECOND");
-	TARGET_FRAME_RATE = mGameConfigData.GetConfigData().GetValue<int>("SYSTEM", "TARGET_FRAME_RATE");
-	FRAME_DELAY_MILLISECOND = mGameConfigData.GetConfigData().GetValue<int>("SYSTEM", "FRAME_DELAY_MILLISECOND");
-	FIXED_TIME_STEP = static_cast<float>(mGameConfigData.GetConfigData().GetValue<double>("PHYSICS", "FIXED_TIME_STEP"));
-	MAX_PHYSICS_STEP = mGameConfigData.GetConfigData().GetValue<int>("PHYSICS", "MAX_PHYSICS_STEP");
+	ITERATION_PER_SECOND = mGameConfigData.GetConfigData().GetValue<INT32>("SYSTEM", "ITERATION_PER_SECOND");
+	TARGET_FRAME_RATE = mGameConfigData.GetConfigData().GetValue<INT32>("SYSTEM", "TARGET_FRAME_RATE");
+	FRAME_DELAY_MILLISECOND = mGameConfigData.GetConfigData().GetValue<INT32>("SYSTEM", "FRAME_DELAY_MILLISECOND");
+	FIXED_TIME_STEP = static_cast<FLOAT32>(mGameConfigData.GetConfigData().GetValue<FLOAT64>("PHYSICS", "FIXED_TIME_STEP"));
+	MAX_PHYSICS_STEP = mGameConfigData.GetConfigData().GetValue<INT32>("PHYSICS", "MAX_PHYSICS_STEP");
 
 	
 
@@ -199,8 +199,8 @@ bool doom::GameCore::Tick()
 
 	D_START_PROFILING(Fixed_Update, eProfileLayers::CPU);
 	MainTimer::ResetFixedTimer();
-	int fixedUpdateCount{ 0 };
-	for (int i = 0; i < MAX_PHYSICS_STEP; ++i)
+	INT32 fixedUpdateCount{ 0 };
+	for (INT32 i = 0; i < MAX_PHYSICS_STEP; ++i)
 	{
 		fixedUpdateCount++;
 		FixedUpdate();

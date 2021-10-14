@@ -56,7 +56,7 @@ namespace doom
 	
 
 			doom::asset::Asset* _GetAsset(const D_UUID& UUID, const doom::asset::eAssetType assetType);
-			doom::asset::Asset* _GetAsset(const unsigned int index, const doom::asset::eAssetType assetType);
+			doom::asset::Asset* _GetAsset(const UINT32 index, const doom::asset::eAssetType assetType);
 			doom::asset::Asset* _GetAsset(const std::string& filename, const doom::asset::eAssetType assetType);
 
 		public:
@@ -96,7 +96,7 @@ namespace doom
 			}
 
 			template<::doom::asset::eAssetType AssetType>
-			typename doom::asset::AssetType<AssetType>::type* GetAsset(const unsigned int index)
+			typename doom::asset::AssetType<AssetType>::type* GetAsset(const UINT32 index)
 			{
 				doom::asset::Asset* const asset = _GetAsset(index, AssetType);
 				return reinterpret_cast<typename doom::asset::AssetType<AssetType>::type*>(asset);

@@ -1,6 +1,7 @@
 #pragma once
 #include <random>
 
+#include <Core.h>
 
 namespace doom
 {
@@ -13,8 +14,8 @@ namespace doom
 			static std::random_device rd;
 		public:
 			static void GenerateSeed();
-			static int RandomIntNumber(int a, int b);
-			static float RandomFloatNumber(float a, float b);
+			static INT32 RandomIntNumber(INT32 a, INT32 b);
+			static FLOAT32 RandomFloatNumber(FLOAT32 a, FLOAT32 b);
 		};
 		
 	}

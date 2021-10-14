@@ -1,10 +1,12 @@
 #pragma once
+#include "Macros/TypeDef.h"
+
 
 namespace doom
 {
 	namespace asset
 	{
-		enum class eAssetType : unsigned int
+		enum class eAssetType : UINT32
 		{
 			AUDIO = 0,
 			FONT,
@@ -13,7 +15,7 @@ namespace doom
 			THREE_D_MODEL,
 			SHADER
 		};
-		constexpr inline size_t ENUM_ASSETTYPE_COUNT = 6;
+		constexpr inline SIZE_T ENUM_ASSETTYPE_COUNT = 6;
 
 		constexpr inline eAssetType FIRST_ENUM_ASSETTYPE_VALUE = eAssetType::AUDIO;
 		constexpr inline eAssetType LAST_ENUM_ASSETTYPE_VALUE = eAssetType::SHADER;

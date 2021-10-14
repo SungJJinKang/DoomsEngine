@@ -15,12 +15,12 @@ namespace doom
 		{
 			static inline GLFWwindow* Window{ nullptr };
 
-			static inline math::Vector<2, int> ScreenSize{};
+			static inline math::Vector<2, INT32> ScreenSize{};
 			/// <summary>
 			/// ScreenSize Width / ScreenSize Height
 			/// </summary>
-			static inline float ScreenRatio{};
-			static inline unsigned int MultiSamplingNum;
+			static inline FLOAT32 ScreenRatio{};
+			static inline UINT32 MultiSamplingNum;
 
 		public:
 
@@ -51,12 +51,12 @@ namespace doom
 
 			static void SetWindow(GLFWwindow* const _window);
 
-			FORCE_INLINE static int GetScreenWidth()
+			FORCE_INLINE static INT32 GetScreenWidth()
 			{
 				return Graphics_Setting::ScreenSize.x;
 			}
 
-			FORCE_INLINE static int GetScreenHeight()
+			FORCE_INLINE static INT32 GetScreenHeight()
 			{
 				return Graphics_Setting::ScreenSize.y;
 			}
@@ -66,12 +66,12 @@ namespace doom
 				return Graphics_Setting::ScreenSize;
 			}
 
-			FORCE_INLINE static float GetScreenRatio()
+			FORCE_INLINE static FLOAT32 GetScreenRatio()
 			{
 				return Graphics_Setting::ScreenRatio;
 			}
 
-			FORCE_INLINE static unsigned int GetMultiSamplingNum()
+			FORCE_INLINE static UINT32 GetMultiSamplingNum()
 			{
 				return Graphics_Setting::MultiSamplingNum;
 			}

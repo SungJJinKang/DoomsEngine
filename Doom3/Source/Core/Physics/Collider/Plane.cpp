@@ -4,7 +4,7 @@
 #include <Utility.h>
 
 
-doom::physics::Plane::Plane(float distance, const math::Vector3& normal)
+doom::physics::Plane::Plane(FLOAT32 distance, const math::Vector3& normal)
 	:mDistance{ distance }, mNormal{ normal.normalized() }
 {
 }
@@ -34,7 +34,7 @@ bool doom::physics::IsOverlapPlaneAndPlane(const Plane& plane1, const Plane& pla
 {
 	auto cross = math::cross(plane1.GetNormal(), plane2.GetNormal());
 
-	if (math::dot(cross, cross) < math::epsilon<float>())
+	if (math::dot(cross, cross) < math::epsilon<FLOAT32>())
 	{
 		//if parallel
 		return false;
@@ -52,7 +52,7 @@ bool doom::physics::IsOverlapPlaneAndPlane(const Collider* const plane1, const C
 
 bool doom::physics::IsPointOnPlane(const doom::physics::Plane& plane, const math::Vector3& point)
 {
-	return math::dot(plane.GetNormal(), point) - plane.mDistance < math::epsilon<float>();
+	return math::dot(plane.GetNormal(), point) - plane.mDistance < math::epsilon<FLOAT32>();
 }
 
 bool doom::physics::IsPointOnPositiveSide(const doom::physics::Plane& plane, const math::Vector3& point)
@@ -71,13 +71,13 @@ void doom::physics::Plane::DrawCollider(eColor color, bool drawInstantly /*= fal
 	auto debugGraphics = graphics::DebugDrawer::GetSingleton();
 
 	math::Vector3 arbitaryVector =
-		math::abs(mNormal.y) > math::epsilon<float>() || math::abs(mNormal.z) > math::epsilon<float>() ?
+		math::abs(mNormal.y) > math::epsilon<FLOAT32>() || math::abs(mNormal.z) > math::epsilon<FLOAT32>() ?
 		math::Vector3::right : math::Vector3::up;
 	
 	math::Vector3 Parallel1VectorToPlane = math::cross(mNormal, arbitaryVector);
 	math::Vector3 Parallel2VectorToPlane = math::cross(mNormal, Parallel1VectorToPlane);
 
-	float halfExtent = 10;
+	FLOAT32 halfExtent = 10;
 	math::Vector3 center = mNormal * mDistance;
 
 

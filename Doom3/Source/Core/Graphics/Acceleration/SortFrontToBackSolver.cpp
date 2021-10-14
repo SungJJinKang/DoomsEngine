@@ -6,7 +6,7 @@
 #include <Rendering/Renderer/RendererStaticIterator.h>
 #include <Rendering/Camera.h>
 
-void doom::graphics::SortFrontToBackSolver::SortRenderer(std::vector<doom::Renderer*>& rendereres, const size_t cameraIndex)
+void doom::graphics::SortFrontToBackSolver::SortRenderer(std::vector<doom::Renderer*>& rendereres, const SIZE_T cameraIndex)
 {
 	std::sort(
 		rendereres.begin(), rendereres.end(),
@@ -26,7 +26,7 @@ void doom::graphics::SortFrontToBackSolver::CacheDistanceFromRenderersToCamera(
 {
 	for(doom::Renderer* renderer : rendereres)
 	{
-		for(size_t cameraIndex = 0 ; cameraIndex < cameraPositions.size() ; cameraIndex++)
+		for(SIZE_T cameraIndex = 0 ; cameraIndex < cameraPositions.size() ; cameraIndex++)
 		{
 			renderer->CacheDistanceToCamera(cameraIndex, cameraPositions[cameraIndex]);
 		}
@@ -34,9 +34,9 @@ void doom::graphics::SortFrontToBackSolver::CacheDistanceFromRenderersToCamera(
 }
 */
 
-void doom::graphics::SortFrontToBackSolver::SortRenderer(const size_t cameraIndex)
+void doom::graphics::SortFrontToBackSolver::SortRenderer(const SIZE_T cameraIndex)
 {
-	for (size_t layerIndex = 0; layerIndex < MAX_LAYER_COUNT; layerIndex++)
+	for (SIZE_T layerIndex = 0; layerIndex < MAX_LAYER_COUNT; layerIndex++)
 	{
 		doom::graphics::SortFrontToBackSolver::SortRenderer(
 			doom::RendererComponentStaticIterator::GetSortingRendererInLayer(cameraIndex, layerIndex),
@@ -52,12 +52,12 @@ void doom::graphics::SortFrontToBackSolver::CacheDistanceFromRenderersToSpawnedC
 	std::vector<math::Vector3> cameraPositions;
 	cameraPositions.reserve(spawnedCameraList.size());
 
-	for(size_t cameraIndex = 0 ; cameraIndex < spawnedCameraList.size() ; cameraIndex++)
+	for(SIZE_T cameraIndex = 0 ; cameraIndex < spawnedCameraList.size() ; cameraIndex++)
 	{
 		cameraPositions.push_back(spawnedCameraList[cameraIndex]->GetTransform()->GetPosition());
 	}
 
-	for (size_t layerIndex = 0; layerIndex < MAX_LAYER_COUNT; layerIndex++)
+	for (SIZE_T layerIndex = 0; layerIndex < MAX_LAYER_COUNT; layerIndex++)
 	{
 		doom::graphics::SortFrontToBackSolver::CacheDistanceFromRenderersToCamera(
 			doom::RendererComponentStaticIterator::GetWorkingRendererInLayer(0, layerIndex),

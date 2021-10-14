@@ -13,10 +13,10 @@ namespace doom
 
 			void DrawCollider(eColor color, bool drawInstantly = false) const override;
 
-			Circle2D(const math::Vector2& center, float radius);
+			Circle2D(const math::Vector2& center, FLOAT32 radius);
 
 			math::Vector2 mCenter;
-			float mRadius;
+			FLOAT32 mRadius;
 
 			FORCE_INLINE virtual void* data() final
 			{

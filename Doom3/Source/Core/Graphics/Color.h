@@ -20,7 +20,7 @@ namespace doom
 			
 		};
 
-		inline constexpr extern unsigned int ENUM_COLOR_COUNT = 5;
+		inline constexpr extern UINT32 ENUM_COLOR_COUNT = 5;
 
 		class Color
 		{

@@ -27,10 +27,10 @@ doom::physics::ColliderType doom::physics::Line::GetColliderType() const
 
 bool doom::physics::IsPointOnLine(const Line& line, math::Vector3& point)
 {
-	float m = (line.mEndPoint.y - line.mOrigin.y) / (line.mEndPoint.x - line.mOrigin.x);
-	float d = line.mEndPoint.y - m * line.mEndPoint.x;
+	FLOAT32 m = (line.mEndPoint.y - line.mOrigin.y) / (line.mEndPoint.x - line.mOrigin.x);
+	FLOAT32 d = line.mEndPoint.y - m * line.mEndPoint.x;
 
-	if (math::abs(m * point.x + d - point.y < math::epsilon<float>()))
+	if (math::abs(m * point.x + d - point.y < math::epsilon<FLOAT32>()))
 	{
 		return true;
 	}
@@ -45,7 +45,7 @@ math::Vector3 doom::physics::GetClosestPoint(const Line& line, math::Vector3& po
 	auto lineVec = line.mEndPoint - line.mOrigin;
 	auto lineNormal = lineVec.normalized();
 	auto vecToPoint = point - line.mOrigin;
-	float t = math::dot(lineVec, vecToPoint) / lineVec.magnitude();
+	FLOAT32 t = math::dot(lineVec, vecToPoint) / lineVec.magnitude();
 	if (t <= 0)
 	{
 		return line.mOrigin;

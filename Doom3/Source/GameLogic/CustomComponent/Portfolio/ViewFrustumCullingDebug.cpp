@@ -24,7 +24,7 @@ void doom::ViewFrustumCullingDebug::ShowIsViewFrustumCullingActivated()
 	}
 }
 
-static float previousTime = 0;
+static FLOAT32 previousTime = 0;
 
 void doom::ViewFrustumCullingDebug::UpdateComponent()
 {

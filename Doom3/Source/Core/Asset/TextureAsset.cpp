@@ -11,7 +11,7 @@
 using namespace doom::graphics;
 using namespace DirectX;
 /*
-doom::asset::TextureAsset::TextureAsset(int width, int height, int componentCount, unsigned char* data, eTextureCompressionType compressionType)
+doom::asset::TextureAsset::TextureAsset(INT32 width, INT32 height, INT32 componentCount, unsigned char* data, eTextureCompressionType compressionType)
 	: mNearWidth{ width }, mNearHeight{ height }, mDataComponentFormat{ static_cast<eTextureComponent>(componentCount) }, mTexturerCompressionType{ compressionType }, mData{ data }
 {
 
@@ -67,9 +67,9 @@ doom::asset::TextureAsset::TextureAsset() = default;
 void doom::asset::TextureAsset::SetScratchImage(std::unique_ptr<DirectX::ScratchImage>&& scratchImage)
 {
 	mScratchImage = std::move(scratchImage);
-	mWidth = static_cast<int>(mScratchImage->GetMetadata().width);
-	mHeight = static_cast<int>(mScratchImage->GetMetadata().height);
-	mMipMapLevel = static_cast<int>(mScratchImage->GetMetadata().mipLevels);
+	mWidth = static_cast<INT32>(mScratchImage->GetMetadata().width);
+	mHeight = static_cast<INT32>(mScratchImage->GetMetadata().height);
+	mMipMapLevel = static_cast<INT32>(mScratchImage->GetMetadata().mipLevels);
 
 	switch (mScratchImage->GetMetadata().format)
 	{
@@ -135,7 +135,7 @@ void doom::asset::TextureAsset::CreateTexture()
 {
 	D_ASSERT(mScratchImage->GetImageCount() != 0);
 	std::vector<const DirectX::Image*> mipmapPixels{};
-	for (unsigned int i = 0; i < mScratchImage->GetImageCount(); i++)
+	for (UINT32 i = 0; i < mScratchImage->GetImageCount(); i++)
 	{
 		//https://github.com/microsoft/DirectXTex/blob/master/DirectXTex/DirectXTexImage.cpp
 		mipmapPixels.push_back(mScratchImage->GetImage(i, 0, 0));

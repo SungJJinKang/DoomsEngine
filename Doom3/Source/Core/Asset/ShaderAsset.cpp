@@ -124,9 +124,9 @@ void doom::asset::ShaderAsset::CompileShaders()
 	
 }
 
-void doom::asset::ShaderAsset::CompileSpecificShader(const std::string& shaderStr, ShaderType shaderType, unsigned int& shaderId)
+void doom::asset::ShaderAsset::CompileSpecificShader(const std::string& shaderStr, ShaderType shaderType, UINT32& shaderId)
 {
-	unsigned int shaderTypeFlag{};
+	UINT32 shaderTypeFlag{};
 	if (shaderType == ShaderType::Vertex)
 	{
 		shaderTypeFlag = GL_VERTEX_SHADER;
@@ -333,9 +333,9 @@ std::string doom::asset::ShaderAsset::ExtractShaderFile(const std::filesystem::p
 }
 
 #ifdef DEBUG_MODE
-void doom::asset::ShaderAsset::checkCompileError(unsigned int id, ShaderType shaderType)
+void doom::asset::ShaderAsset::checkCompileError(UINT32 id, ShaderType shaderType)
 {
-	int success;
+	INT32 success;
 	char infoLog[1024];
 	glGetShaderiv(id, GL_COMPILE_STATUS, &success);
 
@@ -382,17 +382,17 @@ void doom::asset::ShaderAsset::OnEndImportInMainThread_Internal()
 	D_END_PROFILING(Compile_Shader);
 }
 
-unsigned int doom::asset::ShaderAsset::GetVertexId() const
+UINT32 doom::asset::ShaderAsset::GetVertexId() const
 {
 	return mVertexId;
 }
 
-unsigned int doom::asset::ShaderAsset::GetFragmentId() const
+UINT32 doom::asset::ShaderAsset::GetFragmentId() const
 {
 	return mFragmentId;
 }
 
-unsigned int doom::asset::ShaderAsset::GetGeometryId() const
+UINT32 doom::asset::ShaderAsset::GetGeometryId() const
 {
 	return mGeometryId;
 }

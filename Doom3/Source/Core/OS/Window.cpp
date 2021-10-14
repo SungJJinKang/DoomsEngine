@@ -19,7 +19,7 @@ HANDLE doom::os::Get_PLATFORM_INVALID_HANDLE_CONSTANT()
 	return PLATFORM_INVALID_HANDLE_CONSTANT;
 }
 
-unsigned long long doom::os::_GetTickCount()
+UINT64 doom::os::_GetTickCount()
 {
 #if defined(OS_WIN32)
 	return GetTickCount();
@@ -28,14 +28,14 @@ unsigned long long doom::os::_GetTickCount()
 #endif
 }
 
-void doom::os::_Sleep(const unsigned long milliseconds)
+void doom::os::_Sleep(const UINT32 milliseconds)
 {
 	Sleep(milliseconds);
 }
 
-unsigned long long doom::os::_GetCurrentProcessorNumber()
+UINT64 doom::os::_GetCurrentProcessorNumber()
 {
-	return static_cast<unsigned long long>(GetCurrentProcessorNumber());
+	return static_cast<UINT64>(GetCurrentProcessorNumber());
 }
 
 PLATFORM_HANDLE doom::os::_GetCurrenThreadHandle()
@@ -43,13 +43,13 @@ PLATFORM_HANDLE doom::os::_GetCurrenThreadHandle()
 	return GetCurrentThread();
 }
 
-unsigned long long doom::os::_GetCurrenThreadID()
+UINT64 doom::os::_GetCurrenThreadID()
 {
-	return static_cast<unsigned long long>(GetCurrentThreadId());
+	return static_cast<UINT64>(GetCurrentThreadId());
 }
 
 #define ThreadQuerySetWin32StartAddress 9
-unsigned long long doom::os::_GetThreadStackStartAddress(const PLATFORM_HANDLE threadHandel)
+UINT64 doom::os::_GetThreadStackStartAddress(const PLATFORM_HANDLE threadHandel)
 {
 	NTSTATUS ntStatus;
 	DWORD_PTR dwStartAddress;
@@ -61,7 +61,7 @@ unsigned long long doom::os::_GetThreadStackStartAddress(const PLATFORM_HANDLE t
 
 	if (ntStatus == 0x00000000)
 	{
-		return static_cast<unsigned long long>(dwStartAddress);
+		return static_cast<UINT64>(dwStartAddress);
 	}
 	else
 	{
@@ -74,7 +74,7 @@ PLATFORM_HANDLE doom::os::_GetCurrenProcess()
 	return GetCurrentProcess();
 }
 
-bool doom::os::_SetCurrentProcessAffinityMask(const unsigned long long processAffinitMask)
+bool doom::os::_SetCurrentProcessAffinityMask(const UINT64 processAffinitMask)
 {
 	bool isSuccess = SetProcessAffinityMask(GetCurrentProcess(), static_cast<DWORD_PTR>(processAffinitMask));
 	D_ASSERT(GetLastError() != ERROR_INVALID_PARAMETER);
@@ -85,8 +85,8 @@ bool doom::os::_SetCurrentProcessAffinityMask(const unsigned long long processAf
 
 bool doom::os::_GetCurrentProcessAffinityMask
 (
-	unsigned long long& lpProcessAffinityMask,
-	unsigned long long& lpSystemAffinityMask
+	UINT64& lpProcessAffinityMask,
+	UINT64& lpSystemAffinityMask
 )
 {
 	bool isSuccess = GetProcessAffinityMask(GetCurrentProcess(), &lpProcessAffinityMask, &lpSystemAffinityMask);
@@ -95,7 +95,7 @@ bool doom::os::_GetCurrentProcessAffinityMask
 	return isSuccess;
 }
 
-bool doom::os::_SetThreadAffinity(const PLATFORM_HANDLE threadHandle, const unsigned long long threadAffinitMask)
+bool doom::os::_SetThreadAffinity(const PLATFORM_HANDLE threadHandle, const UINT64 threadAffinitMask)
 {
 	D_ASSERT(threadHandle != PLATFORM_INVALID_HANDLE_CONSTANT);
 	
@@ -107,12 +107,12 @@ bool doom::os::_SetThreadAffinity(const PLATFORM_HANDLE threadHandle, const unsi
 }
 
 
-unsigned long long doom::os::_GetThreadAffinity(const PLATFORM_HANDLE threadHandle)
+UINT64 doom::os::_GetThreadAffinity(const PLATFORM_HANDLE threadHandle)
 {
 	D_ASSERT(threadHandle != PLATFORM_INVALID_HANDLE_CONSTANT);
 
 	//https://stackoverflow.com/questions/6601862/query-thread-not-process-processor-affinity
-	const unsigned long long originalMask = SetThreadAffinityMask(threadHandle, 0xFFFFFFFFFFFFFFFF);
+	const UINT64 originalMask = SetThreadAffinityMask(threadHandle, 0xFFFFFFFFFFFFFFFF);
 	//D_ASSERT(GetLastError() != ERROR_INVALID_PARAMETER);
 
 	SetThreadAffinityMask(threadHandle, originalMask);
@@ -121,15 +121,15 @@ unsigned long long doom::os::_GetThreadAffinity(const PLATFORM_HANDLE threadHand
 	return originalMask;
 }
 
-unsigned long long doom::os::_GetThreadCpuCycle(const PLATFORM_HANDLE threadHandle)
+UINT64 doom::os::_GetThreadCpuCycle(const PLATFORM_HANDLE threadHandle)
 {
-	unsigned long long cycle;
+	UINT64 cycle;
 	QueryThreadCycleTime(threadHandle, &cycle);
 	return cycle;
 }
 
 /*
-unsigned int doom::os::_GetCurrentProcessorNumber()
+UINT32 doom::os::_GetCurrentProcessorNumber()
 {
 	return GetCurrentProcessorNumber();
 }

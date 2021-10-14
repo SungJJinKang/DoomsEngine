@@ -32,12 +32,12 @@ namespace doom
 			static inline const std::string DEBUG_2D_SHADER{ "Debug2DShader.glsl" };
 			static inline const std::string DEBUG_3D_SHADER{ "Debug3DShader.glsl" };
 
-			static inline constexpr unsigned int DEBUG_2D_LINE_INDEX{ 0 };
-			static inline constexpr unsigned int DEBUG_3D_LINE_INDEX{ 1 };
-			static inline constexpr unsigned int DEBUG_2D_TRIANGLE_INDEX{ 2 };
-			static inline constexpr unsigned int DEBUG_3D_TRIANGLE_INDEX{ 3 };
+			static inline constexpr UINT32 DEBUG_2D_LINE_INDEX{ 0 };
+			static inline constexpr UINT32 DEBUG_3D_LINE_INDEX{ 1 };
+			static inline constexpr UINT32 DEBUG_2D_TRIANGLE_INDEX{ 2 };
+			static inline constexpr UINT32 DEBUG_3D_TRIANGLE_INDEX{ 3 };
 			
-			static inline constexpr unsigned int MAX_DEBUG_VERTEX_COUNT{ 20000000 };
+			static inline constexpr UINT32 MAX_DEBUG_VERTEX_COUNT{ 20000000 };
 			
 			bool bmIsVertexDataSendToGPUAtCurrentFrame{ false };
 			
@@ -48,7 +48,7 @@ namespace doom
 			std::array<std::vector<PrimitiveTriangle>, ENUM_COLOR_COUNT> m2dTriangle;
 			std::array<std::vector<PrimitiveTriangle>, ENUM_COLOR_COUNT> m3dTriangle;
 
-			unsigned int mDebugMeshCount{ 0 };
+			UINT32 mDebugMeshCount{ 0 };
 
 			std::unique_ptr<Material> m2DMaterial;
 			std::unique_ptr<Material> m3DMaterial;

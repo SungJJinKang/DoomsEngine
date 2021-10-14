@@ -26,7 +26,7 @@ namespace doom
 
 		Renderer* mRenderer_ptr;
 
-		inline static unsigned int mWorkingRendererListIndex = 0;
+		inline static UINT32 mWorkingRendererListIndex = 0;
 		inline static std::array<std::array<std::array<std::vector<Renderer*>, MAX_LAYER_COUNT>, 2>, MAX_CAMERA_COUNT> mRenderersInLayer{};
 		
 	protected:

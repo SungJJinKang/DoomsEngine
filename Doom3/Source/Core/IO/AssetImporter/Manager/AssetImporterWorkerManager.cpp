@@ -87,7 +87,7 @@ void doom::assetimporter::AssetImporterWorkerManager::EnqueueWorker
 	D_ASSERT(assetImporterWorker != nullptr);
 
 	const doom::asset::eAssetType assetTypeEnum = assetImporterWorker->GetEAssetType();
-	mAssetApiImportersQueue[static_cast<unsigned int>(assetTypeEnum)].enqueue(assetImporterWorker);
+	mAssetApiImportersQueue[static_cast<UINT32>(assetTypeEnum)].enqueue(assetImporterWorker);
 }
 
 doom::assetimporter::AssetImporterWorker* assetimporter::AssetImporterWorkerManager::DequeueWorker
@@ -99,20 +99,20 @@ doom::assetimporter::AssetImporterWorker* assetimporter::AssetImporterWorkerMana
 
 	while(assetImporterWorker == nullptr)
 	{
-		mAssetApiImportersQueue[static_cast<size_t>(eAssetType)].try_dequeue(assetImporterWorker);
+		mAssetApiImportersQueue[static_cast<SIZE_T>(eAssetType)].try_dequeue(assetImporterWorker);
 
 		if(assetImporterWorker != nullptr)
 		{
 			break;
 		}
 
-		if (mAssetApiImportersCount[static_cast<size_t>(eAssetType)].load() >= MAX_ASSETIMPORTER_WORKER_COUNT)
+		if (mAssetApiImportersCount[static_cast<SIZE_T>(eAssetType)].load() >= MAX_ASSETIMPORTER_WORKER_COUNT)
 		{
-			mAssetApiImportersQueue[static_cast<size_t>(eAssetType)].wait_dequeue(assetImporterWorker);
+			mAssetApiImportersQueue[static_cast<SIZE_T>(eAssetType)].wait_dequeue(assetImporterWorker);
 		}
 		else
 		{
-			mAssetApiImportersCount[static_cast<size_t>(eAssetType)]++;
+			mAssetApiImportersCount[static_cast<SIZE_T>(eAssetType)]++;
 			assetImporterWorker = CreateAssetImporterWorker(eAssetType);
 		
 		}
@@ -126,7 +126,7 @@ doom::assetimporter::AssetImporterWorker* assetimporter::AssetImporterWorkerMana
 
 void doom::assetimporter::AssetImporterWorkerManager::ClearAssetImporterWorker()
 {
-	for(unsigned int assetTypeIndex = 0 ; assetTypeIndex < doom::asset::ENUM_ASSETTYPE_COUNT ; assetTypeIndex++)
+	for(UINT32 assetTypeIndex = 0 ; assetTypeIndex < doom::asset::ENUM_ASSETTYPE_COUNT ; assetTypeIndex++)
 	{
 		doom::assetimporter::AssetImporterWorker* temp = nullptr;
 		while (mAssetApiImportersCount[assetTypeIndex].load() > 0)

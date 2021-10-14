@@ -51,8 +51,8 @@ namespace doom
 			/// if 3d model file doesn't have this format, postprocess and export it as this format
 			/// </summary>
 			static inline const std::string MAIN_3D_MODEL_FILE_FORMAT{ ".assbin" };
-			static const unsigned int ASSIMP_IMPORT_PROCESSING_SETTING;
-			static const unsigned int ASSIMP_EXPORT_PROCESSING_SETTING;
+			static const UINT32 ASSIMP_IMPORT_PROCESSING_SETTING;
+			static const UINT32 ASSIMP_EXPORT_PROCESSING_SETTING;
 
 			static void SetAssFileFormatId(const char* id);
 

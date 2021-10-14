@@ -30,8 +30,8 @@ void doom::PointLight::UpdateUniformBufferObject()
 		math::Vector3 pos = transform->GetPosition();
 		math::Vector4 radiance = GetRadiance();
 
-		unsigned int staticIndex = GetStaticElementIndex();
-		unsigned int staticCount = GetStaticElementCount();
+		UINT32 staticIndex = GetStaticElementIndex();
+		UINT32 staticCount = GetStaticElementCount();
 		if (staticIndex < MAX_POINT_LIGHT_COUNT)
 		{
 			doom::graphics::UniformBufferObjectManager::GetSingleton()->GetUniformBufferObject(GLOBAL_UNIFORM_BLOCK_BINDING_POINT).StoreDataAtTempBuffer((void*)pos.data(), sizeof(pos), graphics::eUniformBlock_Global::pointLight0_Pos + 32 * staticIndex);

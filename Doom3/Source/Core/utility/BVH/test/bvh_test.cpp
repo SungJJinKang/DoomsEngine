@@ -1,6 +1,6 @@
 #include "../BVH.h"
 
-int main()
+INT32 main()
 {
 	doom::physics::BVH<doom::physics::AABB3D> bvh{};
 

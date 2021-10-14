@@ -10,7 +10,7 @@ namespace doom
 		physics::Sphere mLocalSpere;
 		physics::Sphere mWorldSpere;
 
-		float mRadius;
+		FLOAT32 mRadius;
 
 		virtual void UpdateLocalCollider() final;
 		virtual void UpdateWorldCollider() final;
@@ -19,8 +19,8 @@ namespace doom
 	
 	public:
 	
-		void SetRadius(float radius);
-		float GetRadius();
+		void SetRadius(FLOAT32 radius);
+		FLOAT32 GetRadius();
 
 		// Inherited via Collider3DComponent
 		virtual doom::physics::AABB3D ExtractLocalAABB3D() override;

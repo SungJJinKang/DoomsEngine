@@ -1,6 +1,8 @@
 #pragma once
 
-constexpr inline int NULL_NODE_INDEX{ -1 };
+#include <Core.h>
+
+constexpr inline INT32 NULL_NODE_INDEX{ -1 };
 
 namespace doom
 {

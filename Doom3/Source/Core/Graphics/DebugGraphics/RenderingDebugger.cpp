@@ -14,10 +14,10 @@ void doom::graphics::RenderingDebugger::DrawRenderingBoundingBox()
 {
 	if (Graphics_Setting::DrawRenderingBoundingBox == true)
 	{
-		for (unsigned int layerIndex = 0; layerIndex < MAX_LAYER_COUNT; layerIndex++)
+		for (UINT32 layerIndex = 0; layerIndex < MAX_LAYER_COUNT; layerIndex++)
 		{
 			const std::vector<Renderer*>& renderersInLayer = RendererComponentStaticIterator::GetWorkingRendererInLayer(0, layerIndex);
-			for (size_t rendererIndex = 0; rendererIndex < renderersInLayer.size(); rendererIndex++)
+			for (SIZE_T rendererIndex = 0; rendererIndex < renderersInLayer.size(); rendererIndex++)
 			{
 				renderersInLayer[rendererIndex]->ColliderUpdater<doom::physics::AABB3D>::DrawWorldColliderCache();
 			}

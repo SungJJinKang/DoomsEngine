@@ -68,8 +68,8 @@ namespace doom
 		eLogType MAX_DEBUG_LEVEL{ eLogType::D_LOG };
 		void Logger::InitLogger()
 		{
-			MIN_DEBUG_LEVEL = static_cast<eLogType>(::doom::ConfigData::GetSingleton()->GetConfigData().GetValue<int>("SYSTEM", "MIN_DEBUG_LEVEL"));
-			MAX_DEBUG_LEVEL = static_cast<eLogType>(::doom::ConfigData::GetSingleton()->GetConfigData().GetValue<int>("SYSTEM", "MAX_DEBUG_LEVEL"));
+			MIN_DEBUG_LEVEL = static_cast<eLogType>(::doom::ConfigData::GetSingleton()->GetConfigData().GetValue<INT32>("SYSTEM", "MIN_DEBUG_LEVEL"));
+			MAX_DEBUG_LEVEL = static_cast<eLogType>(::doom::ConfigData::GetSingleton()->GetConfigData().GetValue<INT32>("SYSTEM", "MAX_DEBUG_LEVEL"));
 		}
 
 		FORCE_INLINE void Logger::StopIfError(eLogType logType)

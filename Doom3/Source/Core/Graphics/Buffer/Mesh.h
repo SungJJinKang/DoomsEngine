@@ -31,7 +31,7 @@ namespace doom
 
 		private:
 
-			enum eVertexArrayFlag : unsigned int
+			enum eVertexArrayFlag : UINT32
 			{
 				None = 0x0,
 				VertexVector3 =  1,
@@ -44,14 +44,14 @@ namespace doom
 
 			BufferID mVertexArrayObjectID;
 			BufferID mElementBufferObjectID;
-			//unsigned int mVertexBufferObject; <- Use Buffer::data
+			//UINT32 mVertexBufferObject; <- Use Buffer::data
 
 			//const ThreeDModelMesh* mThreeDModelMesh; don't save ModelMeshAssetData
-			int mNumOfIndices;
-			int mNumOfVertices;
+			INT32 mNumOfIndices;
+			INT32 mNumOfVertices;
 			ePrimitiveType mPrimitiveType;
 
-			unsigned int mVertexArrayFlag;
+			UINT32 mVertexArrayFlag;
 
 			/// <summary>
 			/// bind buffer array object
@@ -96,7 +96,7 @@ namespace doom
 			Mesh();
 			virtual ~Mesh();
 			
-			Mesh(GLsizeiptr dataCount, const void* data, ePrimitiveType primitiveType, unsigned int vertexArrayFlag) noexcept;
+			Mesh(GLsizeiptr dataCount, const void* data, ePrimitiveType primitiveType, UINT32 vertexArrayFlag) noexcept;
 			Mesh(const ThreeDModelMesh& threeDModelMesh) noexcept;
 			Mesh& operator=(const ThreeDModelMesh& threeDModelMesh) noexcept;
 
@@ -135,7 +135,7 @@ namespace doom
 			/// <param name="primitiveType"></param>
 			/// <param name="vertexArrayFlag">use eVertexArrayFlag!!!! </param>
 			/// <returns></returns>
-			void BufferData(GLsizeiptr dataComponentCount, const void* data, ePrimitiveType primitiveType, unsigned int vertexArrayFlag) noexcept;
+			void BufferData(GLsizeiptr dataComponentCount, const void* data, ePrimitiveType primitiveType, UINT32 vertexArrayFlag) noexcept;
 			void BufferSubData(GLsizeiptr dataComponentCount, const void* data, khronos_intptr_t offsetInByte) const noexcept;
 			void BindVertexBufferObject() const;
 			void BufferDataFromModelMesh(const ThreeDModelMesh& threeDModelMesh) noexcept;
@@ -154,7 +154,7 @@ namespace doom
 					GraphicsAPI::DrawArray(mPrimitiveType, 0, mNumOfVertices);
 				}
 			}
-			FORCE_INLINE void DrawArray(const int startIndexInComponent, const unsigned int vertexCount) const
+			FORCE_INLINE void DrawArray(const INT32 startIndexInComponent, const UINT32 vertexCount) const
 			{
 				D_ASSERT(mPrimitiveType != ePrimitiveType::NONE);
 
@@ -163,7 +163,7 @@ namespace doom
 				GraphicsAPI::DrawArray(mPrimitiveType, startIndexInComponent, vertexCount);
 			}
 
-			FORCE_INLINE void DrawArray(const ePrimitiveType primitiveType, const int startVertexIndex, const int vertexCount) const
+			FORCE_INLINE void DrawArray(const ePrimitiveType primitiveType, const INT32 startVertexIndex, const INT32 vertexCount) const
 			{
 				D_ASSERT(primitiveType != ePrimitiveType::NONE);
 
@@ -172,7 +172,7 @@ namespace doom
 				GraphicsAPI::DrawArray(primitiveType, startVertexIndex, vertexCount);
 			}
 
-			static constexpr unsigned int GetStride(const unsigned int vertexArrayFlag);
+			static constexpr UINT32 GetStride(const UINT32 vertexArrayFlag);
 
 			static inline std::shared_ptr<Mesh> QuadMesh{};
 			static std::shared_ptr<Mesh> GetQuadMesh();
@@ -191,14 +191,14 @@ namespace doom
 				return mElementBufferObjectID != 0;
 			}
 
-			void UpdateElementBuffer(const unsigned int* indices, const unsigned int indiceCount);
+			void UpdateElementBuffer(const UINT32* indices, const UINT32 indiceCount);
 
 
 			const physics::AABB3D& GetBoundingBox() const;
 			const physics::Sphere& GetBoundingSphere() const;
 
-			unsigned int GetVertexArrayObjectID() const;
-			unsigned int GetElementBufferObjectID() const;
+			UINT32 GetVertexArrayObjectID() const;
+			UINT32 GetElementBufferObjectID() const;
 		};
 	}
 }

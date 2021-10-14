@@ -18,8 +18,8 @@ namespace doom
 
 	protected:
 
-		float mIntensity{ 1 };
-		float mIndirectMultiplier{ 1 };
+		FLOAT32 mIntensity{ 1 };
+		FLOAT32 mIndirectMultiplier{ 1 };
 		math::Vector4 mColor{ 1 };
 
 		DirtyReceiver bmIsLightUboDirty{ true };
@@ -32,11 +32,11 @@ namespace doom
 		Light() = default;
 		virtual ~Light(){}
 
-		void SetIntensity(float intensity);
-		void SetIndirectMultiplier(float indirectMultiplier);
+		void SetIntensity(FLOAT32 intensity);
+		void SetIndirectMultiplier(FLOAT32 indirectMultiplier);
 		void SetColor(const math::Vector4& color);
-		float GetIntensity();
-		float GetIndirectMultiplier();
+		FLOAT32 GetIntensity();
+		FLOAT32 GetIndirectMultiplier();
 		math::Vector4 GetColor();
 		const math::Vector4& GetColor() const;
 		math::Vector4 GetRadiance();

@@ -6,7 +6,7 @@
 
 //auto t_start = std::chrono::high_resolution_clock::now();
 //auto t_end = std::chrono::high_resolution_clock::now();
-//double elapsed_time_ms = std::chrono::duration<double, std::milli>(t_end - t_start).count();
+//FLOAT64 elapsed_time_ms = std::chrono::duration<FLOAT64, std::milli>(t_end - t_start).count();
 //doom::ui::PrintText("elapsed tick count : %lf", elapsed_time_ms);
 
 

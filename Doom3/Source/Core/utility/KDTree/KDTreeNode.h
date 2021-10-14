@@ -21,7 +21,7 @@ namespace doom
 		T mComponentValue;
 
 	
-		int mDimension{ NULL_NODE_INDEX };
+		INT32 mDimension{ NULL_NODE_INDEX };
 
 		
 	};

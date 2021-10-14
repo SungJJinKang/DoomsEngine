@@ -8,7 +8,7 @@ namespace doom
 		using traversal_test_func = bool (*)();
 	private:
 
-		virtual void SetFlagsOfDescents(unsigned int ancesterNodeIndex, unsigned int bitflags);
+		virtual void SetFlagsOfDescents(UINT32 ancesterNodeIndex, UINT32 bitflags);
 
 
 	public:

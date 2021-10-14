@@ -27,7 +27,7 @@ void AABB2D::Validate()
 {
 	if (mUpperBound.x < mLowerBound.x)
 	{
-		float temp = mLowerBound.x;
+		FLOAT32 temp = mLowerBound.x;
 		mLowerBound.x = mUpperBound.x;
 		mUpperBound.x = temp;
 		D_DEBUG_LOG("AABB bound is worng", eLogType::D_ERROR);
@@ -35,7 +35,7 @@ void AABB2D::Validate()
 
 	if (mUpperBound.y < mLowerBound.y)
 	{
-		float temp = mLowerBound.y;
+		FLOAT32 temp = mLowerBound.y;
 		mLowerBound.y = mUpperBound.y;
 		mUpperBound.y = temp;
 		D_DEBUG_LOG("AABB bound is worng", eLogType::D_ERROR);
@@ -95,7 +95,7 @@ void doom::physics::AABB2D::SignedExpand(const math::Vector2& movedVector)
 
 AABB2D AABB2D::EnlargeAABB(const AABB2D& aabb)
 {
-	const float offset = doom::physics::Physics_Setting::ENLARGED_AABB2D_OFFSET;
+	const FLOAT32 offset = doom::physics::Physics_Setting::ENLARGED_AABB2D_OFFSET;
 	return AABB2D(aabb.mLowerBound - offset, aabb.mUpperBound + offset);
 }
 
@@ -103,14 +103,14 @@ AABB2D AABB2D::EnlargeAABB(const AABB2D& aabb)
 
 void doom::physics::AABB2D::ApplyModelMatrix(const AABB2D& localAABB, const math::Matrix4x4& modelMatrix, AABB2D& resultAABB)
 {
-	for (int i = 0; i < 2; i++)
+	for (INT32 i = 0; i < 2; i++)
 	{
 		resultAABB.mLowerBound[i] = resultAABB.mUpperBound[i] = modelMatrix[3][i];
 
-		for (int j = 0; j < 2; j++)
+		for (INT32 j = 0; j < 2; j++)
 		{
-			float e = modelMatrix[i][j] * localAABB.mLowerBound[j];
-			float f = modelMatrix[i][j] * localAABB.mUpperBound[j];
+			FLOAT32 e = modelMatrix[i][j] * localAABB.mLowerBound[j];
+			FLOAT32 f = modelMatrix[i][j] * localAABB.mUpperBound[j];
 			if (e < f)
 			{
 				resultAABB.mLowerBound[i] += e;
@@ -150,7 +150,7 @@ void AABB3D::Validate()
 {
 	if (mUpperBound.x < mLowerBound.x)
 	{
-		float temp = mLowerBound.x;
+		FLOAT32 temp = mLowerBound.x;
 		mLowerBound.x = mUpperBound.x;
 		mUpperBound.x = temp;
 		D_DEBUG_LOG("AABB bound is wrong", eLogType::D_ERROR);
@@ -158,7 +158,7 @@ void AABB3D::Validate()
 
 	if (mUpperBound.y < mLowerBound.y)
 	{
-		float temp = mLowerBound.y;
+		FLOAT32 temp = mLowerBound.y;
 		mLowerBound.y = mUpperBound.y;
 		mUpperBound.y = temp;
 		D_DEBUG_LOG("AABB bound is wrong", eLogType::D_ERROR);
@@ -166,7 +166,7 @@ void AABB3D::Validate()
 
 	if (mUpperBound.z < mLowerBound.z)
 	{
-		float temp = mLowerBound.z;
+		FLOAT32 temp = mLowerBound.z;
 		mLowerBound.z = mUpperBound.z;
 		mUpperBound.z = temp;
 		D_DEBUG_LOG("AABB bound is wrong", eLogType::D_ERROR);
@@ -179,7 +179,7 @@ math::Vector3 doom::physics::AABB3D::GetHalfExtent() const
 }
 
 
-float AABB3D::GetDiagonarLineLength() const
+FLOAT32 AABB3D::GetDiagonarLineLength() const
 {
 	auto halfExtent = GetHalfExtent();
 	return math::sqrt(halfExtent.x * halfExtent.x + halfExtent.y * halfExtent.y + halfExtent.z * halfExtent.z);
@@ -241,7 +241,7 @@ doom::physics::ColliderType doom::physics::AABB3D::GetColliderType() const
 
 AABB3D AABB3D::EnlargeAABB(const AABB3D& aabb)
 {
-	float offset = doom::physics::Physics_Setting::ENLARGED_AABB3D_OFFSET;
+	FLOAT32 offset = doom::physics::Physics_Setting::ENLARGED_AABB3D_OFFSET;
 	return AABB3D(aabb.mLowerBound - offset, aabb.mUpperBound + offset);
 }
 

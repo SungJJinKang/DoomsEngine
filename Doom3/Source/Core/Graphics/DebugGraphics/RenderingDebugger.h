@@ -16,8 +16,8 @@ namespace doom
 		{
 		private:
 
-			inline static unsigned long long DrawCallCounter = 0;
-			inline static unsigned long long PreviousFrameDrawCallCounter = 0;
+			inline static UINT64 DrawCallCounter = 0;
+			inline static UINT64 PreviousFrameDrawCallCounter = 0;
 
 		public :
 
@@ -34,7 +34,7 @@ namespace doom
 				DrawCallCounter = 0;
 			}
 
-			FORCE_INLINE static unsigned long long GetDrawCallCounter()
+			FORCE_INLINE static UINT64 GetDrawCallCounter()
 			{
 				return DrawCallCounter;
 			}

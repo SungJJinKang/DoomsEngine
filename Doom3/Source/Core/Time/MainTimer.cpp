@@ -2,21 +2,21 @@
 
 void doom::time::MainTimer::InitTimer()
 {
-	double currentTickCount = glfwGetTime();
+	FLOAT64 currentTickCount = glfwGetTime();
 	doom::time::MainTimer::mFrameTime.mLastTickCount = currentTickCount;
 	doom::time::MainTimer::mFixedTime.mLastTickCount = currentTickCount;
 }
 
 void doom::time::MainTimer::UpdateFrameTimer()
 {
-	const double currentTime = glfwGetTime();// os::GetSingleton()->_GetTickCount();
+	const FLOAT64 currentTime = glfwGetTime();// os::GetSingleton()->_GetTickCount();
 	doom::time::MainTimer::mFrameTime.mCurrentTickCount = currentTime;
 
-	doom::time::MainTimer::mFrameTime.mDeltaTime = static_cast<float>(currentTime - doom::time::MainTimer::mFrameTime.mLastTickCount);
+	doom::time::MainTimer::mFrameTime.mDeltaTime = static_cast<FLOAT32>(currentTime - doom::time::MainTimer::mFrameTime.mLastTickCount);
 	doom::time::MainTimer::mFrameTime.mLastTickCount = currentTime;
 
 	doom::time::MainTimer::mFrameCounterForStep++;
-	MainTimer::CurrentFrame = static_cast<float>(1.0f / doom::time::MainTimer::mFrameTime.mDeltaTime);
+	MainTimer::CurrentFrame = static_cast<FLOAT32>(1.0f / doom::time::MainTimer::mFrameTime.mDeltaTime);
 	
 	
 	
@@ -29,10 +29,10 @@ void doom::time::MainTimer::ResetFixedTimer()
 
 void doom::time::MainTimer::UpdateFixedTimer()
 {
-	double currentTime = glfwGetTime();
+	FLOAT64 currentTime = glfwGetTime();
 	doom::time::MainTimer::mFixedTime.mCurrentTickCount = currentTime;
 
-	doom::time::MainTimer::mFixedTime.mDeltaTime = static_cast<float>(currentTime - doom::time::MainTimer::mFixedTime.mLastTickCount);
+	doom::time::MainTimer::mFixedTime.mDeltaTime = static_cast<FLOAT32>(currentTime - doom::time::MainTimer::mFixedTime.mLastTickCount);
 	doom::time::MainTimer::mFixedTime.mLastTickCount = currentTime;
 
 #ifdef DEBUG_MODE

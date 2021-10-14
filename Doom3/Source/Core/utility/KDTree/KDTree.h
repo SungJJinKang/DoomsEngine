@@ -31,39 +31,39 @@ namespace doom
 		
 	private:
 
-		static unsigned int GetDimensionCount();
+		static UINT32 GetDimensionCount();
 
 		node_type* mKDTreeNodes;
-		const int mNodeCapacity;
+		const INT32 mNodeCapacity;
 
-		int mRootNodeIndex{ NULL_NODE_INDEX };
+		INT32 mRootNodeIndex{ NULL_NODE_INDEX };
 
 		/// <summary>
 		/// Ever used Node Count
 		/// this value contain freed node count
 		/// </summary>
-		int mCurrentAllocatedNodeCount{ 0 };
+		INT32 mCurrentAllocatedNodeCount{ 0 };
 		/// <summary>
 		/// Current used node count
 		/// this value doesn't contain freed node count
 		/// </summary>
-		int mCurrentActiveNodeCount{ 0 };
+		INT32 mCurrentActiveNodeCount{ 0 };
 		/// <summary>
 		/// if you want parallel access, Use concurrentQueue
 		/// </summary>
-		std::queue<int> mFreedNodeIndexList{};
+		std::queue<INT32> mFreedNodeIndexList{};
 
-		int AllocateNode(const typename node_type::component_type & componentValue);
-		void FreeNode(const int index);
+		INT32 AllocateNode(const typename node_type::component_type & componentValue);
+		void FreeNode(const INT32 index);
 
-		int _Insert(const typename node_type::component_type & componentValue, int searchIndex, int parentIndex, const int searchDimension, int& insertedIndex);
-		int _FineMin(const int index, const int searchDimension, const int targetMinNodeDimension);
-		int _Delete(const typename node_type::component_type& componentValue, int searchIndex, const int parentIndex, const int searchDimension);
-		void _SwapNode(int nodeIndex1, int nodeIndex2);
-		void _PutChildNode(int parentIndex, int childIndex, bool isLeftNode);
+		INT32 _Insert(const typename node_type::component_type & componentValue, INT32 searchIndex, INT32 parentIndex, const INT32 searchDimension, INT32& insertedIndex);
+		INT32 _FineMin(const INT32 index, const INT32 searchDimension, const INT32 targetMinNodeDimension);
+		INT32 _Delete(const typename node_type::component_type& componentValue, INT32 searchIndex, const INT32 parentIndex, const INT32 searchDimension);
+		void _SwapNode(INT32 nodeIndex1, INT32 nodeIndex2);
+		void _PutChildNode(INT32 parentIndex, INT32 childIndex, bool isLeftNode);
 
 	public:
-		KDTree(int capacity);
+		KDTree(INT32 capacity);
 
 		/// <summary>
 		/// 
@@ -71,11 +71,11 @@ namespace doom
 		/// <param name="vector"></param>
 		/// <returns>node index</returns>
 		node_view_type Insert(const typename node_type::component_type& componentValue);
-		//node_view_type Insert(const typename node_type::component_type& componentValue, const int searchIndex, const int searchDimension);
+		//node_view_type Insert(const typename node_type::component_type& componentValue, const INT32 searchIndex, const INT32 searchDimension);
 		void Delete(const typename node_type::component_type& vector);
-		void Delete(int nodeIndex);
+		void Delete(INT32 nodeIndex);
 
-		node_view_type FineMin(const unsigned int targetMinNodeDimension);
+		node_view_type FineMin(const UINT32 targetMinNodeDimension);
 
 		/// <summary>
 		/// Only used when type T is Vector
@@ -85,7 +85,7 @@ namespace doom
 		/// <returns></returns>
 		node_view_type FindNearestNode(const typename node_type::component_type& componentValue);
 
-		node_view_type MakeKDTree_Node_View(int index)
+		node_view_type MakeKDTree_Node_View(INT32 index)
 		{
 			D_ASSERT(index < mCurrentAllocatedNodeCount);
 			return node_view_type(this, index);
@@ -95,17 +95,17 @@ namespace doom
 	};
 
 	/*template <>
-	inline static unsigned int KDTree<math::Vector2>::GetDimensionCount()
+	inline static UINT32 KDTree<math::Vector2>::GetDimensionCount()
 	{
 		return 2;
 	}*/
 	template <>
-	inline static unsigned int KDTree<math::Vector3>::GetDimensionCount()
+	inline static UINT32 KDTree<math::Vector3>::GetDimensionCount()
 	{
 		return 3;
 	}
 	/*template <>
-	inline static unsigned int KDTree<physics::AABB3D>::GetDimensionCount()
+	inline static UINT32 KDTree<physics::AABB3D>::GetDimensionCount()
 	{
 		return 3;
 	}*/

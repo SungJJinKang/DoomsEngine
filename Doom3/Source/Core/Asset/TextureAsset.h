@@ -32,13 +32,13 @@ namespace doom
 
 			std::unique_ptr<DirectX::ScratchImage> mScratchImage;
 
-			int mWidth{};
-			int mHeight{};
-			int mMipMapLevel{};
+			INT32 mWidth{};
+			INT32 mHeight{};
+			INT32 mMipMapLevel{};
 			/// <summary>
 			/// Size in bytes of All Images ( All mipmaps )
 			/// </summary>
-			size_t mEntireImageSize{};
+			SIZE_T mEntireImageSize{};
 
 			bool bmIsCompressed{ false };
 			graphics::eTextureComponentFormat mComponentFormat{}; // 1 ~ 4 ( rgb, rgba ~~ )

@@ -11,7 +11,7 @@ namespace doom
 
 	public:
 
-		float mSpeed = 5;
+		FLOAT32 mSpeed = 5;
 		void InitComponent() override;
 		void UpdateComponent() override;
 	};

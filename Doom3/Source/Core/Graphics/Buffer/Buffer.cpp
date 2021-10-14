@@ -30,14 +30,14 @@ void doom::graphics::Buffer::GenBufferIfNotGened()
 int64_t doom::graphics::Buffer::GetBufferParameteri64v(eBufferBindingTarget bindingTarget, eBufferParameter bufferParameter)
 {
 	int64_t value;
-	glGetBufferParameteri64v(static_cast<unsigned int>(bindingTarget), static_cast<unsigned int>(bufferParameter), &value);
+	glGetBufferParameteri64v(static_cast<UINT32>(bindingTarget), static_cast<UINT32>(bufferParameter), &value);
 	return value;
 }
 
 int64_t doom::graphics::Buffer::GetNamedBufferParameteri64v(eBufferParameter bufferParameter)
 {
 	int64_t value;
-	glGetNamedBufferParameteri64v(mBufferID, static_cast<unsigned int>(bufferParameter), &value);
+	glGetNamedBufferParameteri64v(mBufferID, static_cast<UINT32>(bufferParameter), &value);
 	return value;
 }
 

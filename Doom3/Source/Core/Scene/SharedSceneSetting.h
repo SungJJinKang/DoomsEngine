@@ -28,7 +28,7 @@ namespace doom
 
 		SharedSceneSetting()
 		{
-			for (unsigned int i = 0; i < mReservedLayerName.size(); i++)
+			for (UINT32 i = 0; i < mReservedLayerName.size(); i++)
 			{
 				mLayers[i].mLayerName = mReservedLayerName[i];
 			}

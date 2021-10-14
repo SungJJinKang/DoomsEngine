@@ -48,7 +48,7 @@ void doom::asset::Asset::SetAssetStatus(const AssetStatus assetStatus)
 	mAssetStatus = assetStatus;
 }
 
-unsigned long long doom::asset::Asset::GetAssetFileSize() const
+UINT64 doom::asset::Asset::GetAssetFileSize() const
 {
 	return mAssetMetaData.mFileSize;
 }

@@ -11,9 +11,9 @@ using namespace doom::assetimporter;
 
 void doom::assetimporter::AssetManager::LoadAssetManagerSetting()
 {
-	AssetImporterWorker_Texture::TEXTURE_COMPRESSION_QUALITY = static_cast<float>(GameCore::GetSingleton()->mGameConfigData.GetConfigData().GetValue<double>("TEXTURE", "COMPRESSION_QUALITY"));
-	AssetImporterWorker_Texture::MIP_MAP_LEVELS = GameCore::GetSingleton()->mGameConfigData.GetConfigData().GetValue<int>("TEXTURE", "MIP_MAP_LEVELS");
-	AssetImporterWorker_Texture::MAX_IMAGE_SIZE = GameCore::GetSingleton()->mGameConfigData.GetConfigData().GetValue<int>("TEXTURE", "MAX_IMAGE_SIZE");
+	AssetImporterWorker_Texture::TEXTURE_COMPRESSION_QUALITY = static_cast<FLOAT32>(GameCore::GetSingleton()->mGameConfigData.GetConfigData().GetValue<FLOAT64>("TEXTURE", "COMPRESSION_QUALITY"));
+	AssetImporterWorker_Texture::MIP_MAP_LEVELS = GameCore::GetSingleton()->mGameConfigData.GetConfigData().GetValue<INT32>("TEXTURE", "MIP_MAP_LEVELS");
+	AssetImporterWorker_Texture::MAX_IMAGE_SIZE = GameCore::GetSingleton()->mGameConfigData.GetConfigData().GetValue<INT32>("TEXTURE", "MAX_IMAGE_SIZE");
 }
 
 bool AssetManager::CheckFileIsValidAssetFile(const std::filesystem::directory_entry& entry)
@@ -32,14 +32,14 @@ void AssetManager::DestroyAllAssets()
 
 doom::asset::AssetContainer& AssetManager::GetAssetContainer(const doom::asset::eAssetType _eAssetType)
 {
-	D_ASSERT(static_cast<unsigned int>(_eAssetType) < doom::asset::ENUM_ASSETTYPE_COUNT);
+	D_ASSERT(static_cast<UINT32>(_eAssetType) < doom::asset::ENUM_ASSETTYPE_COUNT);
 
-	return mAssetConatiners[static_cast<unsigned int>(_eAssetType)];
+	return mAssetConatiners[static_cast<UINT32>(_eAssetType)];
 }
 
 void AssetManager::AddAssetToAssetContainer(doom::asset::Asset* const asset)
 {
-	mAssetConatiners[static_cast<unsigned int>(asset->GetEAssetType())].AddNewAsset(asset);
+	mAssetConatiners[static_cast<UINT32>(asset->GetEAssetType())].AddNewAsset(asset);
 }
 
 doom::asset::Asset* AssetManager::_ImportAssetInstantly
@@ -86,7 +86,7 @@ std::vector<doom::assetimporter::AssetFuture> AssetManager::_ImportAssetAsync
 	std::vector<doom::assetimporter::AssetFuture> assetFutures;
 	assetFutures.reserve(assetTypes.size());
 
-	for (size_t i = 0; (i < assetTypes.size()) && (i < paths.size()); i++)
+	for (SIZE_T i = 0; (i < assetTypes.size()) && (i < paths.size()); i++)
 	{
 		paths[i].make_preferred();
 
@@ -117,7 +117,7 @@ doom::asset::Asset* AssetManager::_GetAsset(const D_UUID& UUID, const doom::asse
 	return asset;
 }
 
-doom::asset::Asset* AssetManager::_GetAsset(const unsigned int index, const doom::asset::eAssetType assetType)
+doom::asset::Asset* AssetManager::_GetAsset(const UINT32 index, const doom::asset::eAssetType assetType)
 {
 	doom::asset::Asset* asset = nullptr;
 

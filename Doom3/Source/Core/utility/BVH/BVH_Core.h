@@ -1,8 +1,10 @@
 #pragma once
 
+#include <Core.h>
+
 namespace doom
 {
-	constexpr inline int NULL_NODE_INDEX{ -1 };
+	constexpr inline INT32 NULL_NODE_INDEX{ -1 };
 
 	template <typename ColliderType>
 	class BVH;

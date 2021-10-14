@@ -30,31 +30,31 @@ void doom::CapsuleCollider3D::AutoColliderSettingFromAABB3D(const physics::AABB3
 }
 
 
-void doom::CapsuleCollider3D::SetHeight(float height)
+void doom::CapsuleCollider3D::SetHeight(FLOAT32 height)
 {
 	mHeight = height;
 	bmIsLocalColliderDirty = true;
 }
 
-float doom::CapsuleCollider3D::GetHeight()
+FLOAT32 doom::CapsuleCollider3D::GetHeight()
 {
 	return mHeight;
 }
 
-void doom::CapsuleCollider3D::SetRadius(float radius)
+void doom::CapsuleCollider3D::SetRadius(FLOAT32 radius)
 {
 	mRadius = radius;
 	bmIsLocalColliderDirty = true;
 }
 
-float doom::CapsuleCollider3D::GetRadius()
+FLOAT32 doom::CapsuleCollider3D::GetRadius()
 {
 	return mRadius;
 }
 
 doom::physics::AABB3D doom::CapsuleCollider3D::ExtractLocalAABB3D()
 {
-	float height = math::Max(mLocalCapsuleCollider.mHeight / 2.0f, mLocalCapsuleCollider.mRadius);
+	FLOAT32 height = math::Max(mLocalCapsuleCollider.mHeight / 2.0f, mLocalCapsuleCollider.mRadius);
 
 	math::Vector3 lowerBound
 	{

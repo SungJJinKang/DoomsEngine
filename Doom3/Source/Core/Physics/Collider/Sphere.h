@@ -27,7 +27,7 @@ namespace doom
 			{
 
 			}
-			FORCE_INLINE Sphere(const math::Vector3& center, float radius)
+			FORCE_INLINE Sphere(const math::Vector3& center, FLOAT32 radius)
 				:mCenter{ center }, mRadius{ radius }
 			{
 
@@ -44,8 +44,8 @@ namespace doom
 			/// <summary>
 			/// for using SIMD -> Mat4X4 * Vec4 is much faster
 			/// </summary>
-			float padding{ 1.0f };
-			float mRadius;
+			FLOAT32 padding{ 1.0f };
+			FLOAT32 mRadius;
 
 			FORCE_INLINE virtual void* data() final
 			{
@@ -64,7 +64,7 @@ namespace doom
 
 			FORCE_INLINE void SignedExpand(const math::Vector3& movedVector)
 			{
-				float distance = movedVector.magnitude();
+				FLOAT32 distance = movedVector.magnitude();
 
 				mCenter += movedVector * 0.5f;
 				mRadius += distance * 0.5f;
@@ -72,7 +72,7 @@ namespace doom
 
 			ColliderType GetColliderType() const override;
 
-			FORCE_INLINE static float GetArea(const Sphere& A)
+			FORCE_INLINE static FLOAT32 GetArea(const Sphere& A)
 			{
 				return A.mRadius;
 			}
@@ -86,7 +86,7 @@ namespace doom
 			inline static Sphere Union(const Sphere& A, const Sphere& B)
 			{
 				math::Vector3 v = A.mCenter - B.mCenter;
-				float distanceWithCenters = v.magnitude();
+				FLOAT32 distanceWithCenters = v.magnitude();
 				if (distanceWithCenters + A.mRadius < B.mRadius)
 				{
 					return B;
@@ -96,16 +96,16 @@ namespace doom
 					return A;
 				}
 
-				float newRadius = (A.mRadius + B.mRadius + distanceWithCenters) * 0.5f;
+				FLOAT32 newRadius = (A.mRadius + B.mRadius + distanceWithCenters) * 0.5f;
 				D_ASSERT(math::Equal(distanceWithCenters, 0.0f) == false);
 				math::Vector3 newCenter = math::lerp(A.mCenter, B.mCenter, (newRadius - A.mRadius) / (math::Equal(distanceWithCenters, 0.0f) == false ? distanceWithCenters : 0.01f));
 				return Sphere(newCenter, newRadius);
 			}
 
-			inline static float GetUnionArea(const Sphere& A, const Sphere& B)
+			inline static FLOAT32 GetUnionArea(const Sphere& A, const Sphere& B)
 			{
 				math::Vector3 v = A.mCenter - B.mCenter;
-				float distanceWithCenters = v.magnitude();
+				FLOAT32 distanceWithCenters = v.magnitude();
 				if (distanceWithCenters + A.mRadius < B.mRadius)
 				{
 					return B.mRadius;
@@ -124,7 +124,7 @@ namespace doom
 
 			FORCE_INLINE static void ApplyModelMatrix(const Sphere& localSphere, const math::Matrix4x4& modelMatrix, Sphere& resultSphere)
 			{
-				float largestScale = math::sqrt(math::Max(math::Max(modelMatrix[0].sqrMagnitude(), modelMatrix[1].sqrMagnitude()), modelMatrix[2].sqrMagnitude()));
+				FLOAT32 largestScale = math::sqrt(math::Max(math::Max(modelMatrix[0].sqrMagnitude(), modelMatrix[1].sqrMagnitude()), modelMatrix[2].sqrMagnitude()));
 				resultSphere.mCenter = modelMatrix * localSphere.mCenter;
 				resultSphere.mRadius = localSphere.mRadius * largestScale; // TODO : should i square largesScale??
 			}

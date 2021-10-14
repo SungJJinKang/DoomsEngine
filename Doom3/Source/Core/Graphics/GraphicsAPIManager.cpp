@@ -34,7 +34,7 @@ void doom::graphics::GraphicsAPIManager::Initialize()
 	}
 	glfwMakeContextCurrent(Graphics_Setting::GetWindow());
 	glfwSetFramebufferSizeCallback(Graphics_Setting::GetWindow(),
-		[](GLFWwindow*, int width, int height)
+		[](GLFWwindow*, INT32 width, INT32 height)
 		{
 			glViewport(0, 0, width, height);
 		}
@@ -102,7 +102,7 @@ void doom::graphics::GraphicsAPIManager::Initialize()
 	glDebugMessageCallback(GraphicsAPIManager::DEBUG_CALLBACK, NULL);
 #endif
 
-	int maxTextureUnitCount{ 0 };
+	INT32 maxTextureUnitCount{ 0 };
 	glGetIntegerv(GL_MAX_TEXTURE_IMAGE_UNITS, &maxTextureUnitCount);
 	D_ASSERT(maxTextureUnitCount != 0);
 }

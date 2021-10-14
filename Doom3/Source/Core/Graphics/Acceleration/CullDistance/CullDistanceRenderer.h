@@ -14,7 +14,7 @@ namespace doom
 
 		private:
 		 
-			//float mPickedCullDistanceSqr{}; TO DO : Use this
+			//FLOAT32 mPickedCullDistanceSqr{}; TO DO : Use this
 
 		};
 	}

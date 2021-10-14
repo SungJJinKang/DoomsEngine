@@ -72,7 +72,7 @@ void doom::BVH_TestRoom::RemoveRecentAddedLeafNode()
 		return;
 	}
 
-	int nodeIndex = recentAddedLeaf.top();
+	INT32 nodeIndex = recentAddedLeaf.top();
 	mBVH->RemoveLeafNode(nodeIndex);
 
 	recentAddedLeaf.pop();
@@ -143,14 +143,14 @@ void doom::BVH_TestRoom::Update()
 #define DebugBVHTreeOffsetY 0.1f
 
 
-void doom::BVH_TestRoom::DebugBVHTree(doom::BVHAABB3D::node_type* node, float x, float y, int depth)
+void doom::BVH_TestRoom::DebugBVHTree(doom::BVHAABB3D::node_type* node, FLOAT32 x, FLOAT32 y, INT32 depth)
 {
 	if (node == nullptr)
 	{
 		return;
 	}
 
-	float offsetX = static_cast<float>(1.0f / (math::pow(2, depth + 1)));
+	FLOAT32 offsetX = static_cast<FLOAT32>(1.0f / (math::pow(2, depth + 1)));
 	if (node->mLeftNode != NULL_NODE_INDEX)
 	{
 		graphics::DebugDrawer::GetSingleton()->DebugDraw2DLine({ x, y, 0 }, { x - offsetX, y - DebugBVHTreeOffsetY, 0 }, mBVH->mNodes[node->mLeftNode].mIsLeaf == false ? eColor::Black : ((recentAddedLeaf.empty() == false && recentAddedLeaf.top() == node->mLeftNode) ? eColor::Red : eColor::Blue), true);
@@ -189,7 +189,7 @@ void doom::BVH_TestRoom::TreeDebug()
 	if (mBVH->mRootNodeIndex != NULL_NODE_INDEX)
 	{
 		/*
-		for (int i = 0; i < mBVH->mNodeCapacity; i++)
+		for (INT32 i = 0; i < mBVH->mNodeCapacity; i++)
 		{
 			mBVH->mNodes[i].mBoundingCollider.DrawPhysicsDebug(); // TODO : Draw recursively, don't draw all nodes
 		}
@@ -224,7 +224,7 @@ void doom::BVH_TestRoom::AABBDebug()
 		graphics::DebugDrawer::GetSingleton()->SetDrawInstantlyMaterial(mBVHDebugMaterial.get());
 
 
-		for (int i = 0; i < mBVH->mCurrentAllocatedNodeCount; i++)
+		for (INT32 i = 0; i < mBVH->mCurrentAllocatedNodeCount; i++)
 		{
 			if (mBVH->mNodes[i].bmIsActive == true)
 			{
@@ -254,7 +254,7 @@ void doom::BVH_TestRoom::AABBDebug()
 	}
 }
 
-void doom::BVH_TestRoom::AABBDebug(int targetNode)
+void doom::BVH_TestRoom::AABBDebug(INT32 targetNode)
 {
 	if (static_cast<bool>(mPIPForDebug))
 	{
@@ -266,7 +266,7 @@ void doom::BVH_TestRoom::AABBDebug(int targetNode)
 		graphics::DebugDrawer::GetSingleton()->SetDrawInstantlyMaterial(mBVHDebugMaterial.get());
 
 		/*
-		for (int i = 0; i < mBVH->mCurrentAllocatedNodeCount; i++)
+		for (INT32 i = 0; i < mBVH->mCurrentAllocatedNodeCount; i++)
 		{
 			if (mBVH->mNodes[i].bmIsActive == true)
 			{
@@ -275,7 +275,7 @@ void doom::BVH_TestRoom::AABBDebug(int targetNode)
 		}
 		*/
 
-		int index = targetNode;
+		INT32 index = targetNode;
 		while (index != NULL_NODE_INDEX)
 		{
 			mBVH->mNodes[index].mBoundingCollider.DrawPhysicsDebugColor(eColor::Red, true);
@@ -288,7 +288,7 @@ void doom::BVH_TestRoom::AABBDebug(int targetNode)
 	}
 }
 
-void doom::BVH_TestRoom::CheckActiveNode(doom::BVHAABB3D::node_type* node, std::vector<int>& activeNodeList)
+void doom::BVH_TestRoom::CheckActiveNode(doom::BVHAABB3D::node_type* node, std::vector<INT32>& activeNodeList)
 {
 	if (node == nullptr)
 	{
@@ -323,8 +323,8 @@ void doom::BVH_TestRoom::ValidCheck()
 		//first check : recursively traverse all active nodes from rootIndex, Every active nodes in mBVH->mNodes array should be traversed
 		//				every active nodes in mBVH->mNodes should be checked
 		//				And call Node::ValidCheck();
-		std::vector<int> checkedIndexs{};
-		for (int i = 0; i < mBVH->mCurrentAllocatedNodeCount; i++)
+		std::vector<INT32> checkedIndexs{};
+		for (INT32 i = 0; i < mBVH->mCurrentAllocatedNodeCount; i++)
 		{
 			if (mBVH->mNodes[i].bmIsActive == true)
 			{
@@ -336,11 +336,11 @@ void doom::BVH_TestRoom::ValidCheck()
 		D_ASSERT(checkedIndexs.size() == 0);
 
 		//second check : traverse from each Leaf Nodes to RootNode. Check if Traversing arrived at mBVH->rootIndex
-		for (int i = 0; i < mBVH->mCurrentAllocatedNodeCount; i++)
+		for (INT32 i = 0; i < mBVH->mCurrentAllocatedNodeCount; i++)
 		{
 			if (mBVH->mNodes[i].bmIsActive == true)//&& mBVH->mNodes[i].mIsLeaf == true)
 			{
-				int index{ i };
+				INT32 index{ i };
 				bool isSuccess{ false };
 				while (index != NULL_NODE_INDEX)
 				{
@@ -359,7 +359,7 @@ void doom::BVH_TestRoom::ValidCheck()
 
 
 		//third check : check all internal nodes must have 2 child,  all leaf nodes must have no child
-		for (int i = 0; i < mBVH->mCurrentAllocatedNodeCount; i++)
+		for (INT32 i = 0; i < mBVH->mCurrentAllocatedNodeCount; i++)
 		{
 			if (mBVH->mNodes[i].bmIsActive == true)
 			{
@@ -377,8 +377,8 @@ void doom::BVH_TestRoom::ValidCheck()
 
 		//fourth check : check all nodes have unique child id ( all nodes have unique child id )
 		//				 checked child id shouldn't be checked again
-		std::unordered_set<int> checkedChildIndexs{};
-		for (int i = 0; i < mBVH->mCurrentAllocatedNodeCount; i++)
+		std::unordered_set<INT32> checkedChildIndexs{};
+		for (INT32 i = 0; i < mBVH->mCurrentAllocatedNodeCount; i++)
 		{
 			if (mBVH->mNodes[i].bmIsActive == true && mBVH->mNodes[i].mIsLeaf == false)
 			{
@@ -392,7 +392,7 @@ void doom::BVH_TestRoom::ValidCheck()
 
 
 		//fifth check : compare one node's parent index and parent index's child index
-		for (int i = 0; i < mBVH->mCurrentAllocatedNodeCount; i++)
+		for (INT32 i = 0; i < mBVH->mCurrentAllocatedNodeCount; i++)
 		{
 			if (mBVH->mNodes[i].bmIsActive == true)
 			{

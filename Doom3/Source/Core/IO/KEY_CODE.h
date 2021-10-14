@@ -1,5 +1,7 @@
 #pragma once
 
+#include <Core.h>
+
 #include"../API/OpenglAPI.h"
 
 #include "SimpleIniParser.h"
@@ -8,7 +10,7 @@ namespace doom
 {
 	namespace userinput
 	{
-		enum class eKEY_CODE : int
+		enum class eKEY_CODE : INT32
 		{
 			ERROR_CODE = -1,
 			KEY_SPACE = GLFW_KEY_SPACE,

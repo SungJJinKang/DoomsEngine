@@ -22,11 +22,11 @@ namespace doom
 
 		Animation* mTargetAnimation;
 
-		float mCurrentAnimationTime;
+		FLOAT32 mCurrentAnimationTime;
 
 	public:
 
-		void UpdateAnimation(float deltatTime);
+		void UpdateAnimation(FLOAT32 deltatTime);
 
 	};
 

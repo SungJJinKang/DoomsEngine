@@ -2,6 +2,7 @@
 
 #include <string>
 
+#include <Macros/TypeDef.h>
 #include <Macros/DllMarcos.h>
 
 #define INVALID_DOBJECT_ID 0x0000000000000000
@@ -13,7 +14,7 @@ namespace doom
 
 	struct DOOM_API DObjectContructorParams
 	{
-		unsigned int DObjectFlag = 0;
+		UINT32 DObjectFlag = 0;
 		std::string mDObjectName;
 
 		DObjectContructorParams() = default;
@@ -26,7 +27,7 @@ namespace doom
 
 
 
-	enum eDObjectFlag : unsigned int
+	enum eDObjectFlag : UINT32
 	{
 		NewAllocated = 1 << 0
 	};
@@ -39,7 +40,7 @@ namespace doom
 
 		struct DObjectProperties
 		{
-			unsigned int mDObjectFlag = 0;
+			UINT32 mDObjectFlag = 0;
 			//Used For Debugging
 			std::string mDObjectName;
 			const DObject* mOwnerDObject = nullptr;
@@ -54,7 +55,7 @@ namespace doom
 
 	private:
 
-		unsigned long long mDObjectID;
+		UINT64 mDObjectID;
 		DObjectProperties mDObjectProperties;
 
 		void Construct_Internal();
@@ -79,12 +80,12 @@ namespace doom
 
 		void InitProperties(const DObjectContructorParams& params);
 
-		inline size_t GetDObjectID() const
+		inline SIZE_T GetDObjectID() const
 		{
 			return mDObjectID;
 		}
 
-		inline unsigned int GetDObjectFlag() const
+		inline UINT32 GetDObjectFlag() const
 		{
 			return mDObjectProperties.mDObjectFlag;
 		}

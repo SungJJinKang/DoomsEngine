@@ -55,8 +55,8 @@ namespace doom
 	/*
 	struct MeshFaceData
 	{
-		unsigned int mNumIndices;
-		unsigned int* mIndices;
+		UINT32 mNumIndices;
+		UINT32* mIndices;
 	};
 	*/
 
@@ -68,13 +68,13 @@ namespace doom
 		ePrimitiveType mPrimitiveType;
 
 		bool bHasIndices;
-		unsigned int mNumOfIndices;
+		UINT32 mNumOfIndices;
 		/// <summary>
 		/// mMeshIndices count is mNumOfIndiecs
 		/// </summary>
-		std::unique_ptr<unsigned int[]> mMeshIndices;
+		std::unique_ptr<UINT32[]> mMeshIndices;
 
-		unsigned int mNumOfVertexs;
+		UINT32 mNumOfVertexs;
 		/// <summary>
 		/// mMeshVertexDatas count is mNumOfVertices
 		/// Vertices data is packed
@@ -110,14 +110,14 @@ namespace doom
 		ThreeDModelNode* mThreeDModelNodeParent; // Parent node will be deleted later
 
 		std::unique_ptr<ThreeDModelNode[]> mThreeDModelNodeChildrens;
-		unsigned int mNumOfThreeDModelNodeChildrens;
+		UINT32 mNumOfThreeDModelNodeChildrens;
 
 		/// <summary>
 		/// each component contain index of ThreeDModelAsset::ThreeDModelMesh 
 		/// so use like ThreeDModelAsset->mModelMeshAssets[mModelMeshIndexs[0]]
 		/// </summary>
-		std::unique_ptr<unsigned int[]> mModelMeshIndexs;
-		unsigned int mNumOfModelMeshes;
+		std::unique_ptr<UINT32[]> mModelMeshIndexs;
+		UINT32 mNumOfModelMeshes;
 
 		ThreeDModelNode() = default;
 		ThreeDModelNode(const ThreeDModelNode&) = delete;
@@ -142,14 +142,14 @@ namespace doom
 			std::unique_ptr<ThreeDModelNode> mRootModelNode{};
 
 			std::unique_ptr<ThreeDModelMesh[]> mModelMeshAssets{};
-			unsigned int mNumOfModelMeshAssets{};
+			UINT32 mNumOfModelMeshAssets{};
 
 			///////////
 
 			std::unique_ptr<graphics::MeshNode> mRootMeshNode{};
 			std::vector<graphics::Mesh> mMeshes{};
 
-			unsigned int mNumOfMeshes{};
+			UINT32 mNumOfMeshes{};
 
 			/// <summary>
 			/// Send Meshdata to GPU
@@ -176,8 +176,8 @@ namespace doom
 			/// </summary>
 			/// <returns></returns>
 			const std::vector<graphics::Mesh>& GetMeshes() const;
-			graphics::Mesh* GetMesh(unsigned int index);
-			size_t GetMeshCount() const;
+			graphics::Mesh* GetMesh(UINT32 index);
+			SIZE_T GetMeshCount() const;
 
 
 			virtual doom::asset::eAssetType GetEAssetType() const final;

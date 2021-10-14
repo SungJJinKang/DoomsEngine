@@ -48,7 +48,7 @@ namespace doom
 			/// <param name="ray"></param>
 			/// <param name="maxDistance"></param>
 			/// <returns></returns>
-			static float RayMarching(const Ray& ray, float maxDistance);
+			static FLOAT32 RayMarching(const Ray& ray, FLOAT32 maxDistance);
 			static bool RayTracing(const Ray& ray);
 
 			ColliderType GetColliderType() const override;

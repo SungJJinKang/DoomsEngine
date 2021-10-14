@@ -17,13 +17,13 @@ void doom::SphereCollider3D::UpdateWorldCollider()
 	mWorldSpere.mRadius = mRadius * math::Max(math::Max(scale.x, scale.y), scale.z);
 }
 
-void doom::SphereCollider3D::SetRadius(float radius)
+void doom::SphereCollider3D::SetRadius(FLOAT32 radius)
 {
 	mRadius = radius;
 	bmIsLocalColliderDirty = true;
 }
 
-float doom::SphereCollider3D::GetRadius()
+FLOAT32 doom::SphereCollider3D::GetRadius()
 {
 	return mRadius;
 }

@@ -12,7 +12,7 @@ namespace doom
 		{
 		private:
 
-			unsigned long long mLastRenderFrameTickCount{};
+			UINT64 mLastRenderFrameTickCount{};
 
 		protected:
 

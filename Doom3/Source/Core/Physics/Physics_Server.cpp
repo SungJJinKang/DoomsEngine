@@ -15,10 +15,10 @@
 
 void doom::physics::Physics_Server::LoadPhysicsSetting()
 {
-	Physics_Setting::SetIsPhysicsOn(static_cast<bool>(GameCore::GetSingleton()->mGameConfigData.GetConfigData().GetValue<int>("PHYSICS", "ENABLE")));
+	Physics_Setting::SetIsPhysicsOn(static_cast<bool>(GameCore::GetSingleton()->mGameConfigData.GetConfigData().GetValue<INT32>("PHYSICS", "ENABLE")));
 
-	Physics_Setting::ENLARGED_AABB2D_OFFSET = static_cast<float>(GameCore::GetSingleton()->mGameConfigData.GetConfigData().GetValue<double>("PHYSICS", "ENLARGED_AABB2D_OFFSET"));
-	Physics_Setting::ENLARGED_AABB3D_OFFSET = static_cast<float>(GameCore::GetSingleton()->mGameConfigData.GetConfigData().GetValue<double>("PHYSICS", "ENLARGED_AABB3D_OFFSET"));
+	Physics_Setting::ENLARGED_AABB2D_OFFSET = static_cast<FLOAT32>(GameCore::GetSingleton()->mGameConfigData.GetConfigData().GetValue<FLOAT64>("PHYSICS", "ENLARGED_AABB2D_OFFSET"));
+	Physics_Setting::ENLARGED_AABB3D_OFFSET = static_cast<FLOAT32>(GameCore::GetSingleton()->mGameConfigData.GetConfigData().GetValue<FLOAT64>("PHYSICS", "ENLARGED_AABB3D_OFFSET"));
 
 }
 
@@ -79,7 +79,7 @@ void doom::physics::Physics_Server::SolveColliderComponents()
 {
 	const std::vector<Rigidbody*>& rigidbodyComponents = doom::StaticContainer<Rigidbody>::GetAllStaticComponents();
 	
-	size_t stackReservationCount = 1;
+	SIZE_T stackReservationCount = 1;
 	
 	D_START_PROFILING(Physics_Server_SolveColliderComponents_SolveCollision, eProfileLayers::CPU);
 	for (Rigidbody* const rigidbodyComponent : rigidbodyComponents)

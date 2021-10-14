@@ -40,7 +40,7 @@ void doom::KDTree_TestRoom::AddNewPointWithMouse()
 
 void doom::KDTree_TestRoom::RemoveRecentAddedPoint()
 {
-	int index = recentAddedLeaf.top();
+	INT32 index = recentAddedLeaf.top();
 	recentAddedLeaf.pop();
 	
 	mKDTree->Delete(mKDTree->mKDTreeNodes[index].mComponentValue);
@@ -49,14 +49,14 @@ void doom::KDTree_TestRoom::RemoveRecentAddedPoint()
 #define DebugBVHTreeOffsetX 0.1f
 #define DebugBVHTreeOffsetY 0.1f
 
-void doom::KDTree_TestRoom::DebugBVHTree(KDTree3DPoint::node_type* node, float x, float y, int depth)
+void doom::KDTree_TestRoom::DebugBVHTree(KDTree3DPoint::node_type* node, FLOAT32 x, FLOAT32 y, INT32 depth)
 {
 	if (node == nullptr)
 	{
 		return;
 	}
 
-	float offsetX = static_cast<float>(1.0f / (math::pow(2, depth + 1)));
+	FLOAT32 offsetX = static_cast<FLOAT32>(1.0f / (math::pow(2, depth + 1)));
 	if (node->mLeftNode != NULL_NODE_INDEX)
 	{
 		graphics::DebugDrawer::GetSingleton()->DebugDraw2DLine({ x, y, 0 }, { x - offsetX, y - DebugBVHTreeOffsetY, 0 }, recentAddedLeaf.empty() == false && recentAddedLeaf.top() == node->mLeftNode ? eColor::Red : eColor::Blue, true);
@@ -74,7 +74,7 @@ void doom::KDTree_TestRoom::DrawTree()
 	if (mKDTree->mRootNodeIndex != NULL_NODE_INDEX)
 	{
 		/*
-		for (int i = 0; i < mBVH->mTree.mNodeCapacity; i++)
+		for (INT32 i = 0; i < mBVH->mTree.mNodeCapacity; i++)
 		{
 			mBVH->mTree.mNodes[i].mBoundingCollider.DrawPhysicsDebug(); // TODO : Draw recursively, don't draw all nodes
 		}
@@ -166,7 +166,7 @@ void doom::KDTree_TestRoom::Update()
 	AddNewPointWithMouse();
 }
 
-void doom::KDTree_TestRoom::CheckActiveNode(KDTree3DPoint::node_type* node, std::vector<int>& activeNodeList)
+void doom::KDTree_TestRoom::CheckActiveNode(KDTree3DPoint::node_type* node, std::vector<INT32>& activeNodeList)
 {
 	if (node == nullptr)
 	{
@@ -202,8 +202,8 @@ void doom::KDTree_TestRoom::ValidCheck()
 		//first check : recursively traverse all active nodes from rootIndex, Every active nodes in mKDTreeNodes array should be traversed
 		//				every active nodes in mKDTreeNodes should be checked
 		//				And call Node::ValidCheck();
-		std::vector<int> checkedIndexs{};
-		for (int i = 0; i < mKDTree->mCurrentAllocatedNodeCount; i++)
+		std::vector<INT32> checkedIndexs{};
+		for (INT32 i = 0; i < mKDTree->mCurrentAllocatedNodeCount; i++)
 		{
 			if (mKDTree->mKDTreeNodes[i].bmIsActive == true)
 			{
@@ -215,11 +215,11 @@ void doom::KDTree_TestRoom::ValidCheck()
 		D_ASSERT(checkedIndexs.size() == 0);
 
 		//second check : traverse from each Leaf Nodes to RootNode. Check if Traversing arrived at rootIndex
-		for (int i = 0; i < mKDTree->mCurrentAllocatedNodeCount; i++)
+		for (INT32 i = 0; i < mKDTree->mCurrentAllocatedNodeCount; i++)
 		{
 			if (mKDTree->mKDTreeNodes[i].bmIsActive == true)
 			{
-				int index{ i };
+				INT32 index{ i };
 				bool isSuccess{ false };
 				while (index != NULL_NODE_INDEX)
 				{
@@ -239,8 +239,8 @@ void doom::KDTree_TestRoom::ValidCheck()
 
 		//fourth check : check all nodes have unique child id ( all nodes have unique child id )
 		//				 checked child id shouldn't be checked again
-		std::unordered_set<int> checkedChildIndexs{};
-		for (int i = 0; i < mKDTree->mCurrentAllocatedNodeCount; i++)
+		std::unordered_set<INT32> checkedChildIndexs{};
+		for (INT32 i = 0; i < mKDTree->mCurrentAllocatedNodeCount; i++)
 		{
 			if (mKDTree->mKDTreeNodes[i].bmIsActive == true)
 			{
@@ -267,7 +267,7 @@ void doom::KDTree_TestRoom::ValidCheck()
 
 
 		//fifth check : compare one node's parent index and parent index's child index
-		for (int i = 0; i < mKDTree->mCurrentAllocatedNodeCount; i++)
+		for (INT32 i = 0; i < mKDTree->mCurrentAllocatedNodeCount; i++)
 		{
 			if (mKDTree->mKDTreeNodes[i].bmIsActive == true)
 			{
@@ -291,8 +291,8 @@ void doom::KDTree_TestRoom::ValidCheck()
 
 		//Check if All Nodes have proper mDimension
 		{
-			int currentNode;
-			std::stack<std::pair<int, int>> nodeContainer{}; // nodeIndex, properNodeDimension
+			INT32 currentNode;
+			std::stack<std::pair<INT32, INT32>> nodeContainer{}; // nodeIndex, properNodeDimension
 			nodeContainer.emplace(currentNode, 0);
 			while (nodeContainer.empty() == false)
 			{
@@ -301,7 +301,7 @@ void doom::KDTree_TestRoom::ValidCheck()
 
 				D_ASSERT(mKDTree->mKDTreeNodes[top.first].mDimension == top.second);
 
-				int nextDimension = (top.second + 1) % 3;
+				INT32 nextDimension = (top.second + 1) % 3;
 				if (mKDTree->mKDTreeNodes[top.first].mLeftNode != NULL_NODE_INDEX)
 				{
 					nodeContainer.emplace(mKDTree->mKDTreeNodes[top.first].mLeftNode, nextDimension);

@@ -9,7 +9,7 @@ using namespace doom::graphics;
 
 
 Texture::Texture(eTextureType textureType, eBindTarget bindTarget,
-	eTargetTexture targetTexture, eTextureInternalFormat internalFormat, eTextureCompressedInternalFormat compressedInternalFormat, unsigned int width, eTextureComponentFormat format, eDataType type)
+	eTargetTexture targetTexture, eTextureInternalFormat internalFormat, eTextureCompressedInternalFormat compressedInternalFormat, UINT32 width, eTextureComponentFormat format, eDataType type)
 	: mTextureType{ textureType }, mBindTarget{ bindTarget },
 	mTarget{ targetTexture }, mInternalFormat{ internalFormat }, mCompressedInternalFormat{ compressedInternalFormat }, mWidth{ width }, mHeight{ 0 }, mDataFormat{ format }, mDataType{ type }
 {
@@ -19,7 +19,7 @@ Texture::Texture(eTextureType textureType, eBindTarget bindTarget,
 
 
 Texture::Texture(eTextureType textureType, eBindTarget bindTarget,
-	eTargetTexture targetTexture, eTextureInternalFormat internalFormat, eTextureCompressedInternalFormat compressedInternalFormat, unsigned int width, unsigned int height, eTextureComponentFormat format, eDataType type)
+	eTargetTexture targetTexture, eTextureInternalFormat internalFormat, eTextureCompressedInternalFormat compressedInternalFormat, UINT32 width, UINT32 height, eTextureComponentFormat format, eDataType type)
 	: mTextureType{ textureType }, mBindTarget{ bindTarget },
 	mTarget{ targetTexture }, mInternalFormat{ internalFormat }, mCompressedInternalFormat{ compressedInternalFormat }, mWidth{ width }, mHeight{ height }, mDataFormat{ format }, mDataType{ type }
 {
@@ -110,7 +110,7 @@ doom::graphics::Texture::eWrapMode Texture::GetWrapModeR() const
 	return mWrapR;
 }
 
-unsigned int Texture::GetID() const
+UINT32 Texture::GetID() const
 {
 	return mBufferID;
 }

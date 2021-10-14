@@ -27,7 +27,7 @@ namespace doom
 		class Graphics_Server;
 	}
 
-	enum eCameraFlag : unsigned int
+	enum eCameraFlag : UINT32
 	{
 		IS_CULLED = 1 << 0,
 		PAUSE_CULL_JOB = 1 << 1,
@@ -56,29 +56,29 @@ namespace doom
 		eProjectionType mProjectionMode{ eProjectionType::Perspective };
 
 		///
-		float mFieldOfViewInDegree = 60;
-		float mFieldOfViewInRadian = mFieldOfViewInDegree * math::DEGREE_TO_RADIAN;
+		FLOAT32 mFieldOfViewInDegree = 60;
+		FLOAT32 mFieldOfViewInRadian = mFieldOfViewInDegree * math::DEGREE_TO_RADIAN;
 
-		float mClippingPlaneNear = 0.001f;
-		float mClippingPlaneFar = 1500.0f;
-
-		/// <summary>
-		/// opengl -1 ~ 1
-		/// </summary>
-		float mViewportRectX = -1.0f;
-		/// <summary>
-		/// opengl -1 ~ 1
-		/// </summary>
-		float mViewportRectY = -1.0f;
+		FLOAT32 mClippingPlaneNear = 0.001f;
+		FLOAT32 mClippingPlaneFar = 1500.0f;
 
 		/// <summary>
 		/// opengl -1 ~ 1
 		/// </summary>
-		float mViewportRectWidth = 2.0f;
+		FLOAT32 mViewportRectX = -1.0f;
 		/// <summary>
 		/// opengl -1 ~ 1
 		/// </summary>
-		float mViewportRectHeight = 2.0f;
+		FLOAT32 mViewportRectY = -1.0f;
+
+		/// <summary>
+		/// opengl -1 ~ 1
+		/// </summary>
+		FLOAT32 mViewportRectWidth = 2.0f;
+		/// <summary>
+		/// opengl -1 ~ 1
+		/// </summary>
+		FLOAT32 mViewportRectHeight = 2.0f;
 
 		bool isDoCullJob = true;
 
@@ -120,35 +120,35 @@ namespace doom
 
 		graphics::DefferedRenderingFrameBuffer mDefferedRenderingFrameBuffer;
 
-		unsigned int CameraIndexInCullingSystem;
+		UINT32 CameraIndexInCullingSystem;
 
-		static constexpr unsigned int DEFAULT_CAMERA_FLAG = eCameraFlag::IS_CULLED;
+		static constexpr UINT32 DEFAULT_CAMERA_FLAG = eCameraFlag::IS_CULLED;
 
-		unsigned int mCameraFlag = DEFAULT_CAMERA_FLAG;
+		UINT32 mCameraFlag = DEFAULT_CAMERA_FLAG;
 
 		Camera();
 		virtual ~Camera() = default;
 
 		void SetProjectionMode(eProjectionType value);
-		void SetFieldOfViewInDegree(float degree);
-		void SetFieldOfViewInRadian(float radian);
-		void SetClippingPlaneNear(float value);
-		void SetClippingPlaneFar(float value);
-		void SetViewportRectX(float value);
-		void SetViewportRectY(float value);
-		void SetViewportRectWidth(float value);
-		void SetViewportRectHeight(float value);
+		void SetFieldOfViewInDegree(FLOAT32 degree);
+		void SetFieldOfViewInRadian(FLOAT32 radian);
+		void SetClippingPlaneNear(FLOAT32 value);
+		void SetClippingPlaneFar(FLOAT32 value);
+		void SetViewportRectX(FLOAT32 value);
+		void SetViewportRectY(FLOAT32 value);
+		void SetViewportRectWidth(FLOAT32 value);
+		void SetViewportRectHeight(FLOAT32 value);
 		void SetCameraFlag(const eCameraFlag cameraFlag, const bool isSet);
 
 		eProjectionType GetProjectionMode() const;
-		float GetFieldOfViewInDegree() const;
-		float GetFieldOfViewInRadian() const;
-		float GetClippingPlaneNear() const;
-		float GetClippingPlaneFar() const;
-		float GetViewportRectX() const;
-		float GetViewportRectY() const;
-		float GetViewportRectWidth() const;
-		float GetViewportRectHeight() const;
+		FLOAT32 GetFieldOfViewInDegree() const;
+		FLOAT32 GetFieldOfViewInRadian() const;
+		FLOAT32 GetClippingPlaneNear() const;
+		FLOAT32 GetClippingPlaneFar() const;
+		FLOAT32 GetViewportRectX() const;
+		FLOAT32 GetViewportRectY() const;
+		FLOAT32 GetViewportRectWidth() const;
+		FLOAT32 GetViewportRectHeight() const;
 		bool GetCameraFlag(const eCameraFlag cameraFlag) const;
 		bool GetIsCullJobEnabled() const;
 

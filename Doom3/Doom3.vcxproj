@@ -268,6 +268,7 @@
     <ClCompile Include="Source\Core\IO\AssetImporter\AssetImporterWorker\AssetImporterWorker_Three_D_Model.cpp" />
     <ClCompile Include="Source\Core\Physics\Collider\OBB.cpp" />
     <ClCompile Include="Source\Core\ResourceManagement\JobSystem_cpp\JobSystem.cpp" />
+    <ClCompile Include="Source\Core\ResourceManagement\JobSystem_cpp\test\test.cpp" />
     <ClCompile Include="Source\Core\ResourceManagement\JobSystem_cpp\Thread.cpp" />
     <ClCompile Include="Source\Core\ResourceManagement\JobSystem_cpp\ThreadProfiler.cpp" />
     <ClCompile Include="Source\Core\UI\PrintText.cpp" />
@@ -419,6 +420,7 @@
     <ClInclude Include="Source\Core\IO\UserInputHelper.h" />
     <ClInclude Include="Source\Core\Macros\DllMarcos.h" />
     <ClInclude Include="Source\Core\Macros\MacrosHelper.h" />
+    <ClInclude Include="Source\Core\Macros\TypeDef.h" />
     <ClInclude Include="Source\Core\Physics\PhysicsDebugger.h" />
     <ClInclude Include="Source\Core\Physics\PhysicsSolver.h" />
     <ClInclude Include="Source\Core\Profiler\CPUVendorProfiler.h" />

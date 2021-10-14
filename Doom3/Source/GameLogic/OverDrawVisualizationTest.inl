@@ -46,9 +46,9 @@ void doom::GameLogicStartPoint::StartGameLogic()
 	auto planetAsset = assetimporter::AssetManager::GetSingleton()->GetAsset<asset::eAssetType::THREE_D_MODEL>("planet.assbin");
 
 
-	// 	for (int i = 0; i < 25; i++)
+	// 	for (INT32 i = 0; i < 25; i++)
 	// 	{
-	// 		for (int j = 0; j < threedasset->GetMeshCount(); j++)
+	// 		for (INT32 j = 0; j < threedasset->GetMeshCount(); j++)
 	// 		{
 	// 			auto entity = currenScene->CreateNewEntity();
 	// 			entity->GetTransform()->SetScale(0.1f, 0.1f, 0.1f);
@@ -60,12 +60,12 @@ void doom::GameLogicStartPoint::StartGameLogic()
 	// 			entity->AddComponent<BoxCollider3D>();
 	// 		}
 	// 	}
-	int count = 100;
-	for (int i = -count; i < count; i = i + 15)
+	INT32 count = 100;
+	for (INT32 i = -count; i < count; i = i + 15)
 	{
-		for (int j = -count; j < count; j = j + 15)
+		for (INT32 j = -count; j < count; j = j + 15)
 		{
-			for (int k = -count; k < count; k = k + 15)
+			for (INT32 k = -count; k < count; k = k + 15)
 			{
 				auto entity = currenScene->CreateNewEntity();
 				entity->GetTransform()->SetScale(1.5f, 1.5f, 1.5f);
@@ -79,7 +79,7 @@ void doom::GameLogicStartPoint::StartGameLogic()
 		}
 	}
 
-	for (int i = -200; i < 200; i += 70)
+	for (INT32 i = -200; i < 200; i += 70)
 	{
 		auto entity = currenScene->CreateNewEntity();
 		entity->GetTransform()->SetScale(10.0f, 10.0f, 10.0f);
@@ -90,7 +90,7 @@ void doom::GameLogicStartPoint::StartGameLogic()
 		meshRenderer->SetMaterial(material);
 	}
 
-	for (int i = -50; i < 50; i += 15)
+	for (INT32 i = -50; i < 50; i += 15)
 	{
 		auto entity = currenScene->CreateNewEntity();
 		entity->GetTransform()->SetScale(1.5f, 1.5f, 1.5f);

@@ -38,7 +38,7 @@ void doom::StaticContainer<Renderer>::AddRendererToStaticContainer()
 
 void doom::StaticContainer<Renderer>::RemoveRendererToStaticContainer()
 {
-	unsigned int currentEntityLayerIndex = mRenderer_ptr->GetOwnerEntityLayerIndex();
+	UINT32 currentEntityLayerIndex = mRenderer_ptr->GetOwnerEntityLayerIndex();
 
 	for (size_t cameraIndex = 0; cameraIndex < MAX_CAMERA_COUNT; cameraIndex++)
 	{

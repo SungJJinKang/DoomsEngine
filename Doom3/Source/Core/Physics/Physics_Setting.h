@@ -25,8 +25,8 @@ namespace doom
 
 			inline static bool IS_RENDER_PHYSICS_COLLIDER{ true };
 
-			inline static float ENLARGED_AABB2D_OFFSET{};
-			inline static float ENLARGED_AABB3D_OFFSET{};
+			inline static FLOAT32 ENLARGED_AABB2D_OFFSET{};
+			inline static FLOAT32 ENLARGED_AABB3D_OFFSET{};
 
 		};
 	}

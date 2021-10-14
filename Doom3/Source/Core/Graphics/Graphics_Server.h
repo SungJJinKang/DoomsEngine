@@ -60,9 +60,9 @@ namespace doom
 			
 			void Render();
 
-			void UpdateOverDrawVisualization(doom::Camera* const targetCamera, const size_t cameraIndex);
+			void UpdateOverDrawVisualization(doom::Camera* const targetCamera, const SIZE_T cameraIndex);
 
-			void RenderObject(doom::Camera* const targetCamera, const size_t cameraIndex);
+			void RenderObject(doom::Camera* const targetCamera, const SIZE_T cameraIndex);
 		
 			void DoCullJob();
 			void PreUpdateEntityBlocks();

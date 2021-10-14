@@ -28,9 +28,9 @@ namespace doom
 
 			struct CullDistanceData
 			{
-				int mVolumeSphereRadius;
-				int mCullDistance;
-				float mCullDistanceSqr;
+				INT32 mVolumeSphereRadius;
+				INT32 mCullDistance;
+				FLOAT32 mCullDistanceSqr;
 			};
 
 		private:
@@ -47,11 +47,11 @@ namespace doom
 			
 			math::Vector3 mCameraPosition{};
 
-			void AddCullDistance(int volumeSphereRadius, int cullDistance);
-			void RemoveCullDistance(int volumeSphereSize, int cullDistance);
-			void RemoveCullDistance(int index);
+			void AddCullDistance(INT32 volumeSphereRadius, INT32 cullDistance);
+			void RemoveCullDistance(INT32 volumeSphereSize, INT32 cullDistance);
+			void RemoveCullDistance(INT32 index);
 
-			float PickCullDistanceSqr(float sphereRadius);
+			FLOAT32 PickCullDistanceSqr(FLOAT32 sphereRadius);
 
 			void Initialize();
 			/// <summary>

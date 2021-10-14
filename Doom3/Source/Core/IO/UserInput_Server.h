@@ -22,7 +22,7 @@ namespace doom
 	namespace userinput
 	{
 		
-		enum class eKeyState : int
+		enum class eKeyState : INT32
 		{
 			NONE = 0,
 			PRESS_DOWN,
@@ -34,7 +34,7 @@ namespace doom
 		inline constexpr extern eKEY_CODE LAST_KEY_CODE = doom::userinput::eKEY_CODE::KEY_MENU;;
 
 
-		enum class eMouse_Button_Type : int
+		enum class eMouse_Button_Type : INT32
 		{
 			MOUST_BUTTON_LEFT = GLFW_MOUSE_BUTTON_LEFT,
 			MOUST_BUTTON_RIGHT = GLFW_MOUSE_BUTTON_RIGHT,
@@ -42,7 +42,7 @@ namespace doom
 		};
 		
 
-		enum class eMouse_Button_Action : int
+		enum class eMouse_Button_Action : INT32
 		{
 			NONE,
 			PRESSING,
@@ -63,20 +63,20 @@ namespace doom
 
 			static inline math::Vector2 mScrollOffset{};
 
-			static inline std::array<bool, static_cast<int>(LAST_KEY_CODE) - static_cast<int>(FIRST_KEY_CODE) + 1> mKeyToggle{};
-			static inline std::array<eKeyState, static_cast<int>(LAST_KEY_CODE) - static_cast<int>(FIRST_KEY_CODE) + 1> mKeyState{};
+			static inline std::array<bool, static_cast<INT32>(LAST_KEY_CODE) - static_cast<INT32>(FIRST_KEY_CODE) + 1> mKeyToggle{};
+			static inline std::array<eKeyState, static_cast<INT32>(LAST_KEY_CODE) - static_cast<INT32>(FIRST_KEY_CODE) + 1> mKeyState{};
 
 			/// <summary>
 			/// Keys what was down at last frame
 			/// </summary>
-			static inline std::vector<int> mDownKeys{};
+			static inline std::vector<INT32> mDownKeys{};
 			/// <summary>
 			/// Keys what was up at last frame
 			/// </summary>
-			static inline std::vector<int> mUpKeys{};
+			static inline std::vector<INT32> mUpKeys{};
 			void UpdateKeyStates();
 
-			static inline std::array<eMouse_Button_Action, static_cast<int>(LAST_MOUSE_BUTTON_TYPE) - static_cast<int>(FIRST_MOUSE_BUTTON_TYPE) + 1> mMouseButtonState{};
+			static inline std::array<eMouse_Button_Action, static_cast<INT32>(LAST_MOUSE_BUTTON_TYPE) - static_cast<INT32>(FIRST_MOUSE_BUTTON_TYPE) + 1> mMouseButtonState{};
 			void UpdateMouseButtonStates();
 			/// <summary>
 			/// The callback functions receives the cursor position, measured in screen coordinates but relative to the top-left corner of the window content area. 
@@ -94,11 +94,11 @@ namespace doom
 
 		
 
-			static void CursorEnterCallback(GLFWwindow* window, int entered);
-			static void CursorPosition_Callback(GLFWwindow* window, double xpos, double ypos);
-			static void Scroll_Callback(GLFWwindow* window, double xoffset, double yoffset);
-			static void Key_Callback(GLFWwindow* window, int key, int scancode, int action, int mods);
-			static void MouseButton_Callback(GLFWwindow* window, int button, int action, int mods);
+			static void CursorEnterCallback(GLFWwindow* window, INT32 entered);
+			static void CursorPosition_Callback(GLFWwindow* window, FLOAT64 xpos, FLOAT64 ypos);
+			static void Scroll_Callback(GLFWwindow* window, FLOAT64 xoffset, FLOAT64 yoffset);
+			static void Key_Callback(GLFWwindow* window, INT32 key, INT32 scancode, INT32 action, INT32 mods);
+			static void MouseButton_Callback(GLFWwindow* window, INT32 button, INT32 action, INT32 mods);
 
 			static inline bool IsCursorOnScreenWindow{ true };
 			static inline bool IsCursorLockedInScreen{ false };
@@ -117,7 +117,7 @@ namespace doom
 
 			[[nodiscard]] FORCE_INLINE static bool GetKeyToggle(eKEY_CODE keyCode) noexcept
 			{
-				return UserInput_Server::mKeyToggle[static_cast<int>(keyCode) - static_cast<int>(FIRST_KEY_CODE)];
+				return UserInput_Server::mKeyToggle[static_cast<INT32>(keyCode) - static_cast<INT32>(FIRST_KEY_CODE)];
 			}
 
 			/// <summary>
@@ -127,7 +127,7 @@ namespace doom
 			/// <returns></returns>
 			[[nodiscard]] FORCE_INLINE static bool GetKey(eKEY_CODE keyCode) noexcept
 			{
-				return UserInput_Server::mKeyState[static_cast<int>(keyCode) - static_cast<int>(FIRST_KEY_CODE)] == eKeyState::PRESSING;
+				return UserInput_Server::mKeyState[static_cast<INT32>(keyCode) - static_cast<INT32>(FIRST_KEY_CODE)] == eKeyState::PRESSING;
 			}
 			/// <summary>
 			/// Key is Released ?
@@ -136,7 +136,7 @@ namespace doom
 			/// <returns></returns>
 			[[nodiscard]] FORCE_INLINE static bool GetKeyUp(eKEY_CODE keyCode) noexcept
 			{
-				return UserInput_Server::mKeyState[static_cast<int>(keyCode) - static_cast<int>(FIRST_KEY_CODE)] == eKeyState::UP;
+				return UserInput_Server::mKeyState[static_cast<INT32>(keyCode) - static_cast<INT32>(FIRST_KEY_CODE)] == eKeyState::UP;
 			}
 
 			/// <summary>
@@ -148,7 +148,7 @@ namespace doom
 			/// <returns></returns>
 			[[nodiscard]] FORCE_INLINE static bool GetKeyDown(eKEY_CODE keyCode) noexcept
 			{
-				return UserInput_Server::mKeyState[static_cast<int>(keyCode) - static_cast<int>(FIRST_KEY_CODE)] == eKeyState::PRESS_DOWN;
+				return UserInput_Server::mKeyState[static_cast<INT32>(keyCode) - static_cast<INT32>(FIRST_KEY_CODE)] == eKeyState::PRESS_DOWN;
 			}
 
 		
@@ -169,7 +169,7 @@ namespace doom
 			/// Screen Position 
 			/// </summary>
 			/// <returns></returns>
-			[[nodiscard]] FORCE_INLINE static float GetCurrentMouseScreenPositionX() noexcept
+			[[nodiscard]] FORCE_INLINE static FLOAT32 GetCurrentMouseScreenPositionX() noexcept
 			{
 				return UserInput_Server::mCurrentCursorScreenPosition.x;
 			}
@@ -177,7 +177,7 @@ namespace doom
 			/// Screen Position 
 			/// </summary>
 			/// <returns></returns>
-			[[nodiscard]] FORCE_INLINE static float GetCurrentMouseScreenPositionY() noexcept
+			[[nodiscard]] FORCE_INLINE static FLOAT32 GetCurrentMouseScreenPositionY() noexcept
 			{
 				return UserInput_Server::mCurrentCursorScreenPosition.y;
 			}
@@ -191,7 +191,7 @@ namespace doom
 			/// Delta
 			/// </summary>
 			/// <returns></returns>
-			[[nodiscard]] FORCE_INLINE static float GetDeltaMouseScreenPositionX() noexcept
+			[[nodiscard]] FORCE_INLINE static FLOAT32 GetDeltaMouseScreenPositionX() noexcept
 			{
 				return UserInput_Server::mDeltaCursorScreenPosition.x;
 			}
@@ -199,7 +199,7 @@ namespace doom
 			/// Delta
 			/// </summary>
 			/// <returns></returns>
-			[[nodiscard]] FORCE_INLINE static float GetDeltaMouseScreenPositionY() noexcept
+			[[nodiscard]] FORCE_INLINE static FLOAT32 GetDeltaMouseScreenPositionY() noexcept
 			{
 				return UserInput_Server::mDeltaCursorScreenPosition.y;
 			}
@@ -213,7 +213,7 @@ namespace doom
 			/// -1 ~ 1
 			/// </summary>
 			/// <returns></returns>
-			[[nodiscard]] FORCE_INLINE static float GetMouseScrollOffsetX() noexcept
+			[[nodiscard]] FORCE_INLINE static FLOAT32 GetMouseScrollOffsetX() noexcept
 			{
 				return UserInput_Server::mScrollOffset.x;
 			}
@@ -221,22 +221,22 @@ namespace doom
 			/// -1 ~ 1
 			/// </summary>
 			/// <returns></returns>
-			[[nodiscard]] FORCE_INLINE static float GetMouseScrollOffsetY() noexcept
+			[[nodiscard]] FORCE_INLINE static FLOAT32 GetMouseScrollOffsetY() noexcept
 			{
 				return UserInput_Server::mScrollOffset.y;
 			}
 
 			[[nodiscard]] FORCE_INLINE static bool GetMouseButtonPressing(eMouse_Button_Type mouse_button_type) noexcept
 			{
-				return UserInput_Server::mMouseButtonState[static_cast<int>(mouse_button_type)] == eMouse_Button_Action::PRESSING;
+				return UserInput_Server::mMouseButtonState[static_cast<INT32>(mouse_button_type)] == eMouse_Button_Action::PRESSING;
 			}
 			[[nodiscard]] FORCE_INLINE static bool GetMouseButtonDown(eMouse_Button_Type mouse_button_type) noexcept
 			{
-				return UserInput_Server::mMouseButtonState[static_cast<int>(mouse_button_type)] == eMouse_Button_Action::DOWN;
+				return UserInput_Server::mMouseButtonState[static_cast<INT32>(mouse_button_type)] == eMouse_Button_Action::DOWN;
 			}
 			[[nodiscard]] FORCE_INLINE static bool GetMouseButtonRelease(eMouse_Button_Type mouse_button_type) noexcept
 			{
-				return UserInput_Server::mMouseButtonState[static_cast<int>(mouse_button_type)] == eMouse_Button_Action::RELEASE;
+				return UserInput_Server::mMouseButtonState[static_cast<INT32>(mouse_button_type)] == eMouse_Button_Action::RELEASE;
 			}
 
 			FORCE_INLINE static bool GetIsCursorOnScreenWindow() noexcept

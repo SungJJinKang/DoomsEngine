@@ -10,11 +10,11 @@ void doom::Renderer::SetRenderingFlag(const eRenderingFlag flag, const bool isSe
 {
 	if (isSet == true)
 	{
-		mRenderingFlag |= static_cast<unsigned int>(flag);
+		mRenderingFlag |= static_cast<UINT32>(flag);
 	}
 	else
 	{
-		mRenderingFlag &= (~static_cast<unsigned int>(flag));
+		mRenderingFlag &= (~static_cast<UINT32>(flag));
 	}
 }
 
@@ -65,7 +65,7 @@ void doom::Renderer::SetMaterial(const graphics::Material* material) noexcept
 	mTargetMaterial = material;
 }
 
-char doom::Renderer::GetIsVisibleWithCameraIndex(unsigned int cameraIndex) const
+char doom::Renderer::GetIsVisibleWithCameraIndex(UINT32 cameraIndex) const
 {
 	return mEntityBlockViewer.GetIsCulled(cameraIndex);
 }

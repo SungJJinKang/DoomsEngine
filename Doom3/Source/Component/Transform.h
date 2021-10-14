@@ -91,7 +91,7 @@ namespace doom
 				mTransformCoreData.bmIsDirtyModelMatrix = true;
 			}			
 		}
-		FORCE_INLINE void SetPosition(float x, float y, float z) noexcept
+		FORCE_INLINE void SetPosition(FLOAT32 x, FLOAT32 y, FLOAT32 z) noexcept
 		{
 			SetPosition({ x, y, z });
 		}
@@ -114,7 +114,7 @@ namespace doom
 			SetRotation(math::Quaternion(eulerAngle));
 		}
 
-		FORCE_INLINE void SetRotation(const float eulerAngleX, const float eulerAngleY, const float eulerAngleZ) noexcept
+		FORCE_INLINE void SetRotation(const FLOAT32 eulerAngleX, const FLOAT32 eulerAngleY, const FLOAT32 eulerAngleZ) noexcept
 		{
 			SetRotation({ eulerAngleX, eulerAngleY, eulerAngleZ });
 		}
@@ -131,7 +131,7 @@ namespace doom
 				mTransformCoreData.bmIsDirtyModelMatrix = true;
 			}
 		}
-		FORCE_INLINE void SetScale(const float x, const float y, const float z) noexcept
+		FORCE_INLINE void SetScale(const FLOAT32 x, const FLOAT32 y, const FLOAT32 z) noexcept
 		{
 			SetScale({ x,y,z });
 		}
@@ -202,7 +202,7 @@ namespace doom
 				SetRotation(math::Quaternion(eulerAngles) * mTransformCoreData.mRotation);
 			}
 		}
-		FORCE_INLINE void RotateAround(const math::Vector3& centerPoint, const math::Vector3& axis, const float angle) noexcept
+		FORCE_INLINE void RotateAround(const math::Vector3& centerPoint, const math::Vector3& axis, const FLOAT32 angle) noexcept
 		{
 			math::Vector3 worldPos = GetPosition();
 			const math::Quaternion q = math::Quaternion::angleAxis(angle, axis);

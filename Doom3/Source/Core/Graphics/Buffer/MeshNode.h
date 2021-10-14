@@ -14,10 +14,10 @@ namespace doom
 			/// array
 			/// </summary>
 			std::unique_ptr<Mesh*[]> mMeshes;
-			size_t mNumOfMeshes;
+			SIZE_T mNumOfMeshes;
 
 			std::unique_ptr<MeshNode[]> mChilds;
-			size_t mNumOfChilds;
+			SIZE_T mNumOfChilds;
 		};
 	}
 }

@@ -1,6 +1,6 @@
 #include "CapsuleCollider.h"
 
-doom::physics::CapsuleCollider::CapsuleCollider(const math::Vector3& center, float height, float radius)
+doom::physics::CapsuleCollider::CapsuleCollider(const math::Vector3& center, FLOAT32 height, FLOAT32 radius)
 	: mCenter{ center }, mHeight{ height }, mRadius{ radius }
 {
 

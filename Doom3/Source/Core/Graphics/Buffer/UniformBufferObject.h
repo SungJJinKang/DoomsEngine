@@ -30,7 +30,7 @@ namespace doom
 			/// <summary>
 			/// Buffer::data is same with mUniformBufferID
 			/// </summary>
-			//unsigned int& mUniformBufferID = data; USE data
+			//UINT32& mUniformBufferID = data; USE data
 
 
 			// TODO: Check Which is faster : 
@@ -42,15 +42,15 @@ namespace doom
 			///
 			/// </summary>
 			char* mUniformBufferTempData;
-			unsigned int mSizeInByte;
-			unsigned int mBindingPoint;
+			UINT32 mSizeInByte;
+			UINT32 mBindingPoint;
 
 			/// <summary>
 			/// Cache element of uniform block's aligned offset
 			/// </summary>
-			std::unordered_map<std::string, unsigned int> mUniformBlockAlignedOffset{};
+			std::unordered_map<std::string, UINT32> mUniformBlockAlignedOffset{};
 		
-			void GenerateUniformBufferObject(unsigned int bindingPoint, unsigned int uniformBlockSizeInByte);
+			void GenerateUniformBufferObject(UINT32 bindingPoint, UINT32 uniformBlockSizeInByte);
 			void DeleteBuffers() final;
 
 			FORCE_INLINE void BindBuffer() const noexcept final
@@ -76,7 +76,7 @@ namespace doom
 		public:
 
 			UniformBufferObject();
-			UniformBufferObject(unsigned int bindingPoint, unsigned int uniformBlockSize);
+			UniformBufferObject(UINT32 bindingPoint, UINT32 uniformBlockSize);
 			~UniformBufferObject();
 
 			UniformBufferObject(const UniformBufferObject&) = delete;
@@ -89,7 +89,7 @@ namespace doom
 			/// </summary>
 			/// <returns></returns>
 			virtual void BufferData() noexcept;
-			virtual void BufferSubData(const void* sourceData, const unsigned int sizeOfSourceData, const unsigned int offsetInUniformBlock) noexcept;
+			virtual void BufferSubData(const void* sourceData, const UINT32 sizeOfSourceData, const UINT32 offsetInUniformBlock) noexcept;
 
 			/// <summary>
 			/// Store data in temporary buffer
@@ -99,10 +99,10 @@ namespace doom
 			/// <param name="sourceData">souce data address</param>
 			/// <param name="sizeInByte">data size in byte</param>
 			/// <param name="offsetInUniformBlock"></param>
-			void StoreDataAtTempBuffer(const void* sourceData, const unsigned int sizeOfSourceData, const unsigned int offsetInUniformBlock);
+			void StoreDataAtTempBuffer(const void* sourceData, const UINT32 sizeOfSourceData, const UINT32 offsetInUniformBlock);
 			//void StoreDataAtTempBuffer(const void* sourceData, const std::string& elementName);
 
-			unsigned int GetAlignedOffset(const std::string elementName);
+			UINT32 GetAlignedOffset(const std::string elementName);
 		};
 	}
 }

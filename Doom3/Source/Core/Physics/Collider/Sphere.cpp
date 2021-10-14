@@ -9,23 +9,23 @@ void doom::physics::Sphere::DrawCollider(eColor color, bool drawInstantly /*= fa
 #ifdef DEBUG_DRAWER
 	auto debugGraphics = graphics::DebugDrawer::GetSingleton();
 
-	const float intervalRadian = math::PI * 2 / 72.0f;
+	const FLOAT32 intervalRadian = math::PI * 2 / 72.0f;
 
 
-	float deltaTheta = math::PI / 12;
-	float deltaPhi = 2 * math::PI / 10;
+	FLOAT32 deltaTheta = math::PI / 12;
+	FLOAT32 deltaPhi = 2 * math::PI / 10;
 
 	
 
 	math::Vector3 exVertex{ };
 	math::Vector3 currentVertex{};
 	
-	float theta{ 0 };
-	for (int ring = 0 ; ring < 11; ring++) { //move to a new z - offset 
-		float phi{ 0 };
+	FLOAT32 theta{ 0 };
+	for (INT32 ring = 0 ; ring < 11; ring++) { //move to a new z - offset 
+		FLOAT32 phi{ 0 };
 
 		theta += deltaTheta;
-		for (int point = 0 ; point < 11; point++) { // draw a ring
+		for (INT32 point = 0 ; point < 11; point++) { // draw a ring
 			phi += deltaPhi;
 			currentVertex.x = sin(theta) * cos(phi) * mRadius;
 			currentVertex.y = sin(theta) * sin(phi) * mRadius;
@@ -41,11 +41,11 @@ void doom::physics::Sphere::DrawCollider(eColor color, bool drawInstantly /*= fa
 	}
 
 	theta = 0;
-	for (int ring = 0; ring < 11; ring++) { //move to a new z - offset 
-		float phi{ 0 };
+	for (INT32 ring = 0; ring < 11; ring++) { //move to a new z - offset 
+		FLOAT32 phi{ 0 };
 
 		theta += deltaTheta;
-		for (int point = 0; point < 11; point++) { // draw a ring
+		for (INT32 point = 0; point < 11; point++) { // draw a ring
 			phi += deltaPhi;
 			currentVertex.z = sin(theta) * cos(phi) * mRadius;
 			currentVertex.y = sin(theta) * sin(phi) * mRadius;

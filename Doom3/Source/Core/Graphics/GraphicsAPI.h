@@ -29,7 +29,7 @@ namespace doom
 
 			
 
-			enum class eBufferMode : unsigned int
+			enum class eBufferMode : UINT32
 			{
 				FRONT_LEFT = GL_FRONT_LEFT,
 				FRONT_RIGHT = GL_FRONT_RIGHT,
@@ -53,14 +53,14 @@ namespace doom
 				NONE = GL_NONE
 			};
 
-			enum class eCullFaceMode : unsigned int
+			enum class eCullFaceMode : UINT32
 			{
 				FRONT = GL_FRONT,
 				BACK = GL_BACK,
 				FRONT_AND_BACK = GL_FRONT_AND_BACK
 			};
 
-			enum class eBufferBitType : unsigned int
+			enum class eBufferBitType : UINT32
 			{
 				COLOR = GL_COLOR_BUFFER_BIT,
 				DEPTH = GL_DEPTH_BUFFER_BIT,
@@ -69,22 +69,22 @@ namespace doom
 
 			FORCE_INLINE static void ReadBuffer(eBufferMode mode) noexcept
 			{
-				glReadBuffer(static_cast<unsigned int>(mode));
+				glReadBuffer(static_cast<UINT32>(mode));
 			}
 			FORCE_INLINE static void WriteBuffer(eBufferMode mode) noexcept
 			{
-				glDrawBuffer(static_cast<unsigned int>(mode));
+				glDrawBuffer(static_cast<UINT32>(mode));
 			}
-			FORCE_INLINE static void WriteBuffer(const int count, const eBufferMode* modes) noexcept
+			FORCE_INLINE static void WriteBuffer(const INT32 count, const eBufferMode* modes) noexcept
 			{
-				glDrawBuffers(count, reinterpret_cast<const unsigned int*>(modes));
+				glDrawBuffers(count, reinterpret_cast<const UINT32*>(modes));
 			}
 			FORCE_INLINE static void CullFace(eCullFaceMode mode) noexcept
 			{
-				glCullFace(static_cast<unsigned int>(mode));
+				glCullFace(static_cast<UINT32>(mode));
 			}
 
-			FORCE_INLINE static void DefaultClearColor(float r, float g, float b, float a) noexcept
+			FORCE_INLINE static void DefaultClearColor(FLOAT32 r, FLOAT32 g, FLOAT32 b, FLOAT32 a) noexcept
 			{
 				glClearColor(r, g, b, a);
 			}
@@ -94,18 +94,18 @@ namespace doom
 				glClearColor(color.r, color.g, color.b, color.a);
 			}
 
-			enum class eBufferType : unsigned int
+			enum class eBufferType : UINT32
 			{
 				COLOR = GL_COLOR,
 				DEPTH = GL_COLOR,
 				DEPTH_STENCIL = GL_COLOR
 			};
 
-			FORCE_INLINE static void ClearSpecificBuffer(const int targetBufferCount, const eBufferType* bufferType, const GraphicsAPI::eBufferMode* targetBuffer, const math::Vector4* color) noexcept
+			FORCE_INLINE static void ClearSpecificBuffer(const INT32 targetBufferCount, const eBufferType* bufferType, const GraphicsAPI::eBufferMode* targetBuffer, const math::Vector4* color) noexcept
 			{
 				GraphicsAPI::WriteBuffer(targetBufferCount, targetBuffer);
 
-				for (int i = 0; i < targetBufferCount; i++)
+				for (INT32 i = 0; i < targetBufferCount; i++)
 				{
 					glClearBufferfv(static_cast<GLenum>(bufferType[i]), i, color[i].data());
 				}
@@ -117,7 +117,7 @@ namespace doom
 				glClearDepth(1);
 			}
 
-			FORCE_INLINE static void ClearDepth(double depth) noexcept
+			FORCE_INLINE static void ClearDepth(FLOAT64 depth) noexcept
 			{
 				glClearDepth(depth);
 			}
@@ -135,7 +135,7 @@ namespace doom
 			};
 			FORCE_INLINE static void DepthFunc(eDepthFuncType depthFuncType) noexcept
 			{
-				glDepthFunc(static_cast<unsigned int>(depthFuncType));
+				glDepthFunc(static_cast<UINT32>(depthFuncType));
 
 			}
 
@@ -144,12 +144,12 @@ namespace doom
 				glDepthMask(static_cast<unsigned char>(isWriteDepthBuffer));
 			}
 
-			FORCE_INLINE static void ClearStencil(unsigned int stencil) noexcept
+			FORCE_INLINE static void ClearStencil(UINT32 stencil) noexcept
 			{
 				glClearStencil(stencil);
 			}
 
-			enum class eClearMask : unsigned int
+			enum class eClearMask : UINT32
 			{
 				COLOR_BUFFER_BIT = GL_COLOR_BUFFER_BIT,
 				DEPTH_BUFFER_BIT = GL_DEPTH_BUFFER_BIT,
@@ -158,17 +158,17 @@ namespace doom
 
 			FORCE_INLINE static void Clear(eClearMask mask1) noexcept
 			{
-				glClear(static_cast<unsigned int>(mask1));
+				glClear(static_cast<UINT32>(mask1));
 			}
 			FORCE_INLINE static void Clear(eClearMask mask1, eClearMask mask2) noexcept
 			{
-				glClear(static_cast<unsigned int>(mask1) | static_cast<unsigned int>(mask2));
+				glClear(static_cast<UINT32>(mask1) | static_cast<UINT32>(mask2));
 			}
 			FORCE_INLINE static void Clear(eClearMask mask1, eClearMask mask2, eClearMask mask3) noexcept
 			{
-				glClear(static_cast<unsigned int>(mask1) | static_cast<unsigned int>(mask2) | static_cast<unsigned int>(mask3));
+				glClear(static_cast<UINT32>(mask1) | static_cast<UINT32>(mask2) | static_cast<UINT32>(mask3));
 			}
-			FORCE_INLINE static void Clear(unsigned int clearBitFlags) noexcept
+			FORCE_INLINE static void Clear(UINT32 clearBitFlags) noexcept
 			{
 				glClear(clearBitFlags);
 			}
@@ -203,15 +203,15 @@ namespace doom
 
 			FORCE_INLINE static void Enable(eCapability c) noexcept
 			{
-				glEnable(static_cast<unsigned int>(c));
+				glEnable(static_cast<UINT32>(c));
 			}
 
 			FORCE_INLINE static void Disable(eCapability c) noexcept
 			{
-				glDisable(static_cast<unsigned int>(c));
+				glDisable(static_cast<UINT32>(c));
 			}
 
-			enum class eSourceFactor : unsigned int
+			enum class eSourceFactor : UINT32
 			{
 				ZERO = GL_ZERO,
 				ONE = GL_ONE,
@@ -235,7 +235,7 @@ namespace doom
 
 			};
 
-			enum class eDestinationFactor : unsigned int
+			enum class eDestinationFactor : UINT32
 			{
 				ZERO = GL_ZERO,
 				ONE = GL_ONE,
@@ -255,10 +255,10 @@ namespace doom
 			};
 			FORCE_INLINE static void BlendFunc(eSourceFactor sourceFactor, eDestinationFactor destinationFactor) noexcept
 			{
-				glBlendFunc(static_cast<unsigned int>(sourceFactor), static_cast<unsigned int>(destinationFactor));
+				glBlendFunc(static_cast<UINT32>(sourceFactor), static_cast<UINT32>(destinationFactor));
 			}
 
-			enum class eFrontFaceMode : unsigned int
+			enum class eFrontFaceMode : UINT32
 			{
 				CW = GL_CW,
 				CCW = GL_CCW
@@ -267,10 +267,10 @@ namespace doom
 
 			FORCE_INLINE static void FrontFace(eFrontFaceMode faceMode) noexcept
 			{
-				glFrontFace(static_cast<unsigned int>(faceMode));
+				glFrontFace(static_cast<UINT32>(faceMode));
 			}
 
-			FORCE_INLINE static void ViewPort(int x, int y, int width, int height) noexcept
+			FORCE_INLINE static void ViewPort(INT32 x, INT32 y, INT32 width, INT32 height) noexcept
 			{
 				glViewport(x, y, width, height);
 			}
@@ -519,40 +519,40 @@ namespace doom
 			FORCE_INLINE static int64_t GetInteger64v(const GetIntegerParameter pname)
 			{
 				int64_t value{ 0 };
-				glGetInteger64v(static_cast<const unsigned int>(pname), &value);
+				glGetInteger64v(static_cast<const UINT32>(pname), &value);
 				return value;
 			}
 
 			FORCE_INLINE static const char* GetString(const GetStringParameter pname)
 			{
-				return reinterpret_cast<const char*>(glGetString(static_cast<const unsigned int>(pname)));
+				return reinterpret_cast<const char*>(glGetString(static_cast<const UINT32>(pname)));
 			}
 
 			
-			FORCE_INLINE static void DrawArray(const ePrimitiveType mode, const int first, const int count)
+			FORCE_INLINE static void DrawArray(const ePrimitiveType mode, const INT32 first, const INT32 count)
 			{
-				glDrawArrays(static_cast<const unsigned int>(mode), first, count);
+				glDrawArrays(static_cast<const UINT32>(mode), first, count);
 
 				INCREMENT_DRAWCALL_COUNTER;
 			}
 
-			FORCE_INLINE static void DrawElement(const ePrimitiveType mode, const int count, const unsigned int type, const void* indices)
+			FORCE_INLINE static void DrawElement(const ePrimitiveType mode, const INT32 count, const UINT32 type, const void* indices)
 			{
-				glDrawElements(static_cast<const unsigned int>(mode), count, type, indices);
+				glDrawElements(static_cast<const UINT32>(mode), count, type, indices);
 
 				INCREMENT_DRAWCALL_COUNTER;
 			}
 
-			FORCE_INLINE static void DrawArraysInstanced(ePrimitiveType mode, int first, unsigned int count, int instancecount)
+			FORCE_INLINE static void DrawArraysInstanced(ePrimitiveType mode, INT32 first, UINT32 count, INT32 instancecount)
 			{
-				glDrawArraysInstanced(static_cast<unsigned int>(mode), first, count, instancecount);
+				glDrawArraysInstanced(static_cast<UINT32>(mode), first, count, instancecount);
 
 				INCREMENT_DRAWCALL_COUNTER;
 			}
 
-			FORCE_INLINE static void DrawElementsInstanced(ePrimitiveType mode, int count, unsigned int type, const void* indices, int instancecount)
+			FORCE_INLINE static void DrawElementsInstanced(ePrimitiveType mode, INT32 count, UINT32 type, const void* indices, INT32 instancecount)
 			{
-				glDrawElementsInstanced(static_cast<unsigned int>(mode), count, type, indices, instancecount);
+				glDrawElementsInstanced(static_cast<UINT32>(mode), count, type, indices, instancecount);
 
 				INCREMENT_DRAWCALL_COUNTER;
 			}
@@ -567,18 +567,18 @@ namespace doom
 // 				TIME_ELAPSED = GL_TIME_ELAPSED
 // 			};
 // 
-// 			FORCE_INLINE static void GenQueries(int size, unsigned int* ids)
+// 			FORCE_INLINE static void GenQueries(INT32 size, UINT32* ids)
 // 			{
 // 				glGenQueries(size, ids);
 // 			}
 // 
-// 			FORCE_INLINE static void BeginQuery(eQueryType queryType, unsigned int id)
+// 			FORCE_INLINE static void BeginQuery(eQueryType queryType, UINT32 id)
 // 			{
-// 				glBeginQuery(static_cast<unsigned int>(queryType), id);
+// 				glBeginQuery(static_cast<UINT32>(queryType), id);
 // 			}
 // 			FORCE_INLINE static void EndQuery(eQueryType queryType)
 // 			{
-// 				glEndQuery(static_cast<unsigned int>(queryType));
+// 				glEndQuery(static_cast<UINT32>(queryType));
 // 			}
 
 		};

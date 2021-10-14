@@ -7,10 +7,10 @@ void doom::physics::Circle2D::DrawCollider(eColor color, bool drawInstantly /*= 
 #ifdef DEBUG_DRAWER
 	auto debugGraphics = graphics::DebugDrawer::GetSingleton();
 
-	const float intervalRadian = math::PI * 2 / 72.0f;
+	const FLOAT32 intervalRadian = math::PI * 2 / 72.0f;
 
 	math::Vector2 exPoint{ mCenter + math::Vector2::right * mRadius};
-	for (float radian = 0; radian < math::PI * 2; radian += intervalRadian)
+	for (FLOAT32 radian = 0; radian < math::PI * 2; radian += intervalRadian)
 	{
 		math::Vector3 newPoint
 		{
@@ -25,7 +25,7 @@ void doom::physics::Circle2D::DrawCollider(eColor color, bool drawInstantly /*= 
 #endif
 }
 
-doom::physics::Circle2D::Circle2D(const math::Vector2& center, float radius)
+doom::physics::Circle2D::Circle2D(const math::Vector2& center, FLOAT32 radius)
 	:mCenter{ center }, mRadius{ radius }
 {
 }
@@ -37,7 +37,7 @@ doom::physics::ColliderType doom::physics::Circle2D::GetColliderType() const
 
 bool doom::physics::IsOverlapCircle2DAndCircle2D(const Circle2D& circle2d1, const Circle2D& circle2d2)
 {
-	float distanceSqr{ (circle2d1.mCenter - circle2d2.mCenter).sqrMagnitude() };
+	FLOAT32 distanceSqr{ (circle2d1.mCenter - circle2d2.mCenter).sqrMagnitude() };
 	return distanceSqr < math::pow(circle2d1.mRadius + circle2d2.mRadius, 2);
 }
 

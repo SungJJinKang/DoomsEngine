@@ -67,39 +67,39 @@ namespace doom
 		/// 
 		/// </summary>
 		/// <returns>millisecond</returns>
-		[[nodiscard]] unsigned long long _GetTickCount();
+		[[nodiscard]] UINT64 _GetTickCount();
 		/// <summary>
 		/// sleep for milliseconds
 		/// </summary>
 		/// <param name="milliseconds">sleep time</param>
-		void _Sleep(const unsigned long milliseconds);
+		void _Sleep(const UINT32 milliseconds);
 
 		/// <summary>
 		/// Processor Number what Current Thread is working on
 		/// </summary>
 		/// <returns></returns>
-		[[nodiscard]] unsigned long long _GetCurrentProcessorNumber();
+		[[nodiscard]] UINT64 _GetCurrentProcessorNumber();
 		[[nodiscard]] PLATFORM_HANDLE _GetCurrenThreadHandle();
-		[[nodiscard]] unsigned long long _GetCurrenThreadID();
+		[[nodiscard]] UINT64 _GetCurrenThreadID();
 
-		[[nodiscard]] unsigned long long _GetThreadStackStartAddress(const PLATFORM_HANDLE threadHandel);
+		[[nodiscard]] UINT64 _GetThreadStackStartAddress(const PLATFORM_HANDLE threadHandel);
 
 
 		[[nodiscard]] PLATFORM_HANDLE _GetCurrenProcess();
-		[[nodiscard]] bool _SetCurrentProcessAffinityMask(const unsigned long long processAffinitMask);
+		[[nodiscard]] bool _SetCurrentProcessAffinityMask(const UINT64 processAffinitMask);
 		[[nodiscard]] bool _GetCurrentProcessAffinityMask(
-			unsigned long long& lpProcessAffinityMask, 
-			unsigned long long& lpSystemAffinityMask
+			UINT64& lpProcessAffinityMask, 
+			UINT64& lpSystemAffinityMask
 		);
 
 		//please set mask of local processor
 		//ex) first logical processor -> 1 << 0
 		//ex) first logical processor and second -> (1 << 0) | (1 << 1)
-		[[nodiscard]] bool _SetThreadAffinity(const PLATFORM_HANDLE threadHandle, const unsigned long long threadAffinitMask);
-		[[nodiscard]] unsigned long long _GetThreadAffinity(const PLATFORM_HANDLE threadHandle);
+		[[nodiscard]] bool _SetThreadAffinity(const PLATFORM_HANDLE threadHandle, const UINT64 threadAffinitMask);
+		[[nodiscard]] UINT64 _GetThreadAffinity(const PLATFORM_HANDLE threadHandle);
 
 		
-		[[nodiscard]] unsigned long long _GetThreadCpuCycle(const PLATFORM_HANDLE threadHandle);
+		[[nodiscard]] UINT64 _GetThreadCpuCycle(const PLATFORM_HANDLE threadHandle);
 	}
 }
 

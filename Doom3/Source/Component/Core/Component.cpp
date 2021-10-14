@@ -55,7 +55,7 @@ void doom::Component::OnDeActivated_Internal()
 {
 }
 
-unsigned int Component::GetOwnerEntityLayerIndex() const
+UINT32 Component::GetOwnerEntityLayerIndex() const
 {
 	return GetOwnerEntity()->GetLayerIndex();
 }

@@ -26,7 +26,7 @@ namespace doom
 	private:
 
 		bvh_type* mOwnerBVH;
-		int mNodeIndex;
+		INT32 mNodeIndex;
 
 	public:
 
@@ -35,7 +35,7 @@ namespace doom
 		{
 
 		}
-		BVH_Node_View(bvh_type* const ownerBVH, const int nodeIndex)
+		BVH_Node_View(bvh_type* const ownerBVH, const INT32 nodeIndex)
 			: mOwnerBVH{ ownerBVH }, mNodeIndex{ nodeIndex }
 		{
 
@@ -60,7 +60,7 @@ namespace doom
 			return mOwnerBVH->GetNode(mNodeIndex);
 		}
 
-		int GetNodeIndex() const
+		INT32 GetNodeIndex() const
 		{
 			return mNodeIndex;
 		}

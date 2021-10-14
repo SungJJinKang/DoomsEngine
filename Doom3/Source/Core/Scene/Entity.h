@@ -52,7 +52,7 @@ namespace doom
 			Dynamic
 		};
 
-		enum eEntityFlags : unsigned int
+		enum eEntityFlags : UINT32
 		{
 			OcculuderStatic = 1,
 			OcculudeeStatic = 1 << 1
@@ -63,7 +63,7 @@ namespace doom
 
 	private:
 		
-		size_t mEntityID;
+		SIZE_T mEntityID;
 		
 
 		
@@ -74,15 +74,15 @@ namespace doom
 		//TODO : Every Entity has Transform Component, Just put Transform Component as member variable
 	
 
-		unsigned int mLayerIndex;
+		UINT32 mLayerIndex;
 		/// <summary>
 		/// https://isocpp.org/wiki/faq/pointers-to-members#memfnptr-vs-fnptr
 		/// The type of this function is different depending on whether it is an ordinary function or a non-static member function of some class:
 		// 
-		// 	Its type is ¡°int(*)(char, float)¡± if an ordinary function
-		// 	Its type is ¡°int(Fred::*)(char, float)¡± if a non - static member function of class Fred
+		// 	Its type is ¡°INT32(*)(char, FLOAT32)¡± if an ordinary function
+		// 	Its type is ¡°INT32(Fred::*)(char, FLOAT32)¡± if a non - static member function of class Fred
 		// 	
-		//	Read here ---> Note : if it¡¯s a static member function of class Fred, its type is the same as if it were an ordinary function : ¡°int(*)(char, float)¡±.
+		//	Read here ---> Note : if it¡¯s a static member function of class Fred, its type is the same as if it were an ordinary function : ¡°INT32(*)(char, FLOAT32)¡±.
 		//
 		//	This callback variable can store only static function of class or global function
 		//  Call back function should have this function type ( void(Entity&) )
@@ -212,13 +212,13 @@ namespace doom
 	public:
 
 		eEntityMobility mEntityMobility{ eEntityMobility::Dynamic };
-		unsigned int mEntityFlag{ eEntityFlags::OcculuderStatic | eEntityFlags::OcculudeeStatic };
+		UINT32 mEntityFlag{ eEntityFlags::OcculuderStatic | eEntityFlags::OcculudeeStatic };
 
 		/// <summary>
 		/// Entity Constructor should be called through Scene class
 		///  To Protect User create entity not thourgh Scene class
 		/// </summary>
-		Entity(size_t entityID, Entity* parent);
+		Entity(SIZE_T entityID, Entity* parent);
 
 		/// <summary>
 		/// Entity destructor should be called through Entity::Destory function
@@ -394,7 +394,7 @@ namespace doom
 
 			if constexpr (Entity::IsServerComponent<T>() == true)
 			{// when component is ServerComponent
-				for (size_t i = 0; i < mServerComponents.size(); i++)
+				for (SIZE_T i = 0; i < mServerComponents.size(); i++)
 				{
 					T* componentPtr = dynamic_cast<T*>(mServerComponents[i].get());
 					if (componentPtr != nullptr)
@@ -408,7 +408,7 @@ namespace doom
 			}
 			else
 			{// when component is plainComponent
-				for (size_t i = 0; i < mPlainComponents.size(); i++)
+				for (SIZE_T i = 0; i < mPlainComponents.size(); i++)
 				{
 					T* componentPtr = dynamic_cast<T*>(mPlainComponents[i].get());
 					if (componentPtr != nullptr)
@@ -434,7 +434,7 @@ namespace doom
 			bool isRemoveSuccess{ false };
 			if constexpr (Entity::IsServerComponent<T>() == true)
 			{// when component is ServerComponent
-				for (size_t i = 0; i < mServerComponents.size(); i++)
+				for (SIZE_T i = 0; i < mServerComponents.size(); i++)
 				{
 					T* componentPtr = dynamic_cast<T*>(mServerComponents[i].get());
 					if (componentPtr != nullptr)
@@ -450,7 +450,7 @@ namespace doom
 			}
 			else
 			{// when component is plainComponent
-				for (size_t i = 0; i < mPlainComponents.size(); i++)
+				for (SIZE_T i = 0; i < mPlainComponents.size(); i++)
 				{
 					T* componentPtr = dynamic_cast<T*>(mPlainComponents[i].get());
 					if (componentPtr != nullptr)
@@ -494,8 +494,8 @@ namespace doom
 			return &mTransform;
 		}
 
-		void SetLayerIndex(unsigned int layerIndex);
-		[[nodiscard]] FORCE_INLINE unsigned int GetLayerIndex() const
+		void SetLayerIndex(UINT32 layerIndex);
+		[[nodiscard]] FORCE_INLINE UINT32 GetLayerIndex() const
 		{
 			return mLayerIndex;
 		}
@@ -511,7 +511,7 @@ namespace doom
 		{
 			mEntityMobility = entityMobility;
 		}
-		FORCE_INLINE unsigned int GetEntityFlag() const
+		FORCE_INLINE UINT32 GetEntityFlag() const
 		{	
 			return mEntityFlag;
 		}

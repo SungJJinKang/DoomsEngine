@@ -14,7 +14,7 @@
 
 
 template <typename ColliderType>
-doom::BVH<ColliderType>::BVH(const size_t initializedCapacity)
+doom::BVH<ColliderType>::BVH(const SIZE_T initializedCapacity)
 {
 	mNodes.resize(initializedCapacity);
 }
@@ -38,7 +38,7 @@ doom::BVH<ColliderType>::~BVH()
 /// <param name="computedAreaSize"></param>
 /// <returns></returns>
 template <typename ColliderType>
-FORCE_INLINE int doom::BVH<ColliderType>::PickBest(const ColliderType& L)
+FORCE_INLINE INT32 doom::BVH<ColliderType>::PickBest(const ColliderType& L)
 {
 	//https://github.com/selimanac/DAABBCC/blob/v2.0/daabbcc/src/DynamicTree/b2DynamicTree.cpp
 
@@ -47,11 +47,11 @@ FORCE_INLINE int doom::BVH<ColliderType>::PickBest(const ColliderType& L)
 	node_priority_queue_type_t queue{};
 	queue.push(std::make_pair(mRootNodeIndex, InheritedCost(L, mNodes[mRootNodeIndex].mBoundingCollider)));
 
-	float toInsertSurfaceArea = ColliderType::GetArea(L);
-	float bestCost = math::infinity<float>();
-	int bestIndex = NULL_NODE_INDEX;
-	int searchIndex;
-	float searchInheritedCost;
+	FLOAT32 toInsertSurfaceArea = ColliderType::GetArea(L);
+	FLOAT32 bestCost = math::infinity<FLOAT32>();
+	INT32 bestIndex = NULL_NODE_INDEX;
+	INT32 searchIndex;
+	FLOAT32 searchInheritedCost;
 
 	while (queue.size() > 0)
 	{
@@ -65,19 +65,19 @@ FORCE_INLINE int doom::BVH<ColliderType>::PickBest(const ColliderType& L)
 
 		//Why Get UnionArea L with Ancestors  ??
 		//If you want ancester's area of newly inserted node, you just be needed to compute unioned area with them
-		float cost = ColliderType::GetUnionArea(L, search_aabb) + searchInheritedCost;
+		FLOAT32 cost = ColliderType::GetUnionArea(L, search_aabb) + searchInheritedCost;
 		if (cost <= bestCost) {
 			bestCost = cost;
 			bestIndex = searchIndex;
 		}
 
 		//https://box2d.org/files/ErinCatto_DynamicBVH_Full.pdf 86 Page
-		float inheritedCost = InheritedCost(L, search_aabb) + searchInheritedCost;
-		float lowerBound = toInsertSurfaceArea + inheritedCost;
+		FLOAT32 inheritedCost = InheritedCost(L, search_aabb) + searchInheritedCost;
+		FLOAT32 lowerBound = toInsertSurfaceArea + inheritedCost;
 
 		if (lowerBound < bestCost) {
-			int child1 = mNodes[searchIndex].mLeftNode;
-			int child2 = mNodes[searchIndex].mRightNode;
+			INT32 child1 = mNodes[searchIndex].mLeftNode;
+			INT32 child2 = mNodes[searchIndex].mRightNode;
 			if (child1 != NULL_NODE_INDEX) {
 				assert(child2 != NULL_NODE_INDEX);
 				queue.emplace(child1, inheritedCost);
@@ -90,11 +90,11 @@ FORCE_INLINE int doom::BVH<ColliderType>::PickBest(const ColliderType& L)
 }
 
 template<typename ColliderType>
-FORCE_INLINE int doom::BVH<ColliderType>::AllocateNewNode()
+FORCE_INLINE INT32 doom::BVH<ColliderType>::AllocateNewNode()
 {
 	
 
-	int newNodeIndex;
+	INT32 newNodeIndex;
 	if (mFreedNodeIndexList.empty() == false)
 	{// if there is freedNode
 		newNodeIndex = mFreedNodeIndexList.front();
@@ -108,7 +108,7 @@ FORCE_INLINE int doom::BVH<ColliderType>::AllocateNewNode()
 
 	mCurrentActiveNodeCount++;
 
-	const size_t nodeCurrentCapacity = GetNodeCapacity();
+	const SIZE_T nodeCurrentCapacity = GetNodeCapacity();
 	if (newNodeIndex >= nodeCurrentCapacity)
 	{
 		mNodes.resize(nodeCurrentCapacity * 2);
@@ -124,9 +124,9 @@ FORCE_INLINE int doom::BVH<ColliderType>::AllocateNewNode()
 }
 
 template <typename ColliderType>
-FORCE_INLINE int doom::BVH<ColliderType>::AllocateLeafNode(const ColliderType& boundingCollider, physics::Collider* collider)
+FORCE_INLINE INT32 doom::BVH<ColliderType>::AllocateLeafNode(const ColliderType& boundingCollider, physics::Collider* collider)
 {
-	int newNodexIndex = AllocateNewNode();
+	INT32 newNodexIndex = AllocateNewNode();
 	auto& newNode = mNodes[newNodexIndex];
 
 	//newNode.mBoundingCollider = collider;
@@ -140,9 +140,9 @@ FORCE_INLINE int doom::BVH<ColliderType>::AllocateLeafNode(const ColliderType& b
 }
 
 template <typename ColliderType>
-FORCE_INLINE int doom::BVH<ColliderType>::AllocateInternalNode()
+FORCE_INLINE INT32 doom::BVH<ColliderType>::AllocateInternalNode()
 {
-	int newNodexIndex = AllocateNewNode();
+	INT32 newNodexIndex = AllocateNewNode();
 	auto& newNode = mNodes[newNodexIndex];
 
 	newNode.mIsLeaf = false;
@@ -152,7 +152,7 @@ FORCE_INLINE int doom::BVH<ColliderType>::AllocateInternalNode()
 
 
 template<typename ColliderType>
-FORCE_INLINE void doom::BVH<ColliderType>::FreeNode(int nodeIndex)
+FORCE_INLINE void doom::BVH<ColliderType>::FreeNode(INT32 nodeIndex)
 {
 	D_ASSERT(nodeIndex != NULL_NODE_INDEX);
 	
@@ -173,16 +173,16 @@ FORCE_INLINE const typename doom::BVH<ColliderType>::node_type* doom::BVH<Collid
 }
 
 template<typename ColliderType>
-FORCE_INLINE int doom::BVH<ColliderType>::GetRootNodeIndex() const
+FORCE_INLINE INT32 doom::BVH<ColliderType>::GetRootNodeIndex() const
 {
 	return mRootNodeIndex;
 }
 
 template <typename ColliderType>
-FORCE_INLINE int doom::BVH<ColliderType>::GetSiblingNodeIndex(const int index) const
+FORCE_INLINE INT32 doom::BVH<ColliderType>::GetSiblingNodeIndex(const INT32 index) const
 {
 	D_ASSERT(index != NULL_NODE_INDEX);
-	int parentIndex = mNodes[index].mParentIndex;
+	INT32 parentIndex = mNodes[index].mParentIndex;
 	
 	if (parentIndex == NULL_NODE_INDEX)
 	{
@@ -204,20 +204,20 @@ FORCE_INLINE int doom::BVH<ColliderType>::GetSiblingNodeIndex(const int index) c
 }
 
 template <typename ColliderType>
-typename doom::BVH<ColliderType>::node_type* doom::BVH<ColliderType>::GetSiblingNode(const int index)
+typename doom::BVH<ColliderType>::node_type* doom::BVH<ColliderType>::GetSiblingNode(const INT32 index)
 {
 	return GetNode(GetSiblingNodeIndex(index));
 }
 
 template <typename ColliderType>
-const typename doom::BVH<ColliderType>::node_type* doom::BVH<ColliderType>::GetSiblingNode(const int index) const
+const typename doom::BVH<ColliderType>::node_type* doom::BVH<ColliderType>::GetSiblingNode(const INT32 index) const
 {
 	return GetNode(GetSiblingNodeIndex(index));
 }
 
 
 template <typename ColliderType>
-FORCE_INLINE bool doom::BVH<ColliderType>::IsHasChild(const int index) const
+FORCE_INLINE bool doom::BVH<ColliderType>::IsHasChild(const INT32 index) const
 {
 	D_ASSERT(index != NULL_NODE_INDEX);
 	return (mNodes[index].mLeftNode != NULL_NODE_INDEX) || (mNodes[index].mRightNode != NULL_NODE_INDEX);
@@ -226,17 +226,17 @@ FORCE_INLINE bool doom::BVH<ColliderType>::IsHasChild(const int index) const
 template <typename ColliderType>
 FORCE_INLINE typename doom::BVH<ColliderType>::node_view_type doom::BVH<ColliderType>::InsertLeaf(const ColliderType& L, physics::Collider* collider)
 {
-	int newObjectLeafIndex = AllocateLeafNode(L, collider);
+	INT32 newObjectLeafIndex = AllocateLeafNode(L, collider);
 	if (mCurrentActiveNodeCount == 1)
 	{// if allocate first node, mNodes.size() will be 1
 		mRootNodeIndex = newObjectLeafIndex;
 	}
 	else
 	{
-		int bestSibling = PickBest(L);
+		INT32 bestSibling = PickBest(L);
 
 		/*
-		for (int i = 0; i < mCurrentAllocatedNodeCount; ++i)
+		for (INT32 i = 0; i < mCurrentAllocatedNodeCount; ++i)
 		{
 			if (mNodes[i].bmIsActive == true)
 			{
@@ -245,8 +245,8 @@ FORCE_INLINE typename doom::BVH<ColliderType>::node_view_type doom::BVH<Collider
 		}
 		*/
 
-		int oldParentIndex = mNodes[bestSibling].mParentIndex;
-		int newParentIndex = AllocateInternalNode();
+		INT32 oldParentIndex = mNodes[bestSibling].mParentIndex;
+		INT32 newParentIndex = AllocateInternalNode();
 		mNodes[newParentIndex].mParentIndex = oldParentIndex;
 		mNodes[newParentIndex].mBoundingCollider = ColliderType::Union(L, mNodes[bestSibling].mBoundingCollider);
 		mNodes[newParentIndex].mEnlargedBoundingCollider = ColliderType::EnlargeAABB(mNodes[newParentIndex].mBoundingCollider);
@@ -285,7 +285,7 @@ FORCE_INLINE typename doom::BVH<ColliderType>::node_view_type doom::BVH<Collider
 }
 
 template <typename ColliderType>
-FORCE_INLINE typename doom::BVH<ColliderType>::node_view_type doom::BVH<ColliderType>::UpdateLeafNode(const int targetLeafNodeIndex, const bool force)
+FORCE_INLINE typename doom::BVH<ColliderType>::node_view_type doom::BVH<ColliderType>::UpdateLeafNode(const INT32 targetLeafNodeIndex, const bool force)
 {
 	D_ASSERT(targetLeafNodeIndex != NULL_NODE_INDEX);
 
@@ -319,13 +319,13 @@ FORCE_INLINE typename doom::BVH<ColliderType>::node_view_type doom::BVH<Collider
 /// <param name="candidate"></param>
 /// <returns></returns>
 template <typename ColliderType>
-FORCE_INLINE float doom::BVH<ColliderType>::InheritedCost(const ColliderType& L, const ColliderType& candidate)
+FORCE_INLINE FLOAT32 doom::BVH<ColliderType>::InheritedCost(const ColliderType& L, const ColliderType& candidate)
 {
 	return ColliderType::GetUnionArea(L, candidate) - ColliderType::GetArea(candidate);
 }
 
 template <typename ColliderType>
-FORCE_INLINE void doom::BVH<ColliderType>::HillClimingReconstruct(int index)
+FORCE_INLINE void doom::BVH<ColliderType>::HillClimingReconstruct(INT32 index)
 {
 	D_ASSERT(index != NULL_NODE_INDEX);
 	while (index != NULL_NODE_INDEX)
@@ -352,19 +352,19 @@ FORCE_INLINE void doom::BVH<ColliderType>::HillClimingReconstruct(int index)
 /// <param name="nodeAIndex"></param>
 /// <param name="nodeBIndex"></param>
 template <typename ColliderType>
-FORCE_INLINE int doom::BVH<ColliderType>::Balance(int lowerNodeIndex)
+FORCE_INLINE INT32 doom::BVH<ColliderType>::Balance(INT32 lowerNodeIndex)
 {
 	if (IsHasChild(lowerNodeIndex) == false)
 	{
 		return lowerNodeIndex;
 	}
 
-	int parentIndexOfLowerNode = mNodes[lowerNodeIndex].mParentIndex;
+	INT32 parentIndexOfLowerNode = mNodes[lowerNodeIndex].mParentIndex;
 	if (parentIndexOfLowerNode == NULL_NODE_INDEX)
 	{
 		return lowerNodeIndex;
 	}
-	int siblingIndexOfParentOfLowerNode = GetSiblingNodeIndex(parentIndexOfLowerNode);
+	INT32 siblingIndexOfParentOfLowerNode = GetSiblingNodeIndex(parentIndexOfLowerNode);
 	if (siblingIndexOfParentOfLowerNode == NULL_NODE_INDEX)
 	{
 		return lowerNodeIndex;
@@ -376,9 +376,9 @@ FORCE_INLINE int doom::BVH<ColliderType>::Balance(int lowerNodeIndex)
 		return lowerNodeIndex;
 	}
 	*/
-	int higerNodeIndex = siblingIndexOfParentOfLowerNode;
+	INT32 higerNodeIndex = siblingIndexOfParentOfLowerNode;
 
-	int siblingIndexOfLowerNode = GetSiblingNodeIndex(lowerNodeIndex);
+	INT32 siblingIndexOfLowerNode = GetSiblingNodeIndex(lowerNodeIndex);
 	if (ColliderType::GetArea(mNodes[parentIndexOfLowerNode].mBoundingCollider) < ColliderType::GetUnionArea(mNodes[siblingIndexOfLowerNode].mBoundingCollider, mNodes[higerNodeIndex].mBoundingCollider))
 	{// when SA(parent of lowernode) < SA(sibling of lowerNode U upperNode), don't rotate 
 		return lowerNodeIndex;
@@ -389,8 +389,8 @@ FORCE_INLINE int doom::BVH<ColliderType>::Balance(int lowerNodeIndex)
 	D_ASSERT(higerNodeIndex != NULL_NODE_INDEX);
 	D_ASSERT(lowerNodeIndex != NULL_NODE_INDEX);
 
-	int parentIndexOfimbalancedHigherNode = mNodes[higerNodeIndex].mParentIndex;
-	int parentIndexOfimbalancedLowerNodeIndex = mNodes[lowerNodeIndex].mParentIndex;
+	INT32 parentIndexOfimbalancedHigherNode = mNodes[higerNodeIndex].mParentIndex;
+	INT32 parentIndexOfimbalancedLowerNodeIndex = mNodes[lowerNodeIndex].mParentIndex;
 
 	if (mNodes[parentIndexOfimbalancedHigherNode].mLeftNode == higerNodeIndex)
 	{
@@ -431,7 +431,7 @@ FORCE_INLINE int doom::BVH<ColliderType>::Balance(int lowerNodeIndex)
 }
 
 template<typename ColliderType>
-FORCE_INLINE void doom::BVH<ColliderType>::RemoveLeafNode(int targetLeafNodeIndex)
+FORCE_INLINE void doom::BVH<ColliderType>::RemoveLeafNode(INT32 targetLeafNodeIndex)
 {
 	if (targetLeafNodeIndex != NULL_NODE_INDEX)
 	{
@@ -451,13 +451,13 @@ FORCE_INLINE void doom::BVH<ColliderType>::RemoveLeafNode(doom::BVH<ColliderType
 	if (targetLeafNode != nullptr)
 	{
 
-		int targetLeafNodeIndex = targetLeafNode->mIndex;
+		INT32 targetLeafNodeIndex = targetLeafNode->mIndex;
 
 		D_ASSERT(mNodes[targetLeafNodeIndex].mIsLeaf == true);
 
-		int parentIndex = mNodes[targetLeafNodeIndex].mParentIndex;
-		int grandParentIndex = NULL_NODE_INDEX;
-		int siblingIndex = NULL_NODE_INDEX;
+		INT32 parentIndex = mNodes[targetLeafNodeIndex].mParentIndex;
+		INT32 grandParentIndex = NULL_NODE_INDEX;
+		INT32 siblingIndex = NULL_NODE_INDEX;
 
 		if (parentIndex != NULL_NODE_INDEX)
 		{
@@ -477,7 +477,7 @@ FORCE_INLINE void doom::BVH<ColliderType>::RemoveLeafNode(doom::BVH<ColliderType
 
 			if (grandParentIndex == NULL_NODE_INDEX)
 			{
-				int originalRootNodeIndex = mRootNodeIndex;
+				INT32 originalRootNodeIndex = mRootNodeIndex;
 
 				D_ASSERT(mRootNodeIndex == mNodes[siblingIndex].mParentIndex);
 				mRootNodeIndex = siblingIndex;
@@ -500,7 +500,7 @@ FORCE_INLINE void doom::BVH<ColliderType>::RemoveLeafNode(doom::BVH<ColliderType
 					NEVER_HAPPEN;
 				}
 
-				int originalParentIindex = mNodes[siblingIndex].mParentIndex;
+				INT32 originalParentIindex = mNodes[siblingIndex].mParentIndex;
 				mNodes[siblingIndex].mParentIndex = grandParentIndex;
 				FreeNode(originalParentIindex);
 				HillClimingReconstruct(grandParentIndex);
@@ -518,7 +518,7 @@ FORCE_INLINE void doom::BVH<ColliderType>::RemoveLeafNode(doom::BVH<ColliderType
 }
 
 template<typename ColliderType>
-FORCE_INLINE void doom::BVH<ColliderType>::ReConstructNodeAABB(int targetNodeIndex)
+FORCE_INLINE void doom::BVH<ColliderType>::ReConstructNodeAABB(INT32 targetNodeIndex)
 {
 	if (mNodes[targetNodeIndex].mIsLeaf == false)
 	{
@@ -532,7 +532,7 @@ FORCE_INLINE void doom::BVH<ColliderType>::ReConstructNodeAABB(int targetNodeInd
 
 
 
-float additionalWeight(float x, float l)
+FLOAT32 additionalWeight(FLOAT32 x, FLOAT32 l)
 {
 	return x + math::lerp(0, x > 0 ? 1 : -1, math::abs(l));
 }
@@ -546,10 +546,10 @@ float additionalWeight(float x, float l)
 /// <typeparam name="ColliderType"></typeparam>
 /// <returns></returns>
 template <typename ColliderType>
-float doom::BVH<ColliderType>::ComputeCost()
+FLOAT32 doom::BVH<ColliderType>::ComputeCost()
 {
-	float cost{ 0.0f };
-	for (int i = 0 ; i < mCurrentAllocatedNodeCount; i++)
+	FLOAT32 cost{ 0.0f };
+	for (INT32 i = 0 ; i < mCurrentAllocatedNodeCount; i++)
 	{
 		if (mNodes[i].mIsLeaf == false)
 		{
@@ -562,7 +562,7 @@ float doom::BVH<ColliderType>::ComputeCost()
 
 
 template <typename ColliderType>
-int doom::BVH<ColliderType>::GetHeight(const int index, int& longestHeight, int currentHeight)
+INT32 doom::BVH<ColliderType>::GetHeight(const INT32 index, INT32& longestHeight, INT32 currentHeight)
 {
 	D_ASSERT(index != NULL_NODE_INDEX);
 	
@@ -585,12 +585,12 @@ int doom::BVH<ColliderType>::GetHeight(const int index, int& longestHeight, int 
 }
 
 template <typename ColliderType>
-int doom::BVH<ColliderType>::GetDepth(const int index)
+INT32 doom::BVH<ColliderType>::GetDepth(const INT32 index)
 {
 	D_ASSERT(index != NULL_NODE_INDEX);
 
-	int depth{ 0 };
-	int parentIndex{ mNodes[index].mParentIndex };
+	INT32 depth{ 0 };
+	INT32 parentIndex{ mNodes[index].mParentIndex };
 	while (parentIndex != NULL_NODE_INDEX)
 	{
 		parentIndex = mNodes[index].mParentIndex;
@@ -600,7 +600,7 @@ int doom::BVH<ColliderType>::GetDepth(const int index)
 }
 
 template<typename ColliderType>
-typename doom::BVH<ColliderType>::node_type* doom::BVH<ColliderType>::GetNode(const int nodeIndex)
+typename doom::BVH<ColliderType>::node_type* doom::BVH<ColliderType>::GetNode(const INT32 nodeIndex)
 {
 	D_ASSERT(GetIsNodeValid(nodeIndex) == true);
 
@@ -608,7 +608,7 @@ typename doom::BVH<ColliderType>::node_type* doom::BVH<ColliderType>::GetNode(co
 }
 
 template<typename ColliderType>
-const typename doom::BVH<ColliderType>::node_type* doom::BVH<ColliderType>::GetNode(const int nodeIndex) const
+const typename doom::BVH<ColliderType>::node_type* doom::BVH<ColliderType>::GetNode(const INT32 nodeIndex) const
 {
 	D_ASSERT(GetIsNodeValid(nodeIndex) == true);
 
@@ -616,7 +616,7 @@ const typename doom::BVH<ColliderType>::node_type* doom::BVH<ColliderType>::GetN
 }
 
 template<typename ColliderType>
-bool doom::BVH<ColliderType>::GetIsNodeValid(const int nodeIndex) const
+bool doom::BVH<ColliderType>::GetIsNodeValid(const INT32 nodeIndex) const
 {
 	return nodeIndex >= 0 && mNodes[nodeIndex].bmIsActive == true;
 }
@@ -628,10 +628,10 @@ bool doom::BVH<ColliderType>::GetIsNodeValid(const node_type* const node) const
 }
 
 template <typename ColliderType>
-int doom::BVH<ColliderType>::GetLeafNodeCount()
+INT32 doom::BVH<ColliderType>::GetLeafNodeCount()
 {
-	int count{ 0 };
-	for (int i = 0; i < mCurrentAllocatedNodeCount; i++)
+	INT32 count{ 0 };
+	for (INT32 i = 0; i < mCurrentAllocatedNodeCount; i++)
 	{
 		if (mNodes[i].mIsLeaf == true)
 		{
@@ -642,12 +642,12 @@ int doom::BVH<ColliderType>::GetLeafNodeCount()
 }
 
 template <typename ColliderType>
-int doom::BVH<ColliderType>::GetLeaf(const int index)
+INT32 doom::BVH<ColliderType>::GetLeaf(const INT32 index)
 {
-	int targetLeafNodeIndex = NULL_NODE_INDEX;
+	INT32 targetLeafNodeIndex = NULL_NODE_INDEX;
 
-	int count = 0;
-	for (int nodeIndex = 0; nodeIndex < mCurrentAllocatedNodeCount; nodeIndex++)
+	INT32 count = 0;
+	for (INT32 nodeIndex = 0; nodeIndex < mCurrentAllocatedNodeCount; nodeIndex++)
 	{
 		auto& node = mNodes[nodeIndex];
 		if (node.GetIsValid() == true && node.mIsLeaf == true)
@@ -666,11 +666,11 @@ int doom::BVH<ColliderType>::GetLeaf(const int index)
 }
 
 template<typename ColliderType>
-bool doom::BVH<ColliderType>::IsAncesterOf(const int ancesterIndex, const int decesterIndex)
+bool doom::BVH<ColliderType>::IsAncesterOf(const INT32 ancesterIndex, const INT32 decesterIndex)
 {
 	bool isAncester = false;
 
-	int index = mNodes[decesterIndex].mParentIndex;
+	INT32 index = mNodes[decesterIndex].mParentIndex;
 	while (index != NULL_NODE_INDEX)
 	{
 		if (ancesterIndex == index)

@@ -3,12 +3,12 @@
 
 void doom::graphics::Graphics_Setting::LoadData()
 {
-	const int width = ConfigData::GetSingleton()->GetConfigData().GetValue<int>("Graphics", "SCREEN_WIDTH");
-	const int height = ConfigData::GetSingleton()->GetConfigData().GetValue<int>("Graphics", "SCREEN_HEIGHT");
+	const INT32 width = ConfigData::GetSingleton()->GetConfigData().GetValue<INT32>("Graphics", "SCREEN_WIDTH");
+	const INT32 height = ConfigData::GetSingleton()->GetConfigData().GetValue<INT32>("Graphics", "SCREEN_HEIGHT");
 
-	Graphics_Setting::MultiSamplingNum = ConfigData::GetSingleton()->GetConfigData().GetValue<int>("Graphics", "MULTI_SAMPLE");
+	Graphics_Setting::MultiSamplingNum = ConfigData::GetSingleton()->GetConfigData().GetValue<INT32>("Graphics", "MULTI_SAMPLE");
 	Graphics_Setting::ScreenSize = { width, height };
-	Graphics_Setting::ScreenRatio = static_cast<float>(width) / static_cast<float>(height);
+	Graphics_Setting::ScreenRatio = static_cast<FLOAT32>(width) / static_cast<FLOAT32>(height);
 
 }
 

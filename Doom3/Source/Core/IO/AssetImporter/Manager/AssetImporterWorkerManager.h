@@ -22,10 +22,10 @@ namespace doom
 
 		private:
 
-			inline constexpr static unsigned int MAX_ASSETIMPORTER_WORKER_COUNT = 3;
+			inline constexpr static UINT32 MAX_ASSETIMPORTER_WORKER_COUNT = 3;
 
 			std::array<moodycamel::BlockingConcurrentQueue<doom::assetimporter::AssetImporterWorker*>, doom::asset::ENUM_ASSETTYPE_COUNT> mAssetApiImportersQueue;
-			std::array<std::atomic<int>, doom::asset::ENUM_ASSETTYPE_COUNT> mAssetApiImportersCount{ 0, 0, 0, 0, 0, 0 };
+			std::array<std::atomic<INT32>, doom::asset::ENUM_ASSETTYPE_COUNT> mAssetApiImportersCount{ 0, 0, 0, 0, 0, 0 };
 			
 			[[nodiscard]] doom::assetimporter::AssetImporterWorker* CreateAssetImporterWorker(const doom::asset::eAssetType eAssetType);
 

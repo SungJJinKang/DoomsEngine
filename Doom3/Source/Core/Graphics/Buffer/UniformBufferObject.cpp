@@ -11,13 +11,13 @@ doom::graphics::UniformBufferObject::~UniformBufferObject()
 	DeleteBuffers();
 }
 
-doom::graphics::UniformBufferObject::UniformBufferObject(unsigned int bindingPoint, unsigned int uniformBlockSize) 
+doom::graphics::UniformBufferObject::UniformBufferObject(UINT32 bindingPoint, UINT32 uniformBlockSize) 
 	: Buffer(), mUniformBufferTempData{ nullptr }, mSizeInByte{ uniformBlockSize }, mBindingPoint{ bindingPoint }
 {
 	GenerateUniformBufferObject(bindingPoint, uniformBlockSize);
 }
 
-void doom::graphics::UniformBufferObject::GenerateUniformBufferObject(unsigned int bindingPoint, unsigned int uniformBlockSizeInByte)
+void doom::graphics::UniformBufferObject::GenerateUniformBufferObject(UINT32 bindingPoint, UINT32 uniformBlockSizeInByte)
 {
 	D_ASSERT(IsBufferGenerated() == false); // prevent overlap generating buffer
 	if (IsBufferGenerated() == false)
@@ -57,7 +57,7 @@ void doom::graphics::UniformBufferObject::BufferData() noexcept
 	}
 }
 
-void doom::graphics::UniformBufferObject::BufferSubData(const void* sourceData, const unsigned int sizeOfSourceData, const unsigned int offsetInUniformBlock) noexcept
+void doom::graphics::UniformBufferObject::BufferSubData(const void* sourceData, const UINT32 sizeOfSourceData, const UINT32 offsetInUniformBlock) noexcept
 {
 	D_ASSERT(IsBufferGenerated() == true);
 	if (IsBufferGenerated() == true)
@@ -68,7 +68,7 @@ void doom::graphics::UniformBufferObject::BufferSubData(const void* sourceData, 
 	}
 }
 
-void doom::graphics::UniformBufferObject::StoreDataAtTempBuffer(const void* sourceData, const unsigned int sizeOfSourceData, const unsigned int offsetInUniformBlock)
+void doom::graphics::UniformBufferObject::StoreDataAtTempBuffer(const void* sourceData, const UINT32 sizeOfSourceData, const UINT32 offsetInUniformBlock)
 {
 	D_ASSERT(IsBufferGenerated() == true);
 	D_ASSERT(offsetInUniformBlock + sizeOfSourceData <= mSizeInByte);
@@ -78,7 +78,7 @@ void doom::graphics::UniformBufferObject::StoreDataAtTempBuffer(const void* sour
 	bmIsDirty = true;
 }
 
-unsigned int doom::graphics::UniformBufferObject::GetAlignedOffset(const std::string elementName)
+UINT32 doom::graphics::UniformBufferObject::GetAlignedOffset(const std::string elementName)
 {
 	//Check mUniformBlockOffset
 	//if doesn't exist, get offset and cache that value

@@ -21,7 +21,7 @@ namespace doom
 			/// <summary>
 			/// can be negative value
 			/// </summary>
-			float mDistance;
+			FLOAT32 mDistance;
 
 			FORCE_INLINE virtual void* data() final
 			{
@@ -33,7 +33,7 @@ namespace doom
 				return &(mNormal);
 			}
 
-			Plane(float distance, const math::Vector3& normal);
+			Plane(FLOAT32 distance, const math::Vector3& normal);
 			Plane(const math::Vector3& A, const math::Vector3& B, const math::Vector3& C);
 
 			math::Vector3 GetNormal();

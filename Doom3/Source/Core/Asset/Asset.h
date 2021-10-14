@@ -86,7 +86,7 @@ namespace doom
 			doom::D_UUID GetUUID() const;
 			std::string GetAssetFileName();
 			const std::string& GetAssetFileName() const;
-			unsigned long long GetAssetFileSize() const;
+			UINT64 GetAssetFileSize() const;
 			const std::filesystem::path& GetAssetPath() const;
 			AssetStatus GetAssetStatus();
 			void SetAssetStatus(const AssetStatus assetStatus);

@@ -19,7 +19,7 @@ namespace doom
 
 		math::Vector3 mCenterPos;
 		math::Vector3 mRotateAxis;
-		float mRotateAngle;
+		FLOAT32 mRotateAngle;
 
 	};
 

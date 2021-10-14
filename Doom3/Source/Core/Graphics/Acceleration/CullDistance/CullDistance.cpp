@@ -8,7 +8,7 @@
 #include "Game/ConfigData.h"
 
 
-void doom::graphics::CullDistance::AddCullDistance(int volumeSphereRadius, int cullDistance)
+void doom::graphics::CullDistance::AddCullDistance(INT32 volumeSphereRadius, INT32 cullDistance)
 {
 	D_ASSERT(volumeSphereRadius >= 0 && cullDistance >= 0);
 
@@ -18,17 +18,17 @@ void doom::graphics::CullDistance::AddCullDistance(int volumeSphereRadius, int c
 	if (cullDistance != 0)
 	{
 		cullDistanceData.mCullDistance = cullDistance;
-		cullDistanceData.mCullDistanceSqr = static_cast<float>(cullDistance * cullDistance);
+		cullDistanceData.mCullDistanceSqr = static_cast<FLOAT32>(cullDistance * cullDistance);
 	}
 	else
 	{ // 0 mean max
-		cullDistanceData.mCullDistance = math::infinity<int>();
-		cullDistanceData.mCullDistanceSqr = math::infinity<float>();
+		cullDistanceData.mCullDistance = math::infinity<INT32>();
+		cullDistanceData.mCullDistanceSqr = math::infinity<FLOAT32>();
 	}
 
 
-	int index = 0;
-	for (int i = 0; i < mCullDistanceSetting.size(); i++)
+	INT32 index = 0;
+	for (INT32 i = 0; i < mCullDistanceSetting.size(); i++)
 	{
 		if (mCullDistanceSetting[i].mVolumeSphereRadius > volumeSphereRadius)
 		{
@@ -39,12 +39,12 @@ void doom::graphics::CullDistance::AddCullDistance(int volumeSphereRadius, int c
 	mCullDistanceSetting.insert(mCullDistanceSetting.begin() + index, cullDistanceData);
 }
 
-void doom::graphics::CullDistance::RemoveCullDistance(int volumeSphereRadius, int cullDistance)
+void doom::graphics::CullDistance::RemoveCullDistance(INT32 volumeSphereRadius, INT32 cullDistance)
 {
 	D_ASSERT(volumeSphereRadius >= 0 && cullDistance >= 0);
 
-	int index = 0;
-	for (int i = 0; i < mCullDistanceSetting.size(); i++)
+	INT32 index = 0;
+	for (INT32 i = 0; i < mCullDistanceSetting.size(); i++)
 	{
 		if (mCullDistanceSetting[i].mVolumeSphereRadius == volumeSphereRadius && mCullDistanceSetting[i].mCullDistance == cullDistance)
 		{
@@ -56,16 +56,16 @@ void doom::graphics::CullDistance::RemoveCullDistance(int volumeSphereRadius, in
 	mCullDistanceSetting.erase(mCullDistanceSetting.begin() + index);
 }
 
-float doom::graphics::CullDistance::PickCullDistanceSqr(float sphereRadius)
+FLOAT32 doom::graphics::CullDistance::PickCullDistanceSqr(FLOAT32 sphereRadius)
 {
-	int radius = static_cast<int>(sphereRadius);
+	INT32 radius = static_cast<INT32>(sphereRadius);
 	D_ASSERT(radius >= 0);
 
-	int mingap{ math::infinity<int>() };
-	float cullDistanceSqr{ math::infinity<float>() };
-	for (int i = 0; i < mCullDistanceSetting.size(); i++)
+	INT32 mingap{ math::infinity<INT32>() };
+	FLOAT32 cullDistanceSqr{ math::infinity<FLOAT32>() };
+	for (INT32 i = 0; i < mCullDistanceSetting.size(); i++)
 	{
-		int gap = math::abs(mCullDistanceSetting[i].mVolumeSphereRadius - radius);
+		INT32 gap = math::abs(mCullDistanceSetting[i].mVolumeSphereRadius - radius);
 		if (gap < mingap)
 		{
 			mingap = gap;
@@ -82,7 +82,7 @@ void doom::graphics::CullDistance::Initialize()
 	std::string distanceSqrKeyStr{ "CULL_DISTANCE0_VOLUME_DISTANCE_SQR" };
 
 	const IniData& data = ConfigData::GetSingleton()->GetConfigData();
-	for (int i = 1; i < 10; i++)
+	for (INT32 i = 1; i < 10; i++)
 	{
 		char a[2];
 		_itoa_s(i, a, 2, 10);
@@ -90,20 +90,20 @@ void doom::graphics::CullDistance::Initialize()
 		radiusKeyStr[13] = a[0];
 		if(data.IsValueExist("Graphics", radiusKeyStr) == true)
 		{
-			int radius = data.GetValue<int>("Graphics", radiusKeyStr);
+			INT32 radius = data.GetValue<INT32>("Graphics", radiusKeyStr);
 
 			distanceKeyStr[13] = a[0];
 			distanceSqrKeyStr[13] = a[0];
 
 			if (data.IsValueExist("Graphics", distanceKeyStr) == true)
 			{
-				int distance = data.GetValue<int>("Graphics", distanceKeyStr);
+				INT32 distance = data.GetValue<INT32>("Graphics", distanceKeyStr);
 				AddCullDistance(radius, distance);
 			}
 			else if (data.IsValueExist("Graphics", distanceSqrKeyStr) == true)
 			{
-				float distanceSqr = data.GetValue<float>("Graphics", distanceSqrKeyStr);
-				AddCullDistance(radius, static_cast<int>(math::sqrt(distanceSqr)));
+				FLOAT32 distanceSqr = data.GetValue<FLOAT32>("Graphics", distanceSqrKeyStr);
+				AddCullDistance(radius, static_cast<INT32>(math::sqrt(distanceSqr)));
 			}
 			else
 			{
@@ -124,9 +124,9 @@ void doom::graphics::CullDistance::OnStartDraw()
 
 bool doom::graphics::CullDistance::GetIsVisible(Renderer* renderer)
 {
-	float distanceSqr = (renderer->GetTransform()->GetPosition() - mCameraPosition).sqrMagnitude();
+	FLOAT32 distanceSqr = (renderer->GetTransform()->GetPosition() - mCameraPosition).sqrMagnitude();
 
-	float cullDistance = PickCullDistanceSqr(renderer->BVH_Sphere_Node_Object::GetWorldCollider()->mRadius);
+	FLOAT32 cullDistance = PickCullDistanceSqr(renderer->BVH_Sphere_Node_Object::GetWorldCollider()->mRadius);
 
 	return distanceSqr < cullDistance;
 }
@@ -135,7 +135,7 @@ void doom::graphics::CullDistance::PreComputeCulling()
 {
 }
 
-void doom::graphics::CullDistance::RemoveCullDistance(int index)
+void doom::graphics::CullDistance::RemoveCullDistance(INT32 index)
 {
 	D_ASSERT(mCullDistanceSetting.size() > index);
 	mCullDistanceSetting.erase(mCullDistanceSetting.begin() + index);

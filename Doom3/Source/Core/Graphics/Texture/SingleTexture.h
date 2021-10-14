@@ -19,32 +19,32 @@ namespace doom
 			SingleTexture& operator=(SingleTexture&&) noexcept = default;
 
 			SingleTexture(eTextureType textureType,
-				eTargetTexture target, eTextureInternalFormat internalFormat, unsigned int width, eTextureComponentFormat format, eDataType type, const void* data);
+				eTargetTexture target, eTextureInternalFormat internalFormat, UINT32 width, eTextureComponentFormat format, eDataType type, const void* data);
 			SingleTexture(eTextureType textureType,
-				eTargetTexture target, eTextureInternalFormat internalFormat, unsigned int width, unsigned int height, eTextureComponentFormat format, eDataType type, const void* data);
+				eTargetTexture target, eTextureInternalFormat internalFormat, UINT32 width, UINT32 height, eTextureComponentFormat format, eDataType type, const void* data);
 
 			SingleTexture(eTextureType textureType,
-				eTargetTexture target, eTextureCompressedInternalFormat compressedInternalFormat, unsigned int width, eTextureComponentFormat format, eDataType type, const void* data);
+				eTargetTexture target, eTextureCompressedInternalFormat compressedInternalFormat, UINT32 width, eTextureComponentFormat format, eDataType type, const void* data);
 			SingleTexture(eTextureType textureType,
-				eTargetTexture target, eTextureCompressedInternalFormat compressedInternalFormat, unsigned int width, unsigned int height, eTextureComponentFormat format, eDataType type, const void* data);
-
-
-			SingleTexture(eTextureType textureType,
-				eTargetTexture target, eTextureInternalFormat internalFormat, unsigned int width, eTextureComponentFormat format, eDataType type, std::vector<const DirectX::Image*> mipmapDatas);
-			SingleTexture(eTextureType textureType,
-				eTargetTexture target, eTextureInternalFormat internalFormat, unsigned int width, unsigned int height, eTextureComponentFormat format, eDataType type, std::vector<const DirectX::Image*> mipmapDatas);
+				eTargetTexture target, eTextureCompressedInternalFormat compressedInternalFormat, UINT32 width, UINT32 height, eTextureComponentFormat format, eDataType type, const void* data);
 
 
 			SingleTexture(eTextureType textureType,
-				eTargetTexture target, eTextureCompressedInternalFormat compressedInternalFormat, unsigned int width, eTextureComponentFormat format, eDataType type, std::vector<const DirectX::Image*> mipmapDatas);
+				eTargetTexture target, eTextureInternalFormat internalFormat, UINT32 width, eTextureComponentFormat format, eDataType type, std::vector<const DirectX::Image*> mipmapDatas);
 			SingleTexture(eTextureType textureType,
-				eTargetTexture target, eTextureCompressedInternalFormat compressedInternalFormat, unsigned int width, unsigned int height, eTextureComponentFormat format, eDataType type, std::vector<const DirectX::Image*> mipmapDatas);
+				eTargetTexture target, eTextureInternalFormat internalFormat, UINT32 width, UINT32 height, eTextureComponentFormat format, eDataType type, std::vector<const DirectX::Image*> mipmapDatas);
+
+
+			SingleTexture(eTextureType textureType,
+				eTargetTexture target, eTextureCompressedInternalFormat compressedInternalFormat, UINT32 width, eTextureComponentFormat format, eDataType type, std::vector<const DirectX::Image*> mipmapDatas);
+			SingleTexture(eTextureType textureType,
+				eTargetTexture target, eTextureCompressedInternalFormat compressedInternalFormat, UINT32 width, UINT32 height, eTextureComponentFormat format, eDataType type, std::vector<const DirectX::Image*> mipmapDatas);
 
 			void Tex2DMipMapImages(std::vector<const DirectX::Image*> mipmapDatas);
-			virtual void TexImage1D(int level, const void* data) const noexcept final;
-			virtual void TexImage2D(int level, const void* data) const noexcept final;
-			void TexImage1D(int level, const DirectX::Image* directXImage) const noexcept;
-			void TexImage2D(int level, const DirectX::Image* directXImage) const noexcept;
+			virtual void TexImage1D(INT32 level, const void* data) const noexcept final;
+			virtual void TexImage2D(INT32 level, const void* data) const noexcept final;
+			void TexImage1D(INT32 level, const DirectX::Image* directXImage) const noexcept;
+			void TexImage2D(INT32 level, const DirectX::Image* directXImage) const noexcept;
 		};
 	}
 }

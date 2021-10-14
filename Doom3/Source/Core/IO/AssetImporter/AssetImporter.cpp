@@ -169,7 +169,7 @@ std::vector<std::future<bool>> doom::assetimporter::PushImportingAssetJobToThrea
 
 	std::vector<std::function<bool()>> newTasks{};
 	newTasks.reserve(paths.size());
-	for (unsigned int i = 0; i < paths.size(); i++)
+	for (UINT32 i = 0; i < paths.size(); i++)
 	{
 		newTasks.push_back(std::bind(ImportAssetJob, std::move(paths[i]), assets[i]));
 		assets[i]->SetAssetStatus(::doom::asset::Asset::AssetStatus::WaitingImport);

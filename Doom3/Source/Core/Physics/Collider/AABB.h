@@ -31,9 +31,9 @@ namespace doom
 			/// <summary>
 			/// Padding is required for FrostbiteCulling System
 			/// </summary>
-			//float padding1{ 1.0f };
+			//FLOAT32 padding1{ 1.0f };
 			math::Vector4 mUpperBound; 
-			//float padding2{ 1.0f };
+			//FLOAT32 padding2{ 1.0f };
 
 			bool IsValid() const;
 
@@ -54,7 +54,7 @@ namespace doom
 			/// Get ´ë°¢¼±
 			/// </summary>
 			/// <returns></returns>
-			float GetDiagonarLineLength() const;
+			FLOAT32 GetDiagonarLineLength() const;
 			virtual void Render2DTopView(eColor color, bool drawInstantly = false);
 			ColliderType GetColliderType() const override;
 			FORCE_INLINE math::Vector3 GetCenter() const
@@ -71,7 +71,7 @@ namespace doom
 			/// </summary>
 			/// <param name="A"></param>
 			/// <returns></returns>
-			FORCE_INLINE static float GetArea(const AABB3D& A)
+			FORCE_INLINE static FLOAT32 GetArea(const AABB3D& A)
 			{
 				math::Vector4 d = A.mUpperBound - A.mLowerBound;
 				return 2.0f * (d.x * d.y + d.y * d.z + d.z * d.x);
@@ -80,7 +80,7 @@ namespace doom
 			{
 				return AABB3D(math::Min(A.mLowerBound, B.mLowerBound), math::Max(A.mUpperBound, B.mUpperBound));
 			}
-			FORCE_INLINE static float GetUnionArea(const AABB3D& A, const AABB3D& B)
+			FORCE_INLINE static FLOAT32 GetUnionArea(const AABB3D& A, const AABB3D& B)
 			{
 				math::Vector3 d = math::Max(A.mUpperBound, B.mUpperBound) - math::Min(A.mLowerBound, B.mLowerBound);
 				return 2.0f * (d.x * d.y + d.y * d.z + d.z * d.x);
@@ -185,7 +185,7 @@ namespace doom
 
 			void SignedExpand(const math::Vector2& movedVector);
 
-			FORCE_INLINE static float GetArea(const AABB2D& A)
+			FORCE_INLINE static FLOAT32 GetArea(const AABB2D& A)
 			{
 				math::Vector2 d = A.mUpperBound - A.mLowerBound;
 				return 2.0f * (d.x + d.y);
@@ -194,7 +194,7 @@ namespace doom
 			{
 				return AABB2D(math::Min(A.mLowerBound, B.mLowerBound), math::Max(A.mUpperBound, B.mUpperBound));
 			}
-			FORCE_INLINE static float GetUnionArea(const AABB2D& A, const AABB2D& B)
+			FORCE_INLINE static FLOAT32 GetUnionArea(const AABB2D& A, const AABB2D& B)
 			{
 				math::Vector2 d = math::Max(A.mUpperBound, B.mUpperBound) - math::Min(A.mLowerBound, B.mLowerBound);
 				return 2.0f * (d.x + d.y);

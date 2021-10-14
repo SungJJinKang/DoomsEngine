@@ -14,7 +14,7 @@ namespace doom
 		private:
 
 			using is_overlap_algorithm_func = bool (*)(const Collider* colA, const Collider* const colB);
-			using raycast_algorithm_func = float (*)(const Collider* colA, const Collider* const colB);
+			using raycast_algorithm_func = FLOAT32 (*)(const Collider* colA, const Collider* const colB);
 
 			/// <summary>
 			/// How to use : Get Algorithm with CollisionAlgorithms[A ColliderType][B ColliderType]

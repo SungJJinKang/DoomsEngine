@@ -12,18 +12,18 @@ using namespace doom;
 using namespace doom::assetimporter;
 
 
-const unsigned int doom::assetimporter::AssetImporterWorker_THREE_D_MODEL::ASSIMP_IMPORT_PROCESSING_SETTING
+const UINT32 doom::assetimporter::AssetImporterWorker_THREE_D_MODEL::ASSIMP_IMPORT_PROCESSING_SETTING
 {
-	static_cast<unsigned int>(
+	static_cast<UINT32>(
 		aiProcess_RemoveComponent |
 		aiProcess_GenBoundingBoxes | 
 		aiProcess_CalcTangentSpace
 	)
 };
 
-const unsigned int doom::assetimporter::AssetImporterWorker_THREE_D_MODEL::ASSIMP_EXPORT_PROCESSING_SETTING
+const UINT32 doom::assetimporter::AssetImporterWorker_THREE_D_MODEL::ASSIMP_EXPORT_PROCESSING_SETTING
 {
-	static_cast<unsigned int>(
+	static_cast<UINT32>(
 		aiProcess_RemoveComponent |
 		aiProcess_Triangulate |
 		aiProcess_JoinIdenticalVertices |
@@ -155,8 +155,8 @@ void doom::assetimporter::AssetImporterWorker_THREE_D_MODEL::SetThreeDModelNodes
 	currentNode->mNumOfModelMeshes = currentAssimpNode->mNumMeshes;
 	if (currentAssimpNode->mNumMeshes > 0)
 	{
-		currentNode->mModelMeshIndexs = std::make_unique<unsigned int[]>(currentNode->mNumOfModelMeshes);
-		for (unsigned int meshIndex = 0; meshIndex < currentNode->mNumOfModelMeshes; meshIndex++)
+		currentNode->mModelMeshIndexs = std::make_unique<UINT32[]>(currentNode->mNumOfModelMeshes);
+		for (UINT32 meshIndex = 0; meshIndex < currentNode->mNumOfModelMeshes; meshIndex++)
 		{
 			currentNode->mModelMeshIndexs[meshIndex] = currentAssimpNode->mMeshes[meshIndex];
 		}
@@ -170,7 +170,7 @@ void doom::assetimporter::AssetImporterWorker_THREE_D_MODEL::SetThreeDModelNodes
 	if (currentAssimpNode->mNumChildren > 0)
 	{
 		currentNode->mThreeDModelNodeChildrens = std::make_unique<ThreeDModelNode[]>(currentNode->mNumOfThreeDModelNodeChildrens);
-		for (unsigned int childrenIndex = 0; childrenIndex < currentNode->mNumOfThreeDModelNodeChildrens; childrenIndex++)
+		for (UINT32 childrenIndex = 0; childrenIndex < currentNode->mNumOfThreeDModelNodeChildrens; childrenIndex++)
 		{
 			SetThreeDModelNodesData(&(currentNode->mThreeDModelNodeChildrens[childrenIndex]), currentAssimpNode->mChildren[childrenIndex], currentNode, modelAsset, assimpScene);
 		}
@@ -196,7 +196,7 @@ void doom::assetimporter::AssetImporterWorker_THREE_D_MODEL::Creat3DModelAsset
 	//Copy Asset meshes
 	asset->mNumOfModelMeshAssets = pScene->mNumMeshes;
 	asset->mModelMeshAssets = std::make_unique<ThreeDModelMesh[]>(asset->mNumOfModelMeshAssets);
-	for (unsigned int meshIndex = 0; meshIndex < pScene->mNumMeshes; meshIndex++)
+	for (UINT32 meshIndex = 0; meshIndex < pScene->mNumMeshes; meshIndex++)
 	{
 		auto mesh = pScene->mMeshes[meshIndex];
 
@@ -251,7 +251,7 @@ void doom::assetimporter::AssetImporterWorker_THREE_D_MODEL::Creat3DModelAsset
 		D_ASSERT(mesh->HasTextureCoords(0));
 
 		// we support only uv one channel
-		for (unsigned int verticeIndex = 0; verticeIndex < asset->mModelMeshAssets[meshIndex].mNumOfVertexs; verticeIndex++)
+		for (UINT32 verticeIndex = 0; verticeIndex < asset->mModelMeshAssets[meshIndex].mNumOfVertexs; verticeIndex++)
 		{
 			std::memcpy(&(asset->mModelMeshAssets[meshIndex].mMeshVertexDatas[verticeIndex].mVertex), &(mesh->mVertices[verticeIndex]), sizeof(decltype(asset->mModelMeshAssets[meshIndex].mMeshVertexDatas[verticeIndex].mVertex)));
 			std::memcpy(&(asset->mModelMeshAssets[meshIndex].mMeshVertexDatas[verticeIndex].mTexCoord), &(mesh->mTextureCoords[0][verticeIndex]), sizeof(decltype(asset->mModelMeshAssets[meshIndex].mMeshVertexDatas[verticeIndex].mTexCoord)));
@@ -266,22 +266,22 @@ void doom::assetimporter::AssetImporterWorker_THREE_D_MODEL::Creat3DModelAsset
 		if (asset->mModelMeshAssets[meshIndex].bHasIndices)
 		{
 			asset->mModelMeshAssets[meshIndex].mNumOfIndices = 0;
-			for (unsigned int faceIndex = 0; faceIndex < mesh->mNumFaces; faceIndex++)
+			for (UINT32 faceIndex = 0; faceIndex < mesh->mNumFaces; faceIndex++)
 			{
 				// counting number of faces
 				asset->mModelMeshAssets[meshIndex].mNumOfIndices += mesh->mFaces[faceIndex].mNumIndices;
 
-				//asset->mModelMeshAssets[meshIndex].mMeshFaceDatas[faceIndex].mIndices = new unsigned int[asset->mModelMeshAssets[meshIndex].mMeshFaceDatas[faceIndex].mNumIndices];
-				//memmove(&(asset->mModelMeshAssets[meshIndex].mMeshFaceDatas[faceIndex].mIndices[0]), &(mesh->mFaces[faceIndex].mIndices[0]), sizeof(unsigned int) * asset->mModelMeshAssets[meshIndex].mMeshFaceDatas[faceIndex].mNumIndices);
+				//asset->mModelMeshAssets[meshIndex].mMeshFaceDatas[faceIndex].mIndices = new UINT32[asset->mModelMeshAssets[meshIndex].mMeshFaceDatas[faceIndex].mNumIndices];
+				//memmove(&(asset->mModelMeshAssets[meshIndex].mMeshFaceDatas[faceIndex].mIndices[0]), &(mesh->mFaces[faceIndex].mIndices[0]), sizeof(UINT32) * asset->mModelMeshAssets[meshIndex].mMeshFaceDatas[faceIndex].mNumIndices);
 			}
 
 
-			asset->mModelMeshAssets[meshIndex].mMeshIndices = std::make_unique<unsigned int[]>(asset->mModelMeshAssets[meshIndex].mNumOfIndices); // reserve indices space
-			unsigned int indiceIndex = 0;
-			for (unsigned int faceIndex = 0; faceIndex < mesh->mNumFaces; faceIndex++)
+			asset->mModelMeshAssets[meshIndex].mMeshIndices = std::make_unique<UINT32[]>(asset->mModelMeshAssets[meshIndex].mNumOfIndices); // reserve indices space
+			UINT32 indiceIndex = 0;
+			for (UINT32 faceIndex = 0; faceIndex < mesh->mNumFaces; faceIndex++)
 			{
 				// copy indice datas from indices of face of mesh of assimp to my asset's indices
-				memcpy(&(asset->mModelMeshAssets[meshIndex].mMeshIndices[indiceIndex]), &(mesh->mFaces[faceIndex].mIndices[0]), sizeof(unsigned int) * mesh->mFaces[faceIndex].mNumIndices);
+				memcpy(&(asset->mModelMeshAssets[meshIndex].mMeshIndices[indiceIndex]), &(mesh->mFaces[faceIndex].mIndices[0]), sizeof(UINT32) * mesh->mFaces[faceIndex].mNumIndices);
 				indiceIndex += mesh->mFaces[faceIndex].mNumIndices;
 			}
 		}
@@ -334,15 +334,15 @@ void AssetImporterWorker_THREE_D_MODEL::InitializeAssetImporterWorkerStatic()
 #ifdef DEBUG_MODE
 		Assimp::DefaultLogger::create("", Assimp::Logger::NORMAL);
 		// Select the kinds of messages you want to receive on this log stream
-		const unsigned int severity = Assimp::Logger::Err;// | Assimp::Logger::Warn;
+		const UINT32 severity = Assimp::Logger::Err;// | Assimp::Logger::Warn;
 
 		// Attaching it to the default logger
 		Assimp::DefaultLogger::get()->attachStream(new doom::assetimporter::AssimpLogStream, severity);
 #endif
 
 		Assimp::Exporter exporter{};
-		size_t formatCount = exporter.GetExportFormatCount();
-		for (size_t i = 0; i < formatCount; i++)
+		SIZE_T formatCount = exporter.GetExportFormatCount();
+		for (SIZE_T i = 0; i < formatCount; i++)
 		{
 			const char* extension = exporter.GetExportFormatDescription(i)->fileExtension;
 			if (std::strcmp(extension, AssetImporterWorker_THREE_D_MODEL::MAIN_3D_MODEL_FILE_FORMAT.data() + 1) == 0)

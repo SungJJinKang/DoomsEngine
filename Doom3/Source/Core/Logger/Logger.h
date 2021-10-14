@@ -11,12 +11,12 @@
 
 namespace math
 {
-	template <size_t ComponentCount, typename T>
+	template <SIZE_T ComponentCount, typename T>
 	struct Vector;
 
-	using Vector2 = typename Vector<2, float>;
-	using Vector3 = typename Vector<3, float>;
-	using Vector4 = typename Vector<4, float>;
+	using Vector2 = typename Vector<2, FLOAT32>;
+	using Vector3 = typename Vector<3, FLOAT32>;
+	using Vector4 = typename Vector<4, FLOAT32>;
 }
 
 namespace doom
@@ -50,7 +50,7 @@ namespace doom
 			//TODO : Support various type and multiple items
 			//TODO : Requirement 
 			// 1. when std::string is passed, take it as const std::string& ( for performance )
-			// 2. take not string type (int, double, bool .....)
+			// 2. take not string type (INT32, FLOAT64, bool .....)
 			// 3. take multiple items -> Use Variadic template and recursive
 			// 4. don't require brace({}) when pass multiple items
 			//static void Log(Last arg, eLogType logType = eLogType::D_LOG) noexcept;

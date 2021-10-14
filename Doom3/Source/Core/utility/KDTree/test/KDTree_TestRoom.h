@@ -20,14 +20,14 @@ namespace doom
 
 		std::unique_ptr<graphics::PicktureInPickture> mPIPForDebug{};
 		std::unique_ptr<graphics::Material> mBVHDebugMaterial{};
-		static inline std::stack<int> recentAddedLeaf{};
+		static inline std::stack<INT32> recentAddedLeaf{};
 
 
 		void AddNewRandomPoint();
 		void AddNewPointWithMouse();
 		void RemoveRecentAddedPoint();
 
-		void DebugBVHTree(KDTree3DPoint::node_type* node, float x, float y, int depth);
+		void DebugBVHTree(KDTree3DPoint::node_type* node, FLOAT32 x, FLOAT32 y, INT32 depth);
 		void DrawTree();
 		void DrawTopView();
 
@@ -38,7 +38,7 @@ namespace doom
 		virtual void Init() final;
 		virtual void Update() final;
 
-		void CheckActiveNode(KDTree3DPoint::node_type* node, std::vector<int>& activeNodeList);
+		void CheckActiveNode(KDTree3DPoint::node_type* node, std::vector<INT32>& activeNodeList);
 		void ValidCheck();
 	};
 }

@@ -12,8 +12,8 @@ namespace doom
 		public:
 
 			math::Vector3 mCenter;
-			float mHeight;
-			float mRadius;
+			FLOAT32 mHeight;
+			FLOAT32 mRadius;
 
 			FORCE_INLINE virtual void* data() final
 			{
@@ -25,7 +25,7 @@ namespace doom
 				return &(mCenter);
 			}
 
-			CapsuleCollider(const math::Vector3& center, float height, float radius);
+			CapsuleCollider(const math::Vector3& center, FLOAT32 height, FLOAT32 radius);
 
 			ColliderType GetColliderType() const override;
 

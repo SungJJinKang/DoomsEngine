@@ -13,15 +13,15 @@ namespace doom
 		private:
 
 			bool bmIsAmbientLightIntensityDirty = true;
-			float mAmbientLightIntensity = 0.1f;
+			FLOAT32 mAmbientLightIntensity = 0.1f;
 
 		public:
 
 			// Inherited via UniformBufferObjectUpdater
 			virtual void UpdateUniformBufferObject() override;
 
-			float GetAmbientLightIntensity() const;
-			void SetAmbientLightIntensity(const float intensity);
+			FLOAT32 GetAmbientLightIntensity() const;
+			void SetAmbientLightIntensity(const FLOAT32 intensity);
 		};
 	}
 }

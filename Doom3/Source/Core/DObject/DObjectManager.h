@@ -1,8 +1,8 @@
 #pragma once
 
-#include <vector>
 #include <unordered_map>
 
+#include <Macros/TypeDef.h>
 #include <Macros/DllMarcos.h>
 
 namespace doom
@@ -14,13 +14,13 @@ namespace doom
 
 	private:
 
-		inline static unsigned long long mDObjectCounter = 0;
+		inline static UINT64 mDObjectCounter = 0;
 
-		inline static std::unordered_map<DObject*, unsigned long long> mDObjectsList{};
+		inline static std::unordered_map<DObject*, UINT64> mDObjectsList{};
 
-		static unsigned long long GenerateNewDObejctID();
+		static UINT64 GenerateNewDObejctID();
 
-		static std::unordered_map<DObject*, unsigned long long>::iterator SetDObjectID(DObject* const dObject, const unsigned long long dObjectID);
+		static std::unordered_map<DObject*, UINT64>::iterator SetDObjectID(DObject* const dObject, const UINT64 dObjectID);
 
 		static bool AddNewDObject(DObject* const dObject);
 		static bool ReplaceDObjectFromDObjectList(DObject&& originalDObject, DObject* const newDObject);
@@ -34,7 +34,7 @@ namespace doom
 
 		static bool IsEmpty();
 
-		static size_t GetDObjectCount();
+		static SIZE_T GetDObjectCount();
 
 	};
 }

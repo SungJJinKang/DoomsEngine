@@ -32,7 +32,7 @@ void doom::graphics::DefferedRenderingFrameBuffer::BlitDepthBufferToScreenBuffer
 
 void doom::graphics::DefferedRenderingFrameBuffer::BindGBufferTextures()
 {
-	for (unsigned int i = 0; i < 3; i++)
+	for (UINT32 i = 0; i < 3; i++)
 	{
 		FrameBuffer::GetFrameBufferTexture(GraphicsAPI::eBufferBitType::COLOR, i)->BindTextureWithUnit(i);
 	}

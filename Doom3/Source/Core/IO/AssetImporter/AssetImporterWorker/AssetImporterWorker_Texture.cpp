@@ -62,8 +62,8 @@ bool doom::assetimporter::AssetImporterWorker_Texture::ImportTextureAsset(
 
 		auto resizedImage = std::make_unique<DirectX::ScratchImage>();
 
-		size_t maxSize = max(sourceImage->width, sourceImage->height);
-		size_t resizeRatio = maxSize > MAX_IMAGE_SIZE
+		SIZE_T maxSize = max(sourceImage->width, sourceImage->height);
+		SIZE_T resizeRatio = maxSize > MAX_IMAGE_SIZE
 			? maxSize / MAX_IMAGE_SIZE : 1;
 
 		if (resizeRatio == 1)

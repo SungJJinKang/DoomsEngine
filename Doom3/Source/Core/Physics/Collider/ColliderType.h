@@ -1,12 +1,12 @@
 #pragma once
 
-
+#include <Core.h>
 
 namespace doom
 {
 	namespace physics
 	{
-		enum class ColliderType : unsigned int
+		enum class ColliderType : UINT32
 		{
 			AABB2D,
 			AABB3D,
@@ -20,15 +20,15 @@ namespace doom
 		};
 
 		/*
-		inline constexpr unsigned int TWO_D_COLLIDER_TYPE{ static_cast<unsigned int>(ColliderType::AABB2D) | static_cast<unsigned int>(ColliderType::Circle2D) };
-		inline constexpr unsigned int THREE_D_COLLIDER_TYPE{ 
-			static_cast<unsigned int>(ColliderType::AABB3D) | static_cast<unsigned int>(ColliderType::CapsuleCollider) | 
-			static_cast<unsigned int>(ColliderType::Line) | static_cast<unsigned int>(ColliderType::Plane) | 
-			static_cast<unsigned int>(ColliderType::Ray) | static_cast<unsigned int>(ColliderType::Sphere) | 
-			static_cast<unsigned int>(ColliderType::TwoDTriangle)
+		inline constexpr UINT32 TWO_D_COLLIDER_TYPE{ static_cast<UINT32>(ColliderType::AABB2D) | static_cast<UINT32>(ColliderType::Circle2D) };
+		inline constexpr UINT32 THREE_D_COLLIDER_TYPE{ 
+			static_cast<UINT32>(ColliderType::AABB3D) | static_cast<UINT32>(ColliderType::CapsuleCollider) | 
+			static_cast<UINT32>(ColliderType::Line) | static_cast<UINT32>(ColliderType::Plane) | 
+			static_cast<UINT32>(ColliderType::Ray) | static_cast<UINT32>(ColliderType::Sphere) | 
+			static_cast<UINT32>(ColliderType::TwoDTriangle)
 		};
 		*/
 
-		inline constexpr extern size_t COLLIDER_TYPE_COUNT = 9;
+		inline constexpr extern SIZE_T COLLIDER_TYPE_COUNT = 9;
 	}
 }

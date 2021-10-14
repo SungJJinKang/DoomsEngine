@@ -16,28 +16,28 @@ namespace doom
 		private:
 
 			template <const char* str>
-			inline static unsigned int mCurrentBoundId{};
+			inline static UINT32 mCurrentBoundId{};
 			template <const char* str>
-			inline static unsigned int mCurrentBoundIds[MAX_BOUND_ID_COUNT]{};
+			inline static UINT32 mCurrentBoundIds[MAX_BOUND_ID_COUNT]{};
 			template <const char* str>
-			inline static unsigned int mCurrentBound2DIndexId[MAX_BOUND_ID_COUNT][MAX_BOUND_ID_COUNT]{};
+			inline static UINT32 mCurrentBound2DIndexId[MAX_BOUND_ID_COUNT][MAX_BOUND_ID_COUNT]{};
 
 		public:
 
 			template <const char* str>
-			FORCE_INLINE static void Bind(unsigned int id)
+			FORCE_INLINE static void Bind(UINT32 id)
 			{
 				mCurrentBoundId<str> = id;
 			}
 
 			template <const char* str>
-			FORCE_INLINE static void Bind(size_t index, unsigned int id)
+			FORCE_INLINE static void Bind(SIZE_T index, UINT32 id)
 			{
 				mCurrentBoundIds<str>[index] = id;
 			}
 
 			template <const char* str>
-			FORCE_INLINE static void Bind(size_t index1, size_t index2, unsigned int id )
+			FORCE_INLINE static void Bind(SIZE_T index1, SIZE_T index2, UINT32 id )
 			{
 				mCurrentBound2DIndexId<str>[index1][index2] = id;
 			}
@@ -48,7 +48,7 @@ namespace doom
 			/// <param name="str"></param>
 			/// <param name="id"></param>
 			/*
-			FORCE_INLINE static bool CheckIsAlreadyBound(const char* str, unsigned int id)
+			FORCE_INLINE static bool CheckIsAlreadyBound(const char* str, UINT32 id)
 			{
 				auto element = OverlapBindChecker::mCurrentBoundId.find(str);
 #ifdef DEBUG_MODE
@@ -61,7 +61,7 @@ namespace doom
 			*/
 
 			template <const char* str>
-			FORCE_INLINE static unsigned int GetBoundID()
+			FORCE_INLINE static UINT32 GetBoundID()
 			{
 				// if key doesn't exist yet, maybe 0 will be set
 				return OverlapBindChecker::mCurrentBoundId<str>;
@@ -80,7 +80,7 @@ namespace doom
 			}
 
 			template <const char* str>
-			FORCE_INLINE static unsigned int GetBoundID(size_t index)
+			FORCE_INLINE static UINT32 GetBoundID(SIZE_T index)
 			{
 				// if key doesn't exist yet, maybe 0 will be set
 				return OverlapBindChecker::mCurrentBoundIds<str>[index];
@@ -99,7 +99,7 @@ namespace doom
 			}
 
 			template <const char* str>
-			FORCE_INLINE static unsigned int GetBoundID(size_t index1, size_t index2)
+			FORCE_INLINE static UINT32 GetBoundID(SIZE_T index1, SIZE_T index2)
 			{
 				// if key doesn't exist yet, maybe 0 will be set
 				return OverlapBindChecker::mCurrentBound2DIndexId<str>[index1][index2];
@@ -125,7 +125,7 @@ namespace doom
 			/// <param name="id"></param>
 			/// <returns></returns>
 			template <const char* str>
-			FORCE_INLINE static bool CheckIsNotBoundAndBindID(unsigned int id)
+			FORCE_INLINE static bool CheckIsNotBoundAndBindID(UINT32 id)
 			{
 				if (OverlapBindChecker::GetBoundID<str>() == id)
 				{
@@ -138,7 +138,7 @@ namespace doom
 				}
 			}
 			template <const char* str>
-			FORCE_INLINE static bool CheckIsNotBoundAndBindID(size_t index, unsigned int id)
+			FORCE_INLINE static bool CheckIsNotBoundAndBindID(SIZE_T index, UINT32 id)
 			{
 				if (OverlapBindChecker::GetBoundID<str>(index) == id)
 				{
@@ -152,7 +152,7 @@ namespace doom
 			}
 
 			template <const char* str>
-			FORCE_INLINE static bool CheckIsNotBoundAndBindID(size_t index1, size_t index2, unsigned int id)
+			FORCE_INLINE static bool CheckIsNotBoundAndBindID(SIZE_T index1, SIZE_T index2, UINT32 id)
 			{
 				if (OverlapBindChecker::GetBoundID<str>(index1, index2) == id)
 				{

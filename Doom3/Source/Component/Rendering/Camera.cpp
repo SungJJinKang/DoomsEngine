@@ -18,7 +18,7 @@ void Camera::SetProjectionMode(eProjectionType value)
 	bmIsFrustumPlaneMatrixDirty = true;
 }
 
-void Camera::SetFieldOfViewInDegree(float degree)
+void Camera::SetFieldOfViewInDegree(FLOAT32 degree)
 {
 	mFieldOfViewInDegree = degree;
 	mFieldOfViewInRadian = degree * math::DEGREE_TO_RADIAN;
@@ -29,7 +29,7 @@ void Camera::SetFieldOfViewInDegree(float degree)
 	bmIsFrustumPlaneMatrixDirty = true;
 }
 
-void Camera::SetFieldOfViewInRadian(float radian)
+void Camera::SetFieldOfViewInRadian(FLOAT32 radian)
 {
 	mFieldOfViewInDegree = radian * math::RADIAN_TO_DEGREE;
 	mFieldOfViewInRadian = radian;
@@ -40,7 +40,7 @@ void Camera::SetFieldOfViewInRadian(float radian)
 	bmIsFrustumPlaneMatrixDirty = true;
 }
 
-void Camera::SetClippingPlaneNear(float value)
+void Camera::SetClippingPlaneNear(FLOAT32 value)
 {
 	mClippingPlaneNear = value;
 	SetDirtyTrueAtThisFrame();
@@ -50,7 +50,7 @@ void Camera::SetClippingPlaneNear(float value)
 	bmIsFrustumPlaneMatrixDirty = true;
 }
 
-void Camera::SetClippingPlaneFar(float value)
+void Camera::SetClippingPlaneFar(FLOAT32 value)
 {
 	mClippingPlaneFar = value;
 	SetDirtyTrueAtThisFrame();
@@ -60,7 +60,7 @@ void Camera::SetClippingPlaneFar(float value)
 	bmIsFrustumPlaneMatrixDirty = true;
 }
 
-void Camera::SetViewportRectX(float value)
+void Camera::SetViewportRectX(FLOAT32 value)
 {
 	mViewportRectX = value;
 	SetDirtyTrueAtThisFrame();
@@ -70,7 +70,7 @@ void Camera::SetViewportRectX(float value)
 	bmIsFrustumPlaneMatrixDirty = true;
 }
 
-void Camera::SetViewportRectY(float value)
+void Camera::SetViewportRectY(FLOAT32 value)
 {
 	mViewportRectY = value;
 	SetDirtyTrueAtThisFrame();
@@ -80,7 +80,7 @@ void Camera::SetViewportRectY(float value)
 	bmIsFrustumPlaneMatrixDirty = true;
 }
 
-void Camera::SetViewportRectWidth(float value)
+void Camera::SetViewportRectWidth(FLOAT32 value)
 {
 	mViewportRectWidth = value;
 	SetDirtyTrueAtThisFrame();
@@ -90,7 +90,7 @@ void Camera::SetViewportRectWidth(float value)
 	bmIsFrustumPlaneMatrixDirty = true;
 }
 
-void Camera::SetViewportRectHeight(float value)
+void Camera::SetViewportRectHeight(FLOAT32 value)
 {
 	mViewportRectHeight = value;
 	SetDirtyTrueAtThisFrame();
@@ -123,49 +123,49 @@ doom::Camera::eProjectionType Camera::GetProjectionMode() const
 	return mProjectionMode;
 }
 
-float Camera::GetFieldOfViewInDegree() const
+FLOAT32 Camera::GetFieldOfViewInDegree() const
 {
 	return mFieldOfViewInDegree;
 }
 
-float Camera::GetFieldOfViewInRadian() const
+FLOAT32 Camera::GetFieldOfViewInRadian() const
 {
 	return mFieldOfViewInRadian;
 }
 
-float Camera::GetClippingPlaneNear() const
+FLOAT32 Camera::GetClippingPlaneNear() const
 {
 	return mClippingPlaneNear;
 }
 
-float Camera::GetClippingPlaneFar() const
+FLOAT32 Camera::GetClippingPlaneFar() const
 {
 	return mClippingPlaneFar;
 }
 
-float Camera::GetViewportRectX() const
+FLOAT32 Camera::GetViewportRectX() const
 {
 	return mViewportRectX;
 }
 
-float Camera::GetViewportRectY() const
+FLOAT32 Camera::GetViewportRectY() const
 {
 	return mViewportRectY;
 }
 
-float Camera::GetViewportRectWidth() const
+FLOAT32 Camera::GetViewportRectWidth() const
 {
 	return mViewportRectWidth;
 }
 
-float Camera::GetViewportRectHeight() const
+FLOAT32 Camera::GetViewportRectHeight() const
 {
 	return mViewportRectHeight;
 }
 
 bool doom::Camera::GetCameraFlag(const eCameraFlag cameraFlag) const
 {
-	return ( mCameraFlag & static_cast<unsigned int>(cameraFlag) ) != 0;
+	return ( mCameraFlag & static_cast<UINT32>(cameraFlag) ) != 0;
 }
 
 bool Camera::GetIsCullJobEnabled() const
@@ -286,7 +286,7 @@ const math::Matrix4x4& doom::Camera::GetProjectionMatrix()
 	{
 		if (mProjectionMode == eProjectionType::Perspective)
 		{
-			mProjectionMatrix = math::perspectiveFov(mFieldOfViewInRadian, static_cast<float>(graphics::Graphics_Setting::GetScreenWidth()), static_cast<float>(graphics::Graphics_Setting::GetScreenHeight()), mClippingPlaneNear, mClippingPlaneFar);
+			mProjectionMatrix = math::perspectiveFov(mFieldOfViewInRadian, static_cast<FLOAT32>(graphics::Graphics_Setting::GetScreenWidth()), static_cast<FLOAT32>(graphics::Graphics_Setting::GetScreenHeight()), mClippingPlaneNear, mClippingPlaneFar);
 			//mViewFrumstum.SetCamera(mFieldOfViewInRadian, doom::graphics::Graphics_Server::GetScreenRatio(), mClippingPlaneNear, mClippingPlaneFar);
 		}
 		else
@@ -397,8 +397,8 @@ void Camera::UpdateUniformBufferObject()
 
 		//!!!! Opengl Use column major of matrix data layout
 		doom::graphics::UniformBufferObjectManager::GetSingleton()->GetUniformBufferObject(GLOBAL_UNIFORM_BLOCK_BINDING_POINT).BufferSubData((void*)projectionMatrix.data(), sizeof(projectionMatrix), graphics::eUniformBlock_Global::projection);
-		doom::graphics::UniformBufferObjectManager::GetSingleton()->GetUniformBufferObject(GLOBAL_UNIFORM_BLOCK_BINDING_POINT).BufferSubData((void*)&mClippingPlaneNear, sizeof(float), graphics::eUniformBlock_Global::camNear);
-		doom::graphics::UniformBufferObjectManager::GetSingleton()->GetUniformBufferObject(GLOBAL_UNIFORM_BLOCK_BINDING_POINT).BufferSubData((void*)&mClippingPlaneFar, sizeof(float), graphics::eUniformBlock_Global::camFar);
+		doom::graphics::UniformBufferObjectManager::GetSingleton()->GetUniformBufferObject(GLOBAL_UNIFORM_BLOCK_BINDING_POINT).BufferSubData((void*)&mClippingPlaneNear, sizeof(FLOAT32), graphics::eUniformBlock_Global::camNear);
+		doom::graphics::UniformBufferObjectManager::GetSingleton()->GetUniformBufferObject(GLOBAL_UNIFORM_BLOCK_BINDING_POINT).BufferSubData((void*)&mClippingPlaneFar, sizeof(FLOAT32), graphics::eUniformBlock_Global::camFar);
 
 		
 		if (bmIsUboDirty.GetIsDirty(true))

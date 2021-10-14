@@ -29,14 +29,14 @@ namespace doom
 		// Then, non-static data members are initialized in the order they were declared 
 		// in the class definition (again regardless of the order of the mem-initializers).
 
-		int ITERATION_PER_SECOND{};
-		int TARGET_FRAME_RATE{};
+		INT32 ITERATION_PER_SECOND{};
+		INT32 TARGET_FRAME_RATE{};
 		/// <summary>
 		/// check this : https://github.com/godotengine/godot/blob/master/core/os/os.cpp -> add_frame_delay function
 		/// </summary>
-		int	FRAME_DELAY_MILLISECOND{};
-		float FIXED_TIME_STEP{};
-		int MAX_PHYSICS_STEP{ 8 };
+		INT32	FRAME_DELAY_MILLISECOND{};
+		FLOAT32 FIXED_TIME_STEP{};
+		INT32 MAX_PHYSICS_STEP{ 8 };
 
 		//Servers
 		assetimporter::AssetManager mAssetManager{};

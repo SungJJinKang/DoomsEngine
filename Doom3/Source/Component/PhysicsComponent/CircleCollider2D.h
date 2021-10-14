@@ -11,7 +11,7 @@ namespace doom
 		physics::Circle2D mLocalCircle2D;
 		physics::Circle2D mWorldCircle2D;
 
-		float mRadius;
+		FLOAT32 mRadius;
 
 		virtual void UpdateLocalCollider() final;
 		virtual void UpdateWorldCollider() final;
@@ -22,8 +22,8 @@ namespace doom
 	public:
 	
 
-		void SetRadius(float radius);
-		float GetRadius();
+		void SetRadius(FLOAT32 radius);
+		FLOAT32 GetRadius();
 
 
 		// Inherited via Collider2DComponent

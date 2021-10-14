@@ -34,13 +34,13 @@ void doom::physics::Ray::SetNomral_Unsafe(const math::Vector3& normal)
 
 bool doom::physics::Ray::IsPointOnRay(const math::Vector3& point)
 {
-	return math::dot((point - mOrigin).normalized(), mNormal) < math::epsilon<float>();
+	return math::dot((point - mOrigin).normalized(), mNormal) < math::epsilon<FLOAT32>();
 }
 
 math::Vector3 doom::physics::Ray::GetClosestPoint(const Ray& ray, const math::Vector3& point)
 {
 	auto vecToPoint = point - ray.mOrigin;
-	float t = math::dot(ray.mNormal, vecToPoint);
+	FLOAT32 t = math::dot(ray.mNormal, vecToPoint);
 	if (t <= 0)
 	{
 		return ray.mOrigin;

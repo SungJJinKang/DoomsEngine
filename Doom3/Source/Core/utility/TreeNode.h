@@ -5,21 +5,21 @@ namespace doom
 	
 	struct TreeNode
 	{
-		int mIndex;
+		INT32 mIndex;
 
 		/// <summary>
 		/// Node Index in BVH_Tree::mNodes
 		/// </summary>
-		int mParentIndex;
+		INT32 mParentIndex;
 		/// <summary>
 		/// Node index in BVH_Tree::mNodes
 		/// </summary>
-		int mLeftNode;
+		INT32 mLeftNode;
 
 		/// <summary>
 		/// Node index in BVH_Tree::mNodes
 		/// </summary>
-		int mRightNode;
+		INT32 mRightNode;
 		
 		bool bmIsActive;
 
@@ -27,12 +27,12 @@ namespace doom
 		/// This variable will be used for various purpose
 		/// 
 		/// </summary>
-		unsigned int mBitFlag;
+		UINT32 mBitFlag;
 		
 
 		TreeNode() {}
 
-		FORCE_INLINE unsigned int GetBitFlag() const
+		FORCE_INLINE UINT32 GetBitFlag() const
 		{
 			return mBitFlag;
 		}
@@ -40,7 +40,7 @@ namespace doom
 		{
 			mBitFlag = 0;
 		}
-		FORCE_INLINE void SetBitFlag(unsigned int bitflag)
+		FORCE_INLINE void SetBitFlag(UINT32 bitflag)
 		{
 			mBitFlag |= bitflag;
 		}

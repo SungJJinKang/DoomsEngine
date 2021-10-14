@@ -10,7 +10,7 @@ namespace doom
 	{
 		//stem of path
 		std::string mFileName;
-		unsigned long long mFileSize; // in byte
+		UINT64 mFileSize; // in byte
 		std::filesystem::path mFileDirectory;
 		D_UUID mUUID;
 	};
