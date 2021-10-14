@@ -6,6 +6,7 @@
 
 #include <Graphics/Texture/Texture.h>
 
+
 namespace DirectX
 {
 	struct Image;
@@ -26,8 +27,7 @@ namespace doom
 			(
 				DirectX::Image dxImage,
 				const INT32 lodLevel,
-				const doom::graphics::Texture::ePixelFormat pixelFormat,
-				const doom::graphics::Texture::eDataType dataType,
+				const doom::graphics::eTextureComponentFormat pixelFormat,
 				const std::filesystem::path& exportPath
 			);
 
@@ -35,8 +35,6 @@ namespace doom
 			(
 				const doom::graphics::Texture* const exportedTexture,
 				const INT32 lodLevel,
-				const doom::graphics::Texture::ePixelFormat pixelFormat,
-				const doom::graphics::Texture::eDataType dataType,
 				const std::filesystem::path& exportPath
 			);
 
@@ -46,7 +44,7 @@ namespace doom
 				UINT8* pixels,
 				const SIZE_T width,
 				const SIZE_T height,
-				const doom::graphics::Texture::ePixelFormat pixelFormat,
+				const doom::graphics::eTextureComponentFormat pixelFormat,
 				const doom::graphics::Texture::eDataType dataType,
 				const std::filesystem::path& exportPath
 			);
@@ -65,8 +63,6 @@ namespace doom
 			(
 				DirectX::Image dxImage,
 				const INT32 lodLevel,
-				const doom::graphics::Texture::ePixelFormat pixelFormat,
-				const doom::graphics::Texture::eDataType dataType,
 				const std::filesystem::path& exportPath,
 				const eTextureExtension textureExtension
 			);
@@ -75,8 +71,6 @@ namespace doom
 			(
 				const doom::graphics::Texture* const exportedTexture,
 				const INT32 lodLevel,
-				const doom::graphics::Texture::ePixelFormat pixelFormat,
-				const doom::graphics::Texture::eDataType dataType,
 				const std::filesystem::path& exportPath,
 				const eTextureExtension textureExtension
 			);
@@ -87,7 +81,7 @@ namespace doom
 				UINT8* pixels,
 				const SIZE_T width,
 				const SIZE_T height,
-				const doom::graphics::Texture::ePixelFormat pixelFormat,
+				const doom::graphics::eTextureComponentFormat pixelFormat,
 				const doom::graphics::Texture::eDataType dataType,
 				const std::filesystem::path& exportPath,
 				const eTextureExtension textureExtension

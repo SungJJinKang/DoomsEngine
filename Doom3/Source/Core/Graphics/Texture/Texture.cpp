@@ -146,7 +146,8 @@ const std::unique_ptr<UINT8[]> Texture::GetTexturePixels(const INT32 lodLevel) c
 UINT8* Texture::GetTexturePixelsUnsafe(const INT32 lodLevel ) const
 {
 	BindTexture();
-	
+	BindTextureWithUnit(0);
+
 	int PixelDataSize = 1;
 	switch (mDataType)
 	{
@@ -169,28 +170,28 @@ UINT8* Texture::GetTexturePixelsUnsafe(const INT32 lodLevel ) const
 	const INT32 height = GetTextureMetaDataINT32(lodLevel, eTextureMataDataType::TEXTURE_HEIGHT);
 
 	INT32 bufferSize = PixelDataSize * width * height;
-
+	
 
 	switch (mDataFormat)
 	{
 
 	case eTextureComponentFormat::RED:
 	case eTextureComponentFormat::RED_INTEGER:
-		bufferSize *= PixelDataSize * 1;
+		bufferSize *= 1;
 		break;
 
 	case eTextureComponentFormat::RG:
 	case eTextureComponentFormat::RG_INTEGER:
-		bufferSize *= PixelDataSize * 2;
+		bufferSize *= 2;
 		break;
 
 	case eTextureComponentFormat::DEPTH_COMPONENT:
-		bufferSize *= PixelDataSize;
+		//bufferSize *= bufferSize;
 		NEVER_HAPPEN;
 		break;
 
 	case eTextureComponentFormat::DEPTH_STENCIL:
-		bufferSize *= PixelDataSize * 2;
+		bufferSize *= 2;
 		NEVER_HAPPEN;
 		break;
 
@@ -198,25 +199,26 @@ UINT8* Texture::GetTexturePixelsUnsafe(const INT32 lodLevel ) const
 	case eTextureComponentFormat::RGB_INTEGER:
 	case eTextureComponentFormat::BGR_INTEGER:
 	case eTextureComponentFormat::BGR:
-		bufferSize *= PixelDataSize * 3;
+		bufferSize *= 3;
 		break;
 
 	case eTextureComponentFormat::RGBA:
 	case eTextureComponentFormat::RGBA_INTEGER:
 	case eTextureComponentFormat::BGRA:
 	case eTextureComponentFormat::BGRA_INTEGER:
-		bufferSize *= PixelDataSize * 4;
+		bufferSize *= 4;
 		break;
 		
 	default: 
 		NEVER_HAPPEN;
 	}
+	
 
 	D_ASSERT(bufferSize != 0);
-
+	
 	UINT8* pixels = new UINT8[bufferSize];
 
-	glGetTexImage(static_cast<UINT32>(mBindTarget), lodLevel, static_cast<UINT32>(mDataFormat), static_cast<UINT32>(mDataType), pixels);
+	glGetTexImage(static_cast<UINT32>(mBindTarget), lodLevel, static_cast<UINT32>(mDataFormat), static_cast<UINT32>(mDataType), reinterpret_cast<void*>(pixels));
 
 	return pixels;
 }

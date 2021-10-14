@@ -385,8 +385,8 @@ namespace doom
 				TEXTURE_DEPTH_SIZE = GL_TEXTURE_DEPTH_SIZE,
 				TEXTURE_COMPRESSED = GL_TEXTURE_COMPRESSED,
 				TEXTURE_COMPRESSED_IMAGE_SIZE = GL_TEXTURE_COMPRESSED_IMAGE_SIZE,
-				//TEXTURE_BUFFER_OFFSET = GL_TEXTURE_BUFFER_OFFSET, // available only if the GL version is 4.3 or greater.
-				//TEXTURE_BUFFER_SIZE = GL_TEXTURE_BUFFER_SIZE // available only if the GL version is 4.3 or greater.
+				TEXTURE_BUFFER_OFFSET = GL_TEXTURE_BUFFER_OFFSET, // available only if the GL version is 4.3 or greater.
+				TEXTURE_BUFFER_SIZE = GL_TEXTURE_BUFFER_SIZE // available only if the GL version is 4.3 or greater.
 			};
 
 			FLOAT32 GetTextureMetaDataFLOAT32(const INT32 lodLevel, const eTextureMataDataType textureMetaDataType) const;
@@ -414,6 +414,16 @@ namespace doom
 				STENCILBGR_INTEGER_INDEX = GL_BGR_INTEGER,
 				BGRA_INTEGER = GL_BGRA_INTEGER
 			};
+			
+			FORCE_INLINE eTextureComponentFormat GetDataFormat() const
+			{
+				return mDataFormat;
+			}
+
+			FORCE_INLINE eDataType GetDataType() const
+			{
+				return mDataType;
+			}
 
 			/// <summary>
 			/// This function is really really fxcking slow, Don't use this at release build

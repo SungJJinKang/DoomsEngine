@@ -17,28 +17,10 @@ namespace doom
 				UINT8* pixels,
 				const SIZE_T width,
 				const SIZE_T height,
-				const doom::graphics::Texture::ePixelFormat pixelFormat,
+				const doom::graphics::eTextureComponentFormat pixelFormat,
 				const doom::graphics::Texture::eDataType dataType
 			)
 			{
-				int PixelChannelSize = 1;
-				switch (dataType)
-				{
-				case doom::graphics::Texture::eDataType::UNSIGNED_BYTE:
-
-					PixelChannelSize = 1;
-					break;
-
-				case doom::graphics::Texture::eDataType::FLOAT:
-
-					PixelChannelSize = 4;
-					break;
-
-				default:
-
-					NEVER_HAPPEN;
-				}
-				
 				DirectX::Image dxImage;
 				dxImage.width = width;
 				dxImage.height = height;
@@ -46,33 +28,60 @@ namespace doom
 
 				switch (pixelFormat)
 				{
-				case doom::graphics::Texture::ePixelFormat::RED:
-					dxImage.rowPitch = PixelChannelSize * 1 * dxImage.width;
-					dxImage.slicePitch = PixelChannelSize * 1 * dxImage.width * dxImage.height;
-					dxImage.format = DXGI_FORMAT::DXGI_FORMAT_R8_UNORM;
+				case doom::graphics::eTextureComponentFormat::RED:
+					if (dataType == doom::graphics::Texture::eDataType::UNSIGNED_BYTE)
+					{
+						dxImage.format = DXGI_FORMAT::DXGI_FORMAT_R8_UNORM;
+
+					}
+					else if (dataType == doom::graphics::Texture::eDataType::FLOAT)
+					{
+						dxImage.format = DXGI_FORMAT::DXGI_FORMAT_R32_FLOAT;
+					}
+					else
+					{
+						D_ASSERT(0);
+					}
 					break;
 
-				case doom::graphics::Texture::ePixelFormat::RG:
-					dxImage.rowPitch = PixelChannelSize * 2 * dxImage.width;
-					dxImage.slicePitch = PixelChannelSize * 2 * dxImage.width * dxImage.height;
-					dxImage.format = DXGI_FORMAT::DXGI_FORMAT_R8G8_UNORM;
+				case doom::graphics::eTextureComponentFormat::RG:
+					if (dataType == doom::graphics::Texture::eDataType::UNSIGNED_BYTE)
+					{
+						dxImage.format = DXGI_FORMAT::DXGI_FORMAT_R8G8_UNORM;
+
+					}
+					else if (dataType == doom::graphics::Texture::eDataType::FLOAT)
+					{
+						dxImage.format = DXGI_FORMAT::DXGI_FORMAT_R32G32_FLOAT;
+					}
+					else
+					{
+						D_ASSERT(0);
+					}
 					break;
 
-				case doom::graphics::Texture::ePixelFormat::RGB:
-					dxImage.rowPitch = PixelChannelSize * 4 * dxImage.width;
-					dxImage.slicePitch = PixelChannelSize * 4 * dxImage.width * dxImage.height;
-					dxImage.format = DXGI_FORMAT::DXGI_FORMAT_R8G8B8A8_UNORM; // RGS also use DXGI_FORMAT_R8G8B8A8_UNORM
-					break;
-
-				case doom::graphics::Texture::ePixelFormat::RGBA:
-					dxImage.rowPitch = PixelChannelSize * 4 * dxImage.width;
-					dxImage.slicePitch = PixelChannelSize * 4 * dxImage.width * dxImage.height;
-					dxImage.format = DXGI_FORMAT::DXGI_FORMAT_R8G8B8A8_UNORM;
+				case doom::graphics::eTextureComponentFormat::RGB: // RGS also use DXGI_FORMAT_R8G8B8A8_UNORM
+				case doom::graphics::eTextureComponentFormat::RGBA:
+					if(dataType == doom::graphics::Texture::eDataType::UNSIGNED_BYTE)
+					{
+						dxImage.format = DXGI_FORMAT::DXGI_FORMAT_R8G8B8A8_UNORM;
+						
+					}
+					else if (dataType == doom::graphics::Texture::eDataType::FLOAT)
+					{
+						dxImage.format = DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT;
+					}
+					else
+					{
+						D_ASSERT(0);
+					}
 					break;
 
 				default:
 					NEVER_HAPPEN;
 				}
+
+				DirectX::ComputePitch(dxImage.format, dxImage.width, dxImage.height, dxImage.rowPitch, dxImage.slicePitch);
 
 				return dxImage;
 			}
@@ -81,9 +90,7 @@ namespace doom
 			DirectX::Image ConvertToDirectXImage
 			(
 				const doom::graphics::Texture* const exportedTexture,
-				const INT32 lodLevel,
-				const doom::graphics::Texture::ePixelFormat pixelFormat,
-				const doom::graphics::Texture::eDataType dataType
+				const INT32 lodLevel
 			)
 			{
 				D_ASSERT(IsValid(exportedTexture) == true);
@@ -93,8 +100,8 @@ namespace doom
 					exportedTexture->GetTexturePixelsUnsafe(lodLevel),
 					exportedTexture->GetTextureMetaDataINT32(lodLevel, graphics::Texture::eTextureMataDataType::TEXTURE_WIDTH),
 					exportedTexture->GetTextureMetaDataINT32(lodLevel, graphics::Texture::eTextureMataDataType::TEXTURE_HEIGHT),
-					pixelFormat,
-					dataType
+					exportedTexture->GetDataFormat(),
+					exportedTexture->GetDataType()
 				);
 
 			}
@@ -107,8 +114,7 @@ void doom::assetExporter::assetExporterTexture::ExportTextureAsDDS
 (
 	DirectX::Image dxImage, 
 	const INT32 lodLevel,
-	const doom::graphics::Texture::ePixelFormat pixelFormat, 
-	const doom::graphics::Texture::eDataType dataType,
+	const doom::graphics::eTextureComponentFormat pixelFormat,
 	const std::filesystem::path& exportPath)
 {
 	std::unique_ptr<UINT8[]> pixels(dxImage.pixels); // for safety
@@ -117,19 +123,19 @@ void doom::assetExporter::assetExporterTexture::ExportTextureAsDDS
 
 	switch (pixelFormat)
 	{
-	case doom::graphics::Texture::ePixelFormat::RED:
+	case doom::graphics::eTextureComponentFormat::RED:
 		compressFormat = DXGI_FORMAT::DXGI_FORMAT_BC4_UNORM;
 		break;
 
-	case doom::graphics::Texture::ePixelFormat::RG:
+	case doom::graphics::eTextureComponentFormat::RG:
 		compressFormat = DXGI_FORMAT::DXGI_FORMAT_BC5_UNORM;
 		break;
 
-	case doom::graphics::Texture::ePixelFormat::RGB:
+	case doom::graphics::eTextureComponentFormat::RGB:
 		compressFormat = DXGI_FORMAT::DXGI_FORMAT_BC1_UNORM;
 		break;
 
-	case doom::graphics::Texture::ePixelFormat::RGBA:
+	case doom::graphics::eTextureComponentFormat::RGBA:
 		compressFormat = DXGI_FORMAT::DXGI_FORMAT_BC3_UNORM;
 		break;
 
@@ -171,15 +177,13 @@ void doom::assetExporter::assetExporterTexture::ExportTextureAsDDS
 (
 	const doom::graphics::Texture* const exportedTexture,
 	const INT32 lodLevel,
-	const doom::graphics::Texture::ePixelFormat pixelFormat,
-	const doom::graphics::Texture::eDataType dataType,
 	const std::filesystem::path& exportPath
 )
 {
 	D_ASSERT(IsValid(exportedTexture) == true);
 
-	DirectX::Image dxImage = ConvertToDirectXImage(exportedTexture, lodLevel, pixelFormat, dataType);
-	ExportTextureAsDDS(dxImage, lodLevel, pixelFormat, dataType, exportPath);
+	DirectX::Image dxImage = ConvertToDirectXImage(exportedTexture, lodLevel);
+	ExportTextureAsDDS(dxImage, lodLevel, exportedTexture->GetDataFormat(), exportPath);
 }
 
 void doom::assetExporter::assetExporterTexture::ExportTextureAsDDS
@@ -188,21 +192,19 @@ void doom::assetExporter::assetExporterTexture::ExportTextureAsDDS
 	UINT8* pixels,
 	const SIZE_T width, 
 	const SIZE_T height, 
-	const doom::graphics::Texture::ePixelFormat pixelFormat,
+	const doom::graphics::eTextureComponentFormat pixelFormat,
 	const doom::graphics::Texture::eDataType dataType, 
 	const std::filesystem::path& exportPath)
 {
 
 	DirectX::Image dxImage = ConvertToDirectXImage(lodLevel, pixels, width, height, pixelFormat, dataType);
-	ExportTextureAsDDS(dxImage, lodLevel, pixelFormat, dataType, exportPath);
+	ExportTextureAsDDS(dxImage, lodLevel, pixelFormat, exportPath);
 }
 
 void doom::assetExporter::assetExporterTexture::ExportTexture
 (
 	DirectX::Image dxImage, 
 	const INT32 lodLevel,
-	const doom::graphics::Texture::ePixelFormat pixelFormat, 
-	const doom::graphics::Texture::eDataType dataType,
 	const std::filesystem::path& exportPath, 
 	const eTextureExtension textureExtension
 )
@@ -262,16 +264,14 @@ void doom::assetExporter::assetExporterTexture::ExportTexture
 (
 	const doom::graphics::Texture* const exportedTexture,
 	const INT32 lodLevel,
-	const doom::graphics::Texture::ePixelFormat pixelFormat,
-	const doom::graphics::Texture::eDataType dataType,
 	const std::filesystem::path& exportPath,
 	const eTextureExtension textureExtension
 )
 {
 	D_ASSERT(IsValid(exportedTexture) == true);
 
-	DirectX::Image dxImage = ConvertToDirectXImage(exportedTexture, lodLevel, pixelFormat, dataType);
-	ExportTexture(dxImage, lodLevel, pixelFormat, dataType, exportPath, textureExtension);
+	DirectX::Image dxImage = ConvertToDirectXImage(exportedTexture, lodLevel);
+	ExportTexture(dxImage, lodLevel, exportPath, textureExtension);
 }
 
 void doom::assetExporter::assetExporterTexture::ExportTexture
@@ -280,12 +280,12 @@ void doom::assetExporter::assetExporterTexture::ExportTexture
 	UINT8* pixels, 
 	const SIZE_T width,
 	const SIZE_T height, 
-	const doom::graphics::Texture::ePixelFormat pixelFormat,
+	const doom::graphics::eTextureComponentFormat pixelFormat,
 	const doom::graphics::Texture::eDataType dataType,
 	const std::filesystem::path& exportPath,
 	const eTextureExtension textureExtension
 )
 {
 	DirectX::Image dxImage = ConvertToDirectXImage(lodLevel, pixels, width, height, pixelFormat, dataType);
-	ExportTexture(dxImage, lodLevel, pixelFormat, dataType, exportPath, textureExtension);
+	ExportTexture(dxImage, lodLevel, exportPath, textureExtension);
 }

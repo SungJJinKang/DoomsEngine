@@ -16,7 +16,7 @@ void doom::ExportTextureTester::UpdateComponent()
 	if(doom::userinput::UserInput_Server::GetKeyUp(eKEY_CODE::KEY_F2))
 	{
 		doom::ui::PrintText("Export Camera Texture");
-
+		
 		doom::graphics::SingleTexture* texture = 
 			doom::Camera::GetMainCamera()->mDefferedRenderingFrameBuffer.GetFrameBufferTexture
 			(
@@ -27,11 +27,26 @@ void doom::ExportTextureTester::UpdateComponent()
 		doom::assetExporter::assetExporterTexture::ExportTexture(
 			texture,
 			0,
-			doom::graphics::Texture::ePixelFormat::RGBA,
-			doom::graphics::Texture::eDataType::UNSIGNED_BYTE,
 			std::filesystem::current_path(),
 			assetExporter::assetExporterTexture::eTextureExtension::PNG
 		);
 	}
 
+	if (doom::userinput::UserInput_Server::GetKeyUp(eKEY_CODE::KEY_F3))
+	{
+		doom::ui::PrintText("Export Camera Texture");
+
+		doom::graphics::SingleTexture* texture =
+			doom::Camera::GetMainCamera()->mDefferedRenderingFrameBuffer.GetFrameBufferTexture
+			(
+				doom::graphics::GraphicsAPI::eBufferBitType::COLOR,
+				0
+			);
+
+		doom::assetExporter::assetExporterTexture::ExportTextureAsDDS(
+			texture,
+			0,
+			std::filesystem::current_path()
+		);
+	}
 }
