@@ -1,5 +1,7 @@
 #pragma once
 
+#include <memory>
+
 #include "../Graphics_Core.h"
 #include "../OverlapBindChecker.h"
 #include "../Buffer/BufferID.h"
@@ -19,7 +21,7 @@ namespace doom
 		/// <summary>
 		/// reference : https://www.khronos.org/registry/OpenGL-Refpages/gl4/html/glTexImage2D.xhtml
 		/// </summary>
-		class Texture
+		class Texture : public DObject
 		{
 		public:
 
@@ -47,6 +49,7 @@ namespace doom
 
 			enum class eBindTarget : UINT32
 			{
+				NONE = 0,
 				TEXTURE_1D = GL_TEXTURE_1D,
 				TEXTURE_2D = GL_TEXTURE_2D,
 				TEXTURE_3D = GL_TEXTURE_3D,
@@ -71,12 +74,14 @@ namespace doom
 			/// 
 			/// </summary>
 			/// <returns></returns>
-			inline static SIZE_T GetArbitraryIndexOfeBindTarget(eBindTarget bindTarget)
+			inline static SIZE_T GetArbitraryIndexOfeBindTarget(const eBindTarget bindTarget)
 			{
 				if (bindTarget == eBindTarget::TEXTURE_2D)
 				{
 					return 1;
 				}
+
+				//TODO : 숫자보고 해쉬함수로 ARRAY 작게 해서 해쉬테이블 만들 수 있으면 만들자. O(1)으로 값 가져오게
 				switch (bindTarget)
 				{
 				case eBindTarget::TEXTURE_1D:
@@ -214,19 +219,35 @@ namespace doom
 				LINEAR_MIPMAP_LINEAR = GL_LINEAR_MIPMAP_LINEAR,
 			};
 
-		private:
+		protected:
 
 			inline static const char BIND_TARGET_TAG[]{ "BIND_TARGET" };
 			static inline const char ACTIVE_TEXTURE_TAG[]{ "ActiveTexture" };
+
+			BufferID mBufferID{};
+
+			INT32 mTextureBufferSize;
 
 			eWrapMode mWrapS;
 			eWrapMode mWrapT;
 			eWrapMode mWrapR;
 
+			const eTextureType mTextureType = eTextureType::NONE;
+			const eBindTarget mBindTarget = eBindTarget::NONE;
+
+			const eTargetTexture mTarget;
+			const eTextureInternalFormat mInternalFormat = eTextureInternalFormat::NONE;
+			const eTextureCompressedInternalFormat mCompressedInternalFormat = eTextureCompressedInternalFormat::NONE;
+			const UINT32 mWidth;
+			const UINT32 mHeight;
+			const eTextureComponentFormat mDataFormat = eTextureComponentFormat::NONE;
+			const eDataType mDataType;
+			
+			void DestroyTextureBufferObject();
 
 		public:
 
-			BufferID mBufferID{};
+			
 
 			Texture() = delete;
 			Texture(const Texture&) = delete;
@@ -258,18 +279,12 @@ namespace doom
 
 			virtual ~Texture();
 			virtual void OnEndContructor();
+
+			UINT32 GetBufferID() const
+			{
+				return mBufferID;
+			}
 			
-
-			const eTextureType mTextureType;
-			const eBindTarget mBindTarget;
-
-			const eTargetTexture mTarget;
-			const eTextureInternalFormat mInternalFormat;
-			const eTextureCompressedInternalFormat mCompressedInternalFormat;
-			const UINT32 mWidth;
-			const UINT32 mHeight;
-			const eTextureComponentFormat mDataFormat;
-			const eDataType mDataType;
 
 			//	BindTarget
 			//					--->	Texture Buffer ID
@@ -356,6 +371,59 @@ namespace doom
 			{
 				glTexParameteri(static_cast<UINT32>(target), static_cast<UINT32>(pname), param);
 			}
+
+			enum class eTextureMataDataType : UINT32
+			{
+				TEXTURE_WIDTH = GL_TEXTURE_WIDTH,
+				TEXTURE_HEIGHT = GL_TEXTURE_HEIGHT,
+				TEXTURE_DEPTH = GL_TEXTURE_DEPTH,
+				TEXTURE_INTERNAL_FORMAT = GL_TEXTURE_INTERNAL_FORMAT,
+				TEXTURE_RED_SIZE = GL_TEXTURE_RED_SIZE,
+				TEXTURE_GREEN_SIZE = GL_TEXTURE_GREEN_SIZE,
+				TEXTURE_BLUE_SIZE = GL_TEXTURE_BLUE_SIZE,
+				TEXTURE_ALPHA_SIZE = GL_TEXTURE_ALPHA_SIZE,
+				TEXTURE_DEPTH_SIZE = GL_TEXTURE_DEPTH_SIZE,
+				TEXTURE_COMPRESSED = GL_TEXTURE_COMPRESSED,
+				TEXTURE_COMPRESSED_IMAGE_SIZE = GL_TEXTURE_COMPRESSED_IMAGE_SIZE,
+				//TEXTURE_BUFFER_OFFSET = GL_TEXTURE_BUFFER_OFFSET, // available only if the GL version is 4.3 or greater.
+				//TEXTURE_BUFFER_SIZE = GL_TEXTURE_BUFFER_SIZE // available only if the GL version is 4.3 or greater.
+			};
+
+			FLOAT32 GetTextureMetaDataFLOAT32(const INT32 lodLevel, const eTextureMataDataType textureMetaDataType) const;
+			INT32 GetTextureMetaDataINT32(const INT32 lodLevel, const eTextureMataDataType textureMetaDataType) const;
+
+			enum class ePixelFormat : UINT32
+			{
+				STENCIL_INDEX = GL_STENCIL_INDEX,
+				DEPTH_COMPONENT = GL_DEPTH_COMPONENT,
+				DEPTH_STENCIL = GL_DEPTH_STENCIL,
+				RED = GL_RED,
+				GREEN = GL_GREEN,
+				BLUE = GL_BLUE,
+				RG = GL_RG,
+				RGB = GL_RGB,
+				RGBA = GL_RGBA,
+				BGR = GL_BGR,
+				BGRA = GL_BGRA,
+				RED_INTEGER = GL_RED_INTEGER,
+				GREEN_INTEGER = GL_GREEN_INTEGER,
+				BLUE_INTEGER = GL_BLUE_INTEGER,
+				RG_INTEGER = GL_RG_INTEGER,
+				RGB_INTEGER = GL_RGB_INTEGER,
+				RGBA_INTEGER = GL_RGBA_INTEGER,
+				STENCILBGR_INTEGER_INDEX = GL_BGR_INTEGER,
+				BGRA_INTEGER = GL_BGRA_INTEGER
+			};
+
+			/// <summary>
+			/// This function is really really fxcking slow, Don't use this at release build
+			///	I can optimize this, But I want more safe way
+			/// </summary>
+			/// <param name="lodLevel"></param>
+			/// <param name="pixelFormat"></param>
+			/// <returns></returns>
+			const std::unique_ptr<UINT8[]> GetTexturePixels(const INT32 lodLevel) const;
+			UINT8* GetTexturePixelsUnsafe(const INT32 lodLevel) const;
 
 		};
 	}

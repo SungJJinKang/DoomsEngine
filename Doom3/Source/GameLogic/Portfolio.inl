@@ -25,6 +25,7 @@
 #include <UI/PrintText.h>
 
 #include "BulletComponent.h"
+#include "ExportTextureTester.h"
 #include "FireBulletComponent.h"
 #include "PhysicsComponent/Rigidbody/Rigidbody.h"
 
@@ -134,6 +135,7 @@ void doom::GameLogicStartPoint::StartGameLogic()
 		entity1Camera->SetProjectionMode(doom::Camera::eProjectionType::Perspective);
 		entity1->AddComponent<ViewFrustumCullingDebug>();
 		entity1->AddComponent<Move_WASD>();
+		entity1->AddComponent<ExportTextureTester>();
 		entity1->AddComponent<DeferredRenderingDebuggerController>();
 		entity1->AddComponent<OverDrawVisualizationDebugger>();
 		FireBulletComponent* fireComponent = entity1->AddComponent<FireBulletComponent>();

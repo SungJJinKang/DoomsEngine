@@ -12,6 +12,7 @@ namespace doom
 
 		public:
 			SingleTexture() = delete;
+			virtual ~SingleTexture() = default;
 			SingleTexture(const SingleTexture&) = delete;
 			SingleTexture& operator=(const SingleTexture&) noexcept = delete;
 

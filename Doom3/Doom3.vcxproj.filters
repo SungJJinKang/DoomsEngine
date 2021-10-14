@@ -549,6 +549,12 @@
     <ClCompile Include="Source\Core\ResourceManagement\JobSystem_cpp\test\test.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Core\IO\AssetExporter\AssetExporter_Texture.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\GameLogic\CustomComponent\ExportTextureTester.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="dependency\glad\include\glad\glad.h">
@@ -1479,6 +1485,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\Core\Macros\TypeDef.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Core\IO\AssetExporter\AssetExporter_Texture.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\GameLogic\CustomComponent\ExportTextureTester.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

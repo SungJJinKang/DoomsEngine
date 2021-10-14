@@ -2,6 +2,7 @@
 
 #include <CompilerMacros.h>
 #include <Macros/DllMarcos.h>
+#include <Macros/TypeDef.h>
 
 #ifdef DEBUG_MODE
 

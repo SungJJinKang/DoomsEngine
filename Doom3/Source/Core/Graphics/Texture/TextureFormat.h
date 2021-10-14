@@ -7,6 +7,7 @@ namespace doom
 	{
 		enum class eTextureComponentFormat : UINT32
 		{
+			NONE = 0,
 			RED = GL_RED,
 			RG = GL_RG,
 			RGB = GL_RGB,

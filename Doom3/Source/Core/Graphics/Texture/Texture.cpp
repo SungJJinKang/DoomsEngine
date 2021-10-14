@@ -36,13 +36,18 @@ void Texture::OnEndContructor()
 	//UnBindTexture();
 }
 
-Texture::~Texture()
+void Texture::DestroyTextureBufferObject()
 {
 	if (mBufferID.Get() != 0)
 	{
 		glDeleteTextures(1, &(mBufferID));
+		mBufferID = 0;
 	}
-	
+}
+
+Texture::~Texture()
+{
+	DestroyTextureBufferObject();
 }
 
 void Texture::SetWrapMode(eWrapMode wrapMode, bool bBind)
@@ -109,6 +114,113 @@ doom::graphics::Texture::eWrapMode Texture::GetWrapModeR() const
 {
 	return mWrapR;
 }
+
+FLOAT32 Texture::GetTextureMetaDataFLOAT32(const INT32 lodLevel, const eTextureMataDataType textureMetaDataType) const
+{
+	float data;
+
+	BindTexture();
+	glGetTexLevelParameterfv(static_cast<UINT32>(mBindTarget), lodLevel, static_cast<UINT32>(textureMetaDataType), &data);
+
+	return data;
+}
+
+INT32 Texture::GetTextureMetaDataINT32(const INT32 lodLevel, const eTextureMataDataType textureMetaDataType) const
+{
+	INT32 data;
+
+	BindTexture();
+	glGetTexLevelParameteriv(static_cast<UINT32>(mBindTarget), lodLevel, static_cast<UINT32>(textureMetaDataType), &data);
+
+	return data;
+}
+
+
+//TODO : https://stackoverflow.com/a/62965713 Implement GetTexturePixel using memory mapped io, Make MapBuffer Class for managing it
+
+const std::unique_ptr<UINT8[]> Texture::GetTexturePixels(const INT32 lodLevel) const
+{
+	return std::unique_ptr<UINT8[]>(const_cast<UINT8*>(GetTexturePixelsUnsafe(lodLevel)));
+}
+
+UINT8* Texture::GetTexturePixelsUnsafe(const INT32 lodLevel ) const
+{
+	BindTexture();
+	
+	int PixelDataSize = 1;
+	switch (mDataType)
+	{
+	case eDataType::UNSIGNED_BYTE:
+
+		PixelDataSize = 1;
+		break;
+
+	case eDataType::FLOAT:
+
+		PixelDataSize = 4;
+		break;
+
+	default:
+
+		NEVER_HAPPEN;
+	}
+
+	const INT32 width = GetTextureMetaDataINT32(lodLevel, eTextureMataDataType::TEXTURE_WIDTH);
+	const INT32 height = GetTextureMetaDataINT32(lodLevel, eTextureMataDataType::TEXTURE_HEIGHT);
+
+	INT32 bufferSize = PixelDataSize * width * height;
+
+
+	switch (mDataFormat)
+	{
+
+	case eTextureComponentFormat::RED:
+	case eTextureComponentFormat::RED_INTEGER:
+		bufferSize *= PixelDataSize * 1;
+		break;
+
+	case eTextureComponentFormat::RG:
+	case eTextureComponentFormat::RG_INTEGER:
+		bufferSize *= PixelDataSize * 2;
+		break;
+
+	case eTextureComponentFormat::DEPTH_COMPONENT:
+		bufferSize *= PixelDataSize;
+		NEVER_HAPPEN;
+		break;
+
+	case eTextureComponentFormat::DEPTH_STENCIL:
+		bufferSize *= PixelDataSize * 2;
+		NEVER_HAPPEN;
+		break;
+
+	case eTextureComponentFormat::RGB:
+	case eTextureComponentFormat::RGB_INTEGER:
+	case eTextureComponentFormat::BGR_INTEGER:
+	case eTextureComponentFormat::BGR:
+		bufferSize *= PixelDataSize * 3;
+		break;
+
+	case eTextureComponentFormat::RGBA:
+	case eTextureComponentFormat::RGBA_INTEGER:
+	case eTextureComponentFormat::BGRA:
+	case eTextureComponentFormat::BGRA_INTEGER:
+		bufferSize *= PixelDataSize * 4;
+		break;
+		
+	default: 
+		NEVER_HAPPEN;
+	}
+
+	D_ASSERT(bufferSize != 0);
+
+	UINT8* pixels = new UINT8[bufferSize];
+
+	glGetTexImage(static_cast<UINT32>(mBindTarget), lodLevel, static_cast<UINT32>(mDataFormat), static_cast<UINT32>(mDataType), pixels);
+
+	return pixels;
+}
+
 
 UINT32 Texture::GetTextureBufferID() const
 {

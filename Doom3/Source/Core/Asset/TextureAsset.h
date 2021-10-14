@@ -45,8 +45,11 @@ namespace doom
 			graphics::eTextureInternalFormat mInternalFormat{};
 			graphics::eTextureCompressedInternalFormat mCompressedInternalFormat{};
 
-			graphics::Texture* mTexture{ nullptr };
-			void CreateTexture();
+			graphics::Texture* mDefaultTextureObject{ nullptr };
+
+			void CreateDefaultTexture();
+			void DestroyDefaultTextureObject();
+
 		protected:
 
 		public:
@@ -57,10 +60,12 @@ namespace doom
 			TextureAsset(TextureAsset&& textureAsset) noexcept;
 			TextureAsset& operator=(const TextureAsset&) = delete;
 			TextureAsset& operator=(TextureAsset&& textureAsset) noexcept;
+		
 			virtual ~TextureAsset();
 
 			void OnEndImportInMainThread_Internal() final;
-			graphics::Texture* GetTexture() const;
+			const graphics::Texture* GetDefaultTextureObject() const;
+			graphics::Texture* CreateTextureObject();
 
 			virtual doom::asset::eAssetType GetEAssetType() const final;
 		};

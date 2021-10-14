@@ -112,27 +112,37 @@ void doom::asset::TextureAsset::SetScratchImage(std::unique_ptr<DirectX::Scratch
 
 doom::asset::TextureAsset::TextureAsset(TextureAsset&& textureAsset) noexcept = default;
 doom::asset::TextureAsset& doom::asset::TextureAsset::operator=(TextureAsset&& textureAsset) noexcept = default;
-doom::asset::TextureAsset::~TextureAsset() = default;
+
+void doom::asset::TextureAsset::DestroyDefaultTextureObject()
+{
+	if(doom::IsValid(mDefaultTextureObject) == true)
+	{
+		delete mDefaultTextureObject;
+	}
+}
+
+doom::asset::TextureAsset::~TextureAsset()
+{
+	DestroyDefaultTextureObject();
+}
 
 void doom::asset::TextureAsset::OnEndImportInMainThread_Internal()
 {
 	D_START_PROFILING(Postprocess_Texture, eProfileLayers::Rendering);
-	CreateTexture();
+	CreateDefaultTexture();
 	D_END_PROFILING(Postprocess_Texture);
 }
 
-Texture* doom::asset::TextureAsset::GetTexture() const
+const Texture* doom::asset::TextureAsset::GetDefaultTextureObject() const
 {
-	return mTexture;
+	D_ASSERT(IsValid(mDefaultTextureObject));
+	return mDefaultTextureObject;
 }
 
-doom::asset::eAssetType doom::asset::TextureAsset::GetEAssetType() const
+Texture* doom::asset::TextureAsset::CreateTextureObject()
 {
-	return doom::asset::eAssetType::TEXTURE;
-}
+	Texture* createdTexture = nullptr;
 
-void doom::asset::TextureAsset::CreateTexture()
-{
 	D_ASSERT(mScratchImage->GetImageCount() != 0);
 	std::vector<const DirectX::Image*> mipmapPixels{};
 	for (UINT32 i = 0; i < mScratchImage->GetImageCount(); i++)
@@ -144,19 +154,34 @@ void doom::asset::TextureAsset::CreateTexture()
 	D_ASSERT(mInternalFormat != eTextureInternalFormat::NONE || mCompressedInternalFormat != eTextureCompressedInternalFormat::NONE);
 	if (mInternalFormat != eTextureInternalFormat::NONE)
 	{
-		mTexture =
-			new graphics::SingleTexture(Texture::eTextureType::DIFFUSE, Texture::eTargetTexture::TEXTURE_2D, mInternalFormat, mWidth, mHeight, mComponentFormat, Texture::eDataType::UNSIGNED_BYTE, mipmapPixels);
-
+		createdTexture = doom::CreateDObject<doom::graphics::SingleTexture>(
+			Texture::eTextureType::DIFFUSE, Texture::eTargetTexture::TEXTURE_2D, 
+			mInternalFormat, mWidth, mHeight, mComponentFormat, 
+			Texture::eDataType::UNSIGNED_BYTE, mipmapPixels
+			);
 	}
 	else if (mCompressedInternalFormat != eTextureCompressedInternalFormat::NONE)
 	{
-		mTexture =
-			new graphics::SingleTexture(Texture::eTextureType::DIFFUSE, Texture::eTargetTexture::TEXTURE_2D, mCompressedInternalFormat, mWidth, mHeight, mComponentFormat, Texture::eDataType::UNSIGNED_BYTE, mipmapPixels);
-	}
-	if (mScratchImage)
-	{
-		mScratchImage.reset();
+		createdTexture = doom::CreateDObject<doom::graphics::SingleTexture>(
+			Texture::eTextureType::DIFFUSE, Texture::eTargetTexture::TEXTURE_2D, 
+			mCompressedInternalFormat, mWidth, mHeight, mComponentFormat, 
+			Texture::eDataType::UNSIGNED_BYTE, mipmapPixels
+			);
 	}
 
+	D_ASSERT(createdTexture != nullptr);
+	return createdTexture;
+}
+
+doom::asset::eAssetType doom::asset::TextureAsset::GetEAssetType() const
+{
+	return doom::asset::eAssetType::TEXTURE;
+}
+
+void doom::asset::TextureAsset::CreateDefaultTexture()
+{
+	D_ASSERT(mScratchImage->GetImageCount() != 0);
+	
+	mDefaultTextureObject = CreateTextureObject();
 }
 

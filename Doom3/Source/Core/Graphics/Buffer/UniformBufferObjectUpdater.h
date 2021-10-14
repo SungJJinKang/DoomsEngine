@@ -1,5 +1,7 @@
 #pragma once
 
+#include <Core.h>
+
 namespace doom
 {
 	namespace graphics
@@ -10,7 +12,7 @@ namespace doom
 		/// interface for Sending Data to Temp container of Uniform Buffer Object
 		/// Inherit this class for Update Uniform Buffer Object's TempBuffer
 		/// </summary>
-		class UniformBufferObjectUpdater // Don't put IFlow
+		class UniformBufferObjectUpdater // Don't put DObject here, Because Light Component should inherit this class, But it already inherit DObject through Component Class
 		{
 
 		private:

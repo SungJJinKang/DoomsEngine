@@ -209,6 +209,7 @@
     <ClCompile Include="Source\Core\Asset\FontAsset.cpp" />
     <ClCompile Include="Source\Core\Asset\Helper\AssetFactory.cpp" />
     <ClCompile Include="Source\Core\Game\AssetManager\AssetFuture.cpp" />
+    <ClCompile Include="Source\Core\IO\AssetExporter\AssetExporter_Texture.cpp" />
     <ClCompile Include="Source\Core\IO\AssetImporter\Manager\AssetImporterWorkerManager.cpp" />
     <ClCompile Include="Source\Core\IO\AssetImporter\AssetImporterWorker\AssetImporterWorker.cpp" />
     <ClCompile Include="Source\Component\PhysicsComponent\Rigidbody\Rigidbody.cpp" />
@@ -367,6 +368,7 @@
     <ClCompile Include="Source\GameLogic\CustomComponent\BulletComponent.cpp" />
     <ClCompile Include="Source\GameLogic\CustomComponent\ButtonRotate.cpp" />
     <ClCompile Include="Source\GameLogic\CustomComponent\CharacterSpawner.cpp" />
+    <ClCompile Include="Source\GameLogic\CustomComponent\ExportTextureTester.cpp" />
     <ClCompile Include="Source\GameLogic\CustomComponent\FireBulletComponent.cpp" />
     <ClCompile Include="Source\GameLogic\CustomComponent\Move_WASD.cpp" />
     <ClCompile Include="Source\GameLogic\CustomComponent\Portfolio\DeferredRenderingDebuggerController.cpp" />
@@ -388,6 +390,7 @@
     <ClInclude Include="Source\Core\Asset\AssetsForwardDeclaration.h" />
     <ClInclude Include="Source\Core\Asset\Helper\AssetFactory.h" />
     <ClInclude Include="Source\Core\Game\AssetManager\AssetFuture.h" />
+    <ClInclude Include="Source\Core\IO\AssetExporter\AssetExporter_Texture.h" />
     <ClInclude Include="Source\Core\IO\AssetImporter\AssetImporterWorker\AssetImporterWorkerForwardDeclaration.h" />
     <ClInclude Include="Source\Core\IO\AssetImporter\Manager\AssetImporterWorkerManager.h" />
     <ClInclude Include="Source\Component\Core\ComponentGlobals.h" />
@@ -646,6 +649,7 @@
     <ClInclude Include="Source\GameLogic\CustomComponent\BulletComponent.h" />
     <ClInclude Include="Source\GameLogic\CustomComponent\ButtonRotate.h" />
     <ClInclude Include="Source\GameLogic\CustomComponent\CharacterSpawner.h" />
+    <ClInclude Include="Source\GameLogic\CustomComponent\ExportTextureTester.h" />
     <ClInclude Include="Source\GameLogic\CustomComponent\FireBulletComponent.h" />
     <ClInclude Include="Source\GameLogic\CustomComponent\Move_WASD.h" />
     <ClInclude Include="Source\GameLogic\CustomComponent\PerformanceTestController.h" />
