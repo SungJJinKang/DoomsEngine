@@ -26,7 +26,7 @@ doom::graphics::DefferedRenderingFrameBuffer::DefferedRenderingFrameBuffer()
 
 void doom::graphics::DefferedRenderingFrameBuffer::BlitDepthBufferToScreenBuffer() const
 {
-	FrameBuffer::BlitBufferTo(0, 0, 0, GetDefaultWidth(), GetDefaultHeight(), 0, 0, Graphics_Setting::GetScreenWidth(), Graphics_Setting::GetScreenHeight(), GraphicsAPI::eBufferBitType::DEPTH, FrameBuffer::eImageInterpolation::NEAREST);
+	FrameBuffer::BlitFrameBufferTo(0, 0, 0, GetDefaultWidth(), GetDefaultHeight(), 0, 0, Graphics_Setting::GetScreenWidth(), Graphics_Setting::GetScreenHeight(), GraphicsAPI::eBufferBitType::DEPTH, FrameBuffer::eImageInterpolation::NEAREST);
 
 }
 

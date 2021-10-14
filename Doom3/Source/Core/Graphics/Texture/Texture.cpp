@@ -110,8 +110,9 @@ doom::graphics::Texture::eWrapMode Texture::GetWrapModeR() const
 	return mWrapR;
 }
 
-UINT32 Texture::GetID() const
+UINT32 Texture::GetTextureBufferID() const
 {
+	D_ASSERT(mBufferID != 0);
 	return mBufferID;
 }
 

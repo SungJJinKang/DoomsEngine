@@ -144,9 +144,70 @@ bool doom::graphics::FrameBuffer::IsGenerated()
 	return mFrameBufferID != 0;
 }
 
+void FrameBuffer::BlitFrameBufferTo(
+	UINT32 ReadFrameBufferId, UINT32 DrawFrameBufferId, INT32 srcX0, INT32 srcY0,
+	INT32 srcX1, INT32 srcY1, INT32 dstX0, INT32 dstY0, INT32 dstX1, INT32 dstY1, 
+	GraphicsAPI::eBufferBitType mask, eImageInterpolation filter
+) noexcept
+{
+	//BackBuffer ID is zero!!
+	//D_ASSERT(ReadFrameBufferId != INVALID_BUFFER_ID);
+	//D_ASSERT(DrawFrameBufferId != INVALID_BUFFER_ID);
+	
+	doom::graphics::GraphicsAPI::BindFrameBuffer(doom::graphics::GraphicsAPI::eBindFrameBufferTarget::READ_FRAMEBUFFER, ReadFrameBufferId);
+	doom::graphics::GraphicsAPI::BindFrameBuffer(doom::graphics::GraphicsAPI::eBindFrameBufferTarget::DRAW_FRAMEBUFFER, DrawFrameBufferId);
+	glBlitFramebuffer(srcX0, srcY0, srcX1, srcY1, dstX0, dstY0, dstX1, dstY1, static_cast<UINT32>(mask), static_cast<UINT32>(filter));
+}
+
+
+void FrameBuffer::BlitFrameBufferTo(
+	UINT32 DrawFrameBufferId, INT32 srcX0, INT32 srcY0, INT32 srcX1, INT32 srcY1,
+	INT32 dstX0, INT32 dstY0, INT32 dstX1, INT32 dstY1, GraphicsAPI::eBufferBitType mask,
+	eImageInterpolation filter
+) const noexcept
+{
+	//BackBuffer ID is zero!!
+	D_ASSERT(mFrameBufferID != INVALID_BUFFER_ID);
+	//D_ASSERT(DrawFrameBufferId != INVALID_BUFFER_ID);
+
+	doom::graphics::GraphicsAPI::BindFrameBuffer(doom::graphics::GraphicsAPI::eBindFrameBufferTarget::READ_FRAMEBUFFER, mFrameBufferID);
+	doom::graphics::GraphicsAPI::BindFrameBuffer(doom::graphics::GraphicsAPI::eBindFrameBufferTarget::DRAW_FRAMEBUFFER, DrawFrameBufferId);
+	glBlitFramebuffer(srcX0, srcY0, srcX1, srcY1, dstX0, dstY0, dstX1, dstY1, static_cast<UINT32>(mask), static_cast<UINT32>(filter));
+}
+
+
+void FrameBuffer::BlitFrameBufferFrom(
+	UINT32 ReadFrameBufferId, INT32 srcX0, INT32 srcY0, INT32 srcX1, INT32 srcY1,
+	INT32 dstX0, INT32 dstY0, INT32 dstX1, INT32 dstY1, GraphicsAPI::eBufferBitType mask,
+	eImageInterpolation filter
+) const noexcept
+{
+	//BackBuffer ID is zero!!
+	//D_ASSERT(ReadFrameBufferId != INVALID_BUFFER_ID);
+	D_ASSERT(mFrameBufferID != INVALID_BUFFER_ID);
+
+	doom::graphics::GraphicsAPI::BindFrameBuffer(doom::graphics::GraphicsAPI::eBindFrameBufferTarget::READ_FRAMEBUFFER, ReadFrameBufferId);
+	doom::graphics::GraphicsAPI::BindFrameBuffer(doom::graphics::GraphicsAPI::eBindFrameBufferTarget::DRAW_FRAMEBUFFER, mFrameBufferID);
+	glBlitFramebuffer(srcX0, srcY0, srcX1, srcY1, dstX0, dstY0, dstX1, dstY1, static_cast<UINT32>(mask), static_cast<UINT32>(filter));
+}
+
+void FrameBuffer::BlitFrameBufferToTexture(
+	doom::graphics::Texture* const drawTexture, INT32 srcX0, INT32 srcY0,
+	INT32 srcX1, INT32 srcY1, INT32 dstX0, INT32 dstY0, INT32 dstX1, INT32 dstY1, 
+	GraphicsAPI::eBufferBitType mask, eImageInterpolation filter
+) const noexcept
+{
+	D_ASSERT(drawTexture != nullptr);
+	
+	doom::graphics::GraphicsAPI::BindFrameBuffer(doom::graphics::GraphicsAPI::eBindFrameBufferTarget::READ_FRAMEBUFFER, mFrameBufferID);
+	doom::graphics::GraphicsAPI::BindFrameBuffer(doom::graphics::GraphicsAPI::eBindFrameBufferTarget::DRAW_FRAMEBUFFER, drawTexture->GetTextureBufferID());
+	glBlitFramebuffer(srcX0, srcY0, srcX1, srcY1, dstX0, dstY0, dstX1, dstY1, static_cast<UINT32>(mask), static_cast<UINT32>(filter));
+}
+
 RenderBuffer& FrameBuffer::AttachRenderBuffer(GraphicsAPI::eBufferBitType renderBufferType, UINT32 width, UINT32 height)
 {
-	D_ASSERT(mFrameBufferID != 0);
+	D_ASSERT(mFrameBufferID != INVALID_BUFFER_ID);
+
 	auto& createdRenderBuffer = mAttachedRenderBuffers.emplace_back(*this, renderBufferType, width, height);
 	mClearBit |= static_cast<UINT32>(renderBufferType);
 
@@ -173,7 +234,7 @@ SingleTexture& FrameBuffer::AttachTextureBuffer(GraphicsAPI::eBufferBitType fram
 	{
 		SingleTexture colorTexture{ Texture::eTextureType::DIFFUSE, Texture::eTargetTexture::TEXTURE_2D,
 			eTextureInternalFormat::RGBA16F, width, height, eTextureComponentFormat::RGBA, Texture::eDataType::FLOAT, NULL };
-		glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0 + static_cast<UINT32>(mAttachedColorTextures.size()), static_cast<UINT32>(Texture::eBindTarget::TEXTURE_2D), colorTexture.GetID(), 0);
+		glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0 + static_cast<UINT32>(mAttachedColorTextures.size()), static_cast<UINT32>(Texture::eBindTarget::TEXTURE_2D), colorTexture.GetTextureBufferID(), 0);
 
 		mClearBit |= static_cast<UINT32>(GraphicsAPI::eBufferBitType::COLOR);
 		mDrawTarget |= GL_COLOR_ATTACHMENT0 + mAttachedColorTextures.size();
@@ -191,7 +252,7 @@ SingleTexture& FrameBuffer::AttachTextureBuffer(GraphicsAPI::eBufferBitType fram
 
 		SingleTexture depthTexture{ Texture::eTextureType::DIFFUSE, Texture::eTargetTexture::TEXTURE_2D,
 			eTextureInternalFormat::DEPTH_COMPONENT, width, height, eTextureComponentFormat::DEPTH_COMPONENT, Texture::eDataType::FLOAT, NULL };
-		glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, static_cast<UINT32>(Texture::eBindTarget::TEXTURE_2D), depthTexture.GetID(), 0);
+		glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, static_cast<UINT32>(Texture::eBindTarget::TEXTURE_2D), depthTexture.GetTextureBufferID(), 0);
 
 		mAttachedDepthTextures.push_back(std::move(depthTexture));
 		createdTexture = &mAttachedDepthTextures.back();
@@ -206,7 +267,7 @@ SingleTexture& FrameBuffer::AttachTextureBuffer(GraphicsAPI::eBufferBitType fram
 
 		SingleTexture depthStencilTexture{ Texture::eTextureType::DIFFUSE, Texture::eTargetTexture::TEXTURE_2D,
 			eTextureInternalFormat::DEPTH24_STENCIL8, width, height, eTextureComponentFormat::DEPTH_STENCIL, Texture::eDataType::UNSIGNED_INT_24_8, NULL };
-		glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, static_cast<UINT32>(Texture::eBindTarget::TEXTURE_2D), depthStencilTexture.GetID(), 0);
+		glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, static_cast<UINT32>(Texture::eBindTarget::TEXTURE_2D), depthStencilTexture.GetTextureBufferID(), 0);
 
 		mAttachedDepthStencilTextures.push_back(std::move(depthStencilTexture));
 		createdTexture = &mAttachedDepthStencilTextures.back();

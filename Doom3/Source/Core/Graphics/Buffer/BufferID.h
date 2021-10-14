@@ -1,5 +1,9 @@
 #pragma once
 
+#include <Core.h>
+
+#define INVALID_BUFFER_ID (UINT32)0
+
 /// <summary>
 /// Why need this?
 /// Read this : https://sungjjinkang.github.io/c++/2021/02/20/problemWhenUseMoveContrucotrCompilerMade.html
@@ -8,64 +12,66 @@ class BufferID
 {
 
 private:
-	UINT32 mData;
+
+	UINT32 mID;
 
 public:
-	BufferID() : mData{ NULL }
+
+	FORCE_INLINE BufferID() : mID{ 0 }
 	{}
 
-	BufferID(const BufferID& bufferID)
+	FORCE_INLINE BufferID(const BufferID& bufferID)
 	{
-		mData = bufferID.mData;
+		mID = bufferID.mID;
 	}
-	BufferID(BufferID&& bufferID) noexcept
+	FORCE_INLINE BufferID(BufferID&& bufferID) noexcept
 	{
-		mData = bufferID.mData;
-		bufferID.mData = NULL;
-	}
-
-	BufferID& operator=(const BufferID& bufferID)
-	{
-		mData = bufferID.mData;
-		return *this;
-	}
-	BufferID& operator=(BufferID&& bufferID) noexcept
-	{
-		mData = bufferID.mData;
-		bufferID.mData = NULL;
-		return *this;
+		mID = bufferID.mID;
+		bufferID.mID = 0;
 	}
 
-	BufferID(UINT32 data) : mData{ data }
+	FORCE_INLINE BufferID& operator=(const BufferID& bufferID)
+	{
+		mID = bufferID.mID;
+		return *this;
+	}
+	FORCE_INLINE BufferID& operator=(BufferID&& bufferID) noexcept
+	{
+		mID = bufferID.mID;
+		bufferID.mID = NULL;
+		return *this;
+	}
+
+	FORCE_INLINE BufferID(UINT32 data) : mID{ data }
 	{}
 
-	void operator=(const UINT32& data)
+	FORCE_INLINE void operator=(const UINT32& data)
 	{
-		mData = data;
+		mID = data;
 	}
-	void operator=(UINT32&& data) noexcept
+	FORCE_INLINE void operator=(UINT32&& data) noexcept
 	{
-		mData = data;
+		mID = data;
 		data = NULL;
 	}
 
-	operator UINT32 () const
+	FORCE_INLINE operator UINT32 () const
 	{
-		return mData;
+		return mID;
 	}
 
-	UINT32* operator& ()
+	FORCE_INLINE UINT32* operator& ()
 	{
-		return &(mData);
+		return &(mID);
 	}
-	const UINT32* operator& () const
+	FORCE_INLINE const UINT32* operator& () const
 	{
-		return &(mData);
+		return &(mID);
 	}
 
-	UINT32 Get() const
+	FORCE_INLINE UINT32 Get() const
 	{
-		return mData;
+		return mID;
 	}
 };
 

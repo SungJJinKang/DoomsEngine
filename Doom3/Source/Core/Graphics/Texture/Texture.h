@@ -21,8 +21,6 @@ namespace doom
 		/// </summary>
 		class Texture
 		{
-			friend class Graphics_Server;
-
 		public:
 
 			enum class eTextureType : UINT32 {
@@ -226,7 +224,7 @@ namespace doom
 			eWrapMode mWrapR;
 
 
-		protected:
+		public:
 
 			BufferID mBufferID{};
 
@@ -260,9 +258,6 @@ namespace doom
 
 			virtual ~Texture();
 			virtual void OnEndContructor();
-
-		public:
-
 			
 
 			const eTextureType mTextureType;
@@ -335,7 +330,7 @@ namespace doom
 				INT32 level, const void* data
 			) const  = 0;
 
-			UINT32 GetID() const;
+			UINT32 GetTextureBufferID() const;
 
 			void SetWrapMode(eWrapMode wrapMode, bool bBind);
 			void SetFilterMin(eFilterMode filterMode, bool bBind);
