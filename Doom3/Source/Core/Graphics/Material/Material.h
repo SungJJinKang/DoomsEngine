@@ -57,15 +57,17 @@ namespace doom
 			BufferID mProgramID;
 			::doom::asset::ShaderAsset* mShaderAsset;
 			static constexpr inline UINT32 MAX_TEXTURE_COUNT{ 7 };
-			std::array<Texture*, MAX_TEXTURE_COUNT> mTargetTextures{ nullptr };
+			std::array<const Texture*, MAX_TEXTURE_COUNT> mTargetTextures{ nullptr };
 			std::array<UniformBufferObject*, MAX_UNIFORM_BLOCK_BINDING_POINT> mUniformBufferObjects{ nullptr };
+			
+			void DestroyMaterialBufferObject();
 
-			
-			
 		public:
+
 			Material();
 			Material(::doom::asset::ShaderAsset* shaderAsset);
-			~Material();
+			
+			virtual ~Material();
 
 			Material(const Material&) = delete;
 			Material& operator=(const Material&) noexcept = delete;
@@ -78,7 +80,7 @@ namespace doom
 
 			void AddTexture(UINT32 bindingPoint, Texture* texture);
 			void AddTexture(UINT32 bindingPoint, ::doom::asset::TextureAsset* textureAsset);
-			void AddTextures(const std::array<Texture*, MAX_TEXTURE_COUNT>& textures);
+			void AddTextures(const std::array<const Texture*, MAX_TEXTURE_COUNT>& textures);
 
 			void UseProgram() const;
 

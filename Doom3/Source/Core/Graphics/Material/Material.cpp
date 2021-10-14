@@ -78,12 +78,18 @@ Material::Material(::doom::asset::ShaderAsset* shaderAsset) : mProgramID{0}, mSh
 
 }
 
-Material::~Material()
+void Material::DestroyMaterialBufferObject()
 {
 	if (mProgramID.Get() != 0)
 	{
 		glDeleteProgram(mProgramID);
+		mProgramID = 0;
 	}
+}
+
+Material::~Material()
+{
+	DestroyMaterialBufferObject();
 }
 
 bool doom::graphics::Material::IsGenerated() const
@@ -100,10 +106,10 @@ void Material::AddTexture(UINT32 bindingPoint, Texture* texture)
 void Material::AddTexture(UINT32 bindingPoint, ::doom::asset::TextureAsset* textureAsset)
 {
 	D_ASSERT(IsGenerated() == true);
-	mTargetTextures[bindingPoint] = textureAsset->GetTexture();
+	mTargetTextures[bindingPoint] = textureAsset->GetDefaultTextureObject();
 }
 
-void doom::graphics::Material::AddTextures(const std::array<Texture*, MAX_TEXTURE_COUNT>& textures)
+void doom::graphics::Material::AddTextures(const std::array<const Texture*, MAX_TEXTURE_COUNT>& textures)
 {
 	D_ASSERT(IsGenerated() == true);
 	mTargetTextures = textures;

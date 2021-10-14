@@ -1,4 +1,7 @@
 #pragma once
+
+#include <Core.h>
+
 #include "../GraphicsAPI.h"
 #include "../OverlapBindChecker.h"
 #include "../Buffer/BufferID.h"
@@ -9,7 +12,7 @@ namespace doom
 	{
 		class FrameBuffer;
 
-		class RenderBuffer
+		class RenderBuffer : public DObject
 		{
 		private:
 			static inline const char RENDERBUFFER_TAG[]{ "RenderBuffer" };

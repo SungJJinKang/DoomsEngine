@@ -14,6 +14,10 @@ Component::Component() : bIsAddedToEntity{}, mOwnerEntity{}, mTransform{}, mIsAc
 
 }
 
+Component::~Component()
+{
+}
+
 void Component::AddLocalDirtyToTransformDirtyReceiver(DirtyReceiver& localDirty)
 {
 	GetTransform()->mDirtySender.AddDirtyReceiver(&localDirty);

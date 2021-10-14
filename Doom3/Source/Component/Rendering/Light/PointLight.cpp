@@ -45,3 +45,7 @@ void doom::PointLight::UpdateUniformBufferObject()
 
 	}
 }
+
+doom::PointLight::~PointLight()
+{
+}

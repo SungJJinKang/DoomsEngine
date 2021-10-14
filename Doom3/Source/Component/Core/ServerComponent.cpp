@@ -5,6 +5,9 @@ using namespace doom;
 
 ServerComponent::ServerComponent() : Component() {}
 
+ServerComponent::~ServerComponent()
+{
+}
 
 
 void doom::ServerComponent::InitComponent_Internal(Entity* entity)

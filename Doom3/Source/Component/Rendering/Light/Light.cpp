@@ -15,6 +15,10 @@ void doom::Light::OnEndOfFrame_Component()
 
 }
 
+doom::Light::~Light()
+{
+}
+
 void doom::Light::SetIntensity(FLOAT32 intensity)
 {
 	mIntensity = intensity;

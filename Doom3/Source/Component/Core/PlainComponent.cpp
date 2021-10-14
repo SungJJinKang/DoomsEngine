@@ -4,6 +4,10 @@ using namespace doom;
 
 PlainComponent::PlainComponent() : Component() {}
 
+PlainComponent::~PlainComponent()
+{
+}
+
 
 void doom::PlainComponent::InitComponent_Internal(Entity* entity)
 {

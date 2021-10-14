@@ -21,6 +21,6 @@ namespace doom
 
 	public:
 
-		virtual ~PointLight() {}
+		virtual ~PointLight();
 	};
 }

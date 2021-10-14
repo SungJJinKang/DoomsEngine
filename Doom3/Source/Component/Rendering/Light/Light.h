@@ -30,7 +30,7 @@ namespace doom
 		
 	public:
 		Light() = default;
-		virtual ~Light(){}
+		virtual ~Light();
 
 		void SetIntensity(FLOAT32 intensity);
 		void SetIndirectMultiplier(FLOAT32 indirectMultiplier);

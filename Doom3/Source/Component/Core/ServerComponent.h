@@ -34,7 +34,7 @@ namespace doom
 		/// Destructor should be called only from RemoveConponent(or clear component) of Entity class
 		/// </summary>
 		/// <returns></returns>
-		virtual ~ServerComponent(){}
+		virtual ~ServerComponent();
 
 		/// Dont put public to Internal Function For Protect use call Internal Function
 		virtual void InitComponent_Internal(Entity* entity) final;

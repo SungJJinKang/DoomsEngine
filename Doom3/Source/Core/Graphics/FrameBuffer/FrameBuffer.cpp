@@ -45,16 +45,19 @@ void FrameBuffer::SetTargetDrawBuffer()
 }
 
 
-FrameBuffer::~FrameBuffer()
+void FrameBuffer::DestoryFrameBufferObject()
 {
 	if (mFrameBufferID != 0)
 	{
 		glDeleteFramebuffers(1, &(mFrameBufferID));
+		mFrameBufferID = 0;
 	}
-	
 }
 
-
+FrameBuffer::~FrameBuffer()
+{
+	DestoryFrameBufferObject();
+}
 
 
 void FrameBuffer::CheckIsFrameBufferSuccesfullyCreated() noexcept

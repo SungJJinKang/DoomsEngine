@@ -48,6 +48,7 @@ namespace doom
 			/// </summary>
 			inline static FrameBuffer* CurrentFrameBuffer{ nullptr };
 
+			void DestoryFrameBufferObject();
 
 		public:
 			
@@ -66,6 +67,7 @@ namespace doom
 			void GenerateBuffer(UINT32 defaultWidth, UINT32 defaultHeight);
 			void RefreshTargetDrawBufferContainer();
 			void SetTargetDrawBuffer();
+		
 
 			FORCE_INLINE UINT32 GetDefaultWidth() const
 			{
