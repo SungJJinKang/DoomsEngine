@@ -35,7 +35,7 @@ namespace doom
 				}
 			}
 
-			FORCE_INLINE void BindRenderBuffer() noexcept
+			FORCE_INLINE void BindRenderBuffer() const noexcept
 			{
 				BindRenderBuffer(mRenderBufferID);
 			}

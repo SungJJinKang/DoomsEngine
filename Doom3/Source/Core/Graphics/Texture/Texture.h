@@ -435,6 +435,16 @@ namespace doom
 			const std::unique_ptr<UINT8[]> GetTexturePixels(const INT32 lodLevel) const;
 			UINT8* GetTexturePixelsUnsafe(const INT32 lodLevel) const;
 
+			INT32 GetTextureBufferSize(const INT32 lodLevel) const;
+
+			static INT32 GetTextureBufferSizeStatic
+			(
+				const INT32 width, 
+				const INT32 height, 
+				const eTextureComponentFormat dataFormat,
+				const eDataType dataType
+			);
+
 		};
 	}
 }

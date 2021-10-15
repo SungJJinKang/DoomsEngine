@@ -209,6 +209,7 @@
     <ClCompile Include="Source\Core\Asset\FontAsset.cpp" />
     <ClCompile Include="Source\Core\Asset\Helper\AssetFactory.cpp" />
     <ClCompile Include="Source\Core\Game\AssetManager\AssetFuture.cpp" />
+    <ClCompile Include="Source\Core\Graphics\FrameBuffer\FrameBufferExporterHelper.cpp" />
     <ClCompile Include="Source\Core\IO\AssetExporter\AssetExporter_Texture.cpp" />
     <ClCompile Include="Source\Core\IO\AssetImporter\Manager\AssetImporterWorkerManager.cpp" />
     <ClCompile Include="Source\Core\IO\AssetImporter\AssetImporterWorker\AssetImporterWorker.cpp" />
@@ -390,6 +391,7 @@
     <ClInclude Include="Source\Core\Asset\AssetsForwardDeclaration.h" />
     <ClInclude Include="Source\Core\Asset\Helper\AssetFactory.h" />
     <ClInclude Include="Source\Core\Game\AssetManager\AssetFuture.h" />
+    <ClInclude Include="Source\Core\Graphics\FrameBuffer\FrameBufferExporterHelper.h" />
     <ClInclude Include="Source\Core\IO\AssetExporter\AssetExporter_Texture.h" />
     <ClInclude Include="Source\Core\IO\AssetImporter\AssetImporterWorker\AssetImporterWorkerForwardDeclaration.h" />
     <ClInclude Include="Source\Core\IO\AssetImporter\Manager\AssetImporterWorkerManager.h" />

@@ -77,6 +77,14 @@ namespace doom
 					}
 					break;
 
+				case doom::graphics::eTextureComponentFormat::DEPTH_COMPONENT: // RGS also use DXGI_FORMAT_R8G8B8A8_UNORM
+					dxImage.format = DXGI_FORMAT::DXGI_FORMAT_D32_FLOAT;
+					break;
+
+				case doom::graphics::eTextureComponentFormat::DEPTH_STENCIL:
+					dxImage.format = DXGI_FORMAT::DXGI_FORMAT_D24_UNORM_S8_UINT;
+					break;
+
 				default:
 					NEVER_HAPPEN;
 				}
@@ -112,10 +120,12 @@ namespace doom
 
 void doom::assetExporter::assetExporterTexture::ExportTextureAsDDS
 (
-	DirectX::Image dxImage, 
+	const DirectX::Image dxImage,
 	const INT32 lodLevel,
 	const doom::graphics::eTextureComponentFormat pixelFormat,
-	const std::filesystem::path& exportPath)
+	const std::filesystem::path& exportPath,
+	const bool releasePixelMemoryAfterExport
+)
 {
 	std::unique_ptr<UINT8[]> pixels(dxImage.pixels); // for safety
 
@@ -171,9 +181,14 @@ void doom::assetExporter::assetExporterTexture::ExportTextureAsDDS
 	{
 		doom::ui::PrintText("Fail To Compress Texture");
 	}
+
+	if (releasePixelMemoryAfterExport == true)
+	{
+		delete[] dxImage.pixels;
+	}
 }
 
-void doom::assetExporter::assetExporterTexture::ExportTextureAsDDS
+void doom::assetExporter::assetExporterTexture::ExportTextureFromTextureAsDDS
 (
 	const doom::graphics::Texture* const exportedTexture,
 	const INT32 lodLevel,
@@ -201,16 +216,71 @@ void doom::assetExporter::assetExporterTexture::ExportTextureAsDDS
 	ExportTextureAsDDS(dxImage, lodLevel, pixelFormat, exportPath);
 }
 
-void doom::assetExporter::assetExporterTexture::ExportTexture
+void doom::assetExporter::assetExporterTexture::ExportTextureFromMainFrameBufferAsDDS
 (
-	DirectX::Image dxImage, 
-	const INT32 lodLevel,
-	const std::filesystem::path& exportPath, 
-	const eTextureExtension textureExtension
+	const doom::graphics::eTextureComponentFormat pixelFormat,
+	const doom::graphics::Texture::eDataType dataType,
+	const std::filesystem::path& exportPath
 )
 {
-	std::unique_ptr<UINT8[]> pixels(dxImage.pixels); // for safety
 
+	ExportTextureFromMainFrameBufferAsDDS(0, 0, pixelFormat, dataType, exportPath);
+}
+
+void doom::assetExporter::assetExporterTexture::ExportTextureFromMainFrameBufferAsDDS
+(
+	const INT32 startX,
+	const INT32 startY, 
+	const doom::graphics::eTextureComponentFormat pixelFormat,
+	const doom::graphics::Texture::eDataType dataType, 
+	const std::filesystem::path& exportPath
+)
+{
+	doom::graphics::FrameBuffer::UnBindFrameBuffer();
+
+	INT32 dims[4] = { 0, 0 , 0, 0 };
+	glGetIntegerv(GL_VIEWPORT, dims);
+	const INT32 frameBufferWidth = dims[2];;
+	const INT32 frameBufferHeight = dims[3];
+
+	ExportTextureFromMainFrameBufferAsDDS(startX, startY, frameBufferWidth, frameBufferHeight, pixelFormat, dataType, exportPath);
+}
+
+void doom::assetExporter::assetExporterTexture::ExportTextureFromMainFrameBufferAsDDS
+(
+	const INT32 startX,
+	const INT32 startY, 
+	const INT32 width,
+	const INT32 height,
+	const doom::graphics::eTextureComponentFormat pixelFormat, 
+	const doom::graphics::Texture::eDataType dataType,
+	const std::filesystem::path& exportPath
+)
+{
+	doom::graphics::FrameBuffer::UnBindFrameBuffer();
+	doom::graphics::FrameBuffer::BindFrameBufferStatic(graphics::FrameBuffer::eBindFrameBufferTarget::READ_FRAMEBUFFER, 0);
+	doom::graphics::GraphicsAPI::ReadBuffer(graphics::GraphicsAPI::eBufferMode::FRONT);
+
+	const INT32 bufferSize = doom::graphics::Texture::GetTextureBufferSizeStatic(width, height, pixelFormat, dataType);
+
+	UINT8* pixels = new UINT8[bufferSize];
+	glReadPixels(startX, startY, width, height, static_cast<UINT32>(pixelFormat), static_cast<UINT32>(dataType), pixels);
+
+	DirectX::Image directXImage = ConvertToDirectXImage(0, pixels, width, height, pixelFormat, dataType);
+	ExportTextureAsDDS(directXImage, 0, pixelFormat, exportPath);
+
+	doom::graphics::GraphicsAPI::ReadBuffer(graphics::GraphicsAPI::eBufferMode::NONE);
+}
+
+void doom::assetExporter::assetExporterTexture::ExportTexture
+(
+	const DirectX::Image dxImage, 
+	const INT32 lodLevel,
+	const std::filesystem::path& exportPath, 
+	const eTextureExtension textureExtension,
+	const bool releasePixelMemoryAfterExport
+)
+{
 	std::filesystem::path destinationPath = exportPath;
 	DirectX::WICCodecs codec;
 
@@ -248,6 +318,11 @@ void doom::assetExporter::assetExporterTexture::ExportTexture
 		DirectX::GetWICCodec(codec),
 		destinationPath.generic_wstring().c_str()
 	);
+
+	if (releasePixelMemoryAfterExport == true)
+	{
+		delete[] dxImage.pixels;
+	}
 	
 	D_ASSERT(FAILED(hr) == false);
 	if (FAILED(hr) == true)
@@ -260,7 +335,7 @@ void doom::assetExporter::assetExporterTexture::ExportTexture
 	}
 }
 
-void doom::assetExporter::assetExporterTexture::ExportTexture
+void doom::assetExporter::assetExporterTexture::ExportTextureFromTexture
 (
 	const doom::graphics::Texture* const exportedTexture,
 	const INT32 lodLevel,
@@ -288,4 +363,112 @@ void doom::assetExporter::assetExporterTexture::ExportTexture
 {
 	DirectX::Image dxImage = ConvertToDirectXImage(lodLevel, pixels, width, height, pixelFormat, dataType);
 	ExportTexture(dxImage, lodLevel, exportPath, textureExtension);
+}
+
+void doom::assetExporter::assetExporterTexture::ExportTextureFromFrameBuffer
+(
+	const graphics::FrameBuffer* const frameBuffer, const UINT32 colorAttachmentIndex,
+	const INT32 startX, const INT32 startY, 
+	const doom::graphics::eTextureComponentFormat pixelFormat, const doom::graphics::Texture::eDataType dataType, 
+	const std::filesystem::path& exportPath, const eTextureExtension textureExtension
+)
+{
+	frameBuffer->BindFrameBuffer();
+	doom::graphics::GraphicsAPI::ReadBuffer(static_cast<graphics::GraphicsAPI::eBufferMode>(static_cast<UINT32>(graphics::GraphicsAPI::eBufferMode::COLOR_ATTACHMENT0) + colorAttachmentIndex));
+
+	INT32 width = frameBuffer->GetFrameBufferParameteriv(doom::graphics::FrameBuffer::eFrameBufferParameterPName::FRAMEBUFFER_DEFAULT_WIDTH);
+	INT32 height = frameBuffer->GetFrameBufferParameteriv(doom::graphics::FrameBuffer::eFrameBufferParameterPName::FRAMEBUFFER_DEFAULT_HEIGHT);
+
+	const INT32 bufferSize = doom::graphics::Texture::GetTextureBufferSizeStatic(width, height, pixelFormat, dataType);
+
+	UINT8* pixels = new UINT8[bufferSize];
+	glReadPixels(startX, startY, width, height, static_cast<UINT32>(pixelFormat), static_cast<UINT32>(dataType), pixels);
+
+	DirectX::Image directXImage = ConvertToDirectXImage(0, pixels, width, height, pixelFormat, dataType);
+	ExportTexture(directXImage, 0, exportPath, textureExtension);
+
+	doom::graphics::GraphicsAPI::ReadBuffer(graphics::GraphicsAPI::eBufferMode::NONE);
+
+}
+
+void doom::assetExporter::assetExporterTexture::ExportTextureFromFrameBuffer
+(
+	const graphics::FrameBuffer* const frameBuffer, const UINT32 colorAttachmentIndex, 
+	const INT32 startX, const INT32 startY,
+	const SIZE_T width, const SIZE_T height, const doom::graphics::eTextureComponentFormat pixelFormat,
+	const doom::graphics::Texture::eDataType dataType, const std::filesystem::path& exportPath,
+	const eTextureExtension textureExtension
+)
+{
+	frameBuffer->BindFrameBuffer();
+	doom::graphics::GraphicsAPI::ReadBuffer(static_cast<graphics::GraphicsAPI::eBufferMode>(static_cast<UINT32>(graphics::GraphicsAPI::eBufferMode::COLOR_ATTACHMENT0) + colorAttachmentIndex));
+
+	const INT32 bufferSize = doom::graphics::Texture::GetTextureBufferSizeStatic(width, height, pixelFormat, dataType);
+
+	UINT8* pixels = new UINT8[bufferSize];
+	glReadPixels(startX, startY, width, height, static_cast<UINT32>(pixelFormat), static_cast<UINT32>(dataType), pixels);
+
+	DirectX::Image directXImage = ConvertToDirectXImage(0, pixels, width, height, pixelFormat, dataType);
+	ExportTexture(directXImage, 0, exportPath, textureExtension);
+
+	doom::graphics::GraphicsAPI::ReadBuffer(graphics::GraphicsAPI::eBufferMode::NONE);
+
+}
+
+void doom::assetExporter::assetExporterTexture::ExportTextureFromMainFrameBuffer
+(
+	const doom::graphics::eTextureComponentFormat pixelFormat, const doom::graphics::Texture::eDataType dataType,
+	const std::filesystem::path& exportPath, const eTextureExtension textureExtension)
+{
+	ExportTextureFromMainFrameBuffer(0, 0, pixelFormat, dataType, exportPath, textureExtension);
+}
+
+void doom::assetExporter::assetExporterTexture::ExportTextureFromMainFrameBuffer
+(
+	const INT32 startX, const INT32 startY,
+	const doom::graphics::eTextureComponentFormat pixelFormat,
+	const doom::graphics::Texture::eDataType dataType, const std::filesystem::path& exportPath,
+	const eTextureExtension textureExtension
+)
+{
+	doom::graphics::FrameBuffer::UnBindFrameBuffer();
+
+	INT32 dims[4] = { 0, 0 , 0, 0 };
+	glGetIntegerv(GL_VIEWPORT, dims);
+	const INT32 frameBufferWidth = dims[2];;
+	const INT32 frameBufferHeight = dims[3];
+	
+	ExportTextureFromMainFrameBuffer(startX, startY, frameBufferWidth, frameBufferHeight, pixelFormat, dataType, exportPath, textureExtension);
+}
+
+
+void doom::assetExporter::assetExporterTexture::ExportTextureFromMainFrameBuffer
+(
+	const INT32 startX, const INT32 startY,
+	const INT32 width, const INT32 height, const doom::graphics::eTextureComponentFormat pixelFormat,
+	const doom::graphics::Texture::eDataType dataType, const std::filesystem::path& exportPath,
+	const eTextureExtension textureExtension
+)
+{
+	doom::graphics::FrameBuffer::UnBindFrameBuffer();
+	doom::graphics::FrameBuffer::BindFrameBufferStatic(graphics::FrameBuffer::eBindFrameBufferTarget::READ_FRAMEBUFFER, 0);
+	doom::graphics::GraphicsAPI::ReadBuffer(graphics::GraphicsAPI::eBufferMode::FRONT);
+
+	const INT32 bufferSize = doom::graphics::Texture::GetTextureBufferSizeStatic(width, height, pixelFormat, dataType);
+
+	UINT8* pixels = new UINT8[bufferSize];
+	glReadPixels(startX, startY, width, height, static_cast<UINT32>(pixelFormat), static_cast<UINT32>(dataType), pixels);
+
+	DirectX::Image directXImage = ConvertToDirectXImage(0, pixels, width, height, pixelFormat, dataType);
+
+	DirectX::ScratchImage rotatedDirectXScratchImage;
+	DirectX::FlipRotate(directXImage, DirectX::TEX_FR_FLAGS::TEX_FR_FLIP_VERTICAL, rotatedDirectXScratchImage);
+
+	delete[] directXImage.pixels;
+	
+	ExportTexture(*rotatedDirectXScratchImage.GetImage(0, 0, 0), 0, exportPath, textureExtension, false);
+
+	doom::graphics::GraphicsAPI::ReadBuffer(graphics::GraphicsAPI::eBufferMode::NONE);
+
+	rotatedDirectXScratchImage.Release();
 }

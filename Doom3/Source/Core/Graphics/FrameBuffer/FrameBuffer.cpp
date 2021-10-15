@@ -147,6 +147,26 @@ bool doom::graphics::FrameBuffer::IsGenerated()
 	return mFrameBufferID != 0;
 }
 
+INT32 FrameBuffer::GetFrameBufferParameteriv(const eFrameBufferParameterPName frameBufferParameterPName) const
+{
+	return GetFrameBufferParameterivStatic(this, frameBufferParameterPName);
+}
+
+INT32 FrameBuffer::GetFrameBufferParameterivStatic
+(
+	const FrameBuffer* const frameBuffer,
+	const eFrameBufferParameterPName frameBufferParameterPName
+)
+{
+	D_ASSERT(frameBuffer != nullptr);
+	frameBuffer->BindFrameBuffer();
+
+	INT32 data;
+	glGetFramebufferParameteriv(static_cast<UINT32>(eBindFrameBufferTarget::FRAMEBUFFER), static_cast<UINT32>(frameBufferParameterPName), &data);
+
+	return data;
+}
+
 void FrameBuffer::BlitFrameBufferTo(
 	UINT32 ReadFrameBufferId, UINT32 DrawFrameBufferId, INT32 srcX0, INT32 srcY0,
 	INT32 srcX1, INT32 srcY1, INT32 dstX0, INT32 dstY0, INT32 dstX1, INT32 dstY1, 
@@ -157,8 +177,8 @@ void FrameBuffer::BlitFrameBufferTo(
 	//D_ASSERT(ReadFrameBufferId != INVALID_BUFFER_ID);
 	//D_ASSERT(DrawFrameBufferId != INVALID_BUFFER_ID);
 	
-	doom::graphics::GraphicsAPI::BindFrameBuffer(doom::graphics::GraphicsAPI::eBindFrameBufferTarget::READ_FRAMEBUFFER, ReadFrameBufferId);
-	doom::graphics::GraphicsAPI::BindFrameBuffer(doom::graphics::GraphicsAPI::eBindFrameBufferTarget::DRAW_FRAMEBUFFER, DrawFrameBufferId);
+	BindFrameBufferStatic(eBindFrameBufferTarget::READ_FRAMEBUFFER, ReadFrameBufferId);
+	BindFrameBufferStatic(eBindFrameBufferTarget::DRAW_FRAMEBUFFER, DrawFrameBufferId);
 	glBlitFramebuffer(srcX0, srcY0, srcX1, srcY1, dstX0, dstY0, dstX1, dstY1, static_cast<UINT32>(mask), static_cast<UINT32>(filter));
 }
 
@@ -173,8 +193,8 @@ void FrameBuffer::BlitFrameBufferTo(
 	D_ASSERT(mFrameBufferID != INVALID_BUFFER_ID);
 	//D_ASSERT(DrawFrameBufferId != INVALID_BUFFER_ID);
 
-	doom::graphics::GraphicsAPI::BindFrameBuffer(doom::graphics::GraphicsAPI::eBindFrameBufferTarget::READ_FRAMEBUFFER, mFrameBufferID);
-	doom::graphics::GraphicsAPI::BindFrameBuffer(doom::graphics::GraphicsAPI::eBindFrameBufferTarget::DRAW_FRAMEBUFFER, DrawFrameBufferId);
+	BindFrameBufferStatic(eBindFrameBufferTarget::READ_FRAMEBUFFER, mFrameBufferID);
+	BindFrameBufferStatic(eBindFrameBufferTarget::DRAW_FRAMEBUFFER, DrawFrameBufferId);
 	glBlitFramebuffer(srcX0, srcY0, srcX1, srcY1, dstX0, dstY0, dstX1, dstY1, static_cast<UINT32>(mask), static_cast<UINT32>(filter));
 }
 
@@ -189,8 +209,8 @@ void FrameBuffer::BlitFrameBufferFrom(
 	//D_ASSERT(ReadFrameBufferId != INVALID_BUFFER_ID);
 	D_ASSERT(mFrameBufferID != INVALID_BUFFER_ID);
 
-	doom::graphics::GraphicsAPI::BindFrameBuffer(doom::graphics::GraphicsAPI::eBindFrameBufferTarget::READ_FRAMEBUFFER, ReadFrameBufferId);
-	doom::graphics::GraphicsAPI::BindFrameBuffer(doom::graphics::GraphicsAPI::eBindFrameBufferTarget::DRAW_FRAMEBUFFER, mFrameBufferID);
+	BindFrameBufferStatic(eBindFrameBufferTarget::READ_FRAMEBUFFER, ReadFrameBufferId);
+	BindFrameBufferStatic(eBindFrameBufferTarget::DRAW_FRAMEBUFFER, mFrameBufferID);
 	glBlitFramebuffer(srcX0, srcY0, srcX1, srcY1, dstX0, dstY0, dstX1, dstY1, static_cast<UINT32>(mask), static_cast<UINT32>(filter));
 }
 
@@ -202,8 +222,8 @@ void FrameBuffer::BlitFrameBufferToTexture(
 {
 	D_ASSERT(drawTexture != nullptr);
 	
-	doom::graphics::GraphicsAPI::BindFrameBuffer(doom::graphics::GraphicsAPI::eBindFrameBufferTarget::READ_FRAMEBUFFER, mFrameBufferID);
-	doom::graphics::GraphicsAPI::BindFrameBuffer(doom::graphics::GraphicsAPI::eBindFrameBufferTarget::DRAW_FRAMEBUFFER, drawTexture->GetTextureBufferID());
+	BindFrameBufferStatic(eBindFrameBufferTarget::READ_FRAMEBUFFER, mFrameBufferID);
+	BindFrameBufferStatic(eBindFrameBufferTarget::DRAW_FRAMEBUFFER, drawTexture->GetTextureBufferID());
 	glBlitFramebuffer(srcX0, srcY0, srcX1, srcY1, dstX0, dstY0, dstX1, dstY1, static_cast<UINT32>(mask), static_cast<UINT32>(filter));
 }
 

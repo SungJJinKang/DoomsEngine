@@ -17,6 +17,7 @@ namespace doom
 	namespace graphics
 	{
 		class Texture;
+		class FrameBuffer;
 	}
 
 	namespace assetExporter
@@ -25,13 +26,14 @@ namespace doom
 		{
 			extern void ExportTextureAsDDS
 			(
-				DirectX::Image dxImage,
+				const DirectX::Image dxImage,
 				const INT32 lodLevel,
 				const doom::graphics::eTextureComponentFormat pixelFormat,
-				const std::filesystem::path& exportPath
+				const std::filesystem::path& exportPath,
+				const bool releasePixelMemoryAfterExport = true
 			);
 
-			extern void ExportTextureAsDDS
+			extern void ExportTextureFromTextureAsDDS
 			(
 				const doom::graphics::Texture* const exportedTexture,
 				const INT32 lodLevel,
@@ -48,7 +50,34 @@ namespace doom
 				const doom::graphics::Texture::eDataType dataType,
 				const std::filesystem::path& exportPath
 			);
-			
+
+
+			extern void ExportTextureFromMainFrameBufferAsDDS
+			(
+				const doom::graphics::eTextureComponentFormat pixelFormat,
+				const doom::graphics::Texture::eDataType dataType,
+				const std::filesystem::path& exportPath
+			);
+
+			extern void ExportTextureFromMainFrameBufferAsDDS
+			(
+				const INT32 startX,
+				const INT32 startY,
+				const doom::graphics::eTextureComponentFormat pixelFormat,
+				const doom::graphics::Texture::eDataType dataType,
+				const std::filesystem::path& exportPath
+			);
+
+			extern void ExportTextureFromMainFrameBufferAsDDS
+			(
+				const INT32 startX,
+				const INT32 startY,
+				const INT32 width,
+				const INT32 height,
+				const doom::graphics::eTextureComponentFormat pixelFormat,
+				const doom::graphics::Texture::eDataType dataType,
+				const std::filesystem::path& exportPath
+			);
 
 			enum class eTextureExtension
 			{
@@ -61,13 +90,14 @@ namespace doom
 
 			extern void ExportTexture
 			(
-				DirectX::Image dxImage,
+				const DirectX::Image dxImage,
 				const INT32 lodLevel,
 				const std::filesystem::path& exportPath,
-				const eTextureExtension textureExtension
+				const eTextureExtension textureExtension,
+				const bool releasePixelMemoryAfterExport = true
 			);
 
-			extern void ExportTexture
+			extern void ExportTextureFromTexture
 			(
 				const doom::graphics::Texture* const exportedTexture,
 				const INT32 lodLevel,
@@ -81,6 +111,62 @@ namespace doom
 				UINT8* pixels,
 				const SIZE_T width,
 				const SIZE_T height,
+				const doom::graphics::eTextureComponentFormat pixelFormat,
+				const doom::graphics::Texture::eDataType dataType,
+				const std::filesystem::path& exportPath,
+				const eTextureExtension textureExtension
+			);
+
+			extern void ExportTextureFromFrameBuffer
+			(
+				const graphics::FrameBuffer* const frameBuffer,
+				const UINT32 colorAttachmentIndex,
+				const INT32 startX,
+				const INT32 startY,
+				const doom::graphics::eTextureComponentFormat pixelFormat,
+				const doom::graphics::Texture::eDataType dataType,
+				const std::filesystem::path& exportPath,
+				const eTextureExtension textureExtension
+			);
+
+			extern void ExportTextureFromFrameBuffer
+			(
+				const graphics::FrameBuffer* const frameBuffer,
+				const UINT32 colorAttachmentIndex,
+				const INT32 startX,
+				const INT32 startY,
+				const SIZE_T width,
+				const SIZE_T height,
+				const doom::graphics::eTextureComponentFormat pixelFormat,
+				const doom::graphics::Texture::eDataType dataType,
+				const std::filesystem::path& exportPath,
+				const eTextureExtension textureExtension
+			);
+
+			extern void ExportTextureFromMainFrameBuffer
+			(
+				const doom::graphics::eTextureComponentFormat pixelFormat,
+				const doom::graphics::Texture::eDataType dataType,
+				const std::filesystem::path& exportPath,
+				const eTextureExtension textureExtension
+			);
+
+			extern void ExportTextureFromMainFrameBuffer
+			(
+				const INT32 startX,
+				const INT32 startY,
+				const doom::graphics::eTextureComponentFormat pixelFormat,
+				const doom::graphics::Texture::eDataType dataType,
+				const std::filesystem::path& exportPath,
+				const eTextureExtension textureExtension
+			);
+
+			extern void ExportTextureFromMainFrameBuffer
+			(
+				const INT32 startX,
+				const INT32 startY,
+				const INT32 width,
+				const INT32 height,
 				const doom::graphics::eTextureComponentFormat pixelFormat,
 				const doom::graphics::Texture::eDataType dataType,
 				const std::filesystem::path& exportPath,

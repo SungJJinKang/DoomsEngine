@@ -42,11 +42,11 @@ namespace doom
 			/// <summary>
 			/// nullptr mean default ScreenBuffer
 			/// </summary>
-			inline static FrameBuffer* PreviousFrameBuffer{ nullptr };
+			inline static const FrameBuffer* PreviousFrameBuffer{ nullptr };
 			/// <summary>
 			/// nullptr mean default ScreenBuffer
 			/// </summary>
-			inline static FrameBuffer* CurrentFrameBuffer{ nullptr };
+			inline static const FrameBuffer* CurrentFrameBuffer{ nullptr };
 
 			void DestoryFrameBufferObject();
 
@@ -79,32 +79,32 @@ namespace doom
 				return mDefaultHeight;
 			}
 
-			FORCE_INLINE static void StaticBindFrameBuffer(FrameBuffer* const frameBuffer)
+			FORCE_INLINE static void StaticBindFrameBuffer(const FrameBuffer* const frameBuffer)
 			{
 				if (D_OVERLAP_BIND_CHECK_CHECK_IS_NOT_BOUND_AND_BIND_ID(FRAMEBUFFER_TAG, ((frameBuffer != nullptr) ? frameBuffer->mFrameBufferID.Get() : 0)))
 				{
 					FrameBuffer::PreviousFrameBuffer = CurrentFrameBuffer;
 					if (frameBuffer == nullptr)
 					{
-						doom::graphics::GraphicsAPI::BindFrameBuffer(doom::graphics::GraphicsAPI::eBindFrameBufferTarget::FRAMEBUFFER, 0);
+						BindFrameBufferStatic(eBindFrameBufferTarget::FRAMEBUFFER, 0);
 						glViewport(0, 0, graphics::Graphics_Setting::GetScreenWidth(), graphics::Graphics_Setting::GetScreenHeight());
 					}
 					else
 					{
-						doom::graphics::GraphicsAPI::BindFrameBuffer(doom::graphics::GraphicsAPI::eBindFrameBufferTarget::FRAMEBUFFER, frameBuffer->mFrameBufferID);
+						BindFrameBufferStatic(eBindFrameBufferTarget::FRAMEBUFFER, frameBuffer->mFrameBufferID);
 						glViewport(0, 0, frameBuffer->mDefaultWidth, frameBuffer->mDefaultHeight);
 					}
 					FrameBuffer::CurrentFrameBuffer = frameBuffer;
 				}
 			}
 
-			FORCE_INLINE void BindFrameBuffer() noexcept
+			FORCE_INLINE void BindFrameBuffer() const noexcept
 			{
 				D_ASSERT(mFrameBufferID != 0);
 				D_ASSERT(mDefaultWidth != 0 && mDefaultHeight != 0);
 				FrameBuffer::StaticBindFrameBuffer(this);
 			}
-			FORCE_INLINE static void UnBindFrameBuffer()  noexcept 
+			FORCE_INLINE static void UnBindFrameBuffer() noexcept 
 			{
 				FrameBuffer::StaticBindFrameBuffer(nullptr); // bind MainFrameBuffer
 			}
@@ -124,7 +124,7 @@ namespace doom
 				}
 			}
 
-			FORCE_INLINE virtual void ClearFrameBuffer()
+			FORCE_INLINE virtual void ClearFrameBuffer() const
 			{
 				GraphicsAPI::Clear(mClearBit);
 			}
@@ -134,6 +134,18 @@ namespace doom
 				NEAREST = GL_NEAREST,
 				LINEAR = GL_LINEAR
 			};
+
+			enum class eBindFrameBufferTarget : UINT32
+			{
+				DRAW_FRAMEBUFFER = GL_DRAW_FRAMEBUFFER,
+				READ_FRAMEBUFFER = GL_READ_FRAMEBUFFER,
+				FRAMEBUFFER = GL_FRAMEBUFFER
+			};
+
+			FORCE_INLINE static void BindFrameBufferStatic(const eBindFrameBufferTarget bindFrameBufferTarget, const UINT32 frameBufferID)
+			{
+				glBindFramebuffer(static_cast<UINT32>(bindFrameBufferTarget), frameBufferID);
+			}
 			
 			static void BlitFrameBufferTo(
 				UINT32 ReadFrameBufferId, UINT32 DrawFrameBufferId, INT32 srcX0, INT32 srcY0, INT32 srcX1,
@@ -164,6 +176,26 @@ namespace doom
 			void CheckIsFrameBufferSuccesfullyCreated() noexcept;
 
 			bool IsGenerated();
+
+
+			enum class eFrameBufferParameterPName : UINT32
+			{
+				FRAMEBUFFER_DEFAULT_WIDTH = GL_FRAMEBUFFER_DEFAULT_WIDTH,
+				FRAMEBUFFER_DEFAULT_HEIGHT = GL_FRAMEBUFFER_DEFAULT_HEIGHT,
+				FRAMEBUFFER_DEFAULT_SAMPLES = GL_FRAMEBUFFER_DEFAULT_SAMPLES,
+				FRAMEBUFFER_DEFAULT_FIXED_SAMPLE_LOCATIONS = GL_FRAMEBUFFER_DEFAULT_FIXED_SAMPLE_LOCATIONS
+			};
+
+			INT32 GetFrameBufferParameteriv
+			(
+				const eFrameBufferParameterPName frameBufferParameterPName
+			) const;
+
+			static INT32 GetFrameBufferParameterivStatic
+			(
+				const FrameBuffer* const frameBuffer,
+				const eFrameBufferParameterPName frameBufferParameterPName
+			);
 		};
 	}
 }

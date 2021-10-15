@@ -146,10 +146,37 @@ const std::unique_ptr<UINT8[]> Texture::GetTexturePixels(const INT32 lodLevel) c
 UINT8* Texture::GetTexturePixelsUnsafe(const INT32 lodLevel ) const
 {
 	BindTexture();
-	BindTextureWithUnit(0);
+	
+	INT32 bufferSize = GetTextureBufferSize(lodLevel);
+	D_ASSERT(bufferSize != 0);
+	
+	UINT8* pixels = new UINT8[bufferSize];
 
+	glGetTexImage(static_cast<UINT32>(mBindTarget), lodLevel, static_cast<UINT32>(mDataFormat), static_cast<UINT32>(mDataType), reinterpret_cast<void*>(pixels));
+
+	return pixels;
+}
+
+INT32 Texture::GetTextureBufferSize(const INT32 lodLevel) const
+{
+	const INT32 width = GetTextureMetaDataINT32(lodLevel, eTextureMataDataType::TEXTURE_WIDTH);
+	const INT32 height = GetTextureMetaDataINT32(lodLevel, eTextureMataDataType::TEXTURE_HEIGHT);
+
+	return GetTextureBufferSizeStatic(width, height, mDataFormat, mDataType);
+}
+
+
+INT32 Texture::GetTextureBufferSizeStatic
+(
+	const INT32 width, 
+	const INT32 height,
+	const eTextureComponentFormat dataFormat,
+	const eDataType dataType
+	
+)
+{
 	int PixelDataSize = 1;
-	switch (mDataType)
+	switch (dataType)
 	{
 	case eDataType::UNSIGNED_BYTE:
 
@@ -161,18 +188,19 @@ UINT8* Texture::GetTexturePixelsUnsafe(const INT32 lodLevel ) const
 		PixelDataSize = 4;
 		break;
 
+	case eDataType::UNSIGNED_INT_24_8:
+
+		PixelDataSize = 4;
+		break;
+		
 	default:
 
 		NEVER_HAPPEN;
 	}
-
-	const INT32 width = GetTextureMetaDataINT32(lodLevel, eTextureMataDataType::TEXTURE_WIDTH);
-	const INT32 height = GetTextureMetaDataINT32(lodLevel, eTextureMataDataType::TEXTURE_HEIGHT);
-
+	
 	INT32 bufferSize = PixelDataSize * width * height;
 	
-
-	switch (mDataFormat)
+	switch (dataFormat)
 	{
 
 	case eTextureComponentFormat::RED:
@@ -183,16 +211,6 @@ UINT8* Texture::GetTexturePixelsUnsafe(const INT32 lodLevel ) const
 	case eTextureComponentFormat::RG:
 	case eTextureComponentFormat::RG_INTEGER:
 		bufferSize *= 2;
-		break;
-
-	case eTextureComponentFormat::DEPTH_COMPONENT:
-		//bufferSize *= bufferSize;
-		NEVER_HAPPEN;
-		break;
-
-	case eTextureComponentFormat::DEPTH_STENCIL:
-		bufferSize *= 2;
-		NEVER_HAPPEN;
 		break;
 
 	case eTextureComponentFormat::RGB:
@@ -208,19 +226,20 @@ UINT8* Texture::GetTexturePixelsUnsafe(const INT32 lodLevel ) const
 	case eTextureComponentFormat::BGRA_INTEGER:
 		bufferSize *= 4;
 		break;
-		
-	default: 
+
+	case eTextureComponentFormat::DEPTH_COMPONENT:
+		//bufferSize *= bufferSize;
+		break;
+
+	case eTextureComponentFormat::DEPTH_STENCIL:
+		//bufferSize *= 2;
+		break;
+
+	default:
 		NEVER_HAPPEN;
 	}
-	
 
-	D_ASSERT(bufferSize != 0);
-	
-	UINT8* pixels = new UINT8[bufferSize];
-
-	glGetTexImage(static_cast<UINT32>(mBindTarget), lodLevel, static_cast<UINT32>(mDataFormat), static_cast<UINT32>(mDataType), reinterpret_cast<void*>(pixels));
-
-	return pixels;
+	return bufferSize;
 }
 
 

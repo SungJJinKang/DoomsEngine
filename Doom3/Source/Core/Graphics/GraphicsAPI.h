@@ -572,17 +572,7 @@ namespace doom
 // 				glEndQuery(static_cast<UINT32>(queryType));
 // 			}
 
-			enum class eBindFrameBufferTarget : UINT32
-			{
-				DRAW_FRAMEBUFFER = GL_DRAW_FRAMEBUFFER,
-				READ_FRAMEBUFFER = GL_READ_FRAMEBUFFER,
-				FRAMEBUFFER = GL_FRAMEBUFFER
-			};
-
-			FORCE_INLINE extern void BindFrameBuffer(const eBindFrameBufferTarget bindFrameBufferTarget, const UINT32 frameBufferID)
-			{
-				glBindFramebuffer(static_cast<UINT32>(bindFrameBufferTarget), frameBufferID);
-			}
+		
 		};
 	}
 }
