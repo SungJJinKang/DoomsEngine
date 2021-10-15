@@ -7,7 +7,7 @@
 #include <chrono>
 
 #ifndef ALWAYS_PROFILING
-#define ALWAYS_PROFILING
+//#define ALWAYS_PROFILING
 #endif
 
 // std::chrono::high_resolution_clock::now() has more resolution than OS GetTickCount API 

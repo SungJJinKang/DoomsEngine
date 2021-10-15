@@ -127,8 +127,6 @@ void doom::assetExporter::assetExporterTexture::ExportTextureAsDDS
 	const bool releasePixelMemoryAfterExport
 )
 {
-	std::unique_ptr<UINT8[]> pixels(dxImage.pixels); // for safety
-
 	DXGI_FORMAT compressFormat;
 
 	switch (pixelFormat)
@@ -153,34 +151,42 @@ void doom::assetExporter::assetExporterTexture::ExportTextureAsDDS
 		NEVER_HAPPEN;
 	}
 
-	HRESULT hr;
-
-	DirectX::ScratchImage ResultCompressedImage;
-	hr = DirectX::Compress(dxImage, compressFormat, DirectX::TEX_COMPRESS_FLAGS::TEX_COMPRESS_DEFAULT, DirectX::TEX_THRESHOLD_DEFAULT, ResultCompressedImage);
-
-	D_ASSERT(FAILED(hr) == false);
-	if (FAILED(hr) == false)
+	HRESULT hr = -1;
+	
+	try
 	{
-		std::filesystem::path destinationPath = exportPath;
-		destinationPath.replace_extension(".dds");
-
-		hr = DirectX::SaveToDDSFile(ResultCompressedImage.GetImages(), ResultCompressedImage.GetImageCount(), ResultCompressedImage.GetMetadata(), DirectX::DDS_FLAGS::DDS_FLAGS_NONE, destinationPath.generic_wstring().c_str());
+		DirectX::ScratchImage ResultCompressedImage;
+		hr = DirectX::Compress(dxImage, compressFormat, DirectX::TEX_COMPRESS_FLAGS::TEX_COMPRESS_DEFAULT, DirectX::TEX_THRESHOLD_DEFAULT, ResultCompressedImage);
 
 		D_ASSERT(FAILED(hr) == false);
-		if (FAILED(hr) == true)
+		if (FAILED(hr) == false)
 		{
-			doom::ui::PrintText("Fail To ExportTexture as DDS ( %s )", destinationPath.string().c_str());
+			std::filesystem::path destinationPath = exportPath;
+			destinationPath.replace_extension(".dds");
+
+			hr = DirectX::SaveToDDSFile(ResultCompressedImage.GetImages(), ResultCompressedImage.GetImageCount(), ResultCompressedImage.GetMetadata(), DirectX::DDS_FLAGS::DDS_FLAGS_NONE, destinationPath.generic_wstring().c_str());
+
+			D_ASSERT(FAILED(hr) == false);
+			if (FAILED(hr) == true)
+			{
+				doom::ui::PrintText("Fail To ExportTexture as DDS ( %s )", destinationPath.string().c_str());
+			}
+			else
+			{
+				doom::ui::PrintText("Success To ExportTexture as DDS ( %s )", destinationPath.string().c_str());
+			}
+
 		}
 		else
 		{
-			doom::ui::PrintText("Success To ExportTexture as DDS ( %s )", destinationPath.string().c_str());
+			doom::ui::PrintText("Fail To Compress Texture");
 		}
-
 	}
-	else
+	catch(...)
 	{
-		doom::ui::PrintText("Fail To Compress Texture");
+		doom::ui::PrintText("Fail To ExportTexture as DDS ( Exception!!! )");
 	}
+	
 
 	if (releasePixelMemoryAfterExport == true)
 	{
@@ -205,8 +211,8 @@ void doom::assetExporter::assetExporterTexture::ExportTextureAsDDS
 (
 	const INT32 lodLevel, 
 	UINT8* pixels,
-	const SIZE_T width, 
-	const SIZE_T height, 
+	const INT32 width,
+	const INT32 height,
 	const doom::graphics::eTextureComponentFormat pixelFormat,
 	const doom::graphics::Texture::eDataType dataType, 
 	const std::filesystem::path& exportPath)
@@ -311,13 +317,23 @@ void doom::assetExporter::assetExporterTexture::ExportTexture
 		destinationPath.replace_extension(".tiff");
 		break;
 	}
+
+	HRESULT hr = -1;
+
+	try
+	{
+		hr = DirectX::SaveToWICFile(
+			dxImage,
+			DirectX::WIC_FLAGS_NONE,
+			DirectX::GetWICCodec(codec),
+			destinationPath.generic_wstring().c_str()
+		);
+	}
+	catch(...)
+	{
+		doom::ui::PrintText("Fail To ExportTexture as DDS ( Exception!!! )");
+	}
 	
-	HRESULT hr = DirectX::SaveToWICFile(
-		dxImage,
-		DirectX::WIC_FLAGS_NONE,
-		DirectX::GetWICCodec(codec),
-		destinationPath.generic_wstring().c_str()
-	);
 
 	if (releasePixelMemoryAfterExport == true)
 	{
@@ -353,8 +369,8 @@ void doom::assetExporter::assetExporterTexture::ExportTexture
 (
 	const INT32 lodLevel, 
 	UINT8* pixels, 
-	const SIZE_T width,
-	const SIZE_T height, 
+	const INT32 width,
+	const INT32 height,
 	const doom::graphics::eTextureComponentFormat pixelFormat,
 	const doom::graphics::Texture::eDataType dataType,
 	const std::filesystem::path& exportPath,
@@ -395,7 +411,7 @@ void doom::assetExporter::assetExporterTexture::ExportTextureFromFrameBuffer
 (
 	const graphics::FrameBuffer* const frameBuffer, const UINT32 colorAttachmentIndex, 
 	const INT32 startX, const INT32 startY,
-	const SIZE_T width, const SIZE_T height, const doom::graphics::eTextureComponentFormat pixelFormat,
+	const INT32 width, const INT32 height, const doom::graphics::eTextureComponentFormat pixelFormat,
 	const doom::graphics::Texture::eDataType dataType, const std::filesystem::path& exportPath,
 	const eTextureExtension textureExtension
 )
@@ -450,7 +466,7 @@ void doom::assetExporter::assetExporterTexture::ExportTextureFromMainFrameBuffer
 	const eTextureExtension textureExtension
 )
 {
-	doom::graphics::FrameBuffer::UnBindFrameBuffer();
+	//doom::graphics::FrameBuffer::UnBindFrameBuffer();
 	doom::graphics::FrameBuffer::BindFrameBufferStatic(graphics::FrameBuffer::eBindFrameBufferTarget::READ_FRAMEBUFFER, 0);
 	doom::graphics::GraphicsAPI::ReadBuffer(graphics::GraphicsAPI::eBufferMode::FRONT);
 
@@ -460,7 +476,7 @@ void doom::assetExporter::assetExporterTexture::ExportTextureFromMainFrameBuffer
 	glReadPixels(startX, startY, width, height, static_cast<UINT32>(pixelFormat), static_cast<UINT32>(dataType), pixels);
 
 	DirectX::Image directXImage = ConvertToDirectXImage(0, pixels, width, height, pixelFormat, dataType);
-
+	
 	DirectX::ScratchImage rotatedDirectXScratchImage;
 	DirectX::FlipRotate(directXImage, DirectX::TEX_FR_FLAGS::TEX_FR_FLIP_VERTICAL, rotatedDirectXScratchImage);
 

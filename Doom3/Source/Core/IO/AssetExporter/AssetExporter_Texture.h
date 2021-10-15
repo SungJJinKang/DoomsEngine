@@ -44,8 +44,8 @@ namespace doom
 			(
 				const INT32 lodLevel,
 				UINT8* pixels,
-				const SIZE_T width,
-				const SIZE_T height,
+				const INT32 width,
+				const INT32 height,
 				const doom::graphics::eTextureComponentFormat pixelFormat,
 				const doom::graphics::Texture::eDataType dataType,
 				const std::filesystem::path& exportPath
@@ -109,8 +109,8 @@ namespace doom
 			(
 				const INT32 lodLevel,
 				UINT8* pixels,
-				const SIZE_T width,
-				const SIZE_T height,
+				const INT32 width,
+				const INT32 height,
 				const doom::graphics::eTextureComponentFormat pixelFormat,
 				const doom::graphics::Texture::eDataType dataType,
 				const std::filesystem::path& exportPath,
@@ -135,8 +135,8 @@ namespace doom
 				const UINT32 colorAttachmentIndex,
 				const INT32 startX,
 				const INT32 startY,
-				const SIZE_T width,
-				const SIZE_T height,
+				const INT32 width,
+				const INT32 height,
 				const doom::graphics::eTextureComponentFormat pixelFormat,
 				const doom::graphics::Texture::eDataType dataType,
 				const std::filesystem::path& exportPath,
