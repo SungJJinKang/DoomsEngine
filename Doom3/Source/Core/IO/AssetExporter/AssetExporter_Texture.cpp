@@ -204,7 +204,7 @@ void doom::assetExporter::assetExporterTexture::ExportTextureFromTextureAsDDS
 	D_ASSERT(IsValid(exportedTexture) == true);
 
 	DirectX::Image dxImage = ConvertToDirectXImage(exportedTexture, lodLevel);
-	ExportTextureAsDDS(dxImage, lodLevel, exportedTexture->GetDataFormat(), exportPath);
+	ExportTextureAsDDS(dxImage, lodLevel, exportedTexture->GetDataFormat(), exportPath, true);
 }
 
 void doom::assetExporter::assetExporterTexture::ExportTextureAsDDS
@@ -219,7 +219,7 @@ void doom::assetExporter::assetExporterTexture::ExportTextureAsDDS
 {
 
 	DirectX::Image dxImage = ConvertToDirectXImage(lodLevel, pixels, width, height, pixelFormat, dataType);
-	ExportTextureAsDDS(dxImage, lodLevel, pixelFormat, exportPath);
+	ExportTextureAsDDS(dxImage, lodLevel, pixelFormat, exportPath, true);
 }
 
 void doom::assetExporter::assetExporterTexture::ExportTextureFromMainFrameBufferAsDDS
@@ -273,7 +273,7 @@ void doom::assetExporter::assetExporterTexture::ExportTextureFromMainFrameBuffer
 	glReadPixels(startX, startY, width, height, static_cast<UINT32>(pixelFormat), static_cast<UINT32>(dataType), pixels);
 
 	DirectX::Image directXImage = ConvertToDirectXImage(0, pixels, width, height, pixelFormat, dataType);
-	ExportTextureAsDDS(directXImage, 0, pixelFormat, exportPath);
+	ExportTextureAsDDS(directXImage, 0, pixelFormat, exportPath, true);
 
 	doom::graphics::GraphicsAPI::ReadBuffer(graphics::GraphicsAPI::eBufferMode::NONE);
 }
@@ -362,7 +362,7 @@ void doom::assetExporter::assetExporterTexture::ExportTextureFromTexture
 	D_ASSERT(IsValid(exportedTexture) == true);
 
 	DirectX::Image dxImage = ConvertToDirectXImage(exportedTexture, lodLevel);
-	ExportTexture(dxImage, lodLevel, exportPath, textureExtension);
+	ExportTexture(dxImage, lodLevel, exportPath, textureExtension, true);
 }
 
 void doom::assetExporter::assetExporterTexture::ExportTexture
@@ -378,7 +378,7 @@ void doom::assetExporter::assetExporterTexture::ExportTexture
 )
 {
 	DirectX::Image dxImage = ConvertToDirectXImage(lodLevel, pixels, width, height, pixelFormat, dataType);
-	ExportTexture(dxImage, lodLevel, exportPath, textureExtension);
+	ExportTexture(dxImage, lodLevel, exportPath, textureExtension, true);
 }
 
 void doom::assetExporter::assetExporterTexture::ExportTextureFromFrameBuffer
@@ -401,7 +401,7 @@ void doom::assetExporter::assetExporterTexture::ExportTextureFromFrameBuffer
 	glReadPixels(startX, startY, width, height, static_cast<UINT32>(pixelFormat), static_cast<UINT32>(dataType), pixels);
 
 	DirectX::Image directXImage = ConvertToDirectXImage(0, pixels, width, height, pixelFormat, dataType);
-	ExportTexture(directXImage, 0, exportPath, textureExtension);
+	ExportTexture(directXImage, 0, exportPath, textureExtension, true);
 
 	doom::graphics::GraphicsAPI::ReadBuffer(graphics::GraphicsAPI::eBufferMode::NONE);
 
@@ -425,7 +425,7 @@ void doom::assetExporter::assetExporterTexture::ExportTextureFromFrameBuffer
 	glReadPixels(startX, startY, width, height, static_cast<UINT32>(pixelFormat), static_cast<UINT32>(dataType), pixels);
 
 	DirectX::Image directXImage = ConvertToDirectXImage(0, pixels, width, height, pixelFormat, dataType);
-	ExportTexture(directXImage, 0, exportPath, textureExtension);
+	ExportTexture(directXImage, 0, exportPath, textureExtension, true);
 
 	doom::graphics::GraphicsAPI::ReadBuffer(graphics::GraphicsAPI::eBufferMode::NONE);
 

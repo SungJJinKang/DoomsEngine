@@ -30,7 +30,7 @@ namespace doom
 				const INT32 lodLevel,
 				const doom::graphics::eTextureComponentFormat pixelFormat,
 				const std::filesystem::path& exportPath,
-				const bool releasePixelMemoryAfterExport = true
+				const bool releasePixelMemoryAfterExport = false
 			);
 
 			extern void ExportTextureFromTextureAsDDS
@@ -94,7 +94,7 @@ namespace doom
 				const INT32 lodLevel,
 				const std::filesystem::path& exportPath,
 				const eTextureExtension textureExtension,
-				const bool releasePixelMemoryAfterExport = true
+				const bool releasePixelMemoryAfterExport = false
 			);
 
 			extern void ExportTextureFromTexture
