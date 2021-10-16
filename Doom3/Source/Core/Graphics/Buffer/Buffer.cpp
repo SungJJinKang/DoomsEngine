@@ -1,7 +1,7 @@
 #include "Buffer.h"
 
 
-doom::graphics::Buffer::Buffer() : mBufferID{ 0 }
+doom::graphics::Buffer::Buffer() : mBufferID{ INVALID_BUFFER_ID }
 {
 
 }
@@ -10,7 +10,7 @@ doom::graphics::Buffer::Buffer() : mBufferID{ 0 }
 
 void doom::graphics::Buffer::GenBuffer()
 {
-	if (mBufferID == 0)
+	if (mBufferID == INVALID_BUFFER_ID)
 	{
 		glGenBuffers(1, &(mBufferID));
 	}
@@ -48,7 +48,7 @@ doom::graphics::Buffer::~Buffer()
 
 void doom::graphics::Buffer::DeleteBuffers()
 {
-	if (mBufferID.GetBufferID() != 0)
+	if (mBufferID.GetBufferID() != INVALID_BUFFER_ID)
 	{
 		glDeleteBuffers(1, &(mBufferID));
 		mBufferID = 0;
@@ -57,6 +57,6 @@ void doom::graphics::Buffer::DeleteBuffers()
 
 bool doom::graphics::Buffer::IsBufferGenerated() const
 {
-	return mBufferID.GetBufferID() != 0;
+	return mBufferID.GetBufferID() != INVALID_BUFFER_ID;
 }
 

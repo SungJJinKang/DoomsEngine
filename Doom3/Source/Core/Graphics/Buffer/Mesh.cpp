@@ -4,7 +4,7 @@
 #include "../Asset/ThreeDModelAsset.h"
 
 doom::graphics::Mesh::Mesh()
-	: Buffer(), mVertexArrayObjectID{ 0 }, mElementBufferObjectID{ 0 }, mNumOfVertices{ 0 }, mNumOfIndices{ 0 }, mPrimitiveType{ ePrimitiveType::NONE }
+	: Buffer(), mVertexArrayObjectID{ INVALID_BUFFER_ID }, mElementBufferObjectID{ INVALID_BUFFER_ID }, mNumOfVertices{ 0 }, mNumOfIndices{ 0 }, mPrimitiveType{ ePrimitiveType::NONE }
 {
 
 }
@@ -33,13 +33,13 @@ doom::graphics::Mesh::~Mesh()
 void doom::graphics::Mesh::GenMeshBuffer(bool hasIndice)
 {
 	Buffer::GenBuffer();
-	if (mVertexArrayObjectID.GetBufferID() == 0)
+	if (mVertexArrayObjectID.GetBufferID() == INVALID_BUFFER_ID)
 	{
 		glGenVertexArrays(1, &(mVertexArrayObjectID));
 	}
 	if (hasIndice)
 	{
-		if (mElementBufferObjectID.GetBufferID() == 0)
+		if (mElementBufferObjectID.GetBufferID() == INVALID_BUFFER_ID)
 		{
 			glGenBuffers(1, &(mElementBufferObjectID));
 		}
@@ -54,15 +54,15 @@ void doom::graphics::Mesh::DeleteBuffers()
 {
 	Buffer::DeleteBuffers();
 
-	if (mVertexArrayObjectID != 0)
+	if (mVertexArrayObjectID != INVALID_BUFFER_ID)
 	{
 		glDeleteVertexArrays(1, &(mVertexArrayObjectID));
-		mVertexArrayObjectID = 0;
+		mVertexArrayObjectID = INVALID_BUFFER_ID;
 	}
-	if (mElementBufferObjectID != 0)
+	if (mElementBufferObjectID != INVALID_BUFFER_ID)
 	{
 		glDeleteBuffers(1, &(mElementBufferObjectID));
-		mElementBufferObjectID = 0;
+		mElementBufferObjectID = INVALID_BUFFER_ID;
 	}
 }
 
@@ -162,7 +162,7 @@ void doom::graphics::Mesh::BufferData(GLsizeiptr dataComponentCount, const void*
 
 void doom::graphics::Mesh::BufferSubData(GLsizeiptr dataComponentCount, const void* data, khronos_intptr_t offsetInByte) const noexcept
 {
-	D_ASSERT(mBufferID != 0);
+	D_ASSERT(mBufferID != INVALID_BUFFER_ID);
 
 	BindVertexArrayObject();
 	BindVertexBufferObject();
@@ -176,7 +176,7 @@ void doom::graphics::Mesh::BufferSubData(GLsizeiptr dataComponentCount, const vo
 
 void doom::graphics::Mesh::BindVertexBufferObject() const
 {
-	D_ASSERT(mBufferID != 0);
+	D_ASSERT(mBufferID != INVALID_BUFFER_ID);
 
 	if (D_OVERLAP_BIND_CHECK_CHECK_IS_NOT_BOUND_AND_BIND_ID(VERTEX_BUFFER_TAG, mBufferID))
 	{

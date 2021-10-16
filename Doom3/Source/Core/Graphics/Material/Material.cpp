@@ -65,7 +65,7 @@ void Material::SetShaderAsset(::doom::asset::ShaderAsset* shaderAsset)
 }
 
 
-doom::graphics::Material::Material() : mProgramID{ 0}, mShaderAsset{ nullptr }
+doom::graphics::Material::Material() : mProgramID{ INVALID_BUFFER_ID }, mShaderAsset{ nullptr }
 {
 }
 
@@ -80,7 +80,7 @@ Material::Material(::doom::asset::ShaderAsset* shaderAsset) : mProgramID{0}, mSh
 
 void Material::DestroyMaterialBufferObject()
 {
-	if (mProgramID.GetBufferID() != 0)
+	if (mProgramID.GetBufferID() != INVALID_BUFFER_ID)
 	{
 		glDeleteProgram(mProgramID);
 		mProgramID = 0;

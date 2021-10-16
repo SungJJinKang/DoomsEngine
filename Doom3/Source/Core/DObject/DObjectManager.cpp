@@ -98,6 +98,13 @@ void doom::DObjectManager::DestroyAllDObjects(const bool force)
 			++erasedIter;
 		}
     }
+
+    ClearConatiner();
+}
+
+void doom::DObjectManager::ClearConatiner()
+{
+    mDObjectsList.~unordered_map();
 }
 
 bool doom::DObjectManager::IsDObjectValid(const DObject* const dObject)

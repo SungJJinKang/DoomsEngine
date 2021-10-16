@@ -29,6 +29,7 @@ namespace doom
 	public:
 
 		static void DestroyAllDObjects(const bool force);
+		static void ClearConatiner();
 
 		static bool IsDObjectValid(const DObject* const dObject);
 
