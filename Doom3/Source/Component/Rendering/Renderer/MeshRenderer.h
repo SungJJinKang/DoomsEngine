@@ -9,14 +9,12 @@ namespace doom
 {
 	class DOOM_API MeshRenderer : public Renderer
 	{
+		DOBJECT_BODY(MeshRenderer)
+
 	private:
 		const graphics::Mesh* mTargetMesh;
 
 
-		MeshRenderer(const MeshRenderer&) = delete;
-		MeshRenderer(MeshRenderer&&) noexcept = delete;
-		MeshRenderer& operator=(const MeshRenderer&) = delete;
-		MeshRenderer& operator=(MeshRenderer&&) noexcept = delete;
 
 		virtual void InitComponent() final
 		{
@@ -37,8 +35,15 @@ namespace doom
 		
 
 	public:
+
 		MeshRenderer();
-		virtual ~MeshRenderer(){}
+		virtual ~MeshRenderer();
+
+		MeshRenderer(const MeshRenderer&) = default;
+		MeshRenderer(MeshRenderer&&) noexcept = delete;
+		MeshRenderer& operator=(const MeshRenderer&) = delete;
+		MeshRenderer& operator=(MeshRenderer&&) noexcept = delete;
+
 		FORCE_INLINE void Draw() const override
 		{
 			BindMaterial();

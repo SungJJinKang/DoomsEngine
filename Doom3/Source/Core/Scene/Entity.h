@@ -75,29 +75,16 @@ namespace doom
 	
 
 		UINT32 mLayerIndex;
-		/// <summary>
-		/// https://isocpp.org/wiki/faq/pointers-to-members#memfnptr-vs-fnptr
-		/// The type of this function is different depending on whether it is an ordinary function or a non-static member function of some class:
-		// 
-		// 	Its type is ¡°INT32(*)(char, FLOAT32)¡± if an ordinary function
-		// 	Its type is ¡°INT32(Fred::*)(char, FLOAT32)¡± if a non - static member function of class Fred
-		// 	
-		//	Read here ---> Note : if it¡¯s a static member function of class Fred, its type is the same as if it were an ordinary function : ¡°INT32(*)(char, FLOAT32)¡±.
-		//
-		//	This callback variable can store only static function of class or global function
-		//  Call back function should have this function type ( void(Entity&) )
-		/// 
-		/// </summary>
-		std::vector<void(*)(Entity&)> mLayerIndexChangedCallback{};
+	
 
-		Entity* mParent;
-		std::vector<Entity*> mChilds{};
+		Entity* mParent = nullptr;
+		std::vector<Entity*> mChilds;
 
 		
 		/// <summary>
 		/// Plain component (not core component ) is stored at this variable
 		/// </summary>
-		std::vector<std::unique_ptr<Component, Component::Deleter>> mPlainComponents;
+		std::vector<std::unique_ptr<PlainComponent, Component::Deleter>> mPlainComponents;
 
 		Transform mTransform;
 
@@ -115,6 +102,8 @@ namespace doom
 			return std::is_base_of_v<ServerComponent, T>;
 		}
 
+		
+
 		/// <summary>
 		/// 
 		/// </summary>
@@ -124,6 +113,8 @@ namespace doom
 		template<typename T, typename... Args, std::enable_if_t<std::is_base_of_v<Component, T>, bool> = true>
 		T* _AddComponent(Args... args) noexcept
 		{
+			static_assert(std::is_same_v<T, doom::Transform> == false);
+
 			T* newComponent = CreateDObject<T>(std::forward<Args>(args)...);
 			D_ASSERT(newComponent != nullptr);
 			D_ASSERT(newComponent->bIsAddedToEntity == false);
@@ -209,6 +200,7 @@ namespace doom
 		void Update_PlainComponent();
 		void EndOfFrame_PlainComponent();
 
+		
 	public:
 
 		eEntityMobility mEntityMobility{ eEntityMobility::Dynamic };
@@ -225,6 +217,16 @@ namespace doom
 		/// To Protect User call delete entity not thourgh Scene or Entity class
 		/// </summary>
 		~Entity();
+
+		Entity(const Entity& newEntity) = delete;
+		Entity(Entity&&) noexcept = delete;
+
+		Entity& operator=(const Entity&) = delete;
+		Entity& operator=(Entity&&) noexcept = delete;
+
+
+		static void CopyEntity(const Entity& fromCopyedEnitty, Entity& toCopyedEntity);
+
 
 		template<typename T, typename... Args, std::enable_if_t<std::is_base_of_v<Component, T>, bool> = true>
 		T* AddComponent(Args... args) noexcept
@@ -250,7 +252,11 @@ namespace doom
 		{
 			T* returnedComponent = nullptr;
 
-			if constexpr (Entity::IsServerComponent<T>() == true)
+			if constexpr (std::is_same_v<T, Transform> == true)
+			{
+				returnedComponent = &mTransform;
+			}
+			else if constexpr (Entity::IsServerComponent<T>() == true)
 			{// when component is ServerComponent
 				for (auto& ServerComponent : mServerComponents)
 				{
@@ -287,7 +293,11 @@ namespace doom
 		{
 			T* returnedComponent = nullptr;
 
-			if constexpr (Entity::IsServerComponent<T>() == true)
+			if constexpr (std::is_same_v<T, Transform> == true)
+			{
+				returnedComponent = &mTransform;
+			}
+			else if constexpr (Entity::IsServerComponent<T>() == true)
 			{// when component is ServerComponent
 				for (auto& ServerComponent : mServerComponents)
 				{
@@ -319,7 +329,11 @@ namespace doom
 		{
 			std::vector<T*> components;
 
-			if constexpr (Entity::IsServerComponent<T>() == true)
+			if constexpr (std::is_same_v<T, Transform> == true)
+			{
+				components.push_back(&mTransform);
+			}
+			else if constexpr (Entity::IsServerComponent<T>() == true)
 			{// when component is ServerComponent
 				for (auto& ServerComponent : mServerComponents)
 				{
@@ -352,7 +366,11 @@ namespace doom
 		{
 			std::vector<const T*> components;
 
-			if constexpr (Entity::IsServerComponent<T>() == true)
+			if constexpr (std::is_same_v<T, Transform> == true)
+			{
+				components.push_back(&mTransform);
+			}
+			else if constexpr (Entity::IsServerComponent<T>() == true)
 			{// when component is ServerComponent
 				for (auto& ServerComponent : mServerComponents)
 				{
@@ -499,9 +517,6 @@ namespace doom
 		{
 			return mLayerIndex;
 		}
-
-		void AddLayerChangedCallback(void(*callback_ptr)(Entity&));
-		void RemoveLayerChangedCallback(void(*callback_ptr)(Entity&));
 
 		FORCE_INLINE eEntityMobility GetEntityMobility() const
 		{

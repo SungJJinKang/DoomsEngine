@@ -8,6 +8,8 @@ namespace doom
 	class RenderingAABBController : public PlainComponent
 	{
 
+		DOBJECT_BODY(RenderingAABBController)
+
 	private:
 
 	protected:

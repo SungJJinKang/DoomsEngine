@@ -27,9 +27,17 @@ void doom::Transform::OnDestroy()
 	
 }
 
+
 bool doom::Transform::IsEntityMobilityStatic() const
 {
 	return GetOwnerEntity()->mEntityMobility != Entity::eEntityMobility::Static;
+}
+
+doom::Transform::Transform(): mLastFramePosition{ 0.0f }, mTransformCoreData()
+{
+	// 			SetPosition(mPosition);
+	// 			SetRotation(mRotation);
+	// 			SetScale(mScale);
 }
 
 std::string doom::Transform::ToString()

@@ -19,6 +19,9 @@ namespace doom
 
 			inline static const char FRAMEBUFFER_TAG[]{ "FrameBuffer" };
 
+
+			BufferID mFrameBufferID;
+
 			static constexpr UINT32 RESERVED_RENDERBUFFER_COUNT = 3;
 			std::vector<RenderBuffer> mAttachedRenderBuffers;
 
@@ -52,13 +55,13 @@ namespace doom
 
 		public:
 			
-			BufferID mFrameBufferID;
+		
 
 			FrameBuffer();
 			FrameBuffer(UINT32 defaultWidth, UINT32 defaultHeight);
 			virtual ~FrameBuffer();
 
-			FrameBuffer(const FrameBuffer&) = delete;
+			FrameBuffer(const FrameBuffer&);
 			FrameBuffer& operator=(const FrameBuffer&) noexcept = delete;
 
 			FrameBuffer(FrameBuffer&&) noexcept = default;
@@ -67,7 +70,11 @@ namespace doom
 			void GenerateBuffer(UINT32 defaultWidth, UINT32 defaultHeight);
 			void RefreshTargetDrawBufferContainer();
 			void SetTargetDrawBuffer();
-		
+
+			FORCE_INLINE const BufferID& GetFrameBufferID() const
+			{
+				return mFrameBufferID;
+			}
 
 			FORCE_INLINE UINT32 GetDefaultWidth() const
 			{
@@ -81,7 +88,7 @@ namespace doom
 
 			FORCE_INLINE static void StaticBindFrameBuffer(const FrameBuffer* const frameBuffer)
 			{
-				if (D_OVERLAP_BIND_CHECK_CHECK_IS_NOT_BOUND_AND_BIND_ID(FRAMEBUFFER_TAG, ((frameBuffer != nullptr) ? frameBuffer->mFrameBufferID.Get() : 0)))
+				if (D_OVERLAP_BIND_CHECK_CHECK_IS_NOT_BOUND_AND_BIND_ID(FRAMEBUFFER_TAG, ((frameBuffer != nullptr) ? frameBuffer->mFrameBufferID.GetBufferID() : 0)))
 				{
 					FrameBuffer::PreviousFrameBuffer = CurrentFrameBuffer;
 					if (frameBuffer == nullptr)

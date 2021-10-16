@@ -11,6 +11,8 @@ namespace doom
 class PhysicsDebuggerController : public PlainComponent
 {
 
+	DOBJECT_BODY(PhysicsDebuggerController)
+
 private:
 
 	

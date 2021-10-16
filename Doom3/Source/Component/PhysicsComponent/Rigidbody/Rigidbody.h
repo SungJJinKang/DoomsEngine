@@ -15,6 +15,8 @@ namespace doom
 
 	class DOOM_API Rigidbody : public ServerComponent, public StaticContainer<Rigidbody>
 	{
+		DOBJECT_BODY(Rigidbody)
+
 	private:
 
 		std::vector<ColliderComponent*> mAttachedColliderComponents;

@@ -6,6 +6,10 @@ doom::MeshRenderer::MeshRenderer() : Renderer(), mTargetMesh{ nullptr }
 
 }
 
+doom::MeshRenderer::~MeshRenderer()
+{
+}
+
 void doom::MeshRenderer::SetMesh(const graphics::Mesh* const mesh)
 {
 	mTargetMesh = mesh;

@@ -44,3 +44,7 @@ void doom::DirectionalLight::UpdateUniformBufferObject()
 	
 	}
 }
+
+doom::DirectionalLight::~DirectionalLight()
+{
+}

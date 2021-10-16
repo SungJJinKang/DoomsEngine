@@ -59,6 +59,50 @@ FrameBuffer::~FrameBuffer()
 	DestoryFrameBufferObject();
 }
 
+FrameBuffer::FrameBuffer(const FrameBuffer& frameBuffer)
+	:	mFrameBufferID(),
+		mDefaultWidth(frameBuffer.mDefaultWidth),
+		mDefaultHeight(frameBuffer.mDefaultHeight),
+		mClearBit(0),
+		mDrawTarget(0)
+{
+	//Never Copy This!!
+	//std::vector<RenderBuffer> mAttachedRenderBuffers;
+	//std::vector<SingleTexture> mAttachedColorTextures;
+	//std::vector<SingleTexture> mAttachedDepthTextures;
+	//std::vector<SingleTexture> mAttachedDepthStencilTextures;
+	//std::vector<UINT32> mTargetDrawBufferContainer;
+
+	if(frameBuffer.mFrameBufferID.IsValid() == true)
+	{
+		GenerateBuffer(mDefaultWidth, mDefaultHeight);
+
+		for (const RenderBuffer& renderBuffer : frameBuffer.mAttachedRenderBuffers)
+		{
+			AttachRenderBuffer(renderBuffer.mFrameBufferType, renderBuffer.mWidth, renderBuffer.mHeight);
+		}
+
+		for (const SingleTexture& attachedTexture : frameBuffer.mAttachedColorTextures)
+		{
+			AttachTextureBuffer(GraphicsAPI::eBufferBitType::COLOR, attachedTexture.mWidth, attachedTexture.mHeight);
+		}
+
+		for (const SingleTexture& attachedTexture : frameBuffer.mAttachedDepthTextures)
+		{
+			AttachTextureBuffer(GraphicsAPI::eBufferBitType::DEPTH, attachedTexture.mWidth, attachedTexture.mHeight);
+		}
+
+		for (const SingleTexture& attachedTexture : frameBuffer.mAttachedDepthStencilTextures)
+		{
+			AttachTextureBuffer(GraphicsAPI::eBufferBitType::DEPTH_STENCIL, attachedTexture.mWidth, attachedTexture.mHeight);
+		}
+
+		RefreshTargetDrawBufferContainer();
+	}
+
+	
+}
+
 
 void FrameBuffer::CheckIsFrameBufferSuccesfullyCreated() noexcept
 {

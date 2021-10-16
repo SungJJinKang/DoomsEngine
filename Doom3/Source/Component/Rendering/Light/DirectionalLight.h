@@ -7,12 +7,10 @@ namespace doom
 	class DOOM_API DirectionalLight : public Light, public StaticContainer<DirectionalLight>, public graphics::UniformBufferObjectUpdater
 	{
 
+		DOBJECT_BODY(DirectionalLight)
+
 	private:
 
-		DirectionalLight(const DirectionalLight&) = delete;
-		DirectionalLight(DirectionalLight&&) noexcept = delete;
-		DirectionalLight& operator=(const DirectionalLight&) = delete;
-		DirectionalLight& operator=(DirectionalLight&&) noexcept = delete;
 
 
 		void InitComponent() final;
@@ -26,7 +24,12 @@ namespace doom
 
 	public:
 		DirectionalLight() = default;
-		~DirectionalLight(){}
+		~DirectionalLight();
+		DirectionalLight(const DirectionalLight&) = default;
+		DirectionalLight(DirectionalLight&&) noexcept = delete;
+		DirectionalLight& operator=(const DirectionalLight&) = delete;
+		DirectionalLight& operator=(DirectionalLight&&) noexcept = delete;
+
 
 	};
 }

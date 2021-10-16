@@ -25,7 +25,6 @@ void Component::AddLocalDirtyToTransformDirtyReceiver(DirtyReceiver& localDirty)
 
 void doom::Component::InitComponent_Internal(Entity* entity)
 {
-	D_ASSERT(bIsAddedToEntity == false);
 	mOwnerEntity = entity;
 	mTransform = entity->GetTransform();
 	bIsAddedToEntity = true;

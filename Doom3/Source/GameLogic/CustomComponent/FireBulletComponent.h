@@ -9,6 +9,9 @@ namespace doom
 
 	class FireBulletComponent : public PlainComponent
 	{
+
+		DOBJECT_BODY(FireBulletComponent)
+
 	public:
 
 		BulletComponent* mBullet = nullptr;

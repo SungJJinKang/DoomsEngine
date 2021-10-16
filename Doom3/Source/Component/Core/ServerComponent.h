@@ -19,22 +19,15 @@ namespace doom
 	{
 		friend class Entity;
 		friend class Scene;
+
+		DOBJECT_ABSTRACT_CLASS_BODY(ServerComponent)
+
 	private:
 
-		ServerComponent(const ServerComponent&) = delete;
-		ServerComponent(ServerComponent&&) noexcept = delete;
-		ServerComponent& operator=(const ServerComponent&) = delete;
-		ServerComponent& operator=(ServerComponent&&) noexcept = delete;
 
 	protected:
 
-		ServerComponent();
-		/// <summary>
-		/// Pure virtual destructor for make this class virtual cass
-		/// Destructor should be called only from RemoveConponent(or clear component) of Entity class
-		/// </summary>
-		/// <returns></returns>
-		virtual ~ServerComponent();
+	
 
 		/// Dont put public to Internal Function For Protect use call Internal Function
 		virtual void InitComponent_Internal(Entity* entity) final;
@@ -102,6 +95,19 @@ namespace doom
 // 		virtual void OnComponentDettachedToOwnerEntity(Component* newComponent) override {}
 
 	public:
+
+		ServerComponent();
+		/// <summary>
+		/// Pure virtual destructor for make this class virtual cass
+		/// Destructor should be called only from RemoveConponent(or clear component) of Entity class
+		/// </summary>
+		/// <returns></returns>
+		virtual ~ServerComponent();
+
+		ServerComponent(const ServerComponent&) = default;
+		ServerComponent(ServerComponent&&) noexcept = delete;
+		ServerComponent& operator=(const ServerComponent&) = default;
+		ServerComponent& operator=(ServerComponent&&) noexcept = delete;
 	
 	};
 }

@@ -26,6 +26,8 @@ namespace doom
 
 	class DOOM_API Transform : public PlainComponent
 	{
+		DOBJECT_BODY(Transform)
+
 	private:
 
 		alignas(64) TransformCoreData mTransformCoreData;
@@ -50,32 +52,28 @@ namespace doom
 
 	
 
-		Transform(const Transform&) = delete;
-		Transform(Transform&&) noexcept = delete;
-		Transform& operator=(const Transform&) = delete;
-		Transform& operator=(Transform&&) noexcept = delete;
+
 
 		virtual void InitComponent() final;
 		virtual void UpdateComponent() final;
 		virtual void OnEndOfFrame_Component() final;
 		virtual void OnDestroy() final;
-
-		const math::Matrix4x4 GetRotationMatrix()
-		{
-
-		}
+		
+		
 
 		bool IsEntityMobilityStatic() const;
 
 	public:
 
-		Transform() : mLastFramePosition{ 0.0f }, mTransformCoreData()
-		{
-// 			SetPosition(mPosition);
-// 			SetRotation(mRotation);
-// 			SetScale(mScale);
-		}
+		Transform();
 		virtual ~Transform() = default;
+
+		Transform(const Transform&) = default;
+		Transform(Transform&&) noexcept = delete;
+		Transform& operator=(const Transform&) = default;
+		Transform& operator=(Transform&&) noexcept = delete;
+
+
 		std::string ToString();
 
 		FORCE_INLINE void SetPosition(const math::Vector3& position) noexcept
@@ -160,7 +158,11 @@ namespace doom
 			return mModelMatrixCache;
 		}
 		
-
+		FORCE_INLINE const math::Matrix4x4& GetRotationMatrix() const
+		{
+			return mRotationMatrix;
+		}
+		
 		FORCE_INLINE math::Vector3 forward() const noexcept
 		{
 			return mTransformCoreData.mRotation * math::Vector3::forward;

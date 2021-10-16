@@ -9,6 +9,9 @@ namespace doom
 	class BulletComponent : public PlainComponent
 	{
 
+		DOBJECT_BODY(BulletComponent)
+
+
 	public:
 
 		FLOAT32 mSpeed = 5;

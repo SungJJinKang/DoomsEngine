@@ -6,13 +6,22 @@
 
 using namespace doom::graphics;
 
-RenderBuffer::RenderBuffer(FrameBuffer& ownerFrameBuffer, GraphicsAPI::eBufferBitType frameBufferType, UINT32 width, UINT32 height)
+RenderBuffer::RenderBuffer
+(
+	FrameBuffer& ownerFrameBuffer, 
+	GraphicsAPI::eBufferBitType frameBufferType, 
+	UINT32 width, 
+	UINT32 height
+)
+	:
+	mFrameBufferType(frameBufferType),
+	mWidth(width),
+	mHeight(height)
 {
 	ownerFrameBuffer.BindFrameBuffer();
 
 	glGenRenderbuffers(1, &(mRenderBufferID));
 	BindRenderBuffer();
-
 
 
 	switch (frameBufferType)
@@ -65,7 +74,7 @@ RenderBuffer::RenderBuffer(FrameBuffer& ownerFrameBuffer, GraphicsAPI::eBufferBi
 
 doom::graphics::RenderBuffer::~RenderBuffer()
 {
-	if (mRenderBufferID.Get() != 0)
+	if (mRenderBufferID.GetBufferID() != 0)
 	{
 		glDeleteRenderbuffers(1, &(mRenderBufferID));
 	}

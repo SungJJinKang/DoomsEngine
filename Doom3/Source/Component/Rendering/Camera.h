@@ -35,6 +35,8 @@ namespace doom
 
 	class Camera : public PlainComponent, public graphics::UniformBufferObjectUpdater, public StaticContainer<Camera>
 	{
+		DOBJECT_BODY(Camera)
+
 		friend class Scene;
 		friend class graphics::Graphics_Server;
 
@@ -48,10 +50,6 @@ namespace doom
 
 	private:
 
-		Camera(const Camera&) = delete;
-		Camera(Camera&&) noexcept = delete;
-		Camera& operator=(const Camera&) = delete;
-		Camera& operator=(Camera&&) noexcept = delete;
 
 		eProjectionType mProjectionMode{ eProjectionType::Perspective };
 
@@ -117,6 +115,12 @@ namespace doom
 
 
 	public:
+
+
+		Camera(const Camera&) = default;
+		Camera(Camera&&) noexcept = delete;
+		Camera& operator=(const Camera&) = delete;
+		Camera& operator=(Camera&&) noexcept = delete;
 
 		graphics::DefferedRenderingFrameBuffer mDefferedRenderingFrameBuffer;
 

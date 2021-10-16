@@ -6,6 +6,9 @@ namespace doom
 {
 	class TestComponent : public PlainComponent
 	{
+
+		DOBJECT_BODY(TestComponent)
+
 	private:
 
 	protected:

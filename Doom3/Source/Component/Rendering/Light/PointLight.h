@@ -8,6 +8,8 @@ namespace doom
 	class DOOM_API PointLight : public Light, public StaticContainer<PointLight>, public graphics::UniformBufferObjectUpdater
 	{
 
+		DOBJECT_BODY(PointLight)
+
 	private:
 
 		void InitComponent() final;

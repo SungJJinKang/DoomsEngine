@@ -36,6 +36,27 @@ Scene::~Scene()
 	return newEntity;
 }
 
+Entity* Scene::DuplicateEntity(const Entity* const copyedEntity) noexcept
+{
+	CHECK_IS_EXECUTED_ON_MAIN_THREAD; // if you wanna createnewentity in subthread, you should 
+
+	Entity* newEntity = Scene::CreateNewEntity(); // resource::ObjectPool<Entity>::AllocateFromPool(nullptr);
+
+	doom::Entity::CopyEntity(*copyedEntity, *newEntity);
+
+	return newEntity;
+}
+
+Entity* Scene::CreateNewEntityStatic() noexcept
+{
+	return Scene::GetSingleton()->CreateNewEntity();
+}
+
+Entity* Scene::DuplicateEntityStatic(const Entity* const copyedEntity) noexcept
+{
+	return Scene::GetSingleton()->DuplicateEntity(copyedEntity);
+}
+
 bool Scene::DestroyEntity(Entity& entity)
 {
 	bool isSuccess = false;

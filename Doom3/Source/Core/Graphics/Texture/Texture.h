@@ -231,6 +231,10 @@ namespace doom
 			eWrapMode mWrapS;
 			eWrapMode mWrapT;
 			eWrapMode mWrapR;
+			
+			void DestroyTextureBufferObject();
+
+		public:
 
 			const eTextureType mTextureType = eTextureType::NONE;
 			const eBindTarget mBindTarget = eBindTarget::NONE;
@@ -242,12 +246,6 @@ namespace doom
 			const UINT32 mHeight;
 			const eTextureComponentFormat mDataFormat = eTextureComponentFormat::NONE;
 			const eDataType mDataType;
-			
-			void DestroyTextureBufferObject();
-
-		public:
-
-			
 
 			Texture() = delete;
 			Texture(const Texture&) = delete;

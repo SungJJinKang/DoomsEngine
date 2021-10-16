@@ -40,6 +40,11 @@ namespace doom
 		StaticContainer();
 		virtual ~StaticContainer();
 
+		StaticContainer(const StaticContainer&);
+		StaticContainer& operator=(const StaticContainer&);
+		StaticContainer(StaticContainer&&) noexcept;
+		StaticContainer& operator=(StaticContainer&&) noexcept;
+
 		virtual void OnEntityLayerChanged(Entity& entity);
 
 	public:

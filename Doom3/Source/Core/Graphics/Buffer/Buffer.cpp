@@ -48,7 +48,7 @@ doom::graphics::Buffer::~Buffer()
 
 void doom::graphics::Buffer::DeleteBuffers()
 {
-	if (mBufferID.Get() != 0)
+	if (mBufferID.GetBufferID() != 0)
 	{
 		glDeleteBuffers(1, &(mBufferID));
 		mBufferID = 0;
@@ -57,6 +57,6 @@ void doom::graphics::Buffer::DeleteBuffers()
 
 bool doom::graphics::Buffer::IsBufferGenerated() const
 {
-	return mBufferID.Get() != 0;
+	return mBufferID.GetBufferID() != 0;
 }
 

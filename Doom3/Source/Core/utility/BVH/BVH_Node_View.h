@@ -41,9 +41,9 @@ namespace doom
 
 		}
 		
-		BVH_Node_View(const this_type&) = default;
+		BVH_Node_View(const this_type&) = delete;
 		BVH_Node_View(this_type&&) noexcept = default;
-		this_type& operator=(const this_type&) = default;
+		this_type& operator=(const this_type&) = delete;
 		this_type& operator=(this_type&&) noexcept = default;
 
 		typename node_type* operator->();

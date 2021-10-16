@@ -6,6 +6,9 @@ namespace doom
 {
 	class BoxAdder : public PlainComponent
 	{
+
+		DOBJECT_BODY(BoxAdder)
+
 	protected:
 		void InitComponent() override;
 

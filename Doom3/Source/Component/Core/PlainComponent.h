@@ -17,22 +17,12 @@ namespace doom
 	{
 		friend class Entity;
 		friend class Scene;
-	private:
 
-		PlainComponent(const PlainComponent&) = delete;
-		PlainComponent(PlainComponent&&) noexcept = delete;
-		PlainComponent& operator=(const PlainComponent&) = delete;
-		PlainComponent& operator=(PlainComponent&&) noexcept = delete;
+		DOBJECT_ABSTRACT_CLASS_BODY(PlainComponent)
 
 	protected:
 
-		PlainComponent();
-		/// <summary>
-		/// Pure virtual destructor for make this class virtual cass
-		/// Destructor should be called only from RemoveConponent(or clear component) of Entity class
-		/// </summary>
-		/// <returns></returns>
-		virtual ~PlainComponent();
+		
 
 		/// Dont put public to Internal Function For Protect use call Internal Function
 		virtual void InitComponent_Internal(Entity* entity) final;
@@ -98,7 +88,23 @@ namespace doom
 
 // 		virtual void OnComponentAttachedToOwnerEntity(Component* newComponent) override {}
 // 		virtual void OnComponentDettachedToOwnerEntity(Component* newComponent) override {}
-	public:
+
+
+		public:
+
+			PlainComponent();
+			/// <summary>
+			/// Pure virtual destructor for make this class virtual cass
+			/// Destructor should be called only from RemoveConponent(or clear component) of Entity class
+			/// </summary>
+			/// <returns></returns>
+			virtual ~PlainComponent();
+			PlainComponent(const PlainComponent&) = default;
+			PlainComponent(PlainComponent&&) noexcept = delete;
+			PlainComponent& operator=(const PlainComponent&) = default;
+			PlainComponent& operator=(PlainComponent&&) noexcept = delete;
+
+
 	};
 
 }

@@ -1,13 +1,15 @@
 #pragma once
 #include "Core/PlainComponent.h"
 
+
 namespace doom
 {
 	class DOOM_API EventSystem : public PlainComponent
 	{
+		DOBJECT_BODY(EventSystem)
+
 	private:
 
-		EventSystem(const EventSystem&) = delete;
 		EventSystem(EventSystem&&) noexcept = delete;
 		EventSystem& operator=(const EventSystem&) = delete;
 		EventSystem& operator=(EventSystem&&) noexcept = delete;
@@ -23,7 +25,10 @@ namespace doom
 
 	public:
 		EventSystem() = default;
-		virtual ~EventSystem() {}
+		virtual ~EventSystem();
+		EventSystem(const EventSystem&) = default;
 
+		//CLONE_DOBJECT(EventSystem)
+		
 	};
 }

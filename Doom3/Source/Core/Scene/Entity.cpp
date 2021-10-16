@@ -69,6 +69,52 @@ void doom::Entity::EndOfFrame_PlainComponent()
 	}
 }
 
+void Entity::CopyEntity(const Entity& fromCopyedEnitty, Entity& toCopyedEntity)
+{
+	toCopyedEntity.mEntityName = fromCopyedEnitty.mEntityName;
+	toCopyedEntity.mLayerIndex = fromCopyedEnitty.mLayerIndex;
+	toCopyedEntity.mEntityMobility = fromCopyedEnitty.mEntityMobility;
+	toCopyedEntity.mEntityFlag = fromCopyedEnitty.mEntityFlag;
+
+
+	toCopyedEntity.mTransform = fromCopyedEnitty.mTransform;
+	toCopyedEntity.InitializeComponent(&toCopyedEntity.mTransform);
+
+	for (const std::unique_ptr<PlainComponent, Component::Deleter>& plainComponents : fromCopyedEnitty.mPlainComponents)
+	{
+		const PlainComponent* const plainComp = plainComponents.get();
+		PlainComponent* clonedNewPlainComp = plainComp->CLONE_OBJECT();
+
+		D_ASSERT(clonedNewPlainComp != nullptr);
+
+		toCopyedEntity.mPlainComponents.emplace_back(clonedNewPlainComp);
+		toCopyedEntity.InitializeComponent(clonedNewPlainComp);
+	}
+
+	for(const std::unique_ptr<ServerComponent, Component::Deleter>& serverComponents : fromCopyedEnitty.mServerComponents)
+	{
+		const ServerComponent* const serverComp = serverComponents.get();
+		ServerComponent* clonedNewServerComp = serverComp->CLONE_OBJECT();
+
+		D_ASSERT(serverComp != nullptr);
+
+		toCopyedEntity.mServerComponents.emplace_back(clonedNewServerComp);
+		toCopyedEntity.InitializeComponent(clonedNewServerComp);
+	}
+
+	toCopyedEntity.mChilds.reserve(fromCopyedEnitty.mChilds.size());
+	for(Entity* const child : fromCopyedEnitty.mChilds)
+	{
+		D_ASSERT(child != nullptr);
+
+		Entity* duplicatedEntity = Scene::GetSingleton()->DuplicateEntity(child);
+		toCopyedEntity.mChilds.push_back(duplicatedEntity);
+	}
+
+
+	
+}
+
 void Entity::SetEntityName(const std::string& entityName)
 {
 	mEntityName = entityName;
@@ -114,34 +160,10 @@ std::string_view Entity::GetEntityName() const
 }
 
 
-void Entity::AddLayerChangedCallback(void(*callback_ptr)(Entity&))
-{
-#ifdef DEBUG_MODE
-	//check is callback is already contained
-	auto iter = std::find(mLayerIndexChangedCallback.begin(), mLayerIndexChangedCallback.end(), callback_ptr);
-	D_ASSERT(iter == mLayerIndexChangedCallback.end());
-#endif
-
-	mLayerIndexChangedCallback.push_back(callback_ptr);
-}
-
-void Entity::RemoveLayerChangedCallback(void(*callback_ptr)(Entity&))
-{
-	auto iter = std::find(mLayerIndexChangedCallback.begin(), mLayerIndexChangedCallback.end(), callback_ptr);
-	D_ASSERT(iter != mLayerIndexChangedCallback.end());
-
-	mLayerIndexChangedCallback.erase(iter);
-}
-
 void Entity::SetLayerIndex(UINT32 layerIndex)
 {
 	D_ASSERT(layerIndex >= 0 && layerIndex < MAX_LAYER_COUNT);
 	mLayerIndex = layerIndex;
-
-	for (auto& callback : mLayerIndexChangedCallback)
-	{
-		callback(*this);
-	}
 }
 
 void Entity::Destroy()

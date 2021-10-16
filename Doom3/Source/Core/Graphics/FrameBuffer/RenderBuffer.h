@@ -14,10 +14,18 @@ namespace doom
 
 		class RenderBuffer : public DObject
 		{
+
 		private:
+
 			static inline const char RENDERBUFFER_TAG[]{ "RenderBuffer" };
 			BufferID mRenderBufferID{};
+			
 		public:
+
+			const GraphicsAPI::eBufferBitType mFrameBufferType;
+			const UINT32 mWidth;
+			const UINT32 mHeight;
+
 			RenderBuffer(FrameBuffer& ownerFrameBuffer, GraphicsAPI::eBufferBitType frameBufferType, UINT32 width, UINT32 height);
 			virtual ~RenderBuffer();
 

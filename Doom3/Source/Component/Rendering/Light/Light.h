@@ -7,14 +7,12 @@ namespace doom
 {
 	class DOOM_API Light : public PlainComponent
 	{
+
+		DOBJECT_ABSTRACT_CLASS_BODY(Light)
+
 	private:
 
-		Light(const Light&) = delete;
-		Light(Light&&) noexcept = delete;
-		Light& operator=(const Light&) = delete;
-		Light& operator=(Light&&) noexcept = delete;
-
-	
+		
 
 	protected:
 
@@ -23,6 +21,13 @@ namespace doom
 		math::Vector4 mColor{ 1 };
 
 		DirtyReceiver bmIsLightUboDirty{ true };
+
+
+		Light(const Light&) = default;
+		Light(Light&&) noexcept = delete;
+		Light& operator=(const Light&) = delete;
+		Light& operator=(Light&&) noexcept = delete;
+
 
 		virtual void InitComponent() override;
 		virtual void UpdateComponent() override;

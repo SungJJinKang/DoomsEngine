@@ -8,7 +8,7 @@
 namespace doom
 {
 	template <typename DObjectType, typename... Args>
-	DObjectType* CreateDObject(const DObjectContructorParams& dObjectConstructorParams, Args... args)
+	DObjectType* CreateDObject(const DObjectContructorParams& dObjectConstructorParams, Args&&... args)
 	{
 		static_assert(std::is_base_of_v<doom::DObject, DObjectType> == true);
 
@@ -24,7 +24,7 @@ namespace doom
 	}
 
 	template <typename DObjectType, typename... Args>
-	DObjectType* CreateDObject(Args... args)
+	DObjectType* CreateDObject(Args&&... args)
 	{
 		static_assert(std::is_base_of_v<doom::DObject, DObjectType> == true);
 

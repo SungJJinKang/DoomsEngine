@@ -33,13 +33,13 @@ doom::graphics::Mesh::~Mesh()
 void doom::graphics::Mesh::GenMeshBuffer(bool hasIndice)
 {
 	Buffer::GenBuffer();
-	if (mVertexArrayObjectID.Get() == 0)
+	if (mVertexArrayObjectID.GetBufferID() == 0)
 	{
 		glGenVertexArrays(1, &(mVertexArrayObjectID));
 	}
 	if (hasIndice)
 	{
-		if (mElementBufferObjectID.Get() == 0)
+		if (mElementBufferObjectID.GetBufferID() == 0)
 		{
 			glGenBuffers(1, &(mElementBufferObjectID));
 		}

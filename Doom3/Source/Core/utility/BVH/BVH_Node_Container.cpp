@@ -35,12 +35,22 @@ void doom::BVH_Node_Container<ColliderType>::RemoveBVH_Node()
 }
 
 template <typename ColliderType>
+doom::BVH_Node_Container<ColliderType>::BVH_Node_Container()
+	:mBVH_Node_View()
+{
+}
+
+template <typename ColliderType>
 doom::BVH_Node_Container<ColliderType>::~BVH_Node_Container()
 {
 	RemoveBVH_Node();
 }
 
-
+template <typename ColliderType>
+doom::BVH_Node_Container<ColliderType>::BVH_Node_Container(const BVH_Node_Container&)
+	:mBVH_Node_View()
+{
+}
 
 
 template class doom::BVH_Node_Container<doom::physics::AABB2D>;

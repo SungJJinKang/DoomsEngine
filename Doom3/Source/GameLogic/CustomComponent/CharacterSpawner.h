@@ -10,6 +10,9 @@ namespace doom
 
 	class CharacterSpawner : public PlainComponent
 	{
+
+		DOBJECT_BODY(CharacterSpawner)
+
 	private:
 		
 		inline static asset::ShaderAsset* mBillboardShader{ nullptr };

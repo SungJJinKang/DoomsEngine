@@ -17,7 +17,7 @@ private:
 
 public:
 
-	FORCE_INLINE BufferID() : mID{ 0 }
+	FORCE_INLINE BufferID() : mID{ INVALID_BUFFER_ID }
 	{}
 
 	FORCE_INLINE BufferID(const BufferID& bufferID)
@@ -27,7 +27,7 @@ public:
 	FORCE_INLINE BufferID(BufferID&& bufferID) noexcept
 	{
 		mID = bufferID.mID;
-		bufferID.mID = 0;
+		bufferID.mID = INVALID_BUFFER_ID;
 	}
 
 	FORCE_INLINE BufferID& operator=(const BufferID& bufferID)
@@ -38,7 +38,7 @@ public:
 	FORCE_INLINE BufferID& operator=(BufferID&& bufferID) noexcept
 	{
 		mID = bufferID.mID;
-		bufferID.mID = NULL;
+		bufferID.mID = INVALID_BUFFER_ID;
 		return *this;
 	}
 
@@ -52,7 +52,7 @@ public:
 	FORCE_INLINE void operator=(UINT32&& data) noexcept
 	{
 		mID = data;
-		data = NULL;
+		data = INVALID_BUFFER_ID;
 	}
 
 	FORCE_INLINE operator UINT32 () const
@@ -69,9 +69,14 @@ public:
 		return &(mID);
 	}
 
-	FORCE_INLINE UINT32 Get() const
+	FORCE_INLINE UINT32 GetBufferID() const
 	{
 		return mID;
+	}
+
+	FORCE_INLINE bool IsValid() const
+	{
+		return mID != INVALID_BUFFER_ID;
 	}
 };
 

@@ -38,7 +38,7 @@ void Texture::OnEndContructor()
 
 void Texture::DestroyTextureBufferObject()
 {
-	if (mBufferID.Get() != 0)
+	if (mBufferID.GetBufferID() != 0)
 	{
 		glDeleteTextures(1, &(mBufferID));
 		mBufferID = 0;

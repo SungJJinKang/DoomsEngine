@@ -53,6 +53,10 @@ namespace doom
 		static Scene* GetCurrentWorld();
 
 		[[nodiscard]] Entity* CreateNewEntity() noexcept;
+		[[nodiscard]] Entity* DuplicateEntity(const Entity* const copyedEntity) noexcept;
+		[[nodiscard]] static Entity* CreateNewEntityStatic() noexcept;
+		[[nodiscard]] static Entity* DuplicateEntityStatic(const Entity* const copyedEntity) noexcept;
+
 		bool DestroyEntity(Entity& entity);
 		void DestroyAllEntity();
 

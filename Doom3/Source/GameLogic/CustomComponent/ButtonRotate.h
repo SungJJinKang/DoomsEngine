@@ -6,6 +6,9 @@ namespace doom
 {
 	class ButtonRotate : public PlainComponent
 	{
+
+		DOBJECT_BODY(ButtonRotate)
+
 	protected:
 		void InitComponent() override;
 

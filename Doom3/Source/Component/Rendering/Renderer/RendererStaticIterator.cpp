@@ -16,6 +16,26 @@ doom::StaticContainer<Renderer>::~StaticContainer()
 	RemoveRendererToStaticContainer();
 }
 
+StaticContainer<Renderer>::StaticContainer(const StaticContainer&) : mRenderer_ptr{ nullptr }
+{
+}
+
+StaticContainer<Renderer>& StaticContainer<Renderer>::operator=(const StaticContainer&)
+{
+	mRenderer_ptr = nullptr;
+	return *this;
+}
+
+StaticContainer<Renderer>::StaticContainer(StaticContainer&&) noexcept : mRenderer_ptr{ nullptr }
+{
+}
+
+StaticContainer<Renderer>& StaticContainer<Renderer>::operator=(StaticContainer&&) noexcept
+{
+	mRenderer_ptr = nullptr;
+	return *this;
+}
+
 
 void doom::StaticContainer<Renderer>::AddRendererToStaticContainer()
 {

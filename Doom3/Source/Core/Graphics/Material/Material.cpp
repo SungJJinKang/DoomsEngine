@@ -80,7 +80,7 @@ Material::Material(::doom::asset::ShaderAsset* shaderAsset) : mProgramID{0}, mSh
 
 void Material::DestroyMaterialBufferObject()
 {
-	if (mProgramID.Get() != 0)
+	if (mProgramID.GetBufferID() != 0)
 	{
 		glDeleteProgram(mProgramID);
 		mProgramID = 0;

@@ -44,14 +44,14 @@ namespace doom
 
 	public:
 		
-		node_view_type mBVH_Node_View{};
+		node_view_type mBVH_Node_View;
 
-		BVH_Node_Container() {}
+		BVH_Node_Container();
 		~BVH_Node_Container();
 
-		BVH_Node_Container(const BVH_Node_Container&) = delete;
+		BVH_Node_Container(const BVH_Node_Container&);
 		BVH_Node_Container(BVH_Node_Container&&) noexcept = delete;
-		BVH_Node_Container& operator=(const BVH_Node_Container&) = delete;
+		BVH_Node_Container& operator=(const BVH_Node_Container&);
 		BVH_Node_Container& operator=(BVH_Node_Container&&) noexcept = delete;
 
 	};

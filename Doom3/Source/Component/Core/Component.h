@@ -25,7 +25,8 @@ namespace doom
 	{
 		friend class Entity;
 		friend class Scene;
-		friend class vector;
+
+		DOBJECT_ABSTRACT_CLASS_BODY(Component)
 
 		struct Deleter
 		{
@@ -41,10 +42,7 @@ namespace doom
 	private:
 
 		//For Prevent Component copied or moved
-		Component(const Component&) = delete;
-		Component(Component&&) noexcept = delete;
-		Component& operator=(const Component&) = delete;
-		Component& operator=(Component&&) noexcept = delete;
+		
 
 		bool bIsAddedToEntity;
 		Entity* mOwnerEntity;
@@ -58,16 +56,9 @@ namespace doom
 	
 	protected:
 
+		
+
 		void AddLocalDirtyToTransformDirtyReceiver(DirtyReceiver& localDirty);
-
-		Component();
-
-		/// <summary>
-		/// Pure virtual destructor for make this class virtual cass
-		/// Destructor should be called only from RemoveConponent(or clear component) of Entity class
-		/// </summary>
-		/// <returns></returns>
-		virtual ~Component();
 
 		/// Dont put public to Internal Function For Protect use call Internal Function
 		virtual void InitComponent_Internal(Entity* entity);
@@ -134,13 +125,13 @@ namespace doom
 
 		/* can't do this because of recursive dependent
 		template<typename T, std::enable_if_t<std::is_base_of_v<Component, T>, bool> = true>
-		[[nodiscard]] constexpr T* GetComponent() // never return unique_ptr reference, just return pointer
+		[[nodiscard]] const T* GetComponent() // never return unique_ptr reference, just return pointer
 		{
 			return GetOwnerEntity()->GetComponent<T>();
 		}
 
 		template<typename T, std::enable_if_t<std::is_base_of_v<Component, T>, bool> = true>
-		[[nodiscard]] constexpr std::vector<T*> GetComponents()
+		[[nodiscard]] const std::vector<T*> GetComponents()
 		{
 			return GetOwnerEntity()->GetComponents<T>();
 		}
@@ -151,18 +142,37 @@ namespace doom
 
 	public:
 
-	
-		FORCE_INLINE constexpr Entity* GetOwnerEntity() const
+		Component();
+
+		/// <summary>
+		/// Pure virtual destructor for make this class virtual cass
+		/// Destructor should be called only from RemoveConponent(or clear component) of Entity class
+		/// </summary>
+		/// <returns></returns>
+		virtual ~Component();
+		Component(const Component&) = default;
+		Component(Component&&) noexcept = delete;
+		Component& operator=(const Component&) = default;
+		Component& operator=(Component&&) noexcept = delete;
+
+		UINT32 GetOwnerEntityLayerIndex() const;
+
+		FORCE_INLINE Entity* GetOwnerEntity()
 		{
 			D_ASSERT(mOwnerEntity != nullptr); // mOwnerEntity is set at InitComponent_Internal ( not Constructor )
 			return mOwnerEntity;
 		}
-		UINT32 GetOwnerEntityLayerIndex() const;
-		FORCE_INLINE constexpr Transform* GetTransform()
+		FORCE_INLINE const Entity* GetOwnerEntity() const
+		{
+			D_ASSERT(mOwnerEntity != nullptr); // mOwnerEntity is set at InitComponent_Internal ( not Constructor )
+			return mOwnerEntity;
+		}
+
+		FORCE_INLINE Transform* GetTransform()
 		{
 			return mTransform;
 		}
-		FORCE_INLINE constexpr const Transform* GetTransform() const
+		FORCE_INLINE const Transform* GetTransform() const
 		{
 			return mTransform;
 		}
