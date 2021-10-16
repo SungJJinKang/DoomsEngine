@@ -1,0 +1,11 @@
+{
+    "name": "doom-engine",
+    "version": "0.1",
+    "dependencies": [
+      "glfw3",
+      "glad",
+      "concurrentqueue",
+      "assimp",
+      "directxtex"
+    ]
+  }

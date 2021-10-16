@@ -396,3 +396,5 @@ GPUCache
 Doom3/Doom3.vcxproj
 *.diagsession
 *.dds
+
+*vcpkg_installed
