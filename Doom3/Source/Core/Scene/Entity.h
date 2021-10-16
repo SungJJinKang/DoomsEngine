@@ -258,12 +258,15 @@ namespace doom
 			}
 			else if constexpr (Entity::IsServerComponent<T>() == true)
 			{// when component is ServerComponent
-				for (auto& ServerComponent : mServerComponents)
+				for (auto& serverComponent : mServerComponents)
 				{
-					T* componentPtr = dynamic_cast<T*>(ServerComponent.get());
-					if (componentPtr != nullptr)
+					if(serverComponent)
 					{
-						returnedComponent = componentPtr;
+						T* componentPtr = dynamic_cast<T*>(serverComponent.get());
+						if (componentPtr != nullptr)
+						{
+							returnedComponent = componentPtr;
+						}
 					}
 				}
 			}
@@ -271,10 +274,13 @@ namespace doom
 			{// when component is plainComponent
 				for (auto& plainComponent : mPlainComponents)
 				{
-					T* componentPtr = dynamic_cast<T*>(plainComponent.get());
-					if (componentPtr != nullptr)
+					if(plainComponent)
 					{
-						returnedComponent = componentPtr;
+						T* componentPtr = dynamic_cast<T*>(plainComponent.get());
+						if (componentPtr != nullptr)
+						{
+							returnedComponent = componentPtr;
+						}
 					}
 				}
 			}
@@ -299,12 +305,15 @@ namespace doom
 			}
 			else if constexpr (Entity::IsServerComponent<T>() == true)
 			{// when component is ServerComponent
-				for (auto& ServerComponent : mServerComponents)
+				for (auto& serverComponent : mServerComponents)
 				{
-					T* componentPtr = dynamic_cast<T*>(ServerComponent.get());
-					if (componentPtr != nullptr)
+					if(serverComponent)
 					{
-						returnedComponent = componentPtr;
+						T* componentPtr = dynamic_cast<T*>(serverComponent.get());
+						if (componentPtr != nullptr)
+						{
+							returnedComponent = componentPtr;
+						}
 					}
 				}
 			}
@@ -312,10 +321,13 @@ namespace doom
 			{// when component is plainComponent
 				for (auto& plainComponent : mPlainComponents)
 				{
-					T* componentPtr = dynamic_cast<T*>(plainComponent.get());
-					if (componentPtr != nullptr)
+					if (plainComponent)
 					{
-						returnedComponent = componentPtr;
+						T* componentPtr = dynamic_cast<T*>(plainComponent.get());
+						if (componentPtr != nullptr)
+						{
+							returnedComponent = componentPtr;
+						}
 					}
 				}
 			}
@@ -335,12 +347,15 @@ namespace doom
 			}
 			else if constexpr (Entity::IsServerComponent<T>() == true)
 			{// when component is ServerComponent
-				for (auto& ServerComponent : mServerComponents)
+				for (auto& serverComponent : mServerComponents)
 				{
-					T* componentPtr = dynamic_cast<T*>(ServerComponent.get());
-					if (componentPtr != nullptr)
+					if(serverComponent)
 					{
-						components.push_back(componentPtr);
+						T* componentPtr = dynamic_cast<T*>(serverComponent.get());
+						if (componentPtr != nullptr)
+						{
+							components.push_back(componentPtr);
+						}
 					}
 				}
 			}
@@ -348,10 +363,13 @@ namespace doom
 			{// when component is plain component
 				for (auto& plainComponent : mPlainComponents)
 				{
-					T* componentPtr = dynamic_cast<T*>(plainComponent.get());
-					if (componentPtr != nullptr)
+					if(plainComponent)
 					{
-						components.push_back(componentPtr);
+						T* componentPtr = dynamic_cast<T*>(plainComponent.get());
+						if (componentPtr != nullptr)
+						{
+							components.push_back(componentPtr);
+						}
 					}
 				}
 			}
@@ -372,12 +390,15 @@ namespace doom
 			}
 			else if constexpr (Entity::IsServerComponent<T>() == true)
 			{// when component is ServerComponent
-				for (auto& ServerComponent : mServerComponents)
+				for (auto& serverComponent : mServerComponents)
 				{
-					T* componentPtr = dynamic_cast<T*>(ServerComponent.get());
-					if (componentPtr != nullptr)
+					if(serverComponent)
 					{
-						components.push_back(componentPtr);
+						T* componentPtr = dynamic_cast<T*>(serverComponent.get());
+						if (componentPtr != nullptr)
+						{
+							components.push_back(componentPtr);
+						}
 					}
 				}
 			}
@@ -385,10 +406,13 @@ namespace doom
 			{// when component is plain component
 				for (auto& plainComponent : mPlainComponents)
 				{
-					T* componentPtr = dynamic_cast<T*>(plainComponent.get());
-					if (componentPtr != nullptr)
+					if(plainComponent)
 					{
-						components.push_back(componentPtr);
+						T* componentPtr = dynamic_cast<T*>(plainComponent.get());
+						if (componentPtr != nullptr)
+						{
+							components.push_back(componentPtr);
+						}
 					}
 				}
 			}
@@ -414,13 +438,16 @@ namespace doom
 			{// when component is ServerComponent
 				for (SIZE_T i = 0; i < mServerComponents.size(); i++)
 				{
-					T* componentPtr = dynamic_cast<T*>(mServerComponents[i].get());
-					if (componentPtr != nullptr)
-					{//Check is sub_class of Component
-						_DestroyComponent(mServerComponents[i]);
+					if(mServerComponents[i])
+					{
+						T* componentPtr = dynamic_cast<T*>(mServerComponents[i].get());
+						if (componentPtr != nullptr)
+						{//Check is sub_class of Component
+							_DestroyComponent(mServerComponents[i]);
 
-						std::vector_swap_popback(mServerComponents, i);
-						return true;
+							std::vector_swap_popback(mServerComponents, i);
+							return true;
+						}
 					}
 				}
 			}
@@ -428,13 +455,16 @@ namespace doom
 			{// when component is plainComponent
 				for (SIZE_T i = 0; i < mPlainComponents.size(); i++)
 				{
-					T* componentPtr = dynamic_cast<T*>(mPlainComponents[i].get());
-					if (componentPtr != nullptr)
-					{//Check is sub_class of Component
-						_DestroyComponent(mServerComponents[i]);
+					if(mPlainComponents[i])
+					{
+						T* componentPtr = dynamic_cast<T*>(mPlainComponents[i].get());
+						if (componentPtr != nullptr)
+						{//Check is sub_class of Component
+							_DestroyComponent(mServerComponents[i]);
 
-						std::vector_swap_popback(mPlainComponents, i);
-						return true;
+							std::vector_swap_popback(mPlainComponents, i);
+							return true;
+						}
 					}
 				}
 			}
@@ -454,15 +484,18 @@ namespace doom
 			{// when component is ServerComponent
 				for (SIZE_T i = 0; i < mServerComponents.size(); i++)
 				{
-					T* componentPtr = dynamic_cast<T*>(mServerComponents[i].get());
-					if (componentPtr != nullptr)
-					{//Check is sub_class of Component
-						_DestroyComponent(mServerComponents[i]);
+					if(mServerComponents[i])
+					{
+						T* componentPtr = dynamic_cast<T*>(mServerComponents[i].get());
+						if (componentPtr != nullptr)
+						{//Check is sub_class of Component
+							_DestroyComponent(mServerComponents[i]);
 
-						std::vector_swap_popback(mServerComponents, i);
-						--i;
+							std::vector_swap_popback(mServerComponents, i);
+							--i;
 
-						isRemoveSuccess = true;
+							isRemoveSuccess = true;
+						}
 					}
 				}
 			}
@@ -470,15 +503,18 @@ namespace doom
 			{// when component is plainComponent
 				for (SIZE_T i = 0; i < mPlainComponents.size(); i++)
 				{
-					T* componentPtr = dynamic_cast<T*>(mPlainComponents[i].get());
-					if (componentPtr != nullptr)
-					{//Check is sub_class of Component
-						_DestroyComponent(mServerComponents[i]);
+					if(mPlainComponents[i])
+					{
+						T* componentPtr = dynamic_cast<T*>(mPlainComponents[i].get());
+						if (componentPtr != nullptr)
+						{//Check is sub_class of Component
+							_DestroyComponent(mServerComponents[i]);
 
-						std::vector_swap_popback(mPlainComponents, i);
-						--i;
+							std::vector_swap_popback(mPlainComponents, i);
+							--i;
 
-						isRemoveSuccess = true;
+							isRemoveSuccess = true;
+						}
 					}
 				}
 			}

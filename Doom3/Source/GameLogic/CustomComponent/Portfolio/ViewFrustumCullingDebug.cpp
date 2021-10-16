@@ -12,15 +12,18 @@ void doom::ViewFrustumCullingDebug::InitComponent()
 
 void doom::ViewFrustumCullingDebug::ShowIsViewFrustumCullingActivated()
 {
-	if (Camera::GetMainCamera()->GetCameraFlag(doom::eCameraFlag::PAUSE_CULL_JOB) == true)
+	if(Camera::GetMainCamera() != nullptr)
 	{
-		doom::ui::PrintText("%s", "Multi Thread ViewFrustumCulling 중단");
+		if (Camera::GetMainCamera()->GetCameraFlag(doom::eCameraFlag::PAUSE_CULL_JOB) == true)
+		{
+			doom::ui::PrintText("%s", "Multi Thread ViewFrustumCulling 중단");
 
-	}
-	else
-	{
-		doom::ui::PrintText("%s", "Multi Thread ViewFrustumCulling 시작");
+		}
+		else
+		{
+			doom::ui::PrintText("%s", "Multi Thread ViewFrustumCulling 시작");
 
+		}
 	}
 }
 

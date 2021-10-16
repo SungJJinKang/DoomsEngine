@@ -56,23 +56,23 @@ void doom::GameLogicStartPoint::StartGameLogic()
 	auto planetAsset = assetimporter::AssetManager::GetSingleton()->GetAsset<asset::eAssetType::THREE_D_MODEL>("planet.assbin");
 
 
-	// 	for (INT32 i = 0; i < 25; i++)
-	// 	{
-	// 		for (INT32 j = 0; j < threedasset->GetMeshCount(); j++)
-	// 		{
-	// 			auto entity = currenScene->CreateNewEntity();
-	// 			entity->GetTransform()->SetScale(0.1f, 0.1f, 0.1f);
-	// 			entity->GetTransform()->SetPosition(Random::RandomFloatNumber(-20, 20), Random::RandomFloatNumber(-20, 20), Random::RandomFloatNumber(-20, 20));
-	// 			auto meshRenderer = entity->AddComponent<MeshRenderer>();
-	// 			meshRenderer->SetMesh(threedasset->GetMesh(j));
-	// 			meshRenderer->SetMaterial(material);
-	// 			entity->AddComponent<AutoRotate>();
-	// 			entity->AddComponent<BoxCollider3D>();
-	// 		}
-	// 	}
+	for (INT32 i = 0; i < 25; i++)
+	{
+	 	for (INT32 j = 0; j < threedasset->GetMeshCount(); j++)
+	 	{
+	 		auto entity = currenScene->CreateNewEntity();
+	 		entity->GetTransform()->SetScale(0.1f, 0.1f, 0.1f);
+	 		entity->GetTransform()->SetPosition(Random::RandomFloatNumber(-20, 20), Random::RandomFloatNumber(-20, 20), Random::RandomFloatNumber(-20, 20));
+	 		auto meshRenderer = entity->AddComponent<MeshRenderer>();
+	 		meshRenderer->SetMesh(threedasset->GetMesh(j));
+	 		meshRenderer->SetMaterial(material);
+	 		entity->AddComponent<AutoRotate>();
+	 		entity->AddComponent<BoxCollider3D>();
+	 	}
+	}
 
 	INT32 entityCount = 0;
-
+	
 	INT32 count = 150;
 	for (INT32 i = -count; i < count; i = i + 15)
 	{
@@ -95,9 +95,7 @@ void doom::GameLogicStartPoint::StartGameLogic()
 			}
 		}
 	}
-
-
-
+	
 	for (INT32 i = -200; i < 200; i += 60)
 	{
 		auto entity = currenScene->CreateNewEntity();
@@ -162,7 +160,6 @@ void doom::GameLogicStartPoint::StartGameLogic()
 
 
 	
-
 	{
 		auto entity = currenScene->CreateNewEntity();
 		entity->GetTransform()->SetPosition(200.0f, 0.0f, 0.0f);

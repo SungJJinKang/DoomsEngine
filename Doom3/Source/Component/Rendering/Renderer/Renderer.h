@@ -107,7 +107,7 @@ namespace doom
 		void OnDestroy() override;
 
 		Renderer();
-		virtual ~Renderer() {}
+		virtual ~Renderer();
 
 
 		FORCE_INLINE virtual void Draw() const = 0;

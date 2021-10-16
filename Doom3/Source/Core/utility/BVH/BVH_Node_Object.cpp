@@ -10,6 +10,11 @@ void doom::BVH_Node_Object<ColliderType>::UpdateBVH_Node()
 	
 }
 
-template class doom::BVH_Node_Object<doom::physics::AABB2D>;
+template <typename ColliderType>
+doom::BVH_Node_Object<ColliderType>::~BVH_Node_Object()
+{
+}
+
+//template class doom::BVH_Node_Object<doom::physics::AABB2D>;
 template class doom::BVH_Node_Object<doom::physics::AABB3D>;
 template class doom::BVH_Node_Object<doom::physics::Sphere>;

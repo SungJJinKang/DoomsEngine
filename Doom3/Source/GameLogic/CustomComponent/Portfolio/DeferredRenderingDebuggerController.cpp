@@ -13,19 +13,25 @@ void doom::DeferredRenderingDebuggerController::InitComponent()
 
 void doom::DeferredRenderingDebuggerController::InitDeferredRenderingDebuggerPIP()
 {
-	mDeferredRenderingDebuggerPIPs[0] = doom::graphics::PIPManager::GetSingleton()->AddNewPIP({ -1.0f, -1.0f }, { -0.6f, -0.6f }, doom::Camera::GetMainCamera()->mDefferedRenderingFrameBuffer.GetFrameBufferTexture(doom::graphics::GraphicsAPI::eBufferBitType::COLOR, 0));
-	mDeferredRenderingDebuggerPIPs[1] = doom::graphics::PIPManager::GetSingleton()->AddNewPIP({ -0.6f, -1.0f }, { -0.2f, -0.6f }, doom::Camera::GetMainCamera()->mDefferedRenderingFrameBuffer.GetFrameBufferTexture(doom::graphics::GraphicsAPI::eBufferBitType::COLOR, 1));
-	mDeferredRenderingDebuggerPIPs[2] = doom::graphics::PIPManager::GetSingleton()->AddNewPIP({ -0.2f, -1.0f }, { 0.2f, -0.6f }, doom::Camera::GetMainCamera()->mDefferedRenderingFrameBuffer.GetFrameBufferTexture(doom::graphics::GraphicsAPI::eBufferBitType::COLOR, 2));
-	doom::graphics::PicktureInPickture* depthTexturePIP = doom::graphics::PIPManager::GetSingleton()->AddNewPIP({ 0.2f, -1.0f }, { 0.6f, -0.6f }, doom::Camera::GetMainCamera()->mDefferedRenderingFrameBuffer.GetFrameBufferTexture(doom::graphics::GraphicsAPI::eBufferBitType::DEPTH, 0));
-	mDeferredRenderingDebuggerPIPs[3] = depthTexturePIP;
-
-	if (depthTexturePIP != nullptr)
+	if (doom::Camera::GetMainCamera() != nullptr)
 	{
-		doom::asset::ShaderAsset* const depthTextureShader = doom::assetimporter::AssetManager::GetSingleton()->GetAsset<asset::eAssetType::SHADER>("DepthBufferTextureShader.glsl");
-		graphics::Material* const depthMaterial = doom::CreateDObject<graphics::Material>(depthTextureShader);
-		//depthMaterial->SetShaderAsset(depthTextureShader);
-		depthTexturePIP->SetMaterial(depthMaterial);
+
+		mDeferredRenderingDebuggerPIPs[0] = doom::graphics::PIPManager::GetSingleton()->AddNewPIP({ -1.0f, -1.0f }, { -0.6f, -0.6f }, doom::Camera::GetMainCamera()->mDefferedRenderingFrameBuffer.GetFrameBufferTexture(doom::graphics::GraphicsAPI::eBufferBitType::COLOR, 0));
+		mDeferredRenderingDebuggerPIPs[1] = doom::graphics::PIPManager::GetSingleton()->AddNewPIP({ -0.6f, -1.0f }, { -0.2f, -0.6f }, doom::Camera::GetMainCamera()->mDefferedRenderingFrameBuffer.GetFrameBufferTexture(doom::graphics::GraphicsAPI::eBufferBitType::COLOR, 1));
+		mDeferredRenderingDebuggerPIPs[2] = doom::graphics::PIPManager::GetSingleton()->AddNewPIP({ -0.2f, -1.0f }, { 0.2f, -0.6f }, doom::Camera::GetMainCamera()->mDefferedRenderingFrameBuffer.GetFrameBufferTexture(doom::graphics::GraphicsAPI::eBufferBitType::COLOR, 2));
+		doom::graphics::PicktureInPickture* depthTexturePIP = doom::graphics::PIPManager::GetSingleton()->AddNewPIP({ 0.2f, -1.0f }, { 0.6f, -0.6f }, doom::Camera::GetMainCamera()->mDefferedRenderingFrameBuffer.GetFrameBufferTexture(doom::graphics::GraphicsAPI::eBufferBitType::DEPTH, 0));
+		mDeferredRenderingDebuggerPIPs[3] = depthTexturePIP;
+
+		if (depthTexturePIP != nullptr)
+		{
+			doom::asset::ShaderAsset* const depthTextureShader = doom::assetimporter::AssetManager::GetSingleton()->GetAsset<asset::eAssetType::SHADER>("DepthBufferTextureShader.glsl");
+			graphics::Material* const depthMaterial = doom::CreateDObject<graphics::Material>(depthTextureShader);
+			//depthMaterial->SetShaderAsset(depthTextureShader);
+			depthTexturePIP->SetMaterial(depthMaterial);
+		}
+
 	}
+
 }
 
 void doom::DeferredRenderingDebuggerController::UpdateComponent()

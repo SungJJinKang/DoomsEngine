@@ -62,7 +62,8 @@ namespace doom
 			return bmIsDirtyAtPreviousFrame;
 		}
 
-
+		FrameDirtyChecker();
+		virtual ~FrameDirtyChecker();
 	};
-
+	
 }

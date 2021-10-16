@@ -1,6 +1,6 @@
 #include "AssetImporterWorker_Text.h"
 
-#include "../../../Helper/TextImporter.h"
+#include <utility/TextImporter.h>
 #include <Asset/TextAsset.h>
 
 

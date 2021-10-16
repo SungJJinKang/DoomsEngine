@@ -150,7 +150,7 @@ namespace doom
 		/// </summary>
 		/// <returns></returns>
 		virtual ~Component();
-		Component(const Component&) = default;
+		Component(const Component&);
 		Component(Component&&) noexcept = delete;
 		Component& operator=(const Component&) = default;
 		Component& operator=(Component&&) noexcept = delete;

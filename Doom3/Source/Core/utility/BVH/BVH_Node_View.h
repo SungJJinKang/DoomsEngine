@@ -81,11 +81,11 @@ namespace doom
 
 	};
 
-	using BVH_Node_View_AABB2D = typename BVH_Node_View<doom::physics::AABB2D>;
+	//using BVH_Node_View_AABB2D = typename BVH_Node_View<doom::physics::AABB2D>;
 	using BVH_Node_View_AABB3D = typename BVH_Node_View<doom::physics::AABB3D>;
 	using BVH_Node_View_Sphere = typename BVH_Node_View<doom::physics::Sphere>;
 
-	extern template class BVH_Node_View<doom::physics::AABB2D>;
+	//extern template class BVH_Node_View<doom::physics::AABB2D>;
 	extern template class BVH_Node_View<doom::physics::AABB3D>;
 	extern template class BVH_Node_View<doom::physics::Sphere>;
 }

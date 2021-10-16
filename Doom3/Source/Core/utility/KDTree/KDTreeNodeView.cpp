@@ -9,6 +9,6 @@ typename doom::KDTreeNodeView<T>::node_type* doom::KDTreeNodeView<T>::operator->
 	return mKDTreePointer->mKDTreeNodes + mNodeIndex;
 }
 
-template class doom::KDTreeNodeView<math::Vector2>;
-template class doom::KDTreeNodeView<math::Vector3>;
+//template class doom::KDTreeNodeView<math::Vector2>;
+//template class doom::KDTreeNodeView<math::Vector3>;
 //template class doom::KDTreeNodeView<doom::physics::AABB3D>;

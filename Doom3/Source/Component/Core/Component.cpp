@@ -9,12 +9,17 @@ using namespace doom;
 
 
 
-Component::Component() : bIsAddedToEntity{}, mOwnerEntity{}, mTransform{}, mIsActivated{}
+Component::Component() : bIsAddedToEntity{}, mOwnerEntity{nullptr}, mTransform{}, mIsActivated{true}
 {
 
 }
 
 Component::~Component()
+{
+}
+
+Component::Component(const Component&)
+	: bIsAddedToEntity{}, mOwnerEntity{ nullptr }, mTransform{}, mIsActivated{ true }
 {
 }
 

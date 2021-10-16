@@ -47,7 +47,7 @@ namespace doom
 		node_view_type mBVH_Node_View;
 
 		BVH_Node_Container();
-		~BVH_Node_Container();
+		virtual ~BVH_Node_Container();
 
 		BVH_Node_Container(const BVH_Node_Container&);
 		BVH_Node_Container(BVH_Node_Container&&) noexcept = delete;
@@ -58,11 +58,11 @@ namespace doom
 
 
 
-	using BVH_Node_Container2D = typename BVH_Node_Container<doom::physics::AABB2D>;
+	//using BVH_Node_Container2D = typename BVH_Node_Container<doom::physics::AABB2D>;
 	using BVH_Node_Container3D = typename BVH_Node_Container<doom::physics::AABB3D>;
 	using BVH_Node_ContainerSphere = typename BVH_Node_Container<doom::physics::Sphere>;
 
-	extern template class BVH_Node_Container<doom::physics::AABB2D>;
+	//extern template class BVH_Node_Container<doom::physics::AABB2D>;
 	extern template class BVH_Node_Container<doom::physics::AABB3D>;
 	extern template class BVH_Node_Container<doom::physics::Sphere>;
 }

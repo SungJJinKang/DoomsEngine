@@ -53,7 +53,7 @@ doom::BVH_Node_Container<ColliderType>::BVH_Node_Container(const BVH_Node_Contai
 }
 
 
-template class doom::BVH_Node_Container<doom::physics::AABB2D>;
+//template class doom::BVH_Node_Container<doom::physics::AABB2D>;
 template class doom::BVH_Node_Container<doom::physics::AABB3D>;
 template class doom::BVH_Node_Container<doom::physics::Sphere>;
 

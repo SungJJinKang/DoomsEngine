@@ -2,7 +2,7 @@
 
 #include "../Graphics/Graphics_Server.h"
 
-#include "../../Helper/SimpleIniParser.h"
+#include <utility/SimpleIniParser.h>
 #include "AssetManager/AssetManager.h"
 
 #include "../../GameLogic/GameLogicStartPoint.h"

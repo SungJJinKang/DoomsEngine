@@ -115,11 +115,14 @@ void UserInput_Server::MouseButton_Callback(GLFWwindow* window, INT32 button, IN
 
 void doom::userinput::UserInput_Server::UpdateCurrentCursorScreenPosition()
 {
-	doom::userinput::UserInput_Server::mCurrentCursorNDCPosition = Camera::GetMainCamera()->ScreenToNDCPoint(doom::userinput::UserInput_Server::mCurrentCursorScreenPosition);
+	if(Camera::GetMainCamera() != nullptr)
+	{
+		doom::userinput::UserInput_Server::mCurrentCursorNDCPosition = Camera::GetMainCamera()->ScreenToNDCPoint(doom::userinput::UserInput_Server::mCurrentCursorScreenPosition);
 
-	//math::Vector3 ndcPoint{ doom::userinput::UserInput_Server::mCurrentCursorNDCPosition.x, doom::userinput::UserInput_Server::mCurrentCursorNDCPosition.y, 0 };
-	doom::userinput::UserInput_Server::mCurrentCursorWorldPosition = Camera::GetMainCamera()->NDCToWorldPoint(doom::userinput::UserInput_Server::mCurrentCursorNDCPosition);
-	//D_DEBUG_LOG(doom::userinput::UserInput_Server::mCurrentCursorWorldPosition.toString());
+		//math::Vector3 ndcPoint{ doom::userinput::UserInput_Server::mCurrentCursorNDCPosition.x, doom::userinput::UserInput_Server::mCurrentCursorNDCPosition.y, 0 };
+		doom::userinput::UserInput_Server::mCurrentCursorWorldPosition = Camera::GetMainCamera()->NDCToWorldPoint(doom::userinput::UserInput_Server::mCurrentCursorNDCPosition);
+		//D_DEBUG_LOG(doom::userinput::UserInput_Server::mCurrentCursorWorldPosition.toString());
+	}
 }
 
 

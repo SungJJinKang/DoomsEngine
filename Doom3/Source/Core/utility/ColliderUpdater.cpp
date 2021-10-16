@@ -21,6 +21,11 @@ void doom::ColliderUpdater<ColliderType>::UpdateLocalColliderCache(const Collide
 
 
 template <typename ColliderType>
+doom::ColliderUpdater<ColliderType>::~ColliderUpdater()
+{
+}
+
+template <typename ColliderType>
 ColliderType doom::ColliderUpdater<ColliderType>::GetLocalColliderCache()
 {
 	return mLocalColliderCache;

@@ -8,7 +8,7 @@ void doom::Transform::InitComponent()
 {
 	
 	SetPosition(mTransformCoreData.mPosition);
-	SetRotation(mTransformCoreData.mRotation);
+	SetRotation(mRotation);
 	SetScale(mScale);
 }
 
@@ -47,7 +47,7 @@ std::string doom::Transform::ToString()
 	sStream << mTransformCoreData.mPosition.toString();
 	sStream << '\n';
 	sStream << "Rotation : ";
-	auto rotEuler = math::Quaternion::QuaternionToEulerAngle(mTransformCoreData.mRotation);
+	auto rotEuler = math::Quaternion::QuaternionToEulerAngle(mRotation);
 	sStream << math::RADIAN_TO_DEGREE * rotEuler.x;
 	sStream << ' ';
 	sStream << math::RADIAN_TO_DEGREE * rotEuler.y;

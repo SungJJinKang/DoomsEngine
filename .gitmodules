@@ -1,6 +1,3 @@
-[submodule "Doom3/Source/Helper/ThreadPool_Cpp"]
-	path = Doom3/Source/Helper/ThreadPool_Cpp
-	url = https://github.com/SungJJinKang/ThreadPool_Cpp.git
 [submodule "Doom3/Source/Core/Math/LightMath_Cpp"]
 	path = Doom3/Source/Core/Math/LightMath_Cpp
 	url = https://github.com/SungJJinKang/LightMath_Cpp.git
@@ -13,27 +10,15 @@
 [submodule "Doom3/Source/Helper/crossguid"]
 	path = Doom3/Source/Helper/crossguid
 	url = https://github.com/graeme-hill/crossguid.git
-[submodule "Doom3/Source/Helper/EasyCallback_cpp"]
-	path = Doom3/Source/Helper/EasyCallback_cpp
-	url = https://github.com/SungJJinKang/EasyCallback_cpp.git
 [submodule "Doom3/Source/Helper/EasyDirtyChecker"]
 	path = Doom3/Source/Helper/EasyDirtyChecker
 	url = https://github.com/SungJJinKang/EasyDirtyChecker.git
-[submodule "Doom3/Source/Helper/StaticContainer"]
-	path = Doom3/Source/Helper/StaticContainer
-	url = https://github.com/SungJJinKang/StaticContainer.git
 [submodule "Doom3/Source/Helper/Simple_SingleTon"]
 	path = Doom3/Source/Helper/Simple_SingleTon
 	url = https://github.com/SungJJinKang/Simple_SingleTon.git
-[submodule "Doom3/Source/Helper/SuperLightSerialization"]
-	path = Doom3/Source/Helper/SuperLightSerialization
-	url = https://github.com/SungJJinKang/SuperLightSerialization.git
 [submodule "Doom3/Source/Helper/portable-snippets"]
 	path = Doom3/Source/Helper/portable-snippets
 	url = https://github.com/nemequ/portable-snippets.git
-[submodule "Doom3/Source/Helper/SequenceStringGenerator"]
-	path = Doom3/Source/Helper/SequenceStringGenerator
-	url = https://github.com/SungJJinKang/SequenceStringGenerator.git
 [submodule "Doom3/Source/Core/Graphics/Acceleration/LinearData_ViewFrustumCulling"]
 	path = Doom3/Source/Core/Graphics/Acceleration/LinearData_ViewFrustumCulling
 	url = https://github.com/SungJJinKang/LinearData_ViewFrustumCulling.git

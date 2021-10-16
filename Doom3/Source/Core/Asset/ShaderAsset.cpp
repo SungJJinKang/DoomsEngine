@@ -4,8 +4,8 @@
 
 #include "../API/OpenglAPI.h"
 #include "../Graphics/Material/Material.h"
-#include "../../Helper/TextImporter.h"
-#include "../../Helper/trim.h"
+#include <utility/TextImporter.h>
+#include <utility/trim.h>
 #include <UI/PrintText.h>
 
 const std::string doom::asset::ShaderAsset::VertexShaderMacros = "#VERTEX";

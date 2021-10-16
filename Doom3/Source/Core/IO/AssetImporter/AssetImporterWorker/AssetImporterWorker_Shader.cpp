@@ -1,6 +1,6 @@
 #include "AssetImporterWorker_Shader.h"
 
-#include "../../../Helper/TextImporter.h"
+#include <TextImporter.h>
 
 #include <Asset/ShaderAsset.h>
 

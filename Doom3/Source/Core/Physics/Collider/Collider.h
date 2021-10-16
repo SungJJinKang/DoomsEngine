@@ -8,7 +8,7 @@ namespace doom
 {
 	namespace physics
 	{
-		class DOOM_API Collider : public RenderCollider, public StaticContainer<Collider>
+		class DOOM_API Collider : public RenderCollider //, public StaticContainer<Collider> Don't put this ( too slow )
 		{
 		private:
 

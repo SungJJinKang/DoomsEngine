@@ -50,6 +50,24 @@ void doom::Rigidbody::CheckIsRigidbodyComponentAlreadyExist()
 	D_ASSERT(attachedColliderComponents.size() == 1);
 }
 
+doom::Rigidbody::Rigidbody()
+{
+}
+
+doom::Rigidbody::~Rigidbody()
+{
+}
+
+doom::Rigidbody::Rigidbody(const Rigidbody& rigid)
+	:mAttachedColliderComponents(), mCollideCollidersAtFrame()
+{
+}
+
+doom::Rigidbody& doom::Rigidbody::operator=(const Rigidbody& rigid)
+{
+	return *this;
+}
+
 void doom::Rigidbody::InitComponent()
 {
 	ServerComponent::InitComponent();

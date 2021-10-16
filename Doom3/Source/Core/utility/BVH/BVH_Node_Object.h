@@ -20,15 +20,19 @@ namespace doom
 
 		void UpdateBVH_Node();
 
+	public:
+
+		virtual ~BVH_Node_Object();
+
 	};
 
 	
 
-	using BVH_AABB2D_Node_Object = typename BVH_Node_Object<physics::AABB2D>;
+	//using BVH_AABB2D_Node_Object = typename BVH_Node_Object<physics::AABB2D>;
 	using BVH_AABB3D_Node_Object = typename BVH_Node_Object<physics::AABB3D>;
 	using BVH_Sphere_Node_Object = typename BVH_Node_Object<physics::Sphere>;
 
-	extern template class BVH_Node_Object<doom::physics::AABB2D>;
+	//extern template class BVH_Node_Object<doom::physics::AABB2D>;
 	extern template class BVH_Node_Object<doom::physics::AABB3D>;
 	extern template class BVH_Node_Object<doom::physics::Sphere>;
 }

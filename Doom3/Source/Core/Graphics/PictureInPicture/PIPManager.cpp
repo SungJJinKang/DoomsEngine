@@ -24,8 +24,16 @@ void doom::graphics::PIPManager::DrawPIPs()
 
 doom::graphics::PicktureInPickture* doom::graphics::PIPManager::AddNewPIP(const math::Vector2& leftBottomNDCPoint, const math::Vector2& rightTopNDCPoint, SingleTexture* const _drawedTexture)
 {
-	std::unique_ptr<PicktureInPickture>& newPIP = mPicktureInPicktures.emplace_back(std::make_unique< doom::graphics::PicktureInPickture>(leftBottomNDCPoint, rightTopNDCPoint, _drawedTexture));
-	return newPIP.get();
+	doom::graphics::PicktureInPickture* pip = nullptr;
+
+	if(_drawedTexture != nullptr)
+	{
+		std::unique_ptr<PicktureInPickture>& newPIP = mPicktureInPicktures.emplace_back(std::make_unique< doom::graphics::PicktureInPickture>(leftBottomNDCPoint, rightTopNDCPoint, _drawedTexture));
+		pip = newPIP.get();
+	}
+
+	D_ASSERT(pip != nullptr);
+	return pip;
 }
 
 void doom::graphics::PIPManager::RemovePIP(const PicktureInPickture* const removedPIP)

@@ -43,6 +43,8 @@ namespace doom
 		virtual const math::Matrix4x4& GetModelMatrix() = 0;
 
 	public:
+
+		virtual ~ColliderUpdater();
 		
 		ColliderType GetLocalColliderCache();
 		const ColliderType* GetLocalColliderCache() const;

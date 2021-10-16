@@ -28,6 +28,11 @@ namespace doom
 
 	public:
 
+		Rigidbody();
+		~Rigidbody();
+		Rigidbody(const Rigidbody& rigid);
+		Rigidbody& operator=(const Rigidbody& rigid);
+
 		void InitComponent() override;
 		void UpdateComponent() override;
 		void OnDestroy() override;

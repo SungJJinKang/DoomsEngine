@@ -13,17 +13,20 @@ void ExitGame();
 int main()
 {
 	{
-		doom::GameCore gameCore{};
-
-		D_START_PROFILING(Init_Game, doom::profiler::eProfileLayers::CPU);
-		gameCore.Init();
-		D_END_PROFILING(Init_Game);
-
-		while (gameCore.Tick())
 		{
+			doom::GameCore gameCore{};
+
+			D_START_PROFILING(Init_Game, doom::profiler::eProfileLayers::CPU);
+			gameCore.Init();
+			D_END_PROFILING(Init_Game);
+
+			while (gameCore.Tick())
+			{
+			}
+			gameCore.CleanUp();
+			//window terminated
 		}
-		gameCore.CleanUp();
-		//window terminated
+	
 
 #ifdef DEBUG_MODE
 		doom::DObjectManager::DestroyAllDObjects(false);

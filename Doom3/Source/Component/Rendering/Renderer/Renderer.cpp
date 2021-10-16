@@ -49,6 +49,10 @@ doom::Renderer::Renderer() : ServerComponent(), StaticContainer(), mTargetMateri
 
 }
 
+doom::Renderer::~Renderer()
+{
+}
+
 
 void doom::Renderer::MergeBVHBitFlag()
 {

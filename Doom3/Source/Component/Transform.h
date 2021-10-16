@@ -18,7 +18,7 @@ namespace doom
 	{
 		math::Vector3 mPosition;
 		DirtyReceiver bmIsDirtyModelMatrix{ true };
-		math::Quaternion mRotation;
+	
 		
 	};
 
@@ -44,7 +44,7 @@ namespace doom
 		alignas(64) math::Matrix4x4 mScaleMatrix{ 1.0f };
 	
 		math::Vector3 mScale{ 1.0f };
-		
+		math::Quaternion mRotation;
 		math::Vector3 mLastFramePosition;
 
 		//Matrix4X4 and Vector4 is aligned to 32, 16 byte
@@ -101,7 +101,7 @@ namespace doom
 			if (IsEntityMobilityStatic())
 			{
 				mRotationMatrix = static_cast<math::Matrix4x4>(rotation);
-				mTransformCoreData.mRotation = rotation;
+				mRotation = rotation;
 				SetDirtyTrueAtThisFrame();
 
 				mTransformCoreData.bmIsDirtyModelMatrix = true;
@@ -141,7 +141,7 @@ namespace doom
 
 		FORCE_INLINE const math::Quaternion& GetRotation() const noexcept
 		{
-			return mTransformCoreData.mRotation;
+			return mRotation;
 		}
 
 		FORCE_INLINE const math::Vector3& GetScale() const noexcept
@@ -165,15 +165,15 @@ namespace doom
 		
 		FORCE_INLINE math::Vector3 forward() const noexcept
 		{
-			return mTransformCoreData.mRotation * math::Vector3::forward;
+			return mRotation * math::Vector3::forward;
 		}
 		FORCE_INLINE math::Vector3 right() const noexcept
 		{
-			return mTransformCoreData.mRotation * math::Vector3::right;
+			return mRotation * math::Vector3::right;
 		}
 		FORCE_INLINE math::Vector3 up() const noexcept
 		{
-			return mTransformCoreData.mRotation * math::Vector3::up;
+			return mRotation * math::Vector3::up;
 		}
 
 		FORCE_INLINE void LookAt(const Transform& target, const math::Vector3& up) noexcept
@@ -185,11 +185,11 @@ namespace doom
 		{
 			if (relativeTo == eSpace::Self)
 			{
-				SetRotation(mTransformCoreData.mRotation * quat);
+				SetRotation(mRotation * quat);
 			}
 			else if (relativeTo == eSpace::World)
 			{
-				SetRotation(quat * mTransformCoreData.mRotation);
+				SetRotation(quat * mRotation);
 			}
 			
 		}
@@ -197,11 +197,11 @@ namespace doom
 		{
 			if (relativeTo == eSpace::Self)
 			{
-				SetRotation(mTransformCoreData.mRotation * math::Quaternion(eulerAngles));
+				SetRotation(mRotation * math::Quaternion(eulerAngles));
 			}
 			else if (relativeTo == eSpace::World)
 			{
-				SetRotation(math::Quaternion(eulerAngles) * mTransformCoreData.mRotation);
+				SetRotation(math::Quaternion(eulerAngles) * mRotation);
 			}
 		}
 		FORCE_INLINE void RotateAround(const math::Vector3& centerPoint, const math::Vector3& axis, const FLOAT32 angle) noexcept
@@ -219,15 +219,15 @@ namespace doom
 
 		FORCE_INLINE math::Vector3 TransformDirection(math::Vector3& direction) const noexcept
 		{
-			return mTransformCoreData.mRotation * direction.normalized();
+			return mRotation * direction.normalized();
 		}
 		FORCE_INLINE math::Vector3 TransformPoint(const math::Vector3& point) const noexcept
 		{
-			return mTransformCoreData.mRotation * point;
+			return mRotation * point;
 		}
 		FORCE_INLINE math::Vector3 TransformVector(const math::Vector3& vector) const noexcept
 		{
-			return mTransformCoreData.mRotation * vector;
+			return mRotation * vector;
 		}
 		FORCE_INLINE void Translate(const math::Vector3& translation, const eSpace& relativeTo = eSpace::World) noexcept
 		{

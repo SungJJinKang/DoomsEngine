@@ -378,6 +378,7 @@ typename doom::KDTree<T>::node_view_type doom::KDTree<T>::FineMin(const UINT32 t
 //template class doom::KDTree<math::Vector2>;
 //template class doom::KDTree<doom::physics::AABB3D>;
 
+/*
 template class doom::KDTree<math::Vector3>;
 template struct doom::KDTreeNode<math::Vector3>;
-template class doom::KDTreeNodeView<math::Vector3>;
+template class doom::KDTreeNodeView<math::Vector3>;*/
