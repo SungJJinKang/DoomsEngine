@@ -5,6 +5,8 @@
 #include <Macros/TypeDef.h>
 #include <Macros/DllMarcos.h>
 
+#include "DObjectMacros.h"
+
 #define INVALID_DOBJECT_ID 0x0000000000000000
 
 namespace doom
@@ -33,9 +35,10 @@ namespace doom
 	};
 
 	
-	class DOOM_API DObject;
 	class DOOM_API DObject
 	{
+		DOBJECT_ABSTRACT_CLASS_BODY(DObject);
+
 		friend class DObjectManager;
 
 		struct DObjectProperties
