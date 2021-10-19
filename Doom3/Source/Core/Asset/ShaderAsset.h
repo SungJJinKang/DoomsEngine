@@ -21,6 +21,7 @@ namespace doom
 		class DOOM_API ShaderAsset : public Asset
 		{
 			DOBJECT_CLASS_BODY(ShaderAsset, doom::eDOBJECT_ClassFlags::NonCopyable)
+				DOBJECT_CLASS_BASE_CHAIN(Asset)
 
 			friend class ::doom::assetimporter::AssetImporterWorker_Shader;
 			

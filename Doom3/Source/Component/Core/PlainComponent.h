@@ -19,6 +19,7 @@ namespace doom
 		friend class Scene;
 
 		DOBJECT_ABSTRACT_CLASS_BODY(PlainComponent)
+		DOBJECT_CLASS_BASE_CHAIN(Component)
 
 	protected:
 

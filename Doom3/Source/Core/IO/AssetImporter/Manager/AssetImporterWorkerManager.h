@@ -21,6 +21,7 @@ namespace doom
 		{
 
 			DOBJECT_CLASS_BODY(AssetImporterWorkerManager, doom::eDOBJECT_ClassFlags::NonCopyable);
+			DOBJECT_CLASS_BASE_CHAIN(DObject)
 
 		private:
 

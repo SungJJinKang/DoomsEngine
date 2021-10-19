@@ -32,7 +32,7 @@ namespace doom
 	{
 
 		DOBJECT_CLASS_BODY(Entity, doom::eDOBJECT_ClassFlags::NonCopyable);
-
+		DOBJECT_CLASS_BASE_CHAIN(DObject)
 
 		friend class Scene;
 		template <typename T>

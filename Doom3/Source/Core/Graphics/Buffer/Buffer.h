@@ -12,7 +12,8 @@ namespace doom
 		class UniformBufferObject;
 		class Buffer : public DObject
 		{
-			DOBJECT_ABSTRACT_CLASS_BODY(Buffer);
+			DOBJECT_ABSTRACT_CLASS_BODY(Buffer)
+			DOBJECT_CLASS_BASE_CHAIN(DObject)
 
 		protected:
 

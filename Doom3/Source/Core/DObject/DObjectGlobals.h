@@ -14,7 +14,7 @@ namespace doom
 	template <typename DObjectType, typename... Args>
 	DObjectType* CreateDObject(const DObjectContructorParams& dObjectConstructorParams, Args&&... args)
 	{
-		static_assert(std::is_base_of_v<doom::DObject, DObjectType> == true);
+		static_assert(IS_DOBJECT_TYPE(DObjectType) == true);
 
 		//DObjectType's Constructor should be public function
 		DObjectType* const newDObject = new DObjectType(std::forward<Args>(args)...);
@@ -30,7 +30,7 @@ namespace doom
 	template <typename DObjectType, typename... Args>
 	DObjectType* CreateDObject(Args&&... args)
 	{
-		static_assert(std::is_base_of_v<doom::DObject, DObjectType> == true);
+		static_assert(IS_DOBJECT_TYPE(DObjectType) == true);
 
 		//DObjectType's Constructor should be public function
 		DObjectType* const newDObject = new DObjectType(std::forward<Args>(args)...);
@@ -48,19 +48,18 @@ namespace doom
 		return doom::DObjectManager::IsDObjectValid(dObject);
 	}
 
-#define CASTING_STATIC_ASSERT(CASTING_TYPE)																																\
-static_assert(std::is_pointer_v<CASTING_TYPE> == true, "Please Pass Pointer Type as IsA function's template argument");												\
-static_assert(std::is_base_of_v<DObject, std::remove_pointer_t<CASTING_TYPE>> == true, "Please Pass DObject's child Type as IsA function's template argument");		\
+#define CASTING_STATIC_ASSERT(CASTING_TYPE)																													\
+static_assert(std::is_pointer_v<CASTING_TYPE> == true, "Please Pass Pointer Type as IsA function's template argument");										\
+static_assert(IS_DOBJECT_TYPE(std::remove_pointer_t<CASTING_TYPE>) == true, "Please Pass DObject's child Type as IsA function's template argument");		\
 
 
 	template <typename CompareType>
 	FORCE_INLINE bool IsA(const DObject* const dObject)
 	{
-		static_assert(std::is_pointer_v<CompareType> == false, "Please Pass Pointer Type as IsA function's template argument");												\
-		static_assert(std::is_base_of_v<DObject, CompareType> == true, "Please Pass DObject's child Type as IsA function's template argument");		\
-
-
-		return CompareType::TYPE_ID_STATIC() == dObject->TYPE_ID();
+		static_assert(std::is_pointer_v<CompareType> == false, "Don't Pass Pointer Type as IsA function's template argument");						\
+		static_assert(IS_DOBJECT_TYPE(CompareType) == true, "Please Pass DObject's child Type as IsA function's template argument");		\
+			
+		return dObject->IsChildOf<CompareType>();
 	}
 
 	/// <summary>

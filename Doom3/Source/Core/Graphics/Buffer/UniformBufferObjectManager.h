@@ -14,7 +14,7 @@ namespace doom
 		class UniformBufferObjectManager : public DObject, public ISingleton<UniformBufferObjectManager>
 		{
 			DOBJECT_CLASS_BODY(UniformBufferObjectManager, doom::eDOBJECT_ClassFlags::NonCopyable);
-
+			DOBJECT_CLASS_BASE_CHAIN(DObject)
 		private:
 
 

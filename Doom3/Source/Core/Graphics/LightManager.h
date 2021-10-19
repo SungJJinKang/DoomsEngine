@@ -11,6 +11,7 @@ namespace doom
 		{
 
 			DOBJECT_CLASS_BODY(LightManager);
+			DOBJECT_CLASS_BASE_CHAIN(DObject)
 
 		private:
 

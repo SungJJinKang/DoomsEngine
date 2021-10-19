@@ -7,6 +7,7 @@ namespace doom
 	class DOOM_API BoxCollider2D : public Collider2DComponent
 	{
 		DOBJECT_CLASS_BODY(BoxCollider2D)
+		DOBJECT_CLASS_BASE_CHAIN(Collider2DComponent)
 
 		friend class physics::Physics_Server;
 	private:

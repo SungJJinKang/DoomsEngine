@@ -11,6 +11,7 @@ namespace doom
 		class DOOM_API AssetImporterWorker_Font : public AssetImporterWorker
 		{
 			DOBJECT_CLASS_BODY(AssetImporterWorker_Font);
+			DOBJECT_CLASS_BASE_CHAIN(AssetImporterWorker)
 
 		public:
 

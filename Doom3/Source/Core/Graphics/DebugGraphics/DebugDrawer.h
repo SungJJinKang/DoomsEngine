@@ -28,7 +28,7 @@ namespace doom
 		class DebugDrawer : public DObject, public ISingleton<DebugDrawer>
 		{
 			DOBJECT_CLASS_BODY(DebugDrawer, eDOBJECT_ClassFlags::NonCopyable)
-			
+				DOBJECT_CLASS_BASE_CHAIN(DObject)
 		private:
 
 			static inline const std::string DEBUG_2D_SHADER{ "Debug2DShader.glsl" };

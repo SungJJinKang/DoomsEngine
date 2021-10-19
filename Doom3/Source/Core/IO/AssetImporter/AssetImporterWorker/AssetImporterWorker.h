@@ -17,6 +17,7 @@ namespace doom
 		class DOOM_API AssetImporterWorker : public DObject
 		{
 			DOBJECT_ABSTRACT_CLASS_BODY(AssetImporterWorker);
+			DOBJECT_CLASS_BASE_CHAIN(DObject)
 
 		protected:
 

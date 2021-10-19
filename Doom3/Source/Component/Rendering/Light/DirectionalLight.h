@@ -8,6 +8,7 @@ namespace doom
 	{
 
 		DOBJECT_CLASS_BODY(DirectionalLight)
+		DOBJECT_CLASS_BASE_CHAIN(Light)
 
 	private:
 

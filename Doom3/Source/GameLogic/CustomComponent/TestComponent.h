@@ -8,6 +8,7 @@ namespace doom
 	{
 
 		DOBJECT_CLASS_BODY(TestComponent)
+		DOBJECT_CLASS_BASE_CHAIN(PlainComponent)
 
 	private:
 

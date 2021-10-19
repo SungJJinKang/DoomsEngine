@@ -10,6 +10,7 @@ namespace doom
 		class DOOM_API AssetImporterWorker_Text : public AssetImporterWorker
 		{
 			DOBJECT_CLASS_BODY(AssetImporterWorker_Text);
+			DOBJECT_CLASS_BASE_CHAIN(AssetImporterWorker)
 
 		public:
 

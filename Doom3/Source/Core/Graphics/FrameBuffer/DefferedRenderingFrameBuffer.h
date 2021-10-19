@@ -14,6 +14,7 @@ namespace doom
 		{
 
 			DOBJECT_CLASS_BODY(DefferedRenderingFrameBuffer);
+			DOBJECT_CLASS_BASE_CHAIN(graphics::FrameBuffer)
 
 		private:
 

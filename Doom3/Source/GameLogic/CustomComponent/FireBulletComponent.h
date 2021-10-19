@@ -11,6 +11,7 @@ namespace doom
 	{
 
 		DOBJECT_CLASS_BODY(FireBulletComponent)
+		DOBJECT_CLASS_BASE_CHAIN(PlainComponent)
 
 	public:
 

@@ -9,6 +9,7 @@ namespace doom
 	{
 
 		DOBJECT_ABSTRACT_CLASS_BODY(Light)
+		DOBJECT_CLASS_BASE_CHAIN(PlainComponent)
 
 	private:
 

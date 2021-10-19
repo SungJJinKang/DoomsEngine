@@ -20,6 +20,7 @@ namespace doom
 		class DOOM_API Physics_Server : public IGameFlow, public ISingleton<Physics_Server>
 		{
 			DOBJECT_CLASS_BODY(Physics_Server, doom::eDOBJECT_ClassFlags::NonCopyable);
+			DOBJECT_CLASS_BASE_CHAIN(IGameFlow)
 
 		private:
 

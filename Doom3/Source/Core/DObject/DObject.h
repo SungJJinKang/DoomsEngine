@@ -39,6 +39,42 @@ namespace doom
 	{
 		DOBJECT_ABSTRACT_CLASS_BODY(DObject);
 
+	protected:
+		static void BASE_CHAIN_HILLCLIMB(doom::DOBJECT_BASE_CHAIN& base_chain)
+		{
+			base_chain.BASE_CHAIN_COUNT++;
+			base_chain.BASE_CHAIN_TYPE_ID_LIST.push_back(TYPE_ID_STATIC());
+		}
+	public:
+		inline static const DOBJECT_BASE_CHAIN BASE_CHAIN_STATIC{};
+		virtual const DOBJECT_BASE_CHAIN& GET_BASE_CHAIN() const { return BASE_CHAIN_STATIC; }
+
+		bool IsChildOf(const SIZE_T baseTypeID) const
+		{
+			bool isChild = (baseTypeID == TYPE_ID());
+
+			if(isChild == false)
+			{
+				for (SIZE_T this_object_base_type : GET_BASE_CHAIN().BASE_CHAIN_TYPE_ID_LIST)
+				{
+					if (baseTypeID == this_object_base_type)
+					{
+						isChild = true;
+						break;
+					}
+				}
+			}
+			
+			return isChild;
+		}
+
+		template <typename BASE_TYPE>
+		bool IsChildOf() const
+		{
+			static_assert(IS_DOBJECT_TYPE(BASE_TYPE));
+			return IsChildOf(BASE_TYPE::TYPE_ID_STATIC());
+		}
+
 		friend class DObjectManager;
 
 		struct DObjectProperties

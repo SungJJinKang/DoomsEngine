@@ -8,6 +8,7 @@ namespace doom
 	{
 
 		DOBJECT_CLASS_BODY(AxisDebugger)
+		DOBJECT_CLASS_BASE_CHAIN(PlainComponent)
 
 	protected:
 		void InitComponent() override;

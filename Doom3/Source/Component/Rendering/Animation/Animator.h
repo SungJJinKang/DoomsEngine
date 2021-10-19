@@ -18,6 +18,7 @@ namespace doom
 	{
 
 		DOBJECT_CLASS_BODY(Animator)
+		DOBJECT_CLASS_BASE_CHAIN(ServerComponent)
 
 		friend class graphics::Graphics_Server;
 

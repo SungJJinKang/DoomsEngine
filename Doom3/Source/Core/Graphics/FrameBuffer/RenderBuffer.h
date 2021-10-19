@@ -15,6 +15,7 @@ namespace doom
 		class RenderBuffer : public DObject
 		{
 			DOBJECT_CLASS_BODY(RenderBuffer, doom::eDOBJECT_ClassFlags::NonCopyable);
+			DOBJECT_CLASS_BASE_CHAIN(DObject)
 
 		private:
 

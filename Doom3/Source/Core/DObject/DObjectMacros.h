@@ -2,10 +2,18 @@
 
 #include <typeinfo>
 #include <type_traits>
+#include <vector>
 
 #include <Macros/TypeDef.h>
 #include <Macros/MacrosHelper.h>
 #include <Macros/Assert.h>
+
+namespace doom
+{
+	class DObject;
+}
+
+#define IS_DOBJECT_TYPE(TYPE) std::is_base_of_v<doom::DObject, TYPE>
 
 #ifndef TYPE_ID_HASH_CODE
 
@@ -86,11 +94,69 @@ template<doom::eDOBJECT_ClassFlags...flags> struct flag_or {
 
 #endif
 
-/*
-virtual SIZE_T GetSubClassIDList() const
+
+
+/////////////////////////////////
+
+namespace doom
 {
-	
-}*/
+	struct DOBJECT_BASE_CHAIN
+	{
+		SIZE_T BASE_CHAIN_COUNT;
+		std::vector<SIZE_T> BASE_CHAIN_TYPE_ID_LIST;
+
+		DOBJECT_BASE_CHAIN() : BASE_CHAIN_COUNT(0), BASE_CHAIN_TYPE_ID_LIST()
+		{}
+	};
+}
+
+
+template<typename... Ts>														
+struct do_hill_climb;															
+template<typename T, typename... Ts>											
+struct do_hill_climb<T, Ts...>
+{
+	static void call(doom::DOBJECT_BASE_CHAIN& base_chain)
+	{
+		if constexpr (std::is_base_of<doom::DObject, T>::value) {
+
+			T::BASE_CHAIN_HILLCLIMB(base_chain);
+			do_hill_climb<Ts...>::call(base_chain);
+		}
+	}
+};
+template<typename T>																
+struct do_hill_climb<T>
+{
+	static void call(doom::DOBJECT_BASE_CHAIN& base_chain)
+	{
+		if constexpr (std::is_base_of<doom::DObject, T>::value) {
+
+			T::BASE_CHAIN_HILLCLIMB(base_chain);
+		}
+	}
+};
+
+
+#define DOBJECT_CLASS_BASE_CHAIN(...)																	\
+	template<typename... Ts>																			\
+	friend struct do_hill_climb;																		\
+	protected:																							\
+	static DOBJECT_BASE_CHAIN BASE_CHAIN_HILLCLIMB() {													\
+		DOBJECT_BASE_CHAIN base_chain{};																\
+		do_hill_climb<__VA_ARGS__>::call(base_chain);													\
+		return base_chain;																				\
+	}																									\
+	static void BASE_CHAIN_HILLCLIMB(doom::DOBJECT_BASE_CHAIN& base_chain) {							\
+		base_chain.BASE_CHAIN_COUNT++;																	\
+		base_chain.BASE_CHAIN_TYPE_ID_LIST.push_back(TYPE_ID_STATIC());									\
+        do_hill_climb<__VA_ARGS__>::call(base_chain);													\
+	}																									\
+	public:																								\
+	inline static const DOBJECT_BASE_CHAIN BASE_CHAIN_STATIC = BASE_CHAIN_HILLCLIMB();					\
+	virtual const DOBJECT_BASE_CHAIN& GET_BASE_CHAIN() const { return BASE_CHAIN_STATIC; }
+
+
 /////////////////////////////////
 
 
@@ -158,3 +224,7 @@ virtual SIZE_T GetSubClassIDList() const
 		_CLONE_ABSTRACT_DOBJECT(CLASS_TYPE)											\
 
 #endif
+
+
+
+//TODO : https://github.com/Celtoys/clReflect 이거 사용 고려 ( 일일이 매크로 추가해줄 필요없이 빌드 전에 소스파일 분석해서 알아서 분석해준다 )

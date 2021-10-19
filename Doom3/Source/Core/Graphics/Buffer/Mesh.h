@@ -21,6 +21,7 @@ namespace doom
 		class Mesh : protected Buffer
 		{
 			DOBJECT_CLASS_BODY(Mesh, doom::eDOBJECT_ClassFlags::NonCopyable);
+			DOBJECT_CLASS_BASE_CHAIN(Buffer)
 
 			friend class Graphics_Server;
 			friend class DebugDrawer;

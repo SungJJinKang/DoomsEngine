@@ -21,6 +21,7 @@ namespace doom
 		class DOOM_API AssetImporterWorker_THREE_D_MODEL : public AssetImporterWorker
 		{
 			DOBJECT_CLASS_BODY(AssetImporterWorker_THREE_D_MODEL, doom::eDOBJECT_ClassFlags::NonCopyable);
+			DOBJECT_CLASS_BASE_CHAIN(AssetImporterWorker)
 
 		private:
 

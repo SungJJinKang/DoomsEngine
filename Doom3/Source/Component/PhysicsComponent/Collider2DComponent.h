@@ -7,6 +7,7 @@ namespace doom
 	class DOOM_API Collider2DComponent : public ColliderComponent
 	{
 		DOBJECT_ABSTRACT_CLASS_BODY(Collider2DComponent)
+		DOBJECT_CLASS_BASE_CHAIN(ColliderComponent)
 
 	protected:
 		math::Vector2 mOffset;

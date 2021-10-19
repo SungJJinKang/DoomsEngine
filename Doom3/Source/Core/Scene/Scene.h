@@ -22,6 +22,7 @@ namespace doom
 	{
 
 		DOBJECT_CLASS_BODY(Scene, doom::eDOBJECT_ClassFlags::NonCopyable);
+		DOBJECT_CLASS_BASE_CHAIN(DObject)
 
 		friend class GameCore;
 		friend class graphics::Graphics_Server;

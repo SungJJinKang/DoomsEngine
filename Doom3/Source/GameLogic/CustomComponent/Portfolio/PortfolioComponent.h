@@ -16,6 +16,7 @@ class PortfolioComponent : public PlainComponent
 {
 
 	DOBJECT_CLASS_BODY(PortfolioComponent)
+	DOBJECT_CLASS_BASE_CHAIN(PlainComponent)
 
 private:
 

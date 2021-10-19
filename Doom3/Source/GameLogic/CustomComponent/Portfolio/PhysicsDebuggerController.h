@@ -12,6 +12,7 @@ class PhysicsDebuggerController : public PlainComponent
 {
 
 	DOBJECT_CLASS_BODY(PhysicsDebuggerController)
+	DOBJECT_CLASS_BASE_CHAIN(PlainComponent)
 
 private:
 

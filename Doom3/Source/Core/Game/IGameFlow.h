@@ -13,6 +13,7 @@ namespace doom
 	class DOOM_API IGameFlow : public DObject, public FrameDirtyChecker
 	{
 		DOBJECT_ABSTRACT_CLASS_BODY(IGameFlow, doom::eDOBJECT_ClassFlags::NonCopyable);
+		DOBJECT_CLASS_BASE_CHAIN(DObject)
 
 	private:
 		

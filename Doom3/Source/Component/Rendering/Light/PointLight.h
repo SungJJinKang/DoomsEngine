@@ -9,6 +9,7 @@ namespace doom
 	{
 
 		DOBJECT_CLASS_BODY(PointLight)
+		DOBJECT_CLASS_BASE_CHAIN(Light)
 
 	private:
 

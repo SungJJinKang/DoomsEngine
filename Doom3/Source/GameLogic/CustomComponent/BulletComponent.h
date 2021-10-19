@@ -10,7 +10,7 @@ namespace doom
 	{
 
 		DOBJECT_CLASS_BODY(BulletComponent)
-
+		DOBJECT_CLASS_BASE_CHAIN(PlainComponent)
 
 	public:
 

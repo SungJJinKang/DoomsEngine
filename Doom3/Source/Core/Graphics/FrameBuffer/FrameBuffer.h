@@ -16,6 +16,7 @@ namespace doom
 		class FrameBuffer : public DObject
 		{
 			DOBJECT_CLASS_BODY(FrameBuffer);
+			DOBJECT_CLASS_BASE_CHAIN(DObject)
 
 		private:
 

@@ -27,6 +27,7 @@ namespace doom
 		friend class Scene;
 
 		DOBJECT_ABSTRACT_CLASS_BODY(Component)
+		DOBJECT_CLASS_BASE_CHAIN(DObject)
 
 		struct Deleter
 		{

@@ -12,6 +12,10 @@ namespace doom
 	{
 		class MainTimer : public DObject, public ISingleton<MainTimer>
 		{
+
+			DOBJECT_CLASS_BODY(MainTimer);
+			DOBJECT_CLASS_BASE_CHAIN(DObject)
+
 			friend class ::doom::GameCore;
 			friend class Time_Server;
 

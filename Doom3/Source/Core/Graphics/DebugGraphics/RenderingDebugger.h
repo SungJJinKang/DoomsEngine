@@ -13,7 +13,7 @@ namespace doom
 		class RenderingDebugger : public DObject
 		{
 			DOBJECT_CLASS_BODY(RenderingDebugger);
-
+			DOBJECT_CLASS_BASE_CHAIN(DObject)
 		private:
 
 			inline static UINT64 DrawCallCounter = 0;

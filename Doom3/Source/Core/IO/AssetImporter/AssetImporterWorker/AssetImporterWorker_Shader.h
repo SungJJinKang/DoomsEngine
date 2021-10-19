@@ -15,7 +15,8 @@ namespace doom
 		class DOOM_API AssetImporterWorker_Shader : public AssetImporterWorker
 		{
 			DOBJECT_CLASS_BODY(AssetImporterWorker_Shader);
-
+			DOBJECT_CLASS_BASE_CHAIN(AssetImporterWorker)
+			
 		private:
 
 			bool ImportShaderAsset(const std::filesystem::path& path, doom::asset::ShaderAsset* const asset);

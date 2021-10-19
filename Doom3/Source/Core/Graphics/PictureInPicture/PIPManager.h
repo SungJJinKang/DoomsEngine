@@ -18,6 +18,7 @@ namespace doom
 		{
 
 			DOBJECT_CLASS_BODY(PIPManager, doom::eDOBJECT_ClassFlags::NonCopyable);
+			DOBJECT_CLASS_BASE_CHAIN(DObject)
 
 		private:
 

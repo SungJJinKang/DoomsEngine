@@ -31,6 +31,7 @@ namespace doom
 		{
 
 			DOBJECT_ABSTRACT_CLASS_BODY(Asset, doom::eDOBJECT_ClassFlags::NonCopyable)
+			DOBJECT_CLASS_BASE_CHAIN(DObject)
 
 		public:
 			

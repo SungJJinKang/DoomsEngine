@@ -60,6 +60,7 @@ namespace doom
 		class DOOM_API UserInput_Server : public IGameFlow, public ISingleton<UserInput_Server>
 		{
 			DOBJECT_CLASS_BODY(UserInput_Server, doom::eDOBJECT_ClassFlags::NonCopyable);
+			DOBJECT_CLASS_BASE_CHAIN(IGameFlow)
 
 		private:
 

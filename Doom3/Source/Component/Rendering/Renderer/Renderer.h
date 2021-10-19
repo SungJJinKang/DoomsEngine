@@ -38,6 +38,7 @@ namespace doom
 	class DOOM_API Renderer : public ServerComponent, public RendererComponentStaticIterator, public BVH_Sphere_Node_Object, public ColliderUpdater<doom::physics::AABB3D>//, public BVH_AABB3D_Node_Object // public graphics::CullDistanceRenderer
 	{
 		DOBJECT_ABSTRACT_CLASS_BODY(Renderer)
+		DOBJECT_CLASS_BASE_CHAIN(ServerComponent)
 
 		friend graphics::Graphics_Server;
 		friend class Enity;

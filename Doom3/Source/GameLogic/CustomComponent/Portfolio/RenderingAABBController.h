@@ -9,6 +9,7 @@ namespace doom
 	{
 
 		DOBJECT_CLASS_BODY(RenderingAABBController)
+		DOBJECT_CLASS_BASE_CHAIN(PlainComponent)
 
 	private:
 

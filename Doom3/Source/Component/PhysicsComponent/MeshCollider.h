@@ -6,6 +6,7 @@ namespace doom
 	class DOOM_API MeshCollider : public Collider3DComponent
 	{
 		DOBJECT_CLASS_BODY(MeshCollider)
+		DOBJECT_CLASS_BASE_CHAIN(Collider3DComponent)
 
 		friend class physics::Physics_Server;
 	private:

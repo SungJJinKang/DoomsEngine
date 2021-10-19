@@ -17,6 +17,7 @@ namespace doom
 		class UniformBufferObject : public Buffer
 		{
 			DOBJECT_CLASS_BODY(UniformBufferObject, doom::eDOBJECT_ClassFlags::NonCopyable);
+			DOBJECT_CLASS_BASE_CHAIN(Buffer)
 
 			friend class UniformBufferObjectManager;
 		private:

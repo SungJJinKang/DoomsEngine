@@ -21,7 +21,7 @@ namespace doom
 		{
 
 			DOBJECT_CLASS_BODY(AssetManager, doom::eDOBJECT_ClassFlags::NonCopyable);
-
+			DOBJECT_CLASS_BASE_CHAIN(IGameFlow)
 
 			friend class AssetFuture;
 

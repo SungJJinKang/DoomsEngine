@@ -12,6 +12,7 @@ namespace doom
 	{
 
 		DOBJECT_CLASS_BODY(OverDrawVisualizationDebugger)
+		DOBJECT_CLASS_BASE_CHAIN(PlainComponent)
 
 	private:
 

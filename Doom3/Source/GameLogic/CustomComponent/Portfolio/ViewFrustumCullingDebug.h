@@ -15,6 +15,7 @@ namespace doom
 	{
 
 		DOBJECT_CLASS_BODY(ViewFrustumCullingDebug)
+		DOBJECT_CLASS_BASE_CHAIN(PlainComponent)
 
 	private:
 
