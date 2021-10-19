@@ -41,6 +41,13 @@ namespace doom
 		}
 		virtual void OnEndOfFrame() = 0;
 
+		IGameFlow();
+		IGameFlow(const IGameFlow&) = delete;
+		IGameFlow(IGameFlow&&) noexcept = delete;
+
+		IGameFlow& operator=(const IGameFlow&) = delete;
+		IGameFlow& operator=(IGameFlow&&) noexcept = delete;
+
 		virtual ~IGameFlow();
 	};
 }

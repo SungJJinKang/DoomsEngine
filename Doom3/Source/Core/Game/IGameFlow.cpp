@@ -18,6 +18,10 @@ void doom::IGameFlow::FixedUpdate_Internal()
 {
 }
 
+IGameFlow::IGameFlow()
+{
+}
+
 doom::IGameFlow::~IGameFlow()
 {
 }
