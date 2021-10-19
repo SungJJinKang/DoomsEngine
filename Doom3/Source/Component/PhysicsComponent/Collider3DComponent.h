@@ -13,6 +13,9 @@ namespace doom
 		virtual math::Vector3 GetOffsetVector3() const final;
 
 	public:
+
+		virtual ~Collider3DComponent();
+
 		void SetOffset(const math::Vector3& offset);
 		math::Vector3 GetOffset();
 	};

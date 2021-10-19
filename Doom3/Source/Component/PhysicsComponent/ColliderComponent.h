@@ -72,6 +72,9 @@ namespace doom
 		virtual const math::Matrix4x4& GetModelMatrix() final;
 
 	public:
+
+		virtual ~ColliderComponent();
+
 		void UpdateLocalColliderAndLocalBVhAABBCache();
 
 		void OnPreUpdatePhysics();

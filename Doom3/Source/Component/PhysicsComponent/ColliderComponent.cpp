@@ -110,6 +110,10 @@ const math::Matrix4x4& doom::ColliderComponent::GetModelMatrix()
 	return GetTransform()->GetModelMatrix();
 }
 
+doom::ColliderComponent::~ColliderComponent()
+{
+}
+
 void doom::ColliderComponent::UpdateLocalColliderAndLocalBVhAABBCache()
 {
 	if (bmIsLocalColliderDirty.GetIsDirty(true))

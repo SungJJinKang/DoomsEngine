@@ -86,8 +86,7 @@ void Entity::CopyEntity(const Entity& fromCopyedEnitty, Entity& toCopyedEntity)
 
 		D_ASSERT(clonedNewPlainComp != nullptr);
 
-		toCopyedEntity.mPlainComponents.emplace_back(clonedNewPlainComp);
-		toCopyedEntity.InitializeComponent(clonedNewPlainComp);
+		toCopyedEntity._AddComponentAndInitialize(clonedNewPlainComp);
 	}
 
 	for(const std::unique_ptr<ServerComponent, Component::Deleter>& serverComponents : fromCopyedEnitty.mServerComponents)
@@ -97,8 +96,7 @@ void Entity::CopyEntity(const Entity& fromCopyedEnitty, Entity& toCopyedEntity)
 
 		D_ASSERT(serverComp != nullptr);
 
-		toCopyedEntity.mServerComponents.emplace_back(clonedNewServerComp);
-		toCopyedEntity.InitializeComponent(clonedNewServerComp);
+		toCopyedEntity._AddComponentAndInitialize(clonedNewServerComp);
 	}
 
 	toCopyedEntity.mChilds.reserve(fromCopyedEnitty.mChilds.size());
