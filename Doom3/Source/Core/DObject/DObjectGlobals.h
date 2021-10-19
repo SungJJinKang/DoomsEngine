@@ -56,9 +56,11 @@ static_assert(std::is_base_of_v<DObject, std::remove_pointer_t<CASTING_TYPE>> ==
 	template <typename CompareType>
 	FORCE_INLINE bool IsA(const DObject* const dObject)
 	{
-		CASTING_STATIC_ASSERT(CompareType);
+		static_assert(std::is_pointer_v<CompareType> == false, "Please Pass Pointer Type as IsA function's template argument");												\
+		static_assert(std::is_base_of_v<DObject, CompareType> == true, "Please Pass DObject's child Type as IsA function's template argument");		\
 
-		return std::remove_pointer_t<CompareType>::TYPE_ID_STATIC() == dObject->TYPE_ID();
+
+		return CompareType::TYPE_ID_STATIC() == dObject->TYPE_ID();
 	}
 
 	/// <summary>
@@ -73,20 +75,37 @@ static_assert(std::is_base_of_v<DObject, std::remove_pointer_t<CASTING_TYPE>> ==
 	/// <param name="dObject"></param>
 	/// <returns></returns>
 	template <typename CastingType>
-	FORCE_INLINE CastingType* CastTo(const DObject* const dObject)
+	FORCE_INLINE CastingType CastTo(const DObject* const dObject)
 	{
 		CASTING_STATIC_ASSERT(CastingType);
 
 		CastingType castedDObject = nullptr;
 
-		D_ASSERT(IsA<CastingType>(dObject) == true);
-		if(IsA<CastingType>(dObject) == true)
+		D_ASSERT(IsA<std::remove_pointer_t<CastingType>>(dObject) == true);
+		if(IsA<std::remove_pointer_t<CastingType>>(dObject) == true)
 		{
-			castedDObject = static_cast<CastingType>(dObject);
+			castedDObject = reinterpret_cast<CastingType>(dObject);
 		}
 
 		return castedDObject;
 	}
+	template <typename CastingType>
+	FORCE_INLINE CastingType CastTo(DObject* const dObject)
+	{
+		CASTING_STATIC_ASSERT(CastingType);
+
+		CastingType castedDObject = nullptr;
+
+		D_ASSERT(IsA<std::remove_pointer_t<CastingType>>(dObject) == true);
+		if (IsA<std::remove_pointer_t<CastingType>>(dObject) == true)
+		{
+			castedDObject = reinterpret_cast<CastingType>(dObject);
+		}
+
+		return castedDObject;
+	}
+
+	//TODO : 지금은 해당 타입의 원래 타입으로만 캐스팅 가능하다. 부모타입으로 캐스팅 못함
 
 	/// <summary>
 	/// Cast passed dObject to CastingType ( template argument )
@@ -99,12 +118,19 @@ static_assert(std::is_base_of_v<DObject, std::remove_pointer_t<CASTING_TYPE>> ==
 	/// <param name="dObject"></param>
 	/// <returns></returns>
 	template <typename CastingType>
-	FORCE_INLINE CastingType* CastToUnchecked(const DObject* const dObject)
+	FORCE_INLINE CastingType CastToUnchecked(const DObject* const dObject)
 	{
 		CASTING_STATIC_ASSERT(CastingType);
 
-		D_ASSERT(IsA<CastingType>(dObject) == true);
-		return static_cast<CastingType>(dObject);
+		D_ASSERT(IsA<std::remove_pointer_t<CastingType>>(dObject) == true);
+		return reinterpret_cast<CastingType>(dObject);
 	}
+	template <typename CastingType>
+	FORCE_INLINE CastingType CastToUnchecked(DObject* const dObject)
+	{
+		CASTING_STATIC_ASSERT(CastingType);
 
+		D_ASSERT(IsA<std::remove_pointer_t<CastingType>>(dObject) == true);
+		return reinterpret_cast<CastingType>(dObject);
+	}
 }

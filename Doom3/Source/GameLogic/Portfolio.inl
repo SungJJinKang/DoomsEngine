@@ -227,6 +227,6 @@ void doom::GameLogicStartPoint::StartGameLogic()
 	auto d =	dirLight->TYPE_ID();
 	auto e = typeid(*dirLight).hash_code();
 
-	auto bo = IsA<Component*>(dirLight);
+	auto bo = IsA<Component>(dirLight);
 	
 }

@@ -248,7 +248,7 @@ namespace doom
 					const std::vector<Component*>& targetComponents = iter->second;
 					if (targetComponents.empty() == false)
 					{
-						returnedComponent = static_cast<T*>(targetComponents[0]);
+						returnedComponent = CastToUnchecked<T*>(targetComponents[0]);
 					}
 				}
 				
