@@ -136,6 +136,8 @@ namespace doom
 	{
 		class DOOM_API ThreeDModelAsset : public Asset
 		{
+			DOBJECT_CLASS_BODY(ThreeDModelAsset, doom::eDOBJECT_ClassFlags::NonCopyable)
+
 			friend class ::doom::assetimporter::AssetImporterWorker_THREE_D_MODEL;
 
 		private:

@@ -5,7 +5,7 @@ namespace doom
 {
 	class DOOM_API CapsuleCollider3D : public Collider3DComponent
 	{
-		DOBJECT_BODY(CapsuleCollider3D)
+		DOBJECT_CLASS_BODY(CapsuleCollider3D)
 
 		friend class physics::Physics_Server;
 	private:

@@ -26,6 +26,8 @@ namespace doom
 	{
 		class DOOM_API TextureAsset : public Asset
 		{
+			DOBJECT_CLASS_BODY(TextureAsset, doom::eDOBJECT_ClassFlags::NonCopyable)
+
 			friend class ::doom::assetimporter::AssetImporterWorker_Texture;
 
 		private:

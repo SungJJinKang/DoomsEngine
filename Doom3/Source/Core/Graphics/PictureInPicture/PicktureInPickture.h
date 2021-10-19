@@ -15,6 +15,8 @@ namespace doom
 		class PicktureInPickture : public DObject
 		{
 
+			DOBJECT_CLASS_BODY(PicktureInPickture, doom::eDOBJECT_ClassFlags::NonCopyable);
+
 		private:
 
 			static inline Material mDefualtPIPMaterial{ nullptr };

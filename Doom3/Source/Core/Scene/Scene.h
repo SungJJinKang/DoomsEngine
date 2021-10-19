@@ -21,6 +21,8 @@ namespace doom
 	class DOOM_API Scene : public DObject, public ISingleton<Scene>//, public GameFlow
 	{
 
+		DOBJECT_CLASS_BODY(Scene, doom::eDOBJECT_ClassFlags::NonCopyable);
+
 		friend class GameCore;
 		friend class graphics::Graphics_Server;
 
@@ -30,12 +32,7 @@ namespace doom
 		std::vector<std::unique_ptr<Entity, Entity::Deleter>> mSpawnedEntities{};
 		Camera* mMainCamera{ nullptr };
 
-		Scene(std::string sceneName = "");
-
-		Scene(const Scene&) = delete;
-		Scene(Scene&&) noexcept = delete;
-		Scene& operator=(const Scene&) = delete;
-		Scene& operator=(Scene&&) noexcept = delete;
+		
 
 		void InitializeEntity(doom::Entity* const entity);
 
@@ -48,6 +45,12 @@ namespace doom
 
 	public:
 
+		Scene(std::string sceneName = "");
+
+		Scene(const Scene&) = delete;
+		Scene(Scene&&) noexcept = delete;
+		Scene& operator=(const Scene&) = delete;
+		Scene& operator=(Scene&&) noexcept = delete;
 		~Scene();
 
 		static Scene* GetCurrentWorld();

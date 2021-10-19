@@ -12,6 +12,8 @@ namespace doom
 	{
 		class DOOM_API FontAsset : public Asset
 		{
+			DOBJECT_CLASS_BODY(FontAsset, doom::eDOBJECT_ClassFlags::NonCopyable)
+
 			friend class ::doom::assetimporter::AssetImporterWorker_Font;
 			
 		private:

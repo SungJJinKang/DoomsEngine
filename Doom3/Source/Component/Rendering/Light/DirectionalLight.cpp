@@ -7,6 +7,7 @@
 void doom::DirectionalLight::InitComponent()
 {
 	Light::InitComponent();
+	
 }
 
 void doom::DirectionalLight::UpdateComponent()

@@ -12,8 +12,10 @@ namespace doom
 	{
 		
 
-		class DeferredRenderingDrawer
+		class DeferredRenderingDrawer : public DObject
 		{
+			DOBJECT_CLASS_BODY(DeferredRenderingDrawer, doom::eDOBJECT_ClassFlags::NonCopyable);
+
 		private:
 
 			/// <summary>

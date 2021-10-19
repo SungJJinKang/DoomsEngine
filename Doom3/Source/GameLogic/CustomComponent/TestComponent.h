@@ -7,7 +7,7 @@ namespace doom
 	class TestComponent : public PlainComponent
 	{
 
-		DOBJECT_BODY(TestComponent)
+		DOBJECT_CLASS_BODY(TestComponent)
 
 	private:
 

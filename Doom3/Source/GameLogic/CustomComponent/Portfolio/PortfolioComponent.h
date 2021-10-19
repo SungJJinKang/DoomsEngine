@@ -15,7 +15,7 @@ namespace doom
 class PortfolioComponent : public PlainComponent
 {
 
-	DOBJECT_BODY(PortfolioComponent)
+	DOBJECT_CLASS_BODY(PortfolioComponent)
 
 private:
 

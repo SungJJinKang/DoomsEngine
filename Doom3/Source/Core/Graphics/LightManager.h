@@ -10,6 +10,8 @@ namespace doom
 		class LightManager : public DObject, public ISingleton<LightManager>, public graphics::UniformBufferObjectUpdater
 		{
 
+			DOBJECT_CLASS_BODY(LightManager);
+
 		private:
 
 			bool bmIsAmbientLightIntensityDirty = true;

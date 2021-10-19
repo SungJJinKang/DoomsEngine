@@ -11,15 +11,10 @@ namespace doom
 	namespace physics
 	{
 		class Collider;
-		class DOOM_API Picking : public DObject, public ISingleton<Picking>
+		//TODO : Change to namespace 
+		namespace Picking 
 		{
-		private:
-
-
-		public:
-
-			doom::physics::Ray GetCurrentCursorPointWorldRay();
-
+			extern doom::physics::Ray GetCurrentCursorPointWorldRay();
 		};
 	}
 }

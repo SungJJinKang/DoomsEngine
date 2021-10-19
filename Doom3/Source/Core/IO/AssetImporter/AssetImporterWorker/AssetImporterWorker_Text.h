@@ -9,6 +9,8 @@ namespace doom
 	{
 		class DOOM_API AssetImporterWorker_Text : public AssetImporterWorker
 		{
+			DOBJECT_CLASS_BODY(AssetImporterWorker_Text);
+
 		public:
 
 			virtual bool ImportSpecificAsset(const std::filesystem::path& path, doom::asset::Asset* asset) override;

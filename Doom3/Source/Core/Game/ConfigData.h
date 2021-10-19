@@ -7,6 +7,9 @@ namespace doom
 	class GameCore;
 	class ConfigData : public DObject, public ISingleton<ConfigData>
 	{
+		DOBJECT_CLASS_BODY(ConfigData, doom::eDOBJECT_ClassFlags::NonCopyable);
+
+		//TODO : Remove friend class
 		friend class GameCore;
 
 	private:

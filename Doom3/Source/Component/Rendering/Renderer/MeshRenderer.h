@@ -9,7 +9,7 @@ namespace doom
 {
 	class DOOM_API MeshRenderer : public Renderer
 	{
-		DOBJECT_BODY(MeshRenderer)
+		DOBJECT_CLASS_BODY(MeshRenderer)
 
 	private:
 		const graphics::Mesh* mTargetMesh;

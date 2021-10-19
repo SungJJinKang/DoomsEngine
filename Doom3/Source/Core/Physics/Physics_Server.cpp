@@ -35,7 +35,7 @@ void doom::physics::Physics_Server::Update()
 	
 	if (Physics_Setting::IS_RENDER_PHYSICS_RAYCASTING_DEBUGGER == true)
 	{
-		mPhysicsDebugger.UpdateDebugger();
+		PhysicsDebugger::UpdateDebugger();
 	}
 }
 

@@ -9,7 +9,7 @@ namespace doom
 	class BulletComponent : public PlainComponent
 	{
 
-		DOBJECT_BODY(BulletComponent)
+		DOBJECT_CLASS_BODY(BulletComponent)
 
 
 	public:

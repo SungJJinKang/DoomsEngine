@@ -219,4 +219,14 @@ void doom::GameLogicStartPoint::StartGameLogic()
 	doom::ui::PrintText(
 		"F3 : 디퍼드렌더링 디버거 ON/OFF | F4 : 멀티스레드 뷰프러스텀 컬링 ON/OFF | F5 : 오브젝트 FRONT TO BACK ON / OFF | F6 : 오버드로우 디버거 ON / OFF | F7 : 충돌 처리 디버깅 ON / OFF"
 	);
+
+	auto a = Renderer::TYPE_ID_STATIC();
+	auto b = MeshRenderer::TYPE_ID_STATIC();
+	auto c = DirectionalLight::TYPE_ID_STATIC();
+
+	auto d =	dirLight->TYPE_ID();
+	auto e = typeid(*dirLight).hash_code();
+
+	auto bo = IsA<Component*>(dirLight);
+	
 }

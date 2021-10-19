@@ -20,6 +20,8 @@ namespace doom
 	{
 		class DOOM_API AssetImporterWorker_THREE_D_MODEL : public AssetImporterWorker
 		{
+			DOBJECT_CLASS_BODY(AssetImporterWorker_THREE_D_MODEL, doom::eDOBJECT_ClassFlags::NonCopyable);
+
 		private:
 
 			
@@ -40,10 +42,10 @@ namespace doom
 
 			
 			AssetImporterWorker_THREE_D_MODEL();
-			AssetImporterWorker_THREE_D_MODEL(const AssetImporterWorker_THREE_D_MODEL&);
-			AssetImporterWorker_THREE_D_MODEL(AssetImporterWorker_THREE_D_MODEL&&) noexcept;
-			AssetImporterWorker_THREE_D_MODEL& operator=(const AssetImporterWorker_THREE_D_MODEL&);
-			AssetImporterWorker_THREE_D_MODEL& operator=(AssetImporterWorker_THREE_D_MODEL&&) noexcept;
+			AssetImporterWorker_THREE_D_MODEL(const AssetImporterWorker_THREE_D_MODEL&) = delete;
+			AssetImporterWorker_THREE_D_MODEL(AssetImporterWorker_THREE_D_MODEL&&) noexcept = default;
+			AssetImporterWorker_THREE_D_MODEL& operator=(const AssetImporterWorker_THREE_D_MODEL&) = delete;
+			AssetImporterWorker_THREE_D_MODEL& operator=(AssetImporterWorker_THREE_D_MODEL&&) noexcept = default;
 			
 
 			/// <summary>

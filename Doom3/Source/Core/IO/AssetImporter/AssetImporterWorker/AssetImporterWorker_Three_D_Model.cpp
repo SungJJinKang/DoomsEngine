@@ -6,6 +6,7 @@
 #include <cstring>
 #include <Asset/ThreeDModelAsset.h>
 
+#include "AssetImporterWorker_Texture.h"
 
 
 using namespace doom;
@@ -137,6 +138,7 @@ AssetImporterWorker_THREE_D_MODEL::AssetImporterWorker_THREE_D_MODEL()
 {
 	InitializeAssimp();
 }
+
 
 
 void doom::assetimporter::AssetImporterWorker_THREE_D_MODEL::SetThreeDModelNodesData

@@ -17,7 +17,7 @@ namespace doom
 	class DOOM_API Animator : public ServerComponent
 	{
 
-		DOBJECT_BODY(Animator)
+		DOBJECT_CLASS_BODY(Animator)
 
 		friend class graphics::Graphics_Server;
 

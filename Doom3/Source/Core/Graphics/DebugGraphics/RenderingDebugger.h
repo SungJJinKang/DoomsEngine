@@ -6,23 +6,21 @@
 
 #ifdef DEBUG_DRAWER
 
-#include "OverDrawVisualization.h"
-
 namespace doom
 {
 	namespace graphics
 	{
-		class RenderingDebugger
+		class RenderingDebugger : public DObject
 		{
+			DOBJECT_CLASS_BODY(RenderingDebugger);
+
 		private:
 
 			inline static UINT64 DrawCallCounter = 0;
 			inline static UINT64 PreviousFrameDrawCallCounter = 0;
 
 		public :
-
-			inline static OverDrawVisualization mOverDrawVisualization{};
-
+			
 			FORCE_INLINE static void IncrementDrawCallCounter()
 			{
 				DrawCallCounter++;

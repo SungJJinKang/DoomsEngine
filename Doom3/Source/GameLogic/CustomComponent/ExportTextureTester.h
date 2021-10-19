@@ -7,7 +7,7 @@ namespace doom
 	class ExportTextureTester : public PlainComponent
 	{
 
-		DOBJECT_BODY(ExportTextureTester)
+		DOBJECT_CLASS_BODY(ExportTextureTester)
 
 	protected:
 

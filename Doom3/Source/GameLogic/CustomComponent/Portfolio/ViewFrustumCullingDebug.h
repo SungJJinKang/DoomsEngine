@@ -14,7 +14,7 @@ namespace doom
 	class ViewFrustumCullingDebug : public PlainComponent
 	{
 
-		DOBJECT_BODY(ViewFrustumCullingDebug)
+		DOBJECT_CLASS_BODY(ViewFrustumCullingDebug)
 
 	private:
 

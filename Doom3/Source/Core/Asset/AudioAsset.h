@@ -13,6 +13,9 @@ namespace doom
 	{
 		class DOOM_API AudioAsset : public Asset
 		{
+
+			DOBJECT_CLASS_BODY(Asset, doom::eDOBJECT_ClassFlags::NonCopyable)
+
 			friend class ::doom::assetimporter::AssetImporterWorker_Audio;
 			
 		private:

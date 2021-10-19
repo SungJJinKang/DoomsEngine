@@ -20,8 +20,9 @@ namespace doom
 	enum eDOBJECT_ClassFlags : UINT32
 	{
 		_Dummy = 0,
-		NonCopyable = 1,
+		NonCopyable = 1 << 0,
 		NonMovable = 1 << 1,
+		IsAbstract = 1 << 2
 	};
 }
 
@@ -35,7 +36,7 @@ template<doom::eDOBJECT_ClassFlags...flags> struct flag_or {
 
 #define CLASS_FLAGS_FUNCTION(...)																			\
 		public:																								\
-		constexpr static UINT32 CLASS_FLAGS_STATIC() {																\
+		constexpr static UINT32 CLASS_FLAGS_STATIC() {														\
 			return flag_or<eDOBJECT_ClassFlags::_Dummy, __VA_ARGS__>::value;								\
 		}																									\
         virtual UINT32 CLASS_FLAGS() const { return CLASS_FLAGS_STATIC(); }									\
@@ -51,10 +52,11 @@ template<doom::eDOBJECT_ClassFlags...flags> struct flag_or {
 	virtual CLASS_TYPE*	CLONE_DOBJECT () const												\
 	{																						\
 		CLASS_TYPE* newObject = nullptr;													\
-		if constexpr( (CLASS_FLAGS_STATIC() | eDOBJECT_ClassFlags::NonCopyable) == false )	\
+		if constexpr( (CLASS_FLAGS_STATIC() & eDOBJECT_ClassFlags::NonCopyable) == false )	\
 		{																					\
 			newObject = doom::CreateDObject<CLASS_TYPE>(*this);								\
 		}																					\
+		D_ASSERT(newObject != nullptr);														\
 		return newObject;																	\
 	}																						\
 
@@ -142,7 +144,7 @@ virtual SIZE_T GetSubClassIDList() const
 #ifndef DOBJECT_BODY_UNIFORM
 
 #define DOBJECT_BODY_UNIFORM(CLASS_TYPE, ...)										\
-		CLASS_FLAGS_FUNCTION(##__VA_ARGS__)											\
+		CLASS_FLAGS_FUNCTION(__VA_ARGS__)											\
 		TYPE_ID_FUNCTION(CLASS_TYPE)												\
 		_RUNTIME_CHECKER(CLASS_TYPE)												\
 
@@ -153,7 +155,7 @@ virtual SIZE_T GetSubClassIDList() const
 #ifndef DOBJECT_CLASS_BODY
 
 #define DOBJECT_CLASS_BODY(CLASS_TYPE, ...)											\
-		DOBJECT_BODY_UNIFORM(CLASS_TYPE, ##__VA_ARGS__)								\
+		DOBJECT_BODY_UNIFORM(CLASS_TYPE, __VA_ARGS__)								\
 		_CLONE_DOBJECT(CLASS_TYPE)													\
 
 #endif
@@ -163,7 +165,7 @@ virtual SIZE_T GetSubClassIDList() const
 #ifndef DOBJECT_ABSTRACT_CLASS_BODY
 
 #define DOBJECT_ABSTRACT_CLASS_BODY(CLASS_TYPE, ...)								\
-		DOBJECT_BODY_UNIFORM(CLASS_TYPE, ##__VA_ARGS__)								\
+		DOBJECT_BODY_UNIFORM(CLASS_TYPE, __VA_ARGS__)								\
 		_CLONE_ABSTRACT_DOBJECT(CLASS_TYPE)											\
 
 #endif

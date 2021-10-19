@@ -5,7 +5,7 @@ namespace doom
 {
 	class DOOM_API CircleCollider2D : public Collider2DComponent
 	{
-		DOBJECT_BODY(CircleCollider2D)
+		DOBJECT_CLASS_BODY(CircleCollider2D)
 
 		friend class physics::Physics_Server;
 	private:

@@ -10,6 +10,8 @@ namespace doom
 	{
 		class DOOM_API AssetImporterWorker_Font : public AssetImporterWorker
 		{
+			DOBJECT_CLASS_BODY(AssetImporterWorker_Font);
+
 		public:
 
 			virtual bool ImportSpecificAsset(const std::filesystem::path& path, doom::asset::Asset* asset) override;

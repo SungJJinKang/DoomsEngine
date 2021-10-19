@@ -26,7 +26,7 @@ namespace doom
 
 	class DOOM_API Transform : public PlainComponent
 	{
-		DOBJECT_BODY(Transform)
+		DOBJECT_CLASS_BODY(Transform)
 
 	private:
 

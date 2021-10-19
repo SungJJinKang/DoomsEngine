@@ -30,6 +30,8 @@ namespace doom
 		class DOOM_API Asset : public DObject
 		{
 
+			DOBJECT_ABSTRACT_CLASS_BODY(Asset, doom::eDOBJECT_ClassFlags::NonCopyable)
+
 		public:
 			
 			enum AssetStatus

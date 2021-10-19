@@ -7,7 +7,7 @@ namespace doom
 	class AxisDebugger : public PlainComponent
 	{
 
-		DOBJECT_BODY(AxisDebugger)
+		DOBJECT_CLASS_BODY(AxisDebugger)
 
 	protected:
 		void InitComponent() override;

@@ -20,6 +20,8 @@ namespace doom
 		class AssetImporterWorkerManager : public doom::DObject, public ISingleton<AssetImporterWorkerManager>
 		{
 
+			DOBJECT_CLASS_BODY(AssetImporterWorkerManager, doom::eDOBJECT_ClassFlags::NonCopyable);
+
 		private:
 
 			inline constexpr static UINT32 MAX_ASSETIMPORTER_WORKER_COUNT = 3;

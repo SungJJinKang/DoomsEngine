@@ -15,7 +15,7 @@ namespace doom
 
 class DeferredRenderingDebuggerController : public PlainComponent
 {
-		DOBJECT_BODY(DeferredRenderingDebuggerController)
+		DOBJECT_CLASS_BODY(DeferredRenderingDebuggerController)
 
 private:
 

@@ -10,27 +10,27 @@ doom::asset::Asset* doom::asset::AssetFactory::CreateNewAsset(const doom::asset:
 	{
 
 	case eAssetType::AUDIO:
-		newAsset = new doom::asset::AudioAsset();
+		newAsset = doom::CreateDObject<doom::asset::AudioAsset>();
 		break;
 
 	case eAssetType::FONT:
-		newAsset = new doom::asset::FontAsset();
+		newAsset = doom::CreateDObject<doom::asset::FontAsset>();
 		break;
 
 	case eAssetType::TEXT:
-		newAsset = new doom::asset::TextAsset();
+		newAsset = doom::CreateDObject<doom::asset::TextAsset>();
 		break;
 
 	case eAssetType::TEXTURE:
-		newAsset = new doom::asset::TextureAsset();
+		newAsset = doom::CreateDObject<doom::asset::TextureAsset>();
 		break;
 
 	case eAssetType::THREE_D_MODEL:
-		newAsset = new doom::asset::ThreeDModelAsset();
+		newAsset = doom::CreateDObject<doom::asset::ThreeDModelAsset>();
 		break;
 
 	case eAssetType::SHADER:
-		newAsset = new doom::asset::ShaderAsset();
+		newAsset = doom::CreateDObject<doom::asset::ShaderAsset>();
 		break;
 
 	default: 

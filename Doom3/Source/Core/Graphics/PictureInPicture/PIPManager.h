@@ -17,6 +17,8 @@ namespace doom
 		class PIPManager : public DObject, public ISingleton<PIPManager>
 		{
 
+			DOBJECT_CLASS_BODY(PIPManager, doom::eDOBJECT_ClassFlags::NonCopyable);
+
 		private:
 
 			std::vector<std::unique_ptr<PicktureInPickture>> mPicktureInPicktures;

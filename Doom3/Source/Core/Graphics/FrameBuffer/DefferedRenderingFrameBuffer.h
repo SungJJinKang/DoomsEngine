@@ -13,6 +13,8 @@ namespace doom
 		class DefferedRenderingFrameBuffer : public graphics::FrameBuffer
 		{
 
+			DOBJECT_CLASS_BODY(DefferedRenderingFrameBuffer);
+
 		private:
 
 		public:

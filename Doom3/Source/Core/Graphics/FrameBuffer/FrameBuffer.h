@@ -15,6 +15,8 @@ namespace doom
 	{
 		class FrameBuffer : public DObject
 		{
+			DOBJECT_CLASS_BODY(FrameBuffer);
+
 		private:
 
 			inline static const char FRAMEBUFFER_TAG[]{ "FrameBuffer" };

@@ -7,7 +7,7 @@ namespace doom
 	class PerformanceTestController : public PlainComponent
 	{
 
-		DOBJECT_BODY(PerformanceTestController)
+		DOBJECT_CLASS_BODY(PerformanceTestController)
 
 	private:
 

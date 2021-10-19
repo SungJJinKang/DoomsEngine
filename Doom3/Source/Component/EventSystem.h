@@ -6,7 +6,7 @@ namespace doom
 {
 	class DOOM_API EventSystem : public PlainComponent
 	{
-		DOBJECT_BODY(EventSystem)
+		DOBJECT_CLASS_BODY(EventSystem)
 
 	private:
 

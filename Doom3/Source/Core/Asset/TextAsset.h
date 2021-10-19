@@ -14,6 +14,8 @@ namespace doom
 	{
 		class DOOM_API TextAsset : public Asset
 		{
+			DOBJECT_CLASS_BODY(TextAsset, doom::eDOBJECT_ClassFlags::NonCopyable)
+
 			friend class ::doom::assetimporter::AssetImporterWorker_Text;
 			
 		private:

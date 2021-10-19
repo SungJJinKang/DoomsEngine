@@ -7,7 +7,7 @@ namespace doom
 	class DOOM_API DirectionalLight : public Light, public StaticContainer<DirectionalLight>, public graphics::UniformBufferObjectUpdater
 	{
 
-		DOBJECT_BODY(DirectionalLight)
+		DOBJECT_CLASS_BODY(DirectionalLight)
 
 	private:
 

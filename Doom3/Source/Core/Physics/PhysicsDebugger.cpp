@@ -10,13 +10,13 @@
 
 void doom::physics::PhysicsDebugger::DrawMouseRayCast()
 {
-	doom::physics::Ray mouseRay = Physics_Server::GetSingleton()->mPicking.GetCurrentCursorPointWorldRay();
+	doom::physics::Ray mouseRay = Picking::GetCurrentCursorPointWorldRay();
 	mouseRay.DrawPhysicsDebugColor(eColor::Green);
 }
 
 void doom::physics::PhysicsDebugger::DrawPhysicsColliderBoundingBox()
 {
-	doom::physics::Ray mouseRay = Physics_Server::GetSingleton()->mPicking.GetCurrentCursorPointWorldRay();
+	doom::physics::Ray mouseRay = Picking::GetCurrentCursorPointWorldRay();
 
 	
 	const std::vector<ColliderComponent*> colliderComponents = StaticContainer<ColliderComponent>::GetAllStaticComponents();
@@ -43,4 +43,10 @@ void doom::physics::PhysicsDebugger::DrawPhysicsColliderBoundingBox()
 			collideCollider->DrawPhysicsDebugColor(eColor::Red);
 		}
 	}
+}
+
+void doom::physics::PhysicsDebugger::UpdateDebugger()
+{
+	DrawMouseRayCast();
+	DrawPhysicsColliderBoundingBox();
 }

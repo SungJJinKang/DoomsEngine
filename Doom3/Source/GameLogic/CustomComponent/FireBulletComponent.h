@@ -10,7 +10,7 @@ namespace doom
 	class FireBulletComponent : public PlainComponent
 	{
 
-		DOBJECT_BODY(FireBulletComponent)
+		DOBJECT_CLASS_BODY(FireBulletComponent)
 
 	public:
 

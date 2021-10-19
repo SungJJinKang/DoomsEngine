@@ -12,6 +12,8 @@ namespace doom
 		class UniformBufferObject;
 		class Buffer : public DObject
 		{
+			DOBJECT_ABSTRACT_CLASS_BODY(Buffer);
+
 		protected:
 
 			BufferID mBufferID;

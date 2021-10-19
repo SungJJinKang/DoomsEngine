@@ -16,6 +16,8 @@ namespace doom
 	class DOOM_API SharedScene : public DObject, public ISingleton<SharedScene>, public I_IndependentFromScene
 	{
 
+		DOBJECT_CLASS_BODY(SharedScene, doom::eDOBJECT_ClassFlags::NonCopyable);
+
 	private:
 		SharedSceneSetting mSharedWorldSetting{};
 

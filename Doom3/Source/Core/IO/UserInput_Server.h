@@ -59,6 +59,8 @@ namespace doom
 		/// </summary>
 		class DOOM_API UserInput_Server : public IGameFlow, public ISingleton<UserInput_Server>
 		{
+			DOBJECT_CLASS_BODY(UserInput_Server, doom::eDOBJECT_ClassFlags::NonCopyable);
+
 		private:
 
 			static inline math::Vector2 mScrollOffset{};

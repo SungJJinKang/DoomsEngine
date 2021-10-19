@@ -7,24 +7,15 @@ namespace doom
 {
 	namespace physics
 	{
-		class DOOM_API PhysicsDebugger
+		namespace PhysicsDebugger
 		{
-
-		private:
-
-			void DrawMouseRayCast();
-			void DrawPhysicsColliderBoundingBox();
-
-		public:
-
+			extern void DrawMouseRayCast();
+			extern void DrawPhysicsColliderBoundingBox();
+			
 #ifdef DEBUG_DRAWER
-			void UpdateDebugger()
-			{
-				DrawMouseRayCast();
-				DrawPhysicsColliderBoundingBox();
-			}
+			extern void UpdateDebugger();
 #else
-			void UpdateDebugger()
+			inline extern void UpdateDebugger()
 			{
 			}
 #endif

@@ -42,32 +42,32 @@ doom::assetimporter::AssetImporterWorker* doom::assetimporter::AssetImporterWork
 
 	case doom::asset::eAssetType::AUDIO:
 		
-		createdAssetImporterWorkder = new doom::assetimporter::AssetImporterWorker_Audio();
+		createdAssetImporterWorkder = doom::CreateDObject<doom::assetimporter::AssetImporterWorker_Audio>();
 		break;
 
 	case doom::asset::eAssetType::FONT:
 		
-		createdAssetImporterWorkder = new doom::assetimporter::AssetImporterWorker_Font();
+		createdAssetImporterWorkder = doom::CreateDObject < doom::assetimporter::AssetImporterWorker_Font>();
 		break;
 
 	case doom::asset::eAssetType::SHADER:
 		
-		createdAssetImporterWorkder = new doom::assetimporter::AssetImporterWorker_Shader();
+		createdAssetImporterWorkder = doom::CreateDObject < doom::assetimporter::AssetImporterWorker_Shader>();
 		break;
 
 	case doom::asset::eAssetType::TEXT:
 		
-		createdAssetImporterWorkder = new doom::assetimporter::AssetImporterWorker_Text();
+		createdAssetImporterWorkder = doom::CreateDObject < doom::assetimporter::AssetImporterWorker_Text>();
 		break;
 
 	case doom::asset::eAssetType::TEXTURE:
 		
-		createdAssetImporterWorkder = new doom::assetimporter::AssetImporterWorker_Texture();
+		createdAssetImporterWorkder = doom::CreateDObject < doom::assetimporter::AssetImporterWorker_Texture>();
 		break;
 
 	case doom::asset::eAssetType::THREE_D_MODEL:
 		
-		createdAssetImporterWorkder = new doom::assetimporter::AssetImporterWorker_THREE_D_MODEL();
+		createdAssetImporterWorkder = doom::CreateDObject < doom::assetimporter::AssetImporterWorker_THREE_D_MODEL>();
 		break;
 
 	default:

@@ -11,7 +11,7 @@ namespace doom
 	class CharacterSpawner : public PlainComponent
 	{
 
-		DOBJECT_BODY(CharacterSpawner)
+		DOBJECT_CLASS_BODY(CharacterSpawner)
 
 	private:
 		

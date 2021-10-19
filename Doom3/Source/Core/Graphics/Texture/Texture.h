@@ -23,6 +23,8 @@ namespace doom
 		/// </summary>
 		class Texture : public DObject
 		{
+			DOBJECT_ABSTRACT_CLASS_BODY(Texture, doom::eDOBJECT_ClassFlags::NonCopyable);
+
 		public:
 
 			enum class eTextureType : UINT32 {

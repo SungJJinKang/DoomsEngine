@@ -11,7 +11,7 @@ namespace doom
 	class OverDrawVisualizationDebugger : public PlainComponent
 	{
 
-		DOBJECT_BODY(OverDrawVisualizationDebugger)
+		DOBJECT_CLASS_BODY(OverDrawVisualizationDebugger)
 
 	private:
 

@@ -50,6 +50,7 @@ namespace doom
 
 		class Material : public DObject
 		{
+			DOBJECT_CLASS_BODY(Material, doom::eDOBJECT_ClassFlags::NonCopyable);
 
 		private:
 			static inline const char MATERIAL_TAG[]{ "MATERIAL" };

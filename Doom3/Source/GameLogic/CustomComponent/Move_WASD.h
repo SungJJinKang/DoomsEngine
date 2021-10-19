@@ -7,7 +7,7 @@ namespace doom
 	class Move_WASD : public PlainComponent
 	{
 
-		DOBJECT_BODY(Move_WASD)
+		DOBJECT_CLASS_BODY(Move_WASD)
 
 	protected:
 		void InitComponent() override;

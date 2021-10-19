@@ -82,7 +82,7 @@ void Entity::CopyEntity(const Entity& fromCopyedEnitty, Entity& toCopyedEntity)
 	for (const std::unique_ptr<PlainComponent, Component::Deleter>& plainComponents : fromCopyedEnitty.mPlainComponents)
 	{
 		const PlainComponent* const plainComp = plainComponents.get();
-		PlainComponent* clonedNewPlainComp = plainComp->CLONE_OBJECT();
+		PlainComponent* clonedNewPlainComp = plainComp->CLONE_DOBJECT();
 
 		D_ASSERT(clonedNewPlainComp != nullptr);
 
@@ -92,7 +92,7 @@ void Entity::CopyEntity(const Entity& fromCopyedEnitty, Entity& toCopyedEntity)
 	for(const std::unique_ptr<ServerComponent, Component::Deleter>& serverComponents : fromCopyedEnitty.mServerComponents)
 	{
 		const ServerComponent* const serverComp = serverComponents.get();
-		ServerComponent* clonedNewServerComp = serverComp->CLONE_OBJECT();
+		ServerComponent* clonedNewServerComp = serverComp->CLONE_DOBJECT();
 
 		D_ASSERT(serverComp != nullptr);
 

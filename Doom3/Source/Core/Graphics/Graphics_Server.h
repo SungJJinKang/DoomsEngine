@@ -40,6 +40,8 @@ namespace doom
 	{
 		class Graphics_Server : public IGameFlow, public ISingleton<Graphics_Server>
 		{
+			DOBJECT_CLASS_BODY(Graphics_Server, doom::eDOBJECT_ClassFlags::NonCopyable);
+
 			enum class eRenderingMode
 			{
 				ForwardRendering,

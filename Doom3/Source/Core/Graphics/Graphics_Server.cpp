@@ -23,6 +23,7 @@
 #include "MainTimer.h"
 
 #include "Acceleration/SortFrontToBackSolver.h"
+#include "DebugGraphics/OverDrawVisualization.h"
 
 //#define D_DEBUG_CPU_VENDOR_PROFILER
 
@@ -259,12 +260,12 @@ void doom::graphics::Graphics_Server::UpdateOverDrawVisualization(doom::Camera* 
 {
 
 #ifdef DEBUG_DRAWER
-	mRenderingDebugger.mOverDrawVisualization.ShowOverDrawVisualizationPIP(Graphics_Setting::IsOverDrawVisualizationEnabled);
+	OverDrawVisualization::ShowOverDrawVisualizationPIP(Graphics_Setting::IsOverDrawVisualizationEnabled);
 	if (Graphics_Setting::IsOverDrawVisualizationEnabled == true)
 	{
-		mRenderingDebugger.mOverDrawVisualization.SetOverDrawVisualizationRenderingState(true);
+		OverDrawVisualization::SetOverDrawVisualizationRenderingState(true);
 		RenderObject(targetCamera, cameraIndex);
-		mRenderingDebugger.mOverDrawVisualization.SetOverDrawVisualizationRenderingState(false);
+		OverDrawVisualization::SetOverDrawVisualizationRenderingState(false);
 	}
 #endif
 

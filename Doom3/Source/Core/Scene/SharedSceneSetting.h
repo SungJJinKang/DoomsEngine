@@ -10,6 +10,8 @@ namespace doom
 {
 	class DOOM_API SharedSceneSetting : public DObject, public ISingleton<SharedSceneSetting>, public I_IndependentFromScene
 	{
+		DOBJECT_CLASS_BODY(SharedSceneSetting, doom::eDOBJECT_ClassFlags::NonCopyable);
+
 	private:
 		std::array<Layer, MAX_LAYER_COUNT> mLayers;
 

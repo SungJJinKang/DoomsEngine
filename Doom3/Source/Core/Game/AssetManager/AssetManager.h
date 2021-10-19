@@ -19,6 +19,10 @@ namespace doom
 	{
 		class DOOM_API AssetManager : public IGameFlow, public ISingleton<AssetManager>
 		{
+
+			DOBJECT_CLASS_BODY(AssetManager, doom::eDOBJECT_ClassFlags::NonCopyable);
+
+
 			friend class AssetFuture;
 
 		private:

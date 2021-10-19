@@ -4,17 +4,10 @@
 
 #include <cstdarg>
 #include <string>
-#include <intrin.h>
 #include <cstdio>
-#include <type_traits>
 
 #include <Graphics/DebugGraphics/DebugDrawer.h>
-#include "../Math/LightMath_Cpp/Vector2.h"
-#include "../Math/LightMath_Cpp/Vector3.h"
 #include "../Game/ConfigData.h"
-
-#include <exception>
-
 
 
 using namespace doom::logger;
@@ -55,7 +48,6 @@ namespace doom
 			}
 
 		public:
-			friend class Logger;
 
 			FORCE_INLINE void Log(const char* fileName, long codeLineNum, const char* log, eLogType logType = eLogType::D_LOG) const noexcept {}
 			FORCE_INLINE void Log(const char* fileName, long codeLineNum, const std::string log, eLogType logType = eLogType::D_LOG) const noexcept {}
@@ -66,13 +58,13 @@ namespace doom
 		constexpr inline StdStreamLogger mLogger{};
 		eLogType MIN_DEBUG_LEVEL{ eLogType::D_LOG };
 		eLogType MAX_DEBUG_LEVEL{ eLogType::D_LOG };
-		void Logger::InitLogger()
+		void InitLogger()
 		{
 			MIN_DEBUG_LEVEL = static_cast<eLogType>(::doom::ConfigData::GetSingleton()->GetConfigData().GetValue<INT32>("SYSTEM", "MIN_DEBUG_LEVEL"));
 			MAX_DEBUG_LEVEL = static_cast<eLogType>(::doom::ConfigData::GetSingleton()->GetConfigData().GetValue<INT32>("SYSTEM", "MAX_DEBUG_LEVEL"));
 		}
 
-		FORCE_INLINE void Logger::StopIfError(eLogType logType)
+		FORCE_INLINE void StopIfError(eLogType logType)
 		{
 			if (logType == eLogType::D_ERROR)
 			{
@@ -80,7 +72,7 @@ namespace doom
 				std::terminate();
 			}
 		}
-		void Logger::Log(const char* fileName, long codeLineNum, const char* log, eLogType logType) noexcept
+		void Log(const char* fileName, long codeLineNum, const char* log, eLogType logType) noexcept
 		{
 			if (logType == eLogType::D_ALWAYS || (logType >= MIN_DEBUG_LEVEL && logType <= MAX_DEBUG_LEVEL))
 			{
@@ -88,7 +80,7 @@ namespace doom
 				StopIfError(logType);
 			}
 		}
-		void Logger::Log(const char* fileName, long codeLineNum, const std::string log, eLogType logType) noexcept
+		void Log(const char* fileName, long codeLineNum, const std::string log, eLogType logType) noexcept
 		{
 			if (logType == eLogType::D_ALWAYS || (logType >= MIN_DEBUG_LEVEL && logType <= MAX_DEBUG_LEVEL))
 			{
@@ -96,7 +88,7 @@ namespace doom
 				StopIfError(logType);
 			}
 		}
-		void Logger::Log(const char* fileName, long codeLineNum, std::initializer_list<const char*> logs, eLogType logType) noexcept
+		void Log(const char* fileName, long codeLineNum, std::initializer_list<const char*> logs, eLogType logType) noexcept
 		{
 			if (logType == eLogType::D_ALWAYS || (logType >= MIN_DEBUG_LEVEL && logType <= MAX_DEBUG_LEVEL))
 			{
@@ -104,7 +96,7 @@ namespace doom
 				StopIfError(logType);
 			}
 		}
-		void Logger::Log(const char* fileName, long codeLineNum, std::initializer_list<const std::string> logs, eLogType logType) noexcept
+		void Log(const char* fileName, long codeLineNum, std::initializer_list<const std::string> logs, eLogType logType) noexcept
 		{
 			if (logType == eLogType::D_ALWAYS || (logType >= MIN_DEBUG_LEVEL && logType <= MAX_DEBUG_LEVEL))
 			{
@@ -115,23 +107,23 @@ namespace doom
 
 		/*
 		template <typename Last>
-		void Logger::Log(Last arg, eLogType logType) noexcept
+		void Log(Last arg, eLogType logType) noexcept
 		{
 			if constexpr (std::is_same_v<char, std::remove_cv<Last>> || std::is_same_v< wchar_t, std::remove_cv<Last>> || std::is_same_v<std::string, std::remove_cv<Last>> || std::is_same_v<std::wstring, std::remove_cv<Last>>)
 			{
-				Logger.Log(firstArg);
+				logger.Log(firstArg);
 			}
 			else
 			{
-				Logger.Log(std::to_string(firstArg));
+				logger.Log(std::to_string(firstArg));
 			}
 		}
 		template <typename First, typename... Args>
-		void Logger::Log(First firstArg, Args... args, eLogType logType) noexcept
+		void Log(First firstArg, Args... args, eLogType logType) noexcept
 		{
-			Logger::Log(firstArg, logType);
+			Log(firstArg, logType);
 
-			Logger::Log(args..., logType);
+			Log(args..., logType);
 		}
 		*/
 

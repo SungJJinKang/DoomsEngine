@@ -8,6 +8,8 @@ namespace doom
 	{
 		class SingleTexture : public Texture
 		{
+			DOBJECT_CLASS_BODY(SingleTexture, doom::eDOBJECT_ClassFlags::NonCopyable);
+
 		private:
 
 		public:

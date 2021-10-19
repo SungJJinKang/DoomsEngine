@@ -35,7 +35,7 @@ namespace doom
 
 	class Camera : public PlainComponent, public graphics::UniformBufferObjectUpdater, public StaticContainer<Camera>
 	{
-		DOBJECT_BODY(Camera)
+		DOBJECT_CLASS_BODY(Camera)
 
 		friend class Scene;
 		friend class graphics::Graphics_Server;

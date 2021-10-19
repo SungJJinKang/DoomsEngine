@@ -5,7 +5,7 @@ namespace doom
 {
 	class DOOM_API SphereCollider3D : public Collider3DComponent
 	{
-		DOBJECT_BODY(SphereCollider3D)
+		DOBJECT_CLASS_BODY(SphereCollider3D)
 
 		friend class physics::Physics_Server;
 	private:

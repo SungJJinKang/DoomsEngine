@@ -14,8 +14,10 @@ namespace doom
 
 	namespace assetimporter
 	{
-		class DOOM_API AssetImporterWorker
+		class DOOM_API AssetImporterWorker : public DObject
 		{
+			DOBJECT_ABSTRACT_CLASS_BODY(AssetImporterWorker);
+
 		protected:
 
 			inline static bool IsInitialized = false;

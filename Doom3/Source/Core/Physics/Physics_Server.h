@@ -19,16 +19,15 @@ namespace doom
 	{
 		class DOOM_API Physics_Server : public IGameFlow, public ISingleton<Physics_Server>
 		{
+			DOBJECT_CLASS_BODY(Physics_Server, doom::eDOBJECT_ClassFlags::NonCopyable);
+
 		private:
 
 			void LoadPhysicsSetting();
 			void ResetCollisionData();
 
 		public:
-
-			PhysicsDebugger mPhysicsDebugger;
-
-			Picking mPicking{};
+			
 			BVHAABB3D mPhysicsColliderBVH{ PHYSICS_COLLIDER_BVH_MAX_NODE_COUNT };
 
 			virtual void Init() final;

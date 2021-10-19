@@ -6,7 +6,7 @@ namespace doom
 {
 	class AutoRotate : public PlainComponent
 	{
-		DOBJECT_BODY(AutoRotate)
+		DOBJECT_CLASS_BODY(AutoRotate)
 
 	protected:
 		void InitComponent() override;

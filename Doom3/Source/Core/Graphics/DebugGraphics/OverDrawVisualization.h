@@ -1,12 +1,6 @@
 #pragma once
 
-
-#include "../Graphics_Core.h"
-
-#ifdef DEBUG_DRAWER
-
-#include <memory>
-
+#include <Graphics/Graphics_Core.h>
 
 namespace doom
 {
@@ -17,32 +11,16 @@ namespace doom
 
 	namespace graphics
 	{
-		class OverDrawVisualization
+		namespace OverDrawVisualization
 		{
-			class OverDrawVisualizationPimpl;
-		private:
-
-			bool bmIsInitialized = false;
-
-
-			std::unique_ptr<OverDrawVisualizationPimpl> mOverDrawVisualizationPimpl;
-
-
-			
-			void Initialize();
-
-	
-
-		public:
-
-			OverDrawVisualization();
-			~OverDrawVisualization();
-
-			void SetOverDrawVisualizationRenderingState(const bool isSet);
-			void ShowOverDrawVisualizationPIP(const bool isPIPDrawed);
+#ifdef DEBUG_DRAWER
+			extern void SetOverDrawVisualizationRenderingState(const bool isSet);
+			extern void ShowOverDrawVisualizationPIP(const bool isPIPDrawed);
+#else
+			extern void SetOverDrawVisualizationRenderingState(const bool isSet){}
+			extern void ShowOverDrawVisualizationPIP(const bool isPIPDrawed){}
+#endif
 		};
 	}
 }
 
-
-#endif

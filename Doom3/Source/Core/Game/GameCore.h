@@ -24,6 +24,8 @@ namespace doom
 
 	class GameCore : public IGameFlow, public ISingleton<GameCore>
 	{
+		DOBJECT_CLASS_BODY(GameCore, doom::eDOBJECT_ClassFlags::NonCopyable);
+
 	private:
 		
 		// Then, non-static data members are initialized in the order they were declared 

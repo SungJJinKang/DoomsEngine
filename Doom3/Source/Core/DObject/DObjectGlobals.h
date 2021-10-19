@@ -5,6 +5,10 @@
 #include "DObject.h"
 #include "DObjectManager.h"
 
+#include <CompilerMacros.h>
+#include "DObjectMacros.h"
+#include "Macros/Assert.h"
+
 namespace doom
 {
 	template <typename DObjectType, typename... Args>
@@ -39,8 +43,68 @@ namespace doom
 		return newDObject;
 	}
 
-	inline bool IsValid(const DObject* const dObject)
+	FORCE_INLINE bool IsValid(const DObject* const dObject)
 	{
 		return doom::DObjectManager::IsDObjectValid(dObject);
 	}
+
+#define CASTING_STATIC_ASSERT(CASTING_TYPE)																																\
+static_assert(std::is_pointer_v<CASTING_TYPE> == true, "Please Pass Pointer Type as IsA function's template argument");												\
+static_assert(std::is_base_of_v<DObject, std::remove_pointer_t<CASTING_TYPE>> == true, "Please Pass DObject's child Type as IsA function's template argument");		\
+
+
+	template <typename CompareType>
+	FORCE_INLINE bool IsA(const DObject* const dObject)
+	{
+		CASTING_STATIC_ASSERT(CompareType);
+
+		return std::remove_pointer_t<CompareType>::TYPE_ID_STATIC() == dObject->TYPE_ID();
+	}
+
+	/// <summary>
+	/// Cast passed dObject to CastingType ( template argument )
+	///	This function support only up-down hierarchy
+	///	Cant cast to sibling class
+	///
+	///	This function do type check using TypeID at runtime ( faster than dynamic_cast )
+	///	If you ensure Casting will be success, Use CastToUnchecked
+	/// </summary>
+	/// <typeparam name="CastingType"></typeparam>
+	/// <param name="dObject"></param>
+	/// <returns></returns>
+	template <typename CastingType>
+	FORCE_INLINE CastingType* CastTo(const DObject* const dObject)
+	{
+		CASTING_STATIC_ASSERT(CastingType);
+
+		CastingType castedDObject = nullptr;
+
+		D_ASSERT(IsA<CastingType>(dObject) == true);
+		if(IsA<CastingType>(dObject) == true)
+		{
+			castedDObject = static_cast<CastingType>(dObject);
+		}
+
+		return castedDObject;
+	}
+
+	/// <summary>
+	/// Cast passed dObject to CastingType ( template argument )
+	///	This function support only up-down hierarchy
+	///	Cant cast to sibling class
+	///
+	///	This function don't type check at runtime ( but in debug mode, If casting fail, it make assert )
+	/// </summary>
+	/// <typeparam name="CastingType"></typeparam>
+	/// <param name="dObject"></param>
+	/// <returns></returns>
+	template <typename CastingType>
+	FORCE_INLINE CastingType* CastToUnchecked(const DObject* const dObject)
+	{
+		CASTING_STATIC_ASSERT(CastingType);
+
+		D_ASSERT(IsA<CastingType>(dObject) == true);
+		return static_cast<CastingType>(dObject);
+	}
+
 }

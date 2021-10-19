@@ -7,6 +7,8 @@ namespace doom
 	{
 		class CubemapTexture : public Texture
 		{
+			DOBJECT_CLASS_BODY(CubemapTexture, doom::eDOBJECT_ClassFlags::NonCopyable);
+
 		public:
 			CubemapTexture() = delete;
 			CubemapTexture(eTextureType textureType,

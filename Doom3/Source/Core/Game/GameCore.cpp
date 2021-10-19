@@ -9,7 +9,7 @@
 #include "ConfigData.h"
 #include "MainTimer.h"
 
-#include "../Logger/Logger.h"
+#include "../Logger/logger.h"
 
 
 doom::GameCore::GameCore()
@@ -22,7 +22,7 @@ doom::GameCore::GameCore()
 
 std::unique_ptr<doom::Scene> doom::GameCore::CreateNewScene(std::string sceneName /*= ""*/)
 {
-	return std::unique_ptr<doom::Scene>{new Scene(sceneName)};
+	return std::unique_ptr<doom::Scene>{doom::CreateDObject<Scene>(sceneName)};
 }
 
 void doom::GameCore::InitGameSetting()
@@ -37,7 +37,7 @@ void doom::GameCore::InitGameSetting()
 
 
 #ifdef DEBUG_MODE
-	doom::logger::Logger::InitLogger();
+	doom::logger::InitLogger();
 #endif
 
 }

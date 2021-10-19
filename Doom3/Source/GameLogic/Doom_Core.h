@@ -9,6 +9,6 @@
 #include <Random.h>
 #include <ServerComponent.h>
 #include <PlainComponent.h>
-#include <Logger.h>
+#include <logger.h>
 #include <Game/AssetManager/AssetManager.h>
 #include <UI/PrintText.h>

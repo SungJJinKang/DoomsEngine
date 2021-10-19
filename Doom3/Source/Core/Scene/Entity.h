@@ -30,6 +30,10 @@ namespace doom
 
 	class DOOM_API Entity : public DObject, public FrameDirtyChecker
 	{
+
+		DOBJECT_CLASS_BODY(Entity, doom::eDOBJECT_ClassFlags::NonCopyable);
+
+
 		friend class Scene;
 		template <typename T>
 		friend class resource::ObjectPool;
@@ -131,10 +135,12 @@ namespace doom
 		/// <typeparam name="T"></typeparam>
 		/// <param name="component"></param>
 		/// <returns></returns>
-		template<typename T, typename... Args, std::enable_if_t<std::is_base_of_v<Component, T>, bool> = true>
+		template<typename T, typename... Args>
 		T* _AddComponent(Args... args) noexcept
 		{
+			static_assert(std::is_abstract_v<T> == false, "You can call GetComponent only with not abstrct class");
 			static_assert(std::is_same_v<T, doom::Transform> == false);
+			static_assert(std::is_base_of_v<Component, T> == true);
 
 			T* newComponent = CreateDObject<T>(std::forward<Args>(args)...);
 			D_ASSERT(newComponent != nullptr);
@@ -150,32 +156,13 @@ namespace doom
 		template<typename T>
 		bool _DestroyComponent(std::unique_ptr<T, Component::Deleter>& component)
 		{
-// 			for (auto& serverComponents : mServerComponents)
-// 			{
-// 				auto removedComponent = component.get();
-// 				if (serverComponents.get() != component.get())
-// 				{
-// 					serverComponents->OnComponentDettachedToOwnerEntity(removedComponent);
-// 				}
-// 			}
-// 
-// 			for (auto& plainComponent : mPlainComponents)
-// 			{
-// 				auto removedComponent = component.get();
-// 				if (plainComponent.get() != component.get())
-// 				{
-// 					plainComponent->OnComponentDettachedToOwnerEntity(removedComponent);
-// 				}
-// 			}
-
 			if (doom::IsValid(static_cast<doom::DObject*>(component.get())) == true)
 			{
 				component->OnDestroy_Internal();
 				component->OnDestroy();
 				component.reset();
 			}
-
-		
+			
 			return true;
 		}
 
@@ -220,7 +207,7 @@ namespace doom
 		static void CopyEntity(const Entity& fromCopyedEnitty, Entity& toCopyedEntity);
 
 
-		template<typename T, typename... Args, std::enable_if_t<std::is_base_of_v<Component, T>, bool> = true>
+		template<typename T, typename... Args>
 		T* AddComponent(Args... args) noexcept
 		{
 			return _AddComponent<T>(std::forward<Args>(args)...);
@@ -234,15 +221,18 @@ namespace doom
 		}
 		*/
 		
+		
+
 		/// <summary>
 		/// GetComponent is expesive, so cache it
 		/// </summary>
 		/// <typeparam name="T"></typeparam>
 		/// <returns></returns>
-		template<typename T, std::enable_if_t<std::is_base_of_v<Component, T>, bool> = true>
-		[[nodiscard]] T* GetComponent() // never return unique_ptr reference, just return pointer
+		template<typename T>
+		[[nodiscard]] T* GetComponent() const // never return unique_ptr reference, just return pointer
 		{
-			static_assert(std::is_abstract_v<T> == false, "You can call GetComponent only with not abstrct class");
+			static_assert(std::is_base_of_v<Component, T> == true);
+
 
 			T* returnedComponent = nullptr;
 
@@ -250,62 +240,67 @@ namespace doom
 			{
 				returnedComponent = &mTransform;
 			}
-			else
+			else if (std::is_abstract_v<T> == false)
 			{
-				const std::vector<Component*>& targetComponents = mComponents[TYPE_ID_HASH_CODE(T)];
-				if(targetComponents.empty() == false)
+				auto iter = mComponents.find(TYPE_ID_HASH_CODE(T));
+				if(iter != mComponents.end())
 				{
-					returnedComponent = static_cast<T*>(targetComponents[0]);
-					D_ASSERT(dynamic_cast<T*>(targetComponents[0]) != nullptr);
+					const std::vector<Component*>& targetComponents = iter->second;
+					if (targetComponents.empty() == false)
+					{
+						returnedComponent = static_cast<T*>(targetComponents[0]);
+					}
 				}
-			}
-
-			if(returnedComponent != nullptr)
-			{
-				D_ASSERT(IsValid(returnedComponent));
-			}
-
-			return returnedComponent;
-		}
-
-		/// <summary>
-		/// GetComponent is expesive, so cache it
-		/// </summary>
-		/// <typeparam name="T"></typeparam>
-		/// <returns></returns>
-		template<typename T, std::enable_if_t<std::is_base_of_v<Component, T>, bool> = true>
-		[[nodiscard]] const T* GetComponent() const // never return unique_ptr reference, just return pointer
-		{
-			static_assert(std::is_abstract_v<T> == false, "You can call GetComponent only with not abstrct class");
-
-			T* returnedComponent = nullptr;
-
-			if constexpr (std::is_same_v<T, Transform> == true)
-			{
-				returnedComponent = &mTransform;
+				
 			}
 			else
 			{
-				const std::vector<Component*>& targetComponents = mComponents[TYPE_ID_HASH_CODE(T)];
-				if (targetComponents.empty() == false)
+				if(IsServerComponent<T>() == true)
 				{
-					returnedComponent = static_cast<T*>(targetComponents[0]);
-					D_ASSERT(dynamic_cast<T*>(targetComponents[0]) != nullptr);
+					for (auto& serverComponent : mServerComponents)
+					{
+						if (serverComponent)
+						{
+							T* componentPtr = dynamic_cast<T*>(serverComponent.get());
+							if (componentPtr != nullptr)
+							{
+								returnedComponent = componentPtr;
+								break;
+							}
+						}
+					}
+				}
+				else
+				{
+					for (auto& plainComponent : mPlainComponents)
+					{
+						if (plainComponent)
+						{
+							T* componentPtr = dynamic_cast<T*>(plainComponent.get());
+							if (componentPtr != nullptr)
+							{
+								returnedComponent = componentPtr;
+								break;
+							}
+						}
+					}
 				}
 			}
 
 			if (returnedComponent != nullptr)
 			{
 				D_ASSERT(IsValid(returnedComponent));
+				D_ASSERT(dynamic_cast<T*>(returnedComponent) != nullptr);
 			}
 
 			return returnedComponent;
 		}
+		
 
 		template<typename T, std::enable_if_t<std::is_base_of_v<Component, T>, bool> = true>
-		[[nodiscard]] std::vector<T*> GetComponents()
+		[[nodiscard]] std::vector<T*> GetComponents() const
 		{
-			static_assert(std::is_abstract_v<T> == false, "You can call GetComponent only with not abstrct class");
+			static_assert(std::is_base_of_v<Component, T> == true);
 
 			std::vector<T*> components;
 
@@ -313,16 +308,50 @@ namespace doom
 			{
 				components.push_back(&mTransform);
 			}
+			else if (std::is_abstract_v<T> == false)
+			{
+				auto iter = mComponents.find(TYPE_ID_HASH_CODE(T));
+				if (iter != mComponents.end())
+				{
+					const std::vector<Component*>& targetComponents = iter->second;
+					if (targetComponents.empty() == false)
+					{
+						components.reserve(targetComponents.size());
+						for (Component* comp : targetComponents)
+						{
+							components.push_back(static_cast<T*>(comp));
+						}
+					}
+				}
+			}
 			else
 			{
-				const std::vector<Component*>& targetComponents = mComponents[TYPE_ID_HASH_CODE(T)];
-				if (targetComponents.empty() == false)
+				if (IsServerComponent<T>() == true)
 				{
-					components.reserve(targetComponents.size());
-					for(Component* comp : targetComponents)
+					for (auto& serverComponent : mServerComponents)
 					{
-						components.push_back(static_cast<T*>(comp));
-						D_ASSERT(dynamic_cast<T*>(comp) != nullptr);
+						if (serverComponent)
+						{
+							T* componentPtr = dynamic_cast<T*>(serverComponent.get());
+							if (componentPtr != nullptr)
+							{
+								components.push_back(componentPtr);
+							}
+						}
+					}
+				}
+				else
+				{
+					for (auto& plainComponent : mPlainComponents)
+					{
+						if (plainComponent)
+						{
+							T* componentPtr = dynamic_cast<T*>(plainComponent.get());
+							if (componentPtr != nullptr)
+							{
+								components.push_back(componentPtr);
+							}
+						}
 					}
 				}
 			}
@@ -330,110 +359,19 @@ namespace doom
 			for (size_t i = 0; i < components.size(); i++)
 			{
 				D_ASSERT(IsValid(components[i]));  // This will be removed from release build
+				D_ASSERT(dynamic_cast<T*>(components[i]) != nullptr);
 			}
 
-		
-
-
-			return components;
-		}
-
-		template<typename T, std::enable_if_t<std::is_base_of_v<Component, T>, bool> = true>
-		[[nodiscard]] std::vector<const T*> GetComponents() const
-		{
-			static_assert(std::is_abstract_v<T> == false, "You can call GetComponent only with not abstrct class");
-
-			std::vector<const T*> components;
-
-			if constexpr (std::is_same_v<T, Transform> == true)
-			{
-				components.push_back(&mTransform);
-			}
-			else
-			{
-				const std::vector<Component*>& targetComponents = mComponents[TYPE_ID_HASH_CODE(T)];
-				if (targetComponents.empty() == false)
-				{
-					components.reserve(targetComponents.size());
-					for (Component* comp : targetComponents)
-					{
-						components.push_back(static_cast<T*>(comp));
-						D_ASSERT(dynamic_cast<T*>(comp) != nullptr);
-					}
-				}
-			}
-
-			for (size_t i = 0; i < components.size(); i++)
-			{
-				D_ASSERT(IsValid(components[i]));  // This will be removed from release build
-			}
-
-
-
-
-			return components;
-		}
-
-
-
-		/*
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <typeparam name="T">if there is removed component</typeparam>
-		/// <returns></returns>
-		template<typename T, std::enable_if_t<std::is_base_of_v<Component, T>, bool> = true>
-		bool RemoveComponent()
-		{
-			static_assert(!std::is_same_v<T, Transform>);
-
-			if constexpr (Entity::IsServerComponent<T>() == true)
-			{// when component is ServerComponent
-				for (SIZE_T i = 0; i < mServerComponents.size(); i++)
-				{
-					if(mServerComponents[i])
-					{
-						T* componentPtr = dynamic_cast<T*>(mServerComponents[i].get());
-						if (componentPtr != nullptr)
-						{//Check is sub_class of Component
-							_DestroyComponent(mServerComponents[i]);
-
-							std::vector_swap_popback(mServerComponents, i);
-							return true;
-						}
-					}
-				}
-			}
-			else
-			{// when component is plainComponent
-				for (SIZE_T i = 0; i < mPlainComponents.size(); i++)
-				{
-					if(mPlainComponents[i])
-					{
-						T* componentPtr = dynamic_cast<T*>(mPlainComponents[i].get());
-						if (componentPtr != nullptr)
-						{//Check is sub_class of Component
-							_DestroyComponent(mServerComponents[i]);
-
-							std::vector_swap_popback(mPlainComponents, i);
-							return true;
-						}
-					}
-				}
-			}
-		
 			
-
-			return false;
+			return components;
 		}
-		*/
 
 		template<typename T, std::enable_if_t<std::is_base_of_v<Component, T>, bool> = true>
 		bool RemoveComponents()
 		{
 			static_assert(std::is_abstract_v<T> == false, "You can call RemoveComponents only with not abstrct class");
-
 			static_assert(!std::is_same_v<T, Transform>);
+			static_assert(std::is_base_of_v<Component, T> == true);
 
 			bool isRemoveSuccess{ false };
 
@@ -455,7 +393,7 @@ namespace doom
 						{//Check is sub_class of Component
 							_DestroyComponent(mServerComponents[i]);
 
-							std::vector_swap_popback(mServerComponents, i);
+							mServerComponents.erase(mServerComponents.begin() + 1);
 							--i;
 
 							isRemoveSuccess = true;
@@ -474,7 +412,7 @@ namespace doom
 						{//Check is sub_class of Component
 							_DestroyComponent(mServerComponents[i]);
 
-							std::vector_swap_popback(mPlainComponents, i);
+							mServerComponents.erase(mServerComponents.begin() + 1);
 							--i;
 
 							isRemoveSuccess = true;
