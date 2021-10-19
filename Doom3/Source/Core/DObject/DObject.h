@@ -49,7 +49,7 @@ namespace doom
 		inline static const DOBJECT_BASE_CHAIN BASE_CHAIN_STATIC{};
 		virtual const DOBJECT_BASE_CHAIN& GET_BASE_CHAIN() const { return BASE_CHAIN_STATIC; }
 
-		bool IsChildOf(const SIZE_T baseTypeID) const
+		FORCE_INLINE bool IsChildOf(const SIZE_T baseTypeID) const
 		{
 			bool isChild = (baseTypeID == TYPE_ID());
 
@@ -69,7 +69,7 @@ namespace doom
 		}
 
 		template <typename BASE_TYPE>
-		bool IsChildOf() const
+		FORCE_INLINE bool IsChildOf() const
 		{
 			static_assert(IS_DOBJECT_TYPE(BASE_TYPE));
 			return IsChildOf(BASE_TYPE::TYPE_ID_STATIC());

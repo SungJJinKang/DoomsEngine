@@ -62,6 +62,12 @@ static_assert(IS_DOBJECT_TYPE(std::remove_pointer_t<CASTING_TYPE>) == true, "Ple
 		return dObject->IsChildOf<CompareType>();
 	}
 
+	template <typename CompareType>
+	FORCE_INLINE bool IsChildOf(const DObject* const dObject)
+	{
+		return IsA<CompareType>(dObject);
+	}
+
 	/// <summary>
 	/// Cast passed dObject to CastingType ( template argument )
 	///	This function support only up-down hierarchy
