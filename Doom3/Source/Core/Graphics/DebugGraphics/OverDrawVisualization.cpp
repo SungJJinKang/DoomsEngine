@@ -20,12 +20,12 @@ namespace doom
 	{
 		namespace OverDrawVisualization
 		{
-			static bool bmIsOverDrawVisualizationInitialized = false;
-			static doom::graphics::Material mOverDrawVisualizationObjectDrawMaterial;
-			static doom::graphics::FrameBuffer mOverDrawVisualizationFrameBuffer;
-			static doom::graphics::PicktureInPickture* OverDrawVisualizationPIP = nullptr;
+			extern bool bmIsOverDrawVisualizationInitialized{false};
+			extern doom::graphics::Material mOverDrawVisualizationObjectDrawMaterial{};
+			extern doom::graphics::FrameBuffer mOverDrawVisualizationFrameBuffer{};
+			extern doom::graphics::PicktureInPickture* OverDrawVisualizationPIP{nullptr};
 
-			static void Initialize()
+			extern void Initialize()
 			{
 				doom::asset::ShaderAsset* overDrawVisualizationShader = doom::assetimporter::AssetManager::GetSingleton()->GetAsset<doom::asset::eAssetType::SHADER>("OverDrawVisualizationShader.glsl");
 				mOverDrawVisualizationObjectDrawMaterial = overDrawVisualizationShader->CreateMatrialWithThisShader();

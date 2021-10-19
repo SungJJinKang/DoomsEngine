@@ -59,10 +59,7 @@ namespace doom
 			if (isChild == false)
 			{
 				const std::vector<SIZE_T>& base_chain_list = GET_BASE_CHAIN().BASE_CHAIN_TYPE_ID_LIST;
-				if(base_chain_list.size() > BASE_TYPE::BASE_CHAIN_STATIC.BASE_CHAIN_COUNT)
-				{
-					isChild = GET_BASE_CHAIN().BASE_CHAIN_TYPE_ID_LIST[base_chain_list.size() - 1 - BASE_TYPE::BASE_CHAIN_STATIC.BASE_CHAIN_COUNT] == BASE_TYPE::TYPE_ID_STATIC();
-				}
+				isChild = (base_chain_list.size() > BASE_TYPE::BASE_CHAIN_STATIC.BASE_CHAIN_COUNT) && (base_chain_list[base_chain_list.size() - 1 - BASE_TYPE::BASE_CHAIN_STATIC.BASE_CHAIN_COUNT] == BASE_TYPE::TYPE_ID_STATIC());
 			}
 
 			return isChild;

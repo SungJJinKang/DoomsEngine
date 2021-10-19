@@ -115,6 +115,7 @@ namespace doom
 #define DOBJECT_CLASS_BASE_CHAIN(BASE_DOBJECT_TYPE_CLASS)												\
 	protected:																							\
 	static DOBJECT_BASE_CHAIN BASE_CHAIN_HILLCLIMB() {													\
+		D_ASSERT(TYPE_ID_STATIC() != BASE_DOBJECT_TYPE_CLASS::TYPE_ID_STATIC());						\
 		DOBJECT_BASE_CHAIN base_chain{};																\
 		BASE_DOBJECT_TYPE_CLASS::BASE_CHAIN_HILLCLIMB(base_chain);										\
 		return base_chain;																				\

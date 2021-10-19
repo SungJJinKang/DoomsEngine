@@ -40,6 +40,10 @@ namespace doom
 				
 			}
 		};
+
+		
+
+
 	private:
 
 		//For Prevent Component copied or moved

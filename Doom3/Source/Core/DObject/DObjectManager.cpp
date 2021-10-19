@@ -16,7 +16,7 @@ UINT64 doom::DObjectManager::GenerateNewDObejctID()
     return newDObjectID;
 }
 
-std::unordered_map<doom::DObject*, UINT64>::iterator  doom::DObjectManager::SetDObjectID(DObject* const dObject, const UINT64 dObjectID)
+std::unordered_map<doom::DObject*, UINT64>::iterator  doom::DObjectManager::InsertDObjectID(DObject* const dObject, const UINT64 dObjectID)
 {
     assert(dObject != nullptr);
 
@@ -33,6 +33,27 @@ std::unordered_map<doom::DObject*, UINT64>::iterator  doom::DObjectManager::SetD
     return iter;	
 }
 
+std::unordered_map<doom::DObject*, UINT64>::iterator  doom::DObjectManager::InsertDObjectIDIfExist(DObject* const dObject, const UINT64 dObjectID)
+{
+    assert(dObject != nullptr);
+
+    std::unordered_map<doom::DObject*, UINT64>::iterator iter = mDObjectsList.end();
+
+    if (dObject != nullptr)
+    {
+        iter = mDObjectsList.find(dObject);
+        if(iter != mDObjectsList.end())
+        {
+            iter->second = dObjectID;
+        }
+        dObject->mDObjectID = dObjectID;
+    }
+
+    return iter;
+}
+
+
+
 bool doom::DObjectManager::AddNewDObject(DObject* const dObject)
 {
     assert(dObject != nullptr);
@@ -42,7 +63,7 @@ bool doom::DObjectManager::AddNewDObject(DObject* const dObject)
     if (dObject != nullptr)
 	{
         const UINT64 newDObjectID = DObjectManager::GenerateNewDObejctID();
-        SetDObjectID(dObject, newDObjectID);
+        InsertDObjectID(dObject, newDObjectID);
 
         isSuccess = true;
     }
@@ -58,9 +79,9 @@ bool doom::DObjectManager::ReplaceDObjectFromDObjectList(DObject&& originalDObje
 
     const UINT64 originalDObjectID = originalDObject.GetDObjectID();
 
-    SetDObjectID(newDObject, originalDObjectID);
+    InsertDObjectID(newDObject, originalDObjectID);
 
-    SetDObjectID(&originalDObject, INVALID_DOBJECT_ID);
+    InsertDObjectIDIfExist(&originalDObject, INVALID_DOBJECT_ID);
 
     return true;
 }
@@ -69,7 +90,7 @@ bool doom::DObjectManager::RemoveDObject(DObject* const dObject)
 {
     const UINT64 dObjectID = dObject->GetDObjectID();
     
-    std::unordered_map<doom::DObject*, UINT64>::iterator targetIter = SetDObjectID(dObject, INVALID_DOBJECT_ID);
+    std::unordered_map<doom::DObject*, UINT64>::iterator targetIter = InsertDObjectIDIfExist(dObject, INVALID_DOBJECT_ID);
     if (targetIter != mDObjectsList.end())
     {
         targetIter = mDObjectsList.erase(targetIter); //erasing iterator is much faster than not erasing
@@ -99,7 +120,7 @@ void doom::DObjectManager::DestroyAllDObjects(const bool force)
 		}
     }
 
-    ClearConatiner();
+    //ClearConatiner(); Never Do this at here. When Static Object is destroyed, It access to mDObjectsList in DObject's Destructor to reset DObject ID
 }
 
 void doom::DObjectManager::ClearConatiner()

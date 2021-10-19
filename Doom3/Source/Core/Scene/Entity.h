@@ -12,6 +12,8 @@
 #include "../Core.h"
 #include "../../Component/Core/Component.h"
 #include "../../Component/Core/ServerComponent.h"
+#include "../../Component/Core/PlainComponent.h"
+#include "../../Component/Core/ComponentHelper.h"
 
 #include "../../Component/Transform.h"
 
@@ -102,19 +104,14 @@ namespace doom
 
 		void InitializeComponent(Component* const newComponent);
 
-		template<typename T>
-		constexpr static bool IsServerComponent()
-		{
-			return std::is_base_of_v<ServerComponent, T>;
-		}
-
+		
 		template<typename T, std::enable_if_t<std::is_base_of_v<Component, T>, bool> = true>
 		void _AddComponentAndInitialize(T* const newComponent) noexcept
 		{
-			D_ASSERT(newComponent != nullptr);
+			D_ASSERT(IsValid(newComponent) == true);
 			D_ASSERT(newComponent->bIsAddedToEntity == false);
 
-			if constexpr (Entity::IsServerComponent<T>() == true)
+			if constexpr (doom::IsServerComponentStatic<T>() == true)
 			{
 				mServerComponents.emplace_back(newComponent);
 			}
@@ -143,7 +140,8 @@ namespace doom
 			static_assert(std::is_base_of_v<Component, T> == true);
 
 			T* newComponent = CreateDObject<T>(std::forward<Args>(args)...);
-			D_ASSERT(newComponent != nullptr);
+
+			D_ASSERT(IsValid(newComponent) == true);
 			D_ASSERT(newComponent->bIsAddedToEntity == false);
 
 			_AddComponentAndInitialize(newComponent);
@@ -153,17 +151,76 @@ namespace doom
 
 		}
 
-		template<typename T>
-		bool _DestroyComponent(std::unique_ptr<T, Component::Deleter>& component)
+
+		bool _DestroyComponentCallBack(Component* const component)
 		{
-			if (doom::IsValid(static_cast<doom::DObject*>(component.get())) == true)
+			if (doom::IsValid(component) == true)
 			{
 				component->OnDestroy_Internal();
 				component->OnDestroy();
-				component.reset();
 			}
 			
 			return true;
+		}
+		
+		bool _RemoveComponent(Component* const component)
+		{
+			D_ASSERT(IsValid(component));
+			D_ASSERT(component->IsChildOf<Transform>() == false);
+
+			bool isRemoveSuccess{ false };
+			
+			std::vector<Component*>& targetComponents = mComponents[component->TYPE_ID()];
+			D_ASSERT(targetComponents.size() > 0);
+			for(SIZE_T i = targetComponents.size() - 1; i >= 0 ; i--)
+			{
+				if(targetComponents[i] == component)
+				{
+					targetComponents.erase(targetComponents.begin() + i);
+					break;
+				}
+			}
+			Component* removedComp = nullptr;
+
+			if (IsServerComponent(component) == true)
+			{// when component is ServerComponent
+				D_ASSERT(mServerComponents.size() > 0);
+				for (SIZE_T i = mServerComponents.size() - 1; i >= 0; i--)
+				{
+					if (mServerComponents[i] && mServerComponents[i].get() == component)
+					{
+						removedComp = mServerComponents[i].release();
+						mServerComponents.erase(mServerComponents.begin() + i);
+						_DestroyComponentCallBack(removedComp);
+							
+
+						isRemoveSuccess = true;
+						break;
+					}
+				}
+			}
+			else
+			{// when component is plainComponent
+				D_ASSERT(mPlainComponents.size() > 0);
+				for (SIZE_T i = mPlainComponents.size() - 1; i >= 0; i--)
+				{
+					if (mPlainComponents[i] && mPlainComponents[i].get() == component)
+					{
+						removedComp = mPlainComponents[i].release();
+						mPlainComponents.erase(mPlainComponents.begin() + i);
+						_DestroyComponentCallBack(removedComp);
+
+						isRemoveSuccess = true;
+						break;
+					}
+				}
+			}
+
+			D_ASSERT(IsValid(removedComp) == true);
+			delete removedComp;
+
+
+			return isRemoveSuccess;
 		}
 
 		/// <summary>
@@ -255,18 +312,13 @@ namespace doom
 			}
 			else
 			{
-				if(IsServerComponent<T>() == true)
+				if(IsServerComponentStatic<T>() == true)
 				{
 					for (auto& serverComponent : mServerComponents)
 					{
-						if (serverComponent)
+						if (serverComponent && serverComponent->IsChildOf<T>())
 						{
-							T* componentPtr = dynamic_cast<T*>(serverComponent.get());
-							if (componentPtr != nullptr)
-							{
-								returnedComponent = componentPtr;
-								break;
-							}
+							returnedComponent = CastToUnchecked<T*>(serverComponent.get());
 						}
 					}
 				}
@@ -274,14 +326,9 @@ namespace doom
 				{
 					for (auto& plainComponent : mPlainComponents)
 					{
-						if (plainComponent)
+						if (plainComponent && plainComponent->IsChildOf<T>())
 						{
-							T* componentPtr = dynamic_cast<T*>(plainComponent.get());
-							if (componentPtr != nullptr)
-							{
-								returnedComponent = componentPtr;
-								break;
-							}
+							returnedComponent = CastToUnchecked<T*>(plainComponent.get());
 						}
 					}
 				}
@@ -290,7 +337,7 @@ namespace doom
 			if (returnedComponent != nullptr)
 			{
 				D_ASSERT(IsValid(returnedComponent));
-				D_ASSERT(dynamic_cast<T*>(returnedComponent) != nullptr);
+				D_ASSERT(CastTo<T*>(returnedComponent) != nullptr);
 			}
 
 			return returnedComponent;
@@ -326,17 +373,13 @@ namespace doom
 			}
 			else
 			{
-				if (IsServerComponent<T>() == true)
+				if (IsServerComponentStatic<T>() == true)
 				{
 					for (auto& serverComponent : mServerComponents)
 					{
-						if (serverComponent)
+						if (serverComponent && serverComponent->IsChildOf<T>())
 						{
-							T* componentPtr = dynamic_cast<T*>(serverComponent.get());
-							if (componentPtr != nullptr)
-							{
-								components.push_back(componentPtr);
-							}
+							components.push_back(CastToUnchecked<T*>(serverComponent.get()));
 						}
 					}
 				}
@@ -344,13 +387,9 @@ namespace doom
 				{
 					for (auto& plainComponent : mPlainComponents)
 					{
-						if (plainComponent)
+						if (plainComponent && plainComponent->IsChildOf<T>())
 						{
-							T* componentPtr = dynamic_cast<T*>(plainComponent.get());
-							if (componentPtr != nullptr)
-							{
-								components.push_back(componentPtr);
-							}
+							components.push_back(CastToUnchecked<T*>(plainComponent.get()));
 						}
 					}
 				}
@@ -359,7 +398,7 @@ namespace doom
 			for (size_t i = 0; i < components.size(); i++)
 			{
 				D_ASSERT(IsValid(components[i]));  // This will be removed from release build
-				D_ASSERT(dynamic_cast<T*>(components[i]) != nullptr);
+				D_ASSERT(CastTo<T*>(components[i]) != nullptr);
 			}
 
 			
@@ -379,49 +418,15 @@ namespace doom
 			const std::vector<Component*>& targetComponents = mComponents[TYPE_ID_HASH_CODE(T)];
 			if (targetComponents.empty() == false)
 			{
+				for(Component* targetComp : targetComponents)
+				{
+					_RemoveComponent(targetComp);
+				}
 				targetComponents.clear();
+
+				isRemoveSuccess = true;
 			}
-
-			if constexpr (Entity::IsServerComponent<T>() == true)
-			{// when component is ServerComponent
-				for (SIZE_T i = 0; i < mServerComponents.size(); i++)
-				{
-					if(mServerComponents[i])
-					{
-						T* componentPtr = dynamic_cast<T*>(mServerComponents[i].get());
-						if (componentPtr != nullptr)
-						{//Check is sub_class of Component
-							_DestroyComponent(mServerComponents[i]);
-
-							mServerComponents.erase(mServerComponents.begin() + 1);
-							--i;
-
-							isRemoveSuccess = true;
-						}
-					}
-				}
-			}
-			else
-			{// when component is plainComponent
-				for (SIZE_T i = 0; i < mPlainComponents.size(); i++)
-				{
-					if(mPlainComponents[i])
-					{
-						T* componentPtr = dynamic_cast<T*>(mPlainComponents[i].get());
-						if (componentPtr != nullptr)
-						{//Check is sub_class of Component
-							_DestroyComponent(mServerComponents[i]);
-
-							mServerComponents.erase(mServerComponents.begin() + 1);
-							--i;
-
-							isRemoveSuccess = true;
-						}
-					}
-				}
-			}
-
-		
+			
 			return isRemoveSuccess;
 		}
 

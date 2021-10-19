@@ -131,17 +131,17 @@ void Entity::InitializeComponent(Component* const newComponent)
 
 void Entity::ClearComponents()
 {
-	for (auto& plainComponent : mPlainComponents)
+	while (mPlainComponents.empty() == false)
 	{
 		//Why doesn't erase from vector instantly : for performance
-		_DestroyComponent(plainComponent);
+		_RemoveComponent(mPlainComponents[mPlainComponents.size() - 1].get());
 	}
 	mPlainComponents.clear();
 
-	for (auto& ServerComponent : mServerComponents)
+	while (mServerComponents.empty() == false)
 	{
 		//Why doesn't erase from vector instantly : for performance
-		_DestroyComponent(ServerComponent);
+		_RemoveComponent(mServerComponents[mServerComponents.size() - 1].get());
 	}
 	mServerComponents.clear();
 }

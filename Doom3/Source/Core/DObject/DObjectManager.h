@@ -20,7 +20,8 @@ namespace doom
 
 		static UINT64 GenerateNewDObejctID();
 
-		static std::unordered_map<DObject*, UINT64>::iterator SetDObjectID(DObject* const dObject, const UINT64 dObjectID);
+		static std::unordered_map<DObject*, UINT64>::iterator InsertDObjectIDIfExist(DObject* const dObject, const UINT64 dObjectID);
+		static std::unordered_map<DObject*, UINT64>::iterator InsertDObjectID(DObject* const dObject, const UINT64 dObjectID);
 
 		static bool AddNewDObject(DObject* const dObject);
 		static bool ReplaceDObjectFromDObjectList(DObject&& originalDObject, DObject* const newDObject);
