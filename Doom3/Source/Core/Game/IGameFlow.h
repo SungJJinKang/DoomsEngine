@@ -19,17 +19,17 @@ namespace doom
 		/// <summary>
 		/// Don't put virtual
 		/// </summary>
-		void Init_Internal();
+		void Init_Internal() {}
 		virtual void Init() = 0;
-		virtual void LateInit();
+		virtual void LateInit() {}
 
 		/// <summary>
 		/// Don't put virtual
 		/// </summary>
-		void Update_Internal();
+		void Update_Internal() {}
 		virtual void Update() = 0;
 
-		void FixedUpdate_Internal();
+		void FixedUpdate_Internal(){}
 		virtual void FixedUpdate() {}
 
 		/// <summary>
