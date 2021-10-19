@@ -74,9 +74,9 @@ template<doom::eDOBJECT_ClassFlags...flags> struct flag_or {
 
 /////////////////////////////////
 
-#ifndef TYPE_ID_FUNCTION
+#ifndef TYPE_ID_IMP
 
-#define TYPE_ID_FUNCTION(CLASS_TYPE)												\
+#define TYPE_ID_IMP(CLASS_TYPE)												\
 		public:																		\
 		static SIZE_T TYPE_ID_STATIC() {											\
 			static const SIZE_T TYPE_ID##CLASS_TYPE = TYPE_ID_HASH_CODE(CLASS_TYPE);\
@@ -94,6 +94,21 @@ virtual SIZE_T GetSubClassIDList() const
 /////////////////////////////////
 
 
+
+#ifndef CLASS_NAME_IMP
+
+#define CLASS_NAME_IMP(CLASS_TYPE)															\
+		public:																				\
+		static const std::string& CLASS_NAME_STATIC() {										\
+			static const std::string CLASS_NAME##CLASS_TYPE = #CLASS_TYPE;					\
+			return CLASS_NAME##CLASS_TYPE;													\
+		}																					\
+        virtual const std::string& CLASS_NAME() const { return CLASS_NAME_STATIC(); }		\
+
+#endif
+
+/////////////////////////////////
+
 #ifndef _HAS_VIRTUAL_DESTRUCTOR
 
 #define _HAS_VIRTUAL_DESTRUCTOR(CLASS_TYPE)																		\
@@ -107,36 +122,10 @@ virtual SIZE_T GetSubClassIDList() const
 
 #define _CHECK_DOBJECT_PARAMETER_TYPE_CORRECT(CLASS_TYPE)																				\
 		D_ASSERT_LOG(TYPE_ID_HASH_CODE(*this) == TYPE_ID_HASH_CODE(CLASS_TYPE), "Incorrect typeid ( %s )", MAKE_STRING(CLASS_TYPE));	\
-		D_ASSERT_LOG(TYPE_ID_HASH_CODE(*this) == TYPE_ID_STATIC(), "Incorrect typeid ( %s )", MAKE_STRING(CLASS_TYPE));					\
-		D_ASSERT_LOG(TYPE_ID_HASH_CODE(*this) == TYPE_ID(), "Incorrect typeid ( %s )", MAKE_STRING(CLASS_TYPE));						\
-		D_ASSERT_LOG(TYPE_ID_HASH_CODE(CLASS_TYPE) == TYPE_ID(), "Incorrect typeid ( %s )", MAKE_STRING(CLASS_TYPE));					\
-		D_ASSERT_LOG(TYPE_ID_STATIC() == TYPE_ID(), "Incorrect typeid ( %s )", MAKE_STRING(CLASS_TYPE));								\
 
 #endif
 
 /////////////////////////////////
-
-#if defined(DEBUG_MODE)
-
-
-
-#undef _RUNTIME_CHECKER
-
-#define _RUNTIME_CHECKER(CLASS_TYPE)													\
-	private:																			\
-	bool _dobject_runtime_checker() const												\
-	{																					\
-		_CHECK_DOBJECT_PARAMETER_TYPE_CORRECT(CLASS_TYPE);								\
-		return true;																	\
-	}																					\
-	bool CONCAT(_runtime_checker_valid_,CLASS_TYPE) = _dobject_runtime_checker();		\
-
-#else
-
-#undef _RUNTIME_CHECKER
-#define _RUNTIME_CHECKER(CLASS_TYPE)
-
-#endif
 
 
 /////////////////////////////////
@@ -145,8 +134,8 @@ virtual SIZE_T GetSubClassIDList() const
 
 #define DOBJECT_BODY_UNIFORM(CLASS_TYPE, ...)										\
 		CLASS_FLAGS_FUNCTION(__VA_ARGS__)											\
-		TYPE_ID_FUNCTION(CLASS_TYPE)												\
-		_RUNTIME_CHECKER(CLASS_TYPE)												\
+		TYPE_ID_IMP(CLASS_TYPE)														\
+		CLASS_NAME_IMP(CLASS_TYPE)													\
 
 #endif
 
