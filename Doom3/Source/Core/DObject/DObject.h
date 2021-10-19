@@ -49,30 +49,23 @@ namespace doom
 		inline static const DOBJECT_BASE_CHAIN BASE_CHAIN_STATIC{};
 		virtual const DOBJECT_BASE_CHAIN& GET_BASE_CHAIN() const { return BASE_CHAIN_STATIC; }
 
-		FORCE_INLINE bool IsChildOf(const SIZE_T baseTypeID) const
-		{
-			bool isChild = (baseTypeID == TYPE_ID());
-
-			if(isChild == false)
-			{
-				for (SIZE_T this_object_base_type : GET_BASE_CHAIN().BASE_CHAIN_TYPE_ID_LIST)
-				{
-					if (baseTypeID == this_object_base_type)
-					{
-						isChild = true;
-						break;
-					}
-				}
-			}
-			
-			return isChild;
-		}
-
 		template <typename BASE_TYPE>
 		FORCE_INLINE bool IsChildOf() const
 		{
 			static_assert(IS_DOBJECT_TYPE(BASE_TYPE));
-			return IsChildOf(BASE_TYPE::TYPE_ID_STATIC());
+
+			bool isChild = (BASE_TYPE::TYPE_ID_STATIC() == TYPE_ID());
+
+			if (isChild == false)
+			{
+				const std::vector<SIZE_T>& base_chain_list = GET_BASE_CHAIN().BASE_CHAIN_TYPE_ID_LIST;
+				if(base_chain_list.size() > BASE_TYPE::BASE_CHAIN_STATIC.BASE_CHAIN_COUNT)
+				{
+					isChild = GET_BASE_CHAIN().BASE_CHAIN_TYPE_ID_LIST[base_chain_list.size() - 1 - BASE_TYPE::BASE_CHAIN_STATIC.BASE_CHAIN_COUNT] == BASE_TYPE::TYPE_ID_STATIC();
+				}
+			}
+
+			return isChild;
 		}
 
 		friend class DObjectManager;

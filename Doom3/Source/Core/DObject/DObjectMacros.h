@@ -111,50 +111,23 @@ namespace doom
 }
 
 
-template<typename... Ts>														
-struct do_hill_climb;															
-template<typename T, typename... Ts>											
-struct do_hill_climb<T, Ts...>
-{
-	static void call(doom::DOBJECT_BASE_CHAIN& base_chain)
-	{
-		if constexpr (std::is_base_of<doom::DObject, T>::value) {
 
-			T::BASE_CHAIN_HILLCLIMB(base_chain);
-			do_hill_climb<Ts...>::call(base_chain);
-		}
-	}
-};
-template<typename T>																
-struct do_hill_climb<T>
-{
-	static void call(doom::DOBJECT_BASE_CHAIN& base_chain)
-	{
-		if constexpr (std::is_base_of<doom::DObject, T>::value) {
-
-			T::BASE_CHAIN_HILLCLIMB(base_chain);
-		}
-	}
-};
-
-
-#define DOBJECT_CLASS_BASE_CHAIN(...)																	\
-	template<typename... Ts>																			\
-	friend struct do_hill_climb;																		\
+#define DOBJECT_CLASS_BASE_CHAIN(BASE_DOBJECT_TYPE_CLASS)												\
 	protected:																							\
 	static DOBJECT_BASE_CHAIN BASE_CHAIN_HILLCLIMB() {													\
 		DOBJECT_BASE_CHAIN base_chain{};																\
-		do_hill_climb<__VA_ARGS__>::call(base_chain);													\
+		BASE_DOBJECT_TYPE_CLASS::BASE_CHAIN_HILLCLIMB(base_chain);										\
 		return base_chain;																				\
 	}																									\
 	static void BASE_CHAIN_HILLCLIMB(doom::DOBJECT_BASE_CHAIN& base_chain) {							\
 		base_chain.BASE_CHAIN_COUNT++;																	\
 		base_chain.BASE_CHAIN_TYPE_ID_LIST.push_back(TYPE_ID_STATIC());									\
-        do_hill_climb<__VA_ARGS__>::call(base_chain);													\
+        BASE_DOBJECT_TYPE_CLASS::BASE_CHAIN_HILLCLIMB(base_chain);										\
 	}																									\
 	public:																								\
 	inline static const DOBJECT_BASE_CHAIN BASE_CHAIN_STATIC = BASE_CHAIN_HILLCLIMB();					\
 	virtual const DOBJECT_BASE_CHAIN& GET_BASE_CHAIN() const { return BASE_CHAIN_STATIC; }
+
 
 
 /////////////////////////////////
