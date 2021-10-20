@@ -103,9 +103,11 @@ template<doom::eDOBJECT_ClassFlags...flags> struct flag_or {
 
 
 #define DOBJECT_CLASS_BASE_CHAIN(BASE_DOBJECT_TYPE_CLASS)												\
+	private:																							\
+	using Base = BASE_DOBJECT_TYPE_CLASS; /* alias Base DObject Type Class */							\
 	protected:																							\
 	static DOBJECT_BASE_CHAIN BASE_CHAIN_HILLCLIMB() {													\
-		D_ASSERT(CLASS_TYPE_ID_STATIC() != BASE_DOBJECT_TYPE_CLASS::CLASS_TYPE_ID_STATIC());						\
+		D_ASSERT(CLASS_TYPE_ID_STATIC() != BASE_DOBJECT_TYPE_CLASS::CLASS_TYPE_ID_STATIC());			\
 		DOBJECT_BASE_CHAIN base_chain{};																\
 		BASE_DOBJECT_TYPE_CLASS::BASE_CHAIN_HILLCLIMB(base_chain);										\
 		D_ASSERT(base_chain.BASE_CHAIN_TYPE_ID_LIST.size() == base_chain.BASE_CHAIN_COUNT);				\
