@@ -1,15 +1,15 @@
 #pragma once
-#include "Core/PlainComponent.h"
+#include "Core/ServerComponent.h"
 #include "Vector4.h"
 #include "EasyDirtyChecker/DirtyReceiver.h"
 
 namespace doom
 {
-	class DOOM_API Light : public PlainComponent
+	class DOOM_API Light : public ServerComponent
 	{
 
 		DOBJECT_ABSTRACT_CLASS_BODY(Light)
-		DOBJECT_CLASS_BASE_CHAIN(PlainComponent)
+		DOBJECT_CLASS_BASE_CHAIN(ServerComponent)
 
 	private:
 

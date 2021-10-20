@@ -236,16 +236,22 @@ void doom::GameLogicStartPoint::StartGameLogic()
 	auto c3 = CastTo<PointLight*>(dirLight);
 	auto c4= CastTo<MeshRenderer*>(dirLight);
 
+	D_ASSERT(CastTo<DObject*>(dirLight) != nullptr);
+	D_ASSERT(CastTo<MeshRenderer*>(dirLight) == nullptr);
+	D_ASSERT(CastTo<PointLight*>(dirLight) == nullptr);
+	D_ASSERT(CastTo<Component*>(dirLight) != nullptr);
+	D_ASSERT(CastTo<ServerComponent*>(dirLight) != nullptr);
+	D_ASSERT(CastTo<PlainComponent*>(dirLight) == nullptr);
 
 	DObject* dObject = CastTo<DObject*>(dirLight);
-	const DirectionalLight* d2 = CastTo<const DirectionalLight*>(dObject);
-	MeshRenderer* d3 = CastTo<MeshRenderer*>(dObject);
-	PointLight* d4 = CastTo<PointLight*>(dObject);
+	D_ASSERT(CastTo<const DirectionalLight*>(dObject) != nullptr);
+	D_ASSERT(CastTo<MeshRenderer*>(dObject) == nullptr);
+	D_ASSERT(CastTo<PointLight*>(dObject) == nullptr);
 
 	const DObject* dObjectConst = CastTo<DObject*>(dirLight);
-	const DirectionalLight* d2Const = CastTo<const DirectionalLight*>(dObjectConst);
-	const MeshRenderer* d3Const = CastTo<const MeshRenderer*>(dObjectConst);
-	const PointLight* d4Const = CastTo<const PointLight*>(dObjectConst);
+	D_ASSERT(CastTo<const DirectionalLight*>(dObjectConst) != nullptr);
+	D_ASSERT(CastTo<const MeshRenderer*>(dObjectConst) == nullptr);
+	D_ASSERT(CastTo<const PointLight*>(dObjectConst) == nullptr);
 
 	auto str = DirectionalLight::CLASS_NAME_STATIC();
 }
