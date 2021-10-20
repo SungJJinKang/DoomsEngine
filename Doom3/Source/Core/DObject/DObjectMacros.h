@@ -8,6 +8,7 @@
 #include <Macros/MacrosHelper.h>
 #include <Macros/Assert.h>
 
+#include "DOBJECT_BASE_CHAIN.h"
 
 namespace doom
 {
@@ -43,12 +44,12 @@ template<doom::eDOBJECT_ClassFlags...flags> struct flag_or {
 
 #ifndef CLASS_FLAGS_FUNCTION
 
-#define CLASS_FLAGS_FUNCTION(...)																			\
-		public:																								\
-		constexpr static UINT32 CLASS_FLAGS_STATIC() {														\
-			return flag_or<eDOBJECT_ClassFlags::_Dummy, __VA_ARGS__>::value;								\
-		}																									\
-        virtual UINT32 CLASS_FLAGS() const { return CLASS_FLAGS_STATIC(); }									\
+#define CLASS_FLAGS_FUNCTION(CLASS_TYPE, ...)												\
+		public:																				\
+		constexpr static UINT32 CLASS_FLAGS_STATIC() {										\
+			return flag_or<eDOBJECT_ClassFlags::_Dummy, __VA_ARGS__>::value;				\
+		}																					\
+        virtual UINT32 GetClassFlags() const { return CLASS_TYPE::CLASS_FLAGS_STATIC(); }
 
 #endif
 
@@ -85,13 +86,13 @@ template<doom::eDOBJECT_ClassFlags...flags> struct flag_or {
 
 #ifndef TYPE_ID_IMP
 
-#define TYPE_ID_IMP(CLASS_TYPE)												\
-		public:																		\
-		static SIZE_T TYPE_ID_STATIC() {											\
-			static const SIZE_T TYPE_ID##CLASS_TYPE = TYPE_ID_HASH_CODE(CLASS_TYPE);\
-			return TYPE_ID##CLASS_TYPE;												\
-		}																			\
-        virtual SIZE_T TYPE_ID() const { return TYPE_ID_STATIC(); }					\
+#define TYPE_ID_IMP(CLASS_TYPE)																	\
+		public:																					\
+		static SIZE_T CLASS_TYPE_ID_STATIC() {													\
+			static const SIZE_T CLASS_TYPE_ID_##CLASS_TYPE = TYPE_ID_HASH_CODE(CLASS_TYPE);		\
+			return CLASS_TYPE_ID_##CLASS_TYPE;													\
+		}																						\
+        virtual SIZE_T GetClassTypeID() const { return CLASS_TYPE::CLASS_TYPE_ID_STATIC(); }		
 
 #endif
 
@@ -99,24 +100,12 @@ template<doom::eDOBJECT_ClassFlags...flags> struct flag_or {
 
 /////////////////////////////////
 
-namespace doom
-{
-	struct DOBJECT_BASE_CHAIN
-	{
-		SIZE_T BASE_CHAIN_COUNT;
-		std::vector<SIZE_T> BASE_CHAIN_TYPE_ID_LIST;
-
-		DOBJECT_BASE_CHAIN() : BASE_CHAIN_COUNT(0), BASE_CHAIN_TYPE_ID_LIST()
-		{}
-	};
-}
-
 
 
 #define DOBJECT_CLASS_BASE_CHAIN(BASE_DOBJECT_TYPE_CLASS)												\
 	protected:																							\
 	static DOBJECT_BASE_CHAIN BASE_CHAIN_HILLCLIMB() {													\
-		D_ASSERT(TYPE_ID_STATIC() != BASE_DOBJECT_TYPE_CLASS::TYPE_ID_STATIC());						\
+		D_ASSERT(CLASS_TYPE_ID_STATIC() != BASE_DOBJECT_TYPE_CLASS::CLASS_TYPE_ID_STATIC());						\
 		DOBJECT_BASE_CHAIN base_chain{};																\
 		BASE_DOBJECT_TYPE_CLASS::BASE_CHAIN_HILLCLIMB(base_chain);										\
 		D_ASSERT(base_chain.BASE_CHAIN_TYPE_ID_LIST.size() == base_chain.BASE_CHAIN_COUNT);				\
@@ -124,12 +113,12 @@ namespace doom
 	}																									\
 	static void BASE_CHAIN_HILLCLIMB(doom::DOBJECT_BASE_CHAIN& base_chain) {							\
 		base_chain.BASE_CHAIN_COUNT++;																	\
-		base_chain.BASE_CHAIN_TYPE_ID_LIST.push_back(TYPE_ID_STATIC());									\
+		base_chain.BASE_CHAIN_TYPE_ID_LIST.push_back(CLASS_TYPE_ID_STATIC());							\
         BASE_DOBJECT_TYPE_CLASS::BASE_CHAIN_HILLCLIMB(base_chain);										\
 	}																									\
 	public:																								\
 	inline static const DOBJECT_BASE_CHAIN BASE_CHAIN_STATIC = BASE_CHAIN_HILLCLIMB();					\
-	virtual const DOBJECT_BASE_CHAIN& GET_BASE_CHAIN() const { return BASE_CHAIN_STATIC; }
+	virtual const DOBJECT_BASE_CHAIN& GetBaseChain() const { return BASE_CHAIN_STATIC; }
 
 
 
@@ -139,13 +128,13 @@ namespace doom
 
 #ifndef CLASS_NAME_IMP
 
-#define CLASS_NAME_IMP(CLASS_TYPE)															\
-		public:																				\
-		static const std::string& CLASS_NAME_STATIC() {										\
-			static const std::string CLASS_NAME##CLASS_TYPE = #CLASS_TYPE;					\
-			return CLASS_NAME##CLASS_TYPE;													\
-		}																					\
-        virtual const std::string& CLASS_NAME() const { return CLASS_NAME_STATIC(); }		\
+#define CLASS_NAME_IMP(CLASS_TYPE)																		\
+		public:																							\
+		static const std::string& CLASS_NAME_STATIC() {													\
+			static const std::string CLASS_NAME##CLASS_TYPE = #CLASS_TYPE;								\
+			return CLASS_NAME##CLASS_TYPE;																\
+		}																								\
+        virtual const std::string& GetClassName() const { return CLASS_TYPE::CLASS_NAME_STATIC(); }		
 
 #endif
 
@@ -163,12 +152,13 @@ namespace doom
 #ifndef DCLASS_IMP
 
 #include "DClass.h"
-#define DCLASS_IMP(CLASS_TYPE)							\
-		public :										\
-		static doom::DClass StaticClass()				\
-		{												\
-			return CreateDClass<CLASS_TYPE>()			\
-		}												\
+#define DCLASS_IMP(CLASS_TYPE)															\
+		public :																		\
+		static doom::DClass StaticClass()												\
+		{																				\
+			return doom::CreateDClass<CLASS_TYPE>();									\
+		}																				\
+		virtual doom::DClass GetDClass() const { return CLASS_TYPE::StaticClass(); }
 
 #endif
 
@@ -177,10 +167,10 @@ namespace doom
 #ifndef DOBJECT_BODY_UNIFORM
 
 #define DOBJECT_BODY_UNIFORM(CLASS_TYPE, ...)										\
-		CLASS_FLAGS_FUNCTION(__VA_ARGS__)											\
+		CLASS_FLAGS_FUNCTION(CLASS_TYPE, __VA_ARGS__)								\
 		TYPE_ID_IMP(CLASS_TYPE)														\
 		CLASS_NAME_IMP(CLASS_TYPE)													\
-		DCLASS_IMP(CLASS_TYPE)														\
+		DCLASS_IMP(CLASS_TYPE)														
 
 #endif
 
@@ -199,7 +189,7 @@ namespace doom
 #ifndef DOBJECT_ABSTRACT_CLASS_BODY
 
 #define DOBJECT_ABSTRACT_CLASS_BODY(CLASS_TYPE, ...)								\
-		DOBJECT_BODY_UNIFORM(CLASS_TYPE, __VA_ARGS__)								\
+		DOBJECT_BODY_UNIFORM(CLASS_TYPE, doom::eDOBJECT_ClassFlags::NonCopyable, doom::eDOBJECT_ClassFlags::NonMovable, doom::eDOBJECT_ClassFlags::IsAbstract, __VA_ARGS__)		\
 		_CLONE_ABSTRACT_DOBJECT(CLASS_TYPE)											\
 
 #endif

@@ -120,7 +120,7 @@ namespace doom
 				mPlainComponents.emplace_back(newComponent);
 			}
 
-			mComponents[newComponent->TYPE_ID()].push_back(newComponent);
+			mComponents[newComponent->GetClassTypeID()].push_back(newComponent);
 
 
 			InitializeComponent(static_cast<Component*>(newComponent));
@@ -170,7 +170,7 @@ namespace doom
 
 			bool isRemoveSuccess{ false };
 			
-			std::vector<Component*>& targetComponents = mComponents[component->TYPE_ID()];
+			std::vector<Component*>& targetComponents = mComponents[component->GetClassTypeID()];
 			D_ASSERT(targetComponents.size() > 0);
 			for(SIZE_T i = targetComponents.size() - 1; i >= 0 ; i--)
 			{

@@ -43,7 +43,7 @@ namespace doom
 		static void BASE_CHAIN_HILLCLIMB(doom::DOBJECT_BASE_CHAIN& base_chain)
 		{
 			base_chain.BASE_CHAIN_COUNT++;
-			base_chain.BASE_CHAIN_TYPE_ID_LIST.push_back(TYPE_ID_STATIC());
+			base_chain.BASE_CHAIN_TYPE_ID_LIST.push_back(CLASS_TYPE_ID_STATIC());
 		}
 	public:
 		inline static const DOBJECT_BASE_CHAIN BASE_CHAIN_STATIC{};
@@ -54,12 +54,12 @@ namespace doom
 		{
 			static_assert(IS_DOBJECT_TYPE(BASE_TYPE));
 
-			bool isChild = (BASE_TYPE::TYPE_ID_STATIC() == TYPE_ID());
+			bool isChild = (BASE_TYPE::CLASS_TYPE_ID_STATIC() == GetClassTypeID());
 
 			if (isChild == false)
 			{
 				const std::vector<SIZE_T>& base_chain_list = GET_BASE_CHAIN().BASE_CHAIN_TYPE_ID_LIST;
-				isChild = (base_chain_list.size() > BASE_TYPE::BASE_CHAIN_STATIC.BASE_CHAIN_COUNT) && (base_chain_list[base_chain_list.size() - 1 - BASE_TYPE::BASE_CHAIN_STATIC.BASE_CHAIN_COUNT] == BASE_TYPE::TYPE_ID_STATIC());
+				isChild = (base_chain_list.size() > BASE_TYPE::BASE_CHAIN_STATIC.BASE_CHAIN_COUNT) && (base_chain_list[base_chain_list.size() - 1 - BASE_TYPE::BASE_CHAIN_STATIC.BASE_CHAIN_COUNT] == BASE_TYPE::CLASS_TYPE_ID_STATIC());
 			}
 
 			return isChild;

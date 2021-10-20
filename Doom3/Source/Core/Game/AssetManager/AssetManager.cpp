@@ -180,7 +180,7 @@ void doom::assetimporter::AssetManager::OnEndOfFrame()
 
 void doom::assetimporter::AssetManager::ImportEntireAsset()
 {
-	CHECK_IS_EXECUTED_ON_MAIN_THREAD;
+	//CHECK_IS_EXECUTED_ON_MAIN_THREAD;
 
 	std::filesystem::path lastEntryPath{};
 
