@@ -232,5 +232,10 @@ void doom::GameLogicStartPoint::StartGameLogic()
 	auto b3 = IsA<DirectionalLight>(static_cast<DObject*>(dirLight));
 	auto b4 = IsA<PointLight>(static_cast<DObject*>(dirLight));
 
+	DObject* obj = static_cast<DObject*>(dirLight);
+	auto c1 = CastTo<DirectionalLight*>(dirLight);
+	auto c2 = CastTo<PointLight*>(dirLight);
+	auto c3 = CastTo<MeshRenderer*>(dirLight);
+
 	auto str = DirectionalLight::CLASS_NAME_STATIC();
 }

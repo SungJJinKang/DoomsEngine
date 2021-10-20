@@ -9,6 +9,9 @@
 #include "DObjectMacros.h"
 #include "Macros/Assert.h"
 
+#define REMOVE_POINTER_T(POINTER_TYPE) std::remove_pointer_t<POINTER_TYPE>
+#define IS_POINTER_TYPE(POINTER_TYPE) std::is_pointer_v<POINTER_TYPE>
+
 namespace doom
 {
 	template <typename DObjectType, typename... Args>
@@ -49,8 +52,8 @@ namespace doom
 	}
 
 #define CASTING_STATIC_ASSERT(CASTING_TYPE)																													\
-static_assert(std::is_pointer_v<CASTING_TYPE> == true, "Please Pass Pointer Type as IsA function's template argument");										\
-static_assert(IS_DOBJECT_TYPE(std::remove_pointer_t<CASTING_TYPE>) == true, "Please Pass DObject's child Type as IsA function's template argument");		\
+static_assert(IS_POINTER_TYPE(CASTING_TYPE) == true, "Please Pass Pointer Type as IsA function's template argument");										\
+static_assert(IS_DOBJECT_TYPE(REMOVE_POINTER_T(CASTING_TYPE)) == true, "Please Pass DObject's child Type as IsA function's template argument");		\
 
 
 	template <typename CompareType>
@@ -67,6 +70,38 @@ static_assert(IS_DOBJECT_TYPE(std::remove_pointer_t<CASTING_TYPE>) == true, "Ple
 	{
 		return IsA<CompareType>(dObject);
 	}
+
+	namespace details
+	{
+		template
+			<
+			typename FromCastingType,
+			typename ToCastingType,
+			std::enable_if_t<std::is_base_of_v<REMOVE_POINTER_T(ToCastingType), REMOVE_POINTER_T(FromCastingType)>, bool> = true
+			>
+			FORCE_INLINE ToCastingType CastToImp(FromCastingType dObject)
+		{
+			CASTING_STATIC_ASSERT(FromCastingType);
+			CASTING_STATIC_ASSERT(ToCastingType);
+
+			return reinterpret_cast<ToCastingType>(dObject);
+		}
+
+		template
+			<
+			typename FromCastingType,
+			typename ToCastingType
+			>
+			FORCE_INLINE ToCastingType CastToImp(FromCastingType dObject)
+		{
+			CASTING_STATIC_ASSERT(FromCastingType);
+			CASTING_STATIC_ASSERT(ToCastingType);
+			
+			return (IsA<REMOVE_POINTER_T(ToCastingType)>(dObject) == true) ? reinterpret_cast<ToCastingType>(dObject) : nullptr;
+
+		}
+	}
+
 
 	/// <summary>
 	/// Cast passed dObject to CastingType ( template argument )
@@ -86,8 +121,8 @@ static_assert(IS_DOBJECT_TYPE(std::remove_pointer_t<CASTING_TYPE>) == true, "Ple
 
 		CastingType castedDObject = nullptr;
 
-		D_ASSERT(IsA<std::remove_pointer_t<CastingType>>(dObject) == true);
-		if(IsA<std::remove_pointer_t<CastingType>>(dObject) == true)
+		//D_ASSERT(IsA<std::remove_pointer_t<CastingType>>(dObject) == true);
+		if(IsA<REMOVE_POINTER_T(CastingType)>(dObject) == true)
 		{
 			castedDObject = reinterpret_cast<CastingType>(dObject);
 		}
@@ -101,8 +136,8 @@ static_assert(IS_DOBJECT_TYPE(std::remove_pointer_t<CASTING_TYPE>) == true, "Ple
 
 		CastingType castedDObject = nullptr;
 
-		D_ASSERT(IsA<std::remove_pointer_t<CastingType>>(dObject) == true);
-		if (IsA<std::remove_pointer_t<CastingType>>(dObject) == true)
+		//D_ASSERT(IsA<std::remove_pointer_t<CastingType>>(dObject) == true);
+		if (IsA<REMOVE_POINTER_T(CastingType)>(dObject) == true)
 		{
 			castedDObject = reinterpret_cast<CastingType>(dObject);
 		}
@@ -127,7 +162,7 @@ static_assert(IS_DOBJECT_TYPE(std::remove_pointer_t<CASTING_TYPE>) == true, "Ple
 	{
 		CASTING_STATIC_ASSERT(CastingType);
 
-		D_ASSERT(IsA<std::remove_pointer_t<CastingType>>(dObject) == true);
+		D_ASSERT(IsA<REMOVE_POINTER_T(CastingType)>(dObject) == true);
 		return reinterpret_cast<CastingType>(dObject);
 	}
 	template <typename CastingType>
@@ -135,7 +170,7 @@ static_assert(IS_DOBJECT_TYPE(std::remove_pointer_t<CASTING_TYPE>) == true, "Ple
 	{
 		CASTING_STATIC_ASSERT(CastingType);
 
-		D_ASSERT(IsA<std::remove_pointer_t<CastingType>>(dObject) == true);
+		D_ASSERT(IsA<REMOVE_POINTER_T(CastingType)>(dObject) == true);
 		return reinterpret_cast<CastingType>(dObject);
 	}
 }
