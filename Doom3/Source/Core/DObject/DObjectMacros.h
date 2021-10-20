@@ -117,8 +117,12 @@ template<doom::eDOBJECT_ClassFlags...flags> struct flag_or {
         BASE_DOBJECT_TYPE_CLASS::BASE_CHAIN_HILLCLIMB(base_chain);										\
 	}																									\
 	public:																								\
-	inline static const DOBJECT_BASE_CHAIN BASE_CHAIN_STATIC = BASE_CHAIN_HILLCLIMB();					\
-	virtual const DOBJECT_BASE_CHAIN& GetBaseChain() const { return BASE_CHAIN_STATIC; }
+	inline static const doom::DOBJECT_BASE_CHAIN& BASE_CHAIN_STATIC()									\
+	{																									\
+		static const doom::DOBJECT_BASE_CHAIN _BASE_CHAIN = BASE_CHAIN_HILLCLIMB();						\
+		return _BASE_CHAIN;																				\
+	}																									\
+	virtual const doom::DOBJECT_BASE_CHAIN& GetBaseChain() const { return BASE_CHAIN_STATIC(); }
 
 
 
@@ -131,6 +135,7 @@ template<doom::eDOBJECT_ClassFlags...flags> struct flag_or {
 #define CLASS_NAME_IMP(CLASS_TYPE)																		\
 		public:																							\
 		static const std::string& CLASS_NAME_STATIC() {													\
+			/* doom::Renderer 이런식으로 타입 적었을 때 대비해야한다. 마지막 "::" 뒤의 문자열만 저장되어야한다   */		\
 			static const std::string CLASS_NAME##CLASS_TYPE = #CLASS_TYPE;								\
 			return CLASS_NAME##CLASS_TYPE;																\
 		}																								\

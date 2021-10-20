@@ -45,9 +45,15 @@ namespace doom
 			base_chain.BASE_CHAIN_COUNT++;
 			base_chain.BASE_CHAIN_TYPE_ID_LIST.push_back(CLASS_TYPE_ID_STATIC());
 		}
+
 	public:
-		inline static const DOBJECT_BASE_CHAIN BASE_CHAIN_STATIC{};
-		virtual const DOBJECT_BASE_CHAIN& GET_BASE_CHAIN() const { return BASE_CHAIN_STATIC; }
+
+		inline static const doom::DOBJECT_BASE_CHAIN& BASE_CHAIN_STATIC()									
+		{																									
+			static const doom::DOBJECT_BASE_CHAIN _BASE_CHAIN{};						
+			return _BASE_CHAIN;																				
+		}
+		virtual const DOBJECT_BASE_CHAIN& GET_BASE_CHAIN() const { return BASE_CHAIN_STATIC(); }
 
 		template <typename BASE_TYPE>
 		FORCE_INLINE bool IsChildOf() const
@@ -59,7 +65,7 @@ namespace doom
 			if (isChild == false)
 			{
 				const std::vector<SIZE_T>& base_chain_list = GET_BASE_CHAIN().BASE_CHAIN_TYPE_ID_LIST;
-				isChild = (base_chain_list.size() > BASE_TYPE::BASE_CHAIN_STATIC.BASE_CHAIN_COUNT) && (base_chain_list[base_chain_list.size() - 1 - BASE_TYPE::BASE_CHAIN_STATIC.BASE_CHAIN_COUNT] == BASE_TYPE::CLASS_TYPE_ID_STATIC());
+				isChild = (base_chain_list.size() > BASE_TYPE::BASE_CHAIN_STATIC().BASE_CHAIN_COUNT) && (base_chain_list[base_chain_list.size() - 1 - BASE_TYPE::BASE_CHAIN_STATIC().BASE_CHAIN_COUNT] == BASE_TYPE::CLASS_TYPE_ID_STATIC());
 			}
 
 			return isChild;
