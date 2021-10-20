@@ -118,6 +118,7 @@ namespace doom
 		D_ASSERT(TYPE_ID_STATIC() != BASE_DOBJECT_TYPE_CLASS::TYPE_ID_STATIC());						\
 		DOBJECT_BASE_CHAIN base_chain{};																\
 		BASE_DOBJECT_TYPE_CLASS::BASE_CHAIN_HILLCLIMB(base_chain);										\
+		D_ASSERT(base_chain.BASE_CHAIN_TYPE_ID_LIST.size() == base_chain.BASE_CHAIN_COUNT);				\
 		return base_chain;																				\
 	}																									\
 	static void BASE_CHAIN_HILLCLIMB(doom::DOBJECT_BASE_CHAIN& base_chain) {							\
@@ -144,15 +145,6 @@ namespace doom
 			return CLASS_NAME##CLASS_TYPE;													\
 		}																					\
         virtual const std::string& CLASS_NAME() const { return CLASS_NAME_STATIC(); }		\
-
-#endif
-
-/////////////////////////////////
-
-#ifndef _HAS_VIRTUAL_DESTRUCTOR
-
-#define _HAS_VIRTUAL_DESTRUCTOR(CLASS_TYPE)																		\
-	static_assert(std::has_virtual_destructor_v<CLASS_TYPE> == true, "Please put virtual(!!) to Destructor");	\
 
 #endif
 
