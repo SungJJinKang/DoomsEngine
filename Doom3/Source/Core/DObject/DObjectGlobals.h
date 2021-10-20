@@ -55,6 +55,10 @@ namespace doom
 static_assert(IS_POINTER_TYPE(CASTING_TYPE) == true, "Please Pass Pointer Type as IsA function's template argument");										\
 static_assert(IS_DOBJECT_TYPE(REMOVE_POINTER_T(CASTING_TYPE)) == true, "Please Pass DObject's child Type as IsA function's template argument");		\
 
+#define CASTING_STATIC_ASSERT_PAIR(FROM_CASTING_TYPE, TO_CASTING_TYPE)		\
+		CASTING_STATIC_ASSERT(FROM_CASTING_TYPE);							\
+		CASTING_STATIC_ASSERT(TO_CASTING_TYPE);								\
+		static_assert( ( std::conditional<std::is_const_v<REMOVE_POINTER_T(FROM_CASTING_TYPE)>, std::is_const<REMOVE_POINTER_T(TO_CASTING_TYPE)>, std::bool_constant<true>>::type::value ) == true, "If FromCasting Type is const-qualified type, ToCasting type should be const-qualified type")
 
 	template <typename CompareType>
 	FORCE_INLINE bool IsA(const DObject* const dObject)
@@ -76,8 +80,7 @@ static_assert(IS_DOBJECT_TYPE(REMOVE_POINTER_T(CASTING_TYPE)) == true, "Please P
 		template<typename ToCastingType, typename FromCastingType>
 		FORCE_INLINE ToCastingType CastToImp(FromCastingType dObject)
 		{
-			CASTING_STATIC_ASSERT(FromCastingType);
-			CASTING_STATIC_ASSERT(ToCastingType);
+			CASTING_STATIC_ASSERT_PAIR(FromCastingType, ToCastingType);
 
 			return (dObject != nullptr && IsA<REMOVE_POINTER_T(ToCastingType)>(dObject) == true) ? reinterpret_cast<ToCastingType>(dObject) : nullptr;
 		}
@@ -85,8 +88,7 @@ static_assert(IS_DOBJECT_TYPE(REMOVE_POINTER_T(CASTING_TYPE)) == true, "Please P
 		template<typename ToCastingType, typename FromCastingType>
 		FORCE_INLINE ToCastingType CastToUncheckedImp(FromCastingType dObject)
 		{
-			CASTING_STATIC_ASSERT(FromCastingType);
-			CASTING_STATIC_ASSERT(ToCastingType);
+			CASTING_STATIC_ASSERT_PAIR(FromCastingType, ToCastingType);
 
 			return reinterpret_cast<ToCastingType>(dObject);
 		}
@@ -107,8 +109,7 @@ static_assert(IS_DOBJECT_TYPE(REMOVE_POINTER_T(CASTING_TYPE)) == true, "Please P
 	template<typename ToCastingType, typename FromCastingType>
 	FORCE_INLINE ToCastingType CastTo(FromCastingType dObject)
 	{
-		CASTING_STATIC_ASSERT(FromCastingType);
-		CASTING_STATIC_ASSERT(ToCastingType);
+		CASTING_STATIC_ASSERT_PAIR(FromCastingType, ToCastingType);
 
 		if constexpr(std::is_base_of_v<REMOVE_POINTER_T(ToCastingType), REMOVE_POINTER_T(FromCastingType)> == true)
 		{
@@ -123,11 +124,10 @@ static_assert(IS_DOBJECT_TYPE(REMOVE_POINTER_T(CASTING_TYPE)) == true, "Please P
 	template<typename ToCastingType, typename FromCastingType>
 	FORCE_INLINE ToCastingType CastToUnchecked(FromCastingType dObject)
 	{
-		CASTING_STATIC_ASSERT(FromCastingType);
-		CASTING_STATIC_ASSERT(ToCastingType);
+		CASTING_STATIC_ASSERT_PAIR(FromCastingType, ToCastingType);
 
 		//In Unchecked Casting, Check if correct
-		D_ASSERT_LOG(IsA<REMOVE_POINTER_T(ToCastingType)>(dObject) == true, "Unchecked Casting looks incorrect");
+		D_ASSERT_LOG( (dObject != nullptr) && (IsA<REMOVE_POINTER_T(ToCastingType)>(dObject) == true) , "Unchecked Casting looks incorrect");
 
 		return details::CastToUncheckedImp<ToCastingType>(dObject);
 	}

@@ -142,13 +142,6 @@ namespace doom
 				return UserInput_Server::mKeyState[static_cast<INT32>(keyCode) - static_cast<INT32>(FIRST_KEY_CODE)] == eKeyState::UP;
 			}
 
-			/// <summary>
-			/// Key is pressed? ( not being pressed, if you want this use GetKey )
-			/// TODO : 현재는 그냥 안누른 상태를 TRUE로 리턴한다
-			/// TODO : 내가 원하는건 누르고 있다 안누른 그 순간을 TRUE로 리턴하는거다
-			/// </summary>
-			/// <param name="keyCode"></param>
-			/// <returns></returns>
 			[[nodiscard]] FORCE_INLINE static bool GetKeyDown(eKEY_CODE keyCode) noexcept
 			{
 				return UserInput_Server::mKeyState[static_cast<INT32>(keyCode) - static_cast<INT32>(FIRST_KEY_CODE)] == eKeyState::PRESS_DOWN;

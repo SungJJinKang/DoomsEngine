@@ -220,5 +220,32 @@ void doom::GameLogicStartPoint::StartGameLogic()
 		"F3 : 디퍼드렌더링 디버거 ON/OFF | F4 : 멀티스레드 뷰프러스텀 컬링 ON/OFF | F5 : 오브젝트 FRONT TO BACK ON / OFF | F6 : 오버드로우 디버거 ON / OFF | F7 : 충돌 처리 디버깅 ON / OFF"
 	);
 
+	auto a = Renderer::TYPE_ID_STATIC();
+	auto b = MeshRenderer::TYPE_ID_STATIC();
+	auto c = DirectionalLight::TYPE_ID_STATIC();
+
+	auto d = dirLight->TYPE_ID();
+	auto e = typeid(*dirLight).hash_code();
+
+	auto b1 = IsA<DObject>(static_cast<DObject*>(dirLight));
+	auto b2 = IsA<Light>(static_cast<DObject*>(dirLight));
+	auto b3 = IsA<DirectionalLight>(static_cast<DObject*>(dirLight));
+	auto b4 = IsA<PointLight>(static_cast<DObject*>(dirLight));
 	
+	auto c2 = CastTo<DirectionalLight*>(dirLight);
+	auto c3 = CastTo<PointLight*>(dirLight);
+	auto c4= CastTo<MeshRenderer*>(dirLight);
+
+
+	DObject* dObject = CastTo<DObject*>(dirLight);
+	const DirectionalLight* d2 = CastTo<const DirectionalLight*>(dObject);
+	MeshRenderer* d3 = CastTo<MeshRenderer*>(dObject);
+	PointLight* d4 = CastTo<PointLight*>(dObject);
+
+	const DObject* dObjectConst = CastTo<DObject*>(dirLight);
+	const DirectionalLight* d2Const = CastTo<const DirectionalLight*>(dObjectConst);
+	const MeshRenderer* d3Const = CastTo<const MeshRenderer*>(dObjectConst);
+	const PointLight* d4Const = CastTo<const PointLight*>(dObjectConst);
+
+	auto str = DirectionalLight::CLASS_NAME_STATIC();
 }

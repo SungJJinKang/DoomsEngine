@@ -15,14 +15,9 @@ namespace doom
 		{
 			DOBJECT_CLASS_BODY(Time_Server, doom::eDOBJECT_ClassFlags::NonCopyable);
 			DOBJECT_CLASS_BASE_CHAIN(IGameFlow)
-
-			//TODO : Remove friend class
-			friend class ::doom::GameCore;
-
-		private:
-
+				
+		public:
 			
-		
 			void Init() noexcept override;
 			void Update() noexcept override;
 			void OnEndOfFrame() noexcept override;

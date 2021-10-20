@@ -1692,6 +1692,9 @@
     <None Include="Source\GameLogic\Portfolio.inl">
       <Filter>Header Files</Filter>
     </None>
+    <None Include="Source\GameLogic\ReflectionTest.inl">
+      <Filter>Header Files</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Text Include="Source\Core\Graphics\ReadThis!!!!.txt" />

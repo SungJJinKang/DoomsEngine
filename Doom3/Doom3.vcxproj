@@ -870,6 +870,7 @@
     <None Include="Source\GameLogic\OverDrawVisualizationTest.inl" />
     <None Include="Source\GameLogic\Portfolio.inl" />
     <None Include="Source\GameLogic\RayCastTest.inl" />
+    <None Include="Source\GameLogic\ReflectionTest.inl" />
     <None Include="Source\GameLogic\ViewFrustumCullingDebug.inl" />
     <None Include="Source\Helper\DeferredConstant\.git" />
     <None Include="Source\Helper\DeferredConstant\README.md" />
