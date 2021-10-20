@@ -395,6 +395,7 @@
     <ClInclude Include="Source\Component\Core\ComponentHelper.h" />
     <ClInclude Include="Source\Core\Asset\AssetsForwardDeclaration.h" />
     <ClInclude Include="Source\Core\Asset\Helper\AssetFactory.h" />
+    <ClInclude Include="Source\Core\DObject\DClass.h" />
     <ClInclude Include="Source\Core\DObject\DObjectHeaders.h" />
     <ClInclude Include="Source\Core\DObject\DObjectMacros.h" />
     <ClInclude Include="Source\Core\Game\AssetManager\AssetFuture.h" />

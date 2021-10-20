@@ -8,6 +8,7 @@
 #include <Macros/MacrosHelper.h>
 #include <Macros/Assert.h>
 
+
 namespace doom
 {
 	class DObject;
@@ -159,6 +160,17 @@ namespace doom
 
 /////////////////////////////////
 
+#ifndef DCLASS_IMP
+
+#include "DClass.h"
+#define DCLASS_IMP(CLASS_TYPE)							\
+		public :										\
+		static doom::DClass StaticClass()				\
+		{												\
+			return CreateDClass<CLASS_TYPE>()			\
+		}												\
+
+#endif
 
 /////////////////////////////////
 
@@ -168,6 +180,7 @@ namespace doom
 		CLASS_FLAGS_FUNCTION(__VA_ARGS__)											\
 		TYPE_ID_IMP(CLASS_TYPE)														\
 		CLASS_NAME_IMP(CLASS_TYPE)													\
+		DCLASS_IMP(CLASS_TYPE)														\
 
 #endif
 
