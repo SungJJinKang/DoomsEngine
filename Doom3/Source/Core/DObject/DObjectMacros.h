@@ -117,13 +117,12 @@ template<doom::eDOBJECT_ClassFlags...flags> struct flag_or {
         BASE_DOBJECT_TYPE_CLASS::BASE_CHAIN_HILLCLIMB(base_chain);										\
 	}																									\
 	public:																								\
-	FORCE_INLINE static const doom::DOBJECT_BASE_CHAIN& BASE_CHAIN_STATIC()									\
+	FORCE_INLINE static const doom::DOBJECT_BASE_CHAIN& BASE_CHAIN_STATIC()								\
 	{																									\
 		static const doom::DOBJECT_BASE_CHAIN _BASE_CHAIN = BASE_CHAIN_HILLCLIMB();						\
 		return _BASE_CHAIN;																				\
 	}																									\
 	virtual const doom::DOBJECT_BASE_CHAIN& GetBaseChain() const { return BASE_CHAIN_STATIC(); }
-
 
 
 /////////////////////////////////

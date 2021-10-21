@@ -244,8 +244,10 @@ void doom::GameLogicStartPoint::StartGameLogic()
 	constexpr const char* c6= DirectionalLight::CLASS_NAME_STATIC();
 	D_ASSERT(std::strcmp(c6, "DirectionalLight") == 0);
 	constexpr auto c7= DirectionalLight::CLASS_TYPE_ID_STATIC();
-
+	
 	D_ASSERT(dirLight->GetOwnerEntity()->GetComponent<DirectionalLight>() != nullptr);
+	D_ASSERT(IsServerComponent(dirLight) == true);
+	D_ASSERT(IsPlainComponent(dirLight) == false);
 
 
 	D_ASSERT(DObject::CLASS_TYPE_ID_STATIC() != MeshRenderer::CLASS_TYPE_ID_STATIC());

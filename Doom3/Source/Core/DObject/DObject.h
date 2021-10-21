@@ -48,12 +48,12 @@ namespace doom
 
 	public:
 
-		inline static const doom::DOBJECT_BASE_CHAIN& BASE_CHAIN_STATIC()									
+		FORCE_INLINE static const doom::DOBJECT_BASE_CHAIN& BASE_CHAIN_STATIC()									
 		{																									
 			static const doom::DOBJECT_BASE_CHAIN _BASE_CHAIN{};						
 			return _BASE_CHAIN;																				
 		}
-		virtual const DOBJECT_BASE_CHAIN& GET_BASE_CHAIN() const { return BASE_CHAIN_STATIC(); }
+		virtual const DOBJECT_BASE_CHAIN& GetBaseChain() const { return BASE_CHAIN_STATIC(); }
 
 		template <typename BASE_TYPE>
 		FORCE_INLINE bool IsChildOf() const
@@ -64,7 +64,7 @@ namespace doom
 
 			if (isChild == false)
 			{
-				const DOBJECT_BASE_CHAIN& base_chain = GET_BASE_CHAIN();
+				const DOBJECT_BASE_CHAIN& base_chain = GetBaseChain();
 				isChild = (base_chain.BASE_CHAIN_COUNT > BASE_TYPE::BASE_CHAIN_STATIC().BASE_CHAIN_COUNT) && (base_chain.BASE_CHAIN_TYPE_ID_LIST[base_chain.BASE_CHAIN_COUNT - 1 - BASE_TYPE::BASE_CHAIN_STATIC().BASE_CHAIN_COUNT] == BASE_TYPE::CLASS_TYPE_ID_STATIC());
 			}
 
