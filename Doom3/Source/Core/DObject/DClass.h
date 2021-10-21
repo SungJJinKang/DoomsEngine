@@ -11,7 +11,7 @@ namespace doom
 	class DObject;
 	struct DClass /*: public doom::DObject*/ // Dont Do this
 	{
-		const SIZE_T CLASS_TYPE_ID;
+		const char* CLASS_TYPE_ID;
 		const DOBJECT_BASE_CHAIN BASE_CHAIN;
 		const std::string CLASS_NAME;
 		const UINT32 CLASS_FLAGS;
@@ -22,9 +22,9 @@ namespace doom
 		*/
 		DClass
 		(
-			const SIZE_T _CLASS_TYPE_ID,
+			const char* _CLASS_TYPE_ID,
 			const DOBJECT_BASE_CHAIN& _BASE_CHAIN,
-			const std::string& _CLASS_NAME,
+			const char* _CLASS_NAME,
 			const UINT32 _CLASS_FLAGS
 		) : CLASS_TYPE_ID(_CLASS_TYPE_ID), BASE_CHAIN(_BASE_CHAIN), CLASS_NAME(_CLASS_NAME), CLASS_FLAGS(_CLASS_FLAGS)
 		{}

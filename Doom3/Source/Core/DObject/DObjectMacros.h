@@ -19,7 +19,7 @@ namespace doom
 
 #ifndef TYPE_ID_HASH_CODE
 
-#define TYPE_ID_HASH_CODE(CLASS_TYPE) typeid(CLASS_TYPE).hash_code()
+//#define TYPE_ID_HASH_CODE(CLASS_TYPE) typeid(CLASS_TYPE).hash_code()
 
 #endif
 
@@ -86,13 +86,12 @@ template<doom::eDOBJECT_ClassFlags...flags> struct flag_or {
 
 #ifndef TYPE_ID_IMP
 
-#define TYPE_ID_IMP(CLASS_TYPE)																	\
-		public:																					\
-		static SIZE_T CLASS_TYPE_ID_STATIC() {													\
-			static const SIZE_T CLASS_TYPE_ID_##CLASS_TYPE = TYPE_ID_HASH_CODE(CLASS_TYPE);		\
-			return CLASS_TYPE_ID_##CLASS_TYPE;													\
-		}																						\
-        virtual SIZE_T GetClassTypeID() const { return CLASS_TYPE::CLASS_TYPE_ID_STATIC(); }		
+#define TYPE_ID_IMP(CLASS_TYPE)																							\
+		public:																											\
+		FORCE_INLINE static constexpr const char* CLASS_TYPE_ID_STATIC() {												\
+			return MAKE_STRING(CLASS_TYPE);																				\
+		}																												\
+        virtual const char* GetClassTypeID() const { return CLASS_TYPE::CLASS_TYPE_ID_STATIC(); }		
 
 #endif
 
@@ -101,7 +100,7 @@ template<doom::eDOBJECT_ClassFlags...flags> struct flag_or {
 /////////////////////////////////
 
 
-
+//TODO : Make This Resolved at Compile Time!!!
 #define DOBJECT_CLASS_BASE_CHAIN(BASE_DOBJECT_TYPE_CLASS)												\
 	private:																							\
 	using Base = BASE_DOBJECT_TYPE_CLASS; /* alias Base DObject Type Class */							\
@@ -110,12 +109,11 @@ template<doom::eDOBJECT_ClassFlags...flags> struct flag_or {
 		D_ASSERT(CLASS_TYPE_ID_STATIC() != BASE_DOBJECT_TYPE_CLASS::CLASS_TYPE_ID_STATIC());			\
 		DOBJECT_BASE_CHAIN base_chain{};																\
 		BASE_DOBJECT_TYPE_CLASS::BASE_CHAIN_HILLCLIMB(base_chain);										\
-		D_ASSERT(base_chain.BASE_CHAIN_TYPE_ID_LIST.size() == base_chain.BASE_CHAIN_COUNT);				\
 		return base_chain;																				\
 	}																									\
 	static void BASE_CHAIN_HILLCLIMB(doom::DOBJECT_BASE_CHAIN& base_chain) {							\
-		base_chain.BASE_CHAIN_COUNT++;																	\
-		base_chain.BASE_CHAIN_TYPE_ID_LIST.push_back(CLASS_TYPE_ID_STATIC());							\
+		base_chain.Increment_BASE_CHAIN_COUNT();														\
+		base_chain.BASE_CHAIN_TYPE_ID_LIST[base_chain.BASE_CHAIN_COUNT - 1] = CLASS_TYPE_ID_STATIC();	\
         BASE_DOBJECT_TYPE_CLASS::BASE_CHAIN_HILLCLIMB(base_chain);										\
 	}																									\
 	public:																								\
@@ -144,19 +142,12 @@ template<doom::eDOBJECT_ClassFlags...flags> struct flag_or {
 
 #endif
 
-/////////////////////////////////
-
-#ifndef _CHECK_DOBJECT_PARAMETER_TYPE_CORRECT
-
-#define _CHECK_DOBJECT_PARAMETER_TYPE_CORRECT(CLASS_TYPE)																				\
-		D_ASSERT_LOG(TYPE_ID_HASH_CODE(*this) == TYPE_ID_HASH_CODE(CLASS_TYPE), "Incorrect typeid ( %s )", MAKE_STRING(CLASS_TYPE));	\
-
-#endif
 
 /////////////////////////////////
 
 #ifndef DCLASS_IMP
 
+//TODO : If _BASE_CHAIN become resolved at compile time, Do This Also at Compile time
 #include "DClass.h"
 #define DCLASS_IMP(CLASS_TYPE)															\
 		public :																		\

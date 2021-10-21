@@ -236,6 +236,23 @@ void doom::GameLogicStartPoint::StartGameLogic()
 	auto c3 = CastTo<PointLight*>(dirLight);
 	auto c4= CastTo<MeshRenderer*>(dirLight);
 
+
+	//START TO TEST FROM HERE
+
+	constexpr auto c5= DirectionalLight::CLASS_FLAGS_STATIC();
+	constexpr auto c6= DirectionalLight::CLASS_NAME_STATIC();
+	constexpr auto c7= DirectionalLight::CLASS_TYPE_ID_STATIC();
+
+	D_ASSERT(dirLight->GetOwnerEntity()->GetComponent<DirectionalLight>() != nullptr);
+
+
+	D_ASSERT(DObject::CLASS_TYPE_ID_STATIC() != MeshRenderer::CLASS_TYPE_ID_STATIC());
+	D_ASSERT(ServerComponent::CLASS_TYPE_ID_STATIC() != MeshRenderer::CLASS_TYPE_ID_STATIC());
+	D_ASSERT(PlainComponent::CLASS_TYPE_ID_STATIC() != MeshRenderer::CLASS_TYPE_ID_STATIC());
+	D_ASSERT(Component::CLASS_TYPE_ID_STATIC() != MeshRenderer::CLASS_TYPE_ID_STATIC());
+	D_ASSERT(Component::CLASS_TYPE_ID_STATIC() != dirLight->GetClassTypeID());
+	
+
 	D_ASSERT(CastTo<DObject*>(dirLight) != nullptr);
 	D_ASSERT(CastTo<MeshRenderer*>(dirLight) == nullptr);
 	D_ASSERT(CastTo<PointLight*>(dirLight) == nullptr);
