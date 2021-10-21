@@ -239,8 +239,10 @@ void doom::GameLogicStartPoint::StartGameLogic()
 
 	//START TO TEST FROM HERE
 
+	//Test Compile Time Resolvation
 	constexpr auto c5= DirectionalLight::CLASS_FLAGS_STATIC();
-	constexpr auto c6= DirectionalLight::CLASS_NAME_STATIC();
+	constexpr const char* c6= DirectionalLight::CLASS_NAME_STATIC();
+	D_ASSERT(std::strcmp(c6, "DirectionalLight") == 0);
 	constexpr auto c7= DirectionalLight::CLASS_TYPE_ID_STATIC();
 
 	D_ASSERT(dirLight->GetOwnerEntity()->GetComponent<DirectionalLight>() != nullptr);
