@@ -6,8 +6,7 @@
 #include <Macros/DllMarcos.h>
 
 #include "DObjectMacros.h"
-
-#define INVALID_DOBJECT_ID 0x0000000000000000
+#include "DObject_Constant.h"
 
 namespace doom
 {

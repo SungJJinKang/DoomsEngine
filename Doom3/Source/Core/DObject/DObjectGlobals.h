@@ -65,8 +65,9 @@ static_assert(IS_DOBJECT_TYPE(REMOVE_POINTER_T(CASTING_TYPE)) == true, "Please P
 	{
 		static_assert(std::is_pointer_v<CompareType> == false, "Don't Pass Pointer Type as IsA function's template argument");						
 		static_assert(IS_DOBJECT_TYPE(CompareType) == true, "Please Pass DObject's child Type as IsA function's template argument");		
-			
-		return dObject->IsChildOf<CompareType>();
+		D_ASSERT(IsValid(dObject) == true);
+
+		return ( IsValid(dObject) == true ) && ( dObject->IsChildOf<CompareType>() );
 	}
 
 	template <typename CompareType>

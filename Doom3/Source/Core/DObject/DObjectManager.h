@@ -4,6 +4,9 @@
 
 #include <Macros/TypeDef.h>
 #include <Macros/DllMarcos.h>
+#include <CompilerMacros.h>
+
+#include "DObject_Constant.h"
 
 namespace doom
 {
@@ -32,7 +35,22 @@ namespace doom
 		static void DestroyAllDObjects(const bool force);
 		static void ClearConatiner();
 
-		static bool IsDObjectValid(const DObject* const dObject);
+		FORCE_INLINE static bool IsDObjectValid(const DObject* const dObject)
+		{
+			bool isValid = false;
+
+			if (dObject != nullptr)
+			{
+				std::unordered_map<DObject*, UINT64>::const_iterator iter = mDObjectsList.find(const_cast<DObject*>(dObject));
+				if (iter != mDObjectsList.end() && iter->second != INVALID_DOBJECT_ID)
+				{
+					isValid = true;
+				}
+			}
+
+
+			return isValid;
+		}
 
 		static bool IsEmpty();
 
