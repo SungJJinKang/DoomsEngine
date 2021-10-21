@@ -128,22 +128,6 @@ void doom::DObjectManager::ClearConatiner()
     mDObjectsList.~unordered_map();
 }
 
-bool doom::DObjectManager::IsDObjectValid(const DObject* const dObject)
-{
-	bool isValid = false;
-
-	if (dObject != nullptr)
-	{
-		std::unordered_map<DObject*, UINT64>::const_iterator iter = mDObjectsList.find(const_cast<DObject *>(dObject));
-		if (iter != mDObjectsList.end() && iter->second != INVALID_DOBJECT_ID)
-		{
-			isValid = true;
-		}
-	}
-
-
-	return isValid;
-}
 
 bool doom::DObjectManager::IsEmpty()
 {

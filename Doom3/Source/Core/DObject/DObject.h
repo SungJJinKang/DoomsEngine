@@ -6,8 +6,7 @@
 #include <Macros/DllMarcos.h>
 
 #include "DObjectMacros.h"
-
-#define INVALID_DOBJECT_ID 0x0000000000000000
+#include "DObject_Constant.h"
 
 namespace doom
 {
@@ -38,35 +37,17 @@ namespace doom
 	class DOOM_API DObject
 	{
 		DOBJECT_ABSTRACT_CLASS_BODY(DObject);
+		DOBJECT_ROOT_CLASS_BASE_CHAIN
 
-	protected:
-		static void BASE_CHAIN_HILLCLIMB(doom::DOBJECT_BASE_CHAIN& base_chain)
-		{
-			base_chain.Increment_BASE_CHAIN_COUNT();
-			base_chain.BASE_CHAIN_TYPE_ID_LIST[base_chain.BASE_CHAIN_COUNT - 1] = CLASS_TYPE_ID_STATIC();
-		}
 
 	public:
-
-		inline static const doom::DOBJECT_BASE_CHAIN& BASE_CHAIN_STATIC()									
-		{																									
-			static const doom::DOBJECT_BASE_CHAIN _BASE_CHAIN{};						
-			return _BASE_CHAIN;																				
-		}
-		virtual const DOBJECT_BASE_CHAIN& GET_BASE_CHAIN() const { return BASE_CHAIN_STATIC(); }
 
 		template <typename BASE_TYPE>
 		FORCE_INLINE bool IsChildOf() const
 		{
 			static_assert(IS_DOBJECT_TYPE(BASE_TYPE));
-
-			bool isChild = (BASE_TYPE::CLASS_TYPE_ID_STATIC() == GetClassTypeID());
-
-			if (isChild == false)
-			{
-				const DOBJECT_BASE_CHAIN& base_chain = GET_BASE_CHAIN();
-				isChild = (base_chain.BASE_CHAIN_COUNT > BASE_TYPE::BASE_CHAIN_STATIC().BASE_CHAIN_COUNT) && (base_chain.BASE_CHAIN_TYPE_ID_LIST[base_chain.BASE_CHAIN_COUNT - 1 - BASE_TYPE::BASE_CHAIN_STATIC().BASE_CHAIN_COUNT] == BASE_TYPE::CLASS_TYPE_ID_STATIC());
-			}
+			
+			const bool isChild = ( GetBaseChainCount() >= BASE_TYPE::BASE_CHAIN_COUNT_STATIC() ) && ( GetBaseChainData()[GetBaseChainCount() - BASE_TYPE::BASE_CHAIN_COUNT_STATIC()] == BASE_TYPE::CLASS_TYPE_ID_STATIC() );
 
 			return isChild;
 		}

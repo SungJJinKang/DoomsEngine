@@ -1,14 +1,12 @@
 #pragma once
 
-#include <typeinfo>
 #include <type_traits>
-#include <vector>
+#include <array>
 
 #include <Macros/TypeDef.h>
 #include <Macros/MacrosHelper.h>
 #include <Macros/Assert.h>
 
-#include "DOBJECT_BASE_CHAIN.h"
 
 namespace doom
 {
@@ -39,14 +37,14 @@ namespace doom
 
 
 template<doom::eDOBJECT_ClassFlags...flags> struct flag_or {
-	static constexpr UINT32 value = (static_cast<UINT32>(flags) | ...);
+	constexpr static UINT32 value = (static_cast<UINT32>(flags) | ...);
 };
 
 #ifndef CLASS_FLAGS_FUNCTION
 
 #define CLASS_FLAGS_FUNCTION(CLASS_TYPE, ...)												\
 		public:																				\
-		constexpr static UINT32 CLASS_FLAGS_STATIC() {										\
+		FORCE_INLINE constexpr static UINT32 CLASS_FLAGS_STATIC() {							\
 			return flag_or<eDOBJECT_ClassFlags::_Dummy, __VA_ARGS__>::value;				\
 		}																					\
         virtual UINT32 GetClassFlags() const { return CLASS_TYPE::CLASS_FLAGS_STATIC(); }
@@ -88,8 +86,10 @@ template<doom::eDOBJECT_ClassFlags...flags> struct flag_or {
 
 #define TYPE_ID_IMP(CLASS_TYPE)																							\
 		public:																											\
-		FORCE_INLINE static constexpr const char* CLASS_TYPE_ID_STATIC() {												\
-			return MAKE_STRING(CLASS_TYPE);																				\
+		constexpr static const char* const __CLASS_TYPE_ID = MAKE_STRING(CLASS_TYPE);									\
+		public:																											\
+		FORCE_INLINE constexpr static const char* CLASS_TYPE_ID_STATIC() {												\
+			return __CLASS_TYPE_ID;																						\
 		}																												\
         virtual const char* GetClassTypeID() const { return CLASS_TYPE::CLASS_TYPE_ID_STATIC(); }		
 
@@ -99,31 +99,92 @@ template<doom::eDOBJECT_ClassFlags...flags> struct flag_or {
 
 /////////////////////////////////
 
+namespace doom
+{
+	namespace details
+	{
+		//TODO : BASE_CHAIN 컴파일 타임에 연산 끝난 후 이 HILLCLIMB 함수들 뺄 수 있는 방법 찾자.
+		//		 BAES_CHAIN이 컴파일 타임에 연산된 후 사실상 이 HILLCLIMB 함수들은 필요가 없다. 
+		//		 모든 클래스 타입마다 함수가 하나씩 생기니 코드 크기 매우 크다. 실행파일에 안담기게 만들 방법 찾자. 
 
-//TODO : Make This Resolved at Compile Time!!!
-#define DOBJECT_CLASS_BASE_CHAIN(BASE_DOBJECT_TYPE_CLASS)												\
-	private:																							\
-	using Base = BASE_DOBJECT_TYPE_CLASS; /* alias Base DObject Type Class */							\
-	protected:																							\
-	static DOBJECT_BASE_CHAIN BASE_CHAIN_HILLCLIMB() {													\
-		D_ASSERT(CLASS_TYPE_ID_STATIC() != BASE_DOBJECT_TYPE_CLASS::CLASS_TYPE_ID_STATIC());			\
-		DOBJECT_BASE_CHAIN base_chain{};																\
-		BASE_DOBJECT_TYPE_CLASS::BASE_CHAIN_HILLCLIMB(base_chain);										\
-		return base_chain;																				\
-	}																									\
-	static void BASE_CHAIN_HILLCLIMB(doom::DOBJECT_BASE_CHAIN& base_chain) {							\
-		base_chain.Increment_BASE_CHAIN_COUNT();														\
-		base_chain.BASE_CHAIN_TYPE_ID_LIST[base_chain.BASE_CHAIN_COUNT - 1] = CLASS_TYPE_ID_STATIC();	\
-        BASE_DOBJECT_TYPE_CLASS::BASE_CHAIN_HILLCLIMB(base_chain);										\
-	}																									\
-	public:																								\
-	inline static const doom::DOBJECT_BASE_CHAIN& BASE_CHAIN_STATIC()									\
-	{																									\
-		static const doom::DOBJECT_BASE_CHAIN _BASE_CHAIN = BASE_CHAIN_HILLCLIMB();						\
-		return _BASE_CHAIN;																				\
-	}																									\
-	virtual const doom::DOBJECT_BASE_CHAIN& GetBaseChain() const { return BASE_CHAIN_STATIC(); }
+		template <typename BASE_DOBJECT_TYPE_CLASS>
+		extern constexpr void BASE_CHAIN_HILLCLIMB_COUNT(SIZE_T& base_chain_count)
+		{
+			base_chain_count++;
+			if constexpr (std::is_same_v<doom::DObject, BASE_DOBJECT_TYPE_CLASS> == false) {
+				BASE_CHAIN_HILLCLIMB_COUNT<typename BASE_DOBJECT_TYPE_CLASS::Base>(base_chain_count);
+			}
+		}
 
+		template <typename BASE_DOBJECT_TYPE_CLASS>
+		extern constexpr SIZE_T BASE_CHAIN_HILLCLIMB_COUNT()
+		{
+			SIZE_T base_chain_count = 1;
+			if constexpr (std::is_same_v <doom::DObject, BASE_DOBJECT_TYPE_CLASS > == false) {
+				BASE_CHAIN_HILLCLIMB_COUNT<typename BASE_DOBJECT_TYPE_CLASS::Base>(base_chain_count);
+			}
+			return base_chain_count;
+		}
+
+		template <typename BASE_DOBJECT_TYPE_CLASS, SIZE_T COUNT>
+		extern constexpr void BASE_CHAIN_HILLCLIMB_DATA(SIZE_T& count, std::array<const char*, COUNT>& chain_data)
+		{
+			chain_data[count] = BASE_DOBJECT_TYPE_CLASS::__CLASS_TYPE_ID;
+			count++;
+			if constexpr (std::is_same_v<doom::DObject, BASE_DOBJECT_TYPE_CLASS> == false) {
+				BASE_CHAIN_HILLCLIMB_DATA<typename BASE_DOBJECT_TYPE_CLASS::Base>(count, chain_data);
+			}
+		}
+
+		template <typename BASE_DOBJECT_TYPE_CLASS, SIZE_T COUNT>
+		extern constexpr std::array<const char*, COUNT> BASE_CHAIN_HILLCLIMB_DATA()
+		{
+			std::array<const char*, COUNT> chain_data{};
+			chain_data[0] = BASE_DOBJECT_TYPE_CLASS::__CLASS_TYPE_ID;
+			if constexpr (std::is_same_v <doom::DObject, BASE_DOBJECT_TYPE_CLASS > == false) {
+				SIZE_T count = 1;
+				BASE_CHAIN_HILLCLIMB_DATA<typename BASE_DOBJECT_TYPE_CLASS::Base>(count, chain_data);
+			}
+			return chain_data;
+		}
+	}
+}
+
+#define DOBJECT_ROOT_CLASS_BASE_CHAIN															\
+private:																						\
+	constexpr static SIZE_T _BASE_CHAIN_COUNT = 1;												\
+	constexpr static const std::array<const char*, 1> _BASE_CHAIN_DATA{ __CLASS_TYPE_ID };		\
+public:																							\
+	FORCE_INLINE constexpr static SIZE_T BASE_CHAIN_COUNT_STATIC()								\
+	{																							\
+		return 1;																				\
+	}																							\
+	FORCE_INLINE constexpr static const char* const* BASE_CHAIN_DATA_STATIC()					\
+	{																							\
+		return _BASE_CHAIN_DATA.data();															\
+	}																							\
+	virtual SIZE_T GetBaseChainCount() const { return BASE_CHAIN_COUNT_STATIC(); }				\
+	virtual const char* const* GetBaseChainData() const { return BASE_CHAIN_DATA_STATIC(); }
+
+
+#define DOBJECT_CLASS_BASE_CHAIN(BASE_DOBJECT_TYPE_CLASS)													\
+	static_assert(std::is_same_v<Current, BASE_DOBJECT_TYPE_CLASS> == false);								\
+	public:																									\
+	using Base = BASE_DOBJECT_TYPE_CLASS; /* alias Base DObject Type Class */								\
+	private:																								\
+	constexpr static SIZE_T _BASE_CHAIN_COUNT = doom::details::BASE_CHAIN_HILLCLIMB_COUNT<Current>();		\
+	constexpr static const std::array<const char*, _BASE_CHAIN_COUNT> _BASE_CHAIN_DATA = doom::details::BASE_CHAIN_HILLCLIMB_DATA<Current, _BASE_CHAIN_COUNT>();			\
+	public:																									\
+	FORCE_INLINE constexpr static SIZE_T BASE_CHAIN_COUNT_STATIC()											\
+	{																										\
+		return _BASE_CHAIN_COUNT;																			\
+	}																										\
+	FORCE_INLINE constexpr static const char* const * BASE_CHAIN_DATA_STATIC()								\
+	{																										\
+		return _BASE_CHAIN_DATA.data();																		\
+	}																										\
+	virtual SIZE_T GetBaseChainCount() const { return BASE_CHAIN_COUNT_STATIC(); }							\
+	virtual const char* const * GetBaseChainData() const { return BASE_CHAIN_DATA_STATIC(); }
 
 
 /////////////////////////////////
@@ -151,7 +212,7 @@ template<doom::eDOBJECT_ClassFlags...flags> struct flag_or {
 #include "DClass.h"
 #define DCLASS_IMP(CLASS_TYPE)															\
 		public :																		\
-		static doom::DClass StaticClass()												\
+		FORCE_INLINE static doom::DClass StaticClass()									\
 		{																				\
 			return doom::CreateDClass<CLASS_TYPE>();									\
 		}																				\
@@ -164,6 +225,8 @@ template<doom::eDOBJECT_ClassFlags...flags> struct flag_or {
 #ifndef DOBJECT_BODY_UNIFORM
 
 #define DOBJECT_BODY_UNIFORM(CLASS_TYPE, ...)										\
+		public:																		\
+		using Current = CLASS_TYPE;													\
 		CLASS_FLAGS_FUNCTION(CLASS_TYPE, __VA_ARGS__)								\
 		TYPE_ID_IMP(CLASS_TYPE)														\
 		CLASS_NAME_IMP(CLASS_TYPE)													\

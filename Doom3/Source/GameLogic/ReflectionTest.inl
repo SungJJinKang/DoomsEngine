@@ -27,6 +27,7 @@
 #include "BulletComponent.h"
 #include "ExportTextureTester.h"
 #include "FireBulletComponent.h"
+#include "TestComponent2.h"
 #include "PhysicsComponent/Rigidbody/Rigidbody.h"
 
 void doom::GameLogicStartPoint::StartGameLogic()
@@ -40,6 +41,8 @@ void doom::GameLogicStartPoint::StartGameLogic()
 	auto lightEntity = currenScene->CreateNewEntity();
 	lightEntity->GetTransform()->SetRotation(-30.0f, 0.0f, 0.0f);
 	auto dirLight = lightEntity->AddComponent<DirectionalLight>();
+	auto testComp1 = lightEntity->AddComponent<TestComponent>();
+	auto testComp2 = lightEntity->AddComponent<TestComponent2>();
 	dirLight->SetIntensity(3.0f);
 	dirLight->SetColor({ 1.0f, 1.0f, 1.0f, 1.0f });
 	//lightEntity->AddComponent<AutoRotate>();
@@ -236,7 +239,23 @@ void doom::GameLogicStartPoint::StartGameLogic()
 	auto c3 = CastTo<PointLight*>(dirLight);
 	auto c4= CastTo<MeshRenderer*>(dirLight);
 
-
+	/////////////////////////////////////////////////////////////////////////////
+	/////////////////////////////////////////////////////////////////////////////
+	/////////////////////////////////////////////////////////////////////////////
+	/////////////////////////////////////////////////////////////////////////////
+	/////////////////////////////////////////////////////////////////////////////
+	/////////////////////////////////////////////////////////////////////////////
+	/////////////////////////////////////////////////////////////////////////////
+	/////////////////////////////////////////////////////////////////////////////
+	/////////////////////////////////////////////////////////////////////////////
+	/////////////////////////////////////////////////////////////////////////////
+	/////////////////////////////////////////////////////////////////////////////
+	/////////////////////////////////////////////////////////////////////////////
+	/////////////////////////////////////////////////////////////////////////////
+	/////////////////////////////////////////////////////////////////////////////
+	/////////////////////////////////////////////////////////////////////////////
+	/////////////////////////////////////////////////////////////////////////////
+	/////////////////////////////////////////////////////////////////////////////
 	//START TO TEST FROM HERE
 
 	//Test Compile Time Resolvation
@@ -245,7 +264,27 @@ void doom::GameLogicStartPoint::StartGameLogic()
 	D_ASSERT(std::strcmp(c6, "DirectionalLight") == 0);
 	constexpr auto c7= DirectionalLight::CLASS_TYPE_ID_STATIC();
 
+
+	constexpr auto chainCount = DirectionalLight::BASE_CHAIN_COUNT_STATIC();
+	constexpr auto chainData = DirectionalLight::BASE_CHAIN_DATA_STATIC();
+	static_assert(chainData[0] == DirectionalLight::CLASS_TYPE_ID_STATIC());
+	static_assert(chainData[1] == Light::CLASS_TYPE_ID_STATIC());
+	static_assert(chainData[2] == ServerComponent::CLASS_TYPE_ID_STATIC());
+	static_assert(chainData[3] == Component::CLASS_TYPE_ID_STATIC());
+	static_assert(chainData[4] == DObject::CLASS_TYPE_ID_STATIC());
+
+
+	constexpr auto chain1Count = TestComponent2::BASE_CHAIN_COUNT_STATIC();
+	constexpr auto chain1Data = TestComponent2::BASE_CHAIN_DATA_STATIC();
+	static_assert(chain1Data[0] == TestComponent2::CLASS_TYPE_ID_STATIC());
+	static_assert(chain1Data[1] == TestComponent::CLASS_TYPE_ID_STATIC());
+	static_assert(chain1Data[2] == PlainComponent::CLASS_TYPE_ID_STATIC());
+	static_assert(chain1Data[3] == Component::CLASS_TYPE_ID_STATIC());
+	static_assert(chain1Data[4] == DObject::CLASS_TYPE_ID_STATIC());
+
 	D_ASSERT(dirLight->GetOwnerEntity()->GetComponent<DirectionalLight>() != nullptr);
+	D_ASSERT(IsServerComponent(dirLight) == true);
+	D_ASSERT(IsPlainComponent(dirLight) == false);
 
 
 	D_ASSERT(DObject::CLASS_TYPE_ID_STATIC() != MeshRenderer::CLASS_TYPE_ID_STATIC());
@@ -278,6 +317,10 @@ void doom::GameLogicStartPoint::StartGameLogic()
 	D_ASSERT(std::strcmp(dObjectConst->GetClassName(), "DirectionalLight") == 0);
 	D_ASSERT(std::strcmp(dObjectConst->GetClassName(), "PointLight") != 0);
 	D_ASSERT(std::strcmp(dObjectConst->GetClassName(), "Component") != 0);
+
+
+	D_ASSERT(CastTo<TestComponent*>(testComp2) != nullptr);
+	D_ASSERT(CastTo<TestComponent2*>(testComp1) == nullptr);
 
 	auto dclass = dObjectConst->GetDClass();
 }

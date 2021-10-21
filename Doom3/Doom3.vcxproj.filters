@@ -555,6 +555,9 @@
     <ClCompile Include="Source\Core\IO\AssetExporter\AssetExporter_Three_D_Model.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Source\GameLogic\CustomComponent\TestComponent2.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="dependency\glad\include\glad\glad.h">
@@ -1496,10 +1499,13 @@
     <ClInclude Include="Source\Core\DObject\DClass.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Core\DObject\DOBJECT_BASE_CHAIN.h">
+    <ClInclude Include="Source\Core\IO\AssetExporter\AssetExporter_Three_D_Model.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Core\IO\AssetExporter\AssetExporter_Three_D_Model.h">
+    <ClInclude Include="Source\Core\DObject\DObject_Constant.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\GameLogic\CustomComponent\TestComponent2.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
