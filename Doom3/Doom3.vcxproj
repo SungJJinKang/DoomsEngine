@@ -52,6 +52,8 @@
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v142</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
+    <EnableUnitySupport>false</EnableUnitySupport>
+    <EnableASAN>true</EnableASAN>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
@@ -59,6 +61,7 @@
     <PlatformToolset>v142</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
+    <EnableUnitySupport>false</EnableUnitySupport>
   </PropertyGroup>
   <PropertyGroup Label="Configuration" Condition="'$(Configuration)|$(Platform)'=='AMDuProf|Win32'">
     <PlatformToolset>v142</PlatformToolset>
@@ -285,8 +288,6 @@
     <ClCompile Include="Source\Core\utility\BVH\BVH_Node_Container.cpp" />
     <ClCompile Include="Source\Core\utility\BVH\BVH_Node_Object.cpp" />
     <ClCompile Include="Source\Core\utility\BVH\extension\BVH_AxisSweep3.cpp" />
-    <ClCompile Include="Source\Core\utility\BVH\test\BVH_TestRoom.cpp" />
-    <ClCompile Include="Source\Core\Physics\ColliderPickingTestRoom.cpp" />
     <ClCompile Include="Source\Core\Physics\Collider\CapsuleCollider.cpp" />
     <ClCompile Include="Source\Component\PhysicsComponent\CapsuleCollider3D.cpp" />
     <ClCompile Include="Source\Component\Rendering\Camera.cpp" />
@@ -365,7 +366,6 @@
     <ClCompile Include="Source\Core\utility\KDTree\KDTreeAABB.cpp" />
     <ClCompile Include="Source\Core\utility\KDTree\KDTreeNodeView.cpp" />
     <ClCompile Include="Source\Core\utility\KDTree\KDTreeVector.cpp" />
-    <ClCompile Include="Source\Core\utility\KDTree\test\KDTree_TestRoom.cpp" />
     <ClCompile Include="Source\Core\utility\SimpleIniParser.cpp" />
     <ClCompile Include="Source\Core\utility\TextImporter.cpp" />
     <ClCompile Include="Source\Core\WorldEditor\MapLoader.cpp" />
@@ -509,8 +509,6 @@
     <ClInclude Include="Source\Core\utility\BVH\BVH_Node_Container.h" />
     <ClInclude Include="Source\Core\utility\BVH\BVH_Node_Object.h" />
     <ClInclude Include="Source\Core\utility\BVH\extension\BVH_AxisSweep3.h" />
-    <ClInclude Include="Source\Core\utility\BVH\test\BVH_TestRoom.h" />
-    <ClInclude Include="Source\Core\Physics\ColliderPickingTestRoom.h" />
     <ClInclude Include="Source\Core\Physics\Collider\CapsuleCollider.h" />
     <ClInclude Include="Source\Component\PhysicsComponent\CapsuleCollider3D.h" />
     <ClInclude Include="dependency\glad\include\glad\glad.h" />
@@ -651,7 +649,6 @@
     <ClInclude Include="Source\Core\utility\KDTree\KDTreeCore.h" />
     <ClInclude Include="Source\Core\utility\KDTree\KDTreeNode.h" />
     <ClInclude Include="Source\Core\utility\KDTree\KDTreeNodeView.h" />
-    <ClInclude Include="Source\Core\utility\KDTree\test\KDTree_TestRoom.h" />
     <ClInclude Include="Source\Core\utility\SimpleIniParser.h" />
     <ClInclude Include="Source\Core\utility\TextImporter.h" />
     <ClInclude Include="Source\Core\utility\Tree.h" />

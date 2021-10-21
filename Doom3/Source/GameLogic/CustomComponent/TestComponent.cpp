@@ -1,6 +1,5 @@
 #include "TestComponent.h"
 
-#include <Physics/ColliderPickingTestRoom.h>
 
 #include <Game/ConfigData.h>
 
