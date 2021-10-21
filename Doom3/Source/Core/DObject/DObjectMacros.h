@@ -146,8 +146,21 @@ namespace doom
 	}
 }
 
-
-
+#define DOBJECT_ROOT_CLASS_BASE_CHAIN															\
+private:																						\
+	constexpr static SIZE_T _BASE_CHAIN_COUNT = 1;												\
+	constexpr static const std::array<const char*, 1> _BASE_CHAIN_DATA{ __CLASS_TYPE_ID };		\
+public:																							\
+	FORCE_INLINE constexpr static SIZE_T BASE_CHAIN_COUNT_STATIC()								\
+	{																							\
+		return 1;																				\
+	}																							\
+	FORCE_INLINE constexpr static const char* const* BASE_CHAIN_DATA_STATIC()					\
+	{																							\
+		return _BASE_CHAIN_DATA.data();															\
+	}																							\
+	virtual SIZE_T GetBaseChainCount() const { return BASE_CHAIN_COUNT_STATIC(); }				\
+	virtual const char* const* GetBaseChainData() const { return BASE_CHAIN_DATA_STATIC(); }
 
 
 #define DOBJECT_CLASS_BASE_CHAIN(BASE_DOBJECT_TYPE_CLASS)													\
@@ -156,7 +169,7 @@ namespace doom
 	using Base = BASE_DOBJECT_TYPE_CLASS; /* alias Base DObject Type Class */								\
 	private:																								\
 	constexpr static SIZE_T _BASE_CHAIN_COUNT = doom::details::BASE_CHAIN_HILLCLIMB_COUNT<Current>();		\
-	constexpr static std::array<const char*, _BASE_CHAIN_COUNT> _BASE_CHAIN_DATA = doom::details::BASE_CHAIN_HILLCLIMB_DATA<Current, _BASE_CHAIN_COUNT>();			\
+	constexpr static const std::array<const char*, _BASE_CHAIN_COUNT> _BASE_CHAIN_DATA = doom::details::BASE_CHAIN_HILLCLIMB_DATA<Current, _BASE_CHAIN_COUNT>();			\
 	public:																									\
 	FORCE_INLINE constexpr static SIZE_T BASE_CHAIN_COUNT_STATIC()											\
 	{																										\

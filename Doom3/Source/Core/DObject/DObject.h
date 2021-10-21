@@ -37,19 +37,10 @@ namespace doom
 	class DOOM_API DObject
 	{
 		DOBJECT_ABSTRACT_CLASS_BODY(DObject);
-		
-	public:
-		FORCE_INLINE constexpr static SIZE_T BASE_CHAIN_COUNT_STATIC()
-		{
-			return 0;
-		}
-		FORCE_INLINE constexpr static const char* const * BASE_CHAIN_DATA_STATIC()
-		{
-			return nullptr;
-		}
-		virtual SIZE_T GetBaseChainCount() const { return BASE_CHAIN_COUNT_STATIC(); }
-		virtual const char* const * GetBaseChainData() const { return BASE_CHAIN_DATA_STATIC(); }
+		DOBJECT_ROOT_CLASS_BASE_CHAIN
 
+
+	public:
 
 		template <typename BASE_TYPE>
 		FORCE_INLINE bool IsChildOf() const
