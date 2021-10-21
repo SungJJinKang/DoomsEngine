@@ -1517,9 +1517,6 @@
     <ClInclude Include="Source\Core\DObject\DClass.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Core\DObject\DOBJECT_BASE_CHAIN.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Core\IO\AssetExporter\AssetExporter_Three_D_Model.h">
       <Filter>Header Files</Filter>
     </ClInclude>

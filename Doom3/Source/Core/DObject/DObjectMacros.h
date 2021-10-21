@@ -1,14 +1,12 @@
 #pragma once
 
-#include <typeinfo>
 #include <type_traits>
-#include <vector>
+#include <array>
 
 #include <Macros/TypeDef.h>
 #include <Macros/MacrosHelper.h>
 #include <Macros/Assert.h>
 
-#include "DOBJECT_BASE_CHAIN.h"
 
 namespace doom
 {
@@ -106,25 +104,44 @@ namespace doom
 	namespace details
 	{
 		template <typename BASE_DOBJECT_TYPE_CLASS>
-		extern constexpr void BASE_CHAIN_HILLCLIMB(doom::DOBJECT_BASE_CHAIN& base_chain)
+		extern constexpr void BASE_CHAIN_HILLCLIMB_COUNT(SIZE_T& base_chain_count)
 		{
-			base_chain.Increment_BASE_CHAIN_COUNT();
-			base_chain.BASE_CHAIN_TYPE_ID_LIST[base_chain.BASE_CHAIN_COUNT - 1] = BASE_DOBJECT_TYPE_CLASS::__CLASS_TYPE_ID;
+			base_chain_count++;
 			if constexpr (std::is_same_v<doom::DObject, BASE_DOBJECT_TYPE_CLASS> == false) {
-				BASE_CHAIN_HILLCLIMB<typename BASE_DOBJECT_TYPE_CLASS::Base>(base_chain);
+				BASE_CHAIN_HILLCLIMB_COUNT<typename BASE_DOBJECT_TYPE_CLASS::Base>(base_chain_count);
 			}
 		}
 
 		template <typename BASE_DOBJECT_TYPE_CLASS>
-		extern constexpr doom::DOBJECT_BASE_CHAIN BASE_CHAIN_HILLCLIMB()
+		extern constexpr SIZE_T BASE_CHAIN_HILLCLIMB_COUNT()
 		{
-			doom::DOBJECT_BASE_CHAIN base_chain{};
-			base_chain.Increment_BASE_CHAIN_COUNT();
-			base_chain.BASE_CHAIN_TYPE_ID_LIST[base_chain.BASE_CHAIN_COUNT - 1] = BASE_DOBJECT_TYPE_CLASS::__CLASS_TYPE_ID;
+			SIZE_T base_chain_count = 1;
 			if constexpr (std::is_same_v <doom::DObject, BASE_DOBJECT_TYPE_CLASS > == false) {
-				BASE_CHAIN_HILLCLIMB<typename BASE_DOBJECT_TYPE_CLASS::Base>(base_chain);
+				BASE_CHAIN_HILLCLIMB_COUNT<typename BASE_DOBJECT_TYPE_CLASS::Base>(base_chain_count);
 			}
-			return base_chain;
+			return base_chain_count;
+		}
+
+		template <typename BASE_DOBJECT_TYPE_CLASS, SIZE_T COUNT>
+		extern constexpr void BASE_CHAIN_HILLCLIMB_DATA(SIZE_T& count, std::array<const char*, COUNT>& chain_data)
+		{
+			chain_data[count] = BASE_DOBJECT_TYPE_CLASS::__CLASS_TYPE_ID;
+			count++;
+			if constexpr (std::is_same_v<doom::DObject, BASE_DOBJECT_TYPE_CLASS> == false) {
+				BASE_CHAIN_HILLCLIMB_DATA<typename BASE_DOBJECT_TYPE_CLASS::Base>(count, chain_data);
+			}
+		}
+
+		template <typename BASE_DOBJECT_TYPE_CLASS, SIZE_T COUNT>
+		extern constexpr std::array<const char*, COUNT> BASE_CHAIN_HILLCLIMB_DATA()
+		{
+			std::array<const char*, COUNT> chain_data{};
+			chain_data[0] = BASE_DOBJECT_TYPE_CLASS::__CLASS_TYPE_ID;
+			if constexpr (std::is_same_v <doom::DObject, BASE_DOBJECT_TYPE_CLASS > == false) {
+				SIZE_T count = 1;
+				BASE_CHAIN_HILLCLIMB_DATA<typename BASE_DOBJECT_TYPE_CLASS::Base>(count, chain_data);
+			}
+			return chain_data;
 		}
 	}
 }
@@ -137,13 +154,19 @@ namespace doom
 	public:																									\
 	using Base = BASE_DOBJECT_TYPE_CLASS; /* alias Base DObject Type Class */								\
 	private:																								\
-	constexpr static const DOBJECT_BASE_CHAIN _BASE_CHAIN = doom::details::BASE_CHAIN_HILLCLIMB<Current>();	\
+	constexpr static SIZE_T _BASE_CHAIN_COUNT = doom::details::BASE_CHAIN_HILLCLIMB_COUNT<Current>();		\
+	constexpr static std::array<const char*, _BASE_CHAIN_COUNT> _BASE_CHAIN_DATA = doom::details::BASE_CHAIN_HILLCLIMB_DATA<Current, _BASE_CHAIN_COUNT>();			\
 	public:																									\
-	FORCE_INLINE constexpr static const doom::DOBJECT_BASE_CHAIN& BASE_CHAIN_STATIC()						\
+	FORCE_INLINE constexpr static SIZE_T BASE_CHAIN_COUNT_STATIC()											\
 	{																										\
-		return _BASE_CHAIN;																					\
+		return _BASE_CHAIN_COUNT;																			\
 	}																										\
-	virtual const doom::DOBJECT_BASE_CHAIN& GetBaseChain() const { return BASE_CHAIN_STATIC(); }
+	FORCE_INLINE constexpr static const char* const * const BASE_CHAIN_DATA_STATIC()						\
+	{																										\
+		return _BASE_CHAIN_DATA.data();																		\
+	}																										\
+	virtual SIZE_T GetBaseChainCount() const { return BASE_CHAIN_COUNT_STATIC(); }							\
+	virtual const char* const * const GetBaseChainData() const { return BASE_CHAIN_DATA_STATIC(); }
 
 
 /////////////////////////////////

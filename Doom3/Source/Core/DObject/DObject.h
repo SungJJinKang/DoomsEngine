@@ -37,15 +37,18 @@ namespace doom
 	class DOOM_API DObject
 	{
 		DOBJECT_ABSTRACT_CLASS_BODY(DObject);
-
-	private:
-		constexpr static const DOBJECT_BASE_CHAIN _BASE_CHAIN{};
+		
 	public:
-		FORCE_INLINE constexpr static const DOBJECT_BASE_CHAIN& BASE_CHAIN_STATIC()
+		FORCE_INLINE constexpr static SIZE_T BASE_CHAIN_COUNT_STATIC()
 		{
-			return _BASE_CHAIN;
+			return 0;
 		}
-		virtual const DOBJECT_BASE_CHAIN& GetBaseChain() const { return BASE_CHAIN_STATIC(); }
+		FORCE_INLINE constexpr static const char* const* const BASE_CHAIN_DATA_STATIC()
+		{
+			return nullptr;
+		}
+		virtual SIZE_T GetBaseChainCount() const { return BASE_CHAIN_COUNT_STATIC(); }
+		virtual const char* const * const GetBaseChainData() const { return BASE_CHAIN_DATA_STATIC(); }
 
 
 		template <typename BASE_TYPE>
@@ -53,8 +56,7 @@ namespace doom
 		{
 			static_assert(IS_DOBJECT_TYPE(BASE_TYPE));
 			
-			const DOBJECT_BASE_CHAIN& base_chain = GetBaseChain();
-			const bool isChild = ( base_chain.BASE_CHAIN_COUNT >= BASE_TYPE::BASE_CHAIN_STATIC().BASE_CHAIN_COUNT ) && ( base_chain.BASE_CHAIN_TYPE_ID_LIST[base_chain.BASE_CHAIN_COUNT - BASE_TYPE::BASE_CHAIN_STATIC().BASE_CHAIN_COUNT] == BASE_TYPE::CLASS_TYPE_ID_STATIC() );
+			const bool isChild = ( GetBaseChainCount() >= BASE_TYPE::BASE_CHAIN_COUNT_STATIC() ) && ( GetBaseChainData()[GetBaseChainCount() - BASE_TYPE::BASE_CHAIN_COUNT_STATIC()] == BASE_TYPE::CLASS_TYPE_ID_STATIC() );
 
 			return isChild;
 		}
