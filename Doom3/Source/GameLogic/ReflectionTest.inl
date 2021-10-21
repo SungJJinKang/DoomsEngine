@@ -239,7 +239,23 @@ void doom::GameLogicStartPoint::StartGameLogic()
 	auto c3 = CastTo<PointLight*>(dirLight);
 	auto c4= CastTo<MeshRenderer*>(dirLight);
 
-
+	/////////////////////////////////////////////////////////////////////////////
+	/////////////////////////////////////////////////////////////////////////////
+	/////////////////////////////////////////////////////////////////////////////
+	/////////////////////////////////////////////////////////////////////////////
+	/////////////////////////////////////////////////////////////////////////////
+	/////////////////////////////////////////////////////////////////////////////
+	/////////////////////////////////////////////////////////////////////////////
+	/////////////////////////////////////////////////////////////////////////////
+	/////////////////////////////////////////////////////////////////////////////
+	/////////////////////////////////////////////////////////////////////////////
+	/////////////////////////////////////////////////////////////////////////////
+	/////////////////////////////////////////////////////////////////////////////
+	/////////////////////////////////////////////////////////////////////////////
+	/////////////////////////////////////////////////////////////////////////////
+	/////////////////////////////////////////////////////////////////////////////
+	/////////////////////////////////////////////////////////////////////////////
+	/////////////////////////////////////////////////////////////////////////////
 	//START TO TEST FROM HERE
 
 	//Test Compile Time Resolvation
@@ -247,7 +263,29 @@ void doom::GameLogicStartPoint::StartGameLogic()
 	constexpr const char* c6= DirectionalLight::CLASS_NAME_STATIC();
 	D_ASSERT(std::strcmp(c6, "DirectionalLight") == 0);
 	constexpr auto c7= DirectionalLight::CLASS_TYPE_ID_STATIC();
-	
+
+	constexpr const DOBJECT_BASE_CHAIN& chain = DirectionalLight::BASE_CHAIN_STATIC();
+	static_assert(chain.BASE_CHAIN_TYPE_ID_LIST[0] == DirectionalLight::CLASS_TYPE_ID_STATIC());
+	static_assert(chain.BASE_CHAIN_TYPE_ID_LIST[1] == Light::CLASS_TYPE_ID_STATIC());
+	static_assert(chain.BASE_CHAIN_TYPE_ID_LIST[2] == ServerComponent::CLASS_TYPE_ID_STATIC());
+	static_assert(chain.BASE_CHAIN_TYPE_ID_LIST[3] == Component::CLASS_TYPE_ID_STATIC());
+	static_assert(chain.BASE_CHAIN_TYPE_ID_LIST[4] == DObject::CLASS_TYPE_ID_STATIC());
+	static_assert(chain.BASE_CHAIN_TYPE_ID_LIST[5] == 0);
+	static_assert(chain.BASE_CHAIN_TYPE_ID_LIST[6] == 0);
+	static_assert(chain.BASE_CHAIN_TYPE_ID_LIST[7] == 0);
+	static_assert(chain.BASE_CHAIN_TYPE_ID_LIST[8] == 0);
+
+	constexpr const DOBJECT_BASE_CHAIN& chain1 = TestComponent2::BASE_CHAIN_STATIC();
+	static_assert(chain1.BASE_CHAIN_TYPE_ID_LIST[0] == TestComponent2::CLASS_TYPE_ID_STATIC());
+	static_assert(chain1.BASE_CHAIN_TYPE_ID_LIST[1] == TestComponent::CLASS_TYPE_ID_STATIC());
+	static_assert(chain1.BASE_CHAIN_TYPE_ID_LIST[2] == PlainComponent::CLASS_TYPE_ID_STATIC());
+	static_assert(chain1.BASE_CHAIN_TYPE_ID_LIST[3] == Component::CLASS_TYPE_ID_STATIC());
+	static_assert(chain1.BASE_CHAIN_TYPE_ID_LIST[4] == DObject::CLASS_TYPE_ID_STATIC());
+	static_assert(chain1.BASE_CHAIN_TYPE_ID_LIST[5] == 0);
+	static_assert(chain1.BASE_CHAIN_TYPE_ID_LIST[6] == 0);
+	static_assert(chain1.BASE_CHAIN_TYPE_ID_LIST[7] == 0);
+	static_assert(chain1.BASE_CHAIN_TYPE_ID_LIST[8] == 0);
+
 	D_ASSERT(dirLight->GetOwnerEntity()->GetComponent<DirectionalLight>() != nullptr);
 	D_ASSERT(IsServerComponent(dirLight) == true);
 	D_ASSERT(IsPlainComponent(dirLight) == false);

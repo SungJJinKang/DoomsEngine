@@ -38,21 +38,15 @@ namespace doom
 	{
 		DOBJECT_ABSTRACT_CLASS_BODY(DObject);
 
-	protected:
-		static void BASE_CHAIN_HILLCLIMB(doom::DOBJECT_BASE_CHAIN& base_chain)
-		{
-			base_chain.Increment_BASE_CHAIN_COUNT();
-			base_chain.BASE_CHAIN_TYPE_ID_LIST[base_chain.BASE_CHAIN_COUNT - 1] = CLASS_TYPE_ID_STATIC();
-		}
-
+	private:
+		constexpr static const DOBJECT_BASE_CHAIN _BASE_CHAIN{};
 	public:
-
-		FORCE_INLINE static const doom::DOBJECT_BASE_CHAIN& BASE_CHAIN_STATIC()									
-		{																									
-			static const doom::DOBJECT_BASE_CHAIN _BASE_CHAIN{};						
-			return _BASE_CHAIN;																				
+		FORCE_INLINE constexpr static const DOBJECT_BASE_CHAIN& BASE_CHAIN_STATIC()
+		{
+			return _BASE_CHAIN;
 		}
 		virtual const DOBJECT_BASE_CHAIN& GetBaseChain() const { return BASE_CHAIN_STATIC(); }
+
 
 		template <typename BASE_TYPE>
 		FORCE_INLINE bool IsChildOf() const

@@ -18,10 +18,19 @@ namespace doom
 		const char* BASE_CHAIN_TYPE_ID_LIST[MAX_DOBJECT_BASE_CHAIN_DEPTH];
 
 		//TODO : Make This Resolved at Compile Time!!!
-		DOBJECT_BASE_CHAIN() : BASE_CHAIN_COUNT(0)
+		constexpr DOBJECT_BASE_CHAIN()
+		:
+		BASE_CHAIN_COUNT(0),
+		BASE_CHAIN_TYPE_ID_LIST{nullptr}
 		{}
 
-		FORCE_INLINE void Increment_BASE_CHAIN_COUNT()
+		constexpr DOBJECT_BASE_CHAIN(const DOBJECT_BASE_CHAIN&) = default;
+		constexpr DOBJECT_BASE_CHAIN(DOBJECT_BASE_CHAIN&&) noexcept = default;
+
+		constexpr DOBJECT_BASE_CHAIN& operator=(const DOBJECT_BASE_CHAIN&) = default;
+		constexpr DOBJECT_BASE_CHAIN& operator=(DOBJECT_BASE_CHAIN&&) noexcept = default;
+
+		FORCE_INLINE constexpr void Increment_BASE_CHAIN_COUNT()
 		{
 			BASE_CHAIN_COUNT++;
 			D_ASSERT_LOG(BASE_CHAIN_COUNT < MAX_DOBJECT_BASE_CHAIN_DEPTH, "BaseChain Depth is over MAX_DOBJECT_BASE_CHAIN_DEPTH, Plase set higher value to MAX_DOBJECT_BASE_CHAIN_DEPTH");

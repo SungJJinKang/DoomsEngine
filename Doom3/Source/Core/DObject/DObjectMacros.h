@@ -88,8 +88,10 @@ template<doom::eDOBJECT_ClassFlags...flags> struct flag_or {
 
 #define TYPE_ID_IMP(CLASS_TYPE)																							\
 		public:																											\
+		constexpr static const char* const __CLASS_TYPE_ID = MAKE_STRING(CLASS_TYPE);									\
+		public:																											\
 		FORCE_INLINE constexpr static const char* CLASS_TYPE_ID_STATIC() {												\
-			return MAKE_STRING(CLASS_TYPE);																				\
+			return __CLASS_TYPE_ID;																						\
 		}																												\
         virtual const char* GetClassTypeID() const { return CLASS_TYPE::CLASS_TYPE_ID_STATIC(); }		
 
@@ -99,31 +101,48 @@ template<doom::eDOBJECT_ClassFlags...flags> struct flag_or {
 
 /////////////////////////////////
 
+namespace doom
+{
+	namespace details
+	{
+		template <typename BASE_DOBJECT_TYPE_CLASS>
+		extern constexpr void BASE_CHAIN_HILLCLIMB(doom::DOBJECT_BASE_CHAIN& base_chain)
+		{
+			base_chain.Increment_BASE_CHAIN_COUNT();
+			base_chain.BASE_CHAIN_TYPE_ID_LIST[base_chain.BASE_CHAIN_COUNT - 1] = BASE_DOBJECT_TYPE_CLASS::__CLASS_TYPE_ID;
+			if constexpr (std::is_same_v<doom::DObject, BASE_DOBJECT_TYPE_CLASS> == false) {
+				BASE_CHAIN_HILLCLIMB<typename BASE_DOBJECT_TYPE_CLASS::Base>(base_chain);
+			}
+		}
 
-//TODO : Make This Resolved at Compile Time!!!
-#define DOBJECT_CLASS_BASE_CHAIN(BASE_DOBJECT_TYPE_CLASS)												\
-	private:																							\
-	using Base = BASE_DOBJECT_TYPE_CLASS; /* alias Base DObject Type Class */							\
-	protected:																							\
-	static DOBJECT_BASE_CHAIN BASE_CHAIN_HILLCLIMB() {													\
-		D_ASSERT(CLASS_TYPE_ID_STATIC() != BASE_DOBJECT_TYPE_CLASS::CLASS_TYPE_ID_STATIC());			\
-		DOBJECT_BASE_CHAIN base_chain{};																\
-		base_chain.Increment_BASE_CHAIN_COUNT();														\
-		base_chain.BASE_CHAIN_TYPE_ID_LIST[base_chain.BASE_CHAIN_COUNT - 1] = CLASS_TYPE_ID_STATIC();	\
-		BASE_DOBJECT_TYPE_CLASS::BASE_CHAIN_HILLCLIMB(base_chain);										\
-		return base_chain;																				\
-	}																									\
-	static void BASE_CHAIN_HILLCLIMB(doom::DOBJECT_BASE_CHAIN& base_chain) {							\
-		base_chain.Increment_BASE_CHAIN_COUNT();														\
-		base_chain.BASE_CHAIN_TYPE_ID_LIST[base_chain.BASE_CHAIN_COUNT - 1] = CLASS_TYPE_ID_STATIC();	\
-        BASE_DOBJECT_TYPE_CLASS::BASE_CHAIN_HILLCLIMB(base_chain);										\
-	}																									\
-	public:																								\
-	FORCE_INLINE static const doom::DOBJECT_BASE_CHAIN& BASE_CHAIN_STATIC()								\
-	{																									\
-		static const doom::DOBJECT_BASE_CHAIN _BASE_CHAIN = BASE_CHAIN_HILLCLIMB();						\
-		return _BASE_CHAIN;																				\
-	}																									\
+		template <typename BASE_DOBJECT_TYPE_CLASS>
+		extern constexpr doom::DOBJECT_BASE_CHAIN BASE_CHAIN_HILLCLIMB()
+		{
+			doom::DOBJECT_BASE_CHAIN base_chain{};
+			base_chain.Increment_BASE_CHAIN_COUNT();
+			base_chain.BASE_CHAIN_TYPE_ID_LIST[base_chain.BASE_CHAIN_COUNT - 1] = BASE_DOBJECT_TYPE_CLASS::__CLASS_TYPE_ID;
+			if constexpr (std::is_same_v <doom::DObject, BASE_DOBJECT_TYPE_CLASS > == false) {
+				BASE_CHAIN_HILLCLIMB<typename BASE_DOBJECT_TYPE_CLASS::Base>(base_chain);
+			}
+			return base_chain;
+		}
+	}
+}
+
+
+
+
+
+#define DOBJECT_CLASS_BASE_CHAIN(BASE_DOBJECT_TYPE_CLASS)													\
+	public:																									\
+	using Base = BASE_DOBJECT_TYPE_CLASS; /* alias Base DObject Type Class */								\
+	private:																								\
+	constexpr static const DOBJECT_BASE_CHAIN _BASE_CHAIN = doom::details::BASE_CHAIN_HILLCLIMB<Current>();	\
+	public:																									\
+	FORCE_INLINE constexpr static const doom::DOBJECT_BASE_CHAIN& BASE_CHAIN_STATIC()						\
+	{																										\
+		return _BASE_CHAIN;																					\
+	}																										\
 	virtual const doom::DOBJECT_BASE_CHAIN& GetBaseChain() const { return BASE_CHAIN_STATIC(); }
 
 
@@ -165,6 +184,8 @@ template<doom::eDOBJECT_ClassFlags...flags> struct flag_or {
 #ifndef DOBJECT_BODY_UNIFORM
 
 #define DOBJECT_BODY_UNIFORM(CLASS_TYPE, ...)										\
+		public:																		\
+		using Current = CLASS_TYPE;													\
 		CLASS_FLAGS_FUNCTION(CLASS_TYPE, __VA_ARGS__)								\
 		TYPE_ID_IMP(CLASS_TYPE)														\
 		CLASS_NAME_IMP(CLASS_TYPE)													\
