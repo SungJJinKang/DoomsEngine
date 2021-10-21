@@ -39,14 +39,14 @@ namespace doom
 
 
 template<doom::eDOBJECT_ClassFlags...flags> struct flag_or {
-	static constexpr UINT32 value = (static_cast<UINT32>(flags) | ...);
+	constexpr static UINT32 value = (static_cast<UINT32>(flags) | ...);
 };
 
 #ifndef CLASS_FLAGS_FUNCTION
 
 #define CLASS_FLAGS_FUNCTION(CLASS_TYPE, ...)												\
 		public:																				\
-		constexpr static UINT32 CLASS_FLAGS_STATIC() {										\
+		FORCE_INLINE constexpr static UINT32 CLASS_FLAGS_STATIC() {							\
 			return flag_or<eDOBJECT_ClassFlags::_Dummy, __VA_ARGS__>::value;				\
 		}																					\
         virtual UINT32 GetClassFlags() const { return CLASS_TYPE::CLASS_FLAGS_STATIC(); }
@@ -88,7 +88,7 @@ template<doom::eDOBJECT_ClassFlags...flags> struct flag_or {
 
 #define TYPE_ID_IMP(CLASS_TYPE)																							\
 		public:																											\
-		FORCE_INLINE static constexpr const char* CLASS_TYPE_ID_STATIC() {												\
+		FORCE_INLINE constexpr static const char* CLASS_TYPE_ID_STATIC() {												\
 			return MAKE_STRING(CLASS_TYPE);																				\
 		}																												\
         virtual const char* GetClassTypeID() const { return CLASS_TYPE::CLASS_TYPE_ID_STATIC(); }		
@@ -117,7 +117,7 @@ template<doom::eDOBJECT_ClassFlags...flags> struct flag_or {
         BASE_DOBJECT_TYPE_CLASS::BASE_CHAIN_HILLCLIMB(base_chain);										\
 	}																									\
 	public:																								\
-	inline static const doom::DOBJECT_BASE_CHAIN& BASE_CHAIN_STATIC()									\
+	FORCE_INLINE static const doom::DOBJECT_BASE_CHAIN& BASE_CHAIN_STATIC()									\
 	{																									\
 		static const doom::DOBJECT_BASE_CHAIN _BASE_CHAIN = BASE_CHAIN_HILLCLIMB();						\
 		return _BASE_CHAIN;																				\
@@ -151,7 +151,7 @@ template<doom::eDOBJECT_ClassFlags...flags> struct flag_or {
 #include "DClass.h"
 #define DCLASS_IMP(CLASS_TYPE)															\
 		public :																		\
-		static doom::DClass StaticClass()												\
+		FORCE_INLINE static doom::DClass StaticClass()									\
 		{																				\
 			return doom::CreateDClass<CLASS_TYPE>();									\
 		}																				\
