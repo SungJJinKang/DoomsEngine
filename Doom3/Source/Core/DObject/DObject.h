@@ -43,12 +43,12 @@ namespace doom
 		{
 			return 0;
 		}
-		FORCE_INLINE constexpr static const char* const* const BASE_CHAIN_DATA_STATIC()
+		FORCE_INLINE constexpr static const char* const * BASE_CHAIN_DATA_STATIC()
 		{
 			return nullptr;
 		}
 		virtual SIZE_T GetBaseChainCount() const { return BASE_CHAIN_COUNT_STATIC(); }
-		virtual const char* const * const GetBaseChainData() const { return BASE_CHAIN_DATA_STATIC(); }
+		virtual const char* const * GetBaseChainData() const { return BASE_CHAIN_DATA_STATIC(); }
 
 
 		template <typename BASE_TYPE>

@@ -151,6 +151,7 @@ namespace doom
 
 
 #define DOBJECT_CLASS_BASE_CHAIN(BASE_DOBJECT_TYPE_CLASS)													\
+	static_assert(std::is_same_v<Current, BASE_DOBJECT_TYPE_CLASS> == false);								\
 	public:																									\
 	using Base = BASE_DOBJECT_TYPE_CLASS; /* alias Base DObject Type Class */								\
 	private:																								\
@@ -161,12 +162,12 @@ namespace doom
 	{																										\
 		return _BASE_CHAIN_COUNT;																			\
 	}																										\
-	FORCE_INLINE constexpr static const char* const * const BASE_CHAIN_DATA_STATIC()						\
+	FORCE_INLINE constexpr static const char* const * BASE_CHAIN_DATA_STATIC()								\
 	{																										\
 		return _BASE_CHAIN_DATA.data();																		\
 	}																										\
 	virtual SIZE_T GetBaseChainCount() const { return BASE_CHAIN_COUNT_STATIC(); }							\
-	virtual const char* const * const GetBaseChainData() const { return BASE_CHAIN_DATA_STATIC(); }
+	virtual const char* const * GetBaseChainData() const { return BASE_CHAIN_DATA_STATIC(); }
 
 
 /////////////////////////////////
