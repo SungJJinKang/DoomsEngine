@@ -108,6 +108,8 @@ template<doom::eDOBJECT_ClassFlags...flags> struct flag_or {
 	static DOBJECT_BASE_CHAIN BASE_CHAIN_HILLCLIMB() {													\
 		D_ASSERT(CLASS_TYPE_ID_STATIC() != BASE_DOBJECT_TYPE_CLASS::CLASS_TYPE_ID_STATIC());			\
 		DOBJECT_BASE_CHAIN base_chain{};																\
+		base_chain.Increment_BASE_CHAIN_COUNT();														\
+		base_chain.BASE_CHAIN_TYPE_ID_LIST[base_chain.BASE_CHAIN_COUNT - 1] = CLASS_TYPE_ID_STATIC();	\
 		BASE_DOBJECT_TYPE_CLASS::BASE_CHAIN_HILLCLIMB(base_chain);										\
 		return base_chain;																				\
 	}																									\

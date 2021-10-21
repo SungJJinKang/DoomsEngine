@@ -27,6 +27,7 @@
 #include "BulletComponent.h"
 #include "ExportTextureTester.h"
 #include "FireBulletComponent.h"
+#include "TestComponent2.h"
 #include "PhysicsComponent/Rigidbody/Rigidbody.h"
 
 void doom::GameLogicStartPoint::StartGameLogic()
@@ -40,6 +41,8 @@ void doom::GameLogicStartPoint::StartGameLogic()
 	auto lightEntity = currenScene->CreateNewEntity();
 	lightEntity->GetTransform()->SetRotation(-30.0f, 0.0f, 0.0f);
 	auto dirLight = lightEntity->AddComponent<DirectionalLight>();
+	auto testComp1 = lightEntity->AddComponent<TestComponent>();
+	auto testComp2 = lightEntity->AddComponent<TestComponent2>();
 	dirLight->SetIntensity(3.0f);
 	dirLight->SetColor({ 1.0f, 1.0f, 1.0f, 1.0f });
 	//lightEntity->AddComponent<AutoRotate>();
@@ -280,6 +283,10 @@ void doom::GameLogicStartPoint::StartGameLogic()
 	D_ASSERT(std::strcmp(dObjectConst->GetClassName(), "DirectionalLight") == 0);
 	D_ASSERT(std::strcmp(dObjectConst->GetClassName(), "PointLight") != 0);
 	D_ASSERT(std::strcmp(dObjectConst->GetClassName(), "Component") != 0);
+
+
+	D_ASSERT(CastTo<TestComponent*>(testComp2) != nullptr);
+	D_ASSERT(CastTo<TestComponent2*>(testComp1) == nullptr);
 
 	auto dclass = dObjectConst->GetDClass();
 }

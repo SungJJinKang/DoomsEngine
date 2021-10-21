@@ -386,6 +386,7 @@
     <ClCompile Include="Source\GameLogic\CustomComponent\Portfolio\RenderingAABBController.cpp" />
     <ClCompile Include="Source\GameLogic\CustomComponent\Portfolio\ViewFrustumCullingDebug.cpp" />
     <ClCompile Include="Source\GameLogic\CustomComponent\TestComponent.cpp" />
+    <ClCompile Include="Source\GameLogic\CustomComponent\TestComponent2.cpp" />
     <ClCompile Include="Source\GameLogic\GameLogicStartPoint.cpp" />
     <ClCompile Include="Source\GameLogic\CustomComponent\PerformanceTestController.cpp" />
     <ClCompile Include="Source\Helper\EasyDirtyChecker\DirtySender.cpp" />
@@ -677,6 +678,7 @@
     <ClInclude Include="Source\GameLogic\CustomComponent\Portfolio\RenderingAABBController.h" />
     <ClInclude Include="Source\GameLogic\CustomComponent\Portfolio\ViewFrustumCullingDebug.h" />
     <ClInclude Include="Source\GameLogic\CustomComponent\TestComponent.h" />
+    <ClInclude Include="Source\GameLogic\CustomComponent\TestComponent2.h" />
     <ClInclude Include="Source\GameLogic\Doom_Core.h" />
     <ClInclude Include="Source\GameLogic\GameLogicStartPoint.h" />
     <ClInclude Include="Source\Helper\concurrentqueue\blockingconcurrentqueue.h" />

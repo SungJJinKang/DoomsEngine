@@ -58,14 +58,9 @@ namespace doom
 		FORCE_INLINE bool IsChildOf() const
 		{
 			static_assert(IS_DOBJECT_TYPE(BASE_TYPE));
-
-			bool isChild = (BASE_TYPE::CLASS_TYPE_ID_STATIC() == GetClassTypeID());
-
-			if (isChild == false)
-			{
-				const DOBJECT_BASE_CHAIN& base_chain = GetBaseChain();
-				isChild = (base_chain.BASE_CHAIN_COUNT > BASE_TYPE::BASE_CHAIN_STATIC().BASE_CHAIN_COUNT) && (base_chain.BASE_CHAIN_TYPE_ID_LIST[base_chain.BASE_CHAIN_COUNT - 1 - BASE_TYPE::BASE_CHAIN_STATIC().BASE_CHAIN_COUNT] == BASE_TYPE::CLASS_TYPE_ID_STATIC());
-			}
+			
+			const DOBJECT_BASE_CHAIN& base_chain = GetBaseChain();
+			const bool isChild = ( base_chain.BASE_CHAIN_COUNT >= BASE_TYPE::BASE_CHAIN_STATIC().BASE_CHAIN_COUNT ) && ( base_chain.BASE_CHAIN_TYPE_ID_LIST[base_chain.BASE_CHAIN_COUNT - BASE_TYPE::BASE_CHAIN_STATIC().BASE_CHAIN_COUNT] == BASE_TYPE::CLASS_TYPE_ID_STATIC() );
 
 			return isChild;
 		}
