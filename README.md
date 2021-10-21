@@ -41,7 +41,8 @@ if you wanna good and clean code for learning something, Find other project.
   * Overdraw Visualization ( implemented with Additive Blending )
   * FrameBuffer, Texture exporter
   * Reflection System ( https://sungjjinkang.github.io/computerscience/2021/10/20/Reflection.html )
-  
+  * Fast Runtime Type Casting ( O(1), Not use dynamic_cast ( RTTI option is disabled ), https://sungjjinkang.github.io/computerscience/2021/10/20/Reflection.html )        
+
 ## In Developing
 
   * Masked SW Occlusion Culling ( https://software.intel.com/content/dam/develop/external/us/en/documents/masked-software-occlusion-culling.pdf )      

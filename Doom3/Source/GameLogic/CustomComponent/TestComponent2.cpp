@@ -1,7 +1,5 @@
 #include "TestComponent2.h"
 
-#include <Physics/ColliderPickingTestRoom.h>
-
 #include <Game/ConfigData.h>
 
 void doom::TestComponent2::InitComponent()

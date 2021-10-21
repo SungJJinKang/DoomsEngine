@@ -39,11 +39,7 @@ StaticContainer<Renderer>& StaticContainer<Renderer>::operator=(StaticContainer&
 
 void doom::StaticContainer<Renderer>::AddRendererToStaticContainer()
 {
-	if (mRenderer_ptr == nullptr)
-	{
-		mRenderer_ptr = dynamic_cast<Renderer*>(this);
-	}
-	D_ASSERT(mRenderer_ptr != nullptr);
+	mRenderer_ptr = static_cast<Renderer*>(this);
 
 	const size_t currentEntityLayerIndex = mRenderer_ptr->GetOwnerEntityLayerIndex();
 

@@ -51,7 +51,7 @@ namespace doom
 
 		private:
 
-			DeferredRenderingDrawer mDeferredRenderingDrawer;
+			DeferredRenderingDrawer mDeferredRenderingDrawer{};
 			
 			//CullDistance mCullDistance{};
 
@@ -86,11 +86,11 @@ namespace doom
 			void Renderder_OnEndOfFrameComponent();
 
 #ifdef DEBUG_DRAWER
-			RenderingDebugger mRenderingDebugger;
+			RenderingDebugger mRenderingDebugger{};
 #endif
-			UniformBufferObjectManager mUniformBufferObjectManager;
-			graphics::LightManager mLightManager;
-			graphics::PIPManager mPIPManager;
+			UniformBufferObjectManager mUniformBufferObjectManager{};
+			graphics::LightManager mLightManager{};
+			graphics::PIPManager mPIPManager{};
 
 			Graphics_Server();
 			~Graphics_Server();

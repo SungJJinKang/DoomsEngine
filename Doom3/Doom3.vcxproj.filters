@@ -1700,6 +1700,5 @@
     <Text Include="Source\Core\Graphics\ReadThis!!!!.txt" />
     <Text Include="Source\Core\Graphics\Acceleration\Culling.md" />
     <Text Include="Source\GameLogic\DeferredRenderingDebug.inl" />
-    <Text Include="TODO.txt" />
   </ItemGroup>
 </Project>
