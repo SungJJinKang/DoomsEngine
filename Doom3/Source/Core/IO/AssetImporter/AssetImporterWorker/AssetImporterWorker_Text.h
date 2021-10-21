@@ -5,7 +5,7 @@
 
 namespace doom
 {
-	namespace assetimporter
+	namespace assetImporter
 	{
 		class DOOM_API AssetImporterWorker_Text : public AssetImporterWorker
 		{

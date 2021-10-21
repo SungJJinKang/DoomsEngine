@@ -8,14 +8,14 @@
 
 #include "../Asset/Asset.h"
 #include "AssetContainer.h"
-#include "../IO/AssetImporter/AssetImporter.h"
+#include "../IO/AssetImporter/assetImporter.h"
 #include <Asset/AssetsForwardDeclaration.h>
 #include "AssetFuture.h"
 #include <IO/AssetImporter/Manager/AssetImporterWorkerManager.h>
 
 namespace doom
 {
-	namespace assetimporter
+	namespace assetImporter
 	{
 		class DOOM_API AssetManager : public IGameFlow, public ISingleton<AssetManager>
 		{
@@ -55,8 +55,8 @@ namespace doom
 			void AddAssetToAssetContainer(doom::asset::Asset* const asset);
 
 			doom::asset::Asset* _ImportAssetInstantly(std::filesystem::path& path, const doom::asset::eAssetType assetType);
-			doom::assetimporter::AssetFuture _ImportAssetAsync(std::filesystem::path& path, const doom::asset::eAssetType assetType);
-			std::vector < doom::assetimporter::AssetFuture> _ImportAssetAsync(std::vector<std::filesystem::path>& paths, const std::vector<doom::asset::eAssetType>& assetTypes);
+			doom::assetImporter::AssetFuture _ImportAssetAsync(std::filesystem::path& path, const doom::asset::eAssetType assetType);
+			std::vector < doom::assetImporter::AssetFuture> _ImportAssetAsync(std::vector<std::filesystem::path>& paths, const std::vector<doom::asset::eAssetType>& assetTypes);
 	
 
 			doom::asset::Asset* _GetAsset(const D_UUID& UUID, const doom::asset::eAssetType assetType);
@@ -84,9 +84,9 @@ namespace doom
 				return reinterpret_cast<typename doom::asset::AssetType<AssetType>::type*>(newAsset);
 			}
 			
-			doom::assetimporter::AssetFuture ImportAssetAsync(std::filesystem::path path, const ::doom::asset::eAssetType assetType)
+			doom::assetImporter::AssetFuture ImportAssetAsync(std::filesystem::path path, const ::doom::asset::eAssetType assetType)
 			{
-				doom::assetimporter::AssetFuture importedAssetFuture = _ImportAssetAsync(path, assetType);
+				doom::assetImporter::AssetFuture importedAssetFuture = _ImportAssetAsync(path, assetType);
 				return importedAssetFuture;
 			}
 

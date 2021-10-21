@@ -13,7 +13,7 @@
 
 namespace doom
 {
-	namespace assetimporter
+	namespace assetImporter
 	{
 		class AssetImporterWorker;
 
@@ -27,10 +27,10 @@ namespace doom
 
 			inline constexpr static UINT32 MAX_ASSETIMPORTER_WORKER_COUNT = 3;
 
-			std::array<moodycamel::BlockingConcurrentQueue<doom::assetimporter::AssetImporterWorker*>, doom::asset::ENUM_ASSETTYPE_COUNT> mAssetApiImportersQueue;
+			std::array<moodycamel::BlockingConcurrentQueue<doom::assetImporter::AssetImporterWorker*>, doom::asset::ENUM_ASSETTYPE_COUNT> mAssetApiImportersQueue;
 			std::array<std::atomic<INT32>, doom::asset::ENUM_ASSETTYPE_COUNT> mAssetApiImportersCount{ 0, 0, 0, 0, 0, 0 };
 			
-			[[nodiscard]] doom::assetimporter::AssetImporterWorker* CreateAssetImporterWorker(const doom::asset::eAssetType eAssetType);
+			[[nodiscard]] doom::assetImporter::AssetImporterWorker* CreateAssetImporterWorker(const doom::asset::eAssetType eAssetType);
 
 			void InitializeAssetImporterWorkersStatic();
 			
@@ -43,8 +43,8 @@ namespace doom
 			AssetImporterWorkerManager(const AssetImporterWorkerManager&) = delete;
 			AssetImporterWorkerManager& operator=(const AssetImporterWorkerManager&) = delete;
 		
-			void EnqueueWorker(doom::assetimporter::AssetImporterWorker* const assetImporterWorker);
-			doom::assetimporter::AssetImporterWorker* DequeueWorker(const doom::asset::eAssetType eAssetType);
+			void EnqueueWorker(doom::assetImporter::AssetImporterWorker* const assetImporterWorker);
+			doom::assetImporter::AssetImporterWorker* DequeueWorker(const doom::asset::eAssetType eAssetType);
 
 			void ClearAssetImporterWorker();
 			

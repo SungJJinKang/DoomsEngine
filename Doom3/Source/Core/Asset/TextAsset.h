@@ -5,7 +5,7 @@
 
 namespace doom
 {
-	namespace assetimporter
+	namespace assetImporter
 	{
 		class AssetImporterWorker_Text;
 	}
@@ -17,7 +17,7 @@ namespace doom
 			DOBJECT_CLASS_BODY(TextAsset, doom::eDOBJECT_ClassFlags::NonCopyable)
 				DOBJECT_CLASS_BASE_CHAIN(Asset)
 
-			friend class ::doom::assetimporter::AssetImporterWorker_Text;
+			friend class ::doom::assetImporter::AssetImporterWorker_Text;
 			
 		private:
 

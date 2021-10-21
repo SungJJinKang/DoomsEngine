@@ -3,7 +3,7 @@
 #include "Asset.h"
 namespace doom
 {
-	namespace assetimporter
+	namespace assetImporter
 	{
 		class AssetImporterWorker_Font;
 	}
@@ -15,7 +15,7 @@ namespace doom
 			DOBJECT_CLASS_BODY(FontAsset, doom::eDOBJECT_ClassFlags::NonCopyable)
 				DOBJECT_CLASS_BASE_CHAIN(Asset)
 
-			friend class ::doom::assetimporter::AssetImporterWorker_Font;
+			friend class ::doom::assetImporter::AssetImporterWorker_Font;
 			
 		private:
 

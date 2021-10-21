@@ -27,7 +27,7 @@ namespace doom
 
 			extern void Initialize()
 			{
-				doom::asset::ShaderAsset* overDrawVisualizationShader = doom::assetimporter::AssetManager::GetSingleton()->GetAsset<doom::asset::eAssetType::SHADER>("OverDrawVisualizationShader.glsl");
+				doom::asset::ShaderAsset* overDrawVisualizationShader = doom::assetImporter::AssetManager::GetSingleton()->GetAsset<doom::asset::eAssetType::SHADER>("OverDrawVisualizationShader.glsl");
 				mOverDrawVisualizationObjectDrawMaterial = overDrawVisualizationShader->CreateMatrialWithThisShader();
 
 				mOverDrawVisualizationFrameBuffer.GenerateBuffer(doom::graphics::Graphics_Setting::GetScreenWidth(), doom::graphics::Graphics_Setting::GetScreenHeight());

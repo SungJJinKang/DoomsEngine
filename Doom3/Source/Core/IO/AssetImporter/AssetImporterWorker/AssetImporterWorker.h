@@ -12,7 +12,7 @@ namespace doom
 		class Asset;
 	}
 
-	namespace assetimporter
+	namespace assetImporter
 	{
 		class DOOM_API AssetImporterWorker : public DObject
 		{

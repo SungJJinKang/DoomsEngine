@@ -6,7 +6,7 @@
 
 namespace doom
 {
-	namespace assetimporter
+	namespace assetImporter
 	{
 		class AssetImporterWorker_Shader;
 	}
@@ -23,7 +23,7 @@ namespace doom
 			DOBJECT_CLASS_BODY(ShaderAsset, doom::eDOBJECT_ClassFlags::NonCopyable)
 				DOBJECT_CLASS_BASE_CHAIN(Asset)
 
-			friend class ::doom::assetimporter::AssetImporterWorker_Shader;
+			friend class ::doom::assetImporter::AssetImporterWorker_Shader;
 			
 		
 		public:

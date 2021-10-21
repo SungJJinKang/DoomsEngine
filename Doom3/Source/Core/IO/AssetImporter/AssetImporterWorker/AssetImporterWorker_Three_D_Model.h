@@ -16,7 +16,7 @@ namespace doom
 	}
 
 
-	namespace assetimporter
+	namespace assetImporter
 	{
 		class DOOM_API AssetImporterWorker_THREE_D_MODEL : public AssetImporterWorker
 		{
@@ -26,12 +26,8 @@ namespace doom
 		private:
 
 			
-			/// <summary>
-			/// query this value at InitAssetImport
-			/// </summary>
-			static inline std::string mAssFileFormatId{};
-
-			void ExportToAssFile(const std::filesystem::path& path, const aiScene* pScene);
+			
+			
 			void Creat3DModelAsset(const aiScene* pScene, ::doom::asset::ThreeDModelAsset* asset);
 			void SetThreeDModelNodesData(ThreeDModelNode* currentNode, aiNode* currentAssimpNode, ThreeDModelNode* parentNode, ::doom::asset::ThreeDModelAsset* modelAsset, const aiScene* assimpScene);
 			bool ImportThreeDModelAsset(const std::filesystem::path& path, ::doom::asset::ThreeDModelAsset* asset);
@@ -57,7 +53,6 @@ namespace doom
 			static const UINT32 ASSIMP_IMPORT_PROCESSING_SETTING;
 			static const UINT32 ASSIMP_EXPORT_PROCESSING_SETTING;
 
-			static void SetAssFileFormatId(const char* id);
 
 			virtual bool ImportSpecificAsset(const std::filesystem::path& path, doom::asset::Asset* asset) override;
 

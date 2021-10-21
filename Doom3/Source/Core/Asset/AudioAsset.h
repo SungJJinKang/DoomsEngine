@@ -3,7 +3,7 @@
 #include "Asset.h"
 namespace doom
 {
-	namespace assetimporter
+	namespace assetImporter
 	{
 		class AssetImporterWorker_Audio;
 	}
@@ -17,7 +17,7 @@ namespace doom
 			DOBJECT_CLASS_BODY(AudioAsset, doom::eDOBJECT_ClassFlags::NonCopyable)
 			DOBJECT_CLASS_BASE_CHAIN(Asset)
 
-			friend class ::doom::assetimporter::AssetImporterWorker_Audio;
+			friend class ::doom::assetImporter::AssetImporterWorker_Audio;
 			
 		private:
 

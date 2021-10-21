@@ -4,7 +4,7 @@
 
 #include <Asset/ShaderAsset.h>
 
-bool doom::assetimporter::AssetImporterWorker_Shader::ImportShaderAsset
+bool doom::assetImporter::AssetImporterWorker_Shader::ImportShaderAsset
 (
 	const std::filesystem::path& path,
 	doom::asset::ShaderAsset* const shaderAsset
@@ -27,12 +27,12 @@ bool doom::assetimporter::AssetImporterWorker_Shader::ImportShaderAsset
 }
 
 
-bool doom::assetimporter::AssetImporterWorker_Shader::ImportSpecificAsset(const std::filesystem::path& path, doom::asset::Asset* asset)
+bool doom::assetImporter::AssetImporterWorker_Shader::ImportSpecificAsset(const std::filesystem::path& path, doom::asset::Asset* asset)
 {
 	return ImportShaderAsset(path, static_cast<doom::asset::ShaderAsset*>(asset));
 }
 
-doom::asset::eAssetType doom::assetimporter::AssetImporterWorker_Shader::GetEAssetType() const
+doom::asset::eAssetType doom::assetImporter::AssetImporterWorker_Shader::GetEAssetType() const
 {
 	return doom::asset::eAssetType::SHADER;
 }

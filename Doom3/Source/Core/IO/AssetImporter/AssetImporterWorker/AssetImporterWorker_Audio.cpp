@@ -1,6 +1,6 @@
 #include "AssetImporterWorker_Audio.h"
 
-bool doom::assetimporter::AssetImporterWorker_Audio::ImportSpecificAsset
+bool doom::assetImporter::AssetImporterWorker_Audio::ImportSpecificAsset
 (
 	const std::filesystem::path& path,
 	doom::asset::Asset* asset
@@ -9,7 +9,7 @@ bool doom::assetimporter::AssetImporterWorker_Audio::ImportSpecificAsset
 	return false;
 }
 
-doom::asset::eAssetType doom::assetimporter::AssetImporterWorker_Audio::GetEAssetType() const
+doom::asset::eAssetType doom::assetImporter::AssetImporterWorker_Audio::GetEAssetType() const
 {
 	return doom::asset::eAssetType::AUDIO;
 }

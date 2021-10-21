@@ -215,6 +215,7 @@
     <ClCompile Include="Source\Core\Game\FrameDirtyChecker.cpp" />
     <ClCompile Include="Source\Core\Graphics\FrameBuffer\FrameBufferExporterHelper.cpp" />
     <ClCompile Include="Source\Core\IO\AssetExporter\AssetExporter_Texture.cpp" />
+    <ClCompile Include="Source\Core\IO\AssetExporter\AssetExporter_Three_D_Model.cpp" />
     <ClCompile Include="Source\Core\IO\AssetImporter\Manager\AssetImporterWorkerManager.cpp" />
     <ClCompile Include="Source\Core\IO\AssetImporter\AssetImporterWorker\AssetImporterWorker.cpp" />
     <ClCompile Include="Source\Component\PhysicsComponent\Rigidbody\Rigidbody.cpp" />
@@ -345,7 +346,7 @@
     <ClCompile Include="Source\Core\Graphics\Texture\SingleTexture.cpp" />
     <ClCompile Include="Source\Core\Graphics\Texture\Texture.cpp" />
     <ClCompile Include="Source\Core\Graphics\Buffer\UniformBufferObject.cpp" />
-    <ClCompile Include="Source\Core\IO\AssetImporter\AssetImporter.cpp" />
+    <ClCompile Include="Source\Core\IO\AssetImporter\assetImporter.cpp" />
     <ClCompile Include="Source\Core\IO\UserInput_Server.cpp" />
     <ClCompile Include="Source\Core\Logger\Logger.cpp" />
     <ClCompile Include="Source\Core\Graphics\GraphicsAPI.cpp" />
@@ -402,6 +403,7 @@
     <ClInclude Include="Source\Core\Game\AssetManager\AssetFuture.h" />
     <ClInclude Include="Source\Core\Graphics\FrameBuffer\FrameBufferExporterHelper.h" />
     <ClInclude Include="Source\Core\IO\AssetExporter\AssetExporter_Texture.h" />
+    <ClInclude Include="Source\Core\IO\AssetExporter\AssetExporter_Three_D_Model.h" />
     <ClInclude Include="Source\Core\IO\AssetImporter\AssetImporterWorker\AssetImporterWorkerForwardDeclaration.h" />
     <ClInclude Include="Source\Core\IO\AssetImporter\Manager\AssetImporterWorkerManager.h" />
     <ClInclude Include="Source\Component\Core\ComponentGlobals.h" />
@@ -584,7 +586,7 @@
     <ClInclude Include="Source\Core\Graphics\Graphics_Core.h" />
     <ClInclude Include="Source\Core\Graphics\FrameBuffer\RenderBuffer.h" />
     <ClInclude Include="Source\Core\Graphics\Texture\SingleTexture.h" />
-    <ClInclude Include="Source\Core\IO\AssetImporter\AssetImporter.h" />
+    <ClInclude Include="Source\Core\IO\AssetImporter\assetImporter.h" />
     <ClInclude Include="Source\Core\IO\AssetImporter\AssetImporterWorker\AssetImporterWorker_Audio.h" />
     <ClInclude Include="Source\Core\IO\AssetImporter\AssetImporterWorker\AssetImporterWorker.h" />
     <ClInclude Include="Source\Core\IO\AssetImporter\AssetImporterWorker\AssetImporterWorker_Font.h" />

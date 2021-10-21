@@ -4,7 +4,7 @@
 #include <Asset/TextAsset.h>
 
 
-bool doom::assetimporter::AssetImporterWorker_Text::ImportSpecificAsset
+bool doom::assetImporter::AssetImporterWorker_Text::ImportSpecificAsset
 (
 	const std::filesystem::path& path, 
 	doom::asset::Asset* asset
@@ -23,7 +23,7 @@ bool doom::assetimporter::AssetImporterWorker_Text::ImportSpecificAsset
 	}
 }
 
-doom::asset::eAssetType doom::assetimporter::AssetImporterWorker_Text::GetEAssetType() const
+doom::asset::eAssetType doom::assetImporter::AssetImporterWorker_Text::GetEAssetType() const
 {
 	return doom::asset::eAssetType::TEXT;
 }

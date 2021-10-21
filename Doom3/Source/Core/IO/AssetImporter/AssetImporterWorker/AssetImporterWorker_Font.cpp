@@ -1,6 +1,6 @@
 #include "AssetImporterWorker_Font.h"
 
-bool assetimporter::AssetImporterWorker_Font::ImportSpecificAsset
+bool assetImporter::AssetImporterWorker_Font::ImportSpecificAsset
 (
 	const std::filesystem::path& paths,
 	doom::asset::Asset* asset
@@ -9,7 +9,7 @@ bool assetimporter::AssetImporterWorker_Font::ImportSpecificAsset
 	return false;
 }
 
-doom::asset::eAssetType assetimporter::AssetImporterWorker_Font::GetEAssetType() const
+doom::asset::eAssetType assetImporter::AssetImporterWorker_Font::GetEAssetType() const
 {
 	return doom::asset::eAssetType::FONT;
 }

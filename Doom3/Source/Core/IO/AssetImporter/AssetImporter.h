@@ -18,7 +18,7 @@ namespace doom
 	}
 
 
-	namespace assetimporter
+	namespace assetImporter
 	{
 
 		/// <summary>

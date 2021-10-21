@@ -5,7 +5,7 @@
 
 namespace doom
 {
-	namespace assetimporter
+	namespace assetImporter
 	{
 		class AssetFuture
 		{

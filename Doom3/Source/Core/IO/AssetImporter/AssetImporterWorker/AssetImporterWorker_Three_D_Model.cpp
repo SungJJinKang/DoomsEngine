@@ -8,12 +8,14 @@
 
 #include "AssetImporterWorker_Texture.h"
 
+#include <IO/AssetExporter/AssetExporter_Three_D_Model.h>
+
 
 using namespace doom;
-using namespace doom::assetimporter;
+using namespace doom::assetImporter;
 
 
-const UINT32 doom::assetimporter::AssetImporterWorker_THREE_D_MODEL::ASSIMP_IMPORT_PROCESSING_SETTING
+const UINT32 doom::assetImporter::AssetImporterWorker_THREE_D_MODEL::ASSIMP_IMPORT_PROCESSING_SETTING
 {
 	static_cast<UINT32>(
 		aiProcess_RemoveComponent |
@@ -22,26 +24,13 @@ const UINT32 doom::assetimporter::AssetImporterWorker_THREE_D_MODEL::ASSIMP_IMPO
 	)
 };
 
-const UINT32 doom::assetimporter::AssetImporterWorker_THREE_D_MODEL::ASSIMP_EXPORT_PROCESSING_SETTING
-{
-	static_cast<UINT32>(
-		aiProcess_RemoveComponent |
-		aiProcess_Triangulate |
-		aiProcess_JoinIdenticalVertices |
-		aiProcess_GenSmoothNormals |
-		aiProcess_CalcTangentSpace |
-		aiProcess_TransformUVCoords |
-		aiProcess_ImproveCacheLocality |
-		aiProcess_GenBoundingBoxes
-	)
-};
 
 
 
 #ifdef DEBUG_MODE
 namespace doom
 {
-	namespace assetimporter 
+	namespace assetImporter 
 	{
 		class AssimpLogStream : public Assimp::LogStream {
 		public:
@@ -57,13 +46,7 @@ namespace doom
 
 
 
-void doom::assetimporter::AssetImporterWorker_THREE_D_MODEL::SetAssFileFormatId(const char* id)
-{
-	AssetImporterWorker_THREE_D_MODEL::mAssFileFormatId = id;
-}
-
-
-bool doom::assetimporter::AssetImporterWorker_THREE_D_MODEL::ImportThreeDModelAsset(
+bool doom::assetImporter::AssetImporterWorker_THREE_D_MODEL::ImportThreeDModelAsset(
 	const std::filesystem::path& path, 
 	::doom::asset::ThreeDModelAsset* asset
 )
@@ -90,7 +73,7 @@ bool doom::assetimporter::AssetImporterWorker_THREE_D_MODEL::ImportThreeDModelAs
 
 		std::filesystem::path exportPath = path;
 		exportPath.replace_extension(MAIN_3D_MODEL_FILE_FORMAT);
-		ExportToAssFile(exportPath, modelScene);
+		doom::assetExporter::assetExporterThreeDModel::ExportToAssFile(exportPath, modelScene);
 	}
 
 	D_ASSERT(modelScene != nullptr);
@@ -141,7 +124,7 @@ AssetImporterWorker_THREE_D_MODEL::AssetImporterWorker_THREE_D_MODEL()
 
 
 
-void doom::assetimporter::AssetImporterWorker_THREE_D_MODEL::SetThreeDModelNodesData
+void doom::assetImporter::AssetImporterWorker_THREE_D_MODEL::SetThreeDModelNodesData
 (
 	ThreeDModelNode* currentNode, 
 	aiNode* currentAssimpNode, 
@@ -185,7 +168,7 @@ void doom::assetimporter::AssetImporterWorker_THREE_D_MODEL::SetThreeDModelNodes
 }
 
 
-void doom::assetimporter::AssetImporterWorker_THREE_D_MODEL::Creat3DModelAsset
+void doom::assetImporter::AssetImporterWorker_THREE_D_MODEL::Creat3DModelAsset
 (
 	const aiScene* pScene, 
 	::doom::asset::ThreeDModelAsset* asset
@@ -297,26 +280,9 @@ void doom::assetimporter::AssetImporterWorker_THREE_D_MODEL::Creat3DModelAsset
 }
 
 
-void doom::assetimporter::AssetImporterWorker_THREE_D_MODEL::ExportToAssFile
-(
-	const std::filesystem::path& path,
-	const aiScene* pScene
-)
-{
-	D_ASSERT(AssetImporterWorker_THREE_D_MODEL::mAssFileFormatId.size() > 0);
-	Assimp::Exporter assimpExporter{};
-	//what is ExportProperties see https://github.com/assimp/assimp/blob/master/include/assimp/config.h.in -> AI_CONFIG_EXPORT_XFILE_64BIT 
-	aiReturn status = assimpExporter.Export(pScene, AssetImporterWorker_THREE_D_MODEL::mAssFileFormatId, path.generic_u8string(), ASSIMP_EXPORT_PROCESSING_SETTING);
-	if (status == aiReturn::aiReturn_FAILURE || status == aiReturn::aiReturn_OUTOFMEMORY)
-	{
-		D_DEBUG_LOG("Fail To Export ASS File", eLogType::D_ERROR);
-		NEVER_HAPPEN;
-	}
-	
-}
 
 
-bool doom::assetimporter::AssetImporterWorker_THREE_D_MODEL::ImportSpecificAsset
+bool doom::assetImporter::AssetImporterWorker_THREE_D_MODEL::ImportSpecificAsset
 (
 	const std::filesystem::path& path, 
 	doom::asset::Asset* asset
@@ -340,7 +306,7 @@ void AssetImporterWorker_THREE_D_MODEL::InitializeAssetImporterWorkerStatic()
 		const UINT32 severity = Assimp::Logger::Err;// | Assimp::Logger::Warn;
 
 		// Attaching it to the default logger
-		Assimp::DefaultLogger::get()->attachStream(new doom::assetimporter::AssimpLogStream, severity);
+		Assimp::DefaultLogger::get()->attachStream(new doom::assetImporter::AssimpLogStream, severity);
 #endif
 
 		Assimp::Exporter exporter{};
@@ -350,7 +316,7 @@ void AssetImporterWorker_THREE_D_MODEL::InitializeAssetImporterWorkerStatic()
 			const char* extension = exporter.GetExportFormatDescription(i)->fileExtension;
 			if (std::strcmp(extension, AssetImporterWorker_THREE_D_MODEL::MAIN_3D_MODEL_FILE_FORMAT.data() + 1) == 0)
 			{
-				doom::assetimporter::AssetImporterWorker_THREE_D_MODEL::SetAssFileFormatId(extension);
+				doom::assetExporter::assetExporterThreeDModel::SetAssFileFormatId(extension);
 				break;
 			}
 		}

@@ -10,7 +10,7 @@ namespace doom
 		class TextureAsset;
 	}
 	
-	namespace assetimporter
+	namespace assetImporter
 	{
 		
 		class DOOM_API AssetImporterWorker_Texture : public AssetImporterWorker

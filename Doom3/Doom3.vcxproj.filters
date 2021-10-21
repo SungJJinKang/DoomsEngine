@@ -24,7 +24,7 @@
     <ClCompile Include="Source\Core\Random.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Core\IO\AssetImporter\AssetImporter.cpp">
+    <ClCompile Include="Source\Core\IO\AssetImporter\assetImporter.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Source\Core\Asset\ShaderAsset.cpp">
@@ -561,6 +561,9 @@
     <ClCompile Include="Source\Core\utility\TextImporter.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Core\IO\AssetExporter\AssetExporter_Three_D_Model.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="dependency\glad\include\glad\glad.h">
@@ -719,7 +722,7 @@
     <ClInclude Include="Source\Core\Asset\TextAsset.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Core\IO\AssetImporter\AssetImporter.h">
+    <ClInclude Include="Source\Core\IO\AssetImporter\assetImporter.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\Helper\DeferredConstant\DeferredConstant.h">
@@ -1512,6 +1515,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\Core\DObject\DOBJECT_BASE_CHAIN.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Core\IO\AssetExporter\AssetExporter_Three_D_Model.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

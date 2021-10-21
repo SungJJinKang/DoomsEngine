@@ -4,7 +4,7 @@
 
 namespace doom
 {
-	namespace assetimporter
+	namespace assetImporter
 	{
 		class AssetImporterWorker;
 		class AssetImporterWorker_Audio;

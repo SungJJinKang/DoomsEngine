@@ -6,7 +6,7 @@ using namespace doom;
 
 namespace doom
 {
-	namespace assetimporter
+	namespace assetImporter
 	{
 		class DOOM_API AssetImporterWorker_Font : public AssetImporterWorker
 		{

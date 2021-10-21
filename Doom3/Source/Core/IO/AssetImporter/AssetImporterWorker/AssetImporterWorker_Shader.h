@@ -10,7 +10,7 @@ namespace doom
 		class ShaderAsset;
 	}
 
-	namespace assetimporter
+	namespace assetImporter
 	{
 		class DOOM_API AssetImporterWorker_Shader : public AssetImporterWorker
 		{

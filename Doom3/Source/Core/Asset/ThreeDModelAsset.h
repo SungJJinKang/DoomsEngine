@@ -127,7 +127,7 @@ namespace doom
 		~ThreeDModelNode() = default;
 	};
 
-	namespace assetimporter
+	namespace assetImporter
 	{
 		class AssetImporterWorker_THREE_D_MODEL;
 	}
@@ -139,7 +139,7 @@ namespace doom
 			DOBJECT_CLASS_BODY(ThreeDModelAsset, doom::eDOBJECT_ClassFlags::NonCopyable)
 				DOBJECT_CLASS_BASE_CHAIN(Asset)
 
-			friend class ::doom::assetimporter::AssetImporterWorker_THREE_D_MODEL;
+			friend class ::doom::assetImporter::AssetImporterWorker_THREE_D_MODEL;
 
 		private:
 			std::unique_ptr<ThreeDModelNode> mRootModelNode{};

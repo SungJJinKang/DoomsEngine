@@ -17,7 +17,7 @@ namespace doom
 		class Material;
 	}
 
-	namespace assetimporter
+	namespace assetImporter
 	{
 		class AssetImporterWorker_Texture;
 	}
@@ -29,7 +29,7 @@ namespace doom
 			DOBJECT_CLASS_BODY(TextureAsset, doom::eDOBJECT_ClassFlags::NonCopyable)
 				DOBJECT_CLASS_BASE_CHAIN(Asset)
 
-			friend class ::doom::assetimporter::AssetImporterWorker_Texture;
+			friend class ::doom::assetImporter::AssetImporterWorker_Texture;
 
 		private:
 

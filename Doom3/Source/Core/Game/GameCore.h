@@ -41,7 +41,7 @@ namespace doom
 		INT32 MAX_PHYSICS_STEP{ 8 };
 
 		//Servers
-		assetimporter::AssetManager mAssetManager{};
+		assetImporter::AssetManager mAssetManager{};
 		graphics::Graphics_Server mGraphics_Server{};
 		physics::Physics_Server mPhysics_Server{};
 		resource::JobSystem mJobSystem{};
