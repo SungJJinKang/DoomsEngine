@@ -103,6 +103,10 @@ namespace doom
 {
 	namespace details
 	{
+		//TODO : BASE_CHAIN 컴파일 타임에 연산 끝난 후 이 HILLCLIMB 함수들 뺄 수 있는 방법 찾자.
+		//		 BAES_CHAIN이 컴파일 타임에 연산된 후 사실상 이 HILLCLIMB 함수들은 필요가 없다. 
+		//		 모든 클래스 타입마다 함수가 하나씩 생기니 코드 크기 매우 크다. 실행파일에 안담기게 만들 방법 찾자. 
+
 		template <typename BASE_DOBJECT_TYPE_CLASS>
 		extern constexpr void BASE_CHAIN_HILLCLIMB_COUNT(SIZE_T& base_chain_count)
 		{
