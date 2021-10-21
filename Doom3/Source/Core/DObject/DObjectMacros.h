@@ -110,8 +110,12 @@ namespace doom
 		//		 BAES_CHAIN이 컴파일 타임에 연산된 후 사실상 이 HILLCLIMB 함수들은 필요가 없다. 
 		//		 모든 클래스 타입마다 함수가 하나씩 생기니 코드 크기 매우 크다. 실행파일에 안담기게 만들 방법 찾자. 
 
+
+		//!!!!!!!!!!!!
+		//Never change static to extern. static give hint to compiler that this definition is used only in source file(.cpp)
+		//								 Then Compiler remove this functions definition from compiler if it is called only at compile time
 		template <typename BASE_DOBJECT_TYPE_CLASS>
-		extern constexpr void BASE_CHAIN_HILLCLIMB_COUNT(SIZE_T& base_chain_count)
+		static constexpr void BASE_CHAIN_HILLCLIMB_COUNT(SIZE_T& base_chain_count)
 		{
 			base_chain_count++;
 			if constexpr (std::is_same_v<doom::DObject, BASE_DOBJECT_TYPE_CLASS> == false) {
@@ -120,7 +124,7 @@ namespace doom
 		}
 
 		template <typename BASE_DOBJECT_TYPE_CLASS>
-		extern constexpr SIZE_T BASE_CHAIN_HILLCLIMB_COUNT()
+		static constexpr SIZE_T BASE_CHAIN_HILLCLIMB_COUNT()
 		{
 			SIZE_T base_chain_count = 1;
 			if constexpr (std::is_same_v <doom::DObject, BASE_DOBJECT_TYPE_CLASS > == false) {
@@ -130,7 +134,7 @@ namespace doom
 		}
 
 		template <typename BASE_DOBJECT_TYPE_CLASS, SIZE_T COUNT>
-		extern constexpr void BASE_CHAIN_HILLCLIMB_DATA(SIZE_T& count, std::array<const char*, COUNT>& chain_data)
+		static constexpr void BASE_CHAIN_HILLCLIMB_DATA(SIZE_T& count, std::array<const char*, COUNT>& chain_data)
 		{
 			chain_data[count] = BASE_DOBJECT_TYPE_CLASS::__CLASS_TYPE_ID;
 			count++;
@@ -140,7 +144,7 @@ namespace doom
 		}
 
 		template <typename BASE_DOBJECT_TYPE_CLASS, SIZE_T COUNT>
-		extern constexpr std::array<const char*, COUNT> BASE_CHAIN_HILLCLIMB_DATA()
+		static constexpr std::array<const char*, COUNT> BASE_CHAIN_HILLCLIMB_DATA()
 		{
 			std::array<const char*, COUNT> chain_data{};
 			chain_data[0] = BASE_DOBJECT_TYPE_CLASS::__CLASS_TYPE_ID;
