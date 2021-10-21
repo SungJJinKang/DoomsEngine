@@ -134,14 +134,13 @@ template<doom::eDOBJECT_ClassFlags...flags> struct flag_or {
 
 #ifndef CLASS_NAME_IMP
 
-#define CLASS_NAME_IMP(CLASS_TYPE)																		\
-		public:																							\
-		static const std::string& CLASS_NAME_STATIC() {													\
+#define CLASS_NAME_IMP(CLASS_TYPE)																						\
+		public:																											\
+		FORCE_INLINE constexpr static const char* CLASS_NAME_STATIC() {													\
 			/* doom::Renderer 이런식으로 타입 적었을 때 대비해야한다. 마지막 "::" 뒤의 문자열만 저장되어야한다   */		\
-			static const std::string CLASS_NAME##CLASS_TYPE = #CLASS_TYPE;								\
-			return CLASS_NAME##CLASS_TYPE;																\
-		}																								\
-        virtual const std::string& GetClassName() const { return CLASS_TYPE::CLASS_NAME_STATIC(); }		
+			return MAKE_STRING(CLASS_TYPE);																				\
+		}																												\
+        virtual const char* GetClassName() const { return CLASS_TYPE::CLASS_NAME_STATIC(); }		
 
 #endif
 

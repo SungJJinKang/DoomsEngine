@@ -82,7 +82,7 @@ static_assert(IS_DOBJECT_TYPE(REMOVE_POINTER_T(CASTING_TYPE)) == true, "Please P
 		{
 			CASTING_STATIC_ASSERT_PAIR(FromCastingType, ToCastingType);
 
-			return (dObject != nullptr && IsA<REMOVE_POINTER_T(ToCastingType)>(dObject) == true) ? reinterpret_cast<ToCastingType>(dObject) : nullptr;
+			return (dObject != nullptr && IsA<REMOVE_POINTER_T(ToCastingType)>(dObject) == true) ? ( reinterpret_cast<ToCastingType>(dObject) ) : ( nullptr );
 		}
 
 		template<typename ToCastingType, typename FromCastingType>
