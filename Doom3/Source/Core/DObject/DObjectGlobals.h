@@ -122,7 +122,7 @@ static_assert(IS_DOBJECT_TYPE(REMOVE_POINTER_T(CASTING_TYPE)) == true, "Please P
 		CASTING_STATIC_ASSERT_PAIR(FromCastingType, ToCastingType);
 
 		//In Unchecked Casting, Check if correct
-		D_ASSERT_LOG( (dObject != nullptr) && (IsA<REMOVE_POINTER_T(ToCastingType)>(dObject) == true) , "Unchecked Casting looks incorrect");
+		D_ASSERT_LOG( (dObject != nullptr) && (IsChildOf<REMOVE_POINTER_T(ToCastingType)>(dObject) == true) , "Unchecked Casting looks incorrect");
 
 		return details::CastToUncheckedImp<ToCastingType>(dObject);
 	}

@@ -164,62 +164,59 @@ namespace doom
 			return true;
 		}
 		
-		bool _RemoveComponent(Component* const component)
+		bool _RemoveComponent(Component* const component, const SIZE_T index)
 		{
 			D_ASSERT(IsValid(component));
 			D_ASSERT(component->IsChildOf<Transform>() == false);
 
 			bool isRemoveSuccess{ false };
 			
-			//TODO : BaseChain 타고 가면서 모든 조상들의 typeid에서 다 삭제
 			std::vector<Component*>& targetComponents = mComponents[reinterpret_cast<SIZE_T>(component->GetClassTypeID())];
-			D_ASSERT(targetComponents.size() > 0);
-			for(SIZE_T i = targetComponents.size() - 1; i >= 0 ; i--)
+			for(std::ptrdiff_t i = targetComponents.size() - 1; i >= 0 ; i--)
 			{
 				if(targetComponents[i] == component)
 				{
 					targetComponents.erase(targetComponents.begin() + i);
+					isRemoveSuccess = true;
 					break;
 				}
 			}
-			Component* removedComp = nullptr;
+
+			D_ASSERT(isRemoveSuccess == true);
+			isRemoveSuccess = false;
+
+			std::unique_ptr<Component> removedComp = nullptr;
 
 			if (IsServerComponent(component) == true)
 			{// when component is ServerComponent
 				D_ASSERT(mServerComponents.size() > 0);
-				for (SIZE_T i = mServerComponents.size() - 1; i >= 0; i--)
-				{
-					if (mServerComponents[i] && mServerComponents[i].get() == component)
-					{
-						removedComp = mServerComponents[i].release();
-						mServerComponents.erase(mServerComponents.begin() + i);
-						_DestroyComponentCallBack(removedComp);
-							
+				D_ASSERT(mServerComponents[index]);
+				D_ASSERT(mServerComponents[index].get() == component);
+				
+				removedComp = std::unique_ptr<Component>(mServerComponents[index].release());
+				mServerComponents.erase(mServerComponents.begin() + index);
+				_DestroyComponentCallBack(removedComp.get());
 
-						isRemoveSuccess = true;
-						break;
-					}
-				}
+				isRemoveSuccess = true;
 			}
 			else
 			{// when component is plainComponent
 				D_ASSERT(mPlainComponents.size() > 0);
-				for (SIZE_T i = mPlainComponents.size() - 1; i >= 0; i--)
-				{
-					if (mPlainComponents[i] && mPlainComponents[i].get() == component)
-					{
-						removedComp = mPlainComponents[i].release();
-						mPlainComponents.erase(mPlainComponents.begin() + i);
-						_DestroyComponentCallBack(removedComp);
+				D_ASSERT(mPlainComponents[index]);
+				D_ASSERT(mPlainComponents[index].get() == component);
 
-						isRemoveSuccess = true;
-						break;
-					}
-				}
+				removedComp = std::unique_ptr<Component>(mPlainComponents[index].release());
+				mPlainComponents.erase(mPlainComponents.begin() + index);
+				_DestroyComponentCallBack(removedComp.get());
+
+				isRemoveSuccess = true;
 			}
 
-			D_ASSERT(IsValid(removedComp) == true);
-			delete removedComp;
+			D_ASSERT(removedComp);
+			D_ASSERT(IsValid(removedComp.get()) == true);
+			D_ASSERT(isRemoveSuccess == true);
+
+			removedComp.reset();
 
 
 			return isRemoveSuccess;
@@ -291,6 +288,8 @@ namespace doom
 		[[nodiscard]] T* GetComponent() const // never return unique_ptr reference, just return pointer
 		{
 			static_assert(std::is_base_of_v<Component, T> == true);
+			static_assert(std::is_same_v<T, PlainComponent> == false);
+			static_assert(std::is_same_v<T, ServerComponent> == false);
 
 
 			T* returnedComponent = nullptr;
@@ -299,12 +298,10 @@ namespace doom
 			{
 				returnedComponent = &mTransform;
 			}
-			else if (std::is_abstract_v<T> == false)
+			else
 			{
-				//TODO : 이거 맞나? abstract 아니더라도 중간에 낀 클래스의 오브젝트인 경우일 수도 있다.
-				//       BaseChain 타고 가면서 모든 조상들의 typeid에 모두 저장해서 해결
 				auto iter = mComponents.find(reinterpret_cast<SIZE_T>(T::CLASS_TYPE_ID_STATIC()));
-				if(iter != mComponents.end())
+				if (iter != mComponents.end())
 				{
 					const std::vector<Component*>& targetComponents = iter->second;
 					if (targetComponents.empty() == false)
@@ -312,15 +309,34 @@ namespace doom
 						returnedComponent = CastToUnchecked<T*>(targetComponents[0]);
 					}
 				}
-				
 			}
 
-			if (returnedComponent != nullptr)
+			if(returnedComponent == nullptr)
 			{
-				D_ASSERT(IsValid(returnedComponent));
-				D_ASSERT(CastTo<T*>(returnedComponent) != nullptr);
+				if (IsServerComponentStatic<T>() == true)
+				{
+					for (auto& serverComponent : mServerComponents)
+					{
+						D_ASSERT(serverComponent);
+						if (serverComponent->IsChildOf<T>())
+						{
+							returnedComponent = CastToUnchecked<T*>(serverComponent.get());
+						}
+					}
+				}
+				else
+				{
+					for (auto& plainComponent : mPlainComponents)
+					{
+						D_ASSERT(plainComponent);
+						if (plainComponent->IsChildOf<T>())
+						{
+							returnedComponent = CastToUnchecked<T*>(plainComponent.get());
+						}
+					}
+				}
 			}
-
+		
 			return returnedComponent;
 		}
 		
@@ -329,6 +345,8 @@ namespace doom
 		[[nodiscard]] std::vector<T*> GetComponents() const
 		{
 			static_assert(std::is_base_of_v<Component, T> == true);
+			static_assert(std::is_same_v<T, PlainComponent> == false);
+			static_assert(std::is_same_v<T, ServerComponent> == false);
 
 			std::vector<T*> components;
 
@@ -336,29 +354,31 @@ namespace doom
 			{
 				components.push_back(&mTransform);
 			}
-			else if (std::is_abstract_v<T> == false)
+			else
 			{
-				auto iter = mComponents.find(reinterpret_cast<SIZE_T>(T::CLASS_TYPE_ID_STATIC()));
-				if (iter != mComponents.end())
+				if (IsServerComponentStatic<T>() == true)
 				{
-					const std::vector<Component*>& targetComponents = iter->second;
-					if (targetComponents.empty() == false)
+					for (auto& serverComponent : mServerComponents)
 					{
-						components.reserve(targetComponents.size());
-						for (Component* comp : targetComponents)
+						D_ASSERT(serverComponent);
+						if (serverComponent->IsChildOf<T>())
 						{
-							components.push_back(static_cast<T*>(comp));
+							components.push_back(CastToUnchecked<T*>(serverComponent.get()));
+						}
+					}
+				}
+				else
+				{
+					for (auto& plainComponent : mPlainComponents)
+					{
+						D_ASSERT(plainComponent);
+						if (plainComponent->IsChildOf<T>())
+						{
+							components.push_back(CastToUnchecked<T*>(plainComponent.get()));
 						}
 					}
 				}
 			}
-
-			for (size_t i = 0; i < components.size(); i++)
-			{
-				D_ASSERT(IsValid(components[i]));  // This will be removed from release build
-				D_ASSERT(CastTo<T*>(components[i]) != nullptr);
-			}
-
 			
 			return components;
 		}
@@ -366,24 +386,39 @@ namespace doom
 		template<typename T, std::enable_if_t<std::is_base_of_v<Component, T>, bool> = true>
 		bool RemoveComponents()
 		{
-			static_assert(std::is_abstract_v<T> == false, "You can call RemoveComponents only with not abstrct class");
-			static_assert(!std::is_same_v<T, Transform>);
+			static_assert(std::is_same_v<T, Transform> == false);
 			static_assert(std::is_base_of_v<Component, T> == true);
+			static_assert(std::is_same_v<T, PlainComponent> == false);
+			static_assert(std::is_same_v<T, ServerComponent> == false);
 
 			bool isAnyComponentRemoved{ false };
 
-
-			const std::vector<Component*>& targetComponents = mComponents[TYPE_ID_HASH_CODE(T)];
-			if (targetComponents.empty() == false)
+			
+			if (IsServerComponentStatic<T>() == true)
 			{
-				for(Component* targetComp : targetComponents)
+				for (std::ptrdiff_t i = 0; i < mServerComponents.size(); i++)
 				{
-					_RemoveComponent(targetComp);
+					if (mServerComponents[i]->IsChildOf<T>())
+					{
+						_RemoveComponent(mServerComponents[i], i);
+						i--;
+						isAnyComponentRemoved = true;
+					}
 				}
-				targetComponents.clear();
-
-				isAnyComponentRemoved = true;
 			}
+			else
+			{
+				for (std::ptrdiff_t i = 0; i < mPlainComponents.size(); i++)
+				{
+					if (mPlainComponents[i]->IsChildOf<T>())
+					{
+						_RemoveComponent(mPlainComponents[i], i);
+						i--;
+						isAnyComponentRemoved = true;
+					}
+				}
+			}
+
 			
 			return isAnyComponentRemoved;
 		}

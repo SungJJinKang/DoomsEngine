@@ -134,14 +134,14 @@ void Entity::ClearComponents()
 	while (mPlainComponents.empty() == false)
 	{
 		//Why doesn't erase from vector instantly : for performance
-		_RemoveComponent(mPlainComponents[mPlainComponents.size() - 1].get());
+		_RemoveComponent(mPlainComponents[mPlainComponents.size() - 1].get(), mPlainComponents.size() - 1);
 	}
 	mPlainComponents.clear();
 
 	while (mServerComponents.empty() == false)
 	{
 		//Why doesn't erase from vector instantly : for performance
-		_RemoveComponent(mServerComponents[mServerComponents.size() - 1].get());
+		_RemoveComponent(mServerComponents[mServerComponents.size() - 1].get(), mServerComponents.size() - 1);
 	}
 	mServerComponents.clear();
 }
