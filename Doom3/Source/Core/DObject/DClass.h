@@ -35,6 +35,16 @@ namespace doom
 		CLASS_FLAGS(_CLASS_FLAGS)
 		{}
 
+		template <typename BASE_TYPE>
+		FORCE_INLINE bool IsChildOf() const
+		{
+			static_assert(IS_DOBJECT_TYPE(BASE_TYPE));
+
+			const bool isChild = (BASE_CHAIN_COUNT >= BASE_TYPE::BASE_CHAIN_COUNT_STATIC()) && (BASE_CHAIN_DATA[BASE_CHAIN_COUNT - BASE_TYPE::BASE_CHAIN_COUNT_STATIC()] == BASE_TYPE::CLASS_TYPE_ID_STATIC());
+
+			return isChild;
+		}
+
 		//TODO : Implement DefaultObject for CreateDObject from DClass ( use CopyConstructor )
 	};
 

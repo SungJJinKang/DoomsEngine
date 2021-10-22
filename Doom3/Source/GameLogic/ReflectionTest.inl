@@ -320,5 +320,11 @@ void doom::GameLogicStartPoint::StartGameLogic()
 	D_ASSERT(CastTo<TestComponent*>(testComp2) != nullptr);
 	D_ASSERT(CastTo<TestComponent2*>(testComp1) == nullptr);
 
-	auto dclass = dObjectConst->GetDClass();
+	doom::DClass dclass2 = testComp2->GetDClass();
+	D_ASSERT(dclass2.IsChildOf<TestComponent>() == true);
+	D_ASSERT(std::strcmp(dclass2.CLASS_NAME, "TestComponent2") == 0);
+	
+	doom::DClass dclass1 = testComp1->GetDClass();
+	D_ASSERT(dclass1.IsChildOf<TestComponent2>() == false);
+	D_ASSERT(std::strcmp(dclass1.CLASS_NAME, "TestComponent2") != 0);
 }
