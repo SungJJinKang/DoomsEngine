@@ -134,7 +134,7 @@ namespace doom
 		/// <param name="component"></param>
 		/// <returns></returns>
 		template<typename T, typename... Args>
-		T* _AddComponent(Args... args) noexcept
+		T* _AddComponent(Args&&... args) noexcept
 		{
 			static_assert(std::is_abstract_v<T> == false, "You can call GetComponent only with not abstrct class");
 			static_assert(std::is_same_v<T, doom::Transform> == false);
@@ -267,7 +267,7 @@ namespace doom
 
 
 		template<typename T, typename... Args>
-		T* AddComponent(Args... args) noexcept
+		T* AddComponent(Args&&... args) noexcept
 		{
 			return _AddComponent<T>(std::forward<Args>(args)...);
 		}
