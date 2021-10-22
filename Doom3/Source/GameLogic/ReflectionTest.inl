@@ -320,11 +320,27 @@ void doom::GameLogicStartPoint::StartGameLogic()
 	D_ASSERT(CastTo<TestComponent*>(testComp2) != nullptr);
 	D_ASSERT(CastTo<TestComponent2*>(testComp1) == nullptr);
 
-	doom::DClass dclass2 = testComp2->GetDClass();
-	D_ASSERT(dclass2.IsChildOf<TestComponent>() == true);
-	D_ASSERT(std::strcmp(dclass2.CLASS_NAME, "TestComponent2") == 0);
+	doom::DClass* dclass2 = testComp2->GetDClass();
+	D_ASSERT(dclass2->IsChildOf<TestComponent>() == true);
+	D_ASSERT(std::strcmp(dclass2->CLASS_NAME, "TestComponent2") == 0);
 	
-	doom::DClass dclass1 = testComp1->GetDClass();
-	D_ASSERT(dclass1.IsChildOf<TestComponent2>() == false);
-	D_ASSERT(std::strcmp(dclass1.CLASS_NAME, "TestComponent2") != 0);
+	doom::DClass* dclass1 = testComp1->GetDClass();
+	D_ASSERT(dclass1->IsChildOf<TestComponent2>() == false);
+	D_ASSERT(std::strcmp(dclass1->CLASS_NAME, "TestComponent2") != 0);
+
+	TSubclassOf<doom::TestComponent> testComp1SubClassOf{ dclass1 };
+	TSubclassOf<doom::TestComponent> testComp2SubClassOf{ dclass2 };
+	TSubclassOf<doom::TestComponent2> testComp3SubClassOf{ dclass2 };
+	TSubclassOf<doom::TestComponent2> testComp13SubClassOf{ testComp2SubClassOf };
+	D_ASSERT(testComp1SubClassOf != nullptr);
+	D_ASSERT(testComp2SubClassOf != nullptr);
+	D_ASSERT(testComp3SubClassOf != nullptr);
+	D_ASSERT(testComp13SubClassOf == nullptr);
+
+	
+	TSubclassOf<doom::TestComponent2> testComp12SubClassOf{ dclass1 };
+	D_ASSERT(testComp12SubClassOf == nullptr);
+
+
+	TSubclassOf<doom::DObject> DObjectSubClassOf{ Renderer::StaticClass() };
 }

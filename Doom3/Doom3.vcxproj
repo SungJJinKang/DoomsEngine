@@ -437,6 +437,7 @@
     <ClInclude Include="Source\Core\DObject\DObjectHeaders.h" />
     <ClInclude Include="Source\Core\DObject\DObjectMacros.h" />
     <ClInclude Include="Source\Core\DObject\DObject_Constant.h" />
+    <ClInclude Include="Source\Core\DObject\TSubclassOf.h" />
     <ClInclude Include="Source\Core\Game\AssetManager\AssetFuture.h" />
     <ClInclude Include="Source\Core\Graphics\FrameBuffer\FrameBufferExporterHelper.h" />
     <ClInclude Include="Source\Core\IO\AssetExporter\AssetExporter_Texture.h" />

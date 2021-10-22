@@ -42,12 +42,14 @@ template<doom::eDOBJECT_ClassFlags...flags> struct flag_or {
 
 #ifndef CLASS_FLAGS_FUNCTION
 
-#define CLASS_FLAGS_FUNCTION(CLASS_TYPE, ...)												\
-		public:																				\
-		FORCE_INLINE constexpr static UINT32 CLASS_FLAGS_STATIC() {							\
-			return flag_or<eDOBJECT_ClassFlags::_Dummy, __VA_ARGS__>::value;				\
-		}																					\
-        virtual UINT32 GetClassFlags() const { return CLASS_TYPE::CLASS_FLAGS_STATIC(); }
+#define CLASS_FLAGS_FUNCTION(CLASS_TYPE, ...)																	\
+		private:																								\
+		constexpr static UINT32 __CLASS_CLASS_FLAGS = flag_or<eDOBJECT_ClassFlags::_Dummy, __VA_ARGS__>::value;	\
+		public:																									\
+		[[nodiscard]] FORCE_INLINE constexpr static UINT32 CLASS_FLAGS_STATIC() {								\
+			return __CLASS_CLASS_FLAGS;																			\
+		}																										\
+        [[nodiscard]]  virtual UINT32 GetClassFlags() const { return CLASS_TYPE::CLASS_FLAGS_STATIC(); }
 
 #endif
 
@@ -57,7 +59,7 @@ template<doom::eDOBJECT_ClassFlags...flags> struct flag_or {
 
 #define _CLONE_DOBJECT(CLASS_TYPE)															\
 	public:																					\
-	virtual CLASS_TYPE*	CLONE_DOBJECT () const												\
+	[[nodiscard]] virtual CLASS_TYPE* CLONE_DOBJECT () const								\
 	{																						\
 		CLASS_TYPE* newObject = nullptr;													\
 		if constexpr( (CLASS_FLAGS_STATIC() & eDOBJECT_ClassFlags::NonCopyable) == false )	\
@@ -90,11 +92,10 @@ static_assert("TEST IF IDENTICAL LITERAL STRING IS ALLOATED ONE TIME" == "TEST I
 #define TYPE_ID_IMP(CLASS_TYPE)																							\
 		public:																											\
 		constexpr static const char* const __CLASS_TYPE_ID = MAKE_STRING(CLASS_TYPE);									\
-		public:																											\
-		FORCE_INLINE constexpr static const char* CLASS_TYPE_ID_STATIC() {												\
+		[[nodiscard]] FORCE_INLINE constexpr static const char* CLASS_TYPE_ID_STATIC() {								\
 			return __CLASS_TYPE_ID;																						\
 		}																												\
-        virtual const char* GetClassTypeID() const {																	\
+        [[nodiscard]] virtual const char* GetClassTypeID() const {														\
 		static_assert(std::is_same_v<std::decay<decltype(*this)>::type, CLASS_TYPE> == true, "Wrong Current ClassType is passed");	\
 		return CLASS_TYPE::CLASS_TYPE_ID_STATIC(); }		
 
@@ -164,16 +165,16 @@ private:																						\
 	constexpr static SIZE_T _BASE_CHAIN_COUNT = 1;												\
 	constexpr static const std::array<const char*, 1> _BASE_CHAIN_DATA{ __CLASS_TYPE_ID };		\
 public:																							\
-	FORCE_INLINE constexpr static SIZE_T BASE_CHAIN_COUNT_STATIC()								\
+	[[nodiscard]] FORCE_INLINE constexpr static SIZE_T BASE_CHAIN_COUNT_STATIC()				\
 	{																							\
 		return 1;																				\
 	}																							\
-	FORCE_INLINE constexpr static const char* const* BASE_CHAIN_DATA_STATIC()					\
+	[[nodiscard]] FORCE_INLINE constexpr static const char* const* BASE_CHAIN_DATA_STATIC()		\
 	{																							\
 		return _BASE_CHAIN_DATA.data();															\
 	}																							\
-	virtual SIZE_T GetBaseChainCount() const { return BASE_CHAIN_COUNT_STATIC(); }				\
-	virtual const char* const* GetBaseChainData() const { return BASE_CHAIN_DATA_STATIC(); }
+	[[nodiscard]] virtual SIZE_T GetBaseChainCount() const { return BASE_CHAIN_COUNT_STATIC(); }\
+	[[nodiscard]] virtual const char* const* GetBaseChainData() const { return BASE_CHAIN_DATA_STATIC(); }
 
 
 #define DOBJECT_CLASS_BASE_CHAIN(BASE_DOBJECT_TYPE_CLASS)													\
@@ -185,16 +186,16 @@ public:																							\
 	constexpr static SIZE_T _BASE_CHAIN_COUNT = doom::details::BASE_CHAIN_HILLCLIMB_COUNT<Current>();		\
 	constexpr static const std::array<const char*, _BASE_CHAIN_COUNT> _BASE_CHAIN_DATA = doom::details::BASE_CHAIN_HILLCLIMB_DATA<Current, _BASE_CHAIN_COUNT>();			\
 	public:																									\
-	FORCE_INLINE constexpr static SIZE_T BASE_CHAIN_COUNT_STATIC()											\
+	[[nodiscard]] FORCE_INLINE constexpr static SIZE_T BASE_CHAIN_COUNT_STATIC()							\
 	{																										\
 		return _BASE_CHAIN_COUNT;																			\
 	}																										\
-	FORCE_INLINE constexpr static const char* const * BASE_CHAIN_DATA_STATIC()								\
+	[[nodiscard]] FORCE_INLINE constexpr static const char* const * BASE_CHAIN_DATA_STATIC()				\
 	{																										\
 		return _BASE_CHAIN_DATA.data();																		\
 	}																										\
-	virtual SIZE_T GetBaseChainCount() const { return BASE_CHAIN_COUNT_STATIC(); }							\
-	virtual const char* const * GetBaseChainData() const {													\
+	[[nodiscard]] virtual SIZE_T GetBaseChainCount() const { return BASE_CHAIN_COUNT_STATIC(); }			\
+	[[nodiscard]] virtual const char* const * GetBaseChainData() const {									\
 	static_assert(std::is_base_of_v<BASE_DOBJECT_TYPE_CLASS, std::decay<decltype(*this)>::type> == true, "Current Class Type is not derived from Passed Base ClassType is passed");	\
 	return BASE_CHAIN_DATA_STATIC(); }
 
@@ -207,28 +208,51 @@ public:																							\
 
 #define CLASS_NAME_IMP(CLASS_TYPE)																						\
 		public:																											\
-		FORCE_INLINE constexpr static const char* CLASS_NAME_STATIC() {													\
+		[[nodiscard]] FORCE_INLINE constexpr static const char* CLASS_NAME_STATIC() {									\
 			/* doom::Renderer 이런식으로 타입 적었을 때 대비해야한다. 마지막 "::" 뒤의 문자열만 저장되어야한다   */		\
-			return MAKE_STRING(CLASS_TYPE);																				\
+			return __CLASS_TYPE_ID;																						\
 		}																												\
-        virtual const char* GetClassName() const { return CLASS_TYPE::CLASS_NAME_STATIC(); }		
+        [[nodiscard]] virtual const char* GetClassName() const { return CLASS_TYPE::CLASS_NAME_STATIC(); }		
 
 #endif
 
 
 /////////////////////////////////
 
+#include "DClass.h"
+
+namespace doom
+{
+	namespace details
+	{
+		template <typename DOBJECT_TYPE>
+		extern ::doom::DClass CreateDClass()
+		{
+			static_assert(std::is_base_of_v<doom::DObject, DOBJECT_TYPE> == true);
+			return ::doom::DClass(
+				DOBJECT_TYPE::CLASS_TYPE_ID_STATIC(),
+				DOBJECT_TYPE::BASE_CHAIN_COUNT_STATIC(),
+				DOBJECT_TYPE::BASE_CHAIN_DATA_STATIC(),
+				DOBJECT_TYPE::CLASS_NAME_STATIC(),
+				DOBJECT_TYPE::CLASS_FLAGS_STATIC()
+			);
+		}
+	}
+}
+
+
 #ifndef DCLASS_IMP
 
 //TODO : If _BASE_CHAIN become resolved at compile time, Do This Also at Compile time
-#include "DClass.h"
-#define DCLASS_IMP(CLASS_TYPE)															\
-		public :																		\
-		FORCE_INLINE static doom::DClass StaticClass()									\
-		{																				\
-			return doom::CreateDClass<CLASS_TYPE>();									\
-		}																				\
-		virtual doom::DClass GetDClass() const { return CLASS_TYPE::StaticClass(); }
+
+#define DCLASS_IMP(CLASS_TYPE)																			\
+		public :																						\
+		[[nodiscard]] FORCE_INLINE static doom::DClass* StaticClass()									\
+		{																								\
+			static doom::DClass _CLASS_DCLASS = doom::details::CreateDClass<CLASS_TYPE>();				\
+			return &_CLASS_DCLASS;																		\
+		}																								\
+		[[nodiscard]] virtual doom::DClass* GetDClass() const { return CLASS_TYPE::StaticClass(); }
 
 #endif
 
