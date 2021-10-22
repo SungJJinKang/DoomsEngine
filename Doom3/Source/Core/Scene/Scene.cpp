@@ -60,10 +60,8 @@ Entity* Scene::DuplicateEntityStatic(const Entity* const copyedEntity) noexcept
 bool Scene::DestroyEntity(Entity& entity)
 {
 	bool isSuccess = false;
-
-	SIZE_T size = mSpawnedEntities.size();
-
-	for (SIZE_T i = 0; i < size; i++)
+	
+	for ( std::ptrdiff_t i = mSpawnedEntities.size() - 1 ; i >= 0 ; i-- )
 	{
 		if (mSpawnedEntities[i].get() == &entity)
 		{
