@@ -94,7 +94,9 @@ static_assert("TEST IF IDENTICAL LITERAL STRING IS ALLOATED ONE TIME" == "TEST I
 		FORCE_INLINE constexpr static const char* CLASS_TYPE_ID_STATIC() {												\
 			return __CLASS_TYPE_ID;																						\
 		}																												\
-        virtual const char* GetClassTypeID() const { return CLASS_TYPE::CLASS_TYPE_ID_STATIC(); }		
+        virtual const char* GetClassTypeID() const {																	\
+		static_assert(std::is_same_v<std::decay<decltype(*this)>::type, CLASS_TYPE> == true, "Wrong Current ClassType is passed");	\
+		return CLASS_TYPE::CLASS_TYPE_ID_STATIC(); }		
 
 #endif
 
@@ -175,6 +177,7 @@ public:																							\
 
 
 #define DOBJECT_CLASS_BASE_CHAIN(BASE_DOBJECT_TYPE_CLASS)													\
+	static_assert(std::is_base_of_v<doom::DObject, BASE_DOBJECT_TYPE_CLASS> == true);						\
 	static_assert(std::is_same_v<Current, BASE_DOBJECT_TYPE_CLASS> == false);								\
 	public:																									\
 	using Base = BASE_DOBJECT_TYPE_CLASS; /* alias Base DObject Type Class */								\
@@ -191,7 +194,9 @@ public:																							\
 		return _BASE_CHAIN_DATA.data();																		\
 	}																										\
 	virtual SIZE_T GetBaseChainCount() const { return BASE_CHAIN_COUNT_STATIC(); }							\
-	virtual const char* const * GetBaseChainData() const { return BASE_CHAIN_DATA_STATIC(); }
+	virtual const char* const * GetBaseChainData() const {													\
+	static_assert(std::is_base_of_v<BASE_DOBJECT_TYPE_CLASS, std::decay<decltype(*this)>::type> == true, "Current Class Type is not derived from Passed Base ClassType is passed");	\
+	return BASE_CHAIN_DATA_STATIC(); }
 
 
 /////////////////////////////////
