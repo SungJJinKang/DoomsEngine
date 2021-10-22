@@ -120,6 +120,7 @@ namespace doom
 				mPlainComponents.emplace_back(newComponent);
 			}
 
+			//TODO : BaseChain 타고 가면서 모든 조상들의 typeid에다가 다 저장하자.
 			mComponents[reinterpret_cast<SIZE_T>(newComponent->GetClassTypeID())].push_back(newComponent);
 
 
@@ -170,6 +171,7 @@ namespace doom
 
 			bool isRemoveSuccess{ false };
 			
+			//TODO : BaseChain 타고 가면서 모든 조상들의 typeid에서 다 삭제
 			std::vector<Component*>& targetComponents = mComponents[reinterpret_cast<SIZE_T>(component->GetClassTypeID())];
 			D_ASSERT(targetComponents.size() > 0);
 			for(SIZE_T i = targetComponents.size() - 1; i >= 0 ; i--)
@@ -300,6 +302,7 @@ namespace doom
 			else if (std::is_abstract_v<T> == false)
 			{
 				//TODO : 이거 맞나? abstract 아니더라도 중간에 낀 클래스의 오브젝트인 경우일 수도 있다.
+				//       BaseChain 타고 가면서 모든 조상들의 typeid에 모두 저장해서 해결
 				auto iter = mComponents.find(reinterpret_cast<SIZE_T>(T::CLASS_TYPE_ID_STATIC()));
 				if(iter != mComponents.end())
 				{
@@ -310,30 +313,6 @@ namespace doom
 					}
 				}
 				
-			}
-			else
-			{
-				//TODO : Make This Faster. If 
-				if(IsServerComponentStatic<T>() == true)
-				{
-					for (auto& serverComponent : mServerComponents)
-					{
-						if (serverComponent && serverComponent->IsChildOf<T>())
-						{
-							returnedComponent = CastToUnchecked<T*>(serverComponent.get());
-						}
-					}
-				}
-				else
-				{
-					for (auto& plainComponent : mPlainComponents)
-					{
-						if (plainComponent && plainComponent->IsChildOf<T>())
-						{
-							returnedComponent = CastToUnchecked<T*>(plainComponent.get());
-						}
-					}
-				}
 			}
 
 			if (returnedComponent != nullptr)
@@ -373,29 +352,6 @@ namespace doom
 					}
 				}
 			}
-			else
-			{
-				if (IsServerComponentStatic<T>() == true)
-				{
-					for (auto& serverComponent : mServerComponents)
-					{
-						if (serverComponent && serverComponent->IsChildOf<T>())
-						{
-							components.push_back(CastToUnchecked<T*>(serverComponent.get()));
-						}
-					}
-				}
-				else
-				{
-					for (auto& plainComponent : mPlainComponents)
-					{
-						if (plainComponent && plainComponent->IsChildOf<T>())
-						{
-							components.push_back(CastToUnchecked<T*>(plainComponent.get()));
-						}
-					}
-				}
-			}
 
 			for (size_t i = 0; i < components.size(); i++)
 			{
@@ -414,7 +370,7 @@ namespace doom
 			static_assert(!std::is_same_v<T, Transform>);
 			static_assert(std::is_base_of_v<Component, T> == true);
 
-			bool isRemoveSuccess{ false };
+			bool isAnyComponentRemoved{ false };
 
 
 			const std::vector<Component*>& targetComponents = mComponents[TYPE_ID_HASH_CODE(T)];
@@ -426,10 +382,10 @@ namespace doom
 				}
 				targetComponents.clear();
 
-				isRemoveSuccess = true;
+				isAnyComponentRemoved = true;
 			}
 			
-			return isRemoveSuccess;
+			return isAnyComponentRemoved;
 		}
 
 		
