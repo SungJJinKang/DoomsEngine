@@ -226,14 +226,12 @@ void doom::GameLogicStartPoint::StartGameLogic()
 	auto a = Renderer::CLASS_TYPE_ID_STATIC();
 	auto b = MeshRenderer::CLASS_TYPE_ID_STATIC();
 	auto c = DirectionalLight::CLASS_TYPE_ID_STATIC();
+	
 
-	auto d = dirLight->GetClassTypeID();
-	auto e = typeid(*dirLight).hash_code();
-
-	auto b1 = IsA<DObject>(static_cast<DObject*>(dirLight));
-	auto b2 = IsA<Light>(static_cast<DObject*>(dirLight));
-	auto b3 = IsA<DirectionalLight>(static_cast<DObject*>(dirLight));
-	auto b4 = IsA<PointLight>(static_cast<DObject*>(dirLight));
+	auto b1 = IsChildOf<DObject>(static_cast<DObject*>(dirLight));
+	auto b2 = IsChildOf<Light>(static_cast<DObject*>(dirLight));
+	auto b3 = IsChildOf<DirectionalLight>(static_cast<DObject*>(dirLight));
+	auto b4 = IsChildOf<PointLight>(static_cast<DObject*>(dirLight));
 	
 	auto c2 = CastTo<DirectionalLight*>(dirLight);
 	auto c3 = CastTo<PointLight*>(dirLight);

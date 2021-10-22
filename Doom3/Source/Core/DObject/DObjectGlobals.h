@@ -61,19 +61,13 @@ static_assert(IS_DOBJECT_TYPE(REMOVE_POINTER_T(CASTING_TYPE)) == true, "Please P
 		static_assert( ( std::conditional<std::is_const_v<REMOVE_POINTER_T(FROM_CASTING_TYPE)>, std::is_const<REMOVE_POINTER_T(TO_CASTING_TYPE)>, std::bool_constant<true>>::type::value ) == true, "If FromCasting Type is const-qualified type, ToCasting type should be const-qualified type")
 
 	template <typename CompareType>
-	FORCE_INLINE bool IsA(const DObject* const dObject)
-	{
-		static_assert(std::is_pointer_v<CompareType> == false, "Don't Pass Pointer Type as IsA function's template argument");						
-		static_assert(IS_DOBJECT_TYPE(CompareType) == true, "Please Pass DObject's child Type as IsA function's template argument");		
-		D_ASSERT(IsValid(dObject) == true);
-
-		return ( IsValid(dObject) == true ) && ( dObject->IsChildOf<CompareType>() );
-	}
-
-	template <typename CompareType>
 	FORCE_INLINE bool IsChildOf(const DObject* const dObject)
 	{
-		return IsA<CompareType>(dObject);
+		static_assert(std::is_pointer_v<CompareType> == false, "Don't Pass Pointer Type as IsA function's template argument");
+		static_assert(IS_DOBJECT_TYPE(CompareType) == true, "Please Pass DObject's child Type as IsA function's template argument");
+		D_ASSERT(IsValid(dObject) == true);
+
+		return (IsValid(dObject) == true) && (dObject->IsChildOf<CompareType>());
 	}
 
 	namespace details
@@ -83,7 +77,7 @@ static_assert(IS_DOBJECT_TYPE(REMOVE_POINTER_T(CASTING_TYPE)) == true, "Please P
 		{
 			CASTING_STATIC_ASSERT_PAIR(FromCastingType, ToCastingType);
 
-			return (dObject != nullptr && IsA<REMOVE_POINTER_T(ToCastingType)>(dObject) == true) ? ( reinterpret_cast<ToCastingType>(dObject) ) : ( nullptr );
+			return (dObject != nullptr && IsChildOf<REMOVE_POINTER_T(ToCastingType)>(dObject) == true) ? ( reinterpret_cast<ToCastingType>(dObject) ) : ( nullptr );
 		}
 
 		template<typename ToCastingType, typename FromCastingType>
