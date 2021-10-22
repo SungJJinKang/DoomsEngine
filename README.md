@@ -1,5 +1,13 @@
 # Dooms Engine ( Game Engine )
 
+## Game Engine
+
+This project start from project making doom2 from scratch.     
+But At some point, I was making Game Engine!!      
+So I decided to change Project Goal.          
+
+This game engine will be used in making my tiny home-made game.         
+
 ## Why Do This Project
 
 i had made some indie games with Unity game engine [Google PlayStore](https://play.google.com/store/apps/details?id=com.milli.findkiller2&hl=ko)  [Google PlayStore1](https://play.google.com/store/apps/details?id=com.NintyNineMillion.FindKiller&hl=ko).   
@@ -17,7 +25,7 @@ if you wanna good and clean code for learning something, Find other project.
 
 ## Video
 
-[구현 영상](https://youtube.com/playlist?list=PLUg9a0kyCgTR3OhYZYSMauDmjv6D96pVz)              
+[Game Engine Video](https://youtube.com/playlist?list=PLUg9a0kyCgTR3OhYZYSMauDmjv6D96pVz)              
 
 ## Key features
 
@@ -25,7 +33,7 @@ if you wanna good and clean code for learning something, Find other project.
 
 ## Implemented features
 
-  * Deferred Rendering
+  * Deferred Rendering ( https://youtu.be/TU9P8gcKsi8 )
   * Profiler (reference : https://youtu.be/tD4xRNB0M_Q) 
   * Logger
   * Memory Pool(limited use)
@@ -37,11 +45,11 @@ if you wanna good and clean code for learning something, Find other project.
   * HW Query Occlusion Culling, Conditional Rendering ( https://github.com/SungJJinKang/EveryCulling )
   * Asset Import Pipeline ( Automatically import assets located in asset folder )
   * JobSystem ( Thread Pool - https://github.com/SungJJinKang/JobSystem_cpp )
-  * Collision, Raycasting, Picking ( implemented with BVH Tree )
-  * Overdraw Visualization ( implemented with Additive Blending )
-  * FrameBuffer, Texture exporter
+  * Collision, Raycasting, Picking ( implemented with BVH Tree ) ( https://youtu.be/ZASdCIKeG6s )
+  * Overdraw Visualization ( implemented with Additive Blending ) ( https://youtu.be/fU3iBthe4Ws )
+  * FrameBuffer, Texture Exporter ( https://youtu.be/T2XlHlOr95g )
   * Reflection System ( https://sungjjinkang.github.io/computerscience/2021/10/20/Reflection.html )
-  * Fast Runtime Type Casting ( O(1), Not use dynamic_cast ( RTTI option is disabled ), https://sungjjinkang.github.io/computerscience/2021/10/20/Reflection.html )        
+  * Fast Runtime Type Casting ( O(1), Not use dynamic_cast ( RTTI option is disabled ), https://github.com/SungJJinKang/Fast_Runtime_TypeCasting_cpp )        
 
 ## In Developing
 
