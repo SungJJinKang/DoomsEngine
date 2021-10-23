@@ -6,25 +6,30 @@
 
 using namespace doom::graphics;
 
+Texture::Texture()
+	: mBufferID()
+{
+}
+
+Texture::~Texture()
+{
+	DestroyTextureBufferObject();
+}
 
 
 Texture::Texture(eTextureType textureType, eBindTarget bindTarget,
 	eTargetTexture targetTexture, eTextureInternalFormat internalFormat, eTextureCompressedInternalFormat compressedInternalFormat, UINT32 width, eTextureComponentFormat format, eDataType type)
-	: mTextureType{ textureType }, mBindTarget{ bindTarget },
-	mTarget{ targetTexture }, mInternalFormat{ internalFormat }, mCompressedInternalFormat{ compressedInternalFormat }, mWidth{ width }, mHeight{ 0 }, mDataFormat{ format }, mDataType{ type }
+	: mBufferID()
 {
-	D_ASSERT(mWidth > 0 && mHeight > 0);
-	glGenTextures(1, &(mBufferID));
+	InitializeTexture(textureType, bindTarget, targetTexture, internalFormat, compressedInternalFormat, width, format, type);
 }
 
 
 Texture::Texture(eTextureType textureType, eBindTarget bindTarget,
 	eTargetTexture targetTexture, eTextureInternalFormat internalFormat, eTextureCompressedInternalFormat compressedInternalFormat, UINT32 width, UINT32 height, eTextureComponentFormat format, eDataType type)
-	: mTextureType{ textureType }, mBindTarget{ bindTarget },
-	mTarget{ targetTexture }, mInternalFormat{ internalFormat }, mCompressedInternalFormat{ compressedInternalFormat }, mWidth{ width }, mHeight{ height }, mDataFormat{ format }, mDataType{ type }
+	: mBufferID()
 {
-	D_ASSERT(mWidth > 0 && mHeight > 0);
-	glGenTextures(1, &(mBufferID));
+	InitializeTexture(textureType, bindTarget, targetTexture, internalFormat, compressedInternalFormat, width, height, format, type);
 }
 
 
@@ -36,6 +41,48 @@ void Texture::OnEndContructor()
 	//UnBindTexture();
 }
 
+void Texture::InitializeTexture(eTextureType textureType, eBindTarget bindTarget, eTargetTexture targetTexture,
+	eTextureInternalFormat internalFormat, eTextureCompressedInternalFormat compressedInternalFormat, UINT32 width,
+	eTextureComponentFormat format, eDataType type)
+{
+	D_ASSERT(mBufferID.IsValid() == false);
+	D_ASSERT(mWidth > 0 && mHeight > 0);
+	if(mBufferID.IsValid() == false)
+	{
+		mTextureType = textureType;
+		mBindTarget = bindTarget;
+		mTarget = targetTexture;
+		mInternalFormat = internalFormat;
+		mCompressedInternalFormat = compressedInternalFormat;
+		mWidth = width;
+		mHeight = 0;
+		mDataFormat = format;
+		mDataType = type;
+		
+		glGenTextures(1, &(mBufferID));
+	}
+}
+
+void Texture::InitializeTexture(eTextureType textureType, eBindTarget bindTarget, eTargetTexture targetTexture,
+	eTextureInternalFormat internalFormat, eTextureCompressedInternalFormat compressedInternalFormat, UINT32 width,
+	UINT32 height, eTextureComponentFormat format, eDataType type)
+{
+	if (mBufferID.IsValid() == false)
+	{
+		mTextureType = textureType;
+		mBindTarget = bindTarget;
+		mTarget = targetTexture;
+		mInternalFormat = internalFormat;
+		mCompressedInternalFormat = compressedInternalFormat;
+		mWidth = width;
+		mHeight = height;
+		mDataFormat = format;
+		mDataType = type;
+
+		glGenTextures(1, &(mBufferID));
+	}
+}
+
 void Texture::DestroyTextureBufferObject()
 {
 	if (mBufferID.GetBufferID() != 0)
@@ -45,10 +92,6 @@ void Texture::DestroyTextureBufferObject()
 	}
 }
 
-Texture::~Texture()
-{
-	DestroyTextureBufferObject();
-}
 
 void Texture::SetWrapMode(eWrapMode wrapMode, bool bBind)
 {

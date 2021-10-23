@@ -234,23 +234,25 @@ namespace doom
 			eWrapMode mWrapS;
 			eWrapMode mWrapT;
 			eWrapMode mWrapR;
+
+			eTextureType mTextureType = eTextureType::NONE;
+			eBindTarget mBindTarget = eBindTarget::NONE;
+
+			eTargetTexture mTarget;
+			eTextureInternalFormat mInternalFormat = eTextureInternalFormat::NONE;
+			eTextureCompressedInternalFormat mCompressedInternalFormat = eTextureCompressedInternalFormat::NONE;
+			UINT32 mWidth;
+			UINT32 mHeight;
+			eTextureComponentFormat mDataFormat = eTextureComponentFormat::NONE;
+			eDataType mDataType;
 			
 			void DestroyTextureBufferObject();
 
 		public:
 
-			const eTextureType mTextureType = eTextureType::NONE;
-			const eBindTarget mBindTarget = eBindTarget::NONE;
+			
 
-			const eTargetTexture mTarget;
-			const eTextureInternalFormat mInternalFormat = eTextureInternalFormat::NONE;
-			const eTextureCompressedInternalFormat mCompressedInternalFormat = eTextureCompressedInternalFormat::NONE;
-			const UINT32 mWidth;
-			const UINT32 mHeight;
-			const eTextureComponentFormat mDataFormat = eTextureComponentFormat::NONE;
-			const eDataType mDataType;
-
-			Texture() = delete;
+			Texture();
 			Texture(const Texture&) = delete;
 			Texture& operator=(const Texture&) noexcept = delete;
 
@@ -280,6 +282,24 @@ namespace doom
 
 			virtual ~Texture();
 			virtual void OnEndContructor();
+
+			void InitializeTexture(eTextureType textureType, eBindTarget bindTarget,
+				eTargetTexture targetTexture, eTextureInternalFormat internalFormat, eTextureCompressedInternalFormat compressedInternalFormat, UINT32 width, eTextureComponentFormat format, eDataType type);
+
+			/// <summary>
+			/// for 2d texture
+			/// </summary>
+			/// <param name="textureType"></param>
+			/// <param name="bindTarget"></param>
+			/// <param name="target"></param>
+			/// <param name="internalFormat"></param>
+			/// <param name="width"></param>
+			/// <param name="height"></param>
+			/// <param name="format"></param>
+			/// <param name="type"></param>
+			/// <param name="data"></param>
+			void InitializeTexture(eTextureType textureType, eBindTarget bindTarget,
+				eTargetTexture targetTexture, eTextureInternalFormat internalFormat, eTextureCompressedInternalFormat compressedInternalFormat, UINT32 width, UINT32 height, eTextureComponentFormat format, eDataType type);
 
 			UINT32 GetBufferID() const
 			{
@@ -356,6 +376,43 @@ namespace doom
 			eWrapMode GetWrapModeT() const;
 			eWrapMode GetWrapModeR() const;
 
+			FORCE_INLINE eTextureType GetTextureType() const
+			{
+				return mTextureType;
+			}
+			FORCE_INLINE eBindTarget GetBindTarget() const
+			{
+				return mBindTarget;
+			}
+			FORCE_INLINE eTargetTexture GetTarget() const
+			{
+				return mTarget;
+			}
+			FORCE_INLINE eTextureInternalFormat GetInternalFormat() const
+			{
+				return mInternalFormat;
+			}
+			FORCE_INLINE eTextureCompressedInternalFormat GetCompressedInternalFormat() const
+			{
+				return mCompressedInternalFormat;
+			}
+			FORCE_INLINE UINT32 GetWidth() const
+			{
+				return mWidth;
+			}
+			FORCE_INLINE UINT32 GetHeight() const
+			{
+				return mHeight;
+			}
+			FORCE_INLINE eTextureComponentFormat GetDataFormat() const
+			{
+				return mDataFormat;
+			}
+			FORCE_INLINE eDataType GetDataType() const
+			{
+				return mDataType;
+			}
+
 			FORCE_INLINE void TexParameterf(eBindTarget target, eTextureParameterType pname, eTextureParameterValue param) const noexcept
 			{
 				glTexParameterf(static_cast<UINT32>(target), static_cast<UINT32>(pname), static_cast<FLOAT32>(param));
@@ -416,16 +473,7 @@ namespace doom
 				BGRA_INTEGER = GL_BGRA_INTEGER
 			};
 			
-			FORCE_INLINE eTextureComponentFormat GetDataFormat() const
-			{
-				return mDataFormat;
-			}
-
-			FORCE_INLINE eDataType GetDataType() const
-			{
-				return mDataType;
-			}
-
+			
 			/// <summary>
 			/// This function is really really fxcking slow, Don't use this at release build
 			///	I can optimize this, But I want more safe way

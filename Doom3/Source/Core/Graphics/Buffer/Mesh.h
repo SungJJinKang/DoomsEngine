@@ -18,7 +18,7 @@ namespace doom
 	namespace graphics
 	{
 		class Graphics_Server;
-		class Mesh : protected Buffer
+		class Mesh : public Buffer
 		{
 			DOBJECT_CLASS_BODY(Mesh, doom::eDOBJECT_ClassFlags::NonCopyable);
 			DOBJECT_CLASS_BASE_CHAIN(Buffer)
@@ -62,7 +62,7 @@ namespace doom
 			/// <returns></returns>
 			FORCE_INLINE void BindBuffer() const noexcept final
 			{
-				D_ASSERT(mVertexArrayObjectID != 0);
+				D_ASSERT(mVertexArrayObjectID.IsValid());
 
 				if (D_OVERLAP_BIND_CHECK_CHECK_IS_NOT_BOUND_AND_BIND_ID(VERTEX_ARRAY_TAG, mVertexArrayObjectID))
 				{
@@ -72,7 +72,7 @@ namespace doom
 
 			FORCE_INLINE void BindElementBuffer() const noexcept
 			{
-				D_ASSERT(mElementBufferObjectID != 0);
+				D_ASSERT(mElementBufferObjectID.IsValid());
 
 				if (D_OVERLAP_BIND_CHECK_CHECK_IS_NOT_BOUND_AND_BIND_ID(INDEX_BUFFER_TAG, mElementBufferObjectID))
 				{
@@ -191,7 +191,7 @@ namespace doom
 			virtual bool IsBufferGenerated() const final;
 			FORCE_INLINE bool IsElementBufferGenerated() const 
 			{
-				return mElementBufferObjectID != 0;
+				return mElementBufferObjectID.IsValid();
 			}
 
 			void UpdateElementBuffer(const UINT32* indices, const UINT32 indiceCount);

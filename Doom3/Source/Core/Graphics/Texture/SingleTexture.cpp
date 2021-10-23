@@ -5,37 +5,139 @@
 using namespace doom::graphics;
 
 
-SingleTexture::SingleTexture(eTextureType textureType, eTargetTexture target, eTextureInternalFormat internalFormat, UINT32 width, eTextureComponentFormat format, eDataType type, const void* data)
-	: Texture{ textureType, eBindTarget::TEXTURE_2D, target, internalFormat, eTextureCompressedInternalFormat::NONE, width, format, type }
+SingleTexture::SingleTexture()
 {
+}
+
+SingleTexture::SingleTexture(eTextureType textureType, eTargetTexture target, eTextureInternalFormat internalFormat, UINT32 width, eTextureComponentFormat format, eDataType type, const void* data)
+{
+	InitializeSingleTexture(textureType, target, internalFormat, width, format, type, data);
+}
+
+SingleTexture::SingleTexture(eTextureType textureType, eTargetTexture target, eTextureInternalFormat internalFormat, UINT32 width, UINT32 height, eTextureComponentFormat format, eDataType type, const void* data)
+{
+	InitializeSingleTexture(textureType, target, internalFormat, width, height, format, type, data);
+}
+
+SingleTexture::SingleTexture(eTextureType textureType, eTargetTexture target, eTextureCompressedInternalFormat compressedInternalFormat, UINT32 width, eTextureComponentFormat format, eDataType type, const void* data)
+{
+	InitializeSingleTexture(textureType, target, compressedInternalFormat, width, format, type, data);
+}
+
+SingleTexture::SingleTexture(eTextureType textureType, eTargetTexture target, eTextureCompressedInternalFormat compressedInternalFormat, UINT32 width, UINT32 height, eTextureComponentFormat format, eDataType type, const void* data)
+{
+	InitializeSingleTexture(textureType, target, compressedInternalFormat, width, height, format, type, data);
+}
+
+SingleTexture::SingleTexture(eTextureType textureType, eTargetTexture target, eTextureInternalFormat internalFormat, UINT32 width, eTextureComponentFormat format, eDataType type, std::vector<const DirectX::Image*> mipmapDatas)
+{
+	InitializeSingleTexture(textureType, target, internalFormat, width, format, type, mipmapDatas);
+}
+
+SingleTexture::SingleTexture(eTextureType textureType, eTargetTexture target, eTextureInternalFormat internalFormat, UINT32 width, UINT32 height, eTextureComponentFormat format, eDataType type, std::vector<const DirectX::Image*> mipmapDatas)
+{
+	InitializeSingleTexture(textureType, target, internalFormat, width, height, format, type, mipmapDatas);
+}
+
+SingleTexture::SingleTexture(eTextureType textureType, eTargetTexture target, eTextureCompressedInternalFormat compressedInternalFormat, UINT32 width, eTextureComponentFormat format, eDataType type, std::vector<const DirectX::Image*> mipmapDatas)
+{
+	InitializeSingleTexture(textureType, target, compressedInternalFormat, width, format, type, mipmapDatas);
+}
+
+SingleTexture::SingleTexture(eTextureType textureType, eTargetTexture target, eTextureCompressedInternalFormat compressedInternalFormat, UINT32 width, UINT32 height, eTextureComponentFormat format, eDataType type, std::vector<const DirectX::Image*> mipmapDatas)
+{
+	InitializeSingleTexture(textureType, target, compressedInternalFormat, width, height, format, type, mipmapDatas);
+}
+
+void SingleTexture::InitializeSingleTexture(eTextureType textureType, eTargetTexture target,
+	eTextureInternalFormat internalFormat, UINT32 width, eTextureComponentFormat format, eDataType type,
+	const void* data)
+{
+	InitializeTexture(textureType, eBindTarget::TEXTURE_2D, target, internalFormat, eTextureCompressedInternalFormat::NONE, width, format, type);
+
 	TexImage1D(0, data);
 
 	OnEndContructor();
 }
 
-SingleTexture::SingleTexture(eTextureType textureType, eTargetTexture target, eTextureInternalFormat internalFormat, UINT32 width, UINT32 height, eTextureComponentFormat format, eDataType type, const void* data)
-	: Texture{textureType, eBindTarget::TEXTURE_2D, target, internalFormat, eTextureCompressedInternalFormat::NONE, width, height, format, type }
+void SingleTexture::InitializeSingleTexture(eTextureType textureType, eTargetTexture target,
+	eTextureInternalFormat internalFormat, UINT32 width, UINT32 height, eTextureComponentFormat format, eDataType type,
+	const void* data)
 {
+	InitializeTexture(textureType, eBindTarget::TEXTURE_2D, target, internalFormat, eTextureCompressedInternalFormat::NONE, width, height, format, type);
+
 	TexImage2D(0, data);
 
 	OnEndContructor();
 }
 
-SingleTexture::SingleTexture(eTextureType textureType, eTargetTexture target, eTextureCompressedInternalFormat compressedInternalFormat, UINT32 width, eTextureComponentFormat format, eDataType type, const void* data)
-	: Texture{ textureType, eBindTarget::TEXTURE_2D, target, eTextureInternalFormat::NONE, compressedInternalFormat, width, format, type }
+void SingleTexture::InitializeSingleTexture(eTextureType textureType, eTargetTexture target,
+	eTextureCompressedInternalFormat compressedInternalFormat, UINT32 width, eTextureComponentFormat format,
+	eDataType type, const void* data)
 {
+	InitializeTexture(textureType, eBindTarget::TEXTURE_2D, target, eTextureInternalFormat::NONE, compressedInternalFormat, width, format, type);
+
+	TexImage1D(0, data);
+
+	OnEndContructor();
+}
+
+void SingleTexture::InitializeSingleTexture(eTextureType textureType, eTargetTexture target,
+	eTextureCompressedInternalFormat compressedInternalFormat, UINT32 width, UINT32 height,
+	eTextureComponentFormat format, eDataType type, const void* data)
+{
+	InitializeTexture(textureType, eBindTarget::TEXTURE_2D, target, eTextureInternalFormat::NONE, compressedInternalFormat, width, height, format, type);
+
 	TexImage2D(0, data);
 
 	OnEndContructor();
 }
 
-SingleTexture::SingleTexture(eTextureType textureType, eTargetTexture target, eTextureCompressedInternalFormat compressedInternalFormat, UINT32 width, UINT32 height, eTextureComponentFormat format, eDataType type, const void* data)
-	: Texture{ textureType, eBindTarget::TEXTURE_2D, target, eTextureInternalFormat::NONE, compressedInternalFormat, width, height, format, type }
+void SingleTexture::InitializeSingleTexture(eTextureType textureType, eTargetTexture target,
+	eTextureInternalFormat internalFormat, UINT32 width, eTextureComponentFormat format, eDataType type,
+	std::vector<const DirectX::Image*> mipmapDatas)
 {
-	TexImage2D(0, data);
+	InitializeTexture(textureType, eBindTarget::TEXTURE_2D, target, internalFormat, eTextureCompressedInternalFormat::NONE, width, format, type);
+
+	Tex2DMipMapImages(mipmapDatas);
 
 	OnEndContructor();
 }
+
+void SingleTexture::InitializeSingleTexture(eTextureType textureType, eTargetTexture target,
+	eTextureInternalFormat internalFormat, UINT32 width, UINT32 height, eTextureComponentFormat format, eDataType type,
+	std::vector<const DirectX::Image*> mipmapDatas)
+{
+	InitializeTexture(textureType, eBindTarget::TEXTURE_2D, target, internalFormat, eTextureCompressedInternalFormat::NONE, width, height, format, type);
+
+	Tex2DMipMapImages(mipmapDatas);
+
+	OnEndContructor();
+}
+
+void SingleTexture::InitializeSingleTexture(eTextureType textureType, eTargetTexture target,
+	eTextureCompressedInternalFormat compressedInternalFormat, UINT32 width, eTextureComponentFormat format,
+	eDataType type, std::vector<const DirectX::Image*> mipmapDatas)
+{
+	InitializeTexture(textureType, eBindTarget::TEXTURE_2D, target, eTextureInternalFormat::NONE, compressedInternalFormat, width, format, type);
+
+	Tex2DMipMapImages(mipmapDatas);
+
+	OnEndContructor();
+}
+
+void SingleTexture::InitializeSingleTexture(eTextureType textureType, eTargetTexture target,
+	eTextureCompressedInternalFormat compressedInternalFormat, UINT32 width, UINT32 height,
+	eTextureComponentFormat format, eDataType type, std::vector<const DirectX::Image*> mipmapDatas)
+{
+	InitializeTexture(textureType, eBindTarget::TEXTURE_2D, target, eTextureInternalFormat::NONE, compressedInternalFormat, width, height, format, type);
+
+	Tex2DMipMapImages(mipmapDatas);
+
+	OnEndContructor();
+}
+
+
 
 void doom::graphics::SingleTexture::Tex2DMipMapImages(std::vector<const DirectX::Image*> mipmapDatas)
 {
@@ -144,34 +246,6 @@ void SingleTexture::TexImage2D(INT32 level, const DirectX::Image* directXImage) 
 	}
 }
 
-SingleTexture::SingleTexture(eTextureType textureType, eTargetTexture target, eTextureInternalFormat internalFormat, UINT32 width, eTextureComponentFormat format, eDataType type, std::vector<const DirectX::Image*> mipmapDatas)
-	: Texture{ textureType, eBindTarget::TEXTURE_2D, target, internalFormat,  eTextureCompressedInternalFormat::NONE, width, format, type }
-{
-	Tex2DMipMapImages(mipmapDatas);
 
-	OnEndContructor();
-}
 
-SingleTexture::SingleTexture(eTextureType textureType, eTargetTexture target, eTextureInternalFormat internalFormat, UINT32 width, UINT32 height, eTextureComponentFormat format, eDataType type, std::vector<const DirectX::Image*> mipmapDatas)
-	: Texture{ textureType, eBindTarget::TEXTURE_2D, target, internalFormat, eTextureCompressedInternalFormat::NONE, width, height, format, type }
-{
-	Tex2DMipMapImages(mipmapDatas);
 
-	OnEndContructor();
-}
-
-SingleTexture::SingleTexture(eTextureType textureType, eTargetTexture target, eTextureCompressedInternalFormat compressedInternalFormat, UINT32 width, eTextureComponentFormat format, eDataType type, std::vector<const DirectX::Image*> mipmapDatas)
-	: Texture{ textureType, eBindTarget::TEXTURE_2D, target, eTextureInternalFormat::NONE, compressedInternalFormat, width, format, type }
-{
-	Tex2DMipMapImages(mipmapDatas);
-
-	OnEndContructor();
-}
-
-SingleTexture::SingleTexture(eTextureType textureType, eTargetTexture target, eTextureCompressedInternalFormat compressedInternalFormat, UINT32 width, UINT32 height, eTextureComponentFormat format, eDataType type, std::vector<const DirectX::Image*> mipmapDatas)
-	: Texture{ textureType, eBindTarget::TEXTURE_2D, target, eTextureInternalFormat::NONE, compressedInternalFormat, width, height, format, type }
-{
-	Tex2DMipMapImages(mipmapDatas);
-
-	OnEndContructor();
-}

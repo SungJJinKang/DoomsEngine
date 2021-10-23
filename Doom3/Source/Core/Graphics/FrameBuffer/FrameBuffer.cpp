@@ -47,7 +47,7 @@ void FrameBuffer::SetTargetDrawBuffer()
 
 void FrameBuffer::DestoryFrameBufferObject()
 {
-	if (mFrameBufferID != 0)
+	if (mFrameBufferID.IsValid())
 	{
 		glDeleteFramebuffers(1, &(mFrameBufferID));
 		mFrameBufferID = 0;
@@ -79,22 +79,22 @@ FrameBuffer::FrameBuffer(const FrameBuffer& frameBuffer)
 
 		for (const RenderBuffer& renderBuffer : frameBuffer.mAttachedRenderBuffers)
 		{
-			AttachRenderBuffer(renderBuffer.mFrameBufferType, renderBuffer.mWidth, renderBuffer.mHeight);
+			AttachRenderBuffer(renderBuffer.GetFrameBufferType(), renderBuffer.GetWidth(), renderBuffer.GetHeight());
 		}
 
 		for (const SingleTexture& attachedTexture : frameBuffer.mAttachedColorTextures)
 		{
-			AttachTextureBuffer(GraphicsAPI::eBufferBitType::COLOR, attachedTexture.mWidth, attachedTexture.mHeight);
+			AttachTextureBuffer(GraphicsAPI::eBufferBitType::COLOR, attachedTexture.GetWidth(), attachedTexture.GetHeight());
 		}
 
 		for (const SingleTexture& attachedTexture : frameBuffer.mAttachedDepthTextures)
 		{
-			AttachTextureBuffer(GraphicsAPI::eBufferBitType::DEPTH, attachedTexture.mWidth, attachedTexture.mHeight);
+			AttachTextureBuffer(GraphicsAPI::eBufferBitType::DEPTH, attachedTexture.GetWidth(), attachedTexture.GetHeight());
 		}
 
 		for (const SingleTexture& attachedTexture : frameBuffer.mAttachedDepthStencilTextures)
 		{
-			AttachTextureBuffer(GraphicsAPI::eBufferBitType::DEPTH_STENCIL, attachedTexture.mWidth, attachedTexture.mHeight);
+			AttachTextureBuffer(GraphicsAPI::eBufferBitType::DEPTH_STENCIL, attachedTexture.GetWidth(), attachedTexture.GetHeight());
 		}
 
 		RefreshTargetDrawBufferContainer();
@@ -188,7 +188,7 @@ doom::graphics::SingleTexture* FrameBuffer::GetFrameBufferTexture(GraphicsAPI::e
 
 bool doom::graphics::FrameBuffer::IsGenerated()
 {
-	return mFrameBufferID != 0;
+	return mFrameBufferID.IsValid();
 }
 
 INT32 FrameBuffer::GetFrameBufferParameteriv(const eFrameBufferParameterPName frameBufferParameterPName) const
@@ -234,7 +234,7 @@ void FrameBuffer::BlitFrameBufferTo(
 ) const noexcept
 {
 	//BackBuffer ID is zero!!
-	D_ASSERT(mFrameBufferID != INVALID_BUFFER_ID);
+	D_ASSERT(mFrameBufferID.IsValid());
 	//D_ASSERT(DrawFrameBufferId != INVALID_BUFFER_ID);
 
 	BindFrameBufferStatic(eBindFrameBufferTarget::READ_FRAMEBUFFER, mFrameBufferID);
@@ -251,7 +251,7 @@ void FrameBuffer::BlitFrameBufferFrom(
 {
 	//BackBuffer ID is zero!!
 	//D_ASSERT(ReadFrameBufferId != INVALID_BUFFER_ID);
-	D_ASSERT(mFrameBufferID != INVALID_BUFFER_ID);
+	D_ASSERT(mFrameBufferID.IsValid());
 
 	BindFrameBufferStatic(eBindFrameBufferTarget::READ_FRAMEBUFFER, ReadFrameBufferId);
 	BindFrameBufferStatic(eBindFrameBufferTarget::DRAW_FRAMEBUFFER, mFrameBufferID);
@@ -273,7 +273,7 @@ void FrameBuffer::BlitFrameBufferToTexture(
 
 RenderBuffer& FrameBuffer::AttachRenderBuffer(GraphicsAPI::eBufferBitType renderBufferType, UINT32 width, UINT32 height)
 {
-	D_ASSERT(mFrameBufferID != INVALID_BUFFER_ID);
+	D_ASSERT(mFrameBufferID.IsValid());
 
 	auto& createdRenderBuffer = mAttachedRenderBuffers.emplace_back(*this, renderBufferType, width, height);
 	mClearBit |= static_cast<UINT32>(renderBufferType);
@@ -289,7 +289,7 @@ RenderBuffer& doom::graphics::FrameBuffer::AttachRenderBuffer(GraphicsAPI::eBuff
 
 SingleTexture& FrameBuffer::AttachTextureBuffer(GraphicsAPI::eBufferBitType frameBufferType, UINT32 width, UINT32 height)
 {
-	D_ASSERT(mFrameBufferID != 0);
+	D_ASSERT(mFrameBufferID.IsValid());
 
 	BindFrameBuffer();
 

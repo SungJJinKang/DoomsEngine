@@ -22,12 +22,14 @@ namespace doom
 
 			static inline const char RENDERBUFFER_TAG[]{ "RenderBuffer" };
 			BufferID mRenderBufferID{};
+
+			GraphicsAPI::eBufferBitType mFrameBufferType;
+			UINT32 mWidth;
+			UINT32 mHeight;
 			
 		public:
 
-			const GraphicsAPI::eBufferBitType mFrameBufferType;
-			const UINT32 mWidth;
-			const UINT32 mHeight;
+			
 
 			RenderBuffer();
 			RenderBuffer(FrameBuffer& ownerFrameBuffer, GraphicsAPI::eBufferBitType frameBufferType, UINT32 width, UINT32 height);
@@ -38,6 +40,10 @@ namespace doom
 
 			RenderBuffer(RenderBuffer&&) noexcept = default;
 			RenderBuffer& operator=(RenderBuffer &&) noexcept = default;
+
+
+			bool CreateRenderBuffer(FrameBuffer& ownerFrameBuffer, GraphicsAPI::eBufferBitType frameBufferType, UINT32 width, UINT32 height);
+			void DeleteRenderBuffers();
 			
 			FORCE_INLINE static void BindRenderBuffer(INT32 renderBufferID)
 			{
@@ -54,6 +60,19 @@ namespace doom
 			FORCE_INLINE static void UnBindRenderBuffer() noexcept
 			{
 				BindRenderBuffer(0);
+			}
+
+			FORCE_INLINE GraphicsAPI::eBufferBitType GetFrameBufferType() const
+			{
+				return mFrameBufferType;
+			}
+			FORCE_INLINE UINT32 GetWidth() const
+			{
+				return mWidth;
+			}
+			FORCE_INLINE UINT32 GetHeight() const
+			{
+				return mHeight;
 			}
 		};
 	}

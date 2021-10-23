@@ -22,7 +22,7 @@ namespace doom
 		static_assert(IS_DOBJECT_TYPE(DObjectType) == true);
 
 		//DObjectType's Constructor should be public function
-		DObjectType* const newDObject = new DObjectType(std::forward<Args>(args)...);
+		DObjectType* newDObject = new DObjectType(std::forward<Args>(args)...);
 
 		DObjectContructorParams params(dObjectConstructorParams);
 		params.DObjectFlag |= doom::eDObjectFlag::NewAllocated;
@@ -38,7 +38,7 @@ namespace doom
 		static_assert(IS_DOBJECT_TYPE(DObjectType) == true);
 
 		//DObjectType's Constructor should be public function
-		DObjectType* const newDObject = new DObjectType(std::forward<Args>(args)...);
+		DObjectType* newDObject = new DObjectType(std::forward<Args>(args)...);
 
 		DObjectContructorParams params{};
 		params.DObjectFlag |= doom::eDObjectFlag::NewAllocated;

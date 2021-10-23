@@ -47,7 +47,16 @@ namespace doom
 
 		doom::DObject* CreateDObject() const
 		{
-			return (*CREATE_DOBJECT_FUNCTION_PTR)();
+			D_ASSERT(CREATE_DOBJECT_FUNCTION_PTR != nullptr);
+
+			doom::DObject* CreatedDObject = nullptr;
+
+			if(CREATE_DOBJECT_FUNCTION_PTR != nullptr)
+			{
+				CreatedDObject = (*CREATE_DOBJECT_FUNCTION_PTR)();
+			}
+
+			return CreatedDObject;
 		}
 
 		//TODO : Implement DefaultObject for CreateDObject from DClass ( use CopyConstructor )

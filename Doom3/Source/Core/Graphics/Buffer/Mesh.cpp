@@ -54,12 +54,12 @@ void doom::graphics::Mesh::DeleteBuffers()
 {
 	Buffer::DeleteBuffers();
 
-	if (mVertexArrayObjectID != INVALID_BUFFER_ID)
+	if (mVertexArrayObjectID.IsValid())
 	{
 		glDeleteVertexArrays(1, &(mVertexArrayObjectID));
 		mVertexArrayObjectID = INVALID_BUFFER_ID;
 	}
-	if (mElementBufferObjectID != INVALID_BUFFER_ID)
+	if (mElementBufferObjectID.IsValid())
 	{
 		glDeleteBuffers(1, &(mElementBufferObjectID));
 		mElementBufferObjectID = INVALID_BUFFER_ID;
@@ -162,7 +162,7 @@ void doom::graphics::Mesh::BufferData(GLsizeiptr dataComponentCount, const void*
 
 void doom::graphics::Mesh::BufferSubData(GLsizeiptr dataComponentCount, const void* data, khronos_intptr_t offsetInByte) const noexcept
 {
-	D_ASSERT(mBufferID != INVALID_BUFFER_ID);
+	D_ASSERT(mBufferID.IsValid());
 
 	BindVertexArrayObject();
 	BindVertexBufferObject();
@@ -176,7 +176,7 @@ void doom::graphics::Mesh::BufferSubData(GLsizeiptr dataComponentCount, const vo
 
 void doom::graphics::Mesh::BindVertexBufferObject() const
 {
-	D_ASSERT(mBufferID != INVALID_BUFFER_ID);
+	D_ASSERT(mBufferID.IsValid());
 
 	if (D_OVERLAP_BIND_CHECK_CHECK_IS_NOT_BOUND_AND_BIND_ID(VERTEX_BUFFER_TAG, mBufferID))
 	{

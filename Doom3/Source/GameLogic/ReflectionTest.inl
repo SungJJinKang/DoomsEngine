@@ -29,6 +29,7 @@
 #include "FireBulletComponent.h"
 #include "TestComponent2.h"
 #include "PhysicsComponent/Rigidbody/Rigidbody.h"
+#include <Graphics/Buffer/Mesh.h>
 
 void doom::GameLogicStartPoint::StartGameLogic()
 {
@@ -341,6 +342,8 @@ void doom::GameLogicStartPoint::StartGameLogic()
 	TSubclassOf<doom::TestComponent2> testComp12SubClassOf{ dclass1 };
 	D_ASSERT(testComp12SubClassOf == nullptr);
 
+	DClass* meshDClass = doom::graphics::Mesh::StaticClass();
+	doom::graphics::Mesh* newMesh = CastTo<doom::graphics::Mesh*>(meshDClass->CreateDObject());
 
 	TSubclassOf<doom::DObject> DObjectSubClassOf{ Renderer::StaticClass() };
 }

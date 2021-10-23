@@ -31,6 +31,13 @@ namespace doom
 		class ObjectPool;
 	}
 
+	class Entity;
+	template <>
+	inline doom::Entity* CreateDObject<doom::Entity>()
+	{
+		return doom::Scene::GetSingleton()->CreateNewEntity();
+	}
+
 	class DOOM_API Entity : public DObject, public FrameDirtyChecker
 	{
 
@@ -466,10 +473,7 @@ namespace doom
 		}
 	};
 
-	template <>
-	doom::Entity* CreateDObject<doom::Entity>()
-	{
-		return doom::Scene::GetSingleton()->CreateNewEntity();
-	}
+	
+	
 }
 

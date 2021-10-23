@@ -110,7 +110,7 @@ namespace doom
 
 			FORCE_INLINE void BindFrameBuffer() const noexcept
 			{
-				D_ASSERT(mFrameBufferID != 0);
+				D_ASSERT(mFrameBufferID.IsValid());
 				D_ASSERT(mDefaultWidth != 0 && mDefaultHeight != 0);
 				FrameBuffer::StaticBindFrameBuffer(this);
 			}

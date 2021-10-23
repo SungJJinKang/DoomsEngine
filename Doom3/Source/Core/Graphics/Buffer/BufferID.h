@@ -55,11 +55,6 @@ public:
 		data = INVALID_BUFFER_ID;
 	}
 
-	FORCE_INLINE operator UINT32 () const
-	{
-		return mID;
-	}
-
 	FORCE_INLINE UINT32* operator& ()
 	{
 		return &(mID);
@@ -77,6 +72,11 @@ public:
 	FORCE_INLINE bool IsValid() const
 	{
 		return mID != INVALID_BUFFER_ID;
+	}
+
+	FORCE_INLINE operator UINT32 () const
+	{
+		return mID;
 	}
 };
 

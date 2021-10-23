@@ -374,7 +374,6 @@
     <ClCompile Include="Source\Core\Graphics\Buffer\UniformBufferObjectUpdater.cpp" />
     <ClCompile Include="Source\Core\Graphics\Buffer\Mesh.cpp" />
     <ClCompile Include="Source\Core\Graphics\Buffer\UniformBufferObjectManager.cpp" />
-    <ClCompile Include="Source\Core\Graphics\Texture\CubemapTexture.cpp" />
     <ClCompile Include="Source\Core\Scene\Entity.cpp" />
     <ClCompile Include="Source\Core\Graphics\FrameBuffer\FrameBuffer.cpp" />
     <ClCompile Include="Source\Core\Graphics\Material\Material.cpp" />
@@ -616,7 +615,6 @@
     <ClInclude Include="Source\Core\Game\AssetManager\AssetContainer.h" />
     <ClInclude Include="Source\Core\Game\AssetManager\AssetManager.h" />
     <ClInclude Include="Source\Core\Graphics\Buffer\UniformBufferObjectManager.h" />
-    <ClInclude Include="Source\Core\Graphics\Texture\CubemapTexture.h" />
     <ClInclude Include="Source\Core\Scene\Entity.h" />
     <ClInclude Include="Source\Core\Graphics\FrameBuffer\FrameBuffer.h" />
     <ClInclude Include="Source\Core\Graphics\Graphics_Core.h" />

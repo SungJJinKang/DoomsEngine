@@ -122,11 +122,6 @@ namespace doom
 {
 	namespace details
 	{
-		//TODO : BASE_CHAIN 컴파일 타임에 연산 끝난 후 이 HILLCLIMB 함수들 뺄 수 있는 방법 찾자.
-		//		 BAES_CHAIN이 컴파일 타임에 연산된 후 사실상 이 HILLCLIMB 함수들은 필요가 없다. 
-		//		 모든 클래스 타입마다 함수가 하나씩 생기니 코드 크기 매우 크다. 실행파일에 안담기게 만들 방법 찾자. 
-
-
 		//!!!!!!!!!!!!
 		//Never change static to extern. static give hint to compiler that this definition is used only in source file(.cpp)
 		//								 Then Compiler remove this functions definition from compiler if it is called only at compile time
