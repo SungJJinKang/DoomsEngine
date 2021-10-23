@@ -15,11 +15,20 @@ void doom::graphics::PicktureInPickture::InitializeDefaultPIPMaterial()
 	
 }
 
-doom::graphics::PicktureInPickture::PicktureInPickture(const math::Vector2& leftBottomNDCPoint, const math::Vector2& rightTopNDCPoint, SingleTexture* const _drawedTexture)
-	:mPlaneMesh{ Mesh::GetQuadMesh(leftBottomNDCPoint, rightTopNDCPoint) }, mDrawedTexture(_drawedTexture), mPIPMaterial(nullptr), bmIsDrawOnScreen(true)
+doom::graphics::PicktureInPickture::PicktureInPickture()
+{
+}
+
+void doom::graphics::PicktureInPickture::SetDefaultPIPMaterial()
 {
 	InitializeDefaultPIPMaterial();
 	mPIPMaterial = &(PicktureInPickture::mDefualtPIPMaterial);
+}
+
+doom::graphics::PicktureInPickture::PicktureInPickture(const math::Vector2& leftBottomNDCPoint, const math::Vector2& rightTopNDCPoint, SingleTexture* const _drawedTexture)
+	:mPlaneMesh{ Mesh::GetQuadMesh(leftBottomNDCPoint, rightTopNDCPoint) }, mDrawedTexture(_drawedTexture), mPIPMaterial(nullptr), bmIsDrawOnScreen(true)
+{
+	SetDefaultPIPMaterial();
 }
 
 doom::graphics::PicktureInPickture::PicktureInPickture(const math::Vector2& leftBottomNDCPoint, const math::Vector2& rightTopNDCPoint, SingleTexture* const _drawedTexture, Material* const _pipMaterial)
@@ -27,6 +36,33 @@ doom::graphics::PicktureInPickture::PicktureInPickture(const math::Vector2& left
 {
 	
 }
+
+/*doom::graphics::PicktureInPickture& doom::graphics::PicktureInPickture::operator=
+(
+	const math::Vector2& leftBottomNDCPoint, 
+	const math::Vector2& rightTopNDCPoint, 
+	SingleTexture* const _drawedTexture
+	)
+{
+	mPlaneMesh = Mesh::GetQuadMesh(leftBottomNDCPoint, rightTopNDCPoint);
+	mDrawedTexture = _drawedTexture;
+	SetDefaultPIPMaterial();
+	bmIsDrawOnScreen = true;
+}
+
+doom::graphics::PicktureInPickture& doom::graphics::PicktureInPickture::operator=
+(
+	const math::Vector2& leftBottomNDCPoint, 
+	const math::Vector2& rightTopNDCPoint, 
+	SingleTexture* const _drawedTexture,
+	Material* const _pipMaterial
+	)
+{
+	mPlaneMesh = Mesh::GetQuadMesh(leftBottomNDCPoint, rightTopNDCPoint);
+	mDrawedTexture = _drawedTexture;
+	mPIPMaterial = _pipMaterial;
+	bmIsDrawOnScreen = true;
+}*/
 
 doom::graphics::PicktureInPickture::~PicktureInPickture()
 {

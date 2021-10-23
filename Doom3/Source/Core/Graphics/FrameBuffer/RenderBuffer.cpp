@@ -6,6 +6,10 @@
 
 using namespace doom::graphics;
 
+RenderBuffer::RenderBuffer()
+{
+}
+
 RenderBuffer::RenderBuffer
 (
 	FrameBuffer& ownerFrameBuffer, 

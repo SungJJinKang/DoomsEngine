@@ -4,7 +4,6 @@
 #include <memory>
 
 #include <Core.h>
-#include "Entity.h"
 
 namespace doom
 {
@@ -15,6 +14,7 @@ namespace doom
 
 	class Scene;
 	class Camera;
+	class Entity;
 	/// <summary>
 	/// This class is same with SCENE in unity game engine
 	/// </summary>
@@ -30,11 +30,11 @@ namespace doom
 	private:
 
 		SIZE_T mEntityIDCounter{ 0 };
-		std::vector<std::unique_ptr<Entity, Entity::Deleter>> mSpawnedEntities{};
+		std::vector<Entity*> mSpawnedEntities{};
 		Camera* mMainCamera{ nullptr };
 
-		
 
+		bool DestroyEntity_Internal(Entity* entity) const;
 		void InitializeEntity(doom::Entity* const entity);
 
 	protected:

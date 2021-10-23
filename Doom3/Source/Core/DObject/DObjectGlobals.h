@@ -14,6 +14,8 @@
 
 namespace doom
 {
+
+
 	template <typename DObjectType, typename... Args>
 	DObjectType* CreateDObject(const DObjectContructorParams& dObjectConstructorParams, Args&&... args)
 	{

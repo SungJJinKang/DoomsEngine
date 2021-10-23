@@ -5,6 +5,7 @@
 #include "../GraphicsAPI.h"
 #include "../OverlapBindChecker.h"
 #include "../Buffer/BufferID.h"
+#include "Graphics/Acceleration/LinearData_ViewFrustumCulling/CullingModule/MaskedSWOcclusionCulling/Stage/BinTrianglesStage.h"
 
 namespace doom
 {
@@ -28,6 +29,7 @@ namespace doom
 			const UINT32 mWidth;
 			const UINT32 mHeight;
 
+			RenderBuffer();
 			RenderBuffer(FrameBuffer& ownerFrameBuffer, GraphicsAPI::eBufferBitType frameBufferType, UINT32 width, UINT32 height);
 			virtual ~RenderBuffer();
 

@@ -55,6 +55,19 @@ template<doom::eDOBJECT_ClassFlags...flags> struct flag_or {
 
 /////////////////////////////////
 
+#ifndef _CREATE_DOBJECT
+
+#define _CREATE_DOBJECT(CLASS_TYPE)															\
+	public:																					\
+	[[nodiscard]] static doom::DObject* CREATE_THIS_DOBJECT()								\
+	{																						\
+		doom::DObject* const newDObject = doom::CreateDObject<CLASS_TYPE>();				\
+		D_ASSERT(newDObject != nullptr);													\
+		return newDObject;																	\
+	}																						\
+
+#endif
+
 #ifndef _CLONE_DOBJECT
 
 #define _CLONE_DOBJECT(CLASS_TYPE)															\
@@ -229,12 +242,21 @@ namespace doom
 		extern ::doom::DClass CreateDClass()
 		{
 			static_assert(std::is_base_of_v<doom::DObject, DOBJECT_TYPE> == true);
+
+			doom::DObject* (*_CREATE_DOBJECT_FUNCTION_PTR) () = nullptr;
+
+			if constexpr(std::is_abstract_v<DOBJECT_TYPE> == false)
+			{
+				_CREATE_DOBJECT_FUNCTION_PTR = &DOBJECT_TYPE::CREATE_THIS_DOBJECT;
+			}
+
 			return ::doom::DClass(
 				DOBJECT_TYPE::CLASS_TYPE_ID_STATIC(),
 				DOBJECT_TYPE::BASE_CHAIN_COUNT_STATIC(),
 				DOBJECT_TYPE::BASE_CHAIN_DATA_STATIC(),
 				DOBJECT_TYPE::CLASS_NAME_STATIC(),
-				DOBJECT_TYPE::CLASS_FLAGS_STATIC()
+				DOBJECT_TYPE::CLASS_FLAGS_STATIC(),
+				_CREATE_DOBJECT_FUNCTION_PTR
 			);
 		}
 	}
@@ -277,6 +299,7 @@ namespace doom
 #define DOBJECT_CLASS_BODY(CLASS_TYPE, ...)											\
 		DOBJECT_BODY_UNIFORM(CLASS_TYPE, __VA_ARGS__)								\
 		_CLONE_DOBJECT(CLASS_TYPE)													\
+		_CREATE_DOBJECT(CLASS_TYPE)													\
 
 #endif
 

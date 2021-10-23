@@ -63,9 +63,10 @@ bool Scene::DestroyEntity(Entity& entity)
 	
 	for ( std::ptrdiff_t i = mSpawnedEntities.size() - 1 ; i >= 0 ; i-- )
 	{
-		if (mSpawnedEntities[i].get() == &entity)
+		if (mSpawnedEntities[i] == &entity)
 		{
 			std::vector_swap_popback(mSpawnedEntities, mSpawnedEntities.begin() + i);
+			DestroyEntity_Internal(&entity);
 			isSuccess = true;
 			break;
 		}
@@ -76,6 +77,10 @@ bool Scene::DestroyEntity(Entity& entity)
 
 void doom::Scene::DestroyAllEntity()
 {
+	for(doom::Entity* entity : mSpawnedEntities)
+	{
+		DestroyEntity_Internal(entity);
+	}
 	mSpawnedEntities.clear();
 }
 
@@ -98,6 +103,19 @@ void Scene::UpdatePlainComponents()
 	{
 		mSpawnedEntities[i]->Update_PlainComponent();
 	}
+}
+
+bool Scene::DestroyEntity_Internal(Entity* entity) const
+{
+	bool isSuccess = false;
+
+	if(IsValid(entity) == true)
+	{
+		delete entity;
+		isSuccess = true;
+	}
+
+	return isSuccess;
 }
 
 void Scene::InitializeEntity(doom::Entity* const entity)

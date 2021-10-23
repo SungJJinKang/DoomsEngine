@@ -25,6 +25,7 @@ namespace doom
 				return &(mCenter);
 			}
 
+			CapsuleCollider() = default;
 			CapsuleCollider(const math::Vector3& center, FLOAT32 height, FLOAT32 radius);
 
 			ColliderType GetColliderType() const override;

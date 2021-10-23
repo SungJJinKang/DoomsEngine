@@ -9,6 +9,7 @@
 #include <utility>
 #include <typeinfo>
 
+#include "Scene.h"
 #include "../Core.h"
 #include "../../Component/Core/Component.h"
 #include "../../Component/Core/ServerComponent.h"
@@ -39,17 +40,6 @@ namespace doom
 		friend class Scene;
 		template <typename T>
 		friend class resource::ObjectPool;
-	
-		struct Deleter
-		{
-			void operator()(Entity* entity) const
-			{
-				if (IsValid(entity) == true)
-				{
-					delete entity;
-				}
-			}
-		};
 
 	public:
 
@@ -476,6 +466,10 @@ namespace doom
 		}
 	};
 
-
+	template <>
+	doom::Entity* CreateDObject<doom::Entity>()
+	{
+		return doom::Scene::GetSingleton()->CreateNewEntity();
+	}
 }
 
