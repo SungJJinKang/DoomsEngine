@@ -2,27 +2,27 @@
 
 using namespace doom::graphics;
 
-CubemapTexture::CubemapTexture(eTextureType textureType, eTargetTexture target, eTextureInternalFormat internalFormat, UINT32 width, eTextureComponentFormat format, eDataType type, const void* data)
-	: Texture{ textureType, eBindTarget::TEXTURE_CUBE_MAP, target, internalFormat, eTextureCompressedInternalFormat::NONE, width, format, type }
+CubemapTexture::CubemapTexture()
 {
-	TexImage1D(0, data);
+}
+
+CubemapTexture::CubemapTexture(eTextureType textureType, eTargetTexture target, eTextureInternalFormat internalFormat, UINT32 width, eTextureComponentFormat format, eDataType type, const void* data)
+{
+	InitializeCubemapTexture(textureType, target, internalFormat, width, format, type, data);
 }
 
 CubemapTexture::CubemapTexture(eTextureType textureType, eTargetTexture target, eTextureInternalFormat internalFormat, UINT32 width, UINT32 height, eTextureComponentFormat format, eDataType type, const void* data)
-	: Texture{ textureType, eBindTarget::TEXTURE_CUBE_MAP, target, internalFormat, eTextureCompressedInternalFormat::NONE, width, height, format, type }
 {
-	TexImage2D(0, data);
+	InitializeCubemapTexture(textureType, target, internalFormat, width, height, format, type, data);
 }
 
 CubemapTexture::CubemapTexture(eTextureType textureType, eTargetTexture target, eTextureCompressedInternalFormat compressedInternalFormat, UINT32 width, eTextureComponentFormat format, eDataType type, const void* data)
-	: Texture{ textureType, eBindTarget::TEXTURE_CUBE_MAP, target, eTextureInternalFormat::NONE, compressedInternalFormat, width, format, type }
 {
-	TexImage1D(0, data);
+	InitializeCubemapTexture(textureType, target, compressedInternalFormat, width, format, type, data);
 }
 CubemapTexture::CubemapTexture(eTextureType textureType, eTargetTexture target, eTextureCompressedInternalFormat compressedInternalFormat, UINT32 width, UINT32 height, eTextureComponentFormat format, eDataType type, const void* data)
-	: Texture{ textureType, eBindTarget::TEXTURE_CUBE_MAP, target, eTextureInternalFormat::NONE, compressedInternalFormat, width, height, format, type }
 {
-	TexImage2D(0, data);
+	InitializeCubemapTexture(textureType, target, compressedInternalFormat, width, height, format, type, data);
 }
 
 void CubemapTexture::TexImage1D(INT32 level, const void* data) const noexcept
@@ -53,4 +53,36 @@ void CubemapTexture::TexImage2D(INT32 face, INT32 level, const void* data) const
 {
 	BindTexture();
 	glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X + face, level, static_cast<UINT32>(mInternalFormat), mWidth, mHeight, 0, static_cast<UINT32>(mDataFormat), static_cast<UINT32>(mDataType), data);
+}
+
+void CubemapTexture::InitializeCubemapTexture(eTextureType textureType, eTargetTexture target,
+	eTextureInternalFormat internalFormat, UINT32 width, eTextureComponentFormat format, eDataType type,
+	const void* data)
+{
+	InitializeTexture(textureType, eBindTarget::TEXTURE_CUBE_MAP, target, internalFormat, eTextureCompressedInternalFormat::NONE, width, format, type);
+	TexImage1D(0, data);
+}
+
+void CubemapTexture::InitializeCubemapTexture(eTextureType textureType, eTargetTexture target,
+	eTextureInternalFormat internalFormat, UINT32 width, UINT32 height, eTextureComponentFormat format, eDataType type,
+	const void* data)
+{
+	InitializeTexture(textureType, eBindTarget::TEXTURE_CUBE_MAP, target, internalFormat, eTextureCompressedInternalFormat::NONE, width, height, format, type);
+	TexImage2D(0, data);
+}
+
+void CubemapTexture::InitializeCubemapTexture(eTextureType textureType, eTargetTexture target,
+	eTextureCompressedInternalFormat compressedInternalFormat, UINT32 width, eTextureComponentFormat format,
+	eDataType type, const void* data)
+{
+	InitializeTexture(textureType, eBindTarget::TEXTURE_CUBE_MAP, target, eTextureInternalFormat::NONE, compressedInternalFormat, width, format, type);
+	TexImage1D(0, data);
+}
+
+void CubemapTexture::InitializeCubemapTexture(eTextureType textureType, eTargetTexture target,
+	eTextureCompressedInternalFormat compressedInternalFormat, UINT32 width, UINT32 height,
+	eTextureComponentFormat format, eDataType type, const void* data)
+{
+	InitializeTexture(textureType, eBindTarget::TEXTURE_CUBE_MAP, target, eTextureInternalFormat::NONE, compressedInternalFormat, width, height, format, type);
+	TexImage2D(0, data);
 }

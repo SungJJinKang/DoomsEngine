@@ -253,6 +253,7 @@
     <ClCompile Include="Source\Core\Game\AssetManager\AssetFuture.cpp" />
     <ClCompile Include="Source\Core\Game\FrameDirtyChecker.cpp" />
     <ClCompile Include="Source\Core\Graphics\FrameBuffer\FrameBufferExporterHelper.cpp" />
+    <ClCompile Include="Source\Core\Graphics\Texture\CubemapTexture.cpp" />
     <ClCompile Include="Source\Core\IO\AssetExporter\AssetExporter_Texture.cpp" />
     <ClCompile Include="Source\Core\IO\AssetExporter\AssetExporter_Three_D_Model.cpp" />
     <ClCompile Include="Source\Core\IO\AssetImporter\Manager\AssetImporterWorkerManager.cpp" />
@@ -439,6 +440,8 @@
     <ClInclude Include="Source\Core\DObject\TSubclassOf.h" />
     <ClInclude Include="Source\Core\Game\AssetManager\AssetFuture.h" />
     <ClInclude Include="Source\Core\Graphics\FrameBuffer\FrameBufferExporterHelper.h" />
+    <ClInclude Include="Source\Core\Graphics\Texture\CubemapTexture.h" />
+    <ClInclude Include="Source\Core\Graphics\Texture\TextureFormat.h" />
     <ClInclude Include="Source\Core\IO\AssetExporter\AssetExporter_Texture.h" />
     <ClInclude Include="Source\Core\IO\AssetExporter\AssetExporter_Three_D_Model.h" />
     <ClInclude Include="Source\Core\IO\AssetImporter\AssetImporterWorker\AssetImporterWorkerForwardDeclaration.h" />

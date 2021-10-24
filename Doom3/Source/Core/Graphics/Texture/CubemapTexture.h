@@ -11,7 +11,8 @@ namespace doom
 			DOBJECT_CLASS_BASE_CHAIN(Texture)
 
 		public:
-			CubemapTexture() = delete;
+
+			CubemapTexture();
 			CubemapTexture(eTextureType textureType,
 				eTargetTexture target, eTextureInternalFormat internalFormat, UINT32 width, eTextureComponentFormat format, eDataType type, const void* data);
 			CubemapTexture(eTextureType textureType,
@@ -38,6 +39,18 @@ namespace doom
 			void TexImage2D(INT32 level, const void* data) const noexcept override;
 
 			void TexImage2D(INT32 face, INT32 level, const void* data) const noexcept;
+
+
+			void InitializeCubemapTexture(eTextureType textureType,
+				eTargetTexture target, eTextureInternalFormat internalFormat, UINT32 width, eTextureComponentFormat format, eDataType type, const void* data);
+			void InitializeCubemapTexture(eTextureType textureType,
+				eTargetTexture target, eTextureInternalFormat internalFormat, UINT32 width, UINT32 height, eTextureComponentFormat format, eDataType type, const void* data);
+			void InitializeCubemapTexture(eTextureType textureType,
+				eTargetTexture target, eTextureCompressedInternalFormat compressedInternalFormat, UINT32 width, eTextureComponentFormat format, eDataType type, const void* data);
+			void InitializeCubemapTexture(eTextureType textureType,
+				eTargetTexture target, eTextureCompressedInternalFormat compressedInternalFormat, UINT32 width, UINT32 height, eTextureComponentFormat format, eDataType type, const void* data);
+
+
 
 		};
 	}
