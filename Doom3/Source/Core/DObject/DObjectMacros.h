@@ -246,6 +246,7 @@ namespace doom
 			}
 
 			return ::doom::DClass(
+				sizeof(DOBJECT_TYPE),
 				DOBJECT_TYPE::CLASS_TYPE_ID_STATIC(),
 				DOBJECT_TYPE::BASE_CHAIN_COUNT_STATIC(),
 				DOBJECT_TYPE::BASE_CHAIN_DATA_STATIC(),
