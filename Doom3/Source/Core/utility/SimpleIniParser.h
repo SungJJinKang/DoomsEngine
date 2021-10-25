@@ -5,6 +5,8 @@
 #include <variant>
 #include <unordered_map>
 
+#include "Macros/TypeDef.h"
+
 
 class IniData
 {
@@ -77,3 +79,4 @@ public:
 
 	
 };
+

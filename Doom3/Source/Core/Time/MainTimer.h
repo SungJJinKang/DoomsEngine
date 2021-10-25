@@ -7,6 +7,13 @@
 #include <UserInput_Server.h>
 namespace doom
 {
+	struct TimeStep
+	{
+		FLOAT64 mLastTickCount{};
+		FLOAT64 mCurrentTickCount{};
+		FLOAT32 mDeltaTime{};
+	};
+
 	class GameCore;
 	namespace time
 	{
@@ -19,12 +26,7 @@ namespace doom
 			friend class ::doom::GameCore;
 			friend class Time_Server;
 
-			struct TimeStep
-			{
-				FLOAT64 mLastTickCount{};
-				FLOAT64 mCurrentTickCount{};
-				FLOAT32 mDeltaTime{};
-			};
+			
 		private:
 
 			static inline TimeStep mFrameTime{};

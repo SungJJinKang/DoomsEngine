@@ -6,6 +6,7 @@
 
 #include "Ray.h"
 #include <Matrix4x4.h>
+#include <SIMD_Core.h>
 //#include <Trigonometric.h>
 
 using namespace doom::physics;

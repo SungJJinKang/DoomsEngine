@@ -217,7 +217,7 @@ void doom::GameLogicStartPoint::StartGameLogic()
 
 	
 	doom::graphics::GraphicsAPIManager::SetWindowTitle(
-		u8"F3 : 디퍼드렌더링 디버거 ON/OFF | F4 : 멀티스레드 뷰프러스텀 컬링 ON/OFF | F5 : 오브젝트 FRONT TO BACK ON / OFF | F6 : 오버드로우 디버거 ON / OFF | F7 : 충돌 처리 디버깅 ON / OFF"
+		"F3 : 디퍼드렌더링 디버거 ON/OFF | F4 : 멀티스레드 뷰프러스텀 컬링 ON/OFF | F5 : 오브젝트 FRONT TO BACK ON / OFF | F6 : 오버드로우 디버거 ON / OFF | F7 : 충돌 처리 디버깅 ON / OFF"
 	);
 
 	doom::ui::PrintText(

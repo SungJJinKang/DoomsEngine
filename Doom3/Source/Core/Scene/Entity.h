@@ -78,7 +78,7 @@ namespace doom
 		//TODO : Every Entity has Transform Component, Just put Transform Component as member variable
 	
 
-		UINT32 mLayerIndex;
+		UINT32 mLayerIndex{0};
 	
 
 		Entity* mParent = nullptr;

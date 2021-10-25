@@ -37,37 +37,37 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v142</PlatformToolset>
+    <PlatformToolset>ClangCL</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v142</PlatformToolset>
+    <PlatformToolset>ClangCL</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v142</PlatformToolset>
+    <PlatformToolset>ClangCL</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
     <EnableUnitySupport>false</EnableUnitySupport>
-    <EnableASAN>true</EnableASAN>
+    <EnableASAN>false</EnableASAN>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v142</PlatformToolset>
+    <PlatformToolset>ClangCL</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
     <EnableUnitySupport>false</EnableUnitySupport>
   </PropertyGroup>
   <PropertyGroup Label="Configuration" Condition="'$(Configuration)|$(Platform)'=='AMDuProf|Win32'">
-    <PlatformToolset>v142</PlatformToolset>
+    <PlatformToolset>ClangCL</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Label="Configuration" Condition="'$(Configuration)|$(Platform)'=='AMDuProf|x64'">
-    <PlatformToolset>v142</PlatformToolset>
+    <PlatformToolset>ClangCL</PlatformToolset>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
@@ -101,6 +101,7 @@
   </PropertyGroup>
   <PropertyGroup Label="Vcpkg">
     <VcpkgEnableManifest>true</VcpkgEnableManifest>
+    <VcpkgAutoLink>false</VcpkgAutoLink>
   </PropertyGroup>
   <PropertyGroup Label="Vcpkg" Condition="'$(Configuration)|$(Platform)'=='AMDuProf|Win32'">
     <VcpkgInstalledDir>C:\vcpkg</VcpkgInstalledDir>
@@ -130,16 +131,17 @@
       <LanguageStandard>stdcpp17</LanguageStandard>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
-      <EnableEnhancedInstructionSet>AdvancedVectorExtensions</EnableEnhancedInstructionSet>
+      <EnableEnhancedInstructionSet>AdvancedVectorExtensions2</EnableEnhancedInstructionSet>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <RuntimeTypeInfo>false</RuntimeTypeInfo>
       <StringPooling>true</StringPooling>
+      <AdditionalOptions>-std=c++17 %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(SolutionDir)Source\Helper\crossguid\build\Debug;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>xg.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)Source\Helper\crossguid\build\Debug;%(AdditionalLibraryDirectories);C:\vcpkg\x64-windows\bin</AdditionalLibraryDirectories>
+      <AdditionalDependencies>xg.lib;%(AdditionalDependencies);C:\vcpkg\x64-windows\bin</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -154,18 +156,19 @@
       <LanguageStandard>stdcpp17</LanguageStandard>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
-      <EnableEnhancedInstructionSet>AdvancedVectorExtensions</EnableEnhancedInstructionSet>
+      <EnableEnhancedInstructionSet>AdvancedVectorExtensions2</EnableEnhancedInstructionSet>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <RuntimeTypeInfo>false</RuntimeTypeInfo>
       <StringPooling>true</StringPooling>
+      <AdditionalOptions>-std=c++17 %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(SolutionDir)dependency\Compressonator\lib\VS2017\x86;$(SolutionDir)dependency\assimp;$(SolutionDir)dependency\glfw\lib;$(SolutionDir)dependency\crossguid\build\Release;$(SolutionDir)Source\Helper\crossguid\build\Release;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>xg.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)dependency\Compressonator\lib\VS2017\x86;$(SolutionDir)dependency\assimp;$(SolutionDir)dependency\glfw\lib;$(SolutionDir)dependency\crossguid\build\Release;$(SolutionDir)Source\Helper\crossguid\build\Release;%(AdditionalLibraryDirectories);C:\vcpkg\x64-windows\bin</AdditionalLibraryDirectories>
+      <AdditionalDependencies>xg.lib;%(AdditionalDependencies);C:\vcpkg\x64-windows\bin</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -174,20 +177,21 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions);DOOM_DLL_EXPORTS</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)Source\Core\OS;$(VcpkgInstalledDir)x64-windows\include;$(SolutionDir)Source\Helper;$(SolutionDir)Source\Component;$(SolutionDir)Source\Core\Scene;$(SolutionDir)Source\Component\Core;$(SolutionDir)Source\Helper/crossguid;$(SolutionDir)Source\GameLogic\CustomComponent;$(SolutionDir)Source\Core\Math\LightMath_Cpp;$(SolutionDir)Source\Core\IO;$(SolutionDir)Source\Core\Time;$(SolutionDir)Source\GameLogic;$(SolutionDir)Source\Core;$(SolutionDir)Source\Core\Logger;$(SolutionDir)Source\Core\Physics;$(SolutionDir)Source\Core\utility</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\vcpkg\x64-windows\include;$(SolutionDir)Source\Core\OS;$(VcpkgInstalledDir)x64-windows\include;$(SolutionDir)Source\Helper;$(SolutionDir)Source\Component;$(SolutionDir)Source\Core\Scene;$(SolutionDir)Source\Component\Core;$(SolutionDir)Source\Helper/crossguid;$(SolutionDir)Source\GameLogic\CustomComponent;$(SolutionDir)Source\Core\Math\LightMath_Cpp;$(SolutionDir)Source\Core\IO;$(SolutionDir)Source\Core\Time;$(SolutionDir)Source\GameLogic;$(SolutionDir)Source\Core;$(SolutionDir)Source\Core\Logger;$(SolutionDir)Source\Core\Physics;$(SolutionDir)Source\Core\utility</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
-      <EnableEnhancedInstructionSet>AdvancedVectorExtensions</EnableEnhancedInstructionSet>
+      <EnableEnhancedInstructionSet>AdvancedVectorExtensions2</EnableEnhancedInstructionSet>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <StringPooling>true</StringPooling>
       <RuntimeTypeInfo>false</RuntimeTypeInfo>
+      <AdditionalOptions>-std=c++17 %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(SolutionDir)Source\Helper\crossguid\build\Debug;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>xg.lib;%(AdditionalDependencies);ntdll.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)Source\Helper\crossguid\build\Debug;%(AdditionalLibraryDirectories);C:\vcpkg\x64-windows\debug\bin</AdditionalLibraryDirectories>
+      <AdditionalDependencies>xg.lib;%(AdditionalDependencies);ntdll.lib;assimp-vc142-mtd.lib;bz2d.lib;DirectX-Guids.lib;DirectXTex.lib;glad.lib;glfw3dll.lib;Irrlicht.lib;jpegd.lib;kubazip.lib;libpng16d.lib;minizip.lib;poly2tri.lib;polyclipping.lib;turbojpegd.lib;zlibd.lib</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -202,21 +206,22 @@
       <LanguageStandard>stdcpp17</LanguageStandard>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
-      <EnableEnhancedInstructionSet>AdvancedVectorExtensions</EnableEnhancedInstructionSet>
+      <EnableEnhancedInstructionSet>AdvancedVectorExtensions2</EnableEnhancedInstructionSet>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <StringPooling>true</StringPooling>
       <RuntimeTypeInfo>false</RuntimeTypeInfo>
       <BrowseInformation>false</BrowseInformation>
       <WholeProgramOptimization>true</WholeProgramOptimization>
+      <AdditionalOptions>-std=c++17 %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(SolutionDir)Source\thirdparty\amdUprof\lib\x64;$(SolutionDir)Source\Helper\crossguid\build\Release;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>xg.lib;AMDProfileController.lib;ntdll.lib;%(AdditionalDependencies);ntdll.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)Source\thirdparty\amdUprof\lib\x64;$(SolutionDir)Source\Helper\crossguid\build\Release;%(AdditionalLibraryDirectories);C:\vcpkg\x64-windows\bin</AdditionalLibraryDirectories>
+      <AdditionalDependencies>xg.lib;AMDProfileController.lib;ntdll.lib;%(AdditionalDependencies);ntdll.lib;</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='AMDuProf|x64'">
@@ -229,9 +234,12 @@
       <RuntimeTypeInfo>false</RuntimeTypeInfo>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
+      <AdditionalOptions>-std=c++17 %(AdditionalOptions)</AdditionalOptions>
+      <EnableEnhancedInstructionSet>AdvancedVectorExtensions2</EnableEnhancedInstructionSet>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies);ntdll.lib</AdditionalDependencies>
+      <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies);ntdll.lib;C:\vcpkg\x64-windows\bin</AdditionalDependencies>
+      <AdditionalLibraryDirectories>;C:\vcpkg\x64-windows\bin</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='AMDuProf|Win32'">
@@ -244,7 +252,13 @@
       <RuntimeTypeInfo>false</RuntimeTypeInfo>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
+      <AdditionalOptions>-std=c++17 %(AdditionalOptions)</AdditionalOptions>
+      <EnableEnhancedInstructionSet>AdvancedVectorExtensions2</EnableEnhancedInstructionSet>
     </ClCompile>
+    <Link>
+      <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies);C:\vcpkg\x64-windows\bin</AdditionalDependencies>
+      <AdditionalLibraryDirectories>;C:\vcpkg\x64-windows\bin</AdditionalLibraryDirectories>
+    </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Source\Core\Asset\AudioAsset.cpp" />
@@ -282,7 +296,7 @@
     <ClCompile Include="Source\Core\Graphics\DebugGraphics\RenderingDebugger.cpp" />
     <ClCompile Include="Source\Core\DObject\DObject.cpp" />
     <ClCompile Include="Source\Core\IO\KEY_CODE.cpp" />
-    <ClCompile Include="Source\Core\IO\UserInputHelper.cpp" />
+    <ClCompile Include="Source\Core\Macros\Path.cpp" />
     <ClCompile Include="Source\Core\OS\Window.cpp" />
     <ClCompile Include="Source\Core\Physics\Collider\ColliderType.cpp" />
     <ClCompile Include="Source\Core\Physics\PhysicsDebugger.cpp" />
@@ -387,7 +401,6 @@
     <ClCompile Include="Source\Core\IO\UserInput_Server.cpp" />
     <ClCompile Include="Source\Core\Logger\Logger.cpp" />
     <ClCompile Include="Source\Core\Graphics\GraphicsAPI.cpp" />
-    <ClCompile Include="Source\Core\Macros\Path.cpp" />
     <ClCompile Include="Source\Core\Math\LightMath_Cpp\Matrix.cpp" />
     <ClCompile Include="Source\Core\Math\LightMath_Cpp\Vector1.cpp" />
     <ClCompile Include="Source\Core\Math\LightMath_Cpp\Vector2.cpp" />
@@ -474,10 +487,15 @@
     <ClInclude Include="Source\Core\Graphics\DebugGraphics\RenderingDebugger.h" />
     <ClInclude Include="Source\Core\DObject\DObject.h" />
     <ClInclude Include="Source\Core\IO\KEY_CODE.h" />
-    <ClInclude Include="Source\Core\IO\UserInputHelper.h" />
+    <ClInclude Include="Source\Core\Macros\Assert.h" />
     <ClInclude Include="Source\Core\Macros\DllMarcos.h" />
+    <ClInclude Include="Source\Core\Macros\Log.h" />
+    <ClInclude Include="Source\Core\Macros\Macros.h" />
     <ClInclude Include="Source\Core\Macros\MacrosHelper.h" />
+    <ClInclude Include="Source\Core\Macros\Path.h" />
+    <ClInclude Include="Source\Core\Macros\Profiling.h" />
     <ClInclude Include="Source\Core\Macros\TypeDef.h" />
+    <ClInclude Include="Source\Core\Math\LightMath_Cpp\TypeDef.h" />
     <ClInclude Include="Source\Core\Physics\PhysicsDebugger.h" />
     <ClInclude Include="Source\Core\Physics\PhysicsSolver.h" />
     <ClInclude Include="Source\Core\Profiler\CPUVendorProfiler.h" />
@@ -520,7 +538,6 @@
     <ClInclude Include="Source\Core\Graphics\Acceleration\LinearData_ViewFrustumCulling\DataType\Math\Vector.h" />
     <ClInclude Include="Source\Core\Graphics\Acceleration\LinearData_ViewFrustumCulling\EveryCulling.h" />
     <ClInclude Include="Source\Core\Graphics\Acceleration\LinearData_ViewFrustumCulling\EveryCullingCore.h" />
-    <ClInclude Include="Source\Core\Graphics\Acceleration\LinearData_ViewFrustumCulling\SIMD_Core.h" />
     <ClInclude Include="Source\Core\Graphics\Acceleration\LinearViewFrustumCulling\DataStructure\EntityBlock.h" />
     <ClInclude Include="Source\Core\Graphics\Acceleration\LinearViewFrustumCulling\DataStructure\EntityGridCell.h" />
     <ClInclude Include="Source\Core\Graphics\Acceleration\LinearViewFrustumCulling\DataStructure\TrnasformHandle.h" />
@@ -632,11 +649,6 @@
     <ClInclude Include="Source\Core\IO\AssetImporter\AssetImporterWorker\AssetImporterWorker_Text.h" />
     <ClInclude Include="Source\Core\IO\AssetImporter\AssetImporterWorker\AssetImporterWorker_Texture.h" />
     <ClInclude Include="Source\Core\IO\AssetImporter\AssetImporterWorker\AssetImporterWorker_Three_D_Model.h" />
-    <ClInclude Include="Source\Core\Macros\Assert.h" />
-    <ClInclude Include="Source\Core\Macros\Log.h" />
-    <ClInclude Include="Source\Core\Macros\Macros.h" />
-    <ClInclude Include="Source\Core\Macros\Path.h" />
-    <ClInclude Include="Source\Core\Macros\Profiling.h" />
     <ClInclude Include="Source\Core\Math\LightMath_Cpp\Euler.h" />
     <ClInclude Include="Source\Core\Math\LightMath_Cpp\LMath.h" />
     <ClInclude Include="Source\Core\Math\LightMath_Cpp\LMath_Core.h" />

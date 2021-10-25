@@ -161,7 +161,7 @@ namespace doom
 		/// <param name="index"></param>
 		/// <param name="currentHeight"></param>
 		/// <returns></returns>
-		INT32 GetHeight(const INT32 index, INT32& longestHeight = 0, INT32 currentHeight = -1);
+		INT32 GetHeight(const INT32 index, INT32& longestHeight, INT32 currentHeight);
 		INT32 GetDepth(const INT32 index);
 		INT32 GetLeafNodeCount();
 		/// <summary>

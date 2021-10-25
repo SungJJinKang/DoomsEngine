@@ -98,8 +98,6 @@ template<doom::eDOBJECT_ClassFlags...flags> struct flag_or {
 /////////////////////////////////
 ///
 
-static_assert("TEST IF IDENTICAL LITERAL STRING IS ALLOATED ONE TIME" == "TEST IF IDENTICAL LITERAL STRING IS ALLOATED ONE TIME");
-
 #ifndef TYPE_ID_IMP
 
 #define TYPE_ID_IMP(CLASS_TYPE)																							\

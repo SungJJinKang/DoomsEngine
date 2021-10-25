@@ -2,19 +2,20 @@
 
 #include <Doom_Core.h>
 
-#include "UserInputHelper.h"
+#include "magic_enum.hpp"
 
-template<> doom::userinput::eKEY_CODE IniData::GetValue<doom::userinput::eKEY_CODE>(const std::string& section, const std::string& variableKey) const
+doom::userinput::eKEY_CODE doom::userinput::UserInputHelper::ConvertStringToKeyCode(std::string_view str)
 {
-	auto sectionData = GetSectionData(section, variableKey);
+	const auto result = magic_enum::enum_cast<doom::userinput::eKEY_CODE>(str);
 
-	D_ASSERT(sectionData != nullptr);
-	if(sectionData != nullptr)
+	D_ASSERT(result.has_value() == true);
+	if (result.has_value())
 	{
-		return 	doom::userinput::UserInputHelper::ConvertStringToKeyCode(std::get<std::string>(*sectionData));
+		return result.value();
 	}
 	else
 	{
 		return doom::userinput::eKEY_CODE::ERROR_CODE;
 	}
 }
+

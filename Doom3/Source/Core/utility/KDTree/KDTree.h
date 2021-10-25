@@ -100,7 +100,7 @@ namespace doom
 		return 2;
 	}*/
 	template <>
-	inline static UINT32 KDTree<math::Vector3>::GetDimensionCount()
+	inline UINT32 KDTree<math::Vector3>::GetDimensionCount()
 	{
 		return 3;
 	}
