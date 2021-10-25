@@ -6,7 +6,6 @@
 #include <string>
 #include <cstdio>
 
-#include <Graphics/DebugGraphics/DebugDrawer.h>
 #include "../Game/ConfigData.h"
 
 
