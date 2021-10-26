@@ -163,24 +163,46 @@ namespace doom
 			}
 			return chain_data;
 		}
+		
 	}
+
+
+	struct BaseChain
+	{
+		const SIZE_T mChainCount;
+		const char* const* mChainData;
+
+		constexpr BaseChain(const SIZE_T _chainCount, const char* const* _chainData)
+			: mChainCount(_chainCount), mChainData(_chainData)
+		{
+			
+		}
+	};
 }
 
-#define DOBJECT_ROOT_CLASS_BASE_CHAIN															\
-private:																						\
-	constexpr static SIZE_T _BASE_CHAIN_COUNT = 1;												\
-	constexpr static const std::array<const char*, 1> _BASE_CHAIN_DATA{ __CLASS_TYPE_ID };		\
-public:																							\
-	[[nodiscard]] FORCE_INLINE constexpr static SIZE_T BASE_CHAIN_COUNT_STATIC()				\
-	{																							\
-		return 1;																				\
-	}																							\
-	[[nodiscard]] FORCE_INLINE constexpr static const char* const* BASE_CHAIN_DATA_STATIC()		\
-	{																							\
-		return _BASE_CHAIN_DATA.data();															\
-	}																							\
-	[[nodiscard]] virtual SIZE_T GetBaseChainCount() const { return BASE_CHAIN_COUNT_STATIC(); }\
-	[[nodiscard]] virtual const char* const* GetBaseChainData() const { return BASE_CHAIN_DATA_STATIC(); }
+#define DOBJECT_ROOT_CLASS_BASE_CHAIN																	\
+private:																								\
+	constexpr static const doom::BaseChain _BASE_CHAIN{ 1, nullptr };								\
+public:																									\
+	[[nodiscard]] FORCE_INLINE constexpr static SIZE_T BASE_CHAIN_COUNT_STATIC()						\
+	{																									\
+		return _BASE_CHAIN.mChainCount;																	\
+	}																									\
+	[[nodiscard]] FORCE_INLINE constexpr static const char* const * BASE_CHAIN_DATA_STATIC()			\
+	{																									\
+		return _BASE_CHAIN.mChainData;																	\
+	}																									\
+	[[nodiscard]] FORCE_INLINE constexpr static const doom::BaseChain& BASE_CHAIN_STATIC()				\
+	{																									\
+		return _BASE_CHAIN;																				\
+	}																									\
+	[[nodiscard]] virtual SIZE_T GetBaseChainCount() const { return _BASE_CHAIN.mChainCount; }			\
+	[[nodiscard]] virtual const char* const * GetBaseChainData() const {								\
+	return _BASE_CHAIN.mChainData; }																	\
+	[[nodiscard]] virtual const doom::BaseChain& GetBaseChain() const {									\
+	return _BASE_CHAIN; }																				\
+
+
 
 
 #define DOBJECT_CLASS_BASE_CHAIN(BASE_DOBJECT_TYPE_CLASS)													\
@@ -189,21 +211,29 @@ public:																							\
 	public:																									\
 	using Base = BASE_DOBJECT_TYPE_CLASS; /* alias Base DObject Type Class */								\
 	private:																								\
-	constexpr static SIZE_T _BASE_CHAIN_COUNT = doom::details::BASE_CHAIN_HILLCLIMB_COUNT<Current>();		\
-	constexpr static const std::array<const char*, _BASE_CHAIN_COUNT> _BASE_CHAIN_DATA = doom::details::BASE_CHAIN_HILLCLIMB_DATA<Current, _BASE_CHAIN_COUNT>();			\
+    constexpr static SIZE_T _BASE_CHAIN_COUNT = doom::details::BASE_CHAIN_HILLCLIMB_COUNT<Current>();		\
+    constexpr static const std::array<const char*, _BASE_CHAIN_COUNT> _BASE_CHAIN_DATA = doom::details::BASE_CHAIN_HILLCLIMB_DATA<Current, _BASE_CHAIN_COUNT>();	\
+	constexpr static const doom::BaseChain _BASE_CHAIN{ _BASE_CHAIN_COUNT, _BASE_CHAIN_DATA.data() };		\
 	public:																									\
 	[[nodiscard]] FORCE_INLINE constexpr static SIZE_T BASE_CHAIN_COUNT_STATIC()							\
 	{																										\
-		return _BASE_CHAIN_COUNT;																			\
+		return _BASE_CHAIN.mChainCount;																		\
 	}																										\
 	[[nodiscard]] FORCE_INLINE constexpr static const char* const * BASE_CHAIN_DATA_STATIC()				\
 	{																										\
-		return _BASE_CHAIN_DATA.data();																		\
+		return _BASE_CHAIN.mChainData;																		\
 	}																										\
-	[[nodiscard]] virtual SIZE_T GetBaseChainCount() const { return BASE_CHAIN_COUNT_STATIC(); }			\
+	[[nodiscard]] FORCE_INLINE constexpr static const doom::BaseChain& BASE_CHAIN_STATIC()					\
+	{																										\
+		return _BASE_CHAIN;																					\
+	}																										\
+	[[nodiscard]] virtual SIZE_T GetBaseChainCount() const { return _BASE_CHAIN.mChainCount; }				\
 	[[nodiscard]] virtual const char* const * GetBaseChainData() const {									\
 	static_assert(std::is_base_of_v<BASE_DOBJECT_TYPE_CLASS, std::decay<decltype(*this)>::type> == true, "Current Class Type is not derived from Passed Base ClassType is passed");	\
-	return BASE_CHAIN_DATA_STATIC(); }
+	return _BASE_CHAIN.mChainData; }																		\
+	[[nodiscard]] virtual const doom::BaseChain& GetBaseChain() const {										\
+	return _BASE_CHAIN; }																					\
+	
 
 
 /////////////////////////////////
