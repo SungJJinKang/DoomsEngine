@@ -43,13 +43,19 @@ namespace doom
 	public:
 
 		template <typename BASE_TYPE>
-		FORCE_INLINE bool IsChildOf() const
+		FORCE_INLINE bool IsChildOf() const noexcept
 		{
 			static_assert(IS_DOBJECT_TYPE(BASE_TYPE));
 			
 			const bool isChild = ( GetBaseChainCount() >= BASE_TYPE::BASE_CHAIN_COUNT_STATIC() ) && ( GetBaseChainData()[GetBaseChainCount() - BASE_TYPE::BASE_CHAIN_COUNT_STATIC()] == BASE_TYPE::CLASS_TYPE_ID_STATIC() );
 
 			return isChild;
+		}
+
+		template <>
+		FORCE_INLINE bool IsChildOf<doom::DObject>() const noexcept
+		{
+			return true;
 		}
 
 		friend class DObjectManager;
