@@ -104,7 +104,7 @@ namespace doom
 
 		void InitProperties(const DObjectContructorParams& params);
 
-		inline SIZE_T GetDObjectID() const
+		inline size_t GetDObjectID() const
 		{
 			return mDObjectID;
 		}

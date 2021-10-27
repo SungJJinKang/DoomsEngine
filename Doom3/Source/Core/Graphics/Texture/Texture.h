@@ -77,14 +77,14 @@ namespace doom
 			/// 
 			/// </summary>
 			/// <returns></returns>
-			inline static SIZE_T GetArbitraryIndexOfeBindTarget(const eBindTarget bindTarget)
+			inline static size_t GetArbitraryIndexOfeBindTarget(const eBindTarget bindTarget)
 			{
 				if (bindTarget == eBindTarget::TEXTURE_2D)
 				{
 					return 1;
 				}
 
-				//TODO : ¼ýÀÚº¸°í ÇØ½¬ÇÔ¼ö·Î ARRAY ÀÛ°Ô ÇØ¼­ ÇØ½¬Å×ÀÌºí ¸¸µé ¼ö ÀÖÀ¸¸é ¸¸µéÀÚ. O(1)À¸·Î °ª °¡Á®¿À°Ô
+				//TODO : ï¿½ï¿½ï¿½Úºï¿½ï¿½ï¿½ ï¿½Ø½ï¿½ï¿½Ô¼ï¿½ï¿½ï¿½ ARRAY ï¿½Û°ï¿½ ï¿½Ø¼ï¿½ ï¿½Ø½ï¿½ï¿½ï¿½ï¿½Ìºï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½. O(1)ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 				switch (bindTarget)
 				{
 				case eBindTarget::TEXTURE_1D:

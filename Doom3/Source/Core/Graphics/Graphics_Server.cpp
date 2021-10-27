@@ -97,7 +97,7 @@ void doom::graphics::Graphics_Server::Renderder_InitComponent()
 	for (UINT32 layerIndex = 0; layerIndex < MAX_LAYER_COUNT; layerIndex++)
 	{
 		const std::vector<Renderer*>& renderersInLayer = RendererComponentStaticIterator::GetWorkingRendererInLayer(0, layerIndex);
-		for (SIZE_T rendererIndex = 0; rendererIndex < renderersInLayer.size(); rendererIndex++)
+		for (size_t rendererIndex = 0; rendererIndex < renderersInLayer.size(); rendererIndex++)
 		{
 			//renderersInLayer[rendererIndex]->InitComponent_Internal();
 			renderersInLayer[rendererIndex]->InitComponent();
@@ -110,7 +110,7 @@ void doom::graphics::Graphics_Server::Renderder_UpdateComponent()
 	for (UINT32 layerIndex = 0; layerIndex < MAX_LAYER_COUNT; layerIndex++)
 	{
 		const std::vector<Renderer*>& renderersInLayer = RendererComponentStaticIterator::GetWorkingRendererInLayer(0, layerIndex);
-		for (SIZE_T rendererIndex = 0; rendererIndex < renderersInLayer.size(); rendererIndex++)
+		for (size_t rendererIndex = 0; rendererIndex < renderersInLayer.size(); rendererIndex++)
 		{
 			renderersInLayer[rendererIndex]->UpdateComponent_Internal();
 			renderersInLayer[rendererIndex]->UpdateComponent();
@@ -123,7 +123,7 @@ void doom::graphics::Graphics_Server::Renderder_OnEndOfFrameComponent()
 	for (UINT32 layerIndex = 0; layerIndex < MAX_LAYER_COUNT; layerIndex++)
 	{
 		const std::vector<Renderer*>& renderersInLayer = RendererComponentStaticIterator::GetWorkingRendererInLayer(0, layerIndex);
-		for (SIZE_T rendererIndex = 0; rendererIndex < renderersInLayer.size(); rendererIndex++)
+		for (size_t rendererIndex = 0; rendererIndex < renderersInLayer.size(); rendererIndex++)
 		{
 			renderersInLayer[rendererIndex]->OnEndOfFrame_Component_Internal();
 			renderersInLayer[rendererIndex]->OnEndOfFrame_Component();
@@ -149,7 +149,7 @@ void Graphics_Server::DoCullJob()
 	const std::vector<doom::Camera*>& spawnedCameraList = StaticContainer<doom::Camera>::GetAllStaticComponents();
 
 	UINT32 CullJobAvailiableCameraCount = 0;
-	for (SIZE_T cameraIndex = 0; cameraIndex < spawnedCameraList.size(); cameraIndex++)
+	for (size_t cameraIndex = 0; cameraIndex < spawnedCameraList.size(); cameraIndex++)
 	{
 		doom::Camera* const camera = spawnedCameraList[cameraIndex];
 
@@ -199,7 +199,7 @@ void doom::graphics::Graphics_Server::Render()
 	GraphicsAPI::DefaultClearColor(Graphics_Setting::DefaultClearColor);
 	GraphicsAPI::Clear(GraphicsAPI::eClearMask::COLOR_BUFFER_BIT, GraphicsAPI::eClearMask::DEPTH_BUFFER_BIT);
 
-	for (SIZE_T cameraIndex = 0 ; cameraIndex < spawnedCameraList.size() ; cameraIndex++)
+	for (size_t cameraIndex = 0 ; cameraIndex < spawnedCameraList.size() ; cameraIndex++)
 	{
 		doom::Camera* const targetCamera = spawnedCameraList[cameraIndex];
 		targetCamera->UpdateUniformBufferObject();
@@ -235,7 +235,7 @@ void doom::graphics::Graphics_Server::Render()
 			
 
 #ifdef DEBUG_DRAWER
-			//ÀÌ°Å ´À·Áµµ »ó°ü¾ø´Ù. ±×³É ¿©±â´Ù µÎÀÚ.
+			//ï¿½Ì°ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½. ï¿½×³ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½.
 			mDebugGraphics.BufferVertexDataToGPU();
 
 		
@@ -256,7 +256,7 @@ void doom::graphics::Graphics_Server::Render()
 	
 }
 
-void doom::graphics::Graphics_Server::UpdateOverDrawVisualization(doom::Camera* const targetCamera, const SIZE_T cameraIndex)
+void doom::graphics::Graphics_Server::UpdateOverDrawVisualization(doom::Camera* const targetCamera, const size_t cameraIndex)
 {
 
 #ifdef DEBUG_DRAWER
@@ -273,7 +273,7 @@ void doom::graphics::Graphics_Server::UpdateOverDrawVisualization(doom::Camera* 
 
 
 
-void doom::graphics::Graphics_Server::RenderObject(doom::Camera* const targetCamera, const SIZE_T cameraIndex)
+void doom::graphics::Graphics_Server::RenderObject(doom::Camera* const targetCamera, const size_t cameraIndex)
 {
 	targetCamera->UpdateUniformBufferObject();
 

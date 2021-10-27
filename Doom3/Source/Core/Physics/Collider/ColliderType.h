@@ -29,6 +29,6 @@ namespace doom
 		};
 		*/
 
-		inline constexpr extern SIZE_T COLLIDER_TYPE_COUNT = 9;
+		inline constexpr extern size_t COLLIDER_TYPE_COUNT = 9;
 	}
 }

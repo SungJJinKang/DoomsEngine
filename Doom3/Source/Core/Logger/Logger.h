@@ -12,7 +12,7 @@
 
 namespace math
 {
-	template <SIZE_T ComponentCount, typename T>
+	template <size_t ComponentCount, typename T>
 	struct Vector;
 
 	using Vector2 = typename Vector<2, FLOAT32>;

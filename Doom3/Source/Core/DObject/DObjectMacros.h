@@ -124,7 +124,7 @@ namespace doom
 		//Never change static to extern. static give hint to compiler that this definition is used only in source file(.cpp)
 		//								 Then Compiler remove this functions definition from compiler if it is called only at compile time
 		template <typename BASE_DOBJECT_TYPE_CLASS>
-		static constexpr void BASE_CHAIN_HILLCLIMB_COUNT(SIZE_T& base_chain_count)
+		static constexpr void BASE_CHAIN_HILLCLIMB_COUNT(size_t& base_chain_count)
 		{
 			base_chain_count++;
 			if constexpr (std::is_same_v<doom::DObject, BASE_DOBJECT_TYPE_CLASS> == false) {
@@ -133,17 +133,17 @@ namespace doom
 		}
 
 		template <typename BASE_DOBJECT_TYPE_CLASS>
-		static constexpr SIZE_T BASE_CHAIN_HILLCLIMB_COUNT()
+		static constexpr size_t BASE_CHAIN_HILLCLIMB_COUNT()
 		{
-			SIZE_T base_chain_count = 1;
+			size_t base_chain_count = 1;
 			if constexpr (std::is_same_v <doom::DObject, BASE_DOBJECT_TYPE_CLASS > == false) {
 				BASE_CHAIN_HILLCLIMB_COUNT<typename BASE_DOBJECT_TYPE_CLASS::Base>(base_chain_count);
 			}
 			return base_chain_count;
 		}
 
-		template <typename BASE_DOBJECT_TYPE_CLASS, SIZE_T COUNT>
-		static constexpr void BASE_CHAIN_HILLCLIMB_DATA(SIZE_T& count, std::array<const char*, COUNT>& chain_data)
+		template <typename BASE_DOBJECT_TYPE_CLASS, size_t COUNT>
+		static constexpr void BASE_CHAIN_HILLCLIMB_DATA(size_t& count, std::array<const char*, COUNT>& chain_data)
 		{
 			chain_data[count] = BASE_DOBJECT_TYPE_CLASS::__CLASS_TYPE_ID;
 			count++;
@@ -152,13 +152,13 @@ namespace doom
 			}
 		}
 
-		template <typename BASE_DOBJECT_TYPE_CLASS, SIZE_T COUNT>
+		template <typename BASE_DOBJECT_TYPE_CLASS, size_t COUNT>
 		static constexpr std::array<const char*, COUNT> BASE_CHAIN_HILLCLIMB_DATA()
 		{
 			std::array<const char*, COUNT> chain_data{};
 			chain_data[0] = BASE_DOBJECT_TYPE_CLASS::__CLASS_TYPE_ID;
 			if constexpr (std::is_same_v <doom::DObject, BASE_DOBJECT_TYPE_CLASS > == false) {
-				SIZE_T count = 1;
+				size_t count = 1;
 				BASE_CHAIN_HILLCLIMB_DATA<typename BASE_DOBJECT_TYPE_CLASS::Base>(count, chain_data);
 			}
 			return chain_data;
@@ -169,10 +169,10 @@ namespace doom
 
 	struct BaseChain
 	{
-		const SIZE_T mChainCount;
+		const size_t mChainCount;
 		const char* const* mChainData;
 
-		constexpr BaseChain(const SIZE_T _chainCount, const char* const* _chainData)
+		constexpr BaseChain(const size_t _chainCount, const char* const* _chainData)
 			: mChainCount(_chainCount), mChainData(_chainData)
 		{
 			
@@ -185,7 +185,7 @@ namespace doom
 private:																								\
 	constexpr static const doom::BaseChain _BASE_CHAIN{ 1, nullptr };									\
 public:																									\
-	[[nodiscard]] FORCE_INLINE constexpr static SIZE_T BASE_CHAIN_COUNT_STATIC() noexcept				\
+	[[nodiscard]] FORCE_INLINE constexpr static size_t BASE_CHAIN_COUNT_STATIC() noexcept				\
 	{																									\
 		return _BASE_CHAIN.mChainCount;																	\
 	}																									\
@@ -197,7 +197,7 @@ public:																									\
 	{																									\
 		return _BASE_CHAIN;																				\
 	}																									\
-	[[nodiscard]] virtual SIZE_T GetBaseChainCount() const noexcept { return _BASE_CHAIN.mChainCount; }	\
+	[[nodiscard]] virtual size_t GetBaseChainCount() const noexcept { return _BASE_CHAIN.mChainCount; }	\
 	[[nodiscard]] virtual const char* const * GetBaseChainData() const noexcept {						\
 	return _BASE_CHAIN.mChainData; }																	\
 	[[nodiscard]] virtual const doom::BaseChain& GetBaseChain() const noexcept {						\
@@ -211,11 +211,11 @@ public:																									\
 	public:																									\
 	using Base = BASE_DOBJECT_TYPE_CLASS; /* alias Base DObject Type Class */								\
 	private:																								\
-    constexpr static SIZE_T _BASE_CHAIN_COUNT = doom::details::BASE_CHAIN_HILLCLIMB_COUNT<Current>();		\
+    constexpr static size_t _BASE_CHAIN_COUNT = doom::details::BASE_CHAIN_HILLCLIMB_COUNT<Current>();		\
     constexpr static const std::array<const char*, _BASE_CHAIN_COUNT> _BASE_CHAIN_DATA = doom::details::BASE_CHAIN_HILLCLIMB_DATA<Current, _BASE_CHAIN_COUNT>();	\
 	constexpr static const doom::BaseChain _BASE_CHAIN{ _BASE_CHAIN_COUNT, _BASE_CHAIN_DATA.data() };		\
 	public:																									\
-	[[nodiscard]] FORCE_INLINE constexpr static SIZE_T BASE_CHAIN_COUNT_STATIC() noexcept					\
+	[[nodiscard]] FORCE_INLINE constexpr static size_t BASE_CHAIN_COUNT_STATIC() noexcept					\
 	{																										\
 		return _BASE_CHAIN.mChainCount;																		\
 	}																										\
@@ -227,7 +227,7 @@ public:																									\
 	{																										\
 		return _BASE_CHAIN;																					\
 	}																										\
-	[[nodiscard]] virtual SIZE_T GetBaseChainCount() const noexcept { return _BASE_CHAIN.mChainCount; }		\
+	[[nodiscard]] virtual size_t GetBaseChainCount() const noexcept { return _BASE_CHAIN.mChainCount; }		\
 	[[nodiscard]] virtual const char* const * GetBaseChainData() const noexcept {							\
 	static_assert(std::is_base_of_v<BASE_DOBJECT_TYPE_CLASS, std::decay<decltype(*this)>::type> == true, "Current Class Type is not derived from Passed Base ClassType is passed");	\
 	return _BASE_CHAIN.mChainData; }																		\
@@ -245,7 +245,7 @@ public:																									\
 #define CLASS_NAME_IMP(CLASS_TYPE)																						\
 		public:																											\
 		[[nodiscard]] FORCE_INLINE constexpr static const char* CLASS_NAME_STATIC() noexcept {							\
-			/* doom::Renderer ÀÌ·±½ÄÀ¸·Î Å¸ÀÔ Àû¾úÀ» ¶§ ´ëºñÇØ¾ßÇÑ´Ù. ¸¶Áö¸· "::" µÚÀÇ ¹®ÀÚ¿­¸¸ ÀúÀåµÇ¾î¾ßÇÑ´Ù   */		\
+			/* doom::Renderer ï¿½Ì·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Å¸ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ø¾ï¿½ï¿½Ñ´ï¿½. ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ "::" ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ú¿ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ç¾ï¿½ï¿½ï¿½Ñ´ï¿½   */		\
 			return __CLASS_TYPE_ID;																						\
 		}																												\
         [[nodiscard]] virtual const char* GetClassName() const noexcept { return CLASS_TYPE::CLASS_NAME_STATIC(); }		
@@ -339,4 +339,4 @@ namespace doom
 
 
 
-//TODO : https://github.com/Celtoys/clReflect ÀÌ°Å »ç¿ë °í·Á ( ÀÏÀÏÀÌ ¸ÅÅ©·Î Ãß°¡ÇØÁÙ ÇÊ¿ä¾øÀÌ ºôµå Àü¿¡ ¼Ò½ºÆÄÀÏ ºÐ¼®ÇØ¼­ ¾Ë¾Æ¼­ ºÐ¼®ÇØÁØ´Ù )
+//TODO : https://github.com/Celtoys/clReflect ï¿½Ì°ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ( ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Å©ï¿½ï¿½ ï¿½ß°ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ê¿ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ò½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ð¼ï¿½ï¿½Ø¼ï¿½ ï¿½Ë¾Æ¼ï¿½ ï¿½Ð¼ï¿½ï¿½ï¿½ï¿½Ø´ï¿½ )

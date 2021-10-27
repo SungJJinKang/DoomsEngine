@@ -14,7 +14,7 @@ namespace doom
 	{
 		
 
-		template <typename T, SIZE_T PoolCountInBlock>
+		template <typename T, size_t PoolCountInBlock>
 		struct ObjectPoolBlock
 		{
 			/// <summary>
@@ -37,7 +37,7 @@ namespace doom
 		{
 			static_assert(std::is_pointer_v<T> == false);
 
-			inline static constexpr SIZE_T PoolCountInBlock = 4000 / sizeof(T);
+			inline static constexpr size_t PoolCountInBlock = 4000 / sizeof(T);
 
 			using type = typename ObjectPool<T>;
 			using object_pool_block_type = typename ObjectPoolBlock<T, PoolCountInBlock>;
@@ -45,7 +45,7 @@ namespace doom
 		private:
 
 			inline static std::vector<object_pool_block_type*> mObjectPoolBlocks{};
-			inline static SIZE_T mCurrentPoolIndex{ 0 };
+			inline static size_t mCurrentPoolIndex{ 0 };
 
 			FORCE_INLINE static void _AllocateNewMemoryPoolBlock()
 			{

@@ -14,7 +14,7 @@
 
 
 template <typename ColliderType>
-doom::BVH<ColliderType>::BVH(const SIZE_T initializedCapacity)
+doom::BVH<ColliderType>::BVH(const size_t initializedCapacity)
 {
 	mNodes.resize(initializedCapacity);
 }
@@ -108,7 +108,7 @@ FORCE_INLINE INT32 doom::BVH<ColliderType>::AllocateNewNode()
 
 	mCurrentActiveNodeCount++;
 
-	const SIZE_T nodeCurrentCapacity = GetNodeCapacity();
+	const size_t nodeCurrentCapacity = GetNodeCapacity();
 	if (newNodeIndex >= nodeCurrentCapacity)
 	{
 		mNodes.resize(nodeCurrentCapacity * 2);
@@ -312,7 +312,7 @@ FORCE_INLINE typename doom::BVH<ColliderType>::node_view_type doom::BVH<Collider
 /// 
 /// https://box2d.org/files/ErinCatto_DynamicBVH_Full.pdf 77p
 /// SA mean area of boundingCollider
-/// ¼¼¸ðSA(Node) = SA(Node U L) - SA(Node)  -----> ÇÑ AABB¿¡¼­ »õ AABB¸¦ ÇÕÄ¡¸é ¾ó¸¸Å­ Area°¡ Ãß°¡µÇ´ÂÁö
+/// ï¿½ï¿½ï¿½ï¿½SA(Node) = SA(Node U L) - SA(Node)  -----> ï¿½ï¿½ AABBï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ AABBï¿½ï¿½ ï¿½ï¿½Ä¡ï¿½ï¿½ ï¿½ï¿½Å­ Areaï¿½ï¿½ ï¿½ß°ï¿½ï¿½Ç´ï¿½ï¿½ï¿½
 /// </summary>
 /// <typeparam name="ColliderType"></typeparam>
 /// <param name="L"></param>
@@ -333,7 +333,7 @@ FORCE_INLINE void doom::BVH<ColliderType>::HillClimingReconstruct(INT32 index)
 		D_ASSERT(mNodes[index].mLeftNode != NULL_NODE_INDEX && mNodes[index].mRightNode != NULL_NODE_INDEX);
 
 		ReConstructNodeAABB(index);
-		index = Balance(index); // TODO : Balancing¸¸ ÇÏ¸é ÀÌ»óÇØÁø´Ù.
+		index = Balance(index); // TODO : Balancingï¿½ï¿½ ï¿½Ï¸ï¿½ ï¿½Ì»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½.
 
 		index = mNodes[index].mParentIndex;
 	}

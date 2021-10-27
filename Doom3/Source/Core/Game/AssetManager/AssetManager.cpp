@@ -86,7 +86,7 @@ std::vector<doom::assetImporter::AssetFuture> AssetManager::_ImportAssetAsync
 	std::vector<doom::assetImporter::AssetFuture> assetFutures;
 	assetFutures.reserve(assetTypes.size());
 
-	for (SIZE_T i = 0; (i < assetTypes.size()) && (i < paths.size()); i++)
+	for (size_t i = 0; (i < assetTypes.size()) && (i < paths.size()); i++)
 	{
 		paths[i].make_preferred();
 

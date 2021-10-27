@@ -96,7 +96,7 @@ doom::graphics::Mesh* doom::asset::ThreeDModelAsset::GetMesh(UINT32 index)
 	return &(mMeshes[index]);
 }
 
-SIZE_T doom::asset::ThreeDModelAsset::GetMeshCount() const
+size_t doom::asset::ThreeDModelAsset::GetMeshCount() const
 {
 	return mMeshes.size();
 }

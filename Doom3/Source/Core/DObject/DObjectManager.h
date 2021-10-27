@@ -54,7 +54,7 @@ namespace doom
 
 		static bool IsEmpty();
 
-		static SIZE_T GetDObjectCount();
+		static size_t GetDObjectCount();
 
 	};
 }

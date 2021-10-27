@@ -19,7 +19,7 @@ namespace doom
 		using alloc = std::allocator_traits<Allocator>;
 	private:
 
-		inline static constexpr SIZE_T DEFAULT_COMPONENT_POOL_SIZE = 20;
+		inline static constexpr size_t DEFAULT_COMPONENT_POOL_SIZE = 20;
 
 		inline static std::vector<ComponentType*> mFreeComponents;
 		inline static Allocator alloc{};
@@ -27,14 +27,14 @@ namespace doom
 	public:
 
 
-		static void GenerateComponentPool(SIZE_T componentCount)
+		static void GenerateComponentPool(size_t componentCount)
 		{
 			//Never use new!!
 			//Constructor is never called at here
 			//ignore alignment
 
 			auto* arrayPointer = std::malloc(sizeof(ComponentType) * componentCount);
-			for (SIZE_T i = 0; i < componentCount; i++)
+			for (size_t i = 0; i < componentCount; i++)
 			{
 				mFreeComponents.push_back(arrayPointer + i);
 			}

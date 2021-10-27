@@ -79,7 +79,7 @@ void doom::physics::Physics_Server::SolveColliderComponents()
 {
 	const std::vector<Rigidbody*>& rigidbodyComponents = doom::StaticContainer<Rigidbody>::GetAllStaticComponents();
 	
-	SIZE_T stackReservationCount = 1;
+	size_t stackReservationCount = 1;
 	
 	D_START_PROFILING(Physics_Server_SolveColliderComponents_SolveCollision, eProfileLayers::CPU);
 	for (Rigidbody* const rigidbodyComponent : rigidbodyComponents)

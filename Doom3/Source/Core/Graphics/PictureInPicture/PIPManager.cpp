@@ -44,7 +44,7 @@ void doom::graphics::PIPManager::RemovePIP(const PicktureInPickture* const remov
 		});
 }
 
-SIZE_T doom::graphics::PIPManager::GetPIPCount() const
+size_t doom::graphics::PIPManager::GetPIPCount() const
 {
 	return mPicktureInPicktures.size();
 }

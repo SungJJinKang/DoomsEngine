@@ -22,7 +22,7 @@ const std::vector<const typename doom::BVHAABB3D::node_type*> doom::physics::Phy
 
 		if (targetNode != nullptr && targetNode->GetIsValid() == true)
 		{
-			//ÇüÁ¦ ³ëµå¿Í Ãæµ¹ÇÏ¸é 
+			//ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½æµ¹ï¿½Ï¸ï¿½ 
 		}
 	}
 
@@ -35,7 +35,7 @@ const std::vector<doom::physics::Collider*> doom::physics::PhysicsSolver::GetCol
 (
 	const doom::physics::Collider* const targetCollider,
 	const BVHAABB3D::node_type* const targetColliderBVHNode,
-	SIZE_T& stackReservationCount
+	size_t& stackReservationCount
 )
 {
 	const BVHAABB3D* const ownerBVH = targetColliderBVHNode->mOwnerBVH;
@@ -119,7 +119,7 @@ const std::vector<doom::physics::Collider*> doom::physics::PhysicsSolver::GetCol
 
 const std::vector<const typename doom::BVHAABB3D::node_type*> doom::physics::PhysicsSolver::GetCollideBVHNodes
 (
-	const doom::BVHAABB3D* bvhTree, const doom::physics::Collider* const col, SIZE_T& stackReservationCount
+	const doom::BVHAABB3D* bvhTree, const doom::physics::Collider* const col, size_t& stackReservationCount
 )
 {
 	std::vector<const typename BVHAABB3D::node_type*> hitLeafNodeColliders;
@@ -165,7 +165,7 @@ const std::vector<const typename doom::BVHAABB3D::node_type*> doom::physics::Phy
 
 const std::vector<doom::physics::Collider*> doom::physics::PhysicsSolver::GetCollideColliders
 (
-	const doom::BVHAABB3D* bvhTree, const doom::physics::Collider* const col, SIZE_T& stackReservationCount
+	const doom::BVHAABB3D* bvhTree, const doom::physics::Collider* const col, size_t& stackReservationCount
 )
 {
 	std::vector<Collider*> hitLeafNodeColliders;
@@ -214,7 +214,7 @@ const std::vector<doom::physics::Collider*> doom::physics::PhysicsSolver::GetCol
 	const doom::BVHAABB3D* bvhTree, 
 	const doom::physics::Collider* const col, 
 	const BVHAABB3D::node_type* const BVHNode,
-	SIZE_T& stackReservationCount)
+	size_t& stackReservationCount)
 {
 	std::vector<Collider*> hitLeafNodeColliders;
 

@@ -6,9 +6,9 @@ namespace doom
 {
 	struct DClass /*: public doom::DObject*/ // Dont Do this
 	{
-		const SIZE_T CLASS_TYPE_SIZE;
+		const size_t CLASS_TYPE_SIZE;
 		const char* const CLASS_TYPE_ID;
-		const SIZE_T BASE_CHAIN_COUNT;
+		const size_t BASE_CHAIN_COUNT;
 		const char* const* const BASE_CHAIN_DATA;
 		const char* const CLASS_NAME;
 		const UINT32 CLASS_FLAGS;
@@ -20,9 +20,9 @@ namespace doom
 		*/
 		constexpr DClass
 		(
-			const SIZE_T _CLASS_TYPE_SIZE,
+			const size_t _CLASS_TYPE_SIZE,
 			const char* const _CLASS_TYPE_ID,
-			const SIZE_T BASE_CHAIN_COUNT,
+			const size_t BASE_CHAIN_COUNT,
 			const char* const* const BASE_CHAIN_DATA,
 			const char* const _CLASS_NAME,
 			const UINT32 _CLASS_FLAGS,

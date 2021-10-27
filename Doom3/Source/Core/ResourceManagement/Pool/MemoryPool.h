@@ -12,14 +12,14 @@ namespace doom
 	{
 		struct MemoryPoolBlock
 		{
-			inline static constexpr UINT32 PoolSize{ 4096 - sizeof(SIZE_T) };
+			inline static constexpr UINT32 PoolSize{ 4096 - sizeof(size_t) };
 			/// <summary>
 			/// 
 			/// If user destroy entity, that element will be invalidated
 			/// We can't know element is destroyed..
 			/// </summary>
 			char mDatas[PoolSize];
-			SIZE_T mUnusedCapacityInByte{ PoolSize };
+			size_t mUnusedCapacityInByte{ PoolSize };
 		};
 
 		/// <summary>
@@ -41,7 +41,7 @@ namespace doom
 		private:
 
 			inline static std::vector<MemoryPoolBlock*> mObjectPoolBlocks{};
-			inline static SIZE_T mCurrentObjectPoolBlockIndex{ 0 };
+			inline static size_t mCurrentObjectPoolBlockIndex{ 0 };
 
 			FORCE_INLINE static void _AllocateNewMemoryPoolBlock()
 			{
@@ -49,10 +49,10 @@ namespace doom
 				MemoryPool::mObjectPoolBlocks.push_back(new MemoryPoolBlock());
 			}
 
-			FORCE_INLINE static void _AllocateNewMemoryPoolBlock(SIZE_T count)
+			FORCE_INLINE static void _AllocateNewMemoryPoolBlock(size_t count)
 			{
 				//we don't intialize objects.
-				for (SIZE_T i = 0; i < count; i++)
+				for (size_t i = 0; i < count; i++)
 				{
 					MemoryPool::_AllocateNewMemoryPoolBlock();
 				}				
@@ -64,9 +64,9 @@ namespace doom
 			/// </summary>
 			/// <param name="typeSize"></param>
 			/// <returns></returns>
-			FORCE_INLINE static constexpr SIZE_T _GetAlignedSize(SIZE_T typeSize)
+			FORCE_INLINE static constexpr size_t _GetAlignedSize(size_t typeSize)
 			{
-				return typeSize + (typeSize % sizeof(SIZE_T) == 0 ? 0 : sizeof(SIZE_T) - typeSize % sizeof(SIZE_T));
+				return typeSize + (typeSize % sizeof(size_t) == 0 ? 0 : sizeof(size_t) - typeSize % sizeof(size_t));
 			}
 			*/
 
@@ -78,15 +78,15 @@ namespace doom
 					MemoryPool::_AllocateNewMemoryPoolBlock();
 				}
 
-				//SIZE_T typeSize = MemoryPool::_GetAlignedSize(sizeof(T));
-				SIZE_T typeSize = sizeof(T);
+				//size_t typeSize = MemoryPool::_GetAlignedSize(sizeof(T));
+				size_t typeSize = sizeof(T);
 
 				if (MemoryPool::mObjectPoolBlocks[MemoryPool::mObjectPoolBlocks.size() - 1]->mUnusedCapacityInByte < typeSize)
 				{
 					MemoryPool::_AllocateNewMemoryPoolBlock();
 				}
 
-				SIZE_T targetIndex = MemoryPoolBlock::PoolSize - MemoryPool::mObjectPoolBlocks[MemoryPool::mObjectPoolBlocks.size() - 1]->mUnusedCapacityInByte;
+				size_t targetIndex = MemoryPoolBlock::PoolSize - MemoryPool::mObjectPoolBlocks[MemoryPool::mObjectPoolBlocks.size() - 1]->mUnusedCapacityInByte;
 				MemoryPool::mObjectPoolBlocks[MemoryPool::mObjectPoolBlocks.size() - 1]->mUnusedCapacityInByte -= typeSize;
 				return reinterpret_cast<T*>(MemoryPool::mObjectPoolBlocks[MemoryPool::mObjectPoolBlocks.size() - 1]->mDatas + targetIndex);
 			}
@@ -102,7 +102,7 @@ namespace doom
 				return NewObject;
 			}
 
-			FORCE_INLINE static void PreAllocateMemoryPoolBlock(SIZE_T blockCount)
+			FORCE_INLINE static void PreAllocateMemoryPoolBlock(size_t blockCount)
 			{
 				MemoryPool::_AllocateNewMemoryPoolBlock(blockCount);
 			}

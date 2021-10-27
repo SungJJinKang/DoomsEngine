@@ -180,7 +180,7 @@ namespace doom
 			/// <returns></returns>
 			const std::vector<graphics::Mesh>& GetMeshes() const;
 			graphics::Mesh* GetMesh(UINT32 index);
-			SIZE_T GetMeshCount() const;
+			size_t GetMeshCount() const;
 
 
 			virtual doom::asset::eAssetType GetEAssetType() const final;

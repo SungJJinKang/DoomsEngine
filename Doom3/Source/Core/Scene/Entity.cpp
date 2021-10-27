@@ -7,7 +7,7 @@
 
 using namespace doom;
 
-Entity::Entity(SIZE_T entityID, Entity* parent) : 
+Entity::Entity(size_t entityID, Entity* parent) : 
 	mEntityID{ entityID }, 
 	mEntityName{}, 
 	mPlainComponents{}, 
@@ -41,7 +41,7 @@ void doom::Entity::OnEndOfFramePlainComponentsAndEntity()
 
 void Entity::FixedUpdate_PlainComponent()
 {
-	for (SIZE_T i = 0; i < mPlainComponents.size(); i++)
+	for (size_t i = 0; i < mPlainComponents.size(); i++)
 	{
 		mPlainComponents[i]->FixedUpdateComponent_Internal();
 		mPlainComponents[i]->FixedUpdateComponent();
@@ -50,7 +50,7 @@ void Entity::FixedUpdate_PlainComponent()
 
 void doom::Entity::Update_PlainComponent()
 {
-	for (SIZE_T i = 0; i < mPlainComponents.size(); i++)
+	for (size_t i = 0; i < mPlainComponents.size(); i++)
 	{
 		//D_START_PROFILING(SequenceStringGenerator::GetLiteralString("Update PlainComponents ", i), eProfileLayers::CPU);
 		mPlainComponents[i]->UpdateComponent_Internal();
@@ -61,7 +61,7 @@ void doom::Entity::Update_PlainComponent()
 
 void doom::Entity::EndOfFrame_PlainComponent()
 {
-	for (SIZE_T i = 0; i < mPlainComponents.size(); i++)
+	for (size_t i = 0; i < mPlainComponents.size(); i++)
 	{
 		mPlainComponents[i]->OnEndOfFrame_Component_Internal();
 		mPlainComponents[i]->OnEndOfFrame_Component();

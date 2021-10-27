@@ -33,7 +33,7 @@ namespace doom
 			PicktureInPickture* AddNewPIP(const math::Vector2& leftBottomNDCPoint, const math::Vector2& rightTopNDCPoint, SingleTexture* const _drawedTexture);
 			void RemovePIP(const PicktureInPickture* const removedPIP);
 
-			SIZE_T GetPIPCount() const;
+			size_t GetPIPCount() const;
 		};
 	}
 }

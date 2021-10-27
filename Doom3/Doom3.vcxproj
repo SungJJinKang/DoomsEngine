@@ -452,6 +452,7 @@
     <ClInclude Include="Source\Core\DObject\DProperty.h" />
     <ClInclude Include="Source\Core\DObject\TSubclassOf.h" />
     <ClInclude Include="Source\Core\Game\AssetManager\AssetFuture.h" />
+    <ClInclude Include="Source\Core\Graphics\Acceleration\LinearData_ViewFrustumCulling\DataType\Math\SIMD_Core.h" />
     <ClInclude Include="Source\Core\Graphics\FrameBuffer\FrameBufferExporterHelper.h" />
     <ClInclude Include="Source\Core\Graphics\Texture\CubemapTexture.h" />
     <ClInclude Include="Source\Core\Graphics\Texture\TextureFormat.h" />
@@ -547,7 +548,6 @@
     <ClInclude Include="Source\Core\Graphics\RenderingBitFlag.h" />
     <ClInclude Include="Source\Core\Graphics\TextureFormat.h" />
     <ClInclude Include="Source\Core\Math\LightMath_Cpp\Quaternion.h" />
-    <ClInclude Include="Source\Core\Math\LightMath_Cpp\Quaternion_SIMD.h" />
     <ClInclude Include="Source\Core\Math\LightMath_Cpp\SIMD.h" />
     <ClInclude Include="Source\Core\Math\LightMath_Cpp\SIMD_Core.h" />
     <ClInclude Include="Source\Core\Math\LightMath_Cpp\Trigonometric.h" />

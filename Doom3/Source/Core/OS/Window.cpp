@@ -89,7 +89,7 @@ bool doom::os::_GetCurrentProcessAffinityMask
 	UINT64& lpSystemAffinityMask
 )
 {
-	bool isSuccess = GetProcessAffinityMask(GetCurrentProcess(), &lpProcessAffinityMask, &lpSystemAffinityMask);
+	bool isSuccess = GetProcessAffinityMask(GetCurrentProcess(), reinterpret_cast<PDWORD_PTR>(&lpProcessAffinityMask), reinterpret_cast<PDWORD_PTR>(&lpSystemAffinityMask));
 	D_ASSERT(isSuccess == true);
 
 	return isSuccess;

@@ -67,7 +67,7 @@ namespace doom
 
 	private:
 		
-		SIZE_T mEntityID;
+		size_t mEntityID;
 		
 
 		
@@ -84,7 +84,7 @@ namespace doom
 		Entity* mParent = nullptr;
 		std::vector<Entity*> mChilds;
 
-		std::unordered_map<SIZE_T, std::vector<Component*>> mComponents;
+		std::unordered_map<size_t, std::vector<Component*>> mComponents;
 
 		/// <summary>
 		/// Plain component (not core component ) is stored at this variable
@@ -117,8 +117,8 @@ namespace doom
 				mPlainComponents.emplace_back(newComponent);
 			}
 
-			//TODO : BaseChain Å¸°í °¡¸é¼­ ¸ðµç Á¶»óµéÀÇ typeid¿¡´Ù°¡ ´Ù ÀúÀåÇÏÀÚ.
-			mComponents[reinterpret_cast<SIZE_T>(newComponent->GetClassTypeID())].push_back(newComponent);
+			//TODO : BaseChain Å¸ï¿½ï¿½ ï¿½ï¿½ï¿½é¼­ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ typeidï¿½ï¿½ï¿½Ù°ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½.
+			mComponents[reinterpret_cast<size_t>(newComponent->GetClassTypeID())].push_back(newComponent);
 
 
 			InitializeComponent(static_cast<Component*>(newComponent));
@@ -161,14 +161,14 @@ namespace doom
 			return true;
 		}
 		
-		bool _RemoveComponent(Component* const component, const SIZE_T index)
+		bool _RemoveComponent(Component* const component, const size_t index)
 		{
 			D_ASSERT(IsValid(component));
 			D_ASSERT(component->IsChildOf<Transform>() == false);
 
 			bool isRemoveSuccess{ false };
 			
-			std::vector<Component*>& targetComponents = mComponents[reinterpret_cast<SIZE_T>(component->GetClassTypeID())];
+			std::vector<Component*>& targetComponents = mComponents[reinterpret_cast<size_t>(component->GetClassTypeID())];
 			for(std::ptrdiff_t i = targetComponents.size() - 1; i >= 0 ; i--)
 			{
 				if(targetComponents[i] == component)
@@ -242,7 +242,7 @@ namespace doom
 		/// Entity Constructor should be called through Scene class
 		///  To Protect User create entity not thourgh Scene class
 		/// </summary>
-		Entity(SIZE_T entityID, Entity* parent);
+		Entity(size_t entityID, Entity* parent);
 
 		/// <summary>
 		/// Entity destructor should be called through Entity::Destory function
@@ -297,7 +297,7 @@ namespace doom
 			}
 			else
 			{
-				auto iter = mComponents.find(reinterpret_cast<SIZE_T>(T::CLASS_TYPE_ID_STATIC()));
+				auto iter = mComponents.find(reinterpret_cast<size_t>(T::CLASS_TYPE_ID_STATIC()));
 				if (iter != mComponents.end())
 				{
 					const std::vector<Component*>& targetComponents = iter->second;

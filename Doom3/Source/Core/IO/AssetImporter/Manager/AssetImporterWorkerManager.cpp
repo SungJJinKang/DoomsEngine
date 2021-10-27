@@ -99,20 +99,20 @@ doom::assetImporter::AssetImporterWorker* assetImporter::AssetImporterWorkerMana
 
 	while(assetImporterWorker == nullptr)
 	{
-		mAssetApiImportersQueue[static_cast<SIZE_T>(eAssetType)].try_dequeue(assetImporterWorker);
+		mAssetApiImportersQueue[static_cast<size_t>(eAssetType)].try_dequeue(assetImporterWorker);
 
 		if(assetImporterWorker != nullptr)
 		{
 			break;
 		}
 
-		if (mAssetApiImportersCount[static_cast<SIZE_T>(eAssetType)].load() >= MAX_ASSETIMPORTER_WORKER_COUNT)
+		if (mAssetApiImportersCount[static_cast<size_t>(eAssetType)].load() >= MAX_ASSETIMPORTER_WORKER_COUNT)
 		{
-			mAssetApiImportersQueue[static_cast<SIZE_T>(eAssetType)].wait_dequeue(assetImporterWorker);
+			mAssetApiImportersQueue[static_cast<size_t>(eAssetType)].wait_dequeue(assetImporterWorker);
 		}
 		else
 		{
-			mAssetApiImportersCount[static_cast<SIZE_T>(eAssetType)]++;
+			mAssetApiImportersCount[static_cast<size_t>(eAssetType)]++;
 			assetImporterWorker = CreateAssetImporterWorker(eAssetType);
 		
 		}

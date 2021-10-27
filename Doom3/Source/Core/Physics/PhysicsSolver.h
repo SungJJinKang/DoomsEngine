@@ -17,16 +17,16 @@ namespace doom
 			/// </summary>
 			const std::vector<doom::physics::Collider*> GetCollideColliders
 			(
-				const doom::BVHAABB3D* bvhTree, const doom::physics::Collider* const col,  SIZE_T& stackReservationCount
+				const doom::BVHAABB3D* bvhTree, const doom::physics::Collider* const col,  size_t& stackReservationCount
 			);
 			const std::vector<doom::physics::Collider*> GetCollideColliders
 			(
 				const doom::BVHAABB3D* bvhTree, const doom::physics::Collider* const col, 
-				const typename BVHAABB3D::node_type* const BVHNode, SIZE_T& stackReservationCount
+				const typename BVHAABB3D::node_type* const BVHNode, size_t& stackReservationCount
 			);
 			const std::vector<const typename BVHAABB3D::node_type*> GetCollideBVHNodes
 			(
-				const doom::BVHAABB3D* bvhTree, const doom::physics::Collider* const col, SIZE_T& stackReservationCount
+				const doom::BVHAABB3D* bvhTree, const doom::physics::Collider* const col, size_t& stackReservationCount
 			);
 
 			const std::vector<doom::physics::Collider*> GetCollideColliders
@@ -44,7 +44,7 @@ namespace doom
 			(
 				const doom::physics::Collider* const targetCollider,
 				const typename BVHAABB3D::node_type* const targetColliderBVHNode,
-				SIZE_T& stackReservationCount
+				size_t& stackReservationCount
 			);
 		}
 	}

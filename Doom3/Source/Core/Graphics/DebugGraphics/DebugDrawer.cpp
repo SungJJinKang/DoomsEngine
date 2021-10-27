@@ -30,22 +30,22 @@ void doom::graphics::DebugDrawer::Update()
 void doom::graphics::DebugDrawer::Reset()
 {
 	mDebugMeshCount = 0;
-	for (SIZE_T i = 0; i < m2dLine.size(); i++)
+	for (size_t i = 0; i < m2dLine.size(); i++)
 	{
 		m2dLine[i].clear();
 	}
 
-	for (SIZE_T i = 0; i < m3dLine.size(); i++)
+	for (size_t i = 0; i < m3dLine.size(); i++)
 	{
 		m3dLine[i].clear();
 	}
 
-	for (SIZE_T i = 0; i < m2dTriangle.size(); i++)
+	for (size_t i = 0; i < m2dTriangle.size(); i++)
 	{
 		m2dTriangle[i].clear();
 	}
 
-	for (SIZE_T i = 0; i < m3dTriangle.size(); i++)
+	for (size_t i = 0; i < m3dTriangle.size(); i++)
 	{
 		m3dTriangle[i].clear();
 	}
@@ -78,7 +78,7 @@ void doom::graphics::DebugDrawer::Draw()
 
 	if (m2dLine.size() != 0 && m2dTriangle.size() != 0)
 	{
-		for (SIZE_T i = 0; i < m2dLine.size(); i++)
+		for (size_t i = 0; i < m2dLine.size(); i++)
 		{
 			UINT32 lineCount = static_cast<UINT32>(m2dLine[i].size());
 			if (lineCount > 0)
@@ -92,7 +92,7 @@ void doom::graphics::DebugDrawer::Draw()
 			}
 		}
 
-		for (SIZE_T i = 0; i < m2dTriangle.size(); i++)
+		for (size_t i = 0; i < m2dTriangle.size(); i++)
 		{
 			UINT32 triangleCount = static_cast<UINT32>(m2dTriangle[i].size());
 			if (triangleCount > 0)
@@ -109,7 +109,7 @@ void doom::graphics::DebugDrawer::Draw()
 
 	if (m3dLine.size() != 0 && m3dTriangle.size() != 0)
 	{
-		for (SIZE_T i = 0; i < m3dLine.size(); i++)
+		for (size_t i = 0; i < m3dLine.size(); i++)
 		{
 			UINT32 lineCount = static_cast<UINT32>(m3dLine[i].size());
 			if (lineCount > 0)
@@ -123,7 +123,7 @@ void doom::graphics::DebugDrawer::Draw()
 			}
 		}
 
-		for (SIZE_T i = 0; i < m3dTriangle.size(); i++)
+		for (size_t i = 0; i < m3dTriangle.size(); i++)
 		{
 			UINT32 triangleCount = static_cast<UINT32>(m3dTriangle[i].size());
 			if (triangleCount > 0)
@@ -246,7 +246,7 @@ void doom::graphics::DebugDrawer::BufferVertexDataToGPU()
 
 	if (m2dLine.size() != 0 && m2dTriangle.size() != 0)
 	{
-		for (SIZE_T i = 0; i < m2dLine.size(); i++)
+		for (size_t i = 0; i < m2dLine.size(); i++)
 		{
 			UINT32 lineCount = static_cast<UINT32>(m2dLine[i].size());
 			if (lineCount > 0)
@@ -259,7 +259,7 @@ void doom::graphics::DebugDrawer::BufferVertexDataToGPU()
 			}
 		}
 
-		for (SIZE_T i = 0; i < m2dTriangle.size(); i++)
+		for (size_t i = 0; i < m2dTriangle.size(); i++)
 		{
 			UINT32 triangleCount = static_cast<UINT32>(m2dTriangle[i].size());
 			if (triangleCount > 0)
@@ -275,7 +275,7 @@ void doom::graphics::DebugDrawer::BufferVertexDataToGPU()
 
 	if (m3dLine.size() != 0 && m3dTriangle.size() != 0)
 	{
-		for (SIZE_T i = 0; i < m3dLine.size(); i++)
+		for (size_t i = 0; i < m3dLine.size(); i++)
 		{
 			UINT32 lineCount = static_cast<UINT32>(m3dLine[i].size());
 			if (lineCount > 0)
@@ -288,7 +288,7 @@ void doom::graphics::DebugDrawer::BufferVertexDataToGPU()
 			}
 		}
 
-		for (SIZE_T i = 0; i < m3dTriangle.size(); i++)
+		for (size_t i = 0; i < m3dTriangle.size(); i++)
 		{
 			UINT32 triangleCount = static_cast<UINT32>(m3dTriangle[i].size());
 			if (triangleCount > 0)

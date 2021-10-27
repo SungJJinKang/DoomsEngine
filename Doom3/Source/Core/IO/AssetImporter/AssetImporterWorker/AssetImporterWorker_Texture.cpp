@@ -45,7 +45,7 @@ bool doom::assetImporter::AssetImporterWorker_Texture::ImportTextureAsset(
 			break;
 
 			//TODO : CHECK 24 BIT texture And USE DXGI_FORMAT_BC1_UNORM
-			// ÇöÀç´Â 24ºñÆ® RGB ÀÌ¹ÌÁöµµ Compress ÈÄ RGBA·Î ¹Ù²î°í ÀÖ´Ù.
+			// ï¿½ï¿½ï¿½ï¿½ï¿½ 24ï¿½ï¿½Æ® RGB ï¿½Ì¹ï¿½ï¿½ï¿½ï¿½ï¿½ Compress ï¿½ï¿½ RGBAï¿½ï¿½ ï¿½Ù²ï¿½ï¿½ ï¿½Ö´ï¿½.
 			//case DXGI_FORMAT::DXGI_FORMAT_r_UNORM:
 			//	compressTargetFormat = DXGI_FORMAT::DXGI_FORMAT_BC1_UNORM;
 			//	break;
@@ -56,14 +56,14 @@ bool doom::assetImporter::AssetImporterWorker_Texture::ImportTextureAsset(
 			return false;
 		}
 
-		// TODO : ÇÑ¹ø ¾²°Ç ¶Ç ½áµµ µÈ´Ù ³ªÁß¿¡ ¼öÁ¤
+		// TODO : ï¿½Ñ¹ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½áµµ ï¿½È´ï¿½ ï¿½ï¿½ï¿½ß¿ï¿½ ï¿½ï¿½ï¿½ï¿½
 		const DirectX::Image* sourceImage = sourceScratchImage->GetImage(0, 0, 0); //mip map 0 image
 		D_ASSERT(sourceImage->width % 4 == 0 && sourceImage->height % 4 == 0);
 
 		auto resizedImage = std::make_unique<DirectX::ScratchImage>();
 
-		SIZE_T maxSize = max(sourceImage->width, sourceImage->height);
-		SIZE_T resizeRatio = maxSize > MAX_IMAGE_SIZE
+		size_t maxSize = max(sourceImage->width, sourceImage->height);
+		size_t resizeRatio = maxSize > MAX_IMAGE_SIZE
 			? maxSize / MAX_IMAGE_SIZE : 1;
 
 		if (resizeRatio == 1)

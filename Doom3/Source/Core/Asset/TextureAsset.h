@@ -41,7 +41,7 @@ namespace doom
 			/// <summary>
 			/// Size in bytes of All Images ( All mipmaps )
 			/// </summary>
-			SIZE_T mEntireImageSize{};
+			size_t mEntireImageSize{};
 
 			bool bmIsCompressed{ false };
 			graphics::eTextureComponentFormat mComponentFormat{}; // 1 ~ 4 ( rgb, rgba ~~ )

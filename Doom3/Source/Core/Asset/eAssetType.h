@@ -15,7 +15,7 @@ namespace doom
 			THREE_D_MODEL,
 			SHADER
 		};
-		constexpr inline SIZE_T ENUM_ASSETTYPE_COUNT = 6;
+		constexpr inline size_t ENUM_ASSETTYPE_COUNT = 6;
 
 		constexpr inline eAssetType FIRST_ENUM_ASSETTYPE_VALUE = eAssetType::AUDIO;
 		constexpr inline eAssetType LAST_ENUM_ASSETTYPE_VALUE = eAssetType::SHADER;

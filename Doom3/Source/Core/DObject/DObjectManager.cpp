@@ -134,7 +134,7 @@ bool doom::DObjectManager::IsEmpty()
     return mDObjectsList.empty();
 }
 
-SIZE_T doom::DObjectManager::GetDObjectCount()
+size_t doom::DObjectManager::GetDObjectCount()
 {
     return mDObjectsList.size();
 }

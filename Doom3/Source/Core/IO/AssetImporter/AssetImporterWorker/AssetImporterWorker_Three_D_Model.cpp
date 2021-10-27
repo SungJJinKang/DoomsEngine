@@ -310,8 +310,8 @@ void AssetImporterWorker_THREE_D_MODEL::InitializeAssetImporterWorkerStatic()
 #endif
 
 		Assimp::Exporter exporter{};
-		SIZE_T formatCount = exporter.GetExportFormatCount();
-		for (SIZE_T i = 0; i < formatCount; i++)
+		size_t formatCount = exporter.GetExportFormatCount();
+		for (size_t i = 0; i < formatCount; i++)
 		{
 			const char* extension = exporter.GetExportFormatDescription(i)->fileExtension;
 			if (std::strcmp(extension, AssetImporterWorker_THREE_D_MODEL::MAIN_3D_MODEL_FILE_FORMAT.data() + 1) == 0)

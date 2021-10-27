@@ -15,8 +15,8 @@ namespace doom
 			(
 				const INT32 lodLevel,
 				UINT8* pixels,
-				const SIZE_T width,
-				const SIZE_T height,
+				const size_t width,
+				const size_t height,
 				const doom::graphics::eTextureComponentFormat pixelFormat,
 				const doom::graphics::Texture::eDataType dataType
 			)

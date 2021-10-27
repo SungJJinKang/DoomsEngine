@@ -17,7 +17,7 @@ void doom::graphics::RenderingDebugger::DrawRenderingBoundingBox()
 		for (UINT32 layerIndex = 0; layerIndex < MAX_LAYER_COUNT; layerIndex++)
 		{
 			const std::vector<Renderer*>& renderersInLayer = RendererComponentStaticIterator::GetWorkingRendererInLayer(0, layerIndex);
-			for (SIZE_T rendererIndex = 0; rendererIndex < renderersInLayer.size(); rendererIndex++)
+			for (size_t rendererIndex = 0; rendererIndex < renderersInLayer.size(); rendererIndex++)
 			{
 				renderersInLayer[rendererIndex]->ColliderUpdater<doom::physics::AABB3D>::DrawWorldColliderCache();
 			}

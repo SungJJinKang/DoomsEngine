@@ -29,7 +29,7 @@ namespace doom
 
 	private:
 
-		SIZE_T mEntityIDCounter{ 0 };
+		size_t mEntityIDCounter{ 0 };
 		std::vector<Entity*> mSpawnedEntities{};
 		Camera* mMainCamera{ nullptr };
 

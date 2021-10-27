@@ -23,7 +23,7 @@ namespace doom
 
 	//////////////////////////
 
-	//TODO : Two BVH ±¸Çö
+	//TODO : Two BVH ï¿½ï¿½ï¿½ï¿½
 	///The b3DynamicBvhBroadphase implements a broadphase using two dynamic ColliderType bounding volume hierarchies/trees (see b3DynamicBvh).
 	///One tree is used for static/non-moving objects, and another tree is used for dynamic objects. Objects can move from one tree to the other.
 	///This is a very fast broadphase, especially for very dynamic worlds where many objects are moving. Its insert/add and remove of objects is generally faster than the sweep and prune broadphases b3AxisSweep3 and b332BitAxisSweep3.
@@ -105,10 +105,10 @@ namespace doom
 
 		
 
-		BVH(const SIZE_T initializedCapacity);
+		BVH(const size_t initializedCapacity);
 		~BVH();
 
-		inline SIZE_T GetNodeCapacity() const
+		inline size_t GetNodeCapacity() const
 		{
 			return mNodes.capacity();
 		}

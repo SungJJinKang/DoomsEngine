@@ -91,7 +91,7 @@ doom::Scene* Scene::GetCurrentWorld()
 
 void Scene::FixedUpdatePlainComponents()
 {
-	for (SIZE_T i = 0; i < mSpawnedEntities.size(); i++)
+	for (size_t i = 0; i < mSpawnedEntities.size(); i++)
 	{
 		mSpawnedEntities[i]->FixedUpdate_PlainComponent();
 	}
@@ -99,7 +99,7 @@ void Scene::FixedUpdatePlainComponents()
 
 void Scene::UpdatePlainComponents()
 {
-	for (SIZE_T i = 0; i < mSpawnedEntities.size(); i++)
+	for (size_t i = 0; i < mSpawnedEntities.size(); i++)
 	{
 		mSpawnedEntities[i]->Update_PlainComponent();
 	}
@@ -125,7 +125,7 @@ void Scene::InitializeEntity(doom::Entity* const entity)
 
 void doom::Scene::OnEndOfFrameOfEntities()
 {
-	for (SIZE_T i = 0; i < mSpawnedEntities.size(); i++)
+	for (size_t i = 0; i < mSpawnedEntities.size(); i++)
 	{
 		mSpawnedEntities[i]->OnEndOfFramePlainComponentsAndEntity();
 	}
