@@ -8,6 +8,9 @@
 #include "DObjectMacros.h"
 #include "DObject_Constant.h"
 
+#include "Reflection/Reflection.h"
+
+DOBJECT_REFLECTIONS(doom)
 namespace doom
 {
 	class DObjectManager;

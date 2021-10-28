@@ -450,6 +450,7 @@
     <ClInclude Include="Source\Core\DObject\DObjectMacros.h" />
     <ClInclude Include="Source\Core\DObject\DObject_Constant.h" />
     <ClInclude Include="Source\Core\DObject\DProperty.h" />
+    <ClInclude Include="Source\Core\DObject\Reflection\Reflection.h" />
     <ClInclude Include="Source\Core\DObject\TSubclassOf.h" />
     <ClInclude Include="Source\Core\Game\AssetManager\AssetFuture.h" />
     <ClInclude Include="Source\Core\Graphics\Acceleration\LinearData_ViewFrustumCulling\DataType\Math\SIMD_Core.h" />

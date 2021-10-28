@@ -398,3 +398,5 @@ Doom3/Doom3.vcxproj
 *.dds
 
 *vcpkg_installed
+
+*.csv
