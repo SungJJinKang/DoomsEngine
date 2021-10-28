@@ -127,7 +127,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions);DOOM_DLL_EXPORTS</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)Source\Core\OS;$(VcpkgInstalledDir)x86-windows\include;$(SolutionDir)Source\Helper;$(SolutionDir)Source\Component;$(SolutionDir)Source\Core\Scene;$(SolutionDir)Source\Component\Core;$(SolutionDir)Source\Helper/crossguid;$(SolutionDir)Source\GameLogic\CustomComponent;$(SolutionDir)Source\Core\Math\LightMath_Cpp;$(SolutionDir)Source\Core\IO;$(SolutionDir)Source\Core\Time;$(SolutionDir)Source\GameLogic;$(SolutionDir)Source\Core;$(SolutionDir)Source\Core\Logger;$(SolutionDir)Source\Core\Physics;$(SolutionDir)Source\Core\OS;$(SolutionDir)Source\Core\utility</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Source\Core\OS;$(VcpkgInstalledDir)x86-windows\include;$(SolutionDir)Source\Helper;$(SolutionDir)Source\Component;$(SolutionDir)Source\Core\Scene;$(SolutionDir)Source\Component\Core;$(SolutionDir)Source\Helper/crossguid;$(SolutionDir)Source\GameLogic\CustomComponent;$(SolutionDir)Source\Core\Math\LightMath_Cpp;$(SolutionDir)Source\Core\IO;$(SolutionDir)Source\Core\Time;$(SolutionDir)Source\GameLogic;$(SolutionDir)Source\Core;$(SolutionDir)Source\Core\Logger;$(SolutionDir)Source\Core\Physics;$(SolutionDir)Source\Core\OS;$(SolutionDir)Source\Core\utility;$(SolutionDir)Source\Core\DObject\Reflection\clReflect\inc</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
@@ -152,7 +152,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions);DOOM_DLL_EXPORTS</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)Source\Core\OS;$(VcpkgInstalledDir)x86-windows\include;$(SolutionDir)Source\Helper;$(SolutionDir)Source\Component;$(SolutionDir)Source\Core\Scene;$(SolutionDir)Source\Component\Core;$(SolutionDir)Source\Helper/crossguid;$(SolutionDir)Source\GameLogic\CustomComponent;$(SolutionDir)Source\Core\Math\LightMath_Cpp;$(SolutionDir)Source\Core\IO;$(SolutionDir)Source\Core\Time;$(SolutionDir)Source\GameLogic;$(SolutionDir)Source\Core;$(SolutionDir)Source\Core\Logger;$(SolutionDir)Source\Core\Physics;$(SolutionDir)Source\Core\OS;$(SolutionDir)Source\Core\utility</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Source\Core\OS;$(VcpkgInstalledDir)x86-windows\include;$(SolutionDir)Source\Helper;$(SolutionDir)Source\Component;$(SolutionDir)Source\Core\Scene;$(SolutionDir)Source\Component\Core;$(SolutionDir)Source\Helper/crossguid;$(SolutionDir)Source\GameLogic\CustomComponent;$(SolutionDir)Source\Core\Math\LightMath_Cpp;$(SolutionDir)Source\Core\IO;$(SolutionDir)Source\Core\Time;$(SolutionDir)Source\GameLogic;$(SolutionDir)Source\Core;$(SolutionDir)Source\Core\Logger;$(SolutionDir)Source\Core\Physics;$(SolutionDir)Source\Core\OS;$(SolutionDir)Source\Core\utility;$(SolutionDir)Source\Core\DObject\Reflection\clReflect\inc</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
@@ -177,7 +177,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions);DOOM_DLL_EXPORTS</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>C:\vcpkg\x64-windows\include;$(SolutionDir)Source\Core\OS;$(VcpkgInstalledDir)x64-windows\include;$(SolutionDir)Source\Helper;$(SolutionDir)Source\Component;$(SolutionDir)Source\Core\Scene;$(SolutionDir)Source\Component\Core;$(SolutionDir)Source\Helper/crossguid;$(SolutionDir)Source\GameLogic\CustomComponent;$(SolutionDir)Source\Core\Math\LightMath_Cpp;$(SolutionDir)Source\Core\IO;$(SolutionDir)Source\Core\Time;$(SolutionDir)Source\GameLogic;$(SolutionDir)Source\Core;$(SolutionDir)Source\Core\Logger;$(SolutionDir)Source\Core\Physics;$(SolutionDir)Source\Core\utility</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\vcpkg\x64-windows\include;$(SolutionDir)Source\Core\OS;$(VcpkgInstalledDir)x64-windows\include;$(SolutionDir)Source\Helper;$(SolutionDir)Source\Component;$(SolutionDir)Source\Core\Scene;$(SolutionDir)Source\Component\Core;$(SolutionDir)Source\Helper/crossguid;$(SolutionDir)Source\GameLogic\CustomComponent;$(SolutionDir)Source\Core\Math\LightMath_Cpp;$(SolutionDir)Source\Core\IO;$(SolutionDir)Source\Core\Time;$(SolutionDir)Source\GameLogic;$(SolutionDir)Source\Core;$(SolutionDir)Source\Core\Logger;$(SolutionDir)Source\Core\Physics;$(SolutionDir)Source\Core\utility;$(SolutionDir)Source\Core\DObject\Reflection\clReflect\inc</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
@@ -201,7 +201,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions);DOOM_DLL_EXPORTS</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)Source\thirdparty\amdUprof\include;$(SolutionDir)Source\Core\OS;$(VcpkgInstalledDir)x64-windows\include;$(SolutionDir)Source\Helper;$(SolutionDir)Source\Component;$(SolutionDir)Source\Core\Scene;$(SolutionDir)Source\Component\Core;$(SolutionDir)Source\Helper/crossguid;$(SolutionDir)Source\GameLogic\CustomComponent;$(SolutionDir)Source\Core\Math\LightMath_Cpp;$(SolutionDir)Source\Core\IO;$(SolutionDir)Source\Core\Time;$(SolutionDir)Source\GameLogic;$(SolutionDir)Source\Core;$(SolutionDir)Source\Core\Logger;$(SolutionDir)Source\Core\Physics;$(SolutionDir)Source\Core\utility</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Source\thirdparty\amdUprof\include;$(SolutionDir)Source\Core\OS;$(VcpkgInstalledDir)x64-windows\include;$(SolutionDir)Source\Helper;$(SolutionDir)Source\Component;$(SolutionDir)Source\Core\Scene;$(SolutionDir)Source\Component\Core;$(SolutionDir)Source\Helper/crossguid;$(SolutionDir)Source\GameLogic\CustomComponent;$(SolutionDir)Source\Core\Math\LightMath_Cpp;$(SolutionDir)Source\Core\IO;$(SolutionDir)Source\Core\Time;$(SolutionDir)Source\GameLogic;$(SolutionDir)Source\Core;$(SolutionDir)Source\Core\Logger;$(SolutionDir)Source\Core\Physics;$(SolutionDir)Source\Core\utility;$(SolutionDir)Source\Core\DObject\Reflection\clReflect\inc</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
@@ -225,7 +225,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='AMDuProf|x64'">
     <ClCompile>
-      <AdditionalIncludeDirectories>;$(SolutionDir)Source\Core\utility</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>;$(SolutionDir)Source\Core\utility;$(SolutionDir)Source\Core\DObject\Reflection\clReflect\inc</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>;DOOM_DLL_EXPORTS</PreprocessorDefinitions>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
@@ -246,7 +246,7 @@
       <PreprocessorDefinitions>;DOOM_DLL_EXPORTS</PreprocessorDefinitions>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
-      <AdditionalIncludeDirectories>;$(SolutionDir)Source\Core\utility</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>;$(SolutionDir)Source\Core\utility;$(SolutionDir)Source\Core\DObject\Reflection\clReflect\inc</AdditionalIncludeDirectories>
       <StringPooling>true</StringPooling>
       <RuntimeTypeInfo>false</RuntimeTypeInfo>
       <LanguageStandard>stdcpp17</LanguageStandard>
@@ -263,6 +263,14 @@
     <ClCompile Include="Source\Core\Asset\AudioAsset.cpp" />
     <ClCompile Include="Source\Core\Asset\FontAsset.cpp" />
     <ClCompile Include="Source\Core\Asset\Helper\AssetFactory.cpp" />
+    <ClCompile Include="Source\Core\DObject\Reflection\clReflect\src\clReflectCpp\clcpp.cpp" />
+    <ClCompile Include="Source\Core\DObject\Reflection\clReflect\src\clReflectCpp\Containers.cpp" />
+    <ClCompile Include="Source\Core\DObject\Reflection\clReflect\src\clReflectUtil\FieldVisitor.cpp" />
+    <ClCompile Include="Source\Core\DObject\Reflection\clReflect\src\clReflectUtil\JSONLexer.cpp" />
+    <ClCompile Include="Source\Core\DObject\Reflection\clReflect\src\clReflectUtil\Module.cpp" />
+    <ClCompile Include="Source\Core\DObject\Reflection\clReflect\src\clReflectUtil\Objects.cpp" />
+    <ClCompile Include="Source\Core\DObject\Reflection\clReflect\src\clReflectUtil\Serialise.cpp" />
+    <ClCompile Include="Source\Core\DObject\Reflection\clReflect\src\clReflectUtil\SerialiseVersionedBinary.cpp" />
     <ClCompile Include="Source\Core\Game\AssetManager\AssetFuture.cpp" />
     <ClCompile Include="Source\Core\Game\FrameDirtyChecker.cpp" />
     <ClCompile Include="Source\Core\Graphics\FrameBuffer\FrameBufferExporterHelper.cpp" />
@@ -451,6 +459,7 @@
     <ClInclude Include="Source\Core\DObject\DObject_Constant.h" />
     <ClInclude Include="Source\Core\DObject\DProperty.h" />
     <ClInclude Include="Source\Core\DObject\Reflection\Reflection.h" />
+    <ClInclude Include="Source\Core\DObject\Reflection\ReflectionTest.h" />
     <ClInclude Include="Source\Core\DObject\TSubclassOf.h" />
     <ClInclude Include="Source\Core\Game\AssetManager\AssetFuture.h" />
     <ClInclude Include="Source\Core\Graphics\Acceleration\LinearData_ViewFrustumCulling\DataType\Math\SIMD_Core.h" />

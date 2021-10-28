@@ -555,6 +555,30 @@
     <ClCompile Include="Source\Core\Macros\Path.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Core\DObject\Reflection\clReflect\src\clReflectUtil\SerialiseVersionedBinary.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Core\DObject\Reflection\clReflect\src\clReflectUtil\JSONLexer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Core\DObject\Reflection\clReflect\src\clReflectUtil\Module.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Core\DObject\Reflection\clReflect\src\clReflectUtil\Objects.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Core\DObject\Reflection\clReflect\src\clReflectUtil\Serialise.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Core\DObject\Reflection\clReflect\src\clReflectUtil\FieldVisitor.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Core\DObject\Reflection\clReflect\src\clReflectCpp\Containers.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Core\DObject\Reflection\clReflect\src\clReflectCpp\clcpp.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="dependency\glad\include\glad\glad.h">
@@ -1512,6 +1536,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\Core\DObject\Reflection\Reflection.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Core\DObject\Reflection\ReflectionTest.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
