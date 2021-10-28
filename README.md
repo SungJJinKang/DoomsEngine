@@ -29,7 +29,8 @@ if you wanna good and clean code for learning something, Find other project.
 
 ## Key features
 
-  * C++17                   
+  * C++17      
+  * Target Compiler : Clang 12.0.0   
 
 ## Implemented features
 
@@ -48,7 +49,7 @@ if you wanna good and clean code for learning something, Find other project.
   * Collision, Raycasting, Picking ( implemented with BVH Tree ) ( https://youtu.be/ZASdCIKeG6s )
   * Overdraw Visualization ( implemented with Additive Blending ) ( https://youtu.be/fU3iBthe4Ws )
   * FrameBuffer, Texture Exporter ( https://youtu.be/T2XlHlOr95g )
-  * Reflection System ( https://sungjjinkang.github.io/computerscience/2021/10/20/Reflection.html )
+  * Reflection System ( use https://github.com/Celtoys/clReflect )
   * Fast Runtime Type Casting ( O(1), Not use dynamic_cast ( RTTI option is disabled ), https://github.com/SungJJinKang/Fast_Runtime_TypeCasting_cpp )        
 
 ## In Developing
