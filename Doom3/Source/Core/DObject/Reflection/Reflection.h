@@ -5,7 +5,7 @@
 #endif
 
 #ifdef REFLECTION_ENABLED
-#include "clReflect/inc/clcpp/clcpp.h"
+#include "clReflect_automation/clReflect/inc/clcpp/clcpp.h"
 
 #ifndef DOBJECT_REFLECTIONS
 #define DOBJECT_REFLECTIONS(X) clcpp_reflect(X)

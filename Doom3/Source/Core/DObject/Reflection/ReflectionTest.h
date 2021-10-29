@@ -2,7 +2,7 @@
 
 #include <cassert>
 
-#include "clReflect/inc/clcpp/clcpp.h"
+
 #include <cstring>
 #include <fstream>
 #include <ios>
@@ -10,6 +10,9 @@
 #include <DObject/DObject.h>
 #include "Macros/Path.h"
 #include "Macros/Assert.h"
+#include "Macros/MacrosHelper.h"
+
+#include "UI/PrintText.h"
 
 namespace clReflectTest
 {
@@ -61,7 +64,7 @@ namespace clReflectTest
 
 	inline extern volatile int test()
 	{
-		std::filesystem::path path = (doom::path::_GetCurrentPath() + "\\clReflectCompialationData.cppbin");
+		std::filesystem::path path = (doom::path::_GetCurrentPath() + "\\clReflectCompialationData_Release_x64.cppbin");
 		
 		StdFile file(path.generic_string().c_str());
 		if (!file.IsOpen())
@@ -72,14 +75,16 @@ namespace clReflectTest
 		if (!db.Load(&file, &allocator, 0))
 			throw std::runtime_error("Fail to Load Reflection Data");
 		
-		auto aName = db.GetName("doom::DObejct");
-		auto aNamespace = db.GetName("doom");
-		auto aType = db.GetType(aName.hash);
-		auto namespace1 = db.GetGlobalNamespace();
+		auto aName = db.GetName("doom");
+		auto aNamespace = db.GetNamespace(aName.hash);
+		auto cla = aNamespace->classes;
 
-		auto type = aType->AsClass();
+		for(size_t i = 0 ; i < cla.size ; i++)
+		{
 
-		
+			doom::ui::PrintText(cla.data[i]->name.text);
+			doom::ui::PrintText("%d", cla.data[i]->size);
+		}
 
 		return 1;
 	}
