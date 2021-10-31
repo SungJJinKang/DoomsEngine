@@ -1,26 +1,8 @@
 #include "clReflectHelper.h"
 
+
 #include <CSharpHelper/SmartCSharpLibrary.h>
 
-#if CURRENT_CPP_VERSION == CPP_98_VERSION
-#define CPP_VERSION_COMPILER_OPTION_FOR_CLANG "-std=c++98"
-#elif CURRENT_CPP_VERSION == CPP_11_VERSION
-#define CPP_VERSION_COMPILER_OPTION_FOR_CLANG "-std=c++11"
-#elif CURRENT_CPP_VERSION == CPP_14_VERSION
-#define CPP_VERSION_COMPILER_OPTION_FOR_CLANG "-std=c++14"
-#elif CURRENT_CPP_VERSION == CPP_17_VERSION
-#define CPP_VERSION_COMPILER_OPTION_FOR_CLANG "-std=c++17"
-#elif CURRENT_CPP_VERSION == CPP_20_VERSION 
-#define CPP_VERSION_COMPILER_OPTION_FOR_CLANG "-std=c++20"
-#endif
-
-
-inline static const char* clReflectAdditionalCompilerOptions
-#if defined(__GNUC__)  || defined( __clang__)
-= "-fno-rtti";
-#elif defined(_MSC_VER)
-= "-fdiagnostics-format=msvc -fms-extensions -fms-compatibility -mms-bitfields -fdelayed-template-parsing -fno-rtti";
-#endif      // -fms-extensions is important!!
 
 void doom::clReflectHelper::AutoConfiguration()
 {
@@ -36,7 +18,12 @@ namespace doom
 	{
 		std::string Generate_clReflectAdditionalCompilerOptions()
 		{
-			std::string clReflectAdditionalCompilerOptionsString = clReflectAdditionalCompilerOptions;
+			std::string clReflectAdditionalCompilerOptionsString = clReflectAdditionalCompilerOptionsForScpecificCompiler;
+			clReflectAdditionalCompilerOptionsString.append(" ");
+			clReflectAdditionalCompilerOptionsString.append(clReflectAdditionalCompilerOptionsPortable);
+			clReflectAdditionalCompilerOptionsString.append(" -D");
+			clReflectAdditionalCompilerOptionsString.append(clReflectAdditionalCompilerOptions_Configuration);
+
 			clReflectAdditionalCompilerOptionsString.append(" ");
 			clReflectAdditionalCompilerOptionsString.append(CPP_VERSION_COMPILER_OPTION_FOR_CLANG);
 
@@ -47,27 +34,48 @@ namespace doom
 	}
 }
 
+
 bool doom::clReflectHelper::Generate_clReflect_BinaryReflectionData()
 {
 	const std::string currentPath_narrow_string = path::_GetCurrentPath();
-	std::wstring currentPath { currentPath_narrow_string.begin(), currentPath_narrow_string .end() };
-	currentPath += L"\\";
+	std::string currentPath { currentPath_narrow_string.begin(), currentPath_narrow_string .end() };
+	currentPath += "\\";
 	currentPath += clReflect_automation_dll_filename;
 
-	doom::SmartCSharpLibrary c_sharp_library{ currentPath.c_str() };
+	doom::SmartCSharpLibrary c_sharp_library{ currentPath };
 
 	std::string clReflectArgs{};
-	clReflectArgs.append(clScanPath);
+	clReflectArgs.append(clScanPath.generic_string());
 	clReflectArgs.append(" ");
-	clReflectArgs.append(clMergePath);
+	clReflectArgs.append(clMergePath.generic_string());
 	clReflectArgs.append(" ");
-	clReflectArgs.append(clExportPath);
+	clReflectArgs.append(clExportPath.generic_string());
 	clReflectArgs.append(" ");
-	clReflectArgs.append(ProjectFilePath);
+	clReflectArgs.append(ProjectFilePath.generic_string());
+	clReflectArgs.append(" ");
+
+#ifdef DEBUG_MODE
+	clReflectArgs.append("Debug");
+#elif RELEASE_MODE
+	clReflectArgs.append("Release");
+#endif
+
+	clReflectArgs.append(" ");
+
+#ifdef OS_WIN64
+	clReflectArgs.append("x64");
+#elif OS_WIN32
+	clReflectArgs.append("Win32");
+#endif
+
 	clReflectArgs.append(" ");
 	clReflectArgs.append(Generate_clReflectAdditionalCompilerOptions());
 	
 	const std::wstring clReflect_additional_compiler_options_wide_string{ clReflectArgs.begin(), clReflectArgs.end() };
+
+	int result;
+	c_sharp_library.CallFunctionWithReturn<int>(clReflect_automation_dll_function_name.c_str(), result, clReflect_additional_compiler_options_wide_string.c_str());
 	
-	return c_sharp_library.CallFunction("c_Generate_clReflect_data", clReflect_additional_compiler_options_wide_string.c_str());
+	return result == 0;
 }
+

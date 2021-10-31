@@ -28,6 +28,6 @@ std::string doom::path::_GetAssetFolderDirectory()
 }
 std::string doom::path::_GetCurrentPath(const char* additional)
 {
-	return (_GetCurrentPath() + "/" + additional);
+	return (_GetCurrentPath() + '\\' + additional);
 }
 

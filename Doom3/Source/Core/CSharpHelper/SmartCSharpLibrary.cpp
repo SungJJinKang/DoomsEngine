@@ -16,8 +16,8 @@ void* doom::SmartCSharpLibrary::_GetProcAddress(const char* const functionName)
 		{
 			const DWORD errorCode = GetLastError();
 
-			D_ASSERT_LOG(false, "Fail to GetProcAddress ( \"%s\" from \"%ls\" ) - Error Code : %d", functionName, mCSharpLibraryPath, errorCode);
-			doom::ui::PrintText("Fail to GetProcAddress ( \"%s\" from \"%ls\" ) - Error Code : %d", functionName, mCSharpLibraryPath, errorCode);
+			D_ASSERT_LOG(false, "Fail to GetProcAddress ( ""%s"" from ""%s"" ) - Error Code : %d", functionName, mCSharpLibraryPath.c_str(), errorCode);
+			doom::ui::PrintText("Fail to GetProcAddress ( ""%s"" from ""%s"" ) - Error Code : %d", functionName, mCSharpLibraryPath.c_str(), errorCode);
 		}
 
 		return procAddress;
@@ -29,17 +29,22 @@ void* doom::SmartCSharpLibrary::_GetProcAddress(const char* const functionName)
 	}
 }
 
-doom::SmartCSharpLibrary::SmartCSharpLibrary(const wchar_t* csharpLibraryPath)
+doom::SmartCSharpLibrary::SmartCSharpLibrary(const std::string& csharpLibraryPath)
 	: mCSharpLibraryPath(csharpLibraryPath), mLibrary(nullptr)
 {
-	mLibrary = LoadLibrary(mCSharpLibraryPath);
+#ifdef UNICODE
+	mLibrary = LoadLibrary(std::wstring( mCSharpLibraryPath.begin(), mCSharpLibraryPath.end()).c_str());
+#else
+	mLibrary = LoadLibrary(mCSharpLibraryPath.c_str());
+#endif
+	
 
 	if(mLibrary == nullptr)
 	{
 		const DWORD errorCode = GetLastError();
 
-		D_ASSERT_LOG(false, "Fail to Load Library ( %ls ) - Error Code : %d", csharpLibraryPath, errorCode);
-		doom::ui::PrintText("Fail to Load Library ( %ls ) - Error Code : %d", csharpLibraryPath, errorCode);
+		D_ASSERT_LOG(false, "Fail to Load Library ( %s ) - Error Code : %d", csharpLibraryPath.c_str(), errorCode);
+		doom::ui::PrintText("Fail to Load Library ( %s ) - Error Code : %d", csharpLibraryPath.c_str(), errorCode);
 	}
 }
 
@@ -56,7 +61,7 @@ doom::SmartCSharpLibrary::SmartCSharpLibrary(SmartCSharpLibrary&& _SmartCSharpLi
 	: mLibrary(_SmartCSharpLibrary.mLibrary), mCSharpLibraryPath(_SmartCSharpLibrary.mCSharpLibraryPath)
 {
 	_SmartCSharpLibrary.mLibrary = nullptr;
-	_SmartCSharpLibrary.mCSharpLibraryPath = nullptr;
+	_SmartCSharpLibrary.mCSharpLibraryPath.clear();
 }
 
 doom::SmartCSharpLibrary& doom::SmartCSharpLibrary::operator=(SmartCSharpLibrary&& _SmartCSharpLibrary) noexcept
@@ -65,6 +70,12 @@ doom::SmartCSharpLibrary& doom::SmartCSharpLibrary::operator=(SmartCSharpLibrary
 	mCSharpLibraryPath = _SmartCSharpLibrary.mCSharpLibraryPath;
 
 	_SmartCSharpLibrary.mLibrary = nullptr;
-	_SmartCSharpLibrary.mCSharpLibraryPath = nullptr;
+	_SmartCSharpLibrary.mCSharpLibraryPath.clear();
 	return *this;
+}
+
+int doom::filter(unsigned code, _EXCEPTION_POINTERS* ptr)
+{
+	D_ASSERT_LOG(false, "Exception in Calling C# Function");
+	return EXCEPTION_EXECUTE_HANDLER;
 }

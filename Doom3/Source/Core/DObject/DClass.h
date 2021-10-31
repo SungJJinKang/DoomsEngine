@@ -4,6 +4,7 @@
 
 namespace doom
 {
+	class DObject;
 	struct DClass /*: public doom::DObject*/ // Dont Do this
 	{
 		const size_t CLASS_TYPE_SIZE;

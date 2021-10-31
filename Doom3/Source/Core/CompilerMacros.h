@@ -42,4 +42,17 @@
 #endif
  
 
+#ifdef _WIN64
+
+#ifndef OS_WIN64
+#define OS_WIN64
+#endif
+
+#elif _WIN32
+
+#ifndef OS_WIN32
+#define OS_WIN32
+#endif
+
+#endif
 

@@ -1,6 +1,8 @@
 #pragma once
 
 #include <Core.h>
+#include <DirectXTex.h>
+#include <excpt.h>
 
 #include <UI/PrintText.h>
 
@@ -9,7 +11,7 @@ namespace doom
 	class SmartCSharpLibrary
 	{
 
-		const wchar_t* mCSharpLibraryPath;
+		std::string mCSharpLibraryPath;
 		void* mLibrary;
 
 	private:
@@ -18,7 +20,7 @@ namespace doom
 
 	public :
 
-		SmartCSharpLibrary(const wchar_t* csharpLibraryPath);
+		SmartCSharpLibrary(const std::string& csharpLibraryPath);
 		~SmartCSharpLibrary();
 
 		SmartCSharpLibrary(const SmartCSharpLibrary&) = default;
@@ -37,8 +39,7 @@ namespace doom
 	template <typename ... Args>
 	bool SmartCSharpLibrary::CallFunction(const char* const functionName, Args&&... args)
 	{
-		typedef std::tuple<Args...> Arg;
-		typedef void(__cdecl* functionType)(Arg);
+		typedef void(__cdecl* functionType)(Args...);
 
 		functionType function = reinterpret_cast<functionType>(_GetProcAddress(functionName));
 
@@ -68,33 +69,29 @@ namespace doom
 		return IsSuccess;
 	}
 
+	int filter(unsigned int code, struct _EXCEPTION_POINTERS* ptr);
+
+
 	template <typename RETURN_TYPE, typename ... Args>
 	bool SmartCSharpLibrary::CallFunctionWithReturn(const char* const functionName, RETURN_TYPE& returnValue, Args&&... args)
 	{
-		typedef RETURN_TYPE(__cdecl* functionType)(Args);
+		typedef RETURN_TYPE(__cdecl* functionType)(Args...);
 
 		functionType function = reinterpret_cast<functionType>(_GetProcAddress(functionName));
 
 		bool IsSuccess = false;
 		if(function != nullptr)
 		{
-			try
+			__try
 			{
 				returnValue = function(std::forward<Args>(args)...);
 				IsSuccess = true;
 			}
-			catch (const std::exception& ex) {
-				D_ASSERT_LOG(false, "exception from csharp function ( %s )", ex.what());
-				doom::ui::PrintText("exception from csharp function ( %s )", ex.what());
+			__except (filter(GetExceptionCode(), GetExceptionInformation()))
+			{
+				//... yey!
 			}
-			catch (const std::string& ex) {
-				D_ASSERT_LOG(false, "exception from csharp function ( %s )", ex.c_str());
-				doom::ui::PrintText("exception from csharp function ( %s )", ex.c_str());
-			}
-			catch (...) {
-				D_ASSERT_LOG(false, "exception from csharp function");
-				doom::ui::PrintText("exception from csharp function");
-			}
+			
 			
 		}
 

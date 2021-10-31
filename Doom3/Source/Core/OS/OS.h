@@ -2,15 +2,6 @@
 
 #include <Core.h>
 
-#ifdef _WIN64
-
-#define OS_WIN64
-
-#elif _WIN32
-
-#define OS_WIN32
-
-#endif
 
 
 using HANDLE = void*;

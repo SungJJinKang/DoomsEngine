@@ -64,33 +64,37 @@ namespace clReflectTest
 	};
 
 
-	inline extern volatile int test()
+	inline extern int test()
 	{
 		doom::clReflectHelper::AutoConfiguration();
-		doom::clReflectHelper::Generate_clReflect_BinaryReflectionData();
+		const bool isSuccess = doom::clReflectHelper::Generate_clReflect_BinaryReflectionData();
 
-		std::filesystem::path path = (doom::path::_GetCurrentPath() + "\\clReflectCompialationData_Release_x64.cppbin");
-		
-		StdFile file(path.generic_string().c_str());
-		if (!file.IsOpen())
-			throw std::runtime_error("Fail to Load Reflection Data File ( Looks that file doesn't exist )");
-
-		Malloc allocator;
-		clcpp::Database db;
-		if (!db.Load(&file, &allocator, 0))
-			throw std::runtime_error("Fail to Load Reflection Data");
-		
-		auto aName = db.GetName("doom");
-		auto aNamespace = db.GetNamespace(aName.hash);
-		auto cla = aNamespace->classes;
-
-		for(size_t i = 0 ; i < cla.size ; i++)
+		if(isSuccess == true)
 		{
+			std::filesystem::path path = (doom::path::_GetCurrentPath() + "\\clReflectCompialationData_Debug_x64.cppbin");
 
-			doom::ui::PrintText(cla.data[i]->name.text);
-			doom::ui::PrintText("%d", cla.data[i]->size);
+			StdFile file(path.generic_string().c_str());
+			if (!file.IsOpen())
+				throw std::runtime_error("Fail to Load Reflection Data File ( Looks that file doesn't exist )");
+
+			Malloc allocator;
+			clcpp::Database db;
+			if (!db.Load(&file, &allocator, 0))
+				throw std::runtime_error("Fail to Load Reflection Data");
+
+			auto aName = db.GetName("doom");
+			auto aNamespace = db.GetNamespace(aName.hash);
+			auto cla = aNamespace->classes;
+
+			for (size_t i = 0; i < cla.size; i++)
+			{
+
+				doom::ui::PrintText(cla.data[i]->name.text);
+				doom::ui::PrintText("%d", cla.data[i]->size);
+			}
 		}
+	
 
-		return 1;
+		return isSuccess;
 	}
 }

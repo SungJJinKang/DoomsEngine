@@ -1,4 +1,4 @@
-#include "AssetImporterWorker_Texture.h"
+﻿#include "AssetImporterWorker_Texture.h"
 
 #include <DirectXTex.h>
 #include <Asset/TextureAsset.h>

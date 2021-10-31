@@ -30,7 +30,7 @@ if you wanna good and clean code for learning something, Find other project.
 ## Key features
 
   * C++17      
-  * Target Compiler : Clang 12.0.0   
+  * Target Compiler : only MSVC
 
 ## Implemented features
 
