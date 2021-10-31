@@ -6,6 +6,25 @@
 #define RELEASE_MODE
 #endif
 
+#ifndef CPP_98_VERSION
+#define CPP_98_VERSION 199711L
+#endif
+
+#ifndef CPP_11_VERSION
+#define CPP_11_VERSION 201103L
+#endif
+
+#ifndef CPP_14_VERSION
+#define CPP_14_VERSION 201402L
+#endif
+
+#ifndef CPP_17_VERSION
+#define CPP_17_VERSION 201703L
+#endif
+
+#ifndef CPP_20_VERSION
+#define CPP_20_VERSION 202002L
+#endif
 
 
 #if defined(__GNUC__)  || defined( __clang__)
@@ -13,9 +32,14 @@
 #  define NEVER_INLINE __attribute__ ((noinline))
 #  define RESTRICT __restrict
 #  define VLA_ARRAY_ON_STACK(type__, varname__, size__) type__ varname__[size__];
+#  define CURRENT_CPP_VERSION __cplusplus
 #elif defined(_MSC_VER)
 #  define FORCE_INLINE __forceinline
 #  define NEVER_INLINE __declspec(noinline)
 #  define RESTRICT __restrict
 #  define VLA_ARRAY_ON_STACK(type__, varname__, size__) type__ *varname__ = (type__*)_alloca(size__ * sizeof(type__))
+#  define CURRENT_CPP_VERSION _MSVC_LANG 
 #endif
+ 
+
+

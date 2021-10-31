@@ -558,6 +558,9 @@
     <ClCompile Include="Source\Core\DObject\Reflection\clReflect_automation\clReflect\src\clReflectCpp\clcpp.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Core\DObject\Reflection\clReflectHelper.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="dependency\glad\include\glad\glad.h">
@@ -1518,6 +1521,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\Core\DObject\Reflection\ReflectionTest.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Core\DObject\Reflection\clReflectHelper.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
