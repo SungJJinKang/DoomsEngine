@@ -25,11 +25,11 @@ namespace doom
 		class Color
 		{
 		public:
-			static inline constexpr math::Vector4 WHITE{ 1.0f, 1.0f, 1.0f, 1.0f };
-			static inline constexpr math::Vector4 BLACK{ 0.0f, 0.0f, 0.0f, 1.0f };
-			static inline constexpr math::Vector4 RED{ 1.0f, 0.0f, 0.0f, 1.0f };
-			static inline constexpr math::Vector4 GREEN{ 0.0f, 1.0f, 0.0f, 1.0f };
-			static inline constexpr math::Vector4 BLUE{ 0.0f, 0.0f, 1.0f, 1.0f };
+			inline static const math::Vector4 WHITE{ 1.0f, 1.0f, 1.0f, 1.0f };
+			inline static const math::Vector4 BLACK{ 0.0f, 0.0f, 0.0f, 1.0f };
+			inline static const math::Vector4 RED{ 1.0f, 0.0f, 0.0f, 1.0f };
+			inline static const math::Vector4 GREEN{ 0.0f, 1.0f, 0.0f, 1.0f };
+			inline static const math::Vector4 BLUE{ 0.0f, 0.0f, 1.0f, 1.0f };
 		
 			static const math::Vector4& GetColor(eColor color)
 			{
