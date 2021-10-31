@@ -51,7 +51,7 @@ bool doom::clReflectHelper::Generate_clReflect_BinaryReflectionData()
 {
 	const std::string currentPath_narrow_string = path::_GetCurrentPath();
 	std::wstring currentPath { currentPath_narrow_string.begin(), currentPath_narrow_string .end() };
-	currentPath += L"/";
+	currentPath += L"\\";
 	currentPath += clReflect_automation_dll_filename;
 
 	doom::SmartCSharpLibrary c_sharp_library{ currentPath.c_str() };

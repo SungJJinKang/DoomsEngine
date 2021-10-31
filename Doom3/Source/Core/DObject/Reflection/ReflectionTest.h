@@ -14,6 +14,8 @@
 
 #include "UI/PrintText.h"
 
+#include "clReflectHelper.h"
+
 namespace clReflectTest
 {
 
@@ -64,6 +66,9 @@ namespace clReflectTest
 
 	inline extern volatile int test()
 	{
+		doom::clReflectHelper::AutoConfiguration();
+		doom::clReflectHelper::Generate_clReflect_BinaryReflectionData();
+
 		std::filesystem::path path = (doom::path::_GetCurrentPath() + "\\clReflectCompialationData_Release_x64.cppbin");
 		
 		StdFile file(path.generic_string().c_str());

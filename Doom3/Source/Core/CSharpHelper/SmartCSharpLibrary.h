@@ -33,10 +33,12 @@ namespace doom
 		bool CallFunctionWithReturn(const char* functionName, RETURN_TYPE& returnValue, Args&&... args);
 	};
 
+
 	template <typename ... Args>
 	bool SmartCSharpLibrary::CallFunction(const char* const functionName, Args&&... args)
 	{
-		typedef void(__cdecl* functionType)(Args);
+		typedef std::tuple<Args...> Arg;
+		typedef void(__cdecl* functionType)(Arg);
 
 		functionType function = reinterpret_cast<functionType>(_GetProcAddress(functionName));
 

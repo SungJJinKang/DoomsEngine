@@ -30,7 +30,7 @@ void* doom::SmartCSharpLibrary::_GetProcAddress(const char* const functionName)
 }
 
 doom::SmartCSharpLibrary::SmartCSharpLibrary(const wchar_t* csharpLibraryPath)
-	: mCSharpLibraryPath(csharpLibraryPath)
+	: mCSharpLibraryPath(csharpLibraryPath), mLibrary(nullptr)
 {
 	mLibrary = LoadLibrary(mCSharpLibraryPath);
 
@@ -66,4 +66,5 @@ doom::SmartCSharpLibrary& doom::SmartCSharpLibrary::operator=(SmartCSharpLibrary
 
 	_SmartCSharpLibrary.mLibrary = nullptr;
 	_SmartCSharpLibrary.mCSharpLibraryPath = nullptr;
+	return *this;
 }
