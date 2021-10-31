@@ -3,11 +3,8 @@
 #define CONCAT(A, B) A##B
 #define MAKE_STRING(A) #A
 
-#ifndef SUPPORT_UNICODE
-#define SUPPORT_UNICODE
-#endif
 
-#ifdef SUPPORT_UNICODE
+#ifdef UNICODE
 
 #ifndef D_TEXT
 #define D_TEXT(Str) L##Str

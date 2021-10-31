@@ -264,6 +264,7 @@
     <ClCompile Include="Source\Core\Asset\AudioAsset.cpp" />
     <ClCompile Include="Source\Core\Asset\FontAsset.cpp" />
     <ClCompile Include="Source\Core\Asset\Helper\AssetFactory.cpp" />
+    <ClCompile Include="Source\Core\CSharpHelper\SmartCSharpLibrary.cpp" />
     <ClCompile Include="Source\Core\DObject\Reflection\clReflectHelper.cpp" />
     <ClCompile Include="Source\Core\DObject\Reflection\clReflect_automation\clReflect\src\clReflectCpp\clcpp.cpp" />
     <ClCompile Include="Source\Core\Game\AssetManager\AssetFuture.cpp" />
@@ -443,11 +444,13 @@
     <ClCompile Include="Source\Helper\EasyDirtyChecker\DirtySender.cpp" />
     <ClCompile Include="Source\Helper\EasyDirtyChecker\DirtyReceiver.cpp" />
     <ClCompile Include="Source\Component\PhysicsComponent\SphereCollider3D.cpp" />
+    <ClCompile Include="Source\Core\String\StringHelper.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Component\Core\ComponentHelper.h" />
     <ClInclude Include="Source\Core\Asset\AssetsForwardDeclaration.h" />
     <ClInclude Include="Source\Core\Asset\Helper\AssetFactory.h" />
+    <ClInclude Include="Source\Core\CSharpHelper\SmartCSharpLibrary.h" />
     <ClInclude Include="Source\Core\DObject\DClass.h" />
     <ClInclude Include="Source\Core\DObject\DObjectHeaders.h" />
     <ClInclude Include="Source\Core\DObject\DObjectMacros.h" />
@@ -766,6 +769,7 @@
     <ClInclude Include="Source\Core\Graphics\GraphicsAPI.h" />
     <ClInclude Include="Source\Core\Asset\ThreeDModelAsset.h" />
     <ClInclude Include="Source\Core\Asset\TextureAsset.h" />
+    <ClInclude Include="Source\Core\String\StringHelper.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\CodingRule.md" />
