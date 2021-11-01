@@ -2,7 +2,7 @@
 
 
 #include <DynamicLinkingHelper/SmartDynamicLinking.h>
-
+#include <ResourceManagement/JobSystem_cpp/JobSystem.h>
 
 void doom::clReflectHelper::AutoConfiguration()
 {
@@ -74,7 +74,17 @@ bool doom::clReflectHelper::Generate_clReflect_BinaryReflectionData()
 	const std::wstring clReflect_additional_compiler_options_wide_string{ clReflectArgs.begin(), clReflectArgs.end() };
 
 	int result = 1;
-	c_sharp_library.CallFunctionWithReturn<int>(clReflect_automation_dll_function_name.c_str(), result, clReflect_additional_compiler_options_wide_string.c_str());
+
+	auto future = doom::resource::JobSystem::GetSingleton()->PushBackJobToPriorityQueue(
+		std::function<void()>(
+		[&]()
+		{
+			c_sharp_library.CallFunctionWithReturn<int>(clReflect_automation_dll_function_name.c_str(), result, clReflect_additional_compiler_options_wide_string.c_str());
+		}
+		)
+	);
+
+	future.wait();
 	
 	return result == 0;
 }

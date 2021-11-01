@@ -10,11 +10,13 @@
 #include "MainTimer.h"
 
 #include "../Logger/logger.h"
+#include "DObject/Reflection/ReflectionTest.h"
 
 
 doom::GameCore::GameCore()
 {
-	mCurrentScene = CreateNewScene();
+
+
 }
 
 
@@ -57,15 +59,13 @@ void doom::GameCore::Init()
 	D_START_PROFILING(InitGameSetting, eProfileLayers::CPU);
 	InitGameSetting();
 	D_END_PROFILING(InitGameSetting);
-
-
+	
 	InitServers();
-
-
-
-
-
 	LateInit();
+
+	mCurrentScene = CreateNewScene();
+
+	GameLogicStartPoint::StartGameLogic();
 }
 
 void doom::GameCore::InitServers()
@@ -96,6 +96,8 @@ void doom::GameCore::InitServers()
 	D_START_PROFILING(Init_AssetManager, eProfileLayers::CPU);
 	mAssetManager.Init();
 	D_END_PROFILING(Init_AssetManager);
+
+	clReflectTest::test();
 }
 
 void doom::GameCore::LateInit()
@@ -115,7 +117,7 @@ void doom::GameCore::LateInit()
 	mUserImput_Server.Init();
 	D_END_PROFILING(Init UserInput_Server);
 	*/
-	GameLogicStartPoint::StartGameLogic();
+	
 }
 
 void doom::GameCore::Update()

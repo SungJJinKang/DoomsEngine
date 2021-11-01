@@ -9,15 +9,11 @@ void ExitGame();
 #include <iostream>
 #include <cstdio>
 
-#include <DObject/Reflection/ReflectionTest.h>
-
 
 int main()
 {
 	{
 		{
-			clReflectTest::test();
-
 			doom::GameCore gameCore{};
 
 			D_START_PROFILING(Init_Game, doom::profiler::eProfileLayers::CPU);
