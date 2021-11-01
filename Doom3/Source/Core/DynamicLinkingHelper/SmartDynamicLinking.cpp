@@ -1,10 +1,10 @@
-#include "SmartCSharpLibrary.h"
+#include "SmartDynamicLinking.h"
 
 
 #include <Windows.h>
 
 
-void* doom::SmartCSharpLibrary::_GetProcAddress(const char* const functionName)
+void* doom::SmartDynamicLinking::_GetProcAddress(const char* const functionName)
 {
 	D_ASSERT(mLibrary != nullptr);
 
@@ -29,7 +29,7 @@ void* doom::SmartCSharpLibrary::_GetProcAddress(const char* const functionName)
 	}
 }
 
-doom::SmartCSharpLibrary::SmartCSharpLibrary(const std::string& csharpLibraryPath)
+doom::SmartDynamicLinking::SmartDynamicLinking(const std::string& csharpLibraryPath)
 	: mCSharpLibraryPath(csharpLibraryPath), mLibrary(nullptr)
 {
 #ifdef UNICODE
@@ -48,7 +48,7 @@ doom::SmartCSharpLibrary::SmartCSharpLibrary(const std::string& csharpLibraryPat
 	}
 }
 
-doom::SmartCSharpLibrary::~SmartCSharpLibrary()
+doom::SmartDynamicLinking::~SmartDynamicLinking()
 {
 	if (mLibrary != nullptr)
 	{
@@ -57,14 +57,14 @@ doom::SmartCSharpLibrary::~SmartCSharpLibrary()
 	}
 }
 
-doom::SmartCSharpLibrary::SmartCSharpLibrary(SmartCSharpLibrary&& _SmartCSharpLibrary) noexcept
+doom::SmartDynamicLinking::SmartDynamicLinking(SmartDynamicLinking&& _SmartCSharpLibrary) noexcept
 	: mLibrary(_SmartCSharpLibrary.mLibrary), mCSharpLibraryPath(_SmartCSharpLibrary.mCSharpLibraryPath)
 {
 	_SmartCSharpLibrary.mLibrary = nullptr;
 	_SmartCSharpLibrary.mCSharpLibraryPath.clear();
 }
 
-doom::SmartCSharpLibrary& doom::SmartCSharpLibrary::operator=(SmartCSharpLibrary&& _SmartCSharpLibrary) noexcept
+doom::SmartDynamicLinking& doom::SmartDynamicLinking::operator=(SmartDynamicLinking&& _SmartCSharpLibrary) noexcept
 {
 	mLibrary = _SmartCSharpLibrary.mLibrary;
 	mCSharpLibraryPath = _SmartCSharpLibrary.mCSharpLibraryPath;

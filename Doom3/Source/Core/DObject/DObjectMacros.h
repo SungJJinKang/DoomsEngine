@@ -180,6 +180,7 @@ namespace doom
 	};
 }
 
+#ifndef DOBJECT_ROOT_CLASS_BASE_CHAIN
 
 #define DOBJECT_ROOT_CLASS_BASE_CHAIN																	\
 private:																								\
@@ -203,7 +204,10 @@ public:																									\
 	[[nodiscard]] virtual const doom::BaseChain& GetBaseChain() const noexcept {						\
 	return _BASE_CHAIN; }																				\
 
+#endif
 
+
+#ifndef DOBJECT_CLASS_BASE_CHAIN
 
 #define DOBJECT_CLASS_BASE_CHAIN(BASE_DOBJECT_TYPE_CLASS)													\
 	static_assert(std::is_base_of_v<doom::DObject, BASE_DOBJECT_TYPE_CLASS> == true);						\
@@ -233,6 +237,8 @@ public:																									\
 	return _BASE_CHAIN.mChainData; }																		\
 	[[nodiscard]] virtual const doom::BaseChain& GetBaseChain() const noexcept {							\
 	return _BASE_CHAIN; }																					\
+
+#endif
 	
 
 

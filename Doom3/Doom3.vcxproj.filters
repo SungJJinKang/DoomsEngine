@@ -561,7 +561,7 @@
     <ClCompile Include="Source\Core\DObject\Reflection\clReflectHelper.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Core\CSharpHelper\SmartCSharpLibrary.cpp">
+    <ClCompile Include="Source\Core\DynamicLinkingHelper\SmartDynamicLinking.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Source\Core\String\StringHelper.cpp">
@@ -1532,7 +1532,7 @@
     <ClInclude Include="Source\Core\DObject\Reflection\clReflectHelper.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Core\CSharpHelper\SmartCSharpLibrary.h">
+    <ClInclude Include="Source\Core\DynamicLinkingHelper\SmartDynamicLinking.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\Core\String\StringHelper.h">

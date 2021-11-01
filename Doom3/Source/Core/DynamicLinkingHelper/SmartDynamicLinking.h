@@ -8,7 +8,7 @@
 
 namespace doom
 {
-	class SmartCSharpLibrary
+	class SmartDynamicLinking
 	{
 
 		std::string mCSharpLibraryPath;
@@ -20,13 +20,13 @@ namespace doom
 
 	public :
 
-		SmartCSharpLibrary(const std::string& csharpLibraryPath);
-		~SmartCSharpLibrary();
+		SmartDynamicLinking(const std::string& csharpLibraryPath);
+		~SmartDynamicLinking();
 
-		SmartCSharpLibrary(const SmartCSharpLibrary&) = default;
-		SmartCSharpLibrary(SmartCSharpLibrary&& _SmartCSharpLibrary) noexcept;
-		SmartCSharpLibrary& operator=(const SmartCSharpLibrary&) = default;
-		SmartCSharpLibrary& operator=(SmartCSharpLibrary&& _SmartCSharpLibrary) noexcept;
+		SmartDynamicLinking(const SmartDynamicLinking&) = default;
+		SmartDynamicLinking(SmartDynamicLinking&& _SmartCSharpLibrary) noexcept;
+		SmartDynamicLinking& operator=(const SmartDynamicLinking&) = default;
+		SmartDynamicLinking& operator=(SmartDynamicLinking&& _SmartCSharpLibrary) noexcept;
 
 		template <typename... Args>
 		bool CallFunction(const char* functionName, Args&&... args);
@@ -37,7 +37,7 @@ namespace doom
 
 
 	template <typename ... Args>
-	bool SmartCSharpLibrary::CallFunction(const char* const functionName, Args&&... args)
+	bool SmartDynamicLinking::CallFunction(const char* const functionName, Args&&... args)
 	{
 		typedef void(__cdecl* functionType)(Args...);
 
@@ -73,7 +73,7 @@ namespace doom
 
 
 	template <typename RETURN_TYPE, typename ... Args>
-	bool SmartCSharpLibrary::CallFunctionWithReturn(const char* const functionName, RETURN_TYPE& returnValue, Args&&... args)
+	bool SmartDynamicLinking::CallFunctionWithReturn(const char* const functionName, RETURN_TYPE& returnValue, Args&&... args)
 	{
 		typedef RETURN_TYPE(__cdecl* functionType)(Args...);
 

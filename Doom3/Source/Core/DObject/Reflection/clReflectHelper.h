@@ -32,9 +32,9 @@ namespace doom
 #endif      // -fms-extensions is important!!
 
 		inline static const char* const clReflectAdditionalCompilerOptions_Configuration
-#ifdef DEBUG_MODE
+#if defined(DEBUG_MODE)
 			= "_DEBUG";
-#elif RELEASE_MODE
+#elif defined(RELEASE_MODE)
 			= "NDEBUG";
 #endif
 

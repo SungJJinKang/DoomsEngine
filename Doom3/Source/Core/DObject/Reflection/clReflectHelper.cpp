@@ -1,7 +1,7 @@
 #include "clReflectHelper.h"
 
 
-#include <CSharpHelper/SmartCSharpLibrary.h>
+#include <DynamicLinkingHelper/SmartDynamicLinking.h>
 
 
 void doom::clReflectHelper::AutoConfiguration()
@@ -42,7 +42,7 @@ bool doom::clReflectHelper::Generate_clReflect_BinaryReflectionData()
 	currentPath += "\\";
 	currentPath += clReflect_automation_dll_filename;
 
-	doom::SmartCSharpLibrary c_sharp_library{ currentPath };
+	doom::SmartDynamicLinking c_sharp_library{ currentPath };
 
 	std::string clReflectArgs{};
 	clReflectArgs.append(clScanPath.generic_string());
@@ -54,17 +54,17 @@ bool doom::clReflectHelper::Generate_clReflect_BinaryReflectionData()
 	clReflectArgs.append(ProjectFilePath.generic_string());
 	clReflectArgs.append(" ");
 
-#ifdef DEBUG_MODE
+#if defined(DEBUG_MODE)
 	clReflectArgs.append("Debug");
-#elif RELEASE_MODE
+#elif defined(RELEASE_MODE)
 	clReflectArgs.append("Release");
 #endif
 
 	clReflectArgs.append(" ");
 
-#ifdef OS_WIN64
+#if defined(OS_WIN64)
 	clReflectArgs.append("x64");
-#elif OS_WIN32
+#elif defined(OS_WIN32)
 	clReflectArgs.append("Win32");
 #endif
 
@@ -73,7 +73,7 @@ bool doom::clReflectHelper::Generate_clReflect_BinaryReflectionData()
 	
 	const std::wstring clReflect_additional_compiler_options_wide_string{ clReflectArgs.begin(), clReflectArgs.end() };
 
-	int result;
+	int result = 1;
 	c_sharp_library.CallFunctionWithReturn<int>(clReflect_automation_dll_function_name.c_str(), result, clReflect_additional_compiler_options_wide_string.c_str());
 	
 	return result == 0;
