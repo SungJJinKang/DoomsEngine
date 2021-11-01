@@ -1,6 +1,11 @@
 #pragma once
 
 #include <Core.h>
+
+#include <memory>
+#include <mutex>
+#include <unordered_map>
+
 #include <DirectXTex.h>
 #include <excpt.h>
 
@@ -8,24 +13,37 @@
 
 namespace doom
 {
+	struct DynamicLinkingLibrary
+	{
+		static std::mutex LoadUnLoadDLLMutexs;
+
+		std::string mLibraryPath;
+		std::shared_ptr<void> mLibrary;
+
+		DynamicLinkingLibrary(const std::string& libraryPath);
+
+		void* LoadDynamicLinkingLibrary();
+		bool UnloadDynamicLinkingLibrary();
+	};
+
 	class SmartDynamicLinking
 	{
-
-		std::string mCSharpLibraryPath;
-		void* mLibrary;
+		DynamicLinkingLibrary mDynamicLinkingLibrary;
 
 	private:
 
 		void* _GetProcAddress(const char* const functionName);
+		
+	
 
 	public :
 
 		SmartDynamicLinking(const std::string& csharpLibraryPath);
 		~SmartDynamicLinking();
 
-		SmartDynamicLinking(const SmartDynamicLinking&) = default;
+		SmartDynamicLinking(const SmartDynamicLinking&);
 		SmartDynamicLinking(SmartDynamicLinking&& _SmartCSharpLibrary) noexcept;
-		SmartDynamicLinking& operator=(const SmartDynamicLinking&) = default;
+		SmartDynamicLinking& operator=(const SmartDynamicLinking&);
 		SmartDynamicLinking& operator=(SmartDynamicLinking&& _SmartCSharpLibrary) noexcept;
 
 		template <typename... Args>

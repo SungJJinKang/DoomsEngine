@@ -3,21 +3,80 @@
 
 #include <Windows.h>
 
+std::mutex  doom::DynamicLinkingLibrary::LoadUnLoadDLLMutexs{};
+
+struct DynamicLinkingReleaser {
+	void operator()(void* const library)
+	{
+		if (library != nullptr)
+		{
+			FreeLibrary(reinterpret_cast<HMODULE>(library));
+		}
+	};
+
+};
+
+doom::DynamicLinkingLibrary::DynamicLinkingLibrary(const std::string& libraryPath)
+	: mLibraryPath(libraryPath), mLibrary(LoadDynamicLinkingLibrary(), DynamicLinkingReleaser())
+{
+	if (mLibrary == nullptr)
+	{
+		const DWORD errorCode = GetLastError();
+
+		D_ASSERT_LOG(false, "Fail to Load Library ( %s ) - Error Code : %d", libraryPath.c_str(), errorCode);
+		doom::ui::PrintText("Fail to Load Library ( %s ) - Error Code : %d", libraryPath.c_str(), errorCode);
+	}
+}
+
+void* doom::DynamicLinkingLibrary::LoadDynamicLinkingLibrary()
+{
+	//if call LoadLibrary on same dll, it's not thread safe
+		//https://stackoverflow.com/questions/11253725/are-loadlibrary-freelibrary-and-getmodulehandle-win32-functions-thread-safe
+		//But In this code, Lock critical section regardless with which library
+		//I know this is slow, But I think this is acceptable.
+
+		//I tried lock on specific library name using unordred_map<string library name, mutex>
+		//unordered_map isn't thread-safe too!!
+
+	std::unique_lock<std::mutex> uniq_lock{ LoadUnLoadDLLMutexs };
+
+#ifdef UNICODE
+	const std::wstring wide_str{ mLibraryPath.begin(), mLibraryPath.end() };
+	return reinterpret_cast<void*>(LoadLibrary(wide_str.c_str()));
+#else
+	return reinterpret_cast<void*>(LoadLibrary(libraryPath.c_str()));
+#endif
+	
+}
+
+bool doom::DynamicLinkingLibrary::UnloadDynamicLinkingLibrary()
+{
+	bool isFreeLibrarySuccess = false;
+	if (mLibrary != nullptr)
+	{
+		std::unique_lock<std::mutex> uniq_lock{ LoadUnLoadDLLMutexs };
+
+		isFreeLibrarySuccess = FreeLibrary(reinterpret_cast<HMODULE>(mLibrary.get()));      //2: unload the DLL
+		//D_ASSERT(isFreeLibrarySuccess == true);
+	}
+	return isFreeLibrarySuccess;
+}
+
 
 void* doom::SmartDynamicLinking::_GetProcAddress(const char* const functionName)
 {
-	D_ASSERT(mLibrary != nullptr);
+	D_ASSERT(mDynamicLinkingLibrary.mLibrary != nullptr);
 
-	if(mLibrary != nullptr)
+	if(mDynamicLinkingLibrary.mLibrary != nullptr)
 	{
-		void* const procAddress = GetProcAddress(reinterpret_cast<HMODULE>(mLibrary), functionName);
+		void* const procAddress = GetProcAddress(reinterpret_cast<HMODULE>(mDynamicLinkingLibrary.mLibrary.get()), functionName);
 
 		if(procAddress == nullptr)
 		{
 			const DWORD errorCode = GetLastError();
 
-			D_ASSERT_LOG(false, "Fail to GetProcAddress ( ""%s"" from ""%s"" ) - Error Code : %d", functionName, mCSharpLibraryPath.c_str(), errorCode);
-			doom::ui::PrintText("Fail to GetProcAddress ( ""%s"" from ""%s"" ) - Error Code : %d", functionName, mCSharpLibraryPath.c_str(), errorCode);
+			D_ASSERT_LOG(false, "Fail to GetProcAddress ( ""%s"" from ""%s"" ) - Error Code : %d", functionName, mDynamicLinkingLibrary.mLibraryPath.c_str(), errorCode);
+			doom::ui::PrintText("Fail to GetProcAddress ( ""%s"" from ""%s"" ) - Error Code : %d", functionName, mDynamicLinkingLibrary.mLibraryPath.c_str(), errorCode);
 		}
 
 		return procAddress;
@@ -29,51 +88,18 @@ void* doom::SmartDynamicLinking::_GetProcAddress(const char* const functionName)
 	}
 }
 
+
 doom::SmartDynamicLinking::SmartDynamicLinking(const std::string& csharpLibraryPath)
-	: mCSharpLibraryPath(csharpLibraryPath), mLibrary(nullptr)
+	:	mDynamicLinkingLibrary(csharpLibraryPath)
 {
-#ifdef UNICODE
-	mLibrary = LoadLibrary(std::wstring( mCSharpLibraryPath.begin(), mCSharpLibraryPath.end()).c_str());
-#else
-	mLibrary = LoadLibrary(mCSharpLibraryPath.c_str());
-#endif
 	
-
-	if(mLibrary == nullptr)
-	{
-		const DWORD errorCode = GetLastError();
-
-		D_ASSERT_LOG(false, "Fail to Load Library ( %s ) - Error Code : %d", csharpLibraryPath.c_str(), errorCode);
-		doom::ui::PrintText("Fail to Load Library ( %s ) - Error Code : %d", csharpLibraryPath.c_str(), errorCode);
-	}
 }
 
-doom::SmartDynamicLinking::~SmartDynamicLinking()
-{
-	if (mLibrary != nullptr)
-	{
-		const bool isFreeLibrarySuccess = FreeLibrary(reinterpret_cast<HMODULE>(mLibrary));      //2: unload the DLL
-		//D_ASSERT(isFreeLibrarySuccess == true);
-	}
-}
-
-doom::SmartDynamicLinking::SmartDynamicLinking(SmartDynamicLinking&& _SmartCSharpLibrary) noexcept
-	: mLibrary(_SmartCSharpLibrary.mLibrary), mCSharpLibraryPath(_SmartCSharpLibrary.mCSharpLibraryPath)
-{
-	_SmartCSharpLibrary.mLibrary = nullptr;
-	_SmartCSharpLibrary.mCSharpLibraryPath.clear();
-}
-
-doom::SmartDynamicLinking& doom::SmartDynamicLinking::operator=(SmartDynamicLinking&& _SmartCSharpLibrary) noexcept
-{
-	mLibrary = _SmartCSharpLibrary.mLibrary;
-	mCSharpLibraryPath = _SmartCSharpLibrary.mCSharpLibraryPath;
-
-	_SmartCSharpLibrary.mLibrary = nullptr;
-	_SmartCSharpLibrary.mCSharpLibraryPath.clear();
-	return *this;
-}
-
+doom::SmartDynamicLinking::~SmartDynamicLinking() = default;
+doom::SmartDynamicLinking::SmartDynamicLinking(const SmartDynamicLinking&) = default;
+doom::SmartDynamicLinking::SmartDynamicLinking(SmartDynamicLinking&&) noexcept = default;
+doom::SmartDynamicLinking& doom::SmartDynamicLinking::operator=(const SmartDynamicLinking&) = default;
+doom::SmartDynamicLinking& doom::SmartDynamicLinking::operator=(SmartDynamicLinking&&) noexcept = default;
 int doom::filter(unsigned code, _EXCEPTION_POINTERS* ptr)
 {
 	D_ASSERT_LOG(false, "Exception in Calling C# Function");
