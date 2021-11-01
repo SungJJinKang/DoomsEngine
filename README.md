@@ -54,9 +54,10 @@ if you wanna good and clean code for learning something, Find other project.
 
 ## In Developing
 
+  * Automation System Generating Reflection Data ( https://github.com/SungJJinKang/clReflect_automation )
   * Masked SW Occlusion Culling ( https://software.intel.com/content/dam/develop/external/us/en/documents/masked-software-occlusion-culling.pdf )      
   * Batching System ( Static Batch, Dynamic Batch )
-  
+
 ## Dependency
 I will try to make everything what i need.     
 but i can't make some librarys like graphics api, audio api, some importers ....           
