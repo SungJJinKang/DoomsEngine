@@ -58,22 +58,6 @@ if you wanna good and clean code for learning something, Find other project.
   * Masked SW Occlusion Culling ( https://software.intel.com/content/dam/develop/external/us/en/documents/masked-software-occlusion-culling.pdf )      
   * Batching System ( Static Batch, Dynamic Batch )
 
-## Dependency
-I will try to make everything what i need.     
-but i can't make some librarys like graphics api, audio api, some importers ....           
-
-  * opengl 4.6       
-  * glfw 3.3.2         
-  * assimp       
-  * DirectxTex        
-  * concurrentqueue       
-  * crossguid         
-  * free type2       
-
-## WARNING
-On AMD on Board GPU, OpenGL sometimes makes driver error.      
-Use NVIDEA GPU.     
-
 ## Coding Standard
 [English](https://docs.google.com/document/d/1cT8EPgMXe0eopeHvwuFmbHG4TJr5kUmcovkr5irQZmo/edit)   
 [Korean](https://docs.popekim.com/ko/coding-standards/cpp)
