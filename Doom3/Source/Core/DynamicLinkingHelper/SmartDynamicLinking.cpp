@@ -5,6 +5,8 @@
 
 std::mutex  doom::DynamicLinkingLibrary::LoadUnLoadDLLMutexs{};
 
+#define DEFAULT_LOAD_LIBRARY_EX_DWFLAGS 0x00000000
+
 struct DynamicLinkingReleaser {
 	void operator()(void* const library)
 	{
@@ -17,7 +19,13 @@ struct DynamicLinkingReleaser {
 };
 
 doom::DynamicLinkingLibrary::DynamicLinkingLibrary(const std::string& libraryPath)
-	: mLibraryPath(libraryPath), mLibrary(LoadDynamicLinkingLibrary(), DynamicLinkingReleaser())
+	: DynamicLinkingLibrary(libraryPath, DEFAULT_LOAD_LIBRARY_EX_DWFLAGS)
+{
+	
+}
+
+doom::DynamicLinkingLibrary::DynamicLinkingLibrary(const std::string& libraryPath, const unsigned long dwFlags)
+	: mLibraryPath(libraryPath), mLibrary(LoadDynamicLinkingLibrary(dwFlags), DynamicLinkingReleaser())
 {
 	if (mLibrary == nullptr)
 	{
@@ -28,7 +36,7 @@ doom::DynamicLinkingLibrary::DynamicLinkingLibrary(const std::string& libraryPat
 	}
 }
 
-void* doom::DynamicLinkingLibrary::LoadDynamicLinkingLibrary()
+void* doom::DynamicLinkingLibrary::LoadDynamicLinkingLibrary(const unsigned long dwFlags)
 {
 	//if call LoadLibrary on same dll, it's not thread safe
 		//https://stackoverflow.com/questions/11253725/are-loadlibrary-freelibrary-and-getmodulehandle-win32-functions-thread-safe
@@ -42,9 +50,9 @@ void* doom::DynamicLinkingLibrary::LoadDynamicLinkingLibrary()
 
 #ifdef UNICODE
 	const std::wstring wide_str{ mLibraryPath.begin(), mLibraryPath.end() };
-	return reinterpret_cast<void*>(LoadLibrary(wide_str.c_str()));
+	return reinterpret_cast<void*>(LoadLibraryEx(wide_str.c_str(), NULL, dwFlags ));
 #else
-	return reinterpret_cast<void*>(LoadLibrary(libraryPath.c_str()));
+	return reinterpret_cast<void*>(LoadLibraryEx(libraryPath.c_str(), NULL, dwFlags));
 #endif
 	
 }

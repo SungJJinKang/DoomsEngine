@@ -21,8 +21,9 @@ namespace doom
 		std::shared_ptr<void> mLibrary;
 
 		DynamicLinkingLibrary(const std::string& libraryPath);
+		DynamicLinkingLibrary(const std::string& libraryPath, const unsigned long dwFlags);
 
-		void* LoadDynamicLinkingLibrary();
+		void* LoadDynamicLinkingLibrary(const unsigned long dwFlags);
 		bool UnloadDynamicLinkingLibrary();
 	};
 
