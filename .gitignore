@@ -400,3 +400,9 @@ Doom3/Doom3.vcxproj
 *vcpkg_installed
 
 *.csv
+
+!clexport.dll
+!clmerge.dll
+!clscan.dll
+!clReflect_automation.dll
+!Conari.dll

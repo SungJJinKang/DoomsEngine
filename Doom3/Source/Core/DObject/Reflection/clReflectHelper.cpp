@@ -6,9 +6,10 @@
 
 void doom::clReflectHelper::AutoConfiguration()
 {
-	clScanPath = path::_GetCurrentPath("clscan.exe");
-	clMergePath = path::_GetCurrentPath("clmerge.exe");
-	clExportPath = path::_GetCurrentPath("clexport.exe");;
+	//TODO : 나중에 config로 빼자
+	clScanPath = path::_GetCurrentPath("clscan.dll");
+	clMergePath = path::_GetCurrentPath("clmerge.dll");
+	clExportPath = path::_GetCurrentPath("clexport.dll");;
 	ProjectFilePath = path::_GetCurrentPath("Doom3.vcxproj");
 }
 
@@ -41,9 +42,7 @@ bool doom::clReflectHelper::Generate_clReflect_BinaryReflectionData()
 	std::string currentPath { currentPath_narrow_string.begin(), currentPath_narrow_string .end() };
 	currentPath += "\\";
 	currentPath += clReflect_automation_dll_filename;
-
-	doom::SmartDynamicLinking c_sharp_library{ currentPath };
-
+	
 	std::string clReflectArgs{};
 	clReflectArgs.append(clScanPath.generic_string());
 	clReflectArgs.append(" ");
@@ -75,6 +74,7 @@ bool doom::clReflectHelper::Generate_clReflect_BinaryReflectionData()
 
 	int result = 1;
 
+	doom::SmartDynamicLinking c_sharp_library{ currentPath };
 	auto future = doom::resource::JobSystem::GetSingleton()->PushBackJobToPriorityQueue(
 		std::function<void()>(
 		[&]()
