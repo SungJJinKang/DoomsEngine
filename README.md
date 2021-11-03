@@ -65,6 +65,3 @@ if you wanna good and clean code for learning something, Find other project.
 
 ## Development Blog
 [Korean Blog](https://sungjjinkang.github.io/) 
-
-## Thanks
-![WoCR0sCfffff](https://user-images.githubusercontent.com/33873804/103935734-5e92e300-516a-11eb-9afd-ab48b5f65791.png)
