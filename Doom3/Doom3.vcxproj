@@ -193,6 +193,9 @@
       <AdditionalLibraryDirectories>$(SolutionDir)Source\Helper\crossguid\build\Debug;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>xg.lib;%(AdditionalDependencies);ntdll.lib</AdditionalDependencies>
     </Link>
+    <PostBuildEvent>
+      <Command>xcopy /y /d /E /H /C /I  "$(ProjectDir)IncludedOnPostBuild" "$(TargetDir)"</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
