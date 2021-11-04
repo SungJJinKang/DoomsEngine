@@ -25,6 +25,7 @@ namespace doom
 		public:
 
 			AssetImporterWorker_Texture();
+			virtual ~AssetImporterWorker_Texture();
 			AssetImporterWorker_Texture(const AssetImporterWorker_Texture&);
 			AssetImporterWorker_Texture(AssetImporterWorker_Texture&&) noexcept;
 			AssetImporterWorker_Texture& operator=(const AssetImporterWorker_Texture&);

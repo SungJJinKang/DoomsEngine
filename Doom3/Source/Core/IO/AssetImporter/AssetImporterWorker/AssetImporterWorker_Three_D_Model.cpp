@@ -298,7 +298,8 @@ doom::asset::eAssetType AssetImporterWorker_THREE_D_MODEL::GetEAssetType() const
 
 void AssetImporterWorker_THREE_D_MODEL::InitializeAssetImporterWorkerStatic()
 {
-	if (AssetImporterWorker::IsInitialized == false)
+	bool expected = false;
+	if (AssetImporterWorker::IsInitializedStatic.compare_exchange_strong(expected, true, std::memory_order_seq_cst, std::memory_order_relaxed) )
 	{
 #ifdef DEBUG_MODE
 		Assimp::DefaultLogger::create("", Assimp::Logger::NORMAL);
@@ -321,7 +322,7 @@ void AssetImporterWorker_THREE_D_MODEL::InitializeAssetImporterWorkerStatic()
 			}
 		}
 
-		AssetImporterWorker::IsInitialized = true;
+		AssetImporterWorker::IsInitializedStatic = true;
 	}
 
 }

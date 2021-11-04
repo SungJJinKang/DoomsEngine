@@ -1,7 +1,9 @@
 #pragma once
 
 #include <Core.h>
+
 #include <filesystem>
+#include <atomic>
 
 #include <Asset/eAssetType.h>
 
@@ -21,7 +23,8 @@ namespace doom
 
 		protected:
 
-			inline static bool IsInitialized = false;
+			bool IsInitialized = false;
+			static std::atomic<bool> IsInitializedStatic;
 
 		public:
 

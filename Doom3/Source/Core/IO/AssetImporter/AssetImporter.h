@@ -18,7 +18,7 @@ namespace doom
 	}
 
 
-	namespace assetImporter
+	namespace D_NAMESPACE assetImporter
 	{
 
 		/// <summary>
