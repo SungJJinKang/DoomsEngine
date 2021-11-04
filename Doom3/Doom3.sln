@@ -4,33 +4,56 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 16.0.30804.86
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Doom3", "Doom3.vcxproj", "{35FC0630-EA2A-49FD-9AD7-23C2521FF18D}"
+	ProjectSection(ProjectDependencies) = postProject
+		{17B20472-246C-42B3-B9E8-22C9992C69A2} = {17B20472-246C-42B3-B9E8-22C9992C69A2}
+	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MapEditor", "..\MapEditor\MapEditor.vcxproj", "{9E16B2A1-E376-44FF-82C1-440AC96D7467}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "clReflect_automation", "Source\Core\DObject\Reflection\clReflect_automation\clReflect_automation\clReflect_automation.csproj", "{17B20472-246C-42B3-B9E8-22C9992C69A2}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
 		Debug|x64 = Debug|x64
 		Debug|x86 = Debug|x86
+		Release|Any CPU = Release|Any CPU
 		Release|x64 = Release|x64
 		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{35FC0630-EA2A-49FD-9AD7-23C2521FF18D}.Debug|Any CPU.ActiveCfg = Debug|Win32
 		{35FC0630-EA2A-49FD-9AD7-23C2521FF18D}.Debug|x64.ActiveCfg = Debug|x64
 		{35FC0630-EA2A-49FD-9AD7-23C2521FF18D}.Debug|x64.Build.0 = Debug|x64
 		{35FC0630-EA2A-49FD-9AD7-23C2521FF18D}.Debug|x86.ActiveCfg = Debug|Win32
 		{35FC0630-EA2A-49FD-9AD7-23C2521FF18D}.Debug|x86.Build.0 = Debug|Win32
+		{35FC0630-EA2A-49FD-9AD7-23C2521FF18D}.Release|Any CPU.ActiveCfg = Release|Win32
 		{35FC0630-EA2A-49FD-9AD7-23C2521FF18D}.Release|x64.ActiveCfg = Release|x64
 		{35FC0630-EA2A-49FD-9AD7-23C2521FF18D}.Release|x64.Build.0 = Release|x64
 		{35FC0630-EA2A-49FD-9AD7-23C2521FF18D}.Release|x86.ActiveCfg = Release|Win32
 		{35FC0630-EA2A-49FD-9AD7-23C2521FF18D}.Release|x86.Build.0 = Release|Win32
+		{9E16B2A1-E376-44FF-82C1-440AC96D7467}.Debug|Any CPU.ActiveCfg = Debug|Win32
 		{9E16B2A1-E376-44FF-82C1-440AC96D7467}.Debug|x64.ActiveCfg = Debug|x64
 		{9E16B2A1-E376-44FF-82C1-440AC96D7467}.Debug|x64.Build.0 = Debug|x64
 		{9E16B2A1-E376-44FF-82C1-440AC96D7467}.Debug|x86.ActiveCfg = Debug|Win32
 		{9E16B2A1-E376-44FF-82C1-440AC96D7467}.Debug|x86.Build.0 = Debug|Win32
+		{9E16B2A1-E376-44FF-82C1-440AC96D7467}.Release|Any CPU.ActiveCfg = Release|Win32
 		{9E16B2A1-E376-44FF-82C1-440AC96D7467}.Release|x64.ActiveCfg = Release|x64
 		{9E16B2A1-E376-44FF-82C1-440AC96D7467}.Release|x64.Build.0 = Release|x64
 		{9E16B2A1-E376-44FF-82C1-440AC96D7467}.Release|x86.ActiveCfg = Release|Win32
 		{9E16B2A1-E376-44FF-82C1-440AC96D7467}.Release|x86.Build.0 = Release|Win32
+		{17B20472-246C-42B3-B9E8-22C9992C69A2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{17B20472-246C-42B3-B9E8-22C9992C69A2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{17B20472-246C-42B3-B9E8-22C9992C69A2}.Debug|x64.ActiveCfg = Debug|x64
+		{17B20472-246C-42B3-B9E8-22C9992C69A2}.Debug|x64.Build.0 = Debug|x64
+		{17B20472-246C-42B3-B9E8-22C9992C69A2}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{17B20472-246C-42B3-B9E8-22C9992C69A2}.Debug|x86.Build.0 = Debug|Any CPU
+		{17B20472-246C-42B3-B9E8-22C9992C69A2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{17B20472-246C-42B3-B9E8-22C9992C69A2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{17B20472-246C-42B3-B9E8-22C9992C69A2}.Release|x64.ActiveCfg = Release|x64
+		{17B20472-246C-42B3-B9E8-22C9992C69A2}.Release|x64.Build.0 = Release|x64
+		{17B20472-246C-42B3-B9E8-22C9992C69A2}.Release|x86.ActiveCfg = Release|Any CPU
+		{17B20472-246C-42B3-B9E8-22C9992C69A2}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

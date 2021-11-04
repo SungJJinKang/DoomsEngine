@@ -28,7 +28,7 @@ namespace doom
 
 			}
 
-
+			void breakpoint() const;
 			FORCE_INLINE void Log(const char* fileName, long codeLineNum, const char* log, eLogType logType = eLogType::D_LOG) const noexcept;
 			FORCE_INLINE void Log(const char* fileName, long codeLineNum, const std::string log, eLogType logType = eLogType::D_LOG) const noexcept;
 			FORCE_INLINE void Log(const char* fileName, long codeLineNum, std::initializer_list<const char*> logs, eLogType logType = eLogType::D_LOG) const noexcept;
@@ -67,8 +67,7 @@ namespace doom
 		{
 			if (logType == eLogType::D_ERROR)
 			{
-				std::fflush(stdout);
-				std::terminate();
+				mLogger.breakpoint();
 			}
 		}
 		void Log(const char* fileName, long codeLineNum, const char* log, eLogType logType) noexcept
@@ -158,6 +157,12 @@ FORCE_INLINE const char* doom::logger::LogTypeStr(eLogType logType) noexcept
 	}
 
 	return "ERROR";
+}
+
+void StdStreamLogger::breakpoint() const
+{
+	std::fflush(stdout);
+	__debugbreak();
 }
 
 FORCE_INLINE void StdStreamLogger::Log(const char* fileName, long codeLineNum, const char* log, eLogType logType /*= Doom::LogType::LOG*/) const noexcept
