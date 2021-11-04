@@ -1,7 +1,9 @@
 #include "SmartDynamicLinking.h"
 
-
 #include <Windows.h>
+#include <UI/PrintText.h>
+
+#include "OS/StackTrace.h"
 
 std::mutex  doom::DynamicLinkingLibrary::LoadUnLoadDLLMutexs{};
 
@@ -110,6 +112,7 @@ doom::SmartDynamicLinking& doom::SmartDynamicLinking::operator=(const SmartDynam
 doom::SmartDynamicLinking& doom::SmartDynamicLinking::operator=(SmartDynamicLinking&&) noexcept = default;
 int doom::filter(unsigned code, _EXCEPTION_POINTERS* ptr)
 {
-	D_ASSERT_LOG(false, "Exception in Calling C# Function");
+	doom::ui::PrintText("Exception from Called DLL's Function");
+	doom::debugging::ExceptionHandler(ptr);
 	return EXCEPTION_EXECUTE_HANDLER;
 }
