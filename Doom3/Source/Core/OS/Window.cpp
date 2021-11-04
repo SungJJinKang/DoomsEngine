@@ -128,6 +128,43 @@ UINT64 doom::os::_GetThreadCpuCycle(const HANDLE threadHandle)
 	return cycle;
 }
 
+std::string doom::os::_GetCurrentExecutableDirectory()
+{
+	static std::string currentExePath{};
+
+	if(currentExePath.empty() == true)
+	{
+
+#ifdef UNICODE
+
+		WCHAR unicodeBuffer[256];
+		DWORD stringCount = GetModuleFileNameW(NULL, unicodeBuffer, 256);
+		D_ASSERT(GetLastError() != ERROR_INSUFFICIENT_BUFFER); // https://docs.microsoft.com/en-us/windows/win32/api/libloaderapi/nf-libloaderapi-getmodulefilenamew
+
+
+		char strUtf8[256];
+		int utf8Length = WideCharToMultiByte(CP_UTF8, 0, unicodeBuffer, stringCount, NULL, 0, NULL, NULL);
+		WideCharToMultiByte(CP_UTF8, 0, unicodeBuffer, stringCount, strUtf8, utf8Length, NULL, NULL);
+		currentExePath = strUtf8;
+
+#else
+
+		CHAR utf8Buffer[256];
+		DWORD stringCount = GetModuleFileNameA(NULL, utf8Buffer, 256);
+		D_ASSERT(GetLastError() != ERROR_INSUFFICIENT_BUFFER); // https://docs.microsoft.com/en-us/windows/win32/api/libloaderapi/nf-libloaderapi-getmodulefilenamew
+		currentExePath = utf8Buffer;
+
+#endif
+
+		const std::string::size_type lastBackSlashPos = currentExePath.find_last_of('\\');
+		currentExePath = currentExePath.substr(0, lastBackSlashPos);
+	}
+
+	
+
+	return currentExePath;
+}
+
 /*
 UINT32 doom::os::_GetCurrentProcessorNumber()
 {

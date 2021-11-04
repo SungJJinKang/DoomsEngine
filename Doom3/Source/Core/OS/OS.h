@@ -2,6 +2,7 @@
 
 #include <Core.h>
 
+#include <string>
 
 
 using HANDLE = void*;
@@ -57,6 +58,8 @@ namespace doom
 
 		
 		[[nodiscard]] UINT64 _GetThreadCpuCycle(const HANDLE threadHandle);
+
+		[[nodiscard]] std::string _GetCurrentExecutableDirectory();
 	}
 }
 

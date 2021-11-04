@@ -1,8 +1,11 @@
 #include "Path.h"
 
 #include <filesystem>
+#include <Windows.h>
 
-#define ASSET_FOLDER_RELATIVE_DIRECTORY "/Assets/"
+#include "OS.h"
+
+#define ASSET_FOLDER_RELATIVE_DIRECTORY "\\Assets\\"
 
 static std::string CURRENT_DIRECTORY{};
 static std::string ASSET_FOLDER_DIRECTORY{};
@@ -11,8 +14,7 @@ std::string doom::path::_GetCurrentPath()
 {
 	if (CURRENT_DIRECTORY.empty() == true)
 	{
-		CURRENT_DIRECTORY = std::filesystem::current_path().string();
-		CURRENT_DIRECTORY.reserve(CURRENT_DIRECTORY.capacity() + 1);
+		CURRENT_DIRECTORY = doom::os::_GetCurrentExecutableDirectory();
 	}
 
 	return CURRENT_DIRECTORY;
