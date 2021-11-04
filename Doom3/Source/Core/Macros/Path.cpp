@@ -31,3 +31,8 @@ std::string doom::path::_GetCurrentPath(const char* additional)
 	return (_GetCurrentPath() + '\\' + additional);
 }
 
+std::string doom::path::_GetCurrentPath(const std::string& additional)
+{
+	return _GetCurrentPath(additional.c_str());
+}
+

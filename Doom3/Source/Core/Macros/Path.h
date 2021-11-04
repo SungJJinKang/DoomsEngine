@@ -16,6 +16,7 @@ namespace doom
 		std::string _GetCurrentPath();
 		std::string _GetAssetFolderDirectory();
 		std::string _GetCurrentPath(const char* additional);
+		std::string _GetCurrentPath(const std::string& additional);
 	}
 }
 
