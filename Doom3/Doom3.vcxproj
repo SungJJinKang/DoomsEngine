@@ -975,6 +975,7 @@ xcopy /y /d /E /H /C /I "$(ProjectDir)Assets" "$(TargetDir)Assets"</Command>
     <None Include="Source\Helper\vector_erase_move_lastelement\README.md" />
   </ItemGroup>
   <ItemGroup>
+    <Text Include="Source\Core\DObject\Reflection\Reflection_Tutorial.txt" />
     <Text Include="Source\Core\Graphics\Acceleration\Culling.md" />
     <Text Include="Source\Core\Graphics\ReadThis!!!!.txt" />
     <Text Include="Source\GameLogic\DeferredRenderingDebug.inl" />

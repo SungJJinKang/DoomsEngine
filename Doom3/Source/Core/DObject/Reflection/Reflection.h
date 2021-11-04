@@ -5,16 +5,57 @@
 #endif
 
 #ifdef REFLECTION_ENABLED
+
+
+
 #include "clReflect_automation/clReflect/inc/clcpp/clcpp.h"
 
-#ifndef DOBJECT_REFLECTIONS
-#define DOBJECT_REFLECTIONS(X) clcpp_reflect(X)
+#ifndef D_CLASS
+#define D_CLASS clcpp_attr(reflect_part)
 #endif
+
+#ifndef D_STRUCT
+#define D_STRUCT(...) clcpp_attr(reflect_part)
+#endif
+
+#ifndef D_ENUM
+#define D_ENUM(...) clcpp_attr(reflect_part)
+#endif
+
+#ifndef D_PROPERTY
+#define D_PROPERTY(...) clcpp_attr(reflect)
+#endif
+
+#ifndef D_FUNCTION
+#define D_FUNCTION(...) clcpp_attr(reflect)
+#endif
+
+
 
 #else
 
-#ifndef DOBJECT_REFLECTIONS
-#define DOBJECT_REFLECTIONS(X)
+
+
+#ifndef D_CLASS
+#define D_CLASS(...)
 #endif
+
+#ifndef D_STRUCT
+#define D_STRUCT(...)
+#endif
+
+#ifndef D_ENUM
+#define D_ENUM(...)
+#endif
+
+#ifndef D_PROPERTY
+#define D_PROPERTY(...)
+#endif
+
+#ifndef D_FUNCTION
+#define D_FUNCTION(...)
+#endif
+
+
 
 #endif
