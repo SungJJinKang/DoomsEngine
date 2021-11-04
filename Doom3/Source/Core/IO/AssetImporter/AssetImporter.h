@@ -17,8 +17,8 @@ namespace doom
 		class Asset;
 	}
 
-
-	namespace D_NAMESPACE assetImporter
+	D_NAMESPACE
+	namespace assetImporter
 	{
 
 		/// <summary>

@@ -45,6 +45,7 @@ namespace doom
 		inline extern std::filesystem::path clMergePath{};
 		inline extern std::filesystem::path clExportPath{};
 		inline extern std::filesystem::path ProjectFilePath{};
+		inline extern std::filesystem::path SourceDependenciesFolderDirectory{};
 
 		extern void AutoConfiguration();
 		
