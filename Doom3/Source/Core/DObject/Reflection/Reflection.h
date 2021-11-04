@@ -10,6 +10,10 @@
 
 #include "clReflect_automation/clReflect/inc/clcpp/clcpp.h"
 
+#ifndef D_NAMESPACE
+#define D_NAMESPACE clcpp_attr(reflect_part)
+#endif
+
 #ifndef D_CLASS
 #define D_CLASS clcpp_attr(reflect_part)
 #endif
@@ -35,6 +39,10 @@
 #else
 
 
+
+#ifndef D_NAMESPACE
+#define D_NAMESPACE
+#endif
 
 #ifndef D_CLASS
 #define D_CLASS(...)
