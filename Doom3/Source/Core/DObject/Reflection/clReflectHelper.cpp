@@ -15,7 +15,9 @@ void doom::clReflectHelper::AutoConfiguration()
 	clScanPath = path::_GetCurrentPath(ConfigData::GetSingleton()->GetConfigData().GetValue<std::string>("SYSTEM", "CL_SCAN_RELATIVE_PATH"));
 	clMergePath = path::_GetCurrentPath(ConfigData::GetSingleton()->GetConfigData().GetValue<std::string>("SYSTEM", "CL_MERGE_RELATIVE_PATH"));
 	clExportPath = path::_GetCurrentPath(ConfigData::GetSingleton()->GetConfigData().GetValue<std::string>("SYSTEM", "CL_EXPORT_RELATIVE_PATH"));;
-	ProjectFilePath = path::_GetCurrentPath("Doom3.vcxproj");
+	ProjectFilePath = ConfigData::GetSingleton()->GetConfigData().GetValue<std::string>("SYSTEM", "PROJECT_VCXPROJ_PATH");
+
+
 }
 
 namespace doom
@@ -51,10 +53,7 @@ bool doom::clReflectHelper::Generate_clReflect_BinaryReflectionData()
 {
 	doom::ui::PrintText("Start to generate reflection data");
 
-	const std::string currentPath_narrow_string = path::_GetCurrentPath();
-	std::string currentPath { currentPath_narrow_string.begin(), currentPath_narrow_string .end() };
-	currentPath += "\\";
-	currentPath += clReflect_automation_dll_filename;
+	
 	
 	std::string clReflectArgs{};
 	clReflectArgs.append(clScanPath.generic_string());
@@ -86,6 +85,11 @@ bool doom::clReflectHelper::Generate_clReflect_BinaryReflectionData()
 	const std::wstring clReflect_additional_compiler_options_wide_string{ clReflectArgs.begin(), clReflectArgs.end() };
 
 	int result = 1;
+
+	const std::string currentPath_narrow_string = path::_GetCurrentPath();
+	std::string currentPath{ currentPath_narrow_string.begin(), currentPath_narrow_string.end() };
+	currentPath += "\\";
+	currentPath += clReflect_automation_dll_filename;
 
 	doom::SmartDynamicLinking c_sharp_library{ currentPath };
 	auto future = doom::resource::JobSystem::GetSingleton()->PushBackJobToPriorityQueue(
