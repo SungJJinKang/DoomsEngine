@@ -1,15 +1,20 @@
 #include "clReflectHelper.h"
 
+#include <string>
 
 #include <DynamicLinkingHelper/SmartDynamicLinking.h>
 #include <ResourceManagement/JobSystem_cpp/JobSystem.h>
 
+#include <UI/PrintText.h>
+
+#include "Game/ConfigData.h"
+
 void doom::clReflectHelper::AutoConfiguration()
 {
 	//TODO : 나중에 config로 빼자
-	clScanPath = path::_GetCurrentPath("clscan.dll");
-	clMergePath = path::_GetCurrentPath("clmerge.dll");
-	clExportPath = path::_GetCurrentPath("clexport.dll");;
+	clScanPath = path::_GetCurrentPath(ConfigData::GetSingleton()->GetConfigData().GetValue<std::string>("SYSTEM", "CL_SCAN_RELATIVE_PATH"));
+	clMergePath = path::_GetCurrentPath(ConfigData::GetSingleton()->GetConfigData().GetValue<std::string>("SYSTEM", "CL_MERGE_RELATIVE_PATH"));
+	clExportPath = path::_GetCurrentPath(ConfigData::GetSingleton()->GetConfigData().GetValue<std::string>("SYSTEM", "CL_EXPORT_RELATIVE_PATH"));;
 	ProjectFilePath = path::_GetCurrentPath("Doom3.vcxproj");
 }
 
@@ -25,6 +30,12 @@ namespace doom
 			clReflectAdditionalCompilerOptionsString.append(" -D");
 			clReflectAdditionalCompilerOptionsString.append(clReflectAdditionalCompilerOptions_Configuration);
 
+
+			if(ConfigData::GetSingleton()->GetConfigData().GetValue<bool>("SYSTEM", "PRINT_GENERATE_REFLECTION_DATA_VERBOSE"))
+			{
+				clReflectAdditionalCompilerOptionsString.append(" -v"); // print clReflect verbose
+			}
+
 			clReflectAdditionalCompilerOptionsString.append(" ");
 			clReflectAdditionalCompilerOptionsString.append(CPP_VERSION_COMPILER_OPTION_FOR_CLANG);
 
@@ -38,6 +49,8 @@ namespace doom
 
 bool doom::clReflectHelper::Generate_clReflect_BinaryReflectionData()
 {
+	doom::ui::PrintText("Start to generate reflection data");
+
 	const std::string currentPath_narrow_string = path::_GetCurrentPath();
 	std::string currentPath { currentPath_narrow_string.begin(), currentPath_narrow_string .end() };
 	currentPath += "\\";
