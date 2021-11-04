@@ -31,7 +31,7 @@ if you wanna good and clean code for learning something, Find other project.
 
   * C++17
   * C# ( used for making engine tools )      
-  * Target Compiler : only MSVC ( clang is used for generating reflection data )
+  * Target Compiler : MSVC ( clang is used for generating reflection data )
 
 ## Implemented features
 

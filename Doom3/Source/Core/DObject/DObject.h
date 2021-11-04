@@ -10,7 +10,7 @@
 
 #include "Reflection/Reflection.h"
 
-DOBJECT_REFLECTIONS(doom)
+
 namespace doom
 {
 	class DObjectManager;
@@ -18,7 +18,10 @@ namespace doom
 
 	struct DOOM_API DObjectContructorParams
 	{
+		D_PROPERTY()
 		UINT32 DObjectFlag = 0;
+
+		D_PROPERTY()
 		std::string mDObjectName;
 
 		DObjectContructorParams() = default;
@@ -82,7 +85,10 @@ namespace doom
 
 	private:
 
+		D_PROPERTY()
 		UINT64 mDObjectID;
+
+		D_PROPERTY()
 		DObjectProperties mDObjectProperties;
 
 		void Construct_Internal();
@@ -107,22 +113,29 @@ namespace doom
 
 		void InitProperties(const DObjectContructorParams& params);
 
+
+		D_FUNCTION()
 		inline size_t GetDObjectID() const
 		{
 			return mDObjectID;
 		}
 
+		D_FUNCTION()
 		inline UINT32 GetDObjectFlag() const
 		{
 			return mDObjectProperties.mDObjectFlag;
 		}
 
+		D_FUNCTION()
 		inline bool GetDObjectFlag(const eDObjectFlag flag) const
 		{
 			return (mDObjectProperties.mDObjectFlag & flag) != 0;
 		}
 
+		D_FUNCTION()
 		void ChangeDObjectName(const std::string& dObjectName);
+
+		D_FUNCTION()
 		void SetOwnerDObject(const DObject* const ownerDObject);
 	};
 }

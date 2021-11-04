@@ -406,3 +406,6 @@ Doom3/Doom3.vcxproj
 !clscan.dll
 !clReflect_automation.dll
 !Conari.dll
+
+*.map
+*.json

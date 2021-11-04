@@ -15,11 +15,11 @@
 #endif
 
 #ifndef D_STRUCT
-#define D_STRUCT(...) clcpp_attr(reflect_part)
+#define D_STRUCT clcpp_attr(reflect_part)
 #endif
 
 #ifndef D_ENUM
-#define D_ENUM(...) clcpp_attr(reflect_part)
+#define D_ENUM clcpp_attr(reflect_part)
 #endif
 
 #ifndef D_PROPERTY

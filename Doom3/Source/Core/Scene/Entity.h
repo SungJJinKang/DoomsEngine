@@ -50,13 +50,13 @@ namespace doom
 
 	public:
 
-		enum eEntityMobility
+		enum D_ENUM eEntityMobility
 		{
 			Static,
 			Dynamic
 		};
 
-		enum eEntityFlags : UINT32
+		enum D_ENUM eEntityFlags : UINT32
 		{
 			OcculuderStatic = 1,
 			OcculudeeStatic = 1 << 1
@@ -66,31 +66,36 @@ namespace doom
 
 
 	private:
-		
+
+		D_PROPERTY()
 		size_t mEntityID;
 		
-
-		
-
+		D_PROPERTY()
 		std::string mEntityName;
+
+		D_PROPERTY()
 		static const inline std::string DEFAULT_ENTITY_NAME{ "Entity" };
 
 		//TODO : Every Entity has Transform Component, Just put Transform Component as member variable
 	
 
+		D_PROPERTY()
 		UINT32 mLayerIndex{0};
 	
 
+		D_PROPERTY()
 		Entity* mParent = nullptr;
+
+		D_PROPERTY()
 		std::vector<Entity*> mChilds;
 
+		D_PROPERTY()
 		std::unordered_map<size_t, std::vector<Component*>> mComponents;
-
-		/// <summary>
-		/// Plain component (not core component ) is stored at this variable
-		/// </summary>
+		
+		D_PROPERTY()
 		std::vector<std::unique_ptr<PlainComponent, Component::Deleter>> mPlainComponents;
 
+		D_PROPERTY()
 		Transform mTransform;
 
 		/// <summary>
@@ -235,7 +240,9 @@ namespace doom
 		
 	public:
 
+		D_PROPERTY()
 		eEntityMobility mEntityMobility{ eEntityMobility::Dynamic };
+		D_PROPERTY()
 		UINT32 mEntityFlag{ eEntityFlags::OcculuderStatic | eEntityFlags::OcculudeeStatic };
 
 		/// <summary>
@@ -433,40 +440,61 @@ namespace doom
 		void OnPreUpdate() {}
 		void OnPostUpdate() {}
 
+
+		D_FUNCTION()
 		[[nodiscard]] std::string_view GetEntityName() const;
+
+		D_FUNCTION()
 		void SetEntityName(const std::string& entityName);
 
+
+		D_FUNCTION()
 		[[nodiscard]] FORCE_INLINE Transform* GetTransform()
 		{
 			return &mTransform;
 		}
+
+		D_FUNCTION()
 		[[nodiscard]] FORCE_INLINE const Transform* GetTransform() const
 		{
 			return &mTransform;
 		}
 
+
+		D_FUNCTION()
 		void SetLayerIndex(UINT32 layerIndex);
+
+		D_FUNCTION()
 		[[nodiscard]] FORCE_INLINE UINT32 GetLayerIndex() const
 		{
 			return mLayerIndex;
 		}
 
+		D_FUNCTION()
 		FORCE_INLINE eEntityMobility GetEntityMobility() const
 		{
 			return mEntityMobility;
 		}
+
+		D_FUNCTION()
 		FORCE_INLINE void SetEntityMobility(eEntityMobility entityMobility)
 		{
 			mEntityMobility = entityMobility;
 		}
+
+		D_FUNCTION()
 		FORCE_INLINE UINT32 GetEntityFlag() const
 		{	
 			return mEntityFlag;
 		}
+
+		D_FUNCTION()
 		FORCE_INLINE void SetEntityFlag(eEntityFlags flag)
 		{
 			mEntityFlag |= flag;
 		}
+
+		D_FUNCTION()
 		FORCE_INLINE void ClearEntityFlag()
 		{
 			mEntityFlag &= 0;
