@@ -20,7 +20,7 @@ namespace doom
 		/// </summary>
 		namespace GraphicsAPI
 		{
-			enum class eBufferMode : UINT32
+			enum class D_ENUM eBufferMode : UINT32
 			{
 				FRONT_LEFT = GL_FRONT_LEFT,
 				FRONT_RIGHT = GL_FRONT_RIGHT,
@@ -44,14 +44,14 @@ namespace doom
 				NONE = GL_NONE
 			};
 
-			enum class eCullFaceMode : UINT32
+			enum class D_ENUM eCullFaceMode : UINT32
 			{
 				FRONT = GL_FRONT,
 				BACK = GL_BACK,
 				FRONT_AND_BACK = GL_FRONT_AND_BACK
 			};
 
-			enum class eBufferBitType : UINT32
+			enum class D_ENUM eBufferBitType : UINT32
 			{
 				COLOR = GL_COLOR_BUFFER_BIT,
 				DEPTH = GL_DEPTH_BUFFER_BIT,
@@ -85,7 +85,7 @@ namespace doom
 				glClearColor(color.r, color.g, color.b, color.a);
 			}
 
-			enum class eBufferType : UINT32
+			enum class D_ENUM eBufferType : UINT32
 			{
 				COLOR = GL_COLOR,
 				DEPTH = GL_COLOR,
@@ -113,7 +113,7 @@ namespace doom
 				glClearDepth(depth);
 			}
 
-			enum class eDepthFuncType
+			enum class D_ENUM eDepthFuncType
 			{
 				ALWAYS = GL_ALWAYS,
 				NEVER = GL_NEVER,
@@ -140,7 +140,7 @@ namespace doom
 				glClearStencil(stencil);
 			}
 
-			enum class eClearMask : UINT32
+			enum class D_ENUM eClearMask : UINT32
 			{
 				COLOR_BUFFER_BIT = GL_COLOR_BUFFER_BIT,
 				DEPTH_BUFFER_BIT = GL_DEPTH_BUFFER_BIT,
@@ -165,7 +165,7 @@ namespace doom
 			}
 
 
-			enum class eCapability
+			enum class D_ENUM eCapability
 			{
 				BLEND = GL_BLEND,
 				COLOR_LOGIC_OP = GL_COLOR_LOGIC_OP,
@@ -202,7 +202,7 @@ namespace doom
 				glDisable(static_cast<UINT32>(c));
 			}
 
-			enum class eSourceFactor : UINT32
+			enum class D_ENUM eSourceFactor : UINT32
 			{
 				ZERO = GL_ZERO,
 				ONE = GL_ONE,
@@ -226,7 +226,7 @@ namespace doom
 
 			};
 
-			enum class eDestinationFactor : UINT32
+			enum class D_ENUM eDestinationFactor : UINT32
 			{
 				ZERO = GL_ZERO,
 				ONE = GL_ONE,
@@ -249,7 +249,7 @@ namespace doom
 				glBlendFunc(static_cast<UINT32>(sourceFactor), static_cast<UINT32>(destinationFactor));
 			}
 
-			enum class eFrontFaceMode : UINT32
+			enum class D_ENUM eFrontFaceMode : UINT32
 			{
 				CW = GL_CW,
 				CCW = GL_CCW
@@ -268,7 +268,7 @@ namespace doom
 
 		
 
-			enum class GetIntegerParameter
+			enum class D_ENUM GetIntegerParameter
 			{
 				ACTIVE_TEXTURE = GL_ACTIVE_TEXTURE,
 				ALIASED_LINE_WIDTH_RANGE = GL_ALIASED_LINE_WIDTH_RANGE,
@@ -499,7 +499,7 @@ namespace doom
 
 			};
 
-			enum class GetStringParameter
+			enum class D_ENUM GetStringParameter
 			{
 				VENDOR = GL_VENDOR,
 				RENDERER = GL_VENDOR,
@@ -548,7 +548,7 @@ namespace doom
 				INCREMENT_DRAWCALL_COUNTER;
 			}
 
-// 			enum class eQueryType
+// 			enum class D_ENUM eQueryType
 // 			{
 // 				SAMPLES_PASSED = GL_SAMPLES_PASSED,
 // 				ANY_SAMPLES_PASSED = GL_ANY_SAMPLES_PASSED,

@@ -4,11 +4,13 @@
 #define REFLECTION_ENABLED
 #endif
 
-#ifdef REFLECTION_ENABLED
-
-
-
+#if defined(REFLECTION_ENABLED)
 #include "clReflect_automation/clReflect/inc/clcpp/clcpp.h"
+#endif
+
+#if defined(REFLECTION_ENABLED) && defined(__clcpp_parse__)
+
+
 
 #ifndef D_NAMESPACE
 #define D_NAMESPACE clcpp_attr(reflect_part)
@@ -45,15 +47,15 @@
 #endif
 
 #ifndef D_CLASS
-#define D_CLASS(...)
+#define D_CLASS
 #endif
 
 #ifndef D_STRUCT
-#define D_STRUCT(...)
+#define D_STRUCT
 #endif
 
 #ifndef D_ENUM
-#define D_ENUM(...)
+#define D_ENUM
 #endif
 
 #ifndef D_PROPERTY

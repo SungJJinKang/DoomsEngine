@@ -11,7 +11,7 @@ namespace doom
 {
 	namespace graphics
 	{
-		class Graphics_Setting
+		class DOOM_API Graphics_Setting
 		{
 			static inline GLFWwindow* Window{ nullptr };
 

@@ -38,7 +38,7 @@ namespace doom
 
 	namespace graphics
 	{
-		class Graphics_Server : public IGameFlow, public ISingleton<Graphics_Server>
+		class DOOM_API Graphics_Server : public IGameFlow, public ISingleton<Graphics_Server>
 		{
 			DOBJECT_CLASS_BODY(Graphics_Server, doom::eDOBJECT_ClassFlags::NonCopyable);
 			DOBJECT_CLASS_BASE_CHAIN(IGameFlow)
