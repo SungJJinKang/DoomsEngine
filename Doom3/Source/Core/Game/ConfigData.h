@@ -27,7 +27,7 @@ namespace doom
 			D_END_PROFILING(Loading_Config_File);
 		}
 
-		const IniData& GetConfigData() const
+		IniData& GetConfigData()
 		{
 			return mConfigData;
 		}

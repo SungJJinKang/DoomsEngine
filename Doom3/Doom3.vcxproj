@@ -329,6 +329,7 @@ xcopy /y /d /E /H /C /I "$(ProjectDir)Assets" "$(TargetDir)Assets"</Command>
     <ClCompile Include="Source\Core\Asset\AudioAsset.cpp" />
     <ClCompile Include="Source\Core\Asset\FontAsset.cpp" />
     <ClCompile Include="Source\Core\Asset\Helper\AssetFactory.cpp" />
+    <ClCompile Include="Source\Core\DObject\Reflection\ReflectionManager.cpp" />
     <ClCompile Include="Source\Core\DynamicLinkingHelper\SmartDynamicLinking.cpp" />
     <ClCompile Include="Source\Core\DObject\Reflection\clReflectHelper.cpp" />
     <ClCompile Include="Source\Core\DObject\Reflection\clReflect_automation\clReflect\src\clReflectCpp\clcpp.cpp" />
@@ -516,6 +517,8 @@ xcopy /y /d /E /H /C /I "$(ProjectDir)Assets" "$(TargetDir)Assets"</Command>
     <ClInclude Include="Source\Component\Core\ComponentHelper.h" />
     <ClInclude Include="Source\Core\Asset\AssetsForwardDeclaration.h" />
     <ClInclude Include="Source\Core\Asset\Helper\AssetFactory.h" />
+    <ClInclude Include="Source\Core\DObject\Reflection\ReflectionManager.h" />
+    <ClInclude Include="Source\Core\DObject\Reflection\ReflectionUtility.h" />
     <ClInclude Include="Source\Core\DynamicLinkingHelper\SmartDynamicLinking.h" />
     <ClInclude Include="Source\Core\DObject\DClass.h" />
     <ClInclude Include="Source\Core\DObject\DObjectHeaders.h" />

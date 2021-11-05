@@ -16,6 +16,7 @@
 #include "../ResourceManagement/JobSystem_cpp/JobSystem.h"
 #include "../IO/UserInput_Server.h"
 #include "../Time/Time_Server.h"
+#include "../DObject/Reflection/ReflectionManager.h"
 
 namespace doom
 {
@@ -47,6 +48,7 @@ namespace doom
 		resource::JobSystem mJobSystem{};
 		userinput::UserInput_Server mUserImput_Server{};
 		time::Time_Server mTime_Server{};
+		reflection::ReflectionManager mReflectionManager{};
 
 		std::unique_ptr<Scene> mCurrentScene{};
 		std::unique_ptr<Scene> CreateNewScene(std::string sceneName = "");

@@ -97,7 +97,12 @@ void doom::GameCore::InitServers()
 	mAssetManager.Init();
 	D_END_PROFILING(Init_AssetManager);
 
-	clReflectTest::test();
+	D_START_PROFILING(Init_ReflectionManager, eProfileLayers::CPU);
+	mReflectionManager.Initialize();
+	D_END_PROFILING(Init_ReflectionManager);
+
+	
+
 }
 
 void doom::GameCore::LateInit()
