@@ -1,12 +1,21 @@
 ```
 #include "clcpp/clcpp.h"
 
+namespace D_NAMESPACE assetImporter
+{
+
+}
 
 class TestClass1
 {
 	D_PROPERTY() int a;
-	D_PROPERTY() int b;
-	D_PROPERTY() int c;
+
+	D_PROPERTY() 
+	int b;
+
+	D_PROPERTY() 
+	int c;
+
 	int d;
 	int e;
 

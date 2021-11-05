@@ -62,12 +62,12 @@ namespace doom
 			return *this;
 		}
 
-		[[nodiscard]] DClass* GetDClass() const
+		NO_DISCARD DClass* GetDClass() const
 		{
 			return mDClass;
 		}
 
-		[[nodiscard]] operator DClass*() const
+		NO_DISCARD operator DClass*() const
 		{
 			return GetDClass();
 		}

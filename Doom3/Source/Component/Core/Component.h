@@ -130,13 +130,13 @@ namespace doom
 
 		/* can't do this because of recursive dependent
 		template<typename T, std::enable_if_t<std::is_base_of_v<Component, T>, bool> = true>
-		[[nodiscard]] const T* GetComponent() // never return unique_ptr reference, just return pointer
+		NO_DISCARD const T* GetComponent() // never return unique_ptr reference, just return pointer
 		{
 			return GetOwnerEntity()->GetComponent<T>();
 		}
 
 		template<typename T, std::enable_if_t<std::is_base_of_v<Component, T>, bool> = true>
-		[[nodiscard]] const std::vector<T*> GetComponents()
+		NO_DISCARD const std::vector<T*> GetComponents()
 		{
 			return GetOwnerEntity()->GetComponents<T>();
 		}

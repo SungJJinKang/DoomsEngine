@@ -118,7 +118,7 @@ namespace doom
 			virtual void Update() final;
 			virtual void OnEndOfFrame() final;
 
-			[[nodiscard]] FORCE_INLINE static bool GetKeyToggle(eKEY_CODE keyCode) noexcept
+			NO_DISCARD FORCE_INLINE static bool GetKeyToggle(eKEY_CODE keyCode) noexcept
 			{
 				return UserInput_Server::mKeyToggle[static_cast<INT32>(keyCode) - static_cast<INT32>(FIRST_KEY_CODE)];
 			}
@@ -128,7 +128,7 @@ namespace doom
 			/// </summary>
 			/// <param name="keyCode"></param>
 			/// <returns></returns>
-			[[nodiscard]] FORCE_INLINE static bool GetKey(eKEY_CODE keyCode) noexcept
+			NO_DISCARD FORCE_INLINE static bool GetKey(eKEY_CODE keyCode) noexcept
 			{
 				return UserInput_Server::mKeyState[static_cast<INT32>(keyCode) - static_cast<INT32>(FIRST_KEY_CODE)] == eKeyState::PRESSING;
 			}
@@ -137,26 +137,26 @@ namespace doom
 			/// </summary>
 			/// <param name="keyCode"></param>
 			/// <returns></returns>
-			[[nodiscard]] FORCE_INLINE static bool GetKeyUp(eKEY_CODE keyCode) noexcept
+			NO_DISCARD FORCE_INLINE static bool GetKeyUp(eKEY_CODE keyCode) noexcept
 			{
 				return UserInput_Server::mKeyState[static_cast<INT32>(keyCode) - static_cast<INT32>(FIRST_KEY_CODE)] == eKeyState::UP;
 			}
 
-			[[nodiscard]] FORCE_INLINE static bool GetKeyDown(eKEY_CODE keyCode) noexcept
+			NO_DISCARD FORCE_INLINE static bool GetKeyDown(eKEY_CODE keyCode) noexcept
 			{
 				return UserInput_Server::mKeyState[static_cast<INT32>(keyCode) - static_cast<INT32>(FIRST_KEY_CODE)] == eKeyState::PRESS_DOWN;
 			}
 
 		
-			[[nodiscard]] FORCE_INLINE static math::Vector2 GetCurrentMouseScreenPosition() noexcept
+			NO_DISCARD FORCE_INLINE static math::Vector2 GetCurrentMouseScreenPosition() noexcept
 			{
 				return UserInput_Server::mCurrentCursorScreenPosition;
 			}
-			[[nodiscard]] FORCE_INLINE static math::Vector2 GetCurrentMouseNDCPosition() noexcept
+			NO_DISCARD FORCE_INLINE static math::Vector2 GetCurrentMouseNDCPosition() noexcept
 			{
 				return UserInput_Server::mCurrentCursorNDCPosition;
 			}
-			[[nodiscard]] FORCE_INLINE static math::Vector3 GetCurrentMouseWorldPosition() noexcept
+			NO_DISCARD FORCE_INLINE static math::Vector3 GetCurrentMouseWorldPosition() noexcept
 			{
 				return UserInput_Server::mCurrentCursorWorldPosition;
 			}
@@ -165,7 +165,7 @@ namespace doom
 			/// Screen Position 
 			/// </summary>
 			/// <returns></returns>
-			[[nodiscard]] FORCE_INLINE static FLOAT32 GetCurrentMouseScreenPositionX() noexcept
+			NO_DISCARD FORCE_INLINE static FLOAT32 GetCurrentMouseScreenPositionX() noexcept
 			{
 				return UserInput_Server::mCurrentCursorScreenPosition.x;
 			}
@@ -173,13 +173,13 @@ namespace doom
 			/// Screen Position 
 			/// </summary>
 			/// <returns></returns>
-			[[nodiscard]] FORCE_INLINE static FLOAT32 GetCurrentMouseScreenPositionY() noexcept
+			NO_DISCARD FORCE_INLINE static FLOAT32 GetCurrentMouseScreenPositionY() noexcept
 			{
 				return UserInput_Server::mCurrentCursorScreenPosition.y;
 			}
 
 
-			[[nodiscard]] FORCE_INLINE static math::Vector2 GetDeltaMouseScreenPosition() noexcept
+			NO_DISCARD FORCE_INLINE static math::Vector2 GetDeltaMouseScreenPosition() noexcept
 			{
 				return UserInput_Server::mDeltaCursorScreenPosition;
 			}
@@ -187,7 +187,7 @@ namespace doom
 			/// Delta
 			/// </summary>
 			/// <returns></returns>
-			[[nodiscard]] FORCE_INLINE static FLOAT32 GetDeltaMouseScreenPositionX() noexcept
+			NO_DISCARD FORCE_INLINE static FLOAT32 GetDeltaMouseScreenPositionX() noexcept
 			{
 				return UserInput_Server::mDeltaCursorScreenPosition.x;
 			}
@@ -195,13 +195,13 @@ namespace doom
 			/// Delta
 			/// </summary>
 			/// <returns></returns>
-			[[nodiscard]] FORCE_INLINE static FLOAT32 GetDeltaMouseScreenPositionY() noexcept
+			NO_DISCARD FORCE_INLINE static FLOAT32 GetDeltaMouseScreenPositionY() noexcept
 			{
 				return UserInput_Server::mDeltaCursorScreenPosition.y;
 			}
 
 
-			[[nodiscard]] FORCE_INLINE static math::Vector2 GetMouseScrollOffset() noexcept
+			NO_DISCARD FORCE_INLINE static math::Vector2 GetMouseScrollOffset() noexcept
 			{
 				return UserInput_Server::mScrollOffset;
 			}
@@ -209,7 +209,7 @@ namespace doom
 			/// -1 ~ 1
 			/// </summary>
 			/// <returns></returns>
-			[[nodiscard]] FORCE_INLINE static FLOAT32 GetMouseScrollOffsetX() noexcept
+			NO_DISCARD FORCE_INLINE static FLOAT32 GetMouseScrollOffsetX() noexcept
 			{
 				return UserInput_Server::mScrollOffset.x;
 			}
@@ -217,20 +217,20 @@ namespace doom
 			/// -1 ~ 1
 			/// </summary>
 			/// <returns></returns>
-			[[nodiscard]] FORCE_INLINE static FLOAT32 GetMouseScrollOffsetY() noexcept
+			NO_DISCARD FORCE_INLINE static FLOAT32 GetMouseScrollOffsetY() noexcept
 			{
 				return UserInput_Server::mScrollOffset.y;
 			}
 
-			[[nodiscard]] FORCE_INLINE static bool GetMouseButtonPressing(eMouse_Button_Type mouse_button_type) noexcept
+			NO_DISCARD FORCE_INLINE static bool GetMouseButtonPressing(eMouse_Button_Type mouse_button_type) noexcept
 			{
 				return UserInput_Server::mMouseButtonState[static_cast<INT32>(mouse_button_type)] == eMouse_Button_Action::PRESSING;
 			}
-			[[nodiscard]] FORCE_INLINE static bool GetMouseButtonDown(eMouse_Button_Type mouse_button_type) noexcept
+			NO_DISCARD FORCE_INLINE static bool GetMouseButtonDown(eMouse_Button_Type mouse_button_type) noexcept
 			{
 				return UserInput_Server::mMouseButtonState[static_cast<INT32>(mouse_button_type)] == eMouse_Button_Action::DOWN;
 			}
-			[[nodiscard]] FORCE_INLINE static bool GetMouseButtonRelease(eMouse_Button_Type mouse_button_type) noexcept
+			NO_DISCARD FORCE_INLINE static bool GetMouseButtonRelease(eMouse_Button_Type mouse_button_type) noexcept
 			{
 				return UserInput_Server::mMouseButtonState[static_cast<INT32>(mouse_button_type)] == eMouse_Button_Action::RELEASE;
 			}

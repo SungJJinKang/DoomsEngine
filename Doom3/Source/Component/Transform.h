@@ -33,24 +33,24 @@ namespace doom
 	private:
 
 		D_PROPERTY()
-		alignas(64) TransformCoreData mTransformCoreData;
+		TransformCoreData mTransformCoreData alignas(64);
 
 		/// <summary>
 		/// why don't use FrameDirtyChecker::IsDirty -> FrameDirtyChecker is changed when pass frame
 		/// but this modelMatrix is calculated when this is needed ( not every frame )
 		/// </summary>
 		D_PROPERTY()
-		alignas(64) mutable math::Matrix4x4 mModelMatrixCache;
+		mutable math::Matrix4x4 mModelMatrixCache alignas(64);
 		D_PROPERTY()
-		alignas(64) math::Matrix4x4 mLocalToWorldMatrix{ 1.0f };
+		math::Matrix4x4 mLocalToWorldMatrix alignas(64) { 1.0f };
 		D_PROPERTY()
-		alignas(64) math::Matrix4x4 mWorldToLocalMatrix{ 1.0f };
+		math::Matrix4x4 mWorldToLocalMatrix alignas(64) { 1.0f };
 		D_PROPERTY()
-		alignas(64) math::Matrix4x4 mTranslationMatrix{ 1.0f };
+		math::Matrix4x4 mTranslationMatrix alignas(64) { 1.0f };
 		D_PROPERTY()
-		alignas(64) math::Matrix4x4 mRotationMatrix{ 1.0f };
+		math::Matrix4x4 mRotationMatrix alignas(64) { 1.0f };
 		D_PROPERTY()
-		alignas(64) math::Matrix4x4 mScaleMatrix{ 1.0f };
+		math::Matrix4x4 mScaleMatrix alignas(64) { 1.0f };
 
 		D_PROPERTY()
 		math::Vector3 mScale{ 1.0f };

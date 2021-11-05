@@ -30,7 +30,7 @@ namespace doom
 			std::array<moodycamel::BlockingConcurrentQueue<doom::assetImporter::AssetImporterWorker*>, doom::asset::ENUM_ASSETTYPE_COUNT> mAssetApiImportersQueue;
 			std::array<std::atomic<INT32>, doom::asset::ENUM_ASSETTYPE_COUNT> mAssetApiImportersCount{ 0, 0, 0, 0, 0, 0 };
 			
-			[[nodiscard]] doom::assetImporter::AssetImporterWorker* CreateAssetImporterWorker(const doom::asset::eAssetType eAssetType);
+			NO_DISCARD doom::assetImporter::AssetImporterWorker* CreateAssetImporterWorker(const doom::asset::eAssetType eAssetType);
 
 			void InitializeAssetImporterWorkersStatic();
 			

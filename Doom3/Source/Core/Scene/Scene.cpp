@@ -20,7 +20,7 @@ Scene::~Scene()
 	DestroyAllEntity();
 }
 
-[[nodiscard]] Entity* Scene::CreateNewEntity() noexcept
+NO_DISCARD Entity* Scene::CreateNewEntity() noexcept
 {
 	CHECK_IS_EXECUTED_ON_MAIN_THREAD; // if you wanna createnewentity in subthread, you should 
 
@@ -132,7 +132,7 @@ void doom::Scene::OnEndOfFrameOfEntities()
 }
 
 
-[[nodiscard]] doom::Camera* Scene::GetMainCamera() const
+NO_DISCARD doom::Camera* Scene::GetMainCamera() const
 {
 	return mMainCamera;
 }

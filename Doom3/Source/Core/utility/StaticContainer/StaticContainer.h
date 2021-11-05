@@ -150,12 +150,12 @@ namespace doom
 		/// 
 		/// </summary>
 		/// <returns></returns>
-		[[nodiscard]] static const std::vector<T*>& GetAllStaticComponents()
+		NO_DISCARD static const std::vector<T*>& GetAllStaticComponents()
 		{
 			return StaticContainer<T>::mElements;
 		}
 
-		[[nodiscard]] static T* GetComponentWithIndex(unsigned int index)
+		NO_DISCARD static T* GetComponentWithIndex(unsigned int index)
 		{
 			assert(index >= 0);
 			if (index < StaticContainer<T>::mElements.size())
@@ -173,7 +173,7 @@ namespace doom
 		/// </summary>
 		/// <param name="excludedObject"></param>
 		/// <returns></returns>
-		[[nodiscard]] static T* GetForemostComponentWithHint(T* excludedObject)
+		NO_DISCARD static T* GetForemostComponentWithHint(T* excludedObject)
 		{
 			T* formostComponent = nullptr;
 

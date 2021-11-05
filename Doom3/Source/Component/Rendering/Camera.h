@@ -204,14 +204,14 @@ namespace doom
 			return static_cast<bool>(bmIsViewProjectionMatrixDirty);
 		}
 
-		[[nodiscard]] math::Vector3 NDCToScreenPoint(const math::Vector3& ndcPoint);
-		[[nodiscard]] math::Vector3 ScreenToNDCPoint(const math::Vector3& screenPoint);
+		NO_DISCARD math::Vector3 NDCToScreenPoint(const math::Vector3& ndcPoint);
+		NO_DISCARD math::Vector3 ScreenToNDCPoint(const math::Vector3& screenPoint);
 		
-		[[nodiscard]] math::Vector3 WorldToNDCPoint(const math::Vector3& worldPosition);
-		[[nodiscard]] math::Vector3 NDCToWorldPoint(const math::Vector3& ndcPoint);
+		NO_DISCARD math::Vector3 WorldToNDCPoint(const math::Vector3& worldPosition);
+		NO_DISCARD math::Vector3 NDCToWorldPoint(const math::Vector3& ndcPoint);
 
-		[[nodiscard]] math::Vector3 WorldToScreenPoint(const math::Vector3& worldPosition);
-		[[nodiscard]] math::Vector3 ScreenToWorldPoint(const math::Vector3& screenPosition);
+		NO_DISCARD math::Vector3 WorldToScreenPoint(const math::Vector3& worldPosition);
+		NO_DISCARD math::Vector3 ScreenToWorldPoint(const math::Vector3& screenPosition);
 
 		// we don't use ViewPort
 		// We use NDC. x : -1 ~ 1, y : -1 ~ 1, z : depth value * 2 - 1, relative to bottom-left corner

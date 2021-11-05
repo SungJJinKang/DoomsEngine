@@ -57,7 +57,7 @@ namespace doom
 		/// READ FrameDirtyChecker class Description
 		/// </summary>
 		/// <returns></returns>
-		[[nodiscard]] constexpr bool GetIsDirtyAtPreviousFrame() noexcept
+		NO_DISCARD constexpr bool GetIsDirtyAtPreviousFrame() noexcept
 		{
 			return bmIsDirtyAtPreviousFrame;
 		}

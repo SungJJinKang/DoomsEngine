@@ -56,15 +56,15 @@ namespace doom
 
 		static Scene* GetCurrentWorld();
 
-		[[nodiscard]] Entity* CreateNewEntity() noexcept;
-		[[nodiscard]] Entity* DuplicateEntity(const Entity* const copyedEntity) noexcept;
-		[[nodiscard]] static Entity* CreateNewEntityStatic() noexcept;
-		[[nodiscard]] static Entity* DuplicateEntityStatic(const Entity* const copyedEntity) noexcept;
+		NO_DISCARD Entity* CreateNewEntity() noexcept;
+		NO_DISCARD Entity* DuplicateEntity(const Entity* const copyedEntity) noexcept;
+		NO_DISCARD static Entity* CreateNewEntityStatic() noexcept;
+		NO_DISCARD static Entity* DuplicateEntityStatic(const Entity* const copyedEntity) noexcept;
 
 		bool DestroyEntity(Entity& entity);
 		void DestroyAllEntity();
 
-		[[nodiscard]] Camera* GetMainCamera() const;
+		NO_DISCARD Camera* GetMainCamera() const;
 		void SetMainCamera(Camera* camera);
 
 

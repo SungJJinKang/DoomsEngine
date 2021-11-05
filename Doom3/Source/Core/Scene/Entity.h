@@ -289,7 +289,7 @@ namespace doom
 		/// <typeparam name="T"></typeparam>
 		/// <returns></returns>
 		template<typename T>
-		[[nodiscard]] T* GetComponent() const // never return unique_ptr reference, just return pointer
+		NO_DISCARD T* GetComponent() const // never return unique_ptr reference, just return pointer
 		{
 			static_assert(std::is_base_of_v<Component, T> == true);
 			static_assert(std::is_same_v<T, PlainComponent> == false);
@@ -346,7 +346,7 @@ namespace doom
 		
 
 		template<typename T, std::enable_if_t<std::is_base_of_v<Component, T>, bool> = true>
-		[[nodiscard]] std::vector<T*> GetComponents() const
+		NO_DISCARD std::vector<T*> GetComponents() const
 		{
 			static_assert(std::is_base_of_v<Component, T> == true);
 			static_assert(std::is_same_v<T, PlainComponent> == false);
@@ -442,20 +442,20 @@ namespace doom
 
 
 		D_FUNCTION()
-		[[nodiscard]] std::string_view GetEntityName() const;
+		NO_DISCARD std::string_view GetEntityName() const;
 
 		D_FUNCTION()
 		void SetEntityName(const std::string& entityName);
 
 
 		D_FUNCTION()
-		[[nodiscard]] FORCE_INLINE Transform* GetTransform()
+		NO_DISCARD FORCE_INLINE Transform* GetTransform()
 		{
 			return &mTransform;
 		}
 
 		D_FUNCTION()
-		[[nodiscard]] FORCE_INLINE const Transform* GetTransform() const
+		NO_DISCARD FORCE_INLINE const Transform* GetTransform() const
 		{
 			return &mTransform;
 		}
@@ -465,7 +465,7 @@ namespace doom
 		void SetLayerIndex(UINT32 layerIndex);
 
 		D_FUNCTION()
-		[[nodiscard]] FORCE_INLINE UINT32 GetLayerIndex() const
+		NO_DISCARD FORCE_INLINE UINT32 GetLayerIndex() const
 		{
 			return mLayerIndex;
 		}

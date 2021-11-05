@@ -16,8 +16,7 @@ namespace doom
 	{
 		class Asset;
 	}
-
-	D_NAMESPACE
+	
 	namespace assetImporter
 	{
 
@@ -48,7 +47,7 @@ namespace doom
 		/// </summary>
 		/// <param name="path"></param>
 		/// <returns></returns>
-		[[nodiscard]] extern std::future<bool> PushImportingAssetJobToThreadPool(
+		NO_DISCARD extern std::future<bool> PushImportingAssetJobToThreadPool(
 			std::filesystem::path path, ::doom::asset::Asset* const asset
 		);
 
@@ -61,7 +60,7 @@ namespace doom
 		/// <param name="path"></param>
 		/// <param name="assets"></param>
 		/// <returns></returns>
-		[[nodiscard]] extern std::vector<std::future<bool>> PushImportingAssetJobToThreadPool(
+		NO_DISCARD extern std::vector<std::future<bool>> PushImportingAssetJobToThreadPool(
 			const std::vector<std::filesystem::path>& paths, 
 			const std::vector<::doom::asset::Asset*>& assets
 		);
