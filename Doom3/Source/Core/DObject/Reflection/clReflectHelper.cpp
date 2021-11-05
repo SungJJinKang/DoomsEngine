@@ -36,7 +36,7 @@ namespace doom
 			clReflectAdditionalCompilerOptionsString.append(doom::path::_GetCurrentPath(doom::clReflectHelper::SourceDependenciesFolderDirectory.generic_u8string()));
 			clReflectAdditionalCompilerOptionsString.append("\\");
 
-			if (ConfigData::GetSingleton()->GetConfigData().GetValue<bool>("SYSTEM", "PRINT_GENERATE_REFLECTION_DATA_VERBOSE"))
+			if (ConfigData::GetSingleton()->GetConfigData().GetValue<bool>("SYSTEM", "PRINT_GENERATE_REFLECTION_DATA_VERBOSE") == true)
 			{
 				clReflectAdditionalCompilerOptionsString.append(" -v"); // print clReflect verbose
 			}
