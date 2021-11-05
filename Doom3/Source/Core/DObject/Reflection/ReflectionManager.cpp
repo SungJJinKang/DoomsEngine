@@ -109,10 +109,9 @@ bool doom::reflection::ReflectionManager::LoadReflectionBinaryDataFile()
 void doom::reflection::ReflectionManager::Initialize()
 {
 	if (GetIsReflectionEnabled() == true)
-	{
-		doom::clReflectHelper::AutoConfiguration();
+	{;
 		const bool isSuccess = doom::clReflectHelper::Generate_clReflect_BinaryReflectionData();
-		D_ASSERT(isSuccess == true, "Fail to Generate Reflection Data using clRefect");
+		D_ASSERT_LOG(isSuccess == true, "Fail to Generate Reflection Data using clRefect");
 
 		LoadReflectionBinaryDataFile();
 	}

@@ -9,17 +9,6 @@
 
 #include "Game/ConfigData.h"
 
-void doom::clReflectHelper::AutoConfiguration()
-{
-	//TODO : 나중에 config로 빼자
-	clScanPath = path::_GetCurrentPath(ConfigData::GetSingleton()->GetConfigData().GetValue<std::string>("SYSTEM", "CL_SCAN_RELATIVE_PATH"));
-	clMergePath = path::_GetCurrentPath(ConfigData::GetSingleton()->GetConfigData().GetValue<std::string>("SYSTEM", "CL_MERGE_RELATIVE_PATH"));
-	clExportPath = path::_GetCurrentPath(ConfigData::GetSingleton()->GetConfigData().GetValue<std::string>("SYSTEM", "CL_EXPORT_RELATIVE_PATH"));;
-	ProjectFilePath = ConfigData::GetSingleton()->GetConfigData().GetValue<std::string>("SYSTEM", "PROJECT_VCXPROJ_PATH");
-	SourceDependenciesFolderDirectory = ConfigData::GetSingleton()->GetConfigData().GetValue<std::string>("SYSTEM", "SOURCE_DEPENDENCIES_FOLDER_NAME");
-
-
-}
 
 namespace doom
 {
@@ -33,7 +22,8 @@ namespace doom
 			clReflectAdditionalCompilerOptionsString.append(" -D");
 			clReflectAdditionalCompilerOptionsString.append(clReflectAdditionalCompilerOptions_Configuration);
 			clReflectAdditionalCompilerOptionsString.append(" -SD");
-			clReflectAdditionalCompilerOptionsString.append(doom::path::_GetCurrentPath(doom::clReflectHelper::SourceDependenciesFolderDirectory.generic_u8string()));
+			std::filesystem::path sourceDependencyFolderDirectory = ConfigData::GetSingleton()->GetConfigData().GetValue<std::string>("SYSTEM", "SOURCE_DEPENDENCIES_FOLDER_NAME");
+			clReflectAdditionalCompilerOptionsString.append(doom::path::_GetCurrentPath(sourceDependencyFolderDirectory.generic_u8string()));
 			clReflectAdditionalCompilerOptionsString.append("\\");
 
 			if (ConfigData::GetSingleton()->GetConfigData().GetValue<bool>("SYSTEM", "PRINT_GENERATE_REFLECTION_DATA_VERBOSE") == true)
@@ -51,13 +41,21 @@ namespace doom
 		std::wstring GetclReflectAutomationArguments()
 		{
 			std::string clReflectArgs{};
-			clReflectArgs.append(doom::clReflectHelper::clScanPath.generic_string());
+
+			const std::filesystem::path clScanPath = path::_GetCurrentPath(ConfigData::GetSingleton()->GetConfigData().GetValue<std::string>("SYSTEM", "CL_SCAN_RELATIVE_PATH"));
+			clReflectArgs.append(clScanPath.generic_string());
 			clReflectArgs.append(" ");
-			clReflectArgs.append(doom::clReflectHelper::clMergePath.generic_string());
+
+			const std::filesystem::path clMergePath = path::_GetCurrentPath(ConfigData::GetSingleton()->GetConfigData().GetValue<std::string>("SYSTEM", "CL_MERGE_RELATIVE_PATH"));
+			clReflectArgs.append(clMergePath.generic_string());
 			clReflectArgs.append(" ");
-			clReflectArgs.append(doom::clReflectHelper::clExportPath.generic_string());
+
+			const std::filesystem::path clExportPath = path::_GetCurrentPath(ConfigData::GetSingleton()->GetConfigData().GetValue<std::string>("SYSTEM", "CL_EXPORT_RELATIVE_PATH"));
+			clReflectArgs.append(clExportPath.generic_string());
 			clReflectArgs.append(" ");
-			clReflectArgs.append(doom::clReflectHelper::ProjectFilePath.generic_string());
+
+			const std::filesystem::path projectFilePath = ConfigData::GetSingleton()->GetConfigData().GetValue<std::string>("SYSTEM", "PROJECT_VCXPROJ_PATH");
+			clReflectArgs.append(projectFilePath.generic_string());
 			clReflectArgs.append(" ");
 
 #if defined(DEBUG_MODE)

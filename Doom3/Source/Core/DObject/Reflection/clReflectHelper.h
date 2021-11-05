@@ -40,14 +40,6 @@ namespace doom
 
 		inline extern const std::string clReflect_automation_dll_filename = "clReflect_automation.dll";
 		inline extern const std::string clReflect_automation_dll_function_name = "c_Generate_clReflect_data";
-
-		inline extern std::filesystem::path clScanPath{};
-		inline extern std::filesystem::path clMergePath{};
-		inline extern std::filesystem::path clExportPath{};
-		inline extern std::filesystem::path ProjectFilePath{};
-		inline extern std::filesystem::path SourceDependenciesFolderDirectory{};
-
-		extern void AutoConfiguration();
 		
 		extern bool Generate_clReflect_BinaryReflectionData();
 
