@@ -1,6 +1,7 @@
 #pragma once
 
 #include <unordered_map>
+#include <mutex>
 
 #include <Macros/TypeDef.h>
 #include <Macros/DllMarcos.h>
@@ -17,12 +18,13 @@ namespace doom
 
 	private:
 
-		inline static UINT64 mDObjectCounter = 0;
+		inline static std::atomic<UINT64> mDObjectCounter = 0;
 
 		inline static std::unordered_map<DObject*, UINT64> mDObjectsList{};
 
 		static UINT64 GenerateNewDObejctID();
 
+		inline static std::recursive_mutex DObjectListMutex{};
 		static std::unordered_map<DObject*, UINT64>::iterator InsertDObjectIDIfExist(DObject* const dObject, const UINT64 dObjectID);
 		static std::unordered_map<DObject*, UINT64>::iterator InsertDObjectID(DObject* const dObject, const UINT64 dObjectID);
 
