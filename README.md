@@ -30,8 +30,9 @@ if you wanna good and clean code for learning something, Find other project.
 ## Key features
 
   * C++17
-  * C# ( used for making engine tools )      
+  * C# ( used in making engine tools )      
   * Target Compiler : MSVC ( clang is used for generating reflection data )
+  * Window Platform
 
 ## Implemented features
 

@@ -3,7 +3,7 @@
 #include <Windows.h>
 #include <UI/PrintText.h>
 
-#include "OS/StackTrace.h"
+#include "OS/ErrorHandling.h"
 
 std::mutex  doom::DynamicLinkingLibrary::LoadUnLoadDLLMutexs{};
 
@@ -113,6 +113,6 @@ doom::SmartDynamicLinking& doom::SmartDynamicLinking::operator=(SmartDynamicLink
 int doom::filter(unsigned code, _EXCEPTION_POINTERS* ptr)
 {
 	doom::ui::PrintText("Exception from Called DLL's Function");
-	doom::debugging::ExceptionHandler(ptr);
+	doom::errorHandling::ExceptionHandler(ptr);
 	return EXCEPTION_EXECUTE_HANDLER;
 }

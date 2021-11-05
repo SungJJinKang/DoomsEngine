@@ -567,6 +567,9 @@
     <ClCompile Include="Source\Core\String\StringHelper.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Core\OS\ErrorHandling.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="dependency\glad\include\glad\glad.h">
@@ -1538,7 +1541,10 @@
     <ClInclude Include="Source\Core\String\StringHelper.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Core\OS\StackTrace.h">
+    <ClInclude Include="Source\Core\OS\ErrorHandling.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Core\GameEngineEntryPoint.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
