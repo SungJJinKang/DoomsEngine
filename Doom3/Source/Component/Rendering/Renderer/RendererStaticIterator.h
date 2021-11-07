@@ -28,14 +28,8 @@ namespace dooms
 
 	private:
 
-		inline static UINT32 mWorkingRendererListIndex = 0;
-		inline static std::array<std::array<std::array<std::vector<Renderer*>, MAX_LAYER_COUNT>, 2>, MAX_CAMERA_COUNT> mRenderersInLayer{};
-		
-	protected:
-
-		
-
-	
+		UINT32 mWorkingRendererListIndex = 0;
+		std::array<std::array<std::array<std::vector<Renderer*>, MAX_LAYER_COUNT>, 2>, MAX_CAMERA_COUNT> mRenderersInLayer{};
 
 	public:
 
@@ -56,7 +50,7 @@ namespace dooms
 		NO_DISCARD std::vector<Renderer*>& GetWorkingRendererInLayer(const size_t cameraIndex, const size_t layerIndex);
 		NO_DISCARD std::vector<Renderer*>& GetSortingRendererInLayer(const size_t cameraIndex, const size_t layerIndex);
 
-		static void ChangeWorkingIndexRenderers();
+		void ChangeWorkingIndexRenderers();
 	};
 
 	using RendererComponentStaticIterator = StaticContainer<Renderer>;

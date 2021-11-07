@@ -53,7 +53,7 @@ namespace dooms
 
 		private:
 
-			StaticContainer<Renderer> mRendererStaticContainer{};
+			RendererComponentStaticIterator mRendererStaticContainer{};
 			DeferredRenderingDrawer mDeferredRenderingDrawer{};
 			
 			//CullDistance mCullDistance{};

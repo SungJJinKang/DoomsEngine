@@ -245,7 +245,7 @@ void dooms::graphics::Graphics_Server::Render()
 		
 	}
 
-	RendererComponentStaticIterator::ChangeWorkingIndexRenderers();
+	RendererComponentStaticIterator::GetSingleton()->ChangeWorkingIndexRenderers();
 
 #ifdef DEBUG_DRAWER
 	mDebugGraphics.SetIsVertexDataSendToGPUAtCurrentFrame(false);
