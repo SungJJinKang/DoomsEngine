@@ -140,7 +140,7 @@ Graphics_Server::Graphics_Server()
 
 Graphics_Server::~Graphics_Server()
 {
-
+	GraphicsAPIManager::DeInitialize();
 }
 
 

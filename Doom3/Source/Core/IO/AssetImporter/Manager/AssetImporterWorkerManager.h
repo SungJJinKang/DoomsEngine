@@ -33,6 +33,7 @@ namespace dooms
 			NO_DISCARD dooms::assetImporter::AssetImporterWorker* CreateAssetImporterWorker(const dooms::asset::eAssetType eAssetType);
 
 			void InitializeAssetImporterWorkersStatic();
+			void UnInitializeAssetImporterWorkersStatic();
 			
 		public:
 		

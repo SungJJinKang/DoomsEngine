@@ -107,6 +107,15 @@ void dooms::graphics::GraphicsAPIManager::Initialize()
 	D_ASSERT(maxTextureUnitCount != 0);
 }
 
+void dooms::graphics::GraphicsAPIManager::DeInitialize()
+{
+	if(Graphics_Setting::GetWindow() != nullptr)
+	{
+		glfwDestroyWindow(Graphics_Setting::GetWindow());
+	}
+	glfwTerminate();
+}
+
 void dooms::graphics::GraphicsAPIManager::DEBUG_CALLBACK(GLenum source, GLenum type, GLuint id, GLenum severity, GLsizei length, const GLchar* msg, const void* data)
 {
 	//https://www.khronos.org/registry/OpenGL/extensions/KHR/KHR_debug.txt

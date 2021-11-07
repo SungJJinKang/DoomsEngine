@@ -16,6 +16,8 @@
 #include "Graphics/Graphics_Setting.h"
 #include <PerformanceTestController.h>
 
+#include "Asset/ThreeDModelAsset.h"
+
 void dooms::GameLogicStartPoint::StartGameLogic()
 {
 	ISingleton<graphics::LightManager>::GetSingleton()->SetAmbientLightIntensity(0.1f);
@@ -60,7 +62,7 @@ void dooms::GameLogicStartPoint::StartGameLogic()
 
 	INT32 entityCount = 0;
 
-	INT32 count = 400;
+	INT32 count = 50;
 	for (INT32 i = -count; i < count; i = i + 15)
 	{
 		for (INT32 j = -count; j < count; j = j + 15)

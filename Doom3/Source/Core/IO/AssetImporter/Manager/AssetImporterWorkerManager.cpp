@@ -20,6 +20,12 @@ void assetImporter::AssetImporterWorkerManager::InitializeAssetImporterWorkersSt
 	dooms::assetImporter::AssetImporterWorker_THREE_D_MODEL::InitializeAssetImporterWorkerStatic();
 }
 
+void assetImporter::AssetImporterWorkerManager::UnInitializeAssetImporterWorkersStatic()
+{
+	dooms::assetImporter::AssetImporterWorker_THREE_D_MODEL::UnInitializeAssetImporterWorkerStatic();
+
+}
+
 dooms::assetImporter::AssetImporterWorkerManager::AssetImporterWorkerManager()
 {
 	InitializeAssetImporterWorkersStatic();
@@ -28,6 +34,7 @@ dooms::assetImporter::AssetImporterWorkerManager::AssetImporterWorkerManager()
 dooms::assetImporter::AssetImporterWorkerManager::~AssetImporterWorkerManager()
 {
 	ClearAssetImporterWorker();
+	UnInitializeAssetImporterWorkersStatic();
 }
 
 dooms::assetImporter::AssetImporterWorker* dooms::assetImporter::AssetImporterWorkerManager::CreateAssetImporterWorker

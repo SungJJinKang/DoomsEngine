@@ -4,6 +4,8 @@
 #include "AssetImporterWorker_Three_D_Model.h"
 
 #include <cstring>
+#include <memory>
+
 #include <Asset/ThreeDModelAsset.h>
 
 #include "AssetImporterWorker_Texture.h"
@@ -34,8 +36,9 @@ namespace dooms
 	{
 		class AssimpLogStream : public Assimp::LogStream {
 		public:
+			AssimpLogStream() = default;
 			// Write womethink using your own functionality
-			inline void write(const char* message)
+			inline virtual void write(const char* message) override
 			{
 				D_DEBUG_LOG({ "Assimp Debugger : ", message });
 			}
@@ -168,6 +171,8 @@ void dooms::assetImporter::AssetImporterWorker_THREE_D_MODEL::SetThreeDModelNode
 }
 
 
+
+
 void dooms::assetImporter::AssetImporterWorker_THREE_D_MODEL::Creat3DModelAsset
 (
 	const aiScene* pScene, 
@@ -296,18 +301,33 @@ dooms::asset::eAssetType AssetImporterWorker_THREE_D_MODEL::GetEAssetType() cons
 	return dooms::asset::eAssetType::THREE_D_MODEL;
 }
 
+#ifdef DEBUG_MODE
+static std::unique_ptr<dooms::assetImporter::AssimpLogStream> AttachedAssimpLogStream = nullptr;
+static const UINT32 AssimpLoggerStreamSeverity = Assimp::Logger::Err;// | Assimp::Logger::Warn;
+void AssetImporterWorker_THREE_D_MODEL::ClearAssimpLooger()
+{
+	if (AttachedAssimpLogStream)
+	{
+		Assimp::DefaultLogger::get()->detatchStream(AttachedAssimpLogStream.get(), AssimpLoggerStreamSeverity);
+		AttachedAssimpLogStream.reset();
+	}
+	Assimp::DefaultLogger::kill();
+}
+#endif
+
 void AssetImporterWorker_THREE_D_MODEL::InitializeAssetImporterWorkerStatic()
 {
 	bool expected = false;
 	if (AssetImporterWorker::IsInitializedStatic.compare_exchange_strong(expected, true, std::memory_order_seq_cst, std::memory_order_relaxed) )
 	{
 #ifdef DEBUG_MODE
+		ClearAssimpLooger();
+
 		Assimp::DefaultLogger::create("", Assimp::Logger::NORMAL);
 		// Select the kinds of messages you want to receive on this log stream
-		const UINT32 severity = Assimp::Logger::Err;// | Assimp::Logger::Warn;
-
 		// Attaching it to the default logger
-		Assimp::DefaultLogger::get()->attachStream(new dooms::assetImporter::AssimpLogStream, severity);
+		AttachedAssimpLogStream = std::make_unique<dooms::assetImporter::AssimpLogStream>();
+		Assimp::DefaultLogger::get()->attachStream(AttachedAssimpLogStream.get(), AssimpLoggerStreamSeverity);
 #endif
 
 		Assimp::Exporter exporter{};
@@ -325,4 +345,11 @@ void AssetImporterWorker_THREE_D_MODEL::InitializeAssetImporterWorkerStatic()
 		AssetImporterWorker::IsInitializedStatic = true;
 	}
 
+}
+
+void AssetImporterWorker_THREE_D_MODEL::UnInitializeAssetImporterWorkerStatic()
+{
+#ifdef DEBUG_MODE
+	ClearAssimpLooger();
+#endif
 }
