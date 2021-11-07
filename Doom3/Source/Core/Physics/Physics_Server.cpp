@@ -22,6 +22,12 @@ void dooms::physics::Physics_Server::LoadPhysicsSetting()
 
 }
 
+dooms::physics::Physics_Server::~Physics_Server()
+{
+	dooms::StaticContainer<Rigidbody>::ClearContainer();
+	dooms::StaticContainer<ColliderComponent>::ClearContainer();
+}
+
 void dooms::physics::Physics_Server::Init()
 {
 	

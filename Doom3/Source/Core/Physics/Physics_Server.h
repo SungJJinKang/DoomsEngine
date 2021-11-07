@@ -31,6 +31,8 @@ namespace dooms
 			
 			BVHAABB3D mPhysicsColliderBVH{ PHYSICS_COLLIDER_BVH_MAX_NODE_COUNT };
 
+			~Physics_Server();
+
 			virtual void Init() final;
 			virtual void Update() final;
 			virtual void FixedUpdate() final;

@@ -188,6 +188,11 @@ namespace dooms
 			
 			return formostComponent;
 		}
+
+		static void ClearContainer()
+		{
+			StaticContainer<T>::mElements.~vector();
+		}
 	
 	};
 
