@@ -5,7 +5,7 @@
 
 
 
-namespace doom
+namespace dooms
 {
 	namespace graphics
 	{
@@ -24,7 +24,7 @@ private:
 
 public:
 
-	std::array<doom::graphics::PicktureInPickture*, 4> mDeferredRenderingDebuggerPIPs{ nullptr, nullptr, nullptr, nullptr };
+	std::array<dooms::graphics::PicktureInPickture*, 4> mDeferredRenderingDebuggerPIPs{ nullptr, nullptr, nullptr, nullptr };
 
 	void InitComponent() override;
 

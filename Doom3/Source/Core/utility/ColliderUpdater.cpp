@@ -1,7 +1,7 @@
 #include "ColliderUpdater.h"
 
 template <typename ColliderType>
-void doom::ColliderUpdater<ColliderType>::UpdateWorldColliderCache(bool clearDirty)
+void dooms::ColliderUpdater<ColliderType>::UpdateWorldColliderCache(bool clearDirty)
 {
 	if (IsWorldColliderCacheDirty.GetIsDirty(clearDirty))
 	{
@@ -13,7 +13,7 @@ void doom::ColliderUpdater<ColliderType>::UpdateWorldColliderCache(bool clearDir
 
 
 template <typename ColliderType>
-void doom::ColliderUpdater<ColliderType>::UpdateLocalColliderCache(const ColliderType& aabb3d)
+void dooms::ColliderUpdater<ColliderType>::UpdateLocalColliderCache(const ColliderType& aabb3d)
 {
 	mLocalColliderCache = aabb3d;
 	IsWorldColliderCacheDirty = true;
@@ -21,24 +21,24 @@ void doom::ColliderUpdater<ColliderType>::UpdateLocalColliderCache(const Collide
 
 
 template <typename ColliderType>
-doom::ColliderUpdater<ColliderType>::~ColliderUpdater()
+dooms::ColliderUpdater<ColliderType>::~ColliderUpdater()
 {
 }
 
 template <typename ColliderType>
-ColliderType doom::ColliderUpdater<ColliderType>::GetLocalColliderCache()
+ColliderType dooms::ColliderUpdater<ColliderType>::GetLocalColliderCache()
 {
 	return mLocalColliderCache;
 }
 
 template <typename ColliderType>
-const ColliderType* doom::ColliderUpdater<ColliderType>::GetLocalColliderCache() const
+const ColliderType* dooms::ColliderUpdater<ColliderType>::GetLocalColliderCache() const
 {
 	return &(mLocalColliderCache);
 }
 
 template <typename ColliderType>
-const ColliderType* doom::ColliderUpdater<ColliderType>::GetWorldCollider()
+const ColliderType* dooms::ColliderUpdater<ColliderType>::GetWorldCollider()
 {
 	D_ASSERT(IsWorldColliderCacheDirty.HasDirtySender() == true); // must register IsWorldBVhColliderCacheDirty to Object's Transform DirtySencer
 
@@ -47,13 +47,13 @@ const ColliderType* doom::ColliderUpdater<ColliderType>::GetWorldCollider()
 }
 
 template<typename ColliderType>
-void doom::ColliderUpdater<ColliderType>::DrawWorldColliderCache(eColor color, bool drawInstantly)
+void dooms::ColliderUpdater<ColliderType>::DrawWorldColliderCache(eColor color, bool drawInstantly)
 {
 	UpdateWorldColliderCache(true);
 	mWorldColliderCache.DrawCollider(color, drawInstantly);
 }
 
 
-template class doom::ColliderUpdater<doom::physics::AABB2D>;
-template class doom::ColliderUpdater<doom::physics::AABB3D>;
-template class doom::ColliderUpdater<doom::physics::Sphere>;
+template class dooms::ColliderUpdater<dooms::physics::AABB2D>;
+template class dooms::ColliderUpdater<dooms::physics::AABB3D>;
+template class dooms::ColliderUpdater<dooms::physics::Sphere>;

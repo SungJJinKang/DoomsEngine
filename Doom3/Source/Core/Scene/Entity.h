@@ -21,7 +21,7 @@
 #include "../../Helper/vector_erase_move_lastelement/vector_swap_popback.h"
 #include "../Game/FrameDirtyChecker.h"
 
-namespace doom
+namespace dooms
 {
 	class Scene;
 
@@ -33,15 +33,15 @@ namespace doom
 
 	class Entity;
 	template <>
-	inline doom::Entity* CreateDObject<doom::Entity>()
+	inline dooms::Entity* CreateDObject<dooms::Entity>()
 	{
-		return doom::Scene::GetSingleton()->CreateNewEntity();
+		return dooms::Scene::GetSingleton()->CreateNewEntity();
 	}
 
 	class DOOM_API Entity : public DObject, public FrameDirtyChecker
 	{
 
-		DOBJECT_CLASS_BODY(Entity, doom::eDOBJECT_ClassFlags::NonCopyable);
+		DOBJECT_CLASS_BODY(Entity, dooms::eDOBJECT_ClassFlags::NonCopyable);
 		DOBJECT_CLASS_BASE_CHAIN(DObject)
 
 		friend class Scene;
@@ -113,7 +113,7 @@ namespace doom
 			D_ASSERT(IsValid(newComponent) == true);
 			D_ASSERT(newComponent->bIsAddedToEntity == false);
 
-			if constexpr (doom::IsServerComponentStatic<T>() == true)
+			if constexpr (dooms::IsServerComponentStatic<T>() == true)
 			{
 				mServerComponents.emplace_back(newComponent);
 			}
@@ -139,7 +139,7 @@ namespace doom
 		T* _AddComponent(Args&&... args) noexcept
 		{
 			static_assert(std::is_abstract_v<T> == false, "You can call GetComponent only with not abstrct class");
-			static_assert(std::is_same_v<T, doom::Transform> == false);
+			static_assert(std::is_same_v<T, dooms::Transform> == false);
 			static_assert(std::is_base_of_v<Component, T> == true);
 
 			T* newComponent = CreateDObject<T>(std::forward<Args>(args)...);
@@ -157,7 +157,7 @@ namespace doom
 
 		bool _DestroyComponentCallBack(Component* const component)
 		{
-			if (doom::IsValid(component) == true)
+			if (dooms::IsValid(component) == true)
 			{
 				component->OnDestroy_Internal();
 				component->OnDestroy();

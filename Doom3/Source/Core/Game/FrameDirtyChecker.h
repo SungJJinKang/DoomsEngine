@@ -1,7 +1,7 @@
 #pragma once
 #include <EasyDirtyChecker/DirtySender.h>
 
-namespace doom
+namespace dooms
 {
 	/// <summary>
 	/// Check Data is dirty at this frame

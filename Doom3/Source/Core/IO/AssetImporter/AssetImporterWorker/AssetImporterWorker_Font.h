@@ -2,9 +2,9 @@
 
 #include "AssetImporterWorker.h"
 
-using namespace doom;
+using namespace dooms;
 
-namespace doom
+namespace dooms
 {
 	namespace assetImporter
 	{
@@ -15,8 +15,8 @@ namespace doom
 
 		public:
 
-			virtual bool ImportSpecificAsset(const std::filesystem::path& path, doom::asset::Asset* asset) override;
-			virtual doom::asset::eAssetType GetEAssetType() const final;
+			virtual bool ImportSpecificAsset(const std::filesystem::path& path, dooms::asset::Asset* asset) override;
+			virtual dooms::asset::eAssetType GetEAssetType() const final;
 
 			static void InitializeAssetImporterWorkerStatic() {}
 		};

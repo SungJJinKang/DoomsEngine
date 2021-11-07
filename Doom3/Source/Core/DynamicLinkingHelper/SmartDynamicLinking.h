@@ -11,7 +11,7 @@
 
 #include <UI/PrintText.h>
 
-namespace doom
+namespace dooms
 {
 	struct DynamicLinkingLibrary
 	{
@@ -72,15 +72,15 @@ namespace doom
 			}
 			catch (const std::exception& ex) {
 				D_ASSERT_LOG(false, "exception from csharp function ( %s )", ex.what());
-				doom::ui::PrintText("exception from csharp function ( %s )", ex.what());
+				dooms::ui::PrintText("exception from csharp function ( %s )", ex.what());
 			}
 			catch (const std::string& ex) {
 				D_ASSERT_LOG(false, "exception from csharp function ( %s )", ex.c_str());
-				doom::ui::PrintText("exception from csharp function ( %s )", ex.c_str());
+				dooms::ui::PrintText("exception from csharp function ( %s )", ex.c_str());
 			}
 			catch (...) {
 				D_ASSERT_LOG(false, "exception from csharp function");
-				doom::ui::PrintText("exception from csharp function");
+				dooms::ui::PrintText("exception from csharp function");
 			}
 
 		}

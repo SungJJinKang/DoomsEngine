@@ -1,7 +1,7 @@
 #pragma once
 #include <Doom_Core.h>
 
-namespace doom
+namespace dooms
 {
 	namespace asset
 	{

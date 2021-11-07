@@ -4,7 +4,7 @@
 #include "../../Core/Game/FrameDirtyChecker.h"
 
 class DirtyReceiver;
-namespace doom
+namespace dooms
 {
 	class Entity;
 	class Transform;

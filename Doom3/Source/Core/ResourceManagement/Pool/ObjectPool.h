@@ -8,7 +8,7 @@
 
 #include "Core.h"
 
-namespace doom
+namespace dooms
 {
 	namespace resource
 	{

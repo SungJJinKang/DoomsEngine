@@ -1,6 +1,6 @@
 #pragma once
 #include <memory>
-namespace doom
+namespace dooms
 {
 	namespace graphics
 	{

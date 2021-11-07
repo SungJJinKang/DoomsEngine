@@ -2,12 +2,12 @@
 #include <Core.h>
 #include "SimpleIniParser.h"
 
-namespace doom
+namespace dooms
 {
 	class GameCore;
 	class ConfigData : public DObject, public ISingleton<ConfigData>
 	{
-		DOBJECT_CLASS_BODY(ConfigData, doom::eDOBJECT_ClassFlags::NonCopyable);
+		DOBJECT_CLASS_BODY(ConfigData, dooms::eDOBJECT_ClassFlags::NonCopyable);
 
 		//TODO : Remove friend class
 		friend class GameCore;
@@ -23,7 +23,7 @@ namespace doom
 		ConfigData()
 		{
 			D_START_PROFILING(Loading_Config_File, eProfileLayers::CPU);
-			mConfigData = { SimpleIniParser::ParseIniFile(doom::path::_GetAssetFolderDirectory() + "config.ini") };
+			mConfigData = { SimpleIniParser::ParseIniFile(dooms::path::_GetAssetFolderDirectory() + "config.ini") };
 			D_END_PROFILING(Loading_Config_File);
 		}
 

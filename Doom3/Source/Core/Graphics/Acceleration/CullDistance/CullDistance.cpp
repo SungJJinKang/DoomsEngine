@@ -8,7 +8,7 @@
 #include "Game/ConfigData.h"
 
 
-void doom::graphics::CullDistance::AddCullDistance(INT32 volumeSphereRadius, INT32 cullDistance)
+void dooms::graphics::CullDistance::AddCullDistance(INT32 volumeSphereRadius, INT32 cullDistance)
 {
 	D_ASSERT(volumeSphereRadius >= 0 && cullDistance >= 0);
 
@@ -39,7 +39,7 @@ void doom::graphics::CullDistance::AddCullDistance(INT32 volumeSphereRadius, INT
 	mCullDistanceSetting.insert(mCullDistanceSetting.begin() + index, cullDistanceData);
 }
 
-void doom::graphics::CullDistance::RemoveCullDistance(INT32 volumeSphereRadius, INT32 cullDistance)
+void dooms::graphics::CullDistance::RemoveCullDistance(INT32 volumeSphereRadius, INT32 cullDistance)
 {
 	D_ASSERT(volumeSphereRadius >= 0 && cullDistance >= 0);
 
@@ -56,7 +56,7 @@ void doom::graphics::CullDistance::RemoveCullDistance(INT32 volumeSphereRadius, 
 	mCullDistanceSetting.erase(mCullDistanceSetting.begin() + index);
 }
 
-FLOAT32 doom::graphics::CullDistance::PickCullDistanceSqr(FLOAT32 sphereRadius)
+FLOAT32 dooms::graphics::CullDistance::PickCullDistanceSqr(FLOAT32 sphereRadius)
 {
 	INT32 radius = static_cast<INT32>(sphereRadius);
 	D_ASSERT(radius >= 0);
@@ -75,7 +75,7 @@ FLOAT32 doom::graphics::CullDistance::PickCullDistanceSqr(FLOAT32 sphereRadius)
 	return cullDistanceSqr;
 }
 
-void doom::graphics::CullDistance::Initialize()
+void dooms::graphics::CullDistance::Initialize()
 {
 	std::string radiusKeyStr{ "CULL_DISTANCE0_VOLUME_RADIUS" };
 	std::string distanceKeyStr{ "CULL_DISTANCE0_VOLUME_DISTANCE" };
@@ -117,12 +117,12 @@ void doom::graphics::CullDistance::Initialize()
 	}
 }
 
-void doom::graphics::CullDistance::OnStartDraw()
+void dooms::graphics::CullDistance::OnStartDraw()
 {
 	mCameraPosition = Camera::GetMainCamera()->GetTransform()->GetPosition();
 }
 
-bool doom::graphics::CullDistance::GetIsVisible(Renderer* renderer)
+bool dooms::graphics::CullDistance::GetIsVisible(Renderer* renderer)
 {
 	FLOAT32 distanceSqr = (renderer->GetTransform()->GetPosition() - mCameraPosition).sqrMagnitude();
 
@@ -131,17 +131,17 @@ bool doom::graphics::CullDistance::GetIsVisible(Renderer* renderer)
 	return distanceSqr < cullDistance;
 }
 
-void doom::graphics::CullDistance::PreComputeCulling()
+void dooms::graphics::CullDistance::PreComputeCulling()
 {
 }
 
-void doom::graphics::CullDistance::RemoveCullDistance(INT32 index)
+void dooms::graphics::CullDistance::RemoveCullDistance(INT32 index)
 {
 	D_ASSERT(mCullDistanceSetting.size() > index);
 	mCullDistanceSetting.erase(mCullDistanceSetting.begin() + index);
 }
 
-// void doom::graphics::CullDistance::SetIsDrawed(bool isDrawed)
+// void dooms::graphics::CullDistance::SetIsDrawed(bool isDrawed)
 // {
 // 
 // }

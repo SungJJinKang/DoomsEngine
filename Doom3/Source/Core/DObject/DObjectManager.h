@@ -9,7 +9,7 @@
 
 #include "DObject_Constant.h"
 
-namespace doom
+namespace dooms
 {
 	class DObject;
 	class DOOM_API DObjectManager

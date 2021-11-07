@@ -15,7 +15,7 @@
 
 
 
-namespace doom
+namespace dooms
 {
 	class GameCore;
 
@@ -30,8 +30,8 @@ namespace doom
 			UP
 		};
 		
-		inline constexpr extern eKEY_CODE FIRST_KEY_CODE = doom::userinput::eKEY_CODE::KEY_SPACE;;
-		inline constexpr extern eKEY_CODE LAST_KEY_CODE = doom::userinput::eKEY_CODE::KEY_MENU;;
+		inline constexpr extern eKEY_CODE FIRST_KEY_CODE = dooms::userinput::eKEY_CODE::KEY_SPACE;;
+		inline constexpr extern eKEY_CODE LAST_KEY_CODE = dooms::userinput::eKEY_CODE::KEY_MENU;;
 
 
 		enum class eMouse_Button_Type : INT32
@@ -59,7 +59,7 @@ namespace doom
 		/// </summary>
 		class DOOM_API UserInput_Server : public IGameFlow, public ISingleton<UserInput_Server>
 		{
-			DOBJECT_CLASS_BODY(UserInput_Server, doom::eDOBJECT_ClassFlags::NonCopyable);
+			DOBJECT_CLASS_BODY(UserInput_Server, dooms::eDOBJECT_ClassFlags::NonCopyable);
 			DOBJECT_CLASS_BASE_CHAIN(IGameFlow)
 
 		private:
@@ -250,8 +250,8 @@ namespace doom
 	}
 }
 
-using namespace doom::userinput;
-using doom::userinput::eKEY_CODE;
-using doom::userinput::eMouse_Button_Type;
-using doom::userinput::eMouse_Button_Action;
+using namespace dooms::userinput;
+using dooms::userinput::eKEY_CODE;
+using dooms::userinput::eMouse_Button_Type;
+using dooms::userinput::eMouse_Button_Action;
 

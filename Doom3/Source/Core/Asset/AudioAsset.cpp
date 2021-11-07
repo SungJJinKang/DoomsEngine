@@ -1,6 +1,6 @@
 #include "AudioAsset.h"
 
-doom::asset::eAssetType doom::asset::AudioAsset::GetEAssetType() const
+dooms::asset::eAssetType dooms::asset::AudioAsset::GetEAssetType() const
 {
-	return doom::asset::eAssetType::AUDIO;
+	return dooms::asset::eAssetType::AUDIO;
 }

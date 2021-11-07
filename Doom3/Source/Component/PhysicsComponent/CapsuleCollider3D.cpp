@@ -3,14 +3,14 @@
 
 #include <Utility.h>
 
-void doom::CapsuleCollider3D::UpdateLocalCollider()
+void dooms::CapsuleCollider3D::UpdateLocalCollider()
 {
 	mLocalCapsuleCollider.mCenter = mOffset;
 	mLocalCapsuleCollider.mRadius = mRadius;
 	mLocalCapsuleCollider.mHeight = mHeight;
 }
 
-void doom::CapsuleCollider3D::UpdateWorldCollider()
+void dooms::CapsuleCollider3D::UpdateWorldCollider()
 {
 	auto transform = GetTransform();
 	auto translate = transform->GetPosition();
@@ -23,36 +23,36 @@ void doom::CapsuleCollider3D::UpdateWorldCollider()
 
 
 
-void doom::CapsuleCollider3D::AutoColliderSettingFromAABB3D(const physics::AABB3D& aabb3dFromMesh)
+void dooms::CapsuleCollider3D::AutoColliderSettingFromAABB3D(const physics::AABB3D& aabb3dFromMesh)
 {
 	mHeight = (aabb3dFromMesh.mUpperBound.y - aabb3dFromMesh.mLowerBound.y);
 	mRadius = aabb3dFromMesh.GetDiagonarLineLength();
 }
 
 
-void doom::CapsuleCollider3D::SetHeight(FLOAT32 height)
+void dooms::CapsuleCollider3D::SetHeight(FLOAT32 height)
 {
 	mHeight = height;
 	bmIsLocalColliderDirty = true;
 }
 
-FLOAT32 doom::CapsuleCollider3D::GetHeight()
+FLOAT32 dooms::CapsuleCollider3D::GetHeight()
 {
 	return mHeight;
 }
 
-void doom::CapsuleCollider3D::SetRadius(FLOAT32 radius)
+void dooms::CapsuleCollider3D::SetRadius(FLOAT32 radius)
 {
 	mRadius = radius;
 	bmIsLocalColliderDirty = true;
 }
 
-FLOAT32 doom::CapsuleCollider3D::GetRadius()
+FLOAT32 dooms::CapsuleCollider3D::GetRadius()
 {
 	return mRadius;
 }
 
-doom::physics::AABB3D doom::CapsuleCollider3D::ExtractLocalAABB3D()
+dooms::physics::AABB3D dooms::CapsuleCollider3D::ExtractLocalAABB3D()
 {
 	FLOAT32 height = math::Max(mLocalCapsuleCollider.mHeight / 2.0f, mLocalCapsuleCollider.mRadius);
 
@@ -70,12 +70,12 @@ doom::physics::AABB3D doom::CapsuleCollider3D::ExtractLocalAABB3D()
 		mLocalCapsuleCollider.mCenter.z + mLocalCapsuleCollider.mRadius
 	};
 
-	return doom::physics::AABB3D(lowerBound, upperBound);
+	return dooms::physics::AABB3D(lowerBound, upperBound);
 }
 
 
 
-doom::physics::Collider* doom::CapsuleCollider3D::GetWorldCollider()
+dooms::physics::Collider* dooms::CapsuleCollider3D::GetWorldCollider()
 {
 	return &(mWorldCapsuleCollider);
 }

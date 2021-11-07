@@ -7,7 +7,7 @@
 #include "../Logger/Logger.h"
 
 #ifndef D_DEBUG_LOG
-#define D_DEBUG_LOG(...) doom::logger::Log(__FILE__, __LINE__, ##__VA_ARGS__)
+#define D_DEBUG_LOG(...) dooms::logger::Log(__FILE__, __LINE__, ##__VA_ARGS__)
 #endif
 
 #else

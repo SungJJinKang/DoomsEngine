@@ -20,7 +20,7 @@
 #define MAX_CAMERA_COUNT 5
 #endif
 
-namespace doom
+namespace dooms
 {
 	namespace graphics
 	{

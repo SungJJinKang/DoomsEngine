@@ -5,9 +5,9 @@
 
 #include "../IO/UserInput_Server.h"
 
-void doom::CharacterSpawner::CreateEnemy(const math::Vector3& position)
+void dooms::CharacterSpawner::CreateEnemy(const math::Vector3& position)
 {
-	auto currenScene = doom::Scene::GetCurrentWorld();
+	auto currenScene = dooms::Scene::GetCurrentWorld();
 	auto newEntity = currenScene->CreateNewEntity();
 	newEntity->GetTransform()->SetPosition(position);
 
@@ -23,7 +23,7 @@ void doom::CharacterSpawner::CreateEnemy(const math::Vector3& position)
 	
 }
 
-void doom::CharacterSpawner::InitComponent()
+void dooms::CharacterSpawner::InitComponent()
 {
 	if (mBillboardShader == nullptr)
 	{
@@ -31,7 +31,7 @@ void doom::CharacterSpawner::InitComponent()
 	}
 }
 
-void doom::CharacterSpawner::UpdateComponent()
+void dooms::CharacterSpawner::UpdateComponent()
 {
 	if (UserInput_Server::GetKeyUp(userinput::eKEY_CODE::KEY_9))
 	{

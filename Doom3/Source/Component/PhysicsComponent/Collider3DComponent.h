@@ -1,7 +1,7 @@
 #pragma once
 #include "ColliderComponent.h"
 #include "Vector3.h"
-namespace doom
+namespace dooms
 {
 	class DOOM_API Collider3DComponent : public ColliderComponent
 	{

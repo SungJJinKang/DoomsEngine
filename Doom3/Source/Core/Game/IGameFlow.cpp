@@ -1,11 +1,11 @@
 #include "IGameFlow.h"
 
-using namespace doom;
+using namespace dooms;
 
 IGameFlow::IGameFlow()
 {
 }
 
-doom::IGameFlow::~IGameFlow()
+dooms::IGameFlow::~IGameFlow()
 {
 }

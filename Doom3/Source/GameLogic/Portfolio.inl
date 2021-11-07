@@ -29,12 +29,12 @@
 #include "FireBulletComponent.h"
 #include "PhysicsComponent/Rigidbody/Rigidbody.h"
 
-void doom::GameLogicStartPoint::StartGameLogic()
+void dooms::GameLogicStartPoint::StartGameLogic()
 {
 	ISingleton<graphics::LightManager>::GetSingleton()->SetAmbientLightIntensity(0.1f);
-	doom::graphics::Graphics_Setting::DefaultClearColor = { 1.0f, 1.0f, 1.0f, 1.0f };
+	dooms::graphics::Graphics_Setting::DefaultClearColor = { 1.0f, 1.0f, 1.0f, 1.0f };
 
-	auto currenScene = doom::Scene::GetCurrentWorld();
+	auto currenScene = dooms::Scene::GetCurrentWorld();
 
 
 	auto lightEntity = currenScene->CreateNewEntity();
@@ -47,7 +47,7 @@ void doom::GameLogicStartPoint::StartGameLogic()
 	//auto& threedasset = assetImporter::AssetManager::GetSingleton()->GetAsset<asset::eAssetType::THREE_D_MODEL>(0);
 	auto threedasset = assetImporter::AssetManager::GetSingleton()->GetAsset<asset::eAssetType::THREE_D_MODEL>("cerberus.assbin");
 	auto shader = assetImporter::AssetManager::GetSingleton()->GetAsset<asset::eAssetType::SHADER>("GbufferWriter_PBR.glsl");
-	auto material = doom::CreateDObject<graphics::Material>(shader);
+	auto material = dooms::CreateDObject<graphics::Material>(shader);
 	material->AddTexture(graphics::eTextureBindingPoint::AlbedoTexture, assetImporter::AssetManager::GetSingleton()->GetAsset<asset::eAssetType::TEXTURE>("cerberus_A.dds"));
 	material->AddTexture(graphics::eTextureBindingPoint::NormalTexture, assetImporter::AssetManager::GetSingleton()->GetAsset<asset::eAssetType::TEXTURE>("cerberus_N.dds"));
 	material->AddTexture(graphics::eTextureBindingPoint::MetalnessTexture, assetImporter::AssetManager::GetSingleton()->GetAsset<asset::eAssetType::TEXTURE>("cerberus_M.dds"));
@@ -130,7 +130,7 @@ void doom::GameLogicStartPoint::StartGameLogic()
 
 		auto entity1Camera = entity1->AddComponent<Camera>();
 		entity1->GetTransform()->SetPosition(0, 0, 1000);
-		entity1Camera->SetProjectionMode(doom::Camera::eProjectionType::Perspective);
+		entity1Camera->SetProjectionMode(dooms::Camera::eProjectionType::Perspective);
 		entity1->AddComponent<ViewFrustumCullingDebug>();
 		entity1->AddComponent<Move_WASD>();
 		entity1->AddComponent<ExportTextureTester>();
@@ -212,12 +212,12 @@ void doom::GameLogicStartPoint::StartGameLogic()
 	}
 
 	
-	doom::graphics::GraphicsAPIManager::SetWindowTitle(
-		u8"F3 : µðÆÛµå·»´õ¸µ µð¹ö°Å ON/OFF | F4 : ¸ÖÆ¼½º·¹µå ºäÇÁ·¯½ºÅÒ ÄÃ¸µ ON/OFF | F5 : ¿ÀºêÁ§Æ® FRONT TO BACK ON / OFF | F6 : ¿À¹öµå·Î¿ì µð¹ö°Å ON / OFF | F7 : Ãæµ¹ Ã³¸® µð¹ö±ë ON / OFF"
+	dooms::graphics::GraphicsAPIManager::SetWindowTitle(
+		u8"F3 : ï¿½ï¿½ï¿½Ûµå·»ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ON/OFF | F4 : ï¿½ï¿½Æ¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ã¸ï¿½ ON/OFF | F5 : ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ® FRONT TO BACK ON / OFF | F6 : ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Î¿ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ON / OFF | F7 : ï¿½æµ¹ Ã³ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ON / OFF"
 	);
 
-	doom::ui::PrintText(
-		"F3 : µðÆÛµå·»´õ¸µ µð¹ö°Å ON/OFF | F4 : ¸ÖÆ¼½º·¹µå ºäÇÁ·¯½ºÅÒ ÄÃ¸µ ON/OFF | F5 : ¿ÀºêÁ§Æ® FRONT TO BACK ON / OFF | F6 : ¿À¹öµå·Î¿ì µð¹ö°Å ON / OFF | F7 : Ãæµ¹ Ã³¸® µð¹ö±ë ON / OFF"
+	dooms::ui::PrintText(
+		"F3 : ï¿½ï¿½ï¿½Ûµå·»ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ON/OFF | F4 : ï¿½ï¿½Æ¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ã¸ï¿½ ON/OFF | F5 : ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ® FRONT TO BACK ON / OFF | F6 : ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Î¿ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ON / OFF | F7 : ï¿½æµ¹ Ã³ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ON / OFF"
 	);
 
 	

@@ -3,7 +3,7 @@
 #include "../Core.h"
 #include <Vector3.h>
 #include "Collider.h"
-namespace doom
+namespace dooms
 {
 	namespace physics
 	{

@@ -4,33 +4,33 @@
 #include <Utility.h>
 
 
-doom::physics::Plane::Plane(FLOAT32 distance, const math::Vector3& normal)
+dooms::physics::Plane::Plane(FLOAT32 distance, const math::Vector3& normal)
 	:mDistance{ distance }, mNormal{ normal.normalized() }
 {
 }
 
-doom::physics::Plane::Plane(const math::Vector3& A, const math::Vector3& B, const math::Vector3& C)
+dooms::physics::Plane::Plane(const math::Vector3& A, const math::Vector3& B, const math::Vector3& C)
 {
 	mNormal = math::cross(A - C, B - C).normalized();
 	mDistance = math::dot(mNormal, A);
 }
 
-math::Vector3 doom::physics::Plane::GetNormal()
+math::Vector3 dooms::physics::Plane::GetNormal()
 {
 	return mNormal;
 }
 
-const math::Vector3& doom::physics::Plane::GetNormal() const
+const math::Vector3& dooms::physics::Plane::GetNormal() const
 {
 	return mNormal;
 }
 
-doom::physics::ColliderType doom::physics::Plane::GetColliderType() const
+dooms::physics::ColliderType dooms::physics::Plane::GetColliderType() const
 {
-	return doom::physics::ColliderType::Plane;
+	return dooms::physics::ColliderType::Plane;
 }
 
-bool doom::physics::IsOverlapPlaneAndPlane(const Plane& plane1, const Plane& plane2)
+bool dooms::physics::IsOverlapPlaneAndPlane(const Plane& plane1, const Plane& plane2)
 {
 	auto cross = math::cross(plane1.GetNormal(), plane2.GetNormal());
 
@@ -45,27 +45,27 @@ bool doom::physics::IsOverlapPlaneAndPlane(const Plane& plane1, const Plane& pla
 	}
 }
 
-bool doom::physics::IsOverlapPlaneAndPlane(const Collider* const plane1, const Collider* const plane2)
+bool dooms::physics::IsOverlapPlaneAndPlane(const Collider* const plane1, const Collider* const plane2)
 {
 	return IsOverlapPlaneAndPlane(*static_cast<const Plane*>(plane1), *static_cast<const Plane*>(plane2));
 }
 
-bool doom::physics::IsPointOnPlane(const doom::physics::Plane& plane, const math::Vector3& point)
+bool dooms::physics::IsPointOnPlane(const dooms::physics::Plane& plane, const math::Vector3& point)
 {
 	return math::dot(plane.GetNormal(), point) - plane.mDistance < math::epsilon<FLOAT32>();
 }
 
-bool doom::physics::IsPointOnPositiveSide(const doom::physics::Plane& plane, const math::Vector3& point)
+bool dooms::physics::IsPointOnPositiveSide(const dooms::physics::Plane& plane, const math::Vector3& point)
 {
 	return math::dot(plane.GetNormal(), point) - plane.mDistance > 0.0f;
 }
 
-math::Vector3 doom::physics::GetClosestPoint(const doom::physics::Plane& plane, const math::Vector3& point)
+math::Vector3 dooms::physics::GetClosestPoint(const dooms::physics::Plane& plane, const math::Vector3& point)
 {
 	return point - (math::dot(plane.GetNormal(), point) - plane.mDistance) * plane.GetNormal();
 }
 
-void doom::physics::Plane::DrawCollider(eColor color, bool drawInstantly /*= false*/) const
+void dooms::physics::Plane::DrawCollider(eColor color, bool drawInstantly /*= false*/) const
 {
 #ifdef DEBUG_DRAWER
 	auto debugGraphics = graphics::DebugDrawer::GetSingleton();

@@ -2,7 +2,7 @@
 #include "Core/PlainComponent.h"
 
 
-namespace doom
+namespace dooms
 {
 	class DOOM_API EventSystem : public PlainComponent
 	{

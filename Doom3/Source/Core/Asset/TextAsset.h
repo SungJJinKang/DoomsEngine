@@ -3,7 +3,7 @@
 #include "Asset.h"
 #include <string>
 
-namespace doom
+namespace dooms
 {
 	namespace assetImporter
 	{
@@ -14,10 +14,10 @@ namespace doom
 	{
 		class DOOM_API TextAsset : public Asset
 		{
-			DOBJECT_CLASS_BODY(TextAsset, doom::eDOBJECT_ClassFlags::NonCopyable)
+			DOBJECT_CLASS_BODY(TextAsset, dooms::eDOBJECT_ClassFlags::NonCopyable)
 				DOBJECT_CLASS_BASE_CHAIN(Asset)
 
-			friend class ::doom::assetImporter::AssetImporterWorker_Text;
+			friend class ::dooms::assetImporter::AssetImporterWorker_Text;
 			
 		private:
 
@@ -40,7 +40,7 @@ namespace doom
 			virtual ~TextAsset() = default;
 
 
-			virtual doom::asset::eAssetType GetEAssetType() const final;
+			virtual dooms::asset::eAssetType GetEAssetType() const final;
 		};
 	}
 }

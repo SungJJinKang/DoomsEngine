@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Asset.h"
-namespace doom
+namespace dooms
 {
 	namespace assetImporter
 	{
@@ -14,10 +14,10 @@ namespace doom
 		class DOOM_API AudioAsset : public Asset
 		{
 
-			DOBJECT_CLASS_BODY(AudioAsset, doom::eDOBJECT_ClassFlags::NonCopyable)
+			DOBJECT_CLASS_BODY(AudioAsset, dooms::eDOBJECT_ClassFlags::NonCopyable)
 			DOBJECT_CLASS_BASE_CHAIN(Asset)
 
-			friend class ::doom::assetImporter::AssetImporterWorker_Audio;
+			friend class ::dooms::assetImporter::AssetImporterWorker_Audio;
 			
 		private:
 
@@ -33,7 +33,7 @@ namespace doom
 			virtual ~AudioAsset() {}
 
 
-			virtual doom::asset::eAssetType GetEAssetType() const final;
+			virtual dooms::asset::eAssetType GetEAssetType() const final;
 
 		};
 

@@ -6,7 +6,7 @@
 #include "Graphics/Acceleration/LinearData_ViewFrustumCulling/EveryCulling.h"
 
 
-void doom::Renderer::SetRenderingFlag(const eRenderingFlag flag, const bool isSet)
+void dooms::Renderer::SetRenderingFlag(const eRenderingFlag flag, const bool isSet)
 {
 	if (isSet == true)
 	{
@@ -18,14 +18,14 @@ void doom::Renderer::SetRenderingFlag(const eRenderingFlag flag, const bool isSe
 	}
 }
 
-void doom::Renderer::InitComponent()
+void dooms::Renderer::InitComponent()
 {
 	RendererComponentStaticIterator::AddRendererToStaticContainer();
 
 	mEntityBlockViewer = graphics::Graphics_Server::GetSingleton()->mCullingSystem->AllocateNewEntity(this, GetTransform());
 
 	AddLocalDirtyToTransformDirtyReceiver(BVH_Sphere_Node_Object::IsWorldColliderCacheDirty);
-	AddLocalDirtyToTransformDirtyReceiver(ColliderUpdater<doom::physics::AABB3D>::IsWorldColliderCacheDirty);
+	AddLocalDirtyToTransformDirtyReceiver(ColliderUpdater<dooms::physics::AABB3D>::IsWorldColliderCacheDirty);
 	AddLocalDirtyToTransformDirtyReceiver(bmIsModelMatrixDirty);
 
 	//BVH_Sphere_Node_Object::UpdateWorldBVhColliderCache(true);
@@ -34,65 +34,65 @@ void doom::Renderer::InitComponent()
 	//BVH_AABB3D_Node_Object::InsertBVHLeafNode(graphics::Graphics_Server::GetSingleton()->mViewFrustumCulling.mBVHSphere, BVH_AABB3D_Node_Object:::GetWorldBVhColliderCacheByReference(), nullptr);
 }
 
-const math::Matrix4x4& doom::Renderer::GetModelMatrix()
+const math::Matrix4x4& dooms::Renderer::GetModelMatrix()
 {
 	return GetTransform()->GetModelMatrix();
 }
 
-void doom::Renderer::OnDestroy()
+void dooms::Renderer::OnDestroy()
 {
 	graphics::Graphics_Server::GetSingleton()->mCullingSystem->RemoveEntityFromBlock(mEntityBlockViewer);
 }
 
-doom::Renderer::Renderer() : ServerComponent(), StaticContainer(), mTargetMaterial{}
+dooms::Renderer::Renderer() : ServerComponent(), StaticContainer(), mTargetMaterial{}
 {
 
 }
 
-doom::Renderer::~Renderer()
+dooms::Renderer::~Renderer()
 {
 }
 
 
-void doom::Renderer::MergeBVHBitFlag()
+void dooms::Renderer::MergeBVHBitFlag()
 {
 	//mRenderingBitFlag |= graphics::eRenderingBitflag::IsVisible & ( BVH_Sphere_Node_Object::mBVH_Node_View->GetBitFlag() | BVH_AABB3D_Node_Object::mBVH_Node_View->GetBitFlag() );
 }
 
-void doom::Renderer::ClearRenderingBitFlag()
+void dooms::Renderer::ClearRenderingBitFlag()
 {
 	mRenderingFlag = 0;
 }
 
-void doom::Renderer::SetMaterial(const graphics::Material* material) noexcept
+void dooms::Renderer::SetMaterial(const graphics::Material* material) noexcept
 {
 	mTargetMaterial = material;
 }
 
-char doom::Renderer::GetIsVisibleWithCameraIndex(UINT32 cameraIndex) const
+char dooms::Renderer::GetIsVisibleWithCameraIndex(UINT32 cameraIndex) const
 {
 	return mEntityBlockViewer.GetIsCulled(cameraIndex);
 }
 
-void doom::Renderer::CacheDistanceToCamera(const size_t cameraIndex, const Camera* const camera)
+void dooms::Renderer::CacheDistanceToCamera(const size_t cameraIndex, const Camera* const camera)
 {
 	D_ASSERT(camera != nullptr);
 
 	CacheDistanceToCamera(cameraIndex, camera->GetTransform()->GetPosition());
 }
 
-void doom::Renderer::CacheDistanceToCamera(const size_t cameraIndex, const math::Vector3& cameraPos)
+void dooms::Renderer::CacheDistanceToCamera(const size_t cameraIndex, const math::Vector3& cameraPos)
 {
 	if (mDistancesToCamera.size() <= cameraIndex)
 	{
 		mDistancesToCamera.resize(cameraIndex + 1);
 	}
 
-	mDistancesToCamera[cameraIndex] = (static_cast<const Transform*>(GetTransform())->GetPosition() - cameraPos).sqrMagnitude() - doom::ColliderUpdater<doom::physics::Sphere>::GetWorldCollider()->mRadius;
+	mDistancesToCamera[cameraIndex] = (static_cast<const Transform*>(GetTransform())->GetPosition() - cameraPos).sqrMagnitude() - dooms::ColliderUpdater<dooms::physics::Sphere>::GetWorldCollider()->mRadius;
 }
 
 /*
-const doom::physics::Sphere& doom::Renderer::GetBoudingSphere()
+const dooms::physics::Sphere& dooms::Renderer::GetBoudingSphere()
 {
 	UpdateWorldBVhColliderCache(false);
 	if (mIsBoundingSphereDirty.GetIsDirty(true) == true)
@@ -103,7 +103,7 @@ const doom::physics::Sphere& doom::Renderer::GetBoudingSphere()
 }
 */
 
-void doom::Renderer::SetMaterial(const graphics::Material& material) noexcept
+void dooms::Renderer::SetMaterial(const graphics::Material& material) noexcept
 {
 	SetMaterial(&material);
 }

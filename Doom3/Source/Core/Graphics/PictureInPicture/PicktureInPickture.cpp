@@ -4,40 +4,40 @@
 #include "../Texture/SingleTexture.h"
 
 
-void doom::graphics::PicktureInPickture::InitializeDefaultPIPMaterial()
+void dooms::graphics::PicktureInPickture::InitializeDefaultPIPMaterial()
 {
 	if (PicktureInPickture::mDefualtPIPMaterial.IsGenerated() == false)
 	{
-		doom::asset::ShaderAsset* const pipMaterial = doom::assetImporter::AssetManager::GetSingleton()->GetAsset<asset::eAssetType::SHADER>("Default2DTextureShader.glsl");
+		dooms::asset::ShaderAsset* const pipMaterial = dooms::assetImporter::AssetManager::GetSingleton()->GetAsset<asset::eAssetType::SHADER>("Default2DTextureShader.glsl");
 		PicktureInPickture::mDefualtPIPMaterial.SetShaderAsset(pipMaterial);
 	}
 
 	
 }
 
-doom::graphics::PicktureInPickture::PicktureInPickture()
+dooms::graphics::PicktureInPickture::PicktureInPickture()
 {
 }
 
-void doom::graphics::PicktureInPickture::SetDefaultPIPMaterial()
+void dooms::graphics::PicktureInPickture::SetDefaultPIPMaterial()
 {
 	InitializeDefaultPIPMaterial();
 	mPIPMaterial = &(PicktureInPickture::mDefualtPIPMaterial);
 }
 
-doom::graphics::PicktureInPickture::PicktureInPickture(const math::Vector2& leftBottomNDCPoint, const math::Vector2& rightTopNDCPoint, SingleTexture* const _drawedTexture)
+dooms::graphics::PicktureInPickture::PicktureInPickture(const math::Vector2& leftBottomNDCPoint, const math::Vector2& rightTopNDCPoint, SingleTexture* const _drawedTexture)
 	:mPlaneMesh{ Mesh::GetQuadMesh(leftBottomNDCPoint, rightTopNDCPoint) }, mDrawedTexture(_drawedTexture), mPIPMaterial(nullptr), bmIsDrawOnScreen(true)
 {
 	SetDefaultPIPMaterial();
 }
 
-doom::graphics::PicktureInPickture::PicktureInPickture(const math::Vector2& leftBottomNDCPoint, const math::Vector2& rightTopNDCPoint, SingleTexture* const _drawedTexture, Material* const _pipMaterial)
+dooms::graphics::PicktureInPickture::PicktureInPickture(const math::Vector2& leftBottomNDCPoint, const math::Vector2& rightTopNDCPoint, SingleTexture* const _drawedTexture, Material* const _pipMaterial)
 	:mPlaneMesh{ Mesh::GetQuadMesh(leftBottomNDCPoint, rightTopNDCPoint) }, mDrawedTexture(_drawedTexture), mPIPMaterial(_pipMaterial), bmIsDrawOnScreen(true)
 {
 	
 }
 
-/*doom::graphics::PicktureInPickture& doom::graphics::PicktureInPickture::operator=
+/*dooms::graphics::PicktureInPickture& dooms::graphics::PicktureInPickture::operator=
 (
 	const math::Vector2& leftBottomNDCPoint, 
 	const math::Vector2& rightTopNDCPoint, 
@@ -50,7 +50,7 @@ doom::graphics::PicktureInPickture::PicktureInPickture(const math::Vector2& left
 	bmIsDrawOnScreen = true;
 }
 
-doom::graphics::PicktureInPickture& doom::graphics::PicktureInPickture::operator=
+dooms::graphics::PicktureInPickture& dooms::graphics::PicktureInPickture::operator=
 (
 	const math::Vector2& leftBottomNDCPoint, 
 	const math::Vector2& rightTopNDCPoint, 
@@ -64,21 +64,21 @@ doom::graphics::PicktureInPickture& doom::graphics::PicktureInPickture::operator
 	bmIsDrawOnScreen = true;
 }*/
 
-doom::graphics::PicktureInPickture::~PicktureInPickture()
+dooms::graphics::PicktureInPickture::~PicktureInPickture()
 {
 }
 
-void doom::graphics::PicktureInPickture::SetTexture(SingleTexture* const texture)
+void dooms::graphics::PicktureInPickture::SetTexture(SingleTexture* const texture)
 {
 	mDrawedTexture = texture;
 }
 
-void doom::graphics::PicktureInPickture::SetMaterial(Material* const _pipMaterial)
+void dooms::graphics::PicktureInPickture::SetMaterial(Material* const _pipMaterial)
 {
 	mPIPMaterial = _pipMaterial;
 }
 
-void doom::graphics::PicktureInPickture::DrawPictureInPicture()
+void dooms::graphics::PicktureInPickture::DrawPictureInPicture()
 {
 	if (bmIsDrawOnScreen == true)
 	{

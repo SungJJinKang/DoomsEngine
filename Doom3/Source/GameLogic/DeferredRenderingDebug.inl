@@ -22,12 +22,12 @@
 #include "Graphics/Graphics_Setting.h"
 #include "Portfolio/RenderingAABBController.h"
 
-void doom::GameLogicStartPoint::StartGameLogic()
+void dooms::GameLogicStartPoint::StartGameLogic()
 {
 	ISingleton<graphics::LightManager>::GetSingleton()->SetAmbientLightIntensity(0.1f);
-	doom::graphics::Graphics_Setting::DefaultClearColor = { 1.0f, 1.0f, 1.0f, 1.0f };
+	dooms::graphics::Graphics_Setting::DefaultClearColor = { 1.0f, 1.0f, 1.0f, 1.0f };
 
-	auto currenScene = doom::Scene::GetCurrentWorld();
+	auto currenScene = dooms::Scene::GetCurrentWorld();
 
 
 	auto lightEntity = currenScene->CreateNewEntity();
@@ -40,7 +40,7 @@ void doom::GameLogicStartPoint::StartGameLogic()
 	//auto& threedasset = assetImporter::AssetManager::GetSingleton()->GetAsset<asset::eAssetType::THREE_D_MODEL>(0);
 	auto threedasset = assetImporter::AssetManager::GetSingleton()->GetAsset<asset::eAssetType::THREE_D_MODEL>("cerberus.assbin");
 	auto shader = assetImporter::AssetManager::GetSingleton()->GetAsset<asset::eAssetType::SHADER>("GbufferWriter_PBR.glsl");
-	auto material = doom::CreateDObject<graphics::Material>(shader);
+	auto material = dooms::CreateDObject<graphics::Material>(shader);
 	material->AddTexture(graphics::eTextureBindingPoint::AlbedoTexture, assetImporter::AssetManager::GetSingleton()->GetAsset<asset::eAssetType::TEXTURE>("cerberus_A.dds"));
 	material->AddTexture(graphics::eTextureBindingPoint::NormalTexture, assetImporter::AssetManager::GetSingleton()->GetAsset<asset::eAssetType::TEXTURE>("cerberus_N.dds"));
 	material->AddTexture(graphics::eTextureBindingPoint::MetalnessTexture, assetImporter::AssetManager::GetSingleton()->GetAsset<asset::eAssetType::TEXTURE>("cerberus_M.dds"));
@@ -138,16 +138,16 @@ void doom::GameLogicStartPoint::StartGameLogic()
 	auto entity1 = currenScene->CreateNewEntity();
 	auto entity1Camera = entity1->AddComponent<Camera>();
 	entity1->AddComponent<RenderingAABBController>();
-	entity1Camera->SetProjectionMode(doom::Camera::eProjectionType::Perspective);
+	entity1Camera->SetProjectionMode(dooms::Camera::eProjectionType::Perspective);
 
-	doom::graphics::PIPManager::GetSingleton()->AddNewPIP({ -1.0f, -1.0f }, { -0.6f, -0.6f }, entity1Camera->mDefferedRenderingFrameBuffer.GetFrameBufferTexture(doom::graphics::GraphicsAPI::eBufferBitType::COLOR, 0));
-	doom::graphics::PIPManager::GetSingleton()->AddNewPIP({ -0.6f, -1.0f }, { -0.2f, -0.6f }, entity1Camera->mDefferedRenderingFrameBuffer.GetFrameBufferTexture(doom::graphics::GraphicsAPI::eBufferBitType::COLOR, 1));
-	doom::graphics::PIPManager::GetSingleton()->AddNewPIP({ -0.2f, -1.0f }, { 0.2f, -0.6f }, entity1Camera->mDefferedRenderingFrameBuffer.GetFrameBufferTexture(doom::graphics::GraphicsAPI::eBufferBitType::COLOR, 2));
-	doom::graphics::PicktureInPickture* depthTexturePIP = doom::graphics::PIPManager::GetSingleton()->AddNewPIP({ 0.2f, -1.0f }, { 0.6f, -0.6f }, entity1Camera->mDefferedRenderingFrameBuffer.GetFrameBufferTexture(doom::graphics::GraphicsAPI::eBufferBitType::DEPTH, 0));
+	dooms::graphics::PIPManager::GetSingleton()->AddNewPIP({ -1.0f, -1.0f }, { -0.6f, -0.6f }, entity1Camera->mDefferedRenderingFrameBuffer.GetFrameBufferTexture(dooms::graphics::GraphicsAPI::eBufferBitType::COLOR, 0));
+	dooms::graphics::PIPManager::GetSingleton()->AddNewPIP({ -0.6f, -1.0f }, { -0.2f, -0.6f }, entity1Camera->mDefferedRenderingFrameBuffer.GetFrameBufferTexture(dooms::graphics::GraphicsAPI::eBufferBitType::COLOR, 1));
+	dooms::graphics::PIPManager::GetSingleton()->AddNewPIP({ -0.2f, -1.0f }, { 0.2f, -0.6f }, entity1Camera->mDefferedRenderingFrameBuffer.GetFrameBufferTexture(dooms::graphics::GraphicsAPI::eBufferBitType::COLOR, 2));
+	dooms::graphics::PicktureInPickture* depthTexturePIP = dooms::graphics::PIPManager::GetSingleton()->AddNewPIP({ 0.2f, -1.0f }, { 0.6f, -0.6f }, entity1Camera->mDefferedRenderingFrameBuffer.GetFrameBufferTexture(dooms::graphics::GraphicsAPI::eBufferBitType::DEPTH, 0));
 	if (depthTexturePIP != nullptr)
 	{
-		doom::asset::ShaderAsset* const depthTextureShader = doom::assetImporter::AssetManager::GetSingleton()->GetAsset<asset::eAssetType::SHADER>("DepthBufferTextureShader.glsl");
-		graphics::Material* const depthMaterial = doom::CreateDObject<graphics::Material>(depthTextureShader);
+		dooms::asset::ShaderAsset* const depthTextureShader = dooms::assetImporter::AssetManager::GetSingleton()->GetAsset<asset::eAssetType::SHADER>("DepthBufferTextureShader.glsl");
+		graphics::Material* const depthMaterial = dooms::CreateDObject<graphics::Material>(depthTextureShader);
 		//depthMaterial->SetShaderAsset(depthTextureShader);
 		depthTexturePIP->SetMaterial(depthMaterial);
 	}

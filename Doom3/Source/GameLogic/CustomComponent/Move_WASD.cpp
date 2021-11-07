@@ -5,12 +5,12 @@
 #include "Vector2.h"
 
 
-void doom::Move_WASD::InitComponent()
+void dooms::Move_WASD::InitComponent()
 {
-	//doom::userinput::UserInput_Server::SetIsCursorLockedInScreen(true);
+	//dooms::userinput::UserInput_Server::SetIsCursorLockedInScreen(true);
 }
 
-void doom::Move_WASD::UpdateComponent()
+void dooms::Move_WASD::UpdateComponent()
 {
 	math::Vector3 translation{0.0f, 0.0f, 0.0f};
 	bool isMove{ false };
@@ -58,7 +58,7 @@ void doom::Move_WASD::UpdateComponent()
 			translation *= 2.0f;
 		}
 		
-		GetTransform()->Translate(translation * delta, doom::eSpace::Self);
+		GetTransform()->Translate(translation * delta, dooms::eSpace::Self);
 	}
 	
 
@@ -89,22 +89,22 @@ void doom::Move_WASD::UpdateComponent()
 
 }
 
-void doom::Move_WASD::OnEndOfFrame_Component()
+void dooms::Move_WASD::OnEndOfFrame_Component()
 {
 
 }
 
-void doom::Move_WASD::OnDestroy()
+void dooms::Move_WASD::OnDestroy()
 {
 
 }
 
-void doom::Move_WASD::OnActivated()
+void dooms::Move_WASD::OnActivated()
 {
 
 }
 
-void doom::Move_WASD::OnDeActivated()
+void dooms::Move_WASD::OnDeActivated()
 {
 
 }

@@ -1,13 +1,13 @@
 #include "BulletComponent.h"
 
-void doom::BulletComponent::InitComponent()
+void dooms::BulletComponent::InitComponent()
 {
 	PlainComponent::InitComponent();
 }
 
-void doom::BulletComponent::UpdateComponent()
+void dooms::BulletComponent::UpdateComponent()
 {
 	PlainComponent::UpdateComponent();
 
-	GetTransform()->Translate(GetTransform()->forward() * mSpeed * doom::time::MainTimer::GetDeltaTime());
+	GetTransform()->Translate(GetTransform()->forward() * mSpeed * dooms::time::MainTimer::GetDeltaTime());
 }

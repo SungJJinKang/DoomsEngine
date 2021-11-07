@@ -9,7 +9,7 @@
 #include <functional>
 
 
-namespace doom
+namespace dooms
 {
 	namespace physics
 	{
@@ -51,7 +51,7 @@ namespace doom
 
 			math::Vector3 GetHalfExtent() const;
 			/// <summary>
-			/// Get ´ë°¢¼±
+			/// Get ï¿½ë°¢ï¿½ï¿½
 			/// </summary>
 			/// <returns></returns>
 			FLOAT32 GetDiagonarLineLength() const;
@@ -67,7 +67,7 @@ namespace doom
 			void SignedExpand(const math::Vector3& movedVector);
 
 			/// <summary>
-			/// ºÎÇÇ
+			/// ï¿½ï¿½ï¿½ï¿½
 			/// </summary>
 			/// <param name="A"></param>
 			/// <returns></returns>
@@ -263,7 +263,7 @@ namespace doom
 	
 		
 
-		FORCE_INLINE doom::physics::AABB3D::AABB3D(const AABB2D& aabb2D)
+		FORCE_INLINE dooms::physics::AABB3D::AABB3D(const AABB2D& aabb2D)
 		{
 			mLowerBound = aabb2D.mLowerBound;
 			mUpperBound = aabb2D.mUpperBound;
@@ -273,19 +273,19 @@ namespace doom
 }
 
 template<>
-struct std::greater <doom::physics::AABB2D>
+struct std::greater <dooms::physics::AABB2D>
 {
-	bool operator()(const doom::physics::AABB2D& lhs, const doom::physics::AABB2D& rhs) const
+	bool operator()(const dooms::physics::AABB2D& lhs, const dooms::physics::AABB2D& rhs) const
 	{
-		return doom::physics::AABB2D::GetArea(lhs) > doom::physics::AABB2D::GetArea(rhs);
+		return dooms::physics::AABB2D::GetArea(lhs) > dooms::physics::AABB2D::GetArea(rhs);
 	}
 };
 
 template<>
-struct std::greater <doom::physics::AABB3D>
+struct std::greater <dooms::physics::AABB3D>
 {
-	bool operator()(const doom::physics::AABB3D& lhs, const doom::physics::AABB3D& rhs) const
+	bool operator()(const dooms::physics::AABB3D& lhs, const dooms::physics::AABB3D& rhs) const
 	{
-		return doom::physics::AABB3D::GetArea(lhs) > doom::physics::AABB3D::GetArea(rhs);
+		return dooms::physics::AABB3D::GetArea(lhs) > dooms::physics::AABB3D::GetArea(rhs);
 	}
 };

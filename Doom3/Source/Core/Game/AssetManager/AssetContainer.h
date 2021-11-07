@@ -5,9 +5,9 @@
 
 #include "../Asset/Asset.h"
 
-//template class DOOM_DLL_EXPORTS std::unordered_map<D_UUID, ::doom::asset::Asset>
+//template class DOOM_DLL_EXPORTS std::unordered_map<D_UUID, ::dooms::asset::Asset>
 
-namespace doom
+namespace dooms
 {
 	namespace asset
 	{
@@ -17,33 +17,33 @@ namespace doom
 		/// </summary>
 		struct DOOM_API AssetContainer
 		{
-			doom::asset::eAssetType mAssetTypeOfContainer;
+			dooms::asset::eAssetType mAssetTypeOfContainer;
 
-			//TODO : TreeÇüÅÂ·Î ¿¡¼Â path directory¸¦ µû¶ó°¡¸é¼­ leaf node¿¡ ¿¡¼ÂÀ» std::ref·Î ÀúÀå
+			//TODO : Treeï¿½ï¿½ï¿½Â·ï¿½ ï¿½ï¿½ï¿½ï¿½ path directoryï¿½ï¿½ ï¿½ï¿½ï¿½ó°¡¸é¼­ leaf nodeï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ std::refï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 
 			/// <summary>
 			///
 			/// </summary>
-			std::unordered_map<D_UUID, ::doom::asset::Asset*> mAssets;
+			std::unordered_map<D_UUID, ::dooms::asset::Asset*> mAssets;
 
 			/// <summary>
 			/// this is much faster than iterating unordered_map
 			/// when insert to map and rehashing happen, reference of assetvalue isn't invalidated (safe)
 			/// </summary>
-			std::vector<::doom::asset::Asset*> mAssetsForIterating;
+			std::vector<::dooms::asset::Asset*> mAssetsForIterating;
 
 			/// <summary>
 			/// this will be used when find Asset with assetName
 			/// AssetName contain extension!!
 			/// </summary>
-			std::unordered_map<std::string, ::doom::asset::Asset*> mAssetsForAssetName;
+			std::unordered_map<std::string, ::dooms::asset::Asset*> mAssetsForAssetName;
 			
 			
-			explicit AssetContainer(const doom::asset::eAssetType assetTypeOfContainer);
+			explicit AssetContainer(const dooms::asset::eAssetType assetTypeOfContainer);
 			~AssetContainer();
 
 			void ClearAssets();
-			void AddNewAsset(::doom::asset::Asset* const newAsset);
+			void AddNewAsset(::dooms::asset::Asset* const newAsset);
 		};
 
 		

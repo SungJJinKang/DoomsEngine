@@ -4,7 +4,7 @@
 
 #include <Vector3.h>
 
-namespace doom
+namespace dooms
 {
 	class Renderer;
 	class Camera;
@@ -12,13 +12,13 @@ namespace doom
 	{
 		namespace SortFrontToBackSolver
 		{
-			void SortRenderer(std::vector<doom::Renderer*>& rendereres, const size_t cameraIndex);
+			void SortRenderer(std::vector<dooms::Renderer*>& rendereres, const size_t cameraIndex);
 			//void CacheDistanceFromRenderersToCamera(std::vector<Renderer*>& rendereres, const std::vector<math::Vector3>& cameraPositions);
 
 			void SortRenderer(const size_t cameraIndex);
 			inline auto GetSortRendererLambda(const size_t cameraIndex)
 			{
-				return [cameraIndex] { doom::graphics::SortFrontToBackSolver::SortRenderer(cameraIndex); };
+				return [cameraIndex] { dooms::graphics::SortFrontToBackSolver::SortRenderer(cameraIndex); };
 			}
 
 			//void CacheDistanceFromRenderersToSpawnedCameras();

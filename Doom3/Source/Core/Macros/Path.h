@@ -5,7 +5,7 @@
 
 #include <string>
 
-namespace doom
+namespace dooms
 {
 	namespace path
 	{

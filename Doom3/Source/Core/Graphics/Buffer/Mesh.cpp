@@ -3,34 +3,34 @@
 #include "../GraphicsAPI.h"
 #include "../Asset/ThreeDModelAsset.h"
 
-doom::graphics::Mesh::Mesh()
+dooms::graphics::Mesh::Mesh()
 	: Buffer(), mVertexArrayObjectID{ INVALID_BUFFER_ID }, mElementBufferObjectID{ INVALID_BUFFER_ID }, mNumOfVertices{ 0 }, mNumOfIndices{ 0 }, mPrimitiveType{ ePrimitiveType::NONE }
 {
 
 }
 
-doom::graphics::Mesh::Mesh(GLsizeiptr dataCount, const void* data, ePrimitiveType primitiveType, UINT32 vertexArrayFlag) noexcept : Buffer()
+dooms::graphics::Mesh::Mesh(GLsizeiptr dataCount, const void* data, ePrimitiveType primitiveType, UINT32 vertexArrayFlag) noexcept : Buffer()
 {
 	GenMeshBuffer(false);
 	BufferData(dataCount, data, primitiveType, vertexArrayFlag);
 }
 
 
-doom::graphics::Mesh::Mesh(const ThreeDModelMesh& threeDModelMesh) noexcept
+dooms::graphics::Mesh::Mesh(const ThreeDModelMesh& threeDModelMesh) noexcept
 	: Buffer(), mNumOfVertices{ 0 }, mNumOfIndices{ 0 }
 {
 	GenMeshBuffer(threeDModelMesh.bHasIndices);
 	BufferDataFromModelMesh(threeDModelMesh);
 }
 
-doom::graphics::Mesh::~Mesh()
+dooms::graphics::Mesh::~Mesh()
 {
 	DeleteBuffers();
 
 	QuadMesh.reset();
 }
 
-void doom::graphics::Mesh::GenMeshBuffer(bool hasIndice)
+void dooms::graphics::Mesh::GenMeshBuffer(bool hasIndice)
 {
 	Buffer::GenBuffer();
 	if (mVertexArrayObjectID.GetBufferID() == INVALID_BUFFER_ID)
@@ -50,7 +50,7 @@ void doom::graphics::Mesh::GenMeshBuffer(bool hasIndice)
 	}
 }
 
-void doom::graphics::Mesh::DeleteBuffers()
+void dooms::graphics::Mesh::DeleteBuffers()
 {
 	Buffer::DeleteBuffers();
 
@@ -66,7 +66,7 @@ void doom::graphics::Mesh::DeleteBuffers()
 	}
 }
 
-void doom::graphics::Mesh::GenBufferIfNotGened(bool hasIndice)
+void dooms::graphics::Mesh::GenBufferIfNotGened(bool hasIndice)
 {
 	if (IsBufferGenerated() == false)
 	{
@@ -74,7 +74,7 @@ void doom::graphics::Mesh::GenBufferIfNotGened(bool hasIndice)
 	}
 }
 
-doom::graphics::Mesh& doom::graphics::Mesh::operator=(const ThreeDModelMesh& threeDModelMesh) noexcept
+dooms::graphics::Mesh& dooms::graphics::Mesh::operator=(const ThreeDModelMesh& threeDModelMesh) noexcept
 {
 	DeleteBuffers();
 
@@ -85,7 +85,7 @@ doom::graphics::Mesh& doom::graphics::Mesh::operator=(const ThreeDModelMesh& thr
 }
 
 
-void doom::graphics::Mesh::BufferData(GLsizeiptr dataComponentCount, const void* data, ePrimitiveType primitiveType, UINT32 vertexArrayFlag) noexcept
+void dooms::graphics::Mesh::BufferData(GLsizeiptr dataComponentCount, const void* data, ePrimitiveType primitiveType, UINT32 vertexArrayFlag) noexcept
 {
 	GenBufferIfNotGened(false);
 
@@ -160,7 +160,7 @@ void doom::graphics::Mesh::BufferData(GLsizeiptr dataComponentCount, const void*
 	mVertexArrayFlag = mVertexArrayFlag;
 }
 
-void doom::graphics::Mesh::BufferSubData(GLsizeiptr dataComponentCount, const void* data, khronos_intptr_t offsetInByte) const noexcept
+void dooms::graphics::Mesh::BufferSubData(GLsizeiptr dataComponentCount, const void* data, khronos_intptr_t offsetInByte) const noexcept
 {
 	D_ASSERT(mBufferID.IsValid());
 
@@ -174,7 +174,7 @@ void doom::graphics::Mesh::BufferSubData(GLsizeiptr dataComponentCount, const vo
 
 }
 
-void doom::graphics::Mesh::BindVertexBufferObject() const
+void dooms::graphics::Mesh::BindVertexBufferObject() const
 {
 	D_ASSERT(mBufferID.IsValid());
 
@@ -187,7 +187,7 @@ void doom::graphics::Mesh::BindVertexBufferObject() const
 }
 
 
-void doom::graphics::Mesh::BufferDataFromModelMesh(const ThreeDModelMesh& threeDModelMesh) noexcept
+void dooms::graphics::Mesh::BufferDataFromModelMesh(const ThreeDModelMesh& threeDModelMesh) noexcept
 {
 	GenBufferIfNotGened(threeDModelMesh.bHasIndices);
 
@@ -243,7 +243,7 @@ void doom::graphics::Mesh::BufferDataFromModelMesh(const ThreeDModelMesh& threeD
 	D_ASSERT(mPrimitiveType != ePrimitiveType::NONE);
 }
 
-constexpr UINT32 doom::graphics::Mesh::GetStride(const UINT32 vertexArrayFlag)
+constexpr UINT32 dooms::graphics::Mesh::GetStride(const UINT32 vertexArrayFlag)
 {
 	UINT32 offset = 0;
 	if (vertexArrayFlag & eVertexArrayFlag::VertexVector3)
@@ -290,17 +290,17 @@ inline static constexpr FLOAT32 QuadMeshData[]
 	-1.0f, 1.0f, 0.0f, 0.0f, 1.0f,
 };
 
-std::shared_ptr<doom::graphics::Mesh> doom::graphics::Mesh::GetQuadMesh()
+std::shared_ptr<dooms::graphics::Mesh> dooms::graphics::Mesh::GetQuadMesh()
 {
-	if (doom::graphics::Mesh::QuadMesh == nullptr)
+	if (dooms::graphics::Mesh::QuadMesh == nullptr)
 	{
-		doom::graphics::Mesh::QuadMesh = std::make_shared<Mesh>(sizeof(QuadMeshData) / sizeof(FLOAT32), (void*)QuadMeshData, ePrimitiveType::TRIANGLES, eVertexArrayFlag::VertexVector3 | eVertexArrayFlag::TexCoord);
+		dooms::graphics::Mesh::QuadMesh = std::make_shared<Mesh>(sizeof(QuadMeshData) / sizeof(FLOAT32), (void*)QuadMeshData, ePrimitiveType::TRIANGLES, eVertexArrayFlag::VertexVector3 | eVertexArrayFlag::TexCoord);
 	}
 
-	return doom::graphics::Mesh::QuadMesh;
+	return dooms::graphics::Mesh::QuadMesh;
 }
 
-doom::graphics::Mesh doom::graphics::Mesh::GetQuadMesh(const math::Vector2& leftbottom, const math::Vector2& rightup)
+dooms::graphics::Mesh dooms::graphics::Mesh::GetQuadMesh(const math::Vector2& leftbottom, const math::Vector2& rightup)
 {
 	FLOAT32 QuadMeshData[]
 	{
@@ -317,12 +317,12 @@ doom::graphics::Mesh doom::graphics::Mesh::GetQuadMesh(const math::Vector2& left
 }
 
 
-bool doom::graphics::Mesh::IsBufferGenerated() const
+bool dooms::graphics::Mesh::IsBufferGenerated() const
 {
 	return Buffer::IsBufferGenerated() && mVertexArrayObjectID != 0;
 }
 
-void doom::graphics::Mesh::UpdateElementBuffer(const UINT32* indices, const UINT32 indiceCount)
+void dooms::graphics::Mesh::UpdateElementBuffer(const UINT32* indices, const UINT32 indiceCount)
 {
 	D_ASSERT(IsBufferGenerated() == true);
 
@@ -333,22 +333,22 @@ void doom::graphics::Mesh::UpdateElementBuffer(const UINT32* indices, const UINT
 	mNumOfIndices = indiceCount;
 }
 
-const doom::physics::AABB3D& doom::graphics::Mesh::GetBoundingBox() const
+const dooms::physics::AABB3D& dooms::graphics::Mesh::GetBoundingBox() const
 {
 	return mAABB3D;
 }
 
-const doom::physics::Sphere& doom::graphics::Mesh::GetBoundingSphere() const
+const dooms::physics::Sphere& dooms::graphics::Mesh::GetBoundingSphere() const
 {
 	return mSphere;
 }
 
-UINT32 doom::graphics::Mesh::GetVertexArrayObjectID() const
+UINT32 dooms::graphics::Mesh::GetVertexArrayObjectID() const
 {
 	return mVertexArrayObjectID;
 }
 
-UINT32 doom::graphics::Mesh::GetElementBufferObjectID() const
+UINT32 dooms::graphics::Mesh::GetElementBufferObjectID() const
 {
 	return mElementBufferObjectID;
 }

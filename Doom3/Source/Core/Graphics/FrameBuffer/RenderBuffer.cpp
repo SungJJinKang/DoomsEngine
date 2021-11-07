@@ -4,7 +4,7 @@
 #include "../GraphicsAPI.h"
 #include "../Graphics_Setting.h"
 
-using namespace doom::graphics;
+using namespace dooms::graphics;
 
 RenderBuffer::RenderBuffer()
 	: mRenderBufferID()
@@ -94,7 +94,7 @@ bool RenderBuffer::CreateRenderBuffer(FrameBuffer& ownerFrameBuffer, GraphicsAPI
 	return isSuccess;
 }
 
-doom::graphics::RenderBuffer::~RenderBuffer()
+dooms::graphics::RenderBuffer::~RenderBuffer()
 {
 	DeleteRenderBuffers();
 }

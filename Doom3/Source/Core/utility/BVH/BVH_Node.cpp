@@ -3,7 +3,7 @@
 #include "BVH.h"
 
 template<typename ColliderType>
-void doom::BVH_Node<ColliderType>::Clear()
+void dooms::BVH_Node<ColliderType>::Clear()
 {
 	mOwnerBVH = nullptr;
 	mCollider = nullptr;
@@ -16,13 +16,13 @@ void doom::BVH_Node<ColliderType>::Clear()
 }
 
 template<typename ColliderType>
-void doom::BVH_Node<ColliderType>::ValidCheck() const
+void dooms::BVH_Node<ColliderType>::ValidCheck() const
 {
 	D_ASSERT(GetIsValid() == true);
 }
 
 template <typename ColliderType>
-typename doom::BVH_Node<ColliderType>::node_view_type doom::BVH_Node<ColliderType>::UpdateNode()
+typename dooms::BVH_Node<ColliderType>::node_view_type dooms::BVH_Node<ColliderType>::UpdateNode()
 {
 	D_ASSERT(mIsLeaf == true); // Only Leaf Nodes can be updated by UpdateLeafNode Function
 	D_ASSERT(mOwnerBVH->GetNode(mIndex) == this);
@@ -31,7 +31,7 @@ typename doom::BVH_Node<ColliderType>::node_view_type doom::BVH_Node<ColliderTyp
 }
 
 template <typename ColliderType>
-typename doom::BVH_Node<ColliderType>::node_view_type doom::BVH_Node<ColliderType>::Update(const ColliderType& collider)
+typename dooms::BVH_Node<ColliderType>::node_view_type dooms::BVH_Node<ColliderType>::Update(const ColliderType& collider)
 {
 	D_ASSERT(mIsLeaf == true); // Don try aabb of internalnode arbitrary, InternalNode should be changed only by BVH algorithm
 	mBoundingCollider = collider;
@@ -43,7 +43,7 @@ typename doom::BVH_Node<ColliderType>::node_view_type doom::BVH_Node<ColliderTyp
 /// </summary>
 /// <param name="movedVector"></param>
 template <typename ColliderType>
-typename doom::BVH_Node<ColliderType>::node_view_type doom::BVH_Node<ColliderType>::Update(const typename ColliderType::component_type& movedVector)
+typename dooms::BVH_Node<ColliderType>::node_view_type dooms::BVH_Node<ColliderType>::Update(const typename ColliderType::component_type& movedVector)
 {
 	D_ASSERT(mIsLeaf == true); // Don try aabb of internalnode arbitrary, InternalNode should be changed only by BVH algorithm
 	mBoundingCollider.SignedExpand(movedVector);
@@ -51,7 +51,7 @@ typename doom::BVH_Node<ColliderType>::node_view_type doom::BVH_Node<ColliderTyp
 }
 
 template <typename ColliderType>
-typename doom::BVH_Node<ColliderType>::node_view_type doom::BVH_Node<ColliderType>::Update(const typename ColliderType::component_type& movedVector, const typename ColliderType::component_type& margin)
+typename dooms::BVH_Node<ColliderType>::node_view_type dooms::BVH_Node<ColliderType>::Update(const typename ColliderType::component_type& movedVector, const typename ColliderType::component_type& margin)
 {
 	D_ASSERT(mIsLeaf == true); // Don try aabb of internalnode arbitrary, InternalNode should be changed only by BVH algorithm
 	mBoundingCollider.Expand(margin);
@@ -60,15 +60,15 @@ typename doom::BVH_Node<ColliderType>::node_view_type doom::BVH_Node<ColliderTyp
 }
 
 template <typename ColliderType>
-void doom::BVH_Node<ColliderType>::RemoveNode()
+void dooms::BVH_Node<ColliderType>::RemoveNode()
 {
 	mOwnerBVH->RemoveLeafNode(this);
 }
 
 template<typename ColliderType>
-const doom::BVH_Node<ColliderType>* doom::BVH_Node<ColliderType>::GetParentNode() const
+const dooms::BVH_Node<ColliderType>* dooms::BVH_Node<ColliderType>::GetParentNode() const
 {
-	doom::BVH_Node<ColliderType>* targetNode = nullptr;
+	dooms::BVH_Node<ColliderType>* targetNode = nullptr;
 	if (mOwnerBVH->GetIsNodeValid(mParentIndex) == true)
 	{
 		targetNode = mOwnerBVH->GetNode(mParentIndex);
@@ -77,6 +77,6 @@ const doom::BVH_Node<ColliderType>* doom::BVH_Node<ColliderType>::GetParentNode(
 }
 
 
-template struct doom::BVH_Node<doom::physics::AABB2D>;
-template struct doom::BVH_Node<doom::physics::AABB3D>;
-template struct doom::BVH_Node<doom::physics::Sphere>;
+template struct dooms::BVH_Node<dooms::physics::AABB2D>;
+template struct dooms::BVH_Node<dooms::physics::AABB3D>;
+template struct dooms::BVH_Node<dooms::physics::Sphere>;

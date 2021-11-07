@@ -2,35 +2,35 @@
 
 #include "../AssetHeaders.h"
 
-doom::asset::Asset* doom::asset::AssetFactory::CreateNewAsset(const doom::asset::eAssetType eAssetType)
+dooms::asset::Asset* dooms::asset::AssetFactory::CreateNewAsset(const dooms::asset::eAssetType eAssetType)
 {
-	doom::asset::Asset* newAsset = nullptr;
+	dooms::asset::Asset* newAsset = nullptr;
 
 	switch (eAssetType)
 	{
 
 	case eAssetType::AUDIO:
-		newAsset = doom::CreateDObject<doom::asset::AudioAsset>();
+		newAsset = dooms::CreateDObject<dooms::asset::AudioAsset>();
 		break;
 
 	case eAssetType::FONT:
-		newAsset = doom::CreateDObject<doom::asset::FontAsset>();
+		newAsset = dooms::CreateDObject<dooms::asset::FontAsset>();
 		break;
 
 	case eAssetType::TEXT:
-		newAsset = doom::CreateDObject<doom::asset::TextAsset>();
+		newAsset = dooms::CreateDObject<dooms::asset::TextAsset>();
 		break;
 
 	case eAssetType::TEXTURE:
-		newAsset = doom::CreateDObject<doom::asset::TextureAsset>();
+		newAsset = dooms::CreateDObject<dooms::asset::TextureAsset>();
 		break;
 
 	case eAssetType::THREE_D_MODEL:
-		newAsset = doom::CreateDObject<doom::asset::ThreeDModelAsset>();
+		newAsset = dooms::CreateDObject<dooms::asset::ThreeDModelAsset>();
 		break;
 
 	case eAssetType::SHADER:
-		newAsset = doom::CreateDObject<doom::asset::ShaderAsset>();
+		newAsset = dooms::CreateDObject<dooms::asset::ShaderAsset>();
 		break;
 
 	default: 
@@ -42,18 +42,18 @@ doom::asset::Asset* doom::asset::AssetFactory::CreateNewAsset(const doom::asset:
 	return newAsset;
 }
 
-doom::asset::Asset* doom::asset::AssetFactory::CreateNewAsset
+dooms::asset::Asset* dooms::asset::AssetFactory::CreateNewAsset
 (
 	const std::filesystem::path& path,
-	const doom::asset::eAssetType eAssetType
+	const dooms::asset::eAssetType eAssetType
 )
 {
 
-	::doom::asset::Asset* newAsset = doom::asset::AssetFactory::CreateNewAsset(eAssetType);
+	::dooms::asset::Asset* newAsset = dooms::asset::AssetFactory::CreateNewAsset(eAssetType);
 
-	D_UUID uuid = doom::GenerateUUID();
+	D_UUID uuid = dooms::GenerateUUID();
 	newAsset->SetBaseMetaData(path, uuid);
-	newAsset->SetAssetStatus(::doom::asset::Asset::AssetStatus::NotImported);
+	newAsset->SetAssetStatus(::dooms::asset::Asset::AssetStatus::NotImported);
 
 	return newAsset;
 

@@ -4,7 +4,7 @@
 #include "../API/OpenglAPI.h"
 #include "BufferID.h"
 
-namespace doom
+namespace dooms
 {
 	namespace graphics
 	{

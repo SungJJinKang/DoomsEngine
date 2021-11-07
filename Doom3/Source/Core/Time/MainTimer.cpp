@@ -1,44 +1,44 @@
 #include "MainTimer.h"
 
-void doom::time::MainTimer::InitTimer()
+void dooms::time::MainTimer::InitTimer()
 {
 	FLOAT64 currentTickCount = glfwGetTime();
-	doom::time::MainTimer::mFrameTime.mLastTickCount = currentTickCount;
-	doom::time::MainTimer::mFixedTime.mLastTickCount = currentTickCount;
+	dooms::time::MainTimer::mFrameTime.mLastTickCount = currentTickCount;
+	dooms::time::MainTimer::mFixedTime.mLastTickCount = currentTickCount;
 }
 
-void doom::time::MainTimer::UpdateFrameTimer()
+void dooms::time::MainTimer::UpdateFrameTimer()
 {
 	const FLOAT64 currentTime = glfwGetTime();// os::GetSingleton()->_GetTickCount();
-	doom::time::MainTimer::mFrameTime.mCurrentTickCount = currentTime;
+	dooms::time::MainTimer::mFrameTime.mCurrentTickCount = currentTime;
 
-	doom::time::MainTimer::mFrameTime.mDeltaTime = static_cast<FLOAT32>(currentTime - doom::time::MainTimer::mFrameTime.mLastTickCount);
-	doom::time::MainTimer::mFrameTime.mLastTickCount = currentTime;
+	dooms::time::MainTimer::mFrameTime.mDeltaTime = static_cast<FLOAT32>(currentTime - dooms::time::MainTimer::mFrameTime.mLastTickCount);
+	dooms::time::MainTimer::mFrameTime.mLastTickCount = currentTime;
 
-	doom::time::MainTimer::mFrameCounterForStep++;
-	MainTimer::CurrentFrame = static_cast<FLOAT32>(1.0f / doom::time::MainTimer::mFrameTime.mDeltaTime);
+	dooms::time::MainTimer::mFrameCounterForStep++;
+	MainTimer::CurrentFrame = static_cast<FLOAT32>(1.0f / dooms::time::MainTimer::mFrameTime.mDeltaTime);
 	
 	
 	
 }
 
-void doom::time::MainTimer::ResetFixedTimer()
+void dooms::time::MainTimer::ResetFixedTimer()
 {
-	doom::time::MainTimer::mFixedTime.mLastTickCount = glfwGetTime();
+	dooms::time::MainTimer::mFixedTime.mLastTickCount = glfwGetTime();
 }
 
-void doom::time::MainTimer::UpdateFixedTimer()
+void dooms::time::MainTimer::UpdateFixedTimer()
 {
 	FLOAT64 currentTime = glfwGetTime();
-	doom::time::MainTimer::mFixedTime.mCurrentTickCount = currentTime;
+	dooms::time::MainTimer::mFixedTime.mCurrentTickCount = currentTime;
 
-	doom::time::MainTimer::mFixedTime.mDeltaTime = static_cast<FLOAT32>(currentTime - doom::time::MainTimer::mFixedTime.mLastTickCount);
-	doom::time::MainTimer::mFixedTime.mLastTickCount = currentTime;
+	dooms::time::MainTimer::mFixedTime.mDeltaTime = static_cast<FLOAT32>(currentTime - dooms::time::MainTimer::mFixedTime.mLastTickCount);
+	dooms::time::MainTimer::mFixedTime.mLastTickCount = currentTime;
 
 #ifdef DEBUG_MODE
 	if (userinput::UserInput_Server::GetKeyToggle(eKEY_CODE::KEY_F5))
 	{
-		D_DEBUG_LOG({ "Current Frame : ", std::to_string(1.0 / doom::time::MainTimer::mFrameTime.mDeltaTime) });
+		D_DEBUG_LOG({ "Current Frame : ", std::to_string(1.0 / dooms::time::MainTimer::mFrameTime.mDeltaTime) });
 	}
 #endif
 }

@@ -1,6 +1,6 @@
 #include "PlainComponent.h"
 
-using namespace doom;
+using namespace dooms;
 
 PlainComponent::PlainComponent() : Component() {}
 
@@ -9,7 +9,7 @@ PlainComponent::~PlainComponent()
 }
 
 
-void doom::PlainComponent::InitComponent_Internal(Entity* entity)
+void dooms::PlainComponent::InitComponent_Internal(Entity* entity)
 {
 	Component::InitComponent_Internal(entity);
 }
@@ -19,7 +19,7 @@ void PlainComponent::UpdateComponent_Internal()
 	Component::UpdateComponent_Internal();
 }
 
-void doom::PlainComponent::FixedUpdateComponent_Internal()
+void dooms::PlainComponent::FixedUpdateComponent_Internal()
 {
 	Component::FixedUpdateComponent_Internal();
 }

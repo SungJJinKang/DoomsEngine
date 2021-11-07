@@ -4,17 +4,17 @@
 #include <Asset/TextAsset.h>
 
 
-bool doom::assetImporter::AssetImporterWorker_Text::ImportSpecificAsset
+bool dooms::assetImporter::AssetImporterWorker_Text::ImportSpecificAsset
 (
 	const std::filesystem::path& path, 
-	doom::asset::Asset* asset
+	dooms::asset::Asset* asset
 )
 {
 	std::string text{};
 	bool isSuccess = GetTextFromFile(path, text);
 	if (isSuccess)
 	{
-		static_cast<doom::asset::TextAsset*>(asset)->SetText(text);
+		static_cast<dooms::asset::TextAsset*>(asset)->SetText(text);
 		return true;
 	}
 	else
@@ -23,7 +23,7 @@ bool doom::assetImporter::AssetImporterWorker_Text::ImportSpecificAsset
 	}
 }
 
-doom::asset::eAssetType doom::assetImporter::AssetImporterWorker_Text::GetEAssetType() const
+dooms::asset::eAssetType dooms::assetImporter::AssetImporterWorker_Text::GetEAssetType() const
 {
-	return doom::asset::eAssetType::TEXT;
+	return dooms::asset::eAssetType::TEXT;
 }

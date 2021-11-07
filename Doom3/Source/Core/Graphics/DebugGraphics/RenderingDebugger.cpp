@@ -10,7 +10,7 @@
 
 
 
-void doom::graphics::RenderingDebugger::DrawRenderingBoundingBox()
+void dooms::graphics::RenderingDebugger::DrawRenderingBoundingBox()
 {
 	if (Graphics_Setting::DrawRenderingBoundingBox == true)
 	{
@@ -19,23 +19,23 @@ void doom::graphics::RenderingDebugger::DrawRenderingBoundingBox()
 			const std::vector<Renderer*>& renderersInLayer = RendererComponentStaticIterator::GetWorkingRendererInLayer(0, layerIndex);
 			for (size_t rendererIndex = 0; rendererIndex < renderersInLayer.size(); rendererIndex++)
 			{
-				renderersInLayer[rendererIndex]->ColliderUpdater<doom::physics::AABB3D>::DrawWorldColliderCache();
+				renderersInLayer[rendererIndex]->ColliderUpdater<dooms::physics::AABB3D>::DrawWorldColliderCache();
 			}
 		}
 	}
 }
 
-void doom::graphics::RenderingDebugger::PrintDrawCallCounter()
+void dooms::graphics::RenderingDebugger::PrintDrawCallCounter()
 {
-	doom::ui::PrintText("Draw Call : %d", RenderingDebugger::PreviousFrameDrawCallCounter);
+	dooms::ui::PrintText("Draw Call : %d", RenderingDebugger::PreviousFrameDrawCallCounter);
 }
 
-void doom::graphics::RenderingDebugger::UpdateInputForPrintDrawCallCounter()
+void dooms::graphics::RenderingDebugger::UpdateInputForPrintDrawCallCounter()
 {
 
 #ifdef DEBUG_MODE
 
-	if (doom::userinput::UserInput_Server::GetKeyUp(eKEY_CODE::KEY_F5))
+	if (dooms::userinput::UserInput_Server::GetKeyUp(eKEY_CODE::KEY_F5))
 	{
 		PrintDrawCallCounter();
 	}

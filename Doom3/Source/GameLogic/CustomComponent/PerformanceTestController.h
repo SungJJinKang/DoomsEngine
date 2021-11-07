@@ -2,7 +2,7 @@
 
 #include <Doom_Core.h>
 
-namespace doom
+namespace dooms
 {
 	class PerformanceTestController : public PlainComponent
 	{

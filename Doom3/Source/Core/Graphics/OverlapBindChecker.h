@@ -6,7 +6,7 @@
 
 #define USE_OVERLAP_BIND_CHECKER
 #define MAX_BOUND_ID_COUNT 30
-namespace doom
+namespace dooms
 {
 	namespace graphics
 	{

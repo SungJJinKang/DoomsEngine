@@ -5,7 +5,7 @@
 
 
 
-namespace doom
+namespace dooms
 {
 
 	class OverDrawVisualizationDebugger : public PlainComponent

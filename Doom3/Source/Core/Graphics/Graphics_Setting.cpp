@@ -1,7 +1,7 @@
 #include "Graphics_Setting.h"
 #include "Game/ConfigData.h"
 
-void doom::graphics::Graphics_Setting::LoadData()
+void dooms::graphics::Graphics_Setting::LoadData()
 {
 	const INT32 width = ConfigData::GetSingleton()->GetConfigData().GetValue<INT32>("Graphics", "SCREEN_WIDTH");
 	const INT32 height = ConfigData::GetSingleton()->GetConfigData().GetValue<INT32>("Graphics", "SCREEN_HEIGHT");
@@ -12,7 +12,7 @@ void doom::graphics::Graphics_Setting::LoadData()
 
 }
 
-void doom::graphics::Graphics_Setting::SetWindow(GLFWwindow* const _window)
+void dooms::graphics::Graphics_Setting::SetWindow(GLFWwindow* const _window)
 {
 	Graphics_Setting::Window = _window;
 }

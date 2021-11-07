@@ -12,7 +12,7 @@
 
 
 
-namespace doom
+namespace dooms
 {
 	class Renderer;
 	namespace graphics
@@ -62,7 +62,7 @@ namespace doom
 
 			//void OnEndFrame();
 
-			// void doom::graphics::CullDistance::OnEndFrame()
+			// void dooms::graphics::CullDistance::OnEndFrame()
 			// {
 			// 
 			// }

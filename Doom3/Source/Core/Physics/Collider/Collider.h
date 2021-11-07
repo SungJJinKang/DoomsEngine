@@ -4,7 +4,7 @@
 #include <StaticContainer/StaticContainer.h>
 #include "ColliderType.h"
 
-namespace doom
+namespace dooms
 {
 	namespace physics
 	{

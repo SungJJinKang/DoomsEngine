@@ -3,9 +3,9 @@
 #include "../Graphics/Buffer/Mesh.h"
 #include "../Graphics/Buffer/MeshNode.h"
 
-//static_assert(std::is_standard_layout_v<doom::MeshVertexData>);
+//static_assert(std::is_standard_layout_v<dooms::MeshVertexData>);
 
-void doom::asset::ThreeDModelAsset::SendMeshDataToGPU()
+void dooms::asset::ThreeDModelAsset::SendMeshDataToGPU()
 {
 	mNumOfMeshes = mNumOfModelMeshAssets;
 	if (mNumOfMeshes > 0)
@@ -22,24 +22,24 @@ void doom::asset::ThreeDModelAsset::SendMeshDataToGPU()
 	}
 
 
-	mRootMeshNode = std::make_unique<doom::graphics::MeshNode>();
+	mRootMeshNode = std::make_unique<dooms::graphics::MeshNode>();
 	CreateNode(mRootMeshNode.get(), mRootModelNode.get());
 }
 
 
-void doom::asset::ThreeDModelAsset::ClearMeshData()
+void dooms::asset::ThreeDModelAsset::ClearMeshData()
 {
 	mModelMeshAssets.reset();
 	mRootModelNode.reset();
 
 }
 
-void doom::asset::ThreeDModelAsset::CreateNode(graphics::MeshNode* currentNode, ThreeDModelNode* currentModelNodeAsset)
+void dooms::asset::ThreeDModelAsset::CreateNode(graphics::MeshNode* currentNode, ThreeDModelNode* currentModelNodeAsset)
 {
 	currentNode->mNumOfMeshes = currentModelNodeAsset->mNumOfModelMeshes;
 	if (currentNode->mNumOfMeshes != 0)
 	{
-		currentNode->mMeshes = std::make_unique< doom::graphics::Mesh* []>(currentNode->mNumOfMeshes);
+		currentNode->mMeshes = std::make_unique< dooms::graphics::Mesh* []>(currentNode->mNumOfMeshes);
 		for (UINT32 i = 0; i < currentNode->mNumOfMeshes; i++)
 		{
 			currentNode->mMeshes[i] = &(mMeshes[currentModelNodeAsset->mModelMeshIndexs[i]]);
@@ -53,7 +53,7 @@ void doom::asset::ThreeDModelAsset::CreateNode(graphics::MeshNode* currentNode, 
 	currentNode->mNumOfChilds = currentModelNodeAsset->mNumOfThreeDModelNodeChildrens;
 	if (currentNode->mNumOfChilds != 0)
 	{
-		currentNode->mChilds = std::make_unique< doom::graphics::MeshNode[]>(currentNode->mNumOfChilds);
+		currentNode->mChilds = std::make_unique< dooms::graphics::MeshNode[]>(currentNode->mNumOfChilds);
 		for (UINT32 i = 0; i < currentNode->mNumOfChilds; i++)
 		{
 			currentNode->mChilds[i].mParent = currentNode;
@@ -68,7 +68,7 @@ void doom::asset::ThreeDModelAsset::CreateNode(graphics::MeshNode* currentNode, 
 	
 }
 
-void doom::asset::ThreeDModelAsset::OnEndImportInMainThread_Internal()
+void dooms::asset::ThreeDModelAsset::OnEndImportInMainThread_Internal()
 {
 	D_START_PROFILING(Postprocess_3D_Model, eProfileLayers::Rendering);
 	SendMeshDataToGPU();
@@ -77,7 +77,7 @@ void doom::asset::ThreeDModelAsset::OnEndImportInMainThread_Internal()
 }
 
 
-doom::asset::ThreeDModelAsset::~ThreeDModelAsset()
+dooms::asset::ThreeDModelAsset::~ThreeDModelAsset()
 {
 	if (mRootModelNode != nullptr)
 	{//check is destroyed
@@ -85,24 +85,24 @@ doom::asset::ThreeDModelAsset::~ThreeDModelAsset()
 	}
 }
 
-const std::vector<doom::graphics::Mesh>& doom::asset::ThreeDModelAsset::GetMeshes() const
+const std::vector<dooms::graphics::Mesh>& dooms::asset::ThreeDModelAsset::GetMeshes() const
 {
 	return mMeshes;
 }
 
-doom::graphics::Mesh* doom::asset::ThreeDModelAsset::GetMesh(UINT32 index) 
+dooms::graphics::Mesh* dooms::asset::ThreeDModelAsset::GetMesh(UINT32 index) 
 {
 	D_ASSERT(index >= 0 && index < GetMeshCount());
 	return &(mMeshes[index]);
 }
 
-size_t doom::asset::ThreeDModelAsset::GetMeshCount() const
+size_t dooms::asset::ThreeDModelAsset::GetMeshCount() const
 {
 	return mMeshes.size();
 }
 
-doom::asset::eAssetType doom::asset::ThreeDModelAsset::GetEAssetType() const
+dooms::asset::eAssetType dooms::asset::ThreeDModelAsset::GetEAssetType() const
 {
-	return doom::asset::eAssetType::THREE_D_MODEL;
+	return dooms::asset::eAssetType::THREE_D_MODEL;
 }
 

@@ -2,7 +2,7 @@
 #include <Graphics/DebugGraphics/DebugDrawer.h>
 #include <Vector2.h>
 
-void doom::physics::Circle2D::DrawCollider(eColor color, bool drawInstantly /*= false*/) const
+void dooms::physics::Circle2D::DrawCollider(eColor color, bool drawInstantly /*= false*/) const
 {
 #ifdef DEBUG_DRAWER
 	auto debugGraphics = graphics::DebugDrawer::GetSingleton();
@@ -25,23 +25,23 @@ void doom::physics::Circle2D::DrawCollider(eColor color, bool drawInstantly /*= 
 #endif
 }
 
-doom::physics::Circle2D::Circle2D(const math::Vector2& center, FLOAT32 radius)
+dooms::physics::Circle2D::Circle2D(const math::Vector2& center, FLOAT32 radius)
 	:mCenter{ center }, mRadius{ radius }
 {
 }
 
-doom::physics::ColliderType doom::physics::Circle2D::GetColliderType() const
+dooms::physics::ColliderType dooms::physics::Circle2D::GetColliderType() const
 {
-	return doom::physics::ColliderType::Circle2D;
+	return dooms::physics::ColliderType::Circle2D;
 }
 
-bool doom::physics::IsOverlapCircle2DAndCircle2D(const Circle2D& circle2d1, const Circle2D& circle2d2)
+bool dooms::physics::IsOverlapCircle2DAndCircle2D(const Circle2D& circle2d1, const Circle2D& circle2d2)
 {
 	FLOAT32 distanceSqr{ (circle2d1.mCenter - circle2d2.mCenter).sqrMagnitude() };
 	return distanceSqr < math::pow(circle2d1.mRadius + circle2d2.mRadius, 2);
 }
 
-bool doom::physics::IsOverlapCircle2DAndCircle2D(const Collider* const circle2d1, const Collider* const circle2d2)
+bool dooms::physics::IsOverlapCircle2DAndCircle2D(const Collider* const circle2d1, const Collider* const circle2d2)
 {
 	return IsOverlapCircle2DAndCircle2D(*static_cast<const Circle2D*>(circle2d1), *static_cast<const Circle2D*>(circle2d2));
 }

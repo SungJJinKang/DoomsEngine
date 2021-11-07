@@ -3,7 +3,7 @@
 #include <string>
 
 
-namespace doom
+namespace dooms
 {
 	namespace stringHelper
 	{

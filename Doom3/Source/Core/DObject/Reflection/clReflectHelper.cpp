@@ -10,7 +10,7 @@
 #include "Game/ConfigData.h"
 
 
-namespace doom
+namespace dooms
 {
 	namespace clReflectHelper
 	{
@@ -23,7 +23,7 @@ namespace doom
 			clReflectAdditionalCompilerOptionsString.append(clReflectAdditionalCompilerOptions_Configuration);
 			clReflectAdditionalCompilerOptionsString.append(" -SD");
 			std::filesystem::path sourceDependencyFolderDirectory = ConfigData::GetSingleton()->GetConfigData().GetValue<std::string>("SYSTEM", "SOURCE_DEPENDENCIES_FOLDER_NAME");
-			clReflectAdditionalCompilerOptionsString.append(doom::path::_GetCurrentPath(sourceDependencyFolderDirectory.generic_u8string()));
+			clReflectAdditionalCompilerOptionsString.append(dooms::path::_GetCurrentPath(sourceDependencyFolderDirectory.generic_u8string()));
 			clReflectAdditionalCompilerOptionsString.append("\\");
 
 			if (ConfigData::GetSingleton()->GetConfigData().GetValue<bool>("SYSTEM", "PRINT_GENERATE_REFLECTION_DATA_VERBOSE") == true)
@@ -73,7 +73,7 @@ namespace doom
 #endif
 
 			clReflectArgs.append(" ");
-			clReflectArgs.append(doom::clReflectHelper::Generate_clReflectAdditionalCompilerOptions());
+			clReflectArgs.append(dooms::clReflectHelper::Generate_clReflectAdditionalCompilerOptions());
 
 			return std::wstring{ clReflectArgs.begin(), clReflectArgs.end() };
 
@@ -84,9 +84,9 @@ namespace doom
 }
 
 
-bool doom::clReflectHelper::Generate_clReflect_BinaryReflectionData()
+bool dooms::clReflectHelper::Generate_clReflect_BinaryReflectionData()
 {
-	doom::ui::PrintText("Start to generate reflection data");
+	dooms::ui::PrintText("Start to generate reflection data");
 
 
 	//TODO : when call this function again in run-time, make argument string again???
@@ -99,8 +99,8 @@ bool doom::clReflectHelper::Generate_clReflect_BinaryReflectionData()
 	currentPath += "\\";
 	currentPath += clReflect_automation_dll_filename;
 
-	doom::SmartDynamicLinking c_sharp_library{ currentPath };
-	auto future = doom::resource::JobSystem::GetSingleton()->PushBackJobToPriorityQueue(
+	dooms::SmartDynamicLinking c_sharp_library{ currentPath };
+	auto future = dooms::resource::JobSystem::GetSingleton()->PushBackJobToPriorityQueue(
 		std::function<void()>(
 			[&]()
 			{

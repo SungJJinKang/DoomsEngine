@@ -5,7 +5,7 @@
 
 #include <Core.h>
 
-namespace doom
+namespace dooms
 {
 	namespace graphics
 	{
@@ -21,7 +21,7 @@ namespace doom
 	class DOOM_API Scene : public DObject, public ISingleton<Scene>//, public GameFlow
 	{
 
-		DOBJECT_CLASS_BODY(Scene, doom::eDOBJECT_ClassFlags::NonCopyable);
+		DOBJECT_CLASS_BODY(Scene, dooms::eDOBJECT_ClassFlags::NonCopyable);
 		DOBJECT_CLASS_BASE_CHAIN(DObject)
 
 		friend class GameCore;
@@ -35,7 +35,7 @@ namespace doom
 
 
 		bool DestroyEntity_Internal(Entity* entity) const;
-		void InitializeEntity(doom::Entity* const entity);
+		void InitializeEntity(dooms::Entity* const entity);
 
 	protected:
 

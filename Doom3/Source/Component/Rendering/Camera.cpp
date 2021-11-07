@@ -6,7 +6,7 @@
 #include "../Graphics/Graphics_Setting.h"
 #include "Graphics/Buffer/UniformBlockOffsetInfo.h"
 
-using namespace doom;
+using namespace dooms;
 
 void Camera::SetProjectionMode(eProjectionType value)
 {
@@ -106,7 +106,7 @@ Camera::Camera()
 
 }
 
-void doom::Camera::SetCameraFlag(const eCameraFlag cameraFlag, const bool isSet)
+void dooms::Camera::SetCameraFlag(const eCameraFlag cameraFlag, const bool isSet)
 {
 	if (isSet == true)
 	{
@@ -118,7 +118,7 @@ void doom::Camera::SetCameraFlag(const eCameraFlag cameraFlag, const bool isSet)
 	}
 }
 
-doom::Camera::eProjectionType Camera::GetProjectionMode() const
+dooms::Camera::eProjectionType Camera::GetProjectionMode() const
 {
 	return mProjectionMode;
 }
@@ -163,18 +163,18 @@ FLOAT32 Camera::GetViewportRectHeight() const
 	return mViewportRectHeight;
 }
 
-bool doom::Camera::GetCameraFlag(const eCameraFlag cameraFlag) const
+bool dooms::Camera::GetCameraFlag(const eCameraFlag cameraFlag) const
 {
 	return ( mCameraFlag & static_cast<UINT32>(cameraFlag) ) != 0;
 }
 
 bool Camera::GetIsCullJobEnabled() const
 {
-	return (GetCameraFlag(doom::eCameraFlag::IS_CULLED) == true) && (GetCameraFlag(doom::eCameraFlag::PAUSE_CULL_JOB) == false);
+	return (GetCameraFlag(dooms::eCameraFlag::IS_CULLED) == true) && (GetCameraFlag(dooms::eCameraFlag::PAUSE_CULL_JOB) == false);
 }
 
 
-const std::array<math::Vector4, 6>& doom::Camera::CalculateFrustumPlane()
+const std::array<math::Vector4, 6>& dooms::Camera::CalculateFrustumPlane()
 {
 	auto& viewProjectionMatrix = GetViewProjectionMatrix();
 	// Left Frustum Plane
@@ -254,7 +254,7 @@ void Camera::OnEndOfFrame_Component()
 
 void Camera::UpdateMainCamera()
 {
-	doom::Scene* const currentWorld = Scene::GetSingleton();
+	dooms::Scene* const currentWorld = Scene::GetSingleton();
 	Camera* currentMainCamera = currentWorld->GetMainCamera();
 	if (currentMainCamera == nullptr)
 	{
@@ -269,7 +269,7 @@ void Camera::OnSetMainCamera()
 
 
 
-doom::Camera* Camera::GetMainCamera()
+dooms::Camera* Camera::GetMainCamera()
 {
 	auto currentWorld = Scene::GetSingleton();
 	return currentWorld->GetMainCamera();
@@ -280,19 +280,19 @@ doom::Camera* Camera::GetMainCamera()
 /// </summary>
 /// <returns></returns>
 
-const math::Matrix4x4& doom::Camera::GetProjectionMatrix()
+const math::Matrix4x4& dooms::Camera::GetProjectionMatrix()
 {
 	if (bmIsProjectionMatrixDirty.GetIsDirty(true) )
 	{
 		if (mProjectionMode == eProjectionType::Perspective)
 		{
 			mProjectionMatrix = math::perspectiveFov(mFieldOfViewInRadian, static_cast<FLOAT32>(graphics::Graphics_Setting::GetScreenWidth()), static_cast<FLOAT32>(graphics::Graphics_Setting::GetScreenHeight()), mClippingPlaneNear, mClippingPlaneFar);
-			//mViewFrumstum.SetCamera(mFieldOfViewInRadian, doom::graphics::Graphics_Server::GetScreenRatio(), mClippingPlaneNear, mClippingPlaneFar);
+			//mViewFrumstum.SetCamera(mFieldOfViewInRadian, dooms::graphics::Graphics_Server::GetScreenRatio(), mClippingPlaneNear, mClippingPlaneFar);
 		}
 		else
 		{
 			mProjectionMatrix = math::ortho(mViewportRectX, mViewportRectX + mViewportRectWidth, mViewportRectY, mViewportRectY + mViewportRectHeight, mClippingPlaneNear, mViewportRectHeight);
-			//mViewFrumstum.SetCamera(180.0f * math::DEGREE_TO_RADIAN, doom::graphics::Graphics_Server::GetScreenRatio(), mClippingPlaneNear, mClippingPlaneFar);
+			//mViewFrumstum.SetCamera(180.0f * math::DEGREE_TO_RADIAN, dooms::graphics::Graphics_Server::GetScreenRatio(), mClippingPlaneNear, mClippingPlaneFar);
 		}
 
 	}
@@ -305,14 +305,14 @@ void Camera::OnDestroy()
 	RemoveThisCameraFromMainCamera();
 }
 
-bool doom::Camera::IsMainCamera() const
+bool dooms::Camera::IsMainCamera() const
 {
 	return Camera::GetMainCamera() == this;
 }
 
-void doom::Camera::RemoveThisCameraFromMainCamera()
+void dooms::Camera::RemoveThisCameraFromMainCamera()
 {
-	doom::Scene* const currentWorld = Scene::GetSingleton();
+	dooms::Scene* const currentWorld = Scene::GetSingleton();
 	Camera* currentMainCamera = currentWorld->GetMainCamera();
 	if (currentMainCamera == this)
 	{
@@ -349,7 +349,7 @@ math::Vector3 Camera::ScreenToNDCPoint(const math::Vector3& screenPoint)
 	return ndcPoint;
 }
 
-math::Vector3 doom::Camera::NDCToWorldPoint(const math::Vector3& ndcPoint)
+math::Vector3 dooms::Camera::NDCToWorldPoint(const math::Vector3& ndcPoint)
 {
 	math::Matrix4x4 invViewAndProjectionMatrix{ GetProjectionMatrix() * GetViewMatrix() };
 	invViewAndProjectionMatrix = invViewAndProjectionMatrix.inverse();
@@ -362,7 +362,7 @@ math::Vector3 doom::Camera::NDCToWorldPoint(const math::Vector3& ndcPoint)
 	return resultPoint /= resultPoint.w;
 }
 
-math::Vector3 doom::Camera::WorldToNDCPoint(const math::Vector3& worldPosition)
+math::Vector3 dooms::Camera::WorldToNDCPoint(const math::Vector3& worldPosition)
 {
 	math::Vector4 resultPoint{ worldPosition };
 	resultPoint.w = 1;
@@ -374,7 +374,7 @@ math::Vector3 doom::Camera::WorldToNDCPoint(const math::Vector3& worldPosition)
 	return resultPoint;
 }
 
-math::Vector3 doom::Camera::ScreenToWorldPoint(const math::Vector3& screenPosition)
+math::Vector3 dooms::Camera::ScreenToWorldPoint(const math::Vector3& screenPosition)
 {
 	math::Vector4 ndcPoint{ ScreenToNDCPoint(screenPosition) };
 	ndcPoint.w = 1;
@@ -382,7 +382,7 @@ math::Vector3 doom::Camera::ScreenToWorldPoint(const math::Vector3& screenPositi
 	return NDCToWorldPoint(ndcPoint);
 }
 
-math::Vector3 doom::Camera::WorldToScreenPoint(const math::Vector3& worldPosition)
+math::Vector3 dooms::Camera::WorldToScreenPoint(const math::Vector3& worldPosition)
 {
 	return NDCToScreenPoint(WorldToNDCPoint(worldPosition));
 }
@@ -396,21 +396,21 @@ void Camera::UpdateUniformBufferObject()
 		const math::Matrix4x4& projectionMatrix = GetProjectionMatrix();
 
 		//!!!! Opengl Use column major of matrix data layout
-		doom::graphics::UniformBufferObjectManager::GetSingleton()->GetUniformBufferObject(GLOBAL_UNIFORM_BLOCK_BINDING_POINT).BufferSubData((void*)projectionMatrix.data(), sizeof(projectionMatrix), graphics::eUniformBlock_Global::projection);
-		doom::graphics::UniformBufferObjectManager::GetSingleton()->GetUniformBufferObject(GLOBAL_UNIFORM_BLOCK_BINDING_POINT).BufferSubData((void*)&mClippingPlaneNear, sizeof(FLOAT32), graphics::eUniformBlock_Global::camNear);
-		doom::graphics::UniformBufferObjectManager::GetSingleton()->GetUniformBufferObject(GLOBAL_UNIFORM_BLOCK_BINDING_POINT).BufferSubData((void*)&mClippingPlaneFar, sizeof(FLOAT32), graphics::eUniformBlock_Global::camFar);
+		dooms::graphics::UniformBufferObjectManager::GetSingleton()->GetUniformBufferObject(GLOBAL_UNIFORM_BLOCK_BINDING_POINT).BufferSubData((void*)projectionMatrix.data(), sizeof(projectionMatrix), graphics::eUniformBlock_Global::projection);
+		dooms::graphics::UniformBufferObjectManager::GetSingleton()->GetUniformBufferObject(GLOBAL_UNIFORM_BLOCK_BINDING_POINT).BufferSubData((void*)&mClippingPlaneNear, sizeof(FLOAT32), graphics::eUniformBlock_Global::camNear);
+		dooms::graphics::UniformBufferObjectManager::GetSingleton()->GetUniformBufferObject(GLOBAL_UNIFORM_BLOCK_BINDING_POINT).BufferSubData((void*)&mClippingPlaneFar, sizeof(FLOAT32), graphics::eUniformBlock_Global::camFar);
 
 		
 		if (bmIsUboDirty.GetIsDirty(true))
 		{//when transform value is changed
 			auto& viewMatrix = GetViewMatrix(); 
-			const doom::Transform* const transform = GetTransform();
+			const dooms::Transform* const transform = GetTransform();
 			const math::Vector3& camPos = transform->GetPosition();
 			auto& viewProjectionMatrix = GetViewProjectionMatrix();
 
-			doom::graphics::UniformBufferObjectManager::GetSingleton()->GetUniformBufferObject(GLOBAL_UNIFORM_BLOCK_BINDING_POINT).BufferSubData((void*)viewMatrix.data(), sizeof(viewMatrix), graphics::eUniformBlock_Global::view);
-			doom::graphics::UniformBufferObjectManager::GetSingleton()->GetUniformBufferObject(GLOBAL_UNIFORM_BLOCK_BINDING_POINT).BufferSubData((void*)camPos.data(), sizeof(camPos), graphics::eUniformBlock_Global::camPos);
-			doom::graphics::UniformBufferObjectManager::GetSingleton()->GetUniformBufferObject(GLOBAL_UNIFORM_BLOCK_BINDING_POINT).BufferSubData((void*)viewProjectionMatrix.data(), sizeof(viewProjectionMatrix), graphics::eUniformBlock_Global::viewProjection);
+			dooms::graphics::UniformBufferObjectManager::GetSingleton()->GetUniformBufferObject(GLOBAL_UNIFORM_BLOCK_BINDING_POINT).BufferSubData((void*)viewMatrix.data(), sizeof(viewMatrix), graphics::eUniformBlock_Global::view);
+			dooms::graphics::UniformBufferObjectManager::GetSingleton()->GetUniformBufferObject(GLOBAL_UNIFORM_BLOCK_BINDING_POINT).BufferSubData((void*)camPos.data(), sizeof(camPos), graphics::eUniformBlock_Global::camPos);
+			dooms::graphics::UniformBufferObjectManager::GetSingleton()->GetUniformBufferObject(GLOBAL_UNIFORM_BLOCK_BINDING_POINT).BufferSubData((void*)viewProjectionMatrix.data(), sizeof(viewProjectionMatrix), graphics::eUniformBlock_Global::viewProjection);
 		}
 	}
 }

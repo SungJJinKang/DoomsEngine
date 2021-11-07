@@ -2,7 +2,7 @@
 #include "../../Core/Scene/Entity.h"
 #include "../Transform.h"
 
-using namespace doom;
+using namespace dooms;
 
 
 
@@ -28,7 +28,7 @@ void Component::AddLocalDirtyToTransformDirtyReceiver(DirtyReceiver& localDirty)
 	GetTransform()->mDirtySender.AddDirtyReceiver(&localDirty);
 }
 
-void doom::Component::InitComponent_Internal(Entity* entity)
+void dooms::Component::InitComponent_Internal(Entity* entity)
 {
 	D_ASSERT(IsValid(entity) == true);
 	mOwnerEntity = entity;
@@ -36,7 +36,7 @@ void doom::Component::InitComponent_Internal(Entity* entity)
 	bIsAddedToEntity = true;
 }
 
-void doom::Component::UpdateComponent_Internal()
+void dooms::Component::UpdateComponent_Internal()
 {
 }
 
@@ -46,21 +46,21 @@ void Component::FixedUpdateComponent_Internal()
 
 }
 
-void doom::Component::OnEndOfFrame_Component_Internal()
+void dooms::Component::OnEndOfFrame_Component_Internal()
 {
 	FrameDirtyChecker_EndOfFrame();
 }
 
-void doom::Component::OnDestroy_Internal()
+void dooms::Component::OnDestroy_Internal()
 {
 }
 
-void doom::Component::OnActivated_Internal()
+void dooms::Component::OnActivated_Internal()
 {
 	SetDirtyTrueAtThisFrame();
 }
 
-void doom::Component::OnDeActivated_Internal()
+void dooms::Component::OnDeActivated_Internal()
 {
 }
 

@@ -18,7 +18,7 @@
 #include "Graphics/Acceleration/LinearData_ViewFrustumCulling/DataType/EntityBlockViewer.h"
 
 
-namespace doom
+namespace dooms
 {
 	namespace graphics
 	{
@@ -35,7 +35,7 @@ namespace doom
 
 	};
 
-	class DOOM_API Renderer : public ServerComponent, public RendererComponentStaticIterator, public BVH_Sphere_Node_Object, public ColliderUpdater<doom::physics::AABB3D>//, public BVH_AABB3D_Node_Object // public graphics::CullDistanceRenderer
+	class DOOM_API Renderer : public ServerComponent, public RendererComponentStaticIterator, public BVH_Sphere_Node_Object, public ColliderUpdater<dooms::physics::AABB3D>//, public BVH_AABB3D_Node_Object // public graphics::CullDistanceRenderer
 	{
 		DOBJECT_ABSTRACT_CLASS_BODY(Renderer)
 		DOBJECT_CLASS_BASE_CHAIN(ServerComponent)
@@ -129,7 +129,7 @@ namespace doom
 
 		void SetMaterial(const graphics::Material* material) noexcept;
 		void SetMaterial(const graphics::Material& material) noexcept;
-		FORCE_INLINE const doom::graphics::Material* GetMaterial()
+		FORCE_INLINE const dooms::graphics::Material* GetMaterial()
 		{
 			return mTargetMaterial;
 		}

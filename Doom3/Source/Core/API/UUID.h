@@ -3,7 +3,7 @@
 //https://github.com/graeme-hill/crossguid
 #include <guid.hpp>
 
-namespace doom
+namespace dooms
 {
 	
 	using D_UUID = xg::Guid;

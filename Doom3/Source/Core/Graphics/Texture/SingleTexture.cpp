@@ -2,7 +2,7 @@
 
 #include <DirectXTex.h>
 
-using namespace doom::graphics;
+using namespace dooms::graphics;
 
 
 SingleTexture::SingleTexture()
@@ -139,7 +139,7 @@ void SingleTexture::InitializeSingleTexture(eTextureType textureType, eTargetTex
 
 
 
-void doom::graphics::SingleTexture::Tex2DMipMapImages(std::vector<const DirectX::Image*> mipmapDatas)
+void dooms::graphics::SingleTexture::Tex2DMipMapImages(std::vector<const DirectX::Image*> mipmapDatas)
 {
 	BindTexture();
 

@@ -9,7 +9,7 @@ using HANDLE = void*;
 
 
 
-namespace doom
+namespace dooms
 {
 	/// <summary>
 	/// refrain from using os call

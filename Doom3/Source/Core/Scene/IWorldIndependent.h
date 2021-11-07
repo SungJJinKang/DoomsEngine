@@ -1,6 +1,6 @@
 #pragma once
 
-namespace doom
+namespace dooms
 {
 	/// <summary>
 	/// Interface For Class independent from world ( even if specific world is destoryed, this class instance is alive

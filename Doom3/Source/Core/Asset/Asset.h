@@ -11,7 +11,7 @@
 #include "eAssetType.h"
 #include "AssetMetaData.h"
 
-namespace doom
+namespace dooms
 {
 	
 
@@ -30,7 +30,7 @@ namespace doom
 		class DOOM_API Asset : public DObject
 		{
 
-			DOBJECT_ABSTRACT_CLASS_BODY(Asset, doom::eDOBJECT_ClassFlags::NonCopyable)
+			DOBJECT_ABSTRACT_CLASS_BODY(Asset, dooms::eDOBJECT_ClassFlags::NonCopyable)
 			DOBJECT_CLASS_BASE_CHAIN(DObject)
 
 		public:
@@ -86,7 +86,7 @@ namespace doom
 			virtual void OnEndImportInSubThread() {};
 
 
-			doom::D_UUID GetUUID() const;
+			dooms::D_UUID GetUUID() const;
 			std::string GetAssetFileName();
 			const std::string& GetAssetFileName() const;
 			UINT64 GetAssetFileSize() const;
@@ -95,7 +95,7 @@ namespace doom
 			void SetAssetStatus(const AssetStatus assetStatus);
 			void SetBaseMetaData(const std::filesystem::path& path, const D_UUID& uuid);
 
-			virtual doom::asset::eAssetType GetEAssetType() const = 0;
+			virtual dooms::asset::eAssetType GetEAssetType() const = 0;
 		};
 	}
 

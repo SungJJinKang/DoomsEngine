@@ -7,7 +7,7 @@
 
 #include <Asset/eAssetType.h>
 
-namespace doom
+namespace dooms
 {
 	namespace asset
 	{
@@ -35,8 +35,8 @@ namespace doom
 			AssetImporterWorker& operator=(AssetImporterWorker&&) noexcept;
 			virtual ~AssetImporterWorker();
 
-			virtual bool ImportSpecificAsset(const std::filesystem::path& path, doom::asset::Asset* asset) = 0;
-			virtual doom::asset::eAssetType GetEAssetType() const = 0;
+			virtual bool ImportSpecificAsset(const std::filesystem::path& path, dooms::asset::Asset* asset) = 0;
+			virtual dooms::asset::eAssetType GetEAssetType() const = 0;
 		};
 	}
 }

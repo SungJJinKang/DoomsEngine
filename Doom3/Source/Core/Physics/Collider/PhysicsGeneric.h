@@ -2,7 +2,7 @@
 
 #include <Vector3.h>
 
-namespace doom
+namespace dooms
 {
 	namespace physics
 	{

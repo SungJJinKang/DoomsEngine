@@ -6,7 +6,7 @@
 #include "BVH_Core.h"
 #include "BVH.h"
 
-namespace doom
+namespace dooms
 {
 	template <typename ColliderType>
 	class BVH;
@@ -81,11 +81,11 @@ namespace doom
 
 	};
 
-	//using BVH_Node_View_AABB2D = typename BVH_Node_View<doom::physics::AABB2D>;
-	using BVH_Node_View_AABB3D = typename BVH_Node_View<doom::physics::AABB3D>;
-	using BVH_Node_View_Sphere = typename BVH_Node_View<doom::physics::Sphere>;
+	//using BVH_Node_View_AABB2D = typename BVH_Node_View<dooms::physics::AABB2D>;
+	using BVH_Node_View_AABB3D = typename BVH_Node_View<dooms::physics::AABB3D>;
+	using BVH_Node_View_Sphere = typename BVH_Node_View<dooms::physics::Sphere>;
 
-	//extern template class BVH_Node_View<doom::physics::AABB2D>;
-	extern template class BVH_Node_View<doom::physics::AABB3D>;
-	extern template class BVH_Node_View<doom::physics::Sphere>;
+	//extern template class BVH_Node_View<dooms::physics::AABB2D>;
+	extern template class BVH_Node_View<dooms::physics::AABB3D>;
+	extern template class BVH_Node_View<dooms::physics::Sphere>;
 }

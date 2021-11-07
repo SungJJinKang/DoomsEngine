@@ -5,7 +5,7 @@
 
 #include "OS/ErrorHandling.h"
 
-std::mutex  doom::DynamicLinkingLibrary::LoadUnLoadDLLMutexs{};
+std::mutex  dooms::DynamicLinkingLibrary::LoadUnLoadDLLMutexs{};
 
 #define DEFAULT_LOAD_LIBRARY_EX_DWFLAGS 0x00000000
 
@@ -20,13 +20,13 @@ struct DynamicLinkingReleaser {
 
 };
 
-doom::DynamicLinkingLibrary::DynamicLinkingLibrary(const std::string& libraryPath)
+dooms::DynamicLinkingLibrary::DynamicLinkingLibrary(const std::string& libraryPath)
 	: DynamicLinkingLibrary(libraryPath, DEFAULT_LOAD_LIBRARY_EX_DWFLAGS)
 {
 	
 }
 
-doom::DynamicLinkingLibrary::DynamicLinkingLibrary(const std::string& libraryPath, const unsigned long dwFlags)
+dooms::DynamicLinkingLibrary::DynamicLinkingLibrary(const std::string& libraryPath, const unsigned long dwFlags)
 	: mLibraryPath(libraryPath), mLibrary(LoadDynamicLinkingLibrary(dwFlags), DynamicLinkingReleaser())
 {
 	if (mLibrary == nullptr)
@@ -34,11 +34,11 @@ doom::DynamicLinkingLibrary::DynamicLinkingLibrary(const std::string& libraryPat
 		const DWORD errorCode = GetLastError();
 
 		D_ASSERT_LOG(false, "Fail to Load Library ( %s ) - Error Code : %d", libraryPath.c_str(), errorCode);
-		doom::ui::PrintText("Fail to Load Library ( %s ) - Error Code : %d", libraryPath.c_str(), errorCode);
+		dooms::ui::PrintText("Fail to Load Library ( %s ) - Error Code : %d", libraryPath.c_str(), errorCode);
 	}
 }
 
-void* doom::DynamicLinkingLibrary::LoadDynamicLinkingLibrary(const unsigned long dwFlags)
+void* dooms::DynamicLinkingLibrary::LoadDynamicLinkingLibrary(const unsigned long dwFlags)
 {
 	//if call LoadLibrary on same dll, it's not thread safe
 		//https://stackoverflow.com/questions/11253725/are-loadlibrary-freelibrary-and-getmodulehandle-win32-functions-thread-safe
@@ -59,7 +59,7 @@ void* doom::DynamicLinkingLibrary::LoadDynamicLinkingLibrary(const unsigned long
 	
 }
 
-bool doom::DynamicLinkingLibrary::UnloadDynamicLinkingLibrary()
+bool dooms::DynamicLinkingLibrary::UnloadDynamicLinkingLibrary()
 {
 	bool isFreeLibrarySuccess = false;
 	if (mLibrary != nullptr)
@@ -73,7 +73,7 @@ bool doom::DynamicLinkingLibrary::UnloadDynamicLinkingLibrary()
 }
 
 
-void* doom::SmartDynamicLinking::_GetProcAddress(const char* const functionName)
+void* dooms::SmartDynamicLinking::_GetProcAddress(const char* const functionName)
 {
 	D_ASSERT(mDynamicLinkingLibrary.mLibrary != nullptr);
 
@@ -86,33 +86,33 @@ void* doom::SmartDynamicLinking::_GetProcAddress(const char* const functionName)
 			const DWORD errorCode = GetLastError();
 
 			D_ASSERT_LOG(false, "Fail to GetProcAddress ( ""%s"" from ""%s"" ) - Error Code : %d", functionName, mDynamicLinkingLibrary.mLibraryPath.c_str(), errorCode);
-			doom::ui::PrintText("Fail to GetProcAddress ( ""%s"" from ""%s"" ) - Error Code : %d", functionName, mDynamicLinkingLibrary.mLibraryPath.c_str(), errorCode);
+			dooms::ui::PrintText("Fail to GetProcAddress ( ""%s"" from ""%s"" ) - Error Code : %d", functionName, mDynamicLinkingLibrary.mLibraryPath.c_str(), errorCode);
 		}
 
 		return procAddress;
 	}
 	else
 	{
-		doom::ui::PrintText("Try to GetProcAddress, But Library is not loaded");
+		dooms::ui::PrintText("Try to GetProcAddress, But Library is not loaded");
 		return nullptr;
 	}
 }
 
 
-doom::SmartDynamicLinking::SmartDynamicLinking(const std::string& csharpLibraryPath)
+dooms::SmartDynamicLinking::SmartDynamicLinking(const std::string& csharpLibraryPath)
 	:	mDynamicLinkingLibrary(csharpLibraryPath)
 {
 	
 }
 
-doom::SmartDynamicLinking::~SmartDynamicLinking() = default;
-doom::SmartDynamicLinking::SmartDynamicLinking(const SmartDynamicLinking&) = default;
-doom::SmartDynamicLinking::SmartDynamicLinking(SmartDynamicLinking&&) noexcept = default;
-doom::SmartDynamicLinking& doom::SmartDynamicLinking::operator=(const SmartDynamicLinking&) = default;
-doom::SmartDynamicLinking& doom::SmartDynamicLinking::operator=(SmartDynamicLinking&&) noexcept = default;
-int doom::filter(unsigned code, _EXCEPTION_POINTERS* ptr)
+dooms::SmartDynamicLinking::~SmartDynamicLinking() = default;
+dooms::SmartDynamicLinking::SmartDynamicLinking(const SmartDynamicLinking&) = default;
+dooms::SmartDynamicLinking::SmartDynamicLinking(SmartDynamicLinking&&) noexcept = default;
+dooms::SmartDynamicLinking& dooms::SmartDynamicLinking::operator=(const SmartDynamicLinking&) = default;
+dooms::SmartDynamicLinking& dooms::SmartDynamicLinking::operator=(SmartDynamicLinking&&) noexcept = default;
+int dooms::filter(unsigned code, _EXCEPTION_POINTERS* ptr)
 {
-	doom::ui::PrintText("Exception from Called DLL's Function");
-	doom::errorHandling::ExceptionHandler(ptr);
+	dooms::ui::PrintText("Exception from Called DLL's Function");
+	dooms::errorHandling::ExceptionHandler(ptr);
 	return EXCEPTION_EXECUTE_HANDLER;
 }

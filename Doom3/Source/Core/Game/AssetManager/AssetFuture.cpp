@@ -3,9 +3,9 @@
 #include <Asset/Asset.h>
 #include "AssetManager.h"
 
-doom::assetImporter::AssetFuture::AssetFuture
+dooms::assetImporter::AssetFuture::AssetFuture
 (
-	doom::asset::Asset* const asset, 
+	dooms::asset::Asset* const asset, 
 	std::future<bool>&& future
 ) noexcept
 	:	mAsset{asset}, mFuture(std::move(future)), isWaitingEnd{false}
@@ -13,21 +13,21 @@ doom::assetImporter::AssetFuture::AssetFuture
 
 }
 
-doom::assetImporter::AssetFuture::~AssetFuture() = default;
+dooms::assetImporter::AssetFuture::~AssetFuture() = default;
 
-void doom::assetImporter::AssetFuture::WaitAsset()
+void dooms::assetImporter::AssetFuture::WaitAsset()
 {
 	if(isWaitingEnd == false)
 	{
 		mFuture.wait();
 		mAsset->OnEndImportInMainThread();
-		doom::assetImporter::AssetManager::GetSingleton()->AddAssetToAssetContainer(mAsset);
+		dooms::assetImporter::AssetManager::GetSingleton()->AddAssetToAssetContainer(mAsset);
 
 		isWaitingEnd = true;
 	}
 }
 
-doom::asset::Asset* doom::assetImporter::AssetFuture::GetAsset()
+dooms::asset::Asset* dooms::assetImporter::AssetFuture::GetAsset()
 {
 	WaitAsset();
 	return mAsset;

@@ -2,7 +2,7 @@
 
 #include <Asset/eAssetType.h>
 
-namespace doom
+namespace dooms
 {
 	namespace assetImporter
 	{

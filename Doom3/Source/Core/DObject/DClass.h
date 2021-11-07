@@ -2,10 +2,10 @@
 
 #include <type_traits>
 
-namespace doom
+namespace dooms
 {
 	class DObject;
-	struct DClass /*: public doom::DObject*/ // Dont Do this
+	struct DClass /*: public dooms::DObject*/ // Dont Do this
 	{
 		const size_t CLASS_TYPE_SIZE;
 		const char* const CLASS_TYPE_ID;
@@ -13,7 +13,7 @@ namespace doom
 		const char* const* const BASE_CHAIN_DATA;
 		const char* const CLASS_NAME;
 		const UINT32 CLASS_FLAGS;
-		doom::DObject* (*const CREATE_DOBJECT_FUNCTION_PTR) () ;
+		dooms::DObject* (*const CREATE_DOBJECT_FUNCTION_PTR) () ;
 
 		/*
 		DOBJECT_CLASS_BODY(DClass) // Dont Do this
@@ -27,7 +27,7 @@ namespace doom
 			const char* const* const BASE_CHAIN_DATA,
 			const char* const _CLASS_NAME,
 			const UINT32 _CLASS_FLAGS,
-			doom::DObject* (* const _CREATE_DOBJECT_FUNCTION_PTR) ()
+			dooms::DObject* (* const _CREATE_DOBJECT_FUNCTION_PTR) ()
 		)
 		:
 		CLASS_TYPE_SIZE(_CLASS_TYPE_SIZE),
@@ -49,11 +49,11 @@ namespace doom
 			return isChild;
 		}
 
-		doom::DObject* CreateDObject() const
+		dooms::DObject* CreateDObject() const
 		{
 			D_ASSERT(CREATE_DOBJECT_FUNCTION_PTR != nullptr);
 
-			doom::DObject* CreatedDObject = nullptr;
+			dooms::DObject* CreatedDObject = nullptr;
 
 			if(CREATE_DOBJECT_FUNCTION_PTR != nullptr)
 			{

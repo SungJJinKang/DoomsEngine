@@ -6,7 +6,7 @@
 
 #include "SimpleIniParser.h"
 
-namespace doom
+namespace dooms
 {
 	namespace userinput
 	{
@@ -138,31 +138,31 @@ namespace doom
 	}
 }
 
-namespace doom
+namespace dooms
 {
 	namespace userinput
 	{
 		namespace UserInputHelper
 		{
 
-			doom::userinput::eKEY_CODE ConvertStringToKeyCode(std::string_view str);
+			dooms::userinput::eKEY_CODE ConvertStringToKeyCode(std::string_view str);
 
 		}
 	}
 }
 
 template<>
-inline doom::userinput::eKEY_CODE IniData::GetValue<doom::userinput::eKEY_CODE>(const std::string& section, const std::string& variableKey) const
+inline dooms::userinput::eKEY_CODE IniData::GetValue<dooms::userinput::eKEY_CODE>(const std::string& section, const std::string& variableKey) const
 {
 	auto sectionData = GetSectionData(section, variableKey);
 
 	D_ASSERT(sectionData != nullptr);
 	if (sectionData != nullptr)
 	{
-		return 	doom::userinput::UserInputHelper::ConvertStringToKeyCode(std::get<std::string>(*sectionData));
+		return 	dooms::userinput::UserInputHelper::ConvertStringToKeyCode(std::get<std::string>(*sectionData));
 	}
 	else
 	{
-		return doom::userinput::eKEY_CODE::ERROR_CODE;
+		return dooms::userinput::eKEY_CODE::ERROR_CODE;
 	}
 }

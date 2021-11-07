@@ -2,7 +2,7 @@
 #include "ColliderComponent.h"
 
 #include "Vector2.h"
-namespace doom
+namespace dooms
 {
 	class DOOM_API Collider2DComponent : public ColliderComponent
 	{

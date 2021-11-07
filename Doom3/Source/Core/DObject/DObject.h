@@ -11,7 +11,7 @@
 #include "Reflection/Reflection.h"
 
 
-namespace doom
+namespace dooms
 {
 	class DObjectManager;
 	class DObject;
@@ -53,7 +53,7 @@ namespace doom
 		{
 			static_assert(IS_DOBJECT_TYPE(BASE_TYPE));
 
-			const doom::BaseChain& this_base_chain = GetBaseChain();
+			const dooms::BaseChain& this_base_chain = GetBaseChain();
 
 			const bool isChild = (this_base_chain.mChainCount >= BASE_TYPE::BASE_CHAIN_COUNT_STATIC()) && (this_base_chain.mChainData[this_base_chain.mChainCount - BASE_TYPE::BASE_CHAIN_COUNT_STATIC()] == BASE_TYPE::CLASS_TYPE_ID_STATIC() );
 
@@ -61,7 +61,7 @@ namespace doom
 		}
 
 		template <>
-		FORCE_INLINE bool IsChildOf<doom::DObject>() const noexcept
+		FORCE_INLINE bool IsChildOf<dooms::DObject>() const noexcept
 		{
 			return true;
 		}

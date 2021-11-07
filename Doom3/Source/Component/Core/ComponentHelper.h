@@ -3,7 +3,7 @@
 #include "PlainComponent.h"
 #include "ServerComponent.h"
 
-namespace doom
+namespace dooms
 {
 	template<typename T>
 	FORCE_INLINE constexpr extern bool IsServerComponentStatic()

@@ -31,12 +31,12 @@
 #include "PhysicsComponent/Rigidbody/Rigidbody.h"
 #include <Graphics/Buffer/Mesh.h>
 
-void doom::GameLogicStartPoint::StartGameLogic()
+void dooms::GameLogicStartPoint::StartGameLogic()
 {
 	ISingleton<graphics::LightManager>::GetSingleton()->SetAmbientLightIntensity(0.1f);
-	doom::graphics::Graphics_Setting::DefaultClearColor = { 1.0f, 1.0f, 1.0f, 1.0f };
+	dooms::graphics::Graphics_Setting::DefaultClearColor = { 1.0f, 1.0f, 1.0f, 1.0f };
 
-	auto currenScene = doom::Scene::GetCurrentWorld();
+	auto currenScene = dooms::Scene::GetCurrentWorld();
 
 
 	auto lightEntity = currenScene->CreateNewEntity();
@@ -51,7 +51,7 @@ void doom::GameLogicStartPoint::StartGameLogic()
 	//auto& threedasset = assetImporter::AssetManager::GetSingleton()->GetAsset<asset::eAssetType::THREE_D_MODEL>(0);
 	auto threedasset = assetImporter::AssetManager::GetSingleton()->GetAsset<asset::eAssetType::THREE_D_MODEL>("cerberus.assbin");
 	auto shader = assetImporter::AssetManager::GetSingleton()->GetAsset<asset::eAssetType::SHADER>("GbufferWriter_PBR.glsl");
-	auto material = doom::CreateDObject<graphics::Material>(shader);
+	auto material = dooms::CreateDObject<graphics::Material>(shader);
 	material->AddTexture(graphics::eTextureBindingPoint::AlbedoTexture, assetImporter::AssetManager::GetSingleton()->GetAsset<asset::eAssetType::TEXTURE>("cerberus_A.dds"));
 	material->AddTexture(graphics::eTextureBindingPoint::NormalTexture, assetImporter::AssetManager::GetSingleton()->GetAsset<asset::eAssetType::TEXTURE>("cerberus_N.dds"));
 	material->AddTexture(graphics::eTextureBindingPoint::MetalnessTexture, assetImporter::AssetManager::GetSingleton()->GetAsset<asset::eAssetType::TEXTURE>("cerberus_M.dds"));
@@ -134,7 +134,7 @@ void doom::GameLogicStartPoint::StartGameLogic()
 
 		auto entity1Camera = entity1->AddComponent<Camera>();
 		entity1->GetTransform()->SetPosition(0, 0, 1000);
-		entity1Camera->SetProjectionMode(doom::Camera::eProjectionType::Perspective);
+		entity1Camera->SetProjectionMode(dooms::Camera::eProjectionType::Perspective);
 		entity1->AddComponent<ViewFrustumCullingDebug>();
 		entity1->AddComponent<Move_WASD>();
 		entity1->AddComponent<ExportTextureTester>();
@@ -216,12 +216,12 @@ void doom::GameLogicStartPoint::StartGameLogic()
 	}
 
 	
-	doom::graphics::GraphicsAPIManager::SetWindowTitle(
-		"F3 : µðÆÛµå·»´õ¸µ µð¹ö°Å ON/OFF | F4 : ¸ÖÆ¼½º·¹µå ºäÇÁ·¯½ºÅÒ ÄÃ¸µ ON/OFF | F5 : ¿ÀºêÁ§Æ® FRONT TO BACK ON / OFF | F6 : ¿À¹öµå·Î¿ì µð¹ö°Å ON / OFF | F7 : Ãæµ¹ Ã³¸® µð¹ö±ë ON / OFF"
+	dooms::graphics::GraphicsAPIManager::SetWindowTitle(
+		"F3 : ï¿½ï¿½ï¿½Ûµå·»ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ON/OFF | F4 : ï¿½ï¿½Æ¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ã¸ï¿½ ON/OFF | F5 : ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ® FRONT TO BACK ON / OFF | F6 : ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Î¿ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ON / OFF | F7 : ï¿½æµ¹ Ã³ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ON / OFF"
 	);
 
-	doom::ui::PrintText(
-		"F3 : µðÆÛµå·»´õ¸µ µð¹ö°Å ON/OFF | F4 : ¸ÖÆ¼½º·¹µå ºäÇÁ·¯½ºÅÒ ÄÃ¸µ ON/OFF | F5 : ¿ÀºêÁ§Æ® FRONT TO BACK ON / OFF | F6 : ¿À¹öµå·Î¿ì µð¹ö°Å ON / OFF | F7 : Ãæµ¹ Ã³¸® µð¹ö±ë ON / OFF"
+	dooms::ui::PrintText(
+		"F3 : ï¿½ï¿½ï¿½Ûµå·»ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ON/OFF | F4 : ï¿½ï¿½Æ¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ã¸ï¿½ ON/OFF | F5 : ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ® FRONT TO BACK ON / OFF | F6 : ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Î¿ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ON / OFF | F7 : ï¿½æµ¹ Ã³ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ON / OFF"
 	);
 
 	auto a = Renderer::CLASS_TYPE_ID_STATIC();
@@ -321,29 +321,29 @@ void doom::GameLogicStartPoint::StartGameLogic()
 	D_ASSERT(CastTo<TestComponent*>(testComp2) != nullptr);
 	D_ASSERT(CastTo<TestComponent2*>(testComp1) == nullptr);
 
-	doom::DClass* dclass2 = testComp2->GetDClass();
+	dooms::DClass* dclass2 = testComp2->GetDClass();
 	D_ASSERT(dclass2->IsChildOf<TestComponent>() == true);
 	D_ASSERT(std::strcmp(dclass2->CLASS_NAME, "TestComponent2") == 0);
 	
-	doom::DClass* dclass1 = testComp1->GetDClass();
+	dooms::DClass* dclass1 = testComp1->GetDClass();
 	D_ASSERT(dclass1->IsChildOf<TestComponent2>() == false);
 	D_ASSERT(std::strcmp(dclass1->CLASS_NAME, "TestComponent2") != 0);
 
-	TSubclassOf<doom::TestComponent> testComp1SubClassOf{ dclass1 };
-	TSubclassOf<doom::TestComponent> testComp2SubClassOf{ dclass2 };
-	TSubclassOf<doom::TestComponent2> testComp3SubClassOf{ dclass2 };
-	TSubclassOf<doom::TestComponent2> testComp13SubClassOf{ testComp2SubClassOf };
+	TSubclassOf<dooms::TestComponent> testComp1SubClassOf{ dclass1 };
+	TSubclassOf<dooms::TestComponent> testComp2SubClassOf{ dclass2 };
+	TSubclassOf<dooms::TestComponent2> testComp3SubClassOf{ dclass2 };
+	TSubclassOf<dooms::TestComponent2> testComp13SubClassOf{ testComp2SubClassOf };
 	D_ASSERT(testComp1SubClassOf != nullptr);
 	D_ASSERT(testComp2SubClassOf != nullptr);
 	D_ASSERT(testComp3SubClassOf != nullptr);
 	D_ASSERT(testComp13SubClassOf == nullptr);
 
 	
-	TSubclassOf<doom::TestComponent2> testComp12SubClassOf{ dclass1 };
+	TSubclassOf<dooms::TestComponent2> testComp12SubClassOf{ dclass1 };
 	D_ASSERT(testComp12SubClassOf == nullptr);
 
-	DClass* meshDClass = doom::graphics::Mesh::StaticClass();
-	doom::graphics::Mesh* newMesh = CastTo<doom::graphics::Mesh*>(meshDClass->CreateDObject());
+	DClass* meshDClass = dooms::graphics::Mesh::StaticClass();
+	dooms::graphics::Mesh* newMesh = CastTo<dooms::graphics::Mesh*>(meshDClass->CreateDObject());
 
-	TSubclassOf<doom::DObject> DObjectSubClassOf{ Renderer::StaticClass() };
+	TSubclassOf<dooms::DObject> DObjectSubClassOf{ Renderer::StaticClass() };
 }

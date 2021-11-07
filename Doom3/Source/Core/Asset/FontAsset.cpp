@@ -1,6 +1,6 @@
 #include "FontAsset.h"
 
-doom::asset::eAssetType doom::asset::FontAsset::GetEAssetType() const
+dooms::asset::eAssetType dooms::asset::FontAsset::GetEAssetType() const
 {
-	return doom::asset::eAssetType::FONT;
+	return dooms::asset::eAssetType::FONT;
 }

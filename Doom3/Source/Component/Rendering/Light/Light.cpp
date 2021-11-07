@@ -1,60 +1,60 @@
 #include "Light.h"
 
-void doom::Light::InitComponent()
+void dooms::Light::InitComponent()
 {
 	AddLocalDirtyToTransformDirtyReceiver(bmIsLightUboDirty);
 }
 
-void doom::Light::UpdateComponent()
+void dooms::Light::UpdateComponent()
 {
 
 }
 
-void doom::Light::OnEndOfFrame_Component()
+void dooms::Light::OnEndOfFrame_Component()
 {
 
 }
 
-doom::Light::~Light()
+dooms::Light::~Light()
 {
 }
 
-void doom::Light::SetIntensity(FLOAT32 intensity)
+void dooms::Light::SetIntensity(FLOAT32 intensity)
 {
 	mIntensity = intensity;
 }
 
-void doom::Light::SetIndirectMultiplier(FLOAT32 indirectMultiplier)
+void dooms::Light::SetIndirectMultiplier(FLOAT32 indirectMultiplier)
 {
 	mIndirectMultiplier = indirectMultiplier;
 }
 
-void doom::Light::SetColor(const math::Vector4& color)
+void dooms::Light::SetColor(const math::Vector4& color)
 {
 	mColor = color;
 }
 
-FLOAT32 doom::Light::GetIntensity()
+FLOAT32 dooms::Light::GetIntensity()
 {
 	return mIntensity;
 }
 
-FLOAT32 doom::Light::GetIndirectMultiplier()
+FLOAT32 dooms::Light::GetIndirectMultiplier()
 {
 	return mIndirectMultiplier;
 }
 
-math::Vector4 doom::Light::GetColor()
+math::Vector4 dooms::Light::GetColor()
 {
 	return mColor;
 }
 
-math::Vector4 doom::Light::GetRadiance()
+math::Vector4 dooms::Light::GetRadiance()
 {
 	return mColor * mIntensity;
 }
 
-const math::Vector4& doom::Light::GetColor() const
+const math::Vector4& dooms::Light::GetColor() const
 {
 	return mColor;
 }

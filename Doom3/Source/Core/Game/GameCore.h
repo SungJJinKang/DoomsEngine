@@ -18,14 +18,14 @@
 #include "../Time/Time_Server.h"
 #include "../DObject/Reflection/ReflectionManager.h"
 
-namespace doom
+namespace dooms
 {
 
 	class IGameFlow;
 
 	class GameCore : public IGameFlow, public ISingleton<GameCore>
 	{
-		DOBJECT_CLASS_BODY(GameCore, doom::eDOBJECT_ClassFlags::NonCopyable);
+		DOBJECT_CLASS_BODY(GameCore, dooms::eDOBJECT_ClassFlags::NonCopyable);
 		DOBJECT_CLASS_BASE_CHAIN(IGameFlow)
 	private:
 		

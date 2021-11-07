@@ -1,22 +1,22 @@
 #include "PortfolioComponent.h"
 
-void doom::PortfolioComponent::InitComponent()
+void dooms::PortfolioComponent::InitComponent()
 {
 
 }
 
-void doom::PortfolioComponent::UpdateComponent()
+void dooms::PortfolioComponent::UpdateComponent()
 {
-	//doom::graphics::GraphicsAPIManager::SetWindowTitle(
-	//	u8"F3 : µðÆÛµå·»´õ¸µ µð¹ö°Å ON/OFF (%d) | \
-	//	F4 : ¸ÖÆ¼½º·¹µå ºäÇÁ·¯½ºÅÒ ÄÃ¸µ ON/OFF (%d) | \
-	//	F5 : ¿ÀºêÁ§Æ® FRONT TO BACK ON / OFF (%d) | \
-	//	F6 : ¿À¹öµå·Î¿ì µð¹ö°Å ON / OFF (%d) | \
-	//	F7 : Ãæµ¹ Ã³¸® µð¹ö±ë ON / OFF (%d)",
+	//dooms::graphics::GraphicsAPIManager::SetWindowTitle(
+	//	u8"F3 : ï¿½ï¿½ï¿½Ûµå·»ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ON/OFF (%d) | \
+	//	F4 : ï¿½ï¿½Æ¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ã¸ï¿½ ON/OFF (%d) | \
+	//	F5 : ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ® FRONT TO BACK ON / OFF (%d) | \
+	//	F6 : ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Î¿ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ON / OFF (%d) | \
+	//	F7 : ï¿½æµ¹ Ã³ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ON / OFF (%d)",
 	//);
 }
 
-void doom::PortfolioComponent::OnEndOfFrame_Component()
+void dooms::PortfolioComponent::OnEndOfFrame_Component()
 {
 
 }

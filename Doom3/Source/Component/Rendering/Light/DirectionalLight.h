@@ -2,7 +2,7 @@
 #include "Light.h"
 #include <StaticContainer/StaticContainer.h>
 #include "Graphics/Buffer/UniformBufferObjectUpdater.h"
-namespace doom
+namespace dooms
 {
 	class DOOM_API DirectionalLight : public Light, public StaticContainer<DirectionalLight>, public graphics::UniformBufferObjectUpdater
 	{

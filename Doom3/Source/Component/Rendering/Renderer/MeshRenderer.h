@@ -5,7 +5,7 @@
 #include "../Core/Graphics/Buffer/Mesh.h"
 #include "Transform.h"
 
-namespace doom
+namespace dooms
 {
 	class DOOM_API MeshRenderer : public Renderer
 	{

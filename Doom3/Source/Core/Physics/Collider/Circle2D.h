@@ -2,7 +2,7 @@
 #include "../Core.h"
 #include <Vector2.h>
 #include "Collider.h"
-namespace doom
+namespace dooms
 {
 	namespace physics
 	{

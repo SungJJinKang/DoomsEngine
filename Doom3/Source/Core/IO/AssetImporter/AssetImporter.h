@@ -10,7 +10,7 @@
 #include <Asset/eAssetType.h>
 
 
-namespace doom
+namespace dooms
 {
 	namespace asset
 	{
@@ -21,16 +21,16 @@ namespace doom
 	{
 
 		/// <summary>
-		/// Avaliable Asset Extensions of ::doom::asset::eAssetType
+		/// Avaliable Asset Extensions of ::dooms::asset::eAssetType
 		/// </summary>
-		extern const std::unordered_map<std::string, ::doom::asset::eAssetType> AssetExtension;
+		extern const std::unordered_map<std::string, ::dooms::asset::eAssetType> AssetExtension;
 		/// <summary>
 		/// This extensions will be included in build(release) version
-		/// if there is no InBuildExtension of AssetType(::doom::asset::eAssetType), Any extensions is allowed
+		/// if there is no InBuildExtension of AssetType(::dooms::asset::eAssetType), Any extensions is allowed
 		/// </summary>
-		extern const std::unordered_map<::doom::asset::eAssetType, std::string> AssetInBuildExtension;
+		extern const std::unordered_map<::dooms::asset::eAssetType, std::string> AssetInBuildExtension;
 
-		extern std::optional<::doom::asset::eAssetType> GetAssetType(const std::filesystem::path& path);
+		extern std::optional<::dooms::asset::eAssetType> GetAssetType(const std::filesystem::path& path);
 
 		/// <summary>
 		/// 
@@ -38,7 +38,7 @@ namespace doom
 		/// <param name="path"></param>
 		/// <param name="asset"></param>
 		/// <returns>Is Success??</returns>
-		extern bool ImportAssetJob(std::filesystem::path path, ::doom::asset::Asset* const asset);
+		extern bool ImportAssetJob(std::filesystem::path path, ::dooms::asset::Asset* const asset);
 
 
 		/// <summary>
@@ -48,7 +48,7 @@ namespace doom
 		/// <param name="path"></param>
 		/// <returns></returns>
 		NO_DISCARD extern std::future<bool> PushImportingAssetJobToThreadPool(
-			std::filesystem::path path, ::doom::asset::Asset* const asset
+			std::filesystem::path path, ::dooms::asset::Asset* const asset
 		);
 
 
@@ -62,7 +62,7 @@ namespace doom
 		/// <returns></returns>
 		NO_DISCARD extern std::vector<std::future<bool>> PushImportingAssetJobToThreadPool(
 			const std::vector<std::filesystem::path>& paths, 
-			const std::vector<::doom::asset::Asset*>& assets
+			const std::vector<::dooms::asset::Asset*>& assets
 		);
 
 		///////////////////

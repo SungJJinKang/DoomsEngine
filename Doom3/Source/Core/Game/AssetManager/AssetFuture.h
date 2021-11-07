@@ -3,20 +3,20 @@
 #include <future>
 #include <Asset/AssetsForwardDeclaration.h>
 
-namespace doom
+namespace dooms
 {
 	namespace assetImporter
 	{
 		class AssetFuture
 		{
 		private:
-			doom::asset::Asset* mAsset;
+			dooms::asset::Asset* mAsset;
 			std::future<bool> mFuture;
 			bool isWaitingEnd = false;
 
 		public:
 
-			AssetFuture(doom::asset::Asset* const asset, std::future<bool>&& future) noexcept;
+			AssetFuture(dooms::asset::Asset* const asset, std::future<bool>&& future) noexcept;
 			AssetFuture(const AssetFuture&) = delete;
 			AssetFuture(AssetFuture&&) noexcept = default;
 			AssetFuture& operator=(const AssetFuture&) = delete;
@@ -24,14 +24,14 @@ namespace doom
 			~AssetFuture();
 
 			void WaitAsset();
-			doom::asset::Asset* GetAsset();
+			dooms::asset::Asset* GetAsset();
 
-			template <doom::asset::eAssetType AssetType>
-			typename doom::asset::AssetType<AssetType>::type* GetAsset()
+			template <dooms::asset::eAssetType AssetType>
+			typename dooms::asset::AssetType<AssetType>::type* GetAsset()
 			{
-				static_assert(std::is_base_of_v<doom::asset::Asset, AssetType> == true);
+				static_assert(std::is_base_of_v<dooms::asset::Asset, AssetType> == true);
 				
-				return static_cast<typename doom::asset::AssetType<AssetType>::type*>(GetAsset());
+				return static_cast<typename dooms::asset::AssetType<AssetType>::type*>(GetAsset());
 			}
 			
 		};

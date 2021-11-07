@@ -7,7 +7,7 @@
 #include "ResourceManagement/Pool/ObjectPool.h"
 #include "ResourceManagement/JobSystem_cpp/JobSystem.h"
 
-using namespace doom;
+using namespace dooms;
 
 Scene::Scene(std::string sceneName) 
 {
@@ -42,7 +42,7 @@ Entity* Scene::DuplicateEntity(const Entity* const copyedEntity) noexcept
 
 	Entity* newEntity = Scene::CreateNewEntity(); // resource::ObjectPool<Entity>::AllocateFromPool(nullptr);
 
-	doom::Entity::CopyEntity(*copyedEntity, *newEntity);
+	dooms::Entity::CopyEntity(*copyedEntity, *newEntity);
 
 	return newEntity;
 }
@@ -75,16 +75,16 @@ bool Scene::DestroyEntity(Entity& entity)
 	return isSuccess;
 }
 
-void doom::Scene::DestroyAllEntity()
+void dooms::Scene::DestroyAllEntity()
 {
-	for(doom::Entity* entity : mSpawnedEntities)
+	for(dooms::Entity* entity : mSpawnedEntities)
 	{
 		DestroyEntity_Internal(entity);
 	}
 	mSpawnedEntities.clear();
 }
 
-doom::Scene* Scene::GetCurrentWorld()
+dooms::Scene* Scene::GetCurrentWorld()
 {
 	return GetSingleton();
 }
@@ -118,12 +118,12 @@ bool Scene::DestroyEntity_Internal(Entity* entity) const
 	return isSuccess;
 }
 
-void Scene::InitializeEntity(doom::Entity* const entity)
+void Scene::InitializeEntity(dooms::Entity* const entity)
 {
 	entity->SetOwnerDObject(this);
 }
 
-void doom::Scene::OnEndOfFrameOfEntities()
+void dooms::Scene::OnEndOfFrameOfEntities()
 {
 	for (size_t i = 0; i < mSpawnedEntities.size(); i++)
 	{
@@ -132,7 +132,7 @@ void doom::Scene::OnEndOfFrameOfEntities()
 }
 
 
-NO_DISCARD doom::Camera* Scene::GetMainCamera() const
+NO_DISCARD dooms::Camera* Scene::GetMainCamera() const
 {
 	return mMainCamera;
 }

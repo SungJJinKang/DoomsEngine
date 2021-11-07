@@ -7,7 +7,7 @@
 
 struct GLFWwindow;
 
-namespace doom
+namespace dooms
 {
 	namespace graphics
 	{

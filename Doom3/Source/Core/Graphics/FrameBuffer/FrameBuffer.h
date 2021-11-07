@@ -9,7 +9,7 @@
 #include "../OverlapBindChecker.h"
 #include "../Buffer/BufferID.h"
 
-namespace doom
+namespace dooms
 {
 	namespace graphics
 	{
@@ -172,7 +172,7 @@ namespace doom
 				INT32 dstY1, GraphicsAPI::eBufferBitType mask, eImageInterpolation filter) const noexcept;
 
 			void BlitFrameBufferToTexture(
-				doom::graphics::Texture* const drawTexture, INT32 srcX0, INT32 srcY0, INT32 srcX1,
+				dooms::graphics::Texture* const drawTexture, INT32 srcX0, INT32 srcY0, INT32 srcX1,
 				INT32 srcY1, INT32 dstX0, INT32 dstY0, INT32 dstX1, INT32 dstY1,
 				GraphicsAPI::eBufferBitType mask, eImageInterpolation filter) const noexcept;
 

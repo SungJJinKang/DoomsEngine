@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Asset.h"
-namespace doom
+namespace dooms
 {
 	namespace assetImporter
 	{
@@ -12,10 +12,10 @@ namespace doom
 	{
 		class DOOM_API FontAsset : public Asset
 		{
-			DOBJECT_CLASS_BODY(FontAsset, doom::eDOBJECT_ClassFlags::NonCopyable)
+			DOBJECT_CLASS_BODY(FontAsset, dooms::eDOBJECT_ClassFlags::NonCopyable)
 				DOBJECT_CLASS_BASE_CHAIN(Asset)
 
-			friend class ::doom::assetImporter::AssetImporterWorker_Font;
+			friend class ::dooms::assetImporter::AssetImporterWorker_Font;
 			
 		private:
 
@@ -31,7 +31,7 @@ namespace doom
 			virtual ~FontAsset() = default;
 
 
-			virtual doom::asset::eAssetType GetEAssetType() const final;
+			virtual dooms::asset::eAssetType GetEAssetType() const final;
 
 		};
 

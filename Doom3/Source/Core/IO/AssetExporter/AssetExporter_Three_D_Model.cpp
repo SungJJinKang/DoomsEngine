@@ -3,7 +3,7 @@
 #include <assimp/Exporter.hpp>
 #include <assimp/postprocess.h>
 
-namespace doom
+namespace dooms
 {
 
 	namespace assetExporter
@@ -30,7 +30,7 @@ namespace doom
 	}
 }
 
-void doom::assetExporter::assetExporterThreeDModel::ExportToAssFile
+void dooms::assetExporter::assetExporterThreeDModel::ExportToAssFile
 (
 	const std::filesystem::path& path,
 	const aiScene* const pScene
@@ -48,7 +48,7 @@ void doom::assetExporter::assetExporterThreeDModel::ExportToAssFile
 
 }
 
-void doom::assetExporter::assetExporterThreeDModel::SetAssFileFormatId(const char* id)
+void dooms::assetExporter::assetExporterThreeDModel::SetAssFileFormatId(const char* id)
 {
 	mAssFileFormatId = id;
 }

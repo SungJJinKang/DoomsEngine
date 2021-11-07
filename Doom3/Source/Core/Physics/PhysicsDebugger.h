@@ -3,7 +3,7 @@
 #include <Core.h>
 #include <Graphics/Graphics_Core.h>
 
-namespace doom
+namespace dooms
 {
 	namespace physics
 	{

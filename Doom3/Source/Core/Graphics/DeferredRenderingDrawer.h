@@ -6,7 +6,7 @@
 #include "Buffer/Mesh.h"
 
 
-namespace doom
+namespace dooms
 {
 	namespace graphics
 	{
@@ -14,7 +14,7 @@ namespace doom
 
 		class DeferredRenderingDrawer : public DObject
 		{
-			DOBJECT_CLASS_BODY(DeferredRenderingDrawer, doom::eDOBJECT_ClassFlags::NonCopyable);
+			DOBJECT_CLASS_BODY(DeferredRenderingDrawer, dooms::eDOBJECT_ClassFlags::NonCopyable);
 			DOBJECT_CLASS_BASE_CHAIN(DObject)
 
 		private:

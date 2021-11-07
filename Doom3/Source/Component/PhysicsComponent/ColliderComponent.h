@@ -5,7 +5,7 @@
 #include "Physics/Collider/AABB.h"
 #include "utility/BVH/BVH_Node_Object.h"
 
-namespace doom
+namespace dooms
 {
 	namespace physics 
 	{
@@ -57,7 +57,7 @@ namespace doom
 		/// Returned AABB3D contain offset of Collider
 		/// </summary>
 		/// <returns></returns>
-		virtual doom::physics::AABB3D ExtractLocalAABB3D() = 0;
+		virtual dooms::physics::AABB3D ExtractLocalAABB3D() = 0;
 		/// <summary>
 		/// Call this function : UpdateLocalBVhColliderCache
 		/// </summary>

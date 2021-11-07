@@ -2,26 +2,26 @@
 
 #include "Material.h"
 
-doom::graphics::Material* doom::graphics::FixedMaterial::mFixedMaterial = nullptr;
+dooms::graphics::Material* dooms::graphics::FixedMaterial::mFixedMaterial = nullptr;
 
-bool doom::graphics::FixedMaterial::GetIsFixedMaterialExist()
+bool dooms::graphics::FixedMaterial::GetIsFixedMaterialExist()
 {
 	return FixedMaterial::mFixedMaterial != nullptr;
 }
 
-const doom::graphics::Material* doom::graphics::FixedMaterial::GetFixedMaterial()
+const dooms::graphics::Material* dooms::graphics::FixedMaterial::GetFixedMaterial()
 {
 	return mFixedMaterial;
 }
 
-void doom::graphics::FixedMaterial::SetFixedMaterial(Material* const fixedMaterial)
+void dooms::graphics::FixedMaterial::SetFixedMaterial(Material* const fixedMaterial)
 {
 	ClearFixedMaterial();
 	fixedMaterial->UseProgram();
 	FixedMaterial::mFixedMaterial = fixedMaterial;
 }
 
-void doom::graphics::FixedMaterial::ClearFixedMaterial()
+void dooms::graphics::FixedMaterial::ClearFixedMaterial()
 {
 	FixedMaterial::mFixedMaterial = nullptr;
 }

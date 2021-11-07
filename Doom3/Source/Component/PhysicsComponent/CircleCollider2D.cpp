@@ -1,13 +1,13 @@
 #include "CircleCollider2D.h"
 #include <Transform.h>
 
-void doom::CircleCollider2D::UpdateLocalCollider()
+void dooms::CircleCollider2D::UpdateLocalCollider()
 {
 	mLocalCircle2D.mCenter = mOffset;
 	mLocalCircle2D.mRadius = mRadius;
 }
 
-void doom::CircleCollider2D::UpdateWorldCollider()
+void dooms::CircleCollider2D::UpdateWorldCollider()
 {
 	auto transform = GetTransform();
 	auto translate = transform->GetPosition();
@@ -20,18 +20,18 @@ void doom::CircleCollider2D::UpdateWorldCollider()
 
 
 
-void doom::CircleCollider2D::SetRadius(FLOAT32 radius)
+void dooms::CircleCollider2D::SetRadius(FLOAT32 radius)
 {
 	mRadius = radius;
 	bmIsLocalColliderDirty = true;
 }
 
-FLOAT32 doom::CircleCollider2D::GetRadius()
+FLOAT32 dooms::CircleCollider2D::GetRadius()
 {
 	return mRadius;
 }
 
-doom::physics::AABB3D doom::CircleCollider2D::ExtractLocalAABB3D()
+dooms::physics::AABB3D dooms::CircleCollider2D::ExtractLocalAABB3D()
 {
 	math::Vector3 lowerBound
 	{
@@ -47,15 +47,15 @@ doom::physics::AABB3D doom::CircleCollider2D::ExtractLocalAABB3D()
 		0
 	};
 
-	return doom::physics::AABB3D(lowerBound, upperBound);
+	return dooms::physics::AABB3D(lowerBound, upperBound);
 }
 
-doom::physics::Collider* doom::CircleCollider2D::GetWorldCollider()
+dooms::physics::Collider* dooms::CircleCollider2D::GetWorldCollider()
 {
 	return &(mWorldCircle2D);
 }
 
-void doom::CircleCollider2D::AutoColliderSettingFromAABB3D(const physics::AABB3D& aabb3dFromMesh)
+void dooms::CircleCollider2D::AutoColliderSettingFromAABB3D(const physics::AABB3D& aabb3dFromMesh)
 {
 	mRadius = aabb3dFromMesh.GetDiagonarLineLength();
 }

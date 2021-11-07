@@ -23,7 +23,7 @@ namespace culling
 }
 
 
-namespace doom
+namespace dooms
 {
 	namespace userinput
 	{
@@ -40,7 +40,7 @@ namespace doom
 	{
 		class DOOM_API Graphics_Server : public IGameFlow, public ISingleton<Graphics_Server>
 		{
-			DOBJECT_CLASS_BODY(Graphics_Server, doom::eDOBJECT_ClassFlags::NonCopyable);
+			DOBJECT_CLASS_BODY(Graphics_Server, dooms::eDOBJECT_ClassFlags::NonCopyable);
 			DOBJECT_CLASS_BASE_CHAIN(IGameFlow)
 
 			enum class eRenderingMode
@@ -63,9 +63,9 @@ namespace doom
 			
 			void Render();
 
-			void UpdateOverDrawVisualization(doom::Camera* const targetCamera, const size_t cameraIndex);
+			void UpdateOverDrawVisualization(dooms::Camera* const targetCamera, const size_t cameraIndex);
 
-			void RenderObject(doom::Camera* const targetCamera, const size_t cameraIndex);
+			void RenderObject(dooms::Camera* const targetCamera, const size_t cameraIndex);
 		
 			void DoCullJob();
 			void PreUpdateEntityBlocks();

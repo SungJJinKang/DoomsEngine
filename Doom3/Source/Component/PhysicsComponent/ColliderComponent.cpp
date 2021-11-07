@@ -6,18 +6,18 @@
 #include <Rendering/Renderer/Renderer.h>
 #include "Rigidbody/Rigidbody.h"
 
-void doom::ColliderComponent::AddThisComponentToRigidbody()
+void dooms::ColliderComponent::AddThisComponentToRigidbody()
 {
-	doom::Rigidbody* const attachedRigidbodyComponent = GetOwnerEntity()->GetComponent<Rigidbody>();
+	dooms::Rigidbody* const attachedRigidbodyComponent = GetOwnerEntity()->GetComponent<Rigidbody>();
 	if(IsValid(attachedRigidbodyComponent) == true)
 	{
 		attachedRigidbodyComponent->AddColliderComponent(this);
 	}
 }
 
-void doom::ColliderComponent::RemoveThisComponentFromRigidbody()
+void dooms::ColliderComponent::RemoveThisComponentFromRigidbody()
 {
-	doom::Rigidbody* const attachedRigidbodyComponent = GetOwnerEntity()->GetComponent<Rigidbody>();
+	dooms::Rigidbody* const attachedRigidbodyComponent = GetOwnerEntity()->GetComponent<Rigidbody>();
 	if (IsValid(attachedRigidbodyComponent) == true)
 	{
 		attachedRigidbodyComponent->RemoveColliderComponent(this);
@@ -25,7 +25,7 @@ void doom::ColliderComponent::RemoveThisComponentFromRigidbody()
 }
 
 
-void doom::ColliderComponent::InitComponent()
+void dooms::ColliderComponent::InitComponent()
 {
 	ServerComponent::InitComponent();
 
@@ -39,42 +39,42 @@ void doom::ColliderComponent::InitComponent()
 	AddThisComponentToRigidbody();
 }
 
-void doom::ColliderComponent::UpdateComponent()
+void dooms::ColliderComponent::UpdateComponent()
 {
 	UpdatePhysics();
 }
 
-void doom::ColliderComponent::FixedUpdateComponent()
+void dooms::ColliderComponent::FixedUpdateComponent()
 {
 }
 
-void doom::ColliderComponent::OnEndOfFrame_Component()
+void dooms::ColliderComponent::OnEndOfFrame_Component()
 {
 
 }
 
-void doom::ColliderComponent::OnDestroy()
+void dooms::ColliderComponent::OnDestroy()
 {
 	RemoveThisComponentFromRigidbody();
 
 }
 
-void doom::ColliderComponent::OnActivated()
+void dooms::ColliderComponent::OnActivated()
 {
 }
 
-void doom::ColliderComponent::OnDeActivated()
+void dooms::ColliderComponent::OnDeActivated()
 {
 }
 
-void doom::ColliderComponent::UpdateLocalBVhAABBCacheFromLocalCollider()
+void dooms::ColliderComponent::UpdateLocalBVhAABBCacheFromLocalCollider()
 {
 	D_ASSERT(bmIsLocalColliderDirty.GetIsDirty(false) == false); // LocalCollider must be already updated before update LocalBVhAABB
 
 	UpdateLocalColliderCache(ExtractLocalAABB3D());
 }
 
-void doom::ColliderComponent::AutoColliderSetting()
+void dooms::ColliderComponent::AutoColliderSetting()
 {
 	physics::AABB3D aabb3dFromMesh{};
 	bool isHaveMeshAABB3D = GetMeshAABB3D(aabb3dFromMesh);
@@ -91,7 +91,7 @@ void doom::ColliderComponent::AutoColliderSetting()
 }
 
 
-bool doom::ColliderComponent::GetMeshAABB3D(physics::AABB3D& aabb3D)
+bool dooms::ColliderComponent::GetMeshAABB3D(physics::AABB3D& aabb3D)
 {
 	const Renderer* renderer = GetOwnerEntity()->GetComponent<Renderer>();
 	if (renderer != nullptr)
@@ -105,16 +105,16 @@ bool doom::ColliderComponent::GetMeshAABB3D(physics::AABB3D& aabb3D)
 	}
 }
 
-const math::Matrix4x4& doom::ColliderComponent::GetModelMatrix()
+const math::Matrix4x4& dooms::ColliderComponent::GetModelMatrix()
 {
 	return GetTransform()->GetModelMatrix();
 }
 
-doom::ColliderComponent::~ColliderComponent()
+dooms::ColliderComponent::~ColliderComponent()
 {
 }
 
-void doom::ColliderComponent::UpdateLocalColliderAndLocalBVhAABBCache()
+void dooms::ColliderComponent::UpdateLocalColliderAndLocalBVhAABBCache()
 {
 	if (bmIsLocalColliderDirty.GetIsDirty(true))
 	{
@@ -125,7 +125,7 @@ void doom::ColliderComponent::UpdateLocalColliderAndLocalBVhAABBCache()
 	}
 }
 
-void doom::ColliderComponent::OnPreUpdatePhysics()
+void dooms::ColliderComponent::OnPreUpdatePhysics()
 {
 	UpdateLocalColliderAndLocalBVhAABBCache();
 
@@ -142,15 +142,15 @@ void doom::ColliderComponent::OnPreUpdatePhysics()
 	}
 }
 
-void doom::ColliderComponent::UpdatePhysics()
+void dooms::ColliderComponent::UpdatePhysics()
 {
 }
 
-void doom::ColliderComponent::OnPostUpdatePhysics()
+void dooms::ColliderComponent::OnPostUpdatePhysics()
 {
 }
 
-void doom::ColliderComponent::SetIsLocalColliderDirty()
+void dooms::ColliderComponent::SetIsLocalColliderDirty()
 {
 	bmIsLocalColliderDirty.SetDirty(true);
 }

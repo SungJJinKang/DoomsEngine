@@ -1,6 +1,6 @@
 #pragma once
 
-namespace doom
+namespace dooms
 {
 	namespace graphics
 	{

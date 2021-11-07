@@ -1,31 +1,31 @@
 #include "Line.h"
 #include <Graphics/DebugGraphics/DebugDrawer.h>
 
-void doom::physics::Line::DrawCollider(eColor color, bool drawInstantly /*= false*/) const
+void dooms::physics::Line::DrawCollider(eColor color, bool drawInstantly /*= false*/) const
 {
 #ifdef DEBUG_DRAWER
 	graphics::DebugDrawer::GetSingleton()->DebugDraw3DLine(mOrigin, mEndPoint, color, drawInstantly);
 #endif
 }
 
-doom::physics::Line::Line(const math::Vector3& startPos, const math::Vector3& endPos)
+dooms::physics::Line::Line(const math::Vector3& startPos, const math::Vector3& endPos)
 	: Ray(startPos, endPos - startPos), mEndPoint{ endPos }
 	//You don't need to pass normalized vector to Ray constructor
 {
 
 }
 
-math::Vector3 doom::physics::Line::ToVector()
+math::Vector3 dooms::physics::Line::ToVector()
 {
 	return mEndPoint - mOrigin;
 }
 
-doom::physics::ColliderType doom::physics::Line::GetColliderType() const
+dooms::physics::ColliderType dooms::physics::Line::GetColliderType() const
 {
-	return doom::physics::ColliderType::Line;
+	return dooms::physics::ColliderType::Line;
 }
 
-bool doom::physics::IsPointOnLine(const Line& line, math::Vector3& point)
+bool dooms::physics::IsPointOnLine(const Line& line, math::Vector3& point)
 {
 	FLOAT32 m = (line.mEndPoint.y - line.mOrigin.y) / (line.mEndPoint.x - line.mOrigin.x);
 	FLOAT32 d = line.mEndPoint.y - m * line.mEndPoint.x;
@@ -40,7 +40,7 @@ bool doom::physics::IsPointOnLine(const Line& line, math::Vector3& point)
 	}
 }
 
-math::Vector3 doom::physics::GetClosestPoint(const Line& line, math::Vector3& point)
+math::Vector3 dooms::physics::GetClosestPoint(const Line& line, math::Vector3& point)
 {
 	auto lineVec = line.mEndPoint - line.mOrigin;
 	auto lineNormal = lineVec.normalized();

@@ -16,7 +16,7 @@
 
 #include "../Buffer/BufferID.h"
 
-namespace doom
+namespace dooms
 {
 	namespace asset
 	{
@@ -50,14 +50,14 @@ namespace doom
 
 		class Material : public DObject
 		{
-			DOBJECT_CLASS_BODY(Material, doom::eDOBJECT_ClassFlags::NonCopyable);
+			DOBJECT_CLASS_BODY(Material, dooms::eDOBJECT_ClassFlags::NonCopyable);
 			DOBJECT_CLASS_BASE_CHAIN(DObject)
 
 		private:
 			static inline const char MATERIAL_TAG[]{ "MATERIAL" };
 
 			BufferID mProgramID;
-			::doom::asset::ShaderAsset* mShaderAsset;
+			::dooms::asset::ShaderAsset* mShaderAsset;
 			static constexpr inline UINT32 MAX_TEXTURE_COUNT{ 7 };
 			std::array<const Texture*, MAX_TEXTURE_COUNT> mTargetTextures{ nullptr };
 			std::array<UniformBufferObject*, MAX_UNIFORM_BLOCK_BINDING_POINT> mUniformBufferObjects{ nullptr };
@@ -67,7 +67,7 @@ namespace doom
 		public:
 
 			Material();
-			Material(::doom::asset::ShaderAsset* shaderAsset);
+			Material(::dooms::asset::ShaderAsset* shaderAsset);
 			
 			virtual ~Material();
 
@@ -78,10 +78,10 @@ namespace doom
 			Material& operator=(Material&&) noexcept = default;
 
 			bool IsGenerated() const;
-			void SetShaderAsset(::doom::asset::ShaderAsset* shaderAsset);
+			void SetShaderAsset(::dooms::asset::ShaderAsset* shaderAsset);
 
 			void AddTexture(UINT32 bindingPoint, Texture* texture);
-			void AddTexture(UINT32 bindingPoint, ::doom::asset::TextureAsset* textureAsset);
+			void AddTexture(UINT32 bindingPoint, ::dooms::asset::TextureAsset* textureAsset);
 			void AddTextures(const std::array<const Texture*, MAX_TEXTURE_COUNT>& textures);
 
 			void UseProgram() const;

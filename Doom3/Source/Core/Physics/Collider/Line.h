@@ -1,7 +1,7 @@
 #pragma once
 #include <Vector3.h>
 #include "Ray.h"
-namespace doom
+namespace dooms
 {
 	namespace physics
 	{

@@ -3,7 +3,7 @@
 
 
 template<typename T>
-INT32 doom::KDTree<T>::AllocateNode(const typename node_type::component_type& componentValue)
+INT32 dooms::KDTree<T>::AllocateNode(const typename node_type::component_type& componentValue)
 {
 	INT32 newNodeIndex;
 	if (mFreedNodeIndexList.empty() == false)
@@ -30,7 +30,7 @@ INT32 doom::KDTree<T>::AllocateNode(const typename node_type::component_type& co
 }
 
 template<typename T>
-void doom::KDTree<T>::FreeNode(const INT32 index)
+void dooms::KDTree<T>::FreeNode(const INT32 index)
 {
 	D_ASSERT(index != NULL_NODE_INDEX);
 
@@ -75,7 +75,7 @@ void doom::KDTree<T>::FreeNode(const INT32 index)
 }
 
 template<typename T>
-INT32 doom::KDTree<T>::_Insert(const typename node_type::component_type & componentValue, INT32 searchIndex, INT32 parentIndex, const INT32 searchDimension, INT32& insertedIndex)
+INT32 dooms::KDTree<T>::_Insert(const typename node_type::component_type & componentValue, INT32 searchIndex, INT32 parentIndex, const INT32 searchDimension, INT32& insertedIndex)
 {
 	if (searchIndex == NULL_NODE_INDEX)
 	{// find empty node
@@ -105,7 +105,7 @@ INT32 doom::KDTree<T>::_Insert(const typename node_type::component_type & compon
 }
 
 template<typename T>
-INT32 doom::KDTree<T>::_FineMin(const INT32 index, const INT32 searchDimension, const INT32 targetMinNodeT)
+INT32 dooms::KDTree<T>::_FineMin(const INT32 index, const INT32 searchDimension, const INT32 targetMinNodeT)
 {
 	INT32 minNode{ NULL_NODE_INDEX };
 	
@@ -164,7 +164,7 @@ INT32 doom::KDTree<T>::_FineMin(const INT32 index, const INT32 searchDimension, 
 }
 
 template<typename T>
-INT32 doom::KDTree<T>::_Delete(const typename node_type::component_type& componentValue, INT32 searchIndex, const INT32 parentIndex, const INT32 searchT)
+INT32 dooms::KDTree<T>::_Delete(const typename node_type::component_type& componentValue, INT32 searchIndex, const INT32 parentIndex, const INT32 searchT)
 {
 	INT32 nextT = (searchT + 1) % GetDimensionCount();
 	if (searchIndex == NULL_NODE_INDEX)
@@ -224,7 +224,7 @@ INT32 doom::KDTree<T>::_Delete(const typename node_type::component_type& compone
 }
 
 template <typename T>
-void doom::KDTree<T>::_SwapNode(INT32 nodeIndex1, INT32 nodeIndex2)
+void dooms::KDTree<T>::_SwapNode(INT32 nodeIndex1, INT32 nodeIndex2)
 {
 	if (nodeIndex1 == nodeIndex2)
 	{
@@ -299,7 +299,7 @@ void doom::KDTree<T>::_SwapNode(INT32 nodeIndex1, INT32 nodeIndex2)
 }
 
 template<typename T>
-void doom::KDTree<T>::_PutChildNode(INT32 parentIndex, INT32 childIndex, bool isLeftNode)
+void dooms::KDTree<T>::_PutChildNode(INT32 parentIndex, INT32 childIndex, bool isLeftNode)
 {
 	D_ASSERT(parentIndex != NULL_NODE_INDEX || childIndex != NULL_NODE_INDEX);
 
@@ -322,14 +322,14 @@ void doom::KDTree<T>::_PutChildNode(INT32 parentIndex, INT32 childIndex, bool is
 }
 
 template<typename T>
-doom::KDTree<T>::KDTree(INT32 capacity)
+dooms::KDTree<T>::KDTree(INT32 capacity)
 	:mNodeCapacity{ capacity }
 {
 	mKDTreeNodes = new KDTreeNode<T>[capacity]();
 }
 
 template<typename T>
-typename doom::KDTree<T>::node_view_type doom::KDTree<T>::Insert(const typename node_type::component_type& componentValue)
+typename dooms::KDTree<T>::node_view_type dooms::KDTree<T>::Insert(const typename node_type::component_type& componentValue)
 {
 	INT32 newNodexIndex = NULL_NODE_INDEX;
 	if (mRootNodeIndex == NULL_NODE_INDEX)
@@ -345,7 +345,7 @@ typename doom::KDTree<T>::node_view_type doom::KDTree<T>::Insert(const typename 
 }
 
 template<typename T>
-void doom::KDTree<T>::Delete(const typename node_type::component_type& componentValue)
+void dooms::KDTree<T>::Delete(const typename node_type::component_type& componentValue)
 {
 	if(mRootNodeIndex == NULL_NODE_INDEX)
 	{
@@ -356,12 +356,12 @@ void doom::KDTree<T>::Delete(const typename node_type::component_type& component
 }
 
 template<typename T>
-void doom::KDTree<T>::Delete(INT32 nodeIndex)
+void dooms::KDTree<T>::Delete(INT32 nodeIndex)
 {
 }
 
 template<typename T>
-typename doom::KDTree<T>::node_view_type doom::KDTree<T>::FineMin(const UINT32 targetMinNodeDimension)
+typename dooms::KDTree<T>::node_view_type dooms::KDTree<T>::FineMin(const UINT32 targetMinNodeDimension)
 {
 	D_ASSERT(targetMinNodeDimension >= 0 && targetMinNodeDimension < GetDimensionCount());
 	if (mRootNodeIndex == NULL_NODE_INDEX)
@@ -375,10 +375,10 @@ typename doom::KDTree<T>::node_view_type doom::KDTree<T>::FineMin(const UINT32 t
 
 
 
-//template class doom::KDTree<math::Vector2>;
-//template class doom::KDTree<doom::physics::AABB3D>;
+//template class dooms::KDTree<math::Vector2>;
+//template class dooms::KDTree<dooms::physics::AABB3D>;
 
 /*
-template class doom::KDTree<math::Vector3>;
-template struct doom::KDTreeNode<math::Vector3>;
-template class doom::KDTreeNodeView<math::Vector3>;*/
+template class dooms::KDTree<math::Vector3>;
+template struct dooms::KDTreeNode<math::Vector3>;
+template class dooms::KDTreeNodeView<math::Vector3>;*/

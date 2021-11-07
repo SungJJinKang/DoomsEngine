@@ -6,7 +6,7 @@
 #include <Matrix4x4.h>
 #include "Collider.h"
 #include "AABB.h"
-namespace doom
+namespace dooms
 {
 	namespace physics
 	{

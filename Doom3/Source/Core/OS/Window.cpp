@@ -14,12 +14,12 @@
 #endif
 
 
-HANDLE doom::os::Get_PLATFORM_INVALID_HANDLE_CONSTANT()
+HANDLE dooms::os::Get_PLATFORM_INVALID_HANDLE_CONSTANT()
 {
 	return PLATFORM_INVALID_HANDLE_CONSTANT;
 }
 
-UINT64 doom::os::_GetTickCount()
+UINT64 dooms::os::_GetTickCount()
 {
 #if defined(OS_WIN32)
 	return GetTickCount();
@@ -28,28 +28,28 @@ UINT64 doom::os::_GetTickCount()
 #endif
 }
 
-void doom::os::_Sleep(const UINT32 milliseconds)
+void dooms::os::_Sleep(const UINT32 milliseconds)
 {
 	Sleep(milliseconds);
 }
 
-UINT64 doom::os::_GetCurrentProcessorNumber()
+UINT64 dooms::os::_GetCurrentProcessorNumber()
 {
 	return static_cast<UINT64>(GetCurrentProcessorNumber());
 }
 
-HANDLE doom::os::_GetCurrenThreadHandle()
+HANDLE dooms::os::_GetCurrenThreadHandle()
 {
 	return GetCurrentThread();
 }
 
-UINT64 doom::os::_GetCurrenThreadID()
+UINT64 dooms::os::_GetCurrenThreadID()
 {
 	return static_cast<UINT64>(GetCurrentThreadId());
 }
 
 #define ThreadQuerySetWin32StartAddress 9
-UINT64 doom::os::_GetThreadStackStartAddress(const HANDLE threadHandel)
+UINT64 dooms::os::_GetThreadStackStartAddress(const HANDLE threadHandel)
 {
 	NTSTATUS ntStatus;
 	DWORD_PTR dwStartAddress;
@@ -69,12 +69,12 @@ UINT64 doom::os::_GetThreadStackStartAddress(const HANDLE threadHandel)
 	}
 }
 
-HANDLE doom::os::_GetCurrenProcess()
+HANDLE dooms::os::_GetCurrenProcess()
 {
 	return GetCurrentProcess();
 }
 
-bool doom::os::_SetCurrentProcessAffinityMask(const UINT64 processAffinitMask)
+bool dooms::os::_SetCurrentProcessAffinityMask(const UINT64 processAffinitMask)
 {
 	bool isSuccess = SetProcessAffinityMask(GetCurrentProcess(), static_cast<DWORD_PTR>(processAffinitMask));
 	D_ASSERT(GetLastError() != ERROR_INVALID_PARAMETER);
@@ -83,7 +83,7 @@ bool doom::os::_SetCurrentProcessAffinityMask(const UINT64 processAffinitMask)
 	return isSuccess;
 }
 
-bool doom::os::_GetCurrentProcessAffinityMask
+bool dooms::os::_GetCurrentProcessAffinityMask
 (
 	UINT64& lpProcessAffinityMask,
 	UINT64& lpSystemAffinityMask
@@ -95,7 +95,7 @@ bool doom::os::_GetCurrentProcessAffinityMask
 	return isSuccess;
 }
 
-bool doom::os::_SetThreadAffinity(const HANDLE threadHandle, const UINT64 threadAffinitMask)
+bool dooms::os::_SetThreadAffinity(const HANDLE threadHandle, const UINT64 threadAffinitMask)
 {
 	D_ASSERT(threadHandle != PLATFORM_INVALID_HANDLE_CONSTANT);
 	
@@ -107,7 +107,7 @@ bool doom::os::_SetThreadAffinity(const HANDLE threadHandle, const UINT64 thread
 }
 
 
-UINT64 doom::os::_GetThreadAffinity(const HANDLE threadHandle)
+UINT64 dooms::os::_GetThreadAffinity(const HANDLE threadHandle)
 {
 	D_ASSERT(threadHandle != PLATFORM_INVALID_HANDLE_CONSTANT);
 
@@ -121,14 +121,14 @@ UINT64 doom::os::_GetThreadAffinity(const HANDLE threadHandle)
 	return originalMask;
 }
 
-UINT64 doom::os::_GetThreadCpuCycle(const HANDLE threadHandle)
+UINT64 dooms::os::_GetThreadCpuCycle(const HANDLE threadHandle)
 {
 	UINT64 cycle;
 	QueryThreadCycleTime(threadHandle, &cycle);
 	return cycle;
 }
 
-std::string doom::os::_GetCurrentExecutableDirectory()
+std::string dooms::os::_GetCurrentExecutableDirectory()
 {
 	static std::string currentExePath{};
 
@@ -166,7 +166,7 @@ std::string doom::os::_GetCurrentExecutableDirectory()
 }
 
 /*
-UINT32 doom::os::_GetCurrentProcessorNumber()
+UINT32 dooms::os::_GetCurrentProcessorNumber()
 {
 	return GetCurrentProcessorNumber();
 }

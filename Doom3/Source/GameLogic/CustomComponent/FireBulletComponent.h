@@ -3,7 +3,7 @@
 
 #include <Doom_Core.h>
 
-namespace doom
+namespace dooms
 {
 	class BulletComponent;
 

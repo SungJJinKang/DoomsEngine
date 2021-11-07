@@ -7,7 +7,7 @@
 
 #include "../TreeNode.h"
 
-namespace doom
+namespace dooms
 {
 	template <typename T>
 	struct KDTreeNode : public TreeNode

@@ -6,7 +6,7 @@
 
 struct aiScene;
 struct aiNode;
-namespace doom
+namespace dooms
 {
 	struct ThreeDModelMesh;
 	struct ThreeDModelNode;
@@ -20,7 +20,7 @@ namespace doom
 	{
 		class DOOM_API AssetImporterWorker_THREE_D_MODEL : public AssetImporterWorker
 		{
-			DOBJECT_CLASS_BODY(AssetImporterWorker_THREE_D_MODEL, doom::eDOBJECT_ClassFlags::NonCopyable);
+			DOBJECT_CLASS_BODY(AssetImporterWorker_THREE_D_MODEL, dooms::eDOBJECT_ClassFlags::NonCopyable);
 			DOBJECT_CLASS_BASE_CHAIN(AssetImporterWorker)
 
 		private:
@@ -28,9 +28,9 @@ namespace doom
 			
 			
 			
-			void Creat3DModelAsset(const aiScene* pScene, ::doom::asset::ThreeDModelAsset* asset);
-			void SetThreeDModelNodesData(ThreeDModelNode* currentNode, aiNode* currentAssimpNode, ThreeDModelNode* parentNode, ::doom::asset::ThreeDModelAsset* modelAsset, const aiScene* assimpScene);
-			bool ImportThreeDModelAsset(const std::filesystem::path& path, ::doom::asset::ThreeDModelAsset* asset);
+			void Creat3DModelAsset(const aiScene* pScene, ::dooms::asset::ThreeDModelAsset* asset);
+			void SetThreeDModelNodesData(ThreeDModelNode* currentNode, aiNode* currentAssimpNode, ThreeDModelNode* parentNode, ::dooms::asset::ThreeDModelAsset* modelAsset, const aiScene* assimpScene);
+			bool ImportThreeDModelAsset(const std::filesystem::path& path, ::dooms::asset::ThreeDModelAsset* asset);
 			void InitializeAssimp();
 
 			Assimp::Importer mAssimpImporter;
@@ -54,9 +54,9 @@ namespace doom
 			static const UINT32 ASSIMP_EXPORT_PROCESSING_SETTING;
 
 
-			virtual bool ImportSpecificAsset(const std::filesystem::path& path, doom::asset::Asset* asset) override;
+			virtual bool ImportSpecificAsset(const std::filesystem::path& path, dooms::asset::Asset* asset) override;
 
-			virtual doom::asset::eAssetType GetEAssetType() const final;
+			virtual dooms::asset::eAssetType GetEAssetType() const final;
 
 			static void InitializeAssetImporterWorkerStatic();
 		};

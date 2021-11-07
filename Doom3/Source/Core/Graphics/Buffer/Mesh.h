@@ -10,7 +10,7 @@
 #include "../GraphicsAPI.h"
 #include <Vector2.h>
 
-namespace doom
+namespace dooms
 {
 
 	struct ThreeDModelMesh;
@@ -20,7 +20,7 @@ namespace doom
 		class Graphics_Server;
 		class Mesh : public Buffer
 		{
-			DOBJECT_CLASS_BODY(Mesh, doom::eDOBJECT_ClassFlags::NonCopyable);
+			DOBJECT_CLASS_BODY(Mesh, dooms::eDOBJECT_ClassFlags::NonCopyable);
 			DOBJECT_CLASS_BASE_CHAIN(Buffer)
 
 			friend class Graphics_Server;

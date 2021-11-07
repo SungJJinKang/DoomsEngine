@@ -4,13 +4,13 @@
 
 #include "DClass.h"
 
-namespace doom
+namespace dooms
 {
 	class DObject;
 	template <typename T>
 	class TSubclassOf
 	{
-		static_assert(std::is_base_of_v<doom::DObject, T> == true);
+		static_assert(std::is_base_of_v<dooms::DObject, T> == true);
 
 		template <typename FromType>
 		friend class TSubclassOf;
@@ -47,7 +47,7 @@ namespace doom
 		template <typename FromType>
 		TSubclassOf& operator=(const TSubclassOf<FromType>& from)
 		{
-			static_assert(std::is_base_of_v<doom::DObject, FromType> == true);
+			static_assert(std::is_base_of_v<dooms::DObject, FromType> == true);
 
 			if constexpr(std::is_base_of_v<T, FromType> == true)
 			{

@@ -6,7 +6,7 @@
 #include <Vector2.h>
 
 
-namespace doom
+namespace dooms
 {
 	namespace graphics
 	{
@@ -15,7 +15,7 @@ namespace doom
 		class PicktureInPickture : public DObject
 		{
 
-			DOBJECT_CLASS_BODY(PicktureInPickture, doom::eDOBJECT_ClassFlags::NonCopyable);
+			DOBJECT_CLASS_BODY(PicktureInPickture, dooms::eDOBJECT_ClassFlags::NonCopyable);
 			DOBJECT_CLASS_BASE_CHAIN(DObject)
 
 		private:

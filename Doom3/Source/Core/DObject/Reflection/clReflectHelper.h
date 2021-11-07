@@ -5,7 +5,7 @@
 #include <string>
 #include <filesystem>
 
-namespace doom
+namespace dooms
 {
 	namespace clReflectHelper
 	{

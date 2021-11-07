@@ -1,9 +1,9 @@
 #include "FrameDirtyChecker.h"
 
-doom::FrameDirtyChecker::FrameDirtyChecker()
+dooms::FrameDirtyChecker::FrameDirtyChecker()
 {
 }
 
-doom::FrameDirtyChecker::~FrameDirtyChecker()
+dooms::FrameDirtyChecker::~FrameDirtyChecker()
 {
 }

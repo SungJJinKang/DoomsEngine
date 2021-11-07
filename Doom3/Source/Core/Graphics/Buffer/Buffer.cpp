@@ -1,14 +1,14 @@
 #include "Buffer.h"
 
 
-doom::graphics::Buffer::Buffer() : mBufferID{ INVALID_BUFFER_ID }
+dooms::graphics::Buffer::Buffer() : mBufferID{ INVALID_BUFFER_ID }
 {
 
 }
 
 
 
-void doom::graphics::Buffer::GenBuffer()
+void dooms::graphics::Buffer::GenBuffer()
 {
 	if (mBufferID == INVALID_BUFFER_ID)
 	{
@@ -17,7 +17,7 @@ void doom::graphics::Buffer::GenBuffer()
 
 }
 
-void doom::graphics::Buffer::GenBufferIfNotGened()
+void dooms::graphics::Buffer::GenBufferIfNotGened()
 {
 	if (IsBufferGenerated() == true)
 	{
@@ -27,26 +27,26 @@ void doom::graphics::Buffer::GenBufferIfNotGened()
 	GenBuffer();
 }
 
-int64_t doom::graphics::Buffer::GetBufferParameteri64v(eBufferBindingTarget bindingTarget, eBufferParameter bufferParameter)
+int64_t dooms::graphics::Buffer::GetBufferParameteri64v(eBufferBindingTarget bindingTarget, eBufferParameter bufferParameter)
 {
 	int64_t value;
 	glGetBufferParameteri64v(static_cast<UINT32>(bindingTarget), static_cast<UINT32>(bufferParameter), &value);
 	return value;
 }
 
-int64_t doom::graphics::Buffer::GetNamedBufferParameteri64v(eBufferParameter bufferParameter)
+int64_t dooms::graphics::Buffer::GetNamedBufferParameteri64v(eBufferParameter bufferParameter)
 {
 	int64_t value;
 	glGetNamedBufferParameteri64v(mBufferID, static_cast<UINT32>(bufferParameter), &value);
 	return value;
 }
 
-doom::graphics::Buffer::~Buffer()
+dooms::graphics::Buffer::~Buffer()
 {
 	DeleteBuffers();
 }
 
-void doom::graphics::Buffer::DeleteBuffers()
+void dooms::graphics::Buffer::DeleteBuffers()
 {
 	if (mBufferID.GetBufferID() != INVALID_BUFFER_ID)
 	{
@@ -55,7 +55,7 @@ void doom::graphics::Buffer::DeleteBuffers()
 	}
 }
 
-bool doom::graphics::Buffer::IsBufferGenerated() const
+bool dooms::graphics::Buffer::IsBufferGenerated() const
 {
 	return mBufferID.GetBufferID() != INVALID_BUFFER_ID;
 }

@@ -20,7 +20,7 @@ namespace math
 	using Vector4 = typename Vector<4, FLOAT32>;
 }
 
-namespace doom
+namespace dooms
 {
 	namespace logger
 	{
@@ -58,7 +58,7 @@ namespace doom
 	}
 }
 
-using doom::logger::eLogType;
+using dooms::logger::eLogType;
 
 
 #endif

@@ -2,7 +2,7 @@
 #include "Macros/TypeDef.h"
 
 
-namespace doom
+namespace dooms
 {
 	namespace asset
 	{

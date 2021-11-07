@@ -5,7 +5,7 @@
 #include <OS.h>
 
 #include <UserInput_Server.h>
-namespace doom
+namespace dooms
 {
 	struct TimeStep
 	{
@@ -23,7 +23,7 @@ namespace doom
 			DOBJECT_CLASS_BODY(MainTimer);
 			DOBJECT_CLASS_BASE_CHAIN(DObject)
 
-			friend class ::doom::GameCore;
+			friend class ::dooms::GameCore;
 			friend class Time_Server;
 
 			
@@ -95,4 +95,4 @@ namespace doom
 	}
 }
 
-using namespace doom::time;
+using namespace dooms::time;

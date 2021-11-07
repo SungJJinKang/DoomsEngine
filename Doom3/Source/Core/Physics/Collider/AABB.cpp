@@ -9,10 +9,10 @@
 #include <SIMD_Core.h>
 //#include <Trigonometric.h>
 
-using namespace doom::physics;
+using namespace dooms::physics;
 
 
-doom::physics::AABB2D& AABB2D::operator=(const AABB3D& aabb3D)
+dooms::physics::AABB2D& AABB2D::operator=(const AABB3D& aabb3D)
 {
 	mLowerBound = aabb3D.mLowerBound;
 	mUpperBound = aabb3D.mUpperBound;
@@ -43,12 +43,12 @@ void AABB2D::Validate()
 	}
 }
 
-math::Vector2 doom::physics::AABB2D::GetHalfExtent() const
+math::Vector2 dooms::physics::AABB2D::GetHalfExtent() const
 {
 	return (mUpperBound + mLowerBound) * 0.5f;
 }
 
-void doom::physics::AABB2D::DrawCollider(eColor color, bool drawInstantly /*= false*/) const
+void dooms::physics::AABB2D::DrawCollider(eColor color, bool drawInstantly /*= false*/) const
 {
 #ifdef DEBUG_DRAWER
 	auto debugGraphics = graphics::DebugDrawer::GetSingleton();
@@ -65,12 +65,12 @@ void doom::physics::AABB2D::DrawCollider(eColor color, bool drawInstantly /*= fa
 
 
 
-doom::physics::ColliderType doom::physics::AABB2D::GetColliderType() const
+dooms::physics::ColliderType dooms::physics::AABB2D::GetColliderType() const
 {
-	return doom::physics::ColliderType::AABB2D;
+	return dooms::physics::ColliderType::AABB2D;
 }
 
-void doom::physics::AABB2D::SignedExpand(const math::Vector2& movedVector)
+void dooms::physics::AABB2D::SignedExpand(const math::Vector2& movedVector)
 {
 	if (movedVector.x > 0)
 	{
@@ -96,13 +96,13 @@ void doom::physics::AABB2D::SignedExpand(const math::Vector2& movedVector)
 
 AABB2D AABB2D::EnlargeAABB(const AABB2D& aabb)
 {
-	const FLOAT32 offset = doom::physics::Physics_Setting::ENLARGED_AABB2D_OFFSET;
+	const FLOAT32 offset = dooms::physics::Physics_Setting::ENLARGED_AABB2D_OFFSET;
 	return AABB2D(aabb.mLowerBound - offset, aabb.mUpperBound + offset);
 }
 
 // this function is not tested
 
-void doom::physics::AABB2D::ApplyModelMatrix(const AABB2D& localAABB, const math::Matrix4x4& modelMatrix, AABB2D& resultAABB)
+void dooms::physics::AABB2D::ApplyModelMatrix(const AABB2D& localAABB, const math::Matrix4x4& modelMatrix, AABB2D& resultAABB)
 {
 	for (INT32 i = 0; i < 2; i++)
 	{
@@ -134,7 +134,7 @@ void doom::physics::AABB2D::ApplyModelMatrix(const AABB2D& localAABB, const math
 /// <param name="outerAABB"></param>
 /// <returns></returns>
 
-bool doom::physics::AABB2D::CheckIsCompletlyEnclosed(const AABB2D& innerAABB, const AABB2D& outerAABB)
+bool dooms::physics::AABB2D::CheckIsCompletlyEnclosed(const AABB2D& innerAABB, const AABB2D& outerAABB)
 {
 	return innerAABB.mLowerBound.x >= outerAABB.mLowerBound.x &&
 		innerAABB.mLowerBound.y >= outerAABB.mLowerBound.y &&
@@ -174,7 +174,7 @@ void AABB3D::Validate()
 	}
 }
 
-math::Vector3 doom::physics::AABB3D::GetHalfExtent() const
+math::Vector3 dooms::physics::AABB3D::GetHalfExtent() const
 {
 	return (mUpperBound - mLowerBound) * 0.5f;
 }
@@ -186,7 +186,7 @@ FLOAT32 AABB3D::GetDiagonarLineLength() const
 	return math::sqrt(halfExtent.x * halfExtent.x + halfExtent.y * halfExtent.y + halfExtent.z * halfExtent.z);
 }
 
-void doom::physics::AABB3D::DrawCollider(eColor color, bool drawInstantly /*= false*/) const
+void dooms::physics::AABB3D::DrawCollider(eColor color, bool drawInstantly /*= false*/) const
 {
 #ifdef DEBUG_DRAWER
 	auto debugGraphics = graphics::DebugDrawer::GetSingleton();
@@ -218,7 +218,7 @@ void doom::physics::AABB3D::DrawCollider(eColor color, bool drawInstantly /*= fa
 #endif
 }
 
-void doom::physics::AABB3D::Render2DTopView(eColor color, bool drawInstantly /*= false*/)
+void dooms::physics::AABB3D::Render2DTopView(eColor color, bool drawInstantly /*= false*/)
 {
 #ifdef DEBUG_DRAWER
 	auto debugGraphics = graphics::DebugDrawer::GetSingleton();
@@ -234,15 +234,15 @@ void doom::physics::AABB3D::Render2DTopView(eColor color, bool drawInstantly /*=
 #endif
 }
 
-doom::physics::ColliderType doom::physics::AABB3D::GetColliderType() const
+dooms::physics::ColliderType dooms::physics::AABB3D::GetColliderType() const
 {
-	return doom::physics::ColliderType::AABB3D;
+	return dooms::physics::ColliderType::AABB3D;
 }
 
 
 AABB3D AABB3D::EnlargeAABB(const AABB3D& aabb)
 {
-	FLOAT32 offset = doom::physics::Physics_Setting::ENLARGED_AABB3D_OFFSET;
+	FLOAT32 offset = dooms::physics::Physics_Setting::ENLARGED_AABB3D_OFFSET;
 	return AABB3D(aabb.mLowerBound - offset, aabb.mUpperBound + offset);
 }
 
@@ -255,7 +255,7 @@ AABB3D AABB3D::EnlargeAABB(const AABB3D& aabb)
 /// <param name="modelMatrix"></param>
 /// <param name="resultAABB"></param>
 
-void doom::physics::AABB3D::ApplyModelMatrix(const AABB3D& localAABB, const math::Matrix4x4& modelMatrix, AABB3D& resultAABB)
+void dooms::physics::AABB3D::ApplyModelMatrix(const AABB3D& localAABB, const math::Matrix4x4& modelMatrix, AABB3D& resultAABB)
 {
 
 #ifdef __AVX__
@@ -310,7 +310,7 @@ void doom::physics::AABB3D::ApplyModelMatrix(const AABB3D& localAABB, const math
 /// <param name="B"></param>
 /// <returns></returns>
 
-bool doom::physics::AABB3D::CheckIsCompletlyEnclosed(const AABB3D& innerAABB, const AABB3D& outerAABB)
+bool dooms::physics::AABB3D::CheckIsCompletlyEnclosed(const AABB3D& innerAABB, const AABB3D& outerAABB)
 {
 	return innerAABB.mLowerBound.x >= outerAABB.mLowerBound.x &&
 		innerAABB.mLowerBound.y >= outerAABB.mLowerBound.y &&
@@ -366,7 +366,7 @@ void AABB3D::Expand(const math::Vector3& movedVector)
 
 
 
-math::Vector2 doom::physics::ClosestPointToPoint(const AABB2D& aabb, const math::Vector2& point)
+math::Vector2 dooms::physics::ClosestPointToPoint(const AABB2D& aabb, const math::Vector2& point)
 {
 	math::Vector2 result{};
 	if (aabb.mLowerBound.x > point.x)
@@ -398,26 +398,26 @@ math::Vector2 doom::physics::ClosestPointToPoint(const AABB2D& aabb, const math:
 	return result;
 }
 
-bool doom::physics::IsOverlapAABB3DAndPoint(const AABB3D& A, const math::Vector3& Point)
+bool dooms::physics::IsOverlapAABB3DAndPoint(const AABB3D& A, const math::Vector3& Point)
 {
 	return (Point.x >= A.mLowerBound.x && Point.x <= A.mUpperBound.x) &&
 		(Point.y >= A.mLowerBound.y && Point.y <= A.mUpperBound.y) &&
 		(Point.z >= A.mLowerBound.z && Point.z <= A.mUpperBound.z);
 }
 
-bool doom::physics::IsOverlapAABB3DAndAABB3D(const AABB3D& A, const AABB3D& B)
+bool dooms::physics::IsOverlapAABB3DAndAABB3D(const AABB3D& A, const AABB3D& B)
 {
 	return  A.mLowerBound.x <= B.mUpperBound.x && A.mUpperBound.x >= B.mLowerBound.x &&
 			A.mLowerBound.y <= B.mUpperBound.y && A.mUpperBound.y >= B.mLowerBound.y &&
 			A.mLowerBound.z <= B.mUpperBound.z && A.mUpperBound.z >= B.mLowerBound.z;
 }
 
-bool doom::physics::IsOverlapAABB3DAndAABB3D(const Collider* const A, const Collider* const B)
+bool dooms::physics::IsOverlapAABB3DAndAABB3D(const Collider* const A, const Collider* const B)
 {
 	return IsOverlapAABB3DAndAABB3D(*static_cast<const AABB3D*>(A), *static_cast<const AABB3D*>(B));
 }
 
-math::Vector3 doom::physics::ClosestPointToPoint(const AABB3D& aabb, const math::Vector3& point)
+math::Vector3 dooms::physics::ClosestPointToPoint(const AABB3D& aabb, const math::Vector3& point)
 {
 	math::Vector3 result{};
 	if (aabb.mLowerBound.x > point.x)

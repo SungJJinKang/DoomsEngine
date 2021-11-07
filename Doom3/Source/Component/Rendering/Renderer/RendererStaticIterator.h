@@ -11,7 +11,7 @@
 
 
 
-namespace doom
+namespace dooms
 {
 	class Renderer;
 	class Camera;

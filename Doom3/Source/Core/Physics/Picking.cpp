@@ -3,7 +3,7 @@
 #include <UserInput_Server.h>
 #include <Transform.h>
 
-doom::physics::Ray doom::physics::Picking::GetCurrentCursorPointWorldRay()
+dooms::physics::Ray dooms::physics::Picking::GetCurrentCursorPointWorldRay()
 {
 	const math::Vector3 currentNDCCursorPoint{ userinput::UserInput_Server::GetCurrentMouseNDCPosition() };
 	

@@ -8,31 +8,31 @@
 #include <utility/trim.h>
 #include <UI/PrintText.h>
 
-const std::string doom::asset::ShaderAsset::VertexShaderMacros = "#VERTEX";
-const std::string doom::asset::ShaderAsset::FragmentShaderMacros = "#FRAGMENT";
-const std::string doom::asset::ShaderAsset::GeometryShaderMacros = "#GEOMETRY";
+const std::string dooms::asset::ShaderAsset::VertexShaderMacros = "#VERTEX";
+const std::string dooms::asset::ShaderAsset::FragmentShaderMacros = "#FRAGMENT";
+const std::string dooms::asset::ShaderAsset::GeometryShaderMacros = "#GEOMETRY";
 
 
 
-doom::asset::ShaderAsset::ShaderAsset()
+dooms::asset::ShaderAsset::ShaderAsset()
 	: mVertexId(0), mFragmentId(0), mGeometryId(0)
 {
 }
 
-doom::asset::ShaderAsset::ShaderAsset(const std::string& shaderStr)
+dooms::asset::ShaderAsset::ShaderAsset(const std::string& shaderStr)
 	: mVertexId(0), mFragmentId(0), mGeometryId(0)
 {
 	SetShaderText(shaderStr, false);
 	CompileShaders();
 }
 
-doom::asset::ShaderAsset::ShaderAsset(ShaderText shaderText)
+dooms::asset::ShaderAsset::ShaderAsset(ShaderText shaderText)
 	:mShaderText(std::move(shaderText)), mVertexId(0), mFragmentId(0), mGeometryId(0)
 {
 	CompileShaders();
 }
 
-doom::asset::ShaderAsset::ShaderAsset(ShaderAsset&& shader) noexcept
+dooms::asset::ShaderAsset::ShaderAsset(ShaderAsset&& shader) noexcept
 	: Asset(std::move(shader)), mVertexId{ shader.mVertexId }, mFragmentId{ shader.mFragmentId }, mGeometryId{ shader.mGeometryId }, 
 	mShaderText{ std::move(shader.mShaderText) }
 {
@@ -41,7 +41,7 @@ doom::asset::ShaderAsset::ShaderAsset(ShaderAsset&& shader) noexcept
 	shader.mGeometryId = 0;
 }
 
-doom::asset::ShaderAsset& doom::asset::ShaderAsset::operator=(ShaderAsset&& shader) noexcept
+dooms::asset::ShaderAsset& dooms::asset::ShaderAsset::operator=(ShaderAsset&& shader) noexcept
 {
 	Asset::operator=(std::move(shader));
 
@@ -59,12 +59,12 @@ doom::asset::ShaderAsset& doom::asset::ShaderAsset::operator=(ShaderAsset&& shad
 	return *this;
 }
 
-doom::asset::ShaderAsset::~ShaderAsset()
+dooms::asset::ShaderAsset::~ShaderAsset()
 {
 	DeleteShaders();
 }
 
-void doom::asset::ShaderAsset::DeleteShaders()
+void dooms::asset::ShaderAsset::DeleteShaders()
 {
 	if (mVertexId != 0)
 	{
@@ -85,7 +85,7 @@ void doom::asset::ShaderAsset::DeleteShaders()
 	}
 }
 
-void doom::asset::ShaderAsset::SetShaderText(const std::string& shaderStr, const bool compileShader)
+void dooms::asset::ShaderAsset::SetShaderText(const std::string& shaderStr, const bool compileShader)
 {
 	ClassifyShader(shaderStr);
 	if (compileShader == true)
@@ -94,7 +94,7 @@ void doom::asset::ShaderAsset::SetShaderText(const std::string& shaderStr, const
 	}
 }
 
-void doom::asset::ShaderAsset::CompileShaders()
+void dooms::asset::ShaderAsset::CompileShaders()
 {
 	mVertexId = 0;
 	mFragmentId = 0;
@@ -124,7 +124,7 @@ void doom::asset::ShaderAsset::CompileShaders()
 	
 }
 
-void doom::asset::ShaderAsset::CompileSpecificShader(const std::string& shaderStr, ShaderType shaderType, UINT32& shaderId)
+void dooms::asset::ShaderAsset::CompileSpecificShader(const std::string& shaderStr, ShaderType shaderType, UINT32& shaderId)
 {
 	UINT32 shaderTypeFlag{};
 	if (shaderType == ShaderType::Vertex)
@@ -154,23 +154,23 @@ void doom::asset::ShaderAsset::CompileSpecificShader(const std::string& shaderSt
 
 	if (shaderType == ShaderType::Vertex)
 	{
-		doom::ui::PrintText("Compile Shader - Vertex ( %s )", GetAssetPath().generic_string().c_str());
+		dooms::ui::PrintText("Compile Shader - Vertex ( %s )", GetAssetPath().generic_string().c_str());
 	}
 	else if (shaderType == ShaderType::Fragment)
 	{
-		doom::ui::PrintText("Compile Shader - Fragment ( %s )", GetAssetPath().generic_string().c_str());
+		dooms::ui::PrintText("Compile Shader - Fragment ( %s )", GetAssetPath().generic_string().c_str());
 
 	}
 	else if (shaderType == ShaderType::Geometry)
 	{
-		doom::ui::PrintText("Compile Shader - Geometry ( %s )", GetAssetPath().generic_string().c_str());
+		dooms::ui::PrintText("Compile Shader - Geometry ( %s )", GetAssetPath().generic_string().c_str());
 	}
 	
 }
 
 
 
-void doom::asset::ShaderAsset::ClassifyShader(const std::string& shaderText)
+void dooms::asset::ShaderAsset::ClassifyShader(const std::string& shaderText)
 {
 	std::stringstream inputStringStream{ shaderText };
 	std::string line;
@@ -286,7 +286,7 @@ void doom::asset::ShaderAsset::ClassifyShader(const std::string& shaderText)
 }
 
 
-bool doom::asset::ShaderAsset::CheckIsSharpInclude(const std::string& str)
+bool dooms::asset::ShaderAsset::CheckIsSharpInclude(const std::string& str)
 {
 	std::string trimedStr = std::trim(str, ' ');
 	if (trimedStr.compare(0, 1, "#") == 0)
@@ -301,7 +301,7 @@ bool doom::asset::ShaderAsset::CheckIsSharpInclude(const std::string& str)
 	return false;
 }
 
-std::string doom::asset::ShaderAsset::ExtractShaderFile(const std::filesystem::path& path)
+std::string dooms::asset::ShaderAsset::ExtractShaderFile(const std::filesystem::path& path)
 {
 	std::stringstream inputStringStream{ GetTextFromFile(path) };
 	std::string line;
@@ -333,7 +333,7 @@ std::string doom::asset::ShaderAsset::ExtractShaderFile(const std::filesystem::p
 }
 
 #ifdef DEBUG_MODE
-void doom::asset::ShaderAsset::checkCompileError(UINT32 id, ShaderType shaderType)
+void dooms::asset::ShaderAsset::checkCompileError(UINT32 id, ShaderType shaderType)
 {
 	INT32 success;
 	char infoLog[1024];
@@ -370,44 +370,44 @@ void doom::asset::ShaderAsset::checkCompileError(UINT32 id, ShaderType shaderTyp
 }
 #endif
 
-bool doom::asset::ShaderAsset::GetIsValid() const
+bool dooms::asset::ShaderAsset::GetIsValid() const
 {
 	return mVertexId || mFragmentId || mGeometryId;
 }
 
-void doom::asset::ShaderAsset::OnEndImportInMainThread_Internal()
+void dooms::asset::ShaderAsset::OnEndImportInMainThread_Internal()
 {
 	D_START_PROFILING(Compile_Shader, eProfileLayers::Rendering);
 	CompileShaders();
 	D_END_PROFILING(Compile_Shader);
 }
 
-UINT32 doom::asset::ShaderAsset::GetVertexId() const
+UINT32 dooms::asset::ShaderAsset::GetVertexId() const
 {
 	return mVertexId;
 }
 
-UINT32 doom::asset::ShaderAsset::GetFragmentId() const
+UINT32 dooms::asset::ShaderAsset::GetFragmentId() const
 {
 	return mFragmentId;
 }
 
-UINT32 doom::asset::ShaderAsset::GetGeometryId() const
+UINT32 dooms::asset::ShaderAsset::GetGeometryId() const
 {
 	return mGeometryId;
 }
 
-doom::graphics::Material doom::asset::ShaderAsset::CreateMatrialWithThisShader()
+dooms::graphics::Material dooms::asset::ShaderAsset::CreateMatrialWithThisShader()
 {
-	return doom::graphics::Material(this);
+	return dooms::graphics::Material(this);
 }
 
-doom::asset::eAssetType doom::asset::ShaderAsset::GetEAssetType() const
+dooms::asset::eAssetType dooms::asset::ShaderAsset::GetEAssetType() const
 {
-	return doom::asset::eAssetType::SHADER;
+	return dooms::asset::eAssetType::SHADER;
 }
 
-doom::asset::ShaderAsset::ShaderText::ShaderText(
+dooms::asset::ShaderAsset::ShaderText::ShaderText(
 	std::string vertexShaderText, 
 	std::string fragmentShaderText, 
 	std::string geometryShaderText
@@ -418,7 +418,7 @@ doom::asset::ShaderAsset::ShaderText::ShaderText(
 {
 }
 
-void doom::asset::ShaderAsset::ShaderText::Clear()
+void dooms::asset::ShaderAsset::ShaderText::Clear()
 {
 	mVertexShaderText.resize(0);
 	mFragmentShaderText.resize(0);

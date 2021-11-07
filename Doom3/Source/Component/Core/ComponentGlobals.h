@@ -5,7 +5,7 @@
 #include "ServerComponent.h"
 #include "PlainComponent.h"
 
-namespace doom
+namespace dooms
 {
 	template<typename T>
 	constexpr static bool IsServerComponent()

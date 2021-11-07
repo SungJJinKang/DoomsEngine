@@ -1,7 +1,7 @@
 #pragma once
 #include "../../Component/Core/Component.h"
 
-namespace doom
+namespace dooms
 {
 	/// <summary>
 	/// All ServerComponents should inherit this Class

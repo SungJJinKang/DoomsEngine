@@ -14,7 +14,7 @@ namespace DirectX
 }
 
 
-namespace doom
+namespace dooms
 {
 	namespace graphics
 	{
@@ -23,7 +23,7 @@ namespace doom
 		/// </summary>
 		class Texture : public DObject
 		{
-			DOBJECT_ABSTRACT_CLASS_BODY(Texture, doom::eDOBJECT_ClassFlags::NonCopyable);
+			DOBJECT_ABSTRACT_CLASS_BODY(Texture, dooms::eDOBJECT_ClassFlags::NonCopyable);
 			DOBJECT_CLASS_BASE_CHAIN(DObject)
 
 		public:

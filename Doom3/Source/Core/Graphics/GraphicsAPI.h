@@ -9,7 +9,7 @@
 #include "DebugGraphics/RenderingDebugger.h"
 
 
-namespace doom
+namespace dooms
 {
 	class GameCore;
 	namespace graphics

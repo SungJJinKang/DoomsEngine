@@ -3,20 +3,20 @@
 #define D_DEBUG_CPU_VENDOR_PROFILER
 #include <Profiler/CPUVendorProfiler.h>
 
-void doom::PerformanceTestController::InitComponent()
+void dooms::PerformanceTestController::InitComponent()
 {
 	CPU_VENDOR_PROFILER_RESUME;
 }
 
-void doom::PerformanceTestController::UpdateComponent()
+void dooms::PerformanceTestController::UpdateComponent()
 {
-	if (doom::time::MainTimer::GetCurrentFrameCount() > 2000)
+	if (dooms::time::MainTimer::GetCurrentFrameCount() > 2000)
 	{
 		CPU_VENDOR_PROFILER_PAUSE;
 		EXIT_PROGRAM;
 	}
 }
 
-void doom::PerformanceTestController::OnEndOfFrame_Component()
+void dooms::PerformanceTestController::OnEndOfFrame_Component()
 {
 }

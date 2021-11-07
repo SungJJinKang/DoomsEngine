@@ -16,12 +16,12 @@
 #include "Graphics/Graphics_Setting.h"
 #include <PerformanceTestController.h>
 
-void doom::GameLogicStartPoint::StartGameLogic()
+void dooms::GameLogicStartPoint::StartGameLogic()
 {
 	ISingleton<graphics::LightManager>::GetSingleton()->SetAmbientLightIntensity(0.1f);
-	doom::graphics::Graphics_Setting::DefaultClearColor = { 1.0f, 1.0f, 1.0f, 1.0f };
+	dooms::graphics::Graphics_Setting::DefaultClearColor = { 1.0f, 1.0f, 1.0f, 1.0f };
 
-	auto currenScene = doom::Scene::GetCurrentWorld();
+	auto currenScene = dooms::Scene::GetCurrentWorld();
 
 
 	auto lightEntity = currenScene->CreateNewEntity();
@@ -34,7 +34,7 @@ void doom::GameLogicStartPoint::StartGameLogic()
 	//auto& threedasset = assetImporter::AssetManager::GetSingleton()->GetAsset<asset::eAssetType::THREE_D_MODEL>(0);
 	auto threedasset = assetImporter::AssetManager::GetSingleton()->GetAsset<asset::eAssetType::THREE_D_MODEL>("cerberus.assbin");
 	auto shader = assetImporter::AssetManager::GetSingleton()->GetAsset<asset::eAssetType::SHADER>("GbufferWriter_PBR.glsl");
-	auto material = doom::CreateDObject<graphics::Material>(shader);
+	auto material = dooms::CreateDObject<graphics::Material>(shader);
 	material->AddTexture(graphics::eTextureBindingPoint::AlbedoTexture, assetImporter::AssetManager::GetSingleton()->GetAsset<asset::eAssetType::TEXTURE>("cerberus_A.dds"));
 	material->AddTexture(graphics::eTextureBindingPoint::NormalTexture, assetImporter::AssetManager::GetSingleton()->GetAsset<asset::eAssetType::TEXTURE>("cerberus_N.dds"));
 	material->AddTexture(graphics::eTextureBindingPoint::MetalnessTexture, assetImporter::AssetManager::GetSingleton()->GetAsset<asset::eAssetType::TEXTURE>("cerberus_M.dds"));
@@ -107,7 +107,7 @@ void doom::GameLogicStartPoint::StartGameLogic()
 	auto entity1 = currenScene->CreateNewEntity();
 
 	auto entity1Camera = entity1->AddComponent<Camera>();
-	entity1Camera->SetProjectionMode(doom::Camera::eProjectionType::Perspective);
+	entity1Camera->SetProjectionMode(dooms::Camera::eProjectionType::Perspective);
 	entity1->AddComponent<ViewFrustumCullingDebug>();
 	entity1->AddComponent<PerformanceTestController>();
 
@@ -117,7 +117,7 @@ void doom::GameLogicStartPoint::StartGameLogic()
 	//entity1->AddComponent<Move_WASD>();
 	//entity1->AddComponent<CharacterSpawner>();
 	//entity1->AddComponent<ButtonRotate>();
-	doom::graphics::Graphics_Setting::IsSortObjectFrontToBack = false;
+	dooms::graphics::Graphics_Setting::IsSortObjectFrontToBack = false;
 
 	auto physicsEntity = currenScene->CreateNewEntity();
 	entity1->AddComponent<TestComponent>();

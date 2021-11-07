@@ -19,7 +19,7 @@
 #include "../PrimitiveType/PrimitiveLine.h"
 #include "../PrimitiveType/PrimitiveTriangle.h"
 
-namespace doom
+namespace dooms
 {
 	namespace graphics
 	{

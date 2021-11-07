@@ -6,7 +6,7 @@
 
 #ifdef DEBUG_DRAWER
 
-namespace doom
+namespace dooms
 {
 	namespace graphics
 	{
@@ -49,15 +49,15 @@ namespace doom
 #ifdef DEBUG_MODE
 
 #ifndef INCREMENT_DRAWCALL_COUNTER
-#define INCREMENT_DRAWCALL_COUNTER doom::graphics::RenderingDebugger::IncrementDrawCallCounter()
+#define INCREMENT_DRAWCALL_COUNTER dooms::graphics::RenderingDebugger::IncrementDrawCallCounter()
 #endif
 
 #ifndef RESET_DRAWCALL_COUNTER
-#define RESET_DRAWCALL_COUNTER doom::graphics::RenderingDebugger::ResetDrawCallCounter()
+#define RESET_DRAWCALL_COUNTER dooms::graphics::RenderingDebugger::ResetDrawCallCounter()
 #endif
 
 #ifndef GET_DRAWCALL_COUNTER
-#define GET_DRAWCALL_COUNTER doom::graphics::RenderingDebugger::GetDrawCallCounter()
+#define GET_DRAWCALL_COUNTER dooms::graphics::RenderingDebugger::GetDrawCallCounter()
 #endif
 
 #else

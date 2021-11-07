@@ -3,7 +3,7 @@
 #include "UniformBufferObjectUpdater.h"
 #include "../../../Helper/vector_erase_move_lastelement/vector_swap_popback.h"
 
-void doom::graphics::UniformBufferObjectManager::UpdateUniformBufferObjects()
+void dooms::graphics::UniformBufferObjectManager::UpdateUniformBufferObjects()
 {
 	for (UniformBufferObjectUpdater* updater : mUniformBufferObjectTempBufferUpdaters)
 	{
@@ -14,12 +14,12 @@ void doom::graphics::UniformBufferObjectManager::UpdateUniformBufferObjects()
 	}
 }
 
-void doom::graphics::UniformBufferObjectManager::PushUniformBufferObjectTempBufferUpdater(UniformBufferObjectUpdater* update_ptr)
+void dooms::graphics::UniformBufferObjectManager::PushUniformBufferObjectTempBufferUpdater(UniformBufferObjectUpdater* update_ptr)
 {
 	mUniformBufferObjectTempBufferUpdaters.push_back(update_ptr);
 }
 
-void doom::graphics::UniformBufferObjectManager::EraseUniformBufferObjectTempBufferUpdater(UniformBufferObjectUpdater* update_ptr)
+void dooms::graphics::UniformBufferObjectManager::EraseUniformBufferObjectTempBufferUpdater(UniformBufferObjectUpdater* update_ptr)
 {
 	auto iter_end = mUniformBufferObjectTempBufferUpdaters.end();
 	auto this_iter = std::find_if(mUniformBufferObjectTempBufferUpdaters.begin(),
@@ -32,16 +32,16 @@ void doom::graphics::UniformBufferObjectManager::EraseUniformBufferObjectTempBuf
 	std::vector_swap_popback(mUniformBufferObjectTempBufferUpdaters, this_iter);
 }
 
-void doom::graphics::UniformBufferObjectManager::UpdateUniformObjects()
+void dooms::graphics::UniformBufferObjectManager::UpdateUniformObjects()
 {
 	UpdateUniformBufferObjects();
 	BufferDateOfUniformBufferObjects();
 }
 
 
-void doom::graphics::UniformBufferObjectManager::BufferDateOfUniformBufferObjects()
+void dooms::graphics::UniformBufferObjectManager::BufferDateOfUniformBufferObjects()
 {
-	for (doom::graphics::UniformBufferObject& uniformBufferObject : UniformBufferObjectManager::mUniformBufferObjects)
+	for (dooms::graphics::UniformBufferObject& uniformBufferObject : UniformBufferObjectManager::mUniformBufferObjects)
 	{
 		if (uniformBufferObject.IsBufferGenerated())
 		{
@@ -50,7 +50,7 @@ void doom::graphics::UniformBufferObjectManager::BufferDateOfUniformBufferObject
 	}
 }
 
-doom::graphics::UniformBufferObject& doom::graphics::UniformBufferObjectManager::GetOrGenerateUniformBufferObject(UINT32 bindingPoint, UINT32 uniformBlockSizeInByte)
+dooms::graphics::UniformBufferObject& dooms::graphics::UniformBufferObjectManager::GetOrGenerateUniformBufferObject(UINT32 bindingPoint, UINT32 uniformBlockSizeInByte)
 {
 	auto& uniformBufferObject = UniformBufferObjectManager::mUniformBufferObjects[bindingPoint];
 	if (uniformBufferObject.IsBufferGenerated() == false)
@@ -60,12 +60,12 @@ doom::graphics::UniformBufferObject& doom::graphics::UniformBufferObjectManager:
 	return uniformBufferObject;
 }
 
-doom::graphics::UniformBufferObject& doom::graphics::UniformBufferObjectManager::GetUniformBufferObject(UINT32 bindingPoint)
+dooms::graphics::UniformBufferObject& dooms::graphics::UniformBufferObjectManager::GetUniformBufferObject(UINT32 bindingPoint)
 {
 	return UniformBufferObjectManager::mUniformBufferObjects[bindingPoint];
 }
 
-doom::graphics::UniformBufferObjectManager::UniformBufferObjectManager()
+dooms::graphics::UniformBufferObjectManager::UniformBufferObjectManager()
 {
 
 }

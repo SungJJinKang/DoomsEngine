@@ -7,9 +7,9 @@
 #include <IO/AssetImporter/AssetImporterWorker/AssetImporterWorker_Texture.h>
 #include <Asset/Helper/AssetFactory.h>
 
-using namespace doom::assetImporter;
+using namespace dooms::assetImporter;
 
-void doom::assetImporter::AssetManager::LoadAssetManagerSetting()
+void dooms::assetImporter::AssetManager::LoadAssetManagerSetting()
 {
 	AssetImporterWorker_Texture::TEXTURE_COMPRESSION_QUALITY = static_cast<FLOAT32>(GameCore::GetSingleton()->mGameConfigData.GetConfigData().GetValue<FLOAT64>("TEXTURE", "COMPRESSION_QUALITY"));
 	AssetImporterWorker_Texture::MIP_MAP_LEVELS = GameCore::GetSingleton()->mGameConfigData.GetConfigData().GetValue<INT32>("TEXTURE", "MIP_MAP_LEVELS");
@@ -24,35 +24,35 @@ bool AssetManager::CheckFileIsValidAssetFile(const std::filesystem::directory_en
 
 void AssetManager::DestroyAllAssets()
 {
-	for(doom::asset::AssetContainer& assetContainer : mAssetConatiners)
+	for(dooms::asset::AssetContainer& assetContainer : mAssetConatiners)
 	{
 		assetContainer.ClearAssets();
 	}
 }
 
-doom::asset::AssetContainer& AssetManager::GetAssetContainer(const doom::asset::eAssetType _eAssetType)
+dooms::asset::AssetContainer& AssetManager::GetAssetContainer(const dooms::asset::eAssetType _eAssetType)
 {
-	D_ASSERT(static_cast<UINT32>(_eAssetType) < doom::asset::ENUM_ASSETTYPE_COUNT);
+	D_ASSERT(static_cast<UINT32>(_eAssetType) < dooms::asset::ENUM_ASSETTYPE_COUNT);
 
 	return mAssetConatiners[static_cast<UINT32>(_eAssetType)];
 }
 
-void AssetManager::AddAssetToAssetContainer(doom::asset::Asset* const asset)
+void AssetManager::AddAssetToAssetContainer(dooms::asset::Asset* const asset)
 {
 	mAssetConatiners[static_cast<UINT32>(asset->GetEAssetType())].AddNewAsset(asset);
 }
 
-doom::asset::Asset* AssetManager::_ImportAssetInstantly
+dooms::asset::Asset* AssetManager::_ImportAssetInstantly
 (
 	std::filesystem::path& path,
-	const doom::asset::eAssetType assetType
+	const dooms::asset::eAssetType assetType
 )
 {
 	path.make_preferred();
 
-	doom::asset::Asset* const newAsset = doom::asset::AssetFactory::CreateNewAsset(path, assetType);
+	dooms::asset::Asset* const newAsset = dooms::asset::AssetFactory::CreateNewAsset(path, assetType);
 
-	const bool isSuccess = doom::assetImporter::ImportAssetJob(path, newAsset);
+	const bool isSuccess = dooms::assetImporter::ImportAssetJob(path, newAsset);
 
 	if(isSuccess == true)
 	{
@@ -63,36 +63,36 @@ doom::asset::Asset* AssetManager::_ImportAssetInstantly
 	return newAsset;
 }
 
-doom::assetImporter::AssetFuture AssetManager::_ImportAssetAsync(std::filesystem::path& path, const doom::asset::eAssetType assetType)
+dooms::assetImporter::AssetFuture AssetManager::_ImportAssetAsync(std::filesystem::path& path, const dooms::asset::eAssetType assetType)
 {
 	path.make_preferred();
 
-	doom::asset::Asset* const newAsset = doom::asset::AssetFactory::CreateNewAsset(path, assetType);
+	dooms::asset::Asset* const newAsset = dooms::asset::AssetFactory::CreateNewAsset(path, assetType);
 	
-	std::future<bool> assetFuture = doom::assetImporter::PushImportingAssetJobToThreadPool(path, newAsset);
+	std::future<bool> assetFuture = dooms::assetImporter::PushImportingAssetJobToThreadPool(path, newAsset);
 	
 
-	return doom::assetImporter::AssetFuture(newAsset, std::move(assetFuture));
+	return dooms::assetImporter::AssetFuture(newAsset, std::move(assetFuture));
 }
 
-std::vector<doom::assetImporter::AssetFuture> AssetManager::_ImportAssetAsync
+std::vector<dooms::assetImporter::AssetFuture> AssetManager::_ImportAssetAsync
 (
 	std::vector<std::filesystem::path>& paths,
-	const std::vector<doom::asset::eAssetType>& assetTypes
+	const std::vector<dooms::asset::eAssetType>& assetTypes
 )
 {
 	D_ASSERT(paths.size() == assetTypes.size());
 
-	std::vector<doom::assetImporter::AssetFuture> assetFutures;
+	std::vector<dooms::assetImporter::AssetFuture> assetFutures;
 	assetFutures.reserve(assetTypes.size());
 
 	for (size_t i = 0; (i < assetTypes.size()) && (i < paths.size()); i++)
 	{
 		paths[i].make_preferred();
 
-		doom::asset::Asset* const newAsset = doom::asset::AssetFactory::CreateNewAsset(paths[i], assetTypes[i]);
+		dooms::asset::Asset* const newAsset = dooms::asset::AssetFactory::CreateNewAsset(paths[i], assetTypes[i]);
 
-		assetFutures.emplace_back(newAsset, doom::assetImporter::PushImportingAssetJobToThreadPool(paths[i], newAsset));
+		assetFutures.emplace_back(newAsset, dooms::assetImporter::PushImportingAssetJobToThreadPool(paths[i], newAsset));
 	}
 	
 	return assetFutures;
@@ -100,9 +100,9 @@ std::vector<doom::assetImporter::AssetFuture> AssetManager::_ImportAssetAsync
 
 
 
-doom::asset::Asset* AssetManager::_GetAsset(const D_UUID& UUID, const doom::asset::eAssetType assetType)
+dooms::asset::Asset* AssetManager::_GetAsset(const D_UUID& UUID, const dooms::asset::eAssetType assetType)
 {
-	doom::asset::Asset* asset = nullptr;
+	dooms::asset::Asset* asset = nullptr;
 
 	auto iter = GetAssetContainer(assetType).mAssets.find(UUID);
 	if (iter != GetAssetContainer(assetType).mAssets.end())
@@ -117,9 +117,9 @@ doom::asset::Asset* AssetManager::_GetAsset(const D_UUID& UUID, const doom::asse
 	return asset;
 }
 
-doom::asset::Asset* AssetManager::_GetAsset(const UINT32 index, const doom::asset::eAssetType assetType)
+dooms::asset::Asset* AssetManager::_GetAsset(const UINT32 index, const dooms::asset::eAssetType assetType)
 {
-	doom::asset::Asset* asset = nullptr;
+	dooms::asset::Asset* asset = nullptr;
 
 	if (index < GetAssetContainer(assetType).mAssetsForIterating.size())
 	{
@@ -133,9 +133,9 @@ doom::asset::Asset* AssetManager::_GetAsset(const UINT32 index, const doom::asse
 	return asset;
 }
 
-doom::asset::Asset* AssetManager::_GetAsset(const std::string& filename, const doom::asset::eAssetType assetType)
+dooms::asset::Asset* AssetManager::_GetAsset(const std::string& filename, const dooms::asset::eAssetType assetType)
 {
-	doom::asset::Asset* asset = nullptr;
+	dooms::asset::Asset* asset = nullptr;
 
 	auto iter = GetAssetContainer(assetType).mAssetsForAssetName.find(filename);
 	if (iter != GetAssetContainer(assetType).mAssetsForAssetName.end())
@@ -156,36 +156,36 @@ AssetManager::~AssetManager()
 
 }
 
-void doom::assetImporter::AssetManager::Init()
+void dooms::assetImporter::AssetManager::Init()
 {
 	LoadAssetManagerSetting();
 
-	D_START_PROFILING(ImportEntireAsset, doom::profiler::eProfileLayers::CPU);
+	D_START_PROFILING(ImportEntireAsset, dooms::profiler::eProfileLayers::CPU);
 	ImportEntireAsset();
 	D_END_PROFILING(ImportEntireAsset);
 
 }
 
-void doom::assetImporter::AssetManager::Update()
+void dooms::assetImporter::AssetManager::Update()
 {
 
 }
 
-void doom::assetImporter::AssetManager::OnEndOfFrame()
+void dooms::assetImporter::AssetManager::OnEndOfFrame()
 {
 }
 
 
 
 
-void doom::assetImporter::AssetManager::ImportEntireAsset()
+void dooms::assetImporter::AssetManager::ImportEntireAsset()
 {
 	//CHECK_IS_EXECUTED_ON_MAIN_THREAD;
 
 	std::filesystem::path lastEntryPath{};
 
 	std::vector<std::filesystem::path> pathList;
-	std::vector<doom::asset::eAssetType> assetTypeList;
+	std::vector<dooms::asset::eAssetType> assetTypeList;
 
 
 	for (const auto& entry : std::filesystem::recursive_directory_iterator(AssetFolderPath))
@@ -196,13 +196,13 @@ void doom::assetImporter::AssetManager::ImportEntireAsset()
 		}
 
 		const std::filesystem::path currentEntryPath = entry.path();
-		const std::optional<::doom::asset::eAssetType> optionalAssetType = doom::assetImporter::GetAssetType(currentEntryPath);
+		const std::optional<::dooms::asset::eAssetType> optionalAssetType = dooms::assetImporter::GetAssetType(currentEntryPath);
 		
 		
 		if (optionalAssetType.has_value())
 		{
 			const std::string extension = currentEntryPath.extension().string();
-			const ::doom::asset::eAssetType assetType = optionalAssetType.value();
+			const ::dooms::asset::eAssetType assetType = optionalAssetType.value();
 
 			// same file name with difference extension will be iterated sequentially
 			// if Non-In Build Extension come first
@@ -212,8 +212,8 @@ void doom::assetImporter::AssetManager::ImportEntireAsset()
 			// if In Build Extension come first, next direcoty compare filename with vector's last element
 			// And If file name is same, ignore Not-In Build Extension file
 
-			auto iter = doom::assetImporter::AssetInBuildExtension.find(assetType);
-			if (iter != doom::assetImporter::AssetInBuildExtension.end())
+			auto iter = dooms::assetImporter::AssetInBuildExtension.find(assetType);
+			if (iter != dooms::assetImporter::AssetInBuildExtension.end())
 			{// if There is In-Build Extension of File's AssetType, 
 
 				if (extension == iter->second)
@@ -246,8 +246,8 @@ void doom::assetImporter::AssetManager::ImportEntireAsset()
 		
 	}
 	
-	std::vector<doom::assetImporter::AssetFuture> assetFutureList = _ImportAssetAsync(pathList, assetTypeList);
-	for(doom::assetImporter::AssetFuture& future : assetFutureList)
+	std::vector<dooms::assetImporter::AssetFuture> assetFutureList = _ImportAssetAsync(pathList, assetTypeList);
+	for(dooms::assetImporter::AssetFuture& future : assetFutureList)
 	{
 		future.WaitAsset();
 	}

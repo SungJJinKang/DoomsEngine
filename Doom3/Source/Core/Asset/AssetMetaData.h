@@ -4,7 +4,7 @@
 #include <filesystem>
 #include "../API/UUID.h"
 
-namespace doom
+namespace dooms
 {
 	struct AssetMetaData
 	{

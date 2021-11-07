@@ -1,15 +1,15 @@
 #include "AutoRotateAround.h"
 
-void doom::AutoRotateAround::InitComponent()
+void dooms::AutoRotateAround::InitComponent()
 {
 }
 
-void doom::AutoRotateAround::UpdateComponent()
+void dooms::AutoRotateAround::UpdateComponent()
 {
 	GetTransform()->RotateAround(mCenterPos, mRotateAxis, MainTimer::GetDeltaTime() * mRotateAngle);
 
 }
 
-void doom::AutoRotateAround::OnEndOfFrame_Component()
+void dooms::AutoRotateAround::OnEndOfFrame_Component()
 {
 }

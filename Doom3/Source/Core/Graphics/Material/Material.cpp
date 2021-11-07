@@ -8,10 +8,10 @@
 #include <Asset/TextureAsset.h>
 #include "../Texture/Texture.h"
 
-using namespace doom::graphics;
+using namespace dooms::graphics;
 
 
-void Material::SetShaderAsset(::doom::asset::ShaderAsset* shaderAsset)
+void Material::SetShaderAsset(::dooms::asset::ShaderAsset* shaderAsset)
 {
 	D_ASSERT(shaderAsset != nullptr);
 
@@ -65,11 +65,11 @@ void Material::SetShaderAsset(::doom::asset::ShaderAsset* shaderAsset)
 }
 
 
-doom::graphics::Material::Material() : mProgramID{ INVALID_BUFFER_ID }, mShaderAsset{ nullptr }
+dooms::graphics::Material::Material() : mProgramID{ INVALID_BUFFER_ID }, mShaderAsset{ nullptr }
 {
 }
 
-Material::Material(::doom::asset::ShaderAsset* shaderAsset) : mProgramID{0}, mShaderAsset{ nullptr }
+Material::Material(::dooms::asset::ShaderAsset* shaderAsset) : mProgramID{0}, mShaderAsset{ nullptr }
 {
 	if (shaderAsset != nullptr)
 	{
@@ -92,7 +92,7 @@ Material::~Material()
 	DestroyMaterialBufferObject();
 }
 
-bool doom::graphics::Material::IsGenerated() const
+bool dooms::graphics::Material::IsGenerated() const
 {
 	return mProgramID != 0;
 }
@@ -103,19 +103,19 @@ void Material::AddTexture(UINT32 bindingPoint, Texture* texture)
 	mTargetTextures[bindingPoint] = texture;
 }
 
-void Material::AddTexture(UINT32 bindingPoint, ::doom::asset::TextureAsset* textureAsset)
+void Material::AddTexture(UINT32 bindingPoint, ::dooms::asset::TextureAsset* textureAsset)
 {
 	D_ASSERT(IsGenerated() == true);
 	mTargetTextures[bindingPoint] = textureAsset->GetDefaultTextureObject();
 }
 
-void doom::graphics::Material::AddTextures(const std::array<const Texture*, MAX_TEXTURE_COUNT>& textures)
+void dooms::graphics::Material::AddTextures(const std::array<const Texture*, MAX_TEXTURE_COUNT>& textures)
 {
 	D_ASSERT(IsGenerated() == true);
 	mTargetTextures = textures;
 }
 
-void doom::graphics::Material::UseProgram() const
+void dooms::graphics::Material::UseProgram() const
 {
 	D_ASSERT(mProgramID != 0);
 

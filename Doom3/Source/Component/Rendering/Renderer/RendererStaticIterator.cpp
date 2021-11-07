@@ -4,14 +4,14 @@
 #include "Entity.h"
 #include "../Helper/vector_erase_move_lastelement/vector_swap_popback.h"
 
-using namespace doom;
+using namespace dooms;
 
-doom::StaticContainer<Renderer>::StaticContainer() : mRenderer_ptr{ nullptr }
+dooms::StaticContainer<Renderer>::StaticContainer() : mRenderer_ptr{ nullptr }
 {
 	//AddRendererToStaticContainer(); at contructor, entity is not set
 }
 
-doom::StaticContainer<Renderer>::~StaticContainer()
+dooms::StaticContainer<Renderer>::~StaticContainer()
 {
 	RemoveRendererToStaticContainer();
 }
@@ -37,7 +37,7 @@ StaticContainer<Renderer>& StaticContainer<Renderer>::operator=(StaticContainer&
 }
 
 
-void doom::StaticContainer<Renderer>::AddRendererToStaticContainer()
+void dooms::StaticContainer<Renderer>::AddRendererToStaticContainer()
 {
 	mRenderer_ptr = static_cast<Renderer*>(this);
 
@@ -52,7 +52,7 @@ void doom::StaticContainer<Renderer>::AddRendererToStaticContainer()
 }
 
 
-void doom::StaticContainer<Renderer>::RemoveRendererToStaticContainer()
+void dooms::StaticContainer<Renderer>::RemoveRendererToStaticContainer()
 {
 	UINT32 currentEntityLayerIndex = mRenderer_ptr->GetOwnerEntityLayerIndex();
 
@@ -76,13 +76,13 @@ void doom::StaticContainer<Renderer>::RemoveRendererToStaticContainer()
 
 
 // TODO : Add this to Entity's EntityLayerChanged Callback
-void doom::StaticContainer<Renderer>::OnEntityLayerChanged(Entity& entity)
+void dooms::StaticContainer<Renderer>::OnEntityLayerChanged(Entity& entity)
 {
 	RemoveRendererToStaticContainer();
 	AddRendererToStaticContainer();
 }
 
-std::vector<Renderer*>& doom::StaticContainer<Renderer>::GetWorkingRendererInLayer(const size_t cameraIndex, const size_t layerIndex)
+std::vector<Renderer*>& dooms::StaticContainer<Renderer>::GetWorkingRendererInLayer(const size_t cameraIndex, const size_t layerIndex)
 {
 	D_ASSERT(layerIndex >= 0 && layerIndex < MAX_LAYER_COUNT);
 	return this_type::mRenderersInLayer[cameraIndex][mWorkingRendererListIndex][layerIndex];

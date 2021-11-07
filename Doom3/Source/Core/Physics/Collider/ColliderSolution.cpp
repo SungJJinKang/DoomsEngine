@@ -21,8 +21,8 @@
 // 	Sphere
 // };
 
-//TODO : ´õ ÁÁÀº ¹æ¹ý Ã£¾Æº¸ÀÚ
-doom::physics::ColliderSolution::is_overlap_algorithm_func doom::physics::ColliderSolution::CollisionAlgorithms[COLLIDER_TYPE_COUNT][COLLIDER_TYPE_COUNT]
+//TODO : ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ Ã£ï¿½Æºï¿½ï¿½ï¿½
+dooms::physics::ColliderSolution::is_overlap_algorithm_func dooms::physics::ColliderSolution::CollisionAlgorithms[COLLIDER_TYPE_COUNT][COLLIDER_TYPE_COUNT]
 {
 
 	//AABB2D
@@ -150,12 +150,12 @@ doom::physics::ColliderSolution::is_overlap_algorithm_func doom::physics::Collid
 	}
 };
 
-FORCE_INLINE doom::physics::ColliderSolution::is_overlap_algorithm_func doom::physics::ColliderSolution::GetCollisionAlgorithm(const Collider* const colliderA, const Collider* const colliderB)
+FORCE_INLINE dooms::physics::ColliderSolution::is_overlap_algorithm_func dooms::physics::ColliderSolution::GetCollisionAlgorithm(const Collider* const colliderA, const Collider* const colliderB)
 {
-	return doom::physics::ColliderSolution::CollisionAlgorithms[static_cast<UINT32>(colliderA->GetColliderType())][static_cast<UINT32>(colliderB->GetColliderType())];
+	return dooms::physics::ColliderSolution::CollisionAlgorithms[static_cast<UINT32>(colliderA->GetColliderType())][static_cast<UINT32>(colliderB->GetColliderType())];
 }
 
-bool doom::physics::ColliderSolution::CheckIsOverlap(const Collider* const colliderA, const Collider* const colliderB)
+bool dooms::physics::ColliderSolution::CheckIsOverlap(const Collider* const colliderA, const Collider* const colliderB)
 {
 	auto solution = ColliderSolution::GetCollisionAlgorithm(colliderA, colliderB);
 

@@ -1,7 +1,7 @@
 #pragma once
 
 #include <vector>
-namespace doom
+namespace dooms
 {
 	namespace asset
 	{
@@ -14,7 +14,7 @@ namespace doom
 		namespace MeshBatchCreater
 		{
 			//Batched Mesh is a Entity with Renderer component
-			doom::graphics::Mesh* CreateStaticBatchedMesh(const std::vector<doom::graphics::Renderer*>& staticRendererList);
+			dooms::graphics::Mesh* CreateStaticBatchedMesh(const std::vector<dooms::graphics::Renderer*>& staticRendererList);
 
 		};
 	}

@@ -1,10 +1,10 @@
 #include "FrameBuffer.h"
 
 
-using namespace doom::graphics;
+using namespace dooms::graphics;
 
 
-doom::graphics::FrameBuffer::FrameBuffer()
+dooms::graphics::FrameBuffer::FrameBuffer()
 	: mDefaultWidth{ 0 }, mDefaultHeight{ 0 }, mClearBit{ 0 }, mFrameBufferID()
 {
 }
@@ -18,7 +18,7 @@ FrameBuffer::FrameBuffer(UINT32 defaultWidth, UINT32 defaultHeight)
 	mAttachedDepthStencilTextures.reserve(RESERVED_DEPTH_STENCIL_TEXTURE_COUNT);
 }
 
-void doom::graphics::FrameBuffer::GenerateBuffer(UINT32 defaultWidth, UINT32 defaultHeight)
+void dooms::graphics::FrameBuffer::GenerateBuffer(UINT32 defaultWidth, UINT32 defaultHeight)
 {
 	D_ASSERT(defaultWidth != 0 && defaultHeight != 0);
 
@@ -114,9 +114,9 @@ void FrameBuffer::CheckIsFrameBufferSuccesfullyCreated() noexcept
 	}
 }
 
-const doom::graphics::SingleTexture* FrameBuffer::GetFrameBufferTexture(GraphicsAPI::eBufferBitType bufferType, UINT32 index) const
+const dooms::graphics::SingleTexture* FrameBuffer::GetFrameBufferTexture(GraphicsAPI::eBufferBitType bufferType, UINT32 index) const
 {
-	const doom::graphics::SingleTexture* targetTexture = nullptr;
+	const dooms::graphics::SingleTexture* targetTexture = nullptr;
 	switch (bufferType)
 	{
 	case GraphicsAPI::eBufferBitType::COLOR:
@@ -150,9 +150,9 @@ const doom::graphics::SingleTexture* FrameBuffer::GetFrameBufferTexture(Graphics
 	return targetTexture;
 }
 
-doom::graphics::SingleTexture* FrameBuffer::GetFrameBufferTexture(GraphicsAPI::eBufferBitType bufferType, UINT32 index)
+dooms::graphics::SingleTexture* FrameBuffer::GetFrameBufferTexture(GraphicsAPI::eBufferBitType bufferType, UINT32 index)
 {
-	doom::graphics::SingleTexture* targetTexture = nullptr;
+	dooms::graphics::SingleTexture* targetTexture = nullptr;
 	switch (bufferType)
 	{
 	case GraphicsAPI::eBufferBitType::COLOR:
@@ -186,7 +186,7 @@ doom::graphics::SingleTexture* FrameBuffer::GetFrameBufferTexture(GraphicsAPI::e
 	return targetTexture;
 }
 
-bool doom::graphics::FrameBuffer::IsGenerated()
+bool dooms::graphics::FrameBuffer::IsGenerated()
 {
 	return mFrameBufferID.IsValid();
 }
@@ -259,7 +259,7 @@ void FrameBuffer::BlitFrameBufferFrom(
 }
 
 void FrameBuffer::BlitFrameBufferToTexture(
-	doom::graphics::Texture* const drawTexture, INT32 srcX0, INT32 srcY0,
+	dooms::graphics::Texture* const drawTexture, INT32 srcX0, INT32 srcY0,
 	INT32 srcX1, INT32 srcY1, INT32 dstX0, INT32 dstY0, INT32 dstX1, INT32 dstY1, 
 	GraphicsAPI::eBufferBitType mask, eImageInterpolation filter
 ) const noexcept
@@ -282,7 +282,7 @@ RenderBuffer& FrameBuffer::AttachRenderBuffer(GraphicsAPI::eBufferBitType render
 	return createdRenderBuffer;
 }
 
-RenderBuffer& doom::graphics::FrameBuffer::AttachRenderBuffer(GraphicsAPI::eBufferBitType renderBufferType)
+RenderBuffer& dooms::graphics::FrameBuffer::AttachRenderBuffer(GraphicsAPI::eBufferBitType renderBufferType)
 {
 	return AttachRenderBuffer(renderBufferType, mDefaultWidth, mDefaultHeight);
 }
@@ -293,7 +293,7 @@ SingleTexture& FrameBuffer::AttachTextureBuffer(GraphicsAPI::eBufferBitType fram
 
 	BindFrameBuffer();
 
-	doom::graphics::SingleTexture* createdTexture = nullptr;
+	dooms::graphics::SingleTexture* createdTexture = nullptr;
 	
 	switch (frameBufferType)
 	{
@@ -353,7 +353,7 @@ SingleTexture& FrameBuffer::AttachTextureBuffer(GraphicsAPI::eBufferBitType fram
 	return *createdTexture;
 }
 
-SingleTexture& doom::graphics::FrameBuffer::AttachTextureBuffer(GraphicsAPI::eBufferBitType frameBufferType)
+SingleTexture& dooms::graphics::FrameBuffer::AttachTextureBuffer(GraphicsAPI::eBufferBitType frameBufferType)
 {
 	return AttachTextureBuffer(frameBufferType, mDefaultWidth, mDefaultHeight);
 }

@@ -4,18 +4,18 @@
 #include <PhysicsComponent/BoxCollider3D.h>
 #include <Asset/ThreeDModelAsset.h>
 
-void doom::BoxAdder::InitComponent()
+void dooms::BoxAdder::InitComponent()
 {
 }
 
-void doom::BoxAdder::UpdateComponent()
+void dooms::BoxAdder::UpdateComponent()
 {
-	if (doom::userinput::UserInput_Server::GetKeyUp(eKEY_CODE::KEY_F4))
+	if (dooms::userinput::UserInput_Server::GetKeyUp(eKEY_CODE::KEY_F4))
 	{
-		auto currenScene = doom::Scene::GetCurrentWorld();
+		auto currenScene = dooms::Scene::GetCurrentWorld();
 		auto entity = currenScene->CreateNewEntity();
 		entity->GetTransform()->SetScale(1.5f, 1.5f, 1.5f);
-		entity->GetTransform()->SetPosition(doom::random::Random::RandomFloatNumber(-500.0f, 500.0f), doom::random::Random::RandomFloatNumber(-500.0f, 500.0f), doom::random::Random::RandomFloatNumber(-500.0f, 500.0f));
+		entity->GetTransform()->SetPosition(dooms::random::Random::RandomFloatNumber(-500.0f, 500.0f), dooms::random::Random::RandomFloatNumber(-500.0f, 500.0f), dooms::random::Random::RandomFloatNumber(-500.0f, 500.0f));
 		auto meshRenderer = entity->AddComponent<MeshRenderer>();
 
 		auto planetAsset = assetImporter::AssetManager::GetSingleton()->GetAsset<asset::eAssetType::THREE_D_MODEL>("planet.assbin");
@@ -37,6 +37,6 @@ void doom::BoxAdder::UpdateComponent()
 	
 }
 
-void doom::BoxAdder::OnEndOfFrame_Component()
+void dooms::BoxAdder::OnEndOfFrame_Component()
 {
 }

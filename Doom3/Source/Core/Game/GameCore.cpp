@@ -13,7 +13,7 @@
 #include "DObject/Reflection/ReflectionTest.h"
 
 
-doom::GameCore::GameCore()
+dooms::GameCore::GameCore()
 {
 
 
@@ -22,12 +22,12 @@ doom::GameCore::GameCore()
 
 
 
-std::unique_ptr<doom::Scene> doom::GameCore::CreateNewScene(std::string sceneName /*= ""*/)
+std::unique_ptr<dooms::Scene> dooms::GameCore::CreateNewScene(std::string sceneName /*= ""*/)
 {
-	return std::unique_ptr<doom::Scene>{doom::CreateDObject<Scene>(sceneName)};
+	return std::unique_ptr<dooms::Scene>{dooms::CreateDObject<Scene>(sceneName)};
 }
 
-void doom::GameCore::InitGameSetting()
+void dooms::GameCore::InitGameSetting()
 {
 	ITERATION_PER_SECOND = mGameConfigData.GetConfigData().GetValue<INT32>("SYSTEM", "ITERATION_PER_SECOND");
 	TARGET_FRAME_RATE = mGameConfigData.GetConfigData().GetValue<INT32>("SYSTEM", "TARGET_FRAME_RATE");
@@ -39,22 +39,22 @@ void doom::GameCore::InitGameSetting()
 
 
 #ifdef DEBUG_MODE
-	doom::logger::InitLogger();
+	dooms::logger::InitLogger();
 #endif
 
 }
 
-void doom::GameCore::UpdateGameCore()
+void dooms::GameCore::UpdateGameCore()
 {
 
 }
 
-doom::GameCore::~GameCore()
+dooms::GameCore::~GameCore()
 {
 
 }
 
-void doom::GameCore::Init()
+void dooms::GameCore::Init()
 {
 	D_START_PROFILING(InitGameSetting, eProfileLayers::CPU);
 	InitGameSetting();
@@ -68,7 +68,7 @@ void doom::GameCore::Init()
 	GameLogicStartPoint::StartGameLogic();
 }
 
-void doom::GameCore::InitServers()
+void dooms::GameCore::InitServers()
 {
 	D_START_PROFILING(mJobSystem_Init, eProfileLayers::CPU);
 	mJobSystem.Init();
@@ -105,7 +105,7 @@ void doom::GameCore::InitServers()
 
 }
 
-void doom::GameCore::LateInit()
+void dooms::GameCore::LateInit()
 {
 	/*
 	D_START_PROFILING(Init Physics_Server, eProfileLayers::CPU);
@@ -125,7 +125,7 @@ void doom::GameCore::LateInit()
 	
 }
 
-void doom::GameCore::Update()
+void dooms::GameCore::Update()
 {
 	UpdateGameCore();
 
@@ -159,7 +159,7 @@ void doom::GameCore::Update()
 	D_END_PROFILING(mGraphics_Server_Update);
 }
 
-void doom::GameCore::FixedUpdate()
+void dooms::GameCore::FixedUpdate()
 {
 	D_START_PROFILING(mPhysics_Server_FixedUpdate_Internal, eProfileLayers::CPU);
 	mPhysics_Server.FixedUpdate_Internal();
@@ -174,7 +174,7 @@ void doom::GameCore::FixedUpdate()
 	D_END_PROFILING(mCurrentScene_FixedUpdatePlainComponents);
 }
 
-void doom::GameCore::OnEndOfFrame()
+void dooms::GameCore::OnEndOfFrame()
 {
 	D_START_PROFILING(mTime_Server_OnEndOfFrame, eProfileLayers::CPU);
 	mTime_Server.OnEndOfFrame_Internal();
@@ -201,7 +201,7 @@ void doom::GameCore::OnEndOfFrame()
 	D_END_PROFILING(mGraphics_Server_OnEndOfFrame);
 }
 
-bool doom::GameCore::Tick()
+bool dooms::GameCore::Tick()
 {
 
 	D_START_PROFILING(Fixed_Update, eProfileLayers::CPU);
@@ -231,7 +231,7 @@ bool doom::GameCore::Tick()
 	OnEndOfFrame();
 	D_END_PROFILING(OnEndOfFrame);
 
-	if (doom::userinput::UserInput_Server::GetKeyUp(doom::userinput::eKEY_CODE::KEY_ESCAPE) == false)
+	if (dooms::userinput::UserInput_Server::GetKeyUp(dooms::userinput::eKEY_CODE::KEY_ESCAPE) == false)
 	{
 		return true;
 	}
@@ -243,7 +243,7 @@ bool doom::GameCore::Tick()
 	
 }
 
-void doom::GameCore::CleanUp()
+void dooms::GameCore::CleanUp()
 {
 
 }

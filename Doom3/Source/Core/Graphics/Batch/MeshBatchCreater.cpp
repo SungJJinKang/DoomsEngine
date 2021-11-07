@@ -2,11 +2,11 @@
 
 #include <Asset/ThreeDModelAsset.h>
 
-doom::graphics::Mesh* doom::graphics::MeshBatchCreater::CreateStaticBatchedMesh(
-	const std::vector<doom::graphics::Renderer*>& staticRendererList
+dooms::graphics::Mesh* dooms::graphics::MeshBatchCreater::CreateStaticBatchedMesh(
+	const std::vector<dooms::graphics::Renderer*>& staticRendererList
 )
 {
-	//±âÁ¸ÀÇ RendererÀÇ Mesh¸¦ ±³Ã¼ÇØÁÖ´Â ¹æ½ÄÀ¸·Î ±¸ÇöÇÏÀÚ.
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Rendererï¿½ï¿½ Meshï¿½ï¿½ ï¿½ï¿½Ã¼ï¿½ï¿½ï¿½Ö´ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½.
 	//staticRendererList
 	return nullptr;
 }

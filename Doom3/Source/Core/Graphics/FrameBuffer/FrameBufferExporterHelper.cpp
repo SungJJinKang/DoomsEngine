@@ -2,44 +2,44 @@
 
 #include "Rendering/Camera.h"
 
-void doom::graphics::FrameBufferExporterHelper::ExportMainFrameBufferColor
+void dooms::graphics::FrameBufferExporterHelper::ExportMainFrameBufferColor
 (
 	const std::filesystem::path& path,
 	const assetExporter::assetExporterTexture::eTextureExtension extension
 )
 {
-	doom::ui::PrintText("Export Main FrameBuffer Texture");
+	dooms::ui::PrintText("Export Main FrameBuffer Texture");
 				
-	doom::assetExporter::assetExporterTexture::ExportTextureFromMainFrameBuffer
+	dooms::assetExporter::assetExporterTexture::ExportTextureFromMainFrameBuffer
 	(
-		doom::graphics::eTextureComponentFormat::RGBA,
-		doom::graphics::Texture::eDataType::UNSIGNED_BYTE,
+		dooms::graphics::eTextureComponentFormat::RGBA,
+		dooms::graphics::Texture::eDataType::UNSIGNED_BYTE,
 		std::filesystem::current_path(),
 		extension
 	);
 }
 
-void doom::graphics::FrameBufferExporterHelper::ExportMainFrameBufferColorAsDDS(const std::filesystem::path& path)
+void dooms::graphics::FrameBufferExporterHelper::ExportMainFrameBufferColorAsDDS(const std::filesystem::path& path)
 {
-	doom::ui::PrintText("Export Main FrameBuffer Texture As DDS");
+	dooms::ui::PrintText("Export Main FrameBuffer Texture As DDS");
 
-	doom::assetExporter::assetExporterTexture::ExportTextureFromMainFrameBufferAsDDS
+	dooms::assetExporter::assetExporterTexture::ExportTextureFromMainFrameBufferAsDDS
 	(
-		doom::graphics::eTextureComponentFormat::RGBA,
-		doom::graphics::Texture::eDataType::UNSIGNED_BYTE,
+		dooms::graphics::eTextureComponentFormat::RGBA,
+		dooms::graphics::Texture::eDataType::UNSIGNED_BYTE,
 		std::filesystem::current_path()
 	);
 }
 
-void doom::graphics::FrameBufferExporterHelper::ExportMainFrameBufferDepth(const std::filesystem::path& path,
+void dooms::graphics::FrameBufferExporterHelper::ExportMainFrameBufferDepth(const std::filesystem::path& path,
 	const assetExporter::assetExporterTexture::eTextureExtension extension)
 {
 
-	doom::ui::PrintText("Export Main FrameBuffer Depth Texture");
+	dooms::ui::PrintText("Export Main FrameBuffer Depth Texture");
 
-	doom::graphics::SingleTexture* depthTexture =
-		doom::Camera::GetMainCamera()->mDefferedRenderingFrameBuffer.GetFrameBufferTexture(doom::graphics::GraphicsAPI::eBufferBitType::DEPTH, 0);
-	doom::assetExporter::assetExporterTexture::ExportTextureFromTexture
+	dooms::graphics::SingleTexture* depthTexture =
+		dooms::Camera::GetMainCamera()->mDefferedRenderingFrameBuffer.GetFrameBufferTexture(dooms::graphics::GraphicsAPI::eBufferBitType::DEPTH, 0);
+	dooms::assetExporter::assetExporterTexture::ExportTextureFromTexture
 	(
 		depthTexture,
 		0,
@@ -48,13 +48,13 @@ void doom::graphics::FrameBufferExporterHelper::ExportMainFrameBufferDepth(const
 	);
 }
 
-void doom::graphics::FrameBufferExporterHelper::ExportMainFrameBufferDepthAsDDS(const std::filesystem::path& path)
+void dooms::graphics::FrameBufferExporterHelper::ExportMainFrameBufferDepthAsDDS(const std::filesystem::path& path)
 {
-	doom::ui::PrintText("Export Main FrameBuffer Depth Texture As DDS");
+	dooms::ui::PrintText("Export Main FrameBuffer Depth Texture As DDS");
 
-	doom::graphics::SingleTexture* depthTexture =
-		doom::Camera::GetMainCamera()->mDefferedRenderingFrameBuffer.GetFrameBufferTexture(doom::graphics::GraphicsAPI::eBufferBitType::DEPTH, 0);
-	doom::assetExporter::assetExporterTexture::ExportTextureFromTextureAsDDS
+	dooms::graphics::SingleTexture* depthTexture =
+		dooms::Camera::GetMainCamera()->mDefferedRenderingFrameBuffer.GetFrameBufferTexture(dooms::graphics::GraphicsAPI::eBufferBitType::DEPTH, 0);
+	dooms::assetExporter::assetExporterTexture::ExportTextureFromTextureAsDDS
 	(
 		depthTexture,
 		0,

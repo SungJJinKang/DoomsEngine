@@ -3,33 +3,33 @@
 #include <Graphics/Graphics_Setting.h>
 #include <UI/PrintText.h>
 
-void doom::OverDrawVisualizationDebugger::InitComponent()
+void dooms::OverDrawVisualizationDebugger::InitComponent()
 {
 	ShowIsSortObjectFrontToBack();
 }
 
-void doom::OverDrawVisualizationDebugger::ShowIsSortObjectFrontToBack()
+void dooms::OverDrawVisualizationDebugger::ShowIsSortObjectFrontToBack()
 {
-	if (doom::graphics::Graphics_Setting::IsSortObjectFrontToBack == true)
+	if (dooms::graphics::Graphics_Setting::IsSortObjectFrontToBack == true)
 	{
-		doom::ui::PrintText("Sorting Object Front to Back On");
+		dooms::ui::PrintText("Sorting Object Front to Back On");
 	}
 	else
 	{
-		doom::ui::PrintText("Sorting Object Front to Back Off");
+		dooms::ui::PrintText("Sorting Object Front to Back Off");
 	}
 }
 
-void doom::OverDrawVisualizationDebugger::UpdateComponent()
+void dooms::OverDrawVisualizationDebugger::UpdateComponent()
 {
-	if (doom::userinput::UserInput_Server::GetKeyUp(doom::userinput::eKEY_CODE::KEY_F5))
+	if (dooms::userinput::UserInput_Server::GetKeyUp(dooms::userinput::eKEY_CODE::KEY_F5))
 	{
-		doom::graphics::Graphics_Setting::IsSortObjectFrontToBack = !doom::graphics::Graphics_Setting::IsSortObjectFrontToBack;
+		dooms::graphics::Graphics_Setting::IsSortObjectFrontToBack = !dooms::graphics::Graphics_Setting::IsSortObjectFrontToBack;
 		ShowIsSortObjectFrontToBack();
 
 	}
 
-	if (doom::userinput::UserInput_Server::GetKeyUp(doom::userinput::eKEY_CODE::KEY_F6))
+	if (dooms::userinput::UserInput_Server::GetKeyUp(dooms::userinput::eKEY_CODE::KEY_F6))
 	{
 		graphics::Graphics_Setting::IsOverDrawVisualizationEnabled = !(graphics::Graphics_Setting::IsOverDrawVisualizationEnabled);
 

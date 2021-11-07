@@ -2,14 +2,14 @@
 
 #include "BVH.h"
 template <typename ColliderType>
-void doom::BVH_Node_Container<ColliderType>::InsertBVHLeafNode(BVH<ColliderType>& BVH, const ColliderType& Collider, doom::physics::Collider* collider)
+void dooms::BVH_Node_Container<ColliderType>::InsertBVHLeafNode(BVH<ColliderType>& BVH, const ColliderType& Collider, dooms::physics::Collider* collider)
 {
 	//D_ASSERT(mBVH_Node_View.IsValid() == true);
 	mBVH_Node_View = BVH.InsertLeaf(Collider, collider);
 }
 
 template <typename ColliderType>
-void doom::BVH_Node_Container<ColliderType>::UpdateBVH_Node(const ColliderType& Collider)
+void dooms::BVH_Node_Container<ColliderType>::UpdateBVH_Node(const ColliderType& Collider)
 {
 	D_ASSERT(mBVH_Node_View.IsValid() == true);
 	mBVH_Node_View = mBVH_Node_View.GetNode()->Update(Collider);
@@ -17,7 +17,7 @@ void doom::BVH_Node_Container<ColliderType>::UpdateBVH_Node(const ColliderType& 
 
 /*
 template <typename ColliderType>
-void doom::BVH_Node_Container<ColliderType>::UpdateBVH_Node(const typename ColliderType::component_type& movedVector)
+void dooms::BVH_Node_Container<ColliderType>::UpdateBVH_Node(const typename ColliderType::component_type& movedVector)
 {
 	D_ASSERT(mBVH_Node_View != nullptr);
 	mBVH_Node_View = mBVH_Node_View->Update(movedVector);
@@ -25,7 +25,7 @@ void doom::BVH_Node_Container<ColliderType>::UpdateBVH_Node(const typename Colli
 */
 
 template <typename ColliderType>
-void doom::BVH_Node_Container<ColliderType>::RemoveBVH_Node()
+void dooms::BVH_Node_Container<ColliderType>::RemoveBVH_Node()
 {
 	if (mBVH_Node_View.IsValid())
 	{
@@ -35,25 +35,25 @@ void doom::BVH_Node_Container<ColliderType>::RemoveBVH_Node()
 }
 
 template <typename ColliderType>
-doom::BVH_Node_Container<ColliderType>::BVH_Node_Container()
+dooms::BVH_Node_Container<ColliderType>::BVH_Node_Container()
 	:mBVH_Node_View()
 {
 }
 
 template <typename ColliderType>
-doom::BVH_Node_Container<ColliderType>::~BVH_Node_Container()
+dooms::BVH_Node_Container<ColliderType>::~BVH_Node_Container()
 {
 	RemoveBVH_Node();
 }
 
 template <typename ColliderType>
-doom::BVH_Node_Container<ColliderType>::BVH_Node_Container(const BVH_Node_Container&)
+dooms::BVH_Node_Container<ColliderType>::BVH_Node_Container(const BVH_Node_Container&)
 	:mBVH_Node_View()
 {
 }
 
 
-//template class doom::BVH_Node_Container<doom::physics::AABB2D>;
-template class doom::BVH_Node_Container<doom::physics::AABB3D>;
-template class doom::BVH_Node_Container<doom::physics::Sphere>;
+//template class dooms::BVH_Node_Container<dooms::physics::AABB2D>;
+template class dooms::BVH_Node_Container<dooms::physics::AABB3D>;
+template class dooms::BVH_Node_Container<dooms::physics::Sphere>;
 

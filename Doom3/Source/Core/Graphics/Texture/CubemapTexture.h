@@ -1,13 +1,13 @@
 #pragma once
 #include "Texture.h"
 
-namespace doom
+namespace dooms
 {
 	namespace graphics
 	{
 		class CubemapTexture : public Texture
 		{
-			DOBJECT_CLASS_BODY(CubemapTexture, doom::eDOBJECT_ClassFlags::NonCopyable);
+			DOBJECT_CLASS_BODY(CubemapTexture, dooms::eDOBJECT_ClassFlags::NonCopyable);
 			DOBJECT_CLASS_BASE_CHAIN(Texture)
 
 		public:

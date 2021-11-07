@@ -3,7 +3,7 @@
 #include "AssetImporterWorker.h"
 
 
-namespace doom
+namespace dooms
 {
 	namespace asset
 	{
@@ -20,7 +20,7 @@ namespace doom
 
 			//static constexpr inline UINT32 AVAILIABLE_FORMAT_TYPE = CMP_FORMAT_DXT5 | CMP_FORMAT_DXT1 | CMP_FORMAT_BC5 | CMP_FORMAT_BC4;
 
-			bool ImportTextureAsset(const std::filesystem::path& path, doom::asset::TextureAsset* textureAsset);
+			bool ImportTextureAsset(const std::filesystem::path& path, dooms::asset::TextureAsset* textureAsset);
 
 		public:
 
@@ -36,9 +36,9 @@ namespace doom
 			static inline INT32 MAX_IMAGE_SIZE{};
 			static inline bool bmIsInitialized{ false };
 
-			virtual bool ImportSpecificAsset(const std::filesystem::path& path, doom::asset::Asset* asset) override;
+			virtual bool ImportSpecificAsset(const std::filesystem::path& path, dooms::asset::Asset* asset) override;
 
-			virtual doom::asset::eAssetType GetEAssetType() const final;
+			virtual dooms::asset::eAssetType GetEAssetType() const final;
 
 			static void InitializeAssetImporterWorkerStatic(){}
 		};

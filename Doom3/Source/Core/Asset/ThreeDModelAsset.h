@@ -16,7 +16,7 @@ using namespace math;
 
 
 
-namespace doom
+namespace dooms
 {
 	struct ThreeDModelMesh;
 	struct ThreeDModelNode;
@@ -100,7 +100,7 @@ namespace doom
 		/// <summary>
 		/// don't clear this
 		/// </summary>
-		doom::asset::ThreeDModelAsset* mThreeDModelAsset;
+		dooms::asset::ThreeDModelAsset* mThreeDModelAsset;
 
 		std::string mName;
 
@@ -136,10 +136,10 @@ namespace doom
 	{
 		class DOOM_API ThreeDModelAsset : public Asset
 		{
-			DOBJECT_CLASS_BODY(ThreeDModelAsset, doom::eDOBJECT_ClassFlags::NonCopyable)
+			DOBJECT_CLASS_BODY(ThreeDModelAsset, dooms::eDOBJECT_ClassFlags::NonCopyable)
 				DOBJECT_CLASS_BASE_CHAIN(Asset)
 
-			friend class ::doom::assetImporter::AssetImporterWorker_THREE_D_MODEL;
+			friend class ::dooms::assetImporter::AssetImporterWorker_THREE_D_MODEL;
 
 		private:
 			std::unique_ptr<ThreeDModelNode> mRootModelNode{};
@@ -183,7 +183,7 @@ namespace doom
 			size_t GetMeshCount() const;
 
 
-			virtual doom::asset::eAssetType GetEAssetType() const final;
+			virtual dooms::asset::eAssetType GetEAssetType() const final;
 		};
 
 	}

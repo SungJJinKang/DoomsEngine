@@ -1,15 +1,15 @@
 #include "AxisDebugger.h"
 
 
-void doom::AxisDebugger::InitComponent()
+void dooms::AxisDebugger::InitComponent()
 {
 }
 
-void doom::AxisDebugger::UpdateComponent()
+void dooms::AxisDebugger::UpdateComponent()
 {
 
 }
 
-void doom::AxisDebugger::OnEndOfFrame_Component()
+void dooms::AxisDebugger::OnEndOfFrame_Component()
 {
 }

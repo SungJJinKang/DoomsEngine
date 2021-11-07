@@ -1,7 +1,7 @@
 #pragma once
 #include "Collider2DComponent.h"
 #include <Collider/Circle2D.h>
-namespace doom
+namespace dooms
 {
 	class DOOM_API CircleCollider2D : public Collider2DComponent
 	{
@@ -30,7 +30,7 @@ namespace doom
 
 
 		// Inherited via Collider2DComponent
-		virtual doom::physics::AABB3D ExtractLocalAABB3D() override;
+		virtual dooms::physics::AABB3D ExtractLocalAABB3D() override;
 
 		virtual physics::Collider* GetWorldCollider() final;
 	};

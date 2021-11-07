@@ -2,7 +2,7 @@
 
 #include "eAssetType.h"
 
-namespace doom
+namespace dooms
 {
 	namespace asset
 	{

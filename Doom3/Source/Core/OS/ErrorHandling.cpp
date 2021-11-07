@@ -1,6 +1,6 @@
 #include "ErrorHandling.h"
 
-LONG doom::errorHandling::ExceptionHandler(_EXCEPTION_POINTERS* lpExceptionInfo)
+LONG dooms::errorHandling::ExceptionHandler(_EXCEPTION_POINTERS* lpExceptionInfo)
 {
 	printf("================== Exception ===================\r\n");
 	printf("Exception Code : 0x%08X\r\n",
@@ -19,7 +19,7 @@ LONG doom::errorHandling::ExceptionHandler(_EXCEPTION_POINTERS* lpExceptionInfo)
 		printf("\t%d th Stack : 0x%08x \r\n", nIndex + 1, *(size_t*)(dwEbp + sizeof(size_t)));
 		dwOldEbp = dwEbp;
 		dwEbp = *(size_t*)(dwEbp);
-		if (dwEbp % sizeof(size_t) != 0 || dwOldEbp > dwEbp) // Àß¸øµÈ °ªÀÌ ³ª¿Ã¶§±îÁö ÃßÀû  
+		if (dwEbp % sizeof(size_t) != 0 || dwOldEbp > dwEbp) // ï¿½ß¸ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ã¶ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½  
 		{
 			break;
 		}
@@ -28,13 +28,13 @@ LONG doom::errorHandling::ExceptionHandler(_EXCEPTION_POINTERS* lpExceptionInfo)
 	return EXCEPTION_EXECUTE_HANDLER;
 }
 
-void doom::errorHandling::SetUnHandledExceptionHandling()
+void dooms::errorHandling::SetUnHandledExceptionHandling()
 {
 	static bool IsInitialized = false;
 
 	if(IsInitialized == false)
 	{
-		SetUnhandledExceptionFilter(&doom::errorHandling::ExceptionHandler);
+		SetUnhandledExceptionFilter(&dooms::errorHandling::ExceptionHandler);
 		IsInitialized = true;
 	}
 }

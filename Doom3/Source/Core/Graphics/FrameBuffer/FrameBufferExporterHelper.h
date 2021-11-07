@@ -3,7 +3,7 @@
 
 #include "AssetExporter/AssetExporter_Texture.h"
 
-namespace doom
+namespace dooms
 {
 	namespace graphics
 	{

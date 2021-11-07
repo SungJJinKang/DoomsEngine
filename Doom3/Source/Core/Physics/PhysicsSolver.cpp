@@ -2,7 +2,7 @@
 
 #include "Collider/ColliderSolution.h"
 
-const std::vector<const typename doom::BVHAABB3D::node_type*> doom::physics::PhysicsSolver::GetCollideBVHNodes
+const std::vector<const typename dooms::BVHAABB3D::node_type*> dooms::physics::PhysicsSolver::GetCollideBVHNodes
 (
 	const typename BVHAABB3D::node_type* const leafBVHNode
 )
@@ -31,9 +31,9 @@ const std::vector<const typename doom::BVHAABB3D::node_type*> doom::physics::Phy
 
 
 
-const std::vector<doom::physics::Collider*> doom::physics::PhysicsSolver::GetCollideCollidersHillClimb
+const std::vector<dooms::physics::Collider*> dooms::physics::PhysicsSolver::GetCollideCollidersHillClimb
 (
-	const doom::physics::Collider* const targetCollider,
+	const dooms::physics::Collider* const targetCollider,
 	const BVHAABB3D::node_type* const targetColliderBVHNode,
 	size_t& stackReservationCount
 )
@@ -80,7 +80,7 @@ const std::vector<doom::physics::Collider*> doom::physics::PhysicsSolver::GetCol
 		{
 			if (targetNode->mIsLeaf == true)
 			{//if node is world object
-				doom::physics::Collider* const leafNodeCollider = targetNode->mCollider;
+				dooms::physics::Collider* const leafNodeCollider = targetNode->mCollider;
 				if (ColliderSolution::CheckIsOverlap(targetCollider, leafNodeCollider) == true)
 				{
 					hitLeafNodeColliders.push_back(leafNodeCollider);
@@ -102,13 +102,13 @@ const std::vector<doom::physics::Collider*> doom::physics::PhysicsSolver::GetCol
 	return hitLeafNodeColliders;
 }
 
-const std::vector<doom::physics::Collider*> doom::physics::PhysicsSolver::GetCollideColliders
+const std::vector<dooms::physics::Collider*> dooms::physics::PhysicsSolver::GetCollideColliders
 (
 	const typename BVHAABB3D::node_type* const leafBVHNode
 )
 {
 	D_ASSERT(leafBVHNode != nullptr && leafBVHNode->GetIsValid() == true && leafBVHNode->mIsLeaf == true);
-	std::vector<doom::physics::Collider*> hitLeafNodeColliders;
+	std::vector<dooms::physics::Collider*> hitLeafNodeColliders;
 
 	//std::stack<const BVHAABB3D::node_type*> stack{};
 	//stack.push(leafBVHNode);
@@ -117,9 +117,9 @@ const std::vector<doom::physics::Collider*> doom::physics::PhysicsSolver::GetCol
 	return hitLeafNodeColliders;
 }
 
-const std::vector<const typename doom::BVHAABB3D::node_type*> doom::physics::PhysicsSolver::GetCollideBVHNodes
+const std::vector<const typename dooms::BVHAABB3D::node_type*> dooms::physics::PhysicsSolver::GetCollideBVHNodes
 (
-	const doom::BVHAABB3D* bvhTree, const doom::physics::Collider* const col, size_t& stackReservationCount
+	const dooms::BVHAABB3D* bvhTree, const dooms::physics::Collider* const col, size_t& stackReservationCount
 )
 {
 	std::vector<const typename BVHAABB3D::node_type*> hitLeafNodeColliders;
@@ -137,7 +137,7 @@ const std::vector<const typename doom::BVHAABB3D::node_type*> doom::physics::Phy
 		{
 			if (targetNode->mIsLeaf == true)
 			{//if node is world object
-				doom::physics::Collider* const leafNodeCollider = targetNode->mCollider;
+				dooms::physics::Collider* const leafNodeCollider = targetNode->mCollider;
 				if (ColliderSolution::CheckIsOverlap(col, leafNodeCollider) == true)
 				{
 					hitLeafNodeColliders.push_back(targetNode);
@@ -145,7 +145,7 @@ const std::vector<const typename doom::BVHAABB3D::node_type*> doom::physics::Phy
 			}
 			else
 			{
-				if (doom::physics::ColliderSolution::CheckIsOverlap(col, &(targetNode->mBoundingCollider)) == true)
+				if (dooms::physics::ColliderSolution::CheckIsOverlap(col, &(targetNode->mBoundingCollider)) == true)
 				{
 					stack.push_back(targetNode->GetLeftChildNode());
 					stack.push_back(targetNode->GetRightChildNode());
@@ -163,9 +163,9 @@ const std::vector<const typename doom::BVHAABB3D::node_type*> doom::physics::Phy
 }
 
 
-const std::vector<doom::physics::Collider*> doom::physics::PhysicsSolver::GetCollideColliders
+const std::vector<dooms::physics::Collider*> dooms::physics::PhysicsSolver::GetCollideColliders
 (
-	const doom::BVHAABB3D* bvhTree, const doom::physics::Collider* const col, size_t& stackReservationCount
+	const dooms::BVHAABB3D* bvhTree, const dooms::physics::Collider* const col, size_t& stackReservationCount
 )
 {
 	std::vector<Collider*> hitLeafNodeColliders;
@@ -184,7 +184,7 @@ const std::vector<doom::physics::Collider*> doom::physics::PhysicsSolver::GetCol
 		{
 			if (targetNode->mIsLeaf == true)
 			{//if node is world object
-				doom::physics::Collider* const leafNodeCollider = targetNode->mCollider;
+				dooms::physics::Collider* const leafNodeCollider = targetNode->mCollider;
 				if (ColliderSolution::CheckIsOverlap(col, leafNodeCollider) == true)
 				{
 					hitLeafNodeColliders.push_back(leafNodeCollider);
@@ -192,7 +192,7 @@ const std::vector<doom::physics::Collider*> doom::physics::PhysicsSolver::GetCol
 			}
 			else
 			{
-				if (doom::physics::ColliderSolution::CheckIsOverlap(col, &(targetNode->mBoundingCollider)) == true)
+				if (dooms::physics::ColliderSolution::CheckIsOverlap(col, &(targetNode->mBoundingCollider)) == true)
 				{
 					stack.push_back(targetNode->GetLeftChildNode());
 					stack.push_back(targetNode->GetRightChildNode());
@@ -209,10 +209,10 @@ const std::vector<doom::physics::Collider*> doom::physics::PhysicsSolver::GetCol
 	return hitLeafNodeColliders;
 }
 
-const std::vector<doom::physics::Collider*> doom::physics::PhysicsSolver::GetCollideColliders
+const std::vector<dooms::physics::Collider*> dooms::physics::PhysicsSolver::GetCollideColliders
 (
-	const doom::BVHAABB3D* bvhTree, 
-	const doom::physics::Collider* const col, 
+	const dooms::BVHAABB3D* bvhTree, 
+	const dooms::physics::Collider* const col, 
 	const BVHAABB3D::node_type* const BVHNode,
 	size_t& stackReservationCount)
 {
@@ -242,7 +242,7 @@ const std::vector<doom::physics::Collider*> doom::physics::PhysicsSolver::GetCol
 			}
 			else
 			{
-				if (doom::physics::ColliderSolution::CheckIsOverlap(&(BVHNode->mBoundingCollider), &(targetNode->mBoundingCollider)) == true)
+				if (dooms::physics::ColliderSolution::CheckIsOverlap(&(BVHNode->mBoundingCollider), &(targetNode->mBoundingCollider)) == true)
 				{
 					stack.push_back(targetNode->GetLeftChildNode());
 					stack.push_back(targetNode->GetRightChildNode());

@@ -4,7 +4,7 @@
 #define MAX_DIRECTIONAL_LIGHT_COUNT 5
 #define MAX_POINT_LIGHT_COUNT 16
 
-namespace doom
+namespace dooms
 {
 	namespace graphics
 	{

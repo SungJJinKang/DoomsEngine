@@ -4,7 +4,7 @@
 
 
 
-namespace doom
+namespace dooms
 {
 	namespace graphics
 	{

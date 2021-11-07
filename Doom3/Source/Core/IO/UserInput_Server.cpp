@@ -18,9 +18,9 @@ void UserInput_Server::CursorEnterCallback(GLFWwindow* window, INT32 entered)
 	if (entered != 0)
 	{
 		FLOAT64 xpos, ypos;
-		glfwGetCursorPos(doom::graphics::Graphics_Setting::GetWindow(), &xpos, &ypos);
-		doom::userinput::UserInput_Server::mCurrentCursorScreenPosition.x = static_cast<FLOAT32>(xpos);
-		doom::userinput::UserInput_Server::mCurrentCursorScreenPosition.y = static_cast<FLOAT32>(ypos);
+		glfwGetCursorPos(dooms::graphics::Graphics_Setting::GetWindow(), &xpos, &ypos);
+		dooms::userinput::UserInput_Server::mCurrentCursorScreenPosition.x = static_cast<FLOAT32>(xpos);
+		dooms::userinput::UserInput_Server::mCurrentCursorScreenPosition.y = static_cast<FLOAT32>(ypos);
 	}
 }
 
@@ -30,8 +30,8 @@ void UserInput_Server::CursorPosition_Callback(GLFWwindow* window, FLOAT64 xpos,
 	UserInput_Server::mDeltaCursorScreenPosition.x = static_cast<FLOAT32>(xpos) - UserInput_Server::mCurrentCursorScreenPosition.x;
 	UserInput_Server::mDeltaCursorScreenPosition.y = static_cast<FLOAT32>(ypos) - UserInput_Server::mCurrentCursorScreenPosition.y;
 
-	doom::userinput::UserInput_Server::mCurrentCursorScreenPosition.x = static_cast<FLOAT32>(xpos);
-	doom::userinput::UserInput_Server::mCurrentCursorScreenPosition.y = static_cast<FLOAT32>(ypos);
+	dooms::userinput::UserInput_Server::mCurrentCursorScreenPosition.x = static_cast<FLOAT32>(xpos);
+	dooms::userinput::UserInput_Server::mCurrentCursorScreenPosition.y = static_cast<FLOAT32>(ypos);
 	//D_DEBUG_LOG({ "Mouse Cursor Position : Pos X ( ", std::to_string(xpos), " ) , Pos Y ( ", std::to_string(ypos), " )" }, eLogType::D_LOG);
 }
 
@@ -69,7 +69,7 @@ void UserInput_Server::Key_Callback(GLFWwindow* window, INT32 key, INT32 scancod
 }
 
 
-void doom::userinput::UserInput_Server::UpdateKeyStates()
+void dooms::userinput::UserInput_Server::UpdateKeyStates()
 {
 	for (auto upKey : UserInput_Server::mUpKeys)
 	{
@@ -85,7 +85,7 @@ void doom::userinput::UserInput_Server::UpdateKeyStates()
 	UserInput_Server::mDownKeys.clear();
 }
 
-void doom::userinput::UserInput_Server::UpdateMouseButtonStates()
+void dooms::userinput::UserInput_Server::UpdateMouseButtonStates()
 {
 	for (UINT32 i = 0; i < UserInput_Server::mMouseButtonState.size(); i++)
 	{
@@ -113,27 +113,27 @@ void UserInput_Server::MouseButton_Callback(GLFWwindow* window, INT32 button, IN
 }
 
 
-void doom::userinput::UserInput_Server::UpdateCurrentCursorScreenPosition()
+void dooms::userinput::UserInput_Server::UpdateCurrentCursorScreenPosition()
 {
 	if(Camera::GetMainCamera() != nullptr)
 	{
-		doom::userinput::UserInput_Server::mCurrentCursorNDCPosition = Camera::GetMainCamera()->ScreenToNDCPoint(doom::userinput::UserInput_Server::mCurrentCursorScreenPosition);
+		dooms::userinput::UserInput_Server::mCurrentCursorNDCPosition = Camera::GetMainCamera()->ScreenToNDCPoint(dooms::userinput::UserInput_Server::mCurrentCursorScreenPosition);
 
-		//math::Vector3 ndcPoint{ doom::userinput::UserInput_Server::mCurrentCursorNDCPosition.x, doom::userinput::UserInput_Server::mCurrentCursorNDCPosition.y, 0 };
-		doom::userinput::UserInput_Server::mCurrentCursorWorldPosition = Camera::GetMainCamera()->NDCToWorldPoint(doom::userinput::UserInput_Server::mCurrentCursorNDCPosition);
-		//D_DEBUG_LOG(doom::userinput::UserInput_Server::mCurrentCursorWorldPosition.toString());
+		//math::Vector3 ndcPoint{ dooms::userinput::UserInput_Server::mCurrentCursorNDCPosition.x, dooms::userinput::UserInput_Server::mCurrentCursorNDCPosition.y, 0 };
+		dooms::userinput::UserInput_Server::mCurrentCursorWorldPosition = Camera::GetMainCamera()->NDCToWorldPoint(dooms::userinput::UserInput_Server::mCurrentCursorNDCPosition);
+		//D_DEBUG_LOG(dooms::userinput::UserInput_Server::mCurrentCursorWorldPosition.toString());
 	}
 }
 
 
 void UserInput_Server::Init()
 {
-	glfwSetCursorEnterCallback(doom::graphics::Graphics_Setting::GetWindow(), &(UserInput_Server::CursorEnterCallback));
-	glfwSetCursorPosCallback(doom::graphics::Graphics_Setting::GetWindow(), &(UserInput_Server::CursorPosition_Callback));
-	glfwSetScrollCallback(doom::graphics::Graphics_Setting::GetWindow(), &(UserInput_Server::Scroll_Callback));
+	glfwSetCursorEnterCallback(dooms::graphics::Graphics_Setting::GetWindow(), &(UserInput_Server::CursorEnterCallback));
+	glfwSetCursorPosCallback(dooms::graphics::Graphics_Setting::GetWindow(), &(UserInput_Server::CursorPosition_Callback));
+	glfwSetScrollCallback(dooms::graphics::Graphics_Setting::GetWindow(), &(UserInput_Server::Scroll_Callback));
 
-	glfwSetKeyCallback(doom::graphics::Graphics_Setting::GetWindow(), &(UserInput_Server::Key_Callback));
-	glfwSetMouseButtonCallback(doom::graphics::Graphics_Setting::GetWindow(), &(UserInput_Server::MouseButton_Callback));
+	glfwSetKeyCallback(dooms::graphics::Graphics_Setting::GetWindow(), &(UserInput_Server::Key_Callback));
+	glfwSetMouseButtonCallback(dooms::graphics::Graphics_Setting::GetWindow(), &(UserInput_Server::MouseButton_Callback));
 
 	UserInput_Server::SetIsCursorVisible(ConfigData::GetSingleton()->GetConfigData().GetValue<bool>("USERINPUT", "CURSOR_IS_VISIBLE"));
 	UserInput_Server::SetIsCursorLockedInScreen(ConfigData::GetSingleton()->GetConfigData().GetValue<bool>("USERINPUT", "CURSOR_LOCKED_IN_SCREEN"));
@@ -170,20 +170,20 @@ void UserInput_Server::UpdateCursorMode()
 {
 	if (UserInput_Server::IsCursorLockedInScreen == false && UserInput_Server::IsCursorVisible == true)
 	{
-		glfwSetInputMode(doom::graphics::Graphics_Setting::GetWindow(), GLFW_CURSOR, GLFW_CURSOR_NORMAL);
+		glfwSetInputMode(dooms::graphics::Graphics_Setting::GetWindow(), GLFW_CURSOR, GLFW_CURSOR_NORMAL);
 	}
 	else if (UserInput_Server::IsCursorLockedInScreen == false && UserInput_Server::IsCursorVisible == false)
 	{
-		glfwSetInputMode(doom::graphics::Graphics_Setting::GetWindow(), GLFW_CURSOR, GLFW_CURSOR_HIDDEN);
+		glfwSetInputMode(dooms::graphics::Graphics_Setting::GetWindow(), GLFW_CURSOR, GLFW_CURSOR_HIDDEN);
 	}
 	else if (UserInput_Server::IsCursorLockedInScreen == true && UserInput_Server::IsCursorVisible == false)
 	{
-		glfwSetInputMode(doom::graphics::Graphics_Setting::GetWindow(), GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+		glfwSetInputMode(dooms::graphics::Graphics_Setting::GetWindow(), GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 	}
 	else if (UserInput_Server::IsCursorLockedInScreen == true && UserInput_Server::IsCursorVisible == true)
 	{
 		D_DEBUG_LOG("Undefined Cursor Mode, There is no mode that locked in screen and visible", eLogType::D_WARNING); // https://www.glfw.org/docs/3.3/input_guide.html
-		glfwSetInputMode(doom::graphics::Graphics_Setting::GetWindow(), GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+		glfwSetInputMode(dooms::graphics::Graphics_Setting::GetWindow(), GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 	}
 }
 

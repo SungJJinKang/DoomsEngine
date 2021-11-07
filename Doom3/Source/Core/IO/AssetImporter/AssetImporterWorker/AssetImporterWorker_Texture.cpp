@@ -4,9 +4,9 @@
 #include <Asset/TextureAsset.h>
 
 
-bool doom::assetImporter::AssetImporterWorker_Texture::ImportTextureAsset(
+bool dooms::assetImporter::AssetImporterWorker_Texture::ImportTextureAsset(
 	const std::filesystem::path& path,
-	doom::asset::TextureAsset* textureAsset
+	dooms::asset::TextureAsset* textureAsset
 )
 {
 	D_ASSERT_LOG(AssetImporterWorker::IsInitialized == true, "COM Library is not initilized");
@@ -143,7 +143,7 @@ bool doom::assetImporter::AssetImporterWorker_Texture::ImportTextureAsset(
 	}	
 }
 
-doom::assetImporter::AssetImporterWorker_Texture::AssetImporterWorker_Texture()
+dooms::assetImporter::AssetImporterWorker_Texture::AssetImporterWorker_Texture()
 {
 	if(AssetImporterWorker::IsInitialized == false)
 	{
@@ -160,25 +160,25 @@ doom::assetImporter::AssetImporterWorker_Texture::AssetImporterWorker_Texture()
 	
 }
 
-doom::assetImporter::AssetImporterWorker_Texture::~AssetImporterWorker_Texture()
+dooms::assetImporter::AssetImporterWorker_Texture::~AssetImporterWorker_Texture()
 {
 }
 
-doom::assetImporter::AssetImporterWorker_Texture::AssetImporterWorker_Texture(const AssetImporterWorker_Texture&) = default;
-doom::assetImporter::AssetImporterWorker_Texture::AssetImporterWorker_Texture(AssetImporterWorker_Texture&&) noexcept = default;
-doom::assetImporter::AssetImporterWorker_Texture& doom::assetImporter::AssetImporterWorker_Texture::operator=(const AssetImporterWorker_Texture&) = default;
-doom::assetImporter::AssetImporterWorker_Texture& doom::assetImporter::AssetImporterWorker_Texture::operator=(AssetImporterWorker_Texture&&) noexcept = default;
+dooms::assetImporter::AssetImporterWorker_Texture::AssetImporterWorker_Texture(const AssetImporterWorker_Texture&) = default;
+dooms::assetImporter::AssetImporterWorker_Texture::AssetImporterWorker_Texture(AssetImporterWorker_Texture&&) noexcept = default;
+dooms::assetImporter::AssetImporterWorker_Texture& dooms::assetImporter::AssetImporterWorker_Texture::operator=(const AssetImporterWorker_Texture&) = default;
+dooms::assetImporter::AssetImporterWorker_Texture& dooms::assetImporter::AssetImporterWorker_Texture::operator=(AssetImporterWorker_Texture&&) noexcept = default;
 
-bool doom::assetImporter::AssetImporterWorker_Texture::ImportSpecificAsset
+bool dooms::assetImporter::AssetImporterWorker_Texture::ImportSpecificAsset
 (
 	const std::filesystem::path& pathses,
-	doom::asset::Asset* asset
+	dooms::asset::Asset* asset
 )
 {
-	return ImportTextureAsset(pathses, static_cast<doom::asset::TextureAsset*>(asset));
+	return ImportTextureAsset(pathses, static_cast<dooms::asset::TextureAsset*>(asset));
 }
 
-doom::asset::eAssetType doom::assetImporter::AssetImporterWorker_Texture::GetEAssetType() const
+dooms::asset::eAssetType dooms::assetImporter::AssetImporterWorker_Texture::GetEAssetType() const
 {
-	return doom::asset::eAssetType::TEXTURE;
+	return dooms::asset::eAssetType::TEXTURE;
 }

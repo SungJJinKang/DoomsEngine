@@ -2,7 +2,7 @@
 
 #include <vector>
 #include <utility/BVH/BVH.h>
-namespace doom
+namespace dooms
 {
 	namespace physics
 	{
@@ -15,21 +15,21 @@ namespace doom
 			/// <summary>
 			/// return Hit BVH Leaf Node Index List
 			/// </summary>
-			const std::vector<doom::physics::Collider*> GetCollideColliders
+			const std::vector<dooms::physics::Collider*> GetCollideColliders
 			(
-				const doom::BVHAABB3D* bvhTree, const doom::physics::Collider* const col,  size_t& stackReservationCount
+				const dooms::BVHAABB3D* bvhTree, const dooms::physics::Collider* const col,  size_t& stackReservationCount
 			);
-			const std::vector<doom::physics::Collider*> GetCollideColliders
+			const std::vector<dooms::physics::Collider*> GetCollideColliders
 			(
-				const doom::BVHAABB3D* bvhTree, const doom::physics::Collider* const col, 
+				const dooms::BVHAABB3D* bvhTree, const dooms::physics::Collider* const col, 
 				const typename BVHAABB3D::node_type* const BVHNode, size_t& stackReservationCount
 			);
 			const std::vector<const typename BVHAABB3D::node_type*> GetCollideBVHNodes
 			(
-				const doom::BVHAABB3D* bvhTree, const doom::physics::Collider* const col, size_t& stackReservationCount
+				const dooms::BVHAABB3D* bvhTree, const dooms::physics::Collider* const col, size_t& stackReservationCount
 			);
 
-			const std::vector<doom::physics::Collider*> GetCollideColliders
+			const std::vector<dooms::physics::Collider*> GetCollideColliders
 			(
 				const typename BVHAABB3D::node_type* const leafBVHNode
 			);
@@ -40,9 +40,9 @@ namespace doom
 			);
 
 
-			const std::vector<doom::physics::Collider*> GetCollideCollidersHillClimb
+			const std::vector<dooms::physics::Collider*> GetCollideCollidersHillClimb
 			(
-				const doom::physics::Collider* const targetCollider,
+				const dooms::physics::Collider* const targetCollider,
 				const typename BVHAABB3D::node_type* const targetColliderBVHNode,
 				size_t& stackReservationCount
 			);

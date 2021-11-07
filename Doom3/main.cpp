@@ -2,6 +2,6 @@
 
 int main()
 {
-	return doom::GameEngineEntryPoint();
+	return dooms::GameEngineEntryPoint();
 }
 

@@ -13,14 +13,14 @@
 #include "AssetFuture.h"
 #include <IO/AssetImporter/Manager/AssetImporterWorkerManager.h>
 
-namespace doom
+namespace dooms
 {
 	namespace assetImporter
 	{
 		class DOOM_API AssetManager : public IGameFlow, public ISingleton<AssetManager>
 		{
 
-			DOBJECT_CLASS_BODY(AssetManager, doom::eDOBJECT_ClassFlags::NonCopyable);
+			DOBJECT_CLASS_BODY(AssetManager, dooms::eDOBJECT_ClassFlags::NonCopyable);
 			DOBJECT_CLASS_BASE_CHAIN(IGameFlow)
 
 			friend class AssetFuture;
@@ -29,16 +29,16 @@ namespace doom
 
 			AssetImporterWorkerManager mAssetImporterWorkerManager;
 
-			const std::filesystem::path AssetFolderPath{ doom::path::_GetAssetFolderDirectory() };
+			const std::filesystem::path AssetFolderPath{ dooms::path::_GetAssetFolderDirectory() };
 			
-			std::array<doom::asset::AssetContainer, doom::asset::ENUM_ASSETTYPE_COUNT> mAssetConatiners
+			std::array<dooms::asset::AssetContainer, dooms::asset::ENUM_ASSETTYPE_COUNT> mAssetConatiners
 			{
-				doom::asset::AssetContainer(doom::asset::eAssetType::AUDIO),
-				doom::asset::AssetContainer(doom::asset::eAssetType::FONT),
-				doom::asset::AssetContainer(doom::asset::eAssetType::TEXT),
-				doom::asset::AssetContainer(doom::asset::eAssetType::TEXTURE),
-				doom::asset::AssetContainer(doom::asset::eAssetType::THREE_D_MODEL),
-				doom::asset::AssetContainer(doom::asset::eAssetType::SHADER)
+				dooms::asset::AssetContainer(dooms::asset::eAssetType::AUDIO),
+				dooms::asset::AssetContainer(dooms::asset::eAssetType::FONT),
+				dooms::asset::AssetContainer(dooms::asset::eAssetType::TEXT),
+				dooms::asset::AssetContainer(dooms::asset::eAssetType::TEXTURE),
+				dooms::asset::AssetContainer(dooms::asset::eAssetType::THREE_D_MODEL),
+				dooms::asset::AssetContainer(dooms::asset::eAssetType::SHADER)
 			}
 			;
 			
@@ -50,18 +50,18 @@ namespace doom
 			void ImportEntireAsset();
 			void DestroyAllAssets();
 
-			doom::asset::AssetContainer& GetAssetContainer(const doom::asset::eAssetType eAssetType);
+			dooms::asset::AssetContainer& GetAssetContainer(const dooms::asset::eAssetType eAssetType);
 
-			void AddAssetToAssetContainer(doom::asset::Asset* const asset);
+			void AddAssetToAssetContainer(dooms::asset::Asset* const asset);
 
-			doom::asset::Asset* _ImportAssetInstantly(std::filesystem::path& path, const doom::asset::eAssetType assetType);
-			doom::assetImporter::AssetFuture _ImportAssetAsync(std::filesystem::path& path, const doom::asset::eAssetType assetType);
-			std::vector < doom::assetImporter::AssetFuture> _ImportAssetAsync(std::vector<std::filesystem::path>& paths, const std::vector<doom::asset::eAssetType>& assetTypes);
+			dooms::asset::Asset* _ImportAssetInstantly(std::filesystem::path& path, const dooms::asset::eAssetType assetType);
+			dooms::assetImporter::AssetFuture _ImportAssetAsync(std::filesystem::path& path, const dooms::asset::eAssetType assetType);
+			std::vector < dooms::assetImporter::AssetFuture> _ImportAssetAsync(std::vector<std::filesystem::path>& paths, const std::vector<dooms::asset::eAssetType>& assetTypes);
 	
 
-			doom::asset::Asset* _GetAsset(const D_UUID& UUID, const doom::asset::eAssetType assetType);
-			doom::asset::Asset* _GetAsset(const UINT32 index, const doom::asset::eAssetType assetType);
-			doom::asset::Asset* _GetAsset(const std::string& filename, const doom::asset::eAssetType assetType);
+			dooms::asset::Asset* _GetAsset(const D_UUID& UUID, const dooms::asset::eAssetType assetType);
+			dooms::asset::Asset* _GetAsset(const UINT32 index, const dooms::asset::eAssetType assetType);
+			dooms::asset::Asset* _GetAsset(const std::string& filename, const dooms::asset::eAssetType assetType);
 
 		public:
 
@@ -75,35 +75,35 @@ namespace doom
 			virtual void OnEndOfFrame() final;
 
 			
-			template<::doom::asset::eAssetType AssetType>
-			typename doom::asset::AssetType<AssetType>::type* ImportAssetInstantly(std::filesystem::path path)
+			template<::dooms::asset::eAssetType AssetType>
+			typename dooms::asset::AssetType<AssetType>::type* ImportAssetInstantly(std::filesystem::path path)
 			{
-				static_assert(std::is_base_of_v<doom::asset::Asset, AssetType> == true);
+				static_assert(std::is_base_of_v<dooms::asset::Asset, AssetType> == true);
 
-				doom::asset::Asset* const newAsset = _ImportAssetInstantly(path, AssetType);
-				return reinterpret_cast<typename doom::asset::AssetType<AssetType>::type*>(newAsset);
+				dooms::asset::Asset* const newAsset = _ImportAssetInstantly(path, AssetType);
+				return reinterpret_cast<typename dooms::asset::AssetType<AssetType>::type*>(newAsset);
 			}
 			
-			doom::assetImporter::AssetFuture ImportAssetAsync(std::filesystem::path path, const ::doom::asset::eAssetType assetType)
+			dooms::assetImporter::AssetFuture ImportAssetAsync(std::filesystem::path path, const ::dooms::asset::eAssetType assetType)
 			{
-				doom::assetImporter::AssetFuture importedAssetFuture = _ImportAssetAsync(path, assetType);
+				dooms::assetImporter::AssetFuture importedAssetFuture = _ImportAssetAsync(path, assetType);
 				return importedAssetFuture;
 			}
 
 			
 
-			template<::doom::asset::eAssetType AssetType>
-			typename doom::asset::AssetType<AssetType>::type* GetAsset(const D_UUID& UUID)
+			template<::dooms::asset::eAssetType AssetType>
+			typename dooms::asset::AssetType<AssetType>::type* GetAsset(const D_UUID& UUID)
 			{
-				doom::asset::Asset* const asset = _GetAsset(UUID, AssetType);
-				return reinterpret_cast<typename doom::asset::AssetType<AssetType>::type*>(asset);
+				dooms::asset::Asset* const asset = _GetAsset(UUID, AssetType);
+				return reinterpret_cast<typename dooms::asset::AssetType<AssetType>::type*>(asset);
 			}
 
-			template<::doom::asset::eAssetType AssetType>
-			typename doom::asset::AssetType<AssetType>::type* GetAsset(const UINT32 index)
+			template<::dooms::asset::eAssetType AssetType>
+			typename dooms::asset::AssetType<AssetType>::type* GetAsset(const UINT32 index)
 			{
-				doom::asset::Asset* const asset = _GetAsset(index, AssetType);
-				return reinterpret_cast<typename doom::asset::AssetType<AssetType>::type*>(asset);
+				dooms::asset::Asset* const asset = _GetAsset(index, AssetType);
+				return reinterpret_cast<typename dooms::asset::AssetType<AssetType>::type*>(asset);
 			}
 
 			/// <summary>
@@ -111,11 +111,11 @@ namespace doom
 			/// </summary>
 			/// <param name="filename"></param>
 			/// <returns></returns>
-			template<::doom::asset::eAssetType AssetType>
-			typename doom::asset::AssetType<AssetType>::type* GetAsset(const std::string& filename)
+			template<::dooms::asset::eAssetType AssetType>
+			typename dooms::asset::AssetType<AssetType>::type* GetAsset(const std::string& filename)
 			{
-				doom::asset::Asset* const asset = _GetAsset(filename, AssetType);
-				return reinterpret_cast<typename doom::asset::AssetType<AssetType>::type* const>(asset);
+				dooms::asset::Asset* const asset = _GetAsset(filename, AssetType);
+				return reinterpret_cast<typename dooms::asset::AssetType<AssetType>::type* const>(asset);
 			}
 
 

@@ -3,7 +3,7 @@
 #include "Vector4.h"
 #include "EasyDirtyChecker/DirtyReceiver.h"
 
-namespace doom
+namespace dooms
 {
 	class DOOM_API Light : public ServerComponent
 	{

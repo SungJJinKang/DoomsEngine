@@ -2,7 +2,7 @@
 
 #include <Core.h>
 
-namespace doom
+namespace dooms
 {
 	/// <summary>
 	/// Profiler UI.

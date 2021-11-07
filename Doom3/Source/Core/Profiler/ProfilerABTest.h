@@ -7,7 +7,7 @@
 //auto t_start = std::chrono::high_resolution_clock::now();
 //auto t_end = std::chrono::high_resolution_clock::now();
 //FLOAT64 elapsed_time_ms = std::chrono::duration<FLOAT64, std::milli>(t_end - t_start).count();
-//doom::ui::PrintText("elapsed tick count : %lf", elapsed_time_ms);
+//dooms::ui::PrintText("elapsed tick count : %lf", elapsed_time_ms);
 
 
 #ifndef AB_TEST_PROFILING
@@ -15,17 +15,17 @@
 #define AB_TEST_PROFILING(TEST_TAG, AB_CHANGE_KEY, FUNC1, FUNC2)																								\
 {																																\
 	static bool is1Func = true;																									\
-	if (doom::userinput::UserInput_Server::GetKeyUp(AB_CHANGE_KEY))																\
+	if (dooms::userinput::UserInput_Server::GetKeyUp(AB_CHANGE_KEY))																\
 	{																															\
 		is1Func = !is1Func;																										\
 																																\
 		if (is1Func == true)																									\
 		{																														\
-			doom::ui::PrintText("AB TEST ( %s, %d ) - FUNC1", __FILE__, __LINE__);												\
+			dooms::ui::PrintText("AB TEST ( %s, %d ) - FUNC1", __FILE__, __LINE__);												\
 		}																														\
 		else																													\
 		{																														\
-			doom::ui::PrintText("AB TEST ( %s, %d ) - FUNC2", __FILE__, __LINE__);												\
+			dooms::ui::PrintText("AB TEST ( %s, %d ) - FUNC2", __FILE__, __LINE__);												\
 		}																														\
 	}																															\
 	D_START_PROFILING_IN_RELEASE(TEST_TAG);																						\

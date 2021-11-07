@@ -10,24 +10,24 @@
 #include "../Material/Material.h"
 #include <IO/UserInput_Server.h>
 
-void doom::graphics::DebugDrawer::Init()
+void dooms::graphics::DebugDrawer::Init()
 {
 	mDebugMesh.GenMeshBuffer(false);
 	mDebugMesh.BufferData(MAX_DEBUG_VERTEX_COUNT * 3, NULL, ePrimitiveType::LINES, Mesh::eVertexArrayFlag::VertexVector3);
 
 
-	auto debug2DShader = doom::assetImporter::AssetManager::GetSingleton()->GetAsset<asset::eAssetType::SHADER>(DebugDrawer::DEBUG_2D_SHADER);
+	auto debug2DShader = dooms::assetImporter::AssetManager::GetSingleton()->GetAsset<asset::eAssetType::SHADER>(DebugDrawer::DEBUG_2D_SHADER);
 	m2DMaterial = std::make_unique<Material>(debug2DShader);
 
-	auto debug3DShader = doom::assetImporter::AssetManager::GetSingleton()->GetAsset<asset::eAssetType::SHADER>(DebugDrawer::DEBUG_3D_SHADER);
+	auto debug3DShader = dooms::assetImporter::AssetManager::GetSingleton()->GetAsset<asset::eAssetType::SHADER>(DebugDrawer::DEBUG_3D_SHADER);
 	m3DMaterial = std::make_unique<Material>(debug3DShader);
 }
 
-void doom::graphics::DebugDrawer::Update()
+void dooms::graphics::DebugDrawer::Update()
 {
 }
 
-void doom::graphics::DebugDrawer::Reset()
+void dooms::graphics::DebugDrawer::Reset()
 {
 	mDebugMeshCount = 0;
 	for (size_t i = 0; i < m2dLine.size(); i++)
@@ -53,22 +53,22 @@ void doom::graphics::DebugDrawer::Reset()
 
 
 
-void doom::graphics::DebugDrawer::SetIsVertexDataSendToGPUAtCurrentFrame(const bool isSet)
+void dooms::graphics::DebugDrawer::SetIsVertexDataSendToGPUAtCurrentFrame(const bool isSet)
 {
 	bmIsVertexDataSendToGPUAtCurrentFrame = isSet;
 }
 
-bool doom::graphics::DebugDrawer::GetIsVertexDataSendToGPUAtCurrentFrame() const
+bool dooms::graphics::DebugDrawer::GetIsVertexDataSendToGPUAtCurrentFrame() const
 {
 	return bmIsVertexDataSendToGPUAtCurrentFrame;
 }
 
-doom::graphics::DebugDrawer::DebugDrawer() :
+dooms::graphics::DebugDrawer::DebugDrawer() :
 	m2DMaterial{}, m3DMaterial{}, m2dLine{}, m3dLine{}, m2dTriangle{}, m3dTriangle{}
 {
 }
 
-void doom::graphics::DebugDrawer::Draw()
+void dooms::graphics::DebugDrawer::Draw()
 {
 	/// <summary>
 	/// vector3 -> 3, vector4 -> 4
@@ -140,7 +140,7 @@ void doom::graphics::DebugDrawer::Draw()
 
 }
 
-void doom::graphics::DebugDrawer::DebugDraw3DLine(const math::Vector3& startWorldPos, const math::Vector3& endWorldPos, eColor color, bool drawInstantly /*= false*/)
+void dooms::graphics::DebugDrawer::DebugDraw3DLine(const math::Vector3& startWorldPos, const math::Vector3& endWorldPos, eColor color, bool drawInstantly /*= false*/)
 {
 	if (drawInstantly == false)
 	{
@@ -167,7 +167,7 @@ void doom::graphics::DebugDrawer::DebugDraw3DLine(const math::Vector3& startWorl
 /// <param name="startNDCPos"></param>
 /// <param name="endNDCPos"></param>
 /// <param name="color"></param>
-void doom::graphics::DebugDrawer::DebugDraw2DLine(const math::Vector3& startNDCPos, const math::Vector3& endNDCPos, eColor color, bool drawInstantly /*= false*/)
+void dooms::graphics::DebugDrawer::DebugDraw2DLine(const math::Vector3& startNDCPos, const math::Vector3& endNDCPos, eColor color, bool drawInstantly /*= false*/)
 {
 	if (drawInstantly == false)
 	{
@@ -180,7 +180,7 @@ void doom::graphics::DebugDrawer::DebugDraw2DLine(const math::Vector3& startNDCP
 	}
 }
 
-void doom::graphics::DebugDrawer::DebugDraw2DLineInstantly(const math::Vector3& startNDCPos, const math::Vector3& endNDCPos, eColor color)
+void dooms::graphics::DebugDrawer::DebugDraw2DLineInstantly(const math::Vector3& startNDCPos, const math::Vector3& endNDCPos, eColor color)
 {
 	if (mDrawInstantlyMaterial != nullptr)
 	{
@@ -202,7 +202,7 @@ void doom::graphics::DebugDrawer::DebugDraw2DLineInstantly(const math::Vector3& 
 
 
 
-void doom::graphics::DebugDrawer::DebugDraw2DTriangleInstantly(const math::Vector3& pointA, const math::Vector3& pointB, const math::Vector3& pointC, eColor color)
+void dooms::graphics::DebugDrawer::DebugDraw2DTriangleInstantly(const math::Vector3& pointA, const math::Vector3& pointB, const math::Vector3& pointC, eColor color)
 {
 	if (mDrawInstantlyMaterial != nullptr)
 	{
@@ -221,7 +221,7 @@ void doom::graphics::DebugDrawer::DebugDraw2DTriangleInstantly(const math::Vecto
 	mDebugMesh.DrawArray(ePrimitiveType::TRIANGLES, 0, 3);
 }
 
-void doom::graphics::DebugDrawer::DebugDraw2DTriangle(const math::Vector3& pointA, const math::Vector3& pointB, const math::Vector3& pointC, eColor color, bool drawInstantly /*= false*/)
+void dooms::graphics::DebugDrawer::DebugDraw2DTriangle(const math::Vector3& pointA, const math::Vector3& pointB, const math::Vector3& pointC, eColor color, bool drawInstantly /*= false*/)
 {
 	if (drawInstantly == false)
 	{
@@ -234,12 +234,12 @@ void doom::graphics::DebugDrawer::DebugDraw2DTriangle(const math::Vector3& point
 	}
 }
 
-void doom::graphics::DebugDrawer::SetDrawInstantlyMaterial(Material* material)
+void dooms::graphics::DebugDrawer::SetDrawInstantlyMaterial(Material* material)
 {
 	mDrawInstantlyMaterial = material;
 }
 
-void doom::graphics::DebugDrawer::BufferVertexDataToGPU()
+void dooms::graphics::DebugDrawer::BufferVertexDataToGPU()
 {
 	UINT32 offsetComponentCount{ 0 };
 	UINT32 alreadyDrawedVertexCount{ 0 };
@@ -306,7 +306,7 @@ void doom::graphics::DebugDrawer::BufferVertexDataToGPU()
 
 }
 
-void doom::graphics::DebugDrawer::DebugDraw3DTriangle(const math::Vector3& pointA, const math::Vector3& pointB, const math::Vector3& pointC, eColor color, bool drawInstantly /*= false*/)
+void dooms::graphics::DebugDrawer::DebugDraw3DTriangle(const math::Vector3& pointA, const math::Vector3& pointB, const math::Vector3& pointC, eColor color, bool drawInstantly /*= false*/)
 {
 	if (drawInstantly == false)
 	{

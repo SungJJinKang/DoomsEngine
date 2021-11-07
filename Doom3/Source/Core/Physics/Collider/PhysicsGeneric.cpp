@@ -8,17 +8,17 @@
 #include "Circle2D.h"
 
 
-bool doom::physics::IsOverlapSphereAndAABB3D(const Sphere& sphere, const AABB3D& aabb)
+bool dooms::physics::IsOverlapSphereAndAABB3D(const Sphere& sphere, const AABB3D& aabb)
 {
 	return (GetClosestPointOnAABB(sphere, aabb) - sphere.mCenter).sqrMagnitude() < sphere.mRadius * sphere.mRadius;
 }
 
-bool doom::physics::IsOverlapSphereAndAABB3D(const Collider* const sphere, const Collider* const aabb)
+bool dooms::physics::IsOverlapSphereAndAABB3D(const Collider* const sphere, const Collider* const aabb)
 {
 	return IsOverlapSphereAndAABB3D(*static_cast<const Sphere*>(sphere), *static_cast<const AABB3D*>(aabb));
 }
 
-math::Vector3 doom::physics::GetClosestPointOnAABB(const Sphere& sphere, const AABB3D& aabb)
+math::Vector3 dooms::physics::GetClosestPointOnAABB(const Sphere& sphere, const AABB3D& aabb)
 {
 	math::Vector3 closestPoint{};
 	closestPoint.x = math::Min(math::Max(sphere.mCenter.x, aabb.mLowerBound.x), aabb.mUpperBound.x);
@@ -28,33 +28,33 @@ math::Vector3 doom::physics::GetClosestPointOnAABB(const Sphere& sphere, const A
 	return closestPoint;
 }
 
-bool doom::physics::IsOverlapSphereAndPlane(const Sphere& sphere, const Plane& plane)
+bool dooms::physics::IsOverlapSphereAndPlane(const Sphere& sphere, const Plane& plane)
 {
 	return DistanceFromSphereToPlane(sphere, plane) < sphere.mRadius;
 }
 
-bool doom::physics::IsOverlapSphereAndPlane(const Collider* const sphere, const Collider* const plane)
+bool dooms::physics::IsOverlapSphereAndPlane(const Collider* const sphere, const Collider* const plane)
 {
 	return IsOverlapSphereAndPlane(*static_cast<const Sphere*>(sphere), *static_cast<const Plane*>(plane));
 }
 
-FLOAT32 doom::physics::DistanceFromSphereToPlane(const Sphere& sphere, const Plane& plane)
+FLOAT32 dooms::physics::DistanceFromSphereToPlane(const Sphere& sphere, const Plane& plane)
 {
 	return math::dot(sphere.mCenter, plane.GetNormal()) - plane.mDistance;
 }
 
-math::Vector3 doom::physics::GetClosestPointOnPlane(const Sphere& sphere, const Plane& plane)
+math::Vector3 dooms::physics::GetClosestPointOnPlane(const Sphere& sphere, const Plane& plane)
 {
 	return sphere.mCenter - plane.GetNormal() * DistanceFromSphereToPlane(sphere, plane);
 }
 
-FLOAT32 doom::physics::DistanceFromAABBToPlane(const AABB3D& aabb, const Plane& plane)
+FLOAT32 dooms::physics::DistanceFromAABBToPlane(const AABB3D& aabb, const Plane& plane)
 {
 	const math::Vector3 centerOfAABB = (aabb.mLowerBound + aabb.mUpperBound) * 0.5f;
 	return math::dot(plane.GetNormal(), centerOfAABB) - plane.mDistance;
 }
 
-bool doom::physics::IsOverlapAABB3DAndPlane(const AABB3D& aabb, const Plane& plane)
+bool dooms::physics::IsOverlapAABB3DAndPlane(const AABB3D& aabb, const Plane& plane)
 {
 	const math::Vector3 positiveExtent = aabb.GetHalfExtent();
 	 
@@ -69,17 +69,17 @@ bool doom::physics::IsOverlapAABB3DAndPlane(const AABB3D& aabb, const Plane& pla
 
 
 
-FLOAT32 doom::physics::DistanceFromPointToPlane(const math::Vector3& point, const Plane& plane)
+FLOAT32 dooms::physics::DistanceFromPointToPlane(const math::Vector3& point, const Plane& plane)
 {
 	return math::dot(plane.GetNormal(), point) - plane.mDistance;
 }
 
-bool doom::physics::IsOverlapPointAndPlane(const math::Vector3& point, const Plane& plane)
+bool dooms::physics::IsOverlapPointAndPlane(const math::Vector3& point, const Plane& plane)
 {
 	return math::abs(DistanceFromPointToPlane(point, plane)) < math::epsilon<FLOAT32>();
 }
 
-bool doom::physics::IsOverlapRayAndSphere(const Ray& ray, const Sphere& sphere)
+bool dooms::physics::IsOverlapRayAndSphere(const Ray& ray, const Sphere& sphere)
 {
 	math::Vector3 fromRayToSphere = sphere.mCenter - ray.mOrigin;
 	FLOAT32 a = math::dot(fromRayToSphere, ray.GetNormal());
@@ -94,12 +94,12 @@ bool doom::physics::IsOverlapRayAndSphere(const Ray& ray, const Sphere& sphere)
 	}
 }
 
-bool doom::physics::IsOverlapAABB3DAndPlane(const Collider* const aabb, const Collider* const plane)
+bool dooms::physics::IsOverlapAABB3DAndPlane(const Collider* const aabb, const Collider* const plane)
 {
 	return IsOverlapAABB3DAndPlane(*static_cast<const AABB3D*>(aabb), *static_cast<const Plane*>(plane));
 }
 
-FLOAT32 doom::physics::RaycastRayAndAABB3D(const Ray& ray, const AABB3D& aabb) 
+FLOAT32 dooms::physics::RaycastRayAndAABB3D(const Ray& ray, const AABB3D& aabb) 
 {
 	auto normal = ray.GetNormal();
 
@@ -130,7 +130,7 @@ FLOAT32 doom::physics::RaycastRayAndAABB3D(const Ray& ray, const AABB3D& aabb)
 	
 }
 
-bool doom::physics::IsOverlapRayAndAABB3D(const Ray& ray, const AABB3D& aabb3d)
+bool dooms::physics::IsOverlapRayAndAABB3D(const Ray& ray, const AABB3D& aabb3d)
 {
 	/// reference : https://web.archive.org/web/20090803054252/http://tog.acm.org/resources/GraphicsGems/gems/RayBox.c
 
@@ -224,7 +224,7 @@ bool doom::physics::IsOverlapRayAndAABB3D(const Ray& ray, const AABB3D& aabb3d)
 	return true;
 }
 
-bool doom::physics::RaycastRayAndAABB3D(const Collider* const rayCollider, const Collider* const aabbCollider)
+bool dooms::physics::RaycastRayAndAABB3D(const Collider* const rayCollider, const Collider* const aabbCollider)
 {
 
 	const Ray& ray{ *static_cast<const Ray*>(rayCollider) };
@@ -238,7 +238,7 @@ bool doom::physics::RaycastRayAndAABB3D(const Collider* const rayCollider, const
 /// <param name="ray"></param>
 /// <param name="sphere"></param>
 /// <returns></returns>
-FLOAT32 doom::physics::RaycastRayAndSphere(const Ray& ray, const Sphere& sphere)
+FLOAT32 dooms::physics::RaycastRayAndSphere(const Ray& ray, const Sphere& sphere)
 {
 	math::Vector3 fromRayToSphere = sphere.mCenter - ray.mOrigin;
 	FLOAT32 e = fromRayToSphere.magnitude();
@@ -259,12 +259,12 @@ FLOAT32 doom::physics::RaycastRayAndSphere(const Ray& ray, const Sphere& sphere)
 	return a - f;
 }
 
-bool doom::physics::RaycastRayAndSphere(const Collider* const ray, const Collider* const sphere)
+bool dooms::physics::RaycastRayAndSphere(const Collider* const ray, const Collider* const sphere)
 {
 	return RaycastRayAndSphere(*static_cast<const Ray*>(ray), *static_cast<const Sphere*>(sphere)) > 0;
 }
 
-FLOAT32 doom::physics::RaycastRayAndPlane(const Ray& ray, const Plane& plane)
+FLOAT32 dooms::physics::RaycastRayAndPlane(const Ray& ray, const Plane& plane)
 {
 	FLOAT32 denom = math::dot(ray.GetNormal(), plane.GetNormal());
 	if (math::abs(denom) > math::epsilon<FLOAT32>())
@@ -279,14 +279,14 @@ FLOAT32 doom::physics::RaycastRayAndPlane(const Ray& ray, const Plane& plane)
 	}
 }
 
-bool doom::physics::RaycastRayAndPlane(const Collider* const ray, const Collider* const plane)
+bool dooms::physics::RaycastRayAndPlane(const Collider* const ray, const Collider* const plane)
 {
 	return RaycastRayAndPlane(*static_cast<const Ray*>(ray), *static_cast<const Plane*>(plane)) > 0;
 }
 
 
 
-FLOAT32 doom::physics::CheckLenghIsShorterThanLine(const Line& line, FLOAT32 length)
+FLOAT32 dooms::physics::CheckLenghIsShorterThanLine(const Line& line, FLOAT32 length)
 {
 	if (length < 0)
 	{
@@ -302,60 +302,60 @@ FLOAT32 doom::physics::CheckLenghIsShorterThanLine(const Line& line, FLOAT32 len
 	}
 }
 
-FLOAT32 doom::physics::RaycastLineAndAABB3D(const Line& line, const AABB3D& aabb)
+FLOAT32 dooms::physics::RaycastLineAndAABB3D(const Line& line, const AABB3D& aabb)
 {
 	return CheckLenghIsShorterThanLine(line, RaycastRayAndAABB3D(static_cast<Ray>(line), aabb)) ;
 }
 
-bool doom::physics::RaycastLineAndAABB3D(const Collider* const line, const Collider* const aabb)
+bool dooms::physics::RaycastLineAndAABB3D(const Collider* const line, const Collider* const aabb)
 {
 	return RaycastLineAndAABB3D(*static_cast<const Line*>(line), *static_cast<const AABB3D*>(aabb)) > 0;
 }
 
-FLOAT32 doom::physics::RaycastLineAndSphere(const Line& line, const Sphere& sphere)
+FLOAT32 dooms::physics::RaycastLineAndSphere(const Line& line, const Sphere& sphere)
 {
 	return CheckLenghIsShorterThanLine(line, RaycastRayAndSphere(static_cast<Ray>(line), sphere)) ;
 }
 
-bool doom::physics::RaycastLineAndSphere(const Collider* const line, const Collider* const sphere)
+bool dooms::physics::RaycastLineAndSphere(const Collider* const line, const Collider* const sphere)
 {
 	return RaycastLineAndSphere(*static_cast<const Line*>(line), *static_cast<const Sphere*>(sphere)) > 0;
 }
 
-FLOAT32 doom::physics::RaycastLineAndPlane(const Line& line, const Plane& plane)
+FLOAT32 dooms::physics::RaycastLineAndPlane(const Line& line, const Plane& plane)
 {
 	return CheckLenghIsShorterThanLine(line, RaycastRayAndPlane(static_cast<Ray>(line), plane));
 }
 
-bool doom::physics::RaycastLineAndPlane(const Collider* const line, const Collider* const plane)
+bool dooms::physics::RaycastLineAndPlane(const Collider* const line, const Collider* const plane)
 {
 	return RaycastLineAndPlane(*static_cast<const Line*>(line), *static_cast<const Plane*>(plane)) > 0;
 }
 
-FLOAT32 doom::physics::RaycastRayAndAABB2D(const Ray& ray, const AABB2D& aabb)
+FLOAT32 dooms::physics::RaycastRayAndAABB2D(const Ray& ray, const AABB2D& aabb)
 {
 	return 0.0f;
 }
 
-FLOAT32 doom::physics::RaycastRayAndCirecle2D(const Ray& ray, const Circle2D& circle2d)
+FLOAT32 dooms::physics::RaycastRayAndCirecle2D(const Ray& ray, const Circle2D& circle2d)
 {
 	return 0.0f;
 }
 
-bool doom::physics::IsOverlapRayAndAABB2D(const Ray& ray, const AABB2D& aabb2d)
+bool dooms::physics::IsOverlapRayAndAABB2D(const Ray& ray, const AABB2D& aabb2d)
 {
 	return ray.mOrigin.x > aabb2d.mLowerBound.x && ray.mOrigin.y > aabb2d.mLowerBound.y
 		&& ray.mOrigin.x < aabb2d.mUpperBound.x&& ray.mOrigin.y < aabb2d.mUpperBound.x;
 }
 
-bool doom::physics::RaycastRayAndAABB2D(const Collider* const rayCollider, const Collider* const aabbCollider)
+bool dooms::physics::RaycastRayAndAABB2D(const Collider* const rayCollider, const Collider* const aabbCollider)
 {
 	const Ray& ray = *static_cast<const Ray*>(rayCollider);
 	const AABB2D& aabb2d = *static_cast<const AABB2D*>(aabbCollider);
 	return IsOverlapRayAndAABB2D(ray, aabb2d);
 }
 
-bool doom::physics::RaycastRayAndCirecle2D(const Collider* const rayCollider, const Collider* const circle2dCollider)
+bool dooms::physics::RaycastRayAndCirecle2D(const Collider* const rayCollider, const Collider* const circle2dCollider)
 {
 	const Ray& ray = *static_cast<const Ray*>(rayCollider);
 	const Circle2D& circle2d = *static_cast<const Circle2D*>(circle2dCollider);
@@ -365,17 +365,17 @@ bool doom::physics::RaycastRayAndCirecle2D(const Collider* const rayCollider, co
 	return distanceSqr < circle2d.mRadius * circle2d.mRadius;
 }
 
-FLOAT32 doom::physics::RaycastLineAndAABB2D(const Line& line, const AABB2D& aabb)
+FLOAT32 dooms::physics::RaycastLineAndAABB2D(const Line& line, const AABB2D& aabb)
 {
 	return 0.0f;
 }
 
-FLOAT32 doom::physics::RaycastLineAndCirecle2D(const Line& line, const Circle2D& circle2d)
+FLOAT32 dooms::physics::RaycastLineAndCirecle2D(const Line& line, const Circle2D& circle2d)
 {
 	return 0.0f;
 }
 
-bool doom::physics::RaycastLineAndAABB2D(const Collider* const lineCollider, const Collider* const aabbCollider)
+bool dooms::physics::RaycastLineAndAABB2D(const Collider* const lineCollider, const Collider* const aabbCollider)
 {
 	const Line& line = *static_cast<const Line*>(lineCollider);
 	const AABB2D& aabb2d = *static_cast<const AABB2D*>(aabbCollider);
@@ -384,7 +384,7 @@ bool doom::physics::RaycastLineAndAABB2D(const Collider* const lineCollider, con
 		&& line.mOrigin.x < aabb2d.mUpperBound.x&& line.mOrigin.y < aabb2d.mUpperBound.x;
 }
 
-bool doom::physics::RaycastLineAndCirecle2D(const Collider* const lineCollider, const Collider* const circle2dCollider)
+bool dooms::physics::RaycastLineAndCirecle2D(const Collider* const lineCollider, const Collider* const circle2dCollider)
 {
 	const Line& line = *static_cast<const Line*>(lineCollider);
 	const Circle2D& circle2d = *static_cast<const Circle2D*>(circle2dCollider);

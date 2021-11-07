@@ -8,7 +8,7 @@
 
 #define INVALID_STATIC_CONTAINER_INDEX (size_t)(-1)
 
-namespace doom
+namespace dooms
 {
 	/// <summary>
 	/// Why I made ComponentIterater

@@ -1,16 +1,16 @@
 #include "MeshRenderer.h"
 
 
-doom::MeshRenderer::MeshRenderer() : Renderer(), mTargetMesh{ nullptr }
+dooms::MeshRenderer::MeshRenderer() : Renderer(), mTargetMesh{ nullptr }
 {
 
 }
 
-doom::MeshRenderer::~MeshRenderer()
+dooms::MeshRenderer::~MeshRenderer()
 {
 }
 
-void doom::MeshRenderer::SetMesh(const graphics::Mesh* const mesh)
+void dooms::MeshRenderer::SetMesh(const graphics::Mesh* const mesh)
 {
 	mTargetMesh = mesh;
 	if (mTargetMesh != nullptr)
@@ -21,7 +21,7 @@ void doom::MeshRenderer::SetMesh(const graphics::Mesh* const mesh)
 		/// </summary>
 		/// <param name="mesh"></param>
 		BVH_Sphere_Node_Object::UpdateLocalColliderCache(boudingSphere);
-		ColliderUpdater<doom::physics::AABB3D>::UpdateLocalColliderCache(mTargetMesh->GetBoundingBox());
+		ColliderUpdater<dooms::physics::AABB3D>::UpdateLocalColliderCache(mTargetMesh->GetBoundingBox());
 		//BVH_Sphere_Node_Object::UpdateBVH_Node();
 
 		//BVH_AABB3D_Node_Object::UpdateLocalBVhColliderCache(mTargetMesh->GetBoundingBox());
@@ -39,7 +39,7 @@ void doom::MeshRenderer::SetMesh(const graphics::Mesh* const mesh)
 	}
 }
 
-doom::physics::AABB3D doom::MeshRenderer::GetLocalAABBBound() const
+dooms::physics::AABB3D dooms::MeshRenderer::GetLocalAABBBound() const
 {
 	if (mTargetMesh != nullptr)
 	{

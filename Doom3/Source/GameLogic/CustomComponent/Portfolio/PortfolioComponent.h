@@ -5,7 +5,7 @@
 
 #include <array>
 
-namespace doom
+namespace dooms
 {
 	namespace graphics
 	{
@@ -25,7 +25,7 @@ public:
 
 	bool a, b, c, d, e;
 
-	std::array<doom::graphics::PicktureInPickture*, 4> mDeferredRenderingDebuggerPIPs;
+	std::array<dooms::graphics::PicktureInPickture*, 4> mDeferredRenderingDebuggerPIPs;
 
 	void InitComponent() override;
 	void UpdateComponent() override;

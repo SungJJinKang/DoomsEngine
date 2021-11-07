@@ -160,7 +160,7 @@ const IniData::ini_data_type* IniData::GetSectionData(const std::string& section
 
 	if(sectionData == nullptr)
 	{
-		doom::ui::PrintText("Fail to Find Data ( SectionKey : %s, DataKey : %s )", sectionKey.c_str(), variableKey.c_str());
+		dooms::ui::PrintText("Fail to Find Data ( SectionKey : %s, DataKey : %s )", sectionKey.c_str(), variableKey.c_str());
 	}
 
 	return sectionData;
@@ -169,7 +169,7 @@ const IniData::ini_data_type* IniData::GetSectionData(const std::string& section
 void IniData::AddSection(const std::string& section)
 {
 	mIniDatas[section]; // just accessing to unordered_map with key make hash table
-	doom::ui::PrintText("Add New Section : %s", section.c_str());
+	dooms::ui::PrintText("Add New Section : %s", section.c_str());
 }
 
 struct ConverToString
@@ -207,7 +207,7 @@ void IniData::InsertVariable(const std::string& section, const std::string& key,
 		}, variable.second);
 	*/
 	auto valueString = std::visit(ConverToString(), data);
-	doom::ui::PrintText("Add New Variable : Section ( %s ), Key( %s ), Value( %s ) ", section.c_str(), key.c_str(), valueString.c_str());
+	dooms::ui::PrintText("Add New Variable : Section ( %s ), Key( %s ), Value( %s ) ", section.c_str(), key.c_str(), valueString.c_str());
 
 	
 }

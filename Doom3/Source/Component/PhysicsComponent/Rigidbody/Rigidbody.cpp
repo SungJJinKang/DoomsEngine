@@ -5,7 +5,7 @@
 #include "Entity.h"
 #include "../ColliderComponent.h"
 
-void doom::Rigidbody::AddColliderComponent(ColliderComponent* const colliderComponent)
+void dooms::Rigidbody::AddColliderComponent(ColliderComponent* const colliderComponent)
 {
 	auto iter = std::find(mAttachedColliderComponents.begin(), mAttachedColliderComponents.end(), colliderComponent);
 
@@ -15,7 +15,7 @@ void doom::Rigidbody::AddColliderComponent(ColliderComponent* const colliderComp
 	}
 }
 
-void doom::Rigidbody::RemoveColliderComponent(ColliderComponent* const colliderComponent)
+void dooms::Rigidbody::RemoveColliderComponent(ColliderComponent* const colliderComponent)
 {
 	auto iter = std::find(mAttachedColliderComponents.begin(), mAttachedColliderComponents.end(), colliderComponent);
 
@@ -25,17 +25,17 @@ void doom::Rigidbody::RemoveColliderComponent(ColliderComponent* const colliderC
 	}
 }
 
-const std::vector<doom::ColliderComponent*>& doom::Rigidbody::GetAttachedColliderComponents() const
+const std::vector<dooms::ColliderComponent*>& dooms::Rigidbody::GetAttachedColliderComponents() const
 {
 	return mAttachedColliderComponents;
 }
 
-void doom::Rigidbody::ClearCollideCollidersAtFrame()
+void dooms::Rigidbody::ClearCollideCollidersAtFrame()
 {
 	mCollideCollidersAtFrame.clear();
 }
 
-void doom::Rigidbody::InitializeAttachedColliderComponents()
+void dooms::Rigidbody::InitializeAttachedColliderComponents()
 {
 	const std::vector<ColliderComponent*> attachedColliderComponents = GetOwnerEntity()->GetComponents<ColliderComponent>();
 	for(ColliderComponent* colliderComponent : attachedColliderComponents)
@@ -44,31 +44,31 @@ void doom::Rigidbody::InitializeAttachedColliderComponents()
 	}
 }
 
-void doom::Rigidbody::CheckIsRigidbodyComponentAlreadyExist()
+void dooms::Rigidbody::CheckIsRigidbodyComponentAlreadyExist()
 {
 	const std::vector<Rigidbody*> attachedColliderComponents = GetOwnerEntity()->GetComponents<Rigidbody>();
 	D_ASSERT(attachedColliderComponents.size() == 1);
 }
 
-doom::Rigidbody::Rigidbody()
+dooms::Rigidbody::Rigidbody()
 {
 }
 
-doom::Rigidbody::~Rigidbody()
+dooms::Rigidbody::~Rigidbody()
 {
 }
 
-doom::Rigidbody::Rigidbody(const Rigidbody& rigid)
+dooms::Rigidbody::Rigidbody(const Rigidbody& rigid)
 	:mAttachedColliderComponents(), mCollideCollidersAtFrame()
 {
 }
 
-doom::Rigidbody& doom::Rigidbody::operator=(const Rigidbody& rigid)
+dooms::Rigidbody& dooms::Rigidbody::operator=(const Rigidbody& rigid)
 {
 	return *this;
 }
 
-void doom::Rigidbody::InitComponent()
+void dooms::Rigidbody::InitComponent()
 {
 	ServerComponent::InitComponent();
 
@@ -77,26 +77,26 @@ void doom::Rigidbody::InitComponent()
 	CheckIsRigidbodyComponentAlreadyExist();
 }
 
-void doom::Rigidbody::UpdateComponent()
+void dooms::Rigidbody::UpdateComponent()
 {
 	ServerComponent::UpdateComponent();
 }
 
-void doom::Rigidbody::OnDestroy()
+void dooms::Rigidbody::OnDestroy()
 {
 	ServerComponent::OnDestroy();
 
 	ClearCollideCollidersAtFrame();
 }
 
-void doom::Rigidbody::OnActivated()
+void dooms::Rigidbody::OnActivated()
 {
 	ServerComponent::OnActivated();
 
 	ClearCollideCollidersAtFrame();
 }
 
-void doom::Rigidbody::OnDeActivated()
+void dooms::Rigidbody::OnDeActivated()
 {
 	ServerComponent::OnDeActivated();
 

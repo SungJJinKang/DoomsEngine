@@ -9,9 +9,9 @@
 #include "../Game/ConfigData.h"
 
 
-using namespace doom::logger;
+using namespace dooms::logger;
 
-namespace doom
+namespace dooms
 {
 	namespace logger
 	{
@@ -59,8 +59,8 @@ namespace doom
 		eLogType MAX_DEBUG_LEVEL{ eLogType::D_LOG };
 		void InitLogger()
 		{
-			MIN_DEBUG_LEVEL = static_cast<eLogType>(::doom::ConfigData::GetSingleton()->GetConfigData().GetValue<INT32>("SYSTEM", "MIN_DEBUG_LEVEL"));
-			MAX_DEBUG_LEVEL = static_cast<eLogType>(::doom::ConfigData::GetSingleton()->GetConfigData().GetValue<INT32>("SYSTEM", "MAX_DEBUG_LEVEL"));
+			MIN_DEBUG_LEVEL = static_cast<eLogType>(::dooms::ConfigData::GetSingleton()->GetConfigData().GetValue<INT32>("SYSTEM", "MIN_DEBUG_LEVEL"));
+			MAX_DEBUG_LEVEL = static_cast<eLogType>(::dooms::ConfigData::GetSingleton()->GetConfigData().GetValue<INT32>("SYSTEM", "MAX_DEBUG_LEVEL"));
 		}
 
 		FORCE_INLINE void StopIfError(eLogType logType)
@@ -136,7 +136,7 @@ namespace doom
 
 
 
-FORCE_INLINE const char* doom::logger::LogTypeStr(eLogType logType) noexcept
+FORCE_INLINE const char* dooms::logger::LogTypeStr(eLogType logType) noexcept
 {
 	switch (logType)
 	{

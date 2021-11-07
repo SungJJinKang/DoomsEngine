@@ -1,26 +1,26 @@
 #include "MeshCollider.h"
 
-void doom::MeshCollider::UpdateLocalCollider()
+void dooms::MeshCollider::UpdateLocalCollider()
 {
 
 }
 
-void doom::MeshCollider::UpdateWorldCollider()
+void dooms::MeshCollider::UpdateWorldCollider()
 {
 
 }
 
-void doom::MeshCollider::AutoColliderSettingFromAABB3D(const physics::AABB3D& aabb3dFromMesh)
+void dooms::MeshCollider::AutoColliderSettingFromAABB3D(const physics::AABB3D& aabb3dFromMesh)
 {
 
 }
 
-doom::physics::Collider* doom::MeshCollider::GetWorldCollider()
+dooms::physics::Collider* dooms::MeshCollider::GetWorldCollider()
 {
 	return nullptr;
 }
 
-doom::physics::AABB3D doom::MeshCollider::ExtractLocalAABB3D()
+dooms::physics::AABB3D dooms::MeshCollider::ExtractLocalAABB3D()
 {
 	return GetLocalColliderCache();
 }

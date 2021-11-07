@@ -4,13 +4,13 @@
 
 #include <Physics/Collider/Ray.h>
 
-namespace doom
+namespace dooms
 {
 	namespace physics
 	{
 		namespace Picking 
 		{
-			extern doom::physics::Ray GetCurrentCursorPointWorldRay();
+			extern dooms::physics::Ray GetCurrentCursorPointWorldRay();
 		};
 	}
 }

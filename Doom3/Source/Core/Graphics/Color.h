@@ -6,7 +6,7 @@
 
 #include <Vector4.h>
 
-namespace doom
+namespace dooms
 {
 	namespace graphics 
 	{
@@ -77,4 +77,4 @@ namespace doom
 	}
 }
 
-using doom::graphics::eColor;
+using dooms::graphics::eColor;

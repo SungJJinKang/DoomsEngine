@@ -1,7 +1,7 @@
 #pragma once
 #include "Collider3DComponent.h"
 
-namespace doom
+namespace dooms
 {
 	class DOOM_API MeshCollider : public Collider3DComponent
 	{
@@ -20,7 +20,7 @@ namespace doom
 	public:
 
 		// Inherited via Collider3DComponent
-		virtual doom::physics::AABB3D ExtractLocalAABB3D() override;
+		virtual dooms::physics::AABB3D ExtractLocalAABB3D() override;
 
 		virtual physics::Collider* GetWorldCollider() final;
 

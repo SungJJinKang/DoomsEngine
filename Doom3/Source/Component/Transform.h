@@ -6,7 +6,7 @@
 #include "../Core/Math/LightMath_Cpp/Matrix_utility.h"
 #include "EasyDirtyChecker/DirtyReceiver.h"
 
-namespace doom
+namespace dooms
 {
 	enum class eSpace
 	{

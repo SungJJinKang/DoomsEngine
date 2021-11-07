@@ -5,7 +5,7 @@
 
 #define MAX_STACKWALK 10
 
-namespace doom
+namespace dooms
 {
     namespace errorHandling
     {

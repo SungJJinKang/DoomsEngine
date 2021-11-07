@@ -2,13 +2,13 @@
 
 #include "Texture.h"
 
-namespace doom
+namespace dooms
 {
 	namespace graphics
 	{
 		class SingleTexture : public Texture
 		{
-			DOBJECT_CLASS_BODY(SingleTexture, doom::eDOBJECT_ClassFlags::NonCopyable);
+			DOBJECT_CLASS_BODY(SingleTexture, dooms::eDOBJECT_ClassFlags::NonCopyable);
 			DOBJECT_CLASS_BASE_CHAIN(Texture)
 
 		private:

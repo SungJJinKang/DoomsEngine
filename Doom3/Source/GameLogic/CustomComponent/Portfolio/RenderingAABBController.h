@@ -3,7 +3,7 @@
 
 
 
-namespace doom
+namespace dooms
 {
 	class RenderingAABBController : public PlainComponent
 	{

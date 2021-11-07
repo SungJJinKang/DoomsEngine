@@ -9,7 +9,7 @@
 #include "Graphics/Color.h"
 
 
-namespace doom
+namespace dooms
 {
 	/// <summary>
 	/// If you have object having BVH_Node
@@ -55,9 +55,9 @@ namespace doom
 		void DrawWorldColliderCache(eColor color = eColor::Green, bool drawInstantly = false);
 	};
 	
-	extern template class ColliderUpdater<doom::physics::AABB2D>;
-	extern template class ColliderUpdater<doom::physics::AABB3D>;
-	extern template class ColliderUpdater<doom::physics::Sphere>;
+	extern template class ColliderUpdater<dooms::physics::AABB2D>;
+	extern template class ColliderUpdater<dooms::physics::AABB3D>;
+	extern template class ColliderUpdater<dooms::physics::Sphere>;
 }
 
 

@@ -9,15 +9,15 @@
 /// <returns></returns>
 
 template <>
-typename doom::KDTree<math::Vector<3, FLOAT32>>::node_view_type doom::KDTree<math::Vector<3, FLOAT32>>::FindNearestNode(const typename node_type::component_type& componentValue)
+typename dooms::KDTree<math::Vector<3, FLOAT32>>::node_view_type dooms::KDTree<math::Vector<3, FLOAT32>>::FindNearestNode(const typename node_type::component_type& componentValue)
 {
 	return {};
 }
 
 template<typename T>
-typename doom::KDTree<T>::node_view_type doom::KDTree<T>::FindNearestNode(const typename node_type::component_type& componentValue)
+typename dooms::KDTree<T>::node_view_type dooms::KDTree<T>::FindNearestNode(const typename node_type::component_type& componentValue)
 {
 	return node_view_type();
 }
 
-template class doom::KDTree<math::Vector3>;
+template class dooms::KDTree<math::Vector3>;

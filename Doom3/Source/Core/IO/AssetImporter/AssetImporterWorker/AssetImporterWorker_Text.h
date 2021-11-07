@@ -3,7 +3,7 @@
 #include <filesystem>
 #include "AssetImporterWorker.h"
 
-namespace doom
+namespace dooms
 {
 	namespace assetImporter
 	{
@@ -14,9 +14,9 @@ namespace doom
 
 		public:
 
-			virtual bool ImportSpecificAsset(const std::filesystem::path& path, doom::asset::Asset* asset) override;
+			virtual bool ImportSpecificAsset(const std::filesystem::path& path, dooms::asset::Asset* asset) override;
 
-			virtual doom::asset::eAssetType GetEAssetType() const final;
+			virtual dooms::asset::eAssetType GetEAssetType() const final;
 
 			static void InitializeAssetImporterWorkerStatic() {}
 		};

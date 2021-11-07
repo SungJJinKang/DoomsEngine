@@ -3,7 +3,7 @@
 #include <StaticContainer/StaticContainer.h>
 #include "Graphics/Buffer/UniformBufferObjectUpdater.h"
 
-namespace doom
+namespace dooms
 {
 	class DOOM_API PointLight : public Light, public StaticContainer<PointLight>, public graphics::UniformBufferObjectUpdater
 	{

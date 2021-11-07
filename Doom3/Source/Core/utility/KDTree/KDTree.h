@@ -12,7 +12,7 @@
 #include "KDTreeNode.h"
 #include "KDTreeNodeView.h"
 
-namespace doom
+namespace dooms
 {
 
 	/// <summary>
@@ -121,6 +121,6 @@ namespace doom
 
 }
 
-/*extern template class doom::KDTree<math::Vector3>;
-extern template struct doom::KDTreeNode<math::Vector3>;
-extern template class doom::KDTreeNodeView<math::Vector3>;*/
+/*extern template class dooms::KDTree<math::Vector3>;
+extern template struct dooms::KDTreeNode<math::Vector3>;
+extern template class dooms::KDTreeNodeView<math::Vector3>;*/

@@ -4,7 +4,7 @@
 
 
 
-using namespace doom::graphics;
+using namespace dooms::graphics;
 
 Texture::Texture()
 	: mBufferID()
@@ -143,17 +143,17 @@ void Texture::SetFilterMax(eFilterMode filterMode, bool bBind)
 	TexParameteri(mBindTarget, eTextureParameterType::TEXTURE_MAG_FILTER, static_cast<eTextureParameterValue>(filterMode));
 }
 
-doom::graphics::Texture::eWrapMode Texture::GetWrapModeS() const
+dooms::graphics::Texture::eWrapMode Texture::GetWrapModeS() const
 {
 	return mWrapS;
 }
 
-doom::graphics::Texture::eWrapMode Texture::GetWrapModeT() const
+dooms::graphics::Texture::eWrapMode Texture::GetWrapModeT() const
 {
 	return mWrapT;
 }
 
-doom::graphics::Texture::eWrapMode Texture::GetWrapModeR() const
+dooms::graphics::Texture::eWrapMode Texture::GetWrapModeR() const
 {
 	return mWrapR;
 }

@@ -13,7 +13,7 @@
 #include "PhysicsSolver.h"
 
 
-void doom::physics::Physics_Server::LoadPhysicsSetting()
+void dooms::physics::Physics_Server::LoadPhysicsSetting()
 {
 	Physics_Setting::SetIsPhysicsOn(static_cast<bool>(GameCore::GetSingleton()->mGameConfigData.GetConfigData().GetValue<INT32>("PHYSICS", "ENABLE")));
 
@@ -22,7 +22,7 @@ void doom::physics::Physics_Server::LoadPhysicsSetting()
 
 }
 
-void doom::physics::Physics_Server::Init()
+void dooms::physics::Physics_Server::Init()
 {
 	
 	LoadPhysicsSetting();
@@ -30,7 +30,7 @@ void doom::physics::Physics_Server::Init()
 }
 
 
-void doom::physics::Physics_Server::Update()
+void dooms::physics::Physics_Server::Update()
 {
 	
 	if (Physics_Setting::IS_RENDER_PHYSICS_RAYCASTING_DEBUGGER == true)
@@ -39,7 +39,7 @@ void doom::physics::Physics_Server::Update()
 	}
 }
 
-void doom::physics::Physics_Server::FixedUpdate()
+void dooms::physics::Physics_Server::FixedUpdate()
 {
 	D_START_PROFILING(FixedUpdateCollision, eProfileLayers::CPU);
 	FixedUpdateCollision();
@@ -47,7 +47,7 @@ void doom::physics::Physics_Server::FixedUpdate()
 	
 }
 
-void doom::physics::Physics_Server::FixedUpdateCollision()
+void dooms::physics::Physics_Server::FixedUpdateCollision()
 {
 	if (Physics_Setting::GetIsPhysicsOn() == true)
 	{
@@ -57,9 +57,9 @@ void doom::physics::Physics_Server::FixedUpdateCollision()
 }
 
 
-void doom::physics::Physics_Server::ResetCollisionData()
+void dooms::physics::Physics_Server::ResetCollisionData()
 {
-	const std::vector<ColliderComponent*>& colliderComponents = doom::StaticContainer<ColliderComponent>::GetAllStaticComponents();
+	const std::vector<ColliderComponent*>& colliderComponents = dooms::StaticContainer<ColliderComponent>::GetAllStaticComponents();
 
 	D_START_PROFILING(Physics_Server_SolveColliderComponents_ResetAllCollisionState, eProfileLayers::CPU);
 	for (ColliderComponent* colliderComp : colliderComponents)
@@ -67,7 +67,7 @@ void doom::physics::Physics_Server::ResetCollisionData()
 		colliderComp->OnPreUpdatePhysics();
 	}
 	
-	const std::vector<Rigidbody*>& rigidbodyComponents = doom::StaticContainer<Rigidbody>::GetAllStaticComponents();
+	const std::vector<Rigidbody*>& rigidbodyComponents = dooms::StaticContainer<Rigidbody>::GetAllStaticComponents();
 	for (Rigidbody* const rigidbodyComponent : rigidbodyComponents)
 	{
 		rigidbodyComponent->ClearCollideCollidersAtFrame();
@@ -75,9 +75,9 @@ void doom::physics::Physics_Server::ResetCollisionData()
 	D_END_PROFILING(Physics_Server_SolveColliderComponents_ResetAllCollisionState);
 }
 
-void doom::physics::Physics_Server::SolveColliderComponents()
+void dooms::physics::Physics_Server::SolveColliderComponents()
 {
-	const std::vector<Rigidbody*>& rigidbodyComponents = doom::StaticContainer<Rigidbody>::GetAllStaticComponents();
+	const std::vector<Rigidbody*>& rigidbodyComponents = dooms::StaticContainer<Rigidbody>::GetAllStaticComponents();
 	
 	size_t stackReservationCount = 1;
 	
@@ -89,9 +89,9 @@ void doom::physics::Physics_Server::SolveColliderComponents()
 		{
 			Collider* const testedCollider = colliderComponent->GetWorldCollider();
 
-			//const std::vector<doom::physics::Collider*> hitBVHLeafNodes = doom::physics::PhysicsSolver::GetCollideColliders(&mPhysicsColliderBVH, testedCollider, stackReservationCount);
+			//const std::vector<dooms::physics::Collider*> hitBVHLeafNodes = dooms::physics::PhysicsSolver::GetCollideColliders(&mPhysicsColliderBVH, testedCollider, stackReservationCount);
 
-			const std::vector<doom::physics::Collider*> hitBVHLeafNodes = doom::physics::PhysicsSolver::GetCollideColliders
+			const std::vector<dooms::physics::Collider*> hitBVHLeafNodes = dooms::physics::PhysicsSolver::GetCollideColliders
 			(
 				&mPhysicsColliderBVH,
 				testedCollider,
@@ -100,7 +100,7 @@ void doom::physics::Physics_Server::SolveColliderComponents()
 			);
 
 			
-			for (doom::physics::Collider* leafNodeCollider : hitBVHLeafNodes)
+			for (dooms::physics::Collider* leafNodeCollider : hitBVHLeafNodes)
 			{
 				if (testedCollider != leafNodeCollider)
 				{
@@ -127,11 +127,11 @@ void doom::physics::Physics_Server::SolveColliderComponents()
 
 }
 
-void doom::physics::Physics_Server::OnEndOfFrame()
+void dooms::physics::Physics_Server::OnEndOfFrame()
 {
 
 }
 
-void doom::physics::Physics_Server::QueryCollision()
+void dooms::physics::Physics_Server::QueryCollision()
 {
 }

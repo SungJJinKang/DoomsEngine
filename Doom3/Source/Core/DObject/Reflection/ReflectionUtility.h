@@ -6,7 +6,7 @@
 
 #include "clReflect_automation/clReflect/inc/clcpp/clcpp.h"
 
-namespace doom
+namespace dooms
 {
 	namespace reflection
 	{

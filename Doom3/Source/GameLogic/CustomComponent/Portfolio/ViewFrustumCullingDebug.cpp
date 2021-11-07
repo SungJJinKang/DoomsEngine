@@ -3,25 +3,25 @@
 #include <Rendering/Camera.h>
 #include "UI/PrintText.h"
 
-void doom::ViewFrustumCullingDebug::InitComponent()
+void dooms::ViewFrustumCullingDebug::InitComponent()
 {
-	auto currenScene = doom::Scene::GetCurrentWorld();
+	auto currenScene = dooms::Scene::GetCurrentWorld();
 
 	ShowIsViewFrustumCullingActivated();
 }
 
-void doom::ViewFrustumCullingDebug::ShowIsViewFrustumCullingActivated()
+void dooms::ViewFrustumCullingDebug::ShowIsViewFrustumCullingActivated()
 {
 	if(Camera::GetMainCamera() != nullptr)
 	{
-		if (Camera::GetMainCamera()->GetCameraFlag(doom::eCameraFlag::PAUSE_CULL_JOB) == true)
+		if (Camera::GetMainCamera()->GetCameraFlag(dooms::eCameraFlag::PAUSE_CULL_JOB) == true)
 		{
-			doom::ui::PrintText("%s", "Multi Thread ViewFrustumCulling Áß´Ü");
+			dooms::ui::PrintText("%s", "Multi Thread ViewFrustumCulling ï¿½ß´ï¿½");
 
 		}
 		else
 		{
-			doom::ui::PrintText("%s", "Multi Thread ViewFrustumCulling ½ÃÀÛ");
+			dooms::ui::PrintText("%s", "Multi Thread ViewFrustumCulling ï¿½ï¿½ï¿½ï¿½");
 
 		}
 	}
@@ -29,13 +29,13 @@ void doom::ViewFrustumCullingDebug::ShowIsViewFrustumCullingActivated()
 
 static FLOAT32 previousTime = 0;
 
-void doom::ViewFrustumCullingDebug::UpdateComponent()
+void dooms::ViewFrustumCullingDebug::UpdateComponent()
 {
 	if (UserInput_Server::GetKeyUp(eKEY_CODE::KEY_F4))
 	{
-		const bool currentFlag = Camera::GetMainCamera()->GetCameraFlag(doom::eCameraFlag::PAUSE_CULL_JOB);
+		const bool currentFlag = Camera::GetMainCamera()->GetCameraFlag(dooms::eCameraFlag::PAUSE_CULL_JOB);
 
-		Camera::GetMainCamera()->SetCameraFlag(doom::eCameraFlag::PAUSE_CULL_JOB, !currentFlag);
+		Camera::GetMainCamera()->SetCameraFlag(dooms::eCameraFlag::PAUSE_CULL_JOB, !currentFlag);
 
 		ShowIsViewFrustumCullingActivated();
 	}
@@ -43,6 +43,6 @@ void doom::ViewFrustumCullingDebug::UpdateComponent()
 
 }
 
-void doom::ViewFrustumCullingDebug::OnEndOfFrame_Component()
+void dooms::ViewFrustumCullingDebug::OnEndOfFrame_Component()
 {
 }

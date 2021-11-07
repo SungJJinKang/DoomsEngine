@@ -1,11 +1,11 @@
 #include "AutoRotate.h"
 
-void doom::AutoRotate::InitComponent()
+void dooms::AutoRotate::InitComponent()
 {
 
 }
 
-void doom::AutoRotate::UpdateComponent()
+void dooms::AutoRotate::UpdateComponent()
 {
 	GetTransform()->Rotate({0,  MainTimer::GetDeltaTime(), 0 }, eSpace::World);
 
@@ -13,7 +13,7 @@ void doom::AutoRotate::UpdateComponent()
 	//D_DEBUG_DRAW_3D_LINE(GetTransform()->GetPosition(), GetTransform()->GetPosition() + GetTransform()->forward() * 5, eColor::Red);
 }
 
-void doom::AutoRotate::OnEndOfFrame_Component()
+void dooms::AutoRotate::OnEndOfFrame_Component()
 {
 
 }

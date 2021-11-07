@@ -3,7 +3,7 @@
 
 #include "AABB.h"
 
-void doom::physics::Sphere::DrawCollider(eColor color, bool drawInstantly /*= false*/) const
+void dooms::physics::Sphere::DrawCollider(eColor color, bool drawInstantly /*= false*/) const
 {
 
 #ifdef DEBUG_DRAWER
@@ -65,8 +65,8 @@ void doom::physics::Sphere::DrawCollider(eColor color, bool drawInstantly /*= fa
 
 
 
-doom::physics::ColliderType doom::physics::Sphere::GetColliderType() const
+dooms::physics::ColliderType dooms::physics::Sphere::GetColliderType() const
 {
-	return doom::physics::ColliderType::Sphere;
+	return dooms::physics::ColliderType::Sphere;
 }
 

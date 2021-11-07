@@ -1,10 +1,10 @@
 #include "AssetImporterWorker.h"
 
-std::atomic<bool> doom::assetImporter::AssetImporterWorker::IsInitializedStatic = false;
+std::atomic<bool> dooms::assetImporter::AssetImporterWorker::IsInitializedStatic = false;
 
-doom::assetImporter::AssetImporterWorker::AssetImporterWorker() = default;
-doom::assetImporter::AssetImporterWorker::AssetImporterWorker(const AssetImporterWorker&) = default;
-doom::assetImporter::AssetImporterWorker::AssetImporterWorker(AssetImporterWorker&&) noexcept = default;
-doom::assetImporter::AssetImporterWorker& doom::assetImporter::AssetImporterWorker::operator=(const AssetImporterWorker&) = default;
-doom::assetImporter::AssetImporterWorker& doom::assetImporter::AssetImporterWorker::operator=(AssetImporterWorker&&) noexcept = default;
-doom::assetImporter::AssetImporterWorker::~AssetImporterWorker() = default;
+dooms::assetImporter::AssetImporterWorker::AssetImporterWorker() = default;
+dooms::assetImporter::AssetImporterWorker::AssetImporterWorker(const AssetImporterWorker&) = default;
+dooms::assetImporter::AssetImporterWorker::AssetImporterWorker(AssetImporterWorker&&) noexcept = default;
+dooms::assetImporter::AssetImporterWorker& dooms::assetImporter::AssetImporterWorker::operator=(const AssetImporterWorker&) = default;
+dooms::assetImporter::AssetImporterWorker& dooms::assetImporter::AssetImporterWorker::operator=(AssetImporterWorker&&) noexcept = default;
+dooms::assetImporter::AssetImporterWorker::~AssetImporterWorker() = default;

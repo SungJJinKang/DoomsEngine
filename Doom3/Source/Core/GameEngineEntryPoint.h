@@ -12,17 +12,17 @@
 #include <iostream>
 #include <cstdio>
 
-namespace doom
+namespace dooms
 {
 	int GameEngineEntryPoint()
 	{
 		{
 			{
-				doom::errorHandling::SetUnHandledExceptionHandling();
+				dooms::errorHandling::SetUnHandledExceptionHandling();
 
-				doom::GameCore gameCore{};
+				dooms::GameCore gameCore{};
 
-				D_START_PROFILING(Init_Game, doom::profiler::eProfileLayers::CPU);
+				D_START_PROFILING(Init_Game, dooms::profiler::eProfileLayers::CPU);
 				gameCore.Init();
 				D_END_PROFILING(Init_Game);
 
@@ -35,13 +35,13 @@ namespace doom
 
 
 #ifdef DEBUG_MODE
-			doom::DObjectManager::DestroyAllDObjects(false);
+			dooms::DObjectManager::DestroyAllDObjects(false);
 #endif
 
 		}
 
 
-		std::cout << "\nLast DObject Count : " << doom::DObjectManager::GetDObjectCount() << std::endl;
+		std::cout << "\nLast DObject Count : " << dooms::DObjectManager::GetDObjectCount() << std::endl;
 		std::fflush(stdout);
 
 		return 0;

@@ -19,12 +19,12 @@
 #include "Graphics/Graphics_Setting.h"
 #include "Portfolio/OverDrawVisualizationDebugger.h"
 
-void doom::GameLogicStartPoint::StartGameLogic()
+void dooms::GameLogicStartPoint::StartGameLogic()
 {
 	ISingleton<graphics::LightManager>::GetSingleton()->SetAmbientLightIntensity(0.1f);
-	doom::graphics::Graphics_Setting::DefaultClearColor = { 1.0f, 1.0f, 1.0f, 1.0f };
+	dooms::graphics::Graphics_Setting::DefaultClearColor = { 1.0f, 1.0f, 1.0f, 1.0f };
 
-	auto currenScene = doom::Scene::GetCurrentWorld();
+	auto currenScene = dooms::Scene::GetCurrentWorld();
 
 
 	auto lightEntity = currenScene->CreateNewEntity();
@@ -104,7 +104,7 @@ void doom::GameLogicStartPoint::StartGameLogic()
 	auto entity1 = currenScene->CreateNewEntity();
 	auto entity1Camera = entity1->AddComponent<Camera>();
 	entity1->AddComponent<OverDrawVisualizationDebugger>();
-	entity1Camera->SetProjectionMode(doom::Camera::eProjectionType::Perspective);
+	entity1Camera->SetProjectionMode(dooms::Camera::eProjectionType::Perspective);
 
 
 

@@ -2,7 +2,7 @@
 #include "Collider3DComponent.h"
 #include <Vector3.h>
 #include <Collider/AABB.h>
-namespace doom
+namespace dooms
 {
 	class DOOM_API BoxCollider3D : public Collider3DComponent
 	{
@@ -35,7 +35,7 @@ namespace doom
 		math::Vector3 GetHalfExtent() const;
 
 		// Inherited via Collider3DComponent
-		virtual doom::physics::AABB3D ExtractLocalAABB3D() final;
+		virtual dooms::physics::AABB3D ExtractLocalAABB3D() final;
 
 		virtual physics::Collider* GetWorldCollider() final;
 	};

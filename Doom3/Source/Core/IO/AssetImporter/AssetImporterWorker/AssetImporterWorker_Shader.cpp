@@ -4,10 +4,10 @@
 
 #include <Asset/ShaderAsset.h>
 
-bool doom::assetImporter::AssetImporterWorker_Shader::ImportShaderAsset
+bool dooms::assetImporter::AssetImporterWorker_Shader::ImportShaderAsset
 (
 	const std::filesystem::path& path,
-	doom::asset::ShaderAsset* const shaderAsset
+	dooms::asset::ShaderAsset* const shaderAsset
 )
 {
 	std::string text{};
@@ -27,13 +27,13 @@ bool doom::assetImporter::AssetImporterWorker_Shader::ImportShaderAsset
 }
 
 
-bool doom::assetImporter::AssetImporterWorker_Shader::ImportSpecificAsset(const std::filesystem::path& path, doom::asset::Asset* asset)
+bool dooms::assetImporter::AssetImporterWorker_Shader::ImportSpecificAsset(const std::filesystem::path& path, dooms::asset::Asset* asset)
 {
-	return ImportShaderAsset(path, static_cast<doom::asset::ShaderAsset*>(asset));
+	return ImportShaderAsset(path, static_cast<dooms::asset::ShaderAsset*>(asset));
 }
 
-doom::asset::eAssetType doom::assetImporter::AssetImporterWorker_Shader::GetEAssetType() const
+dooms::asset::eAssetType dooms::assetImporter::AssetImporterWorker_Shader::GetEAssetType() const
 {
-	return doom::asset::eAssetType::SHADER;
+	return dooms::asset::eAssetType::SHADER;
 }
 

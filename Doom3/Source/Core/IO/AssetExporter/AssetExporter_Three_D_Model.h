@@ -5,7 +5,7 @@
 #include <filesystem>
 
 struct aiScene;
-namespace doom
+namespace dooms
 {
 
 	namespace assetExporter

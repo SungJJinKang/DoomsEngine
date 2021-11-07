@@ -3,7 +3,7 @@
 #include <Doom_Core.h>
 #include "TestComponent.h"
 
-namespace doom
+namespace dooms
 {
 	class TestComponent2 : public TestComponent
 	{

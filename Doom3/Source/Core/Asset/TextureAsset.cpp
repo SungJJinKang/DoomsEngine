@@ -8,17 +8,17 @@
 
 #include <DirectXTex.h>
 
-using namespace doom::graphics;
+using namespace dooms::graphics;
 using namespace DirectX;
 /*
-doom::asset::TextureAsset::TextureAsset(INT32 width, INT32 height, INT32 componentCount, unsigned char* data, eTextureCompressionType compressionType)
+dooms::asset::TextureAsset::TextureAsset(INT32 width, INT32 height, INT32 componentCount, unsigned char* data, eTextureCompressionType compressionType)
 	: mNearWidth{ width }, mNearHeight{ height }, mDataComponentFormat{ static_cast<eTextureComponent>(componentCount) }, mTexturerCompressionType{ compressionType }, mID{ data }
 {
 
 }
 
 
-doom::asset::TextureAsset::TextureAsset()
+dooms::asset::TextureAsset::TextureAsset()
 {
 	mNearWidth = cmp_MipSet.m_nWidth;
 	mNearHeight = cmp_MipSet.m_nHeight;
@@ -62,9 +62,9 @@ doom::asset::TextureAsset::TextureAsset()
 }
 */
 
-doom::asset::TextureAsset::TextureAsset() = default;
+dooms::asset::TextureAsset::TextureAsset() = default;
 
-void doom::asset::TextureAsset::SetScratchImage(std::unique_ptr<DirectX::ScratchImage>&& scratchImage)
+void dooms::asset::TextureAsset::SetScratchImage(std::unique_ptr<DirectX::ScratchImage>&& scratchImage)
 {
 	mScratchImage = std::move(scratchImage);
 	mWidth = static_cast<INT32>(mScratchImage->GetMetadata().width);
@@ -110,36 +110,36 @@ void doom::asset::TextureAsset::SetScratchImage(std::unique_ptr<DirectX::Scratch
 	//delete scratchImage;
 }
 
-doom::asset::TextureAsset::TextureAsset(TextureAsset&& textureAsset) noexcept = default;
-doom::asset::TextureAsset& doom::asset::TextureAsset::operator=(TextureAsset&& textureAsset) noexcept = default;
+dooms::asset::TextureAsset::TextureAsset(TextureAsset&& textureAsset) noexcept = default;
+dooms::asset::TextureAsset& dooms::asset::TextureAsset::operator=(TextureAsset&& textureAsset) noexcept = default;
 
-void doom::asset::TextureAsset::DestroyDefaultTextureObject()
+void dooms::asset::TextureAsset::DestroyDefaultTextureObject()
 {
-	if(doom::IsValid(mDefaultTextureObject) == true)
+	if(dooms::IsValid(mDefaultTextureObject) == true)
 	{
 		delete mDefaultTextureObject;
 	}
 }
 
-doom::asset::TextureAsset::~TextureAsset()
+dooms::asset::TextureAsset::~TextureAsset()
 {
 	DestroyDefaultTextureObject();
 }
 
-void doom::asset::TextureAsset::OnEndImportInMainThread_Internal()
+void dooms::asset::TextureAsset::OnEndImportInMainThread_Internal()
 {
 	D_START_PROFILING(Postprocess_Texture, eProfileLayers::Rendering);
 	CreateDefaultTexture();
 	D_END_PROFILING(Postprocess_Texture);
 }
 
-const Texture* doom::asset::TextureAsset::GetDefaultTextureObject() const
+const Texture* dooms::asset::TextureAsset::GetDefaultTextureObject() const
 {
 	D_ASSERT(IsValid(mDefaultTextureObject));
 	return mDefaultTextureObject;
 }
 
-Texture* doom::asset::TextureAsset::CreateTextureObject()
+Texture* dooms::asset::TextureAsset::CreateTextureObject()
 {
 	Texture* createdTexture = nullptr;
 
@@ -154,7 +154,7 @@ Texture* doom::asset::TextureAsset::CreateTextureObject()
 	D_ASSERT(mInternalFormat != eTextureInternalFormat::NONE || mCompressedInternalFormat != eTextureCompressedInternalFormat::NONE);
 	if (mInternalFormat != eTextureInternalFormat::NONE)
 	{
-		createdTexture = doom::CreateDObject<doom::graphics::SingleTexture>(
+		createdTexture = dooms::CreateDObject<dooms::graphics::SingleTexture>(
 			Texture::eTextureType::DIFFUSE, Texture::eTargetTexture::TEXTURE_2D, 
 			mInternalFormat, mWidth, mHeight, mComponentFormat, 
 			Texture::eDataType::UNSIGNED_BYTE, mipmapPixels
@@ -162,7 +162,7 @@ Texture* doom::asset::TextureAsset::CreateTextureObject()
 	}
 	else if (mCompressedInternalFormat != eTextureCompressedInternalFormat::NONE)
 	{
-		createdTexture = doom::CreateDObject<doom::graphics::SingleTexture>(
+		createdTexture = dooms::CreateDObject<dooms::graphics::SingleTexture>(
 			Texture::eTextureType::DIFFUSE, Texture::eTargetTexture::TEXTURE_2D, 
 			mCompressedInternalFormat, mWidth, mHeight, mComponentFormat, 
 			Texture::eDataType::UNSIGNED_BYTE, mipmapPixels
@@ -173,12 +173,12 @@ Texture* doom::asset::TextureAsset::CreateTextureObject()
 	return createdTexture;
 }
 
-doom::asset::eAssetType doom::asset::TextureAsset::GetEAssetType() const
+dooms::asset::eAssetType dooms::asset::TextureAsset::GetEAssetType() const
 {
-	return doom::asset::eAssetType::TEXTURE;
+	return dooms::asset::eAssetType::TEXTURE;
 }
 
-void doom::asset::TextureAsset::CreateDefaultTexture()
+void dooms::asset::TextureAsset::CreateDefaultTexture()
 {
 	D_ASSERT(mScratchImage->GetImageCount() != 0);
 	

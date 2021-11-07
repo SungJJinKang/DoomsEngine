@@ -5,7 +5,7 @@
 #include"Scene.h"
 #include <Scene/Layer.h>
 
-using namespace doom;
+using namespace dooms;
 
 Entity::Entity(size_t entityID, Entity* parent) : 
 	mEntityID{ entityID }, 
@@ -24,15 +24,15 @@ Entity::~Entity()
 }
 
 
-void doom::Entity::InitEntity()
+void dooms::Entity::InitEntity()
 {
 }
 
-void doom::Entity::UpdateEntity()
+void dooms::Entity::UpdateEntity()
 {
 }
 
-void doom::Entity::OnEndOfFramePlainComponentsAndEntity()
+void dooms::Entity::OnEndOfFramePlainComponentsAndEntity()
 {
 	EndOfFrame_PlainComponent();
 	FrameDirtyChecker_EndOfFrame();
@@ -48,7 +48,7 @@ void Entity::FixedUpdate_PlainComponent()
 	}
 }
 
-void doom::Entity::Update_PlainComponent()
+void dooms::Entity::Update_PlainComponent()
 {
 	for (size_t i = 0; i < mPlainComponents.size(); i++)
 	{
@@ -59,7 +59,7 @@ void doom::Entity::Update_PlainComponent()
 	}
 }
 
-void doom::Entity::EndOfFrame_PlainComponent()
+void dooms::Entity::EndOfFrame_PlainComponent()
 {
 	for (size_t i = 0; i < mPlainComponents.size(); i++)
 	{

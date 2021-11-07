@@ -1,14 +1,14 @@
 #include "RenderingAABBController.h"
 
-void doom::RenderingAABBController::InitComponent()
+void dooms::RenderingAABBController::InitComponent()
 {
 }
 
-void doom::RenderingAABBController::UpdateComponent()
+void dooms::RenderingAABBController::UpdateComponent()
 {
 	
 }
 
-void doom::RenderingAABBController::OnEndOfFrame_Component()
+void dooms::RenderingAABBController::OnEndOfFrame_Component()
 {
 }

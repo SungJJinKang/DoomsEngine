@@ -14,7 +14,7 @@
 
 //BVH is used for rendering, collision detect, raycast, stero audio ......
 
-namespace doom
+namespace dooms
 {
 	
 	class Ray;
@@ -83,7 +83,7 @@ namespace doom
 
 		INT32 AllocateNewNode();
 		INT32 AllocateInternalNode();
-		INT32 AllocateLeafNode(const ColliderType& boundingCollider, doom::physics::Collider* collider);
+		INT32 AllocateLeafNode(const ColliderType& boundingCollider, dooms::physics::Collider* collider);
 		void FreeNode(INT32 nodeIndex);
 
 		INT32 Balance(INT32 lowerNodeIndex);
@@ -118,7 +118,7 @@ namespace doom
 		/// </summary>
 		/// <param name="newOjectIndex"></param>
 		/// <param name="newObjectBox"></param>
-		node_view_type InsertLeaf(const ColliderType& L, doom::physics::Collider* collider);
+		node_view_type InsertLeaf(const ColliderType& L, dooms::physics::Collider* collider);
 		void RemoveLeafNode(node_type* targetLeafNode);
 		void RemoveLeafNode(INT32 targetLeafNodeIndex);
 		
@@ -179,13 +179,13 @@ namespace doom
 		}
 	};
 
-	using BVHAABB2D = typename BVH<doom::physics::AABB2D>;
-	using BVHAABB3D = typename BVH<doom::physics::AABB3D>;
-	using BVHSphere = typename BVH<doom::physics::Sphere>;
+	using BVHAABB2D = typename BVH<dooms::physics::AABB2D>;
+	using BVHAABB3D = typename BVH<dooms::physics::AABB3D>;
+	using BVHSphere = typename BVH<dooms::physics::Sphere>;
 	
-	extern template class BVH<doom::physics::AABB2D>;
-	extern template class BVH<doom::physics::AABB3D>;
-	extern template class BVH<doom::physics::Sphere>;
+	extern template class BVH<dooms::physics::AABB2D>;
+	extern template class BVH<dooms::physics::AABB3D>;
+	extern template class BVH<dooms::physics::Sphere>;
 
 
 	using NodeCost = typename std::pair<INT32, FLOAT32>;
@@ -193,9 +193,9 @@ namespace doom
 
 
 template <>
-struct std::greater<typename doom::NodeCost>
+struct std::greater<typename dooms::NodeCost>
 {
-	bool operator()(const doom::NodeCost& lhs, const doom::NodeCost& rhs) const
+	bool operator()(const dooms::NodeCost& lhs, const dooms::NodeCost& rhs) const
 	{
 		return lhs.second > lhs.second;
 	}

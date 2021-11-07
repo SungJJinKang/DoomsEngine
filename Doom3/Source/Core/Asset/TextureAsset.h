@@ -8,7 +8,7 @@ namespace DirectX
 	class ScratchImage;
 }
 
-namespace doom
+namespace dooms
 {
 	namespace graphics
 	{
@@ -26,10 +26,10 @@ namespace doom
 	{
 		class DOOM_API TextureAsset : public Asset
 		{
-			DOBJECT_CLASS_BODY(TextureAsset, doom::eDOBJECT_ClassFlags::NonCopyable)
+			DOBJECT_CLASS_BODY(TextureAsset, dooms::eDOBJECT_ClassFlags::NonCopyable)
 				DOBJECT_CLASS_BASE_CHAIN(Asset)
 
-			friend class ::doom::assetImporter::AssetImporterWorker_Texture;
+			friend class ::dooms::assetImporter::AssetImporterWorker_Texture;
 
 		private:
 
@@ -70,7 +70,7 @@ namespace doom
 			const graphics::Texture* GetDefaultTextureObject() const;
 			graphics::Texture* CreateTextureObject();
 
-			virtual doom::asset::eAssetType GetEAssetType() const final;
+			virtual dooms::asset::eAssetType GetEAssetType() const final;
 		};
 		
 	}

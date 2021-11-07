@@ -4,7 +4,7 @@
 #include <Graphics/Graphics_Core.h>
 #include <Graphics/Color.h>
 
-namespace doom
+namespace dooms
 {
 	namespace physics
 	{

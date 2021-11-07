@@ -12,7 +12,7 @@ namespace DirectX
 	struct Image;
 }
 
-namespace doom
+namespace dooms
 {
 	namespace graphics
 	{
@@ -28,14 +28,14 @@ namespace doom
 			(
 				const DirectX::Image dxImage,
 				const INT32 lodLevel,
-				const doom::graphics::eTextureComponentFormat pixelFormat,
+				const dooms::graphics::eTextureComponentFormat pixelFormat,
 				const std::filesystem::path& exportPath,
 				const bool releasePixelMemoryAfterExport = false
 			);
 
 			extern void ExportTextureFromTextureAsDDS
 			(
-				const doom::graphics::Texture* const exportedTexture,
+				const dooms::graphics::Texture* const exportedTexture,
 				const INT32 lodLevel,
 				const std::filesystem::path& exportPath
 			);
@@ -46,16 +46,16 @@ namespace doom
 				UINT8* pixels,
 				const INT32 width,
 				const INT32 height,
-				const doom::graphics::eTextureComponentFormat pixelFormat,
-				const doom::graphics::Texture::eDataType dataType,
+				const dooms::graphics::eTextureComponentFormat pixelFormat,
+				const dooms::graphics::Texture::eDataType dataType,
 				const std::filesystem::path& exportPath
 			);
 
 
 			extern void ExportTextureFromMainFrameBufferAsDDS
 			(
-				const doom::graphics::eTextureComponentFormat pixelFormat,
-				const doom::graphics::Texture::eDataType dataType,
+				const dooms::graphics::eTextureComponentFormat pixelFormat,
+				const dooms::graphics::Texture::eDataType dataType,
 				const std::filesystem::path& exportPath
 			);
 
@@ -63,8 +63,8 @@ namespace doom
 			(
 				const INT32 startX,
 				const INT32 startY,
-				const doom::graphics::eTextureComponentFormat pixelFormat,
-				const doom::graphics::Texture::eDataType dataType,
+				const dooms::graphics::eTextureComponentFormat pixelFormat,
+				const dooms::graphics::Texture::eDataType dataType,
 				const std::filesystem::path& exportPath
 			);
 
@@ -74,8 +74,8 @@ namespace doom
 				const INT32 startY,
 				const INT32 width,
 				const INT32 height,
-				const doom::graphics::eTextureComponentFormat pixelFormat,
-				const doom::graphics::Texture::eDataType dataType,
+				const dooms::graphics::eTextureComponentFormat pixelFormat,
+				const dooms::graphics::Texture::eDataType dataType,
 				const std::filesystem::path& exportPath
 			);
 
@@ -99,7 +99,7 @@ namespace doom
 
 			extern void ExportTextureFromTexture
 			(
-				const doom::graphics::Texture* const exportedTexture,
+				const dooms::graphics::Texture* const exportedTexture,
 				const INT32 lodLevel,
 				const std::filesystem::path& exportPath,
 				const eTextureExtension textureExtension
@@ -111,8 +111,8 @@ namespace doom
 				UINT8* pixels,
 				const INT32 width,
 				const INT32 height,
-				const doom::graphics::eTextureComponentFormat pixelFormat,
-				const doom::graphics::Texture::eDataType dataType,
+				const dooms::graphics::eTextureComponentFormat pixelFormat,
+				const dooms::graphics::Texture::eDataType dataType,
 				const std::filesystem::path& exportPath,
 				const eTextureExtension textureExtension
 			);
@@ -123,8 +123,8 @@ namespace doom
 				const UINT32 colorAttachmentIndex,
 				const INT32 startX,
 				const INT32 startY,
-				const doom::graphics::eTextureComponentFormat pixelFormat,
-				const doom::graphics::Texture::eDataType dataType,
+				const dooms::graphics::eTextureComponentFormat pixelFormat,
+				const dooms::graphics::Texture::eDataType dataType,
 				const std::filesystem::path& exportPath,
 				const eTextureExtension textureExtension
 			);
@@ -137,16 +137,16 @@ namespace doom
 				const INT32 startY,
 				const INT32 width,
 				const INT32 height,
-				const doom::graphics::eTextureComponentFormat pixelFormat,
-				const doom::graphics::Texture::eDataType dataType,
+				const dooms::graphics::eTextureComponentFormat pixelFormat,
+				const dooms::graphics::Texture::eDataType dataType,
 				const std::filesystem::path& exportPath,
 				const eTextureExtension textureExtension
 			);
 
 			extern void ExportTextureFromMainFrameBuffer
 			(
-				const doom::graphics::eTextureComponentFormat pixelFormat,
-				const doom::graphics::Texture::eDataType dataType,
+				const dooms::graphics::eTextureComponentFormat pixelFormat,
+				const dooms::graphics::Texture::eDataType dataType,
 				const std::filesystem::path& exportPath,
 				const eTextureExtension textureExtension
 			);
@@ -155,8 +155,8 @@ namespace doom
 			(
 				const INT32 startX,
 				const INT32 startY,
-				const doom::graphics::eTextureComponentFormat pixelFormat,
-				const doom::graphics::Texture::eDataType dataType,
+				const dooms::graphics::eTextureComponentFormat pixelFormat,
+				const dooms::graphics::Texture::eDataType dataType,
 				const std::filesystem::path& exportPath,
 				const eTextureExtension textureExtension
 			);
@@ -167,8 +167,8 @@ namespace doom
 				const INT32 startY,
 				const INT32 width,
 				const INT32 height,
-				const doom::graphics::eTextureComponentFormat pixelFormat,
-				const doom::graphics::Texture::eDataType dataType,
+				const dooms::graphics::eTextureComponentFormat pixelFormat,
+				const dooms::graphics::Texture::eDataType dataType,
 				const std::filesystem::path& exportPath,
 				const eTextureExtension textureExtension
 			);

@@ -4,9 +4,9 @@
 
 #include "Macros/TypeDef.h"
 
-namespace doom
+namespace dooms
 {
-	struct DProperty /*: public doom::DObject*/ // Dont Do this
+	struct DProperty /*: public dooms::DObject*/ // Dont Do this
 	{
 		const char* const PROPERTY_NAME;
 		const char* const PROPERTY_TYPE_NAME;

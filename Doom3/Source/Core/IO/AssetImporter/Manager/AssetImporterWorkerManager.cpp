@@ -12,62 +12,62 @@
 
 void assetImporter::AssetImporterWorkerManager::InitializeAssetImporterWorkersStatic()
 {
-	doom::assetImporter::AssetImporterWorker_Audio::InitializeAssetImporterWorkerStatic();
-	doom::assetImporter::AssetImporterWorker_Font::InitializeAssetImporterWorkerStatic();
-	doom::assetImporter::AssetImporterWorker_Shader::InitializeAssetImporterWorkerStatic();
-	doom::assetImporter::AssetImporterWorker_Text::InitializeAssetImporterWorkerStatic();
-	doom::assetImporter::AssetImporterWorker_Texture::InitializeAssetImporterWorkerStatic();
-	doom::assetImporter::AssetImporterWorker_THREE_D_MODEL::InitializeAssetImporterWorkerStatic();
+	dooms::assetImporter::AssetImporterWorker_Audio::InitializeAssetImporterWorkerStatic();
+	dooms::assetImporter::AssetImporterWorker_Font::InitializeAssetImporterWorkerStatic();
+	dooms::assetImporter::AssetImporterWorker_Shader::InitializeAssetImporterWorkerStatic();
+	dooms::assetImporter::AssetImporterWorker_Text::InitializeAssetImporterWorkerStatic();
+	dooms::assetImporter::AssetImporterWorker_Texture::InitializeAssetImporterWorkerStatic();
+	dooms::assetImporter::AssetImporterWorker_THREE_D_MODEL::InitializeAssetImporterWorkerStatic();
 }
 
-doom::assetImporter::AssetImporterWorkerManager::AssetImporterWorkerManager()
+dooms::assetImporter::AssetImporterWorkerManager::AssetImporterWorkerManager()
 {
 	InitializeAssetImporterWorkersStatic();
 }
 
-doom::assetImporter::AssetImporterWorkerManager::~AssetImporterWorkerManager()
+dooms::assetImporter::AssetImporterWorkerManager::~AssetImporterWorkerManager()
 {
 	ClearAssetImporterWorker();
 }
 
-doom::assetImporter::AssetImporterWorker* doom::assetImporter::AssetImporterWorkerManager::CreateAssetImporterWorker
+dooms::assetImporter::AssetImporterWorker* dooms::assetImporter::AssetImporterWorkerManager::CreateAssetImporterWorker
 (
-	const doom::asset::eAssetType eAssetType
+	const dooms::asset::eAssetType eAssetType
 )
 {
-	doom::assetImporter::AssetImporterWorker* createdAssetImporterWorkder = nullptr;
+	dooms::assetImporter::AssetImporterWorker* createdAssetImporterWorkder = nullptr;
 
 	switch(eAssetType)
 	{
 
-	case doom::asset::eAssetType::AUDIO:
+	case dooms::asset::eAssetType::AUDIO:
 		
-		createdAssetImporterWorkder = doom::CreateDObject<doom::assetImporter::AssetImporterWorker_Audio>();
+		createdAssetImporterWorkder = dooms::CreateDObject<dooms::assetImporter::AssetImporterWorker_Audio>();
 		break;
 
-	case doom::asset::eAssetType::FONT:
+	case dooms::asset::eAssetType::FONT:
 		
-		createdAssetImporterWorkder = doom::CreateDObject < doom::assetImporter::AssetImporterWorker_Font>();
+		createdAssetImporterWorkder = dooms::CreateDObject < dooms::assetImporter::AssetImporterWorker_Font>();
 		break;
 
-	case doom::asset::eAssetType::SHADER:
+	case dooms::asset::eAssetType::SHADER:
 		
-		createdAssetImporterWorkder = doom::CreateDObject < doom::assetImporter::AssetImporterWorker_Shader>();
+		createdAssetImporterWorkder = dooms::CreateDObject < dooms::assetImporter::AssetImporterWorker_Shader>();
 		break;
 
-	case doom::asset::eAssetType::TEXT:
+	case dooms::asset::eAssetType::TEXT:
 		
-		createdAssetImporterWorkder = doom::CreateDObject < doom::assetImporter::AssetImporterWorker_Text>();
+		createdAssetImporterWorkder = dooms::CreateDObject < dooms::assetImporter::AssetImporterWorker_Text>();
 		break;
 
-	case doom::asset::eAssetType::TEXTURE:
+	case dooms::asset::eAssetType::TEXTURE:
 		
-		createdAssetImporterWorkder = doom::CreateDObject < doom::assetImporter::AssetImporterWorker_Texture>();
+		createdAssetImporterWorkder = dooms::CreateDObject < dooms::assetImporter::AssetImporterWorker_Texture>();
 		break;
 
-	case doom::asset::eAssetType::THREE_D_MODEL:
+	case dooms::asset::eAssetType::THREE_D_MODEL:
 		
-		createdAssetImporterWorkder = doom::CreateDObject < doom::assetImporter::AssetImporterWorker_THREE_D_MODEL>();
+		createdAssetImporterWorkder = dooms::CreateDObject < dooms::assetImporter::AssetImporterWorker_THREE_D_MODEL>();
 		break;
 
 	default:
@@ -80,22 +80,22 @@ doom::assetImporter::AssetImporterWorker* doom::assetImporter::AssetImporterWork
 }
 
 
-void doom::assetImporter::AssetImporterWorkerManager::EnqueueWorker
+void dooms::assetImporter::AssetImporterWorkerManager::EnqueueWorker
 (
-	doom::assetImporter::AssetImporterWorker* const assetImporterWorker)
+	dooms::assetImporter::AssetImporterWorker* const assetImporterWorker)
 {
 	D_ASSERT(assetImporterWorker != nullptr);
 
-	const doom::asset::eAssetType assetTypeEnum = assetImporterWorker->GetEAssetType();
+	const dooms::asset::eAssetType assetTypeEnum = assetImporterWorker->GetEAssetType();
 	mAssetApiImportersQueue[static_cast<UINT32>(assetTypeEnum)].enqueue(assetImporterWorker);
 }
 
-doom::assetImporter::AssetImporterWorker* assetImporter::AssetImporterWorkerManager::DequeueWorker
+dooms::assetImporter::AssetImporterWorker* assetImporter::AssetImporterWorkerManager::DequeueWorker
 (
-	const doom::asset::eAssetType eAssetType
+	const dooms::asset::eAssetType eAssetType
 )
 {
-	doom::assetImporter::AssetImporterWorker* assetImporterWorker = nullptr;
+	dooms::assetImporter::AssetImporterWorker* assetImporterWorker = nullptr;
 
 	while(assetImporterWorker == nullptr)
 	{
@@ -124,11 +124,11 @@ doom::assetImporter::AssetImporterWorker* assetImporter::AssetImporterWorkerMana
 }
 
 
-void doom::assetImporter::AssetImporterWorkerManager::ClearAssetImporterWorker()
+void dooms::assetImporter::AssetImporterWorkerManager::ClearAssetImporterWorker()
 {
-	for(UINT32 assetTypeIndex = 0 ; assetTypeIndex < doom::asset::ENUM_ASSETTYPE_COUNT ; assetTypeIndex++)
+	for(UINT32 assetTypeIndex = 0 ; assetTypeIndex < dooms::asset::ENUM_ASSETTYPE_COUNT ; assetTypeIndex++)
 	{
-		doom::assetImporter::AssetImporterWorker* temp = nullptr;
+		dooms::assetImporter::AssetImporterWorker* temp = nullptr;
 		while (mAssetApiImportersCount[assetTypeIndex].load() > 0)
 		{
 			mAssetApiImportersQueue[assetTypeIndex].wait_dequeue(temp);

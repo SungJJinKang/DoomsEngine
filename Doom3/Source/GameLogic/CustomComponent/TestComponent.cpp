@@ -3,17 +3,17 @@
 
 #include <Game/ConfigData.h>
 
-void doom::TestComponent::InitComponent()
+void dooms::TestComponent::InitComponent()
 {
-	volatile auto a = doom::ConfigData::GetSingleton()->GetConfigData().GetValue<doom::userinput::eKEY_CODE>("SHORTCUT", "PRINT_THREAD_USAGE");
+	volatile auto a = dooms::ConfigData::GetSingleton()->GetConfigData().GetValue<dooms::userinput::eKEY_CODE>("SHORTCUT", "PRINT_THREAD_USAGE");
 	
 }
 
-void doom::TestComponent::UpdateComponent()
+void dooms::TestComponent::UpdateComponent()
 {
 }
 
-void doom::TestComponent::OnEndOfFrame_Component()
+void dooms::TestComponent::OnEndOfFrame_Component()
 {
 
 }

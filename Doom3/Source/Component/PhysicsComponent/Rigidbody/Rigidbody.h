@@ -5,7 +5,7 @@
 #include "../Core/ServerComponent.h"
 #include <StaticContainer/StaticContainer.h>
 
-namespace doom
+namespace dooms
 {
 	class ColliderComponent;
 	namespace physics
@@ -22,7 +22,7 @@ namespace doom
 
 		std::vector<ColliderComponent*> mAttachedColliderComponents;
 
-		std::vector<doom::physics::Collider*> mCollideCollidersAtFrame;
+		std::vector<dooms::physics::Collider*> mCollideCollidersAtFrame;
 
 		void InitializeAttachedColliderComponents();
 		void CheckIsRigidbodyComponentAlreadyExist();
@@ -46,11 +46,11 @@ namespace doom
 		const std::vector<ColliderComponent*>& GetAttachedColliderComponents() const;
 
 
-		FORCE_INLINE void AddCollideCollidersAtFrame(doom::physics::Collider* const collider)
+		FORCE_INLINE void AddCollideCollidersAtFrame(dooms::physics::Collider* const collider)
 		{
 			mCollideCollidersAtFrame.push_back(collider);
 		}
-		FORCE_INLINE const std::vector<doom::physics::Collider*>& GetCollideCollidersAtFrame() const
+		FORCE_INLINE const std::vector<dooms::physics::Collider*>& GetCollideCollidersAtFrame() const
 		{
 			return mCollideCollidersAtFrame;
 		}

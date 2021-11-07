@@ -3,33 +3,33 @@
 #include <Game/AssetManager/AssetManager.h>
 
 
-void doom::graphics::DeferredRenderingDrawer::Initialize()
+void dooms::graphics::DeferredRenderingDrawer::Initialize()
 {
 	SetShaderToGBufferMaterial();
 	mQuadMesh = Mesh::GetQuadMesh();
 }
 
-doom::graphics::DeferredRenderingDrawer::DeferredRenderingDrawer()
+dooms::graphics::DeferredRenderingDrawer::DeferredRenderingDrawer()
 	:mQuadMesh()
 {
 }
 
-doom::graphics::DeferredRenderingDrawer::~DeferredRenderingDrawer()
+dooms::graphics::DeferredRenderingDrawer::~DeferredRenderingDrawer()
 {
 
 }
 
-void doom::graphics::DeferredRenderingDrawer::DrawDeferredRenderingQuadDrawer()
+void dooms::graphics::DeferredRenderingDrawer::DrawDeferredRenderingQuadDrawer()
 {
 	mGbufferDrawerMaterial.UseProgram();
 
-	doom::graphics::GraphicsAPI::DepthMask(false);
+	dooms::graphics::GraphicsAPI::DepthMask(false);
 	mQuadMesh->Draw();
-	doom::graphics::GraphicsAPI::DepthMask(true);
+	dooms::graphics::GraphicsAPI::DepthMask(true);
 }
 
-void doom::graphics::DeferredRenderingDrawer::SetShaderToGBufferMaterial()
+void dooms::graphics::DeferredRenderingDrawer::SetShaderToGBufferMaterial()
 {
-	doom::asset::ShaderAsset* const gBufferDrawerShader = doom::assetImporter::AssetManager::GetSingleton()->GetAsset<asset::eAssetType::SHADER>("GbufferDrawer.glsl");
+	dooms::asset::ShaderAsset* const gBufferDrawerShader = dooms::assetImporter::AssetManager::GetSingleton()->GetAsset<asset::eAssetType::SHADER>("GbufferDrawer.glsl");
 	mGbufferDrawerMaterial.SetShaderAsset(gBufferDrawerShader);
 }

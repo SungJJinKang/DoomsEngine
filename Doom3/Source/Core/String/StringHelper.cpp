@@ -2,7 +2,7 @@
 
 #include <Windows.h>
 
-DWORD doom::stringHelper::convert_ansi_to_unicode_string(std::wstring& unicode, const char* ansi,
+DWORD dooms::stringHelper::convert_ansi_to_unicode_string(std::wstring& unicode, const char* ansi,
 	const size_t ansi_size)
 {
 	DWORD error = 0;
@@ -42,7 +42,7 @@ DWORD doom::stringHelper::convert_ansi_to_unicode_string(std::wstring& unicode, 
 	return error;
 }
 
-DWORD doom::stringHelper::convert_unicode_to_ansi_string(std::string& ansi, const wchar_t* unicode,
+DWORD dooms::stringHelper::convert_unicode_to_ansi_string(std::string& ansi, const wchar_t* unicode,
 	const size_t unicode_size)
 {
 	DWORD error = 0;
@@ -87,7 +87,7 @@ DWORD doom::stringHelper::convert_unicode_to_ansi_string(std::string& ansi, cons
 	return error;
 }
 
-DWORD doom::stringHelper::convert_unicode_to_utf8_string(std::string& utf8, const wchar_t* unicode,
+DWORD dooms::stringHelper::convert_unicode_to_utf8_string(std::string& utf8, const wchar_t* unicode,
 	const size_t unicode_size)
 {
 	DWORD error = 0;
@@ -132,7 +132,7 @@ DWORD doom::stringHelper::convert_unicode_to_utf8_string(std::string& utf8, cons
 	return error;
 }
 
-DWORD doom::stringHelper::convert_utf8_to_unicode_string(std::wstring& unicode, const char* utf8,
+DWORD dooms::stringHelper::convert_utf8_to_unicode_string(std::wstring& unicode, const char* utf8,
 	const size_t utf8_size)
 {
 	DWORD error = 0;

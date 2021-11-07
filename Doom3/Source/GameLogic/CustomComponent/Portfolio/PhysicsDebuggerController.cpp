@@ -2,13 +2,13 @@
 
 #include <Physics/Physics_Setting.h>
 
-void doom::PhysicsDebuggerController::InitComponent()
+void dooms::PhysicsDebuggerController::InitComponent()
 {
-    doom::physics::Physics_Setting::SetIsPhysicsOn(false);
-    doom::physics::Physics_Setting::IS_RENDER_PHYSICS_RAYCASTING_DEBUGGER = false;
+    dooms::physics::Physics_Setting::SetIsPhysicsOn(false);
+    dooms::physics::Physics_Setting::IS_RENDER_PHYSICS_RAYCASTING_DEBUGGER = false;
 }
 
-void doom::PhysicsDebuggerController::UpdateComponent()
+void dooms::PhysicsDebuggerController::UpdateComponent()
 {
 	if(entity != nullptr)
 	{
@@ -16,13 +16,13 @@ void doom::PhysicsDebuggerController::UpdateComponent()
 		entity->GetTransform()->SetPosition(GetTransform()->GetPosition() + GetTransform()->forward().normalized() * 50);
 	}
 
-    if (doom::userinput::UserInput_Server::GetKeyUp(doom::userinput::eKEY_CODE::KEY_F7))
+    if (dooms::userinput::UserInput_Server::GetKeyUp(dooms::userinput::eKEY_CODE::KEY_F7))
     {
-        doom::physics::Physics_Setting::SetIsPhysicsOn(!doom::physics::Physics_Setting::GetIsPhysicsOn());
+        dooms::physics::Physics_Setting::SetIsPhysicsOn(!dooms::physics::Physics_Setting::GetIsPhysicsOn());
     }
 
-    if (doom::userinput::UserInput_Server::GetKeyUp(doom::userinput::eKEY_CODE::KEY_F8))
+    if (dooms::userinput::UserInput_Server::GetKeyUp(dooms::userinput::eKEY_CODE::KEY_F8))
     {
-        doom::physics::Physics_Setting::IS_RENDER_PHYSICS_RAYCASTING_DEBUGGER = !(doom::physics::Physics_Setting::IS_RENDER_PHYSICS_RAYCASTING_DEBUGGER);
+        dooms::physics::Physics_Setting::IS_RENDER_PHYSICS_RAYCASTING_DEBUGGER = !(dooms::physics::Physics_Setting::IS_RENDER_PHYSICS_RAYCASTING_DEBUGGER);
     }
 }

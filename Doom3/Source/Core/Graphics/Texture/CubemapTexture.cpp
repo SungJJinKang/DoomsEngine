@@ -1,6 +1,6 @@
 #include "CubemapTexture.h"
 
-using namespace doom::graphics;
+using namespace dooms::graphics;
 
 CubemapTexture::CubemapTexture()
 {

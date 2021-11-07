@@ -4,7 +4,7 @@
 
 #include <Scene/Entity.h>
 
-void doom::Transform::InitComponent()
+void dooms::Transform::InitComponent()
 {
 	
 	SetPosition(mTransformCoreData.mPosition);
@@ -12,35 +12,35 @@ void doom::Transform::InitComponent()
 	SetScale(mScale);
 }
 
-void doom::Transform::UpdateComponent()
+void dooms::Transform::UpdateComponent()
 {
 
 }
 
-void doom::Transform::OnEndOfFrame_Component()
+void dooms::Transform::OnEndOfFrame_Component()
 {
 	mLastFramePosition = mTransformCoreData.mPosition;
 }
 
-void doom::Transform::OnDestroy()
+void dooms::Transform::OnDestroy()
 {
 	
 }
 
 
-bool doom::Transform::IsEntityMobilityStatic() const
+bool dooms::Transform::IsEntityMobilityStatic() const
 {
 	return GetOwnerEntity()->mEntityMobility != Entity::eEntityMobility::Static;
 }
 
-doom::Transform::Transform(): mLastFramePosition{ 0.0f }, mTransformCoreData()
+dooms::Transform::Transform(): mLastFramePosition{ 0.0f }, mTransformCoreData()
 {
 	// 			SetPosition(mPosition);
 	// 			SetRotation(mRotation);
 	// 			SetScale(mScale);
 }
 
-std::string doom::Transform::ToString()
+std::string dooms::Transform::ToString()
 {
 	std::stringstream sStream;
 	sStream << "Position : ";

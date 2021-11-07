@@ -5,7 +5,7 @@
 #include "../Graphics_Setting.h"
 #include <Vector4.h>
 
-namespace doom
+namespace dooms
 {
 	namespace graphics
 	{

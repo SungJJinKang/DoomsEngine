@@ -2,12 +2,12 @@
 
 #include "BulletComponent.h"
 
-void doom::FireBulletComponent::InitComponent()
+void dooms::FireBulletComponent::InitComponent()
 {
 	PlainComponent::InitComponent();
 }
 
-void doom::FireBulletComponent::UpdateComponent()
+void dooms::FireBulletComponent::UpdateComponent()
 {
 	PlainComponent::UpdateComponent();
 
@@ -15,13 +15,13 @@ void doom::FireBulletComponent::UpdateComponent()
 		mBullet != nullptr 
 		&&
 		(
-			doom::userinput::UserInput_Server::GetMouseButtonRelease(eMouse_Button_Type::MOUST_BUTTON_LEFT)
+			dooms::userinput::UserInput_Server::GetMouseButtonRelease(eMouse_Button_Type::MOUST_BUTTON_LEFT)
 			||
-			doom::userinput::UserInput_Server::GetKeyUp(eKEY_CODE::KEY_SPACE) == true
+			dooms::userinput::UserInput_Server::GetKeyUp(eKEY_CODE::KEY_SPACE) == true
 		)
 	)
 	{
-		Entity* const newBulletEntity = doom::Scene::DuplicateEntityStatic(mBullet->GetOwnerEntity());
+		Entity* const newBulletEntity = dooms::Scene::DuplicateEntityStatic(mBullet->GetOwnerEntity());
 		mBullet = newBulletEntity->GetComponent<BulletComponent>();
 		mBullet->GetTransform()->SetPosition(GetTransform()->GetPosition());
 		mBullet->GetTransform()->SetRotation(GetTransform()->GetRotation());

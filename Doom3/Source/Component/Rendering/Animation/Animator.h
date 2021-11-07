@@ -1,7 +1,7 @@
 #pragma once
 #include "Core/ServerComponent.h"
 
-namespace doom
+namespace dooms
 {
 	namespace graphics
 	{

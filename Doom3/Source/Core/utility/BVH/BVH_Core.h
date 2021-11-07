@@ -2,7 +2,7 @@
 
 #include <Core.h>
 
-namespace doom
+namespace dooms
 {
 	constexpr inline INT32 NULL_NODE_INDEX{ -1 };
 

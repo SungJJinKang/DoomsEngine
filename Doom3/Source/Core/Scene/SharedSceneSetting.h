@@ -6,11 +6,11 @@
 #include "Layer.h"
 #include "IWorldIndependent.h"
 
-namespace doom
+namespace dooms
 {
 	class DOOM_API SharedSceneSetting : public DObject, public ISingleton<SharedSceneSetting>, public I_IndependentFromScene
 	{
-		DOBJECT_CLASS_BODY(SharedSceneSetting, doom::eDOBJECT_ClassFlags::NonCopyable);
+		DOBJECT_CLASS_BODY(SharedSceneSetting, dooms::eDOBJECT_ClassFlags::NonCopyable);
 		DOBJECT_CLASS_BASE_CHAIN(DObject)
 
 	private:

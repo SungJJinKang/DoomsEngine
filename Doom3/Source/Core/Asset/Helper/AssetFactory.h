@@ -5,14 +5,14 @@
 #include "../Asset.h"
 #include <filesystem>
 
-namespace doom
+namespace dooms
 {
 	namespace asset
 	{
 		namespace AssetFactory
 		{
-			doom::asset::Asset* CreateNewAsset(const doom::asset::eAssetType eAssetType);
-			doom::asset::Asset* CreateNewAsset(const std::filesystem::path& path, const doom::asset::eAssetType eAssetType);
+			dooms::asset::Asset* CreateNewAsset(const dooms::asset::eAssetType eAssetType);
+			dooms::asset::Asset* CreateNewAsset(const std::filesystem::path& path, const dooms::asset::eAssetType eAssetType);
 		}
 	}
 }

@@ -5,27 +5,27 @@
 #include <IO/AssetExporter/AssetExporter_Texture.h>
 #include <Graphics/FrameBuffer/FrameBufferExporterHelper.h>
 
-void doom::ExportTextureTester::InitComponent()
+void dooms::ExportTextureTester::InitComponent()
 {
 	PlainComponent::InitComponent();
 }
 
-void doom::ExportTextureTester::UpdateComponent()
+void dooms::ExportTextureTester::UpdateComponent()
 {
 	PlainComponent::UpdateComponent();
 
-	if(doom::userinput::UserInput_Server::GetKeyUp(eKEY_CODE::KEY_F2))
+	if(dooms::userinput::UserInput_Server::GetKeyUp(eKEY_CODE::KEY_F2))
 	{
-		doom::ui::PrintText("Export Camera Texture");
+		dooms::ui::PrintText("Export Camera Texture");
 		
-		doom::graphics::SingleTexture* texture = 
-			doom::Camera::GetMainCamera()->mDefferedRenderingFrameBuffer.GetFrameBufferTexture
+		dooms::graphics::SingleTexture* texture = 
+			dooms::Camera::GetMainCamera()->mDefferedRenderingFrameBuffer.GetFrameBufferTexture
 			(
-				doom::graphics::GraphicsAPI::eBufferBitType::COLOR, 
+				dooms::graphics::GraphicsAPI::eBufferBitType::COLOR, 
 				0
 			);
 
-		doom::assetExporter::assetExporterTexture::ExportTextureFromTexture(
+		dooms::assetExporter::assetExporterTexture::ExportTextureFromTexture(
 			texture,
 			0,
 			std::filesystem::current_path(),
@@ -33,29 +33,29 @@ void doom::ExportTextureTester::UpdateComponent()
 		);
 	}
 
-	if (doom::userinput::UserInput_Server::GetKeyUp(eKEY_CODE::KEY_F3))
+	if (dooms::userinput::UserInput_Server::GetKeyUp(eKEY_CODE::KEY_F3))
 	{
-		doom::ui::PrintText("Export Camera Texture");
+		dooms::ui::PrintText("Export Camera Texture");
 
-		doom::graphics::SingleTexture* texture =
-			doom::Camera::GetMainCamera()->mDefferedRenderingFrameBuffer.GetFrameBufferTexture
+		dooms::graphics::SingleTexture* texture =
+			dooms::Camera::GetMainCamera()->mDefferedRenderingFrameBuffer.GetFrameBufferTexture
 			(
-				doom::graphics::GraphicsAPI::eBufferBitType::COLOR,
+				dooms::graphics::GraphicsAPI::eBufferBitType::COLOR,
 				0
 			);
 
-		doom::assetExporter::assetExporterTexture::ExportTextureFromTextureAsDDS(
+		dooms::assetExporter::assetExporterTexture::ExportTextureFromTextureAsDDS(
 			texture,
 			0,
 			std::filesystem::current_path()
 		);
 	}
 
-	if (doom::userinput::UserInput_Server::GetKeyUp(eKEY_CODE::KEY_F4))
+	if (dooms::userinput::UserInput_Server::GetKeyUp(eKEY_CODE::KEY_F4))
 	{
-		doom::ui::PrintText("Export Main FrameBuffer Texture");
+		dooms::ui::PrintText("Export Main FrameBuffer Texture");
 		
-		doom::graphics::FrameBufferExporterHelper::ExportMainFrameBufferColor
+		dooms::graphics::FrameBufferExporterHelper::ExportMainFrameBufferColor
 		(
 			std::filesystem::current_path(),
 			assetExporter::assetExporterTexture::eTextureExtension::PNG
@@ -63,11 +63,11 @@ void doom::ExportTextureTester::UpdateComponent()
 	}
 
 	
-	if (doom::userinput::UserInput_Server::GetKeyUp(eKEY_CODE::KEY_F5))
+	if (dooms::userinput::UserInput_Server::GetKeyUp(eKEY_CODE::KEY_F5))
 	{
-		doom::ui::PrintText("Export Main FrameBuffer Depth Texture");
+		dooms::ui::PrintText("Export Main FrameBuffer Depth Texture");
 		
-		doom::graphics::FrameBufferExporterHelper::ExportMainFrameBufferDepth
+		dooms::graphics::FrameBufferExporterHelper::ExportMainFrameBufferDepth
 		(
 			std::filesystem::current_path(),
 			assetExporter::assetExporterTexture::eTextureExtension::PNG

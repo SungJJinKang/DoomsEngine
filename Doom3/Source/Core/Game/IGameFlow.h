@@ -1,7 +1,7 @@
 #pragma once
 #include "../Core.h"
 #include "FrameDirtyChecker.h"
-namespace doom
+namespace dooms
 {
 	/// <summary>
 	/// Interface for In Game Loop
@@ -12,7 +12,7 @@ namespace doom
 	/// </summary>
 	class DOOM_API IGameFlow : public DObject, public FrameDirtyChecker
 	{
-		DOBJECT_ABSTRACT_CLASS_BODY(IGameFlow, doom::eDOBJECT_ClassFlags::NonCopyable);
+		DOBJECT_ABSTRACT_CLASS_BODY(IGameFlow, dooms::eDOBJECT_ClassFlags::NonCopyable);
 		DOBJECT_CLASS_BASE_CHAIN(DObject)
 
 	private:

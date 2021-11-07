@@ -8,12 +8,12 @@
 #include <Macros/Assert.h>
 
 
-namespace doom
+namespace dooms
 {
 	class DObject;
 }
 
-#define IS_DOBJECT_TYPE(TYPE) std::is_base_of_v<doom::DObject, TYPE>
+#define IS_DOBJECT_TYPE(TYPE) std::is_base_of_v<dooms::DObject, TYPE>
 
 #ifndef TYPE_ID_HASH_CODE
 
@@ -23,7 +23,7 @@ namespace doom
 
 /////////////////////////////////
 
-namespace doom
+namespace dooms
 {
 	enum eDOBJECT_ClassFlags : UINT32
 	{
@@ -36,7 +36,7 @@ namespace doom
 
 
 
-template<doom::eDOBJECT_ClassFlags...flags> struct flag_or {
+template<dooms::eDOBJECT_ClassFlags...flags> struct flag_or {
 	constexpr static UINT32 value = (static_cast<UINT32>(flags) | ...);
 };
 
@@ -59,9 +59,9 @@ template<doom::eDOBJECT_ClassFlags...flags> struct flag_or {
 
 #define _CREATE_DOBJECT(CLASS_TYPE)															\
 	public:																					\
-	NO_DISCARD static doom::DObject* CREATE_THIS_DOBJECT()								\
+	NO_DISCARD static dooms::DObject* CREATE_THIS_DOBJECT()								\
 	{																						\
-		doom::DObject* const newDObject = doom::CreateDObject<CLASS_TYPE>();				\
+		dooms::DObject* const newDObject = dooms::CreateDObject<CLASS_TYPE>();				\
 		D_ASSERT(newDObject != nullptr);													\
 		return newDObject;																	\
 	}																						\
@@ -77,7 +77,7 @@ template<doom::eDOBJECT_ClassFlags...flags> struct flag_or {
 		CLASS_TYPE* newObject = nullptr;													\
 		if constexpr( (CLASS_FLAGS_STATIC() & eDOBJECT_ClassFlags::NonCopyable) == false )	\
 		{																					\
-			newObject = doom::CreateDObject<CLASS_TYPE>(*this);								\
+			newObject = dooms::CreateDObject<CLASS_TYPE>(*this);								\
 		}																					\
 		D_ASSERT(newObject != nullptr);														\
 		return newObject;																	\
@@ -116,7 +116,7 @@ template<doom::eDOBJECT_ClassFlags...flags> struct flag_or {
 
 /////////////////////////////////
 
-namespace doom
+namespace dooms
 {
 	namespace details
 	{
@@ -127,7 +127,7 @@ namespace doom
 		static constexpr void BASE_CHAIN_HILLCLIMB_COUNT(size_t& base_chain_count)
 		{
 			base_chain_count++;
-			if constexpr (std::is_same_v<doom::DObject, BASE_DOBJECT_TYPE_CLASS> == false) {
+			if constexpr (std::is_same_v<dooms::DObject, BASE_DOBJECT_TYPE_CLASS> == false) {
 				BASE_CHAIN_HILLCLIMB_COUNT<typename BASE_DOBJECT_TYPE_CLASS::Base>(base_chain_count);
 			}
 		}
@@ -136,7 +136,7 @@ namespace doom
 		static constexpr size_t BASE_CHAIN_HILLCLIMB_COUNT()
 		{
 			size_t base_chain_count = 1;
-			if constexpr (std::is_same_v <doom::DObject, BASE_DOBJECT_TYPE_CLASS > == false) {
+			if constexpr (std::is_same_v <dooms::DObject, BASE_DOBJECT_TYPE_CLASS > == false) {
 				BASE_CHAIN_HILLCLIMB_COUNT<typename BASE_DOBJECT_TYPE_CLASS::Base>(base_chain_count);
 			}
 			return base_chain_count;
@@ -147,7 +147,7 @@ namespace doom
 		{
 			chain_data[count] = BASE_DOBJECT_TYPE_CLASS::__CLASS_TYPE_ID;
 			count++;
-			if constexpr (std::is_same_v<doom::DObject, BASE_DOBJECT_TYPE_CLASS> == false) {
+			if constexpr (std::is_same_v<dooms::DObject, BASE_DOBJECT_TYPE_CLASS> == false) {
 				BASE_CHAIN_HILLCLIMB_DATA<typename BASE_DOBJECT_TYPE_CLASS::Base>(count, chain_data);
 			}
 		}
@@ -157,7 +157,7 @@ namespace doom
 		{
 			std::array<const char*, COUNT> chain_data{};
 			chain_data[0] = BASE_DOBJECT_TYPE_CLASS::__CLASS_TYPE_ID;
-			if constexpr (std::is_same_v <doom::DObject, BASE_DOBJECT_TYPE_CLASS > == false) {
+			if constexpr (std::is_same_v <dooms::DObject, BASE_DOBJECT_TYPE_CLASS > == false) {
 				size_t count = 1;
 				BASE_CHAIN_HILLCLIMB_DATA<typename BASE_DOBJECT_TYPE_CLASS::Base>(count, chain_data);
 			}
@@ -184,7 +184,7 @@ namespace doom
 
 #define DOBJECT_ROOT_CLASS_BASE_CHAIN																	\
 private:																								\
-	constexpr static const doom::BaseChain _BASE_CHAIN{ 1, nullptr };									\
+	constexpr static const dooms::BaseChain _BASE_CHAIN{ 1, nullptr };									\
 public:																									\
 	NO_DISCARD FORCE_INLINE constexpr static size_t BASE_CHAIN_COUNT_STATIC() noexcept				\
 	{																									\
@@ -194,14 +194,14 @@ public:																									\
 	{																									\
 		return _BASE_CHAIN.mChainData;																	\
 	}																									\
-	NO_DISCARD FORCE_INLINE constexpr static const doom::BaseChain& BASE_CHAIN_STATIC() noexcept		\
+	NO_DISCARD FORCE_INLINE constexpr static const dooms::BaseChain& BASE_CHAIN_STATIC() noexcept		\
 	{																									\
 		return _BASE_CHAIN;																				\
 	}																									\
 	NO_DISCARD virtual size_t GetBaseChainCount() const noexcept { return _BASE_CHAIN.mChainCount; }	\
 	NO_DISCARD virtual const char* const * GetBaseChainData() const noexcept {						\
 	return _BASE_CHAIN.mChainData; }																	\
-	NO_DISCARD virtual const doom::BaseChain& GetBaseChain() const noexcept {						\
+	NO_DISCARD virtual const dooms::BaseChain& GetBaseChain() const noexcept {						\
 	return _BASE_CHAIN; }																				\
 
 #endif
@@ -210,14 +210,14 @@ public:																									\
 #ifndef DOBJECT_CLASS_BASE_CHAIN
 
 #define DOBJECT_CLASS_BASE_CHAIN(BASE_DOBJECT_TYPE_CLASS)													\
-	static_assert(std::is_base_of_v<doom::DObject, BASE_DOBJECT_TYPE_CLASS> == true);						\
+	static_assert(std::is_base_of_v<dooms::DObject, BASE_DOBJECT_TYPE_CLASS> == true);						\
 	static_assert(std::is_same_v<Current, BASE_DOBJECT_TYPE_CLASS> == false);								\
 	public:																									\
 	using Base = BASE_DOBJECT_TYPE_CLASS; /* alias Base DObject Type Class */								\
 	private:																								\
-    constexpr static size_t _BASE_CHAIN_COUNT = doom::details::BASE_CHAIN_HILLCLIMB_COUNT<Current>();		\
-    constexpr static const std::array<const char*, _BASE_CHAIN_COUNT> _BASE_CHAIN_DATA = doom::details::BASE_CHAIN_HILLCLIMB_DATA<Current, _BASE_CHAIN_COUNT>();	\
-	constexpr static const doom::BaseChain _BASE_CHAIN{ _BASE_CHAIN_COUNT, _BASE_CHAIN_DATA.data() };		\
+    constexpr static size_t _BASE_CHAIN_COUNT = dooms::details::BASE_CHAIN_HILLCLIMB_COUNT<Current>();		\
+    constexpr static const std::array<const char*, _BASE_CHAIN_COUNT> _BASE_CHAIN_DATA = dooms::details::BASE_CHAIN_HILLCLIMB_DATA<Current, _BASE_CHAIN_COUNT>();	\
+	constexpr static const dooms::BaseChain _BASE_CHAIN{ _BASE_CHAIN_COUNT, _BASE_CHAIN_DATA.data() };		\
 	public:																									\
 	NO_DISCARD FORCE_INLINE constexpr static size_t BASE_CHAIN_COUNT_STATIC() noexcept					\
 	{																										\
@@ -227,7 +227,7 @@ public:																									\
 	{																										\
 		return _BASE_CHAIN.mChainData;																		\
 	}																										\
-	NO_DISCARD FORCE_INLINE constexpr static const doom::BaseChain& BASE_CHAIN_STATIC()					\
+	NO_DISCARD FORCE_INLINE constexpr static const dooms::BaseChain& BASE_CHAIN_STATIC()					\
 	{																										\
 		return _BASE_CHAIN;																					\
 	}																										\
@@ -235,7 +235,7 @@ public:																									\
 	NO_DISCARD virtual const char* const * GetBaseChainData() const noexcept {							\
 	static_assert(std::is_base_of_v<BASE_DOBJECT_TYPE_CLASS, std::decay<decltype(*this)>::type> == true, "Current Class Type is not derived from Passed Base ClassType is passed");	\
 	return _BASE_CHAIN.mChainData; }																		\
-	NO_DISCARD virtual const doom::BaseChain& GetBaseChain() const noexcept {							\
+	NO_DISCARD virtual const dooms::BaseChain& GetBaseChain() const noexcept {							\
 	return _BASE_CHAIN; }																					\
 
 #endif
@@ -251,7 +251,7 @@ public:																									\
 #define CLASS_NAME_IMP(CLASS_TYPE)																						\
 		public:																											\
 		NO_DISCARD FORCE_INLINE constexpr static const char* CLASS_NAME_STATIC() noexcept {							\
-			/* doom::Renderer �̷������� Ÿ�� ������ �� ����ؾ��Ѵ�. ������ "::" ���� ���ڿ��� ����Ǿ���Ѵ�   */		\
+			/* dooms::Renderer �̷������� Ÿ�� ������ �� ����ؾ��Ѵ�. ������ "::" ���� ���ڿ��� ����Ǿ���Ѵ�   */		\
 			return __CLASS_TYPE_ID;																						\
 		}																												\
         NO_DISCARD virtual const char* GetClassName() const noexcept { return CLASS_TYPE::CLASS_NAME_STATIC(); }		
@@ -263,23 +263,23 @@ public:																									\
 
 #include "DClass.h"
 
-namespace doom
+namespace dooms
 {
 	namespace details
 	{
 		template <typename DOBJECT_TYPE>
-		extern ::doom::DClass CreateDClass()
+		extern ::dooms::DClass CreateDClass()
 		{
-			static_assert(std::is_base_of_v<doom::DObject, DOBJECT_TYPE> == true);
+			static_assert(std::is_base_of_v<dooms::DObject, DOBJECT_TYPE> == true);
 
-			doom::DObject* (*_CREATE_DOBJECT_FUNCTION_PTR) () = nullptr;
+			dooms::DObject* (*_CREATE_DOBJECT_FUNCTION_PTR) () = nullptr;
 
 			if constexpr(std::is_abstract_v<DOBJECT_TYPE> == false)
 			{
 				_CREATE_DOBJECT_FUNCTION_PTR = &DOBJECT_TYPE::CREATE_THIS_DOBJECT;
 			}
 
-			return ::doom::DClass(
+			return ::dooms::DClass(
 				sizeof(DOBJECT_TYPE),
 				DOBJECT_TYPE::CLASS_TYPE_ID_STATIC(),
 				DOBJECT_TYPE::BASE_CHAIN_COUNT_STATIC(),
@@ -299,12 +299,12 @@ namespace doom
 
 #define DCLASS_IMP(CLASS_TYPE)																			\
 		public :																						\
-		NO_DISCARD FORCE_INLINE static doom::DClass* StaticClass()									\
+		NO_DISCARD FORCE_INLINE static dooms::DClass* StaticClass()									\
 		{																								\
-			static doom::DClass _CLASS_DCLASS = doom::details::CreateDClass<CLASS_TYPE>();				\
+			static dooms::DClass _CLASS_DCLASS = dooms::details::CreateDClass<CLASS_TYPE>();				\
 			return &_CLASS_DCLASS;																		\
 		}																								\
-		NO_DISCARD virtual doom::DClass* GetDClass() const { return CLASS_TYPE::StaticClass(); }
+		NO_DISCARD virtual dooms::DClass* GetDClass() const { return CLASS_TYPE::StaticClass(); }
 
 #endif
 
@@ -338,7 +338,7 @@ namespace doom
 #ifndef DOBJECT_ABSTRACT_CLASS_BODY
 
 #define DOBJECT_ABSTRACT_CLASS_BODY(CLASS_TYPE, ...)								\
-		DOBJECT_BODY_UNIFORM(CLASS_TYPE, doom::eDOBJECT_ClassFlags::NonCopyable, doom::eDOBJECT_ClassFlags::NonMovable, doom::eDOBJECT_ClassFlags::IsAbstract, __VA_ARGS__)		\
+		DOBJECT_BODY_UNIFORM(CLASS_TYPE, dooms::eDOBJECT_ClassFlags::NonCopyable, dooms::eDOBJECT_ClassFlags::NonMovable, dooms::eDOBJECT_ClassFlags::IsAbstract, __VA_ARGS__)		\
 		_CLONE_ABSTRACT_DOBJECT(CLASS_TYPE)											\
 
 #endif

@@ -4,7 +4,7 @@
 
 #include "Asset.h"
 
-namespace doom
+namespace dooms
 {
 	namespace assetImporter
 	{
@@ -20,10 +20,10 @@ namespace doom
 	{
 		class DOOM_API ShaderAsset : public Asset
 		{
-			DOBJECT_CLASS_BODY(ShaderAsset, doom::eDOBJECT_ClassFlags::NonCopyable)
+			DOBJECT_CLASS_BODY(ShaderAsset, dooms::eDOBJECT_ClassFlags::NonCopyable)
 				DOBJECT_CLASS_BASE_CHAIN(Asset)
 
-			friend class ::doom::assetImporter::AssetImporterWorker_Shader;
+			friend class ::dooms::assetImporter::AssetImporterWorker_Shader;
 			
 		
 		public:
@@ -122,7 +122,7 @@ namespace doom
 			graphics::Material CreateMatrialWithThisShader();
 
 
-			virtual doom::asset::eAssetType GetEAssetType() const final;
+			virtual dooms::asset::eAssetType GetEAssetType() const final;
 		};
 		
 	}

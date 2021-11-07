@@ -8,7 +8,7 @@
 #include <Vector2.h>
 #include "PicktureInPickture.h"
 
-namespace doom
+namespace dooms
 {
 	namespace graphics
 	{
@@ -17,7 +17,7 @@ namespace doom
 		class PIPManager : public DObject, public ISingleton<PIPManager>
 		{
 
-			DOBJECT_CLASS_BODY(PIPManager, doom::eDOBJECT_ClassFlags::NonCopyable);
+			DOBJECT_CLASS_BODY(PIPManager, dooms::eDOBJECT_ClassFlags::NonCopyable);
 			DOBJECT_CLASS_BASE_CHAIN(DObject)
 
 		private:

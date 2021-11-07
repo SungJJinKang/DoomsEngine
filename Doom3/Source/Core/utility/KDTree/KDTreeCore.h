@@ -4,7 +4,7 @@
 
 constexpr inline INT32 NULL_NODE_INDEX{ -1 };
 
-namespace doom
+namespace dooms
 {
 	template <typename T>
 	class KDTree;

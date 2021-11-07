@@ -3,7 +3,7 @@
 
 #include <Core.h>
 
-namespace doom
+namespace dooms
 {
 	namespace random
 	{
@@ -28,5 +28,5 @@ namespace doom
 	
 }
 
-using namespace doom::random;
+using namespace dooms::random;
 

@@ -4,7 +4,7 @@
 #include "Graphics_Setting.h"
 #include "UI/PrintText.h"
 
-void doom::graphics::GraphicsAPIManager::Initialize()
+void dooms::graphics::GraphicsAPIManager::Initialize()
 {
 	glfwInit();
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4); // 4.5 -> MAJOR 4  MINOR 5 , 3.1 -> MAJOR 3  MINOR 1
@@ -107,7 +107,7 @@ void doom::graphics::GraphicsAPIManager::Initialize()
 	D_ASSERT(maxTextureUnitCount != 0);
 }
 
-void doom::graphics::GraphicsAPIManager::DEBUG_CALLBACK(GLenum source, GLenum type, GLuint id, GLenum severity, GLsizei length, const GLchar* msg, const void* data)
+void dooms::graphics::GraphicsAPIManager::DEBUG_CALLBACK(GLenum source, GLenum type, GLuint id, GLenum severity, GLsizei length, const GLchar* msg, const void* data)
 {
 	//https://www.khronos.org/registry/OpenGL/extensions/KHR/KHR_debug.txt
 	if (type == 0x824C || type == 0x824E)
@@ -117,7 +117,7 @@ void doom::graphics::GraphicsAPIManager::DEBUG_CALLBACK(GLenum source, GLenum ty
 	}
 }
 
-void doom::graphics::GraphicsAPIManager::SwapBuffer()
+void dooms::graphics::GraphicsAPIManager::SwapBuffer()
 {
 	D_ASSERT(Graphics_Setting::GetWindow() != nullptr);
 	glfwSwapBuffers(Graphics_Setting::GetWindow());
@@ -125,7 +125,7 @@ void doom::graphics::GraphicsAPIManager::SwapBuffer()
 	RESET_DRAWCALL_COUNTER;
 }
 
-void doom::graphics::GraphicsAPIManager::SetWindowTitle(const char* const title)
+void dooms::graphics::GraphicsAPIManager::SetWindowTitle(const char* const title)
 {
 	D_ASSERT(Graphics_Setting::GetWindow() != nullptr);
 	glfwSetWindowTitle(Graphics_Setting::GetWindow(), title);

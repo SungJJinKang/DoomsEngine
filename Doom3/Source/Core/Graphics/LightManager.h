@@ -3,7 +3,7 @@
 #include <Core.h>
 #include "Buffer/UniformBufferObjectUpdater.h"
 
-namespace doom
+namespace dooms
 {
 	namespace graphics
 	{

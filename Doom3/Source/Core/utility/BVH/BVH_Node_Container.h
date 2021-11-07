@@ -3,7 +3,7 @@
 #include "BVH_Core.h"
 #include "BVH_Node_View.h"
 
-namespace doom
+namespace dooms
 {
 	namespace physics
 	{
@@ -28,7 +28,7 @@ namespace doom
 
 		
 
-		void InsertBVHLeafNode(BVH<ColliderType>& BVH, const ColliderType& Collider, doom::physics::Collider* collider);
+		void InsertBVHLeafNode(BVH<ColliderType>& BVH, const ColliderType& Collider, dooms::physics::Collider* collider);
 
 		/// <summary>
 		/// UpdateBVH_Node(const typename ColliderType::component_type& movedVector) is recommended than this function
@@ -58,11 +58,11 @@ namespace doom
 
 
 
-	//using BVH_Node_Container2D = typename BVH_Node_Container<doom::physics::AABB2D>;
-	using BVH_Node_Container3D = typename BVH_Node_Container<doom::physics::AABB3D>;
-	using BVH_Node_ContainerSphere = typename BVH_Node_Container<doom::physics::Sphere>;
+	//using BVH_Node_Container2D = typename BVH_Node_Container<dooms::physics::AABB2D>;
+	using BVH_Node_Container3D = typename BVH_Node_Container<dooms::physics::AABB3D>;
+	using BVH_Node_ContainerSphere = typename BVH_Node_Container<dooms::physics::Sphere>;
 
-	//extern template class BVH_Node_Container<doom::physics::AABB2D>;
-	extern template class BVH_Node_Container<doom::physics::AABB3D>;
-	extern template class BVH_Node_Container<doom::physics::Sphere>;
+	//extern template class BVH_Node_Container<dooms::physics::AABB2D>;
+	extern template class BVH_Node_Container<dooms::physics::AABB3D>;
+	extern template class BVH_Node_Container<dooms::physics::Sphere>;
 }

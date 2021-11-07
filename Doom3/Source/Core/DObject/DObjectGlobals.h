@@ -12,7 +12,7 @@
 #define REMOVE_POINTER_T(POINTER_TYPE) std::remove_pointer_t<POINTER_TYPE>
 #define IS_POINTER_TYPE(POINTER_TYPE) std::is_pointer_v<POINTER_TYPE>
 
-namespace doom
+namespace dooms
 {
 
 
@@ -25,7 +25,7 @@ namespace doom
 		DObjectType* newDObject = new DObjectType(std::forward<Args>(args)...);
 
 		DObjectContructorParams params(dObjectConstructorParams);
-		params.DObjectFlag |= doom::eDObjectFlag::NewAllocated;
+		params.DObjectFlag |= dooms::eDObjectFlag::NewAllocated;
 
 		static_cast<DObject*>(newDObject)->InitProperties(params);
 
@@ -41,7 +41,7 @@ namespace doom
 		DObjectType* newDObject = new DObjectType(std::forward<Args>(args)...);
 
 		DObjectContructorParams params{};
-		params.DObjectFlag |= doom::eDObjectFlag::NewAllocated;
+		params.DObjectFlag |= dooms::eDObjectFlag::NewAllocated;
 
 		static_cast<DObject*>(newDObject)->InitProperties(params);
 
@@ -50,7 +50,7 @@ namespace doom
 
 	FORCE_INLINE bool IsValid(const DObject* const dObject)
 	{
-		return doom::DObjectManager::IsDObjectValid(dObject);
+		return dooms::DObjectManager::IsDObjectValid(dObject);
 	}
 
 #define CASTING_STATIC_ASSERT(CASTING_TYPE)																													\

@@ -3,7 +3,7 @@
 #include <Graphics/PictureInPicture/PicktureInPickture.h>
 #include "Rendering/Camera.h"
 
-void doom::DeferredRenderingDebuggerController::InitComponent()
+void dooms::DeferredRenderingDebuggerController::InitComponent()
 {
 	
 
@@ -11,21 +11,21 @@ void doom::DeferredRenderingDebuggerController::InitComponent()
 
 }
 
-void doom::DeferredRenderingDebuggerController::InitDeferredRenderingDebuggerPIP()
+void dooms::DeferredRenderingDebuggerController::InitDeferredRenderingDebuggerPIP()
 {
-	if (doom::Camera::GetMainCamera() != nullptr)
+	if (dooms::Camera::GetMainCamera() != nullptr)
 	{
 
-		mDeferredRenderingDebuggerPIPs[0] = doom::graphics::PIPManager::GetSingleton()->AddNewPIP({ -1.0f, -1.0f }, { -0.6f, -0.6f }, doom::Camera::GetMainCamera()->mDefferedRenderingFrameBuffer.GetFrameBufferTexture(doom::graphics::GraphicsAPI::eBufferBitType::COLOR, 0));
-		mDeferredRenderingDebuggerPIPs[1] = doom::graphics::PIPManager::GetSingleton()->AddNewPIP({ -0.6f, -1.0f }, { -0.2f, -0.6f }, doom::Camera::GetMainCamera()->mDefferedRenderingFrameBuffer.GetFrameBufferTexture(doom::graphics::GraphicsAPI::eBufferBitType::COLOR, 1));
-		mDeferredRenderingDebuggerPIPs[2] = doom::graphics::PIPManager::GetSingleton()->AddNewPIP({ -0.2f, -1.0f }, { 0.2f, -0.6f }, doom::Camera::GetMainCamera()->mDefferedRenderingFrameBuffer.GetFrameBufferTexture(doom::graphics::GraphicsAPI::eBufferBitType::COLOR, 2));
-		doom::graphics::PicktureInPickture* depthTexturePIP = doom::graphics::PIPManager::GetSingleton()->AddNewPIP({ 0.2f, -1.0f }, { 0.6f, -0.6f }, doom::Camera::GetMainCamera()->mDefferedRenderingFrameBuffer.GetFrameBufferTexture(doom::graphics::GraphicsAPI::eBufferBitType::DEPTH, 0));
+		mDeferredRenderingDebuggerPIPs[0] = dooms::graphics::PIPManager::GetSingleton()->AddNewPIP({ -1.0f, -1.0f }, { -0.6f, -0.6f }, dooms::Camera::GetMainCamera()->mDefferedRenderingFrameBuffer.GetFrameBufferTexture(dooms::graphics::GraphicsAPI::eBufferBitType::COLOR, 0));
+		mDeferredRenderingDebuggerPIPs[1] = dooms::graphics::PIPManager::GetSingleton()->AddNewPIP({ -0.6f, -1.0f }, { -0.2f, -0.6f }, dooms::Camera::GetMainCamera()->mDefferedRenderingFrameBuffer.GetFrameBufferTexture(dooms::graphics::GraphicsAPI::eBufferBitType::COLOR, 1));
+		mDeferredRenderingDebuggerPIPs[2] = dooms::graphics::PIPManager::GetSingleton()->AddNewPIP({ -0.2f, -1.0f }, { 0.2f, -0.6f }, dooms::Camera::GetMainCamera()->mDefferedRenderingFrameBuffer.GetFrameBufferTexture(dooms::graphics::GraphicsAPI::eBufferBitType::COLOR, 2));
+		dooms::graphics::PicktureInPickture* depthTexturePIP = dooms::graphics::PIPManager::GetSingleton()->AddNewPIP({ 0.2f, -1.0f }, { 0.6f, -0.6f }, dooms::Camera::GetMainCamera()->mDefferedRenderingFrameBuffer.GetFrameBufferTexture(dooms::graphics::GraphicsAPI::eBufferBitType::DEPTH, 0));
 		mDeferredRenderingDebuggerPIPs[3] = depthTexturePIP;
 
 		if (depthTexturePIP != nullptr)
 		{
-			doom::asset::ShaderAsset* const depthTextureShader = doom::assetImporter::AssetManager::GetSingleton()->GetAsset<asset::eAssetType::SHADER>("DepthBufferTextureShader.glsl");
-			graphics::Material* const depthMaterial = doom::CreateDObject<graphics::Material>(depthTextureShader);
+			dooms::asset::ShaderAsset* const depthTextureShader = dooms::assetImporter::AssetManager::GetSingleton()->GetAsset<asset::eAssetType::SHADER>("DepthBufferTextureShader.glsl");
+			graphics::Material* const depthMaterial = dooms::CreateDObject<graphics::Material>(depthTextureShader);
 			//depthMaterial->SetShaderAsset(depthTextureShader);
 			depthTexturePIP->SetMaterial(depthMaterial);
 		}
@@ -34,10 +34,10 @@ void doom::DeferredRenderingDebuggerController::InitDeferredRenderingDebuggerPIP
 
 }
 
-void doom::DeferredRenderingDebuggerController::UpdateComponent()
+void dooms::DeferredRenderingDebuggerController::UpdateComponent()
 {
 
-	if (doom::userinput::UserInput_Server::GetKeyUp(doom::userinput::eKEY_CODE::KEY_F3))
+	if (dooms::userinput::UserInput_Server::GetKeyUp(dooms::userinput::eKEY_CODE::KEY_F3))
 	{
 		for (auto pip : mDeferredRenderingDebuggerPIPs)
 		{
@@ -51,7 +51,7 @@ void doom::DeferredRenderingDebuggerController::UpdateComponent()
 
 }
 
-void doom::DeferredRenderingDebuggerController::OnEndOfFrame_Component()
+void dooms::DeferredRenderingDebuggerController::OnEndOfFrame_Component()
 {
 
 }

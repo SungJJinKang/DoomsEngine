@@ -2,16 +2,16 @@
 
 #include "MainTimer.h"
 
-void doom::time::Time_Server::Init() noexcept
+void dooms::time::Time_Server::Init() noexcept
 {
 	MainTimer::InitTimer();
 }
 
-void doom::time::Time_Server::Update() noexcept
+void dooms::time::Time_Server::Update() noexcept
 {
 }
 
-void doom::time::Time_Server::OnEndOfFrame() noexcept
+void dooms::time::Time_Server::OnEndOfFrame() noexcept
 {
 	
 }
