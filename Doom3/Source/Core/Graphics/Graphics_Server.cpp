@@ -18,7 +18,7 @@
 
 #include "Acceleration/LinearData_ViewFrustumCulling/EveryCulling.h"
 
-#include "GraphicsAPIManager.h"
+#include "graphicsAPIManager.h"
 #include "Graphics_Setting.h"
 #include "MainTimer.h"
 
@@ -33,7 +33,7 @@ using namespace dooms::graphics;
 void Graphics_Server::Init()
 {
 	Graphics_Setting::LoadData();
-	GraphicsAPIManager::Initialize();
+	graphicsAPIManager::Initialize();
 
 	mCullingSystem = std::make_unique<culling::EveryCulling>(Graphics_Setting::GetScreenWidth(), Graphics_Setting::GetScreenHeight());
 
@@ -89,14 +89,14 @@ void Graphics_Server::OnEndOfFrame()
 	mDebugGraphics.Reset();
 #endif
 
-	GraphicsAPIManager::SwapBuffer();
+	graphicsAPIManager::SwapBuffer();
 }
 
 void dooms::graphics::Graphics_Server::Renderder_InitComponent()
 {
 	for (UINT32 layerIndex = 0; layerIndex < MAX_LAYER_COUNT; layerIndex++)
 	{
-		const std::vector<Renderer*>& renderersInLayer = RendererComponentStaticIterator::GetWorkingRendererInLayer(0, layerIndex);
+		const std::vector<Renderer*>& renderersInLayer = RendererComponentStaticIterator::GetSingleton()->GetWorkingRendererInLayer(0, layerIndex);
 		for (size_t rendererIndex = 0; rendererIndex < renderersInLayer.size(); rendererIndex++)
 		{
 			//renderersInLayer[rendererIndex]->InitComponent_Internal();
@@ -109,7 +109,7 @@ void dooms::graphics::Graphics_Server::Renderder_UpdateComponent()
 {
 	for (UINT32 layerIndex = 0; layerIndex < MAX_LAYER_COUNT; layerIndex++)
 	{
-		const std::vector<Renderer*>& renderersInLayer = RendererComponentStaticIterator::GetWorkingRendererInLayer(0, layerIndex);
+		const std::vector<Renderer*>& renderersInLayer = RendererComponentStaticIterator::GetSingleton()->GetWorkingRendererInLayer(0, layerIndex);
 		for (size_t rendererIndex = 0; rendererIndex < renderersInLayer.size(); rendererIndex++)
 		{
 			renderersInLayer[rendererIndex]->UpdateComponent_Internal();
@@ -122,7 +122,7 @@ void dooms::graphics::Graphics_Server::Renderder_OnEndOfFrameComponent()
 {
 	for (UINT32 layerIndex = 0; layerIndex < MAX_LAYER_COUNT; layerIndex++)
 	{
-		const std::vector<Renderer*>& renderersInLayer = RendererComponentStaticIterator::GetWorkingRendererInLayer(0, layerIndex);
+		const std::vector<Renderer*>& renderersInLayer = RendererComponentStaticIterator::GetSingleton()->GetWorkingRendererInLayer(0, layerIndex);
 		for (size_t rendererIndex = 0; rendererIndex < renderersInLayer.size(); rendererIndex++)
 		{
 			renderersInLayer[rendererIndex]->OnEndOfFrame_Component_Internal();
@@ -140,7 +140,7 @@ Graphics_Server::Graphics_Server()
 
 Graphics_Server::~Graphics_Server()
 {
-	GraphicsAPIManager::DeInitialize();
+	graphicsAPIManager::DeInitialize();
 }
 
 
@@ -299,7 +299,7 @@ void dooms::graphics::Graphics_Server::RenderObject(dooms::Camera* const targetC
 	const bool targetCamera_IS_CULLED_flag_on = targetCamera->GetCameraFlag(dooms::eCameraFlag::IS_CULLED);
 	for (UINT32 layerIndex = 0; layerIndex < MAX_LAYER_COUNT; layerIndex++)
 	{
-		const std::vector<Renderer*>& renderersInLayer = RendererComponentStaticIterator::GetWorkingRendererInLayer(cameraIndex, layerIndex);
+		const std::vector<Renderer*>& renderersInLayer = RendererComponentStaticIterator::GetSingleton()->GetWorkingRendererInLayer(cameraIndex, layerIndex);
 		for (Renderer* renderer : renderersInLayer)
 		{
 			if (

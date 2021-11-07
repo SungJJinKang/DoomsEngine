@@ -20,7 +20,7 @@ void dooms::Renderer::SetRenderingFlag(const eRenderingFlag flag, const bool isS
 
 void dooms::Renderer::InitComponent()
 {
-	RendererComponentStaticIterator::AddRendererToStaticContainer();
+	RendererComponentStaticIterator::GetSingleton()->AddRendererToStaticContainer(this);
 
 	mEntityBlockViewer = graphics::Graphics_Server::GetSingleton()->mCullingSystem->AllocateNewEntity(this, GetTransform());
 
@@ -42,9 +42,11 @@ const math::Matrix4x4& dooms::Renderer::GetModelMatrix()
 void dooms::Renderer::OnDestroy()
 {
 	graphics::Graphics_Server::GetSingleton()->mCullingSystem->RemoveEntityFromBlock(mEntityBlockViewer);
+
+	RendererComponentStaticIterator::GetSingleton()->RemoveRendererToStaticContainer(this);
 }
 
-dooms::Renderer::Renderer() : ServerComponent(), StaticContainer(), mTargetMaterial{}
+dooms::Renderer::Renderer() : ServerComponent(), mTargetMaterial{}
 {
 
 }

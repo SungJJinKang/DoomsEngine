@@ -108,6 +108,8 @@ namespace dooms
 		{
 			return StaticContainer<T>::mElements.size();
 		}
+		
+	public:
 
 		StaticContainer()
 			: mComponentStaticIndex(INVALID_STATIC_CONTAINER_INDEX)
@@ -143,8 +145,6 @@ namespace dooms
 			container.mComponentStaticIndex = INVALID_STATIC_CONTAINER_INDEX;
 			return *this;
 		}
-
-	public:
 
 		/// <summary>
 		/// 

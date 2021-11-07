@@ -17,7 +17,7 @@
 #include "TestComponent.h"
 #include "Graphics/LightManager.h"
 #include "Graphics/Graphics_Setting.h"
-#include "Graphics/GraphicsAPIManager.h"
+#include "Graphics/graphicsAPIManager.h"
 #include "Portfolio/DeferredRenderingDebuggerController.h"
 #include "Portfolio/OverDrawVisualizationDebugger.h"
 #include "Portfolio/PhysicsDebuggerController.h"
@@ -212,7 +212,7 @@ void dooms::GameLogicStartPoint::StartGameLogic()
 	}
 
 	
-	dooms::graphics::GraphicsAPIManager::SetWindowTitle(
+	dooms::graphics::graphicsAPIManager::SetWindowTitle(
 		u8"F3 : ���۵巻���� ����� ON/OFF | F4 : ��Ƽ������ ���������� �ø� ON/OFF | F5 : ������Ʈ FRONT TO BACK ON / OFF | F6 : ������ο� ����� ON / OFF | F7 : �浹 ó�� ����� ON / OFF"
 	);
 

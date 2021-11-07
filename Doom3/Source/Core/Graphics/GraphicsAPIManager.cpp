@@ -1,10 +1,10 @@
-#include "GraphicsAPIManager.h"
+#include "graphicsAPIManager.h"
 
 #include "Graphics_Server.h"
 #include "Graphics_Setting.h"
 #include "UI/PrintText.h"
 
-void dooms::graphics::GraphicsAPIManager::Initialize()
+void dooms::graphics::graphicsAPIManager::Initialize()
 {
 	glfwInit();
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4); // 4.5 -> MAJOR 4  MINOR 5 , 3.1 -> MAJOR 3  MINOR 1
@@ -99,7 +99,7 @@ void dooms::graphics::GraphicsAPIManager::Initialize()
 	GraphicsAPI::Enable(GraphicsAPI::eCapability::DEBUG_OUTPUT);
 	GraphicsAPI::Enable(GraphicsAPI::eCapability::DEBUG_OUTPUT_SYNCHRONOUS);
 
-	glDebugMessageCallback(GraphicsAPIManager::DEBUG_CALLBACK, NULL);
+	glDebugMessageCallback(graphicsAPIManager::DEBUG_CALLBACK, NULL);
 #endif
 
 	INT32 maxTextureUnitCount{ 0 };
@@ -107,7 +107,7 @@ void dooms::graphics::GraphicsAPIManager::Initialize()
 	D_ASSERT(maxTextureUnitCount != 0);
 }
 
-void dooms::graphics::GraphicsAPIManager::DeInitialize()
+void dooms::graphics::graphicsAPIManager::DeInitialize()
 {
 	if(Graphics_Setting::GetWindow() != nullptr)
 	{
@@ -116,7 +116,7 @@ void dooms::graphics::GraphicsAPIManager::DeInitialize()
 	glfwTerminate();
 }
 
-void dooms::graphics::GraphicsAPIManager::DEBUG_CALLBACK(GLenum source, GLenum type, GLuint id, GLenum severity, GLsizei length, const GLchar* msg, const void* data)
+void dooms::graphics::graphicsAPIManager::DEBUG_CALLBACK(GLenum source, GLenum type, GLuint id, GLenum severity, GLsizei length, const GLchar* msg, const void* data)
 {
 	//https://www.khronos.org/registry/OpenGL/extensions/KHR/KHR_debug.txt
 	if (type == 0x824C || type == 0x824E)
@@ -126,7 +126,7 @@ void dooms::graphics::GraphicsAPIManager::DEBUG_CALLBACK(GLenum source, GLenum t
 	}
 }
 
-void dooms::graphics::GraphicsAPIManager::SwapBuffer()
+void dooms::graphics::graphicsAPIManager::SwapBuffer()
 {
 	D_ASSERT(Graphics_Setting::GetWindow() != nullptr);
 	glfwSwapBuffers(Graphics_Setting::GetWindow());
@@ -134,7 +134,7 @@ void dooms::graphics::GraphicsAPIManager::SwapBuffer()
 	RESET_DRAWCALL_COUNTER;
 }
 
-void dooms::graphics::GraphicsAPIManager::SetWindowTitle(const char* const title)
+void dooms::graphics::graphicsAPIManager::SetWindowTitle(const char* const title)
 {
 	D_ASSERT(Graphics_Setting::GetWindow() != nullptr);
 	glfwSetWindowTitle(Graphics_Setting::GetWindow(), title);

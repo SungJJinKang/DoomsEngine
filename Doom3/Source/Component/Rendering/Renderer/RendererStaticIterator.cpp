@@ -6,67 +6,35 @@
 
 using namespace dooms;
 
-dooms::StaticContainer<Renderer>::StaticContainer() : mRenderer_ptr{ nullptr }
+
+void dooms::StaticContainer<Renderer>::AddRendererToStaticContainer(Renderer* const renderer)
 {
-	//AddRendererToStaticContainer(); at contructor, entity is not set
-}
-
-dooms::StaticContainer<Renderer>::~StaticContainer()
-{
-	RemoveRendererToStaticContainer();
-}
-
-StaticContainer<Renderer>::StaticContainer(const StaticContainer&) : mRenderer_ptr{ nullptr }
-{
-}
-
-StaticContainer<Renderer>& StaticContainer<Renderer>::operator=(const StaticContainer&)
-{
-	mRenderer_ptr = nullptr;
-	return *this;
-}
-
-StaticContainer<Renderer>::StaticContainer(StaticContainer&&) noexcept : mRenderer_ptr{ nullptr }
-{
-}
-
-StaticContainer<Renderer>& StaticContainer<Renderer>::operator=(StaticContainer&&) noexcept
-{
-	mRenderer_ptr = nullptr;
-	return *this;
-}
-
-
-void dooms::StaticContainer<Renderer>::AddRendererToStaticContainer()
-{
-	mRenderer_ptr = static_cast<Renderer*>(this);
-
-	const size_t currentEntityLayerIndex = mRenderer_ptr->GetOwnerEntityLayerIndex();
+	const size_t currentEntityLayerIndex = renderer->GetOwnerEntityLayerIndex();
 
 	for(size_t cameraIndex = 0 ; cameraIndex < MAX_CAMERA_COUNT ; cameraIndex++)
 	{
-		GetWorkingRendererInLayer(cameraIndex, currentEntityLayerIndex).push_back(mRenderer_ptr);
-		GetSortingRendererInLayer(cameraIndex, currentEntityLayerIndex).push_back(mRenderer_ptr);
+		GetWorkingRendererInLayer(cameraIndex, currentEntityLayerIndex).push_back(renderer);
+		GetSortingRendererInLayer(cameraIndex, currentEntityLayerIndex).push_back(renderer);
 	}
 
 }
 
 
-void dooms::StaticContainer<Renderer>::RemoveRendererToStaticContainer()
+void dooms::StaticContainer<Renderer>::RemoveRendererToStaticContainer(const Renderer* const renderer)
 {
-	UINT32 currentEntityLayerIndex = mRenderer_ptr->GetOwnerEntityLayerIndex();
+	UINT32 currentEntityLayerIndex = renderer->GetOwnerEntityLayerIndex();
 
 	for (size_t cameraIndex = 0; cameraIndex < MAX_CAMERA_COUNT; cameraIndex++)
 	{
 		std::vector<Renderer*>& workingRendererInLayer = GetWorkingRendererInLayer(cameraIndex, currentEntityLayerIndex);
-		auto workingIter = std::find(workingRendererInLayer.begin(), workingRendererInLayer.end(), mRenderer_ptr);
+		auto workingIter = std::find(workingRendererInLayer.begin(), workingRendererInLayer.end(), renderer);
 		if (workingIter != workingRendererInLayer.end())
 		{
 			std::vector_swap_popback(workingRendererInLayer, workingIter);
 		}
 
 		std::vector<Renderer*>& sortingRendererInLayer = GetSortingRendererInLayer(cameraIndex, currentEntityLayerIndex);
-		auto referenceIter = std::find(sortingRendererInLayer.begin(), sortingRendererInLayer.end(), mRenderer_ptr);
+		auto referenceIter = std::find(sortingRendererInLayer.begin(), sortingRendererInLayer.end(), renderer);
 		if (referenceIter != sortingRendererInLayer.end())
 		{
 			std::vector_swap_popback(sortingRendererInLayer, referenceIter);
@@ -76,10 +44,10 @@ void dooms::StaticContainer<Renderer>::RemoveRendererToStaticContainer()
 
 
 // TODO : Add this to Entity's EntityLayerChanged Callback
-void dooms::StaticContainer<Renderer>::OnEntityLayerChanged(Entity& entity)
+void dooms::StaticContainer<Renderer>::OnEntityLayerChanged(Renderer* const renderer)
 {
-	RemoveRendererToStaticContainer();
-	AddRendererToStaticContainer();
+	RemoveRendererToStaticContainer(renderer);
+	AddRendererToStaticContainer(renderer);
 }
 
 std::vector<Renderer*>& dooms::StaticContainer<Renderer>::GetWorkingRendererInLayer(const size_t cameraIndex, const size_t layerIndex)

@@ -6,7 +6,7 @@ namespace dooms
 {
 	namespace graphics
 	{
-		namespace GraphicsAPIManager
+		namespace graphicsAPIManager
 		{
 			void Initialize();
 			void DeInitialize();

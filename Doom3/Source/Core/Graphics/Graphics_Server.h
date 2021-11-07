@@ -12,6 +12,8 @@
 
 #include "DebugGraphics/DebugDrawer.h"
 
+#include <Rendering/Renderer/RendererStaticIterator.h>
+
 
 
 
@@ -51,6 +53,7 @@ namespace dooms
 
 		private:
 
+			StaticContainer<Renderer> mRendererStaticContainer{};
 			DeferredRenderingDrawer mDeferredRenderingDrawer{};
 			
 			//CullDistance mCullDistance{};
