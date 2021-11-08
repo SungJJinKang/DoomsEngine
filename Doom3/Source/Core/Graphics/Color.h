@@ -23,7 +23,7 @@ namespace dooms
 		D_PROPERTY()
 		inline constexpr extern UINT32 ENUM_COLOR_COUNT = 5;
 
-		class D_CLASS Color
+		class DOOM_API D_CLASS Color
 		{
 		public:
 

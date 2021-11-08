@@ -12,7 +12,7 @@ namespace dooms
 	{
 		
 
-		class DeferredRenderingDrawer : public DObject
+		class DOOM_API D_CLASS DeferredRenderingDrawer : public DObject
 		{
 			DOBJECT_CLASS_BODY(DeferredRenderingDrawer, dooms::eDOBJECT_ClassFlags::NonCopyable);
 			DOBJECT_CLASS_BASE_CHAIN(DObject)

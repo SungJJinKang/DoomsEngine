@@ -10,7 +10,7 @@ namespace dooms
 {
 	namespace userinput
 	{
-		enum class eKEY_CODE : INT32
+		enum class D_ENUM eKEY_CODE : INT32
 		{
 			ERROR_CODE = -1,
 			KEY_SPACE = GLFW_KEY_SPACE,

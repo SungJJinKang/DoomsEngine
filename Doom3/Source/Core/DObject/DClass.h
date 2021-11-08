@@ -5,14 +5,26 @@
 namespace dooms
 {
 	class DObject;
-	struct DClass /*: public dooms::DObject*/ // Dont Do this
+	struct DOOM_API D_STRUCT DClass /*: public dooms::DObject*/ // Dont Do this
 	{
+		D_PROPERTY()
 		const size_t CLASS_TYPE_SIZE;
+
+		D_PROPERTY()
 		const char* const CLASS_TYPE_ID;
+
+		D_PROPERTY()
 		const size_t BASE_CHAIN_COUNT;
+
+		D_PROPERTY()
 		const char* const* const BASE_CHAIN_DATA;
+
+		D_PROPERTY()
 		const char* const CLASS_NAME;
+
+		D_PROPERTY()
 		const UINT32 CLASS_FLAGS;
+		
 		dooms::DObject* (*const CREATE_DOBJECT_FUNCTION_PTR) () ;
 
 		/*

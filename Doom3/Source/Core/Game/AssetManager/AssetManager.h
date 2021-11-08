@@ -17,7 +17,7 @@ namespace dooms
 {
 	namespace assetImporter
 	{
-		class DOOM_API AssetManager : public IGameFlow, public ISingleton<AssetManager>
+		class DOOM_API D_CLASS AssetManager : public IGameFlow, public ISingleton<AssetManager>
 		{
 
 			DOBJECT_CLASS_BODY(AssetManager, dooms::eDOBJECT_ClassFlags::NonCopyable);

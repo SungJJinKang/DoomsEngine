@@ -16,7 +16,7 @@ namespace dooms
 
 	namespace assetImporter
 	{
-		class DOOM_API AssetImporterWorker : public DObject
+		class DOOM_API D_CLASS AssetImporterWorker : public DObject
 		{
 			DOBJECT_ABSTRACT_CLASS_BODY(AssetImporterWorker);
 			DOBJECT_CLASS_BASE_CHAIN(DObject)

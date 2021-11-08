@@ -10,7 +10,7 @@ namespace dooms
 	/// 
 	/// WARNING : Be careful virtual function would be shadowed by children class
 	/// </summary>
-	class DOOM_API IGameFlow : public DObject, public FrameDirtyChecker
+	class DOOM_API D_CLASS IGameFlow : public DObject, public FrameDirtyChecker
 	{
 		DOBJECT_ABSTRACT_CLASS_BODY(IGameFlow, dooms::eDOBJECT_ClassFlags::NonCopyable);
 		DOBJECT_CLASS_BASE_CHAIN(DObject)

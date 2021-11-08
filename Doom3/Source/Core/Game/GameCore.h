@@ -23,7 +23,7 @@ namespace dooms
 
 	class IGameFlow;
 
-	class GameCore : public IGameFlow, public ISingleton<GameCore>
+	class DOOM_API D_CLASS GameCore : public IGameFlow, public ISingleton<GameCore>
 	{
 		DOBJECT_CLASS_BODY(GameCore, dooms::eDOBJECT_ClassFlags::NonCopyable);
 		DOBJECT_CLASS_BASE_CHAIN(IGameFlow)
@@ -32,13 +32,22 @@ namespace dooms
 		// Then, non-static data members are initialized in the order they were declared 
 		// in the class definition (again regardless of the order of the mem-initializers).
 
+		D_PROPERTY()
 		INT32 ITERATION_PER_SECOND{};
+
+		D_PROPERTY()
 		INT32 TARGET_FRAME_RATE{};
+
 		/// <summary>
 		/// check this : https://github.com/godotengine/godot/blob/master/core/os/os.cpp -> add_frame_delay function
 		/// </summary>
+		D_PROPERTY()
 		INT32	FRAME_DELAY_MILLISECOND{};
+
+		D_PROPERTY()
 		FLOAT32 FIXED_TIME_STEP{};
+
+		D_PROPERTY()
 		INT32 MAX_PHYSICS_STEP{ 8 };
 
 		//Servers

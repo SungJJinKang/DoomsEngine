@@ -11,7 +11,7 @@ namespace dooms
 
 	namespace asset
 	{
-		class DOOM_API AudioAsset : public Asset
+		class DOOM_API D_CLASS AudioAsset : public Asset
 		{
 
 			DOBJECT_CLASS_BODY(AudioAsset, dooms::eDOBJECT_ClassFlags::NonCopyable)

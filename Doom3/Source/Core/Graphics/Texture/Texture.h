@@ -21,14 +21,14 @@ namespace dooms
 		/// <summary>
 		/// reference : https://www.khronos.org/registry/OpenGL-Refpages/gl4/html/glTexImage2D.xhtml
 		/// </summary>
-		class Texture : public DObject
+		class DOOM_API D_CLASS Texture : public DObject
 		{
 			DOBJECT_ABSTRACT_CLASS_BODY(Texture, dooms::eDOBJECT_ClassFlags::NonCopyable);
 			DOBJECT_CLASS_BASE_CHAIN(DObject)
 
 		public:
 
-			enum class eTextureType : UINT32 {
+			enum class D_ENUM eTextureType : UINT32 {
 				NONE = 0,
 				DIFFUSE = 1,
 				SPECULAR = 2,
@@ -50,7 +50,7 @@ namespace dooms
 				UNKNOWN = 18,
 			};
 
-			enum class eBindTarget : UINT32
+			enum class D_ENUM eBindTarget : UINT32
 			{
 				NONE = 0,
 				TEXTURE_1D = GL_TEXTURE_1D,
@@ -112,7 +112,7 @@ namespace dooms
 				}
 			}
 			
-			enum class eTargetTexture : UINT32
+			enum class D_ENUM eTargetTexture : UINT32
 			{
 				TEXTURE_1D = GL_TEXTURE_1D,
 				PROXY_TEXTURE_1D = GL_PROXY_TEXTURE_1D,
@@ -140,7 +140,7 @@ namespace dooms
 			
 			static constexpr eTextureComponentFormat DEFAULT_DATA_FORMAT = eTextureComponentFormat::RGBA;
 
-			enum class eDataType : UINT32
+			enum class D_ENUM eDataType : UINT32
 			{
 				UNSIGNED_BYTE = GL_UNSIGNED_BYTE,
 				BYTE = GL_BYTE,
@@ -167,7 +167,7 @@ namespace dooms
 			};
 			static constexpr eDataType DEFAULT_DATA_TYPE = eDataType::UNSIGNED_BYTE;
 
-			enum class eTextureParameterType : UINT32
+			enum class D_ENUM eTextureParameterType : UINT32
 			{
 				DEPTH_STENCIL_TEXTURE_MODE = GL_DEPTH_STENCIL_TEXTURE_MODE,
 				TEXTURE_BASE_LEVEL = GL_TEXTURE_BASE_LEVEL,
@@ -188,7 +188,7 @@ namespace dooms
 				TEXTURE_WRAP_R = GL_TEXTURE_WRAP_R
 			};
 
-			enum class eTextureParameterValue : UINT32
+			enum class D_ENUM eTextureParameterValue : UINT32
 			{
 				NEAREST = GL_NEAREST,
 				LINEAR = GL_LINEAR,
@@ -203,7 +203,7 @@ namespace dooms
 				MIRROR_CLAMP_TO_EDGE = GL_MIRROR_CLAMP_TO_EDGE,
 			};
 
-			enum class eWrapMode : UINT32
+			enum class D_ENUM eWrapMode : UINT32
 			{
 				CLAMP_TO_EDGE = GL_CLAMP_TO_EDGE,
 				CLAMP_TO_BORDER = GL_CLAMP_TO_BORDER,
@@ -212,7 +212,7 @@ namespace dooms
 				MIRROR_CLAMP_TO_EDGE = GL_MIRROR_CLAMP_TO_EDGE,
 			};
 
-			enum class eFilterMode : UINT32
+			enum class D_ENUM eFilterMode : UINT32
 			{
 				NEAREST = GL_NEAREST,
 				LINEAR = GL_LINEAR,
@@ -430,7 +430,7 @@ namespace dooms
 				glTexParameteri(static_cast<UINT32>(target), static_cast<UINT32>(pname), param);
 			}
 
-			enum class eTextureMataDataType : UINT32
+			enum class D_ENUM eTextureMataDataType : UINT32
 			{
 				TEXTURE_WIDTH = GL_TEXTURE_WIDTH,
 				TEXTURE_HEIGHT = GL_TEXTURE_HEIGHT,
@@ -450,7 +450,7 @@ namespace dooms
 			FLOAT32 GetTextureMetaDataFLOAT32(const INT32 lodLevel, const eTextureMataDataType textureMetaDataType) const;
 			INT32 GetTextureMetaDataINT32(const INT32 lodLevel, const eTextureMataDataType textureMetaDataType) const;
 
-			enum class ePixelFormat : UINT32
+			enum class D_ENUM ePixelFormat : UINT32
 			{
 				STENCIL_INDEX = GL_STENCIL_INDEX,
 				DEPTH_COMPONENT = GL_DEPTH_COMPONENT,

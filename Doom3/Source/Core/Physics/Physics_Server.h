@@ -17,7 +17,7 @@ namespace dooms
 	class ColliderComponent;
 	namespace physics
 	{
-		class DOOM_API Physics_Server : public IGameFlow, public ISingleton<Physics_Server>
+		class DOOM_API D_CLASS Physics_Server : public IGameFlow, public ISingleton<Physics_Server>
 		{
 			DOBJECT_CLASS_BODY(Physics_Server, dooms::eDOBJECT_ClassFlags::NonCopyable);
 			DOBJECT_CLASS_BASE_CHAIN(IGameFlow)

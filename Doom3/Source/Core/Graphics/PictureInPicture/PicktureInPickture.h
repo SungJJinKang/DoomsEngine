@@ -12,7 +12,7 @@ namespace dooms
 	{
 		class SingleTexture;
 
-		class PicktureInPickture : public DObject
+		class DOOM_API D_CLASS PicktureInPickture : public DObject
 		{
 
 			DOBJECT_CLASS_BODY(PicktureInPickture, dooms::eDOBJECT_ClassFlags::NonCopyable);

@@ -27,7 +27,7 @@ namespace dooms
 	namespace asset
 	{
 
-		class DOOM_API Asset : public DObject
+		class DOOM_API D_CLASS Asset : public DObject
 		{
 
 			DOBJECT_ABSTRACT_CLASS_BODY(Asset, dooms::eDOBJECT_ClassFlags::NonCopyable)
@@ -35,7 +35,7 @@ namespace dooms
 
 		public:
 			
-			enum AssetStatus
+			enum D_ENUM AssetStatus
 			{
 				FailToImport,
 

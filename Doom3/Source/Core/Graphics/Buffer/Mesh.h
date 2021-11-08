@@ -18,7 +18,7 @@ namespace dooms
 	namespace graphics
 	{
 		class Graphics_Server;
-		class Mesh : public Buffer
+		class DOOM_API D_CLASS Mesh : public Buffer
 		{
 			DOBJECT_CLASS_BODY(Mesh, dooms::eDOBJECT_ClassFlags::NonCopyable);
 			DOBJECT_CLASS_BASE_CHAIN(Buffer)
@@ -34,7 +34,7 @@ namespace dooms
 
 		private:
 
-			enum eVertexArrayFlag : UINT32
+			enum D_ENUM eVertexArrayFlag : UINT32
 			{
 				None = 0x0,
 				VertexVector3 =  1,

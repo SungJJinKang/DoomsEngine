@@ -12,7 +12,7 @@
 namespace dooms
 {
 	class DObject;
-	class DOOM_API DObjectManager
+	class DOOM_API D_CLASS DObjectManager
 	{	
 		friend class DObject;
 

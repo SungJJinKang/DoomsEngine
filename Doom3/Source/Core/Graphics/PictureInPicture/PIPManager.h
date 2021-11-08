@@ -14,7 +14,7 @@ namespace dooms
 	{
 		class SingleTexture;
 
-		class PIPManager : public DObject, public ISingleton<PIPManager>
+		class DOOM_API D_CLASS PIPManager : public DObject, public ISingleton<PIPManager>
 		{
 
 			DOBJECT_CLASS_BODY(PIPManager, dooms::eDOBJECT_ClassFlags::NonCopyable);

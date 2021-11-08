@@ -15,7 +15,7 @@ namespace dooms
 		/// Store Imported or Scheduled to be imported Assets 
 		/// Store AssetContainer
 		/// </summary>
-		struct DOOM_API AssetContainer
+		struct DOOM_API D_STRUCT AssetContainer
 		{
 			dooms::asset::eAssetType mAssetTypeOfContainer;
 

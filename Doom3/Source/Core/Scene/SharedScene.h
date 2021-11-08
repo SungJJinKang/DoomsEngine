@@ -13,7 +13,7 @@ namespace dooms
 	/// This class contain data, object used by All Scene
 	/// 
 	/// </summary>
-	class DOOM_API SharedScene : public DObject, public ISingleton<SharedScene>, public I_IndependentFromScene
+	class DOOM_API D_CLASS SharedScene : public DObject, public ISingleton<SharedScene>, public I_IndependentFromScene
 	{
 
 		DOBJECT_CLASS_BODY(SharedScene, dooms::eDOBJECT_ClassFlags::NonCopyable);

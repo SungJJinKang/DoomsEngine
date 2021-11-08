@@ -9,7 +9,7 @@ namespace dooms
 
 
 		class Collider;
-		class DOOM_API ColliderSolution
+		class DOOM_API D_CLASS ColliderSolution
 		{
 		private:
 

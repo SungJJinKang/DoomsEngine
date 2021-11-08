@@ -9,7 +9,7 @@ namespace dooms
 	/// 
 	/// Made with imgui
 	/// </summary>
-	class DOOM_API ProfilerUI
+	class DOOM_API D_CLASS ProfilerUI
 	{
 	private:
 

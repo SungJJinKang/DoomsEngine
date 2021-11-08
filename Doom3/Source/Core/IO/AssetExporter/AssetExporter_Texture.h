@@ -79,7 +79,7 @@ namespace dooms
 				const std::filesystem::path& exportPath
 			);
 
-			enum class eTextureExtension
+			enum class D_ENUM eTextureExtension
 			{
 				BMP,
 				PNG,

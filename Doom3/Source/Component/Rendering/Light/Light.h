@@ -5,7 +5,7 @@
 
 namespace dooms
 {
-	class DOOM_API Light : public ServerComponent
+	class DOOM_API D_CLASS Light : public ServerComponent
 	{
 
 		DOBJECT_ABSTRACT_CLASS_BODY(Light)

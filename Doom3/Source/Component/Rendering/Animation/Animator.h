@@ -14,7 +14,7 @@ namespace dooms
 	/// Requirement :
 	/// Sprite, MeshAnimation, 
 	/// </summary>
-	class DOOM_API Animator : public ServerComponent
+	class DOOM_API D_CLASS Animator : public ServerComponent
 	{
 
 		DOBJECT_CLASS_BODY(Animator)

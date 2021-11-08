@@ -3,7 +3,7 @@
 #include "Vector3.h"
 namespace dooms
 {
-	class DOOM_API Collider3DComponent : public ColliderComponent
+	class DOOM_API D_CLASS Collider3DComponent : public ColliderComponent
 	{
 		DOBJECT_ABSTRACT_CLASS_BODY(Collider3DComponent)
 		DOBJECT_CLASS_BASE_CHAIN(ColliderComponent)

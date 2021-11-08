@@ -5,7 +5,7 @@ namespace dooms
 {
 	namespace graphics
 	{
-		enum class eTextureComponentFormat : UINT32
+		enum class D_ENUM eTextureComponentFormat : UINT32
 		{
 			NONE = 0,
 			RED = GL_RED,
@@ -25,7 +25,7 @@ namespace dooms
 			DEPTH_STENCIL = GL_DEPTH_STENCIL
 		};
 
-		enum class eTextureInternalFormat : UINT32
+		enum class D_ENUM eTextureInternalFormat : UINT32
 		{
 			NONE = 0,
 			DEPTH_COMPONENT = GL_DEPTH_COMPONENT,
@@ -160,7 +160,7 @@ namespace dooms
 // 		cTFFXT1_RGB	GL_COMPRESSED_RGB_FXT1_3DFX	GL_RGB
 // 		cTFPVRTC2_4_RGB, cTFPVRTC2_4_RGBA	GL_COMPRESSED_RGBA_PVRTC_4BPPV2_IMG	GL_RGBA
 
-		enum class eTextureCompressedInternalFormat : UINT32
+		enum class D_ENUM eTextureCompressedInternalFormat : UINT32
 		{
 			NONE = 0,
 			COMPRESSED_RGB8_ETC2 = GL_COMPRESSED_RGB8_ETC2,

@@ -4,7 +4,7 @@
 #include "Vector2.h"
 namespace dooms
 {
-	class DOOM_API Collider2DComponent : public ColliderComponent
+	class DOOM_API D_CLASS Collider2DComponent : public ColliderComponent
 	{
 		DOBJECT_ABSTRACT_CLASS_BODY(Collider2DComponent)
 		DOBJECT_CLASS_BASE_CHAIN(ColliderComponent)

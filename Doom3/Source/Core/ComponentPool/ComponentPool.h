@@ -14,7 +14,7 @@ namespace dooms
 	}
 
 	template <typename ComponentType, typename Allocator = std::allocator<ComponentType>>
-	class DOOM_API ComponentPool
+	class DOOM_API D_CLASS ComponentPool
 	{
 		using alloc = std::allocator_traits<Allocator>;
 	private:

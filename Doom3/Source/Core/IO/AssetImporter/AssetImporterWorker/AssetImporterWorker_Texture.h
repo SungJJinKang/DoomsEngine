@@ -13,7 +13,7 @@ namespace dooms
 	namespace assetImporter
 	{
 		
-		class DOOM_API AssetImporterWorker_Texture : public AssetImporterWorker
+		class DOOM_API D_CLASS AssetImporterWorker_Texture : public AssetImporterWorker
 		{
 			DOBJECT_CLASS_BODY(AssetImporterWorker_Texture);
 			DOBJECT_CLASS_BASE_CHAIN(AssetImporterWorker)

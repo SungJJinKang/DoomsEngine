@@ -6,10 +6,15 @@
 
 namespace dooms
 {
-	struct DProperty /*: public dooms::DObject*/ // Dont Do this
+	struct DOOM_API D_STRUCT DProperty /*: public dooms::DObject*/ // Dont Do this
 	{
+		D_PROPERTY()
 		const char* const PROPERTY_NAME;
+
+		D_PROPERTY()
 		const char* const PROPERTY_TYPE_NAME;
+
+		D_PROPERTY()
 		const size_t PROPERTY_TYPE_SIZE;
 
 

@@ -24,7 +24,7 @@ namespace dooms
 {
 	namespace logger
 	{
-		enum class eLogType
+		enum class D_ENUM eLogType
 		{
 			D_LOG = 0,
 			D_WARNING = 1,

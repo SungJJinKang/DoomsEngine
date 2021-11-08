@@ -5,7 +5,7 @@ namespace dooms
 {
 	namespace physics
 	{
-		class DOOM_API Line : public Ray
+		class DOOM_API D_CLASS Line : public Ray
 		{
 	
 		public:

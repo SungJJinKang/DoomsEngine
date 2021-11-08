@@ -13,7 +13,7 @@
 
 namespace dooms
 {
-	struct DynamicLinkingLibrary
+	struct DOOM_API D_STRUCT DynamicLinkingLibrary
 	{
 		static std::mutex LoadUnLoadDLLMutexs;
 
@@ -27,7 +27,7 @@ namespace dooms
 		bool UnloadDynamicLinkingLibrary();
 	};
 
-	class SmartDynamicLinking
+	class DOOM_API D_CLASS SmartDynamicLinking
 	{
 		DynamicLinkingLibrary mDynamicLinkingLibrary;
 

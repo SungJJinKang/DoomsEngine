@@ -13,7 +13,7 @@ namespace dooms
 	/// and PlainComponent is processed after that
 	/// 
 	/// </summary>
-	class DOOM_API PlainComponent : public Component
+	class DOOM_API D_CLASS PlainComponent : public Component
 	{
 		friend class Entity;
 		friend class Scene;

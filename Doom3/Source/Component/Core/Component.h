@@ -21,7 +21,7 @@ namespace dooms
 	/// 
 	/// Both ones have different 
 	/// </summary>
-	class DOOM_API Component : public DObject, public FrameDirtyChecker // : public GameFlow
+	class DOOM_API D_CLASS Component : public DObject, public FrameDirtyChecker // : public GameFlow
 	{
 		friend class Entity;
 		friend class Scene;

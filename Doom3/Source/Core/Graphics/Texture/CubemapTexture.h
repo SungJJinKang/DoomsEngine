@@ -5,7 +5,7 @@ namespace dooms
 {
 	namespace graphics
 	{
-		class CubemapTexture : public Texture
+		class DOOM_API D_CLASS CubemapTexture : public Texture
 		{
 			DOBJECT_CLASS_BODY(CubemapTexture, dooms::eDOBJECT_ClassFlags::NonCopyable);
 			DOBJECT_CLASS_BASE_CHAIN(Texture)

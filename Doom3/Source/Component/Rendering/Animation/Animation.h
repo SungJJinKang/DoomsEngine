@@ -8,7 +8,7 @@ namespace dooms
 		class Graphics_Server;
 	}
 
-	class DOOM_API Animation : public ServerComponent
+	class DOOM_API D_CLASS Animation : public ServerComponent
 	{
 
 		DOBJECT_CLASS_BODY(Animation)

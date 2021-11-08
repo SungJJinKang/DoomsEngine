@@ -39,7 +39,7 @@ namespace dooms
 	/// </summary>
 	/// <typeparam name="T"></typeparam>
 	template <typename T>
-	class DOOM_API StaticContainer //Never inherit Component
+	class DOOM_API D_CLASS StaticContainer //Never inherit Component
 	{
 
 	private:

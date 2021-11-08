@@ -13,7 +13,7 @@ namespace dooms
 	{
 		class FrameBuffer;
 
-		class RenderBuffer : public DObject
+		class DOOM_API D_CLASS RenderBuffer : public DObject
 		{
 			DOBJECT_CLASS_BODY(RenderBuffer, dooms::eDOBJECT_ClassFlags::NonCopyable);
 			DOBJECT_CLASS_BASE_CHAIN(DObject)

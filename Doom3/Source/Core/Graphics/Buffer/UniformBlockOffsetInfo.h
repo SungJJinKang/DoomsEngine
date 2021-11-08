@@ -8,7 +8,7 @@ namespace dooms
 {
 	namespace graphics
 	{
-        enum eUniformBlock_Global
+        enum D_ENUM eUniformBlock_Global
         {
 			// trtansformations
 			viewProjection = 0,

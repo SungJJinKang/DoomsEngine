@@ -13,7 +13,7 @@ namespace dooms
 		class Collider;
 	}
 
-	class DOOM_API Rigidbody : public ServerComponent, public StaticContainer<Rigidbody>
+	class DOOM_API D_CLASS Rigidbody : public ServerComponent, public StaticContainer<Rigidbody>
 	{
 		DOBJECT_CLASS_BODY(Rigidbody)
 		DOBJECT_CLASS_BASE_CHAIN(ServerComponent)

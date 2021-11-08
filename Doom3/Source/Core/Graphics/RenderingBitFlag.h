@@ -4,7 +4,7 @@ namespace dooms
 {
 	namespace graphics
 	{
-		enum eRenderingBitflag
+		enum D_ENUM eRenderingBitflag
 		{
 			/// <summary>
 			/// Will be used by Culling system

@@ -13,7 +13,7 @@ namespace dooms
 {
 	namespace graphics
 	{
-		class FrameBuffer : public DObject
+		class DOOM_API D_CLASS FrameBuffer : public DObject
 		{
 			DOBJECT_CLASS_BODY(FrameBuffer);
 			DOBJECT_CLASS_BASE_CHAIN(DObject)
@@ -139,13 +139,13 @@ namespace dooms
 				GraphicsAPI::Clear(mClearBit);
 			}
 
-			enum class eImageInterpolation
+			enum class D_ENUM eImageInterpolation
 			{
 				NEAREST = GL_NEAREST,
 				LINEAR = GL_LINEAR
 			};
 
-			enum class eBindFrameBufferTarget : UINT32
+			enum class D_ENUM eBindFrameBufferTarget : UINT32
 			{
 				DRAW_FRAMEBUFFER = GL_DRAW_FRAMEBUFFER,
 				READ_FRAMEBUFFER = GL_READ_FRAMEBUFFER,
@@ -188,7 +188,7 @@ namespace dooms
 			bool IsGenerated();
 
 
-			enum class eFrameBufferParameterPName : UINT32
+			enum class D_ENUM eFrameBufferParameterPName : UINT32
 			{
 				FRAMEBUFFER_DEFAULT_WIDTH = GL_FRAMEBUFFER_DEFAULT_WIDTH,
 				FRAMEBUFFER_DEFAULT_HEIGHT = GL_FRAMEBUFFER_DEFAULT_HEIGHT,

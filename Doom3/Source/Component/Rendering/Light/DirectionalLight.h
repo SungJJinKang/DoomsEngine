@@ -4,7 +4,7 @@
 #include "Graphics/Buffer/UniformBufferObjectUpdater.h"
 namespace dooms
 {
-	class DOOM_API DirectionalLight : public Light, public StaticContainer<DirectionalLight>, public graphics::UniformBufferObjectUpdater
+	class DOOM_API D_CLASS DirectionalLight : public Light, public StaticContainer<DirectionalLight>, public graphics::UniformBufferObjectUpdater
 	{
 
 		DOBJECT_CLASS_BODY(DirectionalLight)

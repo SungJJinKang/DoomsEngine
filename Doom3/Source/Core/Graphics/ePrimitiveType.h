@@ -2,7 +2,7 @@
 
 namespace dooms
 {
-	enum class ePrimitiveType
+	enum class D_ENUM ePrimitiveType
 	{
 		POINTS = GL_POINTS,
 		LINE_STRIP = GL_LINE_STRIP,

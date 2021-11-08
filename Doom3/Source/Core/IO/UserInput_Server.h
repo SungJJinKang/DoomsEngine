@@ -22,7 +22,7 @@ namespace dooms
 	namespace userinput
 	{
 		
-		enum class eKeyState : INT32
+		enum class D_ENUM eKeyState : INT32
 		{
 			NONE = 0,
 			PRESS_DOWN,
@@ -34,7 +34,7 @@ namespace dooms
 		inline constexpr extern eKEY_CODE LAST_KEY_CODE = dooms::userinput::eKEY_CODE::KEY_MENU;;
 
 
-		enum class eMouse_Button_Type : INT32
+		enum class D_ENUM eMouse_Button_Type : INT32
 		{
 			MOUST_BUTTON_LEFT = GLFW_MOUSE_BUTTON_LEFT,
 			MOUST_BUTTON_RIGHT = GLFW_MOUSE_BUTTON_RIGHT,
@@ -42,7 +42,7 @@ namespace dooms
 		};
 		
 
-		enum class eMouse_Button_Action : INT32
+		enum class D_ENUM eMouse_Button_Action : INT32
 		{
 			NONE,
 			PRESSING,
@@ -57,7 +57,7 @@ namespace dooms
 		/// <summary>
 		/// https://www.glfw.org/docs/3.3/input_guide.html
 		/// </summary>
-		class DOOM_API UserInput_Server : public IGameFlow, public ISingleton<UserInput_Server>
+		class DOOM_API D_CLASS UserInput_Server : public IGameFlow, public ISingleton<UserInput_Server>
 		{
 			DOBJECT_CLASS_BODY(UserInput_Server, dooms::eDOBJECT_ClassFlags::NonCopyable);
 			DOBJECT_CLASS_BASE_CHAIN(IGameFlow)

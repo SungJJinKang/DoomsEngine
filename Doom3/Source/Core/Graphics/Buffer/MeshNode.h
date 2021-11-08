@@ -5,7 +5,7 @@ namespace dooms
 	namespace graphics
 	{
 		class Mesh;
-		struct MeshNode
+		struct DOOM_API D_STRUCT MeshNode
 		{
 			MeshNode* mParent;
 

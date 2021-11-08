@@ -10,7 +10,7 @@ namespace dooms
 	{
 		class Mesh;
 		class UniformBufferObject;
-		class Buffer : public DObject
+		class DOOM_API D_CLASS Buffer : public DObject
 		{
 			DOBJECT_ABSTRACT_CLASS_BODY(Buffer)
 			DOBJECT_CLASS_BASE_CHAIN(DObject)
@@ -42,7 +42,7 @@ namespace dooms
 			virtual bool IsBufferGenerated() const;
 
 
-			enum class eBufferBindingTarget
+			enum class D_ENUM eBufferBindingTarget
 			{
 				ARRAY_BUFFER = GL_ARRAY_BUFFER,
 				ATOMIC_COUNTER_BUFFER = GL_ATOMIC_COUNTER_BUFFER,
@@ -59,7 +59,7 @@ namespace dooms
 				TRANSFORM_FEEDBACK_BUFFER = GL_TRANSFORM_FEEDBACK_BUFFER,
 				UNIFORM_BUFFER = GL_UNIFORM_BUFFER
 			};
-			enum class eBufferParameter
+			enum class D_ENUM eBufferParameter
 			{
 				BUFFER_ACCESS = GL_BUFFER_ACCESS,
 				BUFFER_ACCESS_FLAGS = GL_BUFFER_ACCESS_FLAGS,

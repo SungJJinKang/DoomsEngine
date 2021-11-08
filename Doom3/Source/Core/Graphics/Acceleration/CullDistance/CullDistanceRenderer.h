@@ -8,7 +8,7 @@ namespace dooms
 
 	namespace graphics
 	{
-		class DOOM_API CullDistanceRenderer
+		class DOOM_API D_CLASS CullDistanceRenderer
 		{
 			friend class CullDistance;
 

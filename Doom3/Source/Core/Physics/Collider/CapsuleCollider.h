@@ -6,7 +6,7 @@ namespace dooms
 {
 	namespace physics
 	{
-		class DOOM_API CapsuleCollider : public Collider
+		class DOOM_API D_CLASS CapsuleCollider : public Collider
 		{
 
 		public:

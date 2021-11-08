@@ -11,7 +11,7 @@ namespace dooms
 	namespace graphics
 	{
 		class UniformBufferObjectUpdater;
-		class UniformBufferObjectManager : public DObject, public ISingleton<UniformBufferObjectManager>
+		class DOOM_API D_CLASS UniformBufferObjectManager : public DObject, public ISingleton<UniformBufferObjectManager>
 		{
 			DOBJECT_CLASS_BODY(UniformBufferObjectManager, dooms::eDOBJECT_ClassFlags::NonCopyable);
 			DOBJECT_CLASS_BASE_CHAIN(DObject)

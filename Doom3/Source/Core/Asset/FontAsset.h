@@ -10,10 +10,10 @@ namespace dooms
 
 	namespace asset
 	{
-		class DOOM_API FontAsset : public Asset
+		class DOOM_API D_CLASS FontAsset : public Asset
 		{
 			DOBJECT_CLASS_BODY(FontAsset, dooms::eDOBJECT_ClassFlags::NonCopyable)
-				DOBJECT_CLASS_BASE_CHAIN(Asset)
+			DOBJECT_CLASS_BASE_CHAIN(Asset)
 
 			friend class ::dooms::assetImporter::AssetImporterWorker_Font;
 			

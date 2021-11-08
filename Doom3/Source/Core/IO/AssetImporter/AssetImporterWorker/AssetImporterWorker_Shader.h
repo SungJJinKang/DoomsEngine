@@ -12,7 +12,7 @@ namespace dooms
 
 	namespace assetImporter
 	{
-		class DOOM_API AssetImporterWorker_Shader : public AssetImporterWorker
+		class DOOM_API D_CLASS AssetImporterWorker_Shader : public AssetImporterWorker
 		{
 			DOBJECT_CLASS_BODY(AssetImporterWorker_Shader);
 			DOBJECT_CLASS_BASE_CHAIN(AssetImporterWorker)

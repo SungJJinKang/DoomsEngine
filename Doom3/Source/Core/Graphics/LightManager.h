@@ -7,7 +7,7 @@ namespace dooms
 {
 	namespace graphics
 	{
-		class DOOM_API LightManager : public DObject, public ISingleton<LightManager>, public graphics::UniformBufferObjectUpdater
+		class DOOM_API D_CLASS LightManager : public DObject, public ISingleton<LightManager>, public graphics::UniformBufferObjectUpdater
 		{
 
 			DOBJECT_CLASS_BODY(LightManager);

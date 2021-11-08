@@ -4,7 +4,7 @@
 #include <Collider/AABB.h>
 namespace dooms
 {
-	class DOOM_API BoxCollider3D : public Collider3DComponent
+	class DOOM_API D_CLASS BoxCollider3D : public Collider3DComponent
 	{
 		DOBJECT_CLASS_BODY(BoxCollider3D)
 		DOBJECT_CLASS_BASE_CHAIN(Collider3DComponent)

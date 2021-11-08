@@ -16,7 +16,7 @@ namespace dooms
 	class DObjectManager;
 	class DObject;
 
-	struct DOOM_API DObjectContructorParams
+	struct DOOM_API D_STRUCT DObjectContructorParams
 	{
 		D_PROPERTY()
 		UINT32 DObjectFlag = 0;
@@ -34,13 +34,13 @@ namespace dooms
 
 
 
-	enum eDObjectFlag : UINT32
+	enum D_ENUM eDObjectFlag : UINT32
 	{
 		NewAllocated = 1 << 0
 	};
 
 	
-	class DOOM_API DObject
+	class DOOM_API D_CLASS DObject
 	{
 		DOBJECT_ABSTRACT_CLASS_BODY(DObject);
 		DOBJECT_ROOT_CLASS_BASE_CHAIN
@@ -68,7 +68,7 @@ namespace dooms
 
 		friend class DObjectManager;
 
-		struct DObjectProperties
+		struct DOOM_API D_STRUCT DObjectProperties
 		{
 			UINT32 mDObjectFlag = 0;
 			//Used For Debugging

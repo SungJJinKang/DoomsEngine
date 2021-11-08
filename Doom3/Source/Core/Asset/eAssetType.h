@@ -1,4 +1,6 @@
 #pragma once
+#include <Core.h>
+
 #include "Macros/TypeDef.h"
 
 
@@ -6,7 +8,7 @@ namespace dooms
 {
 	namespace asset
 	{
-		enum class eAssetType : UINT32
+		enum class D_ENUM eAssetType : UINT32
 		{
 			AUDIO = 0,
 			FONT,

@@ -18,7 +18,7 @@ namespace dooms
 
 	namespace asset
 	{
-		class DOOM_API ShaderAsset : public Asset
+		class DOOM_API D_CLASS ShaderAsset : public Asset
 		{
 			DOBJECT_CLASS_BODY(ShaderAsset, dooms::eDOBJECT_ClassFlags::NonCopyable)
 				DOBJECT_CLASS_BASE_CHAIN(Asset)
@@ -28,10 +28,15 @@ namespace dooms
 		
 		public:
 
-			struct ShaderText
+			struct DOOM_API D_STRUCT ShaderText
 			{
+				D_PROPERTY()
 				std::string mVertexShaderText;
+
+				D_PROPERTY()
 				std::string mFragmentShaderText;
+
+				D_PROPERTY()
 				std::string mGeometryShaderText;
 
 				ShaderText() = default;
@@ -45,7 +50,7 @@ namespace dooms
 
 		private:
 
-			enum class ShaderType
+			enum class D_ENUM ShaderType
 			{
 				None,
 				Vertex,
@@ -53,16 +58,24 @@ namespace dooms
 				Geometry
 			};
 
-			
-
+			D_PROPERTY()
 			ShaderText mShaderText;
 
 			static const std::string VertexShaderMacros;
 			static const std::string FragmentShaderMacros;
 			static const std::string GeometryShaderMacros;
 
+			D_PROPERTY()
 			bool bmIsShaderCompiled{ false };
-			UINT32 mVertexId, mFragmentId, mGeometryId;
+			
+			D_PROPERTY()
+			UINT32 mVertexId;
+
+			D_PROPERTY()
+			UINT32 mFragmentId;
+
+			D_PROPERTY()
+			UINT32 mGeometryId;
 
 
 

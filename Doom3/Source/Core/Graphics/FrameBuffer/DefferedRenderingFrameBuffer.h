@@ -10,7 +10,7 @@ namespace dooms
 	namespace graphics
 	{
 
-		class DefferedRenderingFrameBuffer : public graphics::FrameBuffer
+		class DOOM_API D_CLASS DefferedRenderingFrameBuffer : public graphics::FrameBuffer
 		{
 
 			DOBJECT_CLASS_BODY(DefferedRenderingFrameBuffer);

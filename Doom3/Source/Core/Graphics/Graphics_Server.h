@@ -40,12 +40,12 @@ namespace dooms
 
 	namespace graphics
 	{
-		class DOOM_API Graphics_Server : public IGameFlow, public ISingleton<Graphics_Server>
+		class DOOM_API D_CLASS Graphics_Server : public IGameFlow, public ISingleton<Graphics_Server>
 		{
 			DOBJECT_CLASS_BODY(Graphics_Server, dooms::eDOBJECT_ClassFlags::NonCopyable);
 			DOBJECT_CLASS_BASE_CHAIN(IGameFlow)
 
-			enum class eRenderingMode
+			enum class D_ENUM eRenderingMode
 			{
 				ForwardRendering,
 				DeferredRendering

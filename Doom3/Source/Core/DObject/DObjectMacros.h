@@ -25,7 +25,7 @@ namespace dooms
 
 namespace dooms
 {
-	enum eDOBJECT_ClassFlags : UINT32
+	enum D_ENUM eDOBJECT_ClassFlags : UINT32
 	{
 		_Dummy = 0,
 		NonCopyable = 1 << 0,

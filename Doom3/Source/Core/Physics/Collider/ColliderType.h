@@ -6,7 +6,7 @@ namespace dooms
 {
 	namespace physics
 	{
-		enum class ColliderType : UINT32
+		enum class D_ENUM ColliderType : UINT32
 		{
 			AABB2D,
 			AABB3D,

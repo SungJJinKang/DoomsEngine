@@ -7,7 +7,7 @@ namespace dooms
 	namespace reflection
 	{
 
-		class ReflectionManager : public ISingleton<ReflectionManager>
+		class DOOM_API D_CLASS ReflectionManager : public ISingleton<ReflectionManager>
 		{
 
 		private:

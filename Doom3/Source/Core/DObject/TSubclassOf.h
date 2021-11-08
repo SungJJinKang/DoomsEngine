@@ -17,6 +17,7 @@ namespace dooms
 
 	private:
 
+		D_PROPERTY()
 		DClass* mDClass;
 
 	public:

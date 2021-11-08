@@ -12,15 +12,16 @@ namespace dooms
 
 	namespace asset
 	{
-		class DOOM_API TextAsset : public Asset
+		class DOOM_API D_CLASS TextAsset : public Asset
 		{
 			DOBJECT_CLASS_BODY(TextAsset, dooms::eDOBJECT_ClassFlags::NonCopyable)
-				DOBJECT_CLASS_BASE_CHAIN(Asset)
+			DOBJECT_CLASS_BASE_CHAIN(Asset)
 
 			friend class ::dooms::assetImporter::AssetImporterWorker_Text;
 			
 		private:
 
+			D_PROPERTY()
 			std::string mText;
 
 		protected:

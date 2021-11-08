@@ -14,7 +14,7 @@ namespace dooms
 	/// 
 	/// This will be used in camera(render specific layer), light 
 	/// </summary>
-	struct DOOM_API Layer
+	struct DOOM_API D_STRUCT Layer
 	{
 		std::string mLayerName;
 	};

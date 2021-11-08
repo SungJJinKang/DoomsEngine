@@ -8,13 +8,13 @@
 
 namespace dooms
 {
-	enum class eSpace
+	enum class D_ENUM eSpace
 	{
 		World,
 		Self
 	};
 
-	struct D_STRUCT TransformCoreData
+	struct DOOM_API D_STRUCT TransformCoreData
 	{
 		D_PROPERTY()
 		math::Vector3 mPosition;
@@ -25,7 +25,7 @@ namespace dooms
 
 	static_assert(sizeof(TransformCoreData) < 64);
 
-	class DOOM_API Transform : public PlainComponent
+	class DOOM_API D_CLASS Transform : public PlainComponent
 	{
 		DOBJECT_CLASS_BODY(Transform)
 		DOBJECT_CLASS_BASE_CHAIN(PlainComponent)

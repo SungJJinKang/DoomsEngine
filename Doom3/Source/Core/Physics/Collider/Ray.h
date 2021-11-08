@@ -7,7 +7,7 @@ namespace dooms
 {
 	namespace physics
 	{
-		class DOOM_API Ray : public Collider
+		class DOOM_API D_CLASS Ray : public Collider
 		{
 		private:
 			math::Vector3 mNormal;

@@ -7,7 +7,7 @@
 
 namespace dooms
 {
-	class DOOM_API MeshRenderer : public Renderer
+	class DOOM_API D_CLASS MeshRenderer : public Renderer
 	{
 		DOBJECT_CLASS_BODY(MeshRenderer)
 		DOBJECT_CLASS_BASE_CHAIN(Renderer)

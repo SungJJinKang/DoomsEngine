@@ -10,7 +10,7 @@ namespace dooms
 {
 	namespace graphics
 	{
-		class RenderingDebugger : public DObject
+		class DOOM_API D_CLASS RenderingDebugger : public DObject
 		{
 			DOBJECT_CLASS_BODY(RenderingDebugger);
 			DOBJECT_CLASS_BASE_CHAIN(DObject)

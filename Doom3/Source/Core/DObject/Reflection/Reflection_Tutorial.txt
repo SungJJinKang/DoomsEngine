@@ -39,7 +39,7 @@ public:
 };
 
 
-enum D_ENUM() TestEnum
+enum D_ENUM TestEnum
 {
 	ENUM_ELEMENT1 = 5,
 	ENUM_ELEMENT2,

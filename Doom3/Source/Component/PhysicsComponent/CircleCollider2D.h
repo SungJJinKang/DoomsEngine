@@ -3,7 +3,7 @@
 #include <Collider/Circle2D.h>
 namespace dooms
 {
-	class DOOM_API CircleCollider2D : public Collider2DComponent
+	class DOOM_API D_CLASS CircleCollider2D : public Collider2DComponent
 	{
 		DOBJECT_CLASS_BODY(CircleCollider2D)
 		DOBJECT_CLASS_BASE_CHAIN(Collider2DComponent)

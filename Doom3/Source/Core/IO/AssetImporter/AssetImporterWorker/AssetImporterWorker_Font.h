@@ -8,7 +8,7 @@ namespace dooms
 {
 	namespace assetImporter
 	{
-		class DOOM_API AssetImporterWorker_Font : public AssetImporterWorker
+		class DOOM_API D_CLASS AssetImporterWorker_Font : public AssetImporterWorker
 		{
 			DOBJECT_CLASS_BODY(AssetImporterWorker_Font);
 			DOBJECT_CLASS_BASE_CHAIN(AssetImporterWorker)

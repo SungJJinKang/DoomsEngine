@@ -36,12 +36,21 @@ namespace dooms
 	/// 
 	/// Never edit this struct, Never change placement order of datas
 	/// </summary>
-	struct MeshVertexData
+	struct DOOM_API D_STRUCT MeshVertexData
 	{
+		D_PROPERTY()
 		Vector3 mVertex;
+
+		D_PROPERTY()
 		Vector2 mTexCoord; //support only one channel
+
+		D_PROPERTY()
 		Vector3 mNormal;
+
+		D_PROPERTY()
 		Vector3 mTangent;
+
+		D_PROPERTY()
 		Vector3 mBitangent;
 
 		MeshVertexData() = default;
@@ -61,20 +70,29 @@ namespace dooms
 	*/
 
 	
-	struct ThreeDModelMesh
+	struct DOOM_API D_STRUCT ThreeDModelMesh
 	{
+		D_PROPERTY()
 		std::string mName;
 
+		D_PROPERTY()
 		ePrimitiveType mPrimitiveType;
 
+		D_PROPERTY()
 		bool bHasIndices;
+
+		D_PROPERTY()
 		UINT32 mNumOfIndices;
+
 		/// <summary>
 		/// mMeshIndices count is mNumOfIndiecs
 		/// </summary>
+		D_PROPERTY()
 		std::unique_ptr<UINT32[]> mMeshIndices;
 
+		D_PROPERTY()
 		UINT32 mNumOfVertexs;
+
 		/// <summary>
 		/// mMeshVertexDatas count is mNumOfVertices
 		/// Vertices data is packed
@@ -82,9 +100,12 @@ namespace dooms
 		/// ( O ) Vertex TexCoord Normal Tangent Bitangent | Vertex TexCoord Normal Tangent Bitangent | Vertex TexCoord Normal Tangent Bitangent
 		/// ( X ) Vertex Vertex Vertex | TexCoord TexCoord TexCoord | Normal Normal Normal | Tangent Tangent Tangent | Bitangent Bitangent Bitangent
 		/// </summary>
+		D_PROPERTY()
 		std::unique_ptr<MeshVertexData[]> mMeshVertexDatas;
 
+		D_PROPERTY()
 		physics::AABB3D mAABB3D;
+		D_PROPERTY()
 		physics::Sphere mSphere;
 
 		ThreeDModelMesh() = default;
@@ -95,28 +116,36 @@ namespace dooms
 		~ThreeDModelMesh() = default;
 	};
 
-	struct ThreeDModelNode
+	struct DOOM_API D_STRUCT ThreeDModelNode
 	{ 
 		/// <summary>
 		/// don't clear this
 		/// </summary>
 		dooms::asset::ThreeDModelAsset* mThreeDModelAsset;
 
+		D_PROPERTY()
 		std::string mName;
 
 		/// <summary>
 		/// don't clear this
 		/// </summary>
+		D_PROPERTY()
 		ThreeDModelNode* mThreeDModelNodeParent; // Parent node will be deleted later
 
+		D_PROPERTY()
 		std::unique_ptr<ThreeDModelNode[]> mThreeDModelNodeChildrens;
+
+		D_PROPERTY()
 		UINT32 mNumOfThreeDModelNodeChildrens;
 
 		/// <summary>
 		/// each component contain index of ThreeDModelAsset::ThreeDModelMesh 
 		/// so use like ThreeDModelAsset->mModelMeshAssets[mModelMeshIndexs[0]]
 		/// </summary>
+		D_PROPERTY()
 		std::unique_ptr<UINT32[]> mModelMeshIndexs;
+
+		D_PROPERTY()
 		UINT32 mNumOfModelMeshes;
 
 		ThreeDModelNode() = default;
@@ -134,7 +163,7 @@ namespace dooms
 
 	namespace asset
 	{
-		class DOOM_API ThreeDModelAsset : public Asset
+		class DOOM_API D_CLASS ThreeDModelAsset : public Asset
 		{
 			DOBJECT_CLASS_BODY(ThreeDModelAsset, dooms::eDOBJECT_ClassFlags::NonCopyable)
 				DOBJECT_CLASS_BASE_CHAIN(Asset)
@@ -142,16 +171,25 @@ namespace dooms
 			friend class ::dooms::assetImporter::AssetImporterWorker_THREE_D_MODEL;
 
 		private:
+
+			D_PROPERTY()
 			std::unique_ptr<ThreeDModelNode> mRootModelNode{};
 
+			D_PROPERTY()
 			std::unique_ptr<ThreeDModelMesh[]> mModelMeshAssets{};
+
+			D_PROPERTY()
 			UINT32 mNumOfModelMeshAssets{};
 
 			///////////
 
+			D_PROPERTY()
 			std::unique_ptr<graphics::MeshNode> mRootMeshNode{};
+
+			D_PROPERTY()
 			std::vector<graphics::Mesh> mMeshes{};
 
+			D_PROPERTY()
 			UINT32 mNumOfMeshes{};
 
 			/// <summary>

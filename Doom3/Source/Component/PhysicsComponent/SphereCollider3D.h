@@ -3,7 +3,7 @@
 #include <Collider/Sphere.h>
 namespace dooms
 {
-	class DOOM_API SphereCollider3D : public Collider3DComponent
+	class DOOM_API D_CLASS SphereCollider3D : public Collider3DComponent
 	{
 		DOBJECT_CLASS_BODY(SphereCollider3D)
 		DOBJECT_CLASS_BASE_CHAIN(Collider3DComponent)

@@ -5,7 +5,7 @@
 
 namespace dooms
 {
-	class DOOM_API PointLight : public Light, public StaticContainer<PointLight>, public graphics::UniformBufferObjectUpdater
+	class DOOM_API D_CLASS PointLight : public Light, public StaticContainer<PointLight>, public graphics::UniformBufferObjectUpdater
 	{
 
 		DOBJECT_CLASS_BODY(PointLight)

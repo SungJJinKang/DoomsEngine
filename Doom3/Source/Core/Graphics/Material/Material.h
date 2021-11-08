@@ -26,7 +26,7 @@ namespace dooms
 	
 	namespace graphics
 	{
-		enum eUniformLocation : UINT32
+		enum D_ENUM eUniformLocation : UINT32
 		{
 			ModelMatrix = 0
 		};
@@ -34,7 +34,7 @@ namespace dooms
 		/// Texture binding point
 		/// Bindin != location
 		/// </summary>
-		enum eTextureBindingPoint : UINT32
+		enum D_ENUM eTextureBindingPoint : UINT32
 		{
 			AlbedoTexture = 0,
 			NormalTexture = 1,
@@ -48,7 +48,7 @@ namespace dooms
 		class UniformBufferObject;
 		class Texture;
 
-		class Material : public DObject
+		class DOOM_API D_CLASS Material : public DObject
 		{
 			DOBJECT_CLASS_BODY(Material, dooms::eDOBJECT_ClassFlags::NonCopyable);
 			DOBJECT_CLASS_BASE_CHAIN(DObject)

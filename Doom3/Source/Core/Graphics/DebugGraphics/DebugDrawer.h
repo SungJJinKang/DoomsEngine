@@ -25,7 +25,7 @@ namespace dooms
 	{
 		class Material;
 		class Graphics_Server;
-		class DebugDrawer : public DObject, public ISingleton<DebugDrawer>
+		class DOOM_API D_CLASS DebugDrawer : public DObject, public ISingleton<DebugDrawer>
 		{
 			DOBJECT_CLASS_BODY(DebugDrawer, eDOBJECT_ClassFlags::NonCopyable)
 				DOBJECT_CLASS_BASE_CHAIN(DObject)

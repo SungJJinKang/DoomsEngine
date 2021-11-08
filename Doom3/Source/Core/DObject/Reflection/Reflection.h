@@ -25,7 +25,7 @@
 #endif
 
 #ifndef D_ENUM
-#define D_ENUM clcpp_attr(reflect_part)
+#define D_ENUM clcpp_attr(reflect)
 #endif
 
 #ifndef D_PROPERTY

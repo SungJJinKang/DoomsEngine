@@ -18,7 +18,7 @@ namespace dooms
 	/// <summary>
 	/// This class is same with SCENE in unity game engine
 	/// </summary>
-	class DOOM_API Scene : public DObject, public ISingleton<Scene>//, public GameFlow
+	class DOOM_API D_CLASS Scene : public DObject, public ISingleton<Scene>//, public GameFlow
 	{
 
 		DOBJECT_CLASS_BODY(Scene, dooms::eDOBJECT_ClassFlags::NonCopyable);

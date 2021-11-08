@@ -3,7 +3,7 @@
 
 namespace dooms
 {
-	class DOOM_API MeshCollider : public Collider3DComponent
+	class DOOM_API D_CLASS MeshCollider : public Collider3DComponent
 	{
 		DOBJECT_CLASS_BODY(MeshCollider)
 		DOBJECT_CLASS_BASE_CHAIN(Collider3DComponent)

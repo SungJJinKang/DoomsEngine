@@ -27,7 +27,7 @@ namespace dooms
 		class Graphics_Server;
 	}
 
-	enum eCameraFlag : UINT32
+	enum D_ENUM eCameraFlag : UINT32
 	{
 		IS_CULLED = 1 << 0,
 		PAUSE_CULL_JOB = 1 << 1,
@@ -43,7 +43,7 @@ namespace dooms
 
 	public:
 
-		enum class eProjectionType
+		enum class D_ENUM eProjectionType
 		{
 			Perspective,
 			Orthographic

@@ -12,7 +12,7 @@ namespace dooms
 		class Physics_Server;
 	}
 
-	class DOOM_API ColliderComponent : public ServerComponent, public StaticContainer<ColliderComponent>, public BVH_AABB3D_Node_Object
+	class DOOM_API D_CLASS ColliderComponent : public ServerComponent, public StaticContainer<ColliderComponent>, public BVH_AABB3D_Node_Object
 	{
 		DOBJECT_ABSTRACT_CLASS_BODY(ColliderComponent)
 		DOBJECT_CLASS_BASE_CHAIN(ServerComponent)

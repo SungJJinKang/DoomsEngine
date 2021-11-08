@@ -38,7 +38,7 @@ namespace dooms
 		return dooms::Scene::GetSingleton()->CreateNewEntity();
 	}
 
-	class DOOM_API Entity : public DObject, public FrameDirtyChecker
+	class DOOM_API D_CLASS Entity : public DObject, public FrameDirtyChecker
 	{
 
 		DOBJECT_CLASS_BODY(Entity, dooms::eDOBJECT_ClassFlags::NonCopyable);

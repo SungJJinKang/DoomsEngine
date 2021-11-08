@@ -14,7 +14,7 @@ namespace dooms
 		/// <summary>
 		/// reference : https://www.khronos.org/opengl/wiki/Program_Introspection, https://learnopengl.com/Advanced-OpenGL/Advanced-GLSL
 		/// </summary>
-		class UniformBufferObject : public Buffer
+		class DOOM_API D_CLASS UniformBufferObject : public Buffer
 		{
 			DOBJECT_CLASS_BODY(UniformBufferObject, dooms::eDOBJECT_ClassFlags::NonCopyable);
 			DOBJECT_CLASS_BASE_CHAIN(Buffer)

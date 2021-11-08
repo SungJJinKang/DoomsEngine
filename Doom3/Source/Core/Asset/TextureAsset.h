@@ -24,7 +24,7 @@ namespace dooms
 
 	namespace asset
 	{
-		class DOOM_API TextureAsset : public Asset
+		class DOOM_API D_CLASS TextureAsset : public Asset
 		{
 			DOBJECT_CLASS_BODY(TextureAsset, dooms::eDOBJECT_ClassFlags::NonCopyable)
 				DOBJECT_CLASS_BASE_CHAIN(Asset)
@@ -35,19 +35,34 @@ namespace dooms
 
 			std::unique_ptr<DirectX::ScratchImage> mScratchImage;
 
+			D_PROPERTY()
 			INT32 mWidth{};
+
+			D_PROPERTY()
 			INT32 mHeight{};
+
+			D_PROPERTY()
 			INT32 mMipMapLevel{};
+
 			/// <summary>
 			/// Size in bytes of All Images ( All mipmaps )
 			/// </summary>
+			D_PROPERTY()
 			size_t mEntireImageSize{};
 
+			D_PROPERTY()
 			bool bmIsCompressed{ false };
+
+			D_PROPERTY()
 			graphics::eTextureComponentFormat mComponentFormat{}; // 1 ~ 4 ( rgb, rgba ~~ )
+
+			D_PROPERTY()
 			graphics::eTextureInternalFormat mInternalFormat{};
+
+			D_PROPERTY()
 			graphics::eTextureCompressedInternalFormat mCompressedInternalFormat{};
 
+			D_PROPERTY()
 			graphics::Texture* mDefaultTextureObject{ nullptr };
 
 			void CreateDefaultTexture();

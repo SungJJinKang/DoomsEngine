@@ -3,7 +3,7 @@
 #include <Collider/CapsuleCollider.h>
 namespace dooms
 {
-	class DOOM_API CapsuleCollider3D : public Collider3DComponent
+	class DOOM_API D_CLASS CapsuleCollider3D : public Collider3DComponent
 	{
 		DOBJECT_CLASS_BODY(CapsuleCollider3D)
 		DOBJECT_CLASS_BASE_CHAIN(Collider3DComponent)
