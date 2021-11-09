@@ -45,21 +45,28 @@ namespace dooms
 				mBitangent = 32,
 			};
 
+			D_PROPERTY()
 			BufferID mVertexArrayObjectID;
+			D_PROPERTY()
 			BufferID mElementBufferObjectID;
 			//UINT32 mVertexBufferObject; <- Use Buffer::data
 
 			//const ThreeDModelMesh* mThreeDModelMesh; don't save ModelMeshAssetData
+			D_PROPERTY()
 			INT32 mNumOfIndices;
+			D_PROPERTY()
 			INT32 mNumOfVertices;
+			D_PROPERTY()
 			ePrimitiveType mPrimitiveType;
 
+			D_PROPERTY()
 			UINT32 mVertexArrayFlag;
 
 			/// <summary>
 			/// bind buffer array object
 			/// </summary>
 			/// <returns></returns>
+			D_FUNCTION()
 			FORCE_INLINE void BindBuffer() const noexcept final
 			{
 				D_ASSERT(mVertexArrayObjectID.IsValid());
@@ -70,6 +77,7 @@ namespace dooms
 				}
 			}
 
+			D_FUNCTION()
 			FORCE_INLINE void BindElementBuffer() const noexcept
 			{
 				D_ASSERT(mElementBufferObjectID.IsValid());
@@ -83,7 +91,9 @@ namespace dooms
 			/// <summary>
 			/// this is local coordinate, you should map to your world coordinate
 			/// </summary>
+			D_PROPERTY()
 			physics::AABB3D mAABB3D;
+			D_PROPERTY()
 			physics::Sphere mSphere;
 
 		protected:
@@ -108,11 +118,13 @@ namespace dooms
 
 			Mesh(Mesh&&) noexcept = default;
 			Mesh& operator=(Mesh&&) noexcept = default;
-			
+
+			D_FUNCTION()
 			FORCE_INLINE void BindVertexArrayObject() const noexcept
 			{
 				BindBuffer();
 			}
+			D_FUNCTION()
 			FORCE_INLINE void UnBindBuffer() const noexcept final
 			{
 				if (D_OVERLAP_BIND_CHECK_CHECK_IS_NOT_BOUND_AND_BIND_ID(VERTEX_ARRAY_TAG, 0))
@@ -178,6 +190,8 @@ namespace dooms
 			static constexpr UINT32 GetStride(const UINT32 vertexArrayFlag);
 
 			static inline std::shared_ptr<Mesh> QuadMesh{};
+
+			D_FUNCTION()
 			static std::shared_ptr<Mesh> GetQuadMesh();
 			/// <summary>
 			/// If you want mesh for postprocessin or ren
@@ -186,21 +200,30 @@ namespace dooms
 			/// <param name="leftbottom"></param>
 			/// <param name="rightup"></param>
 			/// <returns></returns>
+			D_FUNCTION()
 			static Mesh GetQuadMesh(const math::Vector2& leftbottom, const math::Vector2& rightup);
 
+			D_FUNCTION()
 			virtual bool IsBufferGenerated() const final;
+
+			D_FUNCTION()
 			FORCE_INLINE bool IsElementBufferGenerated() const 
 			{
 				return mElementBufferObjectID.IsValid();
 			}
 
+			D_FUNCTION()
 			void UpdateElementBuffer(const UINT32* indices, const UINT32 indiceCount);
 
 
+			D_FUNCTION()
 			const physics::AABB3D& GetBoundingBox() const;
+			D_FUNCTION()
 			const physics::Sphere& GetBoundingSphere() const;
 
+			D_FUNCTION()
 			UINT32 GetVertexArrayObjectID() const;
+			D_FUNCTION()
 			UINT32 GetElementBufferObjectID() const;
 		};
 	}

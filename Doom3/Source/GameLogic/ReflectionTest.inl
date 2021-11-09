@@ -216,13 +216,6 @@ void dooms::GameLogicStartPoint::StartGameLogic()
 	}
 
 	
-	dooms::graphics::graphicsAPIManager::SetWindowTitle(
-		"F3 : ���۵巻���� ����� ON/OFF | F4 : ��Ƽ������ ���������� �ø� ON/OFF | F5 : ������Ʈ FRONT TO BACK ON / OFF | F6 : ������ο� ����� ON / OFF | F7 : �浹 ó�� ����� ON / OFF"
-	);
-
-	dooms::ui::PrintText(
-		"F3 : ���۵巻���� ����� ON/OFF | F4 : ��Ƽ������ ���������� �ø� ON/OFF | F5 : ������Ʈ FRONT TO BACK ON / OFF | F6 : ������ο� ����� ON / OFF | F7 : �浹 ó�� ����� ON / OFF"
-	);
 
 	auto a = Renderer::CLASS_TYPE_ID_STATIC();
 	auto b = MeshRenderer::CLASS_TYPE_ID_STATIC();

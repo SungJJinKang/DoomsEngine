@@ -9,7 +9,7 @@ void dooms::physics::Circle2D::DrawCollider(eColor color, bool drawInstantly /*=
 
 	const FLOAT32 intervalRadian = math::PI * 2 / 72.0f;
 
-	math::Vector2 exPoint{ mCenter + math::Vector2::right * mRadius};
+	math::Vector2 exPoint{ mCenter + math::Vector2::right() * mRadius};
 	for (FLOAT32 radian = 0; radian < math::PI * 2; radian += intervalRadian)
 	{
 		math::Vector3 newPoint

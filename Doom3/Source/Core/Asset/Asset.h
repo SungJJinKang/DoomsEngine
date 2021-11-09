@@ -23,7 +23,7 @@ namespace dooms
 
 
 
-
+	D_NAMESPACE(dooms::asset)
 	namespace asset
 	{
 

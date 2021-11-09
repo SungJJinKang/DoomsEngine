@@ -19,6 +19,7 @@ namespace dooms
 {
 	class GameCore;
 
+	D_NAMESPACE(dooms::userinput)
 	namespace userinput
 	{
 		

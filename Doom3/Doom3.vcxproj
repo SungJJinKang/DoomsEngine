@@ -1016,6 +1016,7 @@ xcopy /y /d /E /H /C /I "$(ProjectDir)Assets" "$(TargetDir)Assets"</Command>
     <None Include="Source\Helper\std_future_wrapper\.git" />
     <None Include="Source\Helper\std_future_wrapper\README.md" />
     <None Include="Source\Helper\vector_erase_move_lastelement\README.md" />
+    <None Include="x64\Debug\Assets\config.ini" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="Source\Core\DObject\Reflection\Reflection_Tutorial.txt" />

@@ -39,7 +39,7 @@ void dooms::asset::ThreeDModelAsset::CreateNode(graphics::MeshNode* currentNode,
 	currentNode->mNumOfMeshes = currentModelNodeAsset->mNumOfModelMeshes;
 	if (currentNode->mNumOfMeshes != 0)
 	{
-		currentNode->mMeshes = std::make_unique< dooms::graphics::Mesh* []>(currentNode->mNumOfMeshes);
+		currentNode->mMeshes.resize(currentNode->mNumOfMeshes);
 		for (UINT32 i = 0; i < currentNode->mNumOfMeshes; i++)
 		{
 			currentNode->mMeshes[i] = &(mMeshes[currentModelNodeAsset->mModelMeshIndexs[i]]);
@@ -47,13 +47,13 @@ void dooms::asset::ThreeDModelAsset::CreateNode(graphics::MeshNode* currentNode,
 	}
 	else
 	{
-		currentNode->mMeshes = nullptr;
+		currentNode->mMeshes.resize(0);
 	}
 
 	currentNode->mNumOfChilds = currentModelNodeAsset->mNumOfThreeDModelNodeChildrens;
 	if (currentNode->mNumOfChilds != 0)
 	{
-		currentNode->mChilds = std::make_unique< dooms::graphics::MeshNode[]>(currentNode->mNumOfChilds);
+		currentNode->mChilds.resize(currentNode->mNumOfChilds);
 		for (UINT32 i = 0; i < currentNode->mNumOfChilds; i++)
 		{
 			currentNode->mChilds[i].mParent = currentNode;
@@ -62,7 +62,7 @@ void dooms::asset::ThreeDModelAsset::CreateNode(graphics::MeshNode* currentNode,
 	}
 	else
 	{
-		currentNode->mChilds = nullptr;
+		currentNode->mChilds.resize(0);
 	}
 
 	

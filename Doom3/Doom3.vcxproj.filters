@@ -1740,6 +1740,7 @@
     <None Include="Source\GameLogic\ReflectionTest.inl">
       <Filter>Header Files</Filter>
     </None>
+    <None Include="x64\Debug\Assets\config.ini" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="Source\Core\Graphics\ReadThis!!!!.txt" />

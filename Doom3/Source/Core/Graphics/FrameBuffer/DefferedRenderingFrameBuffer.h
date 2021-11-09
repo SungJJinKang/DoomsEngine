@@ -52,7 +52,7 @@ namespace dooms
 				{
 					ZERO_ZERO_ZERO_ONE,
 					ZERO_ZERO_ZERO_ONE,
-					math::Vector4::zero
+					math::Vector4(0, 0, 0, 0)
 				};
 
 				TARGET_COLORS[2] = Graphics_Setting::DefaultClearColor;

@@ -17,6 +17,7 @@ namespace dooms
 
 		protected:
 
+			D_PROPERTY()
 			BufferID mBufferID;
 
 			Buffer();
@@ -37,8 +38,11 @@ namespace dooms
 
 		public:
 
+			D_FUNCTION()
 			inline virtual void BindBuffer() const noexcept = 0;
+			D_FUNCTION()
 			inline virtual void UnBindBuffer() const noexcept = 0;
+			D_FUNCTION()
 			virtual bool IsBufferGenerated() const;
 
 

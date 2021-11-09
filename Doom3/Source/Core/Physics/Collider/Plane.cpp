@@ -72,7 +72,7 @@ void dooms::physics::Plane::DrawCollider(eColor color, bool drawInstantly /*= fa
 
 	math::Vector3 arbitaryVector =
 		math::abs(mNormal.y) > math::epsilon<FLOAT32>() || math::abs(mNormal.z) > math::epsilon<FLOAT32>() ?
-		math::Vector3::right : math::Vector3::up;
+		math::Vector3::right() : math::Vector3::up();
 	
 	math::Vector3 Parallel1VectorToPlane = math::cross(mNormal, arbitaryVector);
 	math::Vector3 Parallel2VectorToPlane = math::cross(mNormal, Parallel1VectorToPlane);

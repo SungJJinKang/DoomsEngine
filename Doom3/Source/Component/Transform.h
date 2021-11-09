@@ -193,19 +193,19 @@ namespace dooms
 		D_FUNCTION()
 		FORCE_INLINE math::Vector3 forward() const noexcept
 		{
-			return mRotation * math::Vector3::forward;
+			return mRotation * math::Vector3::forward();
 		}
 
 		D_FUNCTION()
 		FORCE_INLINE math::Vector3 right() const noexcept
 		{
-			return mRotation * math::Vector3::right;
+			return mRotation * math::Vector3::right();
 		}
 
 		D_FUNCTION()
 		FORCE_INLINE math::Vector3 up() const noexcept
 		{
-			return mRotation * math::Vector3::up;
+			return mRotation * math::Vector3::up();
 		}
 
 		D_FUNCTION()

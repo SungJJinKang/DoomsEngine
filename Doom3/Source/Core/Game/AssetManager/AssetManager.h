@@ -15,6 +15,7 @@
 
 namespace dooms
 {
+	D_NAMESPACE(dooms::assetImporter)
 	namespace assetImporter
 	{
 		class DOOM_API D_CLASS AssetManager : public IGameFlow, public ISingleton<AssetManager>

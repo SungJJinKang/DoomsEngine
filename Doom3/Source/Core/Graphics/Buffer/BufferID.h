@@ -8,11 +8,12 @@
 /// Why need this?
 /// Read this : https://sungjjinkang.github.io/c++/2021/02/20/problemWhenUseMoveContrucotrCompilerMade.html
 /// </summary>
-class BufferID
+class D_CLASS BufferID
 {
 
 private:
 
+	D_PROPERTY()
 	UINT32 mID;
 
 public:
