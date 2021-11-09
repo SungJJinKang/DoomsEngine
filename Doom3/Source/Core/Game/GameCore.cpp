@@ -205,14 +205,14 @@ bool dooms::GameCore::Tick()
 {
 
 	D_START_PROFILING(Fixed_Update, eProfileLayers::CPU);
-	MainTimer::ResetFixedTimer();
+	MainTimer::GetSingleton()->ResetFixedTimer();
 	INT32 fixedUpdateCount{ 0 };
 	for (INT32 i = 0; i < MAX_PHYSICS_STEP; ++i)
 	{
 		fixedUpdateCount++;
 		FixedUpdate();
-		MainTimer::UpdateFixedTimer();
-		if (MainTimer::GetFixedDeltaTime() > FIXED_TIME_STEP)
+		MainTimer::GetSingleton()->UpdateFixedTimer();
+		if (MainTimer::GetSingleton()->GetFixedDeltaTime() > FIXED_TIME_STEP)
 		{
 			break;
 		}
@@ -220,7 +220,7 @@ bool dooms::GameCore::Tick()
 	D_END_PROFILING(Fixed_Update);
 
 
-	MainTimer::UpdateFrameTimer();
+	MainTimer::GetSingleton()->UpdateFrameTimer();
 
 	D_START_PROFILING(Update, eProfileLayers::CPU);
 	Update();

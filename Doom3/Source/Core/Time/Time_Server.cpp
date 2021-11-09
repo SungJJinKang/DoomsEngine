@@ -4,7 +4,7 @@
 
 void dooms::time::Time_Server::Init() noexcept
 {
-	MainTimer::InitTimer();
+	mMainTimer.InitTimer();
 }
 
 void dooms::time::Time_Server::Update() noexcept

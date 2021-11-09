@@ -3,7 +3,7 @@
 #include "../Core.h"
 #include "../Game/IGameFlow.h"
 
-
+#include "MainTimer.h"
 
 namespace dooms
 {
@@ -17,6 +17,8 @@ namespace dooms
 			DOBJECT_CLASS_BASE_CHAIN(IGameFlow)
 				
 		public:
+
+			MainTimer mMainTimer;
 			
 			void Init() noexcept override;
 			void Update() noexcept override;

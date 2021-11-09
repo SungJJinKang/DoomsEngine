@@ -47,7 +47,7 @@ void dooms::Move_WASD::UpdateComponent()
 		isMove = true;
 	}
 
-	auto delta = MainTimer::GetDeltaTime();
+	auto delta = MainTimer::GetSingleton()->GetDeltaTime();
 	if (isMove == true)
 	{
 		translation.Normalize();

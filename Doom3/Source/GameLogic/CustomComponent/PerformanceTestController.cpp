@@ -10,7 +10,7 @@ void dooms::PerformanceTestController::InitComponent()
 
 void dooms::PerformanceTestController::UpdateComponent()
 {
-	if (dooms::time::MainTimer::GetCurrentFrameCount() > 2000)
+	if (dooms::time::MainTimer::GetSingleton()->GetCurrentFrameCount() > 2000)
 	{
 		CPU_VENDOR_PROFILER_PAUSE;
 		EXIT_PROGRAM;
