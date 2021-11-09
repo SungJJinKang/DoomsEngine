@@ -4,8 +4,11 @@
 #include <UI/PrintText.h>
 
 #include "clReflectHelper.h"
-#include "ReflectionTest.h"
 #include "ReflectionUtility.h"
+
+#ifdef DEBUG_MODE
+#include "ReflectionTest.h"
+#endif
 
 dooms::reflection::ReflectionManager::ReflectionManager()
 {
@@ -36,6 +39,8 @@ std::string dooms::reflection::ReflectionManager::GetReflectionBinaryDataFileNam
 	reflectionBinaryDataFileName.append("Win32");
 #endif
 
+	reflectionBinaryDataFileName.append(".cppbin");
+
 	return reflectionBinaryDataFileName;
 }
 
@@ -44,7 +49,7 @@ bool dooms::reflection::ReflectionManager::UnLoadReflectionBinaryDataFile()
 	bool isSuccessToUnload = false;
 	if(mReflectionDatabase.IsLoaded() == true)
 	{
-		mReflectionDatabase.~Database();
+		mReflectionDatabase.UnLoad();
 		dooms::ui::PrintText("Success to UnLoad Reflection Database");
 
 		isSuccessToUnload = true;
@@ -114,6 +119,11 @@ void dooms::reflection::ReflectionManager::Initialize()
 		D_ASSERT_LOG(isSuccess == true, "Fail to Generate Reflection Data using clRefect");
 
 		LoadReflectionBinaryDataFile();
+
+#ifdef DEBUG_MODE
+		clReflectTest::test(mReflectionDatabase);
+#endif
+
 	}
 	else
 	{

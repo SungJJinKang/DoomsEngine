@@ -409,3 +409,5 @@ Doom3/Doom3.vcxproj
 
 *.map
 *.json
+clreflect_compiletime_gettype.cpp
+*.cppbin
