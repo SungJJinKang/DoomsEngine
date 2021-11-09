@@ -14,7 +14,7 @@ void dooms::CircleCollider2D::UpdateWorldCollider()
 	translate.z = 0;
 	auto scale = transform->GetScale();
 
-	mWorldCircle2D.mCenter = mOffset + translate;
+	mWorldCircle2D.mCenter = mOffset + static_cast<math::Vector2>(translate);
 	mWorldCircle2D.mRadius = mRadius * math::Max(scale.x, scale.y);
 }
 

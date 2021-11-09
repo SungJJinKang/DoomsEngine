@@ -15,7 +15,7 @@ namespace dooms
 		{
 			static inline GLFWwindow* Window{ nullptr };
 
-			static inline math::Vector<2, INT32> ScreenSize{};
+			static inline math::Vector2Int ScreenSize{};
 			/// <summary>
 			/// ScreenSize Width / ScreenSize Height
 			/// </summary>

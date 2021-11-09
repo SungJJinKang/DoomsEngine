@@ -89,7 +89,7 @@ namespace dooms
 		D_PROPERTY()
 		std::vector<Entity*> mChilds;
 
-		D_PROPERTY()
+		//D_PROPERTY()
 		std::unordered_map<size_t, std::vector<Component*>> mComponents;
 		
 		D_PROPERTY()

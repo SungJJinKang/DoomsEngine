@@ -14,6 +14,8 @@
 #include "utility/BVH/BVH_Node_Object.h"
 #include "utility/ColliderUpdater.h"
 
+#include <Vector4.h>
+
 
 #include "Graphics/Acceleration/LinearData_ViewFrustumCulling/DataType/EntityBlockViewer.h"
 

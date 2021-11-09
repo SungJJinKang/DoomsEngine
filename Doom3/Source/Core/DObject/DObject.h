@@ -10,7 +10,7 @@
 
 #include "Reflection/Reflection.h"
 
-
+D_NAMESPACE(dooms)
 namespace dooms
 {
 	class DObjectManager;

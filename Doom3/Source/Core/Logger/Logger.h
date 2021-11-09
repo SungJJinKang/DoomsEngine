@@ -9,17 +9,6 @@
 #include <initializer_list>
 #include <string>
 
-
-namespace math
-{
-	template <size_t ComponentCount, typename T>
-	struct Vector;
-
-	using Vector2 = typename Vector<2, FLOAT32>;
-	using Vector3 = typename Vector<3, FLOAT32>;
-	using Vector4 = typename Vector<4, FLOAT32>;
-}
-
 namespace dooms
 {
 	namespace logger

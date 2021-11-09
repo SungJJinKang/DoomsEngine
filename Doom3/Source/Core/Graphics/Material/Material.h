@@ -4,12 +4,10 @@
 #include "../Graphics_Core.h"
 #include "../GraphicsAPI.h"
 
-#include "../Math/LightMath_Cpp/Vector1.h"
 #include "../Math/LightMath_Cpp/Vector2.h"
 #include "../Math/LightMath_Cpp/Vector3.h"
 #include "../Math/LightMath_Cpp/Vector4.h"
 
-#include "../Math/LightMath_Cpp/Matrix1x1.h"
 #include "../Math/LightMath_Cpp/Matrix2x2.h"
 #include "../Math/LightMath_Cpp/Matrix3x3.h"
 #include "../Math/LightMath_Cpp/Matrix4x4.h"
@@ -199,13 +197,13 @@ namespace dooms
 				glUniform4f(GetUniformLocation(str), value1, value2, value3, value4);
 			}
 
-			FORCE_INLINE static void SetMatrix1x1(const INT32 location, const math::Matrix1x1& matrix1x1)
+			FORCE_INLINE static void SetMatrix1x1(const INT32 location, const float matrix1x1)
 			{
-				glUniformMatrix4fv(location, 1, GL_FALSE, matrix1x1.data());
+				glUniformMatrix4fv(location, 1, GL_FALSE, &matrix1x1);
 			}
-			FORCE_INLINE void SetMatrix1x1(const char* str, const math::Matrix1x1& matrix1x1) const
+			FORCE_INLINE void SetMatrix1x1(const char* str, const float matrix1x1) const
 			{
-				glUniformMatrix4fv(GetUniformLocation(str), 1, GL_FALSE, matrix1x1.data());
+				glUniformMatrix4fv(GetUniformLocation(str), 1, GL_FALSE, &matrix1x1);
 			}
 
 			FORCE_INLINE static void SetMatrix2x2(const INT32 location, const math::Matrix2x2& matrix2x2)
@@ -236,13 +234,13 @@ namespace dooms
 			}
 
 
-			FORCE_INLINE static void SetVector1(const INT32 location, const math::Vector1& vector1)
+			FORCE_INLINE static void SetVector1(const INT32 location, const float vector1)
 			{
-				glUniform1f(location, vector1.x);
+				glUniform1f(location, vector1);
 			}
-			FORCE_INLINE void SetVector1(const char* str, const math::Vector1& vector1) const
+			FORCE_INLINE void SetVector1(const char* str, const float vector1) const
 			{
-				glUniform1f(GetUniformLocation(str), vector1.x);
+				glUniform1f(GetUniformLocation(str), vector1);
 			}
 
 			FORCE_INLINE static void SetVector2(const INT32 location, const math::Vector2& vector2)

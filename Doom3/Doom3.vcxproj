@@ -477,7 +477,6 @@ xcopy /y /d /E /H /C /I "$(ProjectDir)Assets" "$(TargetDir)Assets"</Command>
     <ClCompile Include="Source\Core\Logger\Logger.cpp" />
     <ClCompile Include="Source\Core\Graphics\GraphicsAPI.cpp" />
     <ClCompile Include="Source\Core\Math\LightMath_Cpp\Matrix.cpp" />
-    <ClCompile Include="Source\Core\Math\LightMath_Cpp\Vector1.cpp" />
     <ClCompile Include="Source\Core\Math\LightMath_Cpp\Vector2.cpp" />
     <ClCompile Include="Source\Core\Math\LightMath_Cpp\Vector3.cpp" />
     <ClCompile Include="Source\Core\Math\LightMath_Cpp\Vector4.cpp" />
@@ -737,7 +736,6 @@ xcopy /y /d /E /H /C /I "$(ProjectDir)Assets" "$(TargetDir)Assets"</Command>
     <ClInclude Include="Source\Core\Math\LightMath_Cpp\LMath.h" />
     <ClInclude Include="Source\Core\Math\LightMath_Cpp\LMath_Core.h" />
     <ClInclude Include="Source\Core\Math\LightMath_Cpp\Matrix.h" />
-    <ClInclude Include="Source\Core\Math\LightMath_Cpp\Matrix1x1.h" />
     <ClInclude Include="Source\Core\Math\LightMath_Cpp\Matrix2x2.h" />
     <ClInclude Include="Source\Core\Math\LightMath_Cpp\Matrix3x3.h" />
     <ClInclude Include="Source\Core\Math\LightMath_Cpp\Matrix4x4.h" />
@@ -745,7 +743,6 @@ xcopy /y /d /E /H /C /I "$(ProjectDir)Assets" "$(TargetDir)Assets"</Command>
     <ClInclude Include="Source\Core\Math\LightMath_Cpp\Quaternion_Scalar.h" />
     <ClInclude Include="Source\Core\Math\LightMath_Cpp\Utility.h" />
     <ClInclude Include="Source\Core\Math\LightMath_Cpp\Vector.h" />
-    <ClInclude Include="Source\Core\Math\LightMath_Cpp\Vector1.h" />
     <ClInclude Include="Source\Core\Math\LightMath_Cpp\Vector2.h" />
     <ClInclude Include="Source\Core\Math\LightMath_Cpp\Vector3.h" />
     <ClInclude Include="Source\Core\Math\LightMath_Cpp\Vector4.h" />

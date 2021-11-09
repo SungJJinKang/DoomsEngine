@@ -57,9 +57,6 @@
     <ClCompile Include="Source\Core\Logger\Logger.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Core\Math\LightMath_Cpp\Vector1.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Source\Core\Math\LightMath_Cpp\Vector2.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -707,9 +704,6 @@
     <ClInclude Include="Source\Core\Math\LightMath_Cpp\Matrix.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Core\Math\LightMath_Cpp\Matrix1x1.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Core\Math\LightMath_Cpp\Matrix2x2.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -720,9 +714,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\Core\Math\LightMath_Cpp\Utility.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Core\Math\LightMath_Cpp\Vector1.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\Core\Math\LightMath_Cpp\Vector2.h">

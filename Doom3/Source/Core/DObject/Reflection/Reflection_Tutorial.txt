@@ -149,3 +149,17 @@ int main()
 	
 }
 ```
+
+1. 
+
+template argument must be type!
+```
+some_template<1, int> <- Error!
+some_template<float, int> <- Success
+
+
+std::unique_ptr<float[]> <- Fail
+
+std::vector<float> vec; <- Success
+vec.resize(~); <- Fail
+```

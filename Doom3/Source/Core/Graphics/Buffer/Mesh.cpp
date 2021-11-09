@@ -194,7 +194,7 @@ void dooms::graphics::Mesh::BufferDataFromModelMesh(const ThreeDModelMesh& three
 	BindVertexArrayObject(); // bind vertex array buffer first
 	BindVertexBufferObject();
 
-	glBufferData(GL_ARRAY_BUFFER, sizeof(MeshVertexData) * threeDModelMesh.mNumOfVertexs, threeDModelMesh.mMeshVertexDatas.get(), GL_STATIC_DRAW);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(MeshVertexData) * threeDModelMesh.mNumOfVertexs, threeDModelMesh.mMeshVertexDatas.data(), GL_STATIC_DRAW);
 	
 	size_t offset = 0;
 	const UINT32 stride = 14 * sizeof(FLOAT32);

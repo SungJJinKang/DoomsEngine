@@ -38,6 +38,7 @@ namespace dooms
 	class Mesh;
 	class Camera;
 
+	D_NAMESPACE(dooms::graphics)
 	namespace graphics
 	{
 		class DOOM_API D_CLASS Graphics_Server : public IGameFlow, public ISingleton<Graphics_Server>

@@ -29,7 +29,7 @@ void dooms::asset::ThreeDModelAsset::SendMeshDataToGPU()
 
 void dooms::asset::ThreeDModelAsset::ClearMeshData()
 {
-	mModelMeshAssets.reset();
+	mModelMeshAssets.resize(0);
 	mRootModelNode.reset();
 
 }

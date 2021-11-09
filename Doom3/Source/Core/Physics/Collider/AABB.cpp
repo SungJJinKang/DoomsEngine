@@ -56,10 +56,10 @@ void dooms::physics::AABB2D::DrawCollider(eColor color, bool drawInstantly /*= f
 	const math::Vector3 x{ mUpperBound.x - mLowerBound.x, 0, 0 };
 	const math::Vector3 y{ 0, mUpperBound.y - mLowerBound.y, 0 };
 
-	debugGraphics->DebugDraw2DLine(mLowerBound, mLowerBound + x, color, drawInstantly);
-	debugGraphics->DebugDraw2DLine(mLowerBound, mLowerBound + y, color, drawInstantly);
-	debugGraphics->DebugDraw2DLine(mLowerBound + x, mLowerBound + x + y, color, drawInstantly);
-	debugGraphics->DebugDraw2DLine(mLowerBound + y, mLowerBound + y + x, color, drawInstantly);
+	debugGraphics->DebugDraw2DLine(mLowerBound, static_cast<math::Vector3>(mLowerBound) + x, color, drawInstantly);
+	debugGraphics->DebugDraw2DLine(mLowerBound, static_cast<math::Vector3>(mLowerBound) + y, color, drawInstantly);
+	debugGraphics->DebugDraw2DLine(static_cast<math::Vector3>(mLowerBound) + x, static_cast<math::Vector3>(mLowerBound) + x + y, color, drawInstantly);
+	debugGraphics->DebugDraw2DLine(static_cast<math::Vector3>(mLowerBound) + y, static_cast<math::Vector3>(mLowerBound) + y + x, color, drawInstantly);
 #endif
 }
 

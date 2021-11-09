@@ -9,7 +9,7 @@
 /// <returns></returns>
 
 template <>
-typename dooms::KDTree<math::Vector<3, FLOAT32>>::node_view_type dooms::KDTree<math::Vector<3, FLOAT32>>::FindNearestNode(const typename node_type::component_type& componentValue)
+typename dooms::KDTree<math::Vector3>::node_view_type dooms::KDTree<math::Vector3>::FindNearestNode(const typename node_type::component_type& componentValue)
 {
 	return {};
 }

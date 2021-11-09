@@ -15,7 +15,7 @@ using namespace math;
 
 
 
-
+D_NAMESPACE(dooms)
 namespace dooms
 {
 	struct ThreeDModelMesh;
@@ -54,12 +54,14 @@ namespace dooms
 		Vector3 mBitangent;
 
 		MeshVertexData() = default;
+		MeshVertexData(int*) {}
 		MeshVertexData(const MeshVertexData&) = default;
 		MeshVertexData(MeshVertexData&&) noexcept = default;
 		MeshVertexData& operator=(const MeshVertexData&) = default;
 		MeshVertexData& operator=(MeshVertexData&&) noexcept = default;
 		~MeshVertexData() = default;
 	};
+	D_REFLECTION_TYPE(dooms::MeshVertexData)
 
 	/*
 	struct MeshFaceData
@@ -88,7 +90,7 @@ namespace dooms
 		/// mMeshIndices count is mNumOfIndiecs
 		/// </summary>
 		D_PROPERTY()
-		std::unique_ptr<UINT32[]> mMeshIndices;
+		std::vector<UINT32> mMeshIndices;
 
 		D_PROPERTY()
 		UINT32 mNumOfVertexs;
@@ -101,7 +103,7 @@ namespace dooms
 		/// ( X ) Vertex Vertex Vertex | TexCoord TexCoord TexCoord | Normal Normal Normal | Tangent Tangent Tangent | Bitangent Bitangent Bitangent
 		/// </summary>
 		D_PROPERTY()
-		std::unique_ptr<MeshVertexData[]> mMeshVertexDatas;
+		std::vector<MeshVertexData> mMeshVertexDatas;
 
 		D_PROPERTY()
 		physics::AABB3D mAABB3D;
@@ -109,9 +111,10 @@ namespace dooms
 		physics::Sphere mSphere;
 
 		ThreeDModelMesh() = default;
-		ThreeDModelMesh(const ThreeDModelMesh&) = delete;
+		ThreeDModelMesh(int*){}
+		ThreeDModelMesh(const ThreeDModelMesh&) = default;
 		ThreeDModelMesh(ThreeDModelMesh&&) noexcept = default;
-		ThreeDModelMesh& operator=(const ThreeDModelMesh&) = delete;
+		ThreeDModelMesh& operator=(const ThreeDModelMesh&) = default;
 		ThreeDModelMesh& operator=(ThreeDModelMesh&&) noexcept = default;
 		~ThreeDModelMesh() = default;
 	};
@@ -133,7 +136,7 @@ namespace dooms
 		ThreeDModelNode* mThreeDModelNodeParent; // Parent node will be deleted later
 
 		D_PROPERTY()
-		std::unique_ptr<ThreeDModelNode[]> mThreeDModelNodeChildrens;
+		std::vector<ThreeDModelNode> mThreeDModelNodeChildrens;
 
 		D_PROPERTY()
 		UINT32 mNumOfThreeDModelNodeChildrens;
@@ -143,15 +146,16 @@ namespace dooms
 		/// so use like ThreeDModelAsset->mModelMeshAssets[mModelMeshIndexs[0]]
 		/// </summary>
 		D_PROPERTY()
-		std::unique_ptr<UINT32[]> mModelMeshIndexs;
+		std::vector<UINT32> mModelMeshIndexs;
 
 		D_PROPERTY()
 		UINT32 mNumOfModelMeshes;
 
 		ThreeDModelNode() = default;
-		ThreeDModelNode(const ThreeDModelNode&) = delete;
+		ThreeDModelNode(int*) {}
+		ThreeDModelNode(const ThreeDModelNode&) = default;
 		ThreeDModelNode(ThreeDModelNode&&) noexcept = default;
-		ThreeDModelNode& operator=(const ThreeDModelNode&) = delete;
+		ThreeDModelNode& operator=(const ThreeDModelNode&) = default;
 		ThreeDModelNode& operator=(ThreeDModelNode&&) noexcept = default;
 		~ThreeDModelNode() = default;
 	};
@@ -176,7 +180,7 @@ namespace dooms
 			std::unique_ptr<ThreeDModelNode> mRootModelNode{};
 
 			D_PROPERTY()
-			std::unique_ptr<ThreeDModelMesh[]> mModelMeshAssets{};
+			std::vector<ThreeDModelMesh> mModelMeshAssets{};
 
 			D_PROPERTY()
 			UINT32 mNumOfModelMeshAssets{};
@@ -206,9 +210,9 @@ namespace dooms
 		public:
 			
 			ThreeDModelAsset() = default;
-			ThreeDModelAsset(const ThreeDModelAsset&) = delete;
+			ThreeDModelAsset(const ThreeDModelAsset&) = default;
 			ThreeDModelAsset(ThreeDModelAsset&& threeDAsset) noexcept = default;
-			ThreeDModelAsset& operator=(const ThreeDModelAsset&) = delete;
+			ThreeDModelAsset& operator=(const ThreeDModelAsset&) = default;
 			ThreeDModelAsset& operator=(ThreeDModelAsset&& threeDAsset) noexcept = default;
 			~ThreeDModelAsset();
 

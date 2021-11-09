@@ -1,7 +1,9 @@
 #pragma once
+#include "Reflection/Reflection.h"
 
 #include <type_traits>
 
+D_NAMESPACE(dooms)
 namespace dooms
 {
 	class DObject;
@@ -16,7 +18,7 @@ namespace dooms
 		D_PROPERTY()
 		const size_t BASE_CHAIN_COUNT;
 
-		D_PROPERTY()
+		//D_PROPERTY()
 		const char* const* const BASE_CHAIN_DATA;
 
 		D_PROPERTY()
