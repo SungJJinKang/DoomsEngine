@@ -15,6 +15,7 @@
 namespace dooms
 {
 	class ColliderComponent;
+	D_NAMESPACE(dooms::physics)
 	namespace physics
 	{
 		class DOOM_API D_CLASS Physics_Server : public IGameFlow, public ISingleton<Physics_Server>

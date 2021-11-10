@@ -29,7 +29,7 @@ dooms::DynamicLinkingLibrary::DynamicLinkingLibrary(const std::string& libraryPa
 dooms::DynamicLinkingLibrary::DynamicLinkingLibrary(const std::string& libraryPath, const unsigned long dwFlags)
 	: mLibraryPath(libraryPath), mLibrary(LoadDynamicLinkingLibrary(dwFlags), DynamicLinkingReleaser())
 {
-	if (mLibrary == nullptr)
+	if (mLibrary == NULL)
 	{
 		const DWORD errorCode = GetLastError();
 

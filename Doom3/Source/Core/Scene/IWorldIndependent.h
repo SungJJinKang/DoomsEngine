@@ -5,7 +5,7 @@ namespace dooms
 	/// <summary>
 	/// Interface For Class independent from world ( even if specific world is destoryed, this class instance is alive
 	/// </summary>
-	class I_IndependentFromScene
+	class DOOM_API D_CLASS I_IndependentFromScene
 	{
 
 	private:

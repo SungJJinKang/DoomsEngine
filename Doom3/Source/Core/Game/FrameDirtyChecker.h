@@ -1,4 +1,6 @@
 #pragma once
+
+#include <Core.h>
 #include <EasyDirtyChecker/DirtySender.h>
 
 namespace dooms
@@ -11,7 +13,7 @@ namespace dooms
 	/// In game flow if you set dirty at late of current frame, object at early of current frame can't know whether is dirty at current frame
 	/// So We Check previous frame's dirty, then Every objects can know data is dirty at current frame
 	/// </summary>
-	class FrameDirtyChecker
+	class DOOM_API D_CLASS FrameDirtyChecker
 	{
 
 	private:

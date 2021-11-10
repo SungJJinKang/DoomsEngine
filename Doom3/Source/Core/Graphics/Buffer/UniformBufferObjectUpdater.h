@@ -12,7 +12,7 @@ namespace dooms
 		/// interface for Sending Data to Temp container of Uniform Buffer Object
 		/// Inherit this class for Update Uniform Buffer Object's TempBuffer
 		/// </summary>
-		class UniformBufferObjectUpdater // Don't put DObject here, Because Light Component should inherit this class, But it already inherit DObject through Component Class
+		class DOOM_API D_CLASS UniformBufferObjectUpdater // Don't put DObject here, Because Light Component should inherit this class, But it already inherit DObject through Component Class
 		{
 
 		private:

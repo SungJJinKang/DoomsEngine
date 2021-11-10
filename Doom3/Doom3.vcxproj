@@ -213,10 +213,11 @@ xcopy /y /d /E /H /C /I "$(ProjectDir)Assets" "$(TargetDir)Assets"</Command>
       <ShowIncludes>false</ShowIncludes>
       <GenerateSourceDependencies>true</GenerateSourceDependencies>
       <SourceDependenciesFile>$(OutDirFullPath)SourceDependencies\</SourceDependenciesFile>
+      <AssemblerOutput>AssemblyAndSourceCode</AssemblerOutput>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
-      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <GenerateDebugInformation>DebugFull</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(SolutionDir)Source\Helper\crossguid\build\Debug;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>xg.lib;%(AdditionalDependencies);ntdll.lib</AdditionalDependencies>
       <GenerateMapFile>true</GenerateMapFile>
@@ -329,7 +330,6 @@ xcopy /y /d /E /H /C /I "$(ProjectDir)Assets" "$(TargetDir)Assets"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="clreflect_compiletime_gettype.cpp" />
     <ClCompile Include="Source\Core\Asset\AudioAsset.cpp" />
     <ClCompile Include="Source\Core\Asset\FontAsset.cpp" />
     <ClCompile Include="Source\Core\Asset\Helper\AssetFactory.cpp" />

@@ -45,8 +45,6 @@ clcpp_reflect(std::vector)
 clcpp_reflect(std::unordered_map)
 clcpp_reflect(std::map)
 clcpp_reflect(std::set)
-clcpp_reflect(physics::AABB3D)
-clcpp_reflect(physics::Sphere)
 
 #ifndef D_NAMESPACE
 #define D_NAMESPACE(NAMESPACE_NAME) clcpp_reflect_part(NAMESPACE_NAME)

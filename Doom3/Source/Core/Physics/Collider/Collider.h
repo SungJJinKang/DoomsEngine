@@ -6,6 +6,7 @@
 
 namespace dooms
 {
+	D_NAMESPACE(dooms::physics)
 	namespace physics
 	{
 		class DOOM_API D_CLASS Collider : public RenderCollider //, public StaticContainer<Collider> Don't put this ( too slow )

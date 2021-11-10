@@ -573,9 +573,6 @@
     <ClCompile Include="Source\Core\DObject\Reflection\ReflectionTest.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="clreflect_compiletime_gettype.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="dependency\glad\include\glad\glad.h">
