@@ -224,9 +224,7 @@ xcopy /y /d /E /H /C /I "$(ProjectDir)Assets" "$(TargetDir)Assets"</Command>
       <MapExports>true</MapExports>
     </Link>
     <PostBuildEvent>
-      <Command>xcopy /y /d "$(ProjectDir)Source\Core\DObject\Reflection\clReflect_automation\clReflect_automation\bin\x64\Debug\*.dll" "$(TargetDir)"
-xcopy /y /d "$(ProjectDir)Source\Core\DObject\Reflection\clReflect_automation\clReflect_automation\bin\x64\Debug\*.pdb" "$(TargetDir)"
-xcopy /y /d "$(ProjectDir)*.cppbin" "$(TargetDir)"
+      <Command>xcopy /y /d /f "$(ProjectDir)*.cppbin" "$(TargetDir)"
 xcopy /y /d /E /H /C /I "$(ProjectDir)Assets" "$(TargetDir)Assets"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
@@ -266,9 +264,7 @@ xcopy /y /d /E /H /C /I "$(ProjectDir)Assets" "$(TargetDir)Assets"</Command>
       <MapExports>true</MapExports>
     </Link>
     <PostBuildEvent>
-      <Command>xcopy /y /d "$(ProjectDir)Source\Core\DObject\Reflection\clReflect_automation\clReflect_automation\bin\x64\Release\*.dll" "$(TargetDir)"
-xcopy /y /d "$(ProjectDir)Source\Core\DObject\Reflection\clReflect_automation\clReflect_automation\bin\x64\Release\*.pdb" "$(TargetDir)"
-xcopy /y /d "$(ProjectDir)*.cppbin" "$(TargetDir)"
+      <Command>xcopy /y /d /f "$(ProjectDir)*.cppbin" "$(TargetDir)"
 xcopy /y /d /E /H /C /I "$(ProjectDir)Assets" "$(TargetDir)Assets"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
