@@ -10,9 +10,9 @@
 
 void clReflectTest::test(clcpp::Database& db)
 {
-	auto aName = db.GetName("dooms::DObject");
-	/*auto aNamespace = db.GetNamespace(aName.hash);
-	auto cla = aNamespace->classes;*/
+	auto DObjectName = db.GetName("dooms::DObject");
+	auto DObjectType = db.GetType(DObjectName.hash);
+	auto DObjectClass = DObjectType->AsClass();
 
 	unsigned num;
 	const clcpp::Type** type = db.GetTypes(num);

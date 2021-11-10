@@ -518,6 +518,7 @@ xcopy /y /d /E /H /C /I "$(ProjectDir)Assets" "$(TargetDir)Assets"</Command>
     <ClInclude Include="Source\Core\Asset\AssetsForwardDeclaration.h" />
     <ClInclude Include="Source\Core\Asset\Helper\AssetFactory.h" />
     <ClInclude Include="Source\Core\DObject\Reflection\ReflectionManager.h" />
+    <ClInclude Include="Source\Core\DObject\Reflection\ReflectionPredefined.h" />
     <ClInclude Include="Source\Core\DObject\Reflection\ReflectionUtility.h" />
     <ClInclude Include="Source\Core\DynamicLinkingHelper\SmartDynamicLinking.h" />
     <ClInclude Include="Source\Core\DObject\DClass.h" />

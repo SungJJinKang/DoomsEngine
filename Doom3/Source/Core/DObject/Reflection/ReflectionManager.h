@@ -2,6 +2,8 @@
 
 #include <Core.h>
 
+#include "ReflectionUtility.h"
+
 namespace dooms
 {
 	namespace reflection
@@ -13,7 +15,8 @@ namespace dooms
 		private:
 
 			bool isInitialized = false;
-
+			
+			utility::Malloc allocator;
 			clcpp::Database mReflectionDatabase;
 
 		public:
