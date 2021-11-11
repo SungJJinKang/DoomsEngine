@@ -11,7 +11,7 @@ namespace dooms
 		class PicktureInPickture;
 	}
 
-	class ViewFrustumCullingDebug : public PlainComponent
+	class D_CLASS ViewFrustumCullingDebug : public PlainComponent
 	{
 
 		DOBJECT_CLASS_BODY(ViewFrustumCullingDebug)

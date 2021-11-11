@@ -7,7 +7,7 @@
 #include "ReflectionUtility.h"
 
 #ifdef DEBUG_MODE
-#include "ReflectionTest.h"
+#include "Test/ReflectionTest.h"
 #endif
 
 dooms::reflection::ReflectionManager::ReflectionManager()

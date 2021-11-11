@@ -3,6 +3,7 @@
 #include <type_traits>
 
 #include "DClass.h"
+#include "../Reflection.h"
 
 namespace dooms
 {

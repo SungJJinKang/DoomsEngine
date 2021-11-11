@@ -1,7 +1,9 @@
 #pragma once
-#include "Reflection/Reflection.h"
 
 #include <type_traits>
+
+#include <Macros/DllMarcos.h>
+#include "../Reflection.h"
 
 D_NAMESPACE(dooms)
 namespace dooms
@@ -33,7 +35,7 @@ namespace dooms
 		DOBJECT_CLASS_BODY(DClass) // Dont Do this
 		DOBJECT_CLASS_BASE_CHAIN(DObject) // Dont Do this
 		*/
-		constexpr DClass
+		DClass
 		(
 			const size_t _CLASS_TYPE_SIZE,
 			const char* const _CLASS_TYPE_ID,
@@ -78,6 +80,8 @@ namespace dooms
 		}
 
 		//TODO : Implement DefaultObject for CreateDObject from DClass ( use CopyConstructor )
+
+		//dooms:DClass* CreateDClass
 	};
 
 

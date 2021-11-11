@@ -8,7 +8,7 @@
 namespace dooms
 {
 
-class PhysicsDebuggerController : public PlainComponent
+class D_CLASS PhysicsDebuggerController : public PlainComponent
 {
 
 	DOBJECT_CLASS_BODY(PhysicsDebuggerController)

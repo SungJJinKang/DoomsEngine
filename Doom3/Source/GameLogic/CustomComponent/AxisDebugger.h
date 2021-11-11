@@ -4,7 +4,7 @@
 
 namespace dooms
 {
-	class AxisDebugger : public PlainComponent
+	class D_CLASS AxisDebugger : public PlainComponent
 	{
 
 		DOBJECT_CLASS_BODY(AxisDebugger)

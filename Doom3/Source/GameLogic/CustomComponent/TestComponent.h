@@ -4,7 +4,7 @@
 
 namespace dooms
 {
-	class TestComponent : public PlainComponent
+	class D_CLASS TestComponent : public PlainComponent
 	{
 
 		DOBJECT_CLASS_BODY(TestComponent)

@@ -9,8 +9,10 @@ namespace dooms
 	namespace reflection
 	{
 
-		class DOOM_API D_CLASS ReflectionManager : public ISingleton<ReflectionManager>
+		class DOOM_API D_CLASS ReflectionManager : public DObject, public ISingleton<ReflectionManager>
 		{
+			DOBJECT_CLASS_BODY(ReflectionManager, dooms::eDOBJECT_ClassFlags::NonCopyable);
+			DOBJECT_CLASS_BASE_CHAIN(DObject)
 
 		private:
 

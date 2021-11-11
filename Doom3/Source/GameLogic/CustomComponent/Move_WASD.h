@@ -4,7 +4,7 @@
 
 namespace dooms
 {
-	class Move_WASD : public PlainComponent
+	class D_CLASS Move_WASD : public PlainComponent
 	{
 
 		DOBJECT_CLASS_BODY(Move_WASD)

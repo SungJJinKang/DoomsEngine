@@ -8,7 +8,7 @@
 namespace dooms
 {
 
-	class OverDrawVisualizationDebugger : public PlainComponent
+	class D_CLASS OverDrawVisualizationDebugger : public PlainComponent
 	{
 
 		DOBJECT_CLASS_BODY(OverDrawVisualizationDebugger)

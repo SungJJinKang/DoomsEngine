@@ -5,7 +5,7 @@
 
 namespace dooms
 {
-	class RenderingAABBController : public PlainComponent
+	class D_CLASS RenderingAABBController : public PlainComponent
 	{
 
 		DOBJECT_CLASS_BODY(RenderingAABBController)
