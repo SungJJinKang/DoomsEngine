@@ -4,7 +4,7 @@
 
 namespace dooms
 {
-	class AutoRotate : public PlainComponent
+	class D_CLASS AutoRotate : public PlainComponent
 	{
 		DOBJECT_CLASS_BODY(AutoRotate)
 		DOBJECT_CLASS_BASE_CHAIN(PlainComponent)

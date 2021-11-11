@@ -4,7 +4,7 @@
 
 namespace dooms
 {
-	class PerformanceTestController : public PlainComponent
+	class D_CLASS PerformanceTestController : public PlainComponent
 	{
 
 		DOBJECT_CLASS_BODY(PerformanceTestController)

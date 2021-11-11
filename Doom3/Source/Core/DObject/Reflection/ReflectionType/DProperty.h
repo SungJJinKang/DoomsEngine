@@ -3,6 +3,8 @@
 #include <type_traits>
 
 #include "Macros/TypeDef.h"
+#include <Macros/DllMarcos.h>
+#include "../Reflection.h"
 
 namespace dooms
 {
@@ -17,8 +19,7 @@ namespace dooms
 		D_PROPERTY()
 		const size_t PROPERTY_TYPE_SIZE;
 
-
-		//������ : https://godbolt.org/z/57sqe6h4P  ,  https://youtu.be/abdeAew3gmQ
+		
 		constexpr DProperty()
 		{
 			

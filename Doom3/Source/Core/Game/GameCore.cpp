@@ -10,7 +10,6 @@
 #include "MainTimer.h"
 
 #include "../Logger/logger.h"
-#include "DObject/Reflection/ReflectionTest.h"
 
 
 dooms::GameCore::GameCore()

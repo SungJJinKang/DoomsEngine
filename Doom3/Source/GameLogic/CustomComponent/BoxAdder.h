@@ -4,7 +4,7 @@
 
 namespace dooms
 {
-	class BoxAdder : public PlainComponent
+	class D_CLASS BoxAdder : public PlainComponent
 	{
 
 		DOBJECT_CLASS_BODY(BoxAdder)

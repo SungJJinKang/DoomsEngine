@@ -4,7 +4,7 @@
 
 namespace dooms
 {
-	class ButtonRotate : public PlainComponent
+	class D_CLASS ButtonRotate : public PlainComponent
 	{
 
 		DOBJECT_CLASS_BODY(ButtonRotate)

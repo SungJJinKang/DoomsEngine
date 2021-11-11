@@ -13,7 +13,7 @@ namespace dooms
 	}
 
 
-class DeferredRenderingDebuggerController : public PlainComponent
+class D_CLASS DeferredRenderingDebuggerController : public PlainComponent
 {
 		DOBJECT_CLASS_BODY(DeferredRenderingDebuggerController)
 		DOBJECT_CLASS_BASE_CHAIN(PlainComponent)

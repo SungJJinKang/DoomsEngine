@@ -326,11 +326,13 @@ xcopy /y /d /E /H /C /I "$(ProjectDir)Assets" "$(TargetDir)Assets"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="clreflect_compiletime_gettype.cpp" />
     <ClCompile Include="Source\Core\Asset\AudioAsset.cpp" />
     <ClCompile Include="Source\Core\Asset\FontAsset.cpp" />
     <ClCompile Include="Source\Core\Asset\Helper\AssetFactory.cpp" />
     <ClCompile Include="Source\Core\DObject\Reflection\ReflectionManager.cpp" />
-    <ClCompile Include="Source\Core\DObject\Reflection\ReflectionTest.cpp" />
+    <ClCompile Include="Source\Core\DObject\Reflection\Test\ReflectionTest.cpp" />
+    <ClCompile Include="Source\Core\DObject\Reflection\Test\TestDObject.cpp" />
     <ClCompile Include="Source\Core\DynamicLinkingHelper\SmartDynamicLinking.cpp" />
     <ClCompile Include="Source\Core\DObject\Reflection\clReflectHelper.cpp" />
     <ClCompile Include="Source\Core\DObject\Reflection\clReflect_automation\clReflect\src\clReflectCpp\clcpp.cpp" />
@@ -520,16 +522,17 @@ xcopy /y /d /E /H /C /I "$(ProjectDir)Assets" "$(TargetDir)Assets"</Command>
     <ClInclude Include="Source\Core\DObject\Reflection\ReflectionManager.h" />
     <ClInclude Include="Source\Core\DObject\Reflection\ReflectionPredefined.h" />
     <ClInclude Include="Source\Core\DObject\Reflection\ReflectionUtility.h" />
+    <ClInclude Include="Source\Core\DObject\Reflection\Test\TestDObject.h" />
     <ClInclude Include="Source\Core\DynamicLinkingHelper\SmartDynamicLinking.h" />
-    <ClInclude Include="Source\Core\DObject\DClass.h" />
+    <ClInclude Include="Source\Core\DObject\Reflection\ReflectionType\DClass.h" />
     <ClInclude Include="Source\Core\DObject\DObjectHeaders.h" />
     <ClInclude Include="Source\Core\DObject\DObjectMacros.h" />
     <ClInclude Include="Source\Core\DObject\DObject_Constant.h" />
-    <ClInclude Include="Source\Core\DObject\DProperty.h" />
+    <ClInclude Include="Source\Core\DObject\Reflection\ReflectionType\DProperty.h" />
     <ClInclude Include="Source\Core\DObject\Reflection\clReflectHelper.h" />
     <ClInclude Include="Source\Core\DObject\Reflection\Reflection.h" />
-    <ClInclude Include="Source\Core\DObject\Reflection\ReflectionTest.h" />
-    <ClInclude Include="Source\Core\DObject\TSubclassOf.h" />
+    <ClInclude Include="Source\Core\DObject\Reflection\Test\ReflectionTest.h" />
+    <ClInclude Include="Source\Core\DObject\Reflection\ReflectionType\TSubclassOf.h" />
     <ClInclude Include="Source\Core\GameEngineEntryPoint.h" />
     <ClInclude Include="Source\Core\Game\AssetManager\AssetFuture.h" />
     <ClInclude Include="Source\Core\Graphics\Acceleration\LinearData_ViewFrustumCulling\DataType\Math\SIMD_Core.h" />
@@ -1016,6 +1019,7 @@ xcopy /y /d /E /H /C /I "$(ProjectDir)Assets" "$(TargetDir)Assets"</Command>
     <None Include="x64\Debug\Assets\config.ini" />
   </ItemGroup>
   <ItemGroup>
+    <Text Include="Source\Core\DObject\Reflection\DevelopmentPlan.txt" />
     <Text Include="Source\Core\DObject\Reflection\Reflection_Tutorial.txt" />
     <Text Include="Source\Core\Graphics\Acceleration\Culling.md" />
     <Text Include="Source\Core\Graphics\ReadThis!!!!.txt" />

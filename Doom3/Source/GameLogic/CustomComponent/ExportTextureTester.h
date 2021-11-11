@@ -4,7 +4,7 @@
 
 namespace dooms
 {
-	class ExportTextureTester : public PlainComponent
+	class D_CLASS ExportTextureTester : public PlainComponent
 	{
 
 		DOBJECT_CLASS_BODY(ExportTextureTester)

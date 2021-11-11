@@ -33,7 +33,7 @@ namespace dooms
 		PAUSE_CULL_JOB = 1 << 1,
 	};
 
-	class Camera : public PlainComponent, public graphics::UniformBufferObjectUpdater, public StaticContainer<Camera>
+	class DOOM_API D_CLASS Camera : public PlainComponent, public graphics::UniformBufferObjectUpdater, public StaticContainer<Camera>
 	{
 		DOBJECT_CLASS_BODY(Camera)
 		DOBJECT_CLASS_BASE_CHAIN(PlainComponent)

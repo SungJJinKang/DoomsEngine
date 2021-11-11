@@ -5,7 +5,7 @@
 
 namespace dooms
 {
-	class TestComponent2 : public TestComponent
+	class D_CLASS TestComponent2 : public TestComponent
 	{
 
 		DOBJECT_CLASS_BODY(TestComponent2)

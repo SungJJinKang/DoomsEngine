@@ -8,7 +8,7 @@ namespace dooms
 		class ShaderAsset;
 	}
 
-	class CharacterSpawner : public PlainComponent
+	class D_CLASS CharacterSpawner : public PlainComponent
 	{
 
 		DOBJECT_CLASS_BODY(CharacterSpawner)

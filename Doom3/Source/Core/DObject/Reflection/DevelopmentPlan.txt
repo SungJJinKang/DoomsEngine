@@ -1,0 +1,5 @@
+## 개발 계획
+
+
+msvc용 x64 함수 호출 어셈블리어 짜기. ( CallFunction_x86_32_msvc_cdecl )
+

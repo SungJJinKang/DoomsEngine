@@ -8,6 +8,7 @@
 #include <Macros/Assert.h>
 
 
+
 namespace dooms
 {
 	class DObject;
@@ -261,7 +262,7 @@ public:																									\
 
 /////////////////////////////////
 
-#include "DClass.h"
+#include "Reflection/ReflectionType/DClass.h"
 
 namespace dooms
 {

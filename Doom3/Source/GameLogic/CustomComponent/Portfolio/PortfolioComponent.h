@@ -12,7 +12,7 @@ namespace dooms
 		class PicktureInPickture;
 	}
 
-class PortfolioComponent : public PlainComponent
+class D_CLASS PortfolioComponent : public PlainComponent
 {
 
 	DOBJECT_CLASS_BODY(PortfolioComponent)

@@ -7,7 +7,7 @@ namespace dooms
 {
 	class BulletComponent;
 
-	class FireBulletComponent : public PlainComponent
+	class D_CLASS FireBulletComponent : public PlainComponent
 	{
 
 		DOBJECT_CLASS_BODY(FireBulletComponent)

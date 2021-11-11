@@ -570,7 +570,13 @@
     <ClCompile Include="Source\Core\DObject\Reflection\ReflectionManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Core\DObject\Reflection\ReflectionTest.cpp">
+    <ClCompile Include="Source\Core\DObject\Reflection\Test\ReflectionTest.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="clreflect_compiletime_gettype.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Core\DObject\Reflection\Test\TestDObject.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -1469,7 +1475,7 @@
     <ClInclude Include="Source\Component\Core\ComponentHelper.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Core\DObject\DClass.h">
+    <ClInclude Include="Source\Core\DObject\Reflection\ReflectionType\DClass.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\Core\IO\AssetExporter\AssetExporter_Three_D_Model.h">
@@ -1481,7 +1487,7 @@
     <ClInclude Include="Source\GameLogic\CustomComponent\TestComponent2.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Core\DObject\TSubclassOf.h">
+    <ClInclude Include="Source\Core\DObject\Reflection\ReflectionType\TSubclassOf.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\Core\Graphics\Texture\TextureFormat.h">
@@ -1490,7 +1496,7 @@
     <ClInclude Include="Source\Core\Graphics\Texture\CubemapTexture.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Core\DObject\DProperty.h">
+    <ClInclude Include="Source\Core\DObject\Reflection\ReflectionType\DProperty.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\Core\Math\LightMath_Cpp\TypeDef.h">
@@ -1526,7 +1532,7 @@
     <ClInclude Include="Source\Core\DObject\Reflection\Reflection.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Core\DObject\Reflection\ReflectionTest.h">
+    <ClInclude Include="Source\Core\DObject\Reflection\Test\ReflectionTest.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\Core\DObject\Reflection\clReflectHelper.h">
@@ -1551,6 +1557,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\Core\DObject\Reflection\ReflectionPredefined.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Core\DObject\Reflection\Test\TestDObject.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -1747,5 +1756,6 @@
     <Text Include="Source\Core\Graphics\Acceleration\Culling.md" />
     <Text Include="Source\GameLogic\DeferredRenderingDebug.inl" />
     <Text Include="Source\Core\DObject\Reflection\Reflection_Tutorial.txt" />
+    <Text Include="Source\Core\DObject\Reflection\DevelopmentPlan.txt" />
   </ItemGroup>
 </Project>
