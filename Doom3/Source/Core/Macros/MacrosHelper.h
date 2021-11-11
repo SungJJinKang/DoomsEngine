@@ -1,6 +1,8 @@
 #pragma once
 
-#define CONCAT(A, B) A##B
+#define CONCAT2(x, y) x##y
+#define CONCAT(x, y) CONCAT2(x, y)
+
 #define MAKE_STRING(A) #A
 
 

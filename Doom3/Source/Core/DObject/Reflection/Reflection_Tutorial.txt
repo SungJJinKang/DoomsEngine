@@ -163,3 +163,40 @@ std::unique_ptr<float[]> <- Fail
 std::vector<float> vec; <- Success
 vec.resize(~); <- Fail
 ```
+
+2.
+```
+clcpp_reflect(dooms)
+namespace dooms
+{
+	clcpp_reflect(dooms::test) // error!!! because test is already reflected by clcpp_reflect(dooms)
+	namespace test
+	{
+	}
+}
+
+clcpp_reflect_part(dooms)
+namespace dooms
+{
+	clcpp_reflect_part(dooms::test) // success!!!
+	namespace test
+	{
+	}
+}
+```
+
+3. Never use virtual inherit
+```
+clcpp_reflect_part(A)
+class A
+{
+
+}
+
+clcpp_reflect_part(B)
+class B : public virtual A // Error!! virtual inherit isn't supported
+{
+
+}
+```
+
