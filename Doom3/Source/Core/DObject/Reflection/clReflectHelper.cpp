@@ -26,6 +26,10 @@ namespace dooms
 			clReflectAdditionalCompilerOptionsString.append(dooms::path::_GetCurrentPath(sourceDependencyFolderDirectory.generic_u8string()));
 			clReflectAdditionalCompilerOptionsString.append("\\");
 
+			clReflectAdditionalCompilerOptionsString.append(" -ROOTCLASS_TYPENAME");
+			clReflectAdditionalCompilerOptionsString.append("dooms::DObject");
+			
+
 			if (ConfigData::GetSingleton()->GetConfigData().GetValue<bool>("SYSTEM", "PRINT_GENERATE_REFLECTION_DATA_VERBOSE") == true)
 			{
 				clReflectAdditionalCompilerOptionsString.append(" -v"); // print clReflect verbose
@@ -34,6 +38,8 @@ namespace dooms
 			clReflectAdditionalCompilerOptionsString.append(" ");
 			clReflectAdditionalCompilerOptionsString.append(CPP_VERSION_COMPILER_OPTION_FOR_CLANG);
 
+			clReflectAdditionalCompilerOptionsString.append(" ");
+			clReflectAdditionalCompilerOptionsString.append(CPP_VERSION_COMPILER_OPTION_FOR_CLANG);
 
 			return clReflectAdditionalCompilerOptionsString;
 		}

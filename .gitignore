@@ -413,3 +413,5 @@ clreflect_compiletime_gettype.cpp
 *.cppbin
 out/
 enc_temp_folder/
+
+*.reflectionh
