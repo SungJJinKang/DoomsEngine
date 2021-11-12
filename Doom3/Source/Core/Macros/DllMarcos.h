@@ -4,7 +4,7 @@
 
 #include <DObject/Reflection/Reflection.h>
 
-//#define DISABLE_DLL_PROCESS
+#define DISABLE_DLL_PROCESS
 
 
 #ifndef DISABLE_DLL_PROCESS
