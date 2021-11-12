@@ -1,0 +1,17 @@
+#pragma once
+
+// Utility Header File ( Don't Edit this )
+// SourceFilePath : C:\Doom3FromScratch\Doom3\Source\Core\Physics\Picking.cpp
+
+
+#ifdef C__Doom3FromScratch_Doom3_Source_Core_Physics_Picking.reflectionh
+#error "C__Doom3FromScratch_Doom3_Source_Core_Physics_Picking.reflectionh already included, missing '#pragma once' in C__Doom3FromScratch_Doom3_Source_Core_Physics_Picking.h"
+#endif
+
+
+#include <type_traits>
+
+
+//-------------------------------------------
+
+

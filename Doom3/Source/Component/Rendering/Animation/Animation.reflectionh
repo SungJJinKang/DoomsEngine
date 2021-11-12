@@ -1,0 +1,65 @@
+#pragma once
+
+// Utility Header File ( Don't Edit this )
+// SourceFilePath : C:\Doom3FromScratch\Doom3\Source\Component\Rendering\Animation\Animation.cpp
+
+
+#ifdef C__Doom3FromScratch_Doom3_Source_Component_Rendering_Animation_Animation.reflectionh
+#error "C__Doom3FromScratch_Doom3_Source_Component_Rendering_Animation_Animation.reflectionh already included, missing '#pragma once' in C__Doom3FromScratch_Doom3_Source_Component_Rendering_Animation_Animation.h"
+#endif
+
+
+#include <type_traits>
+
+
+//-------------------------------------------
+
+
+#ifdef GENERATE_BODY_FULLNAME_dooms__Animation
+#error "GENERATE_BODY_FULLNAME_dooms__Animation already included...."
+#endif
+
+#undef INHERITANCE_INFORMATION_dooms__Animation
+#define INHERITANCE_INFORMATION_dooms__Animation \
+public: inline static const unsigned long int BASE_CHAIN_LIST[] { 781093150, 1503232071, 3040581954, 3969188510 }; \
+inline static const unsigned long int BASE_CHAIN_LIST_LENGTH { 4 }; \
+virtual const unsigned long int* GetBastChainList() { return BASE_CHAIN_LIST; } \
+virtual unsigned long int GetBastChainListLength() { return BASE_CHAIN_LIST_LENGTH; } \
+public: typedef dooms::Component Base;
+
+
+#undef CURRENT_TYPE_ALIAS_dooms__Animation
+#define CURRENT_TYPE_ALIAS_dooms__Animation \
+public: typedef dooms::Animation Current;
+
+
+#undef TYPE_FULLNAME_HASH_VALUE_NAME_STRING_dooms__Animation
+#define TYPE_FULLNAME_HASH_VALUE_NAME_STRING_dooms__Animation \
+public: \
+inline static const unsigned long int TYPE_FULL_NAME_HASH_VALUE = 781093150; \
+inline static const char* const TYPE_FULL_NAME = "dooms::Animation"; \
+inline static const char* const TYPE_SHORT_NAME = "Animation"; 
+
+
+#undef TYPE_CHECK_FUNCTION_Animation
+#define TYPE_CHECK_FUNCTION_Animation \
+private: \
+attrNoReflect void __TYPE_CHECK() { static_assert(std::is_same_v<std::decay<decltype(*this)>::type, Current> == true, "ERROR : WRONG TYPE. Please Check GENERATED_~ MACROS");} \
+
+
+#undef GENERATE_BODY_FULLNAME_dooms__Animation
+#define GENERATE_BODY_FULLNAME_dooms__Animation \
+INHERITANCE_INFORMATION_dooms__Animation \
+CURRENT_TYPE_ALIAS_dooms__Animation \
+TYPE_FULLNAME_HASH_VALUE_NAME_STRING_dooms__Animation \
+TYPE_CHECK_FUNCTION_Animation \
+private:
+
+
+//Type Short Name ( without namespace, only type name ) Version Macros.
+#define GENERATE_BODY_Animation GENERATE_BODY_FULLNAME_dooms__Animation
+
+
+//-------------------------------------------
+
+

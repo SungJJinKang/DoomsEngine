@@ -1,0 +1,65 @@
+#pragma once
+
+// Utility Header File ( Don't Edit this )
+// SourceFilePath : C:\Doom3FromScratch\Doom3\Source\Core\Graphics\Texture\SingleTexture.cpp
+
+
+#ifdef C__Doom3FromScratch_Doom3_Source_Core_Graphics_Texture_SingleTexture.reflectionh
+#error "C__Doom3FromScratch_Doom3_Source_Core_Graphics_Texture_SingleTexture.reflectionh already included, missing '#pragma once' in C__Doom3FromScratch_Doom3_Source_Core_Graphics_Texture_SingleTexture.h"
+#endif
+
+
+#include <type_traits>
+
+
+//-------------------------------------------
+
+
+#ifdef GENERATE_BODY_FULLNAME_dooms__graphics__SingleTexture
+#error "GENERATE_BODY_FULLNAME_dooms__graphics__SingleTexture already included...."
+#endif
+
+#undef INHERITANCE_INFORMATION_dooms__graphics__SingleTexture
+#define INHERITANCE_INFORMATION_dooms__graphics__SingleTexture \
+public: inline static const unsigned long int BASE_CHAIN_LIST[] { 539166988, 1637549627, 3969188510 }; \
+inline static const unsigned long int BASE_CHAIN_LIST_LENGTH { 3 }; \
+virtual const unsigned long int* GetBastChainList() { return BASE_CHAIN_LIST; } \
+virtual unsigned long int GetBastChainListLength() { return BASE_CHAIN_LIST_LENGTH; } \
+public: typedef dooms::graphics::Texture Base;
+
+
+#undef CURRENT_TYPE_ALIAS_dooms__graphics__SingleTexture
+#define CURRENT_TYPE_ALIAS_dooms__graphics__SingleTexture \
+public: typedef dooms::graphics::SingleTexture Current;
+
+
+#undef TYPE_FULLNAME_HASH_VALUE_NAME_STRING_dooms__graphics__SingleTexture
+#define TYPE_FULLNAME_HASH_VALUE_NAME_STRING_dooms__graphics__SingleTexture \
+public: \
+inline static const unsigned long int TYPE_FULL_NAME_HASH_VALUE = 539166988; \
+inline static const char* const TYPE_FULL_NAME = "dooms::graphics::SingleTexture"; \
+inline static const char* const TYPE_SHORT_NAME = "SingleTexture"; 
+
+
+#undef TYPE_CHECK_FUNCTION_SingleTexture
+#define TYPE_CHECK_FUNCTION_SingleTexture \
+private: \
+attrNoReflect void __TYPE_CHECK() { static_assert(std::is_same_v<std::decay<decltype(*this)>::type, Current> == true, "ERROR : WRONG TYPE. Please Check GENERATED_~ MACROS");} \
+
+
+#undef GENERATE_BODY_FULLNAME_dooms__graphics__SingleTexture
+#define GENERATE_BODY_FULLNAME_dooms__graphics__SingleTexture \
+INHERITANCE_INFORMATION_dooms__graphics__SingleTexture \
+CURRENT_TYPE_ALIAS_dooms__graphics__SingleTexture \
+TYPE_FULLNAME_HASH_VALUE_NAME_STRING_dooms__graphics__SingleTexture \
+TYPE_CHECK_FUNCTION_SingleTexture \
+private:
+
+
+//Type Short Name ( without namespace, only type name ) Version Macros.
+#define GENERATE_BODY_SingleTexture GENERATE_BODY_FULLNAME_dooms__graphics__SingleTexture
+
+
+//-------------------------------------------
+
+

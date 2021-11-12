@@ -45,7 +45,6 @@ namespace dooms
 		DOBJECT_ABSTRACT_CLASS_BODY(DObject);
 		DOBJECT_ROOT_CLASS_BASE_CHAIN
 
-
 	public:
 
 		template <typename BASE_TYPE>
@@ -59,6 +58,8 @@ namespace dooms
 
 			return isChild;
 		}
+
+
 
 		template <>
 		FORCE_INLINE bool IsChildOf<dooms::DObject>() const noexcept

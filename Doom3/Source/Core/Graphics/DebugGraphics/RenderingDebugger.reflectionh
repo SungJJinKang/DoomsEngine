@@ -1,0 +1,17 @@
+#pragma once
+
+// Utility Header File ( Don't Edit this )
+// SourceFilePath : C:\Doom3FromScratch\Doom3\Source\Core\Graphics\DebugGraphics\RenderingDebugger.cpp
+
+
+#ifdef C__Doom3FromScratch_Doom3_Source_Core_Graphics_DebugGraphics_RenderingDebugger.reflectionh
+#error "C__Doom3FromScratch_Doom3_Source_Core_Graphics_DebugGraphics_RenderingDebugger.reflectionh already included, missing '#pragma once' in C__Doom3FromScratch_Doom3_Source_Core_Graphics_DebugGraphics_RenderingDebugger.h"
+#endif
+
+
+#include <type_traits>
+
+
+//-------------------------------------------
+
+

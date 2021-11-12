@@ -1,0 +1,17 @@
+#pragma once
+
+// Utility Header File ( Don't Edit this )
+// SourceFilePath : C:\Doom3FromScratch\Doom3\Source\Core\OS\Window.cpp
+
+
+#ifdef C__Doom3FromScratch_Doom3_Source_Core_OS_Window.reflectionh
+#error "C__Doom3FromScratch_Doom3_Source_Core_OS_Window.reflectionh already included, missing '#pragma once' in C__Doom3FromScratch_Doom3_Source_Core_OS_Window.h"
+#endif
+
+
+#include <type_traits>
+
+
+//-------------------------------------------
+
+
