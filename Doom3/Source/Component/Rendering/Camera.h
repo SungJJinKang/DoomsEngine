@@ -20,6 +20,7 @@
 #define MAX_CAMERA_COUNT 5
 #endif
 
+#include "Camera.reflection.h"
 namespace dooms
 {
 	namespace graphics
@@ -35,8 +36,8 @@ namespace dooms
 
 	class DOOM_API D_CLASS Camera : public PlainComponent, public graphics::UniformBufferObjectUpdater, public StaticContainer<Camera>
 	{
-		DOBJECT_CLASS_BODY(Camera)
-		DOBJECT_CLASS_BASE_CHAIN(PlainComponent)
+		GENERATE_BODY()
+		
 
 		friend class Scene;
 		friend class graphics::Graphics_Server;

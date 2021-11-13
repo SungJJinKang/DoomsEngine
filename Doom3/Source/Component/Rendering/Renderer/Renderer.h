@@ -20,6 +20,7 @@
 #include "Graphics/Acceleration/LinearData_ViewFrustumCulling/DataType/EntityBlockViewer.h"
 
 
+#include "Renderer.reflection.h"
 namespace dooms
 {
 	namespace graphics
@@ -39,8 +40,8 @@ namespace dooms
 
 	class DOOM_API D_CLASS Renderer : public ServerComponent, public BVH_Sphere_Node_Object, public ColliderUpdater<dooms::physics::AABB3D>//, public BVH_AABB3D_Node_Object // public graphics::CullDistanceRenderer
 	{
-		DOBJECT_ABSTRACT_CLASS_BODY(Renderer)
-		DOBJECT_CLASS_BASE_CHAIN(ServerComponent)
+		GENERATE_BODY()
+		
 
 		friend graphics::Graphics_Server;
 		friend class Enity;

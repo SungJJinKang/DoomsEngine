@@ -2,7 +2,8 @@
 
 void dooms::ButtonRotate::InitComponent()
 {
-	Base::InitComponent();
+	//Base::InitComponent();
+	
 }
 
 void dooms::ButtonRotate::UpdateComponent()

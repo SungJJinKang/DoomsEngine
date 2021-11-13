@@ -1,6 +1,7 @@
 #pragma once
 #include "../../Component/Core/Component.h"
 
+#include "ServerComponent.reflection.h"
 namespace dooms
 {
 	/// <summary>
@@ -17,11 +18,13 @@ namespace dooms
 	/// </summary>
 	class DOOM_API D_CLASS ServerComponent : public Component
 	{
+		GENERATE_BODY()
+
 		friend class Entity;
 		friend class Scene;
 
-		DOBJECT_ABSTRACT_CLASS_BODY(ServerComponent)
-		DOBJECT_CLASS_BASE_CHAIN(Component)
+		
+		
 
 	private:
 

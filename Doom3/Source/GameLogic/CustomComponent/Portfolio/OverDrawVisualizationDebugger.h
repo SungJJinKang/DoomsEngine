@@ -4,15 +4,15 @@
 #include <Doom_Core.h>
 
 
-
+#include "OverDrawVisualizationDebugger.reflection.h"
 namespace dooms
 {
 
-	class D_CLASS OverDrawVisualizationDebugger : public PlainComponent
+	class DOOM_API D_CLASS OverDrawVisualizationDebugger : public PlainComponent
 	{
-
-		DOBJECT_CLASS_BODY(OverDrawVisualizationDebugger)
-		DOBJECT_CLASS_BASE_CHAIN(PlainComponent)
+		GENERATE_BODY()
+		
+		
 
 	private:
 

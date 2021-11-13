@@ -3,16 +3,16 @@
 #include <Core.h>
 #include "Buffer/UniformBufferObjectUpdater.h"
 
+#include "LightManager.reflection.h"
 namespace dooms
 {
 	namespace graphics
 	{
 		class DOOM_API D_CLASS LightManager : public DObject, public ISingleton<LightManager>, public graphics::UniformBufferObjectUpdater
 		{
-
-			DOBJECT_CLASS_BODY(LightManager);
-			DOBJECT_CLASS_BASE_CHAIN(DObject)
-
+			GENERATE_BODY()
+			
+			
 		private:
 
 			bool bmIsAmbientLightIntensityDirty = true;

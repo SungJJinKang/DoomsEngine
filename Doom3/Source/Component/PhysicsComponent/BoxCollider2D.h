@@ -2,12 +2,14 @@
 #include "Collider2DComponent.h"
 #include <Vector2.h>
 #include <Collider/AABB.h>
+
+#include "BoxCollider2D.reflection.h"
 namespace dooms
 {
 	class DOOM_API D_CLASS BoxCollider2D : public Collider2DComponent
 	{
-		DOBJECT_CLASS_BODY(BoxCollider2D)
-		DOBJECT_CLASS_BASE_CHAIN(Collider2DComponent)
+		GENERATE_BODY()
+		
 
 		friend class physics::Physics_Server;
 	private:

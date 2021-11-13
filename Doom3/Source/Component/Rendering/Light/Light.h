@@ -3,13 +3,14 @@
 #include <Vector4.h>
 #include "EasyDirtyChecker/DirtyReceiver.h"
 
+#include "Light.reflection.h"
 namespace dooms
 {
 	class DOOM_API D_CLASS Light : public ServerComponent
 	{
-
-		DOBJECT_ABSTRACT_CLASS_BODY(Light)
-		DOBJECT_CLASS_BASE_CHAIN(ServerComponent)
+		GENERATE_BODY()
+		
+		
 
 	private:
 

@@ -5,7 +5,7 @@
 #include "Material/Material.h"
 #include "Buffer/Mesh.h"
 
-
+#include "DeferredRenderingDrawer.reflection.h"
 namespace dooms
 {
 	namespace graphics
@@ -14,8 +14,8 @@ namespace dooms
 
 		class DOOM_API D_CLASS DeferredRenderingDrawer : public DObject
 		{
-			DOBJECT_CLASS_BODY(DeferredRenderingDrawer, dooms::eDOBJECT_ClassFlags::NonCopyable);
-			DOBJECT_CLASS_BASE_CHAIN(DObject)
+			GENERATE_BODY()
+			
 
 		private:
 

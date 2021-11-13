@@ -1,12 +1,14 @@
 #pragma once
 #include "Collider3DComponent.h"
 #include <Collider/Sphere.h>
+
+#include "SphereCollider3D.reflection.h"
 namespace dooms
 {
 	class DOOM_API D_CLASS SphereCollider3D : public Collider3DComponent
 	{
-		DOBJECT_CLASS_BODY(SphereCollider3D)
-		DOBJECT_CLASS_BASE_CHAIN(Collider3DComponent)
+		GENERATE_BODY()
+		
 
 		friend class physics::Physics_Server;
 	private:

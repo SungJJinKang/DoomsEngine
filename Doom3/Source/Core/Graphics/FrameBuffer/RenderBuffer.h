@@ -7,6 +7,7 @@
 #include "../Buffer/BufferID.h"
 #include "Graphics/Acceleration/LinearData_ViewFrustumCulling/CullingModule/MaskedSWOcclusionCulling/Stage/BinTrianglesStage.h"
 
+#include "RenderBuffer.reflection.h"
 namespace dooms
 {
 	namespace graphics
@@ -15,8 +16,8 @@ namespace dooms
 
 		class DOOM_API D_CLASS RenderBuffer : public DObject
 		{
-			DOBJECT_CLASS_BODY(RenderBuffer, dooms::eDOBJECT_ClassFlags::NonCopyable);
-			DOBJECT_CLASS_BASE_CHAIN(DObject)
+			GENERATE_BODY()
+			
 
 		private:
 

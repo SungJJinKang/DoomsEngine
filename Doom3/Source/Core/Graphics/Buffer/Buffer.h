@@ -4,6 +4,7 @@
 #include "../API/OpenglAPI.h"
 #include "BufferID.h"
 
+#include "Buffer.reflection.h"
 namespace dooms
 {
 	namespace graphics
@@ -12,8 +13,8 @@ namespace dooms
 		class UniformBufferObject;
 		class DOOM_API D_CLASS Buffer : public DObject
 		{
-			DOBJECT_ABSTRACT_CLASS_BODY(Buffer)
-			DOBJECT_CLASS_BASE_CHAIN(DObject)
+			GENERATE_BODY()
+			
 
 		protected:
 

@@ -2,13 +2,14 @@
 
 #include <Doom_Core.h>
 
+#include "Move_WASD.reflection.h"
 namespace dooms
 {
-	class D_CLASS Move_WASD : public PlainComponent
+	class DOOM_API D_CLASS Move_WASD : public PlainComponent
 	{
-
-		DOBJECT_CLASS_BODY(Move_WASD)
-		DOBJECT_CLASS_BASE_CHAIN(PlainComponent)
+		GENERATE_BODY()
+		
+		
 
 	protected:
 		void InitComponent() override;

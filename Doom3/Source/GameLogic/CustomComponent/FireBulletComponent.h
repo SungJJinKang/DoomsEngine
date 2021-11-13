@@ -3,15 +3,16 @@
 
 #include <Doom_Core.h>
 
+#include "FireBulletComponent.reflection.h"
 namespace dooms
 {
 	class BulletComponent;
 
-	class D_CLASS FireBulletComponent : public PlainComponent
+	class DOOM_API D_CLASS FireBulletComponent : public PlainComponent
 	{
-
-		DOBJECT_CLASS_BODY(FireBulletComponent)
-		DOBJECT_CLASS_BASE_CHAIN(PlainComponent)
+		GENERATE_BODY()
+		
+		
 
 	public:
 

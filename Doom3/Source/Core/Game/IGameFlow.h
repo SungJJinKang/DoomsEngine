@@ -1,6 +1,8 @@
 #pragma once
 #include "../Core.h"
 #include "FrameDirtyChecker.h"
+
+#include "IGameFlow.reflection.h"
 namespace dooms
 {
 	/// <summary>
@@ -12,8 +14,8 @@ namespace dooms
 	/// </summary>
 	class DOOM_API D_CLASS IGameFlow : public DObject, public FrameDirtyChecker
 	{
-		DOBJECT_ABSTRACT_CLASS_BODY(IGameFlow, dooms::eDOBJECT_ClassFlags::NonCopyable);
-		DOBJECT_CLASS_BASE_CHAIN(DObject)
+		GENERATE_BODY()
+		
 
 	private:
 		

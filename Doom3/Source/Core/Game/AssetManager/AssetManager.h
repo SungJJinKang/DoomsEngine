@@ -13,6 +13,7 @@
 #include "AssetFuture.h"
 #include <IO/AssetImporter/Manager/AssetImporterWorkerManager.h>
 
+#include "AssetManager.reflection.h"
 namespace dooms
 {
 	D_NAMESPACE(dooms::assetImporter)
@@ -20,9 +21,9 @@ namespace dooms
 	{
 		class DOOM_API D_CLASS AssetManager : public IGameFlow, public ISingleton<AssetManager>
 		{
-
-			DOBJECT_CLASS_BODY(AssetManager, dooms::eDOBJECT_ClassFlags::NonCopyable);
-			DOBJECT_CLASS_BASE_CHAIN(IGameFlow)
+			GENERATE_BODY()
+			
+			
 
 			friend class AssetFuture;
 

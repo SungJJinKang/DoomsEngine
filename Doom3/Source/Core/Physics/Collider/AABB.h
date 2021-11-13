@@ -8,7 +8,7 @@
 #include <Matrix4x4.h>
 #include <functional>
 
-
+#include "AABB.reflection.h"
 namespace dooms
 {
 	namespace physics
@@ -21,7 +21,7 @@ namespace dooms
 		/// </summary>
 		class DOOM_API D_CLASS AABB3D : public Collider
 		{
-
+			GENERATE_BODY_AABB3D()
 		public:
 			using component_type = typename math::Vector4;
 		
@@ -164,6 +164,8 @@ namespace dooms
 		
 		class DOOM_API D_CLASS AABB2D : public Collider
 		{
+			GENERATE_BODY_AABB2D()
+
 		public:
 
 			using component_type = typename math::Vector2;

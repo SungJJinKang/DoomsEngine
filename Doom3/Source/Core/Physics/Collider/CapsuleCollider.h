@@ -2,13 +2,15 @@
 #include "../Core.h"
 #include <Vector3.h>
 #include "Collider.h"
+
+#include "CapsuleCollider.reflection.h"
 namespace dooms
 {
 	namespace physics
 	{
 		class DOOM_API D_CLASS CapsuleCollider : public Collider
 		{
-
+			GENERATE_BODY()
 		public:
 
 			math::Vector3 mCenter;

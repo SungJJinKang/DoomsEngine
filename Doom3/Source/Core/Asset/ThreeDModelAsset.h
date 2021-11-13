@@ -14,7 +14,7 @@
 using namespace math;
 
 
-
+#include "ThreeDModelAsset.reflection.h"
 D_NAMESPACE(dooms)
 namespace dooms
 {
@@ -38,6 +38,8 @@ namespace dooms
 	/// </summary>
 	struct DOOM_API D_STRUCT MeshVertexData
 	{
+		GENERATE_BODY_MeshVertexData()
+
 		D_PROPERTY()
 		Vector3 mVertex;
 
@@ -74,6 +76,8 @@ namespace dooms
 	
 	struct DOOM_API D_STRUCT ThreeDModelMesh
 	{
+		GENERATE_BODY_ThreeDModelMesh()
+
 		D_PROPERTY()
 		std::string mName;
 
@@ -120,7 +124,9 @@ namespace dooms
 	};
 
 	struct DOOM_API D_STRUCT ThreeDModelNode
-	{ 
+	{
+		GENERATE_BODY_ThreeDModelNode()
+
 		/// <summary>
 		/// don't clear this
 		/// </summary>
@@ -169,8 +175,8 @@ namespace dooms
 	{
 		class DOOM_API D_CLASS ThreeDModelAsset : public Asset
 		{
-			DOBJECT_CLASS_BODY(ThreeDModelAsset, dooms::eDOBJECT_ClassFlags::NonCopyable)
-				DOBJECT_CLASS_BASE_CHAIN(Asset)
+			GENERATE_BODY()
+				
 
 			friend class ::dooms::assetImporter::AssetImporterWorker_THREE_D_MODEL;
 

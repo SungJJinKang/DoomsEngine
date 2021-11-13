@@ -29,7 +29,6 @@
 
 using namespace dooms::graphics;
 
-
 void Graphics_Server::Init()
 {
 	Graphics_Setting::LoadData();

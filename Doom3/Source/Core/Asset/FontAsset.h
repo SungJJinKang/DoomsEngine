@@ -1,6 +1,8 @@
 #pragma once
 
 #include "Asset.h"
+
+#include "FontAsset.reflection.h"
 namespace dooms
 {
 	namespace assetImporter
@@ -12,8 +14,8 @@ namespace dooms
 	{
 		class DOOM_API D_CLASS FontAsset : public Asset
 		{
-			DOBJECT_CLASS_BODY(FontAsset, dooms::eDOBJECT_ClassFlags::NonCopyable)
-			DOBJECT_CLASS_BASE_CHAIN(Asset)
+			GENERATE_BODY()
+			
 
 			friend class ::dooms::assetImporter::AssetImporterWorker_Font;
 			

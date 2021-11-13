@@ -6,6 +6,7 @@
 
 #include <Vector4.h>
 
+#include "Color.reflection.h"
 namespace dooms
 {
 	namespace graphics 
@@ -25,6 +26,8 @@ namespace dooms
 
 		class DOOM_API D_CLASS Color
 		{
+			GENERATE_BODY()
+
 		public:
 
 			D_PROPERTY()

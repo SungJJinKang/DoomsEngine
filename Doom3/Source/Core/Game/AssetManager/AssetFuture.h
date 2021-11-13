@@ -1,13 +1,14 @@
 #pragma once
 
 #include <future>
+#include <Core.h>
 #include <Asset/AssetsForwardDeclaration.h>
 
 namespace dooms
 {
 	namespace assetImporter
 	{
-		class AssetFuture
+		class DOOM_API D_CLASS AssetFuture
 		{
 		private:
 			dooms::asset::Asset* mAsset;

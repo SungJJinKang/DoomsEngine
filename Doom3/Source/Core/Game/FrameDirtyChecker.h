@@ -3,6 +3,7 @@
 #include <Core.h>
 #include <EasyDirtyChecker/DirtySender.h>
 
+#include "FrameDirtyChecker.reflection.h"
 namespace dooms
 {
 	/// <summary>
@@ -15,7 +16,7 @@ namespace dooms
 	/// </summary>
 	class DOOM_API D_CLASS FrameDirtyChecker
 	{
-
+		GENERATE_BODY()
 	private:
 
 		/// <summary>

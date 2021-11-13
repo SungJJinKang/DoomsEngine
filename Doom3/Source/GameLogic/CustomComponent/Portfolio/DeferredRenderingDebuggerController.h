@@ -4,7 +4,7 @@
 #include <Doom_Core.h>
 
 
-
+#include "DeferredRenderingDebuggerController.reflection.h"
 namespace dooms
 {
 	namespace graphics
@@ -13,10 +13,10 @@ namespace dooms
 	}
 
 
-class D_CLASS DeferredRenderingDebuggerController : public PlainComponent
+class DOOM_API D_CLASS DeferredRenderingDebuggerController : public PlainComponent
 {
-		DOBJECT_CLASS_BODY(DeferredRenderingDebuggerController)
-		DOBJECT_CLASS_BASE_CHAIN(PlainComponent)
+	GENERATE_BODY()
+		
 
 private:
 

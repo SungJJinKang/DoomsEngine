@@ -1,6 +1,7 @@
 #pragma once
 #include <Doom_Core.h>
 
+#include "CharacterSpawner.reflection.h"
 namespace dooms
 {
 	namespace asset
@@ -8,11 +9,11 @@ namespace dooms
 		class ShaderAsset;
 	}
 
-	class D_CLASS CharacterSpawner : public PlainComponent
+	class DOOM_API D_CLASS CharacterSpawner : public PlainComponent
 	{
-
-		DOBJECT_CLASS_BODY(CharacterSpawner)
-		DOBJECT_CLASS_BASE_CHAIN(PlainComponent)
+		GENERATE_BODY()
+		
+		
 
 	private:
 		

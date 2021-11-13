@@ -21,6 +21,7 @@
 #include "../../Helper/vector_erase_move_lastelement/vector_swap_popback.h"
 #include "../Game/FrameDirtyChecker.h"
 
+#include "Entity.reflection.h"
 namespace dooms
 {
 	class Scene;
@@ -40,9 +41,9 @@ namespace dooms
 
 	class DOOM_API D_CLASS Entity : public DObject, public FrameDirtyChecker
 	{
-
-		DOBJECT_CLASS_BODY(Entity, dooms::eDOBJECT_ClassFlags::NonCopyable);
-		DOBJECT_CLASS_BASE_CHAIN(DObject)
+		GENERATE_BODY()
+		
+		
 
 		friend class Scene;
 		template <typename T>
@@ -123,7 +124,7 @@ namespace dooms
 			}
 
 			//TODO : BaseChain Ÿ�� ���鼭 ��� ������� typeid���ٰ� �� ��������.
-			mComponents[reinterpret_cast<size_t>(newComponent->GetClassTypeID())].push_back(newComponent);
+			//mComponents[reinterpret_cast<size_t>(newComponent->GetClassTypeID())].push_back(newComponent);
 
 
 			InitializeComponent(static_cast<Component*>(newComponent));
@@ -173,7 +174,7 @@ namespace dooms
 
 			bool isRemoveSuccess{ false };
 			
-			std::vector<Component*>& targetComponents = mComponents[reinterpret_cast<size_t>(component->GetClassTypeID())];
+			std::vector<Component*> targetComponents; //mComponents[reinterpret_cast<size_t>(component->GetClassTypeID())];
 			for(std::ptrdiff_t i = targetComponents.size() - 1; i >= 0 ; i--)
 			{
 				if(targetComponents[i] == component)
@@ -304,7 +305,7 @@ namespace dooms
 			}
 			else
 			{
-				auto iter = mComponents.find(reinterpret_cast<size_t>(T::CLASS_TYPE_ID_STATIC()));
+				auto iter = mComponents.end();// mComponents.find(reinterpret_cast<size_t>(T::CLASS_TYPE_ID_STATIC()));
 				if (iter != mComponents.end())
 				{
 					const std::vector<Component*>& targetComponents = iter->second;

@@ -10,6 +10,10 @@
 
 #include "Reflection/Reflection.h"
 
+
+
+#include "DObject.reflection.h"
+
 D_NAMESPACE(dooms)
 namespace dooms
 {
@@ -18,6 +22,8 @@ namespace dooms
 
 	struct DOOM_API D_STRUCT DObjectContructorParams
 	{
+		GENERATE_BODY_DObjectContructorParams()
+
 		D_PROPERTY()
 		UINT32 DObjectFlag = 0;
 
@@ -42,8 +48,7 @@ namespace dooms
 	
 	class DOOM_API D_CLASS DObject
 	{
-		DOBJECT_ABSTRACT_CLASS_BODY(DObject);
-		DOBJECT_ROOT_CLASS_BASE_CHAIN
+		GENERATE_BODY()
 
 	public:
 
@@ -52,15 +57,12 @@ namespace dooms
 		{
 			static_assert(IS_DOBJECT_TYPE(BASE_TYPE));
 
-			const dooms::BaseChain& this_base_chain = GetBaseChain();
-
-			const bool isChild = (this_base_chain.mChainCount >= BASE_TYPE::BASE_CHAIN_COUNT_STATIC()) && (this_base_chain.mChainData[this_base_chain.mChainCount - BASE_TYPE::BASE_CHAIN_COUNT_STATIC()] == BASE_TYPE::CLASS_TYPE_ID_STATIC() );
+			const UINT32 baseChainListLength = GetBastChainListLength();
+			const bool isChild = (baseChainListLength >= BASE_TYPE::BASE_CHAIN_LIST_LENGTH) && (GetBastChainList()[baseChainListLength - BASE_TYPE::BASE_CHAIN_LIST_LENGTH] == BASE_TYPE::TYPE_FULL_NAME_HASH_VALUE);
 
 			return isChild;
 		}
-
-
-
+		
 		template <>
 		FORCE_INLINE bool IsChildOf<dooms::DObject>() const noexcept
 		{
@@ -69,8 +71,11 @@ namespace dooms
 
 		friend class DObjectManager;
 
+
 		struct DOOM_API D_STRUCT DObjectProperties
 		{
+			GENERATE_BODY_DObjectProperties()
+
 			UINT32 mDObjectFlag = 0;
 			//Used For Debugging
 			std::string mDObjectName;

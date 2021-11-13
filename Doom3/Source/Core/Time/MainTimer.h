@@ -5,6 +5,8 @@
 #include <OS.h>
 
 #include <UserInput_Server.h>
+
+#include "MainTimer.reflection.h"
 namespace dooms
 {
 	struct TimeStep
@@ -19,9 +21,9 @@ namespace dooms
 	{
 		class DOOM_API D_CLASS MainTimer : public DObject, public ISingleton<MainTimer>
 		{
-
-			DOBJECT_CLASS_BODY(MainTimer);
-			DOBJECT_CLASS_BASE_CHAIN(DObject)
+			GENERATE_BODY()
+			
+			
 
 			friend class ::dooms::GameCore;
 			friend class Time_Server;

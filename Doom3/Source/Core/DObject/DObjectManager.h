@@ -9,11 +9,14 @@
 
 #include "DObject_Constant.h"
 
+#include "DObjectManager.reflection.h"
 namespace dooms
 {
 	class DObject;
 	class DOOM_API D_CLASS DObjectManager
-	{	
+	{
+		GENERATE_BODY()
+
 		friend class DObject;
 
 	private:

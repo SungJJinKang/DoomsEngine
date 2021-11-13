@@ -2,11 +2,13 @@
 
 #include <string>
 #include <filesystem>
+
+#include <Core.h>
 #include "../API/UUID.h"
 
 namespace dooms
 {
-	struct AssetMetaData
+	struct D_STRUCT AssetMetaData
 	{
 		//stem of path
 		D_PROPERTY()

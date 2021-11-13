@@ -1,6 +1,8 @@
 #pragma once
 
 #include "Asset.h"
+
+#include "AudioAsset.reflection.h"
 namespace dooms
 {
 	namespace assetImporter
@@ -13,9 +15,9 @@ namespace dooms
 	{
 		class DOOM_API D_CLASS AudioAsset : public Asset
 		{
-
-			DOBJECT_CLASS_BODY(AudioAsset, dooms::eDOBJECT_ClassFlags::NonCopyable)
-			DOBJECT_CLASS_BASE_CHAIN(Asset)
+			GENERATE_BODY()
+			
+			
 
 			friend class ::dooms::assetImporter::AssetImporterWorker_Audio;
 			

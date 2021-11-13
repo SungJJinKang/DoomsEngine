@@ -2,6 +2,8 @@
 
 #include "../Core.h"
 #include "ColliderType.h"
+
+#include "ColliderSolution.reflection.h"
 namespace dooms
 {
 	namespace physics
@@ -11,6 +13,7 @@ namespace dooms
 		class Collider;
 		class DOOM_API D_CLASS ColliderSolution
 		{
+			GENERATE_BODY()
 		private:
 
 			using is_overlap_algorithm_func = bool (*)(const Collider* colA, const Collider* const colB);

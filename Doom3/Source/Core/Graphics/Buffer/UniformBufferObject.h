@@ -7,6 +7,7 @@
 
 #include "../OverlapBindChecker.h"
 
+#include "UniformBufferObject.reflection.h"
 namespace dooms
 {
 	namespace graphics
@@ -16,8 +17,8 @@ namespace dooms
 		/// </summary>
 		class DOOM_API D_CLASS UniformBufferObject : public Buffer
 		{
-			DOBJECT_CLASS_BODY(UniformBufferObject, dooms::eDOBJECT_ClassFlags::NonCopyable);
-			DOBJECT_CLASS_BASE_CHAIN(Buffer)
+			GENERATE_BODY()
+			
 
 			friend class UniformBufferObjectManager;
 		private:

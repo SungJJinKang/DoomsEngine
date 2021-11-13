@@ -3,12 +3,15 @@
 #include "../Core.h"
 #include <Vector3.h>
 #include "Collider.h"
+
+#include "Plane.reflection.h"
 namespace dooms
 {
 	namespace physics
 	{
 		class DOOM_API D_CLASS Plane : public Collider
 		{
+			GENERATE_BODY()
 
 		private:
 			

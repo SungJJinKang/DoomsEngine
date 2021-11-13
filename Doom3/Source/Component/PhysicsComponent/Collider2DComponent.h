@@ -2,12 +2,14 @@
 #include "ColliderComponent.h"
 
 #include "Vector2.h"
+
+#include "Collider2DComponent.reflection.h"
 namespace dooms
 {
 	class DOOM_API D_CLASS Collider2DComponent : public ColliderComponent
 	{
-		DOBJECT_ABSTRACT_CLASS_BODY(Collider2DComponent)
-		DOBJECT_CLASS_BASE_CHAIN(ColliderComponent)
+		GENERATE_BODY()
+		
 
 	protected:
 		math::Vector2 mOffset;

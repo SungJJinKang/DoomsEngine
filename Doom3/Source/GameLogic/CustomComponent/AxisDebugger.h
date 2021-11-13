@@ -2,13 +2,14 @@
 
 #include <Doom_Core.h>
 
+#include "AxisDebugger.reflection.h"
 namespace dooms
 {
-	class D_CLASS AxisDebugger : public PlainComponent
+	class DOOM_API D_CLASS AxisDebugger : public PlainComponent
 	{
-
-		DOBJECT_CLASS_BODY(AxisDebugger)
-		DOBJECT_CLASS_BASE_CHAIN(PlainComponent)
+		GENERATE_BODY()
+		
+		
 
 	protected:
 		void InitComponent() override;

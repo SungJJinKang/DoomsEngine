@@ -6,6 +6,9 @@
 #include <Matrix4x4.h>
 #include "Collider.h"
 #include "AABB.h"
+
+#include "Sphere.reflection.h"
+
 namespace dooms
 {
 	namespace physics
@@ -14,6 +17,7 @@ namespace dooms
 
 		class DOOM_API D_CLASS Sphere : public Collider
 		{
+			GENERATE_BODY()
 
 		public:
 

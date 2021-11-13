@@ -5,6 +5,7 @@
 
 #include "MainTimer.h"
 
+#include "Time_Server.reflection.h"
 namespace dooms
 {
 	class GameCore;
@@ -13,8 +14,8 @@ namespace dooms
 	{
 		class DOOM_API D_CLASS Time_Server : public IGameFlow, public ISingleton<Time_Server>
 		{
-			DOBJECT_CLASS_BODY(Time_Server, dooms::eDOBJECT_ClassFlags::NonCopyable);
-			DOBJECT_CLASS_BASE_CHAIN(IGameFlow)
+			GENERATE_BODY()
+			
 				
 		public:
 

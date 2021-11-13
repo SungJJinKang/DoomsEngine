@@ -1750,6 +1750,7 @@
       <Filter>Header Files</Filter>
     </None>
     <None Include="x64\Debug\Assets\config.ini" />
+    <None Include="Source\GameLogic\CustomComponent\ButtonRotate.reflectionh" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="Source\Core\Graphics\ReadThis!!!!.txt" />

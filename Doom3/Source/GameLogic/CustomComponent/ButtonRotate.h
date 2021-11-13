@@ -2,13 +2,12 @@
 
 #include <Doom_Core.h>
 
+#include "ButtonRotate.reflection.h"
 namespace dooms
 {
-	class D_CLASS ButtonRotate : public PlainComponent
+	class DOOM_API D_CLASS ButtonRotate : public PlainComponent
 	{
-
-		DOBJECT_CLASS_BODY(ButtonRotate)
-		DOBJECT_CLASS_BASE_CHAIN(PlainComponent)
+		GENERATE_BODY()
 
 	protected:
 		void InitComponent() override;

@@ -4,6 +4,7 @@
 #include "Collider.h"
 #include <Matrix4x4.h>
 
+#include "OBB.reflection.h"
 namespace dooms
 {
 	namespace physics
@@ -13,6 +14,8 @@ namespace dooms
 		/// </summary>
 		class DOOM_API D_CLASS OBB : public Collider
 		{
+			GENERATE_BODY()
+
 			FORCE_INLINE virtual void* data() final
 			{
 				return nullptr;

@@ -5,12 +5,13 @@
 #include "../Core/Graphics/Buffer/Mesh.h"
 #include "Transform.h"
 
+#include "MeshRenderer.reflection.h"
 namespace dooms
 {
 	class DOOM_API D_CLASS MeshRenderer : public Renderer
 	{
-		DOBJECT_CLASS_BODY(MeshRenderer)
-		DOBJECT_CLASS_BASE_CHAIN(Renderer)
+		GENERATE_BODY()
+		
 
 	private:
 		const graphics::Mesh* mTargetMesh;

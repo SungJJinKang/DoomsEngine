@@ -1,12 +1,13 @@
 #pragma once
 #include "Collider3DComponent.h"
 
+#include "MeshCollider.reflection.h"
 namespace dooms
 {
 	class DOOM_API D_CLASS MeshCollider : public Collider3DComponent
 	{
-		DOBJECT_CLASS_BODY(MeshCollider)
-		DOBJECT_CLASS_BASE_CHAIN(Collider3DComponent)
+		GENERATE_BODY()
+		
 
 		friend class physics::Physics_Server;
 	private:

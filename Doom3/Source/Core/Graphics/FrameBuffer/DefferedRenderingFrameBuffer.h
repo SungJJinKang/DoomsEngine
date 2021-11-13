@@ -5,6 +5,7 @@
 #include "../Graphics_Setting.h"
 #include <Vector4.h>
 
+#include "DefferedRenderingFrameBuffer.reflection.h"
 namespace dooms
 {
 	namespace graphics
@@ -12,9 +13,9 @@ namespace dooms
 
 		class DOOM_API D_CLASS DefferedRenderingFrameBuffer : public graphics::FrameBuffer
 		{
-
-			DOBJECT_CLASS_BODY(DefferedRenderingFrameBuffer);
-			DOBJECT_CLASS_BASE_CHAIN(graphics::FrameBuffer)
+			GENERATE_BODY()
+			
+			
 
 		private:
 

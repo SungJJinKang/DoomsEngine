@@ -2,13 +2,14 @@
 
 #include <Doom_Core.h>
 
+#include "BoxAdder.reflection.h"
 namespace dooms
 {
-	class D_CLASS BoxAdder : public PlainComponent
+	class DOOM_API D_CLASS BoxAdder : public PlainComponent
 	{
-
-		DOBJECT_CLASS_BODY(BoxAdder)
-		DOBJECT_CLASS_BASE_CHAIN(PlainComponent)
+		GENERATE_BODY()
+		
+		
 
 	protected:
 		void InitComponent() override;

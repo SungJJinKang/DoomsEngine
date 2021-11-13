@@ -6,14 +6,15 @@
 
 #ifdef DEBUG_DRAWER
 
+#include "RenderingDebugger.reflection.h"
 namespace dooms
 {
 	namespace graphics
 	{
 		class DOOM_API D_CLASS RenderingDebugger : public DObject
 		{
-			DOBJECT_CLASS_BODY(RenderingDebugger);
-			DOBJECT_CLASS_BASE_CHAIN(DObject)
+			GENERATE_BODY()
+			
 		private:
 
 			inline static UINT64 DrawCallCounter = 0;

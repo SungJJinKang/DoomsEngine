@@ -19,8 +19,8 @@ namespace dooms
 
 		class AssetImporterWorkerManager : public dooms::DObject, public ISingleton<AssetImporterWorkerManager>
 		{
-			DOBJECT_CLASS_BODY(AssetImporterWorkerManager, dooms::eDOBJECT_ClassFlags::NonCopyable);
-			DOBJECT_CLASS_BASE_CHAIN(DObject)
+			
+			
 
 		private:
 

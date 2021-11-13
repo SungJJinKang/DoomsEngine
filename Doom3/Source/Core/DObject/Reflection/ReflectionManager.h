@@ -4,6 +4,7 @@
 
 #include "ReflectionUtility.h"
 
+#include "ReflectionManager.reflection.h"
 namespace dooms
 {
 	namespace reflection
@@ -11,8 +12,8 @@ namespace dooms
 
 		class DOOM_API D_CLASS ReflectionManager : public DObject, public ISingleton<ReflectionManager>
 		{
-			DOBJECT_CLASS_BODY(ReflectionManager, dooms::eDOBJECT_ClassFlags::NonCopyable);
-			DOBJECT_CLASS_BASE_CHAIN(DObject)
+			GENERATE_BODY()	
+			
 
 		private:
 

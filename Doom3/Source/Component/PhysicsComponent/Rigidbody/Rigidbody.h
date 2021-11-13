@@ -5,6 +5,7 @@
 #include "../Core/ServerComponent.h"
 #include <StaticContainer/StaticContainer.h>
 
+#include "Rigidbody.reflection.h"
 namespace dooms
 {
 	class ColliderComponent;
@@ -15,8 +16,8 @@ namespace dooms
 
 	class DOOM_API D_CLASS Rigidbody : public ServerComponent, public StaticContainer<Rigidbody>
 	{
-		DOBJECT_CLASS_BODY(Rigidbody)
-		DOBJECT_CLASS_BASE_CHAIN(ServerComponent)
+		GENERATE_BODY()
+		
 
 	private:
 

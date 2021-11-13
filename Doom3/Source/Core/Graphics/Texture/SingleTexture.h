@@ -2,14 +2,15 @@
 
 #include "Texture.h"
 
+#include "SingleTexture.reflection.h"
 namespace dooms
 {
 	namespace graphics
 	{
 		class DOOM_API D_CLASS SingleTexture : public Texture
 		{
-			DOBJECT_CLASS_BODY(SingleTexture, dooms::eDOBJECT_ClassFlags::NonCopyable);
-			DOBJECT_CLASS_BASE_CHAIN(Texture)
+			GENERATE_BODY()
+			
 
 		private:
 

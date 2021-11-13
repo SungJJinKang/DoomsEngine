@@ -4,12 +4,15 @@
 #include <Graphics/Graphics_Core.h>
 #include <Graphics/Color.h>
 
+#include "RenderCollider.reflection.h"
 namespace dooms
 {
 	namespace physics
 	{
 		class DOOM_API D_CLASS RenderCollider
 		{
+			GENERATE_BODY()
+
 		private:
 
 			UINT64 mLastRenderFrameTickCount{};

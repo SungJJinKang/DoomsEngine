@@ -1,12 +1,14 @@
 #pragma once
 #include "ColliderComponent.h"
 #include "Vector3.h"
+
+#include "Collider3DComponent.reflection.h"
 namespace dooms
 {
 	class DOOM_API D_CLASS Collider3DComponent : public ColliderComponent
 	{
-		DOBJECT_ABSTRACT_CLASS_BODY(Collider3DComponent)
-		DOBJECT_CLASS_BASE_CHAIN(ColliderComponent)
+		GENERATE_BODY()
+		
 
 	protected:
 		math::Vector3 mOffset;

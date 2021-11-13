@@ -5,6 +5,7 @@
 
 #include <array>
 
+#include "PortfolioComponent.reflection.h"
 namespace dooms
 {
 	namespace graphics
@@ -12,11 +13,11 @@ namespace dooms
 		class PicktureInPickture;
 	}
 
-class D_CLASS PortfolioComponent : public PlainComponent
+class DOOM_API D_CLASS PortfolioComponent : public PlainComponent
 {
-
-	DOBJECT_CLASS_BODY(PortfolioComponent)
-	DOBJECT_CLASS_BASE_CHAIN(PlainComponent)
+	GENERATE_BODY()
+	
+	
 
 private:
 

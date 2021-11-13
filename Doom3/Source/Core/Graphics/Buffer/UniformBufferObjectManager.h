@@ -6,6 +6,7 @@
 #include "UniformBufferObject.h"
 #include "../../Game/IGameFlow.h"
 
+#include "UniformBufferObjectManager.reflection.h"
 namespace dooms
 {
 	namespace graphics
@@ -13,8 +14,8 @@ namespace dooms
 		class UniformBufferObjectUpdater;
 		class DOOM_API D_CLASS UniformBufferObjectManager : public DObject, public ISingleton<UniformBufferObjectManager>
 		{
-			DOBJECT_CLASS_BODY(UniformBufferObjectManager, dooms::eDOBJECT_ClassFlags::NonCopyable);
-			DOBJECT_CLASS_BASE_CHAIN(DObject)
+			GENERATE_BODY()
+			
 		private:
 
 

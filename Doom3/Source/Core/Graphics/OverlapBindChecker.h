@@ -2,7 +2,7 @@
 
 #include <unordered_map>
 
-#include "../Core.h"
+#include <Core.h>
 
 #define USE_OVERLAP_BIND_CHECKER
 #define MAX_BOUND_ID_COUNT 30
@@ -11,7 +11,7 @@ namespace dooms
 	namespace graphics
 	{
 
-		class OverlapBindChecker
+		class DOOM_API D_CLASS OverlapBindChecker
 		{
 		private:
 

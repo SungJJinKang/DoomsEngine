@@ -5,6 +5,7 @@
 #include "Physics/Collider/AABB.h"
 #include "utility/BVH/BVH_Node_Object.h"
 
+#include "ColliderComponent.reflection.h"
 namespace dooms
 {
 	namespace physics 
@@ -14,9 +15,7 @@ namespace dooms
 
 	class DOOM_API D_CLASS ColliderComponent : public ServerComponent, public StaticContainer<ColliderComponent>, public BVH_AABB3D_Node_Object
 	{
-		DOBJECT_ABSTRACT_CLASS_BODY(ColliderComponent)
-		DOBJECT_CLASS_BASE_CHAIN(ServerComponent)
-
+		GENERATE_BODY()
 	private:
 
 		

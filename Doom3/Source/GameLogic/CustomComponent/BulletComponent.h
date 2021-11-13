@@ -2,15 +2,16 @@
 
 #include <Doom_Core.h>
 
+#include "BulletComponent.reflection.h"
 namespace dooms
 {
 
 
-	class D_CLASS BulletComponent : public PlainComponent
+	class DOOM_API D_CLASS BulletComponent : public PlainComponent
 	{
-
-		DOBJECT_CLASS_BODY(BulletComponent)
-		DOBJECT_CLASS_BASE_CHAIN(PlainComponent)
+		GENERATE_BODY()
+		
+		
 
 	public:
 

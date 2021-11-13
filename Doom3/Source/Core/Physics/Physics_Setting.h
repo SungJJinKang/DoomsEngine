@@ -2,13 +2,14 @@
 
 #include <Core.h>
 
+#include "Physics_Setting.reflection.h"
 namespace dooms
 {
 	namespace physics
 	{
 		class DOOM_API D_CLASS Physics_Setting
 		{
-
+			GENERATE_BODY()
 		private:
 
 			inline static bool bmIsPhysicsOn{ true };

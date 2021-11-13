@@ -11,6 +11,8 @@
 #include "eAssetType.h"
 #include "AssetMetaData.h"
 
+
+#include "Asset.reflection.h"
 namespace dooms
 {
 	
@@ -29,9 +31,9 @@ namespace dooms
 
 		class DOOM_API D_CLASS Asset : public DObject
 		{
-
-			DOBJECT_ABSTRACT_CLASS_BODY(Asset, dooms::eDOBJECT_ClassFlags::NonCopyable)
-			DOBJECT_CLASS_BASE_CHAIN(DObject)
+			GENERATE_BODY()
+			
+			
 
 		public:
 			

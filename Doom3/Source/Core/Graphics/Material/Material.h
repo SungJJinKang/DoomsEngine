@@ -14,6 +14,7 @@
 
 #include "../Buffer/BufferID.h"
 
+#include "Material.reflection.h"
 namespace dooms
 {
 	namespace asset
@@ -48,8 +49,8 @@ namespace dooms
 
 		class DOOM_API D_CLASS Material : public DObject
 		{
-			DOBJECT_CLASS_BODY(Material, dooms::eDOBJECT_ClassFlags::NonCopyable);
-			DOBJECT_CLASS_BASE_CHAIN(DObject)
+			GENERATE_BODY()
+			
 
 		private:
 			static inline const char MATERIAL_TAG[]{ "MATERIAL" };

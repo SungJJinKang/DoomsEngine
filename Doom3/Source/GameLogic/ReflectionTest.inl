@@ -215,7 +215,7 @@ void dooms::GameLogicStartPoint::StartGameLogic()
 		box3D->SetFromAABB3D(planetAsset->GetMesh(0)->GetBoundingBox());
 	}
 
-	
+	/*
 
 	auto a = Renderer::CLASS_TYPE_ID_STATIC();
 	auto b = MeshRenderer::CLASS_TYPE_ID_STATIC();
@@ -251,6 +251,9 @@ void dooms::GameLogicStartPoint::StartGameLogic()
 	//START TO TEST FROM HERE
 
 	//Test Compile Time Resolvation
+
+	
+	 
 	constexpr auto c5= DirectionalLight::CLASS_FLAGS_STATIC();
 	constexpr const char* c6= DirectionalLight::CLASS_NAME_STATIC();
 	D_ASSERT(std::strcmp(c6, "DirectionalLight") == 0);
@@ -339,4 +342,6 @@ void dooms::GameLogicStartPoint::StartGameLogic()
 	dooms::graphics::Mesh* newMesh = CastTo<dooms::graphics::Mesh*>(meshDClass->CreateDObject());
 
 	TSubclassOf<dooms::DObject> DObjectSubClassOf{ Renderer::StaticClass() };
+
+	*/
 }

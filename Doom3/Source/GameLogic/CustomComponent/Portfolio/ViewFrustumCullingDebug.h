@@ -3,7 +3,7 @@
 #include <Doom_Core.h>
 
 
-
+#include "ViewFrustumCullingDebug.reflection.h"
 namespace dooms
 {
 	namespace graphics
@@ -11,11 +11,11 @@ namespace dooms
 		class PicktureInPickture;
 	}
 
-	class D_CLASS ViewFrustumCullingDebug : public PlainComponent
+	class DOOM_API D_CLASS ViewFrustumCullingDebug : public PlainComponent
 	{
-
-		DOBJECT_CLASS_BODY(ViewFrustumCullingDebug)
-		DOBJECT_CLASS_BASE_CHAIN(PlainComponent)
+		GENERATE_BODY()
+		
+		
 
 	private:
 

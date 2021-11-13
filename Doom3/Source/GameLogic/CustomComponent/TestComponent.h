@@ -2,13 +2,14 @@
 
 #include <Doom_Core.h>
 
+#include "TestComponent.reflection.h"
 namespace dooms
 {
-	class D_CLASS TestComponent : public PlainComponent
+	class DOOM_API D_CLASS TestComponent : public PlainComponent
 	{
-
-		DOBJECT_CLASS_BODY(TestComponent)
-		DOBJECT_CLASS_BASE_CHAIN(PlainComponent)
+		GENERATE_BODY()
+		
+		
 
 	private:
 

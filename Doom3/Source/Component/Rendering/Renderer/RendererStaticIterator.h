@@ -11,7 +11,7 @@
 
 
 
-
+#include "RendererStaticIterator.reflection.h"
 namespace dooms
 {
 	class Renderer;
@@ -21,8 +21,7 @@ namespace dooms
 	template <>
 	class DOOM_API D_CLASS StaticContainer<Renderer> : public DObject, public ISingleton<StaticContainer<Renderer>>
 	{
-		DOBJECT_CLASS_BODY(StaticContainer<Renderer>)
-		DOBJECT_CLASS_BASE_CHAIN(DObject)
+		
 
 		using this_type = typename StaticContainer<Renderer>;
 

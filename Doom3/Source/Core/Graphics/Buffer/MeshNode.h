@@ -11,6 +11,7 @@ namespace dooms
 		class Mesh;
 		struct DOOM_API D_STRUCT MeshNode
 		{
+
 			D_PROPERTY()
 			MeshNode* mParent;
 

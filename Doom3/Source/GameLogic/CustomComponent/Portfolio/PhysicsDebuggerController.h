@@ -4,15 +4,15 @@
 #include <Doom_Core.h>
 
 
-
+#include "PhysicsDebuggerController.reflection.h"
 namespace dooms
 {
 
-class D_CLASS PhysicsDebuggerController : public PlainComponent
+class DOOM_API D_CLASS PhysicsDebuggerController : public PlainComponent
 {
 
-	DOBJECT_CLASS_BODY(PhysicsDebuggerController)
-	DOBJECT_CLASS_BASE_CHAIN(PlainComponent)
+	
+	
 
 private:
 

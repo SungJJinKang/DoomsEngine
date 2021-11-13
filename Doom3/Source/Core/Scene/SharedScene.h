@@ -4,6 +4,7 @@
 #include "SharedSceneSetting.h"
 #include "IWorldIndependent.h"
 
+#include "SharedScene.reflection.h"
 namespace dooms
 {
 	/// <summary>
@@ -16,8 +17,8 @@ namespace dooms
 	class DOOM_API D_CLASS SharedScene : public DObject, public ISingleton<SharedScene>, public I_IndependentFromScene
 	{
 
-		DOBJECT_CLASS_BODY(SharedScene, dooms::eDOBJECT_ClassFlags::NonCopyable);
-		DOBJECT_CLASS_BASE_CHAIN(DObject)
+		GENERATE_BODY()
+		
 
 	private:
 		SharedSceneSetting mSharedWorldSetting{};

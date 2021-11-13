@@ -19,6 +19,7 @@
 #include "../PrimitiveType/PrimitiveLine.h"
 #include "../PrimitiveType/PrimitiveTriangle.h"
 
+#include "DebugDrawer.reflection.h"
 namespace dooms
 {
 	namespace graphics
@@ -27,8 +28,8 @@ namespace dooms
 		class Graphics_Server;
 		class DOOM_API D_CLASS DebugDrawer : public DObject, public ISingleton<DebugDrawer>
 		{
-			DOBJECT_CLASS_BODY(DebugDrawer, eDOBJECT_ClassFlags::NonCopyable)
-				DOBJECT_CLASS_BASE_CHAIN(DObject)
+			GENERATE_BODY()
+				
 		private:
 
 			static inline const std::string DEBUG_2D_SHADER{ "Debug2DShader.glsl" };

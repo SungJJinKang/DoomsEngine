@@ -7,6 +7,7 @@
 
 //template class DOOM_DLL_EXPORTS std::unordered_map<D_UUID, ::dooms::asset::Asset>
 
+#include "AssetContainer.reflection.h"
 namespace dooms
 {
 	namespace asset
@@ -17,6 +18,8 @@ namespace dooms
 		/// </summary>
 		struct DOOM_API D_STRUCT AssetContainer
 		{
+			GENERATE_BODY()
+
 			dooms::asset::eAssetType mAssetTypeOfContainer;
 
 			//TODO : Tree���·� ���� path directory�� ���󰡸鼭 leaf node�� ������ std::ref�� ����

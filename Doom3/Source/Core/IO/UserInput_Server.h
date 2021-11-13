@@ -14,7 +14,7 @@
 
 
 
-
+#include "UserInput_Server.reflection.h"
 namespace dooms
 {
 	class GameCore;
@@ -60,8 +60,8 @@ namespace dooms
 		/// </summary>
 		class DOOM_API D_CLASS UserInput_Server : public IGameFlow, public ISingleton<UserInput_Server>
 		{
-			DOBJECT_CLASS_BODY(UserInput_Server, dooms::eDOBJECT_ClassFlags::NonCopyable);
-			DOBJECT_CLASS_BASE_CHAIN(IGameFlow)
+			GENERATE_BODY()
+			
 
 		private:
 

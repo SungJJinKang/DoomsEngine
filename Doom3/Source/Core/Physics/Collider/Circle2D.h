@@ -2,13 +2,15 @@
 #include "../Core.h"
 #include <Vector2.h>
 #include "Collider.h"
+
+#include "Circle2D.reflection.h"
 namespace dooms
 {
 	namespace physics
 	{
 		class DOOM_API D_CLASS Circle2D : public Collider
 		{
-
+			GENERATE_BODY()
 		public:
 
 			void DrawCollider(eColor color, bool drawInstantly = false) const override;

@@ -6,12 +6,13 @@
 #include "Layer.h"
 #include "IWorldIndependent.h"
 
+#include "SharedSceneSetting.reflection.h"
 namespace dooms
 {
 	class DOOM_API D_CLASS SharedSceneSetting : public DObject, public ISingleton<SharedSceneSetting>, public I_IndependentFromScene
 	{
-		DOBJECT_CLASS_BODY(SharedSceneSetting, dooms::eDOBJECT_ClassFlags::NonCopyable);
-		DOBJECT_CLASS_BASE_CHAIN(DObject)
+		GENERATE_BODY()
+		
 
 	private:
 		std::array<Layer, MAX_LAYER_COUNT> mLayers;

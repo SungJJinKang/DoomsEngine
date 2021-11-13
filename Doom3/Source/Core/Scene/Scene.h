@@ -5,6 +5,7 @@
 
 #include <Core.h>
 
+#include "Scene.reflection.h"
 namespace dooms
 {
 	namespace graphics
@@ -20,9 +21,9 @@ namespace dooms
 	/// </summary>
 	class DOOM_API D_CLASS Scene : public DObject, public ISingleton<Scene>//, public GameFlow
 	{
-
-		DOBJECT_CLASS_BODY(Scene, dooms::eDOBJECT_ClassFlags::NonCopyable);
-		DOBJECT_CLASS_BASE_CHAIN(DObject)
+		GENERATE_BODY()
+		
+		
 
 		friend class GameCore;
 		friend class graphics::Graphics_Server;

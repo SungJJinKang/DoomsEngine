@@ -5,6 +5,7 @@
 #include "Color.h"
 #include "GraphicsAPI.h"
 
+#include "Graphics_Setting.reflection.h"
 struct GLFWwindow;
 
 namespace dooms
@@ -13,6 +14,8 @@ namespace dooms
 	{
 		class DOOM_API D_CLASS Graphics_Setting
 		{
+			GENERATE_BODY()
+
 			static inline GLFWwindow* Window{ nullptr };
 
 			static inline math::Vector2Int ScreenSize{};

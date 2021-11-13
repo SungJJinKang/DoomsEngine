@@ -1,12 +1,14 @@
 #pragma once
 #include "Collider2DComponent.h"
 #include <Collider/Circle2D.h>
+
+#include "CircleCollider2D.reflection.h"
 namespace dooms
 {
 	class DOOM_API D_CLASS CircleCollider2D : public Collider2DComponent
 	{
-		DOBJECT_CLASS_BODY(CircleCollider2D)
-		DOBJECT_CLASS_BASE_CHAIN(Collider2DComponent)
+		GENERATE_BODY()
+		
 
 		friend class physics::Physics_Server;
 	private:

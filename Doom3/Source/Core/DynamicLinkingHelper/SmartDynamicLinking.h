@@ -11,10 +11,13 @@
 
 #include <UI/PrintText.h>
 
+#include "SmartDynamicLinking.reflection.h"
 namespace dooms
 {
 	struct DOOM_API D_STRUCT DynamicLinkingLibrary
 	{
+		GENERATE_BODY_DynamicLinkingLibrary()
+
 		static std::mutex LoadUnLoadDLLMutexs;
 
 		std::string mLibraryPath;
@@ -29,6 +32,8 @@ namespace dooms
 
 	class DOOM_API D_CLASS SmartDynamicLinking
 	{
+		GENERATE_BODY()
+
 		DynamicLinkingLibrary mDynamicLinkingLibrary;
 
 	private:

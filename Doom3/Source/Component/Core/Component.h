@@ -1,9 +1,11 @@
 #pragma once
 
-#include "../../Core/Core.h"
+#include <Core.h>
 #include "../../Core/Game/FrameDirtyChecker.h"
 
+#include "Component.reflection.h"
 class DirtyReceiver;
+D_NAMESPACE(dooms)
 namespace dooms
 {
 	class Entity;
@@ -23,11 +25,11 @@ namespace dooms
 	/// </summary>
 	class DOOM_API D_CLASS Component : public DObject, public FrameDirtyChecker // : public GameFlow
 	{
+		GENERATE_BODY()
+
 		friend class Entity;
 		friend class Scene;
 
-		DOBJECT_ABSTRACT_CLASS_BODY(Component)
-		DOBJECT_CLASS_BASE_CHAIN(DObject)
 
 		struct Deleter
 		{

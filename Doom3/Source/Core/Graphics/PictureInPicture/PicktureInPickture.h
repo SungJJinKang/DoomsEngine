@@ -5,7 +5,7 @@
 
 #include <Vector2.h>
 
-
+#include "PicktureInPickture.reflection.h"
 namespace dooms
 {
 	namespace graphics
@@ -14,9 +14,9 @@ namespace dooms
 
 		class DOOM_API D_CLASS PicktureInPickture : public DObject
 		{
-
-			DOBJECT_CLASS_BODY(PicktureInPickture, dooms::eDOBJECT_ClassFlags::NonCopyable);
-			DOBJECT_CLASS_BASE_CHAIN(DObject)
+			GENERATE_BODY()
+			
+			
 
 		private:
 

@@ -7,6 +7,7 @@
 #include "../Buffer/BufferID.h"
 #include "TextureFormat.h"
 
+#include "Texture.reflection.h"
 namespace DirectX
 {
 	struct Image;
@@ -23,8 +24,8 @@ namespace dooms
 		/// </summary>
 		class DOOM_API D_CLASS Texture : public DObject
 		{
-			DOBJECT_ABSTRACT_CLASS_BODY(Texture, dooms::eDOBJECT_ClassFlags::NonCopyable);
-			DOBJECT_CLASS_BASE_CHAIN(DObject)
+			GENERATE_BODY()
+			
 
 		public:
 

@@ -2,14 +2,14 @@
 #include <Doom_Core.h>
 
 
-
+#include "RenderingAABBController.reflection.h"
 namespace dooms
 {
-	class D_CLASS RenderingAABBController : public PlainComponent
+	class DOOM_API D_CLASS RenderingAABBController : public PlainComponent
 	{
-
-		DOBJECT_CLASS_BODY(RenderingAABBController)
-		DOBJECT_CLASS_BASE_CHAIN(PlainComponent)
+		GENERATE_BODY()
+		
+		
 
 	private:
 

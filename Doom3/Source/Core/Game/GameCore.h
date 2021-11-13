@@ -18,6 +18,7 @@
 #include "../Time/Time_Server.h"
 #include "../DObject/Reflection/ReflectionManager.h"
 
+#include "GameCore.reflection.h"
 namespace dooms
 {
 
@@ -25,8 +26,8 @@ namespace dooms
 
 	class DOOM_API D_CLASS GameCore : public IGameFlow, public ISingleton<GameCore>
 	{
-		DOBJECT_CLASS_BODY(GameCore, dooms::eDOBJECT_ClassFlags::NonCopyable);
-		DOBJECT_CLASS_BASE_CHAIN(IGameFlow)
+		GENERATE_BODY()
+		
 	private:
 		
 		// Then, non-static data members are initialized in the order they were declared 

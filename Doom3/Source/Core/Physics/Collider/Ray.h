@@ -3,12 +3,16 @@
 #include "../Core.h"
 #include <Vector3.h>
 #include "Collider.h"
+
+#include "Ray.reflection.h"
 namespace dooms
 {
 	namespace physics
 	{
 		class DOOM_API D_CLASS Ray : public Collider
 		{
+			GENERATE_BODY()
+
 		private:
 			math::Vector3 mNormal;
 

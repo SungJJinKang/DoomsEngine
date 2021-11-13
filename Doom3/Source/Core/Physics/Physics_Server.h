@@ -12,6 +12,7 @@
 
 #define PHYSICS_COLLIDER_BVH_MAX_NODE_COUNT 3000 // this include all internal node, leaf node
 
+#include "Physics_Server.reflection.h"
 namespace dooms
 {
 	class ColliderComponent;
@@ -20,8 +21,8 @@ namespace dooms
 	{
 		class DOOM_API D_CLASS Physics_Server : public IGameFlow, public ISingleton<Physics_Server>
 		{
-			DOBJECT_CLASS_BODY(Physics_Server, dooms::eDOBJECT_ClassFlags::NonCopyable);
-			DOBJECT_CLASS_BASE_CHAIN(IGameFlow)
+			GENERATE_BODY()
+			
 
 		private:
 

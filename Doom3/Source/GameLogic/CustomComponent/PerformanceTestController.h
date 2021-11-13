@@ -2,13 +2,14 @@
 
 #include <Doom_Core.h>
 
+#include "PerformanceTestController.reflection.h"
 namespace dooms
 {
-	class D_CLASS PerformanceTestController : public PlainComponent
+	class DOOM_API D_CLASS PerformanceTestController : public PlainComponent
 	{
-
-		DOBJECT_CLASS_BODY(PerformanceTestController)
-		DOBJECT_CLASS_BASE_CHAIN(PlainComponent)
+		GENERATE_BODY()
+		
+		
 
 	private:
 

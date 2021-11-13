@@ -1,6 +1,7 @@
 #pragma once
 #include "Core/ServerComponent.h"
 
+#include "Animation.reflection.h"
 namespace dooms
 {
 	namespace graphics
@@ -10,9 +11,9 @@ namespace dooms
 
 	class DOOM_API D_CLASS Animation : public ServerComponent
 	{
-
-		DOBJECT_CLASS_BODY(Animation)
-		DOBJECT_CLASS_BASE_CHAIN(ServerComponent)
+		GENERATE_BODY()
+		
+		
 
 		friend class graphics::Graphics_Server;
 

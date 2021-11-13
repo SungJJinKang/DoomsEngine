@@ -6,6 +6,7 @@
 #include "../Core/Math/LightMath_Cpp/Matrix_utility.h"
 #include "EasyDirtyChecker/DirtyReceiver.h"
 
+#include "Transform.reflection.h"
 namespace dooms
 {
 	enum class D_ENUM eSpace
@@ -16,6 +17,8 @@ namespace dooms
 
 	struct DOOM_API D_STRUCT TransformCoreData
 	{
+		GENERATE_BODY_TransformCoreData()
+
 		D_PROPERTY()
 		math::Vector3 mPosition;
 
@@ -27,8 +30,8 @@ namespace dooms
 
 	class DOOM_API D_CLASS Transform : public PlainComponent
 	{
-		DOBJECT_CLASS_BODY(Transform)
-		DOBJECT_CLASS_BASE_CHAIN(PlainComponent)
+		GENERATE_BODY()
+		
 
 	private:
 

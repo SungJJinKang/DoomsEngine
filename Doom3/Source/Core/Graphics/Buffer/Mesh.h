@@ -10,6 +10,7 @@
 #include "../GraphicsAPI.h"
 #include <Vector2.h>
 
+#include "Mesh.reflection.h"
 namespace dooms
 {
 
@@ -20,8 +21,8 @@ namespace dooms
 		class Graphics_Server;
 		class DOOM_API D_CLASS Mesh : public Buffer
 		{
-			DOBJECT_CLASS_BODY(Mesh, dooms::eDOBJECT_ClassFlags::NonCopyable);
-			DOBJECT_CLASS_BASE_CHAIN(Buffer)
+			GENERATE_BODY()
+			
 
 			friend class Graphics_Server;
 			friend class DebugDrawer;

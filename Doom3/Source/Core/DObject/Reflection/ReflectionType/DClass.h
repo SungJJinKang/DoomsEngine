@@ -32,8 +32,8 @@ namespace dooms
 		dooms::DObject* (*const CREATE_DOBJECT_FUNCTION_PTR) () ;
 
 		/*
-		DOBJECT_CLASS_BODY(DClass) // Dont Do this
-		DOBJECT_CLASS_BASE_CHAIN(DObject) // Dont Do this
+		
+		
 		*/
 		DClass
 		(

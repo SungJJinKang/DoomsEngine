@@ -2,6 +2,7 @@
 
 #include <Core.h>
 
+#include "UniformBufferObjectUpdater.reflection.h"
 namespace dooms
 {
 	namespace graphics
@@ -14,7 +15,7 @@ namespace dooms
 		/// </summary>
 		class DOOM_API D_CLASS UniformBufferObjectUpdater // Don't put DObject here, Because Light Component should inherit this class, But it already inherit DObject through Component Class
 		{
-
+			GENERATE_BODY()
 		private:
 
 		protected:

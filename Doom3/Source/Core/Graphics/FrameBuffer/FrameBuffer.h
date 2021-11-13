@@ -9,14 +9,15 @@
 #include "../OverlapBindChecker.h"
 #include "../Buffer/BufferID.h"
 
+#include "FrameBuffer.reflection.h"
 namespace dooms
 {
 	namespace graphics
 	{
 		class DOOM_API D_CLASS FrameBuffer : public DObject
 		{
-			DOBJECT_CLASS_BODY(FrameBuffer);
-			DOBJECT_CLASS_BASE_CHAIN(DObject)
+			GENERATE_BODY()
+			
 
 		private:
 

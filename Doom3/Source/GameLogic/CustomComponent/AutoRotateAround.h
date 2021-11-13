@@ -2,12 +2,13 @@
 
 #include <Doom_Core.h>
 
+#include "AutoRotateAround.reflection.h"
 namespace dooms
 {
-	class D_CLASS AutoRotateAround : public PlainComponent
+	class DOOM_API D_CLASS AutoRotateAround : public PlainComponent
 	{
-		DOBJECT_CLASS_BODY(AutoRotateAround)
-		DOBJECT_CLASS_BASE_CHAIN(PlainComponent)
+		GENERATE_BODY()
+		
 
 	protected:
 		void InitComponent() override;

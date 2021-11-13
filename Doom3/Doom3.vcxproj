@@ -220,9 +220,9 @@ xcopy /y /d /E /H /C /I "$(ProjectDir)Assets" "$(TargetDir)Assets"</Command>
       <GenerateDebugInformation>DebugFull</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(SolutionDir)Source\Helper\crossguid\build\Debug;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>xg.lib;%(AdditionalDependencies);ntdll.lib</AdditionalDependencies>
-      <GenerateMapFile>true</GenerateMapFile>
+      <GenerateMapFile>false</GenerateMapFile>
       <MapFileName>map.map</MapFileName>
-      <MapExports>true</MapExports>
+      <MapExports>false</MapExports>
     </Link>
     <PostBuildEvent>
       <Command>xcopy /y /d /f "$(ProjectDir)*.cppbin" "$(TargetDir)"
@@ -1003,6 +1003,7 @@ xcopy /y /d /E /H /C /I "$(ProjectDir)Assets" "$(TargetDir)Assets"</Command>
     <None Include="Source\Core\Math\LightMath_Cpp\Vector4Float_SIMD.inl" />
     <None Include="Source\Core\ResourceManagement\JobSystem_cpp\MultithreadingJobSystemStrategy.md" />
     <None Include="Source\Core\ResourceManagement\JobSystem_cpp\README.md" />
+    <None Include="Source\GameLogic\CustomComponent\ButtonRotate.reflectionh" />
     <None Include="Source\GameLogic\OverDrawVisualizationTest.inl" />
     <None Include="Source\GameLogic\Portfolio.inl" />
     <None Include="Source\GameLogic\RayCastTest.inl" />

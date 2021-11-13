@@ -16,14 +16,13 @@
 
 
 
-
+#include "Graphics_Server.reflection.h"
 struct GLFWwindow;
 
 namespace culling
 {
 	class EveryCulling;
 }
-
 
 namespace dooms
 {
@@ -43,8 +42,8 @@ namespace dooms
 	{
 		class DOOM_API D_CLASS Graphics_Server : public IGameFlow, public ISingleton<Graphics_Server>
 		{
-			DOBJECT_CLASS_BODY(Graphics_Server, dooms::eDOBJECT_ClassFlags::NonCopyable);
-			DOBJECT_CLASS_BASE_CHAIN(IGameFlow)
+			GENERATE_BODY()
+			
 
 			enum class D_ENUM eRenderingMode
 			{

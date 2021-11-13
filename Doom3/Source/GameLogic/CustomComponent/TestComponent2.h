@@ -3,13 +3,14 @@
 #include <Doom_Core.h>
 #include "TestComponent.h"
 
+#include "TestComponent2.reflection.h"
 namespace dooms
 {
 	class D_CLASS TestComponent2 : public TestComponent
 	{
-
-		DOBJECT_CLASS_BODY(TestComponent2)
-		DOBJECT_CLASS_BASE_CHAIN(TestComponent)
+		GENERATE_BODY()
+		
+		
 
 	private:
 

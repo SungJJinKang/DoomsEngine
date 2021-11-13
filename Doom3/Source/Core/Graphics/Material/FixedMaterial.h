@@ -1,5 +1,6 @@
 #pragma once
 
+#include <Core.h>
 
 namespace dooms
 {
@@ -7,7 +8,7 @@ namespace dooms
 	{
 		class Material;
 
-		class FixedMaterial
+		class DOOM_API D_CLASS FixedMaterial
 		{
 
 		private:

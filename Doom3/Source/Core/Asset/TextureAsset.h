@@ -3,6 +3,7 @@
 
 #include "../Graphics/Texture/TextureFormat.h"
 
+#include "TextureAsset.reflection.h"
 namespace DirectX
 {
 	class ScratchImage;
@@ -26,8 +27,8 @@ namespace dooms
 	{
 		class DOOM_API D_CLASS TextureAsset : public Asset
 		{
-			DOBJECT_CLASS_BODY(TextureAsset, dooms::eDOBJECT_ClassFlags::NonCopyable)
-				DOBJECT_CLASS_BASE_CHAIN(Asset)
+			GENERATE_BODY()
+				
 
 			friend class ::dooms::assetImporter::AssetImporterWorker_Texture;
 

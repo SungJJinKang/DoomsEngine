@@ -3,13 +3,14 @@
 #include <StaticContainer/StaticContainer.h>
 #include "Graphics/Buffer/UniformBufferObjectUpdater.h"
 
+#include "PointLight.reflection.h"
 namespace dooms
 {
 	class DOOM_API D_CLASS PointLight : public Light, public StaticContainer<PointLight>, public graphics::UniformBufferObjectUpdater
 	{
-
-		DOBJECT_CLASS_BODY(PointLight)
-		DOBJECT_CLASS_BASE_CHAIN(Light)
+		GENERATE_BODY()
+		
+		
 
 	private:
 

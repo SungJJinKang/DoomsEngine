@@ -2,13 +2,14 @@
 
 #include <Doom_Core.h>
 
+#include "ExportTextureTester.reflection.h"
 namespace dooms
 {
-	class D_CLASS ExportTextureTester : public PlainComponent
+	class DOOM_API D_CLASS ExportTextureTester : public PlainComponent
 	{
-
-		DOBJECT_CLASS_BODY(ExportTextureTester)
-		DOBJECT_CLASS_BASE_CHAIN(PlainComponent)
+		GENERATE_BODY()
+		
+		
 
 	protected:
 
