@@ -34,7 +34,10 @@ public: typedef dooms::asset::AssetContainer Current;
 public: \
 inline static const unsigned long int TYPE_FULL_NAME_HASH_VALUE = 2052131787; \
 inline static const char* const TYPE_FULL_NAME = "dooms::asset::AssetContainer"; \
-inline static const char* const TYPE_SHORT_NAME = "AssetContainer"; 
+inline static const char* const TYPE_SHORT_NAME = "AssetContainer"; \
+virtual unsigned long int GetTypeHashVlue() const { return TYPE_FULL_NAME_HASH_VALUE; } \
+virtual const char* GetTypeFullName() const { return TYPE_FULL_NAME; } \
+virtual const char* GetTypeShortName() const { return TYPE_SHORT_NAME; }
 
 
 #undef TYPE_CHECK_FUNCTION_AssetContainer

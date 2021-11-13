@@ -34,7 +34,10 @@ public: typedef dooms::graphics::CullDistance Current;
 public: \
 inline static const unsigned long int TYPE_FULL_NAME_HASH_VALUE = 3392497755; \
 inline static const char* const TYPE_FULL_NAME = "dooms::graphics::CullDistance"; \
-inline static const char* const TYPE_SHORT_NAME = "CullDistance"; 
+inline static const char* const TYPE_SHORT_NAME = "CullDistance"; \
+virtual unsigned long int GetTypeHashVlue() const { return TYPE_FULL_NAME_HASH_VALUE; } \
+virtual const char* GetTypeFullName() const { return TYPE_FULL_NAME; } \
+virtual const char* GetTypeShortName() const { return TYPE_SHORT_NAME; }
 
 
 #undef TYPE_CHECK_FUNCTION_CullDistance

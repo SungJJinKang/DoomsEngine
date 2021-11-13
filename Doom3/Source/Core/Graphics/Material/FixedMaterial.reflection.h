@@ -34,7 +34,10 @@ public: typedef dooms::graphics::FixedMaterial Current;
 public: \
 inline static const unsigned long int TYPE_FULL_NAME_HASH_VALUE = 3299440170; \
 inline static const char* const TYPE_FULL_NAME = "dooms::graphics::FixedMaterial"; \
-inline static const char* const TYPE_SHORT_NAME = "FixedMaterial"; 
+inline static const char* const TYPE_SHORT_NAME = "FixedMaterial"; \
+virtual unsigned long int GetTypeHashVlue() const { return TYPE_FULL_NAME_HASH_VALUE; } \
+virtual const char* GetTypeFullName() const { return TYPE_FULL_NAME; } \
+virtual const char* GetTypeShortName() const { return TYPE_SHORT_NAME; }
 
 
 #undef TYPE_CHECK_FUNCTION_FixedMaterial

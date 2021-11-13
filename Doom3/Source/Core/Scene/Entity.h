@@ -124,7 +124,7 @@ namespace dooms
 			}
 
 			//TODO : BaseChain Ÿ�� ���鼭 ��� ������� typeid���ٰ� �� ��������.
-			//mComponents[reinterpret_cast<size_t>(newComponent->GetClassTypeID())].push_back(newComponent);
+			mComponents[static_cast<size_t>(newComponent->GetTypeHashVlue())].push_back(newComponent);
 
 
 			InitializeComponent(static_cast<Component*>(newComponent));
@@ -174,7 +174,7 @@ namespace dooms
 
 			bool isRemoveSuccess{ false };
 			
-			std::vector<Component*> targetComponents; //mComponents[reinterpret_cast<size_t>(component->GetClassTypeID())];
+			std::vector<Component*>& targetComponents = mComponents[static_cast<size_t>(component->GetTypeHashVlue())];
 			for(std::ptrdiff_t i = targetComponents.size() - 1; i >= 0 ; i--)
 			{
 				if(targetComponents[i] == component)
@@ -305,7 +305,7 @@ namespace dooms
 			}
 			else
 			{
-				auto iter = mComponents.end();// mComponents.find(reinterpret_cast<size_t>(T::CLASS_TYPE_ID_STATIC()));
+				auto iter = mComponents.find(static_cast<size_t>(T::TYPE_FULL_NAME_HASH_VALUE));
 				if (iter != mComponents.end())
 				{
 					const std::vector<Component*>& targetComponents = iter->second;

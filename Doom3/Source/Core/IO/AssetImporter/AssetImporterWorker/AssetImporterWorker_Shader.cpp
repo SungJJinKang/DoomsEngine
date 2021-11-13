@@ -26,6 +26,11 @@ bool dooms::assetImporter::AssetImporterWorker_Shader::ImportShaderAsset
 	}
 }
 
+dooms::assetImporter::AssetImporterWorker_Shader::AssetImporterWorker_Shader()
+{
+	AssetImporterWorker::IsInitialized = true;
+}
+
 
 bool dooms::assetImporter::AssetImporterWorker_Shader::ImportSpecificAsset(const std::filesystem::path& path, dooms::asset::Asset* asset)
 {

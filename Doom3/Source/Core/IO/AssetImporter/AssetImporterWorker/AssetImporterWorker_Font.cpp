@@ -1,5 +1,10 @@
 #include "AssetImporterWorker_Font.h"
 
+assetImporter::AssetImporterWorker_Font::AssetImporterWorker_Font()
+{
+	AssetImporterWorker::IsInitialized = true;
+}
+
 bool assetImporter::AssetImporterWorker_Font::ImportSpecificAsset
 (
 	const std::filesystem::path& paths,

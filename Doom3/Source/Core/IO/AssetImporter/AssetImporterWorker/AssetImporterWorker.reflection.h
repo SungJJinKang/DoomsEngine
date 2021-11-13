@@ -27,8 +27,8 @@
 #define INHERITANCE_INFORMATION_dooms__assetImporter__AssetImporterWorker \
 public: inline static const unsigned long int BASE_CHAIN_LIST[] { 1388311841, 3969188510 }; \
 inline static const unsigned long int BASE_CHAIN_LIST_LENGTH { 2 }; \
-virtual const unsigned long int* GetBastChainList() const { return BASE_CHAIN_LIST; } \
-virtual unsigned long int GetBastChainListLength() const { return BASE_CHAIN_LIST_LENGTH; } \
+virtual const unsigned long int* GetBaseChainList() const { return BASE_CHAIN_LIST; } \
+virtual unsigned long int GetBaseChainListLength() const { return BASE_CHAIN_LIST_LENGTH; } \
 public: typedef dooms::DObject Base;
 
 
@@ -42,7 +42,10 @@ public: typedef dooms::assetImporter::AssetImporterWorker Current;
 public: \
 inline static const unsigned long int TYPE_FULL_NAME_HASH_VALUE = 1388311841; \
 inline static const char* const TYPE_FULL_NAME = "dooms::assetImporter::AssetImporterWorker"; \
-inline static const char* const TYPE_SHORT_NAME = "AssetImporterWorker"; 
+inline static const char* const TYPE_SHORT_NAME = "AssetImporterWorker"; \
+virtual unsigned long int GetTypeHashVlue() const { return TYPE_FULL_NAME_HASH_VALUE; } \
+virtual const char* GetTypeFullName() const { return TYPE_FULL_NAME; } \
+virtual const char* GetTypeShortName() const { return TYPE_SHORT_NAME; }
 
 
 #undef TYPE_CHECK_FUNCTION_AssetImporterWorker

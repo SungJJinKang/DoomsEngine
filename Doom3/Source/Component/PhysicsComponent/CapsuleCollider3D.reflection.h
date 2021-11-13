@@ -27,8 +27,8 @@
 #define INHERITANCE_INFORMATION_dooms__CapsuleCollider3D \
 public: inline static const unsigned long int BASE_CHAIN_LIST[] { 174153128, 3608780617, 960295289, 1503232071, 3040581954, 3969188510 }; \
 inline static const unsigned long int BASE_CHAIN_LIST_LENGTH { 6 }; \
-virtual const unsigned long int* GetBastChainList() const { return BASE_CHAIN_LIST; } \
-virtual unsigned long int GetBastChainListLength() const { return BASE_CHAIN_LIST_LENGTH; } \
+virtual const unsigned long int* GetBaseChainList() const { return BASE_CHAIN_LIST; } \
+virtual unsigned long int GetBaseChainListLength() const { return BASE_CHAIN_LIST_LENGTH; } \
 public: typedef dooms::Collider3DComponent Base;
 
 
@@ -42,7 +42,10 @@ public: typedef dooms::CapsuleCollider3D Current;
 public: \
 inline static const unsigned long int TYPE_FULL_NAME_HASH_VALUE = 174153128; \
 inline static const char* const TYPE_FULL_NAME = "dooms::CapsuleCollider3D"; \
-inline static const char* const TYPE_SHORT_NAME = "CapsuleCollider3D"; 
+inline static const char* const TYPE_SHORT_NAME = "CapsuleCollider3D"; \
+virtual unsigned long int GetTypeHashVlue() const { return TYPE_FULL_NAME_HASH_VALUE; } \
+virtual const char* GetTypeFullName() const { return TYPE_FULL_NAME; } \
+virtual const char* GetTypeShortName() const { return TYPE_SHORT_NAME; }
 
 
 #undef TYPE_CHECK_FUNCTION_CapsuleCollider3D

@@ -7,6 +7,7 @@
 
 #include <Asset/eAssetType.h>
 
+#include "AssetImporterWorker.reflection.h"
 namespace dooms
 {
 	namespace asset
@@ -18,7 +19,7 @@ namespace dooms
 	{
 		class DOOM_API D_CLASS AssetImporterWorker : public DObject
 		{
-			
+			GENERATE_BODY()
 			
 
 		protected:
@@ -37,6 +38,11 @@ namespace dooms
 
 			virtual bool ImportSpecificAsset(const std::filesystem::path& path, dooms::asset::Asset* asset) = 0;
 			virtual dooms::asset::eAssetType GetEAssetType() const = 0;
+
+			FORCE_INLINE bool GetIsIsInitialized()
+			{
+				return IsInitialized;
+			}
 		};
 	}
 }

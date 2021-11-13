@@ -11,6 +11,7 @@ namespace dooms
 	class DObject;
 	struct DOOM_API D_STRUCT DClass /*: public dooms::DObject*/ // Dont Do this
 	{
+		// TODO : Implement this ( 2021/11/14 )
 		D_PROPERTY()
 		const size_t CLASS_TYPE_SIZE;
 

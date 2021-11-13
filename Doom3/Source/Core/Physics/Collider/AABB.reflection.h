@@ -34,7 +34,10 @@ public: typedef dooms::physics::AABB3D Current;
 public: \
 inline static const unsigned long int TYPE_FULL_NAME_HASH_VALUE = 504734176; \
 inline static const char* const TYPE_FULL_NAME = "dooms::physics::AABB3D"; \
-inline static const char* const TYPE_SHORT_NAME = "AABB3D"; 
+inline static const char* const TYPE_SHORT_NAME = "AABB3D"; \
+virtual unsigned long int GetTypeHashVlue() const { return TYPE_FULL_NAME_HASH_VALUE; } \
+virtual const char* GetTypeFullName() const { return TYPE_FULL_NAME; } \
+virtual const char* GetTypeShortName() const { return TYPE_SHORT_NAME; }
 
 
 #undef TYPE_CHECK_FUNCTION_AABB3D
@@ -73,7 +76,10 @@ public: typedef dooms::physics::AABB2D Current;
 public: \
 inline static const unsigned long int TYPE_FULL_NAME_HASH_VALUE = 308233036; \
 inline static const char* const TYPE_FULL_NAME = "dooms::physics::AABB2D"; \
-inline static const char* const TYPE_SHORT_NAME = "AABB2D"; 
+inline static const char* const TYPE_SHORT_NAME = "AABB2D"; \
+virtual unsigned long int GetTypeHashVlue() const { return TYPE_FULL_NAME_HASH_VALUE; } \
+virtual const char* GetTypeFullName() const { return TYPE_FULL_NAME; } \
+virtual const char* GetTypeShortName() const { return TYPE_SHORT_NAME; }
 
 
 #undef TYPE_CHECK_FUNCTION_AABB2D

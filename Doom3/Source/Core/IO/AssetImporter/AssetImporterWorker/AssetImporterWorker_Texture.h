@@ -2,7 +2,7 @@
 
 #include "AssetImporterWorker.h"
 
-
+#include "AssetImporterWorker_Texture.reflection.h"
 namespace dooms
 {
 	namespace asset
@@ -16,7 +16,7 @@ namespace dooms
 		class DOOM_API D_CLASS AssetImporterWorker_Texture : public AssetImporterWorker
 		{
 			
-			
+			GENERATE_BODY()
 
 			//static constexpr inline UINT32 AVAILIABLE_FORMAT_TYPE = CMP_FORMAT_DXT5 | CMP_FORMAT_DXT1 | CMP_FORMAT_BC5 | CMP_FORMAT_BC4;
 

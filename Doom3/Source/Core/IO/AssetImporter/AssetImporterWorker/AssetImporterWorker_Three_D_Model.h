@@ -4,6 +4,8 @@
 
 #include <API/ASSIMP.h>
 
+
+#include "AssetImporterWorker_Three_D_Model.reflection.h"
 struct aiScene;
 struct aiNode;
 namespace dooms
@@ -20,7 +22,7 @@ namespace dooms
 	{
 		class DOOM_API D_CLASS AssetImporterWorker_THREE_D_MODEL : public AssetImporterWorker
 		{
-			
+			GENERATE_BODY()
 			
 
 		private:

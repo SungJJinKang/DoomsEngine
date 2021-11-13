@@ -126,6 +126,7 @@ dooms::assetImporter::AssetImporterWorker* assetImporter::AssetImporterWorkerMan
 	}
 
 	D_ASSERT(assetImporterWorker != nullptr);
+	D_ASSERT(assetImporterWorker->GetIsIsInitialized() == true);
 
 	return assetImporterWorker;
 }

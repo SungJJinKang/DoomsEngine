@@ -141,9 +141,6 @@
     <ClCompile Include="Source\Core\Physics\Picking.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\GameLogic\CustomComponent\TestComponent.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Source\Component\PhysicsComponent\BoxCollider2D.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -543,9 +540,6 @@
     <ClCompile Include="Source\Core\IO\AssetExporter\AssetExporter_Three_D_Model.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\GameLogic\CustomComponent\TestComponent2.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Source\Core\Graphics\Texture\CubemapTexture.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -573,10 +567,19 @@
     <ClCompile Include="Source\Core\DObject\Reflection\Test\ReflectionTest.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="clreflect_compiletime_gettype.cpp">
+    <ClCompile Include="Source\Core\DObject\Reflection\Test\TestDObject.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Core\DObject\Reflection\Test\TestDObject.cpp">
+    <ClCompile Include="Source\GameLogic\CustomComponent\TestComponent.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\GameLogic\CustomComponent\TestComponent2.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\GameLogic\CustomComponent\ReflectionTestComponent.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Core\Math\LightMath_Cpp\Vector.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -951,9 +954,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\Core\Math\LightMath_Cpp\Vector.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\GameLogic\CustomComponent\TestComponent.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\Component\PhysicsComponent\BoxCollider2D.h">
@@ -1484,9 +1484,6 @@
     <ClInclude Include="Source\Core\DObject\DObject_Constant.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\GameLogic\CustomComponent\TestComponent2.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Core\DObject\Reflection\ReflectionType\TSubclassOf.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -1560,6 +1557,21 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\Core\DObject\Reflection\Test\TestDObject.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\GameLogic\CustomComponent\TestComponent.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\GameLogic\CustomComponent\TestComponent.reflection.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\GameLogic\CustomComponent\TestComponent2.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\GameLogic\CustomComponent\TestComponent2.reflection.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\GameLogic\CustomComponent\ReflectionTestComponent.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -10,6 +10,7 @@ namespace dooms
 {
 	struct DOOM_API D_STRUCT DProperty /*: public dooms::DObject*/ // Dont Do this
 	{
+		// TODO : Implement this ( 2021/11/14 )
 		D_PROPERTY()
 		const char* const PROPERTY_NAME;
 

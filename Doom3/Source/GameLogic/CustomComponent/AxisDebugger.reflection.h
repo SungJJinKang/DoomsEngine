@@ -27,8 +27,8 @@
 #define INHERITANCE_INFORMATION_dooms__AxisDebugger \
 public: inline static const unsigned long int BASE_CHAIN_LIST[] { 887493389, 3576686641, 3040581954, 3969188510 }; \
 inline static const unsigned long int BASE_CHAIN_LIST_LENGTH { 4 }; \
-virtual const unsigned long int* GetBastChainList() const { return BASE_CHAIN_LIST; } \
-virtual unsigned long int GetBastChainListLength() const { return BASE_CHAIN_LIST_LENGTH; } \
+virtual const unsigned long int* GetBaseChainList() const { return BASE_CHAIN_LIST; } \
+virtual unsigned long int GetBaseChainListLength() const { return BASE_CHAIN_LIST_LENGTH; } \
 public: typedef dooms::PlainComponent Base;
 
 
@@ -42,7 +42,10 @@ public: typedef dooms::AxisDebugger Current;
 public: \
 inline static const unsigned long int TYPE_FULL_NAME_HASH_VALUE = 887493389; \
 inline static const char* const TYPE_FULL_NAME = "dooms::AxisDebugger"; \
-inline static const char* const TYPE_SHORT_NAME = "AxisDebugger"; 
+inline static const char* const TYPE_SHORT_NAME = "AxisDebugger"; \
+virtual unsigned long int GetTypeHashVlue() const { return TYPE_FULL_NAME_HASH_VALUE; } \
+virtual const char* GetTypeFullName() const { return TYPE_FULL_NAME; } \
+virtual const char* GetTypeShortName() const { return TYPE_SHORT_NAME; }
 
 
 #undef TYPE_CHECK_FUNCTION_AxisDebugger

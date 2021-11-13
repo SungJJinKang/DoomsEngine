@@ -27,8 +27,8 @@
 #define INHERITANCE_INFORMATION_dooms__TestDObject \
 public: inline static const unsigned long int BASE_CHAIN_LIST[] { 3010861289, 3969188510 }; \
 inline static const unsigned long int BASE_CHAIN_LIST_LENGTH { 2 }; \
-virtual const unsigned long int* GetBastChainList() const { return BASE_CHAIN_LIST; } \
-virtual unsigned long int GetBastChainListLength() const { return BASE_CHAIN_LIST_LENGTH; } \
+virtual const unsigned long int* GetBaseChainList() const { return BASE_CHAIN_LIST; } \
+virtual unsigned long int GetBaseChainListLength() const { return BASE_CHAIN_LIST_LENGTH; } \
 public: typedef dooms::DObject Base;
 
 

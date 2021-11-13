@@ -34,7 +34,10 @@ public: typedef dooms::MeshVertexData Current;
 public: \
 inline static const unsigned long int TYPE_FULL_NAME_HASH_VALUE = 1497951543; \
 inline static const char* const TYPE_FULL_NAME = "dooms::MeshVertexData"; \
-inline static const char* const TYPE_SHORT_NAME = "MeshVertexData"; 
+inline static const char* const TYPE_SHORT_NAME = "MeshVertexData"; \
+virtual unsigned long int GetTypeHashVlue() const { return TYPE_FULL_NAME_HASH_VALUE; } \
+virtual const char* GetTypeFullName() const { return TYPE_FULL_NAME; } \
+virtual const char* GetTypeShortName() const { return TYPE_SHORT_NAME; }
 
 
 #undef TYPE_CHECK_FUNCTION_MeshVertexData
@@ -71,7 +74,10 @@ public: typedef dooms::ThreeDModelMesh Current;
 public: \
 inline static const unsigned long int TYPE_FULL_NAME_HASH_VALUE = 3774554090; \
 inline static const char* const TYPE_FULL_NAME = "dooms::ThreeDModelMesh"; \
-inline static const char* const TYPE_SHORT_NAME = "ThreeDModelMesh"; 
+inline static const char* const TYPE_SHORT_NAME = "ThreeDModelMesh"; \
+virtual unsigned long int GetTypeHashVlue() const { return TYPE_FULL_NAME_HASH_VALUE; } \
+virtual const char* GetTypeFullName() const { return TYPE_FULL_NAME; } \
+virtual const char* GetTypeShortName() const { return TYPE_SHORT_NAME; }
 
 
 #undef TYPE_CHECK_FUNCTION_ThreeDModelMesh
@@ -108,7 +114,10 @@ public: typedef dooms::ThreeDModelNode Current;
 public: \
 inline static const unsigned long int TYPE_FULL_NAME_HASH_VALUE = 2344481318; \
 inline static const char* const TYPE_FULL_NAME = "dooms::ThreeDModelNode"; \
-inline static const char* const TYPE_SHORT_NAME = "ThreeDModelNode"; 
+inline static const char* const TYPE_SHORT_NAME = "ThreeDModelNode"; \
+virtual unsigned long int GetTypeHashVlue() const { return TYPE_FULL_NAME_HASH_VALUE; } \
+virtual const char* GetTypeFullName() const { return TYPE_FULL_NAME; } \
+virtual const char* GetTypeShortName() const { return TYPE_SHORT_NAME; }
 
 
 #undef TYPE_CHECK_FUNCTION_ThreeDModelNode
@@ -138,8 +147,8 @@ TYPE_CHECK_FUNCTION_ThreeDModelNode \
 #define INHERITANCE_INFORMATION_dooms__asset__ThreeDModelAsset \
 public: inline static const unsigned long int BASE_CHAIN_LIST[] { 4198124059, 2982024308, 3969188510 }; \
 inline static const unsigned long int BASE_CHAIN_LIST_LENGTH { 3 }; \
-virtual const unsigned long int* GetBastChainList() const { return BASE_CHAIN_LIST; } \
-virtual unsigned long int GetBastChainListLength() const { return BASE_CHAIN_LIST_LENGTH; } \
+virtual const unsigned long int* GetBaseChainList() const { return BASE_CHAIN_LIST; } \
+virtual unsigned long int GetBaseChainListLength() const { return BASE_CHAIN_LIST_LENGTH; } \
 public: typedef dooms::asset::Asset Base;
 
 
@@ -153,7 +162,10 @@ public: typedef dooms::asset::ThreeDModelAsset Current;
 public: \
 inline static const unsigned long int TYPE_FULL_NAME_HASH_VALUE = 4198124059; \
 inline static const char* const TYPE_FULL_NAME = "dooms::asset::ThreeDModelAsset"; \
-inline static const char* const TYPE_SHORT_NAME = "ThreeDModelAsset"; 
+inline static const char* const TYPE_SHORT_NAME = "ThreeDModelAsset"; \
+virtual unsigned long int GetTypeHashVlue() const { return TYPE_FULL_NAME_HASH_VALUE; } \
+virtual const char* GetTypeFullName() const { return TYPE_FULL_NAME; } \
+virtual const char* GetTypeShortName() const { return TYPE_SHORT_NAME; }
 
 
 #undef TYPE_CHECK_FUNCTION_ThreeDModelAsset

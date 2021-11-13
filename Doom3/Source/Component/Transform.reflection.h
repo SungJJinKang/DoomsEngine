@@ -34,7 +34,10 @@ public: typedef dooms::TransformCoreData Current;
 public: \
 inline static const unsigned long int TYPE_FULL_NAME_HASH_VALUE = 3613418982; \
 inline static const char* const TYPE_FULL_NAME = "dooms::TransformCoreData"; \
-inline static const char* const TYPE_SHORT_NAME = "TransformCoreData"; 
+inline static const char* const TYPE_SHORT_NAME = "TransformCoreData"; \
+virtual unsigned long int GetTypeHashVlue() const { return TYPE_FULL_NAME_HASH_VALUE; } \
+virtual const char* GetTypeFullName() const { return TYPE_FULL_NAME; } \
+virtual const char* GetTypeShortName() const { return TYPE_SHORT_NAME; }
 
 
 #undef TYPE_CHECK_FUNCTION_TransformCoreData
@@ -64,8 +67,8 @@ TYPE_CHECK_FUNCTION_TransformCoreData \
 #define INHERITANCE_INFORMATION_dooms__Transform \
 public: inline static const unsigned long int BASE_CHAIN_LIST[] { 3645669400, 3576686641, 3040581954, 3969188510 }; \
 inline static const unsigned long int BASE_CHAIN_LIST_LENGTH { 4 }; \
-virtual const unsigned long int* GetBastChainList() const { return BASE_CHAIN_LIST; } \
-virtual unsigned long int GetBastChainListLength() const { return BASE_CHAIN_LIST_LENGTH; } \
+virtual const unsigned long int* GetBaseChainList() const { return BASE_CHAIN_LIST; } \
+virtual unsigned long int GetBaseChainListLength() const { return BASE_CHAIN_LIST_LENGTH; } \
 public: typedef dooms::PlainComponent Base;
 
 
@@ -79,7 +82,10 @@ public: typedef dooms::Transform Current;
 public: \
 inline static const unsigned long int TYPE_FULL_NAME_HASH_VALUE = 3645669400; \
 inline static const char* const TYPE_FULL_NAME = "dooms::Transform"; \
-inline static const char* const TYPE_SHORT_NAME = "Transform"; 
+inline static const char* const TYPE_SHORT_NAME = "Transform"; \
+virtual unsigned long int GetTypeHashVlue() const { return TYPE_FULL_NAME_HASH_VALUE; } \
+virtual const char* GetTypeFullName() const { return TYPE_FULL_NAME; } \
+virtual const char* GetTypeShortName() const { return TYPE_SHORT_NAME; }
 
 
 #undef TYPE_CHECK_FUNCTION_Transform

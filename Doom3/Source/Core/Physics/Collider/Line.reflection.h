@@ -34,7 +34,10 @@ public: typedef dooms::physics::Line Current;
 public: \
 inline static const unsigned long int TYPE_FULL_NAME_HASH_VALUE = 1016117661; \
 inline static const char* const TYPE_FULL_NAME = "dooms::physics::Line"; \
-inline static const char* const TYPE_SHORT_NAME = "Line"; 
+inline static const char* const TYPE_SHORT_NAME = "Line"; \
+virtual unsigned long int GetTypeHashVlue() const { return TYPE_FULL_NAME_HASH_VALUE; } \
+virtual const char* GetTypeFullName() const { return TYPE_FULL_NAME; } \
+virtual const char* GetTypeShortName() const { return TYPE_SHORT_NAME; }
 
 
 #undef TYPE_CHECK_FUNCTION_Line

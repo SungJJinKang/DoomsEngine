@@ -57,8 +57,11 @@ namespace dooms
 		{
 			static_assert(IS_DOBJECT_TYPE(BASE_TYPE));
 
-			const UINT32 baseChainListLength = GetBastChainListLength();
-			const bool isChild = (baseChainListLength >= BASE_TYPE::BASE_CHAIN_LIST_LENGTH) && (GetBastChainList()[baseChainListLength - BASE_TYPE::BASE_CHAIN_LIST_LENGTH] == BASE_TYPE::TYPE_FULL_NAME_HASH_VALUE);
+			const UINT32 baseChainListLength = GetBaseChainListLength();
+			const bool isChild = (baseChainListLength >= BASE_TYPE::BASE_CHAIN_LIST_LENGTH) && (GetBaseChainList()[baseChainListLength - BASE_TYPE::BASE_CHAIN_LIST_LENGTH] == BASE_TYPE::TYPE_FULL_NAME_HASH_VALUE);
+
+			// TODO : if progragmmer deosn't write GENERATE_BODY macros, this function make big bug!!
+			//        Make detect code that
 
 			return isChild;
 		}

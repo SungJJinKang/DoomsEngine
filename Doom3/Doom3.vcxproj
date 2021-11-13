@@ -326,7 +326,6 @@ xcopy /y /d /E /H /C /I "$(ProjectDir)Assets" "$(TargetDir)Assets"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="clreflect_compiletime_gettype.cpp" />
     <ClCompile Include="Source\Core\Asset\AudioAsset.cpp" />
     <ClCompile Include="Source\Core\Asset\FontAsset.cpp" />
     <ClCompile Include="Source\Core\Asset\Helper\AssetFactory.cpp" />
@@ -369,6 +368,7 @@ xcopy /y /d /E /H /C /I "$(ProjectDir)Assets" "$(TargetDir)Assets"</Command>
     <ClCompile Include="Source\Core\DObject\DObject.cpp" />
     <ClCompile Include="Source\Core\IO\KEY_CODE.cpp" />
     <ClCompile Include="Source\Core\Macros\Path.cpp" />
+    <ClCompile Include="Source\Core\Math\LightMath_Cpp\Vector.cpp" />
     <ClCompile Include="Source\Core\OS\ErrorHandling.cpp" />
     <ClCompile Include="Source\Core\OS\Window.cpp" />
     <ClCompile Include="Source\Core\Physics\Collider\ColliderType.cpp" />
@@ -506,6 +506,7 @@ xcopy /y /d /E /H /C /I "$(ProjectDir)Assets" "$(TargetDir)Assets"</Command>
     <ClCompile Include="Source\GameLogic\CustomComponent\Portfolio\PortfolioComponent.cpp" />
     <ClCompile Include="Source\GameLogic\CustomComponent\Portfolio\RenderingAABBController.cpp" />
     <ClCompile Include="Source\GameLogic\CustomComponent\Portfolio\ViewFrustumCullingDebug.cpp" />
+    <ClCompile Include="Source\GameLogic\CustomComponent\ReflectionTestComponent.cpp" />
     <ClCompile Include="Source\GameLogic\CustomComponent\TestComponent.cpp" />
     <ClCompile Include="Source\GameLogic\CustomComponent\TestComponent2.cpp" />
     <ClCompile Include="Source\GameLogic\GameLogicStartPoint.cpp" />
@@ -805,8 +806,11 @@ xcopy /y /d /E /H /C /I "$(ProjectDir)Assets" "$(TargetDir)Assets"</Command>
     <ClInclude Include="Source\GameLogic\CustomComponent\Portfolio\PortfolioComponent.h" />
     <ClInclude Include="Source\GameLogic\CustomComponent\Portfolio\RenderingAABBController.h" />
     <ClInclude Include="Source\GameLogic\CustomComponent\Portfolio\ViewFrustumCullingDebug.h" />
+    <ClInclude Include="Source\GameLogic\CustomComponent\ReflectionTestComponent.h" />
     <ClInclude Include="Source\GameLogic\CustomComponent\TestComponent.h" />
+    <ClInclude Include="Source\GameLogic\CustomComponent\TestComponent.reflection.h" />
     <ClInclude Include="Source\GameLogic\CustomComponent\TestComponent2.h" />
+    <ClInclude Include="Source\GameLogic\CustomComponent\TestComponent2.reflection.h" />
     <ClInclude Include="Source\GameLogic\Doom_Core.h" />
     <ClInclude Include="Source\GameLogic\GameLogicStartPoint.h" />
     <ClInclude Include="Source\Helper\concurrentqueue\blockingconcurrentqueue.h" />

@@ -1,5 +1,10 @@
 #include "AssetImporterWorker_Audio.h"
 
+dooms::assetImporter::AssetImporterWorker_Audio::AssetImporterWorker_Audio()
+{
+	AssetImporterWorker::IsInitialized = true;
+}
+
 bool dooms::assetImporter::AssetImporterWorker_Audio::ImportSpecificAsset
 (
 	const std::filesystem::path& path,

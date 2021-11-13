@@ -27,8 +27,8 @@
 #define INHERITANCE_INFORMATION_dooms__MeshRenderer \
 public: inline static const unsigned long int BASE_CHAIN_LIST[] { 3778871520, 3346461073, 1503232071, 3040581954, 3969188510 }; \
 inline static const unsigned long int BASE_CHAIN_LIST_LENGTH { 5 }; \
-virtual const unsigned long int* GetBastChainList() const { return BASE_CHAIN_LIST; } \
-virtual unsigned long int GetBastChainListLength() const { return BASE_CHAIN_LIST_LENGTH; } \
+virtual const unsigned long int* GetBaseChainList() const { return BASE_CHAIN_LIST; } \
+virtual unsigned long int GetBaseChainListLength() const { return BASE_CHAIN_LIST_LENGTH; } \
 public: typedef dooms::Renderer Base;
 
 
@@ -42,7 +42,10 @@ public: typedef dooms::MeshRenderer Current;
 public: \
 inline static const unsigned long int TYPE_FULL_NAME_HASH_VALUE = 3778871520; \
 inline static const char* const TYPE_FULL_NAME = "dooms::MeshRenderer"; \
-inline static const char* const TYPE_SHORT_NAME = "MeshRenderer"; 
+inline static const char* const TYPE_SHORT_NAME = "MeshRenderer"; \
+virtual unsigned long int GetTypeHashVlue() const { return TYPE_FULL_NAME_HASH_VALUE; } \
+virtual const char* GetTypeFullName() const { return TYPE_FULL_NAME; } \
+virtual const char* GetTypeShortName() const { return TYPE_SHORT_NAME; }
 
 
 #undef TYPE_CHECK_FUNCTION_MeshRenderer

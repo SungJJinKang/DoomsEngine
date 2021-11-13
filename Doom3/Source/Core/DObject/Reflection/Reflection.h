@@ -42,6 +42,9 @@
 #define D_REFLECTION_TYPE(TYPE_NAME) clcpp_reflect_part(TYPE_NAME)
 #endif
 
+#ifndef D_REFLECT_ALL
+#define D_REFLECT_ALL(TYPE_NAME) clcpp_reflect(TYPE_NAME)
+#endif
 
 #else
 
@@ -73,6 +76,10 @@
 
 #ifndef D_REFLECTION_TYPE
 #define D_REFLECTION_TYPE(...)
+#endif
+
+#ifndef D_REFLECT_ALL
+#define D_REFLECT_ALL(...)
 #endif
 
 #endif

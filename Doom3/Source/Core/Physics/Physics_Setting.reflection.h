@@ -34,7 +34,10 @@ public: typedef dooms::physics::Physics_Setting Current;
 public: \
 inline static const unsigned long int TYPE_FULL_NAME_HASH_VALUE = 848179968; \
 inline static const char* const TYPE_FULL_NAME = "dooms::physics::Physics_Setting"; \
-inline static const char* const TYPE_SHORT_NAME = "Physics_Setting"; 
+inline static const char* const TYPE_SHORT_NAME = "Physics_Setting"; \
+virtual unsigned long int GetTypeHashVlue() const { return TYPE_FULL_NAME_HASH_VALUE; } \
+virtual const char* GetTypeFullName() const { return TYPE_FULL_NAME; } \
+virtual const char* GetTypeShortName() const { return TYPE_SHORT_NAME; }
 
 
 #undef TYPE_CHECK_FUNCTION_Physics_Setting

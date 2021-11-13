@@ -34,7 +34,10 @@ public: typedef dooms::DObjectContructorParams Current;
 public: \
 inline static const unsigned long int TYPE_FULL_NAME_HASH_VALUE = 1908514145; \
 inline static const char* const TYPE_FULL_NAME = "dooms::DObjectContructorParams"; \
-inline static const char* const TYPE_SHORT_NAME = "DObjectContructorParams"; 
+inline static const char* const TYPE_SHORT_NAME = "DObjectContructorParams"; \
+virtual unsigned long int GetTypeHashVlue() const { return TYPE_FULL_NAME_HASH_VALUE; } \
+virtual const char* GetTypeFullName() const { return TYPE_FULL_NAME; } \
+virtual const char* GetTypeShortName() const { return TYPE_SHORT_NAME; }
 
 
 #undef TYPE_CHECK_FUNCTION_DObjectContructorParams
@@ -71,7 +74,10 @@ public: typedef dooms::DObject::DObjectProperties Current;
 public: \
 inline static const unsigned long int TYPE_FULL_NAME_HASH_VALUE = 1186928914; \
 inline static const char* const TYPE_FULL_NAME = "dooms::DObject::DObjectProperties"; \
-inline static const char* const TYPE_SHORT_NAME = "DObjectProperties"; 
+inline static const char* const TYPE_SHORT_NAME = "DObjectProperties"; \
+virtual unsigned long int GetTypeHashVlue() const { return TYPE_FULL_NAME_HASH_VALUE; } \
+virtual const char* GetTypeFullName() const { return TYPE_FULL_NAME; } \
+virtual const char* GetTypeShortName() const { return TYPE_SHORT_NAME; }
 
 
 #undef TYPE_CHECK_FUNCTION_DObjectProperties
@@ -101,8 +107,8 @@ TYPE_CHECK_FUNCTION_DObjectProperties \
 #define INHERITANCE_INFORMATION_dooms__DObject \
 public: inline static const unsigned long int BASE_CHAIN_LIST[] { 3969188510 }; \
 inline static const unsigned long int BASE_CHAIN_LIST_LENGTH { 1 }; \
-virtual const unsigned long int* GetBastChainList() const { return BASE_CHAIN_LIST; } \
-virtual unsigned long int GetBastChainListLength() const { return BASE_CHAIN_LIST_LENGTH; } \
+virtual const unsigned long int* GetBaseChainList() const { return BASE_CHAIN_LIST; } \
+virtual unsigned long int GetBaseChainListLength() const { return BASE_CHAIN_LIST_LENGTH; } \
 
 
 #undef CURRENT_TYPE_ALIAS_dooms__DObject
@@ -115,7 +121,10 @@ public: typedef dooms::DObject Current;
 public: \
 inline static const unsigned long int TYPE_FULL_NAME_HASH_VALUE = 3969188510; \
 inline static const char* const TYPE_FULL_NAME = "dooms::DObject"; \
-inline static const char* const TYPE_SHORT_NAME = "DObject"; 
+inline static const char* const TYPE_SHORT_NAME = "DObject"; \
+virtual unsigned long int GetTypeHashVlue() const { return TYPE_FULL_NAME_HASH_VALUE; } \
+virtual const char* GetTypeFullName() const { return TYPE_FULL_NAME; } \
+virtual const char* GetTypeShortName() const { return TYPE_SHORT_NAME; }
 
 
 #undef TYPE_CHECK_FUNCTION_DObject

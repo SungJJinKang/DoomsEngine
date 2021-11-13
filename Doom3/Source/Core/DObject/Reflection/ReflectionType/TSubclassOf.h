@@ -11,6 +11,7 @@ namespace dooms
 	template <typename T>
 	class TSubclassOf
 	{
+		// TODO : Implement this ( 2021/11/14 )
 		static_assert(std::is_base_of_v<dooms::DObject, T> == true);
 
 		template <typename FromType>

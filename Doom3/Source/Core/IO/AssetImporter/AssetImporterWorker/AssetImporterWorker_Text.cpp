@@ -4,6 +4,11 @@
 #include <Asset/TextAsset.h>
 
 
+dooms::assetImporter::AssetImporterWorker_Text::AssetImporterWorker_Text()
+{
+	AssetImporterWorker::IsInitialized = true;
+}
+
 bool dooms::assetImporter::AssetImporterWorker_Text::ImportSpecificAsset
 (
 	const std::filesystem::path& path, 

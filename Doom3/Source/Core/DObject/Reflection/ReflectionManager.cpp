@@ -124,7 +124,7 @@ void dooms::reflection::ReflectionManager::Initialize()
 		LoadReflectionBinaryDataFile();
 
 #ifdef DEBUG_MODE
-		//clReflectTest::test(mReflectionDatabase);
+		clReflectTest::test(mReflectionDatabase);
 #endif
 
 	}
