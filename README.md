@@ -24,6 +24,7 @@
   * JobSystem ( Thread Pool - https://github.com/SungJJinKang/JobSystem_cpp )
   * Collision, Raycasting, Picking ( implemented with BVH Tree ) ( https://youtu.be/ZASdCIKeG6s )
   * Overdraw Visualization ( implemented with Additive Blending ) ( https://youtu.be/fU3iBthe4Ws )
+  * Object Management System for preventing memory leak ( https://sungjjinkang.github.io/computerscience/gameengine/2021/09/25/dangling_pointer.html )
   * FrameBuffer, Texture Exporter ( https://youtu.be/T2XlHlOr95g )
   * Fast Runtime Type Casting ( O(1), Not use dynamic_cast ( RTTI option is disabled ), https://github.com/SungJJinKang/Fast_Runtime_TypeCasting_cpp )        
 
