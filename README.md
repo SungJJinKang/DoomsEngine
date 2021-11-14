@@ -34,6 +34,7 @@
 
 ## To Develop
 
+  * Refactoring ( Remove a lot of dependency between modules, classes )
   * Masked SW Occlusion Culling ( https://software.intel.com/content/dam/develop/external/us/en/documents/masked-software-occlusion-culling.pdf )      
   * Batching System ( Static Batch, Dynamic Batch )
 
