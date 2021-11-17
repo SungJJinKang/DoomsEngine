@@ -28,6 +28,8 @@ namespace dooms
 		public:
 
 			PIPManager();
+			PIPManager(const PIPManager&) = delete;
+			PIPManager& operator=(const PIPManager&) = delete;
 
 			void DrawPIPs();
 

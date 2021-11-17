@@ -1,6 +1,7 @@
 #pragma once
 
 #include <string>
+#include <cassert>
 
 #include <Macros/TypeDef.h>
 #include <Macros/DllMarcos.h>
