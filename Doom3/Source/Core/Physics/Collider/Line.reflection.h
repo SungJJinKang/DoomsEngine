@@ -14,6 +14,7 @@
 
 
 #include <type_traits>
+#include <cassert>
 
 
 //-------------------------------------------
@@ -26,12 +27,13 @@
 
 #undef CURRENT_TYPE_ALIAS_dooms__physics__Line
 #define CURRENT_TYPE_ALIAS_dooms__physics__Line \
-public: typedef dooms::physics::Line Current;
+public : \
+typedef dooms::physics::Line Current;
 
 
 #undef TYPE_FULLNAME_HASH_VALUE_NAME_STRING_dooms__physics__Line
 #define TYPE_FULLNAME_HASH_VALUE_NAME_STRING_dooms__physics__Line \
-public: \
+public : \
 inline static const unsigned long int TYPE_FULL_NAME_HASH_VALUE = 1016117661; \
 inline static const char* const TYPE_FULL_NAME = "dooms::physics::Line"; \
 inline static const char* const TYPE_SHORT_NAME = "Line"; \
@@ -42,8 +44,8 @@ virtual const char* GetTypeShortName() const { return TYPE_SHORT_NAME; }
 
 #undef TYPE_CHECK_FUNCTION_Line
 #define TYPE_CHECK_FUNCTION_Line \
-private: \
-attrNoReflect void __TYPE_CHECK() { static_assert(std::is_same_v<std::decay<decltype(*this)>::type, Current> == true, "ERROR : WRONG TYPE. Please Check GENERATED_~ MACROS");} \
+private : \
+attrNoReflect void __TYPE_CHECK() { static_assert(std::is_same_v<std::remove_reference<decltype(*this)>::type, Current> == true, "ERROR : WRONG TYPE. Please Check GENERATED_~ MACROS");} \
 
 
 #undef GENERATE_BODY_FULLNAME_dooms__physics__Line

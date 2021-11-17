@@ -25,10 +25,7 @@ namespace dooms
 		DirtyReceiver bmIsLightUboDirty{ true };
 
 
-		Light(const Light&) = default;
-		Light(Light&&) noexcept = delete;
-		Light& operator=(const Light&) = delete;
-		Light& operator=(Light&&) noexcept = delete;
+		
 
 
 		virtual void InitComponent() override;
@@ -36,7 +33,12 @@ namespace dooms
 		virtual void OnEndOfFrame_Component() override;
 		
 	public:
+
 		Light() = default;
+		Light(const Light&) = default;
+		Light(Light&&) noexcept = delete;
+		Light& operator=(const Light&) = delete;
+		Light& operator=(Light&&) noexcept = delete;
 		virtual ~Light();
 
 		void SetIntensity(FLOAT32 intensity);

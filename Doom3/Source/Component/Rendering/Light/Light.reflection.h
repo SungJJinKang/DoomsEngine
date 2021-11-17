@@ -14,6 +14,7 @@
 
 
 #include <type_traits>
+#include <cassert>
 
 
 //-------------------------------------------
@@ -25,21 +26,39 @@
 
 #undef INHERITANCE_INFORMATION_dooms__Light
 #define INHERITANCE_INFORMATION_dooms__Light \
-public: inline static const unsigned long int BASE_CHAIN_LIST[] { 2741420880, 1503232071, 3040581954, 3969188510 }; \
+public : \
+inline static const unsigned long int BASE_CHAIN_LIST[] { 2741420880, 1503232071, 3040581954, 3969188510 }; \
 inline static const unsigned long int BASE_CHAIN_LIST_LENGTH { 4 }; \
 virtual const unsigned long int* GetBaseChainList() const { return BASE_CHAIN_LIST; } \
 virtual unsigned long int GetBaseChainListLength() const { return BASE_CHAIN_LIST_LENGTH; } \
-public: typedef dooms::ServerComponent Base;
+typedef dooms::ServerComponent Base;
+
+
+#undef CLONE_OBJECT_dooms__Light
+#define CLONE_OBJECT_dooms__Light \
+public : \
+virtual dooms::DObject* CloneObject() const \
+{ \
+	dooms::DObject* clonedObject = nullptr; \
+	/* std::vector<std::unique_ptr> can make false positive for std::is_copy_constructible<std::vector<std::unique_ptr>>::value. So Please explicitly delete copy constructor if you have this type variable */ \
+	if constexpr( (std::is_copy_constructible<dooms::Light>::value == true) && (std::is_base_of<dooms::DObject, dooms::Light>::value == true) ) \
+	{ \
+		 clonedObject = dooms::CreateDObject<dooms::Light>(*this); \
+	} \
+	assert(clonedObject != nullptr);	\
+	return clonedObject;	\
+}
 
 
 #undef CURRENT_TYPE_ALIAS_dooms__Light
 #define CURRENT_TYPE_ALIAS_dooms__Light \
-public: typedef dooms::Light Current;
+public : \
+typedef dooms::Light Current;
 
 
 #undef TYPE_FULLNAME_HASH_VALUE_NAME_STRING_dooms__Light
 #define TYPE_FULLNAME_HASH_VALUE_NAME_STRING_dooms__Light \
-public: \
+public : \
 inline static const unsigned long int TYPE_FULL_NAME_HASH_VALUE = 2741420880; \
 inline static const char* const TYPE_FULL_NAME = "dooms::Light"; \
 inline static const char* const TYPE_SHORT_NAME = "Light"; \
@@ -50,13 +69,14 @@ virtual const char* GetTypeShortName() const { return TYPE_SHORT_NAME; }
 
 #undef TYPE_CHECK_FUNCTION_Light
 #define TYPE_CHECK_FUNCTION_Light \
-private: \
-attrNoReflect void __TYPE_CHECK() { static_assert(std::is_same_v<std::decay<decltype(*this)>::type, Current> == true, "ERROR : WRONG TYPE. Please Check GENERATED_~ MACROS");} \
+private : \
+attrNoReflect void __TYPE_CHECK() { static_assert(std::is_same_v<std::remove_reference<decltype(*this)>::type, Current> == true, "ERROR : WRONG TYPE. Please Check GENERATED_~ MACROS");} \
 
 
 #undef GENERATE_BODY_FULLNAME_dooms__Light
 #define GENERATE_BODY_FULLNAME_dooms__Light(...) \
 INHERITANCE_INFORMATION_dooms__Light \
+CLONE_OBJECT_dooms__Light \
 CURRENT_TYPE_ALIAS_dooms__Light \
 TYPE_FULLNAME_HASH_VALUE_NAME_STRING_dooms__Light \
 TYPE_CHECK_FUNCTION_Light \

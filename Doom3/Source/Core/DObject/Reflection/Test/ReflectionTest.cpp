@@ -22,9 +22,9 @@ void clReflectTest::test(clcpp::Database& db)
 		auto eColorName = db.GetName("dooms::graphics::eColor");
 		auto eColorNameType = db.GetType(eColorName.hash);
 		auto eColorEnum = eColorNameType->AsEnum();
-		D_ASSERT(std::strcmp(eColorEnum->GetValueName(0), "White") == 0);
-		D_ASSERT(std::strcmp(eColorEnum->GetValueName(1), "Black") == 0);
-		D_ASSERT(std::strcmp(eColorEnum->GetValueName(2), "Red") == 0);
+		//D_ASSERT(std::strcmp(eColorEnum->GetValueName(0), "White") == 0);
+		//D_ASSERT(std::strcmp(eColorEnum->GetValueName(1), "Black") == 0);
+		//D_ASSERT(std::strcmp(eColorEnum->GetValueName(2), "Red") == 0);
 	}
 
 	

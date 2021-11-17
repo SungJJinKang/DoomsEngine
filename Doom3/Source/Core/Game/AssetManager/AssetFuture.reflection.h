@@ -14,6 +14,7 @@
 
 
 #include <type_traits>
+#include <cassert>
 
 
 //-------------------------------------------
@@ -26,12 +27,13 @@
 
 #undef CURRENT_TYPE_ALIAS_dooms__assetImporter__AssetFuture
 #define CURRENT_TYPE_ALIAS_dooms__assetImporter__AssetFuture \
-public: typedef dooms::assetImporter::AssetFuture Current;
+public : \
+typedef dooms::assetImporter::AssetFuture Current;
 
 
 #undef TYPE_FULLNAME_HASH_VALUE_NAME_STRING_dooms__assetImporter__AssetFuture
 #define TYPE_FULLNAME_HASH_VALUE_NAME_STRING_dooms__assetImporter__AssetFuture \
-public: \
+public : \
 inline static const unsigned long int TYPE_FULL_NAME_HASH_VALUE = 207266924; \
 inline static const char* const TYPE_FULL_NAME = "dooms::assetImporter::AssetFuture"; \
 inline static const char* const TYPE_SHORT_NAME = "AssetFuture"; \
@@ -42,8 +44,8 @@ virtual const char* GetTypeShortName() const { return TYPE_SHORT_NAME; }
 
 #undef TYPE_CHECK_FUNCTION_AssetFuture
 #define TYPE_CHECK_FUNCTION_AssetFuture \
-private: \
-attrNoReflect void __TYPE_CHECK() { static_assert(std::is_same_v<std::decay<decltype(*this)>::type, Current> == true, "ERROR : WRONG TYPE. Please Check GENERATED_~ MACROS");} \
+private : \
+attrNoReflect void __TYPE_CHECK() { static_assert(std::is_same_v<std::remove_reference<decltype(*this)>::type, Current> == true, "ERROR : WRONG TYPE. Please Check GENERATED_~ MACROS");} \
 
 
 #undef GENERATE_BODY_FULLNAME_dooms__assetImporter__AssetFuture

@@ -14,6 +14,7 @@
 
 
 #include <type_traits>
+#include <cassert>
 
 
 //-------------------------------------------
@@ -26,12 +27,13 @@
 
 #undef CURRENT_TYPE_ALIAS_dooms__physics__AABB3D
 #define CURRENT_TYPE_ALIAS_dooms__physics__AABB3D \
-public: typedef dooms::physics::AABB3D Current;
+public : \
+typedef dooms::physics::AABB3D Current;
 
 
 #undef TYPE_FULLNAME_HASH_VALUE_NAME_STRING_dooms__physics__AABB3D
 #define TYPE_FULLNAME_HASH_VALUE_NAME_STRING_dooms__physics__AABB3D \
-public: \
+public : \
 inline static const unsigned long int TYPE_FULL_NAME_HASH_VALUE = 504734176; \
 inline static const char* const TYPE_FULL_NAME = "dooms::physics::AABB3D"; \
 inline static const char* const TYPE_SHORT_NAME = "AABB3D"; \
@@ -42,8 +44,8 @@ virtual const char* GetTypeShortName() const { return TYPE_SHORT_NAME; }
 
 #undef TYPE_CHECK_FUNCTION_AABB3D
 #define TYPE_CHECK_FUNCTION_AABB3D \
-private: \
-attrNoReflect void __TYPE_CHECK() { static_assert(std::is_same_v<std::decay<decltype(*this)>::type, Current> == true, "ERROR : WRONG TYPE. Please Check GENERATED_~ MACROS");} \
+private : \
+attrNoReflect void __TYPE_CHECK() { static_assert(std::is_same_v<std::remove_reference<decltype(*this)>::type, Current> == true, "ERROR : WRONG TYPE. Please Check GENERATED_~ MACROS");} \
 
 
 #undef GENERATE_BODY_FULLNAME_dooms__physics__AABB3D
@@ -68,12 +70,13 @@ private:
 
 #undef CURRENT_TYPE_ALIAS_dooms__physics__AABB2D
 #define CURRENT_TYPE_ALIAS_dooms__physics__AABB2D \
-public: typedef dooms::physics::AABB2D Current;
+public : \
+typedef dooms::physics::AABB2D Current;
 
 
 #undef TYPE_FULLNAME_HASH_VALUE_NAME_STRING_dooms__physics__AABB2D
 #define TYPE_FULLNAME_HASH_VALUE_NAME_STRING_dooms__physics__AABB2D \
-public: \
+public : \
 inline static const unsigned long int TYPE_FULL_NAME_HASH_VALUE = 308233036; \
 inline static const char* const TYPE_FULL_NAME = "dooms::physics::AABB2D"; \
 inline static const char* const TYPE_SHORT_NAME = "AABB2D"; \
@@ -84,8 +87,8 @@ virtual const char* GetTypeShortName() const { return TYPE_SHORT_NAME; }
 
 #undef TYPE_CHECK_FUNCTION_AABB2D
 #define TYPE_CHECK_FUNCTION_AABB2D \
-private: \
-attrNoReflect void __TYPE_CHECK() { static_assert(std::is_same_v<std::decay<decltype(*this)>::type, Current> == true, "ERROR : WRONG TYPE. Please Check GENERATED_~ MACROS");} \
+private : \
+attrNoReflect void __TYPE_CHECK() { static_assert(std::is_same_v<std::remove_reference<decltype(*this)>::type, Current> == true, "ERROR : WRONG TYPE. Please Check GENERATED_~ MACROS");} \
 
 
 #undef GENERATE_BODY_FULLNAME_dooms__physics__AABB2D

@@ -14,6 +14,7 @@
 
 
 #include <type_traits>
+#include <cassert>
 
 
 //-------------------------------------------
@@ -26,12 +27,11 @@
 
 #undef CURRENT_TYPE_ALIAS_dooms__DynamicLinkingLibrary
 #define CURRENT_TYPE_ALIAS_dooms__DynamicLinkingLibrary \
-public: typedef dooms::DynamicLinkingLibrary Current;
+typedef dooms::DynamicLinkingLibrary Current;
 
 
 #undef TYPE_FULLNAME_HASH_VALUE_NAME_STRING_dooms__DynamicLinkingLibrary
 #define TYPE_FULLNAME_HASH_VALUE_NAME_STRING_dooms__DynamicLinkingLibrary \
-public: \
 inline static const unsigned long int TYPE_FULL_NAME_HASH_VALUE = 3427236552; \
 inline static const char* const TYPE_FULL_NAME = "dooms::DynamicLinkingLibrary"; \
 inline static const char* const TYPE_SHORT_NAME = "DynamicLinkingLibrary"; \
@@ -42,7 +42,7 @@ virtual const char* GetTypeShortName() const { return TYPE_SHORT_NAME; }
 
 #undef TYPE_CHECK_FUNCTION_DynamicLinkingLibrary
 #define TYPE_CHECK_FUNCTION_DynamicLinkingLibrary \
-attrNoReflect void __TYPE_CHECK() { static_assert(std::is_same_v<std::decay<decltype(*this)>::type, Current> == true, "ERROR : WRONG TYPE. Please Check GENERATED_~ MACROS");} \
+attrNoReflect void __TYPE_CHECK() { static_assert(std::is_same_v<std::remove_reference<decltype(*this)>::type, Current> == true, "ERROR : WRONG TYPE. Please Check GENERATED_~ MACROS");} \
 
 
 #undef GENERATE_BODY_FULLNAME_dooms__DynamicLinkingLibrary
@@ -66,12 +66,13 @@ TYPE_CHECK_FUNCTION_DynamicLinkingLibrary \
 
 #undef CURRENT_TYPE_ALIAS_dooms__SmartDynamicLinking
 #define CURRENT_TYPE_ALIAS_dooms__SmartDynamicLinking \
-public: typedef dooms::SmartDynamicLinking Current;
+public : \
+typedef dooms::SmartDynamicLinking Current;
 
 
 #undef TYPE_FULLNAME_HASH_VALUE_NAME_STRING_dooms__SmartDynamicLinking
 #define TYPE_FULLNAME_HASH_VALUE_NAME_STRING_dooms__SmartDynamicLinking \
-public: \
+public : \
 inline static const unsigned long int TYPE_FULL_NAME_HASH_VALUE = 100502829; \
 inline static const char* const TYPE_FULL_NAME = "dooms::SmartDynamicLinking"; \
 inline static const char* const TYPE_SHORT_NAME = "SmartDynamicLinking"; \
@@ -82,8 +83,8 @@ virtual const char* GetTypeShortName() const { return TYPE_SHORT_NAME; }
 
 #undef TYPE_CHECK_FUNCTION_SmartDynamicLinking
 #define TYPE_CHECK_FUNCTION_SmartDynamicLinking \
-private: \
-attrNoReflect void __TYPE_CHECK() { static_assert(std::is_same_v<std::decay<decltype(*this)>::type, Current> == true, "ERROR : WRONG TYPE. Please Check GENERATED_~ MACROS");} \
+private : \
+attrNoReflect void __TYPE_CHECK() { static_assert(std::is_same_v<std::remove_reference<decltype(*this)>::type, Current> == true, "ERROR : WRONG TYPE. Please Check GENERATED_~ MACROS");} \
 
 
 #undef GENERATE_BODY_FULLNAME_dooms__SmartDynamicLinking

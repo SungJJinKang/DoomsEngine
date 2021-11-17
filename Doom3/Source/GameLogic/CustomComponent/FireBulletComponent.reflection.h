@@ -14,6 +14,7 @@
 
 
 #include <type_traits>
+#include <cassert>
 
 
 //-------------------------------------------
@@ -25,21 +26,39 @@
 
 #undef INHERITANCE_INFORMATION_dooms__FireBulletComponent
 #define INHERITANCE_INFORMATION_dooms__FireBulletComponent \
-public: inline static const unsigned long int BASE_CHAIN_LIST[] { 3111448023, 3576686641, 3040581954, 3969188510 }; \
+public : \
+inline static const unsigned long int BASE_CHAIN_LIST[] { 3111448023, 3576686641, 3040581954, 3969188510 }; \
 inline static const unsigned long int BASE_CHAIN_LIST_LENGTH { 4 }; \
 virtual const unsigned long int* GetBaseChainList() const { return BASE_CHAIN_LIST; } \
 virtual unsigned long int GetBaseChainListLength() const { return BASE_CHAIN_LIST_LENGTH; } \
-public: typedef dooms::PlainComponent Base;
+typedef dooms::PlainComponent Base;
+
+
+#undef CLONE_OBJECT_dooms__FireBulletComponent
+#define CLONE_OBJECT_dooms__FireBulletComponent \
+public : \
+virtual dooms::DObject* CloneObject() const \
+{ \
+	dooms::DObject* clonedObject = nullptr; \
+	/* std::vector<std::unique_ptr> can make false positive for std::is_copy_constructible<std::vector<std::unique_ptr>>::value. So Please explicitly delete copy constructor if you have this type variable */ \
+	if constexpr( (std::is_copy_constructible<dooms::FireBulletComponent>::value == true) && (std::is_base_of<dooms::DObject, dooms::FireBulletComponent>::value == true) ) \
+	{ \
+		 clonedObject = dooms::CreateDObject<dooms::FireBulletComponent>(*this); \
+	} \
+	assert(clonedObject != nullptr);	\
+	return clonedObject;	\
+}
 
 
 #undef CURRENT_TYPE_ALIAS_dooms__FireBulletComponent
 #define CURRENT_TYPE_ALIAS_dooms__FireBulletComponent \
-public: typedef dooms::FireBulletComponent Current;
+public : \
+typedef dooms::FireBulletComponent Current;
 
 
 #undef TYPE_FULLNAME_HASH_VALUE_NAME_STRING_dooms__FireBulletComponent
 #define TYPE_FULLNAME_HASH_VALUE_NAME_STRING_dooms__FireBulletComponent \
-public: \
+public : \
 inline static const unsigned long int TYPE_FULL_NAME_HASH_VALUE = 3111448023; \
 inline static const char* const TYPE_FULL_NAME = "dooms::FireBulletComponent"; \
 inline static const char* const TYPE_SHORT_NAME = "FireBulletComponent"; \
@@ -50,13 +69,14 @@ virtual const char* GetTypeShortName() const { return TYPE_SHORT_NAME; }
 
 #undef TYPE_CHECK_FUNCTION_FireBulletComponent
 #define TYPE_CHECK_FUNCTION_FireBulletComponent \
-private: \
-attrNoReflect void __TYPE_CHECK() { static_assert(std::is_same_v<std::decay<decltype(*this)>::type, Current> == true, "ERROR : WRONG TYPE. Please Check GENERATED_~ MACROS");} \
+private : \
+attrNoReflect void __TYPE_CHECK() { static_assert(std::is_same_v<std::remove_reference<decltype(*this)>::type, Current> == true, "ERROR : WRONG TYPE. Please Check GENERATED_~ MACROS");} \
 
 
 #undef GENERATE_BODY_FULLNAME_dooms__FireBulletComponent
 #define GENERATE_BODY_FULLNAME_dooms__FireBulletComponent(...) \
 INHERITANCE_INFORMATION_dooms__FireBulletComponent \
+CLONE_OBJECT_dooms__FireBulletComponent \
 CURRENT_TYPE_ALIAS_dooms__FireBulletComponent \
 TYPE_FULLNAME_HASH_VALUE_NAME_STRING_dooms__FireBulletComponent \
 TYPE_CHECK_FUNCTION_FireBulletComponent \
