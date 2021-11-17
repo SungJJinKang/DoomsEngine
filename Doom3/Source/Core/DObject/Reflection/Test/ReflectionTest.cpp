@@ -22,11 +22,10 @@ void clReflectTest::test(clcpp::Database& db)
 		auto eColorName = db.GetName("dooms::graphics::eColor");
 		auto eColorNameType = db.GetType(eColorName.hash);
 		auto eColorEnum = eColorNameType->AsEnum();
-		//D_ASSERT(std::strcmp(eColorEnum->GetValueName(0), "White") == 0);
-		//D_ASSERT(std::strcmp(eColorEnum->GetValueName(1), "Black") == 0);
-		//D_ASSERT(std::strcmp(eColorEnum->GetValueName(2), "Red") == 0);
+		D_ASSERT(std::strcmp(eColorEnum->GetValueName(0), "dooms::graphics::eColor::White") == 0);
+		D_ASSERT(std::strcmp(eColorEnum->GetValueName(1), "dooms::graphics::eColor::Black") == 0);
+		D_ASSERT(std::strcmp(eColorEnum->GetValueName(2), "dooms::graphics::eColor::Red") == 0);
 	}
-
 	
 	unsigned num;
 	const clcpp::Type** type = db.GetTypes(num);
