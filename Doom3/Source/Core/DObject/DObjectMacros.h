@@ -69,33 +69,6 @@ template<dooms::eDOBJECT_ClassFlags...flags> struct flag_or {
 
 #endif
 
-#ifndef _CLONE_DOBJECT
-
-#define _CLONE_DOBJECT(CLASS_TYPE)															\
-	public:																					\
-	NO_DISCARD virtual CLASS_TYPE* CLONE_DOBJECT () const								\
-	{																						\
-		CLASS_TYPE* newObject = nullptr;													\
-		if constexpr( (CLASS_FLAGS_STATIC() & eDOBJECT_ClassFlags::NonCopyable) == false )	\
-		{																					\
-			newObject = dooms::CreateDObject<CLASS_TYPE>(*this);								\
-		}																					\
-		D_ASSERT(newObject != nullptr);														\
-		return newObject;																	\
-	}																						\
-
-#endif
-
-/////////////////////////////////
-
-#ifndef _CLONE_ABSTRACT_DOBJECT
-
-#define _CLONE_ABSTRACT_DOBJECT(CLASS_TYPE)											\
-	public:																			\
-	virtual CLASS_TYPE*	CLONE_DOBJECT () const = 0;									\
-
-#endif
-
 
 
 
@@ -135,36 +108,6 @@ namespace dooms
 }
 
 
-#ifndef DCLASS_IMP
-
-//TODO : If _BASE_CHAIN become resolved at compile time, Do This Also at Compile time
-
-#define DCLASS_IMP(CLASS_TYPE)																			\
-		public :																						\
-		NO_DISCARD FORCE_INLINE static dooms::DClass* StaticClass()									\
-		{																								\
-			static dooms::DClass _CLASS_DCLASS = dooms::details::CreateDClass<CLASS_TYPE>();				\
-			return &_CLASS_DCLASS;																		\
-		}																								\
-		NO_DISCARD virtual dooms::DClass* GetDClass() const { return CLASS_TYPE::StaticClass(); }
-
-#endif
-
-/////////////////////////////////
-
-#ifndef DOBJECT_BODY_UNIFORM
-
-#define DOBJECT_BODY_UNIFORM(CLASS_TYPE, ...)										\
-		public:																		\
-		using Current = CLASS_TYPE;													\
-		CLASS_FLAGS_FUNCTION(CLASS_TYPE, __VA_ARGS__)								\
-		TYPE_ID_IMP(CLASS_TYPE)														\
-		CLASS_NAME_IMP(CLASS_TYPE)													\
-		DCLASS_IMP(CLASS_TYPE)														
-
-#endif
-
-/////////////////////////////////
 
 
 

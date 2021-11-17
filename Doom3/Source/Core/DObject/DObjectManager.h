@@ -9,13 +9,13 @@
 
 #include "DObject_Constant.h"
 
-#include "DObjectManager.reflection.h"
+//#include "DObjectManager.reflection.h"
 namespace dooms
 {
 	class DObject;
-	class DOOM_API D_CLASS DObjectManager
+	class DOOM_API /*D_CLASS*/ DObjectManager
 	{
-		GENERATE_BODY()
+		//GENERATE_BODY()
 
 		friend class DObject;
 
