@@ -20,22 +20,22 @@
 //-------------------------------------------
 
 
-#ifdef GENERATE_BODY_FULLNAME_dooms__DField
-#error "GENERATE_BODY_FULLNAME_dooms__DField already included...."
+#ifdef GENERATE_BODY_FULLNAME_dooms__reflection__DField
+#error "GENERATE_BODY_FULLNAME_dooms__reflection__DField already included...."
 #endif
 
 
-#undef CURRENT_TYPE_ALIAS_dooms__DField
-#define CURRENT_TYPE_ALIAS_dooms__DField \
+#undef CURRENT_TYPE_ALIAS_dooms__reflection__DField
+#define CURRENT_TYPE_ALIAS_dooms__reflection__DField \
 public : \
-typedef dooms::DField Current;
+typedef dooms::reflection::DField Current;
 
 
-#undef TYPE_FULLNAME_HASH_VALUE_NAME_STRING_dooms__DField
-#define TYPE_FULLNAME_HASH_VALUE_NAME_STRING_dooms__DField \
+#undef TYPE_FULLNAME_HASH_VALUE_NAME_STRING_dooms__reflection__DField
+#define TYPE_FULLNAME_HASH_VALUE_NAME_STRING_dooms__reflection__DField \
 public : \
-inline static const unsigned long int TYPE_FULL_NAME_HASH_VALUE = 1273923552; \
-inline static const char* const TYPE_FULL_NAME = "dooms::DField"; \
+inline static const unsigned long int TYPE_FULL_NAME_HASH_VALUE = 1998074900; \
+inline static const char* const TYPE_FULL_NAME = "dooms::reflection::DField"; \
 inline static const char* const TYPE_SHORT_NAME = "DField"; \
 virtual unsigned long int GetTypeHashVlue() const { return TYPE_FULL_NAME_HASH_VALUE; } \
 virtual const char* GetTypeFullName() const { return TYPE_FULL_NAME; } \
@@ -48,20 +48,20 @@ private : \
 attrNoReflect void __TYPE_CHECK() { static_assert(std::is_same_v<std::remove_reference<decltype(*this)>::type, Current> == true, "ERROR : WRONG TYPE. Please Check GENERATED_~ MACROS");} \
 
 
-#undef GENERATE_BODY_FULLNAME_dooms__DField
-#define GENERATE_BODY_FULLNAME_dooms__DField(...) \
-CURRENT_TYPE_ALIAS_dooms__DField \
-TYPE_FULLNAME_HASH_VALUE_NAME_STRING_dooms__DField \
+#undef GENERATE_BODY_FULLNAME_dooms__reflection__DField
+#define GENERATE_BODY_FULLNAME_dooms__reflection__DField(...) \
+CURRENT_TYPE_ALIAS_dooms__reflection__DField \
+TYPE_FULLNAME_HASH_VALUE_NAME_STRING_dooms__reflection__DField \
 TYPE_CHECK_FUNCTION_DField \
 private:
 
 
 //Type Short Name ( without namespace, only type name ) Version Macros.
-#define GENERATE_BODY_DField(...) GENERATE_BODY_FULLNAME_dooms__DField(__VA_ARGS__)
+#define GENERATE_BODY_DField(...) GENERATE_BODY_FULLNAME_dooms__reflection__DField(__VA_ARGS__)
 
 
 #undef GENERATE_BODY
-#define GENERATE_BODY(...) GENERATE_BODY_FULLNAME_dooms__DField(__VA_ARGS__)
+#define GENERATE_BODY(...) GENERATE_BODY_FULLNAME_dooms__reflection__DField(__VA_ARGS__)
 
 
 //-------------------------------------------

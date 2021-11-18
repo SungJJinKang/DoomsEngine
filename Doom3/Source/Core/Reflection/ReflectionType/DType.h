@@ -13,29 +13,32 @@ D_NAMESPACE(dooms)
 namespace dooms
 {
 	class DObject;
-	class DOOM_API D_STRUCT DType : public DPrimitive /*: public dooms::DObject*/ // Dont Do this
+	namespace reflection
 	{
-	protected:
-
-		const clcpp::Type* clType;
-
-	public:
-
-		FORCE_INLINE DType(const clcpp::Type* const _clType)
-			: DPrimitive(_clType), clType(_clType)
+		class DOOM_API D_STRUCT DType : public DPrimitive /*: public dooms::DObject*/ // Dont Do this
 		{
-			//D_ASSERT(clType != nullptr);
-		}
+		protected:
 
-		FORCE_INLINE const char* GetTypeFullName() const
-		{
-			return DPrimitive::GetPrimitiveFullName();
-		}
+			const clcpp::Type * clType;
 
-		FORCE_INLINE size_t GetTypeSize() const
-		{
-			return clType->size;
-		}
+		public:
 
-	};
+			FORCE_INLINE DType(const clcpp::Type* const _clType)
+				: DPrimitive(_clType), clType(_clType)
+			{
+				//D_ASSERT(clType != nullptr);
+			}
+
+			FORCE_INLINE const char* GetTypeFullName() const
+			{
+				return DPrimitive::GetPrimitiveFullName();
+			}
+
+			FORCE_INLINE size_t GetTypeSize() const
+			{
+				return clType->size;
+			}
+
+		};
+	}
 }

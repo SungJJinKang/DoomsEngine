@@ -2,7 +2,7 @@
 
 #include "../ReflectionManager.h"
 
-std::unordered_map<UINT32, std::vector<dooms::DField>> dooms::DClass::PropertyCacheHashMap{};
+std::unordered_map<UINT32, std::vector<dooms::reflection::DField>> dooms::reflection::DClass::PropertyCacheHashMap{};
 
 namespace dClassHelper
 {
@@ -15,7 +15,7 @@ namespace dClassHelper
 		return clcppType->AsClass();
 	}
 
-	void GetDProperties_Recursive(const clcpp::Class* const clcppClass, std::vector<dooms::DField>& list)
+	void GetDProperties_Recursive(const clcpp::Class* const clcppClass, std::vector<dooms::reflection::DField>& list)
 	{
 		D_ASSERT(clcppClass != nullptr);
 
@@ -37,13 +37,13 @@ namespace dClassHelper
 	}
 
 	// Return DProperties of passed clcpp::Class
-	std::vector<dooms::DField> GetDProperties(const clcpp::Class* const clcppClass)
+	std::vector<dooms::reflection::DField> GetDProperties(const clcpp::Class* const clcppClass)
 	{
 		D_ASSERT(clcppClass != nullptr);
 
 		const clcpp::Class* targetclcppClasss = clcppClass;
 
-		std::vector<dooms::DField> dProperty{};
+		std::vector<dooms::reflection::DField> dProperty{};
 
 		GetDProperties_Recursive(clcppClass, dProperty);
 
@@ -52,33 +52,33 @@ namespace dClassHelper
 	}
 }
 
-dooms::DClass::DClass(dooms::DObject* const dObject)
+dooms::reflection::DClass::DClass(dooms::DObject* const dObject)
 	: DClass(dObject->GetTypeHashVlue())
 {
 }
 
-dooms::DClass::DClass(const UINT32 nameHash)
+dooms::reflection::DClass::DClass(const UINT32 nameHash)
 	: DType(dClassHelper::GetclcppClass(nameHash)), clClass(clType->AsClass())
 {
 	D_ASSERT(clPrimitive != nullptr);
 
 }
 
-dooms::DClass::DClass(const clcpp::Class* const clcppType)
+dooms::reflection::DClass::DClass(const clcpp::Class* const clcppType)
 	: DType(clcppType), clClass(clcppType)
 {
 	D_ASSERT(clPrimitive != nullptr);
 }
 
 
-const std::vector<dooms::DField>& dooms::DClass::GetFieldList() const
+const std::vector<dooms::reflection::DField>& dooms::reflection::DClass::GetFieldList() const
 {
-	std::vector<dooms::DField>* propertyList = nullptr;
+	std::vector<dooms::reflection::DField>* propertyList = nullptr;
 
 	auto iter = PropertyCacheHashMap.find(clPrimitive->name.hash);
 	if(iter == PropertyCacheHashMap.end())
 	{
-		std::vector<dooms::DField> cachedPropertyList = dClassHelper::GetDProperties(clClass);
+		std::vector<dooms::reflection::DField> cachedPropertyList = dClassHelper::GetDProperties(clClass);
 		auto result = PropertyCacheHashMap.emplace(clPrimitive->name.hash, std::move(cachedPropertyList));
 		propertyList = &(result.first->second);
 	}
@@ -92,9 +92,9 @@ const std::vector<dooms::DField>& dooms::DClass::GetFieldList() const
 	return *propertyList;
 }
 
-bool dooms::DClass::GetField(const char* const fieldName, dooms::DField& dProperty) const
+bool dooms::reflection::DClass::GetField(const char* const fieldName, dooms::reflection::DField& dProperty) const
 {
-	const std::vector<dooms::DField>& propertyList = GetFieldList();
+	const std::vector<dooms::reflection::DField>& propertyList = GetFieldList();
 
 	bool isSuccess = false;
 	

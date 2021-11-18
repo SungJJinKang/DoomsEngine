@@ -15,13 +15,13 @@ namespace dClassHelper
 }
 
 
-dooms::DEnum::DEnum(const UINT32 nameHash)
+dooms::reflection::DEnum::DEnum(const UINT32 nameHash)
 	: DType(dClassHelper::GetclcppEnum(nameHash)), clEnum(clType->AsEnum())
 {
 	D_ASSERT(clPrimitive != nullptr);
 }
 
-const bool dooms::DEnum::GetValue(const char* const valueName, INT32& result) const
+const bool dooms::reflection::DEnum::GetValue(const char* const valueName, INT32& result) const
 {
 	bool isSuccess = false;
 

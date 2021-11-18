@@ -17,56 +17,62 @@ namespace dPrimitiveHelper
 D_NAMESPACE(dooms)
 namespace dooms
 {
-	enum class ePrimitiveNameType
-	{
-		Full,
-		Short
-	};
+	
 
 	class DObject;
-	class DOOM_API D_STRUCT DPrimitive /*: public dooms::DObject*/ // Dont Do this
+
+	namespace reflection
 	{
-	protected:
-
-		const clcpp::Primitive* clPrimitive;
-
-	public:
-
-		FORCE_INLINE DPrimitive()
-			:clPrimitive(nullptr)
+		enum class ePrimitiveNameType
 		{
-			
-		}
-		FORCE_INLINE DPrimitive(const clcpp::Primitive* const _clPrimitive)
-			: clPrimitive(_clPrimitive)
-		{
-		}
+			Full,
+			Short
+		};
 
-		FORCE_INLINE const char* GetPrimitiveFullName() const
+		class DOOM_API D_STRUCT DPrimitive /*: public dooms::DObject*/ // Dont Do this
 		{
-			return clPrimitive->name.text;
-		}
+		protected:
 
-		FORCE_INLINE const char* GetPrimitiveShortName() const
-		{
-			return dPrimitiveHelper::GetShortNamePointer(clPrimitive->name.text);
-		}
-		
-		FORCE_INLINE const char* GetParentFullName() const
-		{
-			if(clPrimitive->parent != nullptr)
+			const clcpp::Primitive* clPrimitive;
+
+		public:
+
+			FORCE_INLINE DPrimitive()
+				:clPrimitive(nullptr)
 			{
-				return clPrimitive->parent->name.text;
+
 			}
-			else
+			FORCE_INLINE DPrimitive(const clcpp::Primitive* const _clPrimitive)
+				: clPrimitive(_clPrimitive)
 			{
-				return nullptr;
-			}			
-		}
+			}
 
-		bool IsValid() const
-		{
-			return clPrimitive != nullptr;
-		}
-	};
+			FORCE_INLINE const char* GetPrimitiveFullName() const
+			{
+				return clPrimitive->name.text;
+			}
+
+			FORCE_INLINE const char* GetPrimitiveShortName() const
+			{
+				return dPrimitiveHelper::GetShortNamePointer(clPrimitive->name.text);
+			}
+
+			FORCE_INLINE const char* GetParentFullName() const
+			{
+				if (clPrimitive->parent != nullptr)
+				{
+					return clPrimitive->parent->name.text;
+				}
+				else
+				{
+					return nullptr;
+				}
+			}
+
+			bool IsValid() const
+			{
+				return clPrimitive != nullptr;
+			}
+		};
+	}
 }

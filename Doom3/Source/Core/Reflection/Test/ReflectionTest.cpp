@@ -54,10 +54,10 @@ void clReflectTest::test(clcpp::Database& db)
 
 
 	{
-		auto TestStruct_ReflectionTest_DClass = dooms::CreateDClass<dooms::TestStruct_ReflectionTest>();
+		auto TestStruct_ReflectionTest_DClass = dooms::reflection::CreateDClass<dooms::TestStruct_ReflectionTest>();
 
 		{
-			dooms::DField property;
+			dooms::reflection::DField property;
 			const bool isPropertyReturned = TestStruct_ReflectionTest_DClass.GetField("a", property);
 			D_ASSERT(isPropertyReturned == true);
 			D_ASSERT(property.IsValid() == true);
@@ -66,7 +66,7 @@ void clReflectTest::test(clcpp::Database& db)
 		}
 	
 		{
-			dooms::DField property;
+			dooms::reflection::DField property;
 			const bool isPropertyReturned = TestStruct_ReflectionTest_DClass.GetField("b", property);
 			D_ASSERT(isPropertyReturned == true);
 			D_ASSERT(property.IsValid() == true);
@@ -75,7 +75,7 @@ void clReflectTest::test(clcpp::Database& db)
 		}
 
 		{
-			dooms::DField property;
+			dooms::reflection::DField property;
 			const bool isPropertyReturned = TestStruct_ReflectionTest_DClass.GetField("mTestEnum", property);
 			D_ASSERT(isPropertyReturned == true);
 			D_ASSERT(property.IsValid() == true);
@@ -90,12 +90,13 @@ void clReflectTest::test(clcpp::Database& db)
 		}
 
 		{
-			for(const dooms::DField& dfield : TestStruct_ReflectionTest_DClass.GetFieldList())
+			for(const dooms::reflection::DField& dfield : TestStruct_ReflectionTest_DClass.GetFieldList())
 			{
-				dooms::ui::PrintText("%s", dfield.GetFieldVariableFullName());
-				dooms::ui::PrintText("%d", dfield.GetFieldTypeSize());
-				dooms::ui::PrintText("%d", dfield.GetFieldOffset());
-				dooms::ui::PrintText("is pointer : %s", (dfield.GetFieldQualifier() == dooms::DField::eProperyQualifier::POINTER) ? "yes" : "no");
+				dooms::ui::PrintText("VariableName : %s", dfield.GetFieldVariableName());
+				dooms::ui::PrintText("Type Size : %d", dfield.GetFieldTypeSize());
+				dooms::ui::PrintText("Field Offset : %d", dfield.GetFieldOffset());
+				dooms::ui::PrintText("Is pointer : %s", (dfield.GetFieldQualifier() == dooms::reflection::DField::eProperyQualifier::POINTER) ? "yes" : "no");
+				dooms::ui::PrintText("-------------------------------------");
 
 			}
 		}
@@ -104,12 +105,12 @@ void clReflectTest::test(clcpp::Database& db)
 
 
 	{
-		const dooms::DEnum eTestEnum_ReflectionTestDEnum = dooms::CreateDEnum<dooms::TestEnum_ReflectionTest>();
+		const dooms::reflection::DEnum eTestEnum_ReflectionTestDEnum = dooms::reflection::CreateDEnum<dooms::TestEnum_ReflectionTest>();
 
-		D_ASSERT(std::strcmp(eTestEnum_ReflectionTestDEnum.GetValueName(1), "test1") == 0);
-		D_ASSERT(std::strcmp(eTestEnum_ReflectionTestDEnum.GetValueName(3), "test2") == 0);
-		D_ASSERT(std::strcmp(eTestEnum_ReflectionTestDEnum.GetValueName(5), "test3") == 0);
-		D_ASSERT(std::strcmp(eTestEnum_ReflectionTestDEnum.GetValueName(444), "test4") == 0);
+		D_ASSERT(std::strcmp(eTestEnum_ReflectionTestDEnum.GetNameOfEnumConstantsValue(1), "test1") == 0);
+		D_ASSERT(std::strcmp(eTestEnum_ReflectionTestDEnum.GetNameOfEnumConstantsValue(3), "test2") == 0);
+		D_ASSERT(std::strcmp(eTestEnum_ReflectionTestDEnum.GetNameOfEnumConstantsValue(5), "test3") == 0);
+		D_ASSERT(std::strcmp(eTestEnum_ReflectionTestDEnum.GetNameOfEnumConstantsValue(444), "test4") == 0);
 
 		{
 			INT32 value;
@@ -167,9 +168,9 @@ void clReflectTest::test(clcpp::Database& db)
 	}
 
 	{
-		auto transform = dooms::CreateDClass<dooms::Transform>();
+		auto transform = dooms::reflection::CreateDClass<dooms::Transform>();
 
-		dooms::DField property;
+		dooms::reflection::DField property;
 		const bool isPropertyReturned = transform.GetField("mTransformCoreData", property);
 		D_ASSERT(isPropertyReturned == true);
 		D_ASSERT(property.IsValid() == true);
@@ -180,11 +181,11 @@ void clReflectTest::test(clcpp::Database& db)
 
 
 	{
-		const dooms::DEnum eColorDEnum = dooms::CreateDEnum<dooms::graphics::eColor>();
+		const dooms::reflection::DEnum eColorDEnum = dooms::reflection::CreateDEnum<dooms::graphics::eColor>();
 		
-		D_ASSERT(std::strcmp(eColorDEnum.GetValueName(0), "White") == 0);
-		D_ASSERT(std::strcmp(eColorDEnum.GetValueName(1), "Black") == 0);
-		D_ASSERT(std::strcmp(eColorDEnum.GetValueName(2), "Red") == 0);
+		D_ASSERT(std::strcmp(eColorDEnum.GetNameOfEnumConstantsValue(0), "White") == 0);
+		D_ASSERT(std::strcmp(eColorDEnum.GetNameOfEnumConstantsValue(1), "Black") == 0);
+		D_ASSERT(std::strcmp(eColorDEnum.GetNameOfEnumConstantsValue(2), "Red") == 0);
 
 		{
 			INT32 value;
