@@ -9,7 +9,7 @@ const char* dPrimitiveHelper::GetShortNamePointer(const char* const name)
 
 	if (lastTypeDivider != std::string::npos)
 	{
-		return name + lastTypeDivider;
+		return name + lastTypeDivider + 1;
 	}
 	else
 	{
