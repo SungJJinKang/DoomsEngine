@@ -215,6 +215,17 @@ void dooms::GameLogicStartPoint::StartGameLogic()
 		box3D->SetFromAABB3D(planetAsset->GetMesh(0)->GetBoundingBox());
 	}
 
+
+	{
+		auto transform = dooms::CreateDClass<dooms::Transform>();
+
+		dooms::DField property;
+		const bool isPropertyReturned = transform.GetField("mScale", property);
+		D_ASSERT(isPropertyReturned == true);
+		D_ASSERT(property.IsValid() == true);
+
+		math::Vector3* scale = property.GetFieldValue<math::Vector3>(lightEntity);
+	}
 	/*
 
 	auto a = Renderer::CLASS_TYPE_ID_STATIC();

@@ -44,6 +44,8 @@ template<dooms::eDOBJECT_ClassFlags...flags> struct flag_or {
 
 /////////////////////////////////
 
+
+/*
 #ifndef _CREATE_DOBJECT
 
 #define _CREATE_DOBJECT(CLASS_TYPE)															\
@@ -56,6 +58,7 @@ template<dooms::eDOBJECT_ClassFlags...flags> struct flag_or {
 	}																						\
 
 #endif
+*/
 
 
 

@@ -47,10 +47,12 @@ void clReflectTest::test(clcpp::Database& db)
 	{
 		auto transform = dooms::CreateDClass<dooms::Transform>();
 
-		dooms::DProperty property;
-		const bool isPropertyReturned = transform.GetProperty("mTransformCoreData", property);
+		dooms::DField property;
+		const bool isPropertyReturned = transform.GetField("mTransformCoreData", property);
 		D_ASSERT(isPropertyReturned == true);
 		D_ASSERT(property.IsValid() == true);
+
+		//property.GetPropertyValue<>()
 	}
 
 

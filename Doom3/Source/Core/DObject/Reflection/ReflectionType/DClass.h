@@ -7,7 +7,7 @@
 #include <unordered_map>
 
 #include "DType.h"
-#include "DProperty.h"
+#include "DField.h"
 
 D_NAMESPACE(dooms)
 namespace dooms
@@ -17,7 +17,7 @@ namespace dooms
 	{
 	private:
 
-		static std::unordered_map<UINT32, std::vector<dooms::DProperty>> PropertyCacheHashMap;
+		static std::unordered_map<UINT32, std::vector<dooms::DField>> PropertyCacheHashMap;
 
 	protected:
 
@@ -45,12 +45,13 @@ namespace dooms
 		{
 			static_assert(IS_DOBJECT_TYPE(BASE_TYPE));
 
+			// TODO : 
 			const bool isChild = false;// (BASE_CHAIN_COUNT >= BASE_TYPE::BASE_CHAIN_COUNT_STATIC()) && (BASE_CHAIN_DATA[BASE_CHAIN_COUNT - BASE_TYPE::BASE_CHAIN_COUNT_STATIC()] == BASE_TYPE::CLASS_TYPE_ID_STATIC());
 
 			return isChild;
 		}
 
-		dooms::DObject* CreateDObject() const
+		/*dooms::DObject* CreateDObject() const
 		{
 			/*
 			D_ASSERT(CREATE_DOBJECT_FUNCTION_PTR != nullptr);
@@ -63,17 +64,17 @@ namespace dooms
 			}
 			
 			return CreatedDObject;
-			*/
+			#1#
 
 			return nullptr;
-		}
+		}*/
 
 		//TODO : Implement DefaultObject for CreateDObject from DClass ( use CopyConstructor )
 
 		//dooms:DClass* CreateDClass
 
-		const std::vector<dooms::DProperty>& GetPropertyList() const;
-		bool GetProperty(const char* const propertyName, dooms::DProperty& dProperty) const;
+		const std::vector<dooms::DField>& GetFieldList() const;
+		bool GetField(const char* const fieldName, dooms::DField& dProperty) const;
 	};
 
 

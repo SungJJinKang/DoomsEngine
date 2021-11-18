@@ -2,7 +2,7 @@
 
 #include "../ReflectionManager.h"
 
-std::unordered_map<UINT32, std::vector<dooms::DProperty>> dooms::DClass::PropertyCacheHashMap{};
+std::unordered_map<UINT32, std::vector<dooms::DField>> dooms::DClass::PropertyCacheHashMap{};
 
 namespace dClassHelper
 {
@@ -15,7 +15,7 @@ namespace dClassHelper
 		return clcppType->AsClass();
 	}
 
-	void GetDProperties_Recursive(const clcpp::Class* const clcppClass, std::vector<dooms::DProperty>& list)
+	void GetDProperties_Recursive(const clcpp::Class* const clcppClass, std::vector<dooms::DField>& list)
 	{
 		D_ASSERT(clcppClass != nullptr);
 
@@ -37,13 +37,13 @@ namespace dClassHelper
 	}
 
 	// Return DProperties of passed clcpp::Class
-	std::vector<dooms::DProperty> GetDProperties(const clcpp::Class* const clcppClass)
+	std::vector<dooms::DField> GetDProperties(const clcpp::Class* const clcppClass)
 	{
 		D_ASSERT(clcppClass != nullptr);
 
 		const clcpp::Class* targetclcppClasss = clcppClass;
 
-		std::vector<dooms::DProperty> dProperty{};
+		std::vector<dooms::DField> dProperty{};
 
 		GetDProperties_Recursive(clcppClass, dProperty);
 
@@ -71,14 +71,14 @@ dooms::DClass::DClass(const clcpp::Class* const clcppType)
 }
 
 
-const std::vector<dooms::DProperty>& dooms::DClass::GetPropertyList() const
+const std::vector<dooms::DField>& dooms::DClass::GetFieldList() const
 {
-	std::vector<dooms::DProperty>* propertyList = nullptr;
+	std::vector<dooms::DField>* propertyList = nullptr;
 
 	auto iter = PropertyCacheHashMap.find(clPrimitive->name.hash);
 	if(iter == PropertyCacheHashMap.end())
 	{
-		std::vector<dooms::DProperty> cachedPropertyList = dClassHelper::GetDProperties(clClass);
+		std::vector<dooms::DField> cachedPropertyList = dClassHelper::GetDProperties(clClass);
 		auto result = PropertyCacheHashMap.emplace(clPrimitive->name.hash, std::move(cachedPropertyList));
 		propertyList = &(result.first->second);
 	}
@@ -92,15 +92,15 @@ const std::vector<dooms::DProperty>& dooms::DClass::GetPropertyList() const
 	return *propertyList;
 }
 
-bool dooms::DClass::GetProperty(const char* const propertyName, dooms::DProperty& dProperty) const
+bool dooms::DClass::GetField(const char* const fieldName, dooms::DField& dProperty) const
 {
-	const std::vector<dooms::DProperty>& propertyList = GetPropertyList();
+	const std::vector<dooms::DField>& propertyList = GetFieldList();
 
 	bool isSuccess = false;
 	
 	for(size_t i = 0 ; i < propertyList.size() ; i++)
 	{
-		if(std::strcmp(propertyList[i].GetPropertyVariableFullName(), propertyName) == 0)
+		if(std::strcmp(propertyList[i].GetFieldVariableFullName(), fieldName) == 0)
 		{// field's name is short name
 			dProperty = propertyList[i];
 			isSuccess = true;
@@ -108,6 +108,8 @@ bool dooms::DClass::GetProperty(const char* const propertyName, dooms::DProperty
 		}
 		//propertyList[i].get
 	}
+
+	D_ASSERT_LOG(isSuccess == true, "Fail to find Field ( %s ) from ( %s )", fieldName, GetTypeFullName());
 
 	return isSuccess;
 }
