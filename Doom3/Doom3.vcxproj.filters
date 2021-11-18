@@ -585,7 +585,7 @@
     <ClCompile Include="Source\Core\DObject\Reflection\ReflectionType\DClass.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Core\DObject\Reflection\ReflectionType\DProperty.cpp">
+    <ClCompile Include="Source\Core\DObject\Reflection\ReflectionType\DField.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Source\Core\DObject\Reflection\ReflectionType\DType.cpp">
@@ -598,6 +598,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Source\Core\DObject\Reflection\ReflectionType\DPrimitive.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Core\GarbageCollector\GarbageCollectorManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Core\GarbageCollector\GarbageCollectorSolver.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -1511,7 +1517,7 @@
     <ClInclude Include="Source\Core\Graphics\Texture\CubemapTexture.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Core\DObject\Reflection\ReflectionType\DProperty.h">
+    <ClInclude Include="Source\Core\DObject\Reflection\ReflectionType\DField.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\Core\Math\LightMath_Cpp\TypeDef.h">
@@ -1599,6 +1605,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\Core\DObject\Reflection\ReflectionType\DPrimitive.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Core\GarbageCollector\GarbageCollectorManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Core\GarbageCollector\GarbageCollectorSolver.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

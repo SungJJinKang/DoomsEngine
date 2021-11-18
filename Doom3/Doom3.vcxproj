@@ -334,7 +334,7 @@ xcopy /y /d /E /H /C /I "$(ProjectDir)Assets" "$(TargetDir)Assets"</Command>
     <ClCompile Include="Source\Core\DObject\Reflection\ReflectionType\DClass.cpp" />
     <ClCompile Include="Source\Core\DObject\Reflection\ReflectionType\DEnum.cpp" />
     <ClCompile Include="Source\Core\DObject\Reflection\ReflectionType\DPrimitive.cpp" />
-    <ClCompile Include="Source\Core\DObject\Reflection\ReflectionType\DProperty.cpp" />
+    <ClCompile Include="Source\Core\DObject\Reflection\ReflectionType\DField.cpp" />
     <ClCompile Include="Source\Core\DObject\Reflection\ReflectionType\DType.cpp" />
     <ClCompile Include="Source\Core\DObject\Reflection\Test\ReflectionTest.cpp" />
     <ClCompile Include="Source\Core\DObject\Reflection\Test\TestDObject.cpp" />
@@ -343,6 +343,8 @@ xcopy /y /d /E /H /C /I "$(ProjectDir)Assets" "$(TargetDir)Assets"</Command>
     <ClCompile Include="Source\Core\DObject\Reflection\clReflect_automation\clReflect\src\clReflectCpp\clcpp.cpp" />
     <ClCompile Include="Source\Core\Game\AssetManager\AssetFuture.cpp" />
     <ClCompile Include="Source\Core\Game\FrameDirtyChecker.cpp" />
+    <ClCompile Include="Source\Core\GarbageCollector\GarbageCollectorManager.cpp" />
+    <ClCompile Include="Source\Core\GarbageCollector\GarbageCollectorSolver.cpp" />
     <ClCompile Include="Source\Core\Graphics\FrameBuffer\FrameBufferExporterHelper.cpp" />
     <ClCompile Include="Source\Core\Graphics\Texture\CubemapTexture.cpp" />
     <ClCompile Include="Source\Core\IO\AssetExporter\AssetExporter_Texture.cpp" />
@@ -538,13 +540,15 @@ xcopy /y /d /E /H /C /I "$(ProjectDir)Assets" "$(TargetDir)Assets"</Command>
     <ClInclude Include="Source\Core\DObject\DObjectHeaders.h" />
     <ClInclude Include="Source\Core\DObject\DObjectMacros.h" />
     <ClInclude Include="Source\Core\DObject\DObject_Constant.h" />
-    <ClInclude Include="Source\Core\DObject\Reflection\ReflectionType\DProperty.h" />
+    <ClInclude Include="Source\Core\DObject\Reflection\ReflectionType\DField.h" />
     <ClInclude Include="Source\Core\DObject\Reflection\clReflectHelper.h" />
     <ClInclude Include="Source\Core\DObject\Reflection\Reflection.h" />
     <ClInclude Include="Source\Core\DObject\Reflection\Test\ReflectionTest.h" />
     <ClInclude Include="Source\Core\DObject\Reflection\ReflectionType\TSubclassOf.h" />
     <ClInclude Include="Source\Core\GameEngineEntryPoint.h" />
     <ClInclude Include="Source\Core\Game\AssetManager\AssetFuture.h" />
+    <ClInclude Include="Source\Core\GarbageCollector\GarbageCollectorManager.h" />
+    <ClInclude Include="Source\Core\GarbageCollector\GarbageCollectorSolver.h" />
     <ClInclude Include="Source\Core\Graphics\Acceleration\LinearData_ViewFrustumCulling\DataType\Math\SIMD_Core.h" />
     <ClInclude Include="Source\Core\Graphics\FrameBuffer\FrameBufferExporterHelper.h" />
     <ClInclude Include="Source\Core\Graphics\Texture\CubemapTexture.h" />
