@@ -79,7 +79,7 @@ static_assert(IS_DOBJECT_TYPE(REMOVE_POINTER_T(CASTING_TYPE)) == true, "Please P
 		{
 			CASTING_STATIC_ASSERT_PAIR(FromCastingType, ToCastingType);
 
-			return (dObject != nullptr && IsChildOf<REMOVE_POINTER_T(ToCastingType)>(dObject) == true) ? ( reinterpret_cast<ToCastingType>(dObject) ) : ( nullptr );
+			return (IsChildOf<REMOVE_POINTER_T(ToCastingType)>(dObject) == true) ? ( reinterpret_cast<ToCastingType>(dObject) ) : ( nullptr );
 		}
 
 		template<typename ToCastingType, typename FromCastingType>
@@ -108,14 +108,22 @@ static_assert(IS_DOBJECT_TYPE(REMOVE_POINTER_T(CASTING_TYPE)) == true, "Please P
 	{
 		CASTING_STATIC_ASSERT_PAIR(FromCastingType, ToCastingType);
 
-		if constexpr(std::is_base_of_v<REMOVE_POINTER_T(ToCastingType), REMOVE_POINTER_T(FromCastingType)> == true)
+		ToCastingType* result = nullptr;
+
+		D_ASSERT(dObject != nullptr);
+		if(dObject != nullptr)
 		{
-			return details::CastToUncheckedImp<ToCastingType>(dObject);
+			if constexpr (std::is_base_of_v<REMOVE_POINTER_T(ToCastingType), REMOVE_POINTER_T(FromCastingType)> == true)
+			{
+				result = details::CastToUncheckedImp<ToCastingType>(dObject);
+			}
+			else
+			{
+				result = details::CastToImp<ToCastingType>(dObject);
+			}
 		}
-		else
-		{
-			return details::CastToImp<ToCastingType>(dObject);
-		}
+
+		return result;
 	}
 	
 	template<typename ToCastingType, typename FromCastingType>
