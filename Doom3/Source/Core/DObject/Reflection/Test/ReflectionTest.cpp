@@ -37,7 +37,9 @@ void clReflectTest::test(clcpp::Database& db)
 
 	{
 		auto transform = dooms::CreateDClass<dooms::Transform>();
-		auto propertyList = transform.GetPropertyList();
+
+		dooms::DProperty property;
+		auto propertyList = transform.GetProperty("mTransformCoreData", property);
 
 	}
 

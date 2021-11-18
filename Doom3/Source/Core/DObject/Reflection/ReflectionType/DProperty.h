@@ -26,6 +26,12 @@ namespace dooms
 			REFERENCE = clcpp::Qualifier::Operator::REFERENCE
 		};
 
+		FORCE_INLINE DProperty()
+			: DPrimitive(), clField(nullptr)
+		{
+			
+		}
+
 		FORCE_INLINE DProperty(const clcpp::Field* const _clField)
 			: DPrimitive(_clField), clField(_clField)
 		{

@@ -8,14 +8,7 @@
 D_NAMESPACE(dooms)
 namespace dooms
 {
-	namespace dEnumHelper
-	{
-		// return short name
-		// ex) dooms::graphics::GraphicsServer -> GraphicsServer
-		// ex) dooms::graphics::eClor::Red -> Red
-		const char* GetShortNamePointer(const char* const name);
-	}
-
+	
 	class DObject;
 	class DOOM_API D_STRUCT DEnum : public DType /*: public dooms::DObject*/ // Dont Do this
 	{

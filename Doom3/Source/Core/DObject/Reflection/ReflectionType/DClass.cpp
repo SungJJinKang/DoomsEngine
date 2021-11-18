@@ -2,7 +2,7 @@
 
 #include "../ReflectionManager.h"
 
-#include <unordered_map>
+std::unordered_map<UINT32, std::vector<dooms::DProperty>> dooms::DClass::PropertyCacheHashMap{};
 
 namespace dClassHelper
 {
@@ -71,22 +71,43 @@ dooms::DClass::DClass(const clcpp::Class* const clcppType)
 }
 
 
-const std::vector<dooms::DProperty> dooms::DClass::GetPropertyList() const
+const std::vector<dooms::DProperty>& dooms::DClass::GetPropertyList() const
 {
-	static std::unordered_map<UINT32, std::vector<dooms::DProperty>> PropertyCacheHashMap;
-
-	std::vector<dooms::DProperty> propertyList;
+	std::vector<dooms::DProperty>* propertyList = nullptr;
 
 	auto iter = PropertyCacheHashMap.find(clPrimitive->name.hash);
 	if(iter == PropertyCacheHashMap.end())
 	{
-		propertyList = dClassHelper::GetDProperties(clClass);
-		PropertyCacheHashMap.emplace(clPrimitive->name.hash, propertyList);
+		std::vector<dooms::DProperty> cachedPropertyList = dClassHelper::GetDProperties(clClass);
+		auto result = PropertyCacheHashMap.emplace(clPrimitive->name.hash, std::move(cachedPropertyList));
+		propertyList = &(result.first->second);
 	}
 	else
 	{
-		propertyList = iter->second;
+		propertyList = &(iter->second);
 	}
 
-	return propertyList;
+	D_ASSERT(propertyList != nullptr);
+
+	return *propertyList;
+}
+
+bool dooms::DClass::GetProperty(const char* const propertyName, dooms::DProperty& dProperty) const
+{
+	const std::vector<dooms::DProperty>& propertyList = GetPropertyList();
+
+	bool isSuccess = false;
+
+	for(size_t i = 0 ; i < propertyList.size() ; i++)
+	{
+		if(std::strcmp(dPrimitiveHelper::GetShortNamePointer(propertyList[i].GetPropertyVariableFullName()), propertyName) == 0)
+		{
+			dProperty = propertyList[i];
+			isSuccess = true;
+			break;
+		}
+		//propertyList[i].get
+	}
+
+	return isSuccess;
 }

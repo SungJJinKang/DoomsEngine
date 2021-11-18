@@ -5,6 +5,14 @@
 
 #include "../Reflection.h"
 
+namespace dPrimitiveHelper
+{
+	// return short name
+	// ex) dooms::graphics::GraphicsServer -> GraphicsServer
+	// ex) dooms::graphics::eClor::Red -> Red
+	const char* GetShortNamePointer(const char* const name);
+}
+
 
 D_NAMESPACE(dooms)
 namespace dooms
@@ -18,10 +26,14 @@ namespace dooms
 
 	public:
 
+		FORCE_INLINE DPrimitive()
+			:clPrimitive(nullptr)
+		{
+			
+		}
 		FORCE_INLINE DPrimitive(const clcpp::Primitive* const _clPrimitive)
 			: clPrimitive(_clPrimitive)
 		{
-			//D_ASSERT(clPrimitive != nullptr);
 		}
 
 		FORCE_INLINE const char* GetPrimitiveFullName() const
@@ -39,6 +51,11 @@ namespace dooms
 			{
 				return nullptr;
 			}			
+		}
+
+		bool IsValid() const
+		{
+			return clPrimitive != nullptr;
 		}
 	};
 }

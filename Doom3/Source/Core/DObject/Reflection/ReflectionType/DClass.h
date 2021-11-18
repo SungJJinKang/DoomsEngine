@@ -4,6 +4,7 @@
 #include "../Reflection.h"
 
 #include <vector>
+#include <unordered_map>
 
 #include "DType.h"
 #include "DProperty.h"
@@ -14,8 +15,12 @@ namespace dooms
 	class DObject;
 	class DOOM_API D_STRUCT DClass : public DType /*: public dooms::DObject*/ // Dont Do this
 	{
+	private:
+
+		static std::unordered_map<UINT32, std::vector<dooms::DProperty>> PropertyCacheHashMap;
 
 	protected:
+
 		const clcpp::Class* clClass;
 
 	public:
@@ -67,7 +72,8 @@ namespace dooms
 
 		//dooms:DClass* CreateDClass
 
-		const std::vector<dooms::DProperty> GetPropertyList() const;
+		const std::vector<dooms::DProperty>& GetPropertyList() const;
+		bool GetProperty(const char* const propertyName, dooms::DProperty& dProperty) const;
 	};
 
 
