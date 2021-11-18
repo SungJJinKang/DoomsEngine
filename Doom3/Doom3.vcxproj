@@ -326,10 +326,16 @@ xcopy /y /d /E /H /C /I "$(ProjectDir)Assets" "$(TargetDir)Assets"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="clreflect_compiletime_gettype.cpp" />
     <ClCompile Include="Source\Core\Asset\AudioAsset.cpp" />
     <ClCompile Include="Source\Core\Asset\FontAsset.cpp" />
     <ClCompile Include="Source\Core\Asset\Helper\AssetFactory.cpp" />
     <ClCompile Include="Source\Core\DObject\Reflection\ReflectionManager.cpp" />
+    <ClCompile Include="Source\Core\DObject\Reflection\ReflectionType\DClass.cpp" />
+    <ClCompile Include="Source\Core\DObject\Reflection\ReflectionType\DEnum.cpp" />
+    <ClCompile Include="Source\Core\DObject\Reflection\ReflectionType\DPrimitive.cpp" />
+    <ClCompile Include="Source\Core\DObject\Reflection\ReflectionType\DProperty.cpp" />
+    <ClCompile Include="Source\Core\DObject\Reflection\ReflectionType\DType.cpp" />
     <ClCompile Include="Source\Core\DObject\Reflection\Test\ReflectionTest.cpp" />
     <ClCompile Include="Source\Core\DObject\Reflection\Test\TestDObject.cpp" />
     <ClCompile Include="Source\Core\DynamicLinkingHelper\SmartDynamicLinking.cpp" />
@@ -522,6 +528,9 @@ xcopy /y /d /E /H /C /I "$(ProjectDir)Assets" "$(TargetDir)Assets"</Command>
     <ClInclude Include="Source\Core\Asset\Helper\AssetFactory.h" />
     <ClInclude Include="Source\Core\DObject\Reflection\ReflectionManager.h" />
     <ClInclude Include="Source\Core\DObject\Reflection\ReflectionPredefined.h" />
+    <ClInclude Include="Source\Core\DObject\Reflection\ReflectionType\DEnum.h" />
+    <ClInclude Include="Source\Core\DObject\Reflection\ReflectionType\DPrimitive.h" />
+    <ClInclude Include="Source\Core\DObject\Reflection\ReflectionType\DType.h" />
     <ClInclude Include="Source\Core\DObject\Reflection\ReflectionUtility.h" />
     <ClInclude Include="Source\Core\DObject\Reflection\Test\TestDObject.h" />
     <ClInclude Include="Source\Core\DynamicLinkingHelper\SmartDynamicLinking.h" />

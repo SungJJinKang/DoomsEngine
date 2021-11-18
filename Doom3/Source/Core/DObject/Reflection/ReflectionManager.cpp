@@ -148,3 +148,10 @@ bool dooms::reflection::ReflectionManager::GetIsReflectionDatabaseLoaded() const
 {
 	return mReflectionDatabase.IsLoaded();
 }
+
+const clcpp::Database& dooms::reflection::ReflectionManager::GetclcppDatabase() const
+{
+	D_ASSERT(GetIsReflectionDatabaseLoaded() == true);
+
+	return mReflectionDatabase;
+}

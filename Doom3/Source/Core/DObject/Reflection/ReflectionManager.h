@@ -16,8 +16,6 @@ namespace dooms
 			
 
 		private:
-
-			bool isInitialized = false;
 			
 			utility::Malloc allocator;
 			clcpp::Database mReflectionDatabase;
@@ -43,6 +41,8 @@ namespace dooms
 			bool GetIsReflectionEnabled() const;
 			void SetIsReflectionEnabled(const bool isEnabled);
 			bool GetIsReflectionDatabaseLoaded() const;
+
+			const clcpp::Database& GetclcppDatabase() const;
 		};
 
 
