@@ -1,19 +1,24 @@
 #pragma once
 
-#include <type_traits>
-
 #include <Macros/DllMarcos.h>
 #include "../Reflection.h"
 
+#include <vector>
+
 #include "DType.h"
+#include "DProperty.h"
 
 D_NAMESPACE(dooms)
 namespace dooms
 {
 	class DObject;
-	struct DOOM_API D_STRUCT DClass : public DType /*: public dooms::DObject*/ // Dont Do this
+	class DOOM_API D_STRUCT DClass : public DType /*: public dooms::DObject*/ // Dont Do this
 	{
-		const clcpp::Class* const clClass;
+
+	protected:
+		const clcpp::Class* clClass;
+
+	public:
 
 		//D_PROPERTY()
 		//const size_t BASE_CHAIN_COUNT;
@@ -61,6 +66,8 @@ namespace dooms
 		//TODO : Implement DefaultObject for CreateDObject from DClass ( use CopyConstructor )
 
 		//dooms:DClass* CreateDClass
+
+		const std::vector<dooms::DProperty> GetPropertyList() const;
 	};
 
 

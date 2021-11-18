@@ -9,6 +9,8 @@
 #include "DObjectMacros.h"
 #include "Macros/Assert.h"
 
+#include "Reflection/ReflectionType/DClass.h"
+
 #define REMOVE_POINTER_T(POINTER_TYPE) std::remove_pointer_t<POINTER_TYPE>
 #define IS_POINTER_TYPE(POINTER_TYPE) std::is_pointer_v<POINTER_TYPE>
 
@@ -35,8 +37,6 @@ namespace dooms
 	template <typename DObjectType, typename... Args>
 	DObjectType* CreateDObject(Args&&... args)
 	{
-		static_assert(IS_DOBJECT_TYPE(DObjectType) == true);
-
 		//DObjectType's Constructor should be public function
 		DObjectType* newDObject = new DObjectType(std::forward<Args>(args)...);
 
@@ -79,6 +79,8 @@ static_assert(IS_DOBJECT_TYPE(REMOVE_POINTER_T(CASTING_TYPE)) == true, "Please P
 		{
 			CASTING_STATIC_ASSERT_PAIR(FromCastingType, ToCastingType);
 
+			// if inherit at second pos, reinterpret_cast can make problem
+			// ex) class GraphicsServer : public ISingleton, public DObject  <--- This can make problem!!
 			return (IsChildOf<REMOVE_POINTER_T(ToCastingType)>(dObject) == true) ? ( reinterpret_cast<ToCastingType>(dObject) ) : ( nullptr );
 		}
 
@@ -135,5 +137,22 @@ static_assert(IS_DOBJECT_TYPE(REMOVE_POINTER_T(CASTING_TYPE)) == true, "Please P
 		D_ASSERT_LOG( (dObject != nullptr) && (IsChildOf<REMOVE_POINTER_T(ToCastingType)>(dObject) == true) , "Unchecked Casting looks incorrect");
 
 		return details::CastToUncheckedImp<ToCastingType>(dObject);
+	}
+
+
+
+	template <typename DOBJECT_TYPE>
+	extern dooms::DClass CreateDClass()
+	{
+		static_assert(std::is_base_of_v<dooms::DObject, DOBJECT_TYPE> == true);
+
+		/*dooms::DObject* (*_CREATE_DOBJECT_FUNCTION_PTR) () = nullptr;
+
+		if constexpr (std::is_abstract_v<DOBJECT_TYPE> == false)
+		{
+			_CREATE_DOBJECT_FUNCTION_PTR = &DOBJECT_TYPE::CREATE_THIS_DOBJECT;
+		}*/
+
+		return dooms::DClass(DOBJECT_TYPE::TYPE_FULL_NAME_HASH_VALUE);
 	}
 }

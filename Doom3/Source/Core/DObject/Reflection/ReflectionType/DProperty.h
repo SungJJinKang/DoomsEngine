@@ -1,17 +1,24 @@
 #pragma once
 
-#include <type_traits>
-
-#include "Macros/TypeDef.h"
+#include <Macros/TypeDef.h>
 #include <Macros/DllMarcos.h>
+#include "Macros/Assert.h"
+
 #include "../Reflection.h"
 
-#include "../../DObject.h"
+#include "DPrimitive.h"
 
 namespace dooms
 {
-	struct DOOM_API D_STRUCT DProperty /*: public dooms::DObject*/ // Dont Do this
+	class DObject;
+	class DOOM_API D_STRUCT DProperty : public DPrimitive /*: public dooms::DObject*/ // Dont Do this
 	{
+	protected:
+
+		const clcpp::Field* clField;
+
+	public:
+
 		enum class eProperyQualifier
 		{
 			VALUE = clcpp::Qualifier::Operator::VALUE,
@@ -19,30 +26,28 @@ namespace dooms
 			REFERENCE = clcpp::Qualifier::Operator::REFERENCE
 		};
 
-		const clcpp::Field* const clField;
-
-
-		DProperty(const clcpp::Field* const _clField)
-			: clField(_clField)
+		FORCE_INLINE DProperty(const clcpp::Field* const _clField)
+			: DPrimitive(_clField), clField(_clField)
 		{
+			//D_ASSERT(clField != nullptr);
 		}
 
-		const char* GetPropertyVariableFullName() const
+		FORCE_INLINE const char* GetPropertyVariableFullName() const
 		{
 			return clField->name.text;
 		}
 
-		int GetPropertyOffset() const
+		FORCE_INLINE int GetPropertyOffset() const
 		{
 			return clField->offset;
 		}
 
-		size_t GetPropertyTypeSize() const
+		FORCE_INLINE size_t GetPropertyTypeSize() const
 		{
 			return clField->type->size;
 		}
 
-		eProperyQualifier GetPropertyQualifier() const
+		FORCE_INLINE eProperyQualifier GetPropertyQualifier() const
 		{
 			return static_cast<eProperyQualifier>(clField->qualifier.op);
 		}
@@ -50,14 +55,14 @@ namespace dooms
 		template <typename RETURN_TYPE>
 		RETURN_TYPE* GetPropertyValue(dooms::DObject* const dObject)
 		{
-			D_ASSERT(dObject != nullptr);
+			//D_ASSERT(dObject != nullptr);
 
 			//clField->parent_unique_id
 			//dObject->GetTypeHashVlue()
 
 			RETURN_TYPE* returnedProperty = nullptr;
 			
-			returnedProperty = reinterpret_cast<RETURN_TYPE*>(dObject + clField->offset);
+			returnedProperty = reinterpret_cast<RETURN_TYPE*>(reinterpret_cast<char*>(dObject) + clField->offset);
 
 			return returnedProperty;
 		}

@@ -7,20 +7,8 @@
 #include <Macros/MacrosHelper.h>
 #include <Macros/Assert.h>
 
+#include "Reflection/Reflection.h"
 
-
-namespace dooms
-{
-	class DObject;
-}
-
-#define IS_DOBJECT_TYPE(TYPE) std::is_base_of_v<dooms::DObject, TYPE>
-
-#ifndef TYPE_ID_HASH_CODE
-
-//#define TYPE_ID_HASH_CODE(CLASS_TYPE) typeid(CLASS_TYPE).hash_code()
-
-#endif
 
 /////////////////////////////////
 
@@ -76,36 +64,7 @@ template<dooms::eDOBJECT_ClassFlags...flags> struct flag_or {
 
 /////////////////////////////////
 
-#include "Reflection/ReflectionType/DClass.h"
 
-namespace dooms
-{
-	namespace details
-	{
-		template <typename DOBJECT_TYPE>
-		extern ::dooms::DClass CreateDClass()
-		{
-			static_assert(std::is_base_of_v<dooms::DObject, DOBJECT_TYPE> == true);
-
-			dooms::DObject* (*_CREATE_DOBJECT_FUNCTION_PTR) () = nullptr;
-
-			if constexpr(std::is_abstract_v<DOBJECT_TYPE> == false)
-			{
-				_CREATE_DOBJECT_FUNCTION_PTR = &DOBJECT_TYPE::CREATE_THIS_DOBJECT;
-			}
-
-			return ::dooms::DClass(
-				sizeof(DOBJECT_TYPE),
-				DOBJECT_TYPE::CLASS_TYPE_ID_STATIC(),
-				DOBJECT_TYPE::BASE_CHAIN_COUNT_STATIC(),
-				DOBJECT_TYPE::BASE_CHAIN_DATA_STATIC(),
-				DOBJECT_TYPE::CLASS_NAME_STATIC(),
-				DOBJECT_TYPE::CLASS_FLAGS_STATIC(),
-				_CREATE_DOBJECT_FUNCTION_PTR
-			);
-		}
-	}
-}
 
 
 

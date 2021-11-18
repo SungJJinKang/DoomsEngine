@@ -9,6 +9,8 @@
 #include <initializer_list>
 #include <string>
 
+#include "DObject/Reflection/Reflection.h"
+
 namespace dooms
 {
 	namespace logger

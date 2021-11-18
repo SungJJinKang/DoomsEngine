@@ -2,8 +2,6 @@
 
 #include <CompilerMacros.h>
 
-#include <DObject/Reflection/Reflection.h>
-
 #define DISABLE_DLL_PROCESS
 
 

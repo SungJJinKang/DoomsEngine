@@ -34,7 +34,7 @@ const char* dooms::dEnumHelper::GetShortNamePointer(const char* const name)
 dooms::DEnum::DEnum(const UINT32 nameHash)
 	: DType(dClassHelper::GetclcppEnum(nameHash)), clEnum(clType->AsEnum())
 {
-
+	D_ASSERT(clPrimitive != nullptr);
 }
 
 const bool dooms::DEnum::GetValue(const char* const valueName, INT32& result)

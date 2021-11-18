@@ -10,12 +10,35 @@
 
 #include "../clReflectHelper.h"
 
+#include <Transform.h>
+
 void clReflectTest::test(clcpp::Database& db)
 {
 	{
 		auto DObjectName = db.GetName("dooms::DObject");
 		auto DObjectType = db.GetType(DObjectName.hash);
 		auto DObjectClass = DObjectType->AsClass();
+		
+	}
+
+	{
+		auto mat4x4Name = db.GetName("math::_Matrix4x4<float>");
+		auto mat4x4Type = db.GetType(mat4x4Name.hash);
+		auto mat4x4tClass = mat4x4Type->AsTemplateType();
+
+	}
+
+	{
+		auto transformName = db.GetName("dooms::Transform");
+		auto transformType = db.GetType(transformName.hash);
+		auto transformClass = transformType->AsClass();
+		
+	}
+
+	{
+		auto transform = dooms::CreateDClass<dooms::Transform>();
+		auto propertyList = transform.GetPropertyList();
+
 	}
 
 	{

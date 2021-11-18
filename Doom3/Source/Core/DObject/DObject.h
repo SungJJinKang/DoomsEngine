@@ -2,6 +2,7 @@
 
 #include <string>
 #include <cassert>
+#include <type_traits>
 
 #include <Macros/TypeDef.h>
 #include <Macros/DllMarcos.h>
@@ -20,6 +21,8 @@ namespace dooms
 {
 	class DObjectManager;
 	class DObject;
+
+#define IS_DOBJECT_TYPE(TYPE) std::is_base_of<dooms::DObject, TYPE>::value
 
 	struct DOOM_API D_STRUCT DObjectContructorParams
 	{

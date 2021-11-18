@@ -1,6 +1,4 @@
 #pragma once
-#include <type_traits>
-#include <cstring>
 
 #include <Macros/DllMarcos.h>
 #include "../Reflection.h"
@@ -19,9 +17,13 @@ namespace dooms
 	}
 
 	class DObject;
-	struct DOOM_API D_STRUCT DEnum : public DType /*: public dooms::DObject*/ // Dont Do this
+	class DOOM_API D_STRUCT DEnum : public DType /*: public dooms::DObject*/ // Dont Do this
 	{
-		const clcpp::Enum* const clEnum;
+	protected:
+
+		const clcpp::Enum* clEnum;
+
+	public:
 
 		DEnum(const UINT32 nameHash);
 
@@ -33,4 +35,6 @@ namespace dooms
 		// if value is found, return true
 		const bool GetValue(const char* const valueName, INT32& result);
 	};
+
+
 }
