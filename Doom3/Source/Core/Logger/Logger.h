@@ -9,7 +9,7 @@
 #include <initializer_list>
 #include <string>
 
-#include "DObject/Reflection/Reflection.h"
+#include "Reflection/Reflection.h"
 
 namespace dooms
 {

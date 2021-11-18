@@ -13,7 +13,7 @@
 #include <Macros/Macros.h>
 
 #include <DObject/DObjectHeaders.h>
-#include <DObject/Reflection/Reflection.h>
+#include <Reflection/Reflection.h>
 
 
 #include "../Helper/Simple_SingleTon/Singleton.h"

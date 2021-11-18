@@ -1,6 +1,6 @@
 #include "DEnum.h"
 
-#include "DObject/Reflection/ReflectionManager.h"
+#include "Reflection/ReflectionManager.h"
 
 namespace dClassHelper
 {

@@ -10,7 +10,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Doom3", "Doom3.vcxproj", "{
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MapEditor", "..\MapEditor\MapEditor.vcxproj", "{9E16B2A1-E376-44FF-82C1-440AC96D7467}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "clReflect_automation", "Source\Core\DObject\Reflection\clReflect_automation\clReflect_automation\clReflect_automation.csproj", "{17B20472-246C-42B3-B9E8-22C9992C69A2}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "clReflect_automation", "Source\Core\Reflection\clReflect_automation\clReflect_automation\clReflect_automation.csproj", "{17B20472-246C-42B3-B9E8-22C9992C69A2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

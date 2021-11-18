@@ -16,7 +16,7 @@
 #include "../ResourceManagement/JobSystem_cpp/JobSystem.h"
 #include "../IO/UserInput_Server.h"
 #include "../Time/Time_Server.h"
-#include "../DObject/Reflection/ReflectionManager.h"
+#include "Reflection/ReflectionManager.h"
 
 #include "GameCore.reflection.h"
 namespace dooms

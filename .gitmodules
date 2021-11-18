@@ -31,6 +31,6 @@
 [submodule "Doom3/Source/Helper/CacheLineSize"]
 	path = Doom3/Source/Helper/CacheLineSize
 	url = https://github.com/NickStrupat/CacheLineSize.git
-[submodule "Doom3/Source/Core/DObject/Reflection/clReflect_automation"]
-	path = Doom3/Source/Core/DObject/Reflection/clReflect_automation
+[submodule "Doom3/Source/Core/Reflection/clReflect_automation"]
+	path = Doom3/Source/Core/Reflection/clReflect_automation
 	url = https://github.com/SungJJinKang/clReflect_automation.git

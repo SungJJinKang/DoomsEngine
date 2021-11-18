@@ -43,6 +43,11 @@ namespace dooms
 			return clField->name.text;
 		}
 
+		FORCE_INLINE const char* GetFieldVariableName() const
+		{
+			return dPrimitiveHelper::GetShortNamePointer(clField->name.text);
+		}
+
 		FORCE_INLINE int GetFieldOffset() const
 		{
 			return clField->offset;
