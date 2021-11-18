@@ -1,0 +1,202 @@
+```
+#include "clcpp/clcpp.h"
+
+namespace D_NAMESPACE assetImporter
+{
+
+}
+
+class TestClass1
+{
+	D_PROPERTY() int a;
+
+	D_PROPERTY() 
+	int b;
+
+	D_PROPERTY() 
+	int c;
+
+	int d;
+	int e;
+
+	D_FUNCTION()
+	virtual void Do1() { d++; }
+};
+
+class D_CLASS TestClass2 : public TestClass1
+{
+private:
+
+	D_PROPERTY() int c;
+
+	D_PROPERTY()
+	int d;
+
+public:
+
+	D_FUNCTION()
+	virtual void Do1() override { c++; }
+};
+
+
+enum D_ENUM TestEnum
+{
+	ENUM_ELEMENT1 = 5,
+	ENUM_ELEMENT2,
+	ENUM_ELEMENT3,
+	ENUM_ELEMENT4
+};
+
+struct D_STRUCT() TestStruct
+{
+	int e;
+	float f;
+};
+```
+
+
+```
+class StdFile : public clcpp::IFile
+{
+public:
+	StdFile(const char* filename)
+	{
+		m_FP = fopen(filename, "rb");
+		if (m_FP == 0)
+		{
+			return;
+		}
+	}
+
+	~StdFile()
+	{
+		if (m_FP != 0)
+		{
+			fclose(m_FP);
+		}
+	}
+
+	bool IsOpen() const
+	{
+		return m_FP != 0;
+	}
+
+	bool Read(void* dest, clcpp::size_type size)
+	{
+		return fread(dest, 1, size, m_FP) == size;
+	}
+
+private:
+	FILE* m_FP;
+};
+
+
+class Malloc : public clcpp::IAllocator
+{
+	void* Alloc(clcpp::size_type size)
+	{
+		return malloc(size);
+	}
+	void Free(void* ptr)
+	{
+		free(ptr);
+	}
+};
+
+
+int main()
+{
+	
+	StdFile file("C:/Users/kmsjk/source/repos/Project7/clReflectCompialationData_Debug_x64.cppbin");
+	if (!file.IsOpen())
+		return 1;
+
+	Malloc allocator;
+	clcpp::Database db;
+	if (!db.Load(&file, &allocator, 0))
+		return 1;
+
+	{
+
+		auto aName = db.GetName("TestClass2");
+		auto atype = db.GetType(aName.hash);
+		auto class1 = atype->AsClass();
+
+		auto fieldC = clcpp::FindPrimitive(class1->fields, db.GetName("c").hash);
+		auto fieldD = clcpp::FindPrimitive(class1->fields, db.GetName("d").hash);
+
+		assert(class1->fields.data[0]->offset == 12); // TestClass2::d
+		assert(class1->fields.data[1]->offset == 8);  // TestClass2::c
+
+		do {} while (false);
+	}
+
+	{
+
+		auto aName = db.GetName("TestEnum");
+		auto atype = db.GetType(aName.hash);
+		auto enum1 = atype->AsEnum();
+	
+		assert(strcmp(enum1->GetValueName(5), "ENUM_ELEMENT1") == 0);
+		assert(strcmp(enum1->GetValueName(6), "ENUM_ELEMENT2") == 0);
+		assert(strcmp(enum1->GetValueName(7), "ENUM_ELEMENT3") == 0);
+		assert(strcmp(enum1->GetValueName(8), "ENUM_ELEMENT4") == 0);
+
+		do {} while (false);
+	}
+
+
+	
+}
+```
+
+1. 
+
+template argument must be type!
+```
+some_template<1, int> <- Error!
+some_template<float, int> <- Success
+
+
+std::unique_ptr<float[]> <- Fail
+
+std::vector<float> vec; <- Success
+vec.resize(~); <- Fail
+```
+
+2.
+```
+clcpp_reflect(dooms)
+namespace dooms
+{
+	clcpp_reflect(dooms::test) // error!!! because test is already reflected by clcpp_reflect(dooms)
+	namespace test
+	{
+	}
+}
+
+clcpp_reflect_part(dooms)
+namespace dooms
+{
+	clcpp_reflect_part(dooms::test) // success!!!
+	namespace test
+	{
+	}
+}
+```
+
+3. Never use virtual inherit
+```
+clcpp_reflect_part(A)
+class A
+{
+
+}
+
+clcpp_reflect_part(B)
+class B : public virtual A // Error!! virtual inherit isn't supported
+{
+
+}
+```
+
