@@ -76,7 +76,7 @@ namespace dooms
 			//clField->parent_unique_id
 			//dObject->GetTypeHashVlue()
 
-			D_ASSERT(sizeof(RETURN_TYPE) == GetFieldTypeSize(), "Wrong RETURN TYPE. Please Check Type. Type of DField = %s", GetFieldTypeName());
+			//D_ASSERT(sizeof(RETURN_TYPE) == GetFieldTypeSize(), "Wrong RETURN TYPE. Please Check Type. Type of DField = %s", GetFieldTypeName());
 
 			RETURN_TYPE* returnedField = nullptr;
 			

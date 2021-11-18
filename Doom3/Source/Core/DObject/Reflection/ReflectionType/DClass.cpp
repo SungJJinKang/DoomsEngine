@@ -27,7 +27,7 @@ namespace dClassHelper
 			}
 		}
 
-		for (size_t i = 0; i < clcppClass->fields.size; i++)
+		for (std::ptrdiff_t i = clcppClass->fields.size - 1 ; i >= 0 ; i--)
 		{
 			list.emplace_back(clcppClass->fields[i]);
 		}
