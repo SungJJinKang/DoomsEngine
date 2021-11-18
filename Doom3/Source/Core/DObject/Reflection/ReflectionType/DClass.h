@@ -77,5 +77,9 @@ namespace dooms
 	};
 
 
-
+	template <typename DOBJECT_TYPE>
+	extern dooms::DClass CreateDClass()
+	{
+		return dooms::DClass(DOBJECT_TYPE::TYPE_FULL_NAME_HASH_VALUE);
+	}
 }

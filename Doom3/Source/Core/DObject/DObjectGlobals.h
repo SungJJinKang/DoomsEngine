@@ -141,18 +141,5 @@ static_assert(IS_DOBJECT_TYPE(REMOVE_POINTER_T(CASTING_TYPE)) == true, "Please P
 
 
 
-	template <typename DOBJECT_TYPE>
-	extern dooms::DClass CreateDClass()
-	{
-		static_assert(std::is_base_of_v<dooms::DObject, DOBJECT_TYPE> == true);
-
-		/*dooms::DObject* (*_CREATE_DOBJECT_FUNCTION_PTR) () = nullptr;
-
-		if constexpr (std::is_abstract_v<DOBJECT_TYPE> == false)
-		{
-			_CREATE_DOBJECT_FUNCTION_PTR = &DOBJECT_TYPE::CREATE_THIS_DOBJECT;
-		}*/
-
-		return dooms::DClass(DOBJECT_TYPE::TYPE_FULL_NAME_HASH_VALUE);
-	}
+	
 }

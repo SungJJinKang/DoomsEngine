@@ -12,6 +12,15 @@
 
 #include <Transform.h>
 
+#include "../ReflectionType/DEnum.h"
+#include "Graphics/Color.h"
+
+
+namespace reflectionTest
+{
+	
+}
+
 void clReflectTest::test(clcpp::Database& db)
 {
 	{
@@ -39,19 +48,41 @@ void clReflectTest::test(clcpp::Database& db)
 		auto transform = dooms::CreateDClass<dooms::Transform>();
 
 		dooms::DProperty property;
-		auto propertyList = transform.GetProperty("mTransformCoreData", property);
-
+		const bool isPropertyReturned = transform.GetProperty("mTransformCoreData", property);
+		D_ASSERT(isPropertyReturned == true);
+		D_ASSERT(property.IsValid() == true);
 	}
+
+
 
 	{
-		auto eColorName = db.GetName("dooms::graphics::eColor");
-		auto eColorNameType = db.GetType(eColorName.hash);
-		auto eColorEnum = eColorNameType->AsEnum();
-		D_ASSERT(std::strcmp(eColorEnum->GetValueName(0), "dooms::graphics::eColor::White") == 0);
-		D_ASSERT(std::strcmp(eColorEnum->GetValueName(1), "dooms::graphics::eColor::Black") == 0);
-		D_ASSERT(std::strcmp(eColorEnum->GetValueName(2), "dooms::graphics::eColor::Red") == 0);
+		const dooms::DEnum eColorDEnum = dooms::CreateDEnum<dooms::graphics::eColor>();
+		
+		D_ASSERT(std::strcmp(eColorDEnum.GetValueName(0), "White") == 0);
+		D_ASSERT(std::strcmp(eColorDEnum.GetValueName(1), "Black") == 0);
+		D_ASSERT(std::strcmp(eColorDEnum.GetValueName(2), "Red") == 0);
+
+		{
+			INT32 value;
+			const bool result = eColorDEnum.GetValue("Red", value);
+			D_ASSERT(result == true);
+			D_ASSERT(value == 2);
+		}
+
+		{
+			INT32 value;
+			const bool result = eColorDEnum.GetValue("White", value);
+			D_ASSERT(result == true);
+			D_ASSERT(value == 0);
+		}
+
+		{
+			INT32 value;
+			const bool result = eColorDEnum.GetValue("Test", value);
+			D_ASSERT(result == false);
+		}
 	}
-	
+
 	unsigned num;
 	const clcpp::Type** type = db.GetTypes(num);
 

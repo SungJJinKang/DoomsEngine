@@ -97,11 +97,11 @@ bool dooms::DClass::GetProperty(const char* const propertyName, dooms::DProperty
 	const std::vector<dooms::DProperty>& propertyList = GetPropertyList();
 
 	bool isSuccess = false;
-
+	
 	for(size_t i = 0 ; i < propertyList.size() ; i++)
 	{
-		if(std::strcmp(dPrimitiveHelper::GetShortNamePointer(propertyList[i].GetPropertyVariableFullName()), propertyName) == 0)
-		{
+		if(std::strcmp(propertyList[i].GetPropertyVariableFullName(), propertyName) == 0)
+		{// field's name is short name
 			dProperty = propertyList[i];
 			isSuccess = true;
 			break;

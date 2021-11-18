@@ -21,13 +21,15 @@ dooms::DEnum::DEnum(const UINT32 nameHash)
 	D_ASSERT(clPrimitive != nullptr);
 }
 
-const bool dooms::DEnum::GetValue(const char* const valueName, INT32& result)
+const bool dooms::DEnum::GetValue(const char* const valueName, INT32& result) const
 {
 	bool isSuccess = false;
 
+	const std::string enumConstantFullName = std::string(GetPrimitiveFullName()) + "::" + valueName;
+
 	for(UINT32 i = 0 ; i < clEnum->constants.size ; i++)
 	{
-		if(std::strcmp(dPrimitiveHelper::GetShortNamePointer(clEnum->constants[i]->name.text), valueName) == 0)
+		if(std::strcmp(clEnum->constants[i]->name.text, enumConstantFullName.data()) == 0)
 		{
 			result = clEnum->constants[i]->value;
 			isSuccess = true;

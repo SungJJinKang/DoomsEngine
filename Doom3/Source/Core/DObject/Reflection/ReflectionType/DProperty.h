@@ -59,7 +59,7 @@ namespace dooms
 		}
 		
 		template <typename RETURN_TYPE>
-		RETURN_TYPE* GetPropertyValue(dooms::DObject* const dObject)
+		RETURN_TYPE* GetPropertyValue(dooms::DObject* const dObject) const
 		{
 			//D_ASSERT(dObject != nullptr);
 

@@ -17,6 +17,12 @@ namespace dPrimitiveHelper
 D_NAMESPACE(dooms)
 namespace dooms
 {
+	enum class ePrimitiveNameType
+	{
+		Full,
+		Short
+	};
+
 	class DObject;
 	class DOOM_API D_STRUCT DPrimitive /*: public dooms::DObject*/ // Dont Do this
 	{
@@ -39,6 +45,11 @@ namespace dooms
 		FORCE_INLINE const char* GetPrimitiveFullName() const
 		{
 			return clPrimitive->name.text;
+		}
+
+		FORCE_INLINE const char* GetPrimitiveShortName() const
+		{
+			return dPrimitiveHelper::GetShortNamePointer(clPrimitive->name.text);
 		}
 		
 		FORCE_INLINE const char* GetParentFullName() const
