@@ -35,9 +35,6 @@ typedef dooms::DObjectContructorParams Current;
 inline static const unsigned long int TYPE_FULL_NAME_HASH_VALUE = 1908514145; \
 inline static const char* const TYPE_FULL_NAME = "dooms::DObjectContructorParams"; \
 inline static const char* const TYPE_SHORT_NAME = "DObjectContructorParams"; \
-virtual unsigned long int GetTypeHashVlue() const { return TYPE_FULL_NAME_HASH_VALUE; } \
-virtual const char* GetTypeFullName() const { return TYPE_FULL_NAME; } \
-virtual const char* GetTypeShortName() const { return TYPE_SHORT_NAME; }
 
 
 #undef TYPE_CHECK_FUNCTION_DObjectContructorParams
@@ -74,9 +71,6 @@ typedef dooms::DObject::DObjectProperties Current;
 inline static const unsigned long int TYPE_FULL_NAME_HASH_VALUE = 1186928914; \
 inline static const char* const TYPE_FULL_NAME = "dooms::DObject::DObjectProperties"; \
 inline static const char* const TYPE_SHORT_NAME = "DObjectProperties"; \
-virtual unsigned long int GetTypeHashVlue() const { return TYPE_FULL_NAME_HASH_VALUE; } \
-virtual const char* GetTypeFullName() const { return TYPE_FULL_NAME; } \
-virtual const char* GetTypeShortName() const { return TYPE_SHORT_NAME; }
 
 
 #undef TYPE_CHECK_FUNCTION_DObjectProperties

@@ -38,6 +38,7 @@
   * Refactoring ( Remove a lot of dependency between modules, classes )
   * Masked SW Occlusion Culling ( https://software.intel.com/content/dam/develop/external/us/en/documents/masked-software-occlusion-culling.pdf )      
   * Batching System ( Static Batch, Dynamic Batch )
+  * Hot Reload ( similar to Unreal Engine's )
 
 ## Coding Standard
 [English](https://docs.google.com/document/d/1cT8EPgMXe0eopeHvwuFmbHG4TJr5kUmcovkr5irQZmo/edit)   

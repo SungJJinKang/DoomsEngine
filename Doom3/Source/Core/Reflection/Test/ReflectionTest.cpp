@@ -79,9 +79,9 @@ void clReflectTest::test(clcpp::Database& db)
 			D_ASSERT(std::strcmp(dPrimitiveHelper::GetShortNamePointer(property.GetFieldVariableFullName()), "b") == 0);
 
 			dooms::TestStruct_ReflectionTest _TestStruct_ReflectionTest{};
-			_TestStruct_ReflectionTest.mTestEnum = dooms::TestEnum_ReflectionTest::test2;
+			_TestStruct_ReflectionTest.b = 15;
 			
-			D_ASSERT(std::strcmp(property.ToString(&_TestStruct_ReflectionTest).data(), "3") == 0);
+			D_ASSERT(std::strcmp(property.ToString(&_TestStruct_ReflectionTest).data(), "15") == 0);
 		}
 
 		{

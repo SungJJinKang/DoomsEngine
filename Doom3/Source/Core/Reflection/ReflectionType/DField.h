@@ -81,7 +81,16 @@ namespace dooms
 
 			FORCE_INLINE void* GetRawFieldValue(void* const dObject)
 			{
-				return reinterpret_cast<char*>(dObject) + clField->offset;
+				D_ASSERT(clField != nullptr);
+
+				if(clField != nullptr)
+				{
+					return reinterpret_cast<char*>(dObject) + clField->offset;
+				}
+				else
+				{
+					return nullptr;
+				}
 			}
 
 			template <typename RETURN_TYPE>
@@ -96,10 +105,8 @@ namespace dooms
 				// TODO : add Assert
 				//D_ASSERT(sizeof(RETURN_TYPE) == GetFieldTypeSize(), "Wrong RETURN TYPE. Please Check Type. Type of DField = %s", GetFieldTypeName());
 
-				RETURN_TYPE* returnedField = nullptr;
-
-				returnedField = reinterpret_cast<RETURN_TYPE*>(GetRawFieldValue(dObject));
-
+				RETURN_TYPE* returnedField = reinterpret_cast<RETURN_TYPE*>(GetRawFieldValue(dObject));
+				
 				return returnedField;
 			}
 

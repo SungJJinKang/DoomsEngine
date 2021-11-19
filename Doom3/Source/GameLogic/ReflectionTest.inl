@@ -40,7 +40,9 @@ void dooms::GameLogicStartPoint::StartGameLogic()
 
 
 	auto lightEntity = currenScene->CreateNewEntity();
+	lightEntity->GetTransform()->SetPosition(-30.0f, 0.0f, 0.0f);
 	lightEntity->GetTransform()->SetRotation(-30.0f, 0.0f, 0.0f);
+	lightEntity->GetTransform()->SetScale(2.0f, 2.0f, 2.0f);
 	auto dirLight = lightEntity->AddComponent<DirectionalLight>();
 	auto testComp1 = lightEntity->AddComponent<TestComponent>();
 	auto testComp2 = lightEntity->AddComponent<TestComponent2>();
@@ -224,8 +226,14 @@ void dooms::GameLogicStartPoint::StartGameLogic()
 		D_ASSERT(isPropertyReturned == true);
 		D_ASSERT(property.IsValid() == true);
 
-		math::Vector3* scale = property.GetFieldValue<math::Vector3>(lightEntity);
+		math::Vector3* scale = property.GetFieldValue<math::Vector3>(lightEntity->GetTransform());
+		D_ASSERT(scale != nullptr);
+		D_ASSERT(scale->x == 2.0f);
+		D_ASSERT(scale->y == 2.0f);
+		D_ASSERT(scale->z == 2.0f);
 	}
+
+	
 	/*
 
 	auto a = Renderer::CLASS_TYPE_ID_STATIC();
