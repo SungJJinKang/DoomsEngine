@@ -213,16 +213,16 @@ xcopy /y /d /E /H /C /I "$(ProjectDir)Assets" "$(TargetDir)Assets"</Command>
       <ShowIncludes>false</ShowIncludes>
       <GenerateSourceDependencies>true</GenerateSourceDependencies>
       <SourceDependenciesFile>$(OutDirFullPath)SourceDependencies\</SourceDependenciesFile>
-      <AssemblerOutput>AssemblyAndSourceCode</AssemblerOutput>
+      <AssemblerOutput>NoListing</AssemblerOutput>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>DebugFull</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(SolutionDir)Source\Helper\crossguid\build\Debug;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>xg.lib;%(AdditionalDependencies);ntdll.lib</AdditionalDependencies>
-      <GenerateMapFile>false</GenerateMapFile>
+      <GenerateMapFile>true</GenerateMapFile>
       <MapFileName>map.map</MapFileName>
-      <MapExports>false</MapExports>
+      <MapExports>true</MapExports>
     </Link>
     <PostBuildEvent>
       <Command>xcopy /y /d /f "$(ProjectDir)*.cppbin" "$(TargetDir)"
@@ -337,6 +337,7 @@ xcopy /y /d /E /H /C /I "$(ProjectDir)Assets" "$(TargetDir)Assets"</Command>
     <ClCompile Include="Source\Core\Reflection\ReflectionManager.cpp" />
     <ClCompile Include="Source\Core\Reflection\ReflectionType\DClass.cpp" />
     <ClCompile Include="Source\Core\Reflection\ReflectionType\DEnum.cpp" />
+    <ClCompile Include="Source\Core\Reflection\ReflectionType\DFunction.cpp" />
     <ClCompile Include="Source\Core\Reflection\ReflectionType\DPrimitive.cpp" />
     <ClCompile Include="Source\Core\Reflection\ReflectionType\DField.cpp" />
     <ClCompile Include="Source\Core\Reflection\ReflectionType\DType.cpp" />
@@ -534,6 +535,7 @@ xcopy /y /d /E /H /C /I "$(ProjectDir)Assets" "$(TargetDir)Assets"</Command>
     <ClInclude Include="Source\Core\Reflection\ReflectionManager.h" />
     <ClInclude Include="Source\Core\Reflection\ReflectionPredefined.h" />
     <ClInclude Include="Source\Core\Reflection\ReflectionType\DEnum.h" />
+    <ClInclude Include="Source\Core\Reflection\ReflectionType\DFunction.h" />
     <ClInclude Include="Source\Core\Reflection\ReflectionType\DPrimitive.h" />
     <ClInclude Include="Source\Core\Reflection\ReflectionType\DType.h" />
     <ClInclude Include="Source\Core\Reflection\ReflectionType\ToString.h" />

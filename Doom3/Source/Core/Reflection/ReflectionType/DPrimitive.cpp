@@ -2,6 +2,8 @@
 
 #include <string_view>
 
+#include "Reflection/ReflectionManager.h"
+
 const char* dPrimitiveHelper::GetShortNamePointer(const char* const name)
 {
 	const std::string_view nameStringView = name;
@@ -16,3 +18,19 @@ const char* dPrimitiveHelper::GetShortNamePointer(const char* const name)
 		return name;
 	}
 }
+
+dooms::reflection::DPrimitive::DPrimitive()
+	: clPrimitive(nullptr)
+{
+	D_ASSERT(dooms::reflection::ReflectionManager::GetSingleton() != nullptr);
+	D_ASSERT(dooms::reflection::ReflectionManager::GetSingleton()->GetIsReflectionDatabaseLoaded() == true);
+}
+
+dooms::reflection::DPrimitive::DPrimitive(const clcpp::Primitive* const _clPrimitive)
+	: clPrimitive(_clPrimitive)
+{
+	D_ASSERT(clPrimitive != 0);
+	D_ASSERT(dooms::reflection::ReflectionManager::GetSingleton() != nullptr);
+	D_ASSERT(dooms::reflection::ReflectionManager::GetSingleton()->GetIsReflectionDatabaseLoaded() == true);
+}
+

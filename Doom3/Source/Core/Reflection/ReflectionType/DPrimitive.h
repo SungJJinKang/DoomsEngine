@@ -5,6 +5,7 @@
 
 #include "../Reflection.h"
 
+
 namespace dPrimitiveHelper
 {
 	// return short name
@@ -37,15 +38,9 @@ namespace dooms
 
 		public:
 
-			FORCE_INLINE DPrimitive()
-				:clPrimitive(nullptr)
-			{
+			DPrimitive();
 
-			}
-			FORCE_INLINE DPrimitive(const clcpp::Primitive* const _clPrimitive)
-				: clPrimitive(_clPrimitive)
-			{
-			}
+			DPrimitive(const clcpp::Primitive* const _clPrimitive);
 
 			FORCE_INLINE const char* GetPrimitiveFullName() const
 			{

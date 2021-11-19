@@ -37,10 +37,10 @@ namespace dooms
 			component_type mUpperBound;
 			//FLOAT32 padding2{ 1.0f };
 			
-			D_FUNCTION()
+			
 			bool IsValid() const;
 
-			D_FUNCTION()
+			
 			void Validate();
 
 			FORCE_INLINE virtual void* data() final
@@ -53,30 +53,30 @@ namespace dooms
 				return &(mLowerBound);
 			}
 
-			D_FUNCTION()
+			
 			component_type GetHalfExtent() const;
 
 			/// <summary>
 			/// Get �밢��
 			/// </summary>
 			/// <returns></returns>
-			D_FUNCTION()
+			
 			FLOAT32 GetDiagonarLineLength() const;
 			virtual void Render2DTopView(eColor color, bool drawInstantly = false);
 
-			D_FUNCTION()
+			
 			ColliderType GetColliderType() const override;
 
-			D_FUNCTION()
+			
 			FORCE_INLINE component_type GetCenter() const
 			{
 				return component_type{ (mLowerBound + mUpperBound) / 2 };
 			}
 
-			D_FUNCTION()
+			
 			void Expand(const component_type& movedVector);
 
-			D_FUNCTION()
+			
 			void SignedExpand(const component_type& movedVector);
 
 			/// <summary>
@@ -85,27 +85,24 @@ namespace dooms
 			/// <param name="A"></param>
 			/// <returns></returns>
 			///	
-			D_FUNCTION()
 			FORCE_INLINE static FLOAT32 GetArea(const AABB3D& A)
 			{
 				math::Vector4 d = A.mUpperBound - A.mLowerBound;
 				return 2.0f * (d.x * d.y + d.y * d.z + d.z * d.x);
 			}
-
-			D_FUNCTION()
+			
 			FORCE_INLINE static AABB3D Union(const AABB3D& A, const AABB3D& B)
 			{
 				return AABB3D(math::Min(A.mLowerBound, B.mLowerBound), math::Max(A.mUpperBound, B.mUpperBound));
 			}
-
-			D_FUNCTION()
+			
 			FORCE_INLINE static FLOAT32 GetUnionArea(const AABB3D& A, const AABB3D& B)
 			{
 				math::Vector3 d = math::Vector3{ math::Max(A.mUpperBound, B.mUpperBound) - math::Min(A.mLowerBound, B.mLowerBound) };
 				return 2.0f * (d.x * d.y + d.y * d.z + d.z * d.x);
 			}
 
-			D_FUNCTION()
+			
 			static AABB3D EnlargeAABB(const AABB3D& aabb);
 
 
@@ -179,10 +176,10 @@ namespace dooms
 			component_type mUpperBound;
 
 		
-			D_FUNCTION()
+			
 			bool IsValid() const;
 
-			D_FUNCTION()
+			
 			void Validate();
 
 			FORCE_INLINE virtual void* data() final
@@ -195,18 +192,18 @@ namespace dooms
 				return &(mLowerBound);
 			}
 
-			D_FUNCTION()
+			
 			component_type GetHalfExtent() const;
-			D_FUNCTION()
+			
 			ColliderType GetColliderType() const override;
 
-			D_FUNCTION()
+			
 			FORCE_INLINE component_type GetCenter() const
 			{
 				return (mLowerBound + mUpperBound) / 2;
 			}
 
-			D_FUNCTION()
+			
 			FORCE_INLINE void Expand(const component_type& movedVector)
 			{
 				math::Vector2 expandVec{ std::abs(movedVector.x) ,  std::abs(movedVector.y) };
@@ -215,28 +212,28 @@ namespace dooms
 			}
 
 
-			D_FUNCTION()
+			
 			void SignedExpand(const component_type& movedVector);
 
-			D_FUNCTION()
+			
 			FORCE_INLINE static FLOAT32 GetArea(const AABB2D& A)
 			{
 				math::Vector2 d = A.mUpperBound - A.mLowerBound;
 				return 2.0f * (d.x + d.y);
 			}
-			D_FUNCTION()
+			
 			FORCE_INLINE static AABB2D Union(const AABB2D& A, const AABB2D& B)
 			{
 				return AABB2D(math::Min(A.mLowerBound, B.mLowerBound), math::Max(A.mUpperBound, B.mUpperBound));
 			}
-			D_FUNCTION()
+			
 			FORCE_INLINE static FLOAT32 GetUnionArea(const AABB2D& A, const AABB2D& B)
 			{
 				math::Vector2 d = math::Max(A.mUpperBound, B.mUpperBound) - math::Min(A.mLowerBound, B.mLowerBound);
 				return 2.0f * (d.x + d.y);
 			}
 
-			D_FUNCTION()
+			
 			static AABB2D EnlargeAABB(const AABB2D& aabb);
 
 			/// <summary>

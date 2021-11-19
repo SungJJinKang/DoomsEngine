@@ -43,6 +43,9 @@ namespace dooms
 			bool GetIsReflectionDatabaseLoaded() const;
 
 			const clcpp::Database& GetclcppDatabase() const;
+
+			clcpp::Name GetclcppName(const char* const name);
+			UINT32 GetclcppNameHash(const char* const name);
 		};
 
 

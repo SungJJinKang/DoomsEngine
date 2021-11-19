@@ -88,7 +88,6 @@ namespace dooms
 		Transform& operator=(const Transform&) = default;
 		Transform& operator=(Transform&&) noexcept = delete;
 
-		D_FUNCTION()
 		std::string ToString();
 
 		D_FUNCTION()

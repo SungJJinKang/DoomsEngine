@@ -8,6 +8,7 @@
 
 #include "DType.h"
 #include "DField.h"
+#include "DFunction.h"
 
 D_NAMESPACE(dooms)
 namespace dooms
@@ -20,6 +21,7 @@ namespace dooms
 		private:
 
 			static std::unordered_map<UINT32, std::unordered_map<std::string_view, dooms::reflection::DField>> PropertyCacheHashMap;
+			static std::unordered_map<UINT32, std::unordered_map<std::string_view, dooms::reflection::DFunction>> FunctionCacheHashMap;
 
 		protected:
 
@@ -78,16 +80,37 @@ namespace dooms
 
 			//dooms:DClass* CreateDClass
 
-			const std::unordered_map<std::string_view, dooms::reflection::DField>& GetFieldList() const;
-			bool GetField(const char* const fieldName, dooms::reflection::DField& dProperty) const;
+			const std::unordered_map<std::string_view, dooms::reflection::DField>& GetDFieldList() const;
+			const std::unordered_map<std::string_view, dooms::reflection::DFunction>& GetDFunctionList() const;
 
+			bool GetDField(const char* const fieldName, dooms::reflection::DField& dProperty) const;
+			bool GetDFunction(const char* const functionName, dooms::reflection::DFunction& dFunction) const;
+
+
+
+			
 			/// <summary>
 			/// Call Function
 			///
 			///	You can call only function with no return, no parameter
 			/// </summary>
 			/// <param name="functionName"></param>
-			void CallFunction(const char* const functionName);
+			template <typename RETURN_TYPE, typename... ARGS>
+			bool CallMemberFunction(void* const classObject, const char* const functionName, RETURN_TYPE* returnPtr, ARGS&&... args)
+			{
+				// TODO :
+
+				bool isCallFunctionSuccess = false;
+
+				dooms::reflection::DFunction dFunction;
+				const bool isFindFunction = GetDFunction(functionName, dFunction);
+				if(isFindFunction == true)
+				{
+					dFunction.CallMemberFunction(classObject, std::forward<RETURN_TYPE>(returnPtr), std::forward<ARGS>(args)...);
+				}
+
+				return isCallFunctionSuccess;
+			}
 		};
 
 

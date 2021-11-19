@@ -3,6 +3,7 @@
 #include "../ReflectionManager.h"
 
 std::unordered_map<UINT32, std::unordered_map<std::string_view, dooms::reflection::DField>> dooms::reflection::DClass::PropertyCacheHashMap{};
+std::unordered_map<UINT32, std::unordered_map<std::string_view, dooms::reflection::DFunction>> dooms::reflection::DClass::FunctionCacheHashMap{};
 
 namespace dClassHelper
 {
@@ -33,9 +34,6 @@ namespace dClassHelper
 		{
 			list.emplace(clcppClass->fields[i - 1]->name.text, clcppClass->fields[i - 1]);
 		}
-
-		
-		
 	}
 
 	// Return DProperties of passed clcpp::Class including base class's properties
@@ -52,6 +50,44 @@ namespace dClassHelper
 
 		// iterate base class
 		return dPropertyList;
+	}
+
+
+
+	void GetDFunctions_Recursive(const clcpp::Class* const clcppClass, std::unordered_map<std::string_view, dooms::reflection::DFunction>& list)
+	{
+		D_ASSERT(clcppClass != nullptr);
+
+		for (size_t i = 0; i < clcppClass->base_types.size; i++)
+		{
+			if (clcppClass->base_types[i]->kind == clcpp::Primitive::Kind::KIND_CLASS)
+			{
+				GetDFunctions_Recursive(clcppClass->base_types[i]->AsClass(), list);
+			}
+		}
+
+		list.reserve(list.size() + clcppClass->methods.size);
+
+		for (std::ptrdiff_t i = clcppClass->methods.size; i > 0; i--)
+		{
+			list.emplace(clcppClass->methods[i - 1]->name.text, clcppClass->methods[i - 1]);
+		}
+	}
+
+	// Return DProperties of passed clcpp::Class including base class's properties
+	std::unordered_map<std::string_view, dooms::reflection::DFunction> GetDFunctions(const clcpp::Class* const clcppClass)
+	{
+		D_ASSERT(clcppClass != nullptr);
+
+		const clcpp::Class* targetclcppClasss = clcppClass;
+
+		std::unordered_map<std::string_view, dooms::reflection::DFunction> dFunctionList{};
+
+		// TODO : Optimization
+		GetDFunctions_Recursive(clcppClass, dFunctionList);
+
+		// iterate base class
+		return dFunctionList;
 	}
 }
 
@@ -74,7 +110,7 @@ dooms::reflection::DClass::DClass(const clcpp::Class* const clcppType)
 }
 
 
-const std::unordered_map<std::string_view, dooms::reflection::DField>& dooms::reflection::DClass::GetFieldList() const
+const std::unordered_map<std::string_view, dooms::reflection::DField>& dooms::reflection::DClass::GetDFieldList() const
 {
 	D_ASSERT(IsValid() == true);
 
@@ -97,9 +133,32 @@ const std::unordered_map<std::string_view, dooms::reflection::DField>& dooms::re
 	return *propertyList;
 }
 
-bool dooms::reflection::DClass::GetField(const char* const fieldName, dooms::reflection::DField& dProperty) const
+const std::unordered_map<std::string_view, dooms::reflection::DFunction>& dooms::reflection::DClass::GetDFunctionList() const
 {
-	const std::unordered_map<std::string_view, dooms::reflection::DField>& propertyList = GetFieldList();
+	D_ASSERT(IsValid() == true);
+
+	std::unordered_map<std::string_view, dooms::reflection::DFunction>* functionList = nullptr;
+
+	auto iter = FunctionCacheHashMap.find(clPrimitive->name.hash);
+	if (iter == FunctionCacheHashMap.end())
+	{// if property list isn't cached
+		std::unordered_map<std::string_view, dooms::reflection::DFunction> cachedFunctionList = dClassHelper::GetDFunctions(clClass);
+		auto result = FunctionCacheHashMap.emplace(clPrimitive->name.hash, std::move(cachedFunctionList));
+		functionList = &(result.first->second);
+	}
+	else
+	{
+		functionList = &(iter->second);
+	}
+
+	D_ASSERT(functionList != nullptr);
+
+	return *functionList;
+}
+
+bool dooms::reflection::DClass::GetDField(const char* const fieldName, dooms::reflection::DField& dProperty) const
+{
+	const std::unordered_map<std::string_view, dooms::reflection::DField>& propertyList = GetDFieldList();
 
 	bool isSuccess = false;
 	
@@ -111,6 +170,24 @@ bool dooms::reflection::DClass::GetField(const char* const fieldName, dooms::ref
 	}
 
 	D_ASSERT_LOG(isSuccess == true, "Fail to find Field ( %s ) from ( %s )", fieldName, GetTypeFullName());
+
+	return isSuccess;
+}
+
+bool dooms::reflection::DClass::GetDFunction(const char* const functionName, dooms::reflection::DFunction& dFunction) const
+{
+	const std::unordered_map<std::string_view, dooms::reflection::DFunction>& functionList = GetDFunctionList();
+
+	bool isSuccess = false;
+
+	auto iter = functionList.find(std::string_view(functionName));
+	if (iter != functionList.end())
+	{
+		dFunction = iter->second;
+		isSuccess = true;
+	}
+
+	D_ASSERT_LOG(isSuccess == true, "Fail to find Function ( %s ) from ( %s )", functionName, GetTypeFullName());
 
 	return isSuccess;
 }

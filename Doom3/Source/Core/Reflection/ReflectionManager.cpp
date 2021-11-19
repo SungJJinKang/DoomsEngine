@@ -159,3 +159,15 @@ const clcpp::Database& dooms::reflection::ReflectionManager::GetclcppDatabase() 
 
 	return mReflectionDatabase;
 }
+
+clcpp::Name dooms::reflection::ReflectionManager::GetclcppName(const char* const name)
+{
+	D_ASSERT(GetIsReflectionDatabaseLoaded() == true);
+	return GetclcppDatabase().GetName(name);
+}
+
+UINT32 dooms::reflection::ReflectionManager::GetclcppNameHash(const char* const name)
+{
+	D_ASSERT(GetIsReflectionDatabaseLoaded() == true);
+	return GetclcppName(name).hash;
+}

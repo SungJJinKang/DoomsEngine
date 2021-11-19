@@ -222,7 +222,7 @@ void dooms::GameLogicStartPoint::StartGameLogic()
 		auto transform = dooms::reflection::CreateDClass<dooms::Transform>();
 
 		dooms::reflection::DField property;
-		const bool isPropertyReturned = transform.GetField("mScale", property);
+		const bool isPropertyReturned = transform.GetDField("mScale", property);
 		D_ASSERT(isPropertyReturned == true);
 		D_ASSERT(property.IsValid() == true);
 

@@ -52,6 +52,24 @@ namespace dooms
 		D_PROPERTY()
 		TestEnum_ReflectionTest mTestEnum;
 	};
+
+	D_FUNCTION()
+	void ReflectionTestFunction1()
+	{
+		dooms::ui::PrintText("ReflectionTestFunction1");
+	}
+
+	D_FUNCTION()
+	void ReflectionTestFunction2(int a, int b)
+	{
+		dooms::ui::PrintText("%d", a + b);
+	}
+
+	D_FUNCTION()
+	int ReflectionTestFunction3(int a, int b)
+	{
+		return a + b;
+	}
 }
 
 void clReflectTest::test(clcpp::Database& db)
@@ -63,7 +81,7 @@ void clReflectTest::test(clcpp::Database& db)
 
 		{
 			dooms::reflection::DField property;
-			const bool isPropertyReturned = TestStruct_ReflectionTest_DClass.GetField("a", property);
+			const bool isPropertyReturned = TestStruct_ReflectionTest_DClass.GetDField("a", property);
 			D_ASSERT(isPropertyReturned == true);
 			D_ASSERT(property.IsValid() == true);
 			D_ASSERT(property.GetFieldTypeSize() == sizeof(int));
@@ -72,7 +90,7 @@ void clReflectTest::test(clcpp::Database& db)
 	
 		{
 			dooms::reflection::DField property;
-			const bool isPropertyReturned = TestStruct_ReflectionTest_DClass.GetField("b", property);
+			const bool isPropertyReturned = TestStruct_ReflectionTest_DClass.GetDField("b", property);
 			D_ASSERT(isPropertyReturned == true);
 			D_ASSERT(property.IsValid() == true);
 			D_ASSERT(property.GetFieldTypeSize() == sizeof(int));
@@ -94,7 +112,7 @@ void clReflectTest::test(clcpp::Database& db)
 
 		{
 			dooms::reflection::DField property;
-			const bool isPropertyReturned = TestStruct_ReflectionTest_DClass.GetField("mTestEnum", property);
+			const bool isPropertyReturned = TestStruct_ReflectionTest_DClass.GetDField("mTestEnum", property);
 			D_ASSERT(isPropertyReturned == true);
 			D_ASSERT(property.IsValid() == true);
 			D_ASSERT(property.GetFieldTypeSize() == sizeof(dooms::TestEnum_ReflectionTest));
@@ -111,7 +129,7 @@ void clReflectTest::test(clcpp::Database& db)
 		}
 
 		/*{
-			for(const dooms::reflection::DField& dfield : TestStruct_ReflectionTest_DClass.GetFieldList())
+			for(const dooms::reflection::DField& dfield : TestStruct_ReflectionTest_DClass.GetDFieldList())
 			{
 				dooms::ui::PrintText("VariableName : %s", dfield.GetFieldName());
 				dooms::ui::PrintText("Type Size : %d", dfield.GetFieldTypeSize());
@@ -191,7 +209,7 @@ void clReflectTest::test(clcpp::Database& db)
 		auto transform = dooms::reflection::CreateDClass<dooms::Transform>();
 
 		dooms::reflection::DField property;
-		const bool isPropertyReturned = transform.GetField("mTransformCoreData", property);
+		const bool isPropertyReturned = transform.GetDField("mTransformCoreData", property);
 		D_ASSERT(isPropertyReturned == true);
 		D_ASSERT(property.IsValid() == true);
 
