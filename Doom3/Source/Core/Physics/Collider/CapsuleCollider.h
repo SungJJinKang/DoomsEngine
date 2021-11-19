@@ -13,9 +13,9 @@ namespace dooms
 			GENERATE_BODY()
 		public:
 
-			math::Vector3 mCenter;
-			FLOAT32 mHeight;
-			FLOAT32 mRadius;
+			math::Vector3 mCenter{0.0f};
+			FLOAT32 mHeight{1.0f};
+			FLOAT32 mRadius{1.0f};
 
 			FORCE_INLINE virtual void* data() final
 			{

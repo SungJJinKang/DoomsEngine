@@ -18,6 +18,8 @@
 
 #include "ReflectionTest.reflection.h"
 
+#include <Vector3.h>
+
 namespace dooms
 {
 	enum DOOM_API D_ENUM TestEnum_ReflectionTest
@@ -33,16 +35,19 @@ namespace dooms
 		GENERATE_BODY_FULLNAME_dooms__TestStruct_ReflectionTest()
 
 		D_PROPERTY()
-		int a;
+		int a = 2;
 
 		D_PROPERTY()
-		int b;
+		int b = 3;
 
 		D_PROPERTY()
-		int c;
+		int c = 6;
 
 		D_PROPERTY()
-		int* d;
+		int* d = nullptr;
+
+		//D_PROPERTY()
+		//math::Vector3 vec3{ 0.0f, 1.0f, 2.0f };
 
 		D_PROPERTY()
 		TestEnum_ReflectionTest mTestEnum;
@@ -72,6 +77,11 @@ void clReflectTest::test(clcpp::Database& db)
 			D_ASSERT(property.IsValid() == true);
 			D_ASSERT(property.GetFieldTypeSize() == sizeof(int));
 			D_ASSERT(std::strcmp(dPrimitiveHelper::GetShortNamePointer(property.GetFieldVariableFullName()), "b") == 0);
+
+			dooms::TestStruct_ReflectionTest _TestStruct_ReflectionTest{};
+			_TestStruct_ReflectionTest.mTestEnum = dooms::TestEnum_ReflectionTest::test2;
+			
+			D_ASSERT(std::strcmp(property.ToString(&_TestStruct_ReflectionTest).data(), "3") == 0);
 		}
 
 		{
@@ -82,11 +92,14 @@ void clReflectTest::test(clcpp::Database& db)
 			D_ASSERT(property.GetFieldTypeSize() == sizeof(dooms::TestEnum_ReflectionTest));
 			D_ASSERT(std::strcmp(dPrimitiveHelper::GetShortNamePointer(property.GetFieldVariableFullName()), "mTestEnum") == 0);
 
+			
+
 			dooms::TestStruct_ReflectionTest _TestStruct_ReflectionTest{};
 			_TestStruct_ReflectionTest.mTestEnum = dooms::TestEnum_ReflectionTest::test2;
 			
 			dooms::TestEnum_ReflectionTest* currentValue = property.GetFieldValue<dooms::TestEnum_ReflectionTest>(&_TestStruct_ReflectionTest);
 			D_ASSERT(*currentValue == dooms::TestEnum_ReflectionTest::test2);
+			
 		}
 
 		{
@@ -97,7 +110,6 @@ void clReflectTest::test(clcpp::Database& db)
 				dooms::ui::PrintText("Field Offset : %d", dfield.GetFieldOffset());
 				dooms::ui::PrintText("Is pointer : %s", (dfield.GetFieldQualifier() == dooms::reflection::DField::eProperyQualifier::POINTER) ? "yes" : "no");
 				dooms::ui::PrintText("-------------------------------------");
-
 			}
 		}
 	}
@@ -154,9 +166,9 @@ void clReflectTest::test(clcpp::Database& db)
 	}
 
 	{
-		auto mat4x4Name = db.GetName("math::_Matrix4x4<float>");
+		auto mat4x4Name = db.GetName("math::Matrix4x4");
 		auto mat4x4Type = db.GetType(mat4x4Name.hash);
-		auto mat4x4tClass = mat4x4Type->AsTemplateType();
+		auto mat4x4tClass = mat4x4Type->AsClass();
 
 	}
 

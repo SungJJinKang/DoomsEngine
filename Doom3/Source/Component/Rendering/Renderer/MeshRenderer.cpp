@@ -47,6 +47,6 @@ dooms::physics::AABB3D dooms::MeshRenderer::GetLocalAABBBound() const
 	}
 	else
 	{
-		return {};
+		return {nullptr};
 	}
 }

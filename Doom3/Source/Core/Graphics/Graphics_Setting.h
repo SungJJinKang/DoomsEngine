@@ -18,7 +18,7 @@ namespace dooms
 
 			static inline GLFWwindow* Window{ nullptr };
 
-			static inline math::Vector2Int ScreenSize{};
+			static inline int ScreenSize[2];
 			/// <summary>
 			/// ScreenSize Width / ScreenSize Height
 			/// </summary>
@@ -56,19 +56,14 @@ namespace dooms
 
 			FORCE_INLINE static INT32 GetScreenWidth()
 			{
-				return Graphics_Setting::ScreenSize.x;
+				return Graphics_Setting::ScreenSize[0];
 			}
 
 			FORCE_INLINE static INT32 GetScreenHeight()
 			{
-				return Graphics_Setting::ScreenSize.y;
+				return Graphics_Setting::ScreenSize[1];
 			}
-
-			FORCE_INLINE static math::Vector2 GetScreenSize()
-			{
-				return Graphics_Setting::ScreenSize;
-			}
-
+			
 			FORCE_INLINE static FLOAT32 GetScreenRatio()
 			{
 				return Graphics_Setting::ScreenRatio;

@@ -2,7 +2,7 @@
 
 math::Vector3 dooms::Collider2DComponent::GetOffsetVector3() const
 {
-	return mOffset;
+	return math::Vector3{ mOffset };
 }
 
 void dooms::Collider2DComponent::SetOffset(const math::Vector2& offset)

@@ -35,9 +35,6 @@ typedef dooms::graphics::PrimitiveTriangle Current;
 inline static const unsigned long int TYPE_FULL_NAME_HASH_VALUE = 1673044004; \
 inline static const char* const TYPE_FULL_NAME = "dooms::graphics::PrimitiveTriangle"; \
 inline static const char* const TYPE_SHORT_NAME = "PrimitiveTriangle"; \
-virtual unsigned long int GetTypeHashVlue() const { return TYPE_FULL_NAME_HASH_VALUE; } \
-virtual const char* GetTypeFullName() const { return TYPE_FULL_NAME; } \
-virtual const char* GetTypeShortName() const { return TYPE_SHORT_NAME; }
 
 
 #undef TYPE_CHECK_FUNCTION_PrimitiveTriangle

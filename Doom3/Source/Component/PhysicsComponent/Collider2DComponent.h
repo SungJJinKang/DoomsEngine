@@ -12,7 +12,7 @@ namespace dooms
 		
 
 	protected:
-		math::Vector2 mOffset;
+		math::Vector2 mOffset{0.0f};
 
 		virtual math::Vector3 GetOffsetVector3() const final;
 

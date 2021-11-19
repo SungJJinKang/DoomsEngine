@@ -30,7 +30,7 @@ bool dooms::physics::IsPointOnLine(const Line& line, math::Vector3& point)
 	FLOAT32 m = (line.mEndPoint.y - line.mOrigin.y) / (line.mEndPoint.x - line.mOrigin.x);
 	FLOAT32 d = line.mEndPoint.y - m * line.mEndPoint.x;
 
-	if (math::abs(m * point.x + d - point.y < math::epsilon<FLOAT32>()))
+	if (std::abs(m * point.x + d - point.y < math::epsilon_FLOAT32()))
 	{
 		return true;
 	}

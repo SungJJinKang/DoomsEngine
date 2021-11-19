@@ -18,8 +18,8 @@ namespace dooms
 			Circle2D() = default;
 			Circle2D(const math::Vector2& center, FLOAT32 radius);
 
-			math::Vector2 mCenter;
-			FLOAT32 mRadius;
+			math::Vector2 mCenter{ 0.0f };
+			FLOAT32 mRadius {1.0f};
 
 			FORCE_INLINE virtual void* data() final
 			{

@@ -22,11 +22,11 @@ namespace dooms
 	{
 	private:
 
-		ColliderType mLocalColliderCache{};
+		ColliderType mLocalColliderCache{ nullptr };
 		/// <summary>
 		/// Entity's Model Matrix * Local ColliderType
 		/// </summary>
-		ColliderType mWorldColliderCache{};
+		ColliderType mWorldColliderCache{ nullptr };
 	
 	
 

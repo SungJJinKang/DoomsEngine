@@ -6,6 +6,8 @@
 #include "clReflectHelper.h"
 #include "ReflectionUtility.h"
 
+#include "ReflectionType/ToString.h"
+
 #ifdef DEBUG_MODE
 #include "Test/ReflectionTest.h"
 #endif
@@ -122,6 +124,8 @@ void dooms::reflection::ReflectionManager::Initialize()
 		}
 		
 		LoadReflectionBinaryDataFile();
+
+		dooms::reflection::InitReflectionToString();
 
 #ifdef DEBUG_MODE
 		clReflectTest::test(mReflectionDatabase);

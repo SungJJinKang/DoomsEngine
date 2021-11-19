@@ -14,7 +14,7 @@ namespace dooms
 	namespace reflection
 	{
 
-		class DOOM_API D_STRUCT DEnum : public DType /*: public dooms::DObject*/ // Dont Do this
+		class DOOM_API D_CLASS DEnum : public DType /*: public dooms::DObject*/ // Dont Do this
 		{
 		protected:
 

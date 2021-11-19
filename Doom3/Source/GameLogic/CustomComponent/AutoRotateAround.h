@@ -21,8 +21,8 @@ namespace dooms
 
 	public:
 
-		math::Vector3 mCenterPos;
-		math::Vector3 mRotateAxis;
+		math::Vector3 mCenterPos{nullptr};
+		math::Vector3 mRotateAxis{ nullptr };
 		FLOAT32 mRotateAngle;
 
 	};

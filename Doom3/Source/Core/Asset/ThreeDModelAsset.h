@@ -56,7 +56,7 @@ namespace dooms
 		Vector3 mBitangent;
 
 		MeshVertexData() = default;
-		MeshVertexData(int*) {}
+		MeshVertexData(int*) : mVertex(nullptr), mTexCoord(nullptr), mNormal(nullptr), mTangent(nullptr), mBitangent(nullptr) {}
 		MeshVertexData(const MeshVertexData&) = default;
 		MeshVertexData(MeshVertexData&&) noexcept = default;
 		MeshVertexData& operator=(const MeshVertexData&) = default;
@@ -110,12 +110,13 @@ namespace dooms
 		std::vector<MeshVertexData> mMeshVertexDatas;
 
 		D_PROPERTY()
-		physics::AABB3D mAABB3D;
+		physics::AABB3D mAABB3D{nullptr};
 		D_PROPERTY()
-		physics::Sphere mSphere;
+		physics::Sphere mSphere{nullptr};
 
 		ThreeDModelMesh() = default;
-		ThreeDModelMesh(int*){}
+		ThreeDModelMesh(int*) : mAABB3D{nullptr}, mSphere{nullptr}
+		{}
 		ThreeDModelMesh(const ThreeDModelMesh&) = default;
 		ThreeDModelMesh(ThreeDModelMesh&&) noexcept = default;
 		ThreeDModelMesh& operator=(const ThreeDModelMesh&) = default;

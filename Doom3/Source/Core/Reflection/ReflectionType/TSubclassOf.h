@@ -13,7 +13,7 @@ namespace dooms
 	{
 
 		template <typename T>
-		class TSubclassOf
+		class DOOM_API D_CLASS TSubclassOf
 		{
 			// TODO : Implement this ( 2021/11/14 )
 			static_assert(std::is_base_of_v<dooms::DObject, T> == true);
@@ -24,7 +24,7 @@ namespace dooms
 		private:
 
 			D_PROPERTY()
-				dooms::reflection::DClass* mDClass;
+			dooms::reflection::DClass* mDClass;
 
 		public:
 
@@ -45,6 +45,7 @@ namespace dooms
 				*this = from;
 			}
 
+			/*
 			TSubclassOf& operator=(dooms::reflection::DClass* const from)
 			{
 				mDClass = (from->IsChildOf<T>() == true) ? from : nullptr;
@@ -68,6 +69,7 @@ namespace dooms
 
 				return *this;
 			}
+			*/
 
 			NO_DISCARD dooms::reflection::DClass* GetDClass() const
 			{

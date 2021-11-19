@@ -1,7 +1,7 @@
 #include "Ray.h"
 #include <Graphics/DebugGraphics/DebugDrawer.h>
 dooms::physics::Ray::Ray()
-	: mOrigin{}, mNormal{0, 0, -1}
+	: mOrigin{ nullptr }, mNormal{0, 0, -1}
 {
 }
 dooms::physics::Ray::Ray(const math::Vector3 & origin, const math::Vector3& normal)
@@ -34,7 +34,7 @@ void dooms::physics::Ray::SetNomral_Unsafe(const math::Vector3& normal)
 
 bool dooms::physics::Ray::IsPointOnRay(const math::Vector3& point)
 {
-	return math::dot((point - mOrigin).normalized(), mNormal) < math::epsilon<FLOAT32>();
+	return math::dot((point - mOrigin).normalized(), mNormal) < math::epsilon_FLOAT32();
 }
 
 math::Vector3 dooms::physics::Ray::GetClosestPoint(const Ray& ray, const math::Vector3& point)

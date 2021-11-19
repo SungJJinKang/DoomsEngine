@@ -29,7 +29,7 @@ namespace dooms
 			Short
 		};
 
-		class DOOM_API D_STRUCT DPrimitive /*: public dooms::DObject*/ // Dont Do this
+		class DOOM_API D_CLASS DPrimitive /*: public dooms::DObject*/ // Dont Do this
 		{
 		protected:
 
@@ -52,9 +52,14 @@ namespace dooms
 				return clPrimitive->name.text;
 			}
 
-			FORCE_INLINE const char* GetPrimitiveShortName() const
+			FORCE_INLINE const char* GetPrimitiveName() const
 			{
 				return dPrimitiveHelper::GetShortNamePointer(clPrimitive->name.text);
+			}
+
+			FORCE_INLINE UINT32 GetPrimitiveHashValue() const
+			{
+				return clPrimitive->name.hash;
 			}
 
 			FORCE_INLINE const char* GetParentFullName() const

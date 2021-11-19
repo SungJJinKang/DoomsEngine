@@ -31,7 +31,13 @@ namespace dooms
 
 
 
-	public:		
+	public:
+
+		BoxCollider3D() : mLocalAABB3D{nullptr}, mWorldAABB3D{ nullptr }, mHalfExtent{ nullptr }
+		{
+			
+		}
+
 		void SetFromAABB3D(const physics::AABB3D& aabb3D);
 
 		void SetHalfExtent(const math::Vector3& halfExtent);

@@ -4,6 +4,8 @@
 
 #include "DObjectManager.h"
 
+#include <Reflection/ReflectionType/DClass.h>
+
 void dooms::DObject::Construct_Internal()
 {
 	if (mDObjectID == INVALID_DOBJECT_ID)
@@ -27,6 +29,11 @@ void dooms::DObject::ChangeDObjectName(const std::string& dObjectName)
 void dooms::DObject::SetOwnerDObject(const DObject* const ownerDObject)
 {
 	mDObjectProperties.mOwnerDObject = ownerDObject;
+}
+
+dooms::reflection::DClass dooms::DObject::GetDClass() const
+{
+	return dooms::reflection::DClass(GetTypeHashVlue());
 }
 
 dooms::DObject::DObject()

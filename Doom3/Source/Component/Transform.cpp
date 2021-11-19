@@ -44,7 +44,11 @@ std::string dooms::Transform::ToString()
 {
 	std::stringstream sStream;
 	sStream << "Position : ";
-	sStream << mTransformCoreData.mPosition.toString();
+	sStream << mTransformCoreData.mPosition[0];
+	sStream << ' ';
+	sStream << mTransformCoreData.mPosition[1];
+	sStream << ' ';
+	sStream << mTransformCoreData.mPosition[2];
 	sStream << '\n';
 	sStream << "Rotation : ";
 	auto rotEuler = math::Quaternion::QuaternionToEulerAngle(mRotation);
@@ -56,7 +60,11 @@ std::string dooms::Transform::ToString()
 	sStream << ' ';
 	sStream << '\n';
 	sStream << "Scale : ";
-	sStream << mScale.toString();
+	sStream << mScale[0];
+	sStream << ' ';
+	sStream << mScale[1];
+	sStream << ' ';
+	sStream << mScale[2];
 	sStream << '\n';
 	return sStream.str();
 }

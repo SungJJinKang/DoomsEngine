@@ -65,7 +65,7 @@ namespace dooms
 
 		private:
 
-			static inline math::Vector2 mScrollOffset{};
+			static inline math::Vector2 mScrollOffset{nullptr};
 
 			static inline std::array<bool, static_cast<INT32>(LAST_KEY_CODE) - static_cast<INT32>(FIRST_KEY_CODE) + 1> mKeyToggle{};
 			static inline std::array<eKeyState, static_cast<INT32>(LAST_KEY_CODE) - static_cast<INT32>(FIRST_KEY_CODE) + 1> mKeyState{};
@@ -87,12 +87,12 @@ namespace dooms
 			/// In Opengl, Screen Point is relative to top-left corner
 			/// So Top of Screen will return y value -1
 			/// </summary>
-			static inline math::Vector2  mCurrentCursorScreenPosition{};
-			static inline math::Vector2  mCurrentCursorNDCPosition{};
-			static inline math::Vector3  mCurrentCursorWorldPosition{};
+			static inline math::Vector2  mCurrentCursorScreenPosition{ nullptr };
+			static inline math::Vector2  mCurrentCursorNDCPosition{ nullptr };
+			static inline math::Vector3  mCurrentCursorWorldPosition{ nullptr };
 			static void UpdateCurrentCursorScreenPosition();
 		
-			static inline math::Vector2  mDeltaCursorScreenPosition{};
+			static inline math::Vector2  mDeltaCursorScreenPosition{ nullptr };
 
 		
 

@@ -65,7 +65,7 @@ FLOAT32 dooms::graphics::CullDistance::PickCullDistanceSqr(FLOAT32 sphereRadius)
 	FLOAT32 cullDistanceSqr{ math::infinity<FLOAT32>() };
 	for (INT32 i = 0; i < mCullDistanceSetting.size(); i++)
 	{
-		INT32 gap = math::abs(mCullDistanceSetting[i].mVolumeSphereRadius - radius);
+		INT32 gap = std::abs(mCullDistanceSetting[i].mVolumeSphereRadius - radius);
 		if (gap < mingap)
 		{
 			mingap = gap;
@@ -103,7 +103,7 @@ void dooms::graphics::CullDistance::Initialize()
 			else if (data.IsValueExist("Graphics", distanceSqrKeyStr) == true)
 			{
 				FLOAT32 distanceSqr = data.GetValue<FLOAT32>("Graphics", distanceSqrKeyStr);
-				AddCullDistance(radius, static_cast<INT32>(math::sqrt(distanceSqr)));
+				AddCullDistance(radius, static_cast<INT32>(std::sqrt(distanceSqr)));
 			}
 			else
 			{

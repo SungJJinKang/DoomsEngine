@@ -20,7 +20,7 @@ namespace dooms
 		GENERATE_BODY_TransformCoreData()
 
 		D_PROPERTY()
-		math::Vector3 mPosition;
+		math::Vector3 mPosition{ 0.0f };
 
 		D_PROPERTY()
 		DirtyReceiver bmIsDirtyModelMatrix{ true };
@@ -43,7 +43,7 @@ namespace dooms
 		/// but this modelMatrix is calculated when this is needed ( not every frame )
 		/// </summary>
 		D_PROPERTY()
-		mutable math::Matrix4x4 mModelMatrixCache alignas(64);
+		mutable math::Matrix4x4 mModelMatrixCache alignas(64){ 1.0f };
 		D_PROPERTY()
 		math::Matrix4x4 mLocalToWorldMatrix alignas(64) { 1.0f };
 		D_PROPERTY()
@@ -58,9 +58,9 @@ namespace dooms
 		D_PROPERTY()
 		math::Vector3 mScale{ 1.0f };
 		D_PROPERTY()
-		math::Quaternion mRotation;
+		math::Quaternion mRotation{ 0.0f, 0.0f, 0.0f, 1.0f };
 		D_PROPERTY()
-		math::Vector3 mLastFramePosition;
+		math::Vector3 mLastFramePosition{nullptr};
 
 		//Matrix4X4 and Vector4 is aligned to 32, 16 byte
 		//So To save memory, it is declared next to next
@@ -196,19 +196,19 @@ namespace dooms
 		D_FUNCTION()
 		FORCE_INLINE math::Vector3 forward() const noexcept
 		{
-			return mRotation * math::Vector3::forward();
+			return mRotation * math::Vector3::forward;
 		}
 
 		D_FUNCTION()
 		FORCE_INLINE math::Vector3 right() const noexcept
 		{
-			return mRotation * math::Vector3::right();
+			return mRotation * math::Vector3::right;
 		}
 
 		D_FUNCTION()
 		FORCE_INLINE math::Vector3 up() const noexcept
 		{
-			return mRotation * math::Vector3::up();
+			return mRotation * math::Vector3::up;
 		}
 
 		D_FUNCTION()

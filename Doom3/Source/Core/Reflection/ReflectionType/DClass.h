@@ -15,7 +15,7 @@ namespace dooms
 	class DObject;
 	namespace reflection
 	{
-		class DOOM_API D_STRUCT DClass : public DType /*: public dooms::DObject*/ // Dont Do this
+		class DOOM_API D_CLASS DClass : public DType /*: public dooms::DObject*/ // Dont Do this
 		{
 		private:
 
@@ -42,16 +42,19 @@ namespace dooms
 
 
 
+			/*
 			template <typename BASE_TYPE>
 			FORCE_INLINE bool IsChildOf() const
 			{
 				static_assert(IS_DOBJECT_TYPE(BASE_TYPE));
 
 				// TODO : 
-				const bool isChild = false;// (BASE_CHAIN_COUNT >= BASE_TYPE::BASE_CHAIN_COUNT_STATIC()) && (BASE_CHAIN_DATA[BASE_CHAIN_COUNT - BASE_TYPE::BASE_CHAIN_COUNT_STATIC()] == BASE_TYPE::CLASS_TYPE_ID_STATIC());
+				const bool isChild = false;// (BASE_CHAIN_COUNT >= BASE_TYPE::BASE_CHAIN_LIST_LENGTH) && (BASE_CHAIN_DATA[BASE_CHAIN_COUNT - BASE_TYPE::BASE_CHAIN_LIST_LENGTH] == BASE_TYPE::TYPE_FULL_NAME_HASH_VALUE);
 
 				return isChild;
 			}
+			*/
+
 
 			/*dooms::DObject* CreateDObject() const
 			{

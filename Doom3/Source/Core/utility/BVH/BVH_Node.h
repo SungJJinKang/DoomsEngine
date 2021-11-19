@@ -34,8 +34,8 @@ namespace dooms
 		/// <summary>
 		/// Node Bounding Box
 		/// </summary>
-		ColliderType mBoundingCollider;
-		ColliderType mEnlargedBoundingCollider;
+		ColliderType mBoundingCollider{nullptr};
+		ColliderType mEnlargedBoundingCollider{ nullptr };
 
 		/// <summary>
 		/// Is Leaf? = Is World Object?

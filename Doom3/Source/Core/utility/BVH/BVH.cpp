@@ -534,7 +534,7 @@ FORCE_INLINE void dooms::BVH<ColliderType>::ReConstructNodeAABB(INT32 targetNode
 
 FLOAT32 additionalWeight(FLOAT32 x, FLOAT32 l)
 {
-	return x + math::lerp(0, x > 0 ? 1 : -1, math::abs(l));
+	return x + math::lerp(0, x > 0 ? 1 : -1, std::abs(l));
 }
 
 

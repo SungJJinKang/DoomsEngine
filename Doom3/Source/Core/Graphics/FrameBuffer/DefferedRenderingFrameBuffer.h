@@ -21,7 +21,7 @@ namespace dooms
 
 		public:
 
-			math::Vector4 mAlbedoClearColor;
+			math::Vector4 mAlbedoClearColor{1.0f};
 
 			DefferedRenderingFrameBuffer();
 

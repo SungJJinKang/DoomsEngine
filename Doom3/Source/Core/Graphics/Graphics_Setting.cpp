@@ -7,7 +7,9 @@ void dooms::graphics::Graphics_Setting::LoadData()
 	const INT32 height = ConfigData::GetSingleton()->GetConfigData().GetValue<INT32>("Graphics", "SCREEN_HEIGHT");
 
 	Graphics_Setting::MultiSamplingNum = ConfigData::GetSingleton()->GetConfigData().GetValue<INT32>("Graphics", "MULTI_SAMPLE");
-	Graphics_Setting::ScreenSize = { width, height };
+	Graphics_Setting::ScreenSize[0] = width;
+	Graphics_Setting::ScreenSize[1] = height;
+
 	Graphics_Setting::ScreenRatio = static_cast<FLOAT32>(width) / static_cast<FLOAT32>(height);
 
 }

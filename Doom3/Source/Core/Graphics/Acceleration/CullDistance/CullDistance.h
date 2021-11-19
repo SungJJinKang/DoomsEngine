@@ -45,7 +45,7 @@ namespace dooms
 			std::vector<CullDistanceData> mCullDistanceSetting{};
 			bool bmIsCullDistanceSettingDirty{ true };
 			
-			math::Vector3 mCameraPosition{};
+			math::Vector3 mCameraPosition{ nullptr };
 
 			void AddCullDistance(INT32 volumeSphereRadius, INT32 cullDistance);
 			void RemoveCullDistance(INT32 volumeSphereSize, INT32 cullDistance);

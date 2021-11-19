@@ -26,12 +26,13 @@ namespace dooms
 			// Inherited via RenderPhysics
 			virtual void DrawCollider(eColor color, bool drawInstantly = false) const;
 
-			FORCE_INLINE Sphere()
-				:mCenter{}, mRadius{}
+			Sphere() = delete;
+			FORCE_INLINE Sphere(int*)
+				:mCenter{ nullptr }
 			{
 
 			}
-			FORCE_INLINE Sphere(const math::Vector3& center, FLOAT32 radius)
+			FORCE_INLINE Sphere(const component_type& center, FLOAT32 radius)
 				:mCenter{ center }, mRadius{ radius }
 			{
 
@@ -44,7 +45,7 @@ namespace dooms
 			}
 			
 			
-			math::Vector3 mCenter;
+			component_type mCenter;
 			/// <summary>
 			/// for using SIMD -> Mat4X4 * Vec4 is much faster
 			/// </summary>
@@ -61,12 +62,12 @@ namespace dooms
 				return &(mCenter);
 			}
 
-			FORCE_INLINE void Expand(const math::Vector3& movedVector)
+			FORCE_INLINE void Expand(const component_type& movedVector)
 			{
 				mRadius += movedVector.magnitude();
 			}
 
-			FORCE_INLINE void SignedExpand(const math::Vector3& movedVector)
+			FORCE_INLINE void SignedExpand(const component_type& movedVector)
 			{
 				FLOAT32 distance = movedVector.magnitude();
 
@@ -128,7 +129,7 @@ namespace dooms
 
 			FORCE_INLINE static void ApplyModelMatrix(const Sphere& localSphere, const math::Matrix4x4& modelMatrix, Sphere& resultSphere)
 			{
-				FLOAT32 largestScale = math::sqrt(math::Max(math::Max(modelMatrix[0].sqrMagnitude(), modelMatrix[1].sqrMagnitude()), modelMatrix[2].sqrMagnitude()));
+				FLOAT32 largestScale = std::sqrt(math::Max(math::Max(modelMatrix[0].sqrMagnitude(), modelMatrix[1].sqrMagnitude()), modelMatrix[2].sqrMagnitude()));
 				resultSphere.mCenter = modelMatrix * localSphere.mCenter;
 				resultSphere.mRadius = localSphere.mRadius * largestScale; // TODO : should i square largesScale??
 			}
@@ -143,14 +144,14 @@ namespace dooms
 
 			FORCE_INLINE static bool CheckIsCompletlyEnclosed(const Sphere& innerSphere, const Sphere& outerSphere)
 			{
-				return (outerSphere.mCenter - innerSphere.mCenter).sqrMagnitude() < math::pow(outerSphere.mRadius - innerSphere.mRadius, 2);
+				return (outerSphere.mCenter - innerSphere.mCenter).sqrMagnitude() < std::pow(outerSphere.mRadius - innerSphere.mRadius, 2);
 			}
 
 		};
 
 		FORCE_INLINE bool IsOverlapSphereAndSphere(const Sphere& sphere1, const Sphere& sphere2)
 		{
-			return (sphere1.mCenter - sphere2.mCenter).sqrMagnitude() < math::pow(sphere1.mRadius + sphere2.mRadius, 2);
+			return (sphere1.mCenter - sphere2.mCenter).sqrMagnitude() < std::pow(sphere1.mRadius + sphere2.mRadius, 2);
 		}
 		FORCE_INLINE bool IsOverlapSphereAndSphere(const Collider* const sphere1, const Collider* const sphere2)
 		{

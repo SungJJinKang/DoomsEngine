@@ -87,11 +87,11 @@ namespace dooms
 		DirtyReceiver bmIsViewProjectionMatrixDirty{ true };
 		DirtyReceiver bmIsModelViewProjectionMatrixDirty{ true };
 		DirtyReceiver bmIsFrustumPlaneMatrixDirty{ true };
-		math::Matrix4x4 mViewMatrix{};
-		math::Matrix4x4 mProjectionMatrix{};
-		math::Matrix4x4 mViewProjectionMatrix{};
-		math::Matrix4x4 mMovelViewProjectionMatrix{};
-		std::array<math::Vector4, 6> mFrustumPlane{};
+		math::Matrix4x4 mViewMatrix{nullptr};
+		math::Matrix4x4 mProjectionMatrix{ nullptr };
+		math::Matrix4x4 mViewProjectionMatrix{ nullptr };
+		math::Matrix4x4 mMovelViewProjectionMatrix{ nullptr };
+		std::array<math::Vector4, 6> mFrustumPlane{ nullptr, nullptr, nullptr, nullptr, nullptr, nullptr };
 
 		//graphics::ViewFrustum mViewFrumstum{};
 

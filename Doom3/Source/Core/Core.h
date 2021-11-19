@@ -1,9 +1,6 @@
 #pragma once
 
-
 #include "CompilerMacros.h"
-
-
 
 // Never include HEAVY header.
 // SEPERATE codes included in Core.h with implemation codes( use MACRO_IMPLEMENTATION for this )

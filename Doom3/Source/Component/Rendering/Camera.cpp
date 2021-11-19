@@ -359,7 +359,7 @@ math::Vector3 dooms::Camera::NDCToWorldPoint(const math::Vector3& ndcPoint)
 
 	math::Vector4 resultPoint{ invViewAndProjectionMatrix * vec4NDCPoint };
 	//resultPoint.z = -resultPoint.z; // OpenGl basically use right hand coordinate, but NDC use left hand coordinate
-	return resultPoint /= resultPoint.w;
+	return math::Vector3{ resultPoint /= resultPoint.w };
 }
 
 math::Vector3 dooms::Camera::WorldToNDCPoint(const math::Vector3& worldPosition)
@@ -371,7 +371,7 @@ math::Vector3 dooms::Camera::WorldToNDCPoint(const math::Vector3& worldPosition)
 	resultPoint /= resultPoint.w;
 
 	//resultPoint.z = -resultPoint.z; // OpenGl basically use right hand coordinate, but NDC use left hand coordinate
-	return resultPoint;
+	return math::Vector3{ resultPoint };
 }
 
 math::Vector3 dooms::Camera::ScreenToWorldPoint(const math::Vector3& screenPosition)
@@ -379,7 +379,7 @@ math::Vector3 dooms::Camera::ScreenToWorldPoint(const math::Vector3& screenPosit
 	math::Vector4 ndcPoint{ ScreenToNDCPoint(screenPosition) };
 	ndcPoint.w = 1;
 
-	return NDCToWorldPoint(ndcPoint);
+	return NDCToWorldPoint(math::Vector3{ ndcPoint });
 }
 
 math::Vector3 dooms::Camera::WorldToScreenPoint(const math::Vector3& worldPosition)

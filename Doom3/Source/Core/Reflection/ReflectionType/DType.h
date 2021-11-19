@@ -15,7 +15,7 @@ namespace dooms
 	class DObject;
 	namespace reflection
 	{
-		class DOOM_API D_STRUCT DType : public DPrimitive /*: public dooms::DObject*/ // Dont Do this
+		class DOOM_API D_CLASS DType : public DPrimitive /*: public dooms::DObject*/ // Dont Do this
 		{
 		protected:
 

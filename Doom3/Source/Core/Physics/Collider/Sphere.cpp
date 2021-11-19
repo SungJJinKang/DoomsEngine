@@ -17,8 +17,8 @@ void dooms::physics::Sphere::DrawCollider(eColor color, bool drawInstantly /*= f
 
 	
 
-	math::Vector3 exVertex{ };
-	math::Vector3 currentVertex{};
+	math::Vector3 exVertex{ nullptr };
+	math::Vector3 currentVertex{ nullptr };
 	
 	FLOAT32 theta{ 0 };
 	for (INT32 ring = 0 ; ring < 11; ring++) { //move to a new z - offset 

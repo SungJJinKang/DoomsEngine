@@ -10,6 +10,7 @@ dooms::physics::Plane::Plane(FLOAT32 distance, const math::Vector3& normal)
 }
 
 dooms::physics::Plane::Plane(const math::Vector3& A, const math::Vector3& B, const math::Vector3& C)
+	:mNormal(nullptr)
 {
 	mNormal = math::cross(A - C, B - C).normalized();
 	mDistance = math::dot(mNormal, A);
@@ -34,7 +35,7 @@ bool dooms::physics::IsOverlapPlaneAndPlane(const Plane& plane1, const Plane& pl
 {
 	auto cross = math::cross(plane1.GetNormal(), plane2.GetNormal());
 
-	if (math::dot(cross, cross) < math::epsilon<FLOAT32>())
+	if (math::dot(cross, cross) < math::epsilon_FLOAT32())
 	{
 		//if parallel
 		return false;
@@ -52,7 +53,7 @@ bool dooms::physics::IsOverlapPlaneAndPlane(const Collider* const plane1, const 
 
 bool dooms::physics::IsPointOnPlane(const dooms::physics::Plane& plane, const math::Vector3& point)
 {
-	return math::dot(plane.GetNormal(), point) - plane.mDistance < math::epsilon<FLOAT32>();
+	return math::dot(plane.GetNormal(), point) - plane.mDistance < math::epsilon_FLOAT32();
 }
 
 bool dooms::physics::IsPointOnPositiveSide(const dooms::physics::Plane& plane, const math::Vector3& point)
@@ -71,8 +72,8 @@ void dooms::physics::Plane::DrawCollider(eColor color, bool drawInstantly /*= fa
 	auto debugGraphics = graphics::DebugDrawer::GetSingleton();
 
 	math::Vector3 arbitaryVector =
-		math::abs(mNormal.y) > math::epsilon<FLOAT32>() || math::abs(mNormal.z) > math::epsilon<FLOAT32>() ?
-		math::Vector3::right() : math::Vector3::up();
+		std::abs(mNormal.y) > math::epsilon_FLOAT32() || std::abs(mNormal.z) > math::epsilon_FLOAT32() ?
+		math::Vector3::right : math::Vector3::up;
 	
 	math::Vector3 Parallel1VectorToPlane = math::cross(mNormal, arbitaryVector);
 	math::Vector3 Parallel2VectorToPlane = math::cross(mNormal, Parallel1VectorToPlane);

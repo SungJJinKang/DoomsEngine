@@ -76,7 +76,7 @@ void dooms::ColliderComponent::UpdateLocalBVhAABBCacheFromLocalCollider()
 
 void dooms::ColliderComponent::AutoColliderSetting()
 {
-	physics::AABB3D aabb3dFromMesh{};
+	physics::AABB3D aabb3dFromMesh{nullptr};
 	bool isHaveMeshAABB3D = GetMeshAABB3D(aabb3dFromMesh);
 	if (isHaveMeshAABB3D == true)
 	{

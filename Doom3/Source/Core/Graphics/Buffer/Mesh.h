@@ -93,9 +93,9 @@ namespace dooms
 			/// this is local coordinate, you should map to your world coordinate
 			/// </summary>
 			D_PROPERTY()
-			physics::AABB3D mAABB3D;
+			physics::AABB3D mAABB3D{math::Vector4{-1.0f}, math::Vector4{1.0f}};
 			D_PROPERTY()
-			physics::Sphere mSphere;
+			physics::Sphere mSphere{math::Vector3{0.0f}, 1.0f};
 
 		protected:
 

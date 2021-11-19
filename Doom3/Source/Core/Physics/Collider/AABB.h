@@ -28,15 +28,15 @@ namespace dooms
 			virtual void DrawCollider(eColor color, bool drawInstantly = false) const;
 
 			D_PROPERTY()
-			math::Vector4 mLowerBound; 
+			component_type mLowerBound; 
 			/// <summary>
 			/// Padding is required for FrostbiteCulling System
 			/// </summary>
 			//FLOAT32 padding1{ 1.0f };
 			D_PROPERTY()
-			math::Vector4 mUpperBound; 
+			component_type mUpperBound;
 			//FLOAT32 padding2{ 1.0f };
-
+			
 			D_FUNCTION()
 			bool IsValid() const;
 
@@ -54,7 +54,7 @@ namespace dooms
 			}
 
 			D_FUNCTION()
-			math::Vector3 GetHalfExtent() const;
+			component_type GetHalfExtent() const;
 
 			/// <summary>
 			/// Get �밢��
@@ -68,16 +68,16 @@ namespace dooms
 			ColliderType GetColliderType() const override;
 
 			D_FUNCTION()
-			FORCE_INLINE math::Vector3 GetCenter() const
+			FORCE_INLINE component_type GetCenter() const
 			{
-				return (mLowerBound + mUpperBound) / 2;
+				return component_type{ (mLowerBound + mUpperBound) / 2 };
 			}
 
 			D_FUNCTION()
-			void Expand(const math::Vector3& movedVector);
+			void Expand(const component_type& movedVector);
 
 			D_FUNCTION()
-			void SignedExpand(const math::Vector3& movedVector);
+			void SignedExpand(const component_type& movedVector);
 
 			/// <summary>
 			/// ����
@@ -101,7 +101,7 @@ namespace dooms
 			D_FUNCTION()
 			FORCE_INLINE static FLOAT32 GetUnionArea(const AABB3D& A, const AABB3D& B)
 			{
-				math::Vector3 d = math::Max(A.mUpperBound, B.mUpperBound) - math::Min(A.mLowerBound, B.mLowerBound);
+				math::Vector3 d = math::Vector3{ math::Max(A.mUpperBound, B.mUpperBound) - math::Min(A.mLowerBound, B.mLowerBound) };
 				return 2.0f * (d.x * d.y + d.y * d.z + d.z * d.x);
 			}
 
@@ -129,7 +129,8 @@ namespace dooms
 			/// <returns></returns>
 			static bool CheckIsCompletlyEnclosed(const AABB3D& innerAABB, const AABB3D& outerAABB);
 
-			FORCE_INLINE AABB3D() : mLowerBound{}, mUpperBound{}
+			AABB3D() = delete;
+			FORCE_INLINE AABB3D(int*) : mLowerBound{ nullptr }, mUpperBound{ nullptr }
 			{}
 
 			FORCE_INLINE AABB3D(const math::Vector4& lowerBound, const math::Vector4& upperBound)
@@ -173,9 +174,9 @@ namespace dooms
 			virtual void DrawCollider(eColor color, bool drawInstantly = false) const;
 
 			D_PROPERTY()
-			math::Vector2 mLowerBound;
+			component_type mLowerBound;
 			D_PROPERTY()
-			math::Vector2 mUpperBound; 
+			component_type mUpperBound;
 
 		
 			D_FUNCTION()
@@ -195,27 +196,27 @@ namespace dooms
 			}
 
 			D_FUNCTION()
-			math::Vector2 GetHalfExtent() const;
+			component_type GetHalfExtent() const;
 			D_FUNCTION()
 			ColliderType GetColliderType() const override;
 
 			D_FUNCTION()
-			FORCE_INLINE math::Vector2 GetCenter() const
+			FORCE_INLINE component_type GetCenter() const
 			{
 				return (mLowerBound + mUpperBound) / 2;
 			}
 
 			D_FUNCTION()
-			FORCE_INLINE void Expand(const math::Vector2& movedVector)
+			FORCE_INLINE void Expand(const component_type& movedVector)
 			{
-				math::Vector2 expandVec{ math::abs(movedVector.x) ,  math::abs(movedVector.y) };
+				math::Vector2 expandVec{ std::abs(movedVector.x) ,  std::abs(movedVector.y) };
 				mUpperBound += expandVec;
 				mLowerBound -= expandVec;
 			}
 
 
 			D_FUNCTION()
-			void SignedExpand(const math::Vector2& movedVector);
+			void SignedExpand(const component_type& movedVector);
 
 			D_FUNCTION()
 			FORCE_INLINE static FLOAT32 GetArea(const AABB2D& A)
@@ -257,7 +258,8 @@ namespace dooms
 			/// <returns></returns>
 			static bool CheckIsCompletlyEnclosed(const AABB2D& innerAABB, const AABB2D& outerAABB);
 
-			FORCE_INLINE AABB2D() : mLowerBound{}, mUpperBound{}
+			AABB2D() = delete;
+			FORCE_INLINE AABB2D(int*) : mLowerBound{ nullptr }, mUpperBound{ nullptr }
 			{}
 			FORCE_INLINE AABB2D(const math::Vector2& lowerBound, const math::Vector2& upperBound)
 				: mLowerBound(lowerBound), mUpperBound(upperBound)
@@ -269,7 +271,7 @@ namespace dooms
 
 			AABB2D(const AABB2D&) = default;
 			AABB2D(AABB2D&&) noexcept = default;
-			AABB2D(const AABB3D & aabb3D)
+			AABB2D(const AABB3D & aabb3D) : mLowerBound{ nullptr }, mUpperBound{ nullptr }
 			{
 				mLowerBound = aabb3D.mLowerBound;
 				mUpperBound = aabb3D.mUpperBound;
@@ -299,7 +301,7 @@ namespace dooms
 	
 		
 
-		FORCE_INLINE dooms::physics::AABB3D::AABB3D(const AABB2D& aabb2D)
+		FORCE_INLINE dooms::physics::AABB3D::AABB3D(const AABB2D& aabb2D) : mLowerBound{nullptr}, mUpperBound{nullptr}
 		{
 			mLowerBound = aabb2D.mLowerBound;
 			mUpperBound = aabb2D.mUpperBound;

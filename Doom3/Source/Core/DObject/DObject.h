@@ -19,6 +19,11 @@
 D_NAMESPACE(dooms)
 namespace dooms
 {
+	namespace reflection
+	{
+		class DClass;
+	}
+
 	class DObjectManager;
 	class DObject;
 
@@ -150,6 +155,8 @@ namespace dooms
 
 		D_FUNCTION()
 		void SetOwnerDObject(const DObject* const ownerDObject);
+
+		reflection::DClass GetDClass() const;
 	};
 }
 

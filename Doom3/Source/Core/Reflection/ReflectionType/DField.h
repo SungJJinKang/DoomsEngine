@@ -1,5 +1,7 @@
 #pragma once
 
+
+#include <string>
 #include <Macros/TypeDef.h>
 #include <Macros/DllMarcos.h>
 #include "Macros/Assert.h"
@@ -15,7 +17,7 @@ namespace dooms
 	namespace reflection
 	{
 
-		class DOOM_API D_STRUCT DField : public DPrimitive /*: public dooms::DObject*/ // Dont Do this
+		class DOOM_API D_CLASS DField : public DPrimitive /*: public dooms::DObject*/ // Dont Do this
 		{
 		protected:
 
@@ -62,9 +64,9 @@ namespace dooms
 				return clField->type->name.text;
 			}
 
-			FORCE_INLINE const char* GetFieldTypeHashValue() const
+			FORCE_INLINE UINT32 GetFieldTypeHashValue() const
 			{
-				return clField->type->name.text;
+				return clField->type->name.hash;
 			}
 
 			FORCE_INLINE size_t GetFieldTypeSize() const
@@ -77,8 +79,13 @@ namespace dooms
 				return static_cast<eProperyQualifier>(clField->qualifier.op);
 			}
 
+			FORCE_INLINE void* GetRawFieldValue(void* const dObject)
+			{
+				return reinterpret_cast<char*>(dObject) + clField->offset;
+			}
+
 			template <typename RETURN_TYPE>
-			RETURN_TYPE* GetFieldValue(void* const dObject) const
+			RETURN_TYPE* GetFieldValue(void* const dObject)
 			{
 				//D_ASSERT(dObject != nullptr);
 
@@ -91,28 +98,31 @@ namespace dooms
 
 				RETURN_TYPE* returnedField = nullptr;
 
-				returnedField = reinterpret_cast<RETURN_TYPE*>(reinterpret_cast<char*>(dObject) + clField->offset);
+				returnedField = reinterpret_cast<RETURN_TYPE*>(GetRawFieldValue(dObject));
 
 				return returnedField;
 			}
 
 			template <typename RETURN_TYPE>
-			RETURN_TYPE* GetStringOfFieldValue(void* const dObject) const
+			const RETURN_TYPE* GetFieldValue(void* const dObject) const
 			{
 				//D_ASSERT(dObject != nullptr);
 
 				//clField->parent_unique_id
 				//dObject->GetTypeHashVlue()
 
+
 				// TODO : add Assert
 				//D_ASSERT(sizeof(RETURN_TYPE) == GetFieldTypeSize(), "Wrong RETURN TYPE. Please Check Type. Type of DField = %s", GetFieldTypeName());
 
 				RETURN_TYPE* returnedField = nullptr;
 
-				returnedField = reinterpret_cast<RETURN_TYPE*>(reinterpret_cast<char*>(dObject) + clField->offset);
+				returnedField = reinterpret_cast<RETURN_TYPE*>(GetRawFieldValue(dObject));
 
 				return returnedField;
 			}
+
+			std::string ToString(void* const dObject);
 		};
 	}
 }

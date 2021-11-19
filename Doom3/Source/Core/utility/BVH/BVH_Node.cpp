@@ -46,7 +46,7 @@ template <typename ColliderType>
 typename dooms::BVH_Node<ColliderType>::node_view_type dooms::BVH_Node<ColliderType>::Update(const typename ColliderType::component_type& movedVector)
 {
 	D_ASSERT(mIsLeaf == true); // Don try aabb of internalnode arbitrary, InternalNode should be changed only by BVH algorithm
-	mBoundingCollider.SignedExpand(movedVector);
+	mBoundingCollider.SignedExpand(typename ColliderType::component_type(movedVector));
 	return UpdateNode();
 }
 
@@ -54,8 +54,8 @@ template <typename ColliderType>
 typename dooms::BVH_Node<ColliderType>::node_view_type dooms::BVH_Node<ColliderType>::Update(const typename ColliderType::component_type& movedVector, const typename ColliderType::component_type& margin)
 {
 	D_ASSERT(mIsLeaf == true); // Don try aabb of internalnode arbitrary, InternalNode should be changed only by BVH algorithm
-	mBoundingCollider.Expand(margin);
-	mBoundingCollider.SignedExpand(movedVector);
+	mBoundingCollider.Expand(typename ColliderType::component_type( margin ));
+	mBoundingCollider.SignedExpand(typename ColliderType::component_type(movedVector));
 	return UpdateNode();
 }
 

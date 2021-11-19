@@ -43,7 +43,7 @@ void AABB2D::Validate()
 	}
 }
 
-math::Vector2 dooms::physics::AABB2D::GetHalfExtent() const
+dooms::physics::AABB2D::component_type dooms::physics::AABB2D::GetHalfExtent() const
 {
 	return (mUpperBound + mLowerBound) * 0.5f;
 }
@@ -56,8 +56,8 @@ void dooms::physics::AABB2D::DrawCollider(eColor color, bool drawInstantly /*= f
 	const math::Vector3 x{ mUpperBound.x - mLowerBound.x, 0, 0 };
 	const math::Vector3 y{ 0, mUpperBound.y - mLowerBound.y, 0 };
 
-	debugGraphics->DebugDraw2DLine(mLowerBound, static_cast<math::Vector3>(mLowerBound) + x, color, drawInstantly);
-	debugGraphics->DebugDraw2DLine(mLowerBound, static_cast<math::Vector3>(mLowerBound) + y, color, drawInstantly);
+	debugGraphics->DebugDraw2DLine(math::Vector3{ mLowerBound }, static_cast<math::Vector3>(mLowerBound) + x, color, drawInstantly);
+	debugGraphics->DebugDraw2DLine(math::Vector3{ mLowerBound }, static_cast<math::Vector3>(mLowerBound) + y, color, drawInstantly);
 	debugGraphics->DebugDraw2DLine(static_cast<math::Vector3>(mLowerBound) + x, static_cast<math::Vector3>(mLowerBound) + x + y, color, drawInstantly);
 	debugGraphics->DebugDraw2DLine(static_cast<math::Vector3>(mLowerBound) + y, static_cast<math::Vector3>(mLowerBound) + y + x, color, drawInstantly);
 #endif
@@ -70,7 +70,7 @@ dooms::physics::ColliderType dooms::physics::AABB2D::GetColliderType() const
 	return dooms::physics::ColliderType::AABB2D;
 }
 
-void dooms::physics::AABB2D::SignedExpand(const math::Vector2& movedVector)
+void dooms::physics::AABB2D::SignedExpand(const component_type& movedVector)
 {
 	if (movedVector.x > 0)
 	{
@@ -174,16 +174,16 @@ void AABB3D::Validate()
 	}
 }
 
-math::Vector3 dooms::physics::AABB3D::GetHalfExtent() const
+dooms::physics::AABB3D::component_type dooms::physics::AABB3D::GetHalfExtent() const
 {
-	return (mUpperBound - mLowerBound) * 0.5f;
+	return dooms::physics::AABB3D::component_type{ (mUpperBound - mLowerBound) * 0.5f };
 }
 
 
 FLOAT32 AABB3D::GetDiagonarLineLength() const
 {
 	auto halfExtent = GetHalfExtent();
-	return math::sqrt(halfExtent.x * halfExtent.x + halfExtent.y * halfExtent.y + halfExtent.z * halfExtent.z);
+	return std::sqrt(halfExtent.x * halfExtent.x + halfExtent.y * halfExtent.y + halfExtent.z * halfExtent.z);
 }
 
 void dooms::physics::AABB3D::DrawCollider(eColor color, bool drawInstantly /*= false*/) const
@@ -191,8 +191,8 @@ void dooms::physics::AABB3D::DrawCollider(eColor color, bool drawInstantly /*= f
 #ifdef DEBUG_DRAWER
 	auto debugGraphics = graphics::DebugDrawer::GetSingleton();
 
-	const math::Vector3 mLowerBoundVec3 = mLowerBound;
-	const math::Vector3 mUpperBoundVec3 = mUpperBound;
+	const math::Vector3 mLowerBoundVec3 = math::Vector3{ mLowerBound };
+	const math::Vector3 mUpperBoundVec3 = math::Vector3{ mUpperBound };
 
 	const math::Vector3 x{ mUpperBoundVec3.x - mLowerBoundVec3.x, 0, 0 };
 	const math::Vector3 y{ 0, mUpperBoundVec3.y - mLowerBoundVec3.y, 0 };
@@ -274,9 +274,9 @@ void dooms::physics::AABB3D::ApplyModelMatrix(const AABB3D& localAABB, const mat
 
 	const math::Vector4 newDir
 	(
-		math::abs(newXAxis.m128_f32[0]) + math::abs(newYAxis.m128_f32[0]) + math::abs(newZAxis.m128_f32[0]),
-		math::abs(newXAxis.m128_f32[1]) + math::abs(newYAxis.m128_f32[1]) + math::abs(newZAxis.m128_f32[1]),
-		math::abs(newXAxis.m128_f32[2]) + math::abs(newYAxis.m128_f32[2]) + math::abs(newZAxis.m128_f32[2]),
+		std::abs(newXAxis.m128_f32[0]) + std::abs(newYAxis.m128_f32[0]) + std::abs(newZAxis.m128_f32[0]),
+		std::abs(newXAxis.m128_f32[1]) + std::abs(newYAxis.m128_f32[1]) + std::abs(newZAxis.m128_f32[1]),
+		std::abs(newXAxis.m128_f32[2]) + std::abs(newYAxis.m128_f32[2]) + std::abs(newZAxis.m128_f32[2]),
 		0
 	);
 
@@ -291,9 +291,9 @@ void dooms::physics::AABB3D::ApplyModelMatrix(const AABB3D& localAABB, const mat
 
 	// The following is equal to taking the math::absolute value of the whole matrix m.
 	const math::Vector4 newDir(
-		math::abs(modelMatrix[0][0] * halfSize.x) + math::abs(modelMatrix[1][0] * halfSize.y) + math::abs(modelMatrix[2][0] * halfSize.z),
-		math::abs(modelMatrix[0][1] * halfSize.x) + math::abs(modelMatrix[1][1] * halfSize.y) + math::abs(modelMatrix[2][1] * halfSize.z),
-		math::abs(modelMatrix[0][2] * halfSize.x) + math::abs(modelMatrix[1][2] * halfSize.y) + math::abs(modelMatrix[2][2] * halfSize.z),
+		std::abs(modelMatrix[0][0] * halfSize.x) + std::abs(modelMatrix[1][0] * halfSize.y) + std::abs(modelMatrix[2][0] * halfSize.z),
+		std::abs(modelMatrix[0][1] * halfSize.x) + std::abs(modelMatrix[1][1] * halfSize.y) + std::abs(modelMatrix[2][1] * halfSize.z),
+		std::abs(modelMatrix[0][2] * halfSize.x) + std::abs(modelMatrix[1][2] * halfSize.y) + std::abs(modelMatrix[2][2] * halfSize.z),
 		0.0f
 	);
 	resultAABB.mLowerBound = newCenter - newDir;
@@ -320,7 +320,7 @@ bool dooms::physics::AABB3D::CheckIsCompletlyEnclosed(const AABB3D& innerAABB, c
 		innerAABB.mUpperBound.z <= outerAABB.mUpperBound.z;
 }
 
-void AABB3D::SignedExpand(const math::Vector3& movedVector)
+void AABB3D::SignedExpand(const component_type& movedVector)
 {
 	if (movedVector.x > 0)
 	{
@@ -352,9 +352,9 @@ void AABB3D::SignedExpand(const math::Vector3& movedVector)
 	}
 }
 
-void AABB3D::Expand(const math::Vector3& movedVector)
+void AABB3D::Expand(const component_type& movedVector)
 {
-	const math::Vector4 expandVec{ math::abs(movedVector.x) ,  math::abs(movedVector.y) ,  math::abs(movedVector.z), 0.0f };
+	const math::Vector4 expandVec{ std::abs(movedVector.x) ,  std::abs(movedVector.y) ,  std::abs(movedVector.z), 0.0f };
 	mUpperBound += expandVec;
 	mLowerBound -= expandVec;
 }
@@ -368,7 +368,7 @@ void AABB3D::Expand(const math::Vector3& movedVector)
 
 math::Vector2 dooms::physics::ClosestPointToPoint(const AABB2D& aabb, const math::Vector2& point)
 {
-	math::Vector2 result{};
+	math::Vector2 result{ nullptr };
 	if (aabb.mLowerBound.x > point.x)
 	{
 		result.x = aabb.mLowerBound.x;
@@ -419,7 +419,7 @@ bool dooms::physics::IsOverlapAABB3DAndAABB3D(const Collider* const A, const Col
 
 math::Vector3 dooms::physics::ClosestPointToPoint(const AABB3D& aabb, const math::Vector3& point)
 {
-	math::Vector3 result{};
+	math::Vector3 result{ nullptr };
 	if (aabb.mLowerBound.x > point.x)
 	{
 		result.x = aabb.mLowerBound.x;

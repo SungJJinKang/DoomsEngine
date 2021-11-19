@@ -35,9 +35,6 @@ typedef dooms::MeshVertexData Current;
 inline static const unsigned long int TYPE_FULL_NAME_HASH_VALUE = 1497951543; \
 inline static const char* const TYPE_FULL_NAME = "dooms::MeshVertexData"; \
 inline static const char* const TYPE_SHORT_NAME = "MeshVertexData"; \
-virtual unsigned long int GetTypeHashVlue() const { return TYPE_FULL_NAME_HASH_VALUE; } \
-virtual const char* GetTypeFullName() const { return TYPE_FULL_NAME; } \
-virtual const char* GetTypeShortName() const { return TYPE_SHORT_NAME; }
 
 
 #undef TYPE_CHECK_FUNCTION_MeshVertexData
@@ -74,9 +71,6 @@ typedef dooms::ThreeDModelMesh Current;
 inline static const unsigned long int TYPE_FULL_NAME_HASH_VALUE = 3774554090; \
 inline static const char* const TYPE_FULL_NAME = "dooms::ThreeDModelMesh"; \
 inline static const char* const TYPE_SHORT_NAME = "ThreeDModelMesh"; \
-virtual unsigned long int GetTypeHashVlue() const { return TYPE_FULL_NAME_HASH_VALUE; } \
-virtual const char* GetTypeFullName() const { return TYPE_FULL_NAME; } \
-virtual const char* GetTypeShortName() const { return TYPE_SHORT_NAME; }
 
 
 #undef TYPE_CHECK_FUNCTION_ThreeDModelMesh
@@ -113,9 +107,6 @@ typedef dooms::ThreeDModelNode Current;
 inline static const unsigned long int TYPE_FULL_NAME_HASH_VALUE = 2344481318; \
 inline static const char* const TYPE_FULL_NAME = "dooms::ThreeDModelNode"; \
 inline static const char* const TYPE_SHORT_NAME = "ThreeDModelNode"; \
-virtual unsigned long int GetTypeHashVlue() const { return TYPE_FULL_NAME_HASH_VALUE; } \
-virtual const char* GetTypeFullName() const { return TYPE_FULL_NAME; } \
-virtual const char* GetTypeShortName() const { return TYPE_SHORT_NAME; }
 
 
 #undef TYPE_CHECK_FUNCTION_ThreeDModelNode

@@ -117,10 +117,10 @@ void dooms::userinput::UserInput_Server::UpdateCurrentCursorScreenPosition()
 {
 	if(Camera::GetMainCamera() != nullptr)
 	{
-		dooms::userinput::UserInput_Server::mCurrentCursorNDCPosition = Camera::GetMainCamera()->ScreenToNDCPoint(dooms::userinput::UserInput_Server::mCurrentCursorScreenPosition);
+		dooms::userinput::UserInput_Server::mCurrentCursorNDCPosition = Camera::GetMainCamera()->ScreenToNDCPoint(math::Vector3{ dooms::userinput::UserInput_Server::mCurrentCursorScreenPosition });
 
 		//math::Vector3 ndcPoint{ dooms::userinput::UserInput_Server::mCurrentCursorNDCPosition.x, dooms::userinput::UserInput_Server::mCurrentCursorNDCPosition.y, 0 };
-		dooms::userinput::UserInput_Server::mCurrentCursorWorldPosition = Camera::GetMainCamera()->NDCToWorldPoint(dooms::userinput::UserInput_Server::mCurrentCursorNDCPosition);
+		dooms::userinput::UserInput_Server::mCurrentCursorWorldPosition = Camera::GetMainCamera()->NDCToWorldPoint(math::Vector3{ dooms::userinput::UserInput_Server::mCurrentCursorNDCPosition });
 		//D_DEBUG_LOG(dooms::userinput::UserInput_Server::mCurrentCursorWorldPosition.toString());
 	}
 }

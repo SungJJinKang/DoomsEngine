@@ -20,7 +20,7 @@ bool dooms::physics::IsOverlapSphereAndAABB3D(const Collider* const sphere, cons
 
 math::Vector3 dooms::physics::GetClosestPointOnAABB(const Sphere& sphere, const AABB3D& aabb)
 {
-	math::Vector3 closestPoint{};
+	math::Vector3 closestPoint{ nullptr };
 	closestPoint.x = math::Min(math::Max(sphere.mCenter.x, aabb.mLowerBound.x), aabb.mUpperBound.x);
 	closestPoint.y = math::Min(math::Max(sphere.mCenter.y, aabb.mLowerBound.y), aabb.mUpperBound.y);
 	closestPoint.z = math::Min(math::Max(sphere.mCenter.z, aabb.mLowerBound.z), aabb.mUpperBound.z);
@@ -50,21 +50,21 @@ math::Vector3 dooms::physics::GetClosestPointOnPlane(const Sphere& sphere, const
 
 FLOAT32 dooms::physics::DistanceFromAABBToPlane(const AABB3D& aabb, const Plane& plane)
 {
-	const math::Vector3 centerOfAABB = (aabb.mLowerBound + aabb.mUpperBound) * 0.5f;
+	const math::Vector3 centerOfAABB = math::Vector3{ (aabb.mLowerBound + aabb.mUpperBound) * 0.5f };
 	return math::dot(plane.GetNormal(), centerOfAABB) - plane.mDistance;
 }
 
 bool dooms::physics::IsOverlapAABB3DAndPlane(const AABB3D& aabb, const Plane& plane)
 {
-	const math::Vector3 positiveExtent = aabb.GetHalfExtent();
+	const math::Vector3 positiveExtent = static_cast<math::Vector3>(aabb.GetHalfExtent());
 	 
 	const math::Vector3 normalOfPlane = plane.GetNormal();
-	FLOAT32 r = positiveExtent.x * math::abs(normalOfPlane.x)
-		+ positiveExtent.y * math::abs(normalOfPlane.y)
-		+ positiveExtent.z * math::abs(normalOfPlane.z);
+	FLOAT32 r = positiveExtent.x * std::abs(normalOfPlane.x)
+		+ positiveExtent.y * std::abs(normalOfPlane.y)
+		+ positiveExtent.z * std::abs(normalOfPlane.z);
 
 	FLOAT32 s = DistanceFromAABBToPlane(aabb, plane);
-	return math::abs(s) <= r;
+	return std::abs(s) <= r;
 }
 
 
@@ -76,7 +76,7 @@ FLOAT32 dooms::physics::DistanceFromPointToPlane(const math::Vector3& point, con
 
 bool dooms::physics::IsOverlapPointAndPlane(const math::Vector3& point, const Plane& plane)
 {
-	return math::abs(DistanceFromPointToPlane(point, plane)) < math::epsilon<FLOAT32>();
+	return std::abs(DistanceFromPointToPlane(point, plane)) < math::epsilon_FLOAT32();
 }
 
 bool dooms::physics::IsOverlapRayAndSphere(const Ray& ray, const Sphere& sphere)
@@ -146,7 +146,7 @@ bool dooms::physics::IsOverlapRayAndAABB3D(const Ray& ray, const AABB3D& aabb3d)
 	FLOAT32 maxT[NUMDIM];
 	FLOAT32 candidatePlane[NUMDIM];
 
-	math::Vector3 hitPoint{};
+	math::Vector3 hitPoint{ nullptr };
 
 	math::Vector3 normal{ ray.GetNormal() };
 
@@ -243,8 +243,8 @@ FLOAT32 dooms::physics::RaycastRayAndSphere(const Ray& ray, const Sphere& sphere
 	math::Vector3 fromRayToSphere = sphere.mCenter - ray.mOrigin;
 	FLOAT32 e = fromRayToSphere.magnitude();
 	FLOAT32 a = math::dot(fromRayToSphere, ray.GetNormal());
-	FLOAT32 b = math::sqrt(e * e - a * a);
-	FLOAT32 f = math::sqrt(sphere.mRadius * sphere.mRadius - b * b);
+	FLOAT32 b = std::sqrt(e * e - a * a);
+	FLOAT32 f = std::sqrt(sphere.mRadius * sphere.mRadius - b * b);
 	//FLOAT32 t = a - f;
 
 	// No collision
@@ -267,7 +267,7 @@ bool dooms::physics::RaycastRayAndSphere(const Collider* const ray, const Collid
 FLOAT32 dooms::physics::RaycastRayAndPlane(const Ray& ray, const Plane& plane)
 {
 	FLOAT32 denom = math::dot(ray.GetNormal(), plane.GetNormal());
-	if (math::abs(denom) > math::epsilon<FLOAT32>())
+	if (std::abs(denom) > math::epsilon_FLOAT32())
 	{
 		math::Vector3 p0l0 = plane.GetNormal() * plane.mDistance - ray.mOrigin;
 		FLOAT32 t = math::dot(p0l0, plane.GetNormal()) / denom;
