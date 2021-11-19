@@ -15,7 +15,7 @@ namespace dClassHelper
 		return clcppType->AsClass();
 	}
 
-	void GetDProperties_Recursive(const clcpp::Class* const clcppClass, std::vector<dooms::reflection::DField>& list)
+	void GetDProperties_Recursive(const clcpp::Class* const clcppClass, std::unordered_map<std::string_view, dooms::reflection::DField>& list)
 	{
 		D_ASSERT(clcppClass != nullptr);
 
@@ -26,12 +26,12 @@ namespace dClassHelper
 				GetDProperties_Recursive(clcppClass->base_types[i]->AsClass(), list);
 			}
 		}
-
+		
 		list.reserve(list.size() + clcppClass->fields.size);
 
 		for (std::ptrdiff_t i = clcppClass->fields.size ; i > 0 ; i--)
 		{
-			list.emplace_back(clcppClass->fields[i - 1]);
+			list.emplace(clcppClass->fields[i - 1]->name.text, clcppClass->fields[i - 1]);
 		}
 
 		
@@ -39,19 +39,19 @@ namespace dClassHelper
 	}
 
 	// Return DProperties of passed clcpp::Class including base class's properties
-	std::vector<dooms::reflection::DField> GetDProperties(const clcpp::Class* const clcppClass)
+	std::unordered_map<std::string_view, dooms::reflection::DField> GetDProperties(const clcpp::Class* const clcppClass)
 	{
 		D_ASSERT(clcppClass != nullptr);
 
 		const clcpp::Class* targetclcppClasss = clcppClass;
 
-		std::vector<dooms::reflection::DField> dProperty{};
+		std::unordered_map<std::string_view, dooms::reflection::DField> dPropertyList {};
 
 		// TODO : Optimization
-		GetDProperties_Recursive(clcppClass, dProperty);
+		GetDProperties_Recursive(clcppClass, dPropertyList);
 
 		// iterate base class
-		return dProperty;
+		return dPropertyList;
 	}
 }
 
@@ -82,8 +82,8 @@ const std::unordered_map<std::string_view, dooms::reflection::DField>& dooms::re
 
 	auto iter = PropertyCacheHashMap.find(clPrimitive->name.hash);
 	if(iter == PropertyCacheHashMap.end())
-	{
-		std::vector<dooms::reflection::DField> cachedPropertyList = dClassHelper::GetDProperties(clClass);
+	{// if property list isn't cached
+		std::unordered_map<std::string_view, dooms::reflection::DField> cachedPropertyList = dClassHelper::GetDProperties(clClass);
 		auto result = PropertyCacheHashMap.emplace(clPrimitive->name.hash, std::move(cachedPropertyList));
 		propertyList = &(result.first->second);
 	}

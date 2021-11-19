@@ -67,7 +67,7 @@ void clReflectTest::test(clcpp::Database& db)
 			D_ASSERT(isPropertyReturned == true);
 			D_ASSERT(property.IsValid() == true);
 			D_ASSERT(property.GetFieldTypeSize() == sizeof(int));
-			D_ASSERT(std::strcmp(dPrimitiveHelper::GetShortNamePointer(property.GetFieldVariableFullName()), "a") == 0);
+			D_ASSERT(std::strcmp(dPrimitiveHelper::GetShortNamePointer(property.GetFieldName()), "a") == 0);
 		}
 	
 		{
@@ -76,7 +76,7 @@ void clReflectTest::test(clcpp::Database& db)
 			D_ASSERT(isPropertyReturned == true);
 			D_ASSERT(property.IsValid() == true);
 			D_ASSERT(property.GetFieldTypeSize() == sizeof(int));
-			D_ASSERT(std::strcmp(dPrimitiveHelper::GetShortNamePointer(property.GetFieldVariableFullName()), "b") == 0);
+			D_ASSERT(std::strcmp(dPrimitiveHelper::GetShortNamePointer(property.GetFieldName()), "b") == 0);
 
 			dooms::TestStruct_ReflectionTest _TestStruct_ReflectionTest{};
 			_TestStruct_ReflectionTest.b = 15;
@@ -98,7 +98,7 @@ void clReflectTest::test(clcpp::Database& db)
 			D_ASSERT(isPropertyReturned == true);
 			D_ASSERT(property.IsValid() == true);
 			D_ASSERT(property.GetFieldTypeSize() == sizeof(dooms::TestEnum_ReflectionTest));
-			D_ASSERT(std::strcmp(dPrimitiveHelper::GetShortNamePointer(property.GetFieldVariableFullName()), "mTestEnum") == 0);
+			D_ASSERT(std::strcmp(dPrimitiveHelper::GetShortNamePointer(property.GetFieldName()), "mTestEnum") == 0);
 
 			
 
@@ -110,16 +110,16 @@ void clReflectTest::test(clcpp::Database& db)
 			
 		}
 
-		{
+		/*{
 			for(const dooms::reflection::DField& dfield : TestStruct_ReflectionTest_DClass.GetFieldList())
 			{
-				dooms::ui::PrintText("VariableName : %s", dfield.GetFieldVariableName());
+				dooms::ui::PrintText("VariableName : %s", dfield.GetFieldName());
 				dooms::ui::PrintText("Type Size : %d", dfield.GetFieldTypeSize());
 				dooms::ui::PrintText("Field Offset : %d", dfield.GetFieldOffset());
 				dooms::ui::PrintText("Is pointer : %s", (dfield.GetFieldQualifier() == dooms::reflection::DField::eProperyQualifier::POINTER) ? "yes" : "no");
 				dooms::ui::PrintText("-------------------------------------");
 			}
-		}
+		}*/
 	}
 
 

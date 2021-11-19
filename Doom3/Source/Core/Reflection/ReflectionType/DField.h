@@ -44,14 +44,9 @@ namespace dooms
 				D_ASSERT(clField != nullptr);
 			}
 
-			FORCE_INLINE const char* GetFieldVariableFullName() const
+			FORCE_INLINE const char* GetFieldName() const
 			{
 				return clField->name.text;
-			}
-
-			FORCE_INLINE const char* GetFieldVariableName() const
-			{
-				return dPrimitiveHelper::GetShortNamePointer(clField->name.text);
 			}
 
 			FORCE_INLINE int GetFieldOffset() const
