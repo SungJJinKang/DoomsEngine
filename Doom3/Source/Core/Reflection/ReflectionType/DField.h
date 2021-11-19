@@ -122,9 +122,7 @@ namespace dooms
 				// TODO : add Assert
 				//D_ASSERT(sizeof(RETURN_TYPE) == GetFieldTypeSize(), "Wrong RETURN TYPE. Please Check Type. Type of DField = %s", GetFieldTypeName());
 
-				RETURN_TYPE* returnedField = nullptr;
-
-				returnedField = reinterpret_cast<RETURN_TYPE*>(GetRawFieldValue(dObject));
+				RETURN_TYPE* returnedField = reinterpret_cast<RETURN_TYPE*>(GetRawFieldValue(dObject));
 
 				return returnedField;
 			}

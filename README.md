@@ -27,22 +27,31 @@
   * Object Management System for preventing memory leak ( https://sungjjinkang.github.io/computerscience/gameengine/2021/09/25/dangling_pointer.html )
   * FrameBuffer, Texture Exporter ( https://youtu.be/T2XlHlOr95g )
   * Fast Runtime Type Casting ( O(1), Not use dynamic_cast ( RTTI option is disabled ), https://github.com/SungJJinKang/Fast_Runtime_TypeCasting_cpp )        
+  * Automatic Reflection Data Generation System. ( video - https://youtu.be/KGihaYTzqG8 ) ( clrefelct_automation - https://github.com/SungJJinKang/clReflect_automation )
+  * Customizing Reflection Open Source Library ( video - https://youtu.be/9DKGvkdR6zw ) ( Customized clReflect - https://github.com/SungJJinKang/clReflect )
+
 
 ## Currently working on
 
-  * Automatic Reflection Data Generation System. ( https://github.com/SungJJinKang/clReflect_automation )
-  * Customizing Reflection Open Source Library ( Customized clReflect https://github.com/SungJJinKang/clReflect )
+  * Masked SW Occlusion Culling ( work directory - https://github.com/SungJJinKang/EveryCulling/tree/main/CullingModule/MaskedSWOcclusionCulling ) ( reference : https://software.intel.com/content/dam/develop/external/us/en/documents/masked-software-occlusion-culling.pdf )    
+  * Engine UI ( use imgui! - https://github.com/ocornut/imgui )
+
 
 ## To Develop
 
   * Refactoring ( Remove a lot of dependency between modules, classes )
-  * Masked SW Occlusion Culling ( https://software.intel.com/content/dam/develop/external/us/en/documents/masked-software-occlusion-culling.pdf )      
+  * Unreal Engine Style Garbage Collector ( reference : https://www.slideshare.net/QooJuice/ue4-garbage-collection-2 )
   * Batching System ( Static Batch, Dynamic Batch )
   * Hot Reload ( similar to Unreal Engine's )
+  * implement clReflect x64 Function Call Assembly ( https://docs.microsoft.com/en-us/cpp/build/x64-calling-convention?view=msvc-170 )
+
 
 ## Coding Standard
+
 [English](https://docs.google.com/document/d/1cT8EPgMXe0eopeHvwuFmbHG4TJr5kUmcovkr5irQZmo/edit)   
 [Korean](https://docs.popekim.com/ko/coding-standards/cpp)
 
+
 ## Development Blog
+
 [Korean Blog](https://sungjjinkang.github.io/) 

@@ -175,6 +175,7 @@ namespace dooms
 		///	value : To String Function Pointer
 		/// </summary>
 		static std::unordered_map<UINT32, dooms::reflection::TO_STRING_FUNC> ReflectionToStringFunc{};
+		static bool isInitialized = false;
 
 		static void AddReflectionToStringFunc(const UINT32 typeHashValue, TO_STRING_FUNC toStringFunc)
 		{
@@ -196,7 +197,7 @@ namespace dooms
 			AddReflectionToStringFunc(clcpp::GetTypeNameHash<bool>(), toStringDetails::ToStringBoolean);
 
 			//AddReflectionToStringFunc(clcpp::GetTypeNameHash<std::string>(), toStringDetails::ToStringStdString);
-			/*AddReflectionToStringFunc(clcpp::GetTypeNameHash<const char*>(), toStringDetails::ToStringConstCharPointer);
+			//AddReflectionToStringFunc(clcpp::GetTypeNameHash<const char*>(), toStringDetails::ToStringConstCharPointer);
 
 			AddReflectionToStringFunc(clcpp::GetTypeNameHash<math::Matrix2x2>(), toStringDetails::ToStringMat2x2);
 			AddReflectionToStringFunc(clcpp::GetTypeNameHash<math::Matrix3x3>(), toStringDetails::ToStringMat3x3);
@@ -204,11 +205,15 @@ namespace dooms
 
 			AddReflectionToStringFunc(clcpp::GetTypeNameHash<math::Vector2>(), toStringDetails::ToStringVec2);
 			AddReflectionToStringFunc(clcpp::GetTypeNameHash<math::Vector3>(), toStringDetails::ToStringVec3);
-			AddReflectionToStringFunc(clcpp::GetTypeNameHash<math::Vector4>(), toStringDetails::ToStringVec4);*/
+			AddReflectionToStringFunc(clcpp::GetTypeNameHash<math::Vector4>(), toStringDetails::ToStringVec4);
+
+
+			isInitialized = true;
 		}
 
 		std::string GetStringFromReflectionData(const UINT32 reflectionHashValue, const void* const object)
 		{
+			D_ASSERT_LOG(isInitialized == true, "Please Call ToString::InitReflectionToString");
 			D_ASSERT_LOG(ReflectionToStringFunc.find(reflectionHashValue) != ReflectionToStringFunc.end(), "Fail to Find ReflectionToStringFunc");
 
 			return ReflectionToStringFunc[reflectionHashValue](object);

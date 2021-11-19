@@ -45,6 +45,7 @@ namespace dClassHelper
 
 		std::vector<dooms::reflection::DField> dProperty{};
 
+		// TODO : Optimization
 		GetDProperties_Recursive(clcppClass, dProperty);
 
 		// iterate base class

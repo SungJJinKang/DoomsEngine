@@ -27,6 +27,8 @@ const bool dooms::reflection::DEnum::GetValue(const char* const valueName, INT32
 
 	const std::string enumConstantFullName = std::string(GetPrimitiveFullName()) + "::" + valueName;
 
+	// TODO : Optimization
+
 	for(UINT32 i = 0 ; i < clEnum->constants.size ; i++)
 	{
 		if(std::strcmp(clEnum->constants[i]->name.text, enumConstantFullName.data()) == 0)
