@@ -19,7 +19,7 @@ namespace dooms
 		{
 		private:
 
-			static std::unordered_map<UINT32, std::vector<dooms::reflection::DField>> PropertyCacheHashMap;
+			static std::unordered_map<UINT32, std::unordered_map<std::string_view, dooms::reflection::DField>> PropertyCacheHashMap;
 
 		protected:
 
@@ -78,8 +78,16 @@ namespace dooms
 
 			//dooms:DClass* CreateDClass
 
-			const std::vector<dooms::reflection::DField>& GetFieldList() const;
+			const std::unordered_map<std::string_view, dooms::reflection::DField>& GetFieldList() const;
 			bool GetField(const char* const fieldName, dooms::reflection::DField& dProperty) const;
+
+			/// <summary>
+			/// Call Function
+			///
+			///	You can call only function with no return, no parameter
+			/// </summary>
+			/// <param name="functionName"></param>
+			void CallFunction(const char* const functionName);
 		};
 
 

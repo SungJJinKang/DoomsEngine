@@ -26,7 +26,7 @@ namespace dooms
 			FORCE_INLINE DType(const clcpp::Type* const _clType)
 				: DPrimitive(_clType), clType(_clType)
 			{
-				//D_ASSERT(clType != nullptr);
+				
 			}
 
 			FORCE_INLINE const char* GetTypeFullName() const

@@ -14,7 +14,8 @@ struct DynamicLinkingReleaser {
 	{
 		if (library != nullptr)
 		{
-			FreeLibrary(reinterpret_cast<HMODULE>(library));
+			const BOOL result = FreeLibrary(reinterpret_cast<HMODULE>(library)); 
+			D_ASSERT_LOG(result != 0, "Fail to free dll");
 		}
 	};
 

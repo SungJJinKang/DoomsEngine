@@ -41,7 +41,7 @@ namespace dooms
 			FORCE_INLINE DField(const clcpp::Field* const _clField)
 				: DPrimitive(_clField), clField(_clField)
 			{
-				//D_ASSERT(clField != nullptr);
+				D_ASSERT(clField != nullptr);
 			}
 
 			FORCE_INLINE const char* GetFieldVariableFullName() const
@@ -94,7 +94,7 @@ namespace dooms
 			}
 
 			template <typename RETURN_TYPE>
-			RETURN_TYPE* GetFieldValue(void* const dObject)
+			FORCE_INLINE RETURN_TYPE* GetFieldValue(void* const dObject)
 			{
 				//D_ASSERT(dObject != nullptr);
 
@@ -111,7 +111,7 @@ namespace dooms
 			}
 
 			template <typename RETURN_TYPE>
-			const RETURN_TYPE* GetFieldValue(void* const dObject) const
+			FORCE_INLINE const RETURN_TYPE* GetFieldValue(void* const dObject) const
 			{
 				//D_ASSERT(dObject != nullptr);
 
@@ -125,6 +125,32 @@ namespace dooms
 				RETURN_TYPE* returnedField = reinterpret_cast<RETURN_TYPE*>(GetRawFieldValue(dObject));
 
 				return returnedField;
+			}
+
+			/// <summary>
+			/// if Setting field value success, return true
+			///
+			/// you can set only raw value.
+			///
+			///	you can't don this. ex) copy constructor, move constructor
+			/// </summary>
+			template <typename PARAMETER_TYPE>
+			FORCE_INLINE bool SetRawValueToField(void* const dObject, const PARAMETER_TYPE& parameterType)
+			{
+				void* const rawFieldPtr = GetRawFieldValue(dObject);
+
+				D_ASSERT(rawFieldPtr != nullptr);
+
+				if(rawFieldPtr != nullptr)
+				{
+					*reinterpret_cast<PARAMETER_TYPE*>(rawFieldPtr) = parameterType;
+					return true;
+				}
+				else
+				{
+					return false;
+				}
+				
 			}
 
 			std::string ToString(void* const dObject);

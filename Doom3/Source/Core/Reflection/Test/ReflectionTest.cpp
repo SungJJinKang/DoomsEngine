@@ -82,6 +82,14 @@ void clReflectTest::test(clcpp::Database& db)
 			_TestStruct_ReflectionTest.b = 15;
 			
 			D_ASSERT(std::strcmp(property.ToString(&_TestStruct_ReflectionTest).data(), "15") == 0);
+
+			bool isSuccessSettingFieldValue = property.SetRawValueToField(&_TestStruct_ReflectionTest, 10);
+			D_ASSERT(isSuccessSettingFieldValue == true);
+			D_ASSERT(std::strcmp(property.ToString(&_TestStruct_ReflectionTest).data(), "10") == 0);
+
+			isSuccessSettingFieldValue = property.SetRawValueToField(&_TestStruct_ReflectionTest, 1);
+			D_ASSERT(isSuccessSettingFieldValue == true);
+			D_ASSERT(std::strcmp(property.ToString(&_TestStruct_ReflectionTest).data(), "1") == 0);
 		}
 
 		{

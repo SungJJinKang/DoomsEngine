@@ -2,7 +2,7 @@
 
 #include "../ReflectionManager.h"
 
-std::unordered_map<UINT32, std::vector<dooms::reflection::DField>> dooms::reflection::DClass::PropertyCacheHashMap{};
+std::unordered_map<UINT32, std::unordered_map<std::string_view, dooms::reflection::DField>> dooms::reflection::DClass::PropertyCacheHashMap{};
 
 namespace dClassHelper
 {
@@ -27,6 +27,8 @@ namespace dClassHelper
 			}
 		}
 
+		list.reserve(list.size() + clcppClass->fields.size);
+
 		for (std::ptrdiff_t i = clcppClass->fields.size ; i > 0 ; i--)
 		{
 			list.emplace_back(clcppClass->fields[i - 1]);
@@ -36,7 +38,7 @@ namespace dClassHelper
 		
 	}
 
-	// Return DProperties of passed clcpp::Class
+	// Return DProperties of passed clcpp::Class including base class's properties
 	std::vector<dooms::reflection::DField> GetDProperties(const clcpp::Class* const clcppClass)
 	{
 		D_ASSERT(clcppClass != nullptr);
@@ -61,7 +63,7 @@ dooms::reflection::DClass::DClass(dooms::DObject* const dObject)
 dooms::reflection::DClass::DClass(const UINT32 nameHash)
 	: DType(dClassHelper::GetclcppClass(nameHash)), clClass(clType->AsClass())
 {
-	D_ASSERT(clPrimitive != nullptr);
+	D_ASSERT(clClass != nullptr);
 
 }
 
@@ -72,9 +74,11 @@ dooms::reflection::DClass::DClass(const clcpp::Class* const clcppType)
 }
 
 
-const std::vector<dooms::reflection::DField>& dooms::reflection::DClass::GetFieldList() const
+const std::unordered_map<std::string_view, dooms::reflection::DField>& dooms::reflection::DClass::GetFieldList() const
 {
-	std::vector<dooms::reflection::DField>* propertyList = nullptr;
+	D_ASSERT(IsValid() == true);
+
+	std::unordered_map<std::string_view, dooms::reflection::DField>* propertyList = nullptr;
 
 	auto iter = PropertyCacheHashMap.find(clPrimitive->name.hash);
 	if(iter == PropertyCacheHashMap.end())
@@ -95,22 +99,19 @@ const std::vector<dooms::reflection::DField>& dooms::reflection::DClass::GetFiel
 
 bool dooms::reflection::DClass::GetField(const char* const fieldName, dooms::reflection::DField& dProperty) const
 {
-	const std::vector<dooms::reflection::DField>& propertyList = GetFieldList();
+	const std::unordered_map<std::string_view, dooms::reflection::DField>& propertyList = GetFieldList();
 
 	bool isSuccess = false;
 	
-	for(size_t i = 0 ; i < propertyList.size() ; i++)
+	auto iter = propertyList.find(std::string_view(fieldName));
+	if(iter != propertyList.end())
 	{
-		if(std::strcmp(propertyList[i].GetFieldVariableFullName(), fieldName) == 0)
-		{// field's name is short name
-			dProperty = propertyList[i];
-			isSuccess = true;
-			break;
-		}
-		//propertyList[i].get
+		dProperty = iter->second;
+		isSuccess = true;
 	}
 
 	D_ASSERT_LOG(isSuccess == true, "Fail to find Field ( %s ) from ( %s )", fieldName, GetTypeFullName());
 
 	return isSuccess;
 }
+
