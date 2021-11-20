@@ -21,6 +21,26 @@ dooms::reflection::DEnum::DEnum(const UINT32 nameHash)
 	D_ASSERT(clEnum != nullptr);
 }
 
+const char* dooms::reflection::DEnum::GetNameOfEnumConstantsValue
+(
+	const INT32 value,
+	const dooms::reflection::ePrimitiveNameType primitiveNameType
+) const
+{
+	const char* valueName = nullptr;
+
+	if (primitiveNameType == dooms::reflection::ePrimitiveNameType::Full)
+	{
+		valueName = clEnum->GetValueName(value);
+	}
+	else if (primitiveNameType == dooms::reflection::ePrimitiveNameType::Short)
+	{
+		valueName = dPrimitiveHelper::GetShortNamePointer(clEnum->GetValueName(value));
+	}
+
+	return valueName;
+}
+
 const bool dooms::reflection::DEnum::GetValue(const char* const valueName, INT32& result) const
 {
 	bool isSuccess = false;

@@ -38,9 +38,11 @@ namespace dooms
 			//D_PROPERTY()
 			//const UINT32 CLASS_FLAGS;
 
+			DClass();
 			DClass(dooms::DObject* const dObject);
 			DClass(const UINT32 nameHash);
-			DClass(const clcpp::Class* const clcppType);
+			DClass(const clcpp::Class* const clcppClass);
+			DClass(const clcpp::Type* const clcppType);
 
 
 
@@ -110,6 +112,16 @@ namespace dooms
 				}
 
 				return isCallFunctionSuccess;
+			}
+
+			FORCE_INLINE bool operator==(const DClass& dClass) const
+			{
+				return clClass == dClass.clClass;
+			}
+
+			FORCE_INLINE bool operator!=(const DClass& dClass) const
+			{
+				return clClass != dClass.clClass;
 			}
 		};
 

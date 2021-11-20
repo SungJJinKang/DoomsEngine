@@ -29,7 +29,6 @@ dooms::reflection::DPrimitive::DPrimitive()
 dooms::reflection::DPrimitive::DPrimitive(const clcpp::Primitive* const _clPrimitive)
 	: clPrimitive(_clPrimitive)
 {
-	D_ASSERT(clPrimitive != 0);
 	D_ASSERT(dooms::reflection::ReflectionManager::GetSingleton() != nullptr);
 	D_ASSERT(dooms::reflection::ReflectionManager::GetSingleton()->GetIsReflectionDatabaseLoaded() == true);
 }

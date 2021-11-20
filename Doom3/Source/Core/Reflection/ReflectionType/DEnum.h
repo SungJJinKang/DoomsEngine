@@ -30,24 +30,20 @@ namespace dooms
 			/// <param name="value"></param>
 			/// <param name="primitiveNameType"></param>
 			/// <returns></returns>
-			FORCE_INLINE const char* GetNameOfEnumConstantsValue(const INT32 value, const dooms::reflection::ePrimitiveNameType primitiveNameType = dooms::reflection::ePrimitiveNameType::Short) const
-			{
-				const char* valueName = nullptr;
-
-				if (primitiveNameType == dooms::reflection::ePrimitiveNameType::Full)
-				{
-					valueName = clEnum->GetValueName(value);
-				}
-				else if (primitiveNameType == dooms::reflection::ePrimitiveNameType::Short)
-				{
-					valueName = dPrimitiveHelper::GetShortNamePointer(clEnum->GetValueName(value));
-				}
-
-				return valueName;
-			}
+			const char* GetNameOfEnumConstantsValue(const INT32 value, const dooms::reflection::ePrimitiveNameType primitiveNameType = dooms::reflection::ePrimitiveNameType::Short) const;
 
 			// if value is found, return true
 			const bool GetValue(const char* const valueName, INT32& result) const;
+
+			FORCE_INLINE bool operator==(const DEnum& dEnum) const
+			{
+				return clEnum == dEnum.clEnum;
+			}
+
+			FORCE_INLINE bool operator!=(const DEnum& dEnum) const
+			{
+				return clEnum != dEnum.clEnum;
+			}
 		};
 
 		template <typename T>

@@ -68,25 +68,18 @@ namespace dooms
 			{
 				return clField->type->size;
 			}
+			
+			FORCE_INLINE const clcpp::Type* GetclTypeOfFieldType() const
+			{
+				return clField->type;
+			}
 
 			FORCE_INLINE eProperyQualifier GetFieldQualifier() const
 			{
 				return static_cast<eProperyQualifier>(clField->qualifier.op);
 			}
 
-			FORCE_INLINE void* GetRawFieldValue(void* const dObject)
-			{
-				D_ASSERT(clField != nullptr);
-
-				if(clField != nullptr)
-				{
-					return reinterpret_cast<char*>(dObject) + clField->offset;
-				}
-				else
-				{
-					return nullptr;
-				}
-			}
+			void* GetRawFieldValue(void* const dObject);
 
 			template <typename RETURN_TYPE>
 			FORCE_INLINE RETURN_TYPE* GetFieldValue(void* const dObject)
@@ -149,6 +142,16 @@ namespace dooms
 			}
 
 			std::string ToString(void* const dObject);
+
+			FORCE_INLINE bool operator==(const DField& dField) const
+			{
+				return clField == dField.clField;
+			}
+
+			FORCE_INLINE bool operator!=(const DField& dField) const
+			{
+				return clField != dField.clField;
+			}
 		};
 	}
 }

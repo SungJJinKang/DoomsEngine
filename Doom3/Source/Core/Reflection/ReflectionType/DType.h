@@ -39,6 +39,15 @@ namespace dooms
 				return clType->size;
 			}
 
+			FORCE_INLINE bool operator==(const DType& dType) const
+			{
+				return clType == dType.clType;
+			}
+
+			FORCE_INLINE bool operator!=(const DType& dType) const
+			{
+				return clType != dType.clType;
+			}
 		};
 	}
 }

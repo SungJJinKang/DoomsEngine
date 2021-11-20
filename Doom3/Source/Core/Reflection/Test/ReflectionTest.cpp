@@ -75,6 +75,25 @@ namespace dooms
 void clReflectTest::test(clcpp::Database& db)
 {
 
+	{
+		dooms::reflection::DFunction function{ "dooms::ReflectionTestFunction1" };
+		D_ASSERT(function.IsValid() == true);
+		D_ASSERT(function.GetIsMemberFunction() == false);
+	}
+	{
+		auto DObject_DClass = dooms::reflection::CreateDClass<dooms::DObject>();
+		auto Component_DClass = dooms::reflection::CreateDClass<dooms::Component>();
+		dooms::reflection::DFunction function{ "dooms::DObject::GetDObjectID" };
+
+		D_ASSERT(function.IsValid() == true);
+		D_ASSERT(function.GetIsMemberFunction() == true);
+		dooms::reflection::DClass functionOwnerClass{};
+		const bool isSuccess = function.GetOwnerClassIfMemberFunction(functionOwnerClass);
+		D_ASSERT(isSuccess == true);
+		D_ASSERT(functionOwnerClass.IsValid() == true);
+		D_ASSERT(functionOwnerClass == DObject_DClass);
+		D_ASSERT(functionOwnerClass != Component_DClass);
+	}
 
 	{
 		auto TestStruct_ReflectionTest_DClass = dooms::reflection::CreateDClass<dooms::TestStruct_ReflectionTest>();

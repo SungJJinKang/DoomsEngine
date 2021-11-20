@@ -42,6 +42,11 @@ namespace dooms
 
 			DPrimitive(const clcpp::Primitive* const _clPrimitive);
 
+			FORCE_INLINE bool IsValid() const
+			{
+				return clPrimitive != nullptr;
+			}
+
 			FORCE_INLINE const char* GetPrimitiveFullName() const
 			{
 				return clPrimitive->name.text;
@@ -69,9 +74,22 @@ namespace dooms
 				}
 			}
 
-			bool IsValid() const
+			
+
+
+			FORCE_INLINE bool Equal(const DPrimitive& dPrimitive) const
 			{
-				return clPrimitive != nullptr;
+				return clPrimitive == dPrimitive.clPrimitive;
+			}
+
+			FORCE_INLINE bool operator==(const DPrimitive& dPrimitive) const
+			{
+				return clPrimitive == dPrimitive.clPrimitive;
+			}
+
+			FORCE_INLINE bool operator!=(const DPrimitive& dPrimitive) const
+			{
+				return clPrimitive != dPrimitive.clPrimitive;
 			}
 		};
 	}

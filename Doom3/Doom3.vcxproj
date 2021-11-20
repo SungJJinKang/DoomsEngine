@@ -220,9 +220,9 @@ xcopy /y /d /E /H /C /I "$(ProjectDir)Assets" "$(TargetDir)Assets"</Command>
       <GenerateDebugInformation>DebugFull</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(SolutionDir)Source\Helper\crossguid\build\Debug;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>xg.lib;%(AdditionalDependencies);ntdll.lib</AdditionalDependencies>
-      <GenerateMapFile>true</GenerateMapFile>
+      <GenerateMapFile>false</GenerateMapFile>
       <MapFileName>map.map</MapFileName>
-      <MapExports>true</MapExports>
+      <MapExports>false</MapExports>
     </Link>
     <PostBuildEvent>
       <Command>xcopy /y /d /f "$(ProjectDir)*.cppbin" "$(TargetDir)"

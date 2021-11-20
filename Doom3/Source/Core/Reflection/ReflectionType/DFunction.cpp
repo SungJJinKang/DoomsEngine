@@ -3,6 +3,7 @@
 #include <unordered_map>
 
 #include "Reflection/ReflectionManager.h"
+#include "DClass.h"
 
 namespace dFunctionHelper
 {
@@ -38,6 +39,39 @@ dooms::reflection::DFunction::DFunction(const char* const functionName)
 	D_ASSERT(clPrimitive != nullptr);
 	D_ASSERT(clPrimitive->kind == clcpp::Primitive::Kind::KIND_FUNCTION);
 	D_ASSERT(clFunction != nullptr);
+}
+
+dooms::reflection::DField dooms::reflection::DFunction::GetReturnValueField() const
+{
+	D_ASSERT(IsValid() == true);
+	D_ASSERT(clFunction->return_parameter != nullptr);
+	return DField(clFunction->return_parameter);
+}
+
+bool dooms::reflection::DFunction::GetIsMemberFunction() const
+{
+	D_ASSERT(IsValid() == true);
+				
+	const std::vector<dooms::reflection::DField>& fieldList = GetParameterDFieldList();
+
+	return ( ( fieldList.size() > 0 ) && ( std::strcmp(fieldList[0].GetFieldName(), "this") == 0 ) );
+}
+
+bool dooms::reflection::DFunction::GetOwnerClassIfMemberFunction(DClass& dClass) const
+{
+	D_ASSERT(IsValid() == true);
+
+	bool isSuccess = false;
+
+	if(GetIsMemberFunction() == true)
+	{
+		const std::vector<dooms::reflection::DField>& fieldList = GetParameterDFieldList();
+		dClass = DClass{ fieldList[0].GetclTypeOfFieldType() };
+
+		isSuccess = true;
+	}
+
+	return isSuccess;
 }
 
 const std::vector<dooms::reflection::DField>& dooms::reflection::DFunction::GetParameterDFieldList() const
@@ -77,6 +111,8 @@ const std::vector<dooms::reflection::DField>& dooms::reflection::DFunction::GetP
 
 bool dooms::reflection::DFunction::GetParameterDField(const char* const parameterName, dooms::reflection::DField& dField) const
 {
+	D_ASSERT(IsValid() == true);
+
 	const std::vector<dooms::reflection::DField>& parameterDFieldList = GetParameterDFieldList();
 
 	bool isSuccess = false;

@@ -18,7 +18,7 @@ namespace dooms
 
 	namespace reflection
 	{
-
+		class DClass;
 		class DOOM_API D_CLASS DFunction : public DPrimitive /*: public dooms::DObject*/ // Dont Do this
 		{
 		protected:
@@ -42,28 +42,40 @@ namespace dooms
 				D_ASSERT(clFunction != nullptr);
 			}
 
+			FORCE_INLINE bool IsValid() const
+			{
+				return clFunction != nullptr;
+			}
+
 			FORCE_INLINE const char* GetFunctionFullName() const
 			{
+				D_ASSERT(IsValid() == true);
 				return clFunction->name.text;
 			}
 
 			FORCE_INLINE const char* GetFunctionName() const
 			{
+				D_ASSERT(IsValid() == true);
 				return dPrimitiveHelper::GetShortNamePointer(clFunction->name.text);
 			}
 
 			FORCE_INLINE void* GetFunctionAddress() const
 			{
+				D_ASSERT(IsValid() == true);
 				D_ASSERT(clFunction->address != NULL);
 				return reinterpret_cast<void*>(clFunction->address);
 			}
 			
 
-			FORCE_INLINE DField GetReturnValueField() const
-			{
-				D_ASSERT(clFunction->return_parameter != nullptr);
-				return DField(clFunction->return_parameter);
-			}
+			DField GetReturnValueField() const;
+
+			/// <summary>
+			/// return true, if this function is member function of class or struct ( not static, not global function )
+			/// </summary>
+			/// <returns></returns>
+			bool GetIsMemberFunction() const;
+
+			bool GetOwnerClassIfMemberFunction(DClass& dClass) const;
 
 			const std::vector<dooms::reflection::DField>& GetParameterDFieldList() const;
 			bool GetParameterDField(const char* const parameterName, dooms::reflection::DField& dField) const;
@@ -122,6 +134,16 @@ namespace dooms
 
 				return functionAddress;
 				
+			}
+
+			FORCE_INLINE bool operator==(const DFunction& dFunction) const
+			{
+				return clFunction == dFunction.clFunction;
+			}
+
+			FORCE_INLINE bool operator!=(const DFunction& dFunction) const
+			{
+				return clFunction != dFunction.clFunction;
 			}
 		};
 	}

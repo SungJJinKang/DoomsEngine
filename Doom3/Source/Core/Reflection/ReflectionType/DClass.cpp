@@ -91,6 +91,11 @@ namespace dClassHelper
 	}
 }
 
+dooms::reflection::DClass::DClass()
+	: DType(nullptr), clClass(nullptr)
+{
+}
+
 dooms::reflection::DClass::DClass(dooms::DObject* const dObject)
 	: DClass(dObject->GetTypeHashVlue())
 {
@@ -103,10 +108,19 @@ dooms::reflection::DClass::DClass(const UINT32 nameHash)
 
 }
 
-dooms::reflection::DClass::DClass(const clcpp::Class* const clcppType)
-	: DType(clcppType), clClass(clcppType)
+dooms::reflection::DClass::DClass(const clcpp::Class* const clcppClass)
+	: DType(clcppClass), clClass(clcppClass)
 {
 	D_ASSERT(clPrimitive != nullptr);
+}
+
+dooms::reflection::DClass::DClass(const clcpp::Type* const clcppType)
+	:
+	DType((clcppType->kind == clcpp::Primitive::Kind::KIND_CLASS) ? clcppType : nullptr),
+	clClass( static_cast<const clcpp::Class*>(clPrimitive) )
+{
+	D_ASSERT(clPrimitive != nullptr);
+	D_ASSERT(clClass != nullptr);
 }
 
 
