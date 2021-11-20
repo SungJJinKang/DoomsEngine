@@ -7,9 +7,10 @@
 ## Features
 
   * C++17
-  * C# ( used in making engine tools )      
+  * C# ( used in making engine tools )    
   * Target Compiler : MSVC ( clang is used for generating reflection data )
   * Window Platform is supported
+  * OpenGL
   * Deferred Rendering ( https://youtu.be/TU9P8gcKsi8 )
   * Profiler (reference : https://youtu.be/tD4xRNB0M_Q) 
   * Logger
@@ -39,6 +40,7 @@
 
 ## To Develop
 
+  * change graphics api ( OpenGL to DirectX12 )
   * Refactoring ( Remove a lot of dependency between modules, classes )
   * Unreal Engine Style Garbage Collector ( reference : https://www.slideshare.net/QooJuice/ue4-garbage-collection-2 )
   * Batching System ( Static Batch, Dynamic Batch )
