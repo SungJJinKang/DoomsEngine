@@ -34,13 +34,13 @@
 
 ## Currently working on
 
-  * Masked SW Occlusion Culling ( work directory - https://github.com/SungJJinKang/EveryCulling/tree/main/CullingModule/MaskedSWOcclusionCulling ) ( reference : https://software.intel.com/content/dam/develop/external/us/en/documents/masked-software-occlusion-culling.pdf )    
-  * Engine UI ( use imgui! - https://github.com/ocornut/imgui )
+  * change graphics api ( OpenGL to DirectX12 )
+  * implement engine ui ( use imgui! - https://github.com/ocornut/imgui )
 
 
 ## To Develop
 
-  * change graphics api ( OpenGL to DirectX12 )
+  * Masked SW Occlusion Culling ( work directory - https://github.com/SungJJinKang/EveryCulling/tree/main/CullingModule/MaskedSWOcclusionCulling ) ( reference : https://software.intel.com/content/dam/develop/external/us/en/documents/masked-software-occlusion-culling.pdf )    
   * Refactoring ( Remove a lot of dependency between modules, classes )
   * Unreal Engine Style Garbage Collector ( reference : https://www.slideshare.net/QooJuice/ue4-garbage-collection-2 )
   * Batching System ( Static Batch, Dynamic Batch )
