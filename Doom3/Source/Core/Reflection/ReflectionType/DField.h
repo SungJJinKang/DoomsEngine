@@ -123,7 +123,7 @@ namespace dooms
 			///	you can't don this. ex) copy constructor, move constructor
 			/// </summary>
 			template <typename PARAMETER_TYPE>
-			FORCE_INLINE bool SetRawValueToField(void* const dObject, const PARAMETER_TYPE& parameterType)
+			FORCE_INLINE bool SetValueToField(void* const dObject, const PARAMETER_TYPE& paramter)
 			{
 				void* const rawFieldPtr = GetRawFieldValue(dObject);
 
@@ -131,7 +131,7 @@ namespace dooms
 
 				if(rawFieldPtr != nullptr)
 				{
-					*reinterpret_cast<PARAMETER_TYPE*>(rawFieldPtr) = parameterType;
+					*reinterpret_cast<PARAMETER_TYPE*>(rawFieldPtr) = paramter;
 					return true;
 				}
 				else
@@ -139,6 +139,24 @@ namespace dooms
 					return false;
 				}
 				
+			}
+
+			FORCE_INLINE bool SetRawValueToField(void* const dObject, const void* parameter)
+			{
+				void* const rawFieldPtr = GetRawFieldValue(dObject);
+
+				D_ASSERT(rawFieldPtr != nullptr);
+
+				if (rawFieldPtr != nullptr)
+				{
+					std::memcpy(rawFieldPtr, parameter, GetFieldTypeSize());
+					return true;
+				}
+				else
+				{
+					return false;
+				}
+
 			}
 
 			std::string ToString(void* const dObject);

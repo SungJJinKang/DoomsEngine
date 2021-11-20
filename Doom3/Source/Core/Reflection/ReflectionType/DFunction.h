@@ -68,6 +68,10 @@ namespace dooms
 			
 
 			DField GetReturnValueField() const;
+			bool GetIsHasReturnValue() const
+			{
+				return clFunction->return_parameter != nullptr;
+			}
 
 			/// <summary>
 			/// return true, if this function is member function of class or struct ( not static, not global function )
@@ -77,6 +81,11 @@ namespace dooms
 
 			bool GetOwnerClassIfMemberFunction(DClass& dClass) const;
 
+			/// <summary>
+			/// return function's Paramter DField List.
+			///	returned list doesn't contain "this" field even if it's member function
+			/// </summary>
+			/// <returns></returns>
 			const std::vector<dooms::reflection::DField>& GetParameterDFieldList() const;
 			bool GetParameterDField(const char* const parameterName, dooms::reflection::DField& dField) const;
 
@@ -93,22 +102,59 @@ namespace dooms
 			template <typename RETURN_TYPE, typename... ARGS>
 			bool CallFunction(RETURN_TYPE* returnPtr, ARGS&&... args)
 			{
+				static_assert
+				(
+					(sizeof...(args)) == 0,
+					"Please pass class object pointer, or if function doesn't have return value, use ~NoReturn function"
+				);
+
+				//TODO : Argument type check
+
 				bool isSuccess = false;
 
-				D_ASSERT(GetParameterDFieldList().size() == sizeof...(args));
+				D_ASSERT(GetIsHasReturnValue() == true);
+				D_ASSERT(GetIsMemberFunction() == false);
+				D_ASSERT(GetParameterDFieldList().size() == (sizeof...(args)) );
+				D_ASSERT(GetReturnValueField().GetFieldTypeHashValue() == clcpp::GetTypeNameHash<RETURN_TYPE>());
+				D_ASSERT(GetReturnValueField().GetFieldTypeSize() == sizeof(RETURN_TYPE));
 				
-				typedef void (*CallFunc)(ARGS...);
+				typedef RETURN_TYPE* (*CallFunc)(ARGS...);
 
-				CallFunc functionAddress = GetFunctionAddress();
+				CallFunc functionAddress = reinterpret_cast<CallFunc>(GetFunctionAddress());
 				D_ASSERT(functionAddress != 0);
 				if (functionAddress != nullptr)
 				{
 					// TODO :
+					*returnPtr = functionAddress(std::forward<ARGS>(args)...);
+					isSuccess = true;
 				}
 
-				return functionAddress;
+				return isSuccess;
 			}
 
+			template <typename... ARGS>
+			bool CallFunctionNoReturn(ARGS&&... args)
+			{
+				//TODO : Argument type check
+
+				bool isSuccess = false;
+				
+				D_ASSERT(GetIsHasReturnValue() == false);
+				D_ASSERT(GetIsMemberFunction() == false);
+				D_ASSERT(GetParameterDFieldList().size() == (sizeof...(args)) ); // why minus 1S? : member function has this field at first pos of Paramter List
+
+				typedef void (*CallFunc)(ARGS...);
+
+				CallFunc functionAddress = reinterpret_cast<CallFunc>(GetFunctionAddress());
+				D_ASSERT(functionAddress != 0);
+				if (functionAddress != nullptr)
+				{
+					functionAddress(std::forward<ARGS>(args)...);
+					isSuccess = true;
+				}
+
+				return isSuccess;
+			}
 
 
 			/// <summary>
@@ -122,18 +168,65 @@ namespace dooms
 			/// <returns></returns>
 			template <typename RETURN_TYPE, typename... ARGS>
 			bool CallMemberFunction(void* const classObject, RETURN_TYPE* returnPtr, ARGS&&... args)
-			{
-				void* const functionAddress = GetFunctionAddress();
+			{// classObject doesn't need to be DOBject type
+
+				//TODO : Argument type check
+
+				D_ASSERT(classObject != nullptr);
 
 				bool isSuccess = false;
 
+				D_ASSERT(GetIsHasReturnValue() == true);
+				D_ASSERT(GetIsMemberFunction() == true);
+				D_ASSERT(GetParameterDFieldList().size() == (sizeof...(args)) );
+				D_ASSERT(GetReturnValueField().GetFieldTypeHashValue() == clcpp::GetTypeNameHash<RETURN_TYPE>());
+				D_ASSERT(GetReturnValueField().GetFieldTypeSize() == sizeof(RETURN_TYPE));
+
+				typedef RETURN_TYPE (*CallFunc)(ARGS...);
+
+				CallFunc functionAddress = reinterpret_cast<CallFunc>(GetFunctionAddress());
+				D_ASSERT(functionAddress != 0);
 				if (functionAddress != nullptr)
 				{
 					// TODO :
+					*returnPtr = functionAddress(std::forward<ARGS>(args)...);
+					isSuccess = true;
 				}
 
-				return functionAddress;
-				
+				return isSuccess;
+			}
+
+			template <typename... ARGS>
+			bool CallMemberFunctionNoReturn(void* const classObject, ARGS&&... args)
+			{// classObject doesn't need to be DOBject type
+
+				static_assert
+				(
+					( sizeof...(args) ) == 0,
+					"Please pass class object pointer, or if function doesn't have return value, use ~NoReturn function"
+				);
+
+				//TODO : Argument type check
+				D_ASSERT(classObject != nullptr);
+
+				bool isSuccess = false;
+
+				D_ASSERT(GetIsHasReturnValue() == false);
+				D_ASSERT(GetIsMemberFunction() == true);
+				D_ASSERT(GetParameterDFieldList().size() == (sizeof...(args)) ); // why minus 1S? : member function has this field at first pos of Paramter List
+
+				typedef void (*CallFunc)(ARGS...);
+
+				CallFunc functionAddress = reinterpret_cast<CallFunc>(GetFunctionAddress());
+				D_ASSERT(functionAddress != 0);
+				if (functionAddress != nullptr)
+				{
+					// TODO :
+					functionAddress(std::forward<ARGS>(args)...);
+					isSuccess = true;
+				}
+
+				return isSuccess;
 			}
 
 			FORCE_INLINE bool operator==(const DFunction& dFunction) const

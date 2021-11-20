@@ -20,6 +20,11 @@ namespace dFunctionHelper
 		return clcppType;
 	}
 
+	bool CheckIsMemberFunction(const clcpp::Function* const clFunction)
+	{
+		return ((clFunction->parameters.size > 0) && (std::strcmp(clFunction->parameters[0]->name.text, "this") == 0));
+	}
+
 }
 
 dooms::reflection::DFunction::DFunction(const UINT32 nameHash)
@@ -44,17 +49,17 @@ dooms::reflection::DFunction::DFunction(const char* const functionName)
 dooms::reflection::DField dooms::reflection::DFunction::GetReturnValueField() const
 {
 	D_ASSERT(IsValid() == true);
-	D_ASSERT(clFunction->return_parameter != nullptr);
+	D_ASSERT(GetIsHasReturnValue() == true);
 	return DField(clFunction->return_parameter);
 }
 
 bool dooms::reflection::DFunction::GetIsMemberFunction() const
 {
 	D_ASSERT(IsValid() == true);
-				
-	const std::vector<dooms::reflection::DField>& fieldList = GetParameterDFieldList();
 
-	return ( ( fieldList.size() > 0 ) && ( std::strcmp(fieldList[0].GetFieldName(), "this") == 0 ) );
+	// TODO : Caching isMemberFunction
+
+	return dFunctionHelper::CheckIsMemberFunction(clFunction);
 }
 
 bool dooms::reflection::DFunction::GetOwnerClassIfMemberFunction(DClass& dClass) const
@@ -65,8 +70,9 @@ bool dooms::reflection::DFunction::GetOwnerClassIfMemberFunction(DClass& dClass)
 
 	if(GetIsMemberFunction() == true)
 	{
-		const std::vector<dooms::reflection::DField>& fieldList = GetParameterDFieldList();
-		dClass = DClass{ fieldList[0].GetclTypeOfFieldType() };
+		D_ASSERT(clFunction->parameters.size > 0);
+
+		dClass = DClass{ clFunction->parameters[0]->type };
 
 		isSuccess = true;
 	}
@@ -94,8 +100,9 @@ const std::vector<dooms::reflection::DField>& dooms::reflection::DFunction::GetP
 	{// not cached
 		std::vector<dooms::reflection::DField> dFieldList;
 		dFieldList.reserve(clFunction->parameters.size);
-
-		for (UINT32 i = 0; i < clFunction->parameters.size; i++)
+		
+		// if function is member function, it has "this" field at first pos of clFunction->parameters
+		for (UINT32 i = ( GetIsMemberFunction() == true ) ? 1 : 0 ; i < clFunction->parameters.size; i++)
 		{
 			dFieldList.emplace_back(clFunction->parameters[i]);
 		}

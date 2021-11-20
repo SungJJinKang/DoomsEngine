@@ -19,6 +19,7 @@
 #include "ReflectionTest.reflection.h"
 
 #include <Vector3.h>
+#include <Game/GameCore.h>
 
 namespace dooms
 {
@@ -87,12 +88,27 @@ void clReflectTest::test(clcpp::Database& db)
 
 		D_ASSERT(function.IsValid() == true);
 		D_ASSERT(function.GetIsMemberFunction() == true);
+		D_ASSERT(function.GetIsHasReturnValue() == true);
+		D_ASSERT(function.GetParameterDFieldList().size() == 0);
 		dooms::reflection::DClass functionOwnerClass{};
 		const bool isSuccess = function.GetOwnerClassIfMemberFunction(functionOwnerClass);
 		D_ASSERT(isSuccess == true);
 		D_ASSERT(functionOwnerClass.IsValid() == true);
 		D_ASSERT(functionOwnerClass == DObject_DClass);
 		D_ASSERT(functionOwnerClass != Component_DClass);
+
+	
+	}
+
+	{
+		dooms::reflection::DFunction function{ "dooms::ReflectionTestFunction1" };
+		D_ASSERT(function.IsValid() == true);
+		D_ASSERT(function.GetIsMemberFunction() == false);
+		D_ASSERT(function.GetIsHasReturnValue() == false);
+		D_ASSERT(function.GetParameterDFieldList().size() == 0);
+		const bool isSuccess = function.CallFunctionNoReturn();
+		
+
 	}
 
 	{
@@ -120,11 +136,11 @@ void clReflectTest::test(clcpp::Database& db)
 			
 			D_ASSERT(std::strcmp(property.ToString(&_TestStruct_ReflectionTest).data(), "15") == 0);
 
-			bool isSuccessSettingFieldValue = property.SetRawValueToField(&_TestStruct_ReflectionTest, 10);
+			bool isSuccessSettingFieldValue = property.SetValueToField(&_TestStruct_ReflectionTest, 10);
 			D_ASSERT(isSuccessSettingFieldValue == true);
 			D_ASSERT(std::strcmp(property.ToString(&_TestStruct_ReflectionTest).data(), "10") == 0);
 
-			isSuccessSettingFieldValue = property.SetRawValueToField(&_TestStruct_ReflectionTest, 1);
+			isSuccessSettingFieldValue = property.SetValueToField(&_TestStruct_ReflectionTest, 1);
 			D_ASSERT(isSuccessSettingFieldValue == true);
 			D_ASSERT(std::strcmp(property.ToString(&_TestStruct_ReflectionTest).data(), "1") == 0);
 		}

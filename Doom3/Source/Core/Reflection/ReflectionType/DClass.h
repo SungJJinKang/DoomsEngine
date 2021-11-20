@@ -90,8 +90,9 @@ namespace dooms
 
 
 
-			
-			/// <summary>
+
+			// To call function, Use DFunction!!!
+			/*/// <summary>
 			/// Call Function
 			///
 			///	You can call only function with no return, no parameter
@@ -113,6 +114,7 @@ namespace dooms
 
 				return isCallFunctionSuccess;
 			}
+			*/
 
 			FORCE_INLINE bool operator==(const DClass& dClass) const
 			{
