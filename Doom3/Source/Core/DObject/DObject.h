@@ -13,7 +13,6 @@
 #include "Reflection/Reflection.h"
 
 
-
 #include "DObject.reflection.h"
 
 D_NAMESPACE(dooms)

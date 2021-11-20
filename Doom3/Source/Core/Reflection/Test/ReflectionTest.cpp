@@ -101,14 +101,18 @@ void clReflectTest::test(clcpp::Database& db)
 	}
 
 	{
-		dooms::reflection::DFunction function{ "dooms::ReflectionTestFunction1" };
+		dooms::reflection::DFunction function{ "dooms::ReflectionTestFunction2" };
 		D_ASSERT(function.IsValid() == true);
 		D_ASSERT(function.GetIsMemberFunction() == false);
 		D_ASSERT(function.GetIsHasReturnValue() == false);
-		D_ASSERT(function.GetParameterDFieldList().size() == 0);
-		const bool isSuccess = function.CallFunctionNoReturn();
-		
+		D_ASSERT(function.GetParameterDFieldList().size() == 2);
 
+		const INT_PTR functionAddress11 = function.GetFunctionAddress();
+		
+		//D_ASSERT(functionAddress11 == functionAddress22); Undefined Behaviour. check https://stackoverflow.com/questions/559581/casting-a-function-pointer-to-another-type
+		const bool isSuccess = function.CallFunctionNoReturn(2, 3);
+
+		
 	}
 
 	{

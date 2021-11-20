@@ -43,7 +43,6 @@ typedef double DOUBLE;
 typedef double FLOAT64;
 
 
-
 /*
 #define flag8(type) u8
 #define flag16(type) u16

@@ -59,11 +59,11 @@ namespace dooms
 				return dPrimitiveHelper::GetShortNamePointer(clFunction->name.text);
 			}
 
-			FORCE_INLINE void* GetFunctionAddress() const
+			FORCE_INLINE UINT_PTR GetFunctionAddress() const
 			{
 				D_ASSERT(IsValid() == true);
 				D_ASSERT(clFunction->address != NULL);
-				return reinterpret_cast<void*>(clFunction->address);
+				return (UINT_PTR)(clFunction->address);
 			}
 			
 

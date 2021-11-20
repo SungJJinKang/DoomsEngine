@@ -106,6 +106,9 @@ bool dooms::clReflectHelper::Generate_clReflect_BinaryReflectionData()
 	currentPath += clReflect_automation_dll_filename;
 
 	dooms::SmartDynamicLinking c_sharp_library{ currentPath };
+
+	c_sharp_library.CallFunctionWithReturn<int>(clReflect_automation_dll_function_name.c_str(), result, clReflect_additional_compiler_options_wide_string.c_str());
+	/*
 	auto future = dooms::resource::JobSystem::GetSingleton()->PushBackJobToPriorityQueue(
 		std::function<void()>(
 			[&]()
@@ -116,6 +119,7 @@ bool dooms::clReflectHelper::Generate_clReflect_BinaryReflectionData()
 	);
 
 	future.wait();
+	*/
 
 	return result == 0;
 }
