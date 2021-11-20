@@ -75,6 +75,12 @@ namespace dooms
 
 void clReflectTest::test(clcpp::Database& db)
 {
+	unsigned functionNum;
+	const clcpp::Function* functions = db.GetFunctions(functionNum);
+	for(size_t i = 0 ; i < functionNum ; i++)
+	{
+		D_ASSERT(functions->address != 0);
+	}
 
 	{
 		dooms::reflection::DFunction function{ "dooms::ReflectionTestFunction1" };
