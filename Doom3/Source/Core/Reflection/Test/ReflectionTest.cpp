@@ -80,14 +80,19 @@ void clReflectTest::test(clcpp::Database& db)
 	for(size_t i = 0 ; i < functionNum ; i++)
 	{
 		// pure virtual function doesn't have address ( because it isn't located in map file )
-		D_ASSERT(functions[i].address != 0);
+		if(functions[i].address == 0)
+		{
+			D_DEBUG_LOG(std::string{ "Fail to find function address : " } + functions[i].name.text);
+		}
 	}
 
 	{
 		dooms::reflection::DFunction function{ "dooms::ReflectionTestFunction1" };
 		D_ASSERT(function.IsValid() == true);
 		D_ASSERT(function.GetIsMemberFunction() == false);
+		D_ASSERT(function.GetIsHasFunctionAddress() == true);
 	}
+
 	{
 		auto DObject_DClass = dooms::reflection::CreateDClass<dooms::DObject>();
 		auto Component_DClass = dooms::reflection::CreateDClass<dooms::Component>();

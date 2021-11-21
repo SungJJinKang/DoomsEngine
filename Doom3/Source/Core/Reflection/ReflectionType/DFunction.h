@@ -65,6 +65,10 @@ namespace dooms
 				D_ASSERT(clFunction->address != NULL);
 				return (UINT_PTR)(clFunction->address);
 			}
+			FORCE_INLINE bool GetIsHasFunctionAddress() const
+			{
+				return GetFunctionAddress() != 0;
+			}
 			
 
 			DField GetReturnValueField() const;
