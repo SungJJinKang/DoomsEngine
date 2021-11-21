@@ -106,12 +106,6 @@ namespace dooms
 			template <typename RETURN_TYPE, typename... ARGS>
 			bool CallFunction(RETURN_TYPE* returnPtr, ARGS&&... args)
 			{
-				static_assert
-				(
-					(sizeof...(args)) == 0,
-					"Please pass class object pointer, or if function doesn't have return value, use ~NoReturn function"
-				);
-
 				//TODO : Argument type check
 
 				bool isSuccess = false;
@@ -122,7 +116,7 @@ namespace dooms
 				D_ASSERT(GetReturnValueField().GetFieldTypeHashValue() == clcpp::GetTypeNameHash<RETURN_TYPE>());
 				D_ASSERT(GetReturnValueField().GetFieldTypeSize() == sizeof(RETURN_TYPE));
 				
-				typedef RETURN_TYPE* (*CallFunc)(ARGS...);
+				typedef RETURN_TYPE (*CallFunc)(ARGS...);
 
 				CallFunc functionAddress = reinterpret_cast<CallFunc>(GetFunctionAddress());
 				D_ASSERT(functionAddress != 0);
