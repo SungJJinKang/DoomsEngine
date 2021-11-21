@@ -53,44 +53,8 @@ TYPE_CHECK_FUNCTION_TestStruct_ReflectionTest \
 #define GENERATE_BODY_TestStruct_ReflectionTest(...) GENERATE_BODY_FULLNAME_dooms__TestStruct_ReflectionTest(__VA_ARGS__)
 
 
-//-------------------------------------------
-
-
-#ifdef GENERATE_BODY_FULLNAME_dooms__TestStruct
-#error "GENERATE_BODY_FULLNAME_dooms__TestStruct already included...."
-#endif
-
-
-#undef CURRENT_TYPE_ALIAS_dooms__TestStruct
-#define CURRENT_TYPE_ALIAS_dooms__TestStruct \
-typedef dooms::TestStruct Current;
-
-
-#undef TYPE_FULLNAME_HASH_VALUE_NAME_STRING_dooms__TestStruct
-#define TYPE_FULLNAME_HASH_VALUE_NAME_STRING_dooms__TestStruct \
-inline static const unsigned long int TYPE_FULL_NAME_HASH_VALUE = 742487820; \
-inline static const char* const TYPE_FULL_NAME = "dooms::TestStruct"; \
-inline static const char* const TYPE_SHORT_NAME = "TestStruct"; \
-
-
-#undef TYPE_CHECK_FUNCTION_TestStruct
-#define TYPE_CHECK_FUNCTION_TestStruct \
-attrNoReflect void __TYPE_CHECK() { static_assert(std::is_same_v<std::remove_reference<decltype(*this)>::type, Current> == true, "ERROR : WRONG TYPE. Please Check GENERATED_~ MACROS");} \
-
-
-#undef GENERATE_BODY_FULLNAME_dooms__TestStruct
-#define GENERATE_BODY_FULLNAME_dooms__TestStruct(...) \
-CURRENT_TYPE_ALIAS_dooms__TestStruct \
-TYPE_FULLNAME_HASH_VALUE_NAME_STRING_dooms__TestStruct \
-TYPE_CHECK_FUNCTION_TestStruct \
-
-
-//Type Short Name ( without namespace, only type name ) Version Macros.
-#define GENERATE_BODY_TestStruct(...) GENERATE_BODY_FULLNAME_dooms__TestStruct(__VA_ARGS__)
-
-
 #undef GENERATE_BODY
-#define GENERATE_BODY(...) GENERATE_BODY_FULLNAME_dooms__TestStruct(__VA_ARGS__)
+#define GENERATE_BODY(...) GENERATE_BODY_FULLNAME_dooms__TestStruct_ReflectionTest(__VA_ARGS__)
 
 
 //-------------------------------------------

@@ -200,3 +200,4 @@ class B : public virtual A // Error!! virtual inherit isn't supported
 }
 ```
 
+4. inlined or static function that are known only within translation unit isn't not reflected ( function address isn't reflected )

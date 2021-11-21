@@ -345,6 +345,7 @@ xcopy /y /d /E /H /C /I "$(ProjectDir)Assets" "$(TargetDir)Assets"</Command>
     <ClCompile Include="Source\Core\Reflection\ReflectionType\DField.cpp" />
     <ClCompile Include="Source\Core\Reflection\ReflectionType\DType.cpp" />
     <ClCompile Include="Source\Core\Reflection\ReflectionType\ToString.cpp" />
+    <ClCompile Include="Source\Core\Reflection\ReflectionUtility.cpp" />
     <ClCompile Include="Source\Core\Reflection\Test\ReflectionTest.cpp" />
     <ClCompile Include="Source\Core\Reflection\Test\TestDObject.cpp" />
     <ClCompile Include="Source\Core\DynamicLinkingHelper\SmartDynamicLinking.cpp" />

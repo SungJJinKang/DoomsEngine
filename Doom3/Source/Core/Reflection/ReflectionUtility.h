@@ -15,29 +15,13 @@ namespace dooms
 			class StdFile : public clcpp::IFile
 			{
 			public:
-				StdFile(const char* filename)
-				{
-					mFileSteam.open(filename, std::ios_base::in | std::ios_base::binary);
-					D_ASSERT(mFileSteam.is_open() == true);
-				}
+				StdFile(const char* filename);
 
-				~StdFile()
-				{
-					if (mFileSteam.is_open() == true)
-					{
-						mFileSteam.close();
-					}
-				}
+				~StdFile();
 
-				bool IsOpen() const
-				{
-					return mFileSteam.is_open();
-				}
+				bool IsOpen() const;
 
-				bool Read(void* dest, clcpp::size_type size)
-				{
-					return static_cast<bool>(mFileSteam.read(static_cast<char*>(dest), size));
-				}
+				bool Read(void* dest, clcpp::size_type size) override;
 
 			private:
 				std::ifstream mFileSteam;
@@ -46,14 +30,9 @@ namespace dooms
 
 			class Malloc : public clcpp::IAllocator
 			{
-				void* Alloc(clcpp::size_type size)
-				{
-					return malloc(size);
-				}
-				void Free(void* ptr)
-				{
-					free(ptr);
-				}
+				void* Alloc(clcpp::size_type size) override;
+
+				void Free(void* ptr) override;
 			};
 		}
 	}

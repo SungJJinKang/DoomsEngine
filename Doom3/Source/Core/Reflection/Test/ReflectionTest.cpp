@@ -54,90 +54,68 @@ namespace dooms
 		TestEnum_ReflectionTest mTestEnum;
 	};
 
-	D_FUNCTION()
-	void ReflectionTestFunction1()
-	{
-		dooms::ui::PrintText("ReflectionTestFunction1");
-	}
 
 	D_FUNCTION()
-	void ReflectionTestFunction2(int a, int b)
-	{
-		dooms::ui::PrintText("%d", a + b);
-	}
-
-	D_FUNCTION()
-	int ReflectionTestFunction3(int a, int b)
+	int AddTest(int a, int b)
 	{
 		return a + b;
 	}
 
 
-
-	struct DOOM_API D_STRUCT TestStruct
-	{
-		D_PROPERTY()
-		int a;
-
-		D_FUNCTION()
-		int TestFunctionAdd(int b)
-		{
-			return a + b;
-		}
-	};
-
 	D_FUNCTION()
-	void TestFunction()
+	int MinusAddTestttttttttttttttttttttttttt(int a, int b)
 	{
-		return dooms::ui::PrintText("TestFunction");
+		return a - b;
 	}
 
 	D_FUNCTION()
-	void TestFunctionPrintAdd(int a, int b)
+	int MultiplyTest(int a, int b)
 	{
-		return dooms::ui::PrintText("%d", a + b);
+		return a * b;
 	}
 }
 
 void clReflectTest::test(clcpp::Database& db)
 {
-
-
 	{
-		
-	}
+		dooms::reflection::DFunction dFunction{ "dooms::MultiplyTest" };
 
-
-
-
-
-	{
-		dooms::TestStruct _testStruct;
-
-		dooms::reflection::DClass TestStructDClass{ dooms::reflection::ReflectionManager::GetSingleton()->GetclcppNameHash("dooms::TestStruct") };
-
-		dooms::reflection::DField aDField;
-		TestStructDClass.GetDField("a", aDField);
-
-		aDField.SetValueToField(&_testStruct, 15);
-
-		dooms::reflection::DFunction TestFunctionAdd_DField;
-		TestStructDClass.GetDFunction("TestFunctionAdd", TestFunctionAdd_DField);
-		INT_PTR functionAddress = TestFunctionAdd_DField.GetFunctionAddress();
+		UINT_PTR functionAddress = dFunction.GetFunctionAddress();
 
 		int result;
-		TestFunctionAdd_DField.CallMemberFunction(&_testStruct, &result, 10);
+		dFunction.CallFunction(&result, 2, 3);
+		D_ASSERT(result == 6);
 
-		dooms::ui::PrintText("result : %d", result);
+		dFunction.CallFunction(&result, 10, 13);
+		D_ASSERT(result == 130);
 	}
 
 	{
-		dooms::reflection::DFunction TestFunctionPrintAdd{"dooms::TestFunctionPrintAdd"};
+		dooms::reflection::DFunction dFunction{ "dooms::AddTest" };
 
-		INT_PTR functionAddress = TestFunctionPrintAdd.GetFunctionAddress();
+		UINT_PTR functionAddress = dFunction.GetFunctionAddress();
 
-		TestFunctionPrintAdd.CallFunctionNoReturn(1, 2);
+		int result;
+		dFunction.CallFunction(&result, 2, 3);
+		D_ASSERT(result == 5);
+
+		dFunction.CallFunction(&result, 10, 13);
+		D_ASSERT(result == 23);
 	}
+
+	{
+		dooms::reflection::DFunction dFunction{ "dooms::MinusAddTestttttttttttttttttttttttttt" };
+
+		UINT_PTR functionAddress = dFunction.GetFunctionAddress();
+
+		int result;
+		dFunction.CallFunction(&result, 10, 3);
+		D_ASSERT(result == 7);
+
+		dFunction.CallFunction(&result, 5, 5);
+		D_ASSERT(result == 0);
+	}
+
 
 
 
