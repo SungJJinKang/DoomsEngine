@@ -180,6 +180,9 @@ const std::unordered_map<std::string_view, dooms::reflection::DFunction>& dooms:
 
 bool dooms::reflection::DClass::GetDField(const char* const fieldName, dooms::reflection::DField& dProperty) const
 {
+	D_ASSERT(fieldName != nullptr);
+	D_ASSERT_LOG(std::string_view(fieldName).find("::") == std::string::npos, "Please pass short name to DClass::GetDField");
+
 	const std::unordered_map<std::string_view, dooms::reflection::DField>& propertyList = GetDFieldList();
 
 	bool isSuccess = false;
@@ -198,6 +201,9 @@ bool dooms::reflection::DClass::GetDField(const char* const fieldName, dooms::re
 
 bool dooms::reflection::DClass::GetDFunction(const char* const functionName, dooms::reflection::DFunction& dFunction) const
 {
+	D_ASSERT(functionName != nullptr);
+	D_ASSERT_LOG(std::string_view(functionName).find("::") == std::string::npos, "Please pass short name to DClass::GetDFunction");
+
 	const std::unordered_map<std::string_view, dooms::reflection::DFunction>& functionList = GetDFunctionList();
 
 	bool isSuccess = false;

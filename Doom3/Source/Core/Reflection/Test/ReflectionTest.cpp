@@ -4,7 +4,7 @@
 #include "Macros/Assert.h"
 #include "Macros/MacrosHelper.h"
 
-#include "UI/PrintText.h"
+#include "EngineGUI/PrintText.h"
 
 #include <cstring>
 
@@ -71,10 +71,79 @@ namespace dooms
 	{
 		return a + b;
 	}
+
+
+
+	struct DOOM_API D_STRUCT TestStruct
+	{
+		D_PROPERTY()
+		int a;
+
+		D_FUNCTION()
+		int TestFunctionAdd(int b)
+		{
+			return a + b;
+		}
+	};
+
+	D_FUNCTION()
+	void TestFunction()
+	{
+		return dooms::ui::PrintText("TestFunction");
+	}
+
+	D_FUNCTION()
+	void TestFunctionPrintAdd(int a, int b)
+	{
+		return dooms::ui::PrintText("%d", a + b);
+	}
 }
 
 void clReflectTest::test(clcpp::Database& db)
 {
+
+
+	{
+		
+	}
+
+
+
+
+
+	{
+		dooms::TestStruct _testStruct;
+
+		dooms::reflection::DClass TestStructDClass{ dooms::reflection::ReflectionManager::GetSingleton()->GetclcppNameHash("dooms::TestStruct") };
+
+		dooms::reflection::DField aDField;
+		TestStructDClass.GetDField("a", aDField);
+
+		aDField.SetValueToField(&_testStruct, 15);
+
+		dooms::reflection::DFunction TestFunctionAdd_DField;
+		TestStructDClass.GetDFunction("TestFunctionAdd", TestFunctionAdd_DField);
+		INT_PTR functionAddress = TestFunctionAdd_DField.GetFunctionAddress();
+
+		int result;
+		TestFunctionAdd_DField.CallMemberFunction(&_testStruct, &result, 10);
+
+		dooms::ui::PrintText("result : %d", result);
+	}
+
+	{
+		dooms::reflection::DFunction TestFunctionPrintAdd{"dooms::TestFunctionPrintAdd"};
+
+		INT_PTR functionAddress = TestFunctionPrintAdd.GetFunctionAddress();
+
+		TestFunctionPrintAdd.CallFunctionNoReturn(1, 2);
+	}
+
+
+
+
+
+
 	unsigned functionNum;
 	const clcpp::Function* functions = db.GetFunctions(functionNum);
 	for(size_t i = 0 ; i < functionNum ; i++)
