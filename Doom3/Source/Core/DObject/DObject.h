@@ -11,13 +11,17 @@
 #include "DObject_Constant.h"
 
 #include "Reflection/Reflection.h"
-
+#include <GarbageCollector/GarbageCollectee.h>
 
 #include "DObject.reflection.h"
-
 D_NAMESPACE(dooms)
 namespace dooms
 {
+	namespace gc
+	{
+		class GarbageCollectee;
+	}
+
 	namespace reflection
 	{
 		class DClass;
@@ -107,6 +111,8 @@ namespace dooms
 
 		D_PROPERTY()
 		DObjectProperties mDObjectProperties;
+
+		gc::GarbageCollectee mGarbageCollectee;
 
 		void Construct_Internal();
 		

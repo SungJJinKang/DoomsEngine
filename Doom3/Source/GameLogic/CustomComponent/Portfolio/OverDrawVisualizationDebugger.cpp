@@ -1,7 +1,7 @@
 #include "OverDrawVisualizationDebugger.h"
 
 #include <Graphics/Graphics_Setting.h>
-#include <UI/PrintText.h>
+#include <EngineGUI/PrintText.h>
 
 void dooms::OverDrawVisualizationDebugger::InitComponent()
 {

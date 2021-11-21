@@ -9,7 +9,7 @@
 #include <DirectXTex.h>
 #include <excpt.h>
 
-#include <UI/PrintText.h>
+#include <EngineGUI/PrintText.h>
 
 #include "SmartDynamicLinking.reflection.h"
 namespace dooms

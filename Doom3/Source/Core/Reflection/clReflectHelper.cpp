@@ -5,7 +5,7 @@
 #include <DynamicLinkingHelper/SmartDynamicLinking.h>
 #include <ResourceManagement/JobSystem_cpp/JobSystem.h>
 
-#include <UI/PrintText.h>
+#include <EngineGUI/PrintText.h>
 
 #include "Game/ConfigData.h"
 

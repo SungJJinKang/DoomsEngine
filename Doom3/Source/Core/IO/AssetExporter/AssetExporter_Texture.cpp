@@ -3,7 +3,7 @@
 #include <Graphics/Texture/Texture.h>
 #include <DirectXTex.h>
 
-#include <UI/PrintText.h>
+#include <EngineGUI/PrintText.h>
 
 namespace dooms
 {

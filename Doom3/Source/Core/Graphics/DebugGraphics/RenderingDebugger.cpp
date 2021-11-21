@@ -5,7 +5,7 @@
 #include "../Graphics_Core.h"
 #include <Rendering/Renderer/RendererStaticIterator.h>
 #include <Rendering/Renderer/Renderer.h>
-#include <UI/PrintText.h>
+#include <EngineGUI/PrintText.h>
 #include "IO/UserInput_Server.h"
 
 

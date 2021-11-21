@@ -7,7 +7,7 @@
 #include <Core.h>
 
 #include <trim.h>
-#include <UI/PrintText.h>
+#include <EngineGUI/PrintText.h>
 
 static const std::regex sectionPattern{R"(\s*\[\s*(\S+)\s*\]\s*)"};
 static const std::regex variablePattern{ R"(\s*(\S+)\s*=\s*(\S+)\s*)" };

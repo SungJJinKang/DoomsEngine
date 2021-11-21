@@ -1,7 +1,7 @@
 #include "SmartDynamicLinking.h"
 
 #include <Windows.h>
-#include <UI/PrintText.h>
+#include <EngineGUI/PrintText.h>
 
 #include "OS/ErrorHandling.h"
 

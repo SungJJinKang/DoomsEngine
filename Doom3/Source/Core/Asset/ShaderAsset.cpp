@@ -6,7 +6,7 @@
 #include "../Graphics/Material/Material.h"
 #include <utility/TextImporter.h>
 #include <utility/trim.h>
-#include <UI/PrintText.h>
+#include <EngineGUI/PrintText.h>
 
 const std::string dooms::asset::ShaderAsset::VertexShaderMacros = "#VERTEX";
 const std::string dooms::asset::ShaderAsset::FragmentShaderMacros = "#FRAGMENT";

@@ -22,7 +22,7 @@
 #include "Portfolio/OverDrawVisualizationDebugger.h"
 #include "Portfolio/PhysicsDebuggerController.h"
 #include <Asset/ThreeDModelAsset.h>
-#include <UI/PrintText.h>
+#include <EngineGUI/PrintText.h>
 
 #include "BulletComponent.h"
 #include "ExportTextureTester.h"

@@ -11,4 +11,4 @@
 #include <PlainComponent.h>
 #include <logger.h>
 #include <Game/AssetManager/AssetManager.h>
-#include <UI/PrintText.h>
+#include <EngineGUI/PrintText.h>

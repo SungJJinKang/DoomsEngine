@@ -1,7 +1,7 @@
 #include "ViewFrustumCullingDebug.h"
 
 #include <Rendering/Camera.h>
-#include "UI/PrintText.h"
+#include "EngineGUI/PrintText.h"
 
 void dooms::ViewFrustumCullingDebug::InitComponent()
 {

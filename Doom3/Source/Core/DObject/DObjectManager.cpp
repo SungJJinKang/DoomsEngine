@@ -5,7 +5,7 @@
 #include "DObject.h"
 
 #include <chrono>
-#include <UI/PrintText.h>
+#include <EngineGUI/PrintText.h>
 
 UINT64 dooms::DObjectManager::GenerateNewDObejctID()
 {
