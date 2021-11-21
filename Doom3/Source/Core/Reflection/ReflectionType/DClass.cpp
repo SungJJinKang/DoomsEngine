@@ -16,7 +16,7 @@ namespace dClassHelper
 		return clcppType->AsClass();
 	}
 
-	void GetDProperties_Recursive(const clcpp::Class* const clcppClass, std::unordered_map<std::string_view, dooms::reflection::DField>& list)
+	void GetDFields_Recursive(const clcpp::Class* const clcppClass, std::unordered_map<std::string_view, dooms::reflection::DField>& list)
 	{
 		D_ASSERT(clcppClass != nullptr);
 
@@ -24,7 +24,7 @@ namespace dClassHelper
 		{
 			if (clcppClass->base_types[i]->kind == clcpp::Primitive::Kind::KIND_CLASS)
 			{
-				GetDProperties_Recursive(clcppClass->base_types[i]->AsClass(), list);
+				GetDFields_Recursive(clcppClass->base_types[i]->AsClass(), list);
 			}
 		}
 		
@@ -37,19 +37,19 @@ namespace dClassHelper
 	}
 
 	// Return DProperties of passed clcpp::Class including base class's properties
-	std::unordered_map<std::string_view, dooms::reflection::DField> GetDProperties(const clcpp::Class* const clcppClass)
+	std::unordered_map<std::string_view, dooms::reflection::DField> GetDFields(const clcpp::Class* const clcppClass)
 	{
 		D_ASSERT(clcppClass != nullptr);
 
 		const clcpp::Class* targetclcppClasss = clcppClass;
 
-		std::unordered_map<std::string_view, dooms::reflection::DField> dPropertyList {};
+		std::unordered_map<std::string_view, dooms::reflection::DField> dFieldList {};
 
 		// TODO : Optimization
-		GetDProperties_Recursive(clcppClass, dPropertyList);
+		GetDFields_Recursive(clcppClass, dFieldList);
 
 		// iterate base class
-		return dPropertyList;
+		return dFieldList;
 	}
 
 
@@ -70,7 +70,7 @@ namespace dClassHelper
 
 		for (std::ptrdiff_t i = clcppClass->methods.size; i > 0; i--)
 		{
-			list.emplace(clcppClass->methods[i - 1]->name.text, clcppClass->methods[i - 1]);
+			list.emplace(dPrimitiveHelper::GetShortNamePointer(clcppClass->methods[i - 1]->name.text), clcppClass->methods[i - 1]);
 		}
 	}
 
@@ -92,7 +92,7 @@ namespace dClassHelper
 }
 
 dooms::reflection::DClass::DClass()
-	: DType(nullptr), clClass(nullptr)
+	: DType(), clClass(nullptr)
 {
 }
 
@@ -103,6 +103,13 @@ dooms::reflection::DClass::DClass(dooms::DObject* const dObject)
 
 dooms::reflection::DClass::DClass(const UINT32 nameHash)
 	: DType(dClassHelper::GetclcppClass(nameHash)), clClass(clType->AsClass())
+{
+	D_ASSERT(clClass != nullptr);
+
+}
+
+dooms::reflection::DClass::DClass(const char* const classFullName)
+	: DType(classFullName), clClass(clType->AsClass())
 {
 	D_ASSERT(clClass != nullptr);
 
@@ -133,7 +140,7 @@ const std::unordered_map<std::string_view, dooms::reflection::DField>& dooms::re
 	auto iter = PropertyCacheHashMap.find(clPrimitive->name.hash);
 	if(iter == PropertyCacheHashMap.end())
 	{// if property list isn't cached
-		std::unordered_map<std::string_view, dooms::reflection::DField> cachedPropertyList = dClassHelper::GetDProperties(clClass);
+		std::unordered_map<std::string_view, dooms::reflection::DField> cachedPropertyList = dClassHelper::GetDFields(clClass);
 		auto result = PropertyCacheHashMap.emplace(clPrimitive->name.hash, std::move(cachedPropertyList));
 		propertyList = &(result.first->second);
 	}
@@ -151,6 +158,7 @@ const std::unordered_map<std::string_view, dooms::reflection::DFunction>& dooms:
 {
 	D_ASSERT(IsValid() == true);
 
+	//key : function short name
 	std::unordered_map<std::string_view, dooms::reflection::DFunction>* functionList = nullptr;
 
 	auto iter = FunctionCacheHashMap.find(clPrimitive->name.hash);

@@ -402,7 +402,7 @@
     <ClCompile Include="Source\Core\Graphics\Graphics_Setting.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Core\UI\PrintText.cpp">
+    <ClCompile Include="Source\Core\EngineGUI\PrintText.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Source\GameLogic\CustomComponent\AutoRotateAround.cpp">
@@ -616,6 +616,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Source\Core\Reflection\ReflectionType\DFunction.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Core\GarbageCollector\GarbageCollectee.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -1367,7 +1370,7 @@
     <ClInclude Include="Source\Core\Graphics\Graphics_Setting.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Core\UI\PrintText.h">
+    <ClInclude Include="Source\Core\EngineGUI\PrintText.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\GameLogic\CustomComponent\AutoRotateAround.h">
@@ -1623,6 +1626,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\Core\Reflection\ReflectionType\DFunction.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Core\GarbageCollector\GarbageCollectee.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

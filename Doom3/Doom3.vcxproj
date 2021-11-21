@@ -332,6 +332,7 @@ xcopy /y /d /E /H /C /I "$(ProjectDir)Assets" "$(TargetDir)Assets"</Command>
     <ClCompile Include="Source\Core\Asset\AudioAsset.cpp" />
     <ClCompile Include="Source\Core\Asset\FontAsset.cpp" />
     <ClCompile Include="Source\Core\Asset\Helper\AssetFactory.cpp" />
+    <ClCompile Include="Source\Core\GarbageCollector\GarbageCollectee.cpp" />
     <ClCompile Include="Source\Core\Math\LightMath_Cpp\Matrix2x2.cpp" />
     <ClCompile Include="Source\Core\Math\LightMath_Cpp\Matrix3x3.cpp" />
     <ClCompile Include="Source\Core\Math\LightMath_Cpp\Matrix4x4.cpp" />
@@ -420,7 +421,7 @@ xcopy /y /d /E /H /C /I "$(ProjectDir)Assets" "$(TargetDir)Assets"</Command>
     <ClCompile Include="Source\Core\ResourceManagement\JobSystem_cpp\test\test.cpp" />
     <ClCompile Include="Source\Core\ResourceManagement\JobSystem_cpp\Thread.cpp" />
     <ClCompile Include="Source\Core\ResourceManagement\JobSystem_cpp\ThreadProfiler.cpp" />
-    <ClCompile Include="Source\Core\UI\PrintText.cpp" />
+    <ClCompile Include="Source\Core\EngineGUI\PrintText.cpp" />
     <ClCompile Include="Source\Core\utility\ColliderUpdater.cpp" />
     <ClCompile Include="Source\Core\utility\BVH\BVH_Node.cpp" />
     <ClCompile Include="Source\Core\utility\BVH\BVH_Node_View.cpp" />
@@ -534,6 +535,7 @@ xcopy /y /d /E /H /C /I "$(ProjectDir)Assets" "$(TargetDir)Assets"</Command>
     <ClInclude Include="Source\Component\Core\ComponentHelper.h" />
     <ClInclude Include="Source\Core\Asset\AssetsForwardDeclaration.h" />
     <ClInclude Include="Source\Core\Asset\Helper\AssetFactory.h" />
+    <ClInclude Include="Source\Core\GarbageCollector\GarbageCollectee.h" />
     <ClInclude Include="Source\Core\Reflection\ReflectionManager.h" />
     <ClInclude Include="Source\Core\Reflection\ReflectionPredefined.h" />
     <ClInclude Include="Source\Core\Reflection\ReflectionType\DEnum.h" />
@@ -664,7 +666,7 @@ xcopy /y /d /E /H /C /I "$(ProjectDir)Assets" "$(TargetDir)Assets"</Command>
     <ClInclude Include="Source\Core\ResourceManagement\JobSystem_cpp\ThreadProfiler.h" />
     <ClInclude Include="Source\Core\ResourceManagement\JobSystem_cpp\Thread_Core.h" />
     <ClInclude Include="Source\Core\ResourceManagement\Pool\ObjectPool.h" />
-    <ClInclude Include="Source\Core\UI\PrintText.h" />
+    <ClInclude Include="Source\Core\EngineGUI\PrintText.h" />
     <ClInclude Include="Source\Core\utility\ColliderUpdater.h" />
     <ClInclude Include="Source\Core\utility\BVH\BVH_Core.h" />
     <ClInclude Include="Source\Core\utility\BVH\BVH_Node.h" />

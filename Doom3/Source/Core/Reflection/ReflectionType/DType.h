@@ -21,13 +21,21 @@ namespace dooms
 
 			const clcpp::Type * clType;
 
-		public:
+		protected:
 
+			FORCE_INLINE DType()
+				: DPrimitive(nullptr), clType(nullptr)
+			{
+				
+			}
 			FORCE_INLINE DType(const clcpp::Type* const _clType)
 				: DPrimitive(_clType), clType(_clType)
 			{
 				
 			}
+			DType(const char* const typeFullName);
+
+		public:
 
 			FORCE_INLINE const char* GetTypeFullName() const
 			{

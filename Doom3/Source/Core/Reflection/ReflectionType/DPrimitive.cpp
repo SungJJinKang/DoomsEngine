@@ -6,6 +6,8 @@
 
 const char* dPrimitiveHelper::GetShortNamePointer(const char* const name)
 {
+	D_ASSERT(name != nullptr);
+
 	const std::string_view nameStringView = name;
 	const size_t lastTypeDivider = nameStringView.find_last_of("::");
 
@@ -25,6 +27,7 @@ dooms::reflection::DPrimitive::DPrimitive()
 	D_ASSERT(dooms::reflection::ReflectionManager::GetSingleton() != nullptr);
 	D_ASSERT(dooms::reflection::ReflectionManager::GetSingleton()->GetIsReflectionDatabaseLoaded() == true);
 }
+
 
 dooms::reflection::DPrimitive::DPrimitive(const clcpp::Primitive* const _clPrimitive)
 	: clPrimitive(_clPrimitive)

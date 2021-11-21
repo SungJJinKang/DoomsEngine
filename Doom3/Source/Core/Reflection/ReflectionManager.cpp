@@ -1,7 +1,7 @@
 #include "ReflectionManager.h"
 
 #include "Game/ConfigData.h"
-#include <UI/PrintText.h>
+#include <EngineGUI/PrintText.h>
 
 #include "clReflectHelper.h"
 #include "ReflectionUtility.h"
@@ -160,14 +160,29 @@ const clcpp::Database& dooms::reflection::ReflectionManager::GetclcppDatabase() 
 	return mReflectionDatabase;
 }
 
-clcpp::Name dooms::reflection::ReflectionManager::GetclcppName(const char* const name)
+clcpp::Name dooms::reflection::ReflectionManager::GetclcppName(const char* const name) const
 {
 	D_ASSERT(GetIsReflectionDatabaseLoaded() == true);
 	return GetclcppDatabase().GetName(name);
 }
 
-UINT32 dooms::reflection::ReflectionManager::GetclcppNameHash(const char* const name)
+UINT32 dooms::reflection::ReflectionManager::GetclcppNameHash(const char* const name) const
 {
 	D_ASSERT(GetIsReflectionDatabaseLoaded() == true);
 	return GetclcppName(name).hash;
+}
+
+const clcpp::Type* dooms::reflection::ReflectionManager::GetclcppType(const char* const name) const
+{
+	return GetclcppType(GetclcppNameHash(name));
+}
+
+const clcpp::Type* dooms::reflection::ReflectionManager::GetclcppType(const UINT32 nameHash) const
+{
+	D_ASSERT(nameHash != 0);
+
+	const clcpp::Type* const clcppType = GetclcppDatabase().GetType(nameHash);
+	D_ASSERT(clcppType != nullptr);
+
+	return clcppType;
 }

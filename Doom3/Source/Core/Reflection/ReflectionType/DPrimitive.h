@@ -35,12 +35,14 @@ namespace dooms
 		protected:
 
 			const clcpp::Primitive* clPrimitive;
-
-		public:
+			
+		protected:
 
 			DPrimitive();
 
 			DPrimitive(const clcpp::Primitive* const _clPrimitive);
+
+		public:
 
 			FORCE_INLINE bool IsValid() const
 			{

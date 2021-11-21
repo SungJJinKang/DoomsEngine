@@ -41,6 +41,7 @@ namespace dooms
 			DClass();
 			DClass(dooms::DObject* const dObject);
 			DClass(const UINT32 nameHash);
+			DClass(const char* const classFullName);
 			DClass(const clcpp::Class* const clcppClass);
 			DClass(const clcpp::Type* const clcppType);
 
@@ -86,6 +87,12 @@ namespace dooms
 			const std::unordered_map<std::string_view, dooms::reflection::DFunction>& GetDFunctionList() const;
 
 			bool GetDField(const char* const fieldName, dooms::reflection::DField& dProperty) const;
+			/// <summary>
+			/// 
+			/// </summary>
+			/// <param name="functionName">function short name</param>
+			/// <param name="dFunction"></param>
+			/// <returns></returns>
 			bool GetDFunction(const char* const functionName, dooms::reflection::DFunction& dFunction) const;
 
 

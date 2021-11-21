@@ -44,8 +44,11 @@ namespace dooms
 
 			const clcpp::Database& GetclcppDatabase() const;
 
-			clcpp::Name GetclcppName(const char* const name);
-			UINT32 GetclcppNameHash(const char* const name);
+			clcpp::Name GetclcppName(const char* const name) const;
+			UINT32 GetclcppNameHash(const char* const name) const;
+
+			const clcpp::Type* GetclcppType(const char* const name) const;
+			const clcpp::Type* GetclcppType(const UINT32 nameHash) const;
 		};
 
 
