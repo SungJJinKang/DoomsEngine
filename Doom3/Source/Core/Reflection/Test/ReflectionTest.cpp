@@ -79,7 +79,8 @@ void clReflectTest::test(clcpp::Database& db)
 	const clcpp::Function* functions = db.GetFunctions(functionNum);
 	for(size_t i = 0 ; i < functionNum ; i++)
 	{
-		D_ASSERT(functions->address != 0);
+		// pure virtual function doesn't have address ( because it isn't located in map file )
+		D_ASSERT(functions[i].address != 0);
 	}
 
 	{

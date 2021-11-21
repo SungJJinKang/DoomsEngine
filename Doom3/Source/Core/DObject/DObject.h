@@ -153,6 +153,9 @@ namespace dooms
 		void ChangeDObjectName(const std::string& dObjectName);
 
 		D_FUNCTION()
+		void ChangeDObjectName(const std::string* dObjectName);
+
+		D_FUNCTION()
 		void SetOwnerDObject(const DObject* const ownerDObject);
 
 		reflection::DClass GetDClass() const;

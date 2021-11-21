@@ -26,6 +26,11 @@ void dooms::DObject::ChangeDObjectName(const std::string& dObjectName)
 	mDObjectProperties.mDObjectName = dObjectName;
 }
 
+void dooms::DObject::ChangeDObjectName(const std::string* dObjectName)
+{
+	D_ASSERT(false);
+}
+
 void dooms::DObject::SetOwnerDObject(const DObject* const ownerDObject)
 {
 	mDObjectProperties.mOwnerDObject = ownerDObject;
