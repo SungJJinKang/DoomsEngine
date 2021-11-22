@@ -24,12 +24,9 @@ namespace dooms
 		D_PROPERTY()
 		inline constexpr extern UINT32 ENUM_COLOR_COUNT = 5;
 
-		class DOOM_API D_CLASS Color
+		D_NAMESPACE(dooms::graphics::Color)
+		namespace Color
 		{
-			GENERATE_BODY()
-
-		public:
-
 			D_PROPERTY()
 			inline static const math::Vector4 WHITE{ 1.0f, 1.0f, 1.0f, 1.0f };
 

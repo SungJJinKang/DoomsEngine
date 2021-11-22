@@ -118,6 +118,9 @@ namespace dooms
 
 	public:
 
+		D_PROPERTY()
+		math::Vector4 mClearColor;
+
 
 		Camera(const Camera&) = default;
 		Camera(Camera&&) noexcept = delete;

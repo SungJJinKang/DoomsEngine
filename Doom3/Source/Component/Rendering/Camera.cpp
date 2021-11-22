@@ -101,7 +101,7 @@ void Camera::SetViewportRectHeight(FLOAT32 value)
 }
 
 Camera::Camera()
-	:UniformBufferObjectUpdater(false)
+	:UniformBufferObjectUpdater(false), mClearColor(dooms::graphics::Graphics_Setting::DefaultClearColor)
 {
 
 }

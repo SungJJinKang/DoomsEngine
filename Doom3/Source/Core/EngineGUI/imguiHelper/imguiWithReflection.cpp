@@ -247,6 +247,8 @@ namespace dooms
 						{
 							const dooms::reflection::DField& dField = dFieldNode.second;
 
+							// TODO : Consider GUI Flag
+
 							isGUIValueChanged |= dooms::ui::imguiWithReflection::DrawImguiWithReflection(
 								dField.GetFieldTypeName(),
 								const_cast<dooms::reflection::DField&>(dField).GetRawFieldValue(dObject),

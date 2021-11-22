@@ -18,24 +18,27 @@
 #define D_NAMESPACE(NAMESPACE_NAME) clcpp_reflect_part(NAMESPACE_NAME)
 #endif
 
+// TODO : SUPPORT Attribute for class
 #ifndef D_CLASS
 #define D_CLASS clcpp_attr(reflect_part)
 #endif
 
+// TODO : SUPPORT Attribute for struct
 #ifndef D_STRUCT
 #define D_STRUCT clcpp_attr(reflect_part)
 #endif
 
+// TODO : SUPPORT Attribute for enum
 #ifndef D_ENUM
 #define D_ENUM clcpp_attr(reflect)
 #endif
 
 #ifndef D_PROPERTY
-#define D_PROPERTY(...) clcpp_attr(reflect)
+#define D_PROPERTY(...) clcpp_attr(reflect, ##__VA_ARGS__)
 #endif
 
 #ifndef D_FUNCTION
-#define D_FUNCTION(...) clcpp_attr(reflect)
+#define D_FUNCTION(...) clcpp_attr(reflect, ##__VA_ARGS__)
 #endif
 
 #ifndef D_REFLECTION_TYPE
@@ -75,11 +78,11 @@
 #endif
 
 #ifndef D_REFLECTION_TYPE
-#define D_REFLECTION_TYPE(...)
+#define D_REFLECTION_TYPE(X)
 #endif
 
 #ifndef D_REFLECT_ALL
-#define D_REFLECT_ALL(...)
+#define D_REFLECT_ALL(X)
 #endif
 
 #endif
