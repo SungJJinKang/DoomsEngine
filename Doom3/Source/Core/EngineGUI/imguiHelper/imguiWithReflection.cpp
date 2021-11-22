@@ -271,7 +271,7 @@ namespace dooms
 
 				if(isValueChanged == true)
 				{
-					static_cast<math::Quaternion*>(object)->eulerAngle(eulerAngle);
+					*static_cast<math::Quaternion*>(object) = eulerAngle;
 				}
 
 				return isValueChanged;

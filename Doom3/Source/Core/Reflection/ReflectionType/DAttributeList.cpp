@@ -164,7 +164,7 @@ bool dooms::reflection::DAttributeList::GetIsReadOnly() const
 
 float dooms::reflection::DAttributeList::GetMinValue() const
 {
-	float minValue = 0.0f; // 0.0f mean infinity
+	float minValue = FLT_MIN; // 0.0f mean infinity
 
 	const dooms::reflection::DAttribute* minAttribute = GetAttributeWithName("MIN");
 	if(minAttribute == nullptr)
@@ -186,7 +186,7 @@ float dooms::reflection::DAttributeList::GetMinValue() const
 
 float dooms::reflection::DAttributeList::GetMaxValue() const
 {
-	float maxValue = 0.0f; // 0.0f mean infinity
+	float maxValue = FLT_MAX; // 0.0f mean infinity
 
 	const dooms::reflection::DAttribute* maxAttribute = GetAttributeWithName("MAX");
 	if (maxAttribute == nullptr)
