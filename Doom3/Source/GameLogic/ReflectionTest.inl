@@ -22,6 +22,7 @@
 #include "Portfolio/OverDrawVisualizationDebugger.h"
 #include "Portfolio/PhysicsDebuggerController.h"
 #include <Asset/ThreeDModelAsset.h>
+#include "ReflectionTestComponent.h"
 #include <EngineGUI/PrintText.h>
 
 #include "BulletComponent.h"
@@ -138,7 +139,8 @@ void dooms::GameLogicStartPoint::StartGameLogic()
 		entity1->GetTransform()->SetPosition(0, 0, 1000);
 		entity1Camera->SetProjectionMode(dooms::Camera::eProjectionType::Perspective);
 		entity1->AddComponent<ViewFrustumCullingDebug>();
-		entity1->AddComponent<Move_WASD>();
+		entity1->AddComponent<ReflectionTestComponent>();
+		//entity1->AddComponent<Move_WASD>();
 		entity1->AddComponent<ExportTextureTester>();
 		entity1->AddComponent<DeferredRenderingDebuggerController>();
 		entity1->AddComponent<OverDrawVisualizationDebugger>();

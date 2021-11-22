@@ -428,6 +428,14 @@ namespace dooms
 			return isAnyComponentRemoved;
 		}
 
+		FORCE_INLINE const std::vector<std::unique_ptr<PlainComponent, Component::Deleter>>& GetAllPlainComponents() const
+		{
+			return mPlainComponents;
+		}
+		FORCE_INLINE const std::vector<std::unique_ptr<ServerComponent, Component::Deleter>>& GetAllServerComponents() const
+		{
+			return mServerComponents;
+		}
 		
 		void Destroy();
 

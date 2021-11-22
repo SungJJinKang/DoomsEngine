@@ -651,6 +651,15 @@
     <ClCompile Include="Source\thirdparty\imgui\imgui_demo.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Core\EngineGUI\imguiHelper\imguiWithReflection.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Core\EngineGUI\EngineGUIAccessor.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Core\EngineGUI\engineGUIServer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="dependency\glad\include\glad\glad.h">
@@ -1689,6 +1698,15 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\thirdparty\imgui\backends\imgui_impl_opengl3.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Core\EngineGUI\imguiHelper\imguiWithReflection.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Core\EngineGUI\EngineGUIAccessor.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Core\EngineGUI\engineGUIServer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

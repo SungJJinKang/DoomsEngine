@@ -12,6 +12,8 @@
 
 #include "Reflection/Reflection.h"
 #include <GarbageCollector/GarbageCollectee.h>
+#include "EngineGUI/EngineGUIAccessor.h"
+
 
 #include "DObject.reflection.h"
 D_NAMESPACE(dooms)
@@ -134,6 +136,9 @@ namespace dooms
 
 	public:
 
+		dooms::ui::EngineGUIAccessor mEngineGUIAccessor;
+		virtual void OnChangedByGUI() {}
+
 		void InitProperties(const DObjectContructorParams& params);
 
 
@@ -154,6 +159,9 @@ namespace dooms
 		{
 			return (mDObjectProperties.mDObjectFlag & flag) != 0;
 		}
+
+		D_FUNCTION()
+		const std::string& GetDObjectName() const;
 
 		D_FUNCTION()
 		void ChangeDObjectName(const std::string& dObjectName);

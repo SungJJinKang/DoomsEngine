@@ -147,6 +147,11 @@ namespace dooms
 // 		virtual void OnComponentAttachedToOwnerEntity(Component* newComponent) {}
 // 		virtual void OnComponentDettachedToOwnerEntity(Component* newComponent) {}
 
+		virtual void OnChangedByGUI()
+		{
+			Base::OnChangedByGUI();
+		}
+
 	public:
 
 		Component();

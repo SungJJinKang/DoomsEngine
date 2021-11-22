@@ -15,6 +15,8 @@ namespace dooms
 			auto TypeShortName = ReflectionTestComponent::TYPE_SHORT_NAME;
 			auto TypeHashValue = ReflectionTestComponent::TYPE_FULL_NAME_HASH_VALUE;
 		}
+
+		void UpdateComponent() override;
 	};
 
 

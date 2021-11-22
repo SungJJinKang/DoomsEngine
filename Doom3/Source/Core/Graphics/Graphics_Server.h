@@ -13,7 +13,7 @@
 #include "DebugGraphics/DebugDrawer.h"
 
 #include <Rendering/Renderer/RendererStaticIterator.h>
-
+#include <EngineGUI/EngineGUIServer.h>
 
 
 #include "Graphics_Server.reflection.h"

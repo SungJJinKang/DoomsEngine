@@ -111,13 +111,13 @@ void dooms::graphics::graphicsAPIManager::Initialize()
 	glGetIntegerv(GL_MAX_TEXTURE_IMAGE_UNITS, &maxTextureUnitCount);
 	D_ASSERT(maxTextureUnitCount != 0);
 
-	dooms::ui::imguiHelper::InitializeImgui(Graphics_Setting::GetWindow(), glsl_version);
+	dooms::ui::engineGUIServer::Initialize(Graphics_Setting::GetWindow(), glsl_version);
 
 }
 
 void dooms::graphics::graphicsAPIManager::DeInitialize()
 {
-	dooms::ui::imguiHelper::ShutdownImgui();
+	dooms::ui::engineGUIServer::ShutDown();
 
 	if(Graphics_Setting::GetWindow() != nullptr)
 	{

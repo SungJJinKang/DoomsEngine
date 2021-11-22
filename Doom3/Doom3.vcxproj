@@ -332,7 +332,10 @@ xcopy /y /d /E /H /C /I "$(ProjectDir)Assets" "$(TargetDir)Assets"</Command>
     <ClCompile Include="Source\Core\Asset\AudioAsset.cpp" />
     <ClCompile Include="Source\Core\Asset\FontAsset.cpp" />
     <ClCompile Include="Source\Core\Asset\Helper\AssetFactory.cpp" />
+    <ClCompile Include="Source\Core\EngineGUI\EngineGUIAccessor.cpp" />
+    <ClCompile Include="Source\Core\EngineGUI\engineGUIServer.cpp" />
     <ClCompile Include="Source\Core\EngineGUI\imguiHelper\imguiHelper.cpp" />
+    <ClCompile Include="Source\Core\EngineGUI\imguiHelper\imguiWithReflection.cpp" />
     <ClCompile Include="Source\Core\GarbageCollector\GarbageCollectee.cpp" />
     <ClCompile Include="Source\Core\Math\LightMath_Cpp\Matrix2x2.cpp" />
     <ClCompile Include="Source\Core\Math\LightMath_Cpp\Matrix3x3.cpp" />
@@ -545,7 +548,10 @@ xcopy /y /d /E /H /C /I "$(ProjectDir)Assets" "$(TargetDir)Assets"</Command>
     <ClInclude Include="Source\Component\Core\ComponentHelper.h" />
     <ClInclude Include="Source\Core\Asset\AssetsForwardDeclaration.h" />
     <ClInclude Include="Source\Core\Asset\Helper\AssetFactory.h" />
+    <ClInclude Include="Source\Core\EngineGUI\EngineGUIAccessor.h" />
+    <ClInclude Include="Source\Core\EngineGUI\engineGUIServer.h" />
     <ClInclude Include="Source\Core\EngineGUI\imguiHelper\imguiHelper.h" />
+    <ClInclude Include="Source\Core\EngineGUI\imguiHelper\imguiWithReflection.h" />
     <ClInclude Include="Source\Core\GarbageCollector\GarbageCollectee.h" />
     <ClInclude Include="Source\Core\Reflection\ReflectionManager.h" />
     <ClInclude Include="Source\Core\Reflection\ReflectionPredefined.h" />

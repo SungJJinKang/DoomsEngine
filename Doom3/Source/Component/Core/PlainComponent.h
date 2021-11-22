@@ -93,6 +93,10 @@ namespace dooms
 // 		virtual void OnComponentAttachedToOwnerEntity(Component* newComponent) override {}
 // 		virtual void OnComponentDettachedToOwnerEntity(Component* newComponent) override {}
 
+		virtual void OnChangedByGUI()
+		{
+			Base::OnChangedByGUI();
+		}
 
 		public:
 

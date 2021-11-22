@@ -25,7 +25,6 @@
 #include "Acceleration/SortFrontToBackSolver.h"
 #include "DebugGraphics/OverDrawVisualization.h"
 
-#include "EngineGUI/imguiHelper/imguiHelper.h"
 
 //#define D_DEBUG_CPU_VENDOR_PROFILER
 
@@ -193,7 +192,7 @@ void Graphics_Server::DoCullJob()
 
 void Graphics_Server::PreRender()
 {
-	dooms::ui::imguiHelper::PreRender();
+	dooms::ui::engineGUIServer::PreRender();
 }
 
 void dooms::graphics::Graphics_Server::Render()
@@ -265,13 +264,15 @@ void dooms::graphics::Graphics_Server::Render()
 #endif
 
 
-	dooms::ui::imguiHelper::Render();
+	dooms::ui::engineGUIServer::Render();
+
 	
 }
 
 void Graphics_Server::PostRender()
 {
-	dooms::ui::imguiHelper::PostRender();
+	dooms::ui::engineGUIServer::PostRender();
+
 }
 
 void dooms::graphics::Graphics_Server::UpdateOverDrawVisualization(dooms::Camera* const targetCamera, const size_t cameraIndex)

@@ -21,6 +21,11 @@ void dooms::DObject::InitProperties(const DObjectContructorParams& params)
 }
 
 
+const std::string& dooms::DObject::GetDObjectName() const
+{
+	return mDObjectProperties.mDObjectName;
+}
+
 void dooms::DObject::ChangeDObjectName(const std::string& dObjectName)
 {
 	mDObjectProperties.mDObjectName = dObjectName;
@@ -42,20 +47,20 @@ dooms::reflection::DClass dooms::DObject::GetDClass() const
 }
 
 dooms::DObject::DObject()
-	:mDObjectID(INVALID_DOBJECT_ID), mDObjectProperties()
+	:mDObjectID(INVALID_DOBJECT_ID), mDObjectProperties(), mEngineGUIAccessor(this)
 {
 	Construct_Internal();
 }
 
 dooms::DObject::DObject(const std::string& dObjectName)
-	: mDObjectID(INVALID_DOBJECT_ID), mDObjectProperties()
+	: mDObjectID(INVALID_DOBJECT_ID), mDObjectProperties(), mEngineGUIAccessor(this)
 {
 	mDObjectProperties.mDObjectName = dObjectName;
 	Construct_Internal();
 }
 
 dooms::DObject::DObject(const DObject* const ownerDObject, const std::string& dObjectName)
-	: mDObjectID(INVALID_DOBJECT_ID), mDObjectProperties()
+	: mDObjectID(INVALID_DOBJECT_ID), mDObjectProperties(), mEngineGUIAccessor(this)
 {
 	mDObjectProperties.mDObjectName = dObjectName;
 	mDObjectProperties.mOwnerDObject = ownerDObject;
@@ -64,7 +69,7 @@ dooms::DObject::DObject(const DObject* const ownerDObject, const std::string& dO
 
 
 dooms::DObject::DObject(const DObjectContructorParams& params)
-	: mDObjectID(INVALID_DOBJECT_ID), mDObjectProperties()
+	: mDObjectID(INVALID_DOBJECT_ID), mDObjectProperties(), mEngineGUIAccessor(this)
 {
 	InitProperties(params);
 	Construct_Internal();
@@ -73,7 +78,7 @@ dooms::DObject::DObject(const DObjectContructorParams& params)
 
 
 dooms::DObject::DObject(const DObject& dObject)
-	:mDObjectID(INVALID_DOBJECT_ID), mDObjectProperties(dObject.mDObjectProperties)
+	:mDObjectID(INVALID_DOBJECT_ID), mDObjectProperties(dObject.mDObjectProperties), mEngineGUIAccessor(this)
 {
 	Construct_Internal();
 }
@@ -88,7 +93,7 @@ dooms::DObject& dooms::DObject::operator=(const DObject& dObject)
 }
 
 dooms::DObject::DObject(DObject&& dObject) noexcept
-	: mDObjectProperties(dObject.mDObjectProperties)
+	: mDObjectProperties(dObject.mDObjectProperties), mEngineGUIAccessor(this)
 {
 	DObjectManager::ReplaceDObjectFromDObjectList(std::move(dObject), this);
 }

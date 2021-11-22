@@ -39,8 +39,6 @@ void dooms::ui::imguiHelper::PreRender()
 
 void dooms::ui::imguiHelper::Render()
 {
-    ShowDemoUpdate();
-
     ImGui::Render();
 }
 
