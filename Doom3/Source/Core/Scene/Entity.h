@@ -93,7 +93,6 @@ namespace dooms
 		//D_PROPERTY()
 		std::unordered_map<size_t, std::vector<Component*>> mComponents;
 		
-		D_PROPERTY()
 		std::vector<std::unique_ptr<PlainComponent, Component::Deleter>> mPlainComponents;
 
 		D_PROPERTY()

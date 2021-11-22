@@ -11,10 +11,13 @@ namespace dooms
 	class DOOM_API D_CLASS FireBulletComponent : public PlainComponent
 	{
 		GENERATE_BODY()
-		
+
 		D_PROPERTY()
-		FLOAT32 fireTime = 1.0f;
-		
+		INT32 BullterCount = 1;
+
+
+		D_PROPERTY()
+		FLOAT32 BullterSpeed = 2.0f;
 
 	public:
 

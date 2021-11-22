@@ -165,26 +165,27 @@ namespace dooms
 			{
 				dooms::Entity* const entity = static_cast<dooms::Entity*>(object);
 
-				D_ASSERT(entity);
-
-				auto Transform = entity->GetTransform();
-				auto& AllServerComponents = entity->GetAllPlainComponents();
-				auto& AllPlainComponents = entity->GetAllPlainComponents();
-
-				DrawDObjectGUI(Transform);
-				for(auto& serverComponent : AllServerComponents)
+				if(IsValid(entity) == true)
 				{
-					if(serverComponent)
+					auto Transform = entity->GetTransform();
+					auto& AllServerComponents = entity->GetAllPlainComponents();
+					auto& AllPlainComponents = entity->GetAllPlainComponents();
+
+					DrawDObjectGUI(Transform);
+					for (auto& serverComponent : AllServerComponents)
 					{
-						DrawDObjectGUI(serverComponent.get());
+						if (serverComponent)
+						{
+							DrawDObjectGUI(serverComponent.get());
+						}
 					}
-				}
 
-				for (auto& plainComponent : AllPlainComponents)
-				{
-					if (plainComponent)
+					for (auto& plainComponent : AllPlainComponents)
 					{
-						DrawDObjectGUI(plainComponent.get());
+						if (plainComponent)
+						{
+							DrawDObjectGUI(plainComponent.get());
+						}
 					}
 				}
 
@@ -231,44 +232,36 @@ namespace dooms
 					const std::unordered_map<std::string_view, dooms::reflection::DField>& dFieldList = dObject->GetDClass().GetDFieldList();
 
 
-					if(dFieldList.empty() == false)
+					if (dFieldList.empty() == false)
 					{
 						D_ASSERT(isInitialized == true);
 
-						
-						if (
-							ImGui::BeginChild
-							(
-								dObject->GetDObjectName().empty() == false ? dObject->GetDObjectName().c_str() : dObject->GetTypeFullName()
-								, ImVec2{}, true
-							)
-							)
+						//label
+						ImGui::TextColored(ImVec4{1.0f, 0.0f, 0.0f, 1.0f}, "%s", dObject->GetDObjectName().empty() == false ? dObject->GetDObjectName().c_str() : dObject->GetTypeFullName());
+
+
+						bool isGUIValueChanged = false;
+
+
+						for (auto& dFieldNode : dFieldList)
 						{
+							const dooms::reflection::DField& dField = dFieldNode.second;
 
-
-							bool isGUIValueChanged = false;
-
-
-							for (auto& dFieldNode : dFieldList)
-							{
-								const dooms::reflection::DField& dField = dFieldNode.second;
-
-								isGUIValueChanged |= dooms::ui::imguiWithReflection::DrawImguiWithReflection(
-									dField.GetFieldTypeName(),
-									const_cast<dooms::reflection::DField&>(dField).GetRawFieldValue(dObject),
-									dField.GetFieldName()
-								);
-							}
-
-							DrawImguiWithReflection(dObject->GetTypeFullName(), dObject, "");
-
-							if (isGUIValueChanged == true)
-							{
-								dObject->OnChangedByGUI();
-							}
+							isGUIValueChanged |= dooms::ui::imguiWithReflection::DrawImguiWithReflection(
+								dField.GetFieldTypeName(),
+								const_cast<dooms::reflection::DField&>(dField).GetRawFieldValue(dObject),
+								dField.GetFieldName()
+							);
 						}
 
-						ImGui::EndChild();
+						DrawImguiWithReflection(dObject->GetTypeFullName(), dObject, "");
+
+						if (isGUIValueChanged == true)
+						{
+							dObject->OnChangedByGUI();
+						}
+
+
 					}
 					
 				}
