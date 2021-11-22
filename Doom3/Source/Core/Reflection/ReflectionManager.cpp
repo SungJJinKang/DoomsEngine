@@ -84,9 +84,7 @@ bool dooms::reflection::ReflectionManager::LoadReflectionBinaryDataFile()
 
 		isSuccess = false;
 	}
-
-	// TODO : Fix changed data is not reflected instantly.
-
+	
 	if(isSuccess == true)
 	{
 		if (mReflectionDatabase.Load(&file, &allocator, 0) == false)

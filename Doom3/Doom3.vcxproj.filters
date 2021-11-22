@@ -588,9 +588,6 @@
     <ClCompile Include="Source\Core\Reflection\ReflectionType\DEnum.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="clreflect_compiletime_gettype.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Source\Core\Reflection\ReflectionType\DPrimitive.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -658,6 +655,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Source\Core\EngineGUI\engineGUIServer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="clreflect_compiletime_gettype.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

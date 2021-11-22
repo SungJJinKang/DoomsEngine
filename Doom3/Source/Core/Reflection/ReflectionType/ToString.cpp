@@ -1,6 +1,7 @@
 #include "ToString.h"
 
 #include <Math/LightMath_Cpp/LMath.h>
+#include "../ReflectionManager.h"
 
 namespace dooms
 {
