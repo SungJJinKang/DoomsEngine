@@ -21,7 +21,7 @@ namespace dClassHelper
 	{
 		D_ASSERT(clcppClass != nullptr);
 
-		for (size_t i = 0; i < clcppClass->base_types.size; i++)
+		for (UINT32 i = 0; i < clcppClass->base_types.size; i++)
 		{
 			if (clcppClass->base_types[i]->kind == clcpp::Primitive::Kind::KIND_CLASS)
 			{
@@ -33,7 +33,7 @@ namespace dClassHelper
 
 		for (std::ptrdiff_t i = clcppClass->fields.size ; i > 0 ; i--)
 		{
-			list.emplace(clcppClass->fields[i - 1]->name.text, clcppClass->fields[i - 1]);
+			list.emplace(clcppClass->fields[static_cast<UINT32>(i - 1)]->name.text, clcppClass->fields[static_cast<UINT32>(i - 1)]);
 		}
 	}
 
@@ -59,7 +59,7 @@ namespace dClassHelper
 	{
 		D_ASSERT(clcppClass != nullptr);
 
-		for (size_t i = 0; i < clcppClass->base_types.size; i++)
+		for (UINT32 i = 0; i < clcppClass->base_types.size; i++)
 		{
 			if (clcppClass->base_types[i]->kind == clcpp::Primitive::Kind::KIND_CLASS)
 			{
@@ -71,7 +71,7 @@ namespace dClassHelper
 
 		for (std::ptrdiff_t i = clcppClass->methods.size; i > 0; i--)
 		{
-			list.emplace(dPrimitiveHelper::GetShortNamePointer(clcppClass->methods[i - 1]->name.text), clcppClass->methods[i - 1]);
+			list.emplace(dPrimitiveHelper::GetShortNamePointer(clcppClass->methods[static_cast<UINT32>(i - 1)]->name.text), clcppClass->methods[static_cast<UINT32>(i - 1)]);
 		}
 	}
 

@@ -43,11 +43,23 @@ namespace dooms
 			/// <returns></returns>
 			ImVec4 GetTextColor() const;
 			bool GetIsVisibleOnGUI() const;
-			const char* GetGUIType() const;
+			bool GetIsHasGUIType(const char* const typeName) const;
 			bool GetIsReadOnly() const;
 
 			float GetMinValue() const;
+			template <typename T>
+			T GetMinValue() const
+			{
+				return static_cast<T>(GetMinValue());
+			}
+
 			float GetMaxValue() const;
+			template <typename T>
+			T GetMaxValue() const
+			{
+				return static_cast<T>(GetMaxValue());
+			}
+
 		};
 	}
 }

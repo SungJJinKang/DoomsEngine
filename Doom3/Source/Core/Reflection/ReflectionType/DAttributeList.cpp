@@ -110,20 +110,17 @@ bool dooms::reflection::DAttributeList::GetIsVisibleOnGUI() const
 	return isVisible;
 }
 
-const char* dooms::reflection::DAttributeList::GetGUIType() const
+bool dooms::reflection::DAttributeList::GetIsHasGUIType(const char* const typeName) const
 {
-	const char* guiType = ""; 
+	bool isHasGUIType = false;
 
-	const dooms::reflection::DAttribute* const guiTypeAttribute = GetAttributeWithName("TYPE");
+	const dooms::reflection::DAttribute* const guiTypeAttribute = GetAttributeWithName(typeName);
 	if (guiTypeAttribute != nullptr)
 	{
-		D_ASSERT(guiTypeAttribute->GetAttributeType() == DAttribute::AttributeType::Text);
-
-		guiType = guiTypeAttribute->GetStringValue();
-		
+		isHasGUIType = true;		
 	}
 
-	return guiType;
+	return isHasGUIType;
 }
 
 bool dooms::reflection::DAttributeList::GetIsReadOnly() const
@@ -144,7 +141,7 @@ bool dooms::reflection::DAttributeList::GetIsReadOnly() const
 
 float dooms::reflection::DAttributeList::GetMinValue() const
 {
-	float minValue = 0.0f; 
+	float minValue = 0.0f; // 0.0f mean infinity
 
 	const dooms::reflection::DAttribute* minAttribute = GetAttributeWithName("MIN");
 	if(minAttribute == nullptr)
@@ -166,7 +163,7 @@ float dooms::reflection::DAttributeList::GetMinValue() const
 
 float dooms::reflection::DAttributeList::GetMaxValue() const
 {
-	float maxValue = 1.0f;
+	float maxValue = 0.0f; // 0.0f mean infinity
 
 	const dooms::reflection::DAttribute* maxAttribute = GetAttributeWithName("MAX");
 	if (maxAttribute == nullptr)

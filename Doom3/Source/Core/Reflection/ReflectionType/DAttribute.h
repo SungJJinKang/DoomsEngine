@@ -21,9 +21,15 @@ namespace dooms
 
 			enum class AttributeType
 			{
-				Int = clcpp::Primitive::Kind::KIND_INT_ATTRIBUTE,
-				Float = clcpp::Primitive::Kind::KIND_FLOAT_ATTRIBUTE,
-				Text = clcpp::Primitive::Kind::KIND_TEXT_ATTRIBUTE
+				Int = clcpp::Primitive::Kind::KIND_INT_ATTRIBUTE, // ex) attribute name = integer number
+				Float = clcpp::Primitive::Kind::KIND_FLOAT_ATTRIBUTE, // ex) attribute name = float number
+				Text = clcpp::Primitive::Kind::KIND_TEXT_ATTRIBUTE, // ex) attribute name = string
+				Flag = clcpp::Primitive::Kind::KIND_FLAG_ATTRIBUTE, // ex) attribute name ( only string )
+
+
+				// below : unused
+				Enum = clcpp::Primitive::Kind::KIND_ENUM_CONSTANT, // ex) ~~ =
+				Primitive = clcpp::Primitive::Kind::KIND_PRIMITIVE_ATTRIBUTE
 			};
 
 		private:
@@ -35,11 +41,12 @@ namespace dooms
 			FORCE_INLINE DAttribute(const clcpp::Attribute* const clcppAttribute)
 				: DPrimitive(clcppAttribute), mclcppAttribute(clcppAttribute)
 			{
-				D_ASSERT(clcppAttribute != nullptr);
+				D_ASSERT(mclcppAttribute != nullptr);
 				D_ASSERT(
-					clcppAttribute->KIND == clcpp::Primitive::Kind::KIND_INT_ATTRIBUTE ||
-					clcppAttribute->KIND == clcpp::Primitive::Kind::KIND_FLOAT_ATTRIBUTE ||
-					clcppAttribute->KIND == clcpp::Primitive::Kind::KIND_TEXT_ATTRIBUTE
+					(mclcppAttribute->kind == clcpp::Primitive::Kind::KIND_INT_ATTRIBUTE) ||
+					(mclcppAttribute->kind == clcpp::Primitive::Kind::KIND_FLOAT_ATTRIBUTE) ||
+					(mclcppAttribute->kind == clcpp::Primitive::Kind::KIND_TEXT_ATTRIBUTE) ||
+					(mclcppAttribute->kind == clcpp::Primitive::Kind::KIND_FLAG_ATTRIBUTE)
 				);
 			}
 			
@@ -48,9 +55,10 @@ namespace dooms
 				D_ASSERT(mclcppAttribute != nullptr);
 				D_ASSERT
 				(
-					GetAttributeType() == AttributeType::Int ||
-					GetAttributeType() == AttributeType::Float ||
-					GetAttributeType() == AttributeType::Text
+					(GetAttributeType() == AttributeType::Int) ||
+					(GetAttributeType() == AttributeType::Float) ||
+					(GetAttributeType() == AttributeType::Text) ||
+					(GetAttributeType() == AttributeType::Flag)
 				);
 
 				return mclcppAttribute->name.text;
@@ -74,7 +82,7 @@ namespace dooms
 			FORCE_INLINE float GetFloatValue() const
 			{
 				D_ASSERT(mclcppAttribute != nullptr);
-				D_ASSERT(GetAttributeType() == AttributeType::Float || GetAttributeType() == AttributeType::Int);
+				D_ASSERT((GetAttributeType() == AttributeType::Float) || (GetAttributeType() == AttributeType::Int));
 
 				const AttributeType attributeType = GetAttributeType();
 
@@ -96,7 +104,7 @@ namespace dooms
 			FORCE_INLINE int GetIntValue() const
 			{
 				D_ASSERT(mclcppAttribute != nullptr);
-				D_ASSERT(GetAttributeType() == AttributeType::Float || GetAttributeType() == AttributeType::Int);
+				D_ASSERT((GetAttributeType() == AttributeType::Float) || (GetAttributeType() == AttributeType::Int));
 
 				const AttributeType attributeType = GetAttributeType();
 
@@ -118,12 +126,6 @@ namespace dooms
 			FORCE_INLINE AttributeType GetAttributeType() const
 			{
 				D_ASSERT(mclcppAttribute != nullptr);
-				D_ASSERT
-				(
-					GetAttributeType() == AttributeType::Int ||
-					GetAttributeType() == AttributeType::Float ||
-					GetAttributeType() == AttributeType::Text
-				);
 
 				return static_cast<AttributeType>(mclcppAttribute->kind);
 			}

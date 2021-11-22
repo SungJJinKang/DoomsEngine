@@ -33,8 +33,56 @@ namespace dooms
 	{
 		namespace imguiWithReflection
 		{
+			static const float DEFULAT_DRAG_SPEED = 1.0f;
+			static const float DEFULAT_SLIDER_SPEED = 1.0f;
+
+			enum eImguiType
+			{
+				Color,
+				Slider,
+				Drag
+			};
+
+			int GetImguiFlags(const eImguiType imguiType, const reflection::DAttributeList& attributeList)
+			{
+				int flags = 0;
+
+				if(attributeList.GetIsReadOnly() == true)
+				{
+					switch (imguiType)
+					{
+					case eImguiType::Color:
+						flags |= ImGuiColorEditFlags_NoInputs;
+						break;
+
+
+					case eImguiType::Slider:
+					case eImguiType::Drag:
+						flags |= ImGuiSliderFlags_NoInput;
+						break;
+
+						
+
+					default:
+						D_ASSERT(false);
+						break;
+					}
+				}
+
+				return flags;
+			}
+
 			void DrawDObjectGUI(DObject* const dObject);
 
+			/// <summary>
+			/// check DFunction can be showing on gui
+			/// </summary>
+			/// <param name="dFunction"></param>
+			/// <returns></returns>
+			bool GetIsFunctionGUIable(const reflection::DFunction& dFunction)
+			{
+				return (dFunction.GetIsHasReturnValue() == false) && (dFunction.GetParameterDFieldList().empty() == true);
+			}
 
 
 			static std::vector<dooms::DObject*> mVisibleOnGUIDObjectList{};
@@ -82,61 +130,78 @@ namespace dooms
 			bool imguiWithReflection_char(void* const object, const char* const label, const reflection::DAttributeList& attributeList)
 			{
 				//ImGui::Text("%s : %d", label, *static_cast<int*>(object));
-				return ImGui::DragScalar(label, ImGuiDataType_S8, static_cast<char*>(object));
+				return ImGui::DragScalar(label, ImGuiDataType_S8, object);
 			}
 
 			bool imguiWithReflection_unsigned_char(void* const object, const char* const label, const reflection::DAttributeList& attributeList)
 			{
 				//ImGui::Text("%s : %u", label, *static_cast<unsigned int*>(object));
-				return ImGui::DragScalar(label, ImGuiDataType_U8, static_cast<unsigned char*>(object));
+				return ImGui::DragScalar(label, ImGuiDataType_U8, object);
 			}
 
 			bool imguiWithReflection_short(void* const object, const char* const label, const reflection::DAttributeList& attributeList)
 			{
-				//ImGui::Text("%s : %d", label, *static_cast<int*>(object));
-				return ImGui::DragScalar(label, ImGuiDataType_S16, static_cast<short*>(object));
+				const INT16 minValue = attributeList.GetMinValue<INT16>();
+				const INT16 maxValue = attributeList.GetMaxValue<INT16>();
+
+				return ImGui::DragScalar(label, ImGuiDataType_S16, object, DEFULAT_DRAG_SPEED, &minValue, &maxValue, 0, GetImguiFlags(eImguiType::Drag, attributeList));
 			}
 
 			bool imguiWithReflection_unsigned_short(void* const object, const char* const label, const reflection::DAttributeList& attributeList)
 			{
-				//ImGui::Text("%s : %u", label, *static_cast<unsigned int*>(object));
-				return ImGui::DragScalar(label, ImGuiDataType_U16, static_cast<unsigned short*>(object));
+				const UINT16 minValue = attributeList.GetMinValue<UINT16>();
+				const UINT16 maxValue = attributeList.GetMaxValue<UINT16>();
+
+				return ImGui::DragScalar(label, ImGuiDataType_U16, object, DEFULAT_DRAG_SPEED, &minValue, &maxValue, 0, GetImguiFlags(eImguiType::Drag, attributeList));
 			}
 
 			bool imguiWithReflection_int(void* const object, const char* const label, const reflection::DAttributeList& attributeList)
 			{
-				//ImGui::Text("%s : %d", label, *static_cast<int*>(object));
-				return ImGui::DragScalar(label, ImGuiDataType_S32, static_cast<int*>(object));
+				const INT32 minValue = attributeList.GetMinValue<INT32>();
+				const INT32 maxValue = attributeList.GetMaxValue<INT32>();
+
+				return ImGui::DragScalar(label, ImGuiDataType_S32, object, DEFULAT_DRAG_SPEED, &minValue, &maxValue, 0, GetImguiFlags(eImguiType::Drag, attributeList));
 			}
 
 			bool imguiWithReflection_unsigned_int(void* const object, const char* const label, const reflection::DAttributeList& attributeList)
 			{
-				//ImGui::Text("%s : %u", label, *static_cast<unsigned int*>(object));
-				return ImGui::DragScalar(label, ImGuiDataType_U32, static_cast<unsigned int*>(object));
+				const UINT32 minValue = attributeList.GetMinValue<UINT32>();
+				const UINT32 maxValue = attributeList.GetMaxValue<UINT32>();
+
+				return ImGui::DragScalar(label, ImGuiDataType_U32, object, DEFULAT_DRAG_SPEED, &minValue, &maxValue, 0, GetImguiFlags(eImguiType::Drag, attributeList));
 			}
 
 			bool imguiWithReflection_long_long(void* const object, const char* const label, const reflection::DAttributeList& attributeList)
 			{
-				//ImGui::Text("%s : %lld", label, *static_cast<long long*>(object));
-				return ImGui::DragScalar(label, ImGuiDataType_S64, static_cast<long long*>(object));
+				const INT64 minValue = attributeList.GetMinValue<INT64>();
+				const INT64 maxValue = attributeList.GetMaxValue<INT64>();
+
+				return ImGui::DragScalar(label, ImGuiDataType_S64, object, DEFULAT_DRAG_SPEED, &minValue, &maxValue, 0, GetImguiFlags(eImguiType::Drag, attributeList));
 			}
 
 			bool imguiWithReflection_unsigned_long_long(void* const object, const char* const label, const reflection::DAttributeList& attributeList)
 			{
-				//ImGui::Text("%s : %llu", label, *static_cast<unsigned long long*>(object));
-				return ImGui::DragScalar(label, ImGuiDataType_U64, static_cast<unsigned long long*>(object));
+				const UINT64 minValue = attributeList.GetMinValue<UINT64>();
+				const UINT64 maxValue = attributeList.GetMaxValue<UINT64>();
+
+				return ImGui::DragScalar(label, ImGuiDataType_U64, object, DEFULAT_DRAG_SPEED, &minValue, &maxValue, 0, GetImguiFlags(eImguiType::Drag, attributeList));
 			}
 
 			bool imguiWithReflection_float(void* const object, const char* const label, const reflection::DAttributeList& attributeList)
 			{
-				//ImGui::Text("%s : %f", label, *static_cast<float*>(object));
-				return ImGui::DragScalar(label, ImGuiDataType_Float, static_cast<float*>(object));
+				const float minValue = attributeList.GetMinValue<float>();
+				const float maxValue = attributeList.GetMaxValue<float>();
+
+				return ImGui::DragScalar(label, ImGuiDataType_Float, object, DEFULAT_DRAG_SPEED, &minValue, &maxValue, 0, GetImguiFlags(eImguiType::Drag, attributeList));
 			}
 			
 			bool imguiWithReflection_double(void* const object, const char* const label, const reflection::DAttributeList& attributeList)
 			{
 				//ImGui::Text("%s : %lf", label, *static_cast<double*>(object));
-				return ImGui::DragScalar(label, ImGuiDataType_Double, static_cast<double*>(object));
+				const double minValue = attributeList.GetMinValue<double>();
+				const double maxValue = attributeList.GetMaxValue<double>();
+
+				return ImGui::DragScalar(label, ImGuiDataType_Double, object, DEFULAT_DRAG_SPEED, &minValue, &maxValue, 0, GetImguiFlags(eImguiType::Drag, attributeList));
 			}
 
 			bool imguiWithReflection_std_string(void* const object, const char* const label, const reflection::DAttributeList& attributeList)
@@ -148,17 +213,59 @@ namespace dooms
 
 			bool imguiWithReflection_math_Vector3(void* const object, const char* const label, const reflection::DAttributeList& attributeList)
 			{
-				return ImGui::DragFloat3(label, static_cast<math::Vector3*>(object)->data());
+				if (attributeList.GetIsHasGUIType("Color"))
+				{
+					return ImGui::ColorEdit3(label, static_cast<math::Vector3*>(object)->data(), GetImguiFlags(eImguiType::Color, attributeList));
+				}
+				else
+				{
+					return ImGui::DragFloat3
+					(
+						label, 
+						static_cast<math::Vector3*>(object)->data(), 
+						DEFULAT_DRAG_SPEED,
+						attributeList.GetMinValue(),
+						attributeList.GetMaxValue(),
+						"%.3f",
+						GetImguiFlags(eImguiType::Slider, attributeList)
+					);
+				}
+				
 			}
 
 			bool imguiWithReflection_math_Vector4(void* const object, const char* const label, const reflection::DAttributeList& attributeList)
 			{
-				return ImGui::DragFloat4(label, static_cast<math::Vector4*>(object)->data());
+				if(attributeList.GetIsHasGUIType("Color"))
+				{
+					return ImGui::ColorEdit4(label, static_cast<math::Vector4*>(object)->data(), GetImguiFlags(eImguiType::Color, attributeList));
+				}
+				else
+				{
+					return ImGui::DragFloat4
+					(
+						label,
+						static_cast<math::Vector4*>(object)->data(),
+						DEFULAT_DRAG_SPEED,
+						attributeList.GetMinValue(),
+						attributeList.GetMaxValue(),
+						"%.3f",
+						GetImguiFlags(eImguiType::Slider, attributeList)
+					);
+				}
 			}
 
 			bool imguiWithReflection_math_Quaternion(void* const object, const char* const label, const reflection::DAttributeList& attributeList)
 			{
-				return ImGui::DragFloat4(label, static_cast<math::Quaternion*>(object)->data());
+				return ImGui::DragFloat4
+				(
+					label,
+					static_cast<math::Quaternion*>(object)->data(),
+					DEFULAT_DRAG_SPEED,
+					attributeList.GetMinValue(),
+					attributeList.GetMaxValue(),
+					"%.3f",
+					GetImguiFlags(eImguiType::Slider, attributeList)
+				);
 			}
 
 			bool imguiWithReflection_TransformCoreData(void* const object, const char* const label, const reflection::DAttributeList& attributeList)
@@ -228,6 +335,8 @@ namespace dooms
 
 			void DrawDObjectGUI(DObject* const dObject)
 			{
+				D_ASSERT(isInitialized == true);
+
 				if(
 					IsValid(dObject) == true &&
 					// check if DObject is already drawed to prevent infinite loop
@@ -243,7 +352,7 @@ namespace dooms
 
 					if (dFieldList.empty() == false)
 					{
-						D_ASSERT(isInitialized == true);
+						
 
 						//label
 						ImGui::TextColored(ImVec4{1.0f, 0.0f, 0.0f, 1.0f}, "%s", dObject->GetDObjectName().empty() == false ? dObject->GetDObjectName().c_str() : dObject->GetTypeFullName());
@@ -275,6 +384,20 @@ namespace dooms
 						}
 
 
+					}
+
+					const std::unordered_map<std::string_view, dooms::reflection::DFunction>& dFunctionList = dObjectDClass.GetDFunctionList();
+					if (dFunctionList.empty() == false)
+					{
+						for (auto& dFunctioNnode : dFunctionList)
+						{
+							const dooms::reflection::DFunction& dFunction = dFunctioNnode.second;
+							
+							if(GetIsFunctionGUIable(dFunction) == true)
+							{
+								// TODO : Check is static function or member function	
+							}
+						}
 					}
 					
 				}
