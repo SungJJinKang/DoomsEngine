@@ -64,7 +64,8 @@ void dooms::Move_WASD::UpdateComponent()
 
 	/////////
 
-	math::Vector3 rotation{ UserInput_Server::GetDeltaMouseScreenPositionY(), -UserInput_Server::GetDeltaMouseScreenPositionX(), 0.0f };
+	//math::Vector3 rotation{ UserInput_Server::GetDeltaMouseScreenPositionY(), -UserInput_Server::GetDeltaMouseScreenPositionX(), 0.0f };
+	math::Vector3 rotation{ 0.0f, 0.0f, 0.0f };
 	
 	if (UserInput_Server::GetKey(eKEY_CODE::KEY_UP))
 	{

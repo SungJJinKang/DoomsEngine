@@ -54,3 +54,5 @@ void dooms::ui::imguiHelper::ShowDemoUpdate()
 
     ImGui::ShowDemoWindow(&show_demo_window);
 }
+
+// TODO : when input hover on imgui, disable dispatch imput to my application

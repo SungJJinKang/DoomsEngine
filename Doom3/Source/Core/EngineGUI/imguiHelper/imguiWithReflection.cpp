@@ -233,7 +233,7 @@ namespace dooms
 
 					if(dFieldList.empty() == false)
 					{
-						dooms::ui::imguiWithReflection::Initialize();
+						D_ASSERT(isInitialized == true);
 
 						
 						if (

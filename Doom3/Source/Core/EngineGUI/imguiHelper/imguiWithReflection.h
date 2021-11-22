@@ -17,6 +17,8 @@ namespace dooms
 	{
 		namespace imguiWithReflection
 		{
+			extern void Initialize();
+
 			extern void AddToVisibleOnGUIDObjectList(DObject* const dObject);
 			extern void RemoveFromVisibleOnGUIDObjectList(DObject* const dObject);
 

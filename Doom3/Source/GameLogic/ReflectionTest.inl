@@ -140,7 +140,7 @@ void dooms::GameLogicStartPoint::StartGameLogic()
 		entity1Camera->SetProjectionMode(dooms::Camera::eProjectionType::Perspective);
 		entity1->AddComponent<ViewFrustumCullingDebug>();
 		entity1->AddComponent<ReflectionTestComponent>();
-		//entity1->AddComponent<Move_WASD>();
+		entity1->AddComponent<Move_WASD>();
 		entity1->AddComponent<ExportTextureTester>();
 		entity1->AddComponent<DeferredRenderingDebuggerController>();
 		entity1->AddComponent<OverDrawVisualizationDebugger>();

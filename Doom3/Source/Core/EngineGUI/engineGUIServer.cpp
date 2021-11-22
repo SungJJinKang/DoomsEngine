@@ -6,6 +6,7 @@
 void dooms::ui::engineGUIServer::Initialize(GLFWwindow* const glfwWindow, const char* const glslVersion)
 {
 	dooms::ui::imguiHelper::InitializeImgui(glfwWindow, glslVersion);
+	dooms::ui::imguiWithReflection::Initialize();
 }
 
 void dooms::ui::engineGUIServer::ShutDown()

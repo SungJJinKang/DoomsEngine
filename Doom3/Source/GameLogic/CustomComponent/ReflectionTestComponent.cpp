@@ -6,6 +6,6 @@ void dooms::ReflectionTestComponent::UpdateComponent()
 {
 	PlainComponent::UpdateComponent();
 
-	GetOwnerEntity()->mEngineGUIAccessor.SetIsVisibleOnGUI(true);
+	GetOwnerEntity()->GetTransform()->mEngineGUIAccessor.SetIsVisibleOnGUI(true);
 
 }
