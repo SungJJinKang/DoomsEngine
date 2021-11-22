@@ -72,7 +72,7 @@ void dooms::graphics::OverDrawVisualization::SetOverDrawVisualizationRenderingSt
 		dooms::graphics::FixedMaterial::SetFixedMaterial(&(mOverDrawVisualizationObjectDrawMaterial));
 		mOverDrawVisualizationFrameBuffer.BindFrameBuffer();
 
-		GraphicsAPI::DefaultClearColor(math::Vector4(0.0f, 0.0f, 0.0f, 1.0f));
+		GraphicsAPI::ClearColor(math::Vector4(0.0f, 0.0f, 0.0f, 1.0f));
 		GraphicsAPI::Clear(GraphicsAPI::eClearMask::COLOR_BUFFER_BIT, GraphicsAPI::eClearMask::DEPTH_BUFFER_BIT);
 	}
 	else

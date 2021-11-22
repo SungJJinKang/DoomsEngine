@@ -208,12 +208,16 @@ void dooms::graphics::Graphics_Server::Render()
 
 	FrameBuffer::UnBindFrameBuffer();
 	//Clear ScreenBuffer
-	GraphicsAPI::DefaultClearColor(Graphics_Setting::DefaultClearColor);
-	GraphicsAPI::Clear(GraphicsAPI::eClearMask::COLOR_BUFFER_BIT, GraphicsAPI::eClearMask::DEPTH_BUFFER_BIT);
-
+	
 	for (size_t cameraIndex = 0 ; cameraIndex < spawnedCameraList.size() ; cameraIndex++)
 	{
 		dooms::Camera* const targetCamera = spawnedCameraList[cameraIndex];
+
+		D_ASSERT(IsValid(targetCamera));
+
+		GraphicsAPI::ClearColor(targetCamera->mClearColor);
+		GraphicsAPI::Clear(GraphicsAPI::eClearMask::COLOR_BUFFER_BIT, GraphicsAPI::eClearMask::DEPTH_BUFFER_BIT);
+
 		targetCamera->UpdateUniformBufferObject();
 
 		targetCamera->mDefferedRenderingFrameBuffer.ClearFrameBuffer();

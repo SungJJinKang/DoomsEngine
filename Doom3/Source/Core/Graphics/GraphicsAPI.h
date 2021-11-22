@@ -75,12 +75,12 @@ namespace dooms
 				glCullFace(static_cast<UINT32>(mode));
 			}
 
-			FORCE_INLINE extern void DefaultClearColor(FLOAT32 r, FLOAT32 g, FLOAT32 b, FLOAT32 a) noexcept
+			FORCE_INLINE extern void ClearColor(FLOAT32 r, FLOAT32 g, FLOAT32 b, FLOAT32 a) noexcept
 			{
 				glClearColor(r, g, b, a);
 			}
 
-			FORCE_INLINE extern void DefaultClearColor(const math::Vector4& color) noexcept
+			FORCE_INLINE extern void ClearColor(const math::Vector4& color) noexcept
 			{
 				glClearColor(color.r, color.g, color.b, color.a);
 			}
