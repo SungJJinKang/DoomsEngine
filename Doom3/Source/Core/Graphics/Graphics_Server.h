@@ -64,7 +64,9 @@ namespace dooms
 
 			eRenderingMode mCurrentRenderingMode{ eRenderingMode::ForwardRendering };
 			
+			void PreRender();
 			void Render();
+			void PostRender();
 
 			void UpdateOverDrawVisualization(dooms::Camera* const targetCamera, const size_t cameraIndex);
 

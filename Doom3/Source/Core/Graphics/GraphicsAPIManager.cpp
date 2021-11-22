@@ -3,14 +3,19 @@
 #include "Graphics_Server.h"
 #include "Graphics_Setting.h"
 #include "EngineGUI/PrintText.h"
+#include "EngineGUI/imguiHelper/imguiHelper.h"
 
 void dooms::graphics::graphicsAPIManager::Initialize()
 {
 	glfwInit();
+	const char* glsl_version = "#version 150";
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4); // 4.5 -> MAJOR 4  MINOR 5 , 3.1 -> MAJOR 3  MINOR 1
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 6);
+
+#ifdef DEBUG_MODE
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 	glfwWindowHint(GLFW_OPENGL_DEBUG_CONTEXT, true);
+#endif
 
 	if (Graphics_Setting::GetMultiSamplingNum() > 0)
 	{
@@ -93,22 +98,27 @@ void dooms::graphics::graphicsAPIManager::Initialize()
 
 	GraphicsAPI::FrontFace(GraphicsAPI::eFrontFaceMode::CCW);
 
-	glfwSwapInterval(0); // disable v-sync
+	glfwSwapInterval(1); // disable v-sync
 
 #ifdef DEBUG_MODE
-	GraphicsAPI::Enable(GraphicsAPI::eCapability::DEBUG_OUTPUT);
-	GraphicsAPI::Enable(GraphicsAPI::eCapability::DEBUG_OUTPUT_SYNCHRONOUS);
+	//GraphicsAPI::Enable(GraphicsAPI::eCapability::DEBUG_OUTPUT);
+	//GraphicsAPI::Enable(GraphicsAPI::eCapability::DEBUG_OUTPUT_SYNCHRONOUS);
 
-	glDebugMessageCallback(graphicsAPIManager::DEBUG_CALLBACK, NULL);
+	//glDebugMessageCallback(graphicsAPIManager::DEBUG_CALLBACK, NULL);
 #endif
 
 	INT32 maxTextureUnitCount{ 0 };
 	glGetIntegerv(GL_MAX_TEXTURE_IMAGE_UNITS, &maxTextureUnitCount);
 	D_ASSERT(maxTextureUnitCount != 0);
+
+	dooms::ui::imguiHelper::InitializeImgui(Graphics_Setting::GetWindow(), glsl_version);
+
 }
 
 void dooms::graphics::graphicsAPIManager::DeInitialize()
 {
+	dooms::ui::imguiHelper::ShutdownImgui();
+
 	if(Graphics_Setting::GetWindow() != nullptr)
 	{
 		glfwDestroyWindow(Graphics_Setting::GetWindow());

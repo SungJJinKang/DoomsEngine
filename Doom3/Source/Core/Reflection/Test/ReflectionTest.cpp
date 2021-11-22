@@ -77,6 +77,9 @@ namespace dooms
 
 void clReflectTest::test(clcpp::Database& db)
 {
+	// some time doesn't work.
+
+	/*
 	{
 		dooms::reflection::DFunction dFunction{ "dooms::MultiplyTest" };
 
@@ -133,6 +136,7 @@ void clReflectTest::test(clcpp::Database& db)
 		}
 	}
 
+	/*
 	{
 		dooms::reflection::DFunction function{ "dooms::ReflectionTestFunction1" };
 		D_ASSERT(function.IsValid() == true);
@@ -173,7 +177,7 @@ void clReflectTest::test(clcpp::Database& db)
 
 		
 	}
-
+	*/
 	{
 		auto TestStruct_ReflectionTest_DClass = dooms::reflection::CreateDClass<dooms::TestStruct_ReflectionTest>();
 

@@ -201,7 +201,7 @@ xcopy /y /d /E /H /C /I "$(ProjectDir)Assets" "$(TargetDir)Assets"</Command>
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions);DOOM_DLL_EXPORTS;UNICODE</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(ProjectDir);$(SolutionDir)Source\Core\OS;$(VcpkgInstalledDir)x64-windows\include;$(SolutionDir)Source\Helper;$(SolutionDir)Source\Component;$(SolutionDir)Source\Core\Scene;$(SolutionDir)Source\Component\Core;$(SolutionDir)Source\Helper/crossguid;$(SolutionDir)Source\GameLogic\CustomComponent;$(SolutionDir)Source\Core\Math\LightMath_Cpp;$(SolutionDir)Source\Core\IO;$(SolutionDir)Source\Core\Time;$(SolutionDir)Source\GameLogic;$(SolutionDir)Source\Core;$(SolutionDir)Source\Core\Logger;$(SolutionDir)Source\Core\Physics;$(SolutionDir)Source\Core\utility;$(SolutionDir)Source\Core\Reflection\clReflect_automation\clReflect\inc</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir);$(SolutionDir)Source\Core\OS;$(VcpkgInstalledDir)x64-windows\include;$(SolutionDir)Source\Helper;$(SolutionDir)Source\Component;$(SolutionDir)Source\Core\Scene;$(SolutionDir)Source\Component\Core;$(SolutionDir)Source\Helper/crossguid;$(SolutionDir)Source\GameLogic\CustomComponent;$(SolutionDir)Source\Core\Math\LightMath_Cpp;$(SolutionDir)Source\Core\IO;$(SolutionDir)Source\Core\Time;$(SolutionDir)Source\GameLogic;$(SolutionDir)Source\Core;$(SolutionDir)Source\Core\Logger;$(SolutionDir)Source\Core\Physics;$(SolutionDir)Source\Core\utility;$(SolutionDir)Source\Core\Reflection\clReflect_automation\clReflect\inc;$(SolutionDir)Source\thirdparty\imgui</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
@@ -239,7 +239,7 @@ xcopy /y /d /E /H /C /I "$(ProjectDir)Assets" "$(TargetDir)Assets"</Command>
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions);DOOM_DLL_EXPORTS;UNICODE</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(ProjectDir);$(SolutionDir)Source\thirdparty\amdUprof\include;$(SolutionDir)Source\Core\OS;$(VcpkgInstalledDir)x64-windows\include;$(SolutionDir)Source\Helper;$(SolutionDir)Source\Component;$(SolutionDir)Source\Core\Scene;$(SolutionDir)Source\Component\Core;$(SolutionDir)Source\Helper/crossguid;$(SolutionDir)Source\GameLogic\CustomComponent;$(SolutionDir)Source\Core\Math\LightMath_Cpp;$(SolutionDir)Source\Core\IO;$(SolutionDir)Source\Core\Time;$(SolutionDir)Source\GameLogic;$(SolutionDir)Source\Core;$(SolutionDir)Source\Core\Logger;$(SolutionDir)Source\Core\Physics;$(SolutionDir)Source\Core\utility;$(SolutionDir)Source\Core\Reflection\clReflect_automation\clReflect\inc</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir);$(SolutionDir)Source\thirdparty\amdUprof\include;$(SolutionDir)Source\Core\OS;$(VcpkgInstalledDir)x64-windows\include;$(SolutionDir)Source\Helper;$(SolutionDir)Source\Component;$(SolutionDir)Source\Core\Scene;$(SolutionDir)Source\Component\Core;$(SolutionDir)Source\Helper/crossguid;$(SolutionDir)Source\GameLogic\CustomComponent;$(SolutionDir)Source\Core\Math\LightMath_Cpp;$(SolutionDir)Source\Core\IO;$(SolutionDir)Source\Core\Time;$(SolutionDir)Source\GameLogic;$(SolutionDir)Source\Core;$(SolutionDir)Source\Core\Logger;$(SolutionDir)Source\Core\Physics;$(SolutionDir)Source\Core\utility;$(SolutionDir)Source\Core\Reflection\clReflect_automation\clReflect\inc;$(SolutionDir)Source\thirdparty\imgui</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
@@ -332,6 +332,7 @@ xcopy /y /d /E /H /C /I "$(ProjectDir)Assets" "$(TargetDir)Assets"</Command>
     <ClCompile Include="Source\Core\Asset\AudioAsset.cpp" />
     <ClCompile Include="Source\Core\Asset\FontAsset.cpp" />
     <ClCompile Include="Source\Core\Asset\Helper\AssetFactory.cpp" />
+    <ClCompile Include="Source\Core\EngineGUI\imguiHelper\imguiHelper.cpp" />
     <ClCompile Include="Source\Core\GarbageCollector\GarbageCollectee.cpp" />
     <ClCompile Include="Source\Core\Math\LightMath_Cpp\Matrix2x2.cpp" />
     <ClCompile Include="Source\Core\Math\LightMath_Cpp\Matrix3x3.cpp" />
@@ -531,11 +532,20 @@ xcopy /y /d /E /H /C /I "$(ProjectDir)Assets" "$(TargetDir)Assets"</Command>
     <ClCompile Include="Source\Helper\EasyDirtyChecker\DirtyReceiver.cpp" />
     <ClCompile Include="Source\Component\PhysicsComponent\SphereCollider3D.cpp" />
     <ClCompile Include="Source\Core\String\StringHelper.cpp" />
+    <ClCompile Include="Source\thirdparty\imgui\backends\imgui_impl_glfw.cpp" />
+    <ClCompile Include="Source\thirdparty\imgui\backends\imgui_impl_opengl3.cpp" />
+    <ClCompile Include="Source\thirdparty\imgui\backends\imgui_impl_win32.cpp" />
+    <ClCompile Include="Source\thirdparty\imgui\imgui.cpp" />
+    <ClCompile Include="Source\thirdparty\imgui\imgui_demo.cpp" />
+    <ClCompile Include="Source\thirdparty\imgui\imgui_draw.cpp" />
+    <ClCompile Include="Source\thirdparty\imgui\imgui_tables.cpp" />
+    <ClCompile Include="Source\thirdparty\imgui\imgui_widgets.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Component\Core\ComponentHelper.h" />
     <ClInclude Include="Source\Core\Asset\AssetsForwardDeclaration.h" />
     <ClInclude Include="Source\Core\Asset\Helper\AssetFactory.h" />
+    <ClInclude Include="Source\Core\EngineGUI\imguiHelper\imguiHelper.h" />
     <ClInclude Include="Source\Core\GarbageCollector\GarbageCollectee.h" />
     <ClInclude Include="Source\Core\Reflection\ReflectionManager.h" />
     <ClInclude Include="Source\Core\Reflection\ReflectionPredefined.h" />
@@ -869,6 +879,15 @@ xcopy /y /d /E /H /C /I "$(ProjectDir)Assets" "$(TargetDir)Assets"</Command>
     <ClInclude Include="Source\Core\Asset\ThreeDModelAsset.h" />
     <ClInclude Include="Source\Core\Asset\TextureAsset.h" />
     <ClInclude Include="Source\Core\String\StringHelper.h" />
+    <ClInclude Include="Source\thirdparty\imgui\backends\imgui_impl_glfw.h" />
+    <ClInclude Include="Source\thirdparty\imgui\backends\imgui_impl_opengl3.h" />
+    <ClInclude Include="Source\thirdparty\imgui\backends\imgui_impl_win32.h" />
+    <ClInclude Include="Source\thirdparty\imgui\imconfig.h" />
+    <ClInclude Include="Source\thirdparty\imgui\imgui.h" />
+    <ClInclude Include="Source\thirdparty\imgui\imgui_internal.h" />
+    <ClInclude Include="Source\thirdparty\imgui\imstb_rectpack.h" />
+    <ClInclude Include="Source\thirdparty\imgui\imstb_textedit.h" />
+    <ClInclude Include="Source\thirdparty\imgui\imstb_truetype.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\CodingRule.md" />

@@ -25,6 +25,8 @@
 #include "Acceleration/SortFrontToBackSolver.h"
 #include "DebugGraphics/OverDrawVisualization.h"
 
+#include "EngineGUI/imguiHelper/imguiHelper.h"
+
 //#define D_DEBUG_CPU_VENDOR_PROFILER
 
 using namespace dooms::graphics;
@@ -55,7 +57,9 @@ void dooms::graphics::Graphics_Server::LateInit()
 
 
 void Graphics_Server::Update()
-{		
+{
+	PreRender();
+
 #ifdef DEBUG_DRAWER
 	mDebugGraphics.Update();
 	mRenderingDebugger.DrawRenderingBoundingBox();
@@ -78,6 +82,11 @@ void Graphics_Server::Update()
 	//auto t_end = std::chrono::high_resolution_clock::now();
 	//FLOAT64 elapsed_time_ms = std::chrono::duration<FLOAT64, std::milli>(t_end - t_start).count();
 	//dooms::ui::PrintText("elapsed tick count : %lf", elapsed_time_ms);
+
+	
+	
+
+	PostRender();
 }
 
 void Graphics_Server::OnEndOfFrame()
@@ -182,6 +191,11 @@ void Graphics_Server::DoCullJob()
 	
 }
 
+void Graphics_Server::PreRender()
+{
+	dooms::ui::imguiHelper::PreRender();
+}
+
 void dooms::graphics::Graphics_Server::Render()
 {
 	DoCullJob(); // do this first
@@ -251,8 +265,13 @@ void dooms::graphics::Graphics_Server::Render()
 #endif
 
 
+	dooms::ui::imguiHelper::Render();
 	
-	
+}
+
+void Graphics_Server::PostRender()
+{
+	dooms::ui::imguiHelper::PostRender();
 }
 
 void dooms::graphics::Graphics_Server::UpdateOverDrawVisualization(dooms::Camera* const targetCamera, const size_t cameraIndex)

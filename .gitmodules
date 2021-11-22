@@ -34,3 +34,6 @@
 [submodule "Doom3/Source/Core/Reflection/clReflect_automation"]
 	path = Doom3/Source/Core/Reflection/clReflect_automation
 	url = https://github.com/SungJJinKang/clReflect_automation
+[submodule "Doom3/Source/thirdparty/imgui"]
+	path = Doom3/Source/thirdparty/imgui
+	url = https://github.com/ocornut/imgui.git
