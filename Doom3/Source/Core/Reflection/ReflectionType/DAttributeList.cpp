@@ -85,26 +85,49 @@ bool dooms::reflection::DAttributeList::GetIsVisibleOnGUI() const
 	{
 		isVisibleAttribute = GetAttributeWithName("VISIBLE");
 	}
+	if (isVisibleAttribute == nullptr)
+	{
+		isVisibleAttribute = GetAttributeWithName("INVISIBLE");
+	}
 
 	if (isVisibleAttribute != nullptr)
 	{
-		D_ASSERT(isVisibleAttribute->GetAttributeType() == DAttribute::AttributeType::Text);
+		D_ASSERT
+		(
+			(isVisibleAttribute->GetAttributeType() == DAttribute::AttributeType::Text) ||
+			(isVisibleAttribute->GetAttributeType() == DAttribute::AttributeType::Flag)
+		);
 
-		const char* const textColorStr = isVisibleAttribute->GetStringValue();
-		
-		// case-insensitive check
-		if(_stricmp(textColorStr, "TRUE") == 0)
+		if(isVisibleAttribute->GetAttributeType() == DAttribute::AttributeType::Text)
 		{
-			isVisible = true;
-		}
-		else if (_stricmp(textColorStr, "FALSE") == 0)
-		{
-			isVisible = false;
+			const char* const textColorStr = isVisibleAttribute->GetStringValue();
+
+			// case-insensitive check
+			if (_stricmp(textColorStr, "TRUE") == 0)
+			{
+				isVisible = true;
+			}
+			else if (_stricmp(textColorStr, "FALSE") == 0)
+			{
+				isVisible = false;
+			}
+			else
+			{
+				D_ASSERT_LOG(false, "Worng attribute value from INVISIBLE Attribute ( Input value : %s )", textColorStr);
+			}
 		}
 		else
 		{
-			D_ASSERT_LOG(false, "Worng attribute value from INVISIBLE Attribute ( Input value : %s )", textColorStr);
+			if(_stricmp(isVisibleAttribute->GetAttributeName(), "VISIBLE") == 0)
+			{
+				isVisible = true;
+			}
+			else 	if (_stricmp(isVisibleAttribute->GetAttributeName(), "INVISIBLE") == 0)
+			{
+				isVisible = false;
+			}
 		}
+		
 	}
 
 	return isVisible;

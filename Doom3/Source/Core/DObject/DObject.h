@@ -108,7 +108,7 @@ namespace dooms
 
 	private:
 
-		D_PROPERTY()
+		D_PROPERTY(INVISIBLE)
 		UINT64 mDObjectID;
 
 		D_PROPERTY()

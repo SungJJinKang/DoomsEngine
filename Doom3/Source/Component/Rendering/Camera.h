@@ -118,7 +118,7 @@ namespace dooms
 
 	public:
 
-		D_PROPERTY()
+		D_PROPERTY(Color)
 		math::Vector4 mClearColor;
 
 

@@ -16,7 +16,7 @@ namespace dooms
 		INT32 BullterCount = 1;
 
 
-		D_PROPERTY(MIN=10, MAX=5) // -> clcpp return attribute ( IntAttribute. have 10, 5 as value )
+		D_PROPERTY(MIN=10, MAX=5, INVISIBLE, VISIBLE = "FALSE") // -> clcpp return attribute ( IntAttribute. have 10, 5 as value )
 		FLOAT32 BullterSpeed = 2.0f;
 
 	public:
