@@ -11,8 +11,12 @@ void dooms::ui::imguiHelper::InitializeImgui(GLFWwindow* const glfwWindow, const
     IMGUI_CHECKVERSION();
     ImGui::CreateContext();
     ImGuiIO& io = ImGui::GetIO(); (void)io;
+
+    // TODO : Block dispatch imput to application when mouse hover on gui
     io.WantCaptureMouse = true;
     io.WantCaptureKeyboard = true;
+    
+
     //io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;     // Enable Keyboard Controls
     //io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;      // Enable Gamepad Controls
 
