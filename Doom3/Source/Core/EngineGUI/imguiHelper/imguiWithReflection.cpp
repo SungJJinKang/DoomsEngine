@@ -256,16 +256,25 @@ namespace dooms
 
 			bool imguiWithReflection_math_Quaternion(void* const object, const char* const label, const reflection::DAttributeList& attributeList)
 			{
-				return ImGui::DragFloat4
+				math::Vector3 eulerAngle{ math::Quaternion::QuaternionToEulerAngle(*static_cast<math::Quaternion*>(object)) };
+
+				const bool isValueChanged = ImGui::DragFloat3
 				(
 					label,
-					static_cast<math::Quaternion*>(object)->data(),
+					eulerAngle.data(),
 					DEFULAT_DRAG_SPEED,
 					attributeList.GetMinValue(),
 					attributeList.GetMaxValue(),
 					"%.3f",
 					GetImguiFlags(eImguiType::Slider, attributeList)
 				);
+
+				if(isValueChanged == true)
+				{
+					static_cast<math::Quaternion*>(object)->eulerAngle(eulerAngle);
+				}
+
+				return isValueChanged;
 			}
 
 			bool imguiWithReflection_TransformCoreData(void* const object, const char* const label, const reflection::DAttributeList& attributeList)
@@ -312,7 +321,7 @@ namespace dooms
 				{
 					imguiWIthRelfectionFuncMap.emplace("math::Vector3", imguiWithReflection_math_Vector3);
 					imguiWIthRelfectionFuncMap.emplace("math::Vector4", imguiWithReflection_math_Vector4);
-					imguiWIthRelfectionFuncMap.emplace("math::Quaternion", imguiWithReflection_math_Vector4);
+					imguiWIthRelfectionFuncMap.emplace("math::Quaternion", imguiWithReflection_math_Quaternion);
 					imguiWIthRelfectionFuncMap.emplace("bool", imguiWithReflection_bool);
 					imguiWIthRelfectionFuncMap.emplace("char", imguiWithReflection_char);
 					imguiWIthRelfectionFuncMap.emplace("unsigned char", imguiWithReflection_unsigned_char);
