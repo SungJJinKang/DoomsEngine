@@ -1,6 +1,7 @@
 #include "DClass.h"
 
 #include "../ReflectionManager.h"
+#include "DAttributeList.h"
 
 std::unordered_map<UINT32, std::unordered_map<std::string_view, dooms::reflection::DField>> dooms::reflection::DClass::PropertyCacheHashMap{};
 std::unordered_map<UINT32, std::unordered_map<std::string_view, dooms::reflection::DFunction>> dooms::reflection::DClass::FunctionCacheHashMap{};
@@ -91,10 +92,6 @@ namespace dClassHelper
 	}
 }
 
-dooms::reflection::DClass::DClass()
-	: DType(), clClass(nullptr)
-{
-}
 
 dooms::reflection::DClass::DClass(dooms::DObject* const dObject)
 	: DClass(dObject->GetTypeHashVlue())
@@ -218,5 +215,20 @@ bool dooms::reflection::DClass::GetDFunction(const char* const functionName, doo
 	D_ASSERT_LOG(isSuccess == true, "Fail to find Function ( %s ) from ( %s )", functionName, GetTypeFullName());
 
 	return isSuccess;
+}
+
+dooms::reflection::DAttributeList dooms::reflection::DClass::GetAttributeList() const
+{
+	std::vector<dooms::reflection::DAttribute> attributeList;
+
+	D_ASSERT(clClass != nullptr);
+
+	attributeList.reserve(clClass->attributes.size);
+	for (UINT32 i = 0; i < clClass->attributes.size; i++)
+	{
+		attributeList.emplace_back(clClass->attributes[i]);
+	}
+
+	return std::move(attributeList);
 }
 

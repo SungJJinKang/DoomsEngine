@@ -7,6 +7,8 @@
 #include <algorithm>
 
 #include <Reflection/ReflectionType/DClass.h>
+#include <Reflection/ReflectionType/DAttributeList.h>
+
 
 #include <Vector2.h>
 #include <Vector3.h>
@@ -43,20 +45,20 @@ namespace dooms
 			/// return : is value changed
 			/// </summary>
 			using IMGUI_WITH_REFLECTION_FUNC = 
-				bool (*)(void* const object, const char* const label);
+				bool (*)(void* const object, const char* const label, const reflection::DAttributeList& attributeList);
 
 			static std::unordered_map<std::string_view, IMGUI_WITH_REFLECTION_FUNC> imguiWIthRelfectionFuncMap{};
 
-			bool DrawImguiWithReflection(const char* const objectType, void* const object, const char* const label = "")
+			bool DrawImguiWithReflection(void* const object, const char* const objectTypeFullName, const char* const label, const reflection::DAttributeList& attributeList)
 			{
-				auto iter = imguiWIthRelfectionFuncMap.find(std::string_view{ objectType });
+				auto iter = imguiWIthRelfectionFuncMap.find(std::string_view{ objectTypeFullName });
 				if (iter != imguiWIthRelfectionFuncMap.end())
 				{
-					return iter->second(object, label);
+					return iter->second(object, label, attributeList);
 				}
 				else
 				{
-					D_DEBUG_LOG(std::string{ "imguiWithReflection : Can't resolve type " } + objectType);
+					D_DEBUG_LOG(std::string{ "imguiWithReflection : Can't resolve type " } + objectTypeFullName);
 					return false;
 				}
 			}
@@ -65,99 +67,99 @@ namespace dooms
 			////
 			///
 			///
-			bool imguiWithReflection_bool(void* const object, const char* const label)
+			bool imguiWithReflection_bool(void* const object, const char* const label, const reflection::DAttributeList& attributeList)
 			{
 				//ImGui::Text("%s : %d", label, *static_cast<int*>(object));
 				return ImGui::Checkbox(label, static_cast<bool*>(object));
 			}
 
 
-			bool imguiWithReflection_char(void* const object, const char* const label)
+			bool imguiWithReflection_char(void* const object, const char* const label, const reflection::DAttributeList& attributeList)
 			{
 				//ImGui::Text("%s : %d", label, *static_cast<int*>(object));
 				return ImGui::DragScalar(label, ImGuiDataType_S8, static_cast<char*>(object));
 			}
 
-			bool imguiWithReflection_unsigned_char(void* const object, const char* const label)
+			bool imguiWithReflection_unsigned_char(void* const object, const char* const label, const reflection::DAttributeList& attributeList)
 			{
 				//ImGui::Text("%s : %u", label, *static_cast<unsigned int*>(object));
 				return ImGui::DragScalar(label, ImGuiDataType_U8, static_cast<unsigned char*>(object));
 			}
 
-			bool imguiWithReflection_short(void* const object, const char* const label)
+			bool imguiWithReflection_short(void* const object, const char* const label, const reflection::DAttributeList& attributeList)
 			{
 				//ImGui::Text("%s : %d", label, *static_cast<int*>(object));
 				return ImGui::DragScalar(label, ImGuiDataType_S16, static_cast<short*>(object));
 			}
 
-			bool imguiWithReflection_unsigned_short(void* const object, const char* const label)
+			bool imguiWithReflection_unsigned_short(void* const object, const char* const label, const reflection::DAttributeList& attributeList)
 			{
 				//ImGui::Text("%s : %u", label, *static_cast<unsigned int*>(object));
 				return ImGui::DragScalar(label, ImGuiDataType_U16, static_cast<unsigned short*>(object));
 			}
 
-			bool imguiWithReflection_int(void* const object, const char* const label)
+			bool imguiWithReflection_int(void* const object, const char* const label, const reflection::DAttributeList& attributeList)
 			{
 				//ImGui::Text("%s : %d", label, *static_cast<int*>(object));
 				return ImGui::DragScalar(label, ImGuiDataType_S32, static_cast<int*>(object));
 			}
 
-			bool imguiWithReflection_unsigned_int(void* const object, const char* const label)
+			bool imguiWithReflection_unsigned_int(void* const object, const char* const label, const reflection::DAttributeList& attributeList)
 			{
 				//ImGui::Text("%s : %u", label, *static_cast<unsigned int*>(object));
 				return ImGui::DragScalar(label, ImGuiDataType_U32, static_cast<unsigned int*>(object));
 			}
 
-			bool imguiWithReflection_long_long(void* const object, const char* const label)
+			bool imguiWithReflection_long_long(void* const object, const char* const label, const reflection::DAttributeList& attributeList)
 			{
 				//ImGui::Text("%s : %lld", label, *static_cast<long long*>(object));
 				return ImGui::DragScalar(label, ImGuiDataType_S64, static_cast<long long*>(object));
 			}
 
-			bool imguiWithReflection_unsigned_long_long(void* const object, const char* const label)
+			bool imguiWithReflection_unsigned_long_long(void* const object, const char* const label, const reflection::DAttributeList& attributeList)
 			{
 				//ImGui::Text("%s : %llu", label, *static_cast<unsigned long long*>(object));
 				return ImGui::DragScalar(label, ImGuiDataType_U64, static_cast<unsigned long long*>(object));
 			}
 
-			bool imguiWithReflection_float(void* const object, const char* const label)
+			bool imguiWithReflection_float(void* const object, const char* const label, const reflection::DAttributeList& attributeList)
 			{
 				//ImGui::Text("%s : %f", label, *static_cast<float*>(object));
 				return ImGui::DragScalar(label, ImGuiDataType_Float, static_cast<float*>(object));
 			}
 			
-			bool imguiWithReflection_double(void* const object, const char* const label)
+			bool imguiWithReflection_double(void* const object, const char* const label, const reflection::DAttributeList& attributeList)
 			{
 				//ImGui::Text("%s : %lf", label, *static_cast<double*>(object));
 				return ImGui::DragScalar(label, ImGuiDataType_Double, static_cast<double*>(object));
 			}
 
-			bool imguiWithReflection_std_string(void* const object, const char* const label)
+			bool imguiWithReflection_std_string(void* const object, const char* const label, const reflection::DAttributeList& attributeList)
 			{
 				//ImGui::Text("%s : %s", label, static_cast<std::string*>(object)->c_str());
 				//return ImGui::DragScalar(label, ImGuiDataType_S64, static_cast<long long*>(object));
 				return false;
 			}
 
-			bool imguiWithReflection_math_Vector3(void* const object, const char* const label)
+			bool imguiWithReflection_math_Vector3(void* const object, const char* const label, const reflection::DAttributeList& attributeList)
 			{
 				return ImGui::DragFloat3(label, static_cast<math::Vector3*>(object)->data());
 			}
 
-			bool imguiWithReflection_math_Vector4(void* const object, const char* const label)
+			bool imguiWithReflection_math_Vector4(void* const object, const char* const label, const reflection::DAttributeList& attributeList)
 			{
 				return ImGui::DragFloat4(label, static_cast<math::Vector4*>(object)->data());
 			}
 
-			bool imguiWithReflection_math_Quaternion(void* const object, const char* const label)
+			bool imguiWithReflection_math_Quaternion(void* const object, const char* const label, const reflection::DAttributeList& attributeList)
 			{
 				return ImGui::DragFloat4(label, static_cast<math::Quaternion*>(object)->data());
 			}
 
-			bool imguiWithReflection_TransformCoreData(void* const object, const char* const label)
+			bool imguiWithReflection_TransformCoreData(void* const object, const char* const label, const reflection::DAttributeList& attributeList)
 			{
 				bool isValueChnaged = false;
-				isValueChnaged |= imguiWithReflection_math_Vector3(&(static_cast<dooms::TransformCoreData*>(object)->mPosition), "mPosition");
+				isValueChnaged |= imguiWithReflection_math_Vector3(&(static_cast<dooms::TransformCoreData*>(object)->mPosition), "mPosition", attributeList);
 				return isValueChnaged;
 			}
 
@@ -229,7 +231,9 @@ namespace dooms
 				{
 					drawedDObjectList.push_back(dObject);
 
-					const std::unordered_map<std::string_view, dooms::reflection::DField>& dFieldList = dObject->GetDClass().GetDFieldList();
+					reflection::DClass dObjectDClass = dObject->GetDClass();
+
+					const std::unordered_map<std::string_view, dooms::reflection::DField>& dFieldList = dObjectDClass.GetDFieldList();
 
 
 					if (dFieldList.empty() == false)
@@ -250,13 +254,15 @@ namespace dooms
 							// TODO : Consider GUI Flag
 
 							isGUIValueChanged |= dooms::ui::imguiWithReflection::DrawImguiWithReflection(
-								dField.GetFieldTypeName(),
 								const_cast<dooms::reflection::DField&>(dField).GetRawFieldValue(dObject),
-								dField.GetFieldName()
+								dField.GetFieldTypeName(),
+								dField.GetFieldName(),
+								dField.GetAttributeList()
 							);
 						}
 
-						DrawImguiWithReflection(dObject->GetTypeFullName(), dObject, "");
+						//Draw Components of entity
+						DrawImguiWithReflection(dObject, dObject->GetTypeFullName(), "", dObjectDClass.geta);
 
 						if (isGUIValueChanged == true)
 						{

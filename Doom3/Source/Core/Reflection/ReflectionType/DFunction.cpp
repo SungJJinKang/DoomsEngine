@@ -4,6 +4,7 @@
 
 #include "Reflection/ReflectionManager.h"
 #include "DClass.h"
+#include "DAttributeList.h"
 
 namespace dFunctionHelper
 {
@@ -135,5 +136,20 @@ bool dooms::reflection::DFunction::GetParameterDField(const char* const paramete
 	}
 
 	return isSuccess;
+}
+
+dooms::reflection::DAttributeList dooms::reflection::DFunction::GetAttributeList() const
+{
+	std::vector<dooms::reflection::DAttribute> attributeList;
+
+	D_ASSERT(clFunction != nullptr);
+
+	attributeList.reserve(clFunction->attributes.size);
+	for (UINT32 i = 0; i < clFunction->attributes.size; i++)
+	{
+		attributeList.emplace_back(clFunction->attributes[i]);
+	}
+
+	return std::move(attributeList);
 }
 

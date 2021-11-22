@@ -1,6 +1,7 @@
 #include "DEnum.h"
 
 #include "Reflection/ReflectionManager.h"
+#include "DAttributeList.h"
 
 namespace dClassHelper
 {
@@ -19,6 +20,11 @@ dooms::reflection::DEnum::DEnum(const UINT32 nameHash)
 	: DType(dClassHelper::GetclcppEnum(nameHash)), clEnum(clType->AsEnum())
 {
 	D_ASSERT(clEnum != nullptr);
+}
+
+dooms::reflection::DEnum::DEnum(const char* const typeFullName)
+	: DEnum(dooms::reflection::ReflectionManager::GetSingleton()->GetclcppNameHash(typeFullName))
+{
 }
 
 const char* dooms::reflection::DEnum::GetNameOfEnumConstantsValue
@@ -60,4 +66,21 @@ const bool dooms::reflection::DEnum::GetValue(const char* const valueName, INT32
 	}
 
 	return isSuccess;
+}
+
+
+
+dooms::reflection::DAttributeList dooms::reflection::DEnum::GetAttributeList() const
+{
+	std::vector<dooms::reflection::DAttribute> attributeList;
+
+	D_ASSERT(clEnum != nullptr);
+
+	attributeList.reserve(clEnum->attributes.size);
+	for (UINT32 i = 0; i < clEnum->attributes.size; i++)
+	{
+		attributeList.emplace_back(clEnum->attributes[i]);
+	}
+
+	return std::move(attributeList);
 }

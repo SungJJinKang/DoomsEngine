@@ -19,6 +19,7 @@ namespace dooms
 	namespace reflection
 	{
 		class DClass;
+		class DAttributeList;
 		class DOOM_API D_CLASS DFunction : public DPrimitive /*: public dooms::DObject*/ // Dont Do this
 		{
 		protected:
@@ -236,6 +237,8 @@ namespace dooms
 			{
 				return clFunction != dFunction.clFunction;
 			}
+
+			DAttributeList GetAttributeList() const;
 		};
 	}
 }

@@ -38,9 +38,17 @@ namespace dooms
 			
 		protected:
 
-			DPrimitive();
+			FORCE_INLINE DPrimitive()
+				: clPrimitive(nullptr)
+			{
+			}
 
-			DPrimitive(const clcpp::Primitive* const _clPrimitive);
+
+			FORCE_INLINE DPrimitive(const clcpp::Primitive* const _clPrimitive)
+				: clPrimitive(_clPrimitive)
+			{
+			}
+
 
 		public:
 
@@ -93,6 +101,7 @@ namespace dooms
 			{
 				return clPrimitive != dPrimitive.clPrimitive;
 			}
+
 		};
 	}
 }

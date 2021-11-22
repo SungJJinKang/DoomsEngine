@@ -29,15 +29,67 @@ namespace dooms
 
 		public:
 
-			DAttribute(clcpp::Attribute* const clcppAttribute);
+			FORCE_INLINE DAttribute(clcpp::Attribute* const clcppAttribute)
+				: DPrimitive(clcppAttribute), mclcppAttribute(clcppAttribute)
+			{
+				D_ASSERT(clcppAttribute != nullptr);
+				D_ASSERT(
+					clcppAttribute->KIND == clcpp::Primitive::Kind::KIND_INT_ATTRIBUTE ||
+					clcppAttribute->KIND == clcpp::Primitive::Kind::KIND_FLOAT_ATTRIBUTE ||
+					clcppAttribute->KIND == clcpp::Primitive::Kind::KIND_TEXT_ATTRIBUTE
+				);
+			}
+			
+			FORCE_INLINE const char* GetAttributeName() const
+			{
+				D_ASSERT(mclcppAttribute != nullptr);
+				D_ASSERT
+				(
+					GetAttributeType() == AttributeType::Int ||
+					GetAttributeType() == AttributeType::Float ||
+					GetAttributeType() == AttributeType::Text
+				);
 
-			// We use only below four type attribute
-			std::string GetStringValue() const;
-			float GetFloatValue() const;
-			int GetIntValue();
+				return mclcppAttribute->name.text;
+			}
 
-			const char* GetAttributeLabel() const;
-			AttributeType GetAttributeType() const;
+			FORCE_INLINE const char* GetStringValue() const
+			{
+				D_ASSERT(mclcppAttribute != nullptr);
+				D_ASSERT(GetAttributeType() == AttributeType::Text);
+
+				return mclcppAttribute->AsTextAttribute()->value;
+			}
+
+			FORCE_INLINE float GetFloatValue() const
+			{
+				D_ASSERT(mclcppAttribute != nullptr);
+				D_ASSERT(GetAttributeType() == AttributeType::Float);
+
+				return mclcppAttribute->AsFloatAttribute()->value;
+			}
+
+			FORCE_INLINE int GetIntValue() const
+			{
+				D_ASSERT(mclcppAttribute != nullptr);
+				D_ASSERT(GetAttributeType() == AttributeType::Int);
+
+				return mclcppAttribute->AsIntAttribute()->value;
+			}
+			
+			FORCE_INLINE AttributeType GetAttributeType() const
+			{
+				D_ASSERT(mclcppAttribute != nullptr);
+				D_ASSERT
+				(
+					GetAttributeType() == AttributeType::Int ||
+					GetAttributeType() == AttributeType::Float ||
+					GetAttributeType() == AttributeType::Text
+				);
+
+				return static_cast<AttributeType>(mclcppAttribute->kind);
+			}
+
 
 		};
 	}

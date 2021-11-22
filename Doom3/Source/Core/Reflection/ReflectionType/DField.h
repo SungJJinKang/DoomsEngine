@@ -1,7 +1,8 @@
 #pragma once
 
-
 #include <string>
+#include <vector>
+
 #include <Macros/TypeDef.h>
 #include <Macros/DllMarcos.h>
 #include "Macros/Assert.h"
@@ -16,7 +17,8 @@ namespace dooms
 
 	namespace reflection
 	{
-
+		class DAttribute;
+		class DAttributeList;
 		class DOOM_API D_CLASS DField : public DPrimitive /*: public dooms::DObject*/ // Dont Do this
 		{
 		protected:
@@ -170,6 +172,8 @@ namespace dooms
 			{
 				return clField != dField.clField;
 			}
+
+			DAttributeList GetAttributeList() const;
 		};
 	}
 }

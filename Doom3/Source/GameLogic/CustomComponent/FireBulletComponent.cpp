@@ -3,11 +3,19 @@
 #include "BulletComponent.h"
 
 #include <Random.h>
+#include <Reflection/ReflectionType/DClass.h>
 
 void dooms::FireBulletComponent::InitComponent()
 {
 	PlainComponent::InitComponent();
 	
+
+	dooms::reflection::DClass dClass = GetDClass();
+
+	dooms::reflection::DField dField;
+	auto dFsield = dClass.GetDField("BullterSpeed", dField);
+
+	//dField.g
 }
 
 void dooms::FireBulletComponent::UpdateComponent()

@@ -16,6 +16,7 @@ namespace dooms
 	class DObject;
 	namespace reflection
 	{
+		class DAttributeList;
 		class DOOM_API D_CLASS DClass : public DType /*: public dooms::DObject*/ // Dont Do this
 		{
 		private:
@@ -38,7 +39,10 @@ namespace dooms
 			//D_PROPERTY()
 			//const UINT32 CLASS_FLAGS;
 
-			DClass();
+			FORCE_INLINE DClass()
+				: DType(), clClass(nullptr)
+			{
+			}
 			DClass(dooms::DObject* const dObject);
 			DClass(const UINT32 nameHash);
 			DClass(const char* const classFullName);
@@ -132,6 +136,8 @@ namespace dooms
 			{
 				return clClass != dClass.clClass;
 			}
+
+			DAttributeList GetAttributeList() const;
 		};
 
 

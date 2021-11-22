@@ -10,9 +10,9 @@ namespace dooms
 {
 	
 	class DObject;
-
 	namespace reflection
 	{
+		class DAttributeList;
 
 		class DOOM_API D_CLASS DEnum : public DType /*: public dooms::DObject*/ // Dont Do this
 		{
@@ -23,6 +23,7 @@ namespace dooms
 		public:
 
 			DEnum(const UINT32 nameHash);
+			DEnum(const char* const fullName);
 
 			/// <summary>
 			/// if value doesn't exist, return nullptr
@@ -44,6 +45,8 @@ namespace dooms
 			{
 				return clEnum != dEnum.clEnum;
 			}
+
+			DAttributeList GetAttributeList() const;
 		};
 
 		template <typename T>

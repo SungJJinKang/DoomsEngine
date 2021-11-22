@@ -10,6 +10,7 @@
 #include "clReflect_automation/clReflect/inc/clcpp/clcpp.h"
 #endif
 
+// Flag : Invisible
 
 //TODO : Support flag attribute macros for imgui option 
 #if defined(REFLECTION_ENABLED) && defined(__clcpp_parse__)
