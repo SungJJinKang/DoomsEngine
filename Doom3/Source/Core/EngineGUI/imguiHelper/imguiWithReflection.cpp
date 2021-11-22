@@ -51,16 +51,21 @@ namespace dooms
 
 			bool DrawImguiWithReflection(void* const object, const char* const objectTypeFullName, const char* const label, const reflection::DAttributeList& attributeList)
 			{
-				auto iter = imguiWIthRelfectionFuncMap.find(std::string_view{ objectTypeFullName });
-				if (iter != imguiWIthRelfectionFuncMap.end())
+				bool isValueChange = false;
+				if(attributeList.GetIsVisibleOnGUI() == true)
 				{
-					return iter->second(object, label, attributeList);
+					auto iter = imguiWIthRelfectionFuncMap.find(std::string_view{ objectTypeFullName });
+					if (iter != imguiWIthRelfectionFuncMap.end())
+					{
+						isValueChange = iter->second(object, label, attributeList);
+					}
+					else
+					{
+						D_DEBUG_LOG(std::string{ "imguiWithReflection : Can't resolve type " } + objectTypeFullName);
+					}
 				}
-				else
-				{
-					D_DEBUG_LOG(std::string{ "imguiWithReflection : Can't resolve type " } + objectTypeFullName);
-					return false;
-				}
+
+				return isValueChange;
 			}
 
 
@@ -163,7 +168,7 @@ namespace dooms
 				return isValueChnaged;
 			}
 
-			bool imguiWithReflection_dooms_Entity(void* const object, const char* const label)
+			bool imguiWithReflection_dooms_Entity(void* const object, const char* const label, const reflection::DAttributeList& attributeList)
 			{
 				dooms::Entity* const entity = static_cast<dooms::Entity*>(object);
 
@@ -219,17 +224,17 @@ namespace dooms
 				}
 			}
 
-			static std::vector<dooms::DObject*> drawedDObjectList{};
+			static std::vector<dooms::DObject*> DrawedDObjectList{};
 
 			void DrawDObjectGUI(DObject* const dObject)
 			{
 				if(
 					IsValid(dObject) == true &&
 					// check if DObject is already drawed to prevent infinite loop
-					std::find(drawedDObjectList.begin(), drawedDObjectList.end(), dObject) == drawedDObjectList.end()
+					std::find(DrawedDObjectList.begin(), DrawedDObjectList.end(), dObject) == DrawedDObjectList.end()
 				)
 				{
-					drawedDObjectList.push_back(dObject);
+					DrawedDObjectList.push_back(dObject);
 
 					reflection::DClass dObjectDClass = dObject->GetDClass();
 
@@ -257,12 +262,12 @@ namespace dooms
 								const_cast<dooms::reflection::DField&>(dField).GetRawFieldValue(dObject),
 								dField.GetFieldTypeName(),
 								dField.GetFieldName(),
-								dField.GetAttributeList()
+								dField.GetDAttributeList()
 							);
 						}
 
 						//Draw Components of entity
-						DrawImguiWithReflection(dObject, dObject->GetTypeFullName(), "", dObjectDClass.geta);
+						DrawImguiWithReflection(dObject, dObject->GetTypeFullName(), "", dObjectDClass.GetDAttributeList());
 
 						if (isGUIValueChanged == true)
 						{
@@ -310,7 +315,7 @@ void dooms::ui::imguiWithReflection::UpdateGUI_DObjectsVisibleOnGUI()
 
 		ImGui::End();
 
-		drawedDObjectList.clear();
+		DrawedDObjectList.clear();
 	}	
 }
 

@@ -138,7 +138,7 @@ bool dooms::reflection::DFunction::GetParameterDField(const char* const paramete
 	return isSuccess;
 }
 
-dooms::reflection::DAttributeList dooms::reflection::DFunction::GetAttributeList() const
+dooms::reflection::DAttributeList dooms::reflection::DFunction::GetDAttributeList() const
 {
 	std::vector<dooms::reflection::DAttribute> attributeList;
 

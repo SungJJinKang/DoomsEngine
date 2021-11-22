@@ -217,7 +217,7 @@ bool dooms::reflection::DClass::GetDFunction(const char* const functionName, doo
 	return isSuccess;
 }
 
-dooms::reflection::DAttributeList dooms::reflection::DClass::GetAttributeList() const
+dooms::reflection::DAttributeList dooms::reflection::DClass::GetDAttributeList() const
 {
 	std::vector<dooms::reflection::DAttribute> attributeList;
 

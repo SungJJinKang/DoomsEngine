@@ -46,7 +46,7 @@ namespace dooms
 				return clEnum != dEnum.clEnum;
 			}
 
-			DAttributeList GetAttributeList() const;
+			DAttributeList GetDAttributeList() const;
 		};
 
 		template <typename T>

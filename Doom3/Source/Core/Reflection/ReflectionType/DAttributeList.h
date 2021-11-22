@@ -7,6 +7,9 @@
 #include <unordered_map>
 
 #include "DPrimitive.h"
+#include "DAttribute.h"
+
+struct ImVec4;
 
 D_NAMESPACE(dooms)
 namespace dooms
@@ -27,7 +30,24 @@ namespace dooms
 			DAttributeList(const std::vector<DAttribute>& attributes);
 			DAttributeList(std::vector<DAttribute>&& attributes) noexcept;
 
+			/// <summary>
+			/// seacrching attribute with name is case-in(!)intensive
+			/// </summary>
+			/// <param name="attributeName"></param>
+			/// <returns></returns>
 			const DAttribute* GetAttributeWithName(const char* const attributeName) const;
+			
+			/// <summary>
+			/// return Text Color
+			/// </summary>
+			/// <returns></returns>
+			ImVec4 GetTextColor() const;
+			bool GetIsVisibleOnGUI() const;
+			const char* GetGUIType() const;
+			bool GetIsReadOnly() const;
+
+			float GetMinValue() const;
+			float GetMaxValue() const;
 		};
 	}
 }

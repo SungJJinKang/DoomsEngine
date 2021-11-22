@@ -1,5 +1,8 @@
 #include "DEnum.h"
 
+#include <vector>
+
+#include "../Reflection.h"
 #include "Reflection/ReflectionManager.h"
 #include "DAttributeList.h"
 
@@ -70,7 +73,7 @@ const bool dooms::reflection::DEnum::GetValue(const char* const valueName, INT32
 
 
 
-dooms::reflection::DAttributeList dooms::reflection::DEnum::GetAttributeList() const
+dooms::reflection::DAttributeList dooms::reflection::DEnum::GetDAttributeList() const
 {
 	std::vector<dooms::reflection::DAttribute> attributeList;
 

@@ -173,7 +173,7 @@ namespace dooms
 				return clField != dField.clField;
 			}
 
-			DAttributeList GetAttributeList() const;
+			DAttributeList GetDAttributeList() const;
 		};
 	}
 }

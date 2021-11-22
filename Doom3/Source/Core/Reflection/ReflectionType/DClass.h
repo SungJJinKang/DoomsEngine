@@ -137,7 +137,7 @@ namespace dooms
 				return clClass != dClass.clClass;
 			}
 
-			DAttributeList GetAttributeList() const;
+			DAttributeList GetDAttributeList() const;
 		};
 
 

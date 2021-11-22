@@ -23,7 +23,7 @@ std::string dooms::reflection::DField::ToString(void* const dObject)
 	return GetStringFromReflectionData(GetFieldTypeHashValue(), GetRawFieldValue(dObject));
 }
 
-dooms::reflection::DAttributeList dooms::reflection::DField::GetAttributeList() const
+dooms::reflection::DAttributeList dooms::reflection::DField::GetDAttributeList() const
 {
 	std::vector<dooms::reflection::DAttribute> attributeList;
 

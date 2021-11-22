@@ -238,7 +238,7 @@ namespace dooms
 				return clFunction != dFunction.clFunction;
 			}
 
-			DAttributeList GetAttributeList() const;
+			DAttributeList GetDAttributeList() const;
 		};
 	}
 }
