@@ -220,7 +220,7 @@ void dooms::graphics::Graphics_Server::Render()
 
 		targetCamera->UpdateUniformBufferObject();
 
-		targetCamera->mDefferedRenderingFrameBuffer.ClearFrameBuffer();
+		targetCamera->mDefferedRenderingFrameBuffer.ClearFrameBuffer(targetCamera);
 		targetCamera->mDefferedRenderingFrameBuffer.BindFrameBuffer();
 		
 		D_START_PROFILING(RenderObject, dooms::profiler::eProfileLayers::Rendering);
