@@ -25,6 +25,7 @@
 
 #include <vector_erase_move_lastelement/vector_swap_popback.h>
 
+#include "imgui_internal.h"
 #include "../engineGUIServer.h"
 
 namespace dooms
@@ -46,6 +47,7 @@ namespace dooms
 			int GetImguiFlags(const eImguiType imguiType, const reflection::DAttributeList& attributeList)
 			{
 				int flags = 0;
+				
 
 				if(attributeList.GetIsReadOnly() == true)
 				{
@@ -54,15 +56,12 @@ namespace dooms
 					case eImguiType::Color:
 						flags |= ImGuiColorEditFlags_NoInputs;
 						break;
-
-
+						
 					case eImguiType::Slider:
 					case eImguiType::Drag:
 						flags |= ImGuiSliderFlags_NoInput;
 						break;
-
 						
-
 					default:
 						D_ASSERT(false);
 						break;
@@ -100,8 +99,16 @@ namespace dooms
 			bool DrawImguiFieldWithReflection(void* const object, const char* const objectTypeFullName, const char* const label, const reflection::DAttributeList& attributeList)
 			{
 				bool isValueChange = false;
-				if(attributeList.GetIsVisibleOnGUI() == true)
+				
+				if (attributeList.GetIsVisibleOnGUI() == true)
 				{
+					const bool isSetDisabled = attributeList.GetIsReadOnly();
+					if(isSetDisabled == true)
+					{
+						ImGui::BeginDisabled();
+					}
+
+
 					auto iter = imguiWIthRelfectionFuncMap.find(std::string_view{ objectTypeFullName });
 					if (iter != imguiWIthRelfectionFuncMap.end())
 					{
@@ -111,7 +118,15 @@ namespace dooms
 					{
 						D_DEBUG_LOG(std::string{ "imguiWithReflection : Can't resolve type " } + objectTypeFullName);
 					}
+
+
+					if (isSetDisabled == true)
+					{
+						ImGui::EndDisabled();
+					}
 				}
+
+				
 
 				return isValueChange;
 			}
@@ -122,6 +137,13 @@ namespace dooms
 
 				if (GetIsFunctionGUIable(dFunction) == true)
 				{
+					const bool isSetDisabled = dFunction.GetDAttributeList().GetIsReadOnly();
+					if (isSetDisabled == true)
+					{
+						ImGui::BeginDisabled();
+					}
+
+
 					// when member function
 					if (dFunction.GetIsMemberFunction() == true)
 					{
@@ -138,6 +160,12 @@ namespace dooms
 							const_cast<dooms::reflection::DFunction&>(dFunction).CallFunctionNoReturn();
 							isButtonClicked = true;
 						}
+					}
+
+
+					if (isSetDisabled == true)
+					{
+						ImGui::EndDisabled();
 					}
 				}
 
@@ -159,14 +187,18 @@ namespace dooms
 
 			bool imguiWithReflection_char(void* const object, const char* const label, const reflection::DAttributeList& attributeList)
 			{
-				//ImGui::Text("%s : %d", label, *static_cast<int*>(object));
-				return ImGui::DragScalar(label, ImGuiDataType_S8, object);
+				const INT8 minValue = attributeList.GetMinValue<INT8>();
+				const INT8 maxValue = attributeList.GetMaxValue<INT8>();
+
+				return ImGui::DragScalar(label, ImGuiDataType_S8, object, DEFULAT_DRAG_SPEED, &minValue, &maxValue, 0, GetImguiFlags(eImguiType::Drag, attributeList));
 			}
 
 			bool imguiWithReflection_unsigned_char(void* const object, const char* const label, const reflection::DAttributeList& attributeList)
 			{
-				//ImGui::Text("%s : %u", label, *static_cast<unsigned int*>(object));
-				return ImGui::DragScalar(label, ImGuiDataType_U8, object);
+				const UINT8 minValue = attributeList.GetMinValue<UINT8>();
+				const UINT8 maxValue = attributeList.GetMaxValue<UINT8>();
+
+				return ImGui::DragScalar(label, ImGuiDataType_U8, object, DEFULAT_DRAG_SPEED, &minValue, &maxValue, 0, GetImguiFlags(eImguiType::Drag, attributeList));
 			}
 
 			bool imguiWithReflection_short(void* const object, const char* const label, const reflection::DAttributeList& attributeList)
