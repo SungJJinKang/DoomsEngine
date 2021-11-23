@@ -12,6 +12,11 @@
 #include "DPrimitive.h"
 #include "DField.h"
 
+extern "C"
+{
+	void call_func(unsigned __int64*, unsigned __int64*);
+}
+
 namespace dooms
 {
 	class DObject;
@@ -60,11 +65,11 @@ namespace dooms
 				return dPrimitiveHelper::GetShortNamePointer(clFunction->name.text);
 			}
 
-			FORCE_INLINE UINT_PTR GetFunctionAddress() const
+			FORCE_INLINE UINT_PTR* GetFunctionAddress() const
 			{
 				D_ASSERT(IsValid() == true);
 				D_ASSERT(clFunction->address != NULL);
-				return (UINT_PTR)(clFunction->address);
+				return (UINT_PTR*)(clFunction->address);
 			}
 			FORCE_INLINE bool GetIsHasFunctionAddress() const
 			{
@@ -155,8 +160,13 @@ namespace dooms
 				return isSuccess;
 			}
 
+			struct FakeStruct
+			{
+				
+			};
 
-			/// <summary>
+
+			/*/// <summary>
 			/// unsed for calling member function
 			/// </summary>
 			/// <typeparam name="RETURN_TYPE"></typeparam>
@@ -181,7 +191,7 @@ namespace dooms
 				D_ASSERT(GetReturnValueField().GetFieldTypeHashValue() == clcpp::GetTypeNameHash<RETURN_TYPE>());
 				D_ASSERT(GetReturnValueField().GetFieldTypeSize() == sizeof(RETURN_TYPE));
 
-				typedef RETURN_TYPE (*CallFunc)(ARGS...);
+				typedef RETURN_TYPE (FakeStruct::*CallFunc)(ARGS...);
 
 				CallFunc functionAddress = reinterpret_cast<CallFunc>(GetFunctionAddress());
 				D_ASSERT(functionAddress != 0);
@@ -193,37 +203,35 @@ namespace dooms
 				}
 
 				return isSuccess;
-			}
-
-			template <typename... ARGS>
-			bool CallMemberFunctionNoReturn(void* const classObject, ARGS&&... args)
+			}*/
+			
+			bool CallMemberFunctionNoReturnNoParameter(void* const classObject)
 			{// classObject doesn't need to be DOBject type
-
-				static_assert
-				(
-					( sizeof...(args) ) == 0,
-					"Please pass class object pointer, or if function doesn't have return value, use ~NoReturn function"
-				);
-
+				
 				//TODO : Argument type check
 				D_ASSERT(classObject != nullptr);
 
 				bool isSuccess = false;
 
 				D_ASSERT(GetIsHasReturnValue() == false);
+				D_ASSERT(GetParameterDFieldList().empty() == true);
 				D_ASSERT(GetIsMemberFunction() == true);
-				D_ASSERT(GetParameterDFieldList().size() == (sizeof...(args)) ); // why minus 1S? : member function has this field at first pos of Paramter List
-
-				typedef void (*CallFunc)(ARGS...);
-
-				CallFunc functionAddress = reinterpret_cast<CallFunc>(GetFunctionAddress());
-				D_ASSERT(functionAddress != 0);
+				
+				UINT_PTR* const functionAddress = GetFunctionAddress();
 				if (functionAddress != nullptr)
 				{
+					call_func(reinterpret_cast<unsigned __int64* >(classObject), functionAddress);
+				}
+				/*
+				void(FakeStruct::*funcionPointer)() = (void(FakeStruct::*)())(GetFunctionAddress());
+				
+				if (funcionPointer != nullptr)
+				{
 					// TODO :
-					functionAddress(std::forward<ARGS>(args)...);
+					reinterpret_cast<FakeStruct*>(classObject)->*funcionPointer();
 					isSuccess = true;
 				}
+				*/
 
 				return isSuccess;
 			}

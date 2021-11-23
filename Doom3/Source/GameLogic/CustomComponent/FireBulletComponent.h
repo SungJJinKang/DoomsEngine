@@ -25,6 +25,9 @@ namespace dooms
 
 		void InitComponent() override;
 		void UpdateComponent() override;
+
+		D_FUNCTION()
+		void Shoot();
 	};
 }
 

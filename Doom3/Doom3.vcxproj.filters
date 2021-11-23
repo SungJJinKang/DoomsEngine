@@ -1912,4 +1912,9 @@
     <Text Include="Source\Core\Reflection\Reflection_Tutorial.txt" />
     <Text Include="Source\Core\Reflection\DevelopmentPlan.txt" />
   </ItemGroup>
+  <ItemGroup>
+    <MASM Include="Source\Core\Reflection\ReflectionType\funcCall.asm">
+      <Filter>Source Files</Filter>
+    </MASM>
+  </ItemGroup>
 </Project>

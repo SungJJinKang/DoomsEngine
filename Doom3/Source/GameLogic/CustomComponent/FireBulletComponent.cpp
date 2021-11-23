@@ -32,26 +32,32 @@ void dooms::FireBulletComponent::UpdateComponent()
 		)
 	)
 	{
-		for(INT32 i = 0 ; i < BullterCount ; i++)
-		{
-			Entity* const newBulletEntity = dooms::Scene::DuplicateEntityStatic(mBullet->GetOwnerEntity());
-			mBullet = newBulletEntity->GetComponent<BulletComponent>();
-			mBullet->GetTransform()->SetPosition(GetTransform()->GetPosition());
-			mBullet->GetTransform()->SetRotation(GetTransform()->GetRotation());
-			mBullet->GetTransform()->Rotate
-			(
-				math::Vector3
-				{
-				Random::RandomFloatNumber(-0.5f, 0.5f),
-				Random::RandomFloatNumber(-0.5f, 0.5f),
-				0.0f
-				}
-				, eSpace::Self
-			);
-
-			mBullet->mSpeed = BullterSpeed;
-		}
-	
 		
+		
+	}
+}
+
+void dooms::FireBulletComponent::Shoot()
+{
+	D_ASSERT(IsValid(mBullet) == true);
+
+	for (INT32 i = 0; i < BullterCount; i++)
+	{
+		Entity* const newBulletEntity = dooms::Scene::DuplicateEntityStatic(mBullet->GetOwnerEntity());
+		mBullet = newBulletEntity->GetComponent<BulletComponent>();
+		mBullet->GetTransform()->SetPosition(GetTransform()->GetPosition());
+		mBullet->GetTransform()->SetRotation(GetTransform()->GetRotation());
+		mBullet->GetTransform()->Rotate
+		(
+			math::Vector3
+			{
+			Random::RandomFloatNumber(-0.5f, 0.5f),
+			Random::RandomFloatNumber(-0.5f, 0.5f),
+			0.0f
+			}
+			, eSpace::Self
+		);
+
+		mBullet->mSpeed = BullterSpeed;
 	}
 }

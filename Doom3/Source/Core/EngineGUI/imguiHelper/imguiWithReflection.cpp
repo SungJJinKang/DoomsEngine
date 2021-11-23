@@ -373,9 +373,7 @@ namespace dooms
 						for (auto& dFieldNode : dFieldList)
 						{
 							const dooms::reflection::DField& dField = dFieldNode.second;
-
-							// TODO : Consider GUI Flag
-
+							
 							isGUIValueChanged |= dooms::ui::imguiWithReflection::DrawImguiWithReflection(
 								const_cast<dooms::reflection::DField&>(dField).GetRawFieldValue(dObject),
 								dField.GetFieldTypeName(),
@@ -404,7 +402,21 @@ namespace dooms
 							
 							if(GetIsFunctionGUIable(dFunction) == true)
 							{
-								// TODO : Check is static function or member function	
+								// TODO : Check is static function or member function
+								if(dFunction.GetIsMemberFunction() == true)
+								{
+									if(ImGui::Button(dFunction.GetFunctionName()))
+									{
+										const_cast<dooms::reflection::DFunction&>(dFunction).CallMemberFunctionNoReturnNoParameter(dObject);
+									}
+								}
+								else
+								{// when static variable
+									if (ImGui::Button(dFunction.GetFunctionName()))
+									{
+										const_cast<dooms::reflection::DFunction&>(dFunction).CallFunctionNoReturn(dObject);
+									}
+								}
 							}
 						}
 					}
