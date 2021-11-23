@@ -130,6 +130,8 @@ dooms::reflection::DClass::DClass(const clcpp::Type* const clcppType)
 
 const std::unordered_map<std::string_view, dooms::reflection::DField>& dooms::reflection::DClass::GetDFieldList() const
 {
+	// TODO : Change unordered_map to std::vector
+	// TODO : Sort Field List based on field offset
 	D_ASSERT(IsValid() == true);
 
 	std::unordered_map<std::string_view, dooms::reflection::DField>* propertyList = nullptr;
