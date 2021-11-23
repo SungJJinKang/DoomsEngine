@@ -21,6 +21,15 @@ namespace dooms
 			static INT32 RandomIntNumber(INT32 a, INT32 b);
 
 			D_FUNCTION()
+			static INT32 RandomIntNumber();
+
+			D_FUNCTION()
+			static UINT32 RandomUIntNumber(UINT32 a, UINT32 b);
+
+			D_FUNCTION()
+			static UINT32 RandomUIntNumber();
+
+			D_FUNCTION()
 			static FLOAT32 RandomFloatNumber(FLOAT32 a, FLOAT32 b);
 		};
 		
