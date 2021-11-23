@@ -1,4 +1,4 @@
-# Dooms Engine ( Game Engine )
+# Dooms Engine ( Game Engine ) ( 2021.01.07 ~ )
   
 ## Video
 
@@ -36,11 +36,11 @@
 
   * change graphics api ( OpenGL to DirectX12 )
   * Masked SW Occlusion Culling ( work directory - https://github.com/SungJJinKang/EveryCulling/tree/main/CullingModule/MaskedSWOcclusionCulling ) ( reference : https://software.intel.com/content/dam/develop/external/us/en/documents/masked-software-occlusion-culling.pdf )       
-  * Batching System ( Static Batch, Dynamic Batch )
-
+  * implement engine ui ( use imgui! - https://github.com/ocornut/imgui )     
+ 
 ## To Develop
 
-  * implement engine ui ( use imgui! - https://github.com/ocornut/imgui )            
+  * Batching System ( Static Batch, Dynamic Batch )        
   * Refactoring ( Remove a lot of dependency between modules, classes )
   * Unreal Engine Style Garbage Collector ( reference : https://www.slideshare.net/QooJuice/ue4-garbage-collection-2 )
   * Hot Reload ( similar to Unreal Engine's )
