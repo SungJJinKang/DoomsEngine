@@ -138,6 +138,7 @@ namespace dooms
 
 		dooms::ui::EngineGUIAccessor mEngineGUIAccessor;
 		virtual void OnChangedByGUI(const dooms::reflection::DField& dFieldOfChangedField) {}
+		virtual void OnUpdateGUI() {}
 
 		void InitProperties(const DObjectContructorParams& params);
 

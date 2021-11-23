@@ -5,6 +5,7 @@
 #include <unordered_map>
 #include <string_view>
 #include <algorithm>
+#include <string.h>
 
 #include <Reflection/ReflectionType/DClass.h>
 #include <Reflection/ReflectionType/DAttributeList.h>
@@ -42,7 +43,8 @@ namespace dooms
 			{
 				Color,
 				Slider,
-				Drag
+				Drag,
+				InputText
 			};
 
 			int GetImguiFlags(const eImguiType imguiType, const reflection::DAttributeList& attributeList)
@@ -286,14 +288,7 @@ namespace dooms
 
 				return ImGui::DragScalar(label, ImGuiDataType_Double, object, DEFULAT_DRAG_SPEED, &minValue, &maxValue, 0, GetImguiFlags(eImguiType::Drag, attributeList));
 			}
-
-			bool imguiWithReflection_std_string(void* const object, const char* const label, const reflection::DAttributeList& attributeList)
-			{
-				//ImGui::Text("%s : %s", label, static_cast<std::string*>(object)->c_str());
-				//return ImGui::DragScalar(label, ImGuiDataType_S64, static_cast<long long*>(object));
-				return false;
-			}
-
+			
 			bool imguiWithReflection_math_Vector3(void* const object, const char* const label, const reflection::DAttributeList& attributeList)
 			{
 				if (attributeList.GetIsHasGUIType("Color"))
@@ -409,7 +404,63 @@ namespace dooms
 				return false;
 			}
 
-		
+			bool imguiWithReflection_std_string(void* const object, const char* const label, const reflection::DAttributeList& attributeList)
+			{
+				D_ASSERT(object != nullptr);
+
+				std::string* stdString = static_cast<std::string*>(object);
+				
+				char charBuffer[100];
+
+				if(stdString->empty() == false)
+				{
+					strncpy_s(charBuffer, stdString->c_str(), stdString->size() + 1);
+				}
+				else
+				{
+					charBuffer[0] = '\0';
+				}
+			
+
+				bool isTextEdited = ImGui::InputText(label, charBuffer, sizeof(charBuffer) * sizeof(char), GetImguiFlags(eImguiType::InputText, attributeList));
+
+				if(isTextEdited == true)
+				{
+					*stdString = charBuffer;
+				}
+
+				return isTextEdited;
+			}
+
+			/*
+			bool imguiWithReflection_std_wstring(void* const object, const char* const label, const reflection::DAttributeList& attributeList)
+			{
+				D_ASSERT(object != nullptr);
+
+				std::wstring* stdString = static_cast<std::wstring*>(object);
+
+				wchar_t wcharBuffer[50];
+
+				if (stdString->empty() == false)
+				{
+					std::strncpy(wcharBuffer, stdString->c_str(), stdString->size() + 1);
+				}
+				else
+				{
+					wcharBuffer[0] = '\0';
+				}
+
+
+				bool isTextEdited = ImGui::inputt(label, wcharBuffer, sizeof(wcharBuffer) * sizeof(wchar_t), GetImguiFlags(eImguiType::InputText, attributeList));
+
+				if (isTextEdited == true)
+				{
+					*stdString = wcharBuffer;
+				}
+
+				return isTextEdited;
+			}
+			*/
 
 			void Initialize()
 			{
@@ -431,6 +482,7 @@ namespace dooms
 					imguiWIthRelfectionFuncMap.emplace("double", imguiWithReflection_double);
 					imguiWIthRelfectionFuncMap.emplace("dooms::Entity", imguiWithReflection_dooms_Entity);
 					imguiWIthRelfectionFuncMap.emplace("dooms::TransformCoreData", imguiWithReflection_TransformCoreData);
+					imguiWIthRelfectionFuncMap.emplace("std::basic_string<char,std::char_traits<char>,std::allocator<char>>", imguiWithReflection_std_string);
 
 					isInitialized = true;
 				}
