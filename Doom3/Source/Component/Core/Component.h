@@ -147,9 +147,9 @@ namespace dooms
 // 		virtual void OnComponentAttachedToOwnerEntity(Component* newComponent) {}
 // 		virtual void OnComponentDettachedToOwnerEntity(Component* newComponent) {}
 
-		virtual void OnChangedByGUI()
+		virtual void OnChangedByGUI(const dooms::reflection::DField& dFieldOfChangedField)
 		{
-			Base::OnChangedByGUI();
+			Base::OnChangedByGUI(dFieldOfChangedField);
 		}
 
 	public:

@@ -74,14 +74,7 @@ namespace dooms
 		virtual void OnEndOfFrame_Component() final;
 		virtual void OnDestroy() final;
 		
-		virtual void OnChangedByGUI()
-		{
-			Base::OnChangedByGUI();
-
-			SetPosition(mTransformCoreData.mPosition);
-			SetRotation(mRotation);
-			SetScale(mScale);
-		}
+		virtual void OnChangedByGUI(const dooms::reflection::DField& dFieldOfChangedField);
 
 		bool IsEntityMobilityStatic() const;
 

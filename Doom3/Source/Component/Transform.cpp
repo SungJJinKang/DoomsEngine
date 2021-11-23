@@ -27,6 +27,28 @@ void dooms::Transform::OnDestroy()
 	
 }
 
+void dooms::Transform::OnChangedByGUI(const dooms::reflection::DField& dFieldOfChangedField)
+{
+	Base::OnChangedByGUI(dFieldOfChangedField);
+
+	if(strcmp(dFieldOfChangedField.GetFieldName(), "mTransformCoreData") == 0)
+	{
+		SetPosition(mTransformCoreData.mPosition);
+	}
+	else if (strcmp(dFieldOfChangedField.GetFieldName(), "mRotation") == 0)
+	{
+		SetRotation(mRotation);
+	}
+	else if (strcmp(dFieldOfChangedField.GetFieldName(), "mScale") == 0)
+	{
+		SetScale(mScale);
+	}
+
+
+
+	
+}
+
 
 bool dooms::Transform::IsEntityMobilityStatic() const
 {
