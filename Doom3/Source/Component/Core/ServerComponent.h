@@ -95,9 +95,9 @@ namespace dooms
 			//DON'T PUT ANYTHING AT HERE
 		}
 
-		virtual void OnChangedByGUI()
+		virtual void OnChangedByGUI(const dooms::reflection::DField& dFieldOfChangedField)
 		{
-			Base::OnChangedByGUI();
+			Base::OnChangedByGUI(dFieldOfChangedField);
 		}
 
 // 		virtual void OnComponentAttachedToOwnerEntity(Component* newComponent) override {}

@@ -68,7 +68,7 @@ namespace dooms
 
 	private:
 
-		D_PROPERTY()
+		D_PROPERTY(READONLY)
 		size_t mEntityID;
 		
 		D_PROPERTY()

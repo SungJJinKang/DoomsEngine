@@ -13,7 +13,7 @@
 #include "Reflection/Reflection.h"
 #include <GarbageCollector/GarbageCollectee.h>
 #include "EngineGUI/EngineGUIAccessor.h"
-
+#include "Reflection/ReflectionType/DField.h"
 
 #include "DObject.reflection.h"
 D_NAMESPACE(dooms)
@@ -137,7 +137,7 @@ namespace dooms
 	public:
 
 		dooms::ui::EngineGUIAccessor mEngineGUIAccessor;
-		virtual void OnChangedByGUI() {}
+		virtual void OnChangedByGUI(const dooms::reflection::DField& dFieldOfChangedField) {}
 
 		void InitProperties(const DObjectContructorParams& params);
 

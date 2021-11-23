@@ -97,7 +97,7 @@ namespace dooms
 
 			static std::unordered_map<std::string_view, IMGUI_WITH_REFLECTION_FUNC> imguiWIthRelfectionFuncMap{};
 
-			bool DrawImguiWithReflection(void* const object, const char* const objectTypeFullName, const char* const label, const reflection::DAttributeList& attributeList)
+			bool DrawImguiFieldWithReflection(void* const object, const char* const objectTypeFullName, const char* const label, const reflection::DAttributeList& attributeList)
 			{
 				bool isValueChange = false;
 				if(attributeList.GetIsVisibleOnGUI() == true)
@@ -116,10 +116,40 @@ namespace dooms
 				return isValueChange;
 			}
 
+			bool DrawImguiFunctionWithReflection(void* const object, const dooms::reflection::DFunction dFunction)
+			{
+				bool isButtonClicked = false;
 
-			////
-			///
-			///
+				if (GetIsFunctionGUIable(dFunction) == true)
+				{
+					// when member function
+					if (dFunction.GetIsMemberFunction() == true)
+					{
+						if (ImGui::Button(dFunction.GetFunctionName()))
+						{
+							const_cast<dooms::reflection::DFunction&>(dFunction).CallMemberFunctionNoReturnNoParameter(object);
+							isButtonClicked = true;
+						}
+					}
+					else
+					{// when static function or glbal function
+						if (ImGui::Button(dFunction.GetFunctionName()))
+						{
+							const_cast<dooms::reflection::DFunction&>(dFunction).CallFunctionNoReturn();
+							isButtonClicked = true;
+						}
+					}
+				}
+
+				return isButtonClicked;
+			}
+
+
+			///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+			///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+			///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
 			bool imguiWithReflection_bool(void* const object, const char* const label, const reflection::DAttributeList& attributeList)
 			{
 				//ImGui::Text("%s : %d", label, *static_cast<int*>(object));
@@ -219,13 +249,16 @@ namespace dooms
 				}
 				else
 				{
+					const FLOAT32 minValue = attributeList.GetMinValue<FLOAT32>();
+					const FLOAT32 maxValue = attributeList.GetMaxValue<FLOAT32>();
+
 					return ImGui::DragFloat3
 					(
 						label, 
 						static_cast<math::Vector3*>(object)->data(), 
 						DEFULAT_DRAG_SPEED,
-						attributeList.GetMinValue(),
-						attributeList.GetMaxValue(),
+						minValue,
+						maxValue,
 						"%.3f",
 						GetImguiFlags(eImguiType::Slider, attributeList)
 					);
@@ -241,13 +274,16 @@ namespace dooms
 				}
 				else
 				{
+					const FLOAT32 minValue = attributeList.GetMinValue<FLOAT32>();
+					const FLOAT32 maxValue = attributeList.GetMaxValue<FLOAT32>();
+
 					return ImGui::DragFloat4
 					(
 						label,
 						static_cast<math::Vector4*>(object)->data(),
 						DEFULAT_DRAG_SPEED,
-						attributeList.GetMinValue(),
-						attributeList.GetMaxValue(),
+						minValue,
+						maxValue,
 						"%.3f",
 						GetImguiFlags(eImguiType::Slider, attributeList)
 					);
@@ -258,16 +294,21 @@ namespace dooms
 			{
 				math::Vector3 eulerAngle{ math::Quaternion::QuaternionToEulerAngle(*static_cast<math::Quaternion*>(object)) };
 
+				const FLOAT32 minValue = attributeList.GetMinValue<FLOAT32>();
+				const FLOAT32 maxValue = attributeList.GetMaxValue<FLOAT32>();
+
 				const bool isValueChanged = ImGui::DragFloat3
 				(
 					label,
 					eulerAngle.data(),
 					DEFULAT_DRAG_SPEED,
-					attributeList.GetMinValue(),
-					attributeList.GetMaxValue(),
+					minValue,
+					maxValue,
 					"%.3f",
 					GetImguiFlags(eImguiType::Slider, attributeList)
 				);
+
+				// TODO : FIX THIS. DOESN'T WORK WELL..
 
 				if(isValueChanged == true)
 				{
@@ -314,6 +355,8 @@ namespace dooms
 
 				return false;
 			}
+
+		
 
 			void Initialize()
 			{
@@ -366,29 +409,29 @@ namespace dooms
 						//label
 						ImGui::TextColored(ImVec4{1.0f, 0.0f, 0.0f, 1.0f}, "%s", dObject->GetDObjectName().empty() == false ? dObject->GetDObjectName().c_str() : dObject->GetTypeFullName());
 
-
-						bool isGUIValueChanged = false;
-
+						
 
 						for (auto& dFieldNode : dFieldList)
 						{
 							const dooms::reflection::DField& dField = dFieldNode.second;
 							
-							isGUIValueChanged |= dooms::ui::imguiWithReflection::DrawImguiWithReflection(
+							const bool isGUIValueChanged = dooms::ui::imguiWithReflection::DrawImguiFieldWithReflection(
 								const_cast<dooms::reflection::DField&>(dField).GetRawFieldValue(dObject),
 								dField.GetFieldTypeName(),
 								dField.GetFieldName(),
 								dField.GetDAttributeList()
 							);
+
+							if (isGUIValueChanged == true)
+							{
+								dObject->OnChangedByGUI(dField);
+							}
 						}
 
 						//Draw Components of entity
-						DrawImguiWithReflection(dObject, dObject->GetTypeFullName(), "", dObjectDClass.GetDAttributeList());
+						DrawImguiFieldWithReflection(dObject, dObject->GetTypeFullName(), "", dObjectDClass.GetDAttributeList());
 
-						if (isGUIValueChanged == true)
-						{
-							dObject->OnChangedByGUI();
-						}
+					
 
 
 					}
@@ -399,25 +442,9 @@ namespace dooms
 						for (auto& dFunctioNnode : dFunctionList)
 						{
 							const dooms::reflection::DFunction& dFunction = dFunctioNnode.second;
-							
-							if(GetIsFunctionGUIable(dFunction) == true)
-							{
-								// TODO : Check is static function or member function
-								if(dFunction.GetIsMemberFunction() == true)
-								{
-									if(ImGui::Button(dFunction.GetFunctionName()))
-									{
-										const_cast<dooms::reflection::DFunction&>(dFunction).CallMemberFunctionNoReturnNoParameter(dObject);
-									}
-								}
-								else
-								{// when static variable
-									if (ImGui::Button(dFunction.GetFunctionName()))
-									{
-										const_cast<dooms::reflection::DFunction&>(dFunction).CallFunctionNoReturn(dObject);
-									}
-								}
-							}
+
+							DrawImguiFunctionWithReflection(dObject, dFunction);
+						
 						}
 					}
 					
