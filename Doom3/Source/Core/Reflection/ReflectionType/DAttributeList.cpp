@@ -163,6 +163,20 @@ bool dooms::reflection::DAttributeList::GetIsReadOnly() const
 	return isReadOnly;
 }
 
+const char* dooms::reflection::DAttributeList::GetTooltip() const
+{
+	const char* tooltipStr = nullptr;
+
+	const dooms::reflection::DAttribute* minAttribute = GetAttributeWithName("TOOLTIP");
+	if (minAttribute != nullptr)
+	{
+		D_ASSERT(minAttribute->GetAttributeType() == DAttribute::AttributeType::Text);
+		tooltipStr = minAttribute->GetStringValue();
+	}
+
+	return tooltipStr;
+}
+
 float dooms::reflection::DAttributeList::GetMinValue() const
 {
 	float minValue = FLOAT32_MIN; // 0.0f mean infinity

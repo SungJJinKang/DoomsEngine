@@ -69,7 +69,7 @@ typedef double FLOAT64;
 #define INT32_MIN ((INT32)0x80000000)
 #endif
 
-#ifndef U16_MAX
+#ifndef INT32_MAX
 #define INT32_MAX ((INT32)0x7fffffff)
 #endif
 

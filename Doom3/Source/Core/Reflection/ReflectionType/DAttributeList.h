@@ -46,6 +46,14 @@ namespace dooms
 			bool GetIsHasGUIType(const char* const typeName) const;
 			bool GetIsReadOnly() const;
 
+			/// <summary>
+			/// if there isn't tooltip, return nullptr
+			///
+			///	only one tooltip is supported
+			/// </summary>
+			/// <returns></returns>
+			const char* GetTooltip() const;
+
 			float GetMinValue() const;
 			template <typename T>
 			T GetMinValue() const

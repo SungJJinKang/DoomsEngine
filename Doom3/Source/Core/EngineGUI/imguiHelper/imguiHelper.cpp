@@ -4,6 +4,7 @@
 
 #include "backends/imgui_impl_glfw.h"
 #include "backends/imgui_impl_opengl3.h"
+#include <imgui_internal.h>
 
 void dooms::ui::imguiHelper::InitializeImgui(GLFWwindow* const glfwWindow, const char* const glslVersion)
 {
@@ -27,6 +28,7 @@ void dooms::ui::imguiHelper::InitializeImgui(GLFWwindow* const glfwWindow, const
     // Setup Platform/Renderer backends
     ImGui_ImplGlfw_InitForOpenGL(glfwWindow, true);
     ImGui_ImplOpenGL3_Init(glslVersion);
+    
 }
 
 void dooms::ui::imguiHelper::ShutdownImgui()

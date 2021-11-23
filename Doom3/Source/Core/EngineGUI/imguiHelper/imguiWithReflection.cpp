@@ -9,6 +9,7 @@
 #include <Reflection/ReflectionType/DClass.h>
 #include <Reflection/ReflectionType/DAttributeList.h>
 
+#include <Random.h>
 
 #include <Vector2.h>
 #include <Vector3.h>
@@ -96,19 +97,48 @@ namespace dooms
 
 			static std::unordered_map<std::string_view, IMGUI_WITH_REFLECTION_FUNC> imguiWIthRelfectionFuncMap{};
 
+
+			INT32 OnStartDrawGUI(const reflection::DAttributeList& attributeList)
+			{
+				if (attributeList.GetIsReadOnly() == true)
+				{
+					ImGui::BeginDisabled();
+				}
+
+				const INT32 id = Random::RandomIntNumber();
+				//ImGui::PushID(id);
+				
+				return id;
+			}
+
+			void OnEndDrawGUI(const INT32 id, const char* const label, const reflection::DAttributeList& attributeList)
+			{
+				// this is little slow. but it's acceptable
+				if (attributeList.GetIsReadOnly() == true)
+				{
+					ImGui::EndDisabled();
+
+				}
+
+				if(ImGui::IsItemHovered())
+				//if(ImGui::GetFocusID() == ImGui::GetID(label))
+				{
+					if (const char* const tooltipStr = attributeList.GetTooltip())
+					{
+						ImGui::SetTooltip("Tooltip : %s", tooltipStr);
+					}
+				}
+				
+			}
+
 			bool DrawImguiFieldWithReflection(void* const object, const char* const objectTypeFullName, const char* const label, const reflection::DAttributeList& attributeList)
 			{
 				bool isValueChange = false;
 				
 				if (attributeList.GetIsVisibleOnGUI() == true)
 				{
-					const bool isSetDisabled = attributeList.GetIsReadOnly();
-					if(isSetDisabled == true)
-					{
-						ImGui::BeginDisabled();
-					}
-
-
+					const INT32 id = OnStartDrawGUI(attributeList);
+					
 					auto iter = imguiWIthRelfectionFuncMap.find(std::string_view{ objectTypeFullName });
 					if (iter != imguiWIthRelfectionFuncMap.end())
 					{
@@ -119,11 +149,7 @@ namespace dooms
 						D_DEBUG_LOG(std::string{ "imguiWithReflection : Can't resolve type " } + objectTypeFullName);
 					}
 
-
-					if (isSetDisabled == true)
-					{
-						ImGui::EndDisabled();
-					}
+					OnEndDrawGUI(id, label, attributeList);
 				}
 
 				
@@ -137,11 +163,9 @@ namespace dooms
 
 				if (GetIsFunctionGUIable(dFunction) == true)
 				{
-					const bool isSetDisabled = dFunction.GetDAttributeList().GetIsReadOnly();
-					if (isSetDisabled == true)
-					{
-						ImGui::BeginDisabled();
-					}
+					const dooms::reflection::DAttributeList& attributeList = dFunction.GetDAttributeList();
+
+					const INT32 id = OnStartDrawGUI(attributeList);
 
 
 					// when member function
@@ -163,10 +187,7 @@ namespace dooms
 					}
 
 
-					if (isSetDisabled == true)
-					{
-						ImGui::EndDisabled();
-					}
+					OnEndDrawGUI(id, dFunction.GetFunctionName(), attributeList);
 				}
 
 				return isButtonClicked;

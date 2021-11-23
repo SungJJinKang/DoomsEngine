@@ -57,7 +57,7 @@ namespace dooms
 
 		D_PROPERTY()
 		math::Vector3 mScale{ 1.0f };
-		D_PROPERTY()
+		D_PROPERTY(TOOLTIP="Euler Angle")
 		math::Quaternion mRotation{ 0.0f, 0.0f, 0.0f, 1.0f };
 		D_PROPERTY()
 		math::Vector3 mLastFramePosition{nullptr};
