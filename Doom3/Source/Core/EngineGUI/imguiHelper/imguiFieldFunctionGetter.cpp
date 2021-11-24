@@ -290,11 +290,9 @@ namespace dooms
 
 				if (IsValid(entity) == true)
 				{
-					auto Transform = entity->GetTransform();
 					auto& AllServerComponents = entity->GetAllPlainComponents();
 					auto& AllPlainComponents = entity->GetAllPlainComponents();
 
-					imguiWithReflectionHelper::DrawObjectGUI(Transform->GetDClass(), Transform, "", imguiWithReflectionHelper::eObjectType::DObject);
 					for (auto& serverComponent : AllServerComponents)
 					{
 						if (serverComponent)
