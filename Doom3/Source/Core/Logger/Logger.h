@@ -80,8 +80,10 @@ namespace dooms
 			if (CheckLogAcceptable(logType) == true)
 			{
 				GUILogger::Log(fileName, codeLineNum, logType, format, std::forward<Args>(args)...);
-				StopIfError(logType);
+				
 			}
+
+			StopIfError(logType);
 		}
 	}
 }
