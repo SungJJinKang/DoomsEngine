@@ -3,6 +3,13 @@
 #include "ToString.h"
 #include "DAttribute.h"
 #include "DAttributeList.h"
+#include "DClass.h"
+
+dooms::reflection::DClass dooms::reflection::DField::GetFieldTypeDClass() const
+{
+	D_ASSERT(clField->type->kind == clcpp::Primitive::Kind::KIND_CLASS);
+	return dooms::reflection::DClass{ clField->type };
+}
 
 void* dooms::reflection::DField::GetRawFieldValue(void* const dObject)
 {
