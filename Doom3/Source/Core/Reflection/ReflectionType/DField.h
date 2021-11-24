@@ -57,7 +57,7 @@ namespace dooms
 				return clField->offset;
 			}
 
-			FORCE_INLINE const char* GetFieldTypeName() const
+			FORCE_INLINE const char* GetFieldTypeFullName() const
 			{
 				return clField->type->name.text;
 			}
@@ -101,7 +101,7 @@ namespace dooms
 
 
 				// TODO : add Assert
-				//D_ASSERT(sizeof(RETURN_TYPE) == GetFieldTypeSize(), "Wrong RETURN TYPE. Please Check Type. Type of DField = %s", GetFieldTypeName());
+				//D_ASSERT(sizeof(RETURN_TYPE) == GetFieldTypeSize(), "Wrong RETURN TYPE. Please Check Type. Type of DField = %s", GetFieldTypeFullName());
 
 				RETURN_TYPE* returnedField = reinterpret_cast<RETURN_TYPE*>(GetRawFieldValue(dObject));
 				
@@ -118,7 +118,7 @@ namespace dooms
 
 
 				// TODO : add Assert
-				//D_ASSERT(sizeof(RETURN_TYPE) == GetFieldTypeSize(), "Wrong RETURN TYPE. Please Check Type. Type of DField = %s", GetFieldTypeName());
+				//D_ASSERT(sizeof(RETURN_TYPE) == GetFieldTypeSize(), "Wrong RETURN TYPE. Please Check Type. Type of DField = %s", GetFieldTypeFullName());
 
 				RETURN_TYPE* returnedField = reinterpret_cast<RETURN_TYPE*>(GetRawFieldValue(dObject));
 

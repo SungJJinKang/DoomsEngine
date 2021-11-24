@@ -32,6 +32,28 @@ namespace dooms
 
 		class DOOM_API D_CLASS DPrimitive /*: public dooms::DObject*/ // Dont Do this
 		{
+		public:
+
+			enum class ePrimitiveType
+			{
+				NONE = clcpp::Primitive::KIND_NONE,
+				ATTRIBUTE = clcpp::Primitive::KIND_ATTRIBUTE,
+				FLAG_ATTRIBUTE = clcpp::Primitive::KIND_FLAG_ATTRIBUTE,
+				INT_ATTRIBUTE = clcpp::Primitive::KIND_INT_ATTRIBUTE,
+				FLOAT_ATTRIBUTE = clcpp::Primitive::KIND_FLOAT_ATTRIBUTE,
+				PRIMITIVE_ATTRIBUTE = clcpp::Primitive::KIND_PRIMITIVE_ATTRIBUTE,
+				TEXT_ATTRIBUTE = clcpp::Primitive::KIND_TEXT_ATTRIBUTE,
+				TYPE = clcpp::Primitive::KIND_TYPE,
+				ENUM_CONSTANT = clcpp::Primitive::KIND_ENUM_CONSTANT,
+				ENUM = clcpp::Primitive::KIND_ENUM,
+				FIELD = clcpp::Primitive::KIND_FIELD,
+				FUNCTION = clcpp::Primitive::KIND_FUNCTION,
+				TEMPLATE_TYPE = clcpp::Primitive::KIND_TEMPLATE_TYPE,
+				TEMPLATE = clcpp::Primitive::KIND_TEMPLATE,
+				CLASS = clcpp::Primitive::KIND_CLASS,
+				NAMESPACE = clcpp::Primitive::KIND_NAMESPACE,
+			};
+
 		protected:
 
 			const clcpp::Primitive* clPrimitive;
@@ -102,6 +124,10 @@ namespace dooms
 				return clPrimitive != dPrimitive.clPrimitive;
 			}
 
+			FORCE_INLINE ePrimitiveType GetPrimitiveType() const
+			{
+				return static_cast<ePrimitiveType>(clPrimitive->kind);
+			}
 		};
 	}
 }
