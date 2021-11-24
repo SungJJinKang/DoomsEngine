@@ -42,7 +42,7 @@ void Entity::FixedUpdate_PlainComponent()
 {
 	for (size_t i = 0; i < mPlainComponents.size(); i++)
 	{
-		if(mPlainComponents[i]->IsEnabled == true)
+		if(mPlainComponents[i]->IsComponentEnabled == true)
 		{
 			mPlainComponents[i]->FixedUpdateComponent_Internal();
 			mPlainComponents[i]->FixedUpdateComponent();
@@ -54,7 +54,7 @@ void dooms::Entity::Update_PlainComponent()
 {
 	for (size_t i = 0; i < mPlainComponents.size(); i++)
 	{
-		if (mPlainComponents[i]->IsEnabled == true)
+		if (mPlainComponents[i]->IsComponentEnabled == true)
 		{
 			//D_START_PROFILING(SequenceStringGenerator::GetLiteralString("Update PlainComponents ", i), eProfileLayers::CPU);
 			mPlainComponents[i]->UpdateComponent_Internal();
@@ -68,7 +68,7 @@ void dooms::Entity::EndOfFrame_PlainComponent()
 {
 	for (size_t i = 0; i < mPlainComponents.size(); i++)
 	{
-		if (mPlainComponents[i]->IsEnabled == true)
+		if (mPlainComponents[i]->IsComponentEnabled == true)
 		{
 			mPlainComponents[i]->OnEndOfFrame_Component_Internal();
 			mPlainComponents[i]->OnEndOfFrame_Component();

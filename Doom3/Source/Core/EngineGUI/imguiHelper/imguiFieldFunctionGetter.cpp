@@ -73,7 +73,17 @@ namespace dooms
 			bool imguiWithReflection_bool(void* const object, const char* const label, const reflection::DAttributeList& attributeList)
 			{
 				//ImGui::Text("%s : %d", label, *static_cast<int*>(object));
-				return ImGui::Checkbox(label, static_cast<bool*>(object));
+
+				bool isChanged = false;
+
+				bool isChecked = *static_cast<bool*>(object);
+				if(ImGui::Checkbox(label, &isChecked))
+				{
+					*static_cast<bool*>(object) = isChecked;
+					isChanged = true;
+				}
+
+				return isChanged;
 			}
 
 
