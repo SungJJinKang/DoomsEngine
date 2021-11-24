@@ -6,6 +6,8 @@
 #include "imguiHelper/imguiWithReflection.h"
 
 #include "GUIModules/LogGUI.h"
+#include "GUIModules/SceneGUI.h"
+
 
 namespace dooms::ui::engineGUIServer
 {
@@ -17,6 +19,7 @@ namespace dooms::ui::engineGUIServer
     static void RenderGUIModules()
     {
         dooms::ui::log::Render();
+        dooms::ui::sceneGUI::Render();
     }
 }
 
@@ -65,7 +68,7 @@ void dooms::ui::engineGUIServer::PreRender()
 
 void dooms::ui::engineGUIServer::Render()
 {
-	dooms::ui::imguiWithReflection::UpdateGUI_DObjectsVisibleOnGUI();
+	//dooms::ui::imguiWithReflection::UpdateGUI_DObjectsVisibleOnGUI();
     RenderGUIModules();
     ImGui::Render();
 }

@@ -97,7 +97,7 @@ namespace dooms
 			UINT32 mDObjectFlag = 0;
 
 			D_PROPERTY()
-			std::string mDObjectName;
+			std::string mDObjectName{};
 			
 			const DObject* mOwnerDObject = nullptr;
 

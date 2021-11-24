@@ -7,6 +7,8 @@
 #include <algorithm>
 #include <string.h>
 
+#include "imguiFieldFunctionGetter.h"
+
 #include <Reflection/ReflectionType/DClass.h>
 #include <Reflection/ReflectionType/DAttributeList.h>
 
@@ -37,86 +39,26 @@ namespace dooms
 {
 	namespace ui
 	{
-		namespace imguiWithReflection
+		namespace imguiWithReflectionHelper
 		{
-			static const float DEFULAT_DRAG_SPEED = 1.0f;
-			static const float DEFULAT_SLIDER_SPEED = 1.0f;
-
-			enum eImguiType
-			{
-				Color,
-				Slider,
-				Drag,
-				InputText
-			};
-
-			int GetImguiFlags(const eImguiType imguiType, const reflection::DAttributeList& attributeList)
-			{
-				int flags = 0;
-				
-
-				if(attributeList.GetIsReadOnly() == true)
-				{
-					switch (imguiType)
-					{
-					case eImguiType::Color:
-						flags |= ImGuiColorEditFlags_NoInputs;
-						break;
-						
-					case eImguiType::Slider:
-					case eImguiType::Drag:
-						flags |= ImGuiSliderFlags_NoInput;
-						break;
-						
-					default:
-						D_ASSERT(false);
-						break;
-					}
-				}
-
-				return flags;
-			}
-
-			void DrawDObjectGUI(DObject* const dObject);
-
-			/// <summary>
-			/// check DFunction can be showing on gui
-			/// </summary>
-			/// <param name="dFunction"></param>
-			/// <returns></returns>
-			bool GetIsFunctionGUIable(const reflection::DFunction& dFunction)
-			{
-				return (dFunction.GetIsHasReturnValue() == false) && (dFunction.GetParameterDFieldList().empty() == true);
-			}
-
-
-			static std::vector<dooms::DObject*> mVisibleOnGUIDObjectList{};
+			
+			
+			
 			static bool isInitialized = false;
 
+			static std::vector<void*> MultipleDrawChecker{};
 
-			/// <summary>
-			/// return : is value changed
-			/// </summary>
-			using IMGUI_WITH_REFLECTION_FUNC = 
-				bool (*)(void* const object, const char* const label, const reflection::DAttributeList& attributeList);
+			
 
-			static std::unordered_map<std::string_view, IMGUI_WITH_REFLECTION_FUNC> imguiWIthRelfectionFuncMap{};
-
-
-			INT32 OnStartDrawGUI(const reflection::DAttributeList& attributeList)
+			void OnStartDrawGUI(const reflection::DAttributeList& attributeList)
 			{
 				if (attributeList.GetIsReadOnly() == true)
 				{
 					ImGui::BeginDisabled();
 				}
-
-				const INT32 id = Random::RandomIntNumber();
-				//ImGui::PushID(id);
-				
-				return id;
 			}
 
-			void OnEndDrawGUI(const INT32 id, const char* const label, const reflection::DAttributeList& attributeList)
+			void OnEndDrawGUI(const char* const label, const reflection::DAttributeList& attributeList)
 			{
 				// this is little slow. but it's acceptable
 				if (attributeList.GetIsReadOnly() == true)
@@ -136,33 +78,62 @@ namespace dooms
 				
 			}
 
-			bool DrawImguiFieldWithReflection(void* const object, const char* const objectTypeFullName, const char* const label, const reflection::DAttributeList& attributeList)
+			bool DrawImguiFieldFromDField(void* const object, const char* const label, const char* const typeFullName, const reflection::DAttributeList& attributeList, bool& isValueChange)
 			{
-				bool isValueChange = false;
+				bool isSuccessToDrawGUI = false;
 				
 				if (attributeList.GetIsVisibleOnGUI() == true)
 				{
-					const INT32 id = OnStartDrawGUI(attributeList);
-					
-					auto iter = imguiWIthRelfectionFuncMap.find(std::string_view{ objectTypeFullName });
-					if (iter != imguiWIthRelfectionFuncMap.end())
+					dooms::ui::imguiFieldFunctionGetter::IMGUI_WITH_REFLECTION_FUNC func =
+						dooms::ui::imguiFieldFunctionGetter::GetImguiWithReflectionFunction(typeFullName);
+
+					if (func != nullptr)
 					{
-						isValueChange = iter->second(object, label, attributeList);
+						OnStartDrawGUI(attributeList);
+
+						isValueChange = func(object, label, attributeList);
+						isSuccessToDrawGUI = true;
+
+						OnEndDrawGUI(label, attributeList);
 					}
 					else
 					{
-						D_DEBUG_LOG(eLogType::D_ERROR, "imguiWithReflection : Can't resolve type \" %s \"", objectTypeFullName);
+						D_DEBUG_LOG(eLogType::D_ERROR, "imguiWithReflection : Can't resolve type \" %s \"", typeFullName);
 					}
 
-					OnEndDrawGUI(id, label, attributeList);
 				}
 
-				
-
-				return isValueChange;
+				return isSuccessToDrawGUI;
 			}
 
-			bool DrawImguiFunctionWithReflection(void* const object, const dooms::reflection::DFunction dFunction)
+			bool DrawImguiFieldFromDField(void* const object, const reflection::DField& dField, bool& isValueChange)
+			{
+				std::string fieldTypeFullName = dField.GetFieldTypeFullName();
+				if (dField.GetFieldQualifier() == reflection::DField::eProperyQualifier::POINTER)
+				{
+					fieldTypeFullName += '*';
+				}
+				else if (dField.GetFieldQualifier() == reflection::DField::eProperyQualifier::REFERENCE)
+				{
+					fieldTypeFullName += '&';
+				}
+
+				return DrawImguiFieldFromDField(object, dField.GetFieldName(), fieldTypeFullName.c_str(), dField.GetDAttributeList(), isValueChange);
+			}
+			
+			
+
+			/// <summary>
+			/// check DFunction can be showing on gui
+			/// </summary>
+			/// <param name="dFunction"></param>
+			/// <returns></returns>
+			bool GetIsFunctionGUIable(const reflection::DFunction& dFunction)
+			{
+				return (dFunction.GetIsHasReturnValue() == false) && (dFunction.GetParameterDFieldList().empty() == true);
+			}
+
+			bool DrawImguiFunctionButtonFromDFunction(void* const object, const dooms::reflection::DFunction dFunction)
 			{
 				bool isButtonClicked = false;
 
@@ -170,9 +141,8 @@ namespace dooms
 				{
 					const dooms::reflection::DAttributeList& attributeList = dFunction.GetDAttributeList();
 
-					const INT32 id = OnStartDrawGUI(attributeList);
-
-
+					OnStartDrawGUI(attributeList);
+					
 					// when member function
 					if (dFunction.GetIsMemberFunction() == true)
 					{
@@ -190,9 +160,8 @@ namespace dooms
 							isButtonClicked = true;
 						}
 					}
-
-
-					OnEndDrawGUI(id, dFunction.GetFunctionName(), attributeList);
+					
+					OnEndDrawGUI(dFunction.GetFunctionName(), attributeList);
 				}
 
 				return isButtonClicked;
@@ -204,406 +173,147 @@ namespace dooms
 			///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-			bool imguiWithReflection_bool(void* const object, const char* const label, const reflection::DAttributeList& attributeList)
+
+			/// <summary>
+			/// 
+			/// </summary>
+			/// <param name="dClass"></param>
+			/// <param name="object"></param>
+			/// <param name="rawObjectName">objectType is DObject, you don't need set this. it will take name from DObject::GetDObjectName </param>
+			/// <param name="objectType"></param>
+			/// <returns></returns>
+			bool DrawObjectGUI(const reflection::DClass& dClass, void* const object, const char* const rawObjectName, const eObjectType objectType)
 			{
-				//ImGui::Text("%s : %d", label, *static_cast<int*>(object));
-				return ImGui::Checkbox(label, static_cast<bool*>(object));
-			}
+				D_ASSERT(dooms::ui::imguiWithReflection::GetIsIsInitialized() == true);
 
+				bool isDObjectChanged = false;
 
-			bool imguiWithReflection_char(void* const object, const char* const label, const reflection::DAttributeList& attributeList)
-			{
-				const INT8 minValue = attributeList.GetMinValue<INT8>();
-				const INT8 maxValue = attributeList.GetMaxValue<INT8>();
-
-				return ImGui::DragScalar(label, ImGuiDataType_S8, object, DEFULAT_DRAG_SPEED, &minValue, &maxValue, 0, GetImguiFlags(eImguiType::Drag, attributeList));
-			}
-
-			bool imguiWithReflection_unsigned_char(void* const object, const char* const label, const reflection::DAttributeList& attributeList)
-			{
-				const UINT8 minValue = attributeList.GetMinValue<UINT8>();
-				const UINT8 maxValue = attributeList.GetMaxValue<UINT8>();
-
-				return ImGui::DragScalar(label, ImGuiDataType_U8, object, DEFULAT_DRAG_SPEED, &minValue, &maxValue, 0, GetImguiFlags(eImguiType::Drag, attributeList));
-			}
-
-			bool imguiWithReflection_short(void* const object, const char* const label, const reflection::DAttributeList& attributeList)
-			{
-				const INT16 minValue = attributeList.GetMinValue<INT16>();
-				const INT16 maxValue = attributeList.GetMaxValue<INT16>();
-
-				return ImGui::DragScalar(label, ImGuiDataType_S16, object, DEFULAT_DRAG_SPEED, &minValue, &maxValue, 0, GetImguiFlags(eImguiType::Drag, attributeList));
-			}
-
-			bool imguiWithReflection_unsigned_short(void* const object, const char* const label, const reflection::DAttributeList& attributeList)
-			{
-				const UINT16 minValue = attributeList.GetMinValue<UINT16>();
-				const UINT16 maxValue = attributeList.GetMaxValue<UINT16>();
-
-				return ImGui::DragScalar(label, ImGuiDataType_U16, object, DEFULAT_DRAG_SPEED, &minValue, &maxValue, 0, GetImguiFlags(eImguiType::Drag, attributeList));
-			}
-
-			bool imguiWithReflection_int(void* const object, const char* const label, const reflection::DAttributeList& attributeList)
-			{
-				const INT32 minValue = attributeList.GetMinValue<INT32>();
-				const INT32 maxValue = attributeList.GetMaxValue<INT32>();
-
-				return ImGui::DragScalar(label, ImGuiDataType_S32, object, DEFULAT_DRAG_SPEED, &minValue, &maxValue, 0, GetImguiFlags(eImguiType::Drag, attributeList));
-			}
-
-			bool imguiWithReflection_unsigned_int(void* const object, const char* const label, const reflection::DAttributeList& attributeList)
-			{
-				const UINT32 minValue = attributeList.GetMinValue<UINT32>();
-				const UINT32 maxValue = attributeList.GetMaxValue<UINT32>();
-
-				return ImGui::DragScalar(label, ImGuiDataType_U32, object, DEFULAT_DRAG_SPEED, &minValue, &maxValue, 0, GetImguiFlags(eImguiType::Drag, attributeList));
-			}
-
-			bool imguiWithReflection_long_long(void* const object, const char* const label, const reflection::DAttributeList& attributeList)
-			{
-				const INT64 minValue = attributeList.GetMinValue<INT64>();
-				const INT64 maxValue = attributeList.GetMaxValue<INT64>();
-
-				return ImGui::DragScalar(label, ImGuiDataType_S64, object, DEFULAT_DRAG_SPEED, &minValue, &maxValue, 0, GetImguiFlags(eImguiType::Drag, attributeList));
-			}
-
-			bool imguiWithReflection_unsigned_long_long(void* const object, const char* const label, const reflection::DAttributeList& attributeList)
-			{
-				const UINT64 minValue = attributeList.GetMinValue<UINT64>();
-				const UINT64 maxValue = attributeList.GetMaxValue<UINT64>();
-
-				return ImGui::DragScalar(label, ImGuiDataType_U64, object, DEFULAT_DRAG_SPEED, &minValue, &maxValue, 0, GetImguiFlags(eImguiType::Drag, attributeList));
-			}
-
-			bool imguiWithReflection_float(void* const object, const char* const label, const reflection::DAttributeList& attributeList)
-			{
-				const float minValue = attributeList.GetMinValue<float>();
-				const float maxValue = attributeList.GetMaxValue<float>();
-
-				return ImGui::DragScalar(label, ImGuiDataType_Float, object, DEFULAT_DRAG_SPEED, &minValue, &maxValue, 0, GetImguiFlags(eImguiType::Drag, attributeList));
-			}
-			
-			bool imguiWithReflection_double(void* const object, const char* const label, const reflection::DAttributeList& attributeList)
-			{
-				//ImGui::Text("%s : %lf", label, *static_cast<double*>(object));
-				const double minValue = attributeList.GetMinValue<double>();
-				const double maxValue = attributeList.GetMaxValue<double>();
-
-				return ImGui::DragScalar(label, ImGuiDataType_Double, object, DEFULAT_DRAG_SPEED, &minValue, &maxValue, 0, GetImguiFlags(eImguiType::Drag, attributeList));
-			}
-			
-			bool imguiWithReflection_math_Vector3(void* const object, const char* const label, const reflection::DAttributeList& attributeList)
-			{
-				if (attributeList.GetIsHasGUIType("Color"))
-				{
-					return ImGui::ColorEdit3(label, static_cast<math::Vector3*>(object)->data(), GetImguiFlags(eImguiType::Color, attributeList));
-				}
-				else
-				{
-					const FLOAT32 minValue = attributeList.GetMinValue<FLOAT32>();
-					const FLOAT32 maxValue = attributeList.GetMaxValue<FLOAT32>();
-
-					return ImGui::DragFloat3
-					(
-						label, 
-						static_cast<math::Vector3*>(object)->data(), 
-						DEFULAT_DRAG_SPEED,
-						minValue,
-						maxValue,
-						"%.3f",
-						GetImguiFlags(eImguiType::Slider, attributeList)
-					);
-				}
-				
-			}
-
-			bool imguiWithReflection_math_Vector4(void* const object, const char* const label, const reflection::DAttributeList& attributeList)
-			{
-				if(attributeList.GetIsHasGUIType("Color"))
-				{
-					return ImGui::ColorEdit4(label, static_cast<math::Vector4*>(object)->data(), GetImguiFlags(eImguiType::Color, attributeList));
-				}
-				else
-				{
-					const FLOAT32 minValue = attributeList.GetMinValue<FLOAT32>();
-					const FLOAT32 maxValue = attributeList.GetMaxValue<FLOAT32>();
-
-					return ImGui::DragFloat4
-					(
-						label,
-						static_cast<math::Vector4*>(object)->data(),
-						DEFULAT_DRAG_SPEED,
-						minValue,
-						maxValue,
-						"%.3f",
-						GetImguiFlags(eImguiType::Slider, attributeList)
-					);
-				}
-			}
-
-			bool imguiWithReflection_math_Quaternion(void* const object, const char* const label, const reflection::DAttributeList& attributeList)
-			{
-				math::Vector3 eulerAngle{ math::Quaternion::QuaternionToEulerAngle(*static_cast<math::Quaternion*>(object)) };
-
-				eulerAngle.x = math::RADIAN_TO_DEGREE * eulerAngle.x;
-				eulerAngle.y = math::RADIAN_TO_DEGREE * eulerAngle.y;
-				eulerAngle.z = math::RADIAN_TO_DEGREE * eulerAngle.z;
-
-				const FLOAT32 minValue = attributeList.GetMinValue<FLOAT32>();
-				const FLOAT32 maxValue = attributeList.GetMaxValue<FLOAT32>();
-
-				const bool isValueChanged = ImGui::DragFloat3
-				(
-					label,
-					eulerAngle.data(),
-					DEFULAT_DRAG_SPEED,
-					minValue,
-					maxValue,
-					"%.3f",
-					GetImguiFlags(eImguiType::Slider, attributeList)
-				);
-
-				// TODO : FIX THIS. DOESN'T WORK WELL..
-
-				if(isValueChanged == true)
-				{				
-					eulerAngle.x = math::DEGREE_TO_RADIAN * eulerAngle.x;
-					eulerAngle.y = math::DEGREE_TO_RADIAN * eulerAngle.y;
-					eulerAngle.z = math::DEGREE_TO_RADIAN * eulerAngle.z;
-
-					*static_cast<math::Quaternion*>(object) = eulerAngle;
-				}
-
-				return isValueChanged;
-			}
-
-			bool imguiWithReflection_TransformCoreData(void* const object, const char* const label, const reflection::DAttributeList& attributeList)
-			{
-				bool isValueChnaged = false;
-				isValueChnaged |= imguiWithReflection_math_Vector3(&(static_cast<dooms::TransformCoreData*>(object)->mPosition), "mPosition", attributeList);
-				return isValueChnaged;
-			}
-
-			bool imguiWithReflection_dooms_Entity(void* const object, const char* const label, const reflection::DAttributeList& attributeList)
-			{
-				dooms::Entity* const entity = static_cast<dooms::Entity*>(object);
-
-				if(IsValid(entity) == true)
-				{
-					auto Transform = entity->GetTransform();
-					auto& AllServerComponents = entity->GetAllPlainComponents();
-					auto& AllPlainComponents = entity->GetAllPlainComponents();
-
-					DrawDObjectGUI(Transform);
-					for (auto& serverComponent : AllServerComponents)
-					{
-						if (serverComponent)
-						{
-							DrawDObjectGUI(serverComponent.get());
-						}
-					}
-
-					for (auto& plainComponent : AllPlainComponents)
-					{
-						if (plainComponent)
-						{
-							DrawDObjectGUI(plainComponent.get());
-						}
-					}
-				}
-
-				return false;
-			}
-
-			bool imguiWithReflection_std_string(void* const object, const char* const label, const reflection::DAttributeList& attributeList)
-			{
-				D_ASSERT(object != nullptr);
-
-				std::string* stdString = static_cast<std::string*>(object);
-				
-				char charBuffer[100];
-
-				if(stdString->empty() == false)
-				{
-					strncpy_s(charBuffer, stdString->c_str(), stdString->size() + 1);
-				}
-				else
-				{
-					charBuffer[0] = '\0';
-				}
-			
-
-				bool isTextEdited = ImGui::InputText(label, charBuffer, sizeof(charBuffer) * sizeof(char), GetImguiFlags(eImguiType::InputText, attributeList));
-
-				if(isTextEdited == true)
-				{
-					*stdString = charBuffer;
-				}
-
-				return isTextEdited;
-			}
-
-			/*
-			bool imguiWithReflection_std_wstring(void* const object, const char* const label, const reflection::DAttributeList& attributeList)
-			{
-				D_ASSERT(object != nullptr);
-
-				std::wstring* stdString = static_cast<std::wstring*>(object);
-
-				wchar_t wcharBuffer[50];
-
-				if (stdString->empty() == false)
-				{
-					std::strncpy(wcharBuffer, stdString->c_str(), stdString->size() + 1);
-				}
-				else
-				{
-					wcharBuffer[0] = '\0';
-				}
-
-
-				bool isTextEdited = ImGui::inputt(label, wcharBuffer, sizeof(wcharBuffer) * sizeof(wchar_t), GetImguiFlags(eImguiType::InputText, attributeList));
-
-				if (isTextEdited == true)
-				{
-					*stdString = wcharBuffer;
-				}
-
-				return isTextEdited;
-			}
-			*/
-
-			void Initialize()
-			{
-				if (isInitialized == false)
-				{
-					imguiWIthRelfectionFuncMap.emplace("math::Vector3", imguiWithReflection_math_Vector3);
-					imguiWIthRelfectionFuncMap.emplace("math::Vector4", imguiWithReflection_math_Vector4);
-					imguiWIthRelfectionFuncMap.emplace("math::Quaternion", imguiWithReflection_math_Quaternion);
-					imguiWIthRelfectionFuncMap.emplace("bool", imguiWithReflection_bool);
-					imguiWIthRelfectionFuncMap.emplace("char", imguiWithReflection_char);
-					imguiWIthRelfectionFuncMap.emplace("unsigned char", imguiWithReflection_unsigned_char);
-					imguiWIthRelfectionFuncMap.emplace("short", imguiWithReflection_short);
-					imguiWIthRelfectionFuncMap.emplace("unsigned short", imguiWithReflection_unsigned_short);
-					imguiWIthRelfectionFuncMap.emplace("int", imguiWithReflection_int);
-					imguiWIthRelfectionFuncMap.emplace("unsigned int", imguiWithReflection_unsigned_int);
-					imguiWIthRelfectionFuncMap.emplace("long long", imguiWithReflection_long_long);
-					imguiWIthRelfectionFuncMap.emplace("unsigned long long", imguiWithReflection_unsigned_long_long);
-					imguiWIthRelfectionFuncMap.emplace("float", imguiWithReflection_float);
-					imguiWIthRelfectionFuncMap.emplace("double", imguiWithReflection_double);
-					imguiWIthRelfectionFuncMap.emplace("dooms::Entity", imguiWithReflection_dooms_Entity);
-					imguiWIthRelfectionFuncMap.emplace("dooms::TransformCoreData", imguiWithReflection_TransformCoreData);
-					imguiWIthRelfectionFuncMap.emplace("std::basic_string<char,std::char_traits<char>,std::allocator<char>>", imguiWithReflection_std_string);
-
-					isInitialized = true;
-				}
-			}
-
-			static std::vector<dooms::DObject*> DrawedDObjectList{};
-
-			void DrawDObjectGUI(DObject* const dObject)
-			{
-				D_ASSERT(isInitialized == true);
-
-				if(
-					IsValid(dObject) == true &&
+				if (
+					objectType == eObjectType::DObject ? IsValid(reinterpret_cast<dooms::DObject*>(object)) == true : true &&
 					// check if DObject is already drawed to prevent infinite loop
-					std::find(DrawedDObjectList.begin(), DrawedDObjectList.end(), dObject) == DrawedDObjectList.end()
-				)
+					std::find(MultipleDrawChecker.begin(), MultipleDrawChecker.end(), object) == MultipleDrawChecker.end()
+					)
 				{
-					DrawedDObjectList.push_back(dObject);
+					MultipleDrawChecker.push_back(object);
 
-					reflection::DClass dObjectDClass = dObject->GetDClass();
+					const std::unordered_map<std::string_view, dooms::reflection::DField>& dFieldList = dClass.GetDFieldList();
 
-					const std::unordered_map<std::string_view, dooms::reflection::DField>& dFieldList = dObjectDClass.GetDFieldList();
-
+					//label
+					const char* objectName = "";
+					if(rawObjectName == nullptr || rawObjectName[0] == '\0')
+					{
+						if(objectType == eObjectType::DObject)
+						{
+							objectName = reinterpret_cast<dooms::DObject*>(object)->GetDObjectName().c_str();
+						}
+						else
+						{// if rawObjectName is empty and object type is rawobject, objectname will be type full name
+							objectName = dClass.GetTypeFullName();
+						}
+					}
+					ImGui::TextColored(ImVec4{ 1.0f, 0.0f, 0.0f, 1.0f }, "%s", objectName);
 
 					if (dFieldList.empty() == false)
 					{
-						
-
-						//label
-						ImGui::TextColored(ImVec4{1.0f, 0.0f, 0.0f, 1.0f}, "%s", dObject->GetDObjectName().empty() == false ? dObject->GetDObjectName().c_str() : dObject->GetTypeFullName());
-
-						
-
 						for (auto& dFieldNode : dFieldList)
 						{
 							const dooms::reflection::DField& dField = dFieldNode.second;
-							
-							const bool isGUIValueChanged = dooms::ui::imguiWithReflection::DrawImguiFieldWithReflection(
-								const_cast<dooms::reflection::DField&>(dField).GetRawFieldValue(dObject),
-								dField.GetFieldTypeName(),
-								dField.GetFieldName(),
-								dField.GetDAttributeList()
+
+							bool isFieldValueChanged = false;
+
+							void* fieldRawValue = const_cast<dooms::reflection::DField&>(dField).GetRawFieldValue(object);
+
+							const bool isGUIDrawed = dooms::ui::imguiWithReflectionHelper::DrawImguiFieldFromDField
+							(
+								fieldRawValue,
+								dField,
+								isFieldValueChanged
 							);
 
-							if (isGUIValueChanged == true)
-							{
-								dObject->OnChangedByGUI(dField);
+						
+							if(isGUIDrawed == false)
+							{//fail to find special gui func. can't find proper gui function from map
+								if (dField.GetFieldTypePrimitiveType() == reflection::DPrimitive::ePrimitiveType::CLASS)
+								{
+									const reflection::DClass fieldTypeDClass = dField.GetFieldTypeDClass();
+									if (IsValid(reinterpret_cast<dooms::DObject*>(fieldRawValue)) == true)
+									{// if type of field is child class of dooms::DObject
+										isFieldValueChanged = DrawObjectGUI(fieldTypeDClass, fieldRawValue, dField.GetFieldName(), eObjectType::DObject);
+									}
+									else
+									{
+										if(dField.GetFieldQualifier() == reflection::DField::eProperyQualifier::VALUE)
+										{
+											isFieldValueChanged = DrawObjectGUI(fieldTypeDClass, fieldRawValue, dField.GetFieldName(), eObjectType::RawObject);
+										}
+									}
+								}
 							}
+
+
+							if (objectType == eObjectType::DObject && isFieldValueChanged == true)
+							{
+								reinterpret_cast<dooms::DObject*>(object)->OnChangedByGUI(dField);
+							}
+
+							isDObjectChanged |= isFieldValueChanged;
 						}
-
-						//Draw Components of entity
-						DrawImguiFieldWithReflection(dObject, dObject->GetTypeFullName(), "", dObjectDClass.GetDAttributeList());
-
-					
-
-
 					}
 
-					const std::unordered_map<std::string_view, dooms::reflection::DFunction>& dFunctionList = dObjectDClass.GetDFunctionList();
+					const std::unordered_map<std::string_view, dooms::reflection::DFunction>& dFunctionList = dClass.GetDFunctionList();
 					if (dFunctionList.empty() == false)
 					{
 						for (auto& dFunctioNnode : dFunctionList)
 						{
 							const dooms::reflection::DFunction& dFunction = dFunctioNnode.second;
 
-							DrawImguiFunctionWithReflection(dObject, dFunction);
-						
+							DrawImguiFunctionButtonFromDFunction(object, dFunction);
 						}
 					}
 					
+					bool isGUIValueChanged;
+					dooms::ui::imguiWithReflectionHelper::DrawImguiFieldFromDField(object, objectName, dClass.GetTypeFullName(), dClass.GetDAttributeList(), isGUIValueChanged);
+				}
+
+
+				return isDObjectChanged;
+			}
+
+			bool DrawDObjectGUI
+			(
+				const reflection::DClass& dClass, dooms::DObject* const dObject
+			)
+			{
+				if(IsValid(dObject) == true)
+				{
+					return DrawObjectGUI(dClass, dObject, "", eObjectType::DObject);
+				}
+				else
+				{
+					return false;
 				}
 				
+			}
+
+
+			void ClearMultipleDrawChecker()
+			{
+				MultipleDrawChecker.clear();
 			}
 		}
 	}
 }
 
-
-void dooms::ui::imguiWithReflection::AddToVisibleOnGUIDObjectList(DObject* const dObject)
+void dooms::ui::imguiWithReflection::Initialize()
 {
-	dooms::ui::imguiWithReflection::mVisibleOnGUIDObjectList.push_back(dObject);
-}
-
-void dooms::ui::imguiWithReflection::RemoveFromVisibleOnGUIDObjectList(DObject* const dObject)
-{
-	std::vector_find_swap_popback(dooms::ui::imguiWithReflection::mVisibleOnGUIDObjectList, dObject);
-}
-
-void dooms::ui::imguiWithReflection::UpdateGUI_DObjectsVisibleOnGUI()
-{
-	for(dooms::DObject* const dObjectVisibleOnGUI : dooms::ui::imguiWithReflection::mVisibleOnGUIDObjectList)
+	if (IsInitialized == false)
 	{
-		if (
-			ImGui::Begin
-			(
-				dObjectVisibleOnGUI->GetDObjectName().empty() == false ? dObjectVisibleOnGUI->GetDObjectName().c_str() : dObjectVisibleOnGUI->GetTypeFullName(),
-				&(dooms::ui::engineGUIServer::IsEngineGUIVisible)
-			)
-			)
-		{
-			DrawDObjectGUI(dObjectVisibleOnGUI);
-		}
+		imguiFieldFunctionGetter::Initialize();
 
-		
-		
-
-		ImGui::End();
-
-		DrawedDObjectList.clear();
-	}	
+		IsInitialized = true;
+	}
 }
+
+
 
 

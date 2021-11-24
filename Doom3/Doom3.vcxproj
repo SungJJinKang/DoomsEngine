@@ -336,6 +336,8 @@ xcopy /y /d /E /H /C /I "$(ProjectDir)Assets" "$(TargetDir)Assets"</Command>
     <ClCompile Include="Source\Core\EngineGUI\EngineGUIAccessor.cpp" />
     <ClCompile Include="Source\Core\EngineGUI\engineGUIServer.cpp" />
     <ClCompile Include="Source\Core\EngineGUI\GUIModules\LogGUI.cpp" />
+    <ClCompile Include="Source\Core\EngineGUI\GUIModules\SceneGUI.cpp" />
+    <ClCompile Include="Source\Core\EngineGUI\imguiHelper\imguiFieldFunctionGetter.cpp" />
     <ClCompile Include="Source\Core\EngineGUI\imguiHelper\imguiWithReflection.cpp" />
     <ClCompile Include="Source\Core\GarbageCollector\GarbageCollectee.cpp" />
     <ClCompile Include="Source\Core\Math\LightMath_Cpp\Matrix2x2.cpp" />
@@ -554,6 +556,9 @@ xcopy /y /d /E /H /C /I "$(ProjectDir)Assets" "$(TargetDir)Assets"</Command>
     <ClInclude Include="Source\Core\EngineGUI\EngineGUIAccessor.h" />
     <ClInclude Include="Source\Core\EngineGUI\engineGUIServer.h" />
     <ClInclude Include="Source\Core\EngineGUI\GUIModules\LogGUI.h" />
+    <ClInclude Include="Source\Core\EngineGUI\GUIModules\SceneGUI.h" />
+    <ClInclude Include="Source\Core\EngineGUI\imguiHelper\imguiFieldFunctionGetter.h" />
+    <ClInclude Include="Source\Core\EngineGUI\imguiHelper\ImGUISetting.h" />
     <ClInclude Include="Source\Core\EngineGUI\imguiHelper\imguiWithReflection.h" />
     <ClInclude Include="Source\Core\GarbageCollector\GarbageCollectee.h" />
     <ClInclude Include="Source\Core\Logger\eLogType.h" />

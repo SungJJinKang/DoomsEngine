@@ -2,6 +2,12 @@
 
 #include <vector>
 
+#include "imgui.h"
+
+#include "DObject/DObject.h"
+#include "Reflection/ReflectionType/DClass.h"
+
+
 namespace dooms
 {
 	class DObject;
@@ -13,16 +19,78 @@ namespace dooms
 		class DField;
 	}
 
+	
 	namespace ui
 	{
-		namespace imguiWithReflection
+		namespace imguiWithReflectionHelper
 		{
-			extern void Initialize();
+			enum class eObjectType
+			{
+				DObject,
+				RawObject
+			};
+			
+			bool DrawObjectGUI(const reflection::DClass& dClass, void* const object, const char* const rawObjectName, const eObjectType objectType);
+			bool DrawDObjectGUI(const reflection::DClass& dClass, dooms::DObject* const dObject);
 
-			extern void AddToVisibleOnGUIDObjectList(DObject* const dObject);
-			extern void RemoveFromVisibleOnGUIDObjectList(DObject* const dObject);
-
-			extern void UpdateGUI_DObjectsVisibleOnGUI();
+			void ClearMultipleDrawChecker();
 		}
+
+
+		class imguiWithReflection
+		{
+		private:
+
+			inline static bool IsInitialized = false;
+			
+			
+		public:
+
+			inline static bool GetIsIsInitialized()
+			{
+				return IsInitialized;
+			}
+			static void Initialize();
+
+			template <typename DOBJECT_TYPE>
+			static void DrawMultipleDObjects(const char* const uiLabel, const std::vector<DOBJECT_TYPE*>& dObjects, size_t& currentIndex)
+			{
+				static_assert(std::is_base_of_v<dooms::DObject, DOBJECT_TYPE> == true);
+
+				if (ImGui::Begin(uiLabel))
+				{
+					ImGuiStyle& style = ImGui::GetStyle();
+					ImGui::PushItemWidth(120);
+
+					if (ImGui::BeginCombo("##", dObjects[currentIndex]->GetDObjectName().c_str(), ImGuiComboFlags_NoArrowButton))
+					{
+						for (int dObjectIndex = 0; dObjectIndex < dObjects.size(); dObjectIndex++)
+						{
+							bool is_selected = (currentIndex == dObjectIndex);
+
+							if (ImGui::Selectable(dObjects[dObjectIndex]->GetDObjectName().c_str(), is_selected))
+							{
+								currentIndex = dObjectIndex;
+							}
+
+							if (is_selected)
+							{
+								ImGui::SetItemDefaultFocus();
+							}
+						}
+						ImGui::EndCombo();
+					}
+					ImGui::PopItemWidth();
+
+					std::vector<dooms::DObject*> multipleDrawChecker;
+					dooms::ui::imguiWithReflectionHelper::DrawDObjectGUI(dObjects[currentIndex]->GetDClass(), dObjects[currentIndex]);
+				}
+
+				ImGui::End();
+
+				dooms::ui::imguiWithReflectionHelper::ClearMultipleDrawChecker();
+
+			}
+		};
 	}
 }

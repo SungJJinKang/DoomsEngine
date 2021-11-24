@@ -44,6 +44,7 @@ void dooms::GameLogicStartPoint::StartGameLogic()
 	lightEntity->GetTransform()->SetPosition(-30.0f, 0.0f, 0.0f);
 	lightEntity->GetTransform()->SetRotation(-30.0f, 0.0f, 0.0f);
 	lightEntity->GetTransform()->SetScale(2.0f, 2.0f, 2.0f);
+	lightEntity->ChangeDObjectName("DirectionalLight");
 	auto dirLight = lightEntity->AddComponent<DirectionalLight>();
 	auto testComp1 = lightEntity->AddComponent<TestComponent>();
 	auto testComp2 = lightEntity->AddComponent<TestComponent2>();
@@ -172,6 +173,7 @@ void dooms::GameLogicStartPoint::StartGameLogic()
 	
 	{
 		auto entity = currenScene->CreateNewEntity();
+		entity->ChangeDObjectName("PointLight");
 		entity->GetTransform()->SetPosition(200.0f, 0.0f, 0.0f);
 		auto meshRenderer = entity->AddComponent<MeshRenderer>();
 		meshRenderer->SetMesh(planetAsset->GetMesh(0));
@@ -189,6 +191,7 @@ void dooms::GameLogicStartPoint::StartGameLogic()
 
 	{
 		auto entity = currenScene->CreateNewEntity();
+		entity->ChangeDObjectName("PointLight");
 		entity->GetTransform()->SetPosition(0.0f, 200.0f, 0.0f);
 		auto meshRenderer = entity->AddComponent<MeshRenderer>();
 		meshRenderer->SetMesh(planetAsset->GetMesh(0));
@@ -206,6 +209,7 @@ void dooms::GameLogicStartPoint::StartGameLogic()
 
 	{
 		auto entity = currenScene->CreateNewEntity();
+		entity->ChangeDObjectName("PointLight");
 		entity->GetTransform()->SetPosition(0.0f, 0.0f, 200.0f);
 		auto meshRenderer = entity->AddComponent<MeshRenderer>();
 		meshRenderer->SetMesh(planetAsset->GetMesh(0));

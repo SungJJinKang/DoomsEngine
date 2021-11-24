@@ -666,6 +666,12 @@
     <ClCompile Include="Source\Core\EngineGUI\GUIModules\LogGUI.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Core\EngineGUI\GUIModules\SceneGUI.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Core\EngineGUI\imguiHelper\imguiFieldFunctionGetter.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="dependency\glad\include\glad\glad.h">
@@ -1725,6 +1731,15 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\Core\Logger\LoggerSetting.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Core\EngineGUI\GUIModules\SceneGUI.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Core\EngineGUI\imguiHelper\imguiFieldFunctionGetter.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Core\EngineGUI\imguiHelper\ImGUISetting.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

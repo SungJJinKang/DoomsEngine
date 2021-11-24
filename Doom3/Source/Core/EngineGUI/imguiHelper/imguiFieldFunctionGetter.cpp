@@ -2,6 +2,7 @@
 
 #include <unordered_map>
 
+#include <Vector2.h>
 #include <Vector3.h>
 #include <Vector4.h>
 #include <Quaternion_Scalar.h>
@@ -157,6 +158,24 @@ namespace dooms
 				return ImGui::DragScalar(label, ImGuiDataType_Double, object, imgui::DEFULAT_DRAG_SPEED, &minValue, &maxValue, 0, GetImguiFlags(eImguiType::Drag, attributeList));
 			}
 
+			bool imguiWithReflection_math_Vector2(void* const object, const char* const label, const reflection::DAttributeList& attributeList)
+			{
+				const FLOAT32 minValue = attributeList.GetMinValue<FLOAT32>();
+				const FLOAT32 maxValue = attributeList.GetMaxValue<FLOAT32>();
+
+				return ImGui::DragFloat2
+				(
+					label,
+					static_cast<math::Vector2*>(object)->data(),
+					imgui::DEFULAT_DRAG_SPEED,
+					minValue,
+					maxValue,
+					"%.3f",
+					GetImguiFlags(eImguiType::Slider, attributeList)
+				);
+
+			}
+
 			bool imguiWithReflection_math_Vector3(void* const object, const char* const label, const reflection::DAttributeList& attributeList)
 			{
 				if (attributeList.GetIsHasGUIType("Color"))
@@ -206,6 +225,22 @@ namespace dooms
 				}
 			}
 
+			bool imguiWithReflection_math_Matrix2x2(void* const object, const char* const label, const reflection::DAttributeList& attributeList)
+			{
+				return false;
+			}
+
+			bool imguiWithReflection_math_Matrix3x3(void* const object, const char* const label, const reflection::DAttributeList& attributeList)
+			{
+				return false;
+			}
+
+			bool imguiWithReflection_math_Matrix4x4(void* const object, const char* const label, const reflection::DAttributeList& attributeList)
+			{
+				return false;
+			}
+
+			
 			bool imguiWithReflection_math_Quaternion(void* const object, const char* const label, const reflection::DAttributeList& attributeList)
 			{
 				math::Vector3 eulerAngle{ math::Quaternion::QuaternionToEulerAngle(*static_cast<math::Quaternion*>(object)) };
@@ -348,8 +383,11 @@ void dooms::ui::imguiFieldFunctionGetter::Initialize()
 {
 	if (IsInitialized == false)
 	{
+		ImguiSpecialDrawFuncMap.emplace("math::Vector2", imguiWithReflection_math_Vector2);
 		ImguiSpecialDrawFuncMap.emplace("math::Vector3", imguiWithReflection_math_Vector3);
 		ImguiSpecialDrawFuncMap.emplace("math::Vector4", imguiWithReflection_math_Vector4);
+		ImguiSpecialDrawFuncMap.emplace("math::Matrix3x3", imguiWithReflection_math_Matrix3x3);
+		ImguiSpecialDrawFuncMap.emplace("math::Matrix4x4", imguiWithReflection_math_Matrix4x4);
 		ImguiSpecialDrawFuncMap.emplace("math::Quaternion", imguiWithReflection_math_Quaternion);
 		ImguiSpecialDrawFuncMap.emplace("bool", imguiWithReflection_bool);
 		ImguiSpecialDrawFuncMap.emplace("char", imguiWithReflection_char);
