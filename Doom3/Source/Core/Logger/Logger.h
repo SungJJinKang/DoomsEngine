@@ -55,7 +55,7 @@ namespace dooms
 			template<typename ... Args>
 			FORCE_INLINE void Log(const char* fileName, const long codeLineNum, const eLogType logType, const char* const format, Args ... args) noexcept
 			{
-				std::printf("File : %s , Code Line : %d, Log Type : %s, Time : %s", fileName, codeLineNum, LogTypeStr(logType));
+				std::printf("File : %s , Code Line : %d, Log Type : %s", fileName, codeLineNum, LogTypeStr(logType));
 				std::printf(format, std::forward<Args>(args)...);
 			}
 		};
@@ -65,7 +65,7 @@ namespace dooms
 			template<typename ... Args>
 			FORCE_INLINE void Log(const char* fileName, const long codeLineNum, const eLogType logType, const char* const format, Args ... args) noexcept
 			{
-				dooms::ui::log::LogOnGUI("File : %s , Code Line : %d, Log Type : %s, Time : %s", fileName, codeLineNum, LogTypeStr(logType));
+				dooms::ui::log::LogOnGUI("File : %s , Code Line : %d, Log Type : %s", fileName, codeLineNum, LogTypeStr(logType));
 				dooms::ui::log::LogOnGUI(format, std::forward<Args>(args)...);
 			}
 		};
