@@ -337,12 +337,12 @@ void dooms::ui::imguiWithReflection::UpdateGUI_DObjectsVisibleOnGUI()
 			)
 		{
 			imguiWithReflectionHelper::DrawDObjectGUI(dObjectVisibleOnGUI->GetDClass(), dObjectVisibleOnGUI);
+
 		}
 
 
-
-
 		ImGui::End();
+
 
 		imguiWithReflectionHelper::ClearMultipleDrawChecker();
 	}

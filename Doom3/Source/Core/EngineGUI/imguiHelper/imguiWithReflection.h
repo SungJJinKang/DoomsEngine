@@ -85,10 +85,14 @@ namespace dooms
 						}
 						ImGui::EndCombo();
 					}
+
 					ImGui::PopItemWidth();
+
 
 					std::vector<dooms::DObject*> multipleDrawChecker;
 					dooms::ui::imguiWithReflectionHelper::DrawDObjectGUI(dObjects[currentIndex]->GetDClass(), dObjects[currentIndex]);
+
+
 				}
 
 				ImGui::End();
