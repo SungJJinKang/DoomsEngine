@@ -120,6 +120,7 @@ bool Scene::DestroyEntity_Internal(Entity* entity) const
 
 void Scene::InitializeEntity(dooms::Entity* const entity)
 {
+	entity->ChangeDObjectName(std::string{ "Entity " } + std::to_string(mSpawnedEntities.size()));
 	entity->SetOwnerDObject(this);
 }
 
@@ -146,4 +147,9 @@ void Scene::SetMainCamera(Camera* camera)
 		mMainCamera->OnSetMainCamera();
 	}
 	
+}
+
+const std::vector<Entity*>& Scene::GetEntitiesInScene() const
+{
+	return mSpawnedEntities;
 }

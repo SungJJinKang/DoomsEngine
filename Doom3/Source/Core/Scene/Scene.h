@@ -68,7 +68,7 @@ namespace dooms
 		NO_DISCARD Camera* GetMainCamera() const;
 		void SetMainCamera(Camera* camera);
 
-
+		const std::vector<Entity*>& GetEntitiesInScene() const;
 	};
 
 }
