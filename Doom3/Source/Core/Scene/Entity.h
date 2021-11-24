@@ -72,9 +72,6 @@ namespace dooms
 		size_t mEntityID;
 		
 		D_PROPERTY()
-		std::string mEntityName;
-
-		D_PROPERTY()
 		static const inline std::string DEFAULT_ENTITY_NAME{ "Entity" };
 
 		//TODO : Every Entity has Transform Component, Just put Transform Component as member variable
@@ -450,7 +447,7 @@ namespace dooms
 
 
 		D_FUNCTION()
-		NO_DISCARD std::string_view GetEntityName() const;
+		NO_DISCARD const std::string& GetEntityName() const;
 
 		D_FUNCTION()
 		void SetEntityName(const std::string& entityName);

@@ -9,7 +9,6 @@ using namespace dooms;
 
 Entity::Entity(size_t entityID, Entity* parent) : 
 	mEntityID{ entityID }, 
-	mEntityName{}, 
 	mPlainComponents{}, 
 	mParent{ parent }, 
 	mChilds{}, 
@@ -70,7 +69,7 @@ void dooms::Entity::EndOfFrame_PlainComponent()
 
 void Entity::CopyEntity(const Entity& fromCopyedEnitty, Entity& toCopyedEntity)
 {
-	toCopyedEntity.mEntityName = fromCopyedEnitty.mEntityName;
+	toCopyedEntity.ChangeDObjectName(fromCopyedEnitty.GetDObjectName());
 	toCopyedEntity.mLayerIndex = fromCopyedEnitty.mLayerIndex;
 	toCopyedEntity.mEntityMobility = fromCopyedEnitty.mEntityMobility;
 	toCopyedEntity.mEntityFlag = fromCopyedEnitty.mEntityFlag;
@@ -114,7 +113,7 @@ void Entity::CopyEntity(const Entity& fromCopyedEnitty, Entity& toCopyedEntity)
 
 void Entity::SetEntityName(const std::string& entityName)
 {
-	mEntityName = entityName;
+	ChangeDObjectName(entityName);
 	DObject::ChangeDObjectName(entityName);
 }
 
@@ -151,9 +150,9 @@ void Entity::OnActivated()
 	SetDirtyTrueAtThisFrame();
 }
 
-std::string_view Entity::GetEntityName() const
+const std::string& Entity::GetEntityName() const
 {
-	return mEntityName;
+	return GetDObjectName();
 }
 
 
