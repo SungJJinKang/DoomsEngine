@@ -42,7 +42,7 @@ void dooms::assetExporter::assetExporterThreeDModel::ExportToAssFile
 	aiReturn status = assimpExporter.Export(pScene, mAssFileFormatId, path.generic_u8string(), ASSIMP_EXPORT_PROCESSING_SETTING);
 	if (status == aiReturn::aiReturn_FAILURE || status == aiReturn::aiReturn_OUTOFMEMORY)
 	{
-		D_DEBUG_LOG("Fail To Export ASS File", eLogType::D_ERROR);
+		D_DEBUG_LOG(eLogType::D_ERROR, "Fail To Export ASS File");
 		NEVER_HAPPEN;
 	}
 

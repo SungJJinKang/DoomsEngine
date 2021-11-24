@@ -13,7 +13,7 @@ void UserInput_Server::CursorEnterCallback(GLFWwindow* window, INT32 entered)
 {
 	UserInput_Server::IsCursorOnScreenWindow = entered;
 
-	D_DEBUG_LOG({ "Mouse Cursor Enter?? : ", std::to_string(entered)}, eLogType::D_LOG);
+	D_DEBUG_LOG(eLogType::D_LOG, "Mouse Cursor Enter : %d", entered);
 
 	if (entered != 0)
 	{
@@ -32,7 +32,7 @@ void UserInput_Server::CursorPosition_Callback(GLFWwindow* window, FLOAT64 xpos,
 
 	dooms::userinput::UserInput_Server::mCurrentCursorScreenPosition.x = static_cast<FLOAT32>(xpos);
 	dooms::userinput::UserInput_Server::mCurrentCursorScreenPosition.y = static_cast<FLOAT32>(ypos);
-	//D_DEBUG_LOG({ "Mouse Cursor Position : Pos X ( ", std::to_string(xpos), " ) , Pos Y ( ", std::to_string(ypos), " )" }, eLogType::D_LOG);
+
 }
 
 
@@ -42,7 +42,7 @@ void UserInput_Server::Scroll_Callback(GLFWwindow* window, FLOAT64 xoffset, FLOA
 	UserInput_Server::mScrollOffset.y = static_cast<FLOAT32>(yoffset);
 	UserInput_Server::mScrollChangedAtPreviousFrame = true;
 
-	D_DEBUG_LOG({ "Mouse Scroll Callback  : Offset X ( ", std::to_string(xoffset), " ) , Offset Y ( ", std::to_string(yoffset), " )" }, eLogType::D_LOG);
+	D_DEBUG_LOG(eLogType::D_LOG, "Mouse Scroll Callback  : Offset X ( %f ), Offset Y ( %f )", xoffset, yoffset);
 }
 
 
@@ -65,7 +65,6 @@ void UserInput_Server::Key_Callback(GLFWwindow* window, INT32 key, INT32 scancod
 		UserInput_Server::mUpKeys.push_back(key);
 	}
 
-	//D_DEBUG_LOG({ "Key Input Callback  :  ", std::to_string(key), "  ", std::to_string(action) }, eLogType::D_LOG);
 }
 
 
@@ -121,7 +120,7 @@ void dooms::userinput::UserInput_Server::UpdateCurrentCursorScreenPosition()
 
 		//math::Vector3 ndcPoint{ dooms::userinput::UserInput_Server::mCurrentCursorNDCPosition.x, dooms::userinput::UserInput_Server::mCurrentCursorNDCPosition.y, 0 };
 		dooms::userinput::UserInput_Server::mCurrentCursorWorldPosition = Camera::GetMainCamera()->NDCToWorldPoint(math::Vector3{ dooms::userinput::UserInput_Server::mCurrentCursorNDCPosition });
-		//D_DEBUG_LOG(dooms::userinput::UserInput_Server::mCurrentCursorWorldPosition.toString());
+
 	}
 }
 
@@ -182,7 +181,7 @@ void UserInput_Server::UpdateCursorMode()
 	}
 	else if (UserInput_Server::IsCursorLockedInScreen == true && UserInput_Server::IsCursorVisible == true)
 	{
-		D_DEBUG_LOG("Undefined Cursor Mode, There is no mode that locked in screen and visible", eLogType::D_WARNING); // https://www.glfw.org/docs/3.3/input_guide.html
+		D_DEBUG_LOG(eLogType::D_WARNING, "Undefined Cursor Mode, There is no mode that locked in screen and visible"); // https://www.glfw.org/docs/3.3/input_guide.html
 		glfwSetInputMode(dooms::graphics::Graphics_Setting::GetWindow(), GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 	}
 }

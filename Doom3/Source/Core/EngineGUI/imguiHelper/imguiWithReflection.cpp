@@ -151,7 +151,7 @@ namespace dooms
 					}
 					else
 					{
-						D_DEBUG_LOG(std::string{ "imguiWithReflection : Can't resolve type " } + objectTypeFullName);
+						D_DEBUG_LOG(eLogType::D_ERROR, "imguiWithReflection : Can't resolve type \" %s \"", objectTypeFullName);
 					}
 
 					OnEndDrawGUI(id, label, attributeList);

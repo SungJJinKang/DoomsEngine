@@ -92,7 +92,7 @@ void dooms::graphics::PicktureInPickture::DrawPictureInPicture()
 		}
 		else
 		{
-			D_DEBUG_LOG("Plase Set Texture of PIP", eLogType::D_ERROR);
+			D_DEBUG_LOG(eLogType::D_ERROR, "Plase Set Texture of PIP");
 		}
 	}
 	

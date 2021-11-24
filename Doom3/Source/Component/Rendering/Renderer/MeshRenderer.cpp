@@ -35,7 +35,7 @@ void dooms::MeshRenderer::SetMesh(const graphics::Mesh* const mesh)
 	}
 	else
 	{
-		D_DEBUG_LOG("MeshRender don't have for BVH_AABB", eLogType::D_ERROR);
+		D_DEBUG_LOG(eLogType::D_ERROR, "MeshRender don't have for BVH_AABB");
 	}
 }
 

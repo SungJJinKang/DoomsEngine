@@ -40,7 +40,7 @@ namespace dooms
 			// Write womethink using your own functionality
 			inline virtual void write(const char* message) override
 			{
-				D_DEBUG_LOG({ "Assimp Debugger : ", message });
+				D_DEBUG_LOG(eLogType::D_LOG, "Assimp Debugger : %s", message);
 			}
 		};
 	}
@@ -59,7 +59,7 @@ bool dooms::assetImporter::AssetImporterWorker_THREE_D_MODEL::ImportThreeDModelA
 
 	if (modelScene == NULL)
 	{
-		D_DEBUG_LOG(mAssimpImporter.GetErrorString(), eLogType::D_ERROR);
+		D_DEBUG_LOG(eLogType::D_ERROR, mAssimpImporter.GetErrorString());
 		NEVER_HAPPEN;
 		return false;
 	}
@@ -92,7 +92,7 @@ bool dooms::assetImporter::AssetImporterWorker_THREE_D_MODEL::ImportThreeDModelA
 	}
 	else
 	{
-		D_DEBUG_LOG({ path.generic_u8string(), " : 3D Model Asset has no scene" });
+		D_DEBUG_LOG(eLogType::D_LOG, "%s : 3D Model Asset has no scene", path.generic_u8string().c_str());
 		mAssimpImporter.FreeScene();
 		return false;
 	}

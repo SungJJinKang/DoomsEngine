@@ -103,7 +103,7 @@ void dooms::asset::TextureAsset::SetScratchImage(std::unique_ptr<DirectX::Scratc
 
 
 	default:
-		D_DEBUG_LOG("Worng Texture Format, We Only Support Compressed Type", eLogType::D_ERROR);
+		D_DEBUG_LOG(eLogType::D_ERROR, "Worng Texture Format, We Only Support Compressed Type");
 		NEVER_HAPPEN;
 	}
 

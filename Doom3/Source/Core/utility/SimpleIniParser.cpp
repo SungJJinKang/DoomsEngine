@@ -27,7 +27,7 @@ IniData SimpleIniParser::ParseIniFile(std::string fileDirectory)
 	std::ifstream inputfStream{ fileDirectory };
 	if (inputfStream.is_open() == false)
 	{
-		D_DEBUG_LOG({ "can't open Ini file : ", fileDirectory });
+		D_DEBUG_LOG(eLogType::D_LOG, "can't open Ini file : %s", fileDirectory.c_str());
 		return {};
 	}
 

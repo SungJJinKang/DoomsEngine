@@ -357,14 +357,12 @@ void dooms::asset::ShaderAsset::checkCompileError(UINT32 id, ShaderType shaderTy
 	if (!success)
 	{
 		glGetShaderInfoLog(id, 1024, NULL, infoLog);
-		D_DEBUG_LOG(
-			{ "Shader File Name : ", GetAssetFileName(),
-			"\nSHADER_COMPILATION_ERROR\n", 
-			shaderTypeStr.c_str(), 
-			"\n", 
-			infoLog, 
-			}
-		, eLogType::D_ERROR
+		D_DEBUG_LOG
+		(
+			eLogType::D_ERROR, "Shader File Name : %s ( Shader Type : %s ). SHADER_COMPILATION_ERROR : %s"
+			, GetAssetFileName().c_str()
+			, shaderTypeStr.c_str()
+			, infoLog
 		);
 	}
 }

@@ -31,7 +31,7 @@ void AABB2D::Validate()
 		FLOAT32 temp = mLowerBound.x;
 		mLowerBound.x = mUpperBound.x;
 		mUpperBound.x = temp;
-		D_DEBUG_LOG("AABB bound is worng", eLogType::D_ERROR);
+		D_DEBUG_LOG(eLogType::D_ERROR, "AABB bound is worng");
 	}
 
 	if (mUpperBound.y < mLowerBound.y)
@@ -39,7 +39,7 @@ void AABB2D::Validate()
 		FLOAT32 temp = mLowerBound.y;
 		mLowerBound.y = mUpperBound.y;
 		mUpperBound.y = temp;
-		D_DEBUG_LOG("AABB bound is worng", eLogType::D_ERROR);
+		D_DEBUG_LOG(eLogType::D_ERROR, "AABB bound is worng");
 	}
 }
 
@@ -154,7 +154,7 @@ void AABB3D::Validate()
 		FLOAT32 temp = mLowerBound.x;
 		mLowerBound.x = mUpperBound.x;
 		mUpperBound.x = temp;
-		D_DEBUG_LOG("AABB bound is wrong", eLogType::D_ERROR);
+		D_DEBUG_LOG(eLogType::D_ERROR, "AABB bound is wrong");
 	}
 
 	if (mUpperBound.y < mLowerBound.y)
@@ -162,7 +162,7 @@ void AABB3D::Validate()
 		FLOAT32 temp = mLowerBound.y;
 		mLowerBound.y = mUpperBound.y;
 		mUpperBound.y = temp;
-		D_DEBUG_LOG("AABB bound is wrong", eLogType::D_ERROR);
+		D_DEBUG_LOG(eLogType::D_ERROR, "AABB bound is wrong");
 	}
 
 	if (mUpperBound.z < mLowerBound.z)
@@ -170,7 +170,7 @@ void AABB3D::Validate()
 		FLOAT32 temp = mLowerBound.z;
 		mLowerBound.z = mUpperBound.z;
 		mUpperBound.z = temp;
-		D_DEBUG_LOG("AABB bound is wrong", eLogType::D_ERROR);
+		D_DEBUG_LOG(eLogType::D_ERROR, "AABB bound is wrong");
 	}
 }
 

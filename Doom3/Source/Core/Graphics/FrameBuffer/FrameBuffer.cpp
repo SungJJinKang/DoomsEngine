@@ -110,7 +110,7 @@ void FrameBuffer::CheckIsFrameBufferSuccesfullyCreated() noexcept
 	if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
 	{//Fail Creating FrameBuffer
 		D_ASSERT(false);
-		D_DEBUG_LOG({ "fail frame buffer", std::to_string(glCheckFramebufferStatus(GL_FRAMEBUFFER)) }, logger::eLogType::D_ERROR);
+		D_DEBUG_LOG(logger::eLogType::D_ERROR, "fail frame buffer : %u", glCheckFramebufferStatus(GL_FRAMEBUFFER));
 	}
 }
 

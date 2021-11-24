@@ -73,7 +73,6 @@ void dooms::graphics::UniformBufferObject::StoreDataAtTempBuffer(const void* sou
 	D_ASSERT(IsBufferGenerated() == true);
 	D_ASSERT(offsetInUniformBlock + sizeOfSourceData <= mSizeInByte);
 
-	//D_DEBUG_LOG({ "Store Data At Uniform Buffer Object TempBuffer ", std::to_string(sizeInByteOfSourceData) , std::to_string(offsetInUniformBlock) }, eLogType::D_LOG);
 	std::memcpy(mUniformBufferTempData + offsetInUniformBlock, sourceData, sizeOfSourceData);
 	bmIsDirty = true;
 }

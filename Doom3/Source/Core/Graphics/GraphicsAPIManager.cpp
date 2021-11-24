@@ -3,7 +3,6 @@
 #include "Graphics_Server.h"
 #include "Graphics_Setting.h"
 #include "EngineGUI/PrintText.h"
-#include "EngineGUI/imguiHelper/imguiHelper.h"
 
 void dooms::graphics::graphicsAPIManager::Initialize()
 {
@@ -33,7 +32,7 @@ void dooms::graphics::graphicsAPIManager::Initialize()
 	Graphics_Setting::SetWindow(glfwCreateWindow(Graphics_Setting::GetScreenWidth(), Graphics_Setting::GetScreenHeight(), "SUNG JIN KANG", NULL, NULL));
 	if (Graphics_Setting::GetWindow() == NULL)
 	{
-		D_DEBUG_LOG("Failed to create GLFW window");
+		D_DEBUG_LOG(eLogType::D_ERROR, "Failed to create GLFW window");
 		glfwTerminate();
 		return;
 	}
@@ -49,7 +48,7 @@ void dooms::graphics::graphicsAPIManager::Initialize()
 	// ---------------------------------------
 	if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
 	{
-		D_DEBUG_LOG("Failed to initialize GLAD");
+		D_DEBUG_LOG(eLogType::D_ERROR, "Failed to initialize GLAD");
 		return;
 	}
 
@@ -57,13 +56,13 @@ void dooms::graphics::graphicsAPIManager::Initialize()
 	std::string vendor{ GraphicsAPI::GetString(GraphicsAPI::GetStringParameter::VENDOR) };
 	if (vendor.find("ATI") != std::string::npos)
 	{
-		D_DEBUG_LOG("Using AMD on board GPU, Maybe This will make driver error", eLogType::D_ERROR);
+		D_DEBUG_LOG(eLogType::D_ERROR, "Using AMD on board GPU, Maybe This will make driver error", eLogType::D_ERROR);
 	}
 #endif // 
 
-	D_DEBUG_LOG({ "Current OpenGL version is : ", std::string(GraphicsAPI::GetString(GraphicsAPI::GetStringParameter::VERSION)) });
-	D_DEBUG_LOG({ "Vendor is : ", vendor });
-	D_DEBUG_LOG({ "Renderer is : ", std::string(GraphicsAPI::GetString(GraphicsAPI::GetStringParameter::RENDERER)) });
+	D_DEBUG_LOG(eLogType::D_LOG, "Current OpenGL version is : %s", GraphicsAPI::GetString(GraphicsAPI::GetStringParameter::VERSION));
+	D_DEBUG_LOG(eLogType::D_LOG, "Vendor is : %s", vendor.c_str() );
+	D_DEBUG_LOG(eLogType::D_LOG, "Renderer is : %s", GraphicsAPI::GetString(GraphicsAPI::GetStringParameter::VERSION));
 	glfwSetInputMode(Graphics_Setting::GetWindow(), GLFW_CURSOR, GLFW_CURSOR_NORMAL);
 	//
 
@@ -131,7 +130,7 @@ void dooms::graphics::graphicsAPIManager::DEBUG_CALLBACK(GLenum source, GLenum t
 	//https://www.khronos.org/registry/OpenGL/extensions/KHR/KHR_debug.txt
 	if (type == 0x824C || type == 0x824E)
 	{
-		D_DEBUG_LOG(msg, eLogType::D_ERROR);
+		D_DEBUG_LOG(eLogType::D_ERROR, msg);
 
 	}
 }

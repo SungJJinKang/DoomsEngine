@@ -42,24 +42,7 @@ namespace dooms
 				mCurrentBound2DIndexId<str>[index1][index2] = id;
 			}
 
-			/// <summary>
-			/// Check If target id is bound???
-			/// </summary>
-			/// <param name="str"></param>
-			/// <param name="id"></param>
-			/*
-			FORCE_INLINE static bool CheckIsAlreadyBound(const char* str, UINT32 id)
-			{
-				auto element = OverlapBindChecker::mCurrentBoundId.find(str);
-#ifdef DEBUG_MODE
-				if (element == OverlapBindChecker::mCurrentBoundId.end() || (*element).second != id)
-				{
-					D_DEBUG_LOG({ std::string("Please Bind : ") + str + "  Required ID : " + std::to_string(id) }, eLogType::D_ERROR);
-				}
-#endif
-			}
-			*/
-
+	
 			template <const char* str>
 			FORCE_INLINE static UINT32 GetBoundID()
 			{

@@ -40,7 +40,7 @@ void dooms::PointLight::UpdateUniformBufferObject()
 		}
 		else
 		{
-			D_DEBUG_LOG({ "Directional Light is supported until count : ", std::to_string(MAX_POINT_LIGHT_COUNT) }, eLogType::D_ERROR);
+			D_DEBUG_LOG(eLogType::D_ERROR, "Point Light is supported until count : %d", MAX_POINT_LIGHT_COUNT );
 		}
 
 	}

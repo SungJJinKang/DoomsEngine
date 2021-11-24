@@ -29,7 +29,7 @@ bool dooms::assetImporter::AssetImporterWorker_Texture::ImportTextureAsset(
 			hr = LoadFromWICFile(sourcepathUTF8.c_str(), DirectX::WIC_FLAGS::WIC_FLAGS_NONE, nullptr, *sourceScratchImage);
 			if (FAILED(hr))
 			{
-				D_DEBUG_LOG("Fail To Load Texture", eLogType::D_ERROR);
+				D_DEBUG_LOG(eLogType::D_ERROR, "Fail To Load Texture");
 				return false;
 			}
 
@@ -55,7 +55,7 @@ bool dooms::assetImporter::AssetImporterWorker_Texture::ImportTextureAsset(
 				//	break;
 
 			default:
-				D_DEBUG_LOG("Cant Find Format", eLogType::D_ERROR);
+				D_DEBUG_LOG(eLogType::D_ERROR, "Cant Find Format");
 				NEVER_HAPPEN;
 				return false;
 			}
@@ -80,7 +80,7 @@ bool dooms::assetImporter::AssetImporterWorker_Texture::ImportTextureAsset(
 				hr = Resize(*sourceImage, sourceScratchImage->GetMetadata().width / resizeRatio, sourceScratchImage->GetMetadata().height / resizeRatio, DirectX::TEX_FILTER_FLAGS::TEX_FILTER_DEFAULT, *resizedImage);
 				if (FAILED(hr))
 				{
-					D_DEBUG_LOG("Fail To Resize Texture", eLogType::D_ERROR);
+					D_DEBUG_LOG(eLogType::D_ERROR, "Fail To Resize Texture");
 					return false;
 				}
 			}
@@ -90,14 +90,14 @@ bool dooms::assetImporter::AssetImporterWorker_Texture::ImportTextureAsset(
 			hr = GenerateMipMaps(*(resizedImage->GetImage(0, 0, 0)), DirectX::TEX_FILTER_FLAGS::TEX_FILTER_DEFAULT, MIP_MAP_LEVELS, *mipmapedImage, false);
 			if (FAILED(hr))
 			{
-				D_DEBUG_LOG("Fail To Save DDS Texture", eLogType::D_ERROR);
+				D_DEBUG_LOG(eLogType::D_ERROR, "Fail To Save DDS Texture");
 				return false;
 			}
 
 			hr = Compress(mipmapedImage->GetImages(), mipmapedImage->GetImageCount(), mipmapedImage->GetMetadata(), compressTargetFormat, DirectX::TEX_COMPRESS_FLAGS::TEX_COMPRESS_DEFAULT, DirectX::TEX_THRESHOLD_DEFAULT, *(ResultCompressedImage));
 			if (FAILED(hr))
 			{
-				D_DEBUG_LOG("Fail To Compress Texture", eLogType::D_ERROR);
+				D_DEBUG_LOG(eLogType::D_ERROR, "Fail To Compress Texture");
 				return false;
 			}
 
@@ -111,12 +111,12 @@ bool dooms::assetImporter::AssetImporterWorker_Texture::ImportTextureAsset(
 			hr = SaveToDDSFile(ResultCompressedImage->GetImages(), ResultCompressedImage->GetImageCount(), ResultCompressedImage->GetMetadata(), DirectX::DDS_FLAGS::DDS_FLAGS_NONE, destinationPath.generic_wstring().c_str());
 			if (FAILED(hr))
 			{
-				D_DEBUG_LOG("Fail To Save DDS Texture", eLogType::D_ERROR);
+				D_DEBUG_LOG(eLogType::D_ERROR, "Fail To Save DDS Texture");
 				return false;
 			}
 			else
 			{
-				D_DEBUG_LOG({ "Success To Save DDS Texture : ", destinationPath.string() }, eLogType::D_LOG);
+				D_DEBUG_LOG(eLogType::D_LOG, "Success To Save DDS Texture : %s", destinationPath.string().c_str());
 				return false;
 			}
 
@@ -128,7 +128,7 @@ bool dooms::assetImporter::AssetImporterWorker_Texture::ImportTextureAsset(
 			hr = LoadFromDDSFile(path.generic_wstring().c_str(), DirectX::DDS_FLAGS::DDS_FLAGS_NONE, &info, *ResultCompressedImage);
 			if (FAILED(hr))
 			{
-				D_DEBUG_LOG("Fail To Load DDS Texture", eLogType::D_ERROR);
+				D_DEBUG_LOG(eLogType::D_ERROR, "Fail To Load DDS Texture");
 				return false;
 			}
 
@@ -151,7 +151,7 @@ dooms::assetImporter::AssetImporterWorker_Texture::AssetImporterWorker_Texture()
 		D_ASSERT_LOG(FAILED(hr) == false, "Fail to initalize COM Library"); // https://m.blog.naver.com/milennium9/220065501067
 		if (FAILED(hr))
 		{
-			D_DEBUG_LOG("Fail To CoInitializeEx", eLogType::D_ERROR);
+			D_DEBUG_LOG(eLogType::D_ERROR, "Fail To CoInitializeEx");
 			NEVER_HAPPEN;
 		}
 

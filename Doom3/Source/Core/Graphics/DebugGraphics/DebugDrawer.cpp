@@ -189,7 +189,7 @@ void dooms::graphics::DebugDrawer::DebugDraw2DLineInstantly(const math::Vector3&
 	}
 	else
 	{
-		D_DEBUG_LOG("Please set mDrawInstantlyMaterial", eLogType::D_WARNING);
+		D_DEBUG_LOG(eLogType::D_WARNING, "Please set mDrawInstantlyMaterial");
 		m2DMaterial->UseProgram();
 		m2DMaterial->SetVector4(0, Color::GetColor(static_cast<eColor>(color)));
 	}
@@ -206,7 +206,7 @@ void dooms::graphics::DebugDrawer::DebugDraw2DTriangleInstantly(const math::Vect
 {
 	if (mDrawInstantlyMaterial != nullptr)
 	{
-		D_DEBUG_LOG("Please set mDrawInstantlyMaterial", eLogType::D_WARNING);
+		D_DEBUG_LOG(eLogType::D_WARNING, "Please set mDrawInstantlyMaterial");
 		mDrawInstantlyMaterial->UseProgram();
 		mDrawInstantlyMaterial->SetVector4(0, Color::GetColor(static_cast<eColor>(color)));
 	}

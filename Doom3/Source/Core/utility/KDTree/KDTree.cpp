@@ -349,7 +349,7 @@ void dooms::KDTree<T>::Delete(const typename node_type::component_type& componen
 {
 	if(mRootNodeIndex == NULL_NODE_INDEX)
 	{
-		D_DEBUG_LOG("There is no RootNode", eLogType::D_WARNING);
+		D_DEBUG_LOG(eLogType::D_WARNING, "There is no RootNode");
 		return;
 	}
 	_Delete(componentValue, mRootNodeIndex, NULL_NODE_INDEX, 0);
@@ -366,7 +366,7 @@ typename dooms::KDTree<T>::node_view_type dooms::KDTree<T>::FineMin(const UINT32
 	D_ASSERT(targetMinNodeDimension >= 0 && targetMinNodeDimension < GetDimensionCount());
 	if (mRootNodeIndex == NULL_NODE_INDEX)
 	{
-		D_DEBUG_LOG("There is no RootNode", eLogType::D_WARNING);
+		D_DEBUG_LOG(eLogType::D_WARNING, "There is no RootNode");
 		return MakeKDTree_Node_View(NULL_NODE_INDEX);
 	}
 	INT32 minNodeIndex = _FineMin(mRootNodeIndex, 0, targetMinNodeDimension);

@@ -38,7 +38,7 @@ void dooms::time::MainTimer::UpdateFixedTimer()
 #ifdef DEBUG_MODE
 	if (userinput::UserInput_Server::GetKeyToggle(eKEY_CODE::KEY_F5))
 	{
-		D_DEBUG_LOG({ "Current Frame : ", std::to_string(1.0 / dooms::time::MainTimer::mFrameTime.mDeltaTime) });
+		D_DEBUG_LOG(eLogType::D_LOG, "Current Frame : %f", 1.0f / dooms::time::MainTimer::mFrameTime.mDeltaTime);
 	}
 #endif
 }

@@ -146,7 +146,7 @@ void dooms::assetImporter::AssetImporterWorkerManager::ClearAssetImporterWorker(
 				mAssetApiImportersCount[assetTypeIndex]--;
 			}
 		}
-		D_DEBUG_LOG("Clear ApiImporterQueue ");
+		D_DEBUG_LOG(eLogType::D_LOG, "Clear ApiImporterQueue ");
 
 	}
 }

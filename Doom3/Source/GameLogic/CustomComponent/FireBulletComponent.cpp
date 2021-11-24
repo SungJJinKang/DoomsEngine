@@ -61,3 +61,20 @@ void dooms::FireBulletComponent::Shoot()
 		mBullet->mSpeed = BullterSpeed;
 	}
 }
+
+void dooms::FireBulletComponent::Shoot100Times()
+{
+	for (size_t i = 0; i < 100; i++)
+	{
+		Shoot();
+	}
+}
+
+void dooms::FireBulletComponent::ShootTenTimes()
+{
+	for(size_t i = 0 ; i < 10 ; i++)
+	{
+		Shoot();
+	}
+}
+

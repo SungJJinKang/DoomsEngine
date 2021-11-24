@@ -112,7 +112,7 @@ FORCE_INLINE INT32 dooms::BVH<ColliderType>::AllocateNewNode()
 	if (newNodeIndex >= nodeCurrentCapacity)
 	{
 		mNodes.resize(nodeCurrentCapacity * 2);
-		D_DEBUG_LOG("Resize BVH Tree");
+		D_DEBUG_LOG(eLogType::D_LOG, "Resize BVH Tree");
 	}
 
 	mNodes[newNodeIndex].Clear();

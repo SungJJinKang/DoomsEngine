@@ -1,9 +1,8 @@
 #pragma once
 
-#include <cstdio>
-#include <string>
-
 #include <Core.h>
+
+#include "GUIModules/LogGUI.h"
 
 namespace dooms
 {
@@ -12,9 +11,7 @@ namespace dooms
 		template<typename... Types>
 		extern void PrintText(const char* const format, Types... args)
 		{
-			static_assert((!std::is_same_v<std::string, Types> && ...), "Don't pass std::string, Please use string::c_str()");
-			printf(format, args...);
-			printf("\n");
+			dooms::ui::log::LogOnGUI(format, std::forward< Types>(args)...);
 		}
 
 	}

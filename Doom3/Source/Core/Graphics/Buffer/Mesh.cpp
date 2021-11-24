@@ -92,7 +92,7 @@ void dooms::graphics::Mesh::BufferData(GLsizeiptr dataComponentCount, const void
 	BindVertexArrayObject(); // bind vertex array buffer
 	BindVertexBufferObject();
 
-	D_DEBUG_LOG(std::to_string(sizeof(FLOAT32) * dataComponentCount));
+	D_DEBUG_LOG(eLogType::D_LOG, "%f", sizeof(FLOAT32) * dataComponentCount);
 	glBufferData(GL_ARRAY_BUFFER, sizeof(FLOAT32) * dataComponentCount, data, GL_STATIC_DRAW);
 
 	UINT32 offset = 0;

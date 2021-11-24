@@ -52,7 +52,7 @@ void Material::SetShaderAsset(::dooms::asset::ShaderAsset* shaderAsset)
 	{
 		char infoLog[512];
 		glGetProgramInfoLog(mProgramID, 512, NULL, infoLog);
-		D_DEBUG_LOG({ "Shader File Name : ", shaderAsset->GetAssetFileName(), " - SHADER::PROGRAM::LINKING_FAILED", infoLog}, eLogType::D_ERROR);
+		D_DEBUG_LOG(eLogType::D_ERROR, "SHADER::PROGRAM::LINKING_FAILED ( %s ) : ( %s ) ", shaderAsset->GetAssetFileName().c_str(), infoLog);
 	}
 #endif
 

@@ -18,6 +18,8 @@ namespace dooms
 			void PostRender();
 
 			inline extern bool IsEngineGUIVisible = true;
+
+			
 		};
 	}
 }
