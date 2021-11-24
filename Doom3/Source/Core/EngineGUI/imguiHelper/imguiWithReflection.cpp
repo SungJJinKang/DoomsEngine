@@ -30,6 +30,9 @@
 #include "imgui_internal.h"
 #include "../engineGUIServer.h"
 
+#include <EngineGUI/PrintText.h>
+
+
 namespace dooms
 {
 	namespace ui
@@ -342,6 +345,10 @@ namespace dooms
 			{
 				math::Vector3 eulerAngle{ math::Quaternion::QuaternionToEulerAngle(*static_cast<math::Quaternion*>(object)) };
 
+				eulerAngle.x = math::RADIAN_TO_DEGREE * eulerAngle.x;
+				eulerAngle.y = math::RADIAN_TO_DEGREE * eulerAngle.y;
+				eulerAngle.z = math::RADIAN_TO_DEGREE * eulerAngle.z;
+
 				const FLOAT32 minValue = attributeList.GetMinValue<FLOAT32>();
 				const FLOAT32 maxValue = attributeList.GetMaxValue<FLOAT32>();
 
@@ -359,7 +366,11 @@ namespace dooms
 				// TODO : FIX THIS. DOESN'T WORK WELL..
 
 				if(isValueChanged == true)
-				{
+				{				
+					eulerAngle.x = math::DEGREE_TO_RADIAN * eulerAngle.x;
+					eulerAngle.y = math::DEGREE_TO_RADIAN * eulerAngle.y;
+					eulerAngle.z = math::DEGREE_TO_RADIAN * eulerAngle.z;
+
 					*static_cast<math::Quaternion*>(object) = eulerAngle;
 				}
 
