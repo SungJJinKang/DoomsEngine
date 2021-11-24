@@ -11,7 +11,7 @@ using namespace dooms;
 
 Component::Component() : bIsAddedToEntity{}, mOwnerEntity{nullptr}, mTransform{}, mIsActivated{true}
 {
-
+	ChangeDObjectName(GetTypeFullName());
 }
 
 Component::~Component()
