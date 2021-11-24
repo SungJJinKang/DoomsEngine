@@ -93,9 +93,12 @@ namespace dooms
 		{
 			GENERATE_BODY_DObjectProperties()
 
+			D_PROPERTY()
 			UINT32 mDObjectFlag = 0;
-			//Used For Debugging
+
+			D_PROPERTY()
 			std::string mDObjectName;
+			
 			const DObject* mOwnerDObject = nullptr;
 
 			DObjectProperties() = default;
@@ -166,9 +169,9 @@ namespace dooms
 
 		D_FUNCTION()
 		void ChangeDObjectName(const std::string& dObjectName);
-
+		
 		D_FUNCTION()
-		void ChangeDObjectName(const std::string* dObjectName);
+		void ChangeDObjectName(const char* const dObjectName);
 
 		D_FUNCTION()
 		void SetOwnerDObject(const DObject* const ownerDObject);
