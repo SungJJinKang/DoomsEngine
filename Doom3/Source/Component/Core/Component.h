@@ -154,6 +154,9 @@ namespace dooms
 
 	public:
 
+		D_PROPERTY()
+		bool IsEnabled = true;
+
 		Component();
 
 		/// <summary>

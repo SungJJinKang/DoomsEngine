@@ -11,7 +11,6 @@ using namespace dooms;
 
 Component::Component() : bIsAddedToEntity{}, mOwnerEntity{nullptr}, mTransform{}, mIsActivated{true}
 {
-	ChangeDObjectName(GetTypeFullName());
 }
 
 Component::~Component()
@@ -31,6 +30,8 @@ void Component::AddLocalDirtyToTransformDirtyReceiver(DirtyReceiver& localDirty)
 void dooms::Component::InitComponent_Internal(Entity* entity)
 {
 	D_ASSERT(IsValid(entity) == true);
+
+	ChangeDObjectName(GetTypeFullName());
 	mOwnerEntity = entity;
 	mTransform = entity->GetTransform();
 	bIsAddedToEntity = true;

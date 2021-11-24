@@ -238,6 +238,9 @@ namespace dooms
 	public:
 
 		D_PROPERTY()
+		bool IsEnabled = true;
+
+		D_PROPERTY()
 		eEntityMobility mEntityMobility{ eEntityMobility::Dynamic };
 		D_PROPERTY()
 		UINT32 mEntityFlag{ eEntityFlags::OcculuderStatic | eEntityFlags::OcculudeeStatic };

@@ -93,10 +93,10 @@ namespace dooms
 		{
 			GENERATE_BODY_DObjectProperties()
 
-			D_PROPERTY()
+			D_PROPERTY(INVISIBLE)
 			UINT32 mDObjectFlag = 0;
 
-			D_PROPERTY()
+			D_PROPERTY(INVISIBLE)
 			std::string mDObjectName{};
 			
 			const DObject* mOwnerDObject = nullptr;
