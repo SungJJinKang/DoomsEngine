@@ -43,6 +43,23 @@ namespace dooms
 						log::IsEnabled = !isStop;
 					}
 				}
+
+
+				{
+					ImGui::SameLine(0, 15);
+
+					ImGui::Text(" | ");
+
+					ImGui::SameLine(0, 15);
+
+					bool breakWhenError = logger::BREAK_WHEN_ERROR;
+					if (ImGui::Checkbox("Break When Error", &breakWhenError))
+					{
+						logger::BREAK_WHEN_ERROR = breakWhenError;
+					}
+				}
+
+				
 				
 				{
 					ImGui::SameLine(0, 15);

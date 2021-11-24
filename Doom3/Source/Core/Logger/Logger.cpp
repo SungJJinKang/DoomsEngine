@@ -34,7 +34,7 @@ void dooms::logger::InitLogger()
 
 void dooms::logger::StopIfError(eLogType logType)
 {
-	if (logType == eLogType::D_ERROR)
+	if (BREAK_WHEN_ERROR && logType == eLogType::D_ERROR)
 	{
 		breakpoint();
 	}
