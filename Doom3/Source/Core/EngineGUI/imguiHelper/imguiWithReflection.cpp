@@ -314,6 +314,38 @@ void dooms::ui::imguiWithReflection::Initialize()
 	}
 }
 
+void dooms::ui::imguiWithReflection::AddToVisibleOnGUIDObjectList(DObject* const dObject)
+{
+	dooms::ui::imguiWithReflection::mVisibleOnGUIDObjectList.push_back(dObject);
+}
 
+void dooms::ui::imguiWithReflection::RemoveFromVisibleOnGUIDObjectList(DObject* const dObject)
+{
+	std::vector_find_swap_popback(dooms::ui::imguiWithReflection::mVisibleOnGUIDObjectList, dObject);
+}
+
+void dooms::ui::imguiWithReflection::UpdateGUI_DObjectsVisibleOnGUI()
+{
+	for (dooms::DObject* const dObjectVisibleOnGUI : dooms::ui::imguiWithReflection::mVisibleOnGUIDObjectList)
+	{
+		if (
+			ImGui::Begin
+			(
+				dObjectVisibleOnGUI->GetDObjectName().empty() == false ? dObjectVisibleOnGUI->GetDObjectName().c_str() : dObjectVisibleOnGUI->GetTypeFullName(),
+				&(dooms::ui::engineGUIServer::IsEngineGUIVisible)
+			)
+			)
+		{
+			imguiWithReflectionHelper::DrawDObjectGUI(dObjectVisibleOnGUI->GetDClass(), dObjectVisibleOnGUI);
+		}
+
+
+
+
+		ImGui::End();
+
+		imguiWithReflectionHelper::ClearMultipleDrawChecker();
+	}
+}
 
 

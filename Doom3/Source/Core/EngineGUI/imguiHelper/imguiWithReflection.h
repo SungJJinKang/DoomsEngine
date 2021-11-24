@@ -42,7 +42,7 @@ namespace dooms
 		private:
 
 			inline static bool IsInitialized = false;
-			
+			inline static std::vector<dooms::DObject*> mVisibleOnGUIDObjectList{};
 			
 		public:
 
@@ -51,6 +51,11 @@ namespace dooms
 				return IsInitialized;
 			}
 			static void Initialize();
+
+			static void AddToVisibleOnGUIDObjectList(DObject* const dObject);
+			static void RemoveFromVisibleOnGUIDObjectList(DObject* const dObject);
+
+			static void UpdateGUI_DObjectsVisibleOnGUI();
 
 			template <typename DOBJECT_TYPE>
 			static void DrawMultipleDObjects(const char* const uiLabel, const std::vector<DOBJECT_TYPE*>& dObjects, size_t& currentIndex)
