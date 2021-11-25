@@ -44,7 +44,7 @@
   * Refactoring ( Remove a lot of dependency between modules, classes )
   * Unreal Engine Style Garbage Collector ( reference : https://www.slideshare.net/QooJuice/ue4-garbage-collection-2 )
   * Hot Reload ( similar to Unreal Engine's )
-  * implement clReflect x64 Function Call Assembly ( https://docs.microsoft.com/en-us/cpp/build/x64-calling-convention?view=msvc-170 )
+  * implement clReflect x64 Function Call Assembly ( member function with no return, no parameter is currently supported, https://docs.microsoft.com/en-us/cpp/build/x64-calling-convention?view=msvc-170 )
 
 
 ## Coding Standard
