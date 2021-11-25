@@ -45,6 +45,17 @@ namespace dooms
 			bool GetIsVisibleOnGUI() const;
 			bool GetIsHasGUIType(const char* const typeName) const;
 			bool GetIsReadOnly() const;
+			/// <summary>
+			/// this is only applied to field gui
+			/// </summary>
+			/// <returns></returns>
+			bool GetIsNoLabel() const;
+			/// <summary>
+			/// if has drawOnSameLine attribute, return space value ( at least 0.0f ).
+			///	Or return -1.0f
+			/// </summary>
+			/// <returns></returns>
+			float GetIsDrawOnSameLine() const;
 
 			/// <summary>
 			/// if there isn't tooltip, return nullptr

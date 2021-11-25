@@ -154,7 +154,7 @@ namespace dooms
 
 	public:
 
-		D_PROPERTY()
+		D_PROPERTY(SAMELINE, NOLABEL)
 		bool IsComponentEnabled = true;
 
 		Component();

@@ -114,7 +114,7 @@ namespace dooms
 		D_PROPERTY(INVISIBLE)
 		UINT64 mDObjectID;
 
-		D_PROPERTY()
+		D_PROPERTY(NOLABEL)
 		DObjectProperties mDObjectProperties;
 
 		gc::GarbageCollectee mGarbageCollectee;

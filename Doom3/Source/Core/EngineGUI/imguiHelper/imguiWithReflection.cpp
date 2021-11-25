@@ -56,9 +56,15 @@ namespace dooms
 				{
 					ImGui::BeginDisabled();
 				}
+
+				const float sameLineSpacingValue = attributeList.GetIsDrawOnSameLine();
+				if(sameLineSpacingValue > 0.0f)
+				{
+					ImGui::SameLine(0, sameLineSpacingValue);
+				}
 			}
 
-			void OnEndDrawGUI(const char* const label, const reflection::DAttributeList& attributeList)
+			void OnEndDrawGUI(const reflection::DAttributeList& attributeList)
 			{
 				// this is little slow. but it's acceptable
 				if (attributeList.GetIsReadOnly() == true)
@@ -97,10 +103,12 @@ namespace dooms
 
 						imguiWithReflection::PushImgui();
 
-						isValueChange = func(object, label, attributeList);
+						const char* const fieldLabel = attributeList.GetIsNoLabel() == true ? "" : label;
+
+						isValueChange = func(object, fieldLabel, attributeList);
 						isSuccessToDrawGUI = true;
 
-						OnEndDrawGUI(label, attributeList);
+						OnEndDrawGUI(attributeList);
 
 						imguiWithReflection::PopImgui();
 						
@@ -174,7 +182,7 @@ namespace dooms
 
 					imguiWithReflection::PopImgui();
 					
-					OnEndDrawGUI(dFunction.GetFunctionName(), attributeList);
+					OnEndDrawGUI(attributeList);
 				}
 
 				return isButtonClicked;
@@ -213,7 +221,7 @@ namespace dooms
 
 
 					//label
-					const char* objectName = "";
+					const char* objectName;
 					if(rawObjectName == nullptr || rawObjectName[0] == '\0')
 					{
 						if(objectType == eObjectType::DObject)
@@ -224,6 +232,10 @@ namespace dooms
 						{// if rawObjectName is empty and object type is rawobject, objectname will be type full name
 							objectName = dClass.GetTypeFullName();
 						}
+					}
+					else
+					{
+						objectName = rawObjectName;
 					}
 					ImGui::TextColored(ImVec4{ 1.0f, 0.0f, 0.0f, 1.0f }, "%s", objectName);
 
@@ -379,7 +391,7 @@ void dooms::ui::imguiWithReflection::PopImgui()
 
 void dooms::ui::imguiWithReflection::ClearId()
 {
-	loopId = 0;
+	loopId = INT_MIN;
 }
 
 

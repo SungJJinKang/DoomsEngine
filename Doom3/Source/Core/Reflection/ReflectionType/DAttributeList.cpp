@@ -163,6 +163,57 @@ bool dooms::reflection::DAttributeList::GetIsReadOnly() const
 	return isReadOnly;
 }
 
+bool dooms::reflection::DAttributeList::GetIsNoLabel() const
+{
+	bool isNoLabel = false;
+
+	const dooms::reflection::DAttribute* minAttribute = GetAttributeWithName("NOLABEL");
+	if (minAttribute == nullptr)
+	{
+		minAttribute = GetAttributeWithName("NO_LABEL");
+	}
+
+	if(minAttribute != nullptr)
+	{
+		isNoLabel = true;
+	}
+
+	return isNoLabel;
+}
+
+// TODO : get this value from config file.
+#define DEFAULT_GUI_SAMELINE_SPACE 1.0f
+
+float dooms::reflection::DAttributeList::GetIsDrawOnSameLine() const
+{
+	float sameLineSpaceingValue  = -1.0f;
+
+	const dooms::reflection::DAttribute* drawOnSameLineAttribute = GetAttributeWithName("SAMELINE");
+	if (drawOnSameLineAttribute == nullptr)
+	{
+		drawOnSameLineAttribute = GetAttributeWithName("DRAWONSAMELINE");
+	}
+
+	if (drawOnSameLineAttribute != nullptr)
+	{
+		 if
+			(
+				drawOnSameLineAttribute->GetAttributeType() == DAttribute::AttributeType::Float ||
+				drawOnSameLineAttribute->GetAttributeType() == DAttribute::AttributeType::Int
+			)
+		 {
+			 sameLineSpaceingValue = drawOnSameLineAttribute->GetFloatValue();
+			 D_ASSERT(sameLineSpaceingValue > 0.0f);
+		 }
+		 else
+		 {
+			 sameLineSpaceingValue = DEFAULT_GUI_SAMELINE_SPACE;
+		 }
+	}
+
+	return sameLineSpaceingValue;
+}
+
 const char* dooms::reflection::DAttributeList::GetTooltip() const
 {
 	const char* tooltipStr = nullptr;
