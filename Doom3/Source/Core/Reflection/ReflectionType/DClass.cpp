@@ -232,7 +232,7 @@ bool dooms::reflection::DClass::GetDFunctionHasNoReturnNoParameter(const char* c
 	{
 		if(strcmp(dFunction.GetFunctionName(), functionName) == 0)
 		{
-			if(dFunction.GetIsHasReturnValue() == false && dFunction.GetParameterDFieldList().empty() == true)
+			if(dFunction.GetIsHasReturnValue() == false && dFunction.GetParameterCount() == 0)
 			{
 				outDFunction = dFunction;
 				isSuccess = true;

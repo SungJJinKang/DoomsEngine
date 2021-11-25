@@ -81,40 +81,30 @@ bool dooms::reflection::DFunction::GetOwnerClassIfMemberFunction(DClass& dClass)
 	return isSuccess;
 }
 
-const std::vector<dooms::reflection::DField>& dooms::reflection::DFunction::GetParameterDFieldList() const
+size_t dooms::reflection::DFunction::GetParameterCount() const
+{
+	if (GetIsMemberFunction() == true)
+	{
+		return clFunction->parameters.size - 1;
+	}
+	else
+	{
+		return clFunction->parameters.size;
+	}
+}
+
+std::vector<dooms::reflection::DField> dooms::reflection::DFunction::GetParameterDFieldList() const
 {
 	D_ASSERT(IsValid() == true);
 
-	// key : function hash value
-	// value : Functions's field list
-	// value : std::vector is enough fast to find field
-	static std::unordered_map<UINT32, std::vector<dooms::reflection::DField>> ParameterDFieldListCache;
+	std::vector<dooms::reflection::DField> fieldList;
 
-	const std::vector<dooms::reflection::DField>* cachedDFieldList = nullptr;
-
-	auto iter = ParameterDFieldListCache.find(GetPrimitiveHashValue());
-	if (iter != ParameterDFieldListCache.end())
-	{// if this function's paramter list is already cached
-		cachedDFieldList = &(iter->second);
-	}
-	else
-	{// not cached
-		std::vector<dooms::reflection::DField> dFieldList;
-		dFieldList.reserve(clFunction->parameters.size);
-		
-		// if function is member function, it has "this" field at first pos of clFunction->parameters
-		for (UINT32 i = ( GetIsMemberFunction() == true ) ? 1 : 0 ; i < clFunction->parameters.size; i++)
-		{
-			dFieldList.emplace_back(clFunction->parameters[i]);
-		}
-
-		auto emplaceResult = ParameterDFieldListCache.emplace(GetPrimitiveHashValue(), std::move(dFieldList));
-		cachedDFieldList = &(emplaceResult.first->second);
+	for (UINT32 i = (GetIsMemberFunction() == true) ? 1 : 0; i < clFunction->parameters.size; i++)
+	{
+		fieldList.emplace_back(clFunction->parameters[i]);
 	}
 
-	D_ASSERT(cachedDFieldList != nullptr);
-
-	return *cachedDFieldList;
+	return fieldList;
 }
 
 bool dooms::reflection::DFunction::GetParameterDField(const char* const parameterName, dooms::reflection::DField& dField) const

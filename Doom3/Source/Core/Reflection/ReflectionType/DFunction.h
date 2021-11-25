@@ -91,12 +91,13 @@ namespace dooms
 
 			bool GetOwnerClassIfMemberFunction(DClass& dClass) const;
 
+			size_t GetParameterCount() const;
 			/// <summary>
 			/// return function's Paramter DField List.
 			///	returned list doesn't contain "this" field even if it's member function
 			/// </summary>
 			/// <returns></returns>
-			const std::vector<dooms::reflection::DField>& GetParameterDFieldList() const;
+			std::vector<dooms::reflection::DField> GetParameterDFieldList() const;
 			bool GetParameterDField(const char* const parameterName, dooms::reflection::DField& dField) const;
 
 			
@@ -119,7 +120,7 @@ namespace dooms
 
 				D_ASSERT(GetIsHasReturnValue() == true);
 				D_ASSERT(GetIsMemberFunction() == false);
-				D_ASSERT(GetParameterDFieldList().size() == (sizeof...(args)) );
+				D_ASSERT(GetParameterCount() == (sizeof...(args)) );
 				D_ASSERT(GetReturnValueField().GetFieldTypeHashValue() == clcpp::GetTypeNameHash<RETURN_TYPE>());
 				D_ASSERT(GetReturnValueField().GetFieldTypeSize() == sizeof(RETURN_TYPE));
 				
@@ -147,7 +148,7 @@ namespace dooms
 				
 				D_ASSERT(GetIsHasReturnValue() == false);
 				D_ASSERT(GetIsMemberFunction() == false);
-				D_ASSERT(GetParameterDFieldList().size() == (sizeof...(args)) ); // why minus 1S? : member function has this field at first pos of Paramter List
+				D_ASSERT(GetParameterCount() == (sizeof...(args)) ); // why minus 1S? : member function has this field at first pos of Paramter List
 
 				typedef void (*CallFunc)(ARGS...);
 
@@ -213,7 +214,7 @@ namespace dooms
 				bool isSuccess = false;
 
 				D_ASSERT(GetIsHasReturnValue() == false);
-				D_ASSERT(GetParameterDFieldList().empty() == true);
+				D_ASSERT(GetParameterCount() == 0);
 				D_ASSERT(GetIsMemberFunction() == true);
 				
 				UINT_PTR* const functionAddress = GetFunctionAddress();
