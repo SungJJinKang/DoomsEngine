@@ -286,28 +286,21 @@ namespace dooms
 
 				return isValueChanged;
 			}
-
-			bool imguiWithReflection_TransformCoreData(void* const object, const char* const label, const reflection::DAttributeList& attributeList)
-			{
-				bool isValueChnaged = false;
-				isValueChnaged |= imguiWithReflection_math_Vector3(&(static_cast<dooms::TransformCoreData*>(object)->mPosition), "mPosition", attributeList);
-				return isValueChnaged;
-			}
-
+			
 			bool imguiWithReflection_dooms_Entity(void* const object, const char* const label, const reflection::DAttributeList& attributeList)
 			{
 				dooms::Entity* const entity = static_cast<dooms::Entity*>(object);
 
 				if (IsValid(entity) == true)
 				{
-					auto& AllServerComponents = entity->GetAllPlainComponents();
+					auto& AllServerComponents = entity->GetAllServerComponents();
 					auto& AllPlainComponents = entity->GetAllPlainComponents();
 
 					for (auto& serverComponent : AllServerComponents)
 					{
 						if (serverComponent)
 						{
-							imguiWithReflectionHelper::DrawObjectGUI(serverComponent->GetDClass(), serverComponent.get(), "", imguiWithReflectionHelper::eObjectType::DObject);
+							imguiWithReflectionHelper::DrawObjectGUI(serverComponent->GetDClass(), serverComponent.get(), serverComponent->GetDObjectName().c_str(), imguiWithReflectionHelper::eObjectType::DObject);
 						}
 					}
 
@@ -315,7 +308,7 @@ namespace dooms
 					{
 						if (plainComponent)
 						{
-							DrawObjectGUI(plainComponent->GetDClass(), plainComponent.get(), "", imguiWithReflectionHelper::eObjectType::DObject);
+							imguiWithReflectionHelper::DrawObjectGUI(plainComponent->GetDClass(), plainComponent.get(), plainComponent->GetDObjectName().c_str(), imguiWithReflectionHelper::eObjectType::DObject);
 						}
 					}
 				}
@@ -409,7 +402,7 @@ void dooms::ui::imguiFieldFunctionGetter::Initialize()
 		ImguiSpecialDrawFuncMap.emplace("float", imguiWithReflection_float);
 		ImguiSpecialDrawFuncMap.emplace("double", imguiWithReflection_double);
 		ImguiSpecialDrawFuncMap.emplace("dooms::Entity", imguiWithReflection_dooms_Entity);
-		ImguiSpecialDrawFuncMap.emplace("dooms::TransformCoreData", imguiWithReflection_TransformCoreData);
+		//ImguiSpecialDrawFuncMap.emplace("dooms::TransformCoreData", imguiWithReflection_TransformCoreData);
 		ImguiSpecialDrawFuncMap.emplace("std::basic_string<char,std::char_traits<char>,std::allocator<char>>", imguiWithReflection_std_string);
 
 		IsInitialized = true;
