@@ -15,7 +15,7 @@ namespace dooms
 			class StdFile : public clcpp::IFile
 			{
 			public:
-				StdFile(const char* filename);
+				StdFile(const std::filesystem::path& path);
 
 				~StdFile();
 

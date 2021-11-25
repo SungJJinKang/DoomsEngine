@@ -1,8 +1,10 @@
 #include "ReflectionUtility.h"
 
-dooms::reflection::utility::StdFile::StdFile(const char* filename)
+#include <filesystem>
+
+dooms::reflection::utility::StdFile::StdFile(const std::filesystem::path& path)
 {
-	mFileSteam.open(filename, std::ios_base::in | std::ios_base::binary);
+	mFileSteam = std::ifstream (path, std::ios_base::in | std::ios_base::binary);
 	D_ASSERT(mFileSteam.is_open() == true);
 }
 

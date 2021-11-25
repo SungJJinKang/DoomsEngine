@@ -65,9 +65,9 @@ bool dooms::reflection::ReflectionManager::LoadReflectionBinaryDataFile()
 {
 	bool isSuccess = true;
 
-	const std::filesystem::path reflectionBinaryDataPath = (dooms::path::_GetCurrentPath(GetReflectionBinaryDataFileName()));
+	const std::filesystem::path reflectionBinaryDataPath = std::filesystem::u8path(dooms::path::_GetCurrentPath(GetReflectionBinaryDataFileName()));
 
-	utility::StdFile file(reflectionBinaryDataPath.generic_string().c_str());
+	utility::StdFile file(reflectionBinaryDataPath);
 	if (file.IsOpen() == false)
 	{
 		dooms::ui::PrintText

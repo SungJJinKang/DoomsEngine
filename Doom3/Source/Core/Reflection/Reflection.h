@@ -1,5 +1,6 @@
 #pragma once
 
+#include "CompilerMacros.h"
 #include "TypeDef.h"
 
 #ifndef REFLECTION_ENABLED

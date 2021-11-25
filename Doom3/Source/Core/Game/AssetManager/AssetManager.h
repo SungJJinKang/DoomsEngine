@@ -31,7 +31,7 @@ namespace dooms
 
 			AssetImporterWorkerManager mAssetImporterWorkerManager;
 
-			const std::filesystem::path AssetFolderPath{ dooms::path::_GetAssetFolderDirectory() };
+			const std::filesystem::path AssetFolderPath{ std::filesystem::u8path(dooms::path::_GetAssetFolderDirectory()) };
 			
 			std::array<dooms::asset::AssetContainer, dooms::asset::ENUM_ASSETTYPE_COUNT> mAssetConatiners
 			{

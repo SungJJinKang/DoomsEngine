@@ -5,6 +5,7 @@
 
 
 #include <Core.h>
+#include <filesystem>
 
 #include <trim.h>
 #include <EngineGUI/PrintText.h>
@@ -24,7 +25,7 @@ bool is_number(const std::string& s)
 
 IniData SimpleIniParser::ParseIniFile(std::string fileDirectory)
 {
-	std::ifstream inputfStream{ fileDirectory };
+	std::ifstream inputfStream{ std::filesystem::u8path( fileDirectory) };
 	if (inputfStream.is_open() == false)
 	{
 		D_DEBUG_LOG(eLogType::D_LOG, "can't open Ini file : %s", fileDirectory.c_str());

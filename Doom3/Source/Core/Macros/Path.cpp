@@ -14,6 +14,7 @@ std::string dooms::path::_GetCurrentPath()
 {
 	if (CURRENT_DIRECTORY.empty() == true)
 	{
+		// if UNICODE macros defined, return utf8 multibyte string
 		CURRENT_DIRECTORY = dooms::os::_GetCurrentExecutableDirectory();
 	}
 
