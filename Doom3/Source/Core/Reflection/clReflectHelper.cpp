@@ -19,8 +19,10 @@ namespace dooms
 			std::string clReflectAdditionalCompilerOptionsString = clReflectAdditionalCompilerOptionsForScpecificCompiler;
 			clReflectAdditionalCompilerOptionsString.append(" ");
 			clReflectAdditionalCompilerOptionsString.append(clReflectAdditionalCompilerOptionsPortable);
+
 			clReflectAdditionalCompilerOptionsString.append(" -D");
 			clReflectAdditionalCompilerOptionsString.append(clReflectAdditionalCompilerOptions_Configuration);
+
 			clReflectAdditionalCompilerOptionsString.append(" -SD");
 			std::filesystem::path sourceDependencyFolderDirectory = ConfigData::GetSingleton()->GetConfigData().GetValue<std::string>("SYSTEM", "SOURCE_DEPENDENCIES_FOLDER_NAME");
 			clReflectAdditionalCompilerOptionsString.append(dooms::path::_GetCurrentPath(sourceDependencyFolderDirectory.generic_u8string()));
@@ -28,7 +30,9 @@ namespace dooms
 
 			clReflectAdditionalCompilerOptionsString.append(" -ROOTCLASS_TYPENAME");
 			clReflectAdditionalCompilerOptionsString.append("dooms::DObject");
-			
+
+			clReflectAdditionalCompilerOptionsString.append(" -REFLECTION_BINARY_FILENAME");
+			clReflectAdditionalCompilerOptionsString.append(ConfigData::GetSingleton()->GetConfigData().GetValue<std::string>("SYSTEM", "REFLECTION_BINARY_FILE_NAME"));
 
 			if (ConfigData::GetSingleton()->GetConfigData().GetValue<bool>("SYSTEM", "PRINT_GENERATE_REFLECTION_DATA_VERBOSE") == true)
 			{

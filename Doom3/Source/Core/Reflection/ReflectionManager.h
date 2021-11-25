@@ -21,9 +21,7 @@ namespace dooms
 			clcpp::Database mReflectionDatabase;
 
 		public:
-
-			inline static const char* const DEFAULT_CLREFLECT_BINARY_DATA_FILE_NAME_PREFIX = "clReflectCompialationData";
-
+			
 			ReflectionManager();
 			~ReflectionManager() override;
 			ReflectionManager(const ReflectionManager&) = delete;

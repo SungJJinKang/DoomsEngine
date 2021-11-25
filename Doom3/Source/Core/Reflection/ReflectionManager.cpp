@@ -24,7 +24,7 @@ dooms::reflection::ReflectionManager::~ReflectionManager()
 
 std::string dooms::reflection::ReflectionManager::GetReflectionBinaryDataFileName() const
 {
-	std::string reflectionBinaryDataFileName = DEFAULT_CLREFLECT_BINARY_DATA_FILE_NAME_PREFIX;
+	std::string reflectionBinaryDataFileName = ConfigData::GetSingleton()->GetConfigData().GetValue<std::string>("SYSTEM", "REFLECTION_BINARY_FILE_NAME");
 
 	reflectionBinaryDataFileName.append("_");
 
