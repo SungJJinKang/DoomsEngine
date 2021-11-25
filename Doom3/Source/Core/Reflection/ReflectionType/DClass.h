@@ -97,7 +97,8 @@ namespace dooms
 			/// <param name="functionName">function short name</param>
 			/// <param name="dFunction"></param>
 			/// <returns></returns>
-			bool GetDFunction(const char* const functionName, dooms::reflection::DFunction& dFunction) const;
+			bool GetDFunction(const char* const functionName, dooms::reflection::DFunction& outDFunction) const;
+			bool GetDFunctionHasNoReturnNoParameter(const char* const functionName, dooms::reflection::DFunction& outDFunction) const;
 
 
 

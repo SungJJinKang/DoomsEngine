@@ -198,7 +198,7 @@ bool dooms::reflection::DClass::GetDField(const char* const fieldName, dooms::re
 	return isSuccess;
 }
 
-bool dooms::reflection::DClass::GetDFunction(const char* const functionName, dooms::reflection::DFunction& dFunction) const
+bool dooms::reflection::DClass::GetDFunction(const char* const functionName, dooms::reflection::DFunction& outDFunction) const
 {
 	D_ASSERT(functionName != nullptr);
 	D_ASSERT_LOG(std::string_view(functionName).find("::") == std::string::npos, "Please pass short name to DClass::GetDFunction");
@@ -210,11 +210,38 @@ bool dooms::reflection::DClass::GetDFunction(const char* const functionName, doo
 	auto iter = std::find_if(functionList.begin(), functionList.end(), [functionName](const dooms::reflection::DFunction& dFunction) -> bool {return strcmp(dFunction.GetFunctionName(), functionName) == 0; });
 	if (iter != functionList.end())
 	{
-		dFunction = *iter;
+		outDFunction = *iter;
 		isSuccess = true;
 	}
 
-	D_ASSERT_LOG(isSuccess == true, "Fail to find Function ( %s ) from ( %s )", functionName, GetTypeFullName());
+	D_ASSERT_LOG(isSuccess == true, "Fail to find Function ( %s ) from ( %s ) ( Check put D_FUNCTION macros )", functionName, GetTypeFullName());
+
+	return isSuccess;
+}
+
+bool dooms::reflection::DClass::GetDFunctionHasNoReturnNoParameter(const char* const functionName, dooms::reflection::DFunction& outDFunction) const
+{
+	D_ASSERT(functionName != nullptr);
+	D_ASSERT_LOG(std::string_view(functionName).find("::") == std::string::npos, "Please pass short name to DClass::GetDFunction");
+
+	const std::vector<dooms::reflection::DFunction>& functionList = GetDFunctionList();
+
+	bool isSuccess = false;
+
+	for(const DFunction& dFunction : functionList)
+	{
+		if(strcmp(dFunction.GetFunctionName(), functionName) == 0)
+		{
+			if(dFunction.GetIsHasReturnValue() == false && dFunction.GetParameterDFieldList().empty() == true)
+			{
+				outDFunction = dFunction;
+				isSuccess = true;
+				break;
+			}
+		}
+	}
+
+	D_ASSERT_LOG(isSuccess == true, "Fail to find Function ( %s ) from ( %s ) ( Check put D_FUNCTION macros )", functionName, GetTypeFullName());
 
 	return isSuccess;
 }
