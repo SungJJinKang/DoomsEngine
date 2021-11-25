@@ -57,7 +57,7 @@ namespace dooms
 			static void AddToVisibleOnGUIDObjectList(DObject* const dObject);
 			static void RemoveFromVisibleOnGUIDObjectList(DObject* const dObject);
 
-			static void PushImgui();
+			static int PushImgui();
 			static void PopImgui();
 			static void ClearId();
 

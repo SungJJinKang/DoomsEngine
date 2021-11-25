@@ -220,6 +220,7 @@ namespace dooms
 					const std::vector<dooms::reflection::DField>& dFieldList = dClass.GetDFieldList();
 
 
+					/*
 					//label
 					const char* objectName;
 					if(rawObjectName == nullptr || rawObjectName[0] == '\0')
@@ -237,7 +238,14 @@ namespace dooms
 					{
 						objectName = rawObjectName;
 					}
-					ImGui::TextColored(ImVec4{ 1.0f, 0.0f, 0.0f, 1.0f }, "%s", objectName);
+					*/
+
+
+					if (rawObjectName != nullptr && rawObjectName[0] != '\0')
+					{
+						ImGui::TextColored(ImVec4{ 1.0f, 0.0f, 0.0f, 1.0f }, "%s", rawObjectName);
+					}
+					
 
 
 					
@@ -265,13 +273,13 @@ namespace dooms
 									const reflection::DClass fieldTypeDClass = dField.GetFieldTypeDClass();
 									if (IsValid(reinterpret_cast<dooms::DObject*>(fieldRawValue)) == true)
 									{// if type of field is child class of dooms::DObject
-										isFieldValueChanged = DrawObjectGUI(fieldTypeDClass, fieldRawValue, dField.GetFieldName(), eObjectType::DObject);
+										isFieldValueChanged = DrawObjectGUI(fieldTypeDClass, fieldRawValue, (dField.GetDAttributeList().GetIsNoLabel() == false) ? dField.GetFieldName() : "", eObjectType::DObject);
 									}
 									else
 									{
 										if(dField.GetFieldQualifier() == reflection::DField::eProperyQualifier::VALUE)
 										{
-											isFieldValueChanged = DrawObjectGUI(fieldTypeDClass, fieldRawValue, dField.GetFieldName(), eObjectType::RawObject);
+											isFieldValueChanged = DrawObjectGUI(fieldTypeDClass, fieldRawValue, (dField.GetDAttributeList().GetIsNoLabel() == false) ? dField.GetFieldName() : "", eObjectType::RawObject);
 										}
 									}
 								}
@@ -299,7 +307,7 @@ namespace dooms
 					}
 
 					bool isGUIValueChanged;
-					dooms::ui::imguiWithReflectionHelper::DrawImguiFieldFromDField(object, objectName, dClass.GetTypeFullName(), dClass.GetDAttributeList(), isGUIValueChanged);
+					dooms::ui::imguiWithReflectionHelper::DrawImguiFieldFromDField(object, rawObjectName, dClass.GetTypeFullName(), dClass.GetDAttributeList(), isGUIValueChanged);
 
 
 				}
@@ -377,10 +385,11 @@ void dooms::ui::imguiWithReflection::UpdateGUI_DObjectsVisibleOnGUI()
 	}
 }
 
-void dooms::ui::imguiWithReflection::PushImgui()
+int dooms::ui::imguiWithReflection::PushImgui()
 {
 	++loopId;
 	ImGui::PushID(loopId);
+	return loopId;
 }
 
 void dooms::ui::imguiWithReflection::PopImgui()
