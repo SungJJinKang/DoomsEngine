@@ -4,6 +4,21 @@
 
 #include <Scene/Entity.h>
 
+void dooms::Transform::SetPosition()
+{
+	SetPosition(mTransformCoreData.mPosition);
+}
+
+void dooms::Transform::SetRotation()
+{
+	SetRotation(mRotation);
+}
+
+void dooms::Transform::SetScale()
+{
+	SetScale(mScale);
+}
+
 void dooms::Transform::InitComponent()
 {
 	
@@ -31,22 +46,6 @@ void dooms::Transform::OnChangedByGUI(const dooms::reflection::DField& dFieldOfC
 {
 	Base::OnChangedByGUI(dFieldOfChangedField);
 
-	if(strcmp(dFieldOfChangedField.GetFieldName(), "mTransformCoreData") == 0)
-	{
-		SetPosition(mTransformCoreData.mPosition);
-	}
-	else if (strcmp(dFieldOfChangedField.GetFieldName(), "mRotation") == 0)
-	{
-		SetRotation(mRotation);
-	}
-	else if (strcmp(dFieldOfChangedField.GetFieldName(), "mScale") == 0)
-	{
-		SetScale(mScale);
-	}
-
-
-
-	
 }
 
 

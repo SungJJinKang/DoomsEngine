@@ -21,7 +21,6 @@ void Camera::SetProjectionMode(eProjectionType value)
 void Camera::SetFieldOfViewInDegree(FLOAT32 degree)
 {
 	mFieldOfViewInDegree = degree;
-	mFieldOfViewInRadian = degree * math::DEGREE_TO_RADIAN;
 	SetDirtyTrueAtThisFrame();
 	bmIsProjectionMatrixDirty = true;
 	bmIsViewProjectionMatrixDirty = true;
@@ -32,7 +31,6 @@ void Camera::SetFieldOfViewInDegree(FLOAT32 degree)
 void Camera::SetFieldOfViewInRadian(FLOAT32 radian)
 {
 	mFieldOfViewInDegree = radian * math::RADIAN_TO_DEGREE;
-	mFieldOfViewInRadian = radian;
 	SetDirtyTrueAtThisFrame();
 	bmIsProjectionMatrixDirty = true;
 	bmIsViewProjectionMatrixDirty = true;
@@ -128,10 +126,6 @@ FLOAT32 Camera::GetFieldOfViewInDegree() const
 	return mFieldOfViewInDegree;
 }
 
-FLOAT32 Camera::GetFieldOfViewInRadian() const
-{
-	return mFieldOfViewInRadian;
-}
 
 FLOAT32 Camera::GetClippingPlaneNear() const
 {
@@ -267,6 +261,14 @@ void Camera::OnSetMainCamera()
 
 }
 
+void Camera::UpdateCallback()
+{
+	SetDirtyTrueAtThisFrame();
+	bmIsProjectionMatrixDirty = true;
+	bmIsViewProjectionMatrixDirty = true;
+	bmIsModelViewProjectionMatrixDirty = true;
+	bmIsFrustumPlaneMatrixDirty = true;
+}
 
 
 dooms::Camera* Camera::GetMainCamera()
@@ -286,7 +288,7 @@ const math::Matrix4x4& dooms::Camera::GetProjectionMatrix()
 	{
 		if (mProjectionMode == eProjectionType::Perspective)
 		{
-			mProjectionMatrix = math::perspectiveFov(mFieldOfViewInRadian, static_cast<FLOAT32>(graphics::Graphics_Setting::GetScreenWidth()), static_cast<FLOAT32>(graphics::Graphics_Setting::GetScreenHeight()), mClippingPlaneNear, mClippingPlaneFar);
+			mProjectionMatrix = math::perspectiveFov(mFieldOfViewInDegree * math::DEGREE_TO_RADIAN, static_cast<FLOAT32>(graphics::Graphics_Setting::GetScreenWidth()), static_cast<FLOAT32>(graphics::Graphics_Setting::GetScreenHeight()), mClippingPlaneNear, mClippingPlaneFar);
 			//mViewFrumstum.SetCamera(mFieldOfViewInRadian, dooms::graphics::Graphics_Server::GetScreenRatio(), mClippingPlaneNear, mClippingPlaneFar);
 		}
 		else
@@ -303,6 +305,16 @@ const math::Matrix4x4& dooms::Camera::GetProjectionMatrix()
 void Camera::OnDestroy()
 {
 	RemoveThisCameraFromMainCamera();
+}
+
+void Camera::OnChangedByGUI(const dooms::reflection::DField& field_of_changed_field)
+{
+	Base::OnChangedByGUI(field_of_changed_field);
+
+	
+
+	
+
 }
 
 bool dooms::Camera::IsMainCamera() const

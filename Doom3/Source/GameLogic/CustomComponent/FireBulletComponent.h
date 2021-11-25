@@ -30,6 +30,9 @@ namespace dooms
 		void Shoot();
 
 		D_FUNCTION()
+		void Shoot(const int count);
+
+		D_FUNCTION()
 		void ShootTenTimes();
 
 		D_FUNCTION()

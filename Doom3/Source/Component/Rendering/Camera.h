@@ -53,35 +53,41 @@ namespace dooms
 	private:
 
 
+		D_PROPERTY(CALLBACK="UpdateCallback")
 		eProjectionType mProjectionMode{ eProjectionType::Perspective };
 
-		///
+		D_PROPERTY(CALLBACK="UpdateCallback")
 		FLOAT32 mFieldOfViewInDegree = 60;
-		FLOAT32 mFieldOfViewInRadian = mFieldOfViewInDegree * math::DEGREE_TO_RADIAN;
 
+		D_PROPERTY(CALLBACK="UpdateCallback")
 		FLOAT32 mClippingPlaneNear = 0.001f;
+
+		D_PROPERTY(CALLBACK="UpdateCallback")
 		FLOAT32 mClippingPlaneFar = 1500.0f;
 
 		/// <summary>
 		/// opengl -1 ~ 1
 		/// </summary>
+		D_PROPERTY(CALLBACK="UpdateCallback")
 		FLOAT32 mViewportRectX = -1.0f;
 		/// <summary>
 		/// opengl -1 ~ 1
 		/// </summary>
+		D_PROPERTY(CALLBACK="UpdateCallback")
 		FLOAT32 mViewportRectY = -1.0f;
 
 		/// <summary>
 		/// opengl -1 ~ 1
 		/// </summary>
+		D_PROPERTY(CALLBACK="UpdateCallback")
 		FLOAT32 mViewportRectWidth = 2.0f;
+
 		/// <summary>
 		/// opengl -1 ~ 1
 		/// </summary>
+		D_PROPERTY(CALLBACK="UpdateCallback")
 		FLOAT32 mViewportRectHeight = 2.0f;
-
-		bool isDoCullJob = true;
-
+		
 		DirtyReceiver bmIsProjectionMatrixDirty{ true };
 		DirtyReceiver bmIsViewMatrixDirty{ true };
 		DirtyReceiver bmIsViewProjectionMatrixDirty{ true };
@@ -108,12 +114,16 @@ namespace dooms
 		/// This object Component is set to Scene's MainCamera
 		/// </summary>
 		void OnSetMainCamera();
-	
+
+		D_FUNCTION()
+		void UpdateCallback();
 
 	protected:
 
 
 		void OnDestroy() override;
+
+		void OnChangedByGUI(const dooms::reflection::DField& dFieldOfChangedField) override;
 
 
 	public:
@@ -151,7 +161,6 @@ namespace dooms
 
 		eProjectionType GetProjectionMode() const;
 		FLOAT32 GetFieldOfViewInDegree() const;
-		FLOAT32 GetFieldOfViewInRadian() const;
 		FLOAT32 GetClippingPlaneNear() const;
 		FLOAT32 GetClippingPlaneFar() const;
 		FLOAT32 GetViewportRectX() const;

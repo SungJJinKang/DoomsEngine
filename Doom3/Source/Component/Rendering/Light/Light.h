@@ -18,8 +18,13 @@ namespace dooms
 
 	protected:
 
+		D_PROPERTY(CALLBACK = "UpdateLight")
 		FLOAT32 mIntensity{ 1 };
+
+		D_PROPERTY(CALLBACK = "UpdateLight")
 		FLOAT32 mIndirectMultiplier{ 1 };
+
+		D_PROPERTY(Color, CALLBACK="UpdateLight")
 		math::Vector4 mColor{ 1 };
 
 		DirtyReceiver bmIsLightUboDirty{ true };
@@ -44,6 +49,8 @@ namespace dooms
 		void SetIntensity(FLOAT32 intensity);
 		void SetIndirectMultiplier(FLOAT32 indirectMultiplier);
 		void SetColor(const math::Vector4& color);
+		D_FUNCTION()
+		void UpdateLight();
 		FLOAT32 GetIntensity();
 		FLOAT32 GetIndirectMultiplier();
 		math::Vector4 GetColor();

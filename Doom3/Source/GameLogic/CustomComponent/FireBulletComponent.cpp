@@ -15,6 +15,7 @@ void dooms::FireBulletComponent::InitComponent()
 	dooms::reflection::DField dField;
 	auto dFsield = dClass.GetDField("BullterSpeed", dField);
 
+	auto functionList = dClass.GetDFunctionList();
 	//dField.g
 }
 
@@ -59,6 +60,14 @@ void dooms::FireBulletComponent::Shoot()
 		);
 
 		mBullet->mSpeed = BullterSpeed;
+	}
+}
+
+void dooms::FireBulletComponent::Shoot(const int count)
+{
+	for (size_t i = 0; i < count; i++)
+	{
+		Shoot();
 	}
 }
 

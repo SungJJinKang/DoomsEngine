@@ -34,6 +34,11 @@ void dooms::Light::SetColor(const math::Vector4& color)
 	mColor = color;
 }
 
+void dooms::Light::UpdateLight()
+{
+	bmIsLightUboDirty = true;
+}
+
 FLOAT32 dooms::Light::GetIntensity()
 {
 	return mIntensity;
