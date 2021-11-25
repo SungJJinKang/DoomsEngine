@@ -112,6 +112,7 @@ namespace dooms
 			template <typename RETURN_TYPE, typename... ARGS>
 			bool CallFunction(RETURN_TYPE* returnPtr, ARGS&&... args)
 			{
+				D_ASSERT_LOG(false, "CURRENTLY NOT SUPPORTED");
 				//TODO : Argument type check
 
 				bool isSuccess = false;
@@ -139,6 +140,7 @@ namespace dooms
 			template <typename... ARGS>
 			bool CallFunctionNoReturn(ARGS&&... args)
 			{
+				D_ASSERT_LOG(false, "CURRENTLY NOT SUPPORTED");
 				//TODO : Argument type check
 
 				bool isSuccess = false;
@@ -160,11 +162,7 @@ namespace dooms
 				return isSuccess;
 			}
 
-			struct FakeStruct
-			{
-				
-			};
-
+			
 
 			/*/// <summary>
 			/// unsed for calling member function
@@ -207,7 +205,8 @@ namespace dooms
 			
 			bool CallMemberFunctionNoReturnNoParameter(void* const classObject)
 			{// classObject doesn't need to be DOBject type
-				
+
+
 				//TODO : Argument type check
 				D_ASSERT(classObject != nullptr);
 
