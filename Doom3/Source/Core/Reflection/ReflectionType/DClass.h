@@ -21,8 +21,8 @@ namespace dooms
 		{
 		private:
 
-			static std::unordered_map<UINT32, std::unordered_map<std::string_view, dooms::reflection::DField>> PropertyCacheHashMap;
-			static std::unordered_map<UINT32, std::unordered_map<std::string_view, dooms::reflection::DFunction>> FunctionCacheHashMap;
+			static std::unordered_map<UINT32, std::vector<dooms::reflection::DField>> PropertyCacheHashMap;
+			static std::unordered_map<UINT32, std::vector<dooms::reflection::DFunction>> FunctionCacheHashMap;
 
 		protected:
 
@@ -87,8 +87,8 @@ namespace dooms
 
 			//dooms:DClass* CreateDClass
 
-			const std::unordered_map<std::string_view, dooms::reflection::DField>& GetDFieldList() const;
-			const std::unordered_map<std::string_view, dooms::reflection::DFunction>& GetDFunctionList() const;
+			const std::vector<dooms::reflection::DField>& GetDFieldList() const;
+			const std::vector<dooms::reflection::DFunction>& GetDFunctionList() const;
 
 			bool GetDField(const char* const fieldName, dooms::reflection::DField& dProperty) const;
 			/// <summary>

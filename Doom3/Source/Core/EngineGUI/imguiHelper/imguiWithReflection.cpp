@@ -209,7 +209,7 @@ namespace dooms
 				{
 					MultipleDrawChecker.push_back(object);
 
-					const std::unordered_map<std::string_view, dooms::reflection::DField>& dFieldList = dClass.GetDFieldList();
+					const std::vector<dooms::reflection::DField>& dFieldList = dClass.GetDFieldList();
 
 
 					//label
@@ -232,10 +232,8 @@ namespace dooms
 					
 					if (dFieldList.empty() == false)
 					{
-						for (auto& dFieldNode : dFieldList)
+						for (const dooms::reflection::DField& dField : dFieldList)
 						{
-							const dooms::reflection::DField& dField = dFieldNode.second;
-
 							bool isFieldValueChanged = false;
 
 							void* fieldRawValue = const_cast<dooms::reflection::DField&>(dField).GetRawFieldValue(object);
@@ -278,13 +276,11 @@ namespace dooms
 						}
 					}
 
-					const std::unordered_map<std::string_view, dooms::reflection::DFunction>& dFunctionList = dClass.GetDFunctionList();
+					const std::vector<dooms::reflection::DFunction>& dFunctionList = dClass.GetDFunctionList();
 					if (dFunctionList.empty() == false)
 					{
-						for (auto& dFunctioNnode : dFunctionList)
+						for (const dooms::reflection::DFunction& dFunction : dFunctionList)
 						{
-							const dooms::reflection::DFunction& dFunction = dFunctioNnode.second;
-
 							DrawImguiFunctionButtonFromDFunction(object, dFunction);
 							
 						}
