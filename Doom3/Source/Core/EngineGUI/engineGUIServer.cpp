@@ -7,6 +7,7 @@
 
 #include "GUIModules/LogGUI.h"
 #include "GUIModules/SceneGUI.h"
+#include "GUIModules/ProfilerGUI.h"
 
 
 namespace dooms::ui::engineGUIServer
@@ -20,6 +21,7 @@ namespace dooms::ui::engineGUIServer
     {
         dooms::ui::log::Render();
         dooms::ui::sceneGUI::Render();
+        dooms::ui::profilerGUI::Render();
     }
 }
 
