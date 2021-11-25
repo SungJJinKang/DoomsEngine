@@ -93,7 +93,7 @@ namespace dooms
 			{
 				// TODO : Check function is virtual function.
 				//        virtual function can't be guiable
-				return (dFunction.GetIsHasReturnValue() == false) && (dFunction.GetParameterDFieldList().empty() == true);
+				return (dFunction.GetIsHasReturnValue() == false) && (dFunction.GetParameterCount() == 0);
 			}
 			
 		
@@ -156,6 +156,9 @@ namespace dooms
 						{
 							CallFieldDirtyCallback(attributeList.GetDirtyCallbackFunctionName(), fieldOwnerObjectTypeDClass, fieldOwnerObejct);
 						}
+
+
+						// TODO :Support Enum property gui.
 						
 					}
 					else
@@ -206,36 +209,39 @@ namespace dooms
 			bool DrawImguiFunctionButtonFromDFunction(void* const object, const dooms::reflection::DFunction dFunction)
 			{
 				bool isButtonClicked = false;
-
+				
 				if (GetIsFunctionGUIable(dFunction) == true)
 				{
 					const dooms::reflection::DAttributeList& attributeList = dFunction.GetDAttributeList();
 
-					OnStartDrawGUI(attributeList);
-
-					imguiWithReflection::PushImgui();
-
-					// when member function
-					if (dFunction.GetIsMemberFunction() == true)
+					if (attributeList.GetIsVisibleOnGUI() == true)
 					{
-						if (ImGui::Button(dFunction.GetFunctionName()))
-						{
-							const_cast<dooms::reflection::DFunction&>(dFunction).CallMemberFunctionNoReturnNoParameter(object);
-							isButtonClicked = true;
-						}
-					}
-					else
-					{// when static function or glbal function
-						if (ImGui::Button(dFunction.GetFunctionName()))
-						{
-							const_cast<dooms::reflection::DFunction&>(dFunction).CallFunctionNoReturn();
-							isButtonClicked = true;
-						}
-					}
+						OnStartDrawGUI(attributeList);
 
-					imguiWithReflection::PopImgui();
-					
-					OnEndDrawGUI(attributeList);
+						imguiWithReflection::PushImgui();
+
+						// when member function
+						if (dFunction.GetIsMemberFunction() == true)
+						{
+							if (ImGui::Button(dFunction.GetFunctionName()))
+							{
+								const_cast<dooms::reflection::DFunction&>(dFunction).CallMemberFunctionNoReturnNoParameter(object);
+								isButtonClicked = true;
+							}
+						}
+						else
+						{// when static function or glbal function
+							if (ImGui::Button(dFunction.GetFunctionName()))
+							{
+								const_cast<dooms::reflection::DFunction&>(dFunction).CallFunctionNoReturn();
+								isButtonClicked = true;
+							}
+						}
+
+						imguiWithReflection::PopImgui();
+
+						OnEndDrawGUI(attributeList);
+					}
 				}
 
 				return isButtonClicked;
