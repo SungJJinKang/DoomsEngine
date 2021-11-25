@@ -78,6 +78,10 @@ namespace dooms
 				
 			}
 
+			
+		
+
+
 			bool DrawImguiFieldFromDField(void* const object, const char* const label, const char* const typeFullName, const reflection::DAttributeList& attributeList, bool& isValueChange)
 			{
 				bool isSuccessToDrawGUI = false;
@@ -91,10 +95,15 @@ namespace dooms
 					{
 						OnStartDrawGUI(attributeList);
 
+						imguiWithReflection::PushImgui();
+
 						isValueChange = func(object, label, attributeList);
 						isSuccessToDrawGUI = true;
 
 						OnEndDrawGUI(label, attributeList);
+
+						imguiWithReflection::PopImgui();
+						
 					}
 					else
 					{
@@ -142,7 +151,9 @@ namespace dooms
 					const dooms::reflection::DAttributeList& attributeList = dFunction.GetDAttributeList();
 
 					OnStartDrawGUI(attributeList);
-					
+
+					imguiWithReflection::PushImgui();
+
 					// when member function
 					if (dFunction.GetIsMemberFunction() == true)
 					{
@@ -160,6 +171,8 @@ namespace dooms
 							isButtonClicked = true;
 						}
 					}
+
+					imguiWithReflection::PopImgui();
 					
 					OnEndDrawGUI(dFunction.GetFunctionName(), attributeList);
 				}
@@ -198,6 +211,7 @@ namespace dooms
 
 					const std::unordered_map<std::string_view, dooms::reflection::DField>& dFieldList = dClass.GetDFieldList();
 
+
 					//label
 					const char* objectName = "";
 					if(rawObjectName == nullptr || rawObjectName[0] == '\0')
@@ -213,6 +227,9 @@ namespace dooms
 					}
 					ImGui::TextColored(ImVec4{ 1.0f, 0.0f, 0.0f, 1.0f }, "%s", objectName);
 
+
+					
+					
 					if (dFieldList.empty() == false)
 					{
 						for (auto& dFieldNode : dFieldList)
@@ -257,6 +274,7 @@ namespace dooms
 							}
 
 							isDObjectChanged |= isFieldValueChanged;
+							
 						}
 					}
 
@@ -268,11 +286,14 @@ namespace dooms
 							const dooms::reflection::DFunction& dFunction = dFunctioNnode.second;
 
 							DrawImguiFunctionButtonFromDFunction(object, dFunction);
+							
 						}
 					}
-					
+
 					bool isGUIValueChanged;
 					dooms::ui::imguiWithReflectionHelper::DrawImguiFieldFromDField(object, objectName, dClass.GetTypeFullName(), dClass.GetDAttributeList(), isGUIValueChanged);
+
+
 				}
 
 
@@ -346,6 +367,23 @@ void dooms::ui::imguiWithReflection::UpdateGUI_DObjectsVisibleOnGUI()
 
 		imguiWithReflectionHelper::ClearMultipleDrawChecker();
 	}
+}
+
+void dooms::ui::imguiWithReflection::PushImgui()
+{
+	++loopId;
+	ImGui::PushID(loopId);
+}
+
+void dooms::ui::imguiWithReflection::PopImgui()
+{
+	ImGui::PopID();
+	//loopId--;
+}
+
+void dooms::ui::imguiWithReflection::ClearId()
+{
+	loopId = 0;
 }
 
 

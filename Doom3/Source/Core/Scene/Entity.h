@@ -505,7 +505,7 @@ namespace dooms
 		D_FUNCTION()
 		FORCE_INLINE void ClearEntityFlag()
 		{
-			mEntityFlag &= 0;
+			mEntityFlag = 0;
 		}
 	};
 

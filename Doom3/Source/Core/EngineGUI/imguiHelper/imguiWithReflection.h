@@ -41,6 +41,8 @@ namespace dooms
 		{
 		private:
 
+			inline static int loopId = 0;
+
 			inline static bool IsInitialized = false;
 			inline static std::vector<dooms::DObject*> mVisibleOnGUIDObjectList{};
 			
@@ -54,6 +56,10 @@ namespace dooms
 
 			static void AddToVisibleOnGUIDObjectList(DObject* const dObject);
 			static void RemoveFromVisibleOnGUIDObjectList(DObject* const dObject);
+
+			static void PushImgui();
+			static void PopImgui();
+			static void ClearId();
 
 			static void UpdateGUI_DObjectsVisibleOnGUI();
 
@@ -71,6 +77,8 @@ namespace dooms
 					{
 						for (int dObjectIndex = 0; dObjectIndex < dObjects.size(); dObjectIndex++)
 						{
+							PushImgui();
+
 							bool is_selected = (currentIndex == dObjectIndex);
 
 							if (ImGui::Selectable(dObjects[dObjectIndex]->GetDObjectName().c_str(), is_selected))
@@ -82,6 +90,8 @@ namespace dooms
 							{
 								ImGui::SetItemDefaultFocus();
 							}
+
+							PopImgui();
 						}
 						ImGui::EndCombo();
 					}
@@ -92,14 +102,17 @@ namespace dooms
 					std::vector<dooms::DObject*> multipleDrawChecker;
 					dooms::ui::imguiWithReflectionHelper::DrawDObjectGUI(dObjects[currentIndex]->GetDClass(), dObjects[currentIndex]);
 
+					dooms::ui::imguiWithReflectionHelper::ClearMultipleDrawChecker();
 
 				}
 
 				ImGui::End();
 
-				dooms::ui::imguiWithReflectionHelper::ClearMultipleDrawChecker();
 
 			}
+
+
+		
 		};
 	}
 }

@@ -75,6 +75,7 @@ void dooms::ui::engineGUIServer::Render()
 
 void dooms::ui::engineGUIServer::PostRender()
 {
+    dooms::ui::imguiWithReflection::ClearId();
     ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 }
 
