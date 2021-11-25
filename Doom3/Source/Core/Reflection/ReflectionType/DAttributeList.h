@@ -64,6 +64,7 @@ namespace dooms
 			/// </summary>
 			/// <returns></returns>
 			const char* GetTooltip() const;
+			const char* GetDirtyCallbackFunctionName() const;
 
 			float GetMinValue() const;
 			template <typename T>

@@ -228,6 +228,26 @@ const char* dooms::reflection::DAttributeList::GetTooltip() const
 	return tooltipStr;
 }
 
+const char* dooms::reflection::DAttributeList::GetDirtyCallbackFunctionName() const
+{
+	const char* dirtyCallbackFunctionName = nullptr;
+
+	const dooms::reflection::DAttribute* updateFunctionAttribute = GetAttributeWithName("CALLBACK");
+	if (updateFunctionAttribute == nullptr)
+	{
+		updateFunctionAttribute = GetAttributeWithName("DIRTYCALLBACK");
+	}
+
+	if(updateFunctionAttribute != nullptr)
+	{
+		D_ASSERT(updateFunctionAttribute->GetAttributeType() == DAttribute::AttributeType::Text);
+
+		dirtyCallbackFunctionName = updateFunctionAttribute->GetStringValue();
+	}
+
+	return dirtyCallbackFunctionName;
+}
+
 float dooms::reflection::DAttributeList::GetMinValue() const
 {
 	float minValue = FLOAT32_MIN; // 0.0f mean infinity

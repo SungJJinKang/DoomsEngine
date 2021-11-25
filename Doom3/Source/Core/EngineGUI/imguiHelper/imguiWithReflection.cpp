@@ -84,11 +84,51 @@ namespace dooms
 				
 			}
 
+			/// <summary>
+			/// check DFunction can be showing on gui
+			/// </summary>
+			/// <param name="dFunction"></param>
+			/// <returns></returns>
+			bool GetIsFunctionGUIable(const reflection::DFunction& dFunction)
+			{
+				// TODO : Check function is virtual function.
+				//        virtual function can't be guiable
+				return (dFunction.GetIsHasReturnValue() == false) && (dFunction.GetParameterDFieldList().empty() == true);
+			}
 			
 		
+			void CallFieldDirtyCallback
+			(
+				const char* const dirtyCallbackFunctionName,
+				const reflection::DClass* const fieldOwnerObjectTypeDClass,
+				void* const fieldOwnerObejct
+			)
+			{
+				if(dirtyCallbackFunctionName != nullptr && fieldOwnerObjectTypeDClass != nullptr && fieldOwnerObejct != nullptr)
+				{
+					reflection::DFunction dFunction;
+					const bool isSuccess = fieldOwnerObjectTypeDClass->GetDFunctionHasNoReturnNoParameter(dirtyCallbackFunctionName, dFunction);
+					if(isSuccess == true)
+					{
+						if (GetIsFunctionGUIable(dFunction) == true)
+						{
+							dFunction.CallMemberFunctionNoReturnNoParameter(fieldOwnerObejct);
+						}
+						
+					}
+				}
+			}
 
-
-			bool DrawImguiFieldFromDField(void* const object, const char* const label, const char* const typeFullName, const reflection::DAttributeList& attributeList, bool& isValueChange)
+			bool DrawImguiFieldFromDField
+			(
+				void* const object, 
+				const char* const label,
+				const char* const typeFullName, 
+				const reflection::DAttributeList& attributeList, 
+				bool& isValueChange, 
+				const reflection::DClass* const fieldOwnerObjectTypeDClass,
+				void* const fieldOwnerObejct
+			)
 			{
 				bool isSuccessToDrawGUI = false;
 				
@@ -111,6 +151,11 @@ namespace dooms
 						OnEndDrawGUI(attributeList);
 
 						imguiWithReflection::PopImgui();
+
+						if(isValueChange == true)
+						{
+							CallFieldDirtyCallback(attributeList.GetDirtyCallbackFunctionName(), fieldOwnerObjectTypeDClass, fieldOwnerObejct);
+						}
 						
 					}
 					else
@@ -123,7 +168,14 @@ namespace dooms
 				return isSuccessToDrawGUI;
 			}
 
-			bool DrawImguiFieldFromDField(void* const object, const reflection::DField& dField, bool& isValueChange)
+			bool DrawImguiFieldFromDField
+			(
+				void* const object,
+				const reflection::DField& dField, 
+				bool& isValueChange,
+				const reflection::DClass* const fieldOwnerObjectTypeDClass,
+				void* const fieldOwnerObejct
+			)
 			{
 				std::string fieldTypeFullName = dField.GetFieldTypeFullName();
 				if (dField.GetFieldQualifier() == reflection::DField::eProperyQualifier::POINTER)
@@ -135,20 +187,21 @@ namespace dooms
 					fieldTypeFullName += '&';
 				}
 
-				return DrawImguiFieldFromDField(object, dField.GetFieldName(), fieldTypeFullName.c_str(), dField.GetDAttributeList(), isValueChange);
+				return DrawImguiFieldFromDField
+				(
+					object, 
+					dField.GetFieldName(), 
+					fieldTypeFullName.c_str(),
+					dField.GetDAttributeList(),
+					isValueChange,
+					fieldOwnerObjectTypeDClass,
+					fieldOwnerObejct
+				);
 			}
 			
 			
 
-			/// <summary>
-			/// check DFunction can be showing on gui
-			/// </summary>
-			/// <param name="dFunction"></param>
-			/// <returns></returns>
-			bool GetIsFunctionGUIable(const reflection::DFunction& dFunction)
-			{
-				return (dFunction.GetIsHasReturnValue() == false) && (dFunction.GetParameterDFieldList().empty() == true);
-			}
+			
 
 			bool DrawImguiFunctionButtonFromDFunction(void* const object, const dooms::reflection::DFunction dFunction)
 			{
@@ -259,11 +312,13 @@ namespace dooms
 							void* fieldRawValue = const_cast<dooms::reflection::DField&>(dField).GetRawFieldValue(object);
 
 							const bool isGUIDrawed = dooms::ui::imguiWithReflectionHelper::DrawImguiFieldFromDField
-							(
-								fieldRawValue,
-								dField,
-								isFieldValueChanged
-							);
+													(
+														fieldRawValue,
+														dField,
+														isFieldValueChanged,
+														&dClass,
+														object
+													);
 
 						
 							if(isGUIDrawed == false)
@@ -307,7 +362,16 @@ namespace dooms
 					}
 
 					bool isGUIValueChanged;
-					dooms::ui::imguiWithReflectionHelper::DrawImguiFieldFromDField(object, rawObjectName, dClass.GetTypeFullName(), dClass.GetDAttributeList(), isGUIValueChanged);
+					dooms::ui::imguiWithReflectionHelper::DrawImguiFieldFromDField
+					(
+						object, 
+						rawObjectName, 
+						dClass.GetTypeFullName(), 
+						dClass.GetDAttributeList(), 
+						isGUIValueChanged,
+						nullptr,
+						nullptr
+					);
 
 
 				}
