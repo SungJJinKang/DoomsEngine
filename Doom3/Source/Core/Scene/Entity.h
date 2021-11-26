@@ -502,7 +502,7 @@ namespace dooms
 			mEntityFlag |= flag;
 		}
 
-		D_FUNCTION()
+		D_FUNCTION(INVISIBLE)
 		FORCE_INLINE void ClearEntityFlag()
 		{
 			mEntityFlag = 0;

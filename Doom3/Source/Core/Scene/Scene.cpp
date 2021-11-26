@@ -40,10 +40,16 @@ Entity* Scene::DuplicateEntity(const Entity* const copyedEntity) noexcept
 {
 	CHECK_IS_EXECUTED_ON_MAIN_THREAD; // if you wanna createnewentity in subthread, you should 
 
-	Entity* newEntity = Scene::CreateNewEntity(); // resource::ObjectPool<Entity>::AllocateFromPool(nullptr);
+	D_ASSERT(IsValid(copyedEntity) == true);
+	Entity* newEntity = nullptr;
 
-	dooms::Entity::CopyEntity(*copyedEntity, *newEntity);
+	if(IsValid(copyedEntity) == true)
+	{
+		newEntity = Scene::CreateNewEntity(); // resource::ObjectPool<Entity>::AllocateFromPool(nullptr);
 
+		dooms::Entity::CopyEntity(*copyedEntity, *newEntity);
+	}
+	
 	return newEntity;
 }
 

@@ -36,22 +36,21 @@ void dooms::DeferredRenderingDebuggerController::InitDeferredRenderingDebuggerPI
 
 void dooms::DeferredRenderingDebuggerController::UpdateComponent()
 {
-
-	if (dooms::userinput::UserInput_Server::GetKeyUp(dooms::userinput::eKEY_CODE::KEY_F3))
-	{
-		for (auto pip : mDeferredRenderingDebuggerPIPs)
-		{
-			if (pip != nullptr)
-			{
-				pip->bmIsDrawOnScreen = !(pip->bmIsDrawOnScreen);
-			}
-		
-		}
-	}
-
 }
 
 void dooms::DeferredRenderingDebuggerController::OnEndOfFrame_Component()
 {
 
+}
+
+void dooms::DeferredRenderingDebuggerController::SetPIPVisible(bool isVisible)
+{
+	for (auto pip : mDeferredRenderingDebuggerPIPs)
+	{
+		if (pip != nullptr)
+		{
+			pip->bmIsDrawOnScreen = isVisible;
+		}
+
+	}
 }

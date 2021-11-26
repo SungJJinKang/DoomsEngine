@@ -33,5 +33,7 @@ public:
 	void UpdateComponent() override;
 	void OnEndOfFrame_Component() override;
 
+	void SetPIPVisible(bool isVisible);
+
 };
 }

@@ -21,7 +21,6 @@ void dooms::Transform::SetScale()
 
 void dooms::Transform::InitComponent()
 {
-	
 	SetPosition(mTransformCoreData.mPosition);
 	SetRotation(mRotation);
 	SetScale(mScale);
@@ -29,11 +28,11 @@ void dooms::Transform::InitComponent()
 
 void dooms::Transform::UpdateComponent()
 {
-
 }
 
 void dooms::Transform::OnEndOfFrame_Component()
 {
+	
 	mLastFramePosition = mTransformCoreData.mPosition;
 }
 

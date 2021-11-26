@@ -132,6 +132,7 @@ void Entity::InitializeComponent(Component* const newComponent)
 
 	newComponent->InitComponent_Internal(this);
 	newComponent->InitComponent();
+	newComponent->LateInitComponent();
 
 	newComponent->OnActivated_Internal();
 	newComponent->OnActivated();

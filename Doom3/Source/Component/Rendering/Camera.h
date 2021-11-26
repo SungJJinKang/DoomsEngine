@@ -115,7 +115,7 @@ namespace dooms
 		/// </summary>
 		void OnSetMainCamera();
 
-		D_FUNCTION()
+		D_FUNCTION(INVISIBLE)
 		void UpdateCallback();
 
 	protected:

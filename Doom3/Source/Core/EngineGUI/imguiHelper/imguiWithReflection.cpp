@@ -276,7 +276,6 @@ namespace dooms
 				{
 					MultipleDrawChecker.push_back(object);
 
-					const std::vector<dooms::reflection::DField>& dFieldList = dClass.GetDFieldList();
 
 
 					/*
@@ -305,9 +304,11 @@ namespace dooms
 						ImGui::TextColored(ImVec4{ 1.0f, 0.0f, 0.0f, 1.0f }, "%s", rawObjectName);
 					}
 					
-
-
 					
+
+
+
+					const std::vector<dooms::reflection::DField>& dFieldList = dClass.GetDFieldList();
 					
 					if (dFieldList.empty() == false)
 					{
@@ -370,15 +371,15 @@ namespace dooms
 					bool isGUIValueChanged;
 					dooms::ui::imguiWithReflectionHelper::DrawImguiFieldFromDField
 					(
-						object, 
-						rawObjectName, 
-						dClass.GetTypeFullName(), 
-						dClass.GetDAttributeList(), 
+						object,
+						rawObjectName,
+						dClass.GetTypeFullName(),
+						dClass.GetDAttributeList(),
 						isGUIValueChanged,
 						nullptr,
 						nullptr
 					);
-
+					
 
 				}
 

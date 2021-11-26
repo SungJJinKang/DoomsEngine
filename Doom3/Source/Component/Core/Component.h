@@ -73,6 +73,10 @@ namespace dooms
 		{
 			//DONT PUT ANYTHING HERE, PUT AT HERE
 		}
+		virtual void LateInitComponent()
+		{
+			//DONT PUT ANYTHING HERE, PUT AT HERE
+		}
 		virtual void UpdateComponent_Internal();
 		virtual void UpdateComponent()
 		{

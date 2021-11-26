@@ -21,14 +21,29 @@ class DOOM_API D_CLASS PortfolioComponent : public PlainComponent
 
 private:
 
+	D_PROPERTY()
+	bool Is_Enabled_DeferredRenderingDebugger = false;
+
+	D_PROPERTY()
+	bool Is_Pause_MultithreadViewfrustumCulling = false;
+
+	D_PROPERTY()
+	bool Is_Enabled_SortingFrontToBack = false;
+
+	D_PROPERTY()
+	bool Is_Enabled_OverdrawDebugger = false;
+
+	D_PROPERTY()
+	bool Is_Enabled_CollisionDebugging = false;
+	
+	void OnChangedByGUI(const dooms::reflection::DField& dFieldOfChangedField) override;
+
+	void UpdateGUI();
 
 public:
-
-	bool a, b, c, d, e;
-
-	std::array<dooms::graphics::PicktureInPickture*, 4> mDeferredRenderingDebuggerPIPs;
-
+	
 	void InitComponent() override;
+	void LateInitComponent() override;
 	void UpdateComponent() override;
 	void OnEndOfFrame_Component() override;
 

@@ -13,6 +13,7 @@
 #include "AutoRotate.h"
 #include "PhysicsComponent/BoxCollider3D.h"
 #include "CustomComponent/Portfolio/ViewFrustumCullingDebug.h"
+#include "CustomComponent/Portfolio/PortfolioComponent.h"
 #include "AutoRotateAround.h"
 #include "TestComponent.h"
 #include "Graphics/LightManager.h"
@@ -40,16 +41,7 @@ void dooms::GameLogicStartPoint::StartGameLogic()
 	auto currenScene = dooms::Scene::GetCurrentWorld();
 
 
-	auto lightEntity = currenScene->CreateNewEntity();
-	lightEntity->GetTransform()->SetPosition(-30.0f, 0.0f, 0.0f);
-	lightEntity->GetTransform()->SetRotation(-30.0f, 0.0f, 0.0f);
-	lightEntity->GetTransform()->SetScale(2.0f, 2.0f, 2.0f);
-	lightEntity->ChangeDObjectName("DirectionalLight");
-	auto dirLight = lightEntity->AddComponent<DirectionalLight>();
-	auto testComp1 = lightEntity->AddComponent<TestComponent>();
-	auto testComp2 = lightEntity->AddComponent<TestComponent2>();
-	dirLight->SetIntensity(3.0f);
-	dirLight->SetColor({ 1.0f, 1.0f, 1.0f, 1.0f });
+
 	//lightEntity->AddComponent<AutoRotate>();
 
 	//auto& threedasset = assetImporter::AssetManager::GetSingleton()->GetAsset<asset::eAssetType::THREE_D_MODEL>(0);
@@ -62,6 +54,106 @@ void dooms::GameLogicStartPoint::StartGameLogic()
 	material->AddTexture(graphics::eTextureBindingPoint::RoughnessTexture, assetImporter::AssetManager::GetSingleton()->GetAsset<asset::eAssetType::TEXTURE>("cerberus_R.dds"));
 
 	auto planetAsset = assetImporter::AssetManager::GetSingleton()->GetAsset<asset::eAssetType::THREE_D_MODEL>("planet.assbin");
+
+	FireBulletComponent* fireComponent;
+	{
+		auto entity1 = currenScene->CreateNewEntity();
+
+		entity1->SetEntityName("Camera");
+
+		auto entity1Camera = entity1->AddComponent<Camera>();
+		entity1->GetTransform()->SetPosition(0, 0, 1000);
+		entity1Camera->SetProjectionMode(dooms::Camera::eProjectionType::Perspective);
+
+		entity1->AddComponent<Move_WASD>();
+
+		//entity1->AddComponent<ExportTextureTester>();
+		entity1->AddComponent<DeferredRenderingDebuggerController>();
+		fireComponent = entity1->AddComponent<FireBulletComponent>();
+
+		entity1->AddComponent<PortfolioComponent>();
+		
+
+	}
+
+	auto lightEntity = currenScene->CreateNewEntity();
+	lightEntity->GetTransform()->SetPosition(-30.0f, 0.0f, 0.0f);
+	lightEntity->GetTransform()->SetRotation(-30.0f, 0.0f, 0.0f);
+	lightEntity->GetTransform()->SetScale(2.0f, 2.0f, 2.0f);
+	lightEntity->ChangeDObjectName("DirectionalLight");
+	auto dirLight = lightEntity->AddComponent<DirectionalLight>();
+	dirLight->SetIntensity(3.0f);
+	dirLight->SetColor({ 1.0f, 1.0f, 1.0f, 1.0f });
+
+	{
+		auto entity = currenScene->CreateNewEntity();
+		entity->ChangeDObjectName("PointLight");
+		entity->GetTransform()->SetPosition(200.0f, 0.0f, 0.0f);
+		auto meshRenderer = entity->AddComponent<MeshRenderer>();
+		meshRenderer->SetMesh(planetAsset->GetMesh(0));
+		meshRenderer->SetMaterial(material);
+		PointLight* pointLight = entity->AddComponent<PointLight>();
+		AutoRotateAround* autoRotateAround = entity->AddComponent<AutoRotateAround>();
+		pointLight->SetColor({ 1.0f, 0.0f, 0.0f, 1.0f });
+		pointLight->SetIntensity(12000.0f);
+		autoRotateAround->mCenterPos = math::Vector3{ 0.0f, 0.0f, 0.0f };
+		autoRotateAround->mRotateAngle = 1;
+		autoRotateAround->mRotateAxis = { 0.0f, 1.0f, 0.0f };
+		BoxCollider3D* box3D = entity->AddComponent<BoxCollider3D>();
+		box3D->SetFromAABB3D(planetAsset->GetMesh(0)->GetBoundingBox());
+	}
+
+	{
+		auto entity = currenScene->CreateNewEntity();
+		entity->ChangeDObjectName("PointLight");
+		entity->GetTransform()->SetPosition(0.0f, 200.0f, 0.0f);
+		auto meshRenderer = entity->AddComponent<MeshRenderer>();
+		meshRenderer->SetMesh(planetAsset->GetMesh(0));
+		meshRenderer->SetMaterial(material);
+		PointLight* pointLight = entity->AddComponent<PointLight>();
+		AutoRotateAround* autoRotateAround = entity->AddComponent<AutoRotateAround>();
+		pointLight->SetColor({ 0.0f, 1.0f, 0.0f, 1.0f });
+		pointLight->SetIntensity(12000.0f);
+		autoRotateAround->mCenterPos = math::Vector3{ 0.0f, 0.0f, 0.0f };
+		autoRotateAround->mRotateAngle = 1;
+		autoRotateAround->mRotateAxis = { 1.0f, 0.0f, 0.0f };
+		BoxCollider3D* box3D = entity->AddComponent<BoxCollider3D>();
+		box3D->SetFromAABB3D(planetAsset->GetMesh(0)->GetBoundingBox());
+	}
+
+	{
+		auto entity = currenScene->CreateNewEntity();
+		entity->ChangeDObjectName("PointLight");
+		entity->GetTransform()->SetPosition(0.0f, 0.0f, 200.0f);
+		auto meshRenderer = entity->AddComponent<MeshRenderer>();
+		meshRenderer->SetMesh(planetAsset->GetMesh(0));
+		meshRenderer->SetMaterial(material);
+		PointLight* pointLight = entity->AddComponent<PointLight>();
+		AutoRotateAround* autoRotateAround = entity->AddComponent<AutoRotateAround>();
+		pointLight->SetColor({ 0.0f, 0.0f, 1.0f, 1.0f });
+		pointLight->SetIntensity(12000.0f);
+		autoRotateAround->mCenterPos = math::Vector3{ 0.0f, 0.0f, 0.0f };
+		autoRotateAround->mRotateAngle = 1;
+		autoRotateAround->mRotateAxis = { 0.0f, 1.0f, 0.0f };
+		BoxCollider3D* box3D = entity->AddComponent<BoxCollider3D>();
+		box3D->SetFromAABB3D(planetAsset->GetMesh(0)->GetBoundingBox());
+	}
+
+
+	{
+		auto entity = currenScene->CreateNewEntity();
+		entity->GetTransform()->SetScale(1.5f, 1.5f, 1.5f);
+		entity->GetTransform()->SetPosition(0, 0, 0);
+		auto meshRenderer = entity->AddComponent<MeshRenderer>();
+		entity->AddComponent<Rigidbody>();
+		BulletComponent* bullet = entity->AddComponent<BulletComponent>();
+		meshRenderer->SetMesh(planetAsset->GetMesh(0));
+		meshRenderer->SetMaterial(material);
+		BoxCollider3D* box3D = entity->AddComponent<BoxCollider3D>();
+		box3D->SetFromAABB3D(planetAsset->GetMesh(0)->GetBoundingBox());
+		fireComponent->mBullet = bullet;
+		bullet->mSpeed = 500;
+	}
 
 
 	for (INT32 i = 0; i < 25; i++)
@@ -133,115 +225,12 @@ void dooms::GameLogicStartPoint::StartGameLogic()
 		box3D->SetFromAABB3D(planetAsset->GetMesh(0)->GetBoundingBox());
 	}
 
-	{
-		auto entity1 = currenScene->CreateNewEntity();
-
-		entity1->SetEntityName("Camera");
-
-		auto entity1Camera = entity1->AddComponent<Camera>();
-		entity1->GetTransform()->SetPosition(0, 0, 1000);
-		entity1Camera->SetProjectionMode(dooms::Camera::eProjectionType::Perspective);
-		entity1->AddComponent<ViewFrustumCullingDebug>();
-		entity1->AddComponent<ReflectionTestComponent>();
-		entity1->AddComponent<Move_WASD>();
-		entity1->AddComponent<ExportTextureTester>();
-		entity1->AddComponent<DeferredRenderingDebuggerController>();
-		entity1->AddComponent<OverDrawVisualizationDebugger>();
-		FireBulletComponent* fireComponent = entity1->AddComponent<FireBulletComponent>();
-		auto physicsDebuggerController = entity1->AddComponent<PhysicsDebuggerController>();
-		entity1->AddComponent<TestComponent>();
-
-		{
-			auto entity = currenScene->CreateNewEntity();
-			entity->GetTransform()->SetScale(1.5f, 1.5f, 1.5f);
-			entity->GetTransform()->SetPosition(0, 0, 0);
-			auto meshRenderer = entity->AddComponent<MeshRenderer>();
-			entity->AddComponent<Rigidbody>();
-			BulletComponent* bullet = entity->AddComponent<BulletComponent>();
-			meshRenderer->SetMesh(planetAsset->GetMesh(0));
-			meshRenderer->SetMaterial(material);
-			BoxCollider3D* box3D = entity->AddComponent<BoxCollider3D>();
-			box3D->SetFromAABB3D(planetAsset->GetMesh(0)->GetBoundingBox());
-			fireComponent->mBullet = bullet;
-			bullet->mSpeed = 500;
-		}
-
 	
-	}
 
 
 	
-	{
-		auto entity = currenScene->CreateNewEntity();
-		entity->ChangeDObjectName("PointLight");
-		entity->GetTransform()->SetPosition(200.0f, 0.0f, 0.0f);
-		auto meshRenderer = entity->AddComponent<MeshRenderer>();
-		meshRenderer->SetMesh(planetAsset->GetMesh(0));
-		meshRenderer->SetMaterial(material);
-		PointLight* pointLight = entity->AddComponent<PointLight>();
-		AutoRotateAround* autoRotateAround = entity->AddComponent<AutoRotateAround>();
-		pointLight->SetColor({ 1.0f, 0.0f, 0.0f, 1.0f });
-		pointLight->SetIntensity(12000.0f);
-		autoRotateAround->mCenterPos = math::Vector3{ 0.0f, 0.0f, 0.0f };
-		autoRotateAround->mRotateAngle = 1;
-		autoRotateAround->mRotateAxis = { 0.0f, 1.0f, 0.0f };
-		BoxCollider3D* box3D = entity->AddComponent<BoxCollider3D>();
-		box3D->SetFromAABB3D(planetAsset->GetMesh(0)->GetBoundingBox());
-	}
-
-	{
-		auto entity = currenScene->CreateNewEntity();
-		entity->ChangeDObjectName("PointLight");
-		entity->GetTransform()->SetPosition(0.0f, 200.0f, 0.0f);
-		auto meshRenderer = entity->AddComponent<MeshRenderer>();
-		meshRenderer->SetMesh(planetAsset->GetMesh(0));
-		meshRenderer->SetMaterial(material);
-		PointLight* pointLight = entity->AddComponent<PointLight>();
-		AutoRotateAround* autoRotateAround = entity->AddComponent<AutoRotateAround>();
-		pointLight->SetColor({ 0.0f, 1.0f, 0.0f, 1.0f });
-		pointLight->SetIntensity(12000.0f);
-		autoRotateAround->mCenterPos = math::Vector3{ 0.0f, 0.0f, 0.0f };
-		autoRotateAround->mRotateAngle = 1;
-		autoRotateAround->mRotateAxis = { 1.0f, 0.0f, 0.0f };
-		BoxCollider3D* box3D = entity->AddComponent<BoxCollider3D>();
-		box3D->SetFromAABB3D(planetAsset->GetMesh(0)->GetBoundingBox());
-	}
-
-	{
-		auto entity = currenScene->CreateNewEntity();
-		entity->ChangeDObjectName("PointLight");
-		entity->GetTransform()->SetPosition(0.0f, 0.0f, 200.0f);
-		auto meshRenderer = entity->AddComponent<MeshRenderer>();
-		meshRenderer->SetMesh(planetAsset->GetMesh(0));
-		meshRenderer->SetMaterial(material);
-		PointLight* pointLight = entity->AddComponent<PointLight>();
-		AutoRotateAround* autoRotateAround = entity->AddComponent<AutoRotateAround>();
-		pointLight->SetColor({ 0.0f, 0.0f, 1.0f, 1.0f });
-		pointLight->SetIntensity(12000.0f);
-		autoRotateAround->mCenterPos = math::Vector3{ 0.0f, 0.0f, 0.0f };
-		autoRotateAround->mRotateAngle = 1;
-		autoRotateAround->mRotateAxis = { 0.0f, 1.0f, 0.0f };
-		BoxCollider3D* box3D = entity->AddComponent<BoxCollider3D>();
-		box3D->SetFromAABB3D(planetAsset->GetMesh(0)->GetBoundingBox());
-	}
-
-
-	{
-		auto transform = dooms::reflection::CreateDClass<dooms::Transform>();
-
-		dooms::reflection::DField property;
-		const bool isPropertyReturned = transform.GetDField("mScale", property);
-		D_ASSERT(isPropertyReturned == true);
-		D_ASSERT(property.IsValid() == true);
-
-		math::Vector3* scale = property.GetFieldValue<math::Vector3>(lightEntity->GetTransform());
-		D_ASSERT(scale != nullptr);
-		D_ASSERT(scale->x == 2.0f);
-		D_ASSERT(scale->y == 2.0f);
-		D_ASSERT(scale->z == 2.0f);
-	}
-
 	
+
 	/*
 
 	auto a = Renderer::CLASS_TYPE_ID_STATIC();

@@ -45,45 +45,29 @@ void dooms::FireBulletComponent::Shoot()
 	for (INT32 i = 0; i < BullterCount; i++)
 	{
 		Entity* const newBulletEntity = dooms::Scene::DuplicateEntityStatic(mBullet->GetOwnerEntity());
-		mBullet = newBulletEntity->GetComponent<BulletComponent>();
-		mBullet->GetTransform()->SetPosition(GetTransform()->GetPosition());
-		mBullet->GetTransform()->SetRotation(GetTransform()->GetRotation());
-		mBullet->GetTransform()->Rotate
-		(
-			math::Vector3
-			{
-			Random::RandomFloatNumber(-0.5f, 0.5f),
-			Random::RandomFloatNumber(-0.5f, 0.5f),
-			0.0f
-			}
-			, eSpace::Self
-		);
+		D_ASSERT(IsValid(newBulletEntity) == true);
 
-		mBullet->mSpeed = BullterSpeed;
+		if(newBulletEntity != nullptr)
+		{
+			mBullet = newBulletEntity->GetComponent<BulletComponent>();
+			mBullet->GetTransform()->SetPosition(GetTransform()->GetPosition());
+			mBullet->GetTransform()->SetRotation(GetTransform()->GetRotation());
+			mBullet->GetTransform()->Rotate
+			(
+				math::Vector3
+				{
+				Random::RandomFloatNumber(-0.5f, 0.5f),
+				Random::RandomFloatNumber(-0.5f, 0.5f),
+				0.0f
+				}
+				, eSpace::Self
+			);
+
+			mBullet->mSpeed = BullterSpeed;
+		}
+		
 	}
 }
 
-void dooms::FireBulletComponent::Shoot(const int count)
-{
-	for (size_t i = 0; i < count; i++)
-	{
-		Shoot();
-	}
-}
 
-void dooms::FireBulletComponent::Shoot100Times()
-{
-	for (size_t i = 0; i < 100; i++)
-	{
-		Shoot();
-	}
-}
-
-void dooms::FireBulletComponent::ShootTenTimes()
-{
-	for(size_t i = 0 ; i < 10 ; i++)
-	{
-		Shoot();
-	}
-}
 
