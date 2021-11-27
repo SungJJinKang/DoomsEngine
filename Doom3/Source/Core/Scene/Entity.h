@@ -242,7 +242,7 @@ namespace dooms
 
 		D_PROPERTY()
 		eEntityMobility mEntityMobility{ eEntityMobility::Dynamic };
-		D_PROPERTY()
+		D_PROPERTY(READONLY)
 		UINT32 mEntityFlag{ eEntityFlags::OcculuderStatic | eEntityFlags::OcculudeeStatic };
 
 		/// <summary>
