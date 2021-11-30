@@ -29,7 +29,19 @@ namespace dooms
 				DObject,
 				RawObject
 			};
-			
+
+			bool DrawImguiFieldFromDField
+			(
+				void* const object,
+				const char* const label,
+				const char* const typeFullName,
+				const reflection::DType* const fieldDType,
+				const reflection::DAttributeList& attributeList,
+				bool& isValueChange,
+				const reflection::DType* const fieldOwnerObjectTypeDType,
+				void* const fieldOwnerObejct
+			);
+
 			bool DrawObjectGUI(const reflection::DClass& dClass, void* const object, const char* const rawObjectName, const eObjectType objectType);
 			bool DrawDObjectGUI(const reflection::DClass& dClass, dooms::DObject* const dObject);
 

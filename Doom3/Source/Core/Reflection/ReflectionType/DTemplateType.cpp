@@ -21,7 +21,7 @@ bool dooms::reflection::dTemplateTypeHelper::GetTemplateTypeNameFromTypeFullName
 }
 
 dooms::reflection::DTemplateType::DTemplateType(const clcpp::TemplateType* const _clTemplateType)
-	: clTemplateType(_clTemplateType)
+	: DType(_clTemplateType), clTemplateType(_clTemplateType)
 {
 }
 

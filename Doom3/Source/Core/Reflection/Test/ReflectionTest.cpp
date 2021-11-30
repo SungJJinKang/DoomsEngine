@@ -247,21 +247,21 @@ void clReflectTest::test(clcpp::Database& db)
 	{
 		const dooms::reflection::DEnum eTestEnum_ReflectionTestDEnum = dooms::reflection::CreateDEnum<dooms::TestEnum_ReflectionTest>();
 
-		D_ASSERT(std::strcmp(eTestEnum_ReflectionTestDEnum.GetNameOfEnumConstantsValue(1), "test1") == 0);
-		D_ASSERT(std::strcmp(eTestEnum_ReflectionTestDEnum.GetNameOfEnumConstantsValue(3), "test2") == 0);
-		D_ASSERT(std::strcmp(eTestEnum_ReflectionTestDEnum.GetNameOfEnumConstantsValue(5), "test3") == 0);
-		D_ASSERT(std::strcmp(eTestEnum_ReflectionTestDEnum.GetNameOfEnumConstantsValue(444), "test4") == 0);
+		D_ASSERT(std::strcmp(eTestEnum_ReflectionTestDEnum.GetNameOfEnumConstantValue(1), "test1") == 0);
+		D_ASSERT(std::strcmp(eTestEnum_ReflectionTestDEnum.GetNameOfEnumConstantValue(3), "test2") == 0);
+		D_ASSERT(std::strcmp(eTestEnum_ReflectionTestDEnum.GetNameOfEnumConstantValue(5), "test3") == 0);
+		D_ASSERT(std::strcmp(eTestEnum_ReflectionTestDEnum.GetNameOfEnumConstantValue(444), "test4") == 0);
 
 		{
 			INT32 value;
-			const bool result = eTestEnum_ReflectionTestDEnum.GetValue("test1", value);
+			const bool result = eTestEnum_ReflectionTestDEnum.GetEnumConstantValue("test1", value);
 			D_ASSERT(result == true);
 			D_ASSERT(value == 1);
 		}
 
 		{
 			INT32 value;
-			const bool result = eTestEnum_ReflectionTestDEnum.GetValue("test4", value);
+			const bool result = eTestEnum_ReflectionTestDEnum.GetEnumConstantValue("test4", value);
 			D_ASSERT(result == true);
 			D_ASSERT(value == 444);
 		}
@@ -323,27 +323,27 @@ void clReflectTest::test(clcpp::Database& db)
 	{
 		const dooms::reflection::DEnum eColorDEnum = dooms::reflection::CreateDEnum<dooms::graphics::eColor>();
 		
-		D_ASSERT(std::strcmp(eColorDEnum.GetNameOfEnumConstantsValue(0), "White") == 0);
-		D_ASSERT(std::strcmp(eColorDEnum.GetNameOfEnumConstantsValue(1), "Black") == 0);
-		D_ASSERT(std::strcmp(eColorDEnum.GetNameOfEnumConstantsValue(2), "Red") == 0);
+		D_ASSERT(std::strcmp(eColorDEnum.GetNameOfEnumConstantValue(0), "White") == 0);
+		D_ASSERT(std::strcmp(eColorDEnum.GetNameOfEnumConstantValue(1), "Black") == 0);
+		D_ASSERT(std::strcmp(eColorDEnum.GetNameOfEnumConstantValue(2), "Red") == 0);
 
 		{
 			INT32 value;
-			const bool result = eColorDEnum.GetValue("Red", value);
+			const bool result = eColorDEnum.GetEnumConstantValue("Red", value);
 			D_ASSERT(result == true);
 			D_ASSERT(value == 2);
 		}
 
 		{
 			INT32 value;
-			const bool result = eColorDEnum.GetValue("White", value);
+			const bool result = eColorDEnum.GetEnumConstantValue("White", value);
 			D_ASSERT(result == true);
 			D_ASSERT(value == 0);
 		}
 
 		{
 			INT32 value;
-			const bool result = eColorDEnum.GetValue("Test", value);
+			const bool result = eColorDEnum.GetEnumConstantValue("Test", value);
 			D_ASSERT(result == false);
 		}
 	}

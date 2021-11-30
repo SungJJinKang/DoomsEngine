@@ -124,7 +124,7 @@ namespace dooms
 				void* const object,
 				const char* const label,
 				const char* const typeFullName,
-				const reflection::DPrimitive::ePrimitiveType fieldPrimitiveType,
+				const reflection::DType* const fieldDType,
 				const reflection::DAttributeList& attributeList, 
 				bool& isValueChange, 
 				const reflection::DType* const fieldOwnerObjectTypeDType,
@@ -133,15 +133,17 @@ namespace dooms
 			{
 				D_ASSERT(object != nullptr);
 				D_ASSERT(label != nullptr);
-				D_ASSERT(typeFullName != nullptr);
-				D_ASSERT(typeFullName[0] != '\0');
+				D_ASSERT(fieldDType != nullptr);
+
+				//initialize
+				isValueChange = true;
 
 				bool isSuccessToDrawGUI = false;
 				
 				if (attributeList.GetIsVisibleOnGUI() == true)
 				{
 					dooms::ui::imguiFieldFunctionGetter::IMGUI_WITH_REFLECTION_FUNC func =
-						dooms::ui::imguiFieldFunctionGetter::GetImguiWithReflectionFunction(typeFullName, fieldPrimitiveType);
+						dooms::ui::imguiFieldFunctionGetter::GetImguiWithReflectionFunction(typeFullName, fieldDType);
 
 					if (func != nullptr)
 					{
@@ -151,7 +153,7 @@ namespace dooms
 
 						const char* const fieldLabel = attributeList.GetIsNoLabel() == true ? "" : label;
 
-						isValueChange = func(object, fieldLabel, typeFullName, attributeList);
+						isValueChange = func(object, fieldLabel, typeFullName, attributeList, fieldDType);
 						isSuccessToDrawGUI = true;
 
 						OnEndDrawGUI(attributeList);
@@ -192,6 +194,7 @@ namespace dooms
 				D_ASSERT(fieldOwnerObjectTypeDType != nullptr);
 				D_ASSERT(fieldOwnerObejct != nullptr);
 
+				const reflection::DType fieldDType = dField.GetDTypeOfFieldType();
 				std::string fieldTypeFullName = dField.GetFieldTypeFullName();
 				if (dField.GetFieldQualifier() == reflection::DField::eProperyQualifier::POINTER)
 				{
@@ -207,7 +210,7 @@ namespace dooms
 					object, 
 					dField.GetFieldName(), 
 					fieldTypeFullName.c_str(),
-					dField.GetFieldTypePrimitiveType(),
+					&fieldDType,
 					dField.GetDAttributeList(),
 					isValueChange,
 					fieldOwnerObjectTypeDType,
@@ -388,7 +391,7 @@ namespace dooms
 						object,
 						rawObjectName,
 						dClass.GetTypeFullName(),
-						dClass.GetPrimitiveType(),
+						&dClass,
 						dClass.GetDAttributeList(),
 						isGUIValueChanged,
 						nullptr,
