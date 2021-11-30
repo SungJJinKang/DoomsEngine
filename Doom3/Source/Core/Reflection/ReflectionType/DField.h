@@ -17,7 +17,7 @@ namespace dooms
 
 	namespace reflection
 	{
-		class DClass;
+		class DType;
 		class DAttribute;
 		class DAttributeList;
 		class DOOM_API D_CLASS DField : public DPrimitive /*: public dooms::DObject*/ // Dont Do this
@@ -77,12 +77,8 @@ namespace dooms
 				return static_cast<DPrimitive::ePrimitiveType>(clField->type->kind);
 			}
 
-			DClass GetFieldTypeDClass() const;
 			
-			FORCE_INLINE const clcpp::Type* GetclTypeOfFieldType() const
-			{
-				return clField->type;
-			}
+			const DType GetDTypeOfFieldType() const;
 
 			FORCE_INLINE eProperyQualifier GetFieldQualifier() const
 			{

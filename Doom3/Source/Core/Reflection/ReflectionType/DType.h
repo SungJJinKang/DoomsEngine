@@ -15,6 +15,8 @@ namespace dooms
 	class DObject;
 	namespace reflection
 	{
+		class DClass;
+		class DTemplateType;
 		class DOOM_API D_CLASS DType : public DPrimitive /*: public dooms::DObject*/ // Dont Do this
 		{
 		protected:
@@ -23,19 +25,20 @@ namespace dooms
 
 		protected:
 
+
+		public:
+
 			FORCE_INLINE DType()
 				: DPrimitive(nullptr), clType(nullptr)
 			{
-				
+
 			}
 			FORCE_INLINE DType(const clcpp::Type* const _clType)
 				: DPrimitive(_clType), clType(_clType)
 			{
-				
+
 			}
 			DType(const char* const typeFullName);
-
-		public:
 
 			FORCE_INLINE const char* GetTypeFullName() const
 			{
@@ -56,6 +59,10 @@ namespace dooms
 			{
 				return clType != dType.clType;
 			}
+
+
+			DClass AsDClass() const;
+			DTemplateType AsDTemplateType() const;
 		};
 	}
 }
