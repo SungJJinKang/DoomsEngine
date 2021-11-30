@@ -51,7 +51,7 @@ namespace dooms
 
 	public:
 
-		enum D_ENUM eEntityMobility
+		enum D_ENUM eEntityMobility : UINT32
 		{
 			Static,
 			Dynamic
@@ -80,6 +80,11 @@ namespace dooms
 		D_PROPERTY()
 		UINT32 mLayerIndex{0};
 	
+
+		D_PROPERTY()
+		eEntityMobility mEntityMobility { eEntityMobility::Dynamic };
+		D_PROPERTY(READONLY)
+		UINT32 mEntityFlag { eEntityFlags::OcculuderStatic | eEntityFlags::OcculudeeStatic };
 
 		D_PROPERTY()
 		Entity* mParent = nullptr;
@@ -240,10 +245,6 @@ namespace dooms
 		D_PROPERTY()
 		bool IsEnabled = true;
 
-		D_PROPERTY()
-		eEntityMobility mEntityMobility{ eEntityMobility::Dynamic };
-		D_PROPERTY(READONLY)
-		UINT32 mEntityFlag{ eEntityFlags::OcculuderStatic | eEntityFlags::OcculudeeStatic };
 
 		/// <summary>
 		/// Entity Constructor should be called through Scene class
@@ -489,7 +490,7 @@ namespace dooms
 		{
 			mEntityMobility = entityMobility;
 		}
-
+		
 		D_FUNCTION()
 		FORCE_INLINE UINT32 GetEntityFlag() const
 		{	

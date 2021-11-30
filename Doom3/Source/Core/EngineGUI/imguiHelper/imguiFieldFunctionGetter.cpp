@@ -12,6 +12,11 @@
 #include "imguiWithReflection.h"
 #include "Entity.h"
 #include "Transform.h"
+#include "magic_enum.hpp"
+
+#include <Reflection/ReflectionType/DTemplateType.h>
+#include <Reflection/ReflectionType/DEnum.h>
+
 
 
 namespace dooms
@@ -70,7 +75,7 @@ namespace dooms
 
 
 
-			bool imguiWithReflection_bool(void* const object, const char* const label, const reflection::DAttributeList& attributeList)
+			bool imguiWithReflection_bool(void* const object, const char* const label, const char* const typeFullName,const reflection::DAttributeList& attributeList)
 			{
 				//ImGui::Text("%s : %d", label, *static_cast<int*>(object));
 
@@ -87,7 +92,7 @@ namespace dooms
 			}
 
 
-			bool imguiWithReflection_char(void* const object, const char* const label, const reflection::DAttributeList& attributeList)
+			bool imguiWithReflection_char(void* const object, const char* const label, const char* const typeFullName,const reflection::DAttributeList& attributeList)
 			{
 				const INT8 minValue = attributeList.GetMinValue<INT8>();
 				const INT8 maxValue = attributeList.GetMaxValue<INT8>();
@@ -95,7 +100,7 @@ namespace dooms
 				return ImGui::DragScalar(label, ImGuiDataType_S8, object, imgui::DEFULAT_DRAG_SPEED, &minValue, &maxValue, 0, GetImguiFlags(eImguiType::Drag, attributeList));
 			}
 
-			bool imguiWithReflection_unsigned_char(void* const object, const char* const label, const reflection::DAttributeList& attributeList)
+			bool imguiWithReflection_unsigned_char(void* const object, const char* const label, const char* const typeFullName,const reflection::DAttributeList& attributeList)
 			{
 				const UINT8 minValue = attributeList.GetMinValue<UINT8>();
 				const UINT8 maxValue = attributeList.GetMaxValue<UINT8>();
@@ -103,7 +108,7 @@ namespace dooms
 				return ImGui::DragScalar(label, ImGuiDataType_U8, object, imgui::DEFULAT_DRAG_SPEED, &minValue, &maxValue, 0, GetImguiFlags(eImguiType::Drag, attributeList));
 			}
 
-			bool imguiWithReflection_short(void* const object, const char* const label, const reflection::DAttributeList& attributeList)
+			bool imguiWithReflection_short(void* const object, const char* const label, const char* const typeFullName,const reflection::DAttributeList& attributeList)
 			{
 				const INT16 minValue = attributeList.GetMinValue<INT16>();
 				const INT16 maxValue = attributeList.GetMaxValue<INT16>();
@@ -111,7 +116,7 @@ namespace dooms
 				return ImGui::DragScalar(label, ImGuiDataType_S16, object, imgui::DEFULAT_DRAG_SPEED, &minValue, &maxValue, 0, GetImguiFlags(eImguiType::Drag, attributeList));
 			}
 
-			bool imguiWithReflection_unsigned_short(void* const object, const char* const label, const reflection::DAttributeList& attributeList)
+			bool imguiWithReflection_unsigned_short(void* const object, const char* const label, const char* const typeFullName,const reflection::DAttributeList& attributeList)
 			{
 				const UINT16 minValue = attributeList.GetMinValue<UINT16>();
 				const UINT16 maxValue = attributeList.GetMaxValue<UINT16>();
@@ -119,7 +124,7 @@ namespace dooms
 				return ImGui::DragScalar(label, ImGuiDataType_U16, object, imgui::DEFULAT_DRAG_SPEED, &minValue, &maxValue, 0, GetImguiFlags(eImguiType::Drag, attributeList));
 			}
 
-			bool imguiWithReflection_int(void* const object, const char* const label, const reflection::DAttributeList& attributeList)
+			bool imguiWithReflection_int(void* const object, const char* const label, const char* const typeFullName,const reflection::DAttributeList& attributeList)
 			{
 				const INT32 minValue = attributeList.GetMinValue<INT32>();
 				const INT32 maxValue = attributeList.GetMaxValue<INT32>();
@@ -127,7 +132,7 @@ namespace dooms
 				return ImGui::DragScalar(label, ImGuiDataType_S32, object, imgui::DEFULAT_DRAG_SPEED, &minValue, &maxValue, 0, GetImguiFlags(eImguiType::Drag, attributeList));
 			}
 
-			bool imguiWithReflection_unsigned_int(void* const object, const char* const label, const reflection::DAttributeList& attributeList)
+			bool imguiWithReflection_unsigned_int(void* const object, const char* const label, const char* const typeFullName,const reflection::DAttributeList& attributeList)
 			{
 				const UINT32 minValue = attributeList.GetMinValue<UINT32>();
 				const UINT32 maxValue = attributeList.GetMaxValue<UINT32>();
@@ -135,7 +140,7 @@ namespace dooms
 				return ImGui::DragScalar(label, ImGuiDataType_U32, object, imgui::DEFULAT_DRAG_SPEED, &minValue, &maxValue, 0, GetImguiFlags(eImguiType::Drag, attributeList));
 			}
 
-			bool imguiWithReflection_long_long(void* const object, const char* const label, const reflection::DAttributeList& attributeList)
+			bool imguiWithReflection_long_long(void* const object, const char* const label, const char* const typeFullName,const reflection::DAttributeList& attributeList)
 			{
 				const INT64 minValue = attributeList.GetMinValue<INT64>();
 				const INT64 maxValue = attributeList.GetMaxValue<INT64>();
@@ -143,7 +148,7 @@ namespace dooms
 				return ImGui::DragScalar(label, ImGuiDataType_S64, object, imgui::DEFULAT_DRAG_SPEED, &minValue, &maxValue, 0, GetImguiFlags(eImguiType::Drag, attributeList));
 			}
 
-			bool imguiWithReflection_unsigned_long_long(void* const object, const char* const label, const reflection::DAttributeList& attributeList)
+			bool imguiWithReflection_unsigned_long_long(void* const object, const char* const label, const char* const typeFullName,const reflection::DAttributeList& attributeList)
 			{
 				const UINT64 minValue = attributeList.GetMinValue<UINT64>();
 				const UINT64 maxValue = attributeList.GetMaxValue<UINT64>();
@@ -151,7 +156,7 @@ namespace dooms
 				return ImGui::DragScalar(label, ImGuiDataType_U64, object, imgui::DEFULAT_DRAG_SPEED, &minValue, &maxValue, 0, GetImguiFlags(eImguiType::Drag, attributeList));
 			}
 
-			bool imguiWithReflection_float(void* const object, const char* const label, const reflection::DAttributeList& attributeList)
+			bool imguiWithReflection_float(void* const object, const char* const label, const char* const typeFullName,const reflection::DAttributeList& attributeList)
 			{
 				const float minValue = attributeList.GetMinValue<float>();
 				const float maxValue = attributeList.GetMaxValue<float>();
@@ -159,7 +164,7 @@ namespace dooms
 				return ImGui::DragScalar(label, ImGuiDataType_Float, object, imgui::DEFULAT_DRAG_SPEED, &minValue, &maxValue, 0, GetImguiFlags(eImguiType::Drag, attributeList));
 			}
 
-			bool imguiWithReflection_double(void* const object, const char* const label, const reflection::DAttributeList& attributeList)
+			bool imguiWithReflection_double(void* const object, const char* const label, const char* const typeFullName,const reflection::DAttributeList& attributeList)
 			{
 				//ImGui::Text("%s : %lf", label, *static_cast<double*>(object));
 				const double minValue = attributeList.GetMinValue<double>();
@@ -168,7 +173,7 @@ namespace dooms
 				return ImGui::DragScalar(label, ImGuiDataType_Double, object, imgui::DEFULAT_DRAG_SPEED, &minValue, &maxValue, 0, GetImguiFlags(eImguiType::Drag, attributeList));
 			}
 
-			bool imguiWithReflection_math_Vector2(void* const object, const char* const label, const reflection::DAttributeList& attributeList)
+			bool imguiWithReflection_math_Vector2(void* const object, const char* const label, const char* const typeFullName,const reflection::DAttributeList& attributeList)
 			{
 				const FLOAT32 minValue = attributeList.GetMinValue<FLOAT32>();
 				const FLOAT32 maxValue = attributeList.GetMaxValue<FLOAT32>();
@@ -186,7 +191,7 @@ namespace dooms
 
 			}
 
-			bool imguiWithReflection_math_Vector3(void* const object, const char* const label, const reflection::DAttributeList& attributeList)
+			bool imguiWithReflection_math_Vector3(void* const object, const char* const label, const char* const typeFullName,const reflection::DAttributeList& attributeList)
 			{
 				if (attributeList.GetIsHasGUIType("Color"))
 				{
@@ -211,7 +216,7 @@ namespace dooms
 
 			}
 
-			bool imguiWithReflection_math_Vector4(void* const object, const char* const label, const reflection::DAttributeList& attributeList)
+			bool imguiWithReflection_math_Vector4(void* const object, const char* const label, const char* const typeFullName,const reflection::DAttributeList& attributeList)
 			{
 				if (attributeList.GetIsHasGUIType("Color"))
 				{
@@ -235,23 +240,23 @@ namespace dooms
 				}
 			}
 
-			bool imguiWithReflection_math_Matrix2x2(void* const object, const char* const label, const reflection::DAttributeList& attributeList)
+			bool imguiWithReflection_math_Matrix2x2(void* const object, const char* const label, const char* const typeFullName,const reflection::DAttributeList& attributeList)
 			{
 				return false;
 			}
 
-			bool imguiWithReflection_math_Matrix3x3(void* const object, const char* const label, const reflection::DAttributeList& attributeList)
+			bool imguiWithReflection_math_Matrix3x3(void* const object, const char* const label, const char* const typeFullName,const reflection::DAttributeList& attributeList)
 			{
 				return false;
 			}
 
-			bool imguiWithReflection_math_Matrix4x4(void* const object, const char* const label, const reflection::DAttributeList& attributeList)
+			bool imguiWithReflection_math_Matrix4x4(void* const object, const char* const label, const char* const typeFullName,const reflection::DAttributeList& attributeList)
 			{
 				return false;
 			}
 
 			
-			bool imguiWithReflection_math_Quaternion(void* const object, const char* const label, const reflection::DAttributeList& attributeList)
+			bool imguiWithReflection_math_Quaternion(void* const object, const char* const label, const char* const typeFullName,const reflection::DAttributeList& attributeList)
 			{
 				math::Vector3 eulerAngle{ math::Quaternion::QuaternionToEulerAngle(*static_cast<math::Quaternion*>(object)) };
 
@@ -287,7 +292,7 @@ namespace dooms
 				return isValueChanged;
 			}
 			
-			bool imguiWithReflection_dooms_Entity(void* const object, const char* const label, const reflection::DAttributeList& attributeList)
+			bool imguiWithReflection_dooms_Entity(void* const object, const char* const label, const char* const typeFullName,const reflection::DAttributeList& attributeList)
 			{
 				dooms::Entity* const entity = static_cast<dooms::Entity*>(object);
 
@@ -324,7 +329,7 @@ namespace dooms
 				return false;
 			}
 
-			bool imguiWithReflection_std_string(void* const object, const char* const label, const reflection::DAttributeList& attributeList)
+			bool imguiWithReflection_std_string(void* const object, const char* const label, const char* const typeFullName,const reflection::DAttributeList& attributeList)
 			{
 				D_ASSERT(object != nullptr);
 
@@ -353,7 +358,7 @@ namespace dooms
 			}
 
 			/*
-			bool imguiWithReflection_std_wstring(void* const object, const char* const label, const reflection::DAttributeList& attributeList)
+			bool imguiWithReflection_std_wstring(void* const object, const char* const label, const char* const typeFullName,const reflection::DAttributeList& attributeList)
 			{
 				D_ASSERT(object != nullptr);
 
@@ -382,8 +387,76 @@ namespace dooms
 			}
 			*/
 
+			bool imguiWithReflection_enum(void* const object, const char* const label, const char* const typeFullName,const reflection::DAttributeList& attributeList)
+			{
+				const dooms::reflection::DEnum dEnum{ typeFullName };
+				D_ASSERT(dEnum.IsValid() == true);
+
+				const size_t enumConstantCount = dEnum.GetEnumConstantsCount();
+
+				const size_t originalEnumConstantIndexOfCurrentValue = dEnum.GetEnumConstantIndex(*(INT32*)object);
+				D_ASSERT(originalEnumConstantIndexOfCurrentValue >= 0);
+
+				size_t currentEnumConstantIndexOfCurrentValue = originalEnumConstantIndexOfCurrentValue;
+
+				if (ImGui::BeginCombo(label, dEnum.GetNameOfEnumConstantsValue(currentEnumConstantIndexOfCurrentValue), ImGuiComboFlags_NoArrowButton))
+				{
+					for (size_t enumConstantIndex = 0; enumConstantIndex < enumConstantCount; enumConstantIndex++)
+					{
+						imguiWithReflection::PushImgui();
+
+						bool is_selected = (currentEnumConstantIndexOfCurrentValue == enumConstantIndex);
+
+						if (ImGui::Selectable(dEnum.GetNameOfEnumConstantsValue(enumConstantIndex), is_selected))
+						{
+							currentEnumConstantIndexOfCurrentValue = enumConstantIndex;
+						}
+
+						if (is_selected)
+						{
+							ImGui::SetItemDefaultFocus();
+						}
+
+						imguiWithReflection::PopImgui();
+					}
+					ImGui::EndCombo();
+				}
+
+				//ImGui::PopItemWidth();
+
+				bool isValueChanged;
+				if(originalEnumConstantIndexOfCurrentValue != currentEnumConstantIndexOfCurrentValue)
+				{
+					INT32 currentEnumConstantValue;
+
+					const bool isSuccess = dEnum.GetEnumConstantValue(currentEnumConstantIndexOfCurrentValue, currentEnumConstantValue);
+					D_ASSERT(isSuccess == true);
+
+					*(INT32*)object = currentEnumConstantValue;
+
+					isValueChanged = true;
+				}
+				else
+				{
+					isValueChanged = false;
+				}
 
 
+				return isValueChanged;
+			}
+
+			bool imguiWithReflection_std_vector(void* const object, const char* const label, const char* const typeFullName, const reflection::DAttributeList& attributeList)
+			{
+				/*
+				if (ImGui::TreeNode(serverComponent->GetDObjectName().c_str()))
+				{
+					imguiWithReflectionHelper::DrawObjectGUI(serverComponent->GetDClass(), serverComponent.get(), "", imguiWithReflectionHelper::eObjectType::DObject);
+					ImGui::TreePop();
+				}
+				*/
+
+				return false;
+			}
 
 		}
 	}
@@ -412,12 +485,17 @@ void dooms::ui::imguiFieldFunctionGetter::Initialize()
 		ImguiSpecialDrawFuncMap.emplace("dooms::Entity", imguiWithReflection_dooms_Entity);
 		//ImguiSpecialDrawFuncMap.emplace("dooms::TransformCoreData", imguiWithReflection_TransformCoreData);
 		ImguiSpecialDrawFuncMap.emplace("std::basic_string<char,std::char_traits<char>,std::allocator<char>>", imguiWithReflection_std_string);
+		ImguiSpecialDrawFuncMap.emplace("std::vector", imguiWithReflection_std_vector);
 
 		IsInitialized = true;
 	}
 }
 
-dooms::ui::imguiFieldFunctionGetter::IMGUI_WITH_REFLECTION_FUNC dooms::ui::imguiFieldFunctionGetter::GetImguiWithReflectionFunction(const char* const typeFullName)
+dooms::ui::imguiFieldFunctionGetter::IMGUI_WITH_REFLECTION_FUNC dooms::ui::imguiFieldFunctionGetter::GetImguiWithReflectionFunction
+(
+	const char* const typeFullName,
+	const reflection::DPrimitive::ePrimitiveType primitiveType
+)
 {
 	IMGUI_WITH_REFLECTION_FUNC func = nullptr;
 
@@ -425,6 +503,28 @@ dooms::ui::imguiFieldFunctionGetter::IMGUI_WITH_REFLECTION_FUNC dooms::ui::imgui
 	if (iter != ImguiSpecialDrawFuncMap.end())
 	{
 		func = iter->second;
+	}
+
+	if (iter == ImguiSpecialDrawFuncMap.end())
+	{
+		if (primitiveType == reflection::DPrimitive::ePrimitiveType::TEMPLATE_TYPE)
+		{
+			// if fail to find and field type is template type, check again with template type name ( not full name )
+			std::string templateTypeName;
+			const bool isSuccess = dooms::reflection::dTemplateTypeHelper::GetTemplateTypeNameFromTypeFullName(typeFullName, templateTypeName);
+			D_ASSERT(isSuccess == true);
+
+			iter = ImguiSpecialDrawFuncMap.find(std::string_view{ templateTypeName });
+			if (iter != ImguiSpecialDrawFuncMap.end())
+			{
+				func = iter->second;
+			}
+		}
+		else if (primitiveType == reflection::DPrimitive::ePrimitiveType::ENUM)
+		{
+			func = imguiWithReflection_enum;
+		}
+
 	}
 
 	return func;

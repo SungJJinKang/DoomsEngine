@@ -359,6 +359,8 @@ xcopy /y /d /E /H /C /I "$(ProjectDir)Assets" "$(TargetDir)Assets"</Command>
     <ClCompile Include="Source\Core\Reflection\ReflectionType\DFunction.cpp" />
     <ClCompile Include="Source\Core\Reflection\ReflectionType\DPrimitive.cpp" />
     <ClCompile Include="Source\Core\Reflection\ReflectionType\DField.cpp" />
+    <ClCompile Include="Source\Core\Reflection\ReflectionType\DTemplateArgumentType.cpp" />
+    <ClCompile Include="Source\Core\Reflection\ReflectionType\DTemplateType.cpp" />
     <ClCompile Include="Source\Core\Reflection\ReflectionType\DType.cpp" />
     <ClCompile Include="Source\Core\Reflection\ReflectionType\ToString.cpp" />
     <ClCompile Include="Source\Core\Reflection\ReflectionUtility.cpp" />
@@ -578,6 +580,8 @@ xcopy /y /d /E /H /C /I "$(ProjectDir)Assets" "$(TargetDir)Assets"</Command>
     <ClInclude Include="Source\Core\Reflection\ReflectionType\DEnum.h" />
     <ClInclude Include="Source\Core\Reflection\ReflectionType\DFunction.h" />
     <ClInclude Include="Source\Core\Reflection\ReflectionType\DPrimitive.h" />
+    <ClInclude Include="Source\Core\Reflection\ReflectionType\DTemplateArgumentType.h" />
+    <ClInclude Include="Source\Core\Reflection\ReflectionType\DTemplateType.h" />
     <ClInclude Include="Source\Core\Reflection\ReflectionType\DType.h" />
     <ClInclude Include="Source\Core\Reflection\ReflectionType\ToString.h" />
     <ClInclude Include="Source\Core\Reflection\ReflectionUtility.h" />
@@ -1097,6 +1101,9 @@ xcopy /y /d /E /H /C /I "$(ProjectDir)Assets" "$(TargetDir)Assets"</Command>
     <Text Include="Source\Core\Graphics\Acceleration\Culling.md" />
     <Text Include="Source\Core\Graphics\ReadThis!!!!.txt" />
     <Text Include="Source\GameLogic\DeferredRenderingDebug.inl" />
+  </ItemGroup>
+  <ItemGroup>
+    <DnxInvisibleContent Include="*.csv" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

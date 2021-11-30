@@ -121,21 +121,27 @@ namespace dooms
 
 			bool DrawImguiFieldFromDField
 			(
-				void* const object, 
+				void* const object,
 				const char* const label,
-				const char* const typeFullName, 
+				const char* const typeFullName,
+				const reflection::DPrimitive::ePrimitiveType fieldPrimitiveType,
 				const reflection::DAttributeList& attributeList, 
 				bool& isValueChange, 
-				const reflection::DClass* const fieldOwnerObjectTypeDClass,
+				const reflection::DType* const fieldOwnerObjectTypeDType,
 				void* const fieldOwnerObejct
 			)
 			{
+				D_ASSERT(object != nullptr);
+				D_ASSERT(label != nullptr);
+				D_ASSERT(typeFullName != nullptr);
+				D_ASSERT(typeFullName[0] != '\0');
+
 				bool isSuccessToDrawGUI = false;
 				
 				if (attributeList.GetIsVisibleOnGUI() == true)
 				{
 					dooms::ui::imguiFieldFunctionGetter::IMGUI_WITH_REFLECTION_FUNC func =
-						dooms::ui::imguiFieldFunctionGetter::GetImguiWithReflectionFunction(typeFullName);
+						dooms::ui::imguiFieldFunctionGetter::GetImguiWithReflectionFunction(typeFullName, fieldPrimitiveType);
 
 					if (func != nullptr)
 					{
@@ -145,19 +151,21 @@ namespace dooms
 
 						const char* const fieldLabel = attributeList.GetIsNoLabel() == true ? "" : label;
 
-						isValueChange = func(object, fieldLabel, attributeList);
+						isValueChange = func(object, fieldLabel, typeFullName, attributeList);
 						isSuccessToDrawGUI = true;
 
 						OnEndDrawGUI(attributeList);
 
 						imguiWithReflection::PopImgui();
 
-						if(isValueChange == true)
+						if (isValueChange == true)
 						{
-							CallFieldDirtyCallback(attributeList.GetDirtyCallbackFunctionName(), fieldOwnerObjectTypeDClass, fieldOwnerObejct);
+							if (fieldOwnerObjectTypeDType != nullptr && fieldOwnerObejct != nullptr && fieldOwnerObjectTypeDType->GetPrimitiveType() == reflection::DPrimitive::ePrimitiveType::CLASS)
+							{
+								reflection::DClass dClass = fieldOwnerObjectTypeDType->AsDClass();
+								CallFieldDirtyCallback(attributeList.GetDirtyCallbackFunctionName(), &dClass, fieldOwnerObejct);
+							}
 						}
-
-
 						// TODO :Support Enum property gui.
 						
 					}
@@ -176,10 +184,14 @@ namespace dooms
 				void* const object,
 				const reflection::DField& dField, 
 				bool& isValueChange,
-				const reflection::DClass* const fieldOwnerObjectTypeDClass,
+				const reflection::DType* const fieldOwnerObjectTypeDType,
 				void* const fieldOwnerObejct
 			)
 			{
+				D_ASSERT(object != nullptr);
+				D_ASSERT(fieldOwnerObjectTypeDType != nullptr);
+				D_ASSERT(fieldOwnerObejct != nullptr);
+
 				std::string fieldTypeFullName = dField.GetFieldTypeFullName();
 				if (dField.GetFieldQualifier() == reflection::DField::eProperyQualifier::POINTER)
 				{
@@ -195,9 +207,10 @@ namespace dooms
 					object, 
 					dField.GetFieldName(), 
 					fieldTypeFullName.c_str(),
+					dField.GetFieldTypePrimitiveType(),
 					dField.GetDAttributeList(),
 					isValueChange,
-					fieldOwnerObjectTypeDClass,
+					fieldOwnerObjectTypeDType,
 					fieldOwnerObejct
 				);
 			}
@@ -304,10 +317,6 @@ namespace dooms
 						ImGui::TextColored(ImVec4{ 1.0f, 0.0f, 0.0f, 1.0f }, "%s", rawObjectName);
 					}
 					
-					
-
-
-
 					const std::vector<dooms::reflection::DField>& dFieldList = dClass.GetDFieldList();
 					
 					if (dFieldList.empty() == false)
@@ -332,16 +341,21 @@ namespace dooms
 							{//fail to find special gui func. can't find proper gui function from map
 								if (dField.GetFieldTypePrimitiveType() == reflection::DPrimitive::ePrimitiveType::CLASS)
 								{
-									const reflection::DClass fieldTypeDClass = dField.GetFieldTypeDClass();
-									if (IsValid(reinterpret_cast<dooms::DObject*>(fieldRawValue)) == true)
-									{// if type of field is child class of dooms::DObject
-										isFieldValueChanged = DrawObjectGUI(fieldTypeDClass, fieldRawValue, (dField.GetDAttributeList().GetIsNoLabel() == false) ? dField.GetFieldName() : "", eObjectType::DObject);
-									}
-									else
+									const reflection::DType fieldType = dField.GetDTypeOfFieldType();
+
+									if(fieldType.GetPrimitiveType() == reflection::DPrimitive::ePrimitiveType::CLASS)
 									{
-										if(dField.GetFieldQualifier() == reflection::DField::eProperyQualifier::VALUE)
+										const reflection::DClass fieldTypeDClass = fieldType.AsDClass();
+										if (IsValid(reinterpret_cast<dooms::DObject*>(fieldRawValue)) == true)
+										{// if type of field is child class of dooms::DObject
+											isFieldValueChanged = DrawObjectGUI(fieldTypeDClass, fieldRawValue, (dField.GetDAttributeList().GetIsNoLabel() == false) ? dField.GetFieldName() : "", eObjectType::DObject);
+										}
+										else
 										{
-											isFieldValueChanged = DrawObjectGUI(fieldTypeDClass, fieldRawValue, (dField.GetDAttributeList().GetIsNoLabel() == false) ? dField.GetFieldName() : "", eObjectType::RawObject);
+											if (dField.GetFieldQualifier() == reflection::DField::eProperyQualifier::VALUE)
+											{
+												isFieldValueChanged = DrawObjectGUI(fieldTypeDClass, fieldRawValue, (dField.GetDAttributeList().GetIsNoLabel() == false) ? dField.GetFieldName() : "", eObjectType::RawObject);
+											}
 										}
 									}
 								}
@@ -374,6 +388,7 @@ namespace dooms
 						object,
 						rawObjectName,
 						dClass.GetTypeFullName(),
+						dClass.GetPrimitiveType(),
 						dClass.GetDAttributeList(),
 						isGUIValueChanged,
 						nullptr,

@@ -36,6 +36,8 @@ const char* dooms::reflection::DEnum::GetNameOfEnumConstantsValue
 	const dooms::reflection::ePrimitiveNameType primitiveNameType
 ) const
 {
+	D_ASSERT(clEnum != nullptr);
+
 	const char* valueName = nullptr;
 
 	if (primitiveNameType == dooms::reflection::ePrimitiveNameType::Full)
@@ -47,11 +49,40 @@ const char* dooms::reflection::DEnum::GetNameOfEnumConstantsValue
 		valueName = dPrimitiveHelper::GetShortNamePointer(clEnum->GetValueName(value));
 	}
 
+	D_ASSERT(valueName != 0);
+
 	return valueName;
 }
 
-const bool dooms::reflection::DEnum::GetValue(const char* const valueName, INT32& result) const
+const char* dooms::reflection::DEnum::GetNameOfEnumConstantsIndex
+(
+	const INT32 index,
+	const dooms::reflection::ePrimitiveNameType primitiveNameType
+) const
 {
+	D_ASSERT(clEnum != nullptr);
+	D_ASSERT(index >= 0 && index < clEnum->constants.size);
+
+	const char* valueName = nullptr;
+
+	if (primitiveNameType == dooms::reflection::ePrimitiveNameType::Full)
+	{
+		valueName = clEnum->constants[index]->name.text;
+	}
+	else if (primitiveNameType == dooms::reflection::ePrimitiveNameType::Short)
+	{
+		valueName = dPrimitiveHelper::GetShortNamePointer(clEnum->constants[index]->name.text);
+	}
+
+	D_ASSERT(valueName != 0);
+
+	return valueName;
+}
+
+const bool dooms::reflection::DEnum::GetEnumConstantValue(const char* const valueName, INT32& result) const
+{
+	D_ASSERT(clEnum != nullptr);
+
 	bool isSuccess = false;
 
 	const std::string enumConstantFullName = std::string(GetPrimitiveFullName()) + "::" + valueName;
@@ -71,6 +102,60 @@ const bool dooms::reflection::DEnum::GetValue(const char* const valueName, INT32
 	return isSuccess;
 }
 
+const bool dooms::reflection::DEnum::GetEnumConstantValue(const INT32 index, INT32& result) const
+{
+	D_ASSERT(clEnum != nullptr);
+	D_ASSERT(index >= 0 && index < clEnum->constants.size);
+
+	bool isSuccess = false;
+
+	if(index >= 0 && index < clEnum->constants.size)
+	{
+		result = clEnum->constants[index]->value;
+		isSuccess = true;
+	}
+	
+	return isSuccess;
+}
+
+size_t dooms::reflection::DEnum::GetEnumConstantIndex(const char* const enumConstantName) const
+{
+	size_t enumConstantIndex = -1;
+
+	for (UINT32 i = 0; i < clEnum->constants.size; i++)
+	{
+		if (std::strcmp(clEnum->constants[i]->name.text, enumConstantName) == 0)
+		{
+			enumConstantIndex = i;
+			break;
+		}
+	}
+
+	return enumConstantIndex;
+}
+
+size_t dooms::reflection::DEnum::GetEnumConstantIndex(const INT32 value) const
+{
+	size_t enumConstantIndex = -1;
+
+	for (size_t i = 0; i < clEnum->constants.size; i++)
+	{
+		if (clEnum->constants[i]->value == value)
+		{
+			enumConstantIndex = i;
+			break;
+		}
+	}
+
+	return enumConstantIndex;
+}
+
+size_t dooms::reflection::DEnum::GetEnumConstantsCount() const
+{
+	D_ASSERT(clEnum != nullptr);
+
+	return clEnum->constants.size;
+}
 
 
 dooms::reflection::DAttributeList dooms::reflection::DEnum::GetDAttributeList() const

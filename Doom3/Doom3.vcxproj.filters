@@ -675,6 +675,12 @@
     <ClCompile Include="Source\Core\EngineGUI\GUIModules\ProfilerGUI.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Core\Reflection\ReflectionType\DTemplateArgumentType.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Core\Reflection\ReflectionType\DTemplateType.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="dependency\glad\include\glad\glad.h">
@@ -1746,6 +1752,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\Core\EngineGUI\GUIModules\ProfilerGUI.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Core\Reflection\ReflectionType\DTemplateArgumentType.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Core\Reflection\ReflectionType\DTemplateType.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

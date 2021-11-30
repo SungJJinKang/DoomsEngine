@@ -50,7 +50,7 @@ void dooms::Transform::OnChangedByGUI(const dooms::reflection::DField& dFieldOfC
 
 bool dooms::Transform::IsEntityMobilityStatic() const
 {
-	return GetOwnerEntity()->mEntityMobility != Entity::eEntityMobility::Static;
+	return GetOwnerEntity()->GetEntityMobility() != Entity::eEntityMobility::Static;
 }
 
 dooms::Transform::Transform(): mLastFramePosition{ 0.0f }, mTransformCoreData()
