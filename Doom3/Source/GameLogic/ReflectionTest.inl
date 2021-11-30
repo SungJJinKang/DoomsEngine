@@ -32,6 +32,7 @@
 #include "TestComponent2.h"
 #include "PhysicsComponent/Rigidbody/Rigidbody.h"
 #include <Graphics/Buffer/Mesh.h>
+#include <Scene/Entity.h>
 
 void dooms::GameLogicStartPoint::StartGameLogic()
 {
@@ -40,7 +41,7 @@ void dooms::GameLogicStartPoint::StartGameLogic()
 
 	auto currenScene = dooms::Scene::GetCurrentWorld();
 
-
+	auto a = sizeof(dooms::Entity);
 
 	//lightEntity->AddComponent<AutoRotate>();
 

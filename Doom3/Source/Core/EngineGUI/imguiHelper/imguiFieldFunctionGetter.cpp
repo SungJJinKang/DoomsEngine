@@ -470,37 +470,58 @@ namespace dooms
 
 				const size_t vectorElementTypeSize = isVectorElementTypePointer == true ? sizeof(void*) : dTemplateTypeArgument.GetTypeSize();
 
-				const size_t vectorElementRealCount = fakeArray->size();
+				std::string_view typeFullNameStringView = typeFullName;
 
-				char elementString[] = "Element 10000";
-				char elementIndexStringBuffer[5];
+				const size_t lastTemplateArgumentComma = typeFullNameStringView.find_last_of(',');
+				const size_t lastTemplateCloseBlancket = typeFullNameStringView.find_last_of('>');
 
-				if (ImGui::TreeNode(label))
+
+				bool isVectorElementChanged = false;
+
+				if(lastTemplateArgumentComma != std::string::npos && lastTemplateCloseBlancket != std::string::npos)
 				{
-					for (size_t i = 0; i < vectorElementRealCount; i++)
+					const std::string stdArraySizeTemplateArgumentString
 					{
-						sprintf_s(elementIndexStringBuffer, "%llu", i);
-						std::memcpy(elementString + 8, elementIndexStringBuffer, 5);
+						typeFullNameStringView.begin() + lastTemplateArgumentComma + 1,
+						typeFullNameStringView.begin() + lastTemplateCloseBlancket
+					};
 
-						bool isValueChange = false;
-						dooms::ui::imguiWithReflectionHelper::DrawImguiFieldFromDField
-						(
-							fakeArray->data() + i * vectorElementTypeSize,
-							elementString,
-							vectorElementTypeFullName.c_str(),
-							&dTemplateTypeArgument,
-							attributeList,
-							isValueChange,
-							nullptr,
-							nullptr
-						);
+					char* pos = NULL;
+					const size_t vectorElementRealCount = strtoll(stdArraySizeTemplateArgumentString.c_str(), &pos, 10);
+
+					char elementString[] = "Index 10000";
+					char elementIndexStringBuffer[5];
+
+					
+					if (ImGui::TreeNode(label))
+					{
+						for (size_t i = 0; i < vectorElementRealCount; i++)
+						{
+							const INT32 indexStringLength = sprintf_s(elementIndexStringBuffer, "%llu", i);
+							D_ASSERT(indexStringLength != -1);
+							std::memcpy(elementString + sizeof(elementString) - 6, elementIndexStringBuffer, indexStringLength + 1);
+
+							bool isValueChange = false;
+							dooms::ui::imguiWithReflectionHelper::DrawImguiFieldFromDField
+							(
+								fakeArray->data() + i * vectorElementTypeSize,
+								elementString,
+								vectorElementTypeFullName.c_str(),
+								&dTemplateTypeArgument,
+								attributeList,
+								isValueChange,
+								nullptr,
+								nullptr
+							);
+						}
+
+						ImGui::TreePop();
 					}
 
-					ImGui::TreePop();
 				}
+				
 
-
-				return true;
+				return isVectorElementChanged;
 			}
 
 			bool imguiWithReflection_std_vector(void* const object, const char* const label, const char* const typeFullName, const reflection::DAttributeList& attributeList, const reflection::DType* const fieldDType)
@@ -529,15 +550,18 @@ namespace dooms
 				// this can be applied only to msvc std::vector
 				const size_t vectorElementRealCount = isVectorElementTypePointer == true ? (vectorElementFakeCount / sizeof(void*)) : (vectorElementFakeCount / vectorElementTypeSize); // this size is ( endAddress - startAddress ) / pointer size
 
-				char elementString[] = "Element 10000";
+				char elementString[] = "Index 10000";
 				char elementIndexStringBuffer[5];
+
+				bool isVectorElementChanged = false;
 
 				if (ImGui::TreeNode(label))
 				{
 					for(size_t i = 0 ; i < vectorElementRealCount; i++)
 					{
-						sprintf_s(elementIndexStringBuffer, "%llu", i);
-						std::memcpy(elementString + 8, elementIndexStringBuffer, 5);
+						const INT32 indexStringLength = sprintf_s(elementIndexStringBuffer, "%llu", i);
+						D_ASSERT(indexStringLength != -1);
+						std::memcpy(elementString + sizeof(elementString) - 6, elementIndexStringBuffer, indexStringLength + 1);
 
 						bool isValueChange = false;
 						dooms::ui::imguiWithReflectionHelper::DrawImguiFieldFromDField
@@ -551,11 +575,14 @@ namespace dooms
 							nullptr,
 							nullptr
 						);
+
+						isVectorElementChanged |= isValueChange;
 					}
 
 					if(ImGui::Button("Add Item"))
 					{
 						fakeVector->resize(vectorElementFakeCount + vectorElementTypeSize);
+						isVectorElementChanged = true;
 					}
 
 					if (ImGui::Button("Pop Back"))
@@ -563,6 +590,7 @@ namespace dooms
 						if(vectorElementFakeCount >= vectorElementTypeSize)
 						{
 							fakeVector->resize(vectorElementFakeCount - vectorElementTypeSize);
+							isVectorElementChanged = true;
 						}
 					}
 					
@@ -570,7 +598,7 @@ namespace dooms
 				}
 				
 				
-				return true;
+				return isVectorElementChanged;
 			}
 
 		}
