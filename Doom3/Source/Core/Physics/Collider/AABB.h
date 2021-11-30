@@ -102,6 +102,8 @@ namespace dooms
 				return 2.0f * (d.x * d.y + d.y * d.z + d.z * d.x);
 			}
 
+			math::Vector3* GetMeshTriangles() const;
+
 			
 			static AABB3D EnlargeAABB(const AABB3D& aabb);
 

@@ -44,7 +44,6 @@ namespace dooms
 		
 
 		friend graphics::Graphics_Server;
-		friend class Enity;
 		
 	private:
 

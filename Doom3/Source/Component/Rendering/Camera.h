@@ -56,37 +56,37 @@ namespace dooms
 		D_PROPERTY(CALLBACK="SetProjectionMode")
 		eProjectionType mProjectionMode{ eProjectionType::Perspective };
 
-		D_PROPERTY(CALLBACK="UpdateCallback")
+		D_PROPERTY(CALLBACK="UpdateCallback", MIN = 1.0f)
 		FLOAT32 mFieldOfViewInDegree = 60;
 
-		D_PROPERTY(CALLBACK="UpdateCallback")
+		D_PROPERTY(CALLBACK="UpdateCallback", MIN = 1.0f)
 		FLOAT32 mClippingPlaneNear = 0.001f;
 
-		D_PROPERTY(CALLBACK="UpdateCallback")
+		D_PROPERTY(CALLBACK="UpdateCallback", MIN = 1.0f)
 		FLOAT32 mClippingPlaneFar = 1500.0f;
 
 		/// <summary>
 		/// opengl -1 ~ 1
 		/// </summary>
 		D_PROPERTY(CALLBACK="UpdateCallback")
-		FLOAT32 mViewportRectX = -1.0f;
+		FLOAT32 mViewportRectX = 0.0f;
 		/// <summary>
 		/// opengl -1 ~ 1
 		/// </summary>
 		D_PROPERTY(CALLBACK="UpdateCallback")
-		FLOAT32 mViewportRectY = -1.0f;
+		FLOAT32 mViewportRectY = 0.0f;
 
 		/// <summary>
 		/// opengl -1 ~ 1
 		/// </summary>
 		D_PROPERTY(CALLBACK="UpdateCallback")
-		FLOAT32 mViewportRectWidth = 2.0f;
+		FLOAT32 mViewportRectWidth = 1920.0f;
 
 		/// <summary>
 		/// opengl -1 ~ 1
 		/// </summary>
 		D_PROPERTY(CALLBACK="UpdateCallback")
-		FLOAT32 mViewportRectHeight = 2.0f;
+		FLOAT32 mViewportRectHeight = 1080.0f;
 		
 		DirtyReceiver bmIsProjectionMatrixDirty{ true };
 		DirtyReceiver bmIsViewMatrixDirty{ true };
@@ -149,7 +149,7 @@ namespace dooms
 		virtual ~Camera() = default;
 
 		void SetProjectionMode(eProjectionType value);
-		D_FUNCTION()
+		D_FUNCTION(INVISIBLE)
 		void SetProjectionMode();
 		void SetFieldOfViewInDegree(FLOAT32 degree);
 		void SetFieldOfViewInRadian(FLOAT32 radian);
