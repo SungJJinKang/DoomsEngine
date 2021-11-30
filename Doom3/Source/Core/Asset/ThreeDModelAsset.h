@@ -38,7 +38,7 @@ namespace dooms
 	/// </summary>
 	struct DOOM_API D_STRUCT MeshVertexData
 	{
-		//GENERATE_BODY_MeshVertexData() // Never Do this. Because data is copied with memcpy in importer
+		GENERATE_BODY_MeshVertexData() // Never Do this. Because data is copied with memcpy in importer
 
 		D_PROPERTY()
 		Vector3 mVertex;
@@ -76,7 +76,7 @@ namespace dooms
 	
 	struct DOOM_API D_STRUCT ThreeDModelMesh
 	{
-		//GENERATE_BODY_ThreeDModelMesh() // Never Do this. Because data is copied with memcpy in importer
+		GENERATE_BODY_ThreeDModelMesh() // Never Do this. Because data is copied with memcpy in importer
 
 		D_PROPERTY()
 		std::string mName;
@@ -126,7 +126,7 @@ namespace dooms
 
 	struct DOOM_API D_STRUCT ThreeDModelNode
 	{
-		//GENERATE_BODY_ThreeDModelNode()
+		GENERATE_BODY_ThreeDModelNode()
 
 		/// <summary>
 		/// don't clear this
