@@ -30,7 +30,7 @@ dooms::reflection::DEnum::DEnum(const char* const typeFullName)
 {
 }
 
-const char* dooms::reflection::DEnum::GetNameOfEnumConstantsValue
+const char* dooms::reflection::DEnum::GetNameOfEnumConstantValue
 (
 	const INT32 value,
 	const dooms::reflection::ePrimitiveNameType primitiveNameType
@@ -54,7 +54,7 @@ const char* dooms::reflection::DEnum::GetNameOfEnumConstantsValue
 	return valueName;
 }
 
-const char* dooms::reflection::DEnum::GetNameOfEnumConstantsIndex
+const char* dooms::reflection::DEnum::GetNameOfEnumConstantIndex
 (
 	const INT32 index,
 	const dooms::reflection::ePrimitiveNameType primitiveNameType

@@ -399,7 +399,7 @@ namespace dooms
 
 				size_t currentEnumConstantIndexOfCurrentValue = originalEnumConstantIndexOfCurrentValue;
 
-				if (ImGui::BeginCombo(label, dEnum.GetNameOfEnumConstantsValue(currentEnumConstantIndexOfCurrentValue), ImGuiComboFlags_NoArrowButton))
+				if (ImGui::BeginCombo(label, dEnum.GetNameOfEnumConstantIndex(currentEnumConstantIndexOfCurrentValue), ImGuiComboFlags_NoArrowButton))
 				{
 					for (size_t enumConstantIndex = 0; enumConstantIndex < enumConstantCount; enumConstantIndex++)
 					{
@@ -407,7 +407,7 @@ namespace dooms
 
 						bool is_selected = (currentEnumConstantIndexOfCurrentValue == enumConstantIndex);
 
-						if (ImGui::Selectable(dEnum.GetNameOfEnumConstantsValue(enumConstantIndex), is_selected))
+						if (ImGui::Selectable(dEnum.GetNameOfEnumConstantIndex(enumConstantIndex), is_selected))
 						{
 							currentEnumConstantIndexOfCurrentValue = enumConstantIndex;
 						}

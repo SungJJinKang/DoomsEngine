@@ -53,7 +53,7 @@ namespace dooms
 	private:
 
 
-		D_PROPERTY(CALLBACK="UpdateCallback")
+		D_PROPERTY(CALLBACK="SetProjectionMode")
 		eProjectionType mProjectionMode{ eProjectionType::Perspective };
 
 		D_PROPERTY(CALLBACK="UpdateCallback")
@@ -149,6 +149,8 @@ namespace dooms
 		virtual ~Camera() = default;
 
 		void SetProjectionMode(eProjectionType value);
+		D_FUNCTION()
+		void SetProjectionMode();
 		void SetFieldOfViewInDegree(FLOAT32 degree);
 		void SetFieldOfViewInRadian(FLOAT32 radian);
 		void SetClippingPlaneNear(FLOAT32 value);

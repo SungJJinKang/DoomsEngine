@@ -31,8 +31,8 @@ namespace dooms
 			/// <param name="value"></param>
 			/// <param name="primitiveNameType"></param>
 			/// <returns></returns>
-			const char* GetNameOfEnumConstantsValue(const INT32 value, const dooms::reflection::ePrimitiveNameType primitiveNameType = dooms::reflection::ePrimitiveNameType::Short) const;
-			const char* GetNameOfEnumConstantsIndex(const INT32 index, const dooms::reflection::ePrimitiveNameType primitiveNameType = dooms::reflection::ePrimitiveNameType::Short) const;
+			const char* GetNameOfEnumConstantValue(const INT32 value, const dooms::reflection::ePrimitiveNameType primitiveNameType = dooms::reflection::ePrimitiveNameType::Short) const;
+			const char* GetNameOfEnumConstantIndex(const INT32 index, const dooms::reflection::ePrimitiveNameType primitiveNameType = dooms::reflection::ePrimitiveNameType::Short) const;
 
 			// if value is found, return true
 			const bool GetEnumConstantValue(const char* const valueName, INT32& result) const;

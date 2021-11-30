@@ -18,6 +18,11 @@ void Camera::SetProjectionMode(eProjectionType value)
 	bmIsFrustumPlaneMatrixDirty = true;
 }
 
+void Camera::SetProjectionMode()
+{
+	SetProjectionMode(mProjectionMode);
+}
+
 void Camera::SetFieldOfViewInDegree(FLOAT32 degree)
 {
 	mFieldOfViewInDegree = degree;
