@@ -60,7 +60,6 @@ namespace dooms
 		userinput::UserInput_Server mUserImput_Server{};
 		time::Time_Server mTime_Server{};
 		reflection::ReflectionManager mReflectionManager{};
-		gc::GarbageCollectorManager mGarbageCollectorManager;
 
 		std::unique_ptr<Scene> mCurrentScene{};
 		std::unique_ptr<Scene> CreateNewScene(std::string sceneName = "");

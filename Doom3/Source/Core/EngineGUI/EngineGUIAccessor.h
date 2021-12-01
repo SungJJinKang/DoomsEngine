@@ -1,4 +1,5 @@
 #pragma once
+#include "TypeDef.h"
 
 namespace dooms
 {
@@ -7,22 +8,38 @@ namespace dooms
 	{
 		class EngineGUIAccessor
 		{
+			friend class dooms::DObject;
+
 		private:
 
-			DObject* const mOwnerDObject;
+			bool mIsAddedToRootObjectList;
 
-			bool IsVisibleOnGUI = false;
+			DObject* mOwnerDObject;
+
+			bool mIsVisibleOnGUI = false;
+			
+			void SetOwnerObject(DObject* const dObject);
+
+
+			EngineGUIAccessor(DObject* const dObject);
+
+			EngineGUIAccessor(const EngineGUIAccessor&) = delete;
+			EngineGUIAccessor(EngineGUIAccessor&&) noexcept = delete;
+
+			EngineGUIAccessor& operator=(const EngineGUIAccessor&) = delete;
+			EngineGUIAccessor& operator=(EngineGUIAccessor&&) noexcept = delete;
 
 		public:
 
-			EngineGUIAccessor(DObject* const dObject);
-			
+
 			inline bool GetIsVisibleOnGUI() const
 			{
-				return IsVisibleOnGUI;
+				return mIsVisibleOnGUI;
 			}
 
 			void SetIsVisibleOnGUI(const bool isVisible);
+
+			bool AddToRootObjectList(const UINT32 level);
 		};
 	}
 }

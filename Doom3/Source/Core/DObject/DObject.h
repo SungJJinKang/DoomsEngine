@@ -119,6 +119,8 @@ namespace dooms
 
 	protected:
 
+		virtual UINT32 GetRootObjectLevel() const;
+
 		DObject();
 		DObject(const std::string& dObjectName);
 		DObject(const DObject* const ownerDObject, const std::string& dObjectName);
@@ -135,8 +137,17 @@ namespace dooms
 	public:
 
 		dooms::ui::EngineGUIAccessor mEngineGUIAccessor;
+
+
+
+		D_FUNCTION()
+		void DestroySelf() const
+		{
+			delete this;
+		}
+
 		virtual void OnChangedByGUI(const dooms::reflection::DField& dFieldOfChangedField) {}
-		virtual void OnUpdateGUI() {}
+		virtual void OnUpdateGUI() {} // never delete this
 
 		void InitProperties(const DObjectContructorParams& params);
 
@@ -179,6 +190,7 @@ namespace dooms
 		{
 			return mGarbageCollectee.GetIsPendingKill();
 		}
+
 	};
 }
 

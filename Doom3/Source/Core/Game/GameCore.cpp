@@ -102,7 +102,7 @@ void dooms::GameCore::InitServers()
 
 
 	D_START_PROFILING(Init_mGarbageCollectorManager, eProfileLayers::CPU);
-	mGarbageCollectorManager.Init();
+	dooms::gc::GarbageCollectorManager::Init();
 	D_END_PROFILING(Init_mGarbageCollectorManager);
 
 }
@@ -118,8 +118,7 @@ void dooms::GameCore::LateInit()
 	D_START_PROFILING(LateInit_Graphics_Server, eProfileLayers::Rendering);
 	mGraphics_Server.LateInit();
 	D_END_PROFILING(LateInit_Graphics_Server);
-
-	mGarbageCollectorManager.LateInit();
+	
 	/*
 	D_START_PROFILING(Init UserInput_Server, eProfileLayers::CPU);
 	mUserImput_Server.Init();
@@ -162,7 +161,7 @@ void dooms::GameCore::Update()
 	D_END_PROFILING(mGraphics_Server_Update);
 
 	D_START_PROFILING(mGarbageCollectorManager_Update, eProfileLayers::CPU);
-	mGarbageCollectorManager.Update();
+	dooms::gc::GarbageCollectorManager::TickGC();
 	D_END_PROFILING(mGarbageCollectorManager_Update);
 }
 

@@ -339,6 +339,7 @@ xcopy /y /d /E /H /C /I "$(ProjectDir)Assets" "$(TargetDir)Assets"</Command>
     <ClCompile Include="Source\Core\Asset\AudioAsset.cpp" />
     <ClCompile Include="Source\Core\Asset\FontAsset.cpp" />
     <ClCompile Include="Source\Core\Asset\Helper\AssetFactory.cpp" />
+    <ClCompile Include="Source\Core\DObject\DObjectGlobals.cpp" />
     <ClCompile Include="Source\Core\EngineGUI\EngineGUIAccessor.cpp" />
     <ClCompile Include="Source\Core\EngineGUI\engineGUIServer.cpp" />
     <ClCompile Include="Source\Core\EngineGUI\GUIModules\LogGUI.cpp" />

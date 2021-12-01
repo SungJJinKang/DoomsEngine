@@ -14,6 +14,10 @@ void dooms::DObject::Construct_Internal()
 	}
 }
 
+UINT32 dooms::DObject::GetRootObjectLevel() const
+{
+}
+
 void dooms::DObject::InitProperties(const DObjectContructorParams& params)
 {
 	mDObjectProperties.mDObjectFlag = params.DObjectFlag;
