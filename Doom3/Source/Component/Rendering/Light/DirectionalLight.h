@@ -1,12 +1,11 @@
 #pragma once
 #include "Light.h"
 #include <StaticContainer/StaticContainer.h>
-#include "Graphics/Buffer/UniformBufferObjectUpdater.h"
 
 #include "DirectionalLight.reflection.h"
 namespace dooms
 {
-	class DOOM_API D_CLASS DirectionalLight : public Light, public StaticContainer<DirectionalLight>, public graphics::UniformBufferObjectUpdater
+	class DOOM_API D_CLASS DirectionalLight : public Light, public StaticContainer<DirectionalLight>
 	{
 		GENERATE_BODY()
 		

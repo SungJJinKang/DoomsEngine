@@ -2,11 +2,12 @@
 #include "Core/ServerComponent.h"
 #include <Vector4.h>
 #include "EasyDirtyChecker/DirtyReceiver.h"
+#include "Graphics/Buffer/UniformBufferObjectUpdater.h"
 
 #include "Light.reflection.h"
 namespace dooms
 {
-	class DOOM_API D_CLASS Light : public ServerComponent
+	class DOOM_API D_CLASS Light : public ServerComponent, public graphics::UniformBufferObjectUpdater
 	{
 		GENERATE_BODY()
 		
