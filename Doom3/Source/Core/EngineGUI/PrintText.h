@@ -15,6 +15,7 @@ namespace dooms
 			if(engineGUIServer::GetIsEngineGUIAvaliable() == false)
 			{
 				printf(format, std::forward< Types>(args)...);
+				printf("\n");
 			}
 			
 			dooms::ui::log::LogOnGUI(format, std::forward< Types>(args)...);
