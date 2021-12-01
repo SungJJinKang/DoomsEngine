@@ -61,24 +61,45 @@ void dooms::ui::engineGUIServer::ShutDown()
 
 void dooms::ui::engineGUIServer::PreRender()
 {
-    ImGui_ImplOpenGL3_NewFrame();
-    ImGui_ImplGlfw_NewFrame();
-    ImGui::NewFrame();
+    if (IsEngineGUIVisible == true)
+    {
+        ImGui_ImplOpenGL3_NewFrame();
+        ImGui_ImplGlfw_NewFrame();
+        ImGui::NewFrame();
+    }
 }
 
 
 
 void dooms::ui::engineGUIServer::Render()
 {
-	dooms::ui::imguiWithReflection::UpdateGUI_DObjectsVisibleOnGUI();
-    RenderGUIModules();
-    ImGui::Render();
+    if (IsEngineGUIVisible == true)
+    {
+        dooms::ui::imguiWithReflection::UpdateGUI_DObjectsVisibleOnGUI();
+        RenderGUIModules();
+        ImGui::Render();
+    }
+}
+
+namespace dooms::ui::engineGUIServer
+{
+    static bool IsEngineGUIAvaliable = false;
 }
 
 void dooms::ui::engineGUIServer::PostRender()
 {
-    dooms::ui::imguiWithReflection::ClearId();
-    ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+    if(IsEngineGUIVisible == true)
+    {
+        IsEngineGUIAvaliable = true;
+
+        dooms::ui::imguiWithReflection::ClearId();
+        ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+    }
+}
+
+bool dooms::ui::engineGUIServer::GetIsEngineGUIAvaliable()
+{
+    return IsEngineGUIAvaliable;
 }
 
 

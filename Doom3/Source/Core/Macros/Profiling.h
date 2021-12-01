@@ -23,6 +23,8 @@ static UINT32 CONCAT(PROFILING_TAG, _EXECUTE_COUNT) = 0										\
 
 #endif
 
+
+// TODO : implement gui for profiling datas
 #ifndef D_END_PROFILING_INTERNAL
 
 #define D_END_PROFILING_INTERNAL(PROFILING_TAG)																																									\

@@ -1,7 +1,5 @@
 #pragma once
 
-#include <Core.h>
-
 struct GLFWwindow;
 
 namespace dooms
@@ -10,12 +8,14 @@ namespace dooms
 	{
 		namespace engineGUIServer
 		{
-			void Initialize(GLFWwindow* const glfwWindow, const char* const glslVersion);
-			void ShutDown();
+			extern void Initialize(GLFWwindow* const glfwWindow, const char* const glslVersion);
+			extern void ShutDown();
 
-			void PreRender();
-			void Render();
-			void PostRender();
+			extern void PreRender();
+			extern void Render();
+			extern void PostRender();
+
+			extern bool GetIsEngineGUIAvaliable();
 
 			inline extern bool IsEngineGUIVisible = true;
 

@@ -5,8 +5,8 @@
 
 #include "Macros/Assert.h"
 
-#define LOG_BUFFER_COUNT 100
-#define LOG_MAX_LENGTH 150
+#define GUI_LOG_BUFFER_COUNT 100
+#define GUI_LOG_MAX_LENGTH 150
 
 namespace dooms
 {
@@ -19,7 +19,7 @@ namespace dooms
 			
 			inline static int LogIndex = -1;
 			inline static bool isInitialized = false;
-			inline static char LogBuffer[LOG_BUFFER_COUNT][LOG_MAX_LENGTH]{};
+			inline static char LogBuffer[GUI_LOG_BUFFER_COUNT][GUI_LOG_MAX_LENGTH]{};
 			static int IncrementLogIndex();
 			
 
@@ -45,10 +45,10 @@ namespace dooms
 					}
 
 					const int currentLogIndex = IncrementLogIndex();
-					LogBuffer[currentLogIndex][LOG_MAX_LENGTH - 1] = '\0';
+					LogBuffer[currentLogIndex][GUI_LOG_MAX_LENGTH - 1] = '\0';
 
 
-					snprintf(LogBuffer[currentLogIndex], size > (LOG_MAX_LENGTH - 1) ? (LOG_MAX_LENGTH - 1) : size, format, args ...);
+					snprintf(LogBuffer[currentLogIndex], size > (GUI_LOG_MAX_LENGTH - 1) ? (GUI_LOG_MAX_LENGTH - 1) : size, format, args ...);
 				}
 			}
 

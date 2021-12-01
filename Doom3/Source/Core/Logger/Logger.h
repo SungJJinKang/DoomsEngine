@@ -12,6 +12,7 @@
 #include "Reflection/Reflection.h"
 
 #include <EngineGUI/GUIModules/LogGUI.h>
+#include <EngineGUI/engineGUIServer.h>
 
 #include "eLogType.h"
 
@@ -79,6 +80,11 @@ namespace dooms
 		{
 			if (CheckLogAcceptable(logType) == true)
 			{
+				if(dooms::ui::engineGUIServer::GetIsEngineGUIAvaliable() == false)
+				{
+					StdStreamLogger::Log(fileName, codeLineNum, logType, format, std::forward<Args>(args)...);
+				}
+
 				GUILogger::Log(fileName, codeLineNum, logType, format, std::forward<Args>(args)...);
 				
 			}

@@ -143,7 +143,7 @@ namespace dooms
 int dooms::ui::log::IncrementLogIndex()
 {
 	LogIndex++;
-	if (LogIndex >= LOG_BUFFER_COUNT)
+	if (LogIndex >= GUI_LOG_BUFFER_COUNT)
 	{
 		LogIndex = 0;
 	}
@@ -157,7 +157,7 @@ void dooms::ui::log::Initialize()
 {
 	D_ASSERT(isInitialized == false);
 
-	for (size_t i = 0; i < LOG_BUFFER_COUNT; i++)
+	for (size_t i = 0; i < GUI_LOG_BUFFER_COUNT; i++)
 	{
 		LogBuffer[i][0] = '\0';
 	}
@@ -184,7 +184,7 @@ void dooms::ui::log::Render()
 			}
 		}
 
-		for (int index = LOG_BUFFER_COUNT - 1; index >= LogIndex; index--)
+		for (int index = GUI_LOG_BUFFER_COUNT - 1; index >= LogIndex; index--)
 		{
 			if (LogBuffer[index][0] != '\0')
 			{
