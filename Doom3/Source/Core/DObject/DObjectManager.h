@@ -24,6 +24,10 @@ namespace dooms
 
 		inline static std::atomic<UINT64> mDObjectCounter = 0;
 
+		/// <summary>
+		/// this is need to be optimized
+		///	because searching is too slow.
+		/// </summary>
 		inline static std::unordered_map<DObject*, UINT64> mDObjectsHashmap{};
 
 		static UINT64 GenerateNewDObejctID();
