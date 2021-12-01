@@ -11,15 +11,12 @@
 
 #include "Reflection/ReflectionType/DClass.h"
 
-#define REMOVE_POINTER_T(POINTER_TYPE) std::remove_pointer_t<POINTER_TYPE>
-#define IS_POINTER_TYPE(POINTER_TYPE) std::is_pointer_v<POINTER_TYPE>
-
 namespace dooms
 {
 
 
 	template <typename DObjectType, typename... Args>
-	DObjectType* CreateDObject(const DObjectContructorParams& dObjectConstructorParams, Args&&... args)
+	extern DObjectType* CreateDObject(const DObjectContructorParams& dObjectConstructorParams, Args&&... args)
 	{
 		static_assert(IS_DOBJECT_TYPE(DObjectType) == true);
 
@@ -35,7 +32,7 @@ namespace dooms
 	}
 
 	template <typename DObjectType, typename... Args>
-	DObjectType* CreateDObject(Args&&... args)
+	extern DObjectType* CreateDObject(Args&&... args)
 	{
 		//DObjectType's Constructor should be public function
 		DObjectType* newDObject = new DObjectType(std::forward<Args>(args)...);
@@ -48,22 +45,27 @@ namespace dooms
 		return newDObject;
 	}
 
-	FORCE_INLINE bool IsValid(const DObject* const dObject)
+	extern FORCE_INLINE bool IsStrongValid(const DObject* const dObject)
 	{
-		return dooms::DObjectManager::IsDObjectValid(dObject);
+		return dooms::DObjectManager::IsDObjectStrongValid(dObject);
+	}
+
+	extern FORCE_INLINE bool IsValid(const DObject* const dObject)
+	{
+		return dObject != nullptr && dObject->GetIsPendingKill();
 	}
 
 #define CASTING_STATIC_ASSERT(CASTING_TYPE)																													\
-static_assert(IS_POINTER_TYPE(CASTING_TYPE) == true, "Please Pass Pointer Type as IsA function's template argument");										\
-static_assert(IS_DOBJECT_TYPE(REMOVE_POINTER_T(CASTING_TYPE)) == true, "Please Pass DObject's child Type as IsA function's template argument");		\
+static_assert(std::is_pointer_v<CASTING_TYPE> == true, "Please Pass Pointer Type as IsA function's template argument");										\
+static_assert(IS_DOBJECT_TYPE(std::remove_pointer_t<CASTING_TYPE>) == true, "Please Pass DObject's child Type as IsA function's template argument");		\
 
 #define CASTING_STATIC_ASSERT_PAIR(FROM_CASTING_TYPE, TO_CASTING_TYPE)		\
 		CASTING_STATIC_ASSERT(FROM_CASTING_TYPE);							\
 		CASTING_STATIC_ASSERT(TO_CASTING_TYPE);								\
-		static_assert( ( std::conditional<std::is_const_v<REMOVE_POINTER_T(FROM_CASTING_TYPE)>, std::is_const<REMOVE_POINTER_T(TO_CASTING_TYPE)>, std::bool_constant<true>>::type::value ) == true, "If FromCasting Type is const-qualified type, ToCasting type should be const-qualified type")
+		static_assert( ( std::conditional<std::is_const_v<std::remove_pointer_t<FROM_CASTING_TYPE>>, std::is_const<std::remove_pointer_t<TO_CASTING_TYPE>>, std::bool_constant<true>>::type::value ) == true, "If FromCasting Type is const-qualified type, ToCasting type should be const-qualified type")
 
 	template <typename CompareType>
-	FORCE_INLINE bool IsChildOf(const DObject* const dObject) noexcept
+	extern FORCE_INLINE bool IsChildOf(const DObject* const dObject) noexcept
 	{
 		static_assert(std::is_pointer_v<CompareType> == false, "Don't Pass Pointer Type as IsA function's template argument");
 		static_assert(IS_DOBJECT_TYPE(CompareType) == true, "Please Pass DObject's child Type as IsA function's template argument");
@@ -75,17 +77,17 @@ static_assert(IS_DOBJECT_TYPE(REMOVE_POINTER_T(CASTING_TYPE)) == true, "Please P
 	namespace details
 	{
 		template<typename ToCastingType, typename FromCastingType>
-		FORCE_INLINE ToCastingType CastToImp(FromCastingType dObject) noexcept
+		extern FORCE_INLINE ToCastingType CastToImp(FromCastingType dObject) noexcept
 		{
 			CASTING_STATIC_ASSERT_PAIR(FromCastingType, ToCastingType);
 
 			// if inherit at second pos, reinterpret_cast can make problem
 			// ex) class GraphicsServer : public ISingleton, public DObject  <--- This can make problem!!
-			return (IsChildOf<REMOVE_POINTER_T(ToCastingType)>(dObject) == true) ? ( reinterpret_cast<ToCastingType>(dObject) ) : ( nullptr );
+			return (IsChildOf<std::remove_pointer_t<ToCastingType>>(dObject) == true) ? ( reinterpret_cast<ToCastingType>(dObject) ) : ( nullptr );
 		}
 
 		template<typename ToCastingType, typename FromCastingType>
-		FORCE_INLINE ToCastingType CastToUncheckedImp(FromCastingType dObject) noexcept
+		extern FORCE_INLINE ToCastingType CastToUncheckedImp(FromCastingType dObject) noexcept
 		{
 			CASTING_STATIC_ASSERT_PAIR(FromCastingType, ToCastingType);
 
@@ -106,7 +108,7 @@ static_assert(IS_DOBJECT_TYPE(REMOVE_POINTER_T(CASTING_TYPE)) == true, "Please P
 	/// <param name="dObject"></param>
 	/// <returns></returns>
 	template<typename ToCastingType, typename FromCastingType>
-	FORCE_INLINE ToCastingType CastTo(FromCastingType dObject) noexcept
+	extern FORCE_INLINE ToCastingType CastTo(FromCastingType dObject) noexcept
 	{
 		CASTING_STATIC_ASSERT_PAIR(FromCastingType, ToCastingType);
 
@@ -115,7 +117,7 @@ static_assert(IS_DOBJECT_TYPE(REMOVE_POINTER_T(CASTING_TYPE)) == true, "Please P
 		D_ASSERT(dObject != nullptr);
 		if(dObject != nullptr)
 		{
-			if constexpr (std::is_base_of_v<REMOVE_POINTER_T(ToCastingType), REMOVE_POINTER_T(FromCastingType)> == true)
+			if constexpr (std::is_base_of_v<std::remove_pointer_t<ToCastingType>, std::remove_pointer_t<FromCastingType>> == true)
 			{
 				result = details::CastToUncheckedImp<ToCastingType>(dObject);
 			}
@@ -129,12 +131,12 @@ static_assert(IS_DOBJECT_TYPE(REMOVE_POINTER_T(CASTING_TYPE)) == true, "Please P
 	}
 	
 	template<typename ToCastingType, typename FromCastingType>
-	FORCE_INLINE ToCastingType CastToUnchecked(FromCastingType dObject) noexcept
+	extern FORCE_INLINE ToCastingType CastToUnchecked(FromCastingType dObject) noexcept
 	{
 		CASTING_STATIC_ASSERT_PAIR(FromCastingType, ToCastingType);
 
 		//In Unchecked Casting, Check if correct
-		D_ASSERT_LOG( (dObject != nullptr) && (IsChildOf<REMOVE_POINTER_T(ToCastingType)>(dObject) == true) , "Unchecked Casting looks incorrect");
+		D_ASSERT_LOG( (dObject != nullptr) && (IsChildOf<std::remove_pointer_t<ToCastingType>>(dObject) == true) , "Unchecked Casting looks incorrect");
 
 		return details::CastToUncheckedImp<ToCastingType>(dObject);
 	}

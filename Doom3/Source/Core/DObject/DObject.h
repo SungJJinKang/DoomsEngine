@@ -19,11 +19,6 @@
 D_NAMESPACE(dooms)
 namespace dooms
 {
-	namespace gc
-	{
-		class GarbageCollectee;
-	}
-
 	namespace reflection
 	{
 		class DClass;
@@ -176,7 +171,14 @@ namespace dooms
 		D_FUNCTION()
 		void SetOwnerDObject(const DObject* const ownerDObject);
 
+		D_FUNCTION()
 		reflection::DClass GetDClass() const;
+
+		D_FUNCTION()
+		FORCE_INLINE bool GetIsPendingKill() const
+		{
+			return mGarbageCollectee.GetIsPendingKill();
+		}
 	};
 }
 

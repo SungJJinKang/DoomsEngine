@@ -30,14 +30,14 @@ void dooms::StaticContainer<Renderer>::RemoveRendererToStaticContainer(const Ren
 		auto workingIter = std::find(workingRendererInLayer.begin(), workingRendererInLayer.end(), renderer);
 		if (workingIter != workingRendererInLayer.end())
 		{
-			std::vector_swap_popback(workingRendererInLayer, workingIter);
+			swap_popback::vector_swap_popback(workingRendererInLayer, workingIter);
 		}
 
 		std::vector<Renderer*>& sortingRendererInLayer = GetSortingRendererInLayer(cameraIndex, currentEntityLayerIndex);
 		auto referenceIter = std::find(sortingRendererInLayer.begin(), sortingRendererInLayer.end(), renderer);
 		if (referenceIter != sortingRendererInLayer.end())
 		{
-			std::vector_swap_popback(sortingRendererInLayer, referenceIter);
+			swap_popback::vector_swap_popback(sortingRendererInLayer, referenceIter);
 		}
 	}
 }

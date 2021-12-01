@@ -1,6 +1,7 @@
 #pragma once
 
 #include <unordered_map>
+#include <vector>
 #include <mutex>
 
 #include <Macros/TypeDef.h>
@@ -23,7 +24,7 @@ namespace dooms
 
 		inline static std::atomic<UINT64> mDObjectCounter = 0;
 
-		inline static std::unordered_map<DObject*, UINT64> mDObjectsList{};
+		inline static std::unordered_map<DObject*, UINT64> mDObjectsHashmap{};
 
 		static UINT64 GenerateNewDObejctID();
 
@@ -40,22 +41,13 @@ namespace dooms
 		static void DestroyAllDObjects(const bool force);
 		static void ClearConatiner();
 
-		FORCE_INLINE static bool IsDObjectValid(const DObject* const dObject)
-		{
-			bool isValid = false;
-
-			if (dObject != nullptr)
-			{
-				std::unordered_map<DObject*, UINT64>::const_iterator iter = mDObjectsList.find(const_cast<DObject*>(dObject));
-				if (iter != mDObjectsList.end() && iter->second != INVALID_DOBJECT_ID)
-				{
-					isValid = true;
-				}
-			}
-
-
-			return isValid;
-		}
+		/// <summary>
+		/// Check if DObject address is valid
+		///	this function check if passed pointer is null and if passed address is alive dObject address
+		/// </summary>
+		/// <param name="dObject"></param>
+		/// <returns></returns>
+		static bool IsDObjectStrongValid(const DObject* const dObject);
 
 		static bool IsEmpty();
 

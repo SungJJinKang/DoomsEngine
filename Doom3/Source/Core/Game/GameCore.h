@@ -17,6 +17,7 @@
 #include "../IO/UserInput_Server.h"
 #include "../Time/Time_Server.h"
 #include "Reflection/ReflectionManager.h"
+#include "../GarbageCollector/GarbageCollectorManager.h"
 
 #include "GameCore.reflection.h"
 namespace dooms
@@ -59,6 +60,7 @@ namespace dooms
 		userinput::UserInput_Server mUserImput_Server{};
 		time::Time_Server mTime_Server{};
 		reflection::ReflectionManager mReflectionManager{};
+		gc::GarbageCollectorManager mGarbageCollectorManager;
 
 		std::unique_ptr<Scene> mCurrentScene{};
 		std::unique_ptr<Scene> CreateNewScene(std::string sceneName = "");
