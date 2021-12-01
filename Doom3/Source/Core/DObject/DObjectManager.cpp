@@ -161,6 +161,11 @@ bool dooms::DObjectManager::IsDObjectStrongValid(const DObject* const dObject)
 		}
 	}
 
+    if(isValid == true)
+    {
+        isValid = (dObject->GetIsPendingKill() == false);
+    }
+
 
 	return isValid;
 }

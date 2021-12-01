@@ -33,7 +33,7 @@ namespace dooms
 	/// <returns></returns>
 	extern FORCE_INLINE bool IsValid(const DObject* const dObject)
 	{
-		return dObject != nullptr && dObject->GetIsPendingKill();
+		return (dObject != nullptr) && (dObject->GetIsPendingKill() == false);
 	}
 
 	template <typename DObjectType, typename... Args>

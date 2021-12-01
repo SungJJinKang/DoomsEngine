@@ -367,7 +367,10 @@ namespace dooms
 
 							if (objectType == eObjectType::DObject && isFieldValueChanged == true)
 							{
-								reinterpret_cast<dooms::DObject*>(object)->OnChangedByGUI(dField);
+								if(IsStrongValid(reinterpret_cast<dooms::DObject*>(object)) == true)
+								{// check if object is struct or class not inheriting DObject
+									reinterpret_cast<dooms::DObject*>(object)->OnChangedByGUI(dField);
+								}
 							}
 
 							isDObjectChanged |= isFieldValueChanged;
