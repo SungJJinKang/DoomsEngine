@@ -140,11 +140,7 @@ namespace dooms
 
 
 
-		D_FUNCTION()
-		void DestroySelf() const
-		{
-			delete this;
-		}
+		
 
 		virtual void OnChangedByGUI(const dooms::reflection::DField& dFieldOfChangedField) {}
 		virtual void OnUpdateGUI() {} // never delete this
@@ -191,6 +187,8 @@ namespace dooms
 			return mGarbageCollectee.GetIsPendingKill();
 		}
 
+		D_FUNCTION(INVISIBLE)
+		bool DestroySelf() const;
 	};
 }
 

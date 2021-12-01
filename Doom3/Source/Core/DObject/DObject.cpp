@@ -16,6 +16,7 @@ void dooms::DObject::Construct_Internal()
 
 UINT32 dooms::DObject::GetRootObjectLevel() const
 {
+	return 0;
 }
 
 void dooms::DObject::InitProperties(const DObjectContructorParams& params)
@@ -48,6 +49,18 @@ void dooms::DObject::SetOwnerDObject(const DObject* const ownerDObject)
 dooms::reflection::DClass dooms::DObject::GetDClass() const
 {
 	return dooms::reflection::DClass(GetTypeHashVlue());
+}
+
+bool dooms::DObject::DestroySelf() const
+{
+	bool isSuccess = false;
+	if(GetDObjectFlag(eDObjectFlag::NewAllocated) == true)
+	{
+		delete this;
+		isSuccess = true;
+	}
+
+	return isSuccess;
 }
 
 dooms::DObject::DObject()
