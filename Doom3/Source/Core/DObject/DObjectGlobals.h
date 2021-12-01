@@ -13,7 +13,28 @@
 
 namespace dooms
 {
+	/// <summary>
+	/// Check if passed address isn't dummy address or already deleted dObject address ,
+	///	if it's valid address, check if dobject is on pending kill.
+	/// </summary>
+	/// <param name="dObject"></param>
+	/// <returns></returns>
+	extern FORCE_INLINE bool IsStrongValid(const DObject* const dObject)
+	{
+		return dooms::DObjectManager::IsDObjectStrongValid(dObject);
+	}
 
+	/// <summary>
+	/// weak valid check
+	///	Check if passed pointer isn't null pointer.
+	///	if not, check dObject isn't on pending kill
+	/// </summary>
+	/// <param name="dObject"></param>
+	/// <returns></returns>
+	extern FORCE_INLINE bool IsValid(const DObject* const dObject)
+	{
+		return dObject != nullptr && dObject->GetIsPendingKill();
+	}
 
 	template <typename DObjectType, typename... Args>
 	extern DObjectType* CreateDObject(const DObjectContructorParams& dObjectConstructorParams, Args&&... args)
@@ -44,16 +65,9 @@ namespace dooms
 
 		return newDObject;
 	}
+	
+	extern bool DestroyDObject(const DObject* const dObject);
 
-	extern FORCE_INLINE bool IsStrongValid(const DObject* const dObject)
-	{
-		return dooms::DObjectManager::IsDObjectStrongValid(dObject);
-	}
-
-	extern FORCE_INLINE bool IsValid(const DObject* const dObject)
-	{
-		return dObject != nullptr && dObject->GetIsPendingKill();
-	}
 
 #define CASTING_STATIC_ASSERT(CASTING_TYPE)																													\
 static_assert(std::is_pointer_v<CASTING_TYPE> == true, "Please Pass Pointer Type as IsA function's template argument");										\
