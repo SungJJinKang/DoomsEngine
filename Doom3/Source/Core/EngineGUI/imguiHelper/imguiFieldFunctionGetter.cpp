@@ -21,6 +21,8 @@
 
 #include "Reflection/ReflectionType/DTemplateArgumentType.h"
 
+#include "Reflection/TypeSpecialized/Helper/iteratorHelper.h"
+
 
 namespace dooms
 {
@@ -529,7 +531,7 @@ namespace dooms
 				D_ASSERT(fieldDType != nullptr);
 
 				const dooms::reflection::DTemplateType dTemplateType = fieldDType->AsDTemplateType();
-
+				
 				std::vector<char>* fakeVector = reinterpret_cast<std::vector<char>*>(object);
 
 				const reflection::DTemplateArgumentType dTemplateTypeArgument = dTemplateType.GetTemplateArgumentType(0);
