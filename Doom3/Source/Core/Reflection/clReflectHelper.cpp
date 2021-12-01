@@ -90,6 +90,58 @@ namespace dooms
 
 
 		}
+
+		DWORD StartclReflect_automation(const std::string& filePath, const std::wstring& arguments)
+		{
+			STARTUPINFO si;
+			PROCESS_INFORMATION pi;
+
+			ZeroMemory(&si, sizeof(si));
+			si.cb = sizeof(si);
+			ZeroMemory(&pi, sizeof(pi));
+
+			std::wstring filePath_wstring;
+			filePath_wstring.assign(filePath.begin(), filePath.end());
+
+			const std::wstring argumentForExe = filePath_wstring + L' ' + arguments;
+			// Start the child process. 
+			if (!CreateProcess(
+				filePath_wstring.c_str(),   // No module name (use command line)
+				const_cast<wchar_t*>(argumentForExe.c_str()),        // Command line
+				NULL,           // Process handle not inheritable
+				NULL,           // Thread handle not inheritable
+				FALSE,          // Set handle inheritance to FALSE
+				0,              // No creation flags
+				NULL,           // Use parent's environment block
+				NULL,           // Use parent's starting directory 
+				&si,            // Pointer to STARTUPINFO structure
+				&pi)           // Pointer to PROCESS_INFORMATION structure
+				)
+			{
+				D_ASSERT_LOG(false, "CreateProcess failed (%d).\n", GetLastError());
+				dooms::ui::PrintText("CreateProcess failed (%d).\n", GetLastError());
+				return 1;
+			}
+
+			// Wait until child process exits.
+			WaitForSingleObject(pi.hProcess, INFINITE);
+
+			DWORD exit_code;
+			if (FALSE == GetExitCodeProcess(pi.hProcess, &exit_code))
+			{
+				D_ASSERT_LOG(false, "GetExitCodeProcess() failure: %u", GetLastError());
+			}
+			else if (STILL_ACTIVE == exit_code)
+			{
+				D_ASSERT_LOG(false, "Process is still running.");
+			}
+
+			// Close process and thread handles. 
+			CloseHandle(pi.hProcess);
+			CloseHandle(pi.hThread);
+
+			return exit_code;
+		}
 	}
 }
 
@@ -101,29 +153,13 @@ bool dooms::clReflectHelper::Generate_clReflect_BinaryReflectionData()
 
 	//TODO : when call this function again in run-time, make argument string again???
 	const std::wstring clReflect_additional_compiler_options_wide_string = GetclReflectAutomationArguments();
-
-	int result = 1;
-
+	
 	const std::string currentPath_narrow_string = path::_GetCurrentPath();
 	std::string currentPath{ currentPath_narrow_string.begin(), currentPath_narrow_string.end() };
 	currentPath += "\\";
 	currentPath += clReflect_automation_dll_filename;
 
-	dooms::SmartDynamicLinking c_sharp_library{ currentPath };
-
-	c_sharp_library.CallFunctionWithReturn<int>(clReflect_automation_dll_function_name.c_str(), result, clReflect_additional_compiler_options_wide_string.c_str());
-	/*
-	auto future = dooms::resource::JobSystem::GetSingleton()->PushBackJobToPriorityQueue(
-		std::function<void()>(
-			[&]()
-			{
-				c_sharp_library.CallFunctionWithReturn<int>(clReflect_automation_dll_function_name.c_str(), result, clReflect_additional_compiler_options_wide_string.c_str());
-			}
-			)
-	);
-
-	future.wait();
-	*/
+	const DWORD result = StartclReflect_automation(currentPath, clReflect_additional_compiler_options_wide_string);
 
 	return result == 0;
 }

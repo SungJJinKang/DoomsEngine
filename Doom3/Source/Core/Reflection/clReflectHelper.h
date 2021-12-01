@@ -38,7 +38,7 @@ namespace dooms
 			= "NDEBUG";
 #endif
 
-		inline extern const std::string clReflect_automation_dll_filename = "clReflect_automation.dll";
+		inline extern const std::string clReflect_automation_dll_filename = "clReflect_automation.exe";
 		inline extern const std::string clReflect_automation_dll_function_name = "c_Generate_clReflect_data";
 		
 		extern bool Generate_clReflect_BinaryReflectionData();
