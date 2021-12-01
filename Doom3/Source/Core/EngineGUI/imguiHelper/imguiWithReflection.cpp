@@ -447,7 +447,7 @@ void dooms::ui::imguiWithReflection::AddToVisibleOnGUIDObjectList(DObject* const
 
 void dooms::ui::imguiWithReflection::RemoveFromVisibleOnGUIDObjectList(DObject* const dObject)
 {
-	std::vector_find_swap_popback(dooms::ui::imguiWithReflection::mVisibleOnGUIDObjectList, dObject);
+	swap_popback::vector_find_swap_popback(dooms::ui::imguiWithReflection::mVisibleOnGUIDObjectList, dObject);
 }
 
 void dooms::ui::imguiWithReflection::UpdateGUI_DObjectsVisibleOnGUI()

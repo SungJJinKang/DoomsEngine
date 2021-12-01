@@ -29,7 +29,7 @@ void dooms::graphics::UniformBufferObjectManager::EraseUniformBufferObjectTempBu
 	D_ASSERT(this_iter != iter_end); // this_iter == iter_end mean mUniformBufferObjectTempBufferUpdaters doesn't contain update_ptr, this is undefined
 
 	//remove this object from mUniformBufferObjectTempBufferUpdaters
-	std::vector_swap_popback(mUniformBufferObjectTempBufferUpdaters, this_iter);
+	swap_popback::vector_swap_popback(mUniformBufferObjectTempBufferUpdaters, this_iter);
 }
 
 void dooms::graphics::UniformBufferObjectManager::UpdateUniformObjects()

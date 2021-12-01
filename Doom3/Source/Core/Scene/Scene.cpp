@@ -71,7 +71,7 @@ bool Scene::DestroyEntity(Entity& entity)
 	{
 		if (mSpawnedEntities[i] == &entity)
 		{
-			std::vector_swap_popback(mSpawnedEntities, mSpawnedEntities.begin() + i);
+			swap_popback::vector_swap_popback(mSpawnedEntities, mSpawnedEntities.begin() + i);
 			DestroyEntity_Internal(&entity);
 			isSuccess = true;
 			break;

@@ -38,7 +38,7 @@ dooms::graphics::PicktureInPickture* dooms::graphics::PIPManager::AddNewPIP(cons
 
 void dooms::graphics::PIPManager::RemovePIP(const PicktureInPickture* const removedPIP)
 {
-	std::vector_find_if_swap_popback(mPicktureInPicktures, [removedPIP](const std::unique_ptr<PicktureInPickture>& pip) -> bool
+	swap_popback::vector_find_if_swap_popback(mPicktureInPicktures, [removedPIP](const std::unique_ptr<PicktureInPickture>& pip) -> bool
 		{
 			return pip.get() == removedPIP;
 		});
