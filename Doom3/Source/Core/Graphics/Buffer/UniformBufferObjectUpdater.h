@@ -27,6 +27,12 @@ namespace dooms
 
 			UniformBufferObjectUpdater();
 			UniformBufferObjectUpdater(const bool _updateWhenManagerUpdate);
+
+			UniformBufferObjectUpdater(const UniformBufferObjectUpdater& updater);
+			UniformBufferObjectUpdater(UniformBufferObjectUpdater&& updater) noexcept = delete;
+			UniformBufferObjectUpdater& operator=(const UniformBufferObjectUpdater& updater);
+			UniformBufferObjectUpdater& operator=(UniformBufferObjectUpdater&& updater) noexcept = delete;
+
 			virtual ~UniformBufferObjectUpdater();
 
 			/// <summary>

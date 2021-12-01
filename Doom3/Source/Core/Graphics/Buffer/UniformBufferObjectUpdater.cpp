@@ -16,6 +16,19 @@ dooms::graphics::UniformBufferObjectUpdater::UniformBufferObjectUpdater(const bo
 	bmUpdateWhenManagerUpdate = _updateWhenManagerUpdate;
 }
 
+dooms::graphics::UniformBufferObjectUpdater::UniformBufferObjectUpdater(const UniformBufferObjectUpdater& updater)
+	: bmUpdateWhenManagerUpdate(updater.bmUpdateWhenManagerUpdate)
+{
+	UniformBufferObjectManager::GetSingleton()->PushUniformBufferObjectTempBufferUpdater(this);
+}
+
+dooms::graphics::UniformBufferObjectUpdater& dooms::graphics::UniformBufferObjectUpdater::operator=(const UniformBufferObjectUpdater& updater)
+{
+	bmUpdateWhenManagerUpdate = updater.bmUpdateWhenManagerUpdate;
+	UniformBufferObjectManager::GetSingleton()->PushUniformBufferObjectTempBufferUpdater(this);
+	return *this;
+}
+
 dooms::graphics::UniformBufferObjectUpdater::~UniformBufferObjectUpdater()
 {
 	UniformBufferObjectManager::GetSingleton()->EraseUniformBufferObjectTempBufferUpdater(this);
