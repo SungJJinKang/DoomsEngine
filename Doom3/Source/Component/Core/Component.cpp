@@ -31,6 +31,9 @@ Component& Component::operator=(const Component&)
 	mOwnerEntity = nullptr;
 	mTransform = nullptr;
 	mIsActivated = false;
+
+	SetDObjectFlag(eDObjectFlag::NotCollectedByGC);
+
 	return *this;
 }
 

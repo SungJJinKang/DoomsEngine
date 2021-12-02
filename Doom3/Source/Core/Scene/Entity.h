@@ -249,7 +249,7 @@ namespace dooms
 		D_PROPERTY()
 		bool IsEnabled = true;
 
-
+		Entity() = delete;
 		/// <summary>
 		/// Entity Constructor should be called through Scene class
 		///  To Protect User create entity not thourgh Scene class

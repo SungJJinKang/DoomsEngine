@@ -105,16 +105,6 @@ dooms::DObject::DObject(const DObject& dObject)
 	CopyFlagsToThisDObject(dObject.GetDObjectFlag());
 }
 
-dooms::DObject& dooms::DObject::operator=(const DObject& dObject)
-{
-	mDObjectProperties = dObject.mDObjectProperties;
-	
-	Construct_Internal();
-	CopyFlagsToThisDObject(dObject.GetDObjectFlag());
-
-	return *this;
-}
-
 dooms::DObject::DObject(DObject&& dObject) noexcept
 	: mDObjectProperties(std::move(dObject.mDObjectProperties)), mEngineGUIAccessor(this)
 {
@@ -123,6 +113,14 @@ dooms::DObject::DObject(DObject&& dObject) noexcept
 }
 
 
+dooms::DObject& dooms::DObject::operator=(const DObject& dObject)
+{
+	mDObjectProperties = dObject.mDObjectProperties;
+	
+	CopyFlagsToThisDObject(dObject.GetDObjectFlag());
+
+	return *this;
+}
 
 dooms::DObject& dooms::DObject::operator=(DObject&& dObject) noexcept
 {

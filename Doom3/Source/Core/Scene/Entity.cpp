@@ -88,8 +88,7 @@ void Entity::CopyEntity(const Entity& fromCopyedEnitty, Entity& toCopyedEntity)
 	toCopyedEntity.mEntityFlag = fromCopyedEnitty.mEntityFlag;
 	toCopyedEntity.mInvolvedScene = fromCopyedEnitty.mInvolvedScene;
 	toCopyedEntity.mParentEntity = fromCopyedEnitty.mParentEntity;
-
-
+	
 	toCopyedEntity.mTransform = fromCopyedEnitty.mTransform;
 	toCopyedEntity.InitializeComponent(&toCopyedEntity.mTransform);
 

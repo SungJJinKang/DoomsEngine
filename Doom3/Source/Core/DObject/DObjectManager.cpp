@@ -82,8 +82,16 @@ bool dooms::DObjectManager::ReplaceDObjectFromDObjectList(DObject&& originalDObj
     const UINT64 originalDObjectID = originalDObject.GetDObjectID();
     
     mDObjectsContainer.mDObjectIDList[originalDObject.mDObjectProperties.mCurrentIndexInDObjectList] = GenerateNewDObejctID();
-   
-    InsertDObjectID(newDObject, originalDObjectID);
+
+    if(newDObject->mDObjectProperties.mCurrentIndexInDObjectList == (size_t)-1)
+    {
+        InsertDObjectID(newDObject, originalDObjectID);
+    }
+    else
+    {
+        D_ASSERT(mDObjectsContainer.mDObjectList[newDObject->mDObjectProperties.mCurrentIndexInDObjectList] == newDObject);
+        mDObjectsContainer.mDObjectIDList[newDObject->mDObjectProperties.mCurrentIndexInDObjectList] = originalDObjectID;
+    }
     
     return true;
 }

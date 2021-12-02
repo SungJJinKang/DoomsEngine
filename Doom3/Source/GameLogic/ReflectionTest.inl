@@ -157,7 +157,7 @@ void dooms::GameLogicStartPoint::StartGameLogic()
 		bullet->mSpeed = 500;
 	}
 
-
+	/*
 	for (INT32 i = 0; i < 25; i++)
 	{
 	 	for (INT32 j = 0; j < threedasset->GetMeshCount(); j++)
@@ -230,7 +230,7 @@ void dooms::GameLogicStartPoint::StartGameLogic()
 	
 
 
-	
+	*/
 	
 
 	/*
