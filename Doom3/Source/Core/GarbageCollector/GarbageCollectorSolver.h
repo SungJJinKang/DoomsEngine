@@ -4,6 +4,9 @@
 
 #include "TypeDef.h"
 
+#define DELETE_DOBJECT_LIST_RESERVATION_COUNT 20
+
+
 namespace dooms
 {
 	class DObject;
@@ -13,17 +16,19 @@ namespace dooms
 		{
 			enum GCStage : UINT32
 			{
-				ClearFlagsStage, // SetUnreachableFlag to all DObjects
+				ClearFlagsStage = 0, // StartSetUnreachableFlagStage to all DObjects
 				MarkStage,
 				SweepStage
 			};
 
-			void SetUnreachableFlag(std::vector<UINT32>& flags);
+			void StartSetUnreachableFlagStage(std::vector<UINT32>& flags);
 
-			void Mark(const UINT32 keepFlags, std::vector<dooms::DObject*>& rootDObjectList);
-			void Mark(const UINT32 keepFlags, dooms::DObject* const rootObject);
+			void StartMarkStage(const UINT32 keepFlags, std::vector<dooms::DObject*>& rootDObjectList);
+			
+			void StartSweepStage(std::vector<dooms::DObject*>& dObjectList, std::vector<UINT32>& flagList);
 
-			void Sweep(std::vector<dooms::DObject*>& dObjectList);
+			// this may make bugs ( multithread delete can make a lot of bugs )
+			//void StartParallelSweepStage(std::vector<dooms::DObject*>& dObjectList, const std::vector<UINT32>& flagList);
 
 		}
 	}

@@ -7,6 +7,9 @@
 #include "RootObjectLevel.h"
 #include "GarbageCollectorSolver.h"
 
+#define GC_KEEP_FLAGS 0
+#define GC_COLLECT_TIME_STEP 10
+
 namespace dooms
 {
 	class DObject;

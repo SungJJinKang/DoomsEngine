@@ -20,19 +20,19 @@ void dooms::gc::GarbageCollectorManager::InitializeCollectTimeStep()
 {
 	//mCollectTimeStep[ = dooms::ConfigData::GetSingleton()->GetConfigData().GetValue<float>()
 
-	mCollectTimeStep = 10.0f;
+	mCollectTimeStep = 1.0f;
 	mElapsedTime = 0.0f;
 }
 
 /*
 void dooms::gc::GarbageCollectorManager::Collect()
 {
-	dooms::gc::garbageCollectorSolver::Mark(0, mRootsDObjectsList);
+	dooms::gc::garbageCollectorSolver::StartMarkStage(0, mRootsDObjectsList);
 }
 
 void dooms::gc::GarbageCollectorManager::SetUnreachableFlagsToAllDObject()
 {
-	dooms::gc::garbageCollectorSolver::SetUnreachableFlag(dooms::DObjectManager::mDObjectsContainer.mDObjectFlagList);
+	dooms::gc::garbageCollectorSolver::StartSetUnreachableFlagStage(dooms::DObjectManager::mDObjectsContainer.mDObjectFlagList);
 	
 }
 */
@@ -42,7 +42,7 @@ void dooms::gc::GarbageCollectorManager::Init()
 	PoolRootsDObjectsList();
 	InitializeCollectTimeStep();
 
-	mNextGCStage = dooms::gc::garbageCollectorSolver::GCStage::SweepStage;
+	mNextGCStage = dooms::gc::garbageCollectorSolver::GCStage::ClearFlagsStage;
 	
 }
 
@@ -50,34 +50,51 @@ void dooms::gc::GarbageCollectorManager::TickGC()
 {
 	mElapsedTime += dooms::time::MainTimer::GetSingleton()->GetDeltaTime();
 
-	if(mNextGCStage == dooms::gc::garbageCollectorSolver::GCStage::ClearFlagsStage)
+	if(mElapsedTime > mCollectTimeStep)
 	{
-		D_START_PROFILING(GC_ClearFlagsStage);
+		if (mNextGCStage == dooms::gc::garbageCollectorSolver::GCStage::ClearFlagsStage)
+		{
+			D_START_PROFILING(GC_ClearFlagsStage, CPU);
 
-		std::unique_lock<std::recursive_mutex> lock{ dooms::DObjectManager::DObjectListMutex };
-		dooms::gc::garbageCollectorSolver::SetUnreachableFlag(dooms::DObjectManager::mDObjectsContainer.mDObjectFlagList);
-		lock.unlock();
+			D_DEBUG_LOG(eLogType::D_LOG_TYPE14, "Execute GC_ClearFlagsStage");
+			std::unique_lock<std::recursive_mutex> lock{ dooms::DObjectManager::DObjectListMutex };
+			dooms::gc::garbageCollectorSolver::StartSetUnreachableFlagStage(dooms::DObjectManager::mDObjectsContainer.mDObjectFlagList);
+			lock.unlock();
 
-		D_END_PROFILING(GC_ClearFlagsStage);
+			D_END_PROFILING(GC_ClearFlagsStage);
 
-		mNextGCStage = garbageCollectorSolver::GCStage::MarkStage;
-	}
-	else if (mNextGCStage == dooms::gc::garbageCollectorSolver::GCStage::MarkStage)
-	{
-		D_START_PROFILING(GC_MarkStage);
-		
-		D_END_PROFILING(GC_MarkStage);
-	}
-	else if (mNextGCStage == dooms::gc::garbageCollectorSolver::GCStage::SweepStage)
-	{
-		D_START_PROFILING(GC_SweepStage);
+			mNextGCStage = garbageCollectorSolver::GCStage::MarkStage;
+		}
+		else if (mNextGCStage == dooms::gc::garbageCollectorSolver::GCStage::MarkStage)
+		{
+			D_START_PROFILING(GC_MarkStage, CPU);
 
-		D_END_PROFILING(GC_SweepStage);
+			D_DEBUG_LOG(eLogType::D_LOG_TYPE14, "Execute GC_MarkStage");
+			dooms::gc::garbageCollectorSolver::StartMarkStage(GC_KEEP_FLAGS, mRootsDObjectsList);
+
+			D_END_PROFILING(GC_MarkStage);
+
+			mNextGCStage = garbageCollectorSolver::GCStage::SweepStage;
+		}
+		else if (mNextGCStage == dooms::gc::garbageCollectorSolver::GCStage::SweepStage)
+		{
+			D_START_PROFILING(GC_SweepStage, CPU);
+
+			D_DEBUG_LOG(eLogType::D_LOG_TYPE14, "Execute GC_SweepStage");
+			dooms::gc::garbageCollectorSolver::StartSweepStage(dooms::DObjectManager::mDObjectsContainer.mDObjectList, dooms::DObjectManager::mDObjectsContainer.mDObjectFlagList);
+
+			D_END_PROFILING(GC_SweepStage);
+
+			mNextGCStage = garbageCollectorSolver::GCStage::ClearFlagsStage;
+		}
+		else
+		{
+			D_ASSERT(false);
+		}
+
+		mElapsedTime = 0.0f;
 	}
-	else
-	{
-		D_ASSERT(false);
-	}
+	
 }
 
 
