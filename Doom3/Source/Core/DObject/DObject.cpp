@@ -8,7 +8,7 @@
 
 void dooms::DObject::Construct_Internal()
 {
-	if (mDObjectProperties.mDObjectID == INVALID_DOBJECT_ID)
+	if (GetDObjectID() == INVALID_DOBJECT_ID)
 	{
 		DObjectManager::AddNewDObject(this);
 	}

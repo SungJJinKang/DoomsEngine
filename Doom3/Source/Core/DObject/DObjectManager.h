@@ -10,7 +10,7 @@
 
 #include "DObject_Constant.h"
 
-#define DEFUALT_DOBJECT_LIST_RESERVATION_SIZE 200
+#define DEFUALT_DOBJECT_LIST_RESERVATION_SIZE 35000
 
 #include "DObjectManager.reflection.h"
 namespace dooms
@@ -33,11 +33,11 @@ namespace dooms
 
 		bool IsEmpty() const;
 
-		FORCE_INLINE UINT32& GetDObjectFlag(const size_t index)
-		{
-			assert(index < mDObjectFlagList.size());
-			return mDObjectFlagList[index];
-		}
+		UINT32 GetDObjectFlag(const size_t index) const;
+
+		void SetDObjectFlag(const size_t index, const UINT32 flag);
+
+		void ResetDObjectFlag(const size_t index, const UINT32 flag);
 	};
 
 	class DOOM_API /*D_CLASS*/ DObjectManager
@@ -59,7 +59,6 @@ namespace dooms
 		static UINT64 GenerateNewDObejctID();
 
 		inline static std::recursive_mutex DObjectListMutex{};
-		static void InsertDObjectIDIfExist(DObject* const dObject);
 		static void InsertDObjectID(DObject* const dObject, const UINT64 dObjectID);
 
 		static bool AddNewDObject(DObject* const dObject);

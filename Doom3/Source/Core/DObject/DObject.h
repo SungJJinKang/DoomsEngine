@@ -92,46 +92,37 @@ namespace dooms
 			GENERATE_BODY_DObjectProperties()
 
 			size_t mCurrentIndexInDObjectList;
-
-			D_PROPERTY(INVISIBLE)
-			UINT64 mDObjectID;
-
+			
 			D_PROPERTY(INVISIBLE)
 			std::string mDObjectName;
 			
 			const DObject* mOwnerDObject;
 
 			DObjectProperties()
-				: mCurrentIndexInDObjectList((size_t)-1), mDObjectID(INVALID_DOBJECT_ID), mDObjectName(), mOwnerDObject(nullptr)
+				: mCurrentIndexInDObjectList((size_t)-1), mDObjectName(), mOwnerDObject(nullptr)
 			{
 				
 			}
 			DObjectProperties(const DObjectProperties& dObjectProperties)
 			{
 				mCurrentIndexInDObjectList = (size_t)-1;
-				mDObjectID = INVALID_DOBJECT_ID;
 				mDObjectName = dObjectProperties.mDObjectName;
 				mOwnerDObject = dObjectProperties.mOwnerDObject;
 			}
 			DObjectProperties(DObjectProperties&& dObjectProperties) noexcept
 			{
 				mCurrentIndexInDObjectList = (size_t)-1;
-				mDObjectID = INVALID_DOBJECT_ID;
 				mDObjectName = dObjectProperties.mDObjectName;
 				mOwnerDObject = dObjectProperties.mOwnerDObject;				
 			}
 			DObjectProperties& operator=(const DObjectProperties& dObjectProperties)
 			{
-				mCurrentIndexInDObjectList = (size_t)-1;
-				mDObjectID = INVALID_DOBJECT_ID;
 				mDObjectName = dObjectProperties.mDObjectName;
 				mOwnerDObject = dObjectProperties.mOwnerDObject;
 				return *this;
 			}
 			DObjectProperties& operator=(DObjectProperties&& dObjectProperties) noexcept
 			{
-				mCurrentIndexInDObjectList = (size_t)-1;
-				mDObjectID = INVALID_DOBJECT_ID;
 				mDObjectName = dObjectProperties.mDObjectName;
 				mOwnerDObject = dObjectProperties.mOwnerDObject;
 				return *this;
@@ -181,35 +172,42 @@ namespace dooms
 		D_FUNCTION()
 		inline size_t GetDObjectID() const
 		{
-			return mDObjectProperties.mDObjectID;
+			if(mDObjectProperties.mCurrentIndexInDObjectList != (size_t)-1)
+			{
+				return dooms::DObjectManager::mDObjectsContainer.mDObjectIDList[mDObjectProperties.mCurrentIndexInDObjectList];
+			}
+			else
+			{
+				return INVALID_DOBJECT_ID;
+			}		
 		}
 
 		D_FUNCTION()
 		inline UINT32 GetDObjectFlag() const
 		{
-			assert(mDObjectProperties.mCurrentIndexInDObjectList != UINT64_MAX);
+			assert(mDObjectProperties.mCurrentIndexInDObjectList != (size_t)-1);
 			return dooms::DObjectManager::mDObjectsContainer.GetDObjectFlag(mDObjectProperties.mCurrentIndexInDObjectList);
 		}
 
 		D_FUNCTION()
 		inline bool GetDObjectFlag(const eDObjectFlag flag) const
 		{
-			assert(mDObjectProperties.mCurrentIndexInDObjectList != UINT64_MAX);
+			assert(mDObjectProperties.mCurrentIndexInDObjectList != (size_t)-1);
 			return (dooms::DObjectManager::mDObjectsContainer.GetDObjectFlag(mDObjectProperties.mCurrentIndexInDObjectList) & flag) != 0;
 		}
 
 		D_FUNCTION()
 		inline void SetDObjectFlag(const eDObjectFlag flag)
 		{
-			assert(mDObjectProperties.mCurrentIndexInDObjectList != UINT64_MAX);
-			dooms::DObjectManager::mDObjectsContainer.GetDObjectFlag(mDObjectProperties.mCurrentIndexInDObjectList) |= static_cast<UINT32>(flag);
+			assert(mDObjectProperties.mCurrentIndexInDObjectList != (size_t)-1);
+			dooms::DObjectManager::mDObjectsContainer.SetDObjectFlag(mDObjectProperties.mCurrentIndexInDObjectList, flag);
 		}
 
 		D_FUNCTION()
 		inline void ResetDObjectFlag(const UINT32 flag)
 		{
-			assert(mDObjectProperties.mCurrentIndexInDObjectList != UINT64_MAX);
-			dooms::DObjectManager::mDObjectsContainer.GetDObjectFlag(mDObjectProperties.mCurrentIndexInDObjectList) = flag;
+			assert(mDObjectProperties.mCurrentIndexInDObjectList != (size_t)-1);
+			dooms::DObjectManager::mDObjectsContainer.ResetDObjectFlag(mDObjectProperties.mCurrentIndexInDObjectList, flag);
 		}
 
 		D_FUNCTION()

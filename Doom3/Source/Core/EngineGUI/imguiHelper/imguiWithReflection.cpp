@@ -349,7 +349,7 @@ namespace dooms
 									if(fieldType.GetPrimitiveType() == reflection::DPrimitive::ePrimitiveType::CLASS)
 									{
 										const reflection::DClass fieldTypeDClass = fieldType.AsDClass();
-										if (IsValid(reinterpret_cast<dooms::DObject*>(fieldRawValue)) == true)
+										if (IsStrongValid(reinterpret_cast<dooms::DObject*>(fieldRawValue)) == true)
 										{// if type of field is child class of dooms::DObject
 											isFieldValueChanged = DrawObjectGUI(fieldTypeDClass, fieldRawValue, (dField.GetDAttributeList().GetIsNoLabel() == false) ? dField.GetFieldName() : "", eObjectType::DObject);
 										}
