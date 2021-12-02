@@ -126,6 +126,7 @@ bool Scene::DestroyEntity_Internal(Entity* entity) const
 
 void Scene::InitializeEntity(dooms::Entity* const entity)
 {
+	entity->mInvolvedScene = this;
 	entity->ChangeDObjectName(std::string{ "Entity " } + std::to_string(mSpawnedEntities.size()));
 	entity->SetOwnerDObject(this);
 }

@@ -35,7 +35,7 @@ namespace dooms
 
 
 #ifdef DEBUG_MODE
-			dooms::DObjectManager::DestroyAllDObjects(false);
+			dooms::DObjectManager::DestroyAllDObjects(false); // for detecting memory leak
 #endif
 
 		}

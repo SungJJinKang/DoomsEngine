@@ -10,11 +10,12 @@ using namespace dooms;
 Entity::Entity(size_t entityID, Entity* parent) : 
 	mEntityID{ entityID }, 
 	mPlainComponents{}, 
-	mParent{ parent }, 
+	mParentEntity{ parent }, 
 	mChilds{}, 
 	mTransform{}
 {
 	InitializeComponent(&mTransform);
+	SetDObjectFlag(eDObjectFlag::NotCollectedByGC);
 }
 
 Entity::~Entity()
@@ -82,6 +83,8 @@ void Entity::CopyEntity(const Entity& fromCopyedEnitty, Entity& toCopyedEntity)
 	toCopyedEntity.mLayerIndex = fromCopyedEnitty.mLayerIndex;
 	toCopyedEntity.mEntityMobility = fromCopyedEnitty.mEntityMobility;
 	toCopyedEntity.mEntityFlag = fromCopyedEnitty.mEntityFlag;
+	toCopyedEntity.mInvolvedScene = fromCopyedEnitty.mInvolvedScene;
+	toCopyedEntity.mParentEntity = fromCopyedEnitty.mParentEntity;
 
 
 	toCopyedEntity.mTransform = fromCopyedEnitty.mTransform;
@@ -158,6 +161,11 @@ void Entity::ClearComponents()
 void Entity::OnActivated()
 {
 	SetDirtyTrueAtThisFrame();
+}
+
+void Entity::DestroyEntitySelf()
+{
+	DestroySelf();
 }
 
 const std::string& Entity::GetEntityName() const

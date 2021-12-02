@@ -39,6 +39,7 @@ namespace dooms
 		return dooms::Scene::GetSingleton()->CreateNewEntity();
 	}
 
+	class Scene;
 	class DOOM_API D_CLASS Entity : public DObject, public FrameDirtyChecker
 	{
 		GENERATE_BODY()
@@ -86,8 +87,11 @@ namespace dooms
 		D_PROPERTY(READONLY)
 		UINT32 mEntityFlag { eEntityFlags::OcculuderStatic | eEntityFlags::OcculudeeStatic };
 
+		D_PROPERTY(INVISIBLE)
+		Entity* mParentEntity = nullptr;
+
 		D_PROPERTY()
-		Entity* mParent = nullptr;
+		Scene* mInvolvedScene = nullptr;
 
 		D_PROPERTY()
 		std::vector<Entity*> mChilds;
@@ -449,6 +453,8 @@ namespace dooms
 		void OnPreUpdate() {}
 		void OnPostUpdate() {}
 
+		D_FUNCTION()
+		void DestroyEntitySelf();
 
 		D_FUNCTION()
 		NO_DISCARD const std::string& GetEntityName() const;

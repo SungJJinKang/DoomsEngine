@@ -11,6 +11,7 @@ using namespace dooms;
 
 Component::Component() : bIsAddedToEntity{}, mOwnerEntity{nullptr}, mTransform{}, mIsActivated{true}
 {
+	SetDObjectFlag(eDObjectFlag::NotCollectedByGC);
 }
 
 Component::~Component()
@@ -20,6 +21,7 @@ Component::~Component()
 Component::Component(const Component&)
 	: bIsAddedToEntity{}, mOwnerEntity{ nullptr }, mTransform{}, mIsActivated{ true }
 {
+	SetDObjectFlag(eDObjectFlag::NotCollectedByGC);
 }
 
 void Component::AddLocalDirtyToTransformDirtyReceiver(DirtyReceiver& localDirty)
