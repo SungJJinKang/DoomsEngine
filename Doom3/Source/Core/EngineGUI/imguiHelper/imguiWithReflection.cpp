@@ -136,7 +136,7 @@ namespace dooms
 				D_ASSERT(fieldDType != nullptr);
 
 				//initialize
-				isValueChange = true;
+				//isValueChange = true;
 
 				bool isSuccessToDrawGUI = false;
 				
