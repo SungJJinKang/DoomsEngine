@@ -4,6 +4,7 @@
 
 #include <Random.h>
 #include <Reflection/ReflectionType/DClass.h>
+#include <Rendering/Light/PointLight.h>
 
 void dooms::FireBulletComponent::InitComponent()
 {
@@ -42,7 +43,7 @@ void dooms::FireBulletComponent::Shoot()
 {
 	D_ASSERT(IsValid(mBullet) == true);
 
-	for (INT32 i = 0; i < BullterCount; i++)
+	for (INT32 i = 0; i < mBullerColors.size(); i++)
 	{
 		Entity* const newBulletEntity = dooms::Scene::DuplicateEntityStatic(mBullet->GetOwnerEntity());
 		D_ASSERT(IsValid(newBulletEntity) == true);
@@ -64,6 +65,11 @@ void dooms::FireBulletComponent::Shoot()
 			);
 
 			mBullet->mSpeed = BullterSpeed;
+
+			PointLight* const pointLight = newBulletEntity->GetComponent<PointLight>();
+			pointLight->SetColor(mBullerColors[i]);
+			pointLight->SetIntensity(10000.0f);
+			pointLight->SetIndirectMultiplier(10.0f);
 		}
 		
 	}
