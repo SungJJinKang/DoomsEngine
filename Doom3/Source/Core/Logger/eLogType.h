@@ -21,7 +21,7 @@ namespace dooms
 			D_LOG_TYPE12 = 11,
 			D_LOG_TYPE13 = 12,
 			D_LOG_TYPE14 = 13,
-			D_LOG_TYPE15 = 14,
+			D_PROFILING = 14,
 			D_LOG = 15,
 			D_WARNING = 16,
 			D_ERROR = 17,
