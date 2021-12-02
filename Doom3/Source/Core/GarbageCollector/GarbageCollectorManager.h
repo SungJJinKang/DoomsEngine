@@ -5,6 +5,7 @@
 #include <array>
 
 #include "RootObjectLevel.h"
+#include "GarbageCollectorSolver.h"
 
 namespace dooms
 {
@@ -17,18 +18,17 @@ namespace dooms
 
 		private:
 			
-			static std::array<float, dooms::ROOT_OBJECT_HIERARCHY_MAX_LEVEL> mElapsedTime;
+			static float mElapsedTime;
 
 			// Max Level is long term alive object
-			static std::array<float, dooms::ROOT_OBJECT_HIERARCHY_MAX_LEVEL> mCollectTimeStep;
-			static std::array<std::vector<DObject*>, dooms::ROOT_OBJECT_HIERARCHY_MAX_LEVEL> mRootsDObjectsList;
+			static float mCollectTimeStep;
+			static std::vector<DObject*> mRootsDObjectsList;
 
 			static void PoolRootsDObjectsList();
 			static void InitializeCollectTimeStep();
 
-			static void Collect();
-			static void Collect(const UINT32 level);
-			static void Collect(std::vector<DObject*>& rootObjectList);
+			inline static dooms::gc::garbageCollectorSolver::GCStage mNextGCStage{ dooms::gc::garbageCollectorSolver::GCStage::ClearFlagsStage };
+			
 
 		public:
 
@@ -42,7 +42,7 @@ namespace dooms
 			/// <param name="dObjet"></param>
 			/// <param name="level"></param>
 			/// <returns></returns>
-			static bool AddToRootsDObjectsList(DObject* const dObjet, const UINT32 initialLevel);
+			static bool AddToRootsDObjectsList(DObject* const dObjet);
 			static bool RemoveFromDObjectsList(DObject* const dObjet);
 		};
 	}
