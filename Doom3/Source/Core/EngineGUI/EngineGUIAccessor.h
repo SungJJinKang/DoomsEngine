@@ -38,8 +38,7 @@ namespace dooms
 			}
 
 			void SetIsVisibleOnGUI(const bool isVisible);
-
-			bool AddToRootObjectList(const UINT32 level);
+			
 		};
 	}
 }

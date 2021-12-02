@@ -14,13 +14,6 @@ dooms::ui::EngineGUIAccessor::EngineGUIAccessor(DObject* const dObject)
 	SetOwnerObject(dObject);
 }
 
-
-bool dooms::ui::EngineGUIAccessor::AddToRootObjectList(const UINT32 level)
-{
-	D_ASSERT(IsStrongValid(mOwnerDObject) == true);
-	return dooms::gc::GarbageCollectorManager::AddToRootsDObjectsList(mOwnerDObject, level);
-}
-
 void dooms::ui::EngineGUIAccessor::SetIsVisibleOnGUI(const bool isVisible)
 {
 	if(mIsVisibleOnGUI == true && isVisible == false)

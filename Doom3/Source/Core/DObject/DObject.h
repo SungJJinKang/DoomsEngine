@@ -5,11 +5,13 @@
 #include <type_traits>
 
 #include <Macros/TypeDef.h>
+#include <CompilerMacros.h>
 #include <Macros/DllMarcos.h>
 
 #include "DObjectMacros.h"
 #include "DObject_Constant.h"
 #include "DObjectManager.h"
+#include <GarbageCollector/RootObjectLevel.h>
 
 #include "Reflection/Reflection.h"
 #include "EngineGUI/EngineGUIAccessor.h"
@@ -52,9 +54,11 @@ namespace dooms
 	enum D_ENUM eDObjectFlag : UINT32
 	{
 		NewAllocated = 1 << 0,
-		Unreachable = 1 << 1
+		Unreachable = 1 << 1, // When DObject is created, this value is 0. because gc do mark stage incrementally.
+		NotCollectedByGC = 1 << 2
 	};
 
+	inline extern const UINT32 NotCopyedFlagsWhenCopyMoveConstruct = eDObjectFlag::Unreachable;
 	
 	class DOOM_API D_CLASS DObject
 	{
@@ -134,14 +138,15 @@ namespace dooms
 		
 		D_PROPERTY(NOLABEL)
 		DObjectProperties mDObjectProperties;
+
+		bool mIsAddedToRootObjectList = false;
 		
 		void Construct_Internal();
-		
+
+		void CopyFlagsToThisDObject(const UINT32 flags);
 
 	protected:
-
-		virtual UINT32 GetRootObjectLevel() const;
-
+		
 		DObject();
 		DObject(const std::string& dObjectName);
 		DObject(const DObject* const ownerDObject, const std::string& dObjectName);
@@ -159,7 +164,7 @@ namespace dooms
 
 		dooms::ui::EngineGUIAccessor mEngineGUIAccessor;
 
-
+		bool AddToRootObjectList();
 
 		
 
@@ -183,28 +188,35 @@ namespace dooms
 		}
 
 		D_FUNCTION()
-		inline UINT32 GetDObjectFlag() const
+		FORCE_INLINE UINT32 GetDObjectFlag() const
 		{
 			assert(mDObjectProperties.mCurrentIndexInDObjectList != (size_t)-1);
 			return dooms::DObjectManager::mDObjectsContainer.GetDObjectFlag(mDObjectProperties.mCurrentIndexInDObjectList);
 		}
 
 		D_FUNCTION()
-		inline bool GetDObjectFlag(const eDObjectFlag flag) const
+		FORCE_INLINE bool GetDObjectFlag(const eDObjectFlag flag) const
 		{
 			assert(mDObjectProperties.mCurrentIndexInDObjectList != (size_t)-1);
 			return (dooms::DObjectManager::mDObjectsContainer.GetDObjectFlag(mDObjectProperties.mCurrentIndexInDObjectList) & flag) != 0;
 		}
-
+		
 		D_FUNCTION()
-		inline void SetDObjectFlag(const eDObjectFlag flag)
+		FORCE_INLINE void SetDObjectFlag(const UINT32 flag)
 		{
 			assert(mDObjectProperties.mCurrentIndexInDObjectList != (size_t)-1);
 			dooms::DObjectManager::mDObjectsContainer.SetDObjectFlag(mDObjectProperties.mCurrentIndexInDObjectList, flag);
 		}
 
 		D_FUNCTION()
-		inline void ResetDObjectFlag(const UINT32 flag)
+		FORCE_INLINE void ClearDObjectFlag(const eDObjectFlag flag)
+		{
+			assert(mDObjectProperties.mCurrentIndexInDObjectList != (size_t)-1);
+			dooms::DObjectManager::mDObjectsContainer.ClearDObjectFlag(mDObjectProperties.mCurrentIndexInDObjectList, flag);
+		}
+
+		D_FUNCTION()
+		FORCE_INLINE void ResetDObjectFlag(const UINT32 flag)
 		{
 			assert(mDObjectProperties.mCurrentIndexInDObjectList != (size_t)-1);
 			dooms::DObjectManager::mDObjectsContainer.ResetDObjectFlag(mDObjectProperties.mCurrentIndexInDObjectList, flag);

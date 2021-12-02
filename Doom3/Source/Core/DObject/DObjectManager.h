@@ -17,9 +17,14 @@ namespace dooms
 {
 	class DObject;
 
+	namespace gc
+	{
+		class GarbageCollectorManager;
+	}
+
 	struct DObjectsContainer
 	{
-		friend class DObejct;
+		friend class DObject;
 
 		std::vector<DObject*> mDObjectList;
 		std::vector<UINT64> mDObjectIDList;
@@ -33,11 +38,29 @@ namespace dooms
 
 		bool IsEmpty() const;
 
-		UINT32 GetDObjectFlag(const size_t index) const;
+		FORCE_INLINE UINT32 GetDObjectFlag(const size_t index) const
+		{
+			assert(index < mDObjectFlagList.size());
+			return mDObjectFlagList[index];
+		}
 
-		void SetDObjectFlag(const size_t index, const UINT32 flag);
+		FORCE_INLINE void SetDObjectFlag(const size_t index, const UINT32 flag)
+		{
+			assert(index < mDObjectFlagList.size());
+			mDObjectFlagList[index] |= flag;
+		}
 
-		void ResetDObjectFlag(const size_t index, const UINT32 flag);
+		FORCE_INLINE void ClearDObjectFlag(const size_t index, const UINT32 flag)
+		{
+			assert(index < mDObjectFlagList.size());
+			mDObjectFlagList[index] &= (~flag);
+		}
+
+		FORCE_INLINE void ResetDObjectFlag(const size_t index, const UINT32 flag)
+		{
+			assert(index < mDObjectFlagList.size());
+			mDObjectFlagList[index] = flag;
+		}
 	};
 
 	class DOOM_API /*D_CLASS*/ DObjectManager
@@ -45,6 +68,7 @@ namespace dooms
 		//GENERATE_BODY()
 
 		friend class DObject;
+		friend class gc::GarbageCollectorManager;
 
 	private:
 
@@ -58,7 +82,6 @@ namespace dooms
 
 		static UINT64 GenerateNewDObejctID();
 
-		inline static std::recursive_mutex DObjectListMutex{};
 		static void InsertDObjectID(DObject* const dObject, const UINT64 dObjectID);
 
 		static bool AddNewDObject(DObject* const dObject);
@@ -66,6 +89,8 @@ namespace dooms
 		static bool RemoveDObject(DObject* const dObject);
 
 	public:
+
+		inline static std::recursive_mutex DObjectListMutex{};
 
 		static void DestroyAllDObjects(const bool force);
 		static void ClearConatiner();
@@ -76,7 +101,8 @@ namespace dooms
 		/// </summary>
 		/// <param name="dObject"></param>
 		/// <returns></returns>
-		static bool IsDObjectStrongValid(const DObject* const dObject);
+		static bool IsDObjectStrongValid(const DObject* const dObject, const bool lock = true);
+		static bool IsDObjectExist(const DObject* const dObject, const bool lock = true);
 
 		static bool IsEmpty();
 

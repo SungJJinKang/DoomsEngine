@@ -20,23 +20,7 @@ bool dooms::DObjectsContainer::IsEmpty() const
     return mDObjectList.empty();
 }
 
-UINT32 dooms::DObjectsContainer::GetDObjectFlag(const size_t index) const
-{
-	assert(index < mDObjectFlagList.size());
-	return mDObjectFlagList[index];
-}
 
-void dooms::DObjectsContainer::SetDObjectFlag(const size_t index, const UINT32 flag)
-{
-	assert(index < mDObjectFlagList.size());
-	mDObjectFlagList[index] |= flag;
-}
-
-void dooms::DObjectsContainer::ResetDObjectFlag(const size_t index, const UINT32 flag)
-{
-	assert(index < mDObjectFlagList.size());
-	mDObjectFlagList[index] = flag;
-}
 
 UINT64 dooms::DObjectManager::GenerateNewDObejctID()
 {
@@ -235,20 +219,26 @@ void dooms::DObjectManager::ClearConatiner()
     assert(mDObjectsContainer.mDObjectIDList.size() == mDObjectsContainer.mDObjectFlagList.size());
 }
 
-bool dooms::DObjectManager::IsDObjectStrongValid(const DObject* const dObject)
+bool dooms::DObjectManager::IsDObjectStrongValid(const DObject* const dObject, const bool lock)
 {
 	bool isValid = false;
 
 	if (dObject != nullptr)
 	{
-        std::unique_lock<std::recursive_mutex> u_lock{ DObjectListMutex };
+        if(lock == true)
+        {
+            DObjectListMutex.lock();
+        }
 
         if(fast_find_simd::find_simd(mDObjectsContainer.mDObjectList.begin(), mDObjectsContainer.mDObjectList.end(), const_cast<dooms::DObject*>(dObject)) != mDObjectsContainer.mDObjectList.end())
         {
             isValid = true;
         }
-        
-        u_lock.unlock();
+
+        if (lock == true)
+        {
+            DObjectListMutex.unlock();
+        }
 	}
 
     if(isValid == true)
@@ -258,6 +248,31 @@ bool dooms::DObjectManager::IsDObjectStrongValid(const DObject* const dObject)
 
 
 	return isValid;
+}
+
+bool dooms::DObjectManager::IsDObjectExist(const DObject* const dObject, const bool lock)
+{
+    bool isExist = false;
+
+    if (dObject != nullptr)
+    {
+        if (lock == true)
+        {
+            DObjectListMutex.lock();
+        }
+
+        if (fast_find_simd::find_simd(mDObjectsContainer.mDObjectList.begin(), mDObjectsContainer.mDObjectList.end(), const_cast<dooms::DObject*>(dObject)) != mDObjectsContainer.mDObjectList.end())
+        {
+            isExist = true;
+        }
+
+        if (lock == true)
+        {
+            DObjectListMutex.unlock();
+        }
+    }
+
+    return isExist;
 }
 
 
