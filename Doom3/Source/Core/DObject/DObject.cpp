@@ -8,7 +8,7 @@
 
 void dooms::DObject::Construct_Internal()
 {
-	if (mDObjectID == INVALID_DOBJECT_ID)
+	if (mDObjectProperties.mDObjectID == INVALID_DOBJECT_ID)
 	{
 		DObjectManager::AddNewDObject(this);
 	}
@@ -21,7 +21,7 @@ UINT32 dooms::DObject::GetRootObjectLevel() const
 
 void dooms::DObject::InitProperties(const DObjectContructorParams& params)
 {
-	mDObjectProperties.mDObjectFlag = params.DObjectFlag;
+	ResetDObjectFlag(params.DObjectFlag);
 	mDObjectProperties.mDObjectName = params.mDObjectName;
 }
 
@@ -64,20 +64,20 @@ bool dooms::DObject::DestroySelf() const
 }
 
 dooms::DObject::DObject()
-	:mDObjectID(INVALID_DOBJECT_ID), mDObjectProperties(), mEngineGUIAccessor(this)
+	: mDObjectProperties(), mEngineGUIAccessor(this)
 {
 	Construct_Internal();
 }
 
 dooms::DObject::DObject(const std::string& dObjectName)
-	: mDObjectID(INVALID_DOBJECT_ID), mDObjectProperties(), mEngineGUIAccessor(this)
+	: mDObjectProperties(), mEngineGUIAccessor(this)
 {
 	mDObjectProperties.mDObjectName = dObjectName;
 	Construct_Internal();
 }
 
 dooms::DObject::DObject(const DObject* const ownerDObject, const std::string& dObjectName)
-	: mDObjectID(INVALID_DOBJECT_ID), mDObjectProperties(), mEngineGUIAccessor(this)
+	: mDObjectProperties(), mEngineGUIAccessor(this)
 {
 	mDObjectProperties.mDObjectName = dObjectName;
 	mDObjectProperties.mOwnerDObject = ownerDObject;
@@ -86,7 +86,7 @@ dooms::DObject::DObject(const DObject* const ownerDObject, const std::string& dO
 
 
 dooms::DObject::DObject(const DObjectContructorParams& params)
-	: mDObjectID(INVALID_DOBJECT_ID), mDObjectProperties(), mEngineGUIAccessor(this)
+	: mDObjectProperties(), mEngineGUIAccessor(this)
 {
 	InitProperties(params);
 	Construct_Internal();
@@ -95,14 +95,13 @@ dooms::DObject::DObject(const DObjectContructorParams& params)
 
 
 dooms::DObject::DObject(const DObject& dObject)
-	:mDObjectID(INVALID_DOBJECT_ID), mDObjectProperties(dObject.mDObjectProperties), mEngineGUIAccessor(this)
+	: mDObjectProperties(dObject.mDObjectProperties), mEngineGUIAccessor(this)
 {
 	Construct_Internal();
 }
 dooms::DObject& dooms::DObject::operator=(const DObject& dObject)
 {
 	mDObjectProperties = dObject.mDObjectProperties;
-	mDObjectID = INVALID_DOBJECT_ID;
 	
 	Construct_Internal();
 
@@ -110,7 +109,7 @@ dooms::DObject& dooms::DObject::operator=(const DObject& dObject)
 }
 
 dooms::DObject::DObject(DObject&& dObject) noexcept
-	: mDObjectProperties(dObject.mDObjectProperties), mEngineGUIAccessor(this)
+	: mDObjectProperties(std::move(dObject.mDObjectProperties)), mEngineGUIAccessor(this)
 {
 	DObjectManager::ReplaceDObjectFromDObjectList(std::move(dObject), this);
 }
@@ -119,7 +118,7 @@ dooms::DObject::DObject(DObject&& dObject) noexcept
 
 dooms::DObject& dooms::DObject::operator=(DObject&& dObject) noexcept
 {
-	mDObjectProperties.mDObjectFlag = dObject.mDObjectProperties.mDObjectFlag;
+	mDObjectProperties = std::move(dObject.mDObjectProperties);
 	DObjectManager::ReplaceDObjectFromDObjectList(std::move(dObject), this);
 	
 	return *this;

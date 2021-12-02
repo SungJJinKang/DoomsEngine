@@ -615,9 +615,6 @@
     <ClCompile Include="Source\Core\Reflection\ReflectionType\DFunction.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Core\GarbageCollector\GarbageCollectee.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Source\Core\Reflection\ReflectionUtility.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -1695,9 +1692,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\Core\Reflection\ReflectionType\DFunction.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Core\GarbageCollector\GarbageCollectee.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\thirdparty\imgui\imconfig.h">

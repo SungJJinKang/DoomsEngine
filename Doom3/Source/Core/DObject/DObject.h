@@ -9,9 +9,9 @@
 
 #include "DObjectMacros.h"
 #include "DObject_Constant.h"
+#include "DObjectManager.h"
 
 #include "Reflection/Reflection.h"
-#include <GarbageCollector/GarbageCollectee.h>
 #include "EngineGUI/EngineGUIAccessor.h"
 #include "Reflection/ReflectionType/DField.h"
 
@@ -51,13 +51,16 @@ namespace dooms
 
 	enum D_ENUM eDObjectFlag : UINT32
 	{
-		NewAllocated = 1 << 0
+		NewAllocated = 1 << 0,
+		Unreachable = 1 << 1
 	};
 
 	
 	class DOOM_API D_CLASS DObject
 	{
 		GENERATE_BODY()
+
+		friend class DObjectManager;
 
 	public:
 
@@ -88,32 +91,59 @@ namespace dooms
 		{
 			GENERATE_BODY_DObjectProperties()
 
-			D_PROPERTY(INVISIBLE)
-			UINT32 mDObjectFlag = 0;
+			size_t mCurrentIndexInDObjectList;
 
 			D_PROPERTY(INVISIBLE)
-			std::string mDObjectName{};
+			UINT64 mDObjectID;
+
+			D_PROPERTY(INVISIBLE)
+			std::string mDObjectName;
 			
-			const DObject* mOwnerDObject = nullptr;
+			const DObject* mOwnerDObject;
 
-			DObjectProperties() = default;
-			DObjectProperties(const DObjectProperties&) = default;
-			DObjectProperties(DObjectProperties&&) noexcept = default;
-			DObjectProperties& operator=(const DObjectProperties&) = default;
-			DObjectProperties& operator=(DObjectProperties&&) noexcept = default;
+			DObjectProperties()
+				: mCurrentIndexInDObjectList((size_t)-1), mDObjectID(INVALID_DOBJECT_ID), mDObjectName(), mOwnerDObject(nullptr)
+			{
+				
+			}
+			DObjectProperties(const DObjectProperties& dObjectProperties)
+			{
+				mCurrentIndexInDObjectList = (size_t)-1;
+				mDObjectID = INVALID_DOBJECT_ID;
+				mDObjectName = dObjectProperties.mDObjectName;
+				mOwnerDObject = dObjectProperties.mOwnerDObject;
+			}
+			DObjectProperties(DObjectProperties&& dObjectProperties) noexcept
+			{
+				mCurrentIndexInDObjectList = (size_t)-1;
+				mDObjectID = INVALID_DOBJECT_ID;
+				mDObjectName = dObjectProperties.mDObjectName;
+				mOwnerDObject = dObjectProperties.mOwnerDObject;				
+			}
+			DObjectProperties& operator=(const DObjectProperties& dObjectProperties)
+			{
+				mCurrentIndexInDObjectList = (size_t)-1;
+				mDObjectID = INVALID_DOBJECT_ID;
+				mDObjectName = dObjectProperties.mDObjectName;
+				mOwnerDObject = dObjectProperties.mOwnerDObject;
+				return *this;
+			}
+			DObjectProperties& operator=(DObjectProperties&& dObjectProperties) noexcept
+			{
+				mCurrentIndexInDObjectList = (size_t)-1;
+				mDObjectID = INVALID_DOBJECT_ID;
+				mDObjectName = dObjectProperties.mDObjectName;
+				mOwnerDObject = dObjectProperties.mOwnerDObject;
+				return *this;
+			}
 			~DObjectProperties() = default;
 		};
 
 	private:
-
-		D_PROPERTY(INVISIBLE)
-		UINT64 mDObjectID;
-
+		
 		D_PROPERTY(NOLABEL)
 		DObjectProperties mDObjectProperties;
-
-		gc::GarbageCollectee mGarbageCollectee;
-
+		
 		void Construct_Internal();
 		
 
@@ -151,19 +181,35 @@ namespace dooms
 		D_FUNCTION()
 		inline size_t GetDObjectID() const
 		{
-			return mDObjectID;
+			return mDObjectProperties.mDObjectID;
 		}
 
 		D_FUNCTION()
 		inline UINT32 GetDObjectFlag() const
 		{
-			return mDObjectProperties.mDObjectFlag;
+			assert(mDObjectProperties.mCurrentIndexInDObjectList != UINT64_MAX);
+			return dooms::DObjectManager::mDObjectsContainer.GetDObjectFlag(mDObjectProperties.mCurrentIndexInDObjectList);
 		}
 
 		D_FUNCTION()
 		inline bool GetDObjectFlag(const eDObjectFlag flag) const
 		{
-			return (mDObjectProperties.mDObjectFlag & flag) != 0;
+			assert(mDObjectProperties.mCurrentIndexInDObjectList != UINT64_MAX);
+			return (dooms::DObjectManager::mDObjectsContainer.GetDObjectFlag(mDObjectProperties.mCurrentIndexInDObjectList) & flag) != 0;
+		}
+
+		D_FUNCTION()
+		inline void SetDObjectFlag(const eDObjectFlag flag)
+		{
+			assert(mDObjectProperties.mCurrentIndexInDObjectList != UINT64_MAX);
+			dooms::DObjectManager::mDObjectsContainer.GetDObjectFlag(mDObjectProperties.mCurrentIndexInDObjectList) |= static_cast<UINT32>(flag);
+		}
+
+		D_FUNCTION()
+		inline void ResetDObjectFlag(const UINT32 flag)
+		{
+			assert(mDObjectProperties.mCurrentIndexInDObjectList != UINT64_MAX);
+			dooms::DObjectManager::mDObjectsContainer.GetDObjectFlag(mDObjectProperties.mCurrentIndexInDObjectList) = flag;
 		}
 
 		D_FUNCTION()
@@ -184,8 +230,14 @@ namespace dooms
 		D_FUNCTION()
 		FORCE_INLINE bool GetIsPendingKill() const
 		{
-			return mGarbageCollectee.GetIsPendingKill();
+			return GetDObjectFlag(eDObjectFlag::Unreachable);
 		}
+		D_FUNCTION()
+		FORCE_INLINE void SetIsPendingKill(const bool isPendingKill)
+		{
+			SetDObjectFlag(eDObjectFlag::Unreachable);
+		}
+
 
 		D_FUNCTION(INVISIBLE)
 		bool DestroySelf() const;

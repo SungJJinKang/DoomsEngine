@@ -55,6 +55,8 @@ namespace dooms
 	template <typename DObjectType, typename... Args>
 	extern DObjectType* CreateDObject(Args&&... args)
 	{
+		static_assert(IS_DOBJECT_TYPE(DObjectType) == true);
+
 		//DObjectType's Constructor should be public function
 		DObjectType* newDObject = new DObjectType(std::forward<Args>(args)...);
 

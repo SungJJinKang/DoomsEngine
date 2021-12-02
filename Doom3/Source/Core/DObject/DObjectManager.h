@@ -2,6 +2,7 @@
 
 #include <vector>
 #include <mutex>
+#include <cassert>
 
 #include <Macros/TypeDef.h>
 #include <Macros/DllMarcos.h>
@@ -9,20 +10,34 @@
 
 #include "DObject_Constant.h"
 
-#define DEFUALT_DOBJECT_LIST_RESERVATION_SIZE 5000
+#define DEFUALT_DOBJECT_LIST_RESERVATION_SIZE 200
 
+#include "DObjectManager.reflection.h"
 namespace dooms
 {
 	class DObject;
 
 	struct DObjectsContainer
 	{
-		std::vector<DObject*> mDObjectsList{};
-		std::vector<UINT64> mDObjectsIDList{};
+		friend class DObejct;
+
+		std::vector<DObject*> mDObjectList;
+		std::vector<UINT64> mDObjectIDList;
+		std::vector<UINT32> mDObjectFlagList;
 
 		DObjectsContainer();
+		DObjectsContainer(const DObjectsContainer&) = delete;
+		DObjectsContainer(DObjectsContainer&&) noexcept = delete;
+		DObjectsContainer& operator=(const DObjectsContainer&) = delete;
+		DObjectsContainer& operator=(DObjectsContainer&&) noexcept = delete;
 
 		bool IsEmpty() const;
+
+		FORCE_INLINE UINT32& GetDObjectFlag(const size_t index)
+		{
+			assert(index < mDObjectFlagList.size());
+			return mDObjectFlagList[index];
+		}
 	};
 
 	class DOOM_API /*D_CLASS*/ DObjectManager

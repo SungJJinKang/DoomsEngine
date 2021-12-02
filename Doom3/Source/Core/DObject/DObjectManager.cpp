@@ -9,14 +9,15 @@
 
 dooms::DObjectsContainer::DObjectsContainer()
 {
-    mDObjectsList.reserve(DEFUALT_DOBJECT_LIST_RESERVATION_SIZE);
-    mDObjectsIDList.reserve(DEFUALT_DOBJECT_LIST_RESERVATION_SIZE);
+    mDObjectList.reserve(DEFUALT_DOBJECT_LIST_RESERVATION_SIZE);
+    mDObjectIDList.reserve(DEFUALT_DOBJECT_LIST_RESERVATION_SIZE);
+    mDObjectFlagList.reserve(DEFUALT_DOBJECT_LIST_RESERVATION_SIZE);
 }
 
 bool dooms::DObjectsContainer::IsEmpty() const
 {
-    assert(mDObjectsList.size() == mDObjectsIDList.size());
-    return mDObjectsList.empty() && mDObjectsIDList.empty();
+    assert(mDObjectList.size() == mDObjectIDList.size() == mDObjectFlagList.size());
+    return mDObjectList.empty();
 }
 
 UINT64 dooms::DObjectManager::GenerateNewDObejctID()
@@ -31,45 +32,64 @@ UINT64 dooms::DObjectManager::GenerateNewDObejctID()
 void dooms::DObjectManager::InsertDObjectID(DObject* const dObject, const UINT64 dObjectID)
 {
     assert(dObject != nullptr);
-    assert(mDObjectsContainer.mDObjectsList.size() == mDObjectsContainer.mDObjectsIDList.size());
-    
+    assert(mDObjectsContainer.mDObjectList.size() == mDObjectsContainer.mDObjectIDList.size());
+    assert(mDObjectsContainer.mDObjectList.size() == mDObjectsContainer.mDObjectFlagList.size());
+    assert(mDObjectsContainer.mDObjectIDList.size() == mDObjectsContainer.mDObjectFlagList.size());
+
     if (dObject != nullptr)
     {
         std::unique_lock<std::recursive_mutex> u_lock{ DObjectListMutex };
 
-         mDObjectsContainer.mDObjectsList.push_back(dObject);
-         mDObjectsContainer.mDObjectsIDList.push_back(dObjectID);
+         mDObjectsContainer.mDObjectList.push_back(dObject);
+         mDObjectsContainer.mDObjectIDList.push_back(dObjectID);
+         mDObjectsContainer.mDObjectFlagList.push_back(0);
 
-		dObject->mDObjectID = dObjectID;
+		dObject->mDObjectProperties.mDObjectID = dObjectID;
+		dObject->mDObjectProperties.mCurrentIndexInDObjectList = mDObjectsContainer.mDObjectList.size() - 1;
 
         u_lock.unlock();
     }
+
+    assert(mDObjectsContainer.mDObjectList.size() == mDObjectsContainer.mDObjectIDList.size());
+    assert(mDObjectsContainer.mDObjectList.size() == mDObjectsContainer.mDObjectFlagList.size());
+    assert(mDObjectsContainer.mDObjectIDList.size() == mDObjectsContainer.mDObjectFlagList.size());
+
 }
 
 void dooms::DObjectManager::InsertDObjectIDIfExist(DObject* const dObject)
 {
     assert(dObject != nullptr);
     assert(dObject->GetDObjectID() != INVALID_DOBJECT_ID);
-    assert(mDObjectsContainer.mDObjectsList.size() == mDObjectsContainer.mDObjectsIDList.size());
+    assert(mDObjectsContainer.mDObjectList.size() == mDObjectsContainer.mDObjectIDList.size());
+    assert(mDObjectsContainer.mDObjectList.size() == mDObjectsContainer.mDObjectFlagList.size());
+    assert(mDObjectsContainer.mDObjectIDList.size() == mDObjectsContainer.mDObjectFlagList.size());
     
     if (dObject != nullptr)
     {
         std::unique_lock<std::recursive_mutex> u_lock{ DObjectListMutex };
 
-        mDObjectsContainer.mDObjectsList.push_back(dObject);
-        mDObjectsContainer.mDObjectsIDList.push_back(dObject->GetDObjectID());
+        mDObjectsContainer.mDObjectList.push_back(dObject);
+        mDObjectsContainer.mDObjectIDList.push_back(dObject->GetDObjectID());
+        mDObjectsContainer.mDObjectFlagList.push_back(0);
+        dObject->mDObjectProperties.mCurrentIndexInDObjectList = mDObjectsContainer.mDObjectList.size() - 1;
         
         u_lock.unlock();
     }
+
+    assert(mDObjectsContainer.mDObjectList.size() == mDObjectsContainer.mDObjectIDList.size());
+    assert(mDObjectsContainer.mDObjectList.size() == mDObjectsContainer.mDObjectFlagList.size());
+    assert(mDObjectsContainer.mDObjectIDList.size() == mDObjectsContainer.mDObjectFlagList.size());
+
 }
 
 
 
 bool dooms::DObjectManager::AddNewDObject(DObject* const dObject)
 {
-    assert(mDObjectsContainer.mDObjectsList.size() == mDObjectsContainer.mDObjectsIDList.size());
-
     assert(dObject != nullptr);
+    assert(mDObjectsContainer.mDObjectList.size() == mDObjectsContainer.mDObjectIDList.size());
+    assert(mDObjectsContainer.mDObjectList.size() == mDObjectsContainer.mDObjectFlagList.size());
+    assert(mDObjectsContainer.mDObjectIDList.size() == mDObjectsContainer.mDObjectFlagList.size());
 
     bool isSuccess = false;
 
@@ -80,17 +100,23 @@ bool dooms::DObjectManager::AddNewDObject(DObject* const dObject)
 
         isSuccess = true;
     }
- 
+
+    assert(mDObjectsContainer.mDObjectList.size() == mDObjectsContainer.mDObjectIDList.size());
+    assert(mDObjectsContainer.mDObjectList.size() == mDObjectsContainer.mDObjectFlagList.size());
+    assert(mDObjectsContainer.mDObjectIDList.size() == mDObjectsContainer.mDObjectFlagList.size());
+
 
     return isSuccess;
 }
 
 bool dooms::DObjectManager::ReplaceDObjectFromDObjectList(DObject&& originalDObject, DObject* const newDObject)
 {
-    assert(mDObjectsContainer.mDObjectsList.size() == mDObjectsContainer.mDObjectsIDList.size());
-
     assert(originalDObject.GetDObjectID() != INVALID_DOBJECT_ID);
     assert(&originalDObject != newDObject);
+    assert(mDObjectsContainer.mDObjectList.size() == mDObjectsContainer.mDObjectIDList.size());
+    assert(mDObjectsContainer.mDObjectList.size() == mDObjectsContainer.mDObjectFlagList.size());
+    assert(mDObjectsContainer.mDObjectIDList.size() == mDObjectsContainer.mDObjectFlagList.size());
+
 
     const UINT64 originalDObjectID = originalDObject.GetDObjectID();
 
@@ -98,15 +124,19 @@ bool dooms::DObjectManager::ReplaceDObjectFromDObjectList(DObject&& originalDObj
 
     RemoveDObject(&originalDObject);
 
+    assert(mDObjectsContainer.mDObjectList.size() == mDObjectsContainer.mDObjectIDList.size());
+    assert(mDObjectsContainer.mDObjectList.size() == mDObjectsContainer.mDObjectFlagList.size());
+    assert(mDObjectsContainer.mDObjectIDList.size() == mDObjectsContainer.mDObjectFlagList.size());
+
     return true;
 }
 
 bool dooms::DObjectManager::RemoveDObject(DObject* const dObject)
 {
-
-    assert(mDObjectsContainer.mDObjectsList.size() == mDObjectsContainer.mDObjectsIDList.size());
-
     assert(dObject != nullptr);
+    assert(mDObjectsContainer.mDObjectList.size() == mDObjectsContainer.mDObjectIDList.size());
+    assert(mDObjectsContainer.mDObjectList.size() == mDObjectsContainer.mDObjectFlagList.size());
+    assert(mDObjectsContainer.mDObjectIDList.size() == mDObjectsContainer.mDObjectFlagList.size());
 
     bool isSuccess = false;
 
@@ -114,17 +144,28 @@ bool dooms::DObjectManager::RemoveDObject(DObject* const dObject)
     {
         std::unique_lock<std::recursive_mutex> u_lock{ DObjectListMutex };
 
-        const std::vector<dooms::DObject*>::iterator iter = fast_find_simd::find_simd(mDObjectsContainer.mDObjectsList.begin(), mDObjectsContainer.mDObjectsList.end(), const_cast<dooms::DObject*>(dObject));
-        if(iter != mDObjectsContainer.mDObjectsList.end())
+        const std::vector<dooms::DObject*>::iterator iter = fast_find_simd::find_simd(mDObjectsContainer.mDObjectList.begin(), mDObjectsContainer.mDObjectList.end(), const_cast<dooms::DObject*>(dObject));
+        if(iter != mDObjectsContainer.mDObjectList.end())
         {
-            const size_t index = iter - mDObjectsContainer.mDObjectsList.begin();
-            swap_popback::vector_swap_popback(mDObjectsContainer.mDObjectsList, iter);
-            swap_popback::vector_swap_popback(mDObjectsContainer.mDObjectsIDList, mDObjectsContainer.mDObjectsIDList.begin() + index);
+            const size_t index = iter - mDObjectsContainer.mDObjectList.begin();
+
+            assert(index < mDObjectsContainer.mDObjectList.size());
+
+            swap_popback::vector_swap_popback(mDObjectsContainer.mDObjectList, iter);
+            swap_popback::vector_swap_popback(mDObjectsContainer.mDObjectIDList, mDObjectsContainer.mDObjectIDList.begin() + index);
+            swap_popback::vector_swap_popback(mDObjectsContainer.mDObjectFlagList, mDObjectsContainer.mDObjectFlagList.begin() + index);
+
+            mDObjectsContainer.mDObjectList[index]->mDObjectProperties.mCurrentIndexInDObjectList = index;
 
             isSuccess = true;
         }
+
+        dObject->mDObjectProperties.mDObjectID = INVALID_DOBJECT_ID;
     }
 
+    assert(mDObjectsContainer.mDObjectList.size() == mDObjectsContainer.mDObjectIDList.size());
+    assert(mDObjectsContainer.mDObjectList.size() == mDObjectsContainer.mDObjectFlagList.size());
+    assert(mDObjectsContainer.mDObjectIDList.size() == mDObjectsContainer.mDObjectFlagList.size());
 
     return isSuccess;
 }
@@ -132,15 +173,19 @@ bool dooms::DObjectManager::RemoveDObject(DObject* const dObject)
 
 void dooms::DObjectManager::DestroyAllDObjects(const bool force)
 {
-    assert(mDObjectsContainer.mDObjectsList.size() == mDObjectsContainer.mDObjectsIDList.size());
+    assert(mDObjectsContainer.mDObjectList.size() == mDObjectsContainer.mDObjectIDList.size());
+    assert(mDObjectsContainer.mDObjectList.size() == mDObjectsContainer.mDObjectFlagList.size());
+    assert(mDObjectsContainer.mDObjectIDList.size() == mDObjectsContainer.mDObjectFlagList.size());
 
     std::unique_lock<std::recursive_mutex> u_lock{ DObjectListMutex };
 
     size_t newIndex = 0;
-    for(size_t i = 0 ; i < mDObjectsContainer.mDObjectsList.size() ; i++)
+
+    const size_t originalDObjectCount = mDObjectsContainer.mDObjectList.size();
+    for(size_t i = 0 ; i < originalDObjectCount; i++)
     {
-        dooms::DObject* const targetDObject = mDObjectsContainer.mDObjectsList[i];
-        if (force || targetDObject->GetDObjectFlag(eDObjectFlag::NewAllocated) == true)
+        dooms::DObject* const targetDObject = mDObjectsContainer.mDObjectList[i];
+        if (force || ( (mDObjectsContainer.mDObjectFlagList[i] & eDObjectFlag::NewAllocated) != 0 ) )
         {
             delete targetDObject;
         }
@@ -148,45 +193,57 @@ void dooms::DObjectManager::DestroyAllDObjects(const bool force)
         {
             if(newIndex != i)
             {
-                mDObjectsContainer.mDObjectsList[newIndex] = mDObjectsContainer.mDObjectsList[i];
-                mDObjectsContainer.mDObjectsIDList[newIndex] = mDObjectsContainer.mDObjectsIDList[i];
+                mDObjectsContainer.mDObjectList[newIndex] = mDObjectsContainer.mDObjectList[i];
+                mDObjectsContainer.mDObjectIDList[newIndex] = mDObjectsContainer.mDObjectIDList[i];
+                mDObjectsContainer.mDObjectFlagList[newIndex] = mDObjectsContainer.mDObjectFlagList[i];
+                mDObjectsContainer.mDObjectList[newIndex]->mDObjectProperties.mCurrentIndexInDObjectList = newIndex;
             }
             
             newIndex++;
         }
     }
 
-    mDObjectsContainer.mDObjectsList.resize(newIndex);
-    mDObjectsContainer.mDObjectsIDList.resize(newIndex);
+    mDObjectsContainer.mDObjectList.resize(newIndex);
+    mDObjectsContainer.mDObjectIDList.resize(newIndex);
+    mDObjectsContainer.mDObjectFlagList.resize(newIndex);
 
     u_lock.unlock();
+
+    assert(mDObjectsContainer.mDObjectList.size() == mDObjectsContainer.mDObjectIDList.size());
+    assert(mDObjectsContainer.mDObjectList.size() == mDObjectsContainer.mDObjectFlagList.size());
+    assert(mDObjectsContainer.mDObjectIDList.size() == mDObjectsContainer.mDObjectFlagList.size());
 
     //ClearConatiner(); Never Do this at here. When Static Object is destroyed, It access to mDObjectsHashmap in DObject's Destructor to reset DObject ID
 }
 
 void dooms::DObjectManager::ClearConatiner()
 {
-    assert(mDObjectsContainer.mDObjectsList.size() == mDObjectsContainer.mDObjectsIDList.size());
+    assert(mDObjectsContainer.mDObjectList.size() == mDObjectsContainer.mDObjectIDList.size());
+    assert(mDObjectsContainer.mDObjectList.size() == mDObjectsContainer.mDObjectFlagList.size());
+    assert(mDObjectsContainer.mDObjectIDList.size() == mDObjectsContainer.mDObjectFlagList.size());
 
     std::unique_lock<std::recursive_mutex> u_lock{ DObjectListMutex };
 
-    mDObjectsContainer.mDObjectsList.~vector();
-    mDObjectsContainer.mDObjectsIDList.~vector();
+    mDObjectsContainer.mDObjectList.~vector();
+    mDObjectsContainer.mDObjectIDList.~vector();
+    mDObjectsContainer.mDObjectFlagList.~vector();
 
     u_lock.unlock();
+
+    assert(mDObjectsContainer.mDObjectList.size() == mDObjectsContainer.mDObjectIDList.size());
+    assert(mDObjectsContainer.mDObjectList.size() == mDObjectsContainer.mDObjectFlagList.size());
+    assert(mDObjectsContainer.mDObjectIDList.size() == mDObjectsContainer.mDObjectFlagList.size());
 }
 
 bool dooms::DObjectManager::IsDObjectStrongValid(const DObject* const dObject)
 {
-    assert(mDObjectsContainer.mDObjectsList.size() == mDObjectsContainer.mDObjectsIDList.size());
-
 	bool isValid = false;
 
 	if (dObject != nullptr)
 	{
         std::unique_lock<std::recursive_mutex> u_lock{ DObjectListMutex };
 
-        if(fast_find_simd::find_simd(mDObjectsContainer.mDObjectsList.begin(), mDObjectsContainer.mDObjectsList.end(), const_cast<dooms::DObject*>(dObject)) != mDObjectsContainer.mDObjectsList.end())
+        if(fast_find_simd::find_simd(mDObjectsContainer.mDObjectList.begin(), mDObjectsContainer.mDObjectList.end(), const_cast<dooms::DObject*>(dObject)) != mDObjectsContainer.mDObjectList.end())
         {
             isValid = true;
         }
@@ -206,13 +263,15 @@ bool dooms::DObjectManager::IsDObjectStrongValid(const DObject* const dObject)
 
 bool dooms::DObjectManager::IsEmpty()
 {
-    assert(mDObjectsContainer.mDObjectsList.size() == mDObjectsContainer.mDObjectsIDList.size());
-    return mDObjectsContainer.mDObjectsList.empty();
+    assert(mDObjectsContainer.mDObjectList.size() == mDObjectsContainer.mDObjectIDList.size());
+
+    return mDObjectsContainer.mDObjectList.empty();
 }
 
 size_t dooms::DObjectManager::GetDObjectCount()
 {
-    assert(mDObjectsContainer.mDObjectsList.size() == mDObjectsContainer.mDObjectsIDList.size());
-    return mDObjectsContainer.mDObjectsList.size();
+    assert(mDObjectsContainer.mDObjectList.size() == mDObjectsContainer.mDObjectIDList.size());
+
+    return mDObjectsContainer.mDObjectList.size();
 }
 
