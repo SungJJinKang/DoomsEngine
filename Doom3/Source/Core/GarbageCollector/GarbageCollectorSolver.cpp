@@ -1,6 +1,6 @@
 #include "GarbageCollectorSolver.h"
 
-void dooms::gc::garbageCollectorSolver::SolveGC(std::vector<DObject*>& rootObjectList)
+void dooms::gc::garbageCollectorSolver::SolveGC(const UINT32 keepFlags, std::vector<DObject*>& rootObjectList)
 {
 	// GC if dObject is on pending kill
 

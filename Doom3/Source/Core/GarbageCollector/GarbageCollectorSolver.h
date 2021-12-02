@@ -2,6 +2,8 @@
 
 #include <vector>
 
+#include "TypeDef.h"
+
 namespace dooms
 {
 	class DObject;
@@ -10,7 +12,7 @@ namespace dooms
 		namespace garbageCollectorSolver
 		{
 
-			void SolveGC(std::vector<DObject*>& rootObjectList);
+			void SolveGC(const UINT32 keepFlags, std::vector<DObject*>& rootObjectList);
 
 		}
 	}
