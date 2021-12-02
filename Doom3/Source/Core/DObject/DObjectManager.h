@@ -1,6 +1,5 @@
 #pragma once
 
-#include <unordered_map>
 #include <vector>
 #include <mutex>
 
@@ -10,10 +9,22 @@
 
 #include "DObject_Constant.h"
 
-//#include "DObjectManager.reflection.h"
+#define DEFUALT_DOBJECT_LIST_RESERVATION_SIZE 5000
+
 namespace dooms
 {
 	class DObject;
+
+	struct DObjectsContainer
+	{
+		std::vector<DObject*> mDObjectsList{};
+		std::vector<UINT64> mDObjectsIDList{};
+
+		DObjectsContainer();
+
+		bool IsEmpty() const;
+	};
+
 	class DOOM_API /*D_CLASS*/ DObjectManager
 	{
 		//GENERATE_BODY()
@@ -28,13 +39,13 @@ namespace dooms
 		/// this is need to be optimized
 		///	because searching is too slow.
 		/// </summary>
-		inline static std::unordered_map<DObject*, UINT64> mDObjectsHashmap{};
+		inline static DObjectsContainer mDObjectsContainer{};
 
 		static UINT64 GenerateNewDObejctID();
 
 		inline static std::recursive_mutex DObjectListMutex{};
-		static std::unordered_map<DObject*, UINT64>::iterator InsertDObjectIDIfExist(DObject* const dObject, const UINT64 dObjectID);
-		static std::unordered_map<DObject*, UINT64>::iterator InsertDObjectID(DObject* const dObject, const UINT64 dObjectID);
+		static void InsertDObjectIDIfExist(DObject* const dObject);
+		static void InsertDObjectID(DObject* const dObject, const UINT64 dObjectID);
 
 		static bool AddNewDObject(DObject* const dObject);
 		static bool ReplaceDObjectFromDObjectList(DObject&& originalDObject, DObject* const newDObject);
