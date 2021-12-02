@@ -47,7 +47,7 @@ void dooms::gc::GarbageCollectorManager::Collect(const UINT32 level)
 
 void dooms::gc::GarbageCollectorManager::Collect(std::vector<DObject*>& rootObjectList)
 {
-	dooms::gc::garbageCollectorSolver::SolveGC(rootObjectList);
+	dooms::gc::garbageCollectorSolver::SolveGC(0, rootObjectList);
 }
 
 void dooms::gc::GarbageCollectorManager::Init()

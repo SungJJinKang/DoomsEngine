@@ -148,6 +148,7 @@ void dooms::GameLogicStartPoint::StartGameLogic()
 		auto meshRenderer = entity->AddComponent<MeshRenderer>();
 		entity->AddComponent<Rigidbody>();
 		BulletComponent* bullet = entity->AddComponent<BulletComponent>();
+		entity->AddComponent<PointLight>();
 		meshRenderer->SetMesh(planetAsset->GetMesh(0));
 		meshRenderer->SetMaterial(material);
 		BoxCollider3D* box3D = entity->AddComponent<BoxCollider3D>();

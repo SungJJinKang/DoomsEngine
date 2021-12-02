@@ -7,14 +7,6 @@
 namespace dooms
 {
 	class BulletComponent;
-
-	template <INT32 A>
-	class BB
-	{
-		
-	};
-
-
 	class DOOM_API D_CLASS FireBulletComponent : public PlainComponent
 	{
 		GENERATE_BODY()
@@ -26,14 +18,8 @@ namespace dooms
 		D_PROPERTY(MIN=10, MAX=5, VISIBLE = "true") // -> clcpp return attribute ( IntAttribute. have 10, 5 as value )
 		FLOAT32 BullterSpeed = 30.0f;
 
-		D_PROPERTY(MIN=0)
-		std::vector<int> vector;
-
-		D_PROPERTY(MIN = 0)
-		std::array<char, 10> sdfdsf;
-
-		D_PROPERTY(MIN = 0)
-		BB<-15> fd;
+		D_PROPERTY(COLOR)
+		std::vector<math::Vector4> mBullerColors;
 		
 	public:
 

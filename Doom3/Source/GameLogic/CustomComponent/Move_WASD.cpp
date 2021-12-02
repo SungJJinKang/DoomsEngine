@@ -51,12 +51,7 @@ void dooms::Move_WASD::UpdateComponent()
 	if (isMove == true)
 	{
 		translation.Normalize();
-		translation *= 100.0f;
-
-		if (UserInput_Server::GetKey(eKEY_CODE::KEY_LEFT_SHIFT))
-		{
-			translation *= 2.0f;
-		}
+		translation *= 100.0f * mSpeed;
 		
 		GetTransform()->Translate(translation * delta, dooms::eSpace::Self);
 	}

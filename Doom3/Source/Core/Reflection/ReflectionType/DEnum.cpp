@@ -61,7 +61,7 @@ const char* dooms::reflection::DEnum::GetNameOfEnumConstantIndex
 ) const
 {
 	D_ASSERT(clEnum != nullptr);
-	D_ASSERT(index >= 0 && index < clEnum->constants.size);
+	D_ASSERT(index >= 0 && index < static_cast<INT32>(clEnum->constants.size));
 
 	const char* valueName = nullptr;
 
@@ -105,11 +105,11 @@ const bool dooms::reflection::DEnum::GetEnumConstantValue(const char* const valu
 const bool dooms::reflection::DEnum::GetEnumConstantValue(const INT32 index, INT32& result) const
 {
 	D_ASSERT(clEnum != nullptr);
-	D_ASSERT(index >= 0 && index < clEnum->constants.size);
+	D_ASSERT(index >= 0 && index < static_cast<INT32>(clEnum->constants.size));
 
 	bool isSuccess = false;
 
-	if(index >= 0 && index < clEnum->constants.size)
+	if(index >= 0 && index < static_cast<INT32>(clEnum->constants.size))
 	{
 		result = clEnum->constants[index]->value;
 		isSuccess = true;
@@ -138,7 +138,7 @@ size_t dooms::reflection::DEnum::GetEnumConstantIndex(const INT32 value) const
 {
 	size_t enumConstantIndex = -1;
 
-	for (size_t i = 0; i < clEnum->constants.size; i++)
+	for (UINT32 i = 0; i < clEnum->constants.size; i++)
 	{
 		if (clEnum->constants[i]->value == value)
 		{
