@@ -35,7 +35,7 @@ namespace dooms
 		Camera* mMainCamera{ nullptr };
 
 
-		bool DestroyEntity_Internal(Entity* entity) const;
+		bool DestroyEntity_Internal(dooms::Entity* const entity) const;
 		void InitializeEntity(dooms::Entity* const entity);
 
 		void RemoveEntityFromSpawnedEntityLIst(dooms::Entity* const entity);

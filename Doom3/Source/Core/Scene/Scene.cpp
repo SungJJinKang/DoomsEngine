@@ -83,7 +83,8 @@ bool Scene::DestroyEntity(Entity& entity)
 
 void dooms::Scene::DestroyAllEntity()
 {
-	for(dooms::Entity* entity : mSpawnedEntityList)
+	std::vector<dooms::Entity*> spawnedEntities = mSpawnedEntityList; // to prevent bugs from entity is erased from mSpawnedEntityList for looping
+	for(dooms::Entity* entity : spawnedEntities)
 	{
 		DestroyEntity_Internal(entity);
 	}
@@ -111,10 +112,11 @@ void Scene::UpdatePlainComponents()
 	}
 }
 
-bool Scene::DestroyEntity_Internal(Entity* entity) const
+bool Scene::DestroyEntity_Internal(dooms::Entity* const entity) const
 {
 	bool isSuccess = false;
-	
+
+	D_ASSERT(IsStrongValid(entity) == true);
 	if(IsStrongValid(entity) == true)
 	{
 		delete entity;
