@@ -22,21 +22,23 @@ namespace dooms
 	class DOOM_API D_CLASS Scene : public DObject, public ISingleton<Scene>//, public GameFlow
 	{
 		GENERATE_BODY()
-		
-		
 
+
+		friend class Entity;
 		friend class GameCore;
 		friend class graphics::Graphics_Server;
 
 	private:
 
 		size_t mEntityIDCounter{ 0 };
-		std::vector<Entity*> mSpawnedEntities{};
+		std::vector<Entity*> mSpawnedEntityList{};
 		Camera* mMainCamera{ nullptr };
 
 
 		bool DestroyEntity_Internal(Entity* entity) const;
 		void InitializeEntity(dooms::Entity* const entity);
+
+		void RemoveEntityFromSpawnedEntityLIst(dooms::Entity* const entity);
 
 	protected:
 

@@ -59,7 +59,7 @@ namespace dooms
 		NotCollectedByGC = 1 << 3
 	};
 
-	inline extern const UINT32 NotCopyedFlagsWhenCopyMoveConstruct = eDObjectFlag::Unreachable | eDObjectFlag::IsPendingKill;
+	inline extern const UINT32 NotCopyedFlagsWhenCopyMoveConstruct = eDObjectFlag::NewAllocated | eDObjectFlag::Unreachable | eDObjectFlag::IsPendingKill;
 	
 	class DOOM_API D_CLASS DObject
 	{

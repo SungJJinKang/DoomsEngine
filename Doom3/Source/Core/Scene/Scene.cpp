@@ -28,7 +28,7 @@ NO_DISCARD Entity* Scene::CreateNewEntity() noexcept
 
 	D_ASSERT(newEntity != nullptr);
 
-	mSpawnedEntities.emplace_back(newEntity);
+	mSpawnedEntityList.emplace_back(newEntity);
 
 
 	InitializeEntity(newEntity);
@@ -67,11 +67,11 @@ bool Scene::DestroyEntity(Entity& entity)
 {
 	bool isSuccess = false;
 	
-	for ( std::ptrdiff_t i = mSpawnedEntities.size() - 1 ; i >= 0 ; i-- )
+	for ( std::ptrdiff_t i = mSpawnedEntityList.size() - 1 ; i >= 0 ; i-- )
 	{
-		if (mSpawnedEntities[i] == &entity)
+		if (mSpawnedEntityList[i] == &entity)
 		{
-			swap_popback::vector_swap_popback(mSpawnedEntities, mSpawnedEntities.begin() + i);
+			swap_popback::vector_swap_popback(mSpawnedEntityList, mSpawnedEntityList.begin() + i);
 			DestroyEntity_Internal(&entity);
 			isSuccess = true;
 			break;
@@ -83,11 +83,11 @@ bool Scene::DestroyEntity(Entity& entity)
 
 void dooms::Scene::DestroyAllEntity()
 {
-	for(dooms::Entity* entity : mSpawnedEntities)
+	for(dooms::Entity* entity : mSpawnedEntityList)
 	{
 		DestroyEntity_Internal(entity);
 	}
-	mSpawnedEntities.clear();
+	mSpawnedEntityList.clear();
 }
 
 dooms::Scene* Scene::GetCurrentWorld()
@@ -97,25 +97,25 @@ dooms::Scene* Scene::GetCurrentWorld()
 
 void Scene::FixedUpdatePlainComponents()
 {
-	for (size_t i = 0; i < mSpawnedEntities.size(); i++)
+	for (size_t i = 0; i < mSpawnedEntityList.size(); i++)
 	{
-		mSpawnedEntities[i]->FixedUpdate_PlainComponent();
+		mSpawnedEntityList[i]->FixedUpdate_PlainComponent();
 	}
 }
 
 void Scene::UpdatePlainComponents()
 {
-	for (size_t i = 0; i < mSpawnedEntities.size(); i++)
+	for (size_t i = 0; i < mSpawnedEntityList.size(); i++)
 	{
-		mSpawnedEntities[i]->Update_PlainComponent();
+		mSpawnedEntityList[i]->Update_PlainComponent();
 	}
 }
 
 bool Scene::DestroyEntity_Internal(Entity* entity) const
 {
 	bool isSuccess = false;
-
-	if(IsValid(entity) == true)
+	
+	if(IsStrongValid(entity) == true)
 	{
 		delete entity;
 		isSuccess = true;
@@ -127,15 +127,20 @@ bool Scene::DestroyEntity_Internal(Entity* entity) const
 void Scene::InitializeEntity(dooms::Entity* const entity)
 {
 	entity->mInvolvedScene = this;
-	entity->ChangeDObjectName(std::string{ "Entity " } + std::to_string(mSpawnedEntities.size()));
+	entity->ChangeDObjectName(std::string{ "Entity " } + std::to_string(mSpawnedEntityList.size()));
 	entity->SetOwnerDObject(this);
+}
+
+void Scene::RemoveEntityFromSpawnedEntityLIst(dooms::Entity* const entity)
+{
+	swap_popback::vector_find_swap_popback(mSpawnedEntityList, entity);
 }
 
 void dooms::Scene::OnEndOfFrameOfEntities()
 {
-	for (size_t i = 0; i < mSpawnedEntities.size(); i++)
+	for (size_t i = 0; i < mSpawnedEntityList.size(); i++)
 	{
-		mSpawnedEntities[i]->OnEndOfFramePlainComponentsAndEntity();
+		mSpawnedEntityList[i]->OnEndOfFramePlainComponentsAndEntity();
 	}
 }
 
@@ -158,5 +163,5 @@ void Scene::SetMainCamera(Camera* camera)
 
 const std::vector<Entity*>& Scene::GetEntitiesInScene() const
 {
-	return mSpawnedEntities;
+	return mSpawnedEntityList;
 }

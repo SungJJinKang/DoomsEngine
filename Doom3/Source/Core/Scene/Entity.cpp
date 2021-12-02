@@ -21,6 +21,9 @@ Entity::Entity(size_t entityID, Entity* parent) :
 Entity::~Entity()
 {
 	ClearComponents();
+
+	D_ASSERT(IsStrongValid(mInvolvedScene) == true);
+	mInvolvedScene->RemoveEntityFromSpawnedEntityLIst(this);
 }
 
 

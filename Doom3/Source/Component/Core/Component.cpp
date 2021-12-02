@@ -9,19 +9,29 @@ using namespace dooms;
 
 
 
-Component::Component() : bIsAddedToEntity{}, mOwnerEntity{nullptr}, mTransform{}, mIsActivated{true}
+Component::Component() : bIsAddedToEntity{false}, mOwnerEntity{nullptr}, mTransform{nullptr}, mIsActivated{true}
 {
 	SetDObjectFlag(eDObjectFlag::NotCollectedByGC);
 }
 
 Component::~Component()
 {
+	D_ASSERT(IsStrongValid(mOwnerEntity) == true);
 }
 
 Component::Component(const Component&)
-	: bIsAddedToEntity{}, mOwnerEntity{ nullptr }, mTransform{}, mIsActivated{ true }
+	: bIsAddedToEntity{ false }, mOwnerEntity{ nullptr }, mTransform{nullptr}, mIsActivated{ true }
 {
 	SetDObjectFlag(eDObjectFlag::NotCollectedByGC);
+}
+
+Component& Component::operator=(const Component&)
+{
+	bIsAddedToEntity = false;
+	mOwnerEntity = nullptr;
+	mTransform = nullptr;
+	mIsActivated = false;
+	return *this;
 }
 
 void Component::AddLocalDirtyToTransformDirtyReceiver(DirtyReceiver& localDirty)

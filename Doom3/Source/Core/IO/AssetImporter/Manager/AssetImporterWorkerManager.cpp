@@ -28,6 +28,8 @@ void assetImporter::AssetImporterWorkerManager::UnInitializeAssetImporterWorkers
 
 dooms::assetImporter::AssetImporterWorkerManager::AssetImporterWorkerManager()
 {
+	SetDObjectFlag(eDObjectFlag::NotCollectedByGC);
+
 	InitializeAssetImporterWorkersStatic();
 }
 
