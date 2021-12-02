@@ -55,10 +55,11 @@ namespace dooms
 	{
 		NewAllocated = 1 << 0,
 		Unreachable = 1 << 1, // When DObject is created, this value is 0. because gc do mark stage incrementally.
-		NotCollectedByGC = 1 << 2
+		IsPendingKill = 1 << 2, 
+		NotCollectedByGC = 1 << 3
 	};
 
-	inline extern const UINT32 NotCopyedFlagsWhenCopyMoveConstruct = eDObjectFlag::Unreachable;
+	inline extern const UINT32 NotCopyedFlagsWhenCopyMoveConstruct = eDObjectFlag::Unreachable | eDObjectFlag::IsPendingKill;
 	
 	class DOOM_API D_CLASS DObject
 	{
@@ -240,12 +241,12 @@ namespace dooms
 		D_FUNCTION()
 		FORCE_INLINE bool GetIsPendingKill() const
 		{
-			return GetDObjectFlag(eDObjectFlag::Unreachable);
+			return GetDObjectFlag(eDObjectFlag::IsPendingKill);
 		}
 		D_FUNCTION()
 		FORCE_INLINE void SetIsPendingKill(const bool isPendingKill)
 		{
-			SetDObjectFlag(eDObjectFlag::Unreachable);
+			SetDObjectFlag(eDObjectFlag::IsPendingKill);
 		}
 
 

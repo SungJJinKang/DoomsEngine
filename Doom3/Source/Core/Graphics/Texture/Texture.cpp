@@ -9,6 +9,7 @@ using namespace dooms::graphics;
 Texture::Texture()
 	: mBufferID()
 {
+	SetDObjectFlag(eDObjectFlag::NotCollectedByGC);
 }
 
 Texture::~Texture()
@@ -21,6 +22,7 @@ Texture::Texture(eTextureType textureType, eBindTarget bindTarget,
 	eTargetTexture targetTexture, eTextureInternalFormat internalFormat, eTextureCompressedInternalFormat compressedInternalFormat, UINT32 width, eTextureComponentFormat format, eDataType type)
 	: mBufferID()
 {
+	SetDObjectFlag(eDObjectFlag::NotCollectedByGC);
 	InitializeTexture(textureType, bindTarget, targetTexture, internalFormat, compressedInternalFormat, width, format, type);
 }
 
@@ -29,6 +31,7 @@ Texture::Texture(eTextureType textureType, eBindTarget bindTarget,
 	eTargetTexture targetTexture, eTextureInternalFormat internalFormat, eTextureCompressedInternalFormat compressedInternalFormat, UINT32 width, UINT32 height, eTextureComponentFormat format, eDataType type)
 	: mBufferID()
 {
+	SetDObjectFlag(eDObjectFlag::NotCollectedByGC);
 	InitializeTexture(textureType, bindTarget, targetTexture, internalFormat, compressedInternalFormat, width, height, format, type);
 }
 

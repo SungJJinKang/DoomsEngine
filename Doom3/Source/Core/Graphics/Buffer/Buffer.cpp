@@ -3,7 +3,7 @@
 
 dooms::graphics::Buffer::Buffer() : mBufferID{ INVALID_BUFFER_ID }
 {
-
+	SetDObjectFlag(eDObjectFlag::NotCollectedByGC);
 }
 
 

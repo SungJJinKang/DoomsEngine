@@ -17,7 +17,7 @@ void dooms::DObject::Construct_Internal()
 
 void dooms::DObject::CopyFlagsToThisDObject(const UINT32 flags)
 {
-	ResetDObjectFlag( (flags & ~dooms::NotCopyedFlagsWhenCopyMoveConstruct) | (GetDObjectFlag() & dooms::NotCopyedFlagsWhenCopyMoveConstruct) );
+	ResetDObjectFlag(flags & ~dooms::NotCopyedFlagsWhenCopyMoveConstruct);
 }
 
 

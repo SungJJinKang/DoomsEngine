@@ -43,7 +43,7 @@ dooms::asset::ShaderAsset::ShaderAsset(ShaderAsset&& shader) noexcept
 
 dooms::asset::ShaderAsset& dooms::asset::ShaderAsset::operator=(ShaderAsset&& shader) noexcept
 {
-	Asset::operator=(std::move(shader));
+	Base::operator=(std::move(shader));
 
 	mVertexId = shader.mVertexId;
 	shader.mVertexId = 0;
