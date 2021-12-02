@@ -22,13 +22,13 @@
   * Fast Runtime Type Casting ( using reflection data. check reflection.h files ) ( O(1), dynamic_cast isn't used ( RTTI option is disabled ), https://github.com/SungJJinKang/Fast_Runtime_TypeCasting_cpp )        
   * Automatic Reflection Data Generation System. ( video - https://youtu.be/KGihaYTzqG8 ) ( clrefelct_automation - https://github.com/SungJJinKang/clReflect_automation )
   * Customizing Reflection Open Source Library ( video - https://youtu.be/9DKGvkdR6zw ) ( Customized clReflect - https://github.com/SungJJinKang/clReflect )
-  * Integrate imgui with reflection system. ( video - https://youtu.be/wxZIGoTRcpo )
+  * Integrate imgui with reflection system. ( DObjects, std::vector, std::array is supported, video - https://youtu.be/wxZIGoTRcpo )
 
 ## Currently working on
 
   * change graphics api!!! ( 0%, OpenGL to DirectX12 )
   * Masked SW Occlusion Culling ( 20%, work directory - https://github.com/SungJJinKang/EveryCulling/tree/main/CullingModule/MaskedSWOcclusionCulling ) ( reference : https://software.intel.com/content/dam/develop/external/us/en/documents/masked-software-occlusion-culling.pdf )       
-  * fully implement engine ui ( 30%, use imgui! - https://github.com/ocornut/imgui )     
+  * fully implement engine ui ( 70%, use imgui! - https://github.com/ocornut/imgui )     
  
 ## To Develop
 
