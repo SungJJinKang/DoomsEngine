@@ -154,11 +154,15 @@ bool dooms::DObjectManager::IsDObjectStrongValid(const DObject* const dObject)
 
 	if (dObject != nullptr)
 	{
+        std::unique_lock<std::recursive_mutex> u_lock{ DObjectListMutex };
+
 		std::unordered_map<DObject*, UINT64>::const_iterator iter = mDObjectsHashmap.find(const_cast<DObject*>(dObject));
 		if (iter != mDObjectsHashmap.end() && iter->second != INVALID_DOBJECT_ID)
 		{
 			isValid = true;
 		}
+
+        u_lock.unlock();
 	}
 
     if(isValid == true)

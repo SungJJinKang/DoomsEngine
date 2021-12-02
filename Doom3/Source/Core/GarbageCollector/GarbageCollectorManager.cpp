@@ -6,9 +6,9 @@
 #include "GarbageCollectorSolver.h"
 #include <vector_erase_move_lastelement/vector_swap_popback.h>
 
-std::array<float, GC_HIERARCHY_MAX_LEVEL> dooms::gc::GarbageCollectorManager::mElapsedTime{};
-std::array<float, GC_HIERARCHY_MAX_LEVEL> dooms::gc::GarbageCollectorManager::mCollectTimeStep{};
-std::array<std::vector<dooms::DObject*>, GC_HIERARCHY_MAX_LEVEL> dooms::gc::GarbageCollectorManager::mRootsDObjectsList{};
+std::array<float, dooms::ROOT_OBJECT_HIERARCHY_MAX_LEVEL> dooms::gc::GarbageCollectorManager::mElapsedTime{};
+std::array<float, dooms::ROOT_OBJECT_HIERARCHY_MAX_LEVEL> dooms::gc::GarbageCollectorManager::mCollectTimeStep{};
+std::array<std::vector<dooms::DObject*>, dooms::ROOT_OBJECT_HIERARCHY_MAX_LEVEL> dooms::gc::GarbageCollectorManager::mRootsDObjectsList{};
 
 
 void dooms::gc::GarbageCollectorManager::PoolRootsDObjectsList()
@@ -34,9 +34,9 @@ void dooms::gc::GarbageCollectorManager::InitializeCollectTimeStep()
 
 void dooms::gc::GarbageCollectorManager::Collect()
 {
-	for (int i = GC_HIERARCHY_MAX_LEVEL; i >= 0; i--)
+	for (int level = dooms::ROOT_OBJECT_HIERARCHY_MAX_LEVEL ; level >= 0 ; level--)
 	{
-		Collect(mRootsDObjectsList[GC_HIERARCHY_MAX_LEVEL]);
+		Collect(mRootsDObjectsList[level]);
 	}
 }
 
@@ -59,7 +59,7 @@ void dooms::gc::GarbageCollectorManager::Init()
 
 void dooms::gc::GarbageCollectorManager::TickGC()
 {
-	for (int level = GC_HIERARCHY_MAX_LEVEL; level >= 0; level--)
+	for (int level = 0 ; level < dooms::ROOT_OBJECT_HIERARCHY_MAX_LEVEL; level++)
 	{
 		mElapsedTime[level] += dooms::time::MainTimer::GetSingleton()->GetDeltaTime();
 		if(mElapsedTime[level] >= mCollectTimeStep[level])
@@ -74,13 +74,13 @@ void dooms::gc::GarbageCollectorManager::TickGC()
 
 bool dooms::gc::GarbageCollectorManager::AddToRootsDObjectsList(DObject* const dObjet, const UINT32 initialLevel)
 {
-	D_ASSERT(initialLevel < GC_HIERARCHY_MAX_LEVEL);
+	D_ASSERT(initialLevel < dooms::ROOT_OBJECT_HIERARCHY_MAX_LEVEL);
 
 	bool isSuccess = false;
 
-	if(initialLevel < GC_HIERARCHY_MAX_LEVEL)
+	if(initialLevel < dooms::ROOT_OBJECT_HIERARCHY_MAX_LEVEL)
 	{
-		mRootsDObjectsList[GC_HIERARCHY_MAX_LEVEL].push_back(dObjet);
+		mRootsDObjectsList[initialLevel].push_back(dObjet);
 		isSuccess = true;
 	}
 
@@ -90,9 +90,9 @@ bool dooms::gc::GarbageCollectorManager::AddToRootsDObjectsList(DObject* const d
 bool dooms::gc::GarbageCollectorManager::RemoveFromDObjectsList(DObject* const dObjet)
 {
 	bool isSuccess = false;
-	for(int i = GC_HIERARCHY_MAX_LEVEL ; i >= 0 ; i--)
+	for(int level = dooms::ROOT_OBJECT_HIERARCHY_MAX_LEVEL; level >= 0 ; level--)
 	{
-		isSuccess = swap_popback::vector_find_swap_popback(mRootsDObjectsList[GC_HIERARCHY_MAX_LEVEL], dObjet);
+		isSuccess = swap_popback::vector_find_swap_popback(mRootsDObjectsList[level], dObjet);
 
 		if(isSuccess == true)
 		{

@@ -4,7 +4,7 @@
 #include <vector>
 #include <array>
 
-#define GC_HIERARCHY_MAX_LEVEL 3
+#include "RootObjectLevel.h"
 
 namespace dooms
 {
@@ -17,11 +17,11 @@ namespace dooms
 
 		private:
 			
-			static std::array<float, GC_HIERARCHY_MAX_LEVEL> mElapsedTime;
+			static std::array<float, dooms::ROOT_OBJECT_HIERARCHY_MAX_LEVEL> mElapsedTime;
 
 			// Max Level is long term alive object
-			static std::array<float, GC_HIERARCHY_MAX_LEVEL> mCollectTimeStep;
-			static std::array<std::vector<DObject*>, GC_HIERARCHY_MAX_LEVEL> mRootsDObjectsList;
+			static std::array<float, dooms::ROOT_OBJECT_HIERARCHY_MAX_LEVEL> mCollectTimeStep;
+			static std::array<std::vector<DObject*>, dooms::ROOT_OBJECT_HIERARCHY_MAX_LEVEL> mRootsDObjectsList;
 
 			static void PoolRootsDObjectsList();
 			static void InitializeCollectTimeStep();
