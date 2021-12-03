@@ -136,7 +136,7 @@ dooms::DObject::~DObject()
 	// TODO : This can be problem if object is static variable.
 	//	      if DObjectManager's static variable hash table is destroyed before calling static variable dobject's destructor
 
-	if(mIsAddedToRootObjectList == true)
+	if(GetDObjectFlag(eDObjectFlag::IsRootObject) == true)
 	{
 		dooms::gc::GarbageCollectorManager::RemoveFromDObjectsList(this);
 	}
@@ -148,16 +148,21 @@ bool dooms::DObject::AddToRootObjectList()
 {
 	bool isSuccess = false;
 
-	D_ASSERT(mIsAddedToRootObjectList == false);
-	if(mIsAddedToRootObjectList == false)
+	D_ASSERT(GetDObjectFlag(eDObjectFlag::IsRootObject) == false);
+	if(GetDObjectFlag(eDObjectFlag::IsRootObject) == false)
 	{
 		dooms::gc::GarbageCollectorManager::AddToRootsDObjectsList(this);
 
-		mIsAddedToRootObjectList = true;
+		SetDObjectFlag(eDObjectFlag::IsRootObject);
 		isSuccess = true;
 	}
 
 	return isSuccess;
+}
+
+bool dooms::DObject::GetIsRootObject() const
+{
+	return GetDObjectFlag(eDObjectFlag::IsRootObject);
 }
 
 

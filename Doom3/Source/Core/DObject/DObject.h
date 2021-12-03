@@ -56,10 +56,18 @@ namespace dooms
 		NewAllocated = 1 << 0,
 		Unreachable = 1 << 1, // When DObject is created, this value is 0. because gc do mark stage incrementally.
 		IsPendingKill = 1 << 2, 
-		NotCollectedByGC = 1 << 3
+		NotCollectedByGC = 1 << 3,
+		IsRootObject = 1 << 4,
+		IsCheckedByGC = 1 << 5 // check is object is 
 	};
 
-	inline extern const UINT32 NotCopyedFlagsWhenCopyMoveConstruct = eDObjectFlag::NewAllocated | eDObjectFlag::Unreachable | eDObjectFlag::IsPendingKill;
+	inline extern const UINT32 NotCopyedFlagsWhenCopyMoveConstruct
+		=	eDObjectFlag::NewAllocated |
+			eDObjectFlag::Unreachable |
+			eDObjectFlag::IsPendingKill |
+			eDObjectFlag::IsRootObject |
+			eDObjectFlag::IsCheckedByGC;
+
 	
 	class DOOM_API D_CLASS DObject
 	{
@@ -139,9 +147,7 @@ namespace dooms
 		
 		D_PROPERTY(NOLABEL)
 		DObjectProperties mDObjectProperties;
-
-		bool mIsAddedToRootObjectList = false;
-		
+				
 		void Construct_Internal();
 
 		void CopyFlagsToThisDObject(const UINT32 flags);
@@ -166,7 +172,7 @@ namespace dooms
 		dooms::ui::EngineGUIAccessor mEngineGUIAccessor;
 
 		bool AddToRootObjectList();
-
+		bool GetIsRootObject() const;
 		
 
 		virtual void OnChangedByGUI(const dooms::reflection::DField& dFieldOfChangedField) {}

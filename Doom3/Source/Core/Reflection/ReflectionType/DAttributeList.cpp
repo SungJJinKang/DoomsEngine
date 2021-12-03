@@ -181,6 +181,7 @@ bool dooms::reflection::DAttributeList::GetIsNoLabel() const
 	return isNoLabel;
 }
 
+/*
 bool dooms::reflection::DAttributeList::GetIsNotGC() const
 {
 	bool isNotGC = false;
@@ -206,6 +207,7 @@ bool dooms::reflection::DAttributeList::GetIsNotGC() const
 
 	return isNotGC;
 }
+*/
 
 // TODO : get this value from config file.
 #define DEFAULT_GUI_SAMELINE_SPACE 1.0f
