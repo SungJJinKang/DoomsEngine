@@ -115,7 +115,7 @@ dooms::asset::TextureAsset& dooms::asset::TextureAsset::operator=(TextureAsset&&
 
 void dooms::asset::TextureAsset::DestroyDefaultTextureObject()
 {
-	if(dooms::IsValid(mDefaultTextureObject) == true)
+	if(dooms::IsStrongValid(mDefaultTextureObject) == true)
 	{
 		delete mDefaultTextureObject;
 	}

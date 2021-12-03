@@ -243,7 +243,7 @@ dooms::reflection::eTemplateTypeCategory dooms::reflection::helper::GetTempalteT
 		templateTypeCategory = eTemplateTypeCategory::RandomAccessIterator;
 	}
 
-	return eTemplateTypeCategory::None;
+	return templateTypeCategory;
 }
 
 dooms::reflection::DType dooms::reflection::helper::GetStdTemplateElementTypeDType
