@@ -13,7 +13,7 @@ namespace dooms
 
 		enum class eTemplateTypeCategory
 		{
-			None,
+			NotSupported,
 			SmartPointer,
 			RandomAccessIterator
 		};

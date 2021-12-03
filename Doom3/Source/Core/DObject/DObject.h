@@ -58,7 +58,7 @@ namespace dooms
 		IsPendingKill = 1 << 2, 
 		NotCollectedByGC = 1 << 3,
 		IsRootObject = 1 << 4,
-		IsCheckedByGC = 1 << 5 // check is object is 
+		IsNotCheckedByGC = 1 << 5 // to prevent circular reference check by gc
 	};
 
 	inline extern const UINT32 NotCopyedFlagsWhenCopyMoveConstruct
@@ -66,7 +66,7 @@ namespace dooms
 			eDObjectFlag::Unreachable |
 			eDObjectFlag::IsPendingKill |
 			eDObjectFlag::IsRootObject |
-			eDObjectFlag::IsCheckedByGC;
+			eDObjectFlag::IsNotCheckedByGC;
 
 	
 	class DOOM_API D_CLASS DObject

@@ -5,6 +5,7 @@
 #include <ResourceManagement/JobSystem_cpp/JobSystem.h>
 #include <Reflection/ReflectionType/DField.h>
 #include <Reflection/ReflectionType/DClass.h>
+#include <Reflection/TypeSpecialized/Helper/iteratorHelper.h>
 
 namespace dooms::gc::garbageCollectorSolver
 {
@@ -21,7 +22,7 @@ void dooms::gc::garbageCollectorSolver::StartSetUnreachableFlagStage(std::vector
 	while(start != end)
 	{
 		// compiler is good at vectorizing this
-		*start |= static_cast<UINT32>(dooms::eDObjectFlag::Unreachable);
+		*start |= (dooms::eDObjectFlag::Unreachable | dooms::eDObjectFlag::IsNotCheckedByGC);
 		start++;
 	}
 }
@@ -32,70 +33,171 @@ namespace dooms::gc::garbageCollectorSolver
 	(
 		const UINT32 keepFlags,
 		void* const object,
-		const dooms::reflection::DField* dField,
+		const reflection::eProperyQualifier dataQualifier,
+		const dooms::reflection::DType* const dFieldType,
 		const bool isRootDObject = false
+	);
+	void MarkRecursivelyTemplateTypeField
+	(
+		const UINT32 keepFlags,
+		void* const object,
+		const reflection::eProperyQualifier dataQualifier,
+		const dooms::reflection::DType* const dFieldType
+	);
+	void MarkRecursivelyDObjectTypeField
+	(
+		const UINT32 keepFlags,
+		dooms::DObject* const dObejct,
+		const reflection::eProperyQualifier dataQualifier,
+		const dooms::reflection::DType* const dFieldType,
+		const bool isRootDObject
+	);
+
+	void MarkRecursivelyTemplateTypeField
+	(
+		const UINT32 keepFlags,
+		void* const object,
+		const reflection::eProperyQualifier dataQualifier,
+		const dooms::reflection::DType* const dFieldType
 	)
 	{
-		if( (isRootDObject == true) || ( dField->GetFieldTypePrimitiveType() == reflection::DPrimitive::ePrimitiveType::CLASS) )
+		if (dataQualifier == reflection::eProperyQualifier::VALUE)
 		{
-			if ( (isRootDObject == true) || ((dField->GetFieldQualifier() == reflection::DField::eProperyQualifier::POINTER) == false) )
+			const reflection::DTemplateType dTemplateDType = dFieldType->AsDTemplateType();
+
+			const reflection::eTemplateTypeCategory templateTypeType = dooms::reflection::helper::GetTempalteTypeCategory(dTemplateDType);
+
+			if(templateTypeType != reflection::eTemplateTypeCategory::NotSupported)
 			{
-				// if object is nullptr, DObjectManager::IsDObjectExist is suprer fast
-				if (IsStrongValid(reinterpret_cast<dooms::DObject*>(object), false) == true)
+				const reflection::eProperyQualifier elementTypeQualifier = (reflection::helper::GetStdTemplateElementTypeIsPointer(dTemplateDType) == true) ? reflection::eProperyQualifier::POINTER : reflection::eProperyQualifier::VALUE;
+				const reflection::DType elementTypeDType = reflection::helper::GetStdTemplateElementTypeDType(dTemplateDType);
+
+				if (templateTypeType == reflection::eTemplateTypeCategory::RandomAccessIterator)
 				{
-					dooms::DObject* const targetDObject = reinterpret_cast<dooms::DObject*>(object);
-
-					targetDObject->ClearDObjectFlag(eDObjectFlag::Unreachable);
-
-					dooms::reflection::DClass dClass = targetDObject->GetDClass();
-
-					const std::vector<dooms::reflection::DField>& dFieldList = dClass.GetDFieldList();
-
-					for (const dooms::reflection::DField& field : dFieldList)
+					auto beginiter = dooms::reflection::helper::Generate_Reflection_Std_Container(object, dFieldType->GetTypeFullName(), reflection::eProperyQualifier::VALUE, dTemplateDType, reflection::helper::eIteratorIndex::Begin);
+					if (beginiter == true)
 					{
-						MarkRecursively(keepFlags, reinterpret_cast<char*>(targetDObject) + field.GetFieldOffset(), &field, false);
+						auto endIter = dooms::reflection::helper::Generate_Reflection_Std_Container(object, dFieldType->GetTypeFullName(), reflection::eProperyQualifier::VALUE, dTemplateDType, reflection::helper::eIteratorIndex::End);
+						while (beginiter != endIter)
+						{
+							MarkRecursively(keepFlags, &(*beginiter), elementTypeQualifier, &elementTypeDType, false);
+
+							beginiter++;
+						}
 					}
+				}
+				else if (templateTypeType == reflection::eTemplateTypeCategory::SmartPointer)
+				{
+					void* const ptr = reflection::helper::Generate_Reflection_smartPointer(object, dataQualifier, dTemplateDType);
+
+					// template argument of smartpoint always be pointer type. ex) std::shared_ptr<char> -> returned value of Generate_Reflection_smartPointer is pointer
+					if (ptr != nullptr)
+					{// when smart pointer has valid address 
+						MarkRecursively(keepFlags, ptr, elementTypeQualifier, &elementTypeDType, false);
+					}					
 				}
 			}
 			else
 			{
-				// if object is nullptr, DObjectManager::IsDObjectExist is suprer fast
-				if (IsStrongValid(*reinterpret_cast<dooms::DObject**>(object), false) == true)
-				{
-					dooms::DObject* const targetDObject = (*reinterpret_cast<dooms::DObject**>(object));
+				D_DEBUG_LOG(eLogType::D_LOG_TYPE13, "GC Mark stage - Not Supported Template Type : %s", dTemplateDType.GetTemplateTypeName().c_str());
+			}
+			
+		}
+		else
+		{
+			D_ASSERT_LOG(false, "std::vector*, std::vector&, std::array*, std::array&, std::unique_ptr*, std::unique_ptr&, std::shared_ptr*, std::shared_ptr&");
+		}
+	}
 
-					targetDObject->ClearDObjectFlag(eDObjectFlag::Unreachable);
+	void MarkRecursivelyDObjectTypeValueField
+	(
+		const UINT32 keepFlags,
+		dooms::DObject* const dObejct,
+		const reflection::eProperyQualifier dataQualifier,
+		const dooms::reflection::DType* const dFieldType
+	)
+	{
+		D_ASSERT(IsStrongValid(dObejct) == true);
 
-					dooms::reflection::DClass dClass = targetDObject->GetDClass();
+		if (dObejct->GetDObjectFlag(eDObjectFlag::IsNotCheckedByGC) == true)
+		{
+			dObejct->ClearDObjectFlag(eDObjectFlag::Unreachable);
+			dObejct->ClearDObjectFlag(eDObjectFlag::IsNotCheckedByGC);
 
-					// TODO : if 
-					const std::vector<dooms::reflection::DField>& dFieldList = dClass.GetDFieldList();
+			dooms::reflection::DClass dClass = dObejct->GetDClass();
 
-					for (const dooms::reflection::DField& field : dFieldList)
-					{
-						MarkRecursively(keepFlags, reinterpret_cast<char*>(targetDObject) + field.GetFieldOffset(), &field, false);
-					}
+			const std::vector<dooms::reflection::DField>& dFieldList = dClass.GetDFieldList();
 
-				}
-				else
-				{
-					// TODO : add data whether class is child of DObject class to clcpp::Class
-					// If DObject address in pointer is dummy address, nullify pointer
-					*reinterpret_cast<dooms::DObject**>(object) = nullptr;
-				}
+			for (const dooms::reflection::DField& field : dFieldList)
+			{
+				reflection::DType fieldType = field.GetDTypeOfFieldType();
+				MarkRecursively(keepFlags, reinterpret_cast<char*>(dObejct) + field.GetFieldOffset(), field.GetFieldQualifier(), &fieldType, false);
 			}
 		}
-		else if(dField->GetFieldTypePrimitiveType() == reflection::DPrimitive::ePrimitiveType::TEMPLATE_TYPE)
+	}
+
+	void MarkRecursivelyDObjectTypeField
+	(
+		const UINT32 keepFlags,
+		void* const object,
+		const reflection::eProperyQualifier dataQualifier,
+		const dooms::reflection::DType* const dFieldType,
+		const bool isRootDObject
+	)
+	{
+		if ((isRootDObject == true) || ((dataQualifier == reflection::eProperyQualifier::POINTER) == false))
 		{
-			// TODO : Supprt std::vector, std::array
-			
+			// if object is nullptr, DObjectManager::IsDObjectExist is suprer fast
+			if (IsStrongValid(reinterpret_cast<dooms::DObject*>(object), false) == true)
+			{
+				dooms::DObject* const targetDObject = reinterpret_cast<dooms::DObject*>(object);
+
+				MarkRecursivelyDObjectTypeValueField(keepFlags, targetDObject, reflection::eProperyQualifier::VALUE, dFieldType);
+			}
+		}
+		else
+		{
+			// if object is nullptr, DObjectManager::IsDObjectExist is suprer fast
+			if (IsStrongValid(*reinterpret_cast<dooms::DObject**>(object), false) == true)
+			{
+				dooms::DObject* const targetDObject = (*reinterpret_cast<dooms::DObject**>(object));
+				
+				MarkRecursivelyDObjectTypeValueField(keepFlags, targetDObject, reflection::eProperyQualifier::VALUE, dFieldType);
+			}
+			else
+			{
+				// TODO : add data whether class is child of DObject class to clcpp::Class
+				// If DObject address in pointer is dummy address, nullify pointer
+				*reinterpret_cast<dooms::DObject**>(object) = nullptr;
+			}
+		}
+	}
+
+	void MarkRecursively
+	(
+		const UINT32 keepFlags,
+		void* const object,
+		const reflection::eProperyQualifier dataQualifier,
+		const dooms::reflection::DType* const dFieldType,
+		const bool isRootDObject
+	)
+	{
+		if( (isRootDObject == true) || ( dFieldType->GetPrimitiveType() == reflection::DPrimitive::ePrimitiveType::CLASS) )
+		{
+			MarkRecursivelyDObjectTypeField(keepFlags, object, dataQualifier, dFieldType, isRootDObject);
+		}
+		else if(dFieldType->GetPrimitiveType() == reflection::DPrimitive::ePrimitiveType::TEMPLATE_TYPE)
+		{
+			MarkRecursivelyTemplateTypeField(keepFlags, object, dataQualifier, dFieldType);
 		}
 	}
 
 	void Mark(const UINT32 keepFlags, dooms::DObject* const rootDObject)
 	{
 		D_ASSERT(IsStrongValid(rootDObject, false) == true);
-		MarkRecursively(keepFlags, rootDObject, nullptr, true);
+
+		const reflection::DClass rootObjectDClass = rootDObject->GetDClass();
+		MarkRecursively(keepFlags, rootDObject, reflection::eProperyQualifier::POINTER, &rootObjectDClass, true);
 	}
 
 }
@@ -125,7 +227,7 @@ void dooms::gc::garbageCollectorSolver::StartSweepStage(std::vector<dooms::DObje
 	for(size_t i = 0 ; i < flagListCount; i++ )
 	{
 		D_ASSERT(IsStrongValid(dObjectList[i]) == true);
-		if ((flagList[i] & dooms::eDObjectFlag::NotCollectedByGC) == 0)
+		if ((flagList[i] & (dooms::eDObjectFlag::NotCollectedByGC | dooms::eDObjectFlag::IsRootObject) ) == 0)
 		{
 			if ((flagList[i] & dooms::eDObjectFlag::Unreachable) != 0)
 			{

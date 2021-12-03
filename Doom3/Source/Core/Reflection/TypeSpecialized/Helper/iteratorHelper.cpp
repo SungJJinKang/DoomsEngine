@@ -157,7 +157,8 @@ dooms::reflection::Reflection_RandomAccessIterator dooms::reflection::helper::Ge
 		D_ASSERT_LOG(false, "currently not supported container type");
 	}
 
-	D_ASSERT(iter == true);
+	// if std::vector's size is 0, iter::m_ptr can be 0
+	//D_ASSERT(iter == true);
 
 	return iter;
 }
@@ -173,7 +174,7 @@ dooms::reflection::Reflection_RandomAccessIterator dooms::reflection::helper::Ge
 {
 	const std::string templateTypeName = dTemplateType.GetTemplateTypeName();
 
-	dooms::reflection::Reflection_RandomAccessIterator iter;
+	dooms::reflection::Reflection_RandomAccessIterator iter{};
 
 	if (templateTypeName == "std::vector")
 	{
@@ -188,7 +189,8 @@ dooms::reflection::Reflection_RandomAccessIterator dooms::reflection::helper::Ge
 		D_ASSERT_LOG(false, "currently not supported container type");
 	}
 
-	D_ASSERT(iter == true);
+	// if std::vector's size is 0, iter::m_ptr can be 0
+	//D_ASSERT(iter == true);
 
 	return iter;
 }
@@ -232,7 +234,7 @@ dooms::reflection::eTemplateTypeCategory dooms::reflection::helper::GetTempalteT
 {
 	const std::string templateTypeName = dTemplateType.GetTemplateTypeName();
 
-	eTemplateTypeCategory templateTypeCategory = eTemplateTypeCategory::None;
+	eTemplateTypeCategory templateTypeCategory = eTemplateTypeCategory::NotSupported;
 
 	if(templateTypeName == "std::unique_ptr" || templateTypeName == "std::shared_ptr")
 	{
