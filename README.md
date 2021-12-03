@@ -23,6 +23,7 @@
   * Automatic Reflection Data Generation System. ( video - https://youtu.be/KGihaYTzqG8 ) ( clrefelct_automation - https://github.com/SungJJinKang/clReflect_automation )
   * Customizing Reflection Open Source Library ( video - https://youtu.be/9DKGvkdR6zw ) ( Customized clReflect - https://github.com/SungJJinKang/clReflect )
   * Integrate imgui with reflection system. ( DObjects, std::vector, std::array is supported, video - https://youtu.be/wxZIGoTRcpo )
+  * Garbage Collector using reflection system like Unreal engine's ( 한국어 블로그 - https://sungjjinkang.github.io/computerscience/2021/12/01/reflection_gc.html, video - https://youtu.be/E4CNOIXYQnQ )
 
 ## Currently working on
 
