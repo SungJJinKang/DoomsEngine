@@ -125,8 +125,8 @@ bool Scene::DestroyEntity_Internal(dooms::Entity* const entity) const
 {
 	bool isSuccess = false;
 
-	D_ASSERT(IsStrongValid(entity) == true);
-	if(IsStrongValid(entity) == true)
+	D_ASSERT(IsValid(entity) == true);
+	if(IsValid(entity) == true)
 	{
 		entity->SetIsPendingKill();
 		isSuccess = true;

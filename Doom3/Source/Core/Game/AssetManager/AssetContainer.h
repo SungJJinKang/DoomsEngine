@@ -48,6 +48,8 @@ namespace dooms
 			explicit AssetContainer(const dooms::asset::eAssetType assetTypeOfContainer);
 			~AssetContainer();
 
+			virtual void OnSetPendingKill() override;
+
 			void ClearAssets();
 			void AddNewAsset(::dooms::asset::Asset* const newAsset);
 		};

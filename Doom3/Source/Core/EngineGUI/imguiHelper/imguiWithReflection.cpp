@@ -279,7 +279,7 @@ namespace dooms
 				bool isDObjectChanged = false;
 
 				if (
-					objectType == eObjectType::DObject ? IsValid(reinterpret_cast<dooms::DObject*>(object)) == true : true &&
+					objectType == eObjectType::DObject ? IsStrongValid(reinterpret_cast<dooms::DObject*>(object)) == true : true &&
 					// check if DObject is already drawed to prevent infinite loop
 					std::find(MultipleDrawChecker.begin(), MultipleDrawChecker.end(), object) == MultipleDrawChecker.end()
 					)
@@ -408,7 +408,7 @@ namespace dooms
 				const reflection::DClass& dClass, dooms::DObject* const dObject
 			)
 			{
-				if(IsValid(dObject) == true)
+				if(IsStrongValid(dObject) == true)
 				{
 					return DrawObjectGUI(dClass, dObject, "", eObjectType::DObject);
 				}

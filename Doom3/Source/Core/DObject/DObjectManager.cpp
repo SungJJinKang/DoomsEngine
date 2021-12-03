@@ -153,31 +153,34 @@ void dooms::DObjectManager::DestroyAllDObjects(const bool force)
 
     INT64 newIndex = 0;
 
-    for(INT64 i = 0 ; i < mDObjectsContainer.mDObjectList.size(); i++)
+    std::vector<size_t> aliveDObjectIndexs;
+
+    for(size_t i = 0 ; i < mDObjectsContainer.mDObjectList.size(); i++)
     {
         dooms::DObject* const targetDObject = mDObjectsContainer.mDObjectList[i];
         if (force || ( (mDObjectsContainer.mDObjectFlagList[i] & eDObjectFlag::NewAllocated) != 0 ) )
         {
-            delete targetDObject;
-            i = newIndex - 1;
+            targetDObject->DestroySelfInstantly();
         }
         else
         {
-            if(newIndex != i)
-            {
-                mDObjectsContainer.mDObjectList[newIndex] = mDObjectsContainer.mDObjectList[i];
-                mDObjectsContainer.mDObjectIDList[newIndex] = mDObjectsContainer.mDObjectIDList[i];
-                mDObjectsContainer.mDObjectFlagList[newIndex] = mDObjectsContainer.mDObjectFlagList[i];
-                mDObjectsContainer.mDObjectList[newIndex]->mDObjectProperties.mCurrentIndexInDObjectList = newIndex;
-            }
-            
-            newIndex++;
+            aliveDObjectIndexs.push_back(i);
         }
     }
 
-    mDObjectsContainer.mDObjectList.resize(newIndex);
-    mDObjectsContainer.mDObjectIDList.resize(newIndex);
-    mDObjectsContainer.mDObjectFlagList.resize(newIndex);
+    size_t pullIndex = 0;
+    for(size_t i = 0 ; i < aliveDObjectIndexs.size() ; i++)
+    {
+        mDObjectsContainer.mDObjectList[pullIndex] = mDObjectsContainer.mDObjectList[aliveDObjectIndexs[i]];
+        mDObjectsContainer.mDObjectIDList[pullIndex] = mDObjectsContainer.mDObjectIDList[aliveDObjectIndexs[i]];
+        mDObjectsContainer.mDObjectFlagList[pullIndex] = mDObjectsContainer.mDObjectFlagList[aliveDObjectIndexs[i]];
+
+        pullIndex++;
+    }
+
+    mDObjectsContainer.mDObjectList.resize(aliveDObjectIndexs.size());
+    mDObjectsContainer.mDObjectIDList.resize(aliveDObjectIndexs.size());
+    mDObjectsContainer.mDObjectFlagList.resize(aliveDObjectIndexs.size());
 
     assert(mDObjectsContainer.mDObjectList.size() == mDObjectsContainer.mDObjectIDList.size());
     assert(mDObjectsContainer.mDObjectList.size() == mDObjectsContainer.mDObjectFlagList.size());

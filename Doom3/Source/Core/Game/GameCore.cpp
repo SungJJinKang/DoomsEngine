@@ -8,6 +8,7 @@
 #include "../../GameLogic/GameLogicStartPoint.h"
 #include "ConfigData.h"
 #include "MainTimer.h"
+#include <GarbageCollector/GarbageCollectorManager.h>
 
 #include "../Logger/logger.h"
 
@@ -50,7 +51,7 @@ void dooms::GameCore::UpdateGameCore()
 
 dooms::GameCore::~GameCore()
 {
-
+	mCurrentScene->DestroyAllEntity();
 }
 
 void dooms::GameCore::Init()
@@ -65,6 +66,10 @@ void dooms::GameCore::Init()
 	mCurrentScene = CreateNewScene();
 
 	GameLogicStartPoint::StartGameLogic();
+
+
+
+	gc::GarbageCollectorManager::Collect();
 }
 
 void dooms::GameCore::InitServers()

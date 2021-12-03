@@ -29,14 +29,11 @@ namespace dooms
 		math::Vector4 mColor{ 1 };
 
 		DirtyReceiver bmIsLightUboDirty{ true };
-
-
 		
-
-
 		virtual void InitComponent() override;
 		virtual void UpdateComponent() override;
 		virtual void OnEndOfFrame_Component() override;
+		virtual void OnDestroy() override;
 		
 	public:
 

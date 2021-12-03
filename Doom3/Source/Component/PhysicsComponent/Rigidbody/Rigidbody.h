@@ -28,6 +28,9 @@ namespace dooms
 		void InitializeAttachedColliderComponents();
 		void CheckIsRigidbodyComponentAlreadyExist();
 
+	protected:
+		
+
 	public:
 
 		Rigidbody();

@@ -9,7 +9,7 @@
 void dooms::ColliderComponent::AddThisComponentToRigidbody()
 {
 	dooms::Rigidbody* const attachedRigidbodyComponent = GetOwnerEntity()->GetComponent<Rigidbody>();
-	if(IsStrongValid(attachedRigidbodyComponent) == true)
+	if(IsValid(attachedRigidbodyComponent) == true)
 	{
 		attachedRigidbodyComponent->AddColliderComponent(this);
 	}
@@ -18,7 +18,7 @@ void dooms::ColliderComponent::AddThisComponentToRigidbody()
 void dooms::ColliderComponent::RemoveThisComponentFromRigidbody()
 {
 	dooms::Rigidbody* const attachedRigidbodyComponent = GetOwnerEntity()->GetComponent<Rigidbody>();
-	if (IsStrongValid(attachedRigidbodyComponent) == true)
+	if (IsValid(attachedRigidbodyComponent) == true)
 	{
 		attachedRigidbodyComponent->RemoveColliderComponent(this);
 	}
@@ -57,6 +57,9 @@ void dooms::ColliderComponent::OnDestroy()
 {
 	RemoveThisComponentFromRigidbody();
 
+	StaticContainer<ColliderComponent>::RemoveFromStaticContainer();
+
+	RemoveBVH_Node();
 }
 
 void dooms::ColliderComponent::OnActivated()

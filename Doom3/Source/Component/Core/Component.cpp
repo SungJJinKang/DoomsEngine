@@ -20,7 +20,6 @@ Component::Component() : bIsAddedToEntity{false}, mOwnerEntity{nullptr}, mTransf
 
 Component::~Component()
 {
-	D_ASSERT(IsStrongValid(mOwnerEntity) == true);
 }
 
 Component::Component(const Component&)
@@ -87,4 +86,10 @@ void dooms::Component::OnDeActivated_Internal()
 UINT32 Component::GetOwnerEntityLayerIndex() const
 {
 	return GetOwnerEntity()->GetLayerIndex();
+}
+
+void Component::DestroyThisComponent()
+{
+	D_ASSERT(IsValid(mOwnerEntity) == true);
+	mOwnerEntity->_RemoveComponent(this);
 }

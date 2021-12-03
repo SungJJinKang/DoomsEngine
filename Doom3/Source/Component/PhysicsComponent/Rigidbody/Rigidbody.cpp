@@ -87,6 +87,7 @@ void dooms::Rigidbody::OnDestroy()
 	ServerComponent::OnDestroy();
 
 	ClearCollideCollidersAtFrame();
+	StaticContainer<Rigidbody>::RemoveFromStaticContainer();
 }
 
 void dooms::Rigidbody::OnActivated()

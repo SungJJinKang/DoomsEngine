@@ -4,7 +4,7 @@ bool dooms::DestroyDObject(DObject* const dObject)
 {
 	bool isSuccess = false;
 
-	if(IsStrongValid(dObject) == true)
+	if(IsValid(dObject) == true)
 	{
 		isSuccess = dObject->DestroySelf();
 	}

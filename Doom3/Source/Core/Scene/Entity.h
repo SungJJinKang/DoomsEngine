@@ -40,12 +40,12 @@ namespace dooms
 	}
 
 	class Scene;
+	class Component;
 	class DOOM_API D_CLASS Entity : public DObject, public FrameDirtyChecker
 	{
 		GENERATE_BODY()
 		
-		
-
+		friend class Component;
 		friend class Scene;
 		template <typename T>
 		friend class resource::ObjectPool;
@@ -95,10 +95,7 @@ namespace dooms
 
 		D_PROPERTY()
 		std::vector<Entity*> mChilds;
-
-		//D_PROPERTY()
-		std::unordered_map<size_t, std::vector<Component*>> mComponents;
-
+		
 		D_PROPERTY(INVISIBLE)
 		std::vector<PlainComponent*> mPlainComponents;
 
@@ -129,11 +126,7 @@ namespace dooms
 			{
 				mPlainComponents.emplace_back(newComponent);
 			}
-
-			//TODO : BaseChain Ÿ�� ���鼭 ��� ������� typeid���ٰ� �� ��������.
-			mComponents[static_cast<size_t>(newComponent->GetTypeHashVlue())].push_back(newComponent);
-
-
+			
 			InitializeComponent(static_cast<Component*>(newComponent));
 		}
 
@@ -166,25 +159,11 @@ namespace dooms
 		{
 			D_ASSERT(IsValid(component));
 			D_ASSERT(component->IsChildOf<Transform>() == false);
-
-			bool isRemoveSuccess{ false };
+			D_ASSERT(component->mOwnerEntity == this);
 			
-			std::vector<Component*>& targetComponents = mComponents[static_cast<size_t>(component->GetTypeHashVlue())];
-			for(std::ptrdiff_t i = targetComponents.size() - 1; i >= 0 ; i--)
-			{
-				if(targetComponents[i] == component)
-				{
-					targetComponents.erase(targetComponents.begin() + i);
-					isRemoveSuccess = true;
-					break;
-				}
-			}
-
-			D_ASSERT(isRemoveSuccess == true);
-			isRemoveSuccess = false;
+			bool isRemoveSuccess = false;
 
 			Component* removedComp = nullptr;
-
 			if (IsServerComponent(component) == true)
 			{// when component is ServerComponent
 				D_ASSERT(mServerComponents.size() > 0);
@@ -193,6 +172,7 @@ namespace dooms
 				
 				removedComp = mServerComponents[index];
 				mServerComponents.erase(mServerComponents.begin() + index);
+				isRemoveSuccess = true;
 			}
 			else
 			{// when component is plainComponent
@@ -202,15 +182,59 @@ namespace dooms
 
 				removedComp = mPlainComponents[index];
 				mPlainComponents.erase(mPlainComponents.begin() + index);
+				isRemoveSuccess = true;
 			}
 			
-			D_ASSERT(IsStrongValid(removedComp) == true);
+			D_ASSERT(IsValid(removedComp) == true);
 			D_ASSERT(isRemoveSuccess == true);
 			
 			isRemoveSuccess = true;
 			removedComp->SetIsPendingKill();
 
 			return isRemoveSuccess;
+		}
+
+		bool _RemoveComponent(Component* const component)
+		{
+			D_ASSERT(IsValid(component));
+			D_ASSERT(component->IsChildOf<Transform>() == false);
+			D_ASSERT(component->mOwnerEntity == this);
+
+			bool isSuccess = false;
+
+			size_t index = 0;
+
+			if (IsServerComponent(component) == true)
+			{// when component is ServerComponent
+				for(size_t i = 0 ; i < mServerComponents.size() ; i++)
+				{
+					if(mServerComponents[i] == component)
+					{
+						index = i;
+						isSuccess = true;
+						break;
+					}
+				}
+			}
+			else
+			{// when component is plainComponent
+				for (size_t i = 0; i < mPlainComponents.size(); i++)
+				{
+					if (mPlainComponents[i] == component)
+					{
+						index = i;
+						isSuccess = true;
+						break;
+					}
+				}
+			}
+
+			if(isSuccess == true)
+			{
+				isSuccess = _RemoveComponent(component, index);
+			}
+
+			return isSuccess;
 		}
 
 		/// <summary>
@@ -280,6 +304,7 @@ namespace dooms
 		NO_DISCARD T* GetComponent() const // never return unique_ptr reference, just return pointer
 		{
 			static_assert(std::is_base_of_v<Component, T> == true);
+			static_assert(std::is_pointer<T>::value == false);
 			static_assert(std::is_same_v<T, PlainComponent> == false);
 			static_assert(std::is_same_v<T, ServerComponent> == false);
 
@@ -289,18 +314,6 @@ namespace dooms
 			if constexpr (std::is_same_v<T, Transform> == true)
 			{
 				returnedComponent = &mTransform;
-			}
-			else
-			{
-				auto iter = mComponents.find(static_cast<size_t>(T::TYPE_FULL_NAME_HASH_VALUE));
-				if (iter != mComponents.end())
-				{
-					const std::vector<Component*>& targetComponents = iter->second;
-					if (targetComponents.empty() == false)
-					{
-						returnedComponent = CastToUnchecked<T*>(targetComponents[0]);
-					}
-				}
 			}
 
 			if(returnedComponent == nullptr)

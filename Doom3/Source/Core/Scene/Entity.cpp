@@ -93,7 +93,7 @@ void Entity::CopyEntity(const Entity& fromCopyedEnitty, Entity& toCopyedEntity)
 	{
 		PlainComponent* clonedNewPlainComp = static_cast<PlainComponent*>(plainComponent->CloneObject());
 
-		D_ASSERT(IsStrongValid(clonedNewPlainComp));
+		D_ASSERT(IsValid(clonedNewPlainComp));
 
 		toCopyedEntity._AddComponentAndInitialize(clonedNewPlainComp);
 	}
@@ -102,7 +102,7 @@ void Entity::CopyEntity(const Entity& fromCopyedEnitty, Entity& toCopyedEntity)
 	{
 		ServerComponent* clonedNewServerComp = static_cast<ServerComponent*>(serverComponent->CloneObject());
 
-		D_ASSERT(IsStrongValid(serverComponent));
+		D_ASSERT(IsValid(serverComponent));
 
 		toCopyedEntity._AddComponentAndInitialize(clonedNewServerComp);
 	}
@@ -159,7 +159,7 @@ void Entity::OnDestroyed()
 {
 	ClearComponents();
 
-	D_ASSERT(IsStrongValid(mInvolvedScene) == true);
+	D_ASSERT(IsValid(mInvolvedScene) == true);
 	mInvolvedScene->RemoveEntityFromSpawnedEntityLIst(this);
 }
 

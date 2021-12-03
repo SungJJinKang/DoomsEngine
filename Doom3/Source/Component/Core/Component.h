@@ -205,7 +205,8 @@ namespace dooms
 		//virtual void OnPreUpdateComponent() {}
 		//virtual void OnPostUpdateComponent() {}
 
-
+		D_FUNCTION()
+		void DestroyThisComponent();
 
 	};
 }

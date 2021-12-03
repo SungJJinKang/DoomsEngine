@@ -18,6 +18,8 @@ void dooms::DirectionalLight::UpdateComponent()
 void dooms::DirectionalLight::OnEndOfFrame_Component()
 {
 	Light::OnEndOfFrame_Component();
+
+	UniformBufferCounter = 0;
 }
 
 #pragma warning( disable : 4267 )
@@ -30,8 +32,9 @@ void dooms::DirectionalLight::UpdateUniformBufferObject()
 		math::Vector3 dir = transform->forward();
 		math::Vector4 radiance = GetRadiance();
 
-		UINT32 staticIndex = GetStaticElementIndex();
-		UINT32 staticCount = GetStaticElementCount();
+		const UINT32 staticIndex = UniformBufferCounter;
+		UniformBufferCounter++;
+		const UINT32 staticCount = GetStaticElementCount();
 		if (staticIndex < MAX_DIRECTIONAL_LIGHT_COUNT)
 		{
 			dooms::graphics::UniformBufferObjectManager::GetSingleton()->GetUniformBufferObject(GLOBAL_UNIFORM_BLOCK_BINDING_POINT).StoreDataAtTempBuffer((void*)dir.data(), sizeof(dir), graphics::eUniformBlock_Global::dirLight0_Dir + 32 * staticIndex);
@@ -44,6 +47,13 @@ void dooms::DirectionalLight::UpdateUniformBufferObject()
 		}
 	
 	}
+}
+
+void dooms::DirectionalLight::OnDestroy()
+{
+	Light::OnDestroy();
+	
+	StaticContainer<DirectionalLight>::RemoveFromStaticContainer();
 }
 
 dooms::DirectionalLight::~DirectionalLight()

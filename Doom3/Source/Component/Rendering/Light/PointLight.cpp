@@ -18,6 +18,8 @@ void dooms::PointLight::UpdateComponent()
 void dooms::PointLight::OnEndOfFrame_Component()
 {
 	Light::OnEndOfFrame_Component();
+
+	UniformBufferCounter = 0;
 }
 
 #pragma warning( disable : 4267 )
@@ -30,8 +32,9 @@ void dooms::PointLight::UpdateUniformBufferObject()
 		math::Vector3 pos = transform->GetPosition();
 		math::Vector4 radiance = GetRadiance();
 
-		UINT32 staticIndex = GetStaticElementIndex();
-		UINT32 staticCount = GetStaticElementCount();
+		const UINT32 staticIndex = UniformBufferCounter;
+		UniformBufferCounter++;
+		const UINT32 staticCount = GetStaticElementCount();
 		if (staticIndex < MAX_POINT_LIGHT_COUNT)
 		{
 			dooms::graphics::UniformBufferObjectManager::GetSingleton()->GetUniformBufferObject(GLOBAL_UNIFORM_BLOCK_BINDING_POINT).StoreDataAtTempBuffer((void*)pos.data(), sizeof(pos), graphics::eUniformBlock_Global::pointLight0_Pos + 32 * staticIndex);
@@ -44,6 +47,12 @@ void dooms::PointLight::UpdateUniformBufferObject()
 		}
 
 	}
+}
+
+void dooms::PointLight::OnDestroy()
+{
+	Light::OnDestroy();
+	StaticContainer<PointLight>::RemoveFromStaticContainer();
 }
 
 dooms::PointLight::~PointLight()

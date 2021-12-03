@@ -13,6 +13,8 @@ namespace dooms
 
 	private:
 
+		inline static UINT32 UniformBufferCounter = 0;
+
 		void InitComponent() final;
 		void UpdateComponent() final;
 		void OnEndOfFrame_Component() final;
@@ -21,6 +23,7 @@ namespace dooms
 
 
 		void UpdateUniformBufferObject() override;
+		virtual void OnDestroy() override;
 
 	public:
 

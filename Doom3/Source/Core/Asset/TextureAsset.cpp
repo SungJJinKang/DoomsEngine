@@ -117,7 +117,7 @@ void dooms::asset::TextureAsset::DestroyDefaultTextureObject()
 {
 	if(dooms::IsStrongValid(mDefaultTextureObject) == true)
 	{
-		delete mDefaultTextureObject;
+		mDefaultTextureObject->SetIsPendingKill();
 	}
 }
 

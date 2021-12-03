@@ -1,5 +1,7 @@
 #include "Light.h"
 
+#include "Graphics/Buffer/UniformBufferObjectManager.h"
+
 void dooms::Light::InitComponent()
 {
 	AddLocalDirtyToTransformDirtyReceiver(bmIsLightUboDirty);
@@ -13,6 +15,13 @@ void dooms::Light::UpdateComponent()
 void dooms::Light::OnEndOfFrame_Component()
 {
 
+}
+
+void dooms::Light::OnDestroy()
+{
+	Base::OnDestroy();
+
+	graphics::UniformBufferObjectManager::GetSingleton()->EraseUniformBufferObjectTempBufferUpdater(this);
 }
 
 dooms::Light::~Light()

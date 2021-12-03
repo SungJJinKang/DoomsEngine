@@ -55,22 +55,23 @@ dooms::reflection::DClass dooms::DObject::GetDClass() const
 
 bool dooms::DObject::DestroySelf()
 {
-	bool isSuccess = false;
-	D_ASSERT(GetDObjectFlag(eDObjectFlag::NewAllocated) == true);
-	if(GetDObjectFlag(eDObjectFlag::IsPendingKill) == false && GetDObjectFlag(eDObjectFlag::NewAllocated) == true)
-	{
-		SetIsPendingKill();
-		isSuccess = true;
-	}
+	bool isSuccess = SetIsPendingKill();
 
 	return isSuccess;
 }
 
 bool dooms::DObject::DestroySelfInstantly()
 {
+	bool isSucess = false;
+
 	SetIsPendingKill();
-	delete this;
-	return true;
+	if(GetIsNewAllocated() == true)
+	{
+		delete this;
+		isSucess = true;
+	}
+	
+	return isSucess;
 }
 
 dooms::DObject::DObject()
@@ -143,7 +144,7 @@ dooms::DObject::~DObject()
 {
 	// TODO : This can be problem if object is static variable.
 	//	      if DObjectManager's static variable hash table is destroyed before calling static variable dobject's destructor
-
+	
 	if(GetDObjectFlag(eDObjectFlag::IsRootObject) == true)
 	{
 		dooms::gc::GarbageCollectorManager::RemoveFromDObjectsList(this);

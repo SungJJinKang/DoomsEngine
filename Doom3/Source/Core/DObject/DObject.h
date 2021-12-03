@@ -152,6 +152,10 @@ namespace dooms
 
 		void CopyFlagsToThisDObject(const UINT32 flags);
 
+
+
+		
+
 	protected:
 		
 		DObject();
@@ -251,21 +255,34 @@ namespace dooms
 		{
 			return GetDObjectFlag(eDObjectFlag::IsPendingKill);
 		}
+
 		D_FUNCTION()
-		FORCE_INLINE void SetIsPendingKill()
+		FORCE_INLINE bool GetIsNewAllocated() const
 		{
-			if(GetIsPendingKill() == false)
+			return GetDObjectFlag(eDObjectFlag::NewAllocated);
+		}
+
+		D_FUNCTION()
+		FORCE_INLINE bool SetIsPendingKill()
+		{
+			bool isSuccess = false;
+			if(GetIsPendingKill() == false/* && GetIsNewAllocated() == true*/)
 			{
 				OnSetPendingKill();
 				SetDObjectFlag(eDObjectFlag::IsPendingKill);
+
+				isSuccess = true;
 			}
+			return isSuccess;
 		}
 
 
 		D_FUNCTION(INVISIBLE)
 		bool DestroySelf();
 
-
+		/// <summary>
+		/// This is really dangerous. it can makes problem when you call IsValid function
+		/// </summary>
 		D_FUNCTION(INVISIBLE)
 		bool DestroySelfInstantly();
 	};

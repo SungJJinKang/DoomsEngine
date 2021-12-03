@@ -7,13 +7,14 @@
 dooms::asset::AssetContainer::AssetContainer(const dooms::asset::eAssetType assetTypeOfContainer)
 	: mAssetTypeOfContainer(assetTypeOfContainer)
 {
+	
 }
 
 void dooms::asset::AssetContainer::ClearAssets()
 {
 	for(dooms::asset::Asset* const asset : mAssetsForIterating)
 	{
-		delete asset;
+		asset->DestroySelf();
 	}
 	mAssetsForIterating.clear();
 
@@ -31,6 +32,13 @@ void dooms::asset::AssetContainer::AddNewAsset(dooms::asset::Asset* const newAss
 
 dooms::asset::AssetContainer::~AssetContainer()
 {
+	ClearAssets();
+}
+
+void dooms::asset::AssetContainer::OnSetPendingKill()
+{
+	DObject::OnSetPendingKill();
+
 	ClearAssets();
 }
 

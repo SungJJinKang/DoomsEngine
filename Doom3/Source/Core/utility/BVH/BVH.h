@@ -3,6 +3,8 @@
 #include <queue>
 #include <vector>
 
+#include <Core.h>
+
 #include "Physics/Collider/AABB.h"
 #include "Physics/Collider/Sphere.h"
 
@@ -45,7 +47,7 @@ namespace dooms
 	/// </summary>
 	/// <typeparam name="ColliderType"></typeparam>
 	template <typename ColliderType>
-	class BVH
+	class D_CLASS BVH : public DObject
 	{
 
 	public:

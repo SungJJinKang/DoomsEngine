@@ -22,7 +22,7 @@ namespace dooms
 		/// <summary>
 		/// https://docs.unrealengine.com/en-US/RenderingAndGraphics/VisibilityCulling/CullDistanceVolume/index.html
 		/// </summary>
-		class DOOM_API D_CLASS CullDistance : public ICulling, ISingleton<CullDistance>
+		class DOOM_API D_CLASS CullDistance : public ICulling, public ISingleton<CullDistance>
 		{
 			friend class Graphics_Server;
 

@@ -310,6 +310,9 @@ const math::Matrix4x4& dooms::Camera::GetProjectionMatrix()
 void Camera::OnDestroy()
 {
 	RemoveThisCameraFromMainCamera();
+
+	graphics::UniformBufferObjectUpdater::RemoveFromUniformBufferObjectManager();
+	StaticContainer<Camera>::RemoveFromStaticContainer();
 }
 
 void Camera::OnChangedByGUI(const dooms::reflection::DField& field_of_changed_field)

@@ -60,7 +60,10 @@ namespace dooms
 
 		void RemoveFromStaticContainer()
 		{
-			swap_popback::vector_find_swap_popback(StaticContainer<T>::mElements, static_cast<T*>(this));
+			if(StaticContainer<T>::mElements.empty() == false)
+			{
+				swap_popback::vector_find_swap_popback(StaticContainer<T>::mElements, static_cast<T*>(this));
+			}
 		}
 		
 	public:
