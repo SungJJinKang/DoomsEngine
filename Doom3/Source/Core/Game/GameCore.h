@@ -86,7 +86,8 @@ namespace dooms
 		void UpdateGameCore();
 		
 	public:
-		
+
+		D_PROPERTY()
 		ConfigData mGameConfigData{};
 
 		GameCore();

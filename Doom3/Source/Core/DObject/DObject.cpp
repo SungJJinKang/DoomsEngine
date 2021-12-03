@@ -53,12 +53,13 @@ dooms::reflection::DClass dooms::DObject::GetDClass() const
 	return dooms::reflection::DClass(GetTypeHashVlue());
 }
 
-bool dooms::DObject::DestroySelf() const
+bool dooms::DObject::DestroySelf()
 {
 	bool isSuccess = false;
-	if(GetDObjectFlag(eDObjectFlag::NewAllocated) == true)
+	D_ASSERT(GetDObjectFlag(eDObjectFlag::NewAllocated) == true);
+	if(GetDObjectFlag(eDObjectFlag::IsPendingKill) == false && GetDObjectFlag(eDObjectFlag::NewAllocated) == true)
 	{
-		delete this;
+		SetIsPendingKill();
 		isSuccess = true;
 	}
 

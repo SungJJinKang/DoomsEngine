@@ -229,9 +229,10 @@ void dooms::gc::garbageCollectorSolver::StartSweepStage(std::vector<dooms::DObje
 		D_ASSERT(IsStrongValid(dObjectList[i]) == true);
 		if ((flagList[i] & (dooms::eDObjectFlag::NotCollectedByGC | dooms::eDObjectFlag::IsRootObject) ) == 0)
 		{
-			if ((flagList[i] & dooms::eDObjectFlag::Unreachable) != 0)
+			if ((flagList[i] & (dooms::eDObjectFlag::Unreachable | dooms::eDObjectFlag::NewAllocated)) == (dooms::eDObjectFlag::Unreachable | dooms::eDObjectFlag::NewAllocated))
 			{
 				flagList[i] |= dooms::eDObjectFlag::IsPendingKill;
+				dObjectList[i]->SetIsPendingKill();
 
 				deletedDObjectList.push_back(dObjectList[i]);
 				D_DEBUG_LOG(eLogType::D_LOG_TYPE13, "GC DObject IsPendingKill Enabled and Sweeped ready : %s ( TypeName : %s )", dObjectList[i]->GetDObjectName().c_str(), dObjectList[i]->GetTypeFullName());

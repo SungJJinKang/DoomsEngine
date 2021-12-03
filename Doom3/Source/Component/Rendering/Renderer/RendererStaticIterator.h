@@ -35,7 +35,7 @@ namespace dooms
 		/// <summary>
 		/// Component constructor should be called before StaticIterator constructor
 		/// </summary>
-		StaticContainer() = default;
+		StaticContainer();
 		virtual ~StaticContainer() = default;
 		StaticContainer(const StaticContainer&) = default;
 		StaticContainer& operator=(const StaticContainer&) = default;

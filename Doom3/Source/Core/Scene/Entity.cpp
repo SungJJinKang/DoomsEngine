@@ -20,10 +20,7 @@ Entity::Entity(size_t entityID, Entity* parent) :
 
 Entity::~Entity()
 {
-	ClearComponents();
-
-	D_ASSERT(IsStrongValid(mInvolvedScene) == true);
-	mInvolvedScene->RemoveEntityFromSpawnedEntityLIst(this);
+	
 }
 
 
@@ -158,6 +155,21 @@ void Entity::ClearComponents()
 	mServerComponents.clear();
 }
 
+void Entity::OnDestroyed()
+{
+	ClearComponents();
+
+	D_ASSERT(IsStrongValid(mInvolvedScene) == true);
+	mInvolvedScene->RemoveEntityFromSpawnedEntityLIst(this);
+}
+
+void Entity::OnSetPendingKill()
+{
+	Base::OnSetPendingKill();
+	
+	OnDestroyed();
+}
+
 void Entity::OnActivated()
 {
 	SetDirtyTrueAtThisFrame();
@@ -184,6 +196,6 @@ void Entity::Destroy()
 {
 	//Work Flow : Scene::GetCurrentWorld().DestroyEntity -> delete Entity -> Entity::~Entity
 	Scene::GetCurrentWorld()->DestroyEntity(*this);
-	
+
 }
 

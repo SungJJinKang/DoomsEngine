@@ -14,7 +14,7 @@ void dooms::graphics::PIPManager::DrawPIPs()
 	if (GetPIPCount() > 0)
 	{
 		D_START_PROFILING(DrawPIPs, dooms::profiler::eProfileLayers::Rendering);
-		for (std::unique_ptr<PicktureInPickture>& pip : mPicktureInPicktures)
+		for (PicktureInPickture* pip : mPicktureInPicktures)
 		{
 			pip->DrawPictureInPicture();
 		}
@@ -28,8 +28,7 @@ dooms::graphics::PicktureInPickture* dooms::graphics::PIPManager::AddNewPIP(cons
 
 	if(_drawedTexture != nullptr)
 	{
-		std::unique_ptr<PicktureInPickture>& newPIP = mPicktureInPicktures.emplace_back(std::make_unique< dooms::graphics::PicktureInPickture>(leftBottomNDCPoint, rightTopNDCPoint, _drawedTexture));
-		pip = newPIP.get();
+		pip = mPicktureInPicktures.emplace_back(dooms::CreateDObject<dooms::graphics::PicktureInPickture>(leftBottomNDCPoint, rightTopNDCPoint, _drawedTexture));
 	}
 
 	D_ASSERT(pip != nullptr);
@@ -38,9 +37,9 @@ dooms::graphics::PicktureInPickture* dooms::graphics::PIPManager::AddNewPIP(cons
 
 void dooms::graphics::PIPManager::RemovePIP(const PicktureInPickture* const removedPIP)
 {
-	swap_popback::vector_find_if_swap_popback(mPicktureInPicktures, [removedPIP](const std::unique_ptr<PicktureInPickture>& pip) -> bool
+	swap_popback::vector_find_if_swap_popback(mPicktureInPicktures, [removedPIP](const PicktureInPickture* pip) -> bool
 		{
-			return pip.get() == removedPIP;
+			return pip == removedPIP;
 		});
 }
 

@@ -65,6 +65,8 @@ namespace dooms
 	protected:
 
 		DirtyReceiver bmIsModelMatrixDirty{ true };
+
+		D_PROPERTY()
 		const graphics::Material* mTargetMaterial;
 
 

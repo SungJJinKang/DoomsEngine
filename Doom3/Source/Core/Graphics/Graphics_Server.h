@@ -54,11 +54,13 @@ namespace dooms
 		private:
 
 			RendererComponentStaticIterator mRendererStaticContainer{};
+			D_PROPERTY()
 			DeferredRenderingDrawer mDeferredRenderingDrawer{};
 			
 			//CullDistance mCullDistance{};
 
 #ifdef DEBUG_DRAWER
+			D_PROPERTY()
 			DebugDrawer mDebugGraphics{};
 #endif
 
@@ -91,10 +93,14 @@ namespace dooms
 			void Renderder_OnEndOfFrameComponent();
 
 #ifdef DEBUG_DRAWER
+			D_PROPERTY()
 			RenderingDebugger mRenderingDebugger{};
 #endif
+			D_PROPERTY()
 			UniformBufferObjectManager mUniformBufferObjectManager{};
+			D_PROPERTY()
 			graphics::LightManager mLightManager{};
+			D_PROPERTY()
 			graphics::PIPManager mPIPManager{};
 
 			Graphics_Server();

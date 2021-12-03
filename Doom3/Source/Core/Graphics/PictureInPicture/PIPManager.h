@@ -23,7 +23,8 @@ namespace dooms
 
 		private:
 
-			std::vector<std::unique_ptr<PicktureInPickture>> mPicktureInPicktures;
+			D_PROPERTY()
+			std::vector<PicktureInPickture*> mPicktureInPicktures;
 
 		public:
 

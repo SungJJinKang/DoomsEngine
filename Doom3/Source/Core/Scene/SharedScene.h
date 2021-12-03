@@ -21,6 +21,8 @@ namespace dooms
 		
 
 	private:
+
+		D_PROPERTY()
 		SharedSceneSetting mSharedWorldSetting{};
 
 	public:

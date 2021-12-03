@@ -68,7 +68,7 @@ namespace dooms
 		return newDObject;
 	}
 	
-	extern bool DestroyDObject(const DObject* const dObject);
+	extern bool DestroyDObject(DObject* const dObject);
 
 
 #define CASTING_STATIC_ASSERT(CASTING_TYPE)																													\

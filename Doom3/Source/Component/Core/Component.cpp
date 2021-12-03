@@ -5,9 +5,13 @@
 using namespace dooms;
 
 
+void Component::OnSetPendingKill()
+{
+	Base::OnSetPendingKill();
 
-
-
+	OnDestroy_Internal();
+	OnDestroy();
+}
 
 Component::Component() : bIsAddedToEntity{false}, mOwnerEntity{nullptr}, mTransform{nullptr}, mIsActivated{true}
 {

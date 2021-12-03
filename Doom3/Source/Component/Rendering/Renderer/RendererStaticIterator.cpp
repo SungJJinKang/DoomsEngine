@@ -7,6 +7,11 @@
 using namespace dooms;
 
 
+StaticContainer<Renderer>::StaticContainer()
+{
+	SetDObjectFlag(dooms::eDObjectFlag::NotCollectedByGC);
+}
+
 void dooms::StaticContainer<Renderer>::AddRendererToStaticContainer(Renderer* const renderer)
 {
 	const size_t currentEntityLayerIndex = renderer->GetOwnerEntityLayerIndex();

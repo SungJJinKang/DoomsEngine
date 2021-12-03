@@ -72,7 +72,7 @@ bool Scene::DestroyEntity(Entity& entity)
 		if (mSpawnedEntityList[i] == &entity)
 		{
 			swap_popback::vector_swap_popback(mSpawnedEntityList, mSpawnedEntityList.begin() + i);
-			DestroyEntity_Internal(&entity);
+			entity.DestroyEntitySelf();
 			isSuccess = true;
 			break;
 		}
@@ -86,7 +86,10 @@ void dooms::Scene::DestroyAllEntity()
 	std::vector<dooms::Entity*> spawnedEntities = mSpawnedEntityList; // to prevent bugs from entity is erased from mSpawnedEntityList for looping
 	for(dooms::Entity* entity : spawnedEntities)
 	{
-		DestroyEntity_Internal(entity);
+		if (IsValid(entity) == true)
+		{
+			entity->DestroyEntitySelf();
+		}
 	}
 	mSpawnedEntityList.clear();
 }
@@ -100,7 +103,10 @@ void Scene::FixedUpdatePlainComponents()
 {
 	for (size_t i = 0; i < mSpawnedEntityList.size(); i++)
 	{
-		mSpawnedEntityList[i]->FixedUpdate_PlainComponent();
+		if(IsValid(mSpawnedEntityList[i]) == true)
+		{
+			mSpawnedEntityList[i]->FixedUpdate_PlainComponent();
+		}
 	}
 }
 
@@ -108,7 +114,10 @@ void Scene::UpdatePlainComponents()
 {
 	for (size_t i = 0; i < mSpawnedEntityList.size(); i++)
 	{
-		mSpawnedEntityList[i]->Update_PlainComponent();
+		if (IsValid(mSpawnedEntityList[i]) == true)
+		{
+			mSpawnedEntityList[i]->Update_PlainComponent();
+		}
 	}
 }
 

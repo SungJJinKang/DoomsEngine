@@ -161,6 +161,8 @@ namespace dooms
 		D_PROPERTY()
 		bool IsComponentEnabled = true;
 
+		virtual void OnSetPendingKill() override;
+
 		Component();
 
 		/// <summary>

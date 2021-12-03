@@ -171,7 +171,7 @@ namespace dooms
 
 		dooms::ui::EngineGUIAccessor mEngineGUIAccessor;
 
-		virtual void OnDObjectDestroy(){}
+		virtual void OnSetPendingKill(){}
 
 		bool AddToRootObjectList();
 		bool GetIsRootObject() const;
@@ -254,12 +254,13 @@ namespace dooms
 		D_FUNCTION()
 		FORCE_INLINE void SetIsPendingKill()
 		{
+			OnSetPendingKill();
 			SetDObjectFlag(eDObjectFlag::IsPendingKill);
 		}
 
 
 		D_FUNCTION(INVISIBLE)
-		bool DestroySelf() const;
+		bool DestroySelf();
 	};
 }
 

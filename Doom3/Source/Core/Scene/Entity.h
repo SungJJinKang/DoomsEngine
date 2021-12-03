@@ -98,7 +98,8 @@ namespace dooms
 
 		//D_PROPERTY()
 		std::unordered_map<size_t, std::vector<Component*>> mComponents;
-		
+
+		D_PROPERTY(INVISIBLE)
 		std::vector<PlainComponent*> mPlainComponents;
 
 		D_PROPERTY()
@@ -107,6 +108,7 @@ namespace dooms
 		/// <summary>
 		/// Core component is stored at this variable
 		/// </summary>
+		D_PROPERTY(INVISIBLE)
 		std::vector<ServerComponent*> mServerComponents;
 
 
@@ -160,18 +162,6 @@ namespace dooms
 
 		}
 
-
-		bool _DestroyComponentCallBack(Component* const component)
-		{
-			if (dooms::IsValid(component) == true)
-			{
-				component->OnDestroy_Internal();
-				component->OnDestroy();
-			}
-			
-			return true;
-		}
-		
 		bool _RemoveComponent(Component* const component, const size_t index)
 		{
 			D_ASSERT(IsValid(component));
@@ -203,9 +193,6 @@ namespace dooms
 				
 				removedComp = mServerComponents[index];
 				mServerComponents.erase(mServerComponents.begin() + index);
-				_DestroyComponentCallBack(removedComp);
-
-				isRemoveSuccess = true;
 			}
 			else
 			{// when component is plainComponent
@@ -215,15 +202,12 @@ namespace dooms
 
 				removedComp = mPlainComponents[index];
 				mPlainComponents.erase(mPlainComponents.begin() + index);
-				_DestroyComponentCallBack(removedComp);
-
-				isRemoveSuccess = true;
 			}
-
-			D_ASSERT(removedComp);
-			D_ASSERT(IsValid(removedComp) == true);
+			
+			D_ASSERT(IsStrongValid(removedComp) == true);
 			D_ASSERT(isRemoveSuccess == true);
-
+			
+			isRemoveSuccess = true;
 			removedComp->SetIsPendingKill();
 
 			return isRemoveSuccess;
@@ -444,7 +428,8 @@ namespace dooms
 
 		//Event
 		void OnSpawned(){}
-		void OnDestroyed() {}
+		void OnDestroyed();
+		virtual void OnSetPendingKill() override;
 
 		void OnActivated();
 		void OnDeActivated() {}
