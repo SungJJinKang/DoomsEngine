@@ -2,18 +2,22 @@
 
 #include <array>
 #include <vector>
+#include <memory>
 
 
 dooms::reflection::Reflection_RandomAccessIterator dooms::reflection::helper::Generate_Reflection_RandomAccessIterator_FromStdArray
 (
 	void* const std_array_ptr,
 	const char* const typeFullName,
+	const reflection::eProperyQualifier dataQualifier,
 	const DTemplateType& dTemplateType,
 	const size_t iteratorIndex
 )
 {
 	D_ASSERT(std_array_ptr != nullptr);
-	
+	D_ASSERT(GetTempalteTypeCategory(dTemplateType) == eTemplateTypeCategory::RandomAccessIterator);
+	D_ASSERT_LOG(dataQualifier == eProperyQualifier::VALUE, "not supported data type");
+
 	const reflection::DTemplateArgumentType dTemplateTypeArgument = dTemplateType.GetTemplateArgumentType(0);
 
 	D_ASSERT(dTemplateTypeArgument.IsValid() == true);
@@ -30,11 +34,14 @@ dooms::reflection::Reflection_RandomAccessIterator dooms::reflection::helper::Ge
 (
 	void* const std_array_ptr,
 	const char* const typeFullName,
+	const reflection::eProperyQualifier dataQualifier,
 	const DTemplateType& dTemplateType,
 	const eIteratorIndex iteratorIndexType
 )
 {
 	D_ASSERT(std_array_ptr != nullptr);
+	D_ASSERT(GetTempalteTypeCategory(dTemplateType) == eTemplateTypeCategory::RandomAccessIterator);
+	D_ASSERT_LOG(dataQualifier == eProperyQualifier::VALUE, "not supported data type");
 
 	const reflection::DTemplateArgumentType dTemplateTypeArgument = dTemplateType.GetTemplateArgumentType(0);
 
@@ -70,12 +77,15 @@ dooms::reflection::Reflection_RandomAccessIterator dooms::reflection::helper::Ge
 
 dooms::reflection::Reflection_RandomAccessIterator dooms::reflection::helper::Generate_Reflection_RandomAccessIterator_FromStdVector
 (
-	void* const std_vector_ptr, 
+	void* const std_vector_ptr,
+	const reflection::eProperyQualifier dataQualifier,
 	const DTemplateType& dTemplateType, 
 	const size_t iteratorIndex
 )
 {
 	D_ASSERT(std_vector_ptr != nullptr);
+	D_ASSERT(GetTempalteTypeCategory(dTemplateType) == eTemplateTypeCategory::RandomAccessIterator);
+	D_ASSERT_LOG(dataQualifier == eProperyQualifier::VALUE, "not supported data type");
 
 	std::vector<char>* fakeStdVector = reinterpret_cast<std::vector<char>*>(std_vector_ptr);
 
@@ -94,11 +104,14 @@ dooms::reflection::Reflection_RandomAccessIterator dooms::reflection::helper::Ge
 dooms::reflection::Reflection_RandomAccessIterator dooms::reflection::helper::Generate_Reflection_RandomAccessIterator_FromStdVector
 (
 	void* const std_vector_ptr,
+	const reflection::eProperyQualifier dataQualifier,
 	const DTemplateType& dTemplateType,
 	const eIteratorIndex iteratorIndex
 )
 {
 	D_ASSERT(std_vector_ptr != nullptr);
+	D_ASSERT(GetTempalteTypeCategory(dTemplateType) == eTemplateTypeCategory::RandomAccessIterator);
+	D_ASSERT_LOG(dataQualifier == eProperyQualifier::VALUE, "not supported data type");
 
 	std::vector<char>* fakeStdVector = reinterpret_cast<std::vector<char>*>(std_vector_ptr);
 
@@ -121,25 +134,160 @@ dooms::reflection::Reflection_RandomAccessIterator dooms::reflection::helper::Ge
 
 dooms::reflection::Reflection_RandomAccessIterator dooms::reflection::helper::Generate_Reflection_Std_Container
 (
-	void* const std_container, 
+	void* const std_container,
+	const char* const typeFullName,
+	const reflection::eProperyQualifier dataQualifier,
 	const DTemplateType& dTemplateType, 
 	const size_t iteratorIndex)
 {
-	return dooms::reflection::Reflection_RandomAccessIterator{ nullptr, 0 };
+	const std::string templateTypeName = dTemplateType.GetTemplateTypeName();
+
+	dooms::reflection::Reflection_RandomAccessIterator iter;
+
+	if (templateTypeName == "std::vector")
+	{
+		iter = Generate_Reflection_RandomAccessIterator_FromStdVector(std_container, dataQualifier, dTemplateType, iteratorIndex);
+	}
+	else if(templateTypeName == "std::array")
+	{
+		iter = Generate_Reflection_RandomAccessIterator_FromStdArray(std_container, typeFullName, dataQualifier, dTemplateType, iteratorIndex);
+	}
+	else
+	{
+		D_ASSERT_LOG(false, "currently not supported container type");
+	}
+
+	D_ASSERT(iter == true);
+
+	return iter;
 }
 
 dooms::reflection::Reflection_RandomAccessIterator dooms::reflection::helper::Generate_Reflection_Std_Container
 (
-	void* const std_container, 
+	void* const std_container,
+	const char* const typeFullName,
+	const reflection::eProperyQualifier dataQualifier,
 	const DTemplateType& dTemplateType, 
 	const eIteratorIndex iteratorIndexType
 )
 {
-	return dooms::reflection::Reflection_RandomAccessIterator{nullptr, 0};
+	const std::string templateTypeName = dTemplateType.GetTemplateTypeName();
+
+	dooms::reflection::Reflection_RandomAccessIterator iter;
+
+	if (templateTypeName == "std::vector")
+	{
+		iter = Generate_Reflection_RandomAccessIterator_FromStdVector(std_container, dataQualifier, dTemplateType, iteratorIndexType);
+	}
+	else if (templateTypeName == "std::array")
+	{
+		iter = Generate_Reflection_RandomAccessIterator_FromStdArray(std_container, typeFullName, dataQualifier, dTemplateType, iteratorIndexType);
+	}
+	else
+	{
+		D_ASSERT_LOG(false, "currently not supported container type");
+	}
+
+	D_ASSERT(iter == true);
+
+	return iter;
 }
 
-dooms::reflection::helper::eTemplateClassType dooms::reflection::helper::GetTempalteTypeCategory(const DTemplateType& dTemplateType)
+void* dooms::reflection::helper::Generate_Reflection_smartPointer
+(
+	void* const std_smartPointer,
+	const reflection::eProperyQualifier dataQualifier, 
+	const DTemplateType& dTemplateType)
 {
-	std::string templateTypeName = dTemplateType.GetTemplateTypeName();
+	D_ASSERT(std_smartPointer != nullptr);
+	D_ASSERT(GetTempalteTypeCategory(dTemplateType) == eTemplateTypeCategory::SmartPointer);
+	D_ASSERT_LOG(dataQualifier == eProperyQualifier::VALUE, "not supported data type");
 
+
+	void* StoredObjectPointer = nullptr;
+
+	const std::string templateTypeName = dTemplateType.GetTemplateTypeName();
+	
+	if (templateTypeName == "std::unique_ptr")
+	{
+		std::unique_ptr<char>* const smart_ptr = reinterpret_cast<std::unique_ptr<char>*>(std_smartPointer);
+		if(smart_ptr)
+		{
+			StoredObjectPointer = smart_ptr->get();
+		}
+	}
+	else if(templateTypeName == "std::shared_ptr")
+	{
+		std::shared_ptr<char>* const smart_ptr = reinterpret_cast<std::shared_ptr<char>*>(std_smartPointer);
+		if (smart_ptr)
+		{
+			StoredObjectPointer = smart_ptr->get();
+		}
+	}
+
+	return StoredObjectPointer;
+}
+
+dooms::reflection::eTemplateTypeCategory dooms::reflection::helper::GetTempalteTypeCategory(const DTemplateType& dTemplateType)
+{
+	const std::string templateTypeName = dTemplateType.GetTemplateTypeName();
+
+	eTemplateTypeCategory templateTypeCategory = eTemplateTypeCategory::None;
+
+	if(templateTypeName == "std::unique_ptr" || templateTypeName == "std::shared_ptr")
+	{
+		templateTypeCategory = eTemplateTypeCategory::SmartPointer;
+	}
+	else if (templateTypeName == "std::vector" || templateTypeName == "std::array")
+	{
+		templateTypeCategory = eTemplateTypeCategory::RandomAccessIterator;
+	}
+
+	return eTemplateTypeCategory::None;
+}
+
+dooms::reflection::DType dooms::reflection::helper::GetStdTemplateElementTypeDType
+(
+	const DTemplateType& dTemplateType
+)
+{
+	const std::string templateTypeName = dTemplateType.GetTemplateTypeName();
+	dooms::reflection::DType dType{};
+	if
+	( 
+		(templateTypeName == "std::vector") ||
+		(templateTypeName == "std::array") ||
+		(templateTypeName == "std::shared_ptr")||
+		(templateTypeName == "std::unique_ptr") 
+	)
+	{
+		const reflection::DTemplateArgumentType templateArgumentType = dTemplateType.GetTemplateArgumentType(0);
+		dType = templateArgumentType;
+	}
+
+	D_ASSERT(dType.IsValid() == true);
+
+	return dType;
+}
+
+bool dooms::reflection::helper::GetStdTemplateElementTypeIsPointer
+(
+	const DTemplateType& dTemplateType
+)
+{
+	bool isElementTypeIsPointer = false;
+	
+	const std::string templateTypeName = dTemplateType.GetTemplateTypeName();
+	if
+	(
+		(templateTypeName == "std::vector") ||
+		(templateTypeName == "std::array") ||
+		(templateTypeName == "std::shared_ptr") ||
+		(templateTypeName == "std::unique_ptr")
+	)
+	{
+		isElementTypeIsPointer = dTemplateType.GetTemplateArgumentType(0).GetIsTemplateArgumentPointerType();
+	}
+
+	return isElementTypeIsPointer;
 }

@@ -17,7 +17,7 @@ namespace dooms
 
 		private:
 			
-			utility::Malloc allocator;
+			utility::Malloc mAllocatorForLoadingReflectionData;
 			clcpp::Database mReflectionDatabase;
 
 		public:

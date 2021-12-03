@@ -19,7 +19,11 @@ namespace dooms
 			using pointer = char*;
 			using reference = char&;
 
-
+			Reflection_RandomAccessIterator()
+				: m_ptr(nullptr), m_TypeSize(0)
+			{
+				
+			}
 			Reflection_RandomAccessIterator(char* const ptr, const size_t elementTypeSize)
 				: m_ptr(ptr), m_TypeSize(elementTypeSize)
 			{
@@ -75,6 +79,10 @@ namespace dooms
 				return a.m_ptr != b.m_ptr;
 			};
 
+			operator bool() const
+			{
+				return m_ptr != nullptr;
+			}
 
 		private:
 

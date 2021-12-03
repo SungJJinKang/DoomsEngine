@@ -60,6 +60,10 @@ namespace dooms
 			
 		protected:
 
+			
+
+		public:
+
 			FORCE_INLINE DPrimitive()
 				: clPrimitive(nullptr)
 			{
@@ -70,9 +74,6 @@ namespace dooms
 				: clPrimitive(_clPrimitive)
 			{
 			}
-
-
-		public:
 
 			FORCE_INLINE bool IsValid() const
 			{

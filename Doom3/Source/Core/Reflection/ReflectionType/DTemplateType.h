@@ -37,6 +37,14 @@ namespace dooms
 			size_t GetTemplateArgumentCount() const;
 			reflection::DTemplateArgumentType GetTemplateArgumentType(const size_t index) const;
 			const std::vector<reflection::DTemplateArgumentType> GetTemplateArgumentTypes() const;
+
+			/// <summary>
+			/// return template type name without template argument string.
+			///	ex)
+			///	std::unique_ptr<char*, std::allocator~~~<>> -> return std::unique_ptr
+			/// std::vector<int> -> return std::vector
+			/// </summary>
+			/// <returns></returns>
 			std::string GetTemplateTypeName() const;
 		};
 	}

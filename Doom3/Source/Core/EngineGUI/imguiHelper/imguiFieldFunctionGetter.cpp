@@ -3,6 +3,7 @@
 #include <vector>
 #include <array>
 #include <unordered_map>
+#include <memory>
 
 #include <Vector2.h>
 #include <Vector3.h>
@@ -601,6 +602,36 @@ namespace dooms
 				return isVectorElementChanged;
 			}
 
+
+			// Don't support std::unique_ptr.
+			// because it can make a lot of bugs.
+			/*bool imguiWithReflection_std_unique_ptr(void* const object, const char* const label, const char* const typeFullName, const reflection::eProperyQualifier dataQualifier, const reflection::DAttributeList& attributeList, const reflection::DType* const fieldDType)
+			{
+				D_ASSERT(fieldDType != nullptr);
+
+				const dooms::reflection::DTemplateType dTemplateType = fieldDType->AsDTemplateType();
+
+				std::unique_ptr<char>* fakeUniquePtr = reinterpret_cast<std::unique_ptr<char>*>(object);
+
+				void* StoredObjectPointer = fakeUniquePtr->get();
+
+				const std::string label = std::string(label) + " ( std::unique_ptr )";
+
+				dooms::ui::imguiWithReflectionHelper::DrawImguiFieldFromDField
+				(
+					fakeUniquePtr,
+					label,
+					vectorElementTypeFullName.c_str(),
+					vector_element_qualifier,
+					&dTemplateTypeArgument,
+					attributeList,
+					isValueChange,
+					nullptr,
+					nullptr
+				);
+			}
+			*/
+
 		}
 	}
 }
@@ -665,15 +696,6 @@ dooms::ui::imguiFieldFunctionGetter::IMGUI_WITH_REFLECTION_FUNC dooms::ui::imgui
 			const bool isSuccess = dooms::reflection::dTemplateTypeHelper::GetTemplateTypeNameFromTypeFullName(typeFullName, templateTypeName);
 			D_ASSERT(isSuccess == true);
 			
-			if(typeFullNameStrView.back() == '*')
-			{
-				templateTypeName += '*';
-			}
-			else if(typeFullNameStrView.back() == '&')
-			{
-				templateTypeName += '&';
-			}
-
 			iter = ImguiSpecialDrawFuncMap.find(std::string_view{ templateTypeName });
 			if (iter != ImguiSpecialDrawFuncMap.end())
 			{

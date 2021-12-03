@@ -13,7 +13,7 @@
 #endif
 
 dooms::reflection::ReflectionManager::ReflectionManager()
-	: allocator(), mReflectionDatabase()
+	: mAllocatorForLoadingReflectionData(), mReflectionDatabase()
 {
 }
 
@@ -87,7 +87,7 @@ bool dooms::reflection::ReflectionManager::LoadReflectionBinaryDataFile()
 	
 	if(isSuccess == true)
 	{
-		if (mReflectionDatabase.Load(&file, &allocator, 0) == false)
+		if (mReflectionDatabase.Load(&file, &mAllocatorForLoadingReflectionData, 0) == false)
 		{
 			dooms::ui::PrintText
 			(
