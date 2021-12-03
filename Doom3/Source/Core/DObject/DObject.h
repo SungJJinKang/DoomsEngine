@@ -254,13 +254,20 @@ namespace dooms
 		D_FUNCTION()
 		FORCE_INLINE void SetIsPendingKill()
 		{
-			OnSetPendingKill();
-			SetDObjectFlag(eDObjectFlag::IsPendingKill);
+			if(GetIsPendingKill() == false)
+			{
+				OnSetPendingKill();
+				SetDObjectFlag(eDObjectFlag::IsPendingKill);
+			}
 		}
 
 
 		D_FUNCTION(INVISIBLE)
 		bool DestroySelf();
+
+
+		D_FUNCTION(INVISIBLE)
+		bool DestroySelfInstantly();
 	};
 }
 

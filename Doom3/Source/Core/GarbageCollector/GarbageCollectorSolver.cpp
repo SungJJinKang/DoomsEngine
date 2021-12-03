@@ -226,12 +226,10 @@ void dooms::gc::garbageCollectorSolver::StartSweepStage(std::vector<dooms::DObje
 	const size_t flagListCount = flagList.size();
 	for(size_t i = 0 ; i < flagListCount; i++ )
 	{
-		D_ASSERT(IsStrongValid(dObjectList[i]) == true);
 		if ((flagList[i] & (dooms::eDObjectFlag::NotCollectedByGC | dooms::eDObjectFlag::IsRootObject) ) == 0)
 		{
 			if ((flagList[i] & (dooms::eDObjectFlag::Unreachable | dooms::eDObjectFlag::NewAllocated)) == (dooms::eDObjectFlag::Unreachable | dooms::eDObjectFlag::NewAllocated))
 			{
-				flagList[i] |= dooms::eDObjectFlag::IsPendingKill;
 				dObjectList[i]->SetIsPendingKill();
 
 				deletedDObjectList.push_back(dObjectList[i]);

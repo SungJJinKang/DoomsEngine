@@ -66,6 +66,13 @@ bool dooms::DObject::DestroySelf()
 	return isSuccess;
 }
 
+bool dooms::DObject::DestroySelfInstantly()
+{
+	SetIsPendingKill();
+	delete this;
+	return true;
+}
+
 dooms::DObject::DObject()
 	: mDObjectProperties(), mEngineGUIAccessor(this)
 {
