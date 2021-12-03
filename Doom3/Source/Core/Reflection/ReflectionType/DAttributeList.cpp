@@ -181,6 +181,32 @@ bool dooms::reflection::DAttributeList::GetIsNoLabel() const
 	return isNoLabel;
 }
 
+bool dooms::reflection::DAttributeList::GetIsNotGC() const
+{
+	bool isNotGC = false;
+
+	const dooms::reflection::DAttribute* minAttribute = GetAttributeWithName("NOTGC");
+	if (minAttribute == nullptr)
+	{
+		minAttribute = GetAttributeWithName("NOGC");
+	}
+	if (minAttribute == nullptr)
+	{
+		minAttribute = GetAttributeWithName("NO_GC");
+	}
+	if (minAttribute == nullptr)
+	{
+		minAttribute = GetAttributeWithName("NOT_GC");
+	}
+
+	if (minAttribute != nullptr)
+	{
+		isNotGC = true;
+	}
+
+	return isNotGC;
+}
+
 // TODO : get this value from config file.
 #define DEFAULT_GUI_SAMELINE_SPACE 1.0f
 

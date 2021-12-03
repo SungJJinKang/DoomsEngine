@@ -73,7 +73,7 @@ const std::vector<dooms::reflection::DTemplateArgumentType> dooms::reflection::D
 
 std::string dooms::reflection::DTemplateType::GetTemplateTypeName() const
 {
-	std::string templateTypeName;
+	std::string templateTypeName{};
 	const bool isSuccess = dTemplateTypeHelper::GetTemplateTypeNameFromTypeFullName(clTemplateType->name.text, templateTypeName);
 	D_ASSERT(isSuccess == true);
 

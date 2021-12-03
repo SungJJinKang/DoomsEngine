@@ -50,6 +50,9 @@ namespace dooms
 			/// </summary>
 			/// <returns></returns>
 			bool GetIsNoLabel() const;
+
+			bool GetIsNotGC() const;
+
 			/// <summary>
 			/// if has drawOnSameLine attribute, return space value ( at least 0.0f ).
 			///	Or return -1.0f
