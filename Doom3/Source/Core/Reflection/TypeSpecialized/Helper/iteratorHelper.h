@@ -8,6 +8,14 @@ namespace dooms
 	{
 		class DTemplateType;
 		struct Reflection_RandomAccessIterator;
+
+		enum class eTemplateTypeCategory
+		{
+			None,
+			SmartPointer,
+			RandomAccessIterator
+		};
+
 		namespace helper
 		{
 			enum class eIteratorIndex
@@ -16,6 +24,8 @@ namespace dooms
 				End
 			};
 
+			
+			
 			/// <summary>
 			/// 
 			/// </summary>
@@ -61,6 +71,22 @@ namespace dooms
 				const DTemplateType& dTemplateType,
 				const eIteratorIndex iteratorIndexType
 			);
+
+			dooms::reflection::Reflection_RandomAccessIterator Generate_Reflection_Std_Container
+			(
+				void* const std_container,
+				const DTemplateType& dTemplateType,
+				const size_t iteratorIndex
+			);
+
+			dooms::reflection::Reflection_RandomAccessIterator Generate_Reflection_Std_Container
+			(
+				void* const std_container,
+				const DTemplateType& dTemplateType,
+				const eIteratorIndex iteratorIndexType
+			);
+
+			eTemplateTypeCategory GetTempalteTypeCategory(const DTemplateType& dTemplateType);
 		}
 	}
 }

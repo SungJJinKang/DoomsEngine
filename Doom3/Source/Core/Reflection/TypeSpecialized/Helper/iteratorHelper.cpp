@@ -118,3 +118,28 @@ dooms::reflection::Reflection_RandomAccessIterator dooms::reflection::helper::Ge
 
 	return Reflection_RandomAccessIterator{ ptr, typeSize };
 }
+
+dooms::reflection::Reflection_RandomAccessIterator dooms::reflection::helper::Generate_Reflection_Std_Container
+(
+	void* const std_container, 
+	const DTemplateType& dTemplateType, 
+	const size_t iteratorIndex)
+{
+	return dooms::reflection::Reflection_RandomAccessIterator{ nullptr, 0 };
+}
+
+dooms::reflection::Reflection_RandomAccessIterator dooms::reflection::helper::Generate_Reflection_Std_Container
+(
+	void* const std_container, 
+	const DTemplateType& dTemplateType, 
+	const eIteratorIndex iteratorIndexType
+)
+{
+	return dooms::reflection::Reflection_RandomAccessIterator{nullptr, 0};
+}
+
+dooms::reflection::helper::eTemplateClassType dooms::reflection::helper::GetTempalteTypeCategory(const DTemplateType& dTemplateType)
+{
+	std::string templateTypeName = dTemplateType.GetTemplateTypeName();
+
+}
