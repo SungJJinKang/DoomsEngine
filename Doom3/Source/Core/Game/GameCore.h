@@ -53,17 +53,32 @@ namespace dooms
 		INT32 MAX_PHYSICS_STEP{ 8 };
 
 		//Servers
+		D_PROPERTY()
 		assetImporter::AssetManager mAssetManager{};
+
+		D_PROPERTY()
 		graphics::Graphics_Server mGraphics_Server{};
+
+		D_PROPERTY()
 		physics::Physics_Server mPhysics_Server{};
+
+		D_PROPERTY()
 		resource::JobSystem mJobSystem{};
+
+		D_PROPERTY()
 		userinput::UserInput_Server mUserImput_Server{};
+
+		D_PROPERTY()
 		time::Time_Server mTime_Server{};
+
+		D_PROPERTY()
 		reflection::ReflectionManager mReflectionManager{};
 
+		D_PROPERTY()
 		std::unique_ptr<Scene> mCurrentScene{};
 		std::unique_ptr<Scene> CreateNewScene(std::string sceneName = "");
 
+		D_PROPERTY()
 		SharedScene mSharedWorld{};
 
 		void InitGameSetting();
