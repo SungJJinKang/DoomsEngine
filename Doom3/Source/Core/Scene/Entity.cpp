@@ -92,22 +92,20 @@ void Entity::CopyEntity(const Entity& fromCopyedEnitty, Entity& toCopyedEntity)
 	toCopyedEntity.mTransform = fromCopyedEnitty.mTransform;
 	toCopyedEntity.InitializeComponent(&toCopyedEntity.mTransform);
 
-	for (const std::unique_ptr<PlainComponent, Component::Deleter>& plainComponents : fromCopyedEnitty.mPlainComponents)
+	for (const PlainComponent* plainComponent : fromCopyedEnitty.mPlainComponents)
 	{
-		const PlainComponent* const plainComp = plainComponents.get();
-		PlainComponent* clonedNewPlainComp = static_cast<PlainComponent*>(plainComp->CloneObject());
+		PlainComponent* clonedNewPlainComp = static_cast<PlainComponent*>(plainComponent->CloneObject());
 
-		D_ASSERT(clonedNewPlainComp != nullptr);
+		D_ASSERT(IsStrongValid(clonedNewPlainComp));
 
 		toCopyedEntity._AddComponentAndInitialize(clonedNewPlainComp);
 	}
 
-	for(const std::unique_ptr<ServerComponent, Component::Deleter>& serverComponents : fromCopyedEnitty.mServerComponents)
+	for(const ServerComponent* serverComponent : fromCopyedEnitty.mServerComponents)
 	{
-		const ServerComponent* const serverComp = serverComponents.get();
-		ServerComponent* clonedNewServerComp = static_cast<ServerComponent*>(serverComp->CloneObject());
+		ServerComponent* clonedNewServerComp = static_cast<ServerComponent*>(serverComponent->CloneObject());
 
-		D_ASSERT(serverComp != nullptr);
+		D_ASSERT(IsStrongValid(serverComponent));
 
 		toCopyedEntity._AddComponentAndInitialize(clonedNewServerComp);
 	}
@@ -148,14 +146,14 @@ void Entity::ClearComponents()
 	while (mPlainComponents.empty() == false)
 	{
 		//Why doesn't erase from vector instantly : for performance
-		_RemoveComponent(mPlainComponents[mPlainComponents.size() - 1].get(), mPlainComponents.size() - 1);
+		_RemoveComponent(mPlainComponents[mPlainComponents.size() - 1], mPlainComponents.size() - 1);
 	}
 	mPlainComponents.clear();
 
 	while (mServerComponents.empty() == false)
 	{
 		//Why doesn't erase from vector instantly : for performance
-		_RemoveComponent(mServerComponents[mServerComponents.size() - 1].get(), mServerComponents.size() - 1);
+		_RemoveComponent(mServerComponents[mServerComponents.size() - 1], mServerComponents.size() - 1);
 	}
 	mServerComponents.clear();
 }

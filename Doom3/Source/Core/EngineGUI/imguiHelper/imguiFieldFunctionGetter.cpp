@@ -313,7 +313,7 @@ namespace dooms
 						{
 							if(ImGui::TreeNode(serverComponent->GetDObjectName().c_str()))
 							{
-								imguiWithReflectionHelper::DrawObjectGUI(serverComponent->GetDClass(), serverComponent.get(), "", imguiWithReflectionHelper::eObjectType::DObject);
+								imguiWithReflectionHelper::DrawObjectGUI(serverComponent->GetDClass(), serverComponent, "", imguiWithReflectionHelper::eObjectType::DObject);
 								ImGui::TreePop();
 							}
 						}
@@ -325,7 +325,7 @@ namespace dooms
 						{
 							if (ImGui::TreeNode(plainComponent->GetDObjectName().c_str()))
 							{
-								imguiWithReflectionHelper::DrawObjectGUI(plainComponent->GetDClass(), plainComponent.get(), "", imguiWithReflectionHelper::eObjectType::DObject);
+								imguiWithReflectionHelper::DrawObjectGUI(plainComponent->GetDClass(), plainComponent, "", imguiWithReflectionHelper::eObjectType::DObject);
 								ImGui::TreePop();
 							}
 						}

@@ -99,7 +99,7 @@ namespace dooms
 		//D_PROPERTY()
 		std::unordered_map<size_t, std::vector<Component*>> mComponents;
 		
-		std::vector<std::unique_ptr<PlainComponent, Component::Deleter>> mPlainComponents;
+		std::vector<PlainComponent*> mPlainComponents;
 
 		D_PROPERTY()
 		Transform mTransform;
@@ -107,7 +107,7 @@ namespace dooms
 		/// <summary>
 		/// Core component is stored at this variable
 		/// </summary>
-		std::vector<std::unique_ptr<ServerComponent, Component::Deleter>> mServerComponents;
+		std::vector<ServerComponent*> mServerComponents;
 
 
 		void InitializeComponent(Component* const newComponent);
@@ -193,17 +193,17 @@ namespace dooms
 			D_ASSERT(isRemoveSuccess == true);
 			isRemoveSuccess = false;
 
-			std::unique_ptr<Component> removedComp = nullptr;
+			Component* removedComp = nullptr;
 
 			if (IsServerComponent(component) == true)
 			{// when component is ServerComponent
 				D_ASSERT(mServerComponents.size() > 0);
 				D_ASSERT(mServerComponents[index]);
-				D_ASSERT(mServerComponents[index].get() == component);
+				D_ASSERT(mServerComponents[index] == component);
 				
-				removedComp = std::unique_ptr<Component>(mServerComponents[index].release());
+				removedComp = mServerComponents[index];
 				mServerComponents.erase(mServerComponents.begin() + index);
-				_DestroyComponentCallBack(removedComp.get());
+				_DestroyComponentCallBack(removedComp);
 
 				isRemoveSuccess = true;
 			}
@@ -211,21 +211,20 @@ namespace dooms
 			{// when component is plainComponent
 				D_ASSERT(mPlainComponents.size() > 0);
 				D_ASSERT(mPlainComponents[index]);
-				D_ASSERT(mPlainComponents[index].get() == component);
+				D_ASSERT(mPlainComponents[index] == component);
 
-				removedComp = std::unique_ptr<Component>(mPlainComponents[index].release());
+				removedComp = mPlainComponents[index];
 				mPlainComponents.erase(mPlainComponents.begin() + index);
-				_DestroyComponentCallBack(removedComp.get());
+				_DestroyComponentCallBack(removedComp);
 
 				isRemoveSuccess = true;
 			}
 
 			D_ASSERT(removedComp);
-			D_ASSERT(IsValid(removedComp.get()) == true);
+			D_ASSERT(IsValid(removedComp) == true);
 			D_ASSERT(isRemoveSuccess == true);
 
-			removedComp.reset();
-
+			removedComp->SetIsPendingKill();
 
 			return isRemoveSuccess;
 		}
@@ -329,7 +328,7 @@ namespace dooms
 						D_ASSERT(serverComponent);
 						if (serverComponent->IsChildOf<T>())
 						{
-							returnedComponent = CastToUnchecked<T*>(serverComponent.get());
+							returnedComponent = CastToUnchecked<T*>(serverComponent);
 						}
 					}
 				}
@@ -340,7 +339,7 @@ namespace dooms
 						D_ASSERT(plainComponent);
 						if (plainComponent->IsChildOf<T>())
 						{
-							returnedComponent = CastToUnchecked<T*>(plainComponent.get());
+							returnedComponent = CastToUnchecked<T*>(plainComponent);
 						}
 					}
 				}
@@ -372,7 +371,7 @@ namespace dooms
 						D_ASSERT(serverComponent);
 						if (serverComponent->IsChildOf<T>())
 						{
-							components.push_back(CastToUnchecked<T*>(serverComponent.get()));
+							components.push_back(CastToUnchecked<T*>(serverComponent));
 						}
 					}
 				}
@@ -383,7 +382,7 @@ namespace dooms
 						D_ASSERT(plainComponent);
 						if (plainComponent->IsChildOf<T>())
 						{
-							components.push_back(CastToUnchecked<T*>(plainComponent.get()));
+							components.push_back(CastToUnchecked<T*>(plainComponent));
 						}
 					}
 				}
@@ -432,11 +431,11 @@ namespace dooms
 			return isAnyComponentRemoved;
 		}
 
-		FORCE_INLINE const std::vector<std::unique_ptr<PlainComponent, Component::Deleter>>& GetAllPlainComponents() const
+		FORCE_INLINE const std::vector<PlainComponent*>& GetAllPlainComponents() const
 		{
 			return mPlainComponents;
 		}
-		FORCE_INLINE const std::vector<std::unique_ptr<ServerComponent, Component::Deleter>>& GetAllServerComponents() const
+		FORCE_INLINE const std::vector<ServerComponent*>& GetAllServerComponents() const
 		{
 			return mServerComponents;
 		}
