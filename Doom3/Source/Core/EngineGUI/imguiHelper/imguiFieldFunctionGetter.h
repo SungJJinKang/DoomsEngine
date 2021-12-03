@@ -1,6 +1,7 @@
 #pragma once
 
 #include <Reflection/ReflectionType/DPrimitive.h>
+#include <Reflection/ReflectionType/ePropertyQualifier.h>
 
 namespace dooms
 {
@@ -17,8 +18,9 @@ namespace dooms
 			using IMGUI_WITH_REFLECTION_FUNC =
 				bool (*)(
 					void* const object, 
-					const char* const label, 
-					const char* const typeFullName, 
+					const char* const label,
+					const char* const typeFullName,
+					const reflection::eProperyQualifier dataQualifier,
 					const reflection::DAttributeList& attributeList, 
 					const reflection::DType* const fieldDType
 					);
@@ -28,7 +30,8 @@ namespace dooms
 
 			IMGUI_WITH_REFLECTION_FUNC GetImguiWithReflectionFunction
 			(
-				const char* const typeFullName, 
+				const char* const typeFullName,
+				const reflection::eProperyQualifier valueQualifier,
 				const reflection::DType* const fieldDType
 			);
 		}

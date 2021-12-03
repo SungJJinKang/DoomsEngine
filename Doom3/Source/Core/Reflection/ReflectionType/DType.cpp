@@ -3,6 +3,7 @@
 #include "../ReflectionManager.h"
 #include "DClass.h"
 #include "DTemplateType.h"
+#include "DEnum.h"
 
 dooms::reflection::DType::DType(const char* const typeFullName)
 	:
@@ -30,4 +31,14 @@ dooms::reflection::DTemplateType dooms::reflection::DType::AsDTemplateType() con
 	D_ASSERT(GetPrimitiveType() == DPrimitive::ePrimitiveType::TEMPLATE_TYPE);
 
 	return dooms::reflection::DTemplateType(clType->AsTemplateType());
+}
+
+dooms::reflection::DEnum dooms::reflection::DType::AsDEnum() const
+{
+	D_ASSERT(clType != nullptr);
+	D_ASSERT(DPrimitive::IsValid() == true);
+
+	D_ASSERT(GetPrimitiveType() == DPrimitive::ePrimitiveType::ENUM);
+
+	return dooms::reflection::DEnum(clType->AsEnum());
 }

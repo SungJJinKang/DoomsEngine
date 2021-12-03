@@ -80,7 +80,7 @@ namespace dooms
 
 
 
-			bool imguiWithReflection_bool(void* const object, const char* const label, const char* const typeFullName,const reflection::DAttributeList& attributeList, const reflection::DType* const fieldDType)
+			bool imguiWithReflection_bool(void* const object, const char* const label, const char* const typeFullName, const reflection::eProperyQualifier dataQualifier, const reflection::DAttributeList& attributeList, const reflection::DType* const fieldDType)
 			{
 				//ImGui::Text("%s : %d", label, *static_cast<int*>(object));
 
@@ -97,7 +97,7 @@ namespace dooms
 			}
 
 
-			bool imguiWithReflection_char(void* const object, const char* const label, const char* const typeFullName,const reflection::DAttributeList& attributeList, const reflection::DType* const fieldDType)
+			bool imguiWithReflection_char(void* const object, const char* const label, const char* const typeFullName, const reflection::eProperyQualifier dataQualifier, const reflection::DAttributeList& attributeList, const reflection::DType* const fieldDType)
 			{
 				const INT8 minValue = attributeList.GetMinValue<INT8>();
 				const INT8 maxValue = attributeList.GetMaxValue<INT8>();
@@ -105,7 +105,7 @@ namespace dooms
 				return ImGui::DragScalar(label, ImGuiDataType_S8, object, imgui::DEFULAT_DRAG_SPEED, &minValue, &maxValue, 0, GetImguiFlags(eImguiType::Drag, attributeList));
 			}
 
-			bool imguiWithReflection_unsigned_char(void* const object, const char* const label, const char* const typeFullName,const reflection::DAttributeList& attributeList, const reflection::DType* const fieldDType)
+			bool imguiWithReflection_unsigned_char(void* const object, const char* const label, const char* const typeFullName, const reflection::eProperyQualifier dataQualifier, const reflection::DAttributeList& attributeList, const reflection::DType* const fieldDType)
 			{
 				const UINT8 minValue = attributeList.GetMinValue<UINT8>();
 				const UINT8 maxValue = attributeList.GetMaxValue<UINT8>();
@@ -113,7 +113,7 @@ namespace dooms
 				return ImGui::DragScalar(label, ImGuiDataType_U8, object, imgui::DEFULAT_DRAG_SPEED, &minValue, &maxValue, 0, GetImguiFlags(eImguiType::Drag, attributeList));
 			}
 
-			bool imguiWithReflection_short(void* const object, const char* const label, const char* const typeFullName,const reflection::DAttributeList& attributeList, const reflection::DType* const fieldDType)
+			bool imguiWithReflection_short(void* const object, const char* const label, const char* const typeFullName, const reflection::eProperyQualifier dataQualifier, const reflection::DAttributeList& attributeList, const reflection::DType* const fieldDType)
 			{
 				const INT16 minValue = attributeList.GetMinValue<INT16>();
 				const INT16 maxValue = attributeList.GetMaxValue<INT16>();
@@ -121,7 +121,7 @@ namespace dooms
 				return ImGui::DragScalar(label, ImGuiDataType_S16, object, imgui::DEFULAT_DRAG_SPEED, &minValue, &maxValue, 0, GetImguiFlags(eImguiType::Drag, attributeList));
 			}
 
-			bool imguiWithReflection_unsigned_short(void* const object, const char* const label, const char* const typeFullName,const reflection::DAttributeList& attributeList, const reflection::DType* const fieldDType)
+			bool imguiWithReflection_unsigned_short(void* const object, const char* const label, const char* const typeFullName, const reflection::eProperyQualifier dataQualifier, const reflection::DAttributeList& attributeList, const reflection::DType* const fieldDType)
 			{
 				const UINT16 minValue = attributeList.GetMinValue<UINT16>();
 				const UINT16 maxValue = attributeList.GetMaxValue<UINT16>();
@@ -129,7 +129,7 @@ namespace dooms
 				return ImGui::DragScalar(label, ImGuiDataType_U16, object, imgui::DEFULAT_DRAG_SPEED, &minValue, &maxValue, 0, GetImguiFlags(eImguiType::Drag, attributeList));
 			}
 
-			bool imguiWithReflection_int(void* const object, const char* const label, const char* const typeFullName,const reflection::DAttributeList& attributeList, const reflection::DType* const fieldDType)
+			bool imguiWithReflection_int(void* const object, const char* const label, const char* const typeFullName, const reflection::eProperyQualifier dataQualifier, const reflection::DAttributeList& attributeList, const reflection::DType* const fieldDType)
 			{
 				const INT32 minValue = attributeList.GetMinValue<INT32>();
 				const INT32 maxValue = attributeList.GetMaxValue<INT32>();
@@ -137,7 +137,7 @@ namespace dooms
 				return ImGui::DragScalar(label, ImGuiDataType_S32, object, imgui::DEFULAT_DRAG_SPEED, &minValue, &maxValue, 0, GetImguiFlags(eImguiType::Drag, attributeList));
 			}
 
-			bool imguiWithReflection_unsigned_int(void* const object, const char* const label, const char* const typeFullName,const reflection::DAttributeList& attributeList, const reflection::DType* const fieldDType)
+			bool imguiWithReflection_unsigned_int(void* const object, const char* const label, const char* const typeFullName, const reflection::eProperyQualifier dataQualifier, const reflection::DAttributeList& attributeList, const reflection::DType* const fieldDType)
 			{
 				const UINT32 minValue = attributeList.GetMinValue<UINT32>();
 				const UINT32 maxValue = attributeList.GetMaxValue<UINT32>();
@@ -145,7 +145,7 @@ namespace dooms
 				return ImGui::DragScalar(label, ImGuiDataType_U32, object, imgui::DEFULAT_DRAG_SPEED, &minValue, &maxValue, 0, GetImguiFlags(eImguiType::Drag, attributeList));
 			}
 
-			bool imguiWithReflection_long_long(void* const object, const char* const label, const char* const typeFullName,const reflection::DAttributeList& attributeList, const reflection::DType* const fieldDType)
+			bool imguiWithReflection_long_long(void* const object, const char* const label, const char* const typeFullName, const reflection::eProperyQualifier dataQualifier, const reflection::DAttributeList& attributeList, const reflection::DType* const fieldDType)
 			{
 				const INT64 minValue = attributeList.GetMinValue<INT64>();
 				const INT64 maxValue = attributeList.GetMaxValue<INT64>();
@@ -153,7 +153,7 @@ namespace dooms
 				return ImGui::DragScalar(label, ImGuiDataType_S64, object, imgui::DEFULAT_DRAG_SPEED, &minValue, &maxValue, 0, GetImguiFlags(eImguiType::Drag, attributeList));
 			}
 
-			bool imguiWithReflection_unsigned_long_long(void* const object, const char* const label, const char* const typeFullName,const reflection::DAttributeList& attributeList, const reflection::DType* const fieldDType)
+			bool imguiWithReflection_unsigned_long_long(void* const object, const char* const label, const char* const typeFullName, const reflection::eProperyQualifier dataQualifier, const reflection::DAttributeList& attributeList, const reflection::DType* const fieldDType)
 			{
 				const UINT64 minValue = attributeList.GetMinValue<UINT64>();
 				const UINT64 maxValue = attributeList.GetMaxValue<UINT64>();
@@ -161,7 +161,7 @@ namespace dooms
 				return ImGui::DragScalar(label, ImGuiDataType_U64, object, imgui::DEFULAT_DRAG_SPEED, &minValue, &maxValue, 0, GetImguiFlags(eImguiType::Drag, attributeList));
 			}
 
-			bool imguiWithReflection_float(void* const object, const char* const label, const char* const typeFullName,const reflection::DAttributeList& attributeList, const reflection::DType* const fieldDType)
+			bool imguiWithReflection_float(void* const object, const char* const label, const char* const typeFullName, const reflection::eProperyQualifier dataQualifier, const reflection::DAttributeList& attributeList, const reflection::DType* const fieldDType)
 			{
 				const float minValue = attributeList.GetMinValue<float>();
 				const float maxValue = attributeList.GetMaxValue<float>();
@@ -169,7 +169,7 @@ namespace dooms
 				return ImGui::DragScalar(label, ImGuiDataType_Float, object, imgui::DEFULAT_DRAG_SPEED, &minValue, &maxValue, 0, GetImguiFlags(eImguiType::Drag, attributeList));
 			}
 
-			bool imguiWithReflection_double(void* const object, const char* const label, const char* const typeFullName,const reflection::DAttributeList& attributeList, const reflection::DType* const fieldDType)
+			bool imguiWithReflection_double(void* const object, const char* const label, const char* const typeFullName, const reflection::eProperyQualifier dataQualifier, const reflection::DAttributeList& attributeList, const reflection::DType* const fieldDType)
 			{
 				//ImGui::Text("%s : %lf", label, *static_cast<double*>(object));
 				const double minValue = attributeList.GetMinValue<double>();
@@ -178,7 +178,7 @@ namespace dooms
 				return ImGui::DragScalar(label, ImGuiDataType_Double, object, imgui::DEFULAT_DRAG_SPEED, &minValue, &maxValue, 0, GetImguiFlags(eImguiType::Drag, attributeList));
 			}
 
-			bool imguiWithReflection_math_Vector2(void* const object, const char* const label, const char* const typeFullName,const reflection::DAttributeList& attributeList, const reflection::DType* const fieldDType)
+			bool imguiWithReflection_math_Vector2(void* const object, const char* const label, const char* const typeFullName, const reflection::eProperyQualifier dataQualifier, const reflection::DAttributeList& attributeList, const reflection::DType* const fieldDType)
 			{
 				const FLOAT32 minValue = attributeList.GetMinValue<FLOAT32>();
 				const FLOAT32 maxValue = attributeList.GetMaxValue<FLOAT32>();
@@ -196,7 +196,7 @@ namespace dooms
 
 			}
 
-			bool imguiWithReflection_math_Vector3(void* const object, const char* const label, const char* const typeFullName,const reflection::DAttributeList& attributeList, const reflection::DType* const fieldDType)
+			bool imguiWithReflection_math_Vector3(void* const object, const char* const label, const char* const typeFullName, const reflection::eProperyQualifier dataQualifier, const reflection::DAttributeList& attributeList, const reflection::DType* const fieldDType)
 			{
 				if (attributeList.GetIsHasGUIType("Color"))
 				{
@@ -221,7 +221,7 @@ namespace dooms
 
 			}
 
-			bool imguiWithReflection_math_Vector4(void* const object, const char* const label, const char* const typeFullName,const reflection::DAttributeList& attributeList, const reflection::DType* const fieldDType)
+			bool imguiWithReflection_math_Vector4(void* const object, const char* const label, const char* const typeFullName, const reflection::eProperyQualifier dataQualifier, const reflection::DAttributeList& attributeList, const reflection::DType* const fieldDType)
 			{
 				if (attributeList.GetIsHasGUIType("Color"))
 				{
@@ -245,23 +245,23 @@ namespace dooms
 				}
 			}
 
-			bool imguiWithReflection_math_Matrix2x2(void* const object, const char* const label, const char* const typeFullName,const reflection::DAttributeList& attributeList, const reflection::DType* const fieldDType)
+			bool imguiWithReflection_math_Matrix2x2(void* const object, const char* const label, const char* const typeFullName, const reflection::eProperyQualifier dataQualifier, const reflection::DAttributeList& attributeList, const reflection::DType* const fieldDType)
 			{
 				return false;
 			}
 
-			bool imguiWithReflection_math_Matrix3x3(void* const object, const char* const label, const char* const typeFullName,const reflection::DAttributeList& attributeList, const reflection::DType* const fieldDType)
+			bool imguiWithReflection_math_Matrix3x3(void* const object, const char* const label, const char* const typeFullName, const reflection::eProperyQualifier dataQualifier, const reflection::DAttributeList& attributeList, const reflection::DType* const fieldDType)
 			{
 				return false;
 			}
 
-			bool imguiWithReflection_math_Matrix4x4(void* const object, const char* const label, const char* const typeFullName,const reflection::DAttributeList& attributeList, const reflection::DType* const fieldDType)
+			bool imguiWithReflection_math_Matrix4x4(void* const object, const char* const label, const char* const typeFullName, const reflection::eProperyQualifier dataQualifier, const reflection::DAttributeList& attributeList, const reflection::DType* const fieldDType)
 			{
 				return false;
 			}
 
 			
-			bool imguiWithReflection_math_Quaternion(void* const object, const char* const label, const char* const typeFullName,const reflection::DAttributeList& attributeList, const reflection::DType* const fieldDType)
+			bool imguiWithReflection_math_Quaternion(void* const object, const char* const label, const char* const typeFullName, const reflection::eProperyQualifier dataQualifier, const reflection::DAttributeList& attributeList, const reflection::DType* const fieldDType)
 			{
 				math::Vector3 eulerAngle{ math::Quaternion::QuaternionToEulerAngle(*static_cast<math::Quaternion*>(object)) };
 
@@ -297,7 +297,7 @@ namespace dooms
 				return isValueChanged;
 			}
 			
-			bool imguiWithReflection_dooms_Entity(void* const object, const char* const label, const char* const typeFullName,const reflection::DAttributeList& attributeList, const reflection::DType* const fieldDType)
+			bool imguiWithReflection_dooms_Entity(void* const object, const char* const label, const char* const typeFullName, const reflection::eProperyQualifier dataQualifier, const reflection::DAttributeList& attributeList, const reflection::DType* const fieldDType)
 			{
 				dooms::Entity* const entity = static_cast<dooms::Entity*>(object);
 
@@ -334,7 +334,7 @@ namespace dooms
 				return false;
 			}
 
-			bool imguiWithReflection_std_string(void* const object, const char* const label, const char* const typeFullName,const reflection::DAttributeList& attributeList, const reflection::DType* const fieldDType)
+			bool imguiWithReflection_std_string(void* const object, const char* const label, const char* const typeFullName, const reflection::eProperyQualifier dataQualifier, const reflection::DAttributeList& attributeList, const reflection::DType* const fieldDType)
 			{
 				D_ASSERT(object != nullptr);
 
@@ -363,7 +363,7 @@ namespace dooms
 			}
 
 			/*
-			bool imguiWithReflection_std_wstring(void* const object, const char* const label, const char* const typeFullName,const reflection::DAttributeList& attributeList, const reflection::DType* const fieldDType)
+			bool imguiWithReflection_std_wstring(void* const object, const char* const label, const char* const typeFullName, const reflection::eProperyQualifier dataQualifier, const reflection::DAttributeList& attributeList, const reflection::DType* const fieldDType)
 			{
 				D_ASSERT(object != nullptr);
 
@@ -392,9 +392,9 @@ namespace dooms
 			}
 			*/
 
-			bool imguiWithReflection_enum(void* const object, const char* const label, const char* const typeFullName,const reflection::DAttributeList& attributeList, const reflection::DType* const fieldDType)
+			bool imguiWithReflection_enum(void* const object, const char* const label, const char* const typeFullName, const reflection::eProperyQualifier dataQualifier, const reflection::DAttributeList& attributeList, const reflection::DType* const fieldDType)
 			{
-				const dooms::reflection::DEnum dEnum{ typeFullName };
+				const dooms::reflection::DEnum dEnum{ fieldDType->AsDEnum() };
 				D_ASSERT(dEnum.IsValid() == true);
 
 				const size_t enumConstantCount = dEnum.GetEnumConstantsCount();
@@ -450,7 +450,7 @@ namespace dooms
 				return isValueChanged;
 			}
 
-			bool imguiWithReflection_std_array(void* const object, const char* const label, const char* const typeFullName, const reflection::DAttributeList& attributeList, const reflection::DType* const fieldDType)
+			bool imguiWithReflection_std_array(void* const object, const char* const label, const char* const typeFullName, const reflection::eProperyQualifier dataQualifier,  const reflection::DAttributeList& attributeList, const reflection::DType* const fieldDType)
 			{
 				D_ASSERT(fieldDType != nullptr);
 
@@ -462,15 +462,9 @@ namespace dooms
 
 				D_ASSERT(dTemplateTypeArgument.IsValid() == true);
 
-				const bool isVectorElementTypePointer = dTemplateTypeArgument.GetIsTemplateArgumentPointerType();
-
-				std::string vectorElementTypeFullName = dTemplateTypeArgument.GetTypeFullName();
-				if (isVectorElementTypePointer == true)
-				{
-					vectorElementTypeFullName += '*';
-				}
-
-				const size_t vectorElementTypeSize = isVectorElementTypePointer == true ? sizeof(void*) : dTemplateTypeArgument.GetTypeSize();
+				const bool isArrayElementTypePointer = dTemplateTypeArgument.GetIsTemplateArgumentPointerType();
+				
+				const size_t vectorElementTypeSize = isArrayElementTypePointer == true ? sizeof(void*) : dTemplateTypeArgument.GetTypeSize();
 
 				std::string_view typeFullNameStringView = typeFullName;
 
@@ -489,7 +483,7 @@ namespace dooms
 					};
 
 					char* pos = NULL;
-					const size_t vectorElementRealCount = strtoll(stdArraySizeTemplateArgumentString.c_str(), &pos, 10);
+					const size_t arrayElementRealCount = strtoll(stdArraySizeTemplateArgumentString.c_str(), &pos, 10);
 
 					char elementString[] = "Index 10000";
 					char elementIndexStringBuffer[5];
@@ -497,18 +491,23 @@ namespace dooms
 					
 					if (ImGui::TreeNode(label))
 					{
-						for (size_t i = 0; i < vectorElementRealCount; i++)
+						for (size_t i = 0; i < arrayElementRealCount; i++)
 						{
 							const INT32 indexStringLength = sprintf_s(elementIndexStringBuffer, "%llu", i);
 							D_ASSERT(indexStringLength != -1);
 							std::memcpy(elementString + sizeof(elementString) - 6, elementIndexStringBuffer, indexStringLength + 1);
 
 							bool isValueChange = false;
+
+							const std::string arrayElementTypeFullName = dTemplateTypeArgument.GetTypeFullName();
+							const reflection::eProperyQualifier array_element_qualifier = (isArrayElementTypePointer == true) ? reflection::eProperyQualifier::POINTER : reflection::eProperyQualifier::VALUE;
+
 							dooms::ui::imguiWithReflectionHelper::DrawImguiFieldFromDField
 							(
 								fakeArray->data() + i * vectorElementTypeSize,
 								elementString,
-								vectorElementTypeFullName.c_str(),
+								arrayElementTypeFullName.c_str(),
+								array_element_qualifier,
 								&dTemplateTypeArgument,
 								attributeList,
 								isValueChange,
@@ -526,7 +525,7 @@ namespace dooms
 				return isVectorElementChanged;
 			}
 
-			bool imguiWithReflection_std_vector(void* const object, const char* const label, const char* const typeFullName, const reflection::DAttributeList& attributeList, const reflection::DType* const fieldDType)
+			bool imguiWithReflection_std_vector(void* const object, const char* const label, const char* const typeFullName, const reflection::eProperyQualifier dataQualifier,  const reflection::DAttributeList& attributeList, const reflection::DType* const fieldDType)
 			{
 				D_ASSERT(fieldDType != nullptr);
 
@@ -539,13 +538,7 @@ namespace dooms
 				D_ASSERT(dTemplateTypeArgument.IsValid() == true);
 				
 				const bool isVectorElementTypePointer = dTemplateTypeArgument.GetIsTemplateArgumentPointerType();
-
-				std::string vectorElementTypeFullName = dTemplateTypeArgument.GetTypeFullName();
-				if(isVectorElementTypePointer == true)
-				{
-					vectorElementTypeFullName += '*';
-				}
-
+				
 				const size_t vectorElementTypeSize = isVectorElementTypePointer == true ? sizeof(void*) : dTemplateTypeArgument.GetTypeSize();
 				
 				const size_t vectorElementFakeCount = fakeVector->size(); // this size is ( endAddress - startAddress )
@@ -566,11 +559,16 @@ namespace dooms
 						std::memcpy(elementString + sizeof(elementString) - 6, elementIndexStringBuffer, indexStringLength + 1);
 
 						bool isValueChange = false;
+
+						const std::string vectorElementTypeFullName = dTemplateTypeArgument.GetTypeFullName();
+						const reflection::eProperyQualifier vector_element_qualifier = (isVectorElementTypePointer == true) ? reflection::eProperyQualifier::POINTER : reflection::eProperyQualifier::VALUE;
+
 						dooms::ui::imguiWithReflectionHelper::DrawImguiFieldFromDField
 						(
 							fakeVector->data() + i * vectorElementTypeSize,
 							elementString,
 							vectorElementTypeFullName.c_str(),
+							vector_element_qualifier,
 							&dTemplateTypeArgument,
 							attributeList,
 							isValueChange,
@@ -640,6 +638,7 @@ void dooms::ui::imguiFieldFunctionGetter::Initialize()
 dooms::ui::imguiFieldFunctionGetter::IMGUI_WITH_REFLECTION_FUNC dooms::ui::imguiFieldFunctionGetter::GetImguiWithReflectionFunction
 (
 	const char* const typeFullName,
+	const reflection::eProperyQualifier valueQualifier,
 	const reflection::DType* const fieldDType // Type full name of fieldDType can be different with typeFullName. because typeFullName can be end with '*' or '&' if it's pointer or reference
 )
 {

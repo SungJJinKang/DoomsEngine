@@ -124,6 +124,7 @@ namespace dooms
 				void* const object,
 				const char* const label,
 				const char* const typeFullName,
+				const reflection::eProperyQualifier propertyQualifier,
 				const reflection::DType* const fieldDType,
 				const reflection::DAttributeList& attributeList, 
 				bool& isValueChange, 
@@ -143,7 +144,7 @@ namespace dooms
 				if (attributeList.GetIsVisibleOnGUI() == true)
 				{
 					dooms::ui::imguiFieldFunctionGetter::IMGUI_WITH_REFLECTION_FUNC func =
-						dooms::ui::imguiFieldFunctionGetter::GetImguiWithReflectionFunction(typeFullName, fieldDType);
+						dooms::ui::imguiFieldFunctionGetter::GetImguiWithReflectionFunction(typeFullName, propertyQualifier, fieldDType);
 
 					if (func != nullptr)
 					{
@@ -153,7 +154,7 @@ namespace dooms
 
 						const char* const fieldLabel = attributeList.GetIsNoLabel() == true ? "" : label;
 
-						isValueChange = func(object, fieldLabel, typeFullName, attributeList, fieldDType);
+						isValueChange = func(object, fieldLabel, typeFullName, propertyQualifier, attributeList, fieldDType);
 						isSuccessToDrawGUI = true;
 
 						OnEndDrawGUI(attributeList);
@@ -195,21 +196,14 @@ namespace dooms
 				D_ASSERT(fieldOwnerObejct != nullptr);
 
 				const reflection::DType fieldDType = dField.GetDTypeOfFieldType();
-				std::string fieldTypeFullName = dField.GetFieldTypeFullName();
-				if (dField.GetFieldQualifier() == reflection::DField::eProperyQualifier::POINTER)
-				{
-					fieldTypeFullName += '*';
-				}
-				else if (dField.GetFieldQualifier() == reflection::DField::eProperyQualifier::REFERENCE)
-				{
-					fieldTypeFullName += '&';
-				}
+				const std::string fieldTypeFullName = dField.GetFieldTypeFullName();
 
 				return DrawImguiFieldFromDField
 				(
-					object, 
-					dField.GetFieldName(), 
+					object,
+					dField.GetFieldName(),
 					fieldTypeFullName.c_str(),
+					dField.GetFieldQualifier(),
 					&fieldDType,
 					dField.GetDAttributeList(),
 					isValueChange,
@@ -355,7 +349,7 @@ namespace dooms
 										}
 										else
 										{
-											if (dField.GetFieldQualifier() == reflection::DField::eProperyQualifier::VALUE)
+											if (dField.GetFieldQualifier() == reflection::eProperyQualifier::VALUE)
 											{
 												isFieldValueChanged = DrawObjectGUI(fieldTypeDClass, fieldRawValue, (dField.GetDAttributeList().GetIsNoLabel() == false) ? dField.GetFieldName() : "", eObjectType::RawObject);
 											}
@@ -394,6 +388,7 @@ namespace dooms
 						object,
 						rawObjectName,
 						dClass.GetTypeFullName(),
+						reflection::eProperyQualifier::VALUE,
 						&dClass,
 						dClass.GetDAttributeList(),
 						isGUIValueChanged,

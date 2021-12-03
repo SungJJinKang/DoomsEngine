@@ -17,6 +17,7 @@ namespace dooms
 	{
 		class DClass;
 		class DTemplateType;
+		class DEnum;
 		class DOOM_API D_CLASS DType : public DPrimitive /*: public dooms::DObject*/ // Dont Do this
 		{
 		protected:
@@ -63,6 +64,7 @@ namespace dooms
 
 			DClass AsDClass() const;
 			DTemplateType AsDTemplateType() const;
+			DEnum AsDEnum() const;
 		};
 	}
 }

@@ -35,6 +35,7 @@ namespace dooms
 				void* const object,
 				const char* const label,
 				const char* const typeFullName,
+				const reflection::eProperyQualifier propertyQualifier,
 				const reflection::DType* const fieldDType,
 				const reflection::DAttributeList& attributeList,
 				bool& isValueChange,

@@ -24,6 +24,7 @@ namespace dooms
 
 			DEnum(const UINT32 nameHash);
 			DEnum(const char* const fullName);
+			DEnum(const clcpp::Enum* const _clEnum);
 
 			/// <summary>
 			/// if value doesn't exist, return nullptr

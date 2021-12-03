@@ -10,6 +10,7 @@
 #include "../Reflection.h"
 
 #include "DPrimitive.h"
+#include "ePropertyQualifier.h"
 
 namespace dooms
 {
@@ -28,12 +29,7 @@ namespace dooms
 
 		public:
 
-			enum class eProperyQualifier
-			{
-				VALUE = clcpp::Qualifier::Operator::VALUE,
-				POINTER = clcpp::Qualifier::Operator::POINTER,
-				REFERENCE = clcpp::Qualifier::Operator::REFERENCE
-			};
+			
 
 			FORCE_INLINE DField()
 				: DPrimitive(), clField(nullptr)

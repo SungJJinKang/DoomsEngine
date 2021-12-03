@@ -30,6 +30,12 @@ dooms::reflection::DEnum::DEnum(const char* const typeFullName)
 {
 }
 
+dooms::reflection::DEnum::DEnum(const clcpp::Enum* const _clEnum)
+	: DType(_clEnum), clEnum(_clEnum)
+{
+	D_ASSERT(clEnum != nullptr);
+}
+
 const char* dooms::reflection::DEnum::GetNameOfEnumConstantValue
 (
 	const INT32 value,

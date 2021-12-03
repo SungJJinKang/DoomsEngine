@@ -561,6 +561,7 @@ xcopy /y /d /E /H /C /I "$(ProjectDir)Assets" "$(TargetDir)Assets"</Command>
     <ClCompile Include="Source\thirdparty\imgui\imgui_widgets.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Source\Core\Reflection\ReflectionType\ePropertyQualifier.h" />
     <ClInclude Include="Source\Core\Reflection\TypeSpecialized\Helper\iteratorHelper.h" />
     <ClInclude Include="Source\Core\Reflection\TypeSpecialized\Reflection_RandomAccessIterator.h" />
     <ClInclude Include="Source\Component\Core\ComponentHelper.h" />
