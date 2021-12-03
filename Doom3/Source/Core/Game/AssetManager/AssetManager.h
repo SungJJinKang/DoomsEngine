@@ -29,10 +29,13 @@ namespace dooms
 
 		private:
 
+			D_PROPERTY()
 			AssetImporterWorkerManager mAssetImporterWorkerManager;
 
+			D_PROPERTY()
 			const std::filesystem::path AssetFolderPath{ std::filesystem::u8path(dooms::path::_GetAssetFolderDirectory()) };
 			
+			D_PROPERTY()
 			std::array<dooms::asset::AssetContainer, dooms::asset::ENUM_ASSETTYPE_COUNT> mAssetConatiners
 			{
 				dooms::asset::AssetContainer(dooms::asset::eAssetType::AUDIO),

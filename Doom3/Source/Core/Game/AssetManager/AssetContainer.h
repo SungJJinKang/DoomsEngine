@@ -16,9 +16,11 @@ namespace dooms
 		/// Store Imported or Scheduled to be imported Assets 
 		/// Store AssetContainer
 		/// </summary>
-		struct DOOM_API D_STRUCT AssetContainer
+		class DOOM_API D_CLASS AssetContainer : public DObject
 		{
 			GENERATE_BODY()
+
+		public:
 
 			dooms::asset::eAssetType mAssetTypeOfContainer;
 
@@ -33,6 +35,7 @@ namespace dooms
 			/// this is much faster than iterating unordered_map
 			/// when insert to map and rehashing happen, reference of assetvalue isn't invalidated (safe)
 			/// </summary>
+			D_PROPERTY() // for the GC
 			std::vector<::dooms::asset::Asset*> mAssetsForIterating;
 
 			/// <summary>
