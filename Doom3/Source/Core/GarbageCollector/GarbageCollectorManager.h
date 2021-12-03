@@ -37,6 +37,11 @@ namespace dooms
 
 			static void Init();
 			static void TickGC();
+
+			static void ClearFlags();
+			static void Mark();
+			static void Sweep();
+			static void Collect();
 			
 			
 			/// <summary>

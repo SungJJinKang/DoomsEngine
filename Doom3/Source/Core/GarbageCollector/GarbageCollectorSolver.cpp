@@ -34,8 +34,7 @@ namespace dooms::gc::garbageCollectorSolver
 		const UINT32 keepFlags,
 		void* const object,
 		const reflection::eProperyQualifier dataQualifier,
-		const dooms::reflection::DType* const dFieldType,
-		const bool isRootDObject = false
+		const dooms::reflection::DType* const dFieldType
 	);
 	void MarkRecursivelyTemplateTypeField
 	(
@@ -49,8 +48,7 @@ namespace dooms::gc::garbageCollectorSolver
 		const UINT32 keepFlags,
 		dooms::DObject* const dObejct,
 		const reflection::eProperyQualifier dataQualifier,
-		const dooms::reflection::DType* const dFieldType,
-		const bool isRootDObject
+		const dooms::reflection::DType* const dFieldType
 	);
 
 	void MarkRecursivelyTemplateTypeField
@@ -80,7 +78,7 @@ namespace dooms::gc::garbageCollectorSolver
 						auto endIter = dooms::reflection::helper::Generate_Reflection_Std_Container(object, dFieldType->GetTypeFullName(), reflection::eProperyQualifier::VALUE, dTemplateDType, reflection::helper::eIteratorIndex::End);
 						while (beginiter != endIter)
 						{
-							MarkRecursively(keepFlags, &(*beginiter), elementTypeQualifier, &elementTypeDType, false);
+							MarkRecursively(keepFlags, &(*beginiter), elementTypeQualifier, &elementTypeDType);
 
 							beginiter++;
 						}
@@ -93,7 +91,7 @@ namespace dooms::gc::garbageCollectorSolver
 					// template argument of smartpoint always be pointer type. ex) std::shared_ptr<char> -> returned value of Generate_Reflection_smartPointer is pointer
 					if (ptr != nullptr)
 					{// when smart pointer has valid address 
-						MarkRecursively(keepFlags, ptr, elementTypeQualifier, &elementTypeDType, false);
+						MarkRecursively(keepFlags, ptr, elementTypeQualifier, &elementTypeDType);
 					}					
 				}
 			}
@@ -131,7 +129,7 @@ namespace dooms::gc::garbageCollectorSolver
 			for (const dooms::reflection::DField& field : dFieldList)
 			{
 				reflection::DType fieldType = field.GetDTypeOfFieldType();
-				MarkRecursively(keepFlags, reinterpret_cast<char*>(dObejct) + field.GetFieldOffset(), field.GetFieldQualifier(), &fieldType, false);
+				MarkRecursively(keepFlags, reinterpret_cast<char*>(dObejct) + field.GetFieldOffset(), field.GetFieldQualifier(), &fieldType);
 			}
 		}
 	}
@@ -141,11 +139,10 @@ namespace dooms::gc::garbageCollectorSolver
 		const UINT32 keepFlags,
 		void* const object,
 		const reflection::eProperyQualifier dataQualifier,
-		const dooms::reflection::DType* const dFieldType,
-		const bool isRootDObject
+		const dooms::reflection::DType* const dFieldType
 	)
 	{
-		if ((isRootDObject == true) || ((dataQualifier == reflection::eProperyQualifier::POINTER) == false))
+		if ((dataQualifier == reflection::eProperyQualifier::POINTER) == false)
 		{
 			// if object is nullptr, DObjectManager::IsDObjectExist is suprer fast
 			if (IsStrongValid(reinterpret_cast<dooms::DObject*>(object), false) == true)
@@ -178,13 +175,12 @@ namespace dooms::gc::garbageCollectorSolver
 		const UINT32 keepFlags,
 		void* const object,
 		const reflection::eProperyQualifier dataQualifier,
-		const dooms::reflection::DType* const dFieldType,
-		const bool isRootDObject
+		const dooms::reflection::DType* const dFieldType
 	)
 	{
-		if( (isRootDObject == true) || ( dFieldType->GetPrimitiveType() == reflection::DPrimitive::ePrimitiveType::CLASS) )
+		if( dFieldType->GetPrimitiveType() == reflection::DPrimitive::ePrimitiveType::CLASS )
 		{
-			MarkRecursivelyDObjectTypeField(keepFlags, object, dataQualifier, dFieldType, isRootDObject);
+			MarkRecursivelyDObjectTypeField(keepFlags, object, dataQualifier, dFieldType);
 		}
 		else if(dFieldType->GetPrimitiveType() == reflection::DPrimitive::ePrimitiveType::TEMPLATE_TYPE)
 		{
@@ -197,7 +193,7 @@ namespace dooms::gc::garbageCollectorSolver
 		D_ASSERT(IsStrongValid(rootDObject, false) == true);
 
 		const reflection::DClass rootObjectDClass = rootDObject->GetDClass();
-		MarkRecursively(keepFlags, rootDObject, reflection::eProperyQualifier::POINTER, &rootObjectDClass, true);
+		MarkRecursively(keepFlags, rootDObject, reflection::eProperyQualifier::VALUE, &rootObjectDClass);
 	}
 
 }
@@ -218,7 +214,7 @@ void dooms::gc::garbageCollectorSolver::StartMarkStage(const UINT32 keepFlags, s
 }
 
 
-void dooms::gc::garbageCollectorSolver::StartSweepStage(std::vector<dooms::DObject*>& dObjectList, std::vector<UINT32>& flagList)
+void dooms::gc::garbageCollectorSolver::StartSweepStage(const UINT32 keepFlags, std::vector<dooms::DObject*>& dObjectList, std::vector<UINT32>& flagList)
 {
 	std::vector<dooms::DObject*> deletedDObjectList;
 	deletedDObjectList.reserve(DELETE_DOBJECT_LIST_RESERVATION_COUNT);
@@ -230,6 +226,11 @@ void dooms::gc::garbageCollectorSolver::StartSweepStage(std::vector<dooms::DObje
 		{
 			if ((flagList[i] & (dooms::eDObjectFlag::Unreachable | dooms::eDObjectFlag::NewAllocated)) == (dooms::eDObjectFlag::Unreachable | dooms::eDObjectFlag::NewAllocated))
 			{
+				// Mark unreachable dObject before sweep
+				const reflection::DClass dClass = dObjectList[i]->GetDClass();
+				MarkRecursively(keepFlags, dObjectList[i], reflection::eProperyQualifier::VALUE, &dClass);
+
+
 				dObjectList[i]->SetIsPendingKill();
 
 				deletedDObjectList.push_back(dObjectList[i]);
@@ -244,7 +245,7 @@ void dooms::gc::garbageCollectorSolver::StartSweepStage(std::vector<dooms::DObje
 
 	for (dooms::DObject* deletedDbject : deletedDObjectList)
 	{
-		deletedDbject->DestroySelf();
+		deletedDbject->DestroySelfInstantly();
 	}
 }
 

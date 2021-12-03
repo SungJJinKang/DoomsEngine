@@ -17,7 +17,7 @@ namespace dooms
 			enum GCStage : UINT32
 			{
 				ClearFlagsStage = 0, // StartSetUnreachableFlagStage to all DObjects
-				MarkStage,
+				MarkSweepStage,
 				SweepStage
 			};
 
@@ -25,7 +25,7 @@ namespace dooms
 
 			void StartMarkStage(const UINT32 keepFlags, std::vector<dooms::DObject*>& rootDObjectList);
 			
-			void StartSweepStage(std::vector<dooms::DObject*>& dObjectList, std::vector<UINT32>& flagList);
+			void StartSweepStage(const UINT32 keepFlags, std::vector<dooms::DObject*>& dObjectList, std::vector<UINT32>& flagList);
 
 			// this may make bugs ( multithread delete can make a lot of bugs )
 			//void StartParallelSweepStage(std::vector<dooms::DObject*>& dObjectList, const std::vector<UINT32>& flagList);
