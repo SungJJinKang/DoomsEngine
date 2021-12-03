@@ -26,6 +26,7 @@
 
 ## Currently working on
 
+  * Unreal engine style garbage collector
   * change graphics api!!! ( 0%, OpenGL to DirectX12 )
   * Masked SW Occlusion Culling ( 20%, work directory - https://github.com/SungJJinKang/EveryCulling/tree/main/CullingModule/MaskedSWOcclusionCulling ) ( reference : https://software.intel.com/content/dam/develop/external/us/en/documents/masked-software-occlusion-culling.pdf )       
   * fully implement engine ui ( 70%, use imgui! - https://github.com/ocornut/imgui )     
