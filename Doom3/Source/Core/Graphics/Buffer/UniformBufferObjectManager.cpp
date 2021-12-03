@@ -7,7 +7,7 @@ void dooms::graphics::UniformBufferObjectManager::UpdateUniformBufferObjects()
 {
 	for (UniformBufferObjectUpdater* updater : mUniformBufferObjectTempBufferUpdaters)
 	{
-		if (updater->bmUpdateWhenManagerUpdate == true)
+		if (updater->GetIsUpdateWhenManagerUpdate() == true)
 		{
 			updater->UpdateUniformBufferObject();
 		}
@@ -19,17 +19,17 @@ void dooms::graphics::UniformBufferObjectManager::PushUniformBufferObjectTempBuf
 	mUniformBufferObjectTempBufferUpdaters.push_back(update_ptr);
 }
 
-void dooms::graphics::UniformBufferObjectManager::EraseUniformBufferObjectTempBufferUpdater(UniformBufferObjectUpdater* update_ptr)
+void dooms::graphics::UniformBufferObjectManager::EraseUniformBufferObjectTempBufferUpdater(UniformBufferObjectUpdater* const update_ptr)
 {
 	auto iter_end = mUniformBufferObjectTempBufferUpdaters.end();
 	auto this_iter = std::find_if(mUniformBufferObjectTempBufferUpdaters.begin(),
 		iter_end,
 		[update_ptr](const UniformBufferObjectUpdater* stored_update_ptr) {return stored_update_ptr == update_ptr; });
 
-	D_ASSERT(this_iter != iter_end); // this_iter == iter_end mean mUniformBufferObjectTempBufferUpdaters doesn't contain update_ptr, this is undefined
-
-	//remove this object from mUniformBufferObjectTempBufferUpdaters
-	swap_popback::vector_swap_popback(mUniformBufferObjectTempBufferUpdaters, this_iter);
+	if(this_iter != iter_end)
+	{
+		swap_popback::vector_swap_popback(mUniformBufferObjectTempBufferUpdaters, this_iter);
+	}
 }
 
 void dooms::graphics::UniformBufferObjectManager::UpdateUniformObjects()

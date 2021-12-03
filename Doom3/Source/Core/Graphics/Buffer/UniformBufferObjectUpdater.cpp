@@ -31,5 +31,13 @@ dooms::graphics::UniformBufferObjectUpdater& dooms::graphics::UniformBufferObjec
 
 dooms::graphics::UniformBufferObjectUpdater::~UniformBufferObjectUpdater()
 {
-	UniformBufferObjectManager::GetSingleton()->EraseUniformBufferObjectTempBufferUpdater(this);
+	RemoveFromUniformBufferObjectManager();
+}
+
+void dooms::graphics::UniformBufferObjectUpdater::RemoveFromUniformBufferObjectManager()
+{
+	if (UniformBufferObjectManager::GetSingleton() != nullptr)
+	{
+		UniformBufferObjectManager::GetSingleton()->EraseUniformBufferObjectTempBufferUpdater(this);
+	}
 }

@@ -45,74 +45,27 @@ namespace dooms
 	private:
 
 		static inline std::vector<T*> mElements{};
-
-		/// <summary>
-		/// why don't use iterator.
-		/// iterator can be invalidated when vector's size is over capacity
-		/// </summary>
-		size_t mComponentStaticIndex;
-
+		
 		void AddToStaticContainer()
 		{
 			StaticContainer<T>::mElements.push_back(static_cast<T*>(this));
-			mComponentStaticIndex = StaticContainer<T>::mElements.size() - 1;
 		}
-
-		void ReplaceFromStaticContainer(const size_t index, T* const object)
+		
+	protected:
+		
+		static size_t GetStaticElementCount()
 		{
-			assert(index != INVALID_STATIC_CONTAINER_INDEX && object != nullptr);
-
-			if (index != INVALID_STATIC_CONTAINER_INDEX && object != nullptr)
-			{
-				StaticContainer<T>::mElements[index]->mComponentStaticIndex = INVALID_STATIC_CONTAINER_INDEX;
-
-				StaticContainer<T>::mElements[index] = object;
-				StaticContainer<T>::mElements[index]->mComponentStaticIndex = index;
-			}
-		}
-
-		void RemoveFromStaticContainer(const size_t index)
-		{
-			if (index != INVALID_STATIC_CONTAINER_INDEX)
-			{
-
-				if (StaticContainer<T>::mElements.size() - 1 == index)
-				{
-					StaticContainer<T>::mElements.back()->mComponentStaticIndex = INVALID_STATIC_CONTAINER_INDEX;
-
-					StaticContainer<T>::mElements.pop_back();
-				}
-				else
-				{
-					ReplaceFromStaticContainer(index, StaticContainer<T>::mElements.back());
-					StaticContainer<T>::mElements.pop_back();
-				}
-			}
-			
+			return StaticContainer<T>::mElements.size();
 		}
 
 		void RemoveFromStaticContainer()
 		{
-			RemoveFromStaticContainer(mComponentStaticIndex);
-		}
-
-	protected:
-		
-		
-		size_t GetStaticElementIndex() const
-		{
-			return mComponentStaticIndex;
-		}
-
-		static size_t GetStaticElementCount()
-		{
-			return StaticContainer<T>::mElements.size();
+			swap_popback::vector_find_swap_popback(StaticContainer<T>::mElements, static_cast<T*>(this));
 		}
 		
 	public:
 
 		StaticContainer()
-			: mComponentStaticIndex(INVALID_STATIC_CONTAINER_INDEX)
 		{
 			AddToStaticContainer();
 		}
@@ -123,26 +76,19 @@ namespace dooms
 		}
 
 		StaticContainer(const StaticContainer& container)
-			: mComponentStaticIndex(INVALID_STATIC_CONTAINER_INDEX)
 		{
 			AddToStaticContainer();
 		}
 		StaticContainer(StaticContainer&& container) noexcept
-			: mComponentStaticIndex(INVALID_STATIC_CONTAINER_INDEX)
 		{
-			ReplaceFromStaticContainer(container.mComponentStaticIndex, this);
-			container.mComponentStaticIndex = INVALID_STATIC_CONTAINER_INDEX;
+			AddToStaticContainer();
 		}
 		StaticContainer& operator=(const StaticContainer& container)
 		{
-			AddToStaticContainer();
 			return *this;
 		}
 		StaticContainer& operator=(StaticContainer&& container) noexcept
 		{
-			RemoveFromStaticContainer();
-			ReplaceFromStaticContainer(container.mComponentStaticIndex, this);
-			container.mComponentStaticIndex = INVALID_STATIC_CONTAINER_INDEX;
 			return *this;
 		}
 

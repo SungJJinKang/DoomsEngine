@@ -20,9 +20,6 @@ namespace dooms
 
 		protected:
 					
-			
-		public:
-
 			bool bmUpdateWhenManagerUpdate;
 
 			UniformBufferObjectUpdater();
@@ -35,6 +32,10 @@ namespace dooms
 
 			virtual ~UniformBufferObjectUpdater();
 
+			void RemoveFromUniformBufferObjectManager();
+
+		public:
+
 			/// <summary>
 			/// Implement This Function!!!!
 			/// Update Uniform Buffer Object's TempBuffer
@@ -46,7 +47,10 @@ namespace dooms
 			/// 
 			/// </summary>
 			virtual void UpdateUniformBufferObject() = 0; // Never remove = 0, This function must be implemented
-
+			FORCE_INLINE bool GetIsUpdateWhenManagerUpdate() const
+			{
+				return bmUpdateWhenManagerUpdate;
+			}
 
 		};
 
