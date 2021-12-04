@@ -111,6 +111,13 @@ namespace dooms
 
 					ImGui::PopItemWidth();
 
+					ImGui::Spacing();
+					ImGui::Spacing();
+					ImGui::Spacing();
+					ImGui::Text("----------------");
+					ImGui::Spacing();
+					ImGui::Spacing();
+					ImGui::Spacing();
 
 					std::vector<dooms::DObject*> multipleDrawChecker;
 					dooms::ui::imguiWithReflectionHelper::DrawDObjectGUI(dObjects[currentIndex]->GetDClass(), dObjects[currentIndex]);

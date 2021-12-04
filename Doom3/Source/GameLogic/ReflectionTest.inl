@@ -172,8 +172,7 @@ void dooms::GameLogicStartPoint::StartGameLogic()
 	 		entity->AddComponent<BoxCollider3D>();
 	 	}
 	}
-
-	/*
+	
 	INT32 entityCount = 0;
 	
 	INT32 count = 150;

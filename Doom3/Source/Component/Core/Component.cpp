@@ -15,7 +15,6 @@ void Component::OnSetPendingKill()
 
 Component::Component() : bIsAddedToEntity{false}, mOwnerEntity{nullptr}, mTransform{nullptr}, mIsActivated{true}
 {
-	SetDObjectFlag(eDObjectFlag::NotCollectedByGC);
 }
 
 Component::~Component()
@@ -25,7 +24,6 @@ Component::~Component()
 Component::Component(const Component&)
 	: bIsAddedToEntity{ false }, mOwnerEntity{ nullptr }, mTransform{nullptr}, mIsActivated{ true }
 {
-	SetDObjectFlag(eDObjectFlag::NotCollectedByGC);
 }
 
 Component& Component::operator=(const Component&)
@@ -34,9 +32,7 @@ Component& Component::operator=(const Component&)
 	mOwnerEntity = nullptr;
 	mTransform = nullptr;
 	mIsActivated = false;
-
-	SetDObjectFlag(eDObjectFlag::NotCollectedByGC);
-
+	
 	return *this;
 }
 
