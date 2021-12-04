@@ -15,7 +15,6 @@ Entity::Entity(size_t entityID, Entity* parent) :
 	mTransform{}
 {
 	InitializeComponent(&mTransform);
-	SetDObjectFlag(eDObjectFlag::NotCollectedByGC);
 }
 
 Entity::~Entity()

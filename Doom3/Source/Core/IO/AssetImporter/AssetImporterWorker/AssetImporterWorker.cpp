@@ -4,7 +4,7 @@ std::atomic<bool> dooms::assetImporter::AssetImporterWorker::IsInitializedStatic
 
 dooms::assetImporter::AssetImporterWorker::AssetImporterWorker()
 {
-	SetDObjectFlag(eDObjectFlag::NotCollectedByGC);
+	AddToRootObjectList();
 }
 dooms::assetImporter::AssetImporterWorker::AssetImporterWorker(const AssetImporterWorker&) = default;
 dooms::assetImporter::AssetImporterWorker::AssetImporterWorker(AssetImporterWorker&&) noexcept = default;

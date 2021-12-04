@@ -7,14 +7,11 @@ using namespace dooms::graphics;
 dooms::graphics::FrameBuffer::FrameBuffer()
 	: mDefaultWidth{ 0 }, mDefaultHeight{ 0 }, mClearBit{ 0 }, mFrameBufferID()
 {
-	SetDObjectFlag(eDObjectFlag::NotCollectedByGC);
 }
 
 FrameBuffer::FrameBuffer(UINT32 defaultWidth, UINT32 defaultHeight)
 	: mDefaultWidth{ defaultWidth }, mDefaultHeight{ defaultHeight }, mClearBit{ 0 }, mFrameBufferID()
 {
-	SetDObjectFlag(eDObjectFlag::NotCollectedByGC);
-
 	mAttachedRenderBuffers.reserve(RESERVED_RENDERBUFFER_COUNT);
 	mAttachedColorTextures.reserve(RESERVED_COLOR_TEXTURE_COUNT);
 	mAttachedDepthTextures.reserve(RESERVED_DEPTH_TEXTURE_COUNT);

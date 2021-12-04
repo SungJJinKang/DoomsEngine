@@ -67,12 +67,10 @@ void Material::SetShaderAsset(::dooms::asset::ShaderAsset* shaderAsset)
 
 dooms::graphics::Material::Material() : mProgramID{ INVALID_BUFFER_ID }, mShaderAsset{ nullptr }
 {
-	SetDObjectFlag(eDObjectFlag::NotCollectedByGC);
 }
 
 Material::Material(::dooms::asset::ShaderAsset* shaderAsset) : mProgramID{0}, mShaderAsset{ nullptr }
 {
-	SetDObjectFlag(eDObjectFlag::NotCollectedByGC);
 
 	if (shaderAsset != nullptr)
 	{

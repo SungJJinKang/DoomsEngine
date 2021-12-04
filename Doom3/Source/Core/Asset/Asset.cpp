@@ -13,7 +13,6 @@ void dooms::asset::Asset::SetBaseMetaData(const std::filesystem::path& path, con
 
 dooms::asset::Asset::Asset()
 {
-	SetDObjectFlag(eDObjectFlag::NotCollectedByGC);
 }
 
 dooms::asset::Asset::Asset(Asset&&) noexcept = default;
