@@ -11,7 +11,6 @@
 #include "DObjectMacros.h"
 #include "DObject_Constant.h"
 #include "DObjectManager.h"
-#include <GarbageCollector/RootObjectLevel.h>
 
 #include "Reflection/Reflection.h"
 #include "EngineGUI/EngineGUIAccessor.h"

@@ -155,19 +155,17 @@ void dooms::DObjectManager::DestroyAllDObjects(const bool force)
 
     std::vector<size_t> aliveDObjectIndexs;
 
-    for(size_t i = 0 ; i < mDObjectsContainer.mDObjectList.size(); i++)
+    for(INT64 i = 0 ; i < mDObjectsContainer.mDObjectList.size(); i++)
     {
         dooms::DObject* const targetDObject = mDObjectsContainer.mDObjectList[i];
         if (force || ( (mDObjectsContainer.mDObjectFlagList[i] & eDObjectFlag::NewAllocated) != 0 ) )
         {
             targetDObject->DestroySelfInstantly();
-        }
-        else
-        {
-            aliveDObjectIndexs.push_back(i);
+            i = 0;
         }
     }
 
+    /*
     size_t pullIndex = 0;
     for(size_t i = 0 ; i < aliveDObjectIndexs.size() ; i++)
     {
@@ -181,6 +179,7 @@ void dooms::DObjectManager::DestroyAllDObjects(const bool force)
     mDObjectsContainer.mDObjectList.resize(aliveDObjectIndexs.size());
     mDObjectsContainer.mDObjectIDList.resize(aliveDObjectIndexs.size());
     mDObjectsContainer.mDObjectFlagList.resize(aliveDObjectIndexs.size());
+    */
 
     assert(mDObjectsContainer.mDObjectList.size() == mDObjectsContainer.mDObjectIDList.size());
     assert(mDObjectsContainer.mDObjectList.size() == mDObjectsContainer.mDObjectFlagList.size());

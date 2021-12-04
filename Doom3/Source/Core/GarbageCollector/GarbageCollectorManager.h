@@ -4,7 +4,6 @@
 #include <vector>
 #include <array>
 
-#include "RootObjectLevel.h"
 #include "GarbageCollectorSolver.h"
 
 #define GC_KEEP_FLAGS 0
