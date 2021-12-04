@@ -575,7 +575,6 @@ xcopy /y /d /E /H /C /I "$(ProjectDir)Assets" "$(TargetDir)Assets"</Command>
     <ClInclude Include="Source\Core\EngineGUI\imguiHelper\imguiFieldFunctionGetter.h" />
     <ClInclude Include="Source\Core\EngineGUI\imguiHelper\ImGUISetting.h" />
     <ClInclude Include="Source\Core\EngineGUI\imguiHelper\imguiWithReflection.h" />
-    <ClInclude Include="Source\Core\GarbageCollector\RootObjectLevel.h" />
     <ClInclude Include="Source\Core\Logger\eLogType.h" />
     <ClInclude Include="Source\Core\Logger\LoggerSetting.h" />
     <ClInclude Include="Source\Core\Reflection\ReflectionManager.h" />

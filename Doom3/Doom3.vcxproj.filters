@@ -687,6 +687,9 @@
     <ClCompile Include="Source\Core\Reflection\TypeSpecialized\Helper\iteratorHelper.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Source\GameLogic\CustomComponent\Test\GCTestDObject.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="dependency\glad\include\glad\glad.h">
@@ -1763,9 +1766,6 @@
     <ClInclude Include="Source\Core\Reflection\ReflectionType\DTemplateType.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Core\GarbageCollector\RootObjectLevel.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Core\Reflection\TypeSpecialized\Reflection_RandomAccessIterator.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -1773,6 +1773,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\Core\Reflection\ReflectionType\ePropertyQualifier.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\GameLogic\CustomComponent\Test\GCTestDObject.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
