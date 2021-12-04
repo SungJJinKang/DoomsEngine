@@ -2,22 +2,22 @@
 
 void dooms::EventSystem::InitComponent()
 {
-	PlainComponent::InitComponent();
+	Component::InitComponent();
 }
 
 void dooms::EventSystem::FixedUpdateComponent()
 {
-	PlainComponent::FixedUpdateComponent();
+	Component::FixedUpdateComponent();
 }
 
 void dooms::EventSystem::UpdateComponent()
 {
-	PlainComponent::UpdateComponent();
+	Component::UpdateComponent();
 }
 
 void dooms::EventSystem::OnEndOfFrame_Component()
 {
-	PlainComponent::OnEndOfFrame_Component();
+	Component::OnEndOfFrame_Component();
 }
 
 dooms::EventSystem::~EventSystem()

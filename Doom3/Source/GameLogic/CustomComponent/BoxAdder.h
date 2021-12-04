@@ -5,7 +5,7 @@
 #include "BoxAdder.reflection.h"
 namespace dooms
 {
-	class DOOM_API D_CLASS BoxAdder : public PlainComponent
+	class DOOM_API D_CLASS BoxAdder : public Component
 	{
 		GENERATE_BODY()
 		

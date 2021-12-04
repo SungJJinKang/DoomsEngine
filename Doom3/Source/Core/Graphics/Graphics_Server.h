@@ -87,11 +87,7 @@ namespace dooms
 			virtual void LateInit() final;
 			virtual void Update() final;
 			virtual void OnEndOfFrame() final;
-
-			void Renderder_InitComponent();
-			void Renderder_UpdateComponent();
-			void Renderder_OnEndOfFrameComponent();
-
+			
 #ifdef DEBUG_DRAWER
 			D_PROPERTY()
 			RenderingDebugger mRenderingDebugger{};

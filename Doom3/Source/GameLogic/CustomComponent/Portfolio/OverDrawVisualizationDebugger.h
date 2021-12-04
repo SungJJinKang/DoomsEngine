@@ -8,7 +8,7 @@
 namespace dooms
 {
 
-	class DOOM_API D_CLASS OverDrawVisualizationDebugger : public PlainComponent
+	class DOOM_API D_CLASS OverDrawVisualizationDebugger : public Component
 	{
 		GENERATE_BODY()
 		

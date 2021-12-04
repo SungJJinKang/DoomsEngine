@@ -7,12 +7,12 @@
 
 void dooms::ExportTextureTester::InitComponent()
 {
-	PlainComponent::InitComponent();
+	Component::InitComponent();
 }
 
 void dooms::ExportTextureTester::UpdateComponent()
 {
-	PlainComponent::UpdateComponent();
+	Component::UpdateComponent();
 
 	if(dooms::userinput::UserInput_Server::GetKeyUp(eKEY_CODE::KEY_F2))
 	{

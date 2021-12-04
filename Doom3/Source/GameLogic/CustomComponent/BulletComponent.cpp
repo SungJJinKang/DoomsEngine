@@ -2,12 +2,12 @@
 
 void dooms::BulletComponent::InitComponent()
 {
-	PlainComponent::InitComponent();
+	Component::InitComponent();
 }
 
 void dooms::BulletComponent::UpdateComponent()
 {
-	PlainComponent::UpdateComponent();
+	Component::UpdateComponent();
 
 	GetTransform()->Translate(GetTransform()->forward() * mSpeed * dooms::time::MainTimer::GetSingleton()->GetDeltaTime());
 }

@@ -27,8 +27,8 @@
 #undef INHERITANCE_INFORMATION_dooms__PointLight
 #define INHERITANCE_INFORMATION_dooms__PointLight \
 public : \
-inline static const unsigned long int BASE_CHAIN_LIST[] { 2422500981, 2741420880, 1503232071, 3040581954, 3969188510 }; \
-inline static const unsigned long int BASE_CHAIN_LIST_LENGTH { 5 }; \
+inline static const unsigned long int BASE_CHAIN_LIST[] { 2422500981, 2741420880, 3040581954, 3969188510 }; \
+inline static const unsigned long int BASE_CHAIN_LIST_LENGTH { 4 }; \
 virtual const unsigned long int* GetBaseChainList() const { return BASE_CHAIN_LIST; } \
 virtual unsigned long int GetBaseChainListLength() const { return BASE_CHAIN_LIST_LENGTH; } \
 typedef dooms::Light Base;

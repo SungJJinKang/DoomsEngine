@@ -64,11 +64,11 @@ void dooms::Move_WASD::UpdateComponent()
 	
 	if (UserInput_Server::GetKey(eKEY_CODE::KEY_UP))
 	{
-		rotation.x -= 1;
+		rotation.x += 1;
 	}
 	else if (UserInput_Server::GetKey(eKEY_CODE::KEY_DOWN))
 	{
-		rotation.x += 1;
+		rotation.x -= 1;
 	}
 
 	if (UserInput_Server::GetKey(eKEY_CODE::KEY_LEFT))

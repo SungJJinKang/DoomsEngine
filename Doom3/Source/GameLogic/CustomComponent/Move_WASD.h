@@ -5,7 +5,7 @@
 #include "Move_WASD.reflection.h"
 namespace dooms
 {
-	class DOOM_API D_CLASS Move_WASD : public PlainComponent
+	class DOOM_API D_CLASS Move_WASD : public Component
 	{
 		GENERATE_BODY()
 

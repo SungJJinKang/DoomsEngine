@@ -12,9 +12,6 @@
 #include "Scene.h"
 #include "../Core.h"
 #include "../../Component/Core/Component.h"
-#include "../../Component/Core/ServerComponent.h"
-#include "../../Component/Core/PlainComponent.h"
-#include "../../Component/Core/ComponentHelper.h"
 
 #include "../../Component/Transform.h"
 
@@ -46,7 +43,6 @@ namespace dooms
 		GENERATE_BODY()
 		
 		friend class Component;
-		friend class Scene;
 		template <typename T>
 		friend class resource::ObjectPool;
 
@@ -97,16 +93,11 @@ namespace dooms
 		std::vector<Entity*> mChilds;
 		
 		D_PROPERTY(INVISIBLE)
-		std::vector<PlainComponent*> mPlainComponents;
+		std::vector<Component*> mComponents;
 
 		D_PROPERTY()
 		Transform mTransform;
-
-		/// <summary>
-		/// Core component is stored at this variable
-		/// </summary>
-		D_PROPERTY(INVISIBLE)
-		std::vector<ServerComponent*> mServerComponents;
+		
 
 
 		void InitializeComponent(Component* const newComponent);
@@ -118,15 +109,8 @@ namespace dooms
 			D_ASSERT(IsValid(newComponent) == true);
 			D_ASSERT(newComponent->bIsAddedToEntity == false);
 
-			if constexpr (dooms::IsServerComponentStatic<T>() == true)
-			{
-				mServerComponents.emplace_back(newComponent);
-			}
-			else
-			{
-				mPlainComponents.emplace_back(newComponent);
-			}
-			
+			mComponents.emplace_back(newComponent);
+
 			InitializeComponent(static_cast<Component*>(newComponent));
 		}
 
@@ -162,34 +146,14 @@ namespace dooms
 			D_ASSERT(component->mOwnerEntity == this);
 			
 			bool isRemoveSuccess = false;
-
-			Component* removedComp = nullptr;
-			if (IsServerComponent(component) == true)
-			{// when component is ServerComponent
-				D_ASSERT(mServerComponents.size() > 0);
-				D_ASSERT(mServerComponents[index]);
-				D_ASSERT(mServerComponents[index] == component);
-				
-				removedComp = mServerComponents[index];
-				mServerComponents.erase(mServerComponents.begin() + index);
-				isRemoveSuccess = true;
-			}
-			else
-			{// when component is plainComponent
-				D_ASSERT(mPlainComponents.size() > 0);
-				D_ASSERT(mPlainComponents[index]);
-				D_ASSERT(mPlainComponents[index] == component);
-
-				removedComp = mPlainComponents[index];
-				mPlainComponents.erase(mPlainComponents.begin() + index);
-				isRemoveSuccess = true;
-			}
 			
-			D_ASSERT(IsValid(removedComp) == true);
-			D_ASSERT(isRemoveSuccess == true);
+			D_ASSERT(mComponents.size() > 0);
+			D_ASSERT(mComponents[index]);
+			D_ASSERT(mComponents[index] == component);
 			
+			mComponents.erase(mComponents.begin() + index);
 			isRemoveSuccess = true;
-			removedComp->SetIsPendingKill();
+			component->SetIsPendingKill();
 
 			return isRemoveSuccess;
 		}
@@ -204,28 +168,13 @@ namespace dooms
 
 			size_t index = 0;
 
-			if (IsServerComponent(component) == true)
-			{// when component is ServerComponent
-				for(size_t i = 0 ; i < mServerComponents.size() ; i++)
+			for (size_t i = 0; i < mComponents.size(); i++)
+			{
+				if (mComponents[i] == component)
 				{
-					if(mServerComponents[i] == component)
-					{
-						index = i;
-						isSuccess = true;
-						break;
-					}
-				}
-			}
-			else
-			{// when component is plainComponent
-				for (size_t i = 0; i < mPlainComponents.size(); i++)
-				{
-					if (mPlainComponents[i] == component)
-					{
-						index = i;
-						isSuccess = true;
-						break;
-					}
+					index = i;
+					isSuccess = true;
+					break;
 				}
 			}
 
@@ -242,13 +191,11 @@ namespace dooms
 		/// </summary>
 		void ClearComponents();
 
-		void InitEntity() ;
-		void UpdateEntity();
-		void OnEndOfFramePlainComponentsAndEntity();
+	
 
-		void FixedUpdate_PlainComponent();
-		void Update_PlainComponent();
-		void EndOfFrame_PlainComponent();
+		void FixedUpdateComponents();
+		void UpdateComponents();
+		void EndOfFrameComponents();
 
 		
 	public:
@@ -275,6 +222,12 @@ namespace dooms
 		Entity& operator=(const Entity&) = delete;
 		Entity& operator=(Entity&&) noexcept = delete;
 
+		void InitEntity();
+		void FixedUpdateEntity();
+		void UpdateEntity();
+		void EndOfFrameEntity();
+
+		void SetInvoledScene(Scene* const scene);
 
 		static void CopyEntity(const Entity& fromCopyedEnitty, Entity& toCopyedEntity);
 
@@ -305,8 +258,6 @@ namespace dooms
 		{
 			static_assert(std::is_base_of_v<Component, T> == true);
 			static_assert(std::is_pointer<T>::value == false);
-			static_assert(std::is_same_v<T, PlainComponent> == false);
-			static_assert(std::is_same_v<T, ServerComponent> == false);
 
 
 			T* returnedComponent = nullptr;
@@ -318,26 +269,12 @@ namespace dooms
 
 			if(returnedComponent == nullptr)
 			{
-				if (IsServerComponentStatic<T>() == true)
+				for (Component* component : mComponents)
 				{
-					for (auto& serverComponent : mServerComponents)
+					D_ASSERT(IsValid(component) == true);
+					if (component->IsChildOf<T>())
 					{
-						D_ASSERT(serverComponent);
-						if (serverComponent->IsChildOf<T>())
-						{
-							returnedComponent = CastToUnchecked<T*>(serverComponent);
-						}
-					}
-				}
-				else
-				{
-					for (auto& plainComponent : mPlainComponents)
-					{
-						D_ASSERT(plainComponent);
-						if (plainComponent->IsChildOf<T>())
-						{
-							returnedComponent = CastToUnchecked<T*>(plainComponent);
-						}
+						returnedComponent = CastToUnchecked<T*>(component);
 					}
 				}
 			}
@@ -350,8 +287,6 @@ namespace dooms
 		NO_DISCARD std::vector<T*> GetComponents() const
 		{
 			static_assert(std::is_base_of_v<Component, T> == true);
-			static_assert(std::is_same_v<T, PlainComponent> == false);
-			static_assert(std::is_same_v<T, ServerComponent> == false);
 
 			std::vector<T*> components;
 
@@ -361,26 +296,12 @@ namespace dooms
 			}
 			else
 			{
-				if (IsServerComponentStatic<T>() == true)
+				for (Component* component : mComponents)
 				{
-					for (auto& serverComponent : mServerComponents)
+					D_ASSERT(IsValid(component) == true);
+					if (component->IsChildOf<T>())
 					{
-						D_ASSERT(serverComponent);
-						if (serverComponent->IsChildOf<T>())
-						{
-							components.push_back(CastToUnchecked<T*>(serverComponent));
-						}
-					}
-				}
-				else
-				{
-					for (auto& plainComponent : mPlainComponents)
-					{
-						D_ASSERT(plainComponent);
-						if (plainComponent->IsChildOf<T>())
-						{
-							components.push_back(CastToUnchecked<T*>(plainComponent));
-						}
+						components.push_back(CastToUnchecked<T*>(component));
 					}
 				}
 			}
@@ -393,34 +314,17 @@ namespace dooms
 		{
 			static_assert(std::is_same_v<T, Transform> == false);
 			static_assert(std::is_base_of_v<Component, T> == true);
-			static_assert(std::is_same_v<T, PlainComponent> == false);
-			static_assert(std::is_same_v<T, ServerComponent> == false);
 
 			bool isAnyComponentRemoved{ false };
 
 			
-			if (IsServerComponentStatic<T>() == true)
+			for (std::ptrdiff_t i = 0; i < mComponents.size(); i++)
 			{
-				for (std::ptrdiff_t i = 0; i < mServerComponents.size(); i++)
+				if (mComponents[i]->IsChildOf<T>())
 				{
-					if (mServerComponents[i]->IsChildOf<T>())
-					{
-						_RemoveComponent(mServerComponents[i], i);
-						i--;
-						isAnyComponentRemoved = true;
-					}
-				}
-			}
-			else
-			{
-				for (std::ptrdiff_t i = 0; i < mPlainComponents.size(); i++)
-				{
-					if (mPlainComponents[i]->IsChildOf<T>())
-					{
-						_RemoveComponent(mPlainComponents[i], i);
-						i--;
-						isAnyComponentRemoved = true;
-					}
+					_RemoveComponent(mComponents[i], i);
+					i--;
+					isAnyComponentRemoved = true;
 				}
 			}
 
@@ -428,13 +332,9 @@ namespace dooms
 			return isAnyComponentRemoved;
 		}
 
-		FORCE_INLINE const std::vector<PlainComponent*>& GetAllPlainComponents() const
+		FORCE_INLINE const std::vector<Component*>& GetAllComponents() const
 		{
-			return mPlainComponents;
-		}
-		FORCE_INLINE const std::vector<ServerComponent*>& GetAllServerComponents() const
-		{
-			return mServerComponents;
+			return mComponents;
 		}
 		
 		void Destroy();

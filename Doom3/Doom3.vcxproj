@@ -453,7 +453,6 @@ xcopy /y /d /E /H /C /I "$(ProjectDir)Assets" "$(TargetDir)Assets"</Command>
     <ClCompile Include="Source\Component\PhysicsComponent\CapsuleCollider3D.cpp" />
     <ClCompile Include="Source\Component\Rendering\Camera.cpp" />
     <ClCompile Include="Source\Component\Core\Component.cpp" />
-    <ClCompile Include="Source\Component\Core\PlainComponent.cpp" />
     <ClCompile Include="Source\Component\Rendering\Light\DirectionalLight.cpp" />
     <ClCompile Include="Source\Component\Rendering\Renderer\RendererStaticIterator.cpp" />
     <ClCompile Include="Source\Component\Rendering\Light\Light.cpp" />
@@ -471,7 +470,6 @@ xcopy /y /d /E /H /C /I "$(ProjectDir)Assets" "$(TargetDir)Assets"</Command>
     <ClCompile Include="Source\Core\Asset\TextAsset.cpp" />
     <ClCompile Include="Source\Core\Asset\TextureAsset.cpp" />
     <ClCompile Include="Source\Core\Asset\ThreeDModelAsset.cpp" />
-    <ClCompile Include="Source\Component\Core\ServerComponent.cpp" />
     <ClCompile Include="Source\Core\Game\IGameFlow.cpp" />
     <ClCompile Include="Source\Core\Graphics\DebugGraphics\DebugDrawer.cpp" />
     <ClCompile Include="Source\Core\Graphics\Graphics_Server.cpp" />
@@ -564,7 +562,6 @@ xcopy /y /d /E /H /C /I "$(ProjectDir)Assets" "$(TargetDir)Assets"</Command>
     <ClInclude Include="Source\Core\Reflection\ReflectionType\ePropertyQualifier.h" />
     <ClInclude Include="Source\Core\Reflection\TypeSpecialized\Helper\iteratorHelper.h" />
     <ClInclude Include="Source\Core\Reflection\TypeSpecialized\Reflection_RandomAccessIterator.h" />
-    <ClInclude Include="Source\Component\Core\ComponentHelper.h" />
     <ClInclude Include="Source\Core\Asset\AssetsForwardDeclaration.h" />
     <ClInclude Include="Source\Core\Asset\Helper\AssetFactory.h" />
     <ClInclude Include="Source\Core\EngineGUI\EngineGUIAccessor.h" />
@@ -734,7 +731,6 @@ xcopy /y /d /E /H /C /I "$(ProjectDir)Assets" "$(TargetDir)Assets"</Command>
     <ClInclude Include="dependency\imgui\imstb_truetype.h" />
     <ClInclude Include="Source\Component\Rendering\Camera.h" />
     <ClInclude Include="Source\Component\Core\Component.h" />
-    <ClInclude Include="Source\Component\Core\PlainComponent.h" />
     <ClInclude Include="Source\Component\Rendering\Light\DirectionalLight.h" />
     <ClInclude Include="Source\Component\Rendering\Renderer\RendererStaticIterator.h" />
     <ClInclude Include="Source\Component\Rendering\Light\Light.h" />
@@ -748,7 +744,6 @@ xcopy /y /d /E /H /C /I "$(ProjectDir)Assets" "$(TargetDir)Assets"</Command>
     <ClInclude Include="Source\Component\Rendering\Light\PointLight.h" />
     <ClInclude Include="Source\Component\Rendering\Renderer\Renderer.h" />
     <ClInclude Include="Source\Component\Transform.h" />
-    <ClInclude Include="Source\Component\Core\ServerComponent.h" />
     <ClInclude Include="Source\Core\Graphics\ePrimitiveType.h" />
     <ClInclude Include="Source\Core\Game\FrameDirtyChecker.h" />
     <ClInclude Include="Source\Core\Game\IGameFlow.h" />

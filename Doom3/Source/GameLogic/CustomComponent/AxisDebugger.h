@@ -5,7 +5,7 @@
 #include "AxisDebugger.reflection.h"
 namespace dooms
 {
-	class DOOM_API D_CLASS AxisDebugger : public PlainComponent
+	class DOOM_API D_CLASS AxisDebugger : public Component
 	{
 		GENERATE_BODY()
 		

@@ -1,5 +1,5 @@
 #pragma once
-#include "Core/ServerComponent.h"
+#include "Core/Component.h"
 
 #include "Animation.reflection.h"
 namespace dooms
@@ -9,7 +9,7 @@ namespace dooms
 		class Graphics_Server;
 	}
 
-	class DOOM_API D_CLASS Animation : public ServerComponent
+	class DOOM_API D_CLASS Animation : public Component
 	{
 		GENERATE_BODY()
 		

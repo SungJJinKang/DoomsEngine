@@ -1,5 +1,5 @@
 #pragma once
-#include "Core/ServerComponent.h"
+#include "Core/Component.h"
 #include <Vector4.h>
 #include "EasyDirtyChecker/DirtyReceiver.h"
 #include "Graphics/Buffer/UniformBufferObjectUpdater.h"
@@ -8,7 +8,7 @@
 #include "Light.reflection.h"
 namespace dooms
 {
-	class DOOM_API D_CLASS Light : public ServerComponent, public graphics::UniformBufferObjectUpdater, public StaticContainer<Light>
+	class DOOM_API D_CLASS Light : public Component, public graphics::UniformBufferObjectUpdater, public StaticContainer<Light>
 	{
 		GENERATE_BODY()
 		

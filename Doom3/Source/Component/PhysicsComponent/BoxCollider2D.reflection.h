@@ -27,8 +27,8 @@
 #undef INHERITANCE_INFORMATION_dooms__BoxCollider2D
 #define INHERITANCE_INFORMATION_dooms__BoxCollider2D \
 public : \
-inline static const unsigned long int BASE_CHAIN_LIST[] { 108344030, 2836413646, 960295289, 1503232071, 3040581954, 3969188510 }; \
-inline static const unsigned long int BASE_CHAIN_LIST_LENGTH { 6 }; \
+inline static const unsigned long int BASE_CHAIN_LIST[] { 108344030, 2836413646, 960295289, 3040581954, 3969188510 }; \
+inline static const unsigned long int BASE_CHAIN_LIST_LENGTH { 5 }; \
 virtual const unsigned long int* GetBaseChainList() const { return BASE_CHAIN_LIST; } \
 virtual unsigned long int GetBaseChainListLength() const { return BASE_CHAIN_LIST_LENGTH; } \
 typedef dooms::Collider2DComponent Base;

@@ -13,7 +13,7 @@ namespace dooms
 		class PicktureInPickture;
 	}
 
-class DOOM_API D_CLASS PortfolioComponent : public PlainComponent
+class DOOM_API D_CLASS PortfolioComponent : public Component
 {
 	GENERATE_BODY()
 	

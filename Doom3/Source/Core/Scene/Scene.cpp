@@ -99,24 +99,24 @@ dooms::Scene* Scene::GetCurrentWorld()
 	return GetSingleton();
 }
 
-void Scene::FixedUpdatePlainComponents()
+void Scene::FixedUpdateEntities()
 {
 	for (size_t i = 0; i < mSpawnedEntityList.size(); i++)
 	{
 		if(IsValid(mSpawnedEntityList[i]) == true)
 		{
-			mSpawnedEntityList[i]->FixedUpdate_PlainComponent();
+			mSpawnedEntityList[i]->FixedUpdateEntity();
 		}
 	}
 }
 
-void Scene::UpdatePlainComponents()
+void Scene::UpdateEntities()
 {
 	for (size_t i = 0; i < mSpawnedEntityList.size(); i++)
 	{
 		if (IsValid(mSpawnedEntityList[i]) == true)
 		{
-			mSpawnedEntityList[i]->Update_PlainComponent();
+			mSpawnedEntityList[i]->UpdateEntity();
 		}
 	}
 }
@@ -137,7 +137,7 @@ bool Scene::DestroyEntity_Internal(dooms::Entity* const entity) const
 
 void Scene::InitializeEntity(dooms::Entity* const entity)
 {
-	entity->mInvolvedScene = this;
+	entity->SetInvoledScene(this);
 	entity->ChangeDObjectName(std::string{ "Entity " } + std::to_string(mSpawnedEntityList.size()));
 	entity->SetOwnerDObject(this);
 }
@@ -151,7 +151,7 @@ void dooms::Scene::OnEndOfFrameOfEntities()
 {
 	for (size_t i = 0; i < mSpawnedEntityList.size(); i++)
 	{
-		mSpawnedEntityList[i]->OnEndOfFramePlainComponentsAndEntity();
+		mSpawnedEntityList[i]->EndOfFrameEntity();
 	}
 }
 

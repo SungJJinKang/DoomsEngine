@@ -304,28 +304,15 @@ namespace dooms
 
 				if (IsValid(entity) == true)
 				{
-					auto& AllServerComponents = entity->GetAllServerComponents();
-					auto& AllPlainComponents = entity->GetAllPlainComponents();
+					const std::vector<dooms::Component*>& allComponents = entity->GetAllComponents();
 
-					for (auto& serverComponent : AllServerComponents)
+					for (dooms::Component* component : allComponents)
 					{
-						if (serverComponent)
+						if (component)
 						{
-							if(ImGui::TreeNode(serverComponent->GetDObjectName().c_str()))
+							if(ImGui::TreeNode(component->GetDObjectName().c_str()))
 							{
-								imguiWithReflectionHelper::DrawObjectGUI(serverComponent->GetDClass(), serverComponent, "", imguiWithReflectionHelper::eObjectType::DObject);
-								ImGui::TreePop();
-							}
-						}
-					}
-
-					for (auto& plainComponent : AllPlainComponents)
-					{
-						if (plainComponent)
-						{
-							if (ImGui::TreeNode(plainComponent->GetDObjectName().c_str()))
-							{
-								imguiWithReflectionHelper::DrawObjectGUI(plainComponent->GetDClass(), plainComponent, "", imguiWithReflectionHelper::eObjectType::DObject);
+								imguiWithReflectionHelper::DrawObjectGUI(component->GetDClass(), component, "", imguiWithReflectionHelper::eObjectType::DObject);
 								ImGui::TreePop();
 							}
 						}

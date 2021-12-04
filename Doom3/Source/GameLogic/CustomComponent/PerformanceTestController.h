@@ -5,7 +5,7 @@
 #include "PerformanceTestController.reflection.h"
 namespace dooms
 {
-	class DOOM_API D_CLASS PerformanceTestController : public PlainComponent
+	class DOOM_API D_CLASS PerformanceTestController : public Component
 	{
 		GENERATE_BODY()
 		

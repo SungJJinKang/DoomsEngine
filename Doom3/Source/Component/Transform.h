@@ -1,5 +1,5 @@
 #pragma once
-#include "Core/PlainComponent.h"
+#include "Core/Component.h"
 #include "../Core/Math/LightMath_Cpp/Quaternion.h"
 #include "../Core/Math/LightMath_Cpp/Vector3.h"
 #include "../Core/Math/LightMath_Cpp/Matrix4x4.h"
@@ -28,7 +28,7 @@ namespace dooms
 
 	static_assert(sizeof(TransformCoreData) < 64);
 
-	class DOOM_API D_CLASS Transform : public PlainComponent
+	class DOOM_API D_CLASS Transform : public Component
 	{
 		GENERATE_BODY()
 		

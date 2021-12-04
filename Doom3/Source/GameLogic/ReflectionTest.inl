@@ -148,7 +148,6 @@ void dooms::GameLogicStartPoint::StartGameLogic()
 		auto meshRenderer = entity->AddComponent<MeshRenderer>();
 		entity->AddComponent<Rigidbody>();
 		BulletComponent* bullet = entity->AddComponent<BulletComponent>();
-		entity->AddComponent<PointLight>();
 		meshRenderer->SetMesh(planetAsset->GetMesh(0));
 		meshRenderer->SetMaterial(material);
 		BoxCollider3D* box3D = entity->AddComponent<BoxCollider3D>();
@@ -158,32 +157,17 @@ void dooms::GameLogicStartPoint::StartGameLogic()
 	}
 
 	
-	for (INT32 i = 0; i < 25; i++)
-	{
-	 	for (INT32 j = 0; j < threedasset->GetMeshCount(); j++)
-	 	{
-	 		auto entity = currenScene->CreateNewEntity();
-	 		entity->GetTransform()->SetScale(0.1f, 0.1f, 0.1f);
-	 		entity->GetTransform()->SetPosition(Random::RandomFloatNumber(-20, 20), Random::RandomFloatNumber(-20, 20), Random::RandomFloatNumber(-20, 20));
-	 		auto meshRenderer = entity->AddComponent<MeshRenderer>();
-	 		meshRenderer->SetMesh(threedasset->GetMesh(j));
-	 		meshRenderer->SetMaterial(material);
-	 		entity->AddComponent<AutoRotate>();
-	 		entity->AddComponent<BoxCollider3D>();
-	 	}
-	}
-	
 	INT32 entityCount = 0;
 	
-	INT32 count = 150;
-	for (INT32 i = -count; i < count; i = i + 15)
+	INT32 count = 200;
+	for (INT32 i = -count; i < count; i = i + 80)
 	{
-		for (INT32 j = -count; j < count; j = j + 15)
+		for (INT32 j = -count; j < count; j = j + 80)
 		{
-			for (INT32 k = -count; k < count; k = k + 15)
+			for (INT32 k = -count; k < count; k = k + 80)
 			{
 				auto entity = currenScene->CreateNewEntity();
-				entity->GetTransform()->SetScale(1.5f, 1.5f, 1.5f);
+				entity->GetTransform()->SetScale(8.0f, 8.0f, 8.0f);
 				entity->GetTransform()->SetPosition(i, j, k);
 				auto meshRenderer = entity->AddComponent<MeshRenderer>();
 				meshRenderer->SetMesh(planetAsset->GetMesh(0));
@@ -198,7 +182,7 @@ void dooms::GameLogicStartPoint::StartGameLogic()
 		}
 	}
 	
-	for (INT32 i = -200; i < 200; i += 60)
+	for (INT32 i = -150; i < 150; i += 60)
 	{
 		auto entity = currenScene->CreateNewEntity();
 		entity->GetTransform()->SetScale(10.0f, 10.0f, 10.0f);
@@ -215,7 +199,7 @@ void dooms::GameLogicStartPoint::StartGameLogic()
 	for (INT32 i = -50; i < 50; i += 30)
 	{
 		auto entity = currenScene->CreateNewEntity();
-		entity->GetTransform()->SetScale(1.5f, 1.5f, 1.5f);
+		entity->GetTransform()->SetScale(2.0f, 2.0f, 2.0f);
 		entity->GetTransform()->SetPosition(i, 0, 700);
 		auto meshRenderer = entity->AddComponent<MeshRenderer>();
 		entity->AddComponent<AutoRotate>();
@@ -291,18 +275,18 @@ void dooms::GameLogicStartPoint::StartGameLogic()
 	constexpr auto chain1Data = TestComponent2::BASE_CHAIN_DATA_STATIC();
 	static_assert(chain1Data[0] == TestComponent2::CLASS_TYPE_ID_STATIC());
 	static_assert(chain1Data[1] == TestComponent::CLASS_TYPE_ID_STATIC());
-	static_assert(chain1Data[2] == PlainComponent::CLASS_TYPE_ID_STATIC());
+	static_assert(chain1Data[2] == Component::CLASS_TYPE_ID_STATIC());
 	static_assert(chain1Data[3] == Component::CLASS_TYPE_ID_STATIC());
 	static_assert(chain1Data[4] == DObject::CLASS_TYPE_ID_STATIC());
 
 	D_ASSERT(dirLight->GetOwnerEntity()->GetComponent<DirectionalLight>() != nullptr);
 	D_ASSERT(IsServerComponent(dirLight) == true);
-	D_ASSERT(IsPlainComponent(dirLight) == false);
+	D_ASSERT(IsComponent(dirLight) == false);
 
 
 	D_ASSERT(DObject::CLASS_TYPE_ID_STATIC() != MeshRenderer::CLASS_TYPE_ID_STATIC());
 	D_ASSERT(ServerComponent::CLASS_TYPE_ID_STATIC() != MeshRenderer::CLASS_TYPE_ID_STATIC());
-	D_ASSERT(PlainComponent::CLASS_TYPE_ID_STATIC() != MeshRenderer::CLASS_TYPE_ID_STATIC());
+	D_ASSERT(Component::CLASS_TYPE_ID_STATIC() != MeshRenderer::CLASS_TYPE_ID_STATIC());
 	D_ASSERT(Component::CLASS_TYPE_ID_STATIC() != MeshRenderer::CLASS_TYPE_ID_STATIC());
 	D_ASSERT(Component::CLASS_TYPE_ID_STATIC() != dirLight->GetClassTypeID());
 	
@@ -312,7 +296,7 @@ void dooms::GameLogicStartPoint::StartGameLogic()
 	D_ASSERT(CastTo<PointLight*>(dirLight) == nullptr);
 	D_ASSERT(CastTo<Component*>(dirLight) != nullptr);
 	D_ASSERT(CastTo<ServerComponent*>(dirLight) != nullptr);
-	D_ASSERT(CastTo<PlainComponent*>(dirLight) == nullptr);
+	D_ASSERT(CastTo<Component*>(dirLight) == nullptr);
 
 	DObject* dObject = CastTo<DObject*>(dirLight);
 	D_ASSERT(CastTo<const DirectionalLight*>(dObject) != nullptr);

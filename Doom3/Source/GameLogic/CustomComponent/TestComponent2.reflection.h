@@ -27,8 +27,8 @@
 #undef INHERITANCE_INFORMATION_dooms__TestComponent2
 #define INHERITANCE_INFORMATION_dooms__TestComponent2 \
 public : \
-inline static const unsigned long int BASE_CHAIN_LIST[] { 911693594, 699055446, 3576686641, 3040581954, 3969188510 }; \
-inline static const unsigned long int BASE_CHAIN_LIST_LENGTH { 5 }; \
+inline static const unsigned long int BASE_CHAIN_LIST[] { 911693594, 699055446, 3040581954, 3969188510 }; \
+inline static const unsigned long int BASE_CHAIN_LIST_LENGTH { 4 }; \
 virtual const unsigned long int* GetBaseChainList() const { return BASE_CHAIN_LIST; } \
 virtual unsigned long int GetBaseChainListLength() const { return BASE_CHAIN_LIST_LENGTH; } \
 typedef dooms::TestComponent Base;

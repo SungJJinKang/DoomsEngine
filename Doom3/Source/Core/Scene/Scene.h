@@ -45,8 +45,8 @@ namespace dooms
 
 	protected:
 
-		void FixedUpdatePlainComponents();
-		void UpdatePlainComponents();
+		void FixedUpdateEntities();
+		void UpdateEntities();
 		void OnEndOfFrameOfEntities();
 		
 

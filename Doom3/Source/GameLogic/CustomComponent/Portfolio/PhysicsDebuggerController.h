@@ -8,7 +8,7 @@
 namespace dooms
 {
 
-class DOOM_API D_CLASS PhysicsDebuggerController : public PlainComponent
+class DOOM_API D_CLASS PhysicsDebuggerController : public Component
 {
 
 	

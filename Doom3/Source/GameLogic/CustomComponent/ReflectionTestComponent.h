@@ -5,7 +5,7 @@
 #include "ReflectionTestComponent.reflection.h"
 namespace dooms
 {
-	class DOOM_API D_CLASS ReflectionTestComponent : public PlainComponent
+	class DOOM_API D_CLASS ReflectionTestComponent : public Component
 	{
 		GENERATE_BODY()
 

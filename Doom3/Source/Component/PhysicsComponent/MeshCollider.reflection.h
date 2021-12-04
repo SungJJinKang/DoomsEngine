@@ -27,8 +27,8 @@
 #undef INHERITANCE_INFORMATION_dooms__MeshCollider
 #define INHERITANCE_INFORMATION_dooms__MeshCollider \
 public : \
-inline static const unsigned long int BASE_CHAIN_LIST[] { 1793318124, 3608780617, 960295289, 1503232071, 3040581954, 3969188510 }; \
-inline static const unsigned long int BASE_CHAIN_LIST_LENGTH { 6 }; \
+inline static const unsigned long int BASE_CHAIN_LIST[] { 1793318124, 3608780617, 960295289, 3040581954, 3969188510 }; \
+inline static const unsigned long int BASE_CHAIN_LIST_LENGTH { 5 }; \
 virtual const unsigned long int* GetBaseChainList() const { return BASE_CHAIN_LIST; } \
 virtual unsigned long int GetBaseChainListLength() const { return BASE_CHAIN_LIST_LENGTH; } \
 typedef dooms::Collider3DComponent Base;

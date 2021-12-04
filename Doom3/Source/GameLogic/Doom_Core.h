@@ -7,8 +7,7 @@
 #include <MainTimer.h>
 #include <UserInput_Server.h>
 #include <Random.h>
-#include <ServerComponent.h>
-#include <PlainComponent.h>
+#include <Core/Component.h>
 #include <logger.h>
 #include <Game/AssetManager/AssetManager.h>
 #include <EngineGUI/PrintText.h>

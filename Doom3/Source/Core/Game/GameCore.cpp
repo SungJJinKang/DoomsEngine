@@ -156,9 +156,9 @@ void dooms::GameCore::Update()
 	mUserImput_Server.Update();
 	D_END_PROFILING(mUserImput_Server_Update);
 
-	D_START_PROFILING(mCurrentScene_UpdatePlainComponents, eProfileLayers::CPU);
-	mCurrentScene->UpdatePlainComponents(); // Update plain Components ( Game Logic )
-	D_END_PROFILING(mCurrentScene_UpdatePlainComponents);
+	D_START_PROFILING(mCurrentScene_UpdateEntities, eProfileLayers::CPU);
+	mCurrentScene->UpdateEntities(); // Update plain Components ( Game Logic )
+	D_END_PROFILING(mCurrentScene_UpdateEntities);
 
 	D_START_PROFILING(mGraphics_Server_Update, eProfileLayers::CPU);
 	mGraphics_Server.Update_Internal();
@@ -180,9 +180,9 @@ void dooms::GameCore::FixedUpdate()
 	mPhysics_Server.FixedUpdate();
 	D_END_PROFILING(mPhysics_Server_FixedUpdate);
 
-	D_START_PROFILING(mCurrentScene_FixedUpdatePlainComponents, eProfileLayers::CPU);
-	mCurrentScene->FixedUpdatePlainComponents(); // Update plain Components ( Game Logic )
-	D_END_PROFILING(mCurrentScene_FixedUpdatePlainComponents);
+	D_START_PROFILING(mCurrentScene_FixedUpdateEntities, eProfileLayers::CPU);
+	mCurrentScene->FixedUpdateEntities(); // Update plain Components ( Game Logic )
+	D_END_PROFILING(mCurrentScene_FixedUpdateEntities);
 }
 
 void dooms::GameCore::OnEndOfFrame()

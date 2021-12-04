@@ -2,7 +2,7 @@
 
 #include <vector>
 
-#include "../Core/ServerComponent.h"
+#include "../Core/Component.h"
 #include <StaticContainer/StaticContainer.h>
 
 #include "Rigidbody.reflection.h"
@@ -14,7 +14,7 @@ namespace dooms
 		class Collider;
 	}
 
-	class DOOM_API D_CLASS Rigidbody : public ServerComponent, public StaticContainer<Rigidbody>
+	class DOOM_API D_CLASS Rigidbody : public Component, public StaticContainer<Rigidbody>
 	{
 		GENERATE_BODY()
 		

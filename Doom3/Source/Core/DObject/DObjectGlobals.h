@@ -19,7 +19,7 @@ namespace dooms
 	/// </summary>
 	/// <param name="dObject"></param>
 	/// <returns></returns>
-	extern FORCE_INLINE bool IsStrongValid(const DObject* const dObject, const bool lock = true)
+	extern FORCE_INLINE bool IsLowLevelValid(const DObject* const dObject, const bool lock = true)
 	{
 		return dooms::DObjectManager::IsDObjectStrongValid(dObject, lock);
 	}

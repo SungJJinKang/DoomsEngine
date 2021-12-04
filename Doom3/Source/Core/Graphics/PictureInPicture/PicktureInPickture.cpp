@@ -82,7 +82,7 @@ void dooms::graphics::PicktureInPickture::DrawPictureInPicture()
 {
 	if (bmIsDrawOnScreen == true)
 	{
-		if (mDrawedTexture != nullptr && mPIPMaterial != nullptr)
+		if (IsValid(mDrawedTexture) && IsValid(mPIPMaterial))
 		{
 			mPIPMaterial->UseProgram();
 			mDrawedTexture->ActiveTexture(0);

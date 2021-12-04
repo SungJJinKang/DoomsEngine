@@ -27,11 +27,11 @@
 #undef INHERITANCE_INFORMATION_dooms__EventSystem
 #define INHERITANCE_INFORMATION_dooms__EventSystem \
 public : \
-inline static const unsigned long int BASE_CHAIN_LIST[] { 541287254, 3576686641, 3040581954, 3969188510 }; \
-inline static const unsigned long int BASE_CHAIN_LIST_LENGTH { 4 }; \
+inline static const unsigned long int BASE_CHAIN_LIST[] { 541287254, 3040581954, 3969188510 }; \
+inline static const unsigned long int BASE_CHAIN_LIST_LENGTH { 3 }; \
 virtual const unsigned long int* GetBaseChainList() const { return BASE_CHAIN_LIST; } \
 virtual unsigned long int GetBaseChainListLength() const { return BASE_CHAIN_LIST_LENGTH; } \
-typedef dooms::PlainComponent Base;
+typedef dooms::Component Base;
 
 
 #undef CLONE_OBJECT_dooms__EventSystem

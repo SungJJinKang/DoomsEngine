@@ -48,7 +48,7 @@ void dooms::Renderer::OnDestroy()
 	RendererComponentStaticIterator::GetSingleton()->RemoveRendererToStaticContainer(this);
 }
 
-dooms::Renderer::Renderer() : ServerComponent(), mTargetMaterial{}
+dooms::Renderer::Renderer() : Component(), mTargetMaterial{}
 {
 
 }

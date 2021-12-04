@@ -9,7 +9,7 @@ using namespace dooms;
 
 Entity::Entity(size_t entityID, Entity* parent) : 
 	mEntityID{ entityID }, 
-	mPlainComponents{}, 
+	mComponents{},
 	mParentEntity{ parent }, 
 	mChilds{}, 
 	mTransform{}
@@ -27,51 +27,62 @@ void dooms::Entity::InitEntity()
 {
 }
 
-void dooms::Entity::UpdateEntity()
+void Entity::FixedUpdateEntity()
 {
+	FixedUpdateComponents();
 }
 
-void dooms::Entity::OnEndOfFramePlainComponentsAndEntity()
+void dooms::Entity::UpdateEntity()
 {
-	EndOfFrame_PlainComponent();
+	UpdateComponents();
+}
+
+void dooms::Entity::EndOfFrameEntity()
+{
+	EndOfFrameComponents();
 	FrameDirtyChecker_EndOfFrame();
 }
 
-
-void Entity::FixedUpdate_PlainComponent()
+void Entity::SetInvoledScene(Scene* const scene)
 {
-	for (size_t i = 0; i < mPlainComponents.size(); i++)
+	mInvolvedScene = scene;
+}
+
+
+void Entity::FixedUpdateComponents()
+{
+	for (size_t i = 0; i < mComponents.size(); i++)
 	{
-		if(mPlainComponents[i]->IsComponentEnabled == true)
+		if(mComponents[i]->IsComponentEnabled == true)
 		{
-			mPlainComponents[i]->FixedUpdateComponent_Internal();
-			mPlainComponents[i]->FixedUpdateComponent();
+			mComponents[i]->FixedUpdateComponent_Internal();
+			mComponents[i]->FixedUpdateComponent();
 		}
 	}
 }
 
-void dooms::Entity::Update_PlainComponent()
+void dooms::Entity::UpdateComponents()
 {
-	for (size_t i = 0; i < mPlainComponents.size(); i++)
+	for (size_t i = 0; i < mComponents.size(); i++)
 	{
-		if (mPlainComponents[i]->IsComponentEnabled == true)
+		if (mComponents[i]->IsComponentEnabled == true)
 		{
 			//D_START_PROFILING(SequenceStringGenerator::GetLiteralString("Update PlainComponents ", i), eProfileLayers::CPU);
-			mPlainComponents[i]->UpdateComponent_Internal();
-			mPlainComponents[i]->UpdateComponent();
+			mComponents[i]->UpdateComponent_Internal();
+			mComponents[i]->UpdateComponent();
 			//D_END_PROFILING(SequenceStringGenerator::GetLiteralString("Update PlainComponents ", i));
 		}
 	}
 }
 
-void dooms::Entity::EndOfFrame_PlainComponent()
+void dooms::Entity::EndOfFrameComponents()
 {
-	for (size_t i = 0; i < mPlainComponents.size(); i++)
+	for (size_t i = 0; i < mComponents.size(); i++)
 	{
-		if (mPlainComponents[i]->IsComponentEnabled == true)
+		if (mComponents[i]->IsComponentEnabled == true)
 		{
-			mPlainComponents[i]->OnEndOfFrame_Component_Internal();
-			mPlainComponents[i]->OnEndOfFrame_Component();
+			mComponents[i]->OnEndOfFrame_Component_Internal();
+			mComponents[i]->OnEndOfFrame_Component();
 		}
 	}
 }
@@ -88,22 +99,13 @@ void Entity::CopyEntity(const Entity& fromCopyedEnitty, Entity& toCopyedEntity)
 	toCopyedEntity.mTransform = fromCopyedEnitty.mTransform;
 	toCopyedEntity.InitializeComponent(&toCopyedEntity.mTransform);
 
-	for (const PlainComponent* plainComponent : fromCopyedEnitty.mPlainComponents)
+	for (Component* const component : fromCopyedEnitty.mComponents)
 	{
-		PlainComponent* clonedNewPlainComp = static_cast<PlainComponent*>(plainComponent->CloneObject());
+		Component* clonedNeComponent = static_cast<Component*>(component->CloneObject());
 
-		D_ASSERT(IsValid(clonedNewPlainComp));
+		D_ASSERT(IsValid(clonedNeComponent));
 
-		toCopyedEntity._AddComponentAndInitialize(clonedNewPlainComp);
-	}
-
-	for(const ServerComponent* serverComponent : fromCopyedEnitty.mServerComponents)
-	{
-		ServerComponent* clonedNewServerComp = static_cast<ServerComponent*>(serverComponent->CloneObject());
-
-		D_ASSERT(IsValid(serverComponent));
-
-		toCopyedEntity._AddComponentAndInitialize(clonedNewServerComp);
+		toCopyedEntity._AddComponentAndInitialize(clonedNeComponent);
 	}
 
 	toCopyedEntity.mChilds.reserve(fromCopyedEnitty.mChilds.size());
@@ -139,19 +141,12 @@ void Entity::InitializeComponent(Component* const newComponent)
 
 void Entity::ClearComponents()
 {
-	while (mPlainComponents.empty() == false)
+	while (mComponents.empty() == false)
 	{
 		//Why doesn't erase from vector instantly : for performance
-		_RemoveComponent(mPlainComponents[mPlainComponents.size() - 1], mPlainComponents.size() - 1);
+		_RemoveComponent(mComponents[mComponents.size() - 1], mComponents.size() - 1);
 	}
-	mPlainComponents.clear();
-
-	while (mServerComponents.empty() == false)
-	{
-		//Why doesn't erase from vector instantly : for performance
-		_RemoveComponent(mServerComponents[mServerComponents.size() - 1], mServerComponents.size() - 1);
-	}
-	mServerComponents.clear();
+	mComponents.clear();
 }
 
 void Entity::OnDestroyed()

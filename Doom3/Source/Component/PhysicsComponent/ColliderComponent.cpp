@@ -27,7 +27,7 @@ void dooms::ColliderComponent::RemoveThisComponentFromRigidbody()
 
 void dooms::ColliderComponent::InitComponent()
 {
-	ServerComponent::InitComponent();
+	Component::InitComponent();
 
 	AddLocalDirtyToTransformDirtyReceiver(bmIsWorldColliderDirty);
 	AddLocalDirtyToTransformDirtyReceiver(IsWorldColliderCacheDirty);

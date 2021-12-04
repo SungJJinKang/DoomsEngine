@@ -5,7 +5,7 @@
 #include "ButtonRotate.reflection.h"
 namespace dooms
 {
-	class DOOM_API D_CLASS ButtonRotate : public PlainComponent
+	class DOOM_API D_CLASS ButtonRotate : public Component
 	{
 		GENERATE_BODY()
 

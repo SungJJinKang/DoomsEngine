@@ -1,5 +1,5 @@
 #pragma once
-#include "Core/ServerComponent.h"
+#include "Core/Component.h"
 
 #include "Animator.reflection.h"
 namespace dooms
@@ -15,7 +15,7 @@ namespace dooms
 	/// Requirement :
 	/// Sprite, MeshAnimation, 
 	/// </summary>
-	class DOOM_API D_CLASS Animator : public ServerComponent
+	class DOOM_API D_CLASS Animator : public Component
 	{
 		GENERATE_BODY()
 		

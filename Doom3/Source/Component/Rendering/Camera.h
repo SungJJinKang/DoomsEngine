@@ -1,5 +1,5 @@
 #pragma once
-#include "Core/PlainComponent.h"
+#include "Core/Component.h"
 
 #include "../Core/Math/LightMath_Cpp/Vector3.h"
 #include "../Core/Math/LightMath_Cpp/Vector4.h"
@@ -34,7 +34,7 @@ namespace dooms
 		PAUSE_CULL_JOB = 1 << 1,
 	};
 
-	class DOOM_API D_CLASS Camera : public PlainComponent, public graphics::UniformBufferObjectUpdater, public StaticContainer<Camera>
+	class DOOM_API D_CLASS Camera : public Component, public graphics::UniformBufferObjectUpdater, public StaticContainer<Camera>
 	{
 		GENERATE_BODY()
 		
@@ -63,7 +63,7 @@ namespace dooms
 		FLOAT32 mClippingPlaneNear = 0.001f;
 
 		D_PROPERTY(CALLBACK="UpdateCallback", MIN = 1.0f)
-		FLOAT32 mClippingPlaneFar = 1500.0f;
+		FLOAT32 mClippingPlaneFar = 3000.0f;
 
 		/// <summary>
 		/// opengl -1 ~ 1

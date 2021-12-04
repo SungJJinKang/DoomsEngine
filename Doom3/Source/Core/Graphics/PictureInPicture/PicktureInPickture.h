@@ -21,9 +21,12 @@ namespace dooms
 		private:
 
 			static inline Material mDefualtPIPMaterial{ nullptr };
+			D_PROPERTY()
 			Material* mPIPMaterial = nullptr;
 
+			D_PROPERTY()
 			Mesh mPlaneMesh;
+			D_PROPERTY()
 			SingleTexture* mDrawedTexture;
 
 			void InitializeDefaultPIPMaterial();

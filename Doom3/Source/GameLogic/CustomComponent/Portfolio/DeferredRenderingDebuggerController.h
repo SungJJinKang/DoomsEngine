@@ -13,7 +13,7 @@ namespace dooms
 	}
 
 
-class DOOM_API D_CLASS DeferredRenderingDebuggerController : public PlainComponent
+class DOOM_API D_CLASS DeferredRenderingDebuggerController : public Component
 {
 	GENERATE_BODY()
 		

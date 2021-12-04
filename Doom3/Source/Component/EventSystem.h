@@ -1,10 +1,10 @@
 #pragma once
-#include "Core/PlainComponent.h"
+#include "Core/Component.h"
 
 #include "EventSystem.reflection.h"
 namespace dooms
 {
-	class DOOM_API D_CLASS EventSystem : public PlainComponent
+	class DOOM_API D_CLASS EventSystem : public Component
 	{
 		GENERATE_BODY()
 		

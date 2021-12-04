@@ -115,7 +115,7 @@ dooms::asset::TextureAsset& dooms::asset::TextureAsset::operator=(TextureAsset&&
 
 void dooms::asset::TextureAsset::DestroyDefaultTextureObject()
 {
-	if(dooms::IsStrongValid(mDefaultTextureObject) == true)
+	if(dooms::IsLowLevelValid(mDefaultTextureObject) == true)
 	{
 		mDefaultTextureObject->SetIsPendingKill();
 	}

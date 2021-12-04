@@ -279,7 +279,7 @@ namespace dooms
 				bool isDObjectChanged = false;
 
 				if (
-					objectType == eObjectType::DObject ? IsStrongValid(reinterpret_cast<dooms::DObject*>(object)) == true : true &&
+					objectType == eObjectType::DObject ? IsLowLevelValid(reinterpret_cast<dooms::DObject*>(object)) == true : true &&
 					// check if DObject is already drawed to prevent infinite loop
 					std::find(MultipleDrawChecker.begin(), MultipleDrawChecker.end(), object) == MultipleDrawChecker.end()
 					)
@@ -343,7 +343,7 @@ namespace dooms
 									if(fieldType.GetPrimitiveType() == reflection::DPrimitive::ePrimitiveType::CLASS)
 									{
 										const reflection::DClass fieldTypeDClass = fieldType.AsDClass();
-										if (IsStrongValid(reinterpret_cast<dooms::DObject*>(fieldRawValue)) == true)
+										if (IsLowLevelValid(reinterpret_cast<dooms::DObject*>(fieldRawValue)) == true)
 										{// if type of field is child class of dooms::DObject
 											isFieldValueChanged = DrawObjectGUI(fieldTypeDClass, fieldRawValue, (dField.GetDAttributeList().GetIsNoLabel() == false) ? dField.GetFieldName() : "", eObjectType::DObject);
 										}
@@ -361,7 +361,7 @@ namespace dooms
 
 							if (objectType == eObjectType::DObject && isFieldValueChanged == true)
 							{
-								if(IsStrongValid(reinterpret_cast<dooms::DObject*>(object)) == true)
+								if(IsLowLevelValid(reinterpret_cast<dooms::DObject*>(object)) == true)
 								{// check if object is struct or class not inheriting DObject
 									reinterpret_cast<dooms::DObject*>(object)->OnChangedByGUI(dField);
 								}
@@ -408,7 +408,7 @@ namespace dooms
 				const reflection::DClass& dClass, dooms::DObject* const dObject
 			)
 			{
-				if(IsStrongValid(dObject) == true)
+				if(IsLowLevelValid(dObject) == true)
 				{
 					return DrawObjectGUI(dClass, dObject, "", eObjectType::DObject);
 				}

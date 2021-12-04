@@ -64,9 +64,7 @@ void Graphics_Server::Update()
 	mDebugGraphics.Update();
 	mRenderingDebugger.DrawRenderingBoundingBox();
 #endif
-
-	Renderder_UpdateComponent();
-
+	
 #ifdef DEBUG_DRAWER
 	mRenderingDebugger.UpdateInputForPrintDrawCallCounter();
 #endif
@@ -91,70 +89,12 @@ void Graphics_Server::Update()
 
 void Graphics_Server::OnEndOfFrame()
 {
-	Renderder_OnEndOfFrameComponent();
-
 #ifdef DEBUG_DRAWER
 	mDebugGraphics.Reset();
 #endif
 
 	graphicsAPIManager::SwapBuffer();
 }
-
-void dooms::graphics::Graphics_Server::Renderder_InitComponent()
-{
-	for (UINT32 layerIndex = 0; layerIndex < MAX_LAYER_COUNT; layerIndex++)
-	{
-		const std::vector<Renderer*>& renderersInLayer = RendererComponentStaticIterator::GetSingleton()->GetWorkingRendererInLayer(0, layerIndex);
-		for (size_t rendererIndex = 0; rendererIndex < renderersInLayer.size(); rendererIndex++)
-		{
-			//renderersInLayer[rendererIndex]->InitComponent_Internal();
-			renderersInLayer[rendererIndex]->InitComponent();
-		}
-	}
-
-	for (Light* light : StaticContainer<dooms::Light>::GetAllStaticComponents())
-	{
-		light->InitComponent();
-	}
-}
-
-void dooms::graphics::Graphics_Server::Renderder_UpdateComponent()
-{
-	for (UINT32 layerIndex = 0; layerIndex < MAX_LAYER_COUNT; layerIndex++)
-	{
-		const std::vector<Renderer*>& renderersInLayer = RendererComponentStaticIterator::GetSingleton()->GetWorkingRendererInLayer(0, layerIndex);
-		for (size_t rendererIndex = 0; rendererIndex < renderersInLayer.size(); rendererIndex++)
-		{
-			renderersInLayer[rendererIndex]->UpdateComponent_Internal();
-			renderersInLayer[rendererIndex]->UpdateComponent();
-		}
-	}
-
-	for (Light* light : StaticContainer<dooms::Light>::GetAllStaticComponents())
-	{
-		light->UpdateComponent();
-	}
-}
-
-void dooms::graphics::Graphics_Server::Renderder_OnEndOfFrameComponent()
-{
-	for (UINT32 layerIndex = 0; layerIndex < MAX_LAYER_COUNT; layerIndex++)
-	{
-		const std::vector<Renderer*>& renderersInLayer = RendererComponentStaticIterator::GetSingleton()->GetWorkingRendererInLayer(0, layerIndex);
-		for (size_t rendererIndex = 0; rendererIndex < renderersInLayer.size(); rendererIndex++)
-		{
-			renderersInLayer[rendererIndex]->OnEndOfFrame_Component_Internal();
-			renderersInLayer[rendererIndex]->OnEndOfFrame_Component();
-		}
-	}
-
-	for (Light* light : StaticContainer<dooms::Light>::GetAllStaticComponents())
-	{
-		light->OnEndOfFrame_Component();
-	}
-}
-
-
 
 Graphics_Server::Graphics_Server()
 {

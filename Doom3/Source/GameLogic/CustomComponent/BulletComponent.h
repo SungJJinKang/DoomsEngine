@@ -7,7 +7,7 @@ namespace dooms
 {
 
 
-	class DOOM_API D_CLASS BulletComponent : public PlainComponent
+	class DOOM_API D_CLASS BulletComponent : public Component
 	{
 		GENERATE_BODY()
 		

@@ -27,11 +27,11 @@
 #undef INHERITANCE_INFORMATION_dooms__ColliderComponent
 #define INHERITANCE_INFORMATION_dooms__ColliderComponent \
 public : \
-inline static const unsigned long int BASE_CHAIN_LIST[] { 960295289, 1503232071, 3040581954, 3969188510 }; \
-inline static const unsigned long int BASE_CHAIN_LIST_LENGTH { 4 }; \
+inline static const unsigned long int BASE_CHAIN_LIST[] { 960295289, 3040581954, 3969188510 }; \
+inline static const unsigned long int BASE_CHAIN_LIST_LENGTH { 3 }; \
 virtual const unsigned long int* GetBaseChainList() const { return BASE_CHAIN_LIST; } \
 virtual unsigned long int GetBaseChainListLength() const { return BASE_CHAIN_LIST_LENGTH; } \
-typedef dooms::ServerComponent Base;
+typedef dooms::Component Base;
 
 
 #undef CLONE_OBJECT_dooms__ColliderComponent

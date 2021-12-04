@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Core/ServerComponent.h"
+#include "Core/Component.h"
 
 #include <vector>
 
@@ -38,7 +38,7 @@ namespace dooms
 
 	};
 
-	class DOOM_API D_CLASS Renderer : public ServerComponent, public BVH_Sphere_Node_Object, public ColliderUpdater<dooms::physics::AABB3D>//, public BVH_AABB3D_Node_Object // public graphics::CullDistanceRenderer
+	class DOOM_API D_CLASS Renderer : public Component, public BVH_Sphere_Node_Object, public ColliderUpdater<dooms::physics::AABB3D>//, public BVH_AABB3D_Node_Object // public graphics::CullDistanceRenderer
 	{
 		GENERATE_BODY()
 		

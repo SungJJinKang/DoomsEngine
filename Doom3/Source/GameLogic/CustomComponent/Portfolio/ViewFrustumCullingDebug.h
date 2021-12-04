@@ -11,7 +11,7 @@ namespace dooms
 		class PicktureInPickture;
 	}
 
-	class DOOM_API D_CLASS ViewFrustumCullingDebug : public PlainComponent
+	class DOOM_API D_CLASS ViewFrustumCullingDebug : public Component
 	{
 		GENERATE_BODY()
 		

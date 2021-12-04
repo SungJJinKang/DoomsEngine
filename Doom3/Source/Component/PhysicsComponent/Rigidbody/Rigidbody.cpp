@@ -70,7 +70,7 @@ dooms::Rigidbody& dooms::Rigidbody::operator=(const Rigidbody& rigid)
 
 void dooms::Rigidbody::InitComponent()
 {
-	ServerComponent::InitComponent();
+	Component::InitComponent();
 
 	InitializeAttachedColliderComponents();
 
@@ -79,12 +79,12 @@ void dooms::Rigidbody::InitComponent()
 
 void dooms::Rigidbody::UpdateComponent()
 {
-	ServerComponent::UpdateComponent();
+	Component::UpdateComponent();
 }
 
 void dooms::Rigidbody::OnDestroy()
 {
-	ServerComponent::OnDestroy();
+	Component::OnDestroy();
 
 	ClearCollideCollidersAtFrame();
 	StaticContainer<Rigidbody>::RemoveFromStaticContainer();
@@ -92,14 +92,14 @@ void dooms::Rigidbody::OnDestroy()
 
 void dooms::Rigidbody::OnActivated()
 {
-	ServerComponent::OnActivated();
+	Component::OnActivated();
 
 	ClearCollideCollidersAtFrame();
 }
 
 void dooms::Rigidbody::OnDeActivated()
 {
-	ServerComponent::OnDeActivated();
+	Component::OnDeActivated();
 
 	ClearCollideCollidersAtFrame();
 }

@@ -9,7 +9,7 @@ namespace dooms
 		class ShaderAsset;
 	}
 
-	class DOOM_API D_CLASS CharacterSpawner : public PlainComponent
+	class DOOM_API D_CLASS CharacterSpawner : public Component
 	{
 		GENERATE_BODY()
 		

@@ -7,7 +7,7 @@
 
 void dooms::PortfolioComponent::OnChangedByGUI(const dooms::reflection::DField& field_of_changed_field)
 {
-	PlainComponent::OnChangedByGUI(field_of_changed_field);
+	Component::OnChangedByGUI(field_of_changed_field);
 
 	UpdateGUI();
 }

@@ -5,7 +5,7 @@
 #include "AutoRotateAround.reflection.h"
 namespace dooms
 {
-	class DOOM_API D_CLASS AutoRotateAround : public PlainComponent
+	class DOOM_API D_CLASS AutoRotateAround : public Component
 	{
 		GENERATE_BODY()
 		

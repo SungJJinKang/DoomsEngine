@@ -4,7 +4,7 @@
 
 void dooms::ReflectionTestComponent::UpdateComponent()
 {
-	PlainComponent::UpdateComponent();
+	Component::UpdateComponent();
 
 	
 }

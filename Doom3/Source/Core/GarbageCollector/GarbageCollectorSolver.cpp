@@ -115,7 +115,7 @@ namespace dooms::gc::garbageCollectorSolver
 		const dooms::reflection::DType* const dFieldType
 	)
 	{
-		D_ASSERT(IsStrongValid(dObejct) == true);
+		D_ASSERT(IsLowLevelValid(dObejct) == true);
 
 		if (dObejct->GetDObjectFlag(eDObjectFlag::IsNotCheckedByGC) == true)
 		{
@@ -144,7 +144,7 @@ namespace dooms::gc::garbageCollectorSolver
 		if ((dataQualifier == reflection::eProperyQualifier::POINTER) == false)
 		{
 			// if object is nullptr, DObjectManager::IsDObjectExist is suprer fast
-			if (IsStrongValid(reinterpret_cast<dooms::DObject*>(object), false) == true)
+			if (IsLowLevelValid(reinterpret_cast<dooms::DObject*>(object), false) == true)
 			{
 				dooms::DObject* const targetDObject = reinterpret_cast<dooms::DObject*>(object);
 
@@ -154,7 +154,7 @@ namespace dooms::gc::garbageCollectorSolver
 		else
 		{
 			// if object is nullptr, DObjectManager::IsDObjectExist is suprer fast
-			if (IsStrongValid(*reinterpret_cast<dooms::DObject**>(object), false) == true)
+			if (IsLowLevelValid(*reinterpret_cast<dooms::DObject**>(object), false) == true)
 			{
 				dooms::DObject* const targetDObject = (*reinterpret_cast<dooms::DObject**>(object));
 				
@@ -189,7 +189,7 @@ namespace dooms::gc::garbageCollectorSolver
 
 	void Mark(const UINT32 keepFlags, dooms::DObject* const rootDObject)
 	{
-		D_ASSERT(IsStrongValid(rootDObject, false) == true);
+		D_ASSERT(IsLowLevelValid(rootDObject, false) == true);
 
 		const reflection::DClass rootObjectDClass = rootDObject->GetDClass();
 		MarkRecursively(keepFlags, rootDObject, reflection::eProperyQualifier::VALUE, &rootObjectDClass);

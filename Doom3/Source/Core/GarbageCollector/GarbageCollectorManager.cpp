@@ -127,7 +127,7 @@ void dooms::gc::GarbageCollectorManager::Collect()
 
 bool dooms::gc::GarbageCollectorManager::AddToRootsDObjectsList(DObject* const dObjet)
 {
-	D_ASSERT(IsStrongValid(dObjet) == true);
+	D_ASSERT(IsLowLevelValid(dObjet) == true);
 	dObjet->SetDObjectFlag(eDObjectFlag::IsRootObject);
 	mRootsDObjectsList.push_back(dObjet);
 
