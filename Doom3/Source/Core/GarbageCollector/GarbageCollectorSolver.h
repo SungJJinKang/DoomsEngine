@@ -1,6 +1,7 @@
 #pragma once
 
 #include <vector>
+#include <unordered_set>
 
 #include "TypeDef.h"
 
@@ -25,7 +26,7 @@ namespace dooms
 
 			void StartMarkStage(const UINT32 keepFlags, std::vector<dooms::DObject*>& rootDObjectList);
 			
-			void StartSweepStage(const UINT32 keepFlags, std::vector<dooms::DObject*>& dObjectList, std::vector<UINT32>& flagList);
+			void StartSweepStage(const UINT32 keepFlags, std::unordered_set<dooms::DObject*>& dObjectList);
 
 			// this may make bugs ( multithread delete can make a lot of bugs )
 			//void StartParallelSweepStage(std::vector<dooms::DObject*>& dObjectList, const std::vector<UINT32>& flagList);

@@ -16,6 +16,9 @@
 #include "EngineGUI/EngineGUIAccessor.h"
 #include "Reflection/ReflectionType/DField.h"
 
+
+#define DAFAULT_DOBJECT_FLAGS 0
+
 #include "DObject.reflection.h"
 D_NAMESPACE(dooms)
 namespace dooms
@@ -102,8 +105,11 @@ namespace dooms
 		{
 			GENERATE_BODY_DObjectProperties()
 
-			size_t mCurrentIndexInDObjectList;
-			UINT64 mDObjectID;
+			D_PROPERTY(INVISIBLE)
+			INT64 mCurrentIndexInDObjectList;
+
+			D_PROPERTY(READONLY)
+			INT64 mDObjectID;
 			
 			D_PROPERTY(INVISIBLE)
 			std::string mDObjectName;
@@ -111,20 +117,20 @@ namespace dooms
 			const DObject* mOwnerDObject;
 
 			DObjectProperties()
-				: mCurrentIndexInDObjectList((size_t)-1), mDObjectID(INVALID_DOBJECT_ID), mDObjectName(), mOwnerDObject(nullptr)
+				: mCurrentIndexInDObjectList(INVALID_CURRENT_INDEX_IN_DOBJECT_LIST), mDObjectID(INVALID_DOBJECT_ID), mDObjectName(), mOwnerDObject(nullptr)
 			{
 				
 			}
 			DObjectProperties(const DObjectProperties& dObjectProperties)
 			{
-				mCurrentIndexInDObjectList = (size_t)-1;
+				mCurrentIndexInDObjectList = INVALID_CURRENT_INDEX_IN_DOBJECT_LIST;
 				mDObjectID = INVALID_DOBJECT_ID;
 				mDObjectName = dObjectProperties.mDObjectName;
 				mOwnerDObject = dObjectProperties.mOwnerDObject;
 			}
 			DObjectProperties(DObjectProperties&& dObjectProperties) noexcept
 			{
-				mCurrentIndexInDObjectList = (size_t)-1;
+				mCurrentIndexInDObjectList = INVALID_CURRENT_INDEX_IN_DOBJECT_LIST;
 				mDObjectID = INVALID_DOBJECT_ID;
 				mDObjectName = dObjectProperties.mDObjectName;
 				mOwnerDObject = dObjectProperties.mOwnerDObject;				
@@ -201,35 +207,35 @@ namespace dooms
 		D_FUNCTION()
 		FORCE_INLINE UINT32 GetDObjectFlag() const
 		{
-			assert(mDObjectProperties.mCurrentIndexInDObjectList != (size_t)-1);
+			assert(mDObjectProperties.mCurrentIndexInDObjectList != INVALID_CURRENT_INDEX_IN_DOBJECT_LIST);
 			return dooms::DObjectManager::mDObjectsContainer.GetDObjectFlag(mDObjectProperties.mCurrentIndexInDObjectList);
 		}
 
 		D_FUNCTION()
 		FORCE_INLINE bool GetDObjectFlag(const UINT32 flag) const
 		{
-			assert(mDObjectProperties.mCurrentIndexInDObjectList != (size_t)-1);
+			assert(mDObjectProperties.mCurrentIndexInDObjectList != INVALID_CURRENT_INDEX_IN_DOBJECT_LIST);
 			return (dooms::DObjectManager::mDObjectsContainer.GetDObjectFlag(mDObjectProperties.mCurrentIndexInDObjectList) & flag) != 0;
 		}
 		
 		D_FUNCTION()
 		FORCE_INLINE void SetDObjectFlag(const UINT32 flag)
 		{
-			assert(mDObjectProperties.mCurrentIndexInDObjectList != (size_t)-1);
+			assert(mDObjectProperties.mCurrentIndexInDObjectList != INVALID_CURRENT_INDEX_IN_DOBJECT_LIST);
 			dooms::DObjectManager::mDObjectsContainer.SetDObjectFlag(mDObjectProperties.mCurrentIndexInDObjectList, flag);
 		}
 
 		D_FUNCTION()
 		FORCE_INLINE void ClearDObjectFlag(const UINT32 flag)
 		{
-			assert(mDObjectProperties.mCurrentIndexInDObjectList != (size_t)-1);
+			assert(mDObjectProperties.mCurrentIndexInDObjectList != INVALID_CURRENT_INDEX_IN_DOBJECT_LIST);
 			dooms::DObjectManager::mDObjectsContainer.ClearDObjectFlag(mDObjectProperties.mCurrentIndexInDObjectList, flag);
 		}
 
 		D_FUNCTION()
 		FORCE_INLINE void ResetDObjectFlag(const UINT32 flag)
 		{
-			assert(mDObjectProperties.mCurrentIndexInDObjectList != (size_t)-1);
+			assert(mDObjectProperties.mCurrentIndexInDObjectList != INVALID_CURRENT_INDEX_IN_DOBJECT_LIST);
 			dooms::DObjectManager::mDObjectsContainer.ResetDObjectFlag(mDObjectProperties.mCurrentIndexInDObjectList, flag);
 		}
 

@@ -87,7 +87,7 @@ void dooms::gc::GarbageCollectorManager::ClearFlags()
 {
 	D_START_PROFILING(GC_ClearFlagsStage, CPU);
 
-	D_DEBUG_LOG(eLogType::D_LOG_TYPE14, "Execute GC_ClearFlagsStage");
+	D_DEBUG_LOG(eLogType::D_LOG_TYPE12, "Execute GC_ClearFlagsStage");
 	std::unique_lock<std::recursive_mutex> lock{ dooms::DObjectManager::DObjectListMutex };
 	dooms::gc::garbageCollectorSolver::StartSetUnreachableFlagStage(dooms::DObjectManager::mDObjectsContainer.mDObjectFlagList);
 	lock.unlock();
@@ -101,7 +101,7 @@ void dooms::gc::GarbageCollectorManager::Mark()
 
 	D_START_PROFILING(GC_MarkStage, CPU);
 
-	D_DEBUG_LOG(eLogType::D_LOG_TYPE14, "Execute GC_MarkStage");
+	D_DEBUG_LOG(eLogType::D_LOG_TYPE12, "Execute GC_MarkStage");
 	dooms::gc::garbageCollectorSolver::StartMarkStage(GC_KEEP_FLAGS, mRootsDObjectsList);
 
 	D_END_PROFILING(GC_MarkStage);
@@ -111,15 +111,15 @@ void dooms::gc::GarbageCollectorManager::Sweep()
 {
 	D_START_PROFILING(GC_SweepStage, CPU);
 
-	D_DEBUG_LOG(eLogType::D_LOG_TYPE14, "Execute GC_SweepStage");
-	dooms::gc::garbageCollectorSolver::StartSweepStage(GC_KEEP_FLAGS, dooms::DObjectManager::mDObjectsContainer.mDObjectList, dooms::DObjectManager::mDObjectsContainer.mDObjectFlagList);
+	D_DEBUG_LOG(eLogType::D_LOG_TYPE12, "Execute GC_SweepStage");
+	dooms::gc::garbageCollectorSolver::StartSweepStage(GC_KEEP_FLAGS, dooms::DObjectManager::mDObjectsContainer.mDObjectList);
 
 	D_END_PROFILING(GC_SweepStage);
 }
 
 void dooms::gc::GarbageCollectorManager::Collect()
 {
-	D_DEBUG_LOG(eLogType::D_LOG_TYPE14, "Start GC");
+	D_DEBUG_LOG(eLogType::D_LOG_TYPE12, "Start GC");
 	Mark();
 	Sweep();
 }
@@ -127,6 +127,8 @@ void dooms::gc::GarbageCollectorManager::Collect()
 
 bool dooms::gc::GarbageCollectorManager::AddToRootsDObjectsList(DObject* const dObjet)
 {
+	D_ASSERT(IsStrongValid(dObjet) == true);
+	dObjet->SetDObjectFlag(eDObjectFlag::IsRootObject);
 	mRootsDObjectsList.push_back(dObjet);
 
 	return true;

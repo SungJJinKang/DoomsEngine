@@ -119,8 +119,7 @@ namespace dooms::gc::garbageCollectorSolver
 
 		if (dObejct->GetDObjectFlag(eDObjectFlag::IsNotCheckedByGC) == true)
 		{
-			dObejct->ClearDObjectFlag(eDObjectFlag::Unreachable);
-			dObejct->ClearDObjectFlag(eDObjectFlag::IsNotCheckedByGC);
+			dObejct->ClearDObjectFlag(eDObjectFlag::Unreachable | eDObjectFlag::IsNotCheckedByGC);
 
 			dooms::reflection::DClass dClass = dObejct->GetDClass();
 
@@ -214,33 +213,31 @@ void dooms::gc::garbageCollectorSolver::StartMarkStage(const UINT32 keepFlags, s
 }
 
 
-void dooms::gc::garbageCollectorSolver::StartSweepStage(const UINT32 keepFlags, std::vector<dooms::DObject*>& dObjectList, std::vector<UINT32>& flagList)
+void dooms::gc::garbageCollectorSolver::StartSweepStage(const UINT32 keepFlags, std::unordered_set<dooms::DObject*>& dObjectList)
 {
 	std::vector<dooms::DObject*> deletedDObjectList;
 	deletedDObjectList.reserve(DELETE_DOBJECT_LIST_RESERVATION_COUNT);
 
-	const size_t flagListCount = flagList.size();
-	for(size_t i = 0 ; i < flagListCount; i++ )
+	auto beginIter = dObjectList.begin();
+	const auto endIter = dObjectList.end();
+	while(beginIter != endIter)
 	{
-		if ((flagList[i] & (dooms::eDObjectFlag::NotCollectedByGC | dooms::eDObjectFlag::IsRootObject) ) == 0)
+		dooms::DObject* const dObject = (*beginIter);
+		if ((dObject->GetDObjectFlag() & (dooms::eDObjectFlag::Unreachable | dooms::eDObjectFlag::NewAllocated)) == (dooms::eDObjectFlag::Unreachable | dooms::eDObjectFlag::NewAllocated))
 		{
-			if ((flagList[i] & (dooms::eDObjectFlag::Unreachable | dooms::eDObjectFlag::NewAllocated)) == (dooms::eDObjectFlag::Unreachable | dooms::eDObjectFlag::NewAllocated))
-			{
-				// Mark unreachable dObject before sweep
-				const reflection::DClass dClass = dObjectList[i]->GetDClass();
-				MarkRecursively(keepFlags, dObjectList[i], reflection::eProperyQualifier::VALUE, &dClass);
+			/*
+			// Mark unreachable dObject before sweep.
+			// when there is time between Mark stage and Sweep stage, this works is required.
+			const reflection::DClass dClass = dObject->GetDClass();
+			MarkRecursively(keepFlags, dObject, reflection::eProperyQualifier::VALUE, &dClass);
+			*/
 
+			dObject->SetIsPendingKill();
 
-				dObjectList[i]->SetIsPendingKill();
-
-				deletedDObjectList.push_back(dObjectList[i]);
-				D_DEBUG_LOG(eLogType::D_LOG_TYPE13, "GC DObject IsPendingKill Enabled and Sweeped ready : %s ( TypeName : %s )", dObjectList[i]->GetDObjectName().c_str(), dObjectList[i]->GetTypeFullName());
-			}
+			deletedDObjectList.push_back(dObject);
+			D_DEBUG_LOG(eLogType::D_LOG_TYPE13, "GC DObject IsPendingKill Enabled and Sweeped ready : %s ( TypeName : %s )", dObject->GetDObjectName().c_str(), dObject->GetTypeFullName());
 		}
-		else
-		{
-			
-		}
+		beginIter++;
 	}
 
 	for (dooms::DObject* deletedDbject : deletedDObjectList)

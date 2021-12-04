@@ -1,8 +1,7 @@
 #include "DObjectManager.h"
 
-#include <cassert>
-
 #include "DObject.h"
+#include <Macros/Assert.h>
 
 #include <vector_erase_move_lastelement/vector_swap_popback.h>
 #include <EngineGUI/PrintText.h>
@@ -10,13 +9,11 @@
 dooms::DObjectsContainer::DObjectsContainer()
 {
     mDObjectList.reserve(DEFUALT_DOBJECT_LIST_RESERVATION_SIZE);
-    mDObjectIDList.reserve(DEFUALT_DOBJECT_LIST_RESERVATION_SIZE);
     mDObjectFlagList.reserve(DEFUALT_DOBJECT_LIST_RESERVATION_SIZE);
 }
 
 bool dooms::DObjectsContainer::IsEmpty() const
 {
-    assert(mDObjectList.size() == mDObjectIDList.size() == mDObjectFlagList.size());
     return mDObjectList.empty();
 }
 
@@ -26,30 +23,40 @@ UINT64 dooms::DObjectManager::GenerateNewDObejctID()
 {
     const UINT64 newDObjectID = mDObjectCounter++;
    
-    assert(newDObjectID != 0xFFFFFFFFFFFFFFFF);
+    D_ASSERT(newDObjectID != 0xFFFFFFFFFFFFFFFF);
 
     return newDObjectID;
 }
 
 void dooms::DObjectManager::InsertDObjectID(DObject* const dObject, const UINT64 dObjectID)
 {
-    assert(dObject != nullptr);
+    D_ASSERT(dObject != nullptr);
 
     if (dObject != nullptr)
     {
         std::unique_lock<std::recursive_mutex> u_lock{ DObjectListMutex };
 
-         mDObjectsContainer.mDObjectList.push_back(dObject);
-         mDObjectsContainer.mDObjectIDList.push_back(dObjectID);
-         mDObjectsContainer.mDObjectFlagList.push_back(0);
-         
-		dObject->mDObjectProperties.mCurrentIndexInDObjectList = mDObjectsContainer.mDObjectList.size() - 1;
+        dObject->mDObjectProperties.mDObjectID = dObjectID;
 
+        mDObjectsContainer.mDObjectList.emplace(dObject);
 
-        assert(mDObjectsContainer.mDObjectList.size() == mDObjectsContainer.mDObjectIDList.size());
-        assert(mDObjectsContainer.mDObjectList.size() == mDObjectsContainer.mDObjectFlagList.size());
-        assert(mDObjectsContainer.mDObjectIDList.size() == mDObjectsContainer.mDObjectFlagList.size());
+        size_t flagIndex;
+        if (mDObjectsContainer.mEmptyIndexInFlagList.empty() == false)
+        {
+            flagIndex = mDObjectsContainer.mEmptyIndexInFlagList.back();
+            mDObjectsContainer.mEmptyIndexInFlagList.pop_back();
+            mDObjectsContainer.mDObjectFlagList[flagIndex] = DAFAULT_DOBJECT_FLAGS;
+        }
+        else
+        {
+            mDObjectsContainer.mDObjectFlagList.push_back(DAFAULT_DOBJECT_FLAGS);
+            flagIndex = mDObjectsContainer.mDObjectList.size() - 1;
+        }
 
+       
+		dObject->mDObjectProperties.mCurrentIndexInDObjectList = flagIndex;
+        D_ASSERT(flagIndex < mDObjectsContainer.mDObjectFlagList.size());
+        
         u_lock.unlock();
     }
 }
@@ -57,7 +64,7 @@ void dooms::DObjectManager::InsertDObjectID(DObject* const dObject, const UINT64
 
 bool dooms::DObjectManager::AddNewDObject(DObject* const dObject)
 {
-    assert(dObject != nullptr);
+    D_ASSERT(dObject != nullptr);
 
     bool isSuccess = false;
 
@@ -74,69 +81,50 @@ bool dooms::DObjectManager::AddNewDObject(DObject* const dObject)
 
 bool dooms::DObjectManager::ReplaceDObjectFromDObjectList(DObject&& originalDObject, DObject* const newDObject)
 {
-    assert(originalDObject.GetDObjectID() != INVALID_DOBJECT_ID);
-    assert(&originalDObject != newDObject);
-
-    assert(mDObjectsContainer.mDObjectList[originalDObject.mDObjectProperties.mCurrentIndexInDObjectList] == &originalDObject);
-
+    D_ASSERT(originalDObject.GetDObjectID() != INVALID_DOBJECT_ID);
+    D_ASSERT(&originalDObject != newDObject);
+    
     const UINT64 originalDObjectID = originalDObject.GetDObjectID();
     
-    mDObjectsContainer.mDObjectIDList[originalDObject.mDObjectProperties.mCurrentIndexInDObjectList] = GenerateNewDObejctID();
+    originalDObject.mDObjectProperties.mDObjectID = GenerateNewDObejctID();
 
-    if(newDObject->mDObjectProperties.mCurrentIndexInDObjectList == (size_t)-1)
+    if(newDObject->mDObjectProperties.mCurrentIndexInDObjectList == INVALID_CURRENT_INDEX_IN_DOBJECT_LIST)
     {
         InsertDObjectID(newDObject, originalDObjectID);
     }
     else
     {
-        D_ASSERT(mDObjectsContainer.mDObjectList[newDObject->mDObjectProperties.mCurrentIndexInDObjectList] == newDObject);
-        mDObjectsContainer.mDObjectIDList[newDObject->mDObjectProperties.mCurrentIndexInDObjectList] = originalDObjectID;
+        newDObject->mDObjectProperties.mDObjectID = originalDObjectID;
     }
-    
+
+    D_ASSERT(newDObject->mDObjectProperties.mCurrentIndexInDObjectList < mDObjectsContainer.mDObjectFlagList.size());
+    D_ASSERT(originalDObject.mDObjectProperties.mCurrentIndexInDObjectList < mDObjectsContainer.mDObjectFlagList.size());
+
     return true;
 }
 
 bool dooms::DObjectManager::RemoveDObject(DObject* const dObject)
 {
-    assert(dObject != nullptr);
+    D_ASSERT(dObject != nullptr);
 
     bool isSuccess = false;
 
     if (dObject != nullptr)
     {
-        if(dObject->mDObjectProperties.mCurrentIndexInDObjectList != (size_t)-1)
+        if(dObject->mDObjectProperties.mCurrentIndexInDObjectList != INVALID_CURRENT_INDEX_IN_DOBJECT_LIST)
         {
             std::unique_lock<std::recursive_mutex> u_lock{ DObjectListMutex };
 
             const size_t index = dObject->mDObjectProperties.mCurrentIndexInDObjectList;
-            assert(index < mDObjectsContainer.mDObjectList.size());
+            D_ASSERT(index < mDObjectsContainer.mDObjectFlagList.size());
 
-            if (index != mDObjectsContainer.mDObjectList.size() - 1)
-            {
-                D_ASSERT(mDObjectsContainer.mDObjectList[index] == dObject);
-
-                swap_popback::vector_swap_popback(mDObjectsContainer.mDObjectList, mDObjectsContainer.mDObjectList.begin() + index);
-                swap_popback::vector_swap_popback(mDObjectsContainer.mDObjectIDList, mDObjectsContainer.mDObjectIDList.begin() + index);
-                swap_popback::vector_swap_popback(mDObjectsContainer.mDObjectFlagList, mDObjectsContainer.mDObjectFlagList.begin() + index);
-
-                mDObjectsContainer.mDObjectList[index]->mDObjectProperties.mCurrentIndexInDObjectList = index;
-            }
-            else
-            {
-                mDObjectsContainer.mDObjectList.pop_back();
-                mDObjectsContainer.mDObjectIDList.pop_back();
-                mDObjectsContainer.mDObjectFlagList.pop_back();
-            }
-
-
-            assert(mDObjectsContainer.mDObjectList.size() == mDObjectsContainer.mDObjectIDList.size());
-            assert(mDObjectsContainer.mDObjectList.size() == mDObjectsContainer.mDObjectFlagList.size());
-            assert(mDObjectsContainer.mDObjectIDList.size() == mDObjectsContainer.mDObjectFlagList.size());
-
+            mDObjectsContainer.mDObjectList.erase(dObject);
+            mDObjectsContainer.mEmptyIndexInFlagList.push_back(index);
+            
             u_lock.unlock();
         }
         
-        dObject->mDObjectProperties.mCurrentIndexInDObjectList = (size_t)-1;
+        dObject->mDObjectProperties.mCurrentIndexInDObjectList = INVALID_CURRENT_INDEX_IN_DOBJECT_LIST;
 
         isSuccess = true;
 
@@ -152,17 +140,25 @@ void dooms::DObjectManager::DestroyAllDObjects(const bool force)
     std::unique_lock<std::recursive_mutex> u_lock{ DObjectListMutex };
 
     INT64 newIndex = 0;
-    
-    for(INT64 i = mDObjectsContainer.mDObjectList.size() - 1; i >= 0 ; i--)
+
+    auto iterBegin = mDObjectsContainer.mDObjectList.begin();
+    auto iterEnd = mDObjectsContainer.mDObjectList.end();
+
+    while(iterBegin != iterEnd)
     {
-        dooms::DObject* const targetDObject = mDObjectsContainer.mDObjectList[i];
-        if (force || ( (mDObjectsContainer.mDObjectFlagList[i] & eDObjectFlag::NewAllocated) != 0 ) )
+        dooms::DObject* const targetDObject = *iterBegin;
+        if (force || ((targetDObject->GetDObjectFlag() & eDObjectFlag::NewAllocated) != 0))
         {
             targetDObject->DestroySelfInstantly();
-            i = mDObjectsContainer.mDObjectList.size();
+
+            iterBegin = mDObjectsContainer.mDObjectList.begin();
+            iterEnd = mDObjectsContainer.mDObjectList.end(); // TODO : OPTIMIZATION
+        }
+        else
+        {
+            iterBegin++;
         }
     }
-
     /*
     size_t pullIndex = 0;
     for(size_t i = 0 ; i < aliveDObjectIndexs.size() ; i++)
@@ -178,11 +174,7 @@ void dooms::DObjectManager::DestroyAllDObjects(const bool force)
     mDObjectsContainer.mDObjectIDList.resize(aliveDObjectIndexs.size());
     mDObjectsContainer.mDObjectFlagList.resize(aliveDObjectIndexs.size());
     */
-
-    assert(mDObjectsContainer.mDObjectList.size() == mDObjectsContainer.mDObjectIDList.size());
-    assert(mDObjectsContainer.mDObjectList.size() == mDObjectsContainer.mDObjectFlagList.size());
-    assert(mDObjectsContainer.mDObjectIDList.size() == mDObjectsContainer.mDObjectFlagList.size());
-
+    
     u_lock.unlock();
 
 
@@ -193,14 +185,10 @@ void dooms::DObjectManager::ClearConatiner()
 {
     std::unique_lock<std::recursive_mutex> u_lock{ DObjectListMutex };
 
-    mDObjectsContainer.mDObjectList.~vector();
-    mDObjectsContainer.mDObjectIDList.~vector();
+    mDObjectsContainer.mDObjectList.~unordered_set();
     mDObjectsContainer.mDObjectFlagList.~vector();
-
-    assert(mDObjectsContainer.mDObjectList.size() == mDObjectsContainer.mDObjectIDList.size());
-    assert(mDObjectsContainer.mDObjectList.size() == mDObjectsContainer.mDObjectFlagList.size());
-    assert(mDObjectsContainer.mDObjectIDList.size() == mDObjectsContainer.mDObjectFlagList.size());
-
+    mDObjectsContainer.mEmptyIndexInFlagList.~vector();
+    
     u_lock.unlock();
 }
 
@@ -215,7 +203,8 @@ bool dooms::DObjectManager::IsDObjectStrongValid(const DObject* const dObject, c
             DObjectListMutex.lock();
         }
 
-        if(fast_find_simd::find_simd(mDObjectsContainer.mDObjectList.begin(), mDObjectsContainer.mDObjectList.end(), const_cast<dooms::DObject*>(dObject)) != mDObjectsContainer.mDObjectList.end())
+        // TODO : optimization. make this function fast
+        if(mDObjectsContainer.mDObjectList.find(const_cast<DObject*>(dObject)) != mDObjectsContainer.mDObjectList.end())
         {
             isValid = true;
         }
@@ -246,7 +235,7 @@ bool dooms::DObjectManager::IsDObjectExist(const DObject* const dObject, const b
             DObjectListMutex.lock();
         }
 
-        if (fast_find_simd::find_simd(mDObjectsContainer.mDObjectList.begin(), mDObjectsContainer.mDObjectList.end(), const_cast<dooms::DObject*>(dObject)) != mDObjectsContainer.mDObjectList.end())
+        if (mDObjectsContainer.mDObjectList.find(const_cast<DObject*>(dObject)) != mDObjectsContainer.mDObjectList.end())
         {
             isExist = true;
         }
@@ -263,15 +252,11 @@ bool dooms::DObjectManager::IsDObjectExist(const DObject* const dObject, const b
 
 bool dooms::DObjectManager::IsEmpty()
 {
-    assert(mDObjectsContainer.mDObjectList.size() == mDObjectsContainer.mDObjectIDList.size());
-
     return mDObjectsContainer.mDObjectList.empty();
 }
 
 size_t dooms::DObjectManager::GetDObjectCount()
 {
-    assert(mDObjectsContainer.mDObjectList.size() == mDObjectsContainer.mDObjectIDList.size());
-
     return mDObjectsContainer.mDObjectList.size();
 }
 

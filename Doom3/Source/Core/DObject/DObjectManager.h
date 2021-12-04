@@ -3,6 +3,7 @@
 #include <vector>
 #include <mutex>
 #include <cassert>
+#include <unordered_set>
 
 #include <Macros/TypeDef.h>
 #include <Macros/DllMarcos.h>
@@ -26,9 +27,10 @@ namespace dooms
 	{
 		friend class DObject;
 
-		std::vector<DObject*> mDObjectList;
-		std::vector<UINT64> mDObjectIDList;
+		std::unordered_set<DObject*> mDObjectList;
+		
 		std::vector<UINT32> mDObjectFlagList;
+		std::vector<UINT32> mEmptyIndexInFlagList;
 
 		DObjectsContainer();
 		DObjectsContainer(const DObjectsContainer&) = delete;
