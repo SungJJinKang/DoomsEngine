@@ -55,9 +55,8 @@ namespace dooms
 		NewAllocated = 1 << 0,
 		Unreachable = 1 << 1, // When DObject is created, this value is 0. because gc do mark stage incrementally.
 		IsPendingKill = 1 << 2, 
-		NotCollectedByGC = 1 << 3,
-		IsRootObject = 1 << 4,
-		IsNotCheckedByGC = 1 << 5 // to prevent circular reference check by gc
+		IsRootObject = 1 << 3,
+		IsNotCheckedByGC = 1 << 4 // to prevent circular reference check by gc
 	};
 
 	inline extern const UINT32 NotCopyedFlagsWhenCopyMoveConstruct
@@ -104,6 +103,7 @@ namespace dooms
 			GENERATE_BODY_DObjectProperties()
 
 			size_t mCurrentIndexInDObjectList;
+			UINT64 mDObjectID;
 			
 			D_PROPERTY(INVISIBLE)
 			std::string mDObjectName;
@@ -111,19 +111,21 @@ namespace dooms
 			const DObject* mOwnerDObject;
 
 			DObjectProperties()
-				: mCurrentIndexInDObjectList((size_t)-1), mDObjectName(), mOwnerDObject(nullptr)
+				: mCurrentIndexInDObjectList((size_t)-1), mDObjectID(INVALID_DOBJECT_ID), mDObjectName(), mOwnerDObject(nullptr)
 			{
 				
 			}
 			DObjectProperties(const DObjectProperties& dObjectProperties)
 			{
 				mCurrentIndexInDObjectList = (size_t)-1;
+				mDObjectID = INVALID_DOBJECT_ID;
 				mDObjectName = dObjectProperties.mDObjectName;
 				mOwnerDObject = dObjectProperties.mOwnerDObject;
 			}
 			DObjectProperties(DObjectProperties&& dObjectProperties) noexcept
 			{
 				mCurrentIndexInDObjectList = (size_t)-1;
+				mDObjectID = INVALID_DOBJECT_ID;
 				mDObjectName = dObjectProperties.mDObjectName;
 				mOwnerDObject = dObjectProperties.mOwnerDObject;				
 			}
@@ -176,6 +178,10 @@ namespace dooms
 
 		virtual void OnSetPendingKill(){}
 
+		/// <summary>
+		/// If you want that this object is not collected by gc, call this fucntion
+		/// </summary>
+		/// <returns></returns>
 		bool AddToRootObjectList();
 		bool GetIsRootObject() const;
 		
@@ -187,16 +193,9 @@ namespace dooms
 
 
 		D_FUNCTION()
-		inline size_t GetDObjectID() const
+		inline UINT64 GetDObjectID() const
 		{
-			if(mDObjectProperties.mCurrentIndexInDObjectList != (size_t)-1)
-			{
-				return dooms::DObjectManager::mDObjectsContainer.mDObjectIDList[mDObjectProperties.mCurrentIndexInDObjectList];
-			}
-			else
-			{
-				return INVALID_DOBJECT_ID;
-			}		
+			return mDObjectProperties.mDObjectID;
 		}
 
 		D_FUNCTION()
@@ -207,7 +206,7 @@ namespace dooms
 		}
 
 		D_FUNCTION()
-		FORCE_INLINE bool GetDObjectFlag(const eDObjectFlag flag) const
+		FORCE_INLINE bool GetDObjectFlag(const UINT32 flag) const
 		{
 			assert(mDObjectProperties.mCurrentIndexInDObjectList != (size_t)-1);
 			return (dooms::DObjectManager::mDObjectsContainer.GetDObjectFlag(mDObjectProperties.mCurrentIndexInDObjectList) & flag) != 0;
@@ -221,7 +220,7 @@ namespace dooms
 		}
 
 		D_FUNCTION()
-		FORCE_INLINE void ClearDObjectFlag(const eDObjectFlag flag)
+		FORCE_INLINE void ClearDObjectFlag(const UINT32 flag)
 		{
 			assert(mDObjectProperties.mCurrentIndexInDObjectList != (size_t)-1);
 			dooms::DObjectManager::mDObjectsContainer.ClearDObjectFlag(mDObjectProperties.mCurrentIndexInDObjectList, flag);

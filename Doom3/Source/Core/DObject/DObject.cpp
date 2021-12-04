@@ -23,7 +23,7 @@ void dooms::DObject::CopyFlagsToThisDObject(const UINT32 flags)
 
 void dooms::DObject::InitProperties(const DObjectContructorParams& params)
 {
-	ResetDObjectFlag(params.DObjectFlag);
+	SetDObjectFlag(params.DObjectFlag);
 	mDObjectProperties.mDObjectName = params.mDObjectName;
 }
 
@@ -109,16 +109,29 @@ dooms::DObject::DObject(const DObjectContructorParams& params)
 dooms::DObject::DObject(const DObject& dObject)
 	: mDObjectProperties(dObject.mDObjectProperties), mEngineGUIAccessor(this)
 {
-	Construct_Internal();
+	const UINT32 originalObjectFlag = dObject.GetDObjectFlag();
 
+	Construct_Internal();
 	CopyFlagsToThisDObject(dObject.GetDObjectFlag());
+
+	if((originalObjectFlag & dooms::eDObjectFlag::IsRootObject) != 0)
+	{
+		AddToRootObjectList();
+	}
 }
 
 dooms::DObject::DObject(DObject&& dObject) noexcept
 	: mDObjectProperties(std::move(dObject.mDObjectProperties)), mEngineGUIAccessor(this)
 {
+	const UINT32 originalObjectFlag = dObject.GetDObjectFlag();
+
 	DObjectManager::ReplaceDObjectFromDObjectList(std::move(dObject), this);
 	CopyFlagsToThisDObject(dObject.GetDObjectFlag());
+	
+	if ((originalObjectFlag & dooms::eDObjectFlag::IsRootObject) != 0)
+	{
+		AddToRootObjectList();
+	}
 }
 
 
@@ -161,8 +174,6 @@ bool dooms::DObject::AddToRootObjectList()
 	if(GetDObjectFlag(eDObjectFlag::IsRootObject) == false)
 	{
 		dooms::gc::GarbageCollectorManager::AddToRootsDObjectsList(this);
-
-		SetDObjectFlag(eDObjectFlag::IsRootObject);
 		isSuccess = true;
 	}
 
