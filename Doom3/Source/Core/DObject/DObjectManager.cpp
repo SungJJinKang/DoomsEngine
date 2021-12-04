@@ -152,16 +152,14 @@ void dooms::DObjectManager::DestroyAllDObjects(const bool force)
     std::unique_lock<std::recursive_mutex> u_lock{ DObjectListMutex };
 
     INT64 newIndex = 0;
-
-    std::vector<size_t> aliveDObjectIndexs;
-
-    for(INT64 i = 0 ; i < mDObjectsContainer.mDObjectList.size(); i++)
+    
+    for(INT64 i = mDObjectsContainer.mDObjectList.size() - 1; i >= 0 ; i--)
     {
         dooms::DObject* const targetDObject = mDObjectsContainer.mDObjectList[i];
         if (force || ( (mDObjectsContainer.mDObjectFlagList[i] & eDObjectFlag::NewAllocated) != 0 ) )
         {
             targetDObject->DestroySelfInstantly();
-            i = 0;
+            i = mDObjectsContainer.mDObjectList.size();
         }
     }
 
