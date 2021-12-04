@@ -41,6 +41,8 @@ const math::Matrix4x4& dooms::Renderer::GetModelMatrix()
 
 void dooms::Renderer::OnDestroy()
 {
+	Base::OnDestroy();
+
 	graphics::Graphics_Server::GetSingleton()->mCullingSystem->RemoveEntityFromBlock(mEntityBlockViewer);
 
 	RendererComponentStaticIterator::GetSingleton()->RemoveRendererToStaticContainer(this);

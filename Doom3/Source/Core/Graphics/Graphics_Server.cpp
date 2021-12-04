@@ -11,6 +11,7 @@
 #include "Buffer/UniformBufferObjectManager.h"
 
 #include <Rendering/Renderer/Renderer.h>
+#include <Rendering/Light/Light.h>
 #include "FrameBuffer/DefferedRenderingFrameBuffer.h"
 #include <Rendering/Renderer/RendererStaticIterator.h>
 
@@ -110,6 +111,11 @@ void dooms::graphics::Graphics_Server::Renderder_InitComponent()
 			renderersInLayer[rendererIndex]->InitComponent();
 		}
 	}
+
+	for (Light* light : StaticContainer<dooms::Light>::GetAllStaticComponents())
+	{
+		light->InitComponent();
+	}
 }
 
 void dooms::graphics::Graphics_Server::Renderder_UpdateComponent()
@@ -123,6 +129,11 @@ void dooms::graphics::Graphics_Server::Renderder_UpdateComponent()
 			renderersInLayer[rendererIndex]->UpdateComponent();
 		}
 	}
+
+	for (Light* light : StaticContainer<dooms::Light>::GetAllStaticComponents())
+	{
+		light->UpdateComponent();
+	}
 }
 
 void dooms::graphics::Graphics_Server::Renderder_OnEndOfFrameComponent()
@@ -135,6 +146,11 @@ void dooms::graphics::Graphics_Server::Renderder_OnEndOfFrameComponent()
 			renderersInLayer[rendererIndex]->OnEndOfFrame_Component_Internal();
 			renderersInLayer[rendererIndex]->OnEndOfFrame_Component();
 		}
+	}
+
+	for (Light* light : StaticContainer<dooms::Light>::GetAllStaticComponents())
+	{
+		light->OnEndOfFrame_Component();
 	}
 }
 

@@ -53,7 +53,7 @@ void dooms::DirectionalLight::OnDestroy()
 {
 	Light::OnDestroy();
 	
-	StaticContainer<DirectionalLight>::RemoveFromStaticContainer();
+	
 }
 
 dooms::DirectionalLight::~DirectionalLight()

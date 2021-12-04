@@ -9,7 +9,7 @@ using namespace dooms;
 
 StaticContainer<Renderer>::StaticContainer()
 {
-	SetDObjectFlag(dooms::eDObjectFlag::NotCollectedByGC);
+	AddToRootObjectList();
 }
 
 void dooms::StaticContainer<Renderer>::AddRendererToStaticContainer(Renderer* const renderer)

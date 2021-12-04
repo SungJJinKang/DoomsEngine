@@ -5,7 +5,7 @@
 #include "PointLight.reflection.h"
 namespace dooms
 {
-	class DOOM_API D_CLASS PointLight : public Light, public StaticContainer<PointLight>
+	class DOOM_API D_CLASS PointLight : public Light
 	{
 		GENERATE_BODY()
 		

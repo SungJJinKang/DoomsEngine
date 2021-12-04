@@ -34,6 +34,7 @@ namespace dooms
 
 	protected:
 
+		virtual void OnDestroy() override;
 		
 
 	public:

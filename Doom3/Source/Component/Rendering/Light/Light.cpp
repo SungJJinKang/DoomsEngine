@@ -21,7 +21,11 @@ void dooms::Light::OnDestroy()
 {
 	Base::OnDestroy();
 
-	graphics::UniformBufferObjectManager::GetSingleton()->EraseUniformBufferObjectTempBufferUpdater(this);
+	StaticContainer<Light>::RemoveFromStaticContainer();
+	RemoveFromUniformBufferObjectManager();
+	bmIsLightUboDirty.SetDirty();
+	UpdateUniformBufferObject();
+	
 }
 
 dooms::Light::~Light()

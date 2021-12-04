@@ -5,7 +5,7 @@
 #include "DirectionalLight.reflection.h"
 namespace dooms
 {
-	class DOOM_API D_CLASS DirectionalLight : public Light, public StaticContainer<DirectionalLight>
+	class DOOM_API D_CLASS DirectionalLight : public Light
 	{
 		GENERATE_BODY()
 		

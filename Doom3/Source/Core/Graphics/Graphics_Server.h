@@ -52,7 +52,7 @@ namespace dooms
 			};
 
 		private:
-
+			
 			RendererComponentStaticIterator mRendererStaticContainer{};
 			D_PROPERTY()
 			DeferredRenderingDrawer mDeferredRenderingDrawer{};

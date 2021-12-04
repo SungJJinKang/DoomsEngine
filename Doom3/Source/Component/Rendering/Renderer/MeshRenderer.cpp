@@ -1,6 +1,12 @@
 #include "MeshRenderer.h"
 
 
+void dooms::MeshRenderer::OnDestroy()
+{
+	Base::OnDestroy();
+
+}
+
 dooms::MeshRenderer::MeshRenderer() : Renderer(), mTargetMesh{ nullptr }
 {
 

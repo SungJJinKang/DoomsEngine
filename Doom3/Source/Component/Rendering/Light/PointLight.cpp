@@ -52,7 +52,6 @@ void dooms::PointLight::UpdateUniformBufferObject()
 void dooms::PointLight::OnDestroy()
 {
 	Light::OnDestroy();
-	StaticContainer<PointLight>::RemoveFromStaticContainer();
 }
 
 dooms::PointLight::~PointLight()
