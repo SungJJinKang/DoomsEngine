@@ -22,9 +22,9 @@ dooms::GameCore::GameCore()
 
 
 
-std::unique_ptr<dooms::Scene> dooms::GameCore::CreateNewScene(std::string sceneName /*= ""*/)
+dooms::Scene* dooms::GameCore::CreateNewScene(std::string sceneName /*= ""*/)
 {
-	return std::unique_ptr<dooms::Scene>{dooms::CreateDObject<Scene>(sceneName)};
+	return dooms::CreateDObject<Scene>(sceneName);
 }
 
 void dooms::GameCore::InitGameSetting()
@@ -51,7 +51,7 @@ void dooms::GameCore::UpdateGameCore()
 
 dooms::GameCore::~GameCore()
 {
-	mCurrentScene->DestroyAllEntity();
+	mCurrentScene->SetIsPendingKill();
 }
 
 void dooms::GameCore::Init()

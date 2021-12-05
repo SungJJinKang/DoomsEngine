@@ -75,8 +75,8 @@ namespace dooms
 		reflection::ReflectionManager mReflectionManager{};
 
 		D_PROPERTY()
-		std::unique_ptr<Scene> mCurrentScene{};
-		std::unique_ptr<Scene> CreateNewScene(std::string sceneName = "");
+		Scene* mCurrentScene{};
+		Scene* CreateNewScene(std::string sceneName = "");
 
 		D_PROPERTY()
 		SharedScene mSharedWorld{};

@@ -37,6 +37,7 @@ namespace dooms
 		std::vector<Entity*> mSpawnedEntityList{};
 		Camera* mMainCamera{ nullptr };
 
+		virtual void OnSetPendingKill() override;
 
 		bool DestroyEntity_Internal(dooms::Entity* const entity) const;
 		void InitializeEntity(dooms::Entity* const entity);

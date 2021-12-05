@@ -121,6 +121,13 @@ void Scene::UpdateEntities()
 	}
 }
 
+void Scene::OnSetPendingKill()
+{
+	DObject::OnSetPendingKill();
+
+	DestroyAllEntity();
+}
+
 bool Scene::DestroyEntity_Internal(dooms::Entity* const entity) const
 {
 	bool isSuccess = false;
