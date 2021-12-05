@@ -11,10 +11,12 @@ void Component::OnSetPendingKill()
 
 	OnDestroy_Internal();
 	OnDestroy();
+	OnDestroyLate();
 }
 
-Component::Component() : bIsAddedToEntity{false}, mOwnerEntity{nullptr}, mTransform{nullptr}, mIsActivated{true}
+Component::Component() : bIsAddedToEntity{false}, mOwnerEntity{nullptr}, mTransform{nullptr}, IsComponentEnabled{true}
 {
+	UpdateComponentEnabled();
 }
 
 Component::~Component()
@@ -22,8 +24,9 @@ Component::~Component()
 }
 
 Component::Component(const Component&)
-	: bIsAddedToEntity{ false }, mOwnerEntity{ nullptr }, mTransform{nullptr}, mIsActivated{ true }
+	: bIsAddedToEntity{ false }, mOwnerEntity{ nullptr }, mTransform{nullptr}, IsComponentEnabled{ true }
 {
+	UpdateComponentEnabled();
 }
 
 Component& Component::operator=(const Component&)
@@ -31,9 +34,24 @@ Component& Component::operator=(const Component&)
 	bIsAddedToEntity = false;
 	mOwnerEntity = nullptr;
 	mTransform = nullptr;
-	mIsActivated = false;
+	IsComponentEnabled = true;
+	UpdateComponentEnabled();
 	
 	return *this;
+}
+
+void dooms::Component::UpdateComponentEnabled()
+{
+	if(IsComponentEnabled == true)
+	{
+		OnActivated_Internal();
+		OnActivated();
+	}
+	else
+	{
+		OnDeActivated_Internal();
+		OnDeActivated();
+	}
 }
 
 void Component::AddLocalDirtyToTransformDirtyReceiver(DirtyReceiver& localDirty)
@@ -68,6 +86,12 @@ void dooms::Component::OnEndOfFrame_Component_Internal()
 
 void dooms::Component::OnDestroy_Internal()
 {
+
+}
+
+void Component::OnDestroyLate()
+{
+	SetComponentEnabled(false);
 }
 
 void dooms::Component::OnActivated_Internal()
@@ -82,6 +106,12 @@ void dooms::Component::OnDeActivated_Internal()
 UINT32 Component::GetOwnerEntityLayerIndex() const
 {
 	return GetOwnerEntity()->GetLayerIndex();
+}
+
+void Component::SetComponentEnabled(const bool isEnabled)
+{
+	IsComponentEnabled = isEnabled;
+	UpdateComponentEnabled();
 }
 
 void Component::DestroyThisComponent()

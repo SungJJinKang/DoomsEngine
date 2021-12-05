@@ -5,7 +5,7 @@
 #include "PointLight.reflection.h"
 namespace dooms
 {
-	class DOOM_API D_CLASS PointLight : public Light
+	class DOOM_API D_CLASS PointLight : public Light, public StaticContainer<PointLight>
 	{
 		GENERATE_BODY()
 		
@@ -21,8 +21,9 @@ namespace dooms
 
 	protected:
 
-
-		void UpdateUniformBufferObject() override;
+		void OnActivated() override;
+		void OnDeActivated() override;
+		void UpdateUniformBufferObject(const bool force = false) override;
 		virtual void OnDestroy() override;
 
 	public:

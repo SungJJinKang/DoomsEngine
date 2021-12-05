@@ -251,7 +251,7 @@ namespace dooms
 		bool IsMainCamera() const;
 		void RemoveThisCameraFromMainCamera();
 
-		virtual void UpdateUniformBufferObject() final;
+		virtual void UpdateUniformBufferObject(const bool force = false) final;
 
 
 

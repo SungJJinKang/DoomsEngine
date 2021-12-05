@@ -5,7 +5,7 @@
 #include "DirectionalLight.reflection.h"
 namespace dooms
 {
-	class DOOM_API D_CLASS DirectionalLight : public Light
+	class DOOM_API D_CLASS DirectionalLight : public Light, public StaticContainer<DirectionalLight>
 	{
 		GENERATE_BODY()
 		
@@ -21,8 +21,9 @@ namespace dooms
 
 	protected:
 
-
-		void UpdateUniformBufferObject() override;
+		void OnActivated() override;
+		void OnDeActivated() override;
+		void UpdateUniformBufferObject(const bool force = false) override;
 		virtual void OnDestroy() override;
 
 	public:

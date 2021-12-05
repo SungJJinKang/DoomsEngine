@@ -21,7 +21,7 @@ namespace dooms
 		public:
 
 			// Inherited via UniformBufferObjectUpdater
-			virtual void UpdateUniformBufferObject() override;
+			virtual void UpdateUniformBufferObject(const bool force = false) override;
 
 			FLOAT32 GetAmbientLightIntensity() const;
 			void SetAmbientLightIntensity(const FLOAT32 intensity);

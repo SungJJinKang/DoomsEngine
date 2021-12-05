@@ -409,7 +409,7 @@ math::Vector3 dooms::Camera::WorldToScreenPoint(const math::Vector3& worldPositi
 
 
 
-void Camera::UpdateUniformBufferObject()
+void Camera::UpdateUniformBufferObject(const bool force)
 {
 	if (Scene::GetSingleton()->GetMainCamera() == this)
 	{//if this camera is mainCamera

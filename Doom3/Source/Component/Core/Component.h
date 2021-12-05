@@ -58,8 +58,11 @@ namespace dooms
 		/// </summary>
 		Transform* mTransform;
 		
-		bool mIsActivated;
+		D_FUNCTION(INVISIBLE)
+		void UpdateComponentEnabled();
 
+		D_PROPERTY(CALLBACK = "UpdateComponentEnabled")
+		bool IsComponentEnabled = true;
 	
 	protected:
 
@@ -106,7 +109,7 @@ namespace dooms
 		{
 			//DONT PUT ANYTHING HERE, PUT AT HERE
 		}
-
+		virtual void OnDestroyLate();
 
 		/// <summary>
 		/// This function will be called after activated
@@ -158,8 +161,7 @@ namespace dooms
 
 	public:
 
-		D_PROPERTY()
-		bool IsComponentEnabled = true;
+		
 
 		virtual void OnSetPendingKill() override;
 
@@ -177,6 +179,12 @@ namespace dooms
 		Component& operator=(Component&&) noexcept = delete;
 
 		UINT32 GetOwnerEntityLayerIndex() const;
+
+		void SetComponentEnabled(const bool isEnabled);
+		FORCE_INLINE bool GetIsComponentEnabled() const
+		{
+			return IsComponentEnabled;
+		}
 
 		FORCE_INLINE Entity* GetOwnerEntity()
 		{

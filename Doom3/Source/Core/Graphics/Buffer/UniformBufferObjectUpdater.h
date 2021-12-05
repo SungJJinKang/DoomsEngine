@@ -46,7 +46,7 @@ namespace dooms
 			/// uboManager.GetUniformBufferObject(GLOBAL_UNIFORM_BLOCK_BINDING_POINT).StoreDataAtTempBuffer(0, ~~~);
 			/// 
 			/// </summary>
-			virtual void UpdateUniformBufferObject() = 0; // Never remove = 0, This function must be implemented
+			virtual void UpdateUniformBufferObject(const bool force = false) = 0; // Never remove = 0, This function must be implemented
 			FORCE_INLINE bool GetIsUpdateWhenManagerUpdate() const
 			{
 				return bmUpdateWhenManagerUpdate;

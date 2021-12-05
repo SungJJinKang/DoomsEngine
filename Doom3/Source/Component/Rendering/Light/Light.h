@@ -8,7 +8,7 @@
 #include "Light.reflection.h"
 namespace dooms
 {
-	class DOOM_API D_CLASS Light : public Component, public graphics::UniformBufferObjectUpdater, public StaticContainer<Light>
+	class DOOM_API D_CLASS Light : public Component, public graphics::UniformBufferObjectUpdater
 	{
 		GENERATE_BODY()
 		
@@ -30,8 +30,9 @@ namespace dooms
 		math::Vector4 mColor{ 1 };
 
 		DirtyReceiver bmIsLightUboDirty{ true };
-		
-	
+
+		void OnActivated() override;
+		void OnDeActivated() override;
 		
 	public:
 
@@ -50,7 +51,7 @@ namespace dooms
 		void SetIntensity(FLOAT32 intensity);
 		void SetIndirectMultiplier(FLOAT32 indirectMultiplier);
 		void SetColor(const math::Vector4& color);
-		D_FUNCTION()
+		D_FUNCTION(INVISIBLE)
 		void UpdateLight();
 		FLOAT32 GetIntensity();
 		FLOAT32 GetIndirectMultiplier();

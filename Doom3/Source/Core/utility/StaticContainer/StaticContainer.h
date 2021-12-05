@@ -46,16 +46,21 @@ namespace dooms
 
 		static inline std::vector<T*> mElements{};
 		
-		void AddToStaticContainer()
-		{
-			StaticContainer<T>::mElements.push_back(static_cast<T*>(this));
-		}
+		
 		
 	protected:
 		
 		static size_t GetStaticElementCount()
 		{
 			return StaticContainer<T>::mElements.size();
+		}
+
+		void AddToStaticContainer()
+		{
+			if (mElements.empty() == true || (fast_find_simd::find_simd(mElements.begin(), mElements.end(), static_cast<T*>(this)) == mElements.end()))
+			{
+				StaticContainer<T>::mElements.push_back(static_cast<T*>(this));
+			}
 		}
 
 		void RemoveFromStaticContainer()

@@ -21,11 +21,21 @@ void dooms::Light::OnDestroy()
 {
 	Base::OnDestroy();
 
-	StaticContainer<Light>::RemoveFromStaticContainer();
 	RemoveFromUniformBufferObjectManager();
 	bmIsLightUboDirty.SetDirty();
-	UpdateUniformBufferObject();
+	UpdateUniformBufferObject(true);
 	
+}
+
+void dooms::Light::OnActivated()
+{
+	Component::OnActivated();
+}
+
+void dooms::Light::OnDeActivated()
+{
+	Component::OnDeActivated();
+	UpdateUniformBufferObject(true);
 }
 
 dooms::Light::~Light()
