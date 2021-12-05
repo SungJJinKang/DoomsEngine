@@ -84,6 +84,7 @@ namespace dooms::gc::garbageCollectorSolver
 						}
 					}
 				}
+				
 				else if (templateTypeType == reflection::eTemplateTypeCategory::SmartPointer)
 				{
 					void* const ptr = reflection::helper::Generate_Reflection_smartPointer(object, dataQualifier, dTemplateDType);
@@ -94,6 +95,7 @@ namespace dooms::gc::garbageCollectorSolver
 						MarkRecursively(keepFlags, ptr, elementTypeQualifier, &elementTypeDType);
 					}					
 				}
+				
 			}
 			else
 			{
@@ -115,7 +117,7 @@ namespace dooms::gc::garbageCollectorSolver
 		const dooms::reflection::DType* const dFieldType
 	)
 	{
-		D_ASSERT(IsLowLevelValid(dObejct) == true);
+		D_ASSERT(IsLowLevelValid(dObejct));
 
 		if (dObejct->GetDObjectFlag(eDObjectFlag::IsNotCheckedByGC) == true)
 		{
@@ -141,30 +143,33 @@ namespace dooms::gc::garbageCollectorSolver
 		const dooms::reflection::DType* const dFieldType
 	)
 	{
-		if ((dataQualifier == reflection::eProperyQualifier::POINTER) == false)
+		if (dFieldType->GetIsDerivedFromDObject() == true)
 		{
-			// if object is nullptr, DObjectManager::IsDObjectExist is suprer fast
-			if (IsLowLevelValid(reinterpret_cast<dooms::DObject*>(object), false) == true)
-			{	// Never change this IsLowLevelValid to IsValid ( unreal engine use IsLowLevelValid )
-				dooms::DObject* const targetDObject = reinterpret_cast<dooms::DObject*>(object);
+			if ((dataQualifier == reflection::eProperyQualifier::POINTER) == false)
+			{
+				// if object is nullptr, DObjectManager::IsDObjectExist is suprer fast
+				if (IsLowLevelValid(reinterpret_cast<dooms::DObject*>(object), false) == true)
+				{	// Never change this IsLowLevelValid to IsValid ( unreal engine use IsLowLevelValid )
+					dooms::DObject* const targetDObject = reinterpret_cast<dooms::DObject*>(object);
 
-				MarkRecursivelyDObjectTypeValueField(keepFlags, targetDObject, reflection::eProperyQualifier::VALUE, dFieldType);
-			}
-		}
-		else
-		{
-			// if object is nullptr, DObjectManager::IsDObjectExist is suprer fast
-			if (IsLowLevelValid(*reinterpret_cast<dooms::DObject**>(object), false) == true)
-			{	// Never change this IsLowLevelValid to IsValid ( unreal engine use IsLowLevelValid )
-				dooms::DObject* const targetDObject = (*reinterpret_cast<dooms::DObject**>(object));
-				
-				MarkRecursivelyDObjectTypeValueField(keepFlags, targetDObject, reflection::eProperyQualifier::VALUE, dFieldType);
+					MarkRecursivelyDObjectTypeValueField(keepFlags, targetDObject, reflection::eProperyQualifier::VALUE, dFieldType);
+				}
 			}
 			else
 			{
-				// TODO : add data whether class is child of DObject class to clcpp::Class
-				// If DObject address in pointer is dummy address, nullify pointer
-				*reinterpret_cast<dooms::DObject**>(object) = nullptr;
+				// if object is nullptr, DObjectManager::IsDObjectExist is suprer fast
+				if (IsLowLevelValid(*reinterpret_cast<dooms::DObject**>(object), false) == true)
+				{	// Never change this IsLowLevelValid to IsValid ( unreal engine use IsLowLevelValid )
+					dooms::DObject* const targetDObject = (*reinterpret_cast<dooms::DObject**>(object));
+
+					MarkRecursivelyDObjectTypeValueField(keepFlags, targetDObject, reflection::eProperyQualifier::VALUE, dFieldType);
+				}
+				else
+				{
+					// TODO : add data whether class is child of DObject class to clcpp::Class
+					// If DObject address in pointer is dummy address, nullify pointer
+					*reinterpret_cast<dooms::DObject**>(object) = nullptr;
+				}
 			}
 		}
 	}
@@ -177,11 +182,11 @@ namespace dooms::gc::garbageCollectorSolver
 		const dooms::reflection::DType* const dFieldType
 	)
 	{
-		if( dFieldType->GetPrimitiveType() == reflection::DPrimitive::ePrimitiveType::CLASS )
+		if (dFieldType->GetPrimitiveType() == reflection::DPrimitive::ePrimitiveType::CLASS)
 		{
 			MarkRecursivelyDObjectTypeField(keepFlags, object, dataQualifier, dFieldType);
 		}
-		else if(dFieldType->GetPrimitiveType() == reflection::DPrimitive::ePrimitiveType::TEMPLATE_TYPE)
+		else if (dFieldType->GetPrimitiveType() == reflection::DPrimitive::ePrimitiveType::TEMPLATE_TYPE)
 		{
 			MarkRecursivelyTemplateTypeField(keepFlags, object, dataQualifier, dFieldType);
 		}

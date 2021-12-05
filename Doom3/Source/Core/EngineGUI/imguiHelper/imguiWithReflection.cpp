@@ -278,10 +278,10 @@ namespace dooms
 
 				bool isDObjectChanged = false;
 
-				const bool isObjectDerivedFromDObject = dClass.GetIsDerivedFromDObject();
+				const bool isFieldOwnerObjectDerivedFromDObject = dClass.GetIsDerivedFromDObject();
 
 				if (
-					(isObjectDerivedFromDObject == true ? IsValid(reinterpret_cast<dooms::DObject*>(object)) : object != nullptr)
+					(isFieldOwnerObjectDerivedFromDObject == true ? IsValid(reinterpret_cast<dooms::DObject*>(object)) : object != nullptr)
 					&&
 					// check if DObject is already drawed to prevent infinite loop
 					std::find(MultipleDrawChecker.begin(), MultipleDrawChecker.end(), object) == MultipleDrawChecker.end()
@@ -332,7 +332,7 @@ namespace dooms
 								if (isGUIDrawed == false && fieldDType.GetPrimitiveType() == reflection::DPrimitive::ePrimitiveType::CLASS && dField.GetFieldQualifier() == reflection::eProperyQualifier::VALUE)
 								{//fail to find special gui func. can't find proper gui function from map
 									const reflection::DClass dClass = fieldDType.AsDClass();
-									if ((isObjectDerivedFromDObject == true) ? IsValid(reinterpret_cast<dooms::DObject*>(object)) : true)
+									if ((isFieldOwnerObjectDerivedFromDObject == true) ? IsValid(reinterpret_cast<dooms::DObject*>(object)) : true)
 									{// if type of field is child class of dooms::DObject
 										isFieldValueChanged = DrawObjectGUI(dClass, fieldRawValue, (fieldDAttributeList.GetIsNoLabel() == false) ? dField.GetFieldName() : "");
 									}
@@ -341,7 +341,7 @@ namespace dooms
 
 								if (isFieldValueChanged == true)
 								{
-									if (isFieldObjectDerivedFromDObject && IsValid(reinterpret_cast<dooms::DObject*>(object)))
+									if (isFieldOwnerObjectDerivedFromDObject && IsValid(reinterpret_cast<dooms::DObject*>(object)))
 									{// check if object is struct or class not inheriting DObject
 										reinterpret_cast<dooms::DObject*>(object)->OnChangedByGUI(dField);
 									}
