@@ -1,11 +1,10 @@
 #pragma once
 
+#include <unordered_map>
+
 #include <Macros/Assert.h>
 #include <Macros/DllMarcos.h>
-
 #include "../Reflection.h"
-
-
 #include "DPrimitive.h"
 
 
@@ -20,12 +19,14 @@ namespace dooms
 		class DEnum;
 		class DOOM_API D_CLASS DType : public DPrimitive /*: public dooms::DObject*/ // Dont Do this
 		{
+		private:
+			
+			static std::unordered_map<UINT32, bool> IsDerivedFromDObjectHashMap;
+			
+
 		protected:
 
-			const clcpp::Type * clType;
-
-		protected:
-
+			const clcpp::Type* clType;
 
 		public:
 
@@ -65,6 +66,8 @@ namespace dooms
 			DClass AsDClass() const;
 			DTemplateType AsDTemplateType() const;
 			DEnum AsDEnum() const;
+
+			bool GetIsDerivedFromDObject() const;
 		};
 	}
 }
