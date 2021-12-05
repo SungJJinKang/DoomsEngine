@@ -1,6 +1,8 @@
 #pragma once
 #include "Asset.h"
 
+#include <memory>
+
 #include "../Graphics/Texture/TextureFormat.h"
 
 #include "TextureAsset.reflection.h"
