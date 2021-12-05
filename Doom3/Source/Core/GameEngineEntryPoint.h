@@ -33,10 +33,7 @@ namespace dooms
 				//window terminated
 			}
 
-
-#ifdef DEBUG_MODE
 			dooms::DObjectManager::DestroyAllDObjects(false); // for detecting memory leak
-#endif
 
 		}
 

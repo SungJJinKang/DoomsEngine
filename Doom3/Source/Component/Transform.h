@@ -59,7 +59,7 @@ namespace dooms
 		math::Vector3 mScale{ 1.0f };
 		D_PROPERTY(CALLBACK = "SetRotation", TOOLTIP="Euler Angle")
 		math::Quaternion mRotation{ 0.0f, 0.0f, 0.0f, 1.0f };
-		D_PROPERTY()
+		D_PROPERTY(INVISIBLE)
 		math::Vector3 mLastFramePosition{nullptr};
 
 		//Matrix4X4 and Vector4 is aligned to 32, 16 byte

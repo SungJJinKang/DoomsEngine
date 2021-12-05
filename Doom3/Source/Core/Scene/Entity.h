@@ -166,23 +166,26 @@ namespace dooms
 
 			bool isSuccess = false;
 
-			size_t index = 0;
-
-			for (size_t i = 0; i < mComponents.size(); i++)
+			if(component->IsChildOf<Transform>() == false)
 			{
-				if (mComponents[i] == component)
+				size_t index = 0;
+
+				for (size_t i = 0; i < mComponents.size(); i++)
 				{
-					index = i;
-					isSuccess = true;
-					break;
+					if (mComponents[i] == component)
+					{
+						index = i;
+						isSuccess = true;
+						break;
+					}
+				}
+
+				if (isSuccess == true)
+				{
+					isSuccess = _RemoveComponent(component, index);
 				}
 			}
-
-			if(isSuccess == true)
-			{
-				isSuccess = _RemoveComponent(component, index);
-			}
-
+		
 			return isSuccess;
 		}
 
@@ -295,8 +298,7 @@ namespace dooms
 			{
 				returnedComponent = &mTransform;
 			}
-
-			if (returnedComponent == nullptr)
+			else
 			{
 				for (Component* component : mComponents)
 				{
@@ -307,6 +309,7 @@ namespace dooms
 					}
 				}
 			}
+			
 
 			return returnedComponent;
 		}

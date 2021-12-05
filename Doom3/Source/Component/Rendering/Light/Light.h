@@ -20,10 +20,10 @@ namespace dooms
 
 	protected:
 
-		D_PROPERTY(CALLBACK = "UpdateLight")
+		D_PROPERTY(CALLBACK = "UpdateLight", MIN = 0)
 		FLOAT32 mIntensity{ 1 };
 
-		D_PROPERTY(CALLBACK = "UpdateLight")
+		D_PROPERTY(CALLBACK = "UpdateLight", MIN = 0)
 		FLOAT32 mIndirectMultiplier{ 1 };
 
 		D_PROPERTY(Color, CALLBACK="UpdateLight")

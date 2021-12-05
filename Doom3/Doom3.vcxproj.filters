@@ -633,9 +633,6 @@
     <ClCompile Include="Source\thirdparty\imgui\backends\imgui_impl_opengl3.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\thirdparty\imgui\imgui_demo.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Source\Core\EngineGUI\imguiHelper\imguiWithReflection.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>

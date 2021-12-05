@@ -553,7 +553,6 @@ xcopy /y /d /E /H /C /I "$(ProjectDir)Assets" "$(TargetDir)Assets"</Command>
     <ClCompile Include="Source\thirdparty\imgui\backends\imgui_impl_opengl3.cpp" />
     <ClCompile Include="Source\thirdparty\imgui\backends\imgui_impl_win32.cpp" />
     <ClCompile Include="Source\thirdparty\imgui\imgui.cpp" />
-    <ClCompile Include="Source\thirdparty\imgui\imgui_demo.cpp" />
     <ClCompile Include="Source\thirdparty\imgui\imgui_draw.cpp" />
     <ClCompile Include="Source\thirdparty\imgui\imgui_tables.cpp" />
     <ClCompile Include="Source\thirdparty\imgui\imgui_widgets.cpp" />
