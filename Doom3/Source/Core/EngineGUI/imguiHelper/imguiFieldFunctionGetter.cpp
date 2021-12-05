@@ -307,7 +307,7 @@ namespace dooms
 					//ImGui::SetNextItemOpen(true);
 					if (ImGui::TreeNode(entity->GetComponent<Transform>()->GetDObjectName().c_str()))
 					{
-						imguiWithReflectionHelper::DrawObjectGUI(entity->GetComponent<Transform>()->GetDClass(), entity->GetComponent<Transform>(), "", imguiWithReflectionHelper::eObjectType::DObject);
+						imguiWithReflectionHelper::DrawObjectGUI(entity->GetComponent<Transform>()->GetDClass(), entity->GetComponent<Transform>(), "");
 						ImGui::TreePop();
 					}
 
@@ -319,7 +319,7 @@ namespace dooms
 						{
 							if(ImGui::TreeNode(component->GetDObjectName().c_str()))
 							{
-								imguiWithReflectionHelper::DrawObjectGUI(component->GetDClass(), component, "", imguiWithReflectionHelper::eObjectType::DObject);
+								imguiWithReflectionHelper::DrawObjectGUI(component->GetDClass(), component, "");
 								ImGui::TreePop();
 							}
 						}

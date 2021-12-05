@@ -24,12 +24,6 @@ namespace dooms
 	{
 		namespace imguiWithReflectionHelper
 		{
-			enum class eObjectType
-			{
-				DObject,
-				RawObject
-			};
-
 			bool DrawImguiFieldFromDField
 			(
 				void* const object,
@@ -43,7 +37,7 @@ namespace dooms
 				void* const fieldOwnerObejct
 			);
 
-			bool DrawObjectGUI(const reflection::DClass& dClass, void* const object, const char* const rawObjectName, const eObjectType objectType);
+			bool DrawObjectGUI(const reflection::DClass& dClass, void* const object, const char* const rawObjectName);
 			bool DrawDObjectGUI(const reflection::DClass& dClass, dooms::DObject* const dObject);
 
 			void ClearMultipleDrawChecker();
