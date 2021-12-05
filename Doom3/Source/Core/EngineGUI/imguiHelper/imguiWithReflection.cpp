@@ -279,6 +279,7 @@ namespace dooms
 				bool isDObjectChanged = false;
 
 				if (
+					//clReflect에 클래스 hierarchy 담아서 enginegui 쪽에서 IsLowLevelValid을 IsValid로 바꾸자.
 					objectType == eObjectType::DObject ? IsLowLevelValid(reinterpret_cast<dooms::DObject*>(object)) == true : true &&
 					// check if DObject is already drawed to prevent infinite loop
 					std::find(MultipleDrawChecker.begin(), MultipleDrawChecker.end(), object) == MultipleDrawChecker.end()
@@ -286,28 +287,7 @@ namespace dooms
 				{
 					MultipleDrawChecker.push_back(object);
 
-
-
-					/*
-					//label
-					const char* objectName;
-					if(rawObjectName == nullptr || rawObjectName[0] == '\0')
-					{
-						if(objectType == eObjectType::DObject)
-						{
-							objectName = reinterpret_cast<dooms::DObject*>(object)->GetDObjectName().c_str();
-						}
-						else
-						{// if rawObjectName is empty and object type is rawobject, objectname will be type full name
-							objectName = dClass.GetTypeFullName();
-						}
-					}
-					else
-					{
-						objectName = rawObjectName;
-					}
-					*/
-
+					
 
 					if (rawObjectName != nullptr && rawObjectName[0] != '\0')
 					{
@@ -320,55 +300,64 @@ namespace dooms
 					{
 						for (const dooms::reflection::DField& dField : dFieldList)
 						{
-							bool isFieldValueChanged = false;
+							const reflection::DAttributeList fieldDAttributeList = dField.GetDAttributeList();
 
-							void* fieldRawValue = const_cast<dooms::reflection::DField&>(dField).GetRawFieldValue(object);
+							if (fieldDAttributeList.GetIsVisibleOnGUI() == true)
+							{
+								bool isFieldValueChanged = false;
 
-							const bool isGUIDrawed = dooms::ui::imguiWithReflectionHelper::DrawImguiFieldFromDField
-													(
-														fieldRawValue,
-														dField,
-														isFieldValueChanged,
-														&dClass,
-														object
-													);
+								void* fieldRawValue = const_cast<dooms::reflection::DField&>(dField).GetRawFieldValue(object);
 
-						
-							if(isGUIDrawed == false)
-							{//fail to find special gui func. can't find proper gui function from map
-								if (dField.GetFieldTypePrimitiveType() == reflection::DPrimitive::ePrimitiveType::CLASS)
-								{
-									const reflection::DType fieldType = dField.GetDTypeOfFieldType();
+								const reflection::DType fieldDType = dField.GetDTypeOfFieldType();
+								const std::string fieldTypeFullName = dField.GetFieldTypeFullName();
 
-									if(fieldType.GetPrimitiveType() == reflection::DPrimitive::ePrimitiveType::CLASS)
+								const bool isGUIDrawed = dooms::ui::imguiWithReflectionHelper::DrawImguiFieldFromDField
+								(
+									fieldRawValue,
+									dField.GetFieldName(),
+									fieldTypeFullName.c_str(),
+									dField.GetFieldQualifier(),
+									&fieldDType,
+									fieldDAttributeList,
+									isFieldValueChanged,
+									&dClass,
+									object
+								);
+
+
+								if (isGUIDrawed == false)
+								{//fail to find special gui func. can't find proper gui function from map
+									if (dField.GetFieldTypePrimitiveType() == reflection::DPrimitive::ePrimitiveType::CLASS)
 									{
-										const reflection::DClass fieldTypeDClass = fieldType.AsDClass();
-										if (IsLowLevelValid(reinterpret_cast<dooms::DObject*>(fieldRawValue)) == true)
-										{// if type of field is child class of dooms::DObject
-											isFieldValueChanged = DrawObjectGUI(fieldTypeDClass, fieldRawValue, (dField.GetDAttributeList().GetIsNoLabel() == false) ? dField.GetFieldName() : "", eObjectType::DObject);
-										}
-										else
+										if (fieldDType.GetPrimitiveType() == reflection::DPrimitive::ePrimitiveType::CLASS)
 										{
-											if (dField.GetFieldQualifier() == reflection::eProperyQualifier::VALUE)
+											const reflection::DClass fieldTypeDClass = fieldDType.AsDClass();
+											if (IsLowLevelValid(reinterpret_cast<dooms::DObject*>(fieldRawValue)) == true)
+											{// if type of field is child class of dooms::DObject
+												isFieldValueChanged = DrawObjectGUI(fieldTypeDClass, fieldRawValue, (fieldDAttributeList.GetIsNoLabel() == false) ? dField.GetFieldName() : "", eObjectType::DObject);
+											}
+											else
 											{
-												isFieldValueChanged = DrawObjectGUI(fieldTypeDClass, fieldRawValue, (dField.GetDAttributeList().GetIsNoLabel() == false) ? dField.GetFieldName() : "", eObjectType::RawObject);
+												if (dField.GetFieldQualifier() == reflection::eProperyQualifier::VALUE)
+												{
+													isFieldValueChanged = DrawObjectGUI(fieldTypeDClass, fieldRawValue, (fieldDAttributeList.GetIsNoLabel() == false) ? dField.GetFieldName() : "", eObjectType::RawObject);
+												}
 											}
 										}
 									}
 								}
-							}
 
 
-							if (objectType == eObjectType::DObject && isFieldValueChanged == true)
-							{
-								if(IsLowLevelValid(reinterpret_cast<dooms::DObject*>(object)) == true)
-								{// check if object is struct or class not inheriting DObject
-									reinterpret_cast<dooms::DObject*>(object)->OnChangedByGUI(dField);
+								if (objectType == eObjectType::DObject && isFieldValueChanged == true)
+								{
+									if (IsLowLevelValid(reinterpret_cast<dooms::DObject*>(object)) == true)
+									{// check if object is struct or class not inheriting DObject
+										reinterpret_cast<dooms::DObject*>(object)->OnChangedByGUI(dField);
+									}
 								}
-							}
 
-							isDObjectChanged |= isFieldValueChanged;
-							
+								isDObjectChanged |= isFieldValueChanged;
+							}
 						}
 					}
 

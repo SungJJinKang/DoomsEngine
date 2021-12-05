@@ -304,6 +304,13 @@ namespace dooms
 
 				if (IsValid(entity) == true)
 				{
+					//ImGui::SetNextItemOpen(true);
+					if (ImGui::TreeNode(entity->GetComponent<Transform>()->GetDObjectName().c_str()))
+					{
+						imguiWithReflectionHelper::DrawObjectGUI(entity->GetComponent<Transform>()->GetDClass(), entity->GetComponent<Transform>(), "", imguiWithReflectionHelper::eObjectType::DObject);
+						ImGui::TreePop();
+					}
+
 					const std::vector<dooms::Component*>& allComponents = entity->GetAllComponents();
 
 					for (dooms::Component* component : allComponents)
@@ -567,20 +574,25 @@ namespace dooms
 						isVectorElementChanged |= isValueChange;
 					}
 
-					if(ImGui::Button("Add Item"))
+					if(attributeList.GetIsReadOnly() == false)
 					{
-						fakeVector->resize(vectorElementFakeCount + vectorElementTypeSize);
-						isVectorElementChanged = true;
-					}
-
-					if (ImGui::Button("Pop Back"))
-					{
-						if(vectorElementFakeCount >= vectorElementTypeSize)
+						if (ImGui::Button("Add Item"))
 						{
-							fakeVector->resize(vectorElementFakeCount - vectorElementTypeSize);
+							fakeVector->resize(vectorElementFakeCount + vectorElementTypeSize);
 							isVectorElementChanged = true;
 						}
+
+						if (ImGui::Button("Pop Back"))
+						{
+							if (vectorElementFakeCount >= vectorElementTypeSize)
+							{
+								fakeVector->resize(vectorElementFakeCount - vectorElementTypeSize);
+								isVectorElementChanged = true;
+							}
+						}
 					}
+
+					
 					
 					ImGui::TreePop();
 				}

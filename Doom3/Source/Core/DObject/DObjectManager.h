@@ -11,7 +11,7 @@
 
 #include "DObject_Constant.h"
 
-#define DEFUALT_DOBJECT_LIST_RESERVATION_SIZE 35000
+#define DEFUALT_DOBJECT_LIST_RESERVATION_SIZE 1000
 
 #include "DObjectManager.reflection.h"
 namespace dooms
@@ -103,7 +103,10 @@ namespace dooms
 		/// </summary>
 		/// <param name="dObject"></param>
 		/// <returns></returns>
-		static bool IsDObjectStrongValid(const DObject* const dObject, const bool lock = true);
+		static bool IsDObjectLowLevelValid(const DObject* const dObject, const bool lock = true);
+
+		// TODO : implement this
+		static bool IsDObjectFastLowLevelValid(const DObject* const dObject, const bool lock = true);
 		static bool IsDObjectExist(const DObject* const dObject, const bool lock = true);
 
 		static bool IsEmpty();

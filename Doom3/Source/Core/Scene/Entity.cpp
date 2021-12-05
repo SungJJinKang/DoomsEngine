@@ -149,6 +149,7 @@ void Entity::ClearComponents()
 	mComponents.clear();
 }
 
+
 void Entity::OnDestroyed()
 {
 	ClearComponents();

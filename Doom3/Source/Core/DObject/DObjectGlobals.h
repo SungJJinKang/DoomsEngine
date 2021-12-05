@@ -21,7 +21,7 @@ namespace dooms
 	/// <returns></returns>
 	extern FORCE_INLINE bool IsLowLevelValid(const DObject* const dObject, const bool lock = true)
 	{
-		return dooms::DObjectManager::IsDObjectStrongValid(dObject, lock);
+		return dooms::DObjectManager::IsDObjectLowLevelValid(dObject, lock);
 	}
 
 	/// <summary>

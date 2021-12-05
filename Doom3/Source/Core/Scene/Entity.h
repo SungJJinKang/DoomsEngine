@@ -89,13 +89,13 @@ namespace dooms
 		D_PROPERTY()
 		Scene* mInvolvedScene = nullptr;
 
-		D_PROPERTY()
+		D_PROPERTY(READONLY)
 		std::vector<Entity*> mChilds;
 		
 		D_PROPERTY(INVISIBLE)
 		std::vector<Component*> mComponents;
 
-		D_PROPERTY()
+		D_PROPERTY(INVISIBLE)
 		Transform mTransform;
 		
 
@@ -260,7 +260,7 @@ namespace dooms
 			static_assert(std::is_pointer<T>::value == false);
 
 
-			T* returnedComponent = nullptr;
+			const T* returnedComponent = nullptr;
 
 			if constexpr (std::is_same_v<T, Transform> == true)
 			{
@@ -281,7 +281,35 @@ namespace dooms
 		
 			return returnedComponent;
 		}
-		
+
+		template<typename T>
+		NO_DISCARD T* GetComponent() // never return unique_ptr reference, just return pointer
+		{
+			static_assert(std::is_base_of_v<Component, T> == true);
+			static_assert(std::is_pointer<T>::value == false);
+
+
+			T* returnedComponent = nullptr;
+
+			if constexpr (std::is_same_v<T, Transform> == true)
+			{
+				returnedComponent = &mTransform;
+			}
+
+			if (returnedComponent == nullptr)
+			{
+				for (Component* component : mComponents)
+				{
+					D_ASSERT(IsValid(component) == true);
+					if (component->IsChildOf<T>())
+					{
+						returnedComponent = CastToUnchecked<T*>(component);
+					}
+				}
+			}
+
+			return returnedComponent;
+		}
 
 		template<typename T, std::enable_if_t<std::is_base_of_v<Component, T>, bool> = true>
 		NO_DISCARD std::vector<T*> GetComponents() const

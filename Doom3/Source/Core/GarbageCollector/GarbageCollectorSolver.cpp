@@ -145,7 +145,7 @@ namespace dooms::gc::garbageCollectorSolver
 		{
 			// if object is nullptr, DObjectManager::IsDObjectExist is suprer fast
 			if (IsLowLevelValid(reinterpret_cast<dooms::DObject*>(object), false) == true)
-			{
+			{	// Never change this IsLowLevelValid to IsValid ( unreal engine use IsLowLevelValid )
 				dooms::DObject* const targetDObject = reinterpret_cast<dooms::DObject*>(object);
 
 				MarkRecursivelyDObjectTypeValueField(keepFlags, targetDObject, reflection::eProperyQualifier::VALUE, dFieldType);
@@ -155,7 +155,7 @@ namespace dooms::gc::garbageCollectorSolver
 		{
 			// if object is nullptr, DObjectManager::IsDObjectExist is suprer fast
 			if (IsLowLevelValid(*reinterpret_cast<dooms::DObject**>(object), false) == true)
-			{
+			{	// Never change this IsLowLevelValid to IsValid ( unreal engine use IsLowLevelValid )
 				dooms::DObject* const targetDObject = (*reinterpret_cast<dooms::DObject**>(object));
 				
 				MarkRecursivelyDObjectTypeValueField(keepFlags, targetDObject, reflection::eProperyQualifier::VALUE, dFieldType);

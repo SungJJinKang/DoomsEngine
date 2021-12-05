@@ -192,7 +192,7 @@ void dooms::DObjectManager::ClearConatiner()
     u_lock.unlock();
 }
 
-bool dooms::DObjectManager::IsDObjectStrongValid(const DObject* const dObject, const bool lock)
+bool dooms::DObjectManager::IsDObjectLowLevelValid(const DObject* const dObject, const bool lock)
 {
 	bool isValid = false;
 
