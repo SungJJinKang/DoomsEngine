@@ -27,13 +27,12 @@
 
 ## Currently working on
 
-  * Optimize garbage collector              
-  * fully implement engine ui using reflection system ( 70%, use imgui! - https://github.com/ocornut/imgui )     
   * change graphics api!!! ( 0%, OpenGL to DirectX12 )
-  * Masked SW Occlusion Culling ( 20%, work directory - https://github.com/SungJJinKang/EveryCulling/tree/main/CullingModule/MaskedSWOcclusionCulling ) ( reference : https://software.intel.com/content/dam/develop/external/us/en/documents/masked-software-occlusion-culling.pdf )          
+  * Masked SW Occlusion Culling ( 20%, work directory - https://github.com/SungJJinKang/EveryCulling/tree/main/CullingModule/MaskedSWOcclusionCulling ) ( reference : https://software.intel.com/content/dam/develop/external/us/en/documents/masked-software-occlusion-culling.pdf )        
  
 ## To Develop
 
+  * Optimize garbage collector     
   * Batching System ( Static Batch, Dynamic Batch )        
   * Hot Reload ( similar to Unreal Engine's )
 
