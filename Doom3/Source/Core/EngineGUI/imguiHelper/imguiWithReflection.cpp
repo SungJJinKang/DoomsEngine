@@ -160,15 +160,6 @@ namespace dooms
 						OnEndDrawGUI(attributeList);
 
 						imguiWithReflection::PopImgui();
-
-						if (isValueChange == true)
-						{
-							if (fieldOwnerObjectTypeDType != nullptr && fieldOwnerObejct != nullptr && fieldOwnerObjectTypeDType->GetPrimitiveType() == reflection::DPrimitive::ePrimitiveType::CLASS)
-							{
-								reflection::DClass dClass = fieldOwnerObjectTypeDType->AsDClass();
-								CallFieldDirtyCallback(attributeList.GetDirtyCallbackFunctionName(), &dClass, fieldOwnerObejct);
-							}
-						}
 						// TODO :Support Enum property gui.
 						
 					}
@@ -344,6 +335,7 @@ namespace dooms
 									if (isFieldOwnerObjectDerivedFromDObject && IsValid(reinterpret_cast<dooms::DObject*>(object)))
 									{// check if object is struct or class not inheriting DObject
 										reinterpret_cast<dooms::DObject*>(object)->OnChangedByGUI(dField);
+										CallFieldDirtyCallback(fieldDAttributeList.GetDirtyCallbackFunctionName(), &dClass, object);
 									}
 								}
 
@@ -432,23 +424,27 @@ void dooms::ui::imguiWithReflection::UpdateGUI_DObjectsVisibleOnGUI()
 {
 	for (dooms::DObject* const dObjectVisibleOnGUI : dooms::ui::imguiWithReflection::mVisibleOnGUIDObjectList)
 	{
-		if (
-			ImGui::Begin
-			(
-				dObjectVisibleOnGUI->GetDObjectName().empty() == false ? dObjectVisibleOnGUI->GetDObjectName().c_str() : dObjectVisibleOnGUI->GetTypeFullName(),
-				&(dooms::ui::engineGUIServer::IsEngineGUIVisible)
-			)
-			)
+		if(IsLowLevelValid(dObjectVisibleOnGUI))
 		{
-			imguiWithReflectionHelper::DrawDObjectGUI(dObjectVisibleOnGUI->GetDClass(), dObjectVisibleOnGUI);
+			if (
+				ImGui::Begin
+				(
+					dObjectVisibleOnGUI->GetDObjectName().empty() == false ? dObjectVisibleOnGUI->GetDObjectName().c_str() : dObjectVisibleOnGUI->GetTypeFullName(),
+					&(dooms::ui::engineGUIServer::IsEngineGUIVisible)
+				)
+				)
+			{
+				imguiWithReflectionHelper::DrawDObjectGUI(dObjectVisibleOnGUI->GetDClass(), dObjectVisibleOnGUI);
 
+			}
+
+
+			ImGui::End();
+
+
+			imguiWithReflectionHelper::ClearMultipleDrawChecker();
 		}
-
-
-		ImGui::End();
-
-
-		imguiWithReflectionHelper::ClearMultipleDrawChecker();
+		
 	}
 }
 
