@@ -160,14 +160,14 @@ void dooms::GameLogicStartPoint::StartGameLogic()
 	INT32 entityCount = 0;
 	
 	INT32 count = 200;
-	for (INT32 i = -count; i < count; i = i + 80)
+	for (INT32 i = -count; i < count; i = i + 40)
 	{
-		for (INT32 j = -count; j < count; j = j + 80)
+		for (INT32 j = -count; j < count; j = j + 40)
 		{
-			for (INT32 k = -count; k < count; k = k + 80)
+			for (INT32 k = -count; k < count; k = k + 40)
 			{
 				auto entity = currenScene->CreateNewEntity();
-				entity->GetTransform()->SetScale(8.0f, 8.0f, 8.0f);
+				entity->GetTransform()->SetScale(3.0f, 3.0f, 3.0f);
 				entity->GetTransform()->SetPosition(i, j, k);
 				auto meshRenderer = entity->AddComponent<MeshRenderer>();
 				meshRenderer->SetMesh(planetAsset->GetMesh(0));
