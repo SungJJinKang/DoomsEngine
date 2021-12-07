@@ -25,6 +25,8 @@ void dooms::DObject::InitProperties(const DObjectContructorParams& params)
 {
 	SetDObjectFlag(params.DObjectFlag);
 	mDObjectProperties.mDObjectName = params.mDObjectName;
+	// TODO : Add code setting nullptr to raw pointer member variable ( gc doesn't run every tick. so before gc run, Invalid raw pointer can be referenced. it makes exception.
+	//	  Stack allocated object's raw pointer member variable can't be reset to nullptr, but most of DObjects is not that case.
 }
 
 
@@ -132,6 +134,7 @@ dooms::DObject::DObject(DObject&& dObject) noexcept
 	{
 		AddToRootObjectList();
 	}
+	Construct_Internal();
 }
 
 
