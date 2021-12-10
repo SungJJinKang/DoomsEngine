@@ -14,6 +14,7 @@ Entity::Entity(size_t entityID, Entity* parent) :
 	mChilds{}, 
 	mTransform{}
 {
+	AddToRootObjectList();
 	InitializeComponent(&mTransform);
 }
 
