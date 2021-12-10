@@ -159,7 +159,7 @@ void dooms::GameLogicStartPoint::StartGameLogic()
 	
 	INT32 entityCount = 0;
 	
-	INT32 count = 200;
+	INT32 count = 300;
 	for (INT32 i = -count; i < count; i = i + 40)
 	{
 		for (INT32 j = -count; j < count; j = j + 40)
