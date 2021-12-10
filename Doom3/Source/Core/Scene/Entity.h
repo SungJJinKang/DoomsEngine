@@ -158,36 +158,7 @@ namespace dooms
 			return isRemoveSuccess;
 		}
 
-		bool _RemoveComponent(Component* const component)
-		{
-			D_ASSERT(IsValid(component));
-			D_ASSERT(component->IsChildOf<Transform>() == false);
-			D_ASSERT(component->mOwnerEntity == this);
-
-			bool isSuccess = false;
-
-			if(component->IsChildOf<Transform>() == false)
-			{
-				size_t index = 0;
-
-				for (size_t i = 0; i < mComponents.size(); i++)
-				{
-					if (mComponents[i] == component)
-					{
-						index = i;
-						isSuccess = true;
-						break;
-					}
-				}
-
-				if (isSuccess == true)
-				{
-					isSuccess = _RemoveComponent(component, index);
-				}
-			}
 		
-			return isSuccess;
-		}
 
 		/// <summary>
 		/// only called through Destructor
@@ -338,6 +309,37 @@ namespace dooms
 			}
 			
 			return components;
+		}
+
+		bool RemoveComponent(Component* const component)
+		{
+			D_ASSERT(IsValid(component));
+			D_ASSERT(component->IsChildOf<Transform>() == false);
+			D_ASSERT(component->mOwnerEntity == this);
+
+			bool isSuccess = false;
+
+			if (component->IsChildOf<Transform>() == false)
+			{
+				size_t index = 0;
+
+				for (size_t i = 0; i < mComponents.size(); i++)
+				{
+					if (mComponents[i] == component)
+					{
+						index = i;
+						isSuccess = true;
+						break;
+					}
+				}
+
+				if (isSuccess == true)
+				{
+					isSuccess = _RemoveComponent(component, index);
+				}
+			}
+
+			return isSuccess;
 		}
 
 		template<typename T, std::enable_if_t<std::is_base_of_v<Component, T>, bool> = true>

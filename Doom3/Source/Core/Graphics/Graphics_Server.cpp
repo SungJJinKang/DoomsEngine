@@ -254,10 +254,9 @@ void dooms::graphics::Graphics_Server::UpdateOverDrawVisualization(dooms::Camera
 
 void dooms::graphics::Graphics_Server::RenderObject(dooms::Camera* const targetCamera, const size_t cameraIndex)
 {
+	D_ASSERT(IsValid(targetCamera) == true);
+
 	targetCamera->UpdateUniformBufferObject();
-
-
-
 	std::future<void> IsFinishedSortingReferernceRenderers;
 
 	if (targetCamera->GetIsCullJobEnabled() == true)
@@ -281,13 +280,16 @@ void dooms::graphics::Graphics_Server::RenderObject(dooms::Camera* const targetC
 		const std::vector<Renderer*>& renderersInLayer = RendererComponentStaticIterator::GetSingleton()->GetWorkingRendererInLayer(cameraIndex, layerIndex);
 		for (Renderer* renderer : renderersInLayer)
 		{
-			if (
-				targetCamera_IS_CULLED_flag_on == false ||
-				renderer->GetIsCulled(targetCamera->CameraIndexInCullingSystem) == false
-				)
+			if(IsValid(renderer) == true)
 			{
-				//renderer->ColliderUpdater<dooms::physics::AABB3D>::GetWorldCollider()->DrawPhysicsDebugColor(eColor::Blue);
-				renderer->Draw();
+				if (
+					targetCamera_IS_CULLED_flag_on == false ||
+					renderer->GetIsCulled(targetCamera->CameraIndexInCullingSystem) == false
+					)
+				{
+					//renderer->ColliderUpdater<dooms::physics::AABB3D>::GetWorldCollider()->DrawPhysicsDebugColor(eColor::Blue);
+					renderer->Draw();
+				}
 			}
 		}
 	}

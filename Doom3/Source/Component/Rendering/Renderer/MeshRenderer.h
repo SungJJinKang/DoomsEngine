@@ -14,6 +14,8 @@ namespace dooms
 		
 
 	private:
+
+		D_PROPERTY()
 		const graphics::Mesh* mTargetMesh;
 
 
@@ -51,12 +53,12 @@ namespace dooms
 		{
 			BindMaterial();
 
-			if (mTargetMaterial != nullptr)
+			if (IsValid(mTargetMaterial))
 			{
 				graphics::Material::SetMatrix4x4(graphics::eUniformLocation::ModelMatrix, GetTransform()->GetModelMatrix());
 				
 			}
-			if (mTargetMesh != nullptr)
+			if (IsValid(mTargetMesh))
 			{
 				mTargetMesh->Draw();
 			}

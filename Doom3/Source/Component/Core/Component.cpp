@@ -86,7 +86,8 @@ void dooms::Component::OnEndOfFrame_Component_Internal()
 
 void dooms::Component::OnDestroy_Internal()
 {
-
+	D_ASSERT(IsValid(mOwnerEntity) == true);
+	mOwnerEntity->RemoveComponent(this);
 }
 
 void Component::OnDestroyLate()
@@ -117,5 +118,5 @@ void Component::SetComponentEnabled(const bool isEnabled)
 void Component::DestroyThisComponent()
 {
 	D_ASSERT(IsValid(mOwnerEntity) == true);
-	mOwnerEntity->_RemoveComponent(this);
+	mOwnerEntity->RemoveComponent(this);
 }

@@ -69,7 +69,8 @@ void dooms::GameCore::Init()
 
 
 
-	gc::GarbageCollectorManager::Collect();
+	gc::GarbageCollectorManager::Collect(gc::garbageCollectorSolver::eGCMethod::SingleThreadMark);
+	dooms::gc::GarbageCollectorManager::ResetElapsedTime();
 }
 
 void dooms::GameCore::InitServers()

@@ -126,7 +126,7 @@ void dooms::graphics::Material::UseProgram() const
 		{
 			for (UINT32 i = 0; i < mTargetTextures.size(); i++)
 			{
-				if (mTargetTextures[i] != nullptr)
+				if (IsValid(mTargetTextures[i]) == true)
 				{
 					mTargetTextures[i]->BindTextureWithUnit(i);
 				}
