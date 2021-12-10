@@ -232,12 +232,14 @@ void dooms::gc::garbageCollectorSolver::StartMarkStage(const eGCMethod gcMethod,
 		const size_t rootDObjectCount = rootDObjectList.size();
 
 		std::atomic<size_t> workingOnRootObjectCount = 0;
+		UINT8 padding[8];
+		std::atomic<size_t> completedOnRootObjectCount = 0;
 
 		const int gcThreadCount = dooms::ConfigData::GetSingleton()->GetConfigData().GetValue<int>("SYSTEM","GC_THREAD_COUNT");
 		
 		for(size_t i = 0 ; i < gcThreadCount ; i++)
 		{
-			std::function multiThreadJob = [&workingOnRootObjectCount, &rootDObjectList, keepFlags, rootDObjectCount, threadIndex = i]()
+			std::function multiThreadJob = [&workingOnRootObjectCount, &completedOnRootObjectCount, &rootDObjectList, keepFlags, rootDObjectCount, threadIndex = i]()
 			{
 				D_DEBUG_LOG(eLogType::D_LOG_TYPE13, "Start Mark a object ( Thread Index : %d )", threadIndex);
 				while (true)
@@ -250,11 +252,17 @@ void dooms::gc::garbageCollectorSolver::StartMarkStage(const eGCMethod gcMethod,
 					}
 
 					Mark(keepFlags, rootDObjectList[rootObjectIndex]);
-					
+
+					completedOnRootObjectCount++;
 				}
 			};
 
 			dooms::resource::JobSystem::GetSingleton()->PushBackJobToPriorityQueueWithNoSTDFuture(multiThreadJob);
+		}
+
+		while (completedOnRootObjectCount < rootDObjectCount)
+		{
+			std::this_thread::yield();
 		}
 		
 	}
@@ -283,7 +291,7 @@ void dooms::gc::garbageCollectorSolver::StartSweepStage(const eGCMethod gcMethod
 			dObject->SetIsPendingKill();
 
 			deletedDObjectList.push_back(dObject);
-			D_DEBUG_LOG(eLogType::D_LOG_TYPE13, "GC DObject IsPendingKill Enabled and Sweeped ready : %s ( TypeName : %s )", dObject->GetDObjectName().c_str(), dObject->GetTypeFullName());
+			//D_DEBUG_LOG(eLogType::D_LOG_TYPE13, "GC DObject IsPendingKill Enabled and Sweeped ready : %s ( TypeName : %s )", dObject->GetDObjectName().c_str(), dObject->GetTypeFullName());
 		}
 		beginIter++;
 	}
