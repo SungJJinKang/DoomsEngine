@@ -2,6 +2,8 @@
 
 #include <Doom_Core.h>
 
+#include "Test/GCTestDObject.h"
+
 #include "TestComponent.reflection.h"
 namespace dooms
 {
@@ -12,6 +14,9 @@ namespace dooms
 		
 
 	private:
+
+		D_PROPERTY()
+		dooms::GCTestDObject* mGCTestDObject = nullptr;
 
 	protected:
 		void InitComponent() override;

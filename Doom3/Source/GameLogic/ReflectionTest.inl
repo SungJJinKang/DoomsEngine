@@ -170,6 +170,7 @@ void dooms::GameLogicStartPoint::StartGameLogic()
 				entity->GetTransform()->SetScale(3.0f, 3.0f, 3.0f);
 				entity->GetTransform()->SetPosition(i, j, k);
 				auto meshRenderer = entity->AddComponent<MeshRenderer>();
+				entity->AddComponent<TestComponent>();
 				meshRenderer->SetMesh(planetAsset->GetMesh(0));
 				meshRenderer->SetMaterial(material);
 				entityCount++;

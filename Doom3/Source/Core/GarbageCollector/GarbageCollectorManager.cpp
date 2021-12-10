@@ -128,10 +128,16 @@ void dooms::gc::GarbageCollectorManager::Sweep(const garbageCollectorSolver::eGC
 
 void dooms::gc::GarbageCollectorManager::Collect(const garbageCollectorSolver::eGCMethod gcMethod)
 {
+	D_START_PROFILING(GC_Collect, CPU);
+
+
 	D_DEBUG_LOG(eLogType::D_LOG_TYPE12, "Start GC");
 	ClearFlags(gcMethod);
 	Mark(gcMethod);
 	Sweep(gcMethod);
+
+
+	D_END_PROFILING(GC_Collect);
 }
 
 

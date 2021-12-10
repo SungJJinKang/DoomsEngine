@@ -77,6 +77,10 @@ namespace dooms
 
 				if (ImGui::Begin(uiLabel))
 				{
+					ImGui::Text("Count : %d", dObjects.size());
+					ImGui::Spacing();
+					ImGui::Spacing();
+
 					ImGuiStyle& style = ImGui::GetStyle();
 					ImGui::PushItemWidth(120);
 
