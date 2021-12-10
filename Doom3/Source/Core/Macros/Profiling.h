@@ -29,11 +29,11 @@ static UINT32 CONCAT(PROFILING_TAG, _EXECUTE_COUNT) = 0										\
 
 #define D_END_PROFILING_INTERNAL(PROFILING_TAG)																																									\
 const auto CONCAT(PROFILING_TAG, _END) = std::chrono::high_resolution_clock::now();																																		\
-static std::chrono::duration<FLOAT64, std::milli> CONCAT(PROFILING_TAG, _PROFILE_ELAPSED_TIME) = std::chrono::duration<FLOAT64, std::milli>::zero();																		\
+thread_local static std::chrono::duration<FLOAT64, std::milli> CONCAT(PROFILING_TAG, _PROFILE_ELAPSED_TIME) = std::chrono::duration<FLOAT64, std::milli>::zero();																		\
 CONCAT(PROFILING_TAG, _PROFILE_ELAPSED_TIME) += std::chrono::duration_cast<std::chrono::duration<FLOAT64, std::milli>>(CONCAT(PROFILING_TAG, _END) - CONCAT(PROFILING_TAG, _START));										\
 																																																						\
-static auto CONCAT(PROFILING_TAG, _EX_TICK_TIME) = std::chrono::high_resolution_clock::now();																															\
-static std::chrono::duration<FLOAT64, std::milli> CONCAT(PROFILING_TAG, _ELAPSED_TIME) = std::chrono::duration<FLOAT64, std::milli>::zero();																				\
+thread_local static auto CONCAT(PROFILING_TAG, _EX_TICK_TIME) = std::chrono::high_resolution_clock::now();																															\
+thread_local static std::chrono::duration<FLOAT64, std::milli> CONCAT(PROFILING_TAG, _ELAPSED_TIME) = std::chrono::duration<FLOAT64, std::milli>::zero();																				\
 CONCAT(PROFILING_TAG, _ELAPSED_TIME) += std::chrono::duration_cast<std::chrono::duration<FLOAT64, std::milli>>(CONCAT(PROFILING_TAG, _END) - CONCAT(PROFILING_TAG, _EX_TICK_TIME));										\
 CONCAT(PROFILING_TAG, _EX_TICK_TIME) = CONCAT(PROFILING_TAG, _END);																																						\
 CONCAT(PROFILING_TAG, _EXECUTE_COUNT)++;																																												\

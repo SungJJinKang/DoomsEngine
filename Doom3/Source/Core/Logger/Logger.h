@@ -6,10 +6,7 @@
 
 #ifdef DEBUG_MODE
 
-#include <initializer_list>
 #include <string>
-
-#include "Reflection/Reflection.h"
 
 #include <EngineGUI/GUIModules/LogGUI.h>
 #include <EngineGUI/engineGUIServer.h>

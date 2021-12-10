@@ -3,11 +3,9 @@
 #include <Core.h>
 
 #include "imgui.h"
-
 #include "Logger/eLogType.h"
 #include "Logger/Logger.h"
 #include "Logger/LoggerSetting.h"
-
 #include <magic_enum.hpp>
 
 namespace dooms
@@ -142,11 +140,15 @@ namespace dooms
 
 int dooms::ui::log::IncrementLogIndex()
 {
+	std::unique_lock<std::mutex> lock{ LogMutex };
+
 	LogIndex++;
 	if (LogIndex >= GUI_LOG_BUFFER_COUNT)
 	{
 		LogIndex = 0;
 	}
+
+	lock.unlock();
 
 	return LogIndex;
 }

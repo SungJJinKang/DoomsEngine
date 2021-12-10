@@ -1,8 +1,9 @@
 #include "ProfilerGUI.h"
 
 #include <utility>
-#include "imgui.h"
+#include <mutex>
 
+#include "imgui.h"
 #include <Time/MainTimer.h>
 
 #define PROFILING_TEXT_RED_COLOR_DURATION_TIME 0.2f
@@ -12,6 +13,7 @@ namespace dooms::ui::profilerGUI
 	//key : profiling tag ( string )
 	//value : profiling time, text red color duration
 	extern std::unordered_map<std::string, std::pair<float, float>> mProfilingDataContainer{};
+	extern std::mutex mProfilingMutex{};
 }
 
 
@@ -44,13 +46,18 @@ void dooms::ui::profilerGUI::Render()
 
 void dooms::ui::profilerGUI::AddProfilingData(const char* const profilingTagName, const float time)
 {
-	auto iter = mProfilingDataContainer.find(profilingTagName);
+	std::unique_lock<std::mutex> lock{ mProfilingMutex };
+
+	std::string tag = profilingTagName;
+	auto iter = mProfilingDataContainer.find(tag);
 	if(iter == mProfilingDataContainer.end())
 	{
-		mProfilingDataContainer.emplace(profilingTagName, std::make_pair(time, PROFILING_TEXT_RED_COLOR_DURATION_TIME));
+		mProfilingDataContainer.emplace(tag, std::make_pair(time, PROFILING_TEXT_RED_COLOR_DURATION_TIME));
 	}
 	else
 	{
-		mProfilingDataContainer[profilingTagName] = std::make_pair(time, PROFILING_TEXT_RED_COLOR_DURATION_TIME);
+		iter->second = std::make_pair(time, PROFILING_TEXT_RED_COLOR_DURATION_TIME);
 	}
+
+	lock.unlock();
 }
