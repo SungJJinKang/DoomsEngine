@@ -11,7 +11,7 @@
 #include <ResourceManagement/JobSystem_cpp/JobSystem.h>
 #include <Macros/Log.h>
 #include <Game/ConfigData.h>
-
+#include <Math/LightMath_Cpp/Utility.h>
 
 namespace dooms::gc::garbageCollectorSolver
 {
@@ -235,7 +235,7 @@ void dooms::gc::garbageCollectorSolver::StartMarkStage(const eGCMethod gcMethod,
 		UINT8 padding[8];
 		std::atomic<size_t> completedOnRootObjectCount = 0;
 
-		const int gcThreadCount = dooms::ConfigData::GetSingleton()->GetConfigData().GetValue<int>("SYSTEM","GC_THREAD_COUNT");
+		const int gcThreadCount = math::Min(dooms::resource::JobSystem::GetSingleton()->GetSubThreadCount(), (size_t)dooms::ConfigData::GetSingleton()->GetConfigData().GetValue<int>("SYSTEM","GC_THREAD_COUNT"));
 		
 		for(size_t i = 0 ; i < gcThreadCount ; i++)
 		{
