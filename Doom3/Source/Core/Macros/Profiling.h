@@ -6,7 +6,7 @@
 #include <iostream>
 #include <chrono>
 
-#include "Log.h"
+#include <Profiler/ProfilingManager.h>
 
 #ifndef ALWAYS_PROFILING
 //#define ALWAYS_PROFILING
@@ -39,7 +39,7 @@ CONCAT(PROFILING_TAG, _EX_TICK_TIME) = CONCAT(PROFILING_TAG, _END);													
 CONCAT(PROFILING_TAG, _EXECUTE_COUNT)++;																																												\
 if (CONCAT(PROFILING_TAG, _ELAPSED_TIME).count() >= 1000.0)																																								\
 {																																																						\
-D_DEBUG_LOG(eLogType::D_PROFILING, "Profiler ( %s ) : %f (ms/s)", MAKE_STRING(PROFILING_TAG), CONCAT(PROFILING_TAG, _PROFILE_ELAPSED_TIME).count() / static_cast<FLOAT64>(CONCAT(PROFILING_TAG, _EXECUTE_COUNT)) );		\
+dooms::profiling::profilingManager::AddProfilingData(MAKE_STRING(PROFILING_TAG), CONCAT(PROFILING_TAG, _PROFILE_ELAPSED_TIME).count() / static_cast<FLOAT64>(CONCAT(PROFILING_TAG, _EXECUTE_COUNT)));					\
 CONCAT(PROFILING_TAG, _ELAPSED_TIME) = std::chrono::duration<FLOAT64, std::milli>::zero();																																\
 CONCAT(PROFILING_TAG, _PROFILE_ELAPSED_TIME) = std::chrono::duration<FLOAT64, std::milli>::zero();																														\
 CONCAT(PROFILING_TAG, _EXECUTE_COUNT) = 0;																																												\
