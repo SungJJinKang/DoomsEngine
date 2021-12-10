@@ -6,15 +6,11 @@
 #include "GarbageCollectorSolver.h"
 #include <vector_erase_move_lastelement/vector_swap_popback.h>
 
+dooms::gc::garbageCollectorSolver::eGCMethod dooms::gc::GarbageCollectorManager::_GCMethod{ dooms::gc::garbageCollectorSolver::eGCMethod ::MultiThreadMark};
 float dooms::gc::GarbageCollectorManager::mElapsedTime{};
 float dooms::gc::GarbageCollectorManager::mCollectTimeStep{};
 std::vector<dooms::DObject*> dooms::gc::GarbageCollectorManager::mRootsDObjectsList{};
 
-
-void dooms::gc::GarbageCollectorManager::PoolRootsDObjectsList()
-{
-	mRootsDObjectsList.reserve(300);
-}
 
 void dooms::gc::GarbageCollectorManager::InitializeCollectTimeStep()
 {
@@ -39,10 +35,19 @@ void dooms::gc::GarbageCollectorManager::SetUnreachableFlagsToAllDObject()
 
 void dooms::gc::GarbageCollectorManager::Init()
 {
-	PoolRootsDObjectsList();
 	InitializeCollectTimeStep();
 
-	mNextGCStage = dooms::gc::garbageCollectorSolver::GCStage::ClearFlagsStage;
+	if (dooms::ConfigData::GetSingleton()->GetConfigData().GetValue<bool>("SYSTEM", "GC_MULTITHREAD_ENABLED"))
+	{
+		_GCMethod = garbageCollectorSolver::eGCMethod::MultiThreadMark;
+	}
+	else
+	{
+		_GCMethod = garbageCollectorSolver::eGCMethod::SingleThreadMark;
+	}
+
+
+	mNextGCStage = dooms::gc::garbageCollectorSolver::eGCStage::ClearFlagsStage;
 	
 }
 
@@ -52,26 +57,26 @@ void dooms::gc::GarbageCollectorManager::TickGC()
 
 	if(mElapsedTime > mCollectTimeStep)
 	{
-		Collect();
+		Collect(_GCMethod);
 
-		/*if (mNextGCStage == dooms::gc::garbageCollectorSolver::GCStage::ClearFlagsStage)
+		/*if (mNextGCStage == dooms::gc::garbageCollectorSolver::eGCStage::ClearFlagsStage)
 		{
 			
 
-			mNextGCStage = garbageCollectorSolver::GCStage::MarkSweepStage;
+			mNextGCStage = garbageCollectorSolver::eGCStage::MarkSweepStage;
 		}
-		else if (mNextGCStage == dooms::gc::garbageCollectorSolver::GCStage::MarkSweepStage)
+		else if (mNextGCStage == dooms::gc::garbageCollectorSolver::eGCStage::MarkSweepStage)
 		{
 			Collect();
 
-			mNextGCStage = garbageCollectorSolver::GCStage::ClearFlagsStage;
-			//mNextGCStage = garbageCollectorSolver::GCStage::SweepStage;
+			mNextGCStage = garbageCollectorSolver::eGCStage::ClearFlagsStage;
+			//mNextGCStage = garbageCollectorSolver::eGCStage::SweepStage;
 		}
-		/*else if (mNextGCStage == dooms::gc::garbageCollectorSolver::GCStage::SweepStage)
+		/*else if (mNextGCStage == dooms::gc::garbageCollectorSolver::eGCStage::SweepStage)
 		{
 			
 
-			mNextGCStage = garbageCollectorSolver::GCStage::ClearFlagsStage;
+			mNextGCStage = garbageCollectorSolver::eGCStage::ClearFlagsStage;
 		}#1#
 		else
 		{
@@ -83,45 +88,50 @@ void dooms::gc::GarbageCollectorManager::TickGC()
 	
 }
 
-void dooms::gc::GarbageCollectorManager::ClearFlags()
+void dooms::gc::GarbageCollectorManager::ResetElapsedTime()
+{
+	mElapsedTime = 0.0f;
+}
+
+void dooms::gc::GarbageCollectorManager::ClearFlags(const garbageCollectorSolver::eGCMethod gcMethod)
 {
 	D_START_PROFILING(GC_ClearFlagsStage, CPU);
 
 	D_DEBUG_LOG(eLogType::D_LOG_TYPE12, "Execute GC_ClearFlagsStage");
 	std::unique_lock<std::recursive_mutex> lock{ dooms::DObjectManager::DObjectListMutex };
-	dooms::gc::garbageCollectorSolver::StartSetUnreachableFlagStage(dooms::DObjectManager::mDObjectsContainer.mDObjectFlagList);
+
+	dooms::gc::garbageCollectorSolver::StartSetUnreachableFlagStage(gcMethod, dooms::DObjectManager::mDObjectsContainer.mDObjectFlagList);
 	lock.unlock();
 
 	D_END_PROFILING(GC_ClearFlagsStage);
 }
 
-void dooms::gc::GarbageCollectorManager::Mark()
+void dooms::gc::GarbageCollectorManager::Mark(const garbageCollectorSolver::eGCMethod gcMethod)
 {
-	ClearFlags();
-
 	D_START_PROFILING(GC_MarkStage, CPU);
 
 	D_DEBUG_LOG(eLogType::D_LOG_TYPE12, "Execute GC_MarkStage");
-	dooms::gc::garbageCollectorSolver::StartMarkStage(GC_KEEP_FLAGS, mRootsDObjectsList);
+	dooms::gc::garbageCollectorSolver::StartMarkStage(gcMethod, GC_KEEP_FLAGS, mRootsDObjectsList);
 
 	D_END_PROFILING(GC_MarkStage);
 }
 
-void dooms::gc::GarbageCollectorManager::Sweep()
+void dooms::gc::GarbageCollectorManager::Sweep(const garbageCollectorSolver::eGCMethod gcMethod)
 {
 	D_START_PROFILING(GC_SweepStage, CPU);
 
 	D_DEBUG_LOG(eLogType::D_LOG_TYPE12, "Execute GC_SweepStage");
-	dooms::gc::garbageCollectorSolver::StartSweepStage(GC_KEEP_FLAGS, dooms::DObjectManager::mDObjectsContainer.mDObjectList);
+	dooms::gc::garbageCollectorSolver::StartSweepStage(gcMethod, GC_KEEP_FLAGS, dooms::DObjectManager::mDObjectsContainer.mDObjectList);
 
 	D_END_PROFILING(GC_SweepStage);
 }
 
-void dooms::gc::GarbageCollectorManager::Collect()
+void dooms::gc::GarbageCollectorManager::Collect(const garbageCollectorSolver::eGCMethod gcMethod)
 {
 	D_DEBUG_LOG(eLogType::D_LOG_TYPE12, "Start GC");
-	Mark();
-	Sweep();
+	ClearFlags(gcMethod);
+	Mark(gcMethod);
+	Sweep(gcMethod);
 }
 
 

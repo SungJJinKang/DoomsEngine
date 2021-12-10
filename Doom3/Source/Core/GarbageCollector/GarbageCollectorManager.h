@@ -19,28 +19,30 @@ namespace dooms
 		{
 
 		private:
-			
+
+			static garbageCollectorSolver::eGCMethod _GCMethod;
+
 			static float mElapsedTime;
 
 			// Max Level is long term alive object
 			static float mCollectTimeStep;
 			static std::vector<DObject*> mRootsDObjectsList;
-
-			static void PoolRootsDObjectsList();
+			
 			static void InitializeCollectTimeStep();
 
-			inline static dooms::gc::garbageCollectorSolver::GCStage mNextGCStage{ dooms::gc::garbageCollectorSolver::GCStage::ClearFlagsStage };
+			inline static dooms::gc::garbageCollectorSolver::eGCStage mNextGCStage{ dooms::gc::garbageCollectorSolver::eGCStage::ClearFlagsStage };
 			
 
 		public:
 
 			static void Init();
 			static void TickGC();
+			static void ResetElapsedTime();
 
-			static void ClearFlags();
-			static void Mark();
-			static void Sweep();
-			static void Collect();
+			static void ClearFlags(const garbageCollectorSolver::eGCMethod gcMethod = garbageCollectorSolver::eGCMethod::MultiThreadMark);
+			static void Mark(const garbageCollectorSolver::eGCMethod gcMethod = garbageCollectorSolver::eGCMethod::MultiThreadMark);
+			static void Sweep(const garbageCollectorSolver::eGCMethod gcMethod = garbageCollectorSolver::eGCMethod::MultiThreadMark);
+			static void Collect(const garbageCollectorSolver::eGCMethod gcMethod = garbageCollectorSolver::eGCMethod::MultiThreadMark);
 			
 			
 			/// <summary>

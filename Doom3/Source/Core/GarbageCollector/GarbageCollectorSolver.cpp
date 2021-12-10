@@ -1,11 +1,17 @@
 #include "GarbageCollectorSolver.h"
 
+#include <atomic>
+
 #include <DObject/DObject.h>
 #include <DObject/DObjectManager.h>
 #include <ResourceManagement/JobSystem_cpp/JobSystem.h>
 #include <Reflection/ReflectionType/DField.h>
 #include <Reflection/ReflectionType/DClass.h>
 #include <Reflection/TypeSpecialized/Helper/iteratorHelper.h>
+#include <ResourceManagement/JobSystem_cpp/JobSystem.h>
+#include <Macros/Log.h>
+#include <Game/ConfigData.h>
+
 
 namespace dooms::gc::garbageCollectorSolver
 {
@@ -15,7 +21,7 @@ namespace dooms::gc::garbageCollectorSolver
 	}
 }
 
-void dooms::gc::garbageCollectorSolver::StartSetUnreachableFlagStage(std::vector<UINT32>& flags)
+void dooms::gc::garbageCollectorSolver::StartSetUnreachableFlagStage(const eGCMethod gcMethod, std::vector<UINT32>& flags)
 {
 	UINT32* start = flags.data();
 	const UINT32* const end = flags.data() + flags.size();
@@ -117,7 +123,7 @@ namespace dooms::gc::garbageCollectorSolver
 		const dooms::reflection::DType* const dFieldType
 	)
 	{
-		D_ASSERT(IsLowLevelValid(dObejct));
+		D_ASSERT(IsLowLevelValid(dObejct, false));
 
 		if (dObejct->GetDObjectFlag(eDObjectFlag::IsNotCheckedByGC) == true)
 		{
@@ -202,7 +208,7 @@ namespace dooms::gc::garbageCollectorSolver
 
 }
 
-void dooms::gc::garbageCollectorSolver::StartMarkStage(const UINT32 keepFlags, std::vector<dooms::DObject*>& rootDObjectList)
+void dooms::gc::garbageCollectorSolver::StartMarkStage(const eGCMethod gcMethod, const UINT32 keepFlags, std::vector<dooms::DObject*>& rootDObjectList)
 {
 	// GC if dObject is on pending kill
 
@@ -210,15 +216,52 @@ void dooms::gc::garbageCollectorSolver::StartMarkStage(const UINT32 keepFlags, s
 
 	// use multithread but doesn't delete in subthread
 
-	// TODO : Do mark stage parallel
-	for(dooms::DObject* rootDObejct : rootDObjectList)
+	if(gcMethod == eGCMethod::SingleThreadMark)
 	{
-		Mark(keepFlags, rootDObejct);
+		// TODO : Do mark stage parallel
+		for (dooms::DObject* rootDObejct : rootDObjectList)
+		{
+			if (IsLowLevelValid(rootDObejct, false) == true)
+			{
+				Mark(keepFlags, rootDObejct);
+			}
+		}
+	}
+	else if (gcMethod == eGCMethod::MultiThreadMark)
+	{
+		const size_t rootDObjectCount = rootDObjectList.size();
+
+		std::atomic<size_t> workingOnRootObjectCount = 0;
+
+		const int gcThreadCount = dooms::ConfigData::GetSingleton()->GetConfigData().GetValue<int>("SYSTEM","GC_THREAD_COUNT");
+		
+		for(size_t i = 0 ; i < gcThreadCount ; i++)
+		{
+			std::function multiThreadJob = [&workingOnRootObjectCount, &rootDObjectList, keepFlags, rootDObjectCount, threadIndex = i]()
+			{
+				D_DEBUG_LOG(eLogType::D_LOG_TYPE13, "Start Mark a object ( Thread Index : %d )", threadIndex);
+				while (true)
+				{
+					const size_t rootObjectIndex = workingOnRootObjectCount++;
+					if (rootObjectIndex >= rootDObjectCount)
+					{
+						D_DEBUG_LOG(eLogType::D_LOG_TYPE13, "End Mark a object ( Thread Index : %d )", threadIndex);
+						return;
+					}
+
+					Mark(keepFlags, rootDObjectList[rootObjectIndex]);
+					
+				}
+			};
+
+			dooms::resource::JobSystem::GetSingleton()->PushBackJobToPriorityQueueWithNoSTDFuture(multiThreadJob);
+		}
+		
 	}
 }
 
 
-void dooms::gc::garbageCollectorSolver::StartSweepStage(const UINT32 keepFlags, std::unordered_set<dooms::DObject*>& dObjectList)
+void dooms::gc::garbageCollectorSolver::StartSweepStage(const eGCMethod gcMethod, const UINT32 keepFlags, std::unordered_set<dooms::DObject*>& dObjectList)
 {
 	std::vector<dooms::DObject*> deletedDObjectList;
 	deletedDObjectList.reserve(DELETE_DOBJECT_LIST_RESERVATION_COUNT);

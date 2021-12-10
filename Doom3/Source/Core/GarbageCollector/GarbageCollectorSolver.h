@@ -15,18 +15,24 @@ namespace dooms
 	{
 		namespace garbageCollectorSolver
 		{
-			enum GCStage : UINT32
+			enum class eGCMethod : UINT32
+			{
+				SingleThreadMark,
+				MultiThreadMark,
+			};
+
+			enum eGCStage : UINT32
 			{
 				ClearFlagsStage = 0, // StartSetUnreachableFlagStage to all DObjects
 				MarkSweepStage,
 				SweepStage
 			};
 
-			void StartSetUnreachableFlagStage(std::vector<UINT32>& flags);
+			void StartSetUnreachableFlagStage(const eGCMethod gcMethod, std::vector<UINT32>& flags);
 
-			void StartMarkStage(const UINT32 keepFlags, std::vector<dooms::DObject*>& rootDObjectList);
+			void StartMarkStage(const eGCMethod gcMethod, const UINT32 keepFlags, std::vector<dooms::DObject*>& rootDObjectList);
 			
-			void StartSweepStage(const UINT32 keepFlags, std::unordered_set<dooms::DObject*>& dObjectList);
+			void StartSweepStage(const eGCMethod gcMethod, const UINT32 keepFlags, std::unordered_set<dooms::DObject*>& dObjectList);
 
 			// this may make bugs ( multithread delete can make a lot of bugs )
 			//void StartParallelSweepStage(std::vector<dooms::DObject*>& dObjectList, const std::vector<UINT32>& flagList);
