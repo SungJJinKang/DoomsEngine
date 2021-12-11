@@ -32,7 +32,7 @@
  
 ## To Develop
  
-  * Batching System ( Static Batch, Dynamic Batch )        
+  * Hierarchical Shadow Map
   * Hot Reload ( similar to Unreal Engine's )
 
 ## Coding Standard
