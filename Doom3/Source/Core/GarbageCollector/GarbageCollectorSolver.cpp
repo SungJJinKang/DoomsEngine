@@ -208,6 +208,16 @@ namespace dooms::gc::garbageCollectorSolver
 
 }
 
+namespace dooms::gc::garbageCollectorSolver
+{
+	struct GCMultithreadCounter
+	{
+	    std::atomic<size_t> workingOnRootObjectCount;
+	    UINT8 padding[64]; // padding for preventing false sharing
+	    std::atomic<size_t> completedOnRootObjectCount;
+	};
+}
+
 void dooms::gc::garbageCollectorSolver::StartMarkStage(const eGCMethod gcMethod, const UINT32 keepFlags, std::vector<dooms::DObject*>& rootDObjectList)
 {
 	// GC if dObject is on pending kill
@@ -231,20 +241,20 @@ void dooms::gc::garbageCollectorSolver::StartMarkStage(const eGCMethod gcMethod,
 	{
 		const size_t rootDObjectCount = rootDObjectList.size();
 
-		std::atomic<size_t> workingOnRootObjectCount = 0;
-		UINT8 padding[8];
-		std::atomic<size_t> completedOnRootObjectCount = 0;
+		GCMultithreadCounter gcMultithreadCounter;
+		gcMultithreadCounter.workingOnRootObjectCount = 0;
+		gcMultithreadCounter.completedOnRootObjectCount = 0;
 
 		const int gcThreadCount = math::Min(dooms::resource::JobSystem::GetSingleton()->GetSubThreadCount(), (size_t)dooms::ConfigData::GetSingleton()->GetConfigData().GetValue<int>("SYSTEM","GC_THREAD_COUNT"));
 		
 		for(size_t i = 0 ; i < gcThreadCount ; i++)
 		{
-			std::function multiThreadJob = [&workingOnRootObjectCount, &completedOnRootObjectCount, &rootDObjectList, keepFlags, rootDObjectCount, threadIndex = i]()
+			std::function multiThreadJob = [&gcMultithreadCounter, &rootDObjectList, keepFlags, rootDObjectCount, threadIndex = i]()
 			{
 				D_DEBUG_LOG(eLogType::D_LOG_TYPE13, "Start Mark a object ( Thread Index : %d )", threadIndex);
 				while (true)
 				{
-					const size_t rootObjectIndex = workingOnRootObjectCount++;
+					const size_t rootObjectIndex = gcMultithreadCounter.workingOnRootObjectCount++;
 					if (rootObjectIndex >= rootDObjectCount)
 					{
 						D_DEBUG_LOG(eLogType::D_LOG_TYPE13, "End Mark a object ( Thread Index : %d )", threadIndex);
@@ -253,7 +263,7 @@ void dooms::gc::garbageCollectorSolver::StartMarkStage(const eGCMethod gcMethod,
 
 					Mark(keepFlags, rootDObjectList[rootObjectIndex]);
 
-					completedOnRootObjectCount++;
+					gcMultithreadCounter.completedOnRootObjectCount++;
 				}
 			};
 
