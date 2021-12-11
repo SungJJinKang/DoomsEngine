@@ -88,7 +88,7 @@ void dooms::graphics::PicktureInPickture::DrawPictureInPicture()
 			mPIPMaterial->UseProgram();
 			mDrawedTexture->ActiveTexture(0);
 			mDrawedTexture->BindTexture();
-			mPlaneMesh.Draw();
+			mPlaneMesh->Draw();
 
 		}
 		else

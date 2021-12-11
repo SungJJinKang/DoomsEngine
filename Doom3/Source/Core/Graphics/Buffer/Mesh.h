@@ -6,7 +6,7 @@
 #include "../ePrimitiveType.h"
 #include <Physics/Collider/AABB.h>
 #include <Physics/Collider/Sphere.h>
-
+#include "eVertexArrayFlag.h"
 #include "../GraphicsAPI.h"
 #include <Vector2.h>
 
@@ -29,16 +29,7 @@ namespace dooms
 
 		public:
 
-			enum D_ENUM eVertexArrayFlag : UINT32
-			{
-				None = 0x0,
-				VertexVector3 = 1,
-				VertexVector2 = 2,
-				TexCoord = 4,
-				mNormal = 8,
-				mTangent = 16,
-				mBitangent = 32,
-			};
+			
 
 			static inline const char VERTEX_ARRAY_TAG[]{ "VERTEX_ARRAY" };
 			static inline const char VERTEX_BUFFER_TAG[]{ "VERTEX_BUFFER" };
@@ -46,6 +37,8 @@ namespace dooms
 
 		private:
 
+			D_PROPERTY()
+			const ThreeDModelMesh* mTargetThreeDModelMesh;
 			
 
 			D_PROPERTY()

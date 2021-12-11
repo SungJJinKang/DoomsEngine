@@ -9,9 +9,9 @@ namespace dooms
 	{
 		namespace meshHelper
 		{
-			extern std::shared_ptr<Mesh> GetQuadMesh();
+			extern Mesh* GetQuadMesh();
 
-			extern Mesh GetQuadMesh(const math::Vector2& leftbottom, const math::Vector2& rightup);
+			extern Mesh* GetQuadMesh(const math::Vector2& leftbottom, const math::Vector2& rightup);
 		}
 
 	}

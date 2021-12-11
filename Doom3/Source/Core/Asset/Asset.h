@@ -16,13 +16,14 @@
 namespace dooms
 {
 	
-
-	class AudioAsset;
-	class FontAsset;
-	class TextAsset;
-	class TextureAsset;
-	class ThreeDModelAsset;
-
+	namespace asset
+	{
+		class AudioAsset;
+		class FontAsset;
+		class TextAsset;
+		class TextureAsset;
+		class ThreeDModelAsset;
+	}
 
 
 	D_NAMESPACE(dooms::asset)

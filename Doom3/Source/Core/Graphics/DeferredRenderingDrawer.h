@@ -23,8 +23,11 @@ namespace dooms
 			/// Gbuffer drawer material.
 			/// this will be used in Quad Mesh
 			/// </summary>
+			D_PROPERTY()
 			Material mGbufferDrawerMaterial;
-			std::shared_ptr<Mesh> mQuadMesh;
+
+			D_PROPERTY()
+			Mesh* mQuadMesh;
 
 			void SetShaderToGBufferMaterial();
 

@@ -564,6 +564,7 @@ xcopy /y /d /E /H /C /I "$(ProjectDir)Assets" "$(TargetDir)Assets"</Command>
     <ClCompile Include="Source\thirdparty\imgui\imgui_widgets.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Source\Core\Graphics\Buffer\eVertexArrayFlag.h" />
     <ClInclude Include="Source\Core\Graphics\Buffer\MeshHelper.h" />
     <ClInclude Include="Source\Core\Profiler\ProfilingManager.h" />
     <ClInclude Include="Source\Core\Reflection\ReflectionType\ePropertyQualifier.h" />

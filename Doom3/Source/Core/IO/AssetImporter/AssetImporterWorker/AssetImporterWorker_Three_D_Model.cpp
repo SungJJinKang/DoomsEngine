@@ -7,9 +7,8 @@
 #include <memory>
 
 #include <Asset/ThreeDModelAsset.h>
-
 #include "AssetImporterWorker_Texture.h"
-
+#include <Graphics/Buffer/eVertexArrayFlag.h>
 #include <IO/AssetExporter/AssetExporter_Three_D_Model.h>
 
 
@@ -137,14 +136,12 @@ void dooms::assetImporter::AssetImporterWorker_THREE_D_MODEL::SetThreeDModelNode
 )
 {
 	currentNode->mThreeDModelNodeParent = parentNode;
-	currentNode->mThreeDModelAsset = modelAsset;
 	currentNode->mName = currentAssimpNode->mName.C_Str();
-
-	currentNode->mNumOfModelMeshes = currentAssimpNode->mNumMeshes;
+	
 	if (currentAssimpNode->mNumMeshes > 0)
 	{
-		currentNode->mModelMeshIndexs.resize(currentNode->mNumOfModelMeshes);
-		for (UINT32 meshIndex = 0; meshIndex < currentNode->mNumOfModelMeshes; meshIndex++)
+		currentNode->mModelMeshIndexs.resize(currentAssimpNode->mNumMeshes);
+		for (UINT32 meshIndex = 0; meshIndex < currentAssimpNode->mNumMeshes ; meshIndex++)
 		{
 			currentNode->mModelMeshIndexs[meshIndex] = currentAssimpNode->mMeshes[meshIndex];
 		}
@@ -154,11 +151,11 @@ void dooms::assetImporter::AssetImporterWorker_THREE_D_MODEL::SetThreeDModelNode
 		currentNode->mModelMeshIndexs.resize(0);
 	}
 
-	currentNode->mNumOfThreeDModelNodeChildrens = currentAssimpNode->mNumChildren;
+
 	if (currentAssimpNode->mNumChildren > 0)
 	{
-		currentNode->mThreeDModelNodeChildrens.resize(currentNode->mNumOfThreeDModelNodeChildrens, nullptr);
-		for (UINT32 childrenIndex = 0; childrenIndex < currentNode->mNumOfThreeDModelNodeChildrens; childrenIndex++)
+		currentNode->mThreeDModelNodeChildrens.resize(currentAssimpNode->mNumChildren, nullptr);
+		for (UINT32 childrenIndex = 0; childrenIndex < currentAssimpNode->mNumChildren ; childrenIndex++)
 		{
 			SetThreeDModelNodesData(&(currentNode->mThreeDModelNodeChildrens[childrenIndex]), currentAssimpNode->mChildren[childrenIndex], currentNode, modelAsset, assimpScene);
 		}
@@ -184,12 +181,12 @@ void dooms::assetImporter::AssetImporterWorker_THREE_D_MODEL::Creat3DModelAsset
 	D_ASSERT(pScene != nullptr && pScene->mRootNode != nullptr);
 
 	//Copy Asset meshes
-	asset->mNumOfModelMeshAssets = pScene->mNumMeshes;
-	asset->mModelMeshAssets.resize(asset->mNumOfModelMeshAssets, nullptr);
+	asset->mModelMeshAssets.resize(pScene->mNumMeshes, nullptr);
 	for (UINT32 meshIndex = 0; meshIndex < pScene->mNumMeshes; meshIndex++)
 	{
 		auto mesh = pScene->mMeshes[meshIndex];
 
+		asset->mModelMeshAssets[meshIndex].mVertexArrayFlag = 0;
 
 		asset->mModelMeshAssets[meshIndex].mName = mesh->mName.C_Str();
 
@@ -213,18 +210,23 @@ void dooms::assetImporter::AssetImporterWorker_THREE_D_MODEL::Creat3DModelAsset
 		{
 		case aiPrimitiveType::aiPrimitiveType_LINE:
 			asset->mModelMeshAssets[meshIndex].mPrimitiveType = ePrimitiveType::LINES;
+			asset->mModelMeshAssets[meshIndex].mVertexArrayFlag |= dooms::graphics::eVertexArrayFlag::VertexVector2;
 			break;
 		case aiPrimitiveType::aiPrimitiveType_POINT:
 			asset->mModelMeshAssets[meshIndex].mPrimitiveType = ePrimitiveType::POINTS;
+			D_ASSERT(false);
 			break;
 		case aiPrimitiveType::aiPrimitiveType_POLYGON:
 			asset->mModelMeshAssets[meshIndex].mPrimitiveType = ePrimitiveType::TRIANGLES;
+			asset->mModelMeshAssets[meshIndex].mVertexArrayFlag |= dooms::graphics::eVertexArrayFlag::VertexVector3;
 			break;
 		case aiPrimitiveType::aiPrimitiveType_TRIANGLE:
 			asset->mModelMeshAssets[meshIndex].mPrimitiveType = ePrimitiveType::TRIANGLES;
+			asset->mModelMeshAssets[meshIndex].mVertexArrayFlag |= dooms::graphics::eVertexArrayFlag::VertexVector3;
 			break;
 		case aiPrimitiveType::_aiPrimitiveType_Force32Bit:
 			asset->mModelMeshAssets[meshIndex].mPrimitiveType = ePrimitiveType::TRIANGLES;
+			asset->mModelMeshAssets[meshIndex].mVertexArrayFlag |= dooms::graphics::eVertexArrayFlag::VertexVector3;
 			break;
 		default:
 			D_ASSERT(0);
@@ -232,8 +234,7 @@ void dooms::assetImporter::AssetImporterWorker_THREE_D_MODEL::Creat3DModelAsset
 
 
 		// store Vertices
-		asset->mModelMeshAssets[meshIndex].mNumOfVertexs = mesh->mNumVertices;
-		asset->mModelMeshAssets[meshIndex].mMeshVertexDatas.resize(asset->mModelMeshAssets[meshIndex].mNumOfVertexs, nullptr);
+		asset->mModelMeshAssets[meshIndex].mMeshVertexDatas.resize(mesh->mNumVertices, nullptr);
 
 		D_ASSERT(mesh->mNumUVComponents[0] == 2);
 		D_ASSERT(mesh->HasTangentsAndBitangents());
@@ -241,32 +242,59 @@ void dooms::assetImporter::AssetImporterWorker_THREE_D_MODEL::Creat3DModelAsset
 		D_ASSERT(mesh->HasTextureCoords(0));
 
 		// we support only uv one channel
-		for (UINT32 verticeIndex = 0; verticeIndex < asset->mModelMeshAssets[meshIndex].mNumOfVertexs; verticeIndex++)
+		for (UINT32 verticeIndex = 0; verticeIndex < asset->mModelMeshAssets[meshIndex].mMeshVertexDatas.size() ; verticeIndex++)
 		{
 			std::memcpy(&(asset->mModelMeshAssets[meshIndex].mMeshVertexDatas[verticeIndex].mVertex), &(mesh->mVertices[verticeIndex]), sizeof(decltype(asset->mModelMeshAssets[meshIndex].mMeshVertexDatas[verticeIndex].mVertex)));
-			std::memcpy(&(asset->mModelMeshAssets[meshIndex].mMeshVertexDatas[verticeIndex].mTexCoord), &(mesh->mTextureCoords[0][verticeIndex]), sizeof(decltype(asset->mModelMeshAssets[meshIndex].mMeshVertexDatas[verticeIndex].mTexCoord)));
-			std::memcpy(&(asset->mModelMeshAssets[meshIndex].mMeshVertexDatas[verticeIndex].mNormal), &(mesh->mNormals[verticeIndex]), sizeof(decltype(asset->mModelMeshAssets[meshIndex].mMeshVertexDatas[verticeIndex].mNormal)));
-			std::memcpy(&(asset->mModelMeshAssets[meshIndex].mMeshVertexDatas[verticeIndex].mTangent), &(mesh->mTangents[verticeIndex]), sizeof(decltype(asset->mModelMeshAssets[meshIndex].mMeshVertexDatas[verticeIndex].mTangent)));
-			std::memcpy(&(asset->mModelMeshAssets[meshIndex].mMeshVertexDatas[verticeIndex].mBitangent), &(mesh->mBitangents[verticeIndex]), sizeof(decltype(asset->mModelMeshAssets[meshIndex].mMeshVertexDatas[verticeIndex].mBitangent)));
+
+			if(mesh->HasTextureCoords(0))
+			{
+				std::memcpy(&(asset->mModelMeshAssets[meshIndex].mMeshVertexDatas[verticeIndex].mTexCoord), &(mesh->mTextureCoords[0][verticeIndex]), sizeof(decltype(asset->mModelMeshAssets[meshIndex].mMeshVertexDatas[verticeIndex].mTexCoord)));
+			}
+
+			if(mesh->HasNormals())
+			{
+				std::memcpy(&(asset->mModelMeshAssets[meshIndex].mMeshVertexDatas[verticeIndex].mNormal), &(mesh->mNormals[verticeIndex]), sizeof(decltype(asset->mModelMeshAssets[meshIndex].mMeshVertexDatas[verticeIndex].mNormal)));
+			}
+
+			if(mesh->HasTangentsAndBitangents())
+			{
+				std::memcpy(&(asset->mModelMeshAssets[meshIndex].mMeshVertexDatas[verticeIndex].mTangent), &(mesh->mTangents[verticeIndex]), sizeof(decltype(asset->mModelMeshAssets[meshIndex].mMeshVertexDatas[verticeIndex].mTangent)));
+				std::memcpy(&(asset->mModelMeshAssets[meshIndex].mMeshVertexDatas[verticeIndex].mBitangent), &(mesh->mBitangents[verticeIndex]), sizeof(decltype(asset->mModelMeshAssets[meshIndex].mMeshVertexDatas[verticeIndex].mBitangent)));
+			}
 		}
 
+		if(mesh->HasTextureCoords(0))
+		{
+			asset->mModelMeshAssets[meshIndex].mVertexArrayFlag |= dooms::graphics::eVertexArrayFlag::TexCoord;
+		}
+
+		if(mesh->HasNormals())
+		{
+			asset->mModelMeshAssets[meshIndex].mVertexArrayFlag |= dooms::graphics::eVertexArrayFlag::mNormal;
+		}
+
+		if(mesh->HasTangentsAndBitangents())
+		{
+			asset->mModelMeshAssets[meshIndex].mVertexArrayFlag |= dooms::graphics::eVertexArrayFlag::mTangent;
+			asset->mModelMeshAssets[meshIndex].mVertexArrayFlag |= dooms::graphics::eVertexArrayFlag::mBitangent;
+		}
 
 		// we put indices of all faces at ThreeDModelMesh.mMeshIndices 
 		asset->mModelMeshAssets[meshIndex].bHasIndices = mesh->HasFaces();
 		if (asset->mModelMeshAssets[meshIndex].bHasIndices)
 		{
-			asset->mModelMeshAssets[meshIndex].mNumOfIndices = 0;
+			UINT32 numberOfIndeces = 0;
 			for (UINT32 faceIndex = 0; faceIndex < mesh->mNumFaces; faceIndex++)
 			{
 				// counting number of faces
-				asset->mModelMeshAssets[meshIndex].mNumOfIndices += mesh->mFaces[faceIndex].mNumIndices;
+				numberOfIndeces += mesh->mFaces[faceIndex].mNumIndices;
 
 				//asset->mModelMeshAssets[meshIndex].mMeshFaceDatas[faceIndex].mIndices = new UINT32[asset->mModelMeshAssets[meshIndex].mMeshFaceDatas[faceIndex].mNumIndices];
 				//memmove(&(asset->mModelMeshAssets[meshIndex].mMeshFaceDatas[faceIndex].mIndices[0]), &(mesh->mFaces[faceIndex].mIndices[0]), sizeof(UINT32) * asset->mModelMeshAssets[meshIndex].mMeshFaceDatas[faceIndex].mNumIndices);
 			}
 
 
-			asset->mModelMeshAssets[meshIndex].mMeshIndices.resize(asset->mModelMeshAssets[meshIndex].mNumOfIndices); // reserve indices space
+			asset->mModelMeshAssets[meshIndex].mMeshIndices.resize(numberOfIndeces); // reserve indices space
 			UINT32 indiceIndex = 0;
 			for (UINT32 faceIndex = 0; faceIndex < mesh->mNumFaces; faceIndex++)
 			{
@@ -275,6 +303,9 @@ void dooms::assetImporter::AssetImporterWorker_THREE_D_MODEL::Creat3DModelAsset
 				indiceIndex += mesh->mFaces[faceIndex].mNumIndices;
 			}
 		}
+
+
+		
 	}
 
 	//pScene->mRootNode

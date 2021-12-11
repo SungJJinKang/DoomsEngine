@@ -7,7 +7,8 @@
 
 void dooms::asset::ThreeDModelAsset::SendMeshDataToGPU()
 {
-	mNumOfMeshes = mNumOfModelMeshAssets;
+	mNumOfMeshes = mModelMeshAssets.size();
+	D_ASSERT(mNumOfMeshes != 0);
 	if (mNumOfMeshes > 0)
 	{
 		mMeshes.reserve(mNumOfMeshes);
@@ -16,11 +17,6 @@ void dooms::asset::ThreeDModelAsset::SendMeshDataToGPU()
 			mMeshes.emplace_back(mModelMeshAssets[i]);
 		}
 	}
-	else
-	{
-		//mMeshes = nullptr;
-	}
-
 
 	mRootMeshNode = std::make_unique<dooms::graphics::MeshNode>();
 	CreateNode(mRootMeshNode.get(), mRootModelNode.get());
@@ -36,11 +32,11 @@ void dooms::asset::ThreeDModelAsset::ClearMeshData()
 
 void dooms::asset::ThreeDModelAsset::CreateNode(graphics::MeshNode* currentNode, ThreeDModelNode* currentModelNodeAsset)
 {
-	currentNode->mNumOfMeshes = currentModelNodeAsset->mNumOfModelMeshes;
-	if (currentNode->mNumOfMeshes != 0)
+	const UINT32 indiceCount = currentModelNodeAsset->mModelMeshIndexs.size();
+	if (indiceCount != 0)
 	{
-		currentNode->mMeshes.resize(currentNode->mNumOfMeshes);
-		for (UINT32 i = 0; i < currentNode->mNumOfMeshes; i++)
+		currentNode->mMeshes.resize(indiceCount);
+		for (UINT32 i = 0; i < indiceCount ; i++)
 		{
 			currentNode->mMeshes[i] = &(mMeshes[currentModelNodeAsset->mModelMeshIndexs[i]]);
 		}
@@ -50,11 +46,11 @@ void dooms::asset::ThreeDModelAsset::CreateNode(graphics::MeshNode* currentNode,
 		currentNode->mMeshes.resize(0);
 	}
 
-	currentNode->mNumOfChilds = currentModelNodeAsset->mNumOfThreeDModelNodeChildrens;
-	if (currentNode->mNumOfChilds != 0)
+	const UINT32 nodeChildrenCount = currentModelNodeAsset->mThreeDModelNodeChildrens.size();
+	if (nodeChildrenCount != 0)
 	{
-		currentNode->mChilds.resize(currentNode->mNumOfChilds);
-		for (UINT32 i = 0; i < currentNode->mNumOfChilds; i++)
+		currentNode->mChilds.resize(nodeChildrenCount);
+		for (UINT32 i = 0; i < nodeChildrenCount ; i++)
 		{
 			currentNode->mChilds[i].mParent = currentNode;
 			CreateNode( &(currentNode->mChilds[i]), &(currentModelNodeAsset->mThreeDModelNodeChildrens[i]) );
@@ -70,15 +66,29 @@ void dooms::asset::ThreeDModelAsset::CreateNode(graphics::MeshNode* currentNode,
 
 void dooms::asset::ThreeDModelAsset::OnEndImportInMainThread_Internal()
 {
-	D_START_PROFILING(Postprocess_3D_Model, eProfileLayers::Rendering);
 	SendMeshDataToGPU();
-	//ClearMeshData(); // after send mesh data to gpu, delete all meshes data for memory space
-	D_END_PROFILING(Postprocess_3D_Model);
+}
+
+dooms::asset::ThreeDModelAsset::ThreeDModelAsset
+(
+	const std::vector<ThreeDModelMesh>& threeDModelMeses,
+	std::unique_ptr<ThreeDModelNode> rootThreeDModelNode
+)
+	: mRootModelNode( std::move(rootThreeDModelNode) ), mModelMeshAssets{ threeDModelMeses }
+{
+	SendMeshDataToGPU();
 }
 
 
 dooms::asset::ThreeDModelAsset::~ThreeDModelAsset()
 {
+	
+}
+
+void dooms::asset::ThreeDModelAsset::OnSetPendingKill()
+{
+	Asset::OnSetPendingKill();
+
 	if (mRootModelNode != nullptr)
 	{//check is destroyed
 		ClearMeshData();

@@ -76,7 +76,7 @@ namespace dooms
 	
 	struct DOOM_API D_STRUCT ThreeDModelMesh
 	{
-		GENERATE_BODY_ThreeDModelMesh() // Never Do this. Because data is copied with memcpy in importer
+		GENERATE_BODY_ThreeDModelMesh()
 
 		D_PROPERTY()
 		std::string mName;
@@ -86,19 +86,13 @@ namespace dooms
 
 		D_PROPERTY()
 		bool bHasIndices;
-
-		D_PROPERTY()
-		UINT32 mNumOfIndices;
-
+		
 		/// <summary>
 		/// mMeshIndices count is mNumOfIndiecs
 		/// </summary>
 		D_PROPERTY()
 		std::vector<UINT32> mMeshIndices;
-
-		D_PROPERTY()
-		UINT32 mNumOfVertexs;
-
+		
 		/// <summary>
 		/// mMeshVertexDatas count is mNumOfVertices
 		/// Vertices data is packed
@@ -108,6 +102,9 @@ namespace dooms
 		/// </summary>
 		D_PROPERTY()
 		std::vector<MeshVertexData> mMeshVertexDatas;
+
+		D_PROPERTY()
+		UINT32 mVertexArrayFlag;
 
 		D_PROPERTY()
 		physics::AABB3D mAABB3D{nullptr};
@@ -127,12 +124,7 @@ namespace dooms
 	struct DOOM_API D_STRUCT ThreeDModelNode
 	{
 		GENERATE_BODY_ThreeDModelNode()
-
-		/// <summary>
-		/// don't clear this
-		/// </summary>
-		dooms::asset::ThreeDModelAsset* mThreeDModelAsset;
-
+			
 		D_PROPERTY()
 		std::string mName;
 
@@ -140,14 +132,11 @@ namespace dooms
 		/// don't clear this
 		/// </summary>
 		D_PROPERTY()
-		ThreeDModelNode* mThreeDModelNodeParent; // Parent node will be deleted later
+		ThreeDModelNode* mThreeDModelNodeParent = nullptr; // Parent node will be deleted later
 
 		D_PROPERTY()
 		std::vector<ThreeDModelNode> mThreeDModelNodeChildrens;
-
-		D_PROPERTY()
-		UINT32 mNumOfThreeDModelNodeChildrens;
-
+		
 		/// <summary>
 		/// each component contain index of ThreeDModelAsset::ThreeDModelMesh 
 		/// so use like ThreeDModelAsset->mModelMeshAssets[mModelMeshIndexs[0]]
@@ -155,11 +144,9 @@ namespace dooms
 		D_PROPERTY()
 		std::vector<UINT32> mModelMeshIndexs;
 
-		D_PROPERTY()
-		UINT32 mNumOfModelMeshes;
-
 		ThreeDModelNode() = default;
-		ThreeDModelNode(int*) {}
+		ThreeDModelNode(int*)
+			: mThreeDModelNodeParent{ nullptr } {}
 		ThreeDModelNode(const ThreeDModelNode&) = default;
 		ThreeDModelNode(ThreeDModelNode&&) noexcept = default;
 		ThreeDModelNode& operator=(const ThreeDModelNode&) = default;
@@ -189,9 +176,6 @@ namespace dooms
 			D_PROPERTY()
 			std::vector<ThreeDModelMesh> mModelMeshAssets{};
 
-			D_PROPERTY()
-			UINT32 mNumOfModelMeshAssets{};
-
 			///////////
 
 			D_PROPERTY()
@@ -218,10 +202,12 @@ namespace dooms
 			
 			ThreeDModelAsset() = default;
 			ThreeDModelAsset(const ThreeDModelAsset&) = default;
+			ThreeDModelAsset(const std::vector<ThreeDModelMesh>& threeDModelMeses, std::unique_ptr<ThreeDModelNode> rootThreeDModelNode);
 			ThreeDModelAsset(ThreeDModelAsset&& threeDAsset) noexcept = default;
 			ThreeDModelAsset& operator=(const ThreeDModelAsset&) = default;
 			ThreeDModelAsset& operator=(ThreeDModelAsset&& threeDAsset) noexcept = default;
 			~ThreeDModelAsset();
+			virtual void OnSetPendingKill() override;
 
 			/// <summary>
 			/// why const? to protect asset data

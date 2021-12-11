@@ -21,16 +21,12 @@ namespace dooms
 			/// </summary>
 			D_PROPERTY()
 			std::vector<Mesh*> mMeshes;
-			D_PROPERTY()
-			size_t mNumOfMeshes;
 
 			D_PROPERTY()
 			std::vector<MeshNode> mChilds;
-			D_PROPERTY()
-			size_t mNumOfChilds;
 
 			MeshNode()
-				:mMeshes(), mChilds(), mParent(nullptr), mNumOfMeshes(0), mNumOfChilds(0)
+				:mMeshes(), mChilds(), mParent(nullptr)
 			{}
 		};
 	}

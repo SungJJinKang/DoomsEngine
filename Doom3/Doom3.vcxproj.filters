@@ -1760,6 +1760,9 @@
     <ClInclude Include="Source\Core\Graphics\Buffer\MeshHelper.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Core\Graphics\Buffer\eVertexArrayFlag.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="dependency\glfw-3.3.2.bin.WIN64\docs\html\search\all_0.html" />

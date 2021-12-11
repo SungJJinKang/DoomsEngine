@@ -18,7 +18,7 @@ void dooms::CharacterSpawner::CreateEnemy(const math::Vector3& position)
 
 
 	auto meshRenderer = newEntity->AddComponent<MeshRenderer>();
-	meshRenderer->SetMesh(graphics::meshHelper::GetQuadMesh().get());
+	meshRenderer->SetMesh(graphics::meshHelper::GetQuadMesh());
 	meshRenderer->SetMaterial(material);
 
 	
