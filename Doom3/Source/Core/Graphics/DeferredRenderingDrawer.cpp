@@ -1,12 +1,12 @@
 #include "DeferredRenderingDrawer.h"
 
 #include <Game/AssetManager/AssetManager.h>
-
+#include "Buffer/MeshHelper.h"
 
 void dooms::graphics::DeferredRenderingDrawer::Initialize()
 {
 	SetShaderToGBufferMaterial();
-	mQuadMesh = Mesh::GetQuadMesh();
+	mQuadMesh = meshHelper::GetQuadMesh();
 }
 
 dooms::graphics::DeferredRenderingDrawer::DeferredRenderingDrawer()

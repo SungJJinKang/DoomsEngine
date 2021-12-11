@@ -29,22 +29,24 @@ namespace dooms
 
 		public:
 
+			enum D_ENUM eVertexArrayFlag : UINT32
+			{
+				None = 0x0,
+				VertexVector3 = 1,
+				VertexVector2 = 2,
+				TexCoord = 4,
+				mNormal = 8,
+				mTangent = 16,
+				mBitangent = 32,
+			};
+
 			static inline const char VERTEX_ARRAY_TAG[]{ "VERTEX_ARRAY" };
 			static inline const char VERTEX_BUFFER_TAG[]{ "VERTEX_BUFFER" };
 			static inline const char INDEX_BUFFER_TAG[]{ "INDEX_BUFFER" };
 
 		private:
 
-			enum D_ENUM eVertexArrayFlag : UINT32
-			{
-				None = 0x0,
-				VertexVector3 =  1,
-				VertexVector2 =  2,
-				TexCoord = 4,
-				mNormal = 8,
-				mTangent = 16,
-				mBitangent = 32,
-			};
+			
 
 			D_PROPERTY()
 			BufferID mVertexArrayObjectID;
@@ -190,19 +192,7 @@ namespace dooms
 
 			static constexpr UINT32 GetStride(const UINT32 vertexArrayFlag);
 
-			static inline std::shared_ptr<Mesh> QuadMesh{};
-
-			D_FUNCTION()
-			static std::shared_ptr<Mesh> GetQuadMesh();
-			/// <summary>
-			/// If you want mesh for postprocessin or ren
-			/// If you want mesh for postprocessin or rendering 2d quad on screen
-			/// </summary>
-			/// <param name="leftbottom"></param>
-			/// <param name="rightup"></param>
-			/// <returns></returns>
-			D_FUNCTION()
-			static Mesh GetQuadMesh(const math::Vector2& leftbottom, const math::Vector2& rightup);
+			
 
 			D_FUNCTION()
 			virtual bool IsBufferGenerated() const final;

@@ -4,6 +4,7 @@
 #include "Game/AssetManager/AssetManager.h"
 
 #include "../IO/UserInput_Server.h"
+#include "Graphics/Buffer/MeshHelper.h"
 
 void dooms::CharacterSpawner::CreateEnemy(const math::Vector3& position)
 {
@@ -17,7 +18,7 @@ void dooms::CharacterSpawner::CreateEnemy(const math::Vector3& position)
 
 
 	auto meshRenderer = newEntity->AddComponent<MeshRenderer>();
-	meshRenderer->SetMesh(graphics::Mesh::GetQuadMesh().get());
+	meshRenderer->SetMesh(graphics::meshHelper::GetQuadMesh().get());
 	meshRenderer->SetMaterial(material);
 
 	

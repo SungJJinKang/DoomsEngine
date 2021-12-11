@@ -26,8 +26,7 @@ dooms::graphics::Mesh::Mesh(const ThreeDModelMesh& threeDModelMesh) noexcept
 dooms::graphics::Mesh::~Mesh()
 {
 	DeleteBuffers();
-
-	QuadMesh.reset();
+	
 }
 
 void dooms::graphics::Mesh::GenMeshBuffer(bool hasIndice)
@@ -279,42 +278,6 @@ constexpr UINT32 dooms::graphics::Mesh::GetStride(const UINT32 vertexArrayFlag)
 	return offset;
 }
 
-inline static constexpr FLOAT32 QuadMeshData[]
-{
-	-1.0f, 1.0f, 0.0f, 0.0f, 1.0f,
-	-1.0f, -1.0f, 0.0f, 0.0f, 0.0f,
-	1.0f, -1.0f, 0.0f, 1.0f, 0.0f,
-
-	1.0f, -1.0f, 0.0f, 1.0f, 0.0f,
-	1.0f, 1.0f, 0.0f, 1.0f, 1.0f,
-	-1.0f, 1.0f, 0.0f, 0.0f, 1.0f,
-};
-
-std::shared_ptr<dooms::graphics::Mesh> dooms::graphics::Mesh::GetQuadMesh()
-{
-	if (dooms::graphics::Mesh::QuadMesh == nullptr)
-	{
-		dooms::graphics::Mesh::QuadMesh = std::make_shared<Mesh>(sizeof(QuadMeshData) / sizeof(FLOAT32), (void*)QuadMeshData, ePrimitiveType::TRIANGLES, eVertexArrayFlag::VertexVector3 | eVertexArrayFlag::TexCoord);
-	}
-
-	return dooms::graphics::Mesh::QuadMesh;
-}
-
-dooms::graphics::Mesh dooms::graphics::Mesh::GetQuadMesh(const math::Vector2& leftbottom, const math::Vector2& rightup)
-{
-	FLOAT32 QuadMeshData[]
-	{
-		leftbottom.x, rightup.y, 0.0f, 0.0f, 1.0f,
-		leftbottom.x, leftbottom.y, 0.0f, 0.0f, 0.0f,
-		rightup.x, leftbottom.y, 0.0f, 1.0f, 0.0f,
-
-		rightup.x, leftbottom.y, 0.0f, 1.0f, 0.0f,
-		rightup.x, rightup.y, 0.0f, 1.0f, 1.0f,
-		leftbottom.x, rightup.y, 0.0f, 0.0f, 1.0f,
-	};
-
-	return Mesh(sizeof(QuadMeshData) / sizeof(FLOAT32), reinterpret_cast<void*>(QuadMeshData), ePrimitiveType::TRIANGLES, eVertexArrayFlag::VertexVector3 | eVertexArrayFlag::TexCoord);
-}
 
 
 bool dooms::graphics::Mesh::IsBufferGenerated() const
