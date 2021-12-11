@@ -270,7 +270,7 @@ void dooms::gc::garbageCollectorSolver::StartMarkStage(const eGCMethod gcMethod,
 			dooms::resource::JobSystem::GetSingleton()->PushBackJobToPriorityQueueWithNoSTDFuture(multiThreadJob);
 		}
 
-		while (completedOnRootObjectCount < rootDObjectCount)
+		while (gcMultithreadCounter.completedOnRootObjectCount < rootDObjectCount)
 		{
 			std::this_thread::yield();
 		}
