@@ -40,6 +40,7 @@ namespace dooms
 			TextAsset& operator=(const TextAsset&) = delete;
 			TextAsset& operator=(TextAsset&&) noexcept = default;
 			virtual ~TextAsset() = default;
+			virtual void OnSetPendingKill() override;
 
 
 			virtual dooms::asset::eAssetType GetEAssetType() const final;

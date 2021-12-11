@@ -61,6 +61,12 @@ dooms::asset::ShaderAsset& dooms::asset::ShaderAsset::operator=(ShaderAsset&& sh
 
 dooms::asset::ShaderAsset::~ShaderAsset()
 {
+}
+
+void dooms::asset::ShaderAsset::OnSetPendingKill()
+{
+	Asset::OnSetPendingKill();
+	
 	DeleteShaders();
 }
 

@@ -57,7 +57,6 @@ namespace dooms
 
 			dooms::asset::AssetContainer& GetAssetContainer(const dooms::asset::eAssetType eAssetType);
 
-			void AddAssetToAssetContainer(dooms::asset::Asset* const asset);
 
 			dooms::asset::Asset* _ImportAssetInstantly(std::filesystem::path& path, const dooms::asset::eAssetType assetType);
 			dooms::assetImporter::AssetFuture _ImportAssetAsync(std::filesystem::path& path, const dooms::asset::eAssetType assetType);
@@ -73,6 +72,7 @@ namespace dooms
 			AssetManager() = default;
 			~AssetManager();
 
+			virtual void OnSetPendingKill() override;
 			
 
 			virtual void Init() final;
@@ -124,6 +124,7 @@ namespace dooms
 			}
 
 
+			void AddAssetToAssetContainer(dooms::asset::Asset* const asset);
 		
 			
 		};

@@ -4,12 +4,15 @@
 #include <Core.h>
 #include <Asset/AssetsForwardDeclaration.h>
 
+#include "AssetFuture.reflection.h"
 namespace dooms
 {
 	namespace assetImporter
 	{
-		class DOOM_API D_CLASS AssetFuture
+		class DOOM_API D_CLASS AssetFuture : public DObject
 		{
+			GENERATE_BODY()
+
 		private:
 			dooms::asset::Asset* mAsset;
 			std::future<bool> mFuture;

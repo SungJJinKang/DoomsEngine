@@ -83,6 +83,7 @@ namespace dooms
 			Asset& operator=(Asset&&) noexcept;
 			virtual ~Asset();
 
+			virtual void OnSetPendingKill() override;
 		
 			void OnEndImportInMainThread();
 			virtual void OnEndImportInSubThread() {};

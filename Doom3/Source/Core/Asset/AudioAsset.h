@@ -32,7 +32,9 @@ namespace dooms
 			AudioAsset(AudioAsset&&) noexcept = default;
 			AudioAsset& operator=(const AudioAsset&) = delete;
 			AudioAsset& operator=(AudioAsset&&) noexcept = default;
-			virtual ~AudioAsset() {}
+			virtual ~AudioAsset() = default;
+
+			virtual void OnSetPendingKill() override;
 
 
 			virtual dooms::asset::eAssetType GetEAssetType() const final;

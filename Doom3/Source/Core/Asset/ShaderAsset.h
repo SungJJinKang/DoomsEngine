@@ -119,6 +119,8 @@ namespace dooms
 			ShaderAsset& operator=(ShaderAsset&& shader) noexcept;
 			virtual ~ShaderAsset();
 
+			virtual void OnSetPendingKill() override;
+
 			/// <summary>
 			/// You can delete shaders after Linking to material program
 			/// If Shader is linked to material program when the shader is deleted,

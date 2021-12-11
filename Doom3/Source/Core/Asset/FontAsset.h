@@ -32,6 +32,7 @@ namespace dooms
 			FontAsset& operator=(FontAsset&&) noexcept = default;
 			virtual ~FontAsset() = default;
 
+			virtual void OnSetPendingKill() override;
 
 			virtual dooms::asset::eAssetType GetEAssetType() const final;
 

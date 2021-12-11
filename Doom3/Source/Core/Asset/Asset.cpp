@@ -19,6 +19,12 @@ dooms::asset::Asset::Asset(Asset&&) noexcept = default;
 dooms::asset::Asset& dooms::asset::Asset::operator=(Asset&&) noexcept = default;
 dooms::asset::Asset::~Asset() = default;
 
+void dooms::asset::Asset::OnSetPendingKill()
+{
+	DObject::OnSetPendingKill();
+
+}
+
 
 dooms::D_UUID dooms::asset::Asset::GetUUID() const
 {

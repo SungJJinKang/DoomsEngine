@@ -84,6 +84,8 @@ namespace dooms
 		
 			virtual ~TextureAsset();
 
+			virtual void OnSetPendingKill() override;
+
 			void OnEndImportInMainThread_Internal() final;
 			const graphics::Texture* GetDefaultTextureObject() const;
 			graphics::Texture* CreateTextureObject();

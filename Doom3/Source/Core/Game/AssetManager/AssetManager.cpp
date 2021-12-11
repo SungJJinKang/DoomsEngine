@@ -152,8 +152,14 @@ dooms::asset::Asset* AssetManager::_GetAsset(const std::string& filename, const 
 
 AssetManager::~AssetManager()
 {
-	DestroyAllAssets();
 
+}
+
+void AssetManager::OnSetPendingKill()
+{
+	IGameFlow::OnSetPendingKill();
+
+	DestroyAllAssets();
 }
 
 void dooms::assetImporter::AssetManager::Init()

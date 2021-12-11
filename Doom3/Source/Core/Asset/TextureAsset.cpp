@@ -148,6 +148,12 @@ void dooms::asset::TextureAsset::DestroyDefaultTextureObject()
 
 dooms::asset::TextureAsset::~TextureAsset()
 {
+}
+
+void dooms::asset::TextureAsset::OnSetPendingKill()
+{
+	Asset::OnSetPendingKill();
+
 	DestroyDefaultTextureObject();
 }
 
