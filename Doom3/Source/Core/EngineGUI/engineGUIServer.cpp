@@ -8,6 +8,7 @@
 #include "GUIModules/LogGUI.h"
 #include "GUIModules/SceneGUI.h"
 #include "GUIModules/ProfilerGUI.h"
+#include "GUIModules/ThreadProfilerGUI.h"
 
 
 namespace dooms::ui::engineGUIServer
@@ -15,6 +16,7 @@ namespace dooms::ui::engineGUIServer
     static void InitializeGUIModules()
     {
         dooms::ui::log::Initialize();
+        dooms::ui::threadProfilerGUI::Init();
     }
 
     static void RenderGUIModules()
@@ -22,6 +24,7 @@ namespace dooms::ui::engineGUIServer
         dooms::ui::log::Render();
         dooms::ui::sceneGUI::Render();
         dooms::ui::profilerGUI::Render();
+        dooms::ui::threadProfilerGUI::Render();
     }
 }
 

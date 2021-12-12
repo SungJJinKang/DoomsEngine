@@ -341,6 +341,7 @@ xcopy /y /d /E /H /C /I "$(ProjectDir)Assets" "$(TargetDir)Assets"</Command>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="clreflect_compiletime_gettype.cpp" />
+    <ClCompile Include="Source\Core\EngineGUI\GUIModules\ThreadProfilerGUI.cpp" />
     <ClCompile Include="Source\Core\Graphics\Buffer\MeshHelper.cpp" />
     <ClCompile Include="Source\Core\Profiler\ProfilingManager.cpp" />
     <ClCompile Include="Source\Core\Reflection\TypeSpecialized\Helper\iteratorHelper.cpp" />
@@ -564,6 +565,7 @@ xcopy /y /d /E /H /C /I "$(ProjectDir)Assets" "$(TargetDir)Assets"</Command>
     <ClCompile Include="Source\thirdparty\imgui\imgui_widgets.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Source\Core\EngineGUI\GUIModules\ThreadProfilerGUI.h" />
     <ClInclude Include="Source\Core\Graphics\Buffer\eVertexArrayFlag.h" />
     <ClInclude Include="Source\Core\Graphics\Buffer\MeshHelper.h" />
     <ClInclude Include="Source\Core\Profiler\ProfilingManager.h" />
