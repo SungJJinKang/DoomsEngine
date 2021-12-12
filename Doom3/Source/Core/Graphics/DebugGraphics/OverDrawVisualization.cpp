@@ -35,7 +35,7 @@ namespace dooms
 				mOverDrawVisualizationFrameBuffer.AttachRenderBuffer(dooms::graphics::GraphicsAPI::eBufferBitType::DEPTH);
 				
 				OverDrawVisualizationPIP = dooms::graphics::Graphics_Server::GetSingleton()->mPIPManager.AddNewPIP(
-					math::Vector2(0.1f, 0.1f),
+					math::Vector2(-1.0f, -1.0f),
 					math::Vector2(1.0f, 1.0f),
 					mOverDrawVisualizationFrameBuffer.GetFrameBufferTexture(dooms::graphics::GraphicsAPI::eBufferBitType::COLOR, 0)
 				);

@@ -41,7 +41,7 @@ namespace dooms::graphics::meshHelper
 
 		threeDModelMeshes[0].bHasIndices = false;
 		
-		std::vector<MeshVertexData> meshVertexData = GetQuadMeshVertexData(math::Vector2(-1.0f, -1.0f), math::Vector2(1.0f, 1.0f));
+		std::vector<MeshVertexData> meshVertexData = GetQuadMeshVertexData(leftbottom, rightup);
 		threeDModelMeshes[0].mMeshVertexDatas = std::move(meshVertexData);
 
 		std::unique_ptr<ThreeDModelNode> threeDModelNode = std::make_unique<ThreeDModelNode>(nullptr);
