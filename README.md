@@ -10,6 +10,7 @@
   * C# ( used in making engine tools )    
   * Target Compiler : MSVC ( clang is used for generating reflection data )
   * OpenGL
+  * Component based System
   * Deferred Rendering ( https://youtu.be/TU9P8gcKsi8 )
   * Homemade Math Library (https://github.com/SungJJinKang/LightMath_Cpp)     
   * Multi Thread ViewFrustum Culling ( https://sungjjinkang.github.io/doom/c++/computergraphics/game/2021/04/02/viewfrustumculling.html )
@@ -34,6 +35,9 @@
  
   * Hierarchical Shadow Map
   * Hot Reload ( similar to Unreal Engine's )
+
+## Screenshot
+![20211213050637](https://user-images.githubusercontent.com/33873804/145727751-74daefb4-a6b1-4b3c-94d3-56a52c5c0861.png)
 
 ## Coding Standard
 
