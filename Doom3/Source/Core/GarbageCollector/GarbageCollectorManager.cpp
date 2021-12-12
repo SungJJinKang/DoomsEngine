@@ -16,7 +16,7 @@ void dooms::gc::GarbageCollectorManager::InitializeCollectTimeStep()
 {
 	//mCollectTimeStep[ = dooms::ConfigData::GetSingleton()->GetConfigData().GetValue<float>()
 
-	mCollectTimeStep = 10.0f;
+	mCollectTimeStep = dooms::ConfigData::GetSingleton()->GetConfigData().GetValue<float>("SYSTEM", "GC_TIME_STEP");
 	mElapsedTime = 0.0f;
 }
 
