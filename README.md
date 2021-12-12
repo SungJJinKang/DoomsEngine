@@ -28,6 +28,7 @@
 
 ## Currently working on
 
+  * change STL to [EASTL](https://github.com/electronicarts/EASTL)
   * change graphics api!!! ( 0%, OpenGL to DirectX12 )
   * Masked SW Occlusion Culling ( 20%, work directory - https://github.com/SungJJinKang/EveryCulling/tree/main/CullingModule/MaskedSWOcclusionCulling ) ( reference : https://software.intel.com/content/dam/develop/external/us/en/documents/masked-software-occlusion-culling.pdf )        
  
