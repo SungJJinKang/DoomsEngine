@@ -4,15 +4,21 @@
 
 void dooms::physics::Physics_Setting::SetIsPhysicsOn(const bool isOn)
 {
+	const bool isChanged = (Physics_Setting::bmIsPhysicsOn != isOn);
+
 	Physics_Setting::bmIsPhysicsOn = isOn;
 
-	if (Physics_Setting::bmIsPhysicsOn == true)
+	if(isChanged == true)
 	{
-		dooms::ui::PrintText("Physics On");
+		if (Physics_Setting::bmIsPhysicsOn == true)
+		{
+			dooms::ui::PrintText("Physics On");
+		}
+		else
+		{
+			dooms::ui::PrintText("Physics Off");
+		}
 	}
-	else
-	{
-		dooms::ui::PrintText("Physics Off");
-	}
+	
 
 }

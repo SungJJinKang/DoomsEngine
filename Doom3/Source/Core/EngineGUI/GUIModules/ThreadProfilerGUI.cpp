@@ -52,7 +52,7 @@ void dooms::ui::threadProfilerGUI::Render()
 {
 	UpdateThreadCycle();
 
-	if (ImGui::Begin("Thread Profiler ( Query¡©Thread¡©Cycle¡©Time )"))
+	if (ImGui::Begin("Thread Profiler ( QueryThreadCycleTime ( /s ) )"))
 	{
 		ImGui::Text("Main Thread : %llu", ThreadCycleInSecond[0]);
 

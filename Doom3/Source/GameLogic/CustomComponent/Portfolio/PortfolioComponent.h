@@ -25,10 +25,10 @@ private:
 	bool Is_Enabled_DeferredRenderingDebugger = false;
 
 	D_PROPERTY()
-	bool Is_Pause_MultithreadViewfrustumCulling = false;
+	bool Is_Pause_Multithread_ViewfrustumCulling = false;
 
 	D_PROPERTY()
-	bool Is_Enabled_SortingFrontToBack = false;
+	bool Is_Enabled_MultiThread_SortingFrontToBack = false;
 
 	D_PROPERTY()
 	bool Is_Enabled_OverdrawDebugger = false;

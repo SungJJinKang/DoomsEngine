@@ -301,7 +301,7 @@ void dooms::gc::garbageCollectorSolver::StartSweepStage(const eGCMethod gcMethod
 			dObject->SetIsPendingKill();
 
 			deletedDObjectList.push_back(dObject);
-			//D_DEBUG_LOG(eLogType::D_LOG_TYPE13, "GC DObject IsPendingKill Enabled and Sweeped ready : %s ( TypeName : %s )", dObject->GetDObjectName().c_str(), dObject->GetTypeFullName());
+			D_DEBUG_LOG(eLogType::D_LOG_TYPE13, "GC DObject IsPendingKill Enabled and Sweeped ready : %s ( TypeName : %s )", dObject->GetDObjectName().c_str(), dObject->GetTypeFullName());
 		}
 		beginIter++;
 	}

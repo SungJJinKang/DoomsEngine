@@ -14,9 +14,9 @@ void dooms::PortfolioComponent::OnChangedByGUI(const dooms::reflection::DField& 
 
 void dooms::PortfolioComponent::UpdateGUI()
 {
-	Camera::GetMainCamera()->SetCameraFlag(dooms::eCameraFlag::PAUSE_CULL_JOB, Is_Pause_MultithreadViewfrustumCulling);
+	Camera::GetMainCamera()->SetCameraFlag(dooms::eCameraFlag::PAUSE_CULL_JOB, Is_Pause_Multithread_ViewfrustumCulling);
 	
-	dooms::graphics::Graphics_Setting::IsSortObjectFrontToBack = Is_Enabled_SortingFrontToBack;
+	dooms::graphics::Graphics_Setting::IsSortObjectFrontToBack = Is_Enabled_MultiThread_SortingFrontToBack;
 	dooms::graphics::Graphics_Setting::IsOverDrawVisualizationEnabled = Is_Enabled_OverdrawDebugger;
 
 	if(DeferredRenderingDebuggerController* component = GetOwnerEntity()->GetComponent<DeferredRenderingDebuggerController>())
@@ -34,10 +34,10 @@ void dooms::PortfolioComponent::InitComponent()
 
 	Base::InitComponent();
 
-	Is_Pause_MultithreadViewfrustumCulling = false;
-	Camera::GetMainCamera()->SetCameraFlag(dooms::eCameraFlag::PAUSE_CULL_JOB, Is_Pause_MultithreadViewfrustumCulling);
+	Is_Pause_Multithread_ViewfrustumCulling = false;
+	Camera::GetMainCamera()->SetCameraFlag(dooms::eCameraFlag::PAUSE_CULL_JOB, Is_Pause_Multithread_ViewfrustumCulling);
 
-	Is_Enabled_SortingFrontToBack = true;
+	Is_Enabled_MultiThread_SortingFrontToBack = true;
 	dooms::graphics::Graphics_Setting::IsSortObjectFrontToBack = true;
 
 	Is_Enabled_OverdrawDebugger = false;
