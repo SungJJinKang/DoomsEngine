@@ -36,32 +36,40 @@ namespace dooms
 	/// 
 	/// Never edit this struct, Never change placement order of datas
 	/// </summary>
-	struct DOOM_API D_STRUCT MeshVertexData
+	struct DOOM_API D_STRUCT MeshData
 	{
-		GENERATE_BODY_MeshVertexData() // Never Do this. Because data is copied with memcpy in importer
+		D_PROPERTY()
+		size_t mSize;
 
 		D_PROPERTY()
-		Vector3 mVertex;
+		char* mData;
 
 		D_PROPERTY()
-		Vector2 mTexCoord; //support only one channel
+		Vector3* mVertex;
 
 		D_PROPERTY()
-		Vector3 mNormal;
+		Vector3* mTexCoord; //support only one channel
 
 		D_PROPERTY()
-		Vector3 mTangent;
+		Vector3* mNormal;
 
 		D_PROPERTY()
-		Vector3 mBitangent;
+		Vector3* mTangent;
 
-		MeshVertexData() = default;
-		MeshVertexData(int*) : mVertex(nullptr), mTexCoord(nullptr), mNormal(nullptr), mTangent(nullptr), mBitangent(nullptr) {}
-		MeshVertexData(const MeshVertexData&) = default;
-		MeshVertexData(MeshVertexData&&) noexcept = default;
-		MeshVertexData& operator=(const MeshVertexData&) = default;
-		MeshVertexData& operator=(MeshVertexData&&) noexcept = default;
-		~MeshVertexData() = default;
+		D_PROPERTY()
+		Vector3* mBitangent;
+
+		MeshData();
+		MeshData(const size_t size);
+		MeshData(const MeshData&);
+		MeshData(MeshData&&) noexcept;
+		MeshData& operator=(const MeshData&);
+		MeshData& operator=(MeshData&&) noexcept;
+		~MeshData();
+
+		void Allocate(const size_t size);
+		size_t GetAllocatedDataSize() const;
+		void Free();
 	};
 	D_REFLECTION_TYPE(dooms::MeshVertexData)
 
@@ -94,14 +102,14 @@ namespace dooms
 		std::vector<UINT32> mMeshIndices;
 		
 		/// <summary>
-		/// mMeshVertexDatas count is mNumOfVertices
+		/// mMeshDatas count is mNumOfVertices
 		/// Vertices data is packed
 		/// 
 		/// ( O ) Vertex TexCoord Normal Tangent Bitangent | Vertex TexCoord Normal Tangent Bitangent | Vertex TexCoord Normal Tangent Bitangent
 		/// ( X ) Vertex Vertex Vertex | TexCoord TexCoord TexCoord | Normal Normal Normal | Tangent Tangent Tangent | Bitangent Bitangent Bitangent
 		/// </summary>
 		D_PROPERTY()
-		std::vector<MeshVertexData> mMeshVertexDatas;
+		MeshData mMeshDatas;
 
 		D_PROPERTY()
 		UINT32 mVertexArrayFlag;
@@ -174,7 +182,7 @@ namespace dooms
 			std::unique_ptr<ThreeDModelNode> mRootModelNode{};
 
 			D_PROPERTY()
-			std::vector<ThreeDModelMesh> mModelMeshAssets{};
+			std::vector<ThreeDModelMesh> mModelMeshAssets;
 
 			///////////
 
@@ -201,10 +209,10 @@ namespace dooms
 		public:
 			
 			ThreeDModelAsset() = default;
-			ThreeDModelAsset(const ThreeDModelAsset&) = default;
-			ThreeDModelAsset(const std::vector<ThreeDModelMesh>& threeDModelMeses, std::unique_ptr<ThreeDModelNode> rootThreeDModelNode);
+			ThreeDModelAsset(const ThreeDModelAsset&) = delete;
+			ThreeDModelAsset(std::vector<ThreeDModelMesh>&& threeDModelMeses, std::unique_ptr<ThreeDModelNode> rootThreeDModelNode) noexcept;
 			ThreeDModelAsset(ThreeDModelAsset&& threeDAsset) noexcept = default;
-			ThreeDModelAsset& operator=(const ThreeDModelAsset&) = default;
+			ThreeDModelAsset& operator=(const ThreeDModelAsset&) = delete;
 			ThreeDModelAsset& operator=(ThreeDModelAsset&& threeDAsset) noexcept = default;
 			~ThreeDModelAsset();
 			virtual void OnSetPendingKill() override;

@@ -3,7 +3,7 @@
 #include "../Graphics/Buffer/Mesh.h"
 #include "../Graphics/Buffer/MeshNode.h"
 
-//static_assert(std::is_standard_layout_v<dooms::MeshVertexData>);
+//static_assert(std::is_standard_layout_v<dooms::MeshData>);
 
 void dooms::asset::ThreeDModelAsset::SendMeshDataToGPU()
 {
@@ -69,12 +69,12 @@ void dooms::asset::ThreeDModelAsset::OnEndImportInMainThread_Internal()
 	SendMeshDataToGPU();
 }
 
-dooms::asset::ThreeDModelAsset::ThreeDModelAsset
+dooms::asset::ThreeDModelAsset::ThreeDModelAsset 
 (
-	const std::vector<ThreeDModelMesh>& threeDModelMeses,
+	std::vector<ThreeDModelMesh>&& threeDModelMeses,
 	std::unique_ptr<ThreeDModelNode> rootThreeDModelNode
-)
-	: mRootModelNode( std::move(rootThreeDModelNode) ), mModelMeshAssets{ threeDModelMeses }
+) noexcept
+	: mRootModelNode( std::move(rootThreeDModelNode) ), mModelMeshAssets{ std::move(threeDModelMeses) }
 {
 	SendMeshDataToGPU();
 }
@@ -116,3 +116,144 @@ dooms::asset::eAssetType dooms::asset::ThreeDModelAsset::GetEAssetType() const
 	return dooms::asset::eAssetType::THREE_D_MODEL;
 }
 
+
+dooms::MeshData::MeshData()
+	:
+	mData(nullptr),
+	mSize(0),
+	mVertex(nullptr),
+	mTexCoord(nullptr),
+	mNormal(nullptr),
+	mTangent(nullptr),
+	mBitangent(nullptr)
+{
+}
+
+dooms::MeshData::MeshData(const size_t size)
+	:
+	mData(nullptr),
+	mSize(0),
+	mVertex(nullptr),
+	mTexCoord(nullptr),
+	mNormal(nullptr),
+	mTangent(nullptr),
+	mBitangent(nullptr)
+{
+	Allocate(size);
+}
+
+dooms::MeshData::MeshData(const MeshData& meshData)
+	:
+	mData(nullptr),
+	mSize(0),
+	mVertex(nullptr),
+	mTexCoord(nullptr),
+	mNormal(nullptr),
+	mTangent(nullptr),
+	mBitangent(nullptr)
+{
+	Allocate(meshData.mSize);
+
+	std::memcpy(mData, meshData.mData, (sizeof(Vector3) + sizeof(Vector3) + sizeof(Vector3) + sizeof(Vector3) + sizeof(Vector3)) * mSize);
+}
+
+dooms::MeshData::MeshData(MeshData&& meshData) noexcept
+	:
+	mData(meshData.mData),
+	mSize(meshData.mSize),
+	mVertex(meshData.mVertex),
+	mTexCoord(meshData.mTexCoord),
+	mNormal(meshData.mNormal),
+	mTangent(meshData.mTangent),
+	mBitangent(meshData.mBitangent)
+{
+	meshData.mData = nullptr;
+	meshData.mSize = 0;
+	meshData.mVertex = nullptr;
+	meshData.mTexCoord = nullptr;
+	meshData.mNormal = nullptr;
+	meshData.mTangent = nullptr;
+	meshData.mBitangent = nullptr;
+}
+
+dooms::MeshData& dooms::MeshData::operator=(const MeshData& meshData)
+{
+	if(mSize == meshData.mSize)
+	{
+		std::memcpy(mData, meshData.mData, (sizeof(Vector3) + sizeof(Vector3) + sizeof(Vector3) + sizeof(Vector3) + sizeof(Vector3)) * mSize);
+	}
+	else
+	{
+		Free();
+
+		Allocate(meshData.mSize);
+
+		std::memcpy(mData, meshData.mData, (sizeof(Vector3) + sizeof(Vector3) + sizeof(Vector3) + sizeof(Vector3) + sizeof(Vector3)) * mSize);
+	}
+
+	return *this;
+}
+
+dooms::MeshData& dooms::MeshData::operator=(MeshData&& meshData) noexcept
+{
+	Free();
+
+	mData = meshData.mData;
+	mSize = meshData.mSize;
+	mVertex = meshData.mVertex;
+	mTexCoord = meshData.mTexCoord;
+	mNormal = meshData.mNormal;
+	mTangent = meshData.mTangent;
+	mBitangent = meshData.mBitangent;
+
+	meshData.mData = nullptr;
+	meshData.mSize = 0;
+	meshData.mVertex = nullptr;
+	meshData.mTexCoord = nullptr;
+	meshData.mNormal = nullptr;
+	meshData.mTangent = nullptr;
+	meshData.mBitangent = nullptr;
+
+	return *this;
+}
+
+dooms::MeshData::~MeshData()
+{
+	Free();
+}
+
+void dooms::MeshData::Allocate(const size_t size)
+{
+	if(size != 0)
+	{
+		mData = reinterpret_cast<char*>(std::malloc((sizeof(Vector3) + sizeof(Vector3) + sizeof(Vector3) + sizeof(Vector3) + sizeof(Vector3)) * size));
+		mSize = size;
+
+		mVertex = reinterpret_cast<Vector3*>(mData);
+		mTexCoord = reinterpret_cast<Vector3*>((char*)mVertex + sizeof(Vector3) * size);
+		mNormal = reinterpret_cast<Vector3*>((char*)mTexCoord + sizeof(Vector3) * size);
+		mTangent = reinterpret_cast<Vector3*>((char*)mNormal + sizeof(Vector3) * size);
+		mBitangent = reinterpret_cast<Vector3*>((char*)mTangent + sizeof(Vector3) * size);
+	}
+	
+}
+
+size_t dooms::MeshData::GetAllocatedDataSize() const
+{
+	return (sizeof(Vector3) + sizeof(Vector3) + sizeof(Vector3) + sizeof(Vector3) + sizeof(Vector3)) * mSize;
+}
+
+void dooms::MeshData::Free()
+{
+	if (mData != nullptr)
+	{
+		free(mData);
+	}
+
+	mSize = 0;
+	mVertex = nullptr;
+	mTexCoord = nullptr;
+	mNormal = nullptr;
+	mTangent = nullptr;
+	mBitangent = nullptr;
+}

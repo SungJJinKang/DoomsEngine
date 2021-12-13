@@ -234,7 +234,6 @@ void dooms::assetImporter::AssetImporterWorker_THREE_D_MODEL::Creat3DModelAsset
 
 
 		// store Vertices
-		asset->mModelMeshAssets[meshIndex].mMeshVertexDatas.resize(mesh->mNumVertices, nullptr);
 
 		D_ASSERT(mesh->mNumUVComponents[0] == 2);
 		D_ASSERT(mesh->HasTangentsAndBitangents());
@@ -242,25 +241,25 @@ void dooms::assetImporter::AssetImporterWorker_THREE_D_MODEL::Creat3DModelAsset
 		D_ASSERT(mesh->HasTextureCoords(0));
 
 		// we support only uv one channel
-		for (UINT32 verticeIndex = 0; verticeIndex < asset->mModelMeshAssets[meshIndex].mMeshVertexDatas.size() ; verticeIndex++)
+
+		asset->mModelMeshAssets[meshIndex].mMeshDatas.Allocate(mesh->mNumVertices);
+
+		std::memcpy(asset->mModelMeshAssets[meshIndex].mMeshDatas.mVertex, mesh->mVertices, mesh->mNumVertices * sizeof(*(mesh->mVertices)));
+
+		if (mesh->HasTextureCoords(0))
 		{
-			std::memcpy(&(asset->mModelMeshAssets[meshIndex].mMeshVertexDatas[verticeIndex].mVertex), &(mesh->mVertices[verticeIndex]), sizeof(decltype(asset->mModelMeshAssets[meshIndex].mMeshVertexDatas[verticeIndex].mVertex)));
+			std::memcpy(asset->mModelMeshAssets[meshIndex].mMeshDatas.mTexCoord, mesh->mTextureCoords[0], mesh->mNumVertices * sizeof(*(mesh->mTextureCoords[0])));
+		}
 
-			if(mesh->HasTextureCoords(0))
-			{
-				std::memcpy(&(asset->mModelMeshAssets[meshIndex].mMeshVertexDatas[verticeIndex].mTexCoord), &(mesh->mTextureCoords[0][verticeIndex]), sizeof(decltype(asset->mModelMeshAssets[meshIndex].mMeshVertexDatas[verticeIndex].mTexCoord)));
-			}
+		if (mesh->HasNormals())
+		{
+			std::memcpy(asset->mModelMeshAssets[meshIndex].mMeshDatas.mNormal, mesh->mNormals, mesh->mNumVertices * sizeof(*(mesh->mNormals)));
+		}
 
-			if(mesh->HasNormals())
-			{
-				std::memcpy(&(asset->mModelMeshAssets[meshIndex].mMeshVertexDatas[verticeIndex].mNormal), &(mesh->mNormals[verticeIndex]), sizeof(decltype(asset->mModelMeshAssets[meshIndex].mMeshVertexDatas[verticeIndex].mNormal)));
-			}
-
-			if(mesh->HasTangentsAndBitangents())
-			{
-				std::memcpy(&(asset->mModelMeshAssets[meshIndex].mMeshVertexDatas[verticeIndex].mTangent), &(mesh->mTangents[verticeIndex]), sizeof(decltype(asset->mModelMeshAssets[meshIndex].mMeshVertexDatas[verticeIndex].mTangent)));
-				std::memcpy(&(asset->mModelMeshAssets[meshIndex].mMeshVertexDatas[verticeIndex].mBitangent), &(mesh->mBitangents[verticeIndex]), sizeof(decltype(asset->mModelMeshAssets[meshIndex].mMeshVertexDatas[verticeIndex].mBitangent)));
-			}
+		if (mesh->HasTangentsAndBitangents())
+		{
+			std::memcpy(asset->mModelMeshAssets[meshIndex].mMeshDatas.mTangent, mesh->mTangents, mesh->mNumVertices * sizeof(*(mesh->mTangents)));
+			std::memcpy(asset->mModelMeshAssets[meshIndex].mMeshDatas.mBitangent, mesh->mBitangents, mesh->mNumVertices * sizeof(*(mesh->mBitangents)));
 		}
 
 		if(mesh->HasTextureCoords(0))

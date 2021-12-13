@@ -20,37 +20,37 @@
 //-------------------------------------------
 
 
-#ifdef GENERATE_BODY_FULLNAME_dooms__MeshVertexData
-#error "GENERATE_BODY_FULLNAME_dooms__MeshVertexData already included...."
+#ifdef GENERATE_BODY_FULLNAME_dooms__MeshData
+#error "GENERATE_BODY_FULLNAME_dooms__MeshData already included...."
 #endif
 
 
-#undef CURRENT_TYPE_ALIAS_dooms__MeshVertexData
-#define CURRENT_TYPE_ALIAS_dooms__MeshVertexData \
-typedef dooms::MeshVertexData Current;
+#undef CURRENT_TYPE_ALIAS_dooms__MeshData
+#define CURRENT_TYPE_ALIAS_dooms__MeshData \
+typedef dooms::MeshData Current;
 
 
-#undef TYPE_FULLNAME_HASH_VALUE_NAME_STRING_dooms__MeshVertexData
-#define TYPE_FULLNAME_HASH_VALUE_NAME_STRING_dooms__MeshVertexData \
-inline static const unsigned long int TYPE_FULL_NAME_HASH_VALUE = 1497951543; \
-inline static const char* const TYPE_FULL_NAME = "dooms::MeshVertexData"; \
-inline static const char* const TYPE_SHORT_NAME = "MeshVertexData"; \
+#undef TYPE_FULLNAME_HASH_VALUE_NAME_STRING_dooms__MeshData
+#define TYPE_FULLNAME_HASH_VALUE_NAME_STRING_dooms__MeshData \
+inline static const unsigned long int TYPE_FULL_NAME_HASH_VALUE = 1294305453; \
+inline static const char* const TYPE_FULL_NAME = "dooms::MeshData"; \
+inline static const char* const TYPE_SHORT_NAME = "MeshData"; \
 
 
-#undef TYPE_CHECK_FUNCTION_MeshVertexData
-#define TYPE_CHECK_FUNCTION_MeshVertexData \
+#undef TYPE_CHECK_FUNCTION_MeshData
+#define TYPE_CHECK_FUNCTION_MeshData \
 attrNoReflect void __TYPE_CHECK() { static_assert(std::is_same_v<std::remove_reference<decltype(*this)>::type, Current> == true, "ERROR : WRONG TYPE. Please Check GENERATED_~ MACROS");} \
 
 
-#undef GENERATE_BODY_FULLNAME_dooms__MeshVertexData
-#define GENERATE_BODY_FULLNAME_dooms__MeshVertexData(...) \
-CURRENT_TYPE_ALIAS_dooms__MeshVertexData \
-TYPE_FULLNAME_HASH_VALUE_NAME_STRING_dooms__MeshVertexData \
-TYPE_CHECK_FUNCTION_MeshVertexData \
+#undef GENERATE_BODY_FULLNAME_dooms__MeshData
+#define GENERATE_BODY_FULLNAME_dooms__MeshData(...) \
+CURRENT_TYPE_ALIAS_dooms__MeshData \
+TYPE_FULLNAME_HASH_VALUE_NAME_STRING_dooms__MeshData \
+TYPE_CHECK_FUNCTION_MeshData \
 
 
 //Type Short Name ( without namespace, only type name ) Version Macros.
-#define GENERATE_BODY_MeshVertexData(...) GENERATE_BODY_FULLNAME_dooms__MeshVertexData(__VA_ARGS__)
+#define GENERATE_BODY_MeshData(...) GENERATE_BODY_FULLNAME_dooms__MeshData(__VA_ARGS__)
 
 
 //-------------------------------------------

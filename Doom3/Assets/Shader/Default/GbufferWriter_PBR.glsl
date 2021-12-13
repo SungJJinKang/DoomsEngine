@@ -3,12 +3,12 @@
 #version 460 core
 
 layout (location = 0) in vec3 aPos; 
-layout (location = 1) in vec2 aUV0; 
+layout (location = 1) in vec3 aUV0; 
 layout (location = 2) in vec3 aNormal;
 layout (location = 3) in vec3 aTangent;
 layout (location = 4) in vec3 aBitangent;
 
-out vec2 UV0;
+out vec3 UV0;
 out vec3 FragPos;
 out mat3 TBN;
 out mat3 invertedTBN;
@@ -59,7 +59,7 @@ layout(binding=4) uniform samplerCube specularTexture;
 layout(binding=5) uniform samplerCube irradianceTexture;
 layout(binding=6) uniform sampler2D specularBRDF_LUT;
 
-in vec2 UV0;
+in vec3 UV0;
 in vec3 FragPos;
 in mat3 TBN;
 in mat3 invertedTBN;
@@ -70,11 +70,11 @@ void main()
 { 
 	oPosition = vec4(FragPos, 1.0); 
 
-    vec3 Normal = normalize(2.0 * texture(normalTexture, UV0).rgb - 1.0);
+    vec3 Normal = normalize(2.0 * texture(normalTexture, UV0.xy).rgb - 1.0);
 	Normal = normalize(TBN * Normal);
 	oNormal = vec4(Normal, 1.0); 
 
-	oAlbedoSpec = vec4(vec3(texture(albedoTexture, UV0)), 1.0); 
-	oAlbedoSpec.a = texture(metalnessTexture, UV0).r; 
+	oAlbedoSpec = vec4(vec3(texture(albedoTexture, UV0.xy)), 1.0); 
+	oAlbedoSpec.a = texture(metalnessTexture, UV0.xy).r; 
 }
 

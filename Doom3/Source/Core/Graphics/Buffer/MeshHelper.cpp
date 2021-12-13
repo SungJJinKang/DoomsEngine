@@ -7,7 +7,7 @@ namespace dooms::graphics::meshHelper
 {
 	static asset::ThreeDModelAsset* DefaultQuadThreeDModelAsset{ nullptr };
 
-	static std::vector<MeshVertexData> GetQuadMeshVertexData(const math::Vector2& leftbottom, const math::Vector2& rightup)
+	static MeshData GetQuadMeshVertexData(const math::Vector2& leftbottom, const math::Vector2& rightup)
 	{
 		FLOAT32 QuadMeshData[]
 		{
@@ -20,12 +20,11 @@ namespace dooms::graphics::meshHelper
 			leftbottom.x, rightup.y, 0.0f, 0.0f, 1.0f,
 		};
 
-		std::vector<MeshVertexData> MeshVertexDataList{};
-		MeshVertexDataList.resize(6, nullptr);
+		MeshData MeshVertexDataList{6};
 		for(size_t i = 0 ; i < 6 ; i++)
 		{
-			MeshVertexDataList[i].mVertex = math::Vector3(QuadMeshData[5 * i + 0], QuadMeshData[5 * i + 1], QuadMeshData[5 * i + 2]);
-			MeshVertexDataList[i].mTexCoord = math::Vector2(QuadMeshData[5 * i + 3], QuadMeshData[5 * i + 4]);
+			MeshVertexDataList.mVertex[i] = math::Vector3(QuadMeshData[5 * i + 0], QuadMeshData[5 * i + 1], QuadMeshData[5 * i + 2]);
+			MeshVertexDataList.mTexCoord[i] = math::Vector3(QuadMeshData[5 * i + 3], QuadMeshData[5 * i + 4], 0.0f);
 		}
 
 		return MeshVertexDataList;
@@ -41,8 +40,8 @@ namespace dooms::graphics::meshHelper
 
 		threeDModelMeshes[0].bHasIndices = false;
 		
-		std::vector<MeshVertexData> meshVertexData = GetQuadMeshVertexData(leftbottom, rightup);
-		threeDModelMeshes[0].mMeshVertexDatas = std::move(meshVertexData);
+		MeshData meshVertexData = GetQuadMeshVertexData(leftbottom, rightup);
+		threeDModelMeshes[0].mMeshDatas = std::move(meshVertexData);
 
 		std::unique_ptr<ThreeDModelNode> threeDModelNode = std::make_unique<ThreeDModelNode>(nullptr);
 		threeDModelNode->mThreeDModelNodeParent = nullptr;
