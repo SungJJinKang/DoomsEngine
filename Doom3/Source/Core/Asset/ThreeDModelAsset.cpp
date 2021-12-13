@@ -224,6 +224,7 @@ dooms::MeshData::~MeshData()
 
 void dooms::MeshData::Allocate(const size_t size)
 {
+	D_ASSERT(mData == nullptr);
 	if(size != 0)
 	{
 		mData = reinterpret_cast<char*>(std::malloc((sizeof(Vector3) + sizeof(Vector3) + sizeof(Vector3) + sizeof(Vector3) + sizeof(Vector3)) * size));

@@ -79,7 +79,7 @@ void dooms::GameLogicStartPoint::StartGameLogic()
 
 	auto lightEntity = currenScene->CreateNewEntity();
 	lightEntity->GetTransform()->SetPosition(-30.0f, 0.0f, 0.0f);
-	lightEntity->GetTransform()->SetRotation(-30.0f, 0.0f, 0.0f);
+	lightEntity->GetTransform()->SetRotation(30.0f, 0.0f, 0.0f);
 	lightEntity->GetTransform()->SetScale(2.0f, 2.0f, 2.0f);
 	lightEntity->ChangeDObjectName("DirectionalLight");
 	auto dirLight = lightEntity->AddComponent<DirectionalLight>();
