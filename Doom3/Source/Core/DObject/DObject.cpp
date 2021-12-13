@@ -169,6 +169,14 @@ dooms::DObject::~DObject()
 	DObjectManager::RemoveDObject(this);
 }
 
+void dooms::DObject::OnSetPendingKill_Internal()
+{
+	if (GetDObjectFlag(eDObjectFlag::IsRootObject) == true)
+	{
+		dooms::gc::GarbageCollectorManager::RemoveFromDObjectsList(this);
+	}
+}
+
 bool dooms::DObject::AddToRootObjectList()
 {
 	bool isSuccess = false;

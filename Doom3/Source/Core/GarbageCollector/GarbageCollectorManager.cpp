@@ -152,7 +152,12 @@ bool dooms::gc::GarbageCollectorManager::AddToRootsDObjectsList(DObject* const d
 
 bool dooms::gc::GarbageCollectorManager::RemoveFromDObjectsList(DObject* const dObjet)
 {
-	const bool isSuccess = swap_popback::vector_find_swap_popback(mRootsDObjectsList, dObjet);
+	bool isSuccess = false;
+
+	if(mRootsDObjectsList.empty() == false)
+	{
+		isSuccess = swap_popback::vector_find_swap_popback(mRootsDObjectsList, dObjet);
+	}
 	
 	return isSuccess;
 }

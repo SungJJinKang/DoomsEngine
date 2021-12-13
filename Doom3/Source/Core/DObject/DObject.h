@@ -183,6 +183,7 @@ namespace dooms
 		dooms::ui::EngineGUIAccessor mEngineGUIAccessor;
 
 		virtual void OnSetPendingKill(){}
+		void OnSetPendingKill_Internal();
 
 		/// <summary>
 		/// If you want that this object is not collected by gc, call this fucntion
@@ -272,6 +273,7 @@ namespace dooms
 			bool isSuccess = false;
 			if(GetIsPendingKill() == false/* && GetIsNewAllocated() == true*/)
 			{
+				OnSetPendingKill_Internal();
 				OnSetPendingKill();
 				SetDObjectFlag(eDObjectFlag::IsPendingKill);
 
