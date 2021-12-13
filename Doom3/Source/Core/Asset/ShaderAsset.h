@@ -96,13 +96,14 @@ namespace dooms
 			std::string ExtractShaderFile(const std::filesystem::path& path);
 
 #ifdef DEBUG_MODE
-			void checkCompileError(UINT32 id, ShaderType shaderType);
+			void checkCompileError(UINT32& id, ShaderType shaderType);
 #endif
 			/// <summary>
 			/// return shader is valid??
 			/// </summary>
 			/// <returns></returns>
 			bool GetIsValid() const;
+			bool GetIsValid(const ShaderType shaderType) const;
 
 		protected:
 

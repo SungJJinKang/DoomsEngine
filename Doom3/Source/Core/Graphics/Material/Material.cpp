@@ -13,7 +13,7 @@ using namespace dooms::graphics;
 
 void Material::SetShaderAsset(::dooms::asset::ShaderAsset* shaderAsset)
 {
-	D_ASSERT(shaderAsset != nullptr);
+	D_ASSERT(IsValid(shaderAsset) == true);
 
 	mShaderAsset = shaderAsset;
 
@@ -71,8 +71,7 @@ dooms::graphics::Material::Material() : mProgramID{ INVALID_BUFFER_ID }, mShader
 
 Material::Material(::dooms::asset::ShaderAsset* shaderAsset) : mProgramID{0}, mShaderAsset{ nullptr }
 {
-
-	if (shaderAsset != nullptr)
+	if (IsValid(shaderAsset) == true)
 	{
 		SetShaderAsset(shaderAsset);
 	}

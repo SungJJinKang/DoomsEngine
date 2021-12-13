@@ -339,7 +339,7 @@ std::string dooms::asset::ShaderAsset::ExtractShaderFile(const std::filesystem::
 }
 
 #ifdef DEBUG_MODE
-void dooms::asset::ShaderAsset::checkCompileError(UINT32 id, ShaderType shaderType)
+void dooms::asset::ShaderAsset::checkCompileError(UINT32& id, ShaderType shaderType)
 {
 	INT32 success;
 	char infoLog[1024];
@@ -363,9 +363,17 @@ void dooms::asset::ShaderAsset::checkCompileError(UINT32 id, ShaderType shaderTy
 	if (!success)
 	{
 		glGetShaderInfoLog(id, 1024, NULL, infoLog);
-		D_DEBUG_LOG
+		id = 0;
+		D_ASSERT_LOG
 		(
-			eLogType::D_ERROR, "Shader File Name : %s ( Shader Type : %s ). SHADER_COMPILATION_ERROR : %s"
+			false, "Shader File Name : %s ( Shader Type : %s ). SHADER_COMPILATION_ERROR : %s"
+			, GetAssetFileName().c_str()
+			, shaderTypeStr.c_str()
+			, infoLog
+		);
+		dooms::ui::PrintText
+		(
+			"Shader File Name : %s ( Shader Type : %s ). SHADER_COMPILATION_ERROR : %s"
 			, GetAssetFileName().c_str()
 			, shaderTypeStr.c_str()
 			, infoLog
@@ -377,6 +385,32 @@ void dooms::asset::ShaderAsset::checkCompileError(UINT32 id, ShaderType shaderTy
 bool dooms::asset::ShaderAsset::GetIsValid() const
 {
 	return mVertexId || mFragmentId || mGeometryId;
+}
+
+bool dooms::asset::ShaderAsset::GetIsValid(const ShaderType shaderType) const
+{
+	bool isValid = false;
+
+	switch (shaderType)
+	{
+	case ShaderType::Vertex:
+		isValid = (mVertexId != 0);
+		break;
+
+	case ShaderType::Fragment:
+		isValid = (mFragmentId != 0);
+		break;
+
+	case ShaderType::Geometry:
+		isValid = (mGeometryId != 0);
+		break;
+
+	case ShaderType::None:
+		D_ASSERT(false);
+		break;
+	}
+
+	return isValid;
 }
 
 void dooms::asset::ShaderAsset::OnEndImportInMainThread_Internal()
