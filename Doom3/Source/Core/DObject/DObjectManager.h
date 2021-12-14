@@ -29,7 +29,7 @@ namespace dooms
 
 		std::unordered_set<DObject*> mDObjectList;
 		
-		std::vector<UINT32> mDObjectFlagList;
+		std::vector<UINT32> mDObjectFlagList; // TODO : Can multithreaded gc mark stage cause data race??  ( https://github.com/SungJJinKang/DoomsEngine/blob/main/Doom3/Source/Core/GarbageCollector/GarbageCollectorSolver.cpp ) ( https://stackoverflow.com/q/70352322/17222574 )
 		std::vector<UINT32> mEmptyIndexInFlagList;
 
 		DObjectsContainer();
