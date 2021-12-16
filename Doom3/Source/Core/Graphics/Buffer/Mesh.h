@@ -14,7 +14,7 @@
 namespace dooms
 {
 
-	struct ThreeDModelMesh;
+	class ThreeDModelMesh;
 
 	namespace graphics
 	{

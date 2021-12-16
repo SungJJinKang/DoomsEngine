@@ -18,8 +18,8 @@ using namespace math;
 D_NAMESPACE(dooms)
 namespace dooms
 {
-	struct ThreeDModelMesh;
-	struct ThreeDModelNode;
+	class ThreeDModelMesh;
+	class ThreeDModelNode;
 
 	namespace asset
 	{
@@ -36,8 +36,11 @@ namespace dooms
 	/// 
 	/// Never edit this struct, Never change placement order of datas
 	/// </summary>
-	struct DOOM_API D_STRUCT MeshData
+	class DOOM_API D_CLASS MeshData : public DObject
 	{
+		GENERATE_BODY_FULLNAME_dooms__MeshData()
+
+	public:
 		D_PROPERTY()
 		size_t mVerticeCount;
 
@@ -82,9 +85,11 @@ namespace dooms
 	*/
 
 	
-	struct DOOM_API D_STRUCT ThreeDModelMesh
+	class DOOM_API D_CLASS ThreeDModelMesh : public DObject
 	{
 		GENERATE_BODY_ThreeDModelMesh()
+
+	public:
 
 		D_PROPERTY()
 		std::string mName;
@@ -129,10 +134,12 @@ namespace dooms
 		~ThreeDModelMesh() = default;
 	};
 
-	struct DOOM_API D_STRUCT ThreeDModelNode
+	class DOOM_API D_CLASS ThreeDModelNode : public DObject
 	{
 		GENERATE_BODY_ThreeDModelNode()
-			
+
+	public:
+
 		D_PROPERTY()
 		std::string mName;
 
@@ -179,7 +186,7 @@ namespace dooms
 		private:
 
 			D_PROPERTY()
-			std::unique_ptr<ThreeDModelNode> mRootModelNode{};
+			ThreeDModelNode* mRootModelNode{};
 
 			D_PROPERTY()
 			std::vector<ThreeDModelMesh> mModelMeshAssets;
@@ -187,13 +194,13 @@ namespace dooms
 			///////////
 
 			D_PROPERTY()
-			std::unique_ptr<graphics::MeshNode> mRootMeshNode{};
+			graphics::MeshNode* mRootMeshNode{nullptr};
 
 			D_PROPERTY()
 			std::vector<graphics::Mesh> mMeshes{};
 
 			D_PROPERTY()
-			UINT32 mNumOfMeshes{};
+				size_t mNumOfMeshes{};
 
 			/// <summary>
 			/// Send Meshdata to GPU
@@ -210,7 +217,11 @@ namespace dooms
 			
 			ThreeDModelAsset() = default;
 			ThreeDModelAsset(const ThreeDModelAsset&) = delete;
-			ThreeDModelAsset(std::vector<ThreeDModelMesh>&& threeDModelMeses, std::unique_ptr<ThreeDModelNode> rootThreeDModelNode) noexcept;
+			ThreeDModelAsset
+			(
+				std::vector<ThreeDModelMesh>&& threeDModelMeses, 
+				ThreeDModelNode* const rootThreeDModelNode
+			) noexcept;
 			ThreeDModelAsset(ThreeDModelAsset&& threeDAsset) noexcept = default;
 			ThreeDModelAsset& operator=(const ThreeDModelAsset&) = delete;
 			ThreeDModelAsset& operator=(ThreeDModelAsset&& threeDAsset) noexcept = default;

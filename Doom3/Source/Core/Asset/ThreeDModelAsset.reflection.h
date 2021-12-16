@@ -24,29 +24,63 @@
 #error "GENERATE_BODY_FULLNAME_dooms__MeshData already included...."
 #endif
 
+#undef INHERITANCE_INFORMATION_dooms__MeshData
+#define INHERITANCE_INFORMATION_dooms__MeshData \
+public : \
+inline static const unsigned long int BASE_CHAIN_LIST[] { 1294305453, 3969188510 }; \
+inline static const unsigned long int BASE_CHAIN_LIST_LENGTH { 2 }; \
+virtual const unsigned long int* GetBaseChainList() const { return BASE_CHAIN_LIST; } \
+virtual unsigned long int GetBaseChainListLength() const { return BASE_CHAIN_LIST_LENGTH; } \
+typedef dooms::DObject Base;
+
+
+#undef CLONE_OBJECT_dooms__MeshData
+#define CLONE_OBJECT_dooms__MeshData \
+public : \
+virtual dooms::DObject* CloneObject() const \
+{ \
+	dooms::DObject* clonedObject = nullptr; \
+	/* std::vector<std::unique_ptr> can make false positive for std::is_copy_constructible<std::vector<std::unique_ptr>>::value. So Please explicitly delete copy constructor if you have this type variable */ \
+	if constexpr( (std::is_copy_constructible<dooms::MeshData>::value == true) && (std::is_base_of<dooms::DObject, dooms::MeshData>::value == true) ) \
+	{ \
+		 clonedObject = dooms::CreateDObject<dooms::MeshData>(*this); \
+	} \
+	assert(clonedObject != nullptr);	\
+	return clonedObject;	\
+}
+
 
 #undef CURRENT_TYPE_ALIAS_dooms__MeshData
 #define CURRENT_TYPE_ALIAS_dooms__MeshData \
+public : \
 typedef dooms::MeshData Current;
 
 
 #undef TYPE_FULLNAME_HASH_VALUE_NAME_STRING_dooms__MeshData
 #define TYPE_FULLNAME_HASH_VALUE_NAME_STRING_dooms__MeshData \
+public : \
 inline static const unsigned long int TYPE_FULL_NAME_HASH_VALUE = 1294305453; \
 inline static const char* const TYPE_FULL_NAME = "dooms::MeshData"; \
 inline static const char* const TYPE_SHORT_NAME = "MeshData"; \
+virtual unsigned long int GetTypeHashVlue() const { return TYPE_FULL_NAME_HASH_VALUE; } \
+virtual const char* GetTypeFullName() const { return TYPE_FULL_NAME; } \
+virtual const char* GetTypeShortName() const { return TYPE_SHORT_NAME; }
 
 
 #undef TYPE_CHECK_FUNCTION_MeshData
 #define TYPE_CHECK_FUNCTION_MeshData \
+private : \
 attrNoReflect void __TYPE_CHECK() { static_assert(std::is_same_v<std::remove_reference<decltype(*this)>::type, Current> == true, "ERROR : WRONG TYPE. Please Check GENERATED_~ MACROS");} \
 
 
 #undef GENERATE_BODY_FULLNAME_dooms__MeshData
 #define GENERATE_BODY_FULLNAME_dooms__MeshData(...) \
+INHERITANCE_INFORMATION_dooms__MeshData \
+CLONE_OBJECT_dooms__MeshData \
 CURRENT_TYPE_ALIAS_dooms__MeshData \
 TYPE_FULLNAME_HASH_VALUE_NAME_STRING_dooms__MeshData \
 TYPE_CHECK_FUNCTION_MeshData \
+private:
 
 
 //Type Short Name ( without namespace, only type name ) Version Macros.
@@ -60,29 +94,63 @@ TYPE_CHECK_FUNCTION_MeshData \
 #error "GENERATE_BODY_FULLNAME_dooms__ThreeDModelMesh already included...."
 #endif
 
+#undef INHERITANCE_INFORMATION_dooms__ThreeDModelMesh
+#define INHERITANCE_INFORMATION_dooms__ThreeDModelMesh \
+public : \
+inline static const unsigned long int BASE_CHAIN_LIST[] { 3774554090, 3969188510 }; \
+inline static const unsigned long int BASE_CHAIN_LIST_LENGTH { 2 }; \
+virtual const unsigned long int* GetBaseChainList() const { return BASE_CHAIN_LIST; } \
+virtual unsigned long int GetBaseChainListLength() const { return BASE_CHAIN_LIST_LENGTH; } \
+typedef dooms::DObject Base;
+
+
+#undef CLONE_OBJECT_dooms__ThreeDModelMesh
+#define CLONE_OBJECT_dooms__ThreeDModelMesh \
+public : \
+virtual dooms::DObject* CloneObject() const \
+{ \
+	dooms::DObject* clonedObject = nullptr; \
+	/* std::vector<std::unique_ptr> can make false positive for std::is_copy_constructible<std::vector<std::unique_ptr>>::value. So Please explicitly delete copy constructor if you have this type variable */ \
+	if constexpr( (std::is_copy_constructible<dooms::ThreeDModelMesh>::value == true) && (std::is_base_of<dooms::DObject, dooms::ThreeDModelMesh>::value == true) ) \
+	{ \
+		 clonedObject = dooms::CreateDObject<dooms::ThreeDModelMesh>(*this); \
+	} \
+	assert(clonedObject != nullptr);	\
+	return clonedObject;	\
+}
+
 
 #undef CURRENT_TYPE_ALIAS_dooms__ThreeDModelMesh
 #define CURRENT_TYPE_ALIAS_dooms__ThreeDModelMesh \
+public : \
 typedef dooms::ThreeDModelMesh Current;
 
 
 #undef TYPE_FULLNAME_HASH_VALUE_NAME_STRING_dooms__ThreeDModelMesh
 #define TYPE_FULLNAME_HASH_VALUE_NAME_STRING_dooms__ThreeDModelMesh \
+public : \
 inline static const unsigned long int TYPE_FULL_NAME_HASH_VALUE = 3774554090; \
 inline static const char* const TYPE_FULL_NAME = "dooms::ThreeDModelMesh"; \
 inline static const char* const TYPE_SHORT_NAME = "ThreeDModelMesh"; \
+virtual unsigned long int GetTypeHashVlue() const { return TYPE_FULL_NAME_HASH_VALUE; } \
+virtual const char* GetTypeFullName() const { return TYPE_FULL_NAME; } \
+virtual const char* GetTypeShortName() const { return TYPE_SHORT_NAME; }
 
 
 #undef TYPE_CHECK_FUNCTION_ThreeDModelMesh
 #define TYPE_CHECK_FUNCTION_ThreeDModelMesh \
+private : \
 attrNoReflect void __TYPE_CHECK() { static_assert(std::is_same_v<std::remove_reference<decltype(*this)>::type, Current> == true, "ERROR : WRONG TYPE. Please Check GENERATED_~ MACROS");} \
 
 
 #undef GENERATE_BODY_FULLNAME_dooms__ThreeDModelMesh
 #define GENERATE_BODY_FULLNAME_dooms__ThreeDModelMesh(...) \
+INHERITANCE_INFORMATION_dooms__ThreeDModelMesh \
+CLONE_OBJECT_dooms__ThreeDModelMesh \
 CURRENT_TYPE_ALIAS_dooms__ThreeDModelMesh \
 TYPE_FULLNAME_HASH_VALUE_NAME_STRING_dooms__ThreeDModelMesh \
 TYPE_CHECK_FUNCTION_ThreeDModelMesh \
+private:
 
 
 //Type Short Name ( without namespace, only type name ) Version Macros.
@@ -96,29 +164,63 @@ TYPE_CHECK_FUNCTION_ThreeDModelMesh \
 #error "GENERATE_BODY_FULLNAME_dooms__ThreeDModelNode already included...."
 #endif
 
+#undef INHERITANCE_INFORMATION_dooms__ThreeDModelNode
+#define INHERITANCE_INFORMATION_dooms__ThreeDModelNode \
+public : \
+inline static const unsigned long int BASE_CHAIN_LIST[] { 2344481318, 3969188510 }; \
+inline static const unsigned long int BASE_CHAIN_LIST_LENGTH { 2 }; \
+virtual const unsigned long int* GetBaseChainList() const { return BASE_CHAIN_LIST; } \
+virtual unsigned long int GetBaseChainListLength() const { return BASE_CHAIN_LIST_LENGTH; } \
+typedef dooms::DObject Base;
+
+
+#undef CLONE_OBJECT_dooms__ThreeDModelNode
+#define CLONE_OBJECT_dooms__ThreeDModelNode \
+public : \
+virtual dooms::DObject* CloneObject() const \
+{ \
+	dooms::DObject* clonedObject = nullptr; \
+	/* std::vector<std::unique_ptr> can make false positive for std::is_copy_constructible<std::vector<std::unique_ptr>>::value. So Please explicitly delete copy constructor if you have this type variable */ \
+	if constexpr( (std::is_copy_constructible<dooms::ThreeDModelNode>::value == true) && (std::is_base_of<dooms::DObject, dooms::ThreeDModelNode>::value == true) ) \
+	{ \
+		 clonedObject = dooms::CreateDObject<dooms::ThreeDModelNode>(*this); \
+	} \
+	assert(clonedObject != nullptr);	\
+	return clonedObject;	\
+}
+
 
 #undef CURRENT_TYPE_ALIAS_dooms__ThreeDModelNode
 #define CURRENT_TYPE_ALIAS_dooms__ThreeDModelNode \
+public : \
 typedef dooms::ThreeDModelNode Current;
 
 
 #undef TYPE_FULLNAME_HASH_VALUE_NAME_STRING_dooms__ThreeDModelNode
 #define TYPE_FULLNAME_HASH_VALUE_NAME_STRING_dooms__ThreeDModelNode \
+public : \
 inline static const unsigned long int TYPE_FULL_NAME_HASH_VALUE = 2344481318; \
 inline static const char* const TYPE_FULL_NAME = "dooms::ThreeDModelNode"; \
 inline static const char* const TYPE_SHORT_NAME = "ThreeDModelNode"; \
+virtual unsigned long int GetTypeHashVlue() const { return TYPE_FULL_NAME_HASH_VALUE; } \
+virtual const char* GetTypeFullName() const { return TYPE_FULL_NAME; } \
+virtual const char* GetTypeShortName() const { return TYPE_SHORT_NAME; }
 
 
 #undef TYPE_CHECK_FUNCTION_ThreeDModelNode
 #define TYPE_CHECK_FUNCTION_ThreeDModelNode \
+private : \
 attrNoReflect void __TYPE_CHECK() { static_assert(std::is_same_v<std::remove_reference<decltype(*this)>::type, Current> == true, "ERROR : WRONG TYPE. Please Check GENERATED_~ MACROS");} \
 
 
 #undef GENERATE_BODY_FULLNAME_dooms__ThreeDModelNode
 #define GENERATE_BODY_FULLNAME_dooms__ThreeDModelNode(...) \
+INHERITANCE_INFORMATION_dooms__ThreeDModelNode \
+CLONE_OBJECT_dooms__ThreeDModelNode \
 CURRENT_TYPE_ALIAS_dooms__ThreeDModelNode \
 TYPE_FULLNAME_HASH_VALUE_NAME_STRING_dooms__ThreeDModelNode \
 TYPE_CHECK_FUNCTION_ThreeDModelNode \
+private:
 
 
 //Type Short Name ( without namespace, only type name ) Version Macros.

@@ -83,7 +83,7 @@ void dooms::GameLogicStartPoint::StartGameLogic()
 	lightEntity->GetTransform()->SetScale(2.0f, 2.0f, 2.0f);
 	lightEntity->ChangeDObjectName("DirectionalLight");
 	auto dirLight = lightEntity->AddComponent<DirectionalLight>();
-	dirLight->SetIntensity(3.0f);
+	dirLight->SetIntensity(2.0f);
 	dirLight->SetColor({ 1.0f, 1.0f, 1.0f, 1.0f });
 
 	{
@@ -96,7 +96,7 @@ void dooms::GameLogicStartPoint::StartGameLogic()
 		PointLight* pointLight = entity->AddComponent<PointLight>();
 		AutoRotateAround* autoRotateAround = entity->AddComponent<AutoRotateAround>();
 		pointLight->SetColor({ 1.0f, 0.0f, 0.0f, 1.0f });
-		pointLight->SetIntensity(12000.0f);
+		pointLight->SetIntensity(300.0f);
 		autoRotateAround->mCenterPos = math::Vector3{ 0.0f, 0.0f, 0.0f };
 		autoRotateAround->mRotateAngle = 1;
 		autoRotateAround->mRotateAxis = { 0.0f, 1.0f, 0.0f };
@@ -114,7 +114,7 @@ void dooms::GameLogicStartPoint::StartGameLogic()
 		PointLight* pointLight = entity->AddComponent<PointLight>();
 		AutoRotateAround* autoRotateAround = entity->AddComponent<AutoRotateAround>();
 		pointLight->SetColor({ 0.0f, 1.0f, 0.0f, 1.0f });
-		pointLight->SetIntensity(12000.0f);
+		pointLight->SetIntensity(300.0f);
 		autoRotateAround->mCenterPos = math::Vector3{ 0.0f, 0.0f, 0.0f };
 		autoRotateAround->mRotateAngle = 1;
 		autoRotateAround->mRotateAxis = { 1.0f, 0.0f, 0.0f };
@@ -132,7 +132,7 @@ void dooms::GameLogicStartPoint::StartGameLogic()
 		PointLight* pointLight = entity->AddComponent<PointLight>();
 		AutoRotateAround* autoRotateAround = entity->AddComponent<AutoRotateAround>();
 		pointLight->SetColor({ 0.0f, 0.0f, 1.0f, 1.0f });
-		pointLight->SetIntensity(12000.0f);
+		pointLight->SetIntensity(300.0f);
 		autoRotateAround->mCenterPos = math::Vector3{ 0.0f, 0.0f, 0.0f };
 		autoRotateAround->mRotateAngle = 1;
 		autoRotateAround->mRotateAxis = { 0.0f, 1.0f, 0.0f };

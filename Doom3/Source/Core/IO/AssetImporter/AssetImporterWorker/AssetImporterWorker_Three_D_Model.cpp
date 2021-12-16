@@ -308,9 +308,9 @@ void dooms::assetImporter::AssetImporterWorker_THREE_D_MODEL::Creat3DModelAsset
 	}
 
 	//pScene->mRootNode
-	asset->mRootModelNode = std::make_unique<ThreeDModelNode>();
+	asset->mRootModelNode = dooms::CreateDObject<ThreeDModelNode>();
 	asset->mRootModelNode->mThreeDModelNodeParent = nullptr;
-	SetThreeDModelNodesData(asset->mRootModelNode.get(), pScene->mRootNode, nullptr, asset, pScene);
+	SetThreeDModelNodesData(asset->mRootModelNode, pScene->mRootNode, nullptr, asset, pScene);
 
 }
 

@@ -43,11 +43,11 @@ namespace dooms::graphics::meshHelper
 		MeshData meshVertexData = GetQuadMeshVertexData(leftbottom, rightup);
 		threeDModelMeshes[0].mMeshDatas = std::move(meshVertexData);
 
-		std::unique_ptr<ThreeDModelNode> threeDModelNode = std::make_unique<ThreeDModelNode>(nullptr);
+		ThreeDModelNode* const threeDModelNode = dooms::CreateDObject<ThreeDModelNode>(nullptr);
 		threeDModelNode->mThreeDModelNodeParent = nullptr;
 		threeDModelNode->mModelMeshIndexs.push_back(0);
 
-		asset::ThreeDModelAsset* const threeDModelAsset = dooms::CreateDObject<asset::ThreeDModelAsset>(std::move(threeDModelMeshes), std::move(threeDModelNode));
+		asset::ThreeDModelAsset* const threeDModelAsset = dooms::CreateDObject<asset::ThreeDModelAsset>(std::move(threeDModelMeshes), threeDModelNode);
 		assetImporter::AssetManager::GetSingleton()->AddAssetToAssetContainer(threeDModelAsset);
 
 		return threeDModelAsset;

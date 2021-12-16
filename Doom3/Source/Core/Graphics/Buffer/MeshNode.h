@@ -2,15 +2,17 @@
 
 #include <Core.h>
 
-#include <memory>
-
+#include "MeshNode.reflection.h"
 namespace dooms
 {
 	namespace graphics
 	{
 		class Mesh;
-		struct DOOM_API D_STRUCT MeshNode
+		class DOOM_API D_CLASS MeshNode : public DObject
 		{
+			GENERATE_BODY()
+
+		public:
 
 			D_PROPERTY()
 			MeshNode* mParent;

@@ -10,8 +10,8 @@ struct aiScene;
 struct aiNode;
 namespace dooms
 {
-	struct ThreeDModelMesh;
-	struct ThreeDModelNode;
+	class ThreeDModelMesh;
+	class ThreeDModelNode;
 	namespace asset
 	{
 		class ThreeDModelAsset;

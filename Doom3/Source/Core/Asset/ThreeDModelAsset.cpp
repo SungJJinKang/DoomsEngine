@@ -18,25 +18,25 @@ void dooms::asset::ThreeDModelAsset::SendMeshDataToGPU()
 		}
 	}
 
-	mRootMeshNode = std::make_unique<dooms::graphics::MeshNode>();
-	CreateNode(mRootMeshNode.get(), mRootModelNode.get());
+	mRootMeshNode = dooms::CreateDObject<dooms::graphics::MeshNode>();
+	CreateNode(mRootMeshNode, mRootModelNode);
 }
 
 
 void dooms::asset::ThreeDModelAsset::ClearMeshData()
 {
 	mModelMeshAssets.resize(0);
-	mRootModelNode.reset();
+	mRootModelNode->SetIsPendingKill();
 
 }
 
 void dooms::asset::ThreeDModelAsset::CreateNode(graphics::MeshNode* currentNode, ThreeDModelNode* currentModelNodeAsset)
 {
-	const UINT32 indiceCount = currentModelNodeAsset->mModelMeshIndexs.size();
+	const size_t indiceCount = currentModelNodeAsset->mModelMeshIndexs.size();
 	if (indiceCount != 0)
 	{
 		currentNode->mMeshes.resize(indiceCount);
-		for (UINT32 i = 0; i < indiceCount ; i++)
+		for (size_t i = 0; i < indiceCount ; i++)
 		{
 			currentNode->mMeshes[i] = &(mMeshes[currentModelNodeAsset->mModelMeshIndexs[i]]);
 		}
@@ -46,11 +46,11 @@ void dooms::asset::ThreeDModelAsset::CreateNode(graphics::MeshNode* currentNode,
 		currentNode->mMeshes.resize(0);
 	}
 
-	const UINT32 nodeChildrenCount = currentModelNodeAsset->mThreeDModelNodeChildrens.size();
+	const size_t nodeChildrenCount = currentModelNodeAsset->mThreeDModelNodeChildrens.size();
 	if (nodeChildrenCount != 0)
 	{
 		currentNode->mChilds.resize(nodeChildrenCount);
-		for (UINT32 i = 0; i < nodeChildrenCount ; i++)
+		for (size_t i = 0; i < nodeChildrenCount ; i++)
 		{
 			currentNode->mChilds[i].mParent = currentNode;
 			CreateNode( &(currentNode->mChilds[i]), &(currentModelNodeAsset->mThreeDModelNodeChildrens[i]) );
@@ -72,9 +72,9 @@ void dooms::asset::ThreeDModelAsset::OnEndImportInMainThread_Internal()
 dooms::asset::ThreeDModelAsset::ThreeDModelAsset 
 (
 	std::vector<ThreeDModelMesh>&& threeDModelMeses,
-	std::unique_ptr<ThreeDModelNode> rootThreeDModelNode
+	ThreeDModelNode* const rootThreeDModelNode
 ) noexcept
-	: mRootModelNode( std::move(rootThreeDModelNode) ), mModelMeshAssets{ std::move(threeDModelMeses) }
+	: mRootModelNode(rootThreeDModelNode), mModelMeshAssets{ std::move(threeDModelMeses) }
 {
 	SendMeshDataToGPU();
 }
