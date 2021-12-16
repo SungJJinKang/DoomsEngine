@@ -50,18 +50,10 @@ namespace dooms
 		//For Sorting Renderers front to back
 		std::vector<FLOAT32> mDistancesToCamera;
 
-		/// <summary>
-		/// EntityBlockViewer never be cheanged on a entity
-		/// </summary>
-		culling::EntityBlockViewer mEntityBlockViewer;
-
-		
-		
-
 		
 		void MergeBVHBitFlag();
 		void ClearRenderingBitFlag();
-
+		
 	protected:
 
 		DirtyReceiver bmIsModelMatrixDirty{ true };
@@ -69,6 +61,14 @@ namespace dooms
 		D_PROPERTY()
 		const graphics::Material* mTargetMaterial;
 
+		/// <summary>
+		/// EntityBlockViewer never be cheanged on a entity
+		/// </summary>
+		culling::EntityBlockViewer mCullingEntityBlockViewer;
+		virtual void UpdateCullingEntityBlockViewer();
+
+		void AddRendererToCullingSystem();
+		void RemoveRendererFromCullingSystem();
 
 		Renderer(const Renderer&) = default;
 		Renderer(Renderer&&) noexcept = delete;
@@ -146,7 +146,7 @@ namespace dooms
 		char GetIsVisibleWithCameraIndex(UINT32 cameraIndex) const;
 		FORCE_INLINE bool GetIsCulled(const UINT32 cameraIndex) const
 		{
-			return mEntityBlockViewer.GetIsCulled(cameraIndex);
+			return mCullingEntityBlockViewer.GetIsCulled(cameraIndex);
 		}
 
 		virtual physics::AABB3D GetLocalAABBBound() const = 0;

@@ -39,7 +39,7 @@ namespace dooms
 	struct DOOM_API D_STRUCT MeshData
 	{
 		D_PROPERTY()
-		size_t mSize;
+		size_t mVerticeCount;
 
 		D_PROPERTY()
 		char* mData;
@@ -60,14 +60,14 @@ namespace dooms
 		Vector3* mBitangent;
 
 		MeshData();
-		MeshData(const size_t size);
+		MeshData(const size_t verticeCount);
 		MeshData(const MeshData&);
 		MeshData(MeshData&&) noexcept;
 		MeshData& operator=(const MeshData&);
 		MeshData& operator=(MeshData&&) noexcept;
 		~MeshData();
 
-		void Allocate(const size_t size);
+		void Allocate(const size_t verticeCount);
 		size_t GetAllocatedDataSize() const;
 		void Free();
 	};

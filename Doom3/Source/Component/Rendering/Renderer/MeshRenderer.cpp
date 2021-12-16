@@ -1,10 +1,32 @@
 #include "MeshRenderer.h"
 
+#include "Asset/ThreeDModelAsset.h"
+
 
 void dooms::MeshRenderer::OnDestroy()
 {
 	Base::OnDestroy();
 
+}
+
+void dooms::MeshRenderer::UpdateCullingEntityBlockViewer()
+{
+	Renderer::UpdateCullingEntityBlockViewer();
+
+	if(IsValid(mTargetMesh) == true)
+	{
+		const ThreeDModelMesh* const threeDModelMesh = mTargetMesh->GetTargetThreeDModelMesh();
+
+		
+		mCullingEntityBlockViewer.SetMeshVertexData
+		(
+			reinterpret_cast<const culling::Vec3*>(threeDModelMesh->mMeshDatas.mVertex),
+			threeDModelMesh->mMeshDatas.mVerticeCount,
+			threeDModelMesh->mMeshIndices.data(),
+			threeDModelMesh->mMeshIndices.size()
+		);
+	}
+	
 }
 
 dooms::MeshRenderer::MeshRenderer() : Renderer(), mTargetMesh{ nullptr }
@@ -21,7 +43,9 @@ void dooms::MeshRenderer::SetMesh(const graphics::Mesh* const mesh)
 	mTargetMesh = mesh;
 	if (mTargetMesh != nullptr)
 	{
-		auto boudingSphere = mTargetMesh->GetBoundingSphere();
+		AddRendererToCullingSystem();
+
+		const physics::Sphere& boudingSphere = mTargetMesh->GetBoundingSphere();
 		/// <summary>
 		/// MeshRenderer is required to UpdateLocalBVhColliderCache only when Mesh is changed
 		/// </summary>
@@ -38,10 +62,12 @@ void dooms::MeshRenderer::SetMesh(const graphics::Mesh* const mesh)
 		//SetBoundingSphereRadiusForCulling(0);
 
 		//TODO : when model matrix is changed, should update SetBoundingSphereRadiusForCulling
+
+		UpdateCullingEntityBlockViewer();
 	}
 	else
 	{
-		D_DEBUG_LOG(eLogType::D_ERROR, "MeshRender don't have for BVH_AABB");
+		RemoveRendererFromCullingSystem();
 	}
 }
 

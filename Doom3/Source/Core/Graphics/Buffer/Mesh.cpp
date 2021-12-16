@@ -86,6 +86,11 @@ dooms::graphics::Mesh& dooms::graphics::Mesh::operator=(const ThreeDModelMesh& t
 }
 
 
+const dooms::ThreeDModelMesh* dooms::graphics::Mesh::GetTargetThreeDModelMesh() const
+{
+	return mTargetThreeDModelMesh;
+}
+
 void dooms::graphics::Mesh::BufferData(GLsizeiptr dataComponentCount, const void* data, ePrimitiveType primitiveType, UINT32 vertexArrayFlag) noexcept
 {
 	GenBufferIfNotGened(false);
@@ -231,7 +236,7 @@ void dooms::graphics::Mesh::BufferDataFromModelMesh(const ThreeDModelMesh& three
 		glVertexAttribPointer(4, 3, GL_FLOAT, GL_FALSE, sizeof(*(threeDModelMesh.mMeshDatas.mBitangent)), reinterpret_cast<GLvoid*>((char*)threeDModelMesh.mMeshDatas.mBitangent - threeDModelMesh.mMeshDatas.mData));
 	}
 
-	mNumOfVertices = threeDModelMesh.mMeshDatas.mSize;
+	mNumOfVertices = threeDModelMesh.mMeshDatas.mVerticeCount;
 
 	// only fill the index buffer if the index array is non-empty.
 	mNumOfIndices = 0;

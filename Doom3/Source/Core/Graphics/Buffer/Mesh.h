@@ -115,6 +115,8 @@ namespace dooms
 			Mesh(Mesh&&) noexcept = default;
 			Mesh& operator=(Mesh&&) noexcept = default;
 
+			const ThreeDModelMesh* GetTargetThreeDModelMesh() const;
+
 			D_FUNCTION()
 			FORCE_INLINE void BindVertexArrayObject() const noexcept
 			{

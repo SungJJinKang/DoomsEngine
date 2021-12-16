@@ -38,6 +38,7 @@ namespace dooms
 
 		virtual void OnDestroy() override;
 		
+		virtual void UpdateCullingEntityBlockViewer() override;
 
 	public:
 

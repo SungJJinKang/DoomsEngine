@@ -18,11 +18,13 @@ void dooms::Renderer::SetRenderingFlag(const eRenderingFlag flag, const bool isS
 	}
 }
 
+
+
 void dooms::Renderer::InitComponent()
 {
 	RendererComponentStaticIterator::GetSingleton()->AddRendererToStaticContainer(this);
 
-	mEntityBlockViewer = graphics::Graphics_Server::GetSingleton()->mCullingSystem->AllocateNewEntity(this, GetTransform());
+	AddRendererToCullingSystem();
 
 	AddLocalDirtyToTransformDirtyReceiver(BVH_Sphere_Node_Object::IsWorldColliderCacheDirty);
 	AddLocalDirtyToTransformDirtyReceiver(ColliderUpdater<dooms::physics::AABB3D>::IsWorldColliderCacheDirty);
@@ -39,16 +41,29 @@ const math::Matrix4x4& dooms::Renderer::GetModelMatrix()
 	return GetTransform()->GetModelMatrix();
 }
 
+void dooms::Renderer::AddRendererToCullingSystem()
+{
+	if(mCullingEntityBlockViewer.GetIsActive() == false)
+	{
+		mCullingEntityBlockViewer = graphics::Graphics_Server::GetSingleton()->mCullingSystem->AllocateNewEntity(this, GetTransform());
+	}
+}
+
+void dooms::Renderer::RemoveRendererFromCullingSystem()
+{
+	graphics::Graphics_Server::GetSingleton()->mCullingSystem->RemoveEntityFromBlock(mCullingEntityBlockViewer);
+}
+
 void dooms::Renderer::OnDestroy()
 {
 	Base::OnDestroy();
 
-	graphics::Graphics_Server::GetSingleton()->mCullingSystem->RemoveEntityFromBlock(mEntityBlockViewer);
+	RemoveRendererFromCullingSystem();
 
 	RendererComponentStaticIterator::GetSingleton()->RemoveRendererToStaticContainer(this);
 }
 
-dooms::Renderer::Renderer() : Component(), mTargetMaterial{}
+dooms::Renderer::Renderer() : Component(), mTargetMaterial{}, mCullingEntityBlockViewer()
 {
 
 }
@@ -68,6 +83,11 @@ void dooms::Renderer::ClearRenderingBitFlag()
 	mRenderingFlag = 0;
 }
 
+void dooms::Renderer::UpdateCullingEntityBlockViewer()
+{
+	
+}
+
 void dooms::Renderer::SetMaterial(const graphics::Material* material) noexcept
 {
 	mTargetMaterial = material;
@@ -75,7 +95,7 @@ void dooms::Renderer::SetMaterial(const graphics::Material* material) noexcept
 
 char dooms::Renderer::GetIsVisibleWithCameraIndex(UINT32 cameraIndex) const
 {
-	return mEntityBlockViewer.GetIsCulled(cameraIndex);
+	return mCullingEntityBlockViewer.GetIsCulled(cameraIndex);
 }
 
 void dooms::Renderer::CacheDistanceToCamera(const size_t cameraIndex, const Camera* const camera)

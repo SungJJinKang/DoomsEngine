@@ -68,7 +68,7 @@ void Graphics_Server::Update()
 
 	//auto t_start = std::chrono::high_resolution_clock::now();
 	
-	D_START_PROFILING(RENDER);
+	D_START_PROFILING(RENDER, dooms::profiler::eProfileLayers::Rendering);
 	Render();
 	D_END_PROFILING(RENDER);
 
@@ -264,7 +264,7 @@ void dooms::graphics::Graphics_Server::RenderObject(dooms::Camera* const targetC
 
 	if (targetCamera->GetIsCullJobEnabled() == true)
 	{
-		D_START_PROFILING(WAIT_CULLJOB);
+		D_START_PROFILING(WAIT_CULLJOB, dooms::profiler::eProfileLayers::Rendering);
 		mCullingSystem->WaitToFinishCullJob(targetCamera->CameraIndexInCullingSystem); // Waiting time is almost zero
 		//resource::JobSystem::GetSingleton()->SetMemoryBarrierOnAllSubThreads();
 		D_END_PROFILING(WAIT_CULLJOB);
@@ -311,7 +311,7 @@ void dooms::graphics::Graphics_Server::RenderObject(dooms::Camera* const targetC
 	//Wait Multithread Sorting Renderer Front To Back  TO  JobSystem finished.
 	if(IsFinishedSortingReferernceRenderers.valid() == true)
 	{
-		D_START_PROFILING(WAIT_SORTING_RENDERER_JOB);
+		D_START_PROFILING(WAIT_SORTING_RENDERER_JOB, dooms::profiler::eProfileLayers::Rendering);
 		IsFinishedSortingReferernceRenderers.wait();
 		D_END_PROFILING(WAIT_SORTING_RENDERER_JOB);
 	}

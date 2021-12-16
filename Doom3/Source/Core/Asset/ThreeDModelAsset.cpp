@@ -120,7 +120,7 @@ dooms::asset::eAssetType dooms::asset::ThreeDModelAsset::GetEAssetType() const
 dooms::MeshData::MeshData()
 	:
 	mData(nullptr),
-	mSize(0),
+	mVerticeCount(0),
 	mVertex(nullptr),
 	mTexCoord(nullptr),
 	mNormal(nullptr),
@@ -129,31 +129,31 @@ dooms::MeshData::MeshData()
 {
 }
 
-dooms::MeshData::MeshData(const size_t size)
+dooms::MeshData::MeshData(const size_t verticeCount)
 	: MeshData()
 {
-	Allocate(size);
+	Allocate(verticeCount);
 }
 
 dooms::MeshData::MeshData(const MeshData& meshData)
 	:
 	mData(nullptr),
-	mSize(0),
+	mVerticeCount(0),
 	mVertex(nullptr),
 	mTexCoord(nullptr),
 	mNormal(nullptr),
 	mTangent(nullptr),
 	mBitangent(nullptr)
 {
-	Allocate(meshData.mSize);
+	Allocate(meshData.mVerticeCount);
 
-	std::memcpy(mData, meshData.mData, (sizeof(Vector3) + sizeof(Vector3) + sizeof(Vector3) + sizeof(Vector3) + sizeof(Vector3)) * mSize);
+	std::memcpy(mData, meshData.mData, (sizeof(Vector3) + sizeof(Vector3) + sizeof(Vector3) + sizeof(Vector3) + sizeof(Vector3)) * mVerticeCount);
 }
 
 dooms::MeshData::MeshData(MeshData&& meshData) noexcept
 	:
 	mData(meshData.mData),
-	mSize(meshData.mSize),
+	mVerticeCount(meshData.mVerticeCount),
 	mVertex(meshData.mVertex),
 	mTexCoord(meshData.mTexCoord),
 	mNormal(meshData.mNormal),
@@ -161,7 +161,7 @@ dooms::MeshData::MeshData(MeshData&& meshData) noexcept
 	mBitangent(meshData.mBitangent)
 {
 	meshData.mData = nullptr;
-	meshData.mSize = 0;
+	meshData.mVerticeCount = 0;
 	meshData.mVertex = nullptr;
 	meshData.mTexCoord = nullptr;
 	meshData.mNormal = nullptr;
@@ -171,17 +171,17 @@ dooms::MeshData::MeshData(MeshData&& meshData) noexcept
 
 dooms::MeshData& dooms::MeshData::operator=(const MeshData& meshData)
 {
-	if(mSize == meshData.mSize)
+	if(mVerticeCount == meshData.mVerticeCount)
 	{
-		std::memcpy(mData, meshData.mData, (sizeof(Vector3) + sizeof(Vector3) + sizeof(Vector3) + sizeof(Vector3) + sizeof(Vector3)) * mSize);
+		std::memcpy(mData, meshData.mData, (sizeof(Vector3) + sizeof(Vector3) + sizeof(Vector3) + sizeof(Vector3) + sizeof(Vector3)) * mVerticeCount);
 	}
 	else
 	{
 		Free();
 
-		Allocate(meshData.mSize);
+		Allocate(meshData.mVerticeCount);
 
-		std::memcpy(mData, meshData.mData, (sizeof(Vector3) + sizeof(Vector3) + sizeof(Vector3) + sizeof(Vector3) + sizeof(Vector3)) * mSize);
+		std::memcpy(mData, meshData.mData, (sizeof(Vector3) + sizeof(Vector3) + sizeof(Vector3) + sizeof(Vector3) + sizeof(Vector3)) * mVerticeCount);
 	}
 
 	return *this;
@@ -192,7 +192,7 @@ dooms::MeshData& dooms::MeshData::operator=(MeshData&& meshData) noexcept
 	Free();
 
 	mData = meshData.mData;
-	mSize = meshData.mSize;
+	mVerticeCount = meshData.mVerticeCount;
 	mVertex = meshData.mVertex;
 	mTexCoord = meshData.mTexCoord;
 	mNormal = meshData.mNormal;
@@ -200,7 +200,7 @@ dooms::MeshData& dooms::MeshData::operator=(MeshData&& meshData) noexcept
 	mBitangent = meshData.mBitangent;
 
 	meshData.mData = nullptr;
-	meshData.mSize = 0;
+	meshData.mVerticeCount = 0;
 	meshData.mVertex = nullptr;
 	meshData.mTexCoord = nullptr;
 	meshData.mNormal = nullptr;
@@ -215,26 +215,26 @@ dooms::MeshData::~MeshData()
 	Free();
 }
 
-void dooms::MeshData::Allocate(const size_t size)
+void dooms::MeshData::Allocate(const size_t verticeCount)
 {
 	D_ASSERT(mData == nullptr);
-	if(size != 0)
+	if(verticeCount != 0)
 	{
-		mData = reinterpret_cast<char*>(std::malloc((sizeof(Vector3) + sizeof(Vector3) + sizeof(Vector3) + sizeof(Vector3) + sizeof(Vector3)) * size));
-		mSize = size;
+		mData = reinterpret_cast<char*>(std::malloc((sizeof(Vector3) + sizeof(Vector3) + sizeof(Vector3) + sizeof(Vector3) + sizeof(Vector3)) * verticeCount));
+		mVerticeCount = verticeCount;
 
 		mVertex = reinterpret_cast<Vector3*>(mData);
-		mTexCoord = reinterpret_cast<Vector3*>((char*)mVertex + sizeof(Vector3) * size);
-		mNormal = reinterpret_cast<Vector3*>((char*)mTexCoord + sizeof(Vector3) * size);
-		mTangent = reinterpret_cast<Vector3*>((char*)mNormal + sizeof(Vector3) * size);
-		mBitangent = reinterpret_cast<Vector3*>((char*)mTangent + sizeof(Vector3) * size);
+		mTexCoord = reinterpret_cast<Vector3*>((char*)mVertex + sizeof(Vector3) * verticeCount);
+		mNormal = reinterpret_cast<Vector3*>((char*)mTexCoord + sizeof(Vector3) * verticeCount);
+		mTangent = reinterpret_cast<Vector3*>((char*)mNormal + sizeof(Vector3) * verticeCount);
+		mBitangent = reinterpret_cast<Vector3*>((char*)mTangent + sizeof(Vector3) * verticeCount);
 	}
 	
 }
 
 size_t dooms::MeshData::GetAllocatedDataSize() const
 {
-	return (sizeof(Vector3) + sizeof(Vector3) + sizeof(Vector3) + sizeof(Vector3) + sizeof(Vector3)) * mSize;
+	return (sizeof(Vector3) + sizeof(Vector3) + sizeof(Vector3) + sizeof(Vector3) + sizeof(Vector3)) * mVerticeCount;
 }
 
 void dooms::MeshData::Free()
@@ -244,7 +244,7 @@ void dooms::MeshData::Free()
 		free(mData);
 	}
 
-	mSize = 0;
+	mVerticeCount = 0;
 	mVertex = nullptr;
 	mTexCoord = nullptr;
 	mNormal = nullptr;
