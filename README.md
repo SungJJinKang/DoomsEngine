@@ -35,7 +35,7 @@
 ## To Develop
  
   * Hierarchical Shadow Map
-  * Hot Reload ( similar to Unreal Engine's )
+  * PBR
 
 ## Screenshot
 ![20211213050637](https://user-images.githubusercontent.com/33873804/145727751-74daefb4-a6b1-4b3c-94d3-56a52c5c0861.png)
