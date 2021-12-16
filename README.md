@@ -28,14 +28,13 @@
 
 ## Currently working on
 
-  * change STL to [EASTL](https://github.com/electronicarts/EASTL)
   * change graphics api!!! ( 0%, OpenGL to DirectX12 )
   * Masked SW Occlusion Culling ( 20%, work directory - https://github.com/SungJJinKang/EveryCulling/tree/main/CullingModule/MaskedSWOcclusionCulling ) ( reference : https://software.intel.com/content/dam/develop/external/us/en/documents/masked-software-occlusion-culling.pdf )        
  
 ## To Develop
  
   * Hierarchical Shadow Map
-  * PBR
+  * implement physical based rendering ( https://cdn2.unrealengine.com/Resources/files/2013SiggraphPresentationsNotes-26915738.pdf )
 
 ## Screenshot
 ![20211213050637](https://user-images.githubusercontent.com/33873804/145727751-74daefb4-a6b1-4b3c-94d3-56a52c5c0861.png)
