@@ -23,7 +23,8 @@ void dooms::MeshRenderer::UpdateCullingEntityBlockViewer()
 			reinterpret_cast<const culling::Vec3*>(threeDModelMesh->mMeshDatas.mVertex),
 			threeDModelMesh->mMeshDatas.mVerticeCount,
 			threeDModelMesh->mMeshIndices.data(),
-			threeDModelMesh->mMeshIndices.size()
+			threeDModelMesh->mMeshIndices.size(),
+			threeDModelMesh->mVerticeStride
 		);
 	}
 	

@@ -117,6 +117,9 @@ namespace dooms
 		MeshData mMeshDatas;
 
 		D_PROPERTY()
+		UINT32 mVerticeStride;
+
+		D_PROPERTY()
 		UINT32 mVertexArrayFlag;
 
 		D_PROPERTY()

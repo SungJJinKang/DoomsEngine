@@ -242,6 +242,8 @@ void dooms::assetImporter::AssetImporterWorker_THREE_D_MODEL::Creat3DModelAsset
 
 		// we support only uv one channel
 
+		asset->mModelMeshAssets[meshIndex].mVerticeStride = 12;
+
 		asset->mModelMeshAssets[meshIndex].mMeshDatas.Allocate(mesh->mNumVertices);
 
 		std::memcpy(asset->mModelMeshAssets[meshIndex].mMeshDatas.mVertex, mesh->mVertices, mesh->mNumVertices * sizeof(*(mesh->mVertices)));
