@@ -130,14 +130,7 @@ dooms::MeshData::MeshData()
 }
 
 dooms::MeshData::MeshData(const size_t size)
-	:
-	mData(nullptr),
-	mSize(0),
-	mVertex(nullptr),
-	mTexCoord(nullptr),
-	mNormal(nullptr),
-	mTangent(nullptr),
-	mBitangent(nullptr)
+	: MeshData()
 {
 	Allocate(size);
 }

@@ -63,17 +63,14 @@ void Graphics_Server::Update()
 #ifdef DEBUG_DRAWER
 	mDebugGraphics.Update();
 	mRenderingDebugger.DrawRenderingBoundingBox();
-#endif
-	
-#ifdef DEBUG_DRAWER
 	mRenderingDebugger.UpdateInputForPrintDrawCallCounter();
 #endif
 
 	//auto t_start = std::chrono::high_resolution_clock::now();
 	
-	D_START_PROFILING_IN_RELEASE(RENDER);
+	D_START_PROFILING(RENDER);
 	Render();
-	D_END_PROFILING_IN_RELEASE(RENDER);
+	D_END_PROFILING(RENDER);
 
 	//Render();
 
@@ -120,8 +117,14 @@ void Graphics_Server::DoCullJob()
 		{
 			camera->CameraIndexInCullingSystem = CullJobAvailiableCameraCount;
 
-			mCullingSystem->SetViewProjectionMatrix(CullJobAvailiableCameraCount, *reinterpret_cast<const culling::Mat4x4*>(&(camera->GetViewProjectionMatrix())));
-			mCullingSystem->SetCameraPosition(
+			mCullingSystem->SetViewProjectionMatrix
+			(
+				CullJobAvailiableCameraCount, 
+				*reinterpret_cast<const culling::Mat4x4*>(&(camera->GetViewProjectionMatrix()))
+			);
+
+			mCullingSystem->SetCameraPosition
+			(
 				CullJobAvailiableCameraCount,
 				*reinterpret_cast<const culling::Vec3*>(&(camera->GetTransform()->GetPosition()))
 			);
@@ -261,18 +264,28 @@ void dooms::graphics::Graphics_Server::RenderObject(dooms::Camera* const targetC
 
 	if (targetCamera->GetIsCullJobEnabled() == true)
 	{
-		D_START_PROFILING_IN_RELEASE(WAIT_CULLJOB);
+		D_START_PROFILING(WAIT_CULLJOB);
 		mCullingSystem->WaitToFinishCullJob(targetCamera->CameraIndexInCullingSystem); // Waiting time is almost zero
 		//resource::JobSystem::GetSingleton()->SetMemoryBarrierOnAllSubThreads();
-		D_END_PROFILING_IN_RELEASE(WAIT_CULLJOB);
+		D_END_PROFILING(WAIT_CULLJOB);
 
-		if (Graphics_Setting::IsSortObjectFrontToBack == true)
-		{
-			//Push Multithread Sorting Renderer Front To Back  TO  JobSystem.
-			IsFinishedSortingReferernceRenderers = resource::JobSystem::GetSingleton()->PushBackJobToPriorityQueue(std::function<void()>(dooms::graphics::SortFrontToBackSolver::GetSortRendererLambda(cameraIndex)));
-		}
+		
 	}
 
+	if (Graphics_Setting::IsSortObjectFrontToBack == true)
+	{
+		math::Vector3 cameraPos = targetCamera->GetTransform()->GetPosition();
+		for(size_t layerIndex = 0 ; layerIndex < MAX_LAYER_COUNT ; layerIndex++)
+		{
+			for(Renderer* renderer : dooms::RendererComponentStaticIterator::GetSingleton()->GetSortingRendererInLayer(cameraIndex, layerIndex))
+			{
+				renderer->CacheDistanceToCamera(cameraIndex, cameraPos);
+			}
+		}
+
+		//Push Multithread Sorting Renderer Front To Back  TO  JobSystem.
+		IsFinishedSortingReferernceRenderers = resource::JobSystem::GetSingleton()->PushBackJobToPriorityQueue(std::function<void()>(dooms::graphics::SortFrontToBackSolver::GetSortRendererLambda(cameraIndex)));
+	}
 
 	const bool targetCamera_IS_CULLED_flag_on = targetCamera->GetCameraFlag(dooms::eCameraFlag::IS_CULLED);
 	for (UINT32 layerIndex = 0; layerIndex < MAX_LAYER_COUNT; layerIndex++)
@@ -298,9 +311,9 @@ void dooms::graphics::Graphics_Server::RenderObject(dooms::Camera* const targetC
 	//Wait Multithread Sorting Renderer Front To Back  TO  JobSystem finished.
 	if(IsFinishedSortingReferernceRenderers.valid() == true)
 	{
-		D_START_PROFILING_IN_RELEASE(WAIT_SORTING_RENDERER_JOB);
+		D_START_PROFILING(WAIT_SORTING_RENDERER_JOB);
 		IsFinishedSortingReferernceRenderers.wait();
-		D_END_PROFILING_IN_RELEASE(WAIT_SORTING_RENDERER_JOB);
+		D_END_PROFILING(WAIT_SORTING_RENDERER_JOB);
 	}
 	
 }
