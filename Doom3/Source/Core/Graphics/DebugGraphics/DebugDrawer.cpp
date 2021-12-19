@@ -306,6 +306,61 @@ void dooms::graphics::DebugDrawer::BufferVertexDataToGPU()
 
 }
 
+void dooms::graphics::DebugDrawer::DebugDraw3DSphere(const math::Vector3& center, const float radius, const eColor color, bool drawInstantly)
+{
+	const FLOAT32 intervalRadian = math::PI * 2 / 72.0f;
+
+
+	FLOAT32 deltaTheta = math::PI / 12;
+	FLOAT32 deltaPhi = 2 * math::PI / 10;
+
+
+
+	math::Vector3 exVertex{ nullptr };
+	math::Vector3 currentVertex{ nullptr };
+
+	FLOAT32 theta{ 0 };
+	for (INT32 ring = 0; ring < 11; ring++) { //move to a new z - offset 
+		FLOAT32 phi{ 0 };
+
+		theta += deltaTheta;
+		for (INT32 point = 0; point < 11; point++) { // draw a ring
+			phi += deltaPhi;
+			currentVertex.x = sin(theta) * cos(phi) * radius;
+			currentVertex.y = sin(theta) * sin(phi) * radius;
+			currentVertex.z = cos(theta) * radius;
+			currentVertex += center;
+
+			if (point != 0)
+			{
+				DebugDraw3DLine(exVertex, currentVertex, color, drawInstantly);
+			}
+			exVertex = currentVertex;
+		}
+	}
+
+	theta = 0;
+	for (INT32 ring = 0; ring < 11; ring++) { //move to a new z - offset 
+		FLOAT32 phi{ 0 };
+
+		theta += deltaTheta;
+		for (INT32 point = 0; point < 11; point++) { // draw a ring
+			phi += deltaPhi;
+			currentVertex.z = sin(theta) * cos(phi) * radius;
+			currentVertex.y = sin(theta) * sin(phi) * radius;
+			currentVertex.x = cos(theta) * radius;
+			currentVertex += center;
+
+			if (point != 0)
+			{
+				DebugDraw3DLine(exVertex, currentVertex, color, drawInstantly);
+			}
+			exVertex = currentVertex;
+		}
+	}
+}
+
+
 void dooms::graphics::DebugDrawer::DebugDraw3DTriangle(const math::Vector3& pointA, const math::Vector3& pointB, const math::Vector3& pointC, eColor color, bool drawInstantly /*= false*/)
 {
 	if (drawInstantly == false)

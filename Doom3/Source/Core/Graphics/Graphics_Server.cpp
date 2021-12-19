@@ -143,13 +143,31 @@ void Graphics_Server::CameraCullJob(dooms::Camera* const camera)
 
 void Graphics_Server::DebugGraphics()
 {
+	//mCullingSystem->
+	for(auto entityBlock : mCullingSystem->GetActiveEntityBlockList())
+	{
+		for(size_t entityIndex = 0 ; entityIndex < entityBlock->mCurrentEntityCount ; entityIndex++)
+		{
+			if
+			(
+				entityBlock->GetIsCulled(entityIndex, 0) == false &&
+				entityBlock->GetIsOccluder(entityIndex, 0) == true
+			)
+			{
+				mDebugGraphics.DebugDraw3DSphere
+				(
+					*(math::Vector3*)(&(entityBlock->mPositionAndBoundingSpheres[entityIndex].Position)),
+					entityBlock->mPositionAndBoundingSpheres[entityIndex].BoundingSphereRadius + 0.3f,
+					eColor::Red
+				);
+			}
+		}
+	}
+	
+
 	mDebugGraphics.BufferVertexDataToGPU();
 	mDebugGraphics.Draw();
 
-	const culling::Tile* const maskedSWOCTiles = mCullingSystem->mMaskedSWOcclusionCulling->mDepthBuffer.GetTiles();
-	const size_t maskedSWOCTileCounts = mCullingSystem->mMaskedSWOcclusionCulling->mDepthBuffer.GetTileCount();
-	const size_t triangleCount = maskedSWOCTiles->mBinnedTriangles.mCurrentTriangleCount;
-	//maskedOcclusionCullingTester::DebugBinnedTriangles(maskedSWOCTiles, maskedSWOCTileCounts);
 }
 
 void Graphics_Server::PreRender()

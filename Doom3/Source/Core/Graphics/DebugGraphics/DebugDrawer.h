@@ -96,6 +96,7 @@ namespace dooms
 			/// You Should pass triangle points ordered counter clockwise
 			/// </summary>
 			void DebugDraw3DTriangle(const math::Vector3& pointA, const math::Vector3& pointB, const math::Vector3& pointC, eColor color, bool drawInstantly = false);
+			void DebugDraw3DSphere(const math::Vector3& center, const float radius, const eColor color, bool drawInstantly = false);
 
 			/// <summary>
 			/// z value will be ignored
