@@ -25,8 +25,8 @@ in vec2 UV0;
 
 #include ../common/uniforms.txt
 
-in float linear = 0.09;
-in float quadratic = 0.032;
+const float linear = 0.09;
+const float quadratic = 0.032;
 
 layout(binding = 0) uniform sampler2D gPosition;
 layout(binding = 1) uniform sampler2D gNormal;

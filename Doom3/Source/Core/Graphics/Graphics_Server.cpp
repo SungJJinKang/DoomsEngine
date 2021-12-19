@@ -25,7 +25,8 @@
 
 #include "Acceleration/SortFrontToBackSolver.h"
 #include "DebugGraphics/OverDrawVisualization.h"
-
+#include "DebugGraphics/maskedOcclusionCullingTester.h"
+#include "Acceleration/LinearData_ViewFrustumCulling/CullingModule/MaskedSWOcclusionCulling/MaskedSWOcclusionCulling.h"
 
 //#define D_DEBUG_CPU_VENDOR_PROFILER
 
@@ -123,15 +124,8 @@ void Graphics_Server::DoCullJob()
 			cullingSettingParameters.mCameraFarPlaneDistance = camera->GetClippingPlaneFar();
 			cullingSettingParameters.mCameraNearPlaneDistance = camera->GetClippingPlaneNear();
 			cullingSettingParameters.mCameraWorldPosition = *reinterpret_cast<const culling::Vec3*>(&(camera->GetTransform()->GetPosition()));
-			cullingSettingParameters.mCameraWorldPosition = *reinterpret_cast<const culling::Vec3*>(&(camera->GetTransform()->GetPosition()));
-
+			
 			mCullingSystem->Configure(cameraIndex, cullingSettingParameters);
-
-			mCullingSystem->SetCameraPosition
-			(
-				CullJobAvailiableCameraCount,
-				*reinterpret_cast<const culling::Vec3*>(&(camera->GetTransform()->GetPosition()))
-			);
 
 			CullJobAvailiableCameraCount++;
 		}
@@ -142,15 +136,27 @@ void Graphics_Server::DoCullJob()
 	{
 		mCullingSystem->SetCameraCount(CullJobAvailiableCameraCount);
 
+		mCullingSystem->SetThreadCount(resource::JobSystem::GetSingleton()->GetSubThreadCount());
+
 		D_START_PROFILING(mFrotbiteCullingSystem_ResetCullJobStat, dooms::profiler::eProfileLayers::Rendering);
 		mCullingSystem->ResetCullJobState();
 		D_END_PROFILING(mFrotbiteCullingSystem_ResetCullJobStat);
-
+		
 		D_START_PROFILING(Push_Culling_Job_To_Linera_Culling_System, dooms::profiler::eProfileLayers::Rendering);
 		resource::JobSystem::GetSingleton()->PushBackJobToAllThreadWithNoSTDFuture(std::function<void()>(mCullingSystem->GetCullJobInLambda()));
 		D_END_PROFILING(Push_Culling_Job_To_Linera_Culling_System);
 	}
 	
+}
+
+void Graphics_Server::DebugGraphics()
+{
+	mDebugGraphics.BufferVertexDataToGPU();
+	mDebugGraphics.Draw();
+
+	const culling::Tile* const maskedSWOCTiles = mCullingSystem->mMaskedSWOcclusionCulling->mDepthBuffer.GetTiles();
+	const size_t maskedSWOCTileCounts = mCullingSystem->mMaskedSWOcclusionCulling->mDepthBuffer.GetTileCount();
+	maskedOcclusionCullingTester::DebugBinnedTriangles(maskedSWOCTiles, maskedSWOCTileCounts);
 }
 
 void Graphics_Server::PreRender()
@@ -215,10 +221,8 @@ void dooms::graphics::Graphics_Server::Render()
 
 #ifdef DEBUG_DRAWER
 			//�̰� ������ �������. �׳� ����� ����.
-			mDebugGraphics.BufferVertexDataToGPU();
-
-		
-			mDebugGraphics.Draw();
+			
+			DebugGraphics();
 #endif
 		}
 		

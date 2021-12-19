@@ -60,6 +60,8 @@ namespace dooms
 			//CullDistance mCullDistance{};
 
 #ifdef DEBUG_DRAWER
+			void DebugGraphics();
+
 			D_PROPERTY()
 			DebugDrawer mDebugGraphics{};
 #endif
