@@ -117,11 +117,15 @@ void Graphics_Server::DoCullJob()
 		{
 			camera->CameraIndexInCullingSystem = CullJobAvailiableCameraCount;
 
-			mCullingSystem->SetViewProjectionMatrix
-			(
-				CullJobAvailiableCameraCount, 
-				*reinterpret_cast<const culling::Mat4x4*>(&(camera->GetViewProjectionMatrix()))
-			);
+			culling::EveryCulling::SettingParameters cullingSettingParameters;
+			cullingSettingParameters.mViewProjectionMatrix = *reinterpret_cast<const culling::Mat4x4*>(&(camera->GetViewProjectionMatrix()));
+			cullingSettingParameters.mFieldOfViewInDegree = camera->GetFieldOfViewInDegree();
+			cullingSettingParameters.mCameraFarPlaneDistance = camera->GetClippingPlaneFar();
+			cullingSettingParameters.mCameraNearPlaneDistance = camera->GetClippingPlaneNear();
+			cullingSettingParameters.mCameraWorldPosition = *reinterpret_cast<const culling::Vec3*>(&(camera->GetTransform()->GetPosition()));
+			cullingSettingParameters.mCameraWorldPosition = *reinterpret_cast<const culling::Vec3*>(&(camera->GetTransform()->GetPosition()));
+
+			mCullingSystem->Configure(cameraIndex, cullingSettingParameters);
 
 			mCullingSystem->SetCameraPosition
 			(
