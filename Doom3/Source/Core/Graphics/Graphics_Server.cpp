@@ -104,49 +104,41 @@ Graphics_Server::~Graphics_Server()
 	graphicsAPIManager::DeInitialize();
 }
 
-
-void Graphics_Server::DoCullJob()
+void Graphics_Server::PreCullJob()
 {
-	const std::vector<dooms::Camera*>& spawnedCameraList = StaticContainer<dooms::Camera>::GetAllStaticComponents();
+	mCullingCameraCount = 0;
 
-	UINT32 CullJobAvailiableCameraCount = 0;
-	for (size_t cameraIndex = 0; cameraIndex < spawnedCameraList.size(); cameraIndex++)
+	mCullingSystem->SetThreadCount(resource::JobSystem::GetSingleton()->GetSubThreadCount());
+
+	D_START_PROFILING(mFrotbiteCullingSystem_ResetCullJobStat, dooms::profiler::eProfileLayers::Rendering);
+	mCullingSystem->ResetCullJobState();
+	D_END_PROFILING(mFrotbiteCullingSystem_ResetCullJobStat);
+
+}
+
+
+void Graphics_Server::CameraCullJob(dooms::Camera* const camera)
+{
+	if (camera->GetIsCullJobEnabled() == true)
 	{
-		dooms::Camera* const camera = spawnedCameraList[cameraIndex];
+		culling::EveryCulling::SettingParameters cullingSettingParameters;
+		cullingSettingParameters.mViewProjectionMatrix = *reinterpret_cast<const culling::Mat4x4*>(&(camera->GetViewProjectionMatrix()));
+		cullingSettingParameters.mFieldOfViewInDegree = camera->GetFieldOfViewInDegree();
+		cullingSettingParameters.mCameraFarPlaneDistance = camera->GetClippingPlaneFar();
+		cullingSettingParameters.mCameraNearPlaneDistance = camera->GetClippingPlaneNear();
+		cullingSettingParameters.mCameraWorldPosition = *reinterpret_cast<const culling::Vec3*>(&(camera->GetTransform()->GetPosition()));
 
-		if (camera->GetIsCullJobEnabled() == true)
-		{
-			camera->CameraIndexInCullingSystem = CullJobAvailiableCameraCount;
-
-			culling::EveryCulling::SettingParameters cullingSettingParameters;
-			cullingSettingParameters.mViewProjectionMatrix = *reinterpret_cast<const culling::Mat4x4*>(&(camera->GetViewProjectionMatrix()));
-			cullingSettingParameters.mFieldOfViewInDegree = camera->GetFieldOfViewInDegree();
-			cullingSettingParameters.mCameraFarPlaneDistance = camera->GetClippingPlaneFar();
-			cullingSettingParameters.mCameraNearPlaneDistance = camera->GetClippingPlaneNear();
-			cullingSettingParameters.mCameraWorldPosition = *reinterpret_cast<const culling::Vec3*>(&(camera->GetTransform()->GetPosition()));
-			
-			mCullingSystem->Configure(cameraIndex, cullingSettingParameters);
-
-			CullJobAvailiableCameraCount++;
-		}
-	
-	}
-
-	if (CullJobAvailiableCameraCount > 0)
-	{
-		mCullingSystem->SetCameraCount(CullJobAvailiableCameraCount);
-
-		mCullingSystem->SetThreadCount(resource::JobSystem::GetSingleton()->GetSubThreadCount());
-
-		D_START_PROFILING(mFrotbiteCullingSystem_ResetCullJobStat, dooms::profiler::eProfileLayers::Rendering);
-		mCullingSystem->ResetCullJobState();
-		D_END_PROFILING(mFrotbiteCullingSystem_ResetCullJobStat);
+		mCullingSystem->Configure(camera->CameraIndexInCullingSystem, cullingSettingParameters);
 		
+		std::atomic_thread_fence(std::memory_order_seq_cst);
+
 		D_START_PROFILING(Push_Culling_Job_To_Linera_Culling_System, dooms::profiler::eProfileLayers::Rendering);
-		resource::JobSystem::GetSingleton()->PushBackJobToAllThreadWithNoSTDFuture(std::function<void()>(mCullingSystem->GetCullJobInLambda()));
+		resource::JobSystem::GetSingleton()->PushBackJobToAllThreadWithNoSTDFuture(std::function<void()>(mCullingSystem->GetCullJobInLambda(camera->CameraIndexInCullingSystem)));
 		D_END_PROFILING(Push_Culling_Job_To_Linera_Culling_System);
 	}
 	
+	
+
 }
 
 void Graphics_Server::DebugGraphics()
@@ -156,17 +148,22 @@ void Graphics_Server::DebugGraphics()
 
 	const culling::Tile* const maskedSWOCTiles = mCullingSystem->mMaskedSWOcclusionCulling->mDepthBuffer.GetTiles();
 	const size_t maskedSWOCTileCounts = mCullingSystem->mMaskedSWOcclusionCulling->mDepthBuffer.GetTileCount();
-	maskedOcclusionCullingTester::DebugBinnedTriangles(maskedSWOCTiles, maskedSWOCTileCounts);
+	const size_t triangleCount = maskedSWOCTiles->mBinnedTriangles.mCurrentTriangleCount;
+	//maskedOcclusionCullingTester::DebugBinnedTriangles(maskedSWOCTiles, maskedSWOCTileCounts);
 }
 
 void Graphics_Server::PreRender()
 {
 	dooms::ui::engineGUIServer::PreRender();
+	if(Camera::GetMainCamera()->GetIsCullJobEnabled() == true)
+	{
+		PreCullJob();
+	}
+	
 }
 
 void dooms::graphics::Graphics_Server::Render()
 {
-	DoCullJob(); // do this first
 	//TODO : Think where put this, as early as good
 	
 	D_START_PROFILING(Update_Uniform_Buffer, dooms::profiler::eProfileLayers::Rendering);
@@ -181,6 +178,18 @@ void dooms::graphics::Graphics_Server::Render()
 	for (size_t cameraIndex = 0 ; cameraIndex < spawnedCameraList.size() ; cameraIndex++)
 	{
 		dooms::Camera* const targetCamera = spawnedCameraList[cameraIndex];
+
+		if(targetCamera->GetIsCullJobEnabled() == true)
+		{
+			targetCamera->CameraIndexInCullingSystem = mCullingCameraCount;
+
+			mCullingCameraCount++;
+			mCullingSystem->SetCameraCount(mCullingCameraCount);
+
+			CameraCullJob(targetCamera); // do this first
+		}
+		
+
 
 		D_ASSERT(IsValid(targetCamera));
 
@@ -325,11 +334,6 @@ void dooms::graphics::Graphics_Server::RenderObject(dooms::Camera* const targetC
 	}
 	
 }
-
-
-
-
-
 
 
 

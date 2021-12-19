@@ -52,7 +52,9 @@ namespace dooms
 			};
 
 		private:
-			
+
+			size_t mCullingCameraCount;
+
 			RendererComponentStaticIterator mRendererStaticContainer{};
 			D_PROPERTY()
 			DeferredRenderingDrawer mDeferredRenderingDrawer{};
@@ -76,7 +78,8 @@ namespace dooms
 
 			void RenderObject(dooms::Camera* const targetCamera, const size_t cameraIndex);
 		
-			void DoCullJob();
+			void PreCullJob();
+			void CameraCullJob(dooms::Camera* const camera);
 			void PreUpdateEntityBlocks();
 
 
