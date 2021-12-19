@@ -38,6 +38,7 @@ void Graphics_Server::Init()
 	graphicsAPIManager::Initialize();
 
 	mCullingSystem = std::make_unique<culling::EveryCulling>(Graphics_Setting::GetScreenWidth(), Graphics_Setting::GetScreenHeight());
+	mCullingSystem->mMaskedSWOcclusionCulling->mSolveMeshRoleStage.mOccluderViewSpaceBoundingSphereRadius = ConfigData::GetSingleton()->GetConfigData().GetValue<FLOAT32>("Graphics", "MASKED_OC_OCCLUDER_VIEW_SPACE_BOUNDING_SPHERE_RADIUS");
 
 	return;
 }
@@ -143,6 +144,7 @@ void Graphics_Server::CameraCullJob(dooms::Camera* const camera)
 
 void Graphics_Server::DebugGraphics()
 {
+	/*
 	//mCullingSystem->
 	for(auto entityBlock : mCullingSystem->GetActiveEntityBlockList())
 	{
@@ -163,7 +165,24 @@ void Graphics_Server::DebugGraphics()
 			}
 		}
 	}
-	
+	*/
+	const UINT32 tileCount = mCullingSystem->mMaskedSWOcclusionCulling->mDepthBuffer.GetTileCount();
+	const culling::Tile* const tiles = mCullingSystem->mMaskedSWOcclusionCulling->mDepthBuffer.GetTiles();
+	for(size_t i = 0 ; i < tileCount ; i++)
+	{
+		const size_t triangleCount = tiles[i].mBinnedTriangles.mCurrentTriangleCount;
+		for (size_t tri = 0; tri < triangleCount; tri++)
+		{
+			mDebugGraphics.DebugDraw2DTriangleScreenSpace
+			(
+				*(const math::Vector3*)(tiles[i].mBinnedTriangles.mTriangleList[tri].Points + 0),
+				*(const math::Vector3*)(tiles[i].mBinnedTriangles.mTriangleList[tri].Points + 1),
+				*(const math::Vector3*)(tiles[i].mBinnedTriangles.mTriangleList[tri].Points + 2),
+				eColor::Green
+			);
+			
+		}
+	}
 
 	mDebugGraphics.BufferVertexDataToGPU();
 	mDebugGraphics.Draw();

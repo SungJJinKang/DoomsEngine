@@ -234,6 +234,38 @@ void dooms::graphics::DebugDrawer::DebugDraw2DTriangle(const math::Vector3& poin
 	}
 }
 
+void dooms::graphics::DebugDrawer::DebugDraw2DTriangleScreenSpace
+(
+	const math::Vector3& pointA,
+	const math::Vector3& pointB, 
+	const math::Vector3& pointC, 
+	eColor color, 
+	bool drawInstantly
+)
+{
+	math::Vector3 ndcPointA = math::Vector3(pointA.x / Graphics_Setting::GetScreenWidth(), pointA.y / Graphics_Setting::GetScreenHeight(), pointA.z);
+	ndcPointA.x *= 2.0f;
+	ndcPointA.y *= 2.0f;
+	ndcPointA.x -= 1.0f;
+	ndcPointA.y -= 1.0f;
+
+
+	math::Vector3 ndcPointB = math::Vector3(pointB.x / Graphics_Setting::GetScreenWidth(), pointB.y / Graphics_Setting::GetScreenHeight(), pointB.z);
+	ndcPointB.x *= 2.0f;
+	ndcPointB.y *= 2.0f;
+	ndcPointB.x -= 1.0f;
+	ndcPointB.y -= 1.0f;
+
+
+	math::Vector3 ndcPointC = math::Vector3(pointC.x / Graphics_Setting::GetScreenWidth(), pointC.y / Graphics_Setting::GetScreenHeight(), pointC.z);
+	ndcPointC.x *= 2.0f;
+	ndcPointC.y *= 2.0f;
+	ndcPointC.x -= 1.0f;
+	ndcPointC.y -= 1.0f;
+
+	DebugDraw2DTriangle(ndcPointA, ndcPointB, ndcPointC, color);
+}
+
 void dooms::graphics::DebugDrawer::SetDrawInstantlyMaterial(Material* material)
 {
 	mDrawInstantlyMaterial = material;
@@ -311,8 +343,8 @@ void dooms::graphics::DebugDrawer::DebugDraw3DSphere(const math::Vector3& center
 	const FLOAT32 intervalRadian = math::PI * 2 / 72.0f;
 
 
-	FLOAT32 deltaTheta = math::PI / 12;
-	FLOAT32 deltaPhi = 2 * math::PI / 10;
+	const FLOAT32 deltaTheta = math::PI / 12;
+	const FLOAT32 deltaPhi = 2 * math::PI / 10;
 
 
 
@@ -320,11 +352,13 @@ void dooms::graphics::DebugDrawer::DebugDraw3DSphere(const math::Vector3& center
 	math::Vector3 currentVertex{ nullptr };
 
 	FLOAT32 theta{ 0 };
-	for (INT32 ring = 0; ring < 11; ring++) { //move to a new z - offset 
+	for (UINT32 ring = 0; ring < 11; ring++) 
+	{ //move to a new z - offset 
+
 		FLOAT32 phi{ 0 };
 
 		theta += deltaTheta;
-		for (INT32 point = 0; point < 11; point++) { // draw a ring
+		for (UINT32 point = 0; point < 11; point++) { // draw a ring
 			phi += deltaPhi;
 			currentVertex.x = sin(theta) * cos(phi) * radius;
 			currentVertex.y = sin(theta) * sin(phi) * radius;
@@ -340,11 +374,13 @@ void dooms::graphics::DebugDrawer::DebugDraw3DSphere(const math::Vector3& center
 	}
 
 	theta = 0;
-	for (INT32 ring = 0; ring < 11; ring++) { //move to a new z - offset 
+	for (UINT32 ring = 0; ring < 11; ring++) 
+	{ //move to a new z - offset 
+
 		FLOAT32 phi{ 0 };
 
 		theta += deltaTheta;
-		for (INT32 point = 0; point < 11; point++) { // draw a ring
+		for (UINT32 point = 0; point < 11; point++) { // draw a ring
 			phi += deltaPhi;
 			currentVertex.z = sin(theta) * cos(phi) * radius;
 			currentVertex.y = sin(theta) * sin(phi) * radius;
