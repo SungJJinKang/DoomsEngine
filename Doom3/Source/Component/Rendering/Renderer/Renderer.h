@@ -50,9 +50,12 @@ namespace dooms
 		//For Sorting Renderers front to back
 		std::vector<FLOAT32> mDistancesToCamera;
 
+		Entity::eEntityMobility mOriginalEntityMobility;
 		
 		void MergeBVHBitFlag();
 		void ClearRenderingBitFlag();
+
+		void InitializeCullingEntityBlockViewer();
 		
 	protected:
 
@@ -67,13 +70,13 @@ namespace dooms
 		culling::EntityBlockViewer mCullingEntityBlockViewer;
 		virtual void UpdateCullingEntityBlockViewer();
 
-		void AddRendererToCullingSystem();
-		void RemoveRendererFromCullingSystem();
-
 		Renderer(const Renderer&) = default;
 		Renderer(Renderer&&) noexcept = delete;
 		Renderer& operator=(const Renderer&) = delete;
 		Renderer& operator=(Renderer&&) noexcept = delete;
+
+		void AddRendererToCullingSystem();
+		void RemoveRendererFromCullingSystem();
 
 	public:
 		
@@ -91,10 +94,7 @@ namespace dooms
 		//physics::Sphere mBoundingSphere{};
 
 		virtual void InitComponent() override;
-		FORCE_INLINE virtual void UpdateComponent() override
-		{
-			
-		}
+		virtual void UpdateComponent() override;
 
 		FORCE_INLINE virtual void OnEndOfFrame_Component() override
 		{

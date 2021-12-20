@@ -10,6 +10,7 @@
 #include <array>
 #include <string>
 #include <memory>
+#include <mutex>
 
 #include "../../Math/LightMath_Cpp/Vector3.h"
 #include "../Buffer/Mesh.h"
@@ -43,7 +44,9 @@ namespace dooms
 			static inline constexpr UINT32 MAX_DEBUG_VERTEX_COUNT{ 20000000 };
 			
 			bool bmIsVertexDataSendToGPUAtCurrentFrame{ false };
-			
+
+			std::mutex mMextex;
+
 			Mesh mDebugMesh{};
 
 			std::array<std::vector<PrimitiveLine>, ENUM_COLOR_COUNT> m2dLine;

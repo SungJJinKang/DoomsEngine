@@ -29,6 +29,8 @@ void dooms::graphics::DebugDrawer::Update()
 
 void dooms::graphics::DebugDrawer::Reset()
 {
+	std::scoped_lock<std::mutex> lock{ mMextex };
+
 	mDebugMeshCount = 0;
 	for (size_t i = 0; i < m2dLine.size(); i++)
 	{
@@ -70,6 +72,8 @@ dooms::graphics::DebugDrawer::DebugDrawer() :
 
 void dooms::graphics::DebugDrawer::Draw()
 {
+	std::scoped_lock<std::mutex> lock{ mMextex };
+
 	/// <summary>
 	/// vector3 -> 3, vector4 -> 4
 	/// </summary>
@@ -142,6 +146,8 @@ void dooms::graphics::DebugDrawer::Draw()
 
 void dooms::graphics::DebugDrawer::DebugDraw3DLine(const math::Vector3& startWorldPos, const math::Vector3& endWorldPos, eColor color, bool drawInstantly /*= false*/)
 {
+	std::scoped_lock<std::mutex> lock{ mMextex };
+
 	if (drawInstantly == false)
 	{
 		D_ASSERT_LOG(bmIsVertexDataSendToGPUAtCurrentFrame == false, "Debugging Vertex Data is already send to GPU");
@@ -169,6 +175,8 @@ void dooms::graphics::DebugDrawer::DebugDraw3DLine(const math::Vector3& startWor
 /// <param name="color"></param>
 void dooms::graphics::DebugDrawer::DebugDraw2DLine(const math::Vector3& startNDCPos, const math::Vector3& endNDCPos, eColor color, bool drawInstantly /*= false*/)
 {
+	std::scoped_lock<std::mutex> lock{ mMextex };
+
 	if (drawInstantly == false)
 	{
 		D_ASSERT_LOG(bmIsVertexDataSendToGPUAtCurrentFrame == false, "Debugging Vertex Data is already send to GPU");
@@ -182,6 +190,8 @@ void dooms::graphics::DebugDrawer::DebugDraw2DLine(const math::Vector3& startNDC
 
 void dooms::graphics::DebugDrawer::DebugDraw2DLineInstantly(const math::Vector3& startNDCPos, const math::Vector3& endNDCPos, eColor color)
 {
+	std::scoped_lock<std::mutex> lock{ mMextex };
+
 	if (mDrawInstantlyMaterial != nullptr)
 	{
 		mDrawInstantlyMaterial->UseProgram();
@@ -204,6 +214,8 @@ void dooms::graphics::DebugDrawer::DebugDraw2DLineInstantly(const math::Vector3&
 
 void dooms::graphics::DebugDrawer::DebugDraw2DTriangleInstantly(const math::Vector3& pointA, const math::Vector3& pointB, const math::Vector3& pointC, eColor color)
 {
+	std::scoped_lock<std::mutex> lock{ mMextex };
+
 	if (mDrawInstantlyMaterial != nullptr)
 	{
 		D_DEBUG_LOG(eLogType::D_WARNING, "Please set mDrawInstantlyMaterial");
@@ -223,6 +235,8 @@ void dooms::graphics::DebugDrawer::DebugDraw2DTriangleInstantly(const math::Vect
 
 void dooms::graphics::DebugDrawer::DebugDraw2DTriangle(const math::Vector3& pointA, const math::Vector3& pointB, const math::Vector3& pointC, eColor color, bool drawInstantly /*= false*/)
 {
+	std::scoped_lock<std::mutex> lock{ mMextex };
+
 	if (drawInstantly == false)
 	{
 		D_ASSERT_LOG(bmIsVertexDataSendToGPUAtCurrentFrame == false, "Debugging Vertex Data is already send to GPU");
@@ -243,6 +257,8 @@ void dooms::graphics::DebugDrawer::DebugDraw2DTriangleScreenSpace
 	bool drawInstantly
 )
 {
+	std::scoped_lock<std::mutex> lock{ mMextex };
+
 	math::Vector3 ndcPointA = math::Vector3(pointA.x / Graphics_Setting::GetScreenWidth(), pointA.y / Graphics_Setting::GetScreenHeight(), pointA.z);
 	ndcPointA.x *= 2.0f;
 	ndcPointA.y *= 2.0f;
@@ -273,6 +289,8 @@ void dooms::graphics::DebugDrawer::SetDrawInstantlyMaterial(Material* material)
 
 void dooms::graphics::DebugDrawer::BufferVertexDataToGPU()
 {
+	std::scoped_lock<std::mutex> lock{ mMextex };
+
 	UINT32 offsetComponentCount{ 0 };
 	UINT32 alreadyDrawedVertexCount{ 0 };
 
@@ -340,6 +358,8 @@ void dooms::graphics::DebugDrawer::BufferVertexDataToGPU()
 
 void dooms::graphics::DebugDrawer::DebugDraw3DSphere(const math::Vector3& center, const float radius, const eColor color, bool drawInstantly)
 {
+	std::scoped_lock<std::mutex> lock{ mMextex };
+
 	const FLOAT32 intervalRadian = math::PI * 2 / 72.0f;
 
 
@@ -399,6 +419,8 @@ void dooms::graphics::DebugDrawer::DebugDraw3DSphere(const math::Vector3& center
 
 void dooms::graphics::DebugDrawer::DebugDraw3DTriangle(const math::Vector3& pointA, const math::Vector3& pointB, const math::Vector3& pointC, eColor color, bool drawInstantly /*= false*/)
 {
+	std::scoped_lock<std::mutex> lock{ mMextex };
+
 	if (drawInstantly == false)
 	{
 		D_ASSERT_LOG(bmIsVertexDataSendToGPUAtCurrentFrame == false, "Debugging Vertex Data is already send to GPU");

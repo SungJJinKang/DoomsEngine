@@ -10,27 +10,27 @@ namespace dooms::ui::maskedOcclusionCulliingDebugger
 
 	extern UINT32 GetColumnCount()
 	{
-		return BinnedTriangleCount.size();
+		return BinnedTriangleCount[0].size();
 	}
 
 	extern UINT32 GetRowCount()
 	{
-		return BinnedTriangleCount[0].size();
+		return BinnedTriangleCount.size();
 	}
 
 	void extern RenderBinnedTriangles()
 	{
-		for(size_t colIndex = 0 ; colIndex < BinnedTriangleCount.size() ; colIndex++)
+		for (size_t rowIndex = 0; rowIndex < BinnedTriangleCount.size(); rowIndex++)
 		{
-			for (size_t rowIndex = 0; rowIndex < BinnedTriangleCount[0].size(); rowIndex++)
+			for (size_t colIndex = 0; colIndex < BinnedTriangleCount[0].size(); colIndex++)
 			{
-				ImGui::Text("%u", BinnedTriangleCount[colIndex][rowIndex]);
-				if(rowIndex != BinnedTriangleCount[0].size() - 1)
+
+				ImGui::Text("%u", BinnedTriangleCount[rowIndex][colIndex]);
+				if (colIndex != BinnedTriangleCount[0].size() - 1)
 				{
 					ImGui::SameLine(0, 3);
-				}				
+				}
 			}
-
 		}
 	}
 }
@@ -64,9 +64,9 @@ void dooms::ui::maskedOcclusionCulliingDebugger::SetBinnedTriangleCount
 	const UINT32 triangleCount
 )
 {
-	D_ASSERT(colIndex < BinnedTriangleCount.size());
-	D_ASSERT(rowIndex < BinnedTriangleCount[0].size());
-	BinnedTriangleCount[colIndex][rowIndex] = triangleCount;
+	D_ASSERT(colIndex < GetColumnCount());
+	D_ASSERT(rowIndex < GetRowCount());
+	BinnedTriangleCount[rowIndex][colIndex] = triangleCount;
 }
 
 void dooms::ui::maskedOcclusionCulliingDebugger::SetBinnedTriangleCount

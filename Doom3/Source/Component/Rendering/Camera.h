@@ -206,14 +206,6 @@ namespace dooms
 			}
 			return mViewProjectionMatrix;
 		}
-		FORCE_INLINE const math::Matrix4x4& GetModelViewProjectionMatrix( )
-		{
-			if (bmIsModelViewProjectionMatrixDirty.GetIsDirty(true) )
-			{
-				mMovelViewProjectionMatrix =  GetViewProjectionMatrix() * GetTransform()->GetModelMatrix();
-			}
-			return mMovelViewProjectionMatrix;
-		}
 		FORCE_INLINE bool GetIsViewProjectionMatrixDirty() const
 		{
 			return static_cast<bool>(bmIsViewProjectionMatrixDirty);

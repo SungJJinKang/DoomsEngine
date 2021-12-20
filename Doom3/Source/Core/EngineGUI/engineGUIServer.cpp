@@ -9,6 +9,7 @@
 #include "GUIModules/SceneGUI.h"
 #include "GUIModules/ProfilerGUI.h"
 #include "GUIModules/ThreadProfilerGUI.h"
+#include "GUIModules/MaskedOcclusionCulliingDebugger.h"
 
 
 namespace dooms::ui::engineGUIServer
@@ -25,6 +26,7 @@ namespace dooms::ui::engineGUIServer
         dooms::ui::sceneGUI::Render();
         dooms::ui::profilerGUI::Render();
         dooms::ui::threadProfilerGUI::Render();
+        dooms::ui::maskedOcclusionCulliingDebugger::Render();
     }
 }
 

@@ -34,6 +34,12 @@ void dooms::Renderer::InitComponent()
 	
 	//BVH_Sphere_Node_Object::InsertBVHLeafNode(graphics::Graphics_Server::GetSingleton()->mCullDistance., BVH_Sphere_Node_Object::GetWorldBVhColliderCacheByReference(), nullptr);
 	//BVH_AABB3D_Node_Object::InsertBVHLeafNode(graphics::Graphics_Server::GetSingleton()->mViewFrustumCulling.mBVHSphere, BVH_AABB3D_Node_Object:::GetWorldBVhColliderCacheByReference(), nullptr);
+	
+}
+
+void dooms::Renderer::UpdateComponent()
+{
+				
 }
 
 const math::Matrix4x4& dooms::Renderer::GetModelMatrix()
@@ -46,6 +52,7 @@ void dooms::Renderer::AddRendererToCullingSystem()
 	if(mCullingEntityBlockViewer.GetIsActive() == false)
 	{
 		mCullingEntityBlockViewer = graphics::Graphics_Server::GetSingleton()->mCullingSystem->AllocateNewEntity(this, GetTransform());
+		InitializeCullingEntityBlockViewer();
 	}
 }
 
@@ -81,6 +88,11 @@ void dooms::Renderer::MergeBVHBitFlag()
 void dooms::Renderer::ClearRenderingBitFlag()
 {
 	mRenderingFlag = 0;
+}
+
+void dooms::Renderer::InitializeCullingEntityBlockViewer()
+{
+	mCullingEntityBlockViewer.SetModelMatrix(reinterpret_cast<const float*>(&(GetTransform()->GetModelMatrix())));
 }
 
 void dooms::Renderer::UpdateCullingEntityBlockViewer()
