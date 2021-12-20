@@ -26,6 +26,7 @@
 #include "Acceleration/SortFrontToBackSolver.h"
 #include "DebugGraphics/OverDrawVisualization.h"
 #include "DebugGraphics/maskedOcclusionCullingTester.h"
+#include <EngineGUI/GUIModules/MaskedOcclusionCulliingDebugger.h>
 #include "Acceleration/LinearData_ViewFrustumCulling/CullingModule/MaskedSWOcclusionCulling/MaskedSWOcclusionCulling.h"
 
 //#define D_DEBUG_CPU_VENDOR_PROFILER
@@ -39,6 +40,12 @@ void Graphics_Server::Init()
 
 	mCullingSystem = std::make_unique<culling::EveryCulling>(Graphics_Setting::GetScreenWidth(), Graphics_Setting::GetScreenHeight());
 	mCullingSystem->mMaskedSWOcclusionCulling->mSolveMeshRoleStage.mOccluderViewSpaceBoundingSphereRadius = ConfigData::GetSingleton()->GetConfigData().GetValue<FLOAT32>("Graphics", "MASKED_OC_OCCLUDER_VIEW_SPACE_BOUNDING_SPHERE_RADIUS");
+
+	dooms::ui::maskedOcclusionCulliingDebugger::InitializeBinTriangle
+	(
+		mCullingSystem->mMaskedSWOcclusionCulling->mDepthBuffer.mResolution.mRowCount,
+		mCullingSystem->mMaskedSWOcclusionCulling->mDepthBuffer.mResolution.mColumnCount
+	);
 
 	return;
 }
@@ -168,20 +175,13 @@ void Graphics_Server::DebugGraphics()
 	*/
 	const UINT32 tileCount = mCullingSystem->mMaskedSWOcclusionCulling->mDepthBuffer.GetTileCount();
 	const culling::Tile* const tiles = mCullingSystem->mMaskedSWOcclusionCulling->mDepthBuffer.GetTiles();
-	for(size_t i = 0 ; i < tileCount ; i++)
+
+	const UINT32 tileRowCount = mCullingSystem->mMaskedSWOcclusionCulling->mDepthBuffer.mResolution.mColumnCount;
+	const UINT32 tileColumnCount = mCullingSystem->mMaskedSWOcclusionCulling->mDepthBuffer.mResolution.mRowCount;
+	
+	for(size_t tileIndex = 0 ; tileIndex < tileCount ; tileIndex++)
 	{
-		const size_t triangleCount = tiles[i].mBinnedTriangles.mCurrentTriangleCount;
-		for (size_t tri = 0; tri < triangleCount; tri++)
-		{
-			mDebugGraphics.DebugDraw2DTriangleScreenSpace
-			(
-				*(const math::Vector3*)(tiles[i].mBinnedTriangles.mTriangleList[tri].Points + 0),
-				*(const math::Vector3*)(tiles[i].mBinnedTriangles.mTriangleList[tri].Points + 1),
-				*(const math::Vector3*)(tiles[i].mBinnedTriangles.mTriangleList[tri].Points + 2),
-				eColor::Green
-			);
-			
-		}
+		dooms::ui::maskedOcclusionCulliingDebugger::SetBinnedTriangleCount(tileIndex, tiles[tileIndex].mBinnedTriangles.mCurrentTriangleCount);
 	}
 
 	mDebugGraphics.BufferVertexDataToGPU();
