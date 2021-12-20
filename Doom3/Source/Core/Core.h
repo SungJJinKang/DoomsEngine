@@ -14,7 +14,3 @@
 
 
 #include "../Helper/Simple_SingleTon/Singleton.h"
-
-
-
-

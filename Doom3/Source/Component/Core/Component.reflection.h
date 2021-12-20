@@ -1,16 +1,16 @@
 #pragma once
 
 // Utility Header File ( Don't Edit this )
-// SourceFilePath : C:\Doom3FromScratch\Doom3\Source\Component\Core\Component.cpp
+// SourceFilePath : __Source_Component_Core_Component_reflection_h
 
 
-#ifdef _Source_Component_Core_Component_reflection_h
+#ifdef __Source_Component_Core_Component_reflection_h
 
-#error "_Source_Component_Core_Component_reflection_h already included, missing '#pragma once' in _Source_Component_Core_Component_reflection_h"
+#error "__Source_Component_Core_Component_reflection_h already included, missing '#pragma once' in __Source_Component_Core_Component_reflection_h"
 
 #endif
 
-#define _Source_Component_Core_Component_reflection_h
+#define __Source_Component_Core_Component_reflection_h
 
 
 #include <type_traits>

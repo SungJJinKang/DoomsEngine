@@ -1,16 +1,16 @@
 #pragma once
 
 // Utility Header File ( Don't Edit this )
-// SourceFilePath : C:\Doom3FromScratch\Doom3\main.cpp
+// SourceFilePath : __main_reflection_h
 
 
-#ifdef _main_reflection_h
+#ifdef __main_reflection_h
 
-#error "_main_reflection_h already included, missing '#pragma once' in _main_reflection_h"
+#error "__main_reflection_h already included, missing '#pragma once' in __main_reflection_h"
 
 #endif
 
-#define _main_reflection_h
+#define __main_reflection_h
 
 
 #include <type_traits>
