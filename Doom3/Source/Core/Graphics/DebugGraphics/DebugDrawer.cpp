@@ -248,6 +248,29 @@ void dooms::graphics::DebugDrawer::DebugDraw2DTriangle(const math::Vector3& poin
 	}
 }
 
+void dooms::graphics::DebugDrawer::DebugDraw2DBox
+(
+	const math::Vector3& leftBottom, 
+	const math::Vector3& rightTop,
+	eColor color, bool drawInstantly
+)
+{
+	{
+		const math::Vector3 pointA{ leftBottom.x, rightTop.y , 0.0f };
+		const math::Vector3 pointB{ leftBottom.x, leftBottom.y, 0.0f };
+		const math::Vector3 pointC{ rightTop.x, leftBottom.y, 0.0f };
+
+		DebugDraw2DTriangle(pointA, pointB, pointC, color, drawInstantly);
+	}
+	{
+		const math::Vector3 pointA{ rightTop.x, leftBottom.y, 0.0f };
+		const math::Vector3 pointB{ rightTop.x, rightTop.y, 0.0f };
+		const math::Vector3 pointC{ leftBottom.x, rightTop.y, 0.0f };
+
+		DebugDraw2DTriangle(pointA, pointB, pointC, color, drawInstantly);
+	}
+}
+
 void dooms::graphics::DebugDrawer::DebugDraw2DTriangleScreenSpace
 (
 	const math::Vector3& pointA,

@@ -26,7 +26,7 @@ namespace dooms::ui::engineGUIServer
         dooms::ui::sceneGUI::Render();
         dooms::ui::profilerGUI::Render();
         dooms::ui::threadProfilerGUI::Render();
-        dooms::ui::maskedOcclusionCulliingDebugger::Render();
+        //dooms::ui::maskedOcclusionCulliingDebugger::Render();
     }
 }
 

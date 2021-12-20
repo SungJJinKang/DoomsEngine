@@ -35,6 +35,9 @@ private:
 
 	D_PROPERTY()
 	bool Is_Enabled_CollisionDebugging = false;
+
+	D_PROPERTY()
+	bool Is_Enabled_MaskedSWOcclusionCullingBinsStageDebugging = false;
 	
 	void OnChangedByGUI(const dooms::reflection::DField& dFieldOfChangedField) override;
 

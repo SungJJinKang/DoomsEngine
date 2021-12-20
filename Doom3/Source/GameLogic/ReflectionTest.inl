@@ -33,6 +33,7 @@
 #include "PhysicsComponent/Rigidbody/Rigidbody.h"
 #include <Graphics/Buffer/Mesh.h>
 #include <Scene/Entity.h>
+#include <Graphics/Buffer/MeshHelper.h>
 
 void dooms::GameLogicStartPoint::StartGameLogic()
 {
@@ -77,6 +78,8 @@ void dooms::GameLogicStartPoint::StartGameLogic()
 
 	}
 
+	
+	
 	auto lightEntity = currenScene->CreateNewEntity();
 	lightEntity->GetTransform()->SetPosition(-30.0f, 0.0f, 0.0f);
 	lightEntity->GetTransform()->SetRotation(30.0f, 0.0f, 0.0f);
@@ -211,9 +214,17 @@ void dooms::GameLogicStartPoint::StartGameLogic()
 		BoxCollider3D* box3D = entity->AddComponent<BoxCollider3D>();
 		box3D->SetFromAABB3D(planetAsset->GetMesh(0)->GetBoundingBox());
 	}
-
 	
-
+	
+	{
+		auto entity = currenScene->CreateNewEntity();
+		entity->GetTransform()->SetScale(20.0f, 20.0f, 20.0f);
+		entity->GetTransform()->SetPosition(0, 0, 1000);
+		auto meshRenderer = entity->AddComponent<MeshRenderer>();
+		meshRenderer->SetMesh(dooms::graphics::meshHelper::GetQuadMesh());
+		meshRenderer->SetMaterial(material);
+		
+	}
 
 	
 	

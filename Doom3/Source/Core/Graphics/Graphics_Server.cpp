@@ -151,38 +151,20 @@ void Graphics_Server::CameraCullJob(dooms::Camera* const camera)
 
 void Graphics_Server::DebugGraphics()
 {
-	/*
-	//mCullingSystem->
-	for(auto entityBlock : mCullingSystem->GetActiveEntityBlockList())
+	if (Graphics_Setting::IsDrawMaskedOcclusionCullingBinTriangleStageDebugger == true)
 	{
-		for(size_t entityIndex = 0 ; entityIndex < entityBlock->mCurrentEntityCount ; entityIndex++)
-		{
-			if
-			(
-				entityBlock->GetIsCulled(entityIndex, 0) == false &&
-				entityBlock->GetIsOccluder(entityIndex, 0) == true
-			)
-			{
-				mDebugGraphics.DebugDraw3DSphere
-				(
-					*(math::Vector3*)(&(entityBlock->mPositionAndBoundingSpheres[entityIndex].Position)),
-					entityBlock->mPositionAndBoundingSpheres[entityIndex].BoundingSphereRadius + 0.3f,
-					eColor::Red
-				);
-			}
-		}
+		dooms::graphics::maskedOcclusionCullingTester::DebugBinnedTriangles(&(mCullingSystem->mMaskedSWOcclusionCulling->mDepthBuffer));
 	}
-	*/
+
+	/*
 	const UINT32 tileCount = mCullingSystem->mMaskedSWOcclusionCulling->mDepthBuffer.GetTileCount();
 	const culling::Tile* const tiles = mCullingSystem->mMaskedSWOcclusionCulling->mDepthBuffer.GetTiles();
-
-	const UINT32 tileRowCount = mCullingSystem->mMaskedSWOcclusionCulling->mDepthBuffer.mResolution.mColumnCount;
-	const UINT32 tileColumnCount = mCullingSystem->mMaskedSWOcclusionCulling->mDepthBuffer.mResolution.mRowCount;
 	
 	for(size_t tileIndex = 0 ; tileIndex < tileCount ; tileIndex++)
 	{
 		dooms::ui::maskedOcclusionCulliingDebugger::SetBinnedTriangleCount(tileIndex, tiles[tileIndex].mBinnedTriangles.mCurrentTriangleCount);
 	}
+	*/
 
 	mDebugGraphics.BufferVertexDataToGPU();
 	mDebugGraphics.Draw();
@@ -341,7 +323,7 @@ void dooms::graphics::Graphics_Server::RenderObject(dooms::Camera* const targetC
 		IsFinishedSortingReferernceRenderers = resource::JobSystem::GetSingleton()->PushBackJobToPriorityQueue(std::function<void()>(dooms::graphics::SortFrontToBackSolver::GetSortRendererLambda(cameraIndex)));
 	}
 
-	const bool targetCamera_IS_CULLED_flag_on = targetCamera->GetCameraFlag(dooms::eCameraFlag::IS_CULLED);
+	const bool targetCamera_IS_CULLED_flag_on = targetCamera->GetIsCullJobEnabled();
 	for (UINT32 layerIndex = 0; layerIndex < MAX_LAYER_COUNT; layerIndex++)
 	{
 		const std::vector<Renderer*>& renderersInLayer = RendererComponentStaticIterator::GetSingleton()->GetWorkingRendererInLayer(cameraIndex, layerIndex);

@@ -6,8 +6,6 @@
 #include "imgui.h"
 #include "Graphics/Acceleration/LinearData_ViewFrustumCulling/CullingModule/MaskedSWOcclusionCulling/MaskedSWOcclusionCulling.h"
 
-#define DEFAULT_SPACE_OFFSET 30
-
 namespace dooms::ui::maskedOcclusionCulliingDebugger
 {
 	std::vector<std::vector<UINT32>> BinnedTriangleCount;
@@ -48,7 +46,7 @@ namespace dooms::ui::maskedOcclusionCulliingDebugger
 
 				if (colIndex != (BinnedTriangleCount[0].size() - 1))
 				{
-					ImGui::SameLine(0, space + DEFAULT_SPACE_OFFSET);
+					ImGui::SameLine(0, 15);
 				}
 			}
 		}

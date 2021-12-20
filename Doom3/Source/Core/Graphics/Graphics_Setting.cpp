@@ -11,6 +11,7 @@ void dooms::graphics::Graphics_Setting::LoadData()
 	Graphics_Setting::ScreenSize[1] = height;
 
 	Graphics_Setting::ScreenRatio = static_cast<FLOAT32>(width) / static_cast<FLOAT32>(height);
+	Graphics_Setting::IsDrawMaskedOcclusionCullingBinTriangleStageDebugger = ConfigData::GetSingleton()->GetConfigData().GetValue<bool>("Graphics", "DRAW_MASKED_OCCLUSION_CULLING_BIN_TRIANGLE_STAGE_DEBUGGER");
 
 }
 

@@ -1,5 +1,7 @@
 #include "MeshHelper.h"
 
+#include <cmath>
+
 #include "Asset/ThreeDModelAsset.h"
 #include <Game/AssetManager/AssetManager.h>
 
@@ -38,10 +40,17 @@ namespace dooms::graphics::meshHelper
 		threeDModelMeshes[0].mPrimitiveType = ePrimitiveType::TRIANGLES;
 		threeDModelMeshes[0].mVertexArrayFlag = eVertexArrayFlag::VertexVector3 | eVertexArrayFlag::TexCoord;
 
-		threeDModelMeshes[0].bHasIndices = false;
+		threeDModelMeshes[0].mVerticeStride = 12;
 		
 		MeshData meshVertexData = GetQuadMeshVertexData(leftbottom, rightup);
 		threeDModelMeshes[0].mMeshDatas = std::move(meshVertexData);
+		threeDModelMeshes[0].mMeshIndices = { 0, 1, 2, 3, 4, 5 };
+		threeDModelMeshes[0].bHasIndices = true;
+
+		const math::Vector3 minX = math::Vector3(std::min(leftbottom.x, rightup.x), std::min(leftbottom.y, rightup.y), 0.001f);
+		const math::Vector3 maxX = math::Vector3(std::max(leftbottom.x, rightup.x), std::max(leftbottom.y, rightup.y), 0.001f);
+		threeDModelMeshes[0].mAABB3D = physics::AABB3D(minX, maxX);
+		threeDModelMeshes[0].mSphere = physics::Sphere(math::Vector3(0.0f), std::max(std::abs(rightup.x - leftbottom.x), std::abs(rightup.y - leftbottom.y)));
 
 		ThreeDModelNode* const threeDModelNode = dooms::CreateDObject<ThreeDModelNode>(nullptr);
 		threeDModelNode->mThreeDModelNodeParent = nullptr;
