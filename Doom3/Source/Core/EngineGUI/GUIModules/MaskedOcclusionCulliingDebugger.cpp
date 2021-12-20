@@ -1,8 +1,12 @@
 #include "MaskedOcclusionCulliingDebugger.h"
 
 #include <vector>
+#include <Graphics/Graphics_Server.h>
 
 #include "imgui.h"
+#include "Graphics/Acceleration/LinearData_ViewFrustumCulling/CullingModule/MaskedSWOcclusionCulling/MaskedSWOcclusionCulling.h"
+
+#define DEFAULT_SPACE_OFFSET 30
 
 namespace dooms::ui::maskedOcclusionCulliingDebugger
 {
@@ -20,15 +24,31 @@ namespace dooms::ui::maskedOcclusionCulliingDebugger
 
 	void extern RenderBinnedTriangles()
 	{
-		for (size_t rowIndex = 0; rowIndex < BinnedTriangleCount.size(); rowIndex++)
-		{
-			for (size_t colIndex = 0; colIndex < BinnedTriangleCount[0].size(); colIndex++)
-			{
+		const ImVec4 redColor{ 1.0f, 0.0f, 0.0f, 1.0f };
+		const ImVec4 whiteColor{ 1.0f, 1.0f, 1.0f, 1.0f };
 
-				ImGui::Text("%u", BinnedTriangleCount[rowIndex][colIndex]);
-				if (colIndex != BinnedTriangleCount[0].size() - 1)
+		const std::uint32_t screenWidth = graphics::Graphics_Server::GetSingleton()->mCullingSystem->mMaskedSWOcclusionCulling->mDepthBuffer.mResolution.mWidth;
+		const std::uint32_t screenHeight = graphics::Graphics_Server::GetSingleton()->mCullingSystem->mMaskedSWOcclusionCulling->mDepthBuffer.mResolution.mHeight;
+
+		const std::uint32_t space = ((float)screenWidth / (float)screenHeight) * ((float)BinnedTriangleCount.size() / (float)BinnedTriangleCount[0].size());
+		
+		for (std::int32_t rowIndex = BinnedTriangleCount.size() - 1; rowIndex >= 0 ; rowIndex--)
+		{
+			for (std::int32_t colIndex = 0; colIndex < BinnedTriangleCount[0].size(); colIndex++)
+			{
+				const size_t triangleCount = BinnedTriangleCount[rowIndex][colIndex];
+				if(triangleCount > 0)
 				{
-					ImGui::SameLine(0, 3);
+					ImGui::TextColored(redColor, "O");
+				}
+				else
+				{
+					ImGui::TextColored(whiteColor, "X");
+				}
+
+				if (colIndex != (BinnedTriangleCount[0].size() - 1))
+				{
+					ImGui::SameLine(0, space + DEFAULT_SPACE_OFFSET);
 				}
 			}
 		}
