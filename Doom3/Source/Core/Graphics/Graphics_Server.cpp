@@ -135,6 +135,7 @@ void Graphics_Server::CameraCullJob(dooms::Camera* const camera)
 		cullingSettingParameters.mCameraFarPlaneDistance = camera->GetClippingPlaneFar();
 		cullingSettingParameters.mCameraNearPlaneDistance = camera->GetClippingPlaneNear();
 		cullingSettingParameters.mCameraWorldPosition = *reinterpret_cast<const culling::Vec3*>(&(camera->GetTransform()->GetPosition()));
+		cullingSettingParameters.mCameraRotation = *reinterpret_cast<const culling::Vec4*>(&(camera->GetTransform()->GetRotation()));
 
 		mCullingSystem->Configure(camera->CameraIndexInCullingSystem, cullingSettingParameters);
 		
