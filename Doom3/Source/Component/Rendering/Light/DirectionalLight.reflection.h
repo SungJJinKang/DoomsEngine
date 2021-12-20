@@ -4,13 +4,13 @@
 // SourceFilePath : C:\Doom3FromScratch\Doom3\Source\Component\Rendering\Light\DirectionalLight.cpp
 
 
-#ifdef C__Doom3FromScratch_Doom3_Source_Component_Rendering_Light_DirectionalLight_reflection_h
+#ifdef _Source_Component_Rendering_Light_DirectionalLight_reflection_h
 
-#error "C:\Doom3FromScratch\Doom3\Source\Component\Rendering\Light\DirectionalLight.reflection.h already included, missing '#pragma once' in C:\Doom3FromScratch\Doom3\Source\Component\Rendering\Light\DirectionalLight.reflection.h"
+#error "_Source_Component_Rendering_Light_DirectionalLight_reflection_h already included, missing '#pragma once' in _Source_Component_Rendering_Light_DirectionalLight_reflection_h"
 
 #endif
 
-#define C__Doom3FromScratch_Doom3_Source_Component_Rendering_Light_DirectionalLight_reflection_h
+#define _Source_Component_Rendering_Light_DirectionalLight_reflection_h
 
 
 #include <type_traits>

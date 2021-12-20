@@ -4,13 +4,13 @@
 // SourceFilePath : C:\Doom3FromScratch\Doom3\Source\GameLogic\CustomComponent\TestComponent2.cpp
 
 
-#ifdef C__Doom3FromScratch_Doom3_Source_GameLogic_CustomComponent_TestComponent2_reflection_h
+#ifdef _Source_GameLogic_CustomComponent_TestComponent2_reflection_h
 
-#error "C:\Doom3FromScratch\Doom3\Source\GameLogic\CustomComponent\TestComponent2.reflection.h already included, missing '#pragma once' in C:\Doom3FromScratch\Doom3\Source\GameLogic\CustomComponent\TestComponent2.reflection.h"
+#error "_Source_GameLogic_CustomComponent_TestComponent2_reflection_h already included, missing '#pragma once' in _Source_GameLogic_CustomComponent_TestComponent2_reflection_h"
 
 #endif
 
-#define C__Doom3FromScratch_Doom3_Source_GameLogic_CustomComponent_TestComponent2_reflection_h
+#define _Source_GameLogic_CustomComponent_TestComponent2_reflection_h
 
 
 #include <type_traits>

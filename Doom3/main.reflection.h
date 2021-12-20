@@ -4,13 +4,13 @@
 // SourceFilePath : C:\Doom3FromScratch\Doom3\main.cpp
 
 
-#ifdef C__Doom3FromScratch_Doom3_main_reflection_h
+#ifdef _main_reflection_h
 
-#error "C:\Doom3FromScratch\Doom3\main.reflection.h already included, missing '#pragma once' in C:\Doom3FromScratch\Doom3\main.reflection.h"
+#error "_main_reflection_h already included, missing '#pragma once' in _main_reflection_h"
 
 #endif
 
-#define C__Doom3FromScratch_Doom3_main_reflection_h
+#define _main_reflection_h
 
 
 #include <type_traits>
