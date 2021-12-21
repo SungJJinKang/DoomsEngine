@@ -9,6 +9,7 @@ namespace dooms
 		namespace maskedOcclusionCullingTester
 		{
 			void DebugBinnedTriangles(const culling::SWDepthBuffer* const depthBuffer);
+			void DebugTileCoverageMask(const culling::SWDepthBuffer* const depthBuffer);
 		};
 	}
 }

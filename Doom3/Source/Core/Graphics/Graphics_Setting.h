@@ -33,6 +33,7 @@ namespace dooms
 			static inline eColor DrawDebuggersDefualtColor{ eColor::Green };
 
 			static inline bool IsDrawMaskedOcclusionCullingBinTriangleStageDebugger{ true };
+			static inline bool IsDrawMaskedOcclusionCullingTileCoverageMaskDebugger{ true };
 
 			static inline bool IsOverDrawVisualizationEnabled{ false };
 

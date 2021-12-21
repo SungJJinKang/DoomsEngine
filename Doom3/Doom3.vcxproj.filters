@@ -345,10 +345,10 @@
     <ClCompile Include="Source\Core\Graphics\Acceleration\LinearData_ViewFrustumCulling\CullingModule\MaskedSWOcclusionCulling\Stage\MaskedSWOcclusionCullingStage.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Core\Graphics\Acceleration\LinearData_ViewFrustumCulling\CullingModule\MaskedSWOcclusionCulling\Stage\RasterizeTrianglesStage.cpp">
+    <ClCompile Include="Source\Core\Graphics\Acceleration\LinearData_ViewFrustumCulling\CullingModule\MaskedSWOcclusionCulling\Stage\RasterizeOccludersStage.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Core\Graphics\Acceleration\LinearData_ViewFrustumCulling\CullingModule\MaskedSWOcclusionCulling\Stage\DepthTestOccludeeStage.cpp">
+    <ClCompile Include="Source\Core\Graphics\Acceleration\LinearData_ViewFrustumCulling\CullingModule\MaskedSWOcclusionCulling\Stage\QueryOccludeeStage.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Source\GameLogic\CustomComponent\ButtonRotate.cpp">
@@ -1349,9 +1349,6 @@
     <ClInclude Include="Source\Core\Graphics\Acceleration\LinearData_ViewFrustumCulling\CullingModule\MaskedSWOcclusionCulling\MaskedSWOcclusionCulling.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Core\Graphics\Acceleration\LinearData_ViewFrustumCulling\CullingModule\MaskedSWOcclusionCulling\CoverageMask.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Core\Graphics\Acceleration\LinearData_ViewFrustumCulling\CullingModule\MaskedSWOcclusionCulling\Rasterizer\CoverageRasterizer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -1364,10 +1361,10 @@
     <ClInclude Include="Source\Core\Graphics\Acceleration\LinearData_ViewFrustumCulling\CullingModule\MaskedSWOcclusionCulling\Stage\MaskedSWOcclusionCullingStage.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Core\Graphics\Acceleration\LinearData_ViewFrustumCulling\CullingModule\MaskedSWOcclusionCulling\Stage\RasterizeTrianglesStage.h">
+    <ClInclude Include="Source\Core\Graphics\Acceleration\LinearData_ViewFrustumCulling\CullingModule\MaskedSWOcclusionCulling\Stage\RasterizeOccludersStage.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Core\Graphics\Acceleration\LinearData_ViewFrustumCulling\CullingModule\MaskedSWOcclusionCulling\Stage\DepthTestOccludeeStage.h">
+    <ClInclude Include="Source\Core\Graphics\Acceleration\LinearData_ViewFrustumCulling\CullingModule\MaskedSWOcclusionCulling\Stage\QueryOccludeeStage.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\Core\Graphics\Acceleration\LinearData_ViewFrustumCulling\DataType\Math\Vector.h">

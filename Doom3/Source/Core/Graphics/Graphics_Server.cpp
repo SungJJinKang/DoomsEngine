@@ -157,6 +157,11 @@ void Graphics_Server::DebugGraphics()
 		dooms::graphics::maskedOcclusionCullingTester::DebugBinnedTriangles(&(mCullingSystem->mMaskedSWOcclusionCulling->mDepthBuffer));
 	}
 
+	if (Graphics_Setting::IsDrawMaskedOcclusionCullingTileCoverageMaskDebugger == true)
+	{
+		dooms::graphics::maskedOcclusionCullingTester::DebugTileCoverageMask(&(mCullingSystem->mMaskedSWOcclusionCulling->mDepthBuffer));
+	}
+
 	/*
 	const UINT32 tileCount = mCullingSystem->mMaskedSWOcclusionCulling->mDepthBuffer.GetTileCount();
 	const culling::Tile* const tiles = mCullingSystem->mMaskedSWOcclusionCulling->mDepthBuffer.GetTiles();

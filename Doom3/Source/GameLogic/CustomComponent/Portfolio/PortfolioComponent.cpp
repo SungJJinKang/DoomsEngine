@@ -29,6 +29,7 @@ void dooms::PortfolioComponent::UpdateGUI()
 	dooms::physics::Physics_Setting::IS_RENDER_PHYSICS_RAYCASTING_DEBUGGER = Is_Enabled_CollisionDebugging;
 
 	dooms::graphics::Graphics_Setting::IsDrawMaskedOcclusionCullingBinTriangleStageDebugger = Is_Enabled_MaskedSWOcclusionCullingBinsStageDebugging;
+	dooms::graphics::Graphics_Setting::IsDrawMaskedOcclusionCullingTileCoverageMaskDebugger = Is_Enabled_MaskedSWOcclusionCullingTileCoverageMaskDebugging;
 }
 
 void dooms::PortfolioComponent::InitComponent()
@@ -42,6 +43,7 @@ void dooms::PortfolioComponent::InitComponent()
 	Is_Enabled_MultiThread_SortingFrontToBack = true;
 	dooms::graphics::Graphics_Setting::IsSortObjectFrontToBack = true;
 	dooms::graphics::Graphics_Setting::IsDrawMaskedOcclusionCullingBinTriangleStageDebugger = Is_Enabled_MaskedSWOcclusionCullingBinsStageDebugging;
+	dooms::graphics::Graphics_Setting::IsDrawMaskedOcclusionCullingTileCoverageMaskDebugger = Is_Enabled_MaskedSWOcclusionCullingTileCoverageMaskDebugging;
 
 	Is_Enabled_OverdrawDebugger = false;
 	dooms::graphics::Graphics_Setting::IsOverDrawVisualizationEnabled = Is_Enabled_OverdrawDebugger;
