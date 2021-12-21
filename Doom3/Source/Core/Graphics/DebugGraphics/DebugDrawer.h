@@ -49,6 +49,8 @@ namespace dooms
 
 			Mesh mDebugMesh{};
 
+			std::array<std::vector<math::Vector2>, ENUM_COLOR_COUNT> m2DPoint;
+			std::array<std::vector<math::Vector3>, ENUM_COLOR_COUNT> m3DPoint;
 			std::array<std::vector<PrimitiveLine>, ENUM_COLOR_COUNT> m2dLine;
 			std::array<std::vector<PrimitiveLine>, ENUM_COLOR_COUNT> m3dLine;
 			std::array<std::vector<PrimitiveTriangle>, ENUM_COLOR_COUNT> m2dTriangle;
@@ -86,6 +88,25 @@ namespace dooms
 			bool GetIsVertexDataSendToGPUAtCurrentFrame() const;
 			
 			DebugDrawer();
+
+
+			/// <summary>
+			/// Why limit color.
+			/// if allow any color user want, we should draw line per color. This will make so many draw call
+			/// </summary>
+			/// <param name="startWorldPos"></param>
+			/// <param name="endWorldPos"></param>
+			/// <param name="color"></param>
+			void DebugDraw2DPoint(const math::Vector3& point, eColor color, bool drawInstantly = false);
+
+			/// <summary>
+			/// Why limit color.
+			/// if allow any color user want, we should draw line per color. This will make so many draw call
+			/// </summary>
+			/// <param name="startWorldPos"></param>
+			/// <param name="endWorldPos"></param>
+			/// <param name="color"></param>
+			void DebugDraw3DPoint(const math::Vector3& point, eColor color, bool drawInstantly = false);
 
 			/// <summary>
 			/// Why limit color.
