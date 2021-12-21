@@ -328,8 +328,8 @@ void dooms::graphics::Graphics_Server::RenderObject(dooms::Camera* const targetC
 		//Push Multithread Sorting Renderer Front To Back  TO  JobSystem.
 		IsFinishedSortingReferernceRenderers = resource::JobSystem::GetSingleton()->PushBackJobToPriorityQueue(std::function<void()>(dooms::graphics::SortFrontToBackSolver::GetSortRendererLambda(cameraIndex)));
 	}
-
-	const bool targetCamera_IS_CULLED_flag_on = targetCamera->GetIsCullJobEnabled();
+	
+	const bool targetCamera_IS_CULLED_flag_on = targetCamera->GetCameraFlag(dooms::eCameraFlag::IS_CULLED);
 	for (UINT32 layerIndex = 0; layerIndex < MAX_LAYER_COUNT; layerIndex++)
 	{
 		const std::vector<Renderer*>& renderersInLayer = RendererComponentStaticIterator::GetSingleton()->GetWorkingRendererInLayer(cameraIndex, layerIndex);
