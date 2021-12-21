@@ -262,7 +262,7 @@ void dooms::physics::AABB3D::ApplyModelMatrix(const AABB3D& localAABB, const mat
 	const M128F& localAABBLowerBound = *reinterpret_cast<const M128F*>(&localAABB.mLowerBound);
 	const M128F& localAABBUpperBound = *reinterpret_cast<const M128F*>(&localAABB.mUpperBound);
 
-	M128F centerPoint = M128F_MUL(M128F_ADD(localAABBLowerBound, localAABBUpperBound), M128F_HALF_ONE);
+	M128F centerPoint = M128F_MUL(M128F_ADD(localAABBLowerBound, localAABBUpperBound), _mm_set1_ps(0.5f));
 	centerPoint.m128_f32[3] = 1.0f;
 	const math::Vector4 newCenter = modelMatrix * (*reinterpret_cast<const math::Vector4*>(&centerPoint));
 
