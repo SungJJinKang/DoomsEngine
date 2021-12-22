@@ -356,6 +356,7 @@ void dooms::graphics::DebugDrawer::DebugDraw2DBox
 	}
 }
 
+/* not tested
 void dooms::graphics::DebugDrawer::DebugDraw2DTriangleScreenSpace
 (
 	const math::Vector3& pointA,
@@ -389,6 +390,7 @@ void dooms::graphics::DebugDrawer::DebugDraw2DTriangleScreenSpace
 
 	DebugDraw2DTriangle(ndcPointA, ndcPointB, ndcPointC, color);
 }
+*/
 
 void dooms::graphics::DebugDrawer::SetDrawInstantlyMaterial(Material* material)
 {

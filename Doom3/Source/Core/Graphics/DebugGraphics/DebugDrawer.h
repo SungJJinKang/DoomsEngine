@@ -138,7 +138,7 @@ namespace dooms
 			/// </summary>
 			void DebugDraw2DTriangle(const math::Vector3& pointA, const math::Vector3& pointB, const math::Vector3& pointC, eColor color, bool drawInstantly = false);
 			void DebugDraw2DBox(const math::Vector3& leftBottom, const math::Vector3& rightTop, eColor color, bool drawInstantly = false);
-			void DebugDraw2DTriangleScreenSpace(const math::Vector3& pointA, const math::Vector3& pointB, const math::Vector3& pointC, eColor color, bool drawInstantly = false);
+			//void DebugDraw2DTriangleScreenSpace(const math::Vector3& pointA, const math::Vector3& pointB, const math::Vector3& pointC, eColor color, bool drawInstantly = false);
 			
 			void SetDrawInstantlyMaterial(Material* material);
 
