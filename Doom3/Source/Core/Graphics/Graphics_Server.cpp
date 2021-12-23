@@ -311,7 +311,7 @@ void dooms::graphics::Graphics_Server::RenderObject(dooms::Camera* const targetC
 		//resource::JobSystem::GetSingleton()->SetMemoryBarrierOnAllSubThreads();
 		D_END_PROFILING(WAIT_CULLJOB);
 
-		
+		std::atomic_thread_fence(std::memory_order_acquire);
 	}
 
 	if (Graphics_Setting::IsSortObjectFrontToBack == true)

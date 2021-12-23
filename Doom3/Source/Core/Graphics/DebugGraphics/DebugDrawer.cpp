@@ -32,6 +32,17 @@ void dooms::graphics::DebugDrawer::Reset()
 	std::scoped_lock<std::mutex> lock{ mMextex };
 
 	mDebugMeshCount = 0;
+
+	for (size_t i = 0; i < m2DPoint.size(); i++)
+	{
+		m2DPoint[i].clear();
+	}
+
+	for (size_t i = 0; i < m2DPoint.size(); i++)
+	{
+		m2DPoint[i].clear();
+	}
+
 	for (size_t i = 0; i < m2dLine.size(); i++)
 	{
 		m2dLine[i].clear();
@@ -66,9 +77,11 @@ bool dooms::graphics::DebugDrawer::GetIsVertexDataSendToGPUAtCurrentFrame() cons
 }
 
 dooms::graphics::DebugDrawer::DebugDrawer() :
-	m2DMaterial{}, m3DMaterial{}, m2dLine{}, m3dLine{}, m2dTriangle{}, m3dTriangle{}
+	m2DMaterial{}, m3DMaterial{}, m2DPoint{}, m3DPoint{}, m2dLine{}, m3dLine{}, m2dTriangle{}, m3dTriangle{}
 {
 }
+
+
 
 void dooms::graphics::DebugDrawer::Draw()
 {
@@ -79,6 +92,23 @@ void dooms::graphics::DebugDrawer::Draw()
 	/// </summary>
 	INT32 offsetComponentCount{ 0 };
 	UINT32 alreadyDrawedVertexCount{ 0 };
+
+	if (m2DPoint.size() != 0)
+	{
+		for (size_t i = 0; i < m2DPoint.size(); i++)
+		{
+			UINT32 pointCount = static_cast<UINT32>(m2DPoint[i].size());
+			if (pointCount > 0)
+			{
+				m2DMaterial->UseProgram();
+				m2DMaterial->SetVector4(0, Color::GetColor(static_cast<eColor>(i)));
+				mDebugMesh.DrawArray(ePrimitiveType::POINTS, alreadyDrawedVertexCount, pointCount * 1);
+
+				offsetComponentCount += pointCount * 3;
+				alreadyDrawedVertexCount += pointCount * 1;
+			}
+		}
+	}
 
 	if (m2dLine.size() != 0 && m2dTriangle.size() != 0)
 	{
@@ -107,6 +137,23 @@ void dooms::graphics::DebugDrawer::Draw()
 
 				offsetComponentCount += triangleCount * 9;
 				alreadyDrawedVertexCount += triangleCount * 3;
+			}
+		}
+	}
+
+	if (m3DPoint.size() != 0)
+	{
+		for (size_t i = 0; i < m3DPoint.size(); i++)
+		{
+			UINT32 pointCount = static_cast<UINT32>(m3DPoint[i].size());
+			if (pointCount > 0)
+			{
+				m3DMaterial->UseProgram();
+				m3DMaterial->SetVector4(0, Color::GetColor(static_cast<eColor>(i)));
+				mDebugMesh.DrawArray(ePrimitiveType::POINTS, alreadyDrawedVertexCount, pointCount * 1);
+
+				offsetComponentCount += pointCount * 3;
+				alreadyDrawedVertexCount += pointCount * 1;
 			}
 		}
 	}
@@ -142,6 +189,44 @@ void dooms::graphics::DebugDrawer::Draw()
 		}
 	}
 
+}
+
+void dooms::graphics::DebugDrawer::DebugDraw2DPoint(const math::Vector3& point, eColor color, bool drawInstantly)
+{
+	std::scoped_lock<std::mutex> lock{ mMextex };
+
+	if (drawInstantly == false)
+	{
+		D_ASSERT_LOG(bmIsVertexDataSendToGPUAtCurrentFrame == false, "Debugging Vertex Data is already send to GPU");
+		m2DPoint[static_cast<UINT32>(color)].emplace_back(point);
+	}
+	else
+	{
+		m2DMaterial->UseProgram();
+		m2DMaterial->SetVector4(0, Color::GetColor(static_cast<eColor>(color)));
+		FLOAT32 data[3]{ point.x, point.y, point.z };
+		mDebugMesh.BufferSubData(6, data, 0);
+		mDebugMesh.DrawArray(ePrimitiveType::POINTS, 0, 1);
+	}
+}
+
+void dooms::graphics::DebugDrawer::DebugDraw3DPoint(const math::Vector3& point, eColor color, bool drawInstantly)
+{
+	std::scoped_lock<std::mutex> lock{ mMextex };
+
+	if (drawInstantly == false)
+	{
+		D_ASSERT_LOG(bmIsVertexDataSendToGPUAtCurrentFrame == false, "Debugging Vertex Data is already send to GPU");
+		m3DPoint[static_cast<UINT32>(color)].emplace_back(point);
+	}
+	else
+	{
+		m3DMaterial->UseProgram();
+		m3DMaterial->SetVector4(0, Color::GetColor(static_cast<eColor>(color)));
+		FLOAT32 data[3]{ point.x, point.y, point.z };
+		mDebugMesh.BufferSubData(6, data, 0);
+		mDebugMesh.DrawArray(ePrimitiveType::POINTS, 0, 1);
+	}
 }
 
 void dooms::graphics::DebugDrawer::DebugDraw3DLine(const math::Vector3& startWorldPos, const math::Vector3& endWorldPos, eColor color, bool drawInstantly /*= false*/)
@@ -271,6 +356,7 @@ void dooms::graphics::DebugDrawer::DebugDraw2DBox
 	}
 }
 
+/* not tested
 void dooms::graphics::DebugDrawer::DebugDraw2DTriangleScreenSpace
 (
 	const math::Vector3& pointA,
@@ -304,6 +390,7 @@ void dooms::graphics::DebugDrawer::DebugDraw2DTriangleScreenSpace
 
 	DebugDraw2DTriangle(ndcPointA, ndcPointB, ndcPointC, color);
 }
+*/
 
 void dooms::graphics::DebugDrawer::SetDrawInstantlyMaterial(Material* material)
 {
