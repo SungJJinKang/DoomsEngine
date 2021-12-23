@@ -20,7 +20,7 @@ namespace dooms::ui::maskedOcclusionCulliingDebugger
 		return BinnedTriangleCount.size();
 	}
 
-	void extern RenderBinnedTriangles()
+	extern void RenderBinnedTriangles()
 	{
 		const ImVec4 redColor{ 1.0f, 0.0f, 0.0f, 1.0f };
 		const ImVec4 whiteColor{ 1.0f, 1.0f, 1.0f, 1.0f };
