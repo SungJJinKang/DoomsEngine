@@ -50,7 +50,7 @@ namespace dooms::graphics::meshHelper
 		const math::Vector3 minX = math::Vector3(std::min(leftbottom.x, rightup.x), std::min(leftbottom.y, rightup.y), 0.001f);
 		const math::Vector3 maxX = math::Vector3(std::max(leftbottom.x, rightup.x), std::max(leftbottom.y, rightup.y), 0.001f);
 		threeDModelMeshes[0].mAABB3D = physics::AABB3D(minX, maxX);
-		threeDModelMeshes[0].mSphere = physics::Sphere(math::Vector3(0.0f), std::max(std::abs(rightup.x - leftbottom.x), std::abs(rightup.y - leftbottom.y)));
+		threeDModelMeshes[0].mSphere = physics::Sphere(math::Vector3(0.0f), 0.5f * std::max(std::abs(rightup.x - leftbottom.x), std::abs(rightup.y - leftbottom.y)));
 
 		ThreeDModelNode* const threeDModelNode = dooms::CreateDObject<ThreeDModelNode>(nullptr);
 		threeDModelNode->mThreeDModelNodeParent = nullptr;

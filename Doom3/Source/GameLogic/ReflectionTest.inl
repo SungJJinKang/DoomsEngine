@@ -64,7 +64,7 @@ void dooms::GameLogicStartPoint::StartGameLogic()
 		entity1->SetEntityName("Camera");
 
 		auto entity1Camera = entity1->AddComponent<Camera>();
-		entity1->GetTransform()->SetPosition(0, 0, 1000);
+		entity1->GetTransform()->SetPosition(26.0f, 41.0f, 1046.002f);
 		entity1Camera->SetProjectionMode(dooms::Camera::eProjectionType::Perspective);
 
 		entity1->AddComponent<Move_WASD>();
