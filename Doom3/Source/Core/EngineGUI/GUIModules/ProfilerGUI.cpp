@@ -5,6 +5,7 @@
 
 #include "imgui.h"
 #include <Time/MainTimer.h>
+#include <Graphics/DebugGraphics/RenderingDebugger.h>
 
 #define PROFILING_TEXT_RED_COLOR_DURATION_TIME 0.2f
 
@@ -21,6 +22,7 @@ void dooms::ui::profilerGUI::Render()
 {
 	if (ImGui::Begin("Profiler"))
 	{
+		ImGui::TextColored(ImVec4{ 1.0f, 0.0f, 0.0f, 1.0f }, "DrawCall : %llu", dooms::graphics::RenderingDebugger::GetDrawCallCounter());
 		for (auto& data : mProfilingDataContainer)
 		{
 			ImGui::Text("%s   :    ", data.first.c_str());
