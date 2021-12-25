@@ -53,9 +53,14 @@ namespace dooms::ui::maskedOcclusionCulliingDebugger
 					const INT32 subTileRowIndexInTile = subTileRowIndex % (TILE_HEIGHT / SUB_TILE_HEIGHT);
 					const INT32 subTileColIndexInTile = subTileColIndex % (TILE_WIDTH / SUB_TILE_WIDTH);
 
-					const culling::M256F L0MaxDepthValue = mMaskedSWOcclusionCulling->mDepthBuffer.GetTile(tileRowIndex, tileColIndex)->mHizDatas.L0MaxDepthValue;
+					D_ASSERT(subTileRowIndexInTile >= 0 && subTileRowIndexInTile < (TILE_HEIGHT / SUB_TILE_HEIGHT));
+					D_ASSERT(subTileColIndexInTile >= 0 && subTileRowIndexInTile < (TILE_WIDTH / SUB_TILE_WIDTH));
 
-					const float subTileL0MaxDepthValue = reinterpret_cast<const float*>(&L0MaxDepthValue)[subTileColIndexInTile + subTileRowIndexInTile * (TILE_WIDTH / SUB_TILE_WIDTH)];
+					const culling::M256F L0MaxDepthValue = mMaskedSWOcclusionCulling->mDepthBuffer.GetTile(tileRowIndex, tileColIndex)->mHizDatas.L0MaxDepthValue;
+					const INT32 subTileIndex = subTileColIndexInTile + subTileRowIndexInTile * (TILE_WIDTH / SUB_TILE_WIDTH);
+					D_ASSERT(subTileIndex >= 0 && subTileIndex < 8);
+
+					const float subTileL0MaxDepthValue = reinterpret_cast<const float*>(&L0MaxDepthValue)[subTileIndex];
 
 					ImGui::Text("%f", subTileL0MaxDepthValue);
 
