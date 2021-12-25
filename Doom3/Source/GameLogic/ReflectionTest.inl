@@ -228,7 +228,39 @@ void dooms::GameLogicStartPoint::StartGameLogic()
 
 	
 	
+	
+	
+	{
+		auto threedasset2 = assetImporter::AssetManager::GetSingleton()->GetAsset<asset::eAssetType::THREE_D_MODEL>("Lowpolybuildings.assbin");
+		auto shader1 = assetImporter::AssetManager::GetSingleton()->GetAsset<asset::eAssetType::SHADER>("GbufferWriter_PBR.glsl");
+		auto material1 = dooms::CreateDObject<graphics::Material>(shader1);
+		//material1->AddTexture(graphics::eTextureBindingPoint::AlbedoTexture, assetImporter::AssetManager::GetSingleton()->GetAsset<asset::eAssetType::TEXTURE>("r402_motel_ekaterininskiy_trakt.dds"));
 
+
+		{
+			auto entity = currenScene->CreateNewEntity();
+			entity->GetTransform()->SetScale(20.0f, 20.0f, 20.0f);
+			entity->GetTransform()->SetPosition(0, 0, 1000);
+			auto meshRenderer = entity->AddComponent<MeshRenderer>();
+			meshRenderer->SetMesh(threedasset2->GetMesh(0));
+			meshRenderer->SetMaterial(material1);
+
+		}
+
+		{
+			auto entity = currenScene->CreateNewEntity();
+			entity->GetTransform()->SetScale(20.0f, 20.0f, 20.0f);
+			entity->GetTransform()->SetPosition(0, 0, 1000);
+			auto meshRenderer = entity->AddComponent<MeshRenderer>();
+			meshRenderer->SetMesh(threedasset2->GetMesh(1));
+			meshRenderer->SetMaterial(material1);
+
+		}
+
+	}
+	
+	
+	
 	/*
 
 	auto a = Renderer::CLASS_TYPE_ID_STATIC();

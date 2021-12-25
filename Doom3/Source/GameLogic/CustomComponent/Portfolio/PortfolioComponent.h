@@ -42,6 +42,9 @@ private:
 	D_PROPERTY()
 	bool Is_Enabled_MaskedSWOcclusionCullingTileCoverageMaskDebugging = false;
 	
+	D_PROPERTY()
+	bool Is_Enabled_MaskedSWOcclusionCullingTileL0MaxDepthValueDebugging = false;
+	
 	void OnChangedByGUI(const dooms::reflection::DField& dFieldOfChangedField) override;
 
 	void UpdateGUI();

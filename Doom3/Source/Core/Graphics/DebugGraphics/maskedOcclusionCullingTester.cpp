@@ -14,13 +14,13 @@ void dooms::graphics::maskedOcclusionCullingTester::DebugTileCoverageMask
 {
 	std::atomic_thread_fence(std::memory_order_acquire);
 
-	const float xScale = 2.0f / (float)(depthBuffer->mResolution.mColumnCount);
-	const float yScale = 2.0f / (float)(depthBuffer->mResolution.mRowCount);
+	const float xScale = 2.0f / (float)(depthBuffer->mResolution.mColumnTileCount);
+	const float yScale = 2.0f / (float)(depthBuffer->mResolution.mRowTileCount);
 
-    for(size_t y = 0 ; y < depthBuffer->mResolution.mRowCount ; y++)
+    for(size_t y = 0 ; y < depthBuffer->mResolution.mRowTileCount ; y++)
     {
 		// y = 0 -> bottom
-		for (size_t x = 0; x < depthBuffer->mResolution.mColumnCount; x++)
+		for (size_t x = 0; x < depthBuffer->mResolution.mColumnTileCount; x++)
 		{
 			const culling::Tile* const tile = depthBuffer->GetTile(y, x);
 
@@ -86,6 +86,39 @@ void dooms::graphics::maskedOcclusionCullingTester::DebugTileCoverageMask
 	
 }
 
+void dooms::graphics::maskedOcclusionCullingTester::DebugTileL0MaxDepthValue
+(
+	const culling::SWDepthBuffer* const depthBuffer
+)
+{
+	std::atomic_thread_fence(std::memory_order_acquire);
+
+	const float xScale = 2.0f / (float)(depthBuffer->mResolution.mColumnTileCount);
+	const float yScale = 2.0f / (float)(depthBuffer->mResolution.mRowTileCount);
+
+	for (size_t y = 0; y < depthBuffer->mResolution.mRowTileCount; y++)
+	{
+		// y = 0 -> bottom
+		for (size_t x = 0; x < depthBuffer->mResolution.mColumnTileCount; x++)
+		{
+			const culling::Tile* const tile = depthBuffer->GetTile(y, x);
+			
+			const culling::M256F isNotOne = _mm256_cmp_ps(tile->mHizDatas.L0MaxDepthValue, _mm256_set1_ps(1.0f), _CMP_NEQ_OQ);
+			//draw -1 ~ 1
+			dooms::graphics::DebugDrawer::GetSingleton()->DebugDraw2DBox
+			(
+				math::Vector3(DEBUGGER_TILE_BOX_PADIDNG + -1.0f + xScale * x, DEBUGGER_TILE_BOX_PADIDNG + -1.0f + yScale * y, 1.0f),
+				math::Vector3(-DEBUGGER_TILE_BOX_PADIDNG + -1.0f + xScale * (x + 1), -DEBUGGER_TILE_BOX_PADIDNG + -1.0f + yScale * (y + 1), 1.0f),
+				(_mm256_testc_si256(*reinterpret_cast<const culling::M256I*>(&isNotOne), _mm256_set1_epi64x(0xFFFFFFFFFFFFFFFF)) == 1) ? eColor::Red : eColor::White // draw red when all bits of coverage mask is 1
+				//(_mm256_testz_si256(tile->mHizDatas.l1CoverageMask, _mm256_set1_epi64x(0xFFFFFFFFFFFFFFFF)) == 0) ? eColor::Red : eColor::White // draw red when all bits of coverage mask is 1
+			);
+			
+
+
+		}
+	}
+}
+
 void dooms::graphics::maskedOcclusionCullingTester::DebugBinnedTriangles
 (
 	const culling::SWDepthBuffer* const depthBuffer
@@ -93,13 +126,13 @@ void dooms::graphics::maskedOcclusionCullingTester::DebugBinnedTriangles
 {
 	std::atomic_thread_fence(std::memory_order_acquire);
 
-	const float xScale = 2.0f / (float)(depthBuffer->mResolution.mColumnCount);
-	const float yScale = 2.0f / (float)(depthBuffer->mResolution.mRowCount);
+	const float xScale = 2.0f / (float)(depthBuffer->mResolution.mColumnTileCount);
+	const float yScale = 2.0f / (float)(depthBuffer->mResolution.mRowTileCount);
 
-	for (size_t y = 0; y < depthBuffer->mResolution.mRowCount; y++)
+	for (size_t y = 0; y < depthBuffer->mResolution.mRowTileCount; y++)
 	{
 		// y = 0 -> bottom
-		for (size_t x = 0; x < depthBuffer->mResolution.mColumnCount; x++)
+		for (size_t x = 0; x < depthBuffer->mResolution.mColumnTileCount; x++)
 		{
 			const culling::Tile* const tile = depthBuffer->GetTile(y, x);
 

@@ -34,6 +34,7 @@ namespace dooms
 
 			static inline bool IsDrawMaskedOcclusionCullingBinTriangleStageDebugger{ true };
 			static inline bool IsDrawMaskedOcclusionCullingTileCoverageMaskDebugger{ true };
+			static inline bool IsDrawMaskedOcclusionCullingTileL0MaxDepthValueDebugger{ true };
 
 			static inline bool IsOverDrawVisualizationEnabled{ false };
 

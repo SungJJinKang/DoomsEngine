@@ -8,45 +8,99 @@
 
 namespace dooms::ui::maskedOcclusionCulliingDebugger
 {
-	std::vector<std::vector<UINT32>> BinnedTriangleCount;
-
-	extern UINT32 GetColumnCount()
+	static culling::MaskedSWOcclusionCulling* mMaskedSWOcclusionCulling = nullptr;
+	
+	extern UINT32 GetColumnTileCount()
 	{
-		return BinnedTriangleCount[0].size();
+		return mMaskedSWOcclusionCulling->mDepthBuffer.mResolution.mColumnTileCount;
 	}
 
-	extern UINT32 GetRowCount()
+	extern UINT32 GetRowTileCount()
 	{
-		return BinnedTriangleCount.size();
+		return mMaskedSWOcclusionCulling->mDepthBuffer.mResolution.mRowTileCount;
+	}
+
+	extern UINT32 GetColumnSubTileCount()
+	{
+		return mMaskedSWOcclusionCulling->mDepthBuffer.mResolution.mColumnSubTileCount;
+	}
+
+	extern UINT32 GetRowSubTileCount()
+	{
+		return mMaskedSWOcclusionCulling->mDepthBuffer.mResolution.mRowSubTileCount;
+	}
+
+	extern void RenderL0MaxDepthValue()
+	{
+		if (mMaskedSWOcclusionCulling != nullptr)
+		{
+			const ImVec4 redColor{ 1.0f, 0.0f, 0.0f, 1.0f };
+			const ImVec4 whiteColor{ 1.0f, 1.0f, 1.0f, 1.0f };
+
+
+			const UINT32 screenWidth = mMaskedSWOcclusionCulling->mDepthBuffer.mResolution.mWidth;
+			const UINT32 screenHeight = mMaskedSWOcclusionCulling->mDepthBuffer.mResolution.mHeight;
+
+			//const UINT32 space = ((float)screenWidth / (float)screenHeight) * ((float)GetRowSubTileCount() / (float)GetColumnSubTileCount());
+
+			for (INT32 subTileRowIndex = GetRowSubTileCount() - 1; subTileRowIndex >= 0; subTileRowIndex--)
+			{
+				for (INT32 subTileColIndex = 0; subTileColIndex < GetColumnSubTileCount(); subTileColIndex++)
+				{
+					const INT32 tileRowIndex = subTileRowIndex / (TILE_HEIGHT / SUB_TILE_HEIGHT);
+					const INT32 tileColIndex = subTileColIndex / (TILE_WIDTH / SUB_TILE_WIDTH);
+
+					const INT32 subTileRowIndexInTile = subTileRowIndex % (TILE_HEIGHT / SUB_TILE_HEIGHT);
+					const INT32 subTileColIndexInTile = subTileColIndex % (TILE_WIDTH / SUB_TILE_WIDTH);
+
+					const culling::M256F L0MaxDepthValue = mMaskedSWOcclusionCulling->mDepthBuffer.GetTile(tileRowIndex, tileColIndex)->mHizDatas.L0MaxDepthValue;
+
+					const float subTileL0MaxDepthValue = reinterpret_cast<const float*>(&L0MaxDepthValue)[subTileColIndexInTile + subTileRowIndexInTile * (TILE_WIDTH / SUB_TILE_WIDTH)];
+
+					ImGui::Text("%f", subTileL0MaxDepthValue);
+
+					if (subTileColIndex != (GetColumnSubTileCount() - 1))
+					{
+						ImGui::SameLine(0, 15);
+					}
+				}
+			}
+		}
 	}
 
 	extern void RenderBinnedTriangles()
 	{
-		const ImVec4 redColor{ 1.0f, 0.0f, 0.0f, 1.0f };
-		const ImVec4 whiteColor{ 1.0f, 1.0f, 1.0f, 1.0f };
+		D_ASSERT(mMaskedSWOcclusionCulling != nullptr);
 
-		const std::uint32_t screenWidth = graphics::Graphics_Server::GetSingleton()->mCullingSystem->mMaskedSWOcclusionCulling->mDepthBuffer.mResolution.mWidth;
-		const std::uint32_t screenHeight = graphics::Graphics_Server::GetSingleton()->mCullingSystem->mMaskedSWOcclusionCulling->mDepthBuffer.mResolution.mHeight;
-
-		const std::uint32_t space = ((float)screenWidth / (float)screenHeight) * ((float)BinnedTriangleCount.size() / (float)BinnedTriangleCount[0].size());
-		
-		for (std::int32_t rowIndex = BinnedTriangleCount.size() - 1; rowIndex >= 0 ; rowIndex--)
+		if(mMaskedSWOcclusionCulling != nullptr)
 		{
-			for (std::int32_t colIndex = 0; colIndex < BinnedTriangleCount[0].size(); colIndex++)
-			{
-				const size_t triangleCount = BinnedTriangleCount[rowIndex][colIndex];
-				if(triangleCount > 0)
-				{
-					ImGui::TextColored(redColor, "O");
-				}
-				else
-				{
-					ImGui::TextColored(whiteColor, "X");
-				}
+			const ImVec4 redColor{ 1.0f, 0.0f, 0.0f, 1.0f };
+			const ImVec4 whiteColor{ 1.0f, 1.0f, 1.0f, 1.0f };
 
-				if (colIndex != (BinnedTriangleCount[0].size() - 1))
+
+			const UINT32 screenWidth = mMaskedSWOcclusionCulling->mDepthBuffer.mResolution.mWidth;
+			const UINT32 screenHeight = mMaskedSWOcclusionCulling->mDepthBuffer.mResolution.mHeight;
+
+			//const UINT32 space = ((float)screenWidth / (float)screenHeight) * ((float)GetRowTileCount() / (float)GetColumnTileCount());
+
+			for (INT32 rowIndex = GetRowTileCount() - 1; rowIndex >= 0; rowIndex--)
+			{
+				for (INT32 colIndex = 0; colIndex < GetColumnTileCount(); colIndex++)
 				{
-					ImGui::SameLine(0, 15);
+					const size_t triangleCount = mMaskedSWOcclusionCulling->mDepthBuffer.GetTile(rowIndex, colIndex)->mBinnedTriangles.mCurrentTriangleCount;
+					if (triangleCount > 0)
+					{
+						ImGui::TextColored(redColor, "O");
+					}
+					else
+					{
+						ImGui::TextColored(whiteColor, "X");
+					}
+
+					if (colIndex != (GetColumnTileCount() - 1))
+					{
+						ImGui::SameLine(0, 15);
+					}
 				}
 			}
 		}
@@ -55,45 +109,21 @@ namespace dooms::ui::maskedOcclusionCulliingDebugger
 
 void dooms::ui::maskedOcclusionCulliingDebugger::Render()
 {
-	if (ImGui::Begin("Masked SW Occlusion Culling Debugger"))
+	if (ImGui::Begin("Masked SW Occlusion Culling Debugger ( Binned Triangle Count of Tile )"))
 	{
 		RenderBinnedTriangles();
 	}
 	ImGui::End();
-}
 
-void dooms::ui::maskedOcclusionCulliingDebugger::InitializeBinTriangle
-(
-	const size_t rowCount,
-	const size_t colCount
-)
-{
-	BinnedTriangleCount.resize(rowCount);
-	for(size_t rowIndex = 0 ; rowIndex < rowCount; rowIndex++)
+	if (ImGui::Begin("Masked SW Occlusion Culling Debugger ( L0 Max Depth Value of SubTile )"))
 	{
-		BinnedTriangleCount[rowIndex].resize(colCount, 0);
+		RenderL0MaxDepthValue();
 	}
+	ImGui::End();
 }
 
-void dooms::ui::maskedOcclusionCulliingDebugger::SetBinnedTriangleCount
-(
-	const size_t rowIndex, 
-	const size_t colIndex,
-	const UINT32 triangleCount
-)
+void dooms::ui::maskedOcclusionCulliingDebugger::Initilize(culling::MaskedSWOcclusionCulling* const culling)
 {
-	D_ASSERT(colIndex < GetColumnCount());
-	D_ASSERT(rowIndex < GetRowCount());
-	BinnedTriangleCount[rowIndex][colIndex] = triangleCount;
+	mMaskedSWOcclusionCulling = culling;
 }
 
-void dooms::ui::maskedOcclusionCulliingDebugger::SetBinnedTriangleCount
-(
-	const size_t tileIndex,
-	const UINT32 triangleCount
-)
-{
-	const size_t rowIndex = tileIndex / GetColumnCount();
-	const size_t colIndex = tileIndex % GetColumnCount();
-	SetBinnedTriangleCount(rowIndex, colIndex, triangleCount);
-}

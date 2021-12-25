@@ -10,6 +10,7 @@ namespace dooms
 		{
 			void DebugBinnedTriangles(const culling::SWDepthBuffer* const depthBuffer);
 			void DebugTileCoverageMask(const culling::SWDepthBuffer* const depthBuffer);
+			void DebugTileL0MaxDepthValue(const culling::SWDepthBuffer* const depthBuffer);
 		};
 	}
 }

@@ -30,6 +30,7 @@ void dooms::PortfolioComponent::UpdateGUI()
 
 	dooms::graphics::Graphics_Setting::IsDrawMaskedOcclusionCullingBinTriangleStageDebugger = Is_Enabled_MaskedSWOcclusionCullingBinsStageDebugging;
 	dooms::graphics::Graphics_Setting::IsDrawMaskedOcclusionCullingTileCoverageMaskDebugger = Is_Enabled_MaskedSWOcclusionCullingTileCoverageMaskDebugging;
+	dooms::graphics::Graphics_Setting::IsDrawMaskedOcclusionCullingTileL0MaxDepthValueDebugger = Is_Enabled_MaskedSWOcclusionCullingTileL0MaxDepthValueDebugging;
 }
 
 void dooms::PortfolioComponent::InitComponent()
@@ -44,6 +45,7 @@ void dooms::PortfolioComponent::InitComponent()
 	dooms::graphics::Graphics_Setting::IsSortObjectFrontToBack = true;
 	dooms::graphics::Graphics_Setting::IsDrawMaskedOcclusionCullingBinTriangleStageDebugger = Is_Enabled_MaskedSWOcclusionCullingBinsStageDebugging;
 	dooms::graphics::Graphics_Setting::IsDrawMaskedOcclusionCullingTileCoverageMaskDebugger = Is_Enabled_MaskedSWOcclusionCullingTileCoverageMaskDebugging;
+	dooms::graphics::Graphics_Setting::IsDrawMaskedOcclusionCullingTileL0MaxDepthValueDebugger = Is_Enabled_MaskedSWOcclusionCullingTileL0MaxDepthValueDebugging;
 
 	Is_Enabled_OverdrawDebugger = false;
 	dooms::graphics::Graphics_Setting::IsOverDrawVisualizationEnabled = Is_Enabled_OverdrawDebugger;
