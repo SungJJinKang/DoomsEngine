@@ -4,8 +4,10 @@
 #include <EngineGUI/PrintText.h>
 #include <Graphics/DebugGraphics/DebugDrawer.h>
 #include <Graphics/Graphics_Setting.h>
+#include <Rendering/Camera.h>
 
-#define DEBUGGER_TILE_BOX_PADIDNG 0.001f
+#define DEBUGGER_TILE_BOX_PADIDNG_X 0.002f
+#define DEBUGGER_TILE_BOX_PADIDNG_Y 0.002f
 
 void dooms::graphics::maskedOcclusionCullingTester::DebugTileCoverageMask
 (
@@ -27,10 +29,10 @@ void dooms::graphics::maskedOcclusionCullingTester::DebugTileCoverageMask
 			//draw -1 ~ 1
 			dooms::graphics::DebugDrawer::GetSingleton()->DebugDraw2DBox
 			(
-				math::Vector3(DEBUGGER_TILE_BOX_PADIDNG + -1.0f + xScale * x, DEBUGGER_TILE_BOX_PADIDNG + -1.0f + yScale * y, 1.0f),
-				math::Vector3(-DEBUGGER_TILE_BOX_PADIDNG + -1.0f + xScale * (x + 1), -DEBUGGER_TILE_BOX_PADIDNG + -1.0f + yScale * (y + 1), 1.0f),
-				(_mm256_testc_si256(tile->mHizDatas.l1CoverageMask, _mm256_set1_epi64x(0xFFFFFFFFFFFFFFFF)) == 1) ? eColor::Red : eColor::White // draw red when all bits of coverage mask is 1
-				//(_mm256_testz_si256(tile->mHizDatas.l1CoverageMask, _mm256_set1_epi64x(0xFFFFFFFFFFFFFFFF)) == 0) ? eColor::Red : eColor::White // draw red when all bits of coverage mask is 1
+				math::Vector3(DEBUGGER_TILE_BOX_PADIDNG_X + -1.0f + xScale * x, DEBUGGER_TILE_BOX_PADIDNG_Y + -1.0f + yScale * y, 1.0f),
+				math::Vector3(-DEBUGGER_TILE_BOX_PADIDNG_X + -1.0f + xScale * (x + 1), -DEBUGGER_TILE_BOX_PADIDNG_Y + -1.0f + yScale * (y + 1), 1.0f),
+				(_mm256_testc_si256(tile->mHizDatas.L1CoverageMask, _mm256_set1_epi64x(0xFFFFFFFFFFFFFFFF)) == 1) ? eColor::Red : eColor::White // draw red when all bits of coverage mask is 1
+				//(_mm256_testz_si256(tile->mHizDatas.L1CoverageMask, _mm256_set1_epi64x(0xFFFFFFFFFFFFFFFF)) == 0) ? eColor::Red : eColor::White // draw red when all bits of coverage mask is 1
 			);
 
 			/*
@@ -118,13 +120,17 @@ void dooms::graphics::maskedOcclusionCullingTester::DebugTileL0MaxDepthValue
 			const INT32 subTileIndex = subTileColIndexInTile + subTileRowIndexInTile * (TILE_WIDTH / SUB_TILE_WIDTH);
 			D_ASSERT(subTileIndex >= 0 && subTileIndex < 8);
 
-			const float subTileL0MaxDepthValue = reinterpret_cast<const float*>(&L0MaxDepthValue)[subTileIndex];
+			const float ndcDepthValue = reinterpret_cast<const float*>(&L0MaxDepthValue)[subTileIndex];
+			//const float depthValueZeroToOne = (ndcDepthValue + 1.0f) * 0.5f;
+			const float linearDepth = (2.0 * Camera::GetMainCamera()->GetClippingPlaneNear() * Camera::GetMainCamera()->GetClippingPlaneFar()) / (Camera::GetMainCamera()->GetClippingPlaneFar() + Camera::GetMainCamera()->GetClippingPlaneNear() - ndcDepthValue * (Camera::GetMainCamera()->GetClippingPlaneFar() - Camera::GetMainCamera()->GetClippingPlaneNear()));
+			
+			const float nonLinearDepthValue = ((1.0f / linearDepth) - (1.0f / Camera::GetMainCamera()->GetClippingPlaneNear())) / ( (1.0f / Camera::GetMainCamera()->GetClippingPlaneFar()) - (1.0f / Camera::GetMainCamera()->GetClippingPlaneNear()) );
 
 			dooms::graphics::DebugDrawer::GetSingleton()->DebugDraw2DBox
 			(
-				math::Vector3(DEBUGGER_TILE_BOX_PADIDNG + -1.0f + xScale * subTileColIndex, DEBUGGER_TILE_BOX_PADIDNG + -1.0f + yScale * subTileRowIndex, 0.0f),
-				math::Vector3(-DEBUGGER_TILE_BOX_PADIDNG + -1.0f + xScale * (subTileColIndex + 1), -DEBUGGER_TILE_BOX_PADIDNG + -1.0f + yScale * (subTileRowIndex + 1), 0.0f),
-				math::Vector4((subTileL0MaxDepthValue + 1.0f) / 2.0f, 0.0f, 0.0f, 1.0f)
+				math::Vector3(DEBUGGER_TILE_BOX_PADIDNG_X + -1.0f + xScale * subTileColIndex, DEBUGGER_TILE_BOX_PADIDNG_Y + -1.0f + yScale * subTileRowIndex, 0.0f),
+				math::Vector3(-DEBUGGER_TILE_BOX_PADIDNG_X + -1.0f + xScale * (subTileColIndex + 1), -DEBUGGER_TILE_BOX_PADIDNG_Y + -1.0f + yScale * (subTileRowIndex + 1), 0.0f),
+				math::Vector4(nonLinearDepthValue * nonLinearDepthValue, 0.0f, 0.0f, 1.0f)
 			);
 		}
 	}
@@ -150,8 +156,8 @@ void dooms::graphics::maskedOcclusionCullingTester::DebugBinnedTriangles
 			//draw -1 ~ 1
 			dooms::graphics::DebugDrawer::GetSingleton()->DebugDraw2DBox
 			(
-				math::Vector3(DEBUGGER_TILE_BOX_PADIDNG + -1.0f + xScale * x, DEBUGGER_TILE_BOX_PADIDNG + -1.0f + yScale * y, 0.0f),
-				math::Vector3(-DEBUGGER_TILE_BOX_PADIDNG + -1.0f + xScale * (x + 1), -DEBUGGER_TILE_BOX_PADIDNG + -1.0f + yScale * (y + 1), 0.0f),
+				math::Vector3(DEBUGGER_TILE_BOX_PADIDNG_X + -1.0f + xScale * x, DEBUGGER_TILE_BOX_PADIDNG_Y + -1.0f + yScale * y, 0.0f),
+				math::Vector3(-DEBUGGER_TILE_BOX_PADIDNG_X + -1.0f + xScale * (x + 1), -DEBUGGER_TILE_BOX_PADIDNG_Y + -1.0f + yScale * (y + 1), 0.0f),
 				depthBuffer->GetTile(y, x)->mBinnedTriangles.mCurrentTriangleCount > 0 ? eColor::Red : eColor::White
 			);
 		}
