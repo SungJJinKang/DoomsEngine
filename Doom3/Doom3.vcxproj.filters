@@ -705,6 +705,36 @@
     <ClCompile Include="Source\Core\Graphics\Acceleration\LinearData_ViewFrustumCulling\CullingModule\MaskedSWOcclusionCulling\Utility\triangleSlopeEventGetter.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Core\Graphics\DebugGraphics\DebugPrimitive\DebugPrimitiveContainer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Core\Graphics\DebugGraphics\DebugPrimitive\DebugPrimitiveTriangleContainer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Core\Graphics\DebugGraphics\DebugPrimitive\DebugPrimitive2DTriangleContainer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Core\Graphics\DebugGraphics\DebugPrimitive\DebugPrimitive3DTriangleContainer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Core\Graphics\DebugGraphics\DebugPrimitive\DebugPrimitiveLineContainer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Core\Graphics\DebugGraphics\DebugPrimitive\DebugPrimitive2DLineContainer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Core\Graphics\DebugGraphics\DebugPrimitive\DebugPrimitive3DLineContainer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Core\Graphics\DebugGraphics\DebugPrimitive\DebugPrimitivePointContainer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Core\Graphics\DebugGraphics\DebugPrimitive\DebugPrimitive2DPointContainer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Core\Graphics\DebugGraphics\DebugPrimitive\DebugPrimitive3DPointContainer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="dependency\glad\include\glad\glad.h">
@@ -719,7 +749,7 @@
     <ClInclude Include="dependency\glfw-3.3.2.bin.WIN64\include\GLFW\glfw3native.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Core\API\OpenglAPI.h">
+    <ClInclude Include="Source\Core\API\GraphicsAPI.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\Core\Core.h">
@@ -1803,6 +1833,39 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\Core\Graphics\Acceleration\LinearData_ViewFrustumCulling\CullingModule\MaskedSWOcclusionCulling\Utility\triangleSlopeEventGetter.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Core\Graphics\DebugGraphics\DebugPrimitive\DebugPrimitiveContainer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Core\Graphics\DebugGraphics\DebugPrimitive\DebugPrimitiveTriangleContainer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Core\Graphics\DebugGraphics\DebugPrimitive\DebugPrimitive2DTriangleContainer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Core\Graphics\DebugGraphics\DebugPrimitive\DebugPrimitive3DTriangleContainer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Core\Graphics\DebugGraphics\DebugPrimitive\DebugPrimitiveLineContainer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Core\Graphics\DebugGraphics\DebugPrimitive\DebugPrimitive2DLineContainer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Core\Graphics\DebugGraphics\DebugPrimitive\DebugPrimitive3DLineContainer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Core\Graphics\DebugGraphics\DebugPrimitive\DebugPrimitivePointContainer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Core\Graphics\DebugGraphics\DebugPrimitive\DebugPrimitive2DPointContainer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Core\Graphics\DebugGraphics\DebugPrimitive\DebugPrimitive3DPointContainer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Core\Graphics\DebugGraphics\DebugPrimitive\DebugPrimitiveContainerCollection.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -2,7 +2,7 @@
 
 #include <Core.h>
 
-#include"../API/OpenglAPI.h"
+#include"../API/GraphicsAPI.h"
 
 #include "SimpleIniParser.h"
 

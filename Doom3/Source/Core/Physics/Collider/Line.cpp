@@ -4,7 +4,7 @@
 void dooms::physics::Line::DrawCollider(eColor color, bool drawInstantly /*= false*/) const
 {
 #ifdef DEBUG_DRAWER
-	graphics::DebugDrawer::GetSingleton()->DebugDraw3DLine(mOrigin, mEndPoint, color, drawInstantly);
+	graphics::DebugDrawer::GetSingleton()->DebugDraw3DLine(mOrigin, mEndPoint, color);
 #endif
 }
 

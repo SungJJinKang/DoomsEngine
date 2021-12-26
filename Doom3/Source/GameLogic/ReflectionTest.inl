@@ -230,6 +230,7 @@ void dooms::GameLogicStartPoint::StartGameLogic()
 	
 	
 	
+	/*
 	{
 		auto threedasset2 = assetImporter::AssetManager::GetSingleton()->GetAsset<asset::eAssetType::THREE_D_MODEL>("Lowpolybuildings.assbin");
 		auto shader1 = assetImporter::AssetManager::GetSingleton()->GetAsset<asset::eAssetType::SHADER>("GbufferWriter_PBR.glsl");
@@ -258,6 +259,7 @@ void dooms::GameLogicStartPoint::StartGameLogic()
 		}
 
 	}
+	*/
 	
 	
 	

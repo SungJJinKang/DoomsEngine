@@ -18,7 +18,7 @@ void dooms::physics::Circle2D::DrawCollider(eColor color, bool drawInstantly /*=
 			mCenter.y + mRadius * std::sin(radian + intervalRadian),
 			0
 		};
-		debugGraphics->DebugDraw2DLine(newPoint, math::Vector3{ exPoint }, color, drawInstantly);
+		debugGraphics->DebugDraw2DLine(newPoint, math::Vector3{ exPoint }, color);
 
 		exPoint = newPoint;
 	}

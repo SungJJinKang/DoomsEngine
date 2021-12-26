@@ -1,6 +1,9 @@
 #pragma once
 
 #include <Core.h>
+
+#include "../API/GraphicsAPI.h"
+
 namespace dooms
 {
 	enum class D_ENUM ePrimitiveType

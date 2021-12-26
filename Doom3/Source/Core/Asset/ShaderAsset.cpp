@@ -2,7 +2,7 @@
 
 #include "ShaderAsset.h"
 
-#include "../API/OpenglAPI.h"
+#include "../API/GraphicsAPI.h"
 #include "../Graphics/Material/Material.h"
 #include <utility/TextImporter.h>
 #include <utility/trim.h>

@@ -8,7 +8,7 @@ void dooms::physics::Sphere::DrawCollider(eColor color, bool drawInstantly /*= f
 
 #ifdef DEBUG_DRAWER
 	auto debugGraphics = graphics::DebugDrawer::GetSingleton();
-	debugGraphics->DebugDraw3DSphere(mCenter, mRadius, color, drawInstantly);
+	debugGraphics->DebugDraw3DSphere(mCenter, mRadius, color);
 #endif
 
 }

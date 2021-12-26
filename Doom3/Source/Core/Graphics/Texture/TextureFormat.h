@@ -1,5 +1,6 @@
 #pragma once
-#include "../../API/OpenglAPI.h"
+
+#include "../../API/GraphicsAPI.h"
 
 namespace dooms
 {

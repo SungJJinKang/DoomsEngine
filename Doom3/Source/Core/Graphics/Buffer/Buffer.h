@@ -1,7 +1,7 @@
 #pragma once
 
 #include "../Graphics_Core.h"
-#include "../API/OpenglAPI.h"
+#include "../API/GraphicsAPI.h"
 #include "BufferID.h"
 
 #include "Buffer.reflection.h"

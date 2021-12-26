@@ -87,8 +87,8 @@ void dooms::physics::Plane::DrawCollider(eColor color, bool drawInstantly /*= fa
 	math::Vector3 c = center - Parallel1VectorToPlane * halfExtent - Parallel2VectorToPlane * halfExtent;
 	math::Vector3 d = center + Parallel1VectorToPlane * halfExtent - Parallel2VectorToPlane * halfExtent;
 	
-	debugGraphics->DebugDraw3DTriangle(a, b, c, color, drawInstantly);
-	debugGraphics->DebugDraw3DTriangle(c, d, a, color, drawInstantly);
+	debugGraphics->DebugDraw3DTriangle(a, b, c, color);
+	debugGraphics->DebugDraw3DTriangle(c, d, a, color);
 
 // 	debugGraphics->DebugDraw3DLine(a, b, color);
 // 	debugGraphics->DebugDraw3DLine(b, c, color);

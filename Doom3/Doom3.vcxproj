@@ -341,11 +341,21 @@ xcopy /y /d /E /H /C /I "$(ProjectDir)Assets" "$(TargetDir)Assets"</Command>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="clreflect_compiletime_gettype.cpp" />
+    <ClCompile Include="Source\Core\Graphics\DebugGraphics\DebugPrimitive\DebugPrimitive2DLineContainer.cpp" />
     <ClCompile Include="Source\Core\EngineGUI\GUIModules\MaskedOcclusionCulliingDebugger.cpp" />
     <ClCompile Include="Source\Core\Graphics\Acceleration\LinearData_ViewFrustumCulling\CullingModule\MaskedSWOcclusionCulling\Utility\depthUtility.cpp" />
     <ClCompile Include="Source\Core\Graphics\Acceleration\LinearData_ViewFrustumCulling\CullingModule\MaskedSWOcclusionCulling\Utility\DepthValueComputer.cpp" />
     <ClCompile Include="Source\Core\Graphics\Acceleration\LinearData_ViewFrustumCulling\CullingModule\MaskedSWOcclusionCulling\Utility\RasterizerHelper.cpp" />
     <ClCompile Include="Source\Core\Graphics\Acceleration\LinearData_ViewFrustumCulling\CullingModule\MaskedSWOcclusionCulling\Utility\triangleSlopeEventGetter.cpp" />
+    <ClCompile Include="Source\Core\Graphics\DebugGraphics\DebugPrimitive\DebugPrimitive2DPointContainer.cpp" />
+    <ClCompile Include="Source\Core\Graphics\DebugGraphics\DebugPrimitive\DebugPrimitive2DTriangleContainer.cpp" />
+    <ClCompile Include="Source\Core\Graphics\DebugGraphics\DebugPrimitive\DebugPrimitive3DLineContainer.cpp" />
+    <ClCompile Include="Source\Core\Graphics\DebugGraphics\DebugPrimitive\DebugPrimitive3DPointContainer.cpp" />
+    <ClCompile Include="Source\Core\Graphics\DebugGraphics\DebugPrimitive\DebugPrimitive3DTriangleContainer.cpp" />
+    <ClCompile Include="Source\Core\Graphics\DebugGraphics\DebugPrimitive\DebugPrimitiveContainer.cpp" />
+    <ClCompile Include="Source\Core\Graphics\DebugGraphics\DebugPrimitive\DebugPrimitiveLineContainer.cpp" />
+    <ClCompile Include="Source\Core\Graphics\DebugGraphics\DebugPrimitive\DebugPrimitivePointContainer.cpp" />
+    <ClCompile Include="Source\Core\Graphics\DebugGraphics\DebugPrimitive\DebugPrimitiveTriangleContainer.cpp" />
     <ClCompile Include="Source\Core\Graphics\DebugGraphics\maskedOcclusionCullingTester.cpp" />
     <ClCompile Include="Source\Core\EngineGUI\GUIModules\ThreadProfilerGUI.cpp" />
     <ClCompile Include="Source\Core\Graphics\Acceleration\LinearData_ViewFrustumCulling\CullingModule\MaskedSWOcclusionCulling\Stage\SolveMeshRoleStage.cpp" />
@@ -572,11 +582,22 @@ xcopy /y /d /E /H /C /I "$(ProjectDir)Assets" "$(TargetDir)Assets"</Command>
     <ClCompile Include="Source\thirdparty\imgui\imgui_widgets.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Source\Core\Graphics\DebugGraphics\DebugPrimitive\DebugPrimitive2DLineContainer.h" />
     <ClInclude Include="Source\Core\EngineGUI\GUIModules\MaskedOcclusionCulliingDebugger.h" />
     <ClInclude Include="Source\Core\Graphics\Acceleration\LinearData_ViewFrustumCulling\CullingModule\MaskedSWOcclusionCulling\Utility\depthUtility.h" />
     <ClInclude Include="Source\Core\Graphics\Acceleration\LinearData_ViewFrustumCulling\CullingModule\MaskedSWOcclusionCulling\Utility\DepthValueComputer.h" />
     <ClInclude Include="Source\Core\Graphics\Acceleration\LinearData_ViewFrustumCulling\CullingModule\MaskedSWOcclusionCulling\Utility\RasterizerHelper.h" />
     <ClInclude Include="Source\Core\Graphics\Acceleration\LinearData_ViewFrustumCulling\CullingModule\MaskedSWOcclusionCulling\Utility\triangleSlopeEventGetter.h" />
+    <ClInclude Include="Source\Core\Graphics\DebugGraphics\DebugPrimitive\DebugPrimitive2DPointContainer.h" />
+    <ClInclude Include="Source\Core\Graphics\DebugGraphics\DebugPrimitive\DebugPrimitive2DTriangleContainer.h" />
+    <ClInclude Include="Source\Core\Graphics\DebugGraphics\DebugPrimitive\DebugPrimitive3DLineContainer.h" />
+    <ClInclude Include="Source\Core\Graphics\DebugGraphics\DebugPrimitive\DebugPrimitive3DPointContainer.h" />
+    <ClInclude Include="Source\Core\Graphics\DebugGraphics\DebugPrimitive\DebugPrimitive3DTriangleContainer.h" />
+    <ClInclude Include="Source\Core\Graphics\DebugGraphics\DebugPrimitive\DebugPrimitiveContainer.h" />
+    <ClInclude Include="Source\Core\Graphics\DebugGraphics\DebugPrimitive\DebugPrimitiveLineContainer.h" />
+    <ClInclude Include="Source\Core\Graphics\DebugGraphics\DebugPrimitive\DebugPrimitivePointContainer.h" />
+    <ClInclude Include="Source\Core\Graphics\DebugGraphics\DebugPrimitive\DebugPrimitiveContainerCollection.h" />
+    <ClInclude Include="Source\Core\Graphics\DebugGraphics\DebugPrimitive\DebugPrimitiveTriangleContainer.h" />
     <ClInclude Include="Source\Core\Graphics\DebugGraphics\maskedOcclusionCullingTester.h" />
     <ClInclude Include="Source\Core\EngineGUI\GUIModules\ThreadProfilerGUI.h" />
     <ClInclude Include="Source\Core\Graphics\Acceleration\LinearData_ViewFrustumCulling\CullingModule\MaskedSWOcclusionCulling\Stage\SolveMeshRoleStage.h" />
@@ -796,7 +817,7 @@ xcopy /y /d /E /H /C /I "$(ProjectDir)Assets" "$(TargetDir)Assets"</Command>
     <ClInclude Include="Source\Core\Graphics\Buffer\UniformBufferObject.h" />
     <ClInclude Include="Source\Core\Graphics\Buffer\Mesh.h" />
     <ClInclude Include="Source\Core\API\ASSIMP.h" />
-    <ClInclude Include="Source\Core\API\OpenglAPI.h" />
+    <ClInclude Include="Source\Core\API\GraphicsAPI.h" />
     <ClInclude Include="Source\Core\API\UUID.h" />
     <ClInclude Include="Source\Core\Asset\AssetHeaders.h" />
     <ClInclude Include="Source\Core\Asset\TextAsset.h" />

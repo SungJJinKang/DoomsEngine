@@ -56,10 +56,10 @@ void dooms::physics::AABB2D::DrawCollider(eColor color, bool drawInstantly /*= f
 	const math::Vector3 x{ mUpperBound.x - mLowerBound.x, 0, 0 };
 	const math::Vector3 y{ 0, mUpperBound.y - mLowerBound.y, 0 };
 
-	debugGraphics->DebugDraw2DLine(math::Vector3{ mLowerBound }, static_cast<math::Vector3>(mLowerBound) + x, color, drawInstantly);
-	debugGraphics->DebugDraw2DLine(math::Vector3{ mLowerBound }, static_cast<math::Vector3>(mLowerBound) + y, color, drawInstantly);
-	debugGraphics->DebugDraw2DLine(static_cast<math::Vector3>(mLowerBound) + x, static_cast<math::Vector3>(mLowerBound) + x + y, color, drawInstantly);
-	debugGraphics->DebugDraw2DLine(static_cast<math::Vector3>(mLowerBound) + y, static_cast<math::Vector3>(mLowerBound) + y + x, color, drawInstantly);
+	debugGraphics->DebugDraw2DLine(math::Vector3{ mLowerBound }, static_cast<math::Vector3>(mLowerBound) + x, color);
+	debugGraphics->DebugDraw2DLine(math::Vector3{ mLowerBound }, static_cast<math::Vector3>(mLowerBound) + y, color);
+	debugGraphics->DebugDraw2DLine(static_cast<math::Vector3>(mLowerBound) + x, static_cast<math::Vector3>(mLowerBound) + x + y, color);
+	debugGraphics->DebugDraw2DLine(static_cast<math::Vector3>(mLowerBound) + y, static_cast<math::Vector3>(mLowerBound) + y + x, color);
 #endif
 }
 
@@ -198,22 +198,22 @@ void dooms::physics::AABB3D::DrawCollider(eColor color, bool drawInstantly /*= f
 	const math::Vector3 y{ 0, mUpperBoundVec3.y - mLowerBoundVec3.y, 0 };
 	const math::Vector3 z{ 0, 0, mUpperBoundVec3.z - mLowerBoundVec3.z };
 
-	debugGraphics->DebugDraw3DLine(mLowerBoundVec3, mLowerBoundVec3 + x, color, drawInstantly);
-	debugGraphics->DebugDraw3DLine(mLowerBoundVec3, mLowerBoundVec3 + y, color, drawInstantly);
-	debugGraphics->DebugDraw3DLine(mLowerBoundVec3, mLowerBoundVec3 + z, color, drawInstantly);
+	debugGraphics->DebugDraw3DLine(mLowerBoundVec3, mLowerBoundVec3 + x, color);
+	debugGraphics->DebugDraw3DLine(mLowerBoundVec3, mLowerBoundVec3 + y, color);
+	debugGraphics->DebugDraw3DLine(mLowerBoundVec3, mLowerBoundVec3 + z, color);
 
-	debugGraphics->DebugDraw3DLine(mLowerBoundVec3 + x, mLowerBoundVec3 + x + y, color, drawInstantly);
-	debugGraphics->DebugDraw3DLine(mLowerBoundVec3 + x, mLowerBoundVec3 + x + z, color, drawInstantly);
+	debugGraphics->DebugDraw3DLine(mLowerBoundVec3 + x, mLowerBoundVec3 + x + y, color);
+	debugGraphics->DebugDraw3DLine(mLowerBoundVec3 + x, mLowerBoundVec3 + x + z, color);
 
-	debugGraphics->DebugDraw3DLine(mLowerBoundVec3 + y, mLowerBoundVec3 + y + x, color, drawInstantly);
-	debugGraphics->DebugDraw3DLine(mLowerBoundVec3 + y, mLowerBoundVec3 + y + z, color, drawInstantly);
+	debugGraphics->DebugDraw3DLine(mLowerBoundVec3 + y, mLowerBoundVec3 + y + x, color);
+	debugGraphics->DebugDraw3DLine(mLowerBoundVec3 + y, mLowerBoundVec3 + y + z, color);
 
-	debugGraphics->DebugDraw3DLine(mLowerBoundVec3 + z, mLowerBoundVec3 + z + x, color, drawInstantly);
-	debugGraphics->DebugDraw3DLine(mLowerBoundVec3 + z, mLowerBoundVec3 + z + y, color, drawInstantly);
+	debugGraphics->DebugDraw3DLine(mLowerBoundVec3 + z, mLowerBoundVec3 + z + x, color);
+	debugGraphics->DebugDraw3DLine(mLowerBoundVec3 + z, mLowerBoundVec3 + z + y, color);
 
-	debugGraphics->DebugDraw3DLine(mLowerBoundVec3 + x + y, mLowerBoundVec3 + x + y + z, color, drawInstantly);
-	debugGraphics->DebugDraw3DLine(mLowerBoundVec3 + y + z, mLowerBoundVec3 + y + z + x, color, drawInstantly);
-	debugGraphics->DebugDraw3DLine(mLowerBoundVec3 + x + z, mLowerBoundVec3 + x + z + y, color, drawInstantly);
+	debugGraphics->DebugDraw3DLine(mLowerBoundVec3 + x + y, mLowerBoundVec3 + x + y + z, color);
+	debugGraphics->DebugDraw3DLine(mLowerBoundVec3 + y + z, mLowerBoundVec3 + y + z + x, color);
+	debugGraphics->DebugDraw3DLine(mLowerBoundVec3 + x + z, mLowerBoundVec3 + x + z + y, color);
 
 #endif
 }
@@ -227,10 +227,10 @@ void dooms::physics::AABB3D::Render2DTopView(eColor color, bool drawInstantly /*
 	math::Vector3 width{ mUpperBound.x - mLowerBound.x, 0.0f, 0.0f };
 	math::Vector3 height{ 0.0f, mUpperBound.z - mLowerBound.z, 0.0f };
 
-	debugGraphics->DebugDraw2DLine(lower, lower + width, color, drawInstantly);
-	debugGraphics->DebugDraw2DLine(lower + width, lower + width + height, color, drawInstantly);
-	debugGraphics->DebugDraw2DLine(lower , lower + height, color, drawInstantly);
-	debugGraphics->DebugDraw2DLine(lower + height, lower + width + height, color, drawInstantly);
+	debugGraphics->DebugDraw2DLine(lower, lower + width, color);
+	debugGraphics->DebugDraw2DLine(lower + width, lower + width + height, color);
+	debugGraphics->DebugDraw2DLine(lower , lower + height, color);
+	debugGraphics->DebugDraw2DLine(lower + height, lower + width + height, color);
 #endif
 }
 
