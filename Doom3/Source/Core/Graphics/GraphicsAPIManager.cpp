@@ -97,7 +97,7 @@ void dooms::graphics::graphicsAPIManager::Initialize()
 
 	GraphicsAPI::FrontFace(GraphicsAPI::eFrontFaceMode::CCW);
 
-	glfwSwapInterval(1); // disable v-sync
+	glfwSwapInterval(0); // disable v-sync
 
 #ifdef DEBUG_MODE
 	//GraphicsAPI::Enable(GraphicsAPI::eCapability::DEBUG_OUTPUT);

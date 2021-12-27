@@ -25,6 +25,27 @@ void dooms::graphics::RenderingDebugger::DrawRenderingBoundingBox()
 	}
 }
 
+void dooms::graphics::RenderingDebugger::UpdateFPS()
+{
+	FLOAT64 currentTime = glfwGetTime();
+	FrameCount++;
+
+	const FLOAT64 timeInterval = currentTime - LastTIme;
+	if(timeInterval >= 1.0)
+	{
+		FPS = (FLOAT64)FrameCount / timeInterval;
+		FrameCount = 0;
+		LastTIme = currentTime;
+	}
+
+	
+}
+
+void dooms::graphics::RenderingDebugger::Update()
+{
+	UpdateFPS();
+}
+
 void dooms::graphics::RenderingDebugger::PrintDrawCallCounter()
 {
 	dooms::ui::PrintText("Draw Call : %d", RenderingDebugger::PreviousFrameDrawCallCounter);

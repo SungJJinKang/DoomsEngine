@@ -83,10 +83,9 @@ void Graphics_Server::Update()
 	//FLOAT64 elapsed_time_ms = std::chrono::duration<FLOAT64, std::milli>(t_end - t_start).count();
 	//dooms::ui::PrintText("elapsed tick count : %lf", elapsed_time_ms);
 
-	
-	
-
 	PostRender();
+
+	mRenderingDebugger.Update();
 }
 
 void Graphics_Server::OnEndOfFrame()
