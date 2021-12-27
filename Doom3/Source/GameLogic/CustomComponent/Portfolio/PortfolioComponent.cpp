@@ -14,33 +14,32 @@ void dooms::PortfolioComponent::OnChangedByGUI(const dooms::reflection::DField& 
 
 void dooms::PortfolioComponent::UpdateGUI()
 {
-	Camera::GetMainCamera()->SetCameraFlag(dooms::eCameraFlag::PAUSE_CULL_JOB, Is_Pause_Multithread_ViewfrustumCulling);
-	
 	dooms::graphics::Graphics_Setting::IsSortObjectFrontToBack = Is_Enabled_MultiThread_SortingFrontToBack;
 	dooms::graphics::Graphics_Setting::IsOverDrawVisualizationEnabled = Is_Enabled_OverdrawDebugger;
 
-	if(DeferredRenderingDebuggerController* component = GetOwnerEntity()->GetComponent<DeferredRenderingDebuggerController>())
+	if (DeferredRenderingDebuggerController* component = GetOwnerEntity()->GetComponent<DeferredRenderingDebuggerController>())
 	{
 		component->SetPIPVisible(Is_Enabled_DeferredRenderingDebugger);
 
 	}
-	
+
 	dooms::physics::Physics_Setting::SetIsPhysicsOn(Is_Enabled_CollisionDebugging);
 	dooms::physics::Physics_Setting::IS_RENDER_PHYSICS_RAYCASTING_DEBUGGER = Is_Enabled_CollisionDebugging;
 
 	dooms::graphics::Graphics_Setting::IsDrawMaskedOcclusionCullingBinTriangleStageDebugger = Is_Enabled_MaskedSWOcclusionCullingBinsStageDebugging;
 	dooms::graphics::Graphics_Setting::IsDrawMaskedOcclusionCullingTileCoverageMaskDebugger = Is_Enabled_MaskedSWOcclusionCullingTileCoverageMaskDebugging;
 	dooms::graphics::Graphics_Setting::IsDrawMaskedOcclusionCullingTileL0MaxDepthValueDebugger = Is_Enabled_MaskedSWOcclusionCullingTileL0MaxDepthValueDebugging;
+
+
+	dooms::graphics::Graphics_Server::GetSingleton()->mCullingSystem->SetEnabledCullingModule(culling::EveryCulling::CullingModuleType::_ViewFrustumCulling, _EnableViewFrustumCulling);
+	dooms::graphics::Graphics_Server::GetSingleton()->mCullingSystem->SetEnabledCullingModule(culling::EveryCulling::CullingModuleType::_MaskedSWOcclusionCulling, _EnableMaskedSWOcclusionCulling);
 }
 
 void dooms::PortfolioComponent::InitComponent()
 {
 
 	Base::InitComponent();
-
-	Is_Pause_Multithread_ViewfrustumCulling = false;
-	Camera::GetMainCamera()->SetCameraFlag(dooms::eCameraFlag::PAUSE_CULL_JOB, Is_Pause_Multithread_ViewfrustumCulling);
-
+	
 	Is_Enabled_MultiThread_SortingFrontToBack = true;
 	dooms::graphics::Graphics_Setting::IsSortObjectFrontToBack = true;
 	dooms::graphics::Graphics_Setting::IsDrawMaskedOcclusionCullingBinTriangleStageDebugger = Is_Enabled_MaskedSWOcclusionCullingBinsStageDebugging;

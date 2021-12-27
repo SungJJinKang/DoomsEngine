@@ -64,9 +64,10 @@ void dooms::GameLogicStartPoint::StartGameLogic()
 		entity1->SetEntityName("Camera");
 
 		auto entity1Camera = entity1->AddComponent<Camera>();
-		entity1->GetTransform()->SetPosition(26.0f, 41.0f, 1046.002f);
+		entity1->GetTransform()->SetPosition(86.0f, -14.0f, 1046.0f);
+		entity1->GetTransform()->SetRotation(0.0f, 57.0f, 0.0f);
 		entity1Camera->SetProjectionMode(dooms::Camera::eProjectionType::Perspective);
-
+		entity1Camera->SetClippingPlaneNear(32.0f);
 		entity1->AddComponent<Move_WASD>();
 
 		//entity1->AddComponent<ExportTextureTester>();
@@ -78,7 +79,7 @@ void dooms::GameLogicStartPoint::StartGameLogic()
 
 	}
 
-	
+	/*
 	
 	auto lightEntity = currenScene->CreateNewEntity();
 	lightEntity->GetTransform()->SetPosition(-30.0f, 0.0f, 0.0f);
@@ -159,9 +160,11 @@ void dooms::GameLogicStartPoint::StartGameLogic()
 		bullet->mSpeed = 500;
 	}
 
-	
+	*/
+
 	INT32 entityCount = 0;
 	
+	/*
 	INT32 count = 300;
 	for (INT32 i = -count; i < count; i = i + 40)
 	{
@@ -185,7 +188,35 @@ void dooms::GameLogicStartPoint::StartGameLogic()
 			}
 		}
 	}
-	
+	*/
+
+	/*
+	INT32 count = 100;
+	for (INT32 i = -count; i < count; i = i + 40)
+	{
+		for (INT32 j = -count; j < count; j = j + 40)
+		{
+			for (INT32 k = -count; k < count; k = k + 40)
+			{
+				auto entity = currenScene->CreateNewEntity();
+				entity->GetTransform()->SetScale(3.0f, 3.0f, 3.0f);
+				entity->GetTransform()->SetPosition(i, j, k + 700);
+				auto meshRenderer = entity->AddComponent<MeshRenderer>();
+				entity->AddComponent<TestComponent>();
+				meshRenderer->SetMesh(planetAsset->GetMesh(0));
+				meshRenderer->SetMaterial(material);
+				entityCount++;
+
+				BoxCollider3D* box3D = entity->AddComponent<BoxCollider3D>();
+				box3D->SetFromAABB3D(planetAsset->GetMesh(0)->GetBoundingBox());
+				//entity->AddComponent<AutoRotate>();
+				//entity->AddComponent<BoxCollider3D>();
+			}
+		}
+	}
+	*/
+
+	/*
 	for (INT32 i = -150; i < 150; i += 60)
 	{
 		auto entity = currenScene->CreateNewEntity();
@@ -216,15 +247,7 @@ void dooms::GameLogicStartPoint::StartGameLogic()
 	}
 	
 	
-	{
-		auto entity = currenScene->CreateNewEntity();
-		entity->GetTransform()->SetScale(60.0f, 60.0f, 60.0f);
-		entity->GetTransform()->SetPosition(0, 0, 1000);
-		auto meshRenderer = entity->AddComponent<MeshRenderer>();
-		meshRenderer->SetMesh(dooms::graphics::meshHelper::GetQuadMesh());
-		meshRenderer->SetMaterial(material);
-		
-	}
+
 
 	for (INT32 i = -50; i < 50; i += 30)
 	{
@@ -240,8 +263,9 @@ void dooms::GameLogicStartPoint::StartGameLogic()
 		BoxCollider3D* box3D = entity->AddComponent<BoxCollider3D>();
 		box3D->SetFromAABB3D(planetAsset->GetMesh(0)->GetBoundingBox());
 	}
+	*/
 
-
+	/*
 	{
 		auto entity = currenScene->CreateNewEntity();
 		entity->GetTransform()->SetScale(300.0f, 300.0f, 300.0f);
@@ -251,8 +275,71 @@ void dooms::GameLogicStartPoint::StartGameLogic()
 		meshRenderer->SetMaterial(material);
 
 	}
-	
-	
+	*/
+
+	{
+		auto entity = currenScene->CreateNewEntity();
+		entity->GetTransform()->SetScale(120.0f, 60.0f, 60.0f);
+		entity->GetTransform()->SetPosition(0, 0, 1000);
+		auto meshRenderer = entity->AddComponent<MeshRenderer>();
+		meshRenderer->SetMesh(dooms::graphics::meshHelper::GetQuadMesh());
+		meshRenderer->SetMaterial(material);
+
+	}
+
+	/*
+	{
+		auto entity = currenScene->CreateNewEntity();
+		entity->GetTransform()->SetScale(60.0f, 60.0f, 60.0f);
+		entity->GetTransform()->SetPosition(-300, 0, 1000);
+		auto meshRenderer = entity->AddComponent<MeshRenderer>();
+		meshRenderer->SetMesh(dooms::graphics::meshHelper::GetQuadMesh());
+		meshRenderer->SetMaterial(material);
+
+	}
+
+	{
+		auto entity = currenScene->CreateNewEntity();
+		entity->GetTransform()->SetScale(60.0f, 60.0f, 60.0f);
+		entity->GetTransform()->SetPosition(300, 0, 1000);
+		auto meshRenderer = entity->AddComponent<MeshRenderer>();
+		meshRenderer->SetMesh(dooms::graphics::meshHelper::GetQuadMesh());
+		meshRenderer->SetMaterial(material);
+
+	}
+	*/
+
+	/*
+	{
+		auto entity = currenScene->CreateNewEntity();
+		entity->GetTransform()->SetScale(60.0f, 60.0f, 60.0f);
+		entity->GetTransform()->SetPosition(700, 0, 0);
+		auto meshRenderer = entity->AddComponent<MeshRenderer>();
+		entity->AddComponent<AutoRotate>();
+		meshRenderer->SetMesh(planetAsset->GetMesh(0));
+		meshRenderer->SetMaterial(material);
+	}
+
+	{
+		auto entity = currenScene->CreateNewEntity();
+		entity->GetTransform()->SetScale(60.0f, 60.0f, 60.0f);
+		entity->GetTransform()->SetPosition(-700, 0, 0);
+		auto meshRenderer = entity->AddComponent<MeshRenderer>();
+		entity->AddComponent<AutoRotate>();
+		meshRenderer->SetMesh(planetAsset->GetMesh(0));
+		meshRenderer->SetMaterial(material);
+	}
+
+	{
+		auto entity = currenScene->CreateNewEntity();
+		entity->GetTransform()->SetScale(60.0f, 60.0f, 60.0f);
+		entity->GetTransform()->SetPosition(0, 0, -700);
+		auto meshRenderer = entity->AddComponent<MeshRenderer>();
+		entity->AddComponent<AutoRotate>();
+		meshRenderer->SetMesh(planetAsset->GetMesh(0));
+		meshRenderer->SetMaterial(material);
+	}
+	*/
 	
 	/*
 	{

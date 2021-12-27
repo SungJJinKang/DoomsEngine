@@ -124,6 +124,8 @@ void Graphics_Server::CameraCullJob(dooms::Camera* const camera)
 {
 	if (camera->GetIsCullJobEnabled() == true)
 	{
+		std::atomic_thread_fence(std::memory_order_acquire);
+
 		culling::EveryCulling::SettingParameters cullingSettingParameters;
 		cullingSettingParameters.mViewProjectionMatrix = *reinterpret_cast<const culling::Mat4x4*>(&(camera->GetViewProjectionMatrix()));
 		cullingSettingParameters.mFieldOfViewInDegree = camera->GetFieldOfViewInDegree();
@@ -134,7 +136,7 @@ void Graphics_Server::CameraCullJob(dooms::Camera* const camera)
 
 		mCullingSystem->Configure(camera->CameraIndexInCullingSystem, cullingSettingParameters);
 		
-		std::atomic_thread_fence(std::memory_order_seq_cst);
+		std::atomic_thread_fence(std::memory_order_release);
 
 		D_START_PROFILING(Push_Culling_Job_To_Linera_Culling_System, dooms::profiler::eProfileLayers::Rendering);
 		resource::JobSystem::GetSingleton()->PushBackJobToAllThreadWithNoSTDFuture(std::function<void()>(mCullingSystem->GetCullJobInLambda(camera->CameraIndexInCullingSystem)));

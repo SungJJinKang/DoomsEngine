@@ -23,10 +23,7 @@ private:
 
 	D_PROPERTY()
 	bool Is_Enabled_DeferredRenderingDebugger = false;
-
-	D_PROPERTY()
-	bool Is_Pause_Multithread_ViewfrustumCulling = false;
-
+	
 	D_PROPERTY()
 	bool Is_Enabled_MultiThread_SortingFrontToBack = false;
 
@@ -44,7 +41,14 @@ private:
 	
 	D_PROPERTY()
 	bool Is_Enabled_MaskedSWOcclusionCullingTileL0MaxDepthValueDebugging = false;
-	
+
+
+	D_PROPERTY()
+	bool _EnableViewFrustumCulling = true;
+
+	D_PROPERTY()
+	bool _EnableMaskedSWOcclusionCulling = true;
+
 	void OnChangedByGUI(const dooms::reflection::DField& dFieldOfChangedField) override;
 
 	void UpdateGUI();
