@@ -218,7 +218,7 @@ void dooms::GameLogicStartPoint::StartGameLogic()
 	
 	{
 		auto entity = currenScene->CreateNewEntity();
-		entity->GetTransform()->SetScale(20.0f, 20.0f, 20.0f);
+		entity->GetTransform()->SetScale(60.0f, 60.0f, 60.0f);
 		entity->GetTransform()->SetPosition(0, 0, 1000);
 		auto meshRenderer = entity->AddComponent<MeshRenderer>();
 		meshRenderer->SetMesh(dooms::graphics::meshHelper::GetQuadMesh());
@@ -226,7 +226,31 @@ void dooms::GameLogicStartPoint::StartGameLogic()
 		
 	}
 
-	
+	for (INT32 i = -50; i < 50; i += 30)
+	{
+		auto entity = currenScene->CreateNewEntity();
+		entity->GetTransform()->SetScale(2.0f, 2.0f, 2.0f);
+		entity->GetTransform()->SetPosition(i, 0, 800);
+		auto meshRenderer = entity->AddComponent<MeshRenderer>();
+		entity->AddComponent<AutoRotate>();
+		meshRenderer->SetMesh(planetAsset->GetMesh(0));
+		meshRenderer->SetMaterial(material);
+
+
+		BoxCollider3D* box3D = entity->AddComponent<BoxCollider3D>();
+		box3D->SetFromAABB3D(planetAsset->GetMesh(0)->GetBoundingBox());
+	}
+
+
+	{
+		auto entity = currenScene->CreateNewEntity();
+		entity->GetTransform()->SetScale(300.0f, 300.0f, 300.0f);
+		entity->GetTransform()->SetPosition(0, 0, 600);
+		auto meshRenderer = entity->AddComponent<MeshRenderer>();
+		meshRenderer->SetMesh(dooms::graphics::meshHelper::GetQuadMesh());
+		meshRenderer->SetMaterial(material);
+
+	}
 	
 	
 	

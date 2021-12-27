@@ -82,7 +82,7 @@ void dooms::graphics::maskedOcclusionCullingTester::DebugTileL0MaxDepthValue
 			D_ASSERT(subTileRowIndexInTile >= 0 && subTileRowIndexInTile < (TILE_HEIGHT / SUB_TILE_HEIGHT));
 			D_ASSERT(subTileColIndexInTile >= 0 && subTileRowIndexInTile < (TILE_WIDTH / SUB_TILE_WIDTH));
 
-			const culling::M256F L0MaxDepthValue = depthBuffer->GetTile(tileRowIndex, tileColIndex)->mHizDatas.L0MaxDepthValue;
+			const culling::M256F L0MaxDepthValue = depthBuffer->GetTile(tileRowIndex, tileColIndex)->mHizDatas.L0SubTileMaxDepthValue;
 			const INT32 subTileIndex = subTileColIndexInTile + subTileRowIndexInTile * (TILE_WIDTH / SUB_TILE_WIDTH);
 			D_ASSERT(subTileIndex >= 0 && subTileIndex < 8);
 
