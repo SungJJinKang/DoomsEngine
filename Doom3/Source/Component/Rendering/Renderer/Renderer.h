@@ -64,10 +64,6 @@ namespace dooms
 		D_PROPERTY()
 		const graphics::Material* mTargetMaterial;
 
-		/// <summary>
-		/// EntityBlockViewer never be cheanged on a entity
-		/// </summary>
-		culling::EntityBlockViewer mCullingEntityBlockViewer;
 		virtual void UpdateCullingEntityBlockViewer();
 
 		Renderer(const Renderer&) = default;
@@ -79,7 +75,12 @@ namespace dooms
 		void RemoveRendererFromCullingSystem();
 
 	public:
-		
+
+		/// <summary>
+		/// EntityBlockViewer never be cheanged on a entity
+		/// </summary>
+		culling::EntityBlockViewer mCullingEntityBlockViewer;
+
 		/// <summary>
 		/// Check RenderingBitFlag.h
 		/// </summary>

@@ -52,6 +52,6 @@ namespace dooms
 		void ChangeWorkingIndexRenderers();
 	};
 
-	using RendererComponentStaticIterator = StaticContainer<Renderer>;
+	using RendererComponentStaticIterator = StaticContainer<dooms::Renderer>;
 }
 
