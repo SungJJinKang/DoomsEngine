@@ -47,7 +47,7 @@ namespace dooms
 
 #endif
 
-#ifdef DEBUG_MODE
+#if defined(DEBUG_MODE) || true
 
 #ifndef INCREMENT_DRAWCALL_COUNTER
 #define INCREMENT_DRAWCALL_COUNTER dooms::graphics::RenderingDebugger::IncrementDrawCallCounter()

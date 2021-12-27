@@ -22,7 +22,6 @@ void dooms::ui::profilerGUI::Render()
 {
 	if (ImGui::Begin("Profiler"))
 	{
-		ImGui::TextColored(ImVec4{ 1.0f, 0.0f, 0.0f, 1.0f }, "DrawCall : %llu", dooms::graphics::RenderingDebugger::GetDrawCallCounter());
 		for (auto& data : mProfilingDataContainer)
 		{
 			ImGui::Text("%s   :    ", data.first.c_str());

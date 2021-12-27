@@ -10,6 +10,7 @@
 #include "GUIModules/ProfilerGUI.h"
 #include "GUIModules/ThreadProfilerGUI.h"
 #include "GUIModules/MaskedOcclusionCulliingDebugger.h"
+#include "GUIModules/drawCallCounterGUI.h"
 
 
 namespace dooms::ui::engineGUIServer
@@ -27,6 +28,7 @@ namespace dooms::ui::engineGUIServer
         dooms::ui::profilerGUI::Render();
         dooms::ui::threadProfilerGUI::Render();
         dooms::ui::maskedOcclusionCulliingDebugger::Render();
+        dooms::ui::drawCallCounterGUI::Render();
     }
 }
 
