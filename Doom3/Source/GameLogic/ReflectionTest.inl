@@ -64,10 +64,10 @@ void dooms::GameLogicStartPoint::StartGameLogic()
 		entity1->SetEntityName("Camera");
 
 		auto entity1Camera = entity1->AddComponent<Camera>();
-		entity1->GetTransform()->SetPosition(86.0f, -14.0f, 1046.0f);
+		entity1->GetTransform()->SetPosition(14.0f, -14.0f, 1140.0f);
 		entity1->GetTransform()->SetRotation(0.0f, 57.0f, 0.0f);
 		entity1Camera->SetProjectionMode(dooms::Camera::eProjectionType::Perspective);
-		entity1Camera->SetClippingPlaneNear(32.0f);
+		entity1Camera->SetClippingPlaneNear(14.0f);
 		entity1->AddComponent<Move_WASD>();
 
 		//entity1->AddComponent<ExportTextureTester>();
@@ -79,7 +79,7 @@ void dooms::GameLogicStartPoint::StartGameLogic()
 
 	}
 
-	/*
+	
 	
 	auto lightEntity = currenScene->CreateNewEntity();
 	lightEntity->GetTransform()->SetPosition(-30.0f, 0.0f, 0.0f);
@@ -160,11 +160,11 @@ void dooms::GameLogicStartPoint::StartGameLogic()
 		bullet->mSpeed = 500;
 	}
 
-	*/
+	
 
 	INT32 entityCount = 0;
 	
-	/*
+	
 	INT32 count = 300;
 	for (INT32 i = -count; i < count; i = i + 40)
 	{
@@ -188,10 +188,10 @@ void dooms::GameLogicStartPoint::StartGameLogic()
 			}
 		}
 	}
-	*/
+	
 
-	/*
-	INT32 count = 100;
+	
+	count = 100;
 	for (INT32 i = -count; i < count; i = i + 40)
 	{
 		for (INT32 j = -count; j < count; j = j + 40)
@@ -214,9 +214,9 @@ void dooms::GameLogicStartPoint::StartGameLogic()
 			}
 		}
 	}
-	*/
+	
 
-	/*
+	
 	for (INT32 i = -150; i < 150; i += 60)
 	{
 		auto entity = currenScene->CreateNewEntity();
@@ -263,9 +263,9 @@ void dooms::GameLogicStartPoint::StartGameLogic()
 		BoxCollider3D* box3D = entity->AddComponent<BoxCollider3D>();
 		box3D->SetFromAABB3D(planetAsset->GetMesh(0)->GetBoundingBox());
 	}
-	*/
+	
 
-	/*
+	
 	{
 		auto entity = currenScene->CreateNewEntity();
 		entity->GetTransform()->SetScale(300.0f, 300.0f, 300.0f);
@@ -275,7 +275,7 @@ void dooms::GameLogicStartPoint::StartGameLogic()
 		meshRenderer->SetMaterial(material);
 
 	}
-	*/
+	
 
 	{
 		auto entity = currenScene->CreateNewEntity();
@@ -287,7 +287,7 @@ void dooms::GameLogicStartPoint::StartGameLogic()
 
 	}
 
-	/*
+	
 	{
 		auto entity = currenScene->CreateNewEntity();
 		entity->GetTransform()->SetScale(60.0f, 60.0f, 60.0f);
@@ -307,9 +307,9 @@ void dooms::GameLogicStartPoint::StartGameLogic()
 		meshRenderer->SetMaterial(material);
 
 	}
-	*/
+	
 
-	/*
+	
 	{
 		auto entity = currenScene->CreateNewEntity();
 		entity->GetTransform()->SetScale(60.0f, 60.0f, 60.0f);
@@ -339,38 +339,10 @@ void dooms::GameLogicStartPoint::StartGameLogic()
 		meshRenderer->SetMesh(planetAsset->GetMesh(0));
 		meshRenderer->SetMaterial(material);
 	}
-	*/
 	
-	/*
-	{
-		auto threedasset2 = assetImporter::AssetManager::GetSingleton()->GetAsset<asset::eAssetType::THREE_D_MODEL>("Lowpolybuildings.assbin");
-		auto shader1 = assetImporter::AssetManager::GetSingleton()->GetAsset<asset::eAssetType::SHADER>("GbufferWriter_PBR.glsl");
-		auto material1 = dooms::CreateDObject<graphics::Material>(shader1);
-		//material1->AddTexture(graphics::eTextureBindingPoint::AlbedoTexture, assetImporter::AssetManager::GetSingleton()->GetAsset<asset::eAssetType::TEXTURE>("r402_motel_ekaterininskiy_trakt.dds"));
-
-
-		{
-			auto entity = currenScene->CreateNewEntity();
-			entity->GetTransform()->SetScale(20.0f, 20.0f, 20.0f);
-			entity->GetTransform()->SetPosition(0, 0, 1000);
-			auto meshRenderer = entity->AddComponent<MeshRenderer>();
-			meshRenderer->SetMesh(threedasset2->GetMesh(0));
-			meshRenderer->SetMaterial(material1);
-
-		}
-
-		{
-			auto entity = currenScene->CreateNewEntity();
-			entity->GetTransform()->SetScale(20.0f, 20.0f, 20.0f);
-			entity->GetTransform()->SetPosition(0, 0, 1000);
-			auto meshRenderer = entity->AddComponent<MeshRenderer>();
-			meshRenderer->SetMesh(threedasset2->GetMesh(1));
-			meshRenderer->SetMaterial(material1);
-
-		}
-
-	}
-	*/
+	
+	
+	
 	
 	
 	
