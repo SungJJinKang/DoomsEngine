@@ -32,9 +32,9 @@ namespace dooms
 			static inline bool IsDrawDebuggersEnabled{ true };
 			static inline eColor DrawDebuggersDefualtColor{ eColor::Green };
 
-			static inline bool IsDrawMaskedOcclusionCullingBinTriangleStageDebugger{ true };
-			static inline bool IsDrawMaskedOcclusionCullingTileCoverageMaskDebugger{ true };
-			static inline bool IsDrawMaskedOcclusionCullingTileL0MaxDepthValueDebugger{ true };
+			static inline bool IsDrawMaskedOcclusionCullingBinTriangleStageDebugger{ false };
+			static inline bool IsDrawMaskedOcclusionCullingTileCoverageMaskDebugger{ false };
+			static inline bool IsDrawMaskedOcclusionCullingTileL0MaxDepthValueDebugger{ false };
 
 			static inline bool IsOverDrawVisualizationEnabled{ false };
 

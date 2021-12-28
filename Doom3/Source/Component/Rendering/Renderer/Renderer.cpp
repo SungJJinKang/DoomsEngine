@@ -124,7 +124,7 @@ void dooms::Renderer::CacheDistanceToCamera(const size_t cameraIndex, const math
 		mDistancesToCamera.resize(cameraIndex + 1);
 	}
 
-	mDistancesToCamera[cameraIndex] = (static_cast<const Transform*>(GetTransform())->GetPosition() - cameraPos).sqrMagnitude() - dooms::ColliderUpdater<dooms::physics::Sphere>::GetWorldCollider()->mRadius;
+	mDistancesToCamera[cameraIndex] = (static_cast<const Transform*>(GetTransform())->GetPosition() - cameraPos).magnitude() - dooms::ColliderUpdater<dooms::physics::Sphere>::GetWorldCollider()->mRadius;
 }
 
 /*

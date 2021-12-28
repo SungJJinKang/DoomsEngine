@@ -246,7 +246,22 @@ void dooms::GameLogicStartPoint::StartGameLogic()
 		box3D->SetFromAABB3D(planetAsset->GetMesh(0)->GetBoundingBox());
 	}
 	
-	
+
+	for (INT32 i = -200; i < 200; i += 30)
+	{
+		auto entity = currenScene->CreateNewEntity();
+		entity->GetTransform()->SetScale(2.0f, 2.0f, 2.0f);
+		entity->GetTransform()->SetPosition(0, 0, 1300 + i + 200);
+		auto meshRenderer = entity->AddComponent<MeshRenderer>();
+		entity->AddComponent<AutoRotate>();
+		meshRenderer->SetMesh(planetAsset->GetMesh(0));
+		meshRenderer->SetMaterial(material);
+
+
+		BoxCollider3D* box3D = entity->AddComponent<BoxCollider3D>();
+		box3D->SetFromAABB3D(planetAsset->GetMesh(0)->GetBoundingBox());
+	}
+
 
 
 	for (INT32 i = -50; i < 50; i += 30)
