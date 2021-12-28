@@ -10,14 +10,51 @@ namespace dooms::graphics::meshHelper
 	static asset::ThreeDModelAsset* DefaultQuadThreeDModelAsset{ nullptr };
 	static asset::ThreeDModelAsset* DefaultTriangleThreeDModelAsset{ nullptr };
 
-	static MeshData GetTriangleMeshVertexData(const math::Vector2& pointA, const FLOAT32 width, const FLOAT32 height)
+	static MeshData GetTriangleMeshVertexData(const TriangleType triangleType, const math::Vector2& pointA, const FLOAT32 width, const FLOAT32 height)
 	{
-		FLOAT32 QuadMeshData[]
+		FLOAT32 QuadMeshData[15];
+
+
+		if(triangleType == TriangleType::BottomFlat)
 		{
-			pointA.x, pointA.y + height, 0.0f, 0.0f, 1.0f,
-			pointA.x, pointA.y, 0.0f, 0.0f, 0.0f,
-			pointA.x + width, pointA.y, 0.0f, 1.0f, 0.0f
-		};
+			QuadMeshData[0] = pointA.x;
+			QuadMeshData[1] = pointA.y + height;
+			QuadMeshData[2] = 0.0f;
+			QuadMeshData[3] = 0.0f;
+			QuadMeshData[4] = 1.0f;
+			QuadMeshData[5] = pointA.x;
+			QuadMeshData[6] = pointA.y;
+			QuadMeshData[7] = 0.0f;
+			QuadMeshData[8] = 0.0f;
+			QuadMeshData[9] = 0.0f;
+			QuadMeshData[10] = pointA.x + width;
+			QuadMeshData[11] = pointA.y;
+			QuadMeshData[12] = 0.0f;
+			QuadMeshData[13] = 1.0f;
+			QuadMeshData[14] = 0.0f;
+		}
+		else if (triangleType == TriangleType::TopFlat)
+		{
+			QuadMeshData[0] = pointA.x;
+			QuadMeshData[1] = pointA.y - height;
+			QuadMeshData[2] = 0.0f;
+			QuadMeshData[3] = 1.0f;
+			QuadMeshData[4] = 0.0f;
+			QuadMeshData[5] = pointA.x;
+			QuadMeshData[6] = pointA.y;
+			QuadMeshData[7] = 0.0f;
+			QuadMeshData[8] = 1.0f;
+			QuadMeshData[9] = 1.0f;
+			QuadMeshData[10] = pointA.x - width;
+			QuadMeshData[11] = pointA.y;
+			QuadMeshData[12] = 0.0f;
+			QuadMeshData[13] = 0.0f;
+			QuadMeshData[14] = 1.0f;
+		}
+		else
+		{
+			D_ASSERT(false);
+		}
 
 		MeshData MeshVertexDataList{ 3 };
 		for (size_t i = 0; i < 3; i++)
@@ -29,7 +66,7 @@ namespace dooms::graphics::meshHelper
 		return MeshVertexDataList;
 	}
 
-	static asset::ThreeDModelAsset* GetTriangleThreeDModelAssset(const math::Vector2& pointA, const FLOAT32 width, const FLOAT32 height)
+	static asset::ThreeDModelAsset* GetTriangleThreeDModelAssset(const TriangleType triangleType, const math::Vector2& pointA, const FLOAT32 width, const FLOAT32 height)
 	{
 		std::vector<ThreeDModelMesh> threeDModelMeshes{};
 		threeDModelMeshes.emplace_back(nullptr);
@@ -39,7 +76,7 @@ namespace dooms::graphics::meshHelper
 
 		threeDModelMeshes[0].mVerticeStride = 12;
 
-		MeshData meshVertexData = GetTriangleMeshVertexData(pointA, width, height);
+		MeshData meshVertexData = GetTriangleMeshVertexData(triangleType, pointA, width, height);
 		threeDModelMeshes[0].mMeshDatas = std::move(meshVertexData);
 		threeDModelMeshes[0].mMeshIndices = { 0, 1, 2 };
 		threeDModelMeshes[0].bHasIndices = true;
@@ -131,25 +168,20 @@ dooms::graphics::Mesh* dooms::graphics::meshHelper::GetQuadMesh(const math::Vect
 	return threeDModelAsset->GetMesh(0);
 }
 
-dooms::graphics::Mesh* dooms::graphics::meshHelper::GetTriangleMesh()
+dooms::graphics::Mesh* dooms::graphics::meshHelper::GetTriangleMesh(const TriangleType triangleType)
 {
-	if (dooms::graphics::meshHelper::DefaultTriangleThreeDModelAsset == nullptr)
-	{
-		DefaultTriangleThreeDModelAsset = GetTriangleThreeDModelAssset(math::Vector2(-1.0f, -1.0f), 1.0f, 1.0f);
-
-	}
-
-	return DefaultTriangleThreeDModelAsset->GetMesh(0);
+	return GetTriangleThreeDModelAssset(triangleType, math::Vector2(-1.0f, -1.0f), 1.0f, 1.0f)->GetMesh(0);
 }
 
 dooms::graphics::Mesh* dooms::graphics::meshHelper::GetTriangleMesh
 (
+	const TriangleType triangleType,
 	const math::Vector2& pointA, 
 	const FLOAT32 width,
 	const FLOAT32 height
 )
 {
-	asset::ThreeDModelAsset* const threeDModelAsset = GetTriangleThreeDModelAssset(pointA, width, height);
+	asset::ThreeDModelAsset* const threeDModelAsset = GetTriangleThreeDModelAssset(triangleType, pointA, width, height);
 
 	return threeDModelAsset->GetMesh(0);
 }
