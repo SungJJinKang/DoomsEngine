@@ -67,7 +67,7 @@ void dooms::GameLogicStartPoint::StartGameLogic()
 		entity1->GetTransform()->SetPosition(14.0f, -14.0f, 1140.0f);
 		entity1->GetTransform()->SetRotation(0.0f, 57.0f, 0.0f);
 		entity1Camera->SetProjectionMode(dooms::Camera::eProjectionType::Perspective);
-		entity1Camera->SetClippingPlaneNear(14.0f);
+		entity1Camera->SetClippingPlaneNear(1.0f);
 		entity1->AddComponent<Move_WASD>();
 
 		//entity1->AddComponent<ExportTextureTester>();
@@ -79,7 +79,7 @@ void dooms::GameLogicStartPoint::StartGameLogic()
 
 	}
 
-	
+	/*
 	
 	auto lightEntity = currenScene->CreateNewEntity();
 	lightEntity->GetTransform()->SetPosition(-30.0f, 0.0f, 0.0f);
@@ -188,7 +188,6 @@ void dooms::GameLogicStartPoint::StartGameLogic()
 			}
 		}
 	}
-	
 
 	
 	count = 100;
@@ -263,7 +262,7 @@ void dooms::GameLogicStartPoint::StartGameLogic()
 	}
 
 
-
+	
 	for (INT32 i = -50; i < 50; i += 30)
 	{
 		auto entity = currenScene->CreateNewEntity();
@@ -291,18 +290,18 @@ void dooms::GameLogicStartPoint::StartGameLogic()
 
 	}
 	
-
+	*/
 	{
 		auto entity = currenScene->CreateNewEntity();
 		entity->GetTransform()->SetScale(120.0f, 60.0f, 60.0f);
 		entity->GetTransform()->SetPosition(0, 0, 1000);
 		auto meshRenderer = entity->AddComponent<MeshRenderer>();
-		meshRenderer->SetMesh(dooms::graphics::meshHelper::GetQuadMesh());
+		meshRenderer->SetMesh(dooms::graphics::meshHelper::GetTriangleMesh(graphics::meshHelper::TriangleType::TopFlat));
 		meshRenderer->SetMaterial(material);
 
 	}
 
-	
+	/*
 	{
 		auto entity = currenScene->CreateNewEntity();
 		entity->GetTransform()->SetScale(60.0f, 60.0f, 60.0f);
@@ -312,7 +311,7 @@ void dooms::GameLogicStartPoint::StartGameLogic()
 		meshRenderer->SetMaterial(material);
 
 	}
-
+	
 	{
 		auto entity = currenScene->CreateNewEntity();
 		entity->GetTransform()->SetScale(60.0f, 60.0f, 60.0f);
@@ -323,7 +322,6 @@ void dooms::GameLogicStartPoint::StartGameLogic()
 
 	}
 	
-
 	
 	{
 		auto entity = currenScene->CreateNewEntity();
@@ -354,9 +352,7 @@ void dooms::GameLogicStartPoint::StartGameLogic()
 		meshRenderer->SetMesh(planetAsset->GetMesh(0));
 		meshRenderer->SetMaterial(material);
 	}
-	
-	
-	
+	*/
 	
 	
 	

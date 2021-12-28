@@ -86,13 +86,19 @@ void dooms::graphics::maskedOcclusionCullingTester::DebugTileL0MaxDepthValue
 			const INT32 subTileIndex = subTileColIndexInTile + subTileRowIndexInTile * (TILE_WIDTH / SUB_TILE_WIDTH);
 			D_ASSERT(subTileIndex >= 0 && subTileIndex < 8);
 
-			const float ndcDepthValue = reinterpret_cast<const float*>(&L0MaxDepthValue)[subTileIndex];
-			
+			float ndcDepthValue = reinterpret_cast<const float*>(&L0MaxDepthValue)[subTileIndex];
+
+			ndcDepthValue = ndcDepthValue * ndcDepthValue * ndcDepthValue * ndcDepthValue;
+			//ndcDepthValue = (ndcDepthValue + 1.0f) * 0.5f;
+			//const float linearDepth = (2.0 * Camera::GetMainCamera()->GetClippingPlaneNear() * Camera::GetMainCamera()->GetClippingPlaneFar()) / (Camera::GetMainCamera()->GetClippingPlaneFar() + Camera::GetMainCamera()->GetClippingPlaneNear() - ndcDepthValue * (Camera::GetMainCamera()->GetClippingPlaneFar() - Camera::GetMainCamera()->GetClippingPlaneNear()));
+
+			//const float nonLinearDepthValue = ((1.0f / linearDepth) - (1.0f / Camera::GetMainCamera()->GetClippingPlaneNear())) / ((1.0f / Camera::GetMainCamera()->GetClippingPlaneFar()) - (1.0f / Camera::GetMainCamera()->GetClippingPlaneNear()));
+
 			dooms::graphics::DebugDrawer::GetSingleton()->DebugDraw2DBox
 			(
 				math::Vector3(DEBUGGER_TILE_BOX_PADIDNG_X + -1.0f + xScale * subTileColIndex, DEBUGGER_TILE_BOX_PADIDNG_Y + -1.0f + yScale * subTileRowIndex, 0.0f),
 				math::Vector3(-DEBUGGER_TILE_BOX_PADIDNG_X + -1.0f + xScale * (subTileColIndex + 1), -DEBUGGER_TILE_BOX_PADIDNG_Y + -1.0f + yScale * (subTileRowIndex + 1), 0.0f),
-				math::Vector4(ndcDepthValue, 0.0f, 0.0f, 1.0f)
+				math::Vector4(ndcDepthValue, ndcDepthValue, ndcDepthValue, 1.0f)
 			);
 		}
 	}

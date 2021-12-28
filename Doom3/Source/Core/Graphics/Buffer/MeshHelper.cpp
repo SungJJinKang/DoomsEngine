@@ -81,10 +81,28 @@ namespace dooms::graphics::meshHelper
 		threeDModelMeshes[0].mMeshIndices = { 0, 1, 2 };
 		threeDModelMeshes[0].bHasIndices = true;
 
-		const math::Vector3 minX = math::Vector3(pointA.x, pointA.y, 0.001f);
-		const math::Vector3 maxX = math::Vector3(pointA.x + width, pointA.y + height, 0.001f);
+		math::Vector3 minX{nullptr};
+		math::Vector3 maxX{nullptr};
+		math::Vector3 boudingSphereCenter{nullptr};
+		if(triangleType == TriangleType::BottomFlat)
+		{
+			minX = math::Vector3(pointA.x, pointA.y, 0.001f);
+			maxX = math::Vector3(pointA.x + width, pointA.y + height, 0.001f);
+			boudingSphereCenter = math::Vector3(width * 0.5f, height * 0.5f, 0.0f);
+		}
+		else if (triangleType == TriangleType::TopFlat)
+		{
+			minX = math::Vector3(pointA.x - width, pointA.y - height, 0.001f);
+			maxX = math::Vector3(pointA.x, pointA.y, 0.001f);
+			boudingSphereCenter = math::Vector3(-width * 0.5f, -height * 0.5f, 0.0f);
+		}
+		else
+		{
+			D_ASSERT(false);
+		}
+		
 		threeDModelMeshes[0].mAABB3D = physics::AABB3D(minX, maxX);
-		threeDModelMeshes[0].mSphere = physics::Sphere(math::Vector3(width * 0.5f, height * 0.5f, 0.0f), std::max(width, height) * 0.5f);
+		threeDModelMeshes[0].mSphere = physics::Sphere(boudingSphereCenter, std::max(width, height) * 0.5f);
 
 		ThreeDModelNode* const threeDModelNode = dooms::CreateDObject<ThreeDModelNode>(nullptr);
 		threeDModelNode->mThreeDModelNodeParent = nullptr;

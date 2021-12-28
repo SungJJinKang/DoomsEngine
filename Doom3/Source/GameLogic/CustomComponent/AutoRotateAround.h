@@ -21,8 +21,11 @@ namespace dooms
 
 	public:
 
+		D_PROPERTY()
 		math::Vector3 mCenterPos{nullptr};
+		D_PROPERTY()
 		math::Vector3 mRotateAxis{ nullptr };
+		D_PROPERTY()
 		FLOAT32 mRotateAngle;
 
 	};
