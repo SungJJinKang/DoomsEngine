@@ -25,7 +25,7 @@
   * Customizing Reflection Open Source Library ( video - https://youtu.be/9DKGvkdR6zw ) ( Customized clReflect - https://github.com/SungJJinKang/clReflect )
   * Integrate imgui with reflection system. ( DObjects, std::vector, std::array is supported, video - https://youtu.be/wxZIGoTRcpo )
   * Garbage Collector using reflection system ( Mark ( multithread ) - Sweep algorithm, std::array, std::vector is also supported, nullify pointer referencing destroyed object, 한국어 블로그 - https://sungjjinkang.github.io/computerscience/2021/12/01/reflection_gc.html, video - https://youtu.be/E4CNOIXYQnQ )
-  * Masked SW ( CPU ) Occlusion Culling ( 95%, work directory - https://github.com/SungJJinKang/EveryCulling/tree/main/CullingModule/MaskedSWOcclusionCulling ) ( reference : https://software.intel.com/content/dam/develop/external/us/en/documents/masked-software-occlusion-culling.pdf ) 
+  * Masked SW ( CPU ) Occlusion Culling ( 95%, source code - https://github.com/SungJJinKang/EveryCulling/tree/main/CullingModule/MaskedSWOcclusionCulling ) ( reference : https://software.intel.com/content/dam/develop/external/us/en/documents/masked-software-occlusion-culling.pdf ) 
   
 ## Currently working on
 
