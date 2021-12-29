@@ -291,17 +291,55 @@ void dooms::GameLogicStartPoint::StartGameLogic()
 	}
 	
 	*/
+	
+
+	
+
+	
+	
+	/*
 	{
 		auto entity = currenScene->CreateNewEntity();
-		entity->GetTransform()->SetScale(120.0f, 60.0f, 60.0f);
+		entity->GetTransform()->SetScale(2.0f, 2.0f, 2.0f);
+		entity->GetTransform()->SetPosition(0, 0, 800);
+		auto meshRenderer = entity->AddComponent<MeshRenderer>();
+		entity->AddComponent<AutoRotate>();
+		meshRenderer->SetMesh(planetAsset->GetMesh(0));
+		meshRenderer->SetMaterial(material);
+
+
+		BoxCollider3D* box3D = entity->AddComponent<BoxCollider3D>();
+		box3D->SetFromAABB3D(planetAsset->GetMesh(0)->GetBoundingBox());
+	}
+	*/
+	
+	
+	
+	
+	
+	
+	{
+		auto entity = currenScene->CreateNewEntity();
+		entity->GetTransform()->SetScale(60.0f, 60.0f, 60.0f);
 		entity->GetTransform()->SetPosition(0, 0, 1000);
 		auto meshRenderer = entity->AddComponent<MeshRenderer>();
-		meshRenderer->SetMesh(dooms::graphics::meshHelper::GetTriangleMesh(graphics::meshHelper::TriangleType::TopFlat));
+		meshRenderer->SetMesh(dooms::graphics::meshHelper::GetQuadMesh());
 		meshRenderer->SetMaterial(material);
 
 	}
 
 	/*
+	{
+		auto entity = currenScene->CreateNewEntity();
+		entity->GetTransform()->SetScale(1.0f, 1.0f, 400.0f);
+		entity->GetTransform()->SetPosition(0, 0, -1000);
+		auto meshRenderer = entity->AddComponent<MeshRenderer>();
+		meshRenderer->SetMesh(dooms::graphics::meshHelper::GetQuadMesh());
+		meshRenderer->SetMaterial(material);
+
+	}
+
+	
 	{
 		auto entity = currenScene->CreateNewEntity();
 		entity->GetTransform()->SetScale(60.0f, 60.0f, 60.0f);
