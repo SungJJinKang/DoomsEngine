@@ -337,7 +337,7 @@ void dooms::graphics::Graphics_Server::RenderObject(dooms::Camera* const targetC
 		const std::vector<Renderer*>& renderersInLayer = RendererComponentStaticIterator::GetSingleton()->GetWorkingRendererInLayer(cameraIndex, layerIndex);
 		for (Renderer* renderer : renderersInLayer)
 		{
-			if(IsValid(renderer) == true)
+			if(IsValid(renderer) == true && renderer->GetIsComponentEnabled() == true)
 			{
 				if (
 					targetCamera_IS_CULLED_flag_on == false ||

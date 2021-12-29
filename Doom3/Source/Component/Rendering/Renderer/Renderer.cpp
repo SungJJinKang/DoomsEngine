@@ -47,6 +47,20 @@ const math::Matrix4x4& dooms::Renderer::GetModelMatrix()
 	return GetTransform()->GetModelMatrix();
 }
 
+void dooms::Renderer::OnActivated()
+{
+	Component::OnActivated();
+
+	mCullingEntityBlockViewer.SetIsObjectEnabled(true);
+}
+
+void dooms::Renderer::OnDeActivated()
+{
+	Component::OnDeActivated();
+
+	mCullingEntityBlockViewer.SetIsObjectEnabled(false);
+}
+
 void dooms::Renderer::AddRendererToCullingSystem()
 {
 	if(mCullingEntityBlockViewer.GetIsActive() == false)

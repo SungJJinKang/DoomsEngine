@@ -71,6 +71,9 @@ namespace dooms
 		Renderer& operator=(const Renderer&) = delete;
 		Renderer& operator=(Renderer&&) noexcept = delete;
 
+		void OnActivated() override;
+		void OnDeActivated() override;
+
 		void AddRendererToCullingSystem();
 		void RemoveRendererFromCullingSystem();
 
@@ -166,5 +169,7 @@ namespace dooms
 
 			return mDistancesToCamera[cameraIndex];
 		}
+		
+		
 	};
 }
