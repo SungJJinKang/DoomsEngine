@@ -87,8 +87,7 @@ void dooms::graphics::maskedOcclusionCullingTester::DebugTileL0MaxDepthValue
 			D_ASSERT(subTileIndex >= 0 && subTileIndex < 8);
 
 			float ndcDepthValue = reinterpret_cast<const float*>(&L0MaxDepthValue)[subTileIndex];
-
-			ndcDepthValue = ndcDepthValue * ndcDepthValue * ndcDepthValue * ndcDepthValue;
+			
 			//ndcDepthValue = (ndcDepthValue + 1.0f) * 0.5f;
 			//const float linearDepth = (2.0 * Camera::GetMainCamera()->GetClippingPlaneNear() * Camera::GetMainCamera()->GetClippingPlaneFar()) / (Camera::GetMainCamera()->GetClippingPlaneFar() + Camera::GetMainCamera()->GetClippingPlaneNear() - ndcDepthValue * (Camera::GetMainCamera()->GetClippingPlaneFar() - Camera::GetMainCamera()->GetClippingPlaneNear()));
 

@@ -78,8 +78,7 @@ void dooms::GameLogicStartPoint::StartGameLogic()
 		
 
 	}
-
-	/*
+	
 	
 	auto lightEntity = currenScene->CreateNewEntity();
 	lightEntity->GetTransform()->SetPosition(-30.0f, 0.0f, 0.0f);
@@ -290,14 +289,12 @@ void dooms::GameLogicStartPoint::StartGameLogic()
 
 	}
 	
-	*/
 	
 
 	
 
 	
 	
-	/*
 	{
 		auto entity = currenScene->CreateNewEntity();
 		entity->GetTransform()->SetScale(2.0f, 2.0f, 2.0f);
@@ -311,7 +308,6 @@ void dooms::GameLogicStartPoint::StartGameLogic()
 		BoxCollider3D* box3D = entity->AddComponent<BoxCollider3D>();
 		box3D->SetFromAABB3D(planetAsset->GetMesh(0)->GetBoundingBox());
 	}
-	*/
 	
 	
 	
@@ -328,7 +324,7 @@ void dooms::GameLogicStartPoint::StartGameLogic()
 
 	}
 
-	/*
+	
 	{
 		auto entity = currenScene->CreateNewEntity();
 		entity->GetTransform()->SetScale(1.0f, 1.0f, 400.0f);
@@ -390,7 +386,6 @@ void dooms::GameLogicStartPoint::StartGameLogic()
 		meshRenderer->SetMesh(planetAsset->GetMesh(0));
 		meshRenderer->SetMaterial(material);
 	}
-	*/
 	
 	
 	
