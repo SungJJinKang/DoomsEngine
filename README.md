@@ -7,7 +7,7 @@
 ## Features
 
   * C++17
-  * C# ( used in making engine tools )    
+  * C# ( used for making engine tools )    
   * Target Compiler : MSVC ( clang is used for generating reflection data )
   * OpenGL
   * Component based System
