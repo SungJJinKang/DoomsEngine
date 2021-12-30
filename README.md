@@ -29,7 +29,7 @@
   
 ## Currently working on
 
-  * change graphics api!!! ( 0%, OpenGL to DirectX12 )
+  * change graphics api!!! ( 0%, OpenGL to DirectX11 )
   * implement physical based rendering ( https://cdn2.unrealengine.com/Resources/files/2013SiggraphPresentationsNotes-26915738.pdf )
  
 ## To Develop
