@@ -49,7 +49,7 @@ void* dooms::DynamicLinkingLibrary::LoadDynamicLinkingLibrary(const unsigned lon
 		//I tried lock on specific library name using unordred_map<string library name, mutex>
 		//unordered_map isn't thread-safe too!!
 
-	std::unique_lock<std::mutex> uniq_lock{ LoadUnLoadDLLMutexs };
+	std::scoped_lock<std::mutex> uniq_lock{ LoadUnLoadDLLMutexs };
 
 #ifdef UNICODE
 	const std::wstring wide_str{ mLibraryPath.begin(), mLibraryPath.end() };
@@ -65,7 +65,7 @@ bool dooms::DynamicLinkingLibrary::UnloadDynamicLinkingLibrary()
 	bool isFreeLibrarySuccess = false;
 	if (mLibrary != nullptr)
 	{
-		std::unique_lock<std::mutex> uniq_lock{ LoadUnLoadDLLMutexs };
+		std::scoped_lock<std::mutex> uniq_lock{ LoadUnLoadDLLMutexs };
 
 		isFreeLibrarySuccess = FreeLibrary(reinterpret_cast<HMODULE>(mLibrary.get()));      //2: unload the DLL
 		//D_ASSERT(isFreeLibrarySuccess == true);

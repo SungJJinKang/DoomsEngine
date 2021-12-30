@@ -1,10 +1,12 @@
 #pragma once
 
+
 #ifdef _DEBUG
 #define DEBUG_MODE
 #else
 #define RELEASE_MODE
 #endif
+
 
 #ifndef CPP_98_VERSION
 #define CPP_98_VERSION 199711L

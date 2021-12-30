@@ -47,7 +47,7 @@ void dooms::ui::profilerGUI::Render()
 
 void dooms::ui::profilerGUI::AddProfilingData(const char* const profilingTagName, const float time)
 {
-	std::unique_lock<std::mutex> lock{ mProfilingMutex };
+	std::scoped_lock<std::mutex> lock{ mProfilingMutex };
 
 	std::string tag = profilingTagName;
 	auto iter = mProfilingDataContainer.find(tag);
@@ -60,5 +60,4 @@ void dooms::ui::profilerGUI::AddProfilingData(const char* const profilingTagName
 		iter->second = std::make_pair(time, PROFILING_TEXT_RED_COLOR_DURATION_TIME);
 	}
 
-	lock.unlock();
 }

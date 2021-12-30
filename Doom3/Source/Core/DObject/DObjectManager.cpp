@@ -34,7 +34,7 @@ void dooms::DObjectManager::InsertDObjectID(DObject* const dObject, const UINT64
 
     if (dObject != nullptr)
     {
-        std::unique_lock<std::recursive_mutex> u_lock{ DObjectListMutex };
+        std::scoped_lock<std::recursive_mutex> u_lock{ DObjectListMutex };
 
         dObject->mDObjectProperties.mDObjectID = dObjectID;
 
@@ -57,7 +57,6 @@ void dooms::DObjectManager::InsertDObjectID(DObject* const dObject, const UINT64
 		dObject->mDObjectProperties.mCurrentIndexInDObjectList = flagIndex;
         D_ASSERT(flagIndex < mDObjectsContainer.mDObjectFlagList.size());
         
-        u_lock.unlock();
     }
 }
 
@@ -113,7 +112,7 @@ bool dooms::DObjectManager::RemoveDObject(DObject* const dObject)
     {
         if(dObject->mDObjectProperties.mCurrentIndexInDObjectList != INVALID_CURRENT_INDEX_IN_DOBJECT_LIST)
         {
-            std::unique_lock<std::recursive_mutex> u_lock{ DObjectListMutex };
+            std::scoped_lock<std::recursive_mutex> u_lock{ DObjectListMutex };
 
             const size_t index = dObject->mDObjectProperties.mCurrentIndexInDObjectList;
             D_ASSERT(index < mDObjectsContainer.mDObjectFlagList.size());
@@ -121,7 +120,6 @@ bool dooms::DObjectManager::RemoveDObject(DObject* const dObject)
             mDObjectsContainer.mDObjectList.erase(dObject);
             mDObjectsContainer.mEmptyIndexInFlagList.push_back(index);
             
-            u_lock.unlock();
         }
         
         dObject->mDObjectProperties.mCurrentIndexInDObjectList = INVALID_CURRENT_INDEX_IN_DOBJECT_LIST;
@@ -137,7 +135,7 @@ bool dooms::DObjectManager::RemoveDObject(DObject* const dObject)
 
 void dooms::DObjectManager::DestroyAllDObjects(const bool force)
 {
-    std::unique_lock<std::recursive_mutex> u_lock{ DObjectListMutex };
+    std::scoped_lock<std::recursive_mutex> u_lock{ DObjectListMutex };
 
     INT64 newIndex = 0;
 
@@ -175,21 +173,17 @@ void dooms::DObjectManager::DestroyAllDObjects(const bool force)
     mDObjectsContainer.mDObjectFlagList.resize(aliveDObjectIndexs.size());
     */
     
-    u_lock.unlock();
-
-
     //ClearConatiner(); Never Do this at here. When Static Object is destroyed, It access to mDObjectsHashmap in DObject's Destructor to reset DObject ID
 }
 
 void dooms::DObjectManager::ClearConatiner()
 {
-    std::unique_lock<std::recursive_mutex> u_lock{ DObjectListMutex };
+    std::scoped_lock<std::recursive_mutex> u_lock{ DObjectListMutex };
 
     mDObjectsContainer.mDObjectList.~unordered_set();
     mDObjectsContainer.mDObjectFlagList.~vector();
     mDObjectsContainer.mEmptyIndexInFlagList.~vector();
     
-    u_lock.unlock();
 }
 
 bool dooms::DObjectManager::IsDObjectLowLevelValid(const DObject* const dObject, const bool lock)
