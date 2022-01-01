@@ -28,7 +28,7 @@ namespace dooms
 	private:
 
 		UINT32 mWorkingRendererListIndex = 0;
-		std::array<std::array<std::array<std::vector<Renderer*>, MAX_LAYER_COUNT>, 2>, MAX_CAMERA_COUNT> mRenderersInLayer{};
+		std::array<std::array<std::vector<Renderer*>, 2>, MAX_CAMERA_COUNT> mRendererList{};
 
 	public:
 
@@ -46,8 +46,8 @@ namespace dooms
 		void RemoveRendererToStaticContainer(const Renderer* const renderer);
 		virtual void OnEntityLayerChanged(Renderer* const renderer);
 
-		NO_DISCARD std::vector<Renderer*>& GetWorkingRendererInLayer(const size_t cameraIndex, const size_t layerIndex);
-		NO_DISCARD std::vector<Renderer*>& GetSortingRendererInLayer(const size_t cameraIndex, const size_t layerIndex);
+		NO_DISCARD std::vector<Renderer*>& GetSortedRendererInLayer(const size_t cameraIndex);
+		NO_DISCARD std::vector<Renderer*>& GetSortingRendererInLayer(const size_t cameraIndex);
 
 		void ChangeWorkingIndexRenderers();
 	};

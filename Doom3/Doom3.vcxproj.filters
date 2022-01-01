@@ -744,10 +744,7 @@
     <ClCompile Include="Source\Core\EngineGUI\GUIModules\drawCallCounterGUI.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Core\Graphics\Acceleration\LinearData_ViewFrustumCulling\CullingModule\MaskedSWOcclusionCulling\Utility\clipTriangle.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Core\Graphics\Acceleration\LinearData_ViewFrustumCulling\CullingModule\EarlyOutDisabledObject\EarlyOutDisabledObject.cpp">
+    <ClCompile Include="Source\Core\Graphics\Acceleration\LinearData_ViewFrustumCulling\CullingModule\PreCulling\PreCulling.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -1892,10 +1889,7 @@
     <ClInclude Include="Source\Core\EngineGUI\GUIModules\drawCallCounterGUI.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Core\Graphics\Acceleration\LinearData_ViewFrustumCulling\CullingModule\MaskedSWOcclusionCulling\Utility\clipTriangle.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Core\Graphics\Acceleration\LinearData_ViewFrustumCulling\CullingModule\EarlyOutDisabledObject\EarlyOutDisabledObject.h">
+    <ClInclude Include="Source\Core\Graphics\Acceleration\LinearData_ViewFrustumCulling\CullingModule\PreCulling\PreCulling.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

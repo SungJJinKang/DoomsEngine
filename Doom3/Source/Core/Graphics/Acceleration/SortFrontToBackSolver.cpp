@@ -36,13 +36,10 @@ void dooms::graphics::SortFrontToBackSolver::CacheDistanceFromRenderersToCamera(
 
 void dooms::graphics::SortFrontToBackSolver::SortRenderer(const size_t cameraIndex)
 {
-	for (size_t layerIndex = 0; layerIndex < MAX_LAYER_COUNT; layerIndex++)
-	{
-		dooms::graphics::SortFrontToBackSolver::SortRenderer(
-			dooms::RendererComponentStaticIterator::GetSingleton()->GetSortingRendererInLayer(cameraIndex, layerIndex),
-			cameraIndex
-		);
-	}
+	dooms::graphics::SortFrontToBackSolver::SortRenderer(
+		dooms::RendererComponentStaticIterator::GetSingleton()->GetSortingRendererInLayer(cameraIndex),
+		cameraIndex
+	);
 }
 
 /*
@@ -60,7 +57,7 @@ void dooms::graphics::SortFrontToBackSolver::CacheDistanceFromRenderersToSpawned
 	for (size_t layerIndex = 0; layerIndex < MAX_LAYER_COUNT; layerIndex++)
 	{
 		dooms::graphics::SortFrontToBackSolver::CacheDistanceFromRenderersToCamera(
-			dooms::RendererComponentStaticIterator::GetWorkingRendererInLayer(0, layerIndex),
+			dooms::RendererComponentStaticIterator::GetSortedRendererInLayer(0, layerIndex),
 			cameraPositions
 		);
 	}

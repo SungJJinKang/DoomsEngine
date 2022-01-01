@@ -15,8 +15,12 @@
 #include <Rendering/Renderer/RendererStaticIterator.h>
 #include <EngineGUI/EngineGUIServer.h>
 
+#include "utility/BVH/BVH.h"
 
 #include "Graphics_Server.reflection.h"
+
+#define RENDERER_BVH_MAX_NODE_COUNT 3000
+
 struct GLFWwindow;
 
 namespace culling
@@ -53,6 +57,12 @@ namespace dooms
 
 		private:
 
+#ifdef DEBUG_DRAWER
+			void DebugGraphics();
+			D_PROPERTY()
+			DebugDrawer mDebugGraphics {};
+#endif
+
 			size_t mCullingCameraCount;
 
 			RendererComponentStaticIterator mRendererStaticContainer{};
@@ -60,13 +70,11 @@ namespace dooms
 			DeferredRenderingDrawer mDeferredRenderingDrawer{};
 			
 			//CullDistance mCullDistance{};
+			void PreRenderRenderer();
+			void UpdateCameraIndexInCullingSystemOfCameraComponent();
+			void UpdateSortedEntityInfoListInCullingSystem();
 
-#ifdef DEBUG_DRAWER
-			void DebugGraphics();
 
-			D_PROPERTY()
-			DebugDrawer mDebugGraphics{};
-#endif
 
 			eRenderingMode mCurrentRenderingMode{ eRenderingMode::ForwardRendering };
 			
@@ -85,6 +93,8 @@ namespace dooms
 
 			
 		public:
+
+			BVHAABB3D mRendererColliderBVH{ RENDERER_BVH_MAX_NODE_COUNT };
 
 			std::unique_ptr<culling::EveryCulling> mCullingSystem;
 

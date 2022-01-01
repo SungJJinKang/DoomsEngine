@@ -126,7 +126,7 @@ bool dooms::graphics::CullDistance::GetIsVisible(Renderer* renderer)
 {
 	FLOAT32 distanceSqr = (renderer->GetTransform()->GetPosition() - mCameraPosition).sqrMagnitude();
 
-	FLOAT32 cullDistance = PickCullDistanceSqr(renderer->BVH_Sphere_Node_Object::GetWorldCollider()->mRadius);
+	FLOAT32 cullDistance = PickCullDistanceSqr(renderer->BVH_AABB3D_Node_Object::GetWorldCollider()->GetDiagonarLineLength());
 
 	return distanceSqr < cullDistance;
 }

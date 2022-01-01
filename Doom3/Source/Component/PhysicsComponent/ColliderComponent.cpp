@@ -55,6 +55,8 @@ void dooms::ColliderComponent::OnEndOfFrame_Component()
 
 void dooms::ColliderComponent::OnDestroy()
 {
+	RemoveBVH_Node();
+
 	RemoveThisComponentFromRigidbody();
 
 	StaticContainer<ColliderComponent>::RemoveFromStaticContainer();

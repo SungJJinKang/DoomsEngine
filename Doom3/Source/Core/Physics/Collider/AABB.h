@@ -54,14 +54,24 @@ namespace dooms
 			}
 
 			
-			component_type GetHalfExtent() const;
+			FORCE_INLINE component_type GetHalfExtent() const
+			{
+				return dooms::physics::AABB3D::component_type{ (mUpperBound - mLowerBound) * 0.5f };
+			}
 
 			/// <summary>
 			/// Get �밢��
 			/// </summary>
 			/// <returns></returns>
 			
-			FLOAT32 GetDiagonarLineLength() const;
+			FORCE_INLINE FLOAT32 GetDiagonarLineLength() const
+			{
+				const math::Vector4 halfExtent = GetHalfExtent();
+				D_ASSERT(halfExtent.w == 0.0f);
+
+				return halfExtent.magnitude();
+			}
+
 			virtual void Render2DTopView(eColor color, bool drawInstantly = false);
 
 			
@@ -103,7 +113,7 @@ namespace dooms
 			}
 
 			math::Vector3* GetMeshTriangles() const;
-
+			
 			
 			static AABB3D EnlargeAABB(const AABB3D& aabb);
 

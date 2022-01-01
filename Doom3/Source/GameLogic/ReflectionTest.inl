@@ -65,7 +65,7 @@ void dooms::GameLogicStartPoint::StartGameLogic()
 
 		auto entity1Camera = entity1->AddComponent<Camera>();
 		entity1->GetTransform()->SetPosition(14.0f, -14.0f, 1140.0f);
-		entity1->GetTransform()->SetRotation(0.0f, 57.0f, 0.0f);
+		entity1->GetTransform()->SetRotation(0.0f, 0.0f, 0.0f);
 		entity1Camera->SetProjectionMode(dooms::Camera::eProjectionType::Perspective);
 		entity1Camera->SetClippingPlaneNear(1.0f);
 		entity1->AddComponent<Move_WASD>();
@@ -78,6 +78,8 @@ void dooms::GameLogicStartPoint::StartGameLogic()
 		
 
 	}
+
+	
 	
 	
 	auto lightEntity = currenScene->CreateNewEntity();
@@ -215,6 +217,7 @@ void dooms::GameLogicStartPoint::StartGameLogic()
 	
 
 	
+	
 	for (INT32 i = -150; i < 150; i += 60)
 	{
 		auto entity = currenScene->CreateNewEntity();
@@ -346,6 +349,7 @@ void dooms::GameLogicStartPoint::StartGameLogic()
 
 	}
 	
+	
 	{
 		auto entity = currenScene->CreateNewEntity();
 		entity->GetTransform()->SetScale(60.0f, 60.0f, 60.0f);
@@ -355,6 +359,7 @@ void dooms::GameLogicStartPoint::StartGameLogic()
 		meshRenderer->SetMaterial(material);
 
 	}
+	
 	
 	
 	{
@@ -387,9 +392,51 @@ void dooms::GameLogicStartPoint::StartGameLogic()
 		meshRenderer->SetMaterial(material);
 	}
 	
+
+	/*
+	{
+		auto entity = currenScene->CreateNewEntity();
+		entity->GetTransform()->SetScale(50.0f, 50.0f, 50.0f);
+		entity->GetTransform()->SetPosition(0, 500, 0);
+		auto meshRenderer = entity->AddComponent<MeshRenderer>();
+		entity->AddComponent<AutoRotate>();
+		meshRenderer->SetMesh(planetAsset->GetMesh(0));
+		meshRenderer->SetMaterial(material);
+		AutoRotateAround* autoRotateAround = entity->AddComponent<AutoRotateAround>();
+		autoRotateAround->mRotateAngle = 1.0f;
+		autoRotateAround->mRotateAxis.x = -1;
+	}
 	
-	
-	
+	{
+		auto entity = currenScene->CreateNewEntity();
+		entity->GetTransform()->SetScale(50.0f, 50.0f, 50.0f);
+		entity->GetTransform()->SetPosition(0, 0, -700);
+		auto meshRenderer = entity->AddComponent<MeshRenderer>();
+		entity->AddComponent<AutoRotate>();
+		meshRenderer->SetMesh(planetAsset->GetMesh(0));
+		meshRenderer->SetMaterial(material);
+		AutoRotateAround* autoRotateAround = entity->AddComponent<AutoRotateAround>();
+		autoRotateAround->mRotateAngle = 1.0f;
+		autoRotateAround->mRotateAxis.y = 1;
+	}
+
+	*/
+
+	/*
+	{
+		auto entity = currenScene->CreateNewEntity();
+		entity->GetTransform()->SetScale(50.0f, 50.0f, 50.0f);
+		entity->GetTransform()->SetPosition(0, 0, 700);
+		auto meshRenderer = entity->AddComponent<MeshRenderer>();
+		entity->AddComponent<AutoRotate>();
+		meshRenderer->SetMesh(planetAsset->GetMesh(0));
+		meshRenderer->SetMaterial(material);
+		AutoRotateAround* autoRotateAround = entity->AddComponent<AutoRotateAround>();
+		autoRotateAround->mRotateAngle = 1.0f;
+		autoRotateAround->mRotateAxis.y = 1;
+	}
+	*/
+
 	/*
 
 	auto a = Renderer::CLASS_TYPE_ID_STATIC();

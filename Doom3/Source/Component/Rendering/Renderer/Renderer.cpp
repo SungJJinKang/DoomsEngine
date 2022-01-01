@@ -26,9 +26,11 @@ void dooms::Renderer::InitComponent()
 
 	AddRendererToCullingSystem();
 
-	AddLocalDirtyToTransformDirtyReceiver(BVH_Sphere_Node_Object::IsWorldColliderCacheDirty);
-	AddLocalDirtyToTransformDirtyReceiver(ColliderUpdater<dooms::physics::AABB3D>::IsWorldColliderCacheDirty);
+	AddLocalDirtyToTransformDirtyReceiver(BVH_AABB3D_Node_Object::IsWorldColliderCacheDirty);
+	//AddLocalDirtyToTransformDirtyReceiver(ColliderUpdater<dooms::physics::AABB3D>::IsWorldColliderCacheDirty);
 	AddLocalDirtyToTransformDirtyReceiver(bmIsModelMatrixDirty);
+
+	InsertBVHLeafNode(graphics::Graphics_Server::GetSingleton()->mRendererColliderBVH, *BVH_AABB3D_Node_Object::GetWorldCollider(), nullptr);
 
 	//BVH_Sphere_Node_Object::UpdateWorldBVhColliderCache(true);
 	
@@ -65,7 +67,7 @@ void dooms::Renderer::AddRendererToCullingSystem()
 {
 	if(mCullingEntityBlockViewer.GetIsActive() == false)
 	{
-		mCullingEntityBlockViewer = graphics::Graphics_Server::GetSingleton()->mCullingSystem->AllocateNewEntity(this, GetTransform());
+		mCullingEntityBlockViewer = graphics::Graphics_Server::GetSingleton()->mCullingSystem->AllocateNewEntity();
 		InitializeCullingEntityBlockViewer();
 	}
 }
@@ -79,18 +81,36 @@ void dooms::Renderer::OnDestroy()
 {
 	Base::OnDestroy();
 
+	RemoveBVH_Node();
+
 	RemoveRendererFromCullingSystem();
 
 	RendererComponentStaticIterator::GetSingleton()->RemoveRendererToStaticContainer(this);
 }
 
-dooms::Renderer::Renderer() : Component(), mTargetMaterial{}, mCullingEntityBlockViewer()
+dooms::Renderer::Renderer() : Component(), mTargetMaterial{nullptr}, mCullingEntityBlockViewer()
 {
 
 }
 
 dooms::Renderer::~Renderer()
 {
+}
+
+void dooms::Renderer::PreRender()
+{
+	if(GetIsComponentEnabled() == true)
+	{
+		mCullingEntityBlockViewer.SetObjectWorldPosition(GetTransform()->GetPosition().data());
+
+		const physics::AABB3D* const aabb = ColliderUpdater<physics::AABB3D>::GetWorldCollider();
+		mCullingEntityBlockViewer.SetAABBWorldPosition(aabb->mLowerBound.data(), aabb->mUpperBound.data());
+
+		mCullingEntityBlockViewer.SetModelMatrix(GetTransform()->GetModelMatrix().data());
+	}
+
+	
+
 }
 
 
@@ -106,7 +126,7 @@ void dooms::Renderer::ClearRenderingBitFlag()
 
 void dooms::Renderer::InitializeCullingEntityBlockViewer()
 {
-	mCullingEntityBlockViewer.SetModelMatrix(reinterpret_cast<const float*>(&(GetTransform()->GetModelMatrix())));
+
 }
 
 void dooms::Renderer::UpdateCullingEntityBlockViewer()
@@ -138,7 +158,7 @@ void dooms::Renderer::CacheDistanceToCamera(const size_t cameraIndex, const math
 		mDistancesToCamera.resize(cameraIndex + 1);
 	}
 
-	mDistancesToCamera[cameraIndex] = (static_cast<const Transform*>(GetTransform())->GetPosition() - cameraPos).magnitude() - dooms::ColliderUpdater<dooms::physics::Sphere>::GetWorldCollider()->mRadius;
+	mDistancesToCamera[cameraIndex] = (static_cast<const Transform*>(GetTransform())->GetPosition() - cameraPos).magnitude() - dooms::ColliderUpdater<dooms::physics::AABB3D>::GetWorldCollider()->GetDiagonarLineLength();
 }
 
 /*

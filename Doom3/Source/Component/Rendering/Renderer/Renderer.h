@@ -38,7 +38,7 @@ namespace dooms
 
 	};
 
-	class DOOM_API D_CLASS Renderer : public Component, public BVH_Sphere_Node_Object, public ColliderUpdater<dooms::physics::AABB3D>//, public BVH_AABB3D_Node_Object // public graphics::CullDistanceRenderer
+	class DOOM_API D_CLASS Renderer : public Component, public BVH_AABB3D_Node_Object//, public BVH_AABB3D_Node_Object // public graphics::CullDistanceRenderer
 	{
 		GENERATE_BODY()
 		
@@ -118,7 +118,7 @@ namespace dooms
 		Renderer();
 		virtual ~Renderer();
 
-
+		void PreRender();
 		FORCE_INLINE virtual void Draw() const = 0;
 
 		/// <summary>

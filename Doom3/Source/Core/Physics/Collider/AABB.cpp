@@ -174,17 +174,7 @@ void AABB3D::Validate()
 	}
 }
 
-dooms::physics::AABB3D::component_type dooms::physics::AABB3D::GetHalfExtent() const
-{
-	return dooms::physics::AABB3D::component_type{ (mUpperBound - mLowerBound) * 0.5f };
-}
 
-
-FLOAT32 AABB3D::GetDiagonarLineLength() const
-{
-	auto halfExtent = GetHalfExtent();
-	return std::sqrt(halfExtent.x * halfExtent.x + halfExtent.y * halfExtent.y + halfExtent.z * halfExtent.z);
-}
 
 void dooms::physics::AABB3D::DrawCollider(eColor color, bool drawInstantly /*= false*/) const
 {

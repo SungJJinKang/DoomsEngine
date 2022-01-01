@@ -179,13 +179,82 @@ void Graphics_Server::DebugGraphics()
 
 }
 
+void Graphics_Server::PreRenderRenderer()
+{
+	const std::vector<Renderer*>& renderersInLayer = RendererComponentStaticIterator::GetSingleton()->GetSortedRendererInLayer(0);
+	for (Renderer* renderer : renderersInLayer)
+	{
+		renderer->PreRender();
+	}
+}
+
+void Graphics_Server::UpdateCameraIndexInCullingSystemOfCameraComponent()
+{
+	const std::vector<dooms::Camera*>& spawnedCameraList = StaticContainer<dooms::Camera>::GetAllStaticComponents();
+	for (size_t cameraIndex = 0; cameraIndex < spawnedCameraList.size(); cameraIndex++)
+	{
+		dooms::Camera* const targetCamera = spawnedCameraList[cameraIndex];
+
+		if (targetCamera->GetIsCullJobEnabled() == true)
+		{
+			targetCamera->CameraIndexInCullingSystem = mCullingCameraCount;
+
+			mCullingCameraCount++;
+		}
+	}
+
+	mCullingSystem->SetCameraCount(mCullingCameraCount);
+}
+
+void Graphics_Server::UpdateSortedEntityInfoListInCullingSystem()
+{
+	mCullingSystem->ResetSortedEntityCount();
+
+	const std::vector<dooms::Camera*>& spawnedCameraList = StaticContainer<dooms::Camera>::GetAllStaticComponents();
+	for (size_t cameraIndex = 0; cameraIndex < spawnedCameraList.size(); cameraIndex++)
+	{
+		dooms::Camera* const targetCamera = spawnedCameraList[cameraIndex];
+
+		if (targetCamera->GetIsCullJobEnabled() == true)
+		{
+			size_t rendererCount = 0;
+			const std::vector<Renderer*>& renderersInLayer = RendererComponentStaticIterator::GetSingleton()->GetSortedRendererInLayer(cameraIndex);
+			for (size_t rendererIndex = 0; rendererIndex < renderersInLayer.size(); rendererIndex++)
+			{
+				Renderer* const renderer = renderersInLayer[rendererIndex];
+				if (IsValid(renderer) == true && renderer->GetIsComponentEnabled() == true)
+				{
+					mCullingSystem->SetSortedEntityInfo
+					(
+						targetCamera->CameraIndexInCullingSystem,
+						rendererCount,
+						renderer->mCullingEntityBlockViewer.GetTargetEntityBlock(),
+						renderer->mCullingEntityBlockViewer.GetEntityIndexInBlock()
+					);
+
+					rendererCount++;
+				}
+			}
+		}
+	}
+}
+
 void Graphics_Server::PreRender()
 {
+	PreRenderRenderer();
+
+	UpdateCameraIndexInCullingSystemOfCameraComponent();
+	UpdateSortedEntityInfoListInCullingSystem();
+
+	
+	
+
 	dooms::ui::engineGUIServer::PreRender();
 	if(Camera::GetMainCamera()->GetIsCullJobEnabled() == true)
 	{
 		PreCullJob();
 	}
+
 	
 }
 
@@ -208,11 +277,6 @@ void dooms::graphics::Graphics_Server::Render()
 
 		if(targetCamera->GetIsCullJobEnabled() == true)
 		{
-			targetCamera->CameraIndexInCullingSystem = mCullingCameraCount;
-
-			mCullingCameraCount++;
-			mCullingSystem->SetCameraCount(mCullingCameraCount);
-
 			CameraCullJob(targetCamera); // do this first
 		}
 		
@@ -319,12 +383,9 @@ void dooms::graphics::Graphics_Server::RenderObject(dooms::Camera* const targetC
 	if (Graphics_Setting::IsSortObjectFrontToBack == true)
 	{
 		math::Vector3 cameraPos = targetCamera->GetTransform()->GetPosition();
-		for(size_t layerIndex = 0 ; layerIndex < MAX_LAYER_COUNT ; layerIndex++)
+		for (Renderer* renderer : dooms::RendererComponentStaticIterator::GetSingleton()->GetSortingRendererInLayer(cameraIndex))
 		{
-			for(Renderer* renderer : dooms::RendererComponentStaticIterator::GetSingleton()->GetSortingRendererInLayer(cameraIndex, layerIndex))
-			{
-				renderer->CacheDistanceToCamera(cameraIndex, cameraPos);
-			}
+			renderer->CacheDistanceToCamera(cameraIndex, cameraPos);
 		}
 
 		//Push Multithread Sorting Renderer Front To Back  TO  JobSystem.
@@ -334,10 +395,15 @@ void dooms::graphics::Graphics_Server::RenderObject(dooms::Camera* const targetC
 	const bool targetCamera_IS_CULLED_flag_on = targetCamera->GetCameraFlag(dooms::eCameraFlag::IS_CULLED);
 	for (UINT32 layerIndex = 0; layerIndex < MAX_LAYER_COUNT; layerIndex++)
 	{
-		const std::vector<Renderer*>& renderersInLayer = RendererComponentStaticIterator::GetSingleton()->GetWorkingRendererInLayer(cameraIndex, layerIndex);
+		const std::vector<Renderer*>& renderersInLayer = RendererComponentStaticIterator::GetSingleton()->GetSortedRendererInLayer(cameraIndex);
 		for (Renderer* renderer : renderersInLayer)
 		{
-			if(IsValid(renderer) == true && renderer->GetIsComponentEnabled() == true)
+			if
+			(
+				IsValid(renderer) == true && 
+				renderer->GetOwnerEntityLayerIndex() == layerIndex && 
+				renderer->GetIsComponentEnabled() == true
+			)
 			{
 				if (
 					targetCamera_IS_CULLED_flag_on == false ||

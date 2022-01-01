@@ -18,8 +18,8 @@ void dooms::StaticContainer<Renderer>::AddRendererToStaticContainer(Renderer* co
 
 	for(size_t cameraIndex = 0 ; cameraIndex < MAX_CAMERA_COUNT ; cameraIndex++)
 	{
-		GetWorkingRendererInLayer(cameraIndex, currentEntityLayerIndex).push_back(renderer);
-		GetSortingRendererInLayer(cameraIndex, currentEntityLayerIndex).push_back(renderer);
+		GetSortedRendererInLayer(cameraIndex).push_back(renderer);
+		GetSortingRendererInLayer(cameraIndex).push_back(renderer);
 	}
 
 }
@@ -27,22 +27,20 @@ void dooms::StaticContainer<Renderer>::AddRendererToStaticContainer(Renderer* co
 
 void dooms::StaticContainer<Renderer>::RemoveRendererToStaticContainer(const Renderer* const renderer)
 {
-	UINT32 currentEntityLayerIndex = renderer->GetOwnerEntityLayerIndex();
-
 	for (size_t cameraIndex = 0; cameraIndex < MAX_CAMERA_COUNT; cameraIndex++)
 	{
-		std::vector<Renderer*>& workingRendererInLayer = GetWorkingRendererInLayer(cameraIndex, currentEntityLayerIndex);
+		std::vector<Renderer*>& workingRendererInLayer = GetSortedRendererInLayer(cameraIndex);
 		auto workingIter = std::find(workingRendererInLayer.begin(), workingRendererInLayer.end(), renderer);
 		if (workingIter != workingRendererInLayer.end())
 		{
 			swap_popback::vector_swap_popback(workingRendererInLayer, workingIter);
 		}
 
-		std::vector<Renderer*>& sortingRendererInLayer = GetSortingRendererInLayer(cameraIndex, currentEntityLayerIndex);
-		auto referenceIter = std::find(sortingRendererInLayer.begin(), sortingRendererInLayer.end(), renderer);
-		if (referenceIter != sortingRendererInLayer.end())
+		std::vector<Renderer*>& sortingRenderer = GetSortingRendererInLayer(cameraIndex);
+		auto referenceIter = std::find(sortingRenderer.begin(), sortingRenderer.end(), renderer);
+		if (referenceIter != sortingRenderer.end())
 		{
-			swap_popback::vector_swap_popback(sortingRendererInLayer, referenceIter);
+			swap_popback::vector_swap_popback(sortingRenderer, referenceIter);
 		}
 	}
 }
@@ -55,16 +53,20 @@ void dooms::StaticContainer<Renderer>::OnEntityLayerChanged(Renderer* const rend
 	AddRendererToStaticContainer(renderer);
 }
 
-std::vector<Renderer*>& dooms::StaticContainer<Renderer>::GetWorkingRendererInLayer(const size_t cameraIndex, const size_t layerIndex)
+std::vector<Renderer*>& dooms::StaticContainer<Renderer>::GetSortedRendererInLayer
+(
+	const size_t cameraIndex
+)
 {
-	D_ASSERT(layerIndex >= 0 && layerIndex < MAX_LAYER_COUNT);
-	return this_type::mRenderersInLayer[cameraIndex][mWorkingRendererListIndex][layerIndex];
+	return mRendererList[cameraIndex][mWorkingRendererListIndex];
 }
 
-std::vector<Renderer*>& StaticContainer<Renderer>::GetSortingRendererInLayer(const size_t cameraIndex, const size_t layerIndex)
+std::vector<Renderer*>& StaticContainer<Renderer>::GetSortingRendererInLayer
+(
+	const size_t cameraIndex
+)
 {
-	D_ASSERT(layerIndex >= 0 && layerIndex < MAX_LAYER_COUNT);
-	return this_type::mRenderersInLayer[cameraIndex][(mWorkingRendererListIndex == 0) ? 1 : 0][layerIndex];
+	return mRendererList[cameraIndex][(mWorkingRendererListIndex == 0) ? 1 : 0];
 }
 
 void StaticContainer<Renderer>::ChangeWorkingIndexRenderers()

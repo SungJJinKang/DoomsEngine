@@ -24,9 +24,7 @@ void dooms::MeshRenderer::UpdateCullingEntityBlockViewer()
 			threeDModelMesh->mMeshDatas.mVerticeCount,
 			threeDModelMesh->mMeshIndices.data(),
 			threeDModelMesh->mMeshIndices.size(),
-			threeDModelMesh->mVerticeStride,
-			*reinterpret_cast<const culling::Vec3*>(threeDModelMesh->mAABB3D.mLowerBound.data()),
-			*reinterpret_cast<const culling::Vec3*>(threeDModelMesh->mAABB3D.mUpperBound.data())
+			threeDModelMesh->mVerticeStride
 		);
 	}
 	
@@ -47,14 +45,12 @@ void dooms::MeshRenderer::SetMesh(const graphics::Mesh* const mesh)
 	if (mTargetMesh != nullptr)
 	{
 		AddRendererToCullingSystem();
-
-		const physics::Sphere& boudingSphere = mTargetMesh->GetBoundingSphere();
+		
 		/// <summary>
 		/// MeshRenderer is required to UpdateLocalBVhColliderCache only when Mesh is changed
 		/// </summary>
 		/// <param name="mesh"></param>
-		BVH_Sphere_Node_Object::UpdateLocalColliderCache(boudingSphere);
-		ColliderUpdater<dooms::physics::AABB3D>::UpdateLocalColliderCache(mTargetMesh->GetBoundingBox());
+		BVH_AABB3D_Node_Object::UpdateLocalColliderCache(mTargetMesh->GetBoundingBox());
 		//BVH_Sphere_Node_Object::UpdateBVH_Node();
 
 		//BVH_AABB3D_Node_Object::UpdateLocalBVhColliderCache(mTargetMesh->GetBoundingBox());
