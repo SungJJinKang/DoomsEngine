@@ -271,7 +271,7 @@ xcopy /y /d /f "$(ProjectDir)*.map" "$(TargetDir)"</Command>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>false</OptimizeReferences>
       <GenerateDebugInformation>DebugFull</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>C:\Doom3FromScratch\Doom3\vcpkg_installed\x64-windows\lib;$(SolutionDir)Source\thirdparty\amdUprof\lib\x64;$(SolutionDir)Source\Helper\crossguid\build\Release;C:\assimp-5.1.3\assimp-5.1.3\build\lib\MinSizeRel;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>C:\Doom3FromScratch\Doom3\vcpkg_installed\x64-windows\lib;$(SolutionDir)Source\thirdparty\amdUprof\lib\x64;$(SolutionDir)Source\Helper\crossguid\build\Release;C:\assimp-5.1.3\assimp-5.1.3\build\lib\Release;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>xg.lib;AMDProfileController.lib;ntdll.lib;DirectXTex.lib;glad.lib;glfw3dll.lib;assimp-vc142-mt.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <GenerateMapFile>true</GenerateMapFile>
       <MapFileName>map.map</MapFileName>

@@ -247,6 +247,7 @@ AABB3D AABB3D::EnlargeAABB(const AABB3D& aabb)
 
 void dooms::physics::AABB3D::ApplyModelMatrix(const AABB3D& localAABB, const math::Matrix4x4& modelMatrix, AABB3D& resultAABB)
 {
+	// check 87p http://www.r-5.org/files/books/computers/algo-list/realtime-3d/Christer_Ericson-Real-Time_Collision_Detection-EN.pdf
 
 #ifdef __AVX__
 	const M128F& localAABBLowerBound = *reinterpret_cast<const M128F*>(&localAABB.mLowerBound);
