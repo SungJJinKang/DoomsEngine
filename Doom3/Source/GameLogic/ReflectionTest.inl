@@ -451,62 +451,237 @@ void dooms::GameLogicStartPoint::StartGameLogic()
 		
 	}*/
 
-	const std::vector<std::string> modelAssetNameList =
-	{
-		"StarSparrow01.assbin",
-		"StarSparrow02.assbin",
-		"StarSparrow03.assbin",
-		"StarSparrow04.assbin",
-		"StarSparrow05.assbin",
-		"StarSparrow06.assbin",
-		"StarSparrow07.assbin",
-		"StarSparrow08.assbin",
-		"StarSparrow09.assbin",
-		"StarSparrow10.assbin",
-		"StarSparrow11.assbin",
-		"StarSparrow12.assbin",
-		"StarSparrow13.assbin"
-	};
 
-	const std::vector<std::string> albedoTextureAssetNameList =
 	{
-		"StarSparrow_Yellow.dds",
-		"StarSparrow_Red.dds",
-		"StarSparrow_Purple.dds",
-		"StarSparrow_Orange.dds",
-		"StarSparrow_Green.dds",
-		"StarSparrow_Cyan.dds",
-		"StarSparrow_Blue.dds",
-		"StarSparrow_Black.dds"
-	};
-
-	for(size_t i = 0 ; i < 50 ; i++)
-	{
-		auto modelAsset = assetImporter::AssetManager::GetSingleton()->GetAsset<asset::eAssetType::THREE_D_MODEL>(modelAssetNameList[Random::RandomUIntNumber(0, modelAssetNameList.size() - 1)]);
-		auto shader1 = assetImporter::AssetManager::GetSingleton()->GetAsset<asset::eAssetType::SHADER>("GbufferWriter_PBR.glsl");
-		auto material1 = dooms::CreateDObject<graphics::Material>(shader1);
-		material1->AddTexture(graphics::eTextureBindingPoint::AlbedoTexture, assetImporter::AssetManager::GetSingleton()->GetAsset<asset::eAssetType::TEXTURE>(albedoTextureAssetNameList[Random::RandomUIntNumber(0, albedoTextureAssetNameList.size() - 1)]));
-		material1->AddTexture(graphics::eTextureBindingPoint::NormalTexture, assetImporter::AssetManager::GetSingleton()->GetAsset<asset::eAssetType::TEXTURE>("StarSparrow_Normal.dds"));
-		material1->AddTexture(graphics::eTextureBindingPoint::MetalnessTexture, assetImporter::AssetManager::GetSingleton()->GetAsset<asset::eAssetType::TEXTURE>("StarSparrow_Metallic.dds"));
-		//material1->AddTexture(graphics::eTextureBindingPoint::SpecularTexture, assetImporter::AssetManager::GetSingleton()->GetAsset<asset::eAssetType::TEXTURE>("ufo_spec.dds"));
-
-		for (size_t meshIndex = 0; meshIndex < modelAsset->GetMeshCount(); meshIndex++)
+		const std::vector<std::string> modelAssetNameList =
 		{
-			graphics::Mesh* mesh = modelAsset->GetMesh(meshIndex);
-			if (mesh->GetTargetThreeDModelMesh()->mIsValidMesh == true)
+			"StarSparrow01.assbin",
+			"StarSparrow02.assbin",
+			"StarSparrow03.assbin",
+			"StarSparrow04.assbin",
+			"StarSparrow05.assbin",
+			"StarSparrow06.assbin",
+			"StarSparrow07.assbin",
+			"StarSparrow08.assbin",
+			"StarSparrow09.assbin",
+			"StarSparrow10.assbin",
+			"StarSparrow11.assbin",
+			"StarSparrow12.assbin",
+			"StarSparrow13.assbin"
+		};
+
+		const std::vector<std::string> albedoTextureAssetNameList =
+		{
+			"StarSparrow_Yellow.dds",
+			"StarSparrow_Red.dds",
+			"StarSparrow_Purple.dds",
+			"StarSparrow_Orange.dds",
+			"StarSparrow_Green.dds",
+			"StarSparrow_Cyan.dds",
+			"StarSparrow_Blue.dds",
+			"StarSparrow_Black.dds"
+		};
+
+		for (size_t i = 0; i < 80; i++)
+		{
+			auto modelAsset = assetImporter::AssetManager::GetSingleton()->GetAsset<asset::eAssetType::THREE_D_MODEL>(modelAssetNameList[Random::RandomUIntNumber(0, modelAssetNameList.size() - 1)]);
+			auto shader1 = assetImporter::AssetManager::GetSingleton()->GetAsset<asset::eAssetType::SHADER>("GbufferWriter_PBR.glsl");
+			auto material1 = dooms::CreateDObject<graphics::Material>(shader1);
+			material1->AddTexture(graphics::eTextureBindingPoint::AlbedoTexture, assetImporter::AssetManager::GetSingleton()->GetAsset<asset::eAssetType::TEXTURE>(albedoTextureAssetNameList[Random::RandomUIntNumber(0, albedoTextureAssetNameList.size() - 1)]));
+			material1->AddTexture(graphics::eTextureBindingPoint::NormalTexture, assetImporter::AssetManager::GetSingleton()->GetAsset<asset::eAssetType::TEXTURE>("StarSparrow_Normal.dds"));
+			material1->AddTexture(graphics::eTextureBindingPoint::MetalnessTexture, assetImporter::AssetManager::GetSingleton()->GetAsset<asset::eAssetType::TEXTURE>("StarSparrow_Metallic.dds"));
+			//material1->AddTexture(graphics::eTextureBindingPoint::SpecularTexture, assetImporter::AssetManager::GetSingleton()->GetAsset<asset::eAssetType::TEXTURE>("ufo_spec.dds"));
+
+			for (size_t meshIndex = 0; meshIndex < modelAsset->GetMeshCount(); meshIndex++)
 			{
-				auto entity = currenScene->CreateNewEntity();
-				entity->GetTransform()->SetScale(50.0f, 50.0f, 50.0f);
-				entity->GetTransform()->SetPosition(Random::RandomFloatNumber(-3000.0f, 3000.0f), Random::RandomFloatNumber(-3000.0f, 3000.0f), Random::RandomFloatNumber(-3000.0f, 3000.0f));
-				auto meshRenderer = entity->AddComponent<MeshRenderer>();
-				meshRenderer->SetMesh(mesh);
-				meshRenderer->SetMaterial(material1);
+				graphics::Mesh* mesh = modelAsset->GetMesh(meshIndex);
+				if (mesh->GetTargetThreeDModelMesh()->mIsValidMesh == true)
+				{
+					auto entity = currenScene->CreateNewEntity();
+					entity->GetTransform()->SetScale(10.0f, 10.0f, 10.0f);
+					entity->GetTransform()->SetPosition(Random::RandomFloatNumber(-800.0f, 800.0f), Random::RandomFloatNumber(-800.0f, 800.0f), Random::RandomFloatNumber(-800.0f, 800.0f));
+					auto meshRenderer = entity->AddComponent<MeshRenderer>();
+					meshRenderer->SetMesh(mesh);
+					meshRenderer->SetMaterial(material1);
+				}
+
 			}
 
+
 		}
-
-
 	}
+	
+
+
+	{
+		auto modelAsset = assetImporter::AssetManager::GetSingleton()->GetAsset<asset::eAssetType::THREE_D_MODEL>("PlanetsOBJ.assbin");
+		auto shader1 = assetImporter::AssetManager::GetSingleton()->GetAsset<asset::eAssetType::SHADER>("GbufferWriter_PBR.glsl");
+		auto material1 = dooms::CreateDObject<graphics::Material>(shader1);
+		material1->AddTexture(graphics::eTextureBindingPoint::AlbedoTexture, assetImporter::AssetManager::GetSingleton()->GetAsset<asset::eAssetType::TEXTURE>("2k_earth_daymap.dds"));
+		material1->AddTexture(graphics::eTextureBindingPoint::NormalTexture, assetImporter::AssetManager::GetSingleton()->GetAsset<asset::eAssetType::TEXTURE>("2k_earth_normal_map.dds"));
+		material1->AddTexture(graphics::eTextureBindingPoint::MetalnessTexture, assetImporter::AssetManager::GetSingleton()->GetAsset<asset::eAssetType::TEXTURE>("2k_earth_normal_map.dds"));
+		//material1->AddTexture(graphics::eTextureBindingPoint::SpecularTexture, assetImporter::AssetManager::GetSingleton()->GetAsset<asset::eAssetType::TEXTURE>("2k_earth_specular_map.dds"));
+
+		graphics::Mesh* mesh = modelAsset->GetMesh(0);
+		if (mesh->GetTargetThreeDModelMesh()->mIsValidMesh == true)
+		{
+			auto entity = currenScene->CreateNewEntity();
+			entity->GetTransform()->SetScale(80.0f, 80.0f, 80.0f);
+			entity->GetTransform()->SetPosition(Random::RandomFloatNumber(-800.0f, 800.0f), Random::RandomFloatNumber(-800.0f, 800.0f), Random::RandomFloatNumber(-800.0f, 800.0f));
+			auto meshRenderer = entity->AddComponent<MeshRenderer>();
+			meshRenderer->SetMesh(mesh);
+			meshRenderer->SetMaterial(material1);
+		}
+	}
+
+	{
+		auto modelAsset = assetImporter::AssetManager::GetSingleton()->GetAsset<asset::eAssetType::THREE_D_MODEL>("PlanetsOBJ.assbin");
+		auto shader1 = assetImporter::AssetManager::GetSingleton()->GetAsset<asset::eAssetType::SHADER>("GbufferWriter_PBR.glsl");
+		auto material1 = dooms::CreateDObject<graphics::Material>(shader1);
+		material1->AddTexture(graphics::eTextureBindingPoint::AlbedoTexture, assetImporter::AssetManager::GetSingleton()->GetAsset<asset::eAssetType::TEXTURE>("2k_jupiter.dds"));
+		material1->AddTexture(graphics::eTextureBindingPoint::NormalTexture, assetImporter::AssetManager::GetSingleton()->GetAsset<asset::eAssetType::TEXTURE>("2k_earth_normal_map.dds"));
+		material1->AddTexture(graphics::eTextureBindingPoint::MetalnessTexture, assetImporter::AssetManager::GetSingleton()->GetAsset<asset::eAssetType::TEXTURE>("2k_earth_normal_map.dds"));
+		//material1->AddTexture(graphics::eTextureBindingPoint::SpecularTexture, assetImporter::AssetManager::GetSingleton()->GetAsset<asset::eAssetType::TEXTURE>("2k_earth_specular_map.dds"));
+
+		graphics::Mesh* mesh = modelAsset->GetMesh(0);
+		if (mesh->GetTargetThreeDModelMesh()->mIsValidMesh == true)
+		{
+			auto entity = currenScene->CreateNewEntity();
+			entity->GetTransform()->SetScale(80.0f, 80.0f, 80.0f);
+			entity->GetTransform()->SetPosition(Random::RandomFloatNumber(-800.0f, 800.0f), Random::RandomFloatNumber(-800.0f, 800.0f), Random::RandomFloatNumber(-800.0f, 800.0f));
+			auto meshRenderer = entity->AddComponent<MeshRenderer>();
+			meshRenderer->SetMesh(mesh);
+			meshRenderer->SetMaterial(material1);
+		}
+	}
+
+	{
+		auto modelAsset = assetImporter::AssetManager::GetSingleton()->GetAsset<asset::eAssetType::THREE_D_MODEL>("PlanetsOBJ.assbin");
+		auto shader1 = assetImporter::AssetManager::GetSingleton()->GetAsset<asset::eAssetType::SHADER>("GbufferWriter_PBR.glsl");
+		auto material1 = dooms::CreateDObject<graphics::Material>(shader1);
+		material1->AddTexture(graphics::eTextureBindingPoint::AlbedoTexture, assetImporter::AssetManager::GetSingleton()->GetAsset<asset::eAssetType::TEXTURE>("2k_mars.dds"));
+		material1->AddTexture(graphics::eTextureBindingPoint::NormalTexture, assetImporter::AssetManager::GetSingleton()->GetAsset<asset::eAssetType::TEXTURE>("2k_earth_normal_map.dds"));
+		material1->AddTexture(graphics::eTextureBindingPoint::MetalnessTexture, assetImporter::AssetManager::GetSingleton()->GetAsset<asset::eAssetType::TEXTURE>("2k_earth_normal_map.dds"));
+		//material1->AddTexture(graphics::eTextureBindingPoint::SpecularTexture, assetImporter::AssetManager::GetSingleton()->GetAsset<asset::eAssetType::TEXTURE>("2k_earth_specular_map.dds"));
+
+		graphics::Mesh* mesh = modelAsset->GetMesh(0);
+		if (mesh->GetTargetThreeDModelMesh()->mIsValidMesh == true)
+		{
+			auto entity = currenScene->CreateNewEntity();
+			entity->GetTransform()->SetScale(80.0f, 80.0f, 80.0f);
+			entity->GetTransform()->SetPosition(Random::RandomFloatNumber(-800.0f, 800.0f), Random::RandomFloatNumber(-800.0f, 800.0f), Random::RandomFloatNumber(-800.0f, 800.0f));
+			auto meshRenderer = entity->AddComponent<MeshRenderer>();
+			meshRenderer->SetMesh(mesh);
+			meshRenderer->SetMaterial(material1);
+		}
+	}
+
+	{
+		auto modelAsset = assetImporter::AssetManager::GetSingleton()->GetAsset<asset::eAssetType::THREE_D_MODEL>("PlanetsOBJ.assbin");
+		auto shader1 = assetImporter::AssetManager::GetSingleton()->GetAsset<asset::eAssetType::SHADER>("GbufferWriter_PBR.glsl");
+		auto material1 = dooms::CreateDObject<graphics::Material>(shader1);
+		material1->AddTexture(graphics::eTextureBindingPoint::AlbedoTexture, assetImporter::AssetManager::GetSingleton()->GetAsset<asset::eAssetType::TEXTURE>("2k_mercury.dds"));
+		material1->AddTexture(graphics::eTextureBindingPoint::NormalTexture, assetImporter::AssetManager::GetSingleton()->GetAsset<asset::eAssetType::TEXTURE>("2k_earth_normal_map.dds"));
+		material1->AddTexture(graphics::eTextureBindingPoint::MetalnessTexture, assetImporter::AssetManager::GetSingleton()->GetAsset<asset::eAssetType::TEXTURE>("2k_earth_normal_map.dds"));
+		//material1->AddTexture(graphics::eTextureBindingPoint::SpecularTexture, assetImporter::AssetManager::GetSingleton()->GetAsset<asset::eAssetType::TEXTURE>("2k_earth_specular_map.dds"));
+
+		graphics::Mesh* mesh = modelAsset->GetMesh(0);
+		if (mesh->GetTargetThreeDModelMesh()->mIsValidMesh == true)
+		{
+			auto entity = currenScene->CreateNewEntity();
+			entity->GetTransform()->SetScale(80.0f, 80.0f, 80.0f);
+			entity->GetTransform()->SetPosition(Random::RandomFloatNumber(-800.0f, 800.0f), Random::RandomFloatNumber(-800.0f, 800.0f), Random::RandomFloatNumber(-800.0f, 800.0f));
+			auto meshRenderer = entity->AddComponent<MeshRenderer>();
+			meshRenderer->SetMesh(mesh);
+			meshRenderer->SetMaterial(material1);
+		}
+	}
+
+	{
+		auto modelAsset = assetImporter::AssetManager::GetSingleton()->GetAsset<asset::eAssetType::THREE_D_MODEL>("PlanetsOBJ.assbin");
+		auto shader1 = assetImporter::AssetManager::GetSingleton()->GetAsset<asset::eAssetType::SHADER>("GbufferWriter_PBR.glsl");
+		auto material1 = dooms::CreateDObject<graphics::Material>(shader1);
+		material1->AddTexture(graphics::eTextureBindingPoint::AlbedoTexture, assetImporter::AssetManager::GetSingleton()->GetAsset<asset::eAssetType::TEXTURE>("2k_moon.dds"));
+		material1->AddTexture(graphics::eTextureBindingPoint::NormalTexture, assetImporter::AssetManager::GetSingleton()->GetAsset<asset::eAssetType::TEXTURE>("2k_earth_normal_map.dds"));
+		material1->AddTexture(graphics::eTextureBindingPoint::MetalnessTexture, assetImporter::AssetManager::GetSingleton()->GetAsset<asset::eAssetType::TEXTURE>("2k_earth_normal_map.dds"));
+		//material1->AddTexture(graphics::eTextureBindingPoint::SpecularTexture, assetImporter::AssetManager::GetSingleton()->GetAsset<asset::eAssetType::TEXTURE>("2k_earth_specular_map.dds"));
+
+		graphics::Mesh* mesh = modelAsset->GetMesh(0);
+		if (mesh->GetTargetThreeDModelMesh()->mIsValidMesh == true)
+		{
+			auto entity = currenScene->CreateNewEntity();
+			entity->GetTransform()->SetScale(80.0f, 80.0f, 80.0f);
+			entity->GetTransform()->SetPosition(Random::RandomFloatNumber(-800.0f, 800.0f), Random::RandomFloatNumber(-800.0f, 800.0f), Random::RandomFloatNumber(-800.0f, 800.0f));
+			auto meshRenderer = entity->AddComponent<MeshRenderer>();
+			meshRenderer->SetMesh(mesh);
+			meshRenderer->SetMaterial(material1);
+		}
+	}
+
+	{
+		auto modelAsset = assetImporter::AssetManager::GetSingleton()->GetAsset<asset::eAssetType::THREE_D_MODEL>("PlanetsOBJ.assbin");
+		auto shader1 = assetImporter::AssetManager::GetSingleton()->GetAsset<asset::eAssetType::SHADER>("GbufferWriter_PBR.glsl");
+		auto material1 = dooms::CreateDObject<graphics::Material>(shader1);
+		material1->AddTexture(graphics::eTextureBindingPoint::AlbedoTexture, assetImporter::AssetManager::GetSingleton()->GetAsset<asset::eAssetType::TEXTURE>("2k_mercury.dds"));
+		material1->AddTexture(graphics::eTextureBindingPoint::NormalTexture, assetImporter::AssetManager::GetSingleton()->GetAsset<asset::eAssetType::TEXTURE>("2k_earth_normal_map.dds"));
+		material1->AddTexture(graphics::eTextureBindingPoint::MetalnessTexture, assetImporter::AssetManager::GetSingleton()->GetAsset<asset::eAssetType::TEXTURE>("2k_earth_normal_map.dds"));
+		//material1->AddTexture(graphics::eTextureBindingPoint::SpecularTexture, assetImporter::AssetManager::GetSingleton()->GetAsset<asset::eAssetType::TEXTURE>("2k_earth_specular_map.dds"));
+
+		graphics::Mesh* mesh = modelAsset->GetMesh(0);
+		if (mesh->GetTargetThreeDModelMesh()->mIsValidMesh == true)
+		{
+			auto entity = currenScene->CreateNewEntity();
+			entity->GetTransform()->SetScale(80.0f, 80.0f, 80.0f);
+			entity->GetTransform()->SetPosition(Random::RandomFloatNumber(-800.0f, 800.0f), Random::RandomFloatNumber(-800.0f, 800.0f), Random::RandomFloatNumber(-800.0f, 800.0f));
+			auto meshRenderer = entity->AddComponent<MeshRenderer>();
+			meshRenderer->SetMesh(mesh);
+			meshRenderer->SetMaterial(material1);
+		}
+	}
+
+	{
+		auto modelAsset = assetImporter::AssetManager::GetSingleton()->GetAsset<asset::eAssetType::THREE_D_MODEL>("PlanetsOBJ.assbin");
+		auto shader1 = assetImporter::AssetManager::GetSingleton()->GetAsset<asset::eAssetType::SHADER>("GbufferWriter_PBR.glsl");
+		auto material1 = dooms::CreateDObject<graphics::Material>(shader1);
+		material1->AddTexture(graphics::eTextureBindingPoint::AlbedoTexture, assetImporter::AssetManager::GetSingleton()->GetAsset<asset::eAssetType::TEXTURE>("2k_neptune.dds"));
+		material1->AddTexture(graphics::eTextureBindingPoint::NormalTexture, assetImporter::AssetManager::GetSingleton()->GetAsset<asset::eAssetType::TEXTURE>("2k_earth_normal_map.dds"));
+		material1->AddTexture(graphics::eTextureBindingPoint::MetalnessTexture, assetImporter::AssetManager::GetSingleton()->GetAsset<asset::eAssetType::TEXTURE>("2k_earth_normal_map.dds"));
+		//material1->AddTexture(graphics::eTextureBindingPoint::SpecularTexture, assetImporter::AssetManager::GetSingleton()->GetAsset<asset::eAssetType::TEXTURE>("2k_earth_specular_map.dds"));
+
+		graphics::Mesh* mesh = modelAsset->GetMesh(0);
+		if (mesh->GetTargetThreeDModelMesh()->mIsValidMesh == true)
+		{
+			auto entity = currenScene->CreateNewEntity();
+			entity->GetTransform()->SetScale(80.0f, 80.0f, 80.0f);
+			entity->GetTransform()->SetPosition(Random::RandomFloatNumber(-800.0f, 800.0f), Random::RandomFloatNumber(-800.0f, 800.0f), Random::RandomFloatNumber(-800.0f, 800.0f));
+			auto meshRenderer = entity->AddComponent<MeshRenderer>();
+			meshRenderer->SetMesh(mesh);
+			meshRenderer->SetMaterial(material1);
+		}
+	}
+
+	{
+		auto modelAsset = assetImporter::AssetManager::GetSingleton()->GetAsset<asset::eAssetType::THREE_D_MODEL>("PlanetsOBJ.assbin");
+		auto shader1 = assetImporter::AssetManager::GetSingleton()->GetAsset<asset::eAssetType::SHADER>("GbufferWriter_PBR.glsl");
+		auto material1 = dooms::CreateDObject<graphics::Material>(shader1);
+		material1->AddTexture(graphics::eTextureBindingPoint::AlbedoTexture, assetImporter::AssetManager::GetSingleton()->GetAsset<asset::eAssetType::TEXTURE>("2k_uranus.dds"));
+		material1->AddTexture(graphics::eTextureBindingPoint::NormalTexture, assetImporter::AssetManager::GetSingleton()->GetAsset<asset::eAssetType::TEXTURE>("2k_earth_normal_map.dds"));
+		material1->AddTexture(graphics::eTextureBindingPoint::MetalnessTexture, assetImporter::AssetManager::GetSingleton()->GetAsset<asset::eAssetType::TEXTURE>("2k_earth_normal_map.dds"));
+		//material1->AddTexture(graphics::eTextureBindingPoint::SpecularTexture, assetImporter::AssetManager::GetSingleton()->GetAsset<asset::eAssetType::TEXTURE>("2k_earth_specular_map.dds"));
+
+		graphics::Mesh* mesh = modelAsset->GetMesh(0);
+		if (mesh->GetTargetThreeDModelMesh()->mIsValidMesh == true)
+		{
+			auto entity = currenScene->CreateNewEntity();
+			entity->GetTransform()->SetScale(80.0f, 80.0f, 80.0f);
+			entity->GetTransform()->SetPosition(Random::RandomFloatNumber(-800.0f, 800.0f), Random::RandomFloatNumber(-800.0f, 800.0f), Random::RandomFloatNumber(-800.0f, 800.0f));
+			auto meshRenderer = entity->AddComponent<MeshRenderer>();
+			meshRenderer->SetMesh(mesh);
+			meshRenderer->SetMaterial(material1);
+		}
+	}
+
+
 	/*
 
 	auto a = Renderer::CLASS_TYPE_ID_STATIC();
