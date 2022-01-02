@@ -59,6 +59,8 @@ namespace dooms
 
 
 			dooms::asset::Asset* _ImportAssetInstantly(std::filesystem::path& path, const dooms::asset::eAssetType assetType);
+			void _ImportAssetInstantly(std::vector<std::filesystem::path>& paths, const std::vector<dooms::asset::eAssetType>& assetTypes);
+
 			dooms::assetImporter::AssetFuture _ImportAssetAsync(std::filesystem::path& path, const dooms::asset::eAssetType assetType);
 			std::vector < dooms::assetImporter::AssetFuture> _ImportAssetAsync(std::vector<std::filesystem::path>& paths, const std::vector<dooms::asset::eAssetType>& assetTypes);
 	

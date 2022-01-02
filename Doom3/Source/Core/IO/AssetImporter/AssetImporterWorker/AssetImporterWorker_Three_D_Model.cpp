@@ -80,24 +80,36 @@ bool dooms::assetImporter::AssetImporterWorker_THREE_D_MODEL::ImportThreeDModelA
 
 	D_ASSERT(modelScene != nullptr);
 	
+
+	bool isSuccess = false;
+
 	//scene->mMeshes[0]->
 	// If the import failed, report it
-	if (modelScene != nullptr)
+	if (modelScene != nullptr && path.extension().generic_u8string() == AssetImporterWorker_THREE_D_MODEL::MAIN_3D_MODEL_FILE_FORMAT)
 	{
 		Creat3DModelAsset(modelScene, asset);
-		mAssimpImporter.FreeScene();
 		//apiImporter.Release(); Believe RAII
-		return true;
-	}
-	else
-	{
-		D_DEBUG_LOG(eLogType::D_LOG, "%s : 3D Model Asset has no scene", path.generic_u8string().c_str());
-		mAssimpImporter.FreeScene();
-		return false;
+		isSuccess = true;
 	}
 
-	//modelScene->
-	// We're done. Everything will be cleaned up by the importer destructor
+	try
+	{
+		mAssimpImporter.FreeScene();
+	}
+	catch (const std::exception& ex)
+	{
+		D_DEBUG_LOG(eLogType::D_ERROR, "Fail To Export ASS File : %s", ex.what());
+	}
+	catch (const std::string& ex)
+	{
+		D_DEBUG_LOG(eLogType::D_ERROR, "Fail To Export ASS File : %s", ex.c_str());
+	}
+	catch (...)
+	{
+		NEVER_HAPPEN;
+	}
+
+	return isSuccess;
 }
 
 void AssetImporterWorker_THREE_D_MODEL::InitializeAssimp()
@@ -116,6 +128,15 @@ void AssetImporterWorker_THREE_D_MODEL::InitializeAssimp()
 
 		AssetImporterWorker::IsInitialized = true;
 	}
+}
+
+bool AssetImporterWorker_THREE_D_MODEL::IsValidMesh(const aiMesh* const assimpMesh)
+{
+	return
+		(assimpMesh->mNumUVComponents[0] == 2) &&
+		(assimpMesh->HasTangentsAndBitangents()) &&
+		(assimpMesh->HasNormals()) &&
+		(assimpMesh->HasTextureCoords(0));
 }
 
 AssetImporterWorker_THREE_D_MODEL::AssetImporterWorker_THREE_D_MODEL()
@@ -179,12 +200,18 @@ void dooms::assetImporter::AssetImporterWorker_THREE_D_MODEL::Creat3DModelAsset
 	//pScene->mMeshes[0]->
 	// If the import failed, report it
 	D_ASSERT(pScene != nullptr && pScene->mRootNode != nullptr);
-
+	
 	//Copy Asset meshes
 	asset->mModelMeshAssets.resize(pScene->mNumMeshes, nullptr);
 	for (UINT32 meshIndex = 0; meshIndex < pScene->mNumMeshes; meshIndex++)
 	{
 		auto mesh = pScene->mMeshes[meshIndex];
+
+		if(IsValidMesh(mesh) == false)
+		{
+			asset->mModelMeshAssets[meshIndex].mIsValidMesh = false;
+			continue;
+		}
 
 		asset->mModelMeshAssets[meshIndex].mVertexArrayFlag = 0;
 
@@ -235,10 +262,7 @@ void dooms::assetImporter::AssetImporterWorker_THREE_D_MODEL::Creat3DModelAsset
 
 		// store Vertices
 
-		D_ASSERT(mesh->mNumUVComponents[0] == 2);
-		D_ASSERT(mesh->HasTangentsAndBitangents());
-		D_ASSERT(mesh->HasNormals());
-		D_ASSERT(mesh->HasTextureCoords(0));
+		//D_ASSERT(IsValidMesh(mesh) == true);
 
 		// we support only uv one channel
 
@@ -305,7 +329,7 @@ void dooms::assetImporter::AssetImporterWorker_THREE_D_MODEL::Creat3DModelAsset
 			}
 		}
 
-
+		asset->mModelMeshAssets[meshIndex].mIsValidMesh = true;
 		
 	}
 
@@ -340,7 +364,7 @@ void AssetImporterWorker_THREE_D_MODEL::ClearAssimpLooger()
 {
 	if (AttachedAssimpLogStream)
 	{
-		Assimp::DefaultLogger::get()->detatchStream(AttachedAssimpLogStream.get(), AssimpLoggerStreamSeverity);
+		Assimp::DefaultLogger::get()->detachStream(AttachedAssimpLogStream.get(), AssimpLoggerStreamSeverity);
 		AttachedAssimpLogStream.reset();
 	}
 	Assimp::DefaultLogger::kill();

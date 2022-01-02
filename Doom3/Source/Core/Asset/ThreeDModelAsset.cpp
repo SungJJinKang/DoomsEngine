@@ -102,8 +102,18 @@ const std::vector<dooms::graphics::Mesh>& dooms::asset::ThreeDModelAsset::GetMes
 
 dooms::graphics::Mesh* dooms::asset::ThreeDModelAsset::GetMesh(UINT32 index) 
 {
-	D_ASSERT(index >= 0 && index < GetMeshCount());
-	return &(mMeshes[index]);
+	D_ASSERT(index < GetMeshCount());
+
+	if(index < GetMeshCount())
+	{
+		//D_ASSERT(mMeshes[index].GetTargetThreeDModelMesh()->mIsValidMesh == true);
+		return &mMeshes[index];
+	}
+	else
+	{
+		return nullptr;
+	}
+	
 }
 
 size_t dooms::asset::ThreeDModelAsset::GetMeshCount() const

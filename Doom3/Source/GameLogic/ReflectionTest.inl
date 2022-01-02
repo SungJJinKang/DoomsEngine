@@ -91,7 +91,8 @@ void dooms::GameLogicStartPoint::StartGameLogic()
 	dirLight->SetIntensity(2.0f);
 	dirLight->SetColor({ 1.0f, 1.0f, 1.0f, 1.0f });
 
-	{
+	/*
+	 *{
 		auto entity = currenScene->CreateNewEntity();
 		entity->ChangeDObjectName("PointLight");
 		entity->GetTransform()->SetPosition(200.0f, 0.0f, 0.0f);
@@ -391,7 +392,7 @@ void dooms::GameLogicStartPoint::StartGameLogic()
 		meshRenderer->SetMesh(planetAsset->GetMesh(0));
 		meshRenderer->SetMaterial(material);
 	}
-	
+
 
 	/*
 	{
@@ -420,23 +421,92 @@ void dooms::GameLogicStartPoint::StartGameLogic()
 		autoRotateAround->mRotateAxis.y = 1;
 	}
 
-	*/
+	#1#
 
-	/*
+	
 	{
-		auto entity = currenScene->CreateNewEntity();
-		entity->GetTransform()->SetScale(50.0f, 50.0f, 50.0f);
-		entity->GetTransform()->SetPosition(0, 0, 700);
-		auto meshRenderer = entity->AddComponent<MeshRenderer>();
-		entity->AddComponent<AutoRotate>();
-		meshRenderer->SetMesh(planetAsset->GetMesh(0));
-		meshRenderer->SetMaterial(material);
-		AutoRotateAround* autoRotateAround = entity->AddComponent<AutoRotateAround>();
-		autoRotateAround->mRotateAngle = 1.0f;
-		autoRotateAround->mRotateAxis.y = 1;
-	}
-	*/
+		auto modelAsset = assetImporter::AssetManager::GetSingleton()->GetAsset<asset::eAssetType::THREE_D_MODEL>("StarSparrow09.assbin");
+		auto shader1 = assetImporter::AssetManager::GetSingleton()->GetAsset<asset::eAssetType::SHADER>("GbufferWriter_PBR.glsl");
+		auto material1 = dooms::CreateDObject<graphics::Material>(shader1);
+		material1->AddTexture(graphics::eTextureBindingPoint::AlbedoTexture, assetImporter::AssetManager::GetSingleton()->GetAsset<asset::eAssetType::TEXTURE>("StarSparrow_Red.dds"));
+		material1->AddTexture(graphics::eTextureBindingPoint::NormalTexture, assetImporter::AssetManager::GetSingleton()->GetAsset<asset::eAssetType::TEXTURE>("StarSparrow_Normal.dds"));
+		material1->AddTexture(graphics::eTextureBindingPoint::MetalnessTexture, assetImporter::AssetManager::GetSingleton()->GetAsset<asset::eAssetType::TEXTURE>("StarSparrow_Metallic.dds"));
+		//material1->AddTexture(graphics::eTextureBindingPoint::SpecularTexture, assetImporter::AssetManager::GetSingleton()->GetAsset<asset::eAssetType::TEXTURE>("ufo_spec.dds"));
 
+		for(size_t meshIndex = 0 ; meshIndex < modelAsset->GetMeshCount() ; meshIndex++)
+		{
+			graphics::Mesh* mesh = modelAsset->GetMesh(meshIndex);
+			if (mesh->GetTargetThreeDModelMesh()->mIsValidMesh == true)
+			{
+				auto entity = currenScene->CreateNewEntity();
+				entity->GetTransform()->SetScale(100.0f, 100.0f, 100.0f);
+				entity->GetTransform()->SetPosition(0, 0, 700);
+				auto meshRenderer = entity->AddComponent<MeshRenderer>();
+				meshRenderer->SetMesh(mesh);
+				meshRenderer->SetMaterial(material1);
+			}
+			
+		}
+		
+		
+	}*/
+
+	const std::vector<std::string> modelAssetNameList =
+	{
+		"StarSparrow01.assbin",
+		"StarSparrow02.assbin",
+		"StarSparrow03.assbin",
+		"StarSparrow04.assbin",
+		"StarSparrow05.assbin",
+		"StarSparrow06.assbin",
+		"StarSparrow07.assbin",
+		"StarSparrow08.assbin",
+		"StarSparrow09.assbin",
+		"StarSparrow10.assbin",
+		"StarSparrow11.assbin",
+		"StarSparrow12.assbin",
+		"StarSparrow13.assbin"
+	};
+
+	const std::vector<std::string> albedoTextureAssetNameList =
+	{
+		"StarSparrow_Yellow.dds",
+		"StarSparrow_Red.dds",
+		"StarSparrow_Purple.dds",
+		"StarSparrow_Orange.dds",
+		"StarSparrow_Green.dds",
+		"StarSparrow_Cyan.dds",
+		"StarSparrow_Blue.dds",
+		"StarSparrow_Black.dds"
+	};
+
+	for(size_t i = 0 ; i < 50 ; i++)
+	{
+		auto modelAsset = assetImporter::AssetManager::GetSingleton()->GetAsset<asset::eAssetType::THREE_D_MODEL>(modelAssetNameList[Random::RandomUIntNumber(0, modelAssetNameList.size() - 1)]);
+		auto shader1 = assetImporter::AssetManager::GetSingleton()->GetAsset<asset::eAssetType::SHADER>("GbufferWriter_PBR.glsl");
+		auto material1 = dooms::CreateDObject<graphics::Material>(shader1);
+		material1->AddTexture(graphics::eTextureBindingPoint::AlbedoTexture, assetImporter::AssetManager::GetSingleton()->GetAsset<asset::eAssetType::TEXTURE>(albedoTextureAssetNameList[Random::RandomUIntNumber(0, albedoTextureAssetNameList.size() - 1)]));
+		material1->AddTexture(graphics::eTextureBindingPoint::NormalTexture, assetImporter::AssetManager::GetSingleton()->GetAsset<asset::eAssetType::TEXTURE>("StarSparrow_Normal.dds"));
+		material1->AddTexture(graphics::eTextureBindingPoint::MetalnessTexture, assetImporter::AssetManager::GetSingleton()->GetAsset<asset::eAssetType::TEXTURE>("StarSparrow_Metallic.dds"));
+		//material1->AddTexture(graphics::eTextureBindingPoint::SpecularTexture, assetImporter::AssetManager::GetSingleton()->GetAsset<asset::eAssetType::TEXTURE>("ufo_spec.dds"));
+
+		for (size_t meshIndex = 0; meshIndex < modelAsset->GetMeshCount(); meshIndex++)
+		{
+			graphics::Mesh* mesh = modelAsset->GetMesh(meshIndex);
+			if (mesh->GetTargetThreeDModelMesh()->mIsValidMesh == true)
+			{
+				auto entity = currenScene->CreateNewEntity();
+				entity->GetTransform()->SetScale(50.0f, 50.0f, 50.0f);
+				entity->GetTransform()->SetPosition(Random::RandomFloatNumber(-3000.0f, 3000.0f), Random::RandomFloatNumber(-3000.0f, 3000.0f), Random::RandomFloatNumber(-3000.0f, 3000.0f));
+				auto meshRenderer = entity->AddComponent<MeshRenderer>();
+				meshRenderer->SetMesh(mesh);
+				meshRenderer->SetMaterial(material1);
+			}
+
+		}
+
+
+	}
 	/*
 
 	auto a = Renderer::CLASS_TYPE_ID_STATIC();

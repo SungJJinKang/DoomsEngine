@@ -141,6 +141,8 @@ namespace dooms
 
 
 			virtual dooms::asset::eAssetType GetEAssetType() const final;
+
+			bool GetIsShaderCompiled() const;
 		};
 		
 	}

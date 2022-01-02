@@ -104,12 +104,15 @@ namespace dooms::graphics::meshHelper
 		threeDModelMeshes[0].mAABB3D = physics::AABB3D(minX, maxX);
 		threeDModelMeshes[0].mSphere = physics::Sphere(boudingSphereCenter, std::max(width, height) * 0.5f);
 
+		threeDModelMeshes[0].mIsValidMesh = true;
+
 		ThreeDModelNode* const threeDModelNode = dooms::CreateDObject<ThreeDModelNode>(nullptr);
 		threeDModelNode->mThreeDModelNodeParent = nullptr;
 		threeDModelNode->mModelMeshIndexs.push_back(0);
 
 		asset::ThreeDModelAsset* const threeDModelAsset = dooms::CreateDObject<asset::ThreeDModelAsset>(std::move(threeDModelMeshes), threeDModelNode);
 		assetImporter::AssetManager::GetSingleton()->AddAssetToAssetContainer(threeDModelAsset);
+
 
 		return threeDModelAsset;
 	}
@@ -157,12 +160,15 @@ namespace dooms::graphics::meshHelper
 		threeDModelMeshes[0].mAABB3D = physics::AABB3D(minX, maxX);
 		threeDModelMeshes[0].mSphere = physics::Sphere(math::Vector3(0.0f), 0.5f * std::max(std::abs(rightup.x - leftbottom.x), std::abs(rightup.y - leftbottom.y)));
 
+		threeDModelMeshes[0].mIsValidMesh = true;
+
 		ThreeDModelNode* const threeDModelNode = dooms::CreateDObject<ThreeDModelNode>(nullptr);
 		threeDModelNode->mThreeDModelNodeParent = nullptr;
 		threeDModelNode->mModelMeshIndexs.push_back(0);
 
 		asset::ThreeDModelAsset* const threeDModelAsset = dooms::CreateDObject<asset::ThreeDModelAsset>(std::move(threeDModelMeshes), threeDModelNode);
 		assetImporter::AssetManager::GetSingleton()->AddAssetToAssetContainer(threeDModelAsset);
+
 
 		return threeDModelAsset;
 	}

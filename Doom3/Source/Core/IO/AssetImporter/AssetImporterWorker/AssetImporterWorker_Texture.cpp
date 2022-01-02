@@ -26,8 +26,15 @@ bool dooms::assetImporter::AssetImporterWorker_Texture::ImportTextureAsset(
 
 
 			auto sourceScratchImage = std::make_unique<DirectX::ScratchImage>();
+
 			hr = LoadFromWICFile(sourcepathUTF8.c_str(), DirectX::WIC_FLAGS::WIC_FLAGS_NONE, nullptr, *sourceScratchImage);
 			if (FAILED(hr))
+			{
+				D_DEBUG_LOG(eLogType::D_ERROR, "Fail To Load Texture");
+				return false;
+			}
+
+			if (sourceScratchImage->GetImageCount() == 0)
 			{
 				D_DEBUG_LOG(eLogType::D_ERROR, "Fail To Load Texture");
 				return false;
@@ -45,6 +52,7 @@ bool dooms::assetImporter::AssetImporterWorker_Texture::ImportTextureAsset(
 				break;
 
 			case DXGI_FORMAT::DXGI_FORMAT_R8G8B8A8_UNORM:
+			case DXGI_FORMAT::DXGI_FORMAT_B8G8R8A8_UNORM:
 				compressTargetFormat = DXGI_FORMAT::DXGI_FORMAT_BC3_UNORM;
 				break;
 
@@ -59,10 +67,30 @@ bool dooms::assetImporter::AssetImporterWorker_Texture::ImportTextureAsset(
 				NEVER_HAPPEN;
 				return false;
 			}
+			
+			const DirectX::Image* sourceImage = sourceScratchImage->GetImages();
+			//D_ASSERT(sourceImage->width % 4 == 0 && sourceImage->height % 4 == 0);
 
-			// TODO : �ѹ� ���� �� �ᵵ �ȴ� ���߿� ����
-			const DirectX::Image* sourceImage = sourceScratchImage->GetImage(0, 0, 0); //mip map 0 image
-			D_ASSERT(sourceImage->width % 4 == 0 && sourceImage->height % 4 == 0);
+			
+			/*
+			{
+				DirectX::ScratchImage destImage;
+				hr = FlipRotate(sourceScratchImage->GetImages(), sourceScratchImage->GetImageCount(),
+					sourceScratchImage->GetMetadata(),
+					DirectX::TEX_FR_FLIP_HORIZONTAL, destImage);
+
+				if (FAILED(hr))
+				{
+					D_ASSERT_LOG(false, "Fail To Load Texture");
+					return false;
+				}
+
+				*(sourceScratchImage) = std::move(destImage);
+
+				sourceImage = sourceScratchImage->GetImages();
+			}
+			*/
+			
 
 			auto resizedImage = std::make_unique<DirectX::ScratchImage>();
 

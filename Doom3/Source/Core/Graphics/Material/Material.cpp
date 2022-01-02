@@ -14,6 +14,7 @@ using namespace dooms::graphics;
 void Material::SetShaderAsset(::dooms::asset::ShaderAsset* shaderAsset)
 {
 	D_ASSERT(IsValid(shaderAsset) == true);
+	D_ASSERT(shaderAsset->GetIsShaderCompiled() == true);
 
 	mShaderAsset = shaderAsset;
 

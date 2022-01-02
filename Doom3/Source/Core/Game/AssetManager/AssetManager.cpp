@@ -7,6 +7,8 @@
 #include <IO/AssetImporter/AssetImporterWorker/AssetImporterWorker_Texture.h>
 #include <Asset/Helper/AssetFactory.h>
 
+//#define MULTI_THREAD_ASSET_IMPORT
+
 using namespace dooms::assetImporter;
 
 void dooms::assetImporter::AssetManager::LoadAssetManagerSetting()
@@ -57,10 +59,27 @@ dooms::asset::Asset* AssetManager::_ImportAssetInstantly
 	if(isSuccess == true)
 	{
 		AddAssetToAssetContainer(newAsset);
+
+		newAsset->OnEndImportInSubThread();
+		newAsset->OnEndImportInMainThread();
 	}
 	
 
 	return newAsset;
+}
+
+void AssetManager::_ImportAssetInstantly
+(
+	std::vector<std::filesystem::path>& paths,
+	const std::vector<dooms::asset::eAssetType>& assetTypes
+)
+{
+	D_ASSERT(paths.size() == assetTypes.size());
+
+	for(size_t i = 0 ; i < paths.size() ; i++)
+	{
+		_ImportAssetInstantly(paths[i], assetTypes[i]);
+	}
 }
 
 dooms::assetImporter::AssetFuture AssetManager::_ImportAssetAsync(std::filesystem::path& path, const dooms::asset::eAssetType assetType)
@@ -251,15 +270,23 @@ void dooms::assetImporter::AssetManager::ImportEntireAsset()
 		}
 		
 	}
-	
+
+#ifdef MULTI_THREAD_ASSET_IMPORT
 	std::vector<dooms::assetImporter::AssetFuture> assetFutureList = _ImportAssetAsync(pathList, assetTypeList);
-	for(dooms::assetImporter::AssetFuture& future : assetFutureList)
+	for (dooms::assetImporter::AssetFuture& future : assetFutureList)
 	{
 		future.WaitAsset();
 	}
+	mAssetImporterWorkerManager.ClearAssetImporterWorker();
+#else
+	_ImportAssetInstantly(pathList, assetTypeList);
+#endif
 	
 
-	mAssetImporterWorkerManager.ClearAssetImporterWorker();
+	
+	
+
+	
 	
 }
 

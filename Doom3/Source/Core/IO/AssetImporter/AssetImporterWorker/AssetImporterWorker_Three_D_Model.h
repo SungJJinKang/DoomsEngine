@@ -8,6 +8,7 @@
 #include "AssetImporterWorker_Three_D_Model.reflection.h"
 struct aiScene;
 struct aiNode;
+struct aiMesh;
 namespace dooms
 {
 	class ThreeDModelMesh;
@@ -33,6 +34,8 @@ namespace dooms
 			void SetThreeDModelNodesData(ThreeDModelNode* currentNode, aiNode* currentAssimpNode, ThreeDModelNode* parentNode, ::dooms::asset::ThreeDModelAsset* modelAsset, const aiScene* assimpScene);
 			bool ImportThreeDModelAsset(const std::filesystem::path& path, ::dooms::asset::ThreeDModelAsset* asset);
 			void InitializeAssimp();
+
+			bool IsValidMesh(const aiMesh* const assimpMesh);
 
 			Assimp::Importer mAssimpImporter;
 

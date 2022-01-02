@@ -92,6 +92,9 @@ namespace dooms
 	public:
 
 		D_PROPERTY()
+		bool mIsValidMesh;
+
+		D_PROPERTY()
 		std::string mName;
 
 		D_PROPERTY()

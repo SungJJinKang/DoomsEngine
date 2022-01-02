@@ -445,6 +445,15 @@ dooms::asset::eAssetType dooms::asset::ShaderAsset::GetEAssetType() const
 	return dooms::asset::eAssetType::SHADER;
 }
 
+bool dooms::asset::ShaderAsset::GetIsShaderCompiled() const
+{
+	const UINT32 vertexId = GetVertexId();
+	const UINT32 fragmentId = GetFragmentId();
+	const UINT32 geometryId = GetGeometryId();
+
+	return (vertexId != 0 || fragmentId != 0 || geometryId != 0);
+}
+
 dooms::asset::ShaderAsset::ShaderText::ShaderText(
 	std::string vertexShaderText, 
 	std::string fragmentShaderText, 
