@@ -19,6 +19,12 @@ namespace dooms
 
 		void OnEndOfFrame_Component() override;
 
+	public:
+
+		AutoRotate();
+
+		D_PROPERTY()
+		math::Vector3 RotateSpeed;
 	};
 
 }
