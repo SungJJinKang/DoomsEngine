@@ -112,7 +112,7 @@ void Graphics_Server::PreCullJob()
 {
 	mCullingCameraCount = 0;
 
-	mCullingSystem->SetThreadCount(resource::JobSystem::GetSingleton()->GetSubThreadCount());
+	mCullingSystem->SetThreadCount(resource::JobSystem::GetSingleton()->GetSubThreadCount() + 1);
 
 	D_START_PROFILING(mFrotbiteCullingSystem_ResetCullJobStat, dooms::profiler::eProfileLayers::Rendering);
 	mCullingSystem->ResetCullJobState();
@@ -141,6 +141,7 @@ void Graphics_Server::CameraCullJob(dooms::Camera* const camera)
 
 		D_START_PROFILING(Push_Culling_Job_To_Linera_Culling_System, dooms::profiler::eProfileLayers::Rendering);
 		resource::JobSystem::GetSingleton()->PushBackJobToAllThreadWithNoSTDFuture(std::function<void()>(mCullingSystem->GetCullJobInLambda(camera->CameraIndexInCullingSystem)));
+		mCullingSystem->GetCullJobInLambda(camera->CameraIndexInCullingSystem)();
 		D_END_PROFILING(Push_Culling_Job_To_Linera_Culling_System);
 	}
 	
@@ -383,17 +384,7 @@ void dooms::graphics::Graphics_Server::RenderObject(dooms::Camera* const targetC
 
 	targetCamera->UpdateUniformBufferObject();
 	std::future<void> IsFinishedSortingReferernceRenderers;
-
-	if (targetCamera->GetIsCullJobEnabled() == true)
-	{
-		D_START_PROFILING(WAIT_CULLJOB, dooms::profiler::eProfileLayers::Rendering);
-		mCullingSystem->WaitToFinishCullJob(targetCamera->CameraIndexInCullingSystem); // Waiting time is almost zero
-		//resource::JobSystem::GetSingleton()->SetMemoryBarrierOnAllSubThreads();
-		D_END_PROFILING(WAIT_CULLJOB);
-
-		std::atomic_thread_fence(std::memory_order_acquire);
-	}
-
+	
 	if (Graphics_Setting::IsSortObjectFrontToBack == true)
 	{
 		math::Vector3 cameraPos = targetCamera->GetTransform()->GetPosition();
