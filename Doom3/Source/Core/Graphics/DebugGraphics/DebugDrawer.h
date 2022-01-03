@@ -36,7 +36,7 @@ namespace dooms
 			
 			bool bmIsVertexDataSendToGPUAtCurrentFrame{ false };
 
-			std::mutex mMextex;
+			std::mutex mMextex{};
 
 			Mesh mDebugMesh{};
 

@@ -322,8 +322,6 @@ void dooms::graphics::DebugDrawer::BufferVertexDataToGPU()
 
 void dooms::graphics::DebugDrawer::DebugDraw3DSphere(const math::Vector3& center, const float radius, const eColor color)
 {
-	std::scoped_lock<std::mutex> lock{ mMextex };
-
 	const FLOAT32 intervalRadian = math::PI * 2 / 72.0f;
 
 
