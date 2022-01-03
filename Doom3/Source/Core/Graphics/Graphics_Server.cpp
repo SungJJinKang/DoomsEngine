@@ -388,15 +388,19 @@ void dooms::graphics::Graphics_Server::RenderObject(dooms::Camera* const targetC
 	if (Graphics_Setting::IsSortObjectFrontToBack == true)
 	{
 		math::Vector3 cameraPos = targetCamera->GetTransform()->GetPosition();
+
+		D_START_PROFILING(CacheDistanceToCamera, dooms::profiler::eProfileLayers::Rendering);
 		for (Renderer* renderer : dooms::RendererComponentStaticIterator::GetSingleton()->GetSortingRendererInLayer(cameraIndex))
 		{
 			renderer->CacheDistanceToCamera(cameraIndex, cameraPos);
 		}
+		D_END_PROFILING(CacheDistanceToCamera);
 
 		//Push Multithread Sorting Renderer Front To Back  TO  JobSystem.
 		IsFinishedSortingReferernceRenderers = resource::JobSystem::GetSingleton()->PushBackJobToPriorityQueue(std::function<void()>(dooms::graphics::SortFrontToBackSolver::GetSortRendererLambda(cameraIndex)));
 	}
-	
+
+	D_START_PROFILING(DrawLoop, dooms::profiler::eProfileLayers::Rendering);
 	const bool targetCamera_IS_CULLED_flag_on = targetCamera->GetCameraFlag(dooms::eCameraFlag::IS_CULLED);
 	for (UINT32 layerIndex = 0; layerIndex < MAX_LAYER_COUNT; layerIndex++)
 	{
@@ -421,7 +425,7 @@ void dooms::graphics::Graphics_Server::RenderObject(dooms::Camera* const targetC
 			}
 		}
 	}
-
+	D_END_PROFILING(DrawLoop);
 
 	//Wait Multithread Sorting Renderer Front To Back  TO  JobSystem finished.
 	if(IsFinishedSortingReferernceRenderers.valid() == true)
