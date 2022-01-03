@@ -10,7 +10,7 @@ namespace dooms
 		GENERATE_BODY()
 
 		D_PROPERTY(READONLY)
-		FLOAT32 mSpeed = 5.0f;
+		FLOAT32 mSpeed = 2.0f;
 
 	protected:
 
