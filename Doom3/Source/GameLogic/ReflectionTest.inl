@@ -42,21 +42,6 @@ void dooms::GameLogicStartPoint::StartGameLogic()
 
 	auto currenScene = dooms::Scene::GetCurrentWorld();
 
-	auto a = sizeof(dooms::Entity);
-
-	//lightEntity->AddComponent<AutoRotate>();
-
-	//auto& threedasset = assetImporter::AssetManager::GetSingleton()->GetAsset<asset::eAssetType::THREE_D_MODEL>(0);
-	auto threedasset = assetImporter::AssetManager::GetSingleton()->GetAsset<asset::eAssetType::THREE_D_MODEL>("cerberus.assbin");
-	auto shader = assetImporter::AssetManager::GetSingleton()->GetAsset<asset::eAssetType::SHADER>("GbufferWriter_PBR.glsl");
-	auto material = dooms::CreateDObject<graphics::Material>(shader);
-	material->AddTexture(graphics::eTextureBindingPoint::AlbedoTexture, assetImporter::AssetManager::GetSingleton()->GetAsset<asset::eAssetType::TEXTURE>("cerberus_A.dds"));
-	material->AddTexture(graphics::eTextureBindingPoint::NormalTexture, assetImporter::AssetManager::GetSingleton()->GetAsset<asset::eAssetType::TEXTURE>("cerberus_N.dds"));
-	material->AddTexture(graphics::eTextureBindingPoint::MetalnessTexture, assetImporter::AssetManager::GetSingleton()->GetAsset<asset::eAssetType::TEXTURE>("cerberus_M.dds"));
-	material->AddTexture(graphics::eTextureBindingPoint::RoughnessTexture, assetImporter::AssetManager::GetSingleton()->GetAsset<asset::eAssetType::TEXTURE>("cerberus_R.dds"));
-
-	auto planetAsset = assetImporter::AssetManager::GetSingleton()->GetAsset<asset::eAssetType::THREE_D_MODEL>("planet.assbin");
-
 	FireBulletComponent* fireComponent;
 	{
 		auto entity1 = currenScene->CreateNewEntity();
@@ -68,6 +53,7 @@ void dooms::GameLogicStartPoint::StartGameLogic()
 		entity1->GetTransform()->SetRotation(0.0f, 0.0f, 0.0f);
 		entity1Camera->SetProjectionMode(dooms::Camera::eProjectionType::Perspective);
 		entity1Camera->SetClippingPlaneNear(1.0f);
+		entity1Camera->SetClippingPlaneFar(4500.0f);
 		entity1->AddComponent<Move_WASD>();
 
 		//entity1->AddComponent<ExportTextureTester>();
@@ -498,8 +484,9 @@ void dooms::GameLogicStartPoint::StartGameLogic()
 				if (mesh->GetTargetThreeDModelMesh()->mIsValidMesh == true)
 				{
 					auto entity = currenScene->CreateNewEntity();
+					entity->GetTransform()->SetRotation(0.0f, Random::RandomFloatNumber(-90.0f, 90.0f), 0.0f);
 					entity->GetTransform()->SetScale(10.0f, 10.0f, 10.0f);
-					entity->GetTransform()->SetPosition(Random::RandomFloatNumber(-800.0f, 800.0f), Random::RandomFloatNumber(-800.0f, 800.0f), Random::RandomFloatNumber(-800.0f, 800.0f));
+					entity->GetTransform()->SetPosition(Random::RandomFloatNumber(-1500.0f, 1500.0f), Random::RandomFloatNumber(-1500.0f, 1500.0f), Random::RandomFloatNumber(-1500.0f, 1500.0f));
 					auto meshRenderer = entity->AddComponent<MeshRenderer>();
 					meshRenderer->SetMesh(mesh);
 					meshRenderer->SetMaterial(material1);
@@ -527,7 +514,7 @@ void dooms::GameLogicStartPoint::StartGameLogic()
 		{
 			auto entity = currenScene->CreateNewEntity();
 			entity->GetTransform()->SetScale(80.0f, 80.0f, 80.0f);
-			entity->GetTransform()->SetPosition(Random::RandomFloatNumber(-800.0f, 800.0f), Random::RandomFloatNumber(-800.0f, 800.0f), Random::RandomFloatNumber(-800.0f, 800.0f));
+			entity->GetTransform()->SetPosition(Random::RandomFloatNumber(-1500.0f, 1500.0f), Random::RandomFloatNumber(-1500.0f, 1500.0f), Random::RandomFloatNumber(-1500.0f, 1500.0f));
 			auto meshRenderer = entity->AddComponent<MeshRenderer>();
 			meshRenderer->SetMesh(mesh);
 			meshRenderer->SetMaterial(material1);
@@ -547,8 +534,8 @@ void dooms::GameLogicStartPoint::StartGameLogic()
 		if (mesh->GetTargetThreeDModelMesh()->mIsValidMesh == true)
 		{
 			auto entity = currenScene->CreateNewEntity();
-			entity->GetTransform()->SetScale(80.0f, 80.0f, 80.0f);
-			entity->GetTransform()->SetPosition(Random::RandomFloatNumber(-800.0f, 800.0f), Random::RandomFloatNumber(-800.0f, 800.0f), Random::RandomFloatNumber(-800.0f, 800.0f));
+			entity->GetTransform()->SetScale(100.0f, 100.0f, 100.0f);
+			entity->GetTransform()->SetPosition(Random::RandomFloatNumber(-1500.0f, 1500.0f), Random::RandomFloatNumber(-1500.0f, 1500.0f), Random::RandomFloatNumber(-1500.0f, 1500.0f));
 			auto meshRenderer = entity->AddComponent<MeshRenderer>();
 			meshRenderer->SetMesh(mesh);
 			meshRenderer->SetMaterial(material1);
@@ -568,8 +555,8 @@ void dooms::GameLogicStartPoint::StartGameLogic()
 		if (mesh->GetTargetThreeDModelMesh()->mIsValidMesh == true)
 		{
 			auto entity = currenScene->CreateNewEntity();
-			entity->GetTransform()->SetScale(80.0f, 80.0f, 80.0f);
-			entity->GetTransform()->SetPosition(Random::RandomFloatNumber(-800.0f, 800.0f), Random::RandomFloatNumber(-800.0f, 800.0f), Random::RandomFloatNumber(-800.0f, 800.0f));
+			entity->GetTransform()->SetScale(90.0f, 90.0f, 90.0f);
+			entity->GetTransform()->SetPosition(Random::RandomFloatNumber(-1500.0f, 1500.0f), Random::RandomFloatNumber(-1500.0f, 1500.0f), Random::RandomFloatNumber(-1500.0f, 1500.0f));
 			auto meshRenderer = entity->AddComponent<MeshRenderer>();
 			meshRenderer->SetMesh(mesh);
 			meshRenderer->SetMaterial(material1);
@@ -589,8 +576,8 @@ void dooms::GameLogicStartPoint::StartGameLogic()
 		if (mesh->GetTargetThreeDModelMesh()->mIsValidMesh == true)
 		{
 			auto entity = currenScene->CreateNewEntity();
-			entity->GetTransform()->SetScale(80.0f, 80.0f, 80.0f);
-			entity->GetTransform()->SetPosition(Random::RandomFloatNumber(-800.0f, 800.0f), Random::RandomFloatNumber(-800.0f, 800.0f), Random::RandomFloatNumber(-800.0f, 800.0f));
+			entity->GetTransform()->SetScale(50.0f, 50.0f, 50.0f);
+			entity->GetTransform()->SetPosition(Random::RandomFloatNumber(-1500.0f, 1500.0f), Random::RandomFloatNumber(-1500.0f, 1500.0f), Random::RandomFloatNumber(-1500.0f, 1500.0f));
 			auto meshRenderer = entity->AddComponent<MeshRenderer>();
 			meshRenderer->SetMesh(mesh);
 			meshRenderer->SetMaterial(material1);
@@ -611,7 +598,7 @@ void dooms::GameLogicStartPoint::StartGameLogic()
 		{
 			auto entity = currenScene->CreateNewEntity();
 			entity->GetTransform()->SetScale(80.0f, 80.0f, 80.0f);
-			entity->GetTransform()->SetPosition(Random::RandomFloatNumber(-800.0f, 800.0f), Random::RandomFloatNumber(-800.0f, 800.0f), Random::RandomFloatNumber(-800.0f, 800.0f));
+			entity->GetTransform()->SetPosition(Random::RandomFloatNumber(-1500.0f, 1500.0f), Random::RandomFloatNumber(-1500.0f, 1500.0f), Random::RandomFloatNumber(-1500.0f, 1500.0f));
 			auto meshRenderer = entity->AddComponent<MeshRenderer>();
 			meshRenderer->SetMesh(mesh);
 			meshRenderer->SetMaterial(material1);
@@ -631,8 +618,8 @@ void dooms::GameLogicStartPoint::StartGameLogic()
 		if (mesh->GetTargetThreeDModelMesh()->mIsValidMesh == true)
 		{
 			auto entity = currenScene->CreateNewEntity();
-			entity->GetTransform()->SetScale(80.0f, 80.0f, 80.0f);
-			entity->GetTransform()->SetPosition(Random::RandomFloatNumber(-800.0f, 800.0f), Random::RandomFloatNumber(-800.0f, 800.0f), Random::RandomFloatNumber(-800.0f, 800.0f));
+			entity->GetTransform()->SetScale(50.0f, 50.0f, 50.0f);
+			entity->GetTransform()->SetPosition(Random::RandomFloatNumber(-1500.0f, 1500.0f), Random::RandomFloatNumber(-1500.0f, 1500.0f), Random::RandomFloatNumber(-1500.0f, 1500.0f));
 			auto meshRenderer = entity->AddComponent<MeshRenderer>();
 			meshRenderer->SetMesh(mesh);
 			meshRenderer->SetMaterial(material1);
@@ -652,8 +639,8 @@ void dooms::GameLogicStartPoint::StartGameLogic()
 		if (mesh->GetTargetThreeDModelMesh()->mIsValidMesh == true)
 		{
 			auto entity = currenScene->CreateNewEntity();
-			entity->GetTransform()->SetScale(80.0f, 80.0f, 80.0f);
-			entity->GetTransform()->SetPosition(Random::RandomFloatNumber(-800.0f, 800.0f), Random::RandomFloatNumber(-800.0f, 800.0f), Random::RandomFloatNumber(-800.0f, 800.0f));
+			entity->GetTransform()->SetScale(100.0f, 100.0f, 100.0f);
+			entity->GetTransform()->SetPosition(Random::RandomFloatNumber(-1500.0f, 1500.0f), Random::RandomFloatNumber(-1500.0f, 1500.0f), Random::RandomFloatNumber(-1500.0f, 1500.0f));
 			auto meshRenderer = entity->AddComponent<MeshRenderer>();
 			meshRenderer->SetMesh(mesh);
 			meshRenderer->SetMaterial(material1);
@@ -674,13 +661,49 @@ void dooms::GameLogicStartPoint::StartGameLogic()
 		{
 			auto entity = currenScene->CreateNewEntity();
 			entity->GetTransform()->SetScale(80.0f, 80.0f, 80.0f);
-			entity->GetTransform()->SetPosition(Random::RandomFloatNumber(-800.0f, 800.0f), Random::RandomFloatNumber(-800.0f, 800.0f), Random::RandomFloatNumber(-800.0f, 800.0f));
+			entity->GetTransform()->SetPosition(Random::RandomFloatNumber(-1500.0f, 1500.0f), Random::RandomFloatNumber(-1500.0f, 1500.0f), Random::RandomFloatNumber(-1500.0f, 1500.0f));
 			auto meshRenderer = entity->AddComponent<MeshRenderer>();
 			meshRenderer->SetMesh(mesh);
 			meshRenderer->SetMaterial(material1);
 		}
 	}
 
+	{
+		auto modelAsset = assetImporter::AssetManager::GetSingleton()->GetAsset<asset::eAssetType::THREE_D_MODEL>("Rock.assbin");
+		auto shader1 = assetImporter::AssetManager::GetSingleton()->GetAsset<asset::eAssetType::SHADER>("GbufferWriter_PBR.glsl");
+		auto material1 = dooms::CreateDObject<graphics::Material>(shader1);
+		material1->AddTexture(graphics::eTextureBindingPoint::AlbedoTexture, assetImporter::AssetManager::GetSingleton()->GetAsset<asset::eAssetType::TEXTURE>("Rock_albedo.dds"));
+		material1->AddTexture(graphics::eTextureBindingPoint::NormalTexture, assetImporter::AssetManager::GetSingleton()->GetAsset<asset::eAssetType::TEXTURE>("Rock_normal.dds"));
+		material1->AddTexture(graphics::eTextureBindingPoint::MetalnessTexture, assetImporter::AssetManager::GetSingleton()->GetAsset<asset::eAssetType::TEXTURE>("Rock_metallic.dds"));
+		for (size_t i = 0; i < 700; i++)
+		{
+			
+		
+			//material1->AddTexture(graphics::eTextureBindingPoint::SpecularTexture, assetImporter::AssetManager::GetSingleton()->GetAsset<asset::eAssetType::TEXTURE>("ufo_spec.dds"));
+
+			for (size_t meshIndex = 0; meshIndex < modelAsset->GetMeshCount(); meshIndex++)
+			{
+				graphics::Mesh* mesh = modelAsset->GetMesh(meshIndex);
+				if (mesh->GetTargetThreeDModelMesh()->mIsValidMesh == true)
+				{
+					auto entity = currenScene->CreateNewEntity();
+					const float scale = Random::RandomFloatNumber(0.1f, 1.0f);
+					entity->GetTransform()->SetScale(scale, scale, scale);
+					entity->GetTransform()->SetRotation(Random::RandomFloatNumber(0.0f, 90.0f), Random::RandomFloatNumber(0.0f, 90.0f), Random::RandomFloatNumber(0.0f, 90.0f));
+					entity->GetTransform()->SetPosition(Random::RandomFloatNumber(-1500.0f, 1500.0f), Random::RandomFloatNumber(-1500.0f, 1500.0f), Random::RandomFloatNumber(-1500.0f, 1500.0f));
+					auto meshRenderer = entity->AddComponent<MeshRenderer>();
+					meshRenderer->SetMesh(mesh);
+					meshRenderer->SetMaterial(material1);
+
+					auto autorotateComponent = entity->AddComponent<AutoRotate>();
+					autorotateComponent->RotateSpeed = { Random::RandomFloatNumber(-0.6f, 0.6f) , Random::RandomFloatNumber(-0.6f, 0.6f) , Random::RandomFloatNumber(-0.6f, 0.6f) };
+				}
+
+			}
+
+
+		}
+	}
 
 	/*
 
