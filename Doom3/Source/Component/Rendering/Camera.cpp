@@ -319,7 +319,7 @@ void Camera::OnChangedByGUI(const dooms::reflection::DField& field_of_changed_fi
 {
 	Base::OnChangedByGUI(field_of_changed_field);
 
-	
+	UpdateCallback();
 
 	
 

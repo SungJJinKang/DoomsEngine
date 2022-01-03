@@ -7,7 +7,7 @@
 #include <IO/AssetImporter/AssetImporterWorker/AssetImporterWorker_Texture.h>
 #include <Asset/Helper/AssetFactory.h>
 
-//#define MULTI_THREAD_ASSET_IMPORT
+#define MULTI_THREAD_ASSET_IMPORT
 
 using namespace dooms::assetImporter;
 
