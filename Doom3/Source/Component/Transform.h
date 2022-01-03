@@ -206,6 +206,11 @@ namespace dooms
 		{
 			SetRotation(static_cast<math::Quaternion>(math::lookAt(mTransformCoreData.mPosition, target.mTransformCoreData.mPosition, up)));
 		}
+
+		FORCE_INLINE void LookAt(const math::Vector3& targetPoint, const math::Vector3& up) noexcept
+		{
+			SetRotation(static_cast<math::Quaternion>(math::lookAt(mTransformCoreData.mPosition, targetPoint, up)));
+		}
 		
 		FORCE_INLINE void Rotate(const math::Quaternion& quat, const eSpace& relativeTo) noexcept
 		{
