@@ -80,6 +80,7 @@ namespace dooms
 			
 			void PreRender();
 			void Render();
+			void ProfilingCullingSystem();
 			void PostRender();
 
 			void UpdateOverDrawVisualization(dooms::Camera* const targetCamera, const size_t cameraIndex);

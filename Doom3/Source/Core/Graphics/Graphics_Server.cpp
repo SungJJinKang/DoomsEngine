@@ -341,10 +341,23 @@ void dooms::graphics::Graphics_Server::Render()
 	
 }
 
+void Graphics_Server::ProfilingCullingSystem()
+{
+#if defined(DEBUG_MODE) || defined(ALWAYS_PROFILING)
+	auto& profilingDatas = mCullingSystem->mEveryCullingProfiler.GetProfilingDatas();
+	for(auto& data : profilingDatas)
+	{
+		const std::string cullingModuleTag{ data.first.data(), data.first.size() };
+		dooms::profiling::profilingManager::AddProfilingData(cullingModuleTag.c_str(), (float)data.second.mElapsedTime);
+	}
+#endif
+}
+
 void Graphics_Server::PostRender()
 {
 	dooms::ui::engineGUIServer::PostRender();
 
+	ProfilingCullingSystem();
 }
 
 void dooms::graphics::Graphics_Server::UpdateOverDrawVisualization(dooms::Camera* const targetCamera, const size_t cameraIndex)
