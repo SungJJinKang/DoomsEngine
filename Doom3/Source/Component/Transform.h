@@ -35,7 +35,7 @@ namespace dooms
 
 	private:
 
-		D_PROPERTY(CALLBACK="SetPosition")
+		D_PROPERTY(CALLBACK = "SetPosition")
 		TransformCoreData mTransformCoreData alignas(64);
 
 		/// <summary>

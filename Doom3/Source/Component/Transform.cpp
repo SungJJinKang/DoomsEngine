@@ -45,6 +45,19 @@ void dooms::Transform::OnChangedByGUI(const dooms::reflection::DField& dFieldOfC
 {
 	Base::OnChangedByGUI(dFieldOfChangedField);
 
+	if(std::strcmp(dFieldOfChangedField.GetFieldName(), "mTransformCoreData") == 0)
+	{
+		SetPosition();
+	}
+	else if (std::strcmp(dFieldOfChangedField.GetFieldName(), "mScale") == 0)
+	{
+		SetScale();
+	}
+	else if (std::strcmp(dFieldOfChangedField.GetFieldName(), "mRotation") == 0)
+	{
+		SetRotation();
+	}
+
 }
 
 
