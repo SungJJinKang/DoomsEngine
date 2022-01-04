@@ -14,25 +14,25 @@ void dooms::PortfolioComponent::OnChangedByGUI(const dooms::reflection::DField& 
 
 void dooms::PortfolioComponent::UpdateGUI()
 {
-	dooms::graphics::Graphics_Setting::IsSortObjectFrontToBack = Is_Enabled_MultiThread_SortingFrontToBack;
-	dooms::graphics::Graphics_Setting::IsOverDrawVisualizationEnabled = Is_Enabled_OverdrawDebugger;
+	dooms::graphics::Graphics_Setting::IsSortObjectFrontToBack = Enabled_MultiThread_SortingFrontToBack;
+	dooms::graphics::Graphics_Setting::IsOverDrawVisualizationEnabled = OverdrawDebugger;
 
 	if (DeferredRenderingDebuggerController* component = GetOwnerEntity()->GetComponent<DeferredRenderingDebuggerController>())
 	{
-		component->SetPIPVisible(Is_Enabled_DeferredRenderingDebugger);
+		component->SetPIPVisible(Enabled_DeferredRenderingDebugger);
 
 	}
 
 	dooms::physics::Physics_Setting::SetIsPhysicsOn(Is_Enabled_CollisionDebugging);
 	dooms::physics::Physics_Setting::IS_RENDER_PHYSICS_RAYCASTING_DEBUGGER = Is_Enabled_CollisionDebugging;
 
-	dooms::graphics::Graphics_Setting::IsDrawMaskedOcclusionCullingBinTriangleStageDebugger = Is_Enabled_MaskedSWOcclusionCullingBinsStageDebugging;
+	dooms::graphics::Graphics_Setting::IsDrawMaskedOcclusionCullingBinTriangleStageDebugger = See_MaskedSWOcclusionCulling_Occluder;
 	dooms::graphics::Graphics_Setting::IsDrawMaskedOcclusionCullingTileCoverageMaskDebugger = Is_Enabled_MaskedSWOcclusionCullingTileCoverageMaskDebugging;
-	dooms::graphics::Graphics_Setting::IsDrawMaskedOcclusionCullingTileL0MaxDepthValueDebugger = Is_Enabled_MaskedSWOcclusionCullingTileL0MaxDepthValueDebugging;
+	dooms::graphics::Graphics_Setting::IsDrawMaskedOcclusionCullingTileL0MaxDepthValueDebugger = See_MaskedSWOcclusionCulling_DepthBuffer;
 
 
-	dooms::graphics::Graphics_Server::GetSingleton()->mCullingSystem->SetEnabledCullingModule(culling::EveryCulling::CullingModuleType::_ViewFrustumCulling, _EnableViewFrustumCulling);
-	dooms::graphics::Graphics_Server::GetSingleton()->mCullingSystem->SetEnabledCullingModule(culling::EveryCulling::CullingModuleType::_MaskedSWOcclusionCulling, _EnableMaskedSWOcclusionCulling);
+	dooms::graphics::Graphics_Server::GetSingleton()->mCullingSystem->SetEnabledCullingModule(culling::EveryCulling::CullingModuleType::_ViewFrustumCulling, Enable_Multithread_SW_ViewFrustumCulling);
+	dooms::graphics::Graphics_Server::GetSingleton()->mCullingSystem->SetEnabledCullingModule(culling::EveryCulling::CullingModuleType::_MaskedSWOcclusionCulling, Enable_Multithread_SW_ViewFrustumCulling);
 }
 
 void dooms::PortfolioComponent::InitComponent()
@@ -40,19 +40,19 @@ void dooms::PortfolioComponent::InitComponent()
 
 	Base::InitComponent();
 	
-	Is_Enabled_MultiThread_SortingFrontToBack = true;
+	Enabled_MultiThread_SortingFrontToBack = true;
 	dooms::graphics::Graphics_Setting::IsSortObjectFrontToBack = true;
-	dooms::graphics::Graphics_Setting::IsDrawMaskedOcclusionCullingBinTriangleStageDebugger = Is_Enabled_MaskedSWOcclusionCullingBinsStageDebugging;
+	dooms::graphics::Graphics_Setting::IsDrawMaskedOcclusionCullingBinTriangleStageDebugger = See_MaskedSWOcclusionCulling_Occluder;
 	dooms::graphics::Graphics_Setting::IsDrawMaskedOcclusionCullingTileCoverageMaskDebugger = Is_Enabled_MaskedSWOcclusionCullingTileCoverageMaskDebugging;
-	dooms::graphics::Graphics_Setting::IsDrawMaskedOcclusionCullingTileL0MaxDepthValueDebugger = Is_Enabled_MaskedSWOcclusionCullingTileL0MaxDepthValueDebugging;
+	dooms::graphics::Graphics_Setting::IsDrawMaskedOcclusionCullingTileL0MaxDepthValueDebugger = See_MaskedSWOcclusionCulling_DepthBuffer;
 
-	Is_Enabled_OverdrawDebugger = false;
-	dooms::graphics::Graphics_Setting::IsOverDrawVisualizationEnabled = Is_Enabled_OverdrawDebugger;
+	OverdrawDebugger = false;
+	dooms::graphics::Graphics_Setting::IsOverDrawVisualizationEnabled = OverdrawDebugger;
 
-	Is_Enabled_DeferredRenderingDebugger = false;
+	Enabled_DeferredRenderingDebugger = false;
 	if (DeferredRenderingDebuggerController* component = GetOwnerEntity()->GetComponent<DeferredRenderingDebuggerController>())
 	{
-		component->SetPIPVisible(Is_Enabled_DeferredRenderingDebugger);
+		component->SetPIPVisible(Enabled_DeferredRenderingDebugger);
 
 	}
 

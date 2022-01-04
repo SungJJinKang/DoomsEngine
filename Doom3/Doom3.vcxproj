@@ -366,6 +366,9 @@ xcopy /y /d /E /H /C /I "$(ProjectDir)Assets" "$(TargetDir)Assets"</Command>
     <ClCompile Include="Source\Core\Graphics\Acceleration\LinearData_ViewFrustumCulling\CullingModule\MaskedSWOcclusionCulling\Stage\SolveMeshRoleStage.cpp" />
     <ClCompile Include="Source\Core\Graphics\Buffer\MeshHelper.cpp" />
     <ClCompile Include="Source\Core\Graphics\Buffer\MeshNode.cpp" />
+    <ClCompile Include="Source\Core\Graphics\GraphicsAPI\DX11GraphicsAPIManager.cpp" />
+    <ClCompile Include="Source\Core\Graphics\GraphicsAPI\GraphicsAPIManager.cpp" />
+    <ClCompile Include="Source\Core\Graphics\GraphicsAPI\OpenGLGraphicsAPIManager.cpp" />
     <ClCompile Include="Source\Core\Profiler\ProfilingManager.cpp" />
     <ClCompile Include="Source\Core\Reflection\TypeSpecialized\Helper\iteratorHelper.cpp" />
     <ClCompile Include="Source\Core\Reflection\TypeSpecialized\Reflection_RandomAccessIterator.cpp" />
@@ -614,6 +617,9 @@ xcopy /y /d /E /H /C /I "$(ProjectDir)Assets" "$(TargetDir)Assets"</Command>
     <ClInclude Include="Source\Core\Graphics\Acceleration\LinearData_ViewFrustumCulling\CullingModule\MaskedSWOcclusionCulling\Stage\SolveMeshRoleStage.h" />
     <ClInclude Include="Source\Core\Graphics\Buffer\eVertexArrayFlag.h" />
     <ClInclude Include="Source\Core\Graphics\Buffer\MeshHelper.h" />
+    <ClInclude Include="Source\Core\Graphics\GraphicsAPI\DX11GraphicsAPIManager.h" />
+    <ClInclude Include="Source\Core\Graphics\GraphicsAPI\GraphicsAPIManager.h" />
+    <ClInclude Include="Source\Core\Graphics\GraphicsAPI\OpenGLGraphicsAPIManager.h" />
     <ClInclude Include="Source\Core\Profiler\ProfilingManager.h" />
     <ClInclude Include="Source\Core\Reflection\ReflectionType\ePropertyQualifier.h" />
     <ClInclude Include="Source\Core\Reflection\TypeSpecialized\Helper\iteratorHelper.h" />

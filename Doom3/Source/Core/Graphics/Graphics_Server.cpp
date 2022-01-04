@@ -139,10 +139,10 @@ void Graphics_Server::CameraCullJob(dooms::Camera* const camera)
 		
 		std::atomic_thread_fence(std::memory_order_release);
 
-		D_START_PROFILING(Push_Culling_Job_To_Linera_Culling_System, dooms::profiler::eProfileLayers::Rendering);
 		resource::JobSystem::GetSingleton()->PushBackJobToAllThreadWithNoSTDFuture(std::function<void()>(mCullingSystem->GetCullJobInLambda(camera->CameraIndexInCullingSystem)));
+		D_START_PROFILING(CameraCullJob, dooms::profiler::eProfileLayers::Rendering);
 		mCullingSystem->GetCullJobInLambda(camera->CameraIndexInCullingSystem)();
-		D_END_PROFILING(Push_Culling_Job_To_Linera_Culling_System);
+		D_END_PROFILING(CameraCullJob);
 	}
 	
 	
@@ -243,7 +243,10 @@ void Graphics_Server::UpdateSortedEntityInfoListInCullingSystem()
 
 void Graphics_Server::PreRender()
 {
+
+	D_START_PROFILING(PreRenderRenderer, dooms::profiler::eProfileLayers::Rendering);
 	PreRenderRenderer();
+	D_END_PROFILING(PreRenderRenderer);
 
 	UpdateCameraIndexInCullingSystemOfCameraComponent();
 	UpdateSortedEntityInfoListInCullingSystem();
@@ -254,7 +257,9 @@ void Graphics_Server::PreRender()
 	dooms::ui::engineGUIServer::PreRender();
 	if(Camera::GetMainCamera()->GetIsCullJobEnabled() == true)
 	{
+		D_START_PROFILING(PreCullJob, dooms::profiler::eProfileLayers::Rendering);
 		PreCullJob();
+		D_END_PROFILING(PreCullJob);
 	}
 
 	
@@ -337,8 +342,9 @@ void dooms::graphics::Graphics_Server::Render()
 #endif
 
 
+	D_START_PROFILING(engineGUIServer_Render, dooms::profiler::eProfileLayers::Rendering);
 	dooms::ui::engineGUIServer::Render();
-
+	D_END_PROFILING(engineGUIServer_Render);
 	
 }
 

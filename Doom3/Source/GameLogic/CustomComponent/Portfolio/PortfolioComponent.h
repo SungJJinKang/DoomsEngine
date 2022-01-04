@@ -22,32 +22,32 @@ class DOOM_API D_CLASS PortfolioComponent : public Component
 private:
 
 	D_PROPERTY()
-	bool Is_Enabled_DeferredRenderingDebugger = false;
+	bool Enabled_DeferredRenderingDebugger = false;
 	
 	D_PROPERTY()
-	bool Is_Enabled_MultiThread_SortingFrontToBack = false;
+	bool Enabled_MultiThread_SortingFrontToBack = false;
 
 	D_PROPERTY()
-	bool Is_Enabled_OverdrawDebugger = false;
+	bool OverdrawDebugger = false;
 
 	D_PROPERTY()
 	bool Is_Enabled_CollisionDebugging = false;
 
 	D_PROPERTY()
-	bool Is_Enabled_MaskedSWOcclusionCullingBinsStageDebugging = false;
+	bool See_MaskedSWOcclusionCulling_Occluder = false;
 
-	D_PROPERTY()
+	D_PROPERTY(INVISIBLE)
 	bool Is_Enabled_MaskedSWOcclusionCullingTileCoverageMaskDebugging = false;
 	
 	D_PROPERTY()
-	bool Is_Enabled_MaskedSWOcclusionCullingTileL0MaxDepthValueDebugging = false;
+	bool See_MaskedSWOcclusionCulling_DepthBuffer = false;
 
 
 	D_PROPERTY()
-	bool _EnableViewFrustumCulling = true;
+	bool Enable_Multithread_SW_ViewFrustumCulling = true;
 
 	D_PROPERTY()
-	bool _EnableMaskedSWOcclusionCulling = true;
+	bool Enable_MaskedSWOccslusionCulling = true;
 
 	void OnChangedByGUI(const dooms::reflection::DField& dFieldOfChangedField) override;
 
