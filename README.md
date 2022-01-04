@@ -30,13 +30,24 @@
   
 ## Currently working on
 
-  * change graphics api!!! ( 0%, OpenGL to DirectX11 )
-  * implement physical based rendering ( https://cdn2.unrealengine.com/Resources/files/2013SiggraphPresentationsNotes-26915738.pdf )
+  * change graphics api!!! ( 0%, OpenGL to DirectX11 )             
+  * implement physical based rendering ( https://cdn2.unrealengine.com/Resources/files/2013SiggraphPresentationsNotes-26915738.pdf )            
  
 ## To Develop
  
-  * Hierarchical Shadow Map
+  * Hierarchical Shadow Map                   
 
+## Dependencies            
+             
+  * [glfw](https://github.com/glfw/glfw) : A multi-platform library for OpenGL, OpenGL ES, Vulkan, window and input                     
+  * [assimp](https://github.com/assimp/assimp) : The official Open-Asset-Importer-Library Repository                    
+  * [DirectTex](https://github.com/microsoft/DirectXTex) : DirectXTex texture processing library                    
+  * [imgui](https://github.com/ocornut/imgui) : Dear ImGui: Bloat-free Graphical User interface for C++ with minimal dependencies                    
+  * [LightMath_Cpp](https://github.com/SungJJinKang/LightMath_Cpp) : In-house math library                      
+  * [clReflect_ForDoomsEngine](https://github.com/SungJJinKang/clReflect_ForDoomsEngine) : C++ Reflection using clang for Dooms Engine              
+  * [clReflect_automation](https://github.com/SungJJinKang/clReflect_automation) : Analyze project folder and generate reflection data using clReflect_ForDoomsEngine                       
+  * [JobSystem_cpp](https://github.com/SungJJinKang/JobSystem_cpp) : In-house Job system                        
+                   
 ## Screenshot
 ![20211213050637](https://user-images.githubusercontent.com/33873804/145727751-74daefb4-a6b1-4b3c-94d3-56a52c5c0861.png)
 
