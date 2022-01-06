@@ -128,12 +128,12 @@ void Graphics_Server::CameraCullJob(dooms::Camera* const camera)
 		std::atomic_thread_fence(std::memory_order_acquire);
 
 		culling::EveryCulling::SettingParameters cullingSettingParameters;
-		cullingSettingParameters.mViewProjectionMatrix = *reinterpret_cast<const culling::Mat4x4*>(&(camera->GetViewProjectionMatrix()));
+		std::memcpy(cullingSettingParameters.mViewProjectionMatrix.data(), camera->GetViewProjectionMatrix().data(), sizeof(culling::Mat4x4));
 		cullingSettingParameters.mFieldOfViewInDegree = camera->GetFieldOfViewInDegree();
 		cullingSettingParameters.mCameraFarPlaneDistance = camera->GetClippingPlaneFar();
 		cullingSettingParameters.mCameraNearPlaneDistance = camera->GetClippingPlaneNear();
-		cullingSettingParameters.mCameraWorldPosition = *reinterpret_cast<const culling::Vec3*>(&(camera->GetTransform()->GetPosition()));
-		cullingSettingParameters.mCameraRotation = *reinterpret_cast<const culling::Vec4*>(&(camera->GetTransform()->GetRotation()));
+		std::memcpy(cullingSettingParameters.mCameraWorldPosition.data(), camera->GetTransform()->GetPosition().data(), sizeof(culling::Vec3));
+		std::memcpy(cullingSettingParameters.mCameraRotation.data(), camera->GetTransform()->GetRotation().data(), sizeof(culling::Vec4));
 
 		mCullingSystem->Configure(camera->CameraIndexInCullingSystem, cullingSettingParameters);
 		
