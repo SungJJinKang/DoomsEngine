@@ -128,7 +128,7 @@ void dooms::graphics::maskedOcclusionCullingTester::DebugBinnedTriangles
 			(
 				math::Vector3(DEBUGGER_TILE_BOX_PADIDNG_X + -1.0f + xScale * x, DEBUGGER_TILE_BOX_PADIDNG_Y + -1.0f + yScale * y, 0.0f),
 				math::Vector3(-DEBUGGER_TILE_BOX_PADIDNG_X + -1.0f + xScale * (x + 1), -DEBUGGER_TILE_BOX_PADIDNG_Y + -1.0f + yScale * (y + 1), 0.0f),
-				depthBuffer->GetTile(y, x)->mBinnedTriangles.mCurrentTriangleCount > 0 ? eColor::Red : eColor::White
+				depthBuffer->GetTile(y, x)->GetIsTriangleBinned() == true ? eColor::Red : eColor::White
 			);
 		}
 	}

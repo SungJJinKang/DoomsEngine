@@ -172,7 +172,7 @@ void Graphics_Server::DebugGraphics()
 	
 	for(size_t tileIndex = 0 ; tileIndex < tileCount ; tileIndex++)
 	{
-		dooms::ui::maskedOcclusionCulliingDebugger::SetBinnedTriangleCount(tileIndex, tiles[tileIndex].mBinnedTriangles.mCurrentTriangleCount);
+		dooms::ui::maskedOcclusionCulliingDebugger::SetBinnedTriangleCount(tileIndex, tiles[tileIndex].mBinnedTriangleList.mCurrentTriangleCount);
 	}
 	*/
 
