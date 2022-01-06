@@ -39,8 +39,10 @@ void Graphics_Server::Init()
 	graphicsAPIManager::Initialize();
 
 	mCullingSystem = std::make_unique<culling::EveryCulling>(Graphics_Setting::GetScreenWidth(), Graphics_Setting::GetScreenHeight());
+	mCullingSystem->SetThreadCount(resource::JobSystem::GetSingleton()->GetSubThreadCount() + 1);
 	mCullingSystem->mMaskedSWOcclusionCulling->mSolveMeshRoleStage.mOccluderViewSpaceBoundingSphereRadius = ConfigData::GetSingleton()->GetConfigData().GetValue<FLOAT32>("Graphics", "MASKED_OC_OCCLUDER_VIEW_SPACE_BOUNDING_SPHERE_RADIUS");
 	mCullingSystem->mMaskedSWOcclusionCulling->mSolveMeshRoleStage.mOccluderAABBScreenSpaceMinArea = ConfigData::GetSingleton()->GetConfigData().GetValue<FLOAT32>("Graphics", "MASKED_OC_OCCLUDER_AABB_SCREEN_SPACE_MIN_AREA");
+
 
 	dooms::ui::maskedOcclusionCulliingDebugger::Initilize(mCullingSystem->mMaskedSWOcclusionCulling.get());
 
@@ -110,9 +112,16 @@ Graphics_Server::~Graphics_Server()
 
 void Graphics_Server::PreCullJob()
 {
-	mCullingCameraCount = 0;
+	// Never remove this
+	// After CullJob is finished, when main thread start new cull job at next frame, other threads may works on previous frame cull job
+	std::function<void()> func = [] {};
+	auto waitThreadsJobFinished = dooms::resource::JobSystem::GetSingleton()->PushBackJobToAllThread(func);
+	for (auto& waitThreadJobFinished : waitThreadsJobFinished)
+	{
+		waitThreadJobFinished.wait();
+	}
 
-	mCullingSystem->SetThreadCount(resource::JobSystem::GetSingleton()->GetSubThreadCount() + 1);
+	mCullingCameraCount = 0;
 
 	D_START_PROFILING(mFrotbiteCullingSystem_ResetCullJobStat, dooms::profiler::eProfileLayers::Rendering);
 	mCullingSystem->ResetCullJobState();
@@ -138,7 +147,7 @@ void Graphics_Server::CameraCullJob(dooms::Camera* const camera)
 		mCullingSystem->Configure(camera->CameraIndexInCullingSystem, cullingSettingParameters);
 		
 		std::atomic_thread_fence(std::memory_order_release);
-
+		
 		resource::JobSystem::GetSingleton()->PushBackJobToAllThreadWithNoSTDFuture(std::function<void()>(mCullingSystem->GetCullJobInLambda(camera->CameraIndexInCullingSystem)));
 		D_START_PROFILING(CameraCullJob, dooms::profiler::eProfileLayers::Rendering);
 		mCullingSystem->GetCullJobInLambda(camera->CameraIndexInCullingSystem)();
@@ -440,7 +449,7 @@ void dooms::graphics::Graphics_Server::RenderObject(dooms::Camera* const targetC
 		IsFinishedSortingReferernceRenderers.wait();
 		D_END_PROFILING(WAIT_SORTING_RENDERER_JOB);
 	}
-	
+
 }
 
 

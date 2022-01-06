@@ -92,7 +92,7 @@ namespace dooms::ui::maskedOcclusionCulliingDebugger
 			{
 				for (INT32 colIndex = 0; colIndex < GetColumnTileCount(); colIndex++)
 				{
-					const bool isTriangleBinned = mMaskedSWOcclusionCulling->mDepthBuffer.GetTile(rowIndex, colIndex)->GetIsTriangleBinned();
+					const bool isTriangleBinned = mMaskedSWOcclusionCulling->mDepthBuffer.GetTile(rowIndex, colIndex)->mmBinnedTriangleCount > 0;
 					if (isTriangleBinned == true)
 					{
 						ImGui::TextColored(redColor, "O");
@@ -128,11 +128,13 @@ void dooms::ui::maskedOcclusionCulliingDebugger::Render()
 	ImGui::End();
 	*/
 
+	/*
 	if (ImGui::Begin("Masked SW Occlusion Culling Debugger ( Occluder Count )"))
 	{
 		ImGui::Text("Occluder Count : %d", (int)dooms::graphics::Graphics_Server::GetSingleton()->mCullingSystem->mMaskedSWOcclusionCulling->GetOccluderCount());
 	}
 	ImGui::End();
+	*/
 }
 
 void dooms::ui::maskedOcclusionCulliingDebugger::Initilize(culling::MaskedSWOcclusionCulling* const culling)
