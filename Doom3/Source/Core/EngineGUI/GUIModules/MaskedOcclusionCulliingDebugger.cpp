@@ -114,6 +114,7 @@ namespace dooms::ui::maskedOcclusionCulliingDebugger
 
 void dooms::ui::maskedOcclusionCulliingDebugger::Render()
 {
+	/*
 	if (ImGui::Begin("Masked SW Occlusion Culling Debugger ( Binned Triangle Count of Tile )"))
 	{
 		RenderBinnedTriangles();
@@ -123,6 +124,13 @@ void dooms::ui::maskedOcclusionCulliingDebugger::Render()
 	if (ImGui::Begin("Masked SW Occlusion Culling Debugger ( L0 Max Depth Value of SubTile )"))
 	{
 		RenderL0MaxDepthValue();
+	}
+	ImGui::End();
+	*/
+
+	if (ImGui::Begin("Masked SW Occlusion Culling Debugger ( Occluder Count )"))
+	{
+		ImGui::Text("Occluder Count : %d", (int)dooms::graphics::Graphics_Server::GetSingleton()->mCullingSystem->mMaskedSWOcclusionCulling->GetOccluderCount());
 	}
 	ImGui::End();
 }
