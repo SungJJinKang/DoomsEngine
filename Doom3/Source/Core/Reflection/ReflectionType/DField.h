@@ -48,6 +48,14 @@ namespace dooms
 				return clField->name.text;
 			}
 
+			/// <summary>
+			/// Compare field name with passed string
+			///	if equal, return true
+			/// </summary>
+			/// <param name="comparedName"></param>
+			/// <returns></returns>
+			bool CompareWithFieldName(const char* const comparedName) const;
+
 			FORCE_INLINE int GetFieldOffset() const
 			{
 				return clField->offset;

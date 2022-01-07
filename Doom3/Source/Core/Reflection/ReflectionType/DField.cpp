@@ -6,6 +6,11 @@
 #include "DType.h"
 
 
+bool dooms::reflection::DField::CompareWithFieldName(const char* const comparedName) const
+{
+	return std::strcmp(GetFieldName(), comparedName) == 0;
+}
+
 const dooms::reflection::DType dooms::reflection::DField::GetDTypeOfFieldType() const
 {
 	return dooms::reflection::DType(clField->type);
