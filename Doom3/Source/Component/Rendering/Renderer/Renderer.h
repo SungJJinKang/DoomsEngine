@@ -56,7 +56,11 @@ namespace dooms
 		void ClearRenderingBitFlag();
 
 		void InitializeCullingEntityBlockViewer();
-		
+
+
+		D_PROPERTY(MIN = 0.0)
+		float mDesiredMaxDrawDistance = DEFAULT_DESIRED_MAX_DRAW_DISTANCE;
+
 	protected:
 
 		DirtyReceiver bmIsModelMatrixDirty{ true };
@@ -77,6 +81,8 @@ namespace dooms
 		void AddRendererToCullingSystem();
 		void RemoveRendererFromCullingSystem();
 
+		void OnChangedByGUI(const dooms::reflection::DField& dFieldOfChangedField) override;
+
 	public:
 
 		/// <summary>
@@ -88,6 +94,8 @@ namespace dooms
 		/// Check RenderingBitFlag.h
 		/// </summary>
 		UINT32 mRenderingFlag{ 0x00000000 };
+
+
 		void SetRenderingFlag(const eRenderingFlag flag, const bool isSet);
 		FORCE_INLINE bool GetRenderingFlag(const eRenderingFlag flag) const
 		{
@@ -169,7 +177,9 @@ namespace dooms
 
 			return mDistancesToCamera[cameraIndex];
 		}
-		
-		
+
+
+		void SetDesiredMaxDrawDistance(const FLOAT32 desiredMaxDrawDistance);
+		FLOAT32 GetDesiredMaxDrawDistance() const;
 	};
 }

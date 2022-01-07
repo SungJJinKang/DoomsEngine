@@ -10,6 +10,22 @@ void dooms::PortfolioComponent::OnChangedByGUI(const dooms::reflection::DField& 
 	Component::OnChangedByGUI(field_of_changed_field);
 
 	UpdateGUI();
+
+	if(field_of_changed_field.CompareWithFieldName("AllRocksDesiredMaxDrawDistance"))
+	{
+		for(auto renderer : RockRenderers)
+		{
+			renderer->SetDesiredMaxDrawDistance(AllRocksDesiredMaxDrawDistance);
+		}
+	}
+
+	if (field_of_changed_field.CompareWithFieldName("AllPlanesDesiredMaxDrawDistance"))
+	{
+		for (auto renderer : PlanesRenderers)
+		{
+			renderer->SetDesiredMaxDrawDistance(AllPlanesDesiredMaxDrawDistance);
+		}
+	}
 }
 
 void dooms::PortfolioComponent::UpdateGUI()
@@ -33,6 +49,7 @@ void dooms::PortfolioComponent::UpdateGUI()
 
 	dooms::graphics::Graphics_Server::GetSingleton()->mCullingSystem->SetEnabledCullingModule(culling::EveryCulling::CullingModuleType::_ViewFrustumCulling, Enable_Multithread_SW_ViewFrustumCulling);
 	dooms::graphics::Graphics_Server::GetSingleton()->mCullingSystem->SetEnabledCullingModule(culling::EveryCulling::CullingModuleType::_MaskedSWOcclusionCulling, Enable_MaskedSWOccslusionCulling);
+	dooms::graphics::Graphics_Server::GetSingleton()->mCullingSystem->SetEnabledCullingModule(culling::EveryCulling::CullingModuleType::_DistanceCulling, Enable_DistanceCulling);
 }
 
 void dooms::PortfolioComponent::InitComponent()
@@ -60,6 +77,7 @@ void dooms::PortfolioComponent::InitComponent()
 	dooms::physics::Physics_Setting::SetIsPhysicsOn(Is_Enabled_CollisionDebugging);
 	dooms::physics::Physics_Setting::IS_RENDER_PHYSICS_RAYCASTING_DEBUGGER = Is_Enabled_CollisionDebugging;
 
+	UpdateGUI();
 }
 
 void dooms::PortfolioComponent::LateInitComponent()

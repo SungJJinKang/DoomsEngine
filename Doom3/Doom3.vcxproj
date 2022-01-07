@@ -345,6 +345,7 @@ xcopy /y /d /E /H /C /I "$(ProjectDir)Assets" "$(TargetDir)Assets"</Command>
     <ClCompile Include="Source\Core\Graphics\Acceleration\LinearData_ViewFrustumCulling\CullingModule\PreCulling\PreCulling.cpp" />
     <ClCompile Include="Source\Core\Graphics\Acceleration\LinearData_ViewFrustumCulling\CullingModule\MaskedSWOcclusionCulling\Utility\depthBufferTileHelper.cpp" />
     <ClCompile Include="Source\Core\Graphics\Acceleration\LinearData_ViewFrustumCulling\CullingModule\MaskedSWOcclusionCulling\Utility\vertexTransformationHelper.cpp" />
+    <ClCompile Include="Source\Core\Graphics\Acceleration\LinearData_ViewFrustumCulling\DataType\EntityBlock.cpp" />
     <ClCompile Include="Source\Core\Graphics\Acceleration\LinearData_ViewFrustumCulling\EveryCullingProfiler.cpp" />
     <ClCompile Include="Source\Core\Graphics\DebugGraphics\DebugPrimitive\DebugPrimitive2DLineContainer.cpp" />
     <ClCompile Include="Source\Core\EngineGUI\GUIModules\MaskedOcclusionCulliingDebugger.cpp" />

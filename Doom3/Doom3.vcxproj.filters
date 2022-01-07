@@ -762,6 +762,9 @@
     <ClCompile Include="Source\Core\Graphics\GraphicsAPI\DX11GraphicsAPIManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Core\Graphics\Acceleration\LinearData_ViewFrustumCulling\DataType\EntityBlock.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="dependency\glad\include\glad\glad.h">

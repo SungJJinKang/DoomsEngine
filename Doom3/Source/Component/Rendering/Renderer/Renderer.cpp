@@ -77,6 +77,16 @@ void dooms::Renderer::RemoveRendererFromCullingSystem()
 	graphics::Graphics_Server::GetSingleton()->mCullingSystem->RemoveEntityFromBlock(mCullingEntityBlockViewer);
 }
 
+void dooms::Renderer::OnChangedByGUI(const dooms::reflection::DField& field_of_changed_field)
+{
+	Component::OnChangedByGUI(field_of_changed_field);
+
+	if(field_of_changed_field.CompareWithFieldName("mDesiredMaxDrawDistance") == true)
+	{
+		SetDesiredMaxDrawDistance(mDesiredMaxDrawDistance);
+	}
+}
+
 void dooms::Renderer::OnDestroy()
 {
 	Base::OnDestroy();
@@ -126,7 +136,7 @@ void dooms::Renderer::ClearRenderingBitFlag()
 
 void dooms::Renderer::InitializeCullingEntityBlockViewer()
 {
-
+	mCullingEntityBlockViewer.SetDesiredMaxDrawDistance(mDesiredMaxDrawDistance);
 }
 
 void dooms::Renderer::UpdateCullingEntityBlockViewer()
@@ -159,6 +169,17 @@ void dooms::Renderer::CacheDistanceToCamera(const size_t cameraIndex, const math
 	}
 
 	mDistancesToCamera[cameraIndex] = (static_cast<const Transform*>(GetTransform())->GetPosition() - cameraPos).magnitude() - dooms::ColliderUpdater<dooms::physics::AABB3D>::GetWorldCollider()->GetDiagonarLineLength();
+}
+
+void dooms::Renderer::SetDesiredMaxDrawDistance(const FLOAT32 desiredMaxDrawDistance)
+{
+	mDesiredMaxDrawDistance = desiredMaxDrawDistance;
+	mCullingEntityBlockViewer.SetDesiredMaxDrawDistance(mDesiredMaxDrawDistance);
+}
+
+FLOAT32 dooms::Renderer::GetDesiredMaxDrawDistance() const
+{
+	return mDesiredMaxDrawDistance;
 }
 
 /*

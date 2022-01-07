@@ -44,6 +44,7 @@ void dooms::GameLogicStartPoint::StartGameLogic()
 	auto currenScene = dooms::Scene::GetCurrentWorld();
 
 	FireBulletComponent* fireComponent;
+	PortfolioComponent* portfolioComponent;
 	{
 		auto entity1 = currenScene->CreateNewEntity();
 
@@ -61,8 +62,9 @@ void dooms::GameLogicStartPoint::StartGameLogic()
 		entity1->AddComponent<DeferredRenderingDebuggerController>();
 		fireComponent = entity1->AddComponent<FireBulletComponent>();
 
-		entity1->AddComponent<PortfolioComponent>();
-		
+		portfolioComponent = entity1->AddComponent<PortfolioComponent>();
+		portfolioComponent->RockRenderers.reserve(5000);
+		portfolioComponent->PlanesRenderers.reserve(5000);
 
 	}
 
@@ -461,7 +463,7 @@ void dooms::GameLogicStartPoint::StartGameLogic()
 			"StarSparrow_Black.dds"
 		};
 
-		for (size_t i = 0; i < 1; i++)
+		for (size_t i = 0; i < 500; i++)
 		{
 			auto modelAsset = assetImporter::AssetManager::GetSingleton()->GetAsset<asset::eAssetType::THREE_D_MODEL>(modelAssetNameList[Random::RandomUIntNumber(0, modelAssetNameList.size() - 1)]);
 			auto shader1 = assetImporter::AssetManager::GetSingleton()->GetAsset<asset::eAssetType::SHADER>("GbufferWriter_PBR.glsl");
@@ -483,6 +485,8 @@ void dooms::GameLogicStartPoint::StartGameLogic()
 					auto meshRenderer = entity->AddComponent<MeshRenderer>();
 					meshRenderer->SetMesh(mesh);
 					meshRenderer->SetMaterial(material1);
+					meshRenderer->SetDesiredMaxDrawDistance(3000.0f);
+					portfolioComponent->PlanesRenderers.push_back(meshRenderer);
 
 					WanderComponent* wanderComp = entity->AddComponent<WanderComponent>();
 					wanderComp->mPoint1 = { Random::RandomFloatNumber(-1500.0f, 1500.0f) , y , Random::RandomFloatNumber(-1500.0f, 1500.0f) };
@@ -634,7 +638,7 @@ void dooms::GameLogicStartPoint::StartGameLogic()
 		material1->AddTexture(graphics::eTextureBindingPoint::AlbedoTexture, assetImporter::AssetManager::GetSingleton()->GetAsset<asset::eAssetType::TEXTURE>("Rock_albedo.dds"));
 		material1->AddTexture(graphics::eTextureBindingPoint::NormalTexture, assetImporter::AssetManager::GetSingleton()->GetAsset<asset::eAssetType::TEXTURE>("Rock_normal.dds"));
 		material1->AddTexture(graphics::eTextureBindingPoint::MetalnessTexture, assetImporter::AssetManager::GetSingleton()->GetAsset<asset::eAssetType::TEXTURE>("Rock_metallic.dds"));
-		for (size_t i = 0; i < 1; i++)
+		for (size_t i = 0; i < 3000; i++)
 		{
 			
 		
@@ -653,6 +657,8 @@ void dooms::GameLogicStartPoint::StartGameLogic()
 					auto meshRenderer = entity->AddComponent<MeshRenderer>();
 					meshRenderer->SetMesh(mesh);
 					meshRenderer->SetMaterial(material1);
+					meshRenderer->SetDesiredMaxDrawDistance(4000.0f);
+					portfolioComponent->RockRenderers.push_back(meshRenderer);
 
 					WanderComponent* wanderComp = entity->AddComponent<WanderComponent>();
 					wanderComp->mPoint1 = { Random::RandomFloatNumber(-2500.0f, 2500.0f) , Random::RandomFloatNumber(-2500.0f, 2500.0f) , Random::RandomFloatNumber(-2500.0f, 2500.0f) };
@@ -667,18 +673,7 @@ void dooms::GameLogicStartPoint::StartGameLogic()
 		}
 	}
 
-	{
-		auto entity = currenScene->CreateNewEntity();
-		entity->GetTransform()->SetScale(100.0f, 100.0f, 100.0f);
-		entity->GetTransform()->SetPosition(0, 500, 600);
-		auto meshRenderer = entity->AddComponent<MeshRenderer>();
-		meshRenderer->SetMesh(dooms::graphics::meshHelper::GetQuadMesh());
-		auto shader1 = assetImporter::AssetManager::GetSingleton()->GetAsset<asset::eAssetType::SHADER>("GbufferWriter_PBR.glsl");
-		auto material1 = dooms::CreateDObject<graphics::Material>(shader1);
-		material1->AddTexture(graphics::eTextureBindingPoint::AlbedoTexture, assetImporter::AssetManager::GetSingleton()->GetAsset<asset::eAssetType::TEXTURE>("Rock_albedo.dds"));
-		meshRenderer->SetMaterial(material1);
-
-	}
+	
 	/*
 
 	auto a = Renderer::CLASS_TYPE_ID_STATIC();
