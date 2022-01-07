@@ -461,7 +461,7 @@ void dooms::GameLogicStartPoint::StartGameLogic()
 			"StarSparrow_Black.dds"
 		};
 
-		for (size_t i = 0; i < 1; i++)
+		for (size_t i = 0; i < 700; i++)
 		{
 			auto modelAsset = assetImporter::AssetManager::GetSingleton()->GetAsset<asset::eAssetType::THREE_D_MODEL>(modelAssetNameList[Random::RandomUIntNumber(0, modelAssetNameList.size() - 1)]);
 			auto shader1 = assetImporter::AssetManager::GetSingleton()->GetAsset<asset::eAssetType::SHADER>("GbufferWriter_PBR.glsl");
@@ -634,7 +634,7 @@ void dooms::GameLogicStartPoint::StartGameLogic()
 		material1->AddTexture(graphics::eTextureBindingPoint::AlbedoTexture, assetImporter::AssetManager::GetSingleton()->GetAsset<asset::eAssetType::TEXTURE>("Rock_albedo.dds"));
 		material1->AddTexture(graphics::eTextureBindingPoint::NormalTexture, assetImporter::AssetManager::GetSingleton()->GetAsset<asset::eAssetType::TEXTURE>("Rock_normal.dds"));
 		material1->AddTexture(graphics::eTextureBindingPoint::MetalnessTexture, assetImporter::AssetManager::GetSingleton()->GetAsset<asset::eAssetType::TEXTURE>("Rock_metallic.dds"));
-		for (size_t i = 0; i < 1; i++)
+		for (size_t i = 0; i < 3000; i++)
 		{
 			
 		
@@ -667,18 +667,6 @@ void dooms::GameLogicStartPoint::StartGameLogic()
 		}
 	}
 
-	{
-		auto entity = currenScene->CreateNewEntity();
-		entity->GetTransform()->SetScale(100.0f, 100.0f, 100.0f);
-		entity->GetTransform()->SetPosition(0, 500, 600);
-		auto meshRenderer = entity->AddComponent<MeshRenderer>();
-		meshRenderer->SetMesh(dooms::graphics::meshHelper::GetQuadMesh());
-		auto shader1 = assetImporter::AssetManager::GetSingleton()->GetAsset<asset::eAssetType::SHADER>("GbufferWriter_PBR.glsl");
-		auto material1 = dooms::CreateDObject<graphics::Material>(shader1);
-		material1->AddTexture(graphics::eTextureBindingPoint::AlbedoTexture, assetImporter::AssetManager::GetSingleton()->GetAsset<asset::eAssetType::TEXTURE>("Rock_albedo.dds"));
-		meshRenderer->SetMaterial(material1);
-
-	}
 	/*
 
 	auto a = Renderer::CLASS_TYPE_ID_STATIC();

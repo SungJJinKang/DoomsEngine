@@ -3,7 +3,6 @@
 
 #include "../Core.h"
 #include "../Game/ConfigData.h"
-#include "../Graphics/Graphics_Setting.h"
 
 #include <Rendering/Camera.h>
 #include <Vector3.h>

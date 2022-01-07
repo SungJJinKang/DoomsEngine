@@ -753,13 +753,7 @@
     <ClCompile Include="Source\Core\Graphics\Acceleration\LinearData_ViewFrustumCulling\EveryCullingProfiler.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Core\Graphics\GraphicsAPI\GraphicsAPIManager.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Core\Graphics\GraphicsAPI\OpenGLGraphicsAPIManager.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Core\Graphics\GraphicsAPI\DX11GraphicsAPIManager.cpp">
+    <ClCompile Include="Source\Core\Graphics\GraphicsAPI\GraphicsAPILoader.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -1913,13 +1907,13 @@
     <ClInclude Include="Source\Core\Graphics\Acceleration\LinearData_ViewFrustumCulling\EveryCullingProfiler.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Core\Graphics\GraphicsAPI\GraphicsAPIManager.h">
+    <ClInclude Include="Source\Core\Graphics\GraphicsAPI\GraphicsAPI.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Core\Graphics\GraphicsAPI\OpenGLGraphicsAPIManager.h">
+    <ClInclude Include="Source\Core\Graphics\GraphicsAPI\Input\GraphicsAPIInput.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Core\Graphics\GraphicsAPI\DX11GraphicsAPIManager.h">
+    <ClInclude Include="Source\Core\Graphics\GraphicsAPI\GraphicsAPILoader.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
