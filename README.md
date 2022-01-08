@@ -31,7 +31,7 @@
   
 ## Currently working on
 
-  * change graphics api!!! ( 0%, OpenGL to DirectX11 )             
+  * support DX11!! ( 1%, working directory : https://github.com/SungJJinKang/DoomsEngine/tree/d3d11_work )             
   * implement physical based rendering ( https://cdn2.unrealengine.com/Resources/files/2013SiggraphPresentationsNotes-26915738.pdf )            
  
 ## To Develop
