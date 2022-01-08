@@ -425,7 +425,7 @@ xcopy /y /d /E /H /C /I "$(ProjectDir)Assets" "$(TargetDir)Assets"</Command>
     <ClCompile Include="Source\Core\Graphics\DeferredRenderingDrawer.cpp" />
     <ClCompile Include="Source\Core\Graphics\FrameBuffer\DefferedRenderingFrameBuffer.cpp" />
     <ClCompile Include="Source\Core\Graphics\graphicsAPIManager.cpp" />
-    <ClCompile Include="Source\Core\Graphics\Graphics_Setting.cpp" />
+    <ClCompile Include="Source\Core\Graphics\GraphicsAPI\graphicsAPISetting.cpp" />
     <ClCompile Include="Source\Core\Graphics\LightManager.cpp" />
     <ClCompile Include="Source\Core\Graphics\Material\FixedMaterial.cpp" />
     <ClCompile Include="Source\Core\Graphics\PictureInPicture\PIPManager.cpp" />
@@ -682,7 +682,7 @@ xcopy /y /d /E /H /C /I "$(ProjectDir)Assets" "$(TargetDir)Assets"</Command>
     <ClInclude Include="Source\Core\Graphics\DeferredRenderingDrawer.h" />
     <ClInclude Include="Source\Core\Graphics\FrameBuffer\DefferedRenderingFrameBuffer.h" />
     <ClInclude Include="Source\Core\Graphics\graphicsAPIManager.h" />
-    <ClInclude Include="Source\Core\Graphics\Graphics_Setting.h" />
+    <ClInclude Include="Source\Core\Graphics\GraphicsAPI\graphicsAPISetting.h" />
     <ClInclude Include="Source\Core\Graphics\LightManager.h" />
     <ClInclude Include="Source\Core\Graphics\Material\FixedMaterial.h" />
     <ClInclude Include="Source\Core\Graphics\PictureInPicture\PIPManager.h" />

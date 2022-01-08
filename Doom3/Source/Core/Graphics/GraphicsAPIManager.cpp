@@ -130,8 +130,7 @@ void dooms::graphics::graphicsAPIManager::DEBUG_CALLBACK(GLenum source, GLenum t
 	//https://www.khronos.org/registry/OpenGL/extensions/KHR/KHR_debug.txt
 	if (type == 0x824C || type == 0x824E)
 	{
-		D_DEBUG_LOG(eLogType::D_ERROR, msg);
-
+		mDEBUG_FUNCTION(msg);
 	}
 }
 

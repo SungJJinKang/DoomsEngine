@@ -390,7 +390,7 @@
     <ClCompile Include="Source\Core\Graphics\graphicsAPIManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Core\Graphics\Graphics_Setting.cpp">
+    <ClCompile Include="Source\Core\Graphics\GraphicsAPI\graphicsAPISetting.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Source\Core\EngineGUI\PrintText.cpp">
@@ -1490,7 +1490,7 @@
     <ClInclude Include="Source\Core\Graphics\graphicsAPIManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Core\Graphics\Graphics_Setting.h">
+    <ClInclude Include="Source\Core\Graphics\GraphicsAPI\graphicsAPISetting.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\Core\EngineGUI\PrintText.h">

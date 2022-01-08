@@ -13,11 +13,14 @@ namespace dooms
 
 		public:
 
-			GraphicsAPI();
+			using DEBUG_FUNCTION = void (*)(const char* const debugMessage);
+			inline static DEBUG_FUNCTION* mDEBUG_FUNCTION = nullptr;
+			
+			static void Initialize();
+			static void DeInitialize();
+			static void SwapBuffer();
 
-			void Initialize();
-			void DeInitialize();
-			void SwapBuffer();
+			static void SetVSync(const bool isEnabled);
 		};
 	}
 }
