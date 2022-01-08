@@ -81,10 +81,20 @@ void dooms::graphics::GraphicsAPILoader::LoadGraphicsAPILibrary
 #endif
 
 	if (mAPIModule == nullptr)
-	{
+	{//FAIL
 		const DWORD errorCode = GetLastError();
 
 		D_ASSERT_LOG(false, "Fail to Load Graphics API Library - Error Code : %d", errorCode);
 		dooms::ui::PrintText("Fail to Load Graphics API Library - Error Code : %d", errorCode);
+		GraphicsAPI::SetGraphicsAPIType(eGraphicsAPIType::GraphicsAPIType_NONE);
 	}
+	else
+	{
+		GraphicsAPI::SetGraphicsAPIType(graphicsAPIType);
+	}
+}
+
+bool dooms::graphics::GraphicsAPILoader::UnLoadGraphicsAPILibrary()
+{
+	return FreeGraphicsAPILibrary();
 }

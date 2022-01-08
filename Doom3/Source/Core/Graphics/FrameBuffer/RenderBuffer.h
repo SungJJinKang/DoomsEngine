@@ -2,7 +2,7 @@
 
 #include <Core.h>
 
-#include "../GraphicsAPI.h"
+#include "../GraphicsAPI/GraphicsAPI.h"
 #include "../OverlapBindChecker.h"
 #include "../Buffer/BufferID.h"
 #include "Graphics/Acceleration/LinearData_ViewFrustumCulling/CullingModule/MaskedSWOcclusionCulling/Stage/BinTrianglesStage.h"
@@ -24,7 +24,7 @@ namespace dooms
 			static inline const char RENDERBUFFER_TAG[]{ "RenderBuffer" };
 			BufferID mRenderBufferID{};
 
-			GraphicsAPI::eBufferBitType mFrameBufferType;
+			GraphicsAPI::eBufferAttachmentType mFrameBufferType;
 			UINT32 mWidth;
 			UINT32 mHeight;
 			
@@ -33,7 +33,7 @@ namespace dooms
 			
 
 			RenderBuffer();
-			RenderBuffer(FrameBuffer& ownerFrameBuffer, GraphicsAPI::eBufferBitType frameBufferType, UINT32 width, UINT32 height);
+			RenderBuffer(FrameBuffer& ownerFrameBuffer, GraphicsAPI::eBufferAttachmentType frameBufferType, UINT32 width, UINT32 height);
 			virtual ~RenderBuffer();
 
 			RenderBuffer(const RenderBuffer&) = delete;
@@ -43,14 +43,14 @@ namespace dooms
 			RenderBuffer& operator=(RenderBuffer &&) noexcept = default;
 
 
-			bool CreateRenderBuffer(FrameBuffer& ownerFrameBuffer, GraphicsAPI::eBufferBitType frameBufferType, UINT32 width, UINT32 height);
+			bool CreateRenderBuffer(FrameBuffer& ownerFrameBuffer, GraphicsAPI::eBufferAttachmentType frameBufferType, UINT32 width, UINT32 height);
 			void DeleteRenderBuffers();
 			
 			FORCE_INLINE static void BindRenderBuffer(INT32 renderBufferID)
 			{
 				if (D_OVERLAP_BIND_CHECK_CHECK_IS_NOT_BOUND_AND_BIND_ID(RENDERBUFFER_TAG, renderBufferID))
 				{
-					glBindRenderbuffer(GL_RENDERBUFFER, renderBufferID);
+					GraphicsAPI::BindRenderBuffer(renderBufferID);
 				}
 			}
 
@@ -63,7 +63,7 @@ namespace dooms
 				BindRenderBuffer(0);
 			}
 
-			FORCE_INLINE GraphicsAPI::eBufferBitType GetFrameBufferType() const
+			FORCE_INLINE GraphicsAPI::eBufferAttachmentType GetFrameBufferType() const
 			{
 				return mFrameBufferType;
 			}

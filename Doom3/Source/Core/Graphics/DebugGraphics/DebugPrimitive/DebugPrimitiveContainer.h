@@ -6,7 +6,6 @@
 
 #include <Vector3.h>
 #include "../../Color.h"
-#include "Graphics/ePrimitiveType.h"
 #include <Math/LightMath_Cpp/Vector4.h>
 
 namespace dooms

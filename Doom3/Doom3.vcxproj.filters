@@ -84,7 +84,7 @@
     <ClCompile Include="Source\Core\Scene\SharedSceneSetting.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Core\Graphics\GraphicsAPI.cpp">
+    <ClCompile Include="Source\Core\Graphics\GraphicsAPIsfd.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Source\Core\Physics\Physics_Setting.cpp">
@@ -385,9 +385,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Source\Core\Graphics\Buffer\UniformBufferObjectUpdater.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Core\Graphics\graphicsAPIManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Source\Core\Graphics\GraphicsAPI\graphicsAPISetting.cpp">
@@ -756,6 +753,18 @@
     <ClCompile Include="Source\Core\Graphics\GraphicsAPI\GraphicsAPILoader.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Core\Graphics\GraphicsAPI\GraphicsAPIManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Core\Graphics\graphicsSetting.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Core\Graphics\GraphicsAPI\APIHeaders\DX11Headers.h">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Core\Graphics\GraphicsAPI\APIHeaders\OpenGLHeaders.h">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="dependency\glad\include\glad\glad.h">
@@ -768,9 +777,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="dependency\glfw-3.3.2.bin.WIN64\include\GLFW\glfw3native.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Core\API\GraphicsAPI.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\Core\Core.h">
@@ -1064,7 +1070,7 @@
     <ClInclude Include="Source\Core\Scene\SharedSceneSetting.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Core\Graphics\GraphicsAPI.h">
+    <ClInclude Include="Source\Core\Graphics\GraphicsAPIsfd.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\Core\Game\FrameDirtyChecker.h">
@@ -1110,9 +1116,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\Core\Math\LightMath_Cpp\Collision.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Core\Graphics\ePrimitiveType.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\Core\Physics\Picking.h">
@@ -1485,9 +1488,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\Core\Graphics\Buffer\UniformBufferObjectUpdater.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Core\Graphics\graphicsAPIManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\Core\Graphics\GraphicsAPI\graphicsAPISetting.h">
@@ -1914,6 +1914,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\Core\Graphics\GraphicsAPI\GraphicsAPILoader.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Core\Graphics\GraphicsAPI\GraphicsAPIManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Core\Graphics\graphicsSetting.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

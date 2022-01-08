@@ -4,7 +4,7 @@
 
 #ifdef DEBUG_DRAWER
 
-#include "../Graphics_Setting.h"
+#include "../GraphicsAPI/graphicsAPISetting.h"
 #include "../Graphics_Server.h"
 #include "Game/AssetManager/AssetManager.h"
 #include <Asset/ShaderAsset.h>
@@ -30,9 +30,9 @@ namespace dooms
 				dooms::asset::ShaderAsset* overDrawVisualizationShader = dooms::assetImporter::AssetManager::GetSingleton()->GetAsset<dooms::asset::eAssetType::SHADER>("OverDrawVisualizationShader.glsl");
 				mOverDrawVisualizationObjectDrawMaterial = overDrawVisualizationShader->CreateMatrialWithThisShader();
 
-				mOverDrawVisualizationFrameBuffer.GenerateBuffer(dooms::graphics::Graphics_Setting::GetScreenWidth(), dooms::graphics::Graphics_Setting::GetScreenHeight());
-				mOverDrawVisualizationFrameBuffer.AttachTextureBuffer(dooms::graphics::GraphicsAPI::eBufferBitType::COLOR);
-				mOverDrawVisualizationFrameBuffer.AttachRenderBuffer(dooms::graphics::GraphicsAPI::eBufferBitType::DEPTH);
+				mOverDrawVisualizationFrameBuffer.GenerateBuffer(dooms::graphics::graphicsAPISetting::GetScreenWidth(), dooms::graphics::Graphics_Setting::GetScreenHeight());
+				mOverDrawVisualizationFrameBuffer.AttachTextureBuffer(dooms::graphics::GraphicsAPI::eBufferAttachmentType::COLOR0);
+				mOverDrawVisualizationFrameBuffer.AttachRenderBuffer(dooms::graphics::GraphicsAPI::eBufferAttachmentType::DEPTH);
 				
 				OverDrawVisualizationPIP = dooms::graphics::Graphics_Server::GetSingleton()->mPIPManager.AddNewPIP(
 					math::Vector2(-1.0f, -1.0f),
@@ -73,7 +73,7 @@ void dooms::graphics::OverDrawVisualization::SetOverDrawVisualizationRenderingSt
 		mOverDrawVisualizationFrameBuffer.BindFrameBuffer();
 
 		GraphicsAPI::ClearColor(math::Vector4(0.0f, 0.0f, 0.0f, 1.0f));
-		GraphicsAPI::Clear(GraphicsAPI::eClearMask::COLOR_BUFFER_BIT, GraphicsAPI::eClearMask::DEPTH_BUFFER_BIT);
+		GraphicsAPI::Clear(GraphicsAPI::eBufferBitType::COLOR_BUFFER_BIT, GraphicsAPI::eBufferBitType::DEPTH_BUFFER_BIT);
 	}
 	else
 	{

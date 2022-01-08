@@ -6,6 +6,7 @@
 
 #include "../Buffer/UniformBufferObjectManager.h"
 #include <Asset/TextureAsset.h>
+
 #include "../Texture/Texture.h"
 
 using namespace dooms::graphics;
@@ -26,43 +27,29 @@ void Material::SetShaderAsset(::dooms::asset::ShaderAsset* shaderAsset)
 	D_ASSERT(vertexId != 0 || fragmentId != 0 || geometryId != 0);
 
 
-	mProgramID = glCreateProgram();
+	mProgramID = GraphicsAPI::CreateMaterial();
 
 	if (vertexId != 0)
 	{
-		glAttachShader(mProgramID, vertexId);
+		GraphicsAPI::AttachShaderToMaterial(mProgramID, vertexId);
 	}
 
 	if (fragmentId != 0)
 	{
-		glAttachShader(mProgramID, fragmentId);
+		GraphicsAPI::AttachShaderToMaterial(mProgramID, fragmentId);
 	}
 
 	if (geometryId != 0)
 	{
-		glAttachShader(mProgramID, geometryId);
+		GraphicsAPI::AttachShaderToMaterial(mProgramID, geometryId);
 	}
 
-	glLinkProgram(mProgramID);
-
-
-	INT32 isSuccess = 0;
-	glGetProgramiv(mProgramID, GL_LINK_STATUS, &isSuccess);
-#ifdef DEBUG_MODE
-	if (!isSuccess)
-	{
-		char infoLog[512];
-		glGetProgramInfoLog(mProgramID, 512, NULL, infoLog);
-		D_DEBUG_LOG(eLogType::D_ERROR, "SHADER::PROGRAM::LINKING_FAILED ( %s ) : ( %s ) ", shaderAsset->GetAssetFileName().c_str(), infoLog);
-	}
-#endif
-
-	if (isSuccess > 0)
+	const bool isSuccessLinkMaterial = GraphicsAPI::LinkMaterial(mProgramID);
+	
+	if (isSuccessLinkMaterial)
 	{
 		InitUniformBufferObject();
-	
-	}
-	
+	}	
 }
 
 
@@ -83,7 +70,7 @@ void Material::DestroyMaterialBufferObject()
 {
 	if (mProgramID.GetBufferID() != INVALID_BUFFER_ID)
 	{
-		glDeleteProgram(mProgramID);
+		GraphicsAPI::DestroyMaterial(mProgramID);
 		mProgramID = 0;
 	}
 }
@@ -131,7 +118,7 @@ void dooms::graphics::Material::UseProgram() const
 					mTargetTextures[i]->BindTextureWithUnit(i);
 				}
 			}
-			glUseProgram(mProgramID);
+			GraphicsAPI::BindMaterial(mProgramID);
 		}
 	}
 
@@ -151,7 +138,23 @@ INT32 Material::GetUniformBlocksCount() const
 	D_ASSERT(mProgramID != 0);
 
 	INT32 uniformBlockCount = 0;
-	glGetProgramiv(mProgramID, GL_ACTIVE_UNIFORM_BLOCKS, &uniformBlockCount);
+
+	switch (GraphicsAPI::GetGraphicsAPIType())
+	{
+	case eGraphicsAPIType::OpenGL:
+		glGetProgramiv(mProgramID, GL_ACTIVE_UNIFORM_BLOCKS, &uniformBlockCount);
+		break;
+
+	case eGraphicsAPIType::DX11:
+
+		break;
+
+	default:
+		D_ASSERT(false);
+	}
+
+	
+	
 	return uniformBlockCount;
 }
 
@@ -161,11 +164,24 @@ void Material::InitUniformBufferObject()
 	for (INT32 i = 0; i < uniformBlockCount; i++)
 	{
 		INT32 uniformBlockBindingPoint = 0;
-		glGetActiveUniformBlockiv(mProgramID, i, GL_UNIFORM_BLOCK_BINDING, &uniformBlockBindingPoint); // https://www.khronos.org/registry/OpenGL-Refpages/gl4/html/glGetActiveUniformBlock.xhtml
-		
 		INT32 uniformBlockSize = 0;
-		glGetActiveUniformBlockiv(mProgramID, i, GL_UNIFORM_BLOCK_DATA_SIZE, &uniformBlockSize);
-		
+
+		switch (GraphicsAPI::GetGraphicsAPIType())
+		{
+		case eGraphicsAPIType::OpenGL:
+			glGetActiveUniformBlockiv(mProgramID, i, GL_UNIFORM_BLOCK_BINDING, &uniformBlockBindingPoint); // https://www.khronos.org/registry/OpenGL-Refpages/gl4/html/glGetActiveUniformBlock.xhtml
+			glGetActiveUniformBlockiv(mProgramID, i, GL_UNIFORM_BLOCK_DATA_SIZE, &uniformBlockSize);
+
+			break;
+
+		case eGraphicsAPIType::DX11:
+
+			break;
+
+		default:
+			D_ASSERT(false);
+		}
+
 		UniformBufferObject& uniformBufferObject = UniformBufferObjectManager::GetSingleton()->GetOrGenerateUniformBufferObject(uniformBlockBindingPoint, uniformBlockSize);
 		mUniformBufferObjects[i] = &uniformBufferObject;
 

@@ -2,8 +2,6 @@
 
 #include <Core.h>
 
-#include"../API/GraphicsAPI.h"
-
 #include "SimpleIniParser.h"
 
 namespace dooms

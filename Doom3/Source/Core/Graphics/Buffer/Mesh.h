@@ -3,11 +3,10 @@
 
 #include <memory>
 #include "../OverlapBindChecker.h"
-#include "../ePrimitiveType.h"
 #include <Physics/Collider/AABB.h>
 #include <Physics/Collider/Sphere.h>
 #include "eVertexArrayFlag.h"
-#include "../GraphicsAPI.h"
+#include "../GraphicsAPI/GraphicsAPI.h"
 #include <Vector2.h>
 
 #include "Mesh.reflection.h"
@@ -53,7 +52,7 @@ namespace dooms
 			D_PROPERTY()
 			INT32 mNumOfVertices;
 			D_PROPERTY()
-			ePrimitiveType mPrimitiveType;
+			GraphicsAPI::ePrimitiveType mPrimitiveType;
 
 			D_PROPERTY()
 			UINT32 mVertexArrayFlag;
@@ -69,7 +68,7 @@ namespace dooms
 
 				if (D_OVERLAP_BIND_CHECK_CHECK_IS_NOT_BOUND_AND_BIND_ID(VERTEX_ARRAY_TAG, mVertexArrayObjectID))
 				{
-					glBindVertexArray(mVertexArrayObjectID);
+					GraphicsAPI::BindVertexArrayObject(mVertexArrayObjectID);
 				}
 			}
 
@@ -80,7 +79,7 @@ namespace dooms
 
 				if (D_OVERLAP_BIND_CHECK_CHECK_IS_NOT_BOUND_AND_BIND_ID(INDEX_BUFFER_TAG, mElementBufferObjectID))
 				{
-					glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mElementBufferObjectID);
+					GraphicsAPI::BindBuffer(mElementBufferObjectID, GraphicsAPI::eBufferTarget::ELEMENT_ARRAY_BUFFER);
 				}
 			}
 
@@ -105,7 +104,7 @@ namespace dooms
 			Mesh();
 			virtual ~Mesh();
 			
-			Mesh(GLsizeiptr dataCount, const void* data, ePrimitiveType primitiveType, UINT32 vertexArrayFlag) noexcept;
+			Mesh(const long long int dataCount, const void* data, GraphicsAPI::ePrimitiveType primitiveType, UINT32 vertexArrayFlag) noexcept;
 			Mesh(const ThreeDModelMesh& threeDModelMesh) noexcept;
 			Mesh& operator=(const ThreeDModelMesh& threeDModelMesh) noexcept;
 
@@ -127,7 +126,7 @@ namespace dooms
 			{
 				if (D_OVERLAP_BIND_CHECK_CHECK_IS_NOT_BOUND_AND_BIND_ID(VERTEX_ARRAY_TAG, 0))
 				{
-					glBindVertexArray(0);
+					GraphicsAPI::UnBindVertexArrayObject();
 				}
 			}
 
@@ -148,41 +147,41 @@ namespace dooms
 			/// <param name="primitiveType"></param>
 			/// <param name="vertexArrayFlag">use eVertexArrayFlag!!!! </param>
 			/// <returns></returns>
-			void BufferData(GLsizeiptr dataComponentCount, const void* data, ePrimitiveType primitiveType, UINT32 vertexArrayFlag) noexcept;
-			void BufferSubData(GLsizeiptr dataComponentCount, const void* data, khronos_intptr_t offsetInByte) const noexcept;
+			void BufferData(const long long int dataComponentCount, const void* data, GraphicsAPI::ePrimitiveType primitiveType, UINT32 vertexArrayFlag) noexcept;
+			void BufferSubData(const long long int dataComponentCount, const void* data, const long long int offsetInByte) const noexcept;
 			void BindVertexBufferObject() const;
 			void BufferDataFromModelMesh(const ThreeDModelMesh& threeDModelMesh) noexcept;
 			FORCE_INLINE void Draw() const
 			{
-				D_ASSERT(mPrimitiveType != ePrimitiveType::NONE);
+				D_ASSERT(mPrimitiveType != GraphicsAPI::ePrimitiveType::NONE);
 
 				BindVertexArrayObject();
 				if (IsElementBufferGenerated() == true)
 				{// TODO : WHY THIS MAKE ERROR ON RADEON GPU, CHECK THIS https://stackoverflow.com/questions/18299646/gldrawelements-emits-gl-invalid-operation-when-using-amd-driver-on-linux
 					// you don't need bind EBO everytime, EBO will be bound automatically when bind VAO
-					GraphicsAPI::DrawElement(mPrimitiveType, mNumOfIndices, GL_UNSIGNED_INT, 0);
+					GraphicsAPI::DrawIndexed(mPrimitiveType, mNumOfIndices, 0);
 				}
 				else
 				{
-					GraphicsAPI::DrawArray(mPrimitiveType, 0, mNumOfVertices);
+					GraphicsAPI::Draw(mPrimitiveType, 0, mNumOfVertices);
 				}
 			}
-			FORCE_INLINE void DrawArray(const INT32 startIndexInComponent, const UINT32 vertexCount) const
+			FORCE_INLINE void DrawArray(const INT32 startVertexLocation, const UINT32 vertexCount) const
 			{
-				D_ASSERT(mPrimitiveType != ePrimitiveType::NONE);
+				D_ASSERT(mPrimitiveType != GraphicsAPI::ePrimitiveType::NONE);
 
 				BindVertexArrayObject();
 
-				GraphicsAPI::DrawArray(mPrimitiveType, startIndexInComponent, vertexCount);
+				GraphicsAPI::Draw(mPrimitiveType, vertexCount, startVertexLocation);
 			}
 
-			FORCE_INLINE void DrawArray(const ePrimitiveType primitiveType, const INT32 startVertexIndex, const INT32 vertexCount) const
+			FORCE_INLINE void DrawArray(const GraphicsAPI::ePrimitiveType primitiveType, const INT32 startVertexLocation, const INT32 vertexCount) const
 			{
-				D_ASSERT(primitiveType != ePrimitiveType::NONE);
+				D_ASSERT(primitiveType != GraphicsAPI::ePrimitiveType::NONE);
 
 				BindVertexArrayObject();
 
-				GraphicsAPI::DrawArray(primitiveType, startVertexIndex, vertexCount);
+				GraphicsAPI::Draw(mPrimitiveType, vertexCount, startVertexLocation);
 			}
 
 			static constexpr UINT32 GetStride(const UINT32 vertexArrayFlag);

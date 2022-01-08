@@ -16,7 +16,7 @@
 void dooms::graphics::DebugDrawer::Init()
 {
 	mDebugMesh.GenMeshBuffer(false);
-	mDebugMesh.BufferData(MAX_DEBUG_VERTEX_COUNT * 3, NULL, ePrimitiveType::LINES, eVertexArrayFlag::VertexVector3);
+	mDebugMesh.BufferData(MAX_DEBUG_VERTEX_COUNT * 3, NULL, GraphicsAPI::ePrimitiveType::LINES, eVertexArrayFlag::VertexVector3);
 
 
 	auto debug2DShader = dooms::assetImporter::AssetManager::GetSingleton()->GetAsset<asset::eAssetType::SHADER>(DebugDrawer::DEBUG_2D_SHADER);

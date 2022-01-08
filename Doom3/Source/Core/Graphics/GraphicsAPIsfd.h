@@ -18,7 +18,7 @@ namespace dooms
 		/// Graphics Server class
 		/// Contain graphics api function wrapper
 		/// </summary>
-		namespace GraphicsAPI
+		namespace GraphicsAPIff
 		{
 			enum class D_ENUM eBufferMode : UINT32
 			{

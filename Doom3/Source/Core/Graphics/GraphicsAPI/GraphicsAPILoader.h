@@ -2,16 +2,13 @@
 
 #include <Core.h>
 
+#include "GraphicsAPI.h"
+
 namespace dooms
 {
 	namespace graphics
 	{
-		enum class eGraphicsAPIType
-		{
-			OpenGL,
-			DX11
-		};
-
+		
 		
 		class D_CLASS GraphicsAPILoader : public DObject
 		{
@@ -30,6 +27,7 @@ namespace dooms
 			GraphicsAPILoader& operator=(const GraphicsAPILoader&) = delete;
 			GraphicsAPILoader& operator=(GraphicsAPILoader&&) noexcept;
 			void LoadGraphicsAPILibrary(const eGraphicsAPIType graphicsAPIType);
+			bool UnLoadGraphicsAPILibrary();
 		};
 	}
 }

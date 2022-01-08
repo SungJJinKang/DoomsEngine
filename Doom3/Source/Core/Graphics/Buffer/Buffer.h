@@ -1,7 +1,6 @@
 #pragma once
 
 #include "../Graphics_Core.h"
-#include "../API/GraphicsAPI.h"
 #include "BufferID.h"
 
 #include "Buffer.reflection.h"
@@ -47,23 +46,7 @@ namespace dooms
 			virtual bool IsBufferGenerated() const;
 
 
-			enum class D_ENUM eBufferBindingTarget
-			{
-				ARRAY_BUFFER = GL_ARRAY_BUFFER,
-				ATOMIC_COUNTER_BUFFER = GL_ATOMIC_COUNTER_BUFFER,
-				COPY_READ_BUFFER = GL_COPY_READ_BUFFER,
-				COPY_WRITE_BUFFER = GL_COPY_WRITE_BUFFER,
-				DISPATCH_INDIRECT_BUFFER = GL_DISPATCH_INDIRECT_BUFFER,
-				DRAW_INDIRECT_BUFFER = GL_DRAW_INDIRECT_BUFFER,
-				ELEMENT_ARRAY_BUFFER = GL_ELEMENT_ARRAY_BUFFER,
-				PIXEL_PACK_BUFFER = GL_PIXEL_PACK_BUFFER,
-				PIXEL_UNPACK_BUFFER = GL_PIXEL_UNPACK_BUFFER,
-				QUERY_BUFFER = GL_QUERY_BUFFER,
-				SHADER_STORAGE_BUFFER = GL_SHADER_STORAGE_BUFFER,
-				TEXTURE_BUFFER = GL_TEXTURE_BUFFER,
-				TRANSFORM_FEEDBACK_BUFFER = GL_TRANSFORM_FEEDBACK_BUFFER,
-				UNIFORM_BUFFER = GL_UNIFORM_BUFFER
-			};
+			/*
 			enum class D_ENUM eBufferParameter
 			{
 				BUFFER_ACCESS = GL_BUFFER_ACCESS,
@@ -84,6 +67,7 @@ namespace dooms
 			/// <param name="bufferParameter"></param>
 			/// <returns></returns>
 			int64_t GetBufferParameteri64v(eBufferBindingTarget bindingTarget, eBufferParameter bufferParameter);
+			*/
 		};
 	}
 }

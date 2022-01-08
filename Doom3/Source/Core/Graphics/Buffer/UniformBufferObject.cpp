@@ -1,5 +1,7 @@
 #include "UniformBufferObject.h"
 
+
+
 dooms::graphics::UniformBufferObject::UniformBufferObject() 
 	: Buffer(), mUniformBufferTempData{nullptr}, mSizeInByte{ 0 }, mBindingPoint{ 0 }
 {
@@ -25,8 +27,9 @@ void dooms::graphics::UniformBufferObject::GenerateUniformBufferObject(UINT32 bi
 		Buffer::GenBuffer();
 
 		BindBuffer();
-		glBufferData(GL_UNIFORM_BUFFER, uniformBlockSizeInByte, NULL, GL_STATIC_DRAW);
-		glBindBufferBase(GL_UNIFORM_BUFFER, bindingPoint, mBufferID);
+
+		GraphicsAPI::UpdateDataToBuffer(GraphicsAPI::eBufferTarget::UNIFORM_BUFFER, 0, uniformBlockSizeInByte, 0);
+		GraphicsAPI::BindBufferToIndexedBuffer(GraphicsAPI::eBufferTarget::UNIFORM_BUFFER, bindingPoint, mBufferID);
 
 		mSizeInByte = uniformBlockSizeInByte;
 		mUniformBufferTempData = new char[uniformBlockSizeInByte];
@@ -52,7 +55,7 @@ void dooms::graphics::UniformBufferObject::BufferData() noexcept
 	if (IsBufferGenerated() == true && bmIsDirty == true)
 	{
 		BindBuffer();
-		glBufferData(GL_UNIFORM_BUFFER, mSizeInByte, mUniformBufferTempData, GL_STATIC_DRAW);
+		GraphicsAPI::UpdateDataToBuffer(GraphicsAPI::eBufferTarget::UNIFORM_BUFFER, 0, mSizeInByte, mUniformBufferTempData);
 		bmIsDirty = false;
 	}
 }
@@ -63,7 +66,7 @@ void dooms::graphics::UniformBufferObject::BufferSubData(const void* sourceData,
 	if (IsBufferGenerated() == true)
 	{
 		BindBuffer();
-		glBufferSubData(GL_UNIFORM_BUFFER, offsetInUniformBlock, sizeOfSourceData, sourceData);
+		GraphicsAPI::UpdateDataToBuffer(GraphicsAPI::eBufferTarget::UNIFORM_BUFFER, offsetInUniformBlock, sizeOfSourceData, sourceData);
 		bmIsDirty = false;
 	}
 }

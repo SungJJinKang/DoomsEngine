@@ -1,15 +1,15 @@
 #include "Mesh.h"
 
-#include "../GraphicsAPI.h"
+
 #include "../Asset/ThreeDModelAsset.h"
 
 dooms::graphics::Mesh::Mesh()
-	: Buffer(), mVertexArrayObjectID{ INVALID_BUFFER_ID }, mElementBufferObjectID{ INVALID_BUFFER_ID }, mNumOfVertices{ 0 }, mNumOfIndices{ 0 }, mPrimitiveType{ ePrimitiveType::NONE }
+	: Buffer(), mVertexArrayObjectID{ INVALID_BUFFER_ID }, mElementBufferObjectID{ INVALID_BUFFER_ID }, mNumOfVertices{ 0 }, mNumOfIndices{ 0 }, mPrimitiveType{ GraphicsAPI::ePrimitiveType::NONE }
 {
 
 }
 
-dooms::graphics::Mesh::Mesh(GLsizeiptr dataCount, const void* data, ePrimitiveType primitiveType, UINT32 vertexArrayFlag) noexcept
+dooms::graphics::Mesh::Mesh(const long long int dataCount, const void* data, GraphicsAPI::ePrimitiveType primitiveType, UINT32 vertexArrayFlag) noexcept
 	: Buffer(), mTargetThreeDModelMesh{ nullptr }
 {
 	GenMeshBuffer(false);
@@ -35,13 +35,13 @@ void dooms::graphics::Mesh::GenMeshBuffer(bool hasIndice)
 	Buffer::GenBuffer();
 	if (mVertexArrayObjectID.GetBufferID() == INVALID_BUFFER_ID)
 	{
-		glGenVertexArrays(1, &(mVertexArrayObjectID));
+		mVertexArrayObjectID = GraphicsAPI::CreateVertexArrayObject(1)[0];
 	}
 	if (hasIndice)
 	{
 		if (mElementBufferObjectID.GetBufferID() == INVALID_BUFFER_ID)
 		{
-			glGenBuffers(1, &(mElementBufferObjectID));
+			mElementBufferObjectID = GraphicsAPI::CreateBuffers(1)[0];
 		}
 	}
 	else
@@ -56,12 +56,12 @@ void dooms::graphics::Mesh::DeleteBuffers()
 
 	if (mVertexArrayObjectID.IsValid())
 	{
-		glDeleteVertexArrays(1, &(mVertexArrayObjectID));
+		GraphicsAPI::DestroyVertexArrayObject({ mVertexArrayObjectID });
 		mVertexArrayObjectID = INVALID_BUFFER_ID;
 	}
 	if (mElementBufferObjectID.IsValid())
 	{
-		glDeleteBuffers(1, &(mElementBufferObjectID));
+		GraphicsAPI::DestroyBuffer({ mElementBufferObjectID });
 		mElementBufferObjectID = INVALID_BUFFER_ID;
 	}
 }
@@ -91,7 +91,13 @@ const dooms::ThreeDModelMesh* dooms::graphics::Mesh::GetTargetThreeDModelMesh() 
 	return mTargetThreeDModelMesh;
 }
 
-void dooms::graphics::Mesh::BufferData(GLsizeiptr dataComponentCount, const void* data, ePrimitiveType primitiveType, UINT32 vertexArrayFlag) noexcept
+void dooms::graphics::Mesh::BufferData
+(
+	const long long int dataComponentCount, 
+	const void* data, 
+	GraphicsAPI::ePrimitiveType primitiveType,
+	UINT32 vertexArrayFlag
+) noexcept
 {
 	GenBufferIfNotGened(false);
 
@@ -99,7 +105,7 @@ void dooms::graphics::Mesh::BufferData(GLsizeiptr dataComponentCount, const void
 	BindVertexBufferObject();
 
 	D_DEBUG_LOG(eLogType::D_LOG, "%f", sizeof(FLOAT32) * dataComponentCount);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(FLOAT32) * dataComponentCount, data, GL_STATIC_DRAW);
+	GraphicsAPI::AllocateBufferMemory(GraphicsAPI::eBufferTarget::ARRAY_BUFFER, sizeof(FLOAT32) * dataComponentCount, data);
 
 	UINT32 offset = 0;
 	const UINT32 stride = Mesh::GetStride(vertexArrayFlag);
@@ -112,48 +118,48 @@ void dooms::graphics::Mesh::BufferData(GLsizeiptr dataComponentCount, const void
 	if (vertexArrayFlag & eVertexArrayFlag::VertexVector2)
 	{
 		//mVertex
-		glEnableVertexAttribArray(0);
-		glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, stride, reinterpret_cast<GLvoid*>(offset));
+		GraphicsAPI::EnableVertexAttributeArrayIndex(0);
+		GraphicsAPI::DefineVertexAttributeLayout(0, 2, stride, offset);
 		offset += 2 * sizeof(FLOAT32);
 	}
 
 	if (vertexArrayFlag & eVertexArrayFlag::VertexVector3)
 	{
 		//mVertex
-		glEnableVertexAttribArray(0);
-		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, stride, reinterpret_cast<GLvoid*>(offset));
+		GraphicsAPI::EnableVertexAttributeArrayIndex(0);
+		GraphicsAPI::DefineVertexAttributeLayout(0, 3, stride, offset);
 		offset += 3 * sizeof(FLOAT32);
 	}
 
 	if (vertexArrayFlag & eVertexArrayFlag::TexCoord)
 	{
 		//mTexCoord
-		glEnableVertexAttribArray(1);
-		glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, stride, reinterpret_cast<GLvoid*>(offset));
+		GraphicsAPI::EnableVertexAttributeArrayIndex(1);
+		GraphicsAPI::DefineVertexAttributeLayout(1, 2, stride, offset);
 		offset += 2 * sizeof(FLOAT32);
 	}
 
 	if (vertexArrayFlag & eVertexArrayFlag::mNormal)
 	{
 		//mNormal
-		glEnableVertexAttribArray(2);
-		glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, stride, reinterpret_cast<GLvoid*>(offset));
+		GraphicsAPI::EnableVertexAttributeArrayIndex(2);
+		GraphicsAPI::DefineVertexAttributeLayout(2, 3, stride, offset);
 		offset += 3 * sizeof(FLOAT32);
 	}
 
 	if (vertexArrayFlag & eVertexArrayFlag::mTangent)
 	{
 		//mTangent
-		glEnableVertexAttribArray(3);
-		glVertexAttribPointer(3, 3, GL_FLOAT, GL_FALSE, stride, reinterpret_cast<GLvoid*>(offset));
+		GraphicsAPI::EnableVertexAttributeArrayIndex(3);
+		GraphicsAPI::DefineVertexAttributeLayout(3, 3, stride, offset);
 		offset += 3 * sizeof(FLOAT32);
 	}
 
 	if (vertexArrayFlag & eVertexArrayFlag::mBitangent)
 	{
 		//mBitangent
-		glEnableVertexAttribArray(4);
-		glVertexAttribPointer(4, 3, GL_FLOAT, GL_FALSE, stride, reinterpret_cast<GLvoid*>(offset));
+		GraphicsAPI::EnableVertexAttributeArrayIndex(4);
+		GraphicsAPI::DefineVertexAttributeLayout(4, 3, stride, offset);
 		offset += 3 * sizeof(FLOAT32);
 	}
 
@@ -165,17 +171,22 @@ void dooms::graphics::Mesh::BufferData(GLsizeiptr dataComponentCount, const void
 	mVertexArrayFlag = vertexArrayFlag;
 }
 
-void dooms::graphics::Mesh::BufferSubData(GLsizeiptr dataComponentCount, const void* data, khronos_intptr_t offsetInByte) const noexcept
+void dooms::graphics::Mesh::BufferSubData
+(
+	const long long int dataComponentCount, 
+	const void* data, 
+	const long long int offsetInByte
+) const noexcept
 {
 	D_ASSERT(mBufferID.IsValid());
 
 	BindVertexArrayObject();
 	BindVertexBufferObject();
 
-	D_ASSERT(GraphicsAPI::GetInteger64v(GraphicsAPI::GetIntegerParameter::ARRAY_BUFFER_BINDING) == mBufferID);
+	//D_ASSERT(GraphicsAPI::GetInteger64v(GraphicsAPI::GetIntegerParameter::ARRAY_BUFFER_BINDING) == mBufferID);
 
 	// GL_INVALID_VALUE is generated if offset or size is negative, or if offset+size is greater than the value of GL_BUFFER_SIZE for the specified buffer object.
-	glBufferSubData(GL_ARRAY_BUFFER, offsetInByte, sizeof(FLOAT32) * dataComponentCount, data);
+	GraphicsAPI::UpdateDataToBuffer(GraphicsAPI::ARRAY_BUFFER, offsetInByte, sizeof(FLOAT32) * dataComponentCount, data);
 
 }
 
@@ -185,7 +196,7 @@ void dooms::graphics::Mesh::BindVertexBufferObject() const
 
 	if (D_OVERLAP_BIND_CHECK_CHECK_IS_NOT_BOUND_AND_BIND_ID(VERTEX_BUFFER_TAG, mBufferID))
 	{
-		glBindBuffer(GL_ARRAY_BUFFER, mBufferID);
+		GraphicsAPI::BindBuffer(mBufferID, GraphicsAPI::eBufferTarget::ELEMENT_ARRAY_BUFFER);
 	}
 
 	
@@ -199,41 +210,40 @@ void dooms::graphics::Mesh::BufferDataFromModelMesh(const ThreeDModelMesh& three
 	BindVertexArrayObject(); // bind vertex array buffer first
 	BindVertexBufferObject();
 
-	glBufferData(GL_ARRAY_BUFFER, threeDModelMesh.mMeshDatas.GetAllocatedDataSize(), threeDModelMesh.mMeshDatas.mData, GL_STATIC_DRAW);
+	GraphicsAPI::UpdateDataToBuffer(GraphicsAPI::eBufferTarget::ARRAY_BUFFER, 0, threeDModelMesh.mMeshDatas.GetAllocatedDataSize(), threeDModelMesh.mMeshDatas.mData);
 	
 	//mVertex
 	if (threeDModelMesh.mVertexArrayFlag & eVertexArrayFlag::VertexVector3)
 	{
-		glEnableVertexAttribArray(0);
-		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(*(threeDModelMesh.mMeshDatas.mVertex)), reinterpret_cast<GLvoid*>((char*)threeDModelMesh.mMeshDatas.mVertex - threeDModelMesh.mMeshDatas.mData));
+		GraphicsAPI::EnableVertexAttributeArrayIndex(0);
+		GraphicsAPI::DefineVertexAttributeLayout(0, 3, sizeof(*(threeDModelMesh.mMeshDatas.mVertex)), static_cast<unsigned int>((char*)threeDModelMesh.mMeshDatas.mVertex - threeDModelMesh.mMeshDatas.mData));
 	}
 
 	//mTexCoord
 	if (threeDModelMesh.mVertexArrayFlag & eVertexArrayFlag::TexCoord)
 	{
-		glEnableVertexAttribArray(1);
-		glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(*(threeDModelMesh.mMeshDatas.mTexCoord)), reinterpret_cast<GLvoid*>((char*)threeDModelMesh.mMeshDatas.mTexCoord - threeDModelMesh.mMeshDatas.mData));
+		GraphicsAPI::EnableVertexAttributeArrayIndex(1);
+		GraphicsAPI::DefineVertexAttributeLayout(1, 3, sizeof(*(threeDModelMesh.mMeshDatas.mTexCoord)), static_cast<unsigned int>((char*)threeDModelMesh.mMeshDatas.mTexCoord - threeDModelMesh.mMeshDatas.mData));
 	}
 
 	//mNormal
 	if (threeDModelMesh.mVertexArrayFlag & eVertexArrayFlag::mNormal)
 	{
-		glEnableVertexAttribArray(2);
-		glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, sizeof(*(threeDModelMesh.mMeshDatas.mNormal)), reinterpret_cast<GLvoid*>((char*)threeDModelMesh.mMeshDatas.mNormal - threeDModelMesh.mMeshDatas.mData));
+		GraphicsAPI::EnableVertexAttributeArrayIndex(2);
+		GraphicsAPI::DefineVertexAttributeLayout(2, 3, sizeof(*(threeDModelMesh.mMeshDatas.mNormal)), static_cast<unsigned int>((char*)threeDModelMesh.mMeshDatas.mNormal - threeDModelMesh.mMeshDatas.mData));
 	}
 
 	//mTangent
 	if (threeDModelMesh.mVertexArrayFlag & eVertexArrayFlag::mTangent)
 	{
-		glEnableVertexAttribArray(3);
-		glVertexAttribPointer(3, 3, GL_FLOAT, GL_FALSE, sizeof(*(threeDModelMesh.mMeshDatas.mTangent)), reinterpret_cast<GLvoid*>((char*)threeDModelMesh.mMeshDatas.mTangent - threeDModelMesh.mMeshDatas.mData));
+		GraphicsAPI::EnableVertexAttributeArrayIndex(3);
+		GraphicsAPI::DefineVertexAttributeLayout(3, 3, sizeof(*(threeDModelMesh.mMeshDatas.mTangent)), static_cast<unsigned int>((char*)threeDModelMesh.mMeshDatas.mTangent - threeDModelMesh.mMeshDatas.mData));
 	}
 
 	if (threeDModelMesh.mVertexArrayFlag & eVertexArrayFlag::mBitangent)
 	{
-		//mBitangent
-		glEnableVertexAttribArray(4);
-		glVertexAttribPointer(4, 3, GL_FLOAT, GL_FALSE, sizeof(*(threeDModelMesh.mMeshDatas.mBitangent)), reinterpret_cast<GLvoid*>((char*)threeDModelMesh.mMeshDatas.mBitangent - threeDModelMesh.mMeshDatas.mData));
+		GraphicsAPI::EnableVertexAttributeArrayIndex(4);
+		GraphicsAPI::DefineVertexAttributeLayout(4, 3, sizeof(*(threeDModelMesh.mMeshDatas.mBitangent)), static_cast<unsigned int>((char*)threeDModelMesh.mMeshDatas.mBitangent - threeDModelMesh.mMeshDatas.mData));
 	}
 
 	mNumOfVertices = threeDModelMesh.mMeshDatas.mVerticeCount;
@@ -243,7 +253,7 @@ void dooms::graphics::Mesh::BufferDataFromModelMesh(const ThreeDModelMesh& three
 	if (threeDModelMesh.bHasIndices == true && threeDModelMesh.mMeshIndices.size() > 0)
 	{
 		BindElementBuffer();
-		glBufferData(GL_ELEMENT_ARRAY_BUFFER, threeDModelMesh.mMeshIndices.size() * sizeof(UINT32), &(threeDModelMesh.mMeshIndices[0]), GL_STATIC_DRAW);
+		GraphicsAPI::UpdateDataToBuffer(GraphicsAPI::eBufferTarget::ELEMENT_ARRAY_BUFFER, 0, threeDModelMesh.mMeshIndices.size() * sizeof(UINT32), reinterpret_cast<const void*>(threeDModelMesh.mMeshIndices.data()));
 		mNumOfIndices = threeDModelMesh.mMeshIndices.size();
 	}
 
@@ -254,7 +264,7 @@ void dooms::graphics::Mesh::BufferDataFromModelMesh(const ThreeDModelMesh& three
 
 	mVertexArrayFlag = threeDModelMesh.mVertexArrayFlag;
 
-	D_ASSERT(mPrimitiveType != ePrimitiveType::NONE);
+	D_ASSERT(mPrimitiveType != GraphicsAPI::ePrimitiveType::NONE);
 }
 
 constexpr UINT32 dooms::graphics::Mesh::GetStride(const UINT32 vertexArrayFlag)
@@ -307,7 +317,7 @@ void dooms::graphics::Mesh::UpdateElementBuffer(const UINT32* indices, const UIN
 	BindVertexArrayObject();
 	BindElementBuffer();
 
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, indiceCount * sizeof(UINT32), indices, GL_STATIC_DRAW);
+	GraphicsAPI::UpdateDataToBuffer(GraphicsAPI::eBufferTarget::ELEMENT_ARRAY_BUFFER, 0, indiceCount * sizeof(UINT32), indices);
 	mNumOfIndices = indiceCount;
 }
 
