@@ -2,12 +2,15 @@
 
 #include <vector>
 
+#include "../../Macros/DllMarcos.h"
+
 namespace dooms
 {
 	namespace graphics
 	{
 		// DirectX / OpenGL(Vulkan) concepts mapping chart
 		// https://computergraphics.stackexchange.com/questions/4422/directx-openglvulkan-concepts-mapping-chart/4432
+		// https://anteru.net/blog/2013/porting-from-directx11-to-opengl-4-2-api-mapping/
 
 		enum class eGraphicsAPIType
 		{
@@ -18,7 +21,7 @@ namespace dooms
 		};
 
 		class GraphicsAPIInput;
-		class __declspec(dllexport) GraphicsAPI
+		class DOOMS_ENGINE GraphicsAPI
 		{
 		private:
 
@@ -31,7 +34,7 @@ namespace dooms
 			inline static DEBUG_FUNCTION* mDEBUG_FUNCTION = nullptr;
 
 			static void SetGraphicsAPIType(const eGraphicsAPIType graphicsAPIType);
-			static eGraphicsAPIType GetGraphicsAPIType();
+			static eGraphicsAPIType GetGraphicsAPIType() noexcept;
 
 			enum eBufferBitType : unsigned int
 			{
@@ -80,13 +83,6 @@ namespace dooms
 				ATTACHMENT_DEPTH_STENCIL //= GL_STENCIL_BUFFER_BIT
 			};
 
-			enum eTextureInternalFormat : unsigned int
-			{
-				RGBA16F,
-				DEPTH_COMPONENT,
-				DEPTH24_STENCIL8
-			};
-			
 			enum eBindFrameBufferTarget : unsigned int
 			{
 				DRAW_FRAMEBUFFER,
@@ -122,154 +118,46 @@ namespace dooms
 
 			static unsigned int Initialize();
 			static unsigned int DeInitialize();
-			static void SwapBuffer();
+			static void SwapBuffer() noexcept;
 
-			static void SetVSync(const bool isEnabled);
+			static void SetVSync(const bool isEnabled) noexcept;
 
-			static void WriteBuffer(const GraphicsAPI::eBufferMode bufferMode);
-			static void WriteBuffers(const unsigned int count, const std::vector<GraphicsAPI::eBufferMode> bufferModes);
-			static void ReadBuffer(const GraphicsAPI::eBufferMode bufferMode);
-
-			static void ClearColor(const float r, const float g, const float b, const float a);
-			static void ClearColor(const float* const colors);
-			static void ClearBuffer(const unsigned int clearMaskBits);
-			static void ClearBuffer(const eBufferBitType clearMask);
-			static void ClearBuffer(const eBufferBitType clearMask1, const eBufferBitType clearMask2);
-			static void ClearBuffer(const eBufferBitType clearMask1, const eBufferBitType clearMask2, const eBufferBitType clearMask3);
-			static void ClearSpecificBuffer(const eBufferType bufferType, const unsigned int drawBufferIndex, const float r, const float g, const float b, const float a);
-			static void ClearSpecificBuffer(const eBufferType bufferType, const unsigned int drawBufferIndex, const float* const colors);
-
-			static std::vector<unsigned int> GenerateBuffer(const unsigned int count);
-			static void DestroyBuffer(const unsigned int bufferID);
-			static std::vector<unsigned int> CreateBuffers(const unsigned int bufferCount);
-			static void DestroyBuffers(const std::vector<unsigned int>& buffers);
-			static std::vector<unsigned int> CreateVertexArrayObject(const unsigned int count);
-			static void DestroyVertexArrayObject(const std::vector<unsigned int>& vertexArrayObjects);
-			static void BindVertexArrayObject(const unsigned int vertexArrayObject);
-			static void UnBindVertexArrayObject();
-			static void AllocateBufferMemory
-			(
-				const eBufferTarget bufferTarget,
-				const unsigned int bufferSize, // in bytes
-				const void* const initialData
-			);
-			static void EnableVertexAttributeArrayIndex
-			(
-				const unsigned int vertexAttributeIndex
-			);
-			static void DefineVertexAttributeLayout
-			(
-				const unsigned int vertexAttributeIndex,
-				const unsigned int componentNumber,
-				const unsigned int stride,
-				const unsigned int offset
-			);
-
-			static void BindBuffer
-			(
-				const unsigned int bufferObject,
-				const eBufferTarget bindBufferTarget
-			);
-			static void UnBindBuffer
-			(
-				const eBufferTarget bindBufferTarget
-			);
-			static void BindBufferToIndexedBuffer
-			(
-				const eBufferTarget bindBufferTarget,
-				const unsigned int bindingPoint,
-				const unsigned int bufferObject
-			);
-
-			static void UpdateDataToBuffer
-			(
-				const eBufferTarget bindFrameBufferTarget,
-				const unsigned int offset,
-				const unsigned int dataSize,
-				const void* const data
-			);
-
-			static void BindFrameBuffer
-			(
-				const unsigned int frameBufferObject,
-				const eBindFrameBufferTarget bindFrameBufferTarget
-			);
-			static void BindRenderBuffer(const unsigned int renderBufferObject);
-
-			static std::vector<unsigned int> CreateRenderBufferObject(const unsigned int renderBufferCount);
-			static void AllocateRenderBufferMemory
-			(
-				const unsigned int renderBufferObject,
-				const eTextureInternalFormat textureInternalFormat,
-				const unsigned int width, const unsigned height,
-				const unsigned int multiSample
-			);
-			static void AttachRenderBufferToFrameBuffer
-			(
-				const unsigned int renderBufferObject,
-				const unsigned int frameBufferObject,
-				const eBufferAttachmentType bufferType
-			);
-
-		
-
-			static void Draw
-			(
-				const ePrimitiveType primitiveType,
-				const unsigned int vertexCount,
-				const unsigned int startVertexLocation = 0
-			);
-			static void DrawIndexed
-			(
-				const ePrimitiveType primitiveType, 
-				const unsigned int indiceCount,
-				const void* const indices = 0
-			);
-
-			static unsigned int CreateMaterial();
-			static void DestroyMaterial(const unsigned int materialObject);
-			/**
-			 * \brief 
-			 * \param materialObject 
-			 * \return If success, return true
-			 */
-			static bool LinkMaterial(const unsigned int materialObject);
-			static void BindMaterial(const unsigned int materialObject);
-
-			enum eShaderType : unsigned int
+			enum eDepthFuncType : unsigned int
 			{
-				ShaderType_None,
-				Vertex,
-				Fragment,
-				Geometry
+				ALWAYS, // = GL_ALWAYS,
+				NEVER, // = GL_NEVER,
+				LESS, // = GL_LESS,
+				EQUAL, // = GL_EQUAL,
+				LEQUAL, // = GL_LEQUAL,
+				GREATER, // = GL_GREATER,
+				NOTEQUAL, // = GL_NOTEQUAL,
+				GEQUAL // = GL_GEQUAL
 			};
 
-			static unsigned int CreateShaderObject(const eShaderType shaderType);
-			static void DestroyShaderObject(const unsigned int shaderObject);
-			static void CompileShader(const unsigned int shaderObject, const char* const shaderText);
-			static void CompileShaders(const unsigned int shaderObject, const unsigned int shaderCount, const char* const * const shaderTexts);
+			static void DepthFunc(const eDepthFuncType depthFuncType) noexcept;
+			static void DepthMask(const bool isWriteDepthBuffer) noexcept;
 
-			static void AttachShaderToMaterial(const unsigned int materialObject, const unsigned int shaderObject);
-			
-			static void UpdateConstantBuffer_bool1(const int constantBufferID, const bool value1);
-			static void UpdateConstantBuffer_bool2(const int constantBufferID, const bool value1, const bool value2);
-			static void UpdateConstantBuffer_bool3(const int constantBufferID, const bool value1, const bool value2, const bool value3);
-			static void UpdateConstantBuffer_bool4(const int constantBufferID, const bool value1, const bool value2, const bool value3, const bool value4);
+			enum eCullFace : unsigned int
+			{
+				CULLFACE_FRONT,
+				CULLFACE_BACK,
+				CULLFACE_FRONT_AND_BACK
+			};
 
-			static void UpdateConstantBuffer_int1(const int constantBufferID, const int value1);
-			static void UpdateConstantBuffer_int2(const int constantBufferID, const int value1, const int value2);
-			static void UpdateConstantBuffer_int3(const int constantBufferID, const int value1, const int value2, const int value3);
-			static void UpdateConstantBuffer_int4(const int constantBufferID, const int value1, const int value2, const int value3, const int value4);
+			static void SetCullFace(const eCullFace cullFace) noexcept;
 
-			static void UpdateConstantBuffer_float1(const int constantBufferID, const float value1);
-			static void UpdateConstantBuffer_float2(const int constantBufferID, const float value1, const float value2);
-			static void UpdateConstantBuffer_float3(const int constantBufferID, const float value1, const float value2, const float value3);
-			static void UpdateConstantBuffer_float4(const int constantBufferID, const float value1, const float value2, const float value3, const float value4);
+			static void WriteBuffer(const GraphicsAPI::eBufferMode bufferMode) noexcept;
+			static void WriteBuffers(const unsigned int count, const std::vector<GraphicsAPI::eBufferMode> bufferModes) noexcept;
+			static void ReadBuffer(const GraphicsAPI::eBufferMode bufferMode) noexcept;
 
-			static void UpdateConstantBuffer_mat2x2f(const int constantBufferID, const float* const matrix);
-			static void UpdateConstantBuffer_mat3x3f(const int constantBufferID, const float* const matrix);
-			static void UpdateConstantBuffer_mat4x4f(const int constantBufferID, const float* const matrix);
-
+			static void ClearColor(const float r, const float g, const float b, const float a) noexcept;
+			static void ClearColor(const float* const colors) noexcept;
+			static void ClearBuffer(const unsigned int clearMaskBits) noexcept;
+			static void ClearBuffer(const eBufferBitType clearMask) noexcept;
+			static void ClearBuffer(const eBufferBitType clearMask1, const eBufferBitType clearMask2) noexcept;
+			static void ClearBuffer(const eBufferBitType clearMask1, const eBufferBitType clearMask2, const eBufferBitType clearMask3) noexcept;
+			static void ClearSpecificBuffer(const eBufferType bufferType, const unsigned int drawBufferIndex, const float r, const float g, const float b, const float a) noexcept;
+			static void ClearSpecificBuffer(const eBufferType bufferType, const unsigned int drawBufferIndex, const float* const colors) noexcept;
 
 			enum eTextureType : unsigned int
 			{
@@ -309,6 +197,609 @@ namespace dooms
 				TEXTURE_2D_MULTISAMPLE, // = GL_TEXTURE_2D_MULTISAMPLE,
 				TEXTURE_2D_MULTISAMPLE_ARRAY, // = GL_TEXTURE_2D_MULTISAMPLE_ARRAY
 			};
+
+			enum eTargetTexture : unsigned int
+			{
+				TARGET_TEXTURE_TEXTURE_1D, //= GL_TEXTURE_1D,
+				TARGET_TEXTURE_PROXY_TEXTURE_1D, // = GL_PROXY_TEXTURE_1D,
+				TARGET_TEXTURE_TEXTURE_2D, // = GL_TEXTURE_2D,
+				TARGET_TEXTURE_PROXY_TEXTURE_2D, // = GL_PROXY_TEXTURE_2D,
+				TARGET_TEXTURE_TEXTURE_1D_ARRAY, // = GL_TEXTURE_1D_ARRAY,
+				TARGET_TEXTURE_PROXY_TEXTURE_1D_ARRAY, // = GL_PROXY_TEXTURE_1D_ARRAY,
+				TARGET_TEXTURE_TEXTURE_RECTANGLE, // = GL_TEXTURE_RECTANGLE,
+				TARGET_TEXTURE_PROXY_TEXTURE_RECTANGLE, // = GL_PROXY_TEXTURE_RECTANGLE,
+				TARGET_TEXTURE_TEXTURE_CUBE_MAP_POSITIVE_X, // = GL_TEXTURE_CUBE_MAP_POSITIVE_X,
+				TARGET_TEXTURE_TEXTURE_CUBE_MAP_NEGATIVE_X, // = GL_TEXTURE_CUBE_MAP_NEGATIVE_X,
+				TARGET_TEXTURE_TEXTURE_CUBE_MAP_POSITIVE_Y, // = GL_TEXTURE_CUBE_MAP_POSITIVE_Y,
+				TARGET_TEXTURE_TEXTURE_CUBE_MAP_NEGATIVE_Y, // = GL_TEXTURE_CUBE_MAP_NEGATIVE_Y,
+				TARGET_TEXTURE_TEXTURE_CUBE_MAP_POSITIVE_Z, // = GL_TEXTURE_CUBE_MAP_POSITIVE_Z,
+				TARGET_TEXTURE_TEXTURE_CUBE_MAP_NEGATIVE_Z, // = GL_TEXTURE_CUBE_MAP_NEGATIVE_Z,
+				TARGET_TEXTURE_PROXY_TEXTURE_CUBE_MAP, // = GL_PROXY_TEXTURE_CUBE_MAP,
+				TARGET_TEXTURE_TEXTURE_3D // = GL_TEXTURE_3D
+			};
+
+
+			enum eDataType : unsigned int
+			{
+				UNSIGNED_BYTE, // = GL_UNSIGNED_BYTE,
+				BYTE, // = GL_BYTE,
+				UNSIGNED_SHORT, // = GL_UNSIGNED_SHORT,
+				SHORT, // = GL_SHORT,
+				UNSIGNED_INT, // = GL_UNSIGNED_INT,
+				INT, // = GL_INT,
+				HALF_FLOAT, // = GL_HALF_FLOAT,
+				FLOAT, // = GL_FLOAT,
+				UNSIGNED_BYTE_3_3_2, // = GL_UNSIGNED_BYTE_3_3_2,
+				UNSIGNED_BYTE_2_3_3_REV, // = GL_UNSIGNED_BYTE_2_3_3_REV,
+				UNSIGNED_SHORT_5_6_5, // = GL_UNSIGNED_SHORT_5_6_5,
+				UNSIGNED_SHORT_5_6_5_REV, // = GL_UNSIGNED_SHORT_5_6_5_REV,
+				UNSIGNED_SHORT_4_4_4_4, // = GL_UNSIGNED_SHORT_4_4_4_4,
+				UNSIGNED_SHORT_4_4_4_4_REV, // = GL_UNSIGNED_SHORT_4_4_4_4_REV,
+				UNSIGNED_SHORT_5_5_5_1, // = GL_UNSIGNED_SHORT_5_5_5_1,
+				UNSIGNED_SHORT_1_5_5_5_REV, // = GL_UNSIGNED_SHORT_1_5_5_5_REV,
+				UNSIGNED_INT_8_8_8_8, // = GL_UNSIGNED_INT_8_8_8_8,
+				UNSIGNED_INT_8_8_8_8_REV, // = GL_UNSIGNED_INT_8_8_8_8_REV,
+				UNSIGNED_INT_10_10_10_2, // = GL_UNSIGNED_INT_10_10_10_2,
+				UNSIGNED_INT_2_10_10_10_REV, // = GL_UNSIGNED_INT_2_10_10_10_REV,
+				UNSIGNED_INT_24_8, // = GL_UNSIGNED_INT_24_8,
+				FLOAT_32_UNSIGNED_INT_24_8_REV // = GL_FLOAT_32_UNSIGNED_INT_24_8_REV
+			};
+
+			enum eTextureComponentFormat : unsigned int
+			{
+				TEXTURE_COMPONENT_FORMAT_NONE, //0,
+				TEXTURE_COMPONENT_RED, //GL_RED,
+				TEXTURE_COMPONENT_RG, //GL_RG,
+				TEXTURE_COMPONENT_RGB, //GL_RGB,
+				TEXTURE_COMPONENT_BGR, //GL_BGR,
+				TEXTURE_COMPONENT_RGBA, //GL_RGBA,
+				TEXTURE_COMPONENT_BGRA, //GL_BGRA,
+				TEXTURE_COMPONENT_RED_INTEGER, //GL_RED_INTEGER,
+				TEXTURE_COMPONENT_RG_INTEGER, //GL_RG_INTEGER,
+				TEXTURE_COMPONENT_RGB_INTEGER, //GL_RGB_INTEGER,
+				TEXTURE_COMPONENT_BGR_INTEGER, //GL_BGR_INTEGER,
+				TEXTURE_COMPONENT_RGBA_INTEGER, //GL_RGBA_INTEGER,
+				TEXTURE_COMPONENT_BGRA_INTEGER, //GL_BGRA_INTEGER,
+				TEXTURE_COMPONENT_STENCIL_INDEX, //GL_STENCIL_INDEX,
+				TEXTURE_COMPONENT_DEPTH_COMPONENT, //GL_DEPTH_COMPONENT,
+				TEXTURE_COMPONENT_DEPTH_STENCIL //GL_DEPTH_STENCIL
+			};
+
+			enum eTextureInternalFormat : unsigned int
+			{
+				TEXTURE_INTERNAL_FORMAT_NONE, //0,
+				TEXTURE_INTERNAL_FORMAT_DEPTH_COMPONENT, //GL_DEPTH_COMPONENT,
+				TEXTURE_INTERNAL_FORMAT_DEPTH_COMPONENT16, //GL_DEPTH_COMPONENT16,
+				TEXTURE_INTERNAL_FORMAT_DEPTH_COMPONENT24, //GL_DEPTH_COMPONENT24,
+				TEXTURE_INTERNAL_FORMAT_DEPTH_COMPONENT32, //GL_DEPTH_COMPONENT32,
+				TEXTURE_INTERNAL_FORMAT_DEPTH_COMPONENT32F, //GL_DEPTH_COMPONENT32F,
+				TEXTURE_INTERNAL_FORMAT_DEPTH_STENCIL, //GL_DEPTH_STENCIL,
+				TEXTURE_INTERNAL_FORMAT_DEPTH24_STENCIL8, //GL_DEPTH24_STENCIL8,
+				TEXTURE_INTERNAL_FORMAT_DEPTH32F_STENCIL8, //GL_DEPTH32F_STENCIL8,
+				TEXTURE_INTERNAL_FORMAT_STENCIL_INDEX, //GL_STENCIL_INDEX,
+				TEXTURE_INTERNAL_FORMAT_STENCIL_INDEX8, //GL_STENCIL_INDEX8,
+				TEXTURE_INTERNAL_FORMAT_RED, //GL_RED,
+				TEXTURE_INTERNAL_FORMAT_RG, //GL_RG,
+				TEXTURE_INTERNAL_FORMAT_RGB, //GL_RGB,
+				TEXTURE_INTERNAL_FORMAT_RGBA, //GL_RGBA,
+				TEXTURE_INTERNAL_FORMAT_R8, //GL_R8,
+				TEXTURE_INTERNAL_FORMAT_R8_SNORM, //GL_R8_SNORM,
+				TEXTURE_INTERNAL_FORMAT_R16, //GL_R16,
+				TEXTURE_INTERNAL_FORMAT_R16_SNORM, //GL_R16_SNORM,
+				TEXTURE_INTERNAL_FORMAT_RG8, //GL_RG8,
+				TEXTURE_INTERNAL_FORMAT_RG8_SNORM, //GL_RG8_SNORM,
+				TEXTURE_INTERNAL_FORMAT_RG16, //GL_RG16,
+				TEXTURE_INTERNAL_FORMAT_RG16_SNORM, //GL_RG16_SNORM,
+				TEXTURE_INTERNAL_FORMAT_R3_G3_B2, //GL_R3_G3_B2,
+				TEXTURE_INTERNAL_FORMAT_RGB4, //GL_RGB4,
+				TEXTURE_INTERNAL_FORMAT_RGB5, //GL_RGB5,
+				TEXTURE_INTERNAL_FORMAT_RGB8, //GL_RGB8,
+				TEXTURE_INTERNAL_FORMAT_RGB8_SNORM, //GL_RGB8_SNORM,
+				TEXTURE_INTERNAL_FORMAT_RGB10, //GL_RGB10,
+				TEXTURE_INTERNAL_FORMAT_RGB12, //GL_RGB12,
+				TEXTURE_INTERNAL_FORMAT_RGB16_SNORM, //GL_RGB16_SNORM,
+				TEXTURE_INTERNAL_FORMAT_RGBA2, //GL_RGBA2,
+				TEXTURE_INTERNAL_FORMAT_RGBA4, //GL_RGBA4,
+				TEXTURE_INTERNAL_FORMAT_RGB5_A1, //GL_RGB5_A1,
+				TEXTURE_INTERNAL_FORMAT_RGBA8, //GL_RGBA8,
+				TEXTURE_INTERNAL_FORMAT_RGBA8_SNORM, //GL_RGBA8_SNORM,
+				TEXTURE_INTERNAL_FORMAT_RGB10_A2, //GL_RGB10_A2,
+				TEXTURE_INTERNAL_FORMAT_RGB10_A2UI, //GL_RGB10_A2UI,
+				TEXTURE_INTERNAL_FORMAT_RGBA12, //GL_RGBA12,
+				TEXTURE_INTERNAL_FORMAT_RGBA16, //GL_RGBA16,
+				TEXTURE_INTERNAL_FORMAT_SRGB8, //GL_SRGB8,
+				TEXTURE_INTERNAL_FORMAT_SRGB8_ALPHA8, //GL_SRGB8_ALPHA8,
+				TEXTURE_INTERNAL_FORMAT_R16F, //GL_R16F,
+				TEXTURE_INTERNAL_FORMAT_RG16F, //GL_RG16F,
+				TEXTURE_INTERNAL_FORMAT_RGB16F, //GL_RGB16F,
+				TEXTURE_INTERNAL_FORMAT_RGBA16F, //GL_RGBA16F,
+				TEXTURE_INTERNAL_FORMAT_R32F, //GL_R32F,
+				TEXTURE_INTERNAL_FORMAT_RG32F, //GL_RG32F,
+				TEXTURE_INTERNAL_FORMAT_RGB32F, //GL_RGB32F,
+				TEXTURE_INTERNAL_FORMAT_RGBA32F, //GL_RGBA32F,
+				TEXTURE_INTERNAL_FORMAT_R11F_G11F_B10F, //GL_R11F_G11F_B10F,
+				TEXTURE_INTERNAL_FORMAT_RGB9_E5, //GL_RGB9_E5,
+				TEXTURE_INTERNAL_FORMAT_R8I, //GL_R8I,
+				TEXTURE_INTERNAL_FORMAT_R8UI, //GL_R8UI,
+				TEXTURE_INTERNAL_FORMAT_R16I, //GL_R16I,
+				TEXTURE_INTERNAL_FORMAT_R16UI, //GL_R16UI,
+				TEXTURE_INTERNAL_FORMAT_R32I, //GL_R32I,
+				TEXTURE_INTERNAL_FORMAT_R32UI, //GL_R32UI,
+				TEXTURE_INTERNAL_FORMAT_RG8I, //GL_RG8I,
+				TEXTURE_INTERNAL_FORMAT_RG8UI, //GL_RG8UI,
+				TEXTURE_INTERNAL_FORMAT_RG16I, //GL_RG16I,
+				TEXTURE_INTERNAL_FORMAT_RG16UI, //GL_RG16UI,
+				TEXTURE_INTERNAL_FORMAT_RG32I, //GL_RG32I,
+				TEXTURE_INTERNAL_FORMAT_RG32UI, //GL_RG32UI,
+				TEXTURE_INTERNAL_FORMAT_RGB8I, //GL_RGB8I,
+				TEXTURE_INTERNAL_FORMAT_RGB8UI, //GL_RGB8UI,
+				TEXTURE_INTERNAL_FORMAT_RGB16I, //GL_RGB16I,
+				TEXTURE_INTERNAL_FORMAT_RGB16UI, //GL_RGB16UI,
+				TEXTURE_INTERNAL_FORMAT_RGB32I, //GL_RGB32I,
+				TEXTURE_INTERNAL_FORMAT_RGB32UI, //GL_RGB32UI,
+				TEXTURE_INTERNAL_FORMAT_RGBA8I, //GL_RGBA8I,
+				TEXTURE_INTERNAL_FORMAT_RGBA8UI, //GL_RGBA8UI,
+				TEXTURE_INTERNAL_FORMAT_RGBA16I, //GL_RGBA16I,
+				TEXTURE_INTERNAL_FORMAT_RGBA16UI, //GL_RGBA16UI,
+				TEXTURE_INTERNAL_FORMAT_RGBA32I, //GL_RGBA32I,
+				TEXTURE_INTERNAL_FORMAT_RGBA32UI, //GL_RGBA32UI,
+				TEXTURE_INTERNAL_FORMAT_COMPRESSED_RED, //GL_COMPRESSED_RED,
+				TEXTURE_INTERNAL_FORMAT_COMPRESSED_RG, //GL_COMPRESSED_RG,
+				TEXTURE_INTERNAL_FORMAT_COMPRESSED_RGB, //GL_COMPRESSED_RGB,
+				TEXTURE_INTERNAL_FORMAT_COMPRESSED_RGBA, //GL_COMPRESSED_RGBA,
+				TEXTURE_INTERNAL_FORMAT_COMPRESSED_SRGB, //GL_COMPRESSED_SRGB,
+				TEXTURE_INTERNAL_FORMAT_COMPRESSED_SRGB_ALPHA, //GL_COMPRESSED_SRGB_ALPHA,
+				TEXTURE_INTERNAL_FORMAT_COMPRESSED_RED_RGTC1, //GL_COMPRESSED_RED_RGTC1,
+				TEXTURE_INTERNAL_FORMAT_COMPRESSED_SIGNED_RED_RGTC1, //GL_COMPRESSED_SIGNED_RED_RGTC1,
+				TEXTURE_INTERNAL_FORMAT_COMPRESSED_RG_RGTC2, //GL_COMPRESSED_RG_RGTC2,
+				TEXTURE_INTERNAL_FORMAT_COMPRESSED_SIGNED_RG_RGTC2, //GL_COMPRESSED_SIGNED_RG_RGTC2,
+				TEXTURE_INTERNAL_FORMAT_COMPRESSED_RGBA_BPTC_UNORM, //GL_COMPRESSED_RGBA_BPTC_UNORM,
+				TEXTURE_INTERNAL_FORMAT_COMPRESSED_SRGB_ALPHA_BPTC_UNORM, //GL_COMPRESSED_SRGB_ALPHA_BPTC_UNORM,
+				TEXTURE_INTERNAL_FORMAT_COMPRESSED_RGB_BPTC_SIGNED_FLOAT, //GL_COMPRESSED_RGB_BPTC_SIGNED_FLOAT,
+				TEXTURE_INTERNAL_FORMAT_COMPRESSED_RGB_BPTC_UNSIGNED_FLOAT //GL_COMPRESSED_RGB_BPTC_UNSIGNED_FLOAT,
+
+			};
+
+			enum eTextureCompressedInternalFormat : unsigned int
+			{
+				TEXTURE_COMPRESSED_INTERNAL_FORMAT_NONE, //0,
+				COMPRESSED_RGB8_ETC2, //GL_COMPRESSED_RGB8_ETC2,
+				COMPRESSED_SRGB8_ETC2, //GL_COMPRESSED_SRGB8_ETC2,
+				COMPRESSED_RGB8_PUNCHTHROUGH_ALPHA1_ETC2, //GL_COMPRESSED_RGB8_PUNCHTHROUGH_ALPHA1_ETC2,
+				COMPRESSED_SRGB8_PUNCHTHROUGH_ALPHA1_ETC2, //GL_COMPRESSED_SRGB8_PUNCHTHROUGH_ALPHA1_ETC2,
+				COMPRESSED_RGBA8_ETC2_EAC, //GL_COMPRESSED_RGBA8_ETC2_EAC,
+				COMPRESSED_SRGB8_ALPHA8_ETC2_EAC, //GL_COMPRESSED_SRGB8_ALPHA8_ETC2_EAC,
+				COMPRESSED_R11_EAC, //GL_COMPRESSED_R11_EAC,
+				COMPRESSED_SIGNED_R11_EAC, //GL_COMPRESSED_SIGNED_R11_EAC,
+				COMPRESSED_RG11_EAC, //GL_COMPRESSED_RG11_EAC,
+				COMPRESSED_SIGNED_RG11_EAC, //GL_COMPRESSED_SIGNED_RG11_EAC,
+				COMPRESSED_RGB_S3TC_DXT1_EXT, //GL_COMPRESSED_RGB_S3TC_DXT1_EXT,
+				COMPRESSED_RGBA_S3TC_DXT1_EXT, //GL_COMPRESSED_RGBA_S3TC_DXT1_EXT,
+				COMPRESSED_RGBA_S3TC_DXT3_EXT, //GL_COMPRESSED_RGBA_S3TC_DXT3_EXT,
+				COMPRESSED_RGBA_S3TC_DXT5_EXT, //GL_COMPRESSED_RGBA_S3TC_DXT5_EXT,
+				COMPRESSED_RED_GREEN_RGTC2_EXT, //GL_COMPRESSED_RED_GREEN_RGTC2_EXT,
+				COMPRESSED_RED_RGTC1_EXT, //GL_COMPRESSED_RED_RGTC1_EXT,
+				COMPRESSED_SRGB_S3TC_DXT1_EXT, //GL_COMPRESSED_SRGB_S3TC_DXT1_EXT,
+				COMPRESSED_SRGB_ALPHA_S3TC_DXT1_EXT, //GL_COMPRESSED_SRGB_ALPHA_S3TC_DXT1_EXT,
+				COMPRESSED_SRGB_ALPHA_S3TC_DXT3_EXT, //GL_COMPRESSED_SRGB_ALPHA_S3TC_DXT3_EXT,
+				COMPRESSED_SRGB_ALPHA_S3TC_DXT5_EXT, //GL_COMPRESSED_SRGB_ALPHA_S3TC_DXT5_EXT
+
+			};
+
+			static std::vector<unsigned int> GenerateBuffer(const unsigned int count) noexcept;
+			static void DestroyBuffer(const unsigned int bufferID) noexcept;
+			static std::vector<unsigned int> CreateBuffers(const unsigned int bufferCount) noexcept;
+			static void DestroyBuffers(const std::vector<unsigned int>& buffers) noexcept;
+			static std::vector<unsigned int> CreateVertexArrayObject(const unsigned int count) noexcept;
+			static void DestroyVertexArrayObject(const std::vector<unsigned int>& vertexArrayObjects) noexcept;
+			static void BindVertexArrayObject(const unsigned int vertexArrayObject) noexcept;
+			static void UnBindVertexArrayObject() noexcept;
+			static void AllocateBufferMemory
+			(
+				const eBufferTarget bufferTarget,
+				const unsigned int bufferSize, // in bytes
+				const void* const initialData
+			) noexcept;
+			static void EnableVertexAttributeArrayIndex
+			(
+				const unsigned int vertexAttributeIndex
+			) noexcept;
+			static void DefineVertexAttributeLayout
+			(
+				const unsigned int vertexAttributeIndex,
+				const unsigned int componentNumber,
+				const unsigned int stride,
+				const unsigned int offset
+			) noexcept;
+
+			static void BindBuffer
+			(
+				const unsigned int bufferObject,
+				const eBufferTarget bindBufferTarget
+			) noexcept;
+			static void UnBindBuffer
+			(
+				const eBufferTarget bindBufferTarget
+			) noexcept;
+			static void BindBufferToIndexedBuffer
+			(
+				const eBufferTarget bindBufferTarget,
+				const unsigned int bindingPoint,
+				const unsigned int bufferObject
+			) noexcept;
+
+			static void UpdateDataToBuffer
+			(
+				const eBufferTarget bindFrameBufferTarget,
+				const unsigned int offset,
+				const unsigned int dataSize,
+				const void* const data
+			) noexcept;
+
+			static void BindFrameBuffer
+			(
+				const unsigned int frameBufferObject,
+				const eBindFrameBufferTarget bindFrameBufferTarget
+			) noexcept;
+			static void BindRenderBuffer(const unsigned int renderBufferObject) noexcept;
+
+			static std::vector<unsigned int> CreateRenderBufferObject(const unsigned int renderBufferCount) noexcept;
+			static void AllocateRenderBufferMemory
+			(
+				const unsigned int renderBufferObject,
+				const eTextureInternalFormat textureInternalFormat,
+				const unsigned int width, const unsigned height,
+				const unsigned int multiSample
+			) noexcept;
+			static void AttachRenderBufferToFrameBuffer
+			(
+				const unsigned int renderBufferObject,
+				const unsigned int frameBufferObject,
+				const eBufferAttachmentType bufferType
+			) noexcept;
+
+		
+
+			static void Draw
+			(
+				const ePrimitiveType primitiveType,
+				const unsigned int vertexCount,
+				const unsigned int startVertexLocation = 0
+			) noexcept;
+			static void DrawIndexed
+			(
+				const ePrimitiveType primitiveType, 
+				const unsigned int indiceCount,
+				const void* const indices = 0
+			) noexcept;
+
+			static unsigned int CreateMaterial() noexcept;
+			static void DestroyMaterial(const unsigned int materialObject) noexcept;
+			/**
+			 * \brief 
+			 * \param materialObject 
+			 * \return If success, return true
+			 */
+			static bool LinkMaterial(const unsigned int materialObject) noexcept;
+			static void BindMaterial(const unsigned int materialObject) noexcept;
+
+			enum eShaderType : unsigned int
+			{
+				ShaderType_None,
+				Vertex,
+				Fragment,
+				Geometry
+			};
+
+			static unsigned int CreateShaderObject(const eShaderType shaderType) noexcept;
+			static void DestroyShaderObject(const unsigned int shaderObject) noexcept;
+			static void CompileShader(const unsigned int shaderObject, const char* const shaderText) noexcept;
+			static void CompileShaders(const unsigned int shaderObject, const unsigned int shaderCount, const char* const * const shaderTexts) noexcept;
+
+			static void AttachShaderToMaterial(const unsigned int materialObject, const unsigned int shaderObject) noexcept;
+			
+			static void UpdateConstantBuffer_bool1(const int constantBufferID, const bool value1) noexcept;
+			static void UpdateConstantBuffer_bool2(const int constantBufferID, const bool value1, const bool value2) noexcept;
+			static void UpdateConstantBuffer_bool3(const int constantBufferID, const bool value1, const bool value2, const bool value3) noexcept;
+			static void UpdateConstantBuffer_bool4(const int constantBufferID, const bool value1, const bool value2, const bool value3, const bool value4) noexcept;
+
+			static void UpdateConstantBuffer_int1(const int constantBufferID, const int value1) noexcept;
+			static void UpdateConstantBuffer_int2(const int constantBufferID, const int value1, const int value2) noexcept;
+			static void UpdateConstantBuffer_int3(const int constantBufferID, const int value1, const int value2, const int value3) noexcept;
+			static void UpdateConstantBuffer_int4(const int constantBufferID, const int value1, const int value2, const int value3, const int value4) noexcept;
+
+			static void UpdateConstantBuffer_float1(const int constantBufferID, const float value1) noexcept;
+			static void UpdateConstantBuffer_float2(const int constantBufferID, const float value1, const float value2) noexcept;
+			static void UpdateConstantBuffer_float3(const int constantBufferID, const float value1, const float value2, const float value3) noexcept;
+			static void UpdateConstantBuffer_float4(const int constantBufferID, const float value1, const float value2, const float value3, const float value4) noexcept;
+
+			static void UpdateConstantBuffer_mat2x2f(const int constantBufferID, const float* const matrix) noexcept;
+			static void UpdateConstantBuffer_mat3x3f(const int constantBufferID, const float* const matrix) noexcept;
+			static void UpdateConstantBuffer_mat4x4f(const int constantBufferID, const float* const matrix) noexcept;
+
+			enum eMapBufferAccessOption : unsigned int
+			{
+				READ_ONLY,
+				WRITE_ONLY,
+				READ_WRITE
+			};
+
+			static void* MapBufferObjectToClientAddress
+			(
+				const unsigned int bufferID,
+				const unsigned long long offset,
+				const unsigned long long length,
+				const eBufferTarget bindBufferTarget,
+				const eMapBufferAccessOption mapBufferAccessOption
+			) noexcept;
+
+			
+
+			static unsigned int CreateTextureObject() noexcept;
+			static void DestroyTextureObject(const unsigned int textureObject) noexcept;
+			static void BindTextureObject(const unsigned int textureObject, const eTextureBindTarget textureBindTarget) noexcept;
+			static void ActivateTextureUnit(const unsigned int unitIndex) noexcept;
+			static void BindTextureObjectAndActivateTextureUnit
+			(
+				const unsigned int textureObject,
+				const unsigned int unitIndex
+			) noexcept;
+			static void UnBindTextureObject(const eTextureBindTarget textureBindTarget) noexcept;
+
+			enum eTextureMetaDataType : unsigned int
+			{
+				TEXTURE_WIDTH, // = GL_TEXTURE_WIDTH,
+				TEXTURE_HEIGHT, // = GL_TEXTURE_HEIGHT,
+				TEXTURE_DEPTH, // = GL_TEXTURE_DEPTH,
+				TEXTURE_INTERNAL_FORMAT, // = GL_TEXTURE_INTERNAL_FORMAT,
+				TEXTURE_RED_SIZE, // = GL_TEXTURE_RED_SIZE,
+				TEXTURE_GREEN_SIZE, // = GL_TEXTURE_GREEN_SIZE,
+				TEXTURE_BLUE_SIZE, // = GL_TEXTURE_BLUE_SIZE,
+				TEXTURE_ALPHA_SIZE, // = GL_TEXTURE_ALPHA_SIZE,
+				TEXTURE_DEPTH_SIZE, // = GL_TEXTURE_DEPTH_SIZE,
+				TEXTURE_COMPRESSED, // = GL_TEXTURE_COMPRESSED,
+				TEXTURE_COMPRESSED_IMAGE_SIZE, // = GL_TEXTURE_COMPRESSED_IMAGE_SIZE,
+				TEXTURE_BUFFER_OFFSET, // = GL_TEXTURE_BUFFER_OFFSET, // available only if the GL version is 4.3 or greater.
+				TEXTURE_BUFFER_SIZE, // = GL_TEXTURE_BUFFER_SIZE // available only if the GL version is 4.3 or greater.
+			};
+
+			static float GetTextureMetaDataFloat
+			(
+				const unsigned int textureObject,
+				const eTextureBindTarget textureBindTarget,
+				const unsigned int lodLevel,
+				const eTextureMetaDataType textureMetaDataType
+			) noexcept;
+
+			static int GetTextureMetaDataInt
+			(
+				const unsigned int textureObject,
+				const eTextureBindTarget textureBindTarget,
+				const unsigned int lodLevel,
+				const eTextureMetaDataType textureMetaDataType
+			) noexcept;
+
+			enum eTextureParameterType : unsigned int
+			{
+				DEPTH_STENCIL_TEXTURE_MODE, // = GL_DEPTH_STENCIL_TEXTURE_MODE,
+				TEXTURE_BASE_LEVEL, // = GL_TEXTURE_BASE_LEVEL,
+				TEXTURE_COMPARE_FUNC, // = GL_TEXTURE_COMPARE_FUNC,
+				TEXTURE_COMPARE_MODE, // = GL_TEXTURE_COMPARE_MODE,
+				TEXTURE_LOD_BIAS, // = GL_TEXTURE_LOD_BIAS,
+				TEXTURE_MIN_FILTER, // = GL_TEXTURE_MIN_FILTER,
+				TEXTURE_MAG_FILTER, // = GL_TEXTURE_MAG_FILTER,
+				TEXTURE_MIN_LOD, // = GL_TEXTURE_MIN_LOD,
+				TEXTURE_MAX_LOD, // = GL_TEXTURE_MAX_LOD,
+				TEXTURE_MAX_LEVEL, // = GL_TEXTURE_MAX_LEVEL,
+				TEXTURE_SWIZZLE_R, // = GL_TEXTURE_SWIZZLE_R,
+				TEXTURE_SWIZZLE_G, // = GL_TEXTURE_SWIZZLE_G,
+				TEXTURE_SWIZZLE_B, // = GL_TEXTURE_SWIZZLE_B,
+				TEXTURE_SWIZZLE_A, // = GL_TEXTURE_SWIZZLE_A,
+				TEXTURE_WRAP_S, // = GL_TEXTURE_WRAP_S,
+				TEXTURE_WRAP_T, // = GL_TEXTURE_WRAP_T,
+				TEXTURE_WRAP_R // = GL_TEXTURE_WRAP_R
+			};
+
+			static void SetTextureParameterFloat(const eTextureBindTarget textureBindTarget, const eTextureParameterType textureParameterType, const float parameter) noexcept;
+			static void SetTextureParameterInt(const eTextureBindTarget textureBindTarget, const eTextureParameterType textureParameterType, const int parameter) noexcept;
+
+			enum eTextureParameterValue : unsigned int
+			{
+				NEAREST, // GL_NEAREST,
+				LINEAR, // GL_LINEAR,
+				NEAREST_MIPMAP_NEAREST, // GL_NEAREST_MIPMAP_NEAREST,
+				LINEAR_MIPMAP_NEAREST, // GL_LINEAR_MIPMAP_NEAREST,
+				NEAREST_MIPMAP_LINEAR, // GL_NEAREST_MIPMAP_LINEAR,
+				LINEAR_MIPMAP_LINEAR, // GL_LINEAR_MIPMAP_LINEAR,
+				CLAMP_TO_EDGE, // GL_CLAMP_TO_EDGE,
+				CLAMP_TO_BORDER, // GL_CLAMP_TO_BORDER,
+				MIRRORED_REPEAT, // GL_MIRRORED_REPEAT,
+				REPEAT, // GL_REPEAT,
+				MIRROR_CLAMP_TO_EDGE // GL_MIRROR_CLAMP_TO_EDGE,
+			};
+
+			enum eWrapMode : unsigned int
+			{
+				WRAP_MODE_CLAMP_TO_EDGE, // GL_CLAMP_TO_EDGE,
+				WRAP_MODE_CLAMP_TO_BORDER, // GL_CLAMP_TO_BORDER,
+				WRAP_MODE_MIRRORED_REPEAT, // GL_MIRRORED_REPEAT,
+				WRAP_MODE_REPEAT, // GL_REPEAT,
+				WRAP_MODE_MIRROR_CLAMP_TO_EDGE // GL_MIRROR_CLAMP_TO_EDGE,
+			};
+
+			enum eFilterMode : unsigned int
+			{
+				FILTER_MODE_NEAREST, // GL_NEAREST,
+				FILTER_MODE_LINEAR, // GL_LINEAR,
+				FILTER_MODE_NEAREST_MIPMAP_NEAREST, // GL_NEAREST_MIPMAP_NEAREST,
+				FILTER_MODE_LINEAR_MIPMAP_NEAREST, // GL_LINEAR_MIPMAP_NEAREST,
+				FILTER_MODE_NEAREST_MIPMAP_LINEAR, // GL_NEAREST_MIPMAP_LINEAR,
+				FILTER_MODE_LINEAR_MIPMAP_LINEAR // GL_LINEAR_MIPMAP_LINEAR,
+			};
+
+			enum ePixelFormat : unsigned int
+			{
+				PIXEL_FORMAT_STENCIL_INDEX, //GL_STENCIL_INDEX,
+				PIXEL_FORMAT_DEPTH_COMPONENT, //GL_DEPTH_COMPONENT,
+				PIXEL_FORMAT_DEPTH_STENCIL, //GL_DEPTH_STENCIL,
+				PIXEL_FORMAT_RED, //GL_RED,
+				PIXEL_FORMAT_GREEN, //GL_GREEN,
+				PIXEL_FORMAT_BLUE, //GL_BLUE,
+				PIXEL_FORMAT_RG, //GL_RG,
+				PIXEL_FORMAT_RGB, //GL_RGB,
+				PIXEL_FORMAT_RGBA, //GL_RGBA,
+				PIXEL_FORMAT_BGR, //GL_BGR,
+				PIXEL_FORMAT_BGRA, //GL_BGRA,
+				PIXEL_FORMAT_RED_INTEGER, //GL_RED_INTEGER,
+				PIXEL_FORMAT_GREEN_INTEGER, //GL_GREEN_INTEGER,
+				PIXEL_FORMAT_BLUE_INTEGER, //GL_BLUE_INTEGER,
+				PIXEL_FORMAT_RG_INTEGER, //GL_RG_INTEGER,
+				PIXEL_FORMAT_RGB_INTEGER, //GL_RGB_INTEGER,
+				PIXEL_FORMAT_RGBA_INTEGER, //GL_RGBA_INTEGER,
+				PIXEL_FORMAT_STENCILBGR_INTEGER_INDEX, //GL_BGR_INTEGER,
+				PIXEL_FORMAT_BGRA_INTEGER, //GL_BGRA_INTEGER
+			};
+
+			static unsigned char* FetchTexturePixels
+			(
+				const eTextureBindTarget textureBindTarget,
+				const int lodLevel,
+				const eTextureComponentFormat textureComponentFormat,
+				const eDataType datatType,
+				const unsigned long long bufferSize
+			) noexcept;
+
+			static void Define1DTextureStorageRequirement
+			(
+				const eTextureBindTarget textureBindTarget,
+				const unsigned int lodLevel,
+				const eTextureInternalFormat textureInternalFormat,
+				const unsigned long long width
+			);
+
+			static void Define2DTextureStorageRequirement
+			(
+				const eTextureBindTarget textureBindTarget,
+				const unsigned int lodLevel,
+				const eTextureInternalFormat textureInternalFormat,
+				const unsigned long long width,
+				const unsigned long long height
+			);
+
+			static void Define3DTextureStorageRequirement
+			(
+				const eTextureBindTarget textureBindTarget,
+				const unsigned int lodLevel,
+				const eTextureInternalFormat textureInternalFormat,
+				const unsigned long long width,
+				const unsigned long long height,
+				const unsigned long long depth
+			);
+
+			static void Define1DCompressedTextureStorageRequirement
+			(
+				const eTextureBindTarget textureBindTarget,
+				const unsigned int lodLevel,
+				const eTextureCompressedInternalFormat textureInternalFormat,
+				const unsigned long long width
+			);
+
+			static void Define2DCompressedTextureStorageRequirement
+			(
+				const eTextureBindTarget textureBindTarget,
+				const unsigned int lodLevel,
+				const eTextureCompressedInternalFormat textureInternalFormat,
+				const unsigned long long width,
+				const unsigned long long height
+			);
+
+			static void Define3DCompressedTextureStorageRequirement
+			(
+				const eTextureBindTarget textureBindTarget,
+				const unsigned int lodLevel,
+				const eTextureCompressedInternalFormat textureInternalFormat,
+				const unsigned long long width,
+				const unsigned long long height,
+				const unsigned long long depth
+			);
+
+			static void UploadPixelsTo1DTexture
+			(
+				const eTextureBindTarget textureBindTarget,
+				const unsigned int lodLevel,
+				const unsigned int xOffset,
+				const unsigned long long width,
+				const eTextureComponentFormat textureComponentFormat,
+				const eDataType dataType,
+				const void* const pixelDatas
+			);
+
+			static void UploadPixelsTo2DTexture
+			(
+				const eTextureBindTarget textureBindTarget,
+				const unsigned int lodLevel,
+				const unsigned int xOffset,
+				const unsigned int yOffset,
+				const unsigned long long width,
+				const unsigned long long height,
+				const eTextureComponentFormat textureComponentFormat,
+				const eDataType dataType,
+				const void* const pixelDatas
+			);
+
+			static void UploadPixelsTo3DTexture
+			(
+				const eTextureBindTarget textureBindTarget,
+				const unsigned int lodLevel,
+				const unsigned int xOffset,
+				const unsigned int yOffset,
+				const unsigned int zOffset,
+				const unsigned long long width,
+				const unsigned long long height,
+				const unsigned long long depth,
+				const eTextureComponentFormat textureComponentFormat,
+				const eDataType dataType,
+				const void* const pixelDatas
+			);
+
+			static void UploadPixelsTo1DCompressedTexture
+			(
+				const eTextureBindTarget textureBindTarget,
+				const unsigned int lodLevel,
+				const unsigned int xOffset,
+				const unsigned long long width,
+				const eTextureComponentFormat textureComponentFormat,
+				const eDataType dataType,
+				const void* const pixelDatas
+			);
+
+			static void UploadPixelsTo2DCompressedTexture
+			(
+				const eTextureBindTarget textureBindTarget,
+				const unsigned int lodLevel,
+				const unsigned int xOffset,
+				const unsigned int yOffset,
+				const unsigned long long width,
+				const unsigned long long height,
+				const eTextureComponentFormat textureComponentFormat,
+				const eDataType dataType,
+				const void* const pixelDatas
+			);
+
+			static void UploadPixelsTo3DCompressedTexture
+			(
+				const eTextureBindTarget textureBindTarget,
+				const unsigned int lodLevel,
+				const unsigned int xOffset,
+				const unsigned int yOffset,
+				const unsigned int zOffset,
+				const unsigned long long width,
+				const unsigned long long height,
+				const unsigned long long depth,
+				const eTextureComponentFormat textureComponentFormat,
+				const eDataType dataType,
+				const void* const pixelDatas
+			);
 		};
 	}
 }

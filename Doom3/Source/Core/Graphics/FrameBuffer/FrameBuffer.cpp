@@ -299,9 +299,9 @@ SingleTexture& FrameBuffer::AttachTextureBuffer(GraphicsAPI::eBufferBitType fram
 	{
 	case GraphicsAPI::eBufferBitType::COLOR_BUFFER:
 	{
-		SingleTexture colorTexture{ Texture::eTextureType::DIFFUSE, Texture::eTargetTexture::TEXTURE_2D,
-			eTextureInternalFormat::RGBA16F, width, height, eTextureComponentFormat::RGBA, Texture::eDataType::FLOAT, NULL };
-		glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0 + static_cast<UINT32>(mAttachedColorTextures.size()), static_cast<UINT32>(Texture::eBindTarget::TEXTURE_2D), colorTexture.GetTextureBufferID(), 0);
+		SingleTexture colorTexture{ GraphicsAPI::eTextureType::DIFFUSE, GraphicsAPI::eTargetTexture::TARGET_TEXTURE_TEXTURE_2D,
+			GraphicsAPI::eTextureInternalFormat::TEXTURE_INTERNAL_FORMAT_RGBA16F, width, height, GraphicsAPI::eTextureComponentFormat::TEXTURE_COMPONENT_RGBA, GraphicsAPI::eDataType::FLOAT, NULL };
+		glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0 + static_cast<UINT32>(mAttachedColorTextures.size()), static_cast<UINT32>(GraphicsAPI::eTextureBindTarget::TEXTURE_2D), colorTexture.GetTextureBufferID(), 0);
 
 		mClearBit |= static_cast<UINT32>(GraphicsAPI::eBufferBitType::COLOR_BUFFER);
 		mDrawTarget |= GL_COLOR_ATTACHMENT0 + mAttachedColorTextures.size();
@@ -317,9 +317,9 @@ SingleTexture& FrameBuffer::AttachTextureBuffer(GraphicsAPI::eBufferBitType fram
 	{
 		D_ASSERT(mAttachedDepthTextures.size() == 0);
 
-		SingleTexture depthTexture{ Texture::eTextureType::DIFFUSE, Texture::eTargetTexture::TEXTURE_2D,
-			eTextureInternalFormat::DEPTH_COMPONENT, width, height, eTextureComponentFormat::DEPTH_COMPONENT, Texture::eDataType::FLOAT, NULL };
-		glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, static_cast<UINT32>(Texture::eBindTarget::TEXTURE_2D), depthTexture.GetTextureBufferID(), 0);
+		SingleTexture depthTexture{ GraphicsAPI::eTextureType::DIFFUSE, GraphicsAPI::eTargetTexture::TARGET_TEXTURE_TEXTURE_2D,
+			GraphicsAPI::eTextureInternalFormat::TEXTURE_INTERNAL_FORMAT_DEPTH_COMPONENT, width, height, GraphicsAPI::eTextureComponentFormat::TEXTURE_COMPONENT_DEPTH_COMPONENT, GraphicsAPI::eDataType::FLOAT, NULL };
+		glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, static_cast<UINT32>(GraphicsAPI::eTextureBindTarget::TEXTURE_2D), depthTexture.GetTextureBufferID(), 0);
 
 		mAttachedDepthTextures.push_back(std::move(depthTexture));
 		createdTexture = &mAttachedDepthTextures.back();
@@ -332,9 +332,9 @@ SingleTexture& FrameBuffer::AttachTextureBuffer(GraphicsAPI::eBufferBitType fram
 	{
 		D_ASSERT(mAttachedDepthStencilTextures.size() == 0);
 
-		SingleTexture depthStencilTexture{ Texture::eTextureType::DIFFUSE, Texture::eTargetTexture::TEXTURE_2D,
-			eTextureInternalFormat::DEPTH24_STENCIL8, width, height, eTextureComponentFormat::DEPTH_STENCIL, Texture::eDataType::UNSIGNED_INT_24_8, NULL };
-		glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, static_cast<UINT32>(Texture::eBindTarget::TEXTURE_2D), depthStencilTexture.GetTextureBufferID(), 0);
+		SingleTexture depthStencilTexture{ GraphicsAPI::eTextureType::DIFFUSE, GraphicsAPI::eTargetTexture::TARGET_TEXTURE_TEXTURE_2D,
+			GraphicsAPI::eTextureInternalFormat::TEXTURE_INTERNAL_FORMAT_DEPTH24_STENCIL8, width, height, GraphicsAPI::eTextureComponentFormat::TEXTURE_COMPONENT_DEPTH_STENCIL, GraphicsAPI::eDataType::UNSIGNED_INT_24_8, NULL };
+		glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, static_cast<UINT32>(GraphicsAPI::eTextureBindTarget::TEXTURE_2D), depthStencilTexture.GetTextureBufferID(), 0);
 
 		mAttachedDepthStencilTextures.push_back(std::move(depthStencilTexture));
 		createdTexture = &mAttachedDepthStencilTextures.back();

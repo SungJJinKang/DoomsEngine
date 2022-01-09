@@ -10,9 +10,9 @@ UINT32 dooms::graphics::DebugPrimitiveTriangleContainer::GetComponentCountPerPri
 	return 9;
 }
 
-dooms::ePrimitiveType dooms::graphics::DebugPrimitiveTriangleContainer::GetPrimitiveType() const
+dooms::graphics::GraphicsAPI::ePrimitiveType dooms::graphics::DebugPrimitiveTriangleContainer::GetPrimitiveType() const
 {
-	return ePrimitiveType::TRIANGLES;
+	return dooms::graphics::GraphicsAPI::ePrimitiveType::TRIANGLES;
 }
 
 void dooms::graphics::DebugPrimitiveTriangleContainer::AddColoredTriangleData

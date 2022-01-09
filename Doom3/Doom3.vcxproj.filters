@@ -1637,9 +1637,6 @@
     <ClInclude Include="Source\Core\Reflection\ReflectionType\TSubclassOf.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Core\Graphics\Texture\TextureFormat.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Core\Graphics\Texture\CubemapTexture.h">
       <Filter>Header Files</Filter>
     </ClInclude>

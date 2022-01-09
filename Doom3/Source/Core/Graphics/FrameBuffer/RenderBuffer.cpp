@@ -46,21 +46,21 @@ bool RenderBuffer::CreateRenderBuffer(FrameBuffer& ownerFrameBuffer, GraphicsAPI
 		case GraphicsAPI::eBufferAttachmentType::ATTACHMENT_COLOR2:
 		case GraphicsAPI::eBufferAttachmentType::ATTACHMENT_COLOR3:
 
-			GraphicsAPI::AllocateRenderBufferMemory(mRenderBufferID, GraphicsAPI::eTextureInternalFormat::RGBA16F, width, height, graphicsAPISetting::GetMultiSamplingNum());
+			GraphicsAPI::AllocateRenderBufferMemory(mRenderBufferID, GraphicsAPI::eTextureInternalFormat::TEXTURE_INTERNAL_FORMAT_RGBA16F, width, height, graphicsAPISetting::GetMultiSamplingNum());
 			GraphicsAPI::AttachRenderBufferToFrameBuffer(mRenderBufferID.GetBufferID(), ownerFrameBuffer.GetFrameBufferID(), frameBufferType);
 			
 			break;
 
 		case GraphicsAPI::eBufferAttachmentType::ATTACHMENT_DEPTH:
 
-			GraphicsAPI::AllocateRenderBufferMemory(mRenderBufferID, GraphicsAPI::eTextureInternalFormat::DEPTH_COMPONENT, width, height, graphicsAPISetting::GetMultiSamplingNum());
+			GraphicsAPI::AllocateRenderBufferMemory(mRenderBufferID, GraphicsAPI::eTextureInternalFormat::TEXTURE_INTERNAL_FORMAT_DEPTH_COMPONENT, width, height, graphicsAPISetting::GetMultiSamplingNum());
 			GraphicsAPI::AttachRenderBufferToFrameBuffer(mRenderBufferID.GetBufferID(), ownerFrameBuffer.GetFrameBufferID(), GraphicsAPI::eBufferAttachmentType::ATTACHMENT_DEPTH);
 
 			break;
 
 		case GraphicsAPI::eBufferAttachmentType::ATTACHMENT_DEPTH_STENCIL:
 			
-			GraphicsAPI::AllocateRenderBufferMemory(mRenderBufferID, GraphicsAPI::eTextureInternalFormat::DEPTH24_STENCIL8, width, height, graphicsAPISetting::GetMultiSamplingNum());
+			GraphicsAPI::AllocateRenderBufferMemory(mRenderBufferID, GraphicsAPI::eTextureInternalFormat::TEXTURE_INTERNAL_FORMAT_DEPTH24_STENCIL8, width, height, graphicsAPISetting::GetMultiSamplingNum());
 			GraphicsAPI::AttachRenderBufferToFrameBuffer(mRenderBufferID.GetBufferID(), ownerFrameBuffer.GetFrameBufferID(), GraphicsAPI::eBufferAttachmentType::ATTACHMENT_DEPTH_STENCIL);
 
 			break;

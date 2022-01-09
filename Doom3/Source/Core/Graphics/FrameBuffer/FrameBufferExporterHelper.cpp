@@ -12,8 +12,8 @@ void dooms::graphics::FrameBufferExporterHelper::ExportMainFrameBufferColor
 				
 	dooms::assetExporter::assetExporterTexture::ExportTextureFromMainFrameBuffer
 	(
-		dooms::graphics::eTextureComponentFormat::RGBA,
-		dooms::graphics::Texture::eDataType::UNSIGNED_BYTE,
+		GraphicsAPI::eTextureComponentFormat::TEXTURE_COMPONENT_RGBA,
+		dooms::graphics::GraphicsAPI::eDataType::UNSIGNED_BYTE,
 		std::filesystem::current_path(),
 		extension
 	);
@@ -25,8 +25,8 @@ void dooms::graphics::FrameBufferExporterHelper::ExportMainFrameBufferColorAsDDS
 
 	dooms::assetExporter::assetExporterTexture::ExportTextureFromMainFrameBufferAsDDS
 	(
-		dooms::graphics::eTextureComponentFormat::RGBA,
-		dooms::graphics::Texture::eDataType::UNSIGNED_BYTE,
+		dooms::graphics::GraphicsAPI::eTextureComponentFormat::TEXTURE_COMPONENT_RGBA,
+		dooms::graphics::GraphicsAPI::eDataType::UNSIGNED_BYTE,
 		std::filesystem::current_path()
 	);
 }
