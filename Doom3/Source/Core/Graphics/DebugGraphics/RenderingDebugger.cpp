@@ -3,6 +3,7 @@
 #ifdef DEBUG_DRAWER
 
 #include "../Graphics_Core.h"
+#include "../graphicsSetting.h"
 #include <Rendering/Renderer/RendererStaticIterator.h>
 #include <Rendering/Renderer/Renderer.h>
 #include <EngineGUI/PrintText.h>
@@ -12,7 +13,7 @@
 
 void dooms::graphics::RenderingDebugger::DrawRenderingBoundingBox()
 {
-	if (Graphics_Setting::DrawRenderingBoundingBox == true)
+	if (graphics::graphicsSetting::DrawRenderingBoundingBox == true)
 	{
 		const std::vector<Renderer*>& renderersInLayer = RendererComponentStaticIterator::GetSingleton()->GetSortedRendererInLayer(0);
 		for (size_t rendererIndex = 0; rendererIndex < renderersInLayer.size(); rendererIndex++)
@@ -24,7 +25,7 @@ void dooms::graphics::RenderingDebugger::DrawRenderingBoundingBox()
 
 void dooms::graphics::RenderingDebugger::UpdateFPS()
 {
-	FLOAT64 currentTime = glfwGetTime();
+	FLOAT64 currentTime = dooms::graphics::GraphicsAPI::GetTime();
 	FrameCount++;
 
 	const FLOAT64 timeInterval = currentTime - LastTIme;
@@ -53,7 +54,7 @@ void dooms::graphics::RenderingDebugger::UpdateInputForPrintDrawCallCounter()
 
 #ifdef DEBUG_MODE
 
-	if (dooms::userinput::UserInput_Server::GetKeyUp(eKEY_CODE::KEY_F5))
+	if (dooms::userinput::UserInput_Server::GetKeyUp(dooms::graphics::GraphicsAPIInput::eKEY_CODE::KEY_F5))
 	{
 		PrintDrawCallCounter();
 	}

@@ -3,7 +3,6 @@
 
 #include "../Graphics_Core.h"
 #include "../GraphicsAPI/GraphicsAPI.h"
-//#include "../GraphicsAPI/APIHeaders/OpenGLHeaders.h"
 
 #include "../Math/LightMath_Cpp/Vector2.h"
 #include "../Math/LightMath_Cpp/Vector3.h"
@@ -86,17 +85,7 @@ namespace dooms
 
 			void UseProgram() const;
 
-			FORCE_INLINE INT32 GetUniformLocation(const char* str) const
-			{
-				if(GraphicsAPI::GetGraphicsAPIType() == eGraphicsAPIType::OpenGL)
-				{
-					return glGetUniformLocation(mProgramID, str);
-				}
-				else
-				{
-					D_ASSERT(false);
-				}
-			}
+			INT32 GetUniformLocation(const char* str) const;
 
 			FORCE_INLINE static void SetBool(const INT32 location, const bool value1)
 			{

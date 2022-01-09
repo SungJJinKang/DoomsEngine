@@ -71,9 +71,7 @@ void dooms::graphics::Graphics_Server::LateInit()
 #ifdef DEBUG_DRAWER
 	mDebugGraphics.Init();
 #endif 
-
-	SetRenderingMode(Graphics_Server::eRenderingMode::DeferredRendering);
-
+	
 
 	//mQueryOcclusionCulling.InitQueryOcclusionCulling();
 	//mCullDistance.Initialize();
@@ -472,6 +470,7 @@ void dooms::graphics::Graphics_Server::RenderObject(dooms::Camera* const targetC
 
 
 
+/*
 void dooms::graphics::Graphics_Server::SetRenderingMode(eRenderingMode renderingMode)
 {
 	mCurrentRenderingMode = renderingMode;
@@ -480,6 +479,7 @@ void dooms::graphics::Graphics_Server::SetRenderingMode(eRenderingMode rendering
 		mDeferredRenderingDrawer.Initialize();
 	}
 }
+*/
 
 
 

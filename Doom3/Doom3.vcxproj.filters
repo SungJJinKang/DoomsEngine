@@ -84,9 +84,6 @@
     <ClCompile Include="Source\Core\Scene\SharedSceneSetting.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Core\Graphics\GraphicsAPIsfd.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Source\Core\Physics\Physics_Setting.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -606,12 +603,6 @@
     <ClCompile Include="Source\thirdparty\imgui\imgui.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\thirdparty\imgui\backends\imgui_impl_glfw.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\thirdparty\imgui\backends\imgui_impl_win32.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Source\thirdparty\imgui\imgui_draw.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -619,9 +610,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Source\thirdparty\imgui\imgui_widgets.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\thirdparty\imgui\backends\imgui_impl_opengl3.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Source\Core\EngineGUI\imguiHelper\imguiWithReflection.cpp">
@@ -1748,12 +1736,6 @@
     <ClInclude Include="Source\thirdparty\imgui\imgui.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\thirdparty\imgui\backends\imgui_impl_glfw.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\thirdparty\imgui\backends\imgui_impl_win32.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Source\thirdparty\imgui\imstb_truetype.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -1764,9 +1746,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\thirdparty\imgui\imstb_textedit.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\thirdparty\imgui\backends\imgui_impl_opengl3.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\Core\EngineGUI\imguiHelper\imguiWithReflection.h">

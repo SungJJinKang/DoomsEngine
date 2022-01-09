@@ -38,7 +38,7 @@ namespace dooms
 			static constexpr UINT32 RESERVED_DEPTH_STENCIL_TEXTURE_COUNT = 1; 
 			std::vector<SingleTexture> mAttachedDepthStencilTextures;
 
-			std::vector<UINT32> mTargetDrawBufferContainer;
+			std::vector<GraphicsAPI::eBufferMode> mTargetDrawBufferContainer;
 
 			UINT32 mClearBit{ 0 };
 			UINT32 mDrawTarget{ 0 };
@@ -177,16 +177,12 @@ namespace dooms
 
 			bool IsGenerated();
 
+			
+			INT32 GetFrameBufferWidth() const;
+			INT32 GetFrameBufferHeight() const;
 
-			enum class D_ENUM eFrameBufferParameterPName : UINT32
-			{
-				FRAMEBUFFER_DEFAULT_WIDTH = GL_FRAMEBUFFER_DEFAULT_WIDTH,
-				FRAMEBUFFER_DEFAULT_HEIGHT = GL_FRAMEBUFFER_DEFAULT_HEIGHT,
-				FRAMEBUFFER_DEFAULT_SAMPLES = GL_FRAMEBUFFER_DEFAULT_SAMPLES,
-				FRAMEBUFFER_DEFAULT_FIXED_SAMPLE_LOCATIONS = GL_FRAMEBUFFER_DEFAULT_FIXED_SAMPLE_LOCATIONS
-			};
-
-			INT32 GetFrameBufferParameteriv
+			/*
+			 *INT32 GetFrameBufferParameteriv
 			(
 				const eFrameBufferParameterPName frameBufferParameterPName
 			) const;
@@ -196,6 +192,7 @@ namespace dooms
 				const FrameBuffer* const frameBuffer,
 				const eFrameBufferParameterPName frameBufferParameterPName
 			);
+			*/
 		};
 	}
 }

@@ -2,11 +2,10 @@
 
 #include <Asset/ShaderAsset.h>
 
+#include "../GraphicsAPI/APIHeaders/OpenGLHeaders.h"
 #include "FixedMaterial.h"
-
 #include "../Buffer/UniformBufferObjectManager.h"
 #include <Asset/TextureAsset.h>
-
 #include "../Texture/Texture.h"
 
 using namespace dooms::graphics;
@@ -123,6 +122,18 @@ void dooms::graphics::Material::UseProgram() const
 	}
 
 	
+}
+
+INT32 Material::GetUniformLocation(const char* str) const
+{
+	if(GraphicsAPI::GetGraphicsAPIType() == eGraphicsAPIType::OpenGL)
+	{
+		return glGetUniformLocation(mProgramID, str);
+	}
+	else
+	{
+		D_ASSERT(false);
+	}
 }
 
 /*

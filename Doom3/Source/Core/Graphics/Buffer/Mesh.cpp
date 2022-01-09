@@ -61,7 +61,7 @@ void dooms::graphics::Mesh::DeleteBuffers()
 	}
 	if (mElementBufferObjectID.IsValid())
 	{
-		GraphicsAPI::DestroyBuffer({ mElementBufferObjectID });
+		GraphicsAPI::DestroyBuffer( mElementBufferObjectID );
 		mElementBufferObjectID = INVALID_BUFFER_ID;
 	}
 }

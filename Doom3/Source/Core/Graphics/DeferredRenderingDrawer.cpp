@@ -23,9 +23,9 @@ void dooms::graphics::DeferredRenderingDrawer::DrawDeferredRenderingQuadDrawer()
 {
 	mGbufferDrawerMaterial.UseProgram();
 
-	dooms::graphics::GraphicsAPI::DepthMask(false);
+	dooms::graphics::GraphicsAPI::SetDepthMask(false);
 	mQuadMesh->Draw();
-	dooms::graphics::GraphicsAPI::DepthMask(true);
+	dooms::graphics::GraphicsAPI::SetDepthMask(true);
 }
 
 void dooms::graphics::DeferredRenderingDrawer::SetShaderToGBufferMaterial()

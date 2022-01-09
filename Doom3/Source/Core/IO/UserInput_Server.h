@@ -106,7 +106,7 @@ namespace dooms
 			virtual void Update() final;
 			virtual void OnEndOfFrame() final;
 
-			NO_DISCARD FORCE_INLINE static bool GetKeyToggle(dooms::graphics::GraphicsAPIInput::eMoustInput keyCode) noexcept
+			NO_DISCARD FORCE_INLINE static bool GetKeyToggle(dooms::graphics::GraphicsAPIInput::eKEY_CODE keyCode) noexcept
 			{
 				return UserInput_Server::mKeyToggle[static_cast<INT32>(keyCode) - static_cast<INT32>(FIRST_KEY_CODE)];
 			}
@@ -116,7 +116,7 @@ namespace dooms
 			/// </summary>
 			/// <param name="keyCode"></param>
 			/// <returns></returns>
-			NO_DISCARD FORCE_INLINE static bool GetKey(dooms::graphics::GraphicsAPIInput::eMoustInput keyCode) noexcept
+			NO_DISCARD FORCE_INLINE static bool GetKey(dooms::graphics::GraphicsAPIInput::eKEY_CODE keyCode) noexcept
 			{
 				return UserInput_Server::mKeyState[static_cast<INT32>(keyCode) - static_cast<INT32>(FIRST_KEY_CODE)] == eKeyState::PRESSING;
 			}
@@ -125,12 +125,12 @@ namespace dooms
 			/// </summary>
 			/// <param name="keyCode"></param>
 			/// <returns></returns>
-			NO_DISCARD FORCE_INLINE static bool GetKeyUp(dooms::graphics::GraphicsAPIInput::eMoustInput keyCode) noexcept
+			NO_DISCARD FORCE_INLINE static bool GetKeyUp(dooms::graphics::GraphicsAPIInput::eKEY_CODE keyCode) noexcept
 			{
 				return UserInput_Server::mKeyState[static_cast<INT32>(keyCode) - static_cast<INT32>(FIRST_KEY_CODE)] == eKeyState::UP;
 			}
 
-			NO_DISCARD FORCE_INLINE static bool GetKeyDown(dooms::graphics::GraphicsAPIInput::eMoustInput keyCode) noexcept
+			NO_DISCARD FORCE_INLINE static bool GetKeyDown(dooms::graphics::GraphicsAPIInput::eKEY_CODE keyCode) noexcept
 			{
 				return UserInput_Server::mKeyState[static_cast<INT32>(keyCode) - static_cast<INT32>(FIRST_KEY_CODE)] == eKeyState::PRESS_DOWN;
 			}

@@ -34,7 +34,7 @@ void dooms::CharacterSpawner::InitComponent()
 
 void dooms::CharacterSpawner::UpdateComponent()
 {
-	if (UserInput_Server::GetKeyUp(userinput::eKEY_CODE::KEY_9))
+	if (UserInput_Server::GetKeyUp(dooms::graphics::GraphicsAPIInput::eKEY_CODE::KEY_9))
 	{
 		auto tr = GetTransform();
 

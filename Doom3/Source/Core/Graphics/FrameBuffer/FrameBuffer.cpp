@@ -1,6 +1,9 @@
 #include "FrameBuffer.h"
 
 
+#include "../GraphicsAPI/APIHeaders/OpenGLHeaders.h"
+
+
 using namespace dooms::graphics;
 
 
@@ -24,7 +27,7 @@ void dooms::graphics::FrameBuffer::GenerateBuffer(UINT32 defaultWidth, UINT32 de
 
 	mDefaultWidth = defaultWidth;
 	mDefaultHeight = defaultHeight;
-	glGenFramebuffers(1, &(mFrameBufferID));
+	mFrameBufferID = GraphicsAPI::GenerateFrameBuffer();
 }
 
 
@@ -35,13 +38,13 @@ void FrameBuffer::RefreshTargetDrawBufferContainer()
 
 	for (UINT32 i = 0; i < mAttachedColorTextures.size(); i++)
 	{
-		mTargetDrawBufferContainer.emplace_back(GL_COLOR_ATTACHMENT0 + i);
+		mTargetDrawBufferContainer.emplace_back(static_cast<GraphicsAPI::eBufferMode>(GraphicsAPI::eBufferMode::COLOR_ATTACHMENT0 + i));
 	}
 }
 
 void FrameBuffer::SetTargetDrawBuffer()
 {
-	glDrawBuffers(static_cast<INT32>(mTargetDrawBufferContainer.size()), mTargetDrawBufferContainer.data());
+	GraphicsAPI::SetDrawBuffers(static_cast<INT32>(mTargetDrawBufferContainer.size()), mTargetDrawBufferContainer);
 }
 
 
@@ -49,7 +52,7 @@ void FrameBuffer::DestoryFrameBufferObject()
 {
 	if (mFrameBufferID.IsValid())
 	{
-		glDeleteFramebuffers(1, &(mFrameBufferID));
+		GraphicsAPI::DestroyFrameBuffer(mFrameBufferID);
 		mFrameBufferID = 0;
 	}
 }
@@ -106,11 +109,18 @@ FrameBuffer::FrameBuffer(const FrameBuffer& frameBuffer)
 
 void FrameBuffer::CheckIsFrameBufferSuccesfullyCreated() noexcept
 {
-	BindFrameBuffer();
-	if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
-	{//Fail Creating FrameBuffer
+	if(GraphicsAPI::GetGraphicsAPIType() == dooms::graphics::eGraphicsAPIType::OpenGL)
+	{
+		BindFrameBuffer();
+		if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
+		{//Fail Creating FrameBuffer
+			D_ASSERT(false);
+			D_DEBUG_LOG(logger::eLogType::D_ERROR, "fail frame buffer : %u", glCheckFramebufferStatus(GL_FRAMEBUFFER));
+		}
+	}
+	else
+	{
 		D_ASSERT(false);
-		D_DEBUG_LOG(logger::eLogType::D_ERROR, "fail frame buffer : %u", glCheckFramebufferStatus(GL_FRAMEBUFFER));
 	}
 }
 
@@ -191,6 +201,17 @@ bool dooms::graphics::FrameBuffer::IsGenerated()
 	return mFrameBufferID.IsValid();
 }
 
+INT32 FrameBuffer::GetFrameBufferWidth() const
+{
+	return graphics::GraphicsAPI::GetFrameBufferWidth(mFrameBufferID);
+}
+
+INT32 FrameBuffer::GetFrameBufferHeight() const
+{
+	return graphics::GraphicsAPI::GetFrameBufferHeight(mFrameBufferID);
+}
+
+/*
 INT32 FrameBuffer::GetFrameBufferParameteriv(const eFrameBufferParameterPName frameBufferParameterPName) const
 {
 	return GetFrameBufferParameterivStatic(this, frameBufferParameterPName);
@@ -206,10 +227,19 @@ INT32 FrameBuffer::GetFrameBufferParameterivStatic
 	frameBuffer->BindFrameBuffer();
 
 	INT32 data;
-	glGetFramebufferParameteriv(static_cast<UINT32>(GraphicsAPI::eBindFrameBufferTarget::FRAMEBUFFER), static_cast<UINT32>(frameBufferParameterPName), &data);
+
+	if (GraphicsAPI::GetGraphicsAPIType() == dooms::graphics::eGraphicsAPIType::OpenGL)
+	{
+		glGetFramebufferParameteriv(static_cast<UINT32>(GraphicsAPI::eBindFrameBufferTarget::FRAMEBUFFER), static_cast<UINT32>(frameBufferParameterPName), &data);
+	}
+	else
+	{
+		D_ASSERT(false);
+	}
 
 	return data;
 }
+*/
 
 void FrameBuffer::BlitFrameBufferTo(
 	UINT32 ReadFrameBufferId, UINT32 DrawFrameBufferId, INT32 srcX0, INT32 srcY0,
@@ -293,10 +323,10 @@ SingleTexture& FrameBuffer::AttachTextureBuffer(GraphicsAPI::eBufferBitType fram
 	{
 		SingleTexture colorTexture{ GraphicsAPI::eTextureType::DIFFUSE, GraphicsAPI::eTargetTexture::TARGET_TEXTURE_TEXTURE_2D,
 			GraphicsAPI::eTextureInternalFormat::TEXTURE_INTERNAL_FORMAT_RGBA16F, width, height, GraphicsAPI::eTextureComponentFormat::TEXTURE_COMPONENT_RGBA, GraphicsAPI::eDataType::FLOAT, NULL };
-		glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0 + static_cast<UINT32>(mAttachedColorTextures.size()), static_cast<UINT32>(GraphicsAPI::eTextureBindTarget::TEXTURE_2D), colorTexture.GetTextureBufferID(), 0);
+		GraphicsAPI::Attach2DTextureToFrameBuffer(GraphicsAPI::eBindFrameBufferTarget::FRAMEBUFFER, static_cast<GraphicsAPI::eFrameBufferAttachmentPoint>(GraphicsAPI::eFrameBufferAttachmentPoint::FRAMEBUFFER_ATTACHMENT_POINT_COLOR_ATTACHMENT0 + static_cast<UINT32>(mAttachedColorTextures.size())), GraphicsAPI::eTextureBindTarget::TEXTURE_2D, colorTexture.GetTextureBufferID(), 0);
 
 		mClearBit |= static_cast<UINT32>(GraphicsAPI::eBufferBitType::COLOR_BUFFER);
-		mDrawTarget |= GL_COLOR_ATTACHMENT0 + mAttachedColorTextures.size();
+		mDrawTarget |= GraphicsAPI::eFrameBufferAttachmentPoint::FRAMEBUFFER_ATTACHMENT_POINT_COLOR_ATTACHMENT0 + mAttachedColorTextures.size();
 
 		createdTexture = &mAttachedColorTextures.emplace_back(std::move(colorTexture));
 
@@ -311,7 +341,8 @@ SingleTexture& FrameBuffer::AttachTextureBuffer(GraphicsAPI::eBufferBitType fram
 
 		SingleTexture depthTexture{ GraphicsAPI::eTextureType::DIFFUSE, GraphicsAPI::eTargetTexture::TARGET_TEXTURE_TEXTURE_2D,
 			GraphicsAPI::eTextureInternalFormat::TEXTURE_INTERNAL_FORMAT_DEPTH_COMPONENT, width, height, GraphicsAPI::eTextureComponentFormat::TEXTURE_COMPONENT_DEPTH_COMPONENT, GraphicsAPI::eDataType::FLOAT, NULL };
-		glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, static_cast<UINT32>(GraphicsAPI::eTextureBindTarget::TEXTURE_2D), depthTexture.GetTextureBufferID(), 0);
+		GraphicsAPI::Attach2DTextureToFrameBuffer(GraphicsAPI::eBindFrameBufferTarget::FRAMEBUFFER, GraphicsAPI::eFrameBufferAttachmentPoint::FRAMEBUFFER_ATTACHMENT_POINT_DEPTH_ATTACHMENT, GraphicsAPI::eTextureBindTarget::TEXTURE_2D, depthTexture.GetTextureBufferID(), 0);
+
 
 		mAttachedDepthTextures.push_back(std::move(depthTexture));
 		createdTexture = &mAttachedDepthTextures.back();
@@ -326,7 +357,7 @@ SingleTexture& FrameBuffer::AttachTextureBuffer(GraphicsAPI::eBufferBitType fram
 
 		SingleTexture depthStencilTexture{ GraphicsAPI::eTextureType::DIFFUSE, GraphicsAPI::eTargetTexture::TARGET_TEXTURE_TEXTURE_2D,
 			GraphicsAPI::eTextureInternalFormat::TEXTURE_INTERNAL_FORMAT_DEPTH24_STENCIL8, width, height, GraphicsAPI::eTextureComponentFormat::TEXTURE_COMPONENT_DEPTH_STENCIL, GraphicsAPI::eDataType::UNSIGNED_INT_24_8, NULL };
-		glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, static_cast<UINT32>(GraphicsAPI::eTextureBindTarget::TEXTURE_2D), depthStencilTexture.GetTextureBufferID(), 0);
+		GraphicsAPI::Attach2DTextureToFrameBuffer(GraphicsAPI::eBindFrameBufferTarget::FRAMEBUFFER, GraphicsAPI::eFrameBufferAttachmentPoint::FRAMEBUFFER_ATTACHMENT_POINT_DEPTH_STENCIL_ATTACHMENT, GraphicsAPI::eTextureBindTarget::TEXTURE_2D, depthStencilTexture.GetTextureBufferID(), 0);
 
 		mAttachedDepthStencilTextures.push_back(std::move(depthStencilTexture));
 		createdTexture = &mAttachedDepthStencilTextures.back();

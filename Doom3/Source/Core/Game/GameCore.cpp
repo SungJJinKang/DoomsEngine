@@ -243,7 +243,7 @@ bool dooms::GameCore::Tick()
 	OnEndOfFrame();
 	D_END_PROFILING(OnEndOfFrame);
 
-	if (dooms::userinput::UserInput_Server::GetKeyUp(dooms::userinput::eKEY_CODE::KEY_ESCAPE) == false)
+	if (dooms::userinput::UserInput_Server::GetKeyUp(dooms::graphics::GraphicsAPIInput::eKEY_CODE::KEY_ESCAPE) == false)
 	{
 		return true;
 	}

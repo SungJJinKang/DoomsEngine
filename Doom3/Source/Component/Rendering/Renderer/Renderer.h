@@ -5,18 +5,10 @@
 #include <vector>
 
 #include <Graphics/Graphics_Core.h>
-
+#include <Graphics/Material/Material.h>
 #include "RendererStaticIterator.h"
-
-#include <UserInput_Server.h>
-
 #include "Physics/Collider/AABB.h"
 #include "utility/BVH/BVH_Node_Object.h"
-#include "utility/ColliderUpdater.h"
-
-#include <Vector4.h>
-
-
 #include "Graphics/Acceleration/LinearData_ViewFrustumCulling/DataType/EntityBlockViewer.h"
 
 

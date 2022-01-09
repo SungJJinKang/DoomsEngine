@@ -3,8 +3,8 @@
 #include "../Core/Graphics/Material/Material.h"
 #include <Transform.h>
 #include <Rendering/Camera.h>
-#include "Graphics/Acceleration/LinearData_ViewFrustumCulling/EveryCulling.h"
-
+#include <Graphics/Acceleration/LinearData_ViewFrustumCulling/EveryCulling.h>
+#include <Graphics/Graphics_Server.h>
 
 void dooms::Renderer::SetRenderingFlag(const eRenderingFlag flag, const bool isSet)
 {

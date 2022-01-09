@@ -1,5 +1,8 @@
 #pragma once
 
+#include "GraphicsAPI.h"
+#include "GraphicsAPI.h"
+
 namespace dooms
 {
 	namespace graphics
@@ -18,6 +21,9 @@ namespace dooms
 			extern inline bool DefaultIsAlphaTestOn{ false };
 
 			extern inline bool DefaultIsBlendOn{ false };
+
+			extern inline graphics::GraphicsAPI::eBlendFactor DefaultBlendSourceFactor = GraphicsAPI::eBlendFactor::SRC_ALPHA;
+			extern inline graphics::GraphicsAPI::eBlendFactor DefaultBlendDestinationFactor = GraphicsAPI::eBlendFactor::ONE_MINUS_SRC_ALPHA;
 			
 			extern void LoadData();
 			

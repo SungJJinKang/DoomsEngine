@@ -12,11 +12,11 @@ void dooms::graphics::GraphicsAPIManager::LoadGraphicsAPI(const eGraphicsAPIType
 void dooms::graphics::GraphicsAPIManager::SetDefaultSettingOfAPI()
 {
 	graphics::GraphicsAPIInput::SetCursorMode(graphics::GraphicsAPIInput::eCursorMode::CURSOR_MODE_NORMAL);
-	graphics::GraphicsAPI::EnableDepthTest(true);
-	graphics::GraphicsAPI::DepthFunc(GraphicsAPI::LESS);
-	graphics::GraphicsAPI::EnableAlphaTest(dooms::graphics::graphicsAPISetting::DefaultIsAlphaTestOn);
-	graphics::GraphicsAPI::EnableBlend(dooms::graphics::graphicsAPISetting::DefaultIsBlendOn);
-	graphics::GraphicsAPI::SetBlendFactor(GraphicsAPI::eBlendFactor::SRC_ALPHA, GraphicsAPI::eBlendFactor::ONE_MINUS_SRC_ALPHA);
+	graphics::GraphicsAPI::SetIsDepthTestEnabled(true);
+	graphics::GraphicsAPI::SetDepthFunc(GraphicsAPI::LESS);
+	graphics::GraphicsAPI::SetIsAlphaTestEnabled(dooms::graphics::graphicsAPISetting::DefaultIsAlphaTestOn);
+	graphics::GraphicsAPI::SetIsBlendEnabled(dooms::graphics::graphicsAPISetting::DefaultIsBlendOn);
+	graphics::GraphicsAPI::SetBlendFactor(dooms::graphics::graphicsAPISetting::DefaultBlendSourceFactor, dooms::graphics::graphicsAPISetting::DefaultBlendDestinationFactor);
 	graphics::GraphicsAPI::SetCullFace(GraphicsAPI::CULLFACE_BACK);
 	graphics::GraphicsAPI::SetFrontFaceWinding(GraphicsAPI::CCW);
 	graphics::GraphicsAPI::SetVSync(false);

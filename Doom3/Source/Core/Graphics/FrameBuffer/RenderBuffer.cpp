@@ -87,7 +87,7 @@ void RenderBuffer::DeleteRenderBuffers()
 {
 	if (mRenderBufferID)
 	{
-		glDeleteRenderbuffers(1, &(mRenderBufferID));
+		GraphicsAPI::DestroyRenderBuffer(mRenderBufferID);
 	}
 }
 

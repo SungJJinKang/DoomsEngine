@@ -31,7 +31,7 @@ static FLOAT32 previousTime = 0;
 
 void dooms::ViewFrustumCullingDebug::UpdateComponent()
 {
-	if (UserInput_Server::GetKeyUp(eKEY_CODE::KEY_F4))
+	if (UserInput_Server::GetKeyUp(graphics::GraphicsAPIInput::eKEY_CODE::KEY_F4))
 	{
 		const bool currentFlag = Camera::GetMainCamera()->GetCameraFlag(dooms::eCameraFlag::PAUSE_CULL_JOB);
 

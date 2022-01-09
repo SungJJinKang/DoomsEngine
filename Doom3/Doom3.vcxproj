@@ -541,7 +541,6 @@ xcopy /y /d /E /H /C /I "$(ProjectDir)Assets" "$(TargetDir)Assets"</Command>
     <ClCompile Include="Source\Core\IO\AssetImporter\assetImporter.cpp" />
     <ClCompile Include="Source\Core\IO\UserInput_Server.cpp" />
     <ClCompile Include="Source\Core\Logger\Logger.cpp" />
-    <ClCompile Include="Source\Core\Graphics\GraphicsAPIsfd.cpp" />
     <ClCompile Include="Source\Core\Math\LightMath_Cpp\Vector2.cpp" />
     <ClCompile Include="Source\Core\Math\LightMath_Cpp\Vector3.cpp" />
     <ClCompile Include="Source\Core\Math\LightMath_Cpp\Vector4.cpp" />
@@ -583,9 +582,6 @@ xcopy /y /d /E /H /C /I "$(ProjectDir)Assets" "$(TargetDir)Assets"</Command>
     <ClCompile Include="Source\Helper\EasyDirtyChecker\DirtyReceiver.cpp" />
     <ClCompile Include="Source\Component\PhysicsComponent\SphereCollider3D.cpp" />
     <ClCompile Include="Source\Core\String\StringHelper.cpp" />
-    <ClCompile Include="Source\thirdparty\imgui\backends\imgui_impl_glfw.cpp" />
-    <ClCompile Include="Source\thirdparty\imgui\backends\imgui_impl_opengl3.cpp" />
-    <ClCompile Include="Source\thirdparty\imgui\backends\imgui_impl_win32.cpp" />
     <ClCompile Include="Source\thirdparty\imgui\imgui.cpp" />
     <ClCompile Include="Source\thirdparty\imgui\imgui_draw.cpp" />
     <ClCompile Include="Source\thirdparty\imgui\imgui_tables.cpp" />
@@ -967,9 +963,6 @@ xcopy /y /d /E /H /C /I "$(ProjectDir)Assets" "$(TargetDir)Assets"</Command>
     <ClInclude Include="Source\Core\Asset\ThreeDModelAsset.h" />
     <ClInclude Include="Source\Core\Asset\TextureAsset.h" />
     <ClInclude Include="Source\Core\String\StringHelper.h" />
-    <ClInclude Include="Source\thirdparty\imgui\backends\imgui_impl_glfw.h" />
-    <ClInclude Include="Source\thirdparty\imgui\backends\imgui_impl_opengl3.h" />
-    <ClInclude Include="Source\thirdparty\imgui\backends\imgui_impl_win32.h" />
     <ClInclude Include="Source\thirdparty\imgui\imconfig.h" />
     <ClInclude Include="Source\thirdparty\imgui\imgui.h" />
     <ClInclude Include="Source\thirdparty\imgui\imgui_internal.h" />

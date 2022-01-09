@@ -27,7 +27,7 @@ dooms::graphics::DefferedRenderingFrameBuffer::DefferedRenderingFrameBuffer()
 
 void dooms::graphics::DefferedRenderingFrameBuffer::BlitDepthBufferToScreenBuffer() const
 {
-	FrameBuffer::BlitFrameBufferTo(0, 0, 0, GetDefaultWidth(), GetDefaultHeight(), 0, 0, graphicsAPISetting::GetScreenWidth(), graphicsAPISetting::GetScreenHeight(), GraphicsAPI::eBufferBitType::DEPTH_BUFFER, FrameBuffer::eImageInterpolation::NEAREST);
+	FrameBuffer::BlitFrameBufferTo(0, 0, 0, GetDefaultWidth(), GetDefaultHeight(), 0, 0, graphicsAPISetting::GetScreenWidth(), graphicsAPISetting::GetScreenHeight(), GraphicsAPI::eBufferBitType::DEPTH_BUFFER, GraphicsAPI::eImageInterpolation::IMAGE_INTERPOLATION_NEAREST);
 
 }
 
@@ -69,7 +69,7 @@ void dooms::graphics::DefferedRenderingFrameBuffer::ClearFrameBuffer(const Camer
 
 	TARGET_COLORS[2] = camera->mClearColor;
 
-	GraphicsAPI::WriteBuffers(3, BUFFER_MODES);
+	GraphicsAPI::SetDrawBuffers(3, BUFFER_MODES);
 	GraphicsAPI::ClearSpecificBuffer(BUFFER_TYPES[0], 0, TARGET_COLORS[0].data());
 	GraphicsAPI::ClearSpecificBuffer(BUFFER_TYPES[1], 1, TARGET_COLORS[1].data());
 	GraphicsAPI::ClearSpecificBuffer(BUFFER_TYPES[2], 2, TARGET_COLORS[2].data());

@@ -1,6 +1,7 @@
 #pragma once
 
 #include <vector>
+#include <array>
 
 #include "../../Macros/DllMarcos.h"
 
@@ -36,7 +37,11 @@ namespace dooms
 			static void* GetPlatformWindow();
 
 			static void SetGraphicsAPIType(const eGraphicsAPIType graphicsAPIType);
-			static eGraphicsAPIType GetGraphicsAPIType() noexcept;
+			inline static eGraphicsAPIType GetGraphicsAPIType() noexcept
+			{
+				return mGraphicsAPIType;
+			}
+			static double GetTime();
 
 			enum eBufferBitType : unsigned int
 			{
@@ -73,7 +78,28 @@ namespace dooms
 				COLOR_ATTACHMENT7, // = GL_COLOR_ATTACHMENT7,
 				COLOR_ATTACHMENT8, // = GL_COLOR_ATTACHMENT8,
 				COLOR_ATTACHMENT9, // = GL_COLOR_ATTACHMENT9,
-				COLOR_ATTACHMENT10 // = GL_COLOR_ATTACHMENT10,
+				COLOR_ATTACHMENT10, // = GL_COLOR_ATTACHMENT10,
+				COLOR_ATTACHMENT11, // = GL_COLOR_ATTACHMENT10,
+				COLOR_ATTACHMENT12, // = GL_COLOR_ATTACHMENT10,
+				COLOR_ATTACHMENT13, // = GL_COLOR_ATTACHMENT10,
+				COLOR_ATTACHMENT14, // = GL_COLOR_ATTACHMENT10,
+				COLOR_ATTACHMENT15, // = GL_COLOR_ATTACHMENT10,
+				COLOR_ATTACHMENT16, // = GL_COLOR_ATTACHMENT10,
+				COLOR_ATTACHMENT17, // = GL_COLOR_ATTACHMENT10,
+				COLOR_ATTACHMENT18, // = GL_COLOR_ATTACHMENT10,
+				COLOR_ATTACHMENT19, // = GL_COLOR_ATTACHMENT10,
+				COLOR_ATTACHMENT20, // = GL_COLOR_ATTACHMENT10,
+				COLOR_ATTACHMENT21, // = GL_COLOR_ATTACHMENT10,
+				COLOR_ATTACHMENT22, // = GL_COLOR_ATTACHMENT10,
+				COLOR_ATTACHMENT23, // = GL_COLOR_ATTACHMENT10,
+				COLOR_ATTACHMENT24, // = GL_COLOR_ATTACHMENT10,
+				COLOR_ATTACHMENT25, // = GL_COLOR_ATTACHMENT10,
+				COLOR_ATTACHMENT26, // = GL_COLOR_ATTACHMENT10,
+				COLOR_ATTACHMENT27, // = GL_COLOR_ATTACHMENT10,
+				COLOR_ATTACHMENT28, // = GL_COLOR_ATTACHMENT10,
+				COLOR_ATTACHMENT29, // = GL_COLOR_ATTACHMENT10,
+				COLOR_ATTACHMENT30, // = GL_COLOR_ATTACHMENT10,
+				COLOR_ATTACHMENT31, // = GL_COLOR_ATTACHMENT10,
 			};
 
 			enum eBufferAttachmentType : unsigned int
@@ -137,15 +163,16 @@ namespace dooms
 				GEQUAL // = GL_GEQUAL
 			};
 
-			static void EnableDepthTest(const bool isEnabled) noexcept;
-			static void DepthFunc(const eDepthFuncType depthFuncType) noexcept;
-			static void DepthMask(const bool isWriteDepthBuffer) noexcept;
+			static void SetIsDepthTestEnabled(const bool isEnabled) noexcept;
+			static void SetDepthFunc(const eDepthFuncType depthFuncType) noexcept;
+			static void SetDepthMask(const bool isWriteDepthBuffer) noexcept;
 
-			static void EnableAlphaTest(const bool isEnabled) noexcept;
-			static void EnableBlend(const bool isEnabled) noexcept;
+			static void SetIsAlphaTestEnabled(const bool isEnabled) noexcept;
+			static void SetIsBlendEnabled(const bool isEnabled) noexcept;
 
 			static void SetViewport(const int startX, const int startY, const unsigned int width, const unsigned int height) noexcept;
-			
+			static std::array<int, 4> GetViewPort();
+
 			enum eBlendFactor : unsigned int
 			{
 				ZERO,
@@ -182,9 +209,9 @@ namespace dooms
 
 			static void SetFrontFaceWinding(const eWinding winding) noexcept;
 
-			static void WriteBuffer(const GraphicsAPI::eBufferMode bufferMode) noexcept;
-			static void WriteBuffers(const unsigned int count, const std::vector<GraphicsAPI::eBufferMode> bufferModes) noexcept;
-			static void ReadBuffer(const GraphicsAPI::eBufferMode bufferMode) noexcept;
+			static void SetDrawBuffer(const GraphicsAPI::eBufferMode bufferMode) noexcept;
+			static void SetDrawBuffers(const unsigned int count, const std::vector<GraphicsAPI::eBufferMode> bufferModes) noexcept;
+			static void SetReadBuffer(const GraphicsAPI::eBufferMode bufferMode) noexcept;
 
 			static void ClearColor(const float r, const float g, const float b, const float a) noexcept;
 			static void ClearColor(const float* const colors) noexcept;
@@ -472,13 +499,42 @@ namespace dooms
 				const void* const data
 			) noexcept;
 
+			static unsigned int GenerateFrameBuffer() noexcept;
+			static void DestroyFrameBuffer(const unsigned int frameBufferObject) noexcept;
 			static void BindFrameBuffer
 			(
 				const unsigned int frameBufferObject,
 				const eBindFrameBufferTarget bindFrameBufferTarget
 			) noexcept;
 			static void BindRenderBuffer(const unsigned int renderBufferObject) noexcept;
-			
+
+
+			enum eFrameBufferAttachmentPoint : unsigned int
+			{
+				FRAMEBUFFER_ATTACHMENT_POINT_COLOR_ATTACHMENT0,
+				FRAMEBUFFER_ATTACHMENT_POINT_COLOR_ATTACHMENT1,
+				FRAMEBUFFER_ATTACHMENT_POINT_COLOR_ATTACHMENT2,
+				FRAMEBUFFER_ATTACHMENT_POINT_COLOR_ATTACHMENT3,
+				FRAMEBUFFER_ATTACHMENT_POINT_COLOR_ATTACHMENT4,
+				FRAMEBUFFER_ATTACHMENT_POINT_COLOR_ATTACHMENT5,
+				FRAMEBUFFER_ATTACHMENT_POINT_COLOR_ATTACHMENT6,
+				FRAMEBUFFER_ATTACHMENT_POINT_COLOR_ATTACHMENT7,
+				FRAMEBUFFER_ATTACHMENT_POINT_COLOR_ATTACHMENT8,
+				FRAMEBUFFER_ATTACHMENT_POINT_COLOR_ATTACHMENT9,
+				FRAMEBUFFER_ATTACHMENT_POINT_COLOR_ATTACHMENT10,
+				FRAMEBUFFER_ATTACHMENT_POINT_DEPTH_ATTACHMENT,
+				FRAMEBUFFER_ATTACHMENT_POINT_STENCIL_ATTACHMENT,
+				FRAMEBUFFER_ATTACHMENT_POINT_DEPTH_STENCIL_ATTACHMENT
+			};
+
+			static void Attach2DTextureToFrameBuffer
+			(
+				const eBindFrameBufferTarget bindFrameBufferTarget,
+				const eFrameBufferAttachmentPoint frameBufferAttachmentPoint,
+				const eTextureBindTarget textureBindTarget,
+				const unsigned int textureBufferObject,
+				const int lodLevel
+			);
 
 			static std::vector<unsigned int> CreateRenderBufferObject(const unsigned int renderBufferCount) noexcept;
 			static void AllocateRenderBufferMemory
@@ -494,8 +550,10 @@ namespace dooms
 				const unsigned int frameBufferObject,
 				const eBufferAttachmentType bufferType
 			) noexcept;
+			static void DestroyRenderBuffer(const unsigned int renderBuffer) noexcept;
 
-		
+			static int GetFrameBufferWidth(const unsigned int frameBuffer);
+			static int GetFrameBufferHeight(const unsigned int frameBuffer);
 
 			static void Draw
 			(
@@ -505,7 +563,7 @@ namespace dooms
 			) noexcept;
 			static void DrawIndexed
 			(
-				const ePrimitiveType primitiveType, 
+				const ePrimitiveType primitiveType,
 				const unsigned int indiceCount,
 				const void* const indices = 0
 			) noexcept;
@@ -513,8 +571,8 @@ namespace dooms
 			static unsigned int CreateMaterial() noexcept;
 			static void DestroyMaterial(const unsigned int materialObject) noexcept;
 			/**
-			 * \brief 
-			 * \param materialObject 
+			 * \brief
+			 * \param materialObject
 			 * \return If success, return true
 			 */
 			static bool LinkMaterial(const unsigned int materialObject) noexcept;
@@ -531,10 +589,10 @@ namespace dooms
 			static unsigned int CreateShaderObject(const eShaderType shaderType) noexcept;
 			static void DestroyShaderObject(const unsigned int shaderObject) noexcept;
 			static void CompileShader(const unsigned int shaderObject, const char* const shaderText) noexcept;
-			static void CompileShaders(const unsigned int shaderObject, const unsigned int shaderCount, const char* const * const shaderTexts) noexcept;
+			static void CompileShaders(const unsigned int shaderObject, const unsigned int shaderCount, const char* const* const shaderTexts) noexcept;
 
 			static void AttachShaderToMaterial(const unsigned int materialObject, const unsigned int shaderObject) noexcept;
-			
+
 			static void UpdateConstantBuffer_bool1(const int constantBufferID, const bool value1) noexcept;
 			static void UpdateConstantBuffer_bool2(const int constantBufferID, const bool value1, const bool value2) noexcept;
 			static void UpdateConstantBuffer_bool3(const int constantBufferID, const bool value1, const bool value2, const bool value3) noexcept;
@@ -570,7 +628,7 @@ namespace dooms
 				const eMapBufferAccessOption mapBufferAccessOption
 			) noexcept;
 
-			
+
 
 			static unsigned int CreateTextureObject() noexcept;
 			static void DestroyTextureObject(const unsigned int textureObject) noexcept;
@@ -727,6 +785,17 @@ namespace dooms
 				const eDataType datatType,
 				const unsigned long long bufferSize
 			) noexcept;
+
+			static unsigned char* ReadPixels
+			(
+				const unsigned long bufferSize,
+				const int startX,
+				const int startY,
+				const int width,
+				const int height,
+				const dooms::graphics::GraphicsAPI::eTextureComponentFormat pixelFormat,
+				const dooms::graphics::GraphicsAPI::eDataType dataType
+			);
 
 			static void Define1DTextureStorageRequirement
 			(

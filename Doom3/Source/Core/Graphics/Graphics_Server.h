@@ -124,7 +124,7 @@ namespace dooms
 			~Graphics_Server();
 
 			
-			void SetRenderingMode(eRenderingMode renderingMode);
+			//void SetRenderingMode(eRenderingMode renderingMode);
 		};
 	}
 }

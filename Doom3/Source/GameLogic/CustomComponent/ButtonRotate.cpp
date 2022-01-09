@@ -8,7 +8,7 @@ void dooms::ButtonRotate::InitComponent()
 
 void dooms::ButtonRotate::UpdateComponent()
 {
-	if (userinput::UserInput_Server::GetKeyDown(eKEY_CODE::KEY_F1))
+	if (userinput::UserInput_Server::GetKeyDown(dooms::graphics::GraphicsAPIInput::eKEY_CODE::KEY_F1))
 	{
 		GetTransform()->Rotate({ 0,  90.0f, 0 }, eSpace::Self);
 	}
