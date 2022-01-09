@@ -1,9 +1,5 @@
 #include "FrameBuffer.h"
 
-
-#include "../GraphicsAPI/APIHeaders/OpenGLHeaders.h"
-
-
 using namespace dooms::graphics;
 
 
@@ -112,11 +108,7 @@ void FrameBuffer::CheckIsFrameBufferSuccesfullyCreated() noexcept
 	if(GraphicsAPI::GetGraphicsAPIType() == dooms::graphics::eGraphicsAPIType::OpenGL)
 	{
 		BindFrameBuffer();
-		if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
-		{//Fail Creating FrameBuffer
-			D_ASSERT(false);
-			D_DEBUG_LOG(logger::eLogType::D_ERROR, "fail frame buffer : %u", glCheckFramebufferStatus(GL_FRAMEBUFFER));
-		}
+		D_ASSERT_LOG(false, "fail frame buffer : %u", GraphicsAPI::CheckFrameBufferIsSuccesfullyCreated());
 	}
 	else
 	{

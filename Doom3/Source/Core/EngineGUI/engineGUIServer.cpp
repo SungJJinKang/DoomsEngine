@@ -1,7 +1,7 @@
 #include "EngineGUIServer.h"
+
 #include "imgui.h"
-#include "backends/imgui_impl_glfw.h"
-#include "backends/imgui_impl_opengl3.h"
+#include <Graphics/GraphicsAPI/PlatformImgui/PlatformImgui.h>
 
 #include "imguiHelper/imguiWithReflection.h"
 
@@ -33,7 +33,7 @@ namespace dooms::ui::engineGUIServer
 }
 
 
-void dooms::ui::engineGUIServer::Initialize(GLFWwindow* const glfwWindow, const char* const glslVersion)
+void dooms::ui::engineGUIServer::Initialize()
 {
     IMGUI_CHECKVERSION();
     ImGui::CreateContext();
@@ -50,10 +50,8 @@ void dooms::ui::engineGUIServer::Initialize(GLFWwindow* const glfwWindow, const 
     // Setup Dear ImGui style
     ImGui::StyleColorsDark();
     //ImGui::StyleColorsClassic();
-
-    // Setup Platform/Renderer backends
-    ImGui_ImplGlfw_InitForOpenGL(glfwWindow, true);
-    ImGui_ImplOpenGL3_Init(glslVersion);
+    
+    graphics::PlatformImgui::Initialize();
 
 	dooms::ui::imguiWithReflection::Initialize();
     dooms::ui::engineGUIServer::InitializeGUIModules();
@@ -61,8 +59,7 @@ void dooms::ui::engineGUIServer::Initialize(GLFWwindow* const glfwWindow, const 
 
 void dooms::ui::engineGUIServer::ShutDown()
 {
-    ImGui_ImplOpenGL3_Shutdown();
-    ImGui_ImplGlfw_Shutdown();
+    graphics::PlatformImgui::ShutDown();
     ImGui::DestroyContext();
 }
 
@@ -70,8 +67,7 @@ void dooms::ui::engineGUIServer::PreRender()
 {
     if (IsEngineGUIVisible == true)
     {
-        ImGui_ImplOpenGL3_NewFrame();
-        ImGui_ImplGlfw_NewFrame();
+        graphics::PlatformImgui::PreRender();
         ImGui::NewFrame();
     }
 }
@@ -100,7 +96,7 @@ void dooms::ui::engineGUIServer::PostRender()
         IsEngineGUIAvaliable = true;
 
         dooms::ui::imguiWithReflection::ClearId();
-        ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+        dooms::graphics::PlatformImgui::Render();
     }
 }
 

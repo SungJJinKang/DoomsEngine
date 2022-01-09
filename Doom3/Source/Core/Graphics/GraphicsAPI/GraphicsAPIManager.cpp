@@ -29,6 +29,7 @@ dooms::graphics::GraphicsAPIManager& dooms::graphics::GraphicsAPIManager::operat
 
 void dooms::graphics::GraphicsAPIManager::Initialize(const eGraphicsAPIType graphicsAPIType)
 {
+	LoadGraphicsAPI(graphicsAPIType);
 	GraphicsAPI::Initialize();
 
 

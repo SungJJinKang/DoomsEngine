@@ -147,7 +147,7 @@ void dooms::graphics::SingleTexture::Tex2DMipMapImages(std::vector<const DirectX
 		for (UINT32 i = 0; i < mipmapDatas.size(); i++)
 		{
 			GraphicsAPI::Define2DTextureStorageRequirement(mBindTarget, i, mInternalFormat, mipmapDatas[i]->width, mipmapDatas[i]->height);
-			GraphicsAPI::UploadPixelsTo2DTexture(mBindTarget, i, 0, 0, mipmapDatas[i]->width, mipmapDatas[i]->height, mDataFormat, mDataType, mipmapDatas[i]->pixels);
+			GraphicsAPI::UploadPixelsTo2DTexture(mTarget, i, 0, 0, mipmapDatas[i]->width, mipmapDatas[i]->height, mDataFormat, mDataType, mipmapDatas[i]->pixels);
 		}
 
 	}
@@ -156,7 +156,7 @@ void dooms::graphics::SingleTexture::Tex2DMipMapImages(std::vector<const DirectX
 		for (UINT32 i = 0; i < mipmapDatas.size(); i++)
 		{
 			GraphicsAPI::Define2DCompressedTextureStorageRequirement(mBindTarget, i, mCompressedInternalFormat, mipmapDatas[i]->width, mipmapDatas[i]->height);
-			GraphicsAPI::UploadPixelsTo2DCompressedTexture(mBindTarget, i, 0, 0, mipmapDatas[i]->width, mipmapDatas[i]->height, mDataFormat, mDataType, mipmapDatas[i]->pixels);
+			GraphicsAPI::UploadPixelsTo2DCompressedTexture(mTarget, i, 0, 0, mipmapDatas[i]->width, mipmapDatas[i]->height, mDataFormat, mDataType, mipmapDatas[i]->pixels);
 		}
 
 	}
@@ -185,7 +185,7 @@ void SingleTexture::TexImage2D(INT32 level, const void* data) const noexcept
 	if (mInternalFormat != dooms::graphics::GraphicsAPI::eTextureInternalFormat::TEXTURE_INTERNAL_FORMAT_NONE)
 	{
 		GraphicsAPI::Define2DTextureStorageRequirement(mBindTarget, 0, mInternalFormat, mWidth, mHeight);
-		GraphicsAPI::UploadPixelsTo2DTexture(mBindTarget, 0, 0, 0, mWidth, mHeight, mDataFormat, mDataType, data);
+		GraphicsAPI::UploadPixelsTo2DTexture(mTarget, 0, 0, 0, mWidth, mHeight, mDataFormat, mDataType, data);
 	}
 	else if (mCompressedInternalFormat != dooms::graphics::GraphicsAPI::eTextureCompressedInternalFormat::TEXTURE_COMPRESSED_INTERNAL_FORMAT_NONE)
 	{
@@ -203,7 +203,7 @@ void SingleTexture::TexImage1D(INT32 level, const void* data) const noexcept
 	if (mInternalFormat != dooms::graphics::GraphicsAPI::eTextureInternalFormat::TEXTURE_INTERNAL_FORMAT_NONE)
 	{
 		GraphicsAPI::Define1DTextureStorageRequirement(mBindTarget, 0, mInternalFormat, mWidth);
-		GraphicsAPI::UploadPixelsTo1DTexture(mBindTarget, 0, 0, mWidth, mDataFormat, mDataType, data);
+		GraphicsAPI::UploadPixelsTo1DTexture(mTarget, 0, 0, mWidth, mDataFormat, mDataType, data);
 	}
 	else if (mCompressedInternalFormat != dooms::graphics::GraphicsAPI::eTextureCompressedInternalFormat::TEXTURE_COMPRESSED_INTERNAL_FORMAT_NONE)
 	{
@@ -220,12 +220,12 @@ void SingleTexture::TexImage1D(INT32 level, const DirectX::Image* directXImage) 
 	if (mInternalFormat != dooms::graphics::GraphicsAPI::eTextureInternalFormat::TEXTURE_INTERNAL_FORMAT_NONE)
 	{
 		GraphicsAPI::Define1DTextureStorageRequirement(mBindTarget, 0, mInternalFormat, directXImage->width);
-		GraphicsAPI::UploadPixelsTo1DTexture(mBindTarget, 0, 0, directXImage->width, mDataFormat, mDataType, directXImage->pixels);
+		GraphicsAPI::UploadPixelsTo1DTexture(mTarget, 0, 0, directXImage->width, mDataFormat, mDataType, directXImage->pixels);
 	}
 	else if (mCompressedInternalFormat != dooms::graphics::GraphicsAPI::eTextureCompressedInternalFormat::TEXTURE_COMPRESSED_INTERNAL_FORMAT_NONE)
 	{
 		GraphicsAPI::Define1DCompressedTextureStorageRequirement(mBindTarget, 0, mCompressedInternalFormat, directXImage->width);
-		GraphicsAPI::UploadPixelsTo1DCompressedTexture(mBindTarget, 0, 0, directXImage->width, mDataFormat, mDataType, directXImage->pixels);
+		GraphicsAPI::UploadPixelsTo1DCompressedTexture(mTarget, 0, 0, directXImage->width, mDataFormat, mDataType, directXImage->pixels);
 	}
 	else
 	{
@@ -238,12 +238,12 @@ void SingleTexture::TexImage2D(INT32 level, const DirectX::Image* directXImage) 
 	if (mInternalFormat != dooms::graphics::GraphicsAPI::eTextureInternalFormat::TEXTURE_INTERNAL_FORMAT_NONE)
 	{
 		GraphicsAPI::Define2DTextureStorageRequirement(mBindTarget, 0, mInternalFormat, directXImage->width, directXImage->height);
-		GraphicsAPI::UploadPixelsTo2DTexture(mBindTarget, 0, 0, 0, directXImage->width, directXImage->height, mDataFormat, mDataType, directXImage->pixels);
+		GraphicsAPI::UploadPixelsTo2DTexture(mTarget, 0, 0, 0, directXImage->width, directXImage->height, mDataFormat, mDataType, directXImage->pixels);
 	}
 	else if (mCompressedInternalFormat != dooms::graphics::GraphicsAPI::eTextureCompressedInternalFormat::TEXTURE_COMPRESSED_INTERNAL_FORMAT_NONE)
 	{
 		GraphicsAPI::Define2DCompressedTextureStorageRequirement(mBindTarget, 0, mCompressedInternalFormat, directXImage->width, directXImage->height);
-		GraphicsAPI::UploadPixelsTo2DCompressedTexture(mBindTarget, 0, 0, 0, directXImage->width, directXImage->height, mDataFormat, mDataType, directXImage->pixels);
+		GraphicsAPI::UploadPixelsTo2DCompressedTexture(mTarget, 0, 0, 0, directXImage->width, directXImage->height, mDataFormat, mDataType, directXImage->pixels);
 	}
 	else
 	{

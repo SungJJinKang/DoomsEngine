@@ -2,6 +2,7 @@
 
 #include <vector>
 #include <array>
+#include <string>
 
 #include "../../Macros/DllMarcos.h"
 
@@ -29,10 +30,17 @@ namespace dooms
 			static GraphicsAPIInput* mGraphicsAPIInputManager;
 			inline static eGraphicsAPIType mGraphicsAPIType = eGraphicsAPIType::GraphicsAPIType_NONE;
 
+			inline static std::string PlatformVersion{};
+
 		public:
 
 			using DEBUG_FUNCTION = void (*)(const char* const debugMessage);
 			inline static DEBUG_FUNCTION* mDEBUG_FUNCTION = nullptr;
+
+			inline static std::string GetPlatformVersion()
+			{
+				return PlatformVersion;
+			}
 
 			static void* GetPlatformWindow();
 
@@ -506,6 +514,9 @@ namespace dooms
 				const unsigned int frameBufferObject,
 				const eBindFrameBufferTarget bindFrameBufferTarget
 			) noexcept;
+
+			static unsigned int CheckFrameBufferIsSuccesfullyCreated();
+
 			static void BindRenderBuffer(const unsigned int renderBufferObject) noexcept;
 
 
@@ -541,7 +552,7 @@ namespace dooms
 			(
 				const unsigned int renderBufferObject,
 				const eTextureInternalFormat textureInternalFormat,
-				const unsigned int width, const unsigned height,
+				const unsigned int width, const unsigned int height,
 				const unsigned int multiSample
 			) noexcept;
 			static void AttachRenderBufferToFrameBuffer
@@ -853,7 +864,7 @@ namespace dooms
 
 			static void UploadPixelsTo1DTexture
 			(
-				const eTextureBindTarget textureBindTarget,
+				const eTargetTexture targetTexture,
 				const unsigned int lodLevel,
 				const unsigned int xOffset,
 				const unsigned long long width,
@@ -864,7 +875,7 @@ namespace dooms
 
 			static void UploadPixelsTo2DTexture
 			(
-				const eTextureBindTarget textureBindTarget,
+				const eTargetTexture targetTexture,
 				const unsigned int lodLevel,
 				const unsigned int xOffset,
 				const unsigned int yOffset,
@@ -877,7 +888,7 @@ namespace dooms
 
 			static void UploadPixelsTo3DTexture
 			(
-				const eTextureBindTarget textureBindTarget,
+				const eTargetTexture targetTexture,
 				const unsigned int lodLevel,
 				const unsigned int xOffset,
 				const unsigned int yOffset,
@@ -892,7 +903,7 @@ namespace dooms
 
 			static void UploadPixelsTo1DCompressedTexture
 			(
-				const eTextureBindTarget textureBindTarget,
+				const eTargetTexture targetTexture,
 				const unsigned int lodLevel,
 				const unsigned int xOffset,
 				const unsigned long long width,
@@ -903,7 +914,7 @@ namespace dooms
 
 			static void UploadPixelsTo2DCompressedTexture
 			(
-				const eTextureBindTarget textureBindTarget,
+				const eTargetTexture targetTexture,
 				const unsigned int lodLevel,
 				const unsigned int xOffset,
 				const unsigned int yOffset,
@@ -916,7 +927,7 @@ namespace dooms
 
 			static void UploadPixelsTo3DCompressedTexture
 			(
-				const eTextureBindTarget textureBindTarget,
+				const eTargetTexture targetTexture,
 				const unsigned int lodLevel,
 				const unsigned int xOffset,
 				const unsigned int yOffset,
@@ -928,6 +939,25 @@ namespace dooms
 				const eDataType dataType,
 				const void* const pixelDatas
 			);
+
+			static int GetConstantBufferBindingPoint
+			(
+				const unsigned int constantBufferObject,
+				const unsigned int blockIndex
+			);
+
+			static int GetConstantBufferDataSize
+			(
+				const unsigned int constantBufferObject,
+				const unsigned int blockIndex
+			);
+
+			static int GetConstantBufferBlockCount
+			(
+				const unsigned int constantBufferObject
+			);
+
+			static int GetConstantBufferUniformLocation(const unsigned int constantBufferObject, const char* const uniformStr);
 		};
 	}
 }

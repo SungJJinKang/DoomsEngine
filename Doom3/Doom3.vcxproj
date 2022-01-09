@@ -151,8 +151,8 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(SolutionDir)Source\Helper\crossguid\build\Debug;%(AdditionalLibraryDirectories);C:\vcpkg\x64-windows\bin</AdditionalLibraryDirectories>
-      <AdditionalDependencies>xg.lib;%(AdditionalDependencies);C:\vcpkg\x64-windows\bin</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)Source\Helper\crossguid\build\Debug;%(AdditionalLibraryDirectories);C:\vcpkg\x64-windows\bin;$(OutputPath)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>xg.lib;%(AdditionalDependencies);C:\vcpkg\x64-windows\bin;OpenGLGraphicsAPI.lib;DX11GraphicsAPI.lib</AdditionalDependencies>
       <GenerateMapFile>true</GenerateMapFile>
       <MapFileName>map.map</MapFileName>
       <MapExports>true</MapExports>
@@ -189,8 +189,8 @@ xcopy /y /d /E /H /C /I "$(ProjectDir)Assets" "$(TargetDir)Assets"</Command>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(SolutionDir)dependency\Compressonator\lib\VS2017\x86;$(SolutionDir)dependency\assimp;$(SolutionDir)dependency\glfw\lib;$(SolutionDir)dependency\crossguid\build\Release;$(SolutionDir)Source\Helper\crossguid\build\Release;%(AdditionalLibraryDirectories);C:\vcpkg\x64-windows\bin</AdditionalLibraryDirectories>
-      <AdditionalDependencies>xg.lib;%(AdditionalDependencies);C:\vcpkg\x64-windows\bin</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)dependency\Compressonator\lib\VS2017\x86;$(SolutionDir)dependency\assimp;$(SolutionDir)dependency\glfw\lib;$(SolutionDir)dependency\crossguid\build\Release;$(SolutionDir)Source\Helper\crossguid\build\Release;%(AdditionalLibraryDirectories);C:\vcpkg\x64-windows\bin;$(OutputPath)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>xg.lib;%(AdditionalDependencies);C:\vcpkg\x64-windows\bin;OpenGLGraphicsAPI.lib;DX11GraphicsAPI.lib</AdditionalDependencies>
       <GenerateMapFile>true</GenerateMapFile>
       <MapFileName>map.map</MapFileName>
       <MapExports>true</MapExports>
@@ -226,8 +226,8 @@ xcopy /y /d /E /H /C /I "$(ProjectDir)Assets" "$(TargetDir)Assets"</Command>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>DebugFull</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(SolutionDir)Source\Helper\crossguid\build\Debug;C:\assimp-5.1.5\build\lib\Debug;C:\vcpkg\installed\x64-windows\debug\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>%(AdditionalDependencies);ntdll.lib;xg.lib;DirectXTex.lib;assimp-vc142-mtd.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)Source\Helper\crossguid\build\Debug;C:\assimp-5.1.5\build\lib\Debug;C:\vcpkg\installed\x64-windows\debug\lib;%(AdditionalLibraryDirectories);$(OutputPath)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>%(AdditionalDependencies);ntdll.lib;xg.lib;DirectXTex.lib;assimp-vc142-mtd.lib;OpenGLGraphicsAPI.lib;DX11GraphicsAPI.lib</AdditionalDependencies>
       <GenerateMapFile>true</GenerateMapFile>
       <MapFileName>map.map</MapFileName>
       <MapExports>true</MapExports>
@@ -271,8 +271,8 @@ xcopy /y /d /f "$(ProjectDir)*.map" "$(TargetDir)"</Command>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>false</OptimizeReferences>
       <GenerateDebugInformation>DebugFull</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(SolutionDir)Source\thirdparty\amdUprof\lib\x64;$(SolutionDir)Source\Helper\crossguid\build\Release;C:\assimp-5.1.5\build\lib\Release;C:\vcpkg\installed\x64-windows\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>xg.lib;AMDProfileController.lib;ntdll.lib;DirectXTex.lib;assimp-vc142-mt.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)Source\thirdparty\amdUprof\lib\x64;$(SolutionDir)Source\Helper\crossguid\build\Release;C:\assimp-5.1.5\build\lib\Release;C:\vcpkg\installed\x64-windows\lib;%(AdditionalLibraryDirectories);$(OutputPath)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>xg.lib;AMDProfileController.lib;ntdll.lib;DirectXTex.lib;assimp-vc142-mt.lib;%(AdditionalDependencies);OpenGLGraphicsAPI.lib;DX11GraphicsAPI.lib</AdditionalDependencies>
       <GenerateMapFile>true</GenerateMapFile>
       <MapFileName>map.map</MapFileName>
       <MapExports>true</MapExports>
@@ -300,8 +300,8 @@ xcopy /y /d /f "$(ProjectDir)*.map" "$(TargetDir)"</Command>
       <SourceDependenciesFile>$(OutDirFullPath)SourceDependencies\</SourceDependenciesFile>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies);ntdll.lib;C:\vcpkg\x64-windows\bin</AdditionalDependencies>
-      <AdditionalLibraryDirectories>;C:\vcpkg\x64-windows\bin</AdditionalLibraryDirectories>
+      <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies);ntdll.lib;C:\vcpkg\x64-windows\bin;OpenGLGraphicsAPI.lib;DX11GraphicsAPI.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>;C:\vcpkg\x64-windows\bin;$(OutputPath)</AdditionalLibraryDirectories>
       <GenerateMapFile>true</GenerateMapFile>
       <MapFileName>map.map</MapFileName>
       <MapExports>true</MapExports>
@@ -328,8 +328,8 @@ xcopy /y /d /E /H /C /I "$(ProjectDir)Assets" "$(TargetDir)Assets"</Command>
       <SourceDependenciesFile>$(OutDirFullPath)SourceDependencies\</SourceDependenciesFile>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies);C:\vcpkg\x64-windows\bin</AdditionalDependencies>
-      <AdditionalLibraryDirectories>;C:\vcpkg\x64-windows\bin</AdditionalLibraryDirectories>
+      <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies);C:\vcpkg\x64-windows\bin;OpenGLGraphicsAPI.lib;DX11GraphicsAPI.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>;C:\vcpkg\x64-windows\bin;$(OutputPath)</AdditionalLibraryDirectories>
       <GenerateMapFile>true</GenerateMapFile>
       <MapFileName>map.map</MapFileName>
       <MapExports>true</MapExports>
@@ -345,6 +345,7 @@ xcopy /y /d /E /H /C /I "$(ProjectDir)Assets" "$(TargetDir)Assets"</Command>
     <ClCompile Include="Source\Core\Graphics\Acceleration\LinearData_ViewFrustumCulling\CullingModule\PreCulling\PreCulling.cpp" />
     <ClCompile Include="Source\Core\Graphics\Acceleration\LinearData_ViewFrustumCulling\CullingModule\MaskedSWOcclusionCulling\Utility\depthBufferTileHelper.cpp" />
     <ClCompile Include="Source\Core\Graphics\Acceleration\LinearData_ViewFrustumCulling\CullingModule\MaskedSWOcclusionCulling\Utility\vertexTransformationHelper.cpp" />
+    <ClCompile Include="Source\Core\Graphics\Acceleration\LinearData_ViewFrustumCulling\DataType\EntityBlock.cpp" />
     <ClCompile Include="Source\Core\Graphics\Acceleration\LinearData_ViewFrustumCulling\EveryCullingProfiler.cpp" />
     <ClCompile Include="Source\Core\Graphics\DebugGraphics\DebugPrimitive\DebugPrimitive2DLineContainer.cpp" />
     <ClCompile Include="Source\Core\EngineGUI\GUIModules\MaskedOcclusionCulliingDebugger.cpp" />
@@ -617,6 +618,7 @@ xcopy /y /d /E /H /C /I "$(ProjectDir)Assets" "$(TargetDir)Assets"</Command>
     <ClInclude Include="Source\Core\Graphics\GraphicsAPI\GraphicsAPI.h" />
     <ClInclude Include="Source\Core\Graphics\GraphicsAPI\GraphicsAPILoader.h" />
     <ClInclude Include="Source\Core\Graphics\GraphicsAPI\GraphicsAPIManager.h" />
+    <ClInclude Include="Source\Core\Graphics\GraphicsAPI\PlatformImgui\PlatformImgui.h" />
     <ClInclude Include="Source\Core\Graphics\GraphicsAPI\Input\GraphicsAPIInput.h" />
     <ClInclude Include="Source\Core\Graphics\graphicsSetting.h" />
     <ClInclude Include="Source\Core\Profiler\ProfilingManager.h" />

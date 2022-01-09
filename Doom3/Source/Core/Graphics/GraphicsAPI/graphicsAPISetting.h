@@ -9,40 +9,40 @@ namespace dooms
 	{
 		namespace graphicsAPISetting
 		{
-			extern inline int ScreenSize[2] { 0, 0 };
+			extern int ScreenSize[2];
 			/// <summary>
 			/// ScreenSize Width / ScreenSize Height
 			/// </summary>
-			extern inline float ScreenRatio{0.0f};
-			extern inline unsigned int MultiSamplingNum{0};
+			extern float ScreenRatio;
+			extern unsigned int MultiSamplingNum;
 			
 			
 
-			extern inline bool DefaultIsAlphaTestOn{ false };
+			extern bool DefaultIsAlphaTestOn;
 
-			extern inline bool DefaultIsBlendOn{ false };
+			extern bool DefaultIsBlendOn;
 
 			extern inline graphics::GraphicsAPI::eBlendFactor DefaultBlendSourceFactor = GraphicsAPI::eBlendFactor::SRC_ALPHA;
 			extern inline graphics::GraphicsAPI::eBlendFactor DefaultBlendDestinationFactor = GraphicsAPI::eBlendFactor::ONE_MINUS_SRC_ALPHA;
 			
 			extern void LoadData();
 			
-			extern int GetScreenWidth()
+			inline extern int GetScreenWidth()
 			{
 				return graphicsAPISetting::ScreenSize[0];
 			}
 
-			extern int GetScreenHeight()
+			inline extern int GetScreenHeight()
 			{
 				return graphicsAPISetting::ScreenSize[1];
 			}
 			
-			extern float GetScreenRatio()
+			inline extern float GetScreenRatio()
 			{
 				return graphicsAPISetting::ScreenRatio;
 			}
 
-			extern unsigned int GetMultiSamplingNum()
+			inline extern unsigned int GetMultiSamplingNum()
 			{
 				return graphicsAPISetting::MultiSamplingNum;
 			}

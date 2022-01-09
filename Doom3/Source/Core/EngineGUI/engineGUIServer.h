@@ -1,14 +1,12 @@
 #pragma once
 
-struct GLFWwindow;
-
 namespace dooms
 {
 	namespace ui
 	{
 		namespace engineGUIServer
 		{
-			extern void Initialize(GLFWwindow* const glfwWindow, const char* const glslVersion);
+			extern void Initialize();
 			extern void ShutDown();
 
 			extern void PreRender();

@@ -55,6 +55,9 @@ void dooms::graphics::Graphics_Server::Init()
 
 	InitializeGraphicsAPI();
 
+	const std::string graphisAPIVersion = GraphicsAPI::GetPlatformVersion();
+	dooms::ui::engineGUIServer::Initialize();
+
 	mCullingSystem = std::make_unique<culling::EveryCulling>(graphicsAPISetting::GetScreenWidth(), graphicsAPISetting::GetScreenHeight());
 	mCullingSystem->SetThreadCount(resource::JobSystem::GetSingleton()->GetSubThreadCount() + 1);
 	mCullingSystem->mMaskedSWOcclusionCulling->mSolveMeshRoleStage.mOccluderViewSpaceBoundingSphereRadius = ConfigData::GetSingleton()->GetConfigData().GetValue<FLOAT32>("Graphics", "MASKED_OC_OCCLUDER_VIEW_SPACE_BOUNDING_SPHERE_RADIUS");

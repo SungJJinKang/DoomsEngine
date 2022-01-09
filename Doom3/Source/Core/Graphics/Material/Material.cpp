@@ -2,7 +2,6 @@
 
 #include <Asset/ShaderAsset.h>
 
-#include "../GraphicsAPI/APIHeaders/OpenGLHeaders.h"
 #include "FixedMaterial.h"
 #include "../Buffer/UniformBufferObjectManager.h"
 #include <Asset/TextureAsset.h>
@@ -126,14 +125,7 @@ void dooms::graphics::Material::UseProgram() const
 
 INT32 Material::GetUniformLocation(const char* str) const
 {
-	if(GraphicsAPI::GetGraphicsAPIType() == eGraphicsAPIType::OpenGL)
-	{
-		return glGetUniformLocation(mProgramID, str);
-	}
-	else
-	{
-		D_ASSERT(false);
-	}
+	return GraphicsAPI::GetConstantBufferUniformLocation(mProgramID, str);
 }
 
 /*
@@ -147,26 +139,8 @@ void Material::SetUniformBlockPoint(const std::string uniformBlockName, UINT32 b
 INT32 Material::GetUniformBlocksCount() const
 {
 	D_ASSERT(mProgramID != 0);
-
-	INT32 uniformBlockCount = 0;
-
-	switch (GraphicsAPI::GetGraphicsAPIType())
-	{
-	case eGraphicsAPIType::OpenGL:
-		glGetProgramiv(mProgramID, GL_ACTIVE_UNIFORM_BLOCKS, &uniformBlockCount);
-		break;
-
-	case eGraphicsAPIType::DX11:
-
-		break;
-
-	default:
-		D_ASSERT(false);
-	}
-
 	
-	
-	return uniformBlockCount;
+	return GraphicsAPI::GetConstantBufferBlockCount(mProgramID);
 }
 
 void Material::InitUniformBufferObject()
@@ -174,24 +148,8 @@ void Material::InitUniformBufferObject()
 	INT32 uniformBlockCount = GetUniformBlocksCount();
 	for (INT32 i = 0; i < uniformBlockCount; i++)
 	{
-		INT32 uniformBlockBindingPoint = 0;
-		INT32 uniformBlockSize = 0;
-
-		switch (GraphicsAPI::GetGraphicsAPIType())
-		{
-		case eGraphicsAPIType::OpenGL:
-			glGetActiveUniformBlockiv(mProgramID, i, GL_UNIFORM_BLOCK_BINDING, &uniformBlockBindingPoint); // https://www.khronos.org/registry/OpenGL-Refpages/gl4/html/glGetActiveUniformBlock.xhtml
-			glGetActiveUniformBlockiv(mProgramID, i, GL_UNIFORM_BLOCK_DATA_SIZE, &uniformBlockSize);
-
-			break;
-
-		case eGraphicsAPIType::DX11:
-
-			break;
-
-		default:
-			D_ASSERT(false);
-		}
+		INT32 uniformBlockBindingPoint = GraphicsAPI::GetConstantBufferBindingPoint(mProgramID, i);
+		INT32 uniformBlockSize = GraphicsAPI::GetConstantBufferDataSize(mProgramID, i);
 
 		UniformBufferObject& uniformBufferObject = UniformBufferObjectManager::GetSingleton()->GetOrGenerateUniformBufferObject(uniformBlockBindingPoint, uniformBlockSize);
 		mUniformBufferObjects[i] = &uniformBufferObject;

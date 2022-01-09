@@ -1,6 +1,12 @@
 #include "graphicsAPISetting.h"
 #include "Game/ConfigData.h"
 
+int dooms::graphics::graphicsAPISetting::ScreenSize[2] = {0, 0};
+float dooms::graphics::graphicsAPISetting::ScreenRatio{0.0f};
+unsigned int dooms::graphics::graphicsAPISetting::MultiSamplingNum{0};
+bool dooms::graphics::graphicsAPISetting::DefaultIsAlphaTestOn{true};
+bool dooms::graphics::graphicsAPISetting::DefaultIsBlendOn{true};
+
 void dooms::graphics::graphicsAPISetting::LoadData()
 {
 	const INT32 width = ConfigData::GetSingleton()->GetConfigData().GetValue<INT32>("Graphics", "SCREEN_WIDTH");

@@ -1034,7 +1034,11 @@ unsigned int dooms::graphics::GraphicsAPI::Initialize()
 
 	// glfw window creation
 	// --------------------
-	dooms::graphics::opengl::glfwWindow = glfwCreateWindow(graphicsAPISetting::GetScreenWidth(), graphicsAPISetting::GetScreenHeight(), "SUNG JIN KANG", NULL, NULL);
+	const int width = graphicsAPISetting::GetScreenWidth();
+	const int height = graphicsAPISetting::GetScreenHeight();
+	assert(width != 0 && height != 0);
+
+	dooms::graphics::opengl::glfwWindow = glfwCreateWindow(width, height, "SUNG JIN KANG", NULL, NULL);
 	if (dooms::graphics::opengl::glfwWindow == NULL)
 	{
 		assert(0); // "Failed to create GLFW window"
@@ -1087,8 +1091,7 @@ unsigned int dooms::graphics::GraphicsAPI::Initialize()
 	glGetIntegerv(GL_MAX_TEXTURE_IMAGE_UNITS, &maxTextureUnitCount);
 	assert(maxTextureUnitCount != 0);
 
-	// TODO : move this 
-	//dooms::ui::engineGUIServer::Initialize(dooms::graphics::opengl::glfwWindow, glsl_version);
+	PlatformVersion = glsl_version;
 
 	return 0;
 }
@@ -1163,7 +1166,7 @@ void dooms::graphics::GraphicsAPI::SetIsBlendEnabled(const bool isEnabled) noexc
 	}
 }
 
-void dooms::graphics::GraphicsAPI::SetViewport(const int startX, const int startY, const unsigned width, const unsigned height) noexcept
+void dooms::graphics::GraphicsAPI::SetViewport(const int startX, const int startY, const unsigned int width, const unsigned int height) noexcept
 {
 	glViewport(startX, startY, width, height);
 }
@@ -1217,7 +1220,7 @@ void dooms::graphics::GraphicsAPI::SetDrawBuffer(const GraphicsAPI::eBufferMode 
 
 void dooms::graphics::GraphicsAPI::SetDrawBuffers
 (
-	const unsigned count,
+	const unsigned int count,
 	const std::vector<GraphicsAPI::eBufferMode> bufferModes
 ) noexcept
 {
@@ -1245,7 +1248,7 @@ void dooms::graphics::GraphicsAPI::ClearColor(const float* const color) noexcept
 	glClearColor(color[0], color[1], color[2], color[3]);
 }
 
-void dooms::graphics::GraphicsAPI::ClearBuffer(const unsigned clearMaskBits) noexcept
+void dooms::graphics::GraphicsAPI::ClearBuffer(const unsigned int clearMaskBits) noexcept
 {
 	glClear(opengl::GetGLBufferBitType(clearMaskBits));
 }
@@ -1268,7 +1271,7 @@ void dooms::graphics::GraphicsAPI::ClearBuffer(const eBufferBitType clearMask1, 
 void dooms::graphics::GraphicsAPI::ClearSpecificBuffer
 (
 	const eBufferType bufferType, 
-	const unsigned drawBufferIndex,
+	const unsigned int drawBufferIndex,
 	const float r, const float g, const float b, const float a
 ) noexcept
 {
@@ -1297,12 +1300,12 @@ std::vector<unsigned int>  dooms::graphics::GraphicsAPI::GenerateBuffer(const un
 	return renderBufferObject;
 }
 
-void dooms::graphics::GraphicsAPI::DestroyBuffer(const unsigned bufferID) noexcept
+void dooms::graphics::GraphicsAPI::DestroyBuffer(const unsigned int bufferID) noexcept
 {
 	glDeleteBuffers(1, &bufferID);
 }
 
-std::vector<unsigned int> dooms::graphics::GraphicsAPI::CreateBuffers(const unsigned bufferCount) noexcept
+std::vector<unsigned int> dooms::graphics::GraphicsAPI::CreateBuffers(const unsigned int bufferCount) noexcept
 {
 	std::vector<unsigned int> bufferObject;
 	bufferObject.resize(bufferCount);
@@ -1311,7 +1314,7 @@ std::vector<unsigned int> dooms::graphics::GraphicsAPI::CreateBuffers(const unsi
 	return bufferObject;
 }
 
-void dooms::graphics::GraphicsAPI::DestroyBuffers(const std::vector<unsigned>& buffers) noexcept
+void dooms::graphics::GraphicsAPI::DestroyBuffers(const std::vector<unsigned int>& buffers) noexcept
 {
 	glDeleteBuffers(buffers.size(), buffers.data());
 }
@@ -1327,12 +1330,12 @@ std::vector<unsigned int> dooms::graphics::GraphicsAPI::CreateVertexArrayObject(
 	return bufferObject;
 }
 
-void dooms::graphics::GraphicsAPI::DestroyVertexArrayObject(const std::vector<unsigned>& vertexArrayObjects) noexcept
+void dooms::graphics::GraphicsAPI::DestroyVertexArrayObject(const std::vector<unsigned int>& vertexArrayObjects) noexcept
 {
 	glDeleteVertexArrays(vertexArrayObjects.size(), vertexArrayObjects.data());
 }
 
-void dooms::graphics::GraphicsAPI::BindVertexArrayObject(const unsigned vertexArrayObject) noexcept
+void dooms::graphics::GraphicsAPI::BindVertexArrayObject(const unsigned int vertexArrayObject) noexcept
 {
 	glBindVertexArray(vertexArrayObject);
 }
@@ -1352,17 +1355,17 @@ void dooms::graphics::GraphicsAPI::AllocateBufferMemory
 	glBufferData(opengl::GetGLBufferTarget(bufferTarget), bufferSize, initialData, GL_STATIC_DRAW);
 }
 
-void dooms::graphics::GraphicsAPI::EnableVertexAttributeArrayIndex(const unsigned vertexAttributeIndex) noexcept
+void dooms::graphics::GraphicsAPI::EnableVertexAttributeArrayIndex(const unsigned int vertexAttributeIndex) noexcept
 {
 	glEnableVertexAttribArray(vertexAttributeIndex);
 }
 
 void dooms::graphics::GraphicsAPI::DefineVertexAttributeLayout
 (
-	const unsigned vertexAttributeIndex,
-	const unsigned componentNumber, 
-	const unsigned stride, 
-	const unsigned offset
+	const unsigned int vertexAttributeIndex,
+	const unsigned int componentNumber,
+	const unsigned int stride,
+	const unsigned int offset
 ) noexcept
 {
 	glVertexAttribPointer(vertexAttributeIndex, componentNumber, GL_FLOAT, GL_FALSE, stride, reinterpret_cast<GLvoid*>(offset));
@@ -1385,8 +1388,8 @@ void dooms::graphics::GraphicsAPI::UnBindBuffer(const eBufferTarget bindBufferTa
 void dooms::graphics::GraphicsAPI::BindBufferToIndexedBuffer
 (
 	const eBufferTarget bindBufferTarget,
-	const unsigned bindingPoint,
-	const unsigned bufferObject
+	const unsigned int bindingPoint,
+	const unsigned int bufferObject
 ) noexcept
 {
 	glBindBufferBase(opengl::GetGLBufferTarget(bindBufferTarget), bindingPoint, bufferObject);
@@ -1395,8 +1398,8 @@ void dooms::graphics::GraphicsAPI::BindBufferToIndexedBuffer
 void dooms::graphics::GraphicsAPI::UpdateDataToBuffer
 (
 	const eBufferTarget bindBufferTarget,
-	const unsigned offset, 
-	const unsigned dataSize, 
+	const unsigned int offset,
+	const unsigned int dataSize,
 	const void* const data
 ) noexcept
 {
@@ -1410,21 +1413,34 @@ unsigned dooms::graphics::GraphicsAPI::GenerateFrameBuffer() noexcept
 	return frameBuffer;
 }
 
-void dooms::graphics::GraphicsAPI::DestroyFrameBuffer(const unsigned frameBufferObject) noexcept
+void dooms::graphics::GraphicsAPI::DestroyFrameBuffer(const unsigned int frameBufferObject) noexcept
 {
 	glDeleteFramebuffers(1, &frameBufferObject);
 }
 
 void dooms::graphics::GraphicsAPI::BindFrameBuffer
 (
-	const unsigned frameBufferObject,
+	const unsigned int frameBufferObject,
 	const eBindFrameBufferTarget bindFrameBufferTarget
 ) noexcept
 {
 	glBindBuffer(opengl::GetGLBindFrameBufferTarget(bindFrameBufferTarget), frameBufferObject);
 }
 
-void dooms::graphics::GraphicsAPI::BindRenderBuffer(const unsigned renderBufferObject) noexcept
+unsigned int dooms::graphics::GraphicsAPI::CheckFrameBufferIsSuccesfullyCreated()
+{
+	if(glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
+	{
+		return 0;
+	}
+	else
+	{
+		return glCheckFramebufferStatus(GL_FRAMEBUFFER);
+	}
+	
+}
+
+void dooms::graphics::GraphicsAPI::BindRenderBuffer(const unsigned int renderBufferObject) noexcept
 {
 	glBindRenderbuffer(GL_RENDERBUFFER, renderBufferObject);
 }
@@ -1434,7 +1450,7 @@ void dooms::graphics::GraphicsAPI::Attach2DTextureToFrameBuffer
 	const eBindFrameBufferTarget bindFrameBufferTarget,
 	const eFrameBufferAttachmentPoint frameBufferAttachmentPoint, 
 	const eTextureBindTarget textureBindTarget,
-	const unsigned textureBufferObject, 
+	const unsigned int textureBufferObject,
 	const int lodLevel
 )
 {
@@ -1454,9 +1470,9 @@ std::vector<unsigned int> dooms::graphics::GraphicsAPI::CreateRenderBufferObject
 
 void dooms::graphics::GraphicsAPI::AllocateRenderBufferMemory
 (
-	const unsigned renderBufferObject,
+	const unsigned int renderBufferObject,
 	const eTextureInternalFormat textureInternalFormat,
-	const unsigned width, const unsigned height,
+	const unsigned int width, const unsigned int height,
 	const unsigned int multiSample
 ) noexcept
 {
@@ -1473,8 +1489,8 @@ void dooms::graphics::GraphicsAPI::AllocateRenderBufferMemory
 
 void dooms::graphics::GraphicsAPI::AttachRenderBufferToFrameBuffer
 (
-	const unsigned renderBufferObject,
-	const unsigned frameBufferObject, 
+	const unsigned int renderBufferObject,
+	const unsigned int frameBufferObject,
 	const eBufferAttachmentType bufferType
 ) noexcept
 {
@@ -1513,12 +1529,12 @@ void dooms::graphics::GraphicsAPI::AttachRenderBufferToFrameBuffer
 	}
 }
 
-void dooms::graphics::GraphicsAPI::DestroyRenderBuffer(const unsigned renderBuffer) noexcept
+void dooms::graphics::GraphicsAPI::DestroyRenderBuffer(const unsigned int renderBuffer) noexcept
 {
 	glDeleteRenderbuffers(1, &renderBuffer);
 }
 
-int dooms::graphics::GraphicsAPI::GetFrameBufferWidth(const unsigned frameBuffer)
+int dooms::graphics::GraphicsAPI::GetFrameBufferWidth(const unsigned int frameBuffer)
 {
 	GraphicsAPI::BindFrameBuffer(frameBuffer, eBindFrameBufferTarget::FRAMEBUFFER);
 
@@ -1527,7 +1543,7 @@ int dooms::graphics::GraphicsAPI::GetFrameBufferWidth(const unsigned frameBuffer
 	return data;
 }
 
-int dooms::graphics::GraphicsAPI::GetFrameBufferHeight(const unsigned frameBuffer)
+int dooms::graphics::GraphicsAPI::GetFrameBufferHeight(const unsigned int frameBuffer)
 {
 	GraphicsAPI::BindFrameBuffer(frameBuffer, eBindFrameBufferTarget::FRAMEBUFFER);
 
@@ -1540,7 +1556,7 @@ int dooms::graphics::GraphicsAPI::GetFrameBufferHeight(const unsigned frameBuffe
 void dooms::graphics::GraphicsAPI::Draw
 (
 	const ePrimitiveType primitiveType, 
-	const unsigned vertexCount,
+	const unsigned int vertexCount,
 	const unsigned int startVertexLocation
 ) noexcept
 {
@@ -1569,7 +1585,7 @@ void dooms::graphics::GraphicsAPI::Draw
 void dooms::graphics::GraphicsAPI::DrawIndexed
 (
 	const ePrimitiveType primitiveType, 
-	const unsigned indiceCount,
+	const unsigned int indiceCount,
 	const void* const indices
 ) noexcept
 {
@@ -1599,12 +1615,12 @@ unsigned dooms::graphics::GraphicsAPI::CreateMaterial() noexcept
 	return materialObject;
 }
 
-void dooms::graphics::GraphicsAPI::DestroyMaterial(const unsigned materialObject) noexcept
+void dooms::graphics::GraphicsAPI::DestroyMaterial(const unsigned int materialObject) noexcept
 {
 	glDeleteProgram(materialObject);
 }
 
-bool dooms::graphics::GraphicsAPI::LinkMaterial(const unsigned materialObject) noexcept
+bool dooms::graphics::GraphicsAPI::LinkMaterial(const unsigned int materialObject) noexcept
 {
 	glLinkProgram(materialObject);
 
@@ -1622,7 +1638,7 @@ bool dooms::graphics::GraphicsAPI::LinkMaterial(const unsigned materialObject) n
 	return isSuccess != 0;
 }
 
-void dooms::graphics::GraphicsAPI::BindMaterial(const unsigned materialObject) noexcept
+void dooms::graphics::GraphicsAPI::BindMaterial(const unsigned int materialObject) noexcept
 {
 	glUseProgram(materialObject);
 }
@@ -1636,14 +1652,14 @@ unsigned dooms::graphics::GraphicsAPI::CreateShaderObject(const eShaderType shad
 	return shaderObject;
 }
 
-void dooms::graphics::GraphicsAPI::DestroyShaderObject(const unsigned shaderObject) noexcept
+void dooms::graphics::GraphicsAPI::DestroyShaderObject(const unsigned int shaderObject) noexcept
 {
 	glDeleteShader(shaderObject);
 }
 
 void dooms::graphics::GraphicsAPI::CompileShaders
 (
-	const unsigned shaderObject, 
+	const unsigned int shaderObject,
 	const unsigned int shaderCount,
 	const char* const* const shaderTexts
 ) noexcept
@@ -1652,7 +1668,7 @@ void dooms::graphics::GraphicsAPI::CompileShaders
 	glCompileShader(shaderObject);
 }
 
-void dooms::graphics::GraphicsAPI::AttachShaderToMaterial(const unsigned materialObject, const unsigned shaderObject) noexcept
+void dooms::graphics::GraphicsAPI::AttachShaderToMaterial(const unsigned int materialObject, const unsigned int shaderObject) noexcept
 {
 	glAttachShader(materialObject, shaderObject);
 }
@@ -1802,7 +1818,7 @@ void dooms::graphics::GraphicsAPI::UpdateConstantBuffer_mat4x4f(const int consta
 
 void* dooms::graphics::GraphicsAPI::MapBufferObjectToClientAddress
 (
-	const unsigned bufferID,
+	const unsigned int bufferID,
 	const unsigned long long offset,
 	const unsigned long long length,
 	const eBufferTarget bindBufferTarget, 
@@ -1825,20 +1841,20 @@ void dooms::graphics::GraphicsAPI::DestroyTextureObject(const unsigned int textu
 	glDeleteTextures(1, &textureObject);
 }
 
-void dooms::graphics::GraphicsAPI::BindTextureObject(const unsigned textureObject, const eTextureBindTarget textureBindTarget) noexcept
+void dooms::graphics::GraphicsAPI::BindTextureObject(const unsigned int textureObject, const eTextureBindTarget textureBindTarget) noexcept
 {
 	glBindTexture(opengl::GetGLTextureBindTarget(textureBindTarget), textureObject);
 }
 
-void dooms::graphics::GraphicsAPI::ActivateTextureUnit(const unsigned unitIndex) noexcept
+void dooms::graphics::GraphicsAPI::ActivateTextureUnit(const unsigned int unitIndex) noexcept
 {
 	glActiveTexture(GL_TEXTURE0 + unitIndex);
 }
 
 void dooms::graphics::GraphicsAPI::BindTextureObjectAndActivateTextureUnit
 (
-	const unsigned textureObject,
-	const unsigned unitIndex
+	const unsigned int textureObject,
+	const unsigned int unitIndex
 ) noexcept
 {
 	glBindTextureUnit(unitIndex, textureObject);
@@ -1851,8 +1867,8 @@ void dooms::graphics::GraphicsAPI::UnBindTextureObject(const eTextureBindTarget 
 
 void dooms::graphics::GraphicsAPI::BlitFrameBuffer
 (
-	const unsigned ReadFrameBufferObject,
-	const unsigned DrawFrameBufferObject, 
+	const unsigned int ReadFrameBufferObject,
+	const unsigned int DrawFrameBufferObject,
 	const int srcX0, const int srcY0, const int srcX1, const int srcY1,
 	const int dstX0, const int dstY0, const int dstX1, const int dstY1,
 	const GraphicsAPI::eBufferBitType mask,
@@ -1866,9 +1882,9 @@ void dooms::graphics::GraphicsAPI::BlitFrameBuffer
 
 float dooms::graphics::GraphicsAPI::GetTextureMetaDataFloat
 (
-	const unsigned textureObject,
+	const unsigned int textureObject,
 	const eTextureBindTarget textureBindTarget, 
-	const unsigned lodLevel,
+	const unsigned int lodLevel,
 	const eTextureMetaDataType textureMetaDataType
 ) noexcept
 {
@@ -1882,9 +1898,9 @@ float dooms::graphics::GraphicsAPI::GetTextureMetaDataFloat
 
 int dooms::graphics::GraphicsAPI::GetTextureMetaDataInt
 (
-	const unsigned textureObject,
+	const unsigned int textureObject,
 	const eTextureBindTarget textureBindTarget, 
-	const unsigned lodLevel,
+	const unsigned int lodLevel,
 	const eTextureMetaDataType textureMetaDataType
 ) noexcept
 {
@@ -1953,7 +1969,7 @@ unsigned char* dooms::graphics::GraphicsAPI::ReadPixels
 void dooms::graphics::GraphicsAPI::Define1DTextureStorageRequirement
 (
 	const eTextureBindTarget textureBindTarget,
-	const unsigned lodLevel, 
+	const unsigned int lodLevel,
 	const eTextureInternalFormat textureInternalFormat, 
 	const unsigned long long width
 )
@@ -1970,7 +1986,7 @@ void dooms::graphics::GraphicsAPI::Define1DTextureStorageRequirement
 void dooms::graphics::GraphicsAPI::Define2DTextureStorageRequirement
 (
 	const eTextureBindTarget textureBindTarget,
-	const unsigned lodLevel, 
+	const unsigned int lodLevel,
 	const eTextureInternalFormat textureInternalFormat, 
 	const unsigned long long width,
 	const unsigned long long height
@@ -1989,7 +2005,7 @@ void dooms::graphics::GraphicsAPI::Define2DTextureStorageRequirement
 void dooms::graphics::GraphicsAPI::Define3DTextureStorageRequirement
 (
 	const eTextureBindTarget textureBindTarget,
-	const unsigned lodLevel, 
+	const unsigned int lodLevel,
 	const eTextureInternalFormat textureInternalFormat, 
 	const unsigned long long width,
 	const unsigned long long height, 
@@ -2010,7 +2026,7 @@ void dooms::graphics::GraphicsAPI::Define3DTextureStorageRequirement
 void dooms::graphics::GraphicsAPI::Define1DCompressedTextureStorageRequirement
 (
 	const eTextureBindTarget textureBindTarget,
-	const unsigned lodLevel,
+	const unsigned int lodLevel,
 	const eTextureCompressedInternalFormat textureInternalFormat,
 	const unsigned long long width
 )
@@ -2027,7 +2043,7 @@ void dooms::graphics::GraphicsAPI::Define1DCompressedTextureStorageRequirement
 void dooms::graphics::GraphicsAPI::Define2DCompressedTextureStorageRequirement
 (
 	const eTextureBindTarget textureBindTarget,
-	const unsigned lodLevel,
+	const unsigned int lodLevel,
 	const eTextureCompressedInternalFormat textureInternalFormat,
 	const unsigned long long width,
 	const unsigned long long height
@@ -2046,7 +2062,7 @@ void dooms::graphics::GraphicsAPI::Define2DCompressedTextureStorageRequirement
 void dooms::graphics::GraphicsAPI::Define3DCompressedTextureStorageRequirement
 (
 	const eTextureBindTarget textureBindTarget,
-	const unsigned lodLevel,
+	const unsigned int lodLevel,
 	const eTextureCompressedInternalFormat textureInternalFormat,
 	const unsigned long long width,
 	const unsigned long long height,
@@ -2067,9 +2083,9 @@ void dooms::graphics::GraphicsAPI::Define3DCompressedTextureStorageRequirement
 
 void dooms::graphics::GraphicsAPI::UploadPixelsTo1DTexture
 (
-	const eTextureBindTarget textureBindTarget,
-	const unsigned lodLevel, 
-	const unsigned xOffset, 
+	const eTargetTexture targetTexture,
+	const unsigned int lodLevel,
+	const unsigned int xOffset,
 	const unsigned long long width,
 	const eTextureComponentFormat textureComponentFormat,
 	const eDataType dataType, 
@@ -2078,7 +2094,7 @@ void dooms::graphics::GraphicsAPI::UploadPixelsTo1DTexture
 {
 	glTexSubImage1D
 	(
-		opengl::GetGLTextureBindTarget(textureBindTarget),
+		opengl::GetGLTargetTexture(targetTexture),
 		lodLevel,
 		xOffset,
 		width,
@@ -2090,10 +2106,10 @@ void dooms::graphics::GraphicsAPI::UploadPixelsTo1DTexture
 
 void dooms::graphics::GraphicsAPI::UploadPixelsTo2DTexture
 (
-	const eTextureBindTarget textureBindTarget,
-	const unsigned lodLevel, 
-	const unsigned xOffset, 
-	const unsigned yOffset, 
+	const eTargetTexture targetTexture,
+	const unsigned int lodLevel,
+	const unsigned int xOffset,
+	const unsigned int yOffset,
 	const unsigned long long width,
 	const unsigned long long height, 
 	const eTextureComponentFormat textureComponentFormat, 
@@ -2103,7 +2119,7 @@ void dooms::graphics::GraphicsAPI::UploadPixelsTo2DTexture
 {
 	glTexSubImage2D
 	(
-		opengl::GetGLTextureBindTarget(textureBindTarget),
+		opengl::GetGLTargetTexture(targetTexture),
 		lodLevel,
 		xOffset,
 		yOffset,
@@ -2117,11 +2133,11 @@ void dooms::graphics::GraphicsAPI::UploadPixelsTo2DTexture
 
 void dooms::graphics::GraphicsAPI::UploadPixelsTo3DTexture
 (
-	const eTextureBindTarget textureBindTarget,
-	const unsigned lodLevel, 
-	const unsigned xOffset, 
-	const unsigned yOffset, 
-	const unsigned zOffset,
+	const eTargetTexture targetTexture,
+	const unsigned int lodLevel,
+	const unsigned int xOffset,
+	const unsigned int yOffset,
+	const unsigned int zOffset,
 	const unsigned long long width, 
 	const unsigned long long height, 
 	const unsigned long long depth,
@@ -2132,7 +2148,7 @@ void dooms::graphics::GraphicsAPI::UploadPixelsTo3DTexture
 {
 	glTexSubImage3D
 	(
-		opengl::GetGLTextureBindTarget(textureBindTarget),
+		opengl::GetGLTargetTexture(targetTexture),
 		lodLevel,
 		xOffset,
 		yOffset,
@@ -2149,9 +2165,9 @@ void dooms::graphics::GraphicsAPI::UploadPixelsTo3DTexture
 
 void dooms::graphics::GraphicsAPI::UploadPixelsTo1DCompressedTexture
 (
-	const eTextureBindTarget textureBindTarget,
-	const unsigned lodLevel,
-	const unsigned xOffset,
+	const eTargetTexture targetTexture,
+	const unsigned int lodLevel,
+	const unsigned int xOffset,
 	const unsigned long long width,
 	const eTextureComponentFormat textureComponentFormat,
 	const eDataType dataType,
@@ -2160,7 +2176,7 @@ void dooms::graphics::GraphicsAPI::UploadPixelsTo1DCompressedTexture
 {
 	glCompressedTexSubImage1D
 	(
-		opengl::GetGLTextureBindTarget(textureBindTarget),
+		opengl::GetGLTargetTexture(targetTexture),
 		lodLevel,
 		xOffset,
 		width,
@@ -2172,10 +2188,10 @@ void dooms::graphics::GraphicsAPI::UploadPixelsTo1DCompressedTexture
 
 void dooms::graphics::GraphicsAPI::UploadPixelsTo2DCompressedTexture
 (
-	const eTextureBindTarget textureBindTarget,
-	const unsigned lodLevel,
-	const unsigned xOffset,
-	const unsigned yOffset,
+	const eTargetTexture targetTexture,
+	const unsigned int lodLevel,
+	const unsigned int xOffset,
+	const unsigned int yOffset,
 	const unsigned long long width,
 	const unsigned long long height,
 	const eTextureComponentFormat textureComponentFormat,
@@ -2185,7 +2201,7 @@ void dooms::graphics::GraphicsAPI::UploadPixelsTo2DCompressedTexture
 {
 	glCompressedTexSubImage2D
 	(
-		opengl::GetGLTextureBindTarget(textureBindTarget),
+		opengl::GetGLTargetTexture(targetTexture),
 		lodLevel,
 		xOffset,
 		yOffset,
@@ -2199,11 +2215,11 @@ void dooms::graphics::GraphicsAPI::UploadPixelsTo2DCompressedTexture
 
 void dooms::graphics::GraphicsAPI::UploadPixelsTo3DCompressedTexture
 (
-	const eTextureBindTarget textureBindTarget,
-	const unsigned lodLevel,
-	const unsigned xOffset,
-	const unsigned yOffset,
-	const unsigned zOffset,
+	const eTargetTexture targetTexture,
+	const unsigned int lodLevel,
+	const unsigned int xOffset,
+	const unsigned int yOffset,
+	const unsigned int zOffset,
 	const unsigned long long width,
 	const unsigned long long height,
 	const unsigned long long depth,
@@ -2214,7 +2230,7 @@ void dooms::graphics::GraphicsAPI::UploadPixelsTo3DCompressedTexture
 {
 	glCompressedTexSubImage3D
 	(
-		opengl::GetGLTextureBindTarget(textureBindTarget),
+		opengl::GetGLTargetTexture(targetTexture),
 		lodLevel,
 		xOffset,
 		yOffset,
@@ -2228,10 +2244,51 @@ void dooms::graphics::GraphicsAPI::UploadPixelsTo3DCompressedTexture
 	);
 }
 
+int dooms::graphics::GraphicsAPI::GetConstantBufferBindingPoint
+(
+	const unsigned constantBufferObject,
+	const unsigned blockIndex
+)
+{
+	int uniformBlockBindingPoint;
+	glGetActiveUniformBlockiv(constantBufferObject, blockIndex, GL_UNIFORM_BLOCK_BINDING, &uniformBlockBindingPoint);
+	return uniformBlockBindingPoint;
+}
+
+int dooms::graphics::GraphicsAPI::GetConstantBufferDataSize
+(
+	const unsigned constantBufferObject,
+	const unsigned blockIndex
+)
+{
+	int dataSize;
+	glGetActiveUniformBlockiv(constantBufferObject, blockIndex, GL_UNIFORM_BLOCK_DATA_SIZE, &dataSize);
+	return dataSize;
+}
+
+int dooms::graphics::GraphicsAPI::GetConstantBufferBlockCount
+(
+	const unsigned constantBufferObject
+)
+{
+	int blockCount;
+	glGetProgramiv(constantBufferObject, GL_ACTIVE_UNIFORM_BLOCKS, &blockCount);
+	return blockCount;
+}
+
+int dooms::graphics::GraphicsAPI::GetConstantBufferUniformLocation
+(
+	const unsigned constantBufferObject,
+	const char* const uniformStr
+)
+{
+	return glGetUniformLocation(constantBufferObject, uniformStr);
+}
+
 
 void dooms::graphics::GraphicsAPI::CompileShader
 (
-	const unsigned shaderObject, 
+	const unsigned int shaderObject,
 	const char* const shaderText
 ) noexcept
 {

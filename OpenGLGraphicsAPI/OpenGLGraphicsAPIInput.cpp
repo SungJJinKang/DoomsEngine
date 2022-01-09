@@ -268,6 +268,7 @@ namespace dooms
 					return GLFW_KEY_MENU;
 				default:
 					NEVER_HAPPEN;
+					return 0;
 				}
 			}
 
@@ -284,6 +285,7 @@ namespace dooms
 					return GLFW_MOUSE_BUTTON_MIDDLE;
 				default:
 					NEVER_HAPPEN;
+					return 0;
 				}
 			}
 
@@ -306,6 +308,7 @@ namespace dooms
 					return GLFW_CURSOR_DISABLED;
 				default:
 					NEVER_HAPPEN;
+					return 0;
 				}
 			}
 
@@ -380,6 +383,11 @@ dooms::graphics::GraphicsAPIInput::eMouseButtonMode dooms::graphics::GraphicsAPI
 	}
 	else if(mode == GLFW_RELEASE)
 	{
+		return eMouseButtonMode::RELEASE;
+	}
+	else
+	{
+		NEVER_HAPPEN;
 		return eMouseButtonMode::RELEASE;
 	}
 }
