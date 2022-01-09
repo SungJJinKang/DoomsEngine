@@ -1,16 +1,31 @@
 #pragma once
 
 
+
 namespace dooms
 {
 	namespace graphics
 	{
+		typedef void (*CursorEnterCallback)(int);
+		typedef void (*CursorPosition_Callback)(double, double);
+		typedef void (*Scroll_Callback)(double, double);
+		typedef void (*Key_Callback)(int, int, int, int);
+		typedef void (*MouseButton_Callback)(int, int, int);
+
 		class __declspec(dllexport) GraphicsAPIInput
 		{
-
 		private:
 
+			
+
+
 		public:
+
+			inline static CursorEnterCallback mCursorEnterCallback = nullptr;
+			inline static CursorPosition_Callback mCursorPosition_Callback = nullptr;
+			inline static Scroll_Callback mScroll_Callback = nullptr;
+			inline static Key_Callback mKey_Callback = nullptr;
+			inline static MouseButton_Callback mMouseButton_Callback = nullptr;
 
 			enum eKEY_CODE : int
 			{
@@ -135,12 +150,36 @@ namespace dooms
 				KEY_RIGHT_ALT, //GLFW_KEY_RIGHT_ALT,
 				KEY_RIGHT_SUPER, //GLFW_KEY_RIGHT_SUPER,
 				KEY_MENU, //GLFW_KEY_MENU,
-
 			};
 
-			void Initialize();
-			void DeInitialize();
+			enum eMoustInput : unsigned int
+			{
+				MOUSE_BUTTON_LEFT,
+				MOUSE_BUTTON_RIGHT,
+				MOUSE_BUTTON_MIDDLE
+			};
 
+			enum eCursorMode : unsigned int
+			{
+				CURSOR_MODE_NORMAL,
+				CURSOR_MODE_HIDDEN,
+				CURSOR_MODE_DISABLED,
+			};
+
+			enum eMouseButtonMode : unsigned int
+			{
+				PRESS,
+				RELEASE
+			};
+
+			static unsigned int Initialize();
+			static unsigned int DeInitialize();
+
+			static void PollEvents();
+
+			static void SetCursorMode(const eCursorMode cursorMode);
+
+			static eMouseButtonMode ConvertRawValueToMouseButtonMode(const int mode);
 		};
 	}
 }

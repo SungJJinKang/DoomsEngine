@@ -1,13 +1,13 @@
 #include "GraphicsAPI.h"
 
-void dooms::graphics::GraphicsAPI::Initialize()
+unsigned int dooms::graphics::GraphicsAPI::Initialize()
 {
-
+	return 1;
 }
 
-void dooms::graphics::GraphicsAPI::DeInitialize()
+unsigned int dooms::graphics::GraphicsAPI::DeInitialize()
 {
-
+	return 1;
 }
 
 void dooms::graphics::GraphicsAPI::SwapBuffer()

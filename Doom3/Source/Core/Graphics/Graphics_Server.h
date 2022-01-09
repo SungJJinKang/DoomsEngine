@@ -80,11 +80,9 @@ namespace dooms
 			void PreRenderRenderer();
 			void UpdateCameraIndexInCullingSystemOfCameraComponent();
 			void UpdateSortedEntityInfoListInCullingSystem();
-
-
-
-			eRenderingMode mCurrentRenderingMode{ eRenderingMode::ForwardRendering };
 			
+			void InitializeGraphicsAPI();
+
 			void PreRender();
 			void Render();
 			void ProfilingCullingSystem();
@@ -97,8 +95,7 @@ namespace dooms
 			void PreCullJob();
 			void CameraCullJob(dooms::Camera* const camera);
 			//void PreUpdateEntityBlocks();
-
-			void LoadGraphicsAPI();
+			
 			
 		public:
 
@@ -106,6 +103,7 @@ namespace dooms
 
 			std::unique_ptr<culling::EveryCulling> mCullingSystem;
 
+			
 			virtual void Init() final;
 			virtual void LateInit() final;
 			virtual void Update() final;

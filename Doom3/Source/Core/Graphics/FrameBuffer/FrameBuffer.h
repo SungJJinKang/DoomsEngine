@@ -98,12 +98,12 @@ namespace dooms
 					if (frameBuffer == nullptr)
 					{
 						BindFrameBufferStatic(GraphicsAPI::FRAMEBUFFER, 0);
-						glViewport(0, 0, graphics::graphicsAPISetting::GetScreenWidth(), graphics::graphicsAPISetting::GetScreenHeight());
+						GraphicsAPI::SetViewport(0, 0, graphics::graphicsAPISetting::GetScreenWidth(), graphics::graphicsAPISetting::GetScreenHeight());
 					}
 					else
 					{
 						BindFrameBufferStatic(GraphicsAPI::FRAMEBUFFER, frameBuffer->mFrameBufferID);
-						glViewport(0, 0, frameBuffer->mDefaultWidth, frameBuffer->mDefaultHeight);
+						GraphicsAPI::SetViewport(0, 0, frameBuffer->mDefaultWidth, frameBuffer->mDefaultHeight);
 					}
 					FrameBuffer::CurrentFrameBuffer = frameBuffer;
 				}
@@ -140,11 +140,7 @@ namespace dooms
 				GraphicsAPI::ClearBuffer(mClearBit);
 			}
 
-			enum class D_ENUM eImageInterpolation
-			{
-				NEAREST = GL_NEAREST,
-				LINEAR = GL_LINEAR
-			};
+			
 			
 			FORCE_INLINE static void BindFrameBufferStatic(const GraphicsAPI::eBindFrameBufferTarget bindFrameBufferTarget, const UINT32 frameBufferID)
 			{
@@ -154,21 +150,21 @@ namespace dooms
 			static void BlitFrameBufferTo(
 				UINT32 ReadFrameBufferId, UINT32 DrawFrameBufferId, INT32 srcX0, INT32 srcY0, INT32 srcX1,
 				INT32 srcY1, INT32 dstX0, INT32 dstY0, INT32 dstX1, INT32 dstY1,
-				GraphicsAPI::eBufferBitType mask, eImageInterpolation filter) noexcept;
+				GraphicsAPI::eBufferBitType mask, GraphicsAPI::eImageInterpolation filter) noexcept;
 
 			void BlitFrameBufferTo(
 				UINT32 DrawFrameBufferId, INT32 srcX0, INT32 srcY0, INT32 srcX1, 
 				INT32 srcY1 , INT32 dstX0, INT32 dstY0, INT32 dstX1, INT32 dstY1, 
-				GraphicsAPI::eBufferBitType mask, eImageInterpolation filter) const noexcept;
+				GraphicsAPI::eBufferBitType mask, GraphicsAPI::eImageInterpolation filter) const noexcept;
 
 			void BlitFrameBufferFrom(UINT32 ReadFrameBufferId, INT32 srcX0, INT32 srcY0, 
 				INT32 srcX1, INT32 srcY1 , INT32 dstX0, INT32 dstY0, INT32 dstX1, 
-				INT32 dstY1, GraphicsAPI::eBufferBitType mask, eImageInterpolation filter) const noexcept;
+				INT32 dstY1, GraphicsAPI::eBufferBitType mask, GraphicsAPI::eImageInterpolation filter) const noexcept;
 
 			void BlitFrameBufferToTexture(
 				dooms::graphics::Texture* const drawTexture, INT32 srcX0, INT32 srcY0, INT32 srcX1,
 				INT32 srcY1, INT32 dstX0, INT32 dstY0, INT32 dstX1, INT32 dstY1,
-				GraphicsAPI::eBufferBitType mask, eImageInterpolation filter) const noexcept;
+				GraphicsAPI::eBufferBitType mask, GraphicsAPI::eImageInterpolation filter) const noexcept;
 
 			RenderBuffer& AttachRenderBuffer(GraphicsAPI::eBufferAttachmentType renderBufferType, UINT32 width, UINT32 height);
 			RenderBuffer& AttachRenderBuffer(GraphicsAPI::eBufferAttachmentType renderBufferType);

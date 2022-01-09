@@ -55,7 +55,7 @@ namespace dooms
 				case GraphicsAPI::GEQUAL:
 					return GL_GEQUAL;
 				default:
-					NEVER_HAPPEN;
+					NEVER_HAPPEN; return 0;
 				}
 			}
 
@@ -144,7 +144,7 @@ namespace dooms
 				case GraphicsAPI::COMPRESSED_SRGB_ALPHA_S3TC_DXT5_EXT:
 					return GL_COMPRESSED_SRGB_ALPHA_S3TC_DXT5_EXT;
 				default:
-					NEVER_HAPPEN;
+					NEVER_HAPPEN; return 0; return 0;
 				}
 			}
 
@@ -152,9 +152,9 @@ namespace dooms
 			{
 				switch (textureParameterValue)
 				{
-				case GraphicsAPI::NEAREST:
+				case GraphicsAPI::IMAGE_INTERPOLATION_NEAREST:
 					return GL_NEAREST;
-				case GraphicsAPI::LINEAR:
+				case GraphicsAPI::IMAGE_INTERPOLATION_LINEAR:
 					return GL_LINEAR;
 				case GraphicsAPI::NEAREST_MIPMAP_NEAREST:
 					return GL_NEAREST_MIPMAP_NEAREST;
@@ -175,7 +175,7 @@ namespace dooms
 				case GraphicsAPI::MIRROR_CLAMP_TO_EDGE:
 					return GL_MIRROR_CLAMP_TO_EDGE;
 				default:
-					NEVER_HAPPEN;
+					NEVER_HAPPEN; return 0;
 				}
 			}
 
@@ -194,7 +194,7 @@ namespace dooms
 				case GraphicsAPI::WRAP_MODE_MIRROR_CLAMP_TO_EDGE:
 					return GL_MIRROR_CLAMP_TO_EDGE;
 				default:
-					NEVER_HAPPEN;
+					NEVER_HAPPEN; return 0;
 				}
 			}
 
@@ -215,7 +215,7 @@ namespace dooms
 				case GraphicsAPI::FILTER_MODE_LINEAR_MIPMAP_LINEAR:
 					return GL_LINEAR_MIPMAP_LINEAR;
 				default:
-					NEVER_HAPPEN;
+					NEVER_HAPPEN; return 0;
 				}
 			}
 
@@ -254,7 +254,7 @@ namespace dooms
 				case GraphicsAPI::TEXTURE_COMPONENT_DEPTH_STENCIL:
 					return GL_DEPTH_STENCIL;
 				default:
-					NEVER_HAPPEN;
+					NEVER_HAPPEN; return 0;
 				}
 			}
 
@@ -441,7 +441,7 @@ namespace dooms
 				case GraphicsAPI::TEXTURE_INTERNAL_FORMAT_COMPRESSED_RGB_BPTC_UNSIGNED_FLOAT:
 					return GL_COMPRESSED_RGB_BPTC_UNSIGNED_FLOAT;
 				default:
-					NEVER_HAPPEN;
+					NEVER_HAPPEN; return 0;
 				}
 			}
 
@@ -465,7 +465,7 @@ namespace dooms
 					return GL_UNIFORM_BUFFER;
 
 				default:
-					NEVER_HAPPEN;
+					NEVER_HAPPEN; return 0;
 				}
 			}
 
@@ -480,7 +480,7 @@ namespace dooms
 				case GraphicsAPI::DEPTH_STENCIL_BUFFER: 
 					return GL_STENCIL_BUFFER_BIT;
 				default:
-					NEVER_HAPPEN;
+					NEVER_HAPPEN; return 0;
 				}
 			}
 
@@ -513,7 +513,7 @@ namespace dooms
 				case GraphicsAPI::eBufferType::DEPTH_STENCIL:
 					return GL_DEPTH_STENCIL;
 				default:
-					NEVER_HAPPEN;
+					NEVER_HAPPEN; return 0;
 				}
 			}
 
@@ -559,8 +559,10 @@ namespace dooms
 					return GL_COLOR_ATTACHMENT9;
 				case GraphicsAPI::COLOR_ATTACHMENT10: 
 					return GL_COLOR_ATTACHMENT10;
+				case GraphicsAPI::BUFFER_MODE_NONE:
+					return GL_NONE;
 				default:
-					NEVER_HAPPEN;
+					NEVER_HAPPEN; return 0;
 				}
 			}
 
@@ -576,7 +578,7 @@ namespace dooms
 					return GL_GEOMETRY_SHADER;
 
 				default:
-					NEVER_HAPPEN;
+					NEVER_HAPPEN; return 0;
 				}
 			}
 
@@ -607,7 +609,7 @@ namespace dooms
 				case GraphicsAPI::TEXTURE_2D_MULTISAMPLE_ARRAY: 
 					return GL_TEXTURE_2D_MULTISAMPLE_ARRAY;
 				default:
-					NEVER_HAPPEN;
+					NEVER_HAPPEN; return 0;
 
 				}
 			}
@@ -626,7 +628,7 @@ namespace dooms
 					return GL_READ_WRITE;
 
 				default:
-					NEVER_HAPPEN;
+					NEVER_HAPPEN; return 0;
 				}
 			}
 
@@ -661,7 +663,7 @@ namespace dooms
 				case GraphicsAPI::TEXTURE_BUFFER_SIZE: 
 					return GL_TEXTURE_BUFFER_SIZE;
 				default:
-					NEVER_HAPPEN;
+					NEVER_HAPPEN; return 0;
 				}
 			}
 			
@@ -704,7 +706,7 @@ namespace dooms
 				case GraphicsAPI::TEXTURE_WRAP_R: 
 					return GL_TEXTURE_WRAP_R;
 				default:
-					NEVER_HAPPEN;
+					NEVER_HAPPEN; return 0;
 				}
 			}
 
@@ -745,7 +747,7 @@ namespace dooms
 				case GraphicsAPI::TARGET_TEXTURE_TEXTURE_3D: 
 					return GL_TEXTURE_3D;
 				default:
-					NEVER_HAPPEN;
+					NEVER_HAPPEN; return 0;
 				}
 			}
 
@@ -800,7 +802,71 @@ namespace dooms
 				case GraphicsAPI::FLOAT_32_UNSIGNED_INT_24_8_REV:
 					return GL_FLOAT_32_UNSIGNED_INT_24_8_REV;
 				default:
+					NEVER_HAPPEN; return 0;
+				}
+			}
+
+			inline extern unsigned int GetGLBlendFactor(const graphics::GraphicsAPI::eBlendFactor blendFactor)
+			{
+				switch (blendFactor)
+				{
+				case GraphicsAPI::eBlendFactor::ZERO:
+					return GL_ZERO;
+				case GraphicsAPI::eBlendFactor::ONE: 
+					return GL_ONE;
+				case GraphicsAPI::eBlendFactor::SRC_COLOR: 
+					return GL_SRC_COLOR;
+				case GraphicsAPI::eBlendFactor::ONE_MINUS_SRC_COLOR: 
+					return GL_ONE_MINUS_SRC_COLOR;
+				case GraphicsAPI::eBlendFactor::DST_COLOR: 
+					return GL_DST_COLOR;
+				case GraphicsAPI::eBlendFactor::ONE_MINUS_DST_COLOR: 
+					return GL_ONE_MINUS_DST_COLOR;
+				case GraphicsAPI::eBlendFactor::SRC_ALPHA:
+					return GL_SRC_ALPHA;
+				case GraphicsAPI::eBlendFactor::ONE_MINUS_SRC_ALPHA: 
+					return GL_ONE_MINUS_SRC_ALPHA;
+				case GraphicsAPI::eBlendFactor::DST_ALPHA: 
+					return GL_DST_ALPHA;
+				case GraphicsAPI::eBlendFactor::ONE_MINUS_DST_ALPHA: 
+					return GL_ONE_MINUS_DST_ALPHA;
+				case GraphicsAPI::eBlendFactor::CONSTANT_COLOR:
+					return GL_CONSTANT_COLOR;
+				case GraphicsAPI::eBlendFactor::ONE_MINUS_CONSTANT_COLOR: 
+					return GL_ONE_MINUS_CONSTANT_COLOR;
+				case GraphicsAPI::eBlendFactor::CONSTANT_ALPHA: 
+					return GL_CONSTANT_ALPHA;
+				case GraphicsAPI::eBlendFactor::ONE_MINUS_CONSTANT_ALPHA: 
+					return GL_ONE_MINUS_CONSTANT_ALPHA;
+				default:
+					NEVER_HAPPEN; return 0;
+				}
+			}
+
+			inline extern unsigned int GetGLWinding(const GraphicsAPI::eWinding winding)
+			{
+				switch (winding)
+				{
+				case GraphicsAPI::CW:
+					return GL_CW;
+				case GraphicsAPI::CCW:
+					return GL_CCW;
+				default:
+					NEVER_HAPPEN; return 0;
+				}
+			}
+
+			inline extern unsigned int GetGLImageInterpolation(const GraphicsAPI::eImageInterpolation imageInterpolation)
+			{
+				switch (imageInterpolation)
+				{
+				case GraphicsAPI::eImageInterpolation::IMAGE_INTERPOLATION_NEAREST: 
+					return GL_NEAREST;
+				case GraphicsAPI::eImageInterpolation::IMAGE_INTERPOLATION_LINEAR: 
+					return GL_LINEAR;
+				default:
 					NEVER_HAPPEN;
+					return 0;
 				}
 			}
 
@@ -825,6 +891,11 @@ namespace dooms
 			}
 		}
 	}
+}
+
+void* dooms::graphics::GraphicsAPI::GetPlatformWindow()
+{
+	return dooms::graphics::opengl::glfwWindow;
 }
 
 void dooms::graphics::GraphicsAPI::SetGraphicsAPIType(const eGraphicsAPIType graphicsAPIType)
@@ -898,42 +969,13 @@ unsigned int dooms::graphics::GraphicsAPI::Initialize()
 	std::printf("Vendor is : %s", vendor.c_str());
 	std::printf("Renderer is : %s", glGetString(static_cast<const unsigned int>(dooms::graphics::opengl::GetStringParameter::VERSION)));
 #endif // 
-
-	glfwSetInputMode(dooms::graphics::opengl::glfwWindow, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
+	
 	//
-
-	glEnable(GL_DEPTH_TEST);
-	glDepthFunc(GL_LESS);
+	
 	glDisable(GL_SAMPLE_ALPHA_TO_COVERAGE);
 	glDisable(GL_SAMPLE_ALPHA_TO_ONE);
 	
-	if (dooms::graphics::graphicsAPISetting::DefaultIsAlphaTestOn == true)
-	{
-		glEnable(GL_ALPHA_TEST);
-	}
-	else
-	{
-		glDisable(GL_ALPHA_TEST);
-	}
-
-	if (dooms::graphics::graphicsAPISetting::DefaultIsBlendOn == true)
-	{
-		glEnable(GL_BLEND);
-	}
-	else
-	{
-		glDisable(GL_BLEND);
-	}
-
-	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-
-	glEnable(GL_CULL_FACE);
-	glCullFace(GL_BACK);
-
-	glFrontFace(GL_CCW);
-
-	glfwSwapInterval(0); // disable v-sync
-
+	
 #ifdef _DEBUG
 	glEnable(GL_DEBUG_OUTPUT);
 	glEnable(GL_DEBUG_OUTPUT_SYNCHRONOUS);
@@ -973,6 +1015,18 @@ void dooms::graphics::GraphicsAPI::SetVSync(const bool isEnabled) noexcept
 	glfwSwapInterval(isEnabled == true ? 1 : 0);
 }
 
+void dooms::graphics::GraphicsAPI::EnableDepthTest(const bool isEnabled) noexcept
+{
+	if (isEnabled == true)
+	{
+		glEnable(GL_DEPTH_TEST);
+	}
+	else
+	{
+		glDisable(GL_DEPTH_TEST);
+	}
+}
+
 void dooms::graphics::GraphicsAPI::DepthFunc(const eDepthFuncType depthFuncType) noexcept
 {
 	glDepthFunc(opengl::GetGLDepthFuncType(depthFuncType));
@@ -981,6 +1035,45 @@ void dooms::graphics::GraphicsAPI::DepthFunc(const eDepthFuncType depthFuncType)
 void dooms::graphics::GraphicsAPI::DepthMask(const bool isWriteDepthBuffer) noexcept
 {
 	glDepthMask(isWriteDepthBuffer);
+}
+
+void dooms::graphics::GraphicsAPI::EnableAlphaTest(const bool isEnabled) noexcept
+{
+	if(isEnabled == true)
+	{
+		glEnable(GL_ALPHA_TEST);
+	}
+	else
+	{
+		glDisable(GL_ALPHA_TEST);
+	}
+	
+}
+
+void dooms::graphics::GraphicsAPI::EnableBlend(const bool isEnabled) noexcept
+{
+	if (isEnabled == true)
+	{
+		glEnable(GL_BLEND);
+	}
+	else
+	{
+		glDisable(GL_BLEND);
+	}
+}
+
+void dooms::graphics::GraphicsAPI::SetViewport(const int startX, const int startY, const unsigned width, const unsigned height) noexcept
+{
+	glViewport(startX, startY, width, height);
+}
+
+void dooms::graphics::GraphicsAPI::SetBlendFactor
+(
+	const eBlendFactor sourceBlendFactor,
+	const eBlendFactor destinationBlendFactor
+) noexcept
+{
+	glBlendFunc(opengl::GetGLBlendFactor(sourceBlendFactor), opengl::GetGLBlendFactor(destinationBlendFactor));
 }
 
 void dooms::graphics::GraphicsAPI::SetCullFace(const eCullFace cullFace) noexcept
@@ -1000,8 +1093,13 @@ void dooms::graphics::GraphicsAPI::SetCullFace(const eCullFace cullFace) noexcep
 		
 
 	default: 
-		NEVER_HAPPEN;
+		NEVER_HAPPEN; 
 	}
+}
+
+void dooms::graphics::GraphicsAPI::SetFrontFaceWinding(const eWinding winding) noexcept
+{
+	glFrontFace(opengl::GetGLWinding(winding));
 }
 
 void dooms::graphics::GraphicsAPI::WriteBuffer(const GraphicsAPI::eBufferMode bufferMode) noexcept
@@ -1297,7 +1395,7 @@ void dooms::graphics::GraphicsAPI::AttachRenderBufferToFrameBuffer
 		
 
 	default:
-		NEVER_HAPPEN;
+		NEVER_HAPPEN; 
 
 	}
 }
@@ -1326,7 +1424,7 @@ void dooms::graphics::GraphicsAPI::Draw
 		
 
 	default:
-		NEVER_HAPPEN;
+		NEVER_HAPPEN; 
 	}
 
 	
@@ -1616,6 +1714,21 @@ void dooms::graphics::GraphicsAPI::UnBindTextureObject(const eTextureBindTarget 
 	glBindTexture(opengl::GetTextureBindTarget(textureBindTarget), 0);
 }
 
+void dooms::graphics::GraphicsAPI::BlitFrameBuffer
+(
+	const unsigned ReadFrameBufferObject,
+	const unsigned DrawFrameBufferObject, 
+	const int srcX0, const int srcY0, const int srcX1, const int srcY1,
+	const int dstX0, const int dstY0, const int dstX1, const int dstY1,
+	const GraphicsAPI::eBufferBitType mask,
+	const GraphicsAPI::eImageInterpolation filter
+)
+{
+	BindFrameBuffer(ReadFrameBufferObject, GraphicsAPI::eBindFrameBufferTarget::READ_FRAMEBUFFER);
+	BindFrameBuffer(DrawFrameBufferObject, GraphicsAPI::eBindFrameBufferTarget::DRAW_FRAMEBUFFER);
+	glBlitFramebuffer(srcX0, srcY0, srcX1, srcY1, dstX0, dstY0, dstX1, dstY1, opengl::GetGLBufferBitType(mask), opengl::GetGLImageInterpolation(filter));
+}
+
 float dooms::graphics::GraphicsAPI::GetTextureMetaDataFloat
 (
 	const unsigned textureObject,
@@ -1629,6 +1742,7 @@ float dooms::graphics::GraphicsAPI::GetTextureMetaDataFloat
 	GraphicsAPI::BindTextureObject(textureObject, textureBindTarget);
 	glGetTexLevelParameterfv(opengl::GetTextureBindTarget(textureBindTarget), lodLevel, opengl::GetGLTextureMataDataType(textureMetaDataType), &data);
 
+	return data;
 }
 
 int dooms::graphics::GraphicsAPI::GetTextureMetaDataInt
@@ -1644,6 +1758,7 @@ int dooms::graphics::GraphicsAPI::GetTextureMetaDataInt
 	GraphicsAPI::BindTextureObject(textureObject, textureBindTarget);
 	glGetTexLevelParameteriv(opengl::GetTextureBindTarget(textureBindTarget), lodLevel, opengl::GetGLTextureMataDataType(textureMetaDataType), &data);
 
+	return data;
 }
 
 void dooms::graphics::GraphicsAPI::SetTextureParameterFloat

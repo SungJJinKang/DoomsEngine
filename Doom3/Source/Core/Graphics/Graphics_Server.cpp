@@ -6,7 +6,7 @@
 #include "../Scene/Layer.h"
 #include "../Game/AssetManager/AssetManager.h"
 
-#include "GraphicsAPI.h"
+#include "GraphicsAPI/GraphicsAPI.h"
 
 #include "Buffer/UniformBufferObjectManager.h"
 
@@ -35,14 +35,25 @@
 
 using namespace dooms::graphics;
 
+void Graphics_Server::InitializeGraphicsAPI()
+{
+	const std::string targetGraphicsAPI = ConfigData::GetSingleton()->GetConfigData().GetValue<std::string>("Graphics", "GRAPHICS_API");
+	if (targetGraphicsAPI == "OPENGL")
+	{
+		mGraphicsAPIManager.Initialize(eGraphicsAPIType::OpenGL);
+	}
+	else if (targetGraphicsAPI == "DX11")
+	{
+		mGraphicsAPIManager.Initialize(eGraphicsAPIType::DX11);
+	}
+}
+
 void dooms::graphics::Graphics_Server::Init()
 {
 	dooms::graphics::graphicsSetting::LoadData();
 	dooms::graphics::graphicsAPISetting::LoadData();
 
-	LoadGraphicsAPI();
-
-	dooms::graphics::GraphicsAPI::Initialize();
+	InitializeGraphicsAPI();
 
 	mCullingSystem = std::make_unique<culling::EveryCulling>(graphicsAPISetting::GetScreenWidth(), graphicsAPISetting::GetScreenHeight());
 	mCullingSystem->SetThreadCount(resource::JobSystem::GetSingleton()->GetSubThreadCount() + 1);
@@ -113,8 +124,7 @@ Graphics_Server::Graphics_Server()
 
 Graphics_Server::~Graphics_Server()
 {
-	graphics::GraphicsAPI::DeInitialize();
-	mGraphicsAPIManager.mGraphicsAPILoader.UnLoadGraphicsAPILibrary();
+	mGraphicsAPIManager.DeInitialize();
 }
 
 void Graphics_Server::PreCullJob()
@@ -165,20 +175,6 @@ void Graphics_Server::CameraCullJob(dooms::Camera* const camera)
 
 }
 
-void Graphics_Server::LoadGraphicsAPI()
-{
-	const std::string targetGraphicsAPI = ConfigData::GetSingleton()->GetConfigData().GetValue<std::string>("Graphics", "GRAPHICS_API");
-	if(targetGraphicsAPI == "OPENGL")
-	{
-		mGraphicsAPIManager.mGraphicsAPILoader.LoadGraphicsAPILibrary(eGraphicsAPIType::OpenGL);
-	}
-	else if(targetGraphicsAPI == "DX11")
-	{
-		mGraphicsAPIManager.mGraphicsAPILoader.LoadGraphicsAPILibrary(eGraphicsAPIType::DX11);
-	}
-
-
-}
 
 void Graphics_Server::DebugGraphics()
 {

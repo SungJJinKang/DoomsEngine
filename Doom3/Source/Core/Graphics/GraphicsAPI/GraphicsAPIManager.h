@@ -13,9 +13,14 @@ namespace dooms
 		{
 		private:
 
+			GraphicsAPILoader mGraphicsAPILoader;
+
+			void LoadGraphicsAPI(const eGraphicsAPIType graphicsAPIType);
+
+			void SetDefaultSettingOfAPI();
+
 		public:
 
-			GraphicsAPILoader mGraphicsAPILoader;
 
 			GraphicsAPIManager();
 			~GraphicsAPIManager();
@@ -23,6 +28,9 @@ namespace dooms
 			GraphicsAPIManager(GraphicsAPIManager&&) noexcept;
 			GraphicsAPIManager& operator=(const GraphicsAPIManager&) = delete;
 			GraphicsAPIManager& operator=(GraphicsAPIManager&&) noexcept;
+
+			void Initialize(const eGraphicsAPIType graphicsAPIType);
+			void DeInitialize();
 		};
 
 	}

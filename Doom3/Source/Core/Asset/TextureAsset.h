@@ -3,7 +3,7 @@
 
 #include <memory>
 
-#include "../Graphics/Texture/TextureFormat.h"
+#include <Graphics/GraphicsAPI/GraphicsAPI.h>
 
 #include "TextureAsset.reflection.h"
 namespace DirectX
@@ -57,13 +57,13 @@ namespace dooms
 			bool bmIsCompressed{ false };
 
 			D_PROPERTY()
-			graphics::eTextureComponentFormat mComponentFormat{}; // 1 ~ 4 ( rgb, rgba ~~ )
+			graphics::GraphicsAPI::eTextureComponentFormat mComponentFormat{}; // 1 ~ 4 ( rgb, rgba ~~ )
 
 			D_PROPERTY()
-			graphics::eTextureInternalFormat mInternalFormat{};
+			graphics::GraphicsAPI::eTextureInternalFormat mInternalFormat{};
 
 			D_PROPERTY()
-			graphics::eTextureCompressedInternalFormat mCompressedInternalFormat{};
+			graphics::GraphicsAPI::eTextureCompressedInternalFormat mCompressedInternalFormat{};
 
 			D_PROPERTY()
 			graphics::Texture* mDefaultTextureObject{ nullptr };

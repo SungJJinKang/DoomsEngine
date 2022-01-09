@@ -1,11 +1,15 @@
 #include "Input/GraphicsAPIInput.h"
 
-void dooms::graphics::GraphicsAPIInput::Initialize()
+unsigned int dooms::graphics::GraphicsAPIInput::Initialize()
 {
-
+	return 1;
 }
 
-void dooms::graphics::GraphicsAPIInput::DeInitialize()
+unsigned int dooms::graphics::GraphicsAPIInput::DeInitialize()
 {
+	return 1;
+}
 
+void dooms::graphics::GraphicsAPIInput::SetCursorMode(const eCursorMode cursorMode)
+{
 }

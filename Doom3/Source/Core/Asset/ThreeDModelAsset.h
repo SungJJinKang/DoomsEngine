@@ -97,7 +97,7 @@ namespace dooms
 		std::string mName;
 
 		D_PROPERTY()
-		ePrimitiveType mPrimitiveType;
+		graphics::GraphicsAPI::ePrimitiveType mPrimitiveType;
 
 		D_PROPERTY()
 		bool bHasIndices;

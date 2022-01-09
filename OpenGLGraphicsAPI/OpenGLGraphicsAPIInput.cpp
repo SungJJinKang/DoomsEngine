@@ -1,7 +1,12 @@
 #include "Input/GraphicsAPIInput.h"
 
+#include <cassert>
+
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
+
+#include "GraphicsAPI.h"
+#include "Input/GraphicsAPIInput.h"
 
 #undef NEVER_HAPPEN
 #ifdef _DEBUG
@@ -265,17 +270,116 @@ namespace dooms
 					NEVER_HAPPEN;
 				}
 			}
+
+
+			inline extern unsigned int GetGLMoustInput(const GraphicsAPIInput::eMoustInput mouseInput)
+			{
+				switch (mouseInput)
+				{
+				case GraphicsAPIInput::MOUSE_BUTTON_LEFT:
+					return GLFW_MOUSE_BUTTON_LEFT;
+				case GraphicsAPIInput::MOUSE_BUTTON_RIGHT:
+					return GLFW_MOUSE_BUTTON_RIGHT;
+				case GraphicsAPIInput::MOUSE_BUTTON_MIDDLE:
+					return GLFW_MOUSE_BUTTON_MIDDLE;
+				default:
+					NEVER_HAPPEN;
+				}
+			}
+
+			enum eCursorMode : unsigned int
+			{
+				CURSOR_MODE_NORMAL,
+				CURSOR_MODE_HIDDEN,
+				CURSOR_MODE_DISABLED,
+			};
+
+			inline extern unsigned int GetGLCursorMode(const GraphicsAPIInput::eCursorMode cursorMode)
+			{
+				switch (cursorMode)
+				{
+				case GraphicsAPIInput::CURSOR_MODE_NORMAL:
+					return GLFW_CURSOR_NORMAL;
+				case GraphicsAPIInput::CURSOR_MODE_HIDDEN: 
+					return GLFW_CURSOR_HIDDEN;
+				case GraphicsAPIInput::CURSOR_MODE_DISABLED: 
+					return GLFW_CURSOR_DISABLED;
+				default:
+					NEVER_HAPPEN;
+				}
+			}
+
 			
+			extern void CursorPosition_Callback(GLFWwindow* window, double xpos, double ypos)
+			{
+				assert(GraphicsAPIInput::mCursorPosition_Callback != nullptr);
+				(*GraphicsAPIInput::mCursorPosition_Callback)(xpos, ypos);
+			}
+			extern void Scroll_Callback(GLFWwindow* window, double xoffset, double yoffset)
+			{
+				assert(GraphicsAPIInput::mScroll_Callback != nullptr);
+				(*GraphicsAPIInput::mScroll_Callback)(xoffset, yoffset);
+			}
+			extern void Key_Callback(GLFWwindow* window, int key, int scancode, int action, int mods)
+			{
+				assert(GraphicsAPIInput::mKey_Callback != nullptr);
+				(*GraphicsAPIInput::mKey_Callback)(key, scancode, action, mods);
+			}
+			extern void MouseButton_Callback(GLFWwindow* window, int button, int action, int mods)
+			{
+				assert(GraphicsAPIInput::mMouseButton_Callback != nullptr);
+				(*GraphicsAPIInput::mMouseButton_Callback)(button, action, mods);
+			}
+			extern void CursorEnterCallback(GLFWwindow* window, int entered)
+			{
+				assert(GraphicsAPIInput::mCursorEnterCallback != nullptr);
+				(*GraphicsAPIInput::mCursorEnterCallback)(entered);
+
+				double xpos, ypos;
+				glfwGetCursorPos(window, &xpos, &ypos);
+				CursorPosition_Callback(window, xpos, ypos);
+			}
 		}
 	}
 }
 
-void dooms::graphics::GraphicsAPIInput::Initialize()
+unsigned int dooms::graphics::GraphicsAPIInput::Initialize()
 {
-	
+	GLFWwindow* const glfwWindow = reinterpret_cast<GLFWwindow*>(dooms::graphics::GraphicsAPI::GetPlatformWindow());
+
+	glfwSetCursorEnterCallback(glfwWindow, &dooms::graphics::opengl::CursorEnterCallback);
+	glfwSetCursorPosCallback(glfwWindow, &dooms::graphics::opengl::CursorPosition_Callback);
+	glfwSetScrollCallback(glfwWindow, &dooms::graphics::opengl::Scroll_Callback);
+
+	glfwSetKeyCallback(glfwWindow, &dooms::graphics::opengl::Key_Callback);
+	glfwSetMouseButtonCallback(glfwWindow, &dooms::graphics::opengl::MouseButton_Callback);
+
+	return 0;
 }
 
-void dooms::graphics::GraphicsAPIInput::DeInitialize()
+unsigned int dooms::graphics::GraphicsAPIInput::DeInitialize()
 {
+	return 0;
+}
 
+void dooms::graphics::GraphicsAPIInput::PollEvents()
+{
+	glfwPollEvents();
+}
+
+void dooms::graphics::GraphicsAPIInput::SetCursorMode(const eCursorMode cursorMode)
+{
+	glfwSetInputMode(reinterpret_cast<GLFWwindow*>(GraphicsAPI::GetPlatformWindow()), GLFW_CURSOR, opengl::GetGLCursorMode(cursorMode));
+}
+
+dooms::graphics::GraphicsAPIInput::eMouseButtonMode dooms::graphics::GraphicsAPIInput::ConvertRawValueToMouseButtonMode(const int mode)
+{
+	if(mode == GLFW_PRESS)
+	{
+		return eMouseButtonMode::PRESS;
+	}
+	else if(mode == GLFW_RELEASE)
+	{
+		return eMouseButtonMode::RELEASE;
+	}
 }

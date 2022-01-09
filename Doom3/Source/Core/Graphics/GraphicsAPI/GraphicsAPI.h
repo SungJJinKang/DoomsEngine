@@ -33,6 +33,8 @@ namespace dooms
 			using DEBUG_FUNCTION = void (*)(const char* const debugMessage);
 			inline static DEBUG_FUNCTION* mDEBUG_FUNCTION = nullptr;
 
+			static void* GetPlatformWindow();
+
 			static void SetGraphicsAPIType(const eGraphicsAPIType graphicsAPIType);
 			static eGraphicsAPIType GetGraphicsAPIType() noexcept;
 
@@ -52,6 +54,7 @@ namespace dooms
 
 			enum eBufferMode : unsigned int
 			{
+				BUFFER_MODE_NONE,
 				FRONT_LEFT, // = GL_FRONT_LEFT,
 				FRONT_RIGHT, // = GL_FRONT_RIGHT,
 				BACK_LEFT, // = GL_BACK_LEFT,
@@ -134,8 +137,33 @@ namespace dooms
 				GEQUAL // = GL_GEQUAL
 			};
 
+			static void EnableDepthTest(const bool isEnabled) noexcept;
 			static void DepthFunc(const eDepthFuncType depthFuncType) noexcept;
 			static void DepthMask(const bool isWriteDepthBuffer) noexcept;
+
+			static void EnableAlphaTest(const bool isEnabled) noexcept;
+			static void EnableBlend(const bool isEnabled) noexcept;
+
+			static void SetViewport(const int startX, const int startY, const unsigned int width, const unsigned int height) noexcept;
+			
+			enum eBlendFactor : unsigned int
+			{
+				ZERO,
+				ONE,
+				SRC_COLOR,
+				ONE_MINUS_SRC_COLOR,
+				DST_COLOR,
+				ONE_MINUS_DST_COLOR,
+				SRC_ALPHA,
+				ONE_MINUS_SRC_ALPHA,
+				DST_ALPHA,
+				ONE_MINUS_DST_ALPHA,
+				CONSTANT_COLOR,
+				ONE_MINUS_CONSTANT_COLOR,
+				CONSTANT_ALPHA,
+				ONE_MINUS_CONSTANT_ALPHA
+			};
+			static void SetBlendFactor(const eBlendFactor sourceBlendFactor, const eBlendFactor destinationBlendFactor) noexcept;
 
 			enum eCullFace : unsigned int
 			{
@@ -145,6 +173,14 @@ namespace dooms
 			};
 
 			static void SetCullFace(const eCullFace cullFace) noexcept;
+
+			enum eWinding : unsigned int
+			{
+				CW,
+				CCW
+			};
+
+			static void SetFrontFaceWinding(const eWinding winding) noexcept;
 
 			static void WriteBuffer(const GraphicsAPI::eBufferMode bufferMode) noexcept;
 			static void WriteBuffers(const unsigned int count, const std::vector<GraphicsAPI::eBufferMode> bufferModes) noexcept;
@@ -442,6 +478,7 @@ namespace dooms
 				const eBindFrameBufferTarget bindFrameBufferTarget
 			) noexcept;
 			static void BindRenderBuffer(const unsigned int renderBufferObject) noexcept;
+			
 
 			static std::vector<unsigned int> CreateRenderBufferObject(const unsigned int renderBufferCount) noexcept;
 			static void AllocateRenderBufferMemory
@@ -545,6 +582,28 @@ namespace dooms
 				const unsigned int unitIndex
 			) noexcept;
 			static void UnBindTextureObject(const eTextureBindTarget textureBindTarget) noexcept;
+
+			enum eImageInterpolation : unsigned int
+			{
+				IMAGE_INTERPOLATION_NEAREST, // = GL_NEAREST,
+				IMAGE_INTERPOLATION_LINEAR // = GL_LINEAR
+			};
+
+			static void BlitFrameBuffer
+			(
+				const unsigned int ReadFrameBufferObject,
+				const unsigned int DrawFrameBufferObject,
+				const int srcX0,
+				const int srcY0,
+				const int srcX1,
+				const int srcY1,
+				const int dstX0,
+				const int dstY0,
+				const int dstX1,
+				const int dstY1,
+				const GraphicsAPI::eBufferBitType mask,
+				const GraphicsAPI::eImageInterpolation filter
+			);
 
 			enum eTextureMetaDataType : unsigned int
 			{

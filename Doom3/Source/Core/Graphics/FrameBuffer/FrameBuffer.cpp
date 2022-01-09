@@ -214,61 +214,53 @@ INT32 FrameBuffer::GetFrameBufferParameterivStatic
 void FrameBuffer::BlitFrameBufferTo(
 	UINT32 ReadFrameBufferId, UINT32 DrawFrameBufferId, INT32 srcX0, INT32 srcY0,
 	INT32 srcX1, INT32 srcY1, INT32 dstX0, INT32 dstY0, INT32 dstX1, INT32 dstY1, 
-	GraphicsAPI::eBufferBitType mask, eImageInterpolation filter
+	GraphicsAPI::eBufferBitType mask, GraphicsAPI::eImageInterpolation filter
 ) noexcept
 {
 	//BackBuffer ID is zero!!
 	//D_ASSERT(ReadFrameBufferId != INVALID_BUFFER_ID);
 	//D_ASSERT(DrawFrameBufferId != INVALID_BUFFER_ID);
-	
-	BindFrameBufferStatic(GraphicsAPI::eBindFrameBufferTarget::READ_FRAMEBUFFER, ReadFrameBufferId);
-	BindFrameBufferStatic(GraphicsAPI::eBindFrameBufferTarget::DRAW_FRAMEBUFFER, DrawFrameBufferId);
-	glBlitFramebuffer(srcX0, srcY0, srcX1, srcY1, dstX0, dstY0, dstX1, dstY1, static_cast<UINT32>(mask), static_cast<UINT32>(filter));
+
+	GraphicsAPI::BlitFrameBuffer(ReadFrameBufferId, DrawFrameBufferId, srcX0, srcY0, srcX1, srcY1, dstX0, dstY0, dstX1, dstY1, mask, filter);
 }
 
 
 void FrameBuffer::BlitFrameBufferTo(
 	UINT32 DrawFrameBufferId, INT32 srcX0, INT32 srcY0, INT32 srcX1, INT32 srcY1,
 	INT32 dstX0, INT32 dstY0, INT32 dstX1, INT32 dstY1, GraphicsAPI::eBufferBitType mask,
-	eImageInterpolation filter
+	GraphicsAPI::eImageInterpolation filter
 ) const noexcept
 {
 	//BackBuffer ID is zero!!
 	D_ASSERT(mFrameBufferID.IsValid());
 	//D_ASSERT(DrawFrameBufferId != INVALID_BUFFER_ID);
-
-	BindFrameBufferStatic(GraphicsAPI::eBindFrameBufferTarget::READ_FRAMEBUFFER, mFrameBufferID);
-	BindFrameBufferStatic(GraphicsAPI::eBindFrameBufferTarget::DRAW_FRAMEBUFFER, DrawFrameBufferId);
-	glBlitFramebuffer(srcX0, srcY0, srcX1, srcY1, dstX0, dstY0, dstX1, dstY1, static_cast<UINT32>(mask), static_cast<UINT32>(filter));
+	
+	GraphicsAPI::BlitFrameBuffer(mFrameBufferID, DrawFrameBufferId, srcX0, srcY0, srcX1, srcY1, dstX0, dstY0, dstX1, dstY1, mask, filter);
 }
 
 
 void FrameBuffer::BlitFrameBufferFrom(
 	UINT32 ReadFrameBufferId, INT32 srcX0, INT32 srcY0, INT32 srcX1, INT32 srcY1,
 	INT32 dstX0, INT32 dstY0, INT32 dstX1, INT32 dstY1, GraphicsAPI::eBufferBitType mask,
-	eImageInterpolation filter
+	GraphicsAPI::eImageInterpolation filter
 ) const noexcept
 {
 	//BackBuffer ID is zero!!
 	//D_ASSERT(ReadFrameBufferId != INVALID_BUFFER_ID);
 	D_ASSERT(mFrameBufferID.IsValid());
 
-	BindFrameBufferStatic(GraphicsAPI::eBindFrameBufferTarget::READ_FRAMEBUFFER, ReadFrameBufferId);
-	BindFrameBufferStatic(GraphicsAPI::eBindFrameBufferTarget::DRAW_FRAMEBUFFER, mFrameBufferID);
-	glBlitFramebuffer(srcX0, srcY0, srcX1, srcY1, dstX0, dstY0, dstX1, dstY1, static_cast<UINT32>(mask), static_cast<UINT32>(filter));
+	GraphicsAPI::BlitFrameBuffer(ReadFrameBufferId, mFrameBufferID, srcX0, srcY0, srcX1, srcY1, dstX0, dstY0, dstX1, dstY1, mask, filter);
 }
 
 void FrameBuffer::BlitFrameBufferToTexture(
 	dooms::graphics::Texture* const drawTexture, INT32 srcX0, INT32 srcY0,
 	INT32 srcX1, INT32 srcY1, INT32 dstX0, INT32 dstY0, INT32 dstX1, INT32 dstY1, 
-	GraphicsAPI::eBufferBitType mask, eImageInterpolation filter
+	GraphicsAPI::eBufferBitType mask, GraphicsAPI::eImageInterpolation filter
 ) const noexcept
 {
 	D_ASSERT(drawTexture != nullptr);
 	
-	BindFrameBufferStatic(GraphicsAPI::eBindFrameBufferTarget::READ_FRAMEBUFFER, mFrameBufferID);
-	BindFrameBufferStatic(GraphicsAPI::eBindFrameBufferTarget::DRAW_FRAMEBUFFER, drawTexture->GetTextureBufferID());
-	glBlitFramebuffer(srcX0, srcY0, srcX1, srcY1, dstX0, dstY0, dstX1, dstY1, static_cast<UINT32>(mask), static_cast<UINT32>(filter));
+	GraphicsAPI::BlitFrameBuffer(mFrameBufferID, drawTexture->GetTextureBufferID(), srcX0, srcY0, srcX1, srcY1, dstX0, dstY0, dstX1, dstY1, mask, filter);
 }
 
 RenderBuffer& FrameBuffer::AttachRenderBuffer(GraphicsAPI::eBufferAttachmentType renderBufferType, UINT32 width, UINT32 height)

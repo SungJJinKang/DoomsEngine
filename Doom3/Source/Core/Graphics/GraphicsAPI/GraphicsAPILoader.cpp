@@ -44,6 +44,8 @@ dooms::graphics::GraphicsAPILoader& dooms::graphics::GraphicsAPILoader::operator
 {
 	mAPIModule = loader.mAPIModule;
 	loader.mAPIModule = nullptr;
+
+	return *this;
 }
 
 void dooms::graphics::GraphicsAPILoader::LoadGraphicsAPILibrary
