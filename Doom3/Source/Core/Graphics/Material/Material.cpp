@@ -80,7 +80,7 @@ Material::~Material()
 
 bool dooms::graphics::Material::IsGenerated() const
 {
-	return mProgramID != 0;
+	return mProgramID.IsValid();
 }
 
 void Material::AddTexture(UINT32 bindingPoint, Texture* texture)
@@ -103,7 +103,7 @@ void dooms::graphics::Material::AddTextures(const std::array<const Texture*, MAX
 
 void dooms::graphics::Material::UseProgram() const
 {
-	D_ASSERT(mProgramID != 0);
+	D_ASSERT(mProgramID.IsValid());
 
 	if (FixedMaterial::GetIsFixedMaterialExist() == false)
 	{
@@ -138,7 +138,7 @@ void Material::SetUniformBlockPoint(const std::string uniformBlockName, UINT32 b
 
 INT32 Material::GetUniformBlocksCount() const
 {
-	D_ASSERT(mProgramID != 0);
+	D_ASSERT(mProgramID.IsValid());
 	
 	return GraphicsAPI::GetConstantBufferBlockCount(mProgramID);
 }

@@ -37,6 +37,7 @@ namespace dooms
 				return graphicsAPISetting::ScreenSize[1];
 			}
 			
+			
 			inline extern float GetScreenRatio()
 			{
 				return graphicsAPISetting::ScreenRatio;

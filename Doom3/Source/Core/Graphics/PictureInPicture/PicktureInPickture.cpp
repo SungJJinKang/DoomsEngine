@@ -17,6 +17,7 @@ void dooms::graphics::PicktureInPickture::InitializeDefaultPIPMaterial()
 }
 
 dooms::graphics::PicktureInPickture::PicktureInPickture()
+	: mPlaneMesh{ nullptr }, mDrawedTexture(nullptr), mPIPMaterial(nullptr)
 {
 }
 
@@ -24,18 +25,23 @@ void dooms::graphics::PicktureInPickture::SetDefaultPIPMaterial()
 {
 	InitializeDefaultPIPMaterial();
 	mPIPMaterial = &(PicktureInPickture::mDefualtPIPMaterial);
+	D_ASSERT(IsValid(mPIPMaterial));
+	D_ASSERT(mPIPMaterial->IsGenerated());
 }
 
 dooms::graphics::PicktureInPickture::PicktureInPickture(const math::Vector2& leftBottomNDCPoint, const math::Vector2& rightTopNDCPoint, SingleTexture* const _drawedTexture)
 	:mPlaneMesh{ meshHelper::GetQuadMesh(leftBottomNDCPoint, rightTopNDCPoint) }, mDrawedTexture(_drawedTexture), mPIPMaterial(nullptr), bmIsDrawOnScreen(true)
 {
+	D_ASSERT(IsValid(mDrawedTexture));
 	SetDefaultPIPMaterial();
 }
 
 dooms::graphics::PicktureInPickture::PicktureInPickture(const math::Vector2& leftBottomNDCPoint, const math::Vector2& rightTopNDCPoint, SingleTexture* const _drawedTexture, Material* const _pipMaterial)
 	:mPlaneMesh{ meshHelper::GetQuadMesh(leftBottomNDCPoint, rightTopNDCPoint) }, mDrawedTexture(_drawedTexture), mPIPMaterial(_pipMaterial), bmIsDrawOnScreen(true)
 {
-	
+	D_ASSERT(IsValid(mDrawedTexture));
+	D_ASSERT(IsValid(mPIPMaterial));
+	D_ASSERT(mPIPMaterial->IsGenerated());
 }
 
 /*dooms::graphics::PicktureInPickture& dooms::graphics::PicktureInPickture::operator=
@@ -71,11 +77,14 @@ dooms::graphics::PicktureInPickture::~PicktureInPickture()
 
 void dooms::graphics::PicktureInPickture::SetTexture(SingleTexture* const texture)
 {
+	D_ASSERT(IsValid(texture));
 	mDrawedTexture = texture;
 }
 
 void dooms::graphics::PicktureInPickture::SetMaterial(Material* const _pipMaterial)
 {
+	D_ASSERT(IsValid(_pipMaterial));
+	D_ASSERT(_pipMaterial->IsGenerated());
 	mPIPMaterial = _pipMaterial;
 }
 
@@ -83,6 +92,7 @@ void dooms::graphics::PicktureInPickture::DrawPictureInPicture()
 {
 	if (bmIsDrawOnScreen == true)
 	{
+		D_ASSERT(IsValid(mDrawedTexture) && IsValid(mPIPMaterial));
 		if (IsValid(mDrawedTexture) && IsValid(mPIPMaterial))
 		{
 			mPIPMaterial->UseProgram();
