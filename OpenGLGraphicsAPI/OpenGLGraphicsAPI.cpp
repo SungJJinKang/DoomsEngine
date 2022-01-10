@@ -27,6 +27,7 @@ namespace dooms
 		{
 			static std::string OpenGLVersion{};
 			static GraphicsAPI::DEBUG_FUNCTION mDEBUG_FUNCTION = nullptr;
+			static unsigned int DrawCallCounter;
 
 			enum class GetStringParameter
 			{
@@ -1018,6 +1019,11 @@ namespace dooms
 	}
 }
 
+unsigned int dooms::graphics::GraphicsAPI::GetDrawCall()
+{
+	return opengl::DrawCallCounter;
+}
+
 void dooms::graphics::GraphicsAPI::SetDebugFunction(DEBUG_FUNCTION debugFunction)
 {
 	opengl::mDEBUG_FUNCTION = debugFunction;
@@ -1147,6 +1153,7 @@ void dooms::graphics::GraphicsAPI::SwapBuffer() noexcept
 {
 	assert(dooms::graphics::opengl::glfwWindow != nullptr);
 	glfwSwapBuffers(dooms::graphics::opengl::glfwWindow);
+	opengl::DrawCallCounter = 0;
 }
 
 
@@ -1585,7 +1592,7 @@ void dooms::graphics::GraphicsAPI::Draw
 		NEVER_HAPPEN;
 		break;
 	}
-
+	opengl::DrawCallCounter++;
 	
 }
 
@@ -1614,6 +1621,7 @@ void dooms::graphics::GraphicsAPI::DrawIndexed
 	default:
 		NEVER_HAPPEN;
 	}
+	opengl::DrawCallCounter++;
 }
 
 unsigned dooms::graphics::GraphicsAPI::CreateMaterial() noexcept

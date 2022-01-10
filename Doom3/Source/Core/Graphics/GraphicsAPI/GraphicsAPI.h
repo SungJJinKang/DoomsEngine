@@ -34,6 +34,8 @@ namespace dooms
 
 			using DEBUG_FUNCTION = void (*)(const char* const debugMessage, const eGraphisAPIDebugCallbackSeverity debugCallbackSeverity);
 
+			static unsigned int GetDrawCall();
+
 			static void SetDebugFunction(DEBUG_FUNCTION debugFunction);
 			static DEBUG_FUNCTION GetDebugFunction();
 
