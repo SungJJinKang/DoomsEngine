@@ -45,7 +45,8 @@ void UserInput_Server::Key_Callback(dooms::input::GraphicsAPIInput::eKEY_CODE ke
 	{
 		return;
 	}
-	
+
+	// TODO : Fix bugs ( Sometimes Key RELEASE isn't called ) 
 	switch (action)
 	{
 	case dooms::input::GraphicsAPIInput::PRESS:
