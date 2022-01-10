@@ -1,6 +1,5 @@
 #include "EngineGUIServer.h"
 
-#include "imgui.h"
 #include <Graphics/GraphicsAPI/PlatformImgui/PlatformImgui.h>
 
 #include "imguiHelper/imguiWithReflection.h"
@@ -35,22 +34,6 @@ namespace dooms::ui::engineGUIServer
 
 void dooms::ui::engineGUIServer::Initialize()
 {
-    IMGUI_CHECKVERSION();
-    ImGui::CreateContext();
-    ImGuiIO& io = ImGui::GetIO(); (void)io;
-
-    // TODO : Block dispatch imput to application when mouse hover on gui
-    io.WantCaptureMouse = true;
-    io.WantCaptureKeyboard = true;
-
-
-    //io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;     // Enable Keyboard Controls
-    //io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;      // Enable Gamepad Controls
-
-    // Setup Dear ImGui style
-    ImGui::StyleColorsDark();
-    //ImGui::StyleColorsClassic();
-    
     graphics::PlatformImgui::Initialize();
 
 	dooms::ui::imguiWithReflection::Initialize();
@@ -60,7 +43,6 @@ void dooms::ui::engineGUIServer::Initialize()
 void dooms::ui::engineGUIServer::ShutDown()
 {
     graphics::PlatformImgui::ShutDown();
-    ImGui::DestroyContext();
 }
 
 void dooms::ui::engineGUIServer::PreRender()
@@ -68,7 +50,6 @@ void dooms::ui::engineGUIServer::PreRender()
     if (IsEngineGUIVisible == true)
     {
         graphics::PlatformImgui::PreRender();
-        ImGui::NewFrame();
     }
 }
 
@@ -80,7 +61,7 @@ void dooms::ui::engineGUIServer::Render()
     {
         dooms::ui::imguiWithReflection::UpdateGUI_DObjectsVisibleOnGUI();
         RenderGUIModules();
-        ImGui::Render();
+        dooms::graphics::PlatformImgui::Render();
     }
 }
 
@@ -96,7 +77,7 @@ void dooms::ui::engineGUIServer::PostRender()
         IsEngineGUIAvaliable = true;
 
         dooms::ui::imguiWithReflection::ClearId();
-        dooms::graphics::PlatformImgui::Render();
+        dooms::graphics::PlatformImgui::PostRender();
     }
 }
 

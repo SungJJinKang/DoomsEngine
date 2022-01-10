@@ -13,7 +13,7 @@ RenderBuffer::RenderBuffer()
 RenderBuffer::RenderBuffer
 (
 	FrameBuffer& ownerFrameBuffer, 
-	GraphicsAPI::eBufferAttachmentType frameBufferType,
+	GraphicsAPI::eFrameBufferAttachmentPoint frameBufferType,
 	UINT32 width, 
 	UINT32 height
 )
@@ -22,7 +22,7 @@ RenderBuffer::RenderBuffer
 	CreateRenderBuffer(ownerFrameBuffer, frameBufferType, width, height);
 }
 
-bool RenderBuffer::CreateRenderBuffer(FrameBuffer& ownerFrameBuffer, GraphicsAPI::eBufferAttachmentType frameBufferType, UINT32 width, UINT32 height)
+bool RenderBuffer::CreateRenderBuffer(FrameBuffer& ownerFrameBuffer, GraphicsAPI::eFrameBufferAttachmentPoint frameBufferType, UINT32 width, UINT32 height)
 {
 	bool isSuccess = false;
 
@@ -41,27 +41,34 @@ bool RenderBuffer::CreateRenderBuffer(FrameBuffer& ownerFrameBuffer, GraphicsAPI
 
 		switch (frameBufferType)
 		{
-		case GraphicsAPI::eBufferAttachmentType::ATTACHMENT_COLOR0:
-		case GraphicsAPI::eBufferAttachmentType::ATTACHMENT_COLOR1:
-		case GraphicsAPI::eBufferAttachmentType::ATTACHMENT_COLOR2:
-		case GraphicsAPI::eBufferAttachmentType::ATTACHMENT_COLOR3:
+		case GraphicsAPI::eFrameBufferAttachmentPoint::FRAMEBUFFER_ATTACHMENT_POINT_COLOR_ATTACHMENT0:
+		case GraphicsAPI::eFrameBufferAttachmentPoint::FRAMEBUFFER_ATTACHMENT_POINT_COLOR_ATTACHMENT1:
+		case GraphicsAPI::eFrameBufferAttachmentPoint::FRAMEBUFFER_ATTACHMENT_POINT_COLOR_ATTACHMENT2:
+		case GraphicsAPI::eFrameBufferAttachmentPoint::FRAMEBUFFER_ATTACHMENT_POINT_COLOR_ATTACHMENT3:
+		case GraphicsAPI::eFrameBufferAttachmentPoint::FRAMEBUFFER_ATTACHMENT_POINT_COLOR_ATTACHMENT4:
+		case GraphicsAPI::eFrameBufferAttachmentPoint::FRAMEBUFFER_ATTACHMENT_POINT_COLOR_ATTACHMENT5:
+		case GraphicsAPI::eFrameBufferAttachmentPoint::FRAMEBUFFER_ATTACHMENT_POINT_COLOR_ATTACHMENT6:
+		case GraphicsAPI::eFrameBufferAttachmentPoint::FRAMEBUFFER_ATTACHMENT_POINT_COLOR_ATTACHMENT7:
+		case GraphicsAPI::eFrameBufferAttachmentPoint::FRAMEBUFFER_ATTACHMENT_POINT_COLOR_ATTACHMENT8:
+		case GraphicsAPI::eFrameBufferAttachmentPoint::FRAMEBUFFER_ATTACHMENT_POINT_COLOR_ATTACHMENT9:
+		case GraphicsAPI::eFrameBufferAttachmentPoint::FRAMEBUFFER_ATTACHMENT_POINT_COLOR_ATTACHMENT10:
 
 			GraphicsAPI::AllocateRenderBufferMemory(mRenderBufferID, GraphicsAPI::eTextureInternalFormat::TEXTURE_INTERNAL_FORMAT_RGBA16F, width, height, graphicsAPISetting::GetMultiSamplingNum());
 			GraphicsAPI::AttachRenderBufferToFrameBuffer(mRenderBufferID.GetBufferID(), ownerFrameBuffer.GetFrameBufferID(), frameBufferType);
 			
 			break;
 
-		case GraphicsAPI::eBufferAttachmentType::ATTACHMENT_DEPTH:
+		case GraphicsAPI::eFrameBufferAttachmentPoint::FRAMEBUFFER_ATTACHMENT_POINT_DEPTH_ATTACHMENT:
 
 			GraphicsAPI::AllocateRenderBufferMemory(mRenderBufferID, GraphicsAPI::eTextureInternalFormat::TEXTURE_INTERNAL_FORMAT_DEPTH_COMPONENT, width, height, graphicsAPISetting::GetMultiSamplingNum());
-			GraphicsAPI::AttachRenderBufferToFrameBuffer(mRenderBufferID.GetBufferID(), ownerFrameBuffer.GetFrameBufferID(), GraphicsAPI::eBufferAttachmentType::ATTACHMENT_DEPTH);
+			GraphicsAPI::AttachRenderBufferToFrameBuffer(mRenderBufferID.GetBufferID(), ownerFrameBuffer.GetFrameBufferID(), GraphicsAPI::eFrameBufferAttachmentPoint::FRAMEBUFFER_ATTACHMENT_POINT_DEPTH_ATTACHMENT);
 
 			break;
 
-		case GraphicsAPI::eBufferAttachmentType::ATTACHMENT_DEPTH_STENCIL:
+		case GraphicsAPI::eFrameBufferAttachmentPoint::FRAMEBUFFER_ATTACHMENT_POINT_DEPTH_STENCIL_ATTACHMENT:
 			
 			GraphicsAPI::AllocateRenderBufferMemory(mRenderBufferID, GraphicsAPI::eTextureInternalFormat::TEXTURE_INTERNAL_FORMAT_DEPTH24_STENCIL8, width, height, graphicsAPISetting::GetMultiSamplingNum());
-			GraphicsAPI::AttachRenderBufferToFrameBuffer(mRenderBufferID.GetBufferID(), ownerFrameBuffer.GetFrameBufferID(), GraphicsAPI::eBufferAttachmentType::ATTACHMENT_DEPTH_STENCIL);
+			GraphicsAPI::AttachRenderBufferToFrameBuffer(mRenderBufferID.GetBufferID(), ownerFrameBuffer.GetFrameBufferID(), GraphicsAPI::eFrameBufferAttachmentPoint::FRAMEBUFFER_ATTACHMENT_POINT_DEPTH_STENCIL_ATTACHMENT);
 
 			break;
 

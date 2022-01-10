@@ -102,23 +102,23 @@ void Texture::SetWrapMode(GraphicsAPI::eWrapMode wrapMode, bool bBind)
 	if (mTarget == GraphicsAPI::eTargetTexture::TARGET_TEXTURE_TEXTURE_1D)
 	{
 		mWrapS = wrapMode;
-		TexParameteri(mBindTarget, GraphicsAPI::eTextureParameterType::TEXTURE_WRAP_S, static_cast<GraphicsAPI::eTextureParameterValue>(wrapMode));
+		GraphicsAPI::SetTextureWrapMode_S(mBindTarget, wrapMode);
 	}
 	else if (mTarget == GraphicsAPI::eTargetTexture::TARGET_TEXTURE_TEXTURE_2D)
 	{
 		mWrapS = wrapMode;
 		mWrapT = wrapMode;
-		TexParameteri(mBindTarget, GraphicsAPI::eTextureParameterType::TEXTURE_WRAP_S, static_cast<GraphicsAPI::eTextureParameterValue>(wrapMode));
-		TexParameteri(mBindTarget, GraphicsAPI::eTextureParameterType::TEXTURE_WRAP_T, static_cast<GraphicsAPI::eTextureParameterValue>(wrapMode));
+		GraphicsAPI::SetTextureWrapMode_S(mBindTarget, wrapMode);
+		GraphicsAPI::SetTextureWrapMode_T(mBindTarget, wrapMode);
 	}
 	else if (mTarget == GraphicsAPI::eTargetTexture::TARGET_TEXTURE_TEXTURE_3D)
 	{
 		mWrapS = wrapMode;
 		mWrapT = wrapMode;
 		mWrapR = wrapMode;
-		TexParameteri(mBindTarget, GraphicsAPI::eTextureParameterType::TEXTURE_WRAP_S, static_cast<GraphicsAPI::eTextureParameterValue>(wrapMode));
-		TexParameteri(mBindTarget, GraphicsAPI::eTextureParameterType::TEXTURE_WRAP_T, static_cast<GraphicsAPI::eTextureParameterValue>(wrapMode));
-		TexParameteri(mBindTarget, GraphicsAPI::eTextureParameterType::TEXTURE_WRAP_R, static_cast<GraphicsAPI::eTextureParameterValue>(wrapMode));
+		GraphicsAPI::SetTextureWrapMode_S(mBindTarget, wrapMode);
+		GraphicsAPI::SetTextureWrapMode_T(mBindTarget, wrapMode);
+		GraphicsAPI::SetTextureWrapMode_R(mBindTarget, wrapMode);
 	}
 }
 
@@ -129,7 +129,7 @@ void Texture::SetFilterMin(GraphicsAPI::eFilterMode filterMode, bool bBind)
 		BindTexture();
 	}
 
-	TexParameteri(mBindTarget, GraphicsAPI::eTextureParameterType::TEXTURE_MIN_FILTER, static_cast<GraphicsAPI::eTextureParameterValue>(filterMode));
+	GraphicsAPI::SetMinFilter(mBindTarget, filterMode);
 }
 
 void Texture::SetFilterMax(GraphicsAPI::eFilterMode filterMode, bool bBind)
@@ -139,7 +139,7 @@ void Texture::SetFilterMax(GraphicsAPI::eFilterMode filterMode, bool bBind)
 		BindTexture();
 	}
 
-	TexParameteri(mBindTarget, GraphicsAPI::eTextureParameterType::TEXTURE_MAG_FILTER, static_cast<GraphicsAPI::eTextureParameterValue>(filterMode));
+	GraphicsAPI::SetMagFilter(mBindTarget, filterMode);
 }
 
 dooms::graphics::GraphicsAPI::eWrapMode Texture::GetWrapModeS() const

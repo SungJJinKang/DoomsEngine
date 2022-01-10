@@ -2,7 +2,7 @@
 
 #include <Core.h>
 
-#define INVALID_BUFFER_ID (UINT32)0
+#define INVALID_BUFFER_ID (UINT32)-1
 
 /// <summary>
 /// Why need this?

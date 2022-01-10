@@ -19,6 +19,8 @@ namespace dooms
 
 			void SetDefaultSettingOfAPI();
 
+			static void GraphisAPIDebugCallBack(const char* const debugMessage);
+
 		public:
 
 

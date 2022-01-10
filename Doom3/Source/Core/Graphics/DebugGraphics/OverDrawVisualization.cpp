@@ -32,7 +32,7 @@ namespace dooms
 
 				mOverDrawVisualizationFrameBuffer.GenerateBuffer(dooms::graphics::graphicsAPISetting::GetScreenWidth(), dooms::graphics::graphicsAPISetting::GetScreenHeight());
 				mOverDrawVisualizationFrameBuffer.AttachTextureBuffer(dooms::graphics::GraphicsAPI::eBufferBitType::COLOR_BUFFER);
-				mOverDrawVisualizationFrameBuffer.AttachRenderBuffer(dooms::graphics::GraphicsAPI::eBufferAttachmentType::ATTACHMENT_DEPTH);
+				mOverDrawVisualizationFrameBuffer.AttachRenderBuffer(dooms::graphics::GraphicsAPI::eFrameBufferAttachmentPoint::FRAMEBUFFER_ATTACHMENT_POINT_DEPTH_ATTACHMENT);
 				
 				OverDrawVisualizationPIP = dooms::graphics::Graphics_Server::GetSingleton()->mPIPManager.AddNewPIP(
 					math::Vector2(-1.0f, -1.0f),

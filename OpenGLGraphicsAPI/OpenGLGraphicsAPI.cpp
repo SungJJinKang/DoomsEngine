@@ -1,5 +1,4 @@
 #include "GraphicsAPI.h"
-#include "graphicsAPISetting.h"
 
 #include <cassert>
 #include <cstdio>
@@ -453,7 +452,7 @@ namespace dooms
 					return GL_ARRAY_BUFFER;
 
 				case GraphicsAPI::eBufferTarget::ELEMENT_ARRAY_BUFFER:
-					return GL_ELEMENT_ARRAY_BUFFER_BINDING;
+					return GL_ELEMENT_ARRAY_BUFFER;
 
 				case GraphicsAPI::eBufferTarget::TEXTURE_BUFFER:
 					return GL_TEXTURE_BUFFER;
@@ -465,7 +464,8 @@ namespace dooms
 					return GL_UNIFORM_BUFFER;
 
 				default:
-					NEVER_HAPPEN; return 0;
+					NEVER_HAPPEN;
+					return 0;
 				}
 			}
 
@@ -981,10 +981,11 @@ namespace dooms
 			)
 			{
 				//https://www.khronos.org/registry/OpenGL/extensions/KHR/KHR_debug.txt
-				if (type == 0x824C || type == 0x824E)
+				if(severity == 0x9146 || severity == 0x9147 || severity == 0x9148)
 				{
 					(*dooms::graphics::GraphicsAPI::mDEBUG_FUNCTION)(msg);
 				}
+				
 			}
 		}
 	}
@@ -1009,7 +1010,7 @@ double dooms::graphics::GraphicsAPI::GetTime()
 	return glfwGetTime();
 }
 
-unsigned int dooms::graphics::GraphicsAPI::Initialize()
+unsigned int dooms::graphics::GraphicsAPI::Initialize(const int screenWidth, const int screenHeight, const unsigned int multiSamplingNum)
 {
 	glfwInit();
 	const char* glsl_version = "#version 150";
@@ -1021,9 +1022,9 @@ unsigned int dooms::graphics::GraphicsAPI::Initialize()
 	glfwWindowHint(GLFW_OPENGL_DEBUG_CONTEXT, true);
 #endif
 
-	if (graphicsAPISetting::GetMultiSamplingNum() > 0)
+	if (multiSamplingNum > 0)
 	{
-		glfwWindowHint(GLFW_SAMPLES, graphicsAPISetting::GetMultiSamplingNum());
+		glfwWindowHint(GLFW_SAMPLES, multiSamplingNum);
 	}
 
 #ifdef __APPLE__
@@ -1034,11 +1035,9 @@ unsigned int dooms::graphics::GraphicsAPI::Initialize()
 
 	// glfw window creation
 	// --------------------
-	const int width = graphicsAPISetting::GetScreenWidth();
-	const int height = graphicsAPISetting::GetScreenHeight();
-	assert(width != 0 && height != 0);
+	assert(screenWidth != 0 && screenHeight != 0);
 
-	dooms::graphics::opengl::glfwWindow = glfwCreateWindow(width, height, "SUNG JIN KANG", NULL, NULL);
+	dooms::graphics::opengl::glfwWindow = glfwCreateWindow(screenWidth, screenHeight, "SUNG JIN KANG", NULL, NULL);
 	if (dooms::graphics::opengl::glfwWindow == NULL)
 	{
 		assert(0); // "Failed to create GLFW window"
@@ -1193,15 +1192,15 @@ void dooms::graphics::GraphicsAPI::SetCullFace(const eCullFace cullFace) noexcep
 	{
 	case CULLFACE_FRONT:
 		glCullFace(GL_FRONT);
-		
+		break;
 
 	case CULLFACE_BACK:
 		glCullFace(GL_BACK);
-		
+		break;
 
 	case CULLFACE_FRONT_AND_BACK:
 		glCullFace(GL_FRONT_AND_BACK);
-		
+		break;
 
 	default: 
 		NEVER_HAPPEN; 
@@ -1310,7 +1309,7 @@ std::vector<unsigned int> dooms::graphics::GraphicsAPI::CreateBuffers(const unsi
 	std::vector<unsigned int> bufferObject;
 	bufferObject.resize(bufferCount);
 
-	glGenVertexArrays(bufferCount, bufferObject.data());
+	glGenBuffers(bufferCount, bufferObject.data());
 	return bufferObject;
 }
 
@@ -1325,7 +1324,7 @@ std::vector<unsigned int> dooms::graphics::GraphicsAPI::CreateVertexArrayObject(
 
 	std::vector<unsigned int> bufferObject;
 	bufferObject.resize(count);
-
+	
 	glGenVertexArrays(count, bufferObject.data());
 	return bufferObject;
 }
@@ -1424,12 +1423,12 @@ void dooms::graphics::GraphicsAPI::BindFrameBuffer
 	const eBindFrameBufferTarget bindFrameBufferTarget
 ) noexcept
 {
-	glBindBuffer(opengl::GetGLBindFrameBufferTarget(bindFrameBufferTarget), frameBufferObject);
+	glBindFramebuffer(opengl::GetGLBindFrameBufferTarget(bindFrameBufferTarget), frameBufferObject);
 }
 
 unsigned int dooms::graphics::GraphicsAPI::CheckFrameBufferIsSuccesfullyCreated()
 {
-	if(glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
+	if(glCheckFramebufferStatus(GL_FRAMEBUFFER) == GL_FRAMEBUFFER_COMPLETE)
 	{
 		return 0;
 	}
@@ -1491,42 +1490,11 @@ void dooms::graphics::GraphicsAPI::AttachRenderBufferToFrameBuffer
 (
 	const unsigned int renderBufferObject,
 	const unsigned int frameBufferObject,
-	const eBufferAttachmentType bufferType
+	const eFrameBufferAttachmentPoint frameBufferAttachmentPoint
 ) noexcept
 {
 	BindRenderBuffer(renderBufferObject);
-
-	switch (bufferType)
-	{
-
-	case ATTACHMENT_COLOR0:
-		glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_RENDERBUFFER, renderBufferObject);
-		
-
-	case ATTACHMENT_COLOR1:
-		glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT1, GL_RENDERBUFFER, renderBufferObject);
-		
-
-	case ATTACHMENT_COLOR2:
-		glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT2, GL_RENDERBUFFER, renderBufferObject);
-		
-
-	case ATTACHMENT_COLOR3:
-		glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT3, GL_RENDERBUFFER, renderBufferObject);
-		
-
-	case ATTACHMENT_DEPTH:
-		glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, renderBufferObject);
-		
-
-	case ATTACHMENT_DEPTH_STENCIL:
-		glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_RENDERBUFFER, renderBufferObject);
-		
-
-	default:
-		NEVER_HAPPEN; 
-
-	}
+	glFramebufferRenderbuffer(GL_FRAMEBUFFER, opengl::GetGLFrameBufferAttachmentPoint(frameBufferAttachmentPoint), GL_RENDERBUFFER, renderBufferObject);
 }
 
 void dooms::graphics::GraphicsAPI::DestroyRenderBuffer(const unsigned int renderBuffer) noexcept
@@ -1593,15 +1561,15 @@ void dooms::graphics::GraphicsAPI::DrawIndexed
 	{
 	case POINTS:
 		glDrawElements(GL_POINTS, indiceCount, GL_UNSIGNED_INT, indices);
-		
+		break;
 
 	case LINES:
 		glDrawElements(GL_LINES, indiceCount, GL_UNSIGNED_INT, indices);
-		
+		break;
 
 	case TRIANGLES:
 		glDrawElements(GL_TRIANGLES, indiceCount, GL_UNSIGNED_INT, indices);
-		
+		break;
 
 	default:
 		NEVER_HAPPEN;
@@ -1677,143 +1645,143 @@ void dooms::graphics::GraphicsAPI::AttachShaderToMaterial(const unsigned int mat
 
 void dooms::graphics::GraphicsAPI::UpdateConstantBuffer_bool1
 (
-	const int constantBufferID, 
+	const int location, 
 	const bool value1
 ) noexcept
 {
-	glUniform1i(constantBufferID, static_cast<int>(value1));
+	glUniform1i(location, static_cast<int>(value1));
 }
 
 void dooms::graphics::GraphicsAPI::UpdateConstantBuffer_bool2
 (
-	const int constantBufferID, 
+	const int location, 
 	const bool value1,
 	const bool value2
 ) noexcept
 {
-	glUniform2i(constantBufferID, static_cast<int>(value1), static_cast<int>(value2));
+	glUniform2i(location, static_cast<int>(value1), static_cast<int>(value2));
 }
 
 void dooms::graphics::GraphicsAPI::UpdateConstantBuffer_bool3
 (
-	const int constantBufferID, 
+	const int location, 
 	const bool value1,
 	const bool value2, 
 	const bool value3
 ) noexcept
 {
-	glUniform3i(constantBufferID, static_cast<int>(value1), static_cast<int>(value2), static_cast<int>(value3));
+	glUniform3i(location, static_cast<int>(value1), static_cast<int>(value2), static_cast<int>(value3));
 }
 
 void dooms::graphics::GraphicsAPI::UpdateConstantBuffer_bool4
 (
-	const int constantBufferID, 
+	const int location, 
 	const bool value1,
 	const bool value2, 
 	const bool value3, 
 	const bool value4
 ) noexcept
 {
-	glUniform4i(constantBufferID, static_cast<int>(value1), static_cast<int>(value2), static_cast<int>(value3), static_cast<int>(value4));
+	glUniform4i(location, static_cast<int>(value1), static_cast<int>(value2), static_cast<int>(value3), static_cast<int>(value4));
 }
 
 void dooms::graphics::GraphicsAPI::UpdateConstantBuffer_int1
 (
-	const int constantBufferID, 
+	const int location, 
 	const int value1
 ) noexcept
 {
-	glUniform1i(constantBufferID, value1);
+	glUniform1i(location, value1);
 }
 
 void dooms::graphics::GraphicsAPI::UpdateConstantBuffer_int2
 (
-	const int constantBufferID, 
+	const int location, 
 	const int value1,
 	const int value2
 ) noexcept
 {
-	glUniform2i(constantBufferID, value1, value2);
+	glUniform2i(location, value1, value2);
 }
 
 void dooms::graphics::GraphicsAPI::UpdateConstantBuffer_int3
 (
-	const int constantBufferID, 
+	const int location, 
 	const int value1,
 	const int value2, 
 	const int value3
 ) noexcept
 {
-	glUniform3i(constantBufferID, value1, value2, value3);
+	glUniform3i(location, value1, value2, value3);
 }
 
 void dooms::graphics::GraphicsAPI::UpdateConstantBuffer_int4
 (
-	const int constantBufferID, 
+	const int location, 
 	const int value1,
 	const int value2, 
 	const int value3, 
 	const int value4
 ) noexcept
 {
-	glUniform4i(constantBufferID, value1, value2, value3, value4);
+	glUniform4i(location, value1, value2, value3, value4);
 }
 
 void dooms::graphics::GraphicsAPI::UpdateConstantBuffer_float1
 (
-	const int constantBufferID,
+	const int location,
 	const float value1
 ) noexcept
 {
-	glUniform1f(constantBufferID, value1);
+	glUniform1f(location, value1);
 }
 
 void dooms::graphics::GraphicsAPI::UpdateConstantBuffer_float2
 (
-	const int constantBufferID,
+	const int location,
 	const float value1,
 	const float value2
 ) noexcept
 {
-	glUniform2f(constantBufferID, value1, value2);
+	glUniform2f(location, value1, value2);
 }
 
 void dooms::graphics::GraphicsAPI::UpdateConstantBuffer_float3
 (
-	const int constantBufferID,
+	const int location,
 	const float value1,
 	const float value2, 
 	const float value3
 ) noexcept
 {
-	glUniform3f(constantBufferID, value1, value2, value3);
+	glUniform3f(location, value1, value2, value3);
 }
 
 void dooms::graphics::GraphicsAPI::UpdateConstantBuffer_float4
 (
-	const int constantBufferID,
+	const int location,
 	const float value1,
 	const float value2, 
 	const float value3, 
 	const float value4
 ) noexcept
 {
-	glUniform4f(constantBufferID, value1, value2, value3, value4);
+	glUniform4f(location, value1, value2, value3, value4);
 }
 
-void dooms::graphics::GraphicsAPI::UpdateConstantBuffer_mat2x2f(const int constantBufferID, const float* const matrix) noexcept
+void dooms::graphics::GraphicsAPI::UpdateConstantBuffer_mat2x2f(const int location, const float* const matrix) noexcept
 {
-	glUniformMatrix2fv(constantBufferID, 1, GL_FALSE, matrix);
+	glUniformMatrix2fv(location, 1, GL_FALSE, matrix);
 }
 
-void dooms::graphics::GraphicsAPI::UpdateConstantBuffer_mat3x3f(const int constantBufferID, const float* const matrix) noexcept
+void dooms::graphics::GraphicsAPI::UpdateConstantBuffer_mat3x3f(const int location, const float* const matrix) noexcept
 {
-	glUniformMatrix3fv(constantBufferID, 1, GL_FALSE, matrix);
+	glUniformMatrix3fv(location, 1, GL_FALSE, matrix);
 }
 
-void dooms::graphics::GraphicsAPI::UpdateConstantBuffer_mat4x4f(const int constantBufferID, const float* const matrix) noexcept
+void dooms::graphics::GraphicsAPI::UpdateConstantBuffer_mat4x4f(const int location, const float* const matrix) noexcept
 {
-	glUniformMatrix3fv(constantBufferID, 1, GL_FALSE, matrix);
+	glUniformMatrix3fv(location, 1, GL_FALSE, matrix);
 }
 
 void* dooms::graphics::GraphicsAPI::MapBufferObjectToClientAddress
@@ -1932,6 +1900,39 @@ void dooms::graphics::GraphicsAPI::SetTextureParameterInt
 	glTexParameteri(opengl::GetGLTextureBindTarget(textureBindTarget), opengl::GetGLTextureParameterType(textureParameterType), parameter);
 }
 
+void dooms::graphics::GraphicsAPI::SetTextureWrapMode_S(const eTextureBindTarget textureBindTarget, const eWrapMode wrapMode)
+{
+	glTexParameteri(opengl::GetGLTextureBindTarget(textureBindTarget), GL_TEXTURE_WRAP_S, opengl::GetGLTextureWrapMode(wrapMode));
+}
+
+void dooms::graphics::GraphicsAPI::SetTextureWrapMode_T(const eTextureBindTarget textureBindTarget, const eWrapMode wrapMode)
+{
+	glTexParameteri(opengl::GetGLTextureBindTarget(textureBindTarget), GL_TEXTURE_WRAP_T, opengl::GetGLTextureWrapMode(wrapMode));
+}
+
+void dooms::graphics::GraphicsAPI::SetTextureWrapMode_R(const eTextureBindTarget textureBindTarget, const eWrapMode wrapMode)
+{
+	glTexParameteri(opengl::GetGLTextureBindTarget(textureBindTarget), GL_TEXTURE_WRAP_R, opengl::GetGLTextureWrapMode(wrapMode));
+}
+
+void dooms::graphics::GraphicsAPI::SetMinFilter
+(
+	const eTextureBindTarget textureBindTarget,
+	const eFilterMode filterMode
+)
+{
+	glTexParameteri(opengl::GetGLTextureBindTarget(textureBindTarget), GL_TEXTURE_MIN_FILTER, opengl::GetGLTextureFilterMode(filterMode));
+}
+
+void dooms::graphics::GraphicsAPI::SetMagFilter
+(
+	const eTextureBindTarget textureBindTarget,
+	const eFilterMode filterMode
+)
+{
+	glTexParameteri(opengl::GetGLTextureBindTarget(textureBindTarget), GL_TEXTURE_MAG_FILTER, opengl::GetGLTextureFilterMode(filterMode));
+}
+
 unsigned char* dooms::graphics::GraphicsAPI::FetchTexturePixels
 (
 	const eTextureBindTarget textureBindTarget,
@@ -1969,7 +1970,7 @@ unsigned char* dooms::graphics::GraphicsAPI::ReadPixels
 void dooms::graphics::GraphicsAPI::Define1DTextureStorageRequirement
 (
 	const eTextureBindTarget textureBindTarget,
-	const unsigned int lodLevel,
+	const unsigned int lodCount,
 	const eTextureInternalFormat textureInternalFormat, 
 	const unsigned long long width
 )
@@ -1977,7 +1978,7 @@ void dooms::graphics::GraphicsAPI::Define1DTextureStorageRequirement
 	glTexStorage1D
 	(
 		opengl::GetGLTextureBindTarget(textureBindTarget),
-		lodLevel,
+		lodCount,
 		opengl::GetGLTextureInternalFormat(textureInternalFormat),
 		width
 	);
@@ -1986,7 +1987,7 @@ void dooms::graphics::GraphicsAPI::Define1DTextureStorageRequirement
 void dooms::graphics::GraphicsAPI::Define2DTextureStorageRequirement
 (
 	const eTextureBindTarget textureBindTarget,
-	const unsigned int lodLevel,
+	const unsigned int lodCount,
 	const eTextureInternalFormat textureInternalFormat, 
 	const unsigned long long width,
 	const unsigned long long height
@@ -1995,7 +1996,7 @@ void dooms::graphics::GraphicsAPI::Define2DTextureStorageRequirement
 	glTexStorage2D
 	(
 		opengl::GetGLTextureBindTarget(textureBindTarget),
-		lodLevel,
+		lodCount,
 		opengl::GetGLTextureInternalFormat(textureInternalFormat),
 		width,
 		height
@@ -2005,7 +2006,7 @@ void dooms::graphics::GraphicsAPI::Define2DTextureStorageRequirement
 void dooms::graphics::GraphicsAPI::Define3DTextureStorageRequirement
 (
 	const eTextureBindTarget textureBindTarget,
-	const unsigned int lodLevel,
+	const unsigned int lodCount,
 	const eTextureInternalFormat textureInternalFormat, 
 	const unsigned long long width,
 	const unsigned long long height, 
@@ -2015,7 +2016,7 @@ void dooms::graphics::GraphicsAPI::Define3DTextureStorageRequirement
 	glTexStorage3D
 	(
 		opengl::GetGLTextureBindTarget(textureBindTarget),
-		lodLevel,
+		lodCount,
 		opengl::GetGLTextureInternalFormat(textureInternalFormat),
 		width,
 		height,
@@ -2026,7 +2027,7 @@ void dooms::graphics::GraphicsAPI::Define3DTextureStorageRequirement
 void dooms::graphics::GraphicsAPI::Define1DCompressedTextureStorageRequirement
 (
 	const eTextureBindTarget textureBindTarget,
-	const unsigned int lodLevel,
+	const unsigned int createdLodCount,
 	const eTextureCompressedInternalFormat textureInternalFormat,
 	const unsigned long long width
 )
@@ -2034,7 +2035,7 @@ void dooms::graphics::GraphicsAPI::Define1DCompressedTextureStorageRequirement
 	glTexStorage1D
 	(
 		opengl::GetGLTextureBindTarget(textureBindTarget),
-		lodLevel,
+		createdLodCount,
 		opengl::GetTextureCompressedInternalFormat(textureInternalFormat),
 		width
 	);
@@ -2043,7 +2044,7 @@ void dooms::graphics::GraphicsAPI::Define1DCompressedTextureStorageRequirement
 void dooms::graphics::GraphicsAPI::Define2DCompressedTextureStorageRequirement
 (
 	const eTextureBindTarget textureBindTarget,
-	const unsigned int lodLevel,
+	const unsigned int createdLodCount,
 	const eTextureCompressedInternalFormat textureInternalFormat,
 	const unsigned long long width,
 	const unsigned long long height
@@ -2052,7 +2053,7 @@ void dooms::graphics::GraphicsAPI::Define2DCompressedTextureStorageRequirement
 	glTexStorage2D
 	(
 		opengl::GetGLTextureBindTarget(textureBindTarget),
-		lodLevel,
+		createdLodCount,
 		opengl::GetTextureCompressedInternalFormat(textureInternalFormat),
 		width,
 		height
@@ -2062,7 +2063,7 @@ void dooms::graphics::GraphicsAPI::Define2DCompressedTextureStorageRequirement
 void dooms::graphics::GraphicsAPI::Define3DCompressedTextureStorageRequirement
 (
 	const eTextureBindTarget textureBindTarget,
-	const unsigned int lodLevel,
+	const unsigned int createdLodCount,
 	const eTextureCompressedInternalFormat textureInternalFormat,
 	const unsigned long long width,
 	const unsigned long long height,
@@ -2072,7 +2073,7 @@ void dooms::graphics::GraphicsAPI::Define3DCompressedTextureStorageRequirement
 	glTexStorage3D
 	(
 		opengl::GetGLTextureBindTarget(textureBindTarget),
-		lodLevel,
+		createdLodCount,
 		opengl::GetTextureCompressedInternalFormat(textureInternalFormat),
 		width,
 		height,
@@ -2169,8 +2170,8 @@ void dooms::graphics::GraphicsAPI::UploadPixelsTo1DCompressedTexture
 	const unsigned int lodLevel,
 	const unsigned int xOffset,
 	const unsigned long long width,
-	const eTextureComponentFormat textureComponentFormat,
-	const eDataType dataType,
+	const eTextureCompressedInternalFormat textureCompressedInternalFormat,
+	const unsigned long long imgSize,
 	const void* const pixelDatas
 )
 {
@@ -2180,8 +2181,8 @@ void dooms::graphics::GraphicsAPI::UploadPixelsTo1DCompressedTexture
 		lodLevel,
 		xOffset,
 		width,
-		opengl::GetGLTextureComponentFormat(textureComponentFormat),
-		opengl::GetGLDataType(dataType),
+		opengl::GetTextureCompressedInternalFormat(textureCompressedInternalFormat),
+		imgSize,
 		pixelDatas
 	);
 }
@@ -2194,8 +2195,8 @@ void dooms::graphics::GraphicsAPI::UploadPixelsTo2DCompressedTexture
 	const unsigned int yOffset,
 	const unsigned long long width,
 	const unsigned long long height,
-	const eTextureComponentFormat textureComponentFormat,
-	const eDataType dataType,
+	const eTextureCompressedInternalFormat textureCompressedInternalFormat,
+	const unsigned long long imgSize,
 	const void* const pixelDatas
 )
 {
@@ -2207,8 +2208,8 @@ void dooms::graphics::GraphicsAPI::UploadPixelsTo2DCompressedTexture
 		yOffset,
 		width,
 		height,
-		opengl::GetGLTextureComponentFormat(textureComponentFormat),
-		opengl::GetGLDataType(dataType),
+		opengl::GetTextureCompressedInternalFormat(textureCompressedInternalFormat),
+		imgSize,
 		pixelDatas
 	);
 }
@@ -2223,8 +2224,8 @@ void dooms::graphics::GraphicsAPI::UploadPixelsTo3DCompressedTexture
 	const unsigned long long width,
 	const unsigned long long height,
 	const unsigned long long depth,
-	const eTextureComponentFormat textureComponentFormat,
-	const eDataType dataType,
+	const eTextureCompressedInternalFormat textureCompressedInternalFormat,
+	const unsigned long long imgSize,
 	const void* const pixelDatas
 )
 {
@@ -2238,8 +2239,8 @@ void dooms::graphics::GraphicsAPI::UploadPixelsTo3DCompressedTexture
 		width,
 		height,
 		depth,
-		opengl::GetGLTextureComponentFormat(textureComponentFormat),
-		opengl::GetGLDataType(dataType),
+		opengl::GetTextureCompressedInternalFormat(textureCompressedInternalFormat),
+		imgSize,
 		pixelDatas
 	);
 }

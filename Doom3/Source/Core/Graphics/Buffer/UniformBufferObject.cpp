@@ -28,6 +28,7 @@ void dooms::graphics::UniformBufferObject::GenerateUniformBufferObject(UINT32 bi
 
 		BindBuffer();
 
+		GraphicsAPI::AllocateBufferMemory(GraphicsAPI::eBufferTarget::UNIFORM_BUFFER, uniformBlockSizeInByte, NULL);
 		GraphicsAPI::UpdateDataToBuffer(GraphicsAPI::eBufferTarget::UNIFORM_BUFFER, 0, uniformBlockSizeInByte, 0);
 		GraphicsAPI::BindBufferToIndexedBuffer(GraphicsAPI::eBufferTarget::UNIFORM_BUFFER, bindingPoint, mBufferID);
 

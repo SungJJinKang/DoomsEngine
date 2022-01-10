@@ -5,6 +5,38 @@
 using namespace dooms::graphics;
 
 
+void SingleTexture::AllocateMemoryFor1DTexture(const unsigned int lodCount, const int width)
+{
+	if (mInternalFormat != dooms::graphics::GraphicsAPI::eTextureInternalFormat::TEXTURE_INTERNAL_FORMAT_NONE)
+	{
+		GraphicsAPI::Define1DTextureStorageRequirement(mBindTarget, lodCount, mInternalFormat, width);
+	}
+	else if (mCompressedInternalFormat != dooms::graphics::GraphicsAPI::eTextureCompressedInternalFormat::TEXTURE_COMPRESSED_INTERNAL_FORMAT_NONE)
+	{
+		GraphicsAPI::Define1DCompressedTextureStorageRequirement(mBindTarget, lodCount, mCompressedInternalFormat, width);
+	}
+	else
+	{
+		NEVER_HAPPEN;
+	}
+}
+
+void SingleTexture::AllocateMemoryFor2DTexture(const unsigned int lodCount, const int width, const int height)
+{
+	if (mInternalFormat != dooms::graphics::GraphicsAPI::eTextureInternalFormat::TEXTURE_INTERNAL_FORMAT_NONE)
+	{
+		GraphicsAPI::Define2DTextureStorageRequirement(mBindTarget, lodCount, mInternalFormat, width, height);
+	}
+	else if (mCompressedInternalFormat != dooms::graphics::GraphicsAPI::eTextureCompressedInternalFormat::TEXTURE_COMPRESSED_INTERNAL_FORMAT_NONE)
+	{
+		GraphicsAPI::Define2DCompressedTextureStorageRequirement(mBindTarget, lodCount, mCompressedInternalFormat, width, height);
+	}
+	else
+	{
+		NEVER_HAPPEN;
+	}
+}
+
 SingleTexture::SingleTexture()
 {
 }
@@ -55,7 +87,12 @@ void SingleTexture::InitializeSingleTexture(dooms::graphics::GraphicsAPI::eTextu
 {
 	InitializeTexture(textureType, dooms::graphics::GraphicsAPI::eTextureBindTarget::TEXTURE_2D, target, internalFormat, dooms::graphics::GraphicsAPI::eTextureCompressedInternalFormat::TEXTURE_COMPRESSED_INTERNAL_FORMAT_NONE, width, format, type);
 
-	TexImage1D(0, data);
+	BindTexture();
+	AllocateMemoryFor1DTexture(1, width);
+	if (data != NULL)
+	{
+		TexImage1D(0, data);
+	}
 
 	OnEndContructor();
 }
@@ -66,7 +103,14 @@ void SingleTexture::InitializeSingleTexture(dooms::graphics::GraphicsAPI::eTextu
 {
 	InitializeTexture(textureType, dooms::graphics::GraphicsAPI::eTextureBindTarget::TEXTURE_2D, target, internalFormat, dooms::graphics::GraphicsAPI::eTextureCompressedInternalFormat::TEXTURE_COMPRESSED_INTERNAL_FORMAT_NONE, width, height, format, type);
 
-	TexImage2D(0, data);
+	BindTexture();
+	AllocateMemoryFor2DTexture(1, width, height);
+
+	if(data != NULL)
+	{
+		TexImage2D(0, data);
+	}
+	
 
 	OnEndContructor();
 }
@@ -77,7 +121,12 @@ void SingleTexture::InitializeSingleTexture(dooms::graphics::GraphicsAPI::eTextu
 {
 	InitializeTexture(textureType, dooms::graphics::GraphicsAPI::eTextureBindTarget::TEXTURE_2D, target, dooms::graphics::GraphicsAPI::eTextureInternalFormat::TEXTURE_INTERNAL_FORMAT_NONE, compressedInternalFormat, width, format, type);
 
-	TexImage1D(0, data);
+	BindTexture();
+	AllocateMemoryFor1DTexture(1, width);
+	if (data != NULL)
+	{
+		TexImage1D(0, data);
+	}
 
 	OnEndContructor();
 }
@@ -88,7 +137,12 @@ void SingleTexture::InitializeSingleTexture(dooms::graphics::GraphicsAPI::eTextu
 {
 	InitializeTexture(textureType, dooms::graphics::GraphicsAPI::eTextureBindTarget::TEXTURE_2D, target, dooms::graphics::GraphicsAPI::eTextureInternalFormat::TEXTURE_INTERNAL_FORMAT_NONE, compressedInternalFormat, width, height, format, type);
 
-	TexImage2D(0, data);
+	BindTexture();
+	AllocateMemoryFor2DTexture(1, width, height);
+	if (data != NULL)
+	{
+		TexImage2D(0, data);
+	}
 
 	OnEndContructor();
 }
@@ -98,8 +152,11 @@ void SingleTexture::InitializeSingleTexture(dooms::graphics::GraphicsAPI::eTextu
 	std::vector<const DirectX::Image*> mipmapDatas)
 {
 	InitializeTexture(textureType, dooms::graphics::GraphicsAPI::eTextureBindTarget::TEXTURE_2D, target, internalFormat, dooms::graphics::GraphicsAPI::eTextureCompressedInternalFormat::TEXTURE_COMPRESSED_INTERNAL_FORMAT_NONE, width, format, type);
-	
+
+	BindTexture();
+	AllocateMemoryFor1DTexture(mipmapDatas.size(), width);
 	Tex2DMipMapImages(mipmapDatas);
+
 	OnEndContructor();
 }
 
@@ -109,6 +166,8 @@ void SingleTexture::InitializeSingleTexture(dooms::graphics::GraphicsAPI::eTextu
 {
 	InitializeTexture(textureType, dooms::graphics::GraphicsAPI::eTextureBindTarget::TEXTURE_2D, target, internalFormat, dooms::graphics::GraphicsAPI::eTextureCompressedInternalFormat::TEXTURE_COMPRESSED_INTERNAL_FORMAT_NONE, width, height, format, type);
 
+	BindTexture();
+	AllocateMemoryFor2DTexture(mipmapDatas.size(), width, height);
 	Tex2DMipMapImages(mipmapDatas);
 
 	OnEndContructor();
@@ -120,6 +179,8 @@ void SingleTexture::InitializeSingleTexture(dooms::graphics::GraphicsAPI::eTextu
 {
 	InitializeTexture(textureType, dooms::graphics::GraphicsAPI::eTextureBindTarget::TEXTURE_2D, target, dooms::graphics::GraphicsAPI::eTextureInternalFormat::TEXTURE_INTERNAL_FORMAT_NONE, compressedInternalFormat, width, format, type);
 
+	BindTexture();
+	AllocateMemoryFor1DTexture(mipmapDatas.size(), width);
 	Tex2DMipMapImages(mipmapDatas);
 
 	OnEndContructor();
@@ -131,6 +192,8 @@ void SingleTexture::InitializeSingleTexture(dooms::graphics::GraphicsAPI::eTextu
 {
 	InitializeTexture(textureType, dooms::graphics::GraphicsAPI::eTextureBindTarget::TEXTURE_2D, target, dooms::graphics::GraphicsAPI::eTextureInternalFormat::TEXTURE_INTERNAL_FORMAT_NONE, compressedInternalFormat, width, height, format, type);
 
+	BindTexture();
+	AllocateMemoryFor2DTexture(mipmapDatas.size(), width, height);
 	Tex2DMipMapImages(mipmapDatas);
 
 	OnEndContructor();
@@ -140,13 +203,12 @@ void SingleTexture::InitializeSingleTexture(dooms::graphics::GraphicsAPI::eTextu
 
 void dooms::graphics::SingleTexture::Tex2DMipMapImages(std::vector<const DirectX::Image*> mipmapDatas)
 {
-	BindTexture();
+	
 
 	if (mInternalFormat != dooms::graphics::GraphicsAPI::eTextureInternalFormat::TEXTURE_INTERNAL_FORMAT_NONE)
 	{
 		for (UINT32 i = 0; i < mipmapDatas.size(); i++)
 		{
-			GraphicsAPI::Define2DTextureStorageRequirement(mBindTarget, i, mInternalFormat, mipmapDatas[i]->width, mipmapDatas[i]->height);
 			GraphicsAPI::UploadPixelsTo2DTexture(mTarget, i, 0, 0, mipmapDatas[i]->width, mipmapDatas[i]->height, mDataFormat, mDataType, mipmapDatas[i]->pixels);
 		}
 
@@ -155,8 +217,7 @@ void dooms::graphics::SingleTexture::Tex2DMipMapImages(std::vector<const DirectX
 	{
 		for (UINT32 i = 0; i < mipmapDatas.size(); i++)
 		{
-			GraphicsAPI::Define2DCompressedTextureStorageRequirement(mBindTarget, i, mCompressedInternalFormat, mipmapDatas[i]->width, mipmapDatas[i]->height);
-			GraphicsAPI::UploadPixelsTo2DCompressedTexture(mTarget, i, 0, 0, mipmapDatas[i]->width, mipmapDatas[i]->height, mDataFormat, mDataType, mipmapDatas[i]->pixels);
+			GraphicsAPI::UploadPixelsTo2DCompressedTexture(mTarget, i, 0, 0, mipmapDatas[i]->width, mipmapDatas[i]->height, mCompressedInternalFormat, mipmapDatas[i]->slicePitch, mipmapDatas[i]->pixels);
 		}
 
 	}
@@ -184,7 +245,6 @@ void SingleTexture::TexImage2D(INT32 level, const void* data) const noexcept
 	
 	if (mInternalFormat != dooms::graphics::GraphicsAPI::eTextureInternalFormat::TEXTURE_INTERNAL_FORMAT_NONE)
 	{
-		GraphicsAPI::Define2DTextureStorageRequirement(mBindTarget, 0, mInternalFormat, mWidth, mHeight);
 		GraphicsAPI::UploadPixelsTo2DTexture(mTarget, 0, 0, 0, mWidth, mHeight, mDataFormat, mDataType, data);
 	}
 	else if (mCompressedInternalFormat != dooms::graphics::GraphicsAPI::eTextureCompressedInternalFormat::TEXTURE_COMPRESSED_INTERNAL_FORMAT_NONE)
@@ -202,7 +262,6 @@ void SingleTexture::TexImage1D(INT32 level, const void* data) const noexcept
 	BindTexture();
 	if (mInternalFormat != dooms::graphics::GraphicsAPI::eTextureInternalFormat::TEXTURE_INTERNAL_FORMAT_NONE)
 	{
-		GraphicsAPI::Define1DTextureStorageRequirement(mBindTarget, 0, mInternalFormat, mWidth);
 		GraphicsAPI::UploadPixelsTo1DTexture(mTarget, 0, 0, mWidth, mDataFormat, mDataType, data);
 	}
 	else if (mCompressedInternalFormat != dooms::graphics::GraphicsAPI::eTextureCompressedInternalFormat::TEXTURE_COMPRESSED_INTERNAL_FORMAT_NONE)
@@ -219,13 +278,11 @@ void SingleTexture::TexImage1D(INT32 level, const DirectX::Image* directXImage) 
 {
 	if (mInternalFormat != dooms::graphics::GraphicsAPI::eTextureInternalFormat::TEXTURE_INTERNAL_FORMAT_NONE)
 	{
-		GraphicsAPI::Define1DTextureStorageRequirement(mBindTarget, 0, mInternalFormat, directXImage->width);
 		GraphicsAPI::UploadPixelsTo1DTexture(mTarget, 0, 0, directXImage->width, mDataFormat, mDataType, directXImage->pixels);
 	}
 	else if (mCompressedInternalFormat != dooms::graphics::GraphicsAPI::eTextureCompressedInternalFormat::TEXTURE_COMPRESSED_INTERNAL_FORMAT_NONE)
 	{
-		GraphicsAPI::Define1DCompressedTextureStorageRequirement(mBindTarget, 0, mCompressedInternalFormat, directXImage->width);
-		GraphicsAPI::UploadPixelsTo1DCompressedTexture(mTarget, 0, 0, directXImage->width, mDataFormat, mDataType, directXImage->pixels);
+		GraphicsAPI::UploadPixelsTo1DCompressedTexture(mTarget, 0, 0, directXImage->width, mCompressedInternalFormat, directXImage->slicePitch, directXImage->pixels);
 	}
 	else
 	{
@@ -237,13 +294,11 @@ void SingleTexture::TexImage2D(INT32 level, const DirectX::Image* directXImage) 
 {
 	if (mInternalFormat != dooms::graphics::GraphicsAPI::eTextureInternalFormat::TEXTURE_INTERNAL_FORMAT_NONE)
 	{
-		GraphicsAPI::Define2DTextureStorageRequirement(mBindTarget, 0, mInternalFormat, directXImage->width, directXImage->height);
 		GraphicsAPI::UploadPixelsTo2DTexture(mTarget, 0, 0, 0, directXImage->width, directXImage->height, mDataFormat, mDataType, directXImage->pixels);
 	}
 	else if (mCompressedInternalFormat != dooms::graphics::GraphicsAPI::eTextureCompressedInternalFormat::TEXTURE_COMPRESSED_INTERNAL_FORMAT_NONE)
 	{
-		GraphicsAPI::Define2DCompressedTextureStorageRequirement(mBindTarget, 0, mCompressedInternalFormat, directXImage->width, directXImage->height);
-		GraphicsAPI::UploadPixelsTo2DCompressedTexture(mTarget, 0, 0, 0, directXImage->width, directXImage->height, mDataFormat, mDataType, directXImage->pixels);
+		GraphicsAPI::UploadPixelsTo2DCompressedTexture(mTarget, 0, 0, 0, directXImage->width, directXImage->height, mCompressedInternalFormat, directXImage->slicePitch, directXImage->pixels);
 	}
 	else
 	{

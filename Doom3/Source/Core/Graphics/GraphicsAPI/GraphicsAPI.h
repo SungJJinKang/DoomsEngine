@@ -35,7 +35,7 @@ namespace dooms
 		public:
 
 			using DEBUG_FUNCTION = void (*)(const char* const debugMessage);
-			inline static DEBUG_FUNCTION* mDEBUG_FUNCTION = nullptr;
+			inline static DEBUG_FUNCTION mDEBUG_FUNCTION = nullptr;
 
 			inline static std::string GetPlatformVersion()
 			{
@@ -109,17 +109,7 @@ namespace dooms
 				COLOR_ATTACHMENT30, // = GL_COLOR_ATTACHMENT10,
 				COLOR_ATTACHMENT31, // = GL_COLOR_ATTACHMENT10,
 			};
-
-			enum eBufferAttachmentType : unsigned int
-			{
-				ATTACHMENT_COLOR0, // = GL_COLOR_BUFFER_BIT,
-				ATTACHMENT_COLOR1, // = GL_COLOR_BUFFER_BIT,
-				ATTACHMENT_COLOR2, // = GL_COLOR_BUFFER_BIT,
-				ATTACHMENT_COLOR3, // = GL_COLOR_BUFFER_BIT,
-				ATTACHMENT_DEPTH, // = GL_DEPTH_BUFFER_BIT,
-				ATTACHMENT_DEPTH_STENCIL //= GL_STENCIL_BUFFER_BIT
-			};
-
+			
 			enum eBindFrameBufferTarget : unsigned int
 			{
 				DRAW_FRAMEBUFFER,
@@ -153,7 +143,7 @@ namespace dooms
 				UNIFORM_BUFFER,
 			};
 
-			static unsigned int Initialize();
+			static unsigned int Initialize(const int screenWidth, const int screenHeight, const unsigned int multiSamplingNum);
 			static unsigned int DeInitialize();
 			static void SwapBuffer() noexcept;
 
@@ -559,7 +549,7 @@ namespace dooms
 			(
 				const unsigned int renderBufferObject,
 				const unsigned int frameBufferObject,
-				const eBufferAttachmentType bufferType
+				const eFrameBufferAttachmentPoint frameBufferAttachmentPoint
 			) noexcept;
 			static void DestroyRenderBuffer(const unsigned int renderBuffer) noexcept;
 
@@ -604,24 +594,24 @@ namespace dooms
 
 			static void AttachShaderToMaterial(const unsigned int materialObject, const unsigned int shaderObject) noexcept;
 
-			static void UpdateConstantBuffer_bool1(const int constantBufferID, const bool value1) noexcept;
-			static void UpdateConstantBuffer_bool2(const int constantBufferID, const bool value1, const bool value2) noexcept;
-			static void UpdateConstantBuffer_bool3(const int constantBufferID, const bool value1, const bool value2, const bool value3) noexcept;
-			static void UpdateConstantBuffer_bool4(const int constantBufferID, const bool value1, const bool value2, const bool value3, const bool value4) noexcept;
+			static void UpdateConstantBuffer_bool1(const int location, const bool value1) noexcept;
+			static void UpdateConstantBuffer_bool2(const int location, const bool value1, const bool value2) noexcept;
+			static void UpdateConstantBuffer_bool3(const int location, const bool value1, const bool value2, const bool value3) noexcept;
+			static void UpdateConstantBuffer_bool4(const int location, const bool value1, const bool value2, const bool value3, const bool value4) noexcept;
 
-			static void UpdateConstantBuffer_int1(const int constantBufferID, const int value1) noexcept;
-			static void UpdateConstantBuffer_int2(const int constantBufferID, const int value1, const int value2) noexcept;
-			static void UpdateConstantBuffer_int3(const int constantBufferID, const int value1, const int value2, const int value3) noexcept;
-			static void UpdateConstantBuffer_int4(const int constantBufferID, const int value1, const int value2, const int value3, const int value4) noexcept;
+			static void UpdateConstantBuffer_int1(const int location, const int value1) noexcept;
+			static void UpdateConstantBuffer_int2(const int location, const int value1, const int value2) noexcept;
+			static void UpdateConstantBuffer_int3(const int location, const int value1, const int value2, const int value3) noexcept;
+			static void UpdateConstantBuffer_int4(const int location, const int value1, const int value2, const int value3, const int value4) noexcept;
 
-			static void UpdateConstantBuffer_float1(const int constantBufferID, const float value1) noexcept;
-			static void UpdateConstantBuffer_float2(const int constantBufferID, const float value1, const float value2) noexcept;
-			static void UpdateConstantBuffer_float3(const int constantBufferID, const float value1, const float value2, const float value3) noexcept;
-			static void UpdateConstantBuffer_float4(const int constantBufferID, const float value1, const float value2, const float value3, const float value4) noexcept;
+			static void UpdateConstantBuffer_float1(const int location, const float value1) noexcept;
+			static void UpdateConstantBuffer_float2(const int location, const float value1, const float value2) noexcept;
+			static void UpdateConstantBuffer_float3(const int location, const float value1, const float value2, const float value3) noexcept;
+			static void UpdateConstantBuffer_float4(const int location, const float value1, const float value2, const float value3, const float value4) noexcept;
 
-			static void UpdateConstantBuffer_mat2x2f(const int constantBufferID, const float* const matrix) noexcept;
-			static void UpdateConstantBuffer_mat3x3f(const int constantBufferID, const float* const matrix) noexcept;
-			static void UpdateConstantBuffer_mat4x4f(const int constantBufferID, const float* const matrix) noexcept;
+			static void UpdateConstantBuffer_mat2x2f(const int location, const float* const matrix) noexcept;
+			static void UpdateConstantBuffer_mat3x3f(const int location, const float* const matrix) noexcept;
+			static void UpdateConstantBuffer_mat4x4f(const int location, const float* const matrix) noexcept;
 
 			enum eMapBufferAccessOption : unsigned int
 			{
@@ -755,6 +745,11 @@ namespace dooms
 				WRAP_MODE_MIRROR_CLAMP_TO_EDGE // GL_MIRROR_CLAMP_TO_EDGE,
 			};
 
+			static void SetTextureWrapMode_S(const eTextureBindTarget textureBindTarget, const eWrapMode wrapMode);
+			static void SetTextureWrapMode_T(const eTextureBindTarget textureBindTarget, const eWrapMode wrapMode);
+			static void SetTextureWrapMode_R(const eTextureBindTarget textureBindTarget, const eWrapMode wrapMode);
+
+
 			enum eFilterMode : unsigned int
 			{
 				FILTER_MODE_NEAREST, // GL_NEAREST,
@@ -764,6 +759,9 @@ namespace dooms
 				FILTER_MODE_NEAREST_MIPMAP_LINEAR, // GL_NEAREST_MIPMAP_LINEAR,
 				FILTER_MODE_LINEAR_MIPMAP_LINEAR // GL_LINEAR_MIPMAP_LINEAR,
 			};
+
+			static void SetMinFilter(const eTextureBindTarget textureBindTarget, const eFilterMode filterMode);
+			static void SetMagFilter(const eTextureBindTarget textureBindTarget, const eFilterMode filterMode);
 
 			enum ePixelFormat : unsigned int
 			{
@@ -811,7 +809,7 @@ namespace dooms
 			static void Define1DTextureStorageRequirement
 			(
 				const eTextureBindTarget textureBindTarget,
-				const unsigned int lodLevel,
+				const unsigned int lodCount,
 				const eTextureInternalFormat textureInternalFormat,
 				const unsigned long long width
 			);
@@ -819,7 +817,7 @@ namespace dooms
 			static void Define2DTextureStorageRequirement
 			(
 				const eTextureBindTarget textureBindTarget,
-				const unsigned int lodLevel,
+				const unsigned int lodCount,
 				const eTextureInternalFormat textureInternalFormat,
 				const unsigned long long width,
 				const unsigned long long height
@@ -828,7 +826,7 @@ namespace dooms
 			static void Define3DTextureStorageRequirement
 			(
 				const eTextureBindTarget textureBindTarget,
-				const unsigned int lodLevel,
+				const unsigned int lodCount,
 				const eTextureInternalFormat textureInternalFormat,
 				const unsigned long long width,
 				const unsigned long long height,
@@ -838,7 +836,7 @@ namespace dooms
 			static void Define1DCompressedTextureStorageRequirement
 			(
 				const eTextureBindTarget textureBindTarget,
-				const unsigned int lodLevel,
+				const unsigned int createdLodCount,
 				const eTextureCompressedInternalFormat textureInternalFormat,
 				const unsigned long long width
 			);
@@ -846,7 +844,7 @@ namespace dooms
 			static void Define2DCompressedTextureStorageRequirement
 			(
 				const eTextureBindTarget textureBindTarget,
-				const unsigned int lodLevel,
+				const unsigned int createdLodCount,
 				const eTextureCompressedInternalFormat textureInternalFormat,
 				const unsigned long long width,
 				const unsigned long long height
@@ -855,7 +853,7 @@ namespace dooms
 			static void Define3DCompressedTextureStorageRequirement
 			(
 				const eTextureBindTarget textureBindTarget,
-				const unsigned int lodLevel,
+				const unsigned int createdLodCount,
 				const eTextureCompressedInternalFormat textureInternalFormat,
 				const unsigned long long width,
 				const unsigned long long height,
@@ -907,8 +905,8 @@ namespace dooms
 				const unsigned int lodLevel,
 				const unsigned int xOffset,
 				const unsigned long long width,
-				const eTextureComponentFormat textureComponentFormat,
-				const eDataType dataType,
+				const eTextureCompressedInternalFormat textureCompressedInternalFormat,
+				const unsigned long long imgSize,
 				const void* const pixelDatas
 			);
 
@@ -920,8 +918,8 @@ namespace dooms
 				const unsigned int yOffset,
 				const unsigned long long width,
 				const unsigned long long height,
-				const eTextureComponentFormat textureComponentFormat,
-				const eDataType dataType,
+				const eTextureCompressedInternalFormat textureCompressedInternalFormat,
+				const unsigned long long imgSize,
 				const void* const pixelDatas
 			);
 
@@ -935,8 +933,8 @@ namespace dooms
 				const unsigned long long width,
 				const unsigned long long height,
 				const unsigned long long depth,
-				const eTextureComponentFormat textureComponentFormat,
-				const eDataType dataType,
+				const eTextureCompressedInternalFormat textureCompressedInternalFormat,
+				const unsigned long long imgSize,
 				const void* const pixelDatas
 			);
 

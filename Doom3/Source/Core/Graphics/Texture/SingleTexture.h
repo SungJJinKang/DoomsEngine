@@ -14,6 +14,9 @@ namespace dooms
 
 		private:
 
+			void AllocateMemoryFor1DTexture(const unsigned int lodCount, const int width);
+			void AllocateMemoryFor2DTexture(const unsigned int lodCount, const int width, const int height);
+
 		public:
 
 			SingleTexture();
@@ -72,6 +75,8 @@ namespace dooms
 			virtual void TexImage2D(INT32 level, const void* data) const noexcept final;
 			void TexImage1D(INT32 level, const DirectX::Image* directXImage) const noexcept;
 			void TexImage2D(INT32 level, const DirectX::Image* directXImage) const noexcept;
+
+			
 		};
 	}
 }

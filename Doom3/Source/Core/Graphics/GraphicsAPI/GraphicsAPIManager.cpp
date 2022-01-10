@@ -2,6 +2,7 @@
 
 #include "graphicsAPISetting.h"
 #include "Input/GraphicsAPIInput.h"
+#include <EngineGUI/PrintText.h>
 
 void dooms::graphics::GraphicsAPIManager::LoadGraphicsAPI(const eGraphicsAPIType graphicsAPIType)
 {
@@ -22,6 +23,12 @@ void dooms::graphics::GraphicsAPIManager::SetDefaultSettingOfAPI()
 	graphics::GraphicsAPI::SetVSync(false);
 }
 
+void dooms::graphics::GraphicsAPIManager::GraphisAPIDebugCallBack(const char* const debugMessage)
+{
+	D_ASSERT_LOG(false, "Graphis API Callback : %s", debugMessage);
+	dooms::ui::PrintText("Graphis API Callback : %s", debugMessage);
+}
+
 dooms::graphics::GraphicsAPIManager::GraphicsAPIManager() = default;
 dooms::graphics::GraphicsAPIManager::~GraphicsAPIManager() = default;
 dooms::graphics::GraphicsAPIManager::GraphicsAPIManager(GraphicsAPIManager&&) noexcept = default;
@@ -30,8 +37,13 @@ dooms::graphics::GraphicsAPIManager& dooms::graphics::GraphicsAPIManager::operat
 void dooms::graphics::GraphicsAPIManager::Initialize(const eGraphicsAPIType graphicsAPIType)
 {
 	LoadGraphicsAPI(graphicsAPIType);
-	GraphicsAPI::Initialize();
-
+	GraphicsAPI::mDEBUG_FUNCTION = dooms::graphics::GraphicsAPIManager::GraphisAPIDebugCallBack;
+	const unsigned int isSuccess = GraphicsAPI::Initialize(graphicsAPISetting::GetScreenWidth(), graphicsAPISetting::GetScreenHeight(), graphicsAPISetting::GetMultiSamplingNum());
+	D_ASSERT(isSuccess == 0);
+	if(isSuccess != 0)
+	{
+		dooms::ui::PrintText("Fail to GraphicsAPI::Initialize ( Error Code : %u )", isSuccess);
+	}
 
 }
 

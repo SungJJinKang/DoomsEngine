@@ -13,6 +13,7 @@ namespace dooms
 			static void ShutDown();
 			static void PreRender();
 			static void Render();
+			static void PostRender();
 		};
 
 		

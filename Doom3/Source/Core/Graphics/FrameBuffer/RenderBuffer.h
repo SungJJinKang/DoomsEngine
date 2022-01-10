@@ -24,7 +24,7 @@ namespace dooms
 			static inline const char RENDERBUFFER_TAG[]{ "RenderBuffer" };
 			BufferID mRenderBufferID{};
 
-			GraphicsAPI::eBufferAttachmentType mFrameBufferType;
+			GraphicsAPI::eFrameBufferAttachmentPoint mFrameBufferType;
 			UINT32 mWidth;
 			UINT32 mHeight;
 			
@@ -33,7 +33,7 @@ namespace dooms
 			
 
 			RenderBuffer();
-			RenderBuffer(FrameBuffer& ownerFrameBuffer, GraphicsAPI::eBufferAttachmentType frameBufferType, UINT32 width, UINT32 height);
+			RenderBuffer(FrameBuffer& ownerFrameBuffer, GraphicsAPI::eFrameBufferAttachmentPoint frameBufferType, UINT32 width, UINT32 height);
 			virtual ~RenderBuffer();
 
 			RenderBuffer(const RenderBuffer&) = delete;
@@ -43,7 +43,7 @@ namespace dooms
 			RenderBuffer& operator=(RenderBuffer &&) noexcept = default;
 
 
-			bool CreateRenderBuffer(FrameBuffer& ownerFrameBuffer, GraphicsAPI::eBufferAttachmentType frameBufferType, UINT32 width, UINT32 height);
+			bool CreateRenderBuffer(FrameBuffer& ownerFrameBuffer, GraphicsAPI::eFrameBufferAttachmentPoint frameBufferType, UINT32 width, UINT32 height);
 			void DeleteRenderBuffers();
 			
 			FORCE_INLINE static void BindRenderBuffer(INT32 renderBufferID)
@@ -63,7 +63,7 @@ namespace dooms
 				BindRenderBuffer(0);
 			}
 
-			FORCE_INLINE GraphicsAPI::eBufferAttachmentType GetFrameBufferType() const
+			FORCE_INLINE GraphicsAPI::eFrameBufferAttachmentPoint GetFrameBufferType() const
 			{
 				return mFrameBufferType;
 			}

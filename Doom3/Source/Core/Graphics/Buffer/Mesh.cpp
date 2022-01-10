@@ -10,7 +10,7 @@ dooms::graphics::Mesh::Mesh()
 }
 
 dooms::graphics::Mesh::Mesh(const long long int dataCount, const void* data, GraphicsAPI::ePrimitiveType primitiveType, UINT32 vertexArrayFlag) noexcept
-	: Buffer(), mTargetThreeDModelMesh{ nullptr }
+	: Buffer(), mTargetThreeDModelMesh{ nullptr }, mVertexArrayObjectID{ INVALID_BUFFER_ID }, mElementBufferObjectID{ INVALID_BUFFER_ID }
 {
 	GenMeshBuffer(false);
 	BufferData(dataCount, data, primitiveType, vertexArrayFlag);
@@ -18,7 +18,7 @@ dooms::graphics::Mesh::Mesh(const long long int dataCount, const void* data, Gra
 
 
 dooms::graphics::Mesh::Mesh(const ThreeDModelMesh& threeDModelMesh) noexcept
-	: Buffer(), mNumOfVertices{ 0 }, mNumOfIndices{ 0 }, mTargetThreeDModelMesh{&threeDModelMesh}
+	: Buffer(), mNumOfVertices{ 0 }, mNumOfIndices{ 0 }, mTargetThreeDModelMesh{&threeDModelMesh}, mVertexArrayObjectID{}, mElementBufferObjectID{ INVALID_BUFFER_ID }
 {
 	GenMeshBuffer(threeDModelMesh.bHasIndices);
 	BufferDataFromModelMesh(threeDModelMesh);
@@ -196,7 +196,7 @@ void dooms::graphics::Mesh::BindVertexBufferObject() const
 
 	if (D_OVERLAP_BIND_CHECK_CHECK_IS_NOT_BOUND_AND_BIND_ID(VERTEX_BUFFER_TAG, mBufferID))
 	{
-		GraphicsAPI::BindBuffer(mBufferID, GraphicsAPI::eBufferTarget::ELEMENT_ARRAY_BUFFER);
+		GraphicsAPI::BindBuffer(mBufferID, GraphicsAPI::eBufferTarget::ARRAY_BUFFER);
 	}
 
 	
@@ -210,6 +210,7 @@ void dooms::graphics::Mesh::BufferDataFromModelMesh(const ThreeDModelMesh& three
 	BindVertexArrayObject(); // bind vertex array buffer first
 	BindVertexBufferObject();
 
+	GraphicsAPI::AllocateBufferMemory(GraphicsAPI::eBufferTarget::ARRAY_BUFFER, threeDModelMesh.mMeshDatas.GetAllocatedDataSize(), NULL);
 	GraphicsAPI::UpdateDataToBuffer(GraphicsAPI::eBufferTarget::ARRAY_BUFFER, 0, threeDModelMesh.mMeshDatas.GetAllocatedDataSize(), threeDModelMesh.mMeshDatas.mData);
 	
 	//mVertex
@@ -253,6 +254,7 @@ void dooms::graphics::Mesh::BufferDataFromModelMesh(const ThreeDModelMesh& three
 	if (threeDModelMesh.bHasIndices == true && threeDModelMesh.mMeshIndices.size() > 0)
 	{
 		BindElementBuffer();
+		GraphicsAPI::AllocateBufferMemory(GraphicsAPI::eBufferTarget::ELEMENT_ARRAY_BUFFER, threeDModelMesh.mMeshIndices.size() * sizeof(UINT32), NULL);
 		GraphicsAPI::UpdateDataToBuffer(GraphicsAPI::eBufferTarget::ELEMENT_ARRAY_BUFFER, 0, threeDModelMesh.mMeshIndices.size() * sizeof(UINT32), reinterpret_cast<const void*>(threeDModelMesh.mMeshIndices.data()));
 		mNumOfIndices = threeDModelMesh.mMeshIndices.size();
 	}

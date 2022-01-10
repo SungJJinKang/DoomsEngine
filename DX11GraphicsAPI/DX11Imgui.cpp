@@ -15,3 +15,7 @@ void dooms::graphics::PlatformImgui::PreRender()
 void dooms::graphics::PlatformImgui::Render()
 {
 }
+
+void dooms::graphics::PlatformImgui::PostRender()
+{
+}

@@ -166,8 +166,8 @@ namespace dooms
 				INT32 srcY1, INT32 dstX0, INT32 dstY0, INT32 dstX1, INT32 dstY1,
 				GraphicsAPI::eBufferBitType mask, GraphicsAPI::eImageInterpolation filter) const noexcept;
 
-			RenderBuffer& AttachRenderBuffer(GraphicsAPI::eBufferAttachmentType renderBufferType, UINT32 width, UINT32 height);
-			RenderBuffer& AttachRenderBuffer(GraphicsAPI::eBufferAttachmentType renderBufferType);
+			RenderBuffer& AttachRenderBuffer(GraphicsAPI::eFrameBufferAttachmentPoint renderBufferType, UINT32 width, UINT32 height);
+			RenderBuffer& AttachRenderBuffer(GraphicsAPI::eFrameBufferAttachmentPoint renderBufferType);
 			SingleTexture& AttachTextureBuffer(GraphicsAPI::eBufferBitType frameBufferType, UINT32 width, UINT32 height);
 			SingleTexture& AttachTextureBuffer(GraphicsAPI::eBufferBitType frameBufferType);
 			const SingleTexture* GetFrameBufferTexture(GraphicsAPI::eBufferBitType bufferType, UINT32 index) const;
