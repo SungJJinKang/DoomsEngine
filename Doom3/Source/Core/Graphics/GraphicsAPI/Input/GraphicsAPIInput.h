@@ -4,13 +4,9 @@
 
 namespace dooms
 {
-	namespace graphics
+	namespace input
 	{
-		typedef void (*CursorEnterCallback)(int);
-		typedef void (*CursorPosition_Callback)(double, double);
-		typedef void (*Scroll_Callback)(double, double);
-		typedef void (*Key_Callback)(int, int, int, int);
-		typedef void (*MouseButton_Callback)(int, int, int);
+		
 
 		class __declspec(dllexport) GraphicsAPIInput
 		{
@@ -21,11 +17,7 @@ namespace dooms
 
 		public:
 
-			inline static CursorEnterCallback mCursorEnterCallback = nullptr;
-			inline static CursorPosition_Callback mCursorPosition_Callback = nullptr;
-			inline static Scroll_Callback mScroll_Callback = nullptr;
-			inline static Key_Callback mKey_Callback = nullptr;
-			inline static MouseButton_Callback mMouseButton_Callback = nullptr;
+		
 
 			enum eKEY_CODE : int
 			{
@@ -166,10 +158,11 @@ namespace dooms
 				CURSOR_MODE_DISABLED,
 			};
 
-			enum eMouseButtonMode : unsigned int
+			enum eInputActionType : unsigned int
 			{
 				PRESS,
-				RELEASE
+				RELEASE,
+				REPEAT
 			};
 
 			static unsigned int Initialize();
@@ -178,8 +171,18 @@ namespace dooms
 			static void PollEvents();
 
 			static void SetCursorMode(const eCursorMode cursorMode);
+			
+			typedef void (*CursorEnterCallback)(bool);
+			typedef void (*CursorPosition_Callback)(double, double);
+			typedef void (*Scroll_Callback)(double, double);
+			typedef void (*Key_Callback)(dooms::input::GraphicsAPIInput::eKEY_CODE, int, dooms::input::GraphicsAPIInput::eInputActionType, int);
+			typedef void (*MouseButton_Callback)(dooms::input::GraphicsAPIInput::eMoustInput, dooms::input::GraphicsAPIInput::eInputActionType, int);
 
-			static eMouseButtonMode ConvertRawValueToMouseButtonMode(const int mode);
+			static void SetCursorEnterCallback(CursorEnterCallback cursorEnterCallback);
+			static void SetCursorPosition_Callback(CursorPosition_Callback cursorPosition_Callback);
+			static void SetScroll_Callback(Scroll_Callback scroll_Callback);
+			static void SetKey_Callback(Key_Callback key_Callback);
+			static void SetMouseButton_Callback(MouseButton_Callback mouseButton_Callback);
 		};
 	}
 }

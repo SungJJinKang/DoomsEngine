@@ -8,11 +8,11 @@
 #include <Vector3.h>
 
 
-void UserInput_Server::CursorEnterCallback(INT32 entered)
+void UserInput_Server::CursorEnterCallback(bool isEntered)
 {
-	UserInput_Server::IsCursorOnScreenWindow = entered;
+	UserInput_Server::IsCursorOnScreenWindow = isEntered;
 
-	D_DEBUG_LOG(eLogType::D_LOG, "Mouse Cursor Enter : %d", entered);
+	D_DEBUG_LOG(eLogType::D_LOG, "Mouse Cursor Enter : %d", isEntered);
 
 }
 
@@ -39,26 +39,27 @@ void UserInput_Server::Scroll_Callback(FLOAT64 xoffset, FLOAT64 yoffset)
 }
 
 
-void UserInput_Server::Key_Callback(INT32 key, INT32 scancode, INT32 action, INT32 mods)
+void UserInput_Server::Key_Callback(dooms::input::GraphicsAPIInput::eKEY_CODE key, INT32 scancode, dooms::input::GraphicsAPIInput::eInputActionType action, INT32 mods)
 {
 	if (key < static_cast<INT32>(FIRST_KEY_CODE) || key > static_cast<INT32>(LAST_KEY_CODE))
 	{
 		return;
 	}
-
-	const graphics::GraphicsAPIInput::eMouseButtonMode mouseButtonMode = graphics::GraphicsAPIInput::ConvertRawValueToMouseButtonMode(action);
-
-	switch (mouseButtonMode)
+	
+	switch (action)
 	{
-	case graphics::GraphicsAPIInput::PRESS:
+	case dooms::input::GraphicsAPIInput::PRESS:
+	case dooms::input::GraphicsAPIInput::REPEAT:
 		UserInput_Server::mKeyState[key - static_cast<INT32>(FIRST_KEY_CODE)] = eKeyState::PRESS_DOWN;
 		UserInput_Server::mDownKeys.push_back(key);
 		break;
 
-	case graphics::GraphicsAPIInput::RELEASE: 
+	case dooms::input::GraphicsAPIInput::RELEASE:
 		UserInput_Server::mKeyState[key - static_cast<INT32>(FIRST_KEY_CODE)] = eKeyState::UP;
 		UserInput_Server::mKeyToggle[key - static_cast<INT32>(FIRST_KEY_CODE)] = !UserInput_Server::mKeyToggle[key - static_cast<INT32>(FIRST_KEY_CODE)];
 		UserInput_Server::mUpKeys.push_back(key);
+		break;
+
 		break;
 
 	default: 
@@ -68,17 +69,15 @@ void UserInput_Server::Key_Callback(INT32 key, INT32 scancode, INT32 action, INT
 }
 
 
-void UserInput_Server::MouseButton_Callback(INT32 button, INT32 action, INT32 mods)
+void UserInput_Server::MouseButton_Callback(dooms::input::GraphicsAPIInput::eMoustInput button, dooms::input::GraphicsAPIInput::eInputActionType action, INT32 mods)
 {
-	const graphics::GraphicsAPIInput::eMouseButtonMode mouseButtonMode = graphics::GraphicsAPIInput::ConvertRawValueToMouseButtonMode(action);
-
-	switch (mouseButtonMode)
+	switch (action)
 	{
-	case graphics::GraphicsAPIInput::PRESS:
+	case dooms::input::GraphicsAPIInput::PRESS:
 		UserInput_Server::mMouseButtonState[button - static_cast<INT32>(FIRST_MOUSE_BUTTON_TYPE)] = eMouse_Button_Action::DOWN;
 		break;
 
-	case graphics::GraphicsAPIInput::RELEASE:
+	case dooms::input::GraphicsAPIInput::RELEASE:
 		UserInput_Server::mMouseButtonState[button - static_cast<INT32>(FIRST_MOUSE_BUTTON_TYPE)] = eMouse_Button_Action::RELEASE;
 		break;
 
@@ -138,11 +137,11 @@ void UserInput_Server::Init()
 	UserInput_Server::SetIsCursorVisible(ConfigData::GetSingleton()->GetConfigData().GetValue<bool>("USERINPUT", "CURSOR_IS_VISIBLE"));
 	UserInput_Server::SetIsCursorLockedInScreen(ConfigData::GetSingleton()->GetConfigData().GetValue<bool>("USERINPUT", "CURSOR_LOCKED_IN_SCREEN"));
 
-	graphics::GraphicsAPIInput::mCursorEnterCallback = &UserInput_Server::CursorEnterCallback;
-	graphics::GraphicsAPIInput::mCursorPosition_Callback = &UserInput_Server::CursorPosition_Callback;
-	graphics::GraphicsAPIInput::mScroll_Callback = &UserInput_Server::Scroll_Callback;
-	graphics::GraphicsAPIInput::mKey_Callback = &UserInput_Server::Key_Callback;
-	graphics::GraphicsAPIInput::mMouseButton_Callback = &UserInput_Server::MouseButton_Callback;
+	dooms::input::GraphicsAPIInput::SetCursorEnterCallback(UserInput_Server::CursorEnterCallback);
+	dooms::input::GraphicsAPIInput::SetCursorPosition_Callback(UserInput_Server::CursorPosition_Callback);
+	dooms::input::GraphicsAPIInput::SetScroll_Callback(UserInput_Server::Scroll_Callback);
+	dooms::input::GraphicsAPIInput::SetKey_Callback(UserInput_Server::Key_Callback);
+	dooms::input::GraphicsAPIInput::SetMouseButton_Callback(UserInput_Server::MouseButton_Callback);
 }
 
 void UserInput_Server::Update()
@@ -152,7 +151,7 @@ void UserInput_Server::Update()
 
 	UpdateKeyStates();
 	UpdateMouseButtonStates();
-	graphics::GraphicsAPIInput::PollEvents();
+	dooms::input::GraphicsAPIInput::PollEvents();
 
 	if (UserInput_Server::mScrollChangedAtPreviousFrame == false)
 	{
@@ -176,20 +175,20 @@ void UserInput_Server::UpdateCursorMode()
 {
 	if (UserInput_Server::IsCursorLockedInScreen == false && UserInput_Server::IsCursorVisible == true)
 	{
-		graphics::GraphicsAPIInput::SetCursorMode(graphics::GraphicsAPIInput::eCursorMode::CURSOR_MODE_NORMAL);
+		dooms::input::GraphicsAPIInput::SetCursorMode(dooms::input::GraphicsAPIInput::eCursorMode::CURSOR_MODE_NORMAL);
 	}
 	else if (UserInput_Server::IsCursorLockedInScreen == false && UserInput_Server::IsCursorVisible == false)
 	{
-		graphics::GraphicsAPIInput::SetCursorMode(graphics::GraphicsAPIInput::eCursorMode::CURSOR_MODE_HIDDEN);
+		dooms::input::GraphicsAPIInput::SetCursorMode(dooms::input::GraphicsAPIInput::eCursorMode::CURSOR_MODE_HIDDEN);
 	}
 	else if (UserInput_Server::IsCursorLockedInScreen == true && UserInput_Server::IsCursorVisible == false)
 	{
-		graphics::GraphicsAPIInput::SetCursorMode(graphics::GraphicsAPIInput::eCursorMode::CURSOR_MODE_DISABLED);
+		dooms::input::GraphicsAPIInput::SetCursorMode(dooms::input::GraphicsAPIInput::eCursorMode::CURSOR_MODE_DISABLED);
 	}
 	else if (UserInput_Server::IsCursorLockedInScreen == true && UserInput_Server::IsCursorVisible == true)
 	{
 		D_DEBUG_LOG(eLogType::D_WARNING, "Undefined Cursor Mode, There is no mode that locked in screen and visible"); // https://www.glfw.org/docs/3.3/input_guide.html
-		graphics::GraphicsAPIInput::SetCursorMode(graphics::GraphicsAPIInput::eCursorMode::CURSOR_MODE_DISABLED);
+		dooms::input::GraphicsAPIInput::SetCursorMode(dooms::input::GraphicsAPIInput::eCursorMode::CURSOR_MODE_DISABLED);
 	}
 }
 

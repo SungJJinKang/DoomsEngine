@@ -54,7 +54,7 @@ void dooms::graphics::RenderingDebugger::UpdateInputForPrintDrawCallCounter()
 
 #ifdef DEBUG_MODE
 
-	if (dooms::userinput::UserInput_Server::GetKeyUp(dooms::graphics::GraphicsAPIInput::eKEY_CODE::KEY_F5))
+	if (dooms::userinput::UserInput_Server::GetKeyUp(dooms::input::GraphicsAPIInput::eKEY_CODE::KEY_F5))
 	{
 		PrintDrawCallCounter();
 	}

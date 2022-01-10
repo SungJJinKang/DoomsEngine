@@ -4,7 +4,7 @@
 
 void dooms::TestComponent2::InitComponent()
 {
-	volatile auto a = dooms::ConfigData::GetSingleton()->GetConfigData().GetValue<dooms::graphics::GraphicsAPIInput::eKEY_CODE>("SHORTCUT", "PRINT_THREAD_USAGE");
+	volatile auto a = dooms::ConfigData::GetSingleton()->GetConfigData().GetValue<dooms::input::GraphicsAPIInput::eKEY_CODE>("SHORTCUT", "PRINT_THREAD_USAGE");
 	
 }
 

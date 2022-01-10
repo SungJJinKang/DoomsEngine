@@ -22,14 +22,14 @@ void dooms::OverDrawVisualizationDebugger::ShowIsSortObjectFrontToBack()
 
 void dooms::OverDrawVisualizationDebugger::UpdateComponent()
 {
-	if (dooms::userinput::UserInput_Server::GetKeyUp(dooms::graphics::GraphicsAPIInput::eKEY_CODE::KEY_F5))
+	if (dooms::userinput::UserInput_Server::GetKeyUp(dooms::input::GraphicsAPIInput::eKEY_CODE::KEY_F5))
 	{
 		dooms::graphics::graphicsSetting::IsSortObjectFrontToBack = !dooms::graphics::graphicsSetting::IsSortObjectFrontToBack;
 		ShowIsSortObjectFrontToBack();
 
 	}
 
-	if (dooms::userinput::UserInput_Server::GetKeyUp(dooms::graphics::GraphicsAPIInput::eKEY_CODE::KEY_F6))
+	if (dooms::userinput::UserInput_Server::GetKeyUp(dooms::input::GraphicsAPIInput::eKEY_CODE::KEY_F6))
 	{
 		graphics::graphicsSetting::IsOverDrawVisualizationEnabled = !(graphics::graphicsSetting::IsOverDrawVisualizationEnabled);
 

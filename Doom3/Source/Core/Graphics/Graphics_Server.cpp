@@ -75,7 +75,6 @@ void dooms::graphics::Graphics_Server::LateInit()
 #endif 
 
 	mDeferredRenderingDrawer.Initialize();
-
 	//mQueryOcclusionCulling.InitQueryOcclusionCulling();
 	//mCullDistance.Initialize();
 }
@@ -125,6 +124,7 @@ Graphics_Server::Graphics_Server()
 
 Graphics_Server::~Graphics_Server()
 {
+	dooms::ui::engineGUIServer::ShutDown();
 	mGraphicsAPIManager.DeInitialize();
 }
 

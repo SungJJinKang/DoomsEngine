@@ -25,6 +25,9 @@ namespace dooms
 	{
 		namespace opengl
 		{
+			static std::string OpenGLVersion{};
+			static GraphicsAPI::DEBUG_FUNCTION mDEBUG_FUNCTION = nullptr;
+
 			enum class GetStringParameter
 			{
 				VENDOR = GL_VENDOR,
@@ -967,7 +970,7 @@ namespace dooms
 				}
 			}
 
-			extern GLFWwindow* glfwWindow = nullptr;
+			static GLFWwindow* glfwWindow = nullptr;
 
 			extern void DEBUG_CALLBACK
 			(
@@ -980,15 +983,54 @@ namespace dooms
 				const void* data
 			)
 			{
-				//https://www.khronos.org/registry/OpenGL/extensions/KHR/KHR_debug.txt
-				if(severity == 0x9146 || severity == 0x9147 || severity == 0x9148)
+				if(id == 131218) // NVIDIA: "shader will be recompiled due to GL state mismatches"
 				{
-					(*dooms::graphics::GraphicsAPI::mDEBUG_FUNCTION)(msg);
+					return; // https://stackoverflow.com/questions/12004396/opengl-debug-context-performance-warning
 				}
+
+				dooms::graphics::GraphicsAPI::eGraphisAPIDebugCallbackSeverity debugCallbackseverity;
+				if (severity == 0x9146)
+				{
+					debugCallbackseverity = dooms::graphics::GraphicsAPI::eGraphisAPIDebugCallbackSeverity::HIGH;
+				}
+				else if (severity == 0x9147)
+				{
+					debugCallbackseverity = dooms::graphics::GraphicsAPI::eGraphisAPIDebugCallbackSeverity::MEDIUM;
+				}
+				else if (severity == 0x9148)
+				{
+					debugCallbackseverity = dooms::graphics::GraphicsAPI::eGraphisAPIDebugCallbackSeverity::LOW;
+				}
+				else if (severity == 0x826B)
+				{
+					debugCallbackseverity = dooms::graphics::GraphicsAPI::eGraphisAPIDebugCallbackSeverity::NOTIFICATION;
+				}
+				else
+				{
+					assert(false);
+				}
+
+				//https://www.khronos.org/registry/OpenGL/extensions/KHR/KHR_debug.txt
+				(*dooms::graphics::GraphicsAPI::GetDebugFunction())(msg, debugCallbackseverity);
 				
 			}
 		}
 	}
+}
+
+void dooms::graphics::GraphicsAPI::SetDebugFunction(DEBUG_FUNCTION debugFunction)
+{
+	opengl::mDEBUG_FUNCTION = debugFunction;
+}
+
+dooms::graphics::GraphicsAPI::DEBUG_FUNCTION dooms::graphics::GraphicsAPI::GetDebugFunction()
+{
+	return opengl::mDEBUG_FUNCTION;
+}
+
+const char* dooms::graphics::GraphicsAPI::GetPlatformVersion()
+{
+	return opengl::OpenGLVersion.c_str();
 }
 
 void* dooms::graphics::GraphicsAPI::GetPlatformWindow()
@@ -996,10 +1038,6 @@ void* dooms::graphics::GraphicsAPI::GetPlatformWindow()
 	return dooms::graphics::opengl::glfwWindow;
 }
 
-void dooms::graphics::GraphicsAPI::SetGraphicsAPIType(const eGraphicsAPIType graphicsAPIType)
-{
-	mGraphicsAPIType = graphicsAPIType;
-}
 
 /**
  * \brief 
@@ -1090,7 +1128,7 @@ unsigned int dooms::graphics::GraphicsAPI::Initialize(const int screenWidth, con
 	glGetIntegerv(GL_MAX_TEXTURE_IMAGE_UNITS, &maxTextureUnitCount);
 	assert(maxTextureUnitCount != 0);
 
-	PlatformVersion = glsl_version;
+	opengl::OpenGLVersion = glsl_version;
 
 	return 0;
 }
@@ -1188,6 +1226,7 @@ void dooms::graphics::GraphicsAPI::SetBlendFactor
 
 void dooms::graphics::GraphicsAPI::SetCullFace(const eCullFace cullFace) noexcept
 {
+	glEnable(GL_CULL_FACE);
 	switch (cullFace)
 	{
 	case CULLFACE_FRONT:
@@ -1532,18 +1571,19 @@ void dooms::graphics::GraphicsAPI::Draw
 	{
 	case POINTS:
 		glDrawArrays(GL_POINTS, startVertexLocation, vertexCount);
-		
+		break;
 
 	case LINES:
 		glDrawArrays(GL_LINES, startVertexLocation, vertexCount);
-		
+		break;
 
 	case TRIANGLES:
 		glDrawArrays(GL_TRIANGLES, startVertexLocation, vertexCount);
-		
+		break;
 
 	default:
-		NEVER_HAPPEN; 
+		NEVER_HAPPEN;
+		break;
 	}
 
 	

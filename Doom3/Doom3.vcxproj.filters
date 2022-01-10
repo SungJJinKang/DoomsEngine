@@ -1061,9 +1061,6 @@
     <ClInclude Include="Source\Core\Scene\SharedSceneSetting.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Core\Graphics\GraphicsAPIsfd.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Core\Game\FrameDirtyChecker.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -1902,6 +1899,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\Core\Graphics\GraphicsAPI\PlatformImgui\PlatformImgui.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Core\Graphics\GraphicsAPI\eGraphicsAPIType.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

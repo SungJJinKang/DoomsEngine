@@ -34,9 +34,26 @@ namespace dooms::ui::engineGUIServer
 
 void dooms::ui::engineGUIServer::Initialize()
 {
-    ImGuiContext* const imGuiContext = graphics::PlatformImgui::Initialize();
-    ImGui::SetCurrentContext(imGuiContext);
-	ImGui::SetAllocatorFunctions()
+    IMGUI_CHECKVERSION();
+    ImGuiContext* const imGuiContext = ImGui::CreateContext();
+    ImGuiIO& io = ImGui::GetIO(); (void)io;
+
+    // TODO : Block dispatch imput to application when mouse hover on gui
+    io.WantCaptureMouse = true;
+    io.WantCaptureKeyboard = true;
+
+
+    //io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;     // Enable Keyboard Controls
+    //io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;      // Enable Gamepad Controls
+
+    // Setup Dear ImGui style
+    ImGui::StyleColorsDark();
+    //ImGui::StyleColorsClassic();
+    ImGuiMemAllocFunc p_alloc_func;
+    ImGuiMemFreeFunc p_free_func;
+    void* p_user_data;
+    ImGui::GetAllocatorFunctions(&p_alloc_func, &p_free_func, &p_user_data);
+    graphics::PlatformImgui::Initialize(imGuiContext, *p_alloc_func, *p_free_func, &p_user_data);
 
     //ImGui::SetCurrentContext()
 	dooms::ui::imguiWithReflection::Initialize();
@@ -46,6 +63,7 @@ void dooms::ui::engineGUIServer::Initialize()
 void dooms::ui::engineGUIServer::ShutDown()
 {
     graphics::PlatformImgui::ShutDown();
+    ImGui::DestroyContext();
 }
 
 void dooms::ui::engineGUIServer::PreRender()
@@ -53,6 +71,7 @@ void dooms::ui::engineGUIServer::PreRender()
     if (IsEngineGUIVisible == true)
     {
         graphics::PlatformImgui::PreRender();
+        ImGui::NewFrame();
     }
 }
 
@@ -64,7 +83,7 @@ void dooms::ui::engineGUIServer::Render()
     {
         dooms::ui::imguiWithReflection::UpdateGUI_DObjectsVisibleOnGUI();
         RenderGUIModules();
-        dooms::graphics::PlatformImgui::Render();
+        ImGui::Render();
     }
 }
 

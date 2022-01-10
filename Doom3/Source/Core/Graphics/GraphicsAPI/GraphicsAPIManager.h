@@ -2,24 +2,29 @@
 
 #include <Core.h>
 
+#include <Simple_SingleTon/Singleton.h>
 #include "GraphicsAPILoader.h"
+#include "eGraphicsAPIType.h"
 
 namespace dooms
 {
 	namespace graphics
 	{
+		
+
 		class GraphicsAPILoader;
-		class GraphicsAPIManager : public DObject
+		class GraphicsAPIManager : public DObject, public ISingleton<GraphicsAPIManager>
 		{
 		private:
 
 			GraphicsAPILoader mGraphicsAPILoader;
+			eGraphicsAPIType mGraphicsAPIType = eGraphicsAPIType::GraphicsAPIType_NONE;
 
 			void LoadGraphicsAPI(const eGraphicsAPIType graphicsAPIType);
 
 			void SetDefaultSettingOfAPI();
 
-			static void GraphisAPIDebugCallBack(const char* const debugMessage);
+			static void GraphisAPIDebugCallBack(const char* const debugMessage, const graphics::GraphicsAPI::eGraphisAPIDebugCallbackSeverity severity);
 
 		public:
 
@@ -33,6 +38,8 @@ namespace dooms
 
 			void Initialize(const eGraphicsAPIType graphicsAPIType);
 			void DeInitialize();
+
+			eGraphicsAPIType GetGraphicsAPIType() const;
 		};
 
 	}

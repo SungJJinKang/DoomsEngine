@@ -8,49 +8,31 @@
 
 #include "GraphicsAPI.h"
 
-ImGuiContext* dooms::graphics::PlatformImgui::Initialize()
+
+void dooms::graphics::PlatformImgui::Initialize(ImGuiContext* const imGuiContext, ImGuiMemAllocFunc p_alloc_func, ImGuiMemFreeFunc p_free_func, void* p_user_data)
 {
-    IMGUI_CHECKVERSION();
-    ImGuiContext* const imGuiContext = ImGui::CreateContext();
-    ImGuiIO& io = ImGui::GetIO(); (void)io;
+    ImGui::SetCurrentContext(imGuiContext);
+    ImGui::SetAllocatorFunctions(p_alloc_func, p_free_func, p_user_data);
 
-    // TODO : Block dispatch imput to application when mouse hover on gui
-    io.WantCaptureMouse = true;
-    io.WantCaptureKeyboard = true;
+    GLFWwindow* const glfwWindow = reinterpret_cast<GLFWwindow*>(GraphicsAPI::GetPlatformWindow());
+    assert(glfwWindow != nullptr);
 
-
-    //io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;     // Enable Keyboard Controls
-    //io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;      // Enable Gamepad Controls
-
-    // Setup Dear ImGui style
-    ImGui::StyleColorsDark();
-    //ImGui::StyleColorsClassic();
-
-    ImGui_ImplGlfw_InitForOpenGL(reinterpret_cast<GLFWwindow*>(GraphicsAPI::GetPlatformWindow()), true);
+    ImGui_ImplGlfw_InitForOpenGL(glfwWindow, true);
     const std::string openglVersion = GraphicsAPI::GetPlatformVersion();
     ImGui_ImplOpenGL3_Init(openglVersion.c_str());
-
-
-    return imGuiContext;
+    
 }
 
 void dooms::graphics::PlatformImgui::ShutDown()
 {
     ImGui_ImplOpenGL3_Shutdown();
     ImGui_ImplGlfw_Shutdown();
-    ImGui::DestroyContext();
 }
 
 void dooms::graphics::PlatformImgui::PreRender()
 {
     ImGui_ImplOpenGL3_NewFrame();
     ImGui_ImplGlfw_NewFrame();
-    ImGui::NewFrame();
-}
-
-void dooms::graphics::PlatformImgui::Render()
-{
-    ImGui::Render();
 }
 
 void dooms::graphics::PlatformImgui::PostRender()

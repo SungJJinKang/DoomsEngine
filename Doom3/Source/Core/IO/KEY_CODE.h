@@ -13,14 +13,14 @@ namespace dooms
 		namespace UserInputHelper
 		{
 
-			dooms::graphics::GraphicsAPIInput::eKEY_CODE ConvertStringToKeyCode(std::string_view str);
+			dooms::input::GraphicsAPIInput::eKEY_CODE ConvertStringToKeyCode(std::string_view str);
 
 		}
 	}
 }
 
 template<>
-inline dooms::graphics::GraphicsAPIInput::eKEY_CODE IniData::GetValue<dooms::graphics::GraphicsAPIInput::eKEY_CODE>(const std::string& section, const std::string& variableKey) const
+inline dooms::input::GraphicsAPIInput::eKEY_CODE IniData::GetValue<dooms::input::GraphicsAPIInput::eKEY_CODE>(const std::string& section, const std::string& variableKey) const
 {
 	auto sectionData = GetSectionData(section, variableKey);
 
@@ -31,6 +31,6 @@ inline dooms::graphics::GraphicsAPIInput::eKEY_CODE IniData::GetValue<dooms::gra
 	}
 	else
 	{
-		return dooms::graphics::GraphicsAPIInput::eKEY_CODE::ERROR_CODE;
+		return dooms::input::GraphicsAPIInput::eKEY_CODE::ERROR_CODE;
 	}
 }

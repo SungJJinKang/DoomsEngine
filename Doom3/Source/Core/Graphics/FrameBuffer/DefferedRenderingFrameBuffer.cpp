@@ -64,16 +64,10 @@ void dooms::graphics::DefferedRenderingFrameBuffer::ClearFrameBuffer(const Camer
 	{
 		ZERO_ZERO_ZERO_ONE,
 		ZERO_ZERO_ZERO_ONE,
-		math::Vector4(0, 0, 0, 0)
+		camera->mClearColor
 	};
 
-	TARGET_COLORS[2] = camera->mClearColor;
-
 	GraphicsAPI::SetDrawBuffers(3, BUFFER_MODES);
-	GraphicsAPI::ClearSpecificBuffer(BUFFER_TYPES[0], 0, TARGET_COLORS[0].data());
-	GraphicsAPI::ClearSpecificBuffer(BUFFER_TYPES[1], 1, TARGET_COLORS[1].data());
-	GraphicsAPI::ClearSpecificBuffer(BUFFER_TYPES[2], 2, TARGET_COLORS[2].data());
-
 	GraphicsAPI::ClearSpecificBuffer(GraphicsAPI::eBufferType::COLOR, 0, TARGET_COLORS[0].data());
 	GraphicsAPI::ClearSpecificBuffer(GraphicsAPI::eBufferType::COLOR, 1, TARGET_COLORS[1].data());
 	GraphicsAPI::ClearSpecificBuffer(GraphicsAPI::eBufferType::COLOR, 2, TARGET_COLORS[2].data());

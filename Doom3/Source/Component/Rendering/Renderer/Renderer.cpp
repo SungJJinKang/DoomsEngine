@@ -60,7 +60,11 @@ void dooms::Renderer::OnDeActivated()
 {
 	Component::OnDeActivated();
 
-	mCullingEntityBlockViewer.SetIsObjectEnabled(false);
+	if(mCullingEntityBlockViewer.GetIsActive() == true)
+	{
+		mCullingEntityBlockViewer.SetIsObjectEnabled(false);
+	}
+	
 }
 
 void dooms::Renderer::AddRendererToCullingSystem()

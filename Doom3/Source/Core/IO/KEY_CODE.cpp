@@ -4,9 +4,9 @@
 
 #include "magic_enum.hpp"
 
-dooms::graphics::GraphicsAPIInput::eKEY_CODE dooms::userinput::UserInputHelper::ConvertStringToKeyCode(std::string_view str)
+dooms::input::GraphicsAPIInput::eKEY_CODE dooms::userinput::UserInputHelper::ConvertStringToKeyCode(std::string_view str)
 {
-	const auto result = magic_enum::enum_cast<dooms::graphics::GraphicsAPIInput::eKEY_CODE>(str);
+	const auto result = magic_enum::enum_cast<dooms::input::GraphicsAPIInput::eKEY_CODE>(str);
 
 	D_ASSERT(result.has_value() == true);
 	if (result.has_value())
@@ -15,7 +15,7 @@ dooms::graphics::GraphicsAPIInput::eKEY_CODE dooms::userinput::UserInputHelper::
 	}
 	else
 	{
-		return dooms::graphics::GraphicsAPIInput::eKEY_CODE::ERROR_CODE;
+		return dooms::input::GraphicsAPIInput::eKEY_CODE::ERROR_CODE;
 	}
 }
 

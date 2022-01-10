@@ -5,7 +5,7 @@ int dooms::graphics::graphicsAPISetting::ScreenSize[2] = {0, 0};
 float dooms::graphics::graphicsAPISetting::ScreenRatio{0.0f};
 unsigned int dooms::graphics::graphicsAPISetting::MultiSamplingNum{0};
 bool dooms::graphics::graphicsAPISetting::DefaultIsAlphaTestOn{true};
-bool dooms::graphics::graphicsAPISetting::DefaultIsBlendOn{true};
+bool dooms::graphics::graphicsAPISetting::DefaultIsBlendOn{false};
 
 void dooms::graphics::graphicsAPISetting::LoadData()
 {

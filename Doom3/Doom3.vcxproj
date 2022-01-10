@@ -615,6 +615,7 @@ xcopy /y /d /E /H /C /I "$(ProjectDir)Assets" "$(TargetDir)Assets"</Command>
     <ClInclude Include="Source\Core\Graphics\Acceleration\LinearData_ViewFrustumCulling\CullingModule\MaskedSWOcclusionCulling\Stage\SolveMeshRoleStage.h" />
     <ClInclude Include="Source\Core\Graphics\Buffer\eVertexArrayFlag.h" />
     <ClInclude Include="Source\Core\Graphics\Buffer\MeshHelper.h" />
+    <ClInclude Include="Source\Core\Graphics\GraphicsAPI\eGraphicsAPIType.h" />
     <ClInclude Include="Source\Core\Graphics\GraphicsAPI\GraphicsAPI.h" />
     <ClInclude Include="Source\Core\Graphics\GraphicsAPI\GraphicsAPILoader.h" />
     <ClInclude Include="Source\Core\Graphics\GraphicsAPI\GraphicsAPIManager.h" />
@@ -961,7 +962,6 @@ xcopy /y /d /E /H /C /I "$(ProjectDir)Assets" "$(TargetDir)Assets"</Command>
     <ClInclude Include="Source\Core\Graphics\Texture\Texture.h" />
     <ClInclude Include="Source\Core\IO\UserInput_Server.h" />
     <ClInclude Include="Source\Core\Logger\Logger.h" />
-    <ClInclude Include="Source\Core\Graphics\GraphicsAPIsfd.h" />
     <ClInclude Include="Source\Core\Asset\ThreeDModelAsset.h" />
     <ClInclude Include="Source\Core\Asset\TextureAsset.h" />
     <ClInclude Include="Source\Core\String\StringHelper.h" />

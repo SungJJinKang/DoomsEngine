@@ -14,41 +14,33 @@ namespace dooms
 		// https://computergraphics.stackexchange.com/questions/4422/directx-openglvulkan-concepts-mapping-chart/4432
 		// https://anteru.net/blog/2013/porting-from-directx11-to-opengl-4-2-api-mapping/
 
-		enum class eGraphicsAPIType
-		{
-			GraphicsAPIType_NONE,
-			OpenGL,
-			DX11
-			
-		};
+		
 
 		class GraphicsAPIInput;
 		class DOOMS_ENGINE GraphicsAPI
 		{
 		private:
-
-			static GraphicsAPIInput* mGraphicsAPIInputManager;
-			inline static eGraphicsAPIType mGraphicsAPIType = eGraphicsAPIType::GraphicsAPIType_NONE;
-
-			inline static std::string PlatformVersion{};
+			
 
 		public:
 
-			using DEBUG_FUNCTION = void (*)(const char* const debugMessage);
-			inline static DEBUG_FUNCTION mDEBUG_FUNCTION = nullptr;
-
-			inline static std::string GetPlatformVersion()
+			enum eGraphisAPIDebugCallbackSeverity : unsigned int
 			{
-				return PlatformVersion;
-			}
+				HIGH,
+				MEDIUM,
+				LOW,
+				NOTIFICATION
+			};
+
+			using DEBUG_FUNCTION = void (*)(const char* const debugMessage, const eGraphisAPIDebugCallbackSeverity debugCallbackSeverity);
+
+			static void SetDebugFunction(DEBUG_FUNCTION debugFunction);
+			static DEBUG_FUNCTION GetDebugFunction();
+
+			static const char* GetPlatformVersion();
 
 			static void* GetPlatformWindow();
-
-			static void SetGraphicsAPIType(const eGraphicsAPIType graphicsAPIType);
-			inline static eGraphicsAPIType GetGraphicsAPIType() noexcept
-			{
-				return mGraphicsAPIType;
-			}
+			
 			static double GetTime();
 
 			enum eBufferBitType : unsigned int

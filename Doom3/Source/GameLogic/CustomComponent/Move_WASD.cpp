@@ -14,34 +14,34 @@ void dooms::Move_WASD::UpdateComponent()
 {
 	math::Vector3 translation{0.0f, 0.0f, 0.0f};
 	bool isMove{ false };
-	if (UserInput_Server::GetKey(dooms::graphics::GraphicsAPIInput::eKEY_CODE::KEY_W))
+	if (UserInput_Server::GetKey(dooms::input::GraphicsAPIInput::eKEY_CODE::KEY_W))
 	{
 		translation.z -= 1;
 		isMove = true;
 	}
-	else if (UserInput_Server::GetKey(dooms::graphics::GraphicsAPIInput::eKEY_CODE::KEY_S))
+	else if (UserInput_Server::GetKey(dooms::input::GraphicsAPIInput::eKEY_CODE::KEY_S))
 	{
 		translation.z += 1;
 		isMove = true;
 	}
 
-	if (UserInput_Server::GetKey(dooms::graphics::GraphicsAPIInput::eKEY_CODE::KEY_A))
+	if (UserInput_Server::GetKey(dooms::input::GraphicsAPIInput::eKEY_CODE::KEY_A))
 	{
 		translation.x -= 1;
 		isMove = true;
 	}
-	else if (UserInput_Server::GetKey(dooms::graphics::GraphicsAPIInput::eKEY_CODE::KEY_D))
+	else if (UserInput_Server::GetKey(dooms::input::GraphicsAPIInput::eKEY_CODE::KEY_D))
 	{
 		translation.x += 1;
 		isMove = true;
 	}
 
-	if (UserInput_Server::GetKey(dooms::graphics::GraphicsAPIInput::eKEY_CODE::KEY_Q))
+	if (UserInput_Server::GetKey(dooms::input::GraphicsAPIInput::eKEY_CODE::KEY_Q))
 	{
 		translation.y += 1;
 		isMove = true;
 	}
-	else if (UserInput_Server::GetKey(dooms::graphics::GraphicsAPIInput::eKEY_CODE::KEY_E))
+	else if (UserInput_Server::GetKey(dooms::input::GraphicsAPIInput::eKEY_CODE::KEY_E))
 	{
 		translation.y -= 1;
 		isMove = true;
@@ -62,20 +62,20 @@ void dooms::Move_WASD::UpdateComponent()
 	//math::Vector3 rotation{ UserInput_Server::GetDeltaMouseScreenPositionY(), -UserInput_Server::GetDeltaMouseScreenPositionX(), 0.0f };
 	math::Vector3 rotation{ 0.0f, 0.0f, 0.0f };
 	
-	if (UserInput_Server::GetKey(dooms::graphics::GraphicsAPIInput::eKEY_CODE::KEY_UP))
+	if (UserInput_Server::GetKey(dooms::input::GraphicsAPIInput::eKEY_CODE::KEY_UP))
 	{
 		rotation.x += 1;
 	}
-	else if (UserInput_Server::GetKey(dooms::graphics::GraphicsAPIInput::eKEY_CODE::KEY_DOWN))
+	else if (UserInput_Server::GetKey(dooms::input::GraphicsAPIInput::eKEY_CODE::KEY_DOWN))
 	{
 		rotation.x -= 1;
 	}
 
-	if (UserInput_Server::GetKey(dooms::graphics::GraphicsAPIInput::eKEY_CODE::KEY_LEFT))
+	if (UserInput_Server::GetKey(dooms::input::GraphicsAPIInput::eKEY_CODE::KEY_LEFT))
 	{
 		rotation.y += 1;
 	}
-	else if (UserInput_Server::GetKey(dooms::graphics::GraphicsAPIInput::eKEY_CODE::KEY_RIGHT))
+	else if (UserInput_Server::GetKey(dooms::input::GraphicsAPIInput::eKEY_CODE::KEY_RIGHT))
 	{
 		rotation.y -= 1;
 	}

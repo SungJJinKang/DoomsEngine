@@ -5,6 +5,7 @@
 
 #include <Windows.h>
 
+#include "GraphicsAPIManager.h"
 #include "EngineGUI/PrintText.h"
 
 #define OPENGL_DLL_FILE_NAME TEXT("OpenGLGraphicsAPI.dll")
@@ -48,7 +49,7 @@ dooms::graphics::GraphicsAPILoader& dooms::graphics::GraphicsAPILoader::operator
 	return *this;
 }
 
-void dooms::graphics::GraphicsAPILoader::LoadGraphicsAPILibrary
+bool dooms::graphics::GraphicsAPILoader::LoadGraphicsAPILibrary
 (
 	const eGraphicsAPIType graphicsAPIType
 )
@@ -82,18 +83,21 @@ void dooms::graphics::GraphicsAPILoader::LoadGraphicsAPILibrary
 	mAPIModule = reinterpret_cast<void*>(LoadLibraryEx(dllFileName.c_str(), NULL, dwFlags));
 #endif
 
+	bool isSuccess;
 	if (mAPIModule == nullptr)
 	{//FAIL
 		const DWORD errorCode = GetLastError();
 
 		D_ASSERT_LOG(false, "Fail to Load Graphics API Library - Error Code : %d", errorCode);
 		dooms::ui::PrintText("Fail to Load Graphics API Library - Error Code : %d", errorCode);
-		GraphicsAPI::SetGraphicsAPIType(eGraphicsAPIType::GraphicsAPIType_NONE);
+		isSuccess = false;
 	}
 	else
 	{
-		GraphicsAPI::SetGraphicsAPIType(graphicsAPIType);
+		isSuccess = true;
 	}
+
+	return isSuccess;
 }
 
 bool dooms::graphics::GraphicsAPILoader::UnLoadGraphicsAPILibrary()

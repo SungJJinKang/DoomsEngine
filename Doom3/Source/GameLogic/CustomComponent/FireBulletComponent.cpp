@@ -28,9 +28,9 @@ void dooms::FireBulletComponent::UpdateComponent()
 		mBullet != nullptr
 		&&
 		(
-			dooms::userinput::UserInput_Server::GetMouseButtonRelease(dooms::graphics::GraphicsAPIInput::eMoustInput::MOUSE_BUTTON_LEFT)
+			dooms::userinput::UserInput_Server::GetMouseButtonRelease(dooms::input::GraphicsAPIInput::eMoustInput::MOUSE_BUTTON_LEFT)
 			||
-			dooms::userinput::UserInput_Server::GetKeyUp(dooms::graphics::GraphicsAPIInput::eKEY_CODE::KEY_SPACE) == true
+			dooms::userinput::UserInput_Server::GetKeyUp(dooms::input::GraphicsAPIInput::eKEY_CODE::KEY_SPACE) == true
 		)
 	)
 	{

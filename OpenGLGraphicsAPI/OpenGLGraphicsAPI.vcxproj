@@ -163,6 +163,8 @@
       <AdditionalIncludeDirectories>..\Doom3\Source\Core\Graphics\GraphicsAPI\;$(SolutionDir)Source\thirdparty\imgui</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
+      <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
+      <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>

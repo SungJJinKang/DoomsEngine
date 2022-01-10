@@ -105,16 +105,9 @@ FrameBuffer::FrameBuffer(const FrameBuffer& frameBuffer)
 
 void FrameBuffer::CheckIsFrameBufferSuccesfullyCreated() noexcept
 {
-	if(GraphicsAPI::GetGraphicsAPIType() == dooms::graphics::eGraphicsAPIType::OpenGL)
-	{
-		BindFrameBuffer();
-		const unsigned int errorCode = GraphicsAPI::CheckFrameBufferIsSuccesfullyCreated();
-		D_ASSERT_LOG(errorCode == 0, "fail frame buffer : %u", errorCode);
-	}
-	else
-	{
-		D_ASSERT(false);
-	}
+	BindFrameBuffer();
+	const unsigned int errorCode = GraphicsAPI::CheckFrameBufferIsSuccesfullyCreated();
+	D_ASSERT_LOG(errorCode == 0, "fail frame buffer : %u", errorCode);
 }
 
 const dooms::graphics::SingleTexture* FrameBuffer::GetFrameBufferTexture(GraphicsAPI::eBufferBitType bufferType, UINT32 index) const
@@ -333,7 +326,7 @@ SingleTexture& FrameBuffer::AttachTextureBuffer(GraphicsAPI::eBufferBitType fram
 		D_ASSERT(mAttachedDepthTextures.size() == 0);
 
 		SingleTexture depthTexture{ GraphicsAPI::eTextureType::DIFFUSE, GraphicsAPI::eTargetTexture::TARGET_TEXTURE_TEXTURE_2D,
-			GraphicsAPI::eTextureInternalFormat::TEXTURE_INTERNAL_FORMAT_DEPTH_COMPONENT16, width, height, GraphicsAPI::eTextureComponentFormat::TEXTURE_COMPONENT_DEPTH_COMPONENT, GraphicsAPI::eDataType::FLOAT, NULL };
+			GraphicsAPI::eTextureInternalFormat::TEXTURE_INTERNAL_FORMAT_DEPTH_COMPONENT32, width, height, GraphicsAPI::eTextureComponentFormat::TEXTURE_COMPONENT_DEPTH_COMPONENT, GraphicsAPI::eDataType::FLOAT, NULL };
 		GraphicsAPI::Attach2DTextureToFrameBuffer(GraphicsAPI::eBindFrameBufferTarget::FRAMEBUFFER, GraphicsAPI::eFrameBufferAttachmentPoint::FRAMEBUFFER_ATTACHMENT_POINT_DEPTH_ATTACHMENT, GraphicsAPI::eTextureBindTarget::TEXTURE_2D, depthTexture.GetTextureBufferID(), 0);
 
 

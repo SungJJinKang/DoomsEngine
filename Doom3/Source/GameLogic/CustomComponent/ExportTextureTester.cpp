@@ -14,7 +14,7 @@ void dooms::ExportTextureTester::UpdateComponent()
 {
 	Component::UpdateComponent();
 
-	if(dooms::userinput::UserInput_Server::GetKeyUp(dooms::graphics::GraphicsAPIInput::eKEY_CODE::KEY_F2))
+	if(dooms::userinput::UserInput_Server::GetKeyUp(dooms::input::GraphicsAPIInput::eKEY_CODE::KEY_F2))
 	{
 		dooms::ui::PrintText("Export Camera Texture");
 		
@@ -33,7 +33,7 @@ void dooms::ExportTextureTester::UpdateComponent()
 		);
 	}
 
-	if (dooms::userinput::UserInput_Server::GetKeyUp(dooms::graphics::GraphicsAPIInput::eKEY_CODE::KEY_F3))
+	if (dooms::userinput::UserInput_Server::GetKeyUp(dooms::input::GraphicsAPIInput::eKEY_CODE::KEY_F3))
 	{
 		dooms::ui::PrintText("Export Camera Texture");
 
@@ -51,7 +51,7 @@ void dooms::ExportTextureTester::UpdateComponent()
 		);
 	}
 
-	if (dooms::userinput::UserInput_Server::GetKeyUp(dooms::graphics::GraphicsAPIInput::eKEY_CODE::KEY_F4))
+	if (dooms::userinput::UserInput_Server::GetKeyUp(dooms::input::GraphicsAPIInput::eKEY_CODE::KEY_F4))
 	{
 		dooms::ui::PrintText("Export Main FrameBuffer Texture");
 		
@@ -63,7 +63,7 @@ void dooms::ExportTextureTester::UpdateComponent()
 	}
 
 	
-	if (dooms::userinput::UserInput_Server::GetKeyUp(dooms::graphics::GraphicsAPIInput::eKEY_CODE::KEY_F5))
+	if (dooms::userinput::UserInput_Server::GetKeyUp(dooms::input::GraphicsAPIInput::eKEY_CODE::KEY_F5))
 	{
 		dooms::ui::PrintText("Export Main FrameBuffer Depth Texture");
 		

@@ -10,7 +10,7 @@ void dooms::BoxAdder::InitComponent()
 
 void dooms::BoxAdder::UpdateComponent()
 {
-	if (dooms::userinput::UserInput_Server::GetKeyUp(dooms::graphics::GraphicsAPIInput::eKEY_CODE::KEY_F4))
+	if (dooms::userinput::UserInput_Server::GetKeyUp(dooms::input::GraphicsAPIInput::eKEY_CODE::KEY_F4))
 	{
 		auto currenScene = dooms::Scene::GetCurrentWorld();
 		auto entity = currenScene->CreateNewEntity();
