@@ -4,6 +4,7 @@
 
 #include <filesystem>
 #include <atomic>
+#include <mutex>
 
 #include <Asset/eAssetType.h>
 
@@ -20,7 +21,10 @@ namespace dooms
 		class DOOM_API D_CLASS AssetImporterWorker : public DObject
 		{
 			GENERATE_BODY()
-			
+
+		private:
+
+			static std::mutex mMutex;
 
 		protected:
 
