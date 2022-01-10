@@ -1516,11 +1516,11 @@ void dooms::graphics::GraphicsAPI::AllocateRenderBufferMemory
 {
 	if(multiSample == 0)
 	{
-		glRenderbufferStorage(GL_RENDERBUFFER, opengl::GetGLTextureInternalFormat(eTextureInternalFormat::TEXTURE_INTERNAL_FORMAT_RGBA16F), width, height);
+		glRenderbufferStorage(GL_RENDERBUFFER, opengl::GetGLTextureInternalFormat(textureInternalFormat), width, height);
 	}
 	else
 	{
-		glRenderbufferStorageMultisample(GL_RENDERBUFFER, multiSample, opengl::GetGLTextureInternalFormat(eTextureInternalFormat::TEXTURE_INTERNAL_FORMAT_RGBA16F), width, height);
+		glRenderbufferStorageMultisample(GL_RENDERBUFFER, multiSample, opengl::GetGLTextureInternalFormat(textureInternalFormat), width, height);
 	}
 
 }
