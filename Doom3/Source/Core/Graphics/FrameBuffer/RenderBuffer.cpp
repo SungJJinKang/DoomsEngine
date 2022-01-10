@@ -60,7 +60,7 @@ bool RenderBuffer::CreateRenderBuffer(FrameBuffer& ownerFrameBuffer, GraphicsAPI
 
 		case GraphicsAPI::eFrameBufferAttachmentPoint::FRAMEBUFFER_ATTACHMENT_POINT_DEPTH_ATTACHMENT:
 
-			GraphicsAPI::AllocateRenderBufferMemory(mRenderBufferID, GraphicsAPI::eTextureInternalFormat::TEXTURE_INTERNAL_FORMAT_DEPTH_COMPONENT, width, height, graphicsAPISetting::GetMultiSamplingNum());
+			GraphicsAPI::AllocateRenderBufferMemory(mRenderBufferID, GraphicsAPI::eTextureInternalFormat::TEXTURE_INTERNAL_FORMAT_DEPTH_COMPONENT32, width, height, graphicsAPISetting::GetMultiSamplingNum());
 			GraphicsAPI::AttachRenderBufferToFrameBuffer(mRenderBufferID.GetBufferID(), ownerFrameBuffer.GetFrameBufferID(), GraphicsAPI::eFrameBufferAttachmentPoint::FRAMEBUFFER_ATTACHMENT_POINT_DEPTH_ATTACHMENT);
 
 			break;
