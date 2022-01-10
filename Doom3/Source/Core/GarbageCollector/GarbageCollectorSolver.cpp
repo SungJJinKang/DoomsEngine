@@ -127,6 +127,8 @@ namespace dooms::gc::garbageCollectorSolver
 
 		if (dObejct->GetDObjectFlag(eDObjectFlag::IsNotCheckedByGC) == true)
 		{
+			// TODO : Data race may be caused in multithreaded mark stage?
+			// DObjectFlag isn't std::atomic
 			dObejct->ClearDObjectFlag(eDObjectFlag::Unreachable | eDObjectFlag::IsNotCheckedByGC);
 
 			dooms::reflection::DClass dClass = dObejct->GetDClass();
@@ -265,6 +267,7 @@ void dooms::gc::garbageCollectorSolver::StartMarkStage(const eGCMethod gcMethod,
 			}
 		};
 
+		std::atomic_thread_fence(std::memory_order_release);
 		dooms::resource::JobSystem::GetSingleton()->PushBackJobToAllThreadWithNoSTDFuture(multiThreadJob);
 		multiThreadJob();
 
