@@ -6,8 +6,8 @@
 
 #include <Vector3.h>
 #include "../../Color.h"
-#include "Graphics/ePrimitiveType.h"
 #include <Math/LightMath_Cpp/Vector4.h>
+#include "../../GraphicsAPI/GraphicsAPI.h"
 
 namespace dooms
 {
@@ -55,7 +55,7 @@ namespace dooms
 			virtual UINT32 GetComponentCountPerPrimitive() const = 0;
 
 			virtual bool Is3DPrimitive() const = 0;
-			virtual ePrimitiveType GetPrimitiveType() const = 0;
+			virtual dooms::graphics::GraphicsAPI::ePrimitiveType GetPrimitiveType() const = 0;
 
 			const float* GetColoredVertexData(const eColor color) const;
 			//size_t GetColoredVertexCount(const eColor color) const;

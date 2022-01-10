@@ -1,12 +1,15 @@
 #include "DeferredRenderingDrawer.h"
 
 #include <Game/AssetManager/AssetManager.h>
+#include <Asset/ShaderAsset.h>
 #include "Buffer/MeshHelper.h"
+
 
 void dooms::graphics::DeferredRenderingDrawer::Initialize()
 {
 	SetShaderToGBufferMaterial();
 	mQuadMesh = meshHelper::GetQuadMesh();
+	D_ASSERT(IsValid(mQuadMesh) == true);
 }
 
 dooms::graphics::DeferredRenderingDrawer::DeferredRenderingDrawer()
@@ -23,13 +26,15 @@ void dooms::graphics::DeferredRenderingDrawer::DrawDeferredRenderingQuadDrawer()
 {
 	mGbufferDrawerMaterial.UseProgram();
 
-	dooms::graphics::GraphicsAPI::DepthMask(false);
+	dooms::graphics::GraphicsAPI::SetDepthMask(false);
+	D_ASSERT(IsValid(mQuadMesh) == true);
 	mQuadMesh->Draw();
-	dooms::graphics::GraphicsAPI::DepthMask(true);
+	dooms::graphics::GraphicsAPI::SetDepthMask(true);
 }
 
 void dooms::graphics::DeferredRenderingDrawer::SetShaderToGBufferMaterial()
 {
 	dooms::asset::ShaderAsset* const gBufferDrawerShader = dooms::assetImporter::AssetManager::GetSingleton()->GetAsset<asset::eAssetType::SHADER>("GbufferDrawer.glsl");
+	D_ASSERT(IsValid(gBufferDrawerShader) == true);
 	mGbufferDrawerMaterial.SetShaderAsset(gBufferDrawerShader);
 }

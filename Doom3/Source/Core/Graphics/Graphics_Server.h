@@ -4,6 +4,8 @@
 
 #include "../Game/IGameFlow.h"
 
+#include "GraphicsAPI/GraphicsAPIManager.h"
+
 #include "FrameBuffer/FrameBuffer.h"
 #include "DeferredRenderingDrawer.h"
 #include "Buffer/UniformBufferObjectManager.h"
@@ -17,7 +19,8 @@
 
 #include "utility/BVH/BVH.h"
 
-#include "Graphics_Server.reflection.h"
+#include "DebugGraphics/RenderingDebugger.h"
+
 
 #define RENDERER_BVH_MAX_NODE_COUNT 3000
 
@@ -28,6 +31,7 @@ namespace culling
 	class EveryCulling;
 }
 
+#include "Graphics_Server.reflection.h"
 namespace dooms
 {
 	namespace userinput
@@ -65,6 +69,9 @@ namespace dooms
 
 			size_t mCullingCameraCount;
 
+			D_PROPERTY()
+			GraphicsAPIManager mGraphicsAPIManager{};
+
 			RendererComponentStaticIterator mRendererStaticContainer{};
 			D_PROPERTY()
 			DeferredRenderingDrawer mDeferredRenderingDrawer{};
@@ -73,11 +80,9 @@ namespace dooms
 			void PreRenderRenderer();
 			void UpdateCameraIndexInCullingSystemOfCameraComponent();
 			void UpdateSortedEntityInfoListInCullingSystem();
-
-
-
-			eRenderingMode mCurrentRenderingMode{ eRenderingMode::ForwardRendering };
 			
+			void InitializeGraphicsAPI();
+
 			void PreRender();
 			void Render();
 			void ProfilingCullingSystem();
@@ -89,9 +94,8 @@ namespace dooms
 		
 			void PreCullJob();
 			void CameraCullJob(dooms::Camera* const camera);
-			void PreUpdateEntityBlocks();
-
-
+			//void PreUpdateEntityBlocks();
+			
 			
 		public:
 
@@ -99,6 +103,7 @@ namespace dooms
 
 			std::unique_ptr<culling::EveryCulling> mCullingSystem;
 
+			
 			virtual void Init() final;
 			virtual void LateInit() final;
 			virtual void Update() final;
@@ -119,7 +124,7 @@ namespace dooms
 			~Graphics_Server();
 
 			
-			void SetRenderingMode(eRenderingMode renderingMode);
+			//void SetRenderingMode(eRenderingMode renderingMode);
 		};
 	}
 }

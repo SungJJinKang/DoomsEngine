@@ -4,10 +4,9 @@
 
 #include "../Core.h"
 #include"../Game/IGameFlow.h"
-#include"../API/GraphicsAPI.h"
 #include "KEY_Code.h"
-#include "../Graphics/Graphics_Server.h"
 #include <Vector2.h>
+#include <Vector3.h>
 
 
 
@@ -31,16 +30,8 @@ namespace dooms
 			UP
 		};
 		
-		inline constexpr extern eKEY_CODE FIRST_KEY_CODE = dooms::userinput::eKEY_CODE::KEY_SPACE;;
-		inline constexpr extern eKEY_CODE LAST_KEY_CODE = dooms::userinput::eKEY_CODE::KEY_MENU;;
-
-
-		enum class D_ENUM eMouse_Button_Type : INT32
-		{
-			MOUST_BUTTON_LEFT = GLFW_MOUSE_BUTTON_LEFT,
-			MOUST_BUTTON_RIGHT = GLFW_MOUSE_BUTTON_RIGHT,
-			MOUST_BUTTON_MIDDLE = GLFW_MOUSE_BUTTON_MIDDLE
-		};
+		inline constexpr extern dooms::input::GraphicsAPIInput::eKEY_CODE FIRST_KEY_CODE = dooms::input::GraphicsAPIInput::eKEY_CODE::KEY_SPACE;;
+		inline constexpr extern dooms::input::GraphicsAPIInput::eKEY_CODE LAST_KEY_CODE = dooms::input::GraphicsAPIInput::eKEY_CODE::KEY_MENU;;
 		
 
 		enum class D_ENUM eMouse_Button_Action : INT32
@@ -51,8 +42,8 @@ namespace dooms
 			RELEASE	
 		};
 
-		inline constexpr extern eMouse_Button_Type FIRST_MOUSE_BUTTON_TYPE = eMouse_Button_Type::MOUST_BUTTON_LEFT;
-		inline constexpr extern eMouse_Button_Type LAST_MOUSE_BUTTON_TYPE = eMouse_Button_Type::MOUST_BUTTON_MIDDLE;
+		inline constexpr extern dooms::input::GraphicsAPIInput::eMoustInput FIRST_MOUSE_BUTTON_TYPE = dooms::input::GraphicsAPIInput::eMoustInput::MOUSE_BUTTON_LEFT;
+		inline constexpr extern dooms::input::GraphicsAPIInput::eMoustInput LAST_MOUSE_BUTTON_TYPE = dooms::input::GraphicsAPIInput::eMoustInput::MOUSE_BUTTON_MIDDLE;
 
 		
 		/// <summary>
@@ -98,11 +89,7 @@ namespace dooms
 
 		
 
-			static void CursorEnterCallback(GLFWwindow* window, INT32 entered);
-			static void CursorPosition_Callback(GLFWwindow* window, FLOAT64 xpos, FLOAT64 ypos);
-			static void Scroll_Callback(GLFWwindow* window, FLOAT64 xoffset, FLOAT64 yoffset);
-			static void Key_Callback(GLFWwindow* window, INT32 key, INT32 scancode, INT32 action, INT32 mods);
-			static void MouseButton_Callback(GLFWwindow* window, INT32 button, INT32 action, INT32 mods);
+			
 
 			static inline bool IsCursorOnScreenWindow{ true };
 			static inline bool IsCursorLockedInScreen{ false };
@@ -119,7 +106,7 @@ namespace dooms
 			virtual void Update() final;
 			virtual void OnEndOfFrame() final;
 
-			NO_DISCARD FORCE_INLINE static bool GetKeyToggle(eKEY_CODE keyCode) noexcept
+			NO_DISCARD FORCE_INLINE static bool GetKeyToggle(dooms::input::GraphicsAPIInput::eKEY_CODE keyCode) noexcept
 			{
 				return UserInput_Server::mKeyToggle[static_cast<INT32>(keyCode) - static_cast<INT32>(FIRST_KEY_CODE)];
 			}
@@ -129,7 +116,7 @@ namespace dooms
 			/// </summary>
 			/// <param name="keyCode"></param>
 			/// <returns></returns>
-			NO_DISCARD FORCE_INLINE static bool GetKey(eKEY_CODE keyCode) noexcept
+			NO_DISCARD FORCE_INLINE static bool GetKey(dooms::input::GraphicsAPIInput::eKEY_CODE keyCode) noexcept
 			{
 				return UserInput_Server::mKeyState[static_cast<INT32>(keyCode) - static_cast<INT32>(FIRST_KEY_CODE)] == eKeyState::PRESSING;
 			}
@@ -138,12 +125,12 @@ namespace dooms
 			/// </summary>
 			/// <param name="keyCode"></param>
 			/// <returns></returns>
-			NO_DISCARD FORCE_INLINE static bool GetKeyUp(eKEY_CODE keyCode) noexcept
+			NO_DISCARD FORCE_INLINE static bool GetKeyUp(dooms::input::GraphicsAPIInput::eKEY_CODE keyCode) noexcept
 			{
 				return UserInput_Server::mKeyState[static_cast<INT32>(keyCode) - static_cast<INT32>(FIRST_KEY_CODE)] == eKeyState::UP;
 			}
 
-			NO_DISCARD FORCE_INLINE static bool GetKeyDown(eKEY_CODE keyCode) noexcept
+			NO_DISCARD FORCE_INLINE static bool GetKeyDown(dooms::input::GraphicsAPIInput::eKEY_CODE keyCode) noexcept
 			{
 				return UserInput_Server::mKeyState[static_cast<INT32>(keyCode) - static_cast<INT32>(FIRST_KEY_CODE)] == eKeyState::PRESS_DOWN;
 			}
@@ -223,15 +210,15 @@ namespace dooms
 				return UserInput_Server::mScrollOffset.y;
 			}
 
-			NO_DISCARD FORCE_INLINE static bool GetMouseButtonPressing(eMouse_Button_Type mouse_button_type) noexcept
+			NO_DISCARD FORCE_INLINE static bool GetMouseButtonPressing(dooms::input::GraphicsAPIInput::eMoustInput mouse_button_type) noexcept
 			{
 				return UserInput_Server::mMouseButtonState[static_cast<INT32>(mouse_button_type)] == eMouse_Button_Action::PRESSING;
 			}
-			NO_DISCARD FORCE_INLINE static bool GetMouseButtonDown(eMouse_Button_Type mouse_button_type) noexcept
+			NO_DISCARD FORCE_INLINE static bool GetMouseButtonDown(dooms::input::GraphicsAPIInput::eMoustInput mouse_button_type) noexcept
 			{
 				return UserInput_Server::mMouseButtonState[static_cast<INT32>(mouse_button_type)] == eMouse_Button_Action::DOWN;
 			}
-			NO_DISCARD FORCE_INLINE static bool GetMouseButtonRelease(eMouse_Button_Type mouse_button_type) noexcept
+			NO_DISCARD FORCE_INLINE static bool GetMouseButtonRelease(dooms::input::GraphicsAPIInput::eMoustInput mouse_button_type) noexcept
 			{
 				return UserInput_Server::mMouseButtonState[static_cast<INT32>(mouse_button_type)] == eMouse_Button_Action::RELEASE;
 			}
@@ -245,14 +232,16 @@ namespace dooms
 			static void SetIsCursorLockedInScreen(bool isLocked) noexcept;
 
 			
-
+			static void CursorEnterCallback(bool isEntered);
+			static void CursorPosition_Callback(FLOAT64 xpos, FLOAT64 ypos);
+			static void Scroll_Callback(FLOAT64 xoffset, FLOAT64 yoffset);
+			static void Key_Callback(dooms::input::GraphicsAPIInput::eKEY_CODE key, INT32 scancode, dooms::input::GraphicsAPIInput::eInputActionType action, INT32 mods);
+			static void MouseButton_Callback(dooms::input::GraphicsAPIInput::eMoustInput button, dooms::input::GraphicsAPIInput::eInputActionType action, INT32 mods);
 		};
 
 	}
 }
 
 using namespace dooms::userinput;
-using dooms::userinput::eKEY_CODE;
-using dooms::userinput::eMouse_Button_Type;
 using dooms::userinput::eMouse_Button_Action;
 

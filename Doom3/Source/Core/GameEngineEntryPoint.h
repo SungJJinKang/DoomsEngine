@@ -38,7 +38,7 @@ namespace dooms
 		}
 
 
-		std::cout << "\nLast DObject Count : " << dooms::DObjectManager::GetDObjectCount() << std::endl;
+		std::cout << "\Remained DObject Count : " << dooms::DObjectManager::GetDObjectCount() << std::endl;
 		std::fflush(stdout);
 
 		return 0;

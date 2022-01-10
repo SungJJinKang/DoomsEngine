@@ -1,7 +1,6 @@
 #include "EngineGUIServer.h"
-#include "imgui.h"
-#include "backends/imgui_impl_glfw.h"
-#include "backends/imgui_impl_opengl3.h"
+
+#include <Graphics/GraphicsAPI/PlatformImgui/PlatformImgui.h>
 
 #include "imguiHelper/imguiWithReflection.h"
 
@@ -33,10 +32,10 @@ namespace dooms::ui::engineGUIServer
 }
 
 
-void dooms::ui::engineGUIServer::Initialize(GLFWwindow* const glfwWindow, const char* const glslVersion)
+void dooms::ui::engineGUIServer::Initialize()
 {
     IMGUI_CHECKVERSION();
-    ImGui::CreateContext();
+    ImGuiContext* const imGuiContext = ImGui::CreateContext();
     ImGuiIO& io = ImGui::GetIO(); (void)io;
 
     // TODO : Block dispatch imput to application when mouse hover on gui
@@ -50,19 +49,20 @@ void dooms::ui::engineGUIServer::Initialize(GLFWwindow* const glfwWindow, const 
     // Setup Dear ImGui style
     ImGui::StyleColorsDark();
     //ImGui::StyleColorsClassic();
+    ImGuiMemAllocFunc p_alloc_func;
+    ImGuiMemFreeFunc p_free_func;
+    void* p_user_data;
+    ImGui::GetAllocatorFunctions(&p_alloc_func, &p_free_func, &p_user_data);
+    graphics::PlatformImgui::Initialize(imGuiContext, *p_alloc_func, *p_free_func, &p_user_data);
 
-    // Setup Platform/Renderer backends
-    ImGui_ImplGlfw_InitForOpenGL(glfwWindow, true);
-    ImGui_ImplOpenGL3_Init(glslVersion);
-
+    //ImGui::SetCurrentContext()
 	dooms::ui::imguiWithReflection::Initialize();
     dooms::ui::engineGUIServer::InitializeGUIModules();
 }
 
 void dooms::ui::engineGUIServer::ShutDown()
 {
-    ImGui_ImplOpenGL3_Shutdown();
-    ImGui_ImplGlfw_Shutdown();
+    graphics::PlatformImgui::ShutDown();
     ImGui::DestroyContext();
 }
 
@@ -70,8 +70,7 @@ void dooms::ui::engineGUIServer::PreRender()
 {
     if (IsEngineGUIVisible == true)
     {
-        ImGui_ImplOpenGL3_NewFrame();
-        ImGui_ImplGlfw_NewFrame();
+        graphics::PlatformImgui::PreRender();
         ImGui::NewFrame();
     }
 }
@@ -100,7 +99,7 @@ void dooms::ui::engineGUIServer::PostRender()
         IsEngineGUIAvaliable = true;
 
         dooms::ui::imguiWithReflection::ClearId();
-        ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+        dooms::graphics::PlatformImgui::PostRender();
     }
 }
 

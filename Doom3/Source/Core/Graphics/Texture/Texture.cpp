@@ -1,6 +1,5 @@
 #include "Texture.h"
 
-#include "../API/GraphicsAPI.h"
 
 
 
@@ -17,16 +16,16 @@ Texture::~Texture()
 }
 
 
-Texture::Texture(eTextureType textureType, eBindTarget bindTarget,
-	eTargetTexture targetTexture, eTextureInternalFormat internalFormat, eTextureCompressedInternalFormat compressedInternalFormat, UINT32 width, eTextureComponentFormat format, eDataType type)
+Texture::Texture(GraphicsAPI::eTextureType textureType, GraphicsAPI::eTextureBindTarget bindTarget,
+	GraphicsAPI::eTargetTexture targetTexture, GraphicsAPI::eTextureInternalFormat internalFormat, GraphicsAPI::eTextureCompressedInternalFormat compressedInternalFormat, UINT32 width, GraphicsAPI::eTextureComponentFormat format, GraphicsAPI::eDataType type)
 	: mBufferID()
 {
 	InitializeTexture(textureType, bindTarget, targetTexture, internalFormat, compressedInternalFormat, width, format, type);
 }
 
 
-Texture::Texture(eTextureType textureType, eBindTarget bindTarget,
-	eTargetTexture targetTexture, eTextureInternalFormat internalFormat, eTextureCompressedInternalFormat compressedInternalFormat, UINT32 width, UINT32 height, eTextureComponentFormat format, eDataType type)
+Texture::Texture(GraphicsAPI::eTextureType textureType, GraphicsAPI::eTextureBindTarget bindTarget,
+	GraphicsAPI::eTargetTexture targetTexture, GraphicsAPI::eTextureInternalFormat internalFormat, GraphicsAPI::eTextureCompressedInternalFormat compressedInternalFormat, UINT32 width, UINT32 height, GraphicsAPI::eTextureComponentFormat format, GraphicsAPI::eDataType type)
 	: mBufferID()
 {
 	InitializeTexture(textureType, bindTarget, targetTexture, internalFormat, compressedInternalFormat, width, height, format, type);
@@ -35,15 +34,15 @@ Texture::Texture(eTextureType textureType, eBindTarget bindTarget,
 
 void Texture::OnEndContructor()
 {
-	SetFilterMin(Texture::eFilterMode::LINEAR, false);
-	SetFilterMax(Texture::eFilterMode::LINEAR, false);
-	SetWrapMode(Texture::eWrapMode::REPEAT, false);
+	SetFilterMin(GraphicsAPI::eFilterMode::FILTER_MODE_LINEAR, false);
+	SetFilterMax(GraphicsAPI::eFilterMode::FILTER_MODE_LINEAR, false);
+	SetWrapMode(GraphicsAPI::eWrapMode::WRAP_MODE_REPEAT, false);
 	//UnBindTexture();
 }
 
-void Texture::InitializeTexture(eTextureType textureType, eBindTarget bindTarget, eTargetTexture targetTexture,
-	eTextureInternalFormat internalFormat, eTextureCompressedInternalFormat compressedInternalFormat, UINT32 width,
-	eTextureComponentFormat format, eDataType type)
+void Texture::InitializeTexture(GraphicsAPI::eTextureType textureType, GraphicsAPI::eTextureBindTarget bindTarget, GraphicsAPI::eTargetTexture targetTexture,
+	GraphicsAPI::eTextureInternalFormat internalFormat, GraphicsAPI::eTextureCompressedInternalFormat compressedInternalFormat, UINT32 width,
+	GraphicsAPI::eTextureComponentFormat format, GraphicsAPI::eDataType type)
 {
 	D_ASSERT(mBufferID.IsValid() == false);
 	D_ASSERT(mWidth > 0 && mHeight > 0);
@@ -58,14 +57,14 @@ void Texture::InitializeTexture(eTextureType textureType, eBindTarget bindTarget
 		mHeight = 0;
 		mDataFormat = format;
 		mDataType = type;
-		
-		glGenTextures(1, &(mBufferID));
+
+		mBufferID = GraphicsAPI::CreateTextureObject();
 	}
 }
 
-void Texture::InitializeTexture(eTextureType textureType, eBindTarget bindTarget, eTargetTexture targetTexture,
-	eTextureInternalFormat internalFormat, eTextureCompressedInternalFormat compressedInternalFormat, UINT32 width,
-	UINT32 height, eTextureComponentFormat format, eDataType type)
+void Texture::InitializeTexture(GraphicsAPI::eTextureType textureType, GraphicsAPI::eTextureBindTarget bindTarget, GraphicsAPI::eTargetTexture targetTexture,
+	GraphicsAPI::eTextureInternalFormat internalFormat, GraphicsAPI::eTextureCompressedInternalFormat compressedInternalFormat, UINT32 width,
+	UINT32 height, GraphicsAPI::eTextureComponentFormat format, GraphicsAPI::eDataType type)
 {
 	if (mBufferID.IsValid() == false)
 	{
@@ -79,7 +78,7 @@ void Texture::InitializeTexture(eTextureType textureType, eBindTarget bindTarget
 		mDataFormat = format;
 		mDataType = type;
 
-		glGenTextures(1, &(mBufferID));
+		mBufferID = GraphicsAPI::CreateTextureObject();
 	}
 }
 
@@ -87,95 +86,85 @@ void Texture::DestroyTextureBufferObject()
 {
 	if (mBufferID.GetBufferID() != 0)
 	{
-		glDeleteTextures(1, &(mBufferID));
+		GraphicsAPI::DestroyTextureObject(mBufferID);
 		mBufferID = 0;
 	}
 }
 
 
-void Texture::SetWrapMode(eWrapMode wrapMode, bool bBind)
+void Texture::SetWrapMode(GraphicsAPI::eWrapMode wrapMode, bool bBind)
 {
 	if (bBind)
 	{
 		BindTexture();
 	}
 
-	if (mTarget == eTargetTexture::TEXTURE_1D)
+	if (mTarget == GraphicsAPI::eTargetTexture::TARGET_TEXTURE_TEXTURE_1D)
 	{
 		mWrapS = wrapMode;
-		TexParameteri(mBindTarget, eTextureParameterType::TEXTURE_WRAP_S, static_cast<eTextureParameterValue>(wrapMode));
+		GraphicsAPI::SetTextureWrapMode_S(mBindTarget, wrapMode);
 	}
-	else if (mTarget == eTargetTexture::TEXTURE_2D)
+	else if (mTarget == GraphicsAPI::eTargetTexture::TARGET_TEXTURE_TEXTURE_2D)
 	{
 		mWrapS = wrapMode;
 		mWrapT = wrapMode;
-		TexParameteri(mBindTarget, eTextureParameterType::TEXTURE_WRAP_S, static_cast<eTextureParameterValue>(wrapMode));
-		TexParameteri(mBindTarget, eTextureParameterType::TEXTURE_WRAP_T, static_cast<eTextureParameterValue>(wrapMode));
+		GraphicsAPI::SetTextureWrapMode_S(mBindTarget, wrapMode);
+		GraphicsAPI::SetTextureWrapMode_T(mBindTarget, wrapMode);
 	}
-	else if (mTarget == eTargetTexture::TEXTURE_3D)
+	else if (mTarget == GraphicsAPI::eTargetTexture::TARGET_TEXTURE_TEXTURE_3D)
 	{
 		mWrapS = wrapMode;
 		mWrapT = wrapMode;
 		mWrapR = wrapMode;
-		TexParameteri(mBindTarget, eTextureParameterType::TEXTURE_WRAP_S, static_cast<eTextureParameterValue>(wrapMode));
-		TexParameteri(mBindTarget, eTextureParameterType::TEXTURE_WRAP_T, static_cast<eTextureParameterValue>(wrapMode));
-		TexParameteri(mBindTarget, eTextureParameterType::TEXTURE_WRAP_R, static_cast<eTextureParameterValue>(wrapMode));
+		GraphicsAPI::SetTextureWrapMode_S(mBindTarget, wrapMode);
+		GraphicsAPI::SetTextureWrapMode_T(mBindTarget, wrapMode);
+		GraphicsAPI::SetTextureWrapMode_R(mBindTarget, wrapMode);
 	}
 }
 
-void Texture::SetFilterMin(eFilterMode filterMode, bool bBind)
+void Texture::SetFilterMin(GraphicsAPI::eFilterMode filterMode, bool bBind)
 {
 	if (bBind)
 	{
 		BindTexture();
 	}
 
-	TexParameteri(mBindTarget, eTextureParameterType::TEXTURE_MIN_FILTER, static_cast<eTextureParameterValue>(filterMode));
+	GraphicsAPI::SetMinFilter(mBindTarget, filterMode);
 }
 
-void Texture::SetFilterMax(eFilterMode filterMode, bool bBind)
+void Texture::SetFilterMax(GraphicsAPI::eFilterMode filterMode, bool bBind)
 {
 	if (bBind)
 	{
 		BindTexture();
 	}
 
-	TexParameteri(mBindTarget, eTextureParameterType::TEXTURE_MAG_FILTER, static_cast<eTextureParameterValue>(filterMode));
+	GraphicsAPI::SetMagFilter(mBindTarget, filterMode);
 }
 
-dooms::graphics::Texture::eWrapMode Texture::GetWrapModeS() const
+dooms::graphics::GraphicsAPI::eWrapMode Texture::GetWrapModeS() const
 {
 	return mWrapS;
 }
 
-dooms::graphics::Texture::eWrapMode Texture::GetWrapModeT() const
+dooms::graphics::GraphicsAPI::eWrapMode Texture::GetWrapModeT() const
 {
 	return mWrapT;
 }
 
-dooms::graphics::Texture::eWrapMode Texture::GetWrapModeR() const
+dooms::graphics::GraphicsAPI::eWrapMode Texture::GetWrapModeR() const
 {
 	return mWrapR;
 }
 
-FLOAT32 Texture::GetTextureMetaDataFLOAT32(const INT32 lodLevel, const eTextureMataDataType textureMetaDataType) const
+FLOAT32 Texture::GetTextureMetaDataFLOAT32(const INT32 lodLevel, const GraphicsAPI::eTextureMetaDataType textureMetaDataType) const
 {
-	float data;
-
-	BindTexture();
-	glGetTexLevelParameterfv(static_cast<UINT32>(mBindTarget), lodLevel, static_cast<UINT32>(textureMetaDataType), &data);
-
-	return data;
+	return 	GraphicsAPI::GetTextureMetaDataFloat(mBufferID, mBindTarget, lodLevel, textureMetaDataType);
 }
 
-INT32 Texture::GetTextureMetaDataINT32(const INT32 lodLevel, const eTextureMataDataType textureMetaDataType) const
+INT32 Texture::GetTextureMetaDataINT32(const INT32 lodLevel, const GraphicsAPI::eTextureMetaDataType textureMetaDataType) const
 {
-	INT32 data;
-
-	BindTexture();
-	glGetTexLevelParameteriv(static_cast<UINT32>(mBindTarget), lodLevel, static_cast<UINT32>(textureMetaDataType), &data);
-
-	return data;
+	return GraphicsAPI::GetTextureMetaDataInt(mBufferID, mBindTarget, lodLevel, textureMetaDataType);
 }
 
 
@@ -193,17 +182,13 @@ UINT8* Texture::GetTexturePixelsUnsafe(const INT32 lodLevel ) const
 	INT32 bufferSize = GetTextureBufferSize(lodLevel);
 	D_ASSERT(bufferSize != 0);
 	
-	UINT8* pixels = new UINT8[bufferSize];
-
-	glGetTexImage(static_cast<UINT32>(mBindTarget), lodLevel, static_cast<UINT32>(mDataFormat), static_cast<UINT32>(mDataType), reinterpret_cast<void*>(pixels));
-
-	return pixels;
+	return GraphicsAPI::FetchTexturePixels(mBindTarget, lodLevel, mDataFormat, mDataType, bufferSize);
 }
 
 INT32 Texture::GetTextureBufferSize(const INT32 lodLevel) const
 {
-	const INT32 width = GetTextureMetaDataINT32(lodLevel, eTextureMataDataType::TEXTURE_WIDTH);
-	const INT32 height = GetTextureMetaDataINT32(lodLevel, eTextureMataDataType::TEXTURE_HEIGHT);
+	const INT32 width = GetTextureMetaDataINT32(lodLevel, GraphicsAPI::eTextureMetaDataType::TEXTURE_WIDTH);
+	const INT32 height = GetTextureMetaDataINT32(lodLevel, GraphicsAPI::eTextureMetaDataType::TEXTURE_HEIGHT);
 
 	return GetTextureBufferSizeStatic(width, height, mDataFormat, mDataType);
 }
@@ -213,25 +198,25 @@ INT32 Texture::GetTextureBufferSizeStatic
 (
 	const INT32 width, 
 	const INT32 height,
-	const eTextureComponentFormat dataFormat,
-	const eDataType dataType
+	const GraphicsAPI::eTextureComponentFormat dataFormat,
+	const GraphicsAPI::eDataType dataType
 	
 )
 {
 	int PixelDataSize = 1;
 	switch (dataType)
 	{
-	case eDataType::UNSIGNED_BYTE:
+	case GraphicsAPI::eDataType::UNSIGNED_BYTE:
 
 		PixelDataSize = 1;
 		break;
 
-	case eDataType::FLOAT:
+	case GraphicsAPI::eDataType::FLOAT:
 
 		PixelDataSize = 4;
 		break;
 
-	case eDataType::UNSIGNED_INT_24_8:
+	case GraphicsAPI::eDataType::UNSIGNED_INT_24_8:
 
 		PixelDataSize = 4;
 		break;
@@ -246,35 +231,35 @@ INT32 Texture::GetTextureBufferSizeStatic
 	switch (dataFormat)
 	{
 
-	case eTextureComponentFormat::RED:
-	case eTextureComponentFormat::RED_INTEGER:
+	case GraphicsAPI::eTextureComponentFormat::TEXTURE_COMPONENT_RED:
+	case GraphicsAPI::eTextureComponentFormat::TEXTURE_COMPONENT_RED_INTEGER:
 		bufferSize *= 1;
 		break;
 
-	case eTextureComponentFormat::RG:
-	case eTextureComponentFormat::RG_INTEGER:
+	case GraphicsAPI::eTextureComponentFormat::TEXTURE_COMPONENT_RG:
+	case GraphicsAPI::eTextureComponentFormat::TEXTURE_COMPONENT_RG_INTEGER:
 		bufferSize *= 2;
 		break;
 
-	case eTextureComponentFormat::RGB:
-	case eTextureComponentFormat::RGB_INTEGER:
-	case eTextureComponentFormat::BGR_INTEGER:
-	case eTextureComponentFormat::BGR:
+	case GraphicsAPI::eTextureComponentFormat::TEXTURE_COMPONENT_RGB:
+	case GraphicsAPI::eTextureComponentFormat::TEXTURE_COMPONENT_RGB_INTEGER:
+	case GraphicsAPI::eTextureComponentFormat::TEXTURE_COMPONENT_BGR_INTEGER:
+	case GraphicsAPI::eTextureComponentFormat::TEXTURE_COMPONENT_BGR:
 		bufferSize *= 3;
 		break;
 
-	case eTextureComponentFormat::RGBA:
-	case eTextureComponentFormat::RGBA_INTEGER:
-	case eTextureComponentFormat::BGRA:
-	case eTextureComponentFormat::BGRA_INTEGER:
+	case GraphicsAPI::eTextureComponentFormat::TEXTURE_COMPONENT_RGBA:
+	case GraphicsAPI::eTextureComponentFormat::TEXTURE_COMPONENT_RGBA_INTEGER:
+	case GraphicsAPI::eTextureComponentFormat::TEXTURE_COMPONENT_BGRA:
+	case GraphicsAPI::eTextureComponentFormat::TEXTURE_COMPONENT_BGRA_INTEGER:
 		bufferSize *= 4;
 		break;
 
-	case eTextureComponentFormat::DEPTH_COMPONENT:
+	case GraphicsAPI::eTextureComponentFormat::TEXTURE_COMPONENT_DEPTH_COMPONENT:
 		//bufferSize *= bufferSize;
 		break;
 
-	case eTextureComponentFormat::DEPTH_STENCIL:
+	case GraphicsAPI::eTextureComponentFormat::TEXTURE_COMPONENT_DEPTH_STENCIL:
 		//bufferSize *= 2;
 		break;
 

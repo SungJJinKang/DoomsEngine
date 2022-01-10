@@ -236,23 +236,23 @@ void dooms::assetImporter::AssetImporterWorker_THREE_D_MODEL::Creat3DModelAsset
 		switch (mesh->mPrimitiveTypes)
 		{
 		case aiPrimitiveType::aiPrimitiveType_LINE:
-			asset->mModelMeshAssets[meshIndex].mPrimitiveType = ePrimitiveType::LINES;
+			asset->mModelMeshAssets[meshIndex].mPrimitiveType = dooms::graphics::GraphicsAPI::ePrimitiveType::LINES;
 			asset->mModelMeshAssets[meshIndex].mVertexArrayFlag |= dooms::graphics::eVertexArrayFlag::VertexVector2;
 			break;
 		case aiPrimitiveType::aiPrimitiveType_POINT:
-			asset->mModelMeshAssets[meshIndex].mPrimitiveType = ePrimitiveType::POINTS;
+			asset->mModelMeshAssets[meshIndex].mPrimitiveType = dooms::graphics::GraphicsAPI::ePrimitiveType::POINTS;
 			D_ASSERT(false);
 			break;
 		case aiPrimitiveType::aiPrimitiveType_POLYGON:
-			asset->mModelMeshAssets[meshIndex].mPrimitiveType = ePrimitiveType::TRIANGLES;
+			asset->mModelMeshAssets[meshIndex].mPrimitiveType = dooms::graphics::GraphicsAPI::ePrimitiveType::TRIANGLES;
 			asset->mModelMeshAssets[meshIndex].mVertexArrayFlag |= dooms::graphics::eVertexArrayFlag::VertexVector3;
 			break;
 		case aiPrimitiveType::aiPrimitiveType_TRIANGLE:
-			asset->mModelMeshAssets[meshIndex].mPrimitiveType = ePrimitiveType::TRIANGLES;
+			asset->mModelMeshAssets[meshIndex].mPrimitiveType = dooms::graphics::GraphicsAPI::ePrimitiveType::TRIANGLES;
 			asset->mModelMeshAssets[meshIndex].mVertexArrayFlag |= dooms::graphics::eVertexArrayFlag::VertexVector3;
 			break;
 		case aiPrimitiveType::_aiPrimitiveType_Force32Bit:
-			asset->mModelMeshAssets[meshIndex].mPrimitiveType = ePrimitiveType::TRIANGLES;
+			asset->mModelMeshAssets[meshIndex].mPrimitiveType = dooms::graphics::GraphicsAPI::ePrimitiveType::TRIANGLES;
 			asset->mModelMeshAssets[meshIndex].mVertexArrayFlag |= dooms::graphics::eVertexArrayFlag::VertexVector3;
 			break;
 		default:

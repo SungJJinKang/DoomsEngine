@@ -1,9 +1,10 @@
 #include "PortfolioComponent.h"
 
+#include <Graphics/Graphics_Server.h>
 #include "DeferredRenderingDebuggerController.h"
 #include "Physics_Setting.h"
-
-
+#include <Graphics/graphicsSetting.h>
+#include <Graphics/Acceleration/LinearData_ViewFrustumCulling/EveryCulling.h>
 
 void dooms::PortfolioComponent::OnChangedByGUI(const dooms::reflection::DField& field_of_changed_field)
 {
@@ -30,8 +31,8 @@ void dooms::PortfolioComponent::OnChangedByGUI(const dooms::reflection::DField& 
 
 void dooms::PortfolioComponent::UpdateGUI()
 {
-	dooms::graphics::Graphics_Setting::IsSortObjectFrontToBack = Enabled_MultiThread_SortingFrontToBack;
-	dooms::graphics::Graphics_Setting::IsOverDrawVisualizationEnabled = OverdrawDebugger;
+	dooms::graphics::graphicsSetting::IsSortObjectFrontToBack = Enabled_MultiThread_SortingFrontToBack;
+	dooms::graphics::graphicsSetting::IsOverDrawVisualizationEnabled = OverdrawDebugger;
 
 	if (DeferredRenderingDebuggerController* component = GetOwnerEntity()->GetComponent<DeferredRenderingDebuggerController>())
 	{
@@ -42,9 +43,9 @@ void dooms::PortfolioComponent::UpdateGUI()
 	dooms::physics::Physics_Setting::SetIsPhysicsOn(Is_Enabled_CollisionDebugging);
 	dooms::physics::Physics_Setting::IS_RENDER_PHYSICS_RAYCASTING_DEBUGGER = Is_Enabled_CollisionDebugging;
 
-	dooms::graphics::Graphics_Setting::IsDrawMaskedOcclusionCullingBinTriangleStageDebugger = See_MaskedSWOcclusionCulling_Occluder;
-	dooms::graphics::Graphics_Setting::IsDrawMaskedOcclusionCullingTileCoverageMaskDebugger = Is_Enabled_MaskedSWOcclusionCullingTileCoverageMaskDebugging;
-	dooms::graphics::Graphics_Setting::IsDrawMaskedOcclusionCullingTileL0MaxDepthValueDebugger = See_MaskedSWOcclusionCulling_DepthBuffer;
+	dooms::graphics::graphicsSetting::IsDrawMaskedOcclusionCullingBinTriangleStageDebugger = See_MaskedSWOcclusionCulling_Occluder;
+	dooms::graphics::graphicsSetting::IsDrawMaskedOcclusionCullingTileCoverageMaskDebugger = Is_Enabled_MaskedSWOcclusionCullingTileCoverageMaskDebugging;
+	dooms::graphics::graphicsSetting::IsDrawMaskedOcclusionCullingTileL0MaxDepthValueDebugger = See_MaskedSWOcclusionCulling_DepthBuffer;
 
 
 	dooms::graphics::Graphics_Server::GetSingleton()->mCullingSystem->SetEnabledCullingModule(culling::EveryCulling::CullingModuleType::_ViewFrustumCulling, Enable_Multithread_SW_ViewFrustumCulling);
@@ -58,13 +59,13 @@ void dooms::PortfolioComponent::InitComponent()
 	Base::InitComponent();
 	
 	Enabled_MultiThread_SortingFrontToBack = true;
-	dooms::graphics::Graphics_Setting::IsSortObjectFrontToBack = true;
-	dooms::graphics::Graphics_Setting::IsDrawMaskedOcclusionCullingBinTriangleStageDebugger = See_MaskedSWOcclusionCulling_Occluder;
-	dooms::graphics::Graphics_Setting::IsDrawMaskedOcclusionCullingTileCoverageMaskDebugger = Is_Enabled_MaskedSWOcclusionCullingTileCoverageMaskDebugging;
-	dooms::graphics::Graphics_Setting::IsDrawMaskedOcclusionCullingTileL0MaxDepthValueDebugger = See_MaskedSWOcclusionCulling_DepthBuffer;
+	dooms::graphics::graphicsSetting::IsSortObjectFrontToBack = true;
+	dooms::graphics::graphicsSetting::IsDrawMaskedOcclusionCullingBinTriangleStageDebugger = See_MaskedSWOcclusionCulling_Occluder;
+	dooms::graphics::graphicsSetting::IsDrawMaskedOcclusionCullingTileCoverageMaskDebugger = Is_Enabled_MaskedSWOcclusionCullingTileCoverageMaskDebugging;
+	dooms::graphics::graphicsSetting::IsDrawMaskedOcclusionCullingTileL0MaxDepthValueDebugger = See_MaskedSWOcclusionCulling_DepthBuffer;
 
 	OverdrawDebugger = false;
-	dooms::graphics::Graphics_Setting::IsOverDrawVisualizationEnabled = OverdrawDebugger;
+	dooms::graphics::graphicsSetting::IsOverDrawVisualizationEnabled = OverdrawDebugger;
 
 	Enabled_DeferredRenderingDebugger = false;
 	if (DeferredRenderingDebuggerController* component = GetOwnerEntity()->GetComponent<DeferredRenderingDebuggerController>())

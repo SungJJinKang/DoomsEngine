@@ -10,9 +10,9 @@ UINT32 dooms::graphics::DebugPrimitivePointContainer::GetComponentCountPerPrimit
 	return 3;
 }
 
-dooms::ePrimitiveType dooms::graphics::DebugPrimitivePointContainer::GetPrimitiveType() const
+dooms::graphics::GraphicsAPI::ePrimitiveType dooms::graphics::DebugPrimitivePointContainer::GetPrimitiveType() const
 {
-	return ePrimitiveType::POINTS;
+	return dooms::graphics::GraphicsAPI::ePrimitiveType::POINTS;
 }
 
 void dooms::graphics::DebugPrimitivePointContainer::AddColoredPointData

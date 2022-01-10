@@ -17,8 +17,8 @@
 #include "AutoRotateAround.h"
 #include "TestComponent.h"
 #include "Graphics/LightManager.h"
-#include "Graphics/Graphics_Setting.h"
-#include "Graphics/graphicsAPIManager.h"
+#include "Graphics/graphicsSetting.h"
+#include "Graphics/GraphicsAPI/graphicsAPISetting.h"
 #include "Portfolio/DeferredRenderingDebuggerController.h"
 #include "Portfolio/OverDrawVisualizationDebugger.h"
 #include "Portfolio/PhysicsDebuggerController.h"
@@ -39,7 +39,6 @@
 void dooms::GameLogicStartPoint::StartGameLogic()
 {
 	ISingleton<graphics::LightManager>::GetSingleton()->SetAmbientLightIntensity(0.1f);
-	dooms::graphics::Graphics_Setting::DefaultClearColor = { 1.0f, 1.0f, 1.0f, 1.0f };
 
 	auto currenScene = dooms::Scene::GetCurrentWorld();
 
@@ -463,7 +462,8 @@ void dooms::GameLogicStartPoint::StartGameLogic()
 			"StarSparrow_Black.dds"
 		};
 
-		for (size_t i = 0; i < 500; i++)
+
+		for (size_t i = 0; i < 700; i++)
 		{
 			auto modelAsset = assetImporter::AssetManager::GetSingleton()->GetAsset<asset::eAssetType::THREE_D_MODEL>(modelAssetNameList[Random::RandomUIntNumber(0, modelAssetNameList.size() - 1)]);
 			auto shader1 = assetImporter::AssetManager::GetSingleton()->GetAsset<asset::eAssetType::SHADER>("GbufferWriter_PBR.glsl");
@@ -638,7 +638,8 @@ void dooms::GameLogicStartPoint::StartGameLogic()
 		material1->AddTexture(graphics::eTextureBindingPoint::AlbedoTexture, assetImporter::AssetManager::GetSingleton()->GetAsset<asset::eAssetType::TEXTURE>("Rock_albedo.dds"));
 		material1->AddTexture(graphics::eTextureBindingPoint::NormalTexture, assetImporter::AssetManager::GetSingleton()->GetAsset<asset::eAssetType::TEXTURE>("Rock_normal.dds"));
 		material1->AddTexture(graphics::eTextureBindingPoint::MetalnessTexture, assetImporter::AssetManager::GetSingleton()->GetAsset<asset::eAssetType::TEXTURE>("Rock_metallic.dds"));
-		for (size_t i = 0; i < 6000; i++)
+
+		for (size_t i = 0; i < 3000; i++)
 		{
 			
 		
@@ -673,7 +674,7 @@ void dooms::GameLogicStartPoint::StartGameLogic()
 		}
 	}
 
-	
+
 	/*
 
 	auto a = Renderer::CLASS_TYPE_ID_STATIC();

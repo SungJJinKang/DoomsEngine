@@ -25,9 +25,9 @@ namespace dooms
 			Material* mPIPMaterial = nullptr;
 
 			D_PROPERTY()
-			Mesh* mPlaneMesh;
+			Mesh* mPlaneMesh = nullptr;
 			D_PROPERTY()
-			SingleTexture* mDrawedTexture;
+			SingleTexture* mDrawedTexture = nullptr;
 
 			void InitializeDefaultPIPMaterial();
 

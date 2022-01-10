@@ -14,14 +14,14 @@ namespace dooms
 		public:
 
 			CubemapTexture();
-			CubemapTexture(eTextureType textureType,
-				eTargetTexture target, eTextureInternalFormat internalFormat, UINT32 width, eTextureComponentFormat format, eDataType type, const void* data);
-			CubemapTexture(eTextureType textureType,
-				eTargetTexture target, eTextureInternalFormat internalFormat, UINT32 width, UINT32 height, eTextureComponentFormat format, eDataType type, const void* data);
-			CubemapTexture(eTextureType textureType,
-				eTargetTexture target, eTextureCompressedInternalFormat compressedInternalFormat, UINT32 width, eTextureComponentFormat format, eDataType type, const void* data);
-			CubemapTexture(eTextureType textureType,
-				eTargetTexture target, eTextureCompressedInternalFormat compressedInternalFormat, UINT32 width, UINT32 height, eTextureComponentFormat format, eDataType type, const void* data);
+			CubemapTexture(dooms::graphics::GraphicsAPI::eTextureType textureType,
+				dooms::graphics::GraphicsAPI::eTargetTexture target, dooms::graphics::GraphicsAPI::eTextureInternalFormat internalFormat, UINT32 width, dooms::graphics::GraphicsAPI::eTextureComponentFormat format, dooms::graphics::GraphicsAPI::eDataType type, const void* data);
+			CubemapTexture(dooms::graphics::GraphicsAPI::eTextureType textureType,
+				dooms::graphics::GraphicsAPI::eTargetTexture target, dooms::graphics::GraphicsAPI::eTextureInternalFormat internalFormat, UINT32 width, UINT32 height, dooms::graphics::GraphicsAPI::eTextureComponentFormat format, dooms::graphics::GraphicsAPI::eDataType type, const void* data);
+			CubemapTexture(dooms::graphics::GraphicsAPI::eTextureType textureType,
+				dooms::graphics::GraphicsAPI::eTargetTexture target, dooms::graphics::GraphicsAPI::eTextureCompressedInternalFormat compressedInternalFormat, UINT32 width, dooms::graphics::GraphicsAPI::eTextureComponentFormat format, dooms::graphics::GraphicsAPI::eDataType type, const void* data);
+			CubemapTexture(dooms::graphics::GraphicsAPI::eTextureType textureType,
+				dooms::graphics::GraphicsAPI::eTargetTexture target, dooms::graphics::GraphicsAPI::eTextureCompressedInternalFormat compressedInternalFormat, UINT32 width, UINT32 height, dooms::graphics::GraphicsAPI::eTextureComponentFormat format, dooms::graphics::GraphicsAPI::eDataType type, const void* data);
 
 			
 			virtual ~CubemapTexture() = default;
@@ -42,14 +42,14 @@ namespace dooms
 			void TexImage2D(INT32 face, INT32 level, const void* data) const noexcept;
 
 
-			void InitializeCubemapTexture(eTextureType textureType,
-				eTargetTexture target, eTextureInternalFormat internalFormat, UINT32 width, eTextureComponentFormat format, eDataType type, const void* data);
-			void InitializeCubemapTexture(eTextureType textureType,
-				eTargetTexture target, eTextureInternalFormat internalFormat, UINT32 width, UINT32 height, eTextureComponentFormat format, eDataType type, const void* data);
-			void InitializeCubemapTexture(eTextureType textureType,
-				eTargetTexture target, eTextureCompressedInternalFormat compressedInternalFormat, UINT32 width, eTextureComponentFormat format, eDataType type, const void* data);
-			void InitializeCubemapTexture(eTextureType textureType,
-				eTargetTexture target, eTextureCompressedInternalFormat compressedInternalFormat, UINT32 width, UINT32 height, eTextureComponentFormat format, eDataType type, const void* data);
+			void InitializeCubemapTexture(dooms::graphics::GraphicsAPI::eTextureType textureType,
+				dooms::graphics::GraphicsAPI::eTargetTexture target, dooms::graphics::GraphicsAPI::eTextureInternalFormat internalFormat, UINT32 width, dooms::graphics::GraphicsAPI::eTextureComponentFormat format, dooms::graphics::GraphicsAPI::eDataType type, const void* data);
+			void InitializeCubemapTexture(dooms::graphics::GraphicsAPI::eTextureType textureType,
+				dooms::graphics::GraphicsAPI::eTargetTexture target, dooms::graphics::GraphicsAPI::eTextureInternalFormat internalFormat, UINT32 width, UINT32 height, dooms::graphics::GraphicsAPI::eTextureComponentFormat format, dooms::graphics::GraphicsAPI::eDataType type, const void* data);
+			void InitializeCubemapTexture(dooms::graphics::GraphicsAPI::eTextureType textureType,
+				dooms::graphics::GraphicsAPI::eTargetTexture target, dooms::graphics::GraphicsAPI::eTextureCompressedInternalFormat compressedInternalFormat, UINT32 width, dooms::graphics::GraphicsAPI::eTextureComponentFormat format, dooms::graphics::GraphicsAPI::eDataType type, const void* data);
+			void InitializeCubemapTexture(dooms::graphics::GraphicsAPI::eTextureType textureType,
+				dooms::graphics::GraphicsAPI::eTargetTexture target, dooms::graphics::GraphicsAPI::eTextureCompressedInternalFormat compressedInternalFormat, UINT32 width, UINT32 height, dooms::graphics::GraphicsAPI::eTextureComponentFormat format, dooms::graphics::GraphicsAPI::eDataType type, const void* data);
 
 
 

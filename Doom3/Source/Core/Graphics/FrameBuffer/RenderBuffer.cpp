@@ -1,8 +1,7 @@
 #include "RenderBuffer.h"
 
 #include "FrameBuffer.h"
-#include "../GraphicsAPI.h"
-#include "../Graphics_Setting.h"
+#include "../GraphicsAPI/graphicsAPISetting.h"
 
 using namespace dooms::graphics;
 
@@ -14,7 +13,7 @@ RenderBuffer::RenderBuffer()
 RenderBuffer::RenderBuffer
 (
 	FrameBuffer& ownerFrameBuffer, 
-	GraphicsAPI::eBufferBitType frameBufferType, 
+	GraphicsAPI::eFrameBufferAttachmentPoint frameBufferType,
 	UINT32 width, 
 	UINT32 height
 )
@@ -23,7 +22,7 @@ RenderBuffer::RenderBuffer
 	CreateRenderBuffer(ownerFrameBuffer, frameBufferType, width, height);
 }
 
-bool RenderBuffer::CreateRenderBuffer(FrameBuffer& ownerFrameBuffer, GraphicsAPI::eBufferBitType frameBufferType, UINT32 width, UINT32 height)
+bool RenderBuffer::CreateRenderBuffer(FrameBuffer& ownerFrameBuffer, GraphicsAPI::eFrameBufferAttachmentPoint frameBufferType, UINT32 width, UINT32 height)
 {
 	bool isSuccess = false;
 
@@ -36,49 +35,41 @@ bool RenderBuffer::CreateRenderBuffer(FrameBuffer& ownerFrameBuffer, GraphicsAPI
 
 		ownerFrameBuffer.BindFrameBuffer();
 
-		glGenRenderbuffers(1, &(mRenderBufferID));
+		mRenderBufferID = GraphicsAPI::CreateRenderBufferObject(1)[0];
 		BindRenderBuffer();
 
 
 		switch (frameBufferType)
 		{
-		case GraphicsAPI::eBufferBitType::COLOR:
-			if (Graphics_Setting::GetMultiSamplingNum() > 0)
-			{
-				glRenderbufferStorage(GL_RENDERBUFFER, static_cast<UINT32>(eTextureInternalFormat::RGBA16F), width, height);
-			}
-			else
-			{
-				glRenderbufferStorageMultisample(GL_RENDERBUFFER, Graphics_Setting::GetMultiSamplingNum(), static_cast<UINT32>(eTextureInternalFormat::RGBA16F), width, height);
-			}
+		case GraphicsAPI::eFrameBufferAttachmentPoint::FRAMEBUFFER_ATTACHMENT_POINT_COLOR_ATTACHMENT0:
+		case GraphicsAPI::eFrameBufferAttachmentPoint::FRAMEBUFFER_ATTACHMENT_POINT_COLOR_ATTACHMENT1:
+		case GraphicsAPI::eFrameBufferAttachmentPoint::FRAMEBUFFER_ATTACHMENT_POINT_COLOR_ATTACHMENT2:
+		case GraphicsAPI::eFrameBufferAttachmentPoint::FRAMEBUFFER_ATTACHMENT_POINT_COLOR_ATTACHMENT3:
+		case GraphicsAPI::eFrameBufferAttachmentPoint::FRAMEBUFFER_ATTACHMENT_POINT_COLOR_ATTACHMENT4:
+		case GraphicsAPI::eFrameBufferAttachmentPoint::FRAMEBUFFER_ATTACHMENT_POINT_COLOR_ATTACHMENT5:
+		case GraphicsAPI::eFrameBufferAttachmentPoint::FRAMEBUFFER_ATTACHMENT_POINT_COLOR_ATTACHMENT6:
+		case GraphicsAPI::eFrameBufferAttachmentPoint::FRAMEBUFFER_ATTACHMENT_POINT_COLOR_ATTACHMENT7:
+		case GraphicsAPI::eFrameBufferAttachmentPoint::FRAMEBUFFER_ATTACHMENT_POINT_COLOR_ATTACHMENT8:
+		case GraphicsAPI::eFrameBufferAttachmentPoint::FRAMEBUFFER_ATTACHMENT_POINT_COLOR_ATTACHMENT9:
+		case GraphicsAPI::eFrameBufferAttachmentPoint::FRAMEBUFFER_ATTACHMENT_POINT_COLOR_ATTACHMENT10:
 
-			glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_RENDERBUFFER, mRenderBufferID);
+			GraphicsAPI::AllocateRenderBufferMemory(mRenderBufferID, GraphicsAPI::eTextureInternalFormat::TEXTURE_INTERNAL_FORMAT_RGBA16F, width, height, graphicsAPISetting::GetMultiSamplingNum());
+			GraphicsAPI::AttachRenderBufferToFrameBuffer(mRenderBufferID.GetBufferID(), ownerFrameBuffer.GetFrameBufferID(), frameBufferType);
+			
 			break;
 
-		case GraphicsAPI::eBufferBitType::DEPTH:
-			if (Graphics_Setting::GetMultiSamplingNum() > 0)
-			{
-				glRenderbufferStorage(GL_RENDERBUFFER, static_cast<UINT32>(eTextureInternalFormat::DEPTH_COMPONENT), width, height);
-			}
-			else
-			{
-				glRenderbufferStorageMultisample(GL_RENDERBUFFER, Graphics_Setting::GetMultiSamplingNum(), static_cast<UINT32>(eTextureInternalFormat::DEPTH_COMPONENT), width, height);
-			}
+		case GraphicsAPI::eFrameBufferAttachmentPoint::FRAMEBUFFER_ATTACHMENT_POINT_DEPTH_ATTACHMENT:
 
-			glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, mRenderBufferID);
+			GraphicsAPI::AllocateRenderBufferMemory(mRenderBufferID, GraphicsAPI::eTextureInternalFormat::TEXTURE_INTERNAL_FORMAT_DEPTH_COMPONENT32, width, height, graphicsAPISetting::GetMultiSamplingNum());
+			GraphicsAPI::AttachRenderBufferToFrameBuffer(mRenderBufferID.GetBufferID(), ownerFrameBuffer.GetFrameBufferID(), GraphicsAPI::eFrameBufferAttachmentPoint::FRAMEBUFFER_ATTACHMENT_POINT_DEPTH_ATTACHMENT);
+
 			break;
 
-		case GraphicsAPI::eBufferBitType::DEPTH_STENCIL:
-			if (Graphics_Setting::GetMultiSamplingNum() > 0)
-			{
-				glRenderbufferStorage(GL_RENDERBUFFER, static_cast<UINT32>(eTextureInternalFormat::DEPTH24_STENCIL8), width, height);
-			}
-			else
-			{
-				glRenderbufferStorageMultisample(GL_RENDERBUFFER, Graphics_Setting::GetMultiSamplingNum(), static_cast<UINT32>(eTextureInternalFormat::DEPTH24_STENCIL8), width, height);
-			}
+		case GraphicsAPI::eFrameBufferAttachmentPoint::FRAMEBUFFER_ATTACHMENT_POINT_DEPTH_STENCIL_ATTACHMENT:
+			
+			GraphicsAPI::AllocateRenderBufferMemory(mRenderBufferID, GraphicsAPI::eTextureInternalFormat::TEXTURE_INTERNAL_FORMAT_DEPTH24_STENCIL8, width, height, graphicsAPISetting::GetMultiSamplingNum());
+			GraphicsAPI::AttachRenderBufferToFrameBuffer(mRenderBufferID.GetBufferID(), ownerFrameBuffer.GetFrameBufferID(), GraphicsAPI::eFrameBufferAttachmentPoint::FRAMEBUFFER_ATTACHMENT_POINT_DEPTH_STENCIL_ATTACHMENT);
 
-			glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_RENDERBUFFER, mRenderBufferID);
 			break;
 
 		default:
@@ -103,7 +94,7 @@ void RenderBuffer::DeleteRenderBuffers()
 {
 	if (mRenderBufferID)
 	{
-		glDeleteRenderbuffers(1, &(mRenderBufferID));
+		GraphicsAPI::DestroyRenderBuffer(mRenderBufferID);
 	}
 }
 

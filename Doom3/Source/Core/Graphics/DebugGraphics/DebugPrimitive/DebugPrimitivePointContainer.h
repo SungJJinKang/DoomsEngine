@@ -18,7 +18,7 @@ namespace dooms
 		public:
 
 			bool Is3DPrimitive() const = 0;
-			ePrimitiveType GetPrimitiveType() const override;
+			dooms::graphics::GraphicsAPI::ePrimitiveType GetPrimitiveType() const override;
 
 			void AddColoredPointData
 			(

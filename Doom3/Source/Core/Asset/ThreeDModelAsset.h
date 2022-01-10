@@ -7,7 +7,6 @@
 #include "../Math/LightMath_Cpp/Vector3.h"
 #include "../Graphics/Buffer/Mesh.h"
 #include "../Graphics/Buffer/MeshNode.h"
-#include "../Graphics/ePrimitiveType.h"
 #include <Physics/Collider/AABB.h>
 #include <Physics/Collider/Sphere.h>
 
@@ -98,7 +97,7 @@ namespace dooms
 		std::string mName;
 
 		D_PROPERTY()
-		ePrimitiveType mPrimitiveType;
+		graphics::GraphicsAPI::ePrimitiveType mPrimitiveType;
 
 		D_PROPERTY()
 		bool bHasIndices;

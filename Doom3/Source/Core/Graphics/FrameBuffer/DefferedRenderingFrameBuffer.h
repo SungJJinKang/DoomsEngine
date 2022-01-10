@@ -2,7 +2,6 @@
 
 #include "FrameBuffer.h"
 
-#include "../Graphics_Setting.h"
 #include <Vector4.h>
 
 #include "DefferedRenderingFrameBuffer.reflection.h"

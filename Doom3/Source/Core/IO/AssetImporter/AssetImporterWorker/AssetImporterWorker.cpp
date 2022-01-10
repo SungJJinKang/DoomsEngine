@@ -1,9 +1,11 @@
 #include "AssetImporterWorker.h"
 
+std::mutex dooms::assetImporter::AssetImporterWorker::mMutex{};
 std::atomic<bool> dooms::assetImporter::AssetImporterWorker::IsInitializedStatic = false;
 
 dooms::assetImporter::AssetImporterWorker::AssetImporterWorker()
 {
+	std::scoped_lock<std::mutex> lock{ mMutex };
 	AddToRootObjectList();
 }
 dooms::assetImporter::AssetImporterWorker::AssetImporterWorker(const AssetImporterWorker&) = default;

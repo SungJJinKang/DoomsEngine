@@ -127,6 +127,8 @@ namespace dooms::gc::garbageCollectorSolver
 
 		if (dObejct->GetDObjectFlag(eDObjectFlag::IsNotCheckedByGC) == true)
 		{
+			// TODO : Data race may be caused in multithreaded mark stage?
+			// DObjectFlag isn't std::atomic
 			dObejct->ClearDObjectFlag(eDObjectFlag::Unreachable | eDObjectFlag::IsNotCheckedByGC);
 
 			dooms::reflection::DClass dClass = dObejct->GetDClass();
@@ -247,32 +249,31 @@ void dooms::gc::garbageCollectorSolver::StartMarkStage(const eGCMethod gcMethod,
 
 		const int gcThreadCount = math::Min(dooms::resource::JobSystem::GetSingleton()->GetSubThreadCount(), (size_t)dooms::ConfigData::GetSingleton()->GetConfigData().GetValue<int>("SYSTEM","GC_THREAD_COUNT"));
 		
-		for(size_t i = 0 ; i < gcThreadCount ; i++)
+		std::function multiThreadJob = [&gcMultithreadCounter, &rootDObjectList, keepFlags, rootDObjectCount]()
 		{
-			std::function multiThreadJob = [&gcMultithreadCounter, &rootDObjectList, keepFlags, rootDObjectCount, threadIndex = i]()
+			D_DEBUG_LOG(eLogType::D_LOG_TYPE13, "Start Mark a object");
+			while (true)
 			{
-				D_DEBUG_LOG(eLogType::D_LOG_TYPE13, "Start Mark a object ( Thread Index : %d )", threadIndex);
-				while (true)
+				const size_t rootObjectIndex = gcMultithreadCounter.workingOnRootObjectCount++;
+				if (rootObjectIndex >= rootDObjectCount)
 				{
-					const size_t rootObjectIndex = gcMultithreadCounter.workingOnRootObjectCount++;
-					if (rootObjectIndex >= rootDObjectCount)
-					{
-						D_DEBUG_LOG(eLogType::D_LOG_TYPE13, "End Mark a object ( Thread Index : %d )", threadIndex);
-						return;
-					}
-
-					Mark(keepFlags, rootDObjectList[rootObjectIndex]);
-
-					gcMultithreadCounter.completedOnRootObjectCount++;
+					D_DEBUG_LOG(eLogType::D_LOG_TYPE13, "End Mark a object");
+					return;
 				}
-			};
 
-			dooms::resource::JobSystem::GetSingleton()->PushBackJobToPriorityQueueWithNoSTDFuture(multiThreadJob);
-		}
+				Mark(keepFlags, rootDObjectList[rootObjectIndex]);
+
+				gcMultithreadCounter.completedOnRootObjectCount++;
+			}
+		};
+
+		std::atomic_thread_fence(std::memory_order_release);
+		dooms::resource::JobSystem::GetSingleton()->PushBackJobToAllThreadWithNoSTDFuture(multiThreadJob);
+		multiThreadJob();
 
 		while (gcMultithreadCounter.completedOnRootObjectCount < rootDObjectCount)
 		{
-			std::this_thread::yield();
+			//std::this_thread::yield();
 		}
 		
 	}

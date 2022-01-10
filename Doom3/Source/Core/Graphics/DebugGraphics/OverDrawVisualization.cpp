@@ -4,7 +4,7 @@
 
 #ifdef DEBUG_DRAWER
 
-#include "../Graphics_Setting.h"
+#include "../GraphicsAPI/graphicsAPISetting.h"
 #include "../Graphics_Server.h"
 #include "Game/AssetManager/AssetManager.h"
 #include <Asset/ShaderAsset.h>
@@ -30,14 +30,14 @@ namespace dooms
 				dooms::asset::ShaderAsset* overDrawVisualizationShader = dooms::assetImporter::AssetManager::GetSingleton()->GetAsset<dooms::asset::eAssetType::SHADER>("OverDrawVisualizationShader.glsl");
 				mOverDrawVisualizationObjectDrawMaterial = overDrawVisualizationShader->CreateMatrialWithThisShader();
 
-				mOverDrawVisualizationFrameBuffer.GenerateBuffer(dooms::graphics::Graphics_Setting::GetScreenWidth(), dooms::graphics::Graphics_Setting::GetScreenHeight());
-				mOverDrawVisualizationFrameBuffer.AttachTextureBuffer(dooms::graphics::GraphicsAPI::eBufferBitType::COLOR);
-				mOverDrawVisualizationFrameBuffer.AttachRenderBuffer(dooms::graphics::GraphicsAPI::eBufferBitType::DEPTH);
+				mOverDrawVisualizationFrameBuffer.GenerateBuffer(dooms::graphics::graphicsAPISetting::GetScreenWidth(), dooms::graphics::graphicsAPISetting::GetScreenHeight());
+				mOverDrawVisualizationFrameBuffer.AttachTextureBuffer(dooms::graphics::GraphicsAPI::eBufferBitType::COLOR_BUFFER);
+				mOverDrawVisualizationFrameBuffer.AttachRenderBuffer(dooms::graphics::GraphicsAPI::eFrameBufferAttachmentPoint::FRAMEBUFFER_ATTACHMENT_POINT_DEPTH_ATTACHMENT);
 				
 				OverDrawVisualizationPIP = dooms::graphics::Graphics_Server::GetSingleton()->mPIPManager.AddNewPIP(
 					math::Vector2(-1.0f, -1.0f),
 					math::Vector2(1.0f, 1.0f),
-					mOverDrawVisualizationFrameBuffer.GetFrameBufferTexture(dooms::graphics::GraphicsAPI::eBufferBitType::COLOR, 0)
+					mOverDrawVisualizationFrameBuffer.GetFrameBufferTexture(dooms::graphics::GraphicsAPI::eBufferBitType::COLOR_BUFFER, 0)
 				);
 
 				bmIsOverDrawVisualizationInitialized = true;
@@ -65,26 +65,26 @@ void dooms::graphics::OverDrawVisualization::SetOverDrawVisualizationRenderingSt
 
 	if (isSet == true)
 	{
-		GraphicsAPI::Enable(GraphicsAPI::eCapability::BLEND);
-		GraphicsAPI::BlendFunc(GraphicsAPI::eSourceFactor::ONE, GraphicsAPI::eDestinationFactor::ONE);
+		GraphicsAPI::SetIsBlendEnabled(true);
+		GraphicsAPI::SetBlendFactor(GraphicsAPI::eBlendFactor::ONE, GraphicsAPI::eBlendFactor::ONE);
 
 
 		dooms::graphics::FixedMaterial::SetFixedMaterial(&(mOverDrawVisualizationObjectDrawMaterial));
 		mOverDrawVisualizationFrameBuffer.BindFrameBuffer();
 
-		GraphicsAPI::ClearColor(math::Vector4(0.0f, 0.0f, 0.0f, 1.0f));
-		GraphicsAPI::Clear(GraphicsAPI::eClearMask::COLOR_BUFFER_BIT, GraphicsAPI::eClearMask::DEPTH_BUFFER_BIT);
+		GraphicsAPI::ClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+		GraphicsAPI::ClearBuffer(GraphicsAPI::eBufferBitType::COLOR_BUFFER, GraphicsAPI::eBufferBitType::DEPTH_BUFFER);
 	}
 	else
 	{
-		if (Graphics_Setting::DefaultIsBlendOn == true)
+		if (graphicsAPISetting::DefaultIsBlendOn == true)
 		{
-			GraphicsAPI::Enable(GraphicsAPI::eCapability::BLEND);
-			GraphicsAPI::BlendFunc(Graphics_Setting::DefaultBlendSourceFactor, Graphics_Setting::DefaultBlendDestinationFactor);
+			GraphicsAPI::SetIsBlendEnabled(true);
+			GraphicsAPI::SetBlendFactor(graphics::graphicsAPISetting::DefaultBlendSourceFactor, graphics::graphicsAPISetting::DefaultBlendDestinationFactor);
 		}
 		else
 		{
-			GraphicsAPI::Disable(GraphicsAPI::eCapability::BLEND);
+			GraphicsAPI::SetIsBlendEnabled(false);
 		}
 		
 		

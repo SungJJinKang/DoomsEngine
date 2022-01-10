@@ -16,7 +16,7 @@
 void dooms::graphics::DebugDrawer::Init()
 {
 	mDebugMesh.GenMeshBuffer(false);
-	mDebugMesh.BufferData(MAX_DEBUG_VERTEX_COUNT * 3, NULL, ePrimitiveType::LINES, eVertexArrayFlag::VertexVector3);
+	mDebugMesh.BufferData(MAX_DEBUG_VERTEX_COUNT * 3, NULL, GraphicsAPI::ePrimitiveType::LINES, eVertexArrayFlag::VertexVector3);
 
 
 	auto debug2DShader = dooms::assetImporter::AssetManager::GetSingleton()->GetAsset<asset::eAssetType::SHADER>(DebugDrawer::DEBUG_2D_SHADER);
@@ -253,21 +253,21 @@ void dooms::graphics::DebugDrawer::DebugDraw2DTriangleScreenSpace
 {
 	std::scoped_lock<std::mutex> lock{ mMextex };
 
-	math::Vector3 ndcPointA = math::Vector3(pointA.x / Graphics_Setting::GetScreenWidth(), pointA.y / Graphics_Setting::GetScreenHeight(), pointA.z);
+	math::Vector3 ndcPointA = math::Vector3(pointA.x / GraphicsSetting::GetScreenWidth(), pointA.y / GraphicsSetting::GetScreenHeight(), pointA.z);
 	ndcPointA.x *= 2.0f;
 	ndcPointA.y *= 2.0f;
 	ndcPointA.x -= 1.0f;
 	ndcPointA.y -= 1.0f;
 
 
-	math::Vector3 ndcPointB = math::Vector3(pointB.x / Graphics_Setting::GetScreenWidth(), pointB.y / Graphics_Setting::GetScreenHeight(), pointB.z);
+	math::Vector3 ndcPointB = math::Vector3(pointB.x / GraphicsSetting::GetScreenWidth(), pointB.y / GraphicsSetting::GetScreenHeight(), pointB.z);
 	ndcPointB.x *= 2.0f;
 	ndcPointB.y *= 2.0f;
 	ndcPointB.x -= 1.0f;
 	ndcPointB.y -= 1.0f;
 
 
-	math::Vector3 ndcPointC = math::Vector3(pointC.x / Graphics_Setting::GetScreenWidth(), pointC.y / Graphics_Setting::GetScreenHeight(), pointC.z);
+	math::Vector3 ndcPointC = math::Vector3(pointC.x / GraphicsSetting::GetScreenWidth(), pointC.y / GraphicsSetting::GetScreenHeight(), pointC.z);
 	ndcPointC.x *= 2.0f;
 	ndcPointC.y *= 2.0f;
 	ndcPointC.x -= 1.0f;

@@ -2,8 +2,8 @@
 #include <vector>
 
 #include "../Core.h"
-#include "../Graphics_Setting.h"
-#include "../GraphicsAPI.h"
+#include "../GraphicsAPI/GraphicsAPI.h"
+#include "../GraphicsAPI/graphicsAPISetting.h"
 #include "RenderBuffer.h"
 #include "../Texture/SingleTexture.h"
 #include "../OverlapBindChecker.h"
@@ -38,7 +38,7 @@ namespace dooms
 			static constexpr UINT32 RESERVED_DEPTH_STENCIL_TEXTURE_COUNT = 1; 
 			std::vector<SingleTexture> mAttachedDepthStencilTextures;
 
-			std::vector<UINT32> mTargetDrawBufferContainer;
+			std::vector<GraphicsAPI::eBufferMode> mTargetDrawBufferContainer;
 
 			UINT32 mClearBit{ 0 };
 			UINT32 mDrawTarget{ 0 };
@@ -97,13 +97,13 @@ namespace dooms
 					FrameBuffer::PreviousFrameBuffer = CurrentFrameBuffer;
 					if (frameBuffer == nullptr)
 					{
-						BindFrameBufferStatic(eBindFrameBufferTarget::FRAMEBUFFER, 0);
-						glViewport(0, 0, graphics::Graphics_Setting::GetScreenWidth(), graphics::Graphics_Setting::GetScreenHeight());
+						BindFrameBufferStatic(GraphicsAPI::FRAMEBUFFER, 0);
+						GraphicsAPI::SetViewport(0, 0, graphics::graphicsAPISetting::GetScreenWidth(), graphics::graphicsAPISetting::GetScreenHeight());
 					}
 					else
 					{
-						BindFrameBufferStatic(eBindFrameBufferTarget::FRAMEBUFFER, frameBuffer->mFrameBufferID);
-						glViewport(0, 0, frameBuffer->mDefaultWidth, frameBuffer->mDefaultHeight);
+						BindFrameBufferStatic(GraphicsAPI::FRAMEBUFFER, frameBuffer->mFrameBufferID);
+						GraphicsAPI::SetViewport(0, 0, frameBuffer->mDefaultWidth, frameBuffer->mDefaultHeight);
 					}
 					FrameBuffer::CurrentFrameBuffer = frameBuffer;
 				}
@@ -137,48 +137,37 @@ namespace dooms
 
 			FORCE_INLINE virtual void ClearFrameBuffer() const
 			{
-				GraphicsAPI::Clear(mClearBit);
+				GraphicsAPI::ClearBuffer(mClearBit);
 			}
 
-			enum class D_ENUM eImageInterpolation
+			
+			
+			FORCE_INLINE static void BindFrameBufferStatic(const GraphicsAPI::eBindFrameBufferTarget bindFrameBufferTarget, const UINT32 frameBufferID)
 			{
-				NEAREST = GL_NEAREST,
-				LINEAR = GL_LINEAR
-			};
-
-			enum class D_ENUM eBindFrameBufferTarget : UINT32
-			{
-				DRAW_FRAMEBUFFER = GL_DRAW_FRAMEBUFFER,
-				READ_FRAMEBUFFER = GL_READ_FRAMEBUFFER,
-				FRAMEBUFFER = GL_FRAMEBUFFER
-			};
-
-			FORCE_INLINE static void BindFrameBufferStatic(const eBindFrameBufferTarget bindFrameBufferTarget, const UINT32 frameBufferID)
-			{
-				glBindFramebuffer(static_cast<UINT32>(bindFrameBufferTarget), frameBufferID);
+				GraphicsAPI::BindFrameBuffer(frameBufferID, bindFrameBufferTarget);
 			}
 			
 			static void BlitFrameBufferTo(
 				UINT32 ReadFrameBufferId, UINT32 DrawFrameBufferId, INT32 srcX0, INT32 srcY0, INT32 srcX1,
 				INT32 srcY1, INT32 dstX0, INT32 dstY0, INT32 dstX1, INT32 dstY1,
-				GraphicsAPI::eBufferBitType mask, eImageInterpolation filter) noexcept;
+				GraphicsAPI::eBufferBitType mask, GraphicsAPI::eImageInterpolation filter) noexcept;
 
 			void BlitFrameBufferTo(
 				UINT32 DrawFrameBufferId, INT32 srcX0, INT32 srcY0, INT32 srcX1, 
 				INT32 srcY1 , INT32 dstX0, INT32 dstY0, INT32 dstX1, INT32 dstY1, 
-				GraphicsAPI::eBufferBitType mask, eImageInterpolation filter) const noexcept;
+				GraphicsAPI::eBufferBitType mask, GraphicsAPI::eImageInterpolation filter) const noexcept;
 
 			void BlitFrameBufferFrom(UINT32 ReadFrameBufferId, INT32 srcX0, INT32 srcY0, 
 				INT32 srcX1, INT32 srcY1 , INT32 dstX0, INT32 dstY0, INT32 dstX1, 
-				INT32 dstY1, GraphicsAPI::eBufferBitType mask, eImageInterpolation filter) const noexcept;
+				INT32 dstY1, GraphicsAPI::eBufferBitType mask, GraphicsAPI::eImageInterpolation filter) const noexcept;
 
 			void BlitFrameBufferToTexture(
 				dooms::graphics::Texture* const drawTexture, INT32 srcX0, INT32 srcY0, INT32 srcX1,
 				INT32 srcY1, INT32 dstX0, INT32 dstY0, INT32 dstX1, INT32 dstY1,
-				GraphicsAPI::eBufferBitType mask, eImageInterpolation filter) const noexcept;
+				GraphicsAPI::eBufferBitType mask, GraphicsAPI::eImageInterpolation filter) const noexcept;
 
-			RenderBuffer& AttachRenderBuffer(GraphicsAPI::eBufferBitType renderBufferType, UINT32 width, UINT32 height);
-			RenderBuffer& AttachRenderBuffer(GraphicsAPI::eBufferBitType renderBufferType);
+			RenderBuffer& AttachRenderBuffer(GraphicsAPI::eFrameBufferAttachmentPoint renderBufferType, UINT32 width, UINT32 height);
+			RenderBuffer& AttachRenderBuffer(GraphicsAPI::eFrameBufferAttachmentPoint renderBufferType);
 			SingleTexture& AttachTextureBuffer(GraphicsAPI::eBufferBitType frameBufferType, UINT32 width, UINT32 height);
 			SingleTexture& AttachTextureBuffer(GraphicsAPI::eBufferBitType frameBufferType);
 			const SingleTexture* GetFrameBufferTexture(GraphicsAPI::eBufferBitType bufferType, UINT32 index) const;
@@ -188,16 +177,12 @@ namespace dooms
 
 			bool IsGenerated();
 
+			
+			INT32 GetFrameBufferWidth() const;
+			INT32 GetFrameBufferHeight() const;
 
-			enum class D_ENUM eFrameBufferParameterPName : UINT32
-			{
-				FRAMEBUFFER_DEFAULT_WIDTH = GL_FRAMEBUFFER_DEFAULT_WIDTH,
-				FRAMEBUFFER_DEFAULT_HEIGHT = GL_FRAMEBUFFER_DEFAULT_HEIGHT,
-				FRAMEBUFFER_DEFAULT_SAMPLES = GL_FRAMEBUFFER_DEFAULT_SAMPLES,
-				FRAMEBUFFER_DEFAULT_FIXED_SAMPLE_LOCATIONS = GL_FRAMEBUFFER_DEFAULT_FIXED_SAMPLE_LOCATIONS
-			};
-
-			INT32 GetFrameBufferParameteriv
+			/*
+			 *INT32 GetFrameBufferParameteriv
 			(
 				const eFrameBufferParameterPName frameBufferParameterPName
 			) const;
@@ -207,6 +192,7 @@ namespace dooms
 				const FrameBuffer* const frameBuffer,
 				const eFrameBufferParameterPName frameBufferParameterPName
 			);
+			*/
 		};
 	}
 }

@@ -1,33 +1,33 @@
 #include "DefferedRenderingFrameBuffer.h"
 
 #include "../Graphics_Server.h"
-#include "../Graphics_Setting.h"
+#include "../GraphicsAPI/graphicsAPISetting.h"
 #include <Rendering/Camera.h>
 
 dooms::graphics::DefferedRenderingFrameBuffer::DefferedRenderingFrameBuffer()
 {
-	FrameBuffer::GenerateBuffer(Graphics_Setting::GetScreenWidth(), Graphics_Setting::GetScreenHeight());
+	FrameBuffer::GenerateBuffer(graphicsAPISetting::GetScreenWidth(), graphicsAPISetting::GetScreenHeight());
 
 	//with renderbuffer, can't do post-processing
 
 	//Position
-	FrameBuffer::AttachTextureBuffer(GraphicsAPI::eBufferBitType::COLOR, Graphics_Setting::GetScreenWidth(), Graphics_Setting::GetScreenHeight());
+	FrameBuffer::AttachTextureBuffer(GraphicsAPI::eBufferBitType::COLOR_BUFFER, graphicsAPISetting::GetScreenWidth(), graphicsAPISetting::GetScreenHeight());
 	
 	//Normal
-	FrameBuffer::AttachTextureBuffer(GraphicsAPI::eBufferBitType::COLOR, Graphics_Setting::GetScreenWidth(), Graphics_Setting::GetScreenHeight());
+	FrameBuffer::AttachTextureBuffer(GraphicsAPI::eBufferBitType::COLOR_BUFFER, graphicsAPISetting::GetScreenWidth(), graphicsAPISetting::GetScreenHeight());
 	
 	//Albedo
-	FrameBuffer::AttachTextureBuffer(GraphicsAPI::eBufferBitType::COLOR, Graphics_Setting::GetScreenWidth(), Graphics_Setting::GetScreenHeight());
+	FrameBuffer::AttachTextureBuffer(GraphicsAPI::eBufferBitType::COLOR_BUFFER, graphicsAPISetting::GetScreenWidth(), graphicsAPISetting::GetScreenHeight());
 	
 	//Depth
-	FrameBuffer::AttachTextureBuffer(GraphicsAPI::eBufferBitType::DEPTH, Graphics_Setting::GetScreenWidth(), Graphics_Setting::GetScreenHeight());
+	FrameBuffer::AttachTextureBuffer(GraphicsAPI::eBufferBitType::DEPTH_BUFFER, graphicsAPISetting::GetScreenWidth(), graphicsAPISetting::GetScreenHeight());
 
 	CheckIsFrameBufferSuccesfullyCreated();
 }
 
 void dooms::graphics::DefferedRenderingFrameBuffer::BlitDepthBufferToScreenBuffer() const
 {
-	FrameBuffer::BlitFrameBufferTo(0, 0, 0, GetDefaultWidth(), GetDefaultHeight(), 0, 0, Graphics_Setting::GetScreenWidth(), Graphics_Setting::GetScreenHeight(), GraphicsAPI::eBufferBitType::DEPTH, FrameBuffer::eImageInterpolation::NEAREST);
+	FrameBuffer::BlitFrameBufferTo(0, 0, 0, GetDefaultWidth(), GetDefaultHeight(), 0, 0, graphicsAPISetting::GetScreenWidth(), graphicsAPISetting::GetScreenHeight(), GraphicsAPI::eBufferBitType::DEPTH_BUFFER, GraphicsAPI::eImageInterpolation::IMAGE_INTERPOLATION_NEAREST);
 
 }
 
@@ -35,7 +35,7 @@ void dooms::graphics::DefferedRenderingFrameBuffer::BindGBufferTextures()
 {
 	for (UINT32 i = 0; i < 3; i++)
 	{
-		FrameBuffer::GetFrameBufferTexture(GraphicsAPI::eBufferBitType::COLOR, i)->BindTextureWithUnit(i);
+		FrameBuffer::GetFrameBufferTexture(GraphicsAPI::eBufferBitType::COLOR_BUFFER, i)->BindTextureWithUnit(i);
 	}
 }
 
@@ -50,7 +50,7 @@ void dooms::graphics::DefferedRenderingFrameBuffer::ClearFrameBuffer(const Camer
 		GraphicsAPI::eBufferType::COLOR
 	};
 
-	static const GraphicsAPI::eBufferMode BUFFER_MODES[3] =
+	static const std::vector<GraphicsAPI::eBufferMode> BUFFER_MODES =
 	{ 
 		GraphicsAPI::eBufferMode::COLOR_ATTACHMENT0, 
 		GraphicsAPI::eBufferMode::COLOR_ATTACHMENT1,
@@ -64,13 +64,15 @@ void dooms::graphics::DefferedRenderingFrameBuffer::ClearFrameBuffer(const Camer
 	{
 		ZERO_ZERO_ZERO_ONE,
 		ZERO_ZERO_ZERO_ONE,
-		math::Vector4(0, 0, 0, 0)
+		camera->mClearColor
 	};
 
-	TARGET_COLORS[2] = camera->mClearColor;
-
-	GraphicsAPI::ClearSpecificBuffer(3, BUFFER_TYPES, BUFFER_MODES, TARGET_COLORS);
-	GraphicsAPI::Clear(GraphicsAPI::eClearMask::DEPTH_BUFFER_BIT);
+	GraphicsAPI::SetDrawBuffers(3, BUFFER_MODES);
+	GraphicsAPI::ClearSpecificBuffer(GraphicsAPI::eBufferType::COLOR, 0, TARGET_COLORS[0].data());
+	GraphicsAPI::ClearSpecificBuffer(GraphicsAPI::eBufferType::COLOR, 1, TARGET_COLORS[1].data());
+	GraphicsAPI::ClearSpecificBuffer(GraphicsAPI::eBufferType::COLOR, 2, TARGET_COLORS[2].data());
+	GraphicsAPI::ClearBuffer(GraphicsAPI::eBufferBitType::COLOR_BUFFER);
+	GraphicsAPI::ClearBuffer(GraphicsAPI::eBufferBitType::DEPTH_BUFFER);
 
 	SetTargetDrawBuffer();
 }

@@ -71,7 +71,7 @@ namespace dooms::graphics::meshHelper
 		std::vector<ThreeDModelMesh> threeDModelMeshes{};
 		threeDModelMeshes.emplace_back(nullptr);
 
-		threeDModelMeshes[0].mPrimitiveType = ePrimitiveType::TRIANGLES;
+		threeDModelMeshes[0].mPrimitiveType = GraphicsAPI::ePrimitiveType::TRIANGLES;
 		threeDModelMeshes[0].mVertexArrayFlag = eVertexArrayFlag::VertexVector3 | eVertexArrayFlag::TexCoord;
 
 		threeDModelMeshes[0].mVerticeStride = 12;
@@ -145,7 +145,7 @@ namespace dooms::graphics::meshHelper
 		std::vector<ThreeDModelMesh> threeDModelMeshes{};
 		threeDModelMeshes.emplace_back(nullptr);
 
-		threeDModelMeshes[0].mPrimitiveType = ePrimitiveType::TRIANGLES;
+		threeDModelMeshes[0].mPrimitiveType = GraphicsAPI::ePrimitiveType::TRIANGLES;
 		threeDModelMeshes[0].mVertexArrayFlag = eVertexArrayFlag::VertexVector3 | eVertexArrayFlag::TexCoord;
 
 		threeDModelMeshes[0].mVerticeStride = 12;

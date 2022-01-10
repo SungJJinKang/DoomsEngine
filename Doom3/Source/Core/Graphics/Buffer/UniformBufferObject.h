@@ -6,6 +6,7 @@
 #include <string>
 
 #include "../OverlapBindChecker.h"
+#include "../GraphicsAPI/GraphicsAPI.h"
 
 #include "UniformBufferObject.reflection.h"
 namespace dooms
@@ -61,7 +62,7 @@ namespace dooms
 			{
 				if (D_OVERLAP_BIND_CHECK_CHECK_IS_NOT_BOUND_AND_BIND_ID(GL_UNIFORM_BUFFER_TAG, mBufferID))
 				{
-					glBindBuffer(GL_UNIFORM_BUFFER, mBufferID);
+					GraphicsAPI::BindBuffer(mBufferID, GraphicsAPI::UNIFORM_BUFFER);
 				}
 				
 			}
@@ -69,7 +70,7 @@ namespace dooms
 			{
 				if (D_OVERLAP_BIND_CHECK_CHECK_IS_NOT_BOUND_AND_BIND_ID(GL_UNIFORM_BUFFER_TAG, 0))
 				{
-					glBindBuffer(GL_UNIFORM_BUFFER, 0);
+					GraphicsAPI::UnBindBuffer(GraphicsAPI::UNIFORM_BUFFER);
 				}
 			
 			}

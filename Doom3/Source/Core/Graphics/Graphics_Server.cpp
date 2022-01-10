@@ -6,7 +6,7 @@
 #include "../Scene/Layer.h"
 #include "../Game/AssetManager/AssetManager.h"
 
-#include "GraphicsAPI.h"
+#include "GraphicsAPI/GraphicsAPI.h"
 
 #include "Buffer/UniformBufferObjectManager.h"
 
@@ -19,8 +19,10 @@
 
 #include "Acceleration/LinearData_ViewFrustumCulling/EveryCulling.h"
 
-#include "graphicsAPIManager.h"
-#include "Graphics_Setting.h"
+#include "graphicsSetting.h"
+#include "GraphicsAPI/graphicsAPISetting.h"
+#include "GraphicsAPI/GraphicsAPI.h"
+
 #include "MainTimer.h"
 
 #include "Acceleration/SortFrontToBackSolver.h"
@@ -33,12 +35,29 @@
 
 using namespace dooms::graphics;
 
-void Graphics_Server::Init()
+void Graphics_Server::InitializeGraphicsAPI()
 {
-	Graphics_Setting::LoadData();
-	graphicsAPIManager::Initialize();
+	const std::string targetGraphicsAPI = ConfigData::GetSingleton()->GetConfigData().GetValue<std::string>("Graphics", "GRAPHICS_API");
+	if (targetGraphicsAPI == "OPENGL")
+	{
+		mGraphicsAPIManager.Initialize(eGraphicsAPIType::OpenGL);
+	}
+	else if (targetGraphicsAPI == "DX11")
+	{
+		mGraphicsAPIManager.Initialize(eGraphicsAPIType::DX11);
+	}
+}
 
-	mCullingSystem = std::make_unique<culling::EveryCulling>(Graphics_Setting::GetScreenWidth(), Graphics_Setting::GetScreenHeight());
+void dooms::graphics::Graphics_Server::Init()
+{
+	dooms::graphics::graphicsSetting::LoadData();
+	dooms::graphics::graphicsAPISetting::LoadData();
+
+	InitializeGraphicsAPI();
+	
+	dooms::ui::engineGUIServer::Initialize();
+
+	mCullingSystem = std::make_unique<culling::EveryCulling>(graphicsAPISetting::GetScreenWidth(), graphicsAPISetting::GetScreenHeight());
 	mCullingSystem->SetThreadCount(resource::JobSystem::GetSingleton()->GetSubThreadCount() + 1);
 	mCullingSystem->mMaskedSWOcclusionCulling->mSolveMeshRoleStage.mOccluderViewSpaceBoundingSphereRadius = ConfigData::GetSingleton()->GetConfigData().GetValue<FLOAT32>("Graphics", "MASKED_OC_OCCLUDER_VIEW_SPACE_BOUNDING_SPHERE_RADIUS");
 	mCullingSystem->mMaskedSWOcclusionCulling->mSolveMeshRoleStage.mOccluderAABBScreenSpaceMinArea = ConfigData::GetSingleton()->GetConfigData().GetValue<FLOAT32>("Graphics", "MASKED_OC_OCCLUDER_AABB_SCREEN_SPACE_MIN_AREA");
@@ -55,9 +74,7 @@ void dooms::graphics::Graphics_Server::LateInit()
 	mDebugGraphics.Init();
 #endif 
 
-	SetRenderingMode(Graphics_Server::eRenderingMode::DeferredRendering);
-
-
+	mDeferredRenderingDrawer.Initialize();
 	//mQueryOcclusionCulling.InitQueryOcclusionCulling();
 	//mCullDistance.Initialize();
 }
@@ -97,7 +114,7 @@ void Graphics_Server::OnEndOfFrame()
 	mDebugGraphics.Reset();
 #endif
 
-	graphicsAPIManager::SwapBuffer();
+	graphics::GraphicsAPI::SwapBuffer();
 }
 
 Graphics_Server::Graphics_Server()
@@ -107,7 +124,8 @@ Graphics_Server::Graphics_Server()
 
 Graphics_Server::~Graphics_Server()
 {
-	graphicsAPIManager::DeInitialize();
+	dooms::ui::engineGUIServer::ShutDown();
+	mGraphicsAPIManager.DeInitialize();
 }
 
 void Graphics_Server::PreCullJob()
@@ -158,19 +176,20 @@ void Graphics_Server::CameraCullJob(dooms::Camera* const camera)
 
 }
 
+
 void Graphics_Server::DebugGraphics()
 {
-	if (Graphics_Setting::IsDrawMaskedOcclusionCullingBinTriangleStageDebugger == true)
+	if (graphicsSetting::IsDrawMaskedOcclusionCullingBinTriangleStageDebugger == true)
 	{
 		dooms::graphics::maskedOcclusionCullingTester::DebugBinnedTriangles(&(mCullingSystem->mMaskedSWOcclusionCulling->mDepthBuffer));
 	}
 
-	if (Graphics_Setting::IsDrawMaskedOcclusionCullingTileCoverageMaskDebugger == true)
+	if (graphicsSetting::IsDrawMaskedOcclusionCullingTileCoverageMaskDebugger == true)
 	{
 		dooms::graphics::maskedOcclusionCullingTester::DebugTileCoverageMask(&(mCullingSystem->mMaskedSWOcclusionCulling->mDepthBuffer));
 	}
 
-	if (Graphics_Setting::IsDrawMaskedOcclusionCullingTileL0MaxDepthValueDebugger == true)
+	if (graphicsSetting::IsDrawMaskedOcclusionCullingTileL0MaxDepthValueDebugger == true)
 	{
 		dooms::graphics::maskedOcclusionCullingTester::DebugTileL0MaxDepthValue(&(mCullingSystem->mMaskedSWOcclusionCulling->mDepthBuffer));
 	}
@@ -300,8 +319,8 @@ void dooms::graphics::Graphics_Server::Render()
 
 		D_ASSERT(IsValid(targetCamera));
 
-		GraphicsAPI::ClearColor(targetCamera->mClearColor);
-		GraphicsAPI::Clear(GraphicsAPI::eClearMask::COLOR_BUFFER_BIT, GraphicsAPI::eClearMask::DEPTH_BUFFER_BIT);
+		GraphicsAPI::ClearColor(targetCamera->mClearColor.data());
+		GraphicsAPI::ClearBuffer(GraphicsAPI::eBufferBitType::COLOR_BUFFER, GraphicsAPI::eBufferBitType::DEPTH_BUFFER);
 
 		targetCamera->UpdateUniformBufferObject();
 
@@ -380,8 +399,8 @@ void dooms::graphics::Graphics_Server::UpdateOverDrawVisualization(dooms::Camera
 {
 
 #ifdef DEBUG_DRAWER
-	OverDrawVisualization::ShowOverDrawVisualizationPIP(Graphics_Setting::IsOverDrawVisualizationEnabled);
-	if (Graphics_Setting::IsOverDrawVisualizationEnabled == true)
+	OverDrawVisualization::ShowOverDrawVisualizationPIP(graphicsSetting::IsOverDrawVisualizationEnabled);
+	if (graphicsSetting::IsOverDrawVisualizationEnabled == true)
 	{
 		OverDrawVisualization::SetOverDrawVisualizationRenderingState(true);
 		RenderObject(targetCamera, cameraIndex);
@@ -400,7 +419,7 @@ void dooms::graphics::Graphics_Server::RenderObject(dooms::Camera* const targetC
 	targetCamera->UpdateUniformBufferObject();
 	std::future<void> IsFinishedSortingReferernceRenderers;
 	
-	if (Graphics_Setting::IsSortObjectFrontToBack == true)
+	if (graphicsSetting::IsSortObjectFrontToBack == true)
 	{
 		math::Vector3 cameraPos = targetCamera->GetTransform()->GetPosition();
 
@@ -454,6 +473,7 @@ void dooms::graphics::Graphics_Server::RenderObject(dooms::Camera* const targetC
 
 
 
+/*
 void dooms::graphics::Graphics_Server::SetRenderingMode(eRenderingMode renderingMode)
 {
 	mCurrentRenderingMode = renderingMode;
@@ -462,6 +482,7 @@ void dooms::graphics::Graphics_Server::SetRenderingMode(eRenderingMode rendering
 		mDeferredRenderingDrawer.Initialize();
 	}
 }
+*/
 
 
 

@@ -133,7 +133,7 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions);DOOM_DLL_EXPORTS</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>$(ProjectDir);$(SolutionDir)Source\Core\OS;$(VcpkgInstalledDir)x86-windows\include;$(SolutionDir)Source\Helper;$(SolutionDir)Source\Component;$(SolutionDir)Source\Core\Scene;$(SolutionDir)Source\Component\Core;$(SolutionDir)Source\Helper/crossguid;$(SolutionDir)Source\GameLogic\CustomComponent;$(SolutionDir)Source\Core\Math\LightMath_Cpp;$(SolutionDir)Source\Core\IO;$(SolutionDir)Source\Core\Time;$(SolutionDir)Source\GameLogic;$(SolutionDir)Source\Core;$(SolutionDir)Source\Core\Logger;$(SolutionDir)Source\Core\Physics;$(SolutionDir)Source\Core\utility;$(SolutionDir)Source\Core\DObject\Reflection\clReflect_automation\clReflect\inc</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
@@ -151,8 +151,8 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(SolutionDir)Source\Helper\crossguid\build\Debug;%(AdditionalLibraryDirectories);C:\vcpkg\x64-windows\bin</AdditionalLibraryDirectories>
-      <AdditionalDependencies>xg.lib;%(AdditionalDependencies);C:\vcpkg\x64-windows\bin</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)Source\Helper\crossguid\build\Debug;%(AdditionalLibraryDirectories);C:\vcpkg\x64-windows\bin;$(OutputPath)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>xg.lib;%(AdditionalDependencies);C:\vcpkg\x64-windows\bin;OpenGLGraphicsAPI.lib;DX11GraphicsAPI.lib</AdditionalDependencies>
       <GenerateMapFile>true</GenerateMapFile>
       <MapFileName>map.map</MapFileName>
       <MapExports>true</MapExports>
@@ -169,7 +169,7 @@ xcopy /y /d /E /H /C /I "$(ProjectDir)Assets" "$(TargetDir)Assets"</Command>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions);DOOM_DLL_EXPORTS</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>$(ProjectDir);$(SolutionDir)Source\Core\OS;$(VcpkgInstalledDir)x86-windows\include;$(SolutionDir)Source\Helper;$(SolutionDir)Source\Component;$(SolutionDir)Source\Core\Scene;$(SolutionDir)Source\Component\Core;$(SolutionDir)Source\Helper/crossguid;$(SolutionDir)Source\GameLogic\CustomComponent;$(SolutionDir)Source\Core\Math\LightMath_Cpp;$(SolutionDir)Source\Core\IO;$(SolutionDir)Source\Core\Time;$(SolutionDir)Source\GameLogic;$(SolutionDir)Source\Core;$(SolutionDir)Source\Core\Logger;$(SolutionDir)Source\Core\Physics;$(SolutionDir)Source\Core\utility;$(SolutionDir)Source\Core\DObject\Reflection\clReflect_automation\clReflect\inc</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
@@ -189,8 +189,8 @@ xcopy /y /d /E /H /C /I "$(ProjectDir)Assets" "$(TargetDir)Assets"</Command>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(SolutionDir)dependency\Compressonator\lib\VS2017\x86;$(SolutionDir)dependency\assimp;$(SolutionDir)dependency\glfw\lib;$(SolutionDir)dependency\crossguid\build\Release;$(SolutionDir)Source\Helper\crossguid\build\Release;%(AdditionalLibraryDirectories);C:\vcpkg\x64-windows\bin</AdditionalLibraryDirectories>
-      <AdditionalDependencies>xg.lib;%(AdditionalDependencies);C:\vcpkg\x64-windows\bin</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)dependency\Compressonator\lib\VS2017\x86;$(SolutionDir)dependency\assimp;$(SolutionDir)dependency\glfw\lib;$(SolutionDir)dependency\crossguid\build\Release;$(SolutionDir)Source\Helper\crossguid\build\Release;%(AdditionalLibraryDirectories);C:\vcpkg\x64-windows\bin;$(OutputPath)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>xg.lib;%(AdditionalDependencies);C:\vcpkg\x64-windows\bin;OpenGLGraphicsAPI.lib;DX11GraphicsAPI.lib</AdditionalDependencies>
       <GenerateMapFile>true</GenerateMapFile>
       <MapFileName>map.map</MapFileName>
       <MapExports>true</MapExports>
@@ -205,7 +205,7 @@ xcopy /y /d /E /H /C /I "$(ProjectDir)Assets" "$(TargetDir)Assets"</Command>
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions);DOOM_DLL_EXPORTS;UNICODE</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions);UNICODE</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>C:\assimp-5.1.5\include\;$(ProjectDir);$(SolutionDir)Source\Core\OS;$(VcpkgInstalledDir)x64-windows\include;$(SolutionDir)Source\Helper;$(SolutionDir)Source\Component;$(SolutionDir)Source\Core\Scene;$(SolutionDir)Source\Component\Core;$(SolutionDir)Source\Helper/crossguid;$(SolutionDir)Source\GameLogic\CustomComponent;$(SolutionDir)Source\Core\Math\LightMath_Cpp;$(SolutionDir)Source\Core\IO;$(SolutionDir)Source\Core\Time;$(SolutionDir)Source\GameLogic;$(SolutionDir)Source\Core;$(SolutionDir)Source\Core\Logger;$(SolutionDir)Source\Core\Physics;$(SolutionDir)Source\Core\utility;$(SolutionDir)Source\Core\Reflection\clReflect_automation\clReflect\inc;$(SolutionDir)Source\thirdparty\imgui</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
@@ -226,8 +226,8 @@ xcopy /y /d /E /H /C /I "$(ProjectDir)Assets" "$(TargetDir)Assets"</Command>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>DebugFull</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(SolutionDir)Source\Helper\crossguid\build\Debug;C:\assimp-5.1.5\build\lib\Debug;C:\Doom3FromScratch\Doom3\vcpkg_installed\x64-windows\debug\lib;C:\vcpkg\installed\x64-windows\debug\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>%(AdditionalDependencies);ntdll.lib;xg.lib;DirectXTex.lib;glad.lib;glfw3dll.lib;assimp-vc142-mtd.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)Source\Helper\crossguid\build\Debug;C:\assimp-5.1.5\build\lib\Debug;C:\vcpkg\installed\x64-windows\debug\lib;%(AdditionalLibraryDirectories);$(OutputPath)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>%(AdditionalDependencies);ntdll.lib;xg.lib;DirectXTex.lib;assimp-vc142-mtd.lib;OpenGLGraphicsAPI.lib;DX11GraphicsAPI.lib</AdditionalDependencies>
       <GenerateMapFile>true</GenerateMapFile>
       <MapFileName>map.map</MapFileName>
       <MapExports>true</MapExports>
@@ -246,7 +246,7 @@ xcopy /y /d /f "$(ProjectDir)*.map" "$(TargetDir)"</Command>
       <FunctionLevelLinking>false</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions);DOOM_DLL_EXPORTS;UNICODE</PreprocessorDefinitions>
+      <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions);UNICODE</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>C:\assimp-5.1.5\include\;$(ProjectDir);$(SolutionDir)Source\thirdparty\amdUprof\include;$(SolutionDir)Source\Core\OS;$(VcpkgInstalledDir)x64-windows\include;$(SolutionDir)Source\Helper;$(SolutionDir)Source\Component;$(SolutionDir)Source\Core\Scene;$(SolutionDir)Source\Component\Core;$(SolutionDir)Source\Helper/crossguid;$(SolutionDir)Source\GameLogic\CustomComponent;$(SolutionDir)Source\Core\Math\LightMath_Cpp;$(SolutionDir)Source\Core\IO;$(SolutionDir)Source\Core\Time;$(SolutionDir)Source\GameLogic;$(SolutionDir)Source\Core;$(SolutionDir)Source\Core\Logger;$(SolutionDir)Source\Core\Physics;$(SolutionDir)Source\Core\utility;$(SolutionDir)Source\Core\Reflection\clReflect_automation\clReflect\inc;$(SolutionDir)Source\thirdparty\imgui</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
@@ -271,8 +271,8 @@ xcopy /y /d /f "$(ProjectDir)*.map" "$(TargetDir)"</Command>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>false</OptimizeReferences>
       <GenerateDebugInformation>DebugFull</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>C:\Doom3FromScratch\Doom3\vcpkg_installed\x64-windows\lib;$(SolutionDir)Source\thirdparty\amdUprof\lib\x64;$(SolutionDir)Source\Helper\crossguid\build\Release;C:\assimp-5.1.5\build\lib\Release;C:\vcpkg\installed\x64-windows\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>xg.lib;AMDProfileController.lib;ntdll.lib;DirectXTex.lib;glad.lib;glfw3dll.lib;assimp-vc142-mt.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)Source\thirdparty\amdUprof\lib\x64;$(SolutionDir)Source\Helper\crossguid\build\Release;C:\assimp-5.1.5\build\lib\Release;C:\vcpkg\installed\x64-windows\lib;%(AdditionalLibraryDirectories);$(OutputPath)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>xg.lib;AMDProfileController.lib;ntdll.lib;DirectXTex.lib;assimp-vc142-mt.lib;%(AdditionalDependencies);OpenGLGraphicsAPI.lib;DX11GraphicsAPI.lib</AdditionalDependencies>
       <GenerateMapFile>true</GenerateMapFile>
       <MapFileName>map.map</MapFileName>
       <MapExports>true</MapExports>
@@ -286,7 +286,7 @@ xcopy /y /d /f "$(ProjectDir)*.map" "$(TargetDir)"</Command>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='AMDuProf|x64'">
     <ClCompile>
       <AdditionalIncludeDirectories>C:\assimp-5.1.5\include\;$(ProjectDir);;$(SolutionDir)Source\Core\utility;$(SolutionDir)Source\Core\DObject\Reflection\clReflect\inc</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>;DOOM_DLL_EXPORTS</PreprocessorDefinitions>
+      <PreprocessorDefinitions>;DOOM_DLL_EXPORTS;DOOMS_ENGINE_DLL_EXPORT</PreprocessorDefinitions>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <StringPooling>true</StringPooling>
@@ -300,8 +300,8 @@ xcopy /y /d /f "$(ProjectDir)*.map" "$(TargetDir)"</Command>
       <SourceDependenciesFile>$(OutDirFullPath)SourceDependencies\</SourceDependenciesFile>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies);ntdll.lib;C:\vcpkg\x64-windows\bin</AdditionalDependencies>
-      <AdditionalLibraryDirectories>;C:\vcpkg\x64-windows\bin</AdditionalLibraryDirectories>
+      <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies);ntdll.lib;C:\vcpkg\x64-windows\bin;OpenGLGraphicsAPI.lib;DX11GraphicsAPI.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>;C:\vcpkg\x64-windows\bin;$(OutputPath)</AdditionalLibraryDirectories>
       <GenerateMapFile>true</GenerateMapFile>
       <MapFileName>map.map</MapFileName>
       <MapExports>true</MapExports>
@@ -313,7 +313,7 @@ xcopy /y /d /E /H /C /I "$(ProjectDir)Assets" "$(TargetDir)Assets"</Command>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='AMDuProf|Win32'">
     <ClCompile>
-      <PreprocessorDefinitions>;DOOM_DLL_EXPORTS</PreprocessorDefinitions>
+      <PreprocessorDefinitions>;DOOM_DLL_EXPORTS;DOOMS_ENGINE_DLL_EXPORT</PreprocessorDefinitions>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <AdditionalIncludeDirectories>$(ProjectDir);;$(SolutionDir)Source\Core\utility;$(SolutionDir)Source\Core\DObject\Reflection\clReflect\inc</AdditionalIncludeDirectories>
@@ -328,8 +328,8 @@ xcopy /y /d /E /H /C /I "$(ProjectDir)Assets" "$(TargetDir)Assets"</Command>
       <SourceDependenciesFile>$(OutDirFullPath)SourceDependencies\</SourceDependenciesFile>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies);C:\vcpkg\x64-windows\bin</AdditionalDependencies>
-      <AdditionalLibraryDirectories>;C:\vcpkg\x64-windows\bin</AdditionalLibraryDirectories>
+      <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies);C:\vcpkg\x64-windows\bin;OpenGLGraphicsAPI.lib;DX11GraphicsAPI.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>;C:\vcpkg\x64-windows\bin;$(OutputPath)</AdditionalLibraryDirectories>
       <GenerateMapFile>true</GenerateMapFile>
       <MapFileName>map.map</MapFileName>
       <MapExports>true</MapExports>
@@ -367,9 +367,11 @@ xcopy /y /d /E /H /C /I "$(ProjectDir)Assets" "$(TargetDir)Assets"</Command>
     <ClCompile Include="Source\Core\Graphics\Acceleration\LinearData_ViewFrustumCulling\CullingModule\MaskedSWOcclusionCulling\Stage\SolveMeshRoleStage.cpp" />
     <ClCompile Include="Source\Core\Graphics\Buffer\MeshHelper.cpp" />
     <ClCompile Include="Source\Core\Graphics\Buffer\MeshNode.cpp" />
-    <ClCompile Include="Source\Core\Graphics\GraphicsAPI\DX11GraphicsAPIManager.cpp" />
+    <ClCompile Include="Source\Core\Graphics\GraphicsAPI\APIHeaders\DX11Headers.h" />
+    <ClCompile Include="Source\Core\Graphics\GraphicsAPI\APIHeaders\OpenGLHeaders.h" />
+    <ClCompile Include="Source\Core\Graphics\GraphicsAPI\GraphicsAPILoader.cpp" />
     <ClCompile Include="Source\Core\Graphics\GraphicsAPI\GraphicsAPIManager.cpp" />
-    <ClCompile Include="Source\Core\Graphics\GraphicsAPI\OpenGLGraphicsAPIManager.cpp" />
+    <ClCompile Include="Source\Core\Graphics\graphicsSetting.cpp" />
     <ClCompile Include="Source\Core\Profiler\ProfilingManager.cpp" />
     <ClCompile Include="Source\Core\Reflection\TypeSpecialized\Helper\iteratorHelper.cpp" />
     <ClCompile Include="Source\Core\Reflection\TypeSpecialized\Reflection_RandomAccessIterator.cpp" />
@@ -427,8 +429,7 @@ xcopy /y /d /E /H /C /I "$(ProjectDir)Assets" "$(TargetDir)Assets"</Command>
     <ClCompile Include="Source\Core\Graphics\DebugGraphics\OverDrawVisualization.cpp" />
     <ClCompile Include="Source\Core\Graphics\DeferredRenderingDrawer.cpp" />
     <ClCompile Include="Source\Core\Graphics\FrameBuffer\DefferedRenderingFrameBuffer.cpp" />
-    <ClCompile Include="Source\Core\Graphics\graphicsAPIManager.cpp" />
-    <ClCompile Include="Source\Core\Graphics\Graphics_Setting.cpp" />
+    <ClCompile Include="Source\Core\Graphics\GraphicsAPI\graphicsAPISetting.cpp" />
     <ClCompile Include="Source\Core\Graphics\LightManager.cpp" />
     <ClCompile Include="Source\Core\Graphics\Material\FixedMaterial.cpp" />
     <ClCompile Include="Source\Core\Graphics\PictureInPicture\PIPManager.cpp" />
@@ -541,7 +542,6 @@ xcopy /y /d /E /H /C /I "$(ProjectDir)Assets" "$(TargetDir)Assets"</Command>
     <ClCompile Include="Source\Core\IO\AssetImporter\assetImporter.cpp" />
     <ClCompile Include="Source\Core\IO\UserInput_Server.cpp" />
     <ClCompile Include="Source\Core\Logger\Logger.cpp" />
-    <ClCompile Include="Source\Core\Graphics\GraphicsAPI.cpp" />
     <ClCompile Include="Source\Core\Math\LightMath_Cpp\Vector2.cpp" />
     <ClCompile Include="Source\Core\Math\LightMath_Cpp\Vector3.cpp" />
     <ClCompile Include="Source\Core\Math\LightMath_Cpp\Vector4.cpp" />
@@ -583,9 +583,6 @@ xcopy /y /d /E /H /C /I "$(ProjectDir)Assets" "$(TargetDir)Assets"</Command>
     <ClCompile Include="Source\Helper\EasyDirtyChecker\DirtyReceiver.cpp" />
     <ClCompile Include="Source\Component\PhysicsComponent\SphereCollider3D.cpp" />
     <ClCompile Include="Source\Core\String\StringHelper.cpp" />
-    <ClCompile Include="Source\thirdparty\imgui\backends\imgui_impl_glfw.cpp" />
-    <ClCompile Include="Source\thirdparty\imgui\backends\imgui_impl_opengl3.cpp" />
-    <ClCompile Include="Source\thirdparty\imgui\backends\imgui_impl_win32.cpp" />
     <ClCompile Include="Source\thirdparty\imgui\imgui.cpp" />
     <ClCompile Include="Source\thirdparty\imgui\imgui_draw.cpp" />
     <ClCompile Include="Source\thirdparty\imgui\imgui_tables.cpp" />
@@ -618,9 +615,13 @@ xcopy /y /d /E /H /C /I "$(ProjectDir)Assets" "$(TargetDir)Assets"</Command>
     <ClInclude Include="Source\Core\Graphics\Acceleration\LinearData_ViewFrustumCulling\CullingModule\MaskedSWOcclusionCulling\Stage\SolveMeshRoleStage.h" />
     <ClInclude Include="Source\Core\Graphics\Buffer\eVertexArrayFlag.h" />
     <ClInclude Include="Source\Core\Graphics\Buffer\MeshHelper.h" />
-    <ClInclude Include="Source\Core\Graphics\GraphicsAPI\DX11GraphicsAPIManager.h" />
+    <ClInclude Include="Source\Core\Graphics\GraphicsAPI\eGraphicsAPIType.h" />
+    <ClInclude Include="Source\Core\Graphics\GraphicsAPI\GraphicsAPI.h" />
+    <ClInclude Include="Source\Core\Graphics\GraphicsAPI\GraphicsAPILoader.h" />
     <ClInclude Include="Source\Core\Graphics\GraphicsAPI\GraphicsAPIManager.h" />
-    <ClInclude Include="Source\Core\Graphics\GraphicsAPI\OpenGLGraphicsAPIManager.h" />
+    <ClInclude Include="Source\Core\Graphics\GraphicsAPI\PlatformImgui\PlatformImgui.h" />
+    <ClInclude Include="Source\Core\Graphics\GraphicsAPI\Input\GraphicsAPIInput.h" />
+    <ClInclude Include="Source\Core\Graphics\graphicsSetting.h" />
     <ClInclude Include="Source\Core\Profiler\ProfilingManager.h" />
     <ClInclude Include="Source\Core\Reflection\ReflectionType\ePropertyQualifier.h" />
     <ClInclude Include="Source\Core\Reflection\TypeSpecialized\Helper\iteratorHelper.h" />
@@ -667,7 +668,6 @@ xcopy /y /d /E /H /C /I "$(ProjectDir)Assets" "$(TargetDir)Assets"</Command>
     <ClInclude Include="Source\Core\Graphics\Acceleration\LinearData_ViewFrustumCulling\DataType\Math\SIMD_Core.h" />
     <ClInclude Include="Source\Core\Graphics\FrameBuffer\FrameBufferExporterHelper.h" />
     <ClInclude Include="Source\Core\Graphics\Texture\CubemapTexture.h" />
-    <ClInclude Include="Source\Core\Graphics\Texture\TextureFormat.h" />
     <ClInclude Include="Source\Core\IO\AssetExporter\AssetExporter_Texture.h" />
     <ClInclude Include="Source\Core\IO\AssetExporter\AssetExporter_Three_D_Model.h" />
     <ClInclude Include="Source\Core\IO\AssetImporter\AssetImporterWorker\AssetImporterWorkerForwardDeclaration.h" />
@@ -684,8 +684,7 @@ xcopy /y /d /E /H /C /I "$(ProjectDir)Assets" "$(TargetDir)Assets"</Command>
     <ClInclude Include="Source\Core\Graphics\DebugGraphics\OverDrawVisualization.h" />
     <ClInclude Include="Source\Core\Graphics\DeferredRenderingDrawer.h" />
     <ClInclude Include="Source\Core\Graphics\FrameBuffer\DefferedRenderingFrameBuffer.h" />
-    <ClInclude Include="Source\Core\Graphics\graphicsAPIManager.h" />
-    <ClInclude Include="Source\Core\Graphics\Graphics_Setting.h" />
+    <ClInclude Include="Source\Core\Graphics\GraphicsAPI\graphicsAPISetting.h" />
     <ClInclude Include="Source\Core\Graphics\LightManager.h" />
     <ClInclude Include="Source\Core\Graphics\Material\FixedMaterial.h" />
     <ClInclude Include="Source\Core\Graphics\PictureInPicture\PIPManager.h" />
@@ -804,7 +803,6 @@ xcopy /y /d /E /H /C /I "$(ProjectDir)Assets" "$(TargetDir)Assets"</Command>
     <ClInclude Include="Source\Component\Rendering\Light\PointLight.h" />
     <ClInclude Include="Source\Component\Rendering\Renderer\Renderer.h" />
     <ClInclude Include="Source\Component\Transform.h" />
-    <ClInclude Include="Source\Core\Graphics\ePrimitiveType.h" />
     <ClInclude Include="Source\Core\Game\FrameDirtyChecker.h" />
     <ClInclude Include="Source\Core\Game\IGameFlow.h" />
     <ClInclude Include="Source\Core\Graphics\Color.h" />
@@ -835,7 +833,6 @@ xcopy /y /d /E /H /C /I "$(ProjectDir)Assets" "$(TargetDir)Assets"</Command>
     <ClInclude Include="Source\Core\Graphics\Buffer\UniformBufferObject.h" />
     <ClInclude Include="Source\Core\Graphics\Buffer\Mesh.h" />
     <ClInclude Include="Source\Core\API\ASSIMP.h" />
-    <ClInclude Include="Source\Core\API\GraphicsAPI.h" />
     <ClInclude Include="Source\Core\API\UUID.h" />
     <ClInclude Include="Source\Core\Asset\AssetHeaders.h" />
     <ClInclude Include="Source\Core\Asset\TextAsset.h" />
@@ -965,13 +962,9 @@ xcopy /y /d /E /H /C /I "$(ProjectDir)Assets" "$(TargetDir)Assets"</Command>
     <ClInclude Include="Source\Core\Graphics\Texture\Texture.h" />
     <ClInclude Include="Source\Core\IO\UserInput_Server.h" />
     <ClInclude Include="Source\Core\Logger\Logger.h" />
-    <ClInclude Include="Source\Core\Graphics\GraphicsAPI.h" />
     <ClInclude Include="Source\Core\Asset\ThreeDModelAsset.h" />
     <ClInclude Include="Source\Core\Asset\TextureAsset.h" />
     <ClInclude Include="Source\Core\String\StringHelper.h" />
-    <ClInclude Include="Source\thirdparty\imgui\backends\imgui_impl_glfw.h" />
-    <ClInclude Include="Source\thirdparty\imgui\backends\imgui_impl_opengl3.h" />
-    <ClInclude Include="Source\thirdparty\imgui\backends\imgui_impl_win32.h" />
     <ClInclude Include="Source\thirdparty\imgui\imconfig.h" />
     <ClInclude Include="Source\thirdparty\imgui\imgui.h" />
     <ClInclude Include="Source\thirdparty\imgui\imgui_internal.h" />

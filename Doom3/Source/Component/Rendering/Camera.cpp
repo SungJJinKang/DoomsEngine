@@ -3,7 +3,7 @@
 
 
 #include "../Graphics/Graphics_Server.h"
-#include "../Graphics/Graphics_Setting.h"
+#include "../Graphics/graphicsSetting.h"
 #include "Graphics/Buffer/UniformBlockOffsetInfo.h"
 
 using namespace dooms;
@@ -104,7 +104,7 @@ void Camera::SetViewportRectHeight(FLOAT32 value)
 }
 
 Camera::Camera()
-	:UniformBufferObjectUpdater(false), mClearColor(dooms::graphics::Graphics_Setting::DefaultClearColor)
+	:UniformBufferObjectUpdater(false), mClearColor(dooms::graphics::graphicsSetting::DefaultClearColor[0], dooms::graphics::graphicsSetting::DefaultClearColor[1], dooms::graphics::graphicsSetting::DefaultClearColor[2], dooms::graphics::graphicsSetting::DefaultClearColor[3])
 {
 
 }
@@ -293,7 +293,7 @@ const math::Matrix4x4& dooms::Camera::GetProjectionMatrix()
 	{
 		if (mProjectionMode == eProjectionType::Perspective)
 		{
-			mProjectionMatrix = math::perspectiveFov(mFieldOfViewInDegree * math::DEGREE_TO_RADIAN, static_cast<FLOAT32>(graphics::Graphics_Setting::GetScreenWidth()), static_cast<FLOAT32>(graphics::Graphics_Setting::GetScreenHeight()), mClippingPlaneNear, mClippingPlaneFar);
+			mProjectionMatrix = math::perspectiveFov(mFieldOfViewInDegree * math::DEGREE_TO_RADIAN, static_cast<FLOAT32>(graphics::graphicsAPISetting::GetScreenWidth()), static_cast<FLOAT32>(graphics::graphicsAPISetting::GetScreenHeight()), mClippingPlaneNear, mClippingPlaneFar);
 			//mViewFrumstum.SetCamera(mFieldOfViewInRadian, dooms::graphics::Graphics_Server::GetScreenRatio(), mClippingPlaneNear, mClippingPlaneFar);
 		}
 		else
@@ -350,16 +350,16 @@ math::Vector3 Camera::NDCToScreenPoint(const math::Vector3& ndcPoint)
 {
 	math::Vector3 screenPoint = ndcPoint + 1.0f;
 	screenPoint /= 2;
-	screenPoint.x *= graphics::Graphics_Setting::GetScreenWidth();
-	screenPoint.y *= -graphics::Graphics_Setting::GetScreenHeight(); // top of screen position has negative y value, put minus when conver to screenPoint positiSon
+	screenPoint.x *= graphics::graphicsAPISetting::GetScreenWidth();
+	screenPoint.y *= -graphics::graphicsAPISetting::GetScreenHeight(); // top of screen position has negative y value, put minus when conver to screenPoint positiSon
 	return screenPoint;
 }
 
 math::Vector3 Camera::ScreenToNDCPoint(const math::Vector3& screenPoint)
 {
 	math::Vector3 ndcPoint{ screenPoint };
-	ndcPoint.x /= graphics::Graphics_Setting::GetScreenWidth();
-	ndcPoint.y /= graphics::Graphics_Setting::GetScreenHeight();// top of screen position has negative y value, put minus when conver to viewPort positiSon
+	ndcPoint.x /= graphics::graphicsAPISetting::GetScreenWidth();
+	ndcPoint.y /= graphics::graphicsAPISetting::GetScreenHeight();// top of screen position has negative y value, put minus when conver to viewPort positiSon
 	ndcPoint *= 2.0f;
 	ndcPoint -= 1;
 	ndcPoint.y = -ndcPoint.y;

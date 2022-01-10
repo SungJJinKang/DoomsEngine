@@ -74,30 +74,30 @@ void dooms::asset::TextureAsset::SetScratchImage(std::unique_ptr<DirectX::Scratc
 	switch (mScratchImage->GetMetadata().format)
 	{
 	case DXGI_FORMAT::DXGI_FORMAT_BC4_UNORM:
-		mComponentFormat = graphics::eTextureComponentFormat::RED;
-		mInternalFormat = graphics::eTextureInternalFormat::NONE;
-		mCompressedInternalFormat = graphics::eTextureCompressedInternalFormat::COMPRESSED_RED_RGTC1_EXT;
+		mComponentFormat = graphics::GraphicsAPI::eTextureComponentFormat::TEXTURE_COMPONENT_RED;
+		mInternalFormat = graphics::GraphicsAPI::eTextureInternalFormat::TEXTURE_INTERNAL_FORMAT_NONE;
+		mCompressedInternalFormat = graphics::GraphicsAPI::eTextureCompressedInternalFormat::COMPRESSED_RED_RGTC1_EXT;
 		bmIsCompressed = true;
 		break;
 
 	case DXGI_FORMAT::DXGI_FORMAT_BC5_UNORM:
-		mComponentFormat = graphics::eTextureComponentFormat::RG;
-		mInternalFormat = graphics::eTextureInternalFormat::NONE;
-		mCompressedInternalFormat = graphics::eTextureCompressedInternalFormat::COMPRESSED_RED_GREEN_RGTC2_EXT;
+		mComponentFormat = graphics::GraphicsAPI::eTextureComponentFormat::TEXTURE_COMPONENT_RG;
+		mInternalFormat = graphics::GraphicsAPI::eTextureInternalFormat::TEXTURE_INTERNAL_FORMAT_NONE;
+		mCompressedInternalFormat = graphics::GraphicsAPI::eTextureCompressedInternalFormat::COMPRESSED_RED_GREEN_RGTC2_EXT;
 		bmIsCompressed = true;
 		break;
 
 	case DXGI_FORMAT::DXGI_FORMAT_BC1_UNORM:
-		mComponentFormat = graphics::eTextureComponentFormat::RGB;
-		mInternalFormat = graphics::eTextureInternalFormat::NONE;
-		mCompressedInternalFormat = graphics::eTextureCompressedInternalFormat::COMPRESSED_RGB_S3TC_DXT1_EXT;
+		mComponentFormat = graphics::GraphicsAPI::eTextureComponentFormat::TEXTURE_COMPONENT_RGB;
+		mInternalFormat = graphics::GraphicsAPI::eTextureInternalFormat::TEXTURE_INTERNAL_FORMAT_NONE;
+		mCompressedInternalFormat = graphics::GraphicsAPI::eTextureCompressedInternalFormat::COMPRESSED_RGB_S3TC_DXT1_EXT;
 		bmIsCompressed = true;
 		break;
 
 	case DXGI_FORMAT::DXGI_FORMAT_BC3_UNORM:
-		mComponentFormat = graphics::eTextureComponentFormat::RGBA;
-		mInternalFormat = graphics::eTextureInternalFormat::NONE;
-		mCompressedInternalFormat = graphics::eTextureCompressedInternalFormat::COMPRESSED_RGBA_S3TC_DXT5_EXT;
+		mComponentFormat = graphics::GraphicsAPI::eTextureComponentFormat::TEXTURE_COMPONENT_RGBA;
+		mInternalFormat = graphics::GraphicsAPI::eTextureInternalFormat::TEXTURE_INTERNAL_FORMAT_NONE;
+		mCompressedInternalFormat = graphics::GraphicsAPI::eTextureCompressedInternalFormat::COMPRESSED_RGBA_S3TC_DXT5_EXT;
 		bmIsCompressed = true;
 		break;
 
@@ -182,21 +182,21 @@ Texture* dooms::asset::TextureAsset::CreateTextureObject()
 		mipmapPixels.push_back(mScratchImage->GetImage(i, 0, 0));
 	}
 
-	D_ASSERT(mInternalFormat != eTextureInternalFormat::NONE || mCompressedInternalFormat != eTextureCompressedInternalFormat::NONE);
-	if (mInternalFormat != eTextureInternalFormat::NONE)
+	D_ASSERT(mInternalFormat != GraphicsAPI::eTextureInternalFormat::TEXTURE_INTERNAL_FORMAT_NONE || mCompressedInternalFormat != GraphicsAPI::eTextureCompressedInternalFormat::TEXTURE_COMPRESSED_INTERNAL_FORMAT_NONE);
+	if (mInternalFormat != GraphicsAPI::eTextureInternalFormat::TEXTURE_INTERNAL_FORMAT_NONE)
 	{
 		createdTexture = dooms::CreateDObject<dooms::graphics::SingleTexture>(
-			Texture::eTextureType::DIFFUSE, Texture::eTargetTexture::TEXTURE_2D, 
+			graphics::GraphicsAPI::eTextureType::DIFFUSE, graphics::GraphicsAPI::eTargetTexture::TARGET_TEXTURE_TEXTURE_2D,
 			mInternalFormat, mWidth, mHeight, mComponentFormat, 
-			Texture::eDataType::UNSIGNED_BYTE, mipmapPixels
+			graphics::GraphicsAPI::eDataType::UNSIGNED_BYTE, mipmapPixels
 			);
 	}
-	else if (mCompressedInternalFormat != eTextureCompressedInternalFormat::NONE)
+	else if (mCompressedInternalFormat != graphics::GraphicsAPI::eTextureCompressedInternalFormat::TEXTURE_COMPRESSED_INTERNAL_FORMAT_NONE)
 	{
 		createdTexture = dooms::CreateDObject<dooms::graphics::SingleTexture>(
-			Texture::eTextureType::DIFFUSE, Texture::eTargetTexture::TEXTURE_2D, 
+			graphics::GraphicsAPI::eTextureType::DIFFUSE, graphics::GraphicsAPI::eTargetTexture::TARGET_TEXTURE_TEXTURE_2D,
 			mCompressedInternalFormat, mWidth, mHeight, mComponentFormat, 
-			Texture::eDataType::UNSIGNED_BYTE, mipmapPixels
+			graphics::GraphicsAPI::eDataType::UNSIGNED_BYTE, mipmapPixels
 			);
 	}
 

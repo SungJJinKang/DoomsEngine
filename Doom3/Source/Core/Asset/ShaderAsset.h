@@ -3,7 +3,7 @@
 #include <string>
 
 #include "Asset.h"
-
+#include <Graphics/GraphicsAPI/GraphicsAPI.h>
 
 #include "ShaderAsset.reflection.h"
 namespace dooms
@@ -52,13 +52,7 @@ namespace dooms
 
 		private:
 
-			enum class D_ENUM ShaderType
-			{
-				None,
-				Vertex,
-				Fragment,
-				Geometry
-			};
+			
 
 			D_PROPERTY()
 			ShaderText mShaderText;
@@ -85,7 +79,7 @@ namespace dooms
 			/// Don't call this subthread, Should Call this at mainthread
 			/// </summary>
 			void CompileShaders();
-			void CompileSpecificShader(const std::string& shaderStr, ShaderType shaderType, UINT32& shaderId);
+			void CompileSpecificShader(const std::string& shaderStr, graphics::GraphicsAPI::eShaderType shaderType, UINT32& shaderId);
 			void ClassifyShader(const std::string& shaderText);
 			bool CheckIsSharpInclude(const std::string& str);
 			/// <summary>
@@ -95,15 +89,18 @@ namespace dooms
 			/// <param name="shaderStr"></param>
 			std::string ExtractShaderFile(const std::filesystem::path& path);
 
+/*
 #ifdef DEBUG_MODE
 			void checkCompileError(UINT32& id, ShaderType shaderType);
 #endif
+*/
+
 			/// <summary>
 			/// return shader is valid??
 			/// </summary>
 			/// <returns></returns>
 			bool GetIsValid() const;
-			bool GetIsValid(const ShaderType shaderType) const;
+			bool GetIsValid(const graphics::GraphicsAPI::eShaderType shaderType) const;
 
 		protected:
 

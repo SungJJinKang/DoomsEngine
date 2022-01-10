@@ -3,7 +3,6 @@
 #include "imgui.h"
 #include <EngineGUI/PrintText.h>
 #include <Graphics/DebugGraphics/DebugDrawer.h>
-#include <Graphics/Graphics_Setting.h>
 #include <Rendering/Camera.h>
 
 #define DEBUGGER_TILE_BOX_PADIDNG_X 0.002f

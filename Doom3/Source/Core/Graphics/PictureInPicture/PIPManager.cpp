@@ -7,6 +7,7 @@
 dooms::graphics::PIPManager::PIPManager()
 	: mPicktureInPicktures()
 {
+	AddToRootObjectList();
 }
 
 void dooms::graphics::PIPManager::DrawPIPs()
@@ -16,6 +17,7 @@ void dooms::graphics::PIPManager::DrawPIPs()
 		D_START_PROFILING(DrawPIPs, dooms::profiler::eProfileLayers::Rendering);
 		for (PicktureInPickture* pip : mPicktureInPicktures)
 		{
+			//D_ASSERT(IsValid(pip));
 			pip->DrawPictureInPicture();
 		}
 		D_END_PROFILING(DrawPIPs);
@@ -29,6 +31,7 @@ dooms::graphics::PicktureInPickture* dooms::graphics::PIPManager::AddNewPIP(cons
 	if(_drawedTexture != nullptr)
 	{
 		pip = mPicktureInPicktures.emplace_back(dooms::CreateDObject<dooms::graphics::PicktureInPickture>(leftBottomNDCPoint, rightTopNDCPoint, _drawedTexture));
+		D_ASSERT(IsValid(pip));
 	}
 
 	D_ASSERT(pip != nullptr);

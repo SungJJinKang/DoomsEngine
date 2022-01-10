@@ -3,8 +3,8 @@
 #include "../Core/Graphics/Material/Material.h"
 #include <Transform.h>
 #include <Rendering/Camera.h>
-#include "Graphics/Acceleration/LinearData_ViewFrustumCulling/EveryCulling.h"
-
+#include <Graphics/Acceleration/LinearData_ViewFrustumCulling/EveryCulling.h>
+#include <Graphics/Graphics_Server.h>
 
 void dooms::Renderer::SetRenderingFlag(const eRenderingFlag flag, const bool isSet)
 {
@@ -60,7 +60,11 @@ void dooms::Renderer::OnDeActivated()
 {
 	Component::OnDeActivated();
 
-	mCullingEntityBlockViewer.SetIsObjectEnabled(false);
+	if(mCullingEntityBlockViewer.GetIsActive() == true)
+	{
+		mCullingEntityBlockViewer.SetIsObjectEnabled(false);
+	}
+	
 }
 
 void dooms::Renderer::AddRendererToCullingSystem()

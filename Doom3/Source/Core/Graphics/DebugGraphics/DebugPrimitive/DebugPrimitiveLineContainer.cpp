@@ -10,9 +10,9 @@ UINT32 dooms::graphics::DebugPrimitiveLineContainer::GetComponentCountPerPrimiti
 	return 6;
 }
 
-dooms::ePrimitiveType dooms::graphics::DebugPrimitiveLineContainer::GetPrimitiveType() const
+dooms::graphics::GraphicsAPI::ePrimitiveType dooms::graphics::DebugPrimitiveLineContainer::GetPrimitiveType() const
 {
-	return ePrimitiveType::LINES;
+	return dooms::graphics::GraphicsAPI::ePrimitiveType::LINES;
 }
 
 void dooms::graphics::DebugPrimitiveLineContainer::AddColoredLineData

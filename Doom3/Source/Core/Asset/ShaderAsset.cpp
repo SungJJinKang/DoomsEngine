@@ -2,7 +2,6 @@
 
 #include "ShaderAsset.h"
 
-#include "../API/GraphicsAPI.h"
 #include "../Graphics/Material/Material.h"
 #include <utility/TextImporter.h>
 #include <utility/trim.h>
@@ -74,19 +73,19 @@ void dooms::asset::ShaderAsset::DeleteShaders()
 {
 	if (mVertexId != 0)
 	{
-		glDeleteShader(mVertexId);
+		graphics::GraphicsAPI::DestroyShaderObject(mVertexId);
 		mVertexId = 0;
 	}
 
 	if (mFragmentId != 0)
 	{
-		glDeleteShader(mFragmentId);
+		graphics::GraphicsAPI::DestroyShaderObject(mFragmentId);
 		mFragmentId = 0;
 	}
 
 	if (mGeometryId != 0)
 	{
-		glDeleteShader(mGeometryId);
+		graphics::GraphicsAPI::DestroyShaderObject(mGeometryId);
 		mGeometryId = 0;
 	}
 }
@@ -114,60 +113,46 @@ void dooms::asset::ShaderAsset::CompileShaders()
 
 	if (mShaderText.mVertexShaderText.empty() == false)
 	{
-		CompileSpecificShader(mShaderText.mVertexShaderText, ShaderType::Vertex, mVertexId);
+		CompileSpecificShader(mShaderText.mVertexShaderText, graphics::GraphicsAPI::Vertex, mVertexId);
 	}
 
 	if (mShaderText.mFragmentShaderText.empty() == false)
 	{
-		CompileSpecificShader(mShaderText.mFragmentShaderText, ShaderType::Fragment, mFragmentId);
+		CompileSpecificShader(mShaderText.mFragmentShaderText, graphics::GraphicsAPI::Fragment, mFragmentId);
 	}
 
 	if (mShaderText.mGeometryShaderText.empty() == false)
 	{
-		CompileSpecificShader(mShaderText.mGeometryShaderText, ShaderType::Geometry, mGeometryId);
+		CompileSpecificShader(mShaderText.mGeometryShaderText, graphics::GraphicsAPI::Geometry, mGeometryId);
 	}
 
 	
 }
 
-void dooms::asset::ShaderAsset::CompileSpecificShader(const std::string& shaderStr, ShaderType shaderType, UINT32& shaderId)
+void dooms::asset::ShaderAsset::CompileSpecificShader(const std::string& shaderStr, graphics::GraphicsAPI::eShaderType shaderType, UINT32& shaderId)
 {
 	UINT32 shaderTypeFlag{};
-	if (shaderType == ShaderType::Vertex)
-	{
-		shaderTypeFlag = GL_VERTEX_SHADER;
-	}
-	else if (shaderType == ShaderType::Fragment)
-	{
-		shaderTypeFlag = GL_FRAGMENT_SHADER;
-
-	}
-	else if (shaderType == ShaderType::Geometry)
-	{
-		shaderTypeFlag = GL_GEOMETRY_SHADER;
-	}
-
-
-	shaderId = glCreateShader(shaderTypeFlag);
+	shaderId = graphics::GraphicsAPI::CreateShaderObject(shaderType);
 
 	const char* shaderCode = shaderStr.c_str();
-	glShaderSource(shaderId, 1, &shaderCode, NULL);
-	glCompileShader(shaderId);
+	graphics::GraphicsAPI::CompileShader(shaderId, shaderCode);
 
+/*
 #ifdef DEBUG_MODE
 	checkCompileError(shaderId, shaderType);
 #endif
+*/
 
-	if (shaderType == ShaderType::Vertex)
+	if (shaderType == graphics::GraphicsAPI::Vertex)
 	{
 		dooms::ui::PrintText("Compile Shader - Vertex ( %s )", GetAssetPath().generic_string().c_str());
 	}
-	else if (shaderType == ShaderType::Fragment)
+	else if (shaderType == graphics::GraphicsAPI::Fragment)
 	{
 		dooms::ui::PrintText("Compile Shader - Fragment ( %s )", GetAssetPath().generic_string().c_str());
 
 	}
-	else if (shaderType == ShaderType::Geometry)
+	else if (shaderType == graphics::GraphicsAPI::Geometry)
 	{
 		dooms::ui::PrintText("Compile Shader - Geometry ( %s )", GetAssetPath().generic_string().c_str());
 	}
@@ -181,7 +166,7 @@ void dooms::asset::ShaderAsset::ClassifyShader(const std::string& shaderText)
 	std::stringstream inputStringStream{ shaderText };
 	std::string line;
 
-	ShaderType currentShaderType = ShaderType::None;
+	graphics::GraphicsAPI::eShaderType currentShaderType = graphics::GraphicsAPI::eShaderType::ShaderType_None;
 	std::string currentShaderStr{};
 
 	
@@ -218,15 +203,15 @@ void dooms::asset::ShaderAsset::ClassifyShader(const std::string& shaderText)
 				{
 					switch (currentShaderType)
 					{
-					case ShaderType::Vertex:
+					case graphics::GraphicsAPI::eShaderType::Vertex:
 						mShaderText.mVertexShaderText = std::move(currentShaderStr);
 						break;
 
-					case ShaderType::Fragment:
+					case graphics::GraphicsAPI::eShaderType::Fragment:
 						mShaderText.mFragmentShaderText = std::move(currentShaderStr);
 						break;
 
-					case ShaderType::Geometry:
+					case graphics::GraphicsAPI::eShaderType::Geometry:
 						mShaderText.mGeometryShaderText = std::move(currentShaderStr);
 						break;
 					}
@@ -236,17 +221,17 @@ void dooms::asset::ShaderAsset::ClassifyShader(const std::string& shaderText)
 
 				if (line.compare(0, ShaderAsset::VertexShaderMacros.size(), ShaderAsset::VertexShaderMacros, 0) == 0)
 				{
-					currentShaderType = ShaderType::Vertex;
+					currentShaderType = graphics::GraphicsAPI::eShaderType::Vertex;
 					isMacros = true;
 				}
 				else if (line.compare(0, ShaderAsset::FragmentShaderMacros.size(), ShaderAsset::FragmentShaderMacros, 0) == 0)
 				{
-					currentShaderType = ShaderType::Fragment;
+					currentShaderType = graphics::GraphicsAPI::eShaderType::Fragment;
 					isMacros = true;
 				}
 				else if (line.compare(0, ShaderAsset::GeometryShaderMacros.size(), ShaderAsset::GeometryShaderMacros, 0) == 0)
 				{
-					currentShaderType = ShaderType::Geometry;
+					currentShaderType = graphics::GraphicsAPI::eShaderType::Geometry;
 					isMacros = true;
 				}
 
@@ -256,7 +241,7 @@ void dooms::asset::ShaderAsset::ClassifyShader(const std::string& shaderText)
 		
 		
 
-		if (currentShaderType != ShaderType::None)
+		if (currentShaderType != graphics::GraphicsAPI::eShaderType::ShaderType_None)
 		{
 			currentShaderStr += line; // getline stil contain newline character(\n)
 			currentShaderStr += '\n';
@@ -267,15 +252,15 @@ void dooms::asset::ShaderAsset::ClassifyShader(const std::string& shaderText)
 	{
 		switch (currentShaderType)
 		{
-		case ShaderType::Vertex:
+		case graphics::GraphicsAPI::eShaderType::Vertex:
 			mShaderText.mVertexShaderText = std::move(currentShaderStr);
 			break;
 
-		case ShaderType::Fragment:
+		case graphics::GraphicsAPI::eShaderType::Fragment:
 			mShaderText.mFragmentShaderText = std::move(currentShaderStr);
 			break;
 
-		case ShaderType::Geometry:
+		case graphics::GraphicsAPI::eShaderType::Geometry:
 			mShaderText.mGeometryShaderText = std::move(currentShaderStr);
 			break;
 		}
@@ -338,6 +323,7 @@ std::string dooms::asset::ShaderAsset::ExtractShaderFile(const std::filesystem::
 	return extractedShaderText;
 }
 
+/*
 #ifdef DEBUG_MODE
 void dooms::asset::ShaderAsset::checkCompileError(UINT32& id, ShaderType shaderType)
 {
@@ -381,31 +367,32 @@ void dooms::asset::ShaderAsset::checkCompileError(UINT32& id, ShaderType shaderT
 	}
 }
 #endif
+*/
 
 bool dooms::asset::ShaderAsset::GetIsValid() const
 {
 	return mVertexId || mFragmentId || mGeometryId;
 }
 
-bool dooms::asset::ShaderAsset::GetIsValid(const ShaderType shaderType) const
+bool dooms::asset::ShaderAsset::GetIsValid(const graphics::GraphicsAPI::eShaderType shaderType) const
 {
 	bool isValid = false;
 
 	switch (shaderType)
 	{
-	case ShaderType::Vertex:
+	case graphics::GraphicsAPI::eShaderType::Vertex:
 		isValid = (mVertexId != 0);
 		break;
 
-	case ShaderType::Fragment:
+	case graphics::GraphicsAPI::eShaderType::Fragment:
 		isValid = (mFragmentId != 0);
 		break;
 
-	case ShaderType::Geometry:
+	case graphics::GraphicsAPI::eShaderType::Geometry:
 		isValid = (mGeometryId != 0);
 		break;
 
-	case ShaderType::None:
+	case graphics::GraphicsAPI::eShaderType::ShaderType_None:
 		D_ASSERT(false);
 		break;
 	}
