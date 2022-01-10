@@ -8,10 +8,10 @@
 
 #include "GraphicsAPI.h"
 
-void dooms::graphics::PlatformImgui::Initialize()
+ImGuiContext* dooms::graphics::PlatformImgui::Initialize()
 {
     IMGUI_CHECKVERSION();
-    ImGui::CreateContext();
+    ImGuiContext* const imGuiContext = ImGui::CreateContext();
     ImGuiIO& io = ImGui::GetIO(); (void)io;
 
     // TODO : Block dispatch imput to application when mouse hover on gui
@@ -29,6 +29,9 @@ void dooms::graphics::PlatformImgui::Initialize()
     ImGui_ImplGlfw_InitForOpenGL(reinterpret_cast<GLFWwindow*>(GraphicsAPI::GetPlatformWindow()), true);
     const std::string openglVersion = GraphicsAPI::GetPlatformVersion();
     ImGui_ImplOpenGL3_Init(openglVersion.c_str());
+
+
+    return imGuiContext;
 }
 
 void dooms::graphics::PlatformImgui::ShutDown()

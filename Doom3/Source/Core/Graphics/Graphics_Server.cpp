@@ -54,8 +54,7 @@ void dooms::graphics::Graphics_Server::Init()
 	dooms::graphics::graphicsAPISetting::LoadData();
 
 	InitializeGraphicsAPI();
-
-	const std::string graphisAPIVersion = GraphicsAPI::GetPlatformVersion();
+	
 	dooms::ui::engineGUIServer::Initialize();
 
 	mCullingSystem = std::make_unique<culling::EveryCulling>(graphicsAPISetting::GetScreenWidth(), graphicsAPISetting::GetScreenHeight());
@@ -74,7 +73,8 @@ void dooms::graphics::Graphics_Server::LateInit()
 #ifdef DEBUG_DRAWER
 	mDebugGraphics.Init();
 #endif 
-	
+
+	mDeferredRenderingDrawer.Initialize();
 
 	//mQueryOcclusionCulling.InitQueryOcclusionCulling();
 	//mCullDistance.Initialize();

@@ -34,8 +34,11 @@ namespace dooms::ui::engineGUIServer
 
 void dooms::ui::engineGUIServer::Initialize()
 {
-    graphics::PlatformImgui::Initialize();
+    ImGuiContext* const imGuiContext = graphics::PlatformImgui::Initialize();
+    ImGui::SetCurrentContext(imGuiContext);
+	ImGui::SetAllocatorFunctions()
 
+    //ImGui::SetCurrentContext()
 	dooms::ui::imguiWithReflection::Initialize();
     dooms::ui::engineGUIServer::InitializeGUIModules();
 }

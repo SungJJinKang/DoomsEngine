@@ -25,7 +25,7 @@ void dooms::graphics::GraphicsAPIManager::SetDefaultSettingOfAPI()
 
 void dooms::graphics::GraphicsAPIManager::GraphisAPIDebugCallBack(const char* const debugMessage)
 {
-	D_ASSERT_LOG(false, "Graphis API Callback : %s", debugMessage);
+	//D_ASSERT_LOG(false, "Graphis API Callback : %s", debugMessage);
 	dooms::ui::PrintText("Graphis API Callback : %s", debugMessage);
 }
 

@@ -1781,7 +1781,7 @@ void dooms::graphics::GraphicsAPI::UpdateConstantBuffer_mat3x3f(const int locati
 
 void dooms::graphics::GraphicsAPI::UpdateConstantBuffer_mat4x4f(const int location, const float* const matrix) noexcept
 {
-	glUniformMatrix3fv(location, 1, GL_FALSE, matrix);
+	glUniformMatrix4fv(location, 1, GL_FALSE, matrix);
 }
 
 void* dooms::graphics::GraphicsAPI::MapBufferObjectToClientAddress

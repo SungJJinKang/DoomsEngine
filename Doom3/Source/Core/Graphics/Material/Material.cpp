@@ -17,7 +17,7 @@ void Material::SetShaderAsset(::dooms::asset::ShaderAsset* shaderAsset)
 
 	mShaderAsset = shaderAsset;
 
-	D_ASSERT(mProgramID == 0); // error : you're overlapping program
+	D_ASSERT(mProgramID == INVALID_BUFFER_ID); // error : you're overlapping program
 
 	UINT32 vertexId = shaderAsset->GetVertexId();
 	UINT32 fragmentId = shaderAsset->GetFragmentId();
@@ -55,7 +55,7 @@ dooms::graphics::Material::Material() : mProgramID{ INVALID_BUFFER_ID }, mShader
 {
 }
 
-Material::Material(::dooms::asset::ShaderAsset* shaderAsset) : mProgramID{0}, mShaderAsset{ nullptr }
+Material::Material(::dooms::asset::ShaderAsset* shaderAsset) : mProgramID{}, mShaderAsset{ nullptr }
 {
 	if (IsValid(shaderAsset) == true)
 	{
