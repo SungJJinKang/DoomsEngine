@@ -1,6 +1,12 @@
 #include "UniformBufferObject.h"
 
 
+void dooms::graphics::UniformBufferObject::OnSetPendingKill()
+{
+	Buffer::OnSetPendingKill();
+
+	DeleteBuffers();
+}
 
 dooms::graphics::UniformBufferObject::UniformBufferObject() 
 	: Buffer(), mUniformBufferTempData{nullptr}, mSizeInByte{ 0 }, mBindingPoint{ 0 }

@@ -46,14 +46,10 @@ public:
 	FORCE_INLINE BufferID(UINT32 data) : mID{ data }
 	{}
 
-	FORCE_INLINE void operator=(const UINT32& data)
+	FORCE_INLINE void operator=(const UINT32 data)
 	{
+		D_ASSERT_LOG(data != 0, "Dont set 0 to BufferID. Use BufferID::Reset() function.");
 		mID = data;
-	}
-	FORCE_INLINE void operator=(UINT32&& data) noexcept
-	{
-		mID = data;
-		data = INVALID_BUFFER_ID;
 	}
 
 	FORCE_INLINE UINT32* operator& ()
@@ -73,6 +69,16 @@ public:
 	FORCE_INLINE bool IsValid() const
 	{
 		return mID != INVALID_BUFFER_ID;
+	}
+
+	FORCE_INLINE void Reset()
+	{
+		mID = INVALID_BUFFER_ID;
+	}
+
+	FORCE_INLINE operator bool() const
+	{
+		return IsValid();
 	}
 
 	FORCE_INLINE operator UINT32 () const

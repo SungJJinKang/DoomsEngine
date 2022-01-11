@@ -18,7 +18,7 @@ dooms::graphics::Mesh::Mesh(const long long int dataCount, const void* data, Gra
 
 
 dooms::graphics::Mesh::Mesh(const ThreeDModelMesh& threeDModelMesh) noexcept
-	: Buffer(), mNumOfVertices{ 0 }, mNumOfIndices{ 0 }, mTargetThreeDModelMesh{&threeDModelMesh}, mVertexArrayObjectID{}, mElementBufferObjectID{ INVALID_BUFFER_ID }
+	: Buffer(), mNumOfVertices{ 0 }, mNumOfIndices{ 0 }, mTargetThreeDModelMesh{&threeDModelMesh}, mVertexArrayObjectID{ INVALID_BUFFER_ID }, mElementBufferObjectID{ INVALID_BUFFER_ID }
 {
 	GenMeshBuffer(threeDModelMesh.bHasIndices);
 	BufferDataFromModelMesh(threeDModelMesh);
@@ -30,18 +30,25 @@ dooms::graphics::Mesh::~Mesh()
 	
 }
 
+void dooms::graphics::Mesh::OnSetPendingKill()
+{
+	Buffer::OnSetPendingKill();
+
+	DeleteBuffers();
+}
+
 void dooms::graphics::Mesh::GenMeshBuffer(bool hasIndice)
 {
 	Buffer::GenBuffer();
-	if (mVertexArrayObjectID.GetBufferID() == INVALID_BUFFER_ID)
+	if (mVertexArrayObjectID.IsValid() == false)
 	{
 		unsigned int bufferID;
 		GraphicsAPI::CreateVertexArrayObject(1, &bufferID);
-		mElementBufferObjectID = bufferID;
+		mVertexArrayObjectID = bufferID;
 	}
 	if (hasIndice)
 	{
-		if (mElementBufferObjectID.GetBufferID() == INVALID_BUFFER_ID)
+		if (mElementBufferObjectID.IsValid() == false)
 		{
 			unsigned int bufferID;
 			GraphicsAPI::CreateBuffers(1, &bufferID);
@@ -50,7 +57,7 @@ void dooms::graphics::Mesh::GenMeshBuffer(bool hasIndice)
 	}
 	else
 	{
-		mElementBufferObjectID = 0;
+		mElementBufferObjectID.Reset();
 	}
 }
 
@@ -61,12 +68,12 @@ void dooms::graphics::Mesh::DeleteBuffers()
 	if (mVertexArrayObjectID.IsValid())
 	{
 		GraphicsAPI::DestroyVertexArrayObject(1, mVertexArrayObjectID.data());
-		mVertexArrayObjectID = INVALID_BUFFER_ID;
+		mVertexArrayObjectID.Reset();
 	}
 	if (mElementBufferObjectID.IsValid())
 	{
 		GraphicsAPI::DestroyBuffer( mElementBufferObjectID );
-		mElementBufferObjectID = INVALID_BUFFER_ID;
+		mElementBufferObjectID.Reset();
 	}
 }
 
@@ -313,7 +320,7 @@ constexpr UINT32 dooms::graphics::Mesh::GetStride(const UINT32 vertexArrayFlag)
 
 bool dooms::graphics::Mesh::IsBufferGenerated() const
 {
-	return Buffer::IsBufferGenerated() && mVertexArrayObjectID != 0;
+	return Buffer::IsBufferGenerated() && mVertexArrayObjectID.IsValid();
 }
 
 void dooms::graphics::Mesh::UpdateElementBuffer(const UINT32* indices, const UINT32 indiceCount)

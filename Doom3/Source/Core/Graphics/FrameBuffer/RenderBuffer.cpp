@@ -5,6 +5,13 @@
 
 using namespace dooms::graphics;
 
+void RenderBuffer::OnSetPendingKill()
+{
+	DObject::OnSetPendingKill();
+
+	DeleteRenderBuffers();
+}
+
 RenderBuffer::RenderBuffer()
 	: mRenderBufferID()
 {
@@ -94,9 +101,10 @@ dooms::graphics::RenderBuffer::~RenderBuffer()
 
 void RenderBuffer::DeleteRenderBuffers()
 {
-	if (mRenderBufferID)
+	if (mRenderBufferID.IsValid())
 	{
 		GraphicsAPI::DestroyRenderBuffer(mRenderBufferID);
+		mRenderBufferID.Reset();
 	}
 }
 

@@ -89,7 +89,9 @@ namespace dooms
 			static constexpr GraphicsAPI::eDataType DEFAULT_DATA_TYPE = GraphicsAPI::eDataType::UNSIGNED_BYTE;
 
 			
-		
+		private:
+
+			void OnSetPendingKill() override;
 
 		protected:
 

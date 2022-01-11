@@ -33,8 +33,10 @@ namespace dooms
 			virtual void GenBufferIfNotGened();
 			virtual void DeleteBuffers();
 
+
 		protected:
-			
+
+			void OnSetPendingKill() override;
 
 		public:
 

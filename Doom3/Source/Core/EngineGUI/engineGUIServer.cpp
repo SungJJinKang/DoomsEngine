@@ -4,6 +4,8 @@
 
 #include "imguiHelper/imguiWithReflection.h"
 
+#include <Graphics/GraphicsAPI/GraphicsAPI.h>
+
 #include "GUIModules/LogGUI.h"
 #include "GUIModules/SceneGUI.h"
 #include "GUIModules/ProfilerGUI.h"
@@ -55,7 +57,7 @@ bool dooms::ui::engineGUIServer::Initialize()
     ImGuiMemFreeFunc p_free_func;
     void* p_user_data;
     ImGui::GetAllocatorFunctions(&p_alloc_func, &p_free_func, &p_user_data);
-    isSuccess &= dooms::graphics::PlatformImgui::InitializePlatformImgui(imGuiContext, *p_alloc_func, *p_free_func, &p_user_data);
+    isSuccess &= dooms::graphics::PlatformImgui::InitializePlatformImgui(dooms::graphics::GraphicsAPI::GetPlatformWindow(), dooms::graphics::GraphicsAPI::GetPlatformVersion(), imGuiContext, *p_alloc_func, *p_free_func, &p_user_data);
 
     //ImGui::SetCurrentContext()
 	dooms::ui::imguiWithReflection::Initialize();

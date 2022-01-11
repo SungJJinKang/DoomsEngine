@@ -16,7 +16,7 @@ namespace dooms
 
 			void* mAPIModule;
 
-			void FetExportedFunctionAddress(void* module);
+			void FetchExportedFunctionAddress();
 			unsigned int FreeGraphicsAPILibrary();
 
 		public:

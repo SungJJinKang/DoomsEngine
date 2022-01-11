@@ -76,6 +76,10 @@ void dooms::GameCore::Init()
 
 void dooms::GameCore::InitServers()
 {
+	D_START_PROFILING(LoadGraphisAPI, eProfileLayers::CPU);
+	mGraphics_Server.LoadGraphisAPI();
+	D_END_PROFILING(LoadGraphisAPI);
+
 	D_START_PROFILING(mJobSystem_Init, eProfileLayers::CPU);
 	mJobSystem.Init();
 	D_END_PROFILING(mJobSystem_Init);

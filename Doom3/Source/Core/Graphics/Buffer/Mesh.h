@@ -91,6 +91,8 @@ namespace dooms
 			D_PROPERTY()
 			physics::Sphere mSphere{math::Vector3{0.0f}, 1.0f};
 
+			void OnSetPendingKill() override;
+
 		protected:
 
 			void GenMeshBuffer(bool hasIndice);

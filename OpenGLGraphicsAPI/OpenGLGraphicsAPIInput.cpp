@@ -5,8 +5,6 @@
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 
-#include "GraphicsAPI.h"
-#include "Input/GraphicsAPIInput.h"
 
 #undef NEVER_HAPPEN
 #ifdef _DEBUG
@@ -631,9 +629,9 @@ namespace dooms
 		}
 
 
-		DOOMS_ENGINE_GRAPHICS_API unsigned int InitializeGraphisAPIInput()
+		DOOMS_ENGINE_GRAPHICS_API unsigned int InitializeGraphisAPIInput(void* const platformWindow)
 		{
-			GLFWwindow* const glfwWindow = reinterpret_cast<GLFWwindow*>(dooms::graphics::GraphicsAPI::GetPlatformWindow());
+			GLFWwindow* const glfwWindow = reinterpret_cast<GLFWwindow*>(platformWindow);
 			assert(glfwWindow != nullptr);
 
 			glfwSetCursorEnterCallback(glfwWindow, &dooms::input::opengl::CursorEnterCallback);
@@ -656,9 +654,9 @@ namespace dooms
 			glfwPollEvents();
 		}
 
-		DOOMS_ENGINE_GRAPHICS_API void SetCursorMode(const GraphicsAPIInput::eCursorMode cursorMode)
+		DOOMS_ENGINE_GRAPHICS_API void SetCursorMode(void* const platformWindow, const GraphicsAPIInput::eCursorMode cursorMode)
 		{
-			glfwSetInputMode(reinterpret_cast<GLFWwindow*>(graphics::GraphicsAPI::GetPlatformWindow()), GLFW_CURSOR, input::opengl::GetGLCursorMode(cursorMode));
+			glfwSetInputMode(reinterpret_cast<GLFWwindow*>(platformWindow), GLFW_CURSOR, input::opengl::GetGLCursorMode(cursorMode));
 		}
 
 

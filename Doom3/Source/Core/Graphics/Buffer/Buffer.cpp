@@ -9,7 +9,7 @@ dooms::graphics::Buffer::Buffer() : mBufferID{ INVALID_BUFFER_ID }
 
 void dooms::graphics::Buffer::GenBuffer()
 {
-	if (mBufferID == INVALID_BUFFER_ID)
+	if (mBufferID.IsValid() == false)
 	{
 		unsigned bufferID;
 		GraphicsAPI::CreateBuffers(1, &bufferID);
@@ -51,15 +51,22 @@ dooms::graphics::Buffer::~Buffer()
 
 void dooms::graphics::Buffer::DeleteBuffers()
 {
-	if (mBufferID.GetBufferID() != INVALID_BUFFER_ID)
+	if (mBufferID.IsValid())
 	{
 		GraphicsAPI::DestroyBuffer(mBufferID);
-		mBufferID = 0;
+		mBufferID.Reset();
 	}
+}
+
+void dooms::graphics::Buffer::OnSetPendingKill()
+{
+	DObject::OnSetPendingKill();
+
+	DeleteBuffers();
 }
 
 bool dooms::graphics::Buffer::IsBufferGenerated() const
 {
-	return mBufferID.GetBufferID() != INVALID_BUFFER_ID;
+	return mBufferID.IsValid();
 }
 

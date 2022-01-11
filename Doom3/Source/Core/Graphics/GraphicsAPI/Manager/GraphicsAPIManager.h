@@ -18,29 +18,21 @@ namespace dooms
 		{
 		private:
 
-			GraphicsAPILoader mGraphicsAPILoader;
-			eGraphicsAPIType mGraphicsAPIType = eGraphicsAPIType::GraphicsAPIType_NONE;
+			static GraphicsAPILoader mGraphicsAPILoader;
+			static eGraphicsAPIType mGraphicsAPIType;
 
-			void LoadGraphicsAPI(const eGraphicsAPIType graphicsAPIType);
+			static void LoadGraphicsAPI(const eGraphicsAPIType graphicsAPIType);
 
-			void SetDefaultSettingOfAPI();
+			static void SetDefaultSettingOfAPI();
 
 			static void GraphisAPIDebugCallBack(const char* const debugMessage, const graphics::GraphicsAPI::eGraphisAPIDebugCallbackSeverity severity);
 
 		public:
+			
+			static bool Initialize(const eGraphicsAPIType graphicsAPIType);
+			static bool DeInitialize();
 
-
-			GraphicsAPIManager();
-			~GraphicsAPIManager();
-			GraphicsAPIManager(const GraphicsAPIManager&) = delete;
-			GraphicsAPIManager(GraphicsAPIManager&&) noexcept;
-			GraphicsAPIManager& operator=(const GraphicsAPIManager&) = delete;
-			GraphicsAPIManager& operator=(GraphicsAPIManager&&) noexcept;
-
-			bool Initialize(const eGraphicsAPIType graphicsAPIType);
-			bool DeInitialize();
-
-			eGraphicsAPIType GetGraphicsAPIType() const;
+			static eGraphicsAPIType GetGraphicsAPIType();
 		};
 
 	}

@@ -17,7 +17,7 @@ void Material::SetShaderAsset(::dooms::asset::ShaderAsset* shaderAsset)
 
 	mShaderAsset = shaderAsset;
 
-	D_ASSERT(mProgramID == INVALID_BUFFER_ID); // error : you're overlapping program
+	D_ASSERT(mProgramID.IsValid() == false); // error : you're overlapping program
 
 	UINT32 vertexId = shaderAsset->GetVertexId();
 	UINT32 fragmentId = shaderAsset->GetFragmentId();
@@ -64,18 +64,26 @@ Material::Material(::dooms::asset::ShaderAsset* shaderAsset) : mProgramID{}, mSh
 
 }
 
-void Material::DestroyMaterialBufferObject()
+void Material::DestroyMaterialObject()
 {
-	if (mProgramID.GetBufferID() != INVALID_BUFFER_ID)
+	if (mProgramID.IsValid())
 	{
 		GraphicsAPI::DestroyMaterial(mProgramID);
-		mProgramID = 0;
+		mProgramID.Reset();
 	}
 }
 
+void Material::OnSetPendingKill()
+{
+	DObject::OnSetPendingKill();
+
+	DestroyMaterialObject();
+}
+
+
 Material::~Material()
 {
-	DestroyMaterialBufferObject();
+	DestroyMaterialObject();
 }
 
 bool dooms::graphics::Material::IsGenerated() const

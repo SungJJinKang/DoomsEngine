@@ -23,6 +23,19 @@
 #define GRAPHICS_API_ENTRY DOOMS_ENGINE_API_ENTRY
 #endif
 
+#ifdef DOOMS_ENGINE_DLL_EXPORT
+
+
 #ifndef DOOMS_ENGINE_GRAPHICS_API
 #define DOOMS_ENGINE_GRAPHICS_API extern "C" DOOMS_ENGINE extern
+#endif
+
+#else
+
+// This is for easy development
+// API function pointers isn't used from graphis api dll.
+#ifndef DOOMS_ENGINE_GRAPHICS_API
+#define DOOMS_ENGINE_GRAPHICS_API extern
+#endif
+
 #endif

@@ -6,6 +6,8 @@
 #include "../Scene/Layer.h"
 #include "../Game/AssetManager/AssetManager.h"
 
+
+#include "GraphicsAPI/Manager/GraphicsAPIManager.h"
 #include <Graphics/GraphicsAPI/GraphicsAPI.h>
 
 #include "Buffer/UniformBufferObjectManager.h"
@@ -27,7 +29,9 @@
 #include "Acceleration/SortFrontToBackSolver.h"
 #include "DebugGraphics/OverDrawVisualization.h"
 #include "DebugGraphics/maskedOcclusionCullingTester.h"
+
 #include <EngineGUI/GUIModules/MaskedOcclusionCulliingDebugger.h>
+
 #include "Acceleration/LinearData_ViewFrustumCulling/CullingModule/MaskedSWOcclusionCulling/MaskedSWOcclusionCulling.h"
 #include "GraphicsAPI/eGraphicsAPIType.h"
 
@@ -42,21 +46,18 @@ bool Graphics_Server::InitializeGraphicsAPI()
 	const std::string targetGraphicsAPI = ConfigData::GetSingleton()->GetConfigData().GetValue<std::string>("Graphics", "GRAPHICS_API");
 	if (targetGraphicsAPI == "OPENGL")
 	{
-		isSuccess = mGraphicsAPIManager.Initialize(eGraphicsAPIType::OpenGL);
+		isSuccess = GraphicsAPIManager::Initialize(eGraphicsAPIType::OpenGL);
 	}
 	else if (targetGraphicsAPI == "DX11")
 	{
-		isSuccess = mGraphicsAPIManager.Initialize(eGraphicsAPIType::DX11);
+		isSuccess = GraphicsAPIManager::Initialize(eGraphicsAPIType::DX11);
 	}
 	return isSuccess;
 }
 
 void dooms::graphics::Graphics_Server::Init()
 {
-	dooms::graphics::graphicsSetting::LoadData();
-	dooms::graphics::graphicsAPISetting::LoadData();
-
-	const bool isSuccessToInitializeGraphicsAPI = InitializeGraphicsAPI();
+	
 	
 	dooms::ui::engineGUIServer::Initialize();
 
@@ -120,6 +121,14 @@ void Graphics_Server::OnEndOfFrame()
 	graphics::GraphicsAPI::SwapBuffer();
 }
 
+void Graphics_Server::LoadGraphisAPI()
+{
+	dooms::graphics::graphicsSetting::LoadData();
+	dooms::graphics::graphicsAPISetting::LoadData();
+
+	const bool isSuccessToInitializeGraphicsAPI = InitializeGraphicsAPI();
+}
+
 Graphics_Server::Graphics_Server()
 {
 
@@ -128,7 +137,6 @@ Graphics_Server::Graphics_Server()
 Graphics_Server::~Graphics_Server()
 {
 	dooms::ui::engineGUIServer::ShutDown();
-	mGraphicsAPIManager.DeInitialize();
 }
 
 void Graphics_Server::PreCullJob()

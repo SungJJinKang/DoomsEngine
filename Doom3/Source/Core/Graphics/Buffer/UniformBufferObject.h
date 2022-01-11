@@ -75,7 +75,7 @@ namespace dooms
 			
 			}
 
-		
+			void OnSetPendingKill() override;
 			
 
 		public:

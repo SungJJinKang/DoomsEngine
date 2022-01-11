@@ -27,7 +27,9 @@ namespace dooms
 			GraphicsAPI::eFrameBufferAttachmentPoint mFrameBufferType;
 			UINT32 mWidth;
 			UINT32 mHeight;
-			
+
+			void OnSetPendingKill() override;
+
 		public:
 
 			

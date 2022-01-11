@@ -5,6 +5,7 @@
 
 #include <DObject/DObjectManager.h>
 #include <OS/ErrorHandling.h>
+#include <Graphics/GraphicsAPI/Manager/GraphicsAPIManager.h>
 
 //void ExitGame();
 
@@ -37,6 +38,7 @@ namespace dooms
 
 		}
 
+		dooms::graphics::GraphicsAPIManager::DeInitialize();
 
 		std::cout << "\Remained DObject Count : " << dooms::DObjectManager::GetDObjectCount() << std::endl;
 		std::fflush(stdout);

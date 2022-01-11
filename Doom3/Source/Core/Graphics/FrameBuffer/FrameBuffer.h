@@ -55,6 +55,7 @@ namespace dooms
 			/// </summary>
 			inline static const FrameBuffer* CurrentFrameBuffer{ nullptr };
 
+			void OnSetPendingKill() override;
 			void DestoryFrameBufferObject();
 
 		public:

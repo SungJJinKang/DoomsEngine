@@ -86,8 +86,11 @@ void dooms::Component::OnEndOfFrame_Component_Internal()
 
 void dooms::Component::OnDestroy_Internal()
 {
-	D_ASSERT(IsValid(mOwnerEntity) == true);
-	mOwnerEntity->RemoveComponent(this);
+	if (IsChildOf<Transform>() == false)
+	{
+		mOwnerEntity->RemoveComponent(this);
+	}
+	
 }
 
 void Component::OnDestroyLate()

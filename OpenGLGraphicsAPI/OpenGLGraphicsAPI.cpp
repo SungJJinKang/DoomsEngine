@@ -27,7 +27,7 @@ namespace dooms
 		namespace opengl
 		{
 			static std::string OpenGLVersion{};
-			static GraphicsAPI::DEBUG_FUNCTION mDEBUG_FUNCTION = nullptr;
+			extern GraphicsAPI::DEBUG_FUNCTION mDEBUG_FUNCTION = nullptr;
 			static unsigned int DrawCallCounter;
 
 			enum class GetStringParameter
@@ -1013,11 +1013,11 @@ namespace dooms
 				}
 
 				//https://www.khronos.org/registry/OpenGL/extensions/KHR/KHR_debug.txt
-				(*dooms::graphics::GraphicsAPI::GetDebugFunction())(msg, debugCallbackseverity);
+				(opengl::mDEBUG_FUNCTION)(msg, debugCallbackseverity);
 
 			}
 		}
-
+		
 
 		DOOMS_ENGINE_GRAPHICS_API unsigned int GetDrawCall()
 		{
@@ -1313,7 +1313,8 @@ namespace dooms
 			const float r, const float g, const float b, const float a
 		)
 		{
-			ClearSpecificBuffer(bufferType, drawBufferIndex, r, g, b, a);
+			float color[4] = { r, g, b, a };
+			glClearBufferfv(opengl::GetGLBufferType(bufferType), drawBufferIndex, color);
 		}
 
 		DOOMS_ENGINE_GRAPHICS_API void CreateBuffers(const unsigned int bufferCount, unsigned int* buffers)
@@ -1620,7 +1621,7 @@ namespace dooms
 
 		DOOMS_ENGINE_GRAPHICS_API unsigned CreateShaderObject(const GraphicsAPI::eShaderType shaderType)
 		{
-			assert(shaderType != eShaderType::ShaderType_None);
+			assert(shaderType != GraphicsAPI::eShaderType::ShaderType_None);
 
 			unsigned int shaderObject = glCreateShader(opengl::GetGLShaderType(shaderType));
 			assert(shaderObject != 0);

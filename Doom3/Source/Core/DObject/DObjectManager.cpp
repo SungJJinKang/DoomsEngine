@@ -154,6 +154,7 @@ void dooms::DObjectManager::DestroyAllDObjects(const bool force)
         }
         else
         {
+            targetDObject->SetIsPendingKill();
             iterBegin++;
         }
     }

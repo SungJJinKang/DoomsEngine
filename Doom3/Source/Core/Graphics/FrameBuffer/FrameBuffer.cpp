@@ -44,12 +44,19 @@ void FrameBuffer::SetTargetDrawBuffer()
 }
 
 
+void FrameBuffer::OnSetPendingKill()
+{
+	DObject::OnSetPendingKill();
+
+	DestoryFrameBufferObject();
+}
+
 void FrameBuffer::DestoryFrameBufferObject()
 {
 	if (mFrameBufferID.IsValid())
 	{
 		GraphicsAPI::DestroyFrameBuffer(mFrameBufferID);
-		mFrameBufferID = 0;
+		mFrameBufferID.Reset();
 	}
 }
 

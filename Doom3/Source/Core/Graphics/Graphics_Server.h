@@ -4,7 +4,6 @@
 
 #include "../Game/IGameFlow.h"
 
-#include "GraphicsAPI/Manager//GraphicsAPIManager.h"
 
 #include "FrameBuffer/FrameBuffer.h"
 #include "DeferredRenderingDrawer.h"
@@ -68,10 +67,7 @@ namespace dooms
 #endif
 
 			size_t mCullingCameraCount;
-
-			D_PROPERTY()
-			GraphicsAPIManager mGraphicsAPIManager{};
-
+			
 			RendererComponentStaticIterator mRendererStaticContainer{};
 			D_PROPERTY()
 			DeferredRenderingDrawer mDeferredRenderingDrawer{};
@@ -108,7 +104,9 @@ namespace dooms
 			virtual void LateInit() final;
 			virtual void Update() final;
 			virtual void OnEndOfFrame() final;
-			
+
+			void LoadGraphisAPI();
+
 #ifdef DEBUG_DRAWER
 			D_PROPERTY()
 			RenderingDebugger mRenderingDebugger{};

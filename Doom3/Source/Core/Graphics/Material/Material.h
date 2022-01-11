@@ -60,14 +60,17 @@ namespace dooms
 			static constexpr inline UINT32 MAX_TEXTURE_COUNT{ 7 };
 			std::array<const Texture*, MAX_TEXTURE_COUNT> mTargetTextures{ nullptr };
 			std::array<UniformBufferObject*, MAX_UNIFORM_BLOCK_BINDING_POINT> mUniformBufferObjects{ nullptr };
-			
+
+			void OnSetPendingKill() override;
+
 			void DestroyMaterialBufferObject();
 
 		public:
 
 			Material();
 			Material(::dooms::asset::ShaderAsset* shaderAsset);
-			
+			void DestroyMaterialObject();
+
 			virtual ~Material();
 
 			Material(const Material&) = delete;

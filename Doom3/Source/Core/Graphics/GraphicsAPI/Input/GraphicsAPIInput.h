@@ -156,7 +156,7 @@ namespace dooms
 				REPEAT
 			};
 
-			typedef unsigned int (DOOMS_ENGINE_API_ENTRY_P GRAPHICS_INITIALIZEGRAPHICSAPIINPUT)(void);
+			typedef unsigned int (DOOMS_ENGINE_API_ENTRY_P GRAPHICS_INITIALIZEGRAPHICSAPIINPUT)(void* platformWindow);
 			DOOMS_ENGINE_GRAPHICS_API GRAPHICS_INITIALIZEGRAPHICSAPIINPUT InitializeGraphisAPIInput;
 
 
@@ -168,7 +168,7 @@ namespace dooms
 			DOOMS_ENGINE_GRAPHICS_API GRAPHICS_POLLEVENTS PollEvents;
 
 
-			typedef unsigned int (DOOMS_ENGINE_API_ENTRY_P GRAPHICS_SETCURSORMODE)(eCursorMode);
+			typedef unsigned int (DOOMS_ENGINE_API_ENTRY_P GRAPHICS_SETCURSORMODE)(void* platformWindow, eCursorMode);
 			DOOMS_ENGINE_GRAPHICS_API GRAPHICS_SETCURSORMODE SetCursorMode;
 			
 			

@@ -82,12 +82,19 @@ void Texture::InitializeTexture(GraphicsAPI::eTextureType textureType, GraphicsA
 	}
 }
 
+void Texture::OnSetPendingKill()
+{
+	DObject::OnSetPendingKill();
+
+	DestroyTextureBufferObject();
+}
+
 void Texture::DestroyTextureBufferObject()
 {
-	if (mBufferID.GetBufferID() != 0)
+	if (mBufferID.IsValid() == true)
 	{
 		GraphicsAPI::DestroyTextureObject(mBufferID);
-		mBufferID = 0;
+		mBufferID.Reset();
 	}
 }
 
@@ -273,7 +280,7 @@ INT32 Texture::GetTextureBufferSizeStatic
 
 UINT32 Texture::GetTextureBufferID() const
 {
-	D_ASSERT(mBufferID != 0);
+	D_ASSERT(mBufferID.IsValid());
 	return mBufferID;
 }
 

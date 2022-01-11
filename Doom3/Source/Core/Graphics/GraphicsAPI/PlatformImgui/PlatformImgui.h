@@ -10,7 +10,7 @@ namespace dooms
 	{
 		namespace PlatformImgui
 		{
-				typedef unsigned int (DOOMS_ENGINE_API_ENTRY_P GRAPHICS_INITIALIZEPLATFORMIMGUI)(ImGuiContext*, ImGuiMemAllocFunc, ImGuiMemFreeFunc, void*);
+				typedef unsigned int (DOOMS_ENGINE_API_ENTRY_P GRAPHICS_INITIALIZEPLATFORMIMGUI)(void* platformWindow, const char* apiVersion, ImGuiContext*, ImGuiMemAllocFunc, ImGuiMemFreeFunc, void*);
 				DOOMS_ENGINE_GRAPHICS_API GRAPHICS_INITIALIZEPLATFORMIMGUI InitializePlatformImgui;
 
 

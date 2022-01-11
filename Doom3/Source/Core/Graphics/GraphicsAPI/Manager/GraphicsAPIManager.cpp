@@ -4,7 +4,10 @@
 
 #include "../graphicsAPISetting.h"
 #include "../Input/GraphicsAPIInput.h"
-#include <EngineGUI/PrintText.h>
+
+
+dooms::graphics::GraphicsAPILoader dooms::graphics::GraphicsAPIManager::mGraphicsAPILoader{};
+dooms::graphics::eGraphicsAPIType dooms::graphics::GraphicsAPIManager::mGraphicsAPIType{ eGraphicsAPIType::GraphicsAPIType_NONE };
 
 void dooms::graphics::GraphicsAPIManager::LoadGraphicsAPI(const eGraphicsAPIType graphicsAPIType)
 {
@@ -18,7 +21,7 @@ void dooms::graphics::GraphicsAPIManager::LoadGraphicsAPI(const eGraphicsAPIType
 
 void dooms::graphics::GraphicsAPIManager::SetDefaultSettingOfAPI()
 {
-	input::GraphicsAPIInput::SetCursorMode(input::GraphicsAPIInput::eCursorMode::CURSOR_MODE_NORMAL);
+	input::GraphicsAPIInput::SetCursorMode(dooms::graphics::GraphicsAPI::GetPlatformWindow(), input::GraphicsAPIInput::eCursorMode::CURSOR_MODE_NORMAL);
 	graphics::GraphicsAPI::SetIsDepthTestEnabled(true);
 	graphics::GraphicsAPI::SetDepthFunc(GraphicsAPI::LESS);
 	//graphics::GraphicsAPI::SetIsAlphaTestEnabled(dooms::graphics::graphicsAPISetting::DefaultIsAlphaTestOn);
@@ -47,11 +50,7 @@ void dooms::graphics::GraphicsAPIManager::GraphisAPIDebugCallBack(const char* co
 		D_DEBUG_LOG(eLogType::D_LOG_TYPE5, "Graphis API Callback : %s", debugMessage);
 	}
 }
-
-dooms::graphics::GraphicsAPIManager::GraphicsAPIManager() = default;
-dooms::graphics::GraphicsAPIManager::~GraphicsAPIManager() = default;
-dooms::graphics::GraphicsAPIManager::GraphicsAPIManager(GraphicsAPIManager&&) noexcept = default;
-dooms::graphics::GraphicsAPIManager& dooms::graphics::GraphicsAPIManager::operator=(GraphicsAPIManager&&) noexcept = default;
+ 
 
 bool dooms::graphics::GraphicsAPIManager::Initialize(const eGraphicsAPIType graphicsAPIType)
 {
@@ -61,14 +60,11 @@ bool dooms::graphics::GraphicsAPIManager::Initialize(const eGraphicsAPIType grap
 	unsigned int isSuccess = 0;
 	{
 		isSuccess |= GraphicsAPI::InitializeGraphicsAPI(graphicsAPISetting::GetScreenWidth(), graphicsAPISetting::GetScreenHeight(), graphicsAPISetting::GetMultiSamplingNum());
-		D_ASSERT(isSuccess == 0);
-		if (isSuccess != 0)
-		{
-			dooms::ui::PrintText("Fail to GraphicsAPI::InitializeGraphisAPIInput ( Error Code : %u )", isSuccess);
-		}
+		D_ASSERT_LOG(isSuccess == 0, "Fail to GraphicsAPI::InitializeGraphisAPIInput ( Error Code : %u )", isSuccess);
+		
 	}
 	SetDefaultSettingOfAPI();
-	isSuccess |= input::GraphicsAPIInput::InitializeGraphisAPIInput();
+	isSuccess |= input::GraphicsAPIInput::InitializeGraphisAPIInput(dooms::graphics::GraphicsAPI::GetPlatformWindow());
 	D_ASSERT(isSuccess == 0);
 
 	return isSuccess == 0;
@@ -88,7 +84,7 @@ bool dooms::graphics::GraphicsAPIManager::DeInitialize()
 	return isSuccess == 0;
 }
 
-dooms::graphics::eGraphicsAPIType dooms::graphics::GraphicsAPIManager::GetGraphicsAPIType() const
+dooms::graphics::eGraphicsAPIType dooms::graphics::GraphicsAPIManager::GetGraphicsAPIType()
 {
 	return mGraphicsAPIType;
 }

@@ -8,27 +8,25 @@
 #include "imgui/backends/imgui_impl_glfw.h"
 #include "imgui/backends/imgui_impl_opengl3.h"
 
-#include "GraphicsAPI.h"
 
 namespace dooms
 {
 	namespace input
 	{
-		DOOMS_ENGINE_GRAPHICS_API bool InitializePlatformImgui(ImGuiContext* const imGuiContext, ImGuiMemAllocFunc p_alloc_func, ImGuiMemFreeFunc p_free_func, void* p_user_data)
+		DOOMS_ENGINE_GRAPHICS_API bool InitializePlatformImgui(void* platformWindow, const char* apiVersion, ImGuiContext* const imGuiContext, ImGuiMemAllocFunc p_alloc_func, ImGuiMemFreeFunc p_free_func, void* p_user_data)
 		{
 			assert(imGuiContext != nullptr);
 
 			ImGui::SetCurrentContext(imGuiContext);
 			ImGui::SetAllocatorFunctions(p_alloc_func, p_free_func, p_user_data);
 
-			GLFWwindow* const glfwWindow = reinterpret_cast<GLFWwindow*>(graphics::GraphicsAPI::GetPlatformWindow());
+			GLFWwindow* const glfwWindow = reinterpret_cast<GLFWwindow*>(platformWindow);
 			assert(glfwWindow != nullptr);
 
 			bool isSuccess = true;
 
 			isSuccess &= ImGui_ImplGlfw_InitForOpenGL(glfwWindow, true);
-			const char* const openglVersion = graphics::GraphicsAPI::GetPlatformVersion();
-			isSuccess &= ImGui_ImplOpenGL3_Init(openglVersion);
+			isSuccess &= ImGui_ImplOpenGL3_Init(apiVersion);
 
 			return isSuccess;
 		}
