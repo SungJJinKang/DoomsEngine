@@ -1,13 +1,16 @@
 #include "GraphicsAPIManager.h"
 
+#include <Windows.h>
+
 #include "graphicsAPISetting.h"
 #include "Input/GraphicsAPIInput.h"
 #include <EngineGUI/PrintText.h>
 
 void dooms::graphics::GraphicsAPIManager::LoadGraphicsAPI(const eGraphicsAPIType graphicsAPIType)
 {
-	const bool isSuccess = mGraphicsAPILoader.LoadGraphicsAPILibrary(graphicsAPIType);
-	if(isSuccess == true)
+	HMODULE hModule = reinterpret_cast<HMODULE>(mGraphicsAPILoader.LoadGraphicsAPILibrary(graphicsAPIType));
+	D_ASSERT(hModule != NULL);
+	if(hModule != NULL)
 	{
 		mGraphicsAPIType = graphicsAPIType;
 	}
@@ -50,13 +53,14 @@ dooms::graphics::GraphicsAPIManager::~GraphicsAPIManager() = default;
 dooms::graphics::GraphicsAPIManager::GraphicsAPIManager(GraphicsAPIManager&&) noexcept = default;
 dooms::graphics::GraphicsAPIManager& dooms::graphics::GraphicsAPIManager::operator=(GraphicsAPIManager&&) noexcept = default;
 
-void dooms::graphics::GraphicsAPIManager::Initialize(const eGraphicsAPIType graphicsAPIType)
+bool dooms::graphics::GraphicsAPIManager::Initialize(const eGraphicsAPIType graphicsAPIType)
 {
 	LoadGraphicsAPI(graphicsAPIType);
 	GraphicsAPI::SetDebugFunction(dooms::graphics::GraphicsAPIManager::GraphisAPIDebugCallBack);
 
+	unsigned int isSuccess = 0;
 	{
-		const unsigned int isSuccess = GraphicsAPI::Initialize(graphicsAPISetting::GetScreenWidth(), graphicsAPISetting::GetScreenHeight(), graphicsAPISetting::GetMultiSamplingNum());
+		isSuccess |= GraphicsAPI::Initialize(graphicsAPISetting::GetScreenWidth(), graphicsAPISetting::GetScreenHeight(), graphicsAPISetting::GetMultiSamplingNum());
 		D_ASSERT(isSuccess == 0);
 		if (isSuccess != 0)
 		{
@@ -64,15 +68,24 @@ void dooms::graphics::GraphicsAPIManager::Initialize(const eGraphicsAPIType grap
 		}
 	}
 	SetDefaultSettingOfAPI();
-	input::GraphicsAPIInput::Initialize();
+	isSuccess |= input::GraphicsAPIInput::Initialize();
+	D_ASSERT(isSuccess == 0);
 
+	return isSuccess == 0;
 }
 
-void dooms::graphics::GraphicsAPIManager::DeInitialize()
+bool dooms::graphics::GraphicsAPIManager::DeInitialize()
 {
-	graphics::GraphicsAPI::DeInitialize();
-	input::GraphicsAPIInput::DeInitialize();
-	mGraphicsAPILoader.UnLoadGraphicsAPILibrary();
+	unsigned int isSuccess = 0;
+
+	isSuccess |= graphics::GraphicsAPI::DeInitialize();
+	D_ASSERT(isSuccess == 0);
+	isSuccess |= input::GraphicsAPIInput::DeInitialize();
+	D_ASSERT(isSuccess == 0);
+	isSuccess |= mGraphicsAPILoader.UnLoadGraphicsAPILibrary();
+	D_ASSERT(isSuccess == 0);
+
+	return isSuccess == 0;
 }
 
 dooms::graphics::eGraphicsAPIType dooms::graphics::GraphicsAPIManager::GetGraphicsAPIType() const

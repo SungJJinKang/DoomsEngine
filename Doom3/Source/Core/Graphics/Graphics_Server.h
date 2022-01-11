@@ -81,7 +81,7 @@ namespace dooms
 			void UpdateCameraIndexInCullingSystemOfCameraComponent();
 			void UpdateSortedEntityInfoListInCullingSystem();
 			
-			void InitializeGraphicsAPI();
+			bool InitializeGraphicsAPI();
 
 			void PreRender();
 			void Render();

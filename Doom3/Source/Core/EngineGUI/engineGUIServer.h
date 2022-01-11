@@ -6,8 +6,8 @@ namespace dooms
 	{
 		namespace engineGUIServer
 		{
-			extern void Initialize();
-			extern void ShutDown();
+			extern bool Initialize();
+			extern bool ShutDown();
 
 			extern void PreRender();
 			extern void Render();

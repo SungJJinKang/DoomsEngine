@@ -2,7 +2,6 @@
 
 #include <Core.h>
 
-#include "GraphicsAPI.h"
 #include "eGraphicsAPIType.h"
 
 namespace dooms
@@ -17,7 +16,7 @@ namespace dooms
 
 			void* mAPIModule;
 
-			bool FreeGraphicsAPILibrary();
+			unsigned int FreeGraphicsAPILibrary();
 
 		public:
 
@@ -27,7 +26,7 @@ namespace dooms
 			GraphicsAPILoader(GraphicsAPILoader&&) noexcept;
 			GraphicsAPILoader& operator=(const GraphicsAPILoader&) = delete;
 			GraphicsAPILoader& operator=(GraphicsAPILoader&&) noexcept;
-			bool LoadGraphicsAPILibrary(const eGraphicsAPIType graphicsAPIType);
+			void* LoadGraphicsAPILibrary(const eGraphicsAPIType graphicsAPIType);
 			bool UnLoadGraphicsAPILibrary();
 		};
 	}

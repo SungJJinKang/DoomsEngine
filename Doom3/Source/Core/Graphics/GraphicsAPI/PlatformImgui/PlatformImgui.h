@@ -12,8 +12,8 @@ namespace dooms
 		{
 		public:
 			
-			static void Initialize(ImGuiContext* const imGuiContext, ImGuiMemAllocFunc p_alloc_func, ImGuiMemFreeFunc p_free_func, void* p_user_data);
-			static void ShutDown();
+			static bool Initialize(ImGuiContext* const imGuiContext, ImGuiMemAllocFunc p_alloc_func, ImGuiMemFreeFunc p_free_func, void* p_user_data);
+			static bool ShutDown();
 			static void PreRender();
 			static void PostRender();
 		};

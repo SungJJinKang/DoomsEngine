@@ -12,7 +12,7 @@
 #define DX11_DLL_FILE_NAME TEXT("DX11GraphicsAPI.dll")
 #define DW_FLAGS 0x00000000
 
-bool dooms::graphics::GraphicsAPILoader::FreeGraphicsAPILibrary()
+unsigned int dooms::graphics::GraphicsAPILoader::FreeGraphicsAPILibrary()
 {
 	bool isFreeLibrarySuccess = false;
 	if (mAPIModule != nullptr)
@@ -20,36 +20,37 @@ bool dooms::graphics::GraphicsAPILoader::FreeGraphicsAPILibrary()
 		isFreeLibrarySuccess = FreeLibrary(reinterpret_cast<HMODULE>(mAPIModule));      //2: unload the DLL
 		//D_ASSERT(isFreeLibrarySuccess == true);
 	}
-	return isFreeLibrarySuccess;
+	return isFreeLibrarySuccess == true ? 0 : 1;
 }
 
 dooms::graphics::GraphicsAPILoader::GraphicsAPILoader()
-	:mAPIModule{ nullptr }
+	:mAPIModule{ NULL }
 {
 }
 
 dooms::graphics::GraphicsAPILoader::~GraphicsAPILoader()
 {
-	FreeGraphicsAPILibrary();
+	const bool isSuccess = FreeGraphicsAPILibrary();
+	D_ASSERT(isSuccess == true);
 }
 
 
 dooms::graphics::GraphicsAPILoader::GraphicsAPILoader(GraphicsAPILoader&& loader) noexcept
 	: mAPIModule{ loader.mAPIModule }
 {
-	loader.mAPIModule = nullptr;
+	loader.mAPIModule = NULL;
 }
 
 
 dooms::graphics::GraphicsAPILoader& dooms::graphics::GraphicsAPILoader::operator=(GraphicsAPILoader&& loader) noexcept
 {
 	mAPIModule = loader.mAPIModule;
-	loader.mAPIModule = nullptr;
+	loader.mAPIModule = NULL;
 
 	return *this;
 }
 
-bool dooms::graphics::GraphicsAPILoader::LoadGraphicsAPILibrary
+void* dooms::graphics::GraphicsAPILoader::LoadGraphicsAPILibrary
 (
 	const eGraphicsAPIType graphicsAPIType
 )
@@ -78,26 +79,20 @@ bool dooms::graphics::GraphicsAPILoader::LoadGraphicsAPILibrary
 	}
 
 #ifdef UNICODE
-	mAPIModule = reinterpret_cast<void*>(LoadLibraryEx(dllFileName.c_str(), NULL, DW_FLAGS));
+	mAPIModule = LoadLibraryEx(dllFileName.c_str(), NULL, DW_FLAGS);
 #else
-	mAPIModule = reinterpret_cast<void*>(LoadLibraryEx(dllFileName.c_str(), NULL, dwFlags));
+	mAPIModule = LoadLibraryEx(dllFileName.c_str(), NULL, dwFlags);
 #endif
-
-	bool isSuccess;
-	if (mAPIModule == nullptr)
+	
+	if (mAPIModule == NULL)
 	{//FAIL
 		const DWORD errorCode = GetLastError();
 
 		D_ASSERT_LOG(false, "Fail to Load Graphics API Library - Error Code : %d", errorCode);
 		dooms::ui::PrintText("Fail to Load Graphics API Library - Error Code : %d", errorCode);
-		isSuccess = false;
-	}
-	else
-	{
-		isSuccess = true;
 	}
 
-	return isSuccess;
+	return mAPIModule;
 }
 
 bool dooms::graphics::GraphicsAPILoader::UnLoadGraphicsAPILibrary()

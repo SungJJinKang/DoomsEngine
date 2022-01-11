@@ -5,6 +5,7 @@
 #include <Simple_SingleTon/Singleton.h>
 #include "GraphicsAPILoader.h"
 #include "eGraphicsAPIType.h"
+#include "GraphicsAPI.h"
 
 namespace dooms
 {
@@ -36,8 +37,8 @@ namespace dooms
 			GraphicsAPIManager& operator=(const GraphicsAPIManager&) = delete;
 			GraphicsAPIManager& operator=(GraphicsAPIManager&&) noexcept;
 
-			void Initialize(const eGraphicsAPIType graphicsAPIType);
-			void DeInitialize();
+			bool Initialize(const eGraphicsAPIType graphicsAPIType);
+			bool DeInitialize();
 
 			eGraphicsAPIType GetGraphicsAPIType() const;
 		};

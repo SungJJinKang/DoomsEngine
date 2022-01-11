@@ -1,4 +1,4 @@
-#include "EngineGUIServer.h"
+#include "engineGUIServer.h"
 
 #include <Graphics/GraphicsAPI/PlatformImgui/PlatformImgui.h>
 
@@ -32,11 +32,13 @@ namespace dooms::ui::engineGUIServer
 }
 
 
-void dooms::ui::engineGUIServer::Initialize()
+bool dooms::ui::engineGUIServer::Initialize()
 {
     IMGUI_CHECKVERSION();
     ImGuiContext* const imGuiContext = ImGui::CreateContext();
     ImGuiIO& io = ImGui::GetIO(); (void)io;
+
+    bool isSuccess = (imGuiContext != nullptr);
 
     // TODO : Block dispatch imput to application when mouse hover on gui
     io.WantCaptureMouse = true;
@@ -53,17 +55,22 @@ void dooms::ui::engineGUIServer::Initialize()
     ImGuiMemFreeFunc p_free_func;
     void* p_user_data;
     ImGui::GetAllocatorFunctions(&p_alloc_func, &p_free_func, &p_user_data);
-    graphics::PlatformImgui::Initialize(imGuiContext, *p_alloc_func, *p_free_func, &p_user_data);
+    isSuccess &= dooms::graphics::PlatformImgui::Initialize(imGuiContext, *p_alloc_func, *p_free_func, &p_user_data);
 
     //ImGui::SetCurrentContext()
 	dooms::ui::imguiWithReflection::Initialize();
     dooms::ui::engineGUIServer::InitializeGUIModules();
+
+    return isSuccess;
 }
 
-void dooms::ui::engineGUIServer::ShutDown()
+bool dooms::ui::engineGUIServer::ShutDown()
 {
-    graphics::PlatformImgui::ShutDown();
+    const bool isSuccess = dooms::graphics::PlatformImgui::ShutDown();
+    D_ASSERT(isSuccess == true);
     ImGui::DestroyContext();
+
+    return isSuccess;
 }
 
 void dooms::ui::engineGUIServer::PreRender()

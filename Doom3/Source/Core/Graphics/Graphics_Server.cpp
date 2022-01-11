@@ -35,17 +35,20 @@
 
 using namespace dooms::graphics;
 
-void Graphics_Server::InitializeGraphicsAPI()
+bool Graphics_Server::InitializeGraphicsAPI()
 {
+	bool isSuccess = false;
+
 	const std::string targetGraphicsAPI = ConfigData::GetSingleton()->GetConfigData().GetValue<std::string>("Graphics", "GRAPHICS_API");
 	if (targetGraphicsAPI == "OPENGL")
 	{
-		mGraphicsAPIManager.Initialize(eGraphicsAPIType::OpenGL);
+		isSuccess = mGraphicsAPIManager.Initialize(eGraphicsAPIType::OpenGL);
 	}
 	else if (targetGraphicsAPI == "DX11")
 	{
-		mGraphicsAPIManager.Initialize(eGraphicsAPIType::DX11);
+		isSuccess = mGraphicsAPIManager.Initialize(eGraphicsAPIType::DX11);
 	}
+	return isSuccess;
 }
 
 void dooms::graphics::Graphics_Server::Init()
@@ -53,7 +56,7 @@ void dooms::graphics::Graphics_Server::Init()
 	dooms::graphics::graphicsSetting::LoadData();
 	dooms::graphics::graphicsAPISetting::LoadData();
 
-	InitializeGraphicsAPI();
+	const bool isSuccessToInitializeGraphicsAPI = InitializeGraphicsAPI();
 	
 	dooms::ui::engineGUIServer::Initialize();
 
