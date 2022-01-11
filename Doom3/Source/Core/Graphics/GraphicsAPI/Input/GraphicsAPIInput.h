@@ -157,19 +157,19 @@ namespace dooms
 			};
 
 			typedef unsigned int (DOOMS_ENGINE_API_ENTRY_P GRAPHICS_INITIALIZEGRAPHICSAPIINPUT)(void* platformWindow);
-			DOOMS_ENGINE_GRAPHICS_API GRAPHICS_INITIALIZEGRAPHICSAPIINPUT InitializeGraphisAPIInput;
+			extern GRAPHICS_INITIALIZEGRAPHICSAPIINPUT InitializeGraphisAPIInput;
 
 
 			typedef unsigned int (DOOMS_ENGINE_API_ENTRY_P GRAPHICS_DEINITIALIZEGRAPHICSAPIINPUT)(void);
-			DOOMS_ENGINE_GRAPHICS_API GRAPHICS_DEINITIALIZEGRAPHICSAPIINPUT DeInitializeGraphisAPIInput;
+			extern GRAPHICS_DEINITIALIZEGRAPHICSAPIINPUT DeInitializeGraphisAPIInput;
 
 
 			typedef unsigned int (DOOMS_ENGINE_API_ENTRY_P GRAPHICS_POLLEVENTS)(void);
-			DOOMS_ENGINE_GRAPHICS_API GRAPHICS_POLLEVENTS PollEvents;
+			extern GRAPHICS_POLLEVENTS PollEvents;
 
 
 			typedef unsigned int (DOOMS_ENGINE_API_ENTRY_P GRAPHICS_SETCURSORMODE)(void* platformWindow, eCursorMode);
-			DOOMS_ENGINE_GRAPHICS_API GRAPHICS_SETCURSORMODE SetCursorMode;
+			extern GRAPHICS_SETCURSORMODE SetCursorMode;
 			
 			
 			typedef void (*CursorEnterCallback)(bool);
@@ -179,19 +179,19 @@ namespace dooms
 			typedef void (*MouseButton_Callback)(dooms::input::GraphicsAPIInput::eMoustInput, dooms::input::GraphicsAPIInput::eInputActionType, int);
 			
 			typedef unsigned int (DOOMS_ENGINE_API_ENTRY_P GRAPHICS_SETCURSORENTERCALLBACK)(CursorEnterCallback);
-			DOOMS_ENGINE_GRAPHICS_API GRAPHICS_SETCURSORENTERCALLBACK SetCursorEnterCallback;
+			extern GRAPHICS_SETCURSORENTERCALLBACK SetCursorEnterCallback;
 
 			typedef unsigned int (DOOMS_ENGINE_API_ENTRY_P GRAPHICS_SETCURSORPOSITIONCALLBACK)(CursorPosition_Callback);
-			DOOMS_ENGINE_GRAPHICS_API GRAPHICS_SETCURSORPOSITIONCALLBACK SetCursorPosition_Callback;
+			extern GRAPHICS_SETCURSORPOSITIONCALLBACK SetCursorPosition_Callback;
 
 			typedef unsigned int (DOOMS_ENGINE_API_ENTRY_P GRAPHICS_SETSCROLLCALLBACK)(Scroll_Callback);
-			DOOMS_ENGINE_GRAPHICS_API GRAPHICS_SETSCROLLCALLBACK SetScroll_Callback;
+			extern GRAPHICS_SETSCROLLCALLBACK SetScroll_Callback;
 
 			typedef unsigned int (DOOMS_ENGINE_API_ENTRY_P GRAPHICS_SETKEYCALLBACK)(Key_Callback);
-			DOOMS_ENGINE_GRAPHICS_API GRAPHICS_SETKEYCALLBACK SetKey_Callback;
+			extern GRAPHICS_SETKEYCALLBACK SetKey_Callback;
 
 			typedef unsigned int (DOOMS_ENGINE_API_ENTRY_P GRAPHICS_SETMOUSEBUTTONCALLBACK)(MouseButton_Callback);
-			DOOMS_ENGINE_GRAPHICS_API GRAPHICS_SETMOUSEBUTTONCALLBACK SetMouseButton_Callback;
+			extern GRAPHICS_SETMOUSEBUTTONCALLBACK SetMouseButton_Callback;
 
 		};
 	}

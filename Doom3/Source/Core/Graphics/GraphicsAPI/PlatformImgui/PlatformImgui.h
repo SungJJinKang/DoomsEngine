@@ -11,19 +11,19 @@ namespace dooms
 		namespace PlatformImgui
 		{
 				typedef unsigned int (DOOMS_ENGINE_API_ENTRY_P GRAPHICS_INITIALIZEPLATFORMIMGUI)(void* platformWindow, const char* apiVersion, ImGuiContext*, ImGuiMemAllocFunc, ImGuiMemFreeFunc, void*);
-				DOOMS_ENGINE_GRAPHICS_API GRAPHICS_INITIALIZEPLATFORMIMGUI InitializePlatformImgui;
+				extern GRAPHICS_INITIALIZEPLATFORMIMGUI InitializePlatformImgui;
 
 
 				typedef unsigned int (DOOMS_ENGINE_API_ENTRY_P GRAPHICS_SHUTDOWNPLATFORMIMGUI)(void);
-				DOOMS_ENGINE_GRAPHICS_API GRAPHICS_SHUTDOWNPLATFORMIMGUI ShutDownPlatformImgui;
+				extern GRAPHICS_SHUTDOWNPLATFORMIMGUI ShutDownPlatformImgui;
 
 
 				typedef unsigned int (DOOMS_ENGINE_API_ENTRY_P GRAPHICS_PRERENDERPLATFORMIMGUI)(void);
-				DOOMS_ENGINE_GRAPHICS_API GRAPHICS_PRERENDERPLATFORMIMGUI PreRenderPlatformImgui;
+				extern GRAPHICS_PRERENDERPLATFORMIMGUI PreRenderPlatformImgui;
 
 
 				typedef unsigned int (DOOMS_ENGINE_API_ENTRY_P GRAPHICS_POSTRENDERPLATFORMIMGUI)(void);
-				DOOMS_ENGINE_GRAPHICS_API GRAPHICS_POSTRENDERPLATFORMIMGUI PostRenderPlatformImgui;
+				extern GRAPHICS_POSTRENDERPLATFORMIMGUI PostRenderPlatformImgui;
 		};
 	}
 }

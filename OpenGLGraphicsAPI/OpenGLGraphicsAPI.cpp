@@ -1510,7 +1510,7 @@ namespace dooms
 
 		DOOMS_ENGINE_GRAPHICS_API int GetFrameBufferWidth(const unsigned int frameBuffer)
 		{
-			GraphicsAPI::BindFrameBuffer(frameBuffer, GraphicsAPI::eBindFrameBufferTarget::FRAMEBUFFER);
+			BindFrameBuffer(frameBuffer, GraphicsAPI::eBindFrameBufferTarget::FRAMEBUFFER);
 
 			int data;
 			glGetFramebufferParameteriv(opengl::GetGLBindFrameBufferTarget(GraphicsAPI::eBindFrameBufferTarget::FRAMEBUFFER), GL_FRAMEBUFFER_DEFAULT_WIDTH, &data);
@@ -1519,7 +1519,7 @@ namespace dooms
 
 		DOOMS_ENGINE_GRAPHICS_API int GetFrameBufferHeight(const unsigned int frameBuffer)
 		{
-			GraphicsAPI::BindFrameBuffer(frameBuffer, GraphicsAPI::eBindFrameBufferTarget::FRAMEBUFFER);
+			BindFrameBuffer(frameBuffer, GraphicsAPI::eBindFrameBufferTarget::FRAMEBUFFER);
 
 			int data;
 			glGetFramebufferParameteriv(opengl::GetGLBindFrameBufferTarget(GraphicsAPI::eBindFrameBufferTarget::FRAMEBUFFER), GL_FRAMEBUFFER_DEFAULT_HEIGHT, &data);
@@ -1801,7 +1801,7 @@ namespace dooms
 			const GraphicsAPI::eMapBufferAccessOption mapBufferAccessOption
 		)
 		{
-			GraphicsAPI::BindBuffer(bufferID, bindBufferTarget);
+			BindBuffer(bufferID, bindBufferTarget);
 			return glMapBufferRange(opengl::GetGLBufferTarget(bindBufferTarget), offset, length, opengl::GetGLMapBufferAccessOption(mapBufferAccessOption));
 		}
 
@@ -1866,7 +1866,7 @@ namespace dooms
 		{
 			float data;
 
-			GraphicsAPI::BindTextureObject(textureObject, textureBindTarget);
+			BindTextureObject(textureObject, textureBindTarget);
 			glGetTexLevelParameterfv(opengl::GetGLTextureBindTarget(textureBindTarget), lodLevel, opengl::GetGLTextureMataDataType(textureMetaDataType), &data);
 
 			return data;
@@ -1882,7 +1882,7 @@ namespace dooms
 		{
 			int data;
 
-			GraphicsAPI::BindTextureObject(textureObject, textureBindTarget);
+			BindTextureObject(textureObject, textureBindTarget);
 			glGetTexLevelParameteriv(opengl::GetGLTextureBindTarget(textureBindTarget), lodLevel, opengl::GetGLTextureMataDataType(textureMetaDataType), &data);
 
 			return data;

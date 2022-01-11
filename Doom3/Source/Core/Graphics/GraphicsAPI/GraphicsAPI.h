@@ -27,23 +27,27 @@ namespace dooms
 
 				using DEBUG_FUNCTION = void (*)(const char* const debugMessage, const eGraphisAPIDebugCallbackSeverity debugCallbackSeverity);
 
+				// Function pointers isn't used from graphis api dll.
+				// In main application, extern is just extern.
+				// This is just for easy development
+
 				typedef DEBUG_FUNCTION(DOOMS_ENGINE_API_ENTRY_P GRAPHICS_GETDEBUGFUNCTION)(void);
-				DOOMS_ENGINE_GRAPHICS_API GRAPHICS_GETDEBUGFUNCTION GetDebugFunction;
+				extern GRAPHICS_GETDEBUGFUNCTION GetDebugFunction;
 
 				typedef unsigned int (DOOMS_ENGINE_API_ENTRY_P GRAPHICS_GETDRAWCALL)(void);
-				DOOMS_ENGINE_GRAPHICS_API GRAPHICS_GETDRAWCALL GetDrawCall;
+				extern GRAPHICS_GETDRAWCALL GetDrawCall;
 
 				typedef void (DOOMS_ENGINE_API_ENTRY_P GRAPHICS_SETDEBUGFUNCTION)(DEBUG_FUNCTION debugFunction);
-				DOOMS_ENGINE_GRAPHICS_API GRAPHICS_SETDEBUGFUNCTION SetDebugFunction;
+				extern GRAPHICS_SETDEBUGFUNCTION SetDebugFunction;
 				
 				typedef const char* (DOOMS_ENGINE_API_ENTRY_P GRAPHICS_GETPLATFORMVERSION)(void);
-				DOOMS_ENGINE_GRAPHICS_API GRAPHICS_GETPLATFORMVERSION GetPlatformVersion;
+				extern GRAPHICS_GETPLATFORMVERSION GetPlatformVersion;
 
 				typedef void* (DOOMS_ENGINE_API_ENTRY_P GRAPHICS_GETPLATFORMWINDOW)(void);
-				DOOMS_ENGINE_GRAPHICS_API GRAPHICS_GETPLATFORMWINDOW GetPlatformWindow;
+				extern GRAPHICS_GETPLATFORMWINDOW GetPlatformWindow;
 				
 				typedef double (DOOMS_ENGINE_API_ENTRY_P GRAPHICS_GETTIME)(void);
-				DOOMS_ENGINE_GRAPHICS_API GRAPHICS_GETTIME GetTime;
+				extern GRAPHICS_GETTIME GetTime;
 
 				enum eBufferBitType : unsigned int
 				{
@@ -138,16 +142,16 @@ namespace dooms
 				};
 
 				typedef unsigned int (DOOMS_ENGINE_API_ENTRY_P GRAPHICS_INITIALIZEGRAPHICSAPI)(const int screenWidth, const int screenHeight, const unsigned int multiSamplingNum);
-				DOOMS_ENGINE_GRAPHICS_API GRAPHICS_INITIALIZEGRAPHICSAPI InitializeGraphicsAPI;
+				extern GRAPHICS_INITIALIZEGRAPHICSAPI InitializeGraphicsAPI;
 
 				typedef unsigned int (DOOMS_ENGINE_API_ENTRY_P GRAPHICS_DEINITIALIZEGRAPHICSAPI)();
-				DOOMS_ENGINE_GRAPHICS_API GRAPHICS_DEINITIALIZEGRAPHICSAPI DeinitializeGraphicsAPI;
+				extern GRAPHICS_DEINITIALIZEGRAPHICSAPI DeinitializeGraphicsAPI;
 
 				typedef void (DOOMS_ENGINE_API_ENTRY_P GRAPHICS_SWAPBUFFER)(void);
-				DOOMS_ENGINE_GRAPHICS_API GRAPHICS_SWAPBUFFER SwapBuffer;
+				extern GRAPHICS_SWAPBUFFER SwapBuffer;
 
 				typedef void (DOOMS_ENGINE_API_ENTRY_P GRAPHICS_SETVSYNC)(const bool isEnabled);
-				DOOMS_ENGINE_GRAPHICS_API GRAPHICS_SETVSYNC SetVSync;
+				extern GRAPHICS_SETVSYNC SetVSync;
 
 				enum eDepthFuncType : unsigned int
 				{
@@ -162,25 +166,25 @@ namespace dooms
 				};
 
 				typedef void (DOOMS_ENGINE_API_ENTRY_P GRAPHICS_SETISDEPTHTESTENABLED)(const bool isEnabled);
-				DOOMS_ENGINE_GRAPHICS_API GRAPHICS_SETISDEPTHTESTENABLED SetIsDepthTestEnabled;
+				extern GRAPHICS_SETISDEPTHTESTENABLED SetIsDepthTestEnabled;
 
 				typedef void (DOOMS_ENGINE_API_ENTRY_P GRAPHICS_SETDEPTHFUNC)(const eDepthFuncType depthFuncType);
-				DOOMS_ENGINE_GRAPHICS_API GRAPHICS_SETDEPTHFUNC SetDepthFunc;
+				extern GRAPHICS_SETDEPTHFUNC SetDepthFunc;
 
 				typedef void (DOOMS_ENGINE_API_ENTRY_P GRAPHICS_SETDEPTHMASK)(const bool isWriteDepthBuffer);
-				DOOMS_ENGINE_GRAPHICS_API GRAPHICS_SETDEPTHMASK SetDepthMask;
+				extern GRAPHICS_SETDEPTHMASK SetDepthMask;
 
 				typedef void (DOOMS_ENGINE_API_ENTRY_P GRAPHICS_SETISALPHATESTENABLED)(const bool isEnabled);
-				DOOMS_ENGINE_GRAPHICS_API GRAPHICS_SETISALPHATESTENABLED SetIsAlphaTestEnabled;
+				extern GRAPHICS_SETISALPHATESTENABLED SetIsAlphaTestEnabled;
 
 				typedef void (DOOMS_ENGINE_API_ENTRY_P GRAPHICS_SETISBLENDENABLED)(const bool isEnabled);
-				DOOMS_ENGINE_GRAPHICS_API GRAPHICS_SETISBLENDENABLED SetIsBlendEnabled;
+				extern GRAPHICS_SETISBLENDENABLED SetIsBlendEnabled;
 
 				typedef void (DOOMS_ENGINE_API_ENTRY_P GRAPHICS_SETVIEWPORT)(const int startX, const int startY, const unsigned int width, const unsigned int height);
-				DOOMS_ENGINE_GRAPHICS_API GRAPHICS_SETVIEWPORT SetViewport;
+				extern GRAPHICS_SETVIEWPORT SetViewport;
 
 				typedef void(DOOMS_ENGINE_API_ENTRY_P GRAPHICS_GETVIEWPORT)(int*);
-				DOOMS_ENGINE_GRAPHICS_API GRAPHICS_GETVIEWPORT GetViewPort;
+				extern GRAPHICS_GETVIEWPORT GetViewPort;
 
 				enum eBlendFactor : unsigned int
 				{
@@ -200,7 +204,7 @@ namespace dooms
 					ONE_MINUS_CONSTANT_ALPHA
 				};
 				typedef void (DOOMS_ENGINE_API_ENTRY_P GRAPHICS_SETBLENDFACTOR)(const eBlendFactor sourceBlendFactor, const eBlendFactor destinationBlendFactor);
-				DOOMS_ENGINE_GRAPHICS_API GRAPHICS_SETBLENDFACTOR SetBlendFactor;
+				extern GRAPHICS_SETBLENDFACTOR SetBlendFactor;
 
 				enum eCullFace : unsigned int
 				{
@@ -210,7 +214,7 @@ namespace dooms
 				};
 
 				typedef void (DOOMS_ENGINE_API_ENTRY_P GRAPHICS_SETCULLFACE)(const eCullFace cullFace);
-				DOOMS_ENGINE_GRAPHICS_API GRAPHICS_SETCULLFACE SetCullFace;
+				extern GRAPHICS_SETCULLFACE SetCullFace;
 
 				enum eWinding : unsigned int
 				{
@@ -219,34 +223,34 @@ namespace dooms
 				};
 
 				typedef void (DOOMS_ENGINE_API_ENTRY_P GRAPHICS_SETFRONTFACEWINDING)(const eWinding winding);
-				DOOMS_ENGINE_GRAPHICS_API GRAPHICS_SETFRONTFACEWINDING SetFrontFaceWinding;
+				extern GRAPHICS_SETFRONTFACEWINDING SetFrontFaceWinding;
 
 				typedef void (DOOMS_ENGINE_API_ENTRY_P GRAPHICS_SETDRAWBUFFER)(const GraphicsAPI::eBufferMode bufferMode);
-				DOOMS_ENGINE_GRAPHICS_API GRAPHICS_SETDRAWBUFFER SetDrawBuffer;
+				extern GRAPHICS_SETDRAWBUFFER SetDrawBuffer;
 
 				typedef void (DOOMS_ENGINE_API_ENTRY_P GRAPHICS_SETDRAWBUFFERS)(const unsigned int count, const GraphicsAPI::eBufferMode* bufferModes);
-				DOOMS_ENGINE_GRAPHICS_API GRAPHICS_SETDRAWBUFFERS SetDrawBuffers;
+				extern GRAPHICS_SETDRAWBUFFERS SetDrawBuffers;
 
 				typedef void (DOOMS_ENGINE_API_ENTRY_P GRAPHICS_SETREADBUFFER)(const GraphicsAPI::eBufferMode bufferMode);
-				DOOMS_ENGINE_GRAPHICS_API GRAPHICS_SETREADBUFFER SetReadBuffer;
+				extern GRAPHICS_SETREADBUFFER SetReadBuffer;
 
 				typedef void (DOOMS_ENGINE_API_ENTRY_P GRAPHICS_CLEARCOLOR)(const float r, const float g, const float b, const float a);
-				DOOMS_ENGINE_GRAPHICS_API GRAPHICS_CLEARCOLOR ClearColor;
+				extern GRAPHICS_CLEARCOLOR ClearColor;
 				
 				typedef void (DOOMS_ENGINE_API_ENTRY_P GRAPHICS_CLEARBUFFER)(const unsigned int clearMaskBits);
-				DOOMS_ENGINE_GRAPHICS_API GRAPHICS_CLEARBUFFER ClearBuffer;
+				extern GRAPHICS_CLEARBUFFER ClearBuffer;
 
 				typedef void (DOOMS_ENGINE_API_ENTRY_P GRAPHICS_CLEARBUFFER1)(const eBufferBitType clearMask);
-				DOOMS_ENGINE_GRAPHICS_API GRAPHICS_CLEARBUFFER1 ClearBuffer1;
+				extern GRAPHICS_CLEARBUFFER1 ClearBuffer1;
 
 				typedef void (DOOMS_ENGINE_API_ENTRY_P GRAPHICS_CLEARBUFFER2)(const eBufferBitType clearMask1, const eBufferBitType clearMask2);
-				DOOMS_ENGINE_GRAPHICS_API GRAPHICS_CLEARBUFFER2 ClearBuffer2;
+				extern GRAPHICS_CLEARBUFFER2 ClearBuffer2;
 
 				typedef void (DOOMS_ENGINE_API_ENTRY_P GRAPHICS_CLEARBUFFER3)(const eBufferBitType clearMask1, const eBufferBitType clearMask2, const eBufferBitType clearMask3);
-				DOOMS_ENGINE_GRAPHICS_API GRAPHICS_CLEARBUFFER3 ClearBuffer3;
+				extern GRAPHICS_CLEARBUFFER3 ClearBuffer3;
 
 				typedef void (DOOMS_ENGINE_API_ENTRY_P GRAPHICS_CLEARSPECIFICBUFFER)(const eBufferType bufferType, const unsigned int drawBufferIndex, const float r, const float g, const float b, const float a);
-				DOOMS_ENGINE_GRAPHICS_API GRAPHICS_CLEARSPECIFICBUFFER ClearSpecificBuffer;
+				extern GRAPHICS_CLEARSPECIFICBUFFER ClearSpecificBuffer;
 
 				enum eTextureType : unsigned int
 				{
@@ -476,25 +480,25 @@ namespace dooms
 				};
 
 				typedef void(DOOMS_ENGINE_API_ENTRY_P GRAPHICS_CREATEBUFFERS)(const unsigned int bufferCount, unsigned int* buffers);
-				DOOMS_ENGINE_GRAPHICS_API GRAPHICS_CREATEBUFFERS CreateBuffers;
+				extern GRAPHICS_CREATEBUFFERS CreateBuffers;
 
 				typedef void (DOOMS_ENGINE_API_ENTRY_P GRAPHICS_DESTROYBUFFER)(const unsigned int bufferID);
-				DOOMS_ENGINE_GRAPHICS_API GRAPHICS_DESTROYBUFFER DestroyBuffer;
+				extern GRAPHICS_DESTROYBUFFER DestroyBuffer;
 				
 				typedef void (DOOMS_ENGINE_API_ENTRY_P GRAPHICS_DESTORYBUFFERS)(const unsigned int bufferCount, unsigned int* buffers);
-				DOOMS_ENGINE_GRAPHICS_API GRAPHICS_DESTORYBUFFERS DestroyBuffers;
+				extern GRAPHICS_DESTORYBUFFERS DestroyBuffers;
 
 				typedef void(DOOMS_ENGINE_API_ENTRY_P GRAPHICS_CREATEVERTEXARRAYOBJECT)(const unsigned int count, unsigned int* vertexArrayObjects);
-				DOOMS_ENGINE_GRAPHICS_API GRAPHICS_CREATEVERTEXARRAYOBJECT CreateVertexArrayObject;
+				extern GRAPHICS_CREATEVERTEXARRAYOBJECT CreateVertexArrayObject;
 
 				typedef void (DOOMS_ENGINE_API_ENTRY_P GRAPHICS_DESTROYVERTEXARRAYOBJECT)(const unsigned int count, unsigned int* vertexArrayObjects);
-				DOOMS_ENGINE_GRAPHICS_API GRAPHICS_DESTROYVERTEXARRAYOBJECT DestroyVertexArrayObject;
+				extern GRAPHICS_DESTROYVERTEXARRAYOBJECT DestroyVertexArrayObject;
 
 				typedef void (DOOMS_ENGINE_API_ENTRY_P GRAPHICS_BINDVERTEXARRAYOBJECT)(const unsigned int vertexArrayObject);
-				DOOMS_ENGINE_GRAPHICS_API GRAPHICS_BINDVERTEXARRAYOBJECT BindVertexArrayObject;
+				extern GRAPHICS_BINDVERTEXARRAYOBJECT BindVertexArrayObject;
 
 				typedef void (DOOMS_ENGINE_API_ENTRY_P GRAPHICS_UNBINDVERTEXARRAYOBJECT)();
-				DOOMS_ENGINE_GRAPHICS_API GRAPHICS_UNBINDVERTEXARRAYOBJECT UnBindVertexArrayObject;
+				extern GRAPHICS_UNBINDVERTEXARRAYOBJECT UnBindVertexArrayObject;
 
 				typedef void (DOOMS_ENGINE_API_ENTRY_P GRAPHICS_ALLOCATEBUFFERMEMORY)
 				(
@@ -502,13 +506,13 @@ namespace dooms
 					const unsigned int bufferSize, // in bytes
 					const void* const initialData
 				);
-				DOOMS_ENGINE_GRAPHICS_API GRAPHICS_ALLOCATEBUFFERMEMORY AllocateBufferMemory;
+				extern GRAPHICS_ALLOCATEBUFFERMEMORY AllocateBufferMemory;
 
 				typedef void (DOOMS_ENGINE_API_ENTRY_P GRAPHICS_ENABLEVERTEXATTRIBUTEARRAYINDEX)
 				(
 					const unsigned int vertexAttributeIndex
 				);
-				DOOMS_ENGINE_GRAPHICS_API GRAPHICS_ENABLEVERTEXATTRIBUTEARRAYINDEX EnableVertexAttributeArrayIndex;
+				extern GRAPHICS_ENABLEVERTEXATTRIBUTEARRAYINDEX EnableVertexAttributeArrayIndex;
 
 				typedef void (DOOMS_ENGINE_API_ENTRY_P GRAPHICS_DEFINEVERTEXATTRIBUTELAYOUT)
 				(
@@ -517,20 +521,20 @@ namespace dooms
 					const unsigned int stride,
 					const unsigned int offset
 				);
-				DOOMS_ENGINE_GRAPHICS_API GRAPHICS_DEFINEVERTEXATTRIBUTELAYOUT DefineVertexAttributeLayout;
+				extern GRAPHICS_DEFINEVERTEXATTRIBUTELAYOUT DefineVertexAttributeLayout;
 
 				typedef void (DOOMS_ENGINE_API_ENTRY_P GRAPHICS_BINDBUFFER)
 				(
 					const unsigned int bufferObject,
 					const eBufferTarget bindBufferTarget
 				);
-				DOOMS_ENGINE_GRAPHICS_API GRAPHICS_BINDBUFFER BindBuffer;
+				extern GRAPHICS_BINDBUFFER BindBuffer;
 
 				typedef void (DOOMS_ENGINE_API_ENTRY_P GRAPHICS_UNBINDBUFFER)
 				(
 					const eBufferTarget bindBufferTarget
 				);
-				DOOMS_ENGINE_GRAPHICS_API GRAPHICS_UNBINDBUFFER UnBindBuffer;
+				extern GRAPHICS_UNBINDBUFFER UnBindBuffer;
 
 				typedef void (DOOMS_ENGINE_API_ENTRY_P GRAPHICS_BINDBUFFERTOINDEXEDBUFFER)
 				(
@@ -538,7 +542,7 @@ namespace dooms
 					const unsigned int bindingPoint,
 					const unsigned int bufferObject
 				);
-				DOOMS_ENGINE_GRAPHICS_API GRAPHICS_BINDBUFFERTOINDEXEDBUFFER BindBufferToIndexedBuffer;
+				extern GRAPHICS_BINDBUFFERTOINDEXEDBUFFER BindBufferToIndexedBuffer;
 
 				typedef void (DOOMS_ENGINE_API_ENTRY_P GRAPHICS_UPDATEDATATOBUFFER)
 				(
@@ -547,26 +551,26 @@ namespace dooms
 					const unsigned int dataSize,
 					const void* const data
 				);
-				DOOMS_ENGINE_GRAPHICS_API GRAPHICS_UPDATEDATATOBUFFER UpdateDataToBuffer;
+				extern GRAPHICS_UPDATEDATATOBUFFER UpdateDataToBuffer;
 
 				typedef unsigned int (DOOMS_ENGINE_API_ENTRY_P GRAPHICS_GENERATEFRAMEBUFFER)();
-				DOOMS_ENGINE_GRAPHICS_API GRAPHICS_GENERATEFRAMEBUFFER GenerateFrameBuffer;
+				extern GRAPHICS_GENERATEFRAMEBUFFER GenerateFrameBuffer;
 
 				typedef void (DOOMS_ENGINE_API_ENTRY_P GRAPHICS_DESTROYFRAMEBUFFER)(const unsigned int frameBufferObject);
-				DOOMS_ENGINE_GRAPHICS_API GRAPHICS_DESTROYFRAMEBUFFER DestroyFrameBuffer;
+				extern GRAPHICS_DESTROYFRAMEBUFFER DestroyFrameBuffer;
 
 				typedef void (DOOMS_ENGINE_API_ENTRY_P GRAPHICS_BINDFRAMEBUFFER)
 				(
 					const unsigned int frameBufferObject,
 					const eBindFrameBufferTarget bindFrameBufferTarget
 				);
-				DOOMS_ENGINE_GRAPHICS_API GRAPHICS_BINDFRAMEBUFFER BindFrameBuffer;
+				extern GRAPHICS_BINDFRAMEBUFFER BindFrameBuffer;
 
 				typedef unsigned int (DOOMS_ENGINE_API_ENTRY_P GRAPHICS_CHECKFRAMEBUFFERISSUCCESFULLYCREATED)(void);
-				DOOMS_ENGINE_GRAPHICS_API GRAPHICS_CHECKFRAMEBUFFERISSUCCESFULLYCREATED CheckFrameBufferIsSuccesfullyCreated;
+				extern GRAPHICS_CHECKFRAMEBUFFERISSUCCESFULLYCREATED CheckFrameBufferIsSuccesfullyCreated;
 
 				typedef void (DOOMS_ENGINE_API_ENTRY_P GRAPHICS_BINDRENDERBUFFER)(const unsigned int renderBufferObject);
-				DOOMS_ENGINE_GRAPHICS_API GRAPHICS_BINDRENDERBUFFER BindRenderBuffer;
+				extern GRAPHICS_BINDRENDERBUFFER BindRenderBuffer;
 
 
 				enum eFrameBufferAttachmentPoint : unsigned int
@@ -595,10 +599,10 @@ namespace dooms
 					const unsigned int textureBufferObject,
 					const int lodLevel
 				);
-				DOOMS_ENGINE_GRAPHICS_API GRAPHICS_ATTACH2DTEXTURETOFRAMEBUFFER Attach2DTextureToFrameBuffer;
+				extern GRAPHICS_ATTACH2DTEXTURETOFRAMEBUFFER Attach2DTextureToFrameBuffer;
 
 				typedef void (DOOMS_ENGINE_API_ENTRY_P GRAPHICS_CREATERENDERBUFFEROBJECT)(const unsigned int renderBufferCount, unsigned int* renderBuffers);
-				DOOMS_ENGINE_GRAPHICS_API GRAPHICS_CREATERENDERBUFFEROBJECT CreateRenderBufferObject;
+				extern GRAPHICS_CREATERENDERBUFFEROBJECT CreateRenderBufferObject;
 
 				typedef void (DOOMS_ENGINE_API_ENTRY_P GRAPHICS_ALLOCATERENDERBUFFERMEMORY)
 				(
@@ -607,7 +611,7 @@ namespace dooms
 					const unsigned int width, const unsigned int height,
 					const unsigned int multiSample
 				);
-				DOOMS_ENGINE_GRAPHICS_API GRAPHICS_ALLOCATERENDERBUFFERMEMORY AllocateRenderBufferMemory;
+				extern GRAPHICS_ALLOCATERENDERBUFFERMEMORY AllocateRenderBufferMemory;
 
 				typedef void (DOOMS_ENGINE_API_ENTRY_P GRAPHICS_ATTACHRENDERBUFFERTOFRAMEBUFFER)
 				(
@@ -615,16 +619,16 @@ namespace dooms
 					const unsigned int frameBufferObject,
 					const eFrameBufferAttachmentPoint frameBufferAttachmentPoint
 				);
-				DOOMS_ENGINE_GRAPHICS_API GRAPHICS_ATTACHRENDERBUFFERTOFRAMEBUFFER AttachRenderBufferToFrameBuffer;
+				extern GRAPHICS_ATTACHRENDERBUFFERTOFRAMEBUFFER AttachRenderBufferToFrameBuffer;
 
 				typedef void (DOOMS_ENGINE_API_ENTRY_P GRAPHICS_DESTROYRENDERBUFFER)(const unsigned int renderBuffer);
-				DOOMS_ENGINE_GRAPHICS_API GRAPHICS_DESTROYRENDERBUFFER DestroyRenderBuffer;
+				extern GRAPHICS_DESTROYRENDERBUFFER DestroyRenderBuffer;
 
 				typedef int (DOOMS_ENGINE_API_ENTRY_P GRAPHICS_GETFRAMEBUFFERWIDTH)(const unsigned int frameBuffer);
-				DOOMS_ENGINE_GRAPHICS_API GRAPHICS_GETFRAMEBUFFERWIDTH GetFrameBufferWidth;
+				extern GRAPHICS_GETFRAMEBUFFERWIDTH GetFrameBufferWidth;
 
 				typedef int (DOOMS_ENGINE_API_ENTRY_P GRAPHICS_GETFRAMEBUFFERHEIGHT)(const unsigned int frameBuffer);
-				DOOMS_ENGINE_GRAPHICS_API GRAPHICS_GETFRAMEBUFFERHEIGHT GetFrameBufferHeight;
+				extern GRAPHICS_GETFRAMEBUFFERHEIGHT GetFrameBufferHeight;
 
 				typedef void (DOOMS_ENGINE_API_ENTRY_P GRAPHICS_DRAW)
 				(
@@ -632,7 +636,7 @@ namespace dooms
 					const unsigned int vertexCount,
 					const unsigned int startVertexLocation
 				);
-				DOOMS_ENGINE_GRAPHICS_API GRAPHICS_DRAW Draw;
+				extern GRAPHICS_DRAW Draw;
 
 				typedef void (DOOMS_ENGINE_API_ENTRY_P GRAPHICS_DRAWINDEXED)
 				(
@@ -640,23 +644,23 @@ namespace dooms
 					const unsigned int indiceCount,
 					const void* const indices
 				);
-				DOOMS_ENGINE_GRAPHICS_API GRAPHICS_DRAWINDEXED DrawIndexed;
+				extern GRAPHICS_DRAWINDEXED DrawIndexed;
 
 				typedef unsigned int (DOOMS_ENGINE_API_ENTRY_P GRAPHICS_CREATEMATERIAL)();
-				DOOMS_ENGINE_GRAPHICS_API GRAPHICS_CREATEMATERIAL CreateMaterial;
+				extern GRAPHICS_CREATEMATERIAL CreateMaterial;
 
 				typedef void (DOOMS_ENGINE_API_ENTRY_P GRAPHICS_DESTROYMATERIAL)(const unsigned int materialObject);
-				DOOMS_ENGINE_GRAPHICS_API GRAPHICS_DESTROYMATERIAL DestroyMaterial;
+				extern GRAPHICS_DESTROYMATERIAL DestroyMaterial;
 				/**
 				 * \brief
 				 * \param materialObject
 				 * \return If success, return true
 				 */
 				typedef bool (DOOMS_ENGINE_API_ENTRY_P GRAPHICS_LINKMATERIAL)(const unsigned int materialObject);
-				DOOMS_ENGINE_GRAPHICS_API GRAPHICS_LINKMATERIAL LinkMaterial;
+				extern GRAPHICS_LINKMATERIAL LinkMaterial;
 
 				typedef void (DOOMS_ENGINE_API_ENTRY_P GRAPHICS_BINDMATERIAL)(const unsigned int materialObject);
-				DOOMS_ENGINE_GRAPHICS_API GRAPHICS_BINDMATERIAL BindMaterial;
+				extern GRAPHICS_BINDMATERIAL BindMaterial;
 
 				enum eShaderType : unsigned int
 				{
@@ -667,67 +671,67 @@ namespace dooms
 				};
 
 				typedef unsigned int (DOOMS_ENGINE_API_ENTRY_P GRAPHICS_CREATESHADEROBJECT)(const eShaderType shaderType);
-				DOOMS_ENGINE_GRAPHICS_API GRAPHICS_CREATESHADEROBJECT CreateShaderObject;
+				extern GRAPHICS_CREATESHADEROBJECT CreateShaderObject;
 
 				typedef void (DOOMS_ENGINE_API_ENTRY_P GRAPHICS_DESTROYSHADEROBJECT)(const unsigned int shaderObject);
-				DOOMS_ENGINE_GRAPHICS_API GRAPHICS_DESTROYSHADEROBJECT DestroyShaderObject;
+				extern GRAPHICS_DESTROYSHADEROBJECT DestroyShaderObject;
 
 				typedef void (DOOMS_ENGINE_API_ENTRY_P GRAPHICS_COMPILESHADER)(const unsigned int shaderObject, const char* const shaderText);
-				DOOMS_ENGINE_GRAPHICS_API GRAPHICS_COMPILESHADER CompileShader;
+				extern GRAPHICS_COMPILESHADER CompileShader;
 
 				typedef void (DOOMS_ENGINE_API_ENTRY_P GRAPHICS_COMPILESHADERS)(const unsigned int shaderObject, const unsigned int shaderCount, const char* const* const shaderTexts);
-				DOOMS_ENGINE_GRAPHICS_API GRAPHICS_COMPILESHADERS CompileShaders;
+				extern GRAPHICS_COMPILESHADERS CompileShaders;
 
 				typedef void (DOOMS_ENGINE_API_ENTRY_P GRAPHICS_ATTACHSHADERTOMATERIAL)(const unsigned int materialObject, const unsigned int shaderObject);
-				DOOMS_ENGINE_GRAPHICS_API GRAPHICS_ATTACHSHADERTOMATERIAL AttachShaderToMaterial;
+				extern GRAPHICS_ATTACHSHADERTOMATERIAL AttachShaderToMaterial;
 
 				typedef void (DOOMS_ENGINE_API_ENTRY_P GRAPHICS_UPDATECONSTANTBUFFERBOOL1)(const int location, const bool value1);
-				DOOMS_ENGINE_GRAPHICS_API GRAPHICS_UPDATECONSTANTBUFFERBOOL1 UpdateConstantBuffer_bool1;
+				extern GRAPHICS_UPDATECONSTANTBUFFERBOOL1 UpdateConstantBuffer_bool1;
 
 				typedef void (DOOMS_ENGINE_API_ENTRY_P GRAPHICS_UPDATECONSTANTBUFFERBOOL2)(const int location, const bool value1, const bool value2);
-				DOOMS_ENGINE_GRAPHICS_API GRAPHICS_UPDATECONSTANTBUFFERBOOL2 UpdateConstantBuffer_bool2;
+				extern GRAPHICS_UPDATECONSTANTBUFFERBOOL2 UpdateConstantBuffer_bool2;
 
 				typedef void (DOOMS_ENGINE_API_ENTRY_P GRAPHICS_UPDATECONSTANTBUFFERBOOL3)(const int location, const bool value1, const bool value2, const bool value3);
-				DOOMS_ENGINE_GRAPHICS_API GRAPHICS_UPDATECONSTANTBUFFERBOOL3 UpdateConstantBuffer_bool3;
+				extern GRAPHICS_UPDATECONSTANTBUFFERBOOL3 UpdateConstantBuffer_bool3;
 
 				typedef void (DOOMS_ENGINE_API_ENTRY_P GRAPHICS_UPDATECONSTANTBUFFERBOOL4)(const int location, const bool value1, const bool value2, const bool value3, const bool value4);
-				DOOMS_ENGINE_GRAPHICS_API GRAPHICS_UPDATECONSTANTBUFFERBOOL4 UpdateConstantBuffer_bool4;
+				extern GRAPHICS_UPDATECONSTANTBUFFERBOOL4 UpdateConstantBuffer_bool4;
 
 
 				typedef void (DOOMS_ENGINE_API_ENTRY_P GRAPHICS_UPDATECONSTANTBUFFERINT1)(const int location, const int value1);
-				DOOMS_ENGINE_GRAPHICS_API GRAPHICS_UPDATECONSTANTBUFFERINT1 UpdateConstantBuffer_int1;
+				extern GRAPHICS_UPDATECONSTANTBUFFERINT1 UpdateConstantBuffer_int1;
 
 				typedef void (DOOMS_ENGINE_API_ENTRY_P GRAPHICS_UPDATECONSTANTBUFFERINT2)(const int location, const int value1, const int value2);
-				DOOMS_ENGINE_GRAPHICS_API GRAPHICS_UPDATECONSTANTBUFFERINT2 UpdateConstantBuffer_int2;
+				extern GRAPHICS_UPDATECONSTANTBUFFERINT2 UpdateConstantBuffer_int2;
 
 				typedef void (DOOMS_ENGINE_API_ENTRY_P GRAPHICS_UPDATECONSTANTBUFFERINT3)(const int location, const int value1, const int value2, const int value3);
-				DOOMS_ENGINE_GRAPHICS_API GRAPHICS_UPDATECONSTANTBUFFERINT3 UpdateConstantBuffer_int3;
+				extern GRAPHICS_UPDATECONSTANTBUFFERINT3 UpdateConstantBuffer_int3;
 
 				typedef void (DOOMS_ENGINE_API_ENTRY_P GRAPHICS_UPDATECONSTANTBUFFERINT4)(const int location, const int value1, const int value2, const int value3, const int value4);
-				DOOMS_ENGINE_GRAPHICS_API GRAPHICS_UPDATECONSTANTBUFFERINT4 UpdateConstantBuffer_int4;
+				extern GRAPHICS_UPDATECONSTANTBUFFERINT4 UpdateConstantBuffer_int4;
 
 
 				typedef void (DOOMS_ENGINE_API_ENTRY_P GRAPHICS_UPDATECONSTANTBUFFERFLOAT1)(const int location, const float value1);
-				DOOMS_ENGINE_GRAPHICS_API GRAPHICS_UPDATECONSTANTBUFFERFLOAT1 UpdateConstantBuffer_float1;
+				extern GRAPHICS_UPDATECONSTANTBUFFERFLOAT1 UpdateConstantBuffer_float1;
 
 				typedef void (DOOMS_ENGINE_API_ENTRY_P GRAPHICS_UPDATECONSTANTBUFFERFLOAT2)(const int location, const float value1, const float value2);
-				DOOMS_ENGINE_GRAPHICS_API GRAPHICS_UPDATECONSTANTBUFFERFLOAT2 UpdateConstantBuffer_float2;
+				extern GRAPHICS_UPDATECONSTANTBUFFERFLOAT2 UpdateConstantBuffer_float2;
 
 				typedef void (DOOMS_ENGINE_API_ENTRY_P GRAPHICS_UPDATECONSTANTBUFFERFLOAT3)(const int location, const float value1, const float value2, const float value3);
-				DOOMS_ENGINE_GRAPHICS_API GRAPHICS_UPDATECONSTANTBUFFERFLOAT3 UpdateConstantBuffer_float3;
+				extern GRAPHICS_UPDATECONSTANTBUFFERFLOAT3 UpdateConstantBuffer_float3;
 
 				typedef void (DOOMS_ENGINE_API_ENTRY_P GRAPHICS_UPDATECONSTANTBUFFERFLOAT4)(const int location, const float value1, const float value2, const float value3, const float value4);
-				DOOMS_ENGINE_GRAPHICS_API GRAPHICS_UPDATECONSTANTBUFFERFLOAT4 UpdateConstantBuffer_float4;
+				extern GRAPHICS_UPDATECONSTANTBUFFERFLOAT4 UpdateConstantBuffer_float4;
 
 
 				typedef void (DOOMS_ENGINE_API_ENTRY_P GRAPHICS_UPDATECONSTANTBUFFERMAT2X2F)(const int location, const float* const matrix);
-				DOOMS_ENGINE_GRAPHICS_API GRAPHICS_UPDATECONSTANTBUFFERMAT2X2F UpdateConstantBuffer_mat2x2f;
+				extern GRAPHICS_UPDATECONSTANTBUFFERMAT2X2F UpdateConstantBuffer_mat2x2f;
 
 				typedef void (DOOMS_ENGINE_API_ENTRY_P GRAPHICS_UPDATECONSTANTBUFFERMAT3X3F)(const int location, const float* const matrix);
-				DOOMS_ENGINE_GRAPHICS_API GRAPHICS_UPDATECONSTANTBUFFERMAT3X3F UpdateConstantBuffer_mat3x3f;
+				extern GRAPHICS_UPDATECONSTANTBUFFERMAT3X3F UpdateConstantBuffer_mat3x3f;
 
 				typedef void (DOOMS_ENGINE_API_ENTRY_P GRAPHICS_UPDATECONSTANTBUFFERMAT4X4F)(const int location, const float* const matrix);
-				DOOMS_ENGINE_GRAPHICS_API GRAPHICS_UPDATECONSTANTBUFFERMAT4X4F UpdateConstantBuffer_mat4x4f;
+				extern GRAPHICS_UPDATECONSTANTBUFFERMAT4X4F UpdateConstantBuffer_mat4x4f;
 
 
 				enum eMapBufferAccessOption : unsigned int
@@ -745,32 +749,32 @@ namespace dooms
 					const eBufferTarget bindBufferTarget,
 					const eMapBufferAccessOption mapBufferAccessOption
 				);
-				DOOMS_ENGINE_GRAPHICS_API GRAPHICS_MAPBUFFEROBJECTTOCLIENTADDRESS MapBufferObjectToClientAddress;
+				extern GRAPHICS_MAPBUFFEROBJECTTOCLIENTADDRESS MapBufferObjectToClientAddress;
 
 
 
 
 				typedef unsigned int (DOOMS_ENGINE_API_ENTRY_P GRAPHICS_CREATEXTUREOBJECT)();
-				DOOMS_ENGINE_GRAPHICS_API GRAPHICS_CREATEXTUREOBJECT CreateTextureObject;
+				extern GRAPHICS_CREATEXTUREOBJECT CreateTextureObject;
 
 				typedef void (DOOMS_ENGINE_API_ENTRY_P GRAPHICS_DESTROYTEXTUREOBJECT)(const unsigned int textureObject);
-				DOOMS_ENGINE_GRAPHICS_API GRAPHICS_DESTROYTEXTUREOBJECT DestroyTextureObject;
+				extern GRAPHICS_DESTROYTEXTUREOBJECT DestroyTextureObject;
 
 				typedef void (DOOMS_ENGINE_API_ENTRY_P GRAPHICS_BINDTEXTUREOBJECT)(const unsigned int textureObject, const eTextureBindTarget textureBindTarget);
-				DOOMS_ENGINE_GRAPHICS_API GRAPHICS_BINDTEXTUREOBJECT BindTextureObject;
+				extern GRAPHICS_BINDTEXTUREOBJECT BindTextureObject;
 
 				typedef void (DOOMS_ENGINE_API_ENTRY_P GRAPHICS_ACTIVATETEXTUREUNIT)(const unsigned int unitIndex);
-				DOOMS_ENGINE_GRAPHICS_API GRAPHICS_ACTIVATETEXTUREUNIT ActivateTextureUnit;
+				extern GRAPHICS_ACTIVATETEXTUREUNIT ActivateTextureUnit;
 
 				typedef void (DOOMS_ENGINE_API_ENTRY_P GRAPHICS_BINDTEXTUREOBJECTANDACTIVATETEXTUREUNIT)
 				(
 					const unsigned int textureObject,
 					const unsigned int unitIndex
 				);
-				DOOMS_ENGINE_GRAPHICS_API GRAPHICS_BINDTEXTUREOBJECTANDACTIVATETEXTUREUNIT BindTextureObjectAndActivateTextureUnit;
+				extern GRAPHICS_BINDTEXTUREOBJECTANDACTIVATETEXTUREUNIT BindTextureObjectAndActivateTextureUnit;
 
 				typedef void (DOOMS_ENGINE_API_ENTRY_P GRAPHICS_UNBINDTEXTUREOBJECT)(const eTextureBindTarget textureBindTarget);
-				DOOMS_ENGINE_GRAPHICS_API GRAPHICS_UNBINDTEXTUREOBJECT UnBindTextureObject;
+				extern GRAPHICS_UNBINDTEXTUREOBJECT UnBindTextureObject;
 
 
 				enum eImageInterpolation : unsigned int
@@ -794,7 +798,7 @@ namespace dooms
 					const GraphicsAPI::eBufferBitType mask,
 					const GraphicsAPI::eImageInterpolation filter
 				);
-				DOOMS_ENGINE_GRAPHICS_API GRAPHICS_BLITFRAMEBUFFER BlitFrameBuffer;
+				extern GRAPHICS_BLITFRAMEBUFFER BlitFrameBuffer;
 
 
 				enum eTextureMetaDataType : unsigned int
@@ -821,7 +825,7 @@ namespace dooms
 					const unsigned int lodLevel,
 					const eTextureMetaDataType textureMetaDataType
 				);
-				DOOMS_ENGINE_GRAPHICS_API GRAPHICS_GETTEXTUREMETADATAFLOAT GetTextureMetaDataFloat;
+				extern GRAPHICS_GETTEXTUREMETADATAFLOAT GetTextureMetaDataFloat;
 
 
 				typedef int (DOOMS_ENGINE_API_ENTRY_P GRAPHICS_GETTEXTUREMETADATAINT)
@@ -831,7 +835,7 @@ namespace dooms
 					const unsigned int lodLevel,
 					const eTextureMetaDataType textureMetaDataType
 				);
-				DOOMS_ENGINE_GRAPHICS_API GRAPHICS_GETTEXTUREMETADATAINT GetTextureMetaDataInt;
+				extern GRAPHICS_GETTEXTUREMETADATAINT GetTextureMetaDataInt;
 
 
 				enum eTextureParameterType : unsigned int
@@ -856,10 +860,10 @@ namespace dooms
 				};
 
 				typedef void (DOOMS_ENGINE_API_ENTRY_P GRAPHICS_SETTEXTUREPARAMETERFLOAT)(const eTextureBindTarget textureBindTarget, const eTextureParameterType textureParameterType, const float parameter);
-				DOOMS_ENGINE_GRAPHICS_API GRAPHICS_SETTEXTUREPARAMETERFLOAT SetTextureParameterFloat;
+				extern GRAPHICS_SETTEXTUREPARAMETERFLOAT SetTextureParameterFloat;
 
 				typedef void (DOOMS_ENGINE_API_ENTRY_P GRAPHICS_SETTEXTUREPARAMETERINT)(const eTextureBindTarget textureBindTarget, const eTextureParameterType textureParameterType, const int parameter);
-				DOOMS_ENGINE_GRAPHICS_API GRAPHICS_SETTEXTUREPARAMETERINT SetTextureParameterInt;
+				extern GRAPHICS_SETTEXTUREPARAMETERINT SetTextureParameterInt;
 
 
 				enum eTextureParameterValue : unsigned int
@@ -887,13 +891,13 @@ namespace dooms
 				};
 
 				typedef void (DOOMS_ENGINE_API_ENTRY_P GRAPHICS_SETTEXTUREWRAPMODES)(const eTextureBindTarget textureBindTarget, const eWrapMode wrapMode);
-				DOOMS_ENGINE_GRAPHICS_API GRAPHICS_SETTEXTUREWRAPMODES SetTextureWrapMode_S;
+				extern GRAPHICS_SETTEXTUREWRAPMODES SetTextureWrapMode_S;
 
 				typedef void (DOOMS_ENGINE_API_ENTRY_P GRAPHICS_SETTEXTUREWRAPMODET)(const eTextureBindTarget textureBindTarget, const eWrapMode wrapMode);
-				DOOMS_ENGINE_GRAPHICS_API GRAPHICS_SETTEXTUREWRAPMODET SetTextureWrapMode_T;
+				extern GRAPHICS_SETTEXTUREWRAPMODET SetTextureWrapMode_T;
 
 				typedef void (DOOMS_ENGINE_API_ENTRY_P GRAPHICS_SETTEXTUREWRAPMODER)(const eTextureBindTarget textureBindTarget, const eWrapMode wrapMode);
-				DOOMS_ENGINE_GRAPHICS_API GRAPHICS_SETTEXTUREWRAPMODER SetTextureWrapMode_R;
+				extern GRAPHICS_SETTEXTUREWRAPMODER SetTextureWrapMode_R;
 
 
 
@@ -908,10 +912,10 @@ namespace dooms
 				};
 
 				typedef void (DOOMS_ENGINE_API_ENTRY_P GRAPHICS_SETMINFILTER)(const eTextureBindTarget textureBindTarget, const eFilterMode filterMode);
-				DOOMS_ENGINE_GRAPHICS_API GRAPHICS_SETMINFILTER SetMinFilter;
+				extern GRAPHICS_SETMINFILTER SetMinFilter;
 
 				typedef void (DOOMS_ENGINE_API_ENTRY_P GRAPHICS_SETMAGFILTER)(const eTextureBindTarget textureBindTarget, const eFilterMode filterMode);
-				DOOMS_ENGINE_GRAPHICS_API GRAPHICS_SETMAGFILTER SetMagFilter;
+				extern GRAPHICS_SETMAGFILTER SetMagFilter;
 
 
 				enum ePixelFormat : unsigned int
@@ -945,7 +949,7 @@ namespace dooms
 					const eDataType datatType,
 					const unsigned long long bufferSize
 				);
-				DOOMS_ENGINE_GRAPHICS_API GRAPHICS_FETCHTEXTUREPIXELS FetchTexturePixels;
+				extern GRAPHICS_FETCHTEXTUREPIXELS FetchTexturePixels;
 
 
 				typedef unsigned char* (DOOMS_ENGINE_API_ENTRY_P GRAPHICS_READPIXELS)
@@ -958,7 +962,7 @@ namespace dooms
 					const dooms::graphics::GraphicsAPI::eTextureComponentFormat pixelFormat,
 					const dooms::graphics::GraphicsAPI::eDataType dataType
 				);
-				DOOMS_ENGINE_GRAPHICS_API GRAPHICS_READPIXELS ReadPixels;
+				extern GRAPHICS_READPIXELS ReadPixels;
 
 
 				typedef void (DOOMS_ENGINE_API_ENTRY_P GRAPHICS_DEFINE1DTEXTURESTORAGEREQUIREMENT)
@@ -968,7 +972,7 @@ namespace dooms
 					const eTextureInternalFormat textureInternalFormat,
 					const unsigned long long width
 				);
-				DOOMS_ENGINE_GRAPHICS_API GRAPHICS_DEFINE1DTEXTURESTORAGEREQUIREMENT Define1DTextureStorageRequirement;
+				extern GRAPHICS_DEFINE1DTEXTURESTORAGEREQUIREMENT Define1DTextureStorageRequirement;
 
 
 				typedef void (DOOMS_ENGINE_API_ENTRY_P GRAPHICS_DEFINE2DTEXTURESTORAGEREQUIREMENT)
@@ -979,7 +983,7 @@ namespace dooms
 					const unsigned long long width,
 					const unsigned long long height
 				);
-				DOOMS_ENGINE_GRAPHICS_API GRAPHICS_DEFINE2DTEXTURESTORAGEREQUIREMENT Define2DTextureStorageRequirement;
+				extern GRAPHICS_DEFINE2DTEXTURESTORAGEREQUIREMENT Define2DTextureStorageRequirement;
 
 
 				typedef void (DOOMS_ENGINE_API_ENTRY_P GRAPHICS_DEFINE3DTEXTURESTORAGEREQUIREMENT)
@@ -991,7 +995,7 @@ namespace dooms
 					const unsigned long long height,
 					const unsigned long long depth
 				);
-				DOOMS_ENGINE_GRAPHICS_API GRAPHICS_DEFINE3DTEXTURESTORAGEREQUIREMENT Define3DTextureStorageRequirement;
+				extern GRAPHICS_DEFINE3DTEXTURESTORAGEREQUIREMENT Define3DTextureStorageRequirement;
 
 
 				typedef void (DOOMS_ENGINE_API_ENTRY_P GRAPHICS_DEFINE1DCOMPRESSEDTEXTURESTORAGEREQUIREMENT)
@@ -1001,7 +1005,7 @@ namespace dooms
 					const eTextureCompressedInternalFormat textureInternalFormat,
 					const unsigned long long width
 				);
-				DOOMS_ENGINE_GRAPHICS_API GRAPHICS_DEFINE1DCOMPRESSEDTEXTURESTORAGEREQUIREMENT Define1DCompressedTextureStorageRequirement;
+				extern GRAPHICS_DEFINE1DCOMPRESSEDTEXTURESTORAGEREQUIREMENT Define1DCompressedTextureStorageRequirement;
 
 
 				typedef void (DOOMS_ENGINE_API_ENTRY_P GRAPHICS_DEFINE2DCOMPRESSEDTEXTURESTORAGEREQUIREMENT)
@@ -1012,7 +1016,7 @@ namespace dooms
 					const unsigned long long width,
 					const unsigned long long height
 				);
-				DOOMS_ENGINE_GRAPHICS_API GRAPHICS_DEFINE2DCOMPRESSEDTEXTURESTORAGEREQUIREMENT Define2DCompressedTextureStorageRequirement;
+				extern GRAPHICS_DEFINE2DCOMPRESSEDTEXTURESTORAGEREQUIREMENT Define2DCompressedTextureStorageRequirement;
 
 
 				typedef void (DOOMS_ENGINE_API_ENTRY_P GRAPHICS_DEFINE3DCOMPRESSEDTEXTURESTORAGEREQUIREMENT)
@@ -1024,7 +1028,7 @@ namespace dooms
 					const unsigned long long height,
 					const unsigned long long depth
 				);
-				DOOMS_ENGINE_GRAPHICS_API GRAPHICS_DEFINE3DCOMPRESSEDTEXTURESTORAGEREQUIREMENT Define3DCompressedTextureStorageRequirement;
+				extern GRAPHICS_DEFINE3DCOMPRESSEDTEXTURESTORAGEREQUIREMENT Define3DCompressedTextureStorageRequirement;
 
 
 				typedef void (DOOMS_ENGINE_API_ENTRY_P GRAPHICS_UPDATEPIXELSTO1DTEXTURE)
@@ -1037,7 +1041,7 @@ namespace dooms
 					const eDataType dataType,
 					const void* const pixelDatas
 				);
-				DOOMS_ENGINE_GRAPHICS_API GRAPHICS_UPDATEPIXELSTO1DTEXTURE UploadPixelsTo1DTexture;
+				extern GRAPHICS_UPDATEPIXELSTO1DTEXTURE UploadPixelsTo1DTexture;
 
 
 				typedef void (DOOMS_ENGINE_API_ENTRY_P GRAPHICS_UPDATEPIXELSTO2DTEXTURE)
@@ -1052,7 +1056,7 @@ namespace dooms
 					const eDataType dataType,
 					const void* const pixelDatas
 				);
-				DOOMS_ENGINE_GRAPHICS_API GRAPHICS_UPDATEPIXELSTO2DTEXTURE UploadPixelsTo2DTexture;
+				extern GRAPHICS_UPDATEPIXELSTO2DTEXTURE UploadPixelsTo2DTexture;
 
 
 				typedef void (DOOMS_ENGINE_API_ENTRY_P GRAPHICS_UPDATEPIXELSTO3DTEXTURE)
@@ -1069,7 +1073,7 @@ namespace dooms
 					const eDataType dataType,
 					const void* const pixelDatas
 				);
-				DOOMS_ENGINE_GRAPHICS_API GRAPHICS_UPDATEPIXELSTO3DTEXTURE UploadPixelsTo3DTexture;
+				extern GRAPHICS_UPDATEPIXELSTO3DTEXTURE UploadPixelsTo3DTexture;
 
 
 				typedef void (DOOMS_ENGINE_API_ENTRY_P GRAPHICS_UPDATEPIXELSTO1DCOMPRESSEDTEXTURE)
@@ -1082,7 +1086,7 @@ namespace dooms
 					const unsigned long long imgSize,
 					const void* const pixelDatas
 				);
-				DOOMS_ENGINE_GRAPHICS_API GRAPHICS_UPDATEPIXELSTO1DCOMPRESSEDTEXTURE UploadPixelsTo1DCompressedTexture;
+				extern GRAPHICS_UPDATEPIXELSTO1DCOMPRESSEDTEXTURE UploadPixelsTo1DCompressedTexture;
 
 
 				typedef void (DOOMS_ENGINE_API_ENTRY_P GRAPHICS_UPDATEPIXELSTO2DCOMPRESSEDTEXTURE)
@@ -1097,7 +1101,7 @@ namespace dooms
 					const unsigned long long imgSize,
 					const void* const pixelDatas
 				);
-				DOOMS_ENGINE_GRAPHICS_API GRAPHICS_UPDATEPIXELSTO2DCOMPRESSEDTEXTURE UploadPixelsTo2DCompressedTexture;
+				extern GRAPHICS_UPDATEPIXELSTO2DCOMPRESSEDTEXTURE UploadPixelsTo2DCompressedTexture;
 
 
 				typedef void (DOOMS_ENGINE_API_ENTRY_P GRAPHICS_UPDATEPIXELSTO3DCOMPRESSEDTEXTURE)
@@ -1114,7 +1118,7 @@ namespace dooms
 					const unsigned long long imgSize,
 					const void* const pixelDatas
 				);
-				DOOMS_ENGINE_GRAPHICS_API GRAPHICS_UPDATEPIXELSTO3DCOMPRESSEDTEXTURE UploadPixelsTo3DCompressedTexture;
+				extern GRAPHICS_UPDATEPIXELSTO3DCOMPRESSEDTEXTURE UploadPixelsTo3DCompressedTexture;
 
 
 				typedef int (DOOMS_ENGINE_API_ENTRY_P GRAPHICS_GETCONSTANTBUFFERBINDINGPOINT)
@@ -1122,7 +1126,7 @@ namespace dooms
 					const unsigned int constantBufferObject,
 					const unsigned int blockIndex
 				);
-				DOOMS_ENGINE_GRAPHICS_API GRAPHICS_GETCONSTANTBUFFERBINDINGPOINT GetConstantBufferBindingPoint;
+				extern GRAPHICS_GETCONSTANTBUFFERBINDINGPOINT GetConstantBufferBindingPoint;
 
 
 				typedef int (DOOMS_ENGINE_API_ENTRY_P GRAPHICS_GETCONSTANTBUFFERDATASIZE)
@@ -1130,18 +1134,18 @@ namespace dooms
 					const unsigned int constantBufferObject,
 					const unsigned int blockIndex
 				);
-				DOOMS_ENGINE_GRAPHICS_API GRAPHICS_GETCONSTANTBUFFERDATASIZE GetConstantBufferDataSize;
+				extern GRAPHICS_GETCONSTANTBUFFERDATASIZE GetConstantBufferDataSize;
 
 
 				typedef int (DOOMS_ENGINE_API_ENTRY_P GRAPHICS_GETCONSTANTBUFFERBLOCKCOUNT)
 				(
 					const unsigned int constantBufferObject
 				);
-				DOOMS_ENGINE_GRAPHICS_API GRAPHICS_GETCONSTANTBUFFERBLOCKCOUNT GetConstantBufferBlockCount;
+				extern GRAPHICS_GETCONSTANTBUFFERBLOCKCOUNT GetConstantBufferBlockCount;
 
 
 				typedef int (DOOMS_ENGINE_API_ENTRY_P GRAPHICS_GETCONSTANTBUFFERUNIFORMLOCATION)(const unsigned int constantBufferObject, const char* const uniformStr);
-				DOOMS_ENGINE_GRAPHICS_API GRAPHICS_GETCONSTANTBUFFERUNIFORMLOCATION GetConstantBufferUniformLocation;
+				extern GRAPHICS_GETCONSTANTBUFFERUNIFORMLOCATION GetConstantBufferUniformLocation;
 
 		};
 	}
