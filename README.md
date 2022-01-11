@@ -30,7 +30,7 @@
   
 ## Currently working on
 
-  * support DX11!! ( 1%, [working directory](https://github.com/SungJJinKang/DoomsEngine/tree/d3d11_work) )             
+  * support DX11!! ( completion : 1%. targeting opengl, dx11 portable game engine. [working directory](https://github.com/SungJJinKang/DoomsEngine/tree/d3d11_work) )             
   * implement physical based rendering ( https://cdn2.unrealengine.com/Resources/files/2013SiggraphPresentationsNotes-26915738.pdf )            
  
 ## To Develop
