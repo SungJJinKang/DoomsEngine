@@ -7,7 +7,7 @@
 #include <Vector3.h>
 #include "../../Color.h"
 #include <Math/LightMath_Cpp/Vector4.h>
-#include "../../GraphicsAPI/GraphicsAPI.h"
+#include <Graphics/GraphicsAPI/GraphicsAPI.h>
 
 namespace dooms
 {

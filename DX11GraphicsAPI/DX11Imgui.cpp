@@ -2,26 +2,32 @@
 
 #include <cassert>
 
-bool dooms::graphics::PlatformImgui::Initialize(ImGuiContext* const imGuiContext, ImGuiMemAllocFunc p_alloc_func, ImGuiMemFreeFunc p_free_func, void* p_user_data)
+namespace dooms
 {
-	assert(false);
+	namespace input
+	{
+		DOOMS_ENGINE_GRAPHICS_API bool InitializePlatformImgui(ImGuiContext* const imGuiContext, ImGuiMemAllocFunc p_alloc_func, ImGuiMemFreeFunc p_free_func, void* p_user_data)
+		{
+			assert(false);
 
-	return false;
-}
+			return false;
+		}
 
-bool dooms::graphics::PlatformImgui::ShutDown()
-{
-	assert(false);
+		DOOMS_ENGINE_GRAPHICS_API bool ShutDownPlatformImgui()
+		{
+			assert(false);
 
-	return false;
-}
+			return false;
+		}
 
-void dooms::graphics::PlatformImgui::PreRender()
-{
-	assert(false);
-}
+		DOOMS_ENGINE_GRAPHICS_API void PreRenderPlatformImgui()
+		{
+			assert(false);
+		}
 
-void dooms::graphics::PlatformImgui::PostRender()
-{
-	assert(false);
+		DOOMS_ENGINE_GRAPHICS_API void PostRenderPlatformImgui()
+		{
+			assert(false);
+		}
+	}
 }

@@ -1,23 +1,29 @@
 #pragma once
 
 #include "imgui.h"
-#include "../../Macros/DllMarcos.h"
+#include "../Macros/GraphicsAPIMacros.h"
 
 struct ImGuiContext;
 namespace dooms
 {
 	namespace graphics
 	{
-		class DOOMS_ENGINE PlatformImgui
+		namespace PlatformImgui
 		{
-		public:
-			
-			static bool Initialize(ImGuiContext* const imGuiContext, ImGuiMemAllocFunc p_alloc_func, ImGuiMemFreeFunc p_free_func, void* p_user_data);
-			static bool ShutDown();
-			static void PreRender();
-			static void PostRender();
-		};
+				typedef unsigned int (DOOMS_ENGINE_API_ENTRY_P GRAPHICS_INITIALIZEPLATFORMIMGUI)(ImGuiContext*, ImGuiMemAllocFunc, ImGuiMemFreeFunc, void*);
+				DOOMS_ENGINE_GRAPHICS_API GRAPHICS_INITIALIZEPLATFORMIMGUI InitializePlatformImgui;
 
-		
+
+				typedef unsigned int (DOOMS_ENGINE_API_ENTRY_P GRAPHICS_SHUTDOWNPLATFORMIMGUI)(void);
+				DOOMS_ENGINE_GRAPHICS_API GRAPHICS_SHUTDOWNPLATFORMIMGUI ShutDownPlatformImgui;
+
+
+				typedef unsigned int (DOOMS_ENGINE_API_ENTRY_P GRAPHICS_PRERENDERPLATFORMIMGUI)(void);
+				DOOMS_ENGINE_GRAPHICS_API GRAPHICS_PRERENDERPLATFORMIMGUI PreRenderPlatformImgui;
+
+
+				typedef unsigned int (DOOMS_ENGINE_API_ENTRY_P GRAPHICS_POSTRENDERPLATFORMIMGUI)(void);
+				DOOMS_ENGINE_GRAPHICS_API GRAPHICS_POSTRENDERPLATFORMIMGUI PostRenderPlatformImgui;
+		};
 	}
 }

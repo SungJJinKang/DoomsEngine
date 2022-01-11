@@ -3,7 +3,7 @@
 #include <memory>
 
 #include "../Graphics_Core.h"
-#include "../GraphicsAPI/GraphicsAPI.h"
+#include <Graphics/GraphicsAPI/GraphicsAPI.h>
 #include "../OverlapBindChecker.h"
 #include "../Buffer/BufferID.h"
 

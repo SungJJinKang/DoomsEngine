@@ -2,7 +2,7 @@
 #include <vector>
 
 #include "../Core.h"
-#include "../GraphicsAPI/GraphicsAPI.h"
+#include <Graphics/GraphicsAPI/GraphicsAPI.h>
 #include "../GraphicsAPI/graphicsAPISetting.h"
 #include "RenderBuffer.h"
 #include "../Texture/SingleTexture.h"

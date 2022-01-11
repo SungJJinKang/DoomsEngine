@@ -79,5 +79,15 @@ public:
 	{
 		return mID;
 	}
+
+	FORCE_INLINE UINT32* data()
+	{
+		return &mID;
+	}
+
+	FORCE_INLINE const UINT32* data() const
+	{
+		return &mID;
+	}
 };
 

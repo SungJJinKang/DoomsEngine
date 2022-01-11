@@ -2,7 +2,7 @@
 
 #include <Core.h>
 
-#include "../GraphicsAPI/GraphicsAPI.h"
+#include <Graphics/GraphicsAPI/GraphicsAPI.h>
 #include "../OverlapBindChecker.h"
 #include "../Buffer/BufferID.h"
 #include "Graphics/Acceleration/LinearData_ViewFrustumCulling/CullingModule/MaskedSWOcclusionCulling/Stage/BinTrianglesStage.h"

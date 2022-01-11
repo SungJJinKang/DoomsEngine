@@ -11,7 +11,9 @@ void dooms::graphics::Buffer::GenBuffer()
 {
 	if (mBufferID == INVALID_BUFFER_ID)
 	{
-		mBufferID = GraphicsAPI::GenerateBuffer(1)[0];
+		unsigned bufferID;
+		GraphicsAPI::CreateBuffers(1, &bufferID);
+		mBufferID = bufferID;
 	}
 
 }

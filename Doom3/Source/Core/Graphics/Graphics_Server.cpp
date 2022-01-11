@@ -6,7 +6,7 @@
 #include "../Scene/Layer.h"
 #include "../Game/AssetManager/AssetManager.h"
 
-#include "GraphicsAPI/GraphicsAPI.h"
+#include <Graphics/GraphicsAPI/GraphicsAPI.h>
 
 #include "Buffer/UniformBufferObjectManager.h"
 
@@ -21,7 +21,6 @@
 
 #include "graphicsSetting.h"
 #include "GraphicsAPI/graphicsAPISetting.h"
-#include "GraphicsAPI/GraphicsAPI.h"
 
 #include "MainTimer.h"
 
@@ -30,6 +29,7 @@
 #include "DebugGraphics/maskedOcclusionCullingTester.h"
 #include <EngineGUI/GUIModules/MaskedOcclusionCulliingDebugger.h>
 #include "Acceleration/LinearData_ViewFrustumCulling/CullingModule/MaskedSWOcclusionCulling/MaskedSWOcclusionCulling.h"
+#include "GraphicsAPI/eGraphicsAPIType.h"
 
 //#define D_DEBUG_CPU_VENDOR_PROFILER
 
@@ -62,7 +62,7 @@ void dooms::graphics::Graphics_Server::Init()
 
 	mCullingSystem = std::make_unique<culling::EveryCulling>(graphicsAPISetting::GetScreenWidth(), graphicsAPISetting::GetScreenHeight());
 	mCullingSystem->SetThreadCount(resource::JobSystem::GetSingleton()->GetSubThreadCount() + 1);
-	mCullingSystem->mMaskedSWOcclusionCulling->mSolveMeshRoleStage.mOccluderViewSpaceBoundingSphereRadius = ConfigData::GetSingleton()->GetConfigData().GetValue<FLOAT32>("Graphics", "MASKED_OC_OCCLUDER_VIEW_SPACE_BOUNDING_SPHERE_RADIUS");
+	//mCullingSystem->mMaskedSWOcclusionCulling->mSolveMeshRoleStage.mOccluderViewSpaceBoundingSphereRadius = ConfigData::GetSingleton()->GetConfigData().GetValue<FLOAT32>("Graphics", "MASKED_OC_OCCLUDER_VIEW_SPACE_BOUNDING_SPHERE_RADIUS");
 	mCullingSystem->mMaskedSWOcclusionCulling->mSolveMeshRoleStage.mOccluderAABBScreenSpaceMinArea = ConfigData::GetSingleton()->GetConfigData().GetValue<FLOAT32>("Graphics", "MASKED_OC_OCCLUDER_AABB_SCREEN_SPACE_MIN_AREA");
 
 
@@ -79,7 +79,7 @@ void dooms::graphics::Graphics_Server::LateInit()
 
 	mDeferredRenderingDrawer.Initialize();
 	//mQueryOcclusionCulling.InitQueryOcclusionCulling();
-	//mCullDistance.Initialize();
+	//mCullDistance.InitializeGraphisAPIInput();
 }
 
 
@@ -145,7 +145,7 @@ void Graphics_Server::PreCullJob()
 	mCullingCameraCount = 0;
 
 	D_START_PROFILING(mFrotbiteCullingSystem_ResetCullJobStat, dooms::profiler::eProfileLayers::Rendering);
-	mCullingSystem->ResetCullJobState();
+	mCullingSystem->ResetCullJob();
 	D_END_PROFILING(mFrotbiteCullingSystem_ResetCullJobStat);
 
 }
@@ -157,7 +157,7 @@ void Graphics_Server::CameraCullJob(dooms::Camera* const camera)
 	{
 		std::atomic_thread_fence(std::memory_order_acquire);
 
-		culling::EveryCulling::SettingParameters cullingSettingParameters;
+		culling::EveryCulling::GlobalDataForCullJob cullingSettingParameters;
 		std::memcpy(cullingSettingParameters.mViewProjectionMatrix.data(), camera->GetViewProjectionMatrix().data(), sizeof(culling::Mat4x4));
 		cullingSettingParameters.mFieldOfViewInDegree = camera->GetFieldOfViewInDegree();
 		cullingSettingParameters.mCameraFarPlaneDistance = camera->GetClippingPlaneFar();
@@ -165,13 +165,13 @@ void Graphics_Server::CameraCullJob(dooms::Camera* const camera)
 		std::memcpy(cullingSettingParameters.mCameraWorldPosition.data(), camera->GetTransform()->GetPosition().data(), sizeof(culling::Vec3));
 		std::memcpy(cullingSettingParameters.mCameraRotation.data(), camera->GetTransform()->GetRotation().data(), sizeof(culling::Vec4));
 
-		mCullingSystem->Configure(camera->CameraIndexInCullingSystem, cullingSettingParameters);
+		mCullingSystem->UpdateGlobalDataForCullJob(camera->CameraIndexInCullingSystem, cullingSettingParameters);
 		
 		std::atomic_thread_fence(std::memory_order_release);
 		
-		resource::JobSystem::GetSingleton()->PushBackJobToAllThreadWithNoSTDFuture(std::function<void()>(mCullingSystem->GetCullJobInLambda(camera->CameraIndexInCullingSystem)));
+		resource::JobSystem::GetSingleton()->PushBackJobToAllThreadWithNoSTDFuture(std::function<void()>(mCullingSystem->GetThreadCullJobInLambda(camera->CameraIndexInCullingSystem)));
 		D_START_PROFILING(CameraCullJob, dooms::profiler::eProfileLayers::Rendering);
-		mCullingSystem->GetCullJobInLambda(camera->CameraIndexInCullingSystem)();
+		mCullingSystem->GetThreadCullJobInLambda(camera->CameraIndexInCullingSystem)();
 		D_END_PROFILING(CameraCullJob);
 	}
 	
@@ -322,8 +322,8 @@ void dooms::graphics::Graphics_Server::Render()
 
 		D_ASSERT(IsValid(targetCamera));
 
-		GraphicsAPI::ClearColor(targetCamera->mClearColor.data());
-		GraphicsAPI::ClearBuffer(GraphicsAPI::eBufferBitType::COLOR_BUFFER, GraphicsAPI::eBufferBitType::DEPTH_BUFFER);
+		GraphicsAPI::ClearColor(targetCamera->mClearColor[0], targetCamera->mClearColor[1], targetCamera->mClearColor[2], targetCamera->mClearColor[3]);
+		GraphicsAPI::ClearBuffer2(GraphicsAPI::eBufferBitType::COLOR_BUFFER, GraphicsAPI::eBufferBitType::DEPTH_BUFFER);
 
 		targetCamera->UpdateUniformBufferObject();
 
@@ -482,7 +482,7 @@ void dooms::graphics::Graphics_Server::SetRenderingMode(eRenderingMode rendering
 	mCurrentRenderingMode = renderingMode;
 	if (mCurrentRenderingMode == eRenderingMode::DeferredRendering)
 	{
-		mDeferredRenderingDrawer.Initialize();
+		mDeferredRenderingDrawer.InitializeGraphisAPIInput();
 	}
 }
 */

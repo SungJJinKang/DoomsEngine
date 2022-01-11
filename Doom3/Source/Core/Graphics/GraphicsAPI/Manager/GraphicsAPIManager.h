@@ -4,8 +4,8 @@
 
 #include <Simple_SingleTon/Singleton.h>
 #include "GraphicsAPILoader.h"
-#include "eGraphicsAPIType.h"
-#include "GraphicsAPI.h"
+#include "../eGraphicsAPIType.h"
+#include "../GraphicsAPI.h"
 
 namespace dooms
 {

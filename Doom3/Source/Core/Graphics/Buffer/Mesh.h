@@ -6,7 +6,7 @@
 #include <Physics/Collider/AABB.h>
 #include <Physics/Collider/Sphere.h>
 #include "eVertexArrayFlag.h"
-#include "../GraphicsAPI/GraphicsAPI.h"
+#include <Graphics/GraphicsAPI/GraphicsAPI.h>
 #include <Vector2.h>
 
 #include "Mesh.reflection.h"

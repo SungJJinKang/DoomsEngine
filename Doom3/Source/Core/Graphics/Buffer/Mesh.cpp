@@ -35,13 +35,17 @@ void dooms::graphics::Mesh::GenMeshBuffer(bool hasIndice)
 	Buffer::GenBuffer();
 	if (mVertexArrayObjectID.GetBufferID() == INVALID_BUFFER_ID)
 	{
-		mVertexArrayObjectID = GraphicsAPI::CreateVertexArrayObject(1)[0];
+		unsigned int bufferID;
+		GraphicsAPI::CreateVertexArrayObject(1, &bufferID);
+		mElementBufferObjectID = bufferID;
 	}
 	if (hasIndice)
 	{
 		if (mElementBufferObjectID.GetBufferID() == INVALID_BUFFER_ID)
 		{
-			mElementBufferObjectID = GraphicsAPI::CreateBuffers(1)[0];
+			unsigned int bufferID;
+			GraphicsAPI::CreateBuffers(1, &bufferID);
+			mElementBufferObjectID = bufferID;
 		}
 	}
 	else
@@ -56,7 +60,7 @@ void dooms::graphics::Mesh::DeleteBuffers()
 
 	if (mVertexArrayObjectID.IsValid())
 	{
-		GraphicsAPI::DestroyVertexArrayObject({ mVertexArrayObjectID });
+		GraphicsAPI::DestroyVertexArrayObject(1, mVertexArrayObjectID.data());
 		mVertexArrayObjectID = INVALID_BUFFER_ID;
 	}
 	if (mElementBufferObjectID.IsValid())

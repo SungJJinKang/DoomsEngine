@@ -73,7 +73,7 @@ void dooms::graphics::OverDrawVisualization::SetOverDrawVisualizationRenderingSt
 		mOverDrawVisualizationFrameBuffer.BindFrameBuffer();
 
 		GraphicsAPI::ClearColor(0.0f, 0.0f, 0.0f, 1.0f);
-		GraphicsAPI::ClearBuffer(GraphicsAPI::eBufferBitType::COLOR_BUFFER, GraphicsAPI::eBufferBitType::DEPTH_BUFFER);
+		GraphicsAPI::ClearBuffer2(GraphicsAPI::eBufferBitType::COLOR_BUFFER, GraphicsAPI::eBufferBitType::DEPTH_BUFFER);
 	}
 	else
 	{

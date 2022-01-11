@@ -354,9 +354,6 @@
     <ClCompile Include="Source\Core\Graphics\Acceleration\LinearData_ViewFrustumCulling\CullingModule\DistanceCulling\DistanceCulling.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Core\Graphics\Acceleration\LinearData_ViewFrustumCulling\CullingModule\QueryOcclusionCulling\QueryOcclusionCulling.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Source\Core\ECSSystem\easy_ecs\easy_ecs.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -738,10 +735,10 @@
     <ClCompile Include="Source\Core\Graphics\Acceleration\LinearData_ViewFrustumCulling\EveryCullingProfiler.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Core\Graphics\GraphicsAPI\GraphicsAPILoader.cpp">
+    <ClCompile Include="Source\Core\Graphics\GraphicsAPI\Manager\GraphicsAPILoader.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Core\Graphics\GraphicsAPI\GraphicsAPIManager.cpp">
+    <ClCompile Include="Source\Core\Graphics\GraphicsAPI\Manager\GraphicsAPIManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Source\Core\Graphics\graphicsSetting.cpp">
@@ -757,6 +754,15 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Source\Core\Graphics\Acceleration\LinearData_ViewFrustumCulling\DataType\EntityBlock.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Core\Graphics\GraphicsAPI\Imp\GraphicsAPI_imp.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Core\Graphics\GraphicsAPI\Imp\GraphicsAPIInput_imp.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Core\Graphics\GraphicsAPI\Imp\PlatformImgui_imp.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -1436,9 +1442,6 @@
     <ClInclude Include="Source\Core\Graphics\Acceleration\LinearData_ViewFrustumCulling\CullingModule\DistanceCulling\DistanceCulling.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Core\Graphics\Acceleration\LinearData_ViewFrustumCulling\CullingModule\QueryOcclusionCulling\QueryOcclusionCulling.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Core\Graphics\Acceleration\LinearData_ViewFrustumCulling\DataType\Math\Common.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -1886,25 +1889,28 @@
     <ClInclude Include="Source\Core\Graphics\Acceleration\LinearData_ViewFrustumCulling\EveryCullingProfiler.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Core\Graphics\GraphicsAPI\GraphicsAPI.h">
+    <ClInclude Include="Source\Core\Graphics\GraphicsAPI\Manager\GraphicsAPILoader.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Core\Graphics\GraphicsAPI\Input\GraphicsAPIInput.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Core\Graphics\GraphicsAPI\GraphicsAPILoader.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Core\Graphics\GraphicsAPI\GraphicsAPIManager.h">
+    <ClInclude Include="Source\Core\Graphics\GraphicsAPI\Manager\GraphicsAPIManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\Core\Graphics\graphicsSetting.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Core\Graphics\GraphicsAPI\eGraphicsAPIType.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="Source\Core\Graphics\GraphicsAPI\PlatformImgui\PlatformImgui.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Core\Graphics\GraphicsAPI\eGraphicsAPIType.h">
+    <ClInclude Include="Source\Core\Graphics\GraphicsAPI\Input\GraphicsAPIInput.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Core\Graphics\GraphicsAPI\GraphicsAPI.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Core\Graphics\GraphicsAPI\Macros\GraphicsAPIMacros.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

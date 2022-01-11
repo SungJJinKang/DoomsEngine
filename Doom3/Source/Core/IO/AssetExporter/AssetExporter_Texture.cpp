@@ -449,8 +449,8 @@ void dooms::assetExporter::assetExporterTexture::ExportTextureFromMainFrameBuffe
 )
 {
 	dooms::graphics::FrameBuffer::UnBindFrameBuffer();
-
-	std::array<int, 4> dims = dooms::graphics::GraphicsAPI::GetViewPort();
+	std::array<int, 4> dims;
+	dooms::graphics::GraphicsAPI::GetViewPort(dims.data());
 
 	const INT32 frameBufferWidth = dims[2];;
 	const INT32 frameBufferHeight = dims[3];

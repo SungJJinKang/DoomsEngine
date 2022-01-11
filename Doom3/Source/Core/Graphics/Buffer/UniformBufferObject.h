@@ -6,7 +6,7 @@
 #include <string>
 
 #include "../OverlapBindChecker.h"
-#include "../GraphicsAPI/GraphicsAPI.h"
+#include <Graphics/GraphicsAPI/GraphicsAPI.h>
 
 #include "UniformBufferObject.reflection.h"
 namespace dooms

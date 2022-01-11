@@ -55,7 +55,7 @@ bool dooms::ui::engineGUIServer::Initialize()
     ImGuiMemFreeFunc p_free_func;
     void* p_user_data;
     ImGui::GetAllocatorFunctions(&p_alloc_func, &p_free_func, &p_user_data);
-    isSuccess &= dooms::graphics::PlatformImgui::Initialize(imGuiContext, *p_alloc_func, *p_free_func, &p_user_data);
+    isSuccess &= dooms::graphics::PlatformImgui::InitializePlatformImgui(imGuiContext, *p_alloc_func, *p_free_func, &p_user_data);
 
     //ImGui::SetCurrentContext()
 	dooms::ui::imguiWithReflection::Initialize();
@@ -66,7 +66,7 @@ bool dooms::ui::engineGUIServer::Initialize()
 
 bool dooms::ui::engineGUIServer::ShutDown()
 {
-    const bool isSuccess = dooms::graphics::PlatformImgui::ShutDown();
+    const bool isSuccess = dooms::graphics::PlatformImgui::ShutDownPlatformImgui();
     D_ASSERT(isSuccess == true);
     ImGui::DestroyContext();
 
@@ -77,7 +77,7 @@ void dooms::ui::engineGUIServer::PreRender()
 {
     if (IsEngineGUIVisible == true)
     {
-        graphics::PlatformImgui::PreRender();
+        graphics::PlatformImgui::PreRenderPlatformImgui();
         ImGui::NewFrame();
     }
 }
@@ -106,7 +106,7 @@ void dooms::ui::engineGUIServer::PostRender()
         IsEngineGUIAvaliable = true;
 
         dooms::ui::imguiWithReflection::ClearId();
-        dooms::graphics::PlatformImgui::PostRender();
+        dooms::graphics::PlatformImgui::PostRenderPlatformImgui();
     }
 }
 

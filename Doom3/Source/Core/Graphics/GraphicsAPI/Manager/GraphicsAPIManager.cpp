@@ -2,8 +2,8 @@
 
 #include <Windows.h>
 
-#include "graphicsAPISetting.h"
-#include "Input/GraphicsAPIInput.h"
+#include "../graphicsAPISetting.h"
+#include "../Input/GraphicsAPIInput.h"
 #include <EngineGUI/PrintText.h>
 
 void dooms::graphics::GraphicsAPIManager::LoadGraphicsAPI(const eGraphicsAPIType graphicsAPIType)
@@ -60,15 +60,15 @@ bool dooms::graphics::GraphicsAPIManager::Initialize(const eGraphicsAPIType grap
 
 	unsigned int isSuccess = 0;
 	{
-		isSuccess |= GraphicsAPI::Initialize(graphicsAPISetting::GetScreenWidth(), graphicsAPISetting::GetScreenHeight(), graphicsAPISetting::GetMultiSamplingNum());
+		isSuccess |= GraphicsAPI::InitializeGraphicsAPI(graphicsAPISetting::GetScreenWidth(), graphicsAPISetting::GetScreenHeight(), graphicsAPISetting::GetMultiSamplingNum());
 		D_ASSERT(isSuccess == 0);
 		if (isSuccess != 0)
 		{
-			dooms::ui::PrintText("Fail to GraphicsAPI::Initialize ( Error Code : %u )", isSuccess);
+			dooms::ui::PrintText("Fail to GraphicsAPI::InitializeGraphisAPIInput ( Error Code : %u )", isSuccess);
 		}
 	}
 	SetDefaultSettingOfAPI();
-	isSuccess |= input::GraphicsAPIInput::Initialize();
+	isSuccess |= input::GraphicsAPIInput::InitializeGraphisAPIInput();
 	D_ASSERT(isSuccess == 0);
 
 	return isSuccess == 0;
@@ -78,9 +78,9 @@ bool dooms::graphics::GraphicsAPIManager::DeInitialize()
 {
 	unsigned int isSuccess = 0;
 
-	isSuccess |= graphics::GraphicsAPI::DeInitialize();
+	isSuccess |= graphics::GraphicsAPI::DeinitializeGraphicsAPI();
 	D_ASSERT(isSuccess == 0);
-	isSuccess |= input::GraphicsAPIInput::DeInitialize();
+	isSuccess |= input::GraphicsAPIInput::DeInitializeGraphisAPIInput();
 	D_ASSERT(isSuccess == 0);
 	isSuccess |= mGraphicsAPILoader.UnLoadGraphicsAPILibrary();
 	D_ASSERT(isSuccess == 0);

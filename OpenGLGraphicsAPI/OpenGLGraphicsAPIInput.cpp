@@ -33,182 +33,182 @@ namespace dooms
 				switch (keyCode)
 				{
 				case GLFW_KEY_SPACE:
-					return dooms::input::GraphicsAPIInput::eKEY_CODE::KEY_SPACE ;
+					return dooms::input::GraphicsAPIInput::eKEY_CODE::KEY_SPACE;
 				case GLFW_KEY_APOSTROPHE:
 					return dooms::input::GraphicsAPIInput::eKEY_CODE::KEY_APOSTROPHE;
-				case GLFW_KEY_COMMA :
+				case GLFW_KEY_COMMA:
 					return dooms::input::GraphicsAPIInput::eKEY_CODE::KEY_COMMA;
 				case GLFW_KEY_MINUS:
 					return  dooms::input::GraphicsAPIInput::eKEY_CODE::KEY_MINUS;
-				case GLFW_KEY_PERIOD :
+				case GLFW_KEY_PERIOD:
 					return dooms::input::GraphicsAPIInput::eKEY_CODE::KEY_PERIOD;
-				case GLFW_KEY_SLASH :
+				case GLFW_KEY_SLASH:
 					return dooms::input::GraphicsAPIInput::eKEY_CODE::KEY_SLASH;
-				case GLFW_KEY_0 :
+				case GLFW_KEY_0:
 					return dooms::input::GraphicsAPIInput::eKEY_CODE::KEY_0;
-				case GLFW_KEY_1 :
+				case GLFW_KEY_1:
 					return dooms::input::GraphicsAPIInput::eKEY_CODE::KEY_1;
-				case GLFW_KEY_2 :
+				case GLFW_KEY_2:
 					return dooms::input::GraphicsAPIInput::eKEY_CODE::KEY_2;
-				case GLFW_KEY_3 :
+				case GLFW_KEY_3:
 					return dooms::input::GraphicsAPIInput::eKEY_CODE::KEY_3;
-				case GLFW_KEY_4 :
+				case GLFW_KEY_4:
 					return dooms::input::GraphicsAPIInput::eKEY_CODE::KEY_4;
 				case GLFW_KEY_5:
 					return dooms::input::GraphicsAPIInput::eKEY_CODE::KEY_5;
-				case GLFW_KEY_6 :
+				case GLFW_KEY_6:
 					return dooms::input::GraphicsAPIInput::eKEY_CODE::KEY_6;
-				case GLFW_KEY_7 :
+				case GLFW_KEY_7:
 					return dooms::input::GraphicsAPIInput::eKEY_CODE::KEY_7;
-				case GLFW_KEY_8 :
+				case GLFW_KEY_8:
 					return dooms::input::GraphicsAPIInput::eKEY_CODE::KEY_8;
-				case GLFW_KEY_9 :
+				case GLFW_KEY_9:
 					return dooms::input::GraphicsAPIInput::eKEY_CODE::KEY_9;
-				case GLFW_KEY_SEMICOLON :
+				case GLFW_KEY_SEMICOLON:
 					return dooms::input::GraphicsAPIInput::eKEY_CODE::KEY_SEMICOLON;
-				case GLFW_KEY_EQUAL :
+				case GLFW_KEY_EQUAL:
 					return dooms::input::GraphicsAPIInput::eKEY_CODE::KEY_EQUAL;
-				case GLFW_KEY_A :
+				case GLFW_KEY_A:
 					return dooms::input::GraphicsAPIInput::eKEY_CODE::KEY_A;
-				case GLFW_KEY_B :
+				case GLFW_KEY_B:
 					return dooms::input::GraphicsAPIInput::eKEY_CODE::KEY_B;
-				case GLFW_KEY_C :
+				case GLFW_KEY_C:
 					return dooms::input::GraphicsAPIInput::eKEY_CODE::KEY_C;
-				case GLFW_KEY_D :
+				case GLFW_KEY_D:
 					return dooms::input::GraphicsAPIInput::eKEY_CODE::KEY_D;
-				case GLFW_KEY_E :
+				case GLFW_KEY_E:
 					return dooms::input::GraphicsAPIInput::eKEY_CODE::KEY_E;
-				case GLFW_KEY_F :
+				case GLFW_KEY_F:
 					return dooms::input::GraphicsAPIInput::eKEY_CODE::KEY_F;
-				case GLFW_KEY_G :
+				case GLFW_KEY_G:
 					return dooms::input::GraphicsAPIInput::eKEY_CODE::KEY_G;
-				case GLFW_KEY_H :
+				case GLFW_KEY_H:
 					return dooms::input::GraphicsAPIInput::eKEY_CODE::KEY_H;
-				case GLFW_KEY_I :
+				case GLFW_KEY_I:
 					return dooms::input::GraphicsAPIInput::eKEY_CODE::KEY_I;
-				case GLFW_KEY_J :
+				case GLFW_KEY_J:
 					return dooms::input::GraphicsAPIInput::eKEY_CODE::KEY_J;
-				case GLFW_KEY_K :
+				case GLFW_KEY_K:
 					return dooms::input::GraphicsAPIInput::eKEY_CODE::KEY_K;
 				case GLFW_KEY_L:
 					return dooms::input::GraphicsAPIInput::eKEY_CODE::KEY_L;
-				case GLFW_KEY_M :
+				case GLFW_KEY_M:
 					return dooms::input::GraphicsAPIInput::eKEY_CODE::KEY_M;
-				case GLFW_KEY_N :
+				case GLFW_KEY_N:
 					return dooms::input::GraphicsAPIInput::eKEY_CODE::KEY_N;
-				case GLFW_KEY_O :
+				case GLFW_KEY_O:
 					return dooms::input::GraphicsAPIInput::eKEY_CODE::KEY_O;
-				case GLFW_KEY_P :
+				case GLFW_KEY_P:
 					return dooms::input::GraphicsAPIInput::eKEY_CODE::KEY_P;
-				case GLFW_KEY_Q :
+				case GLFW_KEY_Q:
 					return dooms::input::GraphicsAPIInput::eKEY_CODE::KEY_Q;
-				case GLFW_KEY_R :
+				case GLFW_KEY_R:
 					return dooms::input::GraphicsAPIInput::eKEY_CODE::KEY_R;
-				case GLFW_KEY_S :
+				case GLFW_KEY_S:
 					return dooms::input::GraphicsAPIInput::eKEY_CODE::KEY_S;
-				case GLFW_KEY_T :
+				case GLFW_KEY_T:
 					return dooms::input::GraphicsAPIInput::eKEY_CODE::KEY_T;
-				case GLFW_KEY_U :
+				case GLFW_KEY_U:
 					return dooms::input::GraphicsAPIInput::eKEY_CODE::KEY_U;
-				case GLFW_KEY_V :
+				case GLFW_KEY_V:
 					return dooms::input::GraphicsAPIInput::eKEY_CODE::KEY_V;
-				case GLFW_KEY_W :
+				case GLFW_KEY_W:
 					return dooms::input::GraphicsAPIInput::eKEY_CODE::KEY_W;
-				case GLFW_KEY_X :
+				case GLFW_KEY_X:
 					return dooms::input::GraphicsAPIInput::eKEY_CODE::KEY_X;
-				case GLFW_KEY_Y :
+				case GLFW_KEY_Y:
 					return dooms::input::GraphicsAPIInput::eKEY_CODE::KEY_Y;
-				case GLFW_KEY_Z :
+				case GLFW_KEY_Z:
 					return dooms::input::GraphicsAPIInput::eKEY_CODE::KEY_Z;
-				case GLFW_KEY_LEFT_BRACKET :
+				case GLFW_KEY_LEFT_BRACKET:
 					return dooms::input::GraphicsAPIInput::eKEY_CODE::KEY_LEFT_BRACKET;
-				case GLFW_KEY_BACKSLASH :
+				case GLFW_KEY_BACKSLASH:
 					return dooms::input::GraphicsAPIInput::eKEY_CODE::KEY_BACKSLASH;
-				case GLFW_KEY_RIGHT_BRACKET :
+				case GLFW_KEY_RIGHT_BRACKET:
 					return dooms::input::GraphicsAPIInput::eKEY_CODE::KEY_RIGHT_BRACKET;
-				case GLFW_KEY_GRAVE_ACCENT :
+				case GLFW_KEY_GRAVE_ACCENT:
 					return dooms::input::GraphicsAPIInput::eKEY_CODE::KEY_GRAVE_ACCENT;
-				case GLFW_KEY_WORLD_1 :
+				case GLFW_KEY_WORLD_1:
 					return dooms::input::GraphicsAPIInput::eKEY_CODE::KEY_WORLD_1;
-				case GLFW_KEY_WORLD_2 :
+				case GLFW_KEY_WORLD_2:
 					return dooms::input::GraphicsAPIInput::eKEY_CODE::KEY_WORLD_2;
-				case GLFW_KEY_ESCAPE :
+				case GLFW_KEY_ESCAPE:
 					return dooms::input::GraphicsAPIInput::eKEY_CODE::KEY_ESCAPE;
-				case GLFW_KEY_ENTER :
+				case GLFW_KEY_ENTER:
 					return dooms::input::GraphicsAPIInput::eKEY_CODE::KEY_ENTER;
-				case GLFW_KEY_TAB :
+				case GLFW_KEY_TAB:
 					return dooms::input::GraphicsAPIInput::eKEY_CODE::KEY_TAB;
-				case GLFW_KEY_BACKSPACE :
+				case GLFW_KEY_BACKSPACE:
 					return dooms::input::GraphicsAPIInput::eKEY_CODE::KEY_BACKSPACE;
-				case GLFW_KEY_INSERT :
+				case GLFW_KEY_INSERT:
 					return dooms::input::GraphicsAPIInput::eKEY_CODE::KEY_INSERT;
-				case GLFW_KEY_DELETE :
+				case GLFW_KEY_DELETE:
 					return dooms::input::GraphicsAPIInput::eKEY_CODE::KEY_DELETE;
-				case GLFW_KEY_RIGHT :
+				case GLFW_KEY_RIGHT:
 					return dooms::input::GraphicsAPIInput::eKEY_CODE::KEY_RIGHT;
-				case GLFW_KEY_LEFT :
+				case GLFW_KEY_LEFT:
 					return dooms::input::GraphicsAPIInput::eKEY_CODE::KEY_LEFT;
-				case GLFW_KEY_DOWN :
+				case GLFW_KEY_DOWN:
 					return dooms::input::GraphicsAPIInput::eKEY_CODE::KEY_DOWN;
-				case GLFW_KEY_UP :
+				case GLFW_KEY_UP:
 					return dooms::input::GraphicsAPIInput::eKEY_CODE::KEY_UP;
-				case GLFW_KEY_PAGE_UP :
+				case GLFW_KEY_PAGE_UP:
 					return dooms::input::GraphicsAPIInput::eKEY_CODE::KEY_PAGE_UP;
-				case GLFW_KEY_PAGE_DOWN :
+				case GLFW_KEY_PAGE_DOWN:
 					return dooms::input::GraphicsAPIInput::eKEY_CODE::KEY_PAGE_DOWN;
-				case GLFW_KEY_HOME :
+				case GLFW_KEY_HOME:
 					return dooms::input::GraphicsAPIInput::eKEY_CODE::KEY_HOME;
-				case GLFW_KEY_END :
+				case GLFW_KEY_END:
 					return dooms::input::GraphicsAPIInput::eKEY_CODE::KEY_END;
-				case GLFW_KEY_CAPS_LOCK :
+				case GLFW_KEY_CAPS_LOCK:
 					return dooms::input::GraphicsAPIInput::eKEY_CODE::KEY_CAPS_LOCK;
-				case GLFW_KEY_SCROLL_LOCK :
+				case GLFW_KEY_SCROLL_LOCK:
 					return dooms::input::GraphicsAPIInput::eKEY_CODE::KEY_SCROLL_LOCK;
-				case GLFW_KEY_NUM_LOCK :
+				case GLFW_KEY_NUM_LOCK:
 					return dooms::input::GraphicsAPIInput::eKEY_CODE::KEY_NUM_LOCK;
-				case GLFW_KEY_PRINT_SCREEN :
+				case GLFW_KEY_PRINT_SCREEN:
 					return dooms::input::GraphicsAPIInput::eKEY_CODE::KEY_PRINT_SCREEN;
-				case GLFW_KEY_PAUSE :
+				case GLFW_KEY_PAUSE:
 					return dooms::input::GraphicsAPIInput::eKEY_CODE::KEY_PAUSE;
-				case GLFW_KEY_F1 :
+				case GLFW_KEY_F1:
 					return dooms::input::GraphicsAPIInput::eKEY_CODE::KEY_F1;
-				case GLFW_KEY_F2 :
+				case GLFW_KEY_F2:
 					return dooms::input::GraphicsAPIInput::eKEY_CODE::KEY_F2;
-				case GLFW_KEY_F3 :
+				case GLFW_KEY_F3:
 					return dooms::input::GraphicsAPIInput::eKEY_CODE::KEY_F3;
-				case GLFW_KEY_F4 :
+				case GLFW_KEY_F4:
 					return dooms::input::GraphicsAPIInput::eKEY_CODE::KEY_F4;
-				case GLFW_KEY_F5 :
+				case GLFW_KEY_F5:
 					return dooms::input::GraphicsAPIInput::eKEY_CODE::KEY_F5;
-				case GLFW_KEY_F6 :
+				case GLFW_KEY_F6:
 					return dooms::input::GraphicsAPIInput::eKEY_CODE::KEY_F6;
-				case GLFW_KEY_F7 :
+				case GLFW_KEY_F7:
 					return dooms::input::GraphicsAPIInput::eKEY_CODE::KEY_F7;
-				case GLFW_KEY_F8 :
+				case GLFW_KEY_F8:
 					return dooms::input::GraphicsAPIInput::eKEY_CODE::KEY_F8;
-				case GLFW_KEY_F9 :
+				case GLFW_KEY_F9:
 					return dooms::input::GraphicsAPIInput::eKEY_CODE::KEY_F9;
-				case GLFW_KEY_F10 :
+				case GLFW_KEY_F10:
 					return dooms::input::GraphicsAPIInput::eKEY_CODE::KEY_F10;
-				case GLFW_KEY_F11 :
+				case GLFW_KEY_F11:
 					return dooms::input::GraphicsAPIInput::eKEY_CODE::KEY_F11;
-				case GLFW_KEY_F12 :
+				case GLFW_KEY_F12:
 					return dooms::input::GraphicsAPIInput::eKEY_CODE::KEY_F12;
-				case GLFW_KEY_F13 :
+				case GLFW_KEY_F13:
 					return dooms::input::GraphicsAPIInput::eKEY_CODE::KEY_F13;
-				case GLFW_KEY_F14 :
+				case GLFW_KEY_F14:
 					return dooms::input::GraphicsAPIInput::eKEY_CODE::KEY_F14;
-				case GLFW_KEY_F15 :
+				case GLFW_KEY_F15:
 					return dooms::input::GraphicsAPIInput::eKEY_CODE::KEY_F15;
-				case GLFW_KEY_F16 :
+				case GLFW_KEY_F16:
 					return dooms::input::GraphicsAPIInput::eKEY_CODE::KEY_F16;
-				case GLFW_KEY_F17 :
+				case GLFW_KEY_F17:
 					return dooms::input::GraphicsAPIInput::eKEY_CODE::KEY_F17;
-				case GLFW_KEY_F18 :
+				case GLFW_KEY_F18:
 					return dooms::input::GraphicsAPIInput::eKEY_CODE::KEY_F18;
-				case GLFW_KEY_F19 :
+				case GLFW_KEY_F19:
 					return dooms::input::GraphicsAPIInput::eKEY_CODE::KEY_F19;
-				case GLFW_KEY_F20 :
+				case GLFW_KEY_F20:
 					return dooms::input::GraphicsAPIInput::eKEY_CODE::KEY_F20;
 				case GLFW_KEY_F21:
 					return dooms::input::GraphicsAPIInput::eKEY_CODE::KEY_F21;
@@ -549,11 +549,11 @@ namespace dooms
 			{
 				switch (glfwMouseInput)
 				{
-				case GLFW_MOUSE_BUTTON_LEFT :
+				case GLFW_MOUSE_BUTTON_LEFT:
 					return dooms::input::GraphicsAPIInput::eMoustInput::MOUSE_BUTTON_LEFT;
-				case GLFW_MOUSE_BUTTON_RIGHT :
+				case GLFW_MOUSE_BUTTON_RIGHT:
 					return dooms::input::GraphicsAPIInput::eMoustInput::MOUSE_BUTTON_RIGHT;
-				case GLFW_MOUSE_BUTTON_MIDDLE :
+				case GLFW_MOUSE_BUTTON_MIDDLE:
 					return dooms::input::GraphicsAPIInput::eMoustInput::MOUSE_BUTTON_MIDDLE;
 				default:
 					NEVER_HAPPEN;
@@ -598,7 +598,7 @@ namespace dooms
 				}
 			}
 
-			
+
 			extern void CursorPosition_Callback(GLFWwindow* window, double xpos, double ypos)
 			{
 				assert(input::opengl::mCursorPosition_Callback != nullptr);
@@ -629,64 +629,66 @@ namespace dooms
 				CursorPosition_Callback(window, xpos, ypos);
 			}
 		}
+
+
+		DOOMS_ENGINE_GRAPHICS_API unsigned int InitializeGraphisAPIInput()
+		{
+			GLFWwindow* const glfwWindow = reinterpret_cast<GLFWwindow*>(dooms::graphics::GraphicsAPI::GetPlatformWindow());
+			assert(glfwWindow != nullptr);
+
+			glfwSetCursorEnterCallback(glfwWindow, &dooms::input::opengl::CursorEnterCallback);
+			glfwSetCursorPosCallback(glfwWindow, &dooms::input::opengl::CursorPosition_Callback);
+			glfwSetScrollCallback(glfwWindow, &dooms::input::opengl::Scroll_Callback);
+
+			glfwSetKeyCallback(glfwWindow, &dooms::input::opengl::Key_Callback);
+			glfwSetMouseButtonCallback(glfwWindow, &dooms::input::opengl::MouseButton_Callback);
+
+			return 0;
+		}
+
+		DOOMS_ENGINE_GRAPHICS_API unsigned int DeInitializeGraphisAPIInput()
+		{
+			return 0;
+		}
+
+		DOOMS_ENGINE_GRAPHICS_API void PollEvents()
+		{
+			glfwPollEvents();
+		}
+
+		DOOMS_ENGINE_GRAPHICS_API void SetCursorMode(const GraphicsAPIInput::eCursorMode cursorMode)
+		{
+			glfwSetInputMode(reinterpret_cast<GLFWwindow*>(graphics::GraphicsAPI::GetPlatformWindow()), GLFW_CURSOR, input::opengl::GetGLCursorMode(cursorMode));
+		}
+
+
+		DOOMS_ENGINE_GRAPHICS_API void SetCursorEnterCallback(input::GraphicsAPIInput::CursorEnterCallback cursorEnterCallback)
+		{
+			input::opengl::mCursorEnterCallback = cursorEnterCallback;
+		}
+
+		DOOMS_ENGINE_GRAPHICS_API void SetCursorPosition_Callback
+		(
+			input::GraphicsAPIInput::CursorPosition_Callback cursorPosition_Callback
+		)
+		{
+			input::opengl::mCursorPosition_Callback = cursorPosition_Callback;
+		}
+
+		DOOMS_ENGINE_GRAPHICS_API void SetScroll_Callback(input::GraphicsAPIInput::Scroll_Callback scroll_Callback)
+		{
+			input::opengl::mScroll_Callback = scroll_Callback;
+		}
+
+		DOOMS_ENGINE_GRAPHICS_API void SetKey_Callback(input::GraphicsAPIInput::Key_Callback key_Callback)
+		{
+			input::opengl::mKey_Callback = key_Callback;
+		}
+
+		DOOMS_ENGINE_GRAPHICS_API void SetMouseButton_Callback(input::GraphicsAPIInput::MouseButton_Callback mouseButton_Callback)
+		{
+			input::opengl::mMouseButton_Callback = mouseButton_Callback;
+		}
+
 	}
-}
-
-unsigned int dooms::input::GraphicsAPIInput::Initialize()
-{
-	GLFWwindow* const glfwWindow = reinterpret_cast<GLFWwindow*>(dooms::graphics::GraphicsAPI::GetPlatformWindow());
-	assert(glfwWindow != nullptr);
-
-	glfwSetCursorEnterCallback(glfwWindow, &dooms::input::opengl::CursorEnterCallback);
-	glfwSetCursorPosCallback(glfwWindow, &dooms::input::opengl::CursorPosition_Callback);
-	glfwSetScrollCallback(glfwWindow, &dooms::input::opengl::Scroll_Callback);
-
-	glfwSetKeyCallback(glfwWindow, &dooms::input::opengl::Key_Callback);
-	glfwSetMouseButtonCallback(glfwWindow, &dooms::input::opengl::MouseButton_Callback);
-
-	return 0;
-}
-
-unsigned int dooms::input::GraphicsAPIInput::DeInitialize()
-{
-	return 0;
-}
-
-void dooms::input::GraphicsAPIInput::PollEvents()
-{
-	glfwPollEvents();
-}
-
-void dooms::input::GraphicsAPIInput::SetCursorMode(const eCursorMode cursorMode)
-{
-	glfwSetInputMode(reinterpret_cast<GLFWwindow*>(graphics::GraphicsAPI::GetPlatformWindow()), GLFW_CURSOR, input::opengl::GetGLCursorMode(cursorMode));
-}
-
-
-void dooms::input::GraphicsAPIInput::SetCursorEnterCallback(input::GraphicsAPIInput::CursorEnterCallback cursorEnterCallback)
-{
-	input::opengl::mCursorEnterCallback = cursorEnterCallback;
-}
-
-void dooms::input::GraphicsAPIInput::SetCursorPosition_Callback
-(
-	input::GraphicsAPIInput::CursorPosition_Callback cursorPosition_Callback
-)
-{
-	input::opengl::mCursorPosition_Callback = cursorPosition_Callback;
-}
-
-void dooms::input::GraphicsAPIInput::SetScroll_Callback(input::GraphicsAPIInput::Scroll_Callback scroll_Callback)
-{
-	input::opengl::mScroll_Callback = scroll_Callback;
-}
-
-void dooms::input::GraphicsAPIInput::SetKey_Callback(input::GraphicsAPIInput::Key_Callback key_Callback)
-{
-	input::opengl::mKey_Callback = key_Callback;
-}
-
-void dooms::input::GraphicsAPIInput::SetMouseButton_Callback(input::GraphicsAPIInput::MouseButton_Callback mouseButton_Callback)
-{
-	input::opengl::mMouseButton_Callback = mouseButton_Callback;
 }

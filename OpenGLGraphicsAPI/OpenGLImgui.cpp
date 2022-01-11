@@ -10,41 +10,47 @@
 
 #include "GraphicsAPI.h"
 
-
-bool dooms::graphics::PlatformImgui::Initialize(ImGuiContext* const imGuiContext, ImGuiMemAllocFunc p_alloc_func, ImGuiMemFreeFunc p_free_func, void* p_user_data)
+namespace dooms
 {
-    assert(imGuiContext != nullptr);
+	namespace input
+	{
+		DOOMS_ENGINE_GRAPHICS_API bool InitializePlatformImgui(ImGuiContext* const imGuiContext, ImGuiMemAllocFunc p_alloc_func, ImGuiMemFreeFunc p_free_func, void* p_user_data)
+		{
+			assert(imGuiContext != nullptr);
 
-    ImGui::SetCurrentContext(imGuiContext);
-    ImGui::SetAllocatorFunctions(p_alloc_func, p_free_func, p_user_data);
+			ImGui::SetCurrentContext(imGuiContext);
+			ImGui::SetAllocatorFunctions(p_alloc_func, p_free_func, p_user_data);
 
-    GLFWwindow* const glfwWindow = reinterpret_cast<GLFWwindow*>(GraphicsAPI::GetPlatformWindow());
-    assert(glfwWindow != nullptr);
+			GLFWwindow* const glfwWindow = reinterpret_cast<GLFWwindow*>(graphics::GraphicsAPI::GetPlatformWindow());
+			assert(glfwWindow != nullptr);
 
-    bool isSuccess = true;
+			bool isSuccess = true;
 
-    isSuccess &= ImGui_ImplGlfw_InitForOpenGL(glfwWindow, true);
-    const std::string openglVersion = GraphicsAPI::GetPlatformVersion();
-    isSuccess &= ImGui_ImplOpenGL3_Init(openglVersion.c_str());
+			isSuccess &= ImGui_ImplGlfw_InitForOpenGL(glfwWindow, true);
+			const char* const openglVersion = graphics::GraphicsAPI::GetPlatformVersion();
+			isSuccess &= ImGui_ImplOpenGL3_Init(openglVersion);
 
-    return isSuccess;
-}
+			return isSuccess;
+		}
 
-bool dooms::graphics::PlatformImgui::ShutDown()
-{
-    ImGui_ImplOpenGL3_Shutdown();
-    ImGui_ImplGlfw_Shutdown();
+		DOOMS_ENGINE_GRAPHICS_API bool ShutDownPlatformImgui()
+		{
+			ImGui_ImplOpenGL3_Shutdown();
+			ImGui_ImplGlfw_Shutdown();
 
-    return true;
-}
+			return true;
+		}
 
-void dooms::graphics::PlatformImgui::PreRender()
-{
-    ImGui_ImplOpenGL3_NewFrame();
-    ImGui_ImplGlfw_NewFrame();
-}
+		DOOMS_ENGINE_GRAPHICS_API void PreRenderPlatformImgui()
+		{
+			ImGui_ImplOpenGL3_NewFrame();
+			ImGui_ImplGlfw_NewFrame();
+		}
 
-void dooms::graphics::PlatformImgui::PostRender()
-{
-    ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+		DOOMS_ENGINE_GRAPHICS_API void PostRenderPlatformImgui()
+		{
+			ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+		}
+
+	}
 }

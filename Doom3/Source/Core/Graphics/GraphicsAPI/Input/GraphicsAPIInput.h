@@ -1,24 +1,15 @@
 #pragma once
 
 
+#include "../Macros/GraphicsAPIMacros.h"
+
 
 namespace dooms
 {
 	namespace input
 	{
-		
-
-		class __declspec(dllexport) GraphicsAPIInput
+		namespace GraphicsAPIInput
 		{
-		private:
-
-			
-
-
-		public:
-
-		
-
 			enum eKEY_CODE : int
 			{
 				ERROR_CODE, //-1,
@@ -165,24 +156,43 @@ namespace dooms
 				REPEAT
 			};
 
-			static unsigned int Initialize();
-			static unsigned int DeInitialize();
+			typedef unsigned int (DOOMS_ENGINE_API_ENTRY_P GRAPHICS_INITIALIZEGRAPHICSAPIINPUT)(void);
+			DOOMS_ENGINE_GRAPHICS_API GRAPHICS_INITIALIZEGRAPHICSAPIINPUT InitializeGraphisAPIInput;
 
-			static void PollEvents();
 
-			static void SetCursorMode(const eCursorMode cursorMode);
+			typedef unsigned int (DOOMS_ENGINE_API_ENTRY_P GRAPHICS_DEINITIALIZEGRAPHICSAPIINPUT)(void);
+			DOOMS_ENGINE_GRAPHICS_API GRAPHICS_DEINITIALIZEGRAPHICSAPIINPUT DeInitializeGraphisAPIInput;
+
+
+			typedef unsigned int (DOOMS_ENGINE_API_ENTRY_P GRAPHICS_POLLEVENTS)(void);
+			DOOMS_ENGINE_GRAPHICS_API GRAPHICS_POLLEVENTS PollEvents;
+
+
+			typedef unsigned int (DOOMS_ENGINE_API_ENTRY_P GRAPHICS_SETCURSORMODE)(eCursorMode);
+			DOOMS_ENGINE_GRAPHICS_API GRAPHICS_SETCURSORMODE SetCursorMode;
+			
 			
 			typedef void (*CursorEnterCallback)(bool);
 			typedef void (*CursorPosition_Callback)(double, double);
 			typedef void (*Scroll_Callback)(double, double);
 			typedef void (*Key_Callback)(dooms::input::GraphicsAPIInput::eKEY_CODE, int, dooms::input::GraphicsAPIInput::eInputActionType, int);
 			typedef void (*MouseButton_Callback)(dooms::input::GraphicsAPIInput::eMoustInput, dooms::input::GraphicsAPIInput::eInputActionType, int);
+			
+			typedef unsigned int (DOOMS_ENGINE_API_ENTRY_P GRAPHICS_SETCURSORENTERCALLBACK)(CursorEnterCallback);
+			DOOMS_ENGINE_GRAPHICS_API GRAPHICS_SETCURSORENTERCALLBACK SetCursorEnterCallback;
 
-			static void SetCursorEnterCallback(CursorEnterCallback cursorEnterCallback);
-			static void SetCursorPosition_Callback(CursorPosition_Callback cursorPosition_Callback);
-			static void SetScroll_Callback(Scroll_Callback scroll_Callback);
-			static void SetKey_Callback(Key_Callback key_Callback);
-			static void SetMouseButton_Callback(MouseButton_Callback mouseButton_Callback);
+			typedef unsigned int (DOOMS_ENGINE_API_ENTRY_P GRAPHICS_SETCURSORPOSITIONCALLBACK)(CursorPosition_Callback);
+			DOOMS_ENGINE_GRAPHICS_API GRAPHICS_SETCURSORPOSITIONCALLBACK SetCursorPosition_Callback;
+
+			typedef unsigned int (DOOMS_ENGINE_API_ENTRY_P GRAPHICS_SETSCROLLCALLBACK)(Scroll_Callback);
+			DOOMS_ENGINE_GRAPHICS_API GRAPHICS_SETSCROLLCALLBACK SetScroll_Callback;
+
+			typedef unsigned int (DOOMS_ENGINE_API_ENTRY_P GRAPHICS_SETKEYCALLBACK)(Key_Callback);
+			DOOMS_ENGINE_GRAPHICS_API GRAPHICS_SETKEYCALLBACK SetKey_Callback;
+
+			typedef unsigned int (DOOMS_ENGINE_API_ENTRY_P GRAPHICS_SETMOUSEBUTTONCALLBACK)(MouseButton_Callback);
+			DOOMS_ENGINE_GRAPHICS_API GRAPHICS_SETMOUSEBUTTONCALLBACK SetMouseButton_Callback;
+
 		};
 	}
 }

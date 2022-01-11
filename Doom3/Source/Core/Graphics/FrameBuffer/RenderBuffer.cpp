@@ -35,7 +35,9 @@ bool RenderBuffer::CreateRenderBuffer(FrameBuffer& ownerFrameBuffer, GraphicsAPI
 
 		ownerFrameBuffer.BindFrameBuffer();
 
-		mRenderBufferID = GraphicsAPI::CreateRenderBufferObject(1)[0];
+		unsigned int buffer;
+		GraphicsAPI::CreateRenderBufferObject(1, &buffer);
+		mRenderBufferID = buffer;
 		BindRenderBuffer();
 
 

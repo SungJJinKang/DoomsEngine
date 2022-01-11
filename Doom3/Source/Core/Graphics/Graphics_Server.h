@@ -4,7 +4,7 @@
 
 #include "../Game/IGameFlow.h"
 
-#include "GraphicsAPI/GraphicsAPIManager.h"
+#include "GraphicsAPI/Manager//GraphicsAPIManager.h"
 
 #include "FrameBuffer/FrameBuffer.h"
 #include "DeferredRenderingDrawer.h"

@@ -40,7 +40,7 @@ void FrameBuffer::RefreshTargetDrawBufferContainer()
 
 void FrameBuffer::SetTargetDrawBuffer()
 {
-	GraphicsAPI::SetDrawBuffers(static_cast<INT32>(mTargetDrawBufferContainer.size()), mTargetDrawBufferContainer);
+	GraphicsAPI::SetDrawBuffers(static_cast<INT32>(mTargetDrawBufferContainer.size()), mTargetDrawBufferContainer.data());
 }
 
 

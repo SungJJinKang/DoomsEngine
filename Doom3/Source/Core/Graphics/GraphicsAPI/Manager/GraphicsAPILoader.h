@@ -2,7 +2,7 @@
 
 #include <Core.h>
 
-#include "eGraphicsAPIType.h"
+#include "../eGraphicsAPIType.h"
 
 namespace dooms
 {
@@ -16,6 +16,7 @@ namespace dooms
 
 			void* mAPIModule;
 
+			void FetExportedFunctionAddress(void* module);
 			unsigned int FreeGraphicsAPILibrary();
 
 		public:

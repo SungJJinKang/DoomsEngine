@@ -2,7 +2,7 @@
 #include <array>
 
 #include "../Graphics_Core.h"
-#include "../GraphicsAPI/GraphicsAPI.h"
+#include <Graphics/GraphicsAPI/GraphicsAPI.h>
 
 #include "../Math/LightMath_Cpp/Vector2.h"
 #include "../Math/LightMath_Cpp/Vector3.h"
