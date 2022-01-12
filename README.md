@@ -28,15 +28,14 @@
   * Masked SW ( CPU ) Occlusion Culling From Intel ( [video1](https://youtu.be/tMgokVljvAY), [video2](https://youtu.be/1IKTXsSLJ5g), [source code](https://github.com/SungJJinKang/EveryCulling/tree/main/CullingModule/MaskedSWOcclusionCulling), [개발 일지](https://sungjjinkang.github.io/computerscience/computergraphics/2021/12/31/masked_sw_occlusion_culling.html), [reference paper](https://software.intel.com/content/dam/develop/external/us/en/documents/masked-software-occlusion-culling.pdf] )        
   * Distance Culling from Unreal Engine ( [reference](https://docs.unrealengine.com/en-US/RenderingAndGraphics/VisibilityCulling/CullDistanceVolume/index.html), [soure code](https://github.com/SungJJinKang/EveryCulling/tree/main/CullingModule/DistanceCulling) )         
   
-## Currently working on
-
-  * support DX11!! ( completion : 1%. targeting opengl, dx11 portable game engine. [working directory](https://github.com/SungJJinKang/DoomsEngine/tree/d3d11_work) )             
-  * implement physical based rendering ( https://cdn2.unrealengine.com/Resources/files/2013SiggraphPresentationsNotes-26915738.pdf )            
- 
+## Currently working on     
+        
+  * support DX11!! ( completion : 5%. targeting opengl, dx11 portable game engine by abstracting them. [working directory](https://github.com/SungJJinKang/DoomsEngine/tree/d3d11_work) )             
+           
 ## To Develop
- 
-  * Hierarchical Shadow Map                   
-
+       
+  * implement physical based rendering ( https://cdn2.unrealengine.com/Resources/files/2013SiggraphPresentationsNotes-26915738.pdf )             
+                 
 ## Dependencies            
              
   * [glfw](https://github.com/glfw/glfw) : A multi-platform library for OpenGL, OpenGL ES, Vulkan, window and input                     

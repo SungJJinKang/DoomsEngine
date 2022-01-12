@@ -11,31 +11,32 @@
 #include "DDSTextureLoader.h"
 #include "resource.h"
 
-using namespace DirectX;
+// https://anteru.net/blog/2013/porting-from-directx11-to-opengl-4-2-tales-from-the-trenches/
+// https://anteru.net/blog/2013/porting-from-directx11-to-opengl-4-2-textures-samplers/
 
 //--------------------------------------------------------------------------------------
 // Structures
 //--------------------------------------------------------------------------------------
 struct SimpleVertex
 {
-    XMFLOAT3 Pos;
-    XMFLOAT2 Tex;
+	DirectX::XMFLOAT3 Pos;
+	DirectX::XMFLOAT2 Tex;
 };
 
 struct CBNeverChanges
 {
-    XMMATRIX mView;
+	DirectX::XMMATRIX mView;
 };
 
 struct CBChangeOnResize
 {
-    XMMATRIX mProjection;
+	DirectX::XMMATRIX mProjection;
 };
 
 struct CBChangesEveryFrame
 {
-    XMMATRIX mWorld;
-    XMFLOAT4 vMeshColor;
+	DirectX::XMMATRIX mWorld;
+	DirectX::XMFLOAT4 vMeshColor;
 };
 
 
@@ -69,10 +70,10 @@ namespace dooms
             ID3D11Buffer* g_pCBChangesEveryFrame = nullptr;
             ID3D11ShaderResourceView* g_pTextureRV = nullptr;
             ID3D11SamplerState* g_pSamplerLinear = nullptr;
-            XMMATRIX                            g_World;
-            XMMATRIX                            g_View;
-            XMMATRIX                            g_Projection;
-            XMFLOAT4                            g_vMeshColor(0.7f, 0.7f, 0.7f, 1.0f);
+            DirectX::XMMATRIX                            g_World;
+            DirectX::XMMATRIX                            g_View;
+            DirectX::XMMATRIX                            g_Projection;
+            DirectX::XMFLOAT4                            g_vMeshColor(0.7f, 0.7f, 0.7f, 1.0f);
 
 
 			HRESULT InitWindow(HINSTANCE hInstance, int nCmdShow);
@@ -390,35 +391,35 @@ namespace dooms
                 // Create vertex buffer
                 SimpleVertex vertices[] =
                 {
-                    { XMFLOAT3(-1.0f, 1.0f, -1.0f), XMFLOAT2(1.0f, 0.0f) },
-                    { XMFLOAT3(1.0f, 1.0f, -1.0f), XMFLOAT2(0.0f, 0.0f) },
-                    { XMFLOAT3(1.0f, 1.0f, 1.0f), XMFLOAT2(0.0f, 1.0f) },
-                    { XMFLOAT3(-1.0f, 1.0f, 1.0f), XMFLOAT2(1.0f, 1.0f) },
+                    {DirectX::XMFLOAT3(-1.0f, 1.0f, -1.0f), DirectX::XMFLOAT2(1.0f, 0.0f) },
+                    { DirectX::XMFLOAT3(1.0f, 1.0f, -1.0f), DirectX::XMFLOAT2(0.0f, 0.0f) },
+                    { DirectX::XMFLOAT3(1.0f, 1.0f, 1.0f), DirectX::XMFLOAT2(0.0f, 1.0f) },
+                    { DirectX::XMFLOAT3(-1.0f, 1.0f, 1.0f), DirectX::XMFLOAT2(1.0f, 1.0f) },
 
-                    { XMFLOAT3(-1.0f, -1.0f, -1.0f), XMFLOAT2(0.0f, 0.0f) },
-                    { XMFLOAT3(1.0f, -1.0f, -1.0f), XMFLOAT2(1.0f, 0.0f) },
-                    { XMFLOAT3(1.0f, -1.0f, 1.0f), XMFLOAT2(1.0f, 1.0f) },
-                    { XMFLOAT3(-1.0f, -1.0f, 1.0f), XMFLOAT2(0.0f, 1.0f) },
+                    { DirectX::XMFLOAT3(-1.0f, -1.0f, -1.0f), DirectX::XMFLOAT2(0.0f, 0.0f) },
+                    { DirectX::XMFLOAT3(1.0f, -1.0f, -1.0f), DirectX::XMFLOAT2(1.0f, 0.0f) },
+                    { DirectX::XMFLOAT3(1.0f, -1.0f, 1.0f), DirectX::XMFLOAT2(1.0f, 1.0f) },
+                    { DirectX::XMFLOAT3(-1.0f, -1.0f, 1.0f), DirectX::XMFLOAT2(0.0f, 1.0f) },
 
-                    { XMFLOAT3(-1.0f, -1.0f, 1.0f), XMFLOAT2(0.0f, 1.0f) },
-                    { XMFLOAT3(-1.0f, -1.0f, -1.0f), XMFLOAT2(1.0f, 1.0f) },
-                    { XMFLOAT3(-1.0f, 1.0f, -1.0f), XMFLOAT2(1.0f, 0.0f) },
-                    { XMFLOAT3(-1.0f, 1.0f, 1.0f), XMFLOAT2(0.0f, 0.0f) },
+                    { DirectX::XMFLOAT3(-1.0f, -1.0f, 1.0f), DirectX::XMFLOAT2(0.0f, 1.0f) },
+                    { DirectX::XMFLOAT3(-1.0f, -1.0f, -1.0f), DirectX::XMFLOAT2(1.0f, 1.0f) },
+                    { DirectX::XMFLOAT3(-1.0f, 1.0f, -1.0f), DirectX::XMFLOAT2(1.0f, 0.0f) },
+                    { DirectX::XMFLOAT3(-1.0f, 1.0f, 1.0f), DirectX::XMFLOAT2(0.0f, 0.0f) },
 
-                    { XMFLOAT3(1.0f, -1.0f, 1.0f), XMFLOAT2(1.0f, 1.0f) },
-                    { XMFLOAT3(1.0f, -1.0f, -1.0f), XMFLOAT2(0.0f, 1.0f) },
-                    { XMFLOAT3(1.0f, 1.0f, -1.0f), XMFLOAT2(0.0f, 0.0f) },
-                    { XMFLOAT3(1.0f, 1.0f, 1.0f), XMFLOAT2(1.0f, 0.0f) },
+                    { DirectX::XMFLOAT3(1.0f, -1.0f, 1.0f), DirectX::XMFLOAT2(1.0f, 1.0f) },
+                    { DirectX::XMFLOAT3(1.0f, -1.0f, -1.0f), DirectX::XMFLOAT2(0.0f, 1.0f) },
+                    { DirectX::XMFLOAT3(1.0f, 1.0f, -1.0f), DirectX::XMFLOAT2(0.0f, 0.0f) },
+                    { DirectX::XMFLOAT3(1.0f, 1.0f, 1.0f), DirectX::XMFLOAT2(1.0f, 0.0f) },
 
-                    { XMFLOAT3(-1.0f, -1.0f, -1.0f), XMFLOAT2(0.0f, 1.0f) },
-                    { XMFLOAT3(1.0f, -1.0f, -1.0f), XMFLOAT2(1.0f, 1.0f) },
-                    { XMFLOAT3(1.0f, 1.0f, -1.0f), XMFLOAT2(1.0f, 0.0f) },
-                    { XMFLOAT3(-1.0f, 1.0f, -1.0f), XMFLOAT2(0.0f, 0.0f) },
+                    { DirectX::XMFLOAT3(-1.0f, -1.0f, -1.0f), DirectX::XMFLOAT2(0.0f, 1.0f) },
+                    { DirectX::XMFLOAT3(1.0f, -1.0f, -1.0f), DirectX::XMFLOAT2(1.0f, 1.0f) },
+                    { DirectX::XMFLOAT3(1.0f, 1.0f, -1.0f), DirectX::XMFLOAT2(1.0f, 0.0f) },
+                    { DirectX::XMFLOAT3(-1.0f, 1.0f, -1.0f), DirectX::XMFLOAT2(0.0f, 0.0f) },
 
-                    { XMFLOAT3(-1.0f, -1.0f, 1.0f), XMFLOAT2(1.0f, 1.0f) },
-                    { XMFLOAT3(1.0f, -1.0f, 1.0f), XMFLOAT2(0.0f, 1.0f) },
-                    { XMFLOAT3(1.0f, 1.0f, 1.0f), XMFLOAT2(0.0f, 0.0f) },
-                    { XMFLOAT3(-1.0f, 1.0f, 1.0f), XMFLOAT2(1.0f, 0.0f) },
+                    { DirectX::XMFLOAT3(-1.0f, -1.0f, 1.0f), DirectX::XMFLOAT2(1.0f, 1.0f) },
+                    { DirectX::XMFLOAT3(1.0f, -1.0f, 1.0f), DirectX::XMFLOAT2(0.0f, 1.0f) },
+                    { DirectX::XMFLOAT3(1.0f, 1.0f, 1.0f), DirectX::XMFLOAT2(0.0f, 0.0f) },
+                    { DirectX::XMFLOAT3(-1.0f, 1.0f, 1.0f), DirectX::XMFLOAT2(1.0f, 0.0f) },
                 };
 
                 D3D11_BUFFER_DESC bd = {};
@@ -496,7 +497,7 @@ namespace dooms
                     return hr;
 
                 // Load the Texture
-                hr = CreateDDSTextureFromFile(g_pd3dDevice, L"Assets/DX11Test/seafloor.dds", nullptr, &g_pTextureRV);
+                hr = DirectX::CreateDDSTextureFromFile(g_pd3dDevice, L"Assets/DX11Test/seafloor.dds", nullptr, &g_pTextureRV);
                 if (FAILED(hr))
                     return hr;
 
@@ -514,20 +515,20 @@ namespace dooms
                     return hr;
 
                 // Initialize the world matrices
-                g_World = XMMatrixIdentity();
+                g_World = DirectX::XMMatrixIdentity();
 
                 // Initialize the view matrix
-                XMVECTOR Eye = XMVectorSet(0.0f, 3.0f, -6.0f, 0.0f);
-                XMVECTOR At = XMVectorSet(0.0f, 1.0f, 0.0f, 0.0f);
-                XMVECTOR Up = XMVectorSet(0.0f, 1.0f, 0.0f, 0.0f);
-                g_View = XMMatrixLookAtLH(Eye, At, Up);
+                DirectX::XMVECTOR Eye = DirectX::XMVectorSet(0.0f, 3.0f, -6.0f, 0.0f);
+                DirectX::XMVECTOR At = DirectX::XMVectorSet(0.0f, 1.0f, 0.0f, 0.0f);
+                DirectX::XMVECTOR Up = DirectX::XMVectorSet(0.0f, 1.0f, 0.0f, 0.0f);
+                g_View = DirectX::XMMatrixLookAtLH(Eye, At, Up);
 
                 CBNeverChanges cbNeverChanges;
                 cbNeverChanges.mView = XMMatrixTranspose(g_View);
                 g_pImmediateContext->UpdateSubresource(g_pCBNeverChanges, 0, nullptr, &cbNeverChanges, 0, 0);
 
                 // Initialize the projection matrix
-                g_Projection = XMMatrixPerspectiveFovLH(XM_PIDIV4, width / (FLOAT)height, 0.01f, 100.0f);
+                g_Projection = DirectX::XMMatrixPerspectiveFovLH(DirectX::XM_PIDIV4, width / (FLOAT)height, 0.01f, 100.0f);
 
                 CBChangeOnResize cbChangesOnResize;
                 cbChangesOnResize.mProjection = XMMatrixTranspose(g_Projection);
@@ -542,7 +543,7 @@ namespace dooms
                 static float t = 0.0f;
                 if (g_driverType == D3D_DRIVER_TYPE_REFERENCE)
                 {
-                    t += (float)XM_PI * 0.0125f;
+                    t += (float)DirectX::XM_PI * 0.0125f;
                 }
                 else
                 {
@@ -554,7 +555,7 @@ namespace dooms
                 }
 
                 // Rotate cube around the origin
-                g_World = XMMatrixRotationY(t);
+                g_World = DirectX::XMMatrixRotationY(t);
 
                 // Modify the color
                 g_vMeshColor.x = (sinf(t * 1.0f) + 1.0f) * 0.5f;
@@ -564,7 +565,7 @@ namespace dooms
                 //
                 // Clear the back buffer
                 //
-                g_pImmediateContext->ClearRenderTargetView(g_pRenderTargetView, Colors::MidnightBlue);
+                g_pImmediateContext->ClearRenderTargetView(g_pRenderTargetView, DirectX::Colors::MidnightBlue);
 
                 //
                 // Clear the depth buffer to 1.0 (max depth)
@@ -704,13 +705,13 @@ namespace dooms
 
 		DOOMS_ENGINE_GRAPHICS_API unsigned int DeinitializeGraphicsAPI()
 		{
-			assert(0);
+            dx11::CleanupDevice();
 			return 0;
 		}
 
 		DOOMS_ENGINE_GRAPHICS_API void SwapBuffer() noexcept
 		{
-			assert(0);
+			dx11::g_pSwapChain->Present(0, 0); // Swap Back buffer
 		}
 	}
 }

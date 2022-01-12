@@ -1372,12 +1372,12 @@ namespace dooms
 		DOOMS_ENGINE_GRAPHICS_API void DefineVertexAttributeLayout
 		(
 			const unsigned int vertexAttributeIndex,
-			const unsigned int componentNumber,
+			const unsigned int componentCount,
 			const unsigned int stride,
 			const unsigned int offset
 		)
 		{
-			glVertexAttribPointer(vertexAttributeIndex, componentNumber, GL_FLOAT, GL_FALSE, stride, reinterpret_cast<GLvoid*>(offset));
+			glVertexAttribPointer(vertexAttributeIndex, componentCount, GL_FLOAT, GL_FALSE, stride, reinterpret_cast<GLvoid*>(offset));
 		}
 
 		DOOMS_ENGINE_GRAPHICS_API void BindBuffer
