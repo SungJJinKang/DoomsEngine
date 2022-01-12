@@ -641,12 +641,12 @@ namespace dooms
 			glfwSetKeyCallback(glfwWindow, &dooms::input::opengl::Key_Callback);
 			glfwSetMouseButtonCallback(glfwWindow, &dooms::input::opengl::MouseButton_Callback);
 
-			return 0;
+			return 1;
 		}
 
 		DOOMS_ENGINE_GRAPHICS_API unsigned int DeInitializeGraphisAPIInput()
 		{
-			return 0;
+			return 1;
 		}
 
 		DOOMS_ENGINE_GRAPHICS_API void PollEvents()

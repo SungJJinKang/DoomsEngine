@@ -1086,7 +1086,7 @@ namespace dooms
 			{
 				assert(0); // "Failed to create GLFW window"
 				glfwTerminate();
-				return 1;
+				return 0;
 			}
 			glfwMakeContextCurrent(dooms::graphics::opengl::glfwWindow);
 			glfwSetFramebufferSizeCallback(dooms::graphics::opengl::glfwWindow,
@@ -1101,7 +1101,7 @@ namespace dooms
 			if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
 			{
 				assert(0); // Failed to initialize GLAD
-				return 1;
+				return 0;
 			}
 
 #ifdef _DEBUG
@@ -1110,7 +1110,7 @@ namespace dooms
 			{
 				std::printf("Using AMD on board GPU, Maybe This will make driver error");
 				assert(0);
-				return 1;
+				return 0;
 			}
 
 			std::printf("Current OpenGL version is : %s", glGetString(static_cast<const unsigned int>(dooms::graphics::opengl::GetStringParameter::VERSION)));
@@ -1136,7 +1136,7 @@ namespace dooms
 
 			opengl::OpenGLVersion = glsl_version;
 
-			return 0;
+			return 1;
 		}
 
 		DOOMS_ENGINE_GRAPHICS_API unsigned int DeinitializeGraphicsAPI()
@@ -1146,7 +1146,7 @@ namespace dooms
 				glfwDestroyWindow(dooms::graphics::opengl::glfwWindow);
 			}
 			glfwTerminate();
-			return 0;
+			return 1;
 		}
 
 		DOOMS_ENGINE_GRAPHICS_API void SwapBuffer()
