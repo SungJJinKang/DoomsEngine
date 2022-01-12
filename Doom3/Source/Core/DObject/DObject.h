@@ -241,6 +241,13 @@ namespace dooms
 		}
 
 		D_FUNCTION()
+		FORCE_INLINE bool HasDObjectFlag(const UINT32 flag)
+		{
+			assert(mDObjectProperties.mCurrentIndexInDObjectList != INVALID_CURRENT_INDEX_IN_DOBJECT_LIST);
+			return (GetDObjectFlag() & flag) == flag;
+		}
+
+		D_FUNCTION()
 		const std::string& GetDObjectName() const;
 
 		D_FUNCTION()

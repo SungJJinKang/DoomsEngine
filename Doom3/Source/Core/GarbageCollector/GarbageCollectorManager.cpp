@@ -8,6 +8,7 @@
 
 dooms::gc::garbageCollectorSolver::eGCMethod dooms::gc::GarbageCollectorManager::_GCMethod{ dooms::gc::garbageCollectorSolver::eGCMethod ::MultiThreadMark};
 float dooms::gc::GarbageCollectorManager::mElapsedTime{};
+unsigned int dooms::gc::GarbageCollectorManager::mMaxSweepedObjectCountAtATime{};
 float dooms::gc::GarbageCollectorManager::mCollectTimeStep{};
 std::vector<dooms::DObject*> dooms::gc::GarbageCollectorManager::mRootsDObjectsList{};
 
@@ -17,6 +18,7 @@ void dooms::gc::GarbageCollectorManager::InitializeCollectTimeStep()
 	//mCollectTimeStep[ = dooms::ConfigData::GetSingleton()->GetConfigData().GetValue<float>()
 
 	mCollectTimeStep = dooms::ConfigData::GetSingleton()->GetConfigData().GetValue<float>("SYSTEM", "GC_TIME_STEP");
+	mMaxSweepedObjectCountAtATime = dooms::ConfigData::GetSingleton()->GetConfigData().GetValue<int>("SYSTEM", "GC_MAX_SWEEPED_OBJECT_COUNT_AT_A_TIME");
 	mElapsedTime = 0.0f;
 }
 
@@ -120,7 +122,7 @@ void dooms::gc::GarbageCollectorManager::Sweep(const garbageCollectorSolver::eGC
 	D_START_PROFILING(GC_SweepStage, CPU);
 
 	D_DEBUG_LOG(eLogType::D_LOG_TYPE12, "Execute GC_SweepStage");
-	dooms::gc::garbageCollectorSolver::StartSweepStage(gcMethod, GC_KEEP_FLAGS, dooms::DObjectManager::mDObjectsContainer.mDObjectList);
+	dooms::gc::garbageCollectorSolver::StartSweepStage(gcMethod, GC_KEEP_FLAGS, dooms::DObjectManager::mDObjectsContainer.mDObjectList, mMaxSweepedObjectCountAtATime);
 
 	D_END_PROFILING(GC_SweepStage);
 }

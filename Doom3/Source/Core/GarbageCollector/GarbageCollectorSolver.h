@@ -5,9 +5,6 @@
 
 #include "TypeDef.h"
 
-#define DELETE_DOBJECT_LIST_RESERVATION_COUNT 20
-
-
 namespace dooms
 {
 	class DObject;
@@ -31,8 +28,15 @@ namespace dooms
 			void StartSetUnreachableFlagStage(const eGCMethod gcMethod, std::vector<UINT32>& flags);
 
 			void StartMarkStage(const eGCMethod gcMethod, const UINT32 keepFlags, std::vector<dooms::DObject*>& rootDObjectList);
-			
-			void StartSweepStage(const eGCMethod gcMethod, const UINT32 keepFlags, std::unordered_set<dooms::DObject*>& dObjectList);
+
+			/**
+			 * \brief 
+			 * \param gcMethod 
+			 * \param keepFlags 
+			 * \param dObjectList 
+			 * \param maxSweepedObjectCount Maximum destroyed object count. Limit destroyed object at a time. This is for preventing performance drop from destroying a lot of objects
+			 */
+			void StartSweepStage(const eGCMethod gcMethod, const UINT32 keepFlags, std::unordered_set<dooms::DObject*>& dObjectList, const size_t maxSweepedObjectCount);
 
 			// this may make bugs ( multithread delete can make a lot of bugs )
 			//void StartParallelSweepStage(std::vector<dooms::DObject*>& dObjectList, const std::vector<UINT32>& flagList);

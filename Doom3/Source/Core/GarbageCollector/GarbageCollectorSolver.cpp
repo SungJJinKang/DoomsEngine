@@ -35,21 +35,21 @@ void dooms::gc::garbageCollectorSolver::StartSetUnreachableFlagStage(const eGCMe
 
 namespace dooms::gc::garbageCollectorSolver
 {
-	void MarkRecursively
+	FORCE_INLINE void MarkRecursively
 	(
 		const UINT32 keepFlags,
 		void* const object,
 		const reflection::eProperyQualifier dataQualifier,
 		const dooms::reflection::DType* const dFieldType
 	);
-	void MarkRecursivelyTemplateTypeField
+	FORCE_INLINE void MarkRecursivelyTemplateTypeField
 	(
 		const UINT32 keepFlags,
 		void* const object,
 		const reflection::eProperyQualifier dataQualifier,
 		const dooms::reflection::DType* const dFieldType
 	);
-	void MarkRecursivelyDObjectTypeField
+	FORCE_INLINE void MarkRecursivelyDObjectTypeField
 	(
 		const UINT32 keepFlags,
 		dooms::DObject* const dObejct,
@@ -57,7 +57,7 @@ namespace dooms::gc::garbageCollectorSolver
 		const dooms::reflection::DType* const dFieldType
 	);
 
-	void MarkRecursivelyTemplateTypeField
+	FORCE_INLINE void MarkRecursivelyTemplateTypeField
 	(
 		const UINT32 keepFlags,
 		void* const object,
@@ -115,7 +115,7 @@ namespace dooms::gc::garbageCollectorSolver
 		}
 	}
 
-	void MarkRecursivelyDObjectTypeValueField
+	FORCE_INLINE void MarkRecursivelyDObjectTypeValueField
 	(
 		const UINT32 keepFlags,
 		dooms::DObject* const dObejct,
@@ -143,7 +143,7 @@ namespace dooms::gc::garbageCollectorSolver
 		}
 	}
 
-	void MarkRecursivelyDObjectTypeField
+	FORCE_INLINE void MarkRecursivelyDObjectTypeField
 	(
 		const UINT32 keepFlags,
 		void* const object,
@@ -182,7 +182,7 @@ namespace dooms::gc::garbageCollectorSolver
 		}
 	}
 
-	void MarkRecursively
+	FORCE_INLINE void MarkRecursively
 	(
 		const UINT32 keepFlags,
 		void* const object,
@@ -200,7 +200,7 @@ namespace dooms::gc::garbageCollectorSolver
 		}
 	}
 
-	void Mark(const UINT32 keepFlags, dooms::DObject* const rootDObject)
+	FORCE_INLINE void Mark(const UINT32 keepFlags, dooms::DObject* const rootDObject)
 	{
 		D_ASSERT(IsLowLevelValid(rootDObject, false) == true);
 
@@ -247,8 +247,6 @@ void dooms::gc::garbageCollectorSolver::StartMarkStage(const eGCMethod gcMethod,
 		gcMultithreadCounter.workingOnRootObjectCount = 0;
 		gcMultithreadCounter.completedOnRootObjectCount = 0;
 
-		const int gcThreadCount = math::Min(dooms::resource::JobSystem::GetSingleton()->GetSubThreadCount(), (size_t)dooms::ConfigData::GetSingleton()->GetConfigData().GetValue<int>("SYSTEM","GC_THREAD_COUNT"));
-		
 		std::function multiThreadJob = [&gcMultithreadCounter, &rootDObjectList, keepFlags, rootDObjectCount]()
 		{
 			D_DEBUG_LOG(eLogType::D_LOG_TYPE13, "Start Mark a object");
@@ -280,17 +278,20 @@ void dooms::gc::garbageCollectorSolver::StartMarkStage(const eGCMethod gcMethod,
 }
 
 
-void dooms::gc::garbageCollectorSolver::StartSweepStage(const eGCMethod gcMethod, const UINT32 keepFlags, std::unordered_set<dooms::DObject*>& dObjectList)
+void dooms::gc::garbageCollectorSolver::StartSweepStage(const eGCMethod gcMethod, const UINT32 keepFlags, std::unordered_set<dooms::DObject*>& dObjectList, const size_t maxSweepedObjectCount)
 {
 	std::vector<dooms::DObject*> deletedDObjectList;
-	deletedDObjectList.reserve(DELETE_DOBJECT_LIST_RESERVATION_COUNT);
+	deletedDObjectList.reserve(maxSweepedObjectCount);
 
 	auto beginIter = dObjectList.begin();
 	const auto endIter = dObjectList.end();
 	while(beginIter != endIter)
 	{
 		dooms::DObject* const dObject = (*beginIter);
-		if ((dObject->GetDObjectFlag() & (dooms::eDObjectFlag::Unreachable | dooms::eDObjectFlag::NewAllocated)) == (dooms::eDObjectFlag::Unreachable | dooms::eDObjectFlag::NewAllocated))
+		if
+		(
+			(dObject->HasDObjectFlag(dooms::eDObjectFlag::Unreachable | dooms::eDObjectFlag::NewAllocated) )
+		)
 		{
 			/*
 			// Mark unreachable dObject before sweep.
@@ -303,6 +304,11 @@ void dooms::gc::garbageCollectorSolver::StartSweepStage(const eGCMethod gcMethod
 
 			deletedDObjectList.push_back(dObject);
 			D_DEBUG_LOG(eLogType::D_LOG_TYPE13, "GC DObject IsPendingKill Enabled and Sweeped ready : %s ( TypeName : %s )", dObject->GetDObjectName().c_str(), dObject->GetTypeFullName());
+
+			if(deletedDObjectList.size() >= maxSweepedObjectCount)
+			{
+				break;
+			}
 		}
 		beginIter++;
 	}

@@ -22,6 +22,8 @@ namespace dooms
 
 			static garbageCollectorSolver::eGCMethod _GCMethod;
 
+			static unsigned int mMaxSweepedObjectCountAtATime;
+
 			static float mElapsedTime;
 
 			// Max Level is long term alive object
