@@ -77,8 +77,6 @@ namespace dooms
 			void UpdateCameraIndexInCullingSystemOfCameraComponent();
 			void UpdateSortedEntityInfoListInCullingSystem();
 			
-			bool InitializeGraphicsAPI();
-
 			void PreRender();
 			void Render();
 			void ProfilingCullingSystem();
@@ -99,14 +97,13 @@ namespace dooms
 
 			std::unique_ptr<culling::EveryCulling> mCullingSystem;
 
-			
+			bool InitializeGraphicsAPI();
+
 			virtual void Init() final;
 			virtual void LateInit() final;
 			virtual void Update() final;
 			virtual void OnEndOfFrame() final;
-
-			void LoadGraphisAPI();
-
+			
 #ifdef DEBUG_DRAWER
 			D_PROPERTY()
 			RenderingDebugger mRenderingDebugger{};

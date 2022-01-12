@@ -55,33 +55,34 @@ void dooms::graphics::GraphicsAPIManager::GraphisAPIDebugCallBack(const char* co
 bool dooms::graphics::GraphicsAPIManager::Initialize(const eGraphicsAPIType graphicsAPIType)
 {
 	LoadGraphicsAPI(graphicsAPIType);
-	GraphicsAPI::SetDebugFunction(dooms::graphics::GraphicsAPIManager::GraphisAPIDebugCallBack);
-
-	unsigned int isSuccess = 0;
+	if(GraphicsAPI::SetDebugFunction != nullptr)
 	{
-		isSuccess |= GraphicsAPI::InitializeGraphicsAPI(graphicsAPISetting::GetScreenWidth(), graphicsAPISetting::GetScreenHeight(), graphicsAPISetting::GetMultiSamplingNum());
-		D_ASSERT_LOG(isSuccess == 0, "Fail to GraphicsAPI::InitializeGraphisAPIInput ( Error Code : %u )", isSuccess);
-		
+		GraphicsAPI::SetDebugFunction(dooms::graphics::GraphicsAPIManager::GraphisAPIDebugCallBack);
 	}
-	SetDefaultSettingOfAPI();
-	isSuccess |= input::GraphicsAPIInput::InitializeGraphisAPIInput(dooms::graphics::GraphicsAPI::GetPlatformWindow());
-	D_ASSERT(isSuccess == 0);
 
-	return isSuccess == 0;
+	unsigned int result = 1;
+	result &= GraphicsAPI::InitializeGraphicsAPI(graphicsAPISetting::GetScreenWidth(), graphicsAPISetting::GetScreenHeight(), graphicsAPISetting::GetMultiSamplingNum());
+	D_ASSERT_LOG(result == 1, "Fail to GraphicsAPI::InitializeGraphisAPIInput ( Error Code : %u )", result);
+
+	SetDefaultSettingOfAPI();
+	result &= input::GraphicsAPIInput::InitializeGraphisAPIInput(dooms::graphics::GraphicsAPI::GetPlatformWindow());
+	D_ASSERT(result == 1);
+
+	return result == 1;
 }
 
 bool dooms::graphics::GraphicsAPIManager::DeInitialize()
 {
-	unsigned int isSuccess = 0;
+	unsigned int result = 1;
 
-	isSuccess |= graphics::GraphicsAPI::DeinitializeGraphicsAPI();
-	D_ASSERT(isSuccess == 0);
-	isSuccess |= input::GraphicsAPIInput::DeInitializeGraphisAPIInput();
-	D_ASSERT(isSuccess == 0);
-	isSuccess |= mGraphicsAPILoader.UnLoadGraphicsAPILibrary();
-	D_ASSERT(isSuccess == 0);
+	result &= graphics::GraphicsAPI::DeinitializeGraphicsAPI();
+	D_ASSERT(result == 1);
+	result &= input::GraphicsAPIInput::DeInitializeGraphisAPIInput();
+	D_ASSERT(result == 1);
+	result &= mGraphicsAPILoader.UnLoadGraphicsAPILibrary();
+	D_ASSERT(result == 1);
 
-	return isSuccess == 0;
+	return result == 1;
 }
 
 dooms::graphics::eGraphicsAPIType dooms::graphics::GraphicsAPIManager::GetGraphicsAPIType()

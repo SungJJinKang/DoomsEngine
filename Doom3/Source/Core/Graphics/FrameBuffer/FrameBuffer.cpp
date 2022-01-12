@@ -315,7 +315,7 @@ SingleTexture& FrameBuffer::AttachTextureBuffer(GraphicsAPI::eBufferBitType fram
 	case GraphicsAPI::eBufferBitType::COLOR_BUFFER:
 	{
 		SingleTexture colorTexture{ GraphicsAPI::eTextureType::DIFFUSE, GraphicsAPI::eTargetTexture::TARGET_TEXTURE_TEXTURE_2D,
-			GraphicsAPI::eTextureInternalFormat::TEXTURE_INTERNAL_FORMAT_RGBA16F, width, height, GraphicsAPI::eTextureComponentFormat::TEXTURE_COMPONENT_RGBA, GraphicsAPI::eDataType::FLOAT, NULL };
+			GraphicsAPI::eTextureInternalFormat::TEXTURE_INTERNAL_FORMAT_RGBA8, width, height, GraphicsAPI::eTextureComponentFormat::TEXTURE_COMPONENT_RGBA, GraphicsAPI::eDataType::FLOAT, NULL };
 		GraphicsAPI::Attach2DTextureToFrameBuffer(GraphicsAPI::eBindFrameBufferTarget::FRAMEBUFFER, static_cast<GraphicsAPI::eFrameBufferAttachmentPoint>(GraphicsAPI::eFrameBufferAttachmentPoint::FRAMEBUFFER_ATTACHMENT_POINT_COLOR_ATTACHMENT0 + static_cast<UINT32>(mAttachedColorTextures.size())), GraphicsAPI::eTextureBindTarget::TEXTURE_2D, colorTexture.GetTextureBufferID(), 0);
 
 		mClearBit |= static_cast<UINT32>(GraphicsAPI::eBufferBitType::COLOR_BUFFER);

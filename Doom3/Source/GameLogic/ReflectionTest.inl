@@ -481,7 +481,7 @@ void dooms::GameLogicStartPoint::StartGameLogic()
 					auto entity = currenScene->CreateNewEntity();
 					entity->GetTransform()->SetScale(10.0f, 10.0f, 10.0f);
 					auto y = Random::RandomFloatNumber(-1500.0f, 1500.0f);
-					entity->GetTransform()->SetPosition(Random::RandomFloatNumber(-1500.0f, 1500.0f), y, Random::RandomFloatNumber(-1500.0f, 1500.0f));
+					entity->GetTransform()->SetPosition(Random::RandomFloatNumber(-500.0f, 500.0f), y, Random::RandomFloatNumber(-500.0f, 500.0f));
 					auto meshRenderer = entity->AddComponent<MeshRenderer>();
 					meshRenderer->SetMesh(mesh);
 					meshRenderer->SetMaterial(material1);

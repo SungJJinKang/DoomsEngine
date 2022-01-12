@@ -9,7 +9,7 @@ namespace dooms
 		{
 			GraphicsAPIType_NONE,
 			OpenGL,
-			DX11
+			DX11_10
 		};
 	}
 }
