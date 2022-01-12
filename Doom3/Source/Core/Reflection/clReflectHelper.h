@@ -22,16 +22,16 @@ namespace dooms
 #define CPP_VERSION_COMPILER_OPTION_FOR_CLANG "-std=c++20"
 #endif
 
-		inline static const char* const clReflectAdditionalCompilerOptionsPortable = "-fno-rtti -DUNICODE -D_HAS_STATIC_RTTI=0 -mavx2";
+		inline extern const char* const clReflectAdditionalCompilerOptionsPortable = "-fno-rtti -DUNICODE -D_HAS_STATIC_RTTI=0 -mavx2";
 
-		inline static const char* const clReflectAdditionalCompilerOptionsForScpecificCompiler
+		inline extern const char* const clReflectAdditionalCompilerOptionsForScpecificCompiler
 #if defined(__GNUC__)  || defined( __clang__)
 			= "";
 #elif defined(_MSC_VER)
 			= "-fdiagnostics-format=msvc -fms-extensions -fms-compatibility -mms-bitfields -fdelayed-template-parsing"; //-D_HAS_STATIC_RTTI=0 -> https://stackoverflow.com/questions/47950690/clang-stdfunction-and-fno-rtti
 #endif      // -fms-extensions is important!!
 
-		inline static const char* const clReflectAdditionalCompilerOptions_Configuration
+		inline extern const char* const clReflectAdditionalCompilerOptions_Configuration
 #if defined(DEBUG_MODE)
 			= "_DEBUG";
 #elif defined(RELEASE_MODE)

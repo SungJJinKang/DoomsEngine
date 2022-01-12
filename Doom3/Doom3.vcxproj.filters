@@ -1913,6 +1913,9 @@
     <ClInclude Include="Source\Core\Graphics\GraphicsAPI\Macros\GraphicsAPIMacros.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Core\Reflection\AdditionalDirectoryForClang\cpuid.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="dependency\glfw-3.3.2.bin.WIN64\docs\html\search\all_0.html" />
@@ -2102,7 +2105,6 @@
     <Text Include="Source\Core\Graphics\Acceleration\Culling.md" />
     <Text Include="Source\GameLogic\DeferredRenderingDebug.inl" />
     <Text Include="Source\Core\Reflection\Reflection_Tutorial.txt" />
-    <Text Include="Source\Core\Reflection\DevelopmentPlan.txt" />
   </ItemGroup>
   <ItemGroup>
     <MASM Include="Source\Core\Reflection\ReflectionType\funcCall.asm">

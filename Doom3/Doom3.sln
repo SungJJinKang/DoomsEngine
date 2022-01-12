@@ -1,11 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.30804.86
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.32014.148
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Doom3", "Doom3.vcxproj", "{35FC0630-EA2A-49FD-9AD7-23C2521FF18D}"
 	ProjectSection(ProjectDependencies) = postProject
 		{17B20472-246C-42B3-B9E8-22C9992C69A2} = {17B20472-246C-42B3-B9E8-22C9992C69A2}
+		{9514E175-CE02-4324-9712-4A01BC153065} = {9514E175-CE02-4324-9712-4A01BC153065}
+		{607B18BF-0997-4B4F-885A-D30EE2546EF8} = {607B18BF-0997-4B4F-885A-D30EE2546EF8}
 	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MapEditor", "..\MapEditor\MapEditor.vcxproj", "{9E16B2A1-E376-44FF-82C1-440AC96D7467}"

@@ -23,6 +23,10 @@ namespace dooms
 			clReflectAdditionalCompilerOptionsString.append(" -D");
 			clReflectAdditionalCompilerOptionsString.append(clReflectAdditionalCompilerOptions_Configuration);
 
+			//clReflectAdditionalCompilerOptionsString.append(" -I");
+			//std::filesystem::path additionalDirectoryForClang = ""
+			//clReflectAdditionalCompilerOptionsString.append(dooms::path::_GetCurrentPath(sourceDependencyFolderDirectory.generic_u8string()));
+
 			clReflectAdditionalCompilerOptionsString.append(" -SD");
 			std::filesystem::path sourceDependencyFolderDirectory = ConfigData::GetSingleton()->GetConfigData().GetValue<std::string>("SYSTEM", "SOURCE_DEPENDENCIES_FOLDER_NAME");
 			clReflectAdditionalCompilerOptionsString.append(dooms::path::_GetCurrentPath(sourceDependencyFolderDirectory.generic_u8string()));
