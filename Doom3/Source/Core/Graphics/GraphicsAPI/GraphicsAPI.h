@@ -117,19 +117,21 @@ namespace dooms
 
 				enum ePrimitiveType : unsigned int
 				{
-					POINTS, //= GL_POINTS,
+					NONE = 0, // Never change underlying value. It's used as indef of jump table
+					POINTS = 1, //= GL_POINTS,
 					//LINE_STRIP = GL_LINE_STRIP,
 					//LINE_LOOP = GL_LINE_LOOP,
-					LINES, //= GL_LINES,
+					LINES = 2, //= GL_LINES,
 					//LINE_STRIP_ADJACENCY = GL_LINE_STRIP_ADJACENCY,
 					//LINES_ADJACENCY = GL_LINES_ADJACENCY,
 					//TRIANGLE_STRIP = GL_TRIANGLE_STRIP,
 					//TRIANGLE_FAN = GL_TRIANGLE_FAN,
-					TRIANGLES, //= GL_TRIANGLES,
+					TRIANGLES = 3, //= GL_TRIANGLES,
 					//TRIANGLE_STRIP_ADJACENCY = GL_TRIANGLE_STRIP_ADJACENCY,
 					//TRIANGLES_ADJACENCY = GL_TRIANGLES_ADJACENCY,
 					//PATCHES = GL_PATCHES,
-					NONE = 0XFFFF
+
+					END,
 				};
 
 				enum eBufferTarget : unsigned int

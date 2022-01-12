@@ -1526,6 +1526,14 @@ namespace dooms
 			return data;
 		}
 
+		static unsigned int PrimitiveTypeJumpTable[5] =
+		{
+			(unsigned int)-1,
+			(unsigned int)GL_POINTS,
+			(unsigned int)GL_LINES,
+			(unsigned int)GL_TRIANGLES,
+			(unsigned int)-1,
+		};
 
 		DOOMS_ENGINE_GRAPHICS_API void Draw
 		(
@@ -1534,24 +1542,8 @@ namespace dooms
 			const unsigned int startVertexLocation
 		)
 		{
-			switch (primitiveType)
-			{
-			case GraphicsAPI::POINTS:
-				glDrawArrays(GL_POINTS, startVertexLocation, vertexCount);
-				break;
-
-			case GraphicsAPI::LINES:
-				glDrawArrays(GL_LINES, startVertexLocation, vertexCount);
-				break;
-
-			case GraphicsAPI::TRIANGLES:
-				glDrawArrays(GL_TRIANGLES, startVertexLocation, vertexCount);
-				break;
-
-			default:
-				NEVER_HAPPEN;
-				break;
-			}
+			assert((unsigned int)primitiveType < GraphicsAPI::ePrimitiveType::END);
+			glDrawArrays(PrimitiveTypeJumpTable[(unsigned int)primitiveType], startVertexLocation, vertexCount);
 			opengl::DrawCallCounter++;
 
 		}
@@ -1564,23 +1556,8 @@ namespace dooms
 			const void* const indices
 		)
 		{
-			switch (primitiveType)
-			{
-			case GraphicsAPI::POINTS:
-				glDrawElements(GL_POINTS, indiceCount, GL_UNSIGNED_INT, indices);
-				break;
-
-			case GraphicsAPI::LINES:
-				glDrawElements(GL_LINES, indiceCount, GL_UNSIGNED_INT, indices);
-				break;
-
-			case GraphicsAPI::TRIANGLES:
-				glDrawElements(GL_TRIANGLES, indiceCount, GL_UNSIGNED_INT, indices);
-				break;
-
-			default:
-				NEVER_HAPPEN;
-			}
+			assert((unsigned int)primitiveType < GraphicsAPI::ePrimitiveType::END);
+			glDrawElements(PrimitiveTypeJumpTable[(unsigned int)primitiveType], indiceCount, GL_UNSIGNED_INT, indices);
 			opengl::DrawCallCounter++;
 		}
 
