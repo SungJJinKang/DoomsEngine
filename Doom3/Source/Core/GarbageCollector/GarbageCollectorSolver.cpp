@@ -21,15 +21,11 @@ namespace dooms::gc::garbageCollectorSolver
 	}
 }
 
-void dooms::gc::garbageCollectorSolver::StartSetUnreachableFlagStage(const eGCMethod gcMethod, std::vector<UINT32>& flags)
+void dooms::gc::garbageCollectorSolver::StartSetUnreachableFlagStage(const eGCMethod gcMethod, std::unordered_set<DObject*>& dObjects)
 {
-	UINT32* start = flags.data();
-	const UINT32* const end = flags.data() + flags.size();
-	while(start != end)
+	for(DObject* dObject : dObjects)
 	{
-		// compiler is good at vectorizing this
-		*start |= (dooms::eDObjectFlag::Unreachable | dooms::eDObjectFlag::IsNotCheckedByGC);
-		start++;
+		dObject->SetDObjectFlag(dooms::eDObjectFlag::Unreachable | dooms::eDObjectFlag::IsNotCheckedByGC);
 	}
 }
 
@@ -263,6 +259,8 @@ void dooms::gc::garbageCollectorSolver::StartMarkStage(const eGCMethod gcMethod,
 
 				gcMultithreadCounter.completedOnRootObjectCount++;
 			}
+
+			std::atomic_thread_fence(std::memory_order_seq_cst);
 		};
 
 		std::atomic_thread_fence(std::memory_order_release);

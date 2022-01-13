@@ -9,7 +9,6 @@
 dooms::DObjectsContainer::DObjectsContainer()
 {
     mDObjectList.reserve(DEFUALT_DOBJECT_LIST_RESERVATION_SIZE);
-    mDObjectFlagList.reserve(DEFUALT_DOBJECT_LIST_RESERVATION_SIZE);
 }
 
 bool dooms::DObjectsContainer::IsEmpty() const
@@ -45,17 +44,14 @@ void dooms::DObjectManager::InsertDObjectID(DObject* const dObject, const UINT64
         {
             flagIndex = mDObjectsContainer.mEmptyIndexInFlagList.back();
             mDObjectsContainer.mEmptyIndexInFlagList.pop_back();
-            mDObjectsContainer.mDObjectFlagList[flagIndex] = DAFAULT_DOBJECT_FLAGS;
         }
         else
         {
-            mDObjectsContainer.mDObjectFlagList.push_back(DAFAULT_DOBJECT_FLAGS);
             flagIndex = mDObjectsContainer.mDObjectList.size() - 1;
         }
 
        
 		dObject->mDObjectProperties.mCurrentIndexInDObjectList = flagIndex;
-        D_ASSERT(flagIndex < mDObjectsContainer.mDObjectFlagList.size());
         
     }
 }
@@ -95,9 +91,7 @@ bool dooms::DObjectManager::ReplaceDObjectFromDObjectList(DObject&& originalDObj
     {
         newDObject->mDObjectProperties.mDObjectID = originalDObjectID;
     }
-
-    D_ASSERT(newDObject->mDObjectProperties.mCurrentIndexInDObjectList < mDObjectsContainer.mDObjectFlagList.size());
-    D_ASSERT(originalDObject.mDObjectProperties.mCurrentIndexInDObjectList < mDObjectsContainer.mDObjectFlagList.size());
+    
 
     return true;
 }
@@ -115,7 +109,6 @@ bool dooms::DObjectManager::RemoveDObject(DObject* const dObject)
             std::scoped_lock<std::recursive_mutex> u_lock{ DObjectListMutex };
 
             const size_t index = dObject->mDObjectProperties.mCurrentIndexInDObjectList;
-            D_ASSERT(index < mDObjectsContainer.mDObjectFlagList.size());
 
             mDObjectsContainer.mDObjectList.erase(dObject);
             mDObjectsContainer.mEmptyIndexInFlagList.push_back(index);
@@ -182,7 +175,6 @@ void dooms::DObjectManager::ClearConatiner()
     std::scoped_lock<std::recursive_mutex> u_lock{ DObjectListMutex };
 
     mDObjectsContainer.mDObjectList.~unordered_set();
-    mDObjectsContainer.mDObjectFlagList.~vector();
     mDObjectsContainer.mEmptyIndexInFlagList.~vector();
     
 }
@@ -253,5 +245,10 @@ bool dooms::DObjectManager::IsEmpty()
 size_t dooms::DObjectManager::GetDObjectCount()
 {
     return mDObjectsContainer.mDObjectList.size();
+}
+
+std::unordered_set<dooms::DObject*>& dooms::DObjectManager::GetDObjectList()
+{
+    return mDObjectsContainer.mDObjectList;
 }
 

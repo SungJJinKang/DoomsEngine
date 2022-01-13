@@ -25,7 +25,7 @@ namespace dooms
 				SweepStage
 			};
 
-			void StartSetUnreachableFlagStage(const eGCMethod gcMethod, std::vector<UINT32>& flags);
+			void StartSetUnreachableFlagStage(const eGCMethod gcMethod, std::unordered_set<DObject*>& dObjects);
 
 			void StartMarkStage(const eGCMethod gcMethod, const UINT32 keepFlags, std::vector<dooms::DObject*>& rootDObjectList);
 

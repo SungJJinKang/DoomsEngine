@@ -102,7 +102,7 @@ void dooms::gc::GarbageCollectorManager::ClearFlags(const garbageCollectorSolver
 	D_DEBUG_LOG(eLogType::D_LOG_TYPE12, "Execute GC_ClearFlagsStage");
 	std::scoped_lock<std::recursive_mutex> lock{ dooms::DObjectManager::DObjectListMutex };
 
-	dooms::gc::garbageCollectorSolver::StartSetUnreachableFlagStage(gcMethod, dooms::DObjectManager::mDObjectsContainer.mDObjectFlagList);
+	dooms::gc::garbageCollectorSolver::StartSetUnreachableFlagStage(gcMethod, dooms::DObjectManager::GetDObjectList());
 
 	D_END_PROFILING(GC_ClearFlagsStage);
 }

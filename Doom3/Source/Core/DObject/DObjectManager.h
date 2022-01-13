@@ -29,8 +29,6 @@ namespace dooms
 
 		std::unordered_set<DObject*> mDObjectList;
 
-		// TODO : Move DObject flat into DObject class to prevent data race during multithreaded gc
-		std::vector<UINT32> mDObjectFlagList; // TODO : Can multithreaded gc mark stage cause data race??  ( https://github.com/SungJJinKang/DoomsEngine/blob/main/Doom3/Source/Core/GarbageCollector/GarbageCollectorSolver.cpp ) ( https://stackoverflow.com/q/70352322/17222574 )
 		std::vector<UINT32> mEmptyIndexInFlagList;
 
 		DObjectsContainer();
@@ -41,29 +39,7 @@ namespace dooms
 
 		bool IsEmpty() const;
 
-		FORCE_INLINE UINT32 GetDObjectFlag(const size_t index) const
-		{
-			assert(index < mDObjectFlagList.size());
-			return mDObjectFlagList[index];
-		}
-
-		FORCE_INLINE void SetDObjectFlag(const size_t index, const UINT32 flag)
-		{
-			assert(index < mDObjectFlagList.size());
-			mDObjectFlagList[index] |= flag;
-		}
-
-		FORCE_INLINE void ClearDObjectFlag(const size_t index, const UINT32 flag)
-		{
-			assert(index < mDObjectFlagList.size());
-			mDObjectFlagList[index] &= (~flag);
-		}
-
-		FORCE_INLINE void ResetDObjectFlag(const size_t index, const UINT32 flag)
-		{
-			assert(index < mDObjectFlagList.size());
-			mDObjectFlagList[index] = flag;
-		}
+		
 	};
 
 	class DOOM_API /*D_CLASS*/ DObjectManager
@@ -114,5 +90,6 @@ namespace dooms
 
 		static size_t GetDObjectCount();
 
+		static std::unordered_set<DObject*>& GetDObjectList();
 	};
 }

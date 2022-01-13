@@ -3,6 +3,7 @@
 #include <string>
 #include <cassert>
 #include <type_traits>
+#include <atomic>
 
 #include <Macros/TypeDef.h>
 #include <CompilerMacros.h>
@@ -75,6 +76,7 @@ namespace dooms
 		GENERATE_BODY()
 
 		friend class DObjectManager;
+		
 
 	public:
 
@@ -108,6 +110,9 @@ namespace dooms
 			D_PROPERTY(INVISIBLE)
 			INT64 mCurrentIndexInDObjectList;
 
+			D_PROPERTY(INVISIBLE)
+			std::atomic<UINT64> mDObjectFlag;
+
 			D_PROPERTY(READONLY)
 			INT64 mDObjectID;
 			
@@ -117,7 +122,12 @@ namespace dooms
 			const DObject* mOwnerDObject;
 
 			DObjectProperties()
-				: mCurrentIndexInDObjectList(INVALID_CURRENT_INDEX_IN_DOBJECT_LIST), mDObjectID(INVALID_DOBJECT_ID), mDObjectName(), mOwnerDObject(nullptr)
+				:
+			mCurrentIndexInDObjectList(INVALID_CURRENT_INDEX_IN_DOBJECT_LIST),
+			mDObjectID(INVALID_DOBJECT_ID),
+			mDObjectName(),
+			mOwnerDObject(nullptr),
+			mDObjectFlag(DAFAULT_DOBJECT_FLAGS)
 			{
 				
 			}
@@ -159,8 +169,7 @@ namespace dooms
 
 		void CopyFlagsToThisDObject(const UINT32 flags);
 
-
-
+	
 		
 
 	protected:
@@ -206,44 +215,38 @@ namespace dooms
 		}
 
 		D_FUNCTION()
-		FORCE_INLINE UINT32 GetDObjectFlag() const
+		FORCE_INLINE UINT64 GetDObjectFlag(const std::memory_order memoryOrder = std::memory_order_seq_cst) const
 		{
-			assert(mDObjectProperties.mCurrentIndexInDObjectList != INVALID_CURRENT_INDEX_IN_DOBJECT_LIST);
-			return dooms::DObjectManager::mDObjectsContainer.GetDObjectFlag(mDObjectProperties.mCurrentIndexInDObjectList);
+			return mDObjectProperties.mDObjectFlag.load(memoryOrder);
 		}
 
 		D_FUNCTION()
-		FORCE_INLINE bool GetDObjectFlag(const UINT32 flag) const
+		FORCE_INLINE bool GetDObjectFlag(const UINT64 flag, const std::memory_order memoryOrder = std::memory_order_seq_cst) const
 		{
-			assert(mDObjectProperties.mCurrentIndexInDObjectList != INVALID_CURRENT_INDEX_IN_DOBJECT_LIST);
-			return (dooms::DObjectManager::mDObjectsContainer.GetDObjectFlag(mDObjectProperties.mCurrentIndexInDObjectList) & flag) != 0;
+			return (GetDObjectFlag(memoryOrder) & flag) != 0;
 		}
 		
 		D_FUNCTION()
-		FORCE_INLINE void SetDObjectFlag(const UINT32 flag)
+		FORCE_INLINE void SetDObjectFlag(const UINT64 flag, const std::memory_order memoryOrder = std::memory_order_seq_cst)
 		{
-			assert(mDObjectProperties.mCurrentIndexInDObjectList != INVALID_CURRENT_INDEX_IN_DOBJECT_LIST);
-			dooms::DObjectManager::mDObjectsContainer.SetDObjectFlag(mDObjectProperties.mCurrentIndexInDObjectList, flag);
+			mDObjectProperties.mDObjectFlag |= flag;
 		}
 
 		D_FUNCTION()
-		FORCE_INLINE void ClearDObjectFlag(const UINT32 flag)
+		FORCE_INLINE void ClearDObjectFlag(const UINT64 flag, const std::memory_order memoryOrder = std::memory_order_seq_cst)
 		{
-			assert(mDObjectProperties.mCurrentIndexInDObjectList != INVALID_CURRENT_INDEX_IN_DOBJECT_LIST);
-			dooms::DObjectManager::mDObjectsContainer.ClearDObjectFlag(mDObjectProperties.mCurrentIndexInDObjectList, flag);
+			mDObjectProperties.mDObjectFlag &= (~flag);
 		}
 
 		D_FUNCTION()
-		FORCE_INLINE void ResetDObjectFlag(const UINT32 flag)
+		FORCE_INLINE void ResetDObjectFlag(const UINT64 flag, const std::memory_order memoryOrder = std::memory_order_seq_cst)
 		{
-			assert(mDObjectProperties.mCurrentIndexInDObjectList != INVALID_CURRENT_INDEX_IN_DOBJECT_LIST);
-			dooms::DObjectManager::mDObjectsContainer.ResetDObjectFlag(mDObjectProperties.mCurrentIndexInDObjectList, flag);
+			mDObjectProperties.mDObjectFlag.store(flag, memoryOrder);
 		}
 
 		D_FUNCTION()
-		FORCE_INLINE bool HasDObjectFlag(const UINT32 flag)
+		FORCE_INLINE bool HasDObjectFlag(const UINT64 flag, const std::memory_order memoryOrder = std::memory_order_seq_cst)
 		{
-			assert(mDObjectProperties.mCurrentIndexInDObjectList != INVALID_CURRENT_INDEX_IN_DOBJECT_LIST);
 			return (GetDObjectFlag() & flag) == flag;
 		}
 
