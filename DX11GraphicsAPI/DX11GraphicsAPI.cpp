@@ -59,7 +59,7 @@ namespace dooms
 
 		namespace dx11
 		{
-            inline static DXGI_FORMAT ConvertTextureInternalFormat_To_DXGI_FORMAT(const GraphicsAPI::eTextureInternalFormat internalFormat)
+            FORCE_INLINE static DXGI_FORMAT ConvertTextureInternalFormat_To_DXGI_FORMAT(const GraphicsAPI::eTextureInternalFormat internalFormat)
             {
                 // reference ( opengl format, dxgi table : https://chromium.googlesource.com/angle/angle/+/6ea6f9424890b2a443fafb940ba27e902b4e9157/src/libANGLE/renderer/d3d/d3d11/texture_format_util.cpp )
 	            switch(internalFormat)
@@ -164,7 +164,7 @@ namespace dooms
 	            }
             }
 
-            inline static DXGI_FORMAT ConvertTextureCompressedInternalFormat_To_DXGI_FORMAT(const GraphicsAPI::eTextureCompressedInternalFormat textureInternalFormat)
+            FORCE_INLINE static DXGI_FORMAT ConvertTextureCompressedInternalFormat_To_DXGI_FORMAT(const GraphicsAPI::eTextureCompressedInternalFormat textureInternalFormat)
             {
 	            switch (textureInternalFormat)
 	            {
@@ -201,7 +201,7 @@ namespace dooms
 	            }
             }
 
-            inline static D3D11_DSV_DIMENSION ConvertTextureBindTarget_To_D3D11_DSV_DIMENSION(const GraphicsAPI::eTextureBindTarget textureBindTarget)
+            FORCE_INLINE static D3D11_DSV_DIMENSION ConvertTextureBindTarget_To_D3D11_DSV_DIMENSION(const GraphicsAPI::eTextureBindTarget textureBindTarget)
             {
                 switch (textureBindTarget)
                 {
