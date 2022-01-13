@@ -8,9 +8,37 @@
 
 #include "ReflectionType/ToString.h"
 
+#include "ReflectionType/DClass.h"
+
 #ifdef DEBUG_MODE
 #include "Test/ReflectionTest.h"
 #endif
+
+void dooms::reflection::ReflectionManager::CacheReflectionTypeDatas()
+{
+	// This is for multithreaded gc
+
+	{
+		unsigned int reflectedTypeCount;
+		const clcpp::Type** const reflectedTypes = mReflectionDatabase.GetTypes(reflectedTypeCount);
+		for (unsigned int i = 0; i < reflectedTypeCount; i++)
+		{
+			DType dType{ reflectedTypes[i] };
+			dType.GetIsDerivedFromDObject();
+
+			if (reflectedTypes[i]->kind == clcpp::Primitive::KIND_CLASS)
+			{
+				DClass dClass{ reflectedTypes[i]->AsClass() };
+
+				dClass.GetDFunctionList();
+				dClass.GetDFieldList();
+			}
+		}
+	}
+
+	
+	
+}
 
 dooms::reflection::ReflectionManager::ReflectionManager()
 	: mAllocatorForLoadingReflectionData(), mReflectionDatabase()
@@ -130,7 +158,7 @@ void dooms::reflection::ReflectionManager::Initialize()
 #ifdef DEBUG_MODE
 		clReflectTest::test(mReflectionDatabase);
 #endif
-
+		CacheReflectionTypeDatas();
 	}
 	else
 	{

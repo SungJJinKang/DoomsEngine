@@ -20,6 +20,9 @@ namespace dooms
 			utility::Malloc mAllocatorForLoadingReflectionData;
 			clcpp::Database mReflectionDatabase;
 
+
+			void CacheReflectionTypeDatas();
+
 		public:
 			
 			ReflectionManager();
