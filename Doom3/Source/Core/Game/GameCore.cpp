@@ -70,12 +70,16 @@ void dooms::GameCore::Init()
 
 
 
-	gc::GarbageCollectorManager::Collect(gc::garbageCollectorSolver::eGCMethod::SingleThreadMark);
+	gc::GarbageCollectorManager::Collect(gc::garbageCollectorSolver::eGCMethod::MultiThreadMark);
 	dooms::gc::GarbageCollectorManager::ResetElapsedTime();
 }
 
 void dooms::GameCore::InitServers()
 {
+	D_START_PROFILING(Init_ReflectionManager, eProfileLayers::CPU);
+	mReflectionManager.Initialize();
+	D_END_PROFILING(Init_ReflectionManager);
+
 	D_START_PROFILING(LoadGraphisAPI, eProfileLayers::CPU);
 	mGraphics_Server.InitializeGraphicsAPI();
 	D_END_PROFILING(LoadGraphisAPI);
@@ -83,7 +87,6 @@ void dooms::GameCore::InitServers()
 	D_START_PROFILING(mJobSystem_Init, eProfileLayers::CPU);
 	mJobSystem.Init();
 	D_END_PROFILING(mJobSystem_Init);
-
 
 	D_START_PROFILING(mTime_Server_Init, eProfileLayers::CPU);
 	mTime_Server.Init();
@@ -107,9 +110,7 @@ void dooms::GameCore::InitServers()
 	mAssetManager.Init();
 	D_END_PROFILING(Init_AssetManager);
 
-	D_START_PROFILING(Init_ReflectionManager, eProfileLayers::CPU);
-	mReflectionManager.Initialize();
-	D_END_PROFILING(Init_ReflectionManager);
+	
 
 
 	D_START_PROFILING(Init_mGarbageCollectorManager, eProfileLayers::CPU);
