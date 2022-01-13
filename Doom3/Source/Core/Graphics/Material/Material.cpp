@@ -2,6 +2,7 @@
 
 #include <Asset/ShaderAsset.h>
 
+#include <Graphics/GraphicsAPI/Manager/GraphicsAPIManager.h>
 #include "FixedMaterial.h"
 #include "../Buffer/UniformBufferObjectManager.h"
 #include <Asset/TextureAsset.h>
@@ -18,28 +19,24 @@ void Material::SetShaderAsset(::dooms::asset::ShaderAsset* shaderAsset)
 	mShaderAsset = shaderAsset;
 
 	D_ASSERT(mProgramID.IsValid() == false); // error : you're overlapping program
-
-	UINT32 vertexId = shaderAsset->GetVertexId();
-	UINT32 fragmentId = shaderAsset->GetFragmentId();
-	UINT32 geometryId = shaderAsset->GetGeometryId();
-	D_ASSERT(vertexId != 0 || fragmentId != 0 || geometryId != 0);
+	D_ASSERT(shaderAsset->GetVertexId().IsValid() || shaderAsset->GetFragmentId().IsValid() || shaderAsset->GetGeometryId().IsValid());
 
 
 	mProgramID = GraphicsAPI::CreateMaterial();
 
-	if (vertexId != 0)
+	if (shaderAsset->GetVertexId().IsValid())
 	{
-		GraphicsAPI::AttachShaderToMaterial(mProgramID, vertexId);
+		GraphicsAPI::AttachShaderToMaterial(mProgramID, shaderAsset->GetVertexId());
 	}
 
-	if (fragmentId != 0)
+	if (shaderAsset->GetFragmentId().IsValid())
 	{
-		GraphicsAPI::AttachShaderToMaterial(mProgramID, fragmentId);
+		GraphicsAPI::AttachShaderToMaterial(mProgramID, shaderAsset->GetFragmentId());
 	}
 
-	if (geometryId != 0)
+	if (shaderAsset->GetGeometryId().IsValid())
 	{
-		GraphicsAPI::AttachShaderToMaterial(mProgramID, geometryId);
+		GraphicsAPI::AttachShaderToMaterial(mProgramID, shaderAsset->GetGeometryId());
 	}
 
 	const bool isSuccessLinkMaterial = GraphicsAPI::LinkMaterial(mProgramID);
@@ -51,7 +48,7 @@ void Material::SetShaderAsset(::dooms::asset::ShaderAsset* shaderAsset)
 }
 
 
-dooms::graphics::Material::Material() : mProgramID{ INVALID_BUFFER_ID }, mShaderAsset{ nullptr }
+dooms::graphics::Material::Material() : mProgramID{ }, mShaderAsset{ nullptr }
 {
 }
 
@@ -124,7 +121,23 @@ void dooms::graphics::Material::UseProgram() const
 					mTargetTextures[i]->BindTextureWithUnit(i);
 				}
 			}
-			GraphicsAPI::BindMaterial(mProgramID);
+
+			if(GraphicsAPIManager::GetGraphicsAPIType() == eGraphicsAPIType::DX11_10)
+			{
+				const UINT64 vertexShader = GetShaderAsset()->GetVertexId();
+				if(vertexShader != NULL)
+				{
+					GraphicsAPI::BindMaterial(vertexShader);
+				}
+				
+				GraphicsAPI::BindMaterial(GetShaderAsset()->GetFragmentId());
+				GraphicsAPI::BindMaterial(GetShaderAsset()->GetGeometryId());
+			}
+			else if (GraphicsAPIManager::GetGraphicsAPIType() == eGraphicsAPIType::OpenGL)
+			{
+				GraphicsAPI::BindMaterial(mProgramID);
+			}
+			
 		}
 	}
 
@@ -176,5 +189,10 @@ void Material::InitUniformBufferObject()
 		*/
 	}
 
+}
+
+const dooms::asset::ShaderAsset* Material::GetShaderAsset() const
+{
+	return mShaderAsset;
 }
 

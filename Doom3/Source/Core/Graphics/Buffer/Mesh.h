@@ -209,9 +209,9 @@ namespace dooms
 			const physics::Sphere& GetBoundingSphere() const;
 
 			D_FUNCTION()
-			UINT32 GetVertexArrayObjectID() const;
+			const BufferID& GetVertexArrayObjectID() const;
 			D_FUNCTION()
-			UINT32 GetElementBufferObjectID() const;
+			const BufferID& GetElementBufferObjectID() const;
 		};
 	}
 }

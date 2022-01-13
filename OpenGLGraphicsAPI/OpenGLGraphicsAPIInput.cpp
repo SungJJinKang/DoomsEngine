@@ -26,7 +26,7 @@ namespace dooms
 			static input::GraphicsAPIInput::Key_Callback mKey_Callback = nullptr;
 			static input::GraphicsAPIInput::MouseButton_Callback mMouseButton_Callback = nullptr;
 
-			inline extern dooms::input::GraphicsAPIInput::eKEY_CODE Convert_GLKeyCode_To_eKeyCode(const unsigned int keyCode)
+			FORCE_INLINE extern dooms::input::GraphicsAPIInput::eKEY_CODE Convert_GLKeyCode_To_eKeyCode(const unsigned int keyCode)
 			{
 				switch (keyCode)
 				{
@@ -276,7 +276,7 @@ namespace dooms
 			}
 
 
-			inline extern unsigned int Convert_eKeyCode_To_GLKeyCode(const dooms::input::GraphicsAPIInput::eKEY_CODE keyCode)
+			FORCE_INLINE extern unsigned int Convert_eKeyCode_To_GLKeyCode(const dooms::input::GraphicsAPIInput::eKEY_CODE keyCode)
 			{
 				switch (keyCode)
 				{
@@ -527,7 +527,7 @@ namespace dooms
 			}
 
 
-			inline extern unsigned int Convert_eMouseInput_To_GLFWMouseInput(const dooms::input::GraphicsAPIInput::eMoustInput mouseInput)
+			FORCE_INLINE extern unsigned int Convert_eMouseInput_To_GLFWMouseInput(const dooms::input::GraphicsAPIInput::eMoustInput mouseInput)
 			{
 				switch (mouseInput)
 				{
@@ -543,7 +543,7 @@ namespace dooms
 				}
 			}
 
-			inline extern dooms::input::GraphicsAPIInput::eMoustInput Convert_GLFWMouseInput_To_eMouseInput(const unsigned int glfwMouseInput)
+			FORCE_INLINE extern dooms::input::GraphicsAPIInput::eMoustInput Convert_GLFWMouseInput_To_eMouseInput(const unsigned int glfwMouseInput)
 			{
 				switch (glfwMouseInput)
 				{
@@ -565,7 +565,7 @@ namespace dooms
 				CURSOR_MODE_DISABLED,
 			};
 
-			inline extern unsigned int GetGLCursorMode(const dooms::input::GraphicsAPIInput::eCursorMode cursorMode)
+			FORCE_INLINE extern unsigned int GetGLCursorMode(const dooms::input::GraphicsAPIInput::eCursorMode cursorMode)
 			{
 				switch (cursorMode)
 				{
@@ -581,7 +581,7 @@ namespace dooms
 				}
 			}
 
-			inline extern input::GraphicsAPIInput::eInputActionType Convert_GLFWInputAction_To_eInputActionType(const unsigned int action)
+			FORCE_INLINE extern input::GraphicsAPIInput::eInputActionType Convert_GLFWInputAction_To_eInputActionType(const unsigned int action)
 			{
 				switch (action)
 				{

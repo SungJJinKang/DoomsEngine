@@ -172,7 +172,7 @@ namespace dooms
 			void InitializeTexture(GraphicsAPI::eTextureType textureType, GraphicsAPI::eTextureBindTarget bindTarget,
 				GraphicsAPI::eTargetTexture targetTexture, GraphicsAPI::eTextureInternalFormat internalFormat, GraphicsAPI::eTextureCompressedInternalFormat compressedInternalFormat, UINT32 width, UINT32 height, GraphicsAPI::eTextureComponentFormat format, GraphicsAPI::eDataType type);
 
-			UINT32 GetBufferID() const
+			const BufferID& GetBufferID() const
 			{
 				return mBufferID;
 			}
@@ -237,7 +237,7 @@ namespace dooms
 				INT32 level, const void* data
 			) const  = 0;
 
-			UINT32 GetTextureBufferID() const;
+			const BufferID& GetTextureBufferID() const;
 
 			void SetWrapMode(GraphicsAPI::eWrapMode wrapMode, bool bBind);
 			void SetFilterMin(GraphicsAPI::eFilterMode filterMode, bool bBind);

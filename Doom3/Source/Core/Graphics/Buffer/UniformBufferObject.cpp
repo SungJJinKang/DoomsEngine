@@ -32,10 +32,8 @@ void dooms::graphics::UniformBufferObject::GenerateUniformBufferObject(UINT32 bi
 	{
 		Buffer::GenBuffer();
 
-		BindBuffer();
-
-		GraphicsAPI::AllocateBufferMemory(GraphicsAPI::eBufferTarget::UNIFORM_BUFFER, uniformBlockSizeInByte, NULL);
-		GraphicsAPI::UpdateDataToBuffer(GraphicsAPI::eBufferTarget::UNIFORM_BUFFER, 0, uniformBlockSizeInByte, 0);
+		GraphicsAPI::AllocateBufferMemory(mBufferID, GraphicsAPI::eBufferTarget::UNIFORM_BUFFER, uniformBlockSizeInByte, NULL);
+		GraphicsAPI::UpdateDataToBuffer(mBufferID, GraphicsAPI::eBufferTarget::UNIFORM_BUFFER, 0, uniformBlockSizeInByte, 0);
 		GraphicsAPI::BindBufferToIndexedBuffer(GraphicsAPI::eBufferTarget::UNIFORM_BUFFER, bindingPoint, mBufferID);
 
 		mSizeInByte = uniformBlockSizeInByte;
@@ -61,8 +59,7 @@ void dooms::graphics::UniformBufferObject::BufferData() noexcept
 	D_ASSERT(IsBufferGenerated() == true);
 	if (IsBufferGenerated() == true && bmIsDirty == true)
 	{
-		BindBuffer();
-		GraphicsAPI::UpdateDataToBuffer(GraphicsAPI::eBufferTarget::UNIFORM_BUFFER, 0, mSizeInByte, mUniformBufferTempData);
+		GraphicsAPI::UpdateDataToBuffer(mBufferID, GraphicsAPI::eBufferTarget::UNIFORM_BUFFER, 0, mSizeInByte, mUniformBufferTempData);
 		bmIsDirty = false;
 	}
 }
@@ -72,8 +69,7 @@ void dooms::graphics::UniformBufferObject::BufferSubData(const void* sourceData,
 	D_ASSERT(IsBufferGenerated() == true);
 	if (IsBufferGenerated() == true)
 	{
-		BindBuffer();
-		GraphicsAPI::UpdateDataToBuffer(GraphicsAPI::eBufferTarget::UNIFORM_BUFFER, offsetInUniformBlock, sizeOfSourceData, sourceData);
+		GraphicsAPI::UpdateDataToBuffer(mBufferID, GraphicsAPI::eBufferTarget::UNIFORM_BUFFER, offsetInUniformBlock, sizeOfSourceData, sourceData);
 		bmIsDirty = false;
 	}
 }

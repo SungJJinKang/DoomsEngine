@@ -278,7 +278,7 @@ INT32 Texture::GetTextureBufferSizeStatic
 }
 
 
-UINT32 Texture::GetTextureBufferID() const
+const BufferID& Texture::GetTextureBufferID() const
 {
 	D_ASSERT(mBufferID.IsValid());
 	return mBufferID;

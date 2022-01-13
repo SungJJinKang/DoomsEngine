@@ -1,7 +1,7 @@
 #include "Buffer.h"
 #include "../GraphicsAPI/GraphicsAPI.h"
 
-dooms::graphics::Buffer::Buffer() : mBufferID{ INVALID_BUFFER_ID }
+dooms::graphics::Buffer::Buffer() : mBufferID{ }
 {
 }
 
@@ -11,9 +11,7 @@ void dooms::graphics::Buffer::GenBuffer()
 {
 	if (mBufferID.IsValid() == false)
 	{
-		unsigned bufferID;
-		GraphicsAPI::CreateBuffers(1, &bufferID);
-		mBufferID = bufferID;
+		mBufferID = GraphicsAPI::CreateBuffer();
 	}
 
 }

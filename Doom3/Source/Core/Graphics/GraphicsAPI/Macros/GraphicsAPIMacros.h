@@ -1,12 +1,6 @@
 #pragma once
 
-#ifdef  DOOMS_ENGINE_DLL_EXPORT 
-/*Enabled as "export" while compiling the dll project*/
-#define DOOMS_ENGINE __declspec(dllexport)  
-#else
-/*Enabled as "import" in the Client side for using already created dll file*/
-#define DOOMS_ENGINE __declspec(dllimport)  
-#endif
+#include <CompilerMacros.h>
 
 #if defined(_WIN32) && !defined(DOOMS_ENGINE_API_ENTRY) && !defined(__CYGWIN__) && !defined(__SCITECH_SNAP__)
 #define DOOMS_ENGINE_API_ENTRY __stdcall

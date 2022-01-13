@@ -41,10 +41,8 @@ bool RenderBuffer::CreateRenderBuffer(FrameBuffer& ownerFrameBuffer, GraphicsAPI
 		mHeight = height;
 
 		ownerFrameBuffer.BindFrameBuffer();
-
-		unsigned int buffer;
-		GraphicsAPI::CreateRenderBufferObject(1, &buffer);
-		mRenderBufferID = buffer;
+		
+		mRenderBufferID = GraphicsAPI::CreateRenderBufferObject();
 		BindRenderBuffer();
 
 

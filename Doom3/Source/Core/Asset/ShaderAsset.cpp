@@ -14,19 +14,19 @@ const std::string dooms::asset::ShaderAsset::GeometryShaderMacros = "#GEOMETRY";
 
 
 dooms::asset::ShaderAsset::ShaderAsset()
-	: mVertexId(0), mFragmentId(0), mGeometryId(0)
+	: mVertexId(), mFragmentId(), mGeometryId()
 {
 }
 
 dooms::asset::ShaderAsset::ShaderAsset(const std::string& shaderStr)
-	: mVertexId(0), mFragmentId(0), mGeometryId(0)
+	: mVertexId(), mFragmentId(), mGeometryId()
 {
 	SetShaderText(shaderStr, false);
 	CompileShaders();
 }
 
 dooms::asset::ShaderAsset::ShaderAsset(ShaderText shaderText)
-	:mShaderText(std::move(shaderText)), mVertexId(0), mFragmentId(0), mGeometryId(0)
+	:mShaderText(std::move(shaderText)), mVertexId(), mFragmentId(), mGeometryId()
 {
 	CompileShaders();
 }
@@ -35,9 +35,9 @@ dooms::asset::ShaderAsset::ShaderAsset(ShaderAsset&& shader) noexcept
 	: Asset(std::move(shader)), mVertexId{ shader.mVertexId }, mFragmentId{ shader.mFragmentId }, mGeometryId{ shader.mGeometryId }, 
 	mShaderText{ std::move(shader.mShaderText) }
 {
-	shader.mVertexId = 0;
-	shader.mFragmentId = 0;
-	shader.mGeometryId = 0;
+	shader.mVertexId.Reset();
+	shader.mFragmentId.Reset();
+	shader.mGeometryId.Reset();
 }
 
 dooms::asset::ShaderAsset& dooms::asset::ShaderAsset::operator=(ShaderAsset&& shader) noexcept
@@ -45,13 +45,13 @@ dooms::asset::ShaderAsset& dooms::asset::ShaderAsset::operator=(ShaderAsset&& sh
 	Base::operator=(std::move(shader));
 
 	mVertexId = shader.mVertexId;
-	shader.mVertexId = 0;
+	shader.mVertexId.Reset();
 
 	mFragmentId = shader.mFragmentId;
-	shader.mFragmentId = 0;
+	shader.mFragmentId.Reset();
 
 	mGeometryId = shader.mGeometryId;
-	shader.mGeometryId = 0;
+	shader.mGeometryId.Reset();
 
 	mShaderText = std::move(shader.mShaderText);
 
@@ -71,22 +71,22 @@ void dooms::asset::ShaderAsset::OnSetPendingKill()
 
 void dooms::asset::ShaderAsset::DeleteShaders()
 {
-	if (mVertexId != 0)
+	if (mVertexId.IsValid())
 	{
 		graphics::GraphicsAPI::DestroyShaderObject(mVertexId);
-		mVertexId = 0;
+		mVertexId.Reset();
 	}
 
-	if (mFragmentId != 0)
+	if (mFragmentId.IsValid())
 	{
 		graphics::GraphicsAPI::DestroyShaderObject(mFragmentId);
-		mFragmentId = 0;
+		mFragmentId.Reset();
 	}
 
-	if (mGeometryId != 0)
+	if (mGeometryId.IsValid())
 	{
 		graphics::GraphicsAPI::DestroyShaderObject(mGeometryId);
-		mGeometryId = 0;
+		mGeometryId.Reset();
 	}
 }
 
@@ -101,9 +101,9 @@ void dooms::asset::ShaderAsset::SetShaderText(const std::string& shaderStr, cons
 
 void dooms::asset::ShaderAsset::CompileShaders()
 {
-	mVertexId = 0;
-	mFragmentId = 0;
-	mGeometryId = 0;
+	mVertexId.Reset();
+	mFragmentId.Reset();
+	mGeometryId.Reset();
 
 	D_ASSERT(
 		mShaderText.mVertexShaderText.empty() == false ||
@@ -129,13 +129,13 @@ void dooms::asset::ShaderAsset::CompileShaders()
 	
 }
 
-void dooms::asset::ShaderAsset::CompileSpecificShader(const std::string& shaderStr, graphics::GraphicsAPI::eShaderType shaderType, UINT32& shaderId)
+void dooms::asset::ShaderAsset::CompileSpecificShader(const std::string& shaderStr, graphics::GraphicsAPI::eShaderType shaderType, dooms::graphics::BufferID& shaderId)
 {
 	UINT32 shaderTypeFlag{};
 	shaderId = graphics::GraphicsAPI::CreateShaderObject(shaderType);
 
 	const char* shaderCode = shaderStr.c_str();
-	graphics::GraphicsAPI::CompileShader(shaderId, shaderCode);
+	graphics::GraphicsAPI::CompileShader(shaderId, shaderType, shaderCode);
 
 /*
 #ifdef DEBUG_MODE
@@ -369,57 +369,12 @@ void dooms::asset::ShaderAsset::checkCompileError(UINT32& id, ShaderType shaderT
 #endif
 */
 
-bool dooms::asset::ShaderAsset::GetIsValid() const
-{
-	return mVertexId || mFragmentId || mGeometryId;
-}
-
-bool dooms::asset::ShaderAsset::GetIsValid(const graphics::GraphicsAPI::eShaderType shaderType) const
-{
-	bool isValid = false;
-
-	switch (shaderType)
-	{
-	case graphics::GraphicsAPI::eShaderType::Vertex:
-		isValid = (mVertexId != 0);
-		break;
-
-	case graphics::GraphicsAPI::eShaderType::Fragment:
-		isValid = (mFragmentId != 0);
-		break;
-
-	case graphics::GraphicsAPI::eShaderType::Geometry:
-		isValid = (mGeometryId != 0);
-		break;
-
-	case graphics::GraphicsAPI::eShaderType::ShaderType_None:
-		D_ASSERT(false);
-		break;
-	}
-
-	return isValid;
-}
 
 void dooms::asset::ShaderAsset::OnEndImportInMainThread_Internal()
 {
 	D_START_PROFILING(Compile_Shader, eProfileLayers::Rendering);
 	CompileShaders();
 	D_END_PROFILING(Compile_Shader);
-}
-
-UINT32 dooms::asset::ShaderAsset::GetVertexId() const
-{
-	return mVertexId;
-}
-
-UINT32 dooms::asset::ShaderAsset::GetFragmentId() const
-{
-	return mFragmentId;
-}
-
-UINT32 dooms::asset::ShaderAsset::GetGeometryId() const
-{
-	return mGeometryId;
 }
 
 dooms::graphics::Material dooms::asset::ShaderAsset::CreateMatrialWithThisShader()
@@ -434,11 +389,7 @@ dooms::asset::eAssetType dooms::asset::ShaderAsset::GetEAssetType() const
 
 bool dooms::asset::ShaderAsset::GetIsShaderCompiled() const
 {
-	const UINT32 vertexId = GetVertexId();
-	const UINT32 fragmentId = GetFragmentId();
-	const UINT32 geometryId = GetGeometryId();
-
-	return (vertexId != 0 || fragmentId != 0 || geometryId != 0);
+	return (GetVertexId().IsValid() || GetFragmentId().IsValid() || GetGeometryId().IsValid());
 }
 
 dooms::asset::ShaderAsset::ShaderText::ShaderText(

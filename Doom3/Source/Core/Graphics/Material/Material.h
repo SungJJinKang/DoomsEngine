@@ -281,6 +281,8 @@ namespace dooms
 			/// <returns>0 ~ return value</returns>
 			INT32 GetUniformBlocksCount() const;
 			void InitUniformBufferObject();
+			
+			const dooms::asset::ShaderAsset* GetShaderAsset() const;
 		};
 	}
 }

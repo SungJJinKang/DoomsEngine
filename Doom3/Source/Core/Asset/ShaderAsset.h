@@ -4,6 +4,7 @@
 
 #include "Asset.h"
 #include <Graphics/GraphicsAPI/GraphicsAPI.h>
+#include <Graphics/Buffer/BufferID.h>
 
 #include "ShaderAsset.reflection.h"
 namespace dooms
@@ -65,13 +66,13 @@ namespace dooms
 			bool bmIsShaderCompiled{ false };
 			
 			D_PROPERTY()
-			UINT32 mVertexId;
+			dooms::graphics::BufferID mVertexId;
 
 			D_PROPERTY()
-			UINT32 mFragmentId;
+			dooms::graphics::BufferID mFragmentId;
 
 			D_PROPERTY()
-			UINT32 mGeometryId;
+			dooms::graphics::BufferID mGeometryId;
 
 
 
@@ -79,7 +80,7 @@ namespace dooms
 			/// Don't call this subthread, Should Call this at mainthread
 			/// </summary>
 			void CompileShaders();
-			void CompileSpecificShader(const std::string& shaderStr, graphics::GraphicsAPI::eShaderType shaderType, UINT32& shaderId);
+			void CompileSpecificShader(const std::string& shaderStr, graphics::GraphicsAPI::eShaderType shaderType, dooms::graphics::BufferID& shaderId);
 			void ClassifyShader(const std::string& shaderText);
 			bool CheckIsSharpInclude(const std::string& str);
 			/// <summary>
@@ -94,14 +95,7 @@ namespace dooms
 			void checkCompileError(UINT32& id, ShaderType shaderType);
 #endif
 */
-
-			/// <summary>
-			/// return shader is valid??
-			/// </summary>
-			/// <returns></returns>
-			bool GetIsValid() const;
-			bool GetIsValid(const graphics::GraphicsAPI::eShaderType shaderType) const;
-
+			
 		protected:
 
 
@@ -130,9 +124,29 @@ namespace dooms
 
 			void OnEndImportInMainThread_Internal() final;
 
-			UINT32 GetVertexId() const;
-			UINT32 GetFragmentId() const;
-			UINT32 GetGeometryId() const;
+			FORCE_INLINE const dooms::graphics::BufferID& GetVertexId() const
+			{
+				return mVertexId;
+			}
+			FORCE_INLINE bool IsVertexShaderExist() const
+			{
+				return mVertexId.IsValid();
+			}
+			FORCE_INLINE const dooms::graphics::BufferID& GetFragmentId() const
+			{
+				return mFragmentId;
+			}
+			FORCE_INLINE bool IsFramgmentShaderExist() const {
+				return mFragmentId.IsValid();
+			}
+			FORCE_INLINE const dooms::graphics::BufferID& GetGeometryId() const
+			{
+				return mGeometryId;
+			}
+			FORCE_INLINE bool IsGeometryShaderExist() const
+			{
+				return mGeometryId.IsValid();
+			}
 
 			graphics::Material CreateMatrialWithThisShader();
 

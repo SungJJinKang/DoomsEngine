@@ -4,13 +4,13 @@
 #include "../Asset/ThreeDModelAsset.h"
 
 dooms::graphics::Mesh::Mesh()
-	: Buffer(), mVertexArrayObjectID{ INVALID_BUFFER_ID }, mElementBufferObjectID{ INVALID_BUFFER_ID }, mNumOfVertices{ 0 }, mNumOfIndices{ 0 }, mPrimitiveType{ GraphicsAPI::ePrimitiveType::NONE }
+	: Buffer(), mVertexArrayObjectID{ }, mElementBufferObjectID{ }, mNumOfVertices{ 0 }, mNumOfIndices{ 0 }, mPrimitiveType{ GraphicsAPI::ePrimitiveType::NONE }
 {
 
 }
 
 dooms::graphics::Mesh::Mesh(const long long int dataCount, const void* data, GraphicsAPI::ePrimitiveType primitiveType, UINT32 vertexArrayFlag) noexcept
-	: Buffer(), mTargetThreeDModelMesh{ nullptr }, mVertexArrayObjectID{ INVALID_BUFFER_ID }, mElementBufferObjectID{ INVALID_BUFFER_ID }
+	: Buffer(), mTargetThreeDModelMesh{ nullptr }, mVertexArrayObjectID{ }, mElementBufferObjectID{ }
 {
 	GenMeshBuffer(false);
 	BufferData(dataCount, data, primitiveType, vertexArrayFlag);
@@ -18,7 +18,7 @@ dooms::graphics::Mesh::Mesh(const long long int dataCount, const void* data, Gra
 
 
 dooms::graphics::Mesh::Mesh(const ThreeDModelMesh& threeDModelMesh) noexcept
-	: Buffer(), mNumOfVertices{ 0 }, mNumOfIndices{ 0 }, mTargetThreeDModelMesh{&threeDModelMesh}, mVertexArrayObjectID{ INVALID_BUFFER_ID }, mElementBufferObjectID{ INVALID_BUFFER_ID }
+	: Buffer(), mNumOfVertices{ 0 }, mNumOfIndices{ 0 }, mTargetThreeDModelMesh{&threeDModelMesh}, mVertexArrayObjectID{ }, mElementBufferObjectID{ }
 {
 	GenMeshBuffer(threeDModelMesh.bHasIndices);
 	BufferDataFromModelMesh(threeDModelMesh);
@@ -42,17 +42,13 @@ void dooms::graphics::Mesh::GenMeshBuffer(bool hasIndice)
 	Buffer::GenBuffer();
 	if (mVertexArrayObjectID.IsValid() == false)
 	{
-		unsigned int bufferID;
-		GraphicsAPI::CreateVertexArrayObject(1, &bufferID);
-		mVertexArrayObjectID = bufferID;
+		mVertexArrayObjectID = GraphicsAPI::CreateVertexArrayObject();
 	}
 	if (hasIndice)
 	{
 		if (mElementBufferObjectID.IsValid() == false)
 		{
-			unsigned int bufferID;
-			GraphicsAPI::CreateBuffers(1, &bufferID);
-			mElementBufferObjectID = bufferID;
+			mElementBufferObjectID = GraphicsAPI::CreateBuffer();;
 		}
 	}
 	else
@@ -67,7 +63,7 @@ void dooms::graphics::Mesh::DeleteBuffers()
 
 	if (mVertexArrayObjectID.IsValid())
 	{
-		GraphicsAPI::DestroyVertexArrayObject(1, mVertexArrayObjectID.data());
+		GraphicsAPI::DestroyVertexArrayObject(mVertexArrayObjectID);
 		mVertexArrayObjectID.Reset();
 	}
 	if (mElementBufferObjectID.IsValid())
@@ -113,10 +109,9 @@ void dooms::graphics::Mesh::BufferData
 	GenBufferIfNotGened(false);
 
 	BindVertexArrayObject(); // bind vertex array buffer
-	BindVertexBufferObject();
 
 	D_DEBUG_LOG(eLogType::D_LOG, "%f", sizeof(FLOAT32) * dataComponentCount);
-	GraphicsAPI::AllocateBufferMemory(GraphicsAPI::eBufferTarget::ARRAY_BUFFER, sizeof(FLOAT32) * dataComponentCount, data);
+	GraphicsAPI::AllocateBufferMemory(mBufferID, GraphicsAPI::eBufferTarget::ARRAY_BUFFER, sizeof(FLOAT32) * dataComponentCount, data);
 
 	UINT32 offset = 0;
 	const UINT32 stride = Mesh::GetStride(vertexArrayFlag);
@@ -197,7 +192,7 @@ void dooms::graphics::Mesh::BufferSubData
 	//D_ASSERT(GraphicsAPI::GetInteger64v(GraphicsAPI::GetIntegerParameter::ARRAY_BUFFER_BINDING) == mBufferID);
 
 	// GL_INVALID_VALUE is generated if offset or size is negative, or if offset+size is greater than the value of GL_BUFFER_SIZE for the specified buffer object.
-	GraphicsAPI::UpdateDataToBuffer(GraphicsAPI::ARRAY_BUFFER, offsetInByte, sizeof(FLOAT32) * dataComponentCount, data);
+	GraphicsAPI::UpdateDataToBuffer(mBufferID, GraphicsAPI::ARRAY_BUFFER, offsetInByte, sizeof(FLOAT32) * dataComponentCount, data);
 
 }
 
@@ -219,10 +214,9 @@ void dooms::graphics::Mesh::BufferDataFromModelMesh(const ThreeDModelMesh& three
 	GenBufferIfNotGened(threeDModelMesh.bHasIndices);
 
 	BindVertexArrayObject(); // bind vertex array buffer first
-	BindVertexBufferObject();
-
-	GraphicsAPI::AllocateBufferMemory(GraphicsAPI::eBufferTarget::ARRAY_BUFFER, threeDModelMesh.mMeshDatas.GetAllocatedDataSize(), NULL);
-	GraphicsAPI::UpdateDataToBuffer(GraphicsAPI::eBufferTarget::ARRAY_BUFFER, 0, threeDModelMesh.mMeshDatas.GetAllocatedDataSize(), threeDModelMesh.mMeshDatas.mData);
+	
+	GraphicsAPI::AllocateBufferMemory(mBufferID, GraphicsAPI::eBufferTarget::ARRAY_BUFFER, threeDModelMesh.mMeshDatas.GetAllocatedDataSize(), NULL);
+	GraphicsAPI::UpdateDataToBuffer(mBufferID, GraphicsAPI::eBufferTarget::ARRAY_BUFFER, 0, threeDModelMesh.mMeshDatas.GetAllocatedDataSize(), threeDModelMesh.mMeshDatas.mData);
 	
 	//mVertex
 	if (threeDModelMesh.mVertexArrayFlag & eVertexArrayFlag::VertexVector3)
@@ -264,9 +258,8 @@ void dooms::graphics::Mesh::BufferDataFromModelMesh(const ThreeDModelMesh& three
 	mNumOfIndices = 0;
 	if (threeDModelMesh.bHasIndices == true && threeDModelMesh.mMeshIndices.size() > 0)
 	{
-		BindElementBuffer();
-		GraphicsAPI::AllocateBufferMemory(GraphicsAPI::eBufferTarget::ELEMENT_ARRAY_BUFFER, threeDModelMesh.mMeshIndices.size() * sizeof(UINT32), NULL);
-		GraphicsAPI::UpdateDataToBuffer(GraphicsAPI::eBufferTarget::ELEMENT_ARRAY_BUFFER, 0, threeDModelMesh.mMeshIndices.size() * sizeof(UINT32), reinterpret_cast<const void*>(threeDModelMesh.mMeshIndices.data()));
+		GraphicsAPI::AllocateBufferMemory(mElementBufferObjectID, GraphicsAPI::eBufferTarget::ELEMENT_ARRAY_BUFFER, threeDModelMesh.mMeshIndices.size() * sizeof(UINT32), NULL);
+		GraphicsAPI::UpdateDataToBuffer(mElementBufferObjectID, GraphicsAPI::eBufferTarget::ELEMENT_ARRAY_BUFFER, 0, threeDModelMesh.mMeshIndices.size() * sizeof(UINT32), reinterpret_cast<const void*>(threeDModelMesh.mMeshIndices.data()));
 		mNumOfIndices = threeDModelMesh.mMeshIndices.size();
 	}
 
@@ -330,7 +323,7 @@ void dooms::graphics::Mesh::UpdateElementBuffer(const UINT32* indices, const UIN
 	BindVertexArrayObject();
 	BindElementBuffer();
 
-	GraphicsAPI::UpdateDataToBuffer(GraphicsAPI::eBufferTarget::ELEMENT_ARRAY_BUFFER, 0, indiceCount * sizeof(UINT32), indices);
+	GraphicsAPI::UpdateDataToBuffer(mElementBufferObjectID, GraphicsAPI::eBufferTarget::ELEMENT_ARRAY_BUFFER, 0, indiceCount * sizeof(UINT32), indices);
 	mNumOfIndices = indiceCount;
 }
 
@@ -344,12 +337,12 @@ const dooms::physics::Sphere& dooms::graphics::Mesh::GetBoundingSphere() const
 	return mSphere;
 }
 
-UINT32 dooms::graphics::Mesh::GetVertexArrayObjectID() const
+const dooms::graphics::BufferID& dooms::graphics::Mesh::GetVertexArrayObjectID() const
 {
 	return mVertexArrayObjectID;
 }
 
-UINT32 dooms::graphics::Mesh::GetElementBufferObjectID() const
+const dooms::graphics::BufferID& dooms::graphics::Mesh::GetElementBufferObjectID() const
 {
 	return mElementBufferObjectID;
 }

@@ -145,7 +145,7 @@ void dooms::DObjectManager::DestroyAllDObjects(const bool force)
     while(iterBegin != iterEnd)
     {
         dooms::DObject* const targetDObject = *iterBegin;
-        if (force || ((targetDObject->GetDObjectFlag() & eDObjectFlag::NewAllocated) != 0))
+        if (force || targetDObject->GetIsNewAllocated())
         {
             targetDObject->DestroySelfInstantly();
 
