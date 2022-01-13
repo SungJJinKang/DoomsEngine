@@ -50,7 +50,7 @@ namespace dooms
 		void InitializeCullingEntityBlockViewer();
 
 
-		D_PROPERTY(MIN = 0.0)
+		D_PROPERTY(MIN = 0.0, TOOLTIP="Used in Distance Culling. If Distance between camera and this entity is greater than this value, this entity is culled")
 		float mDesiredMaxDrawDistance = DEFAULT_DESIRED_MAX_DRAW_DISTANCE;
 
 	protected:

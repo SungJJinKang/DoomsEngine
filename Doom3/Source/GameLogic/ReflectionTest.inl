@@ -485,7 +485,6 @@ void dooms::GameLogicStartPoint::StartGameLogic()
 					auto meshRenderer = entity->AddComponent<MeshRenderer>();
 					meshRenderer->SetMesh(mesh);
 					meshRenderer->SetMaterial(material1);
-					meshRenderer->SetDesiredMaxDrawDistance(3000.0f);
 					portfolioComponent->PlanesRenderers.push_back(meshRenderer);
 
 					WanderComponent* wanderComp = entity->AddComponent<WanderComponent>();
@@ -658,7 +657,6 @@ void dooms::GameLogicStartPoint::StartGameLogic()
 					auto meshRenderer = entity->AddComponent<MeshRenderer>();
 					meshRenderer->SetMesh(mesh);
 					meshRenderer->SetMaterial(material1);
-					meshRenderer->SetDesiredMaxDrawDistance(4000.0f);
 					portfolioComponent->RockRenderers.push_back(meshRenderer);
 
 					WanderComponent* wanderComp = entity->AddComponent<WanderComponent>();

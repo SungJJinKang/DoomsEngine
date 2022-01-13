@@ -13,8 +13,8 @@ namespace dooms::ui::profilerGUI
 {
 	//key : profiling tag ( string )
 	//value : profiling time, text red color duration
-	extern std::unordered_map<std::string, std::pair<float, float>> mProfilingDataContainer{};
-	extern std::mutex mProfilingMutex{};
+	static std::unordered_map<std::string, std::pair<float, float>> mProfilingDataContainer{};
+	static std::mutex mProfilingMutex{};
 }
 
 
