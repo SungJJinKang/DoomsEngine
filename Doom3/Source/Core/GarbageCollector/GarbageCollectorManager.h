@@ -34,6 +34,9 @@ namespace dooms
 
 			inline static dooms::gc::garbageCollectorSolver::eGCStage mNextGCStage{ dooms::gc::garbageCollectorSolver::eGCStage::ClearFlagsStage };
 			
+			static void ClearFlags(const garbageCollectorSolver::eGCMethod gcMethod = garbageCollectorSolver::eGCMethod::MultiThreadMark);
+			static void Mark(const garbageCollectorSolver::eGCMethod gcMethod = garbageCollectorSolver::eGCMethod::MultiThreadMark);
+			static void Sweep(const garbageCollectorSolver::eGCMethod gcMethod = garbageCollectorSolver::eGCMethod::MultiThreadMark);
 
 		public:
 
@@ -41,9 +44,6 @@ namespace dooms
 			static void TickGC();
 			static void ResetElapsedTime();
 
-			static void ClearFlags(const garbageCollectorSolver::eGCMethod gcMethod = garbageCollectorSolver::eGCMethod::MultiThreadMark);
-			static void Mark(const garbageCollectorSolver::eGCMethod gcMethod = garbageCollectorSolver::eGCMethod::MultiThreadMark);
-			static void Sweep(const garbageCollectorSolver::eGCMethod gcMethod = garbageCollectorSolver::eGCMethod::MultiThreadMark);
 			static void Collect(const garbageCollectorSolver::eGCMethod gcMethod = garbageCollectorSolver::eGCMethod::MultiThreadMark);
 			
 			

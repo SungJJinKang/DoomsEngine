@@ -70,7 +70,7 @@ void dooms::GameCore::Init()
 
 
 
-	gc::GarbageCollectorManager::Collect(gc::garbageCollectorSolver::eGCMethod::SingleThreadMark);
+	gc::GarbageCollectorManager::Collect(gc::garbageCollectorSolver::eGCMethod::MultiThreadMark);
 	dooms::gc::GarbageCollectorManager::ResetElapsedTime();
 }
 
