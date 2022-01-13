@@ -4,7 +4,7 @@
 #include <cstdio>
 #include <string>
 #include "stdio.h"
-#include "stringapiset.h"
+#include <Windows.h>
 
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
@@ -1328,13 +1328,12 @@ namespace dooms
 			const GraphicsAPI::eBufferMode* bufferModes
 		)
 		{
-			unsigned int* glBufferModes = new unsigned int[count];
+			unsigned int glBufferModes[35];
 			for (unsigned int i = 0; i < count; i++)
 			{
 				glBufferModes[i] = opengl::GetGLBufferMode(bufferModes[i]);
 			}
 			glDrawBuffers(count, glBufferModes);
-			delete[] glBufferModes;
 		}
 
 		DOOMS_ENGINE_GRAPHICS_API void SetReadBuffer(const GraphicsAPI::eBufferMode bufferMode)
@@ -1342,24 +1341,7 @@ namespace dooms
 			glReadBuffer(opengl::GetGLBufferMode(bufferMode));
 		}
 
-		DOOMS_ENGINE_GRAPHICS_API void ClearBackBufferColorBuffer(const float r, const float g, const float b, const float a)
-		{
-			glClearColor(r, g, b, a);
-			glClear(opengl::GetGLBufferBitType(GraphicsAPI::COLOR_BUFFER));
-		}
-		
-		DOOMS_ENGINE_GRAPHICS_API void ClearBackBufferDepthBuffer(const double depthValue)
-		{
-			glClearDepth(depthValue);
-			glClear(opengl::GetGLBufferBitType(GraphicsAPI::DEPTH_BUFFER));
-		}
-
-		DOOMS_ENGINE_GRAPHICS_API void ClearBackBufferStencilBuffer(const int stencilValue)
-		{
-			glClearStencil(stencilValue);
-			glClear(opengl::GetGLBufferBitType(GraphicsAPI::DEPTH_STENCIL_BUFFER));
-		}
-		
+	
 
 		DOOMS_ENGINE_GRAPHICS_API void ClearSpecificBuffer
 		(
@@ -2371,6 +2353,45 @@ namespace dooms
 			const int length = WideCharToMultiByte(CP_UTF8, 0, title, -1, buffer, 256, NULL, NULL);
 			WideCharToMultiByte(CP_UTF8, 0, title, -1, buffer, length, NULL, NULL);
 			glfwSetWindowTitle(dooms::graphics::opengl::glfwWindow, buffer);
+		}
+
+		DOOMS_ENGINE_GRAPHICS_API void ClearBackBufferColorBuffer(const float r, const float g, const float b, const float a)
+		{
+			glClearColor(r, g, b, a);
+			glClear(opengl::GetGLBufferBitType(GraphicsAPI::COLOR_BUFFER));
+		}
+
+		DOOMS_ENGINE_GRAPHICS_API void ClearBackBufferDepthBuffer(const double depthValue)
+		{
+			glClearDepth(depthValue);
+			glClear(opengl::GetGLBufferBitType(GraphicsAPI::DEPTH_BUFFER));
+		}
+
+		DOOMS_ENGINE_GRAPHICS_API void ClearBackBufferStencilBuffer(const int stencilValue)
+		{
+			glClearStencil(stencilValue);
+			glClear(opengl::GetGLBufferBitType(GraphicsAPI::DEPTH_STENCIL_BUFFER));
+		}
+
+		DOOMS_ENGINE_GRAPHICS_API void ClearBufferColorBuffer(const unsigned long long bufferObject, const float r, const float g, const float b, const float a)
+		{
+			BindFrameBuffer(bufferObject, GraphicsAPI::FRAMEBUFFER);
+			glClearColor(r, g, b, a);
+			glClear(opengl::GetGLBufferBitType(GraphicsAPI::COLOR_BUFFER));
+		}
+
+		DOOMS_ENGINE_GRAPHICS_API void ClearBufferDepthBuffer(const unsigned long long bufferObject, const double depthValue)
+		{
+			BindFrameBuffer(bufferObject, GraphicsAPI::FRAMEBUFFER);
+			glClearDepth(depthValue);
+			glClear(opengl::GetGLBufferBitType(GraphicsAPI::DEPTH_BUFFER));
+		}
+
+		DOOMS_ENGINE_GRAPHICS_API void ClearBufferStencilBuffer(const unsigned long long bufferObject, const int stencilValue)
+		{
+			BindFrameBuffer(bufferObject, GraphicsAPI::FRAMEBUFFER);
+			glClearStencil(stencilValue);
+			glClear(opengl::GetGLBufferBitType(GraphicsAPI::DEPTH_STENCIL_BUFFER));
 		}
 	}
 }

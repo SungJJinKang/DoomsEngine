@@ -71,8 +71,9 @@ void dooms::graphics::DefferedRenderingFrameBuffer::ClearFrameBuffer(const Camer
 	GraphicsAPI::ClearSpecificBuffer(GraphicsAPI::eBufferType::COLOR, 0, TARGET_COLORS[0][0], TARGET_COLORS[0][1], TARGET_COLORS[0][2], TARGET_COLORS[0][3]);
 	GraphicsAPI::ClearSpecificBuffer(GraphicsAPI::eBufferType::COLOR, 1, TARGET_COLORS[1][0], TARGET_COLORS[1][1], TARGET_COLORS[1][2], TARGET_COLORS[1][3]);
 	GraphicsAPI::ClearSpecificBuffer(GraphicsAPI::eBufferType::COLOR, 2, TARGET_COLORS[2][0], TARGET_COLORS[2][1], TARGET_COLORS[2][2], TARGET_COLORS[2][3]);
-	GraphicsAPI::ClearBuffer(GraphicsAPI::eBufferBitType::COLOR_BUFFER);
-	GraphicsAPI::ClearBuffer(GraphicsAPI::eBufferBitType::DEPTH_BUFFER);
+	//GraphicsAPI::ClearBuffer(GraphicsAPI::eBufferBitType::COLOR_BUFFER);
+	//GraphicsAPI::ClearBuffer(GraphicsAPI::eBufferBitType::DEPTH_BUFFER);
+	GraphicsAPI::ClearBufferDepthBuffer(GetFrameBufferID(), GraphicsAPI::DEFAULT_MAX_DEPTH_VALUE);
 
 	SetTargetDrawBuffer();
 }

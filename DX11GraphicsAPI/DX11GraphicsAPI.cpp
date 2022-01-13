@@ -745,7 +745,7 @@ namespace dooms
                 // Clear the back buffer
                 //
                 g_pImmediateContext->ClearRenderTargetView(g_pRenderTargetView, DirectX::Colors::MidnightBlue);
-
+                
                 //
                 // Clear the depth buffer to 1.0 (max depth)
                 //
@@ -970,6 +970,35 @@ namespace dooms
         {
             assert(dx11::g_hWnd != nullptr);
             SetWindowTextW(dx11::g_hWnd, title);
+        }
+
+        DOOMS_ENGINE_GRAPHICS_API void BindBuffer
+        (
+            const unsigned long long bufferObject,
+            const GraphicsAPI::eBufferTarget bindBufferTarget
+        )
+        {
+            // DX11 doesn't have "Binding" concept
+
+            //glBindBuffer(opengl::GetGLBufferTarget(bindBufferTarget), bufferObject);
+        }
+
+        DOOMS_ENGINE_GRAPHICS_API void BindFrameBuffer
+        (
+            const unsigned long long frameBufferObject,
+            const GraphicsAPI::eBindFrameBufferTarget bindFrameBufferTarget
+        )
+        {
+            // DX11 doesn't have "Binding" concept
+
+            ////glBindFramebuffer(opengl::GetGLBindFrameBufferTarget(bindFrameBufferTarget), frameBufferObject);
+        }
+
+        DOOMS_ENGINE_GRAPHICS_API void BindRenderBuffer(const unsigned long long renderBufferObject)
+        {
+            // DX11 doesn't have "Binding" concept
+
+            //glBindRenderbuffer(GL_RENDERBUFFER, renderBufferObject);
         }
 	}
 }

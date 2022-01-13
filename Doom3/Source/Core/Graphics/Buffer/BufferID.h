@@ -11,7 +11,7 @@ namespace dooms
 
 		private:
 
-			inline static const UINT64 INVALID_BUFFER_ID = 0;
+			inline static const UINT64 INVALID_BUFFER_ID = 0; // Don't change this. In opengl, Only low 4byte is used.
 
 			D_PROPERTY()
 			UINT64 mID; // This is used as pointer in directx

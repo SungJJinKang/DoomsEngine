@@ -234,6 +234,24 @@ INT32 FrameBuffer::GetFrameBufferParameterivStatic
 }
 */
 
+/*
+void FrameBuffer::ClearFrameBuffer() const
+{
+	if( (mClearBit & GraphicsAPI::eBufferBitType::COLOR_BUFFER) != 0)
+	{
+		GraphicsAPI::ClearBufferColorBuffer(mbu)
+	}
+	if ((mClearBit & GraphicsAPI::eBufferBitType::DEPTH_STENCIL_BUFFER) != 0)
+	{
+
+	}
+	else if ((mClearBit & GraphicsAPI::eBufferBitType::DEPTH_BUFFER) != 0)
+	{
+
+	}
+}
+*/
+
 void FrameBuffer::BlitFrameBufferTo(
 	UINT32 ReadFrameBufferId, UINT32 DrawFrameBufferId, INT32 srcX0, INT32 srcY0,
 	INT32 srcX1, INT32 srcY1, INT32 dstX0, INT32 dstY0, INT32 dstX1, INT32 dstY1, 

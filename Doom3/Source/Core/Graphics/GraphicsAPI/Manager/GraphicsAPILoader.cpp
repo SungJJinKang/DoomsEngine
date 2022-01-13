@@ -58,6 +58,12 @@ void dooms::graphics::GraphicsAPILoader::FetchExportedFunctionAddress()
 	//D_ASSERT(dooms::graphics::GraphicsAPI::ClearBackBufferDepthBuffer != nullptr);
 	dooms::graphics::GraphicsAPI::ClearBackBufferStencilBuffer = (GraphicsAPI::GRAPHICS_CLEARBACKBUFFERSTENCILBUFFER)GetProcAddress(hModule, "ClearBackBufferStencilBuffer");
 	//D_ASSERT(dooms::graphics::GraphicsAPI::ClearBackBufferStencilBuffer != nullptr);
+	dooms::graphics::GraphicsAPI::ClearBufferColorBuffer = (GraphicsAPI::GRAPHICS_CLEARBUFFERCOLORBUFFER)GetProcAddress(hModule, "ClearBufferColorBuffer");
+	//D_ASSERT(dooms::graphics::GraphicsAPI::ClearBufferColorBuffer != nullptr);
+	dooms::graphics::GraphicsAPI::ClearBufferDepthBuffer = (GraphicsAPI::GRAPHICS_CLEARBUFFERDEPTHBUFFER)GetProcAddress(hModule, "ClearBufferDepthBuffer");
+	//D_ASSERT(dooms::graphics::GraphicsAPI::ClearBufferDepthBuffer != nullptr);
+	dooms::graphics::GraphicsAPI::ClearBufferStencilBuffer = (GraphicsAPI::GRAPHICS_CLEARBUFFERSTENCILBUFFER)GetProcAddress(hModule, "ClearBufferStencilBuffer");
+	//D_ASSERT(dooms::graphics::GraphicsAPI::ClearBufferStencilBuffer != nullptr);
 	dooms::graphics::GraphicsAPI::ClearSpecificBuffer = (GraphicsAPI::GRAPHICS_CLEARSPECIFICBUFFER)GetProcAddress(hModule, "ClearSpecificBuffer");
 	//D_ASSERT(dooms::graphics::GraphicsAPI::ClearSpecificBuffer != nullptr);
 	dooms::graphics::GraphicsAPI::CompileShader = (GraphicsAPI::GRAPHICS_COMPILESHADER)GetProcAddress(hModule, "CompileShader");

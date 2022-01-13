@@ -70,10 +70,9 @@ void dooms::graphics::OverDrawVisualization::SetOverDrawVisualizationRenderingSt
 
 
 		dooms::graphics::FixedMaterial::SetFixedMaterial(&(mOverDrawVisualizationObjectDrawMaterial));
-		mOverDrawVisualizationFrameBuffer.BindFrameBuffer();
-
-		GraphicsAPI::ClearColor(0.0f, 0.0f, 0.0f, 1.0f);
-		GraphicsAPI::ClearBuffer2(GraphicsAPI::eBufferBitType::COLOR_BUFFER, GraphicsAPI::eBufferBitType::DEPTH_BUFFER);
+		
+		GraphicsAPI::ClearBufferColorBuffer(mOverDrawVisualizationFrameBuffer.GetFrameBufferID(), 0.0f, 0.0f, 0.0f, 1.0f);
+		GraphicsAPI::ClearBufferDepthBuffer(mOverDrawVisualizationFrameBuffer.GetFrameBufferID(), GraphicsAPI::DEFAULT_MAX_DEPTH_VALUE);
 	}
 	else
 	{

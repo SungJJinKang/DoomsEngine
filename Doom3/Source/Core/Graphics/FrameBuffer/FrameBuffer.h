@@ -136,13 +136,10 @@ namespace dooms
 				}
 			}
 
-			FORCE_INLINE virtual void ClearFrameBuffer() const
-			{
-				GraphicsAPI::ClearBuffer(mClearBit);
-			}
+			/*
+			virtual void ClearFrameBuffer() const;
+			*/
 
-			
-			
 			FORCE_INLINE static void BindFrameBufferStatic(const GraphicsAPI::eBindFrameBufferTarget bindFrameBufferTarget, const BufferID& frameBufferID)
 			{
 				GraphicsAPI::BindFrameBuffer(frameBufferID, bindFrameBufferTarget);
