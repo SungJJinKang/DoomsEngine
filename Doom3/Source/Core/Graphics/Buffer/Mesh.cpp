@@ -347,6 +347,50 @@ const dooms::graphics::BufferID& dooms::graphics::Mesh::GetElementBufferObjectID
 	return mElementBufferObjectID;
 }
 
+void* dooms::graphics::Mesh::GetMappedVertexArrayObject
+(
+	const dooms::graphics::GraphicsAPI::eMapBufferAccessOption mapBufferAccessOption
+)
+{
+	void* bufferAddress = nullptr;
+	if (mVertexArrayObjectID.IsValid() == true)
+	{
+		bufferAddress = GraphicsAPI::MapBufferObjectToClientAddress(mVertexArrayObjectID, GraphicsAPI::eBufferTarget::ARRAY_BUFFER, mapBufferAccessOption);
+	}
+
+	return bufferAddress;
+}
+
+void dooms::graphics::Mesh::UnmapMappedVertexArrayObject()
+{
+	if(mVertexArrayObjectID.IsValid() == true)
+	{
+		GraphicsAPI::UnMapBufferObjectMappedToClientAddress(mVertexArrayObjectID, GraphicsAPI::eBufferTarget::ARRAY_BUFFER);
+	}
+}
+
+void* dooms::graphics::Mesh::GetMappedElementBufferObjectObject
+(
+	const dooms::graphics::GraphicsAPI::eMapBufferAccessOption mapBufferAccessOption
+)
+{
+	void* bufferAddress = nullptr;
+	if (mVertexArrayObjectID.IsValid() == true)
+	{
+		bufferAddress = GraphicsAPI::MapBufferObjectToClientAddress(mElementBufferObjectID, GraphicsAPI::eBufferTarget::ELEMENT_ARRAY_BUFFER, mapBufferAccessOption);
+	}
+
+	return bufferAddress;
+}
+
+void dooms::graphics::Mesh::UnmapMappedElementBufferObjectObject()
+{
+	if (mElementBufferObjectID.IsValid() == true)
+	{
+		GraphicsAPI::UnMapBufferObjectMappedToClientAddress(mElementBufferObjectID, GraphicsAPI::eBufferTarget::ELEMENT_ARRAY_BUFFER);
+	}
+}
+
 
 
 

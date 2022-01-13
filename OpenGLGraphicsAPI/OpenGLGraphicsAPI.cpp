@@ -1837,6 +1837,19 @@ namespace dooms
 		DOOMS_ENGINE_GRAPHICS_API void* MapBufferObjectToClientAddress
 		(
 			const unsigned long long bufferID,
+			const GraphicsAPI::eBufferTarget bindBufferTarget,
+			const GraphicsAPI::eMapBufferAccessOption mapBufferAccessOption
+		)
+		{
+			BindBuffer(bufferID, bindBufferTarget);
+
+			// https://www.khronos.org/registry/OpenGL-Refpages/es3.0/html/glMapBufferRange.xhtml
+			return glMapBuffer(opengl::GetGLBufferTarget(bindBufferTarget), opengl::GetGLMapBufferAccessOption(mapBufferAccessOption));
+		}
+
+		DOOMS_ENGINE_GRAPHICS_API void* RangedMapBufferObjectToClientAddress
+		(
+			const unsigned long long bufferID,
 			const unsigned long long offset,
 			const unsigned long long length,
 			const GraphicsAPI::eBufferTarget bindBufferTarget,
@@ -1844,7 +1857,7 @@ namespace dooms
 		)
 		{
 			BindBuffer(bufferID, bindBufferTarget);
-
+			
 			// https://www.khronos.org/registry/OpenGL-Refpages/es3.0/html/glMapBufferRange.xhtml
 			return glMapBufferRange(opengl::GetGLBufferTarget(bindBufferTarget), offset, length, opengl::GetGLMapBufferAccessOption(mapBufferAccessOption));
 		}

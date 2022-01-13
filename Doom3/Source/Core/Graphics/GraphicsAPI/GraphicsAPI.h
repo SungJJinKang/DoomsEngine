@@ -759,6 +759,14 @@ namespace dooms
 				};
 
 				typedef void* (DOOMS_ENGINE_API_ENTRY_P GRAPHICS_MAPBUFFEROBJECTTOCLIENTADDRESS)
+					(
+						const unsigned long long bufferID,
+						const eBufferTarget bindBufferTarget,
+						const eMapBufferAccessOption mapBufferAccessOption
+						);
+				extern GRAPHICS_MAPBUFFEROBJECTTOCLIENTADDRESS MapBufferObjectToClientAddress;
+
+				typedef void* (DOOMS_ENGINE_API_ENTRY_P GRAPHICS_RANGEDMAPBUFFEROBJECTTOCLIENTADDRESS)
 				(
 					const unsigned long long bufferID,
 					const unsigned long long offset,
@@ -766,7 +774,7 @@ namespace dooms
 					const eBufferTarget bindBufferTarget,
 					const eMapBufferAccessOption mapBufferAccessOption
 				);
-				extern GRAPHICS_MAPBUFFEROBJECTTOCLIENTADDRESS MapBufferObjectToClientAddress;
+				extern GRAPHICS_RANGEDMAPBUFFEROBJECTTOCLIENTADDRESS RangedMapBufferObjectToClientAddress;
 
 				typedef void (DOOMS_ENGINE_API_ENTRY_P GRAPHICS_UNMAPBUFFEROBJECMAPPEDTTOCLIENTADDRESS)
 				(

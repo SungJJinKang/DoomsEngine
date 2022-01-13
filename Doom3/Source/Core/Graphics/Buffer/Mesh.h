@@ -212,6 +212,16 @@ namespace dooms
 			const BufferID& GetVertexArrayObjectID() const;
 			D_FUNCTION()
 			const BufferID& GetElementBufferObjectID() const;
+
+			/**
+			 * \brief You should unmap mapped buffer object before use it 
+			 * \param mapBufferAccessOption 
+			 * \return 
+			 */
+			void* GetMappedVertexArrayObject(const dooms::graphics::GraphicsAPI::eMapBufferAccessOption mapBufferAccessOption);
+			void UnmapMappedVertexArrayObject();
+			void* GetMappedElementBufferObjectObject(const dooms::graphics::GraphicsAPI::eMapBufferAccessOption mapBufferAccessOption);
+			void UnmapMappedElementBufferObjectObject();
 		};
 	}
 }

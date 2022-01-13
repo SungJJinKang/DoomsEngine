@@ -158,6 +158,8 @@ void dooms::graphics::GraphicsAPILoader::FetchExportedFunctionAddress()
 	D_ASSERT(dooms::graphics::GraphicsAPI::LinkMaterial != nullptr);
 	dooms::graphics::GraphicsAPI::MapBufferObjectToClientAddress = (GraphicsAPI::GRAPHICS_MAPBUFFEROBJECTTOCLIENTADDRESS)GetProcAddress(hModule, "MapBufferObjectToClientAddress");
 	D_ASSERT(dooms::graphics::GraphicsAPI::MapBufferObjectToClientAddress != nullptr);
+	dooms::graphics::GraphicsAPI::RangedMapBufferObjectToClientAddress = (GraphicsAPI::GRAPHICS_RANGEDMAPBUFFEROBJECTTOCLIENTADDRESS)GetProcAddress(hModule, "RangedMapBufferObjectToClientAddress");
+	D_ASSERT(dooms::graphics::GraphicsAPI::RangedMapBufferObjectToClientAddress != nullptr);
 	dooms::graphics::GraphicsAPI::UnMapBufferObjectMappedToClientAddress = (GraphicsAPI::GRAPHICS_UNMAPBUFFEROBJECMAPPEDTTOCLIENTADDRESS)GetProcAddress(hModule, "UnMapBufferObjectMappedToClientAddress");
 	D_ASSERT(dooms::graphics::GraphicsAPI::UnMapBufferObjectMappedToClientAddress != nullptr);
 	dooms::graphics::GraphicsAPI::ReadPixels = (GraphicsAPI::GRAPHICS_READPIXELS)GetProcAddress(hModule, "ReadPixels");
