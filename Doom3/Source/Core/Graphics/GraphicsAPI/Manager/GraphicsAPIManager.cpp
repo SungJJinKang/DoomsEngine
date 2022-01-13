@@ -4,6 +4,7 @@
 
 #include "../graphicsAPISetting.h"
 #include "../Input/GraphicsAPIInput.h"
+#include "Game/ConfigData.h"
 
 
 dooms::graphics::GraphicsAPILoader dooms::graphics::GraphicsAPIManager::mGraphicsAPILoader{};
@@ -32,6 +33,9 @@ void dooms::graphics::GraphicsAPIManager::SetDefaultSettingOfAPI()
 	graphics::GraphicsAPI::SetFrontFaceWinding(GraphicsAPI::CCW);
 	graphics::GraphicsAPI::SetVSync(false);
 	graphics::GraphicsAPI::SetViewport(0, 0, 0, graphicsAPISetting::GetScreenWidth(), graphicsAPISetting::GetScreenHeight());
+
+	const std::string windowTitle = ConfigData::GetSingleton()->GetConfigData().GetValue<std::string>("Graphics", "WINDOW_TITLE");
+	graphics::GraphicsAPI::SetWindowTitle(windowTitle.c_str());
 }
 
 void dooms::graphics::GraphicsAPIManager::GraphisAPIDebugCallBack(const char* const debugMessage, const graphics::GraphicsAPI::eGraphisAPIDebugCallbackSeverity severity)
