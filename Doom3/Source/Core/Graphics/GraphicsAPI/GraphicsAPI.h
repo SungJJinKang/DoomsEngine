@@ -155,7 +155,7 @@ namespace dooms
 				typedef void (DOOMS_ENGINE_API_ENTRY_P GRAPHICS_SETVSYNC)(const bool isEnabled);
 				extern GRAPHICS_SETVSYNC SetVSync;
 
-				enum eDepthFuncType : unsigned int
+				enum eTestFuncType : unsigned int
 				{
 					ALWAYS, // = GL_ALWAYS,
 					NEVER, // = GL_NEVER,
@@ -170,7 +170,28 @@ namespace dooms
 				typedef void (DOOMS_ENGINE_API_ENTRY_P GRAPHICS_SETISDEPTHTESTENABLED)(const bool isEnabled);
 				extern GRAPHICS_SETISDEPTHTESTENABLED SetIsDepthTestEnabled;
 
-				typedef void (DOOMS_ENGINE_API_ENTRY_P GRAPHICS_SETDEPTHFUNC)(const eDepthFuncType depthFuncType);
+				typedef void (DOOMS_ENGINE_API_ENTRY_P GRAPHICS_SETISSTENCILTESTENABLED)(const bool isEnabled);
+				extern GRAPHICS_SETISSTENCILTESTENABLED SetIsStencilTestEnabled;
+
+				typedef void (DOOMS_ENGINE_API_ENTRY_P GRAPHICS_SETISSTENCILFUNC)(const eTestFuncType testFuncType, const int ref, const unsigned int mask);
+				extern GRAPHICS_SETISSTENCILFUNC SetIsStencilFunc;
+				
+				enum eStencilOption : unsigned int
+				{
+					KEEP,
+					ZERO,
+					REPLACE,
+					INCR,
+					INCR_WRAP,
+					DECR,
+					DECR_WRAP,
+					INVERT
+				};
+
+				typedef void (DOOMS_ENGINE_API_ENTRY_P GRAPHICS_SETISSTENCILOP)(const eStencilOption stencilFailOption, const eStencilOption actionWhenStencilTestPassAnd_DepthTestFail, const eStencilOption actionWhenStencilTestPassAnd_DepthTestPass);
+				extern GRAPHICS_SETISSTENCILOP SetIsStencilOp;
+
+				typedef void (DOOMS_ENGINE_API_ENTRY_P GRAPHICS_SETDEPTHFUNC)(const eTestFuncType depthFuncType);
 				extern GRAPHICS_SETDEPTHFUNC SetDepthFunc;
 
 				typedef void (DOOMS_ENGINE_API_ENTRY_P GRAPHICS_SETDEPTHMASK)(const bool isWriteDepthBuffer);
@@ -287,8 +308,8 @@ namespace dooms
 					TEXTURE_2D_ARRAY, // = GL_TEXTURE_2D_ARRAY,
 					TEXTURE_RECTANGLE, // = GL_TEXTURE_RECTANGLE,
 					TEXTURE_CUBE_MAP, // = GL_TEXTURE_CUBE_MAP,
+					_TEXTURE_BUFFER, // = ,
 					TEXTURE_CUBE_MAP_ARRAY, // = GL_TEXTURE_CUBE_MAP_ARRAY,
-					_TEXTURE_BUFFER, // = GL_TEXTURE_BUFFER,
 					TEXTURE_2D_MULTISAMPLE, // = GL_TEXTURE_2D_MULTISAMPLE,
 					TEXTURE_2D_MULTISAMPLE_ARRAY, // = GL_TEXTURE_2D_MULTISAMPLE_ARRAY
 				};
@@ -363,12 +384,10 @@ namespace dooms
 				enum eTextureInternalFormat : unsigned int
 				{
 					TEXTURE_INTERNAL_FORMAT_NONE, //0,
-					TEXTURE_INTERNAL_FORMAT_DEPTH_COMPONENT, //GL_DEPTH_COMPONENT,
 					TEXTURE_INTERNAL_FORMAT_DEPTH_COMPONENT16, //GL_DEPTH_COMPONENT16,
 					TEXTURE_INTERNAL_FORMAT_DEPTH_COMPONENT24, //GL_DEPTH_COMPONENT24,
 					TEXTURE_INTERNAL_FORMAT_DEPTH_COMPONENT32, //GL_DEPTH_COMPONENT32,
 					TEXTURE_INTERNAL_FORMAT_DEPTH_COMPONENT32F, //GL_DEPTH_COMPONENT32F,
-					TEXTURE_INTERNAL_FORMAT_DEPTH_STENCIL, //GL_DEPTH_STENCIL,
 					TEXTURE_INTERNAL_FORMAT_DEPTH24_STENCIL8, //GL_DEPTH24_STENCIL8,
 					TEXTURE_INTERNAL_FORMAT_DEPTH32F_STENCIL8, //GL_DEPTH32F_STENCIL8,
 					TEXTURE_INTERNAL_FORMAT_STENCIL_INDEX, //GL_STENCIL_INDEX,

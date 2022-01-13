@@ -178,6 +178,25 @@ void dooms::graphics::GraphicsAPILoader::FetchExportedFunctionAddress()
 	//D_ASSERT(dooms::graphics::GraphicsAPI::SetIsBlendEnabled != nullptr);
 	dooms::graphics::GraphicsAPI::SetIsDepthTestEnabled = (GraphicsAPI::GRAPHICS_SETISDEPTHTESTENABLED)GetProcAddress(hModule, "SetIsDepthTestEnabled");
 	//D_ASSERT(dooms::graphics::GraphicsAPI::SetIsDepthTestEnabled != nullptr);
+	dooms::graphics::GraphicsAPI::SetIsStencilTestEnabled = (GraphicsAPI::GRAPHICS_SETISSTENCILTESTENABLED)GetProcAddress(hModule, "SetIsStencilTestEnabled");
+	//D_ASSERT(dooms::graphics::GraphicsAPI::SetIsStencilTestEnabled != nullptr);
+	dooms::graphics::GraphicsAPI::SetIsStencilFunc = (GraphicsAPI::GRAPHICS_SETISSTENCILFUNC)GetProcAddress(hModule, "SetIsStencilFunc");
+	//D_ASSERT(dooms::graphics::GraphicsAPI::SetIsStencilFunc != nullptr);
+	dooms::graphics::GraphicsAPI::SetIsStencilOp = (GraphicsAPI::GRAPHICS_SETISSTENCILOP)GetProcAddress(hModule, "SetIsStencilOp");
+	//D_ASSERT(dooms::graphics::GraphicsAPI::SetIsStencilOp != nullptr);\
+	
+	enum eStencilOption : unsigned int
+	{
+		KEEP,
+		ZERO,
+		REPLACE,
+		INCR,
+		INCR_WRAP,
+		DECR,
+		DECR_WRAP,
+		INVERT
+	};
+
 	dooms::graphics::GraphicsAPI::SetMagFilter = (GraphicsAPI::GRAPHICS_SETMAGFILTER)GetProcAddress(hModule, "SetMagFilter");
 	//D_ASSERT(dooms::graphics::GraphicsAPI::SetMagFilter != nullptr);
 	dooms::graphics::GraphicsAPI::SetMinFilter = (GraphicsAPI::GRAPHICS_SETMINFILTER)GetProcAddress(hModule, "SetMinFilter");

@@ -23,6 +23,7 @@ void dooms::graphics::GraphicsAPIManager::SetDefaultSettingOfAPI()
 {
 	input::GraphicsAPIInput::SetCursorMode(dooms::graphics::GraphicsAPI::GetPlatformWindow(), input::GraphicsAPIInput::eCursorMode::CURSOR_MODE_NORMAL);
 	graphics::GraphicsAPI::SetIsDepthTestEnabled(true);
+	//graphics::GraphicsAPI::SetIsStencilTestEnabled(true);
 	graphics::GraphicsAPI::SetDepthFunc(GraphicsAPI::LESS);
 	//graphics::GraphicsAPI::SetIsAlphaTestEnabled(dooms::graphics::graphicsAPISetting::DefaultIsAlphaTestOn);
 	graphics::GraphicsAPI::SetIsBlendEnabled(dooms::graphics::graphicsAPISetting::DefaultIsBlendOn);

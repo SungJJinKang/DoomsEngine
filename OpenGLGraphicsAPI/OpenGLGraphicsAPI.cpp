@@ -27,7 +27,7 @@ namespace dooms
 		namespace opengl
 		{
 			static std::string OpenGLVersion{};
-			extern GraphicsAPI::DEBUG_FUNCTION mDEBUG_FUNCTION = nullptr;
+			static GraphicsAPI::DEBUG_FUNCTION mDEBUG_FUNCTION = nullptr;
 			static unsigned int DrawCallCounter;
 
 			enum class GetStringParameter
@@ -38,7 +38,7 @@ namespace dooms
 				SHADING_LANGUAGE_VERSION = GL_VENDOR,
 			};
 
-			inline extern unsigned int GetGLDepthFuncType(const GraphicsAPI::eDepthFuncType depthFuncType)
+			inline static unsigned int GetGLTestFuncType(const GraphicsAPI::eTestFuncType depthFuncType)
 			{
 				switch (depthFuncType)
 				{
@@ -103,7 +103,7 @@ namespace dooms
 			// 		cTFFXT1_RGB	GL_COMPRESSED_RGB_FXT1_3DFX	GL_RGB
 			// 		cTFPVRTC2_4_RGB, cTFPVRTC2_4_RGBA	GL_COMPRESSED_RGBA_PVRTC_4BPPV2_IMG	GL_RGBA
 
-			inline extern unsigned int GetTextureCompressedInternalFormat(const GraphicsAPI::eTextureCompressedInternalFormat textureCompressedInternalFormat)
+			inline static unsigned int GetTextureCompressedInternalFormat(const GraphicsAPI::eTextureCompressedInternalFormat textureCompressedInternalFormat)
 			{
 				switch (textureCompressedInternalFormat)
 				{
@@ -152,7 +152,7 @@ namespace dooms
 				}
 			}
 
-			inline extern unsigned int GetGLTextureParameterValue(const GraphicsAPI::eTextureParameterValue textureParameterValue)
+			inline static unsigned int GetGLTextureParameterValue(const GraphicsAPI::eTextureParameterValue textureParameterValue)
 			{
 				switch (textureParameterValue)
 				{
@@ -183,7 +183,7 @@ namespace dooms
 				}
 			}
 
-			inline extern unsigned int GetGLTextureWrapMode(const GraphicsAPI::eWrapMode wrapMode)
+			inline static unsigned int GetGLTextureWrapMode(const GraphicsAPI::eWrapMode wrapMode)
 			{
 				switch (wrapMode)
 				{
@@ -202,7 +202,7 @@ namespace dooms
 				}
 			}
 
-			inline extern unsigned int GetGLTextureFilterMode(const GraphicsAPI::eFilterMode filterMode)
+			inline static unsigned int GetGLTextureFilterMode(const GraphicsAPI::eFilterMode filterMode)
 			{
 				switch (filterMode)
 				{
@@ -223,7 +223,7 @@ namespace dooms
 				}
 			}
 
-			inline extern unsigned int GetGLTextureComponentFormat(const GraphicsAPI::eTextureComponentFormat textureComponentFormat)
+			inline static unsigned int GetGLTextureComponentFormat(const GraphicsAPI::eTextureComponentFormat textureComponentFormat)
 			{
 				switch (textureComponentFormat)
 				{
@@ -262,12 +262,10 @@ namespace dooms
 				}
 			}
 
-			inline extern unsigned int GetGLTextureInternalFormat(const graphics::GraphicsAPI::eTextureInternalFormat textureInternalFormat)
+			inline static unsigned int GetGLTextureInternalFormat(const graphics::GraphicsAPI::eTextureInternalFormat textureInternalFormat)
 			{
 				switch (textureInternalFormat)
 				{
-				case GraphicsAPI::TEXTURE_INTERNAL_FORMAT_DEPTH_COMPONENT:
-					return GL_DEPTH_COMPONENT;
 				case GraphicsAPI::TEXTURE_INTERNAL_FORMAT_DEPTH_COMPONENT16:
 					return GL_DEPTH_COMPONENT16;
 				case GraphicsAPI::TEXTURE_INTERNAL_FORMAT_DEPTH_COMPONENT24:
@@ -276,8 +274,6 @@ namespace dooms
 					return GL_DEPTH_COMPONENT32;
 				case GraphicsAPI::TEXTURE_INTERNAL_FORMAT_DEPTH_COMPONENT32F:
 					return GL_DEPTH_COMPONENT32F;
-				case GraphicsAPI::TEXTURE_INTERNAL_FORMAT_DEPTH_STENCIL:
-					return GL_DEPTH_STENCIL;
 				case GraphicsAPI::TEXTURE_INTERNAL_FORMAT_DEPTH24_STENCIL8:
 					return GL_DEPTH24_STENCIL8;
 				case GraphicsAPI::TEXTURE_INTERNAL_FORMAT_DEPTH32F_STENCIL8:
@@ -449,7 +445,7 @@ namespace dooms
 				}
 			}
 
-			inline extern unsigned int GetGLBufferTarget(const GraphicsAPI::eBufferTarget bufferTarget)
+			inline static unsigned int GetGLBufferTarget(const GraphicsAPI::eBufferTarget bufferTarget)
 			{
 				switch (bufferTarget)
 				{
@@ -474,7 +470,7 @@ namespace dooms
 				}
 			}
 
-			inline extern unsigned int GetGLBufferBitType(const GraphicsAPI::eBufferBitType bufferType)
+			inline static unsigned int GetGLBufferBitType(const GraphicsAPI::eBufferBitType bufferType)
 			{
 				switch (bufferType)
 				{
@@ -489,7 +485,7 @@ namespace dooms
 				}
 			}
 
-			inline extern unsigned int GetGLBufferBitType(const unsigned int bufferTypeBits)
+			inline static unsigned int GetGLBufferBitType(const unsigned int bufferTypeBits)
 			{
 				unsigned int bufferBitType = 0;
 				if ((bufferTypeBits & GraphicsAPI::COLOR_BUFFER) != 0)
@@ -507,7 +503,7 @@ namespace dooms
 				return bufferBitType;
 			}
 
-			inline extern unsigned int GetGLBufferType(const GraphicsAPI::eBufferType bufferType)
+			inline static unsigned int GetGLBufferType(const GraphicsAPI::eBufferType bufferType)
 			{
 				switch (bufferType)
 				{
@@ -522,7 +518,7 @@ namespace dooms
 				}
 			}
 
-			inline extern unsigned int GetGLBufferMode(const GraphicsAPI::eBufferMode bufferMode)
+			inline static unsigned int GetGLBufferMode(const GraphicsAPI::eBufferMode bufferMode)
 			{
 				switch (bufferMode)
 				{
@@ -613,7 +609,7 @@ namespace dooms
 				}
 			}
 
-			inline extern unsigned int GetGLShaderType(const GraphicsAPI::eShaderType shaderType)
+			inline static unsigned int GetGLShaderType(const GraphicsAPI::eShaderType shaderType)
 			{
 				switch (shaderType)
 				{
@@ -629,7 +625,7 @@ namespace dooms
 				}
 			}
 
-			inline extern unsigned int GetGLTextureBindTarget(const GraphicsAPI::eTextureBindTarget textureBindTarget)
+			inline static unsigned int GetGLTextureBindTarget(const GraphicsAPI::eTextureBindTarget textureBindTarget)
 			{
 				switch (textureBindTarget)
 				{
@@ -647,10 +643,10 @@ namespace dooms
 					return GL_TEXTURE_RECTANGLE;
 				case GraphicsAPI::TEXTURE_CUBE_MAP:
 					return GL_TEXTURE_CUBE_MAP;
-				case GraphicsAPI::TEXTURE_CUBE_MAP_ARRAY:
-					return GL_TEXTURE_CUBE_MAP_ARRAY;
 				case GraphicsAPI::_TEXTURE_BUFFER:
 					return GL_TEXTURE_BUFFER;
+				case GraphicsAPI::TEXTURE_CUBE_MAP_ARRAY:
+					return GL_TEXTURE_CUBE_MAP_ARRAY;
 				case GraphicsAPI::TEXTURE_2D_MULTISAMPLE:
 					return GL_TEXTURE_2D_MULTISAMPLE;
 				case GraphicsAPI::TEXTURE_2D_MULTISAMPLE_ARRAY:
@@ -661,7 +657,7 @@ namespace dooms
 				}
 			}
 
-			inline extern unsigned int GetGLMapBufferAccessOption(const GraphicsAPI::eMapBufferAccessOption mapBufferAccessOption)
+			inline static unsigned int GetGLMapBufferAccessOption(const GraphicsAPI::eMapBufferAccessOption mapBufferAccessOption)
 			{
 				switch (mapBufferAccessOption)
 				{
@@ -679,7 +675,7 @@ namespace dooms
 				}
 			}
 
-			inline extern unsigned int GetGLTextureMataDataType(const GraphicsAPI::eTextureMetaDataType textureMetaDataType)
+			inline static unsigned int GetGLTextureMataDataType(const GraphicsAPI::eTextureMetaDataType textureMetaDataType)
 			{
 				switch (textureMetaDataType)
 				{
@@ -714,7 +710,7 @@ namespace dooms
 				}
 			}
 
-			inline extern unsigned int GetGLTextureParameterType(const GraphicsAPI::eTextureParameterType textureParameterType)
+			inline static unsigned int GetGLTextureParameterType(const GraphicsAPI::eTextureParameterType textureParameterType)
 			{
 				switch (textureParameterType)
 				{
@@ -757,7 +753,7 @@ namespace dooms
 				}
 			}
 
-			inline extern unsigned int GetGLTargetTexture(const GraphicsAPI::eTargetTexture targetTexture)
+			inline static unsigned int GetGLTargetTexture(const GraphicsAPI::eTargetTexture targetTexture)
 			{
 				switch (targetTexture)
 				{
@@ -800,7 +796,7 @@ namespace dooms
 
 
 
-			inline extern unsigned int GetGLDataType(const GraphicsAPI::eDataType dataType)
+			inline static unsigned int GetGLDataType(const GraphicsAPI::eDataType dataType)
 			{
 				switch (dataType)
 				{
@@ -853,7 +849,7 @@ namespace dooms
 				}
 			}
 
-			inline extern unsigned int GetGLBlendFactor(const graphics::GraphicsAPI::eBlendFactor blendFactor)
+			inline static unsigned int GetGLBlendFactor(const graphics::GraphicsAPI::eBlendFactor blendFactor)
 			{
 				switch (blendFactor)
 				{
@@ -890,7 +886,7 @@ namespace dooms
 				}
 			}
 
-			inline extern unsigned int GetGLWinding(const GraphicsAPI::eWinding winding)
+			inline static unsigned int GetGLWinding(const GraphicsAPI::eWinding winding)
 			{
 				switch (winding)
 				{
@@ -903,7 +899,7 @@ namespace dooms
 				}
 			}
 
-			inline extern unsigned int GetGLImageInterpolation(const GraphicsAPI::eImageInterpolation imageInterpolation)
+			inline static unsigned int GetGLImageInterpolation(const GraphicsAPI::eImageInterpolation imageInterpolation)
 			{
 				switch (imageInterpolation)
 				{
@@ -918,7 +914,7 @@ namespace dooms
 			}
 
 
-			inline extern unsigned int GetGLFrameBufferAttachmentPoint(const GraphicsAPI::eFrameBufferAttachmentPoint frameBufferAttachmentPoint)
+			inline static unsigned int GetGLFrameBufferAttachmentPoint(const GraphicsAPI::eFrameBufferAttachmentPoint frameBufferAttachmentPoint)
 			{
 				switch (frameBufferAttachmentPoint)
 				{
@@ -956,7 +952,7 @@ namespace dooms
 				}
 			}
 
-			inline extern unsigned int GetGLBindFrameBufferTarget(const GraphicsAPI::eBindFrameBufferTarget bindFrameBufferTarget)
+			inline static unsigned int GetGLBindFrameBufferTarget(const GraphicsAPI::eBindFrameBufferTarget bindFrameBufferTarget)
 			{
 				switch (bindFrameBufferTarget)
 				{
@@ -972,9 +968,34 @@ namespace dooms
 				}
 			}
 
+			inline static unsigned int ConvertStencilOptionToGLStencilOption(const GraphicsAPI::eStencilOption stencilOption)
+			{
+				switch (stencilOption)
+				{
+				case GraphicsAPI::eStencilOption::KEEP:
+					return GL_KEEP;
+				case GraphicsAPI::eStencilOption::ZERO: 
+					return GL_ZERO;
+				case GraphicsAPI::eStencilOption::REPLACE:
+					return GL_REPLACE;
+				case GraphicsAPI::eStencilOption::INCR:
+					return GL_INCR;
+				case GraphicsAPI::eStencilOption::INCR_WRAP:
+					return GL_INCR_WRAP;
+				case GraphicsAPI::eStencilOption::DECR:
+					return GL_DECR;
+				case GraphicsAPI::eStencilOption::DECR_WRAP:
+					return GL_DECR_WRAP;
+				case GraphicsAPI::eStencilOption::INVERT:
+					return GL_INVERT;
+				default:
+					NEVER_HAPPEN;
+				}
+			}
+
 			static GLFWwindow* glfwWindow = nullptr;
 
-			extern void DEBUG_CALLBACK
+			static void DEBUG_CALLBACK
 			(
 				GLenum source,
 				GLenum type,
@@ -1175,9 +1196,41 @@ namespace dooms
 			}
 		}
 
-		DOOMS_ENGINE_GRAPHICS_API void SetDepthFunc(const GraphicsAPI::eDepthFuncType depthFuncType)
+		DOOMS_ENGINE_GRAPHICS_API void SetIsStencilTestEnabled(const bool isEnabled)
 		{
-			glDepthFunc(opengl::GetGLDepthFuncType(depthFuncType));
+			if (isEnabled == true)
+			{
+				glEnable(GL_STENCIL_TEST);
+			}
+			else
+			{
+				glDisable(GL_STENCIL_TEST);
+			}
+		}
+
+		DOOMS_ENGINE_GRAPHICS_API void SetIsStencilFunc
+		(
+			const GraphicsAPI::eTestFuncType testFuncType,
+			const int ref,
+			const unsigned int mask
+		)
+		{
+			glStencilFunc(graphics::opengl::GetGLTestFuncType(testFuncType), ref, mask);
+		}
+
+		DOOMS_ENGINE_GRAPHICS_API void SetIsStencilOp
+		(
+			const GraphicsAPI::eStencilOption stencilFailOption,
+			const GraphicsAPI::eStencilOption actionWhenStencilTestPass_And_DepthTestFail,
+			const GraphicsAPI::eStencilOption actionWhenStencilTestPass_And_DepthTestPass
+		)
+		{
+			glStencilOp(graphics::opengl::ConvertStencilOptionToGLStencilOption(stencilFailOption), graphics::opengl::ConvertStencilOptionToGLStencilOption(actionWhenStencilTestPass_And_DepthTestFail), graphics::opengl::ConvertStencilOptionToGLStencilOption(actionWhenStencilTestPass_And_DepthTestPass));
+		}
+
+		DOOMS_ENGINE_GRAPHICS_API void SetDepthFunc(const GraphicsAPI::eTestFuncType depthFuncType)
+		{
+			glDepthFunc(opengl::GetGLTestFuncType(depthFuncType));
 		}
 
 		DOOMS_ENGINE_GRAPHICS_API void SetDepthMask(const bool isWriteDepthBuffer)
@@ -1614,10 +1667,10 @@ namespace dooms
 		(
 			const unsigned int shaderObject,
 			const unsigned int shaderCount,
-			const char* const* const shaderTexts
+			const char* const* const shaderText
 		)
 		{
-			glShaderSource(shaderObject, shaderCount, shaderTexts, NULL);
+			glShaderSource(shaderObject, shaderCount, shaderText, NULL);
 			glCompileShader(shaderObject);
 		}
 

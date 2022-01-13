@@ -11,6 +11,15 @@
 #include "DDSTextureLoader.h"
 #include "resource.h"
 
+
+#undef NEVER_HAPPEN
+#ifdef _DEBUG
+#define NEVER_HAPPEN assert(false)
+#else
+#define NEVER_HAPPEN __assume(0)
+#endif
+
+
 // https://anteru.net/blog/2013/porting-from-directx11-to-opengl-4-2-tales-from-the-trenches/
 // https://anteru.net/blog/2013/porting-from-directx11-to-opengl-4-2-textures-samplers/
 
@@ -47,47 +56,211 @@ namespace dooms
 
 		namespace dx11
 		{
-            HINSTANCE                           g_hInst = nullptr;
-            HWND                                g_hWnd = nullptr;
-            D3D_DRIVER_TYPE                     g_driverType = D3D_DRIVER_TYPE_NULL;
-            D3D_FEATURE_LEVEL                   g_featureLevel = D3D_FEATURE_LEVEL_11_0;
-            ID3D11Device* g_pd3dDevice = nullptr;
-            ID3D11Device1* g_pd3dDevice1 = nullptr;
-            ID3D11DeviceContext* g_pImmediateContext = nullptr;
-            ID3D11DeviceContext1* g_pImmediateContext1 = nullptr;
-            IDXGISwapChain* g_pSwapChain = nullptr;
-            IDXGISwapChain1* g_pSwapChain1 = nullptr;
-            ID3D11RenderTargetView* g_pRenderTargetView = nullptr;
-            ID3D11Texture2D* g_pDepthStencil = nullptr;
-            ID3D11DepthStencilView* g_pDepthStencilView = nullptr;
-            ID3D11VertexShader* g_pVertexShader = nullptr;
-            ID3D11PixelShader* g_pPixelShader = nullptr;
-            ID3D11InputLayout* g_pVertexLayout = nullptr;
-            ID3D11Buffer* g_pVertexBuffer = nullptr;
-            ID3D11Buffer* g_pIndexBuffer = nullptr;
-            ID3D11Buffer* g_pCBNeverChanges = nullptr;
-            ID3D11Buffer* g_pCBChangeOnResize = nullptr;
-            ID3D11Buffer* g_pCBChangesEveryFrame = nullptr;
-            ID3D11ShaderResourceView* g_pTextureRV = nullptr;
-            ID3D11SamplerState* g_pSamplerLinear = nullptr;
-            DirectX::XMMATRIX                            g_World;
-            DirectX::XMMATRIX                            g_View;
-            DirectX::XMMATRIX                            g_Projection;
-            DirectX::XMFLOAT4                            g_vMeshColor(0.7f, 0.7f, 0.7f, 1.0f);
+            inline static DXGI_FORMAT ConvertTextureInternalFormat_To_DXGI_FORMAT(const GraphicsAPI::eTextureInternalFormat internalFormat)
+            {
+                // reference ( opengl format, dxgi table : https://chromium.googlesource.com/angle/angle/+/6ea6f9424890b2a443fafb940ba27e902b4e9157/src/libANGLE/renderer/d3d/d3d11/texture_format_util.cpp )
+	            switch(internalFormat)
+	            {
+                case GraphicsAPI::TEXTURE_INTERNAL_FORMAT_RGBA8:
+                case GraphicsAPI::TEXTURE_INTERNAL_FORMAT_RGB8:
+                    return DXGI_FORMAT_R8G8B8A8_UNORM;
+                case GraphicsAPI::TEXTURE_INTERNAL_FORMAT_DEPTH_COMPONENT16:
+                    return DXGI_FORMAT_D16_UNORM;
+                case GraphicsAPI::TEXTURE_INTERNAL_FORMAT_DEPTH_COMPONENT24:
+                    return DXGI_FORMAT_D24_UNORM_S8_UINT;
+                case GraphicsAPI::TEXTURE_INTERNAL_FORMAT_DEPTH_COMPONENT32F:
+                    return DXGI_FORMAT_R32_TYPELESS;
+                case GraphicsAPI::TEXTURE_INTERNAL_FORMAT_DEPTH24_STENCIL8:
+                    return DXGI_FORMAT_D24_UNORM_S8_UINT;
+                case GraphicsAPI::TEXTURE_INTERNAL_FORMAT_DEPTH32F_STENCIL8:
+                    return DXGI_FORMAT_R32G8X24_TYPELESS;
+
+	            case GraphicsAPI::TEXTURE_INTERNAL_FORMAT_NONE: 
+	            case GraphicsAPI::TEXTURE_INTERNAL_FORMAT_STENCIL_INDEX: 
+	            case GraphicsAPI::TEXTURE_INTERNAL_FORMAT_STENCIL_INDEX8: 
+	            case GraphicsAPI::TEXTURE_INTERNAL_FORMAT_RED: 
+	            case GraphicsAPI::TEXTURE_INTERNAL_FORMAT_RG: 
+	            case GraphicsAPI::TEXTURE_INTERNAL_FORMAT_RGB: 
+	            case GraphicsAPI::TEXTURE_INTERNAL_FORMAT_RGBA: 
+	            case GraphicsAPI::TEXTURE_INTERNAL_FORMAT_R8: 
+	            case GraphicsAPI::TEXTURE_INTERNAL_FORMAT_R8_SNORM: 
+	            case GraphicsAPI::TEXTURE_INTERNAL_FORMAT_R16: 
+	            case GraphicsAPI::TEXTURE_INTERNAL_FORMAT_R16_SNORM: 
+	            case GraphicsAPI::TEXTURE_INTERNAL_FORMAT_RG8: 
+	            case GraphicsAPI::TEXTURE_INTERNAL_FORMAT_RG8_SNORM: 
+	            case GraphicsAPI::TEXTURE_INTERNAL_FORMAT_RG16: 
+	            case GraphicsAPI::TEXTURE_INTERNAL_FORMAT_RG16_SNORM: 
+	            case GraphicsAPI::TEXTURE_INTERNAL_FORMAT_R3_G3_B2: 
+	            case GraphicsAPI::TEXTURE_INTERNAL_FORMAT_RGB4: 
+	            case GraphicsAPI::TEXTURE_INTERNAL_FORMAT_RGB5: 
+	            case GraphicsAPI::TEXTURE_INTERNAL_FORMAT_RGB8_SNORM: 
+	            case GraphicsAPI::TEXTURE_INTERNAL_FORMAT_RGB10: 
+	            case GraphicsAPI::TEXTURE_INTERNAL_FORMAT_RGB12: 
+	            case GraphicsAPI::TEXTURE_INTERNAL_FORMAT_RGB16_SNORM: 
+	            case GraphicsAPI::TEXTURE_INTERNAL_FORMAT_RGBA2: 
+	            case GraphicsAPI::TEXTURE_INTERNAL_FORMAT_RGBA4: 
+	            case GraphicsAPI::TEXTURE_INTERNAL_FORMAT_RGB5_A1: 
+	            case GraphicsAPI::TEXTURE_INTERNAL_FORMAT_RGBA8_SNORM: 
+	            case GraphicsAPI::TEXTURE_INTERNAL_FORMAT_RGB10_A2: 
+	            case GraphicsAPI::TEXTURE_INTERNAL_FORMAT_RGB10_A2UI: 
+	            case GraphicsAPI::TEXTURE_INTERNAL_FORMAT_RGBA12: 
+	            case GraphicsAPI::TEXTURE_INTERNAL_FORMAT_RGBA16: 
+	            case GraphicsAPI::TEXTURE_INTERNAL_FORMAT_SRGB8: 
+	            case GraphicsAPI::TEXTURE_INTERNAL_FORMAT_SRGB8_ALPHA8: 
+	            case GraphicsAPI::TEXTURE_INTERNAL_FORMAT_R16F: 
+	            case GraphicsAPI::TEXTURE_INTERNAL_FORMAT_RG16F: 
+	            case GraphicsAPI::TEXTURE_INTERNAL_FORMAT_RGB16F: 
+	            case GraphicsAPI::TEXTURE_INTERNAL_FORMAT_RGBA16F: 
+	            case GraphicsAPI::TEXTURE_INTERNAL_FORMAT_R32F: 
+	            case GraphicsAPI::TEXTURE_INTERNAL_FORMAT_RG32F: 
+	            case GraphicsAPI::TEXTURE_INTERNAL_FORMAT_RGB32F: 
+	            case GraphicsAPI::TEXTURE_INTERNAL_FORMAT_RGBA32F: 
+	            case GraphicsAPI::TEXTURE_INTERNAL_FORMAT_R11F_G11F_B10F: 
+	            case GraphicsAPI::TEXTURE_INTERNAL_FORMAT_RGB9_E5: 
+	            case GraphicsAPI::TEXTURE_INTERNAL_FORMAT_R8I: 
+	            case GraphicsAPI::TEXTURE_INTERNAL_FORMAT_R8UI: 
+	            case GraphicsAPI::TEXTURE_INTERNAL_FORMAT_R16I: 
+	            case GraphicsAPI::TEXTURE_INTERNAL_FORMAT_R16UI: 
+	            case GraphicsAPI::TEXTURE_INTERNAL_FORMAT_R32I: 
+	            case GraphicsAPI::TEXTURE_INTERNAL_FORMAT_R32UI: 
+	            case GraphicsAPI::TEXTURE_INTERNAL_FORMAT_RG8I: 
+	            case GraphicsAPI::TEXTURE_INTERNAL_FORMAT_RG8UI: 
+	            case GraphicsAPI::TEXTURE_INTERNAL_FORMAT_RG16I: 
+	            case GraphicsAPI::TEXTURE_INTERNAL_FORMAT_RG16UI: 
+	            case GraphicsAPI::TEXTURE_INTERNAL_FORMAT_RG32I: 
+	            case GraphicsAPI::TEXTURE_INTERNAL_FORMAT_RG32UI: 
+	            case GraphicsAPI::TEXTURE_INTERNAL_FORMAT_RGB8I: 
+	            case GraphicsAPI::TEXTURE_INTERNAL_FORMAT_RGB8UI: 
+	            case GraphicsAPI::TEXTURE_INTERNAL_FORMAT_RGB16I: 
+	            case GraphicsAPI::TEXTURE_INTERNAL_FORMAT_RGB16UI: 
+	            case GraphicsAPI::TEXTURE_INTERNAL_FORMAT_RGB32I: 
+	            case GraphicsAPI::TEXTURE_INTERNAL_FORMAT_RGB32UI: 
+	            case GraphicsAPI::TEXTURE_INTERNAL_FORMAT_RGBA8I: 
+	            case GraphicsAPI::TEXTURE_INTERNAL_FORMAT_RGBA8UI: 
+	            case GraphicsAPI::TEXTURE_INTERNAL_FORMAT_RGBA16I: 
+	            case GraphicsAPI::TEXTURE_INTERNAL_FORMAT_RGBA16UI: 
+	            case GraphicsAPI::TEXTURE_INTERNAL_FORMAT_RGBA32I: 
+	            case GraphicsAPI::TEXTURE_INTERNAL_FORMAT_RGBA32UI: 
+	            case GraphicsAPI::TEXTURE_INTERNAL_FORMAT_COMPRESSED_RED: 
+	            case GraphicsAPI::TEXTURE_INTERNAL_FORMAT_COMPRESSED_RG: 
+	            case GraphicsAPI::TEXTURE_INTERNAL_FORMAT_COMPRESSED_RGB: 
+	            case GraphicsAPI::TEXTURE_INTERNAL_FORMAT_COMPRESSED_RGBA: 
+	            case GraphicsAPI::TEXTURE_INTERNAL_FORMAT_COMPRESSED_SRGB: 
+	            case GraphicsAPI::TEXTURE_INTERNAL_FORMAT_COMPRESSED_SRGB_ALPHA: 
+	            case GraphicsAPI::TEXTURE_INTERNAL_FORMAT_COMPRESSED_RED_RGTC1: 
+	            case GraphicsAPI::TEXTURE_INTERNAL_FORMAT_COMPRESSED_SIGNED_RED_RGTC1: 
+	            case GraphicsAPI::TEXTURE_INTERNAL_FORMAT_COMPRESSED_RG_RGTC2: 
+	            case GraphicsAPI::TEXTURE_INTERNAL_FORMAT_COMPRESSED_SIGNED_RG_RGTC2: 
+	            case GraphicsAPI::TEXTURE_INTERNAL_FORMAT_COMPRESSED_RGBA_BPTC_UNORM: 
+	            case GraphicsAPI::TEXTURE_INTERNAL_FORMAT_COMPRESSED_SRGB_ALPHA_BPTC_UNORM: 
+	            case GraphicsAPI::TEXTURE_INTERNAL_FORMAT_COMPRESSED_RGB_BPTC_SIGNED_FLOAT: 
+	            case GraphicsAPI::TEXTURE_INTERNAL_FORMAT_COMPRESSED_RGB_BPTC_UNSIGNED_FLOAT:
+                    NEVER_HAPPEN;
+	            default:
+                    NEVER_HAPPEN;
+	            }
+            }
+
+            inline static DXGI_FORMAT ConvertTextureCompressedInternalFormat_To_DXGI_FORMAT(const GraphicsAPI::eTextureCompressedInternalFormat textureInternalFormat)
+            {
+	            switch (textureInternalFormat)
+	            {
+	            case GraphicsAPI::COMPRESSED_RGB_S3TC_DXT1_EXT:
+                    return DXGI_FORMAT::DXGI_FORMAT_BC1_UNORM;
+	            case GraphicsAPI::COMPRESSED_RGBA_S3TC_DXT5_EXT: 
+                    return DXGI_FORMAT::DXGI_FORMAT_BC3_UNORM;
+	            case GraphicsAPI::COMPRESSED_RED_GREEN_RGTC2_EXT: 
+                    return DXGI_FORMAT::DXGI_FORMAT_BC5_UNORM;
+	            case GraphicsAPI::COMPRESSED_RED_RGTC1_EXT:
+                    return DXGI_FORMAT::DXGI_FORMAT_BC4_UNORM;
+
+	            case GraphicsAPI::COMPRESSED_SRGB_S3TC_DXT1_EXT:
+	            case GraphicsAPI::COMPRESSED_SRGB_ALPHA_S3TC_DXT1_EXT: 
+	            case GraphicsAPI::COMPRESSED_SRGB_ALPHA_S3TC_DXT3_EXT: 
+	            case GraphicsAPI::COMPRESSED_SRGB_ALPHA_S3TC_DXT5_EXT:
+                case GraphicsAPI::COMPRESSED_RGBA_S3TC_DXT3_EXT:
+                case GraphicsAPI::TEXTURE_COMPRESSED_INTERNAL_FORMAT_NONE:
+                case GraphicsAPI::COMPRESSED_RGB8_ETC2:
+                case GraphicsAPI::COMPRESSED_SRGB8_ETC2:
+                case GraphicsAPI::COMPRESSED_RGB8_PUNCHTHROUGH_ALPHA1_ETC2:
+                case GraphicsAPI::COMPRESSED_SRGB8_PUNCHTHROUGH_ALPHA1_ETC2:
+                case GraphicsAPI::COMPRESSED_RGBA8_ETC2_EAC:
+                case GraphicsAPI::COMPRESSED_SRGB8_ALPHA8_ETC2_EAC:
+                case GraphicsAPI::COMPRESSED_R11_EAC:
+                case GraphicsAPI::COMPRESSED_SIGNED_R11_EAC:
+                case GraphicsAPI::COMPRESSED_RG11_EAC:
+                case GraphicsAPI::COMPRESSED_SIGNED_RG11_EAC:
+                case GraphicsAPI::COMPRESSED_RGBA_S3TC_DXT1_EXT:
+                    NEVER_HAPPEN;
+
+	            default:
+                    NEVER_HAPPEN;
+	            }
+            }
+
+            inline static D3D11_DSV_DIMENSION ConvertTextureBindTarget_To_D3D11_DSV_DIMENSION(const GraphicsAPI::eTextureBindTarget textureBindTarget)
+            {
+                switch (textureBindTarget)
+                {
+                case GraphicsAPI::TEXTURE_1D:
+                    return D3D11_DSV_DIMENSION::D3D11_DSV_DIMENSION_TEXTURE1D;
+                case GraphicsAPI::TEXTURE_2D:
+                    return D3D11_DSV_DIMENSION::D3D11_DSV_DIMENSION_TEXTURE2D;
+                case GraphicsAPI::TEXTURE_1D_ARRAY:
+                    return D3D11_DSV_DIMENSION::D3D11_DSV_DIMENSION_TEXTURE1DARRAY;
+                case GraphicsAPI::TEXTURE_2D_ARRAY:
+                    return D3D11_DSV_DIMENSION::D3D11_DSV_DIMENSION_TEXTURE2DARRAY;
+                case GraphicsAPI::TEXTURE_2D_MULTISAMPLE:
+                    return D3D11_DSV_DIMENSION::D3D11_DSV_DIMENSION_TEXTURE2D;
+                case GraphicsAPI::TEXTURE_2D_MULTISAMPLE_ARRAY:
+                    return D3D11_DSV_DIMENSION::D3D11_DSV_DIMENSION_TEXTURE2DMSARRAY;
+                default:
+                    NEVER_HAPPEN;
+
+                }
+            }
+
+            static HINSTANCE                           g_hInst = nullptr;
+            static HWND                                g_hWnd = nullptr;
+            static  D3D_DRIVER_TYPE                     g_driverType = D3D_DRIVER_TYPE_NULL;
+            static D3D_FEATURE_LEVEL                   g_featureLevel = D3D_FEATURE_LEVEL_11_0;
+            static ID3D11Device* g_pd3dDevice = nullptr;
+            static ID3D11Device1* g_pd3dDevice1 = nullptr;
+            static ID3D11DeviceContext* g_pImmediateContext = nullptr;
+            static  ID3D11DeviceContext1* g_pImmediateContext1 = nullptr;
+            static IDXGISwapChain* g_pSwapChain = nullptr;
+            static  IDXGISwapChain1* g_pSwapChain1 = nullptr;
+            static ID3D11RenderTargetView* g_pRenderTargetView = nullptr;
+            static ID3D11Texture2D* g_pDepthStencil = nullptr;
+            static ID3D11DepthStencilView* g_pDepthStencilView = nullptr;
+            static ID3D11VertexShader* g_pVertexShader = nullptr;
+            static  ID3D11PixelShader* g_pPixelShader = nullptr;
+            static ID3D11InputLayout* g_pVertexLayout = nullptr;
+            static ID3D11Buffer* g_pVertexBuffer = nullptr;
+            static ID3D11Buffer* g_pIndexBuffer = nullptr;
+            static  ID3D11Buffer* g_pCBNeverChanges = nullptr;
+            static  ID3D11Buffer* g_pCBChangeOnResize = nullptr;
+            static ID3D11Buffer* g_pCBChangesEveryFrame = nullptr;
+            static  ID3D11ShaderResourceView* g_pTextureRV = nullptr;
+            static  ID3D11SamplerState* g_pSamplerLinear = nullptr;
+            static  DirectX::XMMATRIX                            g_World;
+            static DirectX::XMMATRIX                            g_View;
+            static  DirectX::XMMATRIX                            g_Projection;
+            static  DirectX::XMFLOAT4                            g_vMeshColor(0.7f, 0.7f, 0.7f, 1.0f);
 
 
-			HRESULT InitWindow(HINSTANCE hInstance, int nCmdShow);
-			HRESULT InitDevice();
-			void CleanupDevice();
-			LRESULT CALLBACK    WndProc(HWND, UINT, WPARAM, LPARAM);
-			void Render();
+            static HRESULT InitWindow(HINSTANCE hInstance, int nCmdShow);
+            static HRESULT InitDevice();
+            static void CleanupDevice();
+            static LRESULT CALLBACK    WndProc(HWND, UINT, WPARAM, LPARAM);
+            static void Render();
 
             //--------------------------------------------------------------------------------------
 			// Helper for compiling shaders with D3DCompile
 			//
 			// With VS 11, we could load up prebuilt .cso files instead...
 			//--------------------------------------------------------------------------------------
-            HRESULT CompileShaderFromFile(const WCHAR* szFileName, LPCSTR szEntryPoint, LPCSTR szShaderModel, ID3DBlob** ppBlobOut)
+            static HRESULT CompileShaderFromFile(const WCHAR* szFileName, LPCSTR szEntryPoint, LPCSTR szShaderModel, ID3DBlob** ppBlobOut)
             {
                 HRESULT hr = S_OK;
 
@@ -104,6 +277,7 @@ namespace dooms
 #endif
 
                 ID3DBlob* pErrorBlob = nullptr;
+                
                 hr = D3DCompileFromFile(szFileName, nullptr, nullptr, szEntryPoint, szShaderModel,
                     dwShaderFlags, 0, ppBlobOut, &pErrorBlob);
                 if (FAILED(hr))
@@ -121,7 +295,7 @@ namespace dooms
             }
 
             
-			HRESULT InitWindow(HINSTANCE hInstance, int nCmdShow)
+            static HRESULT InitWindow(HINSTANCE hInstance, int nCmdShow)
 			{
                 assert(hInstance != NULL);
 				// Register class
@@ -161,7 +335,7 @@ namespace dooms
 				return S_OK;
 			}
 
-            HRESULT InitDevice()
+            static HRESULT InitDevice()
             {
                 HRESULT hr = S_OK;
 
@@ -175,7 +349,7 @@ namespace dooms
                 createDeviceFlags |= D3D11_CREATE_DEVICE_DEBUG;
 #endif
 
-                D3D_DRIVER_TYPE driverTypes[] =
+                D3D_DRIVER_TYPE driverTypes[] = // https://docs.microsoft.com/en-us/windows/win32/api/d3dcommon/ne-d3dcommon-d3d_driver_type
                 {
                     D3D_DRIVER_TYPE_HARDWARE,
                     D3D_DRIVER_TYPE_WARP,
@@ -246,7 +420,7 @@ namespace dooms
                     DXGI_SWAP_CHAIN_DESC1 sd = {};
                     sd.Width = width;
                     sd.Height = height;
-                    sd.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
+                    sd.Format = dooms::graphics::dx11::ConvertTextureInternalFormat_To_DXGI_FORMAT(GraphicsAPI::TEXTURE_INTERNAL_FORMAT_RGBA8);
                     sd.SampleDesc.Count = 1;
                     sd.SampleDesc.Quality = 0;
                     sd.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT;
@@ -267,7 +441,7 @@ namespace dooms
                     sd.BufferCount = 1;
                     sd.BufferDesc.Width = width;
                     sd.BufferDesc.Height = height;
-                    sd.BufferDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
+                    sd.BufferDesc.Format = dooms::graphics::dx11::ConvertTextureInternalFormat_To_DXGI_FORMAT(GraphicsAPI::TEXTURE_INTERNAL_FORMAT_RGBA8);
                     sd.BufferDesc.RefreshRate.Numerator = 60;
                     sd.BufferDesc.RefreshRate.Denominator = 1;
                     sd.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT;
@@ -304,7 +478,7 @@ namespace dooms
                 descDepth.Height = height;
                 descDepth.MipLevels = 1;
                 descDepth.ArraySize = 1;
-                descDepth.Format = DXGI_FORMAT_D24_UNORM_S8_UINT;
+                descDepth.Format = dooms::graphics::dx11::ConvertTextureInternalFormat_To_DXGI_FORMAT(GraphicsAPI::TEXTURE_INTERNAL_FORMAT_DEPTH_COMPONENT32);
                 descDepth.SampleDesc.Count = 1;
                 descDepth.SampleDesc.Quality = 0;
                 descDepth.Usage = D3D11_USAGE_DEFAULT;
@@ -537,7 +711,7 @@ namespace dooms
                 return S_OK;
             }
 
-            void Render()
+            static void Render()
             {
                 // Update our time
                 static float t = 0.0f;
@@ -602,7 +776,7 @@ namespace dooms
             //--------------------------------------------------------------------------------------
 			// Clean up the objects we've created
 			//--------------------------------------------------------------------------------------
-            void CleanupDevice()
+            static void CleanupDevice()
             {
                 if (g_pImmediateContext) g_pImmediateContext->ClearState();
 
@@ -630,7 +804,7 @@ namespace dooms
             //--------------------------------------------------------------------------------------
 			// Called every time the application receives a message
 			//--------------------------------------------------------------------------------------
-            LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
+            static LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
             {
                 PAINTSTRUCT ps;
                 HDC hdc;
