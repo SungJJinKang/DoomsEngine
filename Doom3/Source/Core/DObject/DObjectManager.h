@@ -28,7 +28,8 @@ namespace dooms
 		friend class DObject;
 
 		std::unordered_set<DObject*> mDObjectList;
-		
+
+		// TODO : Move DObject flat into DObject class to prevent data race during multithreaded gc
 		std::vector<UINT32> mDObjectFlagList; // TODO : Can multithreaded gc mark stage cause data race??  ( https://github.com/SungJJinKang/DoomsEngine/blob/main/Doom3/Source/Core/GarbageCollector/GarbageCollectorSolver.cpp ) ( https://stackoverflow.com/q/70352322/17222574 )
 		std::vector<UINT32> mEmptyIndexInFlagList;
 
