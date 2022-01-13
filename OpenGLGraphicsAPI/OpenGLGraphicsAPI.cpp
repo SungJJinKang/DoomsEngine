@@ -1102,7 +1102,7 @@ namespace dooms
 			// --------------------
 			assert(screenWidth != 0 && screenHeight != 0);
 
-			dooms::graphics::opengl::glfwWindow = glfwCreateWindow(screenWidth, screenHeight, "SUNG JIN KANG", NULL, NULL);
+			dooms::graphics::opengl::glfwWindow = glfwCreateWindow(screenWidth, screenHeight, "SUNG JIN KANG ( hour30000@gmail.com, https://github.com/SungJJinKang )", NULL, NULL);
 			if (dooms::graphics::opengl::glfwWindow == NULL)
 			{
 				assert(0); // "Failed to create GLFW window"
