@@ -750,7 +750,7 @@ namespace dooms
                 // Clear the depth buffer to 1.0 (max depth)
                 //
                 g_pImmediateContext->ClearDepthStencilView(g_pDepthStencilView, D3D11_CLEAR_DEPTH, 1.0f, 0);
-
+                
                 //
                 // Update variables that change once per frame
                 //
@@ -942,6 +942,22 @@ namespace dooms
 
             delete[] vp;
             return isSuccess;
+        }
+        
+        DOOMS_ENGINE_GRAPHICS_API void ClearBackBufferColorBuffer(const float r, const float g, const float b, const float a)
+        {
+            FLOAT color[4] = { r, g, b, a };
+            dx11::g_pImmediateContext->ClearRenderTargetView(dx11::g_pRenderTargetView, color);
+        }
+
+        DOOMS_ENGINE_GRAPHICS_API void ClearBackBufferDepthBuffer(const double depthValue)
+        {
+	        dx11::g_pImmediateContext->ClearDepthStencilView(dx11::g_pDepthStencilView, D3D11_CLEAR_DEPTH, depthValue, 0);
+        }
+
+        DOOMS_ENGINE_GRAPHICS_API void ClearBackBufferDepthStencilBuffer(const int stencilValue)
+        {
+            dx11::g_pImmediateContext->ClearDepthStencilView(dx11::g_pDepthStencilView, D3D11_CLEAR_STENCIL, 1.0f, stencilValue);
         }
 
         DOOMS_ENGINE_GRAPHICS_API void SetWindowTitle(const char* const title)

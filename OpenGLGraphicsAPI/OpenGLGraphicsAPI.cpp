@@ -1342,30 +1342,24 @@ namespace dooms
 			glReadBuffer(opengl::GetGLBufferMode(bufferMode));
 		}
 
-		DOOMS_ENGINE_GRAPHICS_API void ClearColor(const float r, const float g, const float b, const float a)
+		DOOMS_ENGINE_GRAPHICS_API void ClearBackBufferColorBuffer(const float r, const float g, const float b, const float a)
 		{
 			glClearColor(r, g, b, a);
+			glClear(opengl::GetGLBufferBitType(GraphicsAPI::COLOR_BUFFER));
+		}
+		
+		DOOMS_ENGINE_GRAPHICS_API void ClearBackBufferDepthBuffer(const double depthValue)
+		{
+			glClearDepth(depthValue);
+			glClear(opengl::GetGLBufferBitType(GraphicsAPI::DEPTH_BUFFER));
 		}
 
-		DOOMS_ENGINE_GRAPHICS_API void ClearBuffer(const unsigned int clearMaskBits)
+		DOOMS_ENGINE_GRAPHICS_API void ClearBackBufferStencilBuffer(const int stencilValue)
 		{
-			glClear(opengl::GetGLBufferBitType(clearMaskBits));
+			glClearStencil(stencilValue);
+			glClear(opengl::GetGLBufferBitType(GraphicsAPI::DEPTH_STENCIL_BUFFER));
 		}
-
-		DOOMS_ENGINE_GRAPHICS_API void ClearBuffer1(const GraphicsAPI::eBufferBitType clearMask)
-		{
-			glClear(opengl::GetGLBufferBitType(clearMask));
-		}
-
-		DOOMS_ENGINE_GRAPHICS_API void ClearBuffer2(const GraphicsAPI::eBufferBitType clearMask1, const GraphicsAPI::eBufferBitType clearMask2)
-		{
-			glClear(opengl::GetGLBufferBitType(clearMask1) | opengl::GetGLBufferBitType(clearMask2));
-		}
-
-		DOOMS_ENGINE_GRAPHICS_API void ClearBuffer3(const GraphicsAPI::eBufferBitType clearMask1, const GraphicsAPI::eBufferBitType clearMask2, const GraphicsAPI::eBufferBitType clearMask3)
-		{
-			glClear(opengl::GetGLBufferBitType(clearMask1) | opengl::GetGLBufferBitType(clearMask2) | opengl::GetGLBufferBitType(clearMask3));
-		}
+		
 
 		DOOMS_ENGINE_GRAPHICS_API void ClearSpecificBuffer
 		(

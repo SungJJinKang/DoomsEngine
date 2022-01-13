@@ -256,21 +256,15 @@ namespace dooms
 
 				typedef void (DOOMS_ENGINE_API_ENTRY_P GRAPHICS_SETREADBUFFER)(const GraphicsAPI::eBufferMode bufferMode);
 				extern GRAPHICS_SETREADBUFFER SetReadBuffer;
-
-				typedef void (DOOMS_ENGINE_API_ENTRY_P GRAPHICS_CLEARCOLOR)(const float r, const float g, const float b, const float a);
-				extern GRAPHICS_CLEARCOLOR ClearColor;
 				
-				typedef void (DOOMS_ENGINE_API_ENTRY_P GRAPHICS_CLEARBUFFER)(const unsigned int clearMaskBits);
-				extern GRAPHICS_CLEARBUFFER ClearBuffer;
+				typedef void (DOOMS_ENGINE_API_ENTRY_P GRAPHICS_CLEARBACKBUFFERCOLORBUFFER)(const float r, const float g, const float b, const float a);
+				extern GRAPHICS_CLEARBACKBUFFERCOLORBUFFER ClearBackBufferColorBuffer;
 
-				typedef void (DOOMS_ENGINE_API_ENTRY_P GRAPHICS_CLEARBUFFER1)(const eBufferBitType clearMask);
-				extern GRAPHICS_CLEARBUFFER1 ClearBuffer1;
+				typedef void (DOOMS_ENGINE_API_ENTRY_P GRAPHICS_CLEARBACKBUFFERDEPTHBUFFER)(const double depthValue);
+				extern GRAPHICS_CLEARBACKBUFFERDEPTHBUFFER ClearBackBufferDepthBuffer;
 
-				typedef void (DOOMS_ENGINE_API_ENTRY_P GRAPHICS_CLEARBUFFER2)(const eBufferBitType clearMask1, const eBufferBitType clearMask2);
-				extern GRAPHICS_CLEARBUFFER2 ClearBuffer2;
-
-				typedef void (DOOMS_ENGINE_API_ENTRY_P GRAPHICS_CLEARBUFFER3)(const eBufferBitType clearMask1, const eBufferBitType clearMask2, const eBufferBitType clearMask3);
-				extern GRAPHICS_CLEARBUFFER3 ClearBuffer3;
+				typedef void (DOOMS_ENGINE_API_ENTRY_P GRAPHICS_CLEARBACKBUFFERSTENCILBUFFER)(const int stencilValue);
+				extern GRAPHICS_CLEARBACKBUFFERSTENCILBUFFER ClearBackBufferStencilBuffer;
 
 				typedef void (DOOMS_ENGINE_API_ENTRY_P GRAPHICS_CLEARSPECIFICBUFFER)(const eBufferType bufferType, const unsigned int drawBufferIndex, const float r, const float g, const float b, const float a);
 				extern GRAPHICS_CLEARSPECIFICBUFFER ClearSpecificBuffer;
