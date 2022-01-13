@@ -4,6 +4,7 @@
 #include <cstdio>
 #include <string>
 #include "stdio.h"
+#include "stringapiset.h"
 
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
@@ -2362,7 +2363,20 @@ namespace dooms
 		}
 
 
-		
+		DOOMS_ENGINE_GRAPHICS_API void SetWindowTitle(const char* const title)
+		{
+			assert(dooms::graphics::opengl::glfwWindow != nullptr);
+			glfwSetWindowTitle(dooms::graphics::opengl::glfwWindow, title);
+		}
 
+		DOOMS_ENGINE_GRAPHICS_API void SetWindowTitleW(const wchar_t* const title)
+		{
+			assert(dooms::graphics::opengl::glfwWindow != nullptr);
+
+			char buffer[256];
+			const int length = WideCharToMultiByte(CP_UTF8, 0, title, -1, buffer, 256, NULL, NULL);
+			WideCharToMultiByte(CP_UTF8, 0, title, -1, buffer, length, NULL, NULL);
+			glfwSetWindowTitle(dooms::graphics::opengl::glfwWindow, buffer);
+		}
 	}
 }

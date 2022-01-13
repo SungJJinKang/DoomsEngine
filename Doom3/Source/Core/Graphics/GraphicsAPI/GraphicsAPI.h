@@ -1177,7 +1177,13 @@ namespace dooms
 				typedef int (DOOMS_ENGINE_API_ENTRY_P GRAPHICS_GETCONSTANTBUFFERUNIFORMLOCATION)(const unsigned long long constantBufferObject, const char* const uniformStr);
 				extern GRAPHICS_GETCONSTANTBUFFERUNIFORMLOCATION GetConstantBufferUniformLocation;
 
-		};
+				typedef void (DOOMS_ENGINE_API_ENTRY_P GRAPHICS_SETWINDOWTITLE)(const char* const title);
+				extern GRAPHICS_SETWINDOWTITLE SetWindowTitle;
+
+				typedef void (DOOMS_ENGINE_API_ENTRY_P GRAPHICS_SETWINDOWTITLEW)(const wchar_t* const title);
+				extern GRAPHICS_SETWINDOWTITLEW SetWindowTitleW;
+
+		}
 	}
 }
 

@@ -943,5 +943,17 @@ namespace dooms
             delete[] vp;
             return isSuccess;
         }
+
+        DOOMS_ENGINE_GRAPHICS_API void SetWindowTitle(const char* const title)
+        {
+            assert(dx11::g_hWnd != nullptr);
+            SetWindowTextA(dx11::g_hWnd, title);
+        }
+
+        DOOMS_ENGINE_GRAPHICS_API void SetWindowTitleW(const wchar_t* const title)
+        {
+            assert(dx11::g_hWnd != nullptr);
+            SetWindowTextW(dx11::g_hWnd, title);
+        }
 	}
 }
