@@ -179,7 +179,7 @@ namespace dooms
 				enum eStencilOption : unsigned int
 				{
 					KEEP,
-					ZERO,
+					STENCIL_OPTION_ZERO,
 					REPLACE,
 					INCR,
 					INCR_WRAP,
@@ -203,10 +203,10 @@ namespace dooms
 				typedef void (DOOMS_ENGINE_API_ENTRY_P GRAPHICS_SETISBLENDENABLED)(const bool isEnabled);
 				extern GRAPHICS_SETISBLENDENABLED SetIsBlendEnabled;
 
-				typedef void (DOOMS_ENGINE_API_ENTRY_P GRAPHICS_SETVIEWPORT)(const int startX, const int startY, const unsigned int width, const unsigned int height);
+				typedef void (DOOMS_ENGINE_API_ENTRY_P GRAPHICS_SETVIEWPORT)(const unsigned int index, const int startX, const int startY, const unsigned int width, const unsigned int height);
 				extern GRAPHICS_SETVIEWPORT SetViewport;
 
-				typedef void(DOOMS_ENGINE_API_ENTRY_P GRAPHICS_GETVIEWPORT)(int*);
+				typedef bool(DOOMS_ENGINE_API_ENTRY_P GRAPHICS_GETVIEWPORT)(const unsigned int index, int* const startX, int* const startY, int* const width, int* const height);
 				extern GRAPHICS_GETVIEWPORT GetViewPort;
 
 				enum eBlendFactor : unsigned int

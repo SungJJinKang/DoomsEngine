@@ -31,6 +31,7 @@ void dooms::graphics::GraphicsAPIManager::SetDefaultSettingOfAPI()
 	graphics::GraphicsAPI::SetCullFace(GraphicsAPI::CULLFACE_BACK);
 	graphics::GraphicsAPI::SetFrontFaceWinding(GraphicsAPI::CCW);
 	graphics::GraphicsAPI::SetVSync(false);
+	graphics::GraphicsAPI::SetViewport(0, 0, 0, graphicsAPISetting::GetScreenWidth(), graphicsAPISetting::GetScreenHeight());
 }
 
 void dooms::graphics::GraphicsAPIManager::GraphisAPIDebugCallBack(const char* const debugMessage, const graphics::GraphicsAPI::eGraphisAPIDebugCallbackSeverity severity)

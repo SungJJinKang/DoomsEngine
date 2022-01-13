@@ -99,12 +99,12 @@ namespace dooms
 					if (frameBuffer == nullptr)
 					{
 						BindFrameBufferStatic(GraphicsAPI::FRAMEBUFFER, 0);
-						GraphicsAPI::SetViewport(0, 0, graphics::graphicsAPISetting::GetScreenWidth(), graphics::graphicsAPISetting::GetScreenHeight());
+						GraphicsAPI::SetViewport(0, 0, 0, graphics::graphicsAPISetting::GetScreenWidth(), graphics::graphicsAPISetting::GetScreenHeight());
 					}
 					else
 					{
 						BindFrameBufferStatic(GraphicsAPI::FRAMEBUFFER, frameBuffer->mFrameBufferID);
-						GraphicsAPI::SetViewport(0, 0, frameBuffer->mDefaultWidth, frameBuffer->mDefaultHeight);
+						GraphicsAPI::SetViewport(0, 0, 0, frameBuffer->mDefaultWidth, frameBuffer->mDefaultHeight);
 					}
 					FrameBuffer::CurrentFrameBuffer = frameBuffer;
 				}

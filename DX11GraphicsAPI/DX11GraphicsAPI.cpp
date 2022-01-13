@@ -19,6 +19,9 @@
 #define NEVER_HAPPEN __assume(0)
 #endif
 
+#define MIN(X, Y) ((X < Y) ? (X) : (Y));
+#define MAX(X, Y) ((X > Y) ? (X) : (Y));
+
 
 // https://anteru.net/blog/2013/porting-from-directx11-to-opengl-4-2-tales-from-the-trenches/
 // https://anteru.net/blog/2013/porting-from-directx11-to-opengl-4-2-textures-samplers/
@@ -69,7 +72,7 @@ namespace dooms
                 case GraphicsAPI::TEXTURE_INTERNAL_FORMAT_DEPTH_COMPONENT24:
                     return DXGI_FORMAT_D24_UNORM_S8_UINT;
                 case GraphicsAPI::TEXTURE_INTERNAL_FORMAT_DEPTH_COMPONENT32F:
-                    return DXGI_FORMAT_R32_TYPELESS;
+                    return DXGI_FORMAT_D32_FLOAT;
                 case GraphicsAPI::TEXTURE_INTERNAL_FORMAT_DEPTH24_STENCIL8:
                     return DXGI_FORMAT_D24_UNORM_S8_UINT;
                 case GraphicsAPI::TEXTURE_INTERNAL_FORMAT_DEPTH32F_STENCIL8:
@@ -478,7 +481,7 @@ namespace dooms
                 descDepth.Height = height;
                 descDepth.MipLevels = 1;
                 descDepth.ArraySize = 1;
-                descDepth.Format = dooms::graphics::dx11::ConvertTextureInternalFormat_To_DXGI_FORMAT(GraphicsAPI::TEXTURE_INTERNAL_FORMAT_DEPTH_COMPONENT32);
+                descDepth.Format = dooms::graphics::dx11::ConvertTextureInternalFormat_To_DXGI_FORMAT(GraphicsAPI::TEXTURE_INTERNAL_FORMAT_DEPTH_COMPONENT32F);
                 descDepth.SampleDesc.Count = 1;
                 descDepth.SampleDesc.Quality = 0;
                 descDepth.Usage = D3D11_USAGE_DEFAULT;
@@ -500,6 +503,8 @@ namespace dooms
 
                 g_pImmediateContext->OMSetRenderTargets(1, &g_pRenderTargetView, g_pDepthStencilView);
 
+
+                // Test
                 // Setup the viewport
                 D3D11_VIEWPORT vp;
                 vp.Width = (FLOAT)width;
@@ -887,5 +892,56 @@ namespace dooms
 		{
 			dx11::g_pSwapChain->Present(0, 0); // Swap Back buffer
 		}
+
+        DOOMS_ENGINE_GRAPHICS_API void SetViewport(const unsigned int index, const int startX, const int startY, const unsigned int width, const unsigned int height)
+        {
+            // Fetch existing viewports
+
+            UINT vpCount = D3D11_VIEWPORT_AND_SCISSORRECT_OBJECT_COUNT_PER_PIPELINE;
+            D3D11_VIEWPORT* vp = new D3D11_VIEWPORT[D3D11_VIEWPORT_AND_SCISSORRECT_OBJECT_COUNT_PER_PIPELINE];
+
+            dx11::g_pImmediateContext->RSGetViewports(&vpCount, vp);
+            assert(vpCount > index);
+
+            //
+
+            vpCount = MAX(index + 1, vpCount);
+
+            vp[index].Width = (FLOAT)width;
+            vp[index].Height = (FLOAT)height;
+            vp[index].MinDepth = 0.0f;
+            vp[index].MaxDepth = 1.0f;
+            vp[index].TopLeftX = (FLOAT)startX;
+            vp[index].TopLeftY = (FLOAT)startY;
+            dx11::g_pImmediateContext->RSSetViewports(vpCount, vp);
+
+            delete[] vp;
+        }
+
+
+        DOOMS_ENGINE_GRAPHICS_API bool GetViewPort(const unsigned int index, int* const startX, int* const startY, int* const width, int* const height)
+        {
+            bool isSuccess = false;
+
+            // https://docs.microsoft.com/en-us/windows/win32/api/d3d11/nf-d3d11-id3d11devicecontext-rsgetviewports
+            UINT vpCount = MIN(index + 1, D3D11_VIEWPORT_AND_SCISSORRECT_OBJECT_COUNT_PER_PIPELINE);
+            D3D11_VIEWPORT* vp = new D3D11_VIEWPORT[vpCount];
+         
+            dx11::g_pImmediateContext->RSGetViewports(&vpCount, vp);
+            assert(vpCount > index);
+
+            if(vpCount > index)
+            {
+                *startX = vp[index].TopLeftX;
+                *startY = vp[index].TopLeftY;
+                *width = vp[index].Width;
+                *height = vp[index].Height;
+
+                isSuccess = true;
+            }
+
+            delete[] vp;
+            return isSuccess;
+        }
 	}
 }

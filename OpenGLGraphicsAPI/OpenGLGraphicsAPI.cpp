@@ -974,7 +974,7 @@ namespace dooms
 				{
 				case GraphicsAPI::eStencilOption::KEEP:
 					return GL_KEEP;
-				case GraphicsAPI::eStencilOption::ZERO: 
+				case GraphicsAPI::eStencilOption::STENCIL_OPTION_ZERO:
 					return GL_ZERO;
 				case GraphicsAPI::eStencilOption::REPLACE:
 					return GL_REPLACE;
@@ -1263,14 +1263,21 @@ namespace dooms
 			}
 		}
 
-		DOOMS_ENGINE_GRAPHICS_API void SetViewport(const int startX, const int startY, const unsigned int width, const unsigned int height)
+		DOOMS_ENGINE_GRAPHICS_API void SetViewport(const unsigned int index, const int startX, const int startY, const unsigned int width, const unsigned int height)
 		{
-			glViewport(startX, startY, width, height);
+			glViewportIndexedf(index, (float)startX, (float)startY, (float)width, (float)height);
 		}
 
-		DOOMS_ENGINE_GRAPHICS_API void GetViewPort(int* viewPort)
+		DOOMS_ENGINE_GRAPHICS_API bool GetViewPort(const unsigned int index, int* const startX, int* const startY, int* const width, int* const height)
 		{
-			glGetIntegerv(GL_VIEWPORT, viewPort);
+			int viewPortData[4];
+			glGetIntegeri_v(GL_VIEWPORT, index, viewPortData);
+			*startX = viewPortData[0];
+			*startY = viewPortData[1];
+			*width = viewPortData[2];
+			*height = viewPortData[3];
+
+			return true;
 		}
 
 		DOOMS_ENGINE_GRAPHICS_API void SetBlendFactor
