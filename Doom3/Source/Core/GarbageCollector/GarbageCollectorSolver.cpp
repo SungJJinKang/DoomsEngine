@@ -205,7 +205,7 @@ namespace dooms::gc::garbageCollectorSolver
 	{
 	    std::atomic<size_t> workingOnRootObjectCount;
 	    UINT8 padding[64]; // padding for preventing false sharing
-	    std::atomic<size_t> completedOnRootObjectCount;
+	    std::atomic<size_t> gcCompletedRootObjectCount;
 	};
 }
 
@@ -236,7 +236,7 @@ void dooms::gc::garbageCollectorSolver::StartMarkStage(const eGCMethod gcMethod,
 
 		GCMultithreadCounter gcMultithreadCounter;
 		gcMultithreadCounter.workingOnRootObjectCount = 0;
-		gcMultithreadCounter.completedOnRootObjectCount = 0;
+		gcMultithreadCounter.gcCompletedRootObjectCount = 0;
 
 		std::function multiThreadJob = [&gcMultithreadCounter, &rootDObjectList, keepFlags, rootDObjectCount]()
 		{
@@ -247,27 +247,35 @@ void dooms::gc::garbageCollectorSolver::StartMarkStage(const eGCMethod gcMethod,
 				if (rootObjectIndex >= rootDObjectCount)
 				{
 					D_DEBUG_LOG(eLogType::D_LOG_TYPE13, "End Mark a object");
-					return;
+					break;
 				}
 
 				Mark(keepFlags, rootDObjectList[rootObjectIndex]);
 
-				gcMultithreadCounter.completedOnRootObjectCount++;
+				const size_t currentGCCompletedRootObjectCount = ++gcMultithreadCounter.gcCompletedRootObjectCount;
+				if (currentGCCompletedRootObjectCount >= rootDObjectCount)
+				{
+					D_DEBUG_LOG(eLogType::D_LOG_TYPE13, "End Mark a object");
+					break;
+				}
 			}
-
-			std::atomic_thread_fence(std::memory_order_seq_cst);
 		};
-
-		std::atomic_thread_fence(std::memory_order_seq_cst);
-
-		dooms::resource::JobSystem::GetSingleton()->PushBackJobToAllThreadWithNoSTDFuture(multiThreadJob);
+		
+		auto futures = dooms::resource::JobSystem::GetSingleton()->PushBackJobToAllThread(multiThreadJob);
 		multiThreadJob();
 
-		while (gcMultithreadCounter.completedOnRootObjectCount < rootDObjectCount)
+		D_START_PROFILING(WaitProfilingThreadJobFinished, dooms::profiler::eProfileLayers::Rendering);
+		while (gcMultithreadCounter.gcCompletedRootObjectCount.load(std::memory_order_seq_cst) < rootDObjectCount)
 		{
-			//std::this_thread::yield();
+			std::this_thread::yield();
 		}
-		
+		for(auto& future : futures)
+		{
+			future.wait();
+		}
+		D_END_PROFILING(WaitProfilingThreadJobFinished);
+
+
 	}
 }
 
