@@ -92,7 +92,7 @@ namespace dooms::ui::maskedOcclusionCulliingDebugger
 			{
 				for (INT32 colIndex = 0; colIndex < GetColumnTileCount(); colIndex++)
 				{
-					const bool isTriangleBinned = mMaskedSWOcclusionCulling->mDepthBuffer.GetTile(rowIndex, colIndex)->mmBinnedTriangleCount > 0;
+					const bool isTriangleBinned = mMaskedSWOcclusionCulling->mDepthBuffer.GetTile(rowIndex, colIndex)->mBinnedTriangleCount > 0;
 					if (isTriangleBinned == true)
 					{
 						ImGui::TextColored(redColor, "O");

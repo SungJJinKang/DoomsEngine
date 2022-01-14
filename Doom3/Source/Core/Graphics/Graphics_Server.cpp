@@ -157,7 +157,7 @@ void Graphics_Server::PreCullJob()
 	mCullingCameraCount = 0;
 
 	D_START_PROFILING(ResetCullJob, dooms::profiler::eProfileLayers::Rendering);
-	mCullingSystem->ResetCullJob();
+	mCullingSystem->PreCullJob();
 	D_END_PROFILING(ResetCullJob);
 
 }
