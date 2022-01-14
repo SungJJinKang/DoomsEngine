@@ -19,9 +19,9 @@ namespace dooms
 	/// </summary>
 	/// <param name="dObject"></param>
 	/// <returns></returns>
-	extern FORCE_INLINE bool IsLowLevelValid(const DObject* const dObject, const bool lock = true)
+	extern FORCE_INLINE bool IsLowLevelValid(const DObject* const dObject, const bool lock = false, const std::memory_order memoryOrder = std::memory_order_seq_cst)
 	{
-		return dooms::DObjectManager::IsDObjectLowLevelValid(dObject, lock);
+		return dooms::DObjectManager::IsDObjectLowLevelValid(dObject, lock, memoryOrder);
 	}
 
 	/// <summary>
@@ -31,9 +31,9 @@ namespace dooms
 	/// </summary>
 	/// <param name="dObject"></param>
 	/// <returns></returns>
-	extern FORCE_INLINE bool IsValid(const DObject* const dObject)
+	extern FORCE_INLINE bool IsValid(const DObject* const dObject, const std::memory_order memoryOrder = std::memory_order_relaxed)
 	{
-		return (dObject != nullptr) && (dObject->GetIsPendingKill() == false);
+		return (dObject != nullptr) && (dObject->GetIsPendingKill(memoryOrder) == false);
 	}
 
 	template <typename DObjectType, typename... Args>

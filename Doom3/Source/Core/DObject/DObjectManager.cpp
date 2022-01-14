@@ -179,7 +179,7 @@ void dooms::DObjectManager::ClearConatiner()
     
 }
 
-bool dooms::DObjectManager::IsDObjectLowLevelValid(const DObject* const dObject, const bool lock)
+bool dooms::DObjectManager::IsDObjectLowLevelValid(const DObject* const dObject, const bool lock, const std::memory_order memoryOrder)
 {
 	bool isValid = false;
 
@@ -204,7 +204,7 @@ bool dooms::DObjectManager::IsDObjectLowLevelValid(const DObject* const dObject,
 
     if(isValid == true)
     {
-        isValid = (dObject->GetIsPendingKill() == false);
+        isValid = (dObject->GetIsPendingKill(memoryOrder) == false);
     }
 
 

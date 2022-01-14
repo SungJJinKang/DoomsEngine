@@ -80,10 +80,10 @@ namespace dooms
 		/// </summary>
 		/// <param name="dObject"></param>
 		/// <returns></returns>
-		static bool IsDObjectLowLevelValid(const DObject* const dObject, const bool lock = true);
+		static bool IsDObjectLowLevelValid(const DObject* const dObject, const bool lock = true, const std::memory_order memoryOrder = std::memory_order_relaxed);
 
 		// TODO : implement this
-		static bool IsDObjectFastLowLevelValid(const DObject* const dObject, const bool lock = true);
+		//static bool IsDObjectFastLowLevelValid(const DObject* const dObject, const bool lock = true);
 		static bool IsDObjectExist(const DObject* const dObject, const bool lock = true);
 
 		static bool IsEmpty();

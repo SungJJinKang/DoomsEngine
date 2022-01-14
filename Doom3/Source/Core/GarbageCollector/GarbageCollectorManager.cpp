@@ -144,7 +144,7 @@ void dooms::gc::GarbageCollectorManager::Collect(const garbageCollectorSolver::e
 
 bool dooms::gc::GarbageCollectorManager::AddToRootsDObjectsList(DObject* const dObjet)
 {
-	D_ASSERT(IsLowLevelValid(dObjet) == true);
+	D_ASSERT(IsLowLevelValid(dObjet, true) == true);
 	dObjet->SetDObjectFlag(eDObjectFlag::IsRootObject);
 	mRootsDObjectsList.push_back(dObjet);
 

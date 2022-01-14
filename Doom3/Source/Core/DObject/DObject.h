@@ -266,26 +266,26 @@ namespace dooms
 		reflection::DClass GetDClass() const;
 
 		D_FUNCTION()
-		FORCE_INLINE bool GetIsPendingKill() const
+		FORCE_INLINE bool GetIsPendingKill(const std::memory_order memoryOrder = std::memory_order_seq_cst) const
 		{
-			return GetDObjectFlag(eDObjectFlag::IsPendingKill);
+			return GetDObjectFlag(eDObjectFlag::IsPendingKill, memoryOrder);
 		}
 
 		D_FUNCTION()
-		FORCE_INLINE bool GetIsNewAllocated() const
+		FORCE_INLINE bool GetIsNewAllocated(const std::memory_order memoryOrder = std::memory_order_seq_cst) const
 		{
-			return GetDObjectFlag(eDObjectFlag::NewAllocated);
+			return GetDObjectFlag(eDObjectFlag::NewAllocated, memoryOrder);
 		}
 
 		D_FUNCTION()
-		FORCE_INLINE bool SetIsPendingKill()
+		FORCE_INLINE bool SetIsPendingKill(const std::memory_order memoryOrder = std::memory_order_seq_cst)
 		{
 			bool isSuccess = false;
 			if(GetIsPendingKill() == false/* && GetIsNewAllocated() == true*/)
 			{
 				OnSetPendingKill_Internal();
 				OnSetPendingKill();
-				SetDObjectFlag(eDObjectFlag::IsPendingKill);
+				SetDObjectFlag(eDObjectFlag::IsPendingKill, memoryOrder);
 
 				isSuccess = true;
 			}

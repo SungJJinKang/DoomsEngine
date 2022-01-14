@@ -424,7 +424,7 @@ void dooms::ui::imguiWithReflection::UpdateGUI_DObjectsVisibleOnGUI()
 {
 	for (dooms::DObject* const dObjectVisibleOnGUI : dooms::ui::imguiWithReflection::mVisibleOnGUIDObjectList)
 	{
-		if(IsLowLevelValid(dObjectVisibleOnGUI))
+		if(IsLowLevelValid(dObjectVisibleOnGUI, false))
 		{
 			if (
 				ImGui::Begin
