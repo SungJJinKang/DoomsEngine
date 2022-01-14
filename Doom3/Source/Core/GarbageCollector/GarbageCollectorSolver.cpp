@@ -13,19 +13,12 @@
 #include <Game/ConfigData.h>
 #include <Math/LightMath_Cpp/Utility.h>
 
-namespace dooms::gc::garbageCollectorSolver
-{
-	FORCE_INLINE void SetReachable(UINT32& flag)
-	{
-		flag &= ~static_cast<UINT32>(dooms::eDObjectFlag::Unreachable);
-	}
-}
 
 void dooms::gc::garbageCollectorSolver::StartSetUnreachableFlagStage(const eGCMethod gcMethod, std::unordered_set<DObject*>& dObjects)
 {
 	for(DObject* dObject : dObjects)
 	{
-		dObject->SetDObjectFlag(dooms::eDObjectFlag::Unreachable | dooms::eDObjectFlag::IsNotCheckedByGC);
+		dObject->SetDObjectFlag(dooms::eDObjectFlag::Unreachable | dooms::eDObjectFlag::IsNotCheckedByGC, std::memory_order_relaxed);
 	}
 }
 
@@ -121,11 +114,11 @@ namespace dooms::gc::garbageCollectorSolver
 	{
 		D_ASSERT(IsLowLevelValid(dObejct, false));
 
-		if (dObejct->GetDObjectFlag(eDObjectFlag::IsNotCheckedByGC) == true)
+		if (dObejct->GetDObjectFlag(eDObjectFlag::IsNotCheckedByGC, std::memory_order_seq_cst) == true)
 		{
 			// TODO : Data race may be caused in multithreaded mark stage?
 			// DObjectFlag isn't std::atomic
-			dObejct->ClearDObjectFlag(eDObjectFlag::Unreachable | eDObjectFlag::IsNotCheckedByGC);
+			dObejct->ClearDObjectFlag(eDObjectFlag::Unreachable | eDObjectFlag::IsNotCheckedByGC, std::memory_order_seq_cst);
 
 			dooms::reflection::DClass dClass = dObejct->GetDClass();
 
@@ -237,6 +230,8 @@ void dooms::gc::garbageCollectorSolver::StartMarkStage(const eGCMethod gcMethod,
 	}
 	else if (gcMethod == eGCMethod::MultiThreadMark)
 	{
+		std::atomic_thread_fence(std::memory_order_seq_cst);
+
 		const size_t rootDObjectCount = rootDObjectList.size();
 
 		GCMultithreadCounter gcMultithreadCounter;
@@ -263,7 +258,8 @@ void dooms::gc::garbageCollectorSolver::StartMarkStage(const eGCMethod gcMethod,
 			std::atomic_thread_fence(std::memory_order_seq_cst);
 		};
 
-		std::atomic_thread_fence(std::memory_order_release);
+		std::atomic_thread_fence(std::memory_order_seq_cst);
+
 		dooms::resource::JobSystem::GetSingleton()->PushBackJobToAllThreadWithNoSTDFuture(multiThreadJob);
 		multiThreadJob();
 
@@ -278,6 +274,8 @@ void dooms::gc::garbageCollectorSolver::StartMarkStage(const eGCMethod gcMethod,
 
 void dooms::gc::garbageCollectorSolver::StartSweepStage(const eGCMethod gcMethod, const UINT32 keepFlags, std::unordered_set<dooms::DObject*>& dObjectList, const size_t maxSweepedObjectCount)
 {
+	std::atomic_thread_fence(std::memory_order_seq_cst);
+
 	std::vector<dooms::DObject*> deletedDObjectList;
 	deletedDObjectList.reserve(maxSweepedObjectCount);
 
