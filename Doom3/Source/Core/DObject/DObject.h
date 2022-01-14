@@ -215,37 +215,37 @@ namespace dooms
 		}
 
 		D_FUNCTION()
-		FORCE_INLINE UINT64 GetDObjectFlag(const std::memory_order memoryOrder = std::memory_order_seq_cst) const
+		FORCE_INLINE UINT64 GetDObjectFlag(const std::memory_order memoryOrder = std::memory_order_relaxed) const
 		{
 			return mDObjectProperties.mDObjectFlag.load(memoryOrder);
 		}
 
 		D_FUNCTION()
-		FORCE_INLINE bool GetDObjectFlag(const UINT64 flag, const std::memory_order memoryOrder = std::memory_order_seq_cst) const
+		FORCE_INLINE bool GetDObjectFlag(const UINT64 flag, const std::memory_order memoryOrder = std::memory_order_relaxed) const
 		{
 			return (GetDObjectFlag(memoryOrder) & flag) != 0;
 		}
 		
 		D_FUNCTION()
-		FORCE_INLINE void SetDObjectFlag(const UINT64 flag, const std::memory_order memoryOrder = std::memory_order_seq_cst)
+		FORCE_INLINE void SetDObjectFlag(const UINT64 flag, const std::memory_order memoryOrder = std::memory_order_relaxed)
 		{
 			mDObjectProperties.mDObjectFlag |= flag;
 		}
 
 		D_FUNCTION()
-		FORCE_INLINE void ClearDObjectFlag(const UINT64 flag, const std::memory_order memoryOrder = std::memory_order_seq_cst)
+		FORCE_INLINE void ClearDObjectFlag(const UINT64 flag, const std::memory_order memoryOrder = std::memory_order_relaxed)
 		{
 			mDObjectProperties.mDObjectFlag &= (~flag);
 		}
 
 		D_FUNCTION()
-		FORCE_INLINE void ResetDObjectFlag(const UINT64 flag, const std::memory_order memoryOrder = std::memory_order_seq_cst)
+		FORCE_INLINE void ResetDObjectFlag(const UINT64 flag, const std::memory_order memoryOrder = std::memory_order_relaxed)
 		{
 			mDObjectProperties.mDObjectFlag.store(flag, memoryOrder);
 		}
 
 		D_FUNCTION()
-		FORCE_INLINE bool HasDObjectFlag(const UINT64 flag, const std::memory_order memoryOrder = std::memory_order_seq_cst)
+		FORCE_INLINE bool HasDObjectFlag(const UINT64 flag, const std::memory_order memoryOrder = std::memory_order_relaxed)
 		{
 			return (GetDObjectFlag() & flag) == flag;
 		}
@@ -266,19 +266,19 @@ namespace dooms
 		reflection::DClass GetDClass() const;
 
 		D_FUNCTION()
-		FORCE_INLINE bool GetIsPendingKill(const std::memory_order memoryOrder = std::memory_order_seq_cst) const
+		FORCE_INLINE bool GetIsPendingKill(const std::memory_order memoryOrder = std::memory_order_relaxed) const
 		{
 			return GetDObjectFlag(eDObjectFlag::IsPendingKill, memoryOrder);
 		}
 
 		D_FUNCTION()
-		FORCE_INLINE bool GetIsNewAllocated(const std::memory_order memoryOrder = std::memory_order_seq_cst) const
+		FORCE_INLINE bool GetIsNewAllocated(const std::memory_order memoryOrder = std::memory_order_relaxed) const
 		{
 			return GetDObjectFlag(eDObjectFlag::NewAllocated, memoryOrder);
 		}
 
 		D_FUNCTION()
-		FORCE_INLINE bool SetIsPendingKill(const std::memory_order memoryOrder = std::memory_order_seq_cst)
+		FORCE_INLINE bool SetIsPendingKill(const std::memory_order memoryOrder = std::memory_order_relaxed)
 		{
 			bool isSuccess = false;
 			if(GetIsPendingKill() == false/* && GetIsNewAllocated() == true*/)

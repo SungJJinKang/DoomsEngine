@@ -143,6 +143,7 @@ Graphics_Server::~Graphics_Server()
 
 void Graphics_Server::PreCullJob()
 {
+	D_START_PROFILING(WaitPreviouseCullJobFinish, dooms::profiler::eProfileLayers::Rendering);
 	// Never remove this
 	// After CullJob is finished, when main thread start new cull job at next frame, other threads may works on previous frame cull job
 	std::function<void()> func = [] {};
@@ -151,12 +152,13 @@ void Graphics_Server::PreCullJob()
 	{
 		waitThreadJobFinished.wait();
 	}
+	D_END_PROFILING(WaitPreviouseCullJobFinish);
 
 	mCullingCameraCount = 0;
 
-	D_START_PROFILING(mFrotbiteCullingSystem_ResetCullJobStat, dooms::profiler::eProfileLayers::Rendering);
+	D_START_PROFILING(ResetCullJob, dooms::profiler::eProfileLayers::Rendering);
 	mCullingSystem->ResetCullJob();
-	D_END_PROFILING(mFrotbiteCullingSystem_ResetCullJobStat);
+	D_END_PROFILING(ResetCullJob);
 
 }
 
