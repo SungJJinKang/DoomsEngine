@@ -9,7 +9,7 @@
 #include <Profiler/ProfilingManager.h>
 
 #ifndef ALWAYS_PROFILING
-#define ALWAYS_PROFILING
+//#define ALWAYS_PROFILING
 #endif
 
 // std::chrono::high_resolution_clock::now() has more resolution than OS GetTickCount API 
@@ -47,6 +47,7 @@ CONCAT(PROFILING_TAG, _EXECUTE_COUNT) = 0;																																						
 
 #endif
 
+#undef D_PROFILING
 
 #if ( defined(DEBUG_MODE) || defined(ALWAYS_PROFILING) )
 
@@ -57,6 +58,8 @@ CONCAT(PROFILING_TAG, _EXECUTE_COUNT) = 0;																																						
 #ifndef D_END_PROFILING
 #define D_END_PROFILING(PROFILING_TAG) D_END_PROFILING_INTERNAL(PROFILING_TAG)
 #endif
+
+#define D_PROFILING
 
 #else
 
@@ -69,19 +72,3 @@ CONCAT(PROFILING_TAG, _EXECUTE_COUNT) = 0;																																						
 #endif
 
 #endif
-
-
-
-
-#ifndef D_START_PROFILING_IN_RELEASE
-
-#define D_START_PROFILING_IN_RELEASE(PROFILING_TAG) D_START_PROFILING_INTERNAL(PROFILING_TAG)																																																			\
-																																																					
-#endif
-
-#ifndef D_END_PROFILING_IN_RELEASE
-
-#define D_END_PROFILING_IN_RELEASE(PROFILING_TAG) D_END_PROFILING_INTERNAL(PROFILING_TAG)																																																			\
-
-#endif
-

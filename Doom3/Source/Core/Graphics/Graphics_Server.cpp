@@ -393,7 +393,7 @@ void dooms::graphics::Graphics_Server::Render()
 
 void Graphics_Server::ProfilingCullingSystem()
 {
-#ifdef PROFILING_CULLING
+#if defined(PROFILING_CULLING) && defined(D_PROFILING)
 	auto& profilingDatas = mCullingSystem->mEveryCullingProfiler.GetProfilingDatas();
 	for(auto& data : profilingDatas)
 	{
