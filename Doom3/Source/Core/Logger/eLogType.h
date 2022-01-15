@@ -21,15 +21,14 @@ namespace dooms
 			D_LOG_TYPE12 = 11,
 			D_LOG_TYPE13 = 12,
 			D_LOG_TYPE14 = 13,
-			D_PROFILING = 14,
-			D_LOG = 15,
-			D_WARNING = 16,
-			D_ERROR = 17,
+			D_LOG = 14,
+			D_WARNING = 15,
+			D_ERROR = 16,
 			/// <summary>
 			/// always call
 			/// Remove this after use this
 			/// </summary>
-			D_ALWAYS = 18
+			D_ALWAYS = 17
 
 		};
 	}
