@@ -4,7 +4,7 @@
 
 #include <Core.h>
 
-#define MAX_LAYER_COUNT (6)
+#define MAX_LAYER_COUNT (1)
 #define RESERVED_LAYER_COUNT (10)
 
 namespace dooms

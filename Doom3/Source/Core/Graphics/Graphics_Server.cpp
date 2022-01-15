@@ -458,7 +458,7 @@ void dooms::graphics::Graphics_Server::RenderObject(dooms::Camera* const targetC
 		{
 			if
 			(
-				IsValid(renderer) == true && 
+				IsValid(renderer) == true && // TODO : Optimize this. Currently, Every renderers is checked per layer.
 				renderer->GetOwnerEntityLayerIndex() == layerIndex && 
 				renderer->GetIsComponentEnabled() == true
 			)
