@@ -1,12 +1,13 @@
 #pragma once
 
 #include <string>
+#include <atomic>
 #include <mutex>
 
 #include "Macros/Assert.h"
 
-#define GUI_LOG_BUFFER_COUNT 250
-#define GUI_LOG_MAX_LENGTH 150
+#define GUI_LOG_BUFFER_COUNT 100
+#define GUI_LOG_MAX_LENGTH 50
 
 namespace dooms
 {
@@ -15,12 +16,12 @@ namespace dooms
 		class log
 		{
 		private:
-
-			inline static std::mutex LogMutex{};
-			inline static int LogIndex = -1;
+			
+			inline static std::atomic<unsigned long> LogIndex = 0;
 			inline static bool isInitialized = false;
 			inline static char LogBuffer[GUI_LOG_BUFFER_COUNT][GUI_LOG_MAX_LENGTH]{};
-			static int IncrementLogIndex();
+			inline static std::mutex LogBufferMutex[GUI_LOG_BUFFER_COUNT]{};
+			static unsigned long IncrementLogIndex();
 			
 
 		public:
@@ -45,7 +46,11 @@ namespace dooms
 						return;
 					}
 
-					const int currentLogIndex = IncrementLogIndex();
+					const unsigned long currentLogIndex = IncrementLogIndex();
+					D_ASSERT(currentLogIndex < GUI_LOG_BUFFER_COUNT);
+
+					std::scoped_lock<std::mutex> lock{ LogBufferMutex[currentLogIndex] };
+
 					LogBuffer[currentLogIndex][GUI_LOG_MAX_LENGTH - 1] = '\0';
 					
 					snprintf(LogBuffer[currentLogIndex], size > (GUI_LOG_MAX_LENGTH - 1) ? (GUI_LOG_MAX_LENGTH - 1) : size, format, args ...);

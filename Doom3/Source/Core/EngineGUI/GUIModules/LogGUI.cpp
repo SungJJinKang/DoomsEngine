@@ -138,17 +138,11 @@ namespace dooms
 	}
 }
 
-int dooms::ui::log::IncrementLogIndex()
+unsigned long dooms::ui::log::IncrementLogIndex()
 {
-	std::scoped_lock<std::mutex> lock{ LogMutex };
+	unsigned long index = LogIndex++;
 
-	LogIndex++;
-	if (LogIndex >= GUI_LOG_BUFFER_COUNT)
-	{
-		LogIndex = 0;
-	}
-
-	return LogIndex;
+	return index % GUI_LOG_BUFFER_COUNT;
 }
 
 
