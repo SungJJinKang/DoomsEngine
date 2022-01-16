@@ -5,6 +5,9 @@
 
 #include "TypeDef.h"
 
+
+// TODO : More optimization. references : http://gchandbook.org/, https://www.cs.kent.ac.uk/people/staff/rej/gcbib/, https://www.cs.kent.ac.uk/people/staff/rej/gcbook/      
+
 namespace dooms
 {
 	class DObject;
