@@ -62,12 +62,12 @@ const char* dooms::reflection::DEnum::GetNameOfEnumConstantValue
 
 const char* dooms::reflection::DEnum::GetNameOfEnumConstantIndex
 (
-	const INT32 index,
+	const size_t index,
 	const dooms::reflection::ePrimitiveNameType primitiveNameType
 ) const
 {
 	D_ASSERT(clEnum != nullptr);
-	D_ASSERT(index >= 0 && index < static_cast<INT32>(clEnum->constants.size));
+	D_ASSERT(index < static_cast<size_t>(clEnum->constants.size));
 
 	const char* valueName = nullptr;
 
@@ -108,14 +108,14 @@ const bool dooms::reflection::DEnum::GetEnumConstantValue(const char* const valu
 	return isSuccess;
 }
 
-const bool dooms::reflection::DEnum::GetEnumConstantValue(const INT32 index, INT32& result) const
+const bool dooms::reflection::DEnum::GetEnumConstantValue(const size_t index, INT32& result) const
 {
 	D_ASSERT(clEnum != nullptr);
-	D_ASSERT(index >= 0 && index < static_cast<INT32>(clEnum->constants.size));
+	D_ASSERT(index < static_cast<size_t>(clEnum->constants.size));
 
 	bool isSuccess = false;
 
-	if(index >= 0 && index < static_cast<INT32>(clEnum->constants.size))
+	if(index < static_cast<size_t>(clEnum->constants.size))
 	{
 		result = clEnum->constants[index]->value;
 		isSuccess = true;

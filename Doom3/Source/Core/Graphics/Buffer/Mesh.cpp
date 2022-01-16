@@ -111,7 +111,7 @@ void dooms::graphics::Mesh::BufferData
 	BindVertexArrayObject(); // bind vertex array buffer
 
 	D_DEBUG_LOG(eLogType::D_LOG, "%f", sizeof(FLOAT32) * dataComponentCount);
-	GraphicsAPI::AllocateBufferMemory(mBufferID, GraphicsAPI::eBufferTarget::ARRAY_BUFFER, sizeof(FLOAT32) * dataComponentCount, data);
+	GraphicsAPI::AllocateBufferMemory(mBufferID, GraphicsAPI::eBufferTarget::ARRAY_BUFFER, static_cast<unsigned long long>(sizeof(FLOAT32) * dataComponentCount), data);
 
 	UINT32 offset = 0;
 	const UINT32 stride = Mesh::GetStride(vertexArrayFlag);

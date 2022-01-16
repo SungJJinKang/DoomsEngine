@@ -530,7 +530,7 @@ namespace dooms
 				(
 					unsigned long long bufferObject,
 					const eBufferTarget bufferTarget,
-					const unsigned int bufferSize, // in bytes
+					const unsigned long long bufferSize, // in bytes
 					const void* const initialData
 					);
 			extern GRAPHICS_ALLOCATEBUFFERMEMORY AllocateBufferMemory;
@@ -661,15 +661,15 @@ namespace dooms
 			typedef void (DOOMS_ENGINE_API_ENTRY_P GRAPHICS_DRAW)
 				(
 					const ePrimitiveType primitiveType,
-					const unsigned int vertexCount,
-					const unsigned int startVertexLocation
+					const unsigned long long vertexCount,
+					const unsigned long long startVertexLocation
 					);
 			extern GRAPHICS_DRAW Draw;
 
 			typedef void (DOOMS_ENGINE_API_ENTRY_P GRAPHICS_DRAWINDEXED)
 				(
 					const ePrimitiveType primitiveType,
-					const unsigned int indiceCount,
+					const unsigned long long indiceCount,
 					const void* const indices
 					);
 			extern GRAPHICS_DRAWINDEXED DrawIndexed;

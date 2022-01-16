@@ -43,9 +43,9 @@ namespace dooms::ui::maskedOcclusionCulliingDebugger
 
 			//const UINT32 space = ((float)screenWidth / (float)screenHeight) * ((float)GetRowSubTileCount() / (float)GetColumnSubTileCount());
 
-			for (INT32 subTileRowIndex = GetRowSubTileCount() - 1; subTileRowIndex >= 0; subTileRowIndex--)
+			for (INT32 subTileRowIndex = static_cast<INT32>(GetRowSubTileCount()) - 1; subTileRowIndex >= 0; subTileRowIndex--)
 			{
-				for (INT32 subTileColIndex = 0; subTileColIndex < GetColumnSubTileCount(); subTileColIndex++)
+				for (INT32 subTileColIndex = 0; subTileColIndex < static_cast<INT32>(GetColumnSubTileCount()); subTileColIndex++)
 				{
 					const INT32 tileRowIndex = subTileRowIndex / (TILE_HEIGHT / SUB_TILE_HEIGHT);
 					const INT32 tileColIndex = subTileColIndex / (TILE_WIDTH / SUB_TILE_WIDTH);
@@ -88,9 +88,9 @@ namespace dooms::ui::maskedOcclusionCulliingDebugger
 
 			//const UINT32 space = ((float)screenWidth / (float)screenHeight) * ((float)GetRowTileCount() / (float)GetColumnTileCount());
 
-			for (INT32 rowIndex = GetRowTileCount() - 1; rowIndex >= 0; rowIndex--)
+			for (INT32 rowIndex = static_cast<INT32>(GetRowTileCount()) - 1; rowIndex >= 0; rowIndex--)
 			{
-				for (INT32 colIndex = 0; colIndex < GetColumnTileCount(); colIndex++)
+				for (INT32 colIndex = 0; colIndex < static_cast<INT32>(GetColumnTileCount()); colIndex++)
 				{
 					const bool isTriangleBinned = mMaskedSWOcclusionCulling->mDepthBuffer.GetTile(rowIndex, colIndex)->mBinnedTriangleCount > 0;
 					if (isTriangleBinned == true)

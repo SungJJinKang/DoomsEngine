@@ -178,7 +178,7 @@ void dooms::ui::log::Render()
 			}
 		}
 
-		for (int index = GUI_LOG_BUFFER_COUNT - 1; index >= LogIndex; index--)
+		for (unsigned long long index = GUI_LOG_BUFFER_COUNT - 1; index >= LogIndex; index--)
 		{
 			if (LogBuffer[index][0] != '\0')
 			{

@@ -66,7 +66,7 @@ namespace dooms
 			DebugDrawer mDebugGraphics {};
 #endif
 
-			size_t mCullingCameraCount;
+			UINT32 mCullingCameraCount;
 			
 			RendererComponentStaticIterator mRendererStaticContainer{};
 			D_PROPERTY()

@@ -638,37 +638,58 @@ void dooms::GameLogicStartPoint::StartGameLogic()
 		material1->AddTexture(graphics::eTextureBindingPoint::NormalTexture, assetImporter::AssetManager::GetSingleton()->GetAsset<asset::eAssetType::TEXTURE>("Rock_normal.dds"));
 		material1->AddTexture(graphics::eTextureBindingPoint::MetalnessTexture, assetImporter::AssetManager::GetSingleton()->GetAsset<asset::eAssetType::TEXTURE>("Rock_metallic.dds"));
 
-		for (size_t i = 0; i < 7000; i++)
+		for (size_t i = 0; i < 3000; i++)
 		{
-			
-		
-			//material1->AddTexture(graphics::eTextureBindingPoint::SpecularTexture, assetImporter::AssetManager::GetSingleton()->GetAsset<asset::eAssetType::TEXTURE>("ufo_spec.dds"));
-
 			for (size_t meshIndex = 0; meshIndex < modelAsset->GetMeshCount(); meshIndex++)
 			{
 				graphics::Mesh* mesh = modelAsset->GetMesh(meshIndex);
 				if (mesh->GetTargetThreeDModelMesh()->mIsValidMesh == true)
 				{
 					auto entity = currenScene->CreateNewEntity();
-					const float scale = Random::RandomFloatNumber(0.1f, 1.5f);
+					const float scale = Random::RandomFloatNumber(0.5f, 2.0f);
 					entity->GetTransform()->SetScale(scale, scale, scale);
 					entity->GetTransform()->SetRotation(Random::RandomFloatNumber(0.0f, 90.0f), Random::RandomFloatNumber(0.0f, 90.0f), Random::RandomFloatNumber(0.0f, 90.0f));
-					entity->GetTransform()->SetPosition(Random::RandomFloatNumber(-2500.0f, 2500.0f), Random::RandomFloatNumber(-2500.0f, 2500.0f), Random::RandomFloatNumber(-2500.0f, 2500.0f));
+					entity->GetTransform()->SetPosition(Random::RandomFloatNumber(-3500.0f, 3500.0f), Random::RandomFloatNumber(-3500.0f, 3500.0f), Random::RandomFloatNumber(-3500.0f, 3500.0f));
 					auto meshRenderer = entity->AddComponent<MeshRenderer>();
 					meshRenderer->SetMesh(mesh);
 					meshRenderer->SetMaterial(material1);
 					portfolioComponent->RockRenderers.push_back(meshRenderer);
 
 					WanderComponent* wanderComp = entity->AddComponent<WanderComponent>();
-					wanderComp->mPoint1 = { Random::RandomFloatNumber(-2500.0f, 2500.0f) , Random::RandomFloatNumber(-2500.0f, 2500.0f) , Random::RandomFloatNumber(-2500.0f, 2500.0f) };
-					wanderComp->mPoint2 = { Random::RandomFloatNumber(-2500.0f, 2500.0f) , Random::RandomFloatNumber(-2500.0f, 2500.0f) , Random::RandomFloatNumber(-2500.0f, 2500.0f) };
+					wanderComp->mPoint1 = { Random::RandomFloatNumber(-3500.0f, 3500.0f) , Random::RandomFloatNumber(-3500.0f, 3500.0f) , Random::RandomFloatNumber(-3500.0f, 3500.0f) };
+					wanderComp->mPoint2 = { Random::RandomFloatNumber(-3500.0f, 3500.0f) , Random::RandomFloatNumber(-3500.0f, 3500.0f) , Random::RandomFloatNumber(-3500.0f, 3500.0f) };
 					wanderComp->mLookAtDestination = false;
 					wanderComp->mSpeed = 3.0f;
 				}
 
 			}
+		}
 
+		for (size_t i = 0; i < 9000; i++)
+		{
+			for (size_t meshIndex = 0; meshIndex < modelAsset->GetMeshCount(); meshIndex++)
+			{
+				graphics::Mesh* mesh = modelAsset->GetMesh(meshIndex);
+				if (mesh->GetTargetThreeDModelMesh()->mIsValidMesh == true)
+				{
+					auto entity = currenScene->CreateNewEntity();
+					const float scale = Random::RandomFloatNumber(0.1f, 0.4f);
+					entity->GetTransform()->SetScale(scale, scale, scale);
+					entity->GetTransform()->SetRotation(Random::RandomFloatNumber(0.0f, 90.0f), Random::RandomFloatNumber(0.0f, 90.0f), Random::RandomFloatNumber(0.0f, 90.0f));
+					entity->GetTransform()->SetPosition(Random::RandomFloatNumber(-3500.0f, 3500.0f), Random::RandomFloatNumber(-3500.0f, 3500.0f), Random::RandomFloatNumber(-3500.0f, 3500.0f));
+					auto meshRenderer = entity->AddComponent<MeshRenderer>();
+					meshRenderer->SetMesh(mesh);
+					meshRenderer->SetMaterial(material1);
+					portfolioComponent->RockRenderers.push_back(meshRenderer);
 
+					WanderComponent* wanderComp = entity->AddComponent<WanderComponent>();
+					wanderComp->mPoint1 = { Random::RandomFloatNumber(-3500.0f, 3500.0f) , Random::RandomFloatNumber(-3500.0f, 3500.0f) , Random::RandomFloatNumber(-3500.0f, 3500.0f) };
+					wanderComp->mPoint2 = { Random::RandomFloatNumber(-3500.0f, 3500.0f) , Random::RandomFloatNumber(-3500.0f, 3500.0f) , Random::RandomFloatNumber(-3500.0f, 3500.0f) };
+					wanderComp->mLookAtDestination = false;
+					wanderComp->mSpeed = 3.0f;
+				}
+
+			}
 		}
 	}
 

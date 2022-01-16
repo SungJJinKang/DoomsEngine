@@ -15,7 +15,7 @@ void dooms::DObject::Construct_Internal()
 	}
 }
 
-void dooms::DObject::CopyFlagsToThisDObject(const UINT32 flags)
+void dooms::DObject::CopyFlagsToThisDObject(const UINT64 flags)
 {
 	ResetDObjectFlag(flags & ~dooms::NotCopyedFlagsWhenCopyMoveConstruct);
 }
@@ -111,7 +111,7 @@ dooms::DObject::DObject(const DObjectContructorParams& params)
 dooms::DObject::DObject(const DObject& dObject)
 	: mDObjectProperties(dObject.mDObjectProperties), mEngineGUIAccessor(this)
 {
-	const UINT32 originalObjectFlag = dObject.GetDObjectFlag();
+	const UINT64 originalObjectFlag = dObject.GetDObjectFlag();
 
 	Construct_Internal();
 	CopyFlagsToThisDObject(dObject.GetDObjectFlag());
@@ -125,7 +125,7 @@ dooms::DObject::DObject(const DObject& dObject)
 dooms::DObject::DObject(DObject&& dObject) noexcept
 	: mDObjectProperties(std::move(dObject.mDObjectProperties)), mEngineGUIAccessor(this)
 {
-	const UINT32 originalObjectFlag = dObject.GetDObjectFlag();
+	const UINT64 originalObjectFlag = dObject.GetDObjectFlag();
 
 	DObjectManager::ReplaceDObjectFromDObjectList(std::move(dObject), this);
 	CopyFlagsToThisDObject(dObject.GetDObjectFlag());

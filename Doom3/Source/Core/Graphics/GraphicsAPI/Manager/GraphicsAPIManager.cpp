@@ -85,7 +85,7 @@ bool dooms::graphics::GraphicsAPIManager::DeInitialize()
 	D_ASSERT(result == 1);
 	result &= input::GraphicsAPIInput::DeInitializeGraphisAPIInput();
 	D_ASSERT(result == 1);
-	result &= mGraphicsAPILoader.UnLoadGraphicsAPILibrary();
+	result &= static_cast<unsigned int>(mGraphicsAPILoader.UnLoadGraphicsAPILibrary());
 	D_ASSERT(result == 1);
 
 	return result == 1;

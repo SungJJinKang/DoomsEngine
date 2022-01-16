@@ -23,9 +23,9 @@ void dooms::graphics::maskedOcclusionCullingTester::DebugTileCoverageMask
 
 	//const UINT32 space = ((float)screenWidth / (float)screenHeight) * ((float)GetRowSubTileCount() / (float)GetColumnSubTileCount());
 
-	for (INT32 subTileRowIndex = depthBuffer->mResolution.mRowSubTileCount - 1; subTileRowIndex >= 0; subTileRowIndex--)
+	for (INT32 subTileRowIndex = static_cast<INT32>(depthBuffer->mResolution.mRowSubTileCount) - 1; subTileRowIndex >= 0; subTileRowIndex--)
 	{
-		for (INT32 subTileColIndex = 0; subTileColIndex < depthBuffer->mResolution.mColumnSubTileCount; subTileColIndex++)
+		for (INT32 subTileColIndex = 0; subTileColIndex < static_cast<INT32>(depthBuffer->mResolution.mColumnSubTileCount) ; subTileColIndex++)
 		{
 			const INT32 tileRowIndex = subTileRowIndex / (TILE_HEIGHT / SUB_TILE_HEIGHT);
 			const INT32 tileColIndex = subTileColIndex / (TILE_WIDTH / SUB_TILE_WIDTH);
@@ -115,10 +115,10 @@ void dooms::graphics::maskedOcclusionCullingTester::DebugBinnedTriangles
 	const float xScale = 2.0f / (float)(depthBuffer->mResolution.mColumnTileCount);
 	const float yScale = 2.0f / (float)(depthBuffer->mResolution.mRowTileCount);
 
-	for (size_t y = 0; y < depthBuffer->mResolution.mRowTileCount; y++)
+	for (std::uint32_t y = 0; y < depthBuffer->mResolution.mRowTileCount; y++)
 	{
 		// y = 0 -> bottom
-		for (size_t x = 0; x < depthBuffer->mResolution.mColumnTileCount; x++)
+		for (std::uint32_t x = 0; x < depthBuffer->mResolution.mColumnTileCount; x++)
 		{
 			const culling::Tile* const tile = depthBuffer->GetTile(y, x);
 

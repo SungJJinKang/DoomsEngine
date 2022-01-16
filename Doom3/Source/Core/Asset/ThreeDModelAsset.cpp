@@ -242,9 +242,9 @@ void dooms::MeshData::Allocate(const size_t verticeCount)
 	
 }
 
-size_t dooms::MeshData::GetAllocatedDataSize() const
+unsigned long long dooms::MeshData::GetAllocatedDataSize() const
 {
-	return (sizeof(Vector3) + sizeof(Vector3) + sizeof(Vector3) + sizeof(Vector3) + sizeof(Vector3)) * mVerticeCount;
+	return (sizeof(Vector3) + sizeof(Vector3) + sizeof(Vector3) + sizeof(Vector3) + sizeof(Vector3)) * (unsigned long long)mVerticeCount;
 }
 
 void dooms::MeshData::Free()

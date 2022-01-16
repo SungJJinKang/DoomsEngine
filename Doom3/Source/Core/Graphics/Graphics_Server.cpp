@@ -145,9 +145,9 @@ void Graphics_Server::PreCullJob()
 {
 	mCullingCameraCount = 0;
 
-	D_START_PROFILING(PreCullJob, dooms::profiler::eProfileLayers::Rendering);
+	D_START_PROFILING(CullingSystemPreCullJob, dooms::profiler::eProfileLayers::Rendering);
 	mCullingSystem->PreCullJob();
-	D_END_PROFILING(PreCullJob);
+	D_END_PROFILING(CullingSystemPreCullJob);
 
 	D_START_PROFILING(UpdateCameraIndexInCullingSystemOfCameraComponent, dooms::profiler::eProfileLayers::Rendering);
 	UpdateCameraIndexInCullingSystemOfCameraComponent();
@@ -269,7 +269,7 @@ void Graphics_Server::UpdateSortedEntityInfoListInCullingSystem()
 
 		if (targetCamera->GetIsCullJobEnabled() == true)
 		{
-			size_t rendererCount = 0;
+			unsigned long long rendererCount = 0;
 			const std::vector<Renderer*>& renderersInLayer = RendererComponentStaticIterator::GetSingleton()->GetSortedRendererInLayer(cameraIndex);
 			for (size_t rendererIndex = 0; rendererIndex < renderersInLayer.size(); rendererIndex++)
 			{

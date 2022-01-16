@@ -17,6 +17,7 @@ namespace dooms
 	private:
 		std::array<Layer, MAX_LAYER_COUNT> mLayers;
 
+		/*
 		std::array<std::string, RESERVED_LAYER_COUNT> mReservedLayerName
 		{
 			"Default",
@@ -28,14 +29,19 @@ namespace dooms
 			"UI"
 
 		};
+		*/
+
 	public:
 
 		SharedSceneSetting()
 		{
+			/*
 			for (UINT32 i = 0; i < mReservedLayerName.size(); i++)
 			{
 				mLayers[i].mLayerName = mReservedLayerName[i];
 			}
+			*/
+
 		}
 
 	};

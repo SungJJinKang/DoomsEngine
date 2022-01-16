@@ -48,9 +48,9 @@ namespace dooms
 
 			//const ThreeDModelMesh* mThreeDModelMesh; don't save ModelMeshAssetData
 			D_PROPERTY()
-			INT32 mNumOfIndices;
+			UINT64 mNumOfIndices;
 			D_PROPERTY()
-			INT32 mNumOfVertices;
+			UINT64 mNumOfVertices;
 			D_PROPERTY()
 			GraphicsAPI::ePrimitiveType mPrimitiveType;
 

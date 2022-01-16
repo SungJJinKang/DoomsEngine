@@ -29,7 +29,7 @@ namespace dooms
 
 		std::unordered_set<DObject*> mDObjectList;
 
-		std::vector<UINT32> mEmptyIndexInFlagList;
+		std::vector<size_t> mEmptyIndexInFlagList;
 
 		DObjectsContainer();
 		DObjectsContainer(const DObjectsContainer&) = delete;

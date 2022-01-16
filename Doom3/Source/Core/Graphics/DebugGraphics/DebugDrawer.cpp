@@ -286,8 +286,8 @@ void dooms::graphics::DebugDrawer::BufferVertexDataToGPU()
 {
 	std::scoped_lock<std::mutex> lock{ mMextex };
 
-	UINT32 offsetComponentCount{ 0 };
-	UINT32 alreadyDrawedVertexCount{ 0 };
+	UINT64 offsetComponentCount{ 0 };
+	UINT64 alreadyDrawedVertexCount{ 0 };
 
 	for (DebugPrimitiveContainer* container : mDebugPrimitiveContainers.DebugPrimitiveContainers)
 	{

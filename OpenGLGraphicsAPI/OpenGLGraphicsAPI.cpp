@@ -1412,7 +1412,7 @@ namespace dooms
 		(
 			unsigned long long bufferObject,
 			const GraphicsAPI::eBufferTarget bufferTarget,
-			const unsigned int bufferSize,
+			const unsigned long long bufferSize,
 			const void* const initialData
 		)
 		{
@@ -1591,8 +1591,8 @@ namespace dooms
 		DOOMS_ENGINE_GRAPHICS_API void Draw
 		(
 			const GraphicsAPI::ePrimitiveType primitiveType,
-			const unsigned int vertexCount,
-			const unsigned int startVertexLocation
+			const unsigned long long vertexCount,
+			const unsigned long long startVertexLocation
 		)
 		{
 			assert((unsigned int)primitiveType < GraphicsAPI::ePrimitiveType::END);
@@ -1605,7 +1605,7 @@ namespace dooms
 		DOOMS_ENGINE_GRAPHICS_API void DrawIndexed
 		(
 			const GraphicsAPI::ePrimitiveType primitiveType,
-			const unsigned int indiceCount,
+			const unsigned long long indiceCount,
 			const void* const indices
 		)
 		{

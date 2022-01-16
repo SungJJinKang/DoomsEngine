@@ -41,7 +41,7 @@ namespace dooms
 
 	public:
 		D_PROPERTY()
-		size_t mVerticeCount;
+		UINT64 mVerticeCount;
 
 		D_PROPERTY()
 		char* mData;
@@ -70,7 +70,7 @@ namespace dooms
 		~MeshData();
 
 		void Allocate(const size_t verticeCount);
-		size_t GetAllocatedDataSize() const;
+		unsigned long long GetAllocatedDataSize() const;
 		void Free();
 	};
 	D_REFLECTION_TYPE(dooms::MeshVertexData)

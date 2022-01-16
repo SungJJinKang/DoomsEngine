@@ -54,7 +54,7 @@ namespace dooms
 
 
 
-	enum D_ENUM eDObjectFlag : UINT32
+	enum D_ENUM eDObjectFlag : UINT64
 	{
 		NewAllocated = 1 << 0,
 		Unreachable = 1 << 1, // When DObject is created, this value is 0. because gc do mark stage incrementally.
@@ -108,7 +108,7 @@ namespace dooms
 			GENERATE_BODY_DObjectProperties()
 
 			D_PROPERTY(INVISIBLE)
-			INT64 mCurrentIndexInDObjectList;
+			size_t mCurrentIndexInDObjectList;
 
 			D_PROPERTY(INVISIBLE)
 			std::atomic<UINT64> mDObjectFlag;
@@ -167,7 +167,7 @@ namespace dooms
 				
 		void Construct_Internal();
 
-		void CopyFlagsToThisDObject(const UINT32 flags);
+		void CopyFlagsToThisDObject(const UINT64 flags);
 
 	
 		
