@@ -7,6 +7,9 @@
 #include <Rendering/Camera.h>
 #include <Vector3.h>
 
+#include "Graphics/GraphicsAPI/GraphicsAPI.h"
+#include "Graphics/GraphicsAPI/Input/GraphicsAPIInput.h"
+
 
 void UserInput_Server::CursorEnterCallback(bool isEntered)
 {
@@ -41,32 +44,24 @@ void UserInput_Server::Scroll_Callback(FLOAT64 xoffset, FLOAT64 yoffset)
 
 void UserInput_Server::Key_Callback(dooms::input::GraphicsAPIInput::eKEY_CODE key, INT32 scancode, dooms::input::GraphicsAPIInput::eInputActionType action, INT32 mods)
 {
-	if (key < static_cast<INT32>(FIRST_KEY_CODE) || key > static_cast<INT32>(LAST_KEY_CODE))
+	if (key != dooms::input::GraphicsAPIInput::eKEY_CODE::UNKNOWN)
 	{
-		return;
+		// TODO : Fix bugs ( Sometimes Key RELEASE isn't called ) 
+		switch (action)
+		{
+		case dooms::input::GraphicsAPIInput::PRESS:
+		case dooms::input::GraphicsAPIInput::REPEAT:
+			UserInput_Server::mKeyState[key - static_cast<INT32>(FIRST_KEY_CODE)] = eKeyState::PRESS_DOWN;
+			UserInput_Server::mDownKeys.push_back(key);
+			break;
+
+		case dooms::input::GraphicsAPIInput::RELEASE:
+			UserInput_Server::mKeyState[key - static_cast<INT32>(FIRST_KEY_CODE)] = eKeyState::UP;
+			UserInput_Server::mKeyToggle[key - static_cast<INT32>(FIRST_KEY_CODE)] = !UserInput_Server::mKeyToggle[key - static_cast<INT32>(FIRST_KEY_CODE)];
+			UserInput_Server::mUpKeys.push_back(key);
+			break;
+		}
 	}
-
-	// TODO : Fix bugs ( Sometimes Key RELEASE isn't called ) 
-	switch (action)
-	{
-	case dooms::input::GraphicsAPIInput::PRESS:
-	case dooms::input::GraphicsAPIInput::REPEAT:
-		UserInput_Server::mKeyState[key - static_cast<INT32>(FIRST_KEY_CODE)] = eKeyState::PRESS_DOWN;
-		UserInput_Server::mDownKeys.push_back(key);
-		break;
-
-	case dooms::input::GraphicsAPIInput::RELEASE:
-		UserInput_Server::mKeyState[key - static_cast<INT32>(FIRST_KEY_CODE)] = eKeyState::UP;
-		UserInput_Server::mKeyToggle[key - static_cast<INT32>(FIRST_KEY_CODE)] = !UserInput_Server::mKeyToggle[key - static_cast<INT32>(FIRST_KEY_CODE)];
-		UserInput_Server::mUpKeys.push_back(key);
-		break;
-
-		break;
-
-	default: 
-		NEVER_HAPPEN;
-	}
-
 }
 
 
@@ -96,7 +91,23 @@ void dooms::userinput::UserInput_Server::UpdateKeyStates()
 
 	for (auto downKey : UserInput_Server::mDownKeys)
 	{
-		UserInput_Server::mKeyState[downKey - static_cast<INT32>(FIRST_KEY_CODE)] = eKeyState::PRESSING;
+		const input::GraphicsAPIInput::eInputActionType keyAction = dooms::input::GraphicsAPIInput::GetKeyCurrentAction(dooms::graphics::GraphicsAPI::GetPlatformWindow(), downKey);
+
+		switch (keyAction)
+		{
+			case input::GraphicsAPIInput::PRESS:
+				UserInput_Server::mKeyState[downKey - static_cast<INT32>(FIRST_KEY_CODE)] = eKeyState::PRESSING;
+				break;
+			case input::GraphicsAPIInput::RELEASE:
+					UserInput_Server::mKeyState[downKey - static_cast<INT32>(FIRST_KEY_CODE)] = eKeyState::NONE;
+					break;
+			case input::GraphicsAPIInput::REPEAT:
+				UserInput_Server::mKeyState[downKey - static_cast<INT32>(FIRST_KEY_CODE)] = eKeyState::PRESSING;
+				break;
+			default:
+				D_ASSERT(false);
+		}
+		
 	}
 
 	UserInput_Server::mUpKeys.clear();

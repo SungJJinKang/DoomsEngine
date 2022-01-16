@@ -271,7 +271,7 @@ namespace dooms
 				case GLFW_KEY_MENU:
 					return dooms::input::GraphicsAPIInput::eKEY_CODE::KEY_MENU;
 				default:
-					NEVER_HAPPEN;
+					return dooms::input::GraphicsAPIInput::eKEY_CODE::UNKNOWN;
 				}
 			}
 
@@ -521,8 +521,7 @@ namespace dooms
 				case dooms::input::GraphicsAPIInput::eKEY_CODE::KEY_MENU:
 					return GLFW_KEY_MENU;
 				default:
-					NEVER_HAPPEN;
-					return 0;
+					return GLFW_KEY_UNKNOWN;
 				}
 			}
 
@@ -686,6 +685,19 @@ namespace dooms
 		DOOMS_ENGINE_GRAPHICS_API void SetMouseButton_Callback(input::GraphicsAPIInput::MouseButton_Callback mouseButton_Callback)
 		{
 			input::opengl::mMouseButton_Callback = mouseButton_Callback;
+		}
+
+		DOOMS_ENGINE_GRAPHICS_API input::GraphicsAPIInput::eInputActionType GetKeyCurrentAction(void* const platformWindow, const input::GraphicsAPIInput::eKEY_CODE keyCode)
+		{
+			if(keyCode != input::GraphicsAPIInput::eKEY_CODE::UNKNOWN)
+			{
+				const int glInputAction = glfwGetKey(reinterpret_cast<GLFWwindow*>(platformWindow), opengl::Convert_eKeyCode_To_GLKeyCode(keyCode));
+				return opengl::Convert_GLFWInputAction_To_eInputActionType(glInputAction);
+			}
+			else
+			{
+				return input::GraphicsAPIInput::eInputActionType::RELEASE;
+			}
 		}
 
 	}

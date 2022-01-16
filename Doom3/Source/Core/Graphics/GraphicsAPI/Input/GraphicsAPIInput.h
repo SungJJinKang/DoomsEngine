@@ -12,7 +12,7 @@ namespace dooms
 		{
 			enum eKEY_CODE : int
 			{
-				ERROR_CODE, //-1,
+				UNKNOWN, //-1,
 				KEY_SPACE, //GLFW_KEY_SPACE,
 				KEY_APOSTROPHE, //GLFW_KEY_APOSTROPHE,
 				KEY_COMMA, //GLFW_KEY_COMMA,
@@ -192,6 +192,11 @@ namespace dooms
 
 			typedef unsigned int (DOOMS_ENGINE_API_ENTRY_P GRAPHICS_SETMOUSEBUTTONCALLBACK)(MouseButton_Callback);
 			extern GRAPHICS_SETMOUSEBUTTONCALLBACK SetMouseButton_Callback;
+
+			typedef eInputActionType (DOOMS_ENGINE_API_ENTRY_P GRAPHICS_GETKEYCURRENTACTION)(void* const platformWindow, const eKEY_CODE);
+			extern GRAPHICS_GETKEYCURRENTACTION GetKeyCurrentAction;
+
+
 
 		};
 	}

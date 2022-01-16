@@ -15,7 +15,7 @@ dooms::input::GraphicsAPIInput::eKEY_CODE dooms::userinput::UserInputHelper::Con
 	}
 	else
 	{
-		return dooms::input::GraphicsAPIInput::eKEY_CODE::ERROR_CODE;
+		return dooms::input::GraphicsAPIInput::eKEY_CODE::UNKNOWN;
 	}
 }
 

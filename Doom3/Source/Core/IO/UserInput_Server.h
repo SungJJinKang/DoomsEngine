@@ -64,11 +64,11 @@ namespace dooms
 			/// <summary>
 			/// Keys what was down at last frame
 			/// </summary>
-			static inline std::vector<INT32> mDownKeys{};
+			static inline std::vector<input::GraphicsAPIInput::eKEY_CODE> mDownKeys{};
 			/// <summary>
 			/// Keys what was up at last frame
 			/// </summary>
-			static inline std::vector<INT32> mUpKeys{};
+			static inline std::vector<input::GraphicsAPIInput::eKEY_CODE> mUpKeys{};
 			void UpdateKeyStates();
 
 			static inline std::array<eMouse_Button_Action, static_cast<INT32>(LAST_MOUSE_BUTTON_TYPE) - static_cast<INT32>(FIRST_MOUSE_BUTTON_TYPE) + 1> mMouseButtonState{};

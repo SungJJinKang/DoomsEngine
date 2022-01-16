@@ -288,7 +288,8 @@ void dooms::graphics::GraphicsAPILoader::FetchExportedFunctionAddress()
 	//D_ASSERT(dooms::input::GraphicsAPIInput::SetKey_Callback != nullptr);
 	dooms::input::GraphicsAPIInput::SetMouseButton_Callback = (dooms::input::GraphicsAPIInput::GRAPHICS_SETMOUSEBUTTONCALLBACK)GetProcAddress(hModule, "SetMouseButton_Callback");
 	//D_ASSERT(dooms::input::GraphicsAPIInput::SetMouseButton_Callback != nullptr);
-
+	dooms::input::GraphicsAPIInput::GetKeyCurrentAction = (dooms::input::GraphicsAPIInput::GRAPHICS_GETKEYCURRENTACTION)GetProcAddress(hModule, "GetKeyCurrentAction");
+	//D_ASSERT(dooms::input::GraphicsAPIInput::GetKeyCurrentAction != nullptr);
 
 	dooms::graphics::PlatformImgui::InitializePlatformImgui = (PlatformImgui::GRAPHICS_INITIALIZEPLATFORMIMGUI)GetProcAddress(hModule, "InitializePlatformImgui");
 	//D_ASSERT(dooms::graphics::PlatformImgui::InitializePlatformImgui != nullptr);
