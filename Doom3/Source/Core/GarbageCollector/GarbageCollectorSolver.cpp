@@ -16,6 +16,7 @@
 
 void dooms::gc::garbageCollectorSolver::StartSetUnreachableFlagStage(const eGCMethod gcMethod, std::unordered_set<DObject*>& dObjects)
 {
+	// TODO : Optimize this function. too slow....
 	for(DObject* dObject : dObjects)
 	{
 		dObject->SetDObjectFlag(dooms::eDObjectFlag::Unreachable | dooms::eDObjectFlag::IsNotCheckedByGC, std::memory_order_relaxed);
