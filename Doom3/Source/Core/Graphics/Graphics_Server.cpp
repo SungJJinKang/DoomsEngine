@@ -339,8 +339,8 @@ void dooms::graphics::Graphics_Server::Render()
 
 		D_ASSERT(IsValid(targetCamera));
 
-		GraphicsAPI::ClearBufferColorBuffer(targetCamera->mDefferedRenderingFrameBuffer.GetFrameBufferID(), targetCamera->mClearColor[0], targetCamera->mClearColor[1], targetCamera->mClearColor[2], targetCamera->mClearColor[3]);
-		GraphicsAPI::ClearBufferDepthBuffer(targetCamera->mDefferedRenderingFrameBuffer.GetFrameBufferID(), GraphicsAPI::DEFAULT_MAX_DEPTH_VALUE);
+		GraphicsAPI::ClearBackBufferColorBuffer(targetCamera->mClearColor[0], targetCamera->mClearColor[1], targetCamera->mClearColor[2], targetCamera->mClearColor[3]);
+		GraphicsAPI::ClearBackBufferDepthBuffer(GraphicsAPI::DEFAULT_MAX_DEPTH_VALUE);
 
 		targetCamera->UpdateUniformBufferObject();
 
