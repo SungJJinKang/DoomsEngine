@@ -75,7 +75,6 @@ namespace dooms
 			//CullDistance mCullDistance{};
 			void PreRenderRenderer();
 			void UpdateCameraIndexInCullingSystemOfCameraComponent();
-			void UpdateSortedEntityInfoListInCullingSystem();
 			
 			void PreRender();
 			void Render();

@@ -152,13 +152,7 @@ void Graphics_Server::PreCullJob()
 	D_START_PROFILING(UpdateCameraIndexInCullingSystemOfCameraComponent, dooms::profiler::eProfileLayers::Rendering);
 	UpdateCameraIndexInCullingSystemOfCameraComponent();
 	D_END_PROFILING(UpdateCameraIndexInCullingSystemOfCameraComponent);
-
-	if (WHEN_TO_BIN_TRIANGLE(mCullingSystem->GetTickCount()) == true)
-	{
-		D_START_PROFILING(UpdateSortedEntityInfoListInCullingSystem, dooms::profiler::eProfileLayers::Rendering);
-		UpdateSortedEntityInfoListInCullingSystem();
-		D_END_PROFILING(UpdateSortedEntityInfoListInCullingSystem);
-	}
+	
 }
 
 
@@ -256,39 +250,6 @@ void Graphics_Server::UpdateCameraIndexInCullingSystemOfCameraComponent()
 	}
 
 	mCullingSystem->SetCameraCount(mCullingCameraCount);
-}
-
-void Graphics_Server::UpdateSortedEntityInfoListInCullingSystem()
-{
-	mCullingSystem->ResetSortedEntityCount();
-
-	const std::vector<dooms::Camera*>& spawnedCameraList = StaticContainer<dooms::Camera>::GetAllStaticComponents();
-	for (size_t cameraIndex = 0; cameraIndex < spawnedCameraList.size(); cameraIndex++)
-	{
-		dooms::Camera* const targetCamera = spawnedCameraList[cameraIndex];
-
-		if (targetCamera->GetIsCullJobEnabled() == true)
-		{
-			unsigned long long rendererCount = 0;
-			const std::vector<Renderer*>& renderersInLayer = RendererComponentStaticIterator::GetSingleton()->GetSortedRendererInLayer(cameraIndex);
-			for (size_t rendererIndex = 0; rendererIndex < renderersInLayer.size(); rendererIndex++)
-			{
-				Renderer* const renderer = renderersInLayer[rendererIndex];
-				if (IsValid(renderer) == true && renderer->GetIsComponentEnabled() == true)
-				{
-					mCullingSystem->SetSortedEntityInfo
-					(
-						targetCamera->CameraIndexInCullingSystem,
-						rendererCount,
-						renderer->mCullingEntityBlockViewer.GetTargetEntityBlock(),
-						renderer->mCullingEntityBlockViewer.GetEntityIndexInBlock()
-					);
-
-					rendererCount++;
-				}
-			}
-		}
-	}
 }
 
 void Graphics_Server::PreRender()
@@ -456,15 +417,22 @@ void dooms::graphics::Graphics_Server::RenderObject(dooms::Camera* const targetC
 
 	D_START_PROFILING(DrawLoop, dooms::profiler::eProfileLayers::Rendering);
 	const bool targetCamera_IS_CULLED_flag_on = targetCamera->GetCameraFlag(dooms::eCameraFlag::IS_CULLED);
+
+	UINT32 frontToBackOrder = 0;
+
+	/*
 	for (UINT32 layerIndex = 0; layerIndex < MAX_LAYER_COUNT; layerIndex++)
 	{
+	*/
 		const std::vector<Renderer*>& renderersInLayer = RendererComponentStaticIterator::GetSingleton()->GetSortedRendererInLayer(cameraIndex);
 		for (Renderer* renderer : renderersInLayer)
 		{
+			renderer->SetFrontToBackSortingOrder(cameraIndex, frontToBackOrder);
+
 			if
 			(
 				IsValid(renderer) == true && // TODO : Optimize this. Currently, Every renderers is checked per layer.
-				renderer->GetOwnerEntityLayerIndex() == layerIndex && 
+				//renderer->GetOwnerEntityLayerIndex() == layerIndex && 
 				renderer->GetIsComponentEnabled() == true
 			)
 			{
@@ -477,8 +445,12 @@ void dooms::graphics::Graphics_Server::RenderObject(dooms::Camera* const targetC
 					renderer->Draw();
 				}
 			}
+
+			frontToBackOrder++;
 		}
+	/*
 	}
+	*/
 	D_END_PROFILING(DrawLoop);
 
 	//Wait Multithread Sorting Renderer Front To Back  TO  JobSystem finished.
