@@ -2,6 +2,8 @@
 
 #include <utility>
 #include <mutex>
+#include <shared_mutex>
+
 
 #include "imgui.h"
 #include <Time/MainTimer.h>
@@ -14,7 +16,7 @@ namespace dooms::ui::profilerGUI
 	//key : profiling tag ( string )
 	//value : profiling time, text red color duration
 	static std::unordered_map<std::string, std::pair<float, float>> mProfilingDataContainer{};
-	static std::mutex mProfilingMutex{};
+	static std::shared_mutex mProfilingMutex{};
 }
 
 
@@ -47,16 +49,21 @@ void dooms::ui::profilerGUI::Render()
 
 void dooms::ui::profilerGUI::AddProfilingData(const char* const profilingTagName, const float time)
 {
-	std::scoped_lock<std::mutex> lock{ mProfilingMutex };
-
 	std::string tag = profilingTagName;
+
+	std::shared_lock<std::shared_mutex> sLock{ mProfilingMutex };
+
 	auto iter = mProfilingDataContainer.find(tag);
 	if(iter == mProfilingDataContainer.end())
 	{
+		sLock.unlock();
+		std::unique_lock<std::shared_mutex> uLock{ mProfilingMutex };
 		mProfilingDataContainer.emplace(tag, std::make_pair(time, PROFILING_TEXT_RED_COLOR_DURATION_TIME));
+		uLock.unlock();
 	}
 	else
 	{
+		sLock.unlock();
 		iter->second = std::make_pair(time, PROFILING_TEXT_RED_COLOR_DURATION_TIME);
 	}
 
