@@ -17,7 +17,7 @@ void dooms::MeshRenderer::UpdateCullingEntityBlockViewer()
 	{
 		const ThreeDModelMesh* const threeDModelMesh = mTargetMesh->GetTargetThreeDModelMesh();
 
-		
+		// TODO : Pass high level LOD mesh to culling system. ( to decrease occluder rasterizing cost )
 		mCullingEntityBlockViewer.SetMeshVertexData
 		(
 			reinterpret_cast<const culling::Vec3*>(threeDModelMesh->mMeshDatas.mVertex),
