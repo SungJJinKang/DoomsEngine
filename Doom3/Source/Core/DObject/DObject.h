@@ -18,7 +18,7 @@
 #include "Reflection/ReflectionType/DField.h"
 
 
-#define DAFAULT_DOBJECT_FLAGS 0
+#define DAFAULT_DOBJECT_FLAGS (dooms::eDObjectFlag::Unreachable | dooms::eDObjectFlag::IsNotCheckedByGC)
 
 #include "DObject.reflection.h"
 D_NAMESPACE(dooms)
@@ -132,18 +132,22 @@ namespace dooms
 				
 			}
 			DObjectProperties(const DObjectProperties& dObjectProperties)
+				:
+				mCurrentIndexInDObjectList(INVALID_CURRENT_INDEX_IN_DOBJECT_LIST),
+				mDObjectID(INVALID_DOBJECT_ID),
+				mDObjectName(dObjectProperties.mDObjectName),
+				mOwnerDObject(dObjectProperties.mOwnerDObject),
+				mDObjectFlag(DAFAULT_DOBJECT_FLAGS)
 			{
-				mCurrentIndexInDObjectList = INVALID_CURRENT_INDEX_IN_DOBJECT_LIST;
-				mDObjectID = INVALID_DOBJECT_ID;
-				mDObjectName = dObjectProperties.mDObjectName;
-				mOwnerDObject = dObjectProperties.mOwnerDObject;
 			}
 			DObjectProperties(DObjectProperties&& dObjectProperties) noexcept
-			{
-				mCurrentIndexInDObjectList = INVALID_CURRENT_INDEX_IN_DOBJECT_LIST;
-				mDObjectID = INVALID_DOBJECT_ID;
-				mDObjectName = dObjectProperties.mDObjectName;
-				mOwnerDObject = dObjectProperties.mOwnerDObject;				
+				:
+				mCurrentIndexInDObjectList(INVALID_CURRENT_INDEX_IN_DOBJECT_LIST),
+				mDObjectID(INVALID_DOBJECT_ID),
+				mDObjectName(dObjectProperties.mDObjectName),
+				mOwnerDObject(dObjectProperties.mOwnerDObject),
+				mDObjectFlag(DAFAULT_DOBJECT_FLAGS)
+			{			
 			}
 			DObjectProperties& operator=(const DObjectProperties& dObjectProperties)
 			{
@@ -255,7 +259,7 @@ namespace dooms
 		D_FUNCTION()
 		FORCE_INLINE bool HasDObjectFlag(const UINT64 flag, const std::memory_order memoryOrder = std::memory_order_relaxed)
 		{
-			return (GetDObjectFlag() & flag) == flag;
+			return (GetDObjectFlag(memoryOrder) & flag) == flag;
 		}
 
 		D_FUNCTION()
