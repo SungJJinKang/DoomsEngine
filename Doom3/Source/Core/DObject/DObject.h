@@ -229,7 +229,15 @@ namespace dooms
 		D_FUNCTION()
 		FORCE_INLINE void SetDObjectFlag(const UINT64 flag, const std::memory_order memoryOrder = std::memory_order_relaxed)
 		{
-			mDObjectProperties.mDObjectFlag |= flag;
+			if(memoryOrder == std::memory_order_relaxed)
+			{
+				const UINT64 currentFlag = mDObjectProperties.mDObjectFlag.load(std::memory_order_relaxed);
+				mDObjectProperties.mDObjectFlag.store(currentFlag | flag, std::memory_order_relaxed);
+			}
+			else
+			{
+				mDObjectProperties.mDObjectFlag |= flag;
+			}
 		}
 
 		D_FUNCTION()

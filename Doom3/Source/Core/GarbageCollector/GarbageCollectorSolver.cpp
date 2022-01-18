@@ -293,10 +293,12 @@ void dooms::gc::garbageCollectorSolver::StartSweepStage(const eGCMethod gcMethod
 	while(beginIter != endIter)
 	{
 		dooms::DObject* const dObject = (*beginIter);
-		if
-		(
-			(dObject->HasDObjectFlag(dooms::eDObjectFlag::Unreachable | dooms::eDObjectFlag::NewAllocated) )
-		)
+
+
+		const bool isUnreachable = dObject->HasDObjectFlag(dooms::eDObjectFlag::Unreachable | dooms::eDObjectFlag::NewAllocated, std::memory_order_relaxed);
+		dObject->SetDObjectFlag(dooms::eDObjectFlag::Unreachable | dooms::eDObjectFlag::IsNotCheckedByGC, std::memory_order_relaxed);
+
+		if(isUnreachable == true)
 		{
 			/*
 			// Mark unreachable dObject before sweep.

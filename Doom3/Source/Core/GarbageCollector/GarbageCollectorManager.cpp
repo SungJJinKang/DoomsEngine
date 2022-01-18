@@ -127,13 +127,17 @@ void dooms::gc::GarbageCollectorManager::Sweep(const garbageCollectorSolver::eGC
 	D_END_PROFILING(GC_SweepStage);
 }
 
-void dooms::gc::GarbageCollectorManager::Collect(const garbageCollectorSolver::eGCMethod gcMethod)
+void dooms::gc::GarbageCollectorManager::Collect(const garbageCollectorSolver::eGCMethod gcMethod, const bool initialGC)
 {
 	D_START_PROFILING(GC_Collect, CPU);
 
 
 	D_DEBUG_LOG(eLogType::D_LOG_TYPE12, "Start GC");
-	ClearFlags(gcMethod);
+	if(initialGC == true)
+	{
+		ClearFlags(gcMethod);
+	}
+	
 	Mark(gcMethod);
 	Sweep(gcMethod);
 

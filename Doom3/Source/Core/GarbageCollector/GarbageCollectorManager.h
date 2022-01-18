@@ -44,7 +44,7 @@ namespace dooms
 			static void TickGC();
 			static void ResetElapsedTime();
 
-			static void Collect(const garbageCollectorSolver::eGCMethod gcMethod = garbageCollectorSolver::eGCMethod::MultiThreadMark);
+			static void Collect(const garbageCollectorSolver::eGCMethod gcMethod = garbageCollectorSolver::eGCMethod::MultiThreadMark, const bool initialGC = false);
 			
 			
 			/// <summary>
