@@ -7,7 +7,7 @@
 #include "Macros/Assert.h"
 
 #define GUI_LOG_BUFFER_COUNT 100
-#define GUI_LOG_MAX_LENGTH 50
+#define GUI_LOG_MAX_LENGTH 200
 
 namespace dooms
 {
