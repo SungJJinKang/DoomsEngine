@@ -54,10 +54,13 @@ private:
 	D_PROPERTY(TOOLTIP = "Enable Distance Culling")
 	bool Enable_DistanceCulling = true;
 
+	D_PROPERTY(INVISIBLE, TOOLTIP = "Enable PreCulling Culling")
+	bool Enable_PreCulling = true;
+
 	D_PROPERTY(MIN=0.0, TOOLTIP ="Set DesiredMaxDrawDistance to All Rocks's Renderer ( Test )")
-	float AllRocksDesiredMaxDrawDistance = 6000.0f;
+	float AllRocksDesiredMaxDrawDistance = 8000.0f;
 	D_PROPERTY(MIN=0.0, TOOLTIP = "Set DesiredMaxDrawDistance to All Planes's Renderer ( Test )")
-	float AllPlanesDesiredMaxDrawDistance = 6000.0f;
+	float AllPlanesDesiredMaxDrawDistance = 8000.0f;
 
 	void OnChangedByGUI(const dooms::reflection::DField& dFieldOfChangedField) override;
 

@@ -54,7 +54,7 @@ void dooms::GameLogicStartPoint::StartGameLogic()
 		entity1->GetTransform()->SetRotation(0.0f, 0.0f, 0.0f);
 		entity1Camera->SetProjectionMode(dooms::Camera::eProjectionType::Perspective);
 		entity1Camera->SetClippingPlaneNear(1.0f);
-		entity1Camera->SetClippingPlaneFar(4500.0f);
+		entity1Camera->SetClippingPlaneFar(6500.0f);
 		entity1->AddComponent<Move_WASD>();
 
 		//entity1->AddComponent<ExportTextureTester>();
@@ -638,7 +638,7 @@ void dooms::GameLogicStartPoint::StartGameLogic()
 		material1->AddTexture(graphics::eTextureBindingPoint::NormalTexture, assetImporter::AssetManager::GetSingleton()->GetAsset<asset::eAssetType::TEXTURE>("Rock_normal.dds"));
 		material1->AddTexture(graphics::eTextureBindingPoint::MetalnessTexture, assetImporter::AssetManager::GetSingleton()->GetAsset<asset::eAssetType::TEXTURE>("Rock_metallic.dds"));
 
-		for (size_t i = 0; i < 3000; i++)
+		for (size_t i = 0; i < 6000; i++)
 		{
 			for (size_t meshIndex = 0; meshIndex < modelAsset->GetMeshCount(); meshIndex++)
 			{
@@ -665,7 +665,7 @@ void dooms::GameLogicStartPoint::StartGameLogic()
 			}
 		}
 
-		for (size_t i = 0; i < 9000; i++)
+		for (size_t i = 0; i < 10000; i++)
 		{
 			for (size_t meshIndex = 0; meshIndex < modelAsset->GetMeshCount(); meshIndex++)
 			{
