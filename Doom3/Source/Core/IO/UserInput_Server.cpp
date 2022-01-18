@@ -158,12 +158,13 @@ void UserInput_Server::Init()
 
 void UserInput_Server::Update()
 {
+	dooms::input::GraphicsAPIInput::PollEvents();
+
 	UserInput_Server::mDeltaCursorScreenPosition.x = 0;
 	UserInput_Server::mDeltaCursorScreenPosition.y = 0;
 
 	UpdateKeyStates();
 	UpdateMouseButtonStates();
-	dooms::input::GraphicsAPIInput::PollEvents();
 
 	if (UserInput_Server::mScrollChangedAtPreviousFrame == false)
 	{
