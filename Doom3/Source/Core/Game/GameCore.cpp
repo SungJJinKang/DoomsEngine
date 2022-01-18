@@ -143,6 +143,11 @@ void dooms::GameCore::Update()
 {
 	UpdateGameCore();
 
+	D_START_PROFILING(mUserImput_Server_Update, eProfileLayers::CPU);
+	mUserImput_Server.Update_Internal();
+	mUserImput_Server.UpdateInput();
+	D_END_PROFILING(mUserImput_Server_Update);
+
 	D_START_PROFILING(mJobSystem_Update, eProfileLayers::CPU);
 	mJobSystem.Update_Internal();
 	mJobSystem.Update();
@@ -157,11 +162,6 @@ void dooms::GameCore::Update()
 	mPhysics_Server.Update_Internal();
 	mPhysics_Server.Update();
 	D_END_PROFILING(mPhysics_Server_Update);
-
-	D_START_PROFILING(mUserImput_Server_Update, eProfileLayers::CPU);
-	mUserImput_Server.Update_Internal();
-	mUserImput_Server.Update();
-	D_END_PROFILING(mUserImput_Server_Update);
 
 	D_START_PROFILING(mCurrentScene_UpdateEntities, eProfileLayers::CPU);
 	mCurrentScene->UpdateEntities(); // Update plain Components ( Game Logic )
