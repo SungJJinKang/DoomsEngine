@@ -138,9 +138,9 @@ namespace dooms
 	}
 }
 
-unsigned long dooms::ui::log::IncrementLogIndex()
+long dooms::ui::log::IncrementLogIndex()
 {
-	unsigned long index = LogIndex++;
+	long index = LogIndex++;
 
 	return index % GUI_LOG_BUFFER_COUNT;
 }
@@ -170,7 +170,9 @@ void dooms::ui::log::Render()
 	{
 		details::RenderMenuBar();
 
-		for (int index = LogIndex - 1; index >= 0; index--)
+		const long logIndex = LogIndex % GUI_LOG_BUFFER_COUNT;
+
+		for (long index = logIndex - 1 ; index >= 0; index--)
 		{
 			if (LogBuffer[index][0] != '\0')
 			{
@@ -178,7 +180,7 @@ void dooms::ui::log::Render()
 			}
 		}
 
-		for (unsigned long long index = GUI_LOG_BUFFER_COUNT - 1; index >= LogIndex; index--)
+		for (long index = GUI_LOG_BUFFER_COUNT - 1; index >= logIndex ; index--)
 		{
 			if (LogBuffer[index][0] != '\0')
 			{

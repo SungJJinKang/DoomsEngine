@@ -17,11 +17,11 @@ namespace dooms
 		{
 		private:
 			
-			inline static std::atomic<unsigned long> LogIndex = 0;
+			inline static std::atomic<long> LogIndex = 0;
 			inline static bool isInitialized = false;
 			inline static char LogBuffer[GUI_LOG_BUFFER_COUNT][GUI_LOG_MAX_LENGTH]{};
 			inline static std::mutex LogBufferMutex[GUI_LOG_BUFFER_COUNT]{};
-			static unsigned long IncrementLogIndex();
+			static long IncrementLogIndex();
 			
 
 		public:
@@ -46,7 +46,7 @@ namespace dooms
 						return;
 					}
 
-					const unsigned long currentLogIndex = IncrementLogIndex();
+					const long currentLogIndex = IncrementLogIndex();
 					D_ASSERT(currentLogIndex < GUI_LOG_BUFFER_COUNT);
 
 					std::scoped_lock<std::mutex> lock{ LogBufferMutex[currentLogIndex] };
