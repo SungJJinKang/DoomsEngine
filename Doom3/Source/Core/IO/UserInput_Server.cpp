@@ -29,6 +29,8 @@ void UserInput_Server::CursorPosition_Callback(FLOAT64 xpos, FLOAT64 ypos)
 	dooms::userinput::UserInput_Server::mCurrentCursorScreenPosition.x = static_cast<FLOAT32>(xpos);
 	dooms::userinput::UserInput_Server::mCurrentCursorScreenPosition.y = static_cast<FLOAT32>(ypos);
 
+	D_DEBUG_LOG(eLogType::D_LOG, "Cursor Screen Position: %f %f", xpos, ypos);
+	D_DEBUG_LOG(eLogType::D_LOG, "Delta Cursor Screen Position: %f %f", UserInput_Server::mDeltaCursorScreenPosition.x, UserInput_Server::mDeltaCursorScreenPosition.y);
 }
 
 
@@ -46,19 +48,33 @@ void UserInput_Server::Key_Callback(dooms::input::GraphicsAPIInput::eKEY_CODE ke
 {
 	if (key != dooms::input::GraphicsAPIInput::eKEY_CODE::UNKNOWN)
 	{
-		// TODO : Fix bugs ( Sometimes Key RELEASE isn't called ) 
+		const eKeyState currentKeyState = UserInput_Server::mKeyState[key - static_cast<INT32>(FIRST_KEY_CODE)];
+
 		switch (action)
 		{
 		case dooms::input::GraphicsAPIInput::PRESS:
+			if(currentKeyState == eKeyState::PRESS_DOWN)
+			{
+				UserInput_Server::mKeyState[key - static_cast<INT32>(FIRST_KEY_CODE)] = eKeyState::PRESSING;
+				D_DEBUG_LOG(eLogType::D_LOG, "PRESSING");
+			}
+			else
+			{
+				UserInput_Server::mKeyState[key - static_cast<INT32>(FIRST_KEY_CODE)] = eKeyState::PRESS_DOWN;
+				D_DEBUG_LOG(eLogType::D_LOG, "PRESS_DOWN");
+			}
+			break;
+
 		case dooms::input::GraphicsAPIInput::REPEAT:
-			UserInput_Server::mKeyState[key - static_cast<INT32>(FIRST_KEY_CODE)] = eKeyState::PRESS_DOWN;
-			UserInput_Server::mDownKeys.push_back(key);
+			UserInput_Server::mKeyState[key - static_cast<INT32>(FIRST_KEY_CODE)] = eKeyState::PRESSING;
+			D_DEBUG_LOG(eLogType::D_LOG, "PRESSING");
 			break;
 
 		case dooms::input::GraphicsAPIInput::RELEASE:
 			UserInput_Server::mKeyState[key - static_cast<INT32>(FIRST_KEY_CODE)] = eKeyState::UP;
 			UserInput_Server::mKeyToggle[key - static_cast<INT32>(FIRST_KEY_CODE)] = !UserInput_Server::mKeyToggle[key - static_cast<INT32>(FIRST_KEY_CODE)];
 			UserInput_Server::mUpKeys.push_back(key);
+			D_DEBUG_LOG(eLogType::D_LOG, "UP");
 			break;
 		}
 	}
@@ -89,6 +105,7 @@ void dooms::userinput::UserInput_Server::UpdateKeyStates()
 		UserInput_Server::mKeyState[upKey - static_cast<INT32>(FIRST_KEY_CODE)] = eKeyState::NONE;
 	}
 
+	/*
 	for (auto downKey : UserInput_Server::mDownKeys)
 	{
 		const input::GraphicsAPIInput::eInputActionType keyAction = dooms::input::GraphicsAPIInput::GetKeyCurrentAction(dooms::graphics::GraphicsAPI::GetPlatformWindow(), downKey);
@@ -109,9 +126,10 @@ void dooms::userinput::UserInput_Server::UpdateKeyStates()
 		}
 		
 	}
+	UserInput_Server::mDownKeys.clear();
+	*/
 
 	UserInput_Server::mUpKeys.clear();
-	UserInput_Server::mDownKeys.clear();
 }
 
 void dooms::userinput::UserInput_Server::UpdateMouseButtonStates()
@@ -143,6 +161,8 @@ void dooms::userinput::UserInput_Server::UpdateCurrentCursorScreenPosition()
 	}
 }
 
+void UserInput_Server::Update()
+{}
 
 void UserInput_Server::Init()
 {
@@ -156,23 +176,23 @@ void UserInput_Server::Init()
 	dooms::input::GraphicsAPIInput::SetMouseButton_Callback(UserInput_Server::MouseButton_Callback);
 }
 
-void UserInput_Server::Update()
+void UserInput_Server::ResetCursorPosition()
 {
-	dooms::input::GraphicsAPIInput::PollEvents();
-
 	UserInput_Server::mDeltaCursorScreenPosition.x = 0;
 	UserInput_Server::mDeltaCursorScreenPosition.y = 0;
 
+	UserInput_Server::mScrollOffset.x = 0;
+	UserInput_Server::mScrollOffset.y = 0;
+}
+
+void UserInput_Server::UpdateInput()
+{
+
+	ResetCursorPosition();
+
 	UpdateKeyStates();
-	UpdateMouseButtonStates();
 
-	if (UserInput_Server::mScrollChangedAtPreviousFrame == false)
-	{
-		UserInput_Server::mScrollOffset.x = 0;
-		UserInput_Server::mScrollOffset.y = 0;
-	}
-
-	UpdateCurrentCursorScreenPosition();
+	dooms::input::GraphicsAPIInput::PollEvents();
 }
 
 void UserInput_Server::OnEndOfFrame()

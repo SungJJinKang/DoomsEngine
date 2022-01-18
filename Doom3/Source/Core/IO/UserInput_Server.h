@@ -97,6 +97,7 @@ namespace dooms
 			static inline bool mScrollChangedAtPreviousFrame{ true };
 
 			void UpdateCursorMode();
+			void ResetCursorPosition();
 
 		public:
 
@@ -104,6 +105,7 @@ namespace dooms
 
 			virtual void Init() final;
 			virtual void Update() final;
+			virtual void UpdateInput() final;
 			virtual void OnEndOfFrame() final;
 
 			NO_DISCARD FORCE_INLINE static bool GetKeyToggle(dooms::input::GraphicsAPIInput::eKEY_CODE keyCode) noexcept
@@ -118,7 +120,8 @@ namespace dooms
 			/// <returns></returns>
 			NO_DISCARD FORCE_INLINE static bool GetKey(dooms::input::GraphicsAPIInput::eKEY_CODE keyCode) noexcept
 			{
-				return UserInput_Server::mKeyState[static_cast<INT32>(keyCode) - static_cast<INT32>(FIRST_KEY_CODE)] == eKeyState::PRESSING;
+				const eKeyState currentKeyState = UserInput_Server::mKeyState[static_cast<INT32>(keyCode) - static_cast<INT32>(FIRST_KEY_CODE)];
+				return ( currentKeyState == eKeyState::PRESSING ) || (currentKeyState == eKeyState::PRESS_DOWN );
 			}
 			/// <summary>
 			/// Key is Released ?
