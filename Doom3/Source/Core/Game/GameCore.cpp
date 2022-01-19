@@ -194,6 +194,17 @@ void dooms::GameCore::FixedUpdate()
 
 void dooms::GameCore::OnEndOfFrame()
 {
+	D_START_PROFILING(mUserImput_Server_OnEndOfFrame, eProfileLayers::CPU);
+	mUserImput_Server.OnEndOfFrame_Internal();
+	mUserImput_Server.OnEndOfFrame();
+	D_END_PROFILING(mUserImput_Server_OnEndOfFrame);
+
+
+	D_START_PROFILING(mJobSystem_Update, eProfileLayers::CPU);
+	mJobSystem.OnEndOfFrame_Internal();
+	mJobSystem.OnEndOfFrame();
+	D_END_PROFILING(mJobSystem_Update);
+
 	D_START_PROFILING(mTime_Server_OnEndOfFrame, eProfileLayers::CPU);
 	mTime_Server.OnEndOfFrame_Internal();
 	mTime_Server.OnEndOfFrame();
@@ -204,10 +215,7 @@ void dooms::GameCore::OnEndOfFrame()
 	mPhysics_Server.OnEndOfFrame();
 	D_END_PROFILING(mPhysics_Server_OnEndOfFrame);
 
-	D_START_PROFILING(mUserImput_Server_OnEndOfFrame, eProfileLayers::CPU);
-	mUserImput_Server.OnEndOfFrame_Internal();
-	mUserImput_Server.OnEndOfFrame();
-	D_END_PROFILING(mUserImput_Server_OnEndOfFrame);
+
 
 	D_START_PROFILING(mCurrentScene_OnEndOfFrame, eProfileLayers::CPU);
 	mCurrentScene->OnEndOfFrameOfEntities(); // Update Plain Components ( Game Logic )
