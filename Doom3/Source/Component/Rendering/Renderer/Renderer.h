@@ -30,6 +30,13 @@ namespace dooms
 
 	};
 
+	struct DistanceToCameraData
+	{
+		UINT8 padding1[64];
+		std::array<FLOAT32, MAX_CAMERA_COUNT> mDistancesToCamera;
+		UINT8 padding2[64];
+	};
+
 	class DOOM_API D_CLASS Renderer : public Component, public BVH_AABB3D_Node_Object//, public BVH_AABB3D_Node_Object // public graphics::CullDistanceRenderer
 	{
 		GENERATE_BODY()
@@ -40,7 +47,7 @@ namespace dooms
 	private:
 
 		//For Sorting Renderers front to back
-		std::vector<FLOAT32> mDistancesToCamera;
+		DistanceToCameraData mDistanceToCameraData;
 		std::array<unsigned long, MAX_CAMERA_COUNT> mFrontToBackSortingOrder;
 
 		Entity::eEntityMobility mOriginalEntityMobility;
@@ -168,7 +175,7 @@ namespace dooms
 		{
 			D_ASSERT(cameraIndex >= 0 && cameraIndex < mDistancesToCamera.size());
 
-			return mDistancesToCamera[cameraIndex];
+			return mDistanceToCameraData.mDistancesToCamera[cameraIndex];
 		}
 
 

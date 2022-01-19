@@ -174,9 +174,9 @@ void Graphics_Server::CameraCullJob(dooms::Camera* const camera)
 		
 		std::atomic_thread_fence(std::memory_order_release);
 		
-		auto futures = resource::JobSystem::GetSingleton()->PushBackJobToAllThread(std::function<void()>(mCullingSystem->GetThreadCullJobInLambda(camera->CameraIndexInCullingSystem)));
+		auto futures = resource::JobSystem::GetSingleton()->PushBackJobToAllThread(std::function<void()>(mCullingSystem->GetThreadCullJob(camera->CameraIndexInCullingSystem)));
 		D_START_PROFILING(CameraCullJob, dooms::profiler::eProfileLayers::Rendering);
-		mCullingSystem->GetThreadCullJobInLambda(camera->CameraIndexInCullingSystem)();
+		mCullingSystem->GetThreadCullJob(camera->CameraIndexInCullingSystem)();
 		D_END_PROFILING(CameraCullJob);
 
 		D_START_PROFILING(WaitSubThreadsCullJob, dooms::profiler::eProfileLayers::Rendering);
@@ -412,7 +412,7 @@ void dooms::graphics::Graphics_Server::RenderObject(dooms::Camera* const targetC
 		D_END_PROFILING(CacheDistanceToCamera);
 
 		//Push Multithread Sorting Renderer Front To Back  TO  JobSystem.
-		IsFinishedSortingReferernceRenderers = resource::JobSystem::GetSingleton()->PushBackJobToPriorityQueue(std::function<void()>(dooms::graphics::SortFrontToBackSolver::GetSortRendererLambda(cameraIndex)));
+		IsFinishedSortingReferernceRenderers = resource::JobSystem::GetSingleton()->PushBackJobToSpecificThread(0, std::function<void()>(dooms::graphics::SortFrontToBackSolver::GetSortRendererLambda(cameraIndex)));
 	}
 
 	D_START_PROFILING(DrawLoop, dooms::profiler::eProfileLayers::Rendering);
