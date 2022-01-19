@@ -27,14 +27,12 @@ namespace dooms
 	{
 		STATIC_BATCH = 1 << 0,
 		DYNAMIC_BATCH = 1 << 1
-
 	};
 
 	struct DistanceToCameraData
 	{
-		UINT8 padding1[64];
+		UINT8 padding1[56];
 		std::array<FLOAT32, MAX_CAMERA_COUNT> mDistancesToCamera;
-		UINT8 padding2[64];
 	};
 
 	class DOOM_API D_CLASS Renderer : public Component, public BVH_AABB3D_Node_Object//, public BVH_AABB3D_Node_Object // public graphics::CullDistanceRenderer
@@ -47,9 +45,6 @@ namespace dooms
 	private:
 
 		//For Sorting Renderers front to back
-		DistanceToCameraData mDistanceToCameraData;
-		std::array<unsigned long, MAX_CAMERA_COUNT> mFrontToBackSortingOrder;
-
 		Entity::eEntityMobility mOriginalEntityMobility;
 		
 		void MergeBVHBitFlag();
@@ -60,6 +55,8 @@ namespace dooms
 
 		D_PROPERTY(MIN = 0.0, TOOLTIP="Used in Distance Culling. If Distance between camera and this entity is greater than this value, this entity is culled")
 		float mDesiredMaxDrawDistance = DEFAULT_DESIRED_MAX_DRAW_DISTANCE;
+
+		DistanceToCameraData mDistanceToCameraData;
 
 	protected:
 
@@ -189,6 +186,11 @@ namespace dooms
 
 		void SetDesiredMaxDrawDistance(const FLOAT32 desiredMaxDrawDistance);
 		FLOAT32 GetDesiredMaxDrawDistance() const;
+
+	private :
+		std::array<unsigned long, MAX_CAMERA_COUNT> mFrontToBackSortingOrder;
+
+	public:
 
 		FORCE_INLINE UINT32 GetFrontToBackSortingOrder(const size_t cameraIndex) const
 		{

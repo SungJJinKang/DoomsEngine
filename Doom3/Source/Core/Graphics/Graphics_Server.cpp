@@ -189,9 +189,14 @@ void Graphics_Server::CameraCullJob(dooms::Camera* const camera)
 
 		std::atomic_thread_fence(std::memory_order_release);
 
-		auto futures = resource::JobSystem::GetSingleton()->PushBackJobToAllThread(std::function<void()>(mCullingSystem->GetThreadCullJob(camera->CameraIndexInCullingSystem)));
+		std::function<void()> threadCullJob = [cullingSystem = mCullingSystem.get(), cameraIndexInCullingSystem = camera->CameraIndexInCullingSystem]()
+		{
+			cullingSystem->ThreadCullJob(cameraIndexInCullingSystem, dooms::resource::Thread::GetCallerSubThreadIndex() + 1);
+		};
+
+		auto futures = resource::JobSystem::GetSingleton()->PushBackJobToAllThread(threadCullJob);
 		D_START_PROFILING(CameraCullJob, dooms::profiler::eProfileLayers::Rendering);
-		mCullingSystem->GetThreadCullJob(camera->CameraIndexInCullingSystem)();
+		mCullingSystem->ThreadCullJob(camera->CameraIndexInCullingSystem, 0);
 		D_END_PROFILING(CameraCullJob);
 
 		D_START_PROFILING(WaitSubThreadsCullJob, dooms::profiler::eProfileLayers::Rendering);
@@ -322,8 +327,8 @@ void dooms::graphics::Graphics_Server::Render()
 				const size_t rendererCount = renderers.size();
 				
 				const size_t computeRendererCount = (rendererCount / subThreadCount);
-				const size_t startRendererIndex = computeRendererCount * dooms::resource::Thread::GetCallerThreadIndex();
-				const size_t endRendererIndex = math::Min(computeRendererCount * dooms::resource::Thread::GetCallerThreadIndex() + computeRendererCount, rendererCount);
+				const size_t startRendererIndex = computeRendererCount * dooms::resource::Thread::GetCallerSubThreadIndex();
+				const size_t endRendererIndex = math::Min(computeRendererCount * dooms::resource::Thread::GetCallerSubThreadIndex() + computeRendererCount, rendererCount);
 				for
 				(
 					size_t rendererIndex = startRendererIndex;
@@ -334,7 +339,7 @@ void dooms::graphics::Graphics_Server::Render()
 					renderers[rendererIndex]->CacheDistanceToCamera(cameraIndex, cameraPos);
 				}
 
-				if(dooms::resource::Thread::GetCallerThreadIndex() == 0)
+				if(dooms::resource::Thread::GetCallerSubThreadIndex() == 0)
 				{
 					D_START_PROFILING(SortRenderers, dooms::profiler::eProfileLayers::Rendering);
 					dooms::graphics::SortFrontToBackSolver::SortRenderer(cameraIndex);
@@ -506,7 +511,7 @@ void dooms::graphics::Graphics_Server::RenderObject(dooms::Camera* const targetC
 
 		if
 			(
-				IsValid(renderer) == true && // TODO : Optimize this. Currently, Every renderers is checked per layer.
+				IsValid(renderer) == true &&
 				//renderer->GetOwnerEntityLayerIndex() == layerIndex && 
 				renderer->GetIsComponentEnabled() == true
 				)
