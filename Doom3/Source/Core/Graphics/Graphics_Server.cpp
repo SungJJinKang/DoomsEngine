@@ -43,7 +43,7 @@ bool Graphics_Server::InitializeGraphicsAPI()
 {
 	dooms::graphics::graphicsSetting::LoadData();
 	dooms::graphics::graphicsAPISetting::LoadData();
-	
+
 	bool isSuccess = false;
 
 	const std::string targetGraphicsAPI = ConfigData::GetSingleton()->GetConfigData().GetValue<std::string>("Graphics", "GRAPHICS_API");
@@ -65,8 +65,8 @@ bool Graphics_Server::InitializeGraphicsAPI()
 
 void dooms::graphics::Graphics_Server::Init()
 {
-	
-	
+
+
 	dooms::ui::engineGUIServer::Initialize();
 
 	mCullingSystem = std::make_unique<culling::EveryCulling>(graphicsAPISetting::GetScreenWidth(), graphicsAPISetting::GetScreenHeight());
@@ -95,16 +95,27 @@ void dooms::graphics::Graphics_Server::LateInit()
 
 void Graphics_Server::Update()
 {
+	D_START_PROFILING(PreRender, dooms::profiler::eProfileLayers::Rendering);
 	PreRender();
+	D_END_PROFILING(PreRender);
 
 #ifdef DEBUG_DRAWER
+
+	D_START_PROFILING(mDebugGraphics_Update, dooms::profiler::eProfileLayers::Rendering);
 	mDebugGraphics.Update();
+	D_END_PROFILING(mDebugGraphics_Update);
+
+	D_START_PROFILING(mRenderingDebugger_DrawRenderingBoundingBox, dooms::profiler::eProfileLayers::Rendering);
 	mRenderingDebugger.DrawRenderingBoundingBox();
+	D_END_PROFILING(mRenderingDebugger_DrawRenderingBoundingBox);
+
+	D_START_PROFILING(mRenderingDebugger_UpdateInputForPrintDrawCallCounter, dooms::profiler::eProfileLayers::Rendering);
 	mRenderingDebugger.UpdateInputForPrintDrawCallCounter();
+	D_END_PROFILING(mRenderingDebugger_UpdateInputForPrintDrawCallCounter);
 #endif
 
 	//auto t_start = std::chrono::high_resolution_clock::now();
-	
+
 	D_START_PROFILING(RENDER, dooms::profiler::eProfileLayers::Rendering);
 	Render();
 	D_END_PROFILING(RENDER);
@@ -115,9 +126,13 @@ void Graphics_Server::Update()
 	//FLOAT64 elapsed_time_ms = std::chrono::duration<FLOAT64, std::milli>(t_end - t_start).count();
 	//dooms::ui::PrintText("elapsed tick count : %lf", elapsed_time_ms);
 
+	D_START_PROFILING(PostRender, dooms::profiler::eProfileLayers::Rendering);
 	PostRender();
+	D_END_PROFILING(PostRender);
 
+	D_START_PROFILING(mRenderingDebugger_Update, dooms::profiler::eProfileLayers::Rendering);
 	mRenderingDebugger.Update();
+	D_END_PROFILING(mRenderingDebugger_Update);
 }
 
 void Graphics_Server::OnEndOfFrame()
@@ -152,7 +167,7 @@ void Graphics_Server::PreCullJob()
 	D_START_PROFILING(UpdateCameraIndexInCullingSystemOfCameraComponent, dooms::profiler::eProfileLayers::Rendering);
 	UpdateCameraIndexInCullingSystemOfCameraComponent();
 	D_END_PROFILING(UpdateCameraIndexInCullingSystemOfCameraComponent);
-	
+
 }
 
 
@@ -171,24 +186,24 @@ void Graphics_Server::CameraCullJob(dooms::Camera* const camera)
 		std::memcpy(cullingSettingParameters.mCameraRotation.data(), camera->GetTransform()->GetRotation().data(), sizeof(culling::Vec4));
 
 		mCullingSystem->UpdateGlobalDataForCullJob(camera->CameraIndexInCullingSystem, cullingSettingParameters);
-		
+
 		std::atomic_thread_fence(std::memory_order_release);
-		
+
 		auto futures = resource::JobSystem::GetSingleton()->PushBackJobToAllThread(std::function<void()>(mCullingSystem->GetThreadCullJob(camera->CameraIndexInCullingSystem)));
 		D_START_PROFILING(CameraCullJob, dooms::profiler::eProfileLayers::Rendering);
 		mCullingSystem->GetThreadCullJob(camera->CameraIndexInCullingSystem)();
 		D_END_PROFILING(CameraCullJob);
 
 		D_START_PROFILING(WaitSubThreadsCullJob, dooms::profiler::eProfileLayers::Rendering);
-		for(auto& future : futures)
+		for (auto& future : futures)
 		{
 			future.wait();
 		}
 		D_END_PROFILING(WaitSubThreadsCullJob);
 
 	}
-	
-	
+
+
 
 }
 
@@ -209,11 +224,11 @@ void Graphics_Server::DebugGraphics()
 	{
 		dooms::graphics::maskedOcclusionCullingTester::DebugTileL0MaxDepthValue(&(mCullingSystem->mMaskedSWOcclusionCulling->mDepthBuffer));
 	}
-	
+
 	/*
 	const UINT32 tileCount = mCullingSystem->mMaskedSWOcclusionCulling->mDepthBuffer.GetTileCount();
 	const culling::Tile* const tiles = mCullingSystem->mMaskedSWOcclusionCulling->mDepthBuffer.GetTiles();
-	
+
 	for(size_t tileIndex = 0 ; tileIndex < tileCount ; tileIndex++)
 	{
 		dooms::ui::maskedOcclusionCulliingDebugger::SetBinnedTriangleCount(tileIndex, tiles[tileIndex].mBinnedTriangleList.mCurrentTriangleCount);
@@ -264,38 +279,38 @@ void Graphics_Server::PreRender()
 	D_END_PROFILING(engineGUIServer_PreRender);
 
 
-	if(Camera::GetMainCamera()->GetIsCullJobEnabled() == true)
+	if (Camera::GetMainCamera()->GetIsCullJobEnabled() == true)
 	{
 		D_START_PROFILING(PreCullJob, dooms::profiler::eProfileLayers::Rendering);
 		PreCullJob();
 		D_END_PROFILING(PreCullJob);
 	}
 
-	
+
 }
 
 void dooms::graphics::Graphics_Server::Render()
 {
 	//TODO : Think where put this, as early as good
-	
+
 	D_START_PROFILING(Update_Uniform_Buffer, dooms::profiler::eProfileLayers::Rendering);
 	mUniformBufferObjectManager.UpdateUniformObjects();
 	D_END_PROFILING(Update_Uniform_Buffer);
-	
+
 	const std::vector<dooms::Camera*>& spawnedCameraList = StaticContainer<dooms::Camera>::GetAllStaticComponents();
 
 	FrameBuffer::UnBindFrameBuffer();
 	//Clear ScreenBuffer
-	
-	for (size_t cameraIndex = 0 ; cameraIndex < spawnedCameraList.size() ; cameraIndex++)
+
+	for (size_t cameraIndex = 0; cameraIndex < spawnedCameraList.size(); cameraIndex++)
 	{
 		dooms::Camera* const targetCamera = spawnedCameraList[cameraIndex];
 
-		if(targetCamera->GetIsCullJobEnabled() == true)
+		if (targetCamera->GetIsCullJobEnabled() == true)
 		{
 			CameraCullJob(targetCamera); // do this first
 		}
-		
+
 
 
 		D_ASSERT(IsValid(targetCamera));
@@ -307,14 +322,14 @@ void dooms::graphics::Graphics_Server::Render()
 
 		targetCamera->mDefferedRenderingFrameBuffer.ClearFrameBuffer(targetCamera);
 		targetCamera->mDefferedRenderingFrameBuffer.BindFrameBuffer();
-		
+
 		D_START_PROFILING(RenderObject, dooms::profiler::eProfileLayers::Rendering);
 		//GraphicsAPI::Enable(GraphicsAPI::eCapability::DEPTH_TEST);
 		RenderObject(targetCamera, cameraIndex);
 		D_END_PROFILING(RenderObject);
 
 		targetCamera->mDefferedRenderingFrameBuffer.UnBindFrameBuffer();
-	
+
 		// 
 		//Blit DepthBuffer To ScreenBuffer
 
@@ -330,18 +345,18 @@ void dooms::graphics::Graphics_Server::Render()
 			mPIPManager.DrawPIPs();
 
 			targetCamera->mDefferedRenderingFrameBuffer.BindGBufferTextures();
-			
-			
+
+
 			mDeferredRenderingDrawer.DrawDeferredRenderingQuadDrawer();
-			
+
 
 #ifdef DEBUG_DRAWER
 			//�̰� ������ �������. �׳� ����� ����.
-			
+
 			DebugGraphics();
 #endif
 		}
-		
+
 	}
 
 	RendererComponentStaticIterator::GetSingleton()->ChangeWorkingIndexRenderers();
@@ -354,14 +369,14 @@ void dooms::graphics::Graphics_Server::Render()
 	D_START_PROFILING(engineGUIServer_Render, dooms::profiler::eProfileLayers::Rendering);
 	dooms::ui::engineGUIServer::Render();
 	D_END_PROFILING(engineGUIServer_Render);
-	
+
 }
 
 void Graphics_Server::ProfilingCullingSystem()
 {
 #if defined(PROFILING_CULLING) && defined(D_PROFILING)
 	auto& profilingDatas = mCullingSystem->mEveryCullingProfiler.GetProfilingDatas();
-	for(auto& data : profilingDatas)
+	for (auto& data : profilingDatas)
 	{
 		const std::string cullingModuleTag{ data.first.data(), data.first.size() };
 		dooms::profiling::profilingManager::AddProfilingData(cullingModuleTag.c_str(), (float)data.second.mElapsedTime);
@@ -371,9 +386,13 @@ void Graphics_Server::ProfilingCullingSystem()
 
 void Graphics_Server::PostRender()
 {
+	D_START_PROFILING(engineGUIServer_PostRender, dooms::profiler::eProfileLayers::Rendering);
 	dooms::ui::engineGUIServer::PostRender();
+	D_END_PROFILING(engineGUIServer_PostRender);
 
+	D_START_PROFILING(ProfilingCullingSystem, dooms::profiler::eProfileLayers::Rendering);
 	ProfilingCullingSystem();
+	D_END_PROFILING(ProfilingCullingSystem);
 }
 
 void dooms::graphics::Graphics_Server::UpdateOverDrawVisualization(dooms::Camera* const targetCamera, const size_t cameraIndex)
@@ -399,11 +418,10 @@ void dooms::graphics::Graphics_Server::RenderObject(dooms::Camera* const targetC
 
 	targetCamera->UpdateUniformBufferObject();
 	std::future<void> IsFinishedSortingReferernceRenderers;
-	
+
 	if (graphicsSetting::IsSortObjectFrontToBack == true)
 	{
 		math::Vector3 cameraPos = targetCamera->GetTransform()->GetPosition();
-
 		D_START_PROFILING(CacheDistanceToCamera, dooms::profiler::eProfileLayers::Rendering);
 		for (Renderer* renderer : dooms::RendererComponentStaticIterator::GetSingleton()->GetSortingRendererInLayer(cameraIndex))
 		{
@@ -411,8 +429,16 @@ void dooms::graphics::Graphics_Server::RenderObject(dooms::Camera* const targetC
 		}
 		D_END_PROFILING(CacheDistanceToCamera);
 
+		std::function<void()> FrontToBackSortJob = [cameraIndex]()
+		{
+			D_START_PROFILING(SortRenderers, dooms::profiler::eProfileLayers::Rendering);
+			dooms::graphics::SortFrontToBackSolver::GetSortRendererLambda(cameraIndex)();
+			D_END_PROFILING(SortRenderers);
+		};
+
 		//Push Multithread Sorting Renderer Front To Back  TO  JobSystem.
-		IsFinishedSortingReferernceRenderers = resource::JobSystem::GetSingleton()->PushBackJobToSpecificThread(0, std::function<void()>(dooms::graphics::SortFrontToBackSolver::GetSortRendererLambda(cameraIndex)));
+		// PushBackJobToPriorityQueue is pretty slow. I don't know why.... It should be fixed. Until it's fixed, use this ~SpecificThread function.
+		IsFinishedSortingReferernceRenderers = resource::JobSystem::GetSingleton()->PushBackJobToSpecificThread(0, FrontToBackSortJob);
 	}
 
 	D_START_PROFILING(DrawLoop, dooms::profiler::eProfileLayers::Rendering);
@@ -424,37 +450,37 @@ void dooms::graphics::Graphics_Server::RenderObject(dooms::Camera* const targetC
 	for (UINT32 layerIndex = 0; layerIndex < MAX_LAYER_COUNT; layerIndex++)
 	{
 	*/
-		const std::vector<Renderer*>& renderersInLayer = RendererComponentStaticIterator::GetSingleton()->GetSortedRendererInLayer(cameraIndex);
-		for (Renderer* renderer : renderersInLayer)
-		{
-			renderer->SetFrontToBackSortingOrder(cameraIndex, frontToBackOrder);
+	const std::vector<Renderer*>& renderersInLayer = RendererComponentStaticIterator::GetSingleton()->GetSortedRendererInLayer(cameraIndex);
+	for (Renderer* renderer : renderersInLayer)
+	{
+		renderer->SetFrontToBackSortingOrder(cameraIndex, frontToBackOrder);
 
-			if
+		if
 			(
 				IsValid(renderer) == true && // TODO : Optimize this. Currently, Every renderers is checked per layer.
 				//renderer->GetOwnerEntityLayerIndex() == layerIndex && 
 				renderer->GetIsComponentEnabled() == true
-			)
+				)
+		{
+			if (
+				targetCamera_IS_CULLED_flag_on == false ||
+				renderer->GetIsCulled(targetCamera->CameraIndexInCullingSystem) == false
+				)
 			{
-				if (
-					targetCamera_IS_CULLED_flag_on == false ||
-					renderer->GetIsCulled(targetCamera->CameraIndexInCullingSystem) == false
-					)
-				{
-					//renderer->ColliderUpdater<dooms::physics::AABB3D>::GetWorldCollider()->DrawPhysicsDebugColor(eColor::Blue);
-					renderer->Draw();
-				}
+				//renderer->ColliderUpdater<dooms::physics::AABB3D>::GetWorldCollider()->DrawPhysicsDebugColor(eColor::Blue);
+				renderer->Draw();
 			}
-
-			frontToBackOrder++;
 		}
+
+		frontToBackOrder++;
+	}
 	/*
 	}
 	*/
 	D_END_PROFILING(DrawLoop);
 
 	//Wait Multithread Sorting Renderer Front To Back  TO  JobSystem finished.
-	if(IsFinishedSortingReferernceRenderers.valid() == true)
+	if (IsFinishedSortingReferernceRenderers.valid() == true)
 	{
 		D_START_PROFILING(WAIT_SORTING_RENDERER_JOB, dooms::profiler::eProfileLayers::Rendering);
 		IsFinishedSortingReferernceRenderers.wait();
