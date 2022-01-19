@@ -4,6 +4,8 @@
 #include "SharedSceneSetting.h"
 #include "IWorldIndependent.h"
 
+#include <../Helper/Simple_SingleTon/Singleton.h>
+
 #include "SharedScene.reflection.h"
 namespace dooms
 {

@@ -2,6 +2,8 @@
 
 #include "../Core.h"
 
+#include <../Helper/Simple_SingleTon/Singleton.h>
+
 #include "MainTimer.reflection.h"
 namespace dooms
 {

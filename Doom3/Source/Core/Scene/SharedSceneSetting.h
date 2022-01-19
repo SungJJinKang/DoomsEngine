@@ -6,6 +6,8 @@
 #include "Layer.h"
 #include "IWorldIndependent.h"
 
+#include <../Helper/Simple_SingleTon/Singleton.h>
+
 #include "SharedSceneSetting.reflection.h"
 namespace dooms
 {

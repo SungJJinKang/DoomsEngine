@@ -2,6 +2,8 @@
 #include <Core.h>
 #include "SimpleIniParser.h"
 
+#include <../Helper/Simple_SingleTon/Singleton.h>
+
 namespace dooms
 {
 	class GameCore;

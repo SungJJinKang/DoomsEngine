@@ -1,6 +1,7 @@
 #include "FrameBufferExporterHelper.h"
 
 #include "Rendering/Camera.h"
+#include <EngineGUI/PrintText.h>
 
 void dooms::graphics::FrameBufferExporterHelper::ExportMainFrameBufferColor
 (

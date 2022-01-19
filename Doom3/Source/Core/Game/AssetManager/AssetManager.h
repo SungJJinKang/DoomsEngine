@@ -13,6 +13,8 @@
 #include "AssetFuture.h"
 #include <IO/AssetImporter/Manager/AssetImporterWorkerManager.h>
 
+#include <../Helper/Simple_SingleTon/Singleton.h>
+
 #include "AssetManager.reflection.h"
 namespace dooms
 {

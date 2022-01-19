@@ -4,7 +4,8 @@
 
 #include "../Graphics_Core.h"
 #include "UniformBufferObject.h"
-#include "../../Game/IGameFlow.h"
+
+#include <../Helper/Simple_SingleTon/Singleton.h>
 
 #include "UniformBufferObjectManager.reflection.h"
 namespace dooms

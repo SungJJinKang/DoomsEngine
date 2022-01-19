@@ -5,6 +5,8 @@
 
 #include <Core.h>
 
+#include <../Helper/Simple_SingleTon/Singleton.h>
+
 #include "Scene.reflection.h"
 namespace dooms
 {

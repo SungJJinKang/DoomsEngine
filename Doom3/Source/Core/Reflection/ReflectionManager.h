@@ -3,6 +3,7 @@
 #include <Core.h>
 
 #include "ReflectionUtility.h"
+#include <../Helper/Simple_SingleTon/Singleton.h>
 
 #include "ReflectionManager.reflection.h"
 namespace dooms

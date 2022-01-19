@@ -10,14 +10,16 @@
 
 #include "../AssetImporterWorker/AssetImporterWorker.h"
 
+#include <../Helper/Simple_SingleTon/Singleton.h>
 
+#include "AssetImporterWorkerManager.reflection.h"
 namespace dooms
 {
 	namespace assetImporter
 	{
 		class AssetImporterWorker;
 
-		class AssetImporterWorkerManager : public dooms::DObject, public ISingleton<AssetImporterWorkerManager>
+		class D_CLASS AssetImporterWorkerManager : public dooms::DObject, public ISingleton<AssetImporterWorkerManager>
 		{
 			
 			

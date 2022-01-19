@@ -3,6 +3,8 @@
 #include <Core.h>
 #include "Buffer/UniformBufferObjectUpdater.h"
 
+#include <../Helper/Simple_SingleTon/Singleton.h>
+
 #include "LightManager.reflection.h"
 namespace dooms
 {

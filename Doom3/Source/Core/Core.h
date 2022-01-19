@@ -11,6 +11,3 @@
 
 #include <DObject/DObjectHeaders.h>
 #include <Reflection/Reflection.h>
-
-
-#include "../Helper/Simple_SingleTon/Singleton.h"
