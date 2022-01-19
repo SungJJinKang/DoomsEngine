@@ -20,42 +20,6 @@
 //-------------------------------------------
 
 
-#ifdef GENERATE_BODY_FULLNAME_dooms__TransformCoreData
-#error "GENERATE_BODY_FULLNAME_dooms__TransformCoreData already included...."
-#endif
-
-
-#undef CURRENT_TYPE_ALIAS_dooms__TransformCoreData
-#define CURRENT_TYPE_ALIAS_dooms__TransformCoreData \
-typedef dooms::TransformCoreData Current;
-
-
-#undef TYPE_FULLNAME_HASH_VALUE_NAME_STRING_dooms__TransformCoreData
-#define TYPE_FULLNAME_HASH_VALUE_NAME_STRING_dooms__TransformCoreData \
-inline static const unsigned long int TYPE_FULL_NAME_HASH_VALUE = 3613418982; \
-inline static const char* const TYPE_FULL_NAME = "dooms::TransformCoreData"; \
-inline static const char* const TYPE_SHORT_NAME = "TransformCoreData"; \
-
-
-#undef TYPE_CHECK_FUNCTION_TransformCoreData
-#define TYPE_CHECK_FUNCTION_TransformCoreData \
-attrNoReflect void __TYPE_CHECK() { static_assert(std::is_same_v<std::remove_reference<decltype(*this)>::type, Current> == true, "ERROR : WRONG TYPE. Please Check GENERATED_~ MACROS");} \
-
-
-#undef GENERATE_BODY_FULLNAME_dooms__TransformCoreData
-#define GENERATE_BODY_FULLNAME_dooms__TransformCoreData(...) \
-CURRENT_TYPE_ALIAS_dooms__TransformCoreData \
-TYPE_FULLNAME_HASH_VALUE_NAME_STRING_dooms__TransformCoreData \
-TYPE_CHECK_FUNCTION_TransformCoreData \
-
-
-//Type Short Name ( without namespace, only type name ) Version Macros.
-#define GENERATE_BODY_TransformCoreData(...) GENERATE_BODY_FULLNAME_dooms__TransformCoreData(__VA_ARGS__)
-
-
-//-------------------------------------------
-
-
 #ifdef GENERATE_BODY_FULLNAME_dooms__Transform
 #error "GENERATE_BODY_FULLNAME_dooms__Transform already included...."
 #endif

@@ -6,7 +6,7 @@
 
 void dooms::Transform::SetPosition()
 {
-	SetPosition(mTransformCoreData.mPosition);
+	SetPosition(mPosition);
 }
 
 void dooms::Transform::SetRotation()
@@ -21,7 +21,7 @@ void dooms::Transform::SetScale()
 
 void dooms::Transform::InitComponent()
 {
-	SetPosition(mTransformCoreData.mPosition);
+	SetPosition(mPosition);
 	SetRotation(mRotation);
 	SetScale(mScale);
 }
@@ -33,7 +33,7 @@ void dooms::Transform::UpdateComponent()
 void dooms::Transform::OnEndOfFrame_Component()
 {
 	
-	mLastFramePosition = mTransformCoreData.mPosition;
+	mLastFramePosition = mPosition;
 }
 
 void dooms::Transform::OnDestroy()
@@ -66,7 +66,7 @@ bool dooms::Transform::IsEntityMobilityStatic() const
 	return GetOwnerEntity()->GetEntityMobility() != Entity::eEntityMobility::Static;
 }
 
-dooms::Transform::Transform(): mLastFramePosition{ 0.0f }, mTransformCoreData()
+dooms::Transform::Transform(): mLastFramePosition{ 0.0f }
 {
 	// 			SetPosition(mPosition);
 	// 			SetRotation(mRotation);
@@ -77,11 +77,11 @@ std::string dooms::Transform::ToString()
 {
 	std::stringstream sStream;
 	sStream << "Position : ";
-	sStream << mTransformCoreData.mPosition[0];
+	sStream << mPosition[0];
 	sStream << ' ';
-	sStream << mTransformCoreData.mPosition[1];
+	sStream << mPosition[1];
 	sStream << ' ';
-	sStream << mTransformCoreData.mPosition[2];
+	sStream << mPosition[2];
 	sStream << '\n';
 	sStream << "Rotation : ";
 	auto rotEuler = math::Quaternion::QuaternionToEulerAngle(mRotation);

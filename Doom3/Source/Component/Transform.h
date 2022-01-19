@@ -15,19 +15,6 @@ namespace dooms
 		Self
 	};
 
-	struct DOOM_API D_STRUCT TransformCoreData
-	{
-		GENERATE_BODY_TransformCoreData()
-
-		D_PROPERTY()
-		math::Vector3 mPosition{ 0.0f };
-
-		D_PROPERTY()
-		DirtyReceiver bmIsDirtyModelMatrix{ true };
-	};
-
-	static_assert(sizeof(TransformCoreData) < 64);
-
 	class DOOM_API D_CLASS Transform : public Component
 	{
 		GENERATE_BODY()
@@ -36,8 +23,8 @@ namespace dooms
 	private:
 
 		D_PROPERTY(CALLBACK = "SetPosition")
-		TransformCoreData mTransformCoreData alignas(64);
-
+		math::Vector3 mPosition alignas(64) { 0.0f };
+		
 		/// <summary>
 		/// why don't use FrameDirtyChecker::IsDirty -> FrameDirtyChecker is changed when pass frame
 		/// but this modelMatrix is calculated when this is needed ( not every frame )
@@ -62,6 +49,9 @@ namespace dooms
 		D_PROPERTY(INVISIBLE)
 		math::Vector3 mLastFramePosition{nullptr};
 
+
+		D_PROPERTY()
+		DirtyReceiver bmIsDirtyModelMatrix {true};
 		//Matrix4X4 and Vector4 is aligned to 32, 16 byte
 		//So To save memory, it is declared next to next
 
@@ -104,10 +94,10 @@ namespace dooms
 			if (IsEntityMobilityStatic())
 			{
 				mTranslationMatrix = math::translate(position);
-				mTransformCoreData.mPosition = position;
+				mPosition = position;
 
 				SetDirtyTrueAtThisFrame();
-				mTransformCoreData.bmIsDirtyModelMatrix = true;
+				bmIsDirtyModelMatrix = true;
 			}			
 		}
 		
@@ -126,7 +116,7 @@ namespace dooms
 				mRotation = rotation;
 				SetDirtyTrueAtThisFrame();
 
-				mTransformCoreData.bmIsDirtyModelMatrix = true;
+				bmIsDirtyModelMatrix = true;
 			}
 		}
 		
@@ -149,7 +139,7 @@ namespace dooms
 				mScaleMatrix = math::scale(scale);
 				mScale = scale;
 				SetDirtyTrueAtThisFrame();
-				mTransformCoreData.bmIsDirtyModelMatrix = true;
+				bmIsDirtyModelMatrix = true;
 			}
 		}
 		
@@ -160,7 +150,7 @@ namespace dooms
 		
 		FORCE_INLINE const math::Vector3& GetPosition() const noexcept
 		{
-			return mTransformCoreData.mPosition;
+			return mPosition;
 		}
 		
 		FORCE_INLINE const math::Quaternion& GetRotation() const noexcept
@@ -175,7 +165,7 @@ namespace dooms
 		
 		FORCE_INLINE const math::Matrix4x4& GetModelMatrix() const noexcept
 		{
-			if (mTransformCoreData.bmIsDirtyModelMatrix.GetIsDirty(true))
+			if (bmIsDirtyModelMatrix.GetIsDirty(true))
 			{
 				mModelMatrixCache = mTranslationMatrix * mRotationMatrix * mScaleMatrix;
 			}
@@ -204,12 +194,12 @@ namespace dooms
 		
 		FORCE_INLINE void LookAt(const Transform& target, const math::Vector3& up) noexcept
 		{
-			SetRotation(static_cast<math::Quaternion>(math::lookAt(mTransformCoreData.mPosition, target.mTransformCoreData.mPosition, up)));
+			SetRotation(static_cast<math::Quaternion>(math::lookAt(mPosition, target.mPosition, up)));
 		}
 
 		FORCE_INLINE void LookAt(const math::Vector3& targetPoint, const math::Vector3& up) noexcept
 		{
-			SetRotation(static_cast<math::Quaternion>(math::lookAt(mTransformCoreData.mPosition, targetPoint, up)));
+			SetRotation(static_cast<math::Quaternion>(math::lookAt(mPosition, targetPoint, up)));
 		}
 		
 		FORCE_INLINE void Rotate(const math::Quaternion& quat, const eSpace& relativeTo) noexcept
@@ -269,11 +259,11 @@ namespace dooms
 		{
 			if (relativeTo == eSpace::World)
 			{
-				SetPosition(mTransformCoreData.mPosition + translation);
+				SetPosition(mPosition + translation);
 			}
 			else if (relativeTo == eSpace::Self)
 			{
-				SetPosition(mTransformCoreData.mPosition + TransformVector(translation));
+				SetPosition(mPosition + TransformVector(translation));
 			}
 		}
 
