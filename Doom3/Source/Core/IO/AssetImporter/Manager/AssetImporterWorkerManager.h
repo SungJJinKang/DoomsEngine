@@ -21,8 +21,7 @@ namespace dooms
 
 		class D_CLASS AssetImporterWorkerManager : public dooms::DObject, public ISingleton<AssetImporterWorkerManager>
 		{
-			
-			
+			GENERATE_BODY()
 
 		private:
 
