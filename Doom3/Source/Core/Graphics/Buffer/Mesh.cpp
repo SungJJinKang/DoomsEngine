@@ -111,7 +111,7 @@ void dooms::graphics::Mesh::BufferData
 	BindVertexArrayObject(); // bind vertex array buffer
 
 	D_DEBUG_LOG(eLogType::D_LOG, "%f", sizeof(FLOAT32) * dataComponentCount);
-	GraphicsAPI::AllocateBufferMemory(mBufferID, GraphicsAPI::eBufferTarget::ARRAY_BUFFER, static_cast<unsigned long long>(sizeof(FLOAT32) * dataComponentCount), data);
+	GraphicsAPI::AllocateBufferMemory(mBufferID.GetBufferIDRef(), GraphicsAPI::eBufferTarget::ARRAY_BUFFER, static_cast<unsigned long long>(sizeof(FLOAT32) * dataComponentCount), data);
 
 	UINT32 offset = 0;
 	const UINT32 stride = Mesh::GetStride(vertexArrayFlag);
@@ -215,7 +215,7 @@ void dooms::graphics::Mesh::BufferDataFromModelMesh(const ThreeDModelMesh& three
 
 	BindVertexArrayObject(); // bind vertex array buffer first
 	
-	GraphicsAPI::AllocateBufferMemory(mBufferID, GraphicsAPI::eBufferTarget::ARRAY_BUFFER, threeDModelMesh.mMeshDatas.GetAllocatedDataSize(), NULL);
+	GraphicsAPI::AllocateBufferMemory(mBufferID.GetBufferIDRef(), GraphicsAPI::eBufferTarget::ARRAY_BUFFER, threeDModelMesh.mMeshDatas.GetAllocatedDataSize(), NULL);
 	GraphicsAPI::UpdateDataToBuffer(mBufferID, GraphicsAPI::eBufferTarget::ARRAY_BUFFER, 0, threeDModelMesh.mMeshDatas.GetAllocatedDataSize(), threeDModelMesh.mMeshDatas.mData);
 	
 	//mVertex
@@ -258,7 +258,7 @@ void dooms::graphics::Mesh::BufferDataFromModelMesh(const ThreeDModelMesh& three
 	mNumOfIndices = 0;
 	if (threeDModelMesh.bHasIndices == true && threeDModelMesh.mMeshIndices.size() > 0)
 	{
-		GraphicsAPI::AllocateBufferMemory(mElementBufferObjectID, GraphicsAPI::eBufferTarget::ELEMENT_ARRAY_BUFFER, threeDModelMesh.mMeshIndices.size() * sizeof(UINT32), NULL);
+		GraphicsAPI::AllocateBufferMemory(mElementBufferObjectID.GetBufferIDRef(), GraphicsAPI::eBufferTarget::ELEMENT_ARRAY_BUFFER, threeDModelMesh.mMeshIndices.size() * sizeof(UINT32), NULL);
 		GraphicsAPI::UpdateDataToBuffer(mElementBufferObjectID, GraphicsAPI::eBufferTarget::ELEMENT_ARRAY_BUFFER, 0, threeDModelMesh.mMeshIndices.size() * sizeof(UINT32), reinterpret_cast<const void*>(threeDModelMesh.mMeshIndices.data()));
 		mNumOfIndices = threeDModelMesh.mMeshIndices.size();
 	}

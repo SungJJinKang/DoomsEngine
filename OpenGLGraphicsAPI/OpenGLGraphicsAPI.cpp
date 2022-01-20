@@ -1410,7 +1410,7 @@ namespace dooms
 
 		DOOMS_ENGINE_GRAPHICS_API void AllocateBufferMemory
 		(
-			unsigned long long bufferObject,
+			unsigned long long& bufferObject,
 			const GraphicsAPI::eBufferTarget bufferTarget,
 			const unsigned long long bufferSize,
 			const void* const initialData

@@ -59,6 +59,24 @@ namespace dooms
 
 		namespace dx11
 		{
+            FORCE_INLINE static D3D_PRIMITIVE_TOPOLOGY Convert_ePrimitiveType_To_D3D_PRIMITIVE_TOPOLOGY(const GraphicsAPI::ePrimitiveType primitiveType)
+            {
+	            switch (primitiveType)
+	            {
+	            case GraphicsAPI::POINTS:
+                    return D3D_PRIMITIVE_TOPOLOGY::D3D11_PRIMITIVE_TOPOLOGY_POINTLIST;
+                    break;
+	            case GraphicsAPI::LINES:
+                    return D3D_PRIMITIVE_TOPOLOGY::D3D11_PRIMITIVE_TOPOLOGY_LINELIST;
+                    break;
+	            case GraphicsAPI::TRIANGLES:
+                    return D3D_PRIMITIVE_TOPOLOGY::D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST;
+                    break;
+	            default: 
+                    NEVER_HAPPEN;
+	            }
+            }
+
             FORCE_INLINE static DXGI_FORMAT ConvertTextureInternalFormat_To_DXGI_FORMAT(const GraphicsAPI::eTextureInternalFormat internalFormat)
             {
                 // reference ( opengl format, dxgi table : https://chromium.googlesource.com/angle/angle/+/6ea6f9424890b2a443fafb940ba27e902b4e9157/src/libANGLE/renderer/d3d/d3d11/texture_format_util.cpp )
@@ -972,15 +990,119 @@ namespace dooms
             SetWindowTextW(dx11::g_hWnd, title);
         }
 
+        DOOMS_ENGINE_GRAPHICS_API unsigned long long CreateBuffer()
+        {
+            unsigned long long bufferID = 0;
+            return bufferID;
+        }
+
+        DOOMS_ENGINE_GRAPHICS_API unsigned long long CreateVertexArrayObject()
+        {
+            unsigned long long bufferID = 0;
+            return bufferID;
+        }
+
+        DOOMS_ENGINE_GRAPHICS_API void CompileShader
+        (
+            const unsigned long long shaderObject,
+            const GraphicsAPI::eShaderType shaderType,
+            const char* const shaderText
+        )
+        {
+          
+
+        }
+
         DOOMS_ENGINE_GRAPHICS_API void BindBuffer
         (
             const unsigned long long bufferObject,
             const GraphicsAPI::eBufferTarget bindBufferTarget
         )
         {
-            // DX11 doesn't have "Binding" concept
+            assert(bufferObject != 0);
 
-            //glBindBuffer(opengl::GetGLBufferTarget(bindBufferTarget), bufferObject);
+            ID3D11Buffer* const buffer = reinterpret_cast<ID3D11Buffer*>(bufferObject);
+            D3D11_BUFFER_DESC desc;
+            buffer->GetDesc(&desc);
+
+            switch(static_cast<D3D11_BIND_FLAG>(desc.BindFlags))
+            {
+            case D3D11_BIND_VERTEX_BUFFER:
+	            dx11::g_pImmediateContext->IASetVertexBuffers(0, 1, &buffer, &stride, &offset)
+                break;
+            case D3D11_BIND_INDEX_BUFFER:
+                break;
+            case D3D11_BIND_CONSTANT_BUFFER: 
+                break;
+            case D3D11_BIND_SHADER_RESOURCE:
+                break;
+            case D3D11_BIND_STREAM_OUTPUT: 
+                break;
+            case D3D11_BIND_RENDER_TARGET:
+                break;
+            case D3D11_BIND_DEPTH_STENCIL: 
+                break;
+            case D3D11_BIND_UNORDERED_ACCESS: 
+                break;
+            case D3D11_BIND_DECODER: 
+                break;
+            case D3D11_BIND_VIDEO_ENCODER: 
+                break;
+            default: ;
+            }
+        }
+
+        DOOMS_ENGINE_GRAPHICS_API void AllocateBufferMemory
+        (
+            unsigned long long& bufferObject,
+            const GraphicsAPI::eBufferTarget bufferTarget,
+            const unsigned long long bufferSize,
+            const void* const initialData
+        )
+        {
+            assert(bufferObject == 0);
+            if(bufferObject == 0)
+            {
+                D3D11_BUFFER_DESC bd = {};
+                bd.Usage = D3D11_USAGE_DEFAULT;
+                bd.ByteWidth = bufferSize;
+                bd.CPUAccessFlags = 0;
+
+                switch (bufferTarget)
+                {
+                case GraphicsAPI::ARRAY_BUFFER:
+                    bd.BindFlags = D3D11_BIND_VERTEX_BUFFER;
+                    break;
+
+                case GraphicsAPI::ELEMENT_ARRAY_BUFFER:
+                    bd.BindFlags = D3D11_BIND_INDEX_BUFFER;
+                    break;
+
+                case GraphicsAPI::UNIFORM_BUFFER:
+                    bd.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
+                    break;
+
+                default:
+                    NEVER_HAPPEN;
+                }
+
+                ID3D11Buffer* buffer;
+
+                D3D11_SUBRESOURCE_DATA* initData = NULL;
+
+                if(initialData != nullptr)
+                {
+                    D3D11_SUBRESOURCE_DATA InitData = {};
+                    InitData.pSysMem = initialData;
+
+                    initData = &InitData;
+                }
+                
+                const HRESULT hr = dx11::g_pd3dDevice->CreateBuffer(&bd, initData, &buffer);
+                assert(FAILED(hr) == false);
+
+                bufferObject = reinterpret_cast<unsigned long long>(buffer);
+            }
         }
 
         DOOMS_ENGINE_GRAPHICS_API void BindFrameBuffer
@@ -999,6 +1121,35 @@ namespace dooms
             // DX11 doesn't have "Binding" concept
 
             //glBindRenderbuffer(GL_RENDERBUFFER, renderBufferObject);
+        }
+
+        DOOMS_ENGINE_GRAPHICS_API void Draw
+        (
+            const GraphicsAPI::ePrimitiveType primitiveType,
+            const unsigned long long vertexCount,
+            const unsigned long long startVertexLocation
+        )
+        {
+
+            dx11::g_pImmediateContext->IASetPrimitiveTopology(dx11::Convert_ePrimitiveType_To_D3D_PRIMITIVE_TOPOLOGY(primitiveType));
+
+            assert((unsigned int)primitiveType < GraphicsAPI::ePrimitiveType::END);
+            glDrawArrays(PrimitiveTypeJumpTable[(unsigned int)primitiveType], startVertexLocation, vertexCount);
+            opengl::DrawCallCounter++;
+
+        }
+
+
+        DOOMS_ENGINE_GRAPHICS_API void DrawIndexed
+        (
+            const GraphicsAPI::ePrimitiveType primitiveType,
+            const unsigned long long indiceCount,
+            const void* const indices
+        )
+        {
+            assert((unsigned int)primitiveType < GraphicsAPI::ePrimitiveType::END);
+            glDrawElements(PrimitiveTypeJumpTable[(unsigned int)primitiveType], indiceCount, GL_UNSIGNED_INT, indices);
+            opengl::DrawCallCounter++;
         }
 	}
 }

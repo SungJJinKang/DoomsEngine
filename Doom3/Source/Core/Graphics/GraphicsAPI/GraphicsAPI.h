@@ -528,7 +528,7 @@ namespace dooms
 
 			typedef void (DOOMS_ENGINE_API_ENTRY_P GRAPHICS_ALLOCATEBUFFERMEMORY)
 				(
-					unsigned long long bufferObject,
+					unsigned long long& bufferObject,
 					const eBufferTarget bufferTarget,
 					const unsigned long long bufferSize, // in bytes
 					const void* const initialData

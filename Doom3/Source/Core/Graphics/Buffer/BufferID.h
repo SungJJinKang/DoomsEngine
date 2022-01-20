@@ -66,6 +66,11 @@ namespace dooms
 				return mID;
 			}
 
+			FORCE_INLINE UINT64& GetBufferIDRef()
+			{
+				return mID;
+			}
+
 			FORCE_INLINE bool IsValid() const
 			{
 				return mID != INVALID_BUFFER_ID;
