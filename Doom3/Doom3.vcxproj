@@ -37,13 +37,13 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v142</PlatformToolset>
+    <PlatformToolset>v143</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v142</PlatformToolset>
+    <PlatformToolset>v143</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
@@ -65,10 +65,10 @@
     <EnableASAN>false</EnableASAN>
   </PropertyGroup>
   <PropertyGroup Label="Configuration" Condition="'$(Configuration)|$(Platform)'=='AMDuProf|Win32'">
-    <PlatformToolset>v142</PlatformToolset>
+    <PlatformToolset>v143</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Label="Configuration" Condition="'$(Configuration)|$(Platform)'=='AMDuProf|x64'">
-    <PlatformToolset>v142</PlatformToolset>
+    <PlatformToolset>v143</PlatformToolset>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
@@ -120,10 +120,10 @@
     <VcpkgInstalledDir>C:\vcpkg</VcpkgInstalledDir>
   </PropertyGroup>
   <PropertyGroup Label="Vcpkg" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <VcpkgInstalledDir>C:\vcpkg</VcpkgInstalledDir>
+    <VcpkgInstalledDir>C:\vcpkg\</VcpkgInstalledDir>
   </PropertyGroup>
   <PropertyGroup Label="Vcpkg" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <VcpkgInstalledDir>C:\vcpkg</VcpkgInstalledDir>
+    <VcpkgInstalledDir>C:\vcpkg\</VcpkgInstalledDir>
     <VcpkgAdditionalInstallOptions>
     </VcpkgAdditionalInstallOptions>
     <VcpkgTriplet>
@@ -207,7 +207,7 @@ xcopy /y /d /E /H /C /I "$(ProjectDir)Assets" "$(TargetDir)Assets"</Command>
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions);UNICODE;__x86_64__</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(ProjectDir)..\OpenGLGraphicsAPI;$(ProjectDir)Source\Core\Reflection\AdditionalDirectoryForClang;$(ProjectDir)..\DX11GraphicsAPI;C:\assimp-5.1.5\include\;$(ProjectDir);$(SolutionDir)Source\Core\OS;$(VcpkgInstalledDir)x64-windows\include;$(SolutionDir)Source\Helper;$(SolutionDir)Source\Component;$(SolutionDir)Source\Core\Scene;$(SolutionDir)Source\Component\Core;$(SolutionDir)Source\Helper/crossguid;$(SolutionDir)Source\GameLogic\CustomComponent;$(SolutionDir)Source\Core\Math\LightMath_Cpp;$(SolutionDir)Source\Core\IO;$(SolutionDir)Source\Core\Time;$(SolutionDir)Source\GameLogic;$(SolutionDir)Source\Core;$(SolutionDir)Source\Core\Logger;$(SolutionDir)Source\Core\Physics;$(SolutionDir)Source\Core\utility;$(SolutionDir)Source\Core\Reflection\clReflect_automation\clReflect\inc;$(SolutionDir)Source\thirdparty\imgui</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\assimp-5.1.5\build\include;$(ProjectDir)..\OpenGLGraphicsAPI;$(ProjectDir)Source\Core\Reflection\AdditionalDirectoryForClang;$(ProjectDir)..\DX11GraphicsAPI;C:\assimp-5.1.5\include\;$(ProjectDir);$(SolutionDir)Source\Core\OS;$(VcpkgInstalledDir)installed\x64-windows\include;$(SolutionDir)Source\Helper;$(SolutionDir)Source\Component;$(SolutionDir)Source\Core\Scene;$(SolutionDir)Source\Component\Core;$(SolutionDir)Source\Helper/crossguid;$(SolutionDir)Source\GameLogic\CustomComponent;$(SolutionDir)Source\Core\Math\LightMath_Cpp;$(SolutionDir)Source\Core\IO;$(SolutionDir)Source\Core\Time;$(SolutionDir)Source\GameLogic;$(SolutionDir)Source\Core;$(SolutionDir)Source\Core\Logger;$(SolutionDir)Source\Core\Physics;$(SolutionDir)Source\Core\utility;$(SolutionDir)Source\Core\Reflection\clReflect_automation\clReflect\inc;$(SolutionDir)Source\thirdparty\imgui</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
@@ -226,8 +226,8 @@ xcopy /y /d /E /H /C /I "$(ProjectDir)Assets" "$(TargetDir)Assets"</Command>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>DebugFull</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(SolutionDir)Source\Helper\crossguid\build\Debug;C:\assimp-5.1.5\build\lib\Debug;C:\vcpkg\installed\x64-windows\debug\lib;%(AdditionalLibraryDirectories);$(OutputPath)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>%(AdditionalDependencies);ntdll.lib;xg.lib;DirectXTex.lib;assimp-vc142-mtd.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)Source\Helper\crossguid\build\Debug;C:\assimp-5.1.5\build\lib\Debug;$(VcpkgInstalledDir)installed\x64-windows\debug\lib;%(AdditionalLibraryDirectories);$(OutputPath)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>%(AdditionalDependencies);ntdll.lib;crossguid-dgb.lib;DirectXTex.lib;assimp-vc142-mtd.lib</AdditionalDependencies>
       <GenerateMapFile>true</GenerateMapFile>
       <MapFileName>map.map</MapFileName>
       <MapExports>true</MapExports>
@@ -248,7 +248,7 @@ xcopy /y /d /f "$(ProjectDir)*.map" "$(TargetDir)"</Command>
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions);UNICODE</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(ProjectDir)..\OpenGLGraphicsAPI;$(ProjectDir)Source\Core\Reflection\AdditionalDirectoryForClang;$(ProjectDir)..\DX11GraphicsAPI;C:\assimp-5.1.5\include\;$(ProjectDir);$(SolutionDir)Source\thirdparty\amdUprof\include;$(SolutionDir)Source\Core\OS;$(VcpkgInstalledDir)x64-windows\include;$(SolutionDir)Source\Helper;$(SolutionDir)Source\Component;$(SolutionDir)Source\Core\Scene;$(SolutionDir)Source\Component\Core;$(SolutionDir)Source\Helper/crossguid;$(SolutionDir)Source\GameLogic\CustomComponent;$(SolutionDir)Source\Core\Math\LightMath_Cpp;$(SolutionDir)Source\Core\IO;$(SolutionDir)Source\Core\Time;$(SolutionDir)Source\GameLogic;$(SolutionDir)Source\Core;$(SolutionDir)Source\Core\Logger;$(SolutionDir)Source\Core\Physics;$(SolutionDir)Source\Core\utility;$(SolutionDir)Source\Core\Reflection\clReflect_automation\clReflect\inc;$(SolutionDir)Source\thirdparty\imgui</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\assimp-5.1.5\build\include;$(ProjectDir)..\OpenGLGraphicsAPI;$(ProjectDir)Source\Core\Reflection\AdditionalDirectoryForClang;$(ProjectDir)..\DX11GraphicsAPI;C:\assimp-5.1.5\include\;$(ProjectDir);$(SolutionDir)Source\thirdparty\amdUprof\include;$(SolutionDir)Source\Core\OS;$(VcpkgInstalledDir)installed\x64-windows\include;$(SolutionDir)Source\Helper;$(SolutionDir)Source\Component;$(SolutionDir)Source\Core\Scene;$(SolutionDir)Source\Component\Core;$(SolutionDir)Source\Helper/crossguid;$(SolutionDir)Source\GameLogic\CustomComponent;$(SolutionDir)Source\Core\Math\LightMath_Cpp;$(SolutionDir)Source\Core\IO;$(SolutionDir)Source\Core\Time;$(SolutionDir)Source\GameLogic;$(SolutionDir)Source\Core;$(SolutionDir)Source\Core\Logger;$(SolutionDir)Source\Core\Physics;$(SolutionDir)Source\Core\utility;$(SolutionDir)Source\Core\Reflection\clReflect_automation\clReflect\inc;$(SolutionDir)Source\thirdparty\imgui</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
@@ -272,7 +272,7 @@ xcopy /y /d /f "$(ProjectDir)*.map" "$(TargetDir)"</Command>
       <OptimizeReferences>false</OptimizeReferences>
       <GenerateDebugInformation>DebugFull</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(SolutionDir)Source\thirdparty\amdUprof\lib\x64;$(SolutionDir)Source\Helper\crossguid\build\Release;C:\assimp-5.1.5\build\lib\Release;C:\vcpkg\installed\x64-windows\lib;%(AdditionalLibraryDirectories);$(OutputPath)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>xg.lib;AMDProfileController.lib;ntdll.lib;DirectXTex.lib;assimp-vc142-mt.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>crossguid.lib;AMDProfileController.lib;ntdll.lib;DirectXTex.lib;assimp-vc142-mt.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <GenerateMapFile>true</GenerateMapFile>
       <MapFileName>map.map</MapFileName>
       <MapExports>true</MapExports>

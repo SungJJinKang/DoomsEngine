@@ -60,6 +60,7 @@ namespace dooms
 		NO_DISCARD UINT64 _GetThreadCpuCycle(const HANDLE threadHandle);
 
 		NO_DISCARD std::string _GetCurrentExecutableDirectory();
+		NO_DISCARD std::wstring _GetCurrentExecutableDirectoryUnicode();
 	}
 }
 
