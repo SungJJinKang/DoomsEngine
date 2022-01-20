@@ -10,8 +10,6 @@ namespace dooms
 {
 	namespace graphics
 	{
-		class SingleTexture;
-
 		class DOOM_API D_CLASS PicktureInPickture : public DObject
 		{
 			GENERATE_BODY()
@@ -27,7 +25,7 @@ namespace dooms
 			D_PROPERTY()
 			Mesh* mPlaneMesh = nullptr;
 			D_PROPERTY()
-			SingleTexture* mDrawedTexture = nullptr;
+			Texture* mDrawedTexture = nullptr;
 
 			void InitializeDefaultPIPMaterial();
 
@@ -36,8 +34,8 @@ namespace dooms
 			bool bmIsDrawOnScreen;
 
 			PicktureInPickture();
-			PicktureInPickture(const math::Vector2& leftBottomNDCPoint, const math::Vector2& rightTopNDCPoint, SingleTexture* const _drawedTexture);
-			PicktureInPickture(const math::Vector2& leftBottomNDCPoint, const math::Vector2& rightTopNDCPoint, SingleTexture* const _drawedTexture, Material* const _pipMaterial);
+			PicktureInPickture(const math::Vector2& leftBottomNDCPoint, const math::Vector2& rightTopNDCPoint, Texture* const _drawedTexture);
+			PicktureInPickture(const math::Vector2& leftBottomNDCPoint, const math::Vector2& rightTopNDCPoint, Texture* const _drawedTexture, Material* const _pipMaterial);
 			//PicktureInPickture& operator=(const math::Vector2& leftBottomNDCPoint, const math::Vector2& rightTopNDCPoint, SingleTexture* const _drawedTexture);
 			//PicktureInPickture& operator=(const math::Vector2& leftBottomNDCPoint, const math::Vector2& rightTopNDCPoint, SingleTexture* const _drawedTexture, Material* const _pipMaterial);
 
@@ -45,7 +43,7 @@ namespace dooms
 
 			~PicktureInPickture();
 
-			void SetTexture(SingleTexture* const texture);
+			void SetTexture(Texture* const texture);
 			void SetMaterial(Material* const _pipMaterial);
 
 			void DrawPictureInPicture();

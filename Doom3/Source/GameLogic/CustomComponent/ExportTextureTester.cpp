@@ -18,7 +18,7 @@ void dooms::ExportTextureTester::UpdateComponent()
 	{
 		dooms::ui::PrintText("Export Camera Texture");
 		
-		dooms::graphics::SingleTexture* texture = 
+		dooms::graphics::Texture* texture =
 			dooms::Camera::GetMainCamera()->mDefferedRenderingFrameBuffer.GetFrameBufferTexture
 			(
 				dooms::graphics::GraphicsAPI::eBufferBitType::COLOR_BUFFER,
@@ -37,7 +37,7 @@ void dooms::ExportTextureTester::UpdateComponent()
 	{
 		dooms::ui::PrintText("Export Camera Texture");
 
-		dooms::graphics::SingleTexture* texture =
+		dooms::graphics::Texture* texture =
 			dooms::Camera::GetMainCamera()->mDefferedRenderingFrameBuffer.GetFrameBufferTexture
 			(
 				dooms::graphics::GraphicsAPI::eBufferBitType::COLOR_BUFFER,

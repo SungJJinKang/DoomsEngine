@@ -4,6 +4,7 @@
 #include <memory>
 
 #include <Graphics/GraphicsAPI/GraphicsAPI.h>
+#include <Graphics/Buffer/BufferID.h>
 
 #include "TextureAsset.reflection.h"
 namespace DirectX
@@ -15,7 +16,6 @@ namespace dooms
 {
 	namespace graphics
 	{
-		class SingleTexture;
 		class Texture;
 		class Material;
 	}
@@ -35,6 +35,8 @@ namespace dooms
 			friend class ::dooms::assetImporter::AssetImporterWorker_Texture;
 
 		private:
+
+			dooms::graphics::BufferID mTextureResourceObject;
 
 			std::unique_ptr<DirectX::ScratchImage> mScratchImage;
 
@@ -64,12 +66,9 @@ namespace dooms
 
 			D_PROPERTY()
 			graphics::GraphicsAPI::eTextureCompressedInternalFormat mCompressedInternalFormat{};
-
-			D_PROPERTY()
-			graphics::Texture* mDefaultTextureObject{ nullptr };
-
-			void CreateDefaultTexture();
-			void DestroyDefaultTextureObject();
+			
+			void AllocateTextureResourceObject();
+			void DestroyTextureResourceObject();
 
 		protected:
 
@@ -87,10 +86,21 @@ namespace dooms
 			virtual void OnSetPendingKill() override;
 
 			void OnEndImportInMainThread_Internal() final;
-			const graphics::Texture* GetDefaultTextureObject() const;
-			graphics::Texture* CreateTextureObject();
+			const graphics::Texture* GetTextureViewObject() const;
 
 			virtual dooms::asset::eAssetType GetEAssetType() const final;
+
+			dooms::graphics::BufferID GetTextureResourceObject();
+
+			graphics::GraphicsAPI::eTextureComponentFormat GetTextureComponentFormat() const;
+			graphics::GraphicsAPI::eTextureInternalFormat GetTextureInternalFormat() const;
+			graphics::GraphicsAPI::eTextureCompressedInternalFormat GetTextureCompressedInternalFormat() const;
+			INT32 GetTextureWidth() const;
+			INT32 GetTextureHeight() const;
+			INT32 GetMipMapLevel() const;
+			INT32 GetEntireImageSize() const;
+			graphics::GraphicsAPI::eDataType GetTextureDataType() const;
+
 		};
 		
 	}

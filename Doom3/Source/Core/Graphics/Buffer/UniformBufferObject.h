@@ -32,6 +32,8 @@ namespace dooms
 			bool bmIsDirty = true;
 			std::string mUniformBlockName;
 
+			GraphicsAPI::eGraphicsPipeLineStage mTargetPipeLineStage;
+
 			/// <summary>
 			/// Buffer::data is same with mUniformBufferID
 			/// </summary>

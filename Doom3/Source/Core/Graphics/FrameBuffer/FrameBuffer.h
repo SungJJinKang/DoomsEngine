@@ -5,7 +5,7 @@
 #include <Graphics/GraphicsAPI/GraphicsAPI.h>
 #include "../GraphicsAPI/graphicsAPISetting.h"
 #include "RenderBuffer.h"
-#include "../Texture/SingleTexture.h"
+#include "../Texture/Texture.h"
 #include "../OverlapBindChecker.h"
 #include "../Buffer/BufferID.h"
 
@@ -30,13 +30,13 @@ namespace dooms
 			std::vector<RenderBuffer> mAttachedRenderBuffers;
 
 			static constexpr UINT32 RESERVED_COLOR_TEXTURE_COUNT = 3;
-			std::vector<SingleTexture> mAttachedColorTextures;
+			std::vector<Texture> mAttachedColorTextures;
 
 			static constexpr UINT32 RESERVED_DEPTH_TEXTURE_COUNT = 1; 
-			std::vector<SingleTexture> mAttachedDepthTextures;
+			std::vector<Texture> mAttachedDepthTextures;
 
 			static constexpr UINT32 RESERVED_DEPTH_STENCIL_TEXTURE_COUNT = 1; 
-			std::vector<SingleTexture> mAttachedDepthStencilTextures;
+			std::vector<Texture> mAttachedDepthStencilTextures;
 
 			std::vector<GraphicsAPI::eBufferMode> mTargetDrawBufferContainer;
 
@@ -166,10 +166,10 @@ namespace dooms
 
 			RenderBuffer& AttachRenderBuffer(GraphicsAPI::eFrameBufferAttachmentPoint renderBufferType, UINT32 width, UINT32 height);
 			RenderBuffer& AttachRenderBuffer(GraphicsAPI::eFrameBufferAttachmentPoint renderBufferType);
-			SingleTexture& AttachTextureBuffer(GraphicsAPI::eBufferBitType frameBufferType, UINT32 width, UINT32 height);
-			SingleTexture& AttachTextureBuffer(GraphicsAPI::eBufferBitType frameBufferType);
-			const SingleTexture* GetFrameBufferTexture(GraphicsAPI::eBufferBitType bufferType, UINT32 index) const;
-			SingleTexture* GetFrameBufferTexture(GraphicsAPI::eBufferBitType bufferType, UINT32 index);
+			Texture& AttachTextureBuffer(GraphicsAPI::eBufferBitType frameBufferType, UINT32 width, UINT32 height);
+			Texture& AttachTextureBuffer(GraphicsAPI::eBufferBitType frameBufferType);
+			const Texture* GetFrameBufferTexture(GraphicsAPI::eBufferBitType bufferType, UINT32 index) const;
+			Texture* GetFrameBufferTexture(GraphicsAPI::eBufferBitType bufferType, UINT32 index);
 
 			void CheckIsFrameBufferSuccesfullyCreated() noexcept;
 

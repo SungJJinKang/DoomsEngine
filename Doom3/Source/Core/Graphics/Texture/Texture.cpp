@@ -5,31 +5,6 @@
 
 using namespace dooms::graphics;
 
-Texture::Texture()
-	: mBufferID()
-{
-}
-
-Texture::~Texture()
-{
-	DestroyTextureBufferObject();
-}
-
-
-Texture::Texture(GraphicsAPI::eTextureType textureType, GraphicsAPI::eTextureBindTarget bindTarget,
-	GraphicsAPI::eTargetTexture targetTexture, GraphicsAPI::eTextureInternalFormat internalFormat, GraphicsAPI::eTextureCompressedInternalFormat compressedInternalFormat, UINT32 width, GraphicsAPI::eTextureComponentFormat format, GraphicsAPI::eDataType type)
-	: mBufferID()
-{
-	InitializeTexture(textureType, bindTarget, targetTexture, internalFormat, compressedInternalFormat, width, format, type);
-}
-
-
-Texture::Texture(GraphicsAPI::eTextureType textureType, GraphicsAPI::eTextureBindTarget bindTarget,
-	GraphicsAPI::eTargetTexture targetTexture, GraphicsAPI::eTextureInternalFormat internalFormat, GraphicsAPI::eTextureCompressedInternalFormat compressedInternalFormat, UINT32 width, UINT32 height, GraphicsAPI::eTextureComponentFormat format, GraphicsAPI::eDataType type)
-	: mBufferID()
-{
-	InitializeTexture(textureType, bindTarget, targetTexture, internalFormat, compressedInternalFormat, width, height, format, type);
-}
 
 
 void Texture::OnEndContructor()
@@ -40,138 +15,52 @@ void Texture::OnEndContructor()
 	//UnBindTexture();
 }
 
-void Texture::InitializeTexture(GraphicsAPI::eTextureType textureType, GraphicsAPI::eTextureBindTarget bindTarget, GraphicsAPI::eTargetTexture targetTexture,
-	GraphicsAPI::eTextureInternalFormat internalFormat, GraphicsAPI::eTextureCompressedInternalFormat compressedInternalFormat, UINT32 width,
-	GraphicsAPI::eTextureComponentFormat format, GraphicsAPI::eDataType type)
+dooms::asset::TextureAsset* Texture::GetTargetTextureResourceObject()
 {
-	D_ASSERT(mBufferID.IsValid() == false);
-	D_ASSERT(mWidth > 0 && mHeight > 0);
-	if(mBufferID.IsValid() == false)
-	{
-		mTextureType = textureType;
-		mBindTarget = bindTarget;
-		mTarget = targetTexture;
-		mInternalFormat = internalFormat;
-		mCompressedInternalFormat = compressedInternalFormat;
-		mWidth = width;
-		mHeight = 0;
-		mDataFormat = format;
-		mDataType = type;
-
-		mBufferID = GraphicsAPI::CreateTextureObject();
-	}
+	return mTargetTextureResourceObject;
 }
 
-void Texture::InitializeTexture(GraphicsAPI::eTextureType textureType, GraphicsAPI::eTextureBindTarget bindTarget, GraphicsAPI::eTargetTexture targetTexture,
-	GraphicsAPI::eTextureInternalFormat internalFormat, GraphicsAPI::eTextureCompressedInternalFormat compressedInternalFormat, UINT32 width,
-	UINT32 height, GraphicsAPI::eTextureComponentFormat format, GraphicsAPI::eDataType type)
+const dooms::asset::TextureAsset* Texture::GetTargetTextureResourceObject() const
 {
-	if (mBufferID.IsValid() == false)
-	{
-		mTextureType = textureType;
-		mBindTarget = bindTarget;
-		mTarget = targetTexture;
-		mInternalFormat = internalFormat;
-		mCompressedInternalFormat = compressedInternalFormat;
-		mWidth = width;
-		mHeight = height;
-		mDataFormat = format;
-		mDataType = type;
-
-		mBufferID = GraphicsAPI::CreateTextureObject();
-	}
+	return mTargetTextureResourceObject;
 }
+
+Texture::~Texture()
+{
+	DestroyTextureViewObject();
+}
+
 
 void Texture::OnSetPendingKill()
 {
 	DObject::OnSetPendingKill();
 
-	DestroyTextureBufferObject();
+	DestroyTextureViewObject();
+	
 }
 
-void Texture::DestroyTextureBufferObject()
+void Texture::DestroyTextureViewObject()
 {
-	if (mBufferID.IsValid() == true)
+	if(mTextureViewObject.IsValid())
 	{
-		GraphicsAPI::DestroyTextureObject(mBufferID);
-		mBufferID.Reset();
+		GraphicsAPI::DestroyTextureViewObject(mTextureViewObject);
 	}
 }
 
-
-void Texture::SetWrapMode(GraphicsAPI::eWrapMode wrapMode, bool bBind)
+Texture::Texture(asset::TextureAsset* const textureResourceObject)
+	: mTargetTextureResourceObject{textureResourceObject}
 {
-	if (bBind)
-	{
-		BindTexture();
-	}
-
-	if (mTarget == GraphicsAPI::eTargetTexture::TARGET_TEXTURE_TEXTURE_1D)
-	{
-		mWrapS = wrapMode;
-		GraphicsAPI::SetTextureWrapMode_S(mBindTarget, wrapMode);
-	}
-	else if (mTarget == GraphicsAPI::eTargetTexture::TARGET_TEXTURE_TEXTURE_2D)
-	{
-		mWrapS = wrapMode;
-		mWrapT = wrapMode;
-		GraphicsAPI::SetTextureWrapMode_S(mBindTarget, wrapMode);
-		GraphicsAPI::SetTextureWrapMode_T(mBindTarget, wrapMode);
-	}
-	else if (mTarget == GraphicsAPI::eTargetTexture::TARGET_TEXTURE_TEXTURE_3D)
-	{
-		mWrapS = wrapMode;
-		mWrapT = wrapMode;
-		mWrapR = wrapMode;
-		GraphicsAPI::SetTextureWrapMode_S(mBindTarget, wrapMode);
-		GraphicsAPI::SetTextureWrapMode_T(mBindTarget, wrapMode);
-		GraphicsAPI::SetTextureWrapMode_R(mBindTarget, wrapMode);
-	}
-}
-
-void Texture::SetFilterMin(GraphicsAPI::eFilterMode filterMode, bool bBind)
-{
-	if (bBind)
-	{
-		BindTexture();
-	}
-
-	GraphicsAPI::SetMinFilter(mBindTarget, filterMode);
-}
-
-void Texture::SetFilterMax(GraphicsAPI::eFilterMode filterMode, bool bBind)
-{
-	if (bBind)
-	{
-		BindTexture();
-	}
-
-	GraphicsAPI::SetMagFilter(mBindTarget, filterMode);
-}
-
-dooms::graphics::GraphicsAPI::eWrapMode Texture::GetWrapModeS() const
-{
-	return mWrapS;
-}
-
-dooms::graphics::GraphicsAPI::eWrapMode Texture::GetWrapModeT() const
-{
-	return mWrapT;
-}
-
-dooms::graphics::GraphicsAPI::eWrapMode Texture::GetWrapModeR() const
-{
-	return mWrapR;
+	mTextureViewObject = GraphicsAPI::CreateTextureViewObject(textureResourceObject->GetTextureResourceObject());
 }
 
 FLOAT32 Texture::GetTextureMetaDataFLOAT32(const INT32 lodLevel, const GraphicsAPI::eTextureMetaDataType textureMetaDataType) const
 {
-	return 	GraphicsAPI::GetTextureMetaDataFloat(mBufferID, mBindTarget, lodLevel, textureMetaDataType);
+	return 	GraphicsAPI::GetTextureMetaDataFloat(mTextureViewObject, graphics::GraphicsAPI::eTextureBindTarget::TEXTURE_2D, lodLevel, textureMetaDataType);
 }
 
 INT32 Texture::GetTextureMetaDataINT32(const INT32 lodLevel, const GraphicsAPI::eTextureMetaDataType textureMetaDataType) const
 {
-	return GraphicsAPI::GetTextureMetaDataInt(mBufferID, mBindTarget, lodLevel, textureMetaDataType);
+	return GraphicsAPI::GetTextureMetaDataInt(mTextureViewObject, graphics::GraphicsAPI::eTextureBindTarget::TEXTURE_2D, lodLevel, textureMetaDataType);
 }
 
 
@@ -189,7 +78,7 @@ UINT8* Texture::GetTexturePixelsUnsafe(const INT32 lodLevel ) const
 	INT32 bufferSize = GetTextureBufferSize(lodLevel);
 	D_ASSERT(bufferSize != 0);
 	
-	return GraphicsAPI::FetchTexturePixels(mBindTarget, lodLevel, mDataFormat, mDataType, bufferSize);
+	return GraphicsAPI::FetchTexturePixels(graphics::GraphicsAPI::eTextureBindTarget::TEXTURE_2D, lodLevel, mTargetTextureResourceObject->GetTextureComponentFormat(), mTargetTextureResourceObject->GetTextureDataType(), bufferSize);
 }
 
 INT32 Texture::GetTextureBufferSize(const INT32 lodLevel) const
@@ -197,7 +86,7 @@ INT32 Texture::GetTextureBufferSize(const INT32 lodLevel) const
 	const INT32 width = GetTextureMetaDataINT32(lodLevel, GraphicsAPI::eTextureMetaDataType::TEXTURE_WIDTH);
 	const INT32 height = GetTextureMetaDataINT32(lodLevel, GraphicsAPI::eTextureMetaDataType::TEXTURE_HEIGHT);
 
-	return GetTextureBufferSizeStatic(width, height, mDataFormat, mDataType);
+	return GetTextureBufferSizeStatic(width, height, mTargetTextureResourceObject->GetTextureComponentFormat(), mTargetTextureResourceObject->GetTextureDataType());
 }
 
 
@@ -281,7 +170,7 @@ INT32 Texture::GetTextureBufferSizeStatic
 const BufferID& Texture::GetTextureBufferID() const
 {
 	D_ASSERT(mBufferID.IsValid());
-	return mBufferID;
+	return mTextureViewObject;
 }
 
 

@@ -344,7 +344,6 @@ namespace dooms
 		class Graphics_Server;
 		class OverlapBindChecker;
 		class FrameBuffer;
-		class SingleTexture;
 		class LightManager;
 		class DefferedRenderingFrameBuffer;
 		class GraphicsAPIInput;
@@ -638,8 +637,6 @@ namespace clcpp
 	template <> unsigned int GetTypeNameHash< dooms::physics::AABB3D >() { return 0x1e15a1e0; }
 	template <> const Type* GetType< dooms::graphics::FrameBuffer >() { return clcppTypePtrs[20]; }
 	template <> unsigned int GetTypeNameHash< dooms::graphics::FrameBuffer >() { return 0x1f19850a; }
-	template <> const Type* GetType< dooms::graphics::SingleTexture >() { return clcppTypePtrs[21]; }
-	template <> unsigned int GetTypeNameHash< dooms::graphics::SingleTexture >() { return 0x2023090c; }
 	template <> const Type* GetType< dooms::EventSystem >() { return clcppTypePtrs[22]; }
 	template <> unsigned int GetTypeNameHash< dooms::EventSystem >() { return 0x20436356; }
 	template <> const Type* GetType< dooms::assetImporter::AssetImporterWorker_Texture >() { return clcppTypePtrs[23]; }

@@ -249,9 +249,6 @@
     <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Core\Graphics\Texture\SingleTexture.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Source\Core\Graphics\Texture\Texture.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -514,9 +511,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Source\Core\IO\AssetExporter\AssetExporter_Three_D_Model.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Core\Graphics\Texture\CubemapTexture.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Source\Core\Macros\Path.cpp">
@@ -1259,9 +1253,6 @@
     <ClInclude Include="Source\Core\Graphics\Texture\Texture.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Core\Graphics\Texture\SingleTexture.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Core\Graphics\PictureInPicture\PicktureInPickture.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -1632,9 +1623,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\Core\Reflection\ReflectionType\TSubclassOf.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Core\Graphics\Texture\CubemapTexture.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\Core\Reflection\ReflectionType\DField.h">

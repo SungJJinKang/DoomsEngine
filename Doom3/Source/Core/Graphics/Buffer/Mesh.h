@@ -161,7 +161,7 @@ namespace dooms
 				if (IsElementBufferGenerated() == true)
 				{// TODO : WHY THIS MAKE ERROR ON RADEON GPU, CHECK THIS https://stackoverflow.com/questions/18299646/gldrawelements-emits-gl-invalid-operation-when-using-amd-driver-on-linux
 					// you don't need bind EBO everytime, EBO will be bound automatically when bind VAO
-					GraphicsAPI::DrawIndexed(mPrimitiveType, mNumOfIndices, 0);
+					GraphicsAPI::DrawIndexed(mPrimitiveType, mNumOfIndices);
 				}
 				else
 				{

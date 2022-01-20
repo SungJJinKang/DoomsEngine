@@ -962,21 +962,6 @@ namespace dooms
             return isSuccess;
         }
         
-        DOOMS_ENGINE_GRAPHICS_API void ClearBackBufferColorBuffer(const float r, const float g, const float b, const float a)
-        {
-            FLOAT color[4] = { r, g, b, a };
-            dx11::g_pImmediateContext->ClearRenderTargetView(dx11::g_pRenderTargetView, color);
-        }
-
-        DOOMS_ENGINE_GRAPHICS_API void ClearBackBufferDepthBuffer(const double depthValue)
-        {
-	        dx11::g_pImmediateContext->ClearDepthStencilView(dx11::g_pDepthStencilView, D3D11_CLEAR_DEPTH, depthValue, 0);
-        }
-
-        DOOMS_ENGINE_GRAPHICS_API void ClearBackBufferDepthStencilBuffer(const int stencilValue)
-        {
-            dx11::g_pImmediateContext->ClearDepthStencilView(dx11::g_pDepthStencilView, D3D11_CLEAR_STENCIL, 1.0f, stencilValue);
-        }
 
         DOOMS_ENGINE_GRAPHICS_API void SetWindowTitle(const char* const title)
         {
@@ -988,6 +973,156 @@ namespace dooms
         {
             assert(dx11::g_hWnd != nullptr);
             SetWindowTextW(dx11::g_hWnd, title);
+        }
+
+
+        DOOMS_ENGINE_GRAPHICS_API void ClearBackBufferColorBuffer(const float r, const float g, const float b, const float a)
+        {
+            FLOAT color[4] = { r, g, b, a };
+            dx11::g_pImmediateContext->ClearRenderTargetView(dx11::g_pRenderTargetView, color);
+        }
+
+        DOOMS_ENGINE_GRAPHICS_API void ClearBackBufferDepthBuffer(const double depthValue)
+        {
+            dx11::g_pImmediateContext->ClearDepthStencilView(dx11::g_pDepthStencilView, D3D11_CLEAR_DEPTH, depthValue, 0);
+        }
+
+        DOOMS_ENGINE_GRAPHICS_API void ClearBackBufferDepthStencilBuffer(const int stencilValue)
+        {
+            dx11::g_pImmediateContext->ClearDepthStencilView(dx11::g_pDepthStencilView, D3D11_CLEAR_STENCIL, 1.0f, stencilValue);
+        }
+
+        DOOMS_ENGINE_GRAPHICS_API void ClearBufferColorBuffer(const unsigned long long bufferObject, const float r, const float g, const float b, const float a)
+        {
+            BindFrameBuffer(bufferObject, GraphicsAPI::FRAMEBUFFER);
+            glClearColor(r, g, b, a);
+            glClear(opengl::GetGLBufferBitType(GraphicsAPI::COLOR_BUFFER));
+        }
+
+        DOOMS_ENGINE_GRAPHICS_API void ClearBufferDepthBuffer(const unsigned long long bufferObject, const double depthValue)
+        {
+            BindFrameBuffer(bufferObject, GraphicsAPI::FRAMEBUFFER);
+            glClearDepth(depthValue);
+            glClear(opengl::GetGLBufferBitType(GraphicsAPI::DEPTH_BUFFER));
+        }
+
+        DOOMS_ENGINE_GRAPHICS_API void ClearBufferStencilBuffer(const unsigned long long bufferObject, const int stencilValue)
+        {
+            BindFrameBuffer(bufferObject, GraphicsAPI::FRAMEBUFFER);
+            glClearStencil(stencilValue);
+            glClear(opengl::GetGLBufferBitType(GraphicsAPI::DEPTH_STENCIL_BUFFER));
+        }
+
+        DOOMS_ENGINE_GRAPHICS_API unsigned long long GenerateFrameBuffer()
+        {
+            unsigned int frameBuffer;
+            glGenFramebuffers(1, &frameBuffer);
+            return frameBuffer;
+        }
+
+        DOOMS_ENGINE_GRAPHICS_API void DestroyFrameBuffer(unsigned long long frameBufferObject)
+        {
+            glDeleteFramebuffers(1, reinterpret_cast<unsigned int*>(&frameBufferObject));
+        }
+        
+        DOOMS_ENGINE_GRAPHICS_API unsigned long long Allocate2DTextureObject
+        (
+            const GraphicsAPI::eTextureBindTarget textureBindTarget,
+            const unsigned int lodCount,
+            const GraphicsAPI::eTextureInternalFormat textureInternalFormat,
+            const GraphicsAPI::eTextureCompressedInternalFormat textureCompressedInternalFormat,
+            const unsigned long long width,
+            const unsigned long long height
+        )
+		{
+            DXGI_FORMAT internalFormat;
+            if (textureInternalFormat != GraphicsAPI::eTextureInternalFormat::TEXTURE_INTERNAL_FORMAT_NONE)
+            {
+                internalFormat = dooms::graphics::dx11::ConvertTextureInternalFormat_To_DXGI_FORMAT(textureInternalFormat);
+            }
+            else if (textureCompressedInternalFormat != GraphicsAPI::eTextureCompressedInternalFormat::TEXTURE_COMPRESSED_INTERNAL_FORMAT_NONE)
+            {
+                internalFormat = dooms::graphics::dx11::ConvertTextureCompressedInternalFormat_To_DXGI_FORMAT(textureCompressedInternalFormat);
+            }
+            else
+            {
+                NEVER_HAPPEN;
+            }
+
+            D3D11_TEXTURE2D_DESC textureDesc = {};
+            textureDesc.Width = width;
+            textureDesc.Height = height;
+            textureDesc.MipLevels = lodCount;
+            textureDesc.ArraySize = 1;
+            textureDesc.Format = internalFormat;
+            textureDesc.SampleDesc.Count = 1;
+            textureDesc.SampleDesc.Quality = 0;
+            textureDesc.Usage = D3D11_USAGE_DEFAULT;
+            textureDesc.BindFlags = D3D11_BIND_SHADER_RESOURCE;
+            textureDesc.CPUAccessFlags = 0;
+            textureDesc.MiscFlags = 0;
+
+            ID3D11Texture2D* textureObject;
+
+            HRESULT hr = dx11::g_pd3dDevice->CreateTexture2D(&textureDesc, nullptr, &textureObject);
+            assert(FAILED(hr) == false);
+            if(FAILED(hr))
+            {
+                return 0;
+            }
+
+            ID3D11ShaderResourceView* textureView;
+
+            D3D11_SHADER_RESOURCE_VIEW_DESC SRVDesc = {};
+            SRVDesc.Format = internalFormat;
+            SRVDesc.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2D;
+            SRVDesc.Texture2D.MipLevels = textureDesc.MipLevels;
+
+            hr = dx11::g_pd3dDevice->CreateShaderResourceView(textureObject,
+                &SRVDesc,
+                &textureView
+            );
+            assert(FAILED(hr) == false);
+            if (FAILED(hr))
+            {
+                return 0;
+            }
+
+            textureObject->Release();
+
+            return reinterpret_cast<unsigned long long>(textureView);
+		}
+
+        DOOMS_ENGINE_GRAPHICS_API void UploadPixelsTo2DTexture
+        (
+            const unsigned long long textureObject,
+            const GraphicsAPI::eTextureBindTarget textureBindTarget,
+            const GraphicsAPI::eTargetTexture targetTexture,
+            const unsigned int lodLevel,
+            const unsigned int xOffset,
+            const unsigned int yOffset,
+            const unsigned long long width,
+            const unsigned long long height,
+            const GraphicsAPI::eTextureComponentFormat textureComponentFormat,
+            const GraphicsAPI::eDataType dataType,
+            const void* const pixelDatas
+        )
+        {
+            ID3D11ShaderResourceView* const textureView = reinterpret_cast<ID3D11ShaderResourceView*>(textureObject);
+
+
+            g_pImmediateContext->UpdateSubresource(g_pCBNeverChanges, 0, nullptr, &cbNeverChanges, 0, 0);
+
+            textureView->
+        }
+
+        DOOMS_ENGINE_GRAPHICS_API void BindFrameBuffer
+        (
+            const unsigned long long frameBufferObject,
+            const GraphicsAPI::eBindFrameBufferTarget bindFrameBufferTarget
+        )
+        {
+            glBindFramebuffer(opengl::GetGLBindFrameBufferTarget(bindFrameBufferTarget), frameBufferObject);
         }
 
         DOOMS_ENGINE_GRAPHICS_API unsigned long long CreateBuffer()
@@ -1028,7 +1163,7 @@ namespace dooms
             switch(static_cast<D3D11_BIND_FLAG>(desc.BindFlags))
             {
             case D3D11_BIND_VERTEX_BUFFER:
-	            dx11::g_pImmediateContext->IASetVertexBuffers(0, 1, &buffer, &stride, &offset)
+                //dx11::g_pImmediateContext->IASetVertexBuffers(0, 1, &buffer, &stride, &offset)
                 break;
             case D3D11_BIND_INDEX_BUFFER:
                 break;
@@ -1105,6 +1240,60 @@ namespace dooms
             }
         }
 
+        DOOMS_ENGINE_GRAPHICS_API void UpdateDataToBuffer
+        (
+            const unsigned long long bufferObject,
+            const GraphicsAPI::eBufferTarget bindBufferTarget,
+            const unsigned int offset,
+            const unsigned int dataSize,
+            const void* const data
+        )
+        {
+            ID3D11Buffer* const buffer = reinterpret_cast<ID3D11Buffer*>(bufferObject);
+            
+            dx11::g_pImmediateContext->UpdateSubresource(buffer, 0, nullptr, data, 0, 0);
+        }
+
+        DOOMS_ENGINE_GRAPHICS_API void BindConstantBuffer
+        (
+            const unsigned long long bufferObject,
+            const unsigned int bindingPoint,
+            const GraphicsAPI::eGraphicsPipeLineStage pipeLineStage
+        )
+        {
+            ID3D11Buffer* const buffer = reinterpret_cast<ID3D11Buffer*>(bufferObject);
+
+            switch (pipeLineStage)
+            {
+            case GraphicsAPI::VERTEX_SHADER:
+                dx11::g_pImmediateContext->VSSetConstantBuffers(bindingPoint, 1, &buffer);
+                break;
+            case GraphicsAPI::HULL_SHADER:
+                dx11::g_pImmediateContext->HSSetConstantBuffers(bindingPoint, 1, &buffer);
+                break;
+            case GraphicsAPI::DOMAIN_SHADER:
+                dx11::g_pImmediateContext->DSSetConstantBuffers(bindingPoint, 1, &buffer);
+                break;
+            case GraphicsAPI::GEOMETRY_SHADER:
+                dx11::g_pImmediateContext->GSSetConstantBuffers(bindingPoint, 1, &buffer);
+                break;
+            case GraphicsAPI::PIXEL_SHADER:
+                dx11::g_pImmediateContext->PSSetConstantBuffers(bindingPoint, 1, &buffer);
+                break;
+            case GraphicsAPI::COMPUTE_SHADER:
+                dx11::g_pImmediateContext->CSSetConstantBuffers(bindingPoint, 1, &buffer);
+                break;
+            default:
+                NEVER_HAPPEN;
+            }
+        }
+
+        DOOMS_ENGINE_GRAPHICS_API void DestroyBuffer(unsigned long long bufferID)
+        {
+            ID3D11Buffer* buffer = reinterpret_cast<ID3D11Buffer*>(bufferID);
+            buffer->Release();
+        }
+
         DOOMS_ENGINE_GRAPHICS_API void BindFrameBuffer
         (
             const unsigned long long frameBufferObject,
@@ -1130,13 +1319,10 @@ namespace dooms
             const unsigned long long startVertexLocation
         )
         {
+            assert((unsigned int)primitiveType < GraphicsAPI::ePrimitiveType::END);
 
             dx11::g_pImmediateContext->IASetPrimitiveTopology(dx11::Convert_ePrimitiveType_To_D3D_PRIMITIVE_TOPOLOGY(primitiveType));
-
-            assert((unsigned int)primitiveType < GraphicsAPI::ePrimitiveType::END);
-            glDrawArrays(PrimitiveTypeJumpTable[(unsigned int)primitiveType], startVertexLocation, vertexCount);
-            opengl::DrawCallCounter++;
-
+            dx11::g_pImmediateContext->Draw(vertexCount, startVertexLocation);
         }
 
 
@@ -1148,8 +1334,9 @@ namespace dooms
         )
         {
             assert((unsigned int)primitiveType < GraphicsAPI::ePrimitiveType::END);
-            glDrawElements(PrimitiveTypeJumpTable[(unsigned int)primitiveType], indiceCount, GL_UNSIGNED_INT, indices);
-            opengl::DrawCallCounter++;
+
+            dx11::g_pImmediateContext->IASetPrimitiveTopology(dx11::Convert_ePrimitiveType_To_D3D_PRIMITIVE_TOPOLOGY(primitiveType));
+            dx11::g_pImmediateContext->DrawIndexed(indiceCount, 0, 0);
         }
 	}
 }

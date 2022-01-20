@@ -32,9 +32,9 @@ void dooms::graphics::UniformBufferObject::GenerateUniformBufferObject(UINT32 bi
 	{
 		Buffer::GenBuffer();
 
-		GraphicsAPI::AllocateBufferMemory(mBufferID, GraphicsAPI::eBufferTarget::UNIFORM_BUFFER, uniformBlockSizeInByte, NULL);
+		GraphicsAPI::AllocateBufferMemory(mBufferID.GetBufferIDRef(), GraphicsAPI::eBufferTarget::UNIFORM_BUFFER, uniformBlockSizeInByte, NULL);
 		GraphicsAPI::UpdateDataToBuffer(mBufferID, GraphicsAPI::eBufferTarget::UNIFORM_BUFFER, 0, uniformBlockSizeInByte, 0);
-		GraphicsAPI::BindBufferToIndexedBuffer(GraphicsAPI::eBufferTarget::UNIFORM_BUFFER, bindingPoint, mBufferID);
+		GraphicsAPI::BindConstantBuffer(mBufferID, bindingPoint, mTargetPipeLineStage);
 
 		mSizeInByte = uniformBlockSizeInByte;
 		mUniformBufferTempData = new char[uniformBlockSizeInByte];

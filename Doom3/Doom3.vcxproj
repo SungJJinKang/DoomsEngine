@@ -417,7 +417,6 @@ xcopy /y /d /E /H /C /I "$(ProjectDir)Assets" "$(TargetDir)Assets"</Command>
     <ClCompile Include="Source\Core\GarbageCollector\GarbageCollectorManager.cpp" />
     <ClCompile Include="Source\Core\GarbageCollector\GarbageCollectorSolver.cpp" />
     <ClCompile Include="Source\Core\Graphics\FrameBuffer\FrameBufferExporterHelper.cpp" />
-    <ClCompile Include="Source\Core\Graphics\Texture\CubemapTexture.cpp" />
     <ClCompile Include="Source\Core\IO\AssetExporter\AssetExporter_Texture.cpp" />
     <ClCompile Include="Source\Core\IO\AssetExporter\AssetExporter_Three_D_Model.cpp" />
     <ClCompile Include="Source\Core\IO\AssetImporter\Manager\AssetImporterWorkerManager.cpp" />
@@ -539,7 +538,6 @@ xcopy /y /d /E /H /C /I "$(ProjectDir)Assets" "$(TargetDir)Assets"</Command>
     <ClCompile Include="Source\Core\Graphics\Material\Material.cpp" />
     <ClCompile Include="Source\Core\Asset\ShaderAsset.cpp" />
     <ClCompile Include="Source\Core\Graphics\FrameBuffer\RenderBuffer.cpp" />
-    <ClCompile Include="Source\Core\Graphics\Texture\SingleTexture.cpp" />
     <ClCompile Include="Source\Core\Graphics\Texture\Texture.cpp" />
     <ClCompile Include="Source\Core\Graphics\Buffer\UniformBufferObject.cpp" />
     <ClCompile Include="Source\Core\IO\AssetImporter\assetImporter.cpp" />
@@ -673,7 +671,6 @@ xcopy /y /d /E /H /C /I "$(ProjectDir)Assets" "$(TargetDir)Assets"</Command>
     <ClInclude Include="Source\Core\GarbageCollector\GarbageCollectorSolver.h" />
     <ClInclude Include="Source\Core\Graphics\Acceleration\LinearData_ViewFrustumCulling\DataType\Math\SIMD_Core.h" />
     <ClInclude Include="Source\Core\Graphics\FrameBuffer\FrameBufferExporterHelper.h" />
-    <ClInclude Include="Source\Core\Graphics\Texture\CubemapTexture.h" />
     <ClInclude Include="Source\Core\IO\AssetExporter\AssetExporter_Texture.h" />
     <ClInclude Include="Source\Core\IO\AssetExporter\AssetExporter_Three_D_Model.h" />
     <ClInclude Include="Source\Core\IO\AssetImporter\AssetImporterWorker\AssetImporterWorkerForwardDeclaration.h" />
@@ -849,7 +846,6 @@ xcopy /y /d /E /H /C /I "$(ProjectDir)Assets" "$(TargetDir)Assets"</Command>
     <ClInclude Include="Source\Core\Graphics\FrameBuffer\FrameBuffer.h" />
     <ClInclude Include="Source\Core\Graphics\Graphics_Core.h" />
     <ClInclude Include="Source\Core\Graphics\FrameBuffer\RenderBuffer.h" />
-    <ClInclude Include="Source\Core\Graphics\Texture\SingleTexture.h" />
     <ClInclude Include="Source\Core\IO\AssetImporter\assetImporter.h" />
     <ClInclude Include="Source\Core\IO\AssetImporter\AssetImporterWorker\AssetImporterWorker_Audio.h" />
     <ClInclude Include="Source\Core\IO\AssetImporter\AssetImporterWorker\AssetImporterWorker.h" />

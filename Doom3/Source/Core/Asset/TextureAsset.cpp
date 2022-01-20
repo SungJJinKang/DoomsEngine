@@ -4,7 +4,6 @@
 
 
 #include "../Graphics/Texture/Texture.h"
-#include "../Graphics/Texture/SingleTexture.h"
 
 #include <DirectXTex.h>
 
@@ -114,9 +113,8 @@ dooms::asset::TextureAsset::TextureAsset(TextureAsset&& textureAsset) noexcept
 	: mScratchImage(std::move(textureAsset.mScratchImage)), mWidth(textureAsset.mWidth), mHeight(textureAsset.mHeight),
       mMipMapLevel(textureAsset.mMipMapLevel), mEntireImageSize(textureAsset.mEntireImageSize), bmIsCompressed(textureAsset.bmIsCompressed),
 	  mComponentFormat(textureAsset.mComponentFormat), mInternalFormat(textureAsset.mInternalFormat),
-	  mCompressedInternalFormat(textureAsset.mCompressedInternalFormat), mDefaultTextureObject(textureAsset.mDefaultTextureObject)
+	  mCompressedInternalFormat(textureAsset.mCompressedInternalFormat), mTextureResourceObject(std::move(textureAsset.mTextureResourceObject))
 {
-	textureAsset.mDefaultTextureObject = nullptr;
 }
 
 dooms::asset::TextureAsset& dooms::asset::TextureAsset::operator=(TextureAsset&& textureAsset) noexcept
@@ -130,47 +128,37 @@ dooms::asset::TextureAsset& dooms::asset::TextureAsset::operator=(TextureAsset&&
 	mComponentFormat = textureAsset.mComponentFormat;
 	mInternalFormat = textureAsset.mInternalFormat;
 	mCompressedInternalFormat = textureAsset.mCompressedInternalFormat;
-	mDefaultTextureObject = textureAsset.mDefaultTextureObject;
-
-
-	textureAsset.mDefaultTextureObject = nullptr;
-
+	mTextureResourceObject = std::move(textureAsset.mTextureResourceObject);
+	
 	return *this;
 }
 
-void dooms::asset::TextureAsset::DestroyDefaultTextureObject()
-{
-	if(dooms::IsLowLevelValid(mDefaultTextureObject, false) == true)
-	{
-		mDefaultTextureObject->SetIsPendingKill();
-	}
-}
 
 dooms::asset::TextureAsset::~TextureAsset()
 {
+	DestroyTextureResourceObject();
 }
 
 void dooms::asset::TextureAsset::OnSetPendingKill()
 {
 	Asset::OnSetPendingKill();
 
-	DestroyDefaultTextureObject();
+	DestroyTextureResourceObject();
 }
 
 void dooms::asset::TextureAsset::OnEndImportInMainThread_Internal()
 {
 	D_START_PROFILING(Postprocess_Texture, eProfileLayers::Rendering);
-	CreateDefaultTexture();
+	AllocateTextureResourceObject();
 	D_END_PROFILING(Postprocess_Texture);
 }
 
-const Texture* dooms::asset::TextureAsset::GetDefaultTextureObject() const
+const Texture* dooms::asset::TextureAsset::GetTextureViewObject() const
 {
-	D_ASSERT(IsValid(mDefaultTextureObject));
-	return mDefaultTextureObject;
+	return dooms::CreateDObject<dooms::graphics::Texture>(this);
 }
 
-Texture* dooms::asset::TextureAsset::CreateTextureObject()
+void dooms::asset::TextureAsset::AllocateTextureResourceObject()
 {
 	Texture* createdTexture = nullptr;
 
@@ -183,25 +171,15 @@ Texture* dooms::asset::TextureAsset::CreateTextureObject()
 	}
 
 	D_ASSERT(mInternalFormat != GraphicsAPI::eTextureInternalFormat::TEXTURE_INTERNAL_FORMAT_NONE || mCompressedInternalFormat != GraphicsAPI::eTextureCompressedInternalFormat::TEXTURE_COMPRESSED_INTERNAL_FORMAT_NONE);
-	if (mInternalFormat != GraphicsAPI::eTextureInternalFormat::TEXTURE_INTERNAL_FORMAT_NONE)
-	{
-		createdTexture = dooms::CreateDObject<dooms::graphics::SingleTexture>(
-			graphics::GraphicsAPI::eTextureType::DIFFUSE, graphics::GraphicsAPI::eTargetTexture::TARGET_TEXTURE_TEXTURE_2D,
-			mInternalFormat, mWidth, mHeight, mComponentFormat, 
-			graphics::GraphicsAPI::eDataType::UNSIGNED_BYTE, mipmapPixels
-			);
-	}
-	else if (mCompressedInternalFormat != graphics::GraphicsAPI::eTextureCompressedInternalFormat::TEXTURE_COMPRESSED_INTERNAL_FORMAT_NONE)
-	{
-		createdTexture = dooms::CreateDObject<dooms::graphics::SingleTexture>(
-			graphics::GraphicsAPI::eTextureType::DIFFUSE, graphics::GraphicsAPI::eTargetTexture::TARGET_TEXTURE_TEXTURE_2D,
-			mCompressedInternalFormat, mWidth, mHeight, mComponentFormat, 
-			graphics::GraphicsAPI::eDataType::UNSIGNED_BYTE, mipmapPixels
-			);
-	}
 
-	D_ASSERT(createdTexture != nullptr);
-	return createdTexture;
+	mTextureResourceObject = GraphicsAPI::Allocate2DTextureObject(dooms::graphics::GraphicsAPI::eTextureBindTarget::TEXTURE_2D, mipmapPixels.size(), mInternalFormat, mCompressedInternalFormat, mipmapPixels[0]->width, mipmapPixels[0]->height);
+	GraphicsAPI::UploadPixelsTo2DTexture(mTextureResourceObject, dooms::graphics::GraphicsAPI::eTextureBindTarget::TEXTURE_2D, graphics::GraphicsAPI::eTargetTexture::TARGET_TEXTURE_TEXTURE_2D, 0, 0, 0, mWidth, mHeight, mComponentFormat, graphics::GraphicsAPI::eDataType::UNSIGNED_BYTE, mipmapPixels[0]->pixels);
+	
+}
+
+void dooms::asset::TextureAsset::DestroyTextureResourceObject()
+{
+	GraphicsAPI::DestroyTextureObject(mTextureResourceObject);
 }
 
 dooms::asset::eAssetType dooms::asset::TextureAsset::GetEAssetType() const
@@ -209,10 +187,48 @@ dooms::asset::eAssetType dooms::asset::TextureAsset::GetEAssetType() const
 	return dooms::asset::eAssetType::TEXTURE;
 }
 
-void dooms::asset::TextureAsset::CreateDefaultTexture()
+dooms::graphics::BufferID dooms::asset::TextureAsset::GetTextureResourceObject()
 {
-	D_ASSERT(mScratchImage->GetImageCount() != 0);
-	
-	mDefaultTextureObject = CreateTextureObject();
+	return mTextureResourceObject;
+}
+
+GraphicsAPI::eTextureComponentFormat dooms::asset::TextureAsset::GetTextureComponentFormat() const
+{
+	return mComponentFormat;
+}
+
+GraphicsAPI::eTextureInternalFormat dooms::asset::TextureAsset::GetTextureInternalFormat() const
+{
+	return mInternalFormat;
+}
+
+GraphicsAPI::eTextureCompressedInternalFormat dooms::asset::TextureAsset::GetTextureCompressedInternalFormat() const
+{
+	return mCompressedInternalFormat;
+}
+
+INT32 dooms::asset::TextureAsset::GetTextureWidth() const
+{
+	return mWidth;
+}
+
+INT32 dooms::asset::TextureAsset::GetTextureHeight() const
+{
+	return mHeight;
+}
+
+INT32 dooms::asset::TextureAsset::GetMipMapLevel() const
+{
+	return mMipMapLevel;
+}
+
+INT32 dooms::asset::TextureAsset::GetEntireImageSize() const
+{
+	return mEntireImageSize;
+}
+
+GraphicsAPI::eDataType dooms::asset::TextureAsset::GetTextureDataType() const
+{
+	return dooms::graphics::GraphicsAPI::eDataType::UNSIGNED_BYTE;
 }
 

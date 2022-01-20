@@ -1443,14 +1443,14 @@ namespace dooms
 			glBindBuffer(opengl::GetGLBufferTarget(bindBufferTarget), 0);
 		}
 
-		DOOMS_ENGINE_GRAPHICS_API void BindBufferToIndexedBuffer
+		DOOMS_ENGINE_GRAPHICS_API void BindConstantBuffer
 		(
-			const GraphicsAPI::eBufferTarget bindBufferTarget,
+			const unsigned long long bufferObject,
 			const unsigned int bindingPoint,
-			const unsigned long long bufferObject
+			const GraphicsAPI::eGraphicsPipeLineStage pipeLineStage
 		)
 		{
-			glBindBufferBase(opengl::GetGLBufferTarget(bindBufferTarget), bindingPoint, bufferObject);
+			glBindBufferBase(GL_UNIFORM_BUFFER, bindingPoint, bufferObject);
 		}
 
 		DOOMS_ENGINE_GRAPHICS_API void UpdateDataToBuffer
@@ -1605,12 +1605,11 @@ namespace dooms
 		DOOMS_ENGINE_GRAPHICS_API void DrawIndexed
 		(
 			const GraphicsAPI::ePrimitiveType primitiveType,
-			const unsigned long long indiceCount,
-			const void* const indices
+			const unsigned long long indiceCount
 		)
 		{
 			assert((unsigned int)primitiveType < GraphicsAPI::ePrimitiveType::END);
-			glDrawElements(PrimitiveTypeJumpTable[(unsigned int)primitiveType], indiceCount, GL_UNSIGNED_INT, indices);
+			glDrawElements(PrimitiveTypeJumpTable[(unsigned int)primitiveType], indiceCount, GL_UNSIGNED_INT, 0);
 			opengl::DrawCallCounter++;
 		}
 
@@ -1849,16 +1848,18 @@ namespace dooms
 			glUnmapBuffer(opengl::GetGLBufferTarget(bindBufferTarget));
 		}
 
-		DOOMS_ENGINE_GRAPHICS_API unsigned long long CreateTextureObject()
-		{
-			unsigned int bufferID;
-			glGenTextures(1, &bufferID);
-			return bufferID;
-		}
-
 		DOOMS_ENGINE_GRAPHICS_API void DestroyTextureObject(unsigned long long textureObject)
 		{
 			glDeleteTextures(1, reinterpret_cast<unsigned int*>(&textureObject));
+		}
+
+		DOOMS_ENGINE_GRAPHICS_API unsigned long long CreateTextureViewObject(const unsigned long long textureObject)
+		{
+			return textureObject;
+		}
+
+		DOOMS_ENGINE_GRAPHICS_API void DestroyTextureViewObject(const unsigned long long textureViewObject)
+		{
 		}
 
 		DOOMS_ENGINE_GRAPHICS_API void BindTextureObject(const unsigned long long textureObject, const GraphicsAPI::eTextureBindTarget textureBindTarget)
@@ -2019,146 +2020,50 @@ namespace dooms
 			return buffer;
 		}
 
-		DOOMS_ENGINE_GRAPHICS_API void Define1DTextureStorageRequirement
+		DOOMS_ENGINE_GRAPHICS_API unsigned long long Allocate2DTextureObject
 		(
 			const GraphicsAPI::eTextureBindTarget textureBindTarget,
 			const unsigned int lodCount,
 			const GraphicsAPI::eTextureInternalFormat textureInternalFormat,
-			const unsigned long long width
-		)
-		{
-			glTexStorage1D
-			(
-				opengl::GetGLTextureBindTarget(textureBindTarget),
-				lodCount,
-				opengl::GetGLTextureInternalFormat(textureInternalFormat),
-				width
-			);
-		}
-
-		DOOMS_ENGINE_GRAPHICS_API void Define2DTextureStorageRequirement
-		(
-			const GraphicsAPI::eTextureBindTarget textureBindTarget,
-			const unsigned int lodCount,
-			const GraphicsAPI::eTextureInternalFormat textureInternalFormat,
+			const GraphicsAPI::eTextureCompressedInternalFormat textureCompressedInternalFormat,
 			const unsigned long long width,
 			const unsigned long long height
 		)
 		{
+			unsigned int internalFormat;
+			if(textureInternalFormat != GraphicsAPI::eTextureInternalFormat::TEXTURE_INTERNAL_FORMAT_NONE)
+			{
+				internalFormat = opengl::GetGLTextureInternalFormat(textureInternalFormat);
+			}
+			else if (textureCompressedInternalFormat != GraphicsAPI::eTextureCompressedInternalFormat::TEXTURE_COMPRESSED_INTERNAL_FORMAT_NONE)
+			{
+				internalFormat = opengl::GetTextureCompressedInternalFormat(textureCompressedInternalFormat);
+			}
+			else
+			{
+				NEVER_HAPPEN;
+			}
+
+			unsigned long long buffer = 0;
+			glGenBuffers(1, reinterpret_cast<unsigned int*>(&buffer));
+			BindBuffer(buffer, GraphicsAPI::eBufferTarget::TEXTURE_BUFFER);
+
 			glTexStorage2D
 			(
 				opengl::GetGLTextureBindTarget(textureBindTarget),
 				lodCount,
-				opengl::GetGLTextureInternalFormat(textureInternalFormat),
+				internalFormat,
 				width,
 				height
 			);
+
+			return buffer;
 		}
-
-		DOOMS_ENGINE_GRAPHICS_API void Define3DTextureStorageRequirement
-		(
-			const GraphicsAPI::eTextureBindTarget textureBindTarget,
-			const unsigned int lodCount,
-			const GraphicsAPI::eTextureInternalFormat textureInternalFormat,
-			const unsigned long long width,
-			const unsigned long long height,
-			const unsigned long long depth
-		)
-		{
-			glTexStorage3D
-			(
-				opengl::GetGLTextureBindTarget(textureBindTarget),
-				lodCount,
-				opengl::GetGLTextureInternalFormat(textureInternalFormat),
-				width,
-				height,
-				depth
-			);
-		}
-
-		DOOMS_ENGINE_GRAPHICS_API void Define1DCompressedTextureStorageRequirement
-		(
-			const GraphicsAPI::eTextureBindTarget textureBindTarget,
-			const unsigned int createdLodCount,
-			const GraphicsAPI::eTextureCompressedInternalFormat textureInternalFormat,
-			const unsigned long long width
-		)
-		{
-			glTexStorage1D
-			(
-				opengl::GetGLTextureBindTarget(textureBindTarget),
-				createdLodCount,
-				opengl::GetTextureCompressedInternalFormat(textureInternalFormat),
-				width
-			);
-		}
-
-		DOOMS_ENGINE_GRAPHICS_API void Define2DCompressedTextureStorageRequirement
-		(
-			const GraphicsAPI::eTextureBindTarget textureBindTarget,
-			const unsigned int createdLodCount,
-			const GraphicsAPI::eTextureCompressedInternalFormat textureInternalFormat,
-			const unsigned long long width,
-			const unsigned long long height
-		)
-		{
-			glTexStorage2D
-			(
-				opengl::GetGLTextureBindTarget(textureBindTarget),
-				createdLodCount,
-				opengl::GetTextureCompressedInternalFormat(textureInternalFormat),
-				width,
-				height
-			);
-		}
-
-		DOOMS_ENGINE_GRAPHICS_API void Define3DCompressedTextureStorageRequirement
-		(
-			const GraphicsAPI::eTextureBindTarget textureBindTarget,
-			const unsigned int createdLodCount,
-			const GraphicsAPI::eTextureCompressedInternalFormat textureInternalFormat,
-			const unsigned long long width,
-			const unsigned long long height,
-			const unsigned long long depth
-		)
-		{
-			glTexStorage3D
-			(
-				opengl::GetGLTextureBindTarget(textureBindTarget),
-				createdLodCount,
-				opengl::GetTextureCompressedInternalFormat(textureInternalFormat),
-				width,
-				height,
-				depth
-			);
-		}
-
-
-		DOOMS_ENGINE_GRAPHICS_API void UploadPixelsTo1DTexture
-		(
-			const GraphicsAPI::eTargetTexture targetTexture,
-			const unsigned int lodLevel,
-			const unsigned int xOffset,
-			const unsigned long long width,
-			const GraphicsAPI::eTextureComponentFormat textureComponentFormat,
-			const GraphicsAPI::eDataType dataType,
-			const void* const pixelDatas
-		)
-		{
-			glTexSubImage1D
-			(
-				opengl::GetGLTargetTexture(targetTexture),
-				lodLevel,
-				xOffset,
-				width,
-				opengl::GetGLTextureComponentFormat(textureComponentFormat),
-				opengl::GetGLDataType(dataType),
-				pixelDatas
-			);
-		}
-
+		
 		DOOMS_ENGINE_GRAPHICS_API void UploadPixelsTo2DTexture
 		(
+			const unsigned long long textureObject,
+			const GraphicsAPI::eTextureBindTarget textureBindTarget,
 			const GraphicsAPI::eTargetTexture targetTexture,
 			const unsigned int lodLevel,
 			const unsigned int xOffset,
@@ -2170,6 +2075,8 @@ namespace dooms
 			const void* const pixelDatas
 		)
 		{
+			BindTextureObject(textureObject, textureBindTarget);
+
 			glTexSubImage2D
 			(
 				opengl::GetGLTargetTexture(targetTexture),
@@ -2183,120 +2090,7 @@ namespace dooms
 				pixelDatas
 			);
 		}
-
-		DOOMS_ENGINE_GRAPHICS_API void UploadPixelsTo3DTexture
-		(
-			const GraphicsAPI::eTargetTexture targetTexture,
-			const unsigned int lodLevel,
-			const unsigned int xOffset,
-			const unsigned int yOffset,
-			const unsigned int zOffset,
-			const unsigned long long width,
-			const unsigned long long height,
-			const unsigned long long depth,
-			const GraphicsAPI::eTextureComponentFormat textureComponentFormat,
-			const GraphicsAPI::eDataType dataType,
-			const void* const pixelDatas
-		)
-		{
-			glTexSubImage3D
-			(
-				opengl::GetGLTargetTexture(targetTexture),
-				lodLevel,
-				xOffset,
-				yOffset,
-				zOffset,
-				width,
-				height,
-				depth,
-				opengl::GetGLTextureComponentFormat(textureComponentFormat),
-				opengl::GetGLDataType(dataType),
-				pixelDatas
-			);
-		}
-
-
-		DOOMS_ENGINE_GRAPHICS_API void UploadPixelsTo1DCompressedTexture
-		(
-			const GraphicsAPI::eTargetTexture targetTexture,
-			const unsigned int lodLevel,
-			const unsigned int xOffset,
-			const unsigned long long width,
-			const GraphicsAPI::eTextureCompressedInternalFormat textureCompressedInternalFormat,
-			const unsigned long long imgSize,
-			const void* const pixelDatas
-		)
-		{
-			glCompressedTexSubImage1D
-			(
-				opengl::GetGLTargetTexture(targetTexture),
-				lodLevel,
-				xOffset,
-				width,
-				opengl::GetTextureCompressedInternalFormat(textureCompressedInternalFormat),
-				imgSize,
-				pixelDatas
-			);
-		}
-
-		DOOMS_ENGINE_GRAPHICS_API void UploadPixelsTo2DCompressedTexture
-		(
-			const GraphicsAPI::eTargetTexture targetTexture,
-			const unsigned int lodLevel,
-			const unsigned int xOffset,
-			const unsigned int yOffset,
-			const unsigned long long width,
-			const unsigned long long height,
-			const GraphicsAPI::eTextureCompressedInternalFormat textureCompressedInternalFormat,
-			const unsigned long long imgSize,
-			const void* const pixelDatas
-		)
-		{
-			glCompressedTexSubImage2D
-			(
-				opengl::GetGLTargetTexture(targetTexture),
-				lodLevel,
-				xOffset,
-				yOffset,
-				width,
-				height,
-				opengl::GetTextureCompressedInternalFormat(textureCompressedInternalFormat),
-				imgSize,
-				pixelDatas
-			);
-		}
-
-		DOOMS_ENGINE_GRAPHICS_API void UploadPixelsTo3DCompressedTexture
-		(
-			const GraphicsAPI::eTargetTexture targetTexture,
-			const unsigned int lodLevel,
-			const unsigned int xOffset,
-			const unsigned int yOffset,
-			const unsigned int zOffset,
-			const unsigned long long width,
-			const unsigned long long height,
-			const unsigned long long depth,
-			const GraphicsAPI::eTextureCompressedInternalFormat textureCompressedInternalFormat,
-			const unsigned long long imgSize,
-			const void* const pixelDatas
-		)
-		{
-			glCompressedTexSubImage3D
-			(
-				opengl::GetGLTargetTexture(targetTexture),
-				lodLevel,
-				xOffset,
-				yOffset,
-				zOffset,
-				width,
-				height,
-				depth,
-				opengl::GetTextureCompressedInternalFormat(textureCompressedInternalFormat),
-				imgSize,
-				pixelDatas
-			);
-		}
-
+		
 		DOOMS_ENGINE_GRAPHICS_API int GetConstantBufferBindingPoint
 		(
 			const unsigned long long constantBufferObject,

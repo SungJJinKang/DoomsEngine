@@ -112,8 +112,8 @@ namespace dooms
 					exportedTexture->GetTexturePixelsUnsafe(lodLevel),
 					exportedTexture->GetTextureMetaDataINT32(lodLevel, graphics::GraphicsAPI::eTextureMetaDataType::TEXTURE_WIDTH),
 					exportedTexture->GetTextureMetaDataINT32(lodLevel, graphics::GraphicsAPI::eTextureMetaDataType::TEXTURE_HEIGHT),
-					exportedTexture->GetDataFormat(),
-					exportedTexture->GetDataType()
+					exportedTexture->GetTargetTextureResourceObject()->GetTextureComponentFormat(),
+					exportedTexture->GetTargetTextureResourceObject()->GetTextureDataType()
 				);
 
 			}
@@ -208,7 +208,7 @@ void dooms::assetExporter::assetExporterTexture::ExportTextureFromTextureAsDDS
 	D_ASSERT(IsValid(exportedTexture) == true);
 
 	DirectX::Image dxImage = ConvertToDirectXImage(exportedTexture, lodLevel);
-	ExportTextureAsDDS(dxImage, lodLevel, exportedTexture->GetDataFormat(), exportPath, true);
+	ExportTextureAsDDS(dxImage, lodLevel, exportedTexture->GetTargetTextureResourceObject()->GetTextureComponentFormat(), exportPath, true);
 }
 
 void dooms::assetExporter::assetExporterTexture::ExportTextureAsDDS

@@ -97,7 +97,7 @@ void Material::AddTexture(UINT32 bindingPoint, Texture* texture)
 void Material::AddTexture(UINT32 bindingPoint, ::dooms::asset::TextureAsset* textureAsset)
 {
 	D_ASSERT(IsGenerated() == true);
-	mTargetTextures[bindingPoint] = textureAsset->GetDefaultTextureObject();
+	mTargetTextures[bindingPoint] = textureAsset->GetTextureViewObject();
 }
 
 void dooms::graphics::Material::AddTextures(const std::array<const Texture*, MAX_TEXTURE_COUNT>& textures)
