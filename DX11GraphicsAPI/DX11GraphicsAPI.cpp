@@ -252,7 +252,7 @@ namespace dooms
             static  DirectX::XMFLOAT4                            g_vMeshColor(0.7f, 0.7f, 0.7f, 1.0f);
 
 
-            static HRESULT InitWindow(HINSTANCE hInstance, int nCmdShow);
+            static HRESULT InitWindow(HINSTANCE hInstance, int nCmdShow, int width, int height);
             static HRESULT InitDevice();
             static void CleanupDevice();
             static LRESULT CALLBACK    WndProc(HWND, UINT, WPARAM, LPARAM);
@@ -298,7 +298,7 @@ namespace dooms
             }
 
             
-            static HRESULT InitWindow(HINSTANCE hInstance, int nCmdShow)
+            static HRESULT InitWindow(HINSTANCE hInstance, int nCmdShow, int width, int height)
 			{
                 assert(hInstance != NULL);
 				// Register class
@@ -320,7 +320,7 @@ namespace dooms
 
 				// Create window
 				g_hInst = hInstance;
-				RECT rc = { 0, 0, 800, 600 };
+				RECT rc = { 0, 0, width, height };
 				AdjustWindowRect(&rc, WS_OVERLAPPEDWINDOW, FALSE);
 				g_hWnd = CreateWindow(L"SUNG JIN KANG GAME ENGINE WINDOW CLASS", L"SUNG JIN KANG",
 					WS_OVERLAPPED | WS_CAPTION | WS_SYSMENU | WS_MINIMIZEBOX,
@@ -852,7 +852,7 @@ namespace dooms
                 printf("Fail to GetModuleHandle : %u", GetLastError());
             }
 
-			if (FAILED(dx11::InitWindow(hInstance, true)))
+			if (FAILED(dx11::InitWindow(hInstance, true, screenWidth, screenHeight)))
 				return 0;
 
 			if (FAILED(dx11::InitDevice()))
