@@ -49,18 +49,4 @@ void dooms::graphics::RenderingDebugger::PrintDrawCallCounter()
 	dooms::ui::PrintText("Draw Call : %d", RenderingDebugger::PreviousFrameDrawCallCounter);
 }
 
-void dooms::graphics::RenderingDebugger::UpdateInputForPrintDrawCallCounter()
-{
-
-#ifdef DEBUG_MODE
-
-	if (dooms::userinput::UserInput_Server::GetKeyUp(dooms::input::GraphicsAPIInput::eKEY_CODE::KEY_F5))
-	{
-		PrintDrawCallCounter();
-	}
-
-#endif
-
-}
-
 #endif

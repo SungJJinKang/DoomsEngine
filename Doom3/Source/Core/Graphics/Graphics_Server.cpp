@@ -108,10 +108,7 @@ void Graphics_Server::Update()
 	D_START_PROFILING(mRenderingDebugger_DrawRenderingBoundingBox, dooms::profiler::eProfileLayers::Rendering);
 	mRenderingDebugger.DrawRenderingBoundingBox();
 	D_END_PROFILING(mRenderingDebugger_DrawRenderingBoundingBox);
-
-	D_START_PROFILING(mRenderingDebugger_UpdateInputForPrintDrawCallCounter, dooms::profiler::eProfileLayers::Rendering);
-	mRenderingDebugger.UpdateInputForPrintDrawCallCounter();
-	D_END_PROFILING(mRenderingDebugger_UpdateInputForPrintDrawCallCounter);
+	
 #endif
 
 	//auto t_start = std::chrono::high_resolution_clock::now();
@@ -303,13 +300,11 @@ void dooms::graphics::Graphics_Server::Render()
 	D_END_PROFILING(Update_Uniform_Buffer);
 
 	const std::vector<dooms::Camera*>& spawnedCameraList = StaticContainer<dooms::Camera>::GetAllStaticComponents();
-
-	FrameBuffer::UnBindFrameBuffer();
-	//Clear ScreenBuffer
-
+	
 	for (size_t cameraIndex = 0; cameraIndex < spawnedCameraList.size(); cameraIndex++)
 	{
 		dooms::Camera* const targetCamera = spawnedCameraList[cameraIndex];
+		D_ASSERT(IsValid(targetCamera));
 
 		if (targetCamera->GetIsCullJobEnabled() == true)
 		{
@@ -351,8 +346,7 @@ void dooms::graphics::Graphics_Server::Render()
 		}
 
 
-		D_ASSERT(IsValid(targetCamera));
-
+		FrameBuffer::UnBindFrameBuffer();
 		GraphicsAPI::ClearBackBufferColorBuffer(targetCamera->mClearColor[0], targetCamera->mClearColor[1], targetCamera->mClearColor[2], targetCamera->mClearColor[3]);
 		GraphicsAPI::ClearBackBufferDepthBuffer(GraphicsAPI::DEFAULT_MAX_DEPTH_VALUE);
 
