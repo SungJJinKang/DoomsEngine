@@ -165,6 +165,24 @@ std::string dooms::os::_GetCurrentExecutableDirectory()
 	return currentExePath;
 }
 
+std::wstring dooms::os::_GetCurrentExecutableDirectoryUnicode()
+{
+	static std::wstring currentExePath{};
+
+	if (currentExePath.empty() == true)
+	{
+		WCHAR unicodeBuffer[256];
+		DWORD stringCount = GetModuleFileNameW(NULL, unicodeBuffer, 256);
+		D_ASSERT(GetLastError() != ERROR_INSUFFICIENT_BUFFER); // https://docs.microsoft.com/en-us/windows/win32/api/libloaderapi/nf-libloaderapi-getmodulefilenamew
+
+		currentExePath = unicodeBuffer;
+		const std::wstring::size_type lastBackSlashPos = currentExePath.find_last_of(L'\\');
+		currentExePath = currentExePath.substr(0, lastBackSlashPos);
+	}
+	
+	return currentExePath;
+}
+
 /*
 UINT32 dooms::os::_GetCurrentProcessorNumber()
 {

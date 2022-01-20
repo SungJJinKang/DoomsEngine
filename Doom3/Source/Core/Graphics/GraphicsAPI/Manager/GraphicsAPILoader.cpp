@@ -10,6 +10,7 @@
 #include "../GraphicsAPI.h"
 #include "../Input/GraphicsAPIInput.h"
 #include "../PlatformImgui/PlatformImgui.h"
+#include <Macros/Path.h>
 
 #define OPENGL_DLL_FILE_NAME TEXT("OpenGLGraphicsAPI.dll")
 #define DX11_DLL_FILE_NAME TEXT("DX11GraphicsAPI.dll")
@@ -362,9 +363,11 @@ void* dooms::graphics::GraphicsAPILoader::LoadGraphicsAPILibrary
 	std::string dllFileName;
 #endif
 
+	
+
 	switch (graphicsAPIType)
 	{
-	case eGraphicsAPIType::OpenGL: 
+	case eGraphicsAPIType::OpenGL:
 		dllFileName = OPENGL_DLL_FILE_NAME;
 		break;
 
@@ -377,9 +380,15 @@ void* dooms::graphics::GraphicsAPILoader::LoadGraphicsAPILibrary
 	}
 
 #ifdef UNICODE
-	mAPIModule = LoadLibraryEx(dllFileName.c_str(), NULL, DW_FLAGS);
+	dllFileName = dooms::path::_GetCurrentPathUnicode(dllFileName);
 #else
-	mAPIModule = LoadLibraryEx(dllFileName.c_str(), NULL, dwFlags);
+	dllFileName = dooms::path::_GetCurrentPath(dllFileName);
+#endif
+
+#ifdef UNICODE
+	mAPIModule = LoadLibraryExW(dllFileName.c_str(), NULL, DW_FLAGS);
+#else
+	mAPIModule = LoadLibraryExA(dllFileName.c_str(), NULL, dwFlags);
 #endif
 	
 	if (mAPIModule == NULL)
