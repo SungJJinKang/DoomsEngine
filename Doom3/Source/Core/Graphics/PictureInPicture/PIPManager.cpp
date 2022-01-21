@@ -24,7 +24,7 @@ void dooms::graphics::PIPManager::DrawPIPs()
 	}	
 }
 
-dooms::graphics::PicktureInPickture* dooms::graphics::PIPManager::AddNewPIP(const math::Vector2& leftBottomNDCPoint, const math::Vector2& rightTopNDCPoint, Texture* const _drawedTexture)
+dooms::graphics::PicktureInPickture* dooms::graphics::PIPManager::AddNewPIP(const math::Vector2& leftBottomNDCPoint, const math::Vector2& rightTopNDCPoint, TextureView* const _drawedTexture)
 {
 	dooms::graphics::PicktureInPickture* pip = nullptr;
 

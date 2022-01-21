@@ -5,13 +5,17 @@
 #include <Graphics/GraphicsAPI/GraphicsAPI.h>
 #include "../GraphicsAPI/graphicsAPISetting.h"
 #include "RenderBuffer.h"
-#include "../Texture/Texture.h"
 #include "../OverlapBindChecker.h"
 #include "../Buffer/BufferID.h"
 
 #include "FrameBuffer.reflection.h"
 namespace dooms
 {
+	namespace asset
+	{
+		class TextureAsset;
+	}
+
 	namespace graphics
 	{
 		class DOOM_API D_CLASS FrameBuffer : public DObject
@@ -30,13 +34,13 @@ namespace dooms
 			std::vector<RenderBuffer> mAttachedRenderBuffers;
 
 			static constexpr UINT32 RESERVED_COLOR_TEXTURE_COUNT = 3;
-			std::vector<Texture> mAttachedColorTextures;
+			std::vector<asset::TextureAsset*> mAttachedColorTextures;
 
 			static constexpr UINT32 RESERVED_DEPTH_TEXTURE_COUNT = 1; 
-			std::vector<Texture> mAttachedDepthTextures;
+			std::vector<asset::TextureAsset*> mAttachedDepthTextures;
 
 			static constexpr UINT32 RESERVED_DEPTH_STENCIL_TEXTURE_COUNT = 1; 
-			std::vector<Texture> mAttachedDepthStencilTextures;
+			std::vector<asset::TextureAsset*> mAttachedDepthStencilTextures;
 
 			std::vector<GraphicsAPI::eBufferMode> mTargetDrawBufferContainer;
 
@@ -146,30 +150,30 @@ namespace dooms
 			}
 			
 			static void BlitFrameBufferTo(
-				UINT32 ReadFrameBufferId, UINT32 DrawFrameBufferId, INT32 srcX0, INT32 srcY0, INT32 srcX1,
+				dooms::asset::TextureAsset* const readFrameBuffer, dooms::asset::TextureAsset* const drawFrameBuffer, INT32 srcX0, INT32 srcY0, INT32 srcX1,
 				INT32 srcY1, INT32 dstX0, INT32 dstY0, INT32 dstX1, INT32 dstY1,
 				GraphicsAPI::eBufferBitType mask, GraphicsAPI::eImageInterpolation filter) noexcept;
 
 			void BlitFrameBufferTo(
-				UINT32 DrawFrameBufferId, INT32 srcX0, INT32 srcY0, INT32 srcX1, 
+				dooms::asset::TextureAsset* const drawFrameBuffer, INT32 srcX0, INT32 srcY0, INT32 srcX1,
 				INT32 srcY1 , INT32 dstX0, INT32 dstY0, INT32 dstX1, INT32 dstY1, 
 				GraphicsAPI::eBufferBitType mask, GraphicsAPI::eImageInterpolation filter) const noexcept;
 
-			void BlitFrameBufferFrom(UINT32 ReadFrameBufferId, INT32 srcX0, INT32 srcY0, 
+			void BlitFrameBufferFrom(dooms::asset::TextureAsset* const readFrameBuffer, INT32 srcX0, INT32 srcY0,
 				INT32 srcX1, INT32 srcY1 , INT32 dstX0, INT32 dstY0, INT32 dstX1, 
 				INT32 dstY1, GraphicsAPI::eBufferBitType mask, GraphicsAPI::eImageInterpolation filter) const noexcept;
 
 			void BlitFrameBufferToTexture(
-				dooms::graphics::Texture* const drawTexture, INT32 srcX0, INT32 srcY0, INT32 srcX1,
+				dooms::asset::TextureAsset* const drawTexture, INT32 srcX0, INT32 srcY0, INT32 srcX1,
 				INT32 srcY1, INT32 dstX0, INT32 dstY0, INT32 dstX1, INT32 dstY1,
 				GraphicsAPI::eBufferBitType mask, GraphicsAPI::eImageInterpolation filter) const noexcept;
 
 			RenderBuffer& AttachRenderBuffer(GraphicsAPI::eFrameBufferAttachmentPoint renderBufferType, UINT32 width, UINT32 height);
 			RenderBuffer& AttachRenderBuffer(GraphicsAPI::eFrameBufferAttachmentPoint renderBufferType);
-			Texture& AttachTextureBuffer(GraphicsAPI::eBufferBitType frameBufferType, UINT32 width, UINT32 height);
-			Texture& AttachTextureBuffer(GraphicsAPI::eBufferBitType frameBufferType);
-			const Texture* GetFrameBufferTexture(GraphicsAPI::eBufferBitType bufferType, UINT32 index) const;
-			Texture* GetFrameBufferTexture(GraphicsAPI::eBufferBitType bufferType, UINT32 index);
+			dooms::asset::TextureAsset* AttachTextureBuffer(GraphicsAPI::eBufferBitType frameBufferType, UINT32 width, UINT32 height);
+			dooms::asset::TextureAsset* AttachTextureBuffer(GraphicsAPI::eBufferBitType frameBufferType);
+			const asset::TextureAsset* GetFrameBufferTexture(GraphicsAPI::eBufferBitType bufferType, UINT32 index) const;
+			asset::TextureAsset* GetFrameBufferTexture(GraphicsAPI::eBufferBitType bufferType, UINT32 index);
 
 			void CheckIsFrameBufferSuccesfullyCreated() noexcept;
 

@@ -6,7 +6,7 @@
 #include "FixedMaterial.h"
 #include "../Buffer/UniformBufferObjectManager.h"
 #include <Asset/TextureAsset.h>
-#include "../Texture/Texture.h"
+#include "../Texture/TextureView.h"
 
 using namespace dooms::graphics;
 
@@ -88,7 +88,7 @@ bool dooms::graphics::Material::IsGenerated() const
 	return mProgramID.IsValid();
 }
 
-void Material::AddTexture(UINT32 bindingPoint, Texture* texture)
+void Material::AddTexture(UINT32 bindingPoint, TextureView* texture)
 {
 	D_ASSERT(IsGenerated() == true);
 	mTargetTextures[bindingPoint] = texture;
@@ -97,10 +97,10 @@ void Material::AddTexture(UINT32 bindingPoint, Texture* texture)
 void Material::AddTexture(UINT32 bindingPoint, ::dooms::asset::TextureAsset* textureAsset)
 {
 	D_ASSERT(IsGenerated() == true);
-	mTargetTextures[bindingPoint] = textureAsset->GetTextureViewObject();
+	mTargetTextures[bindingPoint] = textureAsset->GenerateTextureViewObject();
 }
 
-void dooms::graphics::Material::AddTextures(const std::array<const Texture*, MAX_TEXTURE_COUNT>& textures)
+void dooms::graphics::Material::AddTextures(const std::array<const TextureView*, MAX_TEXTURE_COUNT>& textures)
 {
 	D_ASSERT(IsGenerated() == true);
 	mTargetTextures = textures;

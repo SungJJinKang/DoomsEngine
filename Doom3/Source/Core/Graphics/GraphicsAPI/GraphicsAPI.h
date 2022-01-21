@@ -271,18 +271,19 @@ namespace dooms
 			typedef void (DOOMS_ENGINE_API_ENTRY_P GRAPHICS_CLEARBACKBUFFERSTENCILBUFFER)(const int stencilValue);
 			extern GRAPHICS_CLEARBACKBUFFERSTENCILBUFFER ClearBackBufferStencilBuffer;
 
-			typedef void (DOOMS_ENGINE_API_ENTRY_P GRAPHICS_CLEARBUFFERCOLORBUFFER)(const unsigned long long bufferObject, const float r, const float g, const float b, const float a);
+			typedef void (DOOMS_ENGINE_API_ENTRY_P GRAPHICS_CLEARBUFFERCOLORBUFFER)(unsigned long long bufferObject, const float r, const float g, const float b, const float a);
 			extern GRAPHICS_CLEARBUFFERCOLORBUFFER ClearBufferColorBuffer;
 
-			typedef void (DOOMS_ENGINE_API_ENTRY_P GRAPHICS_CLEARBUFFERDEPTHBUFFER)(const unsigned long long bufferObject, const double depthValue);
+			typedef void (DOOMS_ENGINE_API_ENTRY_P GRAPHICS_CLEARBUFFERDEPTHBUFFER)(unsigned long long bufferObject, const double depthValue);
 			extern GRAPHICS_CLEARBUFFERDEPTHBUFFER ClearBufferDepthBuffer;
 
-			typedef void (DOOMS_ENGINE_API_ENTRY_P GRAPHICS_CLEARBUFFERSTENCILBUFFER)(const unsigned long long bufferObject, const int stencilValue);
+			typedef void (DOOMS_ENGINE_API_ENTRY_P GRAPHICS_CLEARBUFFERSTENCILBUFFER)(unsigned long long bufferObject, const int stencilValue);
 			extern GRAPHICS_CLEARBUFFERSTENCILBUFFER ClearBufferStencilBuffer;
 
 			typedef void (DOOMS_ENGINE_API_ENTRY_P GRAPHICS_CLEARSPECIFICBUFFER)(const eBufferType bufferType, const unsigned int drawBufferIndex, const float r, const float g, const float b, const float a);
 			extern GRAPHICS_CLEARSPECIFICBUFFER ClearSpecificBuffer;
 
+			/*
 			enum eTextureType : unsigned int
 			{
 				TextureType_NONE, // = 0,
@@ -305,6 +306,7 @@ namespace dooms
 				AMBIENT_OCCLUSION, // = 17,
 				UNKNOWN //= 18,
 			};
+			*/
 
 			enum eTextureBindTarget : unsigned int
 			{
@@ -1018,6 +1020,21 @@ namespace dooms
 					const dooms::graphics::GraphicsAPI::eDataType dataType
 					);
 			extern GRAPHICS_READPIXELS ReadPixels;
+
+			enum eBindFlag : unsigned long
+			{
+				BIND_VERTEX_BUFFER = 0x1L,
+				BIND_INDEX_BUFFER = 0x2L,
+				BIND_CONSTANT_BUFFER = 0x4L,
+				BIND_SHADER_RESOURCE = 0x8L,
+				BIND_STREAM_OUTPUT = 0x10L,
+				BIND_RENDER_TARGET = 0x20L,
+				BIND_DEPTH_STENCIL = 0x40L,
+				BIND_UNORDERED_ACCESS = 0x80L,
+				BIND_DECODER = 0x200L,
+				BIND_VIDEO_ENCODER = 0x400L
+			};
+		
 			
 			typedef unsigned long long (DOOMS_ENGINE_API_ENTRY_P GRAPHICS_ALLOCATE2DTEXTUREOBJECT)
 				(
@@ -1026,8 +1043,9 @@ namespace dooms
 					const eTextureInternalFormat textureInternalFormat,
 					const eTextureCompressedInternalFormat textureCompressedInternalFormat,
 					const unsigned long long width,
-					const unsigned long long height
-					);
+					const unsigned long long height,
+					const eBindFlag bindFlag
+				);
 			extern GRAPHICS_ALLOCATE2DTEXTUREOBJECT Allocate2DTextureObject;
 			
 			typedef void (DOOMS_ENGINE_API_ENTRY_P GRAPHICS_UPDATEPIXELSTO2DTEXTURE)

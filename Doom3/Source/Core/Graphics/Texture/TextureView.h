@@ -8,11 +8,12 @@
 #include "../OverlapBindChecker.h"
 #include "../Buffer/BufferID.h"
 
-#include "Texture.reflection.h"
+#include "TextureView.reflection.h"
 namespace DirectX
 {
 	struct Image;
 	class ScratchImage;
+
 }
 
 
@@ -23,7 +24,7 @@ namespace dooms
 		/// <summary>
 		/// reference : https://www.khronos.org/registry/OpenGL-Refpages/gl4/html/glTexImage2D.xhtml
 		/// </summary>
-		class DOOM_API D_CLASS Texture : public DObject
+		class DOOM_API D_CLASS TextureView : public DObject
 		{
 			GENERATE_BODY()
 			
@@ -40,22 +41,28 @@ namespace dooms
 
 			void OnSetPendingKill() override;
 			void DestroyTextureViewObject();
-			
+
+			D_PROPERTY()
 			asset::TextureAsset* mTargetTextureResourceObject;
+
+			D_PROPERTY()
 			BufferID mTextureViewObject{};
+
+			D_PROPERTY()
+			UINT32 mBindingLocation;
 
 		public:
 
 			
 
-			Texture(asset::TextureAsset* const textureResourceObject);
-			Texture(const Texture&) = delete;
-			Texture& operator=(const Texture&) noexcept = delete;
+			TextureView(asset::TextureAsset* const textureResourceObject, const UINT32 bindingLocation);
+			TextureView(const TextureView&) = delete;
+			TextureView& operator=(const TextureView&) noexcept = delete;
 
-			Texture(Texture&&) noexcept = default;
-			Texture& operator=(Texture&&) noexcept = default;
+			TextureView(TextureView&&) noexcept = default;
+			TextureView& operator=(TextureView&&) noexcept = default;
 			
-			virtual ~Texture();
+			virtual ~TextureView();
 			virtual void OnEndContructor();
 			
 			const BufferID& GetBufferID() const
@@ -102,33 +109,9 @@ namespace dooms
 				//glActiveTexture(GL_TEXTURE0 + bindingPoint);
 				//glBindTexture(GL_TEXTURE_2D, mTextureViewObject);
 			}
-
-			virtual inline void TexImage1D(
-				INT32 level, const void* data
-			) const = 0;
-
 			
-			/// <summary>
-			/// https://www.khronos.org/registry/OpenGL-Refpages/gl4/html/glTexImage2D.xhtml
-			/// </summary>
-			/// <param name="level"></param>
-			/// <param name="data"></param>
-			virtual inline void TexImage2D(
-				INT32 level, const void* data
-			) const  = 0;
-
 			const BufferID& GetTextureBufferID() const;
-
-			void SetWrapMode(GraphicsAPI::eWrapMode wrapMode, bool bBind);
-			void SetFilterMin(GraphicsAPI::eFilterMode filterMode, bool bBind);
-			void SetFilterMax(GraphicsAPI::eFilterMode filterMode, bool bBind);
-
-			GraphicsAPI::eWrapMode GetWrapModeS() const;
-			GraphicsAPI::eWrapMode GetWrapModeT() const;
-			GraphicsAPI::eWrapMode GetWrapModeR() const;
-
 			
-
 			FORCE_INLINE void TexParameterf(const GraphicsAPI::eTextureBindTarget target, const GraphicsAPI::eTextureParameterType pname, FLOAT32 param) const noexcept
 			{
 				GraphicsAPI::SetTextureParameterFloat(target, pname, param);

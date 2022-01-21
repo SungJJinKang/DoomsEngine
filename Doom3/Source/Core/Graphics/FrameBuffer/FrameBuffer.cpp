@@ -1,5 +1,7 @@
 #include "FrameBuffer.h"
 
+#include "Asset/TextureAsset.h"
+
 using namespace dooms::graphics;
 
 
@@ -88,19 +90,19 @@ FrameBuffer::FrameBuffer(const FrameBuffer& frameBuffer)
 			AttachRenderBuffer(renderBuffer.GetFrameBufferType(), renderBuffer.GetWidth(), renderBuffer.GetHeight());
 		}
 
-		for (const Texture& attachedTexture : frameBuffer.mAttachedColorTextures)
+		for (const asset::TextureAsset* attachedTexture : frameBuffer.mAttachedColorTextures)
 		{
-			AttachTextureBuffer(GraphicsAPI::eBufferBitType::COLOR_BUFFER, attachedTexture.GetTargetTextureResourceObject()->GetTextureWidth(), attachedTexture.GetTargetTextureResourceObject()->GetTextureHeight());
+			AttachTextureBuffer(GraphicsAPI::eBufferBitType::COLOR_BUFFER, attachedTexture->GetTextureWidth(), attachedTexture->GetTextureHeight());
 		}
 
-		for (const Texture& attachedTexture : frameBuffer.mAttachedDepthTextures)
+		for (const asset::TextureAsset* attachedTexture : frameBuffer.mAttachedDepthTextures)
 		{
-			AttachTextureBuffer(GraphicsAPI::eBufferBitType::DEPTH_BUFFER, attachedTexture.GetTargetTextureResourceObject()->GetTextureWidth(), attachedTexture.GetTargetTextureResourceObject()->GetTextureHeight());
+			AttachTextureBuffer(GraphicsAPI::eBufferBitType::DEPTH_BUFFER, attachedTexture->GetTextureWidth(), attachedTexture->GetTextureHeight());
 		}
 
-		for (const Texture& attachedTexture : frameBuffer.mAttachedDepthStencilTextures)
+		for (const asset::TextureAsset*  attachedTexture : frameBuffer.mAttachedDepthStencilTextures)
 		{
-			AttachTextureBuffer(GraphicsAPI::eBufferBitType::DEPTH_STENCIL_BUFFER, attachedTexture.GetTargetTextureResourceObject()->GetTextureWidth(), attachedTexture.GetTargetTextureResourceObject()->GetTextureHeight());
+			AttachTextureBuffer(GraphicsAPI::eBufferBitType::DEPTH_STENCIL_BUFFER, attachedTexture->GetTextureWidth(), attachedTexture->GetTextureHeight());
 		}
 
 		RefreshTargetDrawBufferContainer();
@@ -117,16 +119,16 @@ void FrameBuffer::CheckIsFrameBufferSuccesfullyCreated() noexcept
 	D_ASSERT_LOG(errorCode == 0, "fail frame buffer : %u", errorCode);
 }
 
-const dooms::graphics::Texture* FrameBuffer::GetFrameBufferTexture(GraphicsAPI::eBufferBitType bufferType, UINT32 index) const
+const dooms::asset::TextureAsset* FrameBuffer::GetFrameBufferTexture(GraphicsAPI::eBufferBitType bufferType, UINT32 index) const
 {
-	const dooms::graphics::Texture* targetTexture = nullptr;
+	const dooms::asset::TextureAsset* targetTexture = nullptr;
 	switch (bufferType)
 	{
 	case GraphicsAPI::eBufferBitType::COLOR_BUFFER:
 		D_ASSERT(index >= 0 && index < mAttachedColorTextures.size());
 		if (index >= 0 && index < mAttachedColorTextures.size())
 		{
-			targetTexture = &mAttachedColorTextures[index];
+			targetTexture = mAttachedColorTextures[index];
 		}
 		break;
 
@@ -134,7 +136,7 @@ const dooms::graphics::Texture* FrameBuffer::GetFrameBufferTexture(GraphicsAPI::
 		D_ASSERT(index >= 0 && index < mAttachedDepthTextures.size());
 		if (index >= 0 && index < mAttachedDepthTextures.size())
 		{
-			targetTexture = &mAttachedDepthTextures[index];
+			targetTexture = mAttachedDepthTextures[index];
 		}
 		break;
 
@@ -142,7 +144,7 @@ const dooms::graphics::Texture* FrameBuffer::GetFrameBufferTexture(GraphicsAPI::
 		D_ASSERT(index >= 0 && index < mAttachedDepthStencilTextures.size());
 		if (index >= 0 && index < mAttachedDepthStencilTextures.size())
 		{
-			targetTexture = &mAttachedDepthStencilTextures[index];
+			targetTexture = mAttachedDepthStencilTextures[index];
 		}
 		break;
 
@@ -153,16 +155,16 @@ const dooms::graphics::Texture* FrameBuffer::GetFrameBufferTexture(GraphicsAPI::
 	return targetTexture;
 }
 
-dooms::graphics::Texture* FrameBuffer::GetFrameBufferTexture(GraphicsAPI::eBufferBitType bufferType, UINT32 index)
+dooms::asset::TextureAsset* FrameBuffer::GetFrameBufferTexture(GraphicsAPI::eBufferBitType bufferType, UINT32 index)
 {
-	dooms::graphics::Texture* targetTexture = nullptr;
+	dooms::asset::TextureAsset* targetTexture = nullptr;
 	switch (bufferType)
 	{
 	case GraphicsAPI::eBufferBitType::COLOR_BUFFER:
 		D_ASSERT(index >= 0 && index < mAttachedColorTextures.size());
 		if (index >= 0 && index < mAttachedColorTextures.size())
 		{
-			targetTexture = &mAttachedColorTextures[index];
+			targetTexture = mAttachedColorTextures[index];
 		}
 		break;
 
@@ -170,7 +172,7 @@ dooms::graphics::Texture* FrameBuffer::GetFrameBufferTexture(GraphicsAPI::eBuffe
 		D_ASSERT(index >= 0 && index < mAttachedDepthTextures.size());
 		if (index >= 0 && index < mAttachedDepthTextures.size())
 		{
-			targetTexture = &mAttachedDepthTextures[index];
+			targetTexture = mAttachedDepthTextures[index];
 		}
 		break;
 
@@ -178,7 +180,7 @@ dooms::graphics::Texture* FrameBuffer::GetFrameBufferTexture(GraphicsAPI::eBuffe
 		D_ASSERT(index >= 0 && index < mAttachedDepthStencilTextures.size());
 		if (index >= 0 && index < mAttachedDepthStencilTextures.size())
 		{
-			targetTexture = &mAttachedDepthStencilTextures[index];
+			targetTexture = mAttachedDepthStencilTextures[index];
 		}
 		break;
 
@@ -253,48 +255,48 @@ void FrameBuffer::ClearFrameBuffer() const
 */
 
 void FrameBuffer::BlitFrameBufferTo(
-	UINT32 ReadFrameBufferId, UINT32 DrawFrameBufferId, INT32 srcX0, INT32 srcY0,
+	dooms::asset::TextureAsset* const readFrameBuffer, dooms::asset::TextureAsset* const drawFrameBuffer, INT32 srcX0, INT32 srcY0,
 	INT32 srcX1, INT32 srcY1, INT32 dstX0, INT32 dstY0, INT32 dstX1, INT32 dstY1, 
 	GraphicsAPI::eBufferBitType mask, GraphicsAPI::eImageInterpolation filter
 ) noexcept
 {
 	//BackBuffer ID is zero!!
-	//D_ASSERT(ReadFrameBufferId != INVALID_BUFFER_ID);
-	//D_ASSERT(DrawFrameBufferId != INVALID_BUFFER_ID);
+	//D_ASSERT(readFrameBuffer != INVALID_BUFFER_ID);
+	//D_ASSERT(drawFrameBuffer != INVALID_BUFFER_ID);
 
-	GraphicsAPI::BlitFrameBuffer(ReadFrameBufferId, DrawFrameBufferId, srcX0, srcY0, srcX1, srcY1, dstX0, dstY0, dstX1, dstY1, mask, filter);
+	GraphicsAPI::BlitFrameBuffer(readFrameBuffer, drawFrameBuffer, srcX0, srcY0, srcX1, srcY1, dstX0, dstY0, dstX1, dstY1, mask, filter);
 }
 
 
 void FrameBuffer::BlitFrameBufferTo(
-	UINT32 DrawFrameBufferId, INT32 srcX0, INT32 srcY0, INT32 srcX1, INT32 srcY1,
+	dooms::asset::TextureAsset* const drawFrameBuffer, INT32 srcX0, INT32 srcY0, INT32 srcX1, INT32 srcY1,
 	INT32 dstX0, INT32 dstY0, INT32 dstX1, INT32 dstY1, GraphicsAPI::eBufferBitType mask,
 	GraphicsAPI::eImageInterpolation filter
 ) const noexcept
 {
 	//BackBuffer ID is zero!!
 	D_ASSERT(mFrameBufferID.IsValid());
-	//D_ASSERT(DrawFrameBufferId != INVALID_BUFFER_ID);
+	//D_ASSERT(drawFrameBuffer != INVALID_BUFFER_ID);
 	
-	GraphicsAPI::BlitFrameBuffer(mFrameBufferID, DrawFrameBufferId, srcX0, srcY0, srcX1, srcY1, dstX0, dstY0, dstX1, dstY1, mask, filter);
+	GraphicsAPI::BlitFrameBuffer(mFrameBufferID, drawFrameBuffer, srcX0, srcY0, srcX1, srcY1, dstX0, dstY0, dstX1, dstY1, mask, filter);
 }
 
 
 void FrameBuffer::BlitFrameBufferFrom(
-	UINT32 ReadFrameBufferId, INT32 srcX0, INT32 srcY0, INT32 srcX1, INT32 srcY1,
+	dooms::asset::TextureAsset* const readFrameBuffer, INT32 srcX0, INT32 srcY0, INT32 srcX1, INT32 srcY1,
 	INT32 dstX0, INT32 dstY0, INT32 dstX1, INT32 dstY1, GraphicsAPI::eBufferBitType mask,
 	GraphicsAPI::eImageInterpolation filter
 ) const noexcept
 {
 	//BackBuffer ID is zero!!
-	//D_ASSERT(ReadFrameBufferId != INVALID_BUFFER_ID);
+	//D_ASSERT(readFrameBuffer != INVALID_BUFFER_ID);
 	D_ASSERT(mFrameBufferID.IsValid());
 
-	GraphicsAPI::BlitFrameBuffer(ReadFrameBufferId, mFrameBufferID, srcX0, srcY0, srcX1, srcY1, dstX0, dstY0, dstX1, dstY1, mask, filter);
+	GraphicsAPI::BlitFrameBuffer(readFrameBuffer, mFrameBufferID, srcX0, srcY0, srcX1, srcY1, dstX0, dstY0, dstX1, dstY1, mask, filter);
 }
 
 void FrameBuffer::BlitFrameBufferToTexture(
-	dooms::graphics::Texture* const drawTexture, INT32 srcX0, INT32 srcY0,
+	dooms::asset::TextureAsset* const drawTexture, INT32 srcX0, INT32 srcY0,
 	INT32 srcX1, INT32 srcY1, INT32 dstX0, INT32 dstY0, INT32 dstX1, INT32 dstY1, 
 	GraphicsAPI::eBufferBitType mask, GraphicsAPI::eImageInterpolation filter
 ) const noexcept
@@ -320,21 +322,36 @@ RenderBuffer& dooms::graphics::FrameBuffer::AttachRenderBuffer(GraphicsAPI::eFra
 	return AttachRenderBuffer(renderBufferType, mDefaultWidth, mDefaultHeight);
 }
 
-Texture& FrameBuffer::AttachTextureBuffer(GraphicsAPI::eBufferBitType frameBufferType, UINT32 width, UINT32 height)
+dooms::asset::TextureAsset* FrameBuffer::AttachTextureBuffer(GraphicsAPI::eBufferBitType frameBufferType, UINT32 width, UINT32 height)
 {
 	D_ASSERT(mFrameBufferID.IsValid());
 
 	BindFrameBuffer();
 
-	dooms::graphics::Texture* createdTexture = nullptr;
+	dooms::asset::TextureAsset* createdTexture = nullptr;
 	
 	switch (frameBufferType)
 	{
 	case GraphicsAPI::eBufferBitType::COLOR_BUFFER:
 	{
-		Texture colorTexture{ GraphicsAPI::eTextureType::DIFFUSE, GraphicsAPI::eTargetTexture::TARGET_TEXTURE_TEXTURE_2D,
-			GraphicsAPI::eTextureInternalFormat::TEXTURE_INTERNAL_FORMAT_RGBA8, width, height, GraphicsAPI::eTextureComponentFormat::TEXTURE_COMPONENT_RGBA, GraphicsAPI::eDataType::FLOAT, NULL };
-		GraphicsAPI::Attach2DTextureToFrameBuffer(GraphicsAPI::eBindFrameBufferTarget::FRAMEBUFFER, static_cast<GraphicsAPI::eFrameBufferAttachmentPoint>(GraphicsAPI::eFrameBufferAttachmentPoint::FRAMEBUFFER_ATTACHMENT_POINT_COLOR_ATTACHMENT0 + static_cast<UINT32>(mAttachedColorTextures.size())), GraphicsAPI::eTextureBindTarget::TEXTURE_2D, colorTexture.GetTextureBufferID(), 0);
+		dooms::asset::TextureAsset* const colorTexture = dooms::CreateDObject<dooms::asset::TextureAsset>
+		(
+			GraphicsAPI::eTargetTexture::TARGET_TEXTURE_TEXTURE_2D,
+			GraphicsAPI::eTextureInternalFormat::TEXTURE_INTERNAL_FORMAT_RGBA8,
+			width,
+			height,
+			GraphicsAPI::eTextureComponentFormat::TEXTURE_COMPONENT_RGBA,
+			GraphicsAPI::eDataType::FLOAT,
+			NULL
+		);
+		GraphicsAPI::Attach2DTextureToFrameBuffer
+		(
+			GraphicsAPI::eBindFrameBufferTarget::FRAMEBUFFER, 
+			static_cast<GraphicsAPI::eFrameBufferAttachmentPoint>(GraphicsAPI::eFrameBufferAttachmentPoint::FRAMEBUFFER_ATTACHMENT_POINT_COLOR_ATTACHMENT0 + static_cast<UINT32>(mAttachedColorTextures.size())), 
+			GraphicsAPI::eTextureBindTarget::TEXTURE_2D, 
+			colorTexture.GetTextureBufferID(),
+			0)
+		;
 
 		mClearBit |= static_cast<UINT32>(GraphicsAPI::eBufferBitType::COLOR_BUFFER);
 		mDrawTarget |= GraphicsAPI::eFrameBufferAttachmentPoint::FRAMEBUFFER_ATTACHMENT_POINT_COLOR_ATTACHMENT0 + mAttachedColorTextures.size();
@@ -350,8 +367,15 @@ Texture& FrameBuffer::AttachTextureBuffer(GraphicsAPI::eBufferBitType frameBuffe
 	{
 		D_ASSERT(mAttachedDepthTextures.size() == 0);
 
-		Texture depthTexture{ GraphicsAPI::eTextureType::DIFFUSE, GraphicsAPI::eTargetTexture::TARGET_TEXTURE_TEXTURE_2D,
-			GraphicsAPI::eTextureInternalFormat::TEXTURE_INTERNAL_FORMAT_DEPTH_COMPONENT32, width, height, GraphicsAPI::eTextureComponentFormat::TEXTURE_COMPONENT_DEPTH_COMPONENT, GraphicsAPI::eDataType::FLOAT, NULL };
+		dooms::asset::TextureAsset* const depthTexture = dooms::CreateDObject<dooms::asset::TextureAsset>
+		(
+			GraphicsAPI::eTargetTexture::TARGET_TEXTURE_TEXTURE_2D,
+			GraphicsAPI::eTextureInternalFormat::TEXTURE_INTERNAL_FORMAT_DEPTH_COMPONENT32,
+			width,
+			height,
+			GraphicsAPI::eTextureComponentFormat::TEXTURE_COMPONENT_DEPTH_COMPONENT,
+			GraphicsAPI::eDataType::FLOAT, NULL
+		);
 		GraphicsAPI::Attach2DTextureToFrameBuffer(GraphicsAPI::eBindFrameBufferTarget::FRAMEBUFFER, GraphicsAPI::eFrameBufferAttachmentPoint::FRAMEBUFFER_ATTACHMENT_POINT_DEPTH_ATTACHMENT, GraphicsAPI::eTextureBindTarget::TEXTURE_2D, depthTexture.GetTextureBufferID(), 0);
 
 
@@ -366,8 +390,16 @@ Texture& FrameBuffer::AttachTextureBuffer(GraphicsAPI::eBufferBitType frameBuffe
 	{
 		D_ASSERT(mAttachedDepthStencilTextures.size() == 0);
 
-		Texture depthStencilTexture{ GraphicsAPI::eTextureType::DIFFUSE, GraphicsAPI::eTargetTexture::TARGET_TEXTURE_TEXTURE_2D,
-			GraphicsAPI::eTextureInternalFormat::TEXTURE_INTERNAL_FORMAT_DEPTH24_STENCIL8, width, height, GraphicsAPI::eTextureComponentFormat::TEXTURE_COMPONENT_DEPTH_STENCIL, GraphicsAPI::eDataType::UNSIGNED_INT_24_8, NULL };
+		dooms::asset::TextureAsset* const depthStencilTexture = dooms::CreateDObject<dooms::asset::TextureAsset>
+			(
+			GraphicsAPI::eTargetTexture::TARGET_TEXTURE_TEXTURE_2D,
+			GraphicsAPI::eTextureInternalFormat::TEXTURE_INTERNAL_FORMAT_DEPTH24_STENCIL8,
+			width,
+			height,
+			GraphicsAPI::eTextureComponentFormat::TEXTURE_COMPONENT_DEPTH_STENCIL,
+			GraphicsAPI::eDataType::UNSIGNED_INT_24_8,
+			NULL
+		);
 		GraphicsAPI::Attach2DTextureToFrameBuffer(GraphicsAPI::eBindFrameBufferTarget::FRAMEBUFFER, GraphicsAPI::eFrameBufferAttachmentPoint::FRAMEBUFFER_ATTACHMENT_POINT_DEPTH_STENCIL_ATTACHMENT, GraphicsAPI::eTextureBindTarget::TEXTURE_2D, depthStencilTexture.GetTextureBufferID(), 0);
 
 		mAttachedDepthStencilTextures.push_back(std::move(depthStencilTexture));
@@ -387,7 +419,7 @@ Texture& FrameBuffer::AttachTextureBuffer(GraphicsAPI::eBufferBitType frameBuffe
 	return *createdTexture;
 }
 
-Texture& dooms::graphics::FrameBuffer::AttachTextureBuffer(GraphicsAPI::eBufferBitType frameBufferType)
+dooms::asset::TextureAsset* dooms::graphics::FrameBuffer::AttachTextureBuffer(GraphicsAPI::eBufferBitType frameBufferType)
 {
 	return AttachTextureBuffer(frameBufferType, mDefaultWidth, mDefaultHeight);
 }

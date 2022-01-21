@@ -249,7 +249,7 @@
     <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Core\Graphics\Texture\Texture.cpp">
+    <ClCompile Include="Source\Core\Graphics\Texture\TextureView.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Source\Core\Graphics\PictureInPicture\PicktureInPickture.cpp">
@@ -1250,7 +1250,7 @@
     <ClInclude Include="Source\Helper\EasyDirtyChecker\DirtyReceiver.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Core\Graphics\Texture\Texture.h">
+    <ClInclude Include="Source\Core\Graphics\Texture\TextureView.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\Core\Graphics\PictureInPicture\PicktureInPickture.h">

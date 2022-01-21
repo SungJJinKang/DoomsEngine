@@ -1,7 +1,7 @@
 #include "PicktureInPickture.h"
 
 #include "Game/AssetManager/AssetManager.h"
-#include "../Texture/Texture.h"
+#include "../Texture/TextureView.h"
 #include "Graphics/Buffer/MeshHelper.h"
 
 
@@ -29,14 +29,14 @@ void dooms::graphics::PicktureInPickture::SetDefaultPIPMaterial()
 	D_ASSERT(mPIPMaterial->IsGenerated());
 }
 
-dooms::graphics::PicktureInPickture::PicktureInPickture(const math::Vector2& leftBottomNDCPoint, const math::Vector2& rightTopNDCPoint, Texture* const _drawedTexture)
+dooms::graphics::PicktureInPickture::PicktureInPickture(const math::Vector2& leftBottomNDCPoint, const math::Vector2& rightTopNDCPoint, TextureView* const _drawedTexture)
 	:mPlaneMesh{ meshHelper::GetQuadMesh(leftBottomNDCPoint, rightTopNDCPoint) }, mDrawedTexture(_drawedTexture), mPIPMaterial(nullptr), bmIsDrawOnScreen(true)
 {
 	D_ASSERT(IsValid(mDrawedTexture));
 	SetDefaultPIPMaterial();
 }
 
-dooms::graphics::PicktureInPickture::PicktureInPickture(const math::Vector2& leftBottomNDCPoint, const math::Vector2& rightTopNDCPoint, Texture* const _drawedTexture, Material* const _pipMaterial)
+dooms::graphics::PicktureInPickture::PicktureInPickture(const math::Vector2& leftBottomNDCPoint, const math::Vector2& rightTopNDCPoint, TextureView* const _drawedTexture, Material* const _pipMaterial)
 	:mPlaneMesh{ meshHelper::GetQuadMesh(leftBottomNDCPoint, rightTopNDCPoint) }, mDrawedTexture(_drawedTexture), mPIPMaterial(_pipMaterial), bmIsDrawOnScreen(true)
 {
 	D_ASSERT(IsValid(mDrawedTexture));
@@ -75,7 +75,7 @@ dooms::graphics::PicktureInPickture::~PicktureInPickture()
 {
 }
 
-void dooms::graphics::PicktureInPickture::SetTexture(Texture* const texture)
+void dooms::graphics::PicktureInPickture::SetTexture(TextureView* const texture)
 {
 	D_ASSERT(IsValid(texture));
 	mDrawedTexture = texture;

@@ -25,7 +25,7 @@ namespace dooms
 			D_PROPERTY()
 			Mesh* mPlaneMesh = nullptr;
 			D_PROPERTY()
-			Texture* mDrawedTexture = nullptr;
+			TextureView* mDrawedTexture = nullptr;
 
 			void InitializeDefaultPIPMaterial();
 
@@ -34,8 +34,8 @@ namespace dooms
 			bool bmIsDrawOnScreen;
 
 			PicktureInPickture();
-			PicktureInPickture(const math::Vector2& leftBottomNDCPoint, const math::Vector2& rightTopNDCPoint, Texture* const _drawedTexture);
-			PicktureInPickture(const math::Vector2& leftBottomNDCPoint, const math::Vector2& rightTopNDCPoint, Texture* const _drawedTexture, Material* const _pipMaterial);
+			PicktureInPickture(const math::Vector2& leftBottomNDCPoint, const math::Vector2& rightTopNDCPoint, TextureView* const _drawedTexture);
+			PicktureInPickture(const math::Vector2& leftBottomNDCPoint, const math::Vector2& rightTopNDCPoint, TextureView* const _drawedTexture, Material* const _pipMaterial);
 			//PicktureInPickture& operator=(const math::Vector2& leftBottomNDCPoint, const math::Vector2& rightTopNDCPoint, SingleTexture* const _drawedTexture);
 			//PicktureInPickture& operator=(const math::Vector2& leftBottomNDCPoint, const math::Vector2& rightTopNDCPoint, SingleTexture* const _drawedTexture, Material* const _pipMaterial);
 
@@ -43,7 +43,7 @@ namespace dooms
 
 			~PicktureInPickture();
 
-			void SetTexture(Texture* const texture);
+			void SetTexture(TextureView* const texture);
 			void SetMaterial(Material* const _pipMaterial);
 
 			void DrawPictureInPicture();

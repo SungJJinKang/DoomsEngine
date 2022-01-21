@@ -348,7 +348,7 @@ namespace dooms
 		class DefferedRenderingFrameBuffer;
 		class GraphicsAPIInput;
 		class CubemapTexture;
-		class Texture;
+		class TextureView;
 		struct PrimitiveTriangle;
 		class UniformBufferObjectManager;
 		class RenderingDebugger;
@@ -781,8 +781,8 @@ namespace clcpp
 	template <> unsigned int GetTypeNameHash< ::ImGuiPopupData >() { return 0x5f3d4501; }
 	template <> const Type* GetType< dooms::reflection::DClass >() { return clcppTypePtrs[93]; }
 	template <> unsigned int GetTypeNameHash< dooms::reflection::DClass >() { return 0x5f963df8; }
-	template <> const Type* GetType< dooms::graphics::Texture >() { return clcppTypePtrs[94]; }
-	template <> unsigned int GetTypeNameHash< dooms::graphics::Texture >() { return 0x619b063b; }
+	template <> const Type* GetType< dooms::graphics::TextureView >() { return clcppTypePtrs[94]; }
+	template <> unsigned int GetTypeNameHash< dooms::graphics::TextureView >() { return 0x619b063b; }
 	template <> const Type* GetType< dooms::resource::JobSystem >() { return clcppTypePtrs[95]; }
 	template <> unsigned int GetTypeNameHash< dooms::resource::JobSystem >() { return 0x62e9a6f6; }
 	template <> const Type* GetType< dooms::graphics::PrimitiveTriangle >() { return clcppTypePtrs[96]; }

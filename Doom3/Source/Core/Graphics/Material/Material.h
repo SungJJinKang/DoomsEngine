@@ -45,7 +45,7 @@ namespace dooms
 		};
 
 		class UniformBufferObject;
-		class Texture;
+		class TextureView;
 
 		class DOOM_API D_CLASS Material : public DObject
 		{
@@ -58,7 +58,7 @@ namespace dooms
 			BufferID mProgramID;
 			::dooms::asset::ShaderAsset* mShaderAsset;
 			static constexpr inline UINT32 MAX_TEXTURE_COUNT{ 7 };
-			std::array<const Texture*, MAX_TEXTURE_COUNT> mTargetTextures{ nullptr };
+			std::array<const TextureView*, MAX_TEXTURE_COUNT> mTargetTextures{ nullptr };
 			std::array<UniformBufferObject*, MAX_UNIFORM_BLOCK_BINDING_POINT> mUniformBufferObjects{ nullptr };
 
 			void OnSetPendingKill() override;
@@ -82,9 +82,9 @@ namespace dooms
 			bool IsGenerated() const;
 			void SetShaderAsset(::dooms::asset::ShaderAsset* shaderAsset);
 
-			void AddTexture(UINT32 bindingPoint, Texture* texture);
+			void AddTexture(UINT32 bindingPoint, TextureView* texture);
 			void AddTexture(UINT32 bindingPoint, ::dooms::asset::TextureAsset* textureAsset);
-			void AddTextures(const std::array<const Texture*, MAX_TEXTURE_COUNT>& textures);
+			void AddTextures(const std::array<const TextureView*, MAX_TEXTURE_COUNT>& textures);
 
 			void UseProgram() const;
 

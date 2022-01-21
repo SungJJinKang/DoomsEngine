@@ -16,7 +16,7 @@ namespace dooms
 {
 	namespace graphics
 	{
-		class Texture;
+		class TextureView;
 		class Material;
 	}
 
@@ -36,9 +36,19 @@ namespace dooms
 
 		private:
 
+			D_PROPERTY()
 			dooms::graphics::BufferID mTextureResourceObject;
 
 			std::unique_ptr<DirectX::ScratchImage> mScratchImage;
+
+			D_PROPERTY()
+			const void* mTextureData = nullptr;
+
+			D_PROPERTY()
+			dooms::graphics::TextureView* mDefaultTextureViewObject = nullptr;
+
+			D_PROPERTY()
+			graphics::GraphicsAPI::eTargetTexture mTargetTexture;
 
 			D_PROPERTY()
 			INT32 mWidth{};
@@ -54,10 +64,7 @@ namespace dooms
 			/// </summary>
 			D_PROPERTY()
 			size_t mEntireImageSize{};
-
-			D_PROPERTY()
-			bool bmIsCompressed{ false };
-
+			
 			D_PROPERTY()
 			graphics::GraphicsAPI::eTextureComponentFormat mComponentFormat{}; // 1 ~ 4 ( rgb, rgba ~~ )
 
@@ -66,6 +73,9 @@ namespace dooms
 
 			D_PROPERTY()
 			graphics::GraphicsAPI::eTextureCompressedInternalFormat mCompressedInternalFormat{};
+
+			D_PROPERTY()
+			graphics::GraphicsAPI::eDataType mDataType{};
 			
 			void AllocateTextureResourceObject();
 			void DestroyTextureResourceObject();
@@ -75,6 +85,17 @@ namespace dooms
 		public:
 
 			TextureAsset();
+			TextureAsset
+			(
+				dooms::graphics::GraphicsAPI::eTargetTexture targetTexture, 
+				dooms::graphics::GraphicsAPI::eTextureInternalFormat internalFormat, 
+				dooms::graphics::GraphicsAPI::eTextureCompressedInternalFormat compressedInternalFormat, 
+				UINT32 width, UINT32 height, 
+				dooms::graphics::GraphicsAPI::eTextureComponentFormat format, 
+				dooms::graphics::GraphicsAPI::eDataType dataType, 
+				const void* data = 0,
+				const size_t dataSize = 0
+			);
 			void SetScratchImage(std::unique_ptr<DirectX::ScratchImage>&& scratchImage);
 			TextureAsset(const TextureAsset&) = delete;
 			TextureAsset(TextureAsset&& textureAsset) noexcept;
@@ -86,7 +107,7 @@ namespace dooms
 			virtual void OnSetPendingKill() override;
 
 			void OnEndImportInMainThread_Internal() final;
-			const graphics::Texture* GetTextureViewObject() const;
+			graphics::TextureView* GenerateTextureViewObject();
 
 			virtual dooms::asset::eAssetType GetEAssetType() const final;
 
@@ -101,6 +122,8 @@ namespace dooms
 			INT32 GetEntireImageSize() const;
 			graphics::GraphicsAPI::eDataType GetTextureDataType() const;
 
+
+			dooms::graphics::TextureView* GetDefaultTextureViewObject();
 		};
 		
 	}

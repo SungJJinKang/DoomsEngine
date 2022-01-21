@@ -538,7 +538,7 @@ xcopy /y /d /E /H /C /I "$(ProjectDir)Assets" "$(TargetDir)Assets"</Command>
     <ClCompile Include="Source\Core\Graphics\Material\Material.cpp" />
     <ClCompile Include="Source\Core\Asset\ShaderAsset.cpp" />
     <ClCompile Include="Source\Core\Graphics\FrameBuffer\RenderBuffer.cpp" />
-    <ClCompile Include="Source\Core\Graphics\Texture\Texture.cpp" />
+    <ClCompile Include="Source\Core\Graphics\Texture\TextureView.cpp" />
     <ClCompile Include="Source\Core\Graphics\Buffer\UniformBufferObject.cpp" />
     <ClCompile Include="Source\Core\IO\AssetImporter\assetImporter.cpp" />
     <ClCompile Include="Source\Core\IO\UserInput_Server.cpp" />
@@ -960,7 +960,7 @@ xcopy /y /d /E /H /C /I "$(ProjectDir)Assets" "$(TargetDir)Assets"</Command>
     <ClInclude Include="Source\Core\Graphics\Buffer\Buffer.h" />
     <ClInclude Include="Source\Core\Graphics\Material\Material.h" />
     <ClInclude Include="Source\Core\Asset\ShaderAsset.h" />
-    <ClInclude Include="Source\Core\Graphics\Texture\Texture.h" />
+    <ClInclude Include="Source\Core\Graphics\Texture\TextureView.h" />
     <ClInclude Include="Source\Core\IO\UserInput_Server.h" />
     <ClInclude Include="Source\Core\Logger\Logger.h" />
     <ClInclude Include="Source\Core\Asset\ThreeDModelAsset.h" />
