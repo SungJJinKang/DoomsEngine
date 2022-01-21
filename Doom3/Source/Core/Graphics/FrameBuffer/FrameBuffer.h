@@ -35,10 +35,7 @@ namespace dooms
 
 			static constexpr UINT32 RESERVED_COLOR_TEXTURE_COUNT = 3;
 			std::vector<asset::TextureAsset*> mAttachedColorTextures;
-
-			static constexpr UINT32 RESERVED_DEPTH_TEXTURE_COUNT = 1; 
-			std::vector<asset::TextureAsset*> mAttachedDepthTextures;
-
+			
 			static constexpr UINT32 RESERVED_DEPTH_STENCIL_TEXTURE_COUNT = 1; 
 			std::vector<asset::TextureAsset*> mAttachedDepthStencilTextures;
 

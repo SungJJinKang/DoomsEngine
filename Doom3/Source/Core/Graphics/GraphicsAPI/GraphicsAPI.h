@@ -112,14 +112,7 @@ namespace dooms
 				COLOR_ATTACHMENT30, // = GL_COLOR_ATTACHMENT10,
 				COLOR_ATTACHMENT31, // = GL_COLOR_ATTACHMENT10,
 			};
-
-			enum eBindFrameBufferTarget : unsigned int
-			{
-				DRAW_FRAMEBUFFER,
-				READ_FRAMEBUFFER,
-				FRAMEBUFFER
-			};
-
+			
 			enum ePrimitiveType : unsigned int
 			{
 				NONE = 0, // Never change underlying value. It's used as indef of jump table
@@ -586,7 +579,6 @@ namespace dooms
 			typedef void (DOOMS_ENGINE_API_ENTRY_P GRAPHICS_UPDATEDATATOBUFFER)
 				(
 					const unsigned long long bufferObject,
-					const eBufferTarget bindFrameBufferTarget,
 					const unsigned int offset,
 					const unsigned int dataSize,
 					const void* const data
@@ -600,11 +592,17 @@ namespace dooms
 			extern GRAPHICS_DESTROYFRAMEBUFFER DestroyFrameBuffer;
 
 			typedef void (DOOMS_ENGINE_API_ENTRY_P GRAPHICS_BINDFRAMEBUFFER)
-				(
-					const unsigned long long frameBufferObject,
-					const eBindFrameBufferTarget bindFrameBufferTarget
-					);
+			(
+				const unsigned int renderTargetCount,
+				unsigned long long* const* renderTargetViewObject,
+				unsigned long long depthStencilViewObject
+			);
 			extern GRAPHICS_BINDFRAMEBUFFER BindFrameBuffer;
+
+			typedef void (DOOMS_ENGINE_API_ENTRY_P GRAPHICS_BINDBACKBUFFER)
+			(
+			);
+			extern GRAPHICS_BINDBACKBUFFER BindBackBuffer;
 
 			typedef unsigned int (DOOMS_ENGINE_API_ENTRY_P GRAPHICS_CHECKFRAMEBUFFERISSUCCESFULLYCREATED)(void);
 			extern GRAPHICS_CHECKFRAMEBUFFERISSUCCESFULLYCREATED CheckFrameBufferIsSuccesfullyCreated;
@@ -841,20 +839,14 @@ namespace dooms
 			};
 
 			typedef void (DOOMS_ENGINE_API_ENTRY_P GRAPHICS_BLITFRAMEBUFFER)
-				(
+			(
 					const unsigned long long ReadFrameBufferObject,
 					const unsigned long long DrawFrameBufferObject,
-					const int srcX0,
-					const int srcY0,
-					const int srcX1,
-					const int srcY1,
-					const int dstX0,
-					const int dstY0,
-					const int dstX1,
-					const int dstY1,
+					const int srcX0, const int srcY0, const int srcX1, const int srcY1,
+					const int dstX0, const int dstY0, const int dstX1, const int dstY1,
 					const GraphicsAPI::eBufferBitType mask,
 					const GraphicsAPI::eImageInterpolation filter
-					);
+			);
 			extern GRAPHICS_BLITFRAMEBUFFER BlitFrameBuffer;
 
 

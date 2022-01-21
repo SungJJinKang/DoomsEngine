@@ -285,7 +285,7 @@ namespace dooms
             static  IDXGISwapChain1* g_pSwapChain1 = nullptr;
             static ID3D11RenderTargetView* BackBufferRenderTargetView = nullptr;
             static ID3D11Texture2D* g_pDepthStencil = nullptr;
-            static ID3D11DepthStencilView* g_pDepthStencilView = nullptr;
+            static ID3D11DepthStencilView* BackBufferStencilDepthView = nullptr;
             static ID3D11VertexShader* g_pVertexShader = nullptr;
             static  ID3D11PixelShader* g_pPixelShader = nullptr;
             static ID3D11InputLayout* g_pVertexLayout = nullptr;
@@ -547,11 +547,11 @@ namespace dooms
                 descDSV.Format = descDepth.Format;
                 descDSV.ViewDimension = D3D11_DSV_DIMENSION_TEXTURE2D;
                 descDSV.Texture2D.MipSlice = 0;
-                hr = g_pd3dDevice->CreateDepthStencilView(g_pDepthStencil, &descDSV, &g_pDepthStencilView);
+                hr = g_pd3dDevice->CreateDepthStencilView(g_pDepthStencil, &descDSV, &BackBufferStencilDepthView);
                 if (FAILED(hr))
                     return hr;
 
-                g_pImmediateContext->OMSetRenderTargets(1, &BackBufferRenderTargetView, g_pDepthStencilView);
+                g_pImmediateContext->OMSetRenderTargets(1, &BackBufferRenderTargetView, BackBufferStencilDepthView);
 
 
                 // Test
@@ -799,7 +799,7 @@ namespace dooms
                 //
                 // Clear the depth buffer to 1.0 (max depth)
                 //
-                g_pImmediateContext->ClearDepthStencilView(g_pDepthStencilView, D3D11_CLEAR_DEPTH, 1.0f, 0);
+                g_pImmediateContext->ClearDepthStencilView(BackBufferStencilDepthView, D3D11_CLEAR_DEPTH, 1.0f, 0);
                 
                 //
                 // Update variables that change once per frame
@@ -846,7 +846,7 @@ namespace dooms
                 if (g_pVertexShader) g_pVertexShader->Release();
                 if (g_pPixelShader) g_pPixelShader->Release();
                 if (g_pDepthStencil) g_pDepthStencil->Release();
-                if (g_pDepthStencilView) g_pDepthStencilView->Release();
+                if (BackBufferStencilDepthView) BackBufferStencilDepthView->Release();
                 if (BackBufferRenderTargetView) BackBufferRenderTargetView->Release();
                 if (g_pSwapChain1) g_pSwapChain1->Release();
                 if (g_pSwapChain) g_pSwapChain->Release();
@@ -1016,12 +1016,12 @@ namespace dooms
 
         DOOMS_ENGINE_GRAPHICS_API void ClearBackBufferDepthBuffer(const double depthValue)
         {
-            dx11::g_pImmediateContext->ClearDepthStencilView(dx11::g_pDepthStencilView, D3D11_CLEAR_DEPTH, depthValue, 0);
+            dx11::g_pImmediateContext->ClearDepthStencilView(dx11::BackBufferStencilDepthView, D3D11_CLEAR_DEPTH, depthValue, 0);
         }
 
         DOOMS_ENGINE_GRAPHICS_API void ClearBackBufferDepthStencilBuffer(const int stencilValue)
         {
-            dx11::g_pImmediateContext->ClearDepthStencilView(dx11::g_pDepthStencilView, D3D11_CLEAR_STENCIL, 1.0f, stencilValue);
+            dx11::g_pImmediateContext->ClearDepthStencilView(dx11::BackBufferStencilDepthView, D3D11_CLEAR_STENCIL, 1.0f, stencilValue);
         }
 
         DOOMS_ENGINE_GRAPHICS_API void ClearBufferColorBuffer(unsigned long long textureViewObject, const float r, const float g, const float b, const float a)
@@ -1127,6 +1127,7 @@ namespace dooms
             return reinterpret_cast<unsigned long long>(textureView);
 		}
 
+
         DOOMS_ENGINE_GRAPHICS_API void UploadPixelsTo2DTexture
         (
             const unsigned long long textureObject,
@@ -1145,18 +1146,29 @@ namespace dooms
             ID3D11ShaderResourceView* const textureView = reinterpret_cast<ID3D11ShaderResourceView*>(textureObject);
 
 
-            g_pImmediateContext->UpdateSubresource(dx11::g_pCBNeverChanges, 0, nullptr, &cbNeverChanges, 0, 0);
+            //g_pImmediateContext->UpdateSubresource(dx11::g_pCBNeverChanges, 0, nullptr, &cbNeverChanges, 0, 0);
 
-            textureView->
+            //textureView->
         }
 
         DOOMS_ENGINE_GRAPHICS_API void BindFrameBuffer
         (
-            const unsigned long long frameBufferObject,
-            const GraphicsAPI::eBindFrameBufferTarget bindFrameBufferTarget
+            const unsigned int renderTargetCount,
+            unsigned long long* const* renderTargetViewObject,
+            unsigned long long depthStencilViewObject
         )
         {
-            glBindFramebuffer(opengl::GetGLBindFrameBufferTarget(bindFrameBufferTarget), frameBufferObject);
+            dx11::g_pImmediateContext->OMSetRenderTargets
+			(
+                renderTargetCount, 
+                reinterpret_cast<ID3D11RenderTargetView* const*>(renderTargetViewObject),
+                reinterpret_cast<ID3D11DepthStencilView*>(depthStencilViewObject)
+            );
+        }
+
+        DOOMS_ENGINE_GRAPHICS_API void BindBackBuffer()
+        {
+	        dx11::g_pImmediateContext->OMSetRenderTargets(1, &dx11::BackBufferRenderTargetView, dx11::BackBufferStencilDepthView);
         }
 
         DOOMS_ENGINE_GRAPHICS_API unsigned long long CreateBuffer()
@@ -1327,17 +1339,7 @@ namespace dooms
             ID3D11Buffer* buffer = reinterpret_cast<ID3D11Buffer*>(bufferID);
             buffer->Release();
         }
-
-        DOOMS_ENGINE_GRAPHICS_API void BindFrameBuffer
-        (
-            const unsigned long long frameBufferObject,
-            const unsigned long long depthStencilFrameBufferObject,
-            const GraphicsAPI::eBindFrameBufferTarget bindFrameBufferTarget
-        )
-        {
-            dx11::g_pImmediateContext->OMSetRenderTargets()
-        }
-
+        
         DOOMS_ENGINE_GRAPHICS_API void BindRenderBuffer(const unsigned long long renderBufferObject)
         {
             // DX11 doesn't have "Binding" concept
@@ -1371,5 +1373,23 @@ namespace dooms
             dx11::g_pImmediateContext->IASetPrimitiveTopology(dx11::Convert_ePrimitiveType_To_D3D_PRIMITIVE_TOPOLOGY(primitiveType));
             dx11::g_pImmediateContext->DrawIndexed(indiceCount, 0, 0);
         }
+
+        DOOMS_ENGINE_GRAPHICS_API void BlitFrameBuffer
+        (
+            const unsigned long long ReadFrameBufferObject,
+            const unsigned long long DrawFrameBufferObject,
+            const int srcX0, const int srcY0, const int srcX1, const int srcY1,
+            const int dstX0, const int dstY0, const int dstX1, const int dstY1,
+            const GraphicsAPI::eBufferBitType mask,
+            const GraphicsAPI::eImageInterpolation filter
+        )
+		{
+            dx11::g_pImmediateContext->CopyResource
+            (
+                reinterpret_cast<ID3D11Resource*>(DrawFrameBufferObject),
+                reinterpret_cast<ID3D11Resource*>(ReadFrameBufferObject)
+            );
+		}
+
 	}
 }

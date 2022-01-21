@@ -953,21 +953,6 @@ namespace dooms
 				}
 			}
 
-			FORCE_INLINE static unsigned int GetGLBindFrameBufferTarget(const GraphicsAPI::eBindFrameBufferTarget bindFrameBufferTarget)
-			{
-				switch (bindFrameBufferTarget)
-				{
-				case GraphicsAPI::DRAW_FRAMEBUFFER:
-					return GL_DRAW_FRAMEBUFFER;
-				case GraphicsAPI::READ_FRAMEBUFFER:
-					return GL_READ_FRAMEBUFFER;
-				case GraphicsAPI::FRAMEBUFFER:
-					return GL_FRAMEBUFFER;
-				default:
-					NEVER_HAPPEN;
-					return 0;
-				}
-			}
 
 			FORCE_INLINE static unsigned int ConvertStencilOptionToGLStencilOption(const GraphicsAPI::eStencilOption stencilOption)
 			{
@@ -1480,11 +1465,18 @@ namespace dooms
 
 		DOOMS_ENGINE_GRAPHICS_API void BindFrameBuffer
 		(
-			const unsigned long long frameBufferObject,
-			const GraphicsAPI::eBindFrameBufferTarget bindFrameBufferTarget
+			const unsigned int renderTargetCount,
+			unsigned long long* const* renderTargetViewObject,
+			unsigned long long depthStencilViewObject
 		)
 		{
-			glBindFramebuffer(opengl::GetGLBindFrameBufferTarget(bindFrameBufferTarget), frameBufferObject);
+			assert(renderTargetCount == 1);
+			glBindFramebuffer(GL_FRAMEBUFFER, **renderTargetViewObject);
+		}
+
+		DOOMS_ENGINE_GRAPHICS_API void BindBackBuffer()
+		{
+			
 		}
 
 		DOOMS_ENGINE_GRAPHICS_API unsigned int CheckFrameBufferIsSuccesfullyCreated()
@@ -1896,8 +1888,8 @@ namespace dooms
 			const GraphicsAPI::eImageInterpolation filter
 		)
 		{
-			BindFrameBuffer(ReadFrameBufferObject, GraphicsAPI::eBindFrameBufferTarget::READ_FRAMEBUFFER);
-			BindFrameBuffer(DrawFrameBufferObject, GraphicsAPI::eBindFrameBufferTarget::DRAW_FRAMEBUFFER);
+			glBindFramebuffer(ReadFrameBufferObject, GL_READ_FRAMEBUFFER);
+			glBindFramebuffer(DrawFrameBufferObject, GL_DRAW_FRAMEBUFFER);
 			glBlitFramebuffer(srcX0, srcY0, srcX1, srcY1, dstX0, dstY0, dstX1, dstY1, opengl::GetGLBufferBitType(mask), opengl::GetGLImageInterpolation(filter));
 		}
 
