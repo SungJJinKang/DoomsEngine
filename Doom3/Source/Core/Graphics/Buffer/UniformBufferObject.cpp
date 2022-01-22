@@ -8,10 +8,17 @@ void dooms::graphics::UniformBufferObject::OnSetPendingKill()
 	DeleteBuffers();
 }
 
-dooms::graphics::UniformBufferObject::UniformBufferObject() 
-	: Buffer(), mUniformBufferTempData{nullptr}, mSizeInByte{ 0 }, mBindingPoint{ 0 }
+dooms::graphics::UniformBufferObject::UniformBufferObject
+(
+	const std::string& uniformBlockName,
+	const UINT64 uniformBufferSize,
+	const UINT32 defaultBindingPoint, 
+	const GraphicsAPI::eGraphicsPipeLineStage targetPipeLineStage,
+	const void* const initialData
+)
+	: mUniformBlockName(uniformBlockName), mUniformBufferSize(0), mDefaultBindingPoint(defaultBindingPoint), mDefaultTargetPipeLineStage(targetPipeLineStage), mUniformBufferTempData(nullptr)
 {
-
+	GenerateUniformBufferObject(uniformBufferSize);
 }
 
 dooms::graphics::UniformBufferObject::~UniformBufferObject()
@@ -19,26 +26,31 @@ dooms::graphics::UniformBufferObject::~UniformBufferObject()
 	DeleteBuffers();
 }
 
-dooms::graphics::UniformBufferObject::UniformBufferObject(UINT32 bindingPoint, UINT32 uniformBlockSize) 
-	: Buffer(), mUniformBufferTempData{ nullptr }, mSizeInByte{ uniformBlockSize }, mBindingPoint{ bindingPoint }
-{
-	GenerateUniformBufferObject(bindingPoint, uniformBlockSize);
-}
 
-void dooms::graphics::UniformBufferObject::GenerateUniformBufferObject(UINT32 bindingPoint, UINT32 uniformBlockSizeInByte)
+void dooms::graphics::UniformBufferObject::GenerateUniformBufferObject(const UINT64 uniformBufferSize, const void* const initialData)
 {
 	D_ASSERT(IsBufferGenerated() == false); // prevent overlap generating buffer
 	if (IsBufferGenerated() == false)
 	{
 		Buffer::GenBuffer();
 
-		GraphicsAPI::AllocateBufferMemory(mBufferID.GetBufferIDRef(), GraphicsAPI::eBufferTarget::UNIFORM_BUFFER, uniformBlockSizeInByte, NULL);
-		GraphicsAPI::UpdateDataToBuffer(mBufferID, GraphicsAPI::eBufferTarget::UNIFORM_BUFFER, 0, uniformBlockSizeInByte, 0);
-		GraphicsAPI::BindConstantBuffer(mBufferID, bindingPoint, mTargetPipeLineStage);
+		GraphicsAPI::AllocateBufferMemory(mBufferID.GetBufferIDRef(), GraphicsAPI::eBufferTarget::UNIFORM_BUFFER, uniformBufferSize, NULL);
 
-		mSizeInByte = uniformBlockSizeInByte;
-		mUniformBufferTempData = new char[uniformBlockSizeInByte];
-		std::memset(mUniformBufferTempData, 0x00, uniformBlockSizeInByte);
+		if(initialData != 0)
+		{
+			GraphicsAPI::UpdateDataToBuffer(mBufferID, GraphicsAPI::eBufferTarget::UNIFORM_BUFFER, 0, uniformBufferSize, initialData);
+		}
+		
+		mUniformBufferSize = uniformBufferSize;
+
+		if (mUniformBufferTempData != nullptr)
+		{
+			delete[] mUniformBufferTempData;
+			mUniformBufferTempData = nullptr;
+		}
+
+		mUniformBufferTempData = new char[uniformBufferSize];
+		std::memset(mUniformBufferTempData, 0x00, uniformBufferSize);
 	}
 
 }
@@ -59,7 +71,7 @@ void dooms::graphics::UniformBufferObject::BufferData() noexcept
 	D_ASSERT(IsBufferGenerated() == true);
 	if (IsBufferGenerated() == true && bmIsDirty == true)
 	{
-		GraphicsAPI::UpdateDataToBuffer(mBufferID, GraphicsAPI::eBufferTarget::UNIFORM_BUFFER, 0, mSizeInByte, mUniformBufferTempData);
+		GraphicsAPI::UpdateDataToBuffer(mBufferID, GraphicsAPI::eBufferTarget::UNIFORM_BUFFER, 0, mUniformBufferSize, mUniformBufferTempData);
 		bmIsDirty = false;
 	}
 }

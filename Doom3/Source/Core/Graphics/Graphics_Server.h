@@ -66,8 +66,10 @@ namespace dooms
 			DebugDrawer mDebugGraphics {};
 #endif
 
+			D_PROPERTY()
 			UINT32 mCullingCameraCount;
-			
+
+			D_PROPERTY()
 			RendererComponentStaticIterator mRendererStaticContainer{};
 			D_PROPERTY()
 			DeferredRenderingDrawer mDeferredRenderingDrawer{};
@@ -92,8 +94,10 @@ namespace dooms
 			
 		public:
 
+			D_PROPERTY()
 			BVHAABB3D mRendererColliderBVH{ RENDERER_BVH_MAX_NODE_COUNT };
 
+			D_PROPERTY()
 			std::unique_ptr<culling::EveryCulling> mCullingSystem;
 
 			bool InitializeGraphicsAPI();

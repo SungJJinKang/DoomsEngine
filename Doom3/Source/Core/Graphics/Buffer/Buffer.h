@@ -20,6 +20,11 @@ namespace dooms
 			D_PROPERTY()
 			BufferID mBufferID;
 
+			void OnSetPendingKill() override;
+
+		public:
+
+
 			Buffer();
 			virtual ~Buffer();
 
@@ -27,23 +32,15 @@ namespace dooms
 			Buffer& operator=(const Buffer&) noexcept = delete;
 
 			Buffer(Buffer&& buffer) noexcept = default;
-			Buffer& operator=(Buffer&& buffer) noexcept = default;
+			Buffer& operator=(Buffer && buffer) noexcept = default;
 
 			void GenBuffer();
 			virtual void GenBufferIfNotGened();
 			virtual void DeleteBuffers();
 
-
-		protected:
-
-			void OnSetPendingKill() override;
-
-		public:
-
 			D_FUNCTION()
 			inline virtual void BindBuffer() const noexcept = 0;
-			D_FUNCTION()
-			inline virtual void UnBindBuffer() const noexcept = 0;
+
 			D_FUNCTION()
 			virtual bool IsBufferGenerated() const;
 

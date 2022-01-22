@@ -22,10 +22,6 @@ namespace dooms
 		{
 			GENERATE_BODY()
 			
-
-			friend class Graphics_Server;
-			friend class DebugDrawer;
-
 		public:
 
 			
@@ -79,7 +75,7 @@ namespace dooms
 
 				if (D_OVERLAP_BIND_CHECK_CHECK_IS_NOT_BOUND_AND_BIND_ID(INDEX_BUFFER_TAG, mElementBufferObjectID))
 				{
-					GraphicsAPI::BindBuffer(mElementBufferObjectID, GraphicsAPI::eBufferTarget::ELEMENT_ARRAY_BUFFER);
+					GraphicsAPI::BindIndexBufferObject(mElementBufferObjectID);
 				}
 			}
 
@@ -95,9 +91,7 @@ namespace dooms
 
 		protected:
 
-			void GenMeshBuffer(bool hasIndice);
-			void DeleteBuffers() final;
-			virtual void GenBufferIfNotGened(bool hasIndice) final;
+			
 
 		public:
 
@@ -118,20 +112,15 @@ namespace dooms
 
 			const ThreeDModelMesh* GetTargetThreeDModelMesh() const;
 
+			void GenMeshBuffer(bool hasIndice);
+			void DeleteBuffers() final;
+			virtual void GenBufferIfNotGened(bool hasIndice) final;
+
 			D_FUNCTION()
 			FORCE_INLINE void BindVertexArrayObject() const noexcept
 			{
 				BindBuffer();
 			}
-			D_FUNCTION()
-			FORCE_INLINE void UnBindBuffer() const noexcept final
-			{
-				if (D_OVERLAP_BIND_CHECK_CHECK_IS_NOT_BOUND_AND_BIND_ID(VERTEX_ARRAY_TAG, 0))
-				{
-					GraphicsAPI::UnBindVertexArrayObject();
-				}
-			}
-
 			/// <summary>
 			/// layout(location = 0) in vec3 aPos;
 			/// layout(location = 1) in vec2 aUV0;

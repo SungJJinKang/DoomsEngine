@@ -1343,43 +1343,40 @@ namespace dooms
 
         }
 
+        DOOMS_ENGINE_GRAPHICS_API void BindVertexArrayObject(unsigned long long vertexArrayObject)
+        {
+            ID3D11Buffer* const vertexArrayBuffer = reinterpret_cast<ID3D11Buffer*>(vertexArrayObject);
+            dx11::g_pImmediateContext->IASetVertexBuffers(0, 1, &vertexArrayBuffer, 0, 0);
+        }
+
         DOOMS_ENGINE_GRAPHICS_API void BindBuffer
         (
             const unsigned long long bufferObject,
-            const GraphicsAPI::eBufferTarget bindBufferTarget
+            const unsigned int bindingPosition,
+            const GraphicsAPI::eBufferTarget bindBufferTarget,
+            const GraphicsAPI::eGraphicsPipeLineStage targetPipeLienStage
         )
         {
             assert(bufferObject != 0);
 
-            ID3D11Buffer* const buffer = reinterpret_cast<ID3D11Buffer*>(bufferObject);
-            D3D11_BUFFER_DESC desc;
-            buffer->GetDesc(&desc);
-
-            switch(static_cast<D3D11_BIND_FLAG>(desc.BindFlags))
+            if(bindBufferTarget == GraphicsAPI::ARRAY_BUFFER)
             {
-            case D3D11_BIND_VERTEX_BUFFER:
-                //dx11::g_pImmediateContext->IASetVertexBuffers(0, 1, &buffer, &stride, &offset)
-                break;
-            case D3D11_BIND_INDEX_BUFFER:
-                break;
-            case D3D11_BIND_CONSTANT_BUFFER: 
-                break;
-            case D3D11_BIND_SHADER_RESOURCE:
-                break;
-            case D3D11_BIND_STREAM_OUTPUT: 
-                break;
-            case D3D11_BIND_RENDER_TARGET:
-                break;
-            case D3D11_BIND_DEPTH_STENCIL: 
-                break;
-            case D3D11_BIND_UNORDERED_ACCESS: 
-                break;
-            case D3D11_BIND_DECODER: 
-                break;
-            case D3D11_BIND_VIDEO_ENCODER: 
-                break;
-            default: ;
+                
             }
+            else
+            {
+                NEVER_HAPPEN;
+            }
+        }
+
+        DOOMS_ENGINE_GRAPHICS_API void BindIndexBufferObject
+        (
+            const unsigned long long indexBufferObject//, 
+            //const unsigned long long offset
+        )
+        {
+            ID3D11Buffer* const indexBuffer = reinterpret_cast<ID3D11Buffer*>(indexBufferObject);
+            dx11::g_pImmediateContext->IASetIndexBuffer(indexBuffer, DXGI_FORMAT_R16_UINT, 0);
         }
 
         DOOMS_ENGINE_GRAPHICS_API void AllocateBufferMemory
@@ -1397,7 +1394,7 @@ namespace dooms
                 bd.Usage = D3D11_USAGE_DEFAULT;
                 bd.ByteWidth = bufferSize;
                 bd.CPUAccessFlags = 0;
-
+                
                 switch (bufferTarget)
                 {
                 case GraphicsAPI::ARRAY_BUFFER:
@@ -1418,17 +1415,10 @@ namespace dooms
 
                 ID3D11Buffer* buffer;
 
-                D3D11_SUBRESOURCE_DATA* initData = NULL;
-
-                if(initialData != nullptr)
-                {
-                    D3D11_SUBRESOURCE_DATA InitData = {};
-                    InitData.pSysMem = initialData;
-
-                    initData = &InitData;
-                }
+                D3D11_SUBRESOURCE_DATA initData = {};
+                initData.pSysMem = initialData;
                 
-                const HRESULT hr = dx11::g_pd3dDevice->CreateBuffer(&bd, initData, &buffer);
+                const HRESULT hr = dx11::g_pd3dDevice->CreateBuffer(&bd, &initData, &buffer);
                 assert(FAILED(hr) == false);
 
                 bufferObject = reinterpret_cast<unsigned long long>(buffer);
@@ -1440,7 +1430,7 @@ namespace dooms
             const unsigned long long bufferObject,
             const GraphicsAPI::eBufferTarget bindBufferTarget,
             const unsigned int offset,
-            const unsigned int dataSize,
+            const unsigned long long dataSize,
             const void* const data
         )
         {
@@ -1537,7 +1527,7 @@ namespace dooms
 		{
             if( (mask & GraphicsAPI::COLOR_BUFFER) != 0 )
             {
-                ID3D11Resource* fromResource;
+                ID3D11Resource* fromResource = nullptr;
                 if (ReadFrameBufferObject != 0)
                 {
                     fromResource = reinterpret_cast<ID3D11Resource*>(ReadFrameBufferObject);
@@ -1554,7 +1544,7 @@ namespace dooms
                     fromResource = pBackBuffer;
                 }
 
-                ID3D11Resource* toResource;
+                ID3D11Resource* toResource = nullptr;
                 if (DrawFrameBufferObject != 0)
                 {
                     toResource = reinterpret_cast<ID3D11Resource*>(ReadFrameBufferObject);
@@ -1571,6 +1561,8 @@ namespace dooms
                     toResource = pBackBuffer;
                 }
 
+                assert(fromResource != nullptr);
+                assert(toResource != nullptr);
 
                 dx11::g_pImmediateContext->CopyResource
                 (
@@ -1586,7 +1578,7 @@ namespace dooms
                 ((mask & GraphicsAPI::DEPTH_STENCIL_BUFFER) != 0)
             )
             {
-                ID3D11Resource* fromResource;
+                ID3D11Resource* fromResource = nullptr;
                 if (ReadFrameBufferObject != 0)
                 {
                     fromResource = reinterpret_cast<ID3D11Resource*>(ReadFrameBufferObject);
@@ -1597,7 +1589,7 @@ namespace dooms
                     dx11::BackBufferDepthStencilView->GetResource(&fromResource);
                 }
 
-                ID3D11Resource* toResource;
+                ID3D11Resource* toResource = nullptr;
                 if (DrawFrameBufferObject != 0)
                 {
                     toResource = reinterpret_cast<ID3D11Resource*>(ReadFrameBufferObject);
@@ -1605,9 +1597,11 @@ namespace dooms
                 else
                 {
                     assert(dx11::BackBufferDepthStencilView != nullptr);
-                    dx11::BackBufferDepthStencilView->GetResource(&fromResource);
+                    dx11::BackBufferDepthStencilView->GetResource(&toResource);
                 }
 
+                assert(fromResource != nullptr);
+                assert(toResource != nullptr);
 
                 dx11::g_pImmediateContext->CopyResource
                 (
@@ -1615,8 +1609,26 @@ namespace dooms
                     toResource
                 );
             }
-            
+
 		}
+
+
+        DOOMS_ENGINE_GRAPHICS_API unsigned char* ReadPixels
+        (
+            const unsigned long long frameBufferObject,
+            const GraphicsAPI::eBufferMode bufferMode,
+            const unsigned long long bufferSize,
+            const int startX,
+            const int startY,
+            const int width,
+            const int height,
+            const GraphicsAPI::eTextureComponentFormat pixelFormat,
+            const GraphicsAPI::eDataType dataType
+        )
+        {
+            assert(0);
+            return nullptr;
+        }
 
 	}
 }

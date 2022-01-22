@@ -38,32 +38,77 @@ void dooms::graphics::UniformBufferObjectManager::UpdateUniformObjects()
 	BufferDateOfUniformBufferObjects();
 }
 
+dooms::graphics::UniformBufferObject* dooms::graphics::UniformBufferObjectManager::GetUniformBufferObject(const std::string& uniformBufferName)
+{
+	dooms::graphics::UniformBufferObject* uniformBufferObject = nullptr;
+
+	auto uniformBufferObjectNode = mUniformBufferObjects.find(uniformBufferName);
+	if (uniformBufferObjectNode != mUniformBufferObjects.end())
+	{
+		uniformBufferObject = uniformBufferObjectNode->second;
+	}
+
+	D_ASSERT(IsValid(uniformBufferObject));
+
+	return uniformBufferObject;
+}
+
 
 void dooms::graphics::UniformBufferObjectManager::BufferDateOfUniformBufferObjects()
 {
-	for (dooms::graphics::UniformBufferObject& uniformBufferObject : UniformBufferObjectManager::mUniformBufferObjects)
+	for (auto uniformBufferObjectNode : mUniformBufferObjects)
 	{
-		if (uniformBufferObject.IsBufferGenerated())
+		dooms::graphics::UniformBufferObject* uniformBufferObject = uniformBufferObjectNode.second;
+		D_ASSERT(IsValid(uniformBufferObject));
+
+		if (uniformBufferObject->IsBufferGenerated())
 		{
-			uniformBufferObject.BufferData();
+			uniformBufferObject->BufferData();
 		}	
 	}
 }
 
-dooms::graphics::UniformBufferObject& dooms::graphics::UniformBufferObjectManager::GetOrGenerateUniformBufferObject(UINT32 bindingPoint, UINT32 uniformBlockSizeInByte)
+dooms::graphics::UniformBufferObject* dooms::graphics::UniformBufferObjectManager::GetOrGenerateUniformBufferObject
+(
+	const std::string& uniformBufferName,
+	const UINT64 uniformBufferSize,
+	const UINT32 bindingPoint,
+	const GraphicsAPI::eGraphicsPipeLineStage targetPipeLineStage,
+	const void* const initialData
+)
 {
-	auto& uniformBufferObject = UniformBufferObjectManager::mUniformBufferObjects[bindingPoint];
-	if (uniformBufferObject.IsBufferGenerated() == false)
-	{//if uniformBufferObject is not initialized
-		uniformBufferObject.GenerateUniformBufferObject(bindingPoint, uniformBlockSizeInByte);
+	dooms::graphics::UniformBufferObject* uniformBufferObject = nullptr;
+
+	auto uniformBufferObjectNode = mUniformBufferObjects.find(uniformBufferName);
+	if(uniformBufferObjectNode == mUniformBufferObjects.end())
+	{
+		uniformBufferObject = GenerateUniformBufferObject(uniformBufferName, uniformBufferSize, bindingPoint, targetPipeLineStage, initialData);
 	}
+	else
+	{
+		uniformBufferObject = uniformBufferObjectNode->second;
+	}
+
 	return uniformBufferObject;
 }
 
-dooms::graphics::UniformBufferObject& dooms::graphics::UniformBufferObjectManager::GetUniformBufferObject(UINT32 bindingPoint)
+dooms::graphics::UniformBufferObject* dooms::graphics::UniformBufferObjectManager::GenerateUniformBufferObject
+(
+	const std::string& uniformBufferName,
+	const UINT64 uniformBufferSize,
+	const UINT32 bindingPoint, 
+	const GraphicsAPI::eGraphicsPipeLineStage targetPipeLineStage,
+	const void* const initialData
+)
 {
-	return UniformBufferObjectManager::mUniformBufferObjects[bindingPoint];
+	D_ASSERT(mUniformBufferObjects.find(uniformBufferName) == mUniformBufferObjects.end());
+	dooms::graphics::UniformBufferObject* const generatedUniformBufferObject = dooms::CreateDObject<dooms::graphics::UniformBufferObject>(uniformBufferName, uniformBufferSize, bindingPoint, targetPipeLineStage, initialData);
+	D_ASSERT(IsValid(generatedUniformBufferObject));
+	mUniformBufferObjects.emplace(uniformBufferName, generatedUniformBufferObject);
+
+	return generatedUniformBufferObject;
 }
+
 
 dooms::graphics::UniformBufferObjectManager::UniformBufferObjectManager()
 {

@@ -147,6 +147,19 @@ namespace dooms
 			void ClrearStencilexture(const int stencilValue) const;
 			void ClrearDepthStencilTexture(const float depthValue, const int stencilValue) const;
 
+			std::unique_ptr<UINT8[]> ReadPixelsFromColorTexture
+			(
+				const UINT32 bindingPosition,
+				const unsigned long long bufferSize,
+				const int startX,
+				const int startY,
+				const int width,
+				const int height,
+				const GraphicsAPI::eTextureComponentFormat pixelFormat,
+				const GraphicsAPI::eDataType dataType
+			) const;
+			//std::unique_ptr<UINT8[]> ReadPixelsFromDepthTexture() const;
+
 			/*
 			 *INT32 GetFrameBufferParameteriv
 			(

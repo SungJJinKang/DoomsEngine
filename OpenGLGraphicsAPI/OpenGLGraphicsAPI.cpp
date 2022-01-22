@@ -1318,6 +1318,7 @@ namespace dooms
 			glFrontFace(opengl::GetGLWinding(winding));
 		}
 
+		/*
 		DOOMS_ENGINE_GRAPHICS_API void SetDrawBuffer(const GraphicsAPI::eBufferMode bufferMode)
 		{
 			glDrawBuffer(opengl::GetGLBufferMode(bufferMode));
@@ -1341,8 +1342,7 @@ namespace dooms
 		{
 			glReadBuffer(opengl::GetGLBufferMode(bufferMode));
 		}
-
-	
+		*/
 
 		DOOMS_ENGINE_GRAPHICS_API void ClearSpecificBuffer
 		(
@@ -1390,23 +1390,29 @@ namespace dooms
 			glCompileShader(shaderObject);
 		}
 
-		DOOMS_ENGINE_GRAPHICS_API void BindVertexArrayObject(unsigned long long vertexArrayObject)
+		DOOMS_ENGINE_GRAPHICS_API void BindVertexArrayObject(const unsigned long long vertexArrayObject)
 		{
 			glBindVertexArray(vertexArrayObject);
 		}
-
-		DOOMS_ENGINE_GRAPHICS_API void UnBindVertexArrayObject()
-		{
-			glBindVertexArray(0);
-		}
-
+		
 		DOOMS_ENGINE_GRAPHICS_API void BindBuffer
 		(
 			const unsigned long long bufferObject,
-			const GraphicsAPI::eBufferTarget bindBufferTarget
+			const unsigned int bindingPosition,
+			const GraphicsAPI::eBufferTarget bindBufferTarget,
+			const GraphicsAPI::eGraphicsPipeLineStage targetPipeLienStage
 		)
 		{
 			glBindBuffer(opengl::GetGLBufferTarget(bindBufferTarget), bufferObject);
+		}
+
+		DOOMS_ENGINE_GRAPHICS_API void BindIndexBufferObject
+		(
+			const unsigned long long indexBufferObject//, 
+			//const unsigned long long offset
+		)
+		{
+			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indexBufferObject);
 		}
 
 		DOOMS_ENGINE_GRAPHICS_API void AllocateBufferMemory
@@ -1417,7 +1423,7 @@ namespace dooms
 			const void* const initialData
 		)
 		{
-			BindBuffer(bufferObject, bufferTarget);
+			BindBuffer(bufferObject, 0, bufferTarget, GraphicsAPI::eGraphicsPipeLineStage::DUMMY);
 			glBufferData(opengl::GetGLBufferTarget(bufferTarget), bufferSize, initialData, GL_STATIC_DRAW);
 		}
 
@@ -1459,11 +1465,11 @@ namespace dooms
 			const unsigned long long bufferObject,
 			const GraphicsAPI::eBufferTarget bindBufferTarget,
 			const unsigned int offset,
-			const unsigned int dataSize,
+			const unsigned long long dataSize,
 			const void* const data
 		)
 		{
-			BindBuffer(bufferObject, bindBufferTarget);
+			BindBuffer(bufferObject, 0, bindBufferTarget, GraphicsAPI::eGraphicsPipeLineStage::DUMMY);
 			glBufferSubData(opengl::GetGLBufferTarget(bindBufferTarget), offset, dataSize, data);
 		}
 
@@ -1844,7 +1850,7 @@ namespace dooms
 			const GraphicsAPI::eMapBufferAccessOption mapBufferAccessOption
 		)
 		{
-			BindBuffer(bufferID, bindBufferTarget);
+			BindBuffer(bufferID, 0, bindBufferTarget, GraphicsAPI::eGraphicsPipeLineStage::DUMMY);
 
 			// https://www.khronos.org/registry/OpenGL-Refpages/es3.0/html/glMapBufferRange.xhtml
 			return glMapBuffer(opengl::GetGLBufferTarget(bindBufferTarget), opengl::GetGLMapBufferAccessOption(mapBufferAccessOption));
@@ -1859,7 +1865,7 @@ namespace dooms
 			const GraphicsAPI::eMapBufferAccessOption mapBufferAccessOption
 		)
 		{
-			BindBuffer(bufferID, bindBufferTarget);
+			BindBuffer(bufferID, 0, bindBufferTarget, GraphicsAPI::eGraphicsPipeLineStage::DUMMY);
 			
 			// https://www.khronos.org/registry/OpenGL-Refpages/es3.0/html/glMapBufferRange.xhtml
 			return glMapBufferRange(opengl::GetGLBufferTarget(bindBufferTarget), offset, length, opengl::GetGLMapBufferAccessOption(mapBufferAccessOption));
@@ -1871,7 +1877,7 @@ namespace dooms
 			const GraphicsAPI::eBufferTarget bindBufferTarget
 		)
 		{
-			BindBuffer(bufferID, bindBufferTarget);
+			BindBuffer(bufferID, 0, bindBufferTarget, GraphicsAPI::eGraphicsPipeLineStage::DUMMY);
 			glUnmapBuffer(opengl::GetGLBufferTarget(bindBufferTarget));
 		}
 
@@ -2040,6 +2046,8 @@ namespace dooms
 
 		DOOMS_ENGINE_GRAPHICS_API unsigned char* ReadPixels
 		(
+			const unsigned long long frameBufferObject,
+			const GraphicsAPI::eBufferMode bufferMode,
 			const unsigned long long bufferSize,
 			const int startX,
 			const int startY,
@@ -2049,6 +2057,9 @@ namespace dooms
 			const GraphicsAPI::eDataType dataType
 		)
 		{
+			glReadBuffer(opengl::GetGLBufferMode(bufferMode));
+
+			glBindFramebuffer(GL_READ_FRAMEBUFFER, frameBufferObject);
 			unsigned char* const buffer = new unsigned char[bufferSize];
 			glReadPixels(startX, startY, width, height, opengl::GetGLTextureComponentFormat(pixelFormat), opengl::GetGLDataType(dataType), buffer);
 			return buffer;
@@ -2081,7 +2092,7 @@ namespace dooms
 
 			unsigned long long buffer = 0;
 			glGenBuffers(1, reinterpret_cast<unsigned int*>(&buffer));
-			BindBuffer(buffer, GraphicsAPI::eBufferTarget::TEXTURE_BUFFER);
+			BindBuffer(buffer, 0, GraphicsAPI::eBufferTarget::TEXTURE_BUFFER, GraphicsAPI::eGraphicsPipeLineStage::DUMMY);
 
 			glTexStorage2D
 			(

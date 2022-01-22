@@ -213,7 +213,7 @@ dooms::asset::eAssetType dooms::asset::TextureAsset::GetEAssetType() const
 	return dooms::asset::eAssetType::TEXTURE;
 }
 
-dooms::graphics::BufferID dooms::asset::TextureAsset::GetTextureResourceObject()
+dooms::graphics::BufferID dooms::asset::TextureAsset::GetTextureResourceObject() const
 {
 	return mTextureResourceObject;
 }
@@ -264,7 +264,7 @@ dooms::graphics::TextureView* dooms::asset::TextureAsset::GenerateTextureView
 (
 	const UINT32 defaultBindingPosition,
 	const graphics::GraphicsAPI::eGraphicsPipeLineStage defaultTargetGraphicsPipeLineStage
-)
+) const
 {
 	return dooms::CreateDObject<dooms::graphics::TextureView>(this, defaultBindingPosition, defaultTargetGraphicsPipeLineStage);
 }

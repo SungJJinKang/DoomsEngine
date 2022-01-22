@@ -5,6 +5,8 @@
 
 #include <../Helper/Simple_SingleTon/Singleton.h>
 
+#define LIGHT_DATA_CONSTANT_BUFFER_NAME "LIGHT_DATA"
+
 #include "LightManager.reflection.h"
 namespace dooms
 {

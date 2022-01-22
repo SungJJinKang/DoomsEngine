@@ -41,10 +41,13 @@ void Material::SetShaderAsset(::dooms::asset::ShaderAsset* shaderAsset)
 
 	const bool isSuccessLinkMaterial = GraphicsAPI::LinkMaterial(mProgramID);
 	
+	/*
 	if (isSuccessLinkMaterial)
 	{
 		InitUniformBufferObject();
-	}	
+	}
+	*/
+
 }
 
 
@@ -94,13 +97,13 @@ void Material::AddTexture(UINT32 bindingPoint, TextureView* texture)
 	mTargetTextures[bindingPoint] = texture;
 }
 
-void Material::AddTexture(UINT32 bindingPoint, ::dooms::asset::TextureAsset* textureAsset)
+void Material::AddTexture(const UINT32 bindingPoint, const dooms::asset::TextureAsset* const textureAsset)
 {
 	D_ASSERT(IsGenerated() == true);
-	mTargetTextures[bindingPoint] = textureAsset->GenerateTextureViewObject();
+	mTargetTextures.push_back(textureAsset->GenerateTextureView(bindingPoint, GraphicsAPI::eGraphicsPipeLineStage::PIXEL_SHADER));
 }
 
-void dooms::graphics::Material::AddTextures(const std::array<const TextureView*, MAX_TEXTURE_COUNT>& textures)
+void dooms::graphics::Material::AddTextures(const std::vector<const TextureView*>& textures)
 {
 	D_ASSERT(IsGenerated() == true);
 	mTargetTextures = textures;
@@ -118,11 +121,11 @@ void dooms::graphics::Material::UseProgram() const
 			{
 				if (IsValid(mTargetTextures[i]) == true)
 				{
-					mTargetTextures[i]->BindTextureWithUnit(i);
+					mTargetTextures[i]->BindTexture();
 				}
 			}
 
-			if(dooms::graphics::GraphicsAPI::GetCuurentAPIType() == GraphicsAPI::eGraphicsAPIType::DX11_10)
+			if(dooms::graphics::GraphicsAPI::GetCurrentAPIType() == GraphicsAPI::eGraphicsAPIType::DX11_10)
 			{
 				const UINT64 vertexShader = GetShaderAsset()->GetVertexId();
 				if(vertexShader != NULL)
@@ -133,7 +136,7 @@ void dooms::graphics::Material::UseProgram() const
 				GraphicsAPI::BindMaterial(GetShaderAsset()->GetFragmentId());
 				GraphicsAPI::BindMaterial(GetShaderAsset()->GetGeometryId());
 			}
-			else if (dooms::graphics::GraphicsAPI::GetCuurentAPIType() == GraphicsAPI::eGraphicsAPIType::OpenGL)
+			else if (dooms::graphics::GraphicsAPI::GetCurrentAPIType() == GraphicsAPI::eGraphicsAPIType::OpenGL)
 			{
 				GraphicsAPI::BindMaterial(mProgramID);
 			}
@@ -164,31 +167,16 @@ INT32 Material::GetUniformBlocksCount() const
 	return GraphicsAPI::GetConstantBufferBlockCount(mProgramID);
 }
 
-void Material::InitUniformBufferObject()
+void Material::InitUniformBufferObject
+(
+	const std::string& uniformBufferName,
+	const UINT64 uniformBufferSize,
+	const UINT32 bindingPoint,
+	const GraphicsAPI::eGraphicsPipeLineStage targetPipeLineStage
+)
 {
-	INT32 uniformBlockCount = GetUniformBlocksCount();
-	for (INT32 i = 0; i < uniformBlockCount; i++)
-	{
-		INT32 uniformBlockBindingPoint = GraphicsAPI::GetConstantBufferBindingPoint(mProgramID, i);
-		INT32 uniformBlockSize = GraphicsAPI::GetConstantBufferDataSize(mProgramID, i);
-
-		UniformBufferObject& uniformBufferObject = UniformBufferObjectManager::GetSingleton()->GetOrGenerateUniformBufferObject(uniformBlockBindingPoint, uniformBlockSize);
-		mUniformBufferObjects[i] = &uniformBufferObject;
-
-		/*
-		INT32 elementCount = 0;
-		glGetActiveUniformBlockiv(data, i, GL_UNIFORM_BLOCK_ACTIVE_UNIFORMS, &elementCount);
-
-		INT32* elementList = new INT32[100];
-		glGetActiveUniformBlockiv(data, i, GL_UNIFORM_BLOCK_ACTIVE_UNIFORM_INDICES, elementList);
-
-		for (INT32 i = 0; i < elementCount; i++)
-		{
-			
-		}
-		*/
-	}
-
+	UniformBufferObject* const uniformBufferObject = UniformBufferObjectManager::GetSingleton()->GetOrGenerateUniformBufferObject(uniformBufferName, uniformBufferSize, bindingPoint, targetPipeLineStage, nullptr);
+	mUniformBufferObjects.push_back(uniformBufferObject);
 }
 
 const dooms::asset::ShaderAsset* Material::GetShaderAsset() const

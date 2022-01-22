@@ -18,14 +18,19 @@ void TextureView::OnEndContructor()
 
 }
 
-dooms::asset::TextureAsset* TextureView::GetTargetTextureResourceObject()
+const dooms::asset::TextureAsset* TextureView::GetTargetTextureResourceObject() const
 {
 	return mTargetTextureResourceObject;
 }
 
-const dooms::asset::TextureAsset* TextureView::GetTargetTextureResourceObject() const
+void TextureView::SetDefaultBindingLocation(const UINT32 defaultBindingLocation)
 {
-	return mTargetTextureResourceObject;
+	mDefaultBindingLocation = defaultBindingLocation;
+}
+
+void TextureView::SetDefaultTargetGraphicsPipeLineStage(const GraphicsAPI::eGraphicsPipeLineStage defaultGraphicsPipeLineStage)
+{
+	mDefaultTargetGraphicsPipeLineStage = defaultGraphicsPipeLineStage;
 }
 
 TextureView::~TextureView()
@@ -52,7 +57,7 @@ void TextureView::DestroyTextureViewObject()
 
 TextureView::TextureView
 (
-	asset::TextureAsset* const textureResourceObject,
+	const asset::TextureAsset* const textureResourceObject,
 	const UINT32 defaultBindingPosition,
 	const GraphicsAPI::eGraphicsPipeLineStage defaultTargetGraphicsPipeLineStage
 )

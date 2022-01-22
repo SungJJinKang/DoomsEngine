@@ -48,7 +48,7 @@ void dooms::graphics::Mesh::GenMeshBuffer(bool hasIndice)
 	{
 		if (mElementBufferObjectID.IsValid() == false)
 		{
-			mElementBufferObjectID = GraphicsAPI::CreateBuffer();;
+			mElementBufferObjectID = GraphicsAPI::CreateBuffer();
 		}
 	}
 	else
@@ -202,7 +202,7 @@ void dooms::graphics::Mesh::BindVertexBufferObject() const
 
 	if (D_OVERLAP_BIND_CHECK_CHECK_IS_NOT_BOUND_AND_BIND_ID(VERTEX_BUFFER_TAG, mBufferID))
 	{
-		GraphicsAPI::BindBuffer(mBufferID, GraphicsAPI::eBufferTarget::ARRAY_BUFFER);
+		GraphicsAPI::BindVertexArrayObject(mBufferID);
 	}
 
 	

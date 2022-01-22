@@ -55,11 +55,17 @@ namespace dooms
 		private:
 			static inline const char MATERIAL_TAG[]{ "MATERIAL" };
 
+			D_PROPERTY()
 			BufferID mProgramID;
-			::dooms::asset::ShaderAsset* mShaderAsset;
-			static constexpr inline UINT32 MAX_TEXTURE_COUNT{ 7 };
-			std::array<const TextureView*, MAX_TEXTURE_COUNT> mTargetTextures{ nullptr };
-			std::array<UniformBufferObject*, MAX_UNIFORM_BLOCK_BINDING_POINT> mUniformBufferObjects{ nullptr };
+
+			D_PROPERTY()
+			dooms::asset::ShaderAsset* mShaderAsset;
+
+			D_PROPERTY()
+			std::vector<const TextureView*> mTargetTextures{ nullptr };
+
+			D_PROPERTY()
+			std::vector<UniformBufferObject*> mUniformBufferObjects{ nullptr };
 
 			void OnSetPendingKill() override;
 
@@ -83,8 +89,8 @@ namespace dooms
 			void SetShaderAsset(::dooms::asset::ShaderAsset* shaderAsset);
 
 			void AddTexture(UINT32 bindingPoint, TextureView* texture);
-			void AddTexture(UINT32 bindingPoint, ::dooms::asset::TextureAsset* textureAsset);
-			void AddTextures(const std::array<const TextureView*, MAX_TEXTURE_COUNT>& textures);
+			void AddTexture(const UINT32 bindingPoint, const dooms::asset::TextureAsset* const textureAsset);
+			void AddTextures(const std::vector<const TextureView*>& textures);
 
 			void UseProgram() const;
 
@@ -280,7 +286,13 @@ namespace dooms
 			/// </summary>
 			/// <returns>0 ~ return value</returns>
 			INT32 GetUniformBlocksCount() const;
-			void InitUniformBufferObject();
+			void InitUniformBufferObject
+			(
+				const std::string& uniformBufferName,
+				const UINT64 uniformBufferSize,
+				const UINT32 bindingPoint,
+				const GraphicsAPI::eGraphicsPipeLineStage targetPipeLineStage
+			);
 			
 			const dooms::asset::ShaderAsset* GetShaderAsset() const;
 		};

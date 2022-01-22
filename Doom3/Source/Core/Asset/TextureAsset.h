@@ -122,7 +122,7 @@ namespace dooms
 
 			virtual dooms::asset::eAssetType GetEAssetType() const final;
 
-			dooms::graphics::BufferID GetTextureResourceObject();
+			dooms::graphics::BufferID GetTextureResourceObject() const;
 
 			graphics::GraphicsAPI::eTextureComponentFormat GetTextureComponentFormat() const;
 			graphics::GraphicsAPI::eTextureInternalFormat GetTextureInternalFormat() const;
@@ -141,7 +141,7 @@ namespace dooms
 			(
 				const UINT32 defaultBindingPosition,
 				const graphics::GraphicsAPI::eGraphicsPipeLineStage defaultTargetGraphicsPipeLineStage
-			);
+			) const;
 			
 		};
 		

@@ -2,8 +2,8 @@
 
 #include "Asset/TextureAsset.h"
 #include <Math/LightMath_Cpp/Utility.h>
-
 #include "Graphics/GraphicsAPI/graphicsAPISetting.h"
+#include <Graphics/Texture/TextureView.h>
 
 dooms::graphics::FrameBuffer::FrameBuffer()
 	: mDefaultWidth{ 0 }, mDefaultHeight{ 0 }, mFrameBufferIDForOPENGL{}, mAttachedColorTextureViews{}, mAttachedDepthStencilTextureView{nullptr}
@@ -17,7 +17,7 @@ dooms::graphics::FrameBuffer::FrameBuffer(UINT32 defaultWidth, UINT32 defaultHei
 
 void dooms::graphics::FrameBuffer::GenerateFrameBuffer()
 {
-	if(dooms::graphics::GraphicsAPI::GetCuurentAPIType() == dooms::graphics::GraphicsAPI::eGraphicsAPIType::OpenGL)
+	if(dooms::graphics::GraphicsAPI::GetCurrentAPIType() == dooms::graphics::GraphicsAPI::eGraphicsAPIType::OpenGL)
 	{
 		mFrameBufferIDForOPENGL = GraphicsAPI::GenerateFrameBuffer();
 	}
@@ -40,7 +40,7 @@ void dooms::graphics::FrameBuffer::StaticBindFrameBuffer(const FrameBuffer* cons
 		}
 		else
 		{
-			if(GraphicsAPI::GetCuurentAPIType() == GraphicsAPI::eGraphicsAPIType::OpenGL)
+			if(GraphicsAPI::GetCurrentAPIType() == GraphicsAPI::eGraphicsAPIType::OpenGL)
 			{
 				UINT64 frameBufferID[1];
 				frameBufferID[0] = frameBuffer->GetFrameBufferIDForOPENGL();
@@ -48,16 +48,20 @@ void dooms::graphics::FrameBuffer::StaticBindFrameBuffer(const FrameBuffer* cons
 				dooms::graphics::GraphicsAPI::BindFrameBuffer(1, reinterpret_cast<unsigned long long* const*>(&frameBufferID), 0);
 				GraphicsAPI::SetViewport(0, 0, 0, frameBuffer->mDefaultWidth, frameBuffer->mDefaultHeight);
 
+				/*
 				std::vector< GraphicsAPI::eBufferMode> drawBufferModes;
 				drawBufferModes.reserve(10);
 				for(dooms::graphics::FrameBufferView* frameBufferView : frameBuffer->mAttachedColorTextureViews)
 				{
-					drawBufferModes.emplace_back(GraphicsAPI::eBufferMode::COLOR_ATTACHMENT0 + frameBufferView->GetBindingPosition());
+					const INT32 bindingPosition = frameBufferView->GetBindingPosition();
+					D_ASSERT(bindingPosition >= 0);
+					drawBufferModes.emplace_back((GraphicsAPI::eBufferMode)(GraphicsAPI::eBufferMode::COLOR_ATTACHMENT0 + bindingPosition));
 				}
 				GraphicsAPI::SetDrawBuffers(drawBufferModes.size(), drawBufferModes.data());
+				*/
 				
 			}
-			else if (GraphicsAPI::GetCuurentAPIType() == GraphicsAPI::eGraphicsAPIType::DX11_10)
+			else if (GraphicsAPI::GetCurrentAPIType() == GraphicsAPI::eGraphicsAPIType::DX11_10)
 			{
 				unsigned long long renderTargetViewList[15];
 				INT32 renderTargetViewCount = 0;
@@ -138,7 +142,7 @@ bool dooms::graphics::FrameBuffer::IsGenerated()
 
 INT32 dooms::graphics::FrameBuffer::GetFrameBufferWidth() const
 {
-	if (dooms::graphics::GraphicsAPI::GetCuurentAPIType() == dooms::graphics::GraphicsAPI::eGraphicsAPIType::OpenGL)
+	if (dooms::graphics::GraphicsAPI::GetCurrentAPIType() == dooms::graphics::GraphicsAPI::eGraphicsAPIType::OpenGL)
 	{
 		return graphics::GraphicsAPI::GetFrameBufferWidth(mFrameBufferIDForOPENGL);
 	}
@@ -152,7 +156,7 @@ INT32 dooms::graphics::FrameBuffer::GetFrameBufferWidth() const
 
 INT32 dooms::graphics::FrameBuffer::GetFrameBufferHeight() const
 {
-	if (dooms::graphics::GraphicsAPI::GetCuurentAPIType() == dooms::graphics::GraphicsAPI::eGraphicsAPIType::OpenGL)
+	if (dooms::graphics::GraphicsAPI::GetCurrentAPIType() == dooms::graphics::GraphicsAPI::eGraphicsAPIType::OpenGL)
 	{
 		return graphics::GraphicsAPI::GetFrameBufferHeight(mFrameBufferIDForOPENGL);
 	}
@@ -225,7 +229,7 @@ void dooms::graphics::FrameBuffer::BlitFrameBufferFromToFrameBuffer
 	
 	if (IsValid(toFrameBuffer) == true)
 	{
-		if (graphics::GraphicsAPI::GetCuurentAPIType() == graphics::GraphicsAPI::eGraphicsAPIType::OpenGL)
+		if (graphics::GraphicsAPI::GetCurrentAPIType() == graphics::GraphicsAPI::eGraphicsAPIType::OpenGL)
 		{
 			GraphicsAPI::BlitFrameBuffer
 			(
@@ -235,23 +239,35 @@ void dooms::graphics::FrameBuffer::BlitFrameBufferFromToFrameBuffer
 				mask, filter
 			);
 		}
-		else if (graphics::GraphicsAPI::GetCuurentAPIType() == graphics::GraphicsAPI::eGraphicsAPIType::DX11_10)
+		else if (graphics::GraphicsAPI::GetCurrentAPIType() == graphics::GraphicsAPI::eGraphicsAPIType::DX11_10)
 		{
-			switch (mask)
+			if ((mask & GraphicsAPI::COLOR_BUFFER) != 0)
 			{
-			case GraphicsAPI::COLOR_BUFFER:
+				const size_t fromFrameBufferColorTextureCount = (fromFrameBuffer == nullptr) ? 1 : fromFrameBuffer->GetAttachedColorTextureCount();
+				const size_t toFrameBufferColorTextureCount = (toFrameBuffer == nullptr) ? 1 : toFrameBuffer->GetAttachedColorTextureCount();
 
-				D_ASSERT( > GetAttachedColorTextureCount() == toFrameBuffer->GetAttachedColorTextureCount())
-					for (size_t colorTextureIndex = 0; colorTextureIndex < GetAttachedColorTextureCount(); colorTextureIndex++)
-					{
+				for (size_t colorTextureIndex = 0; colorTextureIndex < math::Min(fromFrameBufferColorTextureCount, toFrameBufferColorTextureCount); colorTextureIndex++)
+				{
+					asset::TextureAsset* const fromFrameBufferColorTextureResource = (fromFrameBuffer == nullptr) ? nullptr : fromFrameBuffer->GetColorTextureResourceObject(colorTextureIndex);
+					asset::TextureAsset* const toFrameBufferColorTextureResource = (toFrameBuffer == nullptr) ? nullptr : toFrameBuffer->GetColorTextureResourceObject(colorTextureIndex);
 
-					}
-				break;
+					GraphicsAPI::BlitFrameBuffer
+					(
+						(IsValid(fromFrameBufferColorTextureResource) == true) ? 0 : fromFrameBufferColorTextureResource->GetTextureResourceObject().GetBufferID(),
+						(IsValid(toFrameBufferColorTextureResource) == true) ? 0 : toFrameBufferColorTextureResource->GetTextureResourceObject().GetBufferID(),
+						srcX0, srcY0, srcX1, srcY1, dstX0, dstY0, dstX1, dstY1,
+						mask, filter
+					);
+				}
+			}
 
-			case GraphicsAPI::DEPTH_BUFFER:
-			case GraphicsAPI::STENCIL_BUFFER:
-			case GraphicsAPI::DEPTH_STENCIL_BUFFER:
-
+			if
+			(
+				(mask & GraphicsAPI::COLOR_BUFFER) != 0 ||
+				(mask & GraphicsAPI::STENCIL_BUFFER) != 0 ||
+				(mask & GraphicsAPI::DEPTH_STENCIL_BUFFER) != 0
+			)
+			{
 				asset::TextureAsset* const fromDepthStencilTextureResource = (fromFrameBuffer == nullptr) ? nullptr : fromFrameBuffer->GetDepthStencilTextureResourceObject();
 				asset::TextureAsset* const toDepthStencilTextureResource = (toFrameBuffer == nullptr) ? nullptr : toFrameBuffer->GetDepthStencilTextureResourceObject();
 
@@ -262,10 +278,6 @@ void dooms::graphics::FrameBuffer::BlitFrameBufferFromToFrameBuffer
 					srcX0, srcY0, srcX1, srcY1, dstX0, dstY0, dstX1, dstY1,
 					mask, filter
 				);
-				break;
-
-			default:
-				D_ASSERT(false);
 			}
 		}
 	}
@@ -511,11 +523,11 @@ void dooms::graphics::FrameBuffer::ClearColorTexture
 	const float a
 ) const
 {
-	if (GraphicsAPI::GetCuurentAPIType() == GraphicsAPI::eGraphicsAPIType::OpenGL)
+	if (GraphicsAPI::GetCurrentAPIType() == GraphicsAPI::eGraphicsAPIType::OpenGL)
 	{
 		GraphicsAPI::ClearFrameBufferColorBuffer(mFrameBufferIDForOPENGL, r, g, b, a);
 	}
-	else if (GraphicsAPI::GetCuurentAPIType() == GraphicsAPI::eGraphicsAPIType::DX11_10)
+	else if (GraphicsAPI::GetCurrentAPIType() == GraphicsAPI::eGraphicsAPIType::DX11_10)
 	{
 		dooms::asset::TextureAsset* const colorTexture = GetColorTextureResourceObject(bindingPosition);
 		D_ASSERT(IsValid(colorTexture) == true);
@@ -529,7 +541,7 @@ void dooms::graphics::FrameBuffer::ClearColorTexture
 
 void dooms::graphics::FrameBuffer::ClrearDepthTexture(const float depthValue) const
 {
-	if (GraphicsAPI::GetCuurentAPIType() == GraphicsAPI::eGraphicsAPIType::OpenGL)
+	if (GraphicsAPI::GetCurrentAPIType() == GraphicsAPI::eGraphicsAPIType::OpenGL)
 	{
 		D_ASSERT(mFrameBufferIDForOPENGL.IsValid());
 		if (mFrameBufferIDForOPENGL.IsValid())
@@ -537,7 +549,7 @@ void dooms::graphics::FrameBuffer::ClrearDepthTexture(const float depthValue) co
 			GraphicsAPI::ClearFrameBufferDepthBuffer(mFrameBufferIDForOPENGL, depthValue);
 		}
 	}
-	else if (GraphicsAPI::GetCuurentAPIType() == GraphicsAPI::eGraphicsAPIType::DX11_10)
+	else if (GraphicsAPI::GetCurrentAPIType() == GraphicsAPI::eGraphicsAPIType::DX11_10)
 	{
 		D_ASSERT(IsValid(mAttachedDepthStencilTextureView) && mAttachedDepthStencilTextureView->IsValid());
 		if (IsValid(mAttachedDepthStencilTextureView) && mAttachedDepthStencilTextureView->IsValid())
@@ -549,7 +561,7 @@ void dooms::graphics::FrameBuffer::ClrearDepthTexture(const float depthValue) co
 
 void dooms::graphics::FrameBuffer::ClrearStencilexture(const int stencilValue) const
 {
-	if (GraphicsAPI::GetCuurentAPIType() == GraphicsAPI::eGraphicsAPIType::OpenGL)
+	if (GraphicsAPI::GetCurrentAPIType() == GraphicsAPI::eGraphicsAPIType::OpenGL)
 	{
 		D_ASSERT(mFrameBufferIDForOPENGL.IsValid());
 		if (mFrameBufferIDForOPENGL.IsValid())
@@ -557,7 +569,7 @@ void dooms::graphics::FrameBuffer::ClrearStencilexture(const int stencilValue) c
 			GraphicsAPI::ClearFrameBufferStencilBuffer(mFrameBufferIDForOPENGL, stencilValue);
 		}
 	}
-	else if (GraphicsAPI::GetCuurentAPIType() == GraphicsAPI::eGraphicsAPIType::DX11_10)
+	else if (GraphicsAPI::GetCurrentAPIType() == GraphicsAPI::eGraphicsAPIType::DX11_10)
 	{
 		D_ASSERT(IsValid(mAttachedDepthStencilTextureView) && mAttachedDepthStencilTextureView->IsValid());
 		if (IsValid(mAttachedDepthStencilTextureView) && mAttachedDepthStencilTextureView->IsValid())
@@ -569,7 +581,7 @@ void dooms::graphics::FrameBuffer::ClrearStencilexture(const int stencilValue) c
 
 void dooms::graphics::FrameBuffer::ClrearDepthStencilTexture(const float depthValue, const int stencilValue) const
 {
-	if (GraphicsAPI::GetCuurentAPIType() == GraphicsAPI::eGraphicsAPIType::OpenGL)
+	if (GraphicsAPI::GetCurrentAPIType() == GraphicsAPI::eGraphicsAPIType::OpenGL)
 	{
 		D_ASSERT(mFrameBufferIDForOPENGL.IsValid());
 		if (mFrameBufferIDForOPENGL.IsValid())
@@ -577,7 +589,7 @@ void dooms::graphics::FrameBuffer::ClrearDepthStencilTexture(const float depthVa
 			GraphicsAPI::ClearFrameBufferDepthStencilBuffer(mFrameBufferIDForOPENGL, depthValue, stencilValue);
 		}
 	}
-	else if (GraphicsAPI::GetCuurentAPIType() == GraphicsAPI::eGraphicsAPIType::DX11_10)
+	else if (GraphicsAPI::GetCurrentAPIType() == GraphicsAPI::eGraphicsAPIType::DX11_10)
 	{
 		D_ASSERT(IsValid(mAttachedDepthStencilTextureView) && mAttachedDepthStencilTextureView->IsValid());
 		if (IsValid(mAttachedDepthStencilTextureView) && mAttachedDepthStencilTextureView->IsValid())
@@ -585,6 +597,54 @@ void dooms::graphics::FrameBuffer::ClrearDepthStencilTexture(const float depthVa
 			GraphicsAPI::ClearFrameBufferDepthStencilBuffer(mAttachedDepthStencilTextureView->GetViewID(), depthValue, stencilValue);
 		}
 	}
+}
+
+std::unique_ptr<UINT8[]> dooms::graphics::FrameBuffer::ReadPixelsFromColorTexture
+(
+	const UINT32 bindingPosition,
+	const unsigned long long bufferSize, 
+	const int startX, 
+	const int startY, 
+	const int width, 
+	const int height,
+	const GraphicsAPI::eTextureComponentFormat pixelFormat, 
+	const GraphicsAPI::eDataType dataType
+) const
+{
+	std::unique_ptr<UINT8[]> pixels;
+	if(graphics::GraphicsAPI::GetCurrentAPIType() == dooms::graphics::GraphicsAPI::eGraphicsAPIType::OpenGL)
+	{
+		UINT8* const rawPixels = dooms::graphics::GraphicsAPI::ReadPixels
+		(
+			mFrameBufferIDForOPENGL.GetBufferID(),
+			(GraphicsAPI::eBufferMode)(GraphicsAPI::eBufferMode::COLOR_ATTACHMENT0 + bindingPosition),
+			bufferSize,
+			startX,
+			startY,
+			width,
+			height,
+			pixelFormat,
+			dataType
+		);
+		pixels = std::unique_ptr<UINT8[]>{ rawPixels };
+	}
+	else if (graphics::GraphicsAPI::GetCurrentAPIType() == dooms::graphics::GraphicsAPI::eGraphicsAPIType::OpenGL)
+	{
+		UINT8* const rawPixels = dooms::graphics::GraphicsAPI::ReadPixels
+		(
+			GetColorTextureRenderTargetView(bindingPosition)->GetTextureResource()->GetTextureResourceObject(),
+			(GraphicsAPI::eBufferMode)(GraphicsAPI::eBufferMode::COLOR_ATTACHMENT0 + bindingPosition),
+			bufferSize,
+			startX,
+			startY,
+			width,
+			height,
+			pixelFormat,
+			dataType
+		);
+		pixels = std::unique_ptr<UINT8[]>{ rawPixels };
+	}
+	
 }
 
 

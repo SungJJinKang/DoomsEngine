@@ -30,10 +30,7 @@ void dooms::graphics::DefferedRenderingFrameBuffer::BlitDepthBufferToScreenBuffe
 
 void dooms::graphics::DefferedRenderingFrameBuffer::BindGBufferTextures()
 {
-	for (UINT32 i = 0; i < 3; i++)
-	{
-		FrameBuffer::GetFrameBufferTexture(GraphicsAPI::eBufferBitType::COLOR_BUFFER, i)->BindTextureWithUnit(i);
-	}
+	BindFrameBuffer();
 }
 
 void dooms::graphics::DefferedRenderingFrameBuffer::ClearFrameBuffer(const Camera* const camera)

@@ -18,12 +18,7 @@ void dooms::ExportTextureTester::UpdateComponent()
 	{
 		dooms::ui::PrintText("Export Camera Texture");
 		
-		dooms::graphics::TextureView* texture =
-			dooms::Camera::GetMainCamera()->mDefferedRenderingFrameBuffer.GetFrameBufferTexture
-			(
-				dooms::graphics::GraphicsAPI::eBufferBitType::COLOR_BUFFER,
-				0
-			);
+		dooms::graphics::TextureView* texture = dooms::Camera::GetMainCamera()->mDefferedRenderingFrameBuffer.GetColorTextureView(0, dooms::graphics::GraphicsAPI::eGraphicsPipeLineStage::PIXEL_SHADER);
 
 		dooms::assetExporter::assetExporterTexture::ExportTextureFromTexture(
 			texture,
@@ -37,12 +32,7 @@ void dooms::ExportTextureTester::UpdateComponent()
 	{
 		dooms::ui::PrintText("Export Camera Texture");
 
-		dooms::graphics::TextureView* texture =
-			dooms::Camera::GetMainCamera()->mDefferedRenderingFrameBuffer.GetFrameBufferTexture
-			(
-				dooms::graphics::GraphicsAPI::eBufferBitType::COLOR_BUFFER,
-				0
-			);
+		dooms::graphics::TextureView* const texture = dooms::Camera::GetMainCamera()->mDefferedRenderingFrameBuffer.GetColorTextureView(0, dooms::graphics::GraphicsAPI::eGraphicsPipeLineStage::PIXEL_SHADER);
 
 		dooms::assetExporter::assetExporterTexture::ExportTextureFromTextureAsDDS(
 			texture,

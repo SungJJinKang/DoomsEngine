@@ -21,7 +21,6 @@ namespace dooms
 			GENERATE_BODY()
 			
 
-			friend class UniformBufferObjectManager;
 		private:
 
 			static inline const char GL_UNIFORM_BUFFER_TAG[]{ "GL_UNIFORM_BUFFER" };
@@ -29,11 +28,18 @@ namespace dooms
 			/// <summary>
 			/// for buffer data only when data is dirty
 			/// </summary>
+			D_PROPERTY()
 			bool bmIsDirty = true;
+
+			D_PROPERTY()
 			std::string mUniformBlockName;
 
-			GraphicsAPI::eGraphicsPipeLineStage mTargetPipeLineStage;
-
+			D_PROPERTY()
+			UINT32 mDefaultBindingPoint;
+			D_PROPERTY()
+			GraphicsAPI::eGraphicsPipeLineStage mDefaultTargetPipeLineStage;
+			D_PROPERTY()
+			UINT64 mUniformBufferSize;
 			/// <summary>
 			/// Buffer::data is same with mUniformBufferID
 			/// </summary>
@@ -48,33 +54,31 @@ namespace dooms
 			/// Use life mUniformBuffers[0][offset in byte]
 			///
 			/// </summary>
+			D_PROPERTY()
 			char* mUniformBufferTempData;
-			UINT32 mSizeInByte;
-			UINT32 mBindingPoint;
+			
 
 			/// <summary>
 			/// Cache element of uniform block's aligned offset
 			/// </summary>
 			std::unordered_map<std::string, UINT32> mUniformBlockAlignedOffset{};
 		
-			void GenerateUniformBufferObject(UINT32 bindingPoint, UINT32 uniformBlockSizeInByte);
+			void GenerateUniformBufferObject(const UINT64 uniformBufferSize, const void* const initialData = 0);
 			void DeleteBuffers() final;
 
 			FORCE_INLINE void BindBuffer() const noexcept final
 			{
 				if (D_OVERLAP_BIND_CHECK_CHECK_IS_NOT_BOUND_AND_BIND_ID(GL_UNIFORM_BUFFER_TAG, mBufferID))
 				{
-					GraphicsAPI::BindBuffer(mBufferID, GraphicsAPI::UNIFORM_BUFFER);
+					GraphicsAPI::BindConstantBuffer(mBufferID, mDefaultBindingPoint, mDefaultTargetPipeLineStage);
 				}
-				
 			}
-			FORCE_INLINE virtual void UnBindBuffer() const noexcept final
+			FORCE_INLINE void BindBuffer(const UINT32 bindingPoint, const GraphicsAPI::eGraphicsPipeLineStage targetPipeLineStage) const noexcept
 			{
-				if (D_OVERLAP_BIND_CHECK_CHECK_IS_NOT_BOUND_AND_BIND_ID(GL_UNIFORM_BUFFER_TAG, 0))
+				if (D_OVERLAP_BIND_CHECK_CHECK_IS_NOT_BOUND_AND_BIND_ID(GL_UNIFORM_BUFFER_TAG, mBufferID))
 				{
-					GraphicsAPI::UnBindBuffer(GraphicsAPI::UNIFORM_BUFFER);
+					GraphicsAPI::BindConstantBuffer(mBufferID, bindingPoint, targetPipeLineStage);
 				}
-			
 			}
 
 			void OnSetPendingKill() override;
@@ -82,8 +86,15 @@ namespace dooms
 
 		public:
 
-			UniformBufferObject();
-			UniformBufferObject(UINT32 bindingPoint, UINT32 uniformBlockSize);
+			UniformBufferObject() = delete;
+			UniformBufferObject
+			(
+				const std::string& uniformBlockName,
+				const UINT64 uniformBufferSize,
+				const UINT32 defaultBindingPoint, 
+				const GraphicsAPI::eGraphicsPipeLineStage targetPipeLineStage,
+				const void* const initialData
+			);
 			~UniformBufferObject();
 
 			UniformBufferObject(const UniformBufferObject&) = delete;

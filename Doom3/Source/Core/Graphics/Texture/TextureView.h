@@ -37,7 +37,7 @@ namespace dooms
 			void DestroyTextureViewObject();
 
 			D_PROPERTY()
-			asset::TextureAsset* mTargetTextureResourceObject;
+			const asset::TextureAsset* mTargetTextureResourceObject;
 
 			D_PROPERTY()
 			BufferID mTextureViewObject;
@@ -54,7 +54,7 @@ namespace dooms
 
 			TextureView
 			(
-				asset::TextureAsset* const textureResourceObject, 
+				const asset::TextureAsset* const textureResourceObject, 
 				const UINT32 defaultBindingPosition,
 				const GraphicsAPI::eGraphicsPipeLineStage defaultTargetGraphicsPipeLineStage
 			);
@@ -67,13 +67,24 @@ namespace dooms
 			virtual ~TextureView();
 			virtual void OnEndContructor();
 			
-			const BufferID& GetBufferID() const
+			const BufferID& GetTextureViewObjectBufferID() const
 			{
 				return mTextureViewObject;
 			}
-
-			asset::TextureAsset* GetTargetTextureResourceObject();
+			
 			const asset::TextureAsset* GetTargetTextureResourceObject() const;
+
+			FORCE_INLINE UINT32 GetDefaultBindingLocation() const
+			{
+				return mDefaultBindingLocation;
+			}
+			void SetDefaultBindingLocation(const UINT32 defaultBindingLocation);
+
+			FORCE_INLINE GraphicsAPI::eGraphicsPipeLineStage GetDefaultTargetGraphicsPipeLineStage() const
+			{
+				return mDefaultTargetGraphicsPipeLineStage;
+			}
+			void SetDefaultTargetGraphicsPipeLineStage(const GraphicsAPI::eGraphicsPipeLineStage defaultGraphicsPipeLineStage);
 
 			FORCE_INLINE void BindTexture() const noexcept
 			{

@@ -28,7 +28,7 @@ namespace dooms
 			};
 
 			typedef eGraphicsAPIType(DOOMS_ENGINE_API_ENTRY_P GRAPHICS_GETCURRENTAPITYPE)(void);
-			extern GRAPHICS_GETCURRENTAPITYPE GetCuurentAPIType;
+			extern GRAPHICS_GETCURRENTAPITYPE GetCurrentAPIType;
 
 			enum eGraphisAPIDebugCallbackSeverity : unsigned int
 			{
@@ -255,6 +255,7 @@ namespace dooms
 			typedef void (DOOMS_ENGINE_API_ENTRY_P GRAPHICS_SETFRONTFACEWINDING)(const eWinding winding);
 			extern GRAPHICS_SETFRONTFACEWINDING SetFrontFaceWinding;
 
+			/*
 			typedef void (DOOMS_ENGINE_API_ENTRY_P GRAPHICS_SETDRAWBUFFER)(const GraphicsAPI::eBufferMode bufferMode);
 			extern GRAPHICS_SETDRAWBUFFER SetDrawBuffer;
 
@@ -263,6 +264,7 @@ namespace dooms
 
 			typedef void (DOOMS_ENGINE_API_ENTRY_P GRAPHICS_SETREADBUFFER)(const GraphicsAPI::eBufferMode bufferMode);
 			extern GRAPHICS_SETREADBUFFER SetReadBuffer;
+			*/
 
 			typedef void (DOOMS_ENGINE_API_ENTRY_P GRAPHICS_CLEARBACKFRAMEBUFFERCOLORBUFFER)(const float r, const float g, const float b, const float a);
 			extern GRAPHICS_CLEARBACKFRAMEBUFFERCOLORBUFFER ClearBackFrameBufferColorBuffer;
@@ -530,12 +532,12 @@ namespace dooms
 			typedef void (DOOMS_ENGINE_API_ENTRY_P GRAPHICS_DESTROYVERTEXARRAYOBJECT)(unsigned long long vertexArrayObject);
 			extern GRAPHICS_DESTROYVERTEXARRAYOBJECT DestroyVertexArrayObject;
 
-			typedef void (DOOMS_ENGINE_API_ENTRY_P GRAPHICS_BINDVERTEXARRAYOBJECT)(unsigned long long vertexArrayObject);
+			typedef void (DOOMS_ENGINE_API_ENTRY_P GRAPHICS_BINDVERTEXARRAYOBJECT)(const unsigned long long vertexArrayObject);
 			extern GRAPHICS_BINDVERTEXARRAYOBJECT BindVertexArrayObject;
 
-			typedef void (DOOMS_ENGINE_API_ENTRY_P GRAPHICS_UNBINDVERTEXARRAYOBJECT)();
-			extern GRAPHICS_UNBINDVERTEXARRAYOBJECT UnBindVertexArrayObject;
-
+			typedef void (DOOMS_ENGINE_API_ENTRY_P GRAPHICS_BINDINDEXBUFFEROBJECT)(const unsigned long long indexBufferObject/*, const unsigned long long offset*/);
+			extern GRAPHICS_BINDINDEXBUFFEROBJECT BindIndexBufferObject;
+			
 			typedef void (DOOMS_ENGINE_API_ENTRY_P GRAPHICS_ALLOCATEBUFFERMEMORY)
 				(
 					unsigned long long& bufferObject,
@@ -560,19 +562,6 @@ namespace dooms
 					);
 			extern GRAPHICS_DEFINEVERTEXATTRIBUTELAYOUT DefineVertexAttributeLayout;
 
-			typedef void (DOOMS_ENGINE_API_ENTRY_P GRAPHICS_BINDBUFFER)
-				(
-					const unsigned long long bufferObject,
-					const eBufferTarget bindBufferTarget
-					);
-			extern GRAPHICS_BINDBUFFER BindBuffer;
-
-			typedef void (DOOMS_ENGINE_API_ENTRY_P GRAPHICS_UNBINDBUFFER)
-				(
-					const eBufferTarget bindBufferTarget
-					);
-			extern GRAPHICS_UNBINDBUFFER UnBindBuffer;
-
 			enum eGraphicsPipeLineStage : unsigned long
 			{
 				VERTEX_SHADER,
@@ -583,6 +572,23 @@ namespace dooms
 				COMPUTE_SHADER,
 				DUMMY
 			};
+
+			typedef void (DOOMS_ENGINE_API_ENTRY_P GRAPHICS_BINDBUFFER)
+			(
+				const unsigned long long bufferObject,
+				const unsigned int bindingPosition,
+				const eBufferTarget bindBufferTarget,
+				const GraphicsAPI::eGraphicsPipeLineStage targetPipeLienStage
+			);
+			extern GRAPHICS_BINDBUFFER BindBuffer;
+
+			typedef void (DOOMS_ENGINE_API_ENTRY_P GRAPHICS_UNBINDBUFFER)
+				(
+					const eBufferTarget bindBufferTarget
+					);
+			extern GRAPHICS_UNBINDBUFFER UnBindBuffer;
+
+			
 
 			typedef void (DOOMS_ENGINE_API_ENTRY_P GRAPHICS_BINDCONSTANTBUFFER)
 				(
@@ -597,7 +603,7 @@ namespace dooms
 				const unsigned long long bufferObject,
 				const GraphicsAPI::eBufferTarget bindBufferTarget,
 				const unsigned int offset,
-				const unsigned int dataSize,
+				const unsigned long long dataSize,
 				const void* const data
 			);
 			extern GRAPHICS_UPDATEDATATOBUFFER UpdateDataToBuffer;
@@ -1028,15 +1034,17 @@ namespace dooms
 
 
 			typedef unsigned char* (DOOMS_ENGINE_API_ENTRY_P GRAPHICS_READPIXELS)
-				(
-					const unsigned long long bufferSize,
-					const int startX,
-					const int startY,
-					const int width,
-					const int height,
-					const dooms::graphics::GraphicsAPI::eTextureComponentFormat pixelFormat,
-					const dooms::graphics::GraphicsAPI::eDataType dataType
-					);
+			(
+				const unsigned long long bufferObject,
+				const eBufferMode bufferMode,
+				const unsigned long long bufferSize,
+				const int startX,
+				const int startY,
+				const int width,
+				const int height,
+				const dooms::graphics::GraphicsAPI::eTextureComponentFormat pixelFormat,
+				const dooms::graphics::GraphicsAPI::eDataType dataType
+			);
 			extern GRAPHICS_READPIXELS ReadPixels;
 
 			enum eBindFlag : unsigned long

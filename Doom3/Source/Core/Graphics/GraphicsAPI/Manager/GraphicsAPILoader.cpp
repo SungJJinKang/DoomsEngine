@@ -21,8 +21,8 @@ void dooms::graphics::GraphicsAPILoader::FetchExportedFunctionAddress()
 	D_ASSERT(mAPIModule != nullptr);
 	HMODULE hModule = reinterpret_cast<HMODULE>(mAPIModule);
 
-	dooms::graphics::GraphicsAPI::GetCuurentAPIType = (GraphicsAPI::GRAPHICS_GETCURRENTAPITYPE(GetProcAddress(hModule, "GetCuurentAPIType");
-	//D_ASSERT(dooms::graphics::GraphicsAPI::GetCuurentAPIType != nullptr);
+	dooms::graphics::GraphicsAPI::GetCurrentAPIType = (GraphicsAPI::GRAPHICS_GETCURRENTAPITYPE)GetProcAddress(hModule, "GetCurrentAPIType");
+	//D_ASSERT(dooms::graphics::GraphicsAPI::GetCurrentAPIType != nullptr);
 	dooms::graphics::GraphicsAPI::ActivateTextureUnit = (GraphicsAPI::GRAPHICS_ACTIVATETEXTUREUNIT)GetProcAddress(hModule, "ActivateTextureUnit");
 	//D_ASSERT(dooms::graphics::GraphicsAPI::ActivateTextureUnit != nullptr);
 	dooms::graphics::GraphicsAPI::AllocateBufferMemory = (GraphicsAPI::GRAPHICS_ALLOCATEBUFFERMEMORY)GetProcAddress(hModule, "AllocateBufferMemory");
@@ -55,6 +55,8 @@ void dooms::graphics::GraphicsAPILoader::FetchExportedFunctionAddress()
 	//D_ASSERT(dooms::graphics::GraphicsAPI::BindTextureObjectAndActivateTextureUnit != nullptr);
 	dooms::graphics::GraphicsAPI::BindVertexArrayObject = (GraphicsAPI::GRAPHICS_BINDVERTEXARRAYOBJECT)GetProcAddress(hModule, "BindVertexArrayObject");
 	//D_ASSERT(dooms::graphics::GraphicsAPI::BindVertexArrayObject != nullptr);
+	dooms::graphics::GraphicsAPI::BindIndexBufferObject = (GraphicsAPI::GRAPHICS_BINDINDEXBUFFEROBJECT)GetProcAddress(hModule, "BindIndexBufferObject");
+	//D_ASSERT(dooms::graphics::GraphicsAPI::BindIndexBufferObject != nullptr);
 	dooms::graphics::GraphicsAPI::BlitFrameBuffer = (GraphicsAPI::GRAPHICS_BLITFRAMEBUFFER)GetProcAddress(hModule, "BlitFrameBuffer");
 	//D_ASSERT(dooms::graphics::GraphicsAPI::BlitFrameBuffer != nullptr);
 	dooms::graphics::GraphicsAPI::CheckFrameBufferIsSuccesfullyCreated = (GraphicsAPI::GRAPHICS_CHECKFRAMEBUFFERISSUCCESFULLYCREATED)GetProcAddress(hModule, "CheckFrameBufferIsSuccesfullyCreated");
@@ -177,8 +179,12 @@ void dooms::graphics::GraphicsAPILoader::FetchExportedFunctionAddress()
 	//D_ASSERT(dooms::graphics::GraphicsAPI::SetDepthFunc != nullptr);
 	dooms::graphics::GraphicsAPI::SetDepthMask = (GraphicsAPI::GRAPHICS_SETDEPTHMASK)GetProcAddress(hModule, "SetDepthMask");
 	//D_ASSERT(dooms::graphics::GraphicsAPI::SetDepthMask != nullptr);
+	
+	/*
 	dooms::graphics::GraphicsAPI::SetDrawBuffers = (GraphicsAPI::GRAPHICS_SETDRAWBUFFERS)GetProcAddress(hModule, "SetDrawBuffers");
 	//D_ASSERT(dooms::graphics::GraphicsAPI::SetDrawBuffers != nullptr);
+	*/
+
 	dooms::graphics::GraphicsAPI::SetFrontFaceWinding = (GraphicsAPI::GRAPHICS_SETFRONTFACEWINDING)GetProcAddress(hModule, "SetFrontFaceWinding");
 	//D_ASSERT(dooms::graphics::GraphicsAPI::SetFrontFaceWinding != nullptr);
 	dooms::graphics::GraphicsAPI::SetIsAlphaTestEnabled = (GraphicsAPI::GRAPHICS_SETISALPHATESTENABLED)GetProcAddress(hModule, "SetIsAlphaTestEnabled");
@@ -198,10 +204,14 @@ void dooms::graphics::GraphicsAPILoader::FetchExportedFunctionAddress()
 	//D_ASSERT(dooms::graphics::GraphicsAPI::SetMagFilter != nullptr);
 	dooms::graphics::GraphicsAPI::SetMinFilter = (GraphicsAPI::GRAPHICS_SETMINFILTER)GetProcAddress(hModule, "SetMinFilter");
 	//D_ASSERT(dooms::graphics::GraphicsAPI::SetMinFilter != nullptr);
+
+	/*
 	dooms::graphics::GraphicsAPI::SetReadBuffer = (GraphicsAPI::GRAPHICS_SETREADBUFFER)GetProcAddress(hModule, "SetReadBuffer");
 	//D_ASSERT(dooms::graphics::GraphicsAPI::SetReadBuffer != nullptr);
 	dooms::graphics::GraphicsAPI::SetDrawBuffer = (GraphicsAPI::GRAPHICS_SETDRAWBUFFER)GetProcAddress(hModule, "SetDrawBuffer");
 	//D_ASSERT(dooms::graphics::GraphicsAPI::SetDrawBuffer != nullptr);
+	*/
+
 	dooms::graphics::GraphicsAPI::SetTextureParameterFloat = (GraphicsAPI::GRAPHICS_SETTEXTUREPARAMETERFLOAT)GetProcAddress(hModule, "SetTextureParameterFloat");
 	//D_ASSERT(dooms::graphics::GraphicsAPI::SetTextureParameterFloat != nullptr);
 	dooms::graphics::GraphicsAPI::SetTextureParameterInt = (GraphicsAPI::GRAPHICS_SETTEXTUREPARAMETERINT)GetProcAddress(hModule, "SetTextureParameterInt");
@@ -222,8 +232,6 @@ void dooms::graphics::GraphicsAPILoader::FetchExportedFunctionAddress()
 	//D_ASSERT(dooms::graphics::GraphicsAPI::UnBindBuffer != nullptr);
 	dooms::graphics::GraphicsAPI::UnBindTextureObject = (GraphicsAPI::GRAPHICS_UNBINDTEXTUREOBJECT)GetProcAddress(hModule, "UnBindTextureObject");
 	//D_ASSERT(dooms::graphics::GraphicsAPI::UnBindTextureObject != nullptr);
-	dooms::graphics::GraphicsAPI::UnBindVertexArrayObject = (GraphicsAPI::GRAPHICS_UNBINDVERTEXARRAYOBJECT)GetProcAddress(hModule, "UnBindVertexArrayObject");
-	//D_ASSERT(dooms::graphics::GraphicsAPI::UnBindVertexArrayObject != nullptr);
 	dooms::graphics::GraphicsAPI::UpdateConstantBuffer_bool1 = (GraphicsAPI::GRAPHICS_UPDATECONSTANTBUFFERBOOL1)GetProcAddress(hModule, "UpdateConstantBuffer_bool1");
 	//D_ASSERT(dooms::graphics::GraphicsAPI::UpdateConstantBuffer_bool1 != nullptr);
 	dooms::graphics::GraphicsAPI::UpdateConstantBuffer_bool2 = (GraphicsAPI::GRAPHICS_UPDATECONSTANTBUFFERBOOL2)GetProcAddress(hModule, "UpdateConstantBuffer_bool2");
