@@ -644,7 +644,8 @@ std::unique_ptr<UINT8[]> dooms::graphics::FrameBuffer::ReadPixelsFromColorTextur
 		);
 		pixels = std::unique_ptr<UINT8[]>{ rawPixels };
 	}
-	
+
+	return std::move(pixels);
 }
 
 

@@ -84,6 +84,8 @@ TextureView& TextureView::operator=(const TextureView& textureView)
 	mTextureViewObject = (IsValid(mTargetTextureResourceObject) == true) ? GraphicsAPI::CreateTextureViewObject(textureView.mTargetTextureResourceObject->GetTextureResourceObject()) : BufferID::INVALID_BUFFER_ID;
 	mDefaultBindingLocation = textureView.mDefaultBindingLocation;
 	mDefaultTargetGraphicsPipeLineStage = textureView.mDefaultTargetGraphicsPipeLineStage;
+
+	return *this;
 }
 
 TextureView::TextureView(TextureView&& textureView) noexcept
@@ -110,6 +112,8 @@ TextureView& TextureView::operator=(TextureView&& textureView) noexcept
 
 	mDefaultBindingLocation = textureView.mDefaultBindingLocation;
 	mDefaultTargetGraphicsPipeLineStage = textureView.mDefaultTargetGraphicsPipeLineStage;
+
+	return *this;
 }
 
 FLOAT32 TextureView::GetTextureMetaDataFLOAT32(const INT32 lodLevel, const GraphicsAPI::eTextureMetaDataType textureMetaDataType) const
