@@ -1524,6 +1524,7 @@ namespace dooms
 			return textureBufferObject;
 		}
 
+		/*
 		DOOMS_ENGINE_GRAPHICS_API unsigned long long CreateRenderBufferObject()
 		{
 			unsigned int bufferID;
@@ -1559,7 +1560,7 @@ namespace dooms
 		)
 		{
 			BindRenderBuffer(renderBufferObject);
-			BindFrameBuffer(frameBufferObject, GraphicsAPI::FRAMEBUFFER);
+			BindFrameBuffer(frameBufferObject, GL_FRAMEBUFFER);
 			glFramebufferRenderbuffer(GL_FRAMEBUFFER, opengl::GetGLFrameBufferAttachmentPoint(frameBufferAttachmentPoint), GL_RENDERBUFFER, renderBufferObject);
 		}
 
@@ -1567,6 +1568,7 @@ namespace dooms
 		{
 			glDeleteRenderbuffers(1, reinterpret_cast<unsigned int*>(&renderBuffer));
 		}
+		*/
 
 		DOOMS_ENGINE_GRAPHICS_API int GetFrameBufferWidth(const unsigned long long frameBuffer)
 		{
@@ -1925,7 +1927,7 @@ namespace dooms
 		{
 			float data;
 
-			BindTextureObject(textureObject, textureBindTarget);
+			BindTextureObject(textureObject, textureBindTarget, 0, GraphicsAPI::DUMMY);
 			glGetTexLevelParameterfv(opengl::GetGLTextureBindTarget(textureBindTarget), lodLevel, opengl::GetGLTextureMataDataType(textureMetaDataType), &data);
 
 			return data;
@@ -1941,7 +1943,7 @@ namespace dooms
 		{
 			int data;
 
-			BindTextureObject(textureObject, textureBindTarget);
+			BindTextureObject(textureObject, textureBindTarget, 0, GraphicsAPI::DUMMY);
 			glGetTexLevelParameteriv(opengl::GetGLTextureBindTarget(textureBindTarget), lodLevel, opengl::GetGLTextureMataDataType(textureMetaDataType), &data);
 
 			return data;
@@ -2092,7 +2094,7 @@ namespace dooms
 			const size_t totalDataSize
 		)
 		{
-			BindTextureObject(textureResourceObject, textureBindTarget);
+			BindTextureObject(textureResourceObject, textureBindTarget, 0, GraphicsAPI::DUMMY);
 
 			glTexSubImage2D
 			(
