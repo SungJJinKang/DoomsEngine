@@ -268,7 +268,7 @@ void dooms::assetExporter::assetExporterTexture::ExportTextureFromMainFrameBuffe
 )
 {
 	dooms::graphics::FrameBuffer::UnBindFrameBuffer();
-	dooms::graphics::FrameBuffer::BindFrameBufferStatic(graphics::GraphicsAPI::eBindFrameBufferTarget::READ_FRAMEBUFFER, 0);
+	//dooms::graphics::FrameBuffer::BindFrameBufferStatic(graphics::GraphicsAPI::eBindFrameBufferTarget::READ_FRAMEBUFFER, 0);
 	dooms::graphics::GraphicsAPI::SetReadBuffer(graphics::GraphicsAPI::eBufferMode::FRONT);
 
 	const INT32 bufferSize = dooms::graphics::TextureView::GetTextureBufferSizeStatic(width, height, pixelFormat, dataType);
@@ -468,7 +468,7 @@ void dooms::assetExporter::assetExporterTexture::ExportTextureFromMainFrameBuffe
 )
 {
 	//dooms::graphics::FrameBuffer::UnBindFrameBuffer();
-	dooms::graphics::FrameBuffer::BindFrameBufferStatic(graphics::GraphicsAPI::eBindFrameBufferTarget::READ_FRAMEBUFFER, 0);
+	//dooms::graphics::FrameBuffer::BindFrameBufferStatic(graphics::GraphicsAPI::eBindFrameBufferTarget::READ_FRAMEBUFFER, 0);
 	dooms::graphics::GraphicsAPI::SetReadBuffer(graphics::GraphicsAPI::eBufferMode::FRONT);
 
 	const INT32 bufferSize = dooms::graphics::TextureView::GetTextureBufferSizeStatic(width, height, pixelFormat, dataType);

@@ -8,16 +8,10 @@
 
 
 dooms::graphics::GraphicsAPILoader dooms::graphics::GraphicsAPIManager::mGraphicsAPILoader{};
-dooms::graphics::eGraphicsAPIType dooms::graphics::GraphicsAPIManager::mGraphicsAPIType{ eGraphicsAPIType::GraphicsAPIType_NONE };
-
-void dooms::graphics::GraphicsAPIManager::LoadGraphicsAPI(const eGraphicsAPIType graphicsAPIType)
+void dooms::graphics::GraphicsAPIManager::LoadGraphicsAPI(const GraphicsAPI::eGraphicsAPIType graphicsAPIType)
 {
 	HMODULE hModule = reinterpret_cast<HMODULE>(mGraphicsAPILoader.LoadGraphicsAPILibrary(graphicsAPIType));
 	D_ASSERT(hModule != NULL);
-	if(hModule != NULL)
-	{
-		mGraphicsAPIType = graphicsAPIType;
-	}
 }
 
 void dooms::graphics::GraphicsAPIManager::SetDefaultSettingOfAPI()
@@ -58,7 +52,7 @@ void dooms::graphics::GraphicsAPIManager::GraphisAPIDebugCallBack(const char* co
 }
  
 
-bool dooms::graphics::GraphicsAPIManager::Initialize(const eGraphicsAPIType graphicsAPIType)
+bool dooms::graphics::GraphicsAPIManager::Initialize(const GraphicsAPI::eGraphicsAPIType graphicsAPIType)
 {
 	LoadGraphicsAPI(graphicsAPIType);
 	if(GraphicsAPI::SetDebugFunction != nullptr)
@@ -89,9 +83,4 @@ bool dooms::graphics::GraphicsAPIManager::DeInitialize()
 	D_ASSERT(result == 1);
 
 	return result == 1;
-}
-
-dooms::graphics::eGraphicsAPIType dooms::graphics::GraphicsAPIManager::GetGraphicsAPIType()
-{
-	return mGraphicsAPIType;
 }

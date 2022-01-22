@@ -161,7 +161,7 @@ bool dooms::assetImporter::AssetImporterWorker_Texture::ImportTextureAsset(
 
 		}
 
-		textureAsset->SetScratchImage(std::move(ResultCompressedImage));
+		textureAsset->SetScratchImage(std::move(ResultCompressedImage), graphics::GraphicsAPI::eBindFlag::BIND_SHADER_RESOURCE);
 		return true;
 	}
 	else

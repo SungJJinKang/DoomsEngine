@@ -20,7 +20,15 @@ namespace dooms
 
 			inline extern double DEFAULT_MAX_DEPTH_VALUE = 1.0;
 
+			enum class eGraphicsAPIType
+			{
+				GraphicsAPIType_NONE,
+				OpenGL,
+				DX11_10
+			};
 
+			typedef eGraphicsAPIType(DOOMS_ENGINE_API_ENTRY_P GRAPHICS_GETCURRENTAPITYPE)(void);
+			extern GRAPHICS_GETCURRENTAPITYPE GetCuurentAPIType;
 
 			enum eGraphisAPIDebugCallbackSeverity : unsigned int
 			{
@@ -577,12 +585,13 @@ namespace dooms
 			extern GRAPHICS_BINDCONSTANTBUFFER BindConstantBuffer;
 
 			typedef void (DOOMS_ENGINE_API_ENTRY_P GRAPHICS_UPDATEDATATOBUFFER)
-				(
-					const unsigned long long bufferObject,
-					const unsigned int offset,
-					const unsigned int dataSize,
-					const void* const data
-					);
+			(
+				const unsigned long long bufferObject,
+				const GraphicsAPI::eBufferTarget bindBufferTarget,
+				const unsigned int offset,
+				const unsigned int dataSize,
+				const void* const data
+			);
 			extern GRAPHICS_UPDATEDATATOBUFFER UpdateDataToBuffer;
 
 			typedef unsigned long long (DOOMS_ENGINE_API_ENTRY_P GRAPHICS_GENERATEFRAMEBUFFER)();
@@ -629,14 +638,13 @@ namespace dooms
 				FRAMEBUFFER_ATTACHMENT_POINT_DEPTH_STENCIL_ATTACHMENT
 			};
 
-			typedef void (DOOMS_ENGINE_API_ENTRY_P GRAPHICS_ATTACH2DTEXTURETOFRAMEBUFFER)
-				(
-					const eBindFrameBufferTarget bindFrameBufferTarget,
-					const eFrameBufferAttachmentPoint frameBufferAttachmentPoint,
-					const eTextureBindTarget textureBindTarget,
-					const unsigned long long textureBufferObject,
-					const int lodLevel
-					);
+			typedef unsigned long long (DOOMS_ENGINE_API_ENTRY_P GRAPHICS_ATTACH2DTEXTURETOFRAMEBUFFER)
+			(
+				const unsigned long long frameBufferObject,
+				const GraphicsAPI::eFrameBufferAttachmentPoint frameBufferAttachmentPoint,
+				const GraphicsAPI::eTextureBindTarget textureBindTarget,
+				const unsigned long long textureBufferObject
+			);
 			extern GRAPHICS_ATTACH2DTEXTURETOFRAMEBUFFER Attach2DTextureToFrameBuffer;
 
 			typedef unsigned long long (DOOMS_ENGINE_API_ENTRY_P GRAPHICS_CREATERENDERBUFFEROBJECT)();
@@ -815,7 +823,13 @@ namespace dooms
 			extern GRAPHICS_DESTROYTEXTUREVIEWOBJECT DestroyTextureViewObject;
 
 
-			typedef void (DOOMS_ENGINE_API_ENTRY_P GRAPHICS_BINDTEXTUREOBJECT)(const unsigned long long textureObject, const eTextureBindTarget textureBindTarget);
+			typedef void (DOOMS_ENGINE_API_ENTRY_P GRAPHICS_BINDTEXTUREOBJECT)
+			(
+				const unsigned long long textureObject, 
+				const eTextureBindTarget textureBindTarget,
+				const unsigned int bindingLocation,
+				const eGraphicsPipeLineStage targetPipeLineStage
+			);
 			extern GRAPHICS_BINDTEXTUREOBJECT BindTextureObject;
 
 			typedef void (DOOMS_ENGINE_API_ENTRY_P GRAPHICS_ACTIVATETEXTUREUNIT)(const unsigned int unitIndex);
@@ -840,12 +854,12 @@ namespace dooms
 
 			typedef void (DOOMS_ENGINE_API_ENTRY_P GRAPHICS_BLITFRAMEBUFFER)
 			(
-					const unsigned long long ReadFrameBufferObject,
-					const unsigned long long DrawFrameBufferObject,
-					const int srcX0, const int srcY0, const int srcX1, const int srcY1,
-					const int dstX0, const int dstY0, const int dstX1, const int dstY1,
-					const GraphicsAPI::eBufferBitType mask,
-					const GraphicsAPI::eImageInterpolation filter
+				const unsigned long long ReadFrameBufferObject,
+				const unsigned long long DrawFrameBufferObject,
+				const int srcX0, const int srcY0, const int srcX1, const int srcY1,
+				const int dstX0, const int dstY0, const int dstX1, const int dstY1,
+				const GraphicsAPI::eBufferBitType mask,
+				const GraphicsAPI::eImageInterpolation filter
 			);
 			extern GRAPHICS_BLITFRAMEBUFFER BlitFrameBuffer;
 
@@ -1052,7 +1066,9 @@ namespace dooms
 					const unsigned long long height,
 					const GraphicsAPI::eTextureComponentFormat textureComponentFormat,
 					const GraphicsAPI::eDataType dataType,
-					const void* const pixelDatas
+					const void* const pixelDatas,
+					const size_t rowByteSize,
+					const size_t totalDataSize
 					);
 			extern GRAPHICS_UPDATEPIXELSTO2DTEXTURE UploadPixelsTo2DTexture;
 			

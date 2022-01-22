@@ -74,21 +74,13 @@ namespace dooms
 			const asset::TextureAsset* GetTargetTextureResourceObject() const;
 
 
-			FORCE_INLINE void BindTexture() const noexcept
+			FORCE_INLINE void BindTexture(const UINT32 bindingPoint) const noexcept
 			{
 				if (D_OVERLAP_BIND_CHECK_CHECK_IS_NOT_BOUND_AND_BIND_ID_WITH_DOUBLE_INDEX(BIND_TARGET_TAG, GraphicsAPI::eTextureBindTarget::TEXTURE_2D, D_OVERLAP_BIND_GET_BIND_ID(ACTIVE_TEXTURE_TAG), mTextureViewObject))
 				{
 					GraphicsAPI::BindTextureObject(mTextureViewObject, GraphicsAPI::eTextureBindTarget::TEXTURE_2D);
 				}
 			}
-			FORCE_INLINE void ActiveTexture(UINT32 bindingPoint) const noexcept
-			{
-				if (D_OVERLAP_BIND_CHECK_CHECK_IS_NOT_BOUND_AND_BIND_ID(ACTIVE_TEXTURE_TAG, bindingPoint))
-				{
-					GraphicsAPI::ActivateTextureUnit(bindingPoint);
-				}
-			}
-
 
 			FORCE_INLINE void UnBindTexture() const noexcept
 			{

@@ -1,209 +1,177 @@
 #include "FrameBuffer.h"
 
 #include "Asset/TextureAsset.h"
-
-using namespace dooms::graphics;
-
+#include <Math/LightMath_Cpp/Utility.h>
 
 dooms::graphics::FrameBuffer::FrameBuffer()
-	: mDefaultWidth{ 0 }, mDefaultHeight{ 0 }, mClearBit{ 0 }, mFrameBufferID()
+	: mDefaultWidth{ 0 }, mDefaultHeight{ 0 }, mFrameBufferIDForOPENGL{}, mAttachedColorTextures{}, mAttachedDepthStencilTexture{}
 {
 }
 
-FrameBuffer::FrameBuffer(UINT32 defaultWidth, UINT32 defaultHeight)
-	: mDefaultWidth{ defaultWidth }, mDefaultHeight{ defaultHeight }, mClearBit{ 0 }, mFrameBufferID()
+dooms::graphics::FrameBuffer::FrameBuffer(UINT32 defaultWidth, UINT32 defaultHeight)
+	: mDefaultWidth{ defaultWidth }, mDefaultHeight{ defaultHeight }, mFrameBufferIDForOPENGL{}, mAttachedColorTextures{}, mAttachedDepthStencilTexture{}
 {
-	mAttachedRenderBuffers.reserve(RESERVED_RENDERBUFFER_COUNT);
-	mAttachedColorTextures.reserve(RESERVED_COLOR_TEXTURE_COUNT);
-	mAttachedDepthTextures.reserve(RESERVED_DEPTH_TEXTURE_COUNT);
-	mAttachedDepthStencilTextures.reserve(RESERVED_DEPTH_STENCIL_TEXTURE_COUNT);
 }
 
-void dooms::graphics::FrameBuffer::GenerateBuffer(UINT32 defaultWidth, UINT32 defaultHeight)
+void dooms::graphics::FrameBuffer::GenerateBuffer()
 {
-	D_ASSERT(defaultWidth != 0 && defaultHeight != 0);
-
-	mDefaultWidth = defaultWidth;
-	mDefaultHeight = defaultHeight;
-	mFrameBufferID = GraphicsAPI::GenerateFrameBuffer();
-}
-
-
-void FrameBuffer::RefreshTargetDrawBufferContainer()
-{
-	mTargetDrawBufferContainer.clear();
-	mTargetDrawBufferContainer.reserve(mAttachedColorTextures.size());
-
-	for (UINT32 i = 0; i < mAttachedColorTextures.size(); i++)
+	if(dooms::graphics::GraphicsAPI::GetCuurentAPIType() == dooms::graphics::GraphicsAPI::eGraphicsAPIType::OpenGL)
 	{
-		mTargetDrawBufferContainer.emplace_back(static_cast<GraphicsAPI::eBufferMode>(GraphicsAPI::eBufferMode::COLOR_ATTACHMENT0 + i));
+		mFrameBufferIDForOPENGL = GraphicsAPI::GenerateFrameBuffer();
+	}
+	
+}
+
+void dooms::graphics::FrameBuffer::StaticBindFrameBuffer(const FrameBuffer* const frameBuffer)
+{
+	if (D_OVERLAP_BIND_CHECK_CHECK_IS_NOT_BOUND_AND_BIND_ID(FRAMEBUFFER_TAG, (frameBuffer != nullptr) ? reinterpret_cast<UINT64>(frameBuffer) : 0))
+	{
+		FrameBuffer::PreviousFrameBuffer = CurrentFrameBuffer;
+		if (frameBuffer == nullptr)
+		{
+			dooms::graphics::GraphicsAPI::BindBackBuffer();
+			GraphicsAPI::SetViewport(0, 0, 0, graphics::graphicsAPISetting::GetScreenWidth(), graphics::graphicsAPISetting::GetScreenHeight());
+		}
+		else
+		{
+			unsigned long long renderTargetViewList[15];
+			INT32 renderTargetViewCount = 0;
+			for(auto& renderTargetView : frameBuffer->mAttachedColorTextures)
+			{
+				assert(renderTargetView.mBindingPosition < 10);
+				renderTargetViewList[renderTargetView.mBindingPosition] = renderTargetView.mRenderTargetView;
+				renderTargetViewCount = math::Max(renderTargetViewCount, renderTargetView.mBindingPosition);
+			}
+
+			const unsigned long long depthStencilView = (frameBuffer->mAttachedDepthStencilTexture.IsValid() == true) ? frameBuffer->mAttachedDepthStencilTexture.mRenderTargetView.GetBufferID() : 0;
+
+			dooms::graphics::GraphicsAPI::BindFrameBuffer(renderTargetViewCount, reinterpret_cast<unsigned long long* const*>(&renderTargetViewList), depthStencilView);
+			GraphicsAPI::SetViewport(0, 0, 0, frameBuffer->mDefaultWidth, frameBuffer->mDefaultHeight);
+		}
+		FrameBuffer::CurrentFrameBuffer = frameBuffer;
 	}
 }
 
-void FrameBuffer::SetTargetDrawBuffer()
+void dooms::graphics::FrameBuffer::BindFrameBuffer() const noexcept
 {
-	GraphicsAPI::SetDrawBuffers(static_cast<INT32>(mTargetDrawBufferContainer.size()), mTargetDrawBufferContainer.data());
+	D_ASSERT(mDefaultWidth != 0 && mDefaultHeight != 0);
+	FrameBuffer::StaticBindFrameBuffer(this);
+}
+
+void dooms::graphics::FrameBuffer::UnBindFrameBuffer() noexcept
+{
+	FrameBuffer::StaticBindFrameBuffer(nullptr); // bind MainFrameBuffer
+}
+
+void dooms::graphics::FrameBuffer::RevertFrameBuffer()
+{
+	if (FrameBuffer::PreviousFrameBuffer != nullptr)
+	{
+		FrameBuffer::PreviousFrameBuffer->BindFrameBuffer();
+	}
+	else
+	{
+		FrameBuffer::UnBindFrameBuffer(); // bind defualt screen buffer
+	}
 }
 
 
-void FrameBuffer::OnSetPendingKill()
+void dooms::graphics::FrameBuffer::OnSetPendingKill()
 {
 	DObject::OnSetPendingKill();
 
 	DestoryFrameBufferObject();
 }
 
-void FrameBuffer::DestoryFrameBufferObject()
+void dooms::graphics::FrameBuffer::DestoryFrameBufferObject()
 {
-	if (mFrameBufferID.IsValid())
+	if (mFrameBufferIDForOPENGL.IsValid())
 	{
-		GraphicsAPI::DestroyFrameBuffer(mFrameBufferID);
-		mFrameBufferID.Reset();
+		GraphicsAPI::DestroyFrameBuffer(mFrameBufferIDForOPENGL);
+		mFrameBufferIDForOPENGL.Reset();
 	}
 }
 
-FrameBuffer::~FrameBuffer()
+dooms::graphics::FrameBuffer::~FrameBuffer()
 {
 	DestoryFrameBufferObject();
 }
 
-FrameBuffer::FrameBuffer(const FrameBuffer& frameBuffer)
-	:	mFrameBufferID(),
-		mDefaultWidth(frameBuffer.mDefaultWidth),
-		mDefaultHeight(frameBuffer.mDefaultHeight),
-		mClearBit(0),
-		mDrawTarget(0)
-{
-	//Never Copy This!!
-	//std::vector<RenderBuffer> mAttachedRenderBuffers;
-	//std::vector<SingleTexture> mAttachedColorTextures;
-	//std::vector<SingleTexture> mAttachedDepthTextures;
-	//std::vector<SingleTexture> mAttachedDepthStencilTextures;
-	//std::vector<UINT32> mTargetDrawBufferContainer;
-
-	if(frameBuffer.mFrameBufferID.IsValid() == true)
-	{
-		GenerateBuffer(mDefaultWidth, mDefaultHeight);
-
-		for (const RenderBuffer& renderBuffer : frameBuffer.mAttachedRenderBuffers)
-		{
-			AttachRenderBuffer(renderBuffer.GetFrameBufferType(), renderBuffer.GetWidth(), renderBuffer.GetHeight());
-		}
-
-		for (const asset::TextureAsset* attachedTexture : frameBuffer.mAttachedColorTextures)
-		{
-			AttachTextureBuffer(GraphicsAPI::eBufferBitType::COLOR_BUFFER, attachedTexture->GetTextureWidth(), attachedTexture->GetTextureHeight());
-		}
-
-		for (const asset::TextureAsset* attachedTexture : frameBuffer.mAttachedDepthTextures)
-		{
-			AttachTextureBuffer(GraphicsAPI::eBufferBitType::DEPTH_BUFFER, attachedTexture->GetTextureWidth(), attachedTexture->GetTextureHeight());
-		}
-
-		for (const asset::TextureAsset*  attachedTexture : frameBuffer.mAttachedDepthStencilTextures)
-		{
-			AttachTextureBuffer(GraphicsAPI::eBufferBitType::DEPTH_STENCIL_BUFFER, attachedTexture->GetTextureWidth(), attachedTexture->GetTextureHeight());
-		}
-
-		RefreshTargetDrawBufferContainer();
-	}
-
-	
-}
 
 
-void FrameBuffer::CheckIsFrameBufferSuccesfullyCreated() noexcept
-{
-	BindFrameBuffer();
-	const unsigned int errorCode = GraphicsAPI::CheckFrameBufferIsSuccesfullyCreated();
-	D_ASSERT_LOG(errorCode == 0, "fail frame buffer : %u", errorCode);
-}
-
-const dooms::asset::TextureAsset* FrameBuffer::GetFrameBufferTexture(GraphicsAPI::eBufferBitType bufferType, UINT32 index) const
+const dooms::asset::TextureAsset* dooms::graphics::FrameBuffer::GetFrameBufferTexture(GraphicsAPI::eBufferBitType bufferType, INT32 bindingPosition) const
 {
 	const dooms::asset::TextureAsset* targetTexture = nullptr;
 	switch (bufferType)
 	{
 	case GraphicsAPI::eBufferBitType::COLOR_BUFFER:
-		D_ASSERT(index >= 0 && index < mAttachedColorTextures.size());
-		if (index >= 0 && index < mAttachedColorTextures.size())
+		for (auto& colorTexture : mAttachedColorTextures)
 		{
-			targetTexture = mAttachedColorTextures[index];
+			if (colorTexture.mBindingPosition == bindingPosition)
+			{
+				targetTexture = colorTexture.mTextureResource;
+				break;
+			}
 		}
 		break;
 
 	case GraphicsAPI::eBufferBitType::DEPTH_BUFFER:
-		D_ASSERT(index >= 0 && index < mAttachedDepthTextures.size());
-		if (index >= 0 && index < mAttachedDepthTextures.size())
-		{
-			targetTexture = mAttachedDepthTextures[index];
-		}
-		break;
-
 	case GraphicsAPI::eBufferBitType::DEPTH_STENCIL_BUFFER:
-		D_ASSERT(index >= 0 && index < mAttachedDepthStencilTextures.size());
-		if (index >= 0 && index < mAttachedDepthStencilTextures.size())
-		{
-			targetTexture = mAttachedDepthStencilTextures[index];
-		}
+		targetTexture = mAttachedDepthStencilTexture.mTextureResource;
 		break;
 
 	default:
 		NEVER_HAPPEN;
 	}
 
+	D_ASSERT(targetTexture != nullptr);
+
 	return targetTexture;
 }
 
-dooms::asset::TextureAsset* FrameBuffer::GetFrameBufferTexture(GraphicsAPI::eBufferBitType bufferType, UINT32 index)
+dooms::asset::TextureAsset* dooms::graphics::FrameBuffer::GetFrameBufferTexture(GraphicsAPI::eBufferBitType bufferType, INT32 bindingPosition)
 {
 	dooms::asset::TextureAsset* targetTexture = nullptr;
 	switch (bufferType)
 	{
 	case GraphicsAPI::eBufferBitType::COLOR_BUFFER:
-		D_ASSERT(index >= 0 && index < mAttachedColorTextures.size());
-		if (index >= 0 && index < mAttachedColorTextures.size())
+		for (auto& colorTexture : mAttachedColorTextures)
 		{
-			targetTexture = mAttachedColorTextures[index];
+			if (colorTexture.mBindingPosition == bindingPosition)
+			{
+				targetTexture = colorTexture.mTextureResource;
+				break;
+			}
 		}
 		break;
 
 	case GraphicsAPI::eBufferBitType::DEPTH_BUFFER:
-		D_ASSERT(index >= 0 && index < mAttachedDepthTextures.size());
-		if (index >= 0 && index < mAttachedDepthTextures.size())
-		{
-			targetTexture = mAttachedDepthTextures[index];
-		}
-		break;
-
 	case GraphicsAPI::eBufferBitType::DEPTH_STENCIL_BUFFER:
-		D_ASSERT(index >= 0 && index < mAttachedDepthStencilTextures.size());
-		if (index >= 0 && index < mAttachedDepthStencilTextures.size())
-		{
-			targetTexture = mAttachedDepthStencilTextures[index];
-		}
+		targetTexture = mAttachedDepthStencilTexture.mTextureResource;
 		break;
 
 	default:
 		NEVER_HAPPEN;
 	}
+
+	D_ASSERT(targetTexture != nullptr);
 
 	return targetTexture;
 }
 
 bool dooms::graphics::FrameBuffer::IsGenerated()
 {
-	return mFrameBufferID.IsValid();
+	return mFrameBufferIDForOPENGL.IsValid();
 }
 
-INT32 FrameBuffer::GetFrameBufferWidth() const
+INT32 dooms::graphics::FrameBuffer::GetFrameBufferWidth() const
 {
-	return graphics::GraphicsAPI::GetFrameBufferWidth(mFrameBufferID);
+	return graphics::GraphicsAPI::GetFrameBufferWidth(mFrameBufferIDForOPENGL);
 }
 
-INT32 FrameBuffer::GetFrameBufferHeight() const
+INT32 dooms::graphics::FrameBuffer::GetFrameBufferHeight() const
 {
-	return graphics::GraphicsAPI::GetFrameBufferHeight(mFrameBufferID);
+	return graphics::GraphicsAPI::GetFrameBufferHeight(mFrameBufferIDForOPENGL);
 }
 
 /*
@@ -254,9 +222,11 @@ void FrameBuffer::ClearFrameBuffer() const
 }
 */
 
-void FrameBuffer::BlitFrameBufferTo(
-	dooms::asset::TextureAsset* const readFrameBuffer, dooms::asset::TextureAsset* const drawFrameBuffer, INT32 srcX0, INT32 srcY0,
-	INT32 srcX1, INT32 srcY1, INT32 dstX0, INT32 dstY0, INT32 dstX1, INT32 dstY1, 
+void dooms::graphics::FrameBuffer::BlitFrameBufferTo
+(
+	dooms::asset::TextureAsset* const readFrameBuffer, dooms::asset::TextureAsset* const drawFrameBuffer, 
+	INT32 srcX0, INT32 srcY0, INT32 srcX1, INT32 srcY1, 
+	INT32 dstX0, INT32 dstY0, INT32 dstX1, INT32 dstY1, 
 	GraphicsAPI::eBufferBitType mask, GraphicsAPI::eImageInterpolation filter
 ) noexcept
 {
@@ -264,51 +234,19 @@ void FrameBuffer::BlitFrameBufferTo(
 	//D_ASSERT(readFrameBuffer != INVALID_BUFFER_ID);
 	//D_ASSERT(drawFrameBuffer != INVALID_BUFFER_ID);
 
-	GraphicsAPI::BlitFrameBuffer(readFrameBuffer, drawFrameBuffer, srcX0, srcY0, srcX1, srcY1, dstX0, dstY0, dstX1, dstY1, mask, filter);
+	GraphicsAPI::BlitFrameBuffer
+	(
+		(readFrameBuffer == nullptr) ? 0 : readFrameBuffer->GetTextureResourceObject().GetBufferID(),
+		(drawFrameBuffer == nullptr) ? 0 : drawFrameBuffer->GetTextureResourceObject().GetBufferID(),
+		srcX0, srcY0, srcX1, srcY1, dstX0, dstY0, dstX1, dstY1,
+		mask, filter
+	);
 }
 
-
-void FrameBuffer::BlitFrameBufferTo(
-	dooms::asset::TextureAsset* const drawFrameBuffer, INT32 srcX0, INT32 srcY0, INT32 srcX1, INT32 srcY1,
-	INT32 dstX0, INT32 dstY0, INT32 dstX1, INT32 dstY1, GraphicsAPI::eBufferBitType mask,
-	GraphicsAPI::eImageInterpolation filter
-) const noexcept
-{
-	//BackBuffer ID is zero!!
-	D_ASSERT(mFrameBufferID.IsValid());
-	//D_ASSERT(drawFrameBuffer != INVALID_BUFFER_ID);
-	
-	GraphicsAPI::BlitFrameBuffer(mFrameBufferID, drawFrameBuffer, srcX0, srcY0, srcX1, srcY1, dstX0, dstY0, dstX1, dstY1, mask, filter);
-}
-
-
-void FrameBuffer::BlitFrameBufferFrom(
-	dooms::asset::TextureAsset* const readFrameBuffer, INT32 srcX0, INT32 srcY0, INT32 srcX1, INT32 srcY1,
-	INT32 dstX0, INT32 dstY0, INT32 dstX1, INT32 dstY1, GraphicsAPI::eBufferBitType mask,
-	GraphicsAPI::eImageInterpolation filter
-) const noexcept
-{
-	//BackBuffer ID is zero!!
-	//D_ASSERT(readFrameBuffer != INVALID_BUFFER_ID);
-	D_ASSERT(mFrameBufferID.IsValid());
-
-	GraphicsAPI::BlitFrameBuffer(readFrameBuffer, mFrameBufferID, srcX0, srcY0, srcX1, srcY1, dstX0, dstY0, dstX1, dstY1, mask, filter);
-}
-
-void FrameBuffer::BlitFrameBufferToTexture(
-	dooms::asset::TextureAsset* const drawTexture, INT32 srcX0, INT32 srcY0,
-	INT32 srcX1, INT32 srcY1, INT32 dstX0, INT32 dstY0, INT32 dstX1, INT32 dstY1, 
-	GraphicsAPI::eBufferBitType mask, GraphicsAPI::eImageInterpolation filter
-) const noexcept
-{
-	D_ASSERT(drawTexture != nullptr);
-	
-	GraphicsAPI::BlitFrameBuffer(mFrameBufferID, drawTexture->GetTextureBufferID(), srcX0, srcY0, srcX1, srcY1, dstX0, dstY0, dstX1, dstY1, mask, filter);
-}
-
+/*
 RenderBuffer& FrameBuffer::AttachRenderBuffer(GraphicsAPI::eFrameBufferAttachmentPoint renderBufferType, UINT32 width, UINT32 height)
 {
-	D_ASSERT(mFrameBufferID.IsValid());
+	D_ASSERT(mFrameBufferIDForOPENGL.IsValid());
 
 	auto& createdRenderBuffer = mAttachedRenderBuffers.emplace_back(*this, renderBufferType, width, height);
 	mClearBit |= static_cast<UINT32>(renderBufferType);
@@ -321,13 +259,16 @@ RenderBuffer& dooms::graphics::FrameBuffer::AttachRenderBuffer(GraphicsAPI::eFra
 {
 	return AttachRenderBuffer(renderBufferType, mDefaultWidth, mDefaultHeight);
 }
+*/
 
-dooms::asset::TextureAsset* FrameBuffer::AttachTextureBuffer(GraphicsAPI::eBufferBitType frameBufferType, UINT32 width, UINT32 height)
+dooms::asset::TextureAsset* dooms::graphics::FrameBuffer::AttachTextureBuffer
+(
+	GraphicsAPI::eBufferBitType frameBufferType,
+	UINT32 bindingPosition, 
+	UINT32 width,
+	UINT32 height
+)
 {
-	D_ASSERT(mFrameBufferID.IsValid());
-
-	BindFrameBuffer();
-
 	dooms::asset::TextureAsset* createdTexture = nullptr;
 	
 	switch (frameBufferType)
@@ -338,74 +279,81 @@ dooms::asset::TextureAsset* FrameBuffer::AttachTextureBuffer(GraphicsAPI::eBuffe
 		(
 			GraphicsAPI::eTargetTexture::TARGET_TEXTURE_TEXTURE_2D,
 			GraphicsAPI::eTextureInternalFormat::TEXTURE_INTERNAL_FORMAT_RGBA8,
+			GraphicsAPI::eTextureCompressedInternalFormat::TEXTURE_COMPRESSED_INTERNAL_FORMAT_NONE,
 			width,
 			height,
 			GraphicsAPI::eTextureComponentFormat::TEXTURE_COMPONENT_RGBA,
 			GraphicsAPI::eDataType::FLOAT,
-			NULL
+			(dooms::graphics::GraphicsAPI::eBindFlag)(dooms::graphics::GraphicsAPI::eBindFlag::BIND_RENDER_TARGET | dooms::graphics::GraphicsAPI::eBindFlag::BIND_SHADER_RESOURCE)
 		);
-		GraphicsAPI::Attach2DTextureToFrameBuffer
+		const BufferID renderTargetViewObject = GraphicsAPI::Attach2DTextureToFrameBuffer
 		(
-			GraphicsAPI::eBindFrameBufferTarget::FRAMEBUFFER, 
-			static_cast<GraphicsAPI::eFrameBufferAttachmentPoint>(GraphicsAPI::eFrameBufferAttachmentPoint::FRAMEBUFFER_ATTACHMENT_POINT_COLOR_ATTACHMENT0 + static_cast<UINT32>(mAttachedColorTextures.size())), 
-			GraphicsAPI::eTextureBindTarget::TEXTURE_2D, 
-			colorTexture.GetTextureBufferID(),
-			0)
-		;
-
-		mClearBit |= static_cast<UINT32>(GraphicsAPI::eBufferBitType::COLOR_BUFFER);
-		mDrawTarget |= GraphicsAPI::eFrameBufferAttachmentPoint::FRAMEBUFFER_ATTACHMENT_POINT_COLOR_ATTACHMENT0 + mAttachedColorTextures.size();
-
-		createdTexture = &mAttachedColorTextures.emplace_back(std::move(colorTexture));
-
-		RefreshTargetDrawBufferContainer();
-		SetTargetDrawBuffer();
+			mFrameBufferIDForOPENGL,
+			static_cast<GraphicsAPI::eFrameBufferAttachmentPoint>(GraphicsAPI::eFrameBufferAttachmentPoint::FRAMEBUFFER_ATTACHMENT_POINT_COLOR_ATTACHMENT0 + bindingPosition),
+			GraphicsAPI::eTextureBindTarget::TEXTURE_2D,
+			colorTexture->GetTextureResourceObject()
+		);
 		
+		mAttachedColorTextures.emplace_back(colorTexture, renderTargetViewObject, bindingPosition);
+		createdTexture = colorTexture;
+
 		break;
 	}
 	case GraphicsAPI::eBufferBitType::DEPTH_BUFFER:
 	{
-		D_ASSERT(mAttachedDepthTextures.size() == 0);
+		D_ASSERT_LOG(mAttachedDepthStencilTexture.IsValid() == false, "A Depth Buffer is already attached");
 
 		dooms::asset::TextureAsset* const depthTexture = dooms::CreateDObject<dooms::asset::TextureAsset>
 		(
 			GraphicsAPI::eTargetTexture::TARGET_TEXTURE_TEXTURE_2D,
-			GraphicsAPI::eTextureInternalFormat::TEXTURE_INTERNAL_FORMAT_DEPTH_COMPONENT32,
+			GraphicsAPI::eTextureInternalFormat::TEXTURE_INTERNAL_FORMAT_RGBA8,
+			GraphicsAPI::eTextureCompressedInternalFormat::TEXTURE_COMPRESSED_INTERNAL_FORMAT_NONE,
 			width,
 			height,
 			GraphicsAPI::eTextureComponentFormat::TEXTURE_COMPONENT_DEPTH_COMPONENT,
-			GraphicsAPI::eDataType::FLOAT, NULL
+			GraphicsAPI::eDataType::FLOAT,
+			(dooms::graphics::GraphicsAPI::eBindFlag)(dooms::graphics::GraphicsAPI::eBindFlag::BIND_DEPTH_STENCIL | dooms::graphics::GraphicsAPI::eBindFlag::BIND_SHADER_RESOURCE)
 		);
-		GraphicsAPI::Attach2DTextureToFrameBuffer(GraphicsAPI::eBindFrameBufferTarget::FRAMEBUFFER, GraphicsAPI::eFrameBufferAttachmentPoint::FRAMEBUFFER_ATTACHMENT_POINT_DEPTH_ATTACHMENT, GraphicsAPI::eTextureBindTarget::TEXTURE_2D, depthTexture.GetTextureBufferID(), 0);
+		const BufferID depthStencilView = GraphicsAPI::Attach2DTextureToFrameBuffer
+		(
+			mFrameBufferIDForOPENGL,
+			static_cast<GraphicsAPI::eFrameBufferAttachmentPoint>(GraphicsAPI::eFrameBufferAttachmentPoint::FRAMEBUFFER_ATTACHMENT_POINT_DEPTH_ATTACHMENT),
+			GraphicsAPI::eTextureBindTarget::TEXTURE_2D,
+			depthTexture->GetTextureResourceObject()
+		);
 
-
-		mAttachedDepthTextures.push_back(std::move(depthTexture));
-		createdTexture = &mAttachedDepthTextures.back();
-
-		mClearBit |= static_cast<UINT32>(GraphicsAPI::eBufferBitType::DEPTH_BUFFER);
+		mAttachedDepthStencilTexture = FrameBufferTextureAndRenderTargetView{ depthTexture, depthStencilView, -1 };
+		createdTexture = depthTexture;
 
 		break;
 	}
 	case GraphicsAPI::eBufferBitType::DEPTH_STENCIL_BUFFER:
 	{
-		D_ASSERT(mAttachedDepthStencilTextures.size() == 0);
+		D_ASSERT_LOG(mAttachedDepthStencilTexture.IsValid() == false, "A Depth Stencil Buffer is already attached");
 
 		dooms::asset::TextureAsset* const depthStencilTexture = dooms::CreateDObject<dooms::asset::TextureAsset>
-			(
+		(
 			GraphicsAPI::eTargetTexture::TARGET_TEXTURE_TEXTURE_2D,
-			GraphicsAPI::eTextureInternalFormat::TEXTURE_INTERNAL_FORMAT_DEPTH24_STENCIL8,
+			GraphicsAPI::eTextureInternalFormat::TEXTURE_INTERNAL_FORMAT_RGBA8,
+			GraphicsAPI::eTextureCompressedInternalFormat::TEXTURE_COMPRESSED_INTERNAL_FORMAT_NONE,
 			width,
 			height,
 			GraphicsAPI::eTextureComponentFormat::TEXTURE_COMPONENT_DEPTH_STENCIL,
 			GraphicsAPI::eDataType::UNSIGNED_INT_24_8,
-			NULL
+			(dooms::graphics::GraphicsAPI::eBindFlag)(dooms::graphics::GraphicsAPI::eBindFlag::BIND_DEPTH_STENCIL | dooms::graphics::GraphicsAPI::eBindFlag::BIND_SHADER_RESOURCE)
 		);
-		GraphicsAPI::Attach2DTextureToFrameBuffer(GraphicsAPI::eBindFrameBufferTarget::FRAMEBUFFER, GraphicsAPI::eFrameBufferAttachmentPoint::FRAMEBUFFER_ATTACHMENT_POINT_DEPTH_STENCIL_ATTACHMENT, GraphicsAPI::eTextureBindTarget::TEXTURE_2D, depthStencilTexture.GetTextureBufferID(), 0);
+		const BufferID depthStencilView = GraphicsAPI::Attach2DTextureToFrameBuffer
+		(
+			mFrameBufferIDForOPENGL,
+			static_cast<GraphicsAPI::eFrameBufferAttachmentPoint>(GraphicsAPI::eFrameBufferAttachmentPoint::FRAMEBUFFER_ATTACHMENT_POINT_DEPTH_STENCIL_ATTACHMENT),
+			GraphicsAPI::eTextureBindTarget::TEXTURE_2D,
+			depthStencilTexture->GetTextureResourceObject()
+		);
 
-		mAttachedDepthStencilTextures.push_back(std::move(depthStencilTexture));
-		createdTexture = &mAttachedDepthStencilTextures.back();
 
-		mClearBit |= static_cast<UINT32>(GraphicsAPI::eBufferBitType::DEPTH_STENCIL_BUFFER);
+		mAttachedDepthStencilTexture = FrameBufferTextureAndRenderTargetView{ depthStencilTexture, depthStencilView, -1 };
+		createdTexture = depthStencilTexture;
+
 		break;
 
 	}
@@ -415,16 +363,7 @@ dooms::asset::TextureAsset* FrameBuffer::AttachTextureBuffer(GraphicsAPI::eBuffe
 		break;
 
 	}
+
+	return createdTexture;
 	
-	return *createdTexture;
 }
-
-dooms::asset::TextureAsset* dooms::graphics::FrameBuffer::AttachTextureBuffer(GraphicsAPI::eBufferBitType frameBufferType)
-{
-	return AttachTextureBuffer(frameBufferType, mDefaultWidth, mDefaultHeight);
-}
-
-
-
-		
-		

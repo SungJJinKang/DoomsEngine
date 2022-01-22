@@ -19,9 +19,8 @@ namespace dooms
 		private:
 
 			static GraphicsAPILoader mGraphicsAPILoader;
-			static eGraphicsAPIType mGraphicsAPIType;
 
-			static void LoadGraphicsAPI(const eGraphicsAPIType graphicsAPIType);
+			static void LoadGraphicsAPI(const GraphicsAPI::eGraphicsAPIType graphicsAPIType);
 
 			static void SetDefaultSettingOfAPI();
 
@@ -29,10 +28,9 @@ namespace dooms
 
 		public:
 			
-			static bool Initialize(const eGraphicsAPIType graphicsAPIType);
+			static bool Initialize(const GraphicsAPI::eGraphicsAPIType graphicsAPIType);
 			static bool DeInitialize();
-
-			static eGraphicsAPIType GetGraphicsAPIType();
+			
 		};
 
 	}

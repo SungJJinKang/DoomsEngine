@@ -21,7 +21,7 @@ dooms::asset::TextureAsset::TextureAsset()
 {
 	mNearWidth = cmp_MipSet.m_nWidth;
 	mNearHeight = cmp_MipSet.m_nHeight;
-	mMipMapLevel = cmp_MipSet.m_nMipLevels;
+	mMipMapLevelCount = cmp_MipSet.m_nMipLevels;
 
 	bmIsCompressed = cmp_MipSet.m_compressed;
 
@@ -71,33 +71,40 @@ dooms::asset::TextureAsset::TextureAsset
 	UINT32 width,
 	UINT32 height, 
 	dooms::graphics::GraphicsAPI::eTextureComponentFormat format,
-	dooms::graphics::GraphicsAPI::eDataType dataType, 
+	dooms::graphics::GraphicsAPI::eDataType dataType,
+	dooms::graphics::GraphicsAPI::eBindFlag resourceBindFlag,
 	const void* data,
 	const size_t dataSize
 )
 	:
 	mTargetTexture(targetTexture),
 	mScratchImage(),
-	mDefaultTextureViewObject(nullptr),
 	mWidth(width),
 	mHeight(height),
-	mMipMapLevel(1),
+	mMipMapLevelCount(1),
 	mComponentFormat(format),
 	mInternalFormat(internalFormat),
 	mCompressedInternalFormat(compressedInternalFormat),
 	mTextureResourceObject(),
 	mDataType(dataType),
-	mTextureData(data),
-	mEntireImageSize(dataSize)
+	mTextureData( 1, data ),
+	mEntireImageSize(dataSize),
+	mBindFlags(resourceBindFlag)
 {
 }
 
-void dooms::asset::TextureAsset::SetScratchImage(std::unique_ptr<DirectX::ScratchImage>&& scratchImage)
+dooms::asset::TextureAsset::TextureAsset(std::unique_ptr<DirectX::ScratchImage>&& scratchImage, dooms::graphics::GraphicsAPI::eBindFlag resourceBindFlag)
+	: mBindFlags(resourceBindFlag)
+{
+	SetScratchImage(std::move(scratchImage), resourceBindFlag);
+}
+
+void dooms::asset::TextureAsset::SetScratchImage(std::unique_ptr<DirectX::ScratchImage>&& scratchImage, const dooms::graphics::GraphicsAPI::eBindFlag resourceBindFlag)
 {
 	mScratchImage = std::move(scratchImage);
-	mWidth = static_cast<INT32>(mScratchImage->GetMetadata().width);
-	mHeight = static_cast<INT32>(mScratchImage->GetMetadata().height);
-	mMipMapLevel = static_cast<INT32>(mScratchImage->GetMetadata().mipLevels);
+	mMipMapLevelCount = static_cast<INT32>(mScratchImage->GetMetadata().mipLevels);
+	mBindFlags = resourceBindFlag;
+	mDataType = graphics::GraphicsAPI::eDataType::UNSIGNED_BYTE;
 
 	switch (mScratchImage->GetMetadata().format)
 	{
@@ -135,6 +142,23 @@ void dooms::asset::TextureAsset::SetScratchImage(std::unique_ptr<DirectX::Scratc
 		NEVER_HAPPEN;
 	}
 
+	mTextureData.reserve(mScratchImage->GetImageCount());
+	mWidth.reserve(mScratchImage->GetImageCount());
+	mHeight.reserve(mScratchImage->GetImageCount());
+	mRowByteSizes.reserve(mScratchImage->GetImageCount());
+	mTotalDataSize.reserve(mScratchImage->GetImageCount());
+	
+	for(size_t imgIndex = 0 ; imgIndex < mScratchImage->GetImageCount() ; imgIndex++)
+	{
+		const Image* const img = mScratchImage->GetImage(imgIndex, 0, 0);
+
+		mTextureData.push_back(img->pixels);
+		mWidth.push_back(static_cast<INT32>(img->width));
+		mHeight.push_back(static_cast<INT32>(img->height));
+		mRowByteSizes.push_back(img->rowPitch);
+		mTotalDataSize.push_back(img->slicePitch);
+	}
+
 	//delete scratchImage;
 }
 
@@ -142,39 +166,35 @@ dooms::asset::TextureAsset::TextureAsset(TextureAsset&& textureAsset) noexcept
 	:
 		mTargetTexture(textureAsset.mTargetTexture),
 		mScratchImage(std::move(textureAsset.mScratchImage)),
-		mDefaultTextureViewObject(textureAsset.mDefaultTextureViewObject),
 		mWidth(textureAsset.mWidth),
 		mHeight(textureAsset.mHeight),
-		mMipMapLevel(textureAsset.mMipMapLevel),
+		mMipMapLevelCount(textureAsset.mMipMapLevelCount),
 		mEntireImageSize(textureAsset.mEntireImageSize),
 		mComponentFormat(textureAsset.mComponentFormat),
 		mInternalFormat(textureAsset.mInternalFormat),
 		mCompressedInternalFormat(textureAsset.mCompressedInternalFormat),
 		mTextureResourceObject(std::move(textureAsset.mTextureResourceObject)),
 		mDataType(textureAsset.mDataType),
-		mTextureData(textureAsset.mTextureData)
+		mTextureData(std::move(textureAsset.mTextureData)),
+		mBindFlags(textureAsset.mBindFlags)
 {
-	textureAsset.mDefaultTextureViewObject = nullptr;
-	textureAsset.mTextureData = nullptr;
 }
 
 dooms::asset::TextureAsset& dooms::asset::TextureAsset::operator=(TextureAsset&& textureAsset) noexcept
 {
 	mTargetTexture = textureAsset.mTargetTexture;
 	mScratchImage = std::move(textureAsset.mScratchImage);
-	mDefaultTextureViewObject = textureAsset.mDefaultTextureViewObject;
-	textureAsset.mDefaultTextureViewObject = nullptr;
 	mWidth = textureAsset.mWidth;
 	mHeight = textureAsset.mHeight;
-	mMipMapLevel = textureAsset.mMipMapLevel;
+	mMipMapLevelCount = textureAsset.mMipMapLevelCount;
 	mEntireImageSize = textureAsset.mEntireImageSize;
 	mComponentFormat = textureAsset.mComponentFormat;
 	mInternalFormat = textureAsset.mInternalFormat;
 	mCompressedInternalFormat = textureAsset.mCompressedInternalFormat;
 	mTextureResourceObject = std::move(textureAsset.mTextureResourceObject);
 	mDataType = textureAsset.mDataType;
-	mTextureData = textureAsset.mTextureData;
-	textureAsset.mTextureData = nullptr;
+	mTextureData = std::move(textureAsset.mTextureData);
+	mBindFlags = textureAsset.mBindFlags;
 
 	return *this;
 }
@@ -206,21 +226,19 @@ TextureView* dooms::asset::TextureAsset::GenerateTextureViewObject()
 
 void dooms::asset::TextureAsset::AllocateTextureResourceObject()
 {
-	TextureView* createdTexture = nullptr;
-
-	D_ASSERT(mScratchImage->GetImageCount() != 0);
-	std::vector<const DirectX::Image*> mipmapPixels{};
-	for (UINT32 i = 0; i < mScratchImage->GetImageCount(); i++)
-	{
-		//https://github.com/microsoft/DirectXTex/blob/master/DirectXTex/DirectXTexImage.cpp
-		mipmapPixels.push_back(mScratchImage->GetImage(i, 0, 0));
-	}
-
+	D_ASSERT(mMipMapLevelCount > 0);
+	D_ASSERT(mWidth.size() > 0);
+	D_ASSERT(mHeight.size() > 0);
+	D_ASSERT(mRowByteSizes.size() > 0);
+	D_ASSERT(mTotalDataSize.size() > 0);
 	D_ASSERT(mInternalFormat != GraphicsAPI::eTextureInternalFormat::TEXTURE_INTERNAL_FORMAT_NONE || mCompressedInternalFormat != GraphicsAPI::eTextureCompressedInternalFormat::TEXTURE_COMPRESSED_INTERNAL_FORMAT_NONE);
 
-	mTextureResourceObject = GraphicsAPI::Allocate2DTextureObject(dooms::graphics::GraphicsAPI::eTextureBindTarget::TEXTURE_2D, mipmapPixels.size(), mInternalFormat, mCompressedInternalFormat, mipmapPixels[0]->width, mipmapPixels[0]->height);
-	GraphicsAPI::UploadPixelsTo2DTexture(mTextureResourceObject, dooms::graphics::GraphicsAPI::eTextureBindTarget::TEXTURE_2D, mTargetTexture, 0, 0, 0, mWidth, mHeight, mComponentFormat, mDataType, mipmapPixels[0]->pixels);
-	
+	mTextureResourceObject = GraphicsAPI::Allocate2DTextureObject(dooms::graphics::GraphicsAPI::eTextureBindTarget::TEXTURE_2D, mMipMapLevelCount, mInternalFormat, mCompressedInternalFormat, mWidth[0], mHeight[0], mBindFlags);
+
+	for (UINT32 mipLevelIndex = 0; mipLevelIndex < mTextureData.size(); mipLevelIndex++)
+	{
+		GraphicsAPI::UploadPixelsTo2DTexture(mTextureResourceObject, dooms::graphics::GraphicsAPI::eTextureBindTarget::TEXTURE_2D, mTargetTexture, mipLevelIndex, 0, 0, mWidth[mipLevelIndex], mHeight[mipLevelIndex], mComponentFormat, mDataType, mTextureData[mipLevelIndex], mRowByteSizes[mipLevelIndex], mTotalDataSize[mipLevelIndex]);
+	}
 }
 
 void dooms::asset::TextureAsset::DestroyTextureResourceObject()
@@ -253,22 +271,24 @@ GraphicsAPI::eTextureCompressedInternalFormat dooms::asset::TextureAsset::GetTex
 	return mCompressedInternalFormat;
 }
 
-INT32 dooms::asset::TextureAsset::GetTextureWidth() const
+UINT32 dooms::asset::TextureAsset::GetTextureWidth(const size_t mipLevelIndex) const
 {
-	return mWidth;
+	D_ASSERT(mipLevelIndex < mWidth.size());
+	return mWidth[mipLevelIndex];
 }
 
-INT32 dooms::asset::TextureAsset::GetTextureHeight() const
+UINT32 dooms::asset::TextureAsset::GetTextureHeight(const size_t mipLevelIndex) const
 {
-	return mHeight;
+	D_ASSERT(mipLevelIndex < mHeight.size());
+	return mHeight[mipLevelIndex];
 }
 
-INT32 dooms::asset::TextureAsset::GetMipMapLevel() const
+UINT32 dooms::asset::TextureAsset::GetMipMapLevel() const
 {
-	return mMipMapLevel;
+	return mMipMapLevelCount;
 }
 
-INT32 dooms::asset::TextureAsset::GetEntireImageSize() const
+UINT64 dooms::asset::TextureAsset::GetEntireImageSize() const
 {
 	return mEntireImageSize;
 }
@@ -278,14 +298,8 @@ GraphicsAPI::eDataType dooms::asset::TextureAsset::GetTextureDataType() const
 	return dooms::graphics::GraphicsAPI::eDataType::UNSIGNED_BYTE;
 }
 
-dooms::graphics::TextureView* dooms::asset::TextureAsset::GetDefaultTextureViewObject()
+dooms::graphics::TextureView* dooms::asset::TextureAsset::GetTextureView()
 {
-	if(IsValid(mDefaultTextureViewObject) == false)
-	{
-		mDefaultTextureViewObject = GenerateTextureViewObject();
-	}
-
-	D_ASSERT(IsValid(mDefaultTextureViewObject) == true);
-	return mDefaultTextureViewObject;
+	return dooms::CreateDObject<dooms::graphics::TextureView>()
 }
 

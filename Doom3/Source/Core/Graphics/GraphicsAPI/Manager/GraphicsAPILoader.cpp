@@ -21,6 +21,8 @@ void dooms::graphics::GraphicsAPILoader::FetchExportedFunctionAddress()
 	D_ASSERT(mAPIModule != nullptr);
 	HMODULE hModule = reinterpret_cast<HMODULE>(mAPIModule);
 
+	dooms::graphics::GraphicsAPI::GetCuurentAPIType = (GraphicsAPI::GRAPHICS_GETCURRENTAPITYPE(GetProcAddress(hModule, "GetCuurentAPIType");
+	//D_ASSERT(dooms::graphics::GraphicsAPI::GetCuurentAPIType != nullptr);
 	dooms::graphics::GraphicsAPI::ActivateTextureUnit = (GraphicsAPI::GRAPHICS_ACTIVATETEXTUREUNIT)GetProcAddress(hModule, "ActivateTextureUnit");
 	//D_ASSERT(dooms::graphics::GraphicsAPI::ActivateTextureUnit != nullptr);
 	dooms::graphics::GraphicsAPI::AllocateBufferMemory = (GraphicsAPI::GRAPHICS_ALLOCATEBUFFERMEMORY)GetProcAddress(hModule, "AllocateBufferMemory");
@@ -333,7 +335,7 @@ dooms::graphics::GraphicsAPILoader& dooms::graphics::GraphicsAPILoader::operator
 
 void* dooms::graphics::GraphicsAPILoader::LoadGraphicsAPILibrary
 (
-	const eGraphicsAPIType graphicsAPIType
+	const dooms::graphics::GraphicsAPI::eGraphicsAPIType graphicsAPIType
 )
 {
 	assert(mAPIModule == nullptr);
@@ -349,11 +351,11 @@ void* dooms::graphics::GraphicsAPILoader::LoadGraphicsAPILibrary
 
 	switch (graphicsAPIType)
 	{
-	case eGraphicsAPIType::OpenGL:
+	case GraphicsAPI::eGraphicsAPIType::OpenGL:
 		dllFileName = OPENGL_DLL_FILE_NAME;
 		break;
 
-	case eGraphicsAPIType::DX11_10: 
+	case GraphicsAPI::eGraphicsAPIType::DX11_10: 
 		dllFileName = DX11_DLL_FILE_NAME;
 		break;
 

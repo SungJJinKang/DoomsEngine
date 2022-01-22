@@ -1889,9 +1889,6 @@
     <ClInclude Include="Source\Core\Graphics\graphicsSetting.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Core\Graphics\GraphicsAPI\eGraphicsAPIType.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Core\Graphics\GraphicsAPI\PlatformImgui\PlatformImgui.h">
       <Filter>Header Files</Filter>
     </ClInclude>

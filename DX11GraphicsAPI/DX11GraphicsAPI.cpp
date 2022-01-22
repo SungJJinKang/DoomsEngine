@@ -244,31 +244,56 @@ namespace dooms
             FORCE_INLINE static D3D11_BIND_FLAG Convert_eBindFlag_To_D3D11_BIND_FLAG(const GraphicsAPI::eBindFlag bindFlag)
             {
                 long dx11BindFlag = 0;
-	            switch (bindFlag)
-	            {
-	            case GraphicsAPI::BIND_VERTEX_BUFFER: 
+	            
+                if ((GraphicsAPI::eBindFlag::BIND_VERTEX_BUFFER & bindFlag) != 0)
+                {
                     dx11BindFlag |= (long)D3D11_BIND_VERTEX_BUFFER;
-	            case GraphicsAPI::BIND_INDEX_BUFFER: 
+                }
+                    
+                if ((GraphicsAPI::eBindFlag::BIND_INDEX_BUFFER & bindFlag) != 0)
+                {
                     dx11BindFlag |= (long)D3D11_BIND_INDEX_BUFFER;
-	            case GraphicsAPI::BIND_CONSTANT_BUFFER: 
+                }
+                    
+	            if (( GraphicsAPI::eBindFlag::BIND_CONSTANT_BUFFER & bindFlag) != 0)
+	            {
                     dx11BindFlag |= (long)D3D11_BIND_CONSTANT_BUFFER;
-	            case GraphicsAPI::BIND_SHADER_RESOURCE: 
-                    dx11BindFlag |= (long)D3D11_BIND_SHADER_RESOURCE;
-	            case GraphicsAPI::BIND_STREAM_OUTPUT: 
-                    dx11BindFlag |= (long)D3D11_BIND_STREAM_OUTPUT;
-	            case GraphicsAPI::BIND_RENDER_TARGET: 
-                    dx11BindFlag |= (long)D3D11_BIND_RENDER_TARGET;
-	            case GraphicsAPI::BIND_DEPTH_STENCIL:
-                    dx11BindFlag |= (long)D3D11_BIND_DEPTH_STENCIL;
-	            case GraphicsAPI::BIND_UNORDERED_ACCESS:
-                    dx11BindFlag |= (long)D3D11_BIND_UNORDERED_ACCESS;
-	            case GraphicsAPI::BIND_DECODER:
-                    dx11BindFlag |= (long)D3D11_BIND_DECODER;
-	            case GraphicsAPI::BIND_VIDEO_ENCODER: 
-                    dx11BindFlag |= (long)D3D11_BIND_VIDEO_ENCODER;
-	            default:
-                    NEVER_HAPPEN;
 	            }
+                   
+                if ((GraphicsAPI::eBindFlag::BIND_SHADER_RESOURCE & bindFlag) != 0)
+                {
+                    dx11BindFlag |= (long)D3D11_BIND_SHADER_RESOURCE;
+                }
+                    
+                if ((GraphicsAPI::eBindFlag::BIND_STREAM_OUTPUT & bindFlag) != 0)
+                {
+                    dx11BindFlag |= (long)D3D11_BIND_STREAM_OUTPUT;
+                }
+                   
+                if ((GraphicsAPI::eBindFlag::BIND_RENDER_TARGET & bindFlag) != 0)
+                {
+                    dx11BindFlag |= (long)D3D11_BIND_RENDER_TARGET;
+                }
+                   
+                if ((GraphicsAPI::eBindFlag::BIND_DEPTH_STENCIL & bindFlag) != 0)
+                {
+                    dx11BindFlag |= (long)D3D11_BIND_DEPTH_STENCIL;
+                }
+                
+                if ((GraphicsAPI::eBindFlag::BIND_UNORDERED_ACCESS & bindFlag) != 0)
+                {
+                    dx11BindFlag |= (long)D3D11_BIND_UNORDERED_ACCESS;
+                }
+              
+                if ((GraphicsAPI::eBindFlag::BIND_DECODER & bindFlag) != 0)
+                {
+                    dx11BindFlag |= (long)D3D11_BIND_DECODER;
+                }
+                
+                if ((GraphicsAPI::eBindFlag::BIND_VIDEO_ENCODER & bindFlag) != 0)
+                {
+                    dx11BindFlag |= (long)D3D11_BIND_VIDEO_ENCODER;
+                }
 
                 return (D3D11_BIND_FLAG)dx11BindFlag;
             }
@@ -886,7 +911,10 @@ namespace dooms
             }
 		}
 
-		
+        DOOMS_ENGINE_GRAPHICS_API GraphicsAPI::eGraphicsAPIType GetCuurentAPIType()
+        {
+            return GraphicsAPI::eGraphicsAPIType::DX11_10;
+        }
 
 		DOOMS_ENGINE_GRAPHICS_API double GetTime()
 		{
@@ -1048,15 +1076,30 @@ namespace dooms
 
         DOOMS_ENGINE_GRAPHICS_API unsigned long long GenerateFrameBuffer()
         {
-            unsigned int frameBuffer;
-            glGenFramebuffers(1, &frameBuffer);
-            return frameBuffer;
+            return 0;
         }
 
         DOOMS_ENGINE_GRAPHICS_API void DestroyFrameBuffer(unsigned long long frameBufferObject)
         {
-            glDeleteFramebuffers(1, reinterpret_cast<unsigned int*>(&frameBufferObject));
         }
+
+        DOOMS_ENGINE_GRAPHICS_API unsigned long long Attach2DTextureToFrameBuffer
+        (
+            const unsigned long long frameBufferObject,
+            const GraphicsAPI::eFrameBufferAttachmentPoint frameBufferAttachmentPoint,
+            const GraphicsAPI::eTextureBindTarget textureBindTarget,
+            const unsigned long long textureBufferObject
+        )
+		{
+            assert(textureBufferObject != 0);
+
+            ID3D11Texture2D* const textureResource = reinterpret_cast<ID3D11Texture2D*>(textureBufferObject);
+
+            ID3D11RenderTargetView* renderTargetView;
+
+			dx11::g_pd3dDevice->CreateRenderTargetView(textureResource, nullptr, &renderTargetView);
+            return reinterpret_cast<unsigned long long>(renderTargetView);
+		}
         
         DOOMS_ENGINE_GRAPHICS_API unsigned long long Allocate2DTextureObject
         (
@@ -1092,19 +1135,20 @@ namespace dooms
             textureDesc.SampleDesc.Count = 1;
             textureDesc.SampleDesc.Quality = 0;
             textureDesc.Usage = D3D11_USAGE_DEFAULT;
-            textureDesc.BindFlags = D3D11_BIND_SHADER_RESOURCE;
+            textureDesc.BindFlags = dx11::Convert_eBindFlag_To_D3D11_BIND_FLAG(bindFlag);
             textureDesc.CPUAccessFlags = 0;
             textureDesc.MiscFlags = 0;
 
-            ID3D11Texture2D* textureObject;
+            ID3D11Texture2D* textureResourceObject;
 
-            HRESULT hr = dx11::g_pd3dDevice->CreateTexture2D(&textureDesc, nullptr, &textureObject);
+            HRESULT hr = dx11::g_pd3dDevice->CreateTexture2D(&textureDesc, nullptr, &textureResourceObject);
             assert(FAILED(hr) == false);
             if(FAILED(hr))
             {
                 return 0;
             }
 
+            /*
             ID3D11ShaderResourceView* textureView;
 
             D3D11_SHADER_RESOURCE_VIEW_DESC SRVDesc = {};
@@ -1123,14 +1167,15 @@ namespace dooms
             }
 
             textureObject->Release();
+            */
 
-            return reinterpret_cast<unsigned long long>(textureView);
+            return reinterpret_cast<unsigned long long>(textureResourceObject);
 		}
 
 
         DOOMS_ENGINE_GRAPHICS_API void UploadPixelsTo2DTexture
         (
-            const unsigned long long textureObject,
+            const unsigned long long textureResourceObject,
             const GraphicsAPI::eTextureBindTarget textureBindTarget,
             const GraphicsAPI::eTargetTexture targetTexture,
             const unsigned int lodLevel,
@@ -1143,12 +1188,80 @@ namespace dooms
             const void* const pixelDatas
         )
         {
-            ID3D11ShaderResourceView* const textureView = reinterpret_cast<ID3D11ShaderResourceView*>(textureObject);
+            ID3D11Texture2D* const textureResource = reinterpret_cast<ID3D11Texture2D*>(textureResourceObject);
 
+            const UINT res = D3D11CalcSubresource(lodLevel, 0, 1);
+            
+            dx11::g_pImmediateContext->UpdateSubresource(textureResource, res, nullptr, pixelDatas, 0, 0);
+            
+        }
 
-            //g_pImmediateContext->UpdateSubresource(dx11::g_pCBNeverChanges, 0, nullptr, &cbNeverChanges, 0, 0);
+        DOOMS_ENGINE_GRAPHICS_API unsigned long long CreateTextureViewObject(const unsigned long long textureObject)
+        {
+            assert(textureObject != 0);
 
-            //textureView->
+            ID3D11Texture2D* const textureResource = reinterpret_cast<ID3D11Texture2D*>(textureObject);
+
+            D3D11_SHADER_RESOURCE_VIEW_DESC SRVDesc = {};
+
+            D3D11_TEXTURE2D_DESC desc;
+            textureResource->GetDesc(&desc);
+
+            SRVDesc.Format = desc.Format;
+            SRVDesc.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2D;
+            SRVDesc.Texture2D.MipLevels = desc.MipLevels;
+
+            ID3D11ShaderResourceView* shaderResourceView;
+
+            const HRESULT hr = dx11::g_pd3dDevice->CreateShaderResourceView(textureResource,
+                &SRVDesc,
+                &shaderResourceView
+            );
+            assert(FAILED(hr) == false);
+
+            if (FAILED(hr))
+            {
+                return 0;
+            }
+            else
+            {
+                return reinterpret_cast<unsigned long long>(shaderResourceView);
+            }
+        }
+
+        DOOMS_ENGINE_GRAPHICS_API void BindTextureObject
+        (
+            const unsigned long long textureViewObject,
+            const GraphicsAPI::eTextureBindTarget textureBindTarget,
+            const unsigned int bindingLocation,
+            const GraphicsAPI::eGraphicsPipeLineStage targetPipeLineStage
+        )
+        {
+            ID3D11ShaderResourceView* const shaderResourceView = reinterpret_cast<ID3D11ShaderResourceView*>(textureViewObject);
+
+            switch (targetPipeLineStage)
+            {
+            case GraphicsAPI::VERTEX_SHADER:
+                dx11::g_pImmediateContext->VSSetShaderResources(bindingLocation, 1, &shaderResourceView);
+                break;
+            case GraphicsAPI::HULL_SHADER:
+                dx11::g_pImmediateContext->HSSetShaderResources(bindingLocation, 1, &shaderResourceView);
+                break;
+            case GraphicsAPI::DOMAIN_SHADER:
+                dx11::g_pImmediateContext->DSSetShaderResources(bindingLocation, 1, &shaderResourceView);
+                break;
+            case GraphicsAPI::GEOMETRY_SHADER:
+                dx11::g_pImmediateContext->GSSetShaderResources(bindingLocation, 1, &shaderResourceView);
+                break;
+            case GraphicsAPI::PIXEL_SHADER:
+                dx11::g_pImmediateContext->PSSetShaderResources(bindingLocation, 1, &shaderResourceView);
+                break;
+            case GraphicsAPI::COMPUTE_SHADER:
+                dx11::g_pImmediateContext->CSSetShaderResources(bindingLocation, 1, &shaderResourceView);
+                break;
+            default:
+                NEVER_HAPPEN;
+            }
         }
 
         DOOMS_ENGINE_GRAPHICS_API void BindFrameBuffer
@@ -1295,9 +1408,10 @@ namespace dooms
             const void* const data
         )
         {
-            ID3D11Buffer* const buffer = reinterpret_cast<ID3D11Buffer*>(bufferObject);
+            assert(bufferObject != 0);
+            ID3D11Resource* const bufferResource = reinterpret_cast<ID3D11Resource*>(bufferObject);
             
-            dx11::g_pImmediateContext->UpdateSubresource(buffer, 0, nullptr, data, 0, 0);
+            dx11::g_pImmediateContext->UpdateSubresource(bufferResource, 0, nullptr, data, 0, 0);
         }
 
         DOOMS_ENGINE_GRAPHICS_API void BindConstantBuffer
@@ -1307,6 +1421,7 @@ namespace dooms
             const GraphicsAPI::eGraphicsPipeLineStage pipeLineStage
         )
         {
+            assert(bufferObject != 0);
             ID3D11Buffer* const buffer = reinterpret_cast<ID3D11Buffer*>(bufferObject);
 
             switch (pipeLineStage)
@@ -1384,10 +1499,47 @@ namespace dooms
             const GraphicsAPI::eImageInterpolation filter
         )
 		{
+            assert(ReadFrameBufferObject != 0 | DrawFrameBufferObject != 0);
+
+            ID3D11Resource* fromFrameBuffer;
+            if(ReadFrameBufferObject != 0)
+            {
+                fromFrameBuffer = reinterpret_cast<ID3D11Resource*>(ReadFrameBufferObject);
+            }
+            else
+            {
+                ID3D11Texture2D* pBackBuffer = nullptr; // https://vsts2010.tistory.com/517
+                const HRESULT hr = dx11::g_pSwapChain->GetBuffer(0, __uuidof(ID3D11Texture2D), reinterpret_cast<void**>(&pBackBuffer));
+                if (FAILED(hr))
+                {
+                    return;
+                }
+
+                fromFrameBuffer = pBackBuffer;
+            }
+
+            ID3D11Resource* ToFrameBuffer;
+            if (DrawFrameBufferObject != 0)
+            {
+                ToFrameBuffer = reinterpret_cast<ID3D11Resource*>(ReadFrameBufferObject);
+            }
+            else
+            {
+                ID3D11Texture2D* pBackBuffer = nullptr; // https://vsts2010.tistory.com/517
+                const HRESULT hr = dx11::g_pSwapChain->GetBuffer(0, __uuidof(ID3D11Texture2D), reinterpret_cast<void**>(&pBackBuffer));
+                if (FAILED(hr))
+                {
+                    return;
+                }
+
+                ToFrameBuffer = pBackBuffer;
+            }
+
+
             dx11::g_pImmediateContext->CopyResource
             (
-                reinterpret_cast<ID3D11Resource*>(DrawFrameBufferObject),
-                reinterpret_cast<ID3D11Resource*>(ReadFrameBufferObject)
+                fromFrameBuffer,
+                ToFrameBuffer
             );
 		}
 

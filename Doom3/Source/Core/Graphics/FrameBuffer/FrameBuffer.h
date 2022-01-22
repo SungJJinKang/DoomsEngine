@@ -25,25 +25,52 @@ namespace dooms
 
 		private:
 
+			struct FrameBufferTextureAndRenderTargetView
+			{
+				asset::TextureAsset* mTextureResource;
+				BufferID mRenderTargetView;
+				INT32 mBindingPosition;
+
+				FrameBufferTextureAndRenderTargetView()
+					: mTextureResource(nullptr), mRenderTargetView(), mBindingPosition(-1)
+				{
+					
+				}
+				FrameBufferTextureAndRenderTargetView
+				(
+					asset::TextureAsset* const _textureResource,
+					BufferID _renderTargetView,
+					INT32 bindingPosition = -1
+				)
+					: mTextureResource(_textureResource), mRenderTargetView(_renderTargetView), mBindingPosition(mBindingPosition)
+				{
+					D_ASSERT(_textureResource != nullptr);
+					D_ASSERT(_renderTargetView.IsValid());
+				}
+
+				FrameBufferTextureAndRenderTargetView(const FrameBufferTextureAndRenderTargetView&) = default;
+				FrameBufferTextureAndRenderTargetView(FrameBufferTextureAndRenderTargetView&&) noexcept = default;
+				FrameBufferTextureAndRenderTargetView& operator=(const FrameBufferTextureAndRenderTargetView&) = default;
+				FrameBufferTextureAndRenderTargetView& operator=(FrameBufferTextureAndRenderTargetView&&) noexcept = default;
+				
+				bool IsValid() const
+				{
+					return (mTextureResource != nullptr);
+				}
+			};
+
 			inline static const char FRAMEBUFFER_TAG[]{ "FrameBuffer" };
-
-
-			BufferID mFrameBufferID;
-
+			
+			/*
 			static constexpr UINT32 RESERVED_RENDERBUFFER_COUNT = 3;
 			std::vector<RenderBuffer> mAttachedRenderBuffers;
-
-			static constexpr UINT32 RESERVED_COLOR_TEXTURE_COUNT = 3;
-			std::vector<asset::TextureAsset*> mAttachedColorTextures;
+			*/
 			
-			static constexpr UINT32 RESERVED_DEPTH_STENCIL_TEXTURE_COUNT = 1; 
-			std::vector<asset::TextureAsset*> mAttachedDepthStencilTextures;
+			std::vector<FrameBufferTextureAndRenderTargetView> mAttachedColorTextures;
+			FrameBufferTextureAndRenderTargetView mAttachedDepthStencilTexture;
 
-			std::vector<GraphicsAPI::eBufferMode> mTargetDrawBufferContainer;
-
-			UINT32 mClearBit{ 0 };
-			UINT32 mDrawTarget{ 0 };
-
+			BufferID mFrameBufferIDForOPENGL;
+			
 			UINT32 mDefaultWidth;
 			UINT32 mDefaultHeight;
 
@@ -67,20 +94,13 @@ namespace dooms
 			FrameBuffer(UINT32 defaultWidth, UINT32 defaultHeight);
 			virtual ~FrameBuffer();
 
-			FrameBuffer(const FrameBuffer&);
+			FrameBuffer(const FrameBuffer&) = delete;
 			FrameBuffer& operator=(const FrameBuffer&) noexcept = delete;
 
 			FrameBuffer(FrameBuffer&&) noexcept = default;
 			FrameBuffer& operator=(FrameBuffer &&) noexcept = default;
 
-			void GenerateBuffer(UINT32 defaultWidth, UINT32 defaultHeight);
-			void RefreshTargetDrawBufferContainer();
-			void SetTargetDrawBuffer();
-
-			FORCE_INLINE const BufferID& GetFrameBufferID() const
-			{
-				return mFrameBufferID;
-			}
+			void GenerateBuffer();
 
 			FORCE_INLINE UINT32 GetDefaultWidth() const
 			{
@@ -92,88 +112,37 @@ namespace dooms
 				return mDefaultHeight;
 			}
 
-			FORCE_INLINE static void StaticBindFrameBuffer(const FrameBuffer* const frameBuffer)
-			{
-				if (D_OVERLAP_BIND_CHECK_CHECK_IS_NOT_BOUND_AND_BIND_ID(FRAMEBUFFER_TAG, ((frameBuffer != nullptr) ? frameBuffer->mFrameBufferID.GetBufferID() : 0)))
-				{
-					FrameBuffer::PreviousFrameBuffer = CurrentFrameBuffer;
-					if (frameBuffer == nullptr)
-					{
-						BindFrameBufferStatic(GraphicsAPI::FRAMEBUFFER, 0);
-						GraphicsAPI::SetViewport(0, 0, 0, graphics::graphicsAPISetting::GetScreenWidth(), graphics::graphicsAPISetting::GetScreenHeight());
-					}
-					else
-					{
-						BindFrameBufferStatic(GraphicsAPI::FRAMEBUFFER, frameBuffer->mFrameBufferID);
-						GraphicsAPI::SetViewport(0, 0, 0, frameBuffer->mDefaultWidth, frameBuffer->mDefaultHeight);
-					}
-					FrameBuffer::CurrentFrameBuffer = frameBuffer;
-				}
-			}
-
-			FORCE_INLINE void BindFrameBuffer() const noexcept
-			{
-				D_ASSERT(mFrameBufferID.IsValid());
-				D_ASSERT(mDefaultWidth != 0 && mDefaultHeight != 0);
-				FrameBuffer::StaticBindFrameBuffer(this);
-			}
-			FORCE_INLINE static void UnBindFrameBuffer() noexcept 
-			{
-				FrameBuffer::StaticBindFrameBuffer(nullptr); // bind MainFrameBuffer
-			}
-
-			/// <summary>
-			/// Rebind privous bound framebuffer
-			/// </summary>
-			FORCE_INLINE static void RevertFrameBuffer()
-			{
-				if (FrameBuffer::PreviousFrameBuffer != nullptr)
-				{
-					FrameBuffer::PreviousFrameBuffer->BindFrameBuffer();
-				}
-				else
-				{
-					FrameBuffer::UnBindFrameBuffer(); // bind defualt screen buffer
-				}
-			}
+			static void StaticBindFrameBuffer(const FrameBuffer* const frameBuffer);
+			void BindFrameBuffer() const noexcept;
+			static void UnBindFrameBuffer() noexcept;
+			static void RevertFrameBuffer();
 
 			/*
 			virtual void ClearFrameBuffer() const;
 			*/
-
-			FORCE_INLINE static void BindFrameBufferStatic(const GraphicsAPI::eBindFrameBufferTarget bindFrameBufferTarget, const BufferID& frameBufferID)
-			{
-				GraphicsAPI::BindFrameBuffer(frameBufferID, bindFrameBufferTarget);
-			}
 			
-			static void BlitFrameBufferTo(
-				dooms::asset::TextureAsset* const readFrameBuffer, dooms::asset::TextureAsset* const drawFrameBuffer, INT32 srcX0, INT32 srcY0, INT32 srcX1,
-				INT32 srcY1, INT32 dstX0, INT32 dstY0, INT32 dstX1, INT32 dstY1,
-				GraphicsAPI::eBufferBitType mask, GraphicsAPI::eImageInterpolation filter) noexcept;
+			
+			static void BlitFrameBufferTo
+			(
+				dooms::asset::TextureAsset* const readFrameBuffer, dooms::asset::TextureAsset* const drawFrameBuffer,
+				INT32 srcX0, INT32 srcY0, INT32 srcX1, INT32 srcY1,
+				INT32 dstX0, INT32 dstY0, INT32 dstX1, INT32 dstY1,
+				GraphicsAPI::eBufferBitType mask, GraphicsAPI::eImageInterpolation filter
+			) noexcept;
 
-			void BlitFrameBufferTo(
-				dooms::asset::TextureAsset* const drawFrameBuffer, INT32 srcX0, INT32 srcY0, INT32 srcX1,
-				INT32 srcY1 , INT32 dstX0, INT32 dstY0, INT32 dstX1, INT32 dstY1, 
-				GraphicsAPI::eBufferBitType mask, GraphicsAPI::eImageInterpolation filter) const noexcept;
 
-			void BlitFrameBufferFrom(dooms::asset::TextureAsset* const readFrameBuffer, INT32 srcX0, INT32 srcY0,
-				INT32 srcX1, INT32 srcY1 , INT32 dstX0, INT32 dstY0, INT32 dstX1, 
-				INT32 dstY1, GraphicsAPI::eBufferBitType mask, GraphicsAPI::eImageInterpolation filter) const noexcept;
-
-			void BlitFrameBufferToTexture(
-				dooms::asset::TextureAsset* const drawTexture, INT32 srcX0, INT32 srcY0, INT32 srcX1,
-				INT32 srcY1, INT32 dstX0, INT32 dstY0, INT32 dstX1, INT32 dstY1,
-				GraphicsAPI::eBufferBitType mask, GraphicsAPI::eImageInterpolation filter) const noexcept;
-
-			RenderBuffer& AttachRenderBuffer(GraphicsAPI::eFrameBufferAttachmentPoint renderBufferType, UINT32 width, UINT32 height);
-			RenderBuffer& AttachRenderBuffer(GraphicsAPI::eFrameBufferAttachmentPoint renderBufferType);
-			dooms::asset::TextureAsset* AttachTextureBuffer(GraphicsAPI::eBufferBitType frameBufferType, UINT32 width, UINT32 height);
-			dooms::asset::TextureAsset* AttachTextureBuffer(GraphicsAPI::eBufferBitType frameBufferType);
-			const asset::TextureAsset* GetFrameBufferTexture(GraphicsAPI::eBufferBitType bufferType, UINT32 index) const;
-			asset::TextureAsset* GetFrameBufferTexture(GraphicsAPI::eBufferBitType bufferType, UINT32 index);
-
-			void CheckIsFrameBufferSuccesfullyCreated() noexcept;
-
+			//RenderBuffer& AttachRenderBuffer(GraphicsAPI::eFrameBufferAttachmentPoint renderBufferType, UINT32 width, UINT32 height);
+			//RenderBuffer& AttachRenderBuffer(GraphicsAPI::eFrameBufferAttachmentPoint renderBufferType);
+			dooms::asset::TextureAsset* AttachTextureBuffer
+			(
+				GraphicsAPI::eBufferBitType frameBufferType,
+				UINT32 bindingPosition,
+				UINT32 width, 
+				UINT32 height
+			);
+			const asset::TextureAsset* GetFrameBufferTexture(GraphicsAPI::eBufferBitType bufferType, INT32 bindingPosition) const;
+			asset::TextureAsset* GetFrameBufferTexture(GraphicsAPI::eBufferBitType bufferType, INT32 bindingPosition);
+			
 			bool IsGenerated();
 
 			

@@ -122,7 +122,7 @@ void dooms::graphics::Material::UseProgram() const
 				}
 			}
 
-			if(GraphicsAPIManager::GetGraphicsAPIType() == eGraphicsAPIType::DX11_10)
+			if(dooms::graphics::GraphicsAPI::GetCuurentAPIType() == GraphicsAPI::eGraphicsAPIType::DX11_10)
 			{
 				const UINT64 vertexShader = GetShaderAsset()->GetVertexId();
 				if(vertexShader != NULL)
@@ -133,7 +133,7 @@ void dooms::graphics::Material::UseProgram() const
 				GraphicsAPI::BindMaterial(GetShaderAsset()->GetFragmentId());
 				GraphicsAPI::BindMaterial(GetShaderAsset()->GetGeometryId());
 			}
-			else if (GraphicsAPIManager::GetGraphicsAPIType() == eGraphicsAPIType::OpenGL)
+			else if (dooms::graphics::GraphicsAPI::GetCuurentAPIType() == GraphicsAPI::eGraphicsAPIType::OpenGL)
 			{
 				GraphicsAPI::BindMaterial(mProgramID);
 			}
