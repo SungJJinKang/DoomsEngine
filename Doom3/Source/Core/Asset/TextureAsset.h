@@ -48,6 +48,9 @@ namespace dooms
 			graphics::GraphicsAPI::eTargetTexture mTargetTexture;
 
 			D_PROPERTY()
+			graphics::GraphicsAPI::eTextureBindTarget mTextureBindTarget;
+
+			D_PROPERTY()
 			std::vector<UINT32> mWidth;
 
 			D_PROPERTY()
@@ -100,6 +103,7 @@ namespace dooms
 				dooms::graphics::GraphicsAPI::eTextureComponentFormat format, 
 				dooms::graphics::GraphicsAPI::eDataType dataType,
 				dooms::graphics::GraphicsAPI::eBindFlag resourceBindFlag,
+				dooms::graphics::GraphicsAPI::eTextureBindTarget textureBindTarget,
 				const void* data = 0,
 				const size_t dataSize = 0
 			);
@@ -115,7 +119,6 @@ namespace dooms
 			virtual void OnSetPendingKill() override;
 
 			void OnEndImportInMainThread_Internal() final;
-			graphics::TextureView* GenerateTextureViewObject();
 
 			virtual dooms::asset::eAssetType GetEAssetType() const final;
 
@@ -129,9 +132,17 @@ namespace dooms
 			UINT32 GetMipMapLevel() const;
 			UINT64 GetEntireImageSize() const;
 			graphics::GraphicsAPI::eDataType GetTextureDataType() const;
+			FORCE_INLINE graphics::GraphicsAPI::eTextureBindTarget GetTextureBindTarget() const
+			{
+				return mTextureBindTarget;
+			}
 
-
-			dooms::graphics::TextureView* GetTextureView();
+			dooms::graphics::TextureView* GenerateTextureView
+			(
+				const UINT32 defaultBindingPosition,
+				const graphics::GraphicsAPI::eGraphicsPipeLineStage defaultTargetGraphicsPipeLineStage
+			);
+			
 		};
 		
 	}

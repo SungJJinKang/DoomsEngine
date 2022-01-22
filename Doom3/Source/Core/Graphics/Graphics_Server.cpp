@@ -33,7 +33,6 @@
 #include <EngineGUI/GUIModules/MaskedOcclusionCulliingDebugger.h>
 
 #include "Acceleration/LinearData_ViewFrustumCulling/CullingModule/MaskedSWOcclusionCulling/MaskedSWOcclusionCulling.h"
-#include "GraphicsAPI/eGraphicsAPIType.h"
 
 //#define D_DEBUG_CPU_VENDOR_PROFILER
 
@@ -49,11 +48,11 @@ bool Graphics_Server::InitializeGraphicsAPI()
 	const std::string targetGraphicsAPI = ConfigData::GetSingleton()->GetConfigData().GetValue<std::string>("Graphics", "GRAPHICS_API");
 	if (targetGraphicsAPI == "OPENGL")
 	{
-		isSuccess = GraphicsAPIManager::Initialize(eGraphicsAPIType::OpenGL);
+		isSuccess = GraphicsAPIManager::Initialize(GraphicsAPI::eGraphicsAPIType::OpenGL);
 	}
 	else if (targetGraphicsAPI == "DX11_10")
 	{
-		isSuccess = GraphicsAPIManager::Initialize(eGraphicsAPIType::DX11_10);
+		isSuccess = GraphicsAPIManager::Initialize(GraphicsAPI::eGraphicsAPIType::DX11_10);
 	}
 	else
 	{
@@ -304,7 +303,7 @@ void dooms::graphics::Graphics_Server::Render()
 
 	const std::vector<dooms::Camera*>& spawnedCameraList = StaticContainer<dooms::Camera>::GetAllStaticComponents();
 
-	FrameBuffer::UnBindFrameBuffer();
+	FrameBuffer::StaticBindBackFrameBuffer();
 	//Clear ScreenBuffer
 
 	for (size_t cameraIndex = 0; cameraIndex < spawnedCameraList.size(); cameraIndex++)
@@ -353,8 +352,8 @@ void dooms::graphics::Graphics_Server::Render()
 
 		D_ASSERT(IsValid(targetCamera));
 
-		GraphicsAPI::ClearBackBufferColorBuffer(targetCamera->mClearColor[0], targetCamera->mClearColor[1], targetCamera->mClearColor[2], targetCamera->mClearColor[3]);
-		GraphicsAPI::ClearBackBufferDepthBuffer(GraphicsAPI::DEFAULT_MAX_DEPTH_VALUE);
+		GraphicsAPI::ClearBackFrameBufferColorBuffer(targetCamera->mClearColor[0], targetCamera->mClearColor[1], targetCamera->mClearColor[2], targetCamera->mClearColor[3]);
+		GraphicsAPI::ClearBackFrameBufferDepthBuffer(GraphicsAPI::DEFAULT_MAX_DEPTH_VALUE);
 
 		targetCamera->UpdateUniformBufferObject();
 
@@ -366,7 +365,7 @@ void dooms::graphics::Graphics_Server::Render()
 		RenderObject(targetCamera, cameraIndex);
 		D_END_PROFILING(RenderObject);
 
-		targetCamera->mDefferedRenderingFrameBuffer.UnBindFrameBuffer();
+		FrameBuffer::StaticBindBackFrameBuffer();
 
 		// 
 		//Blit DepthBuffer To ScreenBuffer

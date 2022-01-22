@@ -8,11 +8,13 @@ namespace dooms
 	{
 		class D_CLASS BufferID
 		{
-
-		private:
+		public:
 
 			inline static const UINT64 INVALID_BUFFER_ID = 0; // Don't change this. In opengl, Only low 4byte is used.
 
+		private:
+
+			
 			D_PROPERTY()
 			UINT64 mID; // This is used as pointer in directx
 

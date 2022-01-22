@@ -33,7 +33,13 @@
 
 #endif
 
+#ifndef NEVER_HAPPEN
+#define NEVER_HAPPEN D_ASSERT(0);
+#endif
+
+
 #else
+
 
 #ifndef D_ASSERT
 #define D_ASSERT(condition) do { } while (false)
@@ -41,6 +47,10 @@
 
 #ifndef D_ASSERT_LOG
 #define D_ASSERT_LOG(condition, MessageFormat, ...) do { } while (false)
+#endif
+
+#ifndef NEVER_HAPPEN
+#define NEVER_HAPPEN __assume(0)
 #endif
 
 #endif

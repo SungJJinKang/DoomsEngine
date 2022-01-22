@@ -28,16 +28,10 @@ namespace dooms
 		{
 			GENERATE_BODY()
 			
-
-		public:
-			
-			static constexpr GraphicsAPI::eTextureBindTarget DEFAULT_BIND_TARGET = GraphicsAPI::eTextureBindTarget::TEXTURE_2D;
-			
-			
 		private:
 
-			inline static const char BIND_TARGET_TAG[]{ "BIND_TARGET" };
-			static inline const char ACTIVE_TEXTURE_TAG[]{ "ActiveTexture" };
+			inline static const char BIND_TARGET_TAG[] = "BIND_TARGET";
+			inline static const char ACTIVE_TEXTURE_TAG[] = "ActiveTexture";
 
 			void OnSetPendingKill() override;
 			void DestroyTextureViewObject();
@@ -46,21 +40,29 @@ namespace dooms
 			asset::TextureAsset* mTargetTextureResourceObject;
 
 			D_PROPERTY()
-			BufferID mTextureViewObject{};
+			BufferID mTextureViewObject;
 
 			D_PROPERTY()
-			UINT32 mBindingLocation;
+			UINT32 mDefaultBindingLocation;
+
+			D_PROPERTY()
+			GraphicsAPI::eGraphicsPipeLineStage mDefaultTargetGraphicsPipeLineStage;
 
 		public:
 
 			
 
-			TextureView(asset::TextureAsset* const textureResourceObject, const UINT32 bindingLocation);
-			TextureView(const TextureView&) = delete;
-			TextureView& operator=(const TextureView&) noexcept = delete;
+			TextureView
+			(
+				asset::TextureAsset* const textureResourceObject, 
+				const UINT32 defaultBindingPosition,
+				const GraphicsAPI::eGraphicsPipeLineStage defaultTargetGraphicsPipeLineStage
+			);
+			TextureView(const TextureView&);
+			TextureView& operator=(const TextureView&);
 
-			TextureView(TextureView&&) noexcept = default;
-			TextureView& operator=(TextureView&&) noexcept = default;
+			TextureView(TextureView&&) noexcept;
+			TextureView& operator=(TextureView&&) noexcept;
 			
 			virtual ~TextureView();
 			virtual void OnEndContructor();
@@ -73,34 +75,38 @@ namespace dooms
 			asset::TextureAsset* GetTargetTextureResourceObject();
 			const asset::TextureAsset* GetTargetTextureResourceObject() const;
 
-
-			FORCE_INLINE void BindTexture(const UINT32 bindingPoint) const noexcept
+			FORCE_INLINE void BindTexture() const noexcept
 			{
-				if (D_OVERLAP_BIND_CHECK_CHECK_IS_NOT_BOUND_AND_BIND_ID_WITH_DOUBLE_INDEX(BIND_TARGET_TAG, GraphicsAPI::eTextureBindTarget::TEXTURE_2D, D_OVERLAP_BIND_GET_BIND_ID(ACTIVE_TEXTURE_TAG), mTextureViewObject))
+				if (D_OVERLAP_BIND_CHECK_CHECK_IS_NOT_BOUND_AND_BIND_ID_WITH_DOUBLE_INDEX(BIND_TARGET_TAG, mTargetTextureResourceObject->GetTextureBindTarget(), D_OVERLAP_BIND_GET_BIND_ID(ACTIVE_TEXTURE_TAG), mTextureViewObject))
 				{
-					GraphicsAPI::BindTextureObject(mTextureViewObject, GraphicsAPI::eTextureBindTarget::TEXTURE_2D);
+					GraphicsAPI::BindTextureObject
+					(
+						mTextureViewObject,
+						mTargetTextureResourceObject->GetTextureBindTarget(),
+						mDefaultBindingLocation,
+						mDefaultTargetGraphicsPipeLineStage
+					);
 				}
 			}
 
-			FORCE_INLINE void UnBindTexture() const noexcept
+			FORCE_INLINE void BindTexture
+			(
+				const UINT32 bindingPoint, 
+				const GraphicsAPI::eGraphicsPipeLineStage targetPipeLineStage
+			) const noexcept
 			{
-				if (D_OVERLAP_BIND_CHECK_CHECK_IS_NOT_BOUND_AND_BIND_ID_WITH_DOUBLE_INDEX(BIND_TARGET_TAG, GraphicsAPI::eTextureBindTarget::TEXTURE_2D, D_OVERLAP_BIND_GET_BIND_ID(ACTIVE_TEXTURE_TAG), 0))
+				if (D_OVERLAP_BIND_CHECK_CHECK_IS_NOT_BOUND_AND_BIND_ID_WITH_DOUBLE_INDEX(BIND_TARGET_TAG, mTargetTextureResourceObject->GetTextureBindTarget(), D_OVERLAP_BIND_GET_BIND_ID(ACTIVE_TEXTURE_TAG), mTextureViewObject))
 				{
-					GraphicsAPI::UnBindTextureObject(GraphicsAPI::eTextureBindTarget::TEXTURE_2D);
+					GraphicsAPI::BindTextureObject
+					(
+						mTextureViewObject, 
+						mTargetTextureResourceObject->GetTextureBindTarget(),
+						bindingPoint,
+						targetPipeLineStage
+					);
 				}
 			}
-
-			FORCE_INLINE void BindTextureWithUnit(UINT32 bindingPoint) const
-			{
-				if (
-					D_OVERLAP_BIND_CHECK_CHECK_IS_NOT_BOUND_AND_BIND_ID_WITH_DOUBLE_INDEX(BIND_TARGET_TAG, GraphicsAPI::eTextureBindTarget::TEXTURE_2D, bindingPoint, mTextureViewObject)
-				)
-				{
-					GraphicsAPI::BindTextureObjectAndActivateTextureUnit(mTextureViewObject, bindingPoint);
-				}
-				//glActiveTexture(GL_TEXTURE0 + bindingPoint);
-				//glBindTexture(GL_TEXTURE_2D, mTextureViewObject);
-			}
+			
 			
 			const BufferID& GetTextureBufferID() const;
 			

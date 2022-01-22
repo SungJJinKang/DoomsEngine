@@ -310,7 +310,7 @@ namespace dooms
             static  IDXGISwapChain1* g_pSwapChain1 = nullptr;
             static ID3D11RenderTargetView* BackBufferRenderTargetView = nullptr;
             static ID3D11Texture2D* g_pDepthStencil = nullptr;
-            static ID3D11DepthStencilView* BackBufferStencilDepthView = nullptr;
+            static ID3D11DepthStencilView* BackBufferDepthStencilView = nullptr;
             static ID3D11VertexShader* g_pVertexShader = nullptr;
             static  ID3D11PixelShader* g_pPixelShader = nullptr;
             static ID3D11InputLayout* g_pVertexLayout = nullptr;
@@ -572,11 +572,11 @@ namespace dooms
                 descDSV.Format = descDepth.Format;
                 descDSV.ViewDimension = D3D11_DSV_DIMENSION_TEXTURE2D;
                 descDSV.Texture2D.MipSlice = 0;
-                hr = g_pd3dDevice->CreateDepthStencilView(g_pDepthStencil, &descDSV, &BackBufferStencilDepthView);
+                hr = g_pd3dDevice->CreateDepthStencilView(g_pDepthStencil, &descDSV, &BackBufferDepthStencilView);
                 if (FAILED(hr))
                     return hr;
 
-                g_pImmediateContext->OMSetRenderTargets(1, &BackBufferRenderTargetView, BackBufferStencilDepthView);
+                g_pImmediateContext->OMSetRenderTargets(1, &BackBufferRenderTargetView, BackBufferDepthStencilView);
 
 
                 // Test
@@ -824,7 +824,7 @@ namespace dooms
                 //
                 // Clear the depth buffer to 1.0 (max depth)
                 //
-                g_pImmediateContext->ClearDepthStencilView(BackBufferStencilDepthView, D3D11_CLEAR_DEPTH, 1.0f, 0);
+                g_pImmediateContext->ClearDepthStencilView(BackBufferDepthStencilView, D3D11_CLEAR_DEPTH, 1.0f, 0);
                 
                 //
                 // Update variables that change once per frame
@@ -871,7 +871,7 @@ namespace dooms
                 if (g_pVertexShader) g_pVertexShader->Release();
                 if (g_pPixelShader) g_pPixelShader->Release();
                 if (g_pDepthStencil) g_pDepthStencil->Release();
-                if (BackBufferStencilDepthView) BackBufferStencilDepthView->Release();
+                if (BackBufferDepthStencilView) BackBufferDepthStencilView->Release();
                 if (BackBufferRenderTargetView) BackBufferRenderTargetView->Release();
                 if (g_pSwapChain1) g_pSwapChain1->Release();
                 if (g_pSwapChain) g_pSwapChain->Release();
@@ -1036,23 +1036,28 @@ namespace dooms
         }
 
 
-        DOOMS_ENGINE_GRAPHICS_API void ClearBackBufferColorBuffer(const float r, const float g, const float b, const float a)
+        DOOMS_ENGINE_GRAPHICS_API void ClearBackFrameBufferColorBuffer(const float r, const float g, const float b, const float a)
         {
             FLOAT color[4] = { r, g, b, a };
             dx11::g_pImmediateContext->ClearRenderTargetView(dx11::BackBufferRenderTargetView, color);
         }
 
-        DOOMS_ENGINE_GRAPHICS_API void ClearBackBufferDepthBuffer(const double depthValue)
+        DOOMS_ENGINE_GRAPHICS_API void ClearBackFrameBufferDepthBuffer(const double depthValue)
         {
-            dx11::g_pImmediateContext->ClearDepthStencilView(dx11::BackBufferStencilDepthView, D3D11_CLEAR_DEPTH, depthValue, 0);
+            dx11::g_pImmediateContext->ClearDepthStencilView(dx11::BackBufferDepthStencilView, D3D11_CLEAR_DEPTH, depthValue, 0);
         }
 
-        DOOMS_ENGINE_GRAPHICS_API void ClearBackBufferDepthStencilBuffer(const int stencilValue)
+        DOOMS_ENGINE_GRAPHICS_API void ClearBackFrameBufferStencilBuffer(const int stencilValue)
         {
-            dx11::g_pImmediateContext->ClearDepthStencilView(dx11::BackBufferStencilDepthView, D3D11_CLEAR_STENCIL, 1.0f, stencilValue);
+            dx11::g_pImmediateContext->ClearDepthStencilView(dx11::BackBufferDepthStencilView, D3D11_CLEAR_STENCIL, 0.0f, stencilValue);
         }
 
-        DOOMS_ENGINE_GRAPHICS_API void ClearBufferColorBuffer(unsigned long long textureViewObject, const float r, const float g, const float b, const float a)
+        DOOMS_ENGINE_GRAPHICS_API void ClearBackFrameBufferDepthStencilBuffer(const double depthValue, const int stencilValue)
+        {
+            dx11::g_pImmediateContext->ClearDepthStencilView(dx11::BackBufferDepthStencilView, D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, depthValue, stencilValue);
+        }
+
+        DOOMS_ENGINE_GRAPHICS_API void ClearFrameBufferColorBuffer(unsigned long long textureViewObject, const float r, const float g, const float b, const float a)
         {
             ID3D11RenderTargetView* const renderTargetView = reinterpret_cast<ID3D11RenderTargetView*>(textureViewObject);
 
@@ -1060,18 +1065,25 @@ namespace dooms
             dx11::g_pImmediateContext->ClearRenderTargetView(renderTargetView, color);
         }
 
-        DOOMS_ENGINE_GRAPHICS_API void ClearBufferDepthBuffer(unsigned long long textureViewObject, const double depthValue)
+        DOOMS_ENGINE_GRAPHICS_API void ClearFrameBufferDepthBuffer(unsigned long long textureViewObject, const double depthValue)
         {
             ID3D11DepthStencilView* const depthStencilView = reinterpret_cast<ID3D11DepthStencilView*>(textureViewObject);
 
             dx11::g_pImmediateContext->ClearDepthStencilView(depthStencilView, D3D11_CLEAR_DEPTH, depthValue, 0);
         }
 
-        DOOMS_ENGINE_GRAPHICS_API void ClearBufferStencilBuffer(unsigned long long textureViewObject, const int stencilValue)
+        DOOMS_ENGINE_GRAPHICS_API void ClearFrameBufferStencilBuffer(unsigned long long textureViewObject, const int stencilValue)
         {
             ID3D11DepthStencilView* const depthStencilView = reinterpret_cast<ID3D11DepthStencilView*>(textureViewObject);
 
-            dx11::g_pImmediateContext->ClearDepthStencilView(depthStencilView, D3D11_CLEAR_STENCIL, 1.0f, stencilValue);
+            dx11::g_pImmediateContext->ClearDepthStencilView(depthStencilView, D3D11_CLEAR_STENCIL, 0, stencilValue);
+        }
+
+        DOOMS_ENGINE_GRAPHICS_API void ClearFrameBufferDepthStencilBuffer(unsigned long long textureViewObject, const double depthValue, const int stencilValue)
+        {
+            ID3D11DepthStencilView* const depthStencilView = reinterpret_cast<ID3D11DepthStencilView*>(textureViewObject);
+
+            dx11::g_pImmediateContext->ClearDepthStencilView(depthStencilView, D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, depthValue, stencilValue);
         }
 
         DOOMS_ENGINE_GRAPHICS_API unsigned long long GenerateFrameBuffer()
@@ -1088,7 +1100,8 @@ namespace dooms
             const unsigned long long frameBufferObject,
             const GraphicsAPI::eFrameBufferAttachmentPoint frameBufferAttachmentPoint,
             const GraphicsAPI::eTextureBindTarget textureBindTarget,
-            const unsigned long long textureBufferObject
+            const unsigned long long textureBufferObject,
+            const unsigned int lodLevel
         )
 		{
             assert(textureBufferObject != 0);
@@ -1100,7 +1113,22 @@ namespace dooms
 			dx11::g_pd3dDevice->CreateRenderTargetView(textureResource, nullptr, &renderTargetView);
             return reinterpret_cast<unsigned long long>(renderTargetView);
 		}
-        
+
+        DOOMS_ENGINE_GRAPHICS_API unsigned long long CopyRenderTargetView(const unsigned long long renderTargetView)
+        {
+            assert(renderTargetView != 0);
+
+            ID3D11RenderTargetView* const d3d11RenderTargetView = reinterpret_cast<ID3D11RenderTargetView*>(renderTargetView);
+
+            ID3D11Resource* d3d11Resource = nullptr;
+            d3d11RenderTargetView->GetResource(&d3d11Resource);
+
+            ID3D11RenderTargetView* copyedRenderTargetView;
+
+            dx11::g_pd3dDevice->CreateRenderTargetView(d3d11Resource, nullptr, &copyedRenderTargetView);
+            return reinterpret_cast<unsigned long long>(copyedRenderTargetView);
+        }
+
         DOOMS_ENGINE_GRAPHICS_API unsigned long long Allocate2DTextureObject
         (
             const GraphicsAPI::eTextureBindTarget textureBindTarget,
@@ -1229,6 +1257,14 @@ namespace dooms
             }
         }
 
+        DOOMS_ENGINE_GRAPHICS_API void DestroyTextureViewObject(unsigned long long textureViewObject)
+		{
+            assert(textureViewObject != 0);
+
+            ID3D11ShaderResourceView* const shaderResourceView = reinterpret_cast<ID3D11ShaderResourceView*>(textureViewObject);
+            shaderResourceView->Release();
+		}
+
         DOOMS_ENGINE_GRAPHICS_API void BindTextureObject
         (
             const unsigned long long textureViewObject,
@@ -1281,7 +1317,7 @@ namespace dooms
 
         DOOMS_ENGINE_GRAPHICS_API void BindBackBuffer()
         {
-	        dx11::g_pImmediateContext->OMSetRenderTargets(1, &dx11::BackBufferRenderTargetView, dx11::BackBufferStencilDepthView);
+	        dx11::g_pImmediateContext->OMSetRenderTargets(1, &dx11::BackBufferRenderTargetView, dx11::BackBufferDepthStencilView);
         }
 
         DOOMS_ENGINE_GRAPHICS_API unsigned long long CreateBuffer()
@@ -1499,48 +1535,87 @@ namespace dooms
             const GraphicsAPI::eImageInterpolation filter
         )
 		{
-            assert(ReadFrameBufferObject != 0 | DrawFrameBufferObject != 0);
-
-            ID3D11Resource* fromFrameBuffer;
-            if(ReadFrameBufferObject != 0)
+            if( (mask & GraphicsAPI::COLOR_BUFFER) != 0 )
             {
-                fromFrameBuffer = reinterpret_cast<ID3D11Resource*>(ReadFrameBufferObject);
-            }
-            else
-            {
-                ID3D11Texture2D* pBackBuffer = nullptr; // https://vsts2010.tistory.com/517
-                const HRESULT hr = dx11::g_pSwapChain->GetBuffer(0, __uuidof(ID3D11Texture2D), reinterpret_cast<void**>(&pBackBuffer));
-                if (FAILED(hr))
+                ID3D11Resource* fromResource;
+                if (ReadFrameBufferObject != 0)
                 {
-                    return;
+                    fromResource = reinterpret_cast<ID3D11Resource*>(ReadFrameBufferObject);
+                }
+                else
+                {
+                    ID3D11Texture2D* pBackBuffer = nullptr; // https://vsts2010.tistory.com/517
+                    const HRESULT hr = dx11::g_pSwapChain->GetBuffer(0, __uuidof(ID3D11Texture2D), reinterpret_cast<void**>(&pBackBuffer));
+                    if (FAILED(hr))
+                    {
+                        return;
+                    }
+
+                    fromResource = pBackBuffer;
                 }
 
-                fromFrameBuffer = pBackBuffer;
-            }
-
-            ID3D11Resource* ToFrameBuffer;
-            if (DrawFrameBufferObject != 0)
-            {
-                ToFrameBuffer = reinterpret_cast<ID3D11Resource*>(ReadFrameBufferObject);
-            }
-            else
-            {
-                ID3D11Texture2D* pBackBuffer = nullptr; // https://vsts2010.tistory.com/517
-                const HRESULT hr = dx11::g_pSwapChain->GetBuffer(0, __uuidof(ID3D11Texture2D), reinterpret_cast<void**>(&pBackBuffer));
-                if (FAILED(hr))
+                ID3D11Resource* toResource;
+                if (DrawFrameBufferObject != 0)
                 {
-                    return;
+                    toResource = reinterpret_cast<ID3D11Resource*>(ReadFrameBufferObject);
+                }
+                else
+                {
+                    ID3D11Texture2D* pBackBuffer = nullptr; // https://vsts2010.tistory.com/517
+                    const HRESULT hr = dx11::g_pSwapChain->GetBuffer(0, __uuidof(ID3D11Texture2D), reinterpret_cast<void**>(&pBackBuffer));
+                    if (FAILED(hr))
+                    {
+                        return;
+                    }
+
+                    toResource = pBackBuffer;
                 }
 
-                ToFrameBuffer = pBackBuffer;
+
+                dx11::g_pImmediateContext->CopyResource
+                (
+                    fromResource,
+                    toResource
+                );
             }
 
+            if
+			(
+                ((mask & GraphicsAPI::DEPTH_BUFFER) != 0) ||
+                ((mask & GraphicsAPI::STENCIL_BUFFER) != 0) ||
+                ((mask & GraphicsAPI::DEPTH_STENCIL_BUFFER) != 0)
+            )
+            {
+                ID3D11Resource* fromResource;
+                if (ReadFrameBufferObject != 0)
+                {
+                    fromResource = reinterpret_cast<ID3D11Resource*>(ReadFrameBufferObject);
+                }
+                else
+                {
+                    assert(dx11::BackBufferDepthStencilView != nullptr);
+                    dx11::BackBufferDepthStencilView->GetResource(&fromResource);
+                }
 
-            dx11::g_pImmediateContext->CopyResource
-            (
-                fromFrameBuffer,
-                ToFrameBuffer
-            );
+                ID3D11Resource* toResource;
+                if (DrawFrameBufferObject != 0)
+                {
+                    toResource = reinterpret_cast<ID3D11Resource*>(ReadFrameBufferObject);
+                }
+                else
+                {
+                    assert(dx11::BackBufferDepthStencilView != nullptr);
+                    dx11::BackBufferDepthStencilView->GetResource(&fromResource);
+                }
+
+
+                dx11::g_pImmediateContext->CopyResource
+                (
+                    fromResource,
+                    toResource
+                );
+            }
+            
 		}
 
 	}

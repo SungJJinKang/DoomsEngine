@@ -3,10 +3,8 @@
 
 #include "../Core.h"
 #include <Graphics/GraphicsAPI/GraphicsAPI.h>
-#include "../GraphicsAPI/graphicsAPISetting.h"
-#include "RenderBuffer.h"
 #include "../OverlapBindChecker.h"
-#include "../Buffer/BufferID.h"
+#include "FrameBufferView.h"
 
 #include "FrameBuffer.reflection.h"
 namespace dooms
@@ -24,40 +22,7 @@ namespace dooms
 			
 
 		private:
-
-			struct FrameBufferTextureAndRenderTargetView
-			{
-				asset::TextureAsset* mTextureResource;
-				BufferID mRenderTargetView;
-				INT32 mBindingPosition;
-
-				FrameBufferTextureAndRenderTargetView()
-					: mTextureResource(nullptr), mRenderTargetView(), mBindingPosition(-1)
-				{
-					
-				}
-				FrameBufferTextureAndRenderTargetView
-				(
-					asset::TextureAsset* const _textureResource,
-					BufferID _renderTargetView,
-					INT32 bindingPosition = -1
-				)
-					: mTextureResource(_textureResource), mRenderTargetView(_renderTargetView), mBindingPosition(mBindingPosition)
-				{
-					D_ASSERT(_textureResource != nullptr);
-					D_ASSERT(_renderTargetView.IsValid());
-				}
-
-				FrameBufferTextureAndRenderTargetView(const FrameBufferTextureAndRenderTargetView&) = default;
-				FrameBufferTextureAndRenderTargetView(FrameBufferTextureAndRenderTargetView&&) noexcept = default;
-				FrameBufferTextureAndRenderTargetView& operator=(const FrameBufferTextureAndRenderTargetView&) = default;
-				FrameBufferTextureAndRenderTargetView& operator=(FrameBufferTextureAndRenderTargetView&&) noexcept = default;
-				
-				bool IsValid() const
-				{
-					return (mTextureResource != nullptr);
-				}
-			};
+			
 
 			inline static const char FRAMEBUFFER_TAG[]{ "FrameBuffer" };
 			
@@ -65,13 +30,19 @@ namespace dooms
 			static constexpr UINT32 RESERVED_RENDERBUFFER_COUNT = 3;
 			std::vector<RenderBuffer> mAttachedRenderBuffers;
 			*/
-			
-			std::vector<FrameBufferTextureAndRenderTargetView> mAttachedColorTextures;
-			FrameBufferTextureAndRenderTargetView mAttachedDepthStencilTexture;
 
+			D_PROPERTY()
+			std::vector<FrameBufferView*> mAttachedColorTextureViews;
+
+			D_PROPERTY()
+			FrameBufferView* mAttachedDepthStencilTextureView;
+
+			D_PROPERTY()
 			BufferID mFrameBufferIDForOPENGL;
-			
+
+			D_PROPERTY()
 			UINT32 mDefaultWidth;
+			D_PROPERTY()
 			UINT32 mDefaultHeight;
 
 			/// <summary>
@@ -100,7 +71,9 @@ namespace dooms
 			FrameBuffer(FrameBuffer&&) noexcept = default;
 			FrameBuffer& operator=(FrameBuffer &&) noexcept = default;
 
-			void GenerateBuffer();
+			void GenerateFrameBuffer();
+			
+			BufferID GetFrameBufferIDForOPENGL() const;
 
 			FORCE_INLINE UINT32 GetDefaultWidth() const
 			{
@@ -113,8 +86,8 @@ namespace dooms
 			}
 
 			static void StaticBindFrameBuffer(const FrameBuffer* const frameBuffer);
+			static void StaticBindBackFrameBuffer();
 			void BindFrameBuffer() const noexcept;
-			static void UnBindFrameBuffer() noexcept;
 			static void RevertFrameBuffer();
 
 			/*
@@ -122,9 +95,9 @@ namespace dooms
 			*/
 			
 			
-			static void BlitFrameBufferTo
+			static void BlitFrameBufferFromToFrameBuffer
 			(
-				dooms::asset::TextureAsset* const readFrameBuffer, dooms::asset::TextureAsset* const drawFrameBuffer,
+				dooms::graphics::FrameBuffer* const fromFrameBuffer, dooms::graphics::FrameBuffer* const toFrameBuffer,
 				INT32 srcX0, INT32 srcY0, INT32 srcX1, INT32 srcY1,
 				INT32 dstX0, INT32 dstY0, INT32 dstX1, INT32 dstY1,
 				GraphicsAPI::eBufferBitType mask, GraphicsAPI::eImageInterpolation filter
@@ -133,21 +106,46 @@ namespace dooms
 
 			//RenderBuffer& AttachRenderBuffer(GraphicsAPI::eFrameBufferAttachmentPoint renderBufferType, UINT32 width, UINT32 height);
 			//RenderBuffer& AttachRenderBuffer(GraphicsAPI::eFrameBufferAttachmentPoint renderBufferType);
-			dooms::asset::TextureAsset* AttachTextureBuffer
+			dooms::asset::TextureAsset* AttachColorTextureToFrameBuffer
 			(
-				GraphicsAPI::eBufferBitType frameBufferType,
 				UINT32 bindingPosition,
 				UINT32 width, 
 				UINT32 height
 			);
-			const asset::TextureAsset* GetFrameBufferTexture(GraphicsAPI::eBufferBitType bufferType, INT32 bindingPosition) const;
-			asset::TextureAsset* GetFrameBufferTexture(GraphicsAPI::eBufferBitType bufferType, INT32 bindingPosition);
+			dooms::asset::TextureAsset* AttachDepthTextureToFrameBuffer
+			(
+				UINT32 width,
+				UINT32 height
+			);
+			dooms::asset::TextureAsset* AttachDepthStencilTextureToFrameBuffer
+			(
+				UINT32 width,
+				UINT32 height
+			);
+
+			size_t GetAttachedColorTextureCount();
+			dooms::asset::TextureAsset* GetColorTextureResourceObject(const UINT32 bindingPosition) const;
+			dooms::asset::TextureAsset* GetDepthTextureResourceObject() const;
+			dooms::asset::TextureAsset* GetDepthStencilTextureResourceObject() const;
+			FrameBufferView* GetColorTextureRenderTargetView(const UINT32 bindingPosition) const;
+			FrameBufferView* GetDepthTextureRenderTargetView() const;
+			FrameBufferView* GetDepthStencilTextureRenderTargetView() const;
+			TextureView* GetColorTextureView(const UINT32 bindingPosition, const GraphicsAPI::eGraphicsPipeLineStage defaultTargetGraphicsPipeLineStage) const;
+			TextureView* GetDepthTextureView(const UINT32 bindingPosition, const GraphicsAPI::eGraphicsPipeLineStage defaultTargetGraphicsPipeLineStage) const;
+			TextureView* GetDepthStencilTextureView(const UINT32 bindingPosition, const GraphicsAPI::eGraphicsPipeLineStage defaultTargetGraphicsPipeLineStage) const;
 			
+				
+
 			bool IsGenerated();
 
 			
 			INT32 GetFrameBufferWidth() const;
 			INT32 GetFrameBufferHeight() const;
+
+			void ClearColorTexture(const UINT32 bindingPosition, const float r, const float g, const float b, const float a) const;
+			void ClrearDepthTexture(const float depthValue) const;
+			void ClrearStencilexture(const int stencilValue) const;
+			void ClrearDepthStencilTexture(const float depthValue, const int stencilValue) const;
 
 			/*
 			 *INT32 GetFrameBufferParameteriv

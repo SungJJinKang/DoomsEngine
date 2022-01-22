@@ -64,9 +64,10 @@ namespace dooms
 
 			enum eBufferBitType : unsigned int
 			{
-				COLOR_BUFFER, // = GL_COLOR_BUFFER_BIT,
-				DEPTH_BUFFER, // = GL_DEPTH_BUFFER_BIT,
-				DEPTH_STENCIL_BUFFER // = GL_STENCIL_BUFFER_BIT
+				COLOR_BUFFER = 0x00, // = GL_COLOR_BUFFER_BIT,
+				DEPTH_BUFFER = 0x01, // = GL_DEPTH_BUFFER_BIT,
+				STENCIL_BUFFER = 0x02, // = GL_DEPTH_BUFFER_BIT,
+				DEPTH_STENCIL_BUFFER = 0x03 // = GL_STENCIL_BUFFER_BIT
 			};
 
 			enum eBufferType : unsigned int
@@ -263,23 +264,29 @@ namespace dooms
 			typedef void (DOOMS_ENGINE_API_ENTRY_P GRAPHICS_SETREADBUFFER)(const GraphicsAPI::eBufferMode bufferMode);
 			extern GRAPHICS_SETREADBUFFER SetReadBuffer;
 
-			typedef void (DOOMS_ENGINE_API_ENTRY_P GRAPHICS_CLEARBACKBUFFERCOLORBUFFER)(const float r, const float g, const float b, const float a);
-			extern GRAPHICS_CLEARBACKBUFFERCOLORBUFFER ClearBackBufferColorBuffer;
+			typedef void (DOOMS_ENGINE_API_ENTRY_P GRAPHICS_CLEARBACKFRAMEBUFFERCOLORBUFFER)(const float r, const float g, const float b, const float a);
+			extern GRAPHICS_CLEARBACKFRAMEBUFFERCOLORBUFFER ClearBackFrameBufferColorBuffer;
 
-			typedef void (DOOMS_ENGINE_API_ENTRY_P GRAPHICS_CLEARBACKBUFFERDEPTHBUFFER)(const double depthValue);
-			extern GRAPHICS_CLEARBACKBUFFERDEPTHBUFFER ClearBackBufferDepthBuffer;
+			typedef void (DOOMS_ENGINE_API_ENTRY_P GRAPHICS_CLEARBACKFRAMEBUFFERDEPTHBUFFER)(const double depthValue);
+			extern GRAPHICS_CLEARBACKFRAMEBUFFERDEPTHBUFFER ClearBackFrameBufferDepthBuffer;
 
-			typedef void (DOOMS_ENGINE_API_ENTRY_P GRAPHICS_CLEARBACKBUFFERSTENCILBUFFER)(const int stencilValue);
-			extern GRAPHICS_CLEARBACKBUFFERSTENCILBUFFER ClearBackBufferStencilBuffer;
+			typedef void (DOOMS_ENGINE_API_ENTRY_P GRAPHICS_CLEARBACKFRAMEBUFFERSTENCILBUFFER)(const int stencilValue);
+			extern GRAPHICS_CLEARBACKFRAMEBUFFERSTENCILBUFFER ClearBackFrameBufferStencilBuffer;
 
-			typedef void (DOOMS_ENGINE_API_ENTRY_P GRAPHICS_CLEARBUFFERCOLORBUFFER)(unsigned long long bufferObject, const float r, const float g, const float b, const float a);
-			extern GRAPHICS_CLEARBUFFERCOLORBUFFER ClearBufferColorBuffer;
+			typedef void (DOOMS_ENGINE_API_ENTRY_P GRAPHICS_CLEARBACKFRAMEBUFFERDEPTHSTENCILBUFFER)(const double depthValue, const int stencilValue);
+			extern GRAPHICS_CLEARBACKFRAMEBUFFERDEPTHSTENCILBUFFER ClearBackFrameBufferDepthStencilBuffer;
 
-			typedef void (DOOMS_ENGINE_API_ENTRY_P GRAPHICS_CLEARBUFFERDEPTHBUFFER)(unsigned long long bufferObject, const double depthValue);
-			extern GRAPHICS_CLEARBUFFERDEPTHBUFFER ClearBufferDepthBuffer;
+			typedef void (DOOMS_ENGINE_API_ENTRY_P GRAPHICS_CLEARFRAMEBUFFERCOLORBUFFER)(unsigned long long bufferObject, const float r, const float g, const float b, const float a);
+			extern GRAPHICS_CLEARFRAMEBUFFERCOLORBUFFER ClearFrameBufferColorBuffer;
 
-			typedef void (DOOMS_ENGINE_API_ENTRY_P GRAPHICS_CLEARBUFFERSTENCILBUFFER)(unsigned long long bufferObject, const int stencilValue);
-			extern GRAPHICS_CLEARBUFFERSTENCILBUFFER ClearBufferStencilBuffer;
+			typedef void (DOOMS_ENGINE_API_ENTRY_P GRAPHICS_CLEARFRAMEBUFFERDEPTHBUFFER)(unsigned long long bufferObject, const double depthValue);
+			extern GRAPHICS_CLEARFRAMEBUFFERDEPTHBUFFER ClearFrameBufferDepthBuffer;
+
+			typedef void (DOOMS_ENGINE_API_ENTRY_P GRAPHICS_CLEARFRAMEBUFFERSTENCILBUFFER)(unsigned long long bufferObject, const double depthValue);
+			extern GRAPHICS_CLEARFRAMEBUFFERSTENCILBUFFER ClearFrameBufferStencilBuffer;
+
+			typedef void (DOOMS_ENGINE_API_ENTRY_P GRAPHICS_CLEARFRAMEBUFFERDEPTHSTENCILBUFFER)(unsigned long long bufferObject, const double depthValue, const int stencilValue);
+			extern GRAPHICS_CLEARFRAMEBUFFERDEPTHSTENCILBUFFER ClearFrameBufferDepthStencilBuffer;
 
 			typedef void (DOOMS_ENGINE_API_ENTRY_P GRAPHICS_CLEARSPECIFICBUFFER)(const eBufferType bufferType, const unsigned int drawBufferIndex, const float r, const float g, const float b, const float a);
 			extern GRAPHICS_CLEARSPECIFICBUFFER ClearSpecificBuffer;
@@ -644,9 +651,13 @@ namespace dooms
 				const unsigned long long frameBufferObject,
 				const GraphicsAPI::eFrameBufferAttachmentPoint frameBufferAttachmentPoint,
 				const GraphicsAPI::eTextureBindTarget textureBindTarget,
-				const unsigned long long textureBufferObject
+				const unsigned long long textureBufferObject,
+				const unsigned int lodLevel
 			);
 			extern GRAPHICS_ATTACH2DTEXTURETOFRAMEBUFFER Attach2DTextureToFrameBuffer;
+
+			typedef unsigned long long (DOOMS_ENGINE_API_ENTRY_P GRAPHICS_COPYRENDERTARGETVIEW)(const unsigned long long renderTargetView);
+			extern GRAPHICS_COPYRENDERTARGETVIEW CopyRenderTargetView;
 
 			typedef unsigned long long (DOOMS_ENGINE_API_ENTRY_P GRAPHICS_CREATERENDERBUFFEROBJECT)();
 			extern GRAPHICS_CREATERENDERBUFFEROBJECT CreateRenderBufferObject;

@@ -96,8 +96,7 @@ void dooms::graphics::PicktureInPickture::DrawPictureInPicture()
 		if (IsValid(mDrawedTexture) && IsValid(mPIPMaterial))
 		{
 			mPIPMaterial->UseProgram();
-			mDrawedTexture->ActiveTexture(0);
-			mDrawedTexture->BindTexture();
+			mDrawedTexture->BindTexture(0, GraphicsAPI::eGraphicsPipeLineStage::PIXEL_SHADER);
 			mPlaneMesh->Draw();
 
 		}

@@ -473,17 +473,29 @@ namespace dooms
 
 			FORCE_INLINE static unsigned int GetGLBufferBitType(const GraphicsAPI::eBufferBitType bufferType)
 			{
-				switch (bufferType)
+				unsigned int bufferBitType = 0;
+
+				if ((GraphicsAPI::COLOR_BUFFER & bufferType) != 0)
 				{
-				case GraphicsAPI::COLOR_BUFFER:
-					return GL_COLOR_BUFFER_BIT;
-				case GraphicsAPI::DEPTH_BUFFER:
-					return GL_DEPTH_BUFFER_BIT;
-				case GraphicsAPI::DEPTH_STENCIL_BUFFER:
-					return GL_STENCIL_BUFFER_BIT;
-				default:
-					NEVER_HAPPEN; return 0;
+					bufferBitType |= GL_COLOR_BUFFER_BIT;
 				}
+
+				if ((GraphicsAPI::DEPTH_BUFFER & bufferType) != 0)
+				{
+					bufferBitType |= GL_DEPTH_BUFFER_BIT;
+				}
+
+				if ((GraphicsAPI::STENCIL_BUFFER & bufferType) != 0)
+				{
+					bufferBitType |= GL_STENCIL_BUFFER_BIT;
+				}
+
+				if ((GraphicsAPI::DEPTH_STENCIL_BUFFER & bufferType) != 0)
+				{
+					bufferBitType |= (GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
+				}
+
+				return bufferBitType;
 			}
 
 			FORCE_INLINE static unsigned int GetGLBufferBitType(const unsigned int bufferTypeBits)
@@ -1511,7 +1523,8 @@ namespace dooms
 			const unsigned long long frameBufferObject,
 			const GraphicsAPI::eFrameBufferAttachmentPoint frameBufferAttachmentPoint,
 			const GraphicsAPI::eTextureBindTarget textureBindTarget,
-			const unsigned long long textureBufferObject
+			const unsigned long long textureBufferObject,
+			const unsigned int lodLevel
 		)
 		{
 			glBindFramebuffer(GL_FRAMEBUFFER, frameBufferObject);
@@ -1524,6 +1537,11 @@ namespace dooms
 			return textureBufferObject;
 		}
 
+		DOOMS_ENGINE_GRAPHICS_API unsigned long long CopyRenderTargetView(const unsigned long long renderTargetView)
+		{
+			return renderTargetView;
+		}
+		
 		/*
 		DOOMS_ENGINE_GRAPHICS_API unsigned long long CreateRenderBufferObject()
 		{
@@ -2168,41 +2186,55 @@ namespace dooms
 			glfwSetWindowTitle(dooms::graphics::opengl::glfwWindow, buffer);
 		}
 
-		DOOMS_ENGINE_GRAPHICS_API void ClearBackBufferColorBuffer(const float r, const float g, const float b, const float a)
+		DOOMS_ENGINE_GRAPHICS_API void ClearBackFrameBufferColorBuffer(const float r, const float g, const float b, const float a)
 		{
 			glClearColor(r, g, b, a);
 			glClear(opengl::GetGLBufferBitType(GraphicsAPI::COLOR_BUFFER));
 		}
 
-		DOOMS_ENGINE_GRAPHICS_API void ClearBackBufferDepthBuffer(const double depthValue)
+		DOOMS_ENGINE_GRAPHICS_API void ClearBackFrameBufferDepthBuffer(const double depthValue)
 		{
 			glClearDepth(depthValue);
 			glClear(opengl::GetGLBufferBitType(GraphicsAPI::DEPTH_BUFFER));
 		}
 
-		DOOMS_ENGINE_GRAPHICS_API void ClearBackBufferStencilBuffer(const int stencilValue)
+		DOOMS_ENGINE_GRAPHICS_API void ClearBackFrameBufferStencilBuffer(const int stencilValue)
 		{
+			glClearStencil(stencilValue);
+			glClear(opengl::GetGLBufferBitType(GraphicsAPI::STENCIL_BUFFER));
+		}
+
+		DOOMS_ENGINE_GRAPHICS_API void ClearBackFrameBufferDepthStencilBuffer(const double depthValue, const int stencilValue)
+		{
+			glClearDepth(depthValue);
 			glClearStencil(stencilValue);
 			glClear(opengl::GetGLBufferBitType(GraphicsAPI::DEPTH_STENCIL_BUFFER));
 		}
 
-		DOOMS_ENGINE_GRAPHICS_API void ClearBufferColorBuffer(unsigned long long bufferObject, const float r, const float g, const float b, const float a)
+		DOOMS_ENGINE_GRAPHICS_API void ClearFrameBufferColorBuffer(unsigned long long bufferObject, const float r, const float g, const float b, const float a)
 		{
 			glBindFramebuffer(bufferObject, GL_FRAMEBUFFER);
 			glClearColor(r, g, b, a);
 			glClear(opengl::GetGLBufferBitType(GraphicsAPI::COLOR_BUFFER));
 		}
 
-		DOOMS_ENGINE_GRAPHICS_API void ClearBufferDepthBuffer(unsigned long long bufferObject, const double depthValue)
+		DOOMS_ENGINE_GRAPHICS_API void ClearFrameBufferDepthBuffer(unsigned long long bufferObject, const double depthValue)
 		{
 			glBindFramebuffer(bufferObject, GL_FRAMEBUFFER);
 			glClearDepth(depthValue);
 			glClear(opengl::GetGLBufferBitType(GraphicsAPI::DEPTH_BUFFER));
 		}
 
-		DOOMS_ENGINE_GRAPHICS_API void ClearBufferStencilBuffer(unsigned long long bufferObject, const int stencilValue)
+		DOOMS_ENGINE_GRAPHICS_API void ClearFrameBufferStencilBuffer(unsigned long long bufferObject, const int stecilValue)
 		{
 			glBindFramebuffer(bufferObject, GL_FRAMEBUFFER);
+			glClearStencil(stecilValue);
+			glClear(opengl::GetGLBufferBitType(GraphicsAPI::STENCIL_BUFFER));
+		}
+		DOOMS_ENGINE_GRAPHICS_API void ClearFrameBufferDepthStencilBuffer(unsigned long long bufferObject, const double depthValue, const int stencilValue)
+		{
+			glBindFramebuffer(bufferObject, GL_FRAMEBUFFER);
+			glClearDepth(depthValue);
 			glClearStencil(stencilValue);
 			glClear(opengl::GetGLBufferBitType(GraphicsAPI::DEPTH_STENCIL_BUFFER));
 		}

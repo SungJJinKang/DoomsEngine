@@ -5,6 +5,7 @@
 #include "../Graphics/Graphics_Server.h"
 #include "../Graphics/graphicsSetting.h"
 #include "Graphics/Buffer/UniformBlockOffsetInfo.h"
+#include "Graphics/GraphicsAPI/graphicsAPISetting.h"
 
 using namespace dooms;
 

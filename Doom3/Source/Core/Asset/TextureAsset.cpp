@@ -7,59 +7,6 @@
 
 #include <DirectXTex.h>
 
-using namespace dooms::graphics;
-using namespace DirectX;
-/*
-dooms::asset::TextureAsset::TextureAsset(INT32 width, INT32 height, INT32 componentCount, unsigned char* data, eTextureCompressionType compressionType)
-	: mNearWidth{ width }, mNearHeight{ height }, mDataComponentFormat{ static_cast<eTextureComponent>(componentCount) }, mTexturerCompressionType{ compressionType }, mID{ data }
-{
-
-}
-
-
-dooms::asset::TextureAsset::TextureAsset()
-{
-	mNearWidth = cmp_MipSet.m_nWidth;
-	mNearHeight = cmp_MipSet.m_nHeight;
-	mMipMapLevelCount = cmp_MipSet.m_nMipLevels;
-
-	bmIsCompressed = cmp_MipSet.m_compressed;
-
-	mInternalFormat; // 1 ~ 4 ( rgb, rgba ~~ )
-	mComponentFormat; // 1 ~ 4 ( rgb, rgba ~~ )
-	mCompressedInternalFormat;
-
-	switch (cmp_MipSet.m_format)
-	{
-	case CMP_FORMAT::CMP_FORMAT_DXT5:
-		mCompressedInternalFormat = graphics::eTextureCompressedInternalFormat::COMPRESSED_RGBA_S3TC_DXT5_EXT;
-		mComponentFormat = graphics::eTextureComponentFormat::RGBA;
-		bmIsCompressed = true;
-		break;
-	case  CMP_FORMAT::CMP_FORMAT_DXT1:
-		mCompressedInternalFormat = graphics::eTextureCompressedInternalFormat::COMPRESSED_RGB_S3TC_DXT1_EXT; // we don't support DXT1 with alpha
-		mComponentFormat = graphics::eTextureComponentFormat::RGB;
-		bmIsCompressed = true;
-		break;
-
-	case  CMP_FORMAT::CMP_FORMAT_BC4:
-		mInternalFormat = graphics::eTextureInternalFormat::COMPRESSED_RED_RGTC1;
-		mComponentFormat = graphics::eTextureComponentFormat::RG;
-		bmIsCompressed = false;
-		break;
-
-	case  CMP_FORMAT::CMP_FORMAT_BC5:
-		mInternalFormat = graphics::eTextureInternalFormat::COMPRESSED_RG_RGTC2;
-		mComponentFormat = graphics::eTextureComponentFormat::RED;
-		bmIsCompressed = false;
-		break;
-
-	default:
-		NEVER_HAPPEN;
-	}
-	
-}
-*/
 
 dooms::asset::TextureAsset::TextureAsset() = default;
 
@@ -73,6 +20,7 @@ dooms::asset::TextureAsset::TextureAsset
 	dooms::graphics::GraphicsAPI::eTextureComponentFormat format,
 	dooms::graphics::GraphicsAPI::eDataType dataType,
 	dooms::graphics::GraphicsAPI::eBindFlag resourceBindFlag,
+	dooms::graphics::GraphicsAPI::eTextureBindTarget textureBindTarget,
 	const void* data,
 	const size_t dataSize
 )
@@ -89,7 +37,8 @@ dooms::asset::TextureAsset::TextureAsset
 	mDataType(dataType),
 	mTextureData( 1, data ),
 	mEntireImageSize(dataSize),
-	mBindFlags(resourceBindFlag)
+	mBindFlags(resourceBindFlag),
+	mTextureBindTarget(textureBindTarget)
 {
 }
 
@@ -97,6 +46,7 @@ dooms::asset::TextureAsset::TextureAsset(std::unique_ptr<DirectX::ScratchImage>&
 	: mBindFlags(resourceBindFlag)
 {
 	SetScratchImage(std::move(scratchImage), resourceBindFlag);
+	AllocateTextureResourceObject();
 }
 
 void dooms::asset::TextureAsset::SetScratchImage(std::unique_ptr<DirectX::ScratchImage>&& scratchImage, const dooms::graphics::GraphicsAPI::eBindFlag resourceBindFlag)
@@ -105,6 +55,23 @@ void dooms::asset::TextureAsset::SetScratchImage(std::unique_ptr<DirectX::Scratc
 	mMipMapLevelCount = static_cast<INT32>(mScratchImage->GetMetadata().mipLevels);
 	mBindFlags = resourceBindFlag;
 	mDataType = graphics::GraphicsAPI::eDataType::UNSIGNED_BYTE;
+
+	switch (mScratchImage->GetMetadata().dimension)
+	{
+	case DirectX::TEX_DIMENSION_TEXTURE1D:
+		mTextureBindTarget = graphics::GraphicsAPI::eTextureBindTarget::TEXTURE_1D;
+		break;
+	case DirectX::TEX_DIMENSION_TEXTURE2D:
+		mTextureBindTarget = graphics::GraphicsAPI::eTextureBindTarget::TEXTURE_2D;
+
+		break;
+	case DirectX::TEX_DIMENSION_TEXTURE3D:
+		mTextureBindTarget = graphics::GraphicsAPI::eTextureBindTarget::TEXTURE_3D;
+
+		break;
+	default:
+		D_ASSERT(false);
+	}
 
 	switch (mScratchImage->GetMetadata().format)
 	{
@@ -150,7 +117,7 @@ void dooms::asset::TextureAsset::SetScratchImage(std::unique_ptr<DirectX::Scratc
 	
 	for(size_t imgIndex = 0 ; imgIndex < mScratchImage->GetImageCount() ; imgIndex++)
 	{
-		const Image* const img = mScratchImage->GetImage(imgIndex, 0, 0);
+		const DirectX::Image* const img = mScratchImage->GetImage(imgIndex, 0, 0);
 
 		mTextureData.push_back(img->pixels);
 		mWidth.push_back(static_cast<INT32>(img->width));
@@ -219,11 +186,6 @@ void dooms::asset::TextureAsset::OnEndImportInMainThread_Internal()
 	D_END_PROFILING(Postprocess_Texture);
 }
 
-TextureView* dooms::asset::TextureAsset::GenerateTextureViewObject()
-{
-	return dooms::CreateDObject<dooms::graphics::TextureView>(this);
-}
-
 void dooms::asset::TextureAsset::AllocateTextureResourceObject()
 {
 	D_ASSERT(mMipMapLevelCount > 0);
@@ -231,19 +193,19 @@ void dooms::asset::TextureAsset::AllocateTextureResourceObject()
 	D_ASSERT(mHeight.size() > 0);
 	D_ASSERT(mRowByteSizes.size() > 0);
 	D_ASSERT(mTotalDataSize.size() > 0);
-	D_ASSERT(mInternalFormat != GraphicsAPI::eTextureInternalFormat::TEXTURE_INTERNAL_FORMAT_NONE || mCompressedInternalFormat != GraphicsAPI::eTextureCompressedInternalFormat::TEXTURE_COMPRESSED_INTERNAL_FORMAT_NONE);
+	D_ASSERT(mInternalFormat != graphics::GraphicsAPI::eTextureInternalFormat::TEXTURE_INTERNAL_FORMAT_NONE || mCompressedInternalFormat != graphics::GraphicsAPI::eTextureCompressedInternalFormat::TEXTURE_COMPRESSED_INTERNAL_FORMAT_NONE);
 
-	mTextureResourceObject = GraphicsAPI::Allocate2DTextureObject(dooms::graphics::GraphicsAPI::eTextureBindTarget::TEXTURE_2D, mMipMapLevelCount, mInternalFormat, mCompressedInternalFormat, mWidth[0], mHeight[0], mBindFlags);
+	mTextureResourceObject = graphics::GraphicsAPI::Allocate2DTextureObject(dooms::graphics::GraphicsAPI::eTextureBindTarget::TEXTURE_2D, mMipMapLevelCount, mInternalFormat, mCompressedInternalFormat, mWidth[0], mHeight[0], mBindFlags);
 
 	for (UINT32 mipLevelIndex = 0; mipLevelIndex < mTextureData.size(); mipLevelIndex++)
 	{
-		GraphicsAPI::UploadPixelsTo2DTexture(mTextureResourceObject, dooms::graphics::GraphicsAPI::eTextureBindTarget::TEXTURE_2D, mTargetTexture, mipLevelIndex, 0, 0, mWidth[mipLevelIndex], mHeight[mipLevelIndex], mComponentFormat, mDataType, mTextureData[mipLevelIndex], mRowByteSizes[mipLevelIndex], mTotalDataSize[mipLevelIndex]);
+		graphics::GraphicsAPI::UploadPixelsTo2DTexture(mTextureResourceObject, dooms::graphics::GraphicsAPI::eTextureBindTarget::TEXTURE_2D, mTargetTexture, mipLevelIndex, 0, 0, mWidth[mipLevelIndex], mHeight[mipLevelIndex], mComponentFormat, mDataType, mTextureData[mipLevelIndex], mRowByteSizes[mipLevelIndex], mTotalDataSize[mipLevelIndex]);
 	}
 }
 
 void dooms::asset::TextureAsset::DestroyTextureResourceObject()
 {
-	GraphicsAPI::DestroyTextureObject(mTextureResourceObject);
+	graphics::GraphicsAPI::DestroyTextureObject(mTextureResourceObject);
 }
 
 dooms::asset::eAssetType dooms::asset::TextureAsset::GetEAssetType() const
@@ -256,17 +218,17 @@ dooms::graphics::BufferID dooms::asset::TextureAsset::GetTextureResourceObject()
 	return mTextureResourceObject;
 }
 
-GraphicsAPI::eTextureComponentFormat dooms::asset::TextureAsset::GetTextureComponentFormat() const
+dooms::graphics::GraphicsAPI::eTextureComponentFormat dooms::asset::TextureAsset::GetTextureComponentFormat() const
 {
 	return mComponentFormat;
 }
 
-GraphicsAPI::eTextureInternalFormat dooms::asset::TextureAsset::GetTextureInternalFormat() const
+dooms::graphics::GraphicsAPI::eTextureInternalFormat dooms::asset::TextureAsset::GetTextureInternalFormat() const
 {
 	return mInternalFormat;
 }
 
-GraphicsAPI::eTextureCompressedInternalFormat dooms::asset::TextureAsset::GetTextureCompressedInternalFormat() const
+dooms::graphics::GraphicsAPI::eTextureCompressedInternalFormat dooms::asset::TextureAsset::GetTextureCompressedInternalFormat() const
 {
 	return mCompressedInternalFormat;
 }
@@ -293,13 +255,17 @@ UINT64 dooms::asset::TextureAsset::GetEntireImageSize() const
 	return mEntireImageSize;
 }
 
-GraphicsAPI::eDataType dooms::asset::TextureAsset::GetTextureDataType() const
+dooms::graphics::GraphicsAPI::eDataType dooms::asset::TextureAsset::GetTextureDataType() const
 {
 	return dooms::graphics::GraphicsAPI::eDataType::UNSIGNED_BYTE;
 }
 
-dooms::graphics::TextureView* dooms::asset::TextureAsset::GetTextureView()
+dooms::graphics::TextureView* dooms::asset::TextureAsset::GenerateTextureView
+(
+	const UINT32 defaultBindingPosition,
+	const graphics::GraphicsAPI::eGraphicsPipeLineStage defaultTargetGraphicsPipeLineStage
+)
 {
-	return dooms::CreateDObject<dooms::graphics::TextureView>()
+	return dooms::CreateDObject<dooms::graphics::TextureView>(this, defaultBindingPosition, defaultTargetGraphicsPipeLineStage);
 }
 
