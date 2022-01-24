@@ -120,14 +120,14 @@ void dooms::graphics::maskedOcclusionCullingTester::DebugBinnedTriangles
 		// y = 0 -> bottom
 		for (std::uint32_t x = 0; x < depthBuffer->mResolution.mColumnTileCount; x++)
 		{
-			const culling::Tile* const tile = depthBuffer->GetTile(y, x);
-
+			const size_t binnedTriangleCount = depthBuffer->GetTile(y, x)->mBinnedTriangleCount;
+			
 			//draw -1 ~ 1
 			dooms::graphics::DebugDrawer::GetSingleton()->DebugDraw2DBox
 			(
 				math::Vector3(DEBUGGER_TILE_BOX_PADIDNG_X + -1.0f + xScale * x, DEBUGGER_TILE_BOX_PADIDNG_Y + -1.0f + yScale * y, 0.0f),
 				math::Vector3(-DEBUGGER_TILE_BOX_PADIDNG_X + -1.0f + xScale * (x + 1), -DEBUGGER_TILE_BOX_PADIDNG_Y + -1.0f + yScale * (y + 1), 0.0f),
-				depthBuffer->GetTile(y, x)->mBinnedTriangleCount > 0 ? eColor::Red : eColor::White
+				math::Vector4{ (float)binnedTriangleCount / (float)BIN_TRIANGLE_CAPACITY_PER_TILE , 0.0f, 0.0f, 1.0f }
 			);
 		}
 	}
