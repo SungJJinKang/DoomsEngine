@@ -144,7 +144,6 @@ void dooms::Renderer::ClearRenderingBitFlag()
 void dooms::Renderer::InitializeCullingEntityBlockViewer()
 {
 	mCullingEntityBlockViewer.SetDesiredMaxDrawDistance(mDesiredMaxDrawDistance);
-	mCullingEntityBlockViewer.SetFrontToBackSortingOrder(mFrontToBackSortingOrder.data());
 }
 
 void dooms::Renderer::UpdateCullingEntityBlockViewer()
