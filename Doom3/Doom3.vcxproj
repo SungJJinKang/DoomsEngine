@@ -388,6 +388,7 @@ xcopy /y /d /E /H /C /I "$(ProjectDir)Assets" "$(TargetDir)Assets"</Command>
     <ClCompile Include="Source\Core\Graphics\GraphicsAPI\Manager\GraphicsAPILoader.cpp" />
     <ClCompile Include="Source\Core\Graphics\GraphicsAPI\Manager\GraphicsAPIManager.cpp" />
     <ClCompile Include="Source\Core\Graphics\graphicsSetting.cpp" />
+    <ClCompile Include="Source\Core\Memory\MemoryManager.cpp" />
     <ClCompile Include="Source\Core\Profiler\ProfilingManager.cpp" />
     <ClCompile Include="Source\Core\Reflection\TypeSpecialized\Helper\iteratorHelper.cpp" />
     <ClCompile Include="Source\Core\Reflection\TypeSpecialized\Reflection_RandomAccessIterator.cpp" />
@@ -639,6 +640,7 @@ xcopy /y /d /E /H /C /I "$(ProjectDir)Assets" "$(TargetDir)Assets"</Command>
     <ClInclude Include="Source\Core\Graphics\GraphicsAPI\Manager\GraphicsAPIManager.h" />
     <ClInclude Include="Source\Core\Graphics\GraphicsAPI\PlatformImgui\PlatformImgui.h" />
     <ClInclude Include="Source\Core\Graphics\graphicsSetting.h" />
+    <ClInclude Include="Source\Core\Memory\MemoryManager.h" />
     <ClInclude Include="Source\Core\Profiler\ProfilingManager.h" />
     <ClInclude Include="Source\Core\Reflection\AdditionalDirectoryForClang\cpuid.h" />
     <ClInclude Include="Source\Core\Reflection\ReflectionType\ePropertyQualifier.h" />

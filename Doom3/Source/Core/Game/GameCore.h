@@ -17,6 +17,7 @@
 #include "../IO/UserInput_Server.h"
 #include "../Time/Time_Server.h"
 #include "Reflection/ReflectionManager.h"
+#include <Memory/MemoryManager.h>
 #include "../GarbageCollector/GarbageCollectorManager.h"
 
 #include "GameCore.reflection.h"
@@ -73,6 +74,9 @@ namespace dooms
 
 		D_PROPERTY()
 		reflection::ReflectionManager mReflectionManager{};
+
+		D_PROPERTY()
+		memory::MemoryManager mMemoryManager;
 
 		D_PROPERTY()
 		Scene* mCurrentScene{};
