@@ -2091,8 +2091,9 @@ namespace dooms
 			}
 
 			unsigned long long buffer = 0;
-			glGenBuffers(1, reinterpret_cast<unsigned int*>(&buffer));
-			BindBuffer(buffer, 0, GraphicsAPI::eBufferTarget::TEXTURE_BUFFER, GraphicsAPI::eGraphicsPipeLineStage::DUMMY);
+			glGenTextures(1, reinterpret_cast<unsigned int*>(&buffer));
+			
+			BindTextureObject(buffer, textureBindTarget, 0, GraphicsAPI::eGraphicsPipeLineStage::DUMMY);
 
 			glTexStorage2D
 			(

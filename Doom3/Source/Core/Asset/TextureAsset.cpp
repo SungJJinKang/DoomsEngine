@@ -129,43 +129,8 @@ void dooms::asset::TextureAsset::SetScratchImage(std::unique_ptr<DirectX::Scratc
 	//delete scratchImage;
 }
 
-dooms::asset::TextureAsset::TextureAsset(TextureAsset&& textureAsset) noexcept
-	:
-		mTargetTexture(textureAsset.mTargetTexture),
-		mScratchImage(std::move(textureAsset.mScratchImage)),
-		mWidth(textureAsset.mWidth),
-		mHeight(textureAsset.mHeight),
-		mMipMapLevelCount(textureAsset.mMipMapLevelCount),
-		mEntireImageSize(textureAsset.mEntireImageSize),
-		mComponentFormat(textureAsset.mComponentFormat),
-		mInternalFormat(textureAsset.mInternalFormat),
-		mCompressedInternalFormat(textureAsset.mCompressedInternalFormat),
-		mTextureResourceObject(std::move(textureAsset.mTextureResourceObject)),
-		mDataType(textureAsset.mDataType),
-		mTextureData(std::move(textureAsset.mTextureData)),
-		mBindFlags(textureAsset.mBindFlags)
-{
-}
-
-dooms::asset::TextureAsset& dooms::asset::TextureAsset::operator=(TextureAsset&& textureAsset) noexcept
-{
-	mTargetTexture = textureAsset.mTargetTexture;
-	mScratchImage = std::move(textureAsset.mScratchImage);
-	mWidth = textureAsset.mWidth;
-	mHeight = textureAsset.mHeight;
-	mMipMapLevelCount = textureAsset.mMipMapLevelCount;
-	mEntireImageSize = textureAsset.mEntireImageSize;
-	mComponentFormat = textureAsset.mComponentFormat;
-	mInternalFormat = textureAsset.mInternalFormat;
-	mCompressedInternalFormat = textureAsset.mCompressedInternalFormat;
-	mTextureResourceObject = std::move(textureAsset.mTextureResourceObject);
-	mDataType = textureAsset.mDataType;
-	mTextureData = std::move(textureAsset.mTextureData);
-	mBindFlags = textureAsset.mBindFlags;
-
-	return *this;
-}
-
+dooms::asset::TextureAsset::TextureAsset(TextureAsset&& textureAsset) noexcept = default;
+dooms::asset::TextureAsset& dooms::asset::TextureAsset::operator=(TextureAsset&& textureAsset) noexcept = default;
 
 dooms::asset::TextureAsset::~TextureAsset()
 {
