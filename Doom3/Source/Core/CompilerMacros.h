@@ -29,7 +29,7 @@
 #endif
 
 
-#if defined(__GNUC__)  || defined( __clang__)
+#if defined( __clang__)
 
 #  define FORCE_INLINE inline __attribute__ ((always_inline))
 #  define NEVER_INLINE __attribute__ ((noinline))
@@ -37,6 +37,7 @@
 #  define VLA_ARRAY_ON_STACK(type__, varname__, size__) type__ varname__[size__];
 #  define NO_DISCARD __attribute__((warn_unused_result))
 #  define CURRENT_CPP_VERSION __cplusplus
+#  define DEBUG_BREAK __builtin_debugtrap()
 
 #elif defined(_MSC_VER)
 #  define FORCE_INLINE __forceinline
@@ -44,7 +45,9 @@
 #  define RESTRICT __restrict
 #  define VLA_ARRAY_ON_STACK(type__, varname__, size__) type__ *varname__ = (type__*)_alloca(size__ * sizeof(type__))
 #  define NO_DISCARD [[nodiscard]]
-#  define CURRENT_CPP_VERSION _MSVC_LANG 
+#  define CURRENT_CPP_VERSION _MSVC_LANG
+#  define DEBUG_BREAK __debugbreak()
+
 #endif
  
 
