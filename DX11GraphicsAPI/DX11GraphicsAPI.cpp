@@ -1332,6 +1332,11 @@ namespace dooms
             return bufferID;
         }
 
+        DOOMS_ENGINE_GRAPHICS_API void DestroyVertexArrayObject(unsigned long long vertexArrayObject)
+        {
+
+        }
+
         DOOMS_ENGINE_GRAPHICS_API void CompileShader
         (
             const unsigned long long shaderObject,

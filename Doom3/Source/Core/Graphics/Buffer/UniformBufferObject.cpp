@@ -89,7 +89,7 @@ void dooms::graphics::UniformBufferObject::BufferSubData(const void* sourceData,
 void dooms::graphics::UniformBufferObject::StoreDataAtTempBuffer(const void* sourceData, const UINT32 sizeOfSourceData, const UINT32 offsetInUniformBlock)
 {
 	D_ASSERT(IsBufferGenerated() == true);
-	D_ASSERT(offsetInUniformBlock + sizeOfSourceData <= mSizeInByte);
+	D_ASSERT(offsetInUniformBlock + sizeOfSourceData <= mUniformBufferSize);
 
 	std::memcpy(mUniformBufferTempData + offsetInUniformBlock, sourceData, sizeOfSourceData);
 	bmIsDirty = true;

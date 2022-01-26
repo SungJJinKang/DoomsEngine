@@ -24,7 +24,7 @@ namespace dooms
 			/// <summary>
 			/// index is same with binding point
 			/// </summary>
-			D_PROPERTY()
+			//D_PROPERTY()
 			std::unordered_map<std::string, UniformBufferObject*> mUniformBufferObjects{};
 			D_PROPERTY()
 			std::vector<UniformBufferObjectUpdater*> mUniformBufferObjectTempBufferUpdaters{};
