@@ -1213,7 +1213,11 @@ namespace dooms
             const unsigned long long height,
             const GraphicsAPI::eTextureComponentFormat textureComponentFormat,
             const GraphicsAPI::eDataType dataType,
-            const void* const pixelDatas
+            const GraphicsAPI::eTextureInternalFormat textureInternalFormat,
+            const GraphicsAPI::eTextureCompressedInternalFormat textureCompressedInternalFormat,
+            const void* const pixelDatas,
+            const size_t rowByteSize,
+            const size_t totalDataSize
         )
         {
             ID3D11Texture2D* const textureResource = reinterpret_cast<ID3D11Texture2D*>(textureResourceObject);

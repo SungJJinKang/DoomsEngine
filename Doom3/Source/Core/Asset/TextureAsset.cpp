@@ -27,8 +27,8 @@ dooms::asset::TextureAsset::TextureAsset
 	:
 	mTargetTexture(targetTexture),
 	mScratchImage(),
-	mWidth(width),
-	mHeight(height),
+	mWidth(1, width),
+	mHeight(1, height),
 	mMipMapLevelCount(1),
 	mComponentFormat(format),
 	mInternalFormat(internalFormat),
@@ -40,6 +40,7 @@ dooms::asset::TextureAsset::TextureAsset
 	mBindFlags(resourceBindFlag),
 	mTextureBindTarget(textureBindTarget)
 {
+	AllocateTextureResourceObject();
 }
 
 dooms::asset::TextureAsset::TextureAsset(std::unique_ptr<DirectX::ScratchImage>&& scratchImage, dooms::graphics::GraphicsAPI::eBindFlag resourceBindFlag)
@@ -156,15 +157,37 @@ void dooms::asset::TextureAsset::AllocateTextureResourceObject()
 	D_ASSERT(mMipMapLevelCount > 0);
 	D_ASSERT(mWidth.size() > 0);
 	D_ASSERT(mHeight.size() > 0);
-	D_ASSERT(mRowByteSizes.size() > 0);
-	D_ASSERT(mTotalDataSize.size() > 0);
-	D_ASSERT(mInternalFormat != graphics::GraphicsAPI::eTextureInternalFormat::TEXTURE_INTERNAL_FORMAT_NONE || mCompressedInternalFormat != graphics::GraphicsAPI::eTextureCompressedInternalFormat::TEXTURE_COMPRESSED_INTERNAL_FORMAT_NONE);
+	D_ASSERT(mTextureData.size() == GetMipMapLevel());
+	D_ASSERT(mInternalFormat == graphics::GraphicsAPI::eTextureInternalFormat::TEXTURE_INTERNAL_FORMAT_NONE || mCompressedInternalFormat == graphics::GraphicsAPI::eTextureCompressedInternalFormat::TEXTURE_COMPRESSED_INTERNAL_FORMAT_NONE);
 
 	mTextureResourceObject = graphics::GraphicsAPI::Allocate2DTextureObject(dooms::graphics::GraphicsAPI::eTextureBindTarget::TEXTURE_2D, mMipMapLevelCount, mInternalFormat, mCompressedInternalFormat, mWidth[0], mHeight[0], mBindFlags);
 
 	for (UINT32 mipLevelIndex = 0; mipLevelIndex < mTextureData.size(); mipLevelIndex++)
 	{
-		graphics::GraphicsAPI::UploadPixelsTo2DTexture(mTextureResourceObject, dooms::graphics::GraphicsAPI::eTextureBindTarget::TEXTURE_2D, mTargetTexture, mipLevelIndex, 0, 0, mWidth[mipLevelIndex], mHeight[mipLevelIndex], mComponentFormat, mDataType, mTextureData[mipLevelIndex], mRowByteSizes[mipLevelIndex], mTotalDataSize[mipLevelIndex]);
+		if(mTextureData[mipLevelIndex] != 0)
+		{
+			D_ASSERT(mRowByteSizes.size() > 0);
+			D_ASSERT(mTotalDataSize.size() > 0);
+
+			graphics::GraphicsAPI::UploadPixelsTo2DTexture
+			(
+				mTextureResourceObject,
+				dooms::graphics::GraphicsAPI::eTextureBindTarget::TEXTURE_2D,
+				mTargetTexture,
+				mipLevelIndex,
+				0,
+				0,
+				mWidth[mipLevelIndex],
+				mHeight[mipLevelIndex],
+				mComponentFormat,
+				mDataType,
+				mInternalFormat,
+				mCompressedInternalFormat,
+				mTextureData[mipLevelIndex],
+				mRowByteSizes[mipLevelIndex],
+				mTotalDataSize[mipLevelIndex]
+			);
+		}		
 	}
 }
 
