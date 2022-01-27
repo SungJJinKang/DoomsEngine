@@ -3,7 +3,7 @@
 
 void dooms::asset::Asset::SetBaseMetaData(const std::filesystem::path& path, const D_UUID& uuid)
 {
-	mAssetMetaData.mFileName = path.has_filename() ? path.filename().string() : "";
+	mAssetMetaData.mFileName = path.has_filename() ? path.filename().generic_u8string() : "";
 	mAssetMetaData.mFileDirectory = path;
 	mAssetMetaData.mFileSize = std::filesystem::file_size(path);
 	mAssetMetaData.mUUID = uuid;
