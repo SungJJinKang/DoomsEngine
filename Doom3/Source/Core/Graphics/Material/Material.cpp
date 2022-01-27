@@ -10,68 +10,92 @@
 
 using namespace dooms::graphics;
 
+bool Material::CreateShaderObject()
+{
+	D_ASSERT(IsValid(mShaderAsset));
+	D_ASSERT(mShaderAsset->IsHasAnyValidShaderObject() == true);
 
-void Material::SetShaderAsset(::dooms::asset::ShaderAsset* shaderAsset)
+	bool isSuccess = true;
+
+	if (dooms::graphics::GraphicsAPI::GetCurrentAPIType() == dooms::graphics::GraphicsAPI::eGraphicsAPIType::OpenGL)
+	{
+		mProgramIDForOpenGL = GraphicsAPI::CreateMaterial();
+
+		for(size_t pipeLineStageIndex = 0 ; pipeLineStageIndex < GRAPHICS_PIPELINE_STAGE_COUNT ; pipeLineStageIndex++)
+		{
+			if (mShaderAsset->IsShaderObjectSuccessfullyCreated(static_cast<dooms::graphics::GraphicsAPI::eGraphicsPipeLineStage>(pipeLineStageIndex)))
+			{
+				isSuccess &= GraphicsAPI::AttachShaderToMaterial(mProgramIDForOpenGL, mShaderAsset->GetShaderObject(static_cast<dooms::graphics::GraphicsAPI::eGraphicsPipeLineStage>(pipeLineStageIndex)), static_cast<dooms::graphics::GraphicsAPI::eGraphicsPipeLineStage>(pipeLineStageIndex));
+			}
+		}
+		
+		const bool isSuccessLinkMaterial = GraphicsAPI::LinkMaterial(mProgramIDForOpenGL);
+		D_ASSERT(isSuccessLinkMaterial == true);
+	}
+	else if (dooms::graphics::GraphicsAPI::GetCurrentAPIType() == dooms::graphics::GraphicsAPI::eGraphicsAPIType::DX11_10)
+	{
+		for (size_t pipeLineStageIndex = 0; pipeLineStageIndex < GRAPHICS_PIPELINE_STAGE_COUNT; pipeLineStageIndex++)
+		{
+			if (mShaderAsset->IsShaderObjectSuccessfullyCreated(static_cast<dooms::graphics::GraphicsAPI::eGraphicsPipeLineStage>(pipeLineStageIndex)))
+			{
+				isSuccess &= GraphicsAPI::AttachShaderToMaterial(mPipeLineShaderObject[pipeLineStageIndex], mShaderAsset->GetShaderObject(static_cast<dooms::graphics::GraphicsAPI::eGraphicsPipeLineStage>(pipeLineStageIndex)), static_cast<dooms::graphics::GraphicsAPI::eGraphicsPipeLineStage>(pipeLineStageIndex));
+			}
+		}
+	}
+
+	D_ASSERT(isSuccess == true);
+	return isSuccess;
+}
+
+void Material::SetShaderAsset(dooms::asset::ShaderAsset* const shaderAsset)
 {
 	D_ASSERT(IsValid(shaderAsset) == true);
-	D_ASSERT(shaderAsset->GetIsShaderCompiled() == true);
+	D_ASSERT(shaderAsset->IsHasAnyValidShaderObject() == true);
 
 	mShaderAsset = shaderAsset;
 
-	D_ASSERT(mProgramID.IsValid() == false); // error : you're overlapping program
-	D_ASSERT(shaderAsset->GetVertexId().IsValid() || shaderAsset->GetFragmentId().IsValid() || shaderAsset->GetGeometryId().IsValid());
-
-
-	mProgramID = GraphicsAPI::CreateMaterial();
-
-	if (shaderAsset->GetVertexId().IsValid())
-	{
-		GraphicsAPI::AttachShaderToMaterial(mProgramID, shaderAsset->GetVertexId());
-	}
-
-	if (shaderAsset->GetFragmentId().IsValid())
-	{
-		GraphicsAPI::AttachShaderToMaterial(mProgramID, shaderAsset->GetFragmentId());
-	}
-
-	if (shaderAsset->GetGeometryId().IsValid())
-	{
-		GraphicsAPI::AttachShaderToMaterial(mProgramID, shaderAsset->GetGeometryId());
-	}
-
-	const bool isSuccessLinkMaterial = GraphicsAPI::LinkMaterial(mProgramID);
-	
-	/*
-	if (isSuccessLinkMaterial)
-	{
-		InitUniformBufferObject();
-	}
-	*/
-
+	D_ASSERT(mProgramIDForOpenGL.IsValid() == false); // error : you're overlapping program
 }
 
 
-dooms::graphics::Material::Material() : mProgramID{ }, mShaderAsset{ nullptr }
+dooms::graphics::Material::Material() : mProgramIDForOpenGL{ }, mShaderAsset{ nullptr }, mPipeLineShaderObject{}
 {
+
 }
 
-Material::Material(::dooms::asset::ShaderAsset* shaderAsset) : mProgramID{}, mShaderAsset{ nullptr }
+Material::Material(dooms::asset::ShaderAsset* const shaderAsset) : mProgramIDForOpenGL{}, mShaderAsset{ nullptr }, mPipeLineShaderObject{}
 {
+	D_ASSERT(IsValid(shaderAsset));
 	if (IsValid(shaderAsset) == true)
 	{
 		SetShaderAsset(shaderAsset);
+		CreateShaderObject();
 	}
-
 }
 
 void Material::DestroyMaterialObject()
 {
-	if (mProgramID.IsValid())
+	if(dooms::graphics::GraphicsAPI::GetCurrentAPIType() == dooms::graphics::GraphicsAPI::eGraphicsAPIType::OpenGL)
 	{
-		GraphicsAPI::DestroyMaterial(mProgramID);
-		mProgramID.Reset();
+		if (mProgramIDForOpenGL.IsValid())
+		{
+			GraphicsAPI::DestroyMaterial(mProgramIDForOpenGL);
+			mProgramIDForOpenGL.Reset();
+		}
+	}
+	else if (dooms::graphics::GraphicsAPI::GetCurrentAPIType() == dooms::graphics::GraphicsAPI::eGraphicsAPIType::DX11_10)
+	{
+		for (size_t pipeLineStageIndex = 0; pipeLineStageIndex < GRAPHICS_PIPELINE_STAGE_COUNT; pipeLineStageIndex++)
+		{
+			if (mPipeLineShaderObject[pipeLineStageIndex].IsValid() == true)
+			{
+				GraphicsAPI::DestroyMaterial(mPipeLineShaderObject[pipeLineStageIndex]);
+			}
+		}
 	}
 }
+
+
 
 void Material::OnSetPendingKill()
 {
@@ -88,7 +112,7 @@ Material::~Material()
 
 bool dooms::graphics::Material::IsGenerated() const
 {
-	return mProgramID.IsValid();
+	return mProgramIDForOpenGL.IsValid();
 }
 
 void Material::AddTexture(UINT32 bindingPoint, TextureView* texture)
@@ -111,34 +135,36 @@ void dooms::graphics::Material::AddTextures(const std::vector<const TextureView*
 
 void dooms::graphics::Material::UseProgram() const
 {
-	D_ASSERT(mProgramID.IsValid());
+	D_ASSERT(mProgramIDForOpenGL.IsValid());
 
 	if (FixedMaterial::GetIsFixedMaterialExist() == false)
 	{
-		if (D_OVERLAP_BIND_CHECK_CHECK_IS_NOT_BOUND_AND_BIND_ID(MATERIAL_TAG, mProgramID))
+		if (D_OVERLAP_BIND_CHECK_CHECK_IS_NOT_BOUND_AND_BIND_ID(MATERIAL_TAG, mProgramIDForOpenGL))
 		{
+			if(dooms::graphics::GraphicsAPI::GetCurrentAPIType() == GraphicsAPI::eGraphicsAPIType::DX11_10)
+			{
+				for (size_t pipeLineStageIndex = 0; pipeLineStageIndex < GRAPHICS_PIPELINE_STAGE_COUNT; pipeLineStageIndex++)
+				{
+					if (mPipeLineShaderObject[pipeLineStageIndex].IsValid() == true)
+					{
+						GraphicsAPI::BindShader(mPipeLineShaderObject[pipeLineStageIndex], (static_cast<dooms::graphics::GraphicsAPI::eGraphicsPipeLineStage>(pipeLineStageIndex)));
+					}
+				}
+			}
+			else if (dooms::graphics::GraphicsAPI::GetCurrentAPIType() == GraphicsAPI::eGraphicsAPIType::OpenGL)
+			{
+				if (mProgramIDForOpenGL.IsValid() == true)
+				{
+					GraphicsAPI::BindShader(mProgramIDForOpenGL, GraphicsAPI::eGraphicsPipeLineStage::DUMMY);
+				}
+			}
+
 			for (UINT32 i = 0; i < mTargetTextures.size(); i++)
 			{
 				if (IsValid(mTargetTextures[i]) == true)
 				{
 					mTargetTextures[i]->BindTexture();
 				}
-			}
-
-			if(dooms::graphics::GraphicsAPI::GetCurrentAPIType() == GraphicsAPI::eGraphicsAPIType::DX11_10)
-			{
-				const UINT64 vertexShader = GetShaderAsset()->GetVertexId();
-				if(vertexShader != NULL)
-				{
-					GraphicsAPI::BindMaterial(vertexShader);
-				}
-				
-				GraphicsAPI::BindMaterial(GetShaderAsset()->GetFragmentId());
-				GraphicsAPI::BindMaterial(GetShaderAsset()->GetGeometryId());
-			}
-			else if (dooms::graphics::GraphicsAPI::GetCurrentAPIType() == GraphicsAPI::eGraphicsAPIType::OpenGL)
-			{
-				GraphicsAPI::BindMaterial(mProgramID);
 			}
 			
 		}
@@ -149,7 +175,7 @@ void dooms::graphics::Material::UseProgram() const
 
 INT32 Material::GetUniformLocation(const char* str) const
 {
-	return GraphicsAPI::GetConstantBufferUniformLocation(mProgramID, str);
+	return GraphicsAPI::GetConstantBufferUniformLocation(mProgramIDForOpenGL, str);
 }
 
 /*
@@ -162,21 +188,9 @@ void Material::SetUniformBlockPoint(const std::string uniformBlockName, UINT32 b
 
 INT32 Material::GetUniformBlocksCount() const
 {
-	D_ASSERT(mProgramID.IsValid());
+	D_ASSERT(mProgramIDForOpenGL.IsValid());
 	
-	return GraphicsAPI::GetConstantBufferBlockCount(mProgramID);
-}
-
-void Material::InitUniformBufferObject
-(
-	const std::string& uniformBufferName,
-	const UINT64 uniformBufferSize,
-	const UINT32 bindingPoint,
-	const GraphicsAPI::eGraphicsPipeLineStage targetPipeLineStage
-)
-{
-	UniformBufferObject* const uniformBufferObject = UniformBufferObjectManager::GetSingleton()->GetOrGenerateUniformBufferObject(uniformBufferName, uniformBufferSize, bindingPoint, targetPipeLineStage, nullptr);
-	mUniformBufferObjects.push_back(uniformBufferObject);
+	return GraphicsAPI::GetConstantBufferBlockCount(mProgramIDForOpenGL);
 }
 
 const dooms::asset::ShaderAsset* Material::GetShaderAsset() const

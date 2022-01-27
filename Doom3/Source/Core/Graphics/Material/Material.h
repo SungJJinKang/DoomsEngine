@@ -51,12 +51,24 @@ namespace dooms
 		{
 			GENERATE_BODY()
 			
-
+			
 		private:
+
 			static inline const char MATERIAL_TAG[]{ "MATERIAL" };
 
+			/// <summary>
+			/// Used for OpenGL
+			///	If Current Graphics API is DirectX, this varaible set to random uuid ( this is for overlap check )
+			/// </summary>
 			D_PROPERTY()
-			BufferID mProgramID;
+			BufferID mProgramIDForOpenGL;
+
+			/// <summary>
+			/// Used for DirectX
+			/// </summary>
+			D_PROPERTY()
+			std::array<BufferID, GRAPHICS_PIPELINE_STAGE_COUNT> mPipeLineShaderObject;
+
 
 			D_PROPERTY()
 			dooms::asset::ShaderAsset* mShaderAsset;
@@ -64,17 +76,13 @@ namespace dooms
 			D_PROPERTY()
 			std::vector<const TextureView*> mTargetTextures{ nullptr };
 
-			D_PROPERTY()
-			std::vector<UniformBufferObject*> mUniformBufferObjects{ nullptr };
-
+			bool CreateShaderObject();
 			void OnSetPendingKill() override;
-
-			void DestroyMaterialBufferObject();
-
+			
 		public:
 
 			Material();
-			Material(::dooms::asset::ShaderAsset* shaderAsset);
+			Material(dooms::asset::ShaderAsset* const shaderAsset);
 			void DestroyMaterialObject();
 
 			virtual ~Material();
@@ -86,7 +94,7 @@ namespace dooms
 			Material& operator=(Material&&) noexcept = default;
 
 			bool IsGenerated() const;
-			void SetShaderAsset(::dooms::asset::ShaderAsset* shaderAsset);
+			void SetShaderAsset(dooms::asset::ShaderAsset* const shaderAsset);
 
 			void AddTexture(UINT32 bindingPoint, TextureView* texture);
 			void AddTexture(const UINT32 bindingPoint, const dooms::asset::TextureAsset* const textureAsset);
@@ -286,13 +294,6 @@ namespace dooms
 			/// </summary>
 			/// <returns>0 ~ return value</returns>
 			INT32 GetUniformBlocksCount() const;
-			void InitUniformBufferObject
-			(
-				const std::string& uniformBufferName,
-				const UINT64 uniformBufferSize,
-				const UINT32 bindingPoint,
-				const GraphicsAPI::eGraphicsPipeLineStage targetPipeLineStage
-			);
 			
 			const dooms::asset::ShaderAsset* GetShaderAsset() const;
 		};
