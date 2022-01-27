@@ -15,10 +15,8 @@
 #include "Transform.h"
 
 #include "Graphics/FrameBuffer/DefferedRenderingFrameBuffer.h"
+#include "MaxCameraCount.h"
 
-#ifndef MAX_CAMERA_COUNT
-#define MAX_CAMERA_COUNT 5
-#endif
 
 #include "Camera.reflection.h"
 namespace dooms
