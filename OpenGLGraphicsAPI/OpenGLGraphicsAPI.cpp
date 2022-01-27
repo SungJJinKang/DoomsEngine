@@ -622,19 +622,21 @@ namespace dooms
 				}
 			}
 
-			FORCE_INLINE static unsigned int GetGLShaderType(const GraphicsAPI::eShaderType shaderType)
+			FORCE_INLINE static unsigned int GetGLShaderType(const GraphicsAPI::eGraphicsPipeLineStage shaderType)
 			{
 				switch (shaderType)
 				{
-				case GraphicsAPI::Vertex:
+				case GraphicsAPI::eGraphicsPipeLineStage::VERTEX_SHADER:
 					return GL_VERTEX_SHADER;
-				case GraphicsAPI::Fragment:
+				case GraphicsAPI::eGraphicsPipeLineStage::PIXEL_SHADER:
 					return GL_FRAGMENT_SHADER;
-				case GraphicsAPI::Geometry:
+				case GraphicsAPI::eGraphicsPipeLineStage::GEOMETRY_SHADER:
 					return GL_GEOMETRY_SHADER;
-
+				case GraphicsAPI::eGraphicsPipeLineStage::COMPUTE_SHADER:
+					return GL_COMPUTE_SHADER;
 				default:
-					NEVER_HAPPEN; return 0;
+					NEVER_HAPPEN;
+					return 0;
 				}
 			}
 
@@ -1384,15 +1386,22 @@ namespace dooms
 			glDeleteVertexArrays(1, reinterpret_cast<unsigned int*>(&vertexArrayObject));
 		}
 
-		DOOMS_ENGINE_GRAPHICS_API void CompileShader
+		DOOMS_ENGINE_GRAPHICS_API bool CompileShader
 		(
-			const unsigned long long shaderObject,
-			const GraphicsAPI::eShaderType shaderType,
+			unsigned long long& shaderObject,
+			const GraphicsAPI::eGraphicsPipeLineStage shaderType,
 			const char* const shaderText
 		)
 		{
+			assert(shaderObject != 0);
+
 			glShaderSource(shaderObject, 1, &shaderText, NULL);
 			glCompileShader(shaderObject);
+
+			int isSucess;
+			glGetShaderiv(shaderObject, GL_COMPILE_STATUS, &isSucess);
+
+			return (isSucess == GL_TRUE);
 		}
 
 		DOOMS_ENGINE_GRAPHICS_API void BindVertexArrayObject(const unsigned long long vertexArrayObject)
@@ -1681,14 +1690,14 @@ namespace dooms
 			return isSuccess != 0;
 		}
 
-		DOOMS_ENGINE_GRAPHICS_API void BindMaterial(const unsigned long long materialObject)
+		DOOMS_ENGINE_GRAPHICS_API void BindShader(const unsigned long long materialObject, const GraphicsAPI::eGraphicsPipeLineStage shaderType)
 		{
 			glUseProgram(materialObject);
 		}
 
-		DOOMS_ENGINE_GRAPHICS_API unsigned long long CreateShaderObject(const GraphicsAPI::eShaderType shaderType)
+		DOOMS_ENGINE_GRAPHICS_API unsigned long long CreateShaderObject(const GraphicsAPI::eGraphicsPipeLineStage shaderType)
 		{
-			assert(shaderType != GraphicsAPI::eShaderType::ShaderType_None);
+			assert(shaderType != GraphicsAPI::eGraphicsPipeLineStage::DUMMY);
 
 			unsigned int shaderObject = glCreateShader(opengl::GetGLShaderType(shaderType));
 			assert(shaderObject != 0);
@@ -1700,9 +1709,16 @@ namespace dooms
 			glDeleteShader(shaderObject);
 		}
 		
-		DOOMS_ENGINE_GRAPHICS_API void AttachShaderToMaterial(const unsigned long long materialObject, const unsigned long long shaderObject)
+		DOOMS_ENGINE_GRAPHICS_API bool AttachShaderToMaterial
+		(
+			const unsigned long long materialObject, 
+			const unsigned long long shaderObject,
+			const GraphicsAPI::eGraphicsPipeLineStage targetGraphicsPipeLineStage // only used in dx11
+		)
 		{
 			glAttachShader(materialObject, shaderObject);
+
+			return true;
 		}
 
 

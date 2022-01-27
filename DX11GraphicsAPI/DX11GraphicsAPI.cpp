@@ -1341,15 +1341,15 @@ namespace dooms
 
         }
 
-        DOOMS_ENGINE_GRAPHICS_API void CompileShader
+        DOOMS_ENGINE_GRAPHICS_API bool CompileShader
         (
-            const unsigned long long shaderObject,
-            const GraphicsAPI::eShaderType shaderType,
+            unsigned long long& shaderObject,
+            const GraphicsAPI::eGraphicsPipeLineStage shaderType,
             const char* const shaderText
         )
         {
           
-
+            return false;
         }
 
         DOOMS_ENGINE_GRAPHICS_API void BindVertexArrayObject(unsigned long long vertexArrayObject)

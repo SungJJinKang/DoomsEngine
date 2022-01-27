@@ -45,8 +45,8 @@ void dooms::graphics::GraphicsAPILoader::FetchExportedFunctionAddress()
 	//D_ASSERT(dooms::graphics::GraphicsAPI::BindFrameBuffer != nullptr);
 	dooms::graphics::GraphicsAPI::BindBackBuffer = (GraphicsAPI::GRAPHICS_BINDBACKBUFFER)GetProcAddress(hModule, "BindBackBuffer");
 	//D_ASSERT(dooms::graphics::GraphicsAPI::BindBackBuffer != nullptr);
-	dooms::graphics::GraphicsAPI::BindMaterial = (GraphicsAPI::GRAPHICS_BINDMATERIAL)GetProcAddress(hModule, "BindMaterial");
-	//D_ASSERT(dooms::graphics::GraphicsAPI::BindMaterial != nullptr);
+	dooms::graphics::GraphicsAPI::BindShader = (GraphicsAPI::GRAPHICS_BINDMATERIAL)GetProcAddress(hModule, "BindShader");
+	//D_ASSERT(dooms::graphics::GraphicsAPI::BindShader != nullptr);
 	dooms::graphics::GraphicsAPI::BindRenderBuffer = (GraphicsAPI::GRAPHICS_BINDRENDERBUFFER)GetProcAddress(hModule, "BindRenderBuffer");
 	//D_ASSERT(dooms::graphics::GraphicsAPI::BindRenderBuffer != nullptr);
 	dooms::graphics::GraphicsAPI::BindTextureObject = (GraphicsAPI::GRAPHICS_BINDTEXTUREOBJECT)GetProcAddress(hModule, "BindTextureObject");

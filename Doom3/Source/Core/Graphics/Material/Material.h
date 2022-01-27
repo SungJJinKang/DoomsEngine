@@ -95,6 +95,7 @@ namespace dooms
 
 			bool IsGenerated() const;
 			void SetShaderAsset(dooms::asset::ShaderAsset* const shaderAsset);
+			bool IsHasAnyValidShaderObject() const;
 
 			void AddTexture(UINT32 bindingPoint, TextureView* texture);
 			void AddTexture(const UINT32 bindingPoint, const dooms::asset::TextureAsset* const textureAsset);

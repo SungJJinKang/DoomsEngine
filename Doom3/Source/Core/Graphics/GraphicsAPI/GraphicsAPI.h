@@ -27,6 +27,9 @@ namespace dooms
 				DX11_10
 			};
 
+			/**
+			 * \brief TODO : Make inlined version function of this function for performance
+			 */
 			typedef eGraphicsAPIType(DOOMS_ENGINE_API_ENTRY_P GRAPHICS_GETCURRENTAPITYPE)(void);
 			extern GRAPHICS_GETCURRENTAPITYPE GetCurrentAPIType;
 
@@ -564,13 +567,25 @@ namespace dooms
 
 			enum eGraphicsPipeLineStage : unsigned long
 			{
-				VERTEX_SHADER,
-				HULL_SHADER,
-				DOMAIN_SHADER,
-				GEOMETRY_SHADER,
-				PIXEL_SHADER,
-				COMPUTE_SHADER,
+				VERTEX_SHADER = 0,
+				HULL_SHADER = 1,
+				DOMAIN_SHADER = 2,
+				GEOMETRY_SHADER = 3,
+				PIXEL_SHADER = 4,
+				COMPUTE_SHADER = 5,
 				DUMMY
+			};
+
+
+			#define GRAPHICS_PIPELINE_STAGE_COUNT 6
+			inline extern const char* const eGraphicsPipeLineStageString[GRAPHICS_PIPELINE_STAGE_COUNT]
+			{
+				"VERTEX_SHADER",
+				"HULL_SHADER",
+				"DOMAIN_SHADER",
+				"GEOMETRY_SHADER",
+				"PIXEL_SHADER",
+				"COMPUTE_SHADER"
 			};
 
 			typedef void (DOOMS_ENGINE_API_ENTRY_P GRAPHICS_BINDBUFFER)
@@ -722,27 +737,31 @@ namespace dooms
 			typedef bool (DOOMS_ENGINE_API_ENTRY_P GRAPHICS_LINKMATERIAL)(const unsigned long long materialObject);
 			extern GRAPHICS_LINKMATERIAL LinkMaterial;
 
-			typedef void (DOOMS_ENGINE_API_ENTRY_P GRAPHICS_BINDMATERIAL)(const unsigned long long materialObject);
-			extern GRAPHICS_BINDMATERIAL BindMaterial;
-
-			enum eShaderType : unsigned int
-			{
-				ShaderType_None,
-				Vertex,
-				Fragment,
-				Geometry
-			};
-
-			typedef unsigned long long (DOOMS_ENGINE_API_ENTRY_P GRAPHICS_CREATESHADEROBJECT)(const eShaderType shaderType);
+			typedef void (DOOMS_ENGINE_API_ENTRY_P GRAPHICS_BINDMATERIAL)(const unsigned long long materialObject, const eGraphicsPipeLineStage shaderType);
+			extern GRAPHICS_BINDMATERIAL BindShader;
+			
+			typedef unsigned long long (DOOMS_ENGINE_API_ENTRY_P GRAPHICS_CREATESHADEROBJECT)(const eGraphicsPipeLineStage shaderType);
 			extern GRAPHICS_CREATESHADEROBJECT CreateShaderObject;
 
 			typedef void (DOOMS_ENGINE_API_ENTRY_P GRAPHICS_DESTROYSHADEROBJECT)(const unsigned long long shaderObject);
 			extern GRAPHICS_DESTROYSHADEROBJECT DestroyShaderObject;
 
-			typedef void (DOOMS_ENGINE_API_ENTRY_P GRAPHICS_COMPILESHADER)(const unsigned long long shaderObject, const eShaderType shaderType, const char* const shaderText);
+
+			typedef bool (DOOMS_ENGINE_API_ENTRY_P GRAPHICS_COMPILESHADER)(unsigned long long& shaderObject, const eGraphicsPipeLineStage shaderType, const char* const shaderText);
+			/**
+			 * \brief return true if compiling shader success
+			 */
 			extern GRAPHICS_COMPILESHADER CompileShader;
 
-			typedef void (DOOMS_ENGINE_API_ENTRY_P GRAPHICS_ATTACHSHADERTOMATERIAL)(const unsigned long long materialObject, const unsigned long long shaderObject);
+			/**
+			 * \brief return true if success
+			 */
+			typedef bool (DOOMS_ENGINE_API_ENTRY_P GRAPHICS_ATTACHSHADERTOMATERIAL)
+			(
+				const unsigned long long materialObject, 
+				const unsigned long long shaderObject,
+				const eGraphicsPipeLineStage targetGraphicsPipeLineStage // only used in dx11
+			);
 			extern GRAPHICS_ATTACHSHADERTOMATERIAL AttachShaderToMaterial;
 
 			typedef void (DOOMS_ENGINE_API_ENTRY_P GRAPHICS_UPDATECONSTANTBUFFERBOOL1)(const int location, const bool value1);

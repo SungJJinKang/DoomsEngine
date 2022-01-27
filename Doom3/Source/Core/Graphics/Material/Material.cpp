@@ -51,10 +51,38 @@ void Material::SetShaderAsset(dooms::asset::ShaderAsset* const shaderAsset)
 {
 	D_ASSERT(IsValid(shaderAsset) == true);
 	D_ASSERT(shaderAsset->IsHasAnyValidShaderObject() == true);
+	D_ASSERT(IsHasAnyValidShaderObject() == false);
 
 	mShaderAsset = shaderAsset;
+	CreateShaderObject();
 
-	D_ASSERT(mProgramIDForOpenGL.IsValid() == false); // error : you're overlapping program
+	D_ASSERT(IsHasAnyValidShaderObject() == true); // error : you're overlapping program
+}
+
+bool Material::IsHasAnyValidShaderObject() const
+{
+	bool isHasAnyValidShaderObject = false;
+
+	if (dooms::graphics::GraphicsAPI::GetCurrentAPIType() == dooms::graphics::GraphicsAPI::eGraphicsAPIType::OpenGL)
+	{
+		if (mProgramIDForOpenGL.IsValid())
+		{
+			isHasAnyValidShaderObject = true;
+		}
+	}
+	else if (dooms::graphics::GraphicsAPI::GetCurrentAPIType() == dooms::graphics::GraphicsAPI::eGraphicsAPIType::DX11_10)
+	{
+		for (size_t pipeLineStageIndex = 0; pipeLineStageIndex < GRAPHICS_PIPELINE_STAGE_COUNT; pipeLineStageIndex++)
+		{
+			if (mPipeLineShaderObject[pipeLineStageIndex].IsValid() == true)
+			{
+				isHasAnyValidShaderObject = true;
+				break;
+			}
+		}
+	}
+
+	return isHasAnyValidShaderObject;
 }
 
 
@@ -65,11 +93,9 @@ dooms::graphics::Material::Material() : mProgramIDForOpenGL{ }, mShaderAsset{ nu
 
 Material::Material(dooms::asset::ShaderAsset* const shaderAsset) : mProgramIDForOpenGL{}, mShaderAsset{ nullptr }, mPipeLineShaderObject{}
 {
-	D_ASSERT(IsValid(shaderAsset));
 	if (IsValid(shaderAsset) == true)
 	{
 		SetShaderAsset(shaderAsset);
-		CreateShaderObject();
 	}
 }
 
