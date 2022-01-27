@@ -768,6 +768,9 @@
     <ClCompile Include="Source\Core\Asset\Utility\shaderAssetHelper.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Core\Asset\Utility\shaderConverter.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="dependency\glad\include\glad\glad.h">
@@ -1920,6 +1923,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\Core\Asset\Utility\shaderAssetHelper.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Core\Asset\Utility\shaderConverter.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

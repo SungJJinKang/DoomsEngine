@@ -146,4 +146,28 @@ namespace dooms::asset::shaderAssetHelper
 
 		return extractedShaderText;
 	}
+
+	dooms::graphics::GraphicsAPI::eGraphicsAPIType GetShaderAssetGraphicsAPIType
+	(
+		const std::string& shaderAssetFileExtension
+	)
+	{
+		dooms::graphics::GraphicsAPI::eGraphicsAPIType shaderGraphicsAPIType = dooms::graphics::GraphicsAPI::eGraphicsAPIType::GraphicsAPIType_NONE;
+
+		D_ASSERT_LOG(shaderAssetFileExtension[0] == '.', "shaderAssetFileExtension should start with '.'");
+		if (shaderAssetFileExtension.empty() == false)
+		{
+			if (shaderAssetFileExtension == ".hlsl")
+			{
+				shaderGraphicsAPIType = dooms::graphics::GraphicsAPI::eGraphicsAPIType::DX11_10;
+			}
+			else if (shaderAssetFileExtension == ".glsl")
+			{
+				shaderGraphicsAPIType = dooms::graphics::GraphicsAPI::eGraphicsAPIType::OpenGL;
+			}
+		}
+
+		return shaderGraphicsAPIType;
+	}
+
 }

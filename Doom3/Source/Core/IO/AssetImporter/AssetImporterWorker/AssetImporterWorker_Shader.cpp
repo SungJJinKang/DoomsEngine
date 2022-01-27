@@ -3,6 +3,7 @@
 #include <Asset/Utility/textImporter.h>
 
 #include <Asset/ShaderAsset.h>
+#include <Asset/Utility/shaderAssetHelper.h>
 
 bool dooms::assetImporter::AssetImporterWorker_Shader::ImportShaderAsset
 (
@@ -17,7 +18,8 @@ bool dooms::assetImporter::AssetImporterWorker_Shader::ImportShaderAsset
 
 	if (isSuccess)
 	{
-		shaderAsset->SetShaderText(text, false);
+		const dooms::graphics::GraphicsAPI::eGraphicsAPIType shaderAssetGraphicsAPIType = dooms::asset::shaderAssetHelper::GetShaderAssetGraphicsAPIType(path.extension().generic_u8string());
+		shaderAsset->SetShaderText(text, shaderAssetGraphicsAPIType, false);
 		return true;
 	}
 	else
