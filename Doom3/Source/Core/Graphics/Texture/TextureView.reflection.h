@@ -1,16 +1,16 @@
 #pragma once
 
 // Utility Header File ( Don't Edit this )
-// SourceFilePath : __Source_Core_Graphics_TextureView_TextureView_reflection_h
+// SourceFilePath : __Source_Core_Graphics_Texture_TextureView_reflection_h
 
 
-#ifdef __Source_Core_Graphics_TextureView_TextureView_reflection_h
+#ifdef __Source_Core_Graphics_Texture_TextureView_reflection_h
 
-#error "__Source_Core_Graphics_TextureView_TextureView_reflection_h already included, missing '#pragma once' in __Source_Core_Graphics_TextureView_TextureView_reflection_h"
+#error "__Source_Core_Graphics_Texture_TextureView_reflection_h already included, missing '#pragma once' in __Source_Core_Graphics_Texture_TextureView_reflection_h"
 
 #endif
 
-#define __Source_Core_Graphics_TextureView_TextureView_reflection_h
+#define __Source_Core_Graphics_Texture_TextureView_reflection_h
 
 
 #include <type_traits>
@@ -27,7 +27,7 @@
 #undef INHERITANCE_INFORMATION_dooms__graphics__TextureView
 #define INHERITANCE_INFORMATION_dooms__graphics__TextureView \
 public : \
-inline static const unsigned long int BASE_CHAIN_LIST[] { 1637549627, 3969188510 }; \
+inline static const unsigned long int BASE_CHAIN_LIST[] { 4072854797, 3969188510 }; \
 inline static const unsigned long int BASE_CHAIN_LIST_LENGTH { 2 }; \
 virtual const unsigned long int* GetBaseChainList() const { return BASE_CHAIN_LIST; } \
 virtual unsigned long int GetBaseChainListLength() const { return BASE_CHAIN_LIST_LENGTH; } \
@@ -59,7 +59,7 @@ typedef dooms::graphics::TextureView Current;
 #undef TYPE_FULLNAME_HASH_VALUE_NAME_STRING_dooms__graphics__TextureView
 #define TYPE_FULLNAME_HASH_VALUE_NAME_STRING_dooms__graphics__TextureView \
 public : \
-inline static const unsigned long int TYPE_FULL_NAME_HASH_VALUE = 1637549627; \
+inline static const unsigned long int TYPE_FULL_NAME_HASH_VALUE = 4072854797; \
 inline static const char* const TYPE_FULL_NAME = "dooms::graphics::TextureView"; \
 inline static const char* const TYPE_SHORT_NAME = "TextureView"; \
 virtual unsigned long int GetTypeHashVlue() const { return TYPE_FULL_NAME_HASH_VALUE; } \

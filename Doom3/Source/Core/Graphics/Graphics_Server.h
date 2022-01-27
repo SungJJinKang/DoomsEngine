@@ -96,8 +96,7 @@ namespace dooms
 
 			D_PROPERTY()
 			BVHAABB3D mRendererColliderBVH{ RENDERER_BVH_MAX_NODE_COUNT };
-
-			D_PROPERTY()
+			
 			std::unique_ptr<culling::EveryCulling> mCullingSystem;
 
 			bool InitializeGraphicsAPI();
