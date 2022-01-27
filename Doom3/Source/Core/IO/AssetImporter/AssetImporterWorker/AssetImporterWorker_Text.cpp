@@ -1,6 +1,6 @@
 #include "AssetImporterWorker_Text.h"
 
-#include <utility/TextImporter.h>
+#include <Asset/Utility/textImporter.h>
 #include <Asset/TextAsset.h>
 
 
@@ -16,7 +16,7 @@ bool dooms::assetImporter::AssetImporterWorker_Text::ImportSpecificAsset
 )
 {
 	std::string text{};
-	bool isSuccess = GetTextFromFile(path, text);
+	bool isSuccess = asset::textImporter::GetTextFromFile(path, text);
 	if (isSuccess)
 	{
 		static_cast<dooms::asset::TextAsset*>(asset)->SetText(text);

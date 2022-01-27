@@ -341,6 +341,7 @@ xcopy /y /d /E /H /C /I "$(ProjectDir)Assets" "$(TargetDir)Assets"</Command>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="clreflect_compiletime_gettype.cpp" />
+    <ClCompile Include="Source\Core\Asset\Utility\shaderAssetHelper.cpp" />
     <ClCompile Include="Source\Core\EngineGUI\GUIModules\drawCallCounterGUI.cpp" />
     <ClCompile Include="Source\Core\Graphics\Acceleration\LinearData_ViewFrustumCulling\CullingModule\MaskedSWOcclusionCulling\OccluderListManager.cpp" />
     <ClCompile Include="Source\Core\Graphics\Acceleration\LinearData_ViewFrustumCulling\CullingModule\PreCulling\PreCulling.cpp" />
@@ -557,7 +558,7 @@ xcopy /y /d /E /H /C /I "$(ProjectDir)Assets" "$(TargetDir)Assets"</Command>
     <ClCompile Include="Source\Core\utility\KDTree\KDTreeNodeView.cpp" />
     <ClCompile Include="Source\Core\utility\KDTree\KDTreeVector.cpp" />
     <ClCompile Include="Source\Core\utility\SimpleIniParser.cpp" />
-    <ClCompile Include="Source\Core\utility\TextImporter.cpp" />
+    <ClCompile Include="Source\Core\Asset\Utility\textImporter.cpp" />
     <ClCompile Include="Source\Core\WorldEditor\MapLoader.cpp" />
     <ClCompile Include="Source\GameLogic\CustomComponent\AutoRotate.cpp" />
     <ClCompile Include="Source\GameLogic\CustomComponent\AutoRotateAround.cpp" />
@@ -592,6 +593,7 @@ xcopy /y /d /E /H /C /I "$(ProjectDir)Assets" "$(TargetDir)Assets"</Command>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Component\Rendering\MaxCameraCount.h" />
+    <ClInclude Include="Source\Core\Asset\Utility\shaderAssetHelper.h" />
     <ClInclude Include="Source\Core\EngineGUI\GUIModules\drawCallCounterGUI.h" />
     <ClInclude Include="Source\Core\Graphics\Acceleration\LinearData_ViewFrustumCulling\CullingModule\MaskedSWOcclusionCulling\OccluderListManager.h" />
     <ClInclude Include="Source\Core\Graphics\Acceleration\LinearData_ViewFrustumCulling\CullingModule\PreCulling\PreCulling.h" />
@@ -905,7 +907,7 @@ xcopy /y /d /E /H /C /I "$(ProjectDir)Assets" "$(TargetDir)Assets"</Command>
     <ClInclude Include="Source\Core\utility\KDTree\KDTreeNode.h" />
     <ClInclude Include="Source\Core\utility\KDTree\KDTreeNodeView.h" />
     <ClInclude Include="Source\Core\utility\SimpleIniParser.h" />
-    <ClInclude Include="Source\Core\utility\TextImporter.h" />
+    <ClInclude Include="Source\Core\Asset\Utility\textImporter.h" />
     <ClInclude Include="Source\Core\utility\Tree.h" />
     <ClInclude Include="Source\Core\utility\TreeNode.h" />
     <ClInclude Include="Source\Core\utility\trim.h" />

@@ -507,7 +507,7 @@
     <ClCompile Include="Source\Core\utility\SimpleIniParser.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Core\utility\TextImporter.cpp">
+    <ClCompile Include="Source\Core\Asset\Utility\textImporter.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Source\Core\IO\AssetExporter\AssetExporter_Three_D_Model.cpp">
@@ -763,6 +763,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Source\Core\Graphics\FrameBuffer\FrameBufferView.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Core\Asset\Utility\shaderAssetHelper.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -1607,7 +1610,7 @@
     <ClInclude Include="Source\Core\utility\SimpleIniParser.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Core\utility\TextImporter.h">
+    <ClInclude Include="Source\Core\Asset\Utility\textImporter.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\Core\utility\trim.h">
@@ -1914,6 +1917,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\Component\Rendering\MaxCameraCount.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Core\Asset\Utility\shaderAssetHelper.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -1,6 +1,6 @@
 #include "AssetImporterWorker_Shader.h"
 
-#include <TextImporter.h>
+#include <Asset/Utility/textImporter.h>
 
 #include <Asset/ShaderAsset.h>
 
@@ -11,7 +11,7 @@ bool dooms::assetImporter::AssetImporterWorker_Shader::ImportShaderAsset
 )
 {
 	std::string text{};
-	bool isSuccess = GetTextFromFile(path, text);
+	bool isSuccess = asset::textImporter::GetTextFromFile(path, text);
 
 	D_ASSERT(text.empty() == false);
 
