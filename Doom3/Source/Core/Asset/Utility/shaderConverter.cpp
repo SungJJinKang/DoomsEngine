@@ -10,6 +10,6 @@ bool dooms::asset::shaderConverter::ConvertShaderTextFormat
 	const dooms::graphics::GraphicsAPI::eGraphicsAPIType toShaderTextGraphisAPIType
 )
 {
-
+	// TODO : implement this function using https://github.com/septag/glslcc
 	return false;
 }
