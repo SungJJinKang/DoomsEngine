@@ -10,14 +10,9 @@
 #include "Buffer/UniformBufferObjectManager.h"
 #include "LightManager.h"
 #include "PictureInPicture/PIPManager.h"
-
 #include "DebugGraphics/DebugDrawer.h"
-
 #include <Rendering/Renderer/RendererStaticIterator.h>
-#include <EngineGUI/EngineGUIServer.h>
-
 #include "utility/BVH/BVH.h"
-
 #include "DebugGraphics/RenderingDebugger.h"
 
 
