@@ -834,8 +834,8 @@ namespace dooms
 			extern GRAPHICS_DESTROYTEXTUREOBJECT DestroyTextureObject;
 
 
-			typedef unsigned long long (DOOMS_ENGINE_API_ENTRY_P GRAPHICS_CREATEXTUREVIEWOBJECT)(const unsigned long long textureObject);
-			extern GRAPHICS_CREATEXTUREVIEWOBJECT CreateTextureViewObject;
+			typedef unsigned long long (DOOMS_ENGINE_API_ENTRY_P GRAPHICS_CREATETEXTUREVIEWOBJECT)(const unsigned long long textureObject);
+			extern GRAPHICS_CREATETEXTUREVIEWOBJECT CreateTextureViewObject;
 
 			typedef void (DOOMS_ENGINE_API_ENTRY_P GRAPHICS_DESTROYTEXTUREVIEWOBJECT)(unsigned long long textureViewObject);
 			extern GRAPHICS_DESTROYTEXTUREVIEWOBJECT DestroyTextureViewObject;
@@ -1086,6 +1086,8 @@ namespace dooms
 					const unsigned long long height,
 					const GraphicsAPI::eTextureComponentFormat textureComponentFormat,
 					const GraphicsAPI::eDataType dataType,
+					const eTextureInternalFormat textureInternalFormat,
+					const eTextureCompressedInternalFormat textureCompressedInternalFormat,
 					const void* const pixelDatas,
 					const size_t rowByteSize,
 					const size_t totalDataSize

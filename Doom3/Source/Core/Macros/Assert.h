@@ -12,7 +12,7 @@
         if (! (condition)) { \
             std::printf("Assertion `%s' failed in %s line %d :", #condition, __FILE__, __LINE__); \
             std::fflush(stdout); \
-            std::terminate(); \
+            DEBUG_BREAK; \
         } \
     } while (false)
 
@@ -27,7 +27,7 @@
             std::printf(#MessageFormat, ##__VA_ARGS__); \
             std::printf(" ) in %s line %d :", __FILE__, __LINE__); \
             std::fflush(stdout); \
-            std::terminate(); \
+            DEBUG_BREAK; \
         } \
     } while (false)
 

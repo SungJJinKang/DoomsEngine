@@ -338,7 +338,7 @@ dooms::asset::TextureAsset* dooms::graphics::FrameBuffer::AttachDepthTextureToFr
 	dooms::asset::TextureAsset* const depthTexture = dooms::CreateDObject<dooms::asset::TextureAsset>
 	(
 		GraphicsAPI::eTargetTexture::TARGET_TEXTURE_TEXTURE_2D,
-		GraphicsAPI::eTextureInternalFormat::TEXTURE_INTERNAL_FORMAT_RGBA8,
+		GraphicsAPI::eTextureInternalFormat::TEXTURE_INTERNAL_FORMAT_DEPTH_COMPONENT32,
 		GraphicsAPI::eTextureCompressedInternalFormat::TEXTURE_COMPRESSED_INTERNAL_FORMAT_NONE,
 		width,
 		height,
@@ -376,7 +376,7 @@ dooms::asset::TextureAsset* dooms::graphics::FrameBuffer::AttachDepthStencilText
 	dooms::asset::TextureAsset* const depthStencilTexture = dooms::CreateDObject<dooms::asset::TextureAsset>
 	(
 		GraphicsAPI::eTargetTexture::TARGET_TEXTURE_TEXTURE_2D,
-		GraphicsAPI::eTextureInternalFormat::TEXTURE_INTERNAL_FORMAT_RGBA8,
+		GraphicsAPI::eTextureInternalFormat::TEXTURE_INTERNAL_FORMAT_DEPTH24_STENCIL8,
 		GraphicsAPI::eTextureCompressedInternalFormat::TEXTURE_COMPRESSED_INTERNAL_FORMAT_NONE,
 		width,
 		height,

@@ -1077,6 +1077,11 @@ namespace dooms
 			return glfwGetTime();
 		}
 
+		DOOMS_ENGINE_GRAPHICS_API GraphicsAPI::eGraphicsAPIType GetCurrentAPIType()
+		{
+			return GraphicsAPI::eGraphicsAPIType::OpenGL;
+		}
+
 		DOOMS_ENGINE_GRAPHICS_API unsigned int InitializeGraphicsAPI(const int screenWidth, const int screenHeight, const unsigned int multiSamplingNum)
 		{
 			glfwInit();
@@ -1888,11 +1893,16 @@ namespace dooms
 
 		DOOMS_ENGINE_GRAPHICS_API unsigned long long CreateTextureViewObject(const unsigned long long textureObject)
 		{
+			assert(textureObject != 0);
+
 			return textureObject;
 		}
 
-		DOOMS_ENGINE_GRAPHICS_API void DestroyTextureViewObject(const unsigned long long textureViewObject)
+		DOOMS_ENGINE_GRAPHICS_API void DestroyTextureViewObject(unsigned long long textureViewObject)
 		{
+			assert(textureViewObject != 0);
+
+			
 		}
 
 		DOOMS_ENGINE_GRAPHICS_API void BindTextureObject
@@ -2091,8 +2101,9 @@ namespace dooms
 			}
 
 			unsigned long long buffer = 0;
-			glGenBuffers(1, reinterpret_cast<unsigned int*>(&buffer));
-			BindBuffer(buffer, 0, GraphicsAPI::eBufferTarget::TEXTURE_BUFFER, GraphicsAPI::eGraphicsPipeLineStage::DUMMY);
+			glGenTextures(1, reinterpret_cast<unsigned int*>(&buffer));
+			
+			BindTextureObject(buffer, textureBindTarget, 0, GraphicsAPI::eGraphicsPipeLineStage::DUMMY);
 
 			glTexStorage2D
 			(
@@ -2118,25 +2129,49 @@ namespace dooms
 			const unsigned long long height,
 			const GraphicsAPI::eTextureComponentFormat textureComponentFormat,
 			const GraphicsAPI::eDataType dataType,
+			const GraphicsAPI::eTextureInternalFormat textureInternalFormat,
+			const GraphicsAPI::eTextureCompressedInternalFormat textureCompressedInternalFormat,
 			const void* const pixelDatas,
 			const size_t rowByteSize,
 			const size_t totalDataSize
 		)
 		{
+			assert(textureInternalFormat == graphics::GraphicsAPI::eTextureInternalFormat::TEXTURE_INTERNAL_FORMAT_NONE || textureCompressedInternalFormat == graphics::GraphicsAPI::eTextureCompressedInternalFormat::TEXTURE_COMPRESSED_INTERNAL_FORMAT_NONE);
+
 			BindTextureObject(textureResourceObject, textureBindTarget, 0, GraphicsAPI::DUMMY);
 
-			glTexSubImage2D
-			(
-				opengl::GetGLTargetTexture(targetTexture),
-				lodLevel,
-				xOffset,
-				yOffset,
-				width,
-				height,
-				opengl::GetGLTextureComponentFormat(textureComponentFormat),
-				opengl::GetGLDataType(dataType),
-				pixelDatas
-			);
+
+			if(textureInternalFormat != GraphicsAPI::eTextureInternalFormat::TEXTURE_INTERNAL_FORMAT_NONE)
+			{
+				glTexSubImage2D
+				(
+					opengl::GetGLTargetTexture(targetTexture),
+					lodLevel,
+					xOffset,
+					yOffset,
+					width,
+					height,
+					opengl::GetGLTextureComponentFormat(textureComponentFormat),
+					opengl::GetGLDataType(dataType),
+					pixelDatas
+				);
+			}
+			else
+			{
+				glCompressedTexSubImage2D
+				(
+					opengl::GetGLTargetTexture(targetTexture),
+					lodLevel,
+					xOffset,
+					yOffset,
+					width,
+					height,
+					opengl::GetTextureCompressedInternalFormat(textureCompressedInternalFormat),
+					totalDataSize,
+					pixelDatas
+				);
+			}
+			
 		}
 		
 		DOOMS_ENGINE_GRAPHICS_API int GetConstantBufferBindingPoint

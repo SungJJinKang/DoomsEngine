@@ -43,6 +43,7 @@ dooms::graphics::UniformBufferObject* dooms::graphics::UniformBufferObjectManage
 	dooms::graphics::UniformBufferObject* uniformBufferObject = nullptr;
 
 	auto uniformBufferObjectNode = mUniformBufferObjects.find(uniformBufferName);
+	D_ASSERT(uniformBufferObjectNode != mUniformBufferObjects.end());
 	if (uniformBufferObjectNode != mUniformBufferObjects.end())
 	{
 		uniformBufferObject = uniformBufferObjectNode->second;

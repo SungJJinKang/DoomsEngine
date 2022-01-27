@@ -97,6 +97,8 @@ void dooms::graphics::GraphicsAPILoader::FetchExportedFunctionAddress()
 	//D_ASSERT(dooms::graphics::GraphicsAPI::CreateShaderObject != nullptr);
 	dooms::graphics::GraphicsAPI::CreateTextureObject = (GraphicsAPI::GRAPHICS_CREATEXTUREOBJECT)GetProcAddress(hModule, "CreateTextureObject");
 	//D_ASSERT(dooms::graphics::GraphicsAPI::CreateTextureObject != nullptr);
+	dooms::graphics::GraphicsAPI::CreateTextureViewObject = (GraphicsAPI::GRAPHICS_CREATETEXTUREVIEWOBJECT)GetProcAddress(hModule, "CreateTextureViewObject");
+	//D_ASSERT(dooms::graphics::GraphicsAPI::CreateTextureViewObject != nullptr);
 	dooms::graphics::GraphicsAPI::CreateVertexArrayObject = (GraphicsAPI::GRAPHICS_CREATEVERTEXARRAYOBJECT)GetProcAddress(hModule, "CreateVertexArrayObject");
 	//D_ASSERT(dooms::graphics::GraphicsAPI::CreateVertexArrayObject != nullptr);
 	dooms::graphics::GraphicsAPI::Allocate2DTextureObject = (GraphicsAPI::GRAPHICS_ALLOCATE2DTEXTUREOBJECT)GetProcAddress(hModule, "Allocate2DTextureObject");
@@ -117,6 +119,8 @@ void dooms::graphics::GraphicsAPILoader::FetchExportedFunctionAddress()
 	//D_ASSERT(dooms::graphics::GraphicsAPI::DestroyShaderObject != nullptr);
 	dooms::graphics::GraphicsAPI::DestroyTextureObject = (GraphicsAPI::GRAPHICS_DESTROYTEXTUREOBJECT)GetProcAddress(hModule, "DestroyTextureObject");
 	//D_ASSERT(dooms::graphics::GraphicsAPI::DestroyTextureObject != nullptr);
+	dooms::graphics::GraphicsAPI::DestroyTextureViewObject = (GraphicsAPI::GRAPHICS_DESTROYTEXTUREVIEWOBJECT)GetProcAddress(hModule, "DestroyTextureViewObject");
+	//D_ASSERT(dooms::graphics::GraphicsAPI::DestroyTextureViewObject != nullptr);
 	dooms::graphics::GraphicsAPI::DestroyVertexArrayObject = (GraphicsAPI::GRAPHICS_DESTROYVERTEXARRAYOBJECT)GetProcAddress(hModule, "DestroyVertexArrayObject");
 	//D_ASSERT(dooms::graphics::GraphicsAPI::DestroyVertexArrayObject != nullptr);
 	dooms::graphics::GraphicsAPI::Draw = (GraphicsAPI::GRAPHICS_DRAW)GetProcAddress(hModule, "Draw");
