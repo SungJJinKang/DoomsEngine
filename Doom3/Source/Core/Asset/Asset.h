@@ -91,9 +91,17 @@ namespace dooms
 
 
 			dooms::D_UUID GetUUID() const;
+			/**
+			 * \brief 
+			 * \return Returned extension string has ".". ex) ".bmp", ".png"
+			 */
+			std::string GetAssetExtension() const;
 			std::string GetAssetFileName();
 			const std::string& GetAssetFileName() const;
 			UINT64 GetAssetFileSize() const;
+			std::string GetAssetPathAsStr() const;
+			std::string GetAssetPathAsUTF8Str() const;
+			std::wstring GetAssetPathAsWideStr() const;
 			const std::filesystem::path& GetAssetPath() const;
 			AssetStatus GetAssetStatus();
 			void SetAssetStatus(const AssetStatus assetStatus);
