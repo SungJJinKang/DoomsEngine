@@ -36,12 +36,14 @@
        
   * implement physical based rendering ( https://cdn2.unrealengine.com/Resources/files/2013SiggraphPresentationsNotes-26915738.pdf )             
                  
-## Dependencies            
+## Thirdparty Dependencies            
              
   * [glfw](https://github.com/glfw/glfw) : A multi-platform library for OpenGL, OpenGL ES, Vulkan, window and input                     
   * [assimp](https://github.com/assimp/assimp) : The official Open-Asset-Importer-Library Repository                    
   * [DirectTex](https://github.com/microsoft/DirectXTex) : DirectXTex texture processing library                    
-  * [imgui](https://github.com/ocornut/imgui) : Dear ImGui: Bloat-free Graphical User interface for C++ with minimal dependencies                    
+  * [imgui](https://github.com/ocornut/imgui) : Dear ImGui: Bloat-free Graphical User interface for C++ with minimal dependencies    
+  * [Intel TBB ( malloc proxy )](https://github.com/oneapi-src/oneTBB)
+  * [concurrentqueue](https://github.com/cameron314/concurrentqueue) : A fast multi-producer, multi-consumer lock-free concurrent queue for C++11                            
                    
 ## Screenshot
 ![20211213050637](https://user-images.githubusercontent.com/33873804/145727751-74daefb4-a6b1-4b3c-94d3-56a52c5c0861.png)
