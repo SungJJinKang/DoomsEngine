@@ -1,15 +1,12 @@
 #pragma once
 
 #include <array>
+#include <vector>
 
 #include <Core.h>
-
 #include <StaticContainer/StaticContainer.h>
-#include <Entity.h>
-#include "../Core/Scene/Layer.h"
-#include <Rendering/Camera.h>
-
-
+#include "../MaxCameraCount.h"
+#include <Simple_SingleTon/Singleton.h>
 
 #include "RendererStaticIterator.reflection.h"
 namespace dooms

@@ -10,7 +10,8 @@
 #include "Physics/Collider/AABB.h"
 #include "utility/BVH/BVH_Node_Object.h"
 #include "Graphics/Acceleration/LinearData_ViewFrustumCulling/DataType/EntityBlockViewer.h"
-
+#include <Transform.h>
+#include <Scene/Entity.h>
 
 #include "Renderer.reflection.h"
 namespace dooms
