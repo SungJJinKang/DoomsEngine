@@ -982,6 +982,7 @@ xcopy /y /d /E /H /C /I "$(ProjectDir)Assets" "$(TargetDir)Assets"</Command>
     <ClInclude Include="Source\thirdparty\imgui\imstb_rectpack.h" />
     <ClInclude Include="Source\thirdparty\imgui\imstb_textedit.h" />
     <ClInclude Include="Source\thirdparty\imgui\imstb_truetype.h" />
+    <ClInclude Include="Source\thirdparty\nlohmann\json.hpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\CodingRule.md" />
