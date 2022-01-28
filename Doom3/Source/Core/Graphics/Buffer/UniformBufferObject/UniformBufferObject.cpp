@@ -33,6 +33,16 @@ dooms::graphics::UniformBufferObject::~UniformBufferObject()
 }
 
 
+std::string dooms::graphics::UniformBufferObject::GetUniformBlockName()
+{
+	return mUniformBlockName;
+}
+
+const std::string& dooms::graphics::UniformBufferObject::GetUniformBlockName() const
+{
+	return mUniformBlockName;
+}
+
 void dooms::graphics::UniformBufferObject::GenerateUniformBufferObject(const UINT64 uniformBufferSize, const void* const initialData)
 {
 	D_ASSERT(IsBufferGenerated() == false); // prevent overlap generating buffer

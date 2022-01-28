@@ -1,14 +1,20 @@
 #include "UniformBufferObjectView.h"
 
 #include "UniformBufferObject.h"
+#include <Asset/Utility/ShaderAsset/shaderReflectionDataParser.h>
 
 dooms::graphics::UniformBufferObjectView::UniformBufferObjectView
 (
-	UniformBufferObject* const ubo,
+	Material* const targetMaterial,
+	UniformBufferObject* const targetUBO, 
 	const UINT32 defaultBindingPoint,
 	const GraphicsAPI::eGraphicsPipeLineStage targetPipeLineStage
 )
-	: mTargetUniformBufferObject(ubo), mDefaultBindingPoint(defaultBindingPoint), mDefaultTargetPipeLineStage(targetPipeLineStage)
+	:
+	mTargetMaterial(targetMaterial),
+	mTargetUniformBufferObject(targetUBO),
+	mDefaultBindingPoint(defaultBindingPoint),
+	mDefaultTargetPipeLineStage(targetPipeLineStage)
 {
 }
 
@@ -50,6 +56,17 @@ void dooms::graphics::UniformBufferObjectView::BindUniformBufferObject
 	}
 }
 
+dooms::graphics::Material* dooms::graphics::UniformBufferObjectView::GetTargetMaterial() const
+{
+	return mTargetMaterial;
+}
+
+dooms::graphics::UniformBufferObject* dooms::graphics::UniformBufferObjectView::GetTargetUniformBufferObject() const
+{
+	return mTargetUniformBufferObject;
+}
+
+
 UINT32 dooms::graphics::UniformBufferObjectView::UpdateUniformVariableOffsetCache(const char* const targetUniformVariableName)
 {
 	UINT32 uniformVariableOffset = (UINT32)-1;
@@ -57,7 +74,7 @@ UINT32 dooms::graphics::UniformBufferObjectView::UpdateUniformVariableOffsetCach
 	const auto node = mUniformVariableOffsetCache.find(targetUniformVariableName);
 	if (node == mUniformVariableOffsetCache.end())
 	{
-		// TODO
+		// TODO : use this dooms::asset::shaderReflectionDataParser::
 	}
 	else
 	{

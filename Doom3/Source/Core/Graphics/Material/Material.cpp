@@ -229,8 +229,33 @@ INT32 Material::GetUniformBlocksCount() const
 	return GraphicsAPI::GetConstantBufferBlockCount(mProgramIDForOpenGL);
 }
 
+dooms::asset::ShaderAsset* Material::GetShaderAsset()
+{
+	return mShaderAsset;
+}
+
 const dooms::asset::ShaderAsset* Material::GetShaderAsset() const
 {
 	return mShaderAsset;
+}
+
+UniformBufferObjectView* Material::GetUniformBufferObjectView(const char* const uniformBufferObjectName)
+{
+	UniformBufferObjectView* uboView = nullptr;
+
+	for(UniformBufferObjectView& targetUboView : mTargetUniformBufferObjectViews)
+	{
+		const UniformBufferObject* const ubo = targetUboView.GetTargetUniformBufferObject();
+		if(IsValid(ubo))
+		{
+			if(ubo->GetUniformBlockName() == uniformBufferObjectName)
+			{
+				uboView = &targetUboView;
+				break;
+			}
+		}
+	}
+
+	return uboView;
 }
 

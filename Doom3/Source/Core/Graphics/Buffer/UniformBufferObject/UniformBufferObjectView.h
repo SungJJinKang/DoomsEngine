@@ -13,12 +13,16 @@ namespace dooms
 	namespace graphics
 	{
 		class UniformBufferObject;
+		class Material;
 
 		class DOOM_API D_CLASS  UniformBufferObjectView : public DObject
 		{
 			GENERATE_BODY()
 
 		private:
+
+			D_PROPERTY()
+			Material* mTargetMaterial;
 
 			D_PROPERTY()
 			UniformBufferObject* mTargetUniformBufferObject;
@@ -35,17 +39,21 @@ namespace dooms
 
 		public:
 
+
 			UniformBufferObjectView
 			(
-				UniformBufferObject* const ubo,
+				Material* const targetMaterial,
+				UniformBufferObject* const targetUBO,
 				const UINT32 defaultBindingPoint,
 				const GraphicsAPI::eGraphicsPipeLineStage targetPipeLineStage
 			);
 
-			FORCE_INLINE const UniformBufferObject* GetTargetUniformBufferObject() const
-			{
-				return mTargetUniformBufferObject;
-			}
+
+			UniformBufferObjectView(const UniformBufferObjectView&) = default;
+			UniformBufferObjectView(UniformBufferObjectView&&) noexcept = default;
+			UniformBufferObjectView& operator=(const UniformBufferObjectView&) = default;
+			UniformBufferObjectView& operator=(UniformBufferObjectView&&) noexcept = default;
+
 
 			UINT32 UpdateUniformVariableOffsetCache(const char* const targetUniformVariableName);
 			UINT32 GetOrUpdateUniformVaraibleOffsetInUniformBlock(const char* const targetUniformVariableName);
@@ -61,6 +69,10 @@ namespace dooms
 			void BindUniformBufferObject() const noexcept;
 
 			void BindUniformBufferObject(const UINT32 bindingPoint, const GraphicsAPI::eGraphicsPipeLineStage targetPipeLineStage) const noexcept;
+
+			Material* GetTargetMaterial() const;
+			UniformBufferObject* GetTargetUniformBufferObject() const;
+
 		};
 
 	}

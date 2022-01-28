@@ -300,7 +300,9 @@ namespace dooms
 			/// <returns>0 ~ return value</returns>
 			INT32 GetUniformBlocksCount() const;
 			
+			dooms::asset::ShaderAsset* GetShaderAsset();
 			const dooms::asset::ShaderAsset* GetShaderAsset() const;
+			UniformBufferObjectView* GetUniformBufferObjectView(const char* const uniformBufferObjectName);
 		};
 	}
 }

@@ -81,6 +81,9 @@ namespace dooms
 			UniformBufferObject& operator=(const UniformBufferObject&) = delete;
 			UniformBufferObject& operator=(UniformBufferObject&&) noexcept = default;
 
+			std::string GetUniformBlockName();
+			const std::string& GetUniformBlockName() const;
+
 			void GenerateUniformBufferObject(const UINT64 uniformBufferSize, const void* const initialData = 0);
 			void DeleteBuffers() final;
 
