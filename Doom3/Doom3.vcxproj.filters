@@ -777,6 +777,9 @@
     <ClCompile Include="Source\Core\Asset\Utility\ShaderAsset\shaderReflectionDataParser.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Core\IO\AssetExporter\AssetExporter_Shader.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="dependency\glad\include\glad\glad.h">
@@ -1941,6 +1944,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\thirdparty\nlohmann\json.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Core\IO\AssetExporter\AssetExporter_Shader.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Core\eStatus.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
