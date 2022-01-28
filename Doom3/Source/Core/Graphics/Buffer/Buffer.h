@@ -28,11 +28,11 @@ namespace dooms
 			Buffer(const Buffer&) = delete;
 			Buffer& operator=(const Buffer&) noexcept = delete;
 
-			Buffer(Buffer&& buffer) noexcept = default;
-			Buffer& operator=(Buffer && buffer) noexcept = default;
+			Buffer(Buffer&& buffer) noexcept;
+			Buffer& operator=(Buffer && buffer) noexcept;
 			
 			D_FUNCTION()
-			inline virtual void BindBuffer() const noexcept;
+			virtual void BindBuffer() const noexcept = 0;
 
 			D_FUNCTION()
 			virtual void DeleteBuffers() = 0;
