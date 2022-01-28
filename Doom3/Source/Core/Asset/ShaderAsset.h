@@ -62,16 +62,37 @@ namespace dooms
 		class DOOM_API D_CLASS ShaderAsset : public Asset
 		{
 			GENERATE_BODY()
+
+
+		public:
+
+			enum class D_ENUM eShaderCompileStatus : UINT32
+			{
+				READY,
+				SHADER_OBJECT_CREATED,
+				COMPILE_SUCCESS,
+				COMPILE_FAIL
+			};
 				
 		private:
 
-			
+			struct DOOM_API D_STRUCT ShaderObject
+			{
+				D_PROPERTY()
+				dooms::graphics::BufferID mShaderObjectID;
 
+				D_PROPERTY()
+				eShaderCompileStatus mShaderCompileStatus;
+
+				ShaderObject();
+				bool IsShaderObjectValid() const;
+			};
+			
 			D_PROPERTY()
 			std::array<ShaderTextData, GRAPHICS_PIPELINE_STAGE_COUNT> mShaderTextDatas;
 
 			D_PROPERTY()
-			std::array<dooms::graphics::BufferID, GRAPHICS_PIPELINE_STAGE_COUNT> mShaderObject;
+			std::array<ShaderObject, GRAPHICS_PIPELINE_STAGE_COUNT> mShaderObject;
 
 			bool ConvertShaderTextStringToCurrentGraphicsAPIShaderFormat(ShaderTextData& outShaderText);
 			
@@ -79,12 +100,11 @@ namespace dooms
 			/// Don't call this subthread, Should Call this at mainthread
 			/// </summary>
 			void CompileShaders();
-			bool CompileSpecificTypeShader(ShaderTextData& shaderText, const graphics::GraphicsAPI::eGraphicsPipeLineStage shaderType, dooms::graphics::BufferID& shaderId);
+			bool CompileSpecificTypeShader(ShaderTextData& shaderText, const graphics::GraphicsAPI::eGraphicsPipeLineStage shaderType, ShaderObject& shaderObject);
 			
 		public:
 
 			ShaderAsset();
-			ShaderAsset(const std::array<ShaderTextData, GRAPHICS_PIPELINE_STAGE_COUNT>& shaderText);
 			ShaderAsset(const ShaderAsset& shader) = delete;
 			ShaderAsset(ShaderAsset&& shader) noexcept;
 			ShaderAsset operator=(const ShaderAsset& shader) = delete;
@@ -123,7 +143,7 @@ namespace dooms
 			bool IsHasAnyValidShaderTextString() const;
 
 			graphics::Material CreateMatrialWithThisShader();
-
+			void CompileShaderIfNotCompiled();
 
 			virtual dooms::asset::eAssetType GetEAssetType() const final;
 			
