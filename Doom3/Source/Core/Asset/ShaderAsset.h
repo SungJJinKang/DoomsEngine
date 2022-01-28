@@ -24,8 +24,15 @@ namespace dooms
 	{
 		struct DOOM_API D_STRUCT ShaderTextString
 		{
+			GENERATE_BODY_ShaderTextString()
+
+			D_PROPERTY()
 			dooms::graphics::GraphicsAPI::eGraphicsAPIType mShaderTextGraphicsAPIType;
+
+			D_PROPERTY()
 			std::string mShaderStringText;
+
+			D_PROPERTY()
 			std::string mShaderReflectionDataStringText;
 
 			ShaderTextString();
