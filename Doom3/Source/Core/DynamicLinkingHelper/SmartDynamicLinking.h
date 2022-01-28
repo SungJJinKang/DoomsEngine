@@ -25,6 +25,7 @@ namespace dooms
 
 		DynamicLinkingLibrary(const std::string& libraryPath);
 		DynamicLinkingLibrary(const std::string& libraryPath, const unsigned long dwFlags);
+		~DynamicLinkingLibrary();
 
 		void* LoadDynamicLinkingLibrary(const unsigned long dwFlags);
 		bool UnloadDynamicLinkingLibrary();
@@ -34,7 +35,7 @@ namespace dooms
 	{
 		GENERATE_BODY()
 
-		DynamicLinkingLibrary mDynamicLinkingLibrary;
+		std::shared_ptr<DynamicLinkingLibrary> mDynamicLinkingLibrary;
 
 	private:
 

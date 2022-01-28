@@ -39,6 +39,11 @@ dooms::DynamicLinkingLibrary::DynamicLinkingLibrary(const std::string& libraryPa
 	}
 }
 
+dooms::DynamicLinkingLibrary::~DynamicLinkingLibrary()
+{
+	UnloadDynamicLinkingLibrary();
+}
+
 void* dooms::DynamicLinkingLibrary::LoadDynamicLinkingLibrary(const unsigned long dwFlags)
 {
 	//if call LoadLibrary on same dll, it's not thread safe
@@ -76,18 +81,18 @@ bool dooms::DynamicLinkingLibrary::UnloadDynamicLinkingLibrary()
 
 void* dooms::SmartDynamicLinking::_GetProcAddress(const char* const functionName)
 {
-	D_ASSERT(mDynamicLinkingLibrary.mLibrary != nullptr);
+	D_ASSERT(mDynamicLinkingLibrary->mLibrary != nullptr);
 
-	if(mDynamicLinkingLibrary.mLibrary != nullptr)
+	if(mDynamicLinkingLibrary->mLibrary != nullptr)
 	{
-		void* const procAddress = GetProcAddress(reinterpret_cast<HMODULE>(mDynamicLinkingLibrary.mLibrary.get()), functionName);
+		void* const procAddress = GetProcAddress(reinterpret_cast<HMODULE>(mDynamicLinkingLibrary->mLibrary.get()), functionName);
 
 		if(procAddress == nullptr)
 		{
 			const DWORD errorCode = GetLastError();
 
-			D_ASSERT_LOG(false, "Fail to GetProcAddress ( ""%s"" from ""%s"" ) - Error Code : %d", functionName, mDynamicLinkingLibrary.mLibraryPath.c_str(), errorCode);
-			dooms::ui::PrintText("Fail to GetProcAddress ( ""%s"" from ""%s"" ) - Error Code : %d", functionName, mDynamicLinkingLibrary.mLibraryPath.c_str(), errorCode);
+			D_ASSERT_LOG(false, "Fail to GetProcAddress ( ""%s"" from ""%s"" ) - Error Code : %d", functionName, mDynamicLinkingLibrary->mLibraryPath.c_str(), errorCode);
+			dooms::ui::PrintText("Fail to GetProcAddress ( ""%s"" from ""%s"" ) - Error Code : %d", functionName, mDynamicLinkingLibrary->mLibraryPath.c_str(), errorCode);
 		}
 
 		return procAddress;
@@ -101,12 +106,15 @@ void* dooms::SmartDynamicLinking::_GetProcAddress(const char* const functionName
 
 
 dooms::SmartDynamicLinking::SmartDynamicLinking(const std::string& csharpLibraryPath)
-	:	mDynamicLinkingLibrary(csharpLibraryPath)
+	:	mDynamicLinkingLibrary(std::make_shared<DynamicLinkingLibrary>(csharpLibraryPath))
 {
 	
 }
 
-dooms::SmartDynamicLinking::~SmartDynamicLinking() = default;
+dooms::SmartDynamicLinking::~SmartDynamicLinking()
+{
+	
+}
 dooms::SmartDynamicLinking::SmartDynamicLinking(const SmartDynamicLinking&) = default;
 dooms::SmartDynamicLinking::SmartDynamicLinking(SmartDynamicLinking&&) noexcept = default;
 dooms::SmartDynamicLinking& dooms::SmartDynamicLinking::operator=(const SmartDynamicLinking&) = default;
