@@ -60,10 +60,10 @@
     <ClCompile Include="Source\Core\Math\LightMath_Cpp\Vector4.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Core\Graphics\Buffer\UniformBufferObject.cpp">
+    <ClCompile Include="Source\Core\Graphics\Buffer\UniformBufferObject\UniformBufferObject.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Core\Graphics\Buffer\UniformBufferObjectManager.cpp">
+    <ClCompile Include="Source\Core\Graphics\Buffer\UniformBufferObject\UniformBufferObjectManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Source\Core\Graphics\OverlapBindChecker.cpp">
@@ -249,10 +249,7 @@
     <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Core\Graphics\Texture\SingleTexture.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Core\Graphics\Texture\Texture.cpp">
+    <ClCompile Include="Source\Core\Graphics\Texture\TextureView.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Source\Core\Graphics\PictureInPicture\PicktureInPickture.cpp">
@@ -378,7 +375,7 @@
     <ClCompile Include="Source\Core\Graphics\PictureInPicture\PIPManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Core\Graphics\Buffer\UniformBufferObjectUpdater.cpp">
+    <ClCompile Include="Source\Core\Graphics\Buffer\UniformBufferObject\UniformBufferObjectUpdater.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Source\Core\Graphics\GraphicsAPI\graphicsAPISetting.cpp">
@@ -510,13 +507,10 @@
     <ClCompile Include="Source\Core\utility\SimpleIniParser.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Core\utility\TextImporter.cpp">
+    <ClCompile Include="Source\Core\Asset\Utility\textImporter.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Source\Core\IO\AssetExporter\AssetExporter_Three_D_Model.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Core\Graphics\Texture\CubemapTexture.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Source\Core\Macros\Path.cpp">
@@ -771,6 +765,24 @@
     <ClCompile Include="Source\Core\Memory\MemoryManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Core\Graphics\FrameBuffer\FrameBufferView.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Core\Asset\Utility\ShaderAsset\shaderAssetHelper.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Core\Asset\Utility\ShaderAsset\shaderConverter.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Core\Graphics\Buffer\UniformBufferObject\UniformBufferObjectView.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Core\Asset\Utility\ShaderAsset\shaderReflectionDataParser.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Core\IO\AssetExporter\AssetExporter_Shader.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="dependency\glad\include\glad\glad.h">
@@ -1019,13 +1031,13 @@
     <ClInclude Include="Source\Core\Graphics\Buffer\MeshNode.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Core\Graphics\Buffer\UniformBufferObject.h">
+    <ClInclude Include="Source\Core\Graphics\Buffer\UniformBufferObject\UniformBufferObject.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Core\Graphics\Buffer\UniformBufferObjectManager.h">
+    <ClInclude Include="Source\Core\Graphics\Buffer\UniformBufferObject\UniformBufferObjectManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Core\Graphics\Buffer\UniformBlockOffsetInfo.h">
+    <ClInclude Include="Source\Core\Graphics\Buffer\UniformBufferObject\UniformBlockOffsetInfo.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\Core\Graphics\OverlapBindChecker.h">
@@ -1259,10 +1271,7 @@
     <ClInclude Include="Source\Helper\EasyDirtyChecker\DirtyReceiver.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Core\Graphics\Texture\Texture.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Core\Graphics\Texture\SingleTexture.h">
+    <ClInclude Include="Source\Core\Graphics\Texture\TextureView.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\Core\Graphics\PictureInPicture\PicktureInPickture.h">
@@ -1487,7 +1496,7 @@
     <ClInclude Include="Source\Core\Graphics\PictureInPicture\PIPManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Core\Graphics\Buffer\UniformBufferObjectUpdater.h">
+    <ClInclude Include="Source\Core\Graphics\Buffer\UniformBufferObject\UniformBufferObjectUpdater.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\Core\Graphics\GraphicsAPI\graphicsAPISetting.h">
@@ -1616,7 +1625,7 @@
     <ClInclude Include="Source\Core\utility\SimpleIniParser.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Core\utility\TextImporter.h">
+    <ClInclude Include="Source\Core\Asset\Utility\textImporter.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\Core\utility\trim.h">
@@ -1635,9 +1644,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\Core\Reflection\ReflectionType\TSubclassOf.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Core\Graphics\Texture\CubemapTexture.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\Core\Reflection\ReflectionType\DField.h">
@@ -1904,9 +1910,6 @@
     <ClInclude Include="Source\Core\Graphics\graphicsSetting.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Core\Graphics\GraphicsAPI\eGraphicsAPIType.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Core\Graphics\GraphicsAPI\PlatformImgui\PlatformImgui.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -1926,6 +1929,33 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\Core\Memory\MemoryManager.h">
+        <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Core\Graphics\FrameBuffer\FrameBufferView.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Component\Rendering\MaxCameraCount.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Core\Asset\Utility\ShaderAsset\shaderAssetHelper.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Core\Asset\Utility\ShaderAsset\shaderConverter.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Core\Graphics\Buffer\UniformBufferObject\UniformBufferObjectView.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Core\Asset\Utility\ShaderAsset\shaderReflectionDataParser.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\thirdparty\nlohmann\json.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Core\IO\AssetExporter\AssetExporter_Shader.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Core\eStatus.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

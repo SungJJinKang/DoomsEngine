@@ -7,7 +7,7 @@
 #include "../Core/Math/LightMath_Cpp/Matrix_utility.h"
 
 #include <array>
-#include "../Core/Graphics/Buffer/UniformBufferObjectUpdater.h"
+#include "../Core/Graphics/Buffer/UniformBufferObject/UniformBufferObjectUpdater.h"
 #include <StaticContainer/StaticContainer.h>
 
 #include <EasyDirtyChecker/DirtyReceiver.h>
@@ -15,10 +15,8 @@
 #include "Transform.h"
 
 #include "Graphics/FrameBuffer/DefferedRenderingFrameBuffer.h"
+#include "MaxCameraCount.h"
 
-#ifndef MAX_CAMERA_COUNT
-#define MAX_CAMERA_COUNT 5
-#endif
 
 #include "Camera.reflection.h"
 namespace dooms

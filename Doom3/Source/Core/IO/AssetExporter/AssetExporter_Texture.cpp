@@ -1,7 +1,7 @@
 #include "AssetExporter_Texture.h"
 
 #include <Graphics/GraphicsAPI/GraphicsAPI.h>
-#include <Graphics/Texture/Texture.h>
+#include <Graphics/Texture/TextureView.h>
 #include <DirectXTex.h>
 
 #include <EngineGUI/PrintText.h>
@@ -101,7 +101,7 @@ namespace dooms
 
 			DirectX::Image ConvertToDirectXImage
 			(
-				const dooms::graphics::Texture* const exportedTexture,
+				const dooms::graphics::TextureView* const exportedTexture,
 				const INT32 lodLevel
 			)
 			{
@@ -112,8 +112,8 @@ namespace dooms
 					exportedTexture->GetTexturePixelsUnsafe(lodLevel),
 					exportedTexture->GetTextureMetaDataINT32(lodLevel, graphics::GraphicsAPI::eTextureMetaDataType::TEXTURE_WIDTH),
 					exportedTexture->GetTextureMetaDataINT32(lodLevel, graphics::GraphicsAPI::eTextureMetaDataType::TEXTURE_HEIGHT),
-					exportedTexture->GetDataFormat(),
-					exportedTexture->GetDataType()
+					exportedTexture->GetTargetTextureResourceObject()->GetTextureComponentFormat(),
+					exportedTexture->GetTargetTextureResourceObject()->GetTextureDataType()
 				);
 
 			}
@@ -200,7 +200,7 @@ void dooms::assetExporter::assetExporterTexture::ExportTextureAsDDS
 
 void dooms::assetExporter::assetExporterTexture::ExportTextureFromTextureAsDDS
 (
-	const dooms::graphics::Texture* const exportedTexture,
+	const dooms::graphics::TextureView* const exportedTexture,
 	const INT32 lodLevel,
 	const std::filesystem::path& exportPath
 )
@@ -208,7 +208,7 @@ void dooms::assetExporter::assetExporterTexture::ExportTextureFromTextureAsDDS
 	D_ASSERT(IsValid(exportedTexture) == true);
 
 	DirectX::Image dxImage = ConvertToDirectXImage(exportedTexture, lodLevel);
-	ExportTextureAsDDS(dxImage, lodLevel, exportedTexture->GetDataFormat(), exportPath, true);
+	ExportTextureAsDDS(dxImage, lodLevel, exportedTexture->GetTargetTextureResourceObject()->GetTextureComponentFormat(), exportPath, true);
 }
 
 void dooms::assetExporter::assetExporterTexture::ExportTextureAsDDS
@@ -246,8 +246,6 @@ void dooms::assetExporter::assetExporterTexture::ExportTextureFromMainFrameBuffe
 	const std::filesystem::path& exportPath
 )
 {
-	dooms::graphics::FrameBuffer::UnBindFrameBuffer();
-
 	INT32 dims[4] = { 0, 0 , 0, 0 };
 	//glGetIntegerv(GL_VIEWPORT, dims);
 	const INT32 frameBufferWidth = dims[2];;
@@ -267,18 +265,12 @@ void dooms::assetExporter::assetExporterTexture::ExportTextureFromMainFrameBuffe
 	const std::filesystem::path& exportPath
 )
 {
-	dooms::graphics::FrameBuffer::UnBindFrameBuffer();
-	dooms::graphics::FrameBuffer::BindFrameBufferStatic(graphics::GraphicsAPI::eBindFrameBufferTarget::READ_FRAMEBUFFER, 0);
-	dooms::graphics::GraphicsAPI::SetReadBuffer(graphics::GraphicsAPI::eBufferMode::FRONT);
-
-	const INT32 bufferSize = dooms::graphics::Texture::GetTextureBufferSizeStatic(width, height, pixelFormat, dataType);
+	const INT32 bufferSize = dooms::graphics::TextureView::GetTextureBufferSizeStatic(width, height, pixelFormat, dataType);
 	
-	UINT8* const pixels = dooms::graphics::GraphicsAPI::ReadPixels(bufferSize, startX, startY, width, height, pixelFormat, dataType);
+	UINT8* const pixels = dooms::graphics::GraphicsAPI::ReadPixels(0, graphics::GraphicsAPI::BACK, bufferSize, startX, startY, width, height, pixelFormat, dataType);
 
 	DirectX::Image directXImage = ConvertToDirectXImage(0, pixels, width, height, pixelFormat, dataType);
 	ExportTextureAsDDS(directXImage, 0, pixelFormat, exportPath, true);
-
-	dooms::graphics::GraphicsAPI::SetReadBuffer(graphics::GraphicsAPI::eBufferMode::BUFFER_MODE_NONE);
 }
 
 void dooms::assetExporter::assetExporterTexture::ExportTexture
@@ -356,7 +348,7 @@ void dooms::assetExporter::assetExporterTexture::ExportTexture
 
 void dooms::assetExporter::assetExporterTexture::ExportTextureFromTexture
 (
-	const dooms::graphics::Texture* const exportedTexture,
+	const dooms::graphics::TextureView* const exportedTexture,
 	const INT32 lodLevel,
 	const std::filesystem::path& exportPath,
 	const eTextureExtension textureExtension
@@ -392,21 +384,15 @@ void dooms::assetExporter::assetExporterTexture::ExportTextureFromFrameBuffer
 	const std::filesystem::path& exportPath, const eTextureExtension textureExtension
 )
 {
-	frameBuffer->BindFrameBuffer();
-	dooms::graphics::GraphicsAPI::SetReadBuffer(static_cast<graphics::GraphicsAPI::eBufferMode>(static_cast<UINT32>(graphics::GraphicsAPI::eBufferMode::COLOR_ATTACHMENT0) + colorAttachmentIndex));
-
 	INT32 width = frameBuffer->GetFrameBufferWidth();
 	INT32 height = frameBuffer->GetFrameBufferHeight();
 
-	const INT32 bufferSize = dooms::graphics::Texture::GetTextureBufferSizeStatic(width, height, pixelFormat, dataType);
+	const INT32 bufferSize = dooms::graphics::TextureView::GetTextureBufferSizeStatic(width, height, pixelFormat, dataType);
 
-	UINT8* const pixels = dooms::graphics::GraphicsAPI::ReadPixels(bufferSize, startX, startY, width, height, pixelFormat, dataType);
+	std::unique_ptr<UINT8[]> pixels = frameBuffer->ReadPixelsFromColorTexture(colorAttachmentIndex, bufferSize, startX, startY, width, height, pixelFormat, dataType);
 
-	DirectX::Image directXImage = ConvertToDirectXImage(0, pixels, width, height, pixelFormat, dataType);
+	DirectX::Image directXImage = ConvertToDirectXImage(0, pixels.get(), width, height, pixelFormat, dataType);
 	ExportTexture(directXImage, 0, exportPath, textureExtension, true);
-
-	dooms::graphics::GraphicsAPI::SetReadBuffer(graphics::GraphicsAPI::eBufferMode::BUFFER_MODE_NONE);
-
 }
 
 void dooms::assetExporter::assetExporterTexture::ExportTextureFromFrameBuffer
@@ -418,18 +404,12 @@ void dooms::assetExporter::assetExporterTexture::ExportTextureFromFrameBuffer
 	const eTextureExtension textureExtension
 )
 {
-	frameBuffer->BindFrameBuffer();
-	dooms::graphics::GraphicsAPI::SetReadBuffer(static_cast<graphics::GraphicsAPI::eBufferMode>(static_cast<UINT32>(graphics::GraphicsAPI::eBufferMode::COLOR_ATTACHMENT0) + colorAttachmentIndex));
+	const INT32 bufferSize = dooms::graphics::TextureView::GetTextureBufferSizeStatic(width, height, pixelFormat, dataType);
 
-	const INT32 bufferSize = dooms::graphics::Texture::GetTextureBufferSizeStatic(width, height, pixelFormat, dataType);
+	std::unique_ptr<UINT8[]> pixels = frameBuffer->ReadPixelsFromColorTexture(colorAttachmentIndex, bufferSize, startX, startY, width, height, pixelFormat, dataType);
 
-	UINT8* const pixels = dooms::graphics::GraphicsAPI::ReadPixels(bufferSize, startX, startY, width, height, pixelFormat, dataType);
-
-	DirectX::Image directXImage = ConvertToDirectXImage(0, pixels, width, height, pixelFormat, dataType);
+	DirectX::Image directXImage = ConvertToDirectXImage(0, pixels.get(), width, height, pixelFormat, dataType);
 	ExportTexture(directXImage, 0, exportPath, textureExtension, true);
-
-	dooms::graphics::GraphicsAPI::SetReadBuffer(graphics::GraphicsAPI::eBufferMode::BUFFER_MODE_NONE);
-
 }
 
 void dooms::assetExporter::assetExporterTexture::ExportTextureFromMainFrameBuffer
@@ -448,7 +428,6 @@ void dooms::assetExporter::assetExporterTexture::ExportTextureFromMainFrameBuffe
 	const eTextureExtension textureExtension
 )
 {
-	dooms::graphics::FrameBuffer::UnBindFrameBuffer();
 	std::array<int, 4> dims;
 	dooms::graphics::GraphicsAPI::GetViewPort(0, dims.data() + 0, dims.data() + 1, dims.data() + 2, dims.data() + 3);
 
@@ -467,13 +446,9 @@ void dooms::assetExporter::assetExporterTexture::ExportTextureFromMainFrameBuffe
 	const eTextureExtension textureExtension
 )
 {
-	//dooms::graphics::FrameBuffer::UnBindFrameBuffer();
-	dooms::graphics::FrameBuffer::BindFrameBufferStatic(graphics::GraphicsAPI::eBindFrameBufferTarget::READ_FRAMEBUFFER, 0);
-	dooms::graphics::GraphicsAPI::SetReadBuffer(graphics::GraphicsAPI::eBufferMode::FRONT);
-
-	const INT32 bufferSize = dooms::graphics::Texture::GetTextureBufferSizeStatic(width, height, pixelFormat, dataType);
+	const INT32 bufferSize = dooms::graphics::TextureView::GetTextureBufferSizeStatic(width, height, pixelFormat, dataType);
 	
-	UINT8* const pixels = dooms::graphics::GraphicsAPI::ReadPixels(bufferSize, startX, startY, width, height, pixelFormat, dataType);
+	UINT8* const pixels = dooms::graphics::GraphicsAPI::ReadPixels(0, graphics::GraphicsAPI::BACK, bufferSize, startX, startY, width, height, pixelFormat, dataType);
 
 	DirectX::Image directXImage = ConvertToDirectXImage(0, pixels, width, height, pixelFormat, dataType);
 	
@@ -483,8 +458,6 @@ void dooms::assetExporter::assetExporterTexture::ExportTextureFromMainFrameBuffe
 	delete[] directXImage.pixels;
 	
 	ExportTexture(*rotatedDirectXScratchImage.GetImage(0, 0, 0), 0, exportPath, textureExtension, false);
-
-	dooms::graphics::GraphicsAPI::SetReadBuffer(graphics::GraphicsAPI::eBufferMode::BUFFER_MODE_NONE);
-
+	
 	rotatedDirectXScratchImage.Release();
 }

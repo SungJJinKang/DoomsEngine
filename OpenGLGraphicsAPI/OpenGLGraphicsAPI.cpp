@@ -473,17 +473,29 @@ namespace dooms
 
 			FORCE_INLINE static unsigned int GetGLBufferBitType(const GraphicsAPI::eBufferBitType bufferType)
 			{
-				switch (bufferType)
+				unsigned int bufferBitType = 0;
+
+				if ((GraphicsAPI::COLOR_BUFFER & bufferType) != 0)
 				{
-				case GraphicsAPI::COLOR_BUFFER:
-					return GL_COLOR_BUFFER_BIT;
-				case GraphicsAPI::DEPTH_BUFFER:
-					return GL_DEPTH_BUFFER_BIT;
-				case GraphicsAPI::DEPTH_STENCIL_BUFFER:
-					return GL_STENCIL_BUFFER_BIT;
-				default:
-					NEVER_HAPPEN; return 0;
+					bufferBitType |= GL_COLOR_BUFFER_BIT;
 				}
+
+				if ((GraphicsAPI::DEPTH_BUFFER & bufferType) != 0)
+				{
+					bufferBitType |= GL_DEPTH_BUFFER_BIT;
+				}
+
+				if ((GraphicsAPI::STENCIL_BUFFER & bufferType) != 0)
+				{
+					bufferBitType |= GL_STENCIL_BUFFER_BIT;
+				}
+
+				if ((GraphicsAPI::DEPTH_STENCIL_BUFFER & bufferType) != 0)
+				{
+					bufferBitType |= (GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
+				}
+
+				return bufferBitType;
 			}
 
 			FORCE_INLINE static unsigned int GetGLBufferBitType(const unsigned int bufferTypeBits)
@@ -610,19 +622,21 @@ namespace dooms
 				}
 			}
 
-			FORCE_INLINE static unsigned int GetGLShaderType(const GraphicsAPI::eShaderType shaderType)
+			FORCE_INLINE static unsigned int GetGLShaderType(const GraphicsAPI::eGraphicsPipeLineStage shaderType)
 			{
 				switch (shaderType)
 				{
-				case GraphicsAPI::Vertex:
+				case GraphicsAPI::eGraphicsPipeLineStage::VERTEX_SHADER:
 					return GL_VERTEX_SHADER;
-				case GraphicsAPI::Fragment:
+				case GraphicsAPI::eGraphicsPipeLineStage::PIXEL_SHADER:
 					return GL_FRAGMENT_SHADER;
-				case GraphicsAPI::Geometry:
+				case GraphicsAPI::eGraphicsPipeLineStage::GEOMETRY_SHADER:
 					return GL_GEOMETRY_SHADER;
-
+				case GraphicsAPI::eGraphicsPipeLineStage::COMPUTE_SHADER:
+					return GL_COMPUTE_SHADER;
 				default:
-					NEVER_HAPPEN; return 0;
+					NEVER_HAPPEN;
+					return 0;
 				}
 			}
 
@@ -953,21 +967,6 @@ namespace dooms
 				}
 			}
 
-			FORCE_INLINE static unsigned int GetGLBindFrameBufferTarget(const GraphicsAPI::eBindFrameBufferTarget bindFrameBufferTarget)
-			{
-				switch (bindFrameBufferTarget)
-				{
-				case GraphicsAPI::DRAW_FRAMEBUFFER:
-					return GL_DRAW_FRAMEBUFFER;
-				case GraphicsAPI::READ_FRAMEBUFFER:
-					return GL_READ_FRAMEBUFFER;
-				case GraphicsAPI::FRAMEBUFFER:
-					return GL_FRAMEBUFFER;
-				default:
-					NEVER_HAPPEN;
-					return 0;
-				}
-			}
 
 			FORCE_INLINE static unsigned int ConvertStencilOptionToGLStencilOption(const GraphicsAPI::eStencilOption stencilOption)
 			{
@@ -1039,7 +1038,11 @@ namespace dooms
 
 			}
 		}
-		
+
+		DOOMS_ENGINE_GRAPHICS_API GraphicsAPI::eGraphicsAPIType GetCuurentAPIType()
+		{
+			return GraphicsAPI::eGraphicsAPIType::OpenGL;
+		}
 
 		DOOMS_ENGINE_GRAPHICS_API unsigned int GetDrawCall()
 		{
@@ -1074,6 +1077,11 @@ namespace dooms
 		DOOMS_ENGINE_GRAPHICS_API double GetTime()
 		{
 			return glfwGetTime();
+		}
+
+		DOOMS_ENGINE_GRAPHICS_API GraphicsAPI::eGraphicsAPIType GetCurrentAPIType()
+		{
+			return GraphicsAPI::eGraphicsAPIType::OpenGL;
 		}
 
 		DOOMS_ENGINE_GRAPHICS_API unsigned int InitializeGraphicsAPI(const int screenWidth, const int screenHeight, const unsigned int multiSamplingNum)
@@ -1317,6 +1325,7 @@ namespace dooms
 			glFrontFace(opengl::GetGLWinding(winding));
 		}
 
+		/*
 		DOOMS_ENGINE_GRAPHICS_API void SetDrawBuffer(const GraphicsAPI::eBufferMode bufferMode)
 		{
 			glDrawBuffer(opengl::GetGLBufferMode(bufferMode));
@@ -1340,8 +1349,7 @@ namespace dooms
 		{
 			glReadBuffer(opengl::GetGLBufferMode(bufferMode));
 		}
-
-	
+		*/
 
 		DOOMS_ENGINE_GRAPHICS_API void ClearSpecificBuffer
 		(
@@ -1352,13 +1360,6 @@ namespace dooms
 		{
 			float color[4] = { r, g, b, a };
 			glClearBufferfv(opengl::GetGLBufferType(bufferType), drawBufferIndex, color);
-		}
-
-		DOOMS_ENGINE_GRAPHICS_API unsigned long long CreateBuffer()
-		{
-			unsigned long long bufferID;
-			glGenBuffers(1, reinterpret_cast<unsigned int*>(&bufferID));
-			return bufferID;
 		}
 
 		DOOMS_ENGINE_GRAPHICS_API void DestroyBuffer(unsigned long long bufferID)
@@ -1378,46 +1379,63 @@ namespace dooms
 			glDeleteVertexArrays(1, reinterpret_cast<unsigned int*>(&vertexArrayObject));
 		}
 
-		DOOMS_ENGINE_GRAPHICS_API void CompileShader
+		DOOMS_ENGINE_GRAPHICS_API bool CompileShader
 		(
-			const unsigned long long shaderObject,
-			const GraphicsAPI::eShaderType shaderType,
+			unsigned long long& shaderObject,
+			const GraphicsAPI::eGraphicsPipeLineStage shaderType,
 			const char* const shaderText
 		)
 		{
+			assert(shaderObject != 0);
+
 			glShaderSource(shaderObject, 1, &shaderText, NULL);
 			glCompileShader(shaderObject);
+
+			int isSucess;
+			glGetShaderiv(shaderObject, GL_COMPILE_STATUS, &isSucess);
+
+			return (isSucess == GL_TRUE);
 		}
 
-		DOOMS_ENGINE_GRAPHICS_API void BindVertexArrayObject(unsigned long long vertexArrayObject)
+		DOOMS_ENGINE_GRAPHICS_API void BindVertexArrayObject(const unsigned long long vertexArrayObject)
 		{
 			glBindVertexArray(vertexArrayObject);
 		}
-
-		DOOMS_ENGINE_GRAPHICS_API void UnBindVertexArrayObject()
-		{
-			glBindVertexArray(0);
-		}
-
+		
 		DOOMS_ENGINE_GRAPHICS_API void BindBuffer
 		(
 			const unsigned long long bufferObject,
-			const GraphicsAPI::eBufferTarget bindBufferTarget
+			const unsigned int bindingPosition,
+			const GraphicsAPI::eBufferTarget bindBufferTarget,
+			const GraphicsAPI::eGraphicsPipeLineStage targetPipeLienStage
 		)
 		{
 			glBindBuffer(opengl::GetGLBufferTarget(bindBufferTarget), bufferObject);
 		}
 
-		DOOMS_ENGINE_GRAPHICS_API void AllocateBufferMemory
+		DOOMS_ENGINE_GRAPHICS_API void BindIndexBufferObject
 		(
-			unsigned long long bufferObject,
+			const unsigned long long indexBufferObject//, 
+			//const unsigned long long offset
+		)
+		{
+			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indexBufferObject);
+		}
+
+		DOOMS_ENGINE_GRAPHICS_API unsigned long long CreateBufferObject
+		(
 			const GraphicsAPI::eBufferTarget bufferTarget,
 			const unsigned long long bufferSize,
 			const void* const initialData
 		)
 		{
-			BindBuffer(bufferObject, bufferTarget);
+			unsigned long long bufferID;
+			glGenBuffers(1, reinterpret_cast<unsigned int*>(&bufferID));
+
+			BindBuffer(bufferID, 0, bufferTarget, GraphicsAPI::eGraphicsPipeLineStage::DUMMY);
 			glBufferData(opengl::GetGLBufferTarget(bufferTarget), bufferSize, initialData, GL_STATIC_DRAW);
+
+			return bufferID;
 		}
 
 		DOOMS_ENGINE_GRAPHICS_API void EnableVertexAttributeArrayIndex(const unsigned int vertexAttributeIndex)
@@ -1443,48 +1461,27 @@ namespace dooms
 			glBindBuffer(opengl::GetGLBufferTarget(bindBufferTarget), 0);
 		}
 
-		DOOMS_ENGINE_GRAPHICS_API void BindBufferToIndexedBuffer
+		DOOMS_ENGINE_GRAPHICS_API void BindConstantBuffer
 		(
-			const GraphicsAPI::eBufferTarget bindBufferTarget,
+			const unsigned long long bufferObject,
 			const unsigned int bindingPoint,
-			const unsigned long long bufferObject
+			const GraphicsAPI::eGraphicsPipeLineStage pipeLineStage
 		)
 		{
-			glBindBufferBase(opengl::GetGLBufferTarget(bindBufferTarget), bindingPoint, bufferObject);
+			glBindBufferBase(GL_UNIFORM_BUFFER, bindingPoint, bufferObject);
 		}
 
 		DOOMS_ENGINE_GRAPHICS_API void UpdateDataToBuffer
 		(
 			const unsigned long long bufferObject,
 			const GraphicsAPI::eBufferTarget bindBufferTarget,
-			const unsigned int offset,
-			const unsigned int dataSize,
+			const unsigned long long offset,
+			const unsigned long long dataSize,
 			const void* const data
 		)
 		{
-			BindBuffer(bufferObject, bindBufferTarget);
+			BindBuffer(bufferObject, 0, bindBufferTarget, GraphicsAPI::eGraphicsPipeLineStage::DUMMY);
 			glBufferSubData(opengl::GetGLBufferTarget(bindBufferTarget), offset, dataSize, data);
-		}
-
-		DOOMS_ENGINE_GRAPHICS_API unsigned long long GenerateFrameBuffer()
-		{
-			unsigned int frameBuffer;
-			glGenFramebuffers(1, &frameBuffer);
-			return frameBuffer;
-		}
-
-		DOOMS_ENGINE_GRAPHICS_API void DestroyFrameBuffer(unsigned long long frameBufferObject)
-		{
-			glDeleteFramebuffers(1, reinterpret_cast<unsigned int*>(&frameBufferObject));
-		}
-
-		DOOMS_ENGINE_GRAPHICS_API void BindFrameBuffer
-		(
-			const unsigned long long frameBufferObject,
-			const GraphicsAPI::eBindFrameBufferTarget bindFrameBufferTarget
-		)
-		{
-			glBindFramebuffer(opengl::GetGLBindFrameBufferTarget(bindFrameBufferTarget), frameBufferObject);
 		}
 
 		DOOMS_ENGINE_GRAPHICS_API unsigned int CheckFrameBufferIsSuccesfullyCreated()
@@ -1497,26 +1494,72 @@ namespace dooms
 			{
 				return glCheckFramebufferStatus(GL_FRAMEBUFFER);
 			}
-
 		}
+
+		DOOMS_ENGINE_GRAPHICS_API unsigned long long GenerateFrameBuffer()
+		{
+			unsigned int frameBuffer;
+			glGenFramebuffers(1, &frameBuffer);
+
+			const unsigned int errorCode = CheckFrameBufferIsSuccesfullyCreated();
+			assert(errorCode == 0, "fail frame buffer : %u", errorCode);
+
+			return frameBuffer;
+		}
+
+		DOOMS_ENGINE_GRAPHICS_API void DestroyFrameBuffer(unsigned long long frameBufferObject)
+		{
+			glDeleteFramebuffers(1, reinterpret_cast<unsigned int*>(&frameBufferObject));
+		}
+
+		DOOMS_ENGINE_GRAPHICS_API void BindFrameBuffer
+		(
+			const unsigned int renderTargetCount,
+			unsigned long long* const* renderTargetViewObject,
+			unsigned long long depthStencilViewObject
+		)
+		{
+			assert(renderTargetCount == 1);
+			glBindFramebuffer(GL_FRAMEBUFFER, **renderTargetViewObject);
+		}
+
+		DOOMS_ENGINE_GRAPHICS_API void BindBackBuffer()
+		{
+			
+		}
+
+		
 
 		DOOMS_ENGINE_GRAPHICS_API void BindRenderBuffer(const unsigned long long renderBufferObject)
 		{
 			glBindRenderbuffer(GL_RENDERBUFFER, renderBufferObject);
 		}
 
-		DOOMS_ENGINE_GRAPHICS_API void Attach2DTextureToFrameBuffer
+		DOOMS_ENGINE_GRAPHICS_API unsigned long long Attach2DTextureToFrameBuffer
 		(
-			const GraphicsAPI::eBindFrameBufferTarget bindFrameBufferTarget,
+			const unsigned long long frameBufferObject,
 			const GraphicsAPI::eFrameBufferAttachmentPoint frameBufferAttachmentPoint,
 			const GraphicsAPI::eTextureBindTarget textureBindTarget,
 			const unsigned long long textureBufferObject,
-			const int lodLevel
+			const unsigned int lodLevel
 		)
 		{
-			glFramebufferTexture2D(opengl::GetGLBindFrameBufferTarget(bindFrameBufferTarget), opengl::GetGLFrameBufferAttachmentPoint(frameBufferAttachmentPoint), opengl::GetGLTextureBindTarget(textureBindTarget), textureBufferObject, lodLevel);
+			glBindFramebuffer(GL_FRAMEBUFFER, frameBufferObject);
+
+			glFramebufferTexture2D(GL_FRAMEBUFFER, opengl::GetGLFrameBufferAttachmentPoint(frameBufferAttachmentPoint), opengl::GetGLTextureBindTarget(textureBindTarget), textureBufferObject, lodLevel);
+
+			const unsigned int errorCode = CheckFrameBufferIsSuccesfullyCreated();
+			assert(errorCode == 0, "fail frame buffer : %u", errorCode);
+
+			return textureBufferObject;
 		}
 
+		DOOMS_ENGINE_GRAPHICS_API unsigned long long CopyRenderTargetView(const unsigned long long renderTargetView)
+		{
+			return renderTargetView;
+		}
+		
+		/*
 		DOOMS_ENGINE_GRAPHICS_API unsigned long long CreateRenderBufferObject()
 		{
 			unsigned int bufferID;
@@ -1552,7 +1595,7 @@ namespace dooms
 		)
 		{
 			BindRenderBuffer(renderBufferObject);
-			BindFrameBuffer(frameBufferObject, GraphicsAPI::FRAMEBUFFER);
+			BindFrameBuffer(frameBufferObject, GL_FRAMEBUFFER);
 			glFramebufferRenderbuffer(GL_FRAMEBUFFER, opengl::GetGLFrameBufferAttachmentPoint(frameBufferAttachmentPoint), GL_RENDERBUFFER, renderBufferObject);
 		}
 
@@ -1560,22 +1603,23 @@ namespace dooms
 		{
 			glDeleteRenderbuffers(1, reinterpret_cast<unsigned int*>(&renderBuffer));
 		}
+		*/
 
 		DOOMS_ENGINE_GRAPHICS_API int GetFrameBufferWidth(const unsigned long long frameBuffer)
 		{
-			BindFrameBuffer(frameBuffer, GraphicsAPI::eBindFrameBufferTarget::FRAMEBUFFER);
+			glBindBuffer(frameBuffer, GL_FRAMEBUFFER);
 
 			int data;
-			glGetFramebufferParameteriv(opengl::GetGLBindFrameBufferTarget(GraphicsAPI::eBindFrameBufferTarget::FRAMEBUFFER), GL_FRAMEBUFFER_DEFAULT_WIDTH, &data);
+			glGetFramebufferParameteriv(GL_FRAMEBUFFER, GL_FRAMEBUFFER_DEFAULT_WIDTH, &data);
 			return data;
 		}
 
 		DOOMS_ENGINE_GRAPHICS_API int GetFrameBufferHeight(const unsigned long long frameBuffer)
 		{
-			BindFrameBuffer(frameBuffer, GraphicsAPI::eBindFrameBufferTarget::FRAMEBUFFER);
+			glBindBuffer(frameBuffer, GL_FRAMEBUFFER);
 
 			int data;
-			glGetFramebufferParameteriv(opengl::GetGLBindFrameBufferTarget(GraphicsAPI::eBindFrameBufferTarget::FRAMEBUFFER), GL_FRAMEBUFFER_DEFAULT_HEIGHT, &data);
+			glGetFramebufferParameteriv(GL_FRAMEBUFFER, GL_FRAMEBUFFER_DEFAULT_HEIGHT, &data);
 			return data;
 		}
 
@@ -1605,12 +1649,11 @@ namespace dooms
 		DOOMS_ENGINE_GRAPHICS_API void DrawIndexed
 		(
 			const GraphicsAPI::ePrimitiveType primitiveType,
-			const unsigned long long indiceCount,
-			const void* const indices
+			const unsigned long long indiceCount
 		)
 		{
 			assert((unsigned int)primitiveType < GraphicsAPI::ePrimitiveType::END);
-			glDrawElements(PrimitiveTypeJumpTable[(unsigned int)primitiveType], indiceCount, GL_UNSIGNED_INT, indices);
+			glDrawElements(PrimitiveTypeJumpTable[(unsigned int)primitiveType], indiceCount, GL_UNSIGNED_INT, 0);
 			opengl::DrawCallCounter++;
 		}
 
@@ -1644,14 +1687,14 @@ namespace dooms
 			return isSuccess != 0;
 		}
 
-		DOOMS_ENGINE_GRAPHICS_API void BindMaterial(const unsigned long long materialObject)
+		DOOMS_ENGINE_GRAPHICS_API void BindShader(const unsigned long long materialObject, const GraphicsAPI::eGraphicsPipeLineStage shaderType)
 		{
 			glUseProgram(materialObject);
 		}
 
-		DOOMS_ENGINE_GRAPHICS_API unsigned long long CreateShaderObject(const GraphicsAPI::eShaderType shaderType)
+		DOOMS_ENGINE_GRAPHICS_API unsigned long long CreateShaderObject(const GraphicsAPI::eGraphicsPipeLineStage shaderType)
 		{
-			assert(shaderType != GraphicsAPI::eShaderType::ShaderType_None);
+			assert(shaderType != GraphicsAPI::eGraphicsPipeLineStage::DUMMY);
 
 			unsigned int shaderObject = glCreateShader(opengl::GetGLShaderType(shaderType));
 			assert(shaderObject != 0);
@@ -1663,154 +1706,18 @@ namespace dooms
 			glDeleteShader(shaderObject);
 		}
 		
-		DOOMS_ENGINE_GRAPHICS_API void AttachShaderToMaterial(const unsigned long long materialObject, const unsigned long long shaderObject)
+		DOOMS_ENGINE_GRAPHICS_API bool AttachShaderToMaterial
+		(
+			const unsigned long long materialObject, 
+			const unsigned long long shaderObject,
+			const GraphicsAPI::eGraphicsPipeLineStage targetGraphicsPipeLineStage // only used in dx11
+		)
 		{
 			glAttachShader(materialObject, shaderObject);
+
+			return true;
 		}
-
-
-
-		DOOMS_ENGINE_GRAPHICS_API void UpdateConstantBuffer_bool1
-		(
-			const int location,
-			const bool value1
-		)
-		{
-			glUniform1i(location, static_cast<int>(value1));
-		}
-
-		DOOMS_ENGINE_GRAPHICS_API void UpdateConstantBuffer_bool2
-		(
-			const int location,
-			const bool value1,
-			const bool value2
-		)
-		{
-			glUniform2i(location, static_cast<int>(value1), static_cast<int>(value2));
-		}
-
-		DOOMS_ENGINE_GRAPHICS_API void UpdateConstantBuffer_bool3
-		(
-			const int location,
-			const bool value1,
-			const bool value2,
-			const bool value3
-		)
-		{
-			glUniform3i(location, static_cast<int>(value1), static_cast<int>(value2), static_cast<int>(value3));
-		}
-
-		DOOMS_ENGINE_GRAPHICS_API void UpdateConstantBuffer_bool4
-		(
-			const int location,
-			const bool value1,
-			const bool value2,
-			const bool value3,
-			const bool value4
-		)
-		{
-			glUniform4i(location, static_cast<int>(value1), static_cast<int>(value2), static_cast<int>(value3), static_cast<int>(value4));
-		}
-
-		DOOMS_ENGINE_GRAPHICS_API void UpdateConstantBuffer_int1
-		(
-			const int location,
-			const int value1
-		)
-		{
-			glUniform1i(location, value1);
-		}
-
-		DOOMS_ENGINE_GRAPHICS_API void UpdateConstantBuffer_int2
-		(
-			const int location,
-			const int value1,
-			const int value2
-		)
-		{
-			glUniform2i(location, value1, value2);
-		}
-
-		DOOMS_ENGINE_GRAPHICS_API void UpdateConstantBuffer_int3
-		(
-			const int location,
-			const int value1,
-			const int value2,
-			const int value3
-		)
-		{
-			glUniform3i(location, value1, value2, value3);
-		}
-
-		DOOMS_ENGINE_GRAPHICS_API void UpdateConstantBuffer_int4
-		(
-			const int location,
-			const int value1,
-			const int value2,
-			const int value3,
-			const int value4
-		)
-		{
-			glUniform4i(location, value1, value2, value3, value4);
-		}
-
-		DOOMS_ENGINE_GRAPHICS_API void UpdateConstantBuffer_float1
-		(
-			const int location,
-			const float value1
-		)
-		{
-			glUniform1f(location, value1);
-		}
-
-		DOOMS_ENGINE_GRAPHICS_API void UpdateConstantBuffer_float2
-		(
-			const int location,
-			const float value1,
-			const float value2
-		)
-		{
-			glUniform2f(location, value1, value2);
-		}
-
-		DOOMS_ENGINE_GRAPHICS_API void UpdateConstantBuffer_float3
-		(
-			const int location,
-			const float value1,
-			const float value2,
-			const float value3
-		)
-		{
-			glUniform3f(location, value1, value2, value3);
-		}
-
-		DOOMS_ENGINE_GRAPHICS_API void UpdateConstantBuffer_float4
-		(
-			const int location,
-			const float value1,
-			const float value2,
-			const float value3,
-			const float value4
-		)
-		{
-			glUniform4f(location, value1, value2, value3, value4);
-		}
-
-		DOOMS_ENGINE_GRAPHICS_API void UpdateConstantBuffer_mat2x2f(const int location, const float* const matrix)
-		{
-			glUniformMatrix2fv(location, 1, GL_FALSE, matrix);
-		}
-
-		DOOMS_ENGINE_GRAPHICS_API void UpdateConstantBuffer_mat3x3f(const int location, const float* const matrix)
-		{
-			glUniformMatrix3fv(location, 1, GL_FALSE, matrix);
-		}
-
-		DOOMS_ENGINE_GRAPHICS_API void UpdateConstantBuffer_mat4x4f(const int location, const float* const matrix)
-		{
-			glUniformMatrix4fv(location, 1, GL_FALSE, matrix);
-		}
-
+		
 		DOOMS_ENGINE_GRAPHICS_API void* MapBufferObjectToClientAddress
 		(
 			const unsigned long long bufferID,
@@ -1818,7 +1725,7 @@ namespace dooms
 			const GraphicsAPI::eMapBufferAccessOption mapBufferAccessOption
 		)
 		{
-			BindBuffer(bufferID, bindBufferTarget);
+			BindBuffer(bufferID, 0, bindBufferTarget, GraphicsAPI::eGraphicsPipeLineStage::DUMMY);
 
 			// https://www.khronos.org/registry/OpenGL-Refpages/es3.0/html/glMapBufferRange.xhtml
 			return glMapBuffer(opengl::GetGLBufferTarget(bindBufferTarget), opengl::GetGLMapBufferAccessOption(mapBufferAccessOption));
@@ -1833,7 +1740,7 @@ namespace dooms
 			const GraphicsAPI::eMapBufferAccessOption mapBufferAccessOption
 		)
 		{
-			BindBuffer(bufferID, bindBufferTarget);
+			BindBuffer(bufferID, 0, bindBufferTarget, GraphicsAPI::eGraphicsPipeLineStage::DUMMY);
 			
 			// https://www.khronos.org/registry/OpenGL-Refpages/es3.0/html/glMapBufferRange.xhtml
 			return glMapBufferRange(opengl::GetGLBufferTarget(bindBufferTarget), offset, length, opengl::GetGLMapBufferAccessOption(mapBufferAccessOption));
@@ -1845,15 +1752,8 @@ namespace dooms
 			const GraphicsAPI::eBufferTarget bindBufferTarget
 		)
 		{
-			BindBuffer(bufferID, bindBufferTarget);
+			BindBuffer(bufferID, 0, bindBufferTarget, GraphicsAPI::eGraphicsPipeLineStage::DUMMY);
 			glUnmapBuffer(opengl::GetGLBufferTarget(bindBufferTarget));
-		}
-
-		DOOMS_ENGINE_GRAPHICS_API unsigned long long CreateTextureObject()
-		{
-			unsigned int bufferID;
-			glGenTextures(1, &bufferID);
-			return bufferID;
 		}
 
 		DOOMS_ENGINE_GRAPHICS_API void DestroyTextureObject(unsigned long long textureObject)
@@ -1861,8 +1761,29 @@ namespace dooms
 			glDeleteTextures(1, reinterpret_cast<unsigned int*>(&textureObject));
 		}
 
-		DOOMS_ENGINE_GRAPHICS_API void BindTextureObject(const unsigned long long textureObject, const GraphicsAPI::eTextureBindTarget textureBindTarget)
+		DOOMS_ENGINE_GRAPHICS_API unsigned long long CreateTextureViewObject(const unsigned long long textureObject)
 		{
+			assert(textureObject != 0);
+
+			return textureObject;
+		}
+
+		DOOMS_ENGINE_GRAPHICS_API void DestroyTextureViewObject(unsigned long long textureViewObject)
+		{
+			assert(textureViewObject != 0);
+
+			
+		}
+
+		DOOMS_ENGINE_GRAPHICS_API void BindTextureObject
+		(
+			const unsigned long long textureObject,
+			const GraphicsAPI::eTextureBindTarget textureBindTarget,
+			const unsigned int bindingLocation,
+			const GraphicsAPI::eGraphicsPipeLineStage targetPipeLineStage
+		)
+		{
+			glActiveTexture(GL_TEXTURE0 + bindingLocation);
 			glBindTexture(opengl::GetGLTextureBindTarget(textureBindTarget), textureObject);
 		}
 
@@ -1895,8 +1816,8 @@ namespace dooms
 			const GraphicsAPI::eImageInterpolation filter
 		)
 		{
-			BindFrameBuffer(ReadFrameBufferObject, GraphicsAPI::eBindFrameBufferTarget::READ_FRAMEBUFFER);
-			BindFrameBuffer(DrawFrameBufferObject, GraphicsAPI::eBindFrameBufferTarget::DRAW_FRAMEBUFFER);
+			glBindFramebuffer(ReadFrameBufferObject, GL_READ_FRAMEBUFFER);
+			glBindFramebuffer(DrawFrameBufferObject, GL_DRAW_FRAMEBUFFER);
 			glBlitFramebuffer(srcX0, srcY0, srcX1, srcY1, dstX0, dstY0, dstX1, dstY1, opengl::GetGLBufferBitType(mask), opengl::GetGLImageInterpolation(filter));
 		}
 
@@ -1910,7 +1831,7 @@ namespace dooms
 		{
 			float data;
 
-			BindTextureObject(textureObject, textureBindTarget);
+			BindTextureObject(textureObject, textureBindTarget, 0, GraphicsAPI::DUMMY);
 			glGetTexLevelParameterfv(opengl::GetGLTextureBindTarget(textureBindTarget), lodLevel, opengl::GetGLTextureMataDataType(textureMetaDataType), &data);
 
 			return data;
@@ -1926,7 +1847,7 @@ namespace dooms
 		{
 			int data;
 
-			BindTextureObject(textureObject, textureBindTarget);
+			BindTextureObject(textureObject, textureBindTarget, 0, GraphicsAPI::DUMMY);
 			glGetTexLevelParameteriv(opengl::GetGLTextureBindTarget(textureBindTarget), lodLevel, opengl::GetGLTextureMataDataType(textureMetaDataType), &data);
 
 			return data;
@@ -2005,6 +1926,8 @@ namespace dooms
 
 		DOOMS_ENGINE_GRAPHICS_API unsigned char* ReadPixels
 		(
+			const unsigned long long frameBufferObject,
+			const GraphicsAPI::eBufferMode bufferMode,
 			const unsigned long long bufferSize,
 			const int startX,
 			const int startY,
@@ -2014,151 +1937,60 @@ namespace dooms
 			const GraphicsAPI::eDataType dataType
 		)
 		{
+			glReadBuffer(opengl::GetGLBufferMode(bufferMode));
+
+			glBindFramebuffer(GL_READ_FRAMEBUFFER, frameBufferObject);
 			unsigned char* const buffer = new unsigned char[bufferSize];
 			glReadPixels(startX, startY, width, height, opengl::GetGLTextureComponentFormat(pixelFormat), opengl::GetGLDataType(dataType), buffer);
 			return buffer;
 		}
 
-		DOOMS_ENGINE_GRAPHICS_API void Define1DTextureStorageRequirement
+		DOOMS_ENGINE_GRAPHICS_API unsigned long long Allocate2DTextureObject
 		(
 			const GraphicsAPI::eTextureBindTarget textureBindTarget,
 			const unsigned int lodCount,
 			const GraphicsAPI::eTextureInternalFormat textureInternalFormat,
-			const unsigned long long width
-		)
-		{
-			glTexStorage1D
-			(
-				opengl::GetGLTextureBindTarget(textureBindTarget),
-				lodCount,
-				opengl::GetGLTextureInternalFormat(textureInternalFormat),
-				width
-			);
-		}
-
-		DOOMS_ENGINE_GRAPHICS_API void Define2DTextureStorageRequirement
-		(
-			const GraphicsAPI::eTextureBindTarget textureBindTarget,
-			const unsigned int lodCount,
-			const GraphicsAPI::eTextureInternalFormat textureInternalFormat,
+			const GraphicsAPI::eTextureCompressedInternalFormat textureCompressedInternalFormat,
 			const unsigned long long width,
-			const unsigned long long height
+			const unsigned long long height,
+			const GraphicsAPI::eBindFlag bindFlag
 		)
 		{
+			unsigned int internalFormat;
+			if(textureInternalFormat != GraphicsAPI::eTextureInternalFormat::TEXTURE_INTERNAL_FORMAT_NONE)
+			{
+				internalFormat = opengl::GetGLTextureInternalFormat(textureInternalFormat);
+			}
+			else if (textureCompressedInternalFormat != GraphicsAPI::eTextureCompressedInternalFormat::TEXTURE_COMPRESSED_INTERNAL_FORMAT_NONE)
+			{
+				internalFormat = opengl::GetTextureCompressedInternalFormat(textureCompressedInternalFormat);
+			}
+			else
+			{
+				NEVER_HAPPEN;
+			}
+
+			unsigned long long buffer = 0;
+			glGenTextures(1, reinterpret_cast<unsigned int*>(&buffer));
+			
+			BindTextureObject(buffer, textureBindTarget, 0, GraphicsAPI::eGraphicsPipeLineStage::DUMMY);
+
 			glTexStorage2D
 			(
 				opengl::GetGLTextureBindTarget(textureBindTarget),
 				lodCount,
-				opengl::GetGLTextureInternalFormat(textureInternalFormat),
+				internalFormat,
 				width,
 				height
 			);
+
+			return buffer;
 		}
-
-		DOOMS_ENGINE_GRAPHICS_API void Define3DTextureStorageRequirement
-		(
-			const GraphicsAPI::eTextureBindTarget textureBindTarget,
-			const unsigned int lodCount,
-			const GraphicsAPI::eTextureInternalFormat textureInternalFormat,
-			const unsigned long long width,
-			const unsigned long long height,
-			const unsigned long long depth
-		)
-		{
-			glTexStorage3D
-			(
-				opengl::GetGLTextureBindTarget(textureBindTarget),
-				lodCount,
-				opengl::GetGLTextureInternalFormat(textureInternalFormat),
-				width,
-				height,
-				depth
-			);
-		}
-
-		DOOMS_ENGINE_GRAPHICS_API void Define1DCompressedTextureStorageRequirement
-		(
-			const GraphicsAPI::eTextureBindTarget textureBindTarget,
-			const unsigned int createdLodCount,
-			const GraphicsAPI::eTextureCompressedInternalFormat textureInternalFormat,
-			const unsigned long long width
-		)
-		{
-			glTexStorage1D
-			(
-				opengl::GetGLTextureBindTarget(textureBindTarget),
-				createdLodCount,
-				opengl::GetTextureCompressedInternalFormat(textureInternalFormat),
-				width
-			);
-		}
-
-		DOOMS_ENGINE_GRAPHICS_API void Define2DCompressedTextureStorageRequirement
-		(
-			const GraphicsAPI::eTextureBindTarget textureBindTarget,
-			const unsigned int createdLodCount,
-			const GraphicsAPI::eTextureCompressedInternalFormat textureInternalFormat,
-			const unsigned long long width,
-			const unsigned long long height
-		)
-		{
-			glTexStorage2D
-			(
-				opengl::GetGLTextureBindTarget(textureBindTarget),
-				createdLodCount,
-				opengl::GetTextureCompressedInternalFormat(textureInternalFormat),
-				width,
-				height
-			);
-		}
-
-		DOOMS_ENGINE_GRAPHICS_API void Define3DCompressedTextureStorageRequirement
-		(
-			const GraphicsAPI::eTextureBindTarget textureBindTarget,
-			const unsigned int createdLodCount,
-			const GraphicsAPI::eTextureCompressedInternalFormat textureInternalFormat,
-			const unsigned long long width,
-			const unsigned long long height,
-			const unsigned long long depth
-		)
-		{
-			glTexStorage3D
-			(
-				opengl::GetGLTextureBindTarget(textureBindTarget),
-				createdLodCount,
-				opengl::GetTextureCompressedInternalFormat(textureInternalFormat),
-				width,
-				height,
-				depth
-			);
-		}
-
-
-		DOOMS_ENGINE_GRAPHICS_API void UploadPixelsTo1DTexture
-		(
-			const GraphicsAPI::eTargetTexture targetTexture,
-			const unsigned int lodLevel,
-			const unsigned int xOffset,
-			const unsigned long long width,
-			const GraphicsAPI::eTextureComponentFormat textureComponentFormat,
-			const GraphicsAPI::eDataType dataType,
-			const void* const pixelDatas
-		)
-		{
-			glTexSubImage1D
-			(
-				opengl::GetGLTargetTexture(targetTexture),
-				lodLevel,
-				xOffset,
-				width,
-				opengl::GetGLTextureComponentFormat(textureComponentFormat),
-				opengl::GetGLDataType(dataType),
-				pixelDatas
-			);
-		}
-
+		
 		DOOMS_ENGINE_GRAPHICS_API void UploadPixelsTo2DTexture
 		(
+			const unsigned long long textureResourceObject,
+			const GraphicsAPI::eTextureBindTarget textureBindTarget,
 			const GraphicsAPI::eTargetTexture targetTexture,
 			const unsigned int lodLevel,
 			const unsigned int xOffset,
@@ -2167,136 +1999,51 @@ namespace dooms
 			const unsigned long long height,
 			const GraphicsAPI::eTextureComponentFormat textureComponentFormat,
 			const GraphicsAPI::eDataType dataType,
-			const void* const pixelDatas
-		)
-		{
-			glTexSubImage2D
-			(
-				opengl::GetGLTargetTexture(targetTexture),
-				lodLevel,
-				xOffset,
-				yOffset,
-				width,
-				height,
-				opengl::GetGLTextureComponentFormat(textureComponentFormat),
-				opengl::GetGLDataType(dataType),
-				pixelDatas
-			);
-		}
-
-		DOOMS_ENGINE_GRAPHICS_API void UploadPixelsTo3DTexture
-		(
-			const GraphicsAPI::eTargetTexture targetTexture,
-			const unsigned int lodLevel,
-			const unsigned int xOffset,
-			const unsigned int yOffset,
-			const unsigned int zOffset,
-			const unsigned long long width,
-			const unsigned long long height,
-			const unsigned long long depth,
-			const GraphicsAPI::eTextureComponentFormat textureComponentFormat,
-			const GraphicsAPI::eDataType dataType,
-			const void* const pixelDatas
-		)
-		{
-			glTexSubImage3D
-			(
-				opengl::GetGLTargetTexture(targetTexture),
-				lodLevel,
-				xOffset,
-				yOffset,
-				zOffset,
-				width,
-				height,
-				depth,
-				opengl::GetGLTextureComponentFormat(textureComponentFormat),
-				opengl::GetGLDataType(dataType),
-				pixelDatas
-			);
-		}
-
-
-		DOOMS_ENGINE_GRAPHICS_API void UploadPixelsTo1DCompressedTexture
-		(
-			const GraphicsAPI::eTargetTexture targetTexture,
-			const unsigned int lodLevel,
-			const unsigned int xOffset,
-			const unsigned long long width,
+			const GraphicsAPI::eTextureInternalFormat textureInternalFormat,
 			const GraphicsAPI::eTextureCompressedInternalFormat textureCompressedInternalFormat,
-			const unsigned long long imgSize,
-			const void* const pixelDatas
+			const void* const pixelDatas,
+			const size_t rowByteSize,
+			const size_t totalDataSize
 		)
 		{
-			glCompressedTexSubImage1D
-			(
-				opengl::GetGLTargetTexture(targetTexture),
-				lodLevel,
-				xOffset,
-				width,
-				opengl::GetTextureCompressedInternalFormat(textureCompressedInternalFormat),
-				imgSize,
-				pixelDatas
-			);
-		}
+			assert(textureInternalFormat == graphics::GraphicsAPI::eTextureInternalFormat::TEXTURE_INTERNAL_FORMAT_NONE || textureCompressedInternalFormat == graphics::GraphicsAPI::eTextureCompressedInternalFormat::TEXTURE_COMPRESSED_INTERNAL_FORMAT_NONE);
 
-		DOOMS_ENGINE_GRAPHICS_API void UploadPixelsTo2DCompressedTexture
-		(
-			const GraphicsAPI::eTargetTexture targetTexture,
-			const unsigned int lodLevel,
-			const unsigned int xOffset,
-			const unsigned int yOffset,
-			const unsigned long long width,
-			const unsigned long long height,
-			const GraphicsAPI::eTextureCompressedInternalFormat textureCompressedInternalFormat,
-			const unsigned long long imgSize,
-			const void* const pixelDatas
-		)
-		{
-			glCompressedTexSubImage2D
-			(
-				opengl::GetGLTargetTexture(targetTexture),
-				lodLevel,
-				xOffset,
-				yOffset,
-				width,
-				height,
-				opengl::GetTextureCompressedInternalFormat(textureCompressedInternalFormat),
-				imgSize,
-				pixelDatas
-			);
-		}
+			BindTextureObject(textureResourceObject, textureBindTarget, 0, GraphicsAPI::DUMMY);
 
-		DOOMS_ENGINE_GRAPHICS_API void UploadPixelsTo3DCompressedTexture
-		(
-			const GraphicsAPI::eTargetTexture targetTexture,
-			const unsigned int lodLevel,
-			const unsigned int xOffset,
-			const unsigned int yOffset,
-			const unsigned int zOffset,
-			const unsigned long long width,
-			const unsigned long long height,
-			const unsigned long long depth,
-			const GraphicsAPI::eTextureCompressedInternalFormat textureCompressedInternalFormat,
-			const unsigned long long imgSize,
-			const void* const pixelDatas
-		)
-		{
-			glCompressedTexSubImage3D
-			(
-				opengl::GetGLTargetTexture(targetTexture),
-				lodLevel,
-				xOffset,
-				yOffset,
-				zOffset,
-				width,
-				height,
-				depth,
-				opengl::GetTextureCompressedInternalFormat(textureCompressedInternalFormat),
-				imgSize,
-				pixelDatas
-			);
-		}
 
+			if(textureInternalFormat != GraphicsAPI::eTextureInternalFormat::TEXTURE_INTERNAL_FORMAT_NONE)
+			{
+				glTexSubImage2D
+				(
+					opengl::GetGLTargetTexture(targetTexture),
+					lodLevel,
+					xOffset,
+					yOffset,
+					width,
+					height,
+					opengl::GetGLTextureComponentFormat(textureComponentFormat),
+					opengl::GetGLDataType(dataType),
+					pixelDatas
+				);
+			}
+			else
+			{
+				glCompressedTexSubImage2D
+				(
+					opengl::GetGLTargetTexture(targetTexture),
+					lodLevel,
+					xOffset,
+					yOffset,
+					width,
+					height,
+					opengl::GetTextureCompressedInternalFormat(textureCompressedInternalFormat),
+					totalDataSize,
+					pixelDatas
+				);
+			}
+			
+		}
+		
 		DOOMS_ENGINE_GRAPHICS_API int GetConstantBufferBindingPoint
 		(
 			const unsigned long long constantBufferObject,
@@ -2355,41 +2102,55 @@ namespace dooms
 			glfwSetWindowTitle(dooms::graphics::opengl::glfwWindow, buffer);
 		}
 
-		DOOMS_ENGINE_GRAPHICS_API void ClearBackBufferColorBuffer(const float r, const float g, const float b, const float a)
+		DOOMS_ENGINE_GRAPHICS_API void ClearBackFrameBufferColorBuffer(const float r, const float g, const float b, const float a)
 		{
 			glClearColor(r, g, b, a);
 			glClear(opengl::GetGLBufferBitType(GraphicsAPI::COLOR_BUFFER));
 		}
 
-		DOOMS_ENGINE_GRAPHICS_API void ClearBackBufferDepthBuffer(const double depthValue)
+		DOOMS_ENGINE_GRAPHICS_API void ClearBackFrameBufferDepthBuffer(const double depthValue)
 		{
 			glClearDepth(depthValue);
 			glClear(opengl::GetGLBufferBitType(GraphicsAPI::DEPTH_BUFFER));
 		}
 
-		DOOMS_ENGINE_GRAPHICS_API void ClearBackBufferStencilBuffer(const int stencilValue)
+		DOOMS_ENGINE_GRAPHICS_API void ClearBackFrameBufferStencilBuffer(const int stencilValue)
 		{
+			glClearStencil(stencilValue);
+			glClear(opengl::GetGLBufferBitType(GraphicsAPI::STENCIL_BUFFER));
+		}
+
+		DOOMS_ENGINE_GRAPHICS_API void ClearBackFrameBufferDepthStencilBuffer(const double depthValue, const int stencilValue)
+		{
+			glClearDepth(depthValue);
 			glClearStencil(stencilValue);
 			glClear(opengl::GetGLBufferBitType(GraphicsAPI::DEPTH_STENCIL_BUFFER));
 		}
 
-		DOOMS_ENGINE_GRAPHICS_API void ClearBufferColorBuffer(const unsigned long long bufferObject, const float r, const float g, const float b, const float a)
+		DOOMS_ENGINE_GRAPHICS_API void ClearFrameBufferColorBuffer(unsigned long long bufferObject, const float r, const float g, const float b, const float a)
 		{
-			BindFrameBuffer(bufferObject, GraphicsAPI::FRAMEBUFFER);
+			glBindFramebuffer(bufferObject, GL_FRAMEBUFFER);
 			glClearColor(r, g, b, a);
 			glClear(opengl::GetGLBufferBitType(GraphicsAPI::COLOR_BUFFER));
 		}
 
-		DOOMS_ENGINE_GRAPHICS_API void ClearBufferDepthBuffer(const unsigned long long bufferObject, const double depthValue)
+		DOOMS_ENGINE_GRAPHICS_API void ClearFrameBufferDepthBuffer(unsigned long long bufferObject, const double depthValue)
 		{
-			BindFrameBuffer(bufferObject, GraphicsAPI::FRAMEBUFFER);
+			glBindFramebuffer(bufferObject, GL_FRAMEBUFFER);
 			glClearDepth(depthValue);
 			glClear(opengl::GetGLBufferBitType(GraphicsAPI::DEPTH_BUFFER));
 		}
 
-		DOOMS_ENGINE_GRAPHICS_API void ClearBufferStencilBuffer(const unsigned long long bufferObject, const int stencilValue)
+		DOOMS_ENGINE_GRAPHICS_API void ClearFrameBufferStencilBuffer(unsigned long long bufferObject, const int stecilValue)
 		{
-			BindFrameBuffer(bufferObject, GraphicsAPI::FRAMEBUFFER);
+			glBindFramebuffer(bufferObject, GL_FRAMEBUFFER);
+			glClearStencil(stecilValue);
+			glClear(opengl::GetGLBufferBitType(GraphicsAPI::STENCIL_BUFFER));
+		}
+		DOOMS_ENGINE_GRAPHICS_API void ClearFrameBufferDepthStencilBuffer(unsigned long long bufferObject, const double depthValue, const int stencilValue)
+		{
+			glBindFramebuffer(bufferObject, GL_FRAMEBUFFER);
+			glClearDepth(depthValue);
 			glClearStencil(stencilValue);
 			glClear(opengl::GetGLBufferBitType(GraphicsAPI::DEPTH_STENCIL_BUFFER));
 		}

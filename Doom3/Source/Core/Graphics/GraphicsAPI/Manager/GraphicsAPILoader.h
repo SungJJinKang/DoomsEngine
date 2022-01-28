@@ -2,7 +2,7 @@
 
 #include <Core.h>
 
-#include "../eGraphicsAPIType.h"
+#include "../GraphicsAPI.h"
 
 namespace dooms
 {
@@ -27,7 +27,7 @@ namespace dooms
 			GraphicsAPILoader(GraphicsAPILoader&&) noexcept;
 			GraphicsAPILoader& operator=(const GraphicsAPILoader&) = delete;
 			GraphicsAPILoader& operator=(GraphicsAPILoader&&) noexcept;
-			void* LoadGraphicsAPILibrary(const eGraphicsAPIType graphicsAPIType);
+			void* LoadGraphicsAPILibrary(const dooms::graphics::GraphicsAPI::eGraphicsAPIType graphicsAPIType);
 			bool UnLoadGraphicsAPILibrary();
 		};
 	}

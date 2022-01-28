@@ -3,7 +3,7 @@
 
 #include <Core.h>
 
-std::string GetTextFromFile(const std::filesystem::path& path)
+std::string dooms::asset::textImporter::GetTextFromFile(const std::filesystem::path& path)
 {
 	std::ifstream inputFileStream(path, std::ios::in | std::ios::binary | std::ios::ate);
 
@@ -26,7 +26,7 @@ std::string GetTextFromFile(const std::filesystem::path& path)
 	}
 }
 
-bool GetTextFromFile(const std::filesystem::path& path, std::string& text)
+bool dooms::asset::textImporter::GetTextFromFile(const std::filesystem::path& path, std::string& text)
 {
 	std::ifstream inputFileStream(path, std::ios::in | std::ios::binary | std::ios::ate);
 

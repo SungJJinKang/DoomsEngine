@@ -135,7 +135,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(ProjectDir)Source\thirdparty\oneTBB\include;$(ProjectDir)..\OpenGLGraphicsAPI;$(ProjectDir)Source\Core\Reflection\AdditionalDirectoryForClang;$(ProjectDir)..\DX11GraphicsAPI;$(ProjectDir);$(SolutionDir)Source\Core\OS;$(VcpkgInstalledDir)x86-windows\include;$(SolutionDir)Source\Helper;$(SolutionDir)Source\Component;$(SolutionDir)Source\Core\Scene;$(SolutionDir)Source\Component\Core;$(SolutionDir)Source\Helper/crossguid;$(SolutionDir)Source\GameLogic\CustomComponent;$(SolutionDir)Source\Core\Math\LightMath_Cpp;$(SolutionDir)Source\Core\IO;$(SolutionDir)Source\Core\Time;$(SolutionDir)Source\GameLogic;$(SolutionDir)Source\Core;$(SolutionDir)Source\Core\Logger;$(SolutionDir)Source\Core\Physics;$(SolutionDir)Source\Core\utility;$(SolutionDir)Source\Core\DObject\Reflection\clReflect_automation\clReflect\inc</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Source\thirdparty;$(ProjectDir)Source\thirdparty\oneTBB\include;$(ProjectDir)..\OpenGLGraphicsAPI;$(ProjectDir)Source\Core\Reflection\AdditionalDirectoryForClang;$(ProjectDir)..\DX11GraphicsAPI;$(ProjectDir);$(SolutionDir)Source\Core\OS;$(VcpkgInstalledDir)x86-windows\include;$(SolutionDir)Source\Helper;$(SolutionDir)Source\Component;$(SolutionDir)Source\Core\Scene;$(SolutionDir)Source\Component\Core;$(SolutionDir)Source\Helper/crossguid;$(SolutionDir)Source\GameLogic\CustomComponent;$(SolutionDir)Source\Core\Math\LightMath_Cpp;$(SolutionDir)Source\Core\IO;$(SolutionDir)Source\Core\Time;$(SolutionDir)Source\GameLogic;$(SolutionDir)Source\Core;$(SolutionDir)Source\Core\Logger;$(SolutionDir)Source\Core\Physics;$(SolutionDir)Source\Core\utility;$(SolutionDir)Source\Core\DObject\Reflection\clReflect_automation\clReflect\inc</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
@@ -173,7 +173,7 @@ xcopy /y /d /E /H /C /I "$(ProjectDir)Assets" "$(TargetDir)Assets"</Command>
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(ProjectDir)Source\thirdparty\oneTBB\include;$(ProjectDir)..\OpenGLGraphicsAPI;$(ProjectDir)Source\Core\Reflection\AdditionalDirectoryForClang;$(ProjectDir)..\DX11GraphicsAPI;$(ProjectDir);$(SolutionDir)Source\Core\OS;$(VcpkgInstalledDir)x86-windows\include;$(SolutionDir)Source\Helper;$(SolutionDir)Source\Component;$(SolutionDir)Source\Core\Scene;$(SolutionDir)Source\Component\Core;$(SolutionDir)Source\Helper/crossguid;$(SolutionDir)Source\GameLogic\CustomComponent;$(SolutionDir)Source\Core\Math\LightMath_Cpp;$(SolutionDir)Source\Core\IO;$(SolutionDir)Source\Core\Time;$(SolutionDir)Source\GameLogic;$(SolutionDir)Source\Core;$(SolutionDir)Source\Core\Logger;$(SolutionDir)Source\Core\Physics;$(SolutionDir)Source\Core\utility;$(SolutionDir)Source\Core\DObject\Reflection\clReflect_automation\clReflect\inc</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Source\thirdparty;$(ProjectDir)Source\thirdparty\oneTBB\include;$(ProjectDir)..\OpenGLGraphicsAPI;$(ProjectDir)Source\Core\Reflection\AdditionalDirectoryForClang;$(ProjectDir)..\DX11GraphicsAPI;$(ProjectDir);$(SolutionDir)Source\Core\OS;$(VcpkgInstalledDir)x86-windows\include;$(SolutionDir)Source\Helper;$(SolutionDir)Source\Component;$(SolutionDir)Source\Core\Scene;$(SolutionDir)Source\Component\Core;$(SolutionDir)Source\Helper/crossguid;$(SolutionDir)Source\GameLogic\CustomComponent;$(SolutionDir)Source\Core\Math\LightMath_Cpp;$(SolutionDir)Source\Core\IO;$(SolutionDir)Source\Core\Time;$(SolutionDir)Source\GameLogic;$(SolutionDir)Source\Core;$(SolutionDir)Source\Core\Logger;$(SolutionDir)Source\Core\Physics;$(SolutionDir)Source\Core\utility;$(SolutionDir)Source\Core\DObject\Reflection\clReflect_automation\clReflect\inc</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
@@ -212,6 +212,7 @@ xcopy /y /d /E /H /C /I "$(ProjectDir)Assets" "$(TargetDir)Assets"</Command>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions);UNICODE;__x86_64__</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>$(ProjectDir)Source\thirdparty\oneTBB\include;C:\assimp-5.1.5\build\include;$(ProjectDir)..\OpenGLGraphicsAPI;$(ProjectDir)Source\Core\Reflection\AdditionalDirectoryForClang;$(ProjectDir)..\DX11GraphicsAPI;C:\assimp-5.1.5\include\;$(ProjectDir);$(SolutionDir)Source\Core\OS;$(VcpkgInstalledDir)x64-windows\include;$(SolutionDir)Source\Helper;$(SolutionDir)Source\Component;$(SolutionDir)Source\Core\Scene;$(SolutionDir)Source\Component\Core;$(SolutionDir)Source\Helper/crossguid;$(SolutionDir)Source\GameLogic\CustomComponent;$(SolutionDir)Source\Core\Math\LightMath_Cpp;$(SolutionDir)Source\Core\IO;$(SolutionDir)Source\Core\Time;$(SolutionDir)Source\GameLogic;$(SolutionDir)Source\Core;$(SolutionDir)Source\Core\Logger;$(SolutionDir)Source\Core\Physics;$(SolutionDir)Source\Core\utility;$(SolutionDir)Source\Core\Reflection\clReflect_automation\clReflect\inc;$(SolutionDir)Source\thirdparty\imgui</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Source\thirdparty;$(ProjectDir)Source\thirdparty\oneTBB\include;C:\assimp-5.1.5\build\include;$(ProjectDir)..\OpenGLGraphicsAPI;$(ProjectDir)Source\Core\Reflection\AdditionalDirectoryForClang;$(ProjectDir)..\DX11GraphicsAPI;C:\assimp-5.1.5\include\;$(ProjectDir);$(SolutionDir)Source\Core\OS;$(VcpkgInstalledDir)installed\x64-windows\include;$(SolutionDir)Source\Helper;$(SolutionDir)Source\Component;$(SolutionDir)Source\Core\Scene;$(SolutionDir)Source\Component\Core;$(SolutionDir)Source\Helper/crossguid;$(SolutionDir)Source\GameLogic\CustomComponent;$(SolutionDir)Source\Core\Math\LightMath_Cpp;$(SolutionDir)Source\Core\IO;$(SolutionDir)Source\Core\Time;$(SolutionDir)Source\GameLogic;$(SolutionDir)Source\Core;$(SolutionDir)Source\Core\Logger;$(SolutionDir)Source\Core\Physics;$(SolutionDir)Source\Core\utility;$(SolutionDir)Source\Core\Reflection\clReflect_automation\clReflect\inc;$(SolutionDir)Source\thirdparty\imgui</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
@@ -254,7 +255,7 @@ xcopy /y /d /f "$(ProjectDir)*.map" "$(TargetDir)"</Command>
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions);UNICODE</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(ProjectDir)Source\thirdparty\oneTBB\include;C:\assimp-5.1.5\build\include;$(ProjectDir)..\OpenGLGraphicsAPI;$(ProjectDir)Source\Core\Reflection\AdditionalDirectoryForClang;$(ProjectDir)..\DX11GraphicsAPI;C:\assimp-5.1.5\include\;$(ProjectDir);$(SolutionDir)Source\thirdparty\amdUprof\include;$(SolutionDir)Source\Core\OS;C:\vcpkg\x64-windows\include;$(SolutionDir)Source\Helper;$(SolutionDir)Source\Component;$(SolutionDir)Source\Core\Scene;$(SolutionDir)Source\Component\Core;$(SolutionDir)Source\Helper/crossguid;$(SolutionDir)Source\GameLogic\CustomComponent;$(SolutionDir)Source\Core\Math\LightMath_Cpp;$(SolutionDir)Source\Core\IO;$(SolutionDir)Source\Core\Time;$(SolutionDir)Source\GameLogic;$(SolutionDir)Source\Core;$(SolutionDir)Source\Core\Logger;$(SolutionDir)Source\Core\Physics;$(SolutionDir)Source\Core\utility;$(SolutionDir)Source\Core\Reflection\clReflect_automation\clReflect\inc;$(SolutionDir)Source\thirdparty\imgui</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Source\thirdparty;$(ProjectDir)Source\thirdparty\oneTBB\include;C:\assimp-5.1.5\build\include;$(ProjectDir)..\OpenGLGraphicsAPI;$(ProjectDir)Source\Core\Reflection\AdditionalDirectoryForClang;$(ProjectDir)..\DX11GraphicsAPI;C:\assimp-5.1.5\include\;$(ProjectDir);$(SolutionDir)Source\thirdparty\amdUprof\include;$(SolutionDir)Source\Core\OS;$(VcpkgInstalledDir)installed\x64-windows\include;$(SolutionDir)Source\Helper;$(SolutionDir)Source\Component;$(SolutionDir)Source\Core\Scene;$(SolutionDir)Source\Component\Core;$(SolutionDir)Source\Helper/crossguid;$(SolutionDir)Source\GameLogic\CustomComponent;$(SolutionDir)Source\Core\Math\LightMath_Cpp;$(SolutionDir)Source\Core\IO;$(SolutionDir)Source\Core\Time;$(SolutionDir)Source\GameLogic;$(SolutionDir)Source\Core;$(SolutionDir)Source\Core\Logger;$(SolutionDir)Source\Core\Physics;$(SolutionDir)Source\Core\utility;$(SolutionDir)Source\Core\Reflection\clReflect_automation\clReflect\inc;$(SolutionDir)Source\thirdparty\imgui</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
@@ -293,7 +294,7 @@ xcopy /y /d /f "$(ProjectDir)*.map" "$(TargetDir)"</Command>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='AMDuProf|x64'">
     <ClCompile>
-      <AdditionalIncludeDirectories>$(ProjectDir)Source\thirdparty\oneTBB\include;$(ProjectDir)..\OpenGLGraphicsAPI;$(ProjectDir)Source\Core\Reflection\AdditionalDirectoryForClang;$(ProjectDir)..\DX11GraphicsAPI;C:\assimp-5.1.5\include\;$(ProjectDir);;$(SolutionDir)Source\Core\utility;$(SolutionDir)Source\Core\DObject\Reflection\clReflect\inc</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Source\thirdparty;$(ProjectDir)Source\thirdparty\oneTBB\include;$(ProjectDir)..\OpenGLGraphicsAPI;$(ProjectDir)Source\Core\Reflection\AdditionalDirectoryForClang;$(ProjectDir)..\DX11GraphicsAPI;C:\assimp-5.1.5\include\;$(ProjectDir);;$(SolutionDir)Source\Core\utility;$(SolutionDir)Source\Core\DObject\Reflection\clReflect\inc</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>;DOOM_DLL_EXPORTS;DOOMS_ENGINE_DLL_EXPORT</PreprocessorDefinitions>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
@@ -326,7 +327,7 @@ xcopy /y /d /E /H /C /I "$(ProjectDir)Assets" "$(TargetDir)Assets"</Command>
       <PreprocessorDefinitions>;DOOM_DLL_EXPORTS;DOOMS_ENGINE_DLL_EXPORT</PreprocessorDefinitions>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
-      <AdditionalIncludeDirectories>$(ProjectDir)Source\thirdparty\oneTBB\include;$(ProjectDir)..\OpenGLGraphicsAPI;$(ProjectDir)Source\Core\Reflection\AdditionalDirectoryForClang;$(ProjectDir)..\DX11GraphicsAPI;$(ProjectDir);;$(SolutionDir)Source\Core\utility;$(SolutionDir)Source\Core\DObject\Reflection\clReflect\inc</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Source\thirdparty;$(ProjectDir)Source\thirdparty\oneTBB\include;$(ProjectDir)..\OpenGLGraphicsAPI;$(ProjectDir)Source\Core\Reflection\AdditionalDirectoryForClang;$(ProjectDir)..\DX11GraphicsAPI;$(ProjectDir);;$(SolutionDir)Source\Core\utility;$(SolutionDir)Source\Core\DObject\Reflection\clReflect\inc</AdditionalIncludeDirectories>
       <StringPooling>true</StringPooling>
       <RuntimeTypeInfo>false</RuntimeTypeInfo>
       <LanguageStandard>stdcpp17</LanguageStandard>
@@ -353,6 +354,9 @@ xcopy /y /d /E /H /C /I "$(ProjectDir)Assets" "$(TargetDir)Assets"</Command>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="clreflect_compiletime_gettype.cpp" />
+    <ClCompile Include="Source\Core\Asset\Utility\ShaderAsset\shaderAssetHelper.cpp" />
+    <ClCompile Include="Source\Core\Asset\Utility\ShaderAsset\shaderConverter.cpp" />
+    <ClCompile Include="Source\Core\Asset\Utility\ShaderAsset\shaderReflectionDataParser.cpp" />
     <ClCompile Include="Source\Core\EngineGUI\GUIModules\drawCallCounterGUI.cpp" />
     <ClCompile Include="Source\Core\Graphics\Acceleration\LinearData_ViewFrustumCulling\CullingModule\MaskedSWOcclusionCulling\OccluderListManager.cpp" />
     <ClCompile Include="Source\Core\Graphics\Acceleration\LinearData_ViewFrustumCulling\CullingModule\PreCulling\PreCulling.cpp" />
@@ -360,6 +364,7 @@ xcopy /y /d /E /H /C /I "$(ProjectDir)Assets" "$(TargetDir)Assets"</Command>
     <ClCompile Include="Source\Core\Graphics\Acceleration\LinearData_ViewFrustumCulling\CullingModule\MaskedSWOcclusionCulling\Utility\vertexTransformationHelper.cpp" />
     <ClCompile Include="Source\Core\Graphics\Acceleration\LinearData_ViewFrustumCulling\DataType\EntityBlock.cpp" />
     <ClCompile Include="Source\Core\Graphics\Acceleration\LinearData_ViewFrustumCulling\EveryCullingProfiler.cpp" />
+    <ClCompile Include="Source\Core\Graphics\Buffer\UniformBufferObject\UniformBufferObjectView.cpp" />
     <ClCompile Include="Source\Core\Graphics\DebugGraphics\DebugPrimitive\DebugPrimitive2DLineContainer.cpp" />
     <ClCompile Include="Source\Core\EngineGUI\GUIModules\MaskedOcclusionCulliingDebugger.cpp" />
     <ClCompile Include="Source\Core\Graphics\Acceleration\LinearData_ViewFrustumCulling\CullingModule\MaskedSWOcclusionCulling\Utility\depthUtility.cpp" />
@@ -380,6 +385,7 @@ xcopy /y /d /E /H /C /I "$(ProjectDir)Assets" "$(TargetDir)Assets"</Command>
     <ClCompile Include="Source\Core\Graphics\Acceleration\LinearData_ViewFrustumCulling\CullingModule\MaskedSWOcclusionCulling\Stage\SolveMeshRoleStage.cpp" />
     <ClCompile Include="Source\Core\Graphics\Buffer\MeshHelper.cpp" />
     <ClCompile Include="Source\Core\Graphics\Buffer\MeshNode.cpp" />
+    <ClCompile Include="Source\Core\Graphics\FrameBuffer\FrameBufferView.cpp" />
     <ClCompile Include="Source\Core\Graphics\GraphicsAPI\APIHeaders\DX11Headers.h" />
     <ClCompile Include="Source\Core\Graphics\GraphicsAPI\APIHeaders\OpenGLHeaders.h" />
     <ClCompile Include="Source\Core\Graphics\GraphicsAPI\Imp\GraphicsAPIInput_imp.cpp" />
@@ -389,6 +395,7 @@ xcopy /y /d /E /H /C /I "$(ProjectDir)Assets" "$(TargetDir)Assets"</Command>
     <ClCompile Include="Source\Core\Graphics\GraphicsAPI\Manager\GraphicsAPIManager.cpp" />
     <ClCompile Include="Source\Core\Graphics\graphicsSetting.cpp" />
     <ClCompile Include="Source\Core\Memory\MemoryManager.cpp" />
+    <ClCompile Include="Source\Core\IO\AssetExporter\AssetExporter_Shader.cpp" />
     <ClCompile Include="Source\Core\Profiler\ProfilingManager.cpp" />
     <ClCompile Include="Source\Core\Reflection\TypeSpecialized\Helper\iteratorHelper.cpp" />
     <ClCompile Include="Source\Core\Reflection\TypeSpecialized\Reflection_RandomAccessIterator.cpp" />
@@ -430,7 +437,6 @@ xcopy /y /d /E /H /C /I "$(ProjectDir)Assets" "$(TargetDir)Assets"</Command>
     <ClCompile Include="Source\Core\GarbageCollector\GarbageCollectorManager.cpp" />
     <ClCompile Include="Source\Core\GarbageCollector\GarbageCollectorSolver.cpp" />
     <ClCompile Include="Source\Core\Graphics\FrameBuffer\FrameBufferExporterHelper.cpp" />
-    <ClCompile Include="Source\Core\Graphics\Texture\CubemapTexture.cpp" />
     <ClCompile Include="Source\Core\IO\AssetExporter\AssetExporter_Texture.cpp" />
     <ClCompile Include="Source\Core\IO\AssetExporter\AssetExporter_Three_D_Model.cpp" />
     <ClCompile Include="Source\Core\IO\AssetImporter\Manager\AssetImporterWorkerManager.cpp" />
@@ -544,17 +550,16 @@ xcopy /y /d /E /H /C /I "$(ProjectDir)Assets" "$(TargetDir)Assets"</Command>
     <ClCompile Include="Source\Core\Game\AssetManager\AssetManager.cpp" />
     <ClCompile Include="Source\Core\Game\GameCore.cpp" />
     <ClCompile Include="Source\Core\Graphics\Buffer\Buffer.cpp" />
-    <ClCompile Include="Source\Core\Graphics\Buffer\UniformBufferObjectUpdater.cpp" />
+    <ClCompile Include="Source\Core\Graphics\Buffer\UniformBufferObject\UniformBufferObjectUpdater.cpp" />
     <ClCompile Include="Source\Core\Graphics\Buffer\Mesh.cpp" />
-    <ClCompile Include="Source\Core\Graphics\Buffer\UniformBufferObjectManager.cpp" />
+    <ClCompile Include="Source\Core\Graphics\Buffer\UniformBufferObject\UniformBufferObjectManager.cpp" />
     <ClCompile Include="Source\Core\Scene\Entity.cpp" />
     <ClCompile Include="Source\Core\Graphics\FrameBuffer\FrameBuffer.cpp" />
     <ClCompile Include="Source\Core\Graphics\Material\Material.cpp" />
     <ClCompile Include="Source\Core\Asset\ShaderAsset.cpp" />
     <ClCompile Include="Source\Core\Graphics\FrameBuffer\RenderBuffer.cpp" />
-    <ClCompile Include="Source\Core\Graphics\Texture\SingleTexture.cpp" />
-    <ClCompile Include="Source\Core\Graphics\Texture\Texture.cpp" />
-    <ClCompile Include="Source\Core\Graphics\Buffer\UniformBufferObject.cpp" />
+    <ClCompile Include="Source\Core\Graphics\Texture\TextureView.cpp" />
+    <ClCompile Include="Source\Core\Graphics\Buffer\UniformBufferObject\UniformBufferObject.cpp" />
     <ClCompile Include="Source\Core\IO\AssetImporter\assetImporter.cpp" />
     <ClCompile Include="Source\Core\IO\UserInput_Server.cpp" />
     <ClCompile Include="Source\Core\Logger\Logger.cpp" />
@@ -571,7 +576,7 @@ xcopy /y /d /E /H /C /I "$(ProjectDir)Assets" "$(TargetDir)Assets"</Command>
     <ClCompile Include="Source\Core\utility\KDTree\KDTreeNodeView.cpp" />
     <ClCompile Include="Source\Core\utility\KDTree\KDTreeVector.cpp" />
     <ClCompile Include="Source\Core\utility\SimpleIniParser.cpp" />
-    <ClCompile Include="Source\Core\utility\TextImporter.cpp" />
+    <ClCompile Include="Source\Core\Asset\Utility\textImporter.cpp" />
     <ClCompile Include="Source\Core\WorldEditor\MapLoader.cpp" />
     <ClCompile Include="Source\GameLogic\CustomComponent\AutoRotate.cpp" />
     <ClCompile Include="Source\GameLogic\CustomComponent\AutoRotateAround.cpp" />
@@ -605,12 +610,18 @@ xcopy /y /d /E /H /C /I "$(ProjectDir)Assets" "$(TargetDir)Assets"</Command>
     <ClCompile Include="Source\thirdparty\imgui\imgui_widgets.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Source\Component\Rendering\MaxCameraCount.h" />
+    <ClInclude Include="Source\Core\Asset\Utility\ShaderAsset\shaderAssetHelper.h" />
+    <ClInclude Include="Source\Core\Asset\Utility\ShaderAsset\shaderConverter.h" />
+    <ClInclude Include="Source\Core\Asset\Utility\ShaderAsset\shaderReflectionDataParser.h" />
     <ClInclude Include="Source\Core\EngineGUI\GUIModules\drawCallCounterGUI.h" />
+    <ClInclude Include="Source\Core\eStatus.h" />
     <ClInclude Include="Source\Core\Graphics\Acceleration\LinearData_ViewFrustumCulling\CullingModule\MaskedSWOcclusionCulling\OccluderListManager.h" />
     <ClInclude Include="Source\Core\Graphics\Acceleration\LinearData_ViewFrustumCulling\CullingModule\PreCulling\PreCulling.h" />
     <ClInclude Include="Source\Core\Graphics\Acceleration\LinearData_ViewFrustumCulling\CullingModule\MaskedSWOcclusionCulling\Utility\depthBufferTileHelper.h" />
     <ClInclude Include="Source\Core\Graphics\Acceleration\LinearData_ViewFrustumCulling\CullingModule\MaskedSWOcclusionCulling\Utility\vertexTransformationHelper.h" />
     <ClInclude Include="Source\Core\Graphics\Acceleration\LinearData_ViewFrustumCulling\EveryCullingProfiler.h" />
+    <ClInclude Include="Source\Core\Graphics\Buffer\UniformBufferObject\UniformBufferObjectView.h" />
     <ClInclude Include="Source\Core\Graphics\DebugGraphics\DebugPrimitive\DebugPrimitive2DLineContainer.h" />
     <ClInclude Include="Source\Core\EngineGUI\GUIModules\MaskedOcclusionCulliingDebugger.h" />
     <ClInclude Include="Source\Core\Graphics\Acceleration\LinearData_ViewFrustumCulling\CullingModule\MaskedSWOcclusionCulling\Utility\depthUtility.h" />
@@ -632,7 +643,7 @@ xcopy /y /d /E /H /C /I "$(ProjectDir)Assets" "$(TargetDir)Assets"</Command>
     <ClInclude Include="Source\Core\Graphics\Acceleration\LinearData_ViewFrustumCulling\CullingModule\MaskedSWOcclusionCulling\Stage\SolveMeshRoleStage.h" />
     <ClInclude Include="Source\Core\Graphics\Buffer\eVertexArrayFlag.h" />
     <ClInclude Include="Source\Core\Graphics\Buffer\MeshHelper.h" />
-    <ClInclude Include="Source\Core\Graphics\GraphicsAPI\eGraphicsAPIType.h" />
+    <ClInclude Include="Source\Core\Graphics\FrameBuffer\FrameBufferView.h" />
     <ClInclude Include="Source\Core\Graphics\GraphicsAPI\GraphicsAPI.h" />
     <ClInclude Include="Source\Core\Graphics\GraphicsAPI\Input\GraphicsAPIInput.h" />
     <ClInclude Include="Source\Core\Graphics\GraphicsAPI\Macros\GraphicsAPIMacros.h" />
@@ -641,6 +652,7 @@ xcopy /y /d /E /H /C /I "$(ProjectDir)Assets" "$(TargetDir)Assets"</Command>
     <ClInclude Include="Source\Core\Graphics\GraphicsAPI\PlatformImgui\PlatformImgui.h" />
     <ClInclude Include="Source\Core\Graphics\graphicsSetting.h" />
     <ClInclude Include="Source\Core\Memory\MemoryManager.h" />
+    <ClInclude Include="Source\Core\IO\AssetExporter\AssetExporter_Shader.h" />
     <ClInclude Include="Source\Core\Profiler\ProfilingManager.h" />
     <ClInclude Include="Source\Core\Reflection\AdditionalDirectoryForClang\cpuid.h" />
     <ClInclude Include="Source\Core\Reflection\ReflectionType\ePropertyQualifier.h" />
@@ -687,7 +699,6 @@ xcopy /y /d /E /H /C /I "$(ProjectDir)Assets" "$(TargetDir)Assets"</Command>
     <ClInclude Include="Source\Core\GarbageCollector\GarbageCollectorSolver.h" />
     <ClInclude Include="Source\Core\Graphics\Acceleration\LinearData_ViewFrustumCulling\DataType\Math\SIMD_Core.h" />
     <ClInclude Include="Source\Core\Graphics\FrameBuffer\FrameBufferExporterHelper.h" />
-    <ClInclude Include="Source\Core\Graphics\Texture\CubemapTexture.h" />
     <ClInclude Include="Source\Core\IO\AssetExporter\AssetExporter_Texture.h" />
     <ClInclude Include="Source\Core\IO\AssetExporter\AssetExporter_Three_D_Model.h" />
     <ClInclude Include="Source\Core\IO\AssetImporter\AssetImporterWorker\AssetImporterWorkerForwardDeclaration.h" />
@@ -846,10 +857,10 @@ xcopy /y /d /E /H /C /I "$(ProjectDir)Assets" "$(TargetDir)Assets"</Command>
     <ClInclude Include="Source\Core\Scene\Layer.h" />
     <ClInclude Include="Source\Core\Scene\SharedScene.h" />
     <ClInclude Include="Source\Core\Scene\SharedSceneSetting.h" />
-    <ClInclude Include="Source\Core\Graphics\Buffer\UniformBufferObjectUpdater.h" />
+    <ClInclude Include="Source\Core\Graphics\Buffer\UniformBufferObject\UniformBufferObjectUpdater.h" />
     <ClInclude Include="Source\Core\Graphics\Buffer\MeshNode.h" />
-    <ClInclude Include="Source\Core\Graphics\Buffer\UniformBlockOffsetInfo.h" />
-    <ClInclude Include="Source\Core\Graphics\Buffer\UniformBufferObject.h" />
+    <ClInclude Include="Source\Core\Graphics\Buffer\UniformBufferObject\UniformBlockOffsetInfo.h" />
+    <ClInclude Include="Source\Core\Graphics\Buffer\UniformBufferObject\UniformBufferObject.h" />
     <ClInclude Include="Source\Core\Graphics\Buffer\Mesh.h" />
     <ClInclude Include="Source\Core\API\ASSIMP.h" />
     <ClInclude Include="Source\Core\API\UUID.h" />
@@ -858,12 +869,11 @@ xcopy /y /d /E /H /C /I "$(ProjectDir)Assets" "$(TargetDir)Assets"</Command>
     <ClInclude Include="Source\Core\Scene\Scene.h" />
     <ClInclude Include="Source\Core\Game\AssetManager\AssetContainer.h" />
     <ClInclude Include="Source\Core\Game\AssetManager\AssetManager.h" />
-    <ClInclude Include="Source\Core\Graphics\Buffer\UniformBufferObjectManager.h" />
+    <ClInclude Include="Source\Core\Graphics\Buffer\UniformBufferObject\UniformBufferObjectManager.h" />
     <ClInclude Include="Source\Core\Scene\Entity.h" />
     <ClInclude Include="Source\Core\Graphics\FrameBuffer\FrameBuffer.h" />
     <ClInclude Include="Source\Core\Graphics\Graphics_Core.h" />
     <ClInclude Include="Source\Core\Graphics\FrameBuffer\RenderBuffer.h" />
-    <ClInclude Include="Source\Core\Graphics\Texture\SingleTexture.h" />
     <ClInclude Include="Source\Core\IO\AssetImporter\assetImporter.h" />
     <ClInclude Include="Source\Core\IO\AssetImporter\AssetImporterWorker\AssetImporterWorker_Audio.h" />
     <ClInclude Include="Source\Core\IO\AssetImporter\AssetImporterWorker\AssetImporterWorker.h" />
@@ -921,7 +931,7 @@ xcopy /y /d /E /H /C /I "$(ProjectDir)Assets" "$(TargetDir)Assets"</Command>
     <ClInclude Include="Source\Core\utility\KDTree\KDTreeNode.h" />
     <ClInclude Include="Source\Core\utility\KDTree\KDTreeNodeView.h" />
     <ClInclude Include="Source\Core\utility\SimpleIniParser.h" />
-    <ClInclude Include="Source\Core\utility\TextImporter.h" />
+    <ClInclude Include="Source\Core\Asset\Utility\textImporter.h" />
     <ClInclude Include="Source\Core\utility\Tree.h" />
     <ClInclude Include="Source\Core\utility\TreeNode.h" />
     <ClInclude Include="Source\Core\utility\trim.h" />
@@ -978,7 +988,7 @@ xcopy /y /d /E /H /C /I "$(ProjectDir)Assets" "$(TargetDir)Assets"</Command>
     <ClInclude Include="Source\Core\Graphics\Buffer\Buffer.h" />
     <ClInclude Include="Source\Core\Graphics\Material\Material.h" />
     <ClInclude Include="Source\Core\Asset\ShaderAsset.h" />
-    <ClInclude Include="Source\Core\Graphics\Texture\Texture.h" />
+    <ClInclude Include="Source\Core\Graphics\Texture\TextureView.h" />
     <ClInclude Include="Source\Core\IO\UserInput_Server.h" />
     <ClInclude Include="Source\Core\Logger\Logger.h" />
     <ClInclude Include="Source\Core\Asset\ThreeDModelAsset.h" />
@@ -990,6 +1000,7 @@ xcopy /y /d /E /H /C /I "$(ProjectDir)Assets" "$(TargetDir)Assets"</Command>
     <ClInclude Include="Source\thirdparty\imgui\imstb_rectpack.h" />
     <ClInclude Include="Source\thirdparty\imgui\imstb_textedit.h" />
     <ClInclude Include="Source\thirdparty\imgui\imstb_truetype.h" />
+    <ClInclude Include="Source\thirdparty\nlohmann\json.hpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\CodingRule.md" />

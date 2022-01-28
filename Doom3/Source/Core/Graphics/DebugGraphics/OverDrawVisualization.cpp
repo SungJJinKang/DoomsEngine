@@ -30,14 +30,13 @@ namespace dooms
 				dooms::asset::ShaderAsset* overDrawVisualizationShader = dooms::assetImporter::AssetManager::GetSingleton()->GetAsset<dooms::asset::eAssetType::SHADER>("OverDrawVisualizationShader.glsl");
 				mOverDrawVisualizationObjectDrawMaterial = overDrawVisualizationShader->CreateMatrialWithThisShader();
 
-				mOverDrawVisualizationFrameBuffer.GenerateBuffer(dooms::graphics::graphicsAPISetting::GetScreenWidth(), dooms::graphics::graphicsAPISetting::GetScreenHeight());
-				mOverDrawVisualizationFrameBuffer.AttachTextureBuffer(dooms::graphics::GraphicsAPI::eBufferBitType::COLOR_BUFFER);
-				mOverDrawVisualizationFrameBuffer.AttachRenderBuffer(dooms::graphics::GraphicsAPI::eFrameBufferAttachmentPoint::FRAMEBUFFER_ATTACHMENT_POINT_DEPTH_ATTACHMENT);
+				mOverDrawVisualizationFrameBuffer.AttachColorTextureToFrameBuffer(0, graphicsAPISetting::GetScreenWidth(), graphicsAPISetting::GetScreenHeight());
+				mOverDrawVisualizationFrameBuffer.AttachDepthTextureToFrameBuffer(graphicsAPISetting::GetScreenWidth(), graphicsAPISetting::GetScreenHeight());
 				
 				OverDrawVisualizationPIP = dooms::graphics::Graphics_Server::GetSingleton()->mPIPManager.AddNewPIP(
 					math::Vector2(-1.0f, -1.0f),
 					math::Vector2(1.0f, 1.0f),
-					mOverDrawVisualizationFrameBuffer.GetFrameBufferTexture(dooms::graphics::GraphicsAPI::eBufferBitType::COLOR_BUFFER, 0)
+					mOverDrawVisualizationFrameBuffer.GetDepthTextureView(0, GraphicsAPI::PIXEL_SHADER)
 				);
 
 				bmIsOverDrawVisualizationInitialized = true;
@@ -70,9 +69,9 @@ void dooms::graphics::OverDrawVisualization::SetOverDrawVisualizationRenderingSt
 
 
 		dooms::graphics::FixedMaterial::SetFixedMaterial(&(mOverDrawVisualizationObjectDrawMaterial));
-		
-		GraphicsAPI::ClearBufferColorBuffer(mOverDrawVisualizationFrameBuffer.GetFrameBufferID(), 0.0f, 0.0f, 0.0f, 1.0f);
-		GraphicsAPI::ClearBufferDepthBuffer(mOverDrawVisualizationFrameBuffer.GetFrameBufferID(), GraphicsAPI::DEFAULT_MAX_DEPTH_VALUE);
+
+		mOverDrawVisualizationFrameBuffer.ClearColorTexture(0, 0.0f, 0.0f, 0.0f, 1.0f);
+		mOverDrawVisualizationFrameBuffer.ClrearDepthTexture(GraphicsAPI::DEFAULT_MAX_DEPTH_VALUE);
 	}
 	else
 	{
@@ -93,7 +92,7 @@ void dooms::graphics::OverDrawVisualization::SetOverDrawVisualizationRenderingSt
 		{
 			dooms::graphics::FixedMaterial::ClearFixedMaterial();
 		}
-		mOverDrawVisualizationFrameBuffer.UnBindFrameBuffer();
+		FrameBuffer::StaticBindBackFrameBuffer();
 	}
 }
 

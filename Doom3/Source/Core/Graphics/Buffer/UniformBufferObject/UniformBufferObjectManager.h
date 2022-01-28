@@ -1,11 +1,12 @@
 #pragma once
 
-#include <array>
+#include <Core.h>
 
-#include "../Graphics_Core.h"
+#include <vector>
+#include <unordered_map>
+#include <../Helper/Simple_SingleTon/Singleton.h>
 #include "UniformBufferObject.h"
 
-#include <../Helper/Simple_SingleTon/Singleton.h>
 
 #include "UniformBufferObjectManager.reflection.h"
 namespace dooms
@@ -23,16 +24,15 @@ namespace dooms
 			/// <summary>
 			/// index is same with binding point
 			/// </summary>
-			std::array<UniformBufferObject, MAX_UNIFORM_BLOCK_BINDING_POINT> mUniformBufferObjects{};
-			std::vector<UniformBufferObjectUpdater*> mUniformBufferObjectTempBufferUpdaters{};
-			
-		
+			//D_PROPERTY()
 
+			std::unordered_map<std::string, UniformBufferObject*> mUniformBufferObjects;
+
+			D_PROPERTY()
+			std::vector<UniformBufferObjectUpdater*> mUniformBufferObjectTempBufferUpdaters;
+			
 		public:
-
 			
-			
-		
 			UniformBufferObjectManager();
 
 			/// <summary>
@@ -44,14 +44,17 @@ namespace dooms
 			/// Update uniform Buffer Object's TempBuffer -> Buffer Data to gpu
 			/// </summary>
 			void UpdateUniformObjects();
-
-			/// <summary>
-			/// return Uniform Buffer Object class
-			/// if uniform buffer object isn't initialized, Initialize it
-			/// </summary>
-			UniformBufferObject& GetOrGenerateUniformBufferObject(UINT32 bindingPoint, UINT32 uniformBlockSize);
-			UniformBufferObject& GetUniformBufferObject(UINT32 bindingPoint);
-
+			
+			UniformBufferObject* GetUniformBufferObject(const std::string& uniformBufferName);
+			UniformBufferObject* GenerateUniformBufferObjectIfNotExist
+			(
+				const std::string& uniformBufferName,
+				const UINT64 uniformBufferSize,
+				const UINT32 bindingPoint,
+				const void* const initialData,
+				const std::vector<asset::shaderReflectionDataParser::UniformBufferMember>* const uboMembers
+			);
+			
 			/// <summary>
 			/// Call UpdateUniformBufferObject of UBO Temp Buffer Updaters 
 			/// </summary>

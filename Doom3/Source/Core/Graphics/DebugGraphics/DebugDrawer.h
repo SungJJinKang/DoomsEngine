@@ -15,6 +15,7 @@
 #include "../Buffer/Mesh.h"
 #include "../Material/Material.h"
 #include "../Color.h"
+#include <Simple_SingleTon/Singleton.h>
 
 #include "DebugPrimitive/DebugPrimitiveContainerCollection.h"
 

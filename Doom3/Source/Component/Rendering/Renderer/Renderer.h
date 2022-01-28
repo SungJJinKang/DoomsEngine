@@ -10,7 +10,8 @@
 #include "Physics/Collider/AABB.h"
 #include "utility/BVH/BVH_Node_Object.h"
 #include "Graphics/Acceleration/LinearData_ViewFrustumCulling/DataType/EntityBlockViewer.h"
-
+#include <Transform.h>
+#include <Scene/Entity.h>
 
 #include "Renderer.reflection.h"
 namespace dooms
@@ -63,7 +64,7 @@ namespace dooms
 		DirtyReceiver bmIsModelMatrixDirty{ true };
 
 		D_PROPERTY()
-		const graphics::Material* mTargetMaterial;
+		graphics::Material* mTargetMaterial;
 
 		virtual void UpdateCullingEntityBlockViewer();
 
@@ -124,7 +125,7 @@ namespace dooms
 		virtual ~Renderer();
 
 		void PreRender();
-		FORCE_INLINE virtual void Draw() const = 0;
+		FORCE_INLINE virtual void Draw() = 0;
 
 		/// <summary>
 		/// Why this function is inline function.
@@ -140,13 +141,16 @@ namespace dooms
 			}
 		}
 
-		void SetMaterial(const graphics::Material* material) noexcept;
-		void SetMaterial(const graphics::Material& material) noexcept;
-		FORCE_INLINE const dooms::graphics::Material* GetMaterial()
+		void SetMaterial(graphics::Material* material) noexcept;
+		void SetMaterial(graphics::Material& material) noexcept;
+		FORCE_INLINE dooms::graphics::Material* GetMaterial()
 		{
 			return mTargetMaterial;
 		}
-
+		FORCE_INLINE const dooms::graphics::Material* GetMaterial() const
+		{
+			return mTargetMaterial;
+		}
 		/// <summary>
 		/// cameraIndex can be get from StaticContainer<Camera>
 		/// </summary>

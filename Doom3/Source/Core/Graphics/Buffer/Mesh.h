@@ -22,10 +22,6 @@ namespace dooms
 		{
 			GENERATE_BODY()
 			
-
-			friend class Graphics_Server;
-			friend class DebugDrawer;
-
 		public:
 
 			
@@ -38,12 +34,24 @@ namespace dooms
 
 			D_PROPERTY()
 			const ThreeDModelMesh* mTargetThreeDModelMesh;
-			
+
+			/// <summary>
+			/// DX11 bind this buffer
+			/// </summary>
+			D_PROPERTY()
+			BufferID mVertexDataBuffer;
 
 			D_PROPERTY()
-			BufferID mVertexArrayObjectID;
+			BufferID mElementBufferObjectID;	
+
+			/// <summary>
+			///	DX11 doesn't have this concept. it just bind VertexDataBuffer
+			///
+			/// OpenGL bind this buffer
+			/// </summary>
 			D_PROPERTY()
-			BufferID mElementBufferObjectID;
+			BufferID mVertexArrayObjectID;
+		
 			//UINT32 mVertexBufferObject; <- Use Buffer::data
 
 			//const ThreeDModelMesh* mThreeDModelMesh; don't save ModelMeshAssetData
@@ -79,7 +87,7 @@ namespace dooms
 
 				if (D_OVERLAP_BIND_CHECK_CHECK_IS_NOT_BOUND_AND_BIND_ID(INDEX_BUFFER_TAG, mElementBufferObjectID))
 				{
-					GraphicsAPI::BindBuffer(mElementBufferObjectID, GraphicsAPI::eBufferTarget::ELEMENT_ARRAY_BUFFER);
+					GraphicsAPI::BindIndexBufferObject(mElementBufferObjectID);
 				}
 			}
 
@@ -93,12 +101,13 @@ namespace dooms
 
 			void OnSetPendingKill() override;
 
-		protected:
+			void BindVertexArrayObject() const;
+			void BindVertexBufferObject() const;
+			void BindVertexBufferObject(const UINT32 bindingPosition, const graphics::GraphicsAPI::eGraphicsPipeLineStage graphicsPipeLineStage) const;
 
-			void GenMeshBuffer(bool hasIndice);
-			void DeleteBuffers() final;
-			virtual void GenBufferIfNotGened(bool hasIndice) final;
+			void CreateVertexArrayObjectIfNotExist();
 
+	
 		public:
 
 			
@@ -117,42 +126,15 @@ namespace dooms
 			Mesh& operator=(Mesh&&) noexcept = default;
 
 			const ThreeDModelMesh* GetTargetThreeDModelMesh() const;
+			void DeleteBuffers() final;
 
-			D_FUNCTION()
-			FORCE_INLINE void BindVertexArrayObject() const noexcept
-			{
-				BindBuffer();
-			}
-			D_FUNCTION()
-			FORCE_INLINE void UnBindBuffer() const noexcept final
-			{
-				if (D_OVERLAP_BIND_CHECK_CHECK_IS_NOT_BOUND_AND_BIND_ID(VERTEX_ARRAY_TAG, 0))
-				{
-					GraphicsAPI::UnBindVertexArrayObject();
-				}
-			}
+			
+			void CreateBufferObject(const long long int dataComponentCount, const void* data, GraphicsAPI::ePrimitiveType primitiveType, UINT32 vertexArrayFlag) noexcept;
+			void CreateBufferObjectFromModelMesh(const ThreeDModelMesh& threeDModelMesh) noexcept;
 
-			/// <summary>
-			/// layout(location = 0) in vec3 aPos;
-			/// layout(location = 1) in vec2 aUV0;
-			/// layout(location = 2) in vec3 aNormal;
-			/// layout(location = 3) in vec3 aTangent;
-			/// layout(location = 4) in vec3 aBitangent;
-			/// 
-			/// above datas should be arranged sequentially
-			/// 
-			/// aPos(0)  aUV0  aNormal  aTangent  aBitangent
-			/// 
-			/// </summary>
-			/// <param name="dataCount">count of data, vec3 -> 3 </param>
-			/// <param name="data">first element address of data array's element</param>
-			/// <param name="primitiveType"></param>
-			/// <param name="vertexArrayFlag">use eVertexArrayFlag!!!! </param>
-			/// <returns></returns>
-			void BufferData(const long long int dataComponentCount, const void* data, GraphicsAPI::ePrimitiveType primitiveType, UINT32 vertexArrayFlag) noexcept;
-			void BufferSubData(const long long int dataComponentCount, const void* data, const long long int offsetInByte) const noexcept;
-			void BindVertexBufferObject() const;
-			void BufferDataFromModelMesh(const ThreeDModelMesh& threeDModelMesh) noexcept;
+			void UpdateVertexData(const long long int dataComponentCount, const void* data, const long long int offsetInByte) const noexcept;
+
+
 			FORCE_INLINE void Draw() const
 			{
 				D_ASSERT(mPrimitiveType != GraphicsAPI::ePrimitiveType::NONE);
@@ -161,7 +143,7 @@ namespace dooms
 				if (IsElementBufferGenerated() == true)
 				{// TODO : WHY THIS MAKE ERROR ON RADEON GPU, CHECK THIS https://stackoverflow.com/questions/18299646/gldrawelements-emits-gl-invalid-operation-when-using-amd-driver-on-linux
 					// you don't need bind EBO everytime, EBO will be bound automatically when bind VAO
-					GraphicsAPI::DrawIndexed(mPrimitiveType, mNumOfIndices, 0);
+					GraphicsAPI::DrawIndexed(mPrimitiveType, mNumOfIndices);
 				}
 				else
 				{

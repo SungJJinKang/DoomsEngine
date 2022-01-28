@@ -6,8 +6,6 @@
 
 #include <Core.h>
 
-#include <../Helper/Simple_SingleTon/Singleton.h>
-
 #define INVALID_STATIC_CONTAINER_INDEX (size_t)(-1)
 
 namespace dooms

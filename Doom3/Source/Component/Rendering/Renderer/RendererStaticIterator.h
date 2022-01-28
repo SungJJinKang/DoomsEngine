@@ -1,15 +1,12 @@
 #pragma once
 
 #include <array>
+#include <vector>
 
 #include <Core.h>
-
 #include <StaticContainer/StaticContainer.h>
-#include <Entity.h>
-#include "../Core/Scene/Layer.h"
-#include <Rendering/Camera.h>
-
-
+#include "../MaxCameraCount.h"
+#include <Simple_SingleTon/Singleton.h>
 
 #include "RendererStaticIterator.reflection.h"
 namespace dooms
@@ -21,10 +18,7 @@ namespace dooms
 	template <>
 	class DOOM_API D_CLASS StaticContainer<Renderer> : public DObject, public ISingleton<StaticContainer<Renderer>>
 	{
-		
-
-		using this_type = typename StaticContainer<Renderer>;
-
+		//GENERATE_BODY()
 	private:
 
 		UINT32 mWorkingRendererListIndex = 0;

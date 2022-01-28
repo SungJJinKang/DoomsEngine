@@ -50,14 +50,13 @@ namespace dooms
 		MeshRenderer& operator=(const MeshRenderer&) = delete;
 		MeshRenderer& operator=(MeshRenderer&&) noexcept = delete;
 
-		FORCE_INLINE void Draw() const override
+		FORCE_INLINE void Draw() override
 		{
 			BindMaterial();
 
 			if (IsValid(mTargetMaterial))
 			{
-				graphics::Material::SetMatrix4x4(graphics::eUniformLocation::ModelMatrix, GetTransform()->GetModelMatrix());
-				
+				GetMaterial()->GetUniformBufferObjectViewFromUBOName(0)->SetMat4x4(graphics::eUniformLocation::ModelMatrix, GetTransform()->GetModelMatrix());
 			}
 			if (IsValid(mTargetMesh))
 			{

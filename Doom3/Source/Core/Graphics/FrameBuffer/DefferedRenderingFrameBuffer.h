@@ -25,7 +25,7 @@ namespace dooms
 
 			DefferedRenderingFrameBuffer();
 
-			void BlitDepthBufferToScreenBuffer() const;
+			void BlitDepthBufferToScreenBuffer();
 			void BindGBufferTextures();
 
 			virtual void ClearFrameBuffer(const Camera* const camera) final;

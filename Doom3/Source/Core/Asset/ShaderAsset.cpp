@@ -3,372 +3,278 @@
 #include "ShaderAsset.h"
 
 #include "../Graphics/Material/Material.h"
-#include <utility/TextImporter.h>
-#include <utility/trim.h>
+#include "Utility/ShaderAsset/shaderAssetHelper.h"
 #include <EngineGUI/PrintText.h>
-
-const std::string dooms::asset::ShaderAsset::VertexShaderMacros = "#VERTEX";
-const std::string dooms::asset::ShaderAsset::FragmentShaderMacros = "#FRAGMENT";
-const std::string dooms::asset::ShaderAsset::GeometryShaderMacros = "#GEOMETRY";
+#include "Utility/ShaderAsset/shaderConverter.h"
+#include <Graphics/Buffer/UniformBufferObject/UniformBufferObjectManager.h>
 
 
+dooms::asset::ShaderTextData::ShaderTextData() : mShaderTextGraphicsAPIType{ dooms::graphics::GraphicsAPI::eGraphicsAPIType::GraphicsAPIType_NONE }, mShaderStringText{}
+{
+
+}
+
+dooms::asset::ShaderTextData::ShaderTextData
+(
+	const std::string& shaderStringText,
+	const std::string& shaderReflectionDataStringText
+)
+	:
+	mShaderTextGraphicsAPIType{ dooms::graphics::GraphicsAPI::eGraphicsAPIType::GraphicsAPIType_NONE },
+	mShaderStringText{ shaderStringText },
+	mShaderReflectionDataStringText(shaderReflectionDataStringText)
+{
+
+}
+
+dooms::asset::ShaderTextData::ShaderTextData
+(
+	const dooms::graphics::GraphicsAPI::eGraphicsAPIType graphicsAPIType,
+	const std::string& shaderStringText,
+	const std::string& shaderReflectionDataStringText
+)
+	:
+	mShaderTextGraphicsAPIType{ graphicsAPIType },
+	mShaderStringText{ shaderStringText },
+	mShaderReflectionDataStringText(shaderReflectionDataStringText)
+{
+
+}
+
+void dooms::asset::ShaderTextData::Clear()
+{
+	mShaderTextGraphicsAPIType = dooms::graphics::GraphicsAPI::eGraphicsAPIType::GraphicsAPIType_NONE;
+	mShaderStringText.clear();
+}
+
+bool dooms::asset::ShaderTextData::IsValid() const
+{
+	return (mShaderStringText.empty() == false) && (mShaderTextGraphicsAPIType != dooms::graphics::GraphicsAPI::eGraphicsAPIType::GraphicsAPIType_NONE);
+}
 
 dooms::asset::ShaderAsset::ShaderAsset()
-	: mVertexId(), mFragmentId(), mGeometryId()
+	: mShaderTextDatas(), mShaderObject()
 {
 }
 
-dooms::asset::ShaderAsset::ShaderAsset(const std::string& shaderStr)
-	: mVertexId(), mFragmentId(), mGeometryId()
-{
-	SetShaderText(shaderStr, false);
-	CompileShaders();
-}
 
-dooms::asset::ShaderAsset::ShaderAsset(ShaderText shaderText)
-	:mShaderText(std::move(shaderText)), mVertexId(), mFragmentId(), mGeometryId()
+/*
+dooms::asset::ShaderAsset::ShaderAsset(const std::array<ShaderTextData, GRAPHICS_PIPELINE_STAGE_COUNT>& shaderTexts)
+	: mShaderTextDatas(shaderTexts), mShaderObject()
 {
 	CompileShaders();
 }
+*/
 
-dooms::asset::ShaderAsset::ShaderAsset(ShaderAsset&& shader) noexcept
-	: Asset(std::move(shader)), mVertexId{ shader.mVertexId }, mFragmentId{ shader.mFragmentId }, mGeometryId{ shader.mGeometryId }, 
-	mShaderText{ std::move(shader.mShaderText) }
-{
-	shader.mVertexId.Reset();
-	shader.mFragmentId.Reset();
-	shader.mGeometryId.Reset();
-}
-
-dooms::asset::ShaderAsset& dooms::asset::ShaderAsset::operator=(ShaderAsset&& shader) noexcept
-{
-	Base::operator=(std::move(shader));
-
-	mVertexId = shader.mVertexId;
-	shader.mVertexId.Reset();
-
-	mFragmentId = shader.mFragmentId;
-	shader.mFragmentId.Reset();
-
-	mGeometryId = shader.mGeometryId;
-	shader.mGeometryId.Reset();
-
-	mShaderText = std::move(shader.mShaderText);
-
-	return *this;
-}
+dooms::asset::ShaderAsset::ShaderAsset(ShaderAsset&& shader) noexcept = default;
+dooms::asset::ShaderAsset& dooms::asset::ShaderAsset::operator=(ShaderAsset&& shader) noexcept = default;
 
 dooms::asset::ShaderAsset::~ShaderAsset()
 {
+	DestroyShaderObjects();
+	ClearShaderTextStrings();
 }
 
 void dooms::asset::ShaderAsset::OnSetPendingKill()
 {
 	Asset::OnSetPendingKill();
 	
-	DeleteShaders();
+	DestroyShaderObjects();
+	ClearShaderTextStrings();
 }
 
-void dooms::asset::ShaderAsset::DeleteShaders()
+void dooms::asset::ShaderAsset::DestroyShaderObjects()
 {
-	if (mVertexId.IsValid())
+	for(auto& shaderObject : mShaderObject)
 	{
-		graphics::GraphicsAPI::DestroyShaderObject(mVertexId);
-		mVertexId.Reset();
-	}
+		if(shaderObject.IsShaderObjectValid())
+		{
+			graphics::GraphicsAPI::DestroyShaderObject(shaderObject.mShaderObjectID);
+			shaderObject.mShaderObjectID.Reset();
 
-	if (mFragmentId.IsValid())
-	{
-		graphics::GraphicsAPI::DestroyShaderObject(mFragmentId);
-		mFragmentId.Reset();
-	}
-
-	if (mGeometryId.IsValid())
-	{
-		graphics::GraphicsAPI::DestroyShaderObject(mGeometryId);
-		mGeometryId.Reset();
+			shaderObject.mShaderCompileStatus = eShaderCompileStatus::READY;
+		}
 	}
 }
 
-void dooms::asset::ShaderAsset::SetShaderText(const std::string& shaderStr, const bool compileShader)
+void dooms::asset::ShaderAsset::ClearShaderTextStrings()
 {
-	ClassifyShader(shaderStr);
+	for (ShaderTextData& shaderTextString : mShaderTextDatas)
+	{
+		shaderTextString.Clear();
+	}
+}
+
+
+void dooms::asset::ShaderAsset::SetShaderText
+(
+	const std::string& shaderStringText,
+	const std::string& shaderReflectionDataStringText,
+	const dooms::graphics::GraphicsAPI::eGraphicsAPIType shaderTextraphicsAPIType, 
+	const bool compileShader
+)
+{
+	D_ASSERT(shaderTextraphicsAPIType != dooms::graphics::GraphicsAPI::eGraphicsAPIType::GraphicsAPIType_NONE);
+
+	std::array<std::string, GRAPHICS_PIPELINE_STAGE_COUNT> shaderTexts = shaderAssetHelper::ParseShaderTextStringsBasedOnTargetGraphicsPipeLineStage(GetAssetPath(), shaderStringText);
+	std::array<std::string, GRAPHICS_PIPELINE_STAGE_COUNT> shaderReflectionTexts = shaderAssetHelper::ParseShaderReflectionTextStringsBasedOnTargetGraphicsPipeLineStage(shaderReflectionDataStringText);
+	for (size_t shaderTextIndex = 0; shaderTextIndex < GRAPHICS_PIPELINE_STAGE_COUNT; shaderTextIndex++)
+	{
+		mShaderTextDatas[shaderTextIndex].mShaderTextGraphicsAPIType = shaderTextraphicsAPIType;
+		mShaderTextDatas[shaderTextIndex].mShaderStringText = shaderTexts[shaderTextIndex];
+		mShaderTextDatas[shaderTextIndex].mShaderReflectionDataStringText = shaderReflectionTexts[shaderTextIndex];
+
+		const bool isSuccessToisSuccessToConvertShaderTextStringToCurrentGraphicsAPIShaderFormat = ConvertShaderTextStringToCurrentGraphicsAPIShaderFormat(mShaderTextDatas[shaderTextIndex]);
+		D_ASSERT(isSuccessToisSuccessToConvertShaderTextStringToCurrentGraphicsAPIShaderFormat == true);
+
+		mShaderTextDatas[shaderTextIndex].mShaderReflectionData = dooms::asset::shaderReflectionDataParser::ParseShaderReflectionStringText(mShaderTextDatas[shaderTextIndex].mShaderReflectionDataStringText);
+	}
+
+	D_ASSERT_LOG
+	(
+		IsHasAnyValidShaderTextString() == true,
+		"Shader Asset doesn't have any shader string ( File Path : %s )", GetAssetPathAsUTF8Str().c_str()
+	);
+	if (IsHasAnyValidShaderTextString() == false)
+	{
+		dooms::ui::PrintText("Shader Asset doesn't have any shader string ( File Path : %s )", GetAssetPathAsUTF8Str().c_str());
+	}
+
 	if (compileShader == true)
 	{
 		CompileShaders();
 	}
 }
 
+const std::string& dooms::asset::ShaderAsset::GetShaderStringText
+(
+	const dooms::graphics::GraphicsAPI::eGraphicsAPIType shaderTextraphicsAPIType
+) const
+{
+	return mShaderTextDatas[static_cast<UINT32>(shaderTextraphicsAPIType)].mShaderStringText;
+}
+
+const std::string& dooms::asset::ShaderAsset::GetShaderReflectionDataStringText
+(
+	const dooms::graphics::GraphicsAPI::eGraphicsAPIType shaderTextraphicsAPIType
+) const
+{
+	return mShaderTextDatas[static_cast<UINT32>(shaderTextraphicsAPIType)].mShaderReflectionDataStringText;
+}
+
+dooms::asset::ShaderAsset::ShaderObject::ShaderObject()
+	: mShaderObjectID(), mShaderCompileStatus(eShaderCompileStatus::READY)
+{
+}
+
+bool dooms::asset::ShaderAsset::ShaderObject::IsShaderObjectValid() const
+{
+	return (mShaderObjectID.IsValid()) && (mShaderCompileStatus == eShaderCompileStatus::COMPILE_SUCCESS);
+}
+
+bool dooms::asset::ShaderAsset::ConvertShaderTextStringToCurrentGraphicsAPIShaderFormat(ShaderTextData& outShaderText)
+{
+	bool isConvertingSuccess = false;
+
+	D_ASSERT(outShaderText.IsValid());
+	if (outShaderText.IsValid() == true)
+	{
+		isConvertingSuccess = true;
+
+		const dooms::graphics::GraphicsAPI::eGraphicsAPIType currentShaderTextGraphicsAPIType = outShaderText.mShaderTextGraphicsAPIType;
+		const dooms::graphics::GraphicsAPI::eGraphicsAPIType currentLoadedGraphicsAPIType = dooms::graphics::GraphicsAPI::GetCurrentAPIType();
+
+		if(currentShaderTextGraphicsAPIType != currentLoadedGraphicsAPIType)
+		{
+			std::string convertedShaderTextStr{};
+
+			isConvertingSuccess = dooms::asset::shaderConverter::ConvertShaderTextFormat
+			(
+				outShaderText.mShaderStringText,
+				convertedShaderTextStr,
+				currentShaderTextGraphicsAPIType, 
+				currentLoadedGraphicsAPIType
+			);
+
+			// TODO : Update reflection data string too.
+
+			D_ASSERT(convertedShaderTextStr.empty() == false);
+			outShaderText.mShaderStringText = std::move(convertedShaderTextStr);
+		}
+	}
+	D_ASSERT_LOG(isConvertingSuccess, "Fail to ConvertShaderTextStringToCurrentGraphicsAPIShaderFormat ( Shader Asset Path : %s )", GetAssetPathAsUTF8Str().c_str());
+
+	return isConvertingSuccess;
+}
+
 void dooms::asset::ShaderAsset::CompileShaders()
 {
-	mVertexId.Reset();
-	mFragmentId.Reset();
-	mGeometryId.Reset();
-
-	D_ASSERT(
-		mShaderText.mVertexShaderText.empty() == false ||
-		mShaderText.mFragmentShaderText.empty() == false ||
-		mShaderText.mGeometryShaderText.empty() == false
-	);
-
-	if (mShaderText.mVertexShaderText.empty() == false)
-	{
-		CompileSpecificShader(mShaderText.mVertexShaderText, graphics::GraphicsAPI::Vertex, mVertexId);
-	}
-
-	if (mShaderText.mFragmentShaderText.empty() == false)
-	{
-		CompileSpecificShader(mShaderText.mFragmentShaderText, graphics::GraphicsAPI::Fragment, mFragmentId);
-	}
-
-	if (mShaderText.mGeometryShaderText.empty() == false)
-	{
-		CompileSpecificShader(mShaderText.mGeometryShaderText, graphics::GraphicsAPI::Geometry, mGeometryId);
-	}
-
+	D_ASSERT(IsHasAnyValidShaderTextString() == true);
 	
-}
-
-void dooms::asset::ShaderAsset::CompileSpecificShader(const std::string& shaderStr, graphics::GraphicsAPI::eShaderType shaderType, dooms::graphics::BufferID& shaderId)
-{
-	UINT32 shaderTypeFlag{};
-	shaderId = graphics::GraphicsAPI::CreateShaderObject(shaderType);
-
-	const char* shaderCode = shaderStr.c_str();
-	graphics::GraphicsAPI::CompileShader(shaderId, shaderType, shaderCode);
-
-/*
-#ifdef DEBUG_MODE
-	checkCompileError(shaderId, shaderType);
-#endif
-*/
-
-	if (shaderType == graphics::GraphicsAPI::Vertex)
+	for(size_t shaderStageIndex = 0 ; shaderStageIndex < GRAPHICS_PIPELINE_STAGE_COUNT ; shaderStageIndex++)
 	{
-		dooms::ui::PrintText("Compile Shader - Vertex ( %s )", GetAssetPath().generic_string().c_str());
-	}
-	else if (shaderType == graphics::GraphicsAPI::Fragment)
-	{
-		dooms::ui::PrintText("Compile Shader - Fragment ( %s )", GetAssetPath().generic_string().c_str());
-
-	}
-	else if (shaderType == graphics::GraphicsAPI::Geometry)
-	{
-		dooms::ui::PrintText("Compile Shader - Geometry ( %s )", GetAssetPath().generic_string().c_str());
-	}
-	
-}
-
-
-
-void dooms::asset::ShaderAsset::ClassifyShader(const std::string& shaderText)
-{
-	std::stringstream inputStringStream{ shaderText };
-	std::string line;
-
-	graphics::GraphicsAPI::eShaderType currentShaderType = graphics::GraphicsAPI::eShaderType::ShaderType_None;
-	std::string currentShaderStr{};
-
-	
-
-	while (std::getline(inputStringStream, line))
-	{
-		bool isMacros = false;
-
-		if (CheckIsSharpInclude(line))
+		if (mShaderTextDatas[shaderStageIndex].IsValid() == true)
 		{
-			//mAssetPath.relative
-			std::filesystem::path targetPath = GetAssetPath();//
-			targetPath.remove_filename();
-
-			std::string includeTargetPath = line.substr(line.find("#include", 0) + 8, std::string::npos);
-			includeTargetPath = std::trim(includeTargetPath, "\r");
-			includeTargetPath = std::trim(includeTargetPath, ' ');
-			targetPath.append(includeTargetPath);
-
-			currentShaderStr += ExtractShaderFile(targetPath.make_preferred().string());
-			currentShaderStr += '\n';
-			continue;
+			const bool isSucessCompileShader = CompileSpecificTypeShader(mShaderTextDatas[shaderStageIndex], static_cast<graphics::GraphicsAPI::eGraphicsPipeLineStage>(shaderStageIndex), mShaderObject[shaderStageIndex]);
+			D_ASSERT(isSucessCompileShader == true);
 		}
-		else if (line.compare(0, 1, "#") == 0)
-		{// macros shouldn't have whitespace
+	}
+}
 
-			if  
-				(line.compare(0, ShaderAsset::VertexShaderMacros.size(), ShaderAsset::VertexShaderMacros, 0) == 0 ||
-				line.compare(0, ShaderAsset::FragmentShaderMacros.size(), ShaderAsset::FragmentShaderMacros, 0) == 0 ||
-				line.compare(0, ShaderAsset::GeometryShaderMacros.size(), ShaderAsset::GeometryShaderMacros, 0) == 0
-				)
+bool dooms::asset::ShaderAsset::CompileSpecificTypeShader(ShaderTextData& shaderText, const graphics::GraphicsAPI::eGraphicsPipeLineStage shaderType, ShaderObject& shaderObject)
+{
+	D_ASSERT(shaderType != graphics::GraphicsAPI::eGraphicsPipeLineStage::DUMMY);
+
+	bool isSuccessCompileShader = false;
+
+	if (shaderText.IsValid() == true && shaderObject.mShaderObjectID.IsValid() == false && shaderType != graphics::GraphicsAPI::eGraphicsPipeLineStage::DUMMY)
+	{
+		shaderObject.mShaderObjectID = graphics::GraphicsAPI::CreateShaderObject(shaderType);
+		if(shaderObject.mShaderObjectID.IsValid())
+		{
+			shaderObject.mShaderCompileStatus = eShaderCompileStatus::SHADER_OBJECT_CREATED;
+
+			const char* shaderCode = shaderText.mShaderStringText.c_str();
+			isSuccessCompileShader = graphics::GraphicsAPI::CompileShader(shaderObject.mShaderObjectID.GetBufferIDRef(), shaderType, shaderCode);
+			D_ASSERT_LOG(isSuccessCompileShader == true, "Fail to compile shader ( Shader Asset Name : %s, Shader Type : %s )", GetAssetFileName().c_str(), graphics::GraphicsAPI::eGraphicsPipeLineStageString[static_cast<UINT32>(shaderType)]);
+			if (isSuccessCompileShader == true)
 			{
-				if (currentShaderStr.size() != 0)
-				{
-					switch (currentShaderType)
-					{
-					case graphics::GraphicsAPI::eShaderType::Vertex:
-						mShaderText.mVertexShaderText = std::move(currentShaderStr);
-						break;
-
-					case graphics::GraphicsAPI::eShaderType::Fragment:
-						mShaderText.mFragmentShaderText = std::move(currentShaderStr);
-						break;
-
-					case graphics::GraphicsAPI::eShaderType::Geometry:
-						mShaderText.mGeometryShaderText = std::move(currentShaderStr);
-						break;
-					}
-
-					currentShaderStr.clear();
-				}
-
-				if (line.compare(0, ShaderAsset::VertexShaderMacros.size(), ShaderAsset::VertexShaderMacros, 0) == 0)
-				{
-					currentShaderType = graphics::GraphicsAPI::eShaderType::Vertex;
-					isMacros = true;
-				}
-				else if (line.compare(0, ShaderAsset::FragmentShaderMacros.size(), ShaderAsset::FragmentShaderMacros, 0) == 0)
-				{
-					currentShaderType = graphics::GraphicsAPI::eShaderType::Fragment;
-					isMacros = true;
-				}
-				else if (line.compare(0, ShaderAsset::GeometryShaderMacros.size(), ShaderAsset::GeometryShaderMacros, 0) == 0)
-				{
-					currentShaderType = graphics::GraphicsAPI::eShaderType::Geometry;
-					isMacros = true;
-				}
-
-				continue;
+				shaderObject.mShaderCompileStatus = eShaderCompileStatus::COMPILE_SUCCESS;
+				GenerateUniformBufferObjectFromShaderReflectionData(shaderText.mShaderReflectionData);
+				
+				dooms::ui::PrintText("Success to compile shader ( Shader Asset Name : %s, Shader Type : %s )", GetAssetFileName().c_str(), graphics::GraphicsAPI::eGraphicsPipeLineStageString[static_cast<UINT32>(shaderType)]);
 			}
-		}
-		
-		
-
-		if (currentShaderType != graphics::GraphicsAPI::eShaderType::ShaderType_None)
-		{
-			currentShaderStr += line; // getline stil contain newline character(\n)
-			currentShaderStr += '\n';
-		}
-	}
-
-	if (currentShaderStr.size() != 0)
-	{
-		switch (currentShaderType)
-		{
-		case graphics::GraphicsAPI::eShaderType::Vertex:
-			mShaderText.mVertexShaderText = std::move(currentShaderStr);
-			break;
-
-		case graphics::GraphicsAPI::eShaderType::Fragment:
-			mShaderText.mFragmentShaderText = std::move(currentShaderStr);
-			break;
-
-		case graphics::GraphicsAPI::eShaderType::Geometry:
-			mShaderText.mGeometryShaderText = std::move(currentShaderStr);
-			break;
-		}
-
-	}
-
-	D_ASSERT_LOG
-	(
-		mShaderText.mVertexShaderText.empty() == false ||
-		mShaderText.mFragmentShaderText.empty() == false ||
-		mShaderText.mGeometryShaderText.empty() == false,
-		"Invalid Shader Asset ( File Path : %s )", GetAssetPath().u8string().c_str()
-	);
-}
-
-
-bool dooms::asset::ShaderAsset::CheckIsSharpInclude(const std::string& str)
-{
-	std::string trimedStr = std::trim(str, ' ');
-	if (trimedStr.compare(0, 1, "#") == 0)
-	{// macros shouldn't have whitespace
-
-		if (trimedStr.compare(0, 8, "#include") == 0)
-		{// To Support #include in GLSL
-			return true;
-		}
-	}
-
-	return false;
-}
-
-std::string dooms::asset::ShaderAsset::ExtractShaderFile(const std::filesystem::path& path)
-{
-	std::stringstream inputStringStream{ GetTextFromFile(path) };
-	std::string line;
-
-	std::string extractedShaderText{};
-
-	while (std::getline(inputStringStream, line))
-	{
-		if (CheckIsSharpInclude(line))
-		{
-			std::filesystem::path targetPath = path;//
-			targetPath.remove_filename();
-
-			std::string includeTargetPath = line.substr(line.find("#include", 0) + 8, std::string::npos);
-			includeTargetPath = std::trim(includeTargetPath, "\r");
-			includeTargetPath = std::trim(includeTargetPath, ' ');
-			targetPath.append(includeTargetPath);
-
-			extractedShaderText += ExtractShaderFile(targetPath.make_preferred().string());
+			else
+			{
+				shaderObject.mShaderCompileStatus = eShaderCompileStatus::COMPILE_FAIL;
+				dooms::ui::PrintText("Fail to compile shader ( Shader Asset Name : %s, Shader Type : %s )", GetAssetFileName().c_str(), graphics::GraphicsAPI::eGraphicsPipeLineStageString[static_cast<UINT32>(shaderType)]);
+			}
 		}
 		else
 		{
-			extractedShaderText += line;
+			shaderObject.mShaderCompileStatus = eShaderCompileStatus::COMPILE_FAIL;
 		}
-		extractedShaderText += '\n';
+	}
+
+
+	return isSuccessCompileShader;
+}
+
+void dooms::asset::ShaderAsset::GenerateUniformBufferObjectFromShaderReflectionData(const shaderReflectionDataParser::ShaderReflectionData& shaderReflectionData)
+{
+	for(const shaderReflectionDataParser::UniformBuffer& uniformBufferData : shaderReflectionData.mUniformBuffers)
+	{
+		dooms::graphics::UniformBufferObjectManager::GetSingleton()->GenerateUniformBufferObjectIfNotExist
+		(
+			uniformBufferData.mName,
+			uniformBufferData.mSize,
+			uniformBufferData.mBindingPoint,
+			nullptr,
+			&(uniformBufferData.mMembers)
+		);
 	}
 	
-	return extractedShaderText;
 }
-
-/*
-#ifdef DEBUG_MODE
-void dooms::asset::ShaderAsset::checkCompileError(UINT32& id, ShaderType shaderType)
-{
-	INT32 success;
-	char infoLog[1024];
-	glGetShaderiv(id, GL_COMPILE_STATUS, &success);
-
-	std::string shaderTypeStr{};
-	if (shaderType == ShaderType::Vertex)
-	{
-		shaderTypeStr = "Vertex Shader";
-	}
-	else if (shaderType == ShaderType::Vertex)
-	{
-		shaderTypeStr = "Fragment Shader";
-
-	}
-	else if (shaderType == ShaderType::Vertex)
-	{
-		shaderTypeStr = "Geometry Shader";
-	}
-
-	if (!success)
-	{
-		glGetShaderInfoLog(id, 1024, NULL, infoLog);
-		id = 0;
-		D_ASSERT_LOG
-		(
-			false, "Shader File Name : %s ( Shader Type : %s ). SHADER_COMPILATION_ERROR : %s"
-			, GetAssetFileName().c_str()
-			, shaderTypeStr.c_str()
-			, infoLog
-		);
-		dooms::ui::PrintText
-		(
-			"Shader File Name : %s ( Shader Type : %s ). SHADER_COMPILATION_ERROR : %s"
-			, GetAssetFileName().c_str()
-			, shaderTypeStr.c_str()
-			, infoLog
-		);
-	}
-}
-#endif
-*/
-
 
 void dooms::asset::ShaderAsset::OnEndImportInMainThread_Internal()
 {
@@ -377,35 +283,67 @@ void dooms::asset::ShaderAsset::OnEndImportInMainThread_Internal()
 	D_END_PROFILING(Compile_Shader);
 }
 
+const dooms::graphics::BufferID& dooms::asset::ShaderAsset::GetShaderObject(const dooms::graphics::GraphicsAPI::eGraphicsPipeLineStage targetGraphicsPipeLineStage) const
+{
+	D_ASSERT(targetGraphicsPipeLineStage < GRAPHICS_PIPELINE_STAGE_COUNT);
+
+	return mShaderObject[static_cast<UINT32>(targetGraphicsPipeLineStage)].mShaderObjectID;
+}
+
+bool dooms::asset::ShaderAsset::IsShaderObjectSuccessfullyCreated(const dooms::graphics::GraphicsAPI::eGraphicsPipeLineStage targetGraphicsPipeLineStage) const
+{
+	D_ASSERT(targetGraphicsPipeLineStage < GRAPHICS_PIPELINE_STAGE_COUNT);
+
+	return mShaderObject[static_cast<UINT32>(targetGraphicsPipeLineStage)].mShaderObjectID;
+}
+
+bool dooms::asset::ShaderAsset::IsHasAnyValidShaderObject() const
+{
+	bool isHasAnyValidShaderObject = false;
+	for(const ShaderObject& shaderObject : mShaderObject)
+	{
+		if(shaderObject.IsShaderObjectValid() == true)
+		{
+			isHasAnyValidShaderObject = true;
+			break;
+		}
+	}
+
+	return isHasAnyValidShaderObject;
+}
+
+bool dooms::asset::ShaderAsset::IsHasAnyValidShaderTextString() const
+{
+	bool isHasAnyValidShaderTextString = false;
+	for (const ShaderTextData& shaderTextStr : mShaderTextDatas)
+	{
+		if (shaderTextStr.IsValid() == true)
+		{
+			isHasAnyValidShaderTextString = true;
+			break;
+		}
+	}
+
+	return isHasAnyValidShaderTextString;
+}
+
 dooms::graphics::Material dooms::asset::ShaderAsset::CreateMatrialWithThisShader()
 {
+	CompileShaderIfNotCompiled();
+
+	D_ASSERT(IsHasAnyValidShaderObject() == true);
 	return dooms::graphics::Material(this);
+}
+
+void dooms::asset::ShaderAsset::CompileShaderIfNotCompiled()
+{
+	if (IsHasAnyValidShaderObject() == false)
+	{
+		CompileShaders();
+	}
 }
 
 dooms::asset::eAssetType dooms::asset::ShaderAsset::GetEAssetType() const
 {
 	return dooms::asset::eAssetType::SHADER;
-}
-
-bool dooms::asset::ShaderAsset::GetIsShaderCompiled() const
-{
-	return (GetVertexId().IsValid() || GetFragmentId().IsValid() || GetGeometryId().IsValid());
-}
-
-dooms::asset::ShaderAsset::ShaderText::ShaderText(
-	std::string vertexShaderText, 
-	std::string fragmentShaderText, 
-	std::string geometryShaderText
-)
-	: mVertexShaderText(std::move(vertexShaderText)),
-	mFragmentShaderText(std::move(fragmentShaderText)),
-	mGeometryShaderText(std::move(geometryShaderText))
-{
-}
-
-void dooms::asset::ShaderAsset::ShaderText::Clear()
-{
-	mVertexShaderText.resize(0);
-	mFragmentShaderText.resize(0);
-	mGeometryShaderText.resize(0);
 }

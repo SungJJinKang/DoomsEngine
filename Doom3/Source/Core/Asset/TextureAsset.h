@@ -4,6 +4,7 @@
 #include <memory>
 
 #include <Graphics/GraphicsAPI/GraphicsAPI.h>
+#include <Graphics/Buffer/BufferID.h>
 
 #include "TextureAsset.reflection.h"
 namespace DirectX
@@ -15,8 +16,7 @@ namespace dooms
 {
 	namespace graphics
 	{
-		class SingleTexture;
-		class Texture;
+		class TextureView;
 		class Material;
 	}
 
@@ -36,47 +36,79 @@ namespace dooms
 
 		private:
 
+			D_PROPERTY()
+			dooms::graphics::BufferID mTextureResourceObject;
+
 			std::unique_ptr<DirectX::ScratchImage> mScratchImage;
 
 			D_PROPERTY()
-			INT32 mWidth{};
+			std::vector<const void*> mTextureData;
 
 			D_PROPERTY()
-			INT32 mHeight{};
+			graphics::GraphicsAPI::eTargetTexture mTargetTexture;
 
 			D_PROPERTY()
-			INT32 mMipMapLevel{};
+			graphics::GraphicsAPI::eTextureBindTarget mTextureBindTarget;
+
+			D_PROPERTY()
+			std::vector<UINT32> mWidth;
+
+			D_PROPERTY()
+			std::vector<UINT32> mHeight;
+
+			D_PROPERTY()
+			std::vector<UINT32> mRowByteSizes;
+
+			D_PROPERTY()
+			std::vector<UINT32> mTotalDataSize;
+
+			D_PROPERTY()
+			INT32 mMipMapLevelCount;
 
 			/// <summary>
 			/// Size in bytes of All Images ( All mipmaps )
 			/// </summary>
 			D_PROPERTY()
-			size_t mEntireImageSize{};
+			size_t mEntireImageSize;
+			
+			D_PROPERTY()
+			graphics::GraphicsAPI::eTextureComponentFormat mComponentFormat; // 1 ~ 4 ( rgb, rgba ~~ )
 
 			D_PROPERTY()
-			bool bmIsCompressed{ false };
+			graphics::GraphicsAPI::eTextureInternalFormat mInternalFormat;
 
 			D_PROPERTY()
-			graphics::GraphicsAPI::eTextureComponentFormat mComponentFormat{}; // 1 ~ 4 ( rgb, rgba ~~ )
+			graphics::GraphicsAPI::eTextureCompressedInternalFormat mCompressedInternalFormat;
 
 			D_PROPERTY()
-			graphics::GraphicsAPI::eTextureInternalFormat mInternalFormat{};
+			graphics::GraphicsAPI::eDataType mDataType;
 
 			D_PROPERTY()
-			graphics::GraphicsAPI::eTextureCompressedInternalFormat mCompressedInternalFormat{};
-
-			D_PROPERTY()
-			graphics::Texture* mDefaultTextureObject{ nullptr };
-
-			void CreateDefaultTexture();
-			void DestroyDefaultTextureObject();
+			graphics::GraphicsAPI::eBindFlag mBindFlags;
+			
+			void AllocateTextureResourceObject();
+			void DestroyTextureResourceObject();
 
 		protected:
 
 		public:
 
 			TextureAsset();
-			void SetScratchImage(std::unique_ptr<DirectX::ScratchImage>&& scratchImage);
+			TextureAsset
+			(
+				dooms::graphics::GraphicsAPI::eTargetTexture targetTexture, 
+				dooms::graphics::GraphicsAPI::eTextureInternalFormat internalFormat, 
+				dooms::graphics::GraphicsAPI::eTextureCompressedInternalFormat compressedInternalFormat, 
+				UINT32 width, UINT32 height, 
+				dooms::graphics::GraphicsAPI::eTextureComponentFormat format, 
+				dooms::graphics::GraphicsAPI::eDataType dataType,
+				dooms::graphics::GraphicsAPI::eBindFlag resourceBindFlag,
+				dooms::graphics::GraphicsAPI::eTextureBindTarget textureBindTarget,
+				const void* data = 0,
+				const size_t dataSize = 0
+			);
+			TextureAsset(std::unique_ptr<DirectX::ScratchImage>&& scratchImage, const dooms::graphics::GraphicsAPI::eBindFlag resourceBindFlag);
+			void SetScratchImage(std::unique_ptr<DirectX::ScratchImage>&& scratchImage, const dooms::graphics::GraphicsAPI::eBindFlag resourceBindFlag);
 			TextureAsset(const TextureAsset&) = delete;
 			TextureAsset(TextureAsset&& textureAsset) noexcept;
 			TextureAsset& operator=(const TextureAsset&) = delete;
@@ -87,10 +119,30 @@ namespace dooms
 			virtual void OnSetPendingKill() override;
 
 			void OnEndImportInMainThread_Internal() final;
-			const graphics::Texture* GetDefaultTextureObject() const;
-			graphics::Texture* CreateTextureObject();
 
 			virtual dooms::asset::eAssetType GetEAssetType() const final;
+
+			dooms::graphics::BufferID GetTextureResourceObject() const;
+
+			graphics::GraphicsAPI::eTextureComponentFormat GetTextureComponentFormat() const;
+			graphics::GraphicsAPI::eTextureInternalFormat GetTextureInternalFormat() const;
+			graphics::GraphicsAPI::eTextureCompressedInternalFormat GetTextureCompressedInternalFormat() const;
+			UINT32 GetTextureWidth(const size_t mipLevelIndex = 0) const;
+			UINT32 GetTextureHeight(const size_t mipLevelIndex = 0) const;
+			UINT32 GetMipMapLevel() const;
+			UINT64 GetEntireImageSize() const;
+			graphics::GraphicsAPI::eDataType GetTextureDataType() const;
+			FORCE_INLINE graphics::GraphicsAPI::eTextureBindTarget GetTextureBindTarget() const
+			{
+				return mTextureBindTarget;
+			}
+
+			dooms::graphics::TextureView* GenerateTextureView
+			(
+				const UINT32 defaultBindingPosition,
+				const graphics::GraphicsAPI::eGraphicsPipeLineStage defaultTargetGraphicsPipeLineStage
+			) const;
+			
 		};
 		
 	}

@@ -1,9 +1,11 @@
 #pragma once
 
 #include <Core.h>
-#include "Buffer/UniformBufferObjectUpdater.h"
+#include "Buffer/UniformBufferObject/UniformBufferObjectUpdater.h"
 
 #include <../Helper/Simple_SingleTon/Singleton.h>
+
+#define LIGHT_DATA_CONSTANT_BUFFER_NAME "LIGHT_DATA"
 
 #include "LightManager.reflection.h"
 namespace dooms

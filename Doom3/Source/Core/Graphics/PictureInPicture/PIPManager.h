@@ -7,14 +7,13 @@
 
 #include <Vector2.h>
 #include "PicktureInPickture.h"
+#include <Simple_SingleTon/Singleton.h>
 
 #include "PIPManager.reflection.h"
 namespace dooms
 {
 	namespace graphics
 	{
-		class SingleTexture;
-
 		class DOOM_API D_CLASS PIPManager : public DObject, public ISingleton<PIPManager>
 		{
 			GENERATE_BODY()
@@ -34,7 +33,7 @@ namespace dooms
 
 			void DrawPIPs();
 
-			PicktureInPickture* AddNewPIP(const math::Vector2& leftBottomNDCPoint, const math::Vector2& rightTopNDCPoint, SingleTexture* const _drawedTexture);
+			PicktureInPickture* AddNewPIP(const math::Vector2& leftBottomNDCPoint, const math::Vector2& rightTopNDCPoint, TextureView* const _drawedTexture);
 			void RemovePIP(const PicktureInPickture* const removedPIP);
 
 			size_t GetPIPCount() const;

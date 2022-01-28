@@ -10,7 +10,7 @@
 #include "GraphicsAPI/Manager/GraphicsAPIManager.h"
 #include <Graphics/GraphicsAPI/GraphicsAPI.h>
 
-#include "Buffer/UniformBufferObjectManager.h"
+#include "Buffer/UniformBufferObject/UniformBufferObjectManager.h"
 
 #include <Rendering/Renderer/Renderer.h>
 #include <Rendering/Light/Light.h>
@@ -33,13 +33,8 @@
 #include <EngineGUI/GUIModules/MaskedOcclusionCulliingDebugger.h>
 
 #include "Acceleration/LinearData_ViewFrustumCulling/CullingModule/MaskedSWOcclusionCulling/MaskedSWOcclusionCulling.h"
-#include "GraphicsAPI/eGraphicsAPIType.h"
 
-//#define D_DEBUG_CPU_VENDOR_PROFILER
-
-using namespace dooms::graphics;
-
-bool Graphics_Server::InitializeGraphicsAPI()
+bool dooms::graphics::Graphics_Server::InitializeGraphicsAPI()
 {
 	dooms::graphics::graphicsSetting::LoadData();
 	dooms::graphics::graphicsAPISetting::LoadData();
@@ -49,11 +44,11 @@ bool Graphics_Server::InitializeGraphicsAPI()
 	const std::string targetGraphicsAPI = ConfigData::GetSingleton()->GetConfigData().GetValue<std::string>("Graphics", "GRAPHICS_API");
 	if (targetGraphicsAPI == "OPENGL")
 	{
-		isSuccess = GraphicsAPIManager::Initialize(eGraphicsAPIType::OpenGL);
+		isSuccess = GraphicsAPIManager::Initialize(GraphicsAPI::eGraphicsAPIType::OpenGL);
 	}
 	else if (targetGraphicsAPI == "DX11_10")
 	{
-		isSuccess = GraphicsAPIManager::Initialize(eGraphicsAPIType::DX11_10);
+		isSuccess = GraphicsAPIManager::Initialize(GraphicsAPI::eGraphicsAPIType::DX11_10);
 	}
 	else
 	{
@@ -93,7 +88,7 @@ void dooms::graphics::Graphics_Server::LateInit()
 
 
 
-void Graphics_Server::Update()
+void dooms::graphics::Graphics_Server::Update()
 {
 	D_START_PROFILING(PreRender, dooms::profiler::eProfileLayers::Rendering);
 	PreRender();
@@ -132,7 +127,7 @@ void Graphics_Server::Update()
 	D_END_PROFILING(mRenderingDebugger_Update);
 }
 
-void Graphics_Server::OnEndOfFrame()
+void dooms::graphics::Graphics_Server::OnEndOfFrame()
 {
 #ifdef DEBUG_DRAWER
 	mDebugGraphics.Reset();
@@ -142,18 +137,17 @@ void Graphics_Server::OnEndOfFrame()
 }
 
 
-
-Graphics_Server::Graphics_Server()
+dooms::graphics::Graphics_Server::Graphics_Server()
 {
 
 }
 
-Graphics_Server::~Graphics_Server()
+dooms::graphics::Graphics_Server::~Graphics_Server()
 {
 	dooms::ui::engineGUIServer::ShutDown();
 }
 
-void Graphics_Server::PreCullJob()
+void dooms::graphics::Graphics_Server::PreCullJob()
 {
 	mCullingCameraCount = 0;
 
@@ -168,7 +162,7 @@ void Graphics_Server::PreCullJob()
 }
 
 
-void Graphics_Server::CameraCullJob(dooms::Camera* const camera)
+void dooms::graphics::Graphics_Server::CameraCullJob(dooms::Camera* const camera)
 {
 	if (camera->GetIsCullJobEnabled() == true)
 	{
@@ -210,7 +204,7 @@ void Graphics_Server::CameraCullJob(dooms::Camera* const camera)
 }
 
 
-void Graphics_Server::DebugGraphics()
+void dooms::graphics::Graphics_Server::DebugGraphics()
 {
 	if (graphicsSetting::IsDrawMaskedOcclusionCullingBinTriangleStageDebugger == true)
 	{
@@ -242,7 +236,7 @@ void Graphics_Server::DebugGraphics()
 
 }
 
-void Graphics_Server::PreRenderRenderer()
+void dooms::graphics::Graphics_Server::PreRenderRenderer()
 {
 	const std::vector<Renderer*>& renderersInLayer = RendererComponentStaticIterator::GetSingleton()->GetSortedRendererInLayer(0);
 	for (Renderer* renderer : renderersInLayer)
@@ -251,7 +245,7 @@ void Graphics_Server::PreRenderRenderer()
 	}
 }
 
-void Graphics_Server::UpdateCameraIndexInCullingSystemOfCameraComponent()
+void dooms::graphics::Graphics_Server::UpdateCameraIndexInCullingSystemOfCameraComponent()
 {
 	const std::vector<dooms::Camera*>& spawnedCameraList = StaticContainer<dooms::Camera>::GetAllStaticComponents();
 	for (size_t cameraIndex = 0; cameraIndex < spawnedCameraList.size(); cameraIndex++)
@@ -269,7 +263,7 @@ void Graphics_Server::UpdateCameraIndexInCullingSystemOfCameraComponent()
 	mCullingSystem->SetCameraCount(mCullingCameraCount);
 }
 
-void Graphics_Server::PreRender()
+void dooms::graphics::Graphics_Server::PreRender()
 {
 
 	D_START_PROFILING(PreRenderRenderer, dooms::profiler::eProfileLayers::Rendering);
@@ -300,7 +294,9 @@ void dooms::graphics::Graphics_Server::Render()
 	D_END_PROFILING(Update_Uniform_Buffer);
 
 	const std::vector<dooms::Camera*>& spawnedCameraList = StaticContainer<dooms::Camera>::GetAllStaticComponents();
-	
+
+	FrameBuffer::StaticBindBackFrameBuffer();
+
 	for (size_t cameraIndex = 0; cameraIndex < spawnedCameraList.size(); cameraIndex++)
 	{
 		dooms::Camera* const targetCamera = spawnedCameraList[cameraIndex];
@@ -345,10 +341,11 @@ void dooms::graphics::Graphics_Server::Render()
 			IsFinishedSortingReferernceRenderers = resource::JobSystem::GetSingleton()->PushBackJobToAllThread(FrontToBackSortJob);
 		}
 
+		D_ASSERT(IsValid(targetCamera));
 
 		FrameBuffer::UnBindFrameBuffer();
-		GraphicsAPI::ClearBackBufferColorBuffer(targetCamera->mClearColor[0], targetCamera->mClearColor[1], targetCamera->mClearColor[2], targetCamera->mClearColor[3]);
-		GraphicsAPI::ClearBackBufferDepthBuffer(GraphicsAPI::DEFAULT_MAX_DEPTH_VALUE);
+		GraphicsAPI::ClearBackFrameBufferColorBuffer(targetCamera->mClearColor[0], targetCamera->mClearColor[1], targetCamera->mClearColor[2], targetCamera->mClearColor[3]);
+		GraphicsAPI::ClearBackFrameBufferDepthBuffer(GraphicsAPI::DEFAULT_MAX_DEPTH_VALUE);
 
 		targetCamera->UpdateUniformBufferObject();
 
@@ -360,7 +357,7 @@ void dooms::graphics::Graphics_Server::Render()
 		RenderObject(targetCamera, cameraIndex);
 		D_END_PROFILING(RenderObject);
 
-		targetCamera->mDefferedRenderingFrameBuffer.UnBindFrameBuffer();
+		FrameBuffer::StaticBindBackFrameBuffer();
 
 		// 
 		//Blit DepthBuffer To ScreenBuffer
@@ -416,7 +413,7 @@ void dooms::graphics::Graphics_Server::Render()
 
 }
 
-void Graphics_Server::ProfilingCullingSystem()
+void dooms::graphics::Graphics_Server::ProfilingCullingSystem()
 {
 #if defined(PROFILING_CULLING) && defined(D_PROFILING)
 	auto& profilingDatas = mCullingSystem->mEveryCullingProfiler.GetProfilingDatas();
@@ -428,7 +425,7 @@ void Graphics_Server::ProfilingCullingSystem()
 #endif
 }
 
-void Graphics_Server::PostRender()
+void dooms::graphics::Graphics_Server::PostRender()
 {
 	D_START_PROFILING(engineGUIServer_PostRender, dooms::profiler::eProfileLayers::Rendering);
 	dooms::ui::engineGUIServer::PostRender();

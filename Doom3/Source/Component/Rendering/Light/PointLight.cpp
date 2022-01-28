@@ -2,8 +2,8 @@
 #include "Transform.h"
 #include "Vector3.h"
 #include "Vector4.h"
-#include "Graphics/Buffer/UniformBlockOffsetInfo.h"
-#include "Graphics/Buffer/UniformBufferObjectManager.h"
+#include "Graphics/Buffer/UniformBufferObject/UniformBlockOffsetInfo.h"
+#include "Graphics/Buffer/UniformBufferObject/UniformBufferObjectManager.h"
 
 void dooms::PointLight::InitComponent()
 {
@@ -51,9 +51,9 @@ void dooms::PointLight::UpdateUniformBufferObject(const bool force)
 			const UINT32 staticCount = GetStaticElementCount();
 			if (staticIndex < MAX_POINT_LIGHT_COUNT)
 			{
-				dooms::graphics::UniformBufferObjectManager::GetSingleton()->GetUniformBufferObject(GLOBAL_UNIFORM_BLOCK_BINDING_POINT).StoreDataAtTempBuffer((void*)pos.data(), sizeof(pos), graphics::eUniformBlock_Global::pointLight0_Pos + 32 * staticIndex);
-				dooms::graphics::UniformBufferObjectManager::GetSingleton()->GetUniformBufferObject(GLOBAL_UNIFORM_BLOCK_BINDING_POINT).StoreDataAtTempBuffer((void*)radiance.data(), sizeof(radiance), graphics::eUniformBlock_Global::pointLight0_Col + 32 * staticIndex);
-				dooms::graphics::UniformBufferObjectManager::GetSingleton()->GetUniformBufferObject(GLOBAL_UNIFORM_BLOCK_BINDING_POINT).StoreDataAtTempBuffer((void*)&staticCount, sizeof(staticCount), graphics::eUniformBlock_Global::pointLightCount); // TODO : DO this from every lights, just one call is enough per frame
+				dooms::graphics::UniformBufferObjectManager::GetSingleton()->GetUniformBufferObject(GLOBAL_UNIFORM_BLOCK_BINDING_POINT)->UpdateDataToGPU((void*)pos.data(), sizeof(pos), graphics::eUniformBlock_Global::pointLight0_Pos + 32 * staticIndex);
+				dooms::graphics::UniformBufferObjectManager::GetSingleton()->GetUniformBufferObject(GLOBAL_UNIFORM_BLOCK_BINDING_POINT)->UpdateDataToGPU((void*)radiance.data(), sizeof(radiance), graphics::eUniformBlock_Global::pointLight0_Col + 32 * staticIndex);
+				dooms::graphics::UniformBufferObjectManager::GetSingleton()->GetUniformBufferObject(GLOBAL_UNIFORM_BLOCK_BINDING_POINT)->UpdateDataToGPU((void*)&staticCount, sizeof(staticCount), graphics::eUniformBlock_Global::pointLightCount); // TODO : DO this from every lights, just one call is enough per frame
 			}
 			else
 			{

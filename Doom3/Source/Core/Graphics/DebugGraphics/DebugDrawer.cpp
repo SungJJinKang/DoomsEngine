@@ -15,8 +15,7 @@
 
 void dooms::graphics::DebugDrawer::Init()
 {
-	mDebugMesh.GenMeshBuffer(false);
-	mDebugMesh.BufferData(MAX_DEBUG_VERTEX_COUNT * 3, NULL, GraphicsAPI::ePrimitiveType::LINES, eVertexArrayFlag::VertexVector3);
+	mDebugMesh.CreateBufferObject(MAX_DEBUG_VERTEX_COUNT * 3, NULL, GraphicsAPI::ePrimitiveType::LINES, eVertexArrayFlag::VertexVector3);
 
 
 	auto debug2DShader = dooms::assetImporter::AssetManager::GetSingleton()->GetAsset<asset::eAssetType::SHADER>(DebugDrawer::DEBUG_2D_SHADER);
@@ -81,12 +80,12 @@ void dooms::graphics::DebugDrawer::Draw()
 				if(container->Is3DPrimitive() == false)
 				{
 					m2DMaterial->UseProgram();
-					m2DMaterial->SetVector4(0, Color::GetColor(static_cast<eColor>(colorIndex)));
+					m2DMaterial->GetUniformBufferObjectViewFromUBOName(0)->SetVector4((UINT64)0, Color::GetColor(static_cast<eColor>(colorIndex)));
 				}
 				else
 				{
 					m3DMaterial->UseProgram();
-					m3DMaterial->SetVector4(0, Color::GetColor(static_cast<eColor>(colorIndex)));
+					m3DMaterial->GetUniformBufferObjectViewFromUBOName(0)->SetVector4((UINT64)0, Color::GetColor(static_cast<eColor>(colorIndex)));
 				}
 
 				const size_t primitiveCount = container->GetColoredPrimitiveCount(static_cast<eColor>(colorIndex));
@@ -102,12 +101,12 @@ void dooms::graphics::DebugDrawer::Draw()
 				if (container->Is3DPrimitive() == false)
 				{
 					m2DMaterial->UseProgram();
-					m2DMaterial->SetVector4(0, container->GetSpecialColorData()[index]);
+					m2DMaterial->GetUniformBufferObjectViewFromUBOName(0)->SetVector4((UINT64)0, container->GetSpecialColorData()[index]);
 				}
 				else
 				{
 					m3DMaterial->UseProgram();
-					m3DMaterial->SetVector4(0, container->GetSpecialColorData()[index]);
+					m3DMaterial->GetUniformBufferObjectViewFromUBOName(0)->SetVector4((UINT64)0, container->GetSpecialColorData()[index]);
 				}
 
 				mDebugMesh.DrawArray(container->GetPrimitiveType(), alreadyDrawedVertexCount, container->GetVertexCountPerPrimitive());
@@ -298,7 +297,7 @@ void dooms::graphics::DebugDrawer::BufferVertexDataToGPU()
 				const size_t primitiveCount = container->GetColoredPrimitiveCount(static_cast<eColor>(colorIndex));
 
 				D_ASSERT(MAX_DEBUG_VERTEX_COUNT >= alreadyDrawedVertexCount + primitiveCount * container->GetVertexCountPerPrimitive());
-				mDebugMesh.BufferSubData(primitiveCount * container->GetComponentCountPerPrimitive(), container->GetColoredVertexData(static_cast<eColor>(colorIndex)), offsetComponentCount * sizeof(FLOAT32));
+				mDebugMesh.UpdateVertexData(primitiveCount * container->GetComponentCountPerPrimitive(), container->GetColoredVertexData(static_cast<eColor>(colorIndex)), offsetComponentCount * sizeof(FLOAT32));
 
 				offsetComponentCount += primitiveCount * container->GetComponentCountPerPrimitive();
 				alreadyDrawedVertexCount += primitiveCount * container->GetVertexCountPerPrimitive();
@@ -310,7 +309,7 @@ void dooms::graphics::DebugDrawer::BufferVertexDataToGPU()
 			const size_t primitiveCount = container->GetSpecialColoredPrimitiveCount();
 
 			D_ASSERT(MAX_DEBUG_VERTEX_COUNT >= alreadyDrawedVertexCount + primitiveCount * container->GetVertexCountPerPrimitive());
-			mDebugMesh.BufferSubData(primitiveCount * container->GetComponentCountPerPrimitive(), container->GetSpecialColoredVertexData(), offsetComponentCount * sizeof(FLOAT32));
+			mDebugMesh.UpdateVertexData(primitiveCount * container->GetComponentCountPerPrimitive(), container->GetSpecialColoredVertexData(), offsetComponentCount * sizeof(FLOAT32));
 
 			offsetComponentCount += primitiveCount * container->GetComponentCountPerPrimitive();
 			alreadyDrawedVertexCount += primitiveCount * container->GetVertexCountPerPrimitive();
