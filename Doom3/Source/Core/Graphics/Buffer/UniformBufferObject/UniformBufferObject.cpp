@@ -6,11 +6,11 @@ void dooms::graphics::UniformBufferObject::InitializeUniformVariableOffset
 	const std::vector<asset::shaderReflectionDataParser::UniformBufferMember>& uboMembers
 )
 {
-	// TODO :
 	mUniformVariableOffset.clear();
 	mUniformVariableOffset.reserve(uboMembers.size());
 	for(const asset::shaderReflectionDataParser::UniformBufferMember& uboMember : uboMembers)
 	{
+		D_ASSERT_LOG(mUniformVariableOffset.find(uboMember.mName) == mUniformVariableOffset.end(), "UBO member with same name is detected");
 		mUniformVariableOffset.emplace(uboMember.mName, uboMember.mOffset);
 	}
 }
@@ -25,8 +25,12 @@ void dooms::graphics::UniformBufferObject::OnSetPendingKill()
 dooms::graphics::UniformBufferObject::UniformBufferObject()
 	:
 	mUniformBufferObject(),
+	mUniformBlockName(),
+	mUniformBufferSize(0),
+	mDefaultBindingPoint(0),
 	mUniformBufferTempData(nullptr)
 {
+	AddToRootObjectList();
 }
 
 dooms::graphics::UniformBufferObject::UniformBufferObject
@@ -34,18 +38,12 @@ dooms::graphics::UniformBufferObject::UniformBufferObject
 	const std::string& uniformBlockName,
 	const UINT64 uniformBufferSize,
 	const UINT32 defaultBindingPoint, 
-	const GraphicsAPI::eGraphicsPipeLineStage targetPipeLineStage,
-	const void* const initialData
+	const void* const initialData,
+	const std::vector<asset::shaderReflectionDataParser::UniformBufferMember>* const uboMembers
 )
-	:
-	mUniformBufferObject(),
-	mUniformBlockName(uniformBlockName),
-	mUniformBufferSize(uniformBufferSize),
-	mDefaultBindingPoint(defaultBindingPoint),
-	mDefaultTargetPipeLineStage(targetPipeLineStage),
-	mUniformBufferTempData(nullptr)
 {
-	GenerateUniformBufferObject(uniformBufferSize);
+	AddToRootObjectList();
+	InitializeUniformBufferObject(uniformBlockName, uniformBufferSize, defaultBindingPoint, initialData, uboMembers);
 }
 
 dooms::graphics::UniformBufferObject::~UniformBufferObject()
@@ -59,8 +57,8 @@ bool dooms::graphics::UniformBufferObject::InitializeUniformBufferObject
 	const std::string& uniformBlockName,
 	const UINT64 uniformBufferSize, 
 	const UINT32 defaultBindingPoint,
-	const GraphicsAPI::eGraphicsPipeLineStage targetPipeLineStage, 
-	const void* const initialData
+	const void* const initialData,
+	const std::vector<asset::shaderReflectionDataParser::UniformBufferMember>* const uboMembers
 )
 {
 	bool isSuccess = false;
@@ -70,10 +68,14 @@ bool dooms::graphics::UniformBufferObject::InitializeUniformBufferObject
 		mUniformBlockName = uniformBlockName;
 		mUniformBufferSize = uniformBufferSize;
 		mDefaultBindingPoint = defaultBindingPoint;
-		mDefaultTargetPipeLineStage = targetPipeLineStage;
 		mUniformBufferTempData = nullptr;
 
 		GenerateUniformBufferObject(uniformBufferSize);
+
+		if(uboMembers != nullptr)
+		{
+			InitializeUniformVariableOffset(*uboMembers);
+		}
 
 		isSuccess = true;
 	}
@@ -125,10 +127,13 @@ void dooms::graphics::UniformBufferObject::DeleteBuffers()
 		delete[] mUniformBufferTempData;
 		mUniformBufferTempData = nullptr;
 	}
+
+	mUniformBlockName.clear();
+	mUniformBufferSize = 0;
+	mDefaultBindingPoint = 0;
+	mUniformVariableOffset.clear();
 	
 }
-
-
 
 void dooms::graphics::UniformBufferObject::UpdateLocalBufferToGPU() noexcept
 {
@@ -151,8 +156,11 @@ void dooms::graphics::UniformBufferObject::UpdateLocalBuffer
 	D_ASSERT(IsBufferGenerated() == true);
 	D_ASSERT_LOG(static_cast<UINT64>(offsetInUniformBlock) + static_cast<UINT64>(sizeOfSourceData) <= mUniformBufferSize, "Updated data is out of range");
 
-	std::memcpy(mUniformBufferTempData + offsetInUniformBlock, sourceData, sizeOfSourceData);
-	bmIsDirty = true;
+	if(IsBufferGenerated() == true)
+	{
+		std::memcpy(mUniformBufferTempData + offsetInUniformBlock, sourceData, sizeOfSourceData);
+		bmIsDirty = true;
+	}
 }
 
 

@@ -47,9 +47,9 @@ namespace dooms
 			
 			D_PROPERTY()
 			UINT32 mDefaultBindingPoint;
-
+			
 			D_PROPERTY()
-			GraphicsAPI::eGraphicsPipeLineStage mDefaultTargetPipeLineStage;
+			char* mUniformBufferTempData;
 
 			/**
 			 * \brief Key : Uniform Variable Name, Value : Offset
@@ -57,19 +57,11 @@ namespace dooms
 			std::unordered_map<std::string, UINT64> mUniformVariableOffset;
 			void InitializeUniformVariableOffset(const std::vector<asset::shaderReflectionDataParser::UniformBufferMember>& uboMembers);
 
-			// TODO: Check Which is faster : 
-			// Store at temporary data in cpu and send it to gpu once glbufferdata VS send data instantly to gpu glbuffersubdata ( don't store at memory )
+			void GenerateUniformBufferObject(const UINT64 uniformBufferSize, const void* const initialData = 0);
 
-			/// <summary>
-			/// each element is pointer of consecutive dats
-			/// Use life mUniformBuffers[0][offset in byte]
-			///
-			/// </summary>
-			D_PROPERTY()
-			char* mUniformBufferTempData;			
+						
 
 			void OnSetPendingKill() override;
-			
 
 		public:
 
@@ -79,8 +71,8 @@ namespace dooms
 				const std::string& uniformBlockName,
 				const UINT64 uniformBufferSize,
 				const UINT32 defaultBindingPoint, 
-				const GraphicsAPI::eGraphicsPipeLineStage targetPipeLineStage,
-				const void* const initialData
+				const void* const initialData,
+				const std::vector<asset::shaderReflectionDataParser::UniformBufferMember>* const uboMembers
 			);
 			~UniformBufferObject();
 
@@ -94,14 +86,13 @@ namespace dooms
 				const std::string& uniformBlockName,
 				const UINT64 uniformBufferSize,
 				const UINT32 defaultBindingPoint,
-				const GraphicsAPI::eGraphicsPipeLineStage targetPipeLineStage,
-				const void* const initialData
+				const void* const initialData,
+				const std::vector<asset::shaderReflectionDataParser::UniformBufferMember>* const uboMembers
 			);
 
 			std::string GetUniformBlockName();
 			const std::string& GetUniformBlockName() const;
 
-			void GenerateUniformBufferObject(const UINT64 uniformBufferSize, const void* const initialData = 0);
 			void DeleteBuffers() final;
 
 			FORCE_INLINE UINT64 GetUniformVariableOffset(const char* const targetVariableName) const
@@ -124,16 +115,15 @@ namespace dooms
 			FORCE_INLINE void BindBuffer(const UINT32 bindingPoint, const GraphicsAPI::eGraphicsPipeLineStage targetPipeLineStage) const noexcept
 			{
 				D_ASSERT(mUniformBufferObject.IsValid() == true);
-				if (D_OVERLAP_BIND_CHECK_CHECK_IS_NOT_BOUND_AND_BIND_ID(GL_UNIFORM_BUFFER_TAG, mUniformBufferObject))
+				if (IsBufferGenerated() == true)
 				{
-					GraphicsAPI::BindConstantBuffer(mUniformBufferObject, bindingPoint, targetPipeLineStage);
+					if (D_OVERLAP_BIND_CHECK_CHECK_IS_NOT_BOUND_AND_BIND_ID(GL_UNIFORM_BUFFER_TAG, mUniformBufferObject))
+					{
+						GraphicsAPI::BindConstantBuffer(mUniformBufferObject, bindingPoint, targetPipeLineStage);
+					}
 				}
 			}
-
-			FORCE_INLINE virtual void BindBuffer() const noexcept final 
-			{
-				BindBuffer(mDefaultBindingPoint, mDefaultTargetPipeLineStage);
-			}
+			
 			/// <summary>
 			/// Send data in mUniformBufferData to gpu 
 			/// </summary>

@@ -25,17 +25,14 @@ namespace dooms
 			/// index is same with binding point
 			/// </summary>
 			//D_PROPERTY()
-			std::unordered_map<std::string, UniformBufferObject*> mUniformBufferObjects{};
+
+			std::unordered_map<std::string, UniformBufferObject*> mUniformBufferObjects;
+
 			D_PROPERTY()
-			std::vector<UniformBufferObjectUpdater*> mUniformBufferObjectTempBufferUpdaters{};
+			std::vector<UniformBufferObjectUpdater*> mUniformBufferObjectTempBufferUpdaters;
 			
-		
-
 		public:
-
 			
-			
-		
 			UniformBufferObjectManager();
 
 			/// <summary>
@@ -47,27 +44,15 @@ namespace dooms
 			/// Update uniform Buffer Object's TempBuffer -> Buffer Data to gpu
 			/// </summary>
 			void UpdateUniformObjects();
-
+			
 			UniformBufferObject* GetUniformBufferObject(const std::string& uniformBufferName);
-			/// <summary>
-			/// return Uniform Buffer Object class
-			/// if uniform buffer object isn't initialized, Initialize it
-			/// </summary>
-			UniformBufferObject* GetOrGenerateUniformBufferObject
+			UniformBufferObject* GenerateUniformBufferObjectIfNotExist
 			(
 				const std::string& uniformBufferName,
 				const UINT64 uniformBufferSize,
 				const UINT32 bindingPoint,
-				const GraphicsAPI::eGraphicsPipeLineStage targetPipeLineStage,
-				const void* const initialData
-			);
-			UniformBufferObject* GenerateUniformBufferObject
-			(
-				const std::string& uniformBufferName,
-				const UINT64 uniformBufferSize,
-				const UINT32 bindingPoint,
-				const GraphicsAPI::eGraphicsPipeLineStage targetPipeLineStage,
-				const void* const initialData
+				const void* const initialData,
+				const std::vector<asset::shaderReflectionDataParser::UniformBufferMember>* const uboMembers
 			);
 			
 			/// <summary>

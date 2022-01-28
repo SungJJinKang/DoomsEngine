@@ -4,9 +4,9 @@
 
 #include "../Graphics/Material/Material.h"
 #include "Utility/ShaderAsset/shaderAssetHelper.h"
-#include <utility/trim.h>
 #include <EngineGUI/PrintText.h>
 #include "Utility/ShaderAsset/shaderConverter.h"
+#include <Graphics/Buffer/UniformBufferObject/UniformBufferObjectManager.h>
 
 
 dooms::asset::ShaderTextData::ShaderTextData() : mShaderTextGraphicsAPIType{ dooms::graphics::GraphicsAPI::eGraphicsAPIType::GraphicsAPIType_NONE }, mShaderStringText{}
@@ -240,6 +240,8 @@ bool dooms::asset::ShaderAsset::CompileSpecificTypeShader(ShaderTextData& shader
 			if (isSuccessCompileShader == true)
 			{
 				shaderObject.mShaderCompileStatus = eShaderCompileStatus::COMPILE_SUCCESS;
+				GenerateUniformBufferObjectFromShaderReflectionData(shaderText.mShaderReflectionData);
+				
 				dooms::ui::PrintText("Success to compile shader ( Shader Asset Name : %s, Shader Type : %s )", GetAssetFileName().c_str(), graphics::GraphicsAPI::eGraphicsPipeLineStageString[static_cast<UINT32>(shaderType)]);
 			}
 			else
@@ -256,6 +258,22 @@ bool dooms::asset::ShaderAsset::CompileSpecificTypeShader(ShaderTextData& shader
 
 
 	return isSuccessCompileShader;
+}
+
+void dooms::asset::ShaderAsset::GenerateUniformBufferObjectFromShaderReflectionData(const shaderReflectionDataParser::ShaderReflectionData& shaderReflectionData)
+{
+	for(const shaderReflectionDataParser::UniformBuffer& uniformBufferData : shaderReflectionData.mUniformBuffers)
+	{
+		dooms::graphics::UniformBufferObjectManager::GetSingleton()->GenerateUniformBufferObjectIfNotExist
+		(
+			uniformBufferData.mName,
+			uniformBufferData.mSize,
+			uniformBufferData.mBindingPoint,
+			nullptr,
+			&(uniformBufferData.mMembers)
+		);
+	}
+	
 }
 
 void dooms::asset::ShaderAsset::OnEndImportInMainThread_Internal()

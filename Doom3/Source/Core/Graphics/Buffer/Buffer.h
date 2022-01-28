@@ -32,7 +32,7 @@ namespace dooms
 			Buffer& operator=(Buffer && buffer) noexcept;
 			
 			D_FUNCTION()
-			virtual void BindBuffer() const noexcept = 0;
+			virtual void BindBuffer() const noexcept {}
 
 			D_FUNCTION()
 			virtual void DeleteBuffers() = 0;

@@ -23,7 +23,7 @@ void dooms::graphics::UniformBufferObjectView::BindUniformBufferObject() const n
 	D_ASSERT(IsValid(mTargetUniformBufferObject) == true);
 	if(IsValid(mTargetUniformBufferObject) == true)
 	{
-		mTargetUniformBufferObject->BindBuffer();
+		mTargetUniformBufferObject->BindBuffer(mDefaultBindingPoint, mDefaultTargetPipeLineStage);
 	}
 }
 

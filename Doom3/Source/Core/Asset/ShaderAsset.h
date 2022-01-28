@@ -101,7 +101,8 @@ namespace dooms
 			/// </summary>
 			void CompileShaders();
 			bool CompileSpecificTypeShader(ShaderTextData& shaderText, const graphics::GraphicsAPI::eGraphicsPipeLineStage shaderType, ShaderObject& shaderObject);
-			
+			void GenerateUniformBufferObjectFromShaderReflectionData(const shaderReflectionDataParser::ShaderReflectionData& shaderReflectionData);
+
 		public:
 
 			ShaderAsset();
