@@ -6,7 +6,6 @@
 #include <unordered_map>
 
 #include <Graphics/GraphicsAPI/GraphicsAPI.h>
-#include "UniformBufferObject.h"
 
 #include "UniformBufferObjectView.reflection.h"
 namespace dooms
@@ -59,23 +58,9 @@ namespace dooms
 			);
 
 			
-			FORCE_INLINE void BindUniformBufferObject() const noexcept
-			{
-				D_ASSERT(IsValid(mTargetUniformBufferObject) == true);
-				if(IsValid(mTargetUniformBufferObject) == true)
-				{
-					mTargetUniformBufferObject->BindBuffer();
-				}
-			}
-			FORCE_INLINE void BindUniformBufferObject(const UINT32 bindingPoint, const GraphicsAPI::eGraphicsPipeLineStage targetPipeLineStage) const noexcept
-			{
-				D_ASSERT(IsValid(mTargetUniformBufferObject) == true);
-				if (IsValid(mTargetUniformBufferObject) == true)
-				{
-					mTargetUniformBufferObject->BindBuffer(bindingPoint, targetPipeLineStage);
-				}
-			}
+			void BindUniformBufferObject() const noexcept;
 
+			void BindUniformBufferObject(const UINT32 bindingPoint, const GraphicsAPI::eGraphicsPipeLineStage targetPipeLineStage) const noexcept;
 		};
 
 	}

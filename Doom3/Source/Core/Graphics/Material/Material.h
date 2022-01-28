@@ -13,6 +13,7 @@
 #include "../Math/LightMath_Cpp/Matrix4x4.h"
 
 #include "../Buffer/BufferID.h"
+#include "../Buffer/UniformBufferObject/UniformBufferObjectView.h"
 
 #include "Material.reflection.h"
 namespace dooms
@@ -75,6 +76,9 @@ namespace dooms
 
 			D_PROPERTY()
 			std::vector<const TextureView*> mTargetTextures{ nullptr };
+
+			D_PROPERTY()
+			std::vector<UniformBufferObjectView> mTargetUniformBufferObjectViews;
 
 			bool CreateShaderObject();
 			void OnSetPendingKill() override;

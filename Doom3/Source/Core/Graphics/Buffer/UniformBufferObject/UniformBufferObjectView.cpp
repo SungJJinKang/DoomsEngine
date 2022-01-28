@@ -1,5 +1,7 @@
 #include "UniformBufferObjectView.h"
 
+#include "UniformBufferObject.h"
+
 dooms::graphics::UniformBufferObjectView::UniformBufferObjectView
 (
 	UniformBufferObject* const ubo,
@@ -23,6 +25,28 @@ void dooms::graphics::UniformBufferObjectView::UpadteLocalBuffer
 		const UINT32 uniformVariableOffset = GetOrUpdateUniformVaraibleOffsetInUniformBlock(targetUniformVariableName);
 
 		mTargetUniformBufferObject->UpdateLocalBuffer(sourceData, sizeOfSourceData, uniformVariableOffset);
+	}
+}
+
+void dooms::graphics::UniformBufferObjectView::BindUniformBufferObject() const noexcept
+{
+	D_ASSERT(IsValid(mTargetUniformBufferObject) == true);
+	if(IsValid(mTargetUniformBufferObject) == true)
+	{
+		mTargetUniformBufferObject->BindBuffer();
+	}
+}
+
+void dooms::graphics::UniformBufferObjectView::BindUniformBufferObject
+(
+	const UINT32 bindingPoint,
+	const GraphicsAPI::eGraphicsPipeLineStage targetPipeLineStage
+) const noexcept
+{
+	D_ASSERT(IsValid(mTargetUniformBufferObject) == true);
+	if (IsValid(mTargetUniformBufferObject) == true)
+	{
+		mTargetUniformBufferObject->BindBuffer(bindingPoint, targetPipeLineStage);
 	}
 }
 

@@ -4,7 +4,7 @@
 
 #include <Graphics/GraphicsAPI/Manager/GraphicsAPIManager.h>
 #include "FixedMaterial.h"
-#include "../Buffer/UniformBufferObjectManager.h"
+#include "../Buffer/UniformBufferObject/UniformBufferObjectManager.h"
 #include <Asset/TextureAsset.h>
 #include "../Texture/TextureView.h"
 
@@ -86,12 +86,22 @@ bool Material::IsHasAnyValidShaderObject() const
 }
 
 
-dooms::graphics::Material::Material() : mProgramIDForOpenGL{ }, mShaderAsset{ nullptr }, mPipeLineShaderObject{}
+dooms::graphics::Material::Material()
+	:
+	mProgramIDForOpenGL{ },
+	mShaderAsset{ nullptr },
+	mPipeLineShaderObject{},
+	mTargetUniformBufferObjectViews{}
 {
 
 }
 
-Material::Material(dooms::asset::ShaderAsset* const shaderAsset) : mProgramIDForOpenGL{}, mShaderAsset{ nullptr }, mPipeLineShaderObject{}
+Material::Material(dooms::asset::ShaderAsset* const shaderAsset)
+	:
+	mProgramIDForOpenGL{},
+	mShaderAsset{ nullptr },
+	mPipeLineShaderObject{},
+	mTargetUniformBufferObjectViews{}
 {
 	if (IsValid(shaderAsset) == true)
 	{
