@@ -613,10 +613,13 @@ namespace dooms
 			(
 				const unsigned long long bufferObject,
 				const GraphicsAPI::eBufferTarget bindBufferTarget,
-				const unsigned int offset,
+				const unsigned long long offset,
 				const unsigned long long dataSize,
 				const void* const data
 			);
+			/**
+			 * \brief Update data to buffer
+			 */
 			extern GRAPHICS_UPDATEDATATOBUFFER UpdateDataToBuffer;
 
 			typedef unsigned long long (DOOMS_ENGINE_API_ENTRY_P GRAPHICS_GENERATEFRAMEBUFFER)();
@@ -759,56 +762,7 @@ namespace dooms
 				const eGraphicsPipeLineStage targetGraphicsPipeLineStage // only used in dx11
 			);
 			extern GRAPHICS_ATTACHSHADERTOMATERIAL AttachShaderToMaterial;
-
-			typedef void (DOOMS_ENGINE_API_ENTRY_P GRAPHICS_UPDATECONSTANTBUFFERBOOL1)(const int location, const bool value1);
-			extern GRAPHICS_UPDATECONSTANTBUFFERBOOL1 UpdateConstantBuffer_bool1;
-
-			typedef void (DOOMS_ENGINE_API_ENTRY_P GRAPHICS_UPDATECONSTANTBUFFERBOOL2)(const int location, const bool value1, const bool value2);
-			extern GRAPHICS_UPDATECONSTANTBUFFERBOOL2 UpdateConstantBuffer_bool2;
-
-			typedef void (DOOMS_ENGINE_API_ENTRY_P GRAPHICS_UPDATECONSTANTBUFFERBOOL3)(const int location, const bool value1, const bool value2, const bool value3);
-			extern GRAPHICS_UPDATECONSTANTBUFFERBOOL3 UpdateConstantBuffer_bool3;
-
-			typedef void (DOOMS_ENGINE_API_ENTRY_P GRAPHICS_UPDATECONSTANTBUFFERBOOL4)(const int location, const bool value1, const bool value2, const bool value3, const bool value4);
-			extern GRAPHICS_UPDATECONSTANTBUFFERBOOL4 UpdateConstantBuffer_bool4;
-
-
-			typedef void (DOOMS_ENGINE_API_ENTRY_P GRAPHICS_UPDATECONSTANTBUFFERINT1)(const int location, const int value1);
-			extern GRAPHICS_UPDATECONSTANTBUFFERINT1 UpdateConstantBuffer_int1;
-
-			typedef void (DOOMS_ENGINE_API_ENTRY_P GRAPHICS_UPDATECONSTANTBUFFERINT2)(const int location, const int value1, const int value2);
-			extern GRAPHICS_UPDATECONSTANTBUFFERINT2 UpdateConstantBuffer_int2;
-
-			typedef void (DOOMS_ENGINE_API_ENTRY_P GRAPHICS_UPDATECONSTANTBUFFERINT3)(const int location, const int value1, const int value2, const int value3);
-			extern GRAPHICS_UPDATECONSTANTBUFFERINT3 UpdateConstantBuffer_int3;
-
-			typedef void (DOOMS_ENGINE_API_ENTRY_P GRAPHICS_UPDATECONSTANTBUFFERINT4)(const int location, const int value1, const int value2, const int value3, const int value4);
-			extern GRAPHICS_UPDATECONSTANTBUFFERINT4 UpdateConstantBuffer_int4;
-
-
-			typedef void (DOOMS_ENGINE_API_ENTRY_P GRAPHICS_UPDATECONSTANTBUFFERFLOAT1)(const int location, const float value1);
-			extern GRAPHICS_UPDATECONSTANTBUFFERFLOAT1 UpdateConstantBuffer_float1;
-
-			typedef void (DOOMS_ENGINE_API_ENTRY_P GRAPHICS_UPDATECONSTANTBUFFERFLOAT2)(const int location, const float value1, const float value2);
-			extern GRAPHICS_UPDATECONSTANTBUFFERFLOAT2 UpdateConstantBuffer_float2;
-
-			typedef void (DOOMS_ENGINE_API_ENTRY_P GRAPHICS_UPDATECONSTANTBUFFERFLOAT3)(const int location, const float value1, const float value2, const float value3);
-			extern GRAPHICS_UPDATECONSTANTBUFFERFLOAT3 UpdateConstantBuffer_float3;
-
-			typedef void (DOOMS_ENGINE_API_ENTRY_P GRAPHICS_UPDATECONSTANTBUFFERFLOAT4)(const int location, const float value1, const float value2, const float value3, const float value4);
-			extern GRAPHICS_UPDATECONSTANTBUFFERFLOAT4 UpdateConstantBuffer_float4;
-
-
-			typedef void (DOOMS_ENGINE_API_ENTRY_P GRAPHICS_UPDATECONSTANTBUFFERMAT2X2F)(const int location, const float* const matrix);
-			extern GRAPHICS_UPDATECONSTANTBUFFERMAT2X2F UpdateConstantBuffer_mat2x2f;
-
-			typedef void (DOOMS_ENGINE_API_ENTRY_P GRAPHICS_UPDATECONSTANTBUFFERMAT3X3F)(const int location, const float* const matrix);
-			extern GRAPHICS_UPDATECONSTANTBUFFERMAT3X3F UpdateConstantBuffer_mat3x3f;
-
-			typedef void (DOOMS_ENGINE_API_ENTRY_P GRAPHICS_UPDATECONSTANTBUFFERMAT4X4F)(const int location, const float* const matrix);
-			extern GRAPHICS_UPDATECONSTANTBUFFERMAT4X4F UpdateConstantBuffer_mat4x4f;
-
-
+			
 			enum eMapBufferAccessOption : unsigned int
 			{
 				READ_ONLY,

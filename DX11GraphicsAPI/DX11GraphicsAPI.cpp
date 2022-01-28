@@ -1416,7 +1416,7 @@ namespace dooms
         (
             const unsigned long long bufferObject,
             const GraphicsAPI::eBufferTarget bindBufferTarget,
-            const unsigned int offset,
+            const unsigned long long offset,
             const unsigned long long dataSize,
             const void* const data
         )
