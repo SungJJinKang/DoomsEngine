@@ -64,7 +64,7 @@ void dooms::graphics::UniformBufferObjectManager::BufferDateOfUniformBufferObjec
 
 		if (uniformBufferObject->IsBufferGenerated())
 		{
-			uniformBufferObject->BufferData();
+			uniformBufferObject->UpdateLocalBufferToGPU();
 		}	
 	}
 }

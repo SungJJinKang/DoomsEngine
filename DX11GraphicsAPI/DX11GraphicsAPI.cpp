@@ -1324,23 +1324,6 @@ namespace dooms
 	        dx11::g_pImmediateContext->OMSetRenderTargets(1, &dx11::BackBufferRenderTargetView, dx11::BackBufferDepthStencilView);
         }
 
-        DOOMS_ENGINE_GRAPHICS_API unsigned long long CreateBuffer()
-        {
-            unsigned long long bufferID = 0;
-            return bufferID;
-        }
-
-        DOOMS_ENGINE_GRAPHICS_API unsigned long long CreateVertexArrayObject()
-        {
-            unsigned long long bufferID = 0;
-            return bufferID;
-        }
-
-        DOOMS_ENGINE_GRAPHICS_API void DestroyVertexArrayObject(unsigned long long vertexArrayObject)
-        {
-
-        }
-
         DOOMS_ENGINE_GRAPHICS_API bool CompileShader
         (
             unsigned long long& shaderObject,
@@ -1388,50 +1371,45 @@ namespace dooms
             dx11::g_pImmediateContext->IASetIndexBuffer(indexBuffer, DXGI_FORMAT_R16_UINT, 0);
         }
 
-        DOOMS_ENGINE_GRAPHICS_API void AllocateBufferMemory
+        DOOMS_ENGINE_GRAPHICS_API unsigned long long CreateBufferObject
         (
-            unsigned long long& bufferObject,
             const GraphicsAPI::eBufferTarget bufferTarget,
             const unsigned long long bufferSize,
             const void* const initialData
         )
         {
-            assert(bufferObject == 0);
-            if(bufferObject == 0)
+            D3D11_BUFFER_DESC bd = {};
+            bd.Usage = D3D11_USAGE_DEFAULT;
+            bd.ByteWidth = bufferSize;
+            bd.CPUAccessFlags = 0;
+
+            switch (bufferTarget)
             {
-                D3D11_BUFFER_DESC bd = {};
-                bd.Usage = D3D11_USAGE_DEFAULT;
-                bd.ByteWidth = bufferSize;
-                bd.CPUAccessFlags = 0;
-                
-                switch (bufferTarget)
-                {
-                case GraphicsAPI::ARRAY_BUFFER:
-                    bd.BindFlags = D3D11_BIND_VERTEX_BUFFER;
-                    break;
+            case GraphicsAPI::ARRAY_BUFFER:
+                bd.BindFlags = D3D11_BIND_VERTEX_BUFFER;
+                break;
 
-                case GraphicsAPI::ELEMENT_ARRAY_BUFFER:
-                    bd.BindFlags = D3D11_BIND_INDEX_BUFFER;
-                    break;
+            case GraphicsAPI::ELEMENT_ARRAY_BUFFER:
+                bd.BindFlags = D3D11_BIND_INDEX_BUFFER;
+                break;
 
-                case GraphicsAPI::UNIFORM_BUFFER:
-                    bd.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
-                    break;
+            case GraphicsAPI::UNIFORM_BUFFER:
+                bd.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
+                break;
 
-                default:
-                    NEVER_HAPPEN;
-                }
-
-                ID3D11Buffer* buffer;
-
-                D3D11_SUBRESOURCE_DATA initData = {};
-                initData.pSysMem = initialData;
-                
-                const HRESULT hr = dx11::g_pd3dDevice->CreateBuffer(&bd, &initData, &buffer);
-                assert(FAILED(hr) == false);
-
-                bufferObject = reinterpret_cast<unsigned long long>(buffer);
+            default:
+                NEVER_HAPPEN;
             }
+
+            ID3D11Buffer* buffer;
+
+            D3D11_SUBRESOURCE_DATA initData = {};
+            initData.pSysMem = initialData;
+
+            const HRESULT hr = dx11::g_pd3dDevice->CreateBuffer(&bd, &initData, &buffer);
+            assert(FAILED(hr) == false);
+
+            return reinterpret_cast<unsigned long long>(buffer);
         }
 
         DOOMS_ENGINE_GRAPHICS_API void UpdateDataToBuffer

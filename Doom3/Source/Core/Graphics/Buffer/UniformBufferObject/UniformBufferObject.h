@@ -1,11 +1,11 @@
 #pragma once
 
-#include "Buffer.h"
+#include "../Buffer.h"
 
 #include <unordered_map>
 #include <string>
 
-#include "../OverlapBindChecker.h"
+#include "../../OverlapBindChecker.h"
 #include <Graphics/GraphicsAPI/GraphicsAPI.h>
 
 #include "UniformBufferObject.reflection.h"
@@ -14,6 +14,9 @@ namespace dooms
 	namespace graphics
 	{
 		/// <summary>
+		///
+		///	OPENGL : Uniform Buffer Object
+		/// DirectX : Constant Buffer
 		/// reference : https://www.khronos.org/opengl/wiki/Program_Introspection, https://learnopengl.com/Advanced-OpenGL/Advanced-GLSL
 		/// </summary>
 		class DOOM_API D_CLASS UniformBufferObject : public Buffer
@@ -25,6 +28,9 @@ namespace dooms
 
 			static inline const char GL_UNIFORM_BUFFER_TAG[]{ "GL_UNIFORM_BUFFER" };
 
+			D_PROPERTY()
+			BufferID mUniformBufferObject;
+
 			/// <summary>
 			/// for buffer data only when data is dirty
 			/// </summary>
@@ -35,15 +41,12 @@ namespace dooms
 			std::string mUniformBlockName;
 
 			D_PROPERTY()
+			UINT64 mUniformBufferSize;
+			
+			D_PROPERTY()
 			UINT32 mDefaultBindingPoint;
 			D_PROPERTY()
 			GraphicsAPI::eGraphicsPipeLineStage mDefaultTargetPipeLineStage;
-			D_PROPERTY()
-			UINT64 mUniformBufferSize;
-			/// <summary>
-			/// Buffer::data is same with mUniformBufferID
-			/// </summary>
-			//UINT32& mUniformBufferID = data; USE data
 
 
 			// TODO: Check Which is faster : 
@@ -55,31 +58,7 @@ namespace dooms
 			///
 			/// </summary>
 			D_PROPERTY()
-			char* mUniformBufferTempData;
-			
-
-			/// <summary>
-			/// Cache element of uniform block's aligned offset
-			/// </summary>
-			std::unordered_map<std::string, UINT32> mUniformBlockAlignedOffset{};
-		
-			void GenerateUniformBufferObject(const UINT64 uniformBufferSize, const void* const initialData = 0);
-			void DeleteBuffers() final;
-
-			FORCE_INLINE void BindBuffer() const noexcept final
-			{
-				if (D_OVERLAP_BIND_CHECK_CHECK_IS_NOT_BOUND_AND_BIND_ID(GL_UNIFORM_BUFFER_TAG, mBufferID))
-				{
-					GraphicsAPI::BindConstantBuffer(mBufferID, mDefaultBindingPoint, mDefaultTargetPipeLineStage);
-				}
-			}
-			FORCE_INLINE void BindBuffer(const UINT32 bindingPoint, const GraphicsAPI::eGraphicsPipeLineStage targetPipeLineStage) const noexcept
-			{
-				if (D_OVERLAP_BIND_CHECK_CHECK_IS_NOT_BOUND_AND_BIND_ID(GL_UNIFORM_BUFFER_TAG, mBufferID))
-				{
-					GraphicsAPI::BindConstantBuffer(mBufferID, bindingPoint, targetPipeLineStage);
-				}
-			}
+			char* mUniformBufferTempData;			
 
 			void OnSetPendingKill() override;
 			
@@ -101,13 +80,30 @@ namespace dooms
 			UniformBufferObject(UniformBufferObject&&) noexcept = default;
 			UniformBufferObject& operator=(const UniformBufferObject&) = delete;
 			UniformBufferObject& operator=(UniformBufferObject&&) noexcept = default;
+
+			void GenerateUniformBufferObject(const UINT64 uniformBufferSize, const void* const initialData = 0);
+			void DeleteBuffers() final;
+
 			
+			FORCE_INLINE void BindBuffer(const UINT32 bindingPoint, const GraphicsAPI::eGraphicsPipeLineStage targetPipeLineStage) const noexcept
+			{
+				D_ASSERT(mUniformBufferObject.IsValid() == true);
+				if (D_OVERLAP_BIND_CHECK_CHECK_IS_NOT_BOUND_AND_BIND_ID(GL_UNIFORM_BUFFER_TAG, mUniformBufferObject))
+				{
+					GraphicsAPI::BindConstantBuffer(mUniformBufferObject, bindingPoint, targetPipeLineStage);
+				}
+			}
+
+			FORCE_INLINE virtual void BindBuffer() const noexcept final 
+			{
+				BindBuffer(mDefaultBindingPoint, mDefaultTargetPipeLineStage);
+			}
 			/// <summary>
 			/// Send data in mUniformBufferData to gpu 
 			/// </summary>
 			/// <returns></returns>
-			virtual void BufferData() noexcept;
-			virtual void BufferSubData(const void* sourceData, const UINT32 sizeOfSourceData, const UINT32 offsetInUniformBlock) noexcept;
+			void UpdateLocalBufferToGPU() noexcept;
+			void UpdateLocalBufferToGPU(const void* sourceData, const UINT32 sizeOfSourceData, const UINT32 offsetInUniformBlock) noexcept;
 
 			/// <summary>
 			/// Store data in temporary buffer
@@ -117,10 +113,14 @@ namespace dooms
 			/// <param name="sourceData">souce data address</param>
 			/// <param name="sizeInByte">data size in byte</param>
 			/// <param name="offsetInUniformBlock"></param>
-			void StoreDataAtTempBuffer(const void* sourceData, const UINT32 sizeOfSourceData, const UINT32 offsetInUniformBlock);
-			//void StoreDataAtTempBuffer(const void* sourceData, const std::string& elementName);
-
-			UINT32 GetAlignedOffset(const std::string elementName);
+			void UpdateLocalBuffer
+			(
+				const void* sourceData,
+				const UINT32 sizeOfSourceData,
+				const UINT32 offsetInUniformBlock
+			);
+		
+			bool IsBufferGenerated() const final;
 		};
 	}
 }

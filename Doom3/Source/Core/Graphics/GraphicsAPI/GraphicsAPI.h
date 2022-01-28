@@ -522,10 +522,7 @@ namespace dooms
 				COMPRESSED_SRGB_ALPHA_S3TC_DXT5_EXT, //GL_COMPRESSED_SRGB_ALPHA_S3TC_DXT5_EXT
 
 			};
-
-			typedef unsigned long long(DOOMS_ENGINE_API_ENTRY_P GRAPHICS_CREATEBUFFER)();
-			extern GRAPHICS_CREATEBUFFER CreateBuffer;
-
+			
 			typedef void (DOOMS_ENGINE_API_ENTRY_P GRAPHICS_DESTROYBUFFER)(unsigned long long bufferID);
 			extern GRAPHICS_DESTROYBUFFER DestroyBuffer;
 
@@ -541,14 +538,13 @@ namespace dooms
 			typedef void (DOOMS_ENGINE_API_ENTRY_P GRAPHICS_BINDINDEXBUFFEROBJECT)(const unsigned long long indexBufferObject/*, const unsigned long long offset*/);
 			extern GRAPHICS_BINDINDEXBUFFEROBJECT BindIndexBufferObject;
 			
-			typedef void (DOOMS_ENGINE_API_ENTRY_P GRAPHICS_ALLOCATEBUFFERMEMORY)
-				(
-					unsigned long long& bufferObject,
-					const eBufferTarget bufferTarget,
-					const unsigned long long bufferSize, // in bytes
-					const void* const initialData
-					);
-			extern GRAPHICS_ALLOCATEBUFFERMEMORY AllocateBufferMemory;
+			typedef unsigned long long (DOOMS_ENGINE_API_ENTRY_P GRAPHICS_ALLOCATEBUFFERMEMORY)
+			(
+				const eBufferTarget bufferTarget,
+				const unsigned long long bufferSize, // in bytes
+				const void* const initialData
+			);
+			extern GRAPHICS_ALLOCATEBUFFERMEMORY CreateBufferObject;
 
 			typedef void (DOOMS_ENGINE_API_ENTRY_P GRAPHICS_ENABLEVERTEXATTRIBUTEARRAYINDEX)
 				(

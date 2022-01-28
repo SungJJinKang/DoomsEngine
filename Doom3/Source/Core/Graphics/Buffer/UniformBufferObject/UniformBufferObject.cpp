@@ -16,7 +16,13 @@ dooms::graphics::UniformBufferObject::UniformBufferObject
 	const GraphicsAPI::eGraphicsPipeLineStage targetPipeLineStage,
 	const void* const initialData
 )
-	: mUniformBlockName(uniformBlockName), mUniformBufferSize(0), mDefaultBindingPoint(defaultBindingPoint), mDefaultTargetPipeLineStage(targetPipeLineStage), mUniformBufferTempData(nullptr)
+	:
+	mUniformBufferObject(),
+	mUniformBlockName(uniformBlockName),
+	mUniformBufferSize(uniformBufferSize),
+	mDefaultBindingPoint(defaultBindingPoint),
+	mDefaultTargetPipeLineStage(targetPipeLineStage),
+	mUniformBufferTempData(nullptr)
 {
 	GenerateUniformBufferObject(uniformBufferSize);
 }
@@ -32,15 +38,8 @@ void dooms::graphics::UniformBufferObject::GenerateUniformBufferObject(const UIN
 	D_ASSERT(IsBufferGenerated() == false); // prevent overlap generating buffer
 	if (IsBufferGenerated() == false)
 	{
-		Buffer::GenBuffer();
+		mUniformBufferObject = GraphicsAPI::CreateBufferObject(GraphicsAPI::eBufferTarget::UNIFORM_BUFFER, uniformBufferSize, initialData);
 
-		GraphicsAPI::AllocateBufferMemory(mBufferID.GetBufferIDRef(), GraphicsAPI::eBufferTarget::UNIFORM_BUFFER, uniformBufferSize, NULL);
-
-		if(initialData != 0)
-		{
-			GraphicsAPI::UpdateDataToBuffer(mBufferID, GraphicsAPI::eBufferTarget::UNIFORM_BUFFER, 0, uniformBufferSize, initialData);
-		}
-		
 		mUniformBufferSize = uniformBufferSize;
 
 		if (mUniformBufferTempData != nullptr)
@@ -57,7 +56,12 @@ void dooms::graphics::UniformBufferObject::GenerateUniformBufferObject(const UIN
 
 void dooms::graphics::UniformBufferObject::DeleteBuffers()
 {
-	Buffer::DeleteBuffers();
+	if(mUniformBufferObject.IsValid())
+	{
+		dooms::graphics::GraphicsAPI::DestroyBuffer(mUniformBufferObject);
+		mUniformBufferObject.Reset();
+	}
+
 	if (mUniformBufferTempData != nullptr)
 	{
 		delete[] mUniformBufferTempData;
@@ -66,39 +70,45 @@ void dooms::graphics::UniformBufferObject::DeleteBuffers()
 	
 }
 
-void dooms::graphics::UniformBufferObject::BufferData() noexcept
+
+
+void dooms::graphics::UniformBufferObject::UpdateLocalBufferToGPU() noexcept
 {
 	D_ASSERT(IsBufferGenerated() == true);
 	if (IsBufferGenerated() == true && bmIsDirty == true)
 	{
-		GraphicsAPI::UpdateDataToBuffer(mBufferID, GraphicsAPI::eBufferTarget::UNIFORM_BUFFER, 0, mUniformBufferSize, mUniformBufferTempData);
+		GraphicsAPI::UpdateDataToBuffer(mUniformBufferObject, GraphicsAPI::eBufferTarget::UNIFORM_BUFFER, 0, mUniformBufferSize, mUniformBufferTempData);
 		bmIsDirty = false;
 	}
 }
 
-void dooms::graphics::UniformBufferObject::BufferSubData(const void* sourceData, const UINT32 sizeOfSourceData, const UINT32 offsetInUniformBlock) noexcept
+void dooms::graphics::UniformBufferObject::UpdateLocalBufferToGPU(const void* sourceData, const UINT32 sizeOfSourceData, const UINT32 offsetInUniformBlock) noexcept
 {
 	D_ASSERT(IsBufferGenerated() == true);
 	if (IsBufferGenerated() == true)
 	{
-		GraphicsAPI::UpdateDataToBuffer(mBufferID, GraphicsAPI::eBufferTarget::UNIFORM_BUFFER, offsetInUniformBlock, sizeOfSourceData, sourceData);
+		GraphicsAPI::UpdateDataToBuffer(mUniformBufferObject, GraphicsAPI::eBufferTarget::UNIFORM_BUFFER, offsetInUniformBlock, sizeOfSourceData, sourceData);
 		bmIsDirty = false;
 	}
 }
 
-void dooms::graphics::UniformBufferObject::StoreDataAtTempBuffer(const void* sourceData, const UINT32 sizeOfSourceData, const UINT32 offsetInUniformBlock)
+void dooms::graphics::UniformBufferObject::UpdateLocalBuffer
+(
+	const void* sourceData, 
+	const UINT32 sizeOfSourceData, 
+	const UINT32 offsetInUniformBlock
+)
 {
 	D_ASSERT(IsBufferGenerated() == true);
-	D_ASSERT(offsetInUniformBlock + sizeOfSourceData <= mUniformBufferSize);
+	D_ASSERT_LOG(static_cast<UINT64>(offsetInUniformBlock) + static_cast<UINT64>(sizeOfSourceData) <= mUniformBufferSize, "Updated data is out of range");
 
 	std::memcpy(mUniformBufferTempData + offsetInUniformBlock, sourceData, sizeOfSourceData);
 	bmIsDirty = true;
 }
 
-UINT32 dooms::graphics::UniformBufferObject::GetAlignedOffset(const std::string elementName)
+
+bool dooms::graphics::UniformBufferObject::IsBufferGenerated() const
 {
-	//Check mUniformBlockOffset
-	//if doesn't exist, get offset and cache that value
-	return 0;
+	return mUniformBufferObject.IsValid();
 }
 

@@ -1362,13 +1362,6 @@ namespace dooms
 			glClearBufferfv(opengl::GetGLBufferType(bufferType), drawBufferIndex, color);
 		}
 
-		DOOMS_ENGINE_GRAPHICS_API unsigned long long CreateBuffer()
-		{
-			unsigned long long bufferID;
-			glGenBuffers(1, reinterpret_cast<unsigned int*>(&bufferID));
-			return bufferID;
-		}
-
 		DOOMS_ENGINE_GRAPHICS_API void DestroyBuffer(unsigned long long bufferID)
 		{
 			glDeleteBuffers(1, reinterpret_cast<unsigned int*>(&bufferID));
@@ -1429,16 +1422,20 @@ namespace dooms
 			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indexBufferObject);
 		}
 
-		DOOMS_ENGINE_GRAPHICS_API void AllocateBufferMemory
+		DOOMS_ENGINE_GRAPHICS_API unsigned long long CreateBufferObject
 		(
-			unsigned long long& bufferObject,
 			const GraphicsAPI::eBufferTarget bufferTarget,
 			const unsigned long long bufferSize,
 			const void* const initialData
 		)
 		{
-			BindBuffer(bufferObject, 0, bufferTarget, GraphicsAPI::eGraphicsPipeLineStage::DUMMY);
+			unsigned long long bufferID;
+			glGenBuffers(1, reinterpret_cast<unsigned int*>(&bufferID));
+
+			BindBuffer(bufferID, 0, bufferTarget, GraphicsAPI::eGraphicsPipeLineStage::DUMMY);
 			glBufferData(opengl::GetGLBufferTarget(bufferTarget), bufferSize, initialData, GL_STATIC_DRAW);
+
+			return bufferID;
 		}
 
 		DOOMS_ENGINE_GRAPHICS_API void EnableVertexAttributeArrayIndex(const unsigned int vertexAttributeIndex)

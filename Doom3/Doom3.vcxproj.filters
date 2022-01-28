@@ -60,10 +60,10 @@
     <ClCompile Include="Source\Core\Math\LightMath_Cpp\Vector4.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Core\Graphics\Buffer\UniformBufferObject.cpp">
+    <ClCompile Include="Source\Core\Graphics\Buffer\UniformBufferObject\UniformBufferObject.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Core\Graphics\Buffer\UniformBufferObjectManager.cpp">
+    <ClCompile Include="Source\Core\Graphics\Buffer\UniformBufferObject\UniformBufferObjectManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Source\Core\Graphics\OverlapBindChecker.cpp">
@@ -375,7 +375,7 @@
     <ClCompile Include="Source\Core\Graphics\PictureInPicture\PIPManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Core\Graphics\Buffer\UniformBufferObjectUpdater.cpp">
+    <ClCompile Include="Source\Core\Graphics\Buffer\UniformBufferObject\UniformBufferObjectUpdater.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Source\Core\Graphics\GraphicsAPI\graphicsAPISetting.cpp">
@@ -771,6 +771,9 @@
     <ClCompile Include="Source\Core\Asset\Utility\shaderConverter.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Core\Graphics\Buffer\UniformBufferObject\UniformBufferObjectView.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="dependency\glad\include\glad\glad.h">
@@ -1019,13 +1022,13 @@
     <ClInclude Include="Source\Core\Graphics\Buffer\MeshNode.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Core\Graphics\Buffer\UniformBufferObject.h">
+    <ClInclude Include="Source\Core\Graphics\Buffer\UniformBufferObject\UniformBufferObject.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Core\Graphics\Buffer\UniformBufferObjectManager.h">
+    <ClInclude Include="Source\Core\Graphics\Buffer\UniformBufferObject\UniformBufferObjectManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Core\Graphics\Buffer\UniformBlockOffsetInfo.h">
+    <ClInclude Include="Source\Core\Graphics\Buffer\UniformBufferObject\UniformBlockOffsetInfo.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\Core\Graphics\OverlapBindChecker.h">
@@ -1484,7 +1487,7 @@
     <ClInclude Include="Source\Core\Graphics\PictureInPicture\PIPManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Core\Graphics\Buffer\UniformBufferObjectUpdater.h">
+    <ClInclude Include="Source\Core\Graphics\Buffer\UniformBufferObject\UniformBufferObjectUpdater.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\Core\Graphics\GraphicsAPI\graphicsAPISetting.h">
@@ -1926,6 +1929,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\Core\Asset\Utility\shaderConverter.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Core\Graphics\Buffer\UniformBufferObject\UniformBufferObjectView.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

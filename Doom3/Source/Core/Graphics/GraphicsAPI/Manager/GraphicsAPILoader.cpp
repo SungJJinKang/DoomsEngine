@@ -25,7 +25,7 @@ void dooms::graphics::GraphicsAPILoader::FetchExportedFunctionAddress()
 	//D_ASSERT(dooms::graphics::GraphicsAPI::GetCurrentAPIType != nullptr);
 	dooms::graphics::GraphicsAPI::ActivateTextureUnit = (GraphicsAPI::GRAPHICS_ACTIVATETEXTUREUNIT)GetProcAddress(hModule, "ActivateTextureUnit");
 	//D_ASSERT(dooms::graphics::GraphicsAPI::ActivateTextureUnit != nullptr);
-	dooms::graphics::GraphicsAPI::AllocateBufferMemory = (GraphicsAPI::GRAPHICS_ALLOCATEBUFFERMEMORY)GetProcAddress(hModule, "AllocateBufferMemory");
+	dooms::graphics::GraphicsAPI::CreateBufferObject = (GraphicsAPI::GRAPHICS_ALLOCATEBUFFERMEMORY)GetProcAddress(hModule, "AllocateBufferMemory");
 	//D_ASSERT(dooms::graphics::GraphicsAPI::AllocateBufferMemory != nullptr);
 	dooms::graphics::GraphicsAPI::AllocateRenderBufferMemory = (GraphicsAPI::GRAPHICS_ALLOCATERENDERBUFFERMEMORY)GetProcAddress(hModule, "AllocateRenderBufferMemory");
 	//D_ASSERT(dooms::graphics::GraphicsAPI::AllocateRenderBufferMemory != nullptr);
@@ -86,9 +86,7 @@ void dooms::graphics::GraphicsAPILoader::FetchExportedFunctionAddress()
 	dooms::graphics::GraphicsAPI::CompileShaders = (GraphicsAPI::GRAPHICS_COMPILESHADERS)GetProcAddress(hModule, "CompileShaders");
 	//D_ASSERT(dooms::graphics::GraphicsAPI::CompileShaders != nullptr);
 	*/
-
-	dooms::graphics::GraphicsAPI::CreateBuffer = (GraphicsAPI::GRAPHICS_CREATEBUFFER)GetProcAddress(hModule, "CreateBuffer");
-	//D_ASSERT(dooms::graphics::GraphicsAPI::CreateBuffer != nullptr);
+	
 	dooms::graphics::GraphicsAPI::CreateMaterial = (GraphicsAPI::GRAPHICS_CREATEMATERIAL)GetProcAddress(hModule, "CreateMaterial");
 	//D_ASSERT(dooms::graphics::GraphicsAPI::CreateMaterial != nullptr);
 	dooms::graphics::GraphicsAPI::CreateRenderBufferObject = (GraphicsAPI::GRAPHICS_CREATERENDERBUFFEROBJECT)GetProcAddress(hModule, "CreateRenderBufferObject");
