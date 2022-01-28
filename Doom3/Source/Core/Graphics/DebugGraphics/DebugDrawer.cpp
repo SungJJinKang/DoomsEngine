@@ -15,8 +15,7 @@
 
 void dooms::graphics::DebugDrawer::Init()
 {
-	mDebugMesh.GenMeshBuffer(false);
-	mDebugMesh.BufferData(MAX_DEBUG_VERTEX_COUNT * 3, NULL, GraphicsAPI::ePrimitiveType::LINES, eVertexArrayFlag::VertexVector3);
+	mDebugMesh.CreateBufferObject(MAX_DEBUG_VERTEX_COUNT * 3, NULL, GraphicsAPI::ePrimitiveType::LINES, eVertexArrayFlag::VertexVector3);
 
 
 	auto debug2DShader = dooms::assetImporter::AssetManager::GetSingleton()->GetAsset<asset::eAssetType::SHADER>(DebugDrawer::DEBUG_2D_SHADER);
@@ -298,7 +297,7 @@ void dooms::graphics::DebugDrawer::BufferVertexDataToGPU()
 				const size_t primitiveCount = container->GetColoredPrimitiveCount(static_cast<eColor>(colorIndex));
 
 				D_ASSERT(MAX_DEBUG_VERTEX_COUNT >= alreadyDrawedVertexCount + primitiveCount * container->GetVertexCountPerPrimitive());
-				mDebugMesh.BufferSubData(primitiveCount * container->GetComponentCountPerPrimitive(), container->GetColoredVertexData(static_cast<eColor>(colorIndex)), offsetComponentCount * sizeof(FLOAT32));
+				mDebugMesh.UpdateVertexData(primitiveCount * container->GetComponentCountPerPrimitive(), container->GetColoredVertexData(static_cast<eColor>(colorIndex)), offsetComponentCount * sizeof(FLOAT32));
 
 				offsetComponentCount += primitiveCount * container->GetComponentCountPerPrimitive();
 				alreadyDrawedVertexCount += primitiveCount * container->GetVertexCountPerPrimitive();
@@ -310,7 +309,7 @@ void dooms::graphics::DebugDrawer::BufferVertexDataToGPU()
 			const size_t primitiveCount = container->GetSpecialColoredPrimitiveCount();
 
 			D_ASSERT(MAX_DEBUG_VERTEX_COUNT >= alreadyDrawedVertexCount + primitiveCount * container->GetVertexCountPerPrimitive());
-			mDebugMesh.BufferSubData(primitiveCount * container->GetComponentCountPerPrimitive(), container->GetSpecialColoredVertexData(), offsetComponentCount * sizeof(FLOAT32));
+			mDebugMesh.UpdateVertexData(primitiveCount * container->GetComponentCountPerPrimitive(), container->GetSpecialColoredVertexData(), offsetComponentCount * sizeof(FLOAT32));
 
 			offsetComponentCount += primitiveCount * container->GetComponentCountPerPrimitive();
 			alreadyDrawedVertexCount += primitiveCount * container->GetVertexCountPerPrimitive();
