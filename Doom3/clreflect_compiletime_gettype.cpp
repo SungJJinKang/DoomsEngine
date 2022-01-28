@@ -423,7 +423,7 @@ namespace dooms
 	}
 	namespace asset
 	{
-		struct ShaderTextString;
+		struct ShaderTextData;
 		class TextureAsset;
 		class FontAsset;
 		class AssetContainer;
@@ -664,8 +664,8 @@ namespace clcpp
 	template <> unsigned int GetTypeNameHash< clcpp::IAllocator >() { return 0x274dd6a8; }
 	template <> const Type* GetType< dooms::userinput::UserInput_Server >() { return clcppTypePtrs[30]; }
 	template <> unsigned int GetTypeNameHash< dooms::userinput::UserInput_Server >() { return 0x2778a408; }
-	template <> const Type* GetType< dooms::asset::ShaderTextString >() { return clcppTypePtrs[31]; }
-	template <> unsigned int GetTypeNameHash< dooms::asset::ShaderTextString >() { return 0x2849d95a; }
+	template <> const Type* GetType< dooms::asset::ShaderTextData >() { return clcppTypePtrs[31]; }
+	template <> unsigned int GetTypeNameHash< dooms::asset::ShaderTextData >() { return 0x2849d95a; }
 	template <> const Type* GetType< dooms::TestComponent >() { return clcppTypePtrs[32]; }
 	template <> unsigned int GetTypeNameHash< dooms::TestComponent >() { return 0x29aabd56; }
 	template <> const Type* GetType< clcpp::Enum >() { return clcppTypePtrs[33]; }

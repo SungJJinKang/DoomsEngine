@@ -8,6 +8,8 @@
 #include <Graphics/Buffer/BufferID.h>
 
 #include "ShaderAsset.reflection.h"
+#include "Utility/ShaderAsset/shaderReflectionDataParser.h"
+
 namespace dooms
 {
 	namespace assetImporter
@@ -22,9 +24,9 @@ namespace dooms
 
 	namespace asset
 	{
-		struct DOOM_API D_STRUCT ShaderTextString
+		struct DOOM_API D_STRUCT ShaderTextData
 		{
-			GENERATE_BODY_ShaderTextString()
+			//GENERATE_BODY_ShaderTextString()
 
 			D_PROPERTY()
 			dooms::graphics::GraphicsAPI::eGraphicsAPIType mShaderTextGraphicsAPIType;
@@ -35,15 +37,18 @@ namespace dooms
 			D_PROPERTY()
 			std::string mShaderReflectionDataStringText;
 
-			ShaderTextString();
+			D_PROPERTY()
+			shaderReflectionDataParser::ShaderReflectionData mShaderReflectionData;
 
-			ShaderTextString
+			ShaderTextData();
+
+			ShaderTextData
 			(
 				const std::string& shaderStringText,
 				const std::string& shaderReflectionDataStringText
 			);
 
-			ShaderTextString
+			ShaderTextData
 			(
 				const dooms::graphics::GraphicsAPI::eGraphicsAPIType graphicsAPIType, 
 				const std::string& shaderStringText,
@@ -63,23 +68,23 @@ namespace dooms
 			
 
 			D_PROPERTY()
-			std::array<ShaderTextString, GRAPHICS_PIPELINE_STAGE_COUNT> mShaderTextStrings;
+			std::array<ShaderTextData, GRAPHICS_PIPELINE_STAGE_COUNT> mShaderTextDatas;
 
 			D_PROPERTY()
 			std::array<dooms::graphics::BufferID, GRAPHICS_PIPELINE_STAGE_COUNT> mShaderObject;
 
-			bool ConvertShaderTextStringToCurrentGraphicsAPIShaderFormat(ShaderTextString& shaderText);
+			bool ConvertShaderTextStringToCurrentGraphicsAPIShaderFormat(ShaderTextData& outShaderText);
 			
 			/// <summary>
 			/// Don't call this subthread, Should Call this at mainthread
 			/// </summary>
 			void CompileShaders();
-			bool CompileSpecificTypeShader(ShaderTextString& shaderText, const graphics::GraphicsAPI::eGraphicsPipeLineStage shaderType, dooms::graphics::BufferID& shaderId);
+			bool CompileSpecificTypeShader(ShaderTextData& shaderText, const graphics::GraphicsAPI::eGraphicsPipeLineStage shaderType, dooms::graphics::BufferID& shaderId);
 			
 		public:
 
 			ShaderAsset();
-			ShaderAsset(const std::array<ShaderTextString, GRAPHICS_PIPELINE_STAGE_COUNT>& shaderText);
+			ShaderAsset(const std::array<ShaderTextData, GRAPHICS_PIPELINE_STAGE_COUNT>& shaderText);
 			ShaderAsset(const ShaderAsset& shader) = delete;
 			ShaderAsset(ShaderAsset&& shader) noexcept;
 			ShaderAsset operator=(const ShaderAsset& shader) = delete;
