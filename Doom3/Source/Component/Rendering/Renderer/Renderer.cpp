@@ -152,9 +152,14 @@ void dooms::Renderer::UpdateCullingEntityBlockViewer()
 	
 }
 
-void dooms::Renderer::SetMaterial(const graphics::Material* material) noexcept
+void dooms::Renderer::SetMaterial(graphics::Material* material) noexcept
 {
 	mTargetMaterial = material;
+}
+
+void dooms::Renderer::SetMaterial(graphics::Material& material) noexcept
+{
+	SetMaterial(&material);
 }
 
 char dooms::Renderer::GetIsVisibleWithCameraIndex(UINT32 cameraIndex) const
@@ -193,8 +198,5 @@ const dooms::physics::Sphere& dooms::Renderer::GetBoudingSphere()
 }
 */
 
-void dooms::Renderer::SetMaterial(const graphics::Material& material) noexcept
-{
-	SetMaterial(&material);
-}
+
 

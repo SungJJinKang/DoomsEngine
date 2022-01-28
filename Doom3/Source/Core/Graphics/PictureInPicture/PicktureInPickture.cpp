@@ -7,7 +7,7 @@
 
 void dooms::graphics::PicktureInPickture::InitializeDefaultPIPMaterial()
 {
-	if (PicktureInPickture::mDefualtPIPMaterial.IsGenerated() == false)
+	if (PicktureInPickture::mDefualtPIPMaterial.IsMaterialCreated() == false)
 	{
 		dooms::asset::ShaderAsset* const pipMaterial = dooms::assetImporter::AssetManager::GetSingleton()->GetAsset<asset::eAssetType::SHADER>("Default2DTextureShader.glsl");
 		PicktureInPickture::mDefualtPIPMaterial.SetShaderAsset(pipMaterial);
@@ -26,7 +26,7 @@ void dooms::graphics::PicktureInPickture::SetDefaultPIPMaterial()
 	InitializeDefaultPIPMaterial();
 	mPIPMaterial = &(PicktureInPickture::mDefualtPIPMaterial);
 	D_ASSERT(IsValid(mPIPMaterial));
-	D_ASSERT(mPIPMaterial->IsGenerated());
+	D_ASSERT(mPIPMaterial->IsMaterialCreated());
 }
 
 dooms::graphics::PicktureInPickture::PicktureInPickture(const math::Vector2& leftBottomNDCPoint, const math::Vector2& rightTopNDCPoint, TextureView* const _drawedTexture)
@@ -41,7 +41,7 @@ dooms::graphics::PicktureInPickture::PicktureInPickture(const math::Vector2& lef
 {
 	D_ASSERT(IsValid(mDrawedTexture));
 	D_ASSERT(IsValid(mPIPMaterial));
-	D_ASSERT(mPIPMaterial->IsGenerated());
+	D_ASSERT(mPIPMaterial->IsMaterialCreated());
 }
 
 /*dooms::graphics::PicktureInPickture& dooms::graphics::PicktureInPickture::operator=
@@ -84,7 +84,7 @@ void dooms::graphics::PicktureInPickture::SetTexture(TextureView* const texture)
 void dooms::graphics::PicktureInPickture::SetMaterial(Material* const _pipMaterial)
 {
 	D_ASSERT(IsValid(_pipMaterial));
-	D_ASSERT(_pipMaterial->IsGenerated());
+	D_ASSERT(_pipMaterial->IsMaterialCreated());
 	mPIPMaterial = _pipMaterial;
 }
 

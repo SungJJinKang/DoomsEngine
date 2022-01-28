@@ -1,11 +1,32 @@
 #include "UniformBufferObject.h"
 
 
+void dooms::graphics::UniformBufferObject::InitializeUniformVariableOffset
+(
+	const std::vector<asset::shaderReflectionDataParser::UniformBufferMember>& uboMembers
+)
+{
+	// TODO :
+	mUniformVariableOffset.clear();
+	mUniformVariableOffset.reserve(uboMembers.size());
+	for(const asset::shaderReflectionDataParser::UniformBufferMember& uboMember : uboMembers)
+	{
+		mUniformVariableOffset.emplace(uboMember.mName, uboMember.mOffset);
+	}
+}
+
 void dooms::graphics::UniformBufferObject::OnSetPendingKill()
 {
 	Buffer::OnSetPendingKill();
 
 	DeleteBuffers();
+}
+
+dooms::graphics::UniformBufferObject::UniformBufferObject()
+	:
+	mUniformBufferObject(),
+	mUniformBufferTempData(nullptr)
+{
 }
 
 dooms::graphics::UniformBufferObject::UniformBufferObject
@@ -32,6 +53,33 @@ dooms::graphics::UniformBufferObject::~UniformBufferObject()
 	DeleteBuffers();
 }
 
+
+bool dooms::graphics::UniformBufferObject::InitializeUniformBufferObject
+(
+	const std::string& uniformBlockName,
+	const UINT64 uniformBufferSize, 
+	const UINT32 defaultBindingPoint,
+	const GraphicsAPI::eGraphicsPipeLineStage targetPipeLineStage, 
+	const void* const initialData
+)
+{
+	bool isSuccess = false;
+
+	if(IsBufferGenerated() == false)
+	{
+		mUniformBlockName = uniformBlockName;
+		mUniformBufferSize = uniformBufferSize;
+		mDefaultBindingPoint = defaultBindingPoint;
+		mDefaultTargetPipeLineStage = targetPipeLineStage;
+		mUniformBufferTempData = nullptr;
+
+		GenerateUniformBufferObject(uniformBufferSize);
+
+		isSuccess = true;
+	}
+
+	return isSuccess;
+}
 
 std::string dooms::graphics::UniformBufferObject::GetUniformBlockName()
 {
@@ -85,19 +133,9 @@ void dooms::graphics::UniformBufferObject::DeleteBuffers()
 void dooms::graphics::UniformBufferObject::UpdateLocalBufferToGPU() noexcept
 {
 	D_ASSERT(IsBufferGenerated() == true);
-	if (IsBufferGenerated() == true && bmIsDirty == true)
+	if ( (bmIsDirty == true) && (IsBufferGenerated() == true) )
 	{
 		GraphicsAPI::UpdateDataToBuffer(mUniformBufferObject, GraphicsAPI::eBufferTarget::UNIFORM_BUFFER, 0, mUniformBufferSize, mUniformBufferTempData);
-		bmIsDirty = false;
-	}
-}
-
-void dooms::graphics::UniformBufferObject::UpdateLocalBufferToGPU(const void* sourceData, const UINT32 sizeOfSourceData, const UINT32 offsetInUniformBlock) noexcept
-{
-	D_ASSERT(IsBufferGenerated() == true);
-	if (IsBufferGenerated() == true)
-	{
-		GraphicsAPI::UpdateDataToBuffer(mUniformBufferObject, GraphicsAPI::eBufferTarget::UNIFORM_BUFFER, offsetInUniformBlock, sizeOfSourceData, sourceData);
 		bmIsDirty = false;
 	}
 }
@@ -106,7 +144,8 @@ void dooms::graphics::UniformBufferObject::UpdateLocalBuffer
 (
 	const void* sourceData, 
 	const UINT32 sizeOfSourceData, 
-	const UINT32 offsetInUniformBlock
+	const UINT32 offsetInUniformBlock,
+	const bool instantlyUpdateToGPU
 )
 {
 	D_ASSERT(IsBufferGenerated() == true);
