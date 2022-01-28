@@ -23,6 +23,16 @@ namespace dooms::asset::shaderAssetHelper
 		"#COMPUTE"
 	};
 
+	static const std::array<const std::string, GRAPHICS_PIPELINE_STAGE_COUNT> mShaderReflectionMacros
+	{
+		"#VERTEX_REFLECTION",
+		"#HULL_REFLECTION",
+		"#DOMAIN_REFLECTION",
+		"#GEOMETRY_REFLECTION",
+		"#FRAGMENT_REFLECTION",
+		"#COMPUTE_REFLECTION"
+	};
+
 	bool CheckIsSharpInclude(const std::string& str)
 	{
 		std::string trimedStr = std::trim(str, ' ');
@@ -38,7 +48,7 @@ namespace dooms::asset::shaderAssetHelper
 		return false;
 	}
 
-	std::array<std::string, GRAPHICS_PIPELINE_STAGE_COUNT> ParseShaderTextStrings(const std::filesystem::path& shaderAssetPath, const std::string& shaderText)
+	std::array<std::string, GRAPHICS_PIPELINE_STAGE_COUNT> ParseShaderTextStringsBasedOnTargetGraphicsPipeLineStage(const std::filesystem::path& shaderAssetPath, const std::string& shaderText)
 	{
 		std::array<std::string, GRAPHICS_PIPELINE_STAGE_COUNT> shaderStringTexts{};
 		
@@ -114,6 +124,68 @@ namespace dooms::asset::shaderAssetHelper
 		}
 
 		return std::move(shaderStringTexts);
+	}
+
+	std::array<std::string, GRAPHICS_PIPELINE_STAGE_COUNT> ParseShaderReflectionTextStringsBasedOnTargetGraphicsPipeLineStage(const std::string& shaderReflectionText)
+	{
+		std::array<std::string, GRAPHICS_PIPELINE_STAGE_COUNT> shaderReflectionDataStringTexts{};
+
+		std::stringstream inputStringStream{ shaderReflectionText };
+		std::string line;
+
+		graphics::GraphicsAPI::eGraphicsPipeLineStage currentShaderType = graphics::GraphicsAPI::eGraphicsPipeLineStage::DUMMY;
+		std::string currentShaderStr{};
+
+		while (std::getline(inputStringStream, line))
+		{
+			const size_t firstCharacterPos = line.find_first_not_of(' '); // find first not white space character
+			if (firstCharacterPos == std::string::npos)
+			{
+				continue;
+			}
+
+			if (line[firstCharacterPos] == '#')
+			{
+				bool isFindShaderMacros = false;
+
+				for (size_t shaderTypeIndex = 0; shaderTypeIndex < GRAPHICS_PIPELINE_STAGE_COUNT; shaderTypeIndex++)
+				{
+					if (line.compare(firstCharacterPos, mShaderReflectionMacros[shaderTypeIndex].size(), mShaderReflectionMacros[shaderTypeIndex], 0) == 0)
+					{
+						if (currentShaderStr.size() != 0 && currentShaderType != graphics::GraphicsAPI::eGraphicsPipeLineStage::DUMMY)
+						{
+							shaderReflectionDataStringTexts[static_cast<UINT32>(currentShaderType)] = std::move(currentShaderStr); // store currentShaderStr current line to shader string
+						}
+
+						currentShaderStr.clear();
+
+						currentShaderType = static_cast<graphics::GraphicsAPI::eGraphicsPipeLineStage>(shaderTypeIndex);
+						isFindShaderMacros = true;
+
+						break;
+					}
+				}
+
+				if (isFindShaderMacros == true)
+				{
+					continue;
+				}
+			}
+
+
+			if (currentShaderType != graphics::GraphicsAPI::eGraphicsPipeLineStage::DUMMY)
+			{
+				currentShaderStr += line; // getline stil contain newline character(\n)
+				currentShaderStr += '\n';
+			}
+		}
+
+		if (currentShaderStr.size() != 0)
+		{
+			shaderReflectionDataStringTexts[static_cast<UINT32>(currentShaderType)] = std::move(currentShaderStr);
+		}
+
+		return std::move(shaderReflectionDataStringTexts);
 	}
 
 	std::string ExtractShaderFile(const std::filesystem::path& path)

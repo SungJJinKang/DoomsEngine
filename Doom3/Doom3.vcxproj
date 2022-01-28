@@ -343,6 +343,7 @@ xcopy /y /d /E /H /C /I "$(ProjectDir)Assets" "$(TargetDir)Assets"</Command>
     <ClCompile Include="clreflect_compiletime_gettype.cpp" />
     <ClCompile Include="Source\Core\Asset\Utility\ShaderAsset\shaderAssetHelper.cpp" />
     <ClCompile Include="Source\Core\Asset\Utility\ShaderAsset\shaderConverter.cpp" />
+    <ClCompile Include="Source\Core\Asset\Utility\ShaderAsset\shaderReflectionDataParser.cpp" />
     <ClCompile Include="Source\Core\EngineGUI\GUIModules\drawCallCounterGUI.cpp" />
     <ClCompile Include="Source\Core\Graphics\Acceleration\LinearData_ViewFrustumCulling\CullingModule\MaskedSWOcclusionCulling\OccluderListManager.cpp" />
     <ClCompile Include="Source\Core\Graphics\Acceleration\LinearData_ViewFrustumCulling\CullingModule\PreCulling\PreCulling.cpp" />
@@ -597,6 +598,7 @@ xcopy /y /d /E /H /C /I "$(ProjectDir)Assets" "$(TargetDir)Assets"</Command>
     <ClInclude Include="Source\Component\Rendering\MaxCameraCount.h" />
     <ClInclude Include="Source\Core\Asset\Utility\ShaderAsset\shaderAssetHelper.h" />
     <ClInclude Include="Source\Core\Asset\Utility\ShaderAsset\shaderConverter.h" />
+    <ClInclude Include="Source\Core\Asset\Utility\ShaderAsset\shaderReflectionDataParser.h" />
     <ClInclude Include="Source\Core\EngineGUI\GUIModules\drawCallCounterGUI.h" />
     <ClInclude Include="Source\Core\Graphics\Acceleration\LinearData_ViewFrustumCulling\CullingModule\MaskedSWOcclusionCulling\OccluderListManager.h" />
     <ClInclude Include="Source\Core\Graphics\Acceleration\LinearData_ViewFrustumCulling\CullingModule\PreCulling\PreCulling.h" />

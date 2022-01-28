@@ -11,15 +11,19 @@ bool dooms::assetImporter::AssetImporterWorker_Shader::ImportShaderAsset
 	dooms::asset::ShaderAsset* const shaderAsset
 )
 {
-	std::string text{};
-	bool isSuccess = asset::textImporter::GetTextFromFile(path, text);
+	std::string shaderStringText{};
+	bool isSuccess = asset::textImporter::GetTextFromFile(path, shaderStringText);
 
-	D_ASSERT(text.empty() == false);
+	std::string shaderReflectionDataStringText{};
+	const std::filesystem::path reflectionDataFilePath = std::filesystem::path(path).append(".json");
+	asset::textImporter::GetTextFromFile(reflectionDataFilePath, shaderStringText);
+
+	D_ASSERT(shaderStringText.empty() == false);
 
 	if (isSuccess)
 	{
 		const dooms::graphics::GraphicsAPI::eGraphicsAPIType shaderAssetGraphicsAPIType = dooms::asset::shaderAssetHelper::GetShaderAssetGraphicsAPIType(path.extension().generic_u8string());
-		shaderAsset->SetShaderText(text, shaderAssetGraphicsAPIType, false);
+		shaderAsset->SetShaderText(shaderStringText, shaderReflectionDataStringText, shaderAssetGraphicsAPIType, false);
 		return true;
 	}
 	else

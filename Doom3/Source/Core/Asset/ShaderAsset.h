@@ -25,13 +25,23 @@ namespace dooms
 		struct DOOM_API D_STRUCT ShaderTextString
 		{
 			dooms::graphics::GraphicsAPI::eGraphicsAPIType mShaderTextGraphicsAPIType;
-			std::string mText;
+			std::string mShaderStringText;
+			std::string mShaderReflectionDataStringText;
 
 			ShaderTextString();
 
-			ShaderTextString(const std::string& text);
+			ShaderTextString
+			(
+				const std::string& shaderStringText,
+				const std::string& shaderReflectionDataStringText
+			);
 
-			ShaderTextString(const dooms::graphics::GraphicsAPI::eGraphicsAPIType graphicsAPIType, const std::string& text);
+			ShaderTextString
+			(
+				const dooms::graphics::GraphicsAPI::eGraphicsAPIType graphicsAPIType, 
+				const std::string& shaderStringText,
+				const std::string& shaderReflectionDataStringText
+			);
 
 			void Clear();
 			bool IsValid() const;
@@ -71,7 +81,16 @@ namespace dooms
 
 			virtual void OnSetPendingKill() override;
 
-			void SetShaderText(const std::string& shaderStr, const dooms::graphics::GraphicsAPI::eGraphicsAPIType shaderTextraphicsAPIType, const bool compileShader);
+			void SetShaderText
+			(
+				const std::string& shaderStringText, 
+				const std::string& shaderReflectionDataStringText, 
+				const dooms::graphics::GraphicsAPI::eGraphicsAPIType shaderTextraphicsAPIType,
+				const bool compileShader
+			);
+
+			const std::string& GetShaderStringText(const dooms::graphics::GraphicsAPI::eGraphicsAPIType shaderTextraphicsAPIType) const;
+			const std::string& GetShaderReflectionDataStringText(const dooms::graphics::GraphicsAPI::eGraphicsAPIType shaderTextraphicsAPIType) const;
 
 
 			/// <summary>
