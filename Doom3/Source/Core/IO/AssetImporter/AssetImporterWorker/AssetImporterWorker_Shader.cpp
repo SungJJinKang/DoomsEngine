@@ -3,7 +3,7 @@
 #include <Asset/Utility/textImporter.h>
 
 #include <Asset/ShaderAsset.h>
-#include <Asset/Utility/shaderAssetHelper.h>
+#include <Asset/Utility/ShaderAsset/shaderAssetHelper.h>
 
 bool dooms::assetImporter::AssetImporterWorker_Shader::ImportShaderAsset
 (

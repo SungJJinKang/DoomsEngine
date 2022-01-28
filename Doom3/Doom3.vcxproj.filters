@@ -765,10 +765,10 @@
     <ClCompile Include="Source\Core\Graphics\FrameBuffer\FrameBufferView.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Core\Asset\Utility\shaderAssetHelper.cpp">
+    <ClCompile Include="Source\Core\Asset\Utility\ShaderAsset\shaderAssetHelper.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Core\Asset\Utility\shaderConverter.cpp">
+    <ClCompile Include="Source\Core\Asset\Utility\ShaderAsset\shaderConverter.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Source\Core\Graphics\Buffer\UniformBufferObject\UniformBufferObjectView.cpp">
@@ -1925,10 +1925,10 @@
     <ClInclude Include="Source\Component\Rendering\MaxCameraCount.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Core\Asset\Utility\shaderAssetHelper.h">
+    <ClInclude Include="Source\Core\Asset\Utility\ShaderAsset\shaderAssetHelper.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Core\Asset\Utility\shaderConverter.h">
+    <ClInclude Include="Source\Core\Asset\Utility\ShaderAsset\shaderConverter.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\Core\Graphics\Buffer\UniformBufferObject\UniformBufferObjectView.h">

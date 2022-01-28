@@ -9,7 +9,7 @@
 #include "trim.h"
 #include <Graphics/GraphicsAPI/GraphicsAPI.h>
 
-#include "TextImporter.h"
+#include "../TextImporter.h"
 
 namespace dooms::asset::shaderAssetHelper
 {

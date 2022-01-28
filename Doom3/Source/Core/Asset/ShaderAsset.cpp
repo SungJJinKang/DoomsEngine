@@ -3,10 +3,10 @@
 #include "ShaderAsset.h"
 
 #include "../Graphics/Material/Material.h"
-#include "Utility/shaderAssetHelper.h"
+#include "Utility/ShaderAsset/shaderAssetHelper.h"
 #include <utility/trim.h>
 #include <EngineGUI/PrintText.h>
-#include "Utility/shaderConverter.h"
+#include "Utility/ShaderAsset/shaderConverter.h"
 
 
 dooms::asset::ShaderTextString::ShaderTextString() : mShaderTextGraphicsAPIType{ dooms::graphics::GraphicsAPI::eGraphicsAPIType::GraphicsAPIType_NONE }, mText{}
