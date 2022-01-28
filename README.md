@@ -42,7 +42,8 @@
   * [assimp](https://github.com/assimp/assimp) : The official Open-Asset-Importer-Library Repository                    
   * [DirectTex](https://github.com/microsoft/DirectXTex) : DirectXTex texture processing library                    
   * [imgui](https://github.com/ocornut/imgui) : Dear ImGui: Bloat-free Graphical User interface for C++ with minimal dependencies                    
-  * [json](https://github.com/nlohmann/json) : JSON for Modern C++                 
+  * [json](https://github.com/nlohmann/json) : JSON for Modern C++            
+  * [glslcc](https://github.com/septag/glslcc) : GLSL cross-compiler tool (GLSL->HLSL, MSL, GLES2, GLES3, GLSLv3), using SPIRV-cross and glslang                  
 
 ## Screenshot
 ![20220123003649](https://user-images.githubusercontent.com/33873804/150645275-f773d8d6-2b38-4f51-9d00-9692fa1aa57c.png)                
