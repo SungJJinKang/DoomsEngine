@@ -8,6 +8,7 @@
 #include <Graphics/GraphicsAPI/GraphicsAPI.h>
 #include "UniformBufferObject.h"
 
+#include "UniformBufferObjectView.reflection.h"
 namespace dooms
 {
 	namespace graphics
@@ -16,6 +17,8 @@ namespace dooms
 
 		class DOOM_API D_CLASS  UniformBufferObjectView : public DObject
 		{
+			GENERATE_BODY()
+
 		private:
 
 			D_PROPERTY()
@@ -45,6 +48,9 @@ namespace dooms
 				return mTargetUniformBufferObject;
 			}
 
+			UINT32 UpdateUniformVariableOffsetCache(const char* const targetUniformVariableName);
+			UINT32 GetOrUpdateUniformVaraibleOffsetInUniformBlock(const char* const targetUniformVariableName);
+			
 			void UpadteLocalBuffer
 			(
 				const void* sourceData,
@@ -52,9 +58,7 @@ namespace dooms
 				const char* const targetUniformVariableName
 			);
 
-			UINT32 UpdateUniformVariableOffsetCache(const char* const targetUniformVariableName);
-			UINT32 GetOrUpdateUniformVaraibleOffsetInUniformBlock(const char* const targetUniformVariableName);
-
+			
 			FORCE_INLINE void BindUniformBufferObject() const noexcept
 			{
 				D_ASSERT(IsValid(mTargetUniformBufferObject) == true);

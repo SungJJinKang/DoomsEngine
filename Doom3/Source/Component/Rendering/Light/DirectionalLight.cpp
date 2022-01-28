@@ -1,8 +1,8 @@
 #include "DirectionalLight.h"
 #include "Transform.h"
 #include "Vector3.h"
-#include "Graphics/Buffer/UniformBlockOffsetInfo.h"
-#include "Graphics/Buffer/UniformBufferObjectManager.h"
+#include "Graphics/Buffer/UniformBufferObject/UniformBlockOffsetInfo.h"
+#include "Graphics/Buffer/UniformBufferObject/UniformBufferObjectManager.h"
 
 void dooms::DirectionalLight::InitComponent()
 {

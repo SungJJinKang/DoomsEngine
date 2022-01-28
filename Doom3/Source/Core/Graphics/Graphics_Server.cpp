@@ -10,7 +10,7 @@
 #include "GraphicsAPI/Manager/GraphicsAPIManager.h"
 #include <Graphics/GraphicsAPI/GraphicsAPI.h>
 
-#include "Buffer/UniformBufferObjectManager.h"
+#include "Buffer/UniformBufferObject/UniformBufferObjectManager.h"
 
 #include <Rendering/Renderer/Renderer.h>
 #include <Rendering/Light/Light.h>

@@ -39,6 +39,9 @@ UINT32 dooms::graphics::UniformBufferObjectView::UpdateUniformVariableOffsetCach
 	{
 		uniformVariableOffset = node->second;
 	}
+
+	D_ASSERT(uniformVariableOffset != ((UINT32)-1));
+	return uniformVariableOffset;
 }
 
 UINT32 dooms::graphics::UniformBufferObjectView::GetOrUpdateUniformVaraibleOffsetInUniformBlock

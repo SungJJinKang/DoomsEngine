@@ -1,7 +1,7 @@
 #include "LightManager.h"
 
-#include "Buffer/UniformBlockOffsetInfo.h"
-#include "Buffer/UniformBufferObjectManager.h"
+#include "Buffer/UniformBufferObject/UniformBlockOffsetInfo.h"
+#include "Buffer/UniformBufferObject/UniformBufferObjectManager.h"
 
 void dooms::graphics::LightManager::UpdateUniformBufferObject(const bool force)
 {

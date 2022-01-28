@@ -7,7 +7,7 @@
 
 #include "FrameBuffer/FrameBuffer.h"
 #include "DeferredRenderingDrawer.h"
-#include "Buffer/UniformBufferObjectManager.h"
+#include "Buffer/UniformBufferObject/UniformBufferObjectManager.h"
 #include "LightManager.h"
 #include "PictureInPicture/PIPManager.h"
 #include "DebugGraphics/DebugDrawer.h"

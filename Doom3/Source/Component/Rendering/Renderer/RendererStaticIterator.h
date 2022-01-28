@@ -18,6 +18,7 @@ namespace dooms
 	template <>
 	class DOOM_API D_CLASS StaticContainer<Renderer> : public DObject, public ISingleton<StaticContainer<Renderer>>
 	{
+		//GENERATE_BODY()
 	private:
 
 		UINT32 mWorkingRendererListIndex = 0;

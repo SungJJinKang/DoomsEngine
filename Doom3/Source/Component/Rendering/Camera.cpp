@@ -4,7 +4,7 @@
 
 #include "../Graphics/Graphics_Server.h"
 #include "../Graphics/graphicsSetting.h"
-#include "Graphics/Buffer/UniformBlockOffsetInfo.h"
+#include "Graphics/Buffer/UniformBufferObject/UniformBlockOffsetInfo.h"
 #include "Graphics/GraphicsAPI/graphicsAPISetting.h"
 
 using namespace dooms;
@@ -417,7 +417,7 @@ void Camera::UpdateUniformBufferObject(const bool force)
 		const math::Matrix4x4& projectionMatrix = GetProjectionMatrix();
 
 		//!!!! Opengl Use column major of matrix data layout
-		dooms::graphics::UniformBufferObjectManager::GetSingleton()->GetUniformBufferObject(GLOBAL_UNIFORM_BLOCK_BINDING_POINT)->UpdateLocalBufferToGPU((void*)projectionMatrix.data(), sizeof(projectionMatrix), graphics::eUniformBlock_Global::projection);
+		dooms::graphics::UniformBufferObjectManager::GetSingleton()->GetUniformBufferObject(GLOBAL_UNIFORM_BLOCK_BINDING_POINT)->UpdateLocalBufferToGPU((void*)projectionMatrix.data(), sizeof(projectionMatrix), dooms::graphics::eUniformBlock_Global::projection);
 		dooms::graphics::UniformBufferObjectManager::GetSingleton()->GetUniformBufferObject(GLOBAL_UNIFORM_BLOCK_BINDING_POINT)->UpdateLocalBufferToGPU((void*)&mClippingPlaneNear, sizeof(FLOAT32), graphics::eUniformBlock_Global::camNear);
 		dooms::graphics::UniformBufferObjectManager::GetSingleton()->GetUniformBufferObject(GLOBAL_UNIFORM_BLOCK_BINDING_POINT)->UpdateLocalBufferToGPU((void*)&mClippingPlaneFar, sizeof(FLOAT32), graphics::eUniformBlock_Global::camFar);
 

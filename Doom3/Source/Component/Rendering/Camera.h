@@ -7,7 +7,7 @@
 #include "../Core/Math/LightMath_Cpp/Matrix_utility.h"
 
 #include <array>
-#include "../Core/Graphics/Buffer/UniformBufferObjectUpdater.h"
+#include "../Core/Graphics/Buffer/UniformBufferObject/UniformBufferObjectUpdater.h"
 #include <StaticContainer/StaticContainer.h>
 
 #include <EasyDirtyChecker/DirtyReceiver.h>
