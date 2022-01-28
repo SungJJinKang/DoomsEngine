@@ -55,35 +55,64 @@ namespace dooms
 				INT4
 			};
 
-			struct ShaderInputOutput
+			struct D_STRUCT ShaderInputOutput
 			{
+				D_PROPERTY()
 				UINT32 mID;
+
+				D_PROPERTY()
 				std::string mName;
+
+				D_PROPERTY()
 				UINT32 mLocation;
+
+				D_PROPERTY()
 				eHlslSemantic mSemanticType;
+
+				D_PROPERTY()
 				UINT32 mSemanticIndex;
+
+				D_PROPERTY()
 				eShaderVariableType mType;
 			};
 
-			struct UniformBufferMember
+			struct D_STRUCT UniformBufferMember
 			{
+				D_PROPERTY()
 				std::string mName;
+
+				D_PROPERTY()
 				eShaderVariableType mType;
+
+				D_PROPERTY()
 				UINT32 mOffset;
+
+				D_PROPERTY()
 				UINT32 mSize;
 			};
 
-			struct UniformBuffer // OPENGL : Uniform Buffer, DirectX : ConstantBuffer
+			struct D_STRUCT UniformBuffer // OPENGL : Uniform Buffer, DirectX : ConstantBuffer
 			{
+				D_PROPERTY()
 				UINT32 mID;
+
+				D_PROPERTY()
 				std::string mName;
+
+				D_PROPERTY()
 				UINT32 mSet;
+
+				D_PROPERTY()
 				UINT32 mBindingPoint;
+
+				D_PROPERTY()
 				UINT32 mSize;
+
+				D_PROPERTY()
 				std::vector<UniformBufferMember> mMembers;
 			};
 
-			struct ShaderReflectionData
+			struct D_STRUCT ShaderReflectionData
 			{
 				dooms::graphics::GraphicsAPI::eGraphicsAPIType mTargetGraphicsAPIType;
 				std::string mSHaderVersion;
@@ -94,6 +123,8 @@ namespace dooms
 				std::vector<ShaderInputOutput> mOutputVariables;
 				std::vector<UniformBuffer> mUniformBuffers;
 			};
+
+			ShaderReflectionData ParseShaderReflectionStringText(const std::string& reflectionDataJsonText);
 		}
 	}
 }
