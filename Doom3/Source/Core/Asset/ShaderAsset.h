@@ -57,6 +57,9 @@ namespace dooms
 
 			void Clear();
 			bool IsValid() const;
+			bool IsCompileliable() const;
+
+			bool LoadShaderReflectionDataFromTextIfNotLoaded();
 		};
 
 		class DOOM_API D_CLASS ShaderAsset : public Asset
@@ -98,7 +101,9 @@ namespace dooms
 			D_PROPERTY()
 			std::array<ShaderObject, GRAPHICS_PIPELINE_STAGE_COUNT> mShaderObject;
 
+			/*
 			bool ConvertShaderTextStringToCurrentGraphicsAPIShaderFormat(ShaderTextData& outShaderText);
+			*/
 			
 			/// <summary>
 			/// Don't call this subthread, Should Call this at mainthread
@@ -120,11 +125,19 @@ namespace dooms
 
 			void SetShaderText
 			(
+				const std::array<ShaderTextData, GRAPHICS_PIPELINE_STAGE_COUNT>& shaderTextDatas,
+				const bool compileShader
+			);
+
+			/*
+			void SetShaderText
+			(
 				const std::string& shaderStringText, 
 				const std::string& shaderReflectionDataStringText, 
 				const dooms::graphics::GraphicsAPI::eGraphicsAPIType shaderTextraphicsAPIType,
 				const bool compileShader
 			);
+			*/
 
 			const std::string& GetShaderStringText(const dooms::graphics::GraphicsAPI::eGraphicsAPIType shaderTextraphicsAPIType) const;
 			const std::string& GetShaderReflectionDataStringText(const dooms::graphics::GraphicsAPI::eGraphicsAPIType shaderTextraphicsAPIType) const;
