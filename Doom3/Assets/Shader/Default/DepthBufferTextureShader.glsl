@@ -1,12 +1,12 @@
-#VERTEX
+//@begin_vert
 
 #version 460 core
 
 layout (location = 0) in vec3 aPos; 
 layout (location = 1) in vec2 aUV0; 
 
-out vec3 FragPos;
-out vec2 UV0;
+layout (location = 0) out vec3 FragPos;
+layout (location = 1) out vec2 UV0;
 
 void main()
 {
@@ -14,7 +14,9 @@ void main()
 	UV0 = aUV0;
 }
 
-#FRAGMENT
+//@end
+
+//@begin_frag
 
 #version 460 core
 
@@ -22,9 +24,41 @@ in vec2 UV0;
 
 layout (location = 0) out vec4 oColor; // 
 
-layout(binding = 0) uniform sampler2D ColorTexture;
+layout(binding=0) sampler2D ColorTexture;
 
-#include ../common/uniforms.txt
+// global uniform buffer for shared common set of uniforms among programs
+// see: https://learnopengl.com/#!Advanced-OpenGL/Advanced-GLSL for table of std140 byte offsets
+
+struct DirectionalLight {
+	vec3 Direction;
+	vec3 Radiance;
+};
+
+struct PointLight {
+	vec3 Pos;
+	vec3 Radiance;
+};
+
+layout (std140, binding = 0) uniform Global
+{
+    // trtansformations
+    mat4 viewProjection;
+    mat4 prevViewProjection;
+    mat4 projection;
+    mat4 view;
+    mat4 invViewz;
+    // scene
+    vec3 camPos;
+    // lighting
+    DirectionalLight directionalLight[5];
+    PointLight pointLight[16];
+    int dirLightCount;
+    int pointLightCount;
+    //
+    float camNear;
+    float camFar;
+    float ambientLightIntensity;
+};
 
 float LinearizeDepth(float depth) 
 {
@@ -37,3 +71,4 @@ void main()
 	float depth = LinearizeDepth(vec4(texture(ColorTexture, UV0)).r) / camFar;
 	oColor = vec4(vec3(depth), 1.0);
 }
+//@end

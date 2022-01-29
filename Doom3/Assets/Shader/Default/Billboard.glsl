@@ -1,4 +1,4 @@
-#VERTEX
+//@begin_vert
 
 #version 460 core
 
@@ -8,14 +8,44 @@ layout (location = 2) in vec3 aNormal;
 layout (location = 3) in vec3 aTangent;
 layout (location = 4) in vec3 aBitangent;
 
-out vec2 UV0;
-out vec3 FragPos;
-out mat3 TBN;
-out mat3 invertedTBN;
-out vec4 ClipSpacePos;
-out vec4 PrevClipSpacePos;
+layout (location = 0) out vec2 UV0;
+layout (location = 1) out vec3 FragPos;
+layout (location = 2) out mat3 TBN;
+layout (location = 5) out mat3 invertedTBN;
+layout (location = 8) out vec4 ClipSpacePos;
+layout (location = 9) out vec4 PrevClipSpacePos;
 
-#include ../common/uniforms.txt
+struct DirectionalLight {
+	vec3 Direction;
+	vec3 Radiance;
+};
+
+struct PointLight {
+	vec3 Pos;
+	vec3 Radiance;
+};
+
+layout (std140, binding = 0) uniform Global
+{
+    // trtansformations
+    mat4 viewProjection;
+    mat4 prevViewProjection;
+    mat4 projection;
+    mat4 view;
+    mat4 invViewz;
+    // scene
+    vec3 camPos;
+    // lighting
+    DirectionalLight directionalLight[5];
+    PointLight pointLight[16];
+    int dirLightCount;
+    int pointLightCount;
+    //
+    float camNear;
+    float camFar;
+    float ambientLightIntensity;
+};
+
 
 layout(location = 0) uniform mat4 model;
 
@@ -44,12 +74,21 @@ void main()
 	gl_Position =  projection * view * vec4(FragPos, 1.0);
 }
 
-#FRAGMENT
+//@end
+
+//@begin_frag
 #version 460 core
 
 layout (location = 0) out vec4 oPosition; // 
 layout (location = 1) out vec4 oNormal; // 
 layout (location = 2) out vec4 oAlbedoSpec; // 
+
+layout (location = 0) in vec2 UV0;
+layout (location = 1) in vec3 FragPos;
+layout (location = 2) in mat3 TBN;
+layout (location = 5) in mat3 invertedTBN;
+layout (location = 8) in vec4 ClipSpacePos;
+layout (location = 9) in vec4 PrevClipSpacePos;
 
 layout(binding=0) uniform sampler2D albedoTexture;
 layout(binding=1) uniform sampler2D normalTexture;
@@ -58,13 +97,6 @@ layout(binding=3) uniform sampler2D roughnessTexture;
 layout(binding=4) uniform samplerCube specularTexture;
 layout(binding=5) uniform samplerCube irradianceTexture;
 layout(binding=6) uniform sampler2D specularBRDF_LUT;
-
-in vec2 UV0;
-in vec3 FragPos;
-in mat3 TBN;
-in mat3 invertedTBN;
-in vec4 ClipSpacePos;
-in vec4 PrevClipSpacePos;
 
 void main() 
 { 
@@ -78,3 +110,4 @@ void main()
 	//oAlbedoSpec.a = texture(specularTexture, UV0).r; 
 }
 
+//@end

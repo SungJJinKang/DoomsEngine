@@ -1,4 +1,5 @@
 //@begin_vert
+// Vertex Shader should start with tag("//@begin_vert") <-- Please remove this line when you write shader code
 
 #version 460 core
 
@@ -81,9 +82,12 @@ void main()
 	gl_Position =  viewProjection * vec4(FragPos, 1.0);
 }
 
+// Shader Text should end with "//@end" tag  <-- Please remove this line when you write shader code
 //@end
 
 //@begin_frag
+// Vertex Shader should start with tag("//@begin_frag")  <-- Please remove this line when you write shader code
+
 #version 460 core
 
 layout (location = 1) in vec3 UV0; // All in, out variable should have layout (location = ?) option

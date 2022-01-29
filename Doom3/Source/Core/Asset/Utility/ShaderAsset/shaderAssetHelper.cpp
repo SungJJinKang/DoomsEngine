@@ -15,11 +15,11 @@ namespace dooms::asset::shaderAssetHelper
 {
 	static const std::array<const std::string, GRAPHICS_PIPELINE_STAGE_COUNT> mShaderMacros
 	{
-		"#VERTEX",
+		"//@begin_vert",
 		"#HULL",
 		"#DOMAIN",
 		"#GEOMETRY",
-		"#FRAGMENT",
+		"//@begin_frag",
 		"#COMPUTE"
 	};
 
