@@ -141,6 +141,7 @@ namespace dooms
 
 			const std::string& GetShaderStringText(const dooms::graphics::GraphicsAPI::eGraphicsAPIType shaderTextraphicsAPIType) const;
 			const std::string& GetShaderReflectionDataStringText(const dooms::graphics::GraphicsAPI::eGraphicsAPIType shaderTextraphicsAPIType) const;
+			const shaderReflectionDataParser::ShaderReflectionData& GetShaderReflectionData(const dooms::graphics::GraphicsAPI::eGraphicsAPIType shaderTextraphicsAPIType) const;
 
 
 			/// <summary>
@@ -149,7 +150,7 @@ namespace dooms
 			/// Deleting is delayed until the shader is unlinked to the mateiral  
 			/// </summary>
 			void DestroyShaderObjects();
-			void ClearShaderTextStrings();
+			void ClearShaderTextDatas();
 
 		
 

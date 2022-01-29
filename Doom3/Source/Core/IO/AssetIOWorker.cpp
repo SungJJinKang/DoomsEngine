@@ -1,5 +1,7 @@
 #include "AssetIOWorker.h"
 
+std::array<std::vector<dooms::AssetIOWorker::RequiredDynamicLibrary>, dooms::asset::ENUM_ASSETTYPE_COUNT> dooms::AssetIOWorker::mRequiredDynamicLibrary{};
+
 bool dooms::AssetIOWorker::RequiredDynamicLibrary::LoadIfNotLoaded()
 {
 	D_ASSERT(mLibraryName.empty() == false);

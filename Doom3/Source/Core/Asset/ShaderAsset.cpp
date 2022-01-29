@@ -9,7 +9,11 @@
 #include <Graphics/Buffer/UniformBufferObject/UniformBufferObjectManager.h>
 
 
-dooms::asset::ShaderTextData::ShaderTextData() : mShaderTextGraphicsAPIType{ dooms::graphics::GraphicsAPI::eGraphicsAPIType::GraphicsAPIType_NONE }, mShaderStringText{}, mShaderReflectionData{}
+dooms::asset::ShaderTextData::ShaderTextData()
+	:
+	mShaderTextGraphicsAPIType{ dooms::graphics::GraphicsAPI::eGraphicsAPIType::GraphicsAPIType_NONE },
+	mShaderStringText{},
+	mShaderReflectionData{}
 {
 
 }
@@ -47,6 +51,8 @@ void dooms::asset::ShaderTextData::Clear()
 {
 	mShaderTextGraphicsAPIType = dooms::graphics::GraphicsAPI::eGraphicsAPIType::GraphicsAPIType_NONE;
 	mShaderStringText.clear();
+	mShaderReflectionDataStringText.clear();
+	mShaderReflectionData.Clear();
 }
 
 bool dooms::asset::ShaderTextData::IsValid() const
@@ -95,7 +101,7 @@ dooms::asset::ShaderAsset& dooms::asset::ShaderAsset::operator=(ShaderAsset&& sh
 dooms::asset::ShaderAsset::~ShaderAsset()
 {
 	DestroyShaderObjects();
-	ClearShaderTextStrings();
+	ClearShaderTextDatas();
 }
 
 void dooms::asset::ShaderAsset::OnSetPendingKill()
@@ -103,7 +109,7 @@ void dooms::asset::ShaderAsset::OnSetPendingKill()
 	Asset::OnSetPendingKill();
 	
 	DestroyShaderObjects();
-	ClearShaderTextStrings();
+	ClearShaderTextDatas();
 }
 
 void dooms::asset::ShaderAsset::DestroyShaderObjects()
@@ -120,7 +126,7 @@ void dooms::asset::ShaderAsset::DestroyShaderObjects()
 	}
 }
 
-void dooms::asset::ShaderAsset::ClearShaderTextStrings()
+void dooms::asset::ShaderAsset::ClearShaderTextDatas()
 {
 	for (ShaderTextData& shaderTextString : mShaderTextDatas)
 	{
@@ -134,6 +140,8 @@ void dooms::asset::ShaderAsset::SetShaderText
 	const bool compileShader
 )
 {
+	ClearShaderTextDatas();
+
 	mShaderTextDatas = shaderTextDatas;
 
 	for(ShaderTextData& shaderTextData : mShaderTextDatas)
@@ -218,6 +226,15 @@ const std::string& dooms::asset::ShaderAsset::GetShaderReflectionDataStringText
 	return mShaderTextDatas[static_cast<UINT32>(shaderTextraphicsAPIType)].mShaderReflectionDataStringText;
 }
 
+const dooms::asset::shaderReflectionDataParser::ShaderReflectionData& dooms::asset::ShaderAsset::GetShaderReflectionData
+(
+	const dooms::graphics::GraphicsAPI::eGraphicsAPIType shaderTextraphicsAPIType
+) const
+{
+	D_ASSERT(mShaderTextDatas[static_cast<UINT32>(shaderTextraphicsAPIType)].mShaderReflectionData.mIsGenerated == true);
+	return mShaderTextDatas[static_cast<UINT32>(shaderTextraphicsAPIType)].mShaderReflectionData;
+}
+
 dooms::asset::ShaderAsset::ShaderObject::ShaderObject()
 	: mShaderObjectID(), mShaderCompileStatus(eShaderCompileStatus::READY)
 {
@@ -289,8 +306,21 @@ bool dooms::asset::ShaderAsset::CompileSpecificTypeShader(ShaderTextData& shader
 	D_ASSERT(shaderObject.mShaderObjectID.IsValid() == false);
 	if (shaderText.IsValid() == true && shaderObject.mShaderObjectID.IsValid() == false && shaderType != graphics::GraphicsAPI::eGraphicsPipeLineStage::DUMMY)
 	{
-		shaderObject.mShaderObjectID = graphics::GraphicsAPI::CreateShaderObject(shaderType);
-		if(shaderObject.mShaderObjectID.IsValid())
+		if(dooms::graphics::GraphicsAPI::GetCurrentAPIType() == dooms::graphics::GraphicsAPI::eGraphicsAPIType::OpenGL)
+		{
+			shaderObject.mShaderObjectID = graphics::GraphicsAPI::CreateShaderObject(shaderType);
+		}
+
+		D_ASSERT
+		(
+			shaderObject.mShaderObjectID.IsValid() ||
+			(dooms::graphics::GraphicsAPI::GetCurrentAPIType() != dooms::graphics::GraphicsAPI::eGraphicsAPIType::OpenGL)
+		);
+		if
+		(
+			shaderObject.mShaderObjectID.IsValid() ||
+			(dooms::graphics::GraphicsAPI::GetCurrentAPIType() != dooms::graphics::GraphicsAPI::eGraphicsAPIType::OpenGL)
+		)
 		{
 			shaderObject.mShaderCompileStatus = eShaderCompileStatus::SHADER_OBJECT_CREATED;
 

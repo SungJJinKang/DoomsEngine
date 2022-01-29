@@ -2,6 +2,9 @@
 
 #include "AssetImporterWorker.h"
 
+#include <Graphics/GraphicsAPI/GraphicsAPI.h>
+#include <Asset/ShaderAsset.h>
+
 #include "AssetImporterWorker_Shader.reflection.h"
 namespace dooms
 {
@@ -19,7 +22,9 @@ namespace dooms
 			
 		private:
 
-			bool ImportShaderAsset(const std::filesystem::path& path, dooms::asset::ShaderAsset* const asset);
+			bool IsEssentialEngineShaderFilesExist(const std::filesystem::path& assetPath) const;
+			bool ImportShaderAsset(const std::filesystem::path& assetPath, dooms::asset::ShaderAsset* const asset);
+			std::array<asset::ShaderTextData, GRAPHICS_PIPELINE_STAGE_COUNT> LoadShaderTextDatas(const std::filesystem::path& assetPath) const;
 
 		public:
 
