@@ -21,7 +21,7 @@ namespace dooms
 		static std::mutex LoadUnLoadDLLMutexs;
 
 		std::string mLibraryPath;
-		std::shared_ptr<void> mLibrary;
+		void* mLibrary;
 
 		DynamicLinkingLibrary(const std::string& libraryPath);
 		DynamicLinkingLibrary(const std::string& libraryPath, const unsigned long dwFlags);

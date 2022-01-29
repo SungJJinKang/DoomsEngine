@@ -9,18 +9,6 @@ std::mutex  dooms::DynamicLinkingLibrary::LoadUnLoadDLLMutexs{};
 
 #define DEFAULT_LOAD_LIBRARY_EX_DWFLAGS 0x00000000
 
-struct DynamicLinkingReleaser {
-	void operator()(void* const library)
-	{
-		if (library != nullptr)
-		{
-			const BOOL result = FreeLibrary(reinterpret_cast<HMODULE>(library)); 
-			D_ASSERT_LOG(result != 0, "Fail to free dll");
-		}
-	};
-
-};
-
 dooms::DynamicLinkingLibrary::DynamicLinkingLibrary(const std::string& libraryPath)
 	: DynamicLinkingLibrary(libraryPath, DEFAULT_LOAD_LIBRARY_EX_DWFLAGS)
 {
@@ -28,7 +16,7 @@ dooms::DynamicLinkingLibrary::DynamicLinkingLibrary(const std::string& libraryPa
 }
 
 dooms::DynamicLinkingLibrary::DynamicLinkingLibrary(const std::string& libraryPath, const unsigned long dwFlags)
-	: mLibraryPath(libraryPath), mLibrary(LoadDynamicLinkingLibrary(dwFlags), DynamicLinkingReleaser())
+	: mLibraryPath(libraryPath), mLibrary(LoadDynamicLinkingLibrary(dwFlags))
 {
 	if (mLibrary == NULL)
 	{
@@ -72,7 +60,7 @@ bool dooms::DynamicLinkingLibrary::UnloadDynamicLinkingLibrary()
 	{
 		std::scoped_lock<std::mutex> uniq_lock{ LoadUnLoadDLLMutexs };
 
-		isFreeLibrarySuccess = FreeLibrary(reinterpret_cast<HMODULE>(mLibrary.get()));      //2: unload the DLL
+		isFreeLibrarySuccess = FreeLibrary(reinterpret_cast<HMODULE>(mLibrary));      //2: unload the DLL
 		//D_ASSERT(isFreeLibrarySuccess == true);
 	}
 	return isFreeLibrarySuccess;
@@ -85,7 +73,7 @@ void* dooms::SmartDynamicLinking::_GetProcAddress(const char* const functionName
 
 	if(mDynamicLinkingLibrary->mLibrary != nullptr)
 	{
-		void* const procAddress = GetProcAddress(reinterpret_cast<HMODULE>(mDynamicLinkingLibrary->mLibrary.get()), functionName);
+		void* const procAddress = GetProcAddress(reinterpret_cast<HMODULE>(mDynamicLinkingLibrary->mLibrary), functionName);
 
 		if(procAddress == nullptr)
 		{
