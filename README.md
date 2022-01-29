@@ -46,6 +46,7 @@
   * [concurrentqueue](https://github.com/cameron314/concurrentqueue) : A fast multi-producer, multi-consumer lock-free concurrent queue for C++11                       
   * [json](https://github.com/nlohmann/json) : JSON for Modern C++             
   * [glslcc](https://github.com/septag/glslcc) : GLSL cross-compiler tool (GLSL->HLSL, MSL, GLES2, GLES3, GLSLv3), using SPIRV-cross and glslang                   
+  * [magic_enum](https://github.com/Neargye/magic_enum) : Static reflection for enums (to string, from string, iteration) for modern C++                 
  
 ## Screenshot
 ![20220123003649](https://user-images.githubusercontent.com/33873804/150645275-f773d8d6-2b38-4f51-9d00-9692fa1aa57c.png)                
