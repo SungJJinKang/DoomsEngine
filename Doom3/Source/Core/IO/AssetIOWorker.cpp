@@ -1,0 +1,1 @@
+#include "AssetIOWorker.h"

@@ -7,6 +7,7 @@
 #include <mutex>
 
 #include <Asset/eAssetType.h>
+#include "../../AssetIOWorker.h"
 
 #include "AssetImporterWorker.reflection.h"
 namespace dooms
@@ -18,7 +19,7 @@ namespace dooms
 
 	namespace assetImporter
 	{
-		class DOOM_API D_CLASS AssetImporterWorker : public DObject
+		class DOOM_API D_CLASS AssetImporterWorker : public AssetIOWorker
 		{
 			GENERATE_BODY()
 
