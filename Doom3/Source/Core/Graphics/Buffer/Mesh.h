@@ -165,7 +165,7 @@ namespace dooms
 
 				BindVertexArrayObject();
 
-				GraphicsAPI::Draw(mPrimitiveType, vertexCount, startVertexLocation);
+				GraphicsAPI::Draw(primitiveType, vertexCount, startVertexLocation);
 			}
 
 			static constexpr UINT32 GetStride(const UINT32 vertexArrayFlag);

@@ -35,7 +35,6 @@ namespace dooms
 			}
 			
 			static void PrintDrawCallCounter();
-			static void UpdateInputForPrintDrawCallCounter();
 			static void DrawRenderingBoundingBox();
 		};
 	}

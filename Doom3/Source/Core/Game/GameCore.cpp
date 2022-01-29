@@ -76,6 +76,8 @@ void dooms::GameCore::Init()
 
 void dooms::GameCore::InitServers()
 {
+	mMemoryManager.Init();
+
 	D_START_PROFILING(Init_ReflectionManager, eProfileLayers::CPU);
 	mReflectionManager.Initialize();
 	D_END_PROFILING(Init_ReflectionManager);
