@@ -104,9 +104,14 @@ void* dooms::SmartDynamicLinking::_GetProcAddress(const char* const functionName
 	}
 }
 
+dooms::SmartDynamicLinking::SmartDynamicLinking()
+	: mDynamicLinkingLibrary()
+{
+}
 
-dooms::SmartDynamicLinking::SmartDynamicLinking(const std::string& csharpLibraryPath)
-	:	mDynamicLinkingLibrary(std::make_shared<DynamicLinkingLibrary>(csharpLibraryPath))
+
+dooms::SmartDynamicLinking::SmartDynamicLinking(const std::string& libraryPath)
+	:	mDynamicLinkingLibrary(std::make_shared<DynamicLinkingLibrary>(libraryPath))
 {
 	
 }
@@ -119,6 +124,26 @@ dooms::SmartDynamicLinking::SmartDynamicLinking(const SmartDynamicLinking&) = de
 dooms::SmartDynamicLinking::SmartDynamicLinking(SmartDynamicLinking&&) noexcept = default;
 dooms::SmartDynamicLinking& dooms::SmartDynamicLinking::operator=(const SmartDynamicLinking&) = default;
 dooms::SmartDynamicLinking& dooms::SmartDynamicLinking::operator=(SmartDynamicLinking&&) noexcept = default;
+
+void dooms::SmartDynamicLinking::LoadDynamicLinkingLibrary(const std::string& libraryPath)
+{
+	D_ASSERT_LOG(static_cast<bool>(mDynamicLinkingLibrary) == false, "Already another library is loaded");
+	if(static_cast<bool>(mDynamicLinkingLibrary) == false)
+	{
+		mDynamicLinkingLibrary = std::make_shared<DynamicLinkingLibrary>(libraryPath);
+	}	
+}
+
+void dooms::SmartDynamicLinking::ReleaseDynamicLinkingLibrary()
+{
+	mDynamicLinkingLibrary.reset();
+}
+
+bool dooms::SmartDynamicLinking::IsDynamicLibraryLoaded() const
+{
+	return static_cast<bool>(mDynamicLinkingLibrary);
+}
+
 int dooms::filter(unsigned code, _EXCEPTION_POINTERS* ptr)
 {
 	dooms::ui::PrintText("Exception from Called DLL's Function");

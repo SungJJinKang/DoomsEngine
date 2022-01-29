@@ -34,24 +34,27 @@ namespace dooms
 	class DOOM_API D_CLASS SmartDynamicLinking
 	{
 		GENERATE_BODY()
+			
+	private:
 
 		std::shared_ptr<DynamicLinkingLibrary> mDynamicLinkingLibrary;
 
-	private:
-
 		void* _GetProcAddress(const char* const functionName);
 		
-	
-
 	public :
 
-		SmartDynamicLinking(const std::string& csharpLibraryPath);
+		SmartDynamicLinking();
+		SmartDynamicLinking(const std::string& libraryPath);
 		~SmartDynamicLinking();
 
 		SmartDynamicLinking(const SmartDynamicLinking&);
-		SmartDynamicLinking(SmartDynamicLinking&& _SmartCSharpLibrary) noexcept;
+		SmartDynamicLinking(SmartDynamicLinking&& sDynamicLinking) noexcept;
 		SmartDynamicLinking& operator=(const SmartDynamicLinking&);
-		SmartDynamicLinking& operator=(SmartDynamicLinking&& _SmartCSharpLibrary) noexcept;
+		SmartDynamicLinking& operator=(SmartDynamicLinking&& sDynamicLinking) noexcept;
+
+		void LoadDynamicLinkingLibrary(const std::string& libraryPath);
+		void ReleaseDynamicLinkingLibrary();
+		bool IsDynamicLibraryLoaded() const;
 
 		template <typename... Args>
 		bool CallFunction(const char* functionName, Args&&... args);
