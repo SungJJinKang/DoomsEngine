@@ -54,7 +54,6 @@ namespace dooms
 		{
 			GENERATE_BODY()
 			
-			
 		private:
 
 			static inline const char MATERIAL_TAG[]{ "MATERIAL" };
@@ -76,7 +75,7 @@ namespace dooms
 
 
 			D_PROPERTY()
-			dooms::asset::ShaderAsset* mShaderAsset;
+			std::array<dooms::asset::ShaderAsset*, GRAPHICS_PIPELINE_STAGE_COUNT> mShaderAsset;
 
 			D_PROPERTY()
 			std::vector<const TextureView*> mTargetTextures{ nullptr };
@@ -84,13 +83,20 @@ namespace dooms
 			D_PROPERTY()
 			std::vector<UniformBufferObjectView> mTargetUniformBufferObjectViews;
 
-			bool CreateMeterialObject();
+			bool AttachShaderToMaterial(dooms::asset::ShaderAsset* const shaderAsset, const dooms::graphics::GraphicsAPI::eGraphicsPipeLineStage shaderType);
 			void OnSetPendingKill() override;
 			
 		public:
 
 			Material();
 			Material(dooms::asset::ShaderAsset* const shaderAsset);
+			Material(dooms::asset::ShaderAsset* const shaderAsset, const dooms::graphics::GraphicsAPI::eGraphicsPipeLineStage shaderType);
+			Material(const std::array<dooms::asset::ShaderAsset*, GRAPHICS_PIPELINE_STAGE_COUNT>& shaderAssets);
+
+			/**
+			 * \brief Create program object for OPENGL
+			 */
+			void CreateMaterialObjectIfNotExist();
 			void DestroyMaterialObjectIfExist();
 
 			virtual ~Material();
@@ -101,7 +107,11 @@ namespace dooms
 			Material(Material&&) noexcept = default;
 			Material& operator=(Material&&) noexcept = default;
 			
+			//void SetShaderAsset(dooms::asset::ShaderAsset* const shaderAsset);
 			void SetShaderAsset(dooms::asset::ShaderAsset* const shaderAsset);
+			void SetShaderAsset(dooms::asset::ShaderAsset* const shaderAsset, const dooms::graphics::GraphicsAPI::eGraphicsPipeLineStage shaderType);
+			void SetShaderAsset(const std::array<dooms::asset::ShaderAsset*, GRAPHICS_PIPELINE_STAGE_COUNT>& shaderAssets);
+
 			bool IsHasAnyValidShaderObject() const;
 
 			void AddTexture(UINT32 bindingPoint, TextureView* texture);
@@ -112,14 +122,14 @@ namespace dooms
 
 			bool IsMaterialCreated() const;
 
-			FORCE_INLINE dooms::asset::ShaderAsset* GetShaderAsset()
+			FORCE_INLINE dooms::asset::ShaderAsset* GetShaderAsset(const dooms::graphics::GraphicsAPI::eGraphicsPipeLineStage shaderType)
 			{
-				return mShaderAsset;
+				return mShaderAsset[shaderType];
 			}
 
-			FORCE_INLINE const dooms::asset::ShaderAsset* GetShaderAsset() const
+			FORCE_INLINE const dooms::asset::ShaderAsset* GetShaderAsset(const dooms::graphics::GraphicsAPI::eGraphicsPipeLineStage shaderType) const
 			{
-				return mShaderAsset;
+				return mShaderAsset[shaderType];
 			}
 			
 			FORCE_INLINE UniformBufferObjectView* GetUniformBufferObjectViewFromUBOIndex(const size_t uboIndex)

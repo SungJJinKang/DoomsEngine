@@ -13,7 +13,7 @@ void dooms::CharacterSpawner::CreateEnemy(const math::Vector3& position)
 	newEntity->GetTransform()->SetPosition(position);
 
 	D_ASSERT(mBillboardShader != nullptr);
-	auto material = new graphics::Material(mBillboardShader);
+	auto material = dooms::CreateDObject<graphics::Material>(mBillboardShader);
 	material->AddTexture(graphics::eTextureBindingPoint::AlbedoTexture, assetImporter::AssetManager::GetSingleton()->GetAsset<asset::eAssetType::TEXTURE>("Enemy1.dds"));
 
 

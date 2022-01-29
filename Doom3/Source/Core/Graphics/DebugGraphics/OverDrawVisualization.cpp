@@ -21,14 +21,15 @@ namespace dooms
 		namespace OverDrawVisualization
 		{
 			extern bool bmIsOverDrawVisualizationInitialized{false};
-			extern dooms::graphics::Material mOverDrawVisualizationObjectDrawMaterial{};
+			extern dooms::graphics::Material* mOverDrawVisualizationObjectDrawMaterial{nullptr};
 			extern dooms::graphics::FrameBuffer mOverDrawVisualizationFrameBuffer{};
 			extern dooms::graphics::PicktureInPickture* OverDrawVisualizationPIP{nullptr};
 
 			extern void Initialize()
 			{
 				dooms::asset::ShaderAsset* overDrawVisualizationShader = dooms::assetImporter::AssetManager::GetSingleton()->GetAsset<dooms::asset::eAssetType::SHADER>("OverDrawVisualizationShader.glsl");
-				mOverDrawVisualizationObjectDrawMaterial = overDrawVisualizationShader->CreateMatrialWithThisShader();
+				mOverDrawVisualizationObjectDrawMaterial = overDrawVisualizationShader->CreateMatrialWithThisShaderAsset();
+				D_ASSERT(IsValid(mOverDrawVisualizationObjectDrawMaterial));
 
 				mOverDrawVisualizationFrameBuffer.AttachColorTextureToFrameBuffer(0, graphicsAPISetting::GetScreenWidth(), graphicsAPISetting::GetScreenHeight());
 				mOverDrawVisualizationFrameBuffer.AttachDepthTextureToFrameBuffer(graphicsAPISetting::GetScreenWidth(), graphicsAPISetting::GetScreenHeight());
@@ -67,8 +68,8 @@ void dooms::graphics::OverDrawVisualization::SetOverDrawVisualizationRenderingSt
 		GraphicsAPI::SetIsBlendEnabled(true);
 		GraphicsAPI::SetBlendFactor(GraphicsAPI::eBlendFactor::ONE, GraphicsAPI::eBlendFactor::ONE);
 
-
-		dooms::graphics::FixedMaterial::SetFixedMaterial(&(mOverDrawVisualizationObjectDrawMaterial));
+		D_ASSERT(IsValid(mOverDrawVisualizationObjectDrawMaterial));
+		dooms::graphics::FixedMaterial::SetFixedMaterial(mOverDrawVisualizationObjectDrawMaterial);
 
 		mOverDrawVisualizationFrameBuffer.ClearColorTexture(0, 0.0f, 0.0f, 0.0f, 1.0f);
 		mOverDrawVisualizationFrameBuffer.ClrearDepthTexture(GraphicsAPI::DEFAULT_MAX_DEPTH_VALUE);
@@ -88,7 +89,8 @@ void dooms::graphics::OverDrawVisualization::SetOverDrawVisualizationRenderingSt
 		
 
 		const dooms::graphics::Material* const currentFixedMaterial = dooms::graphics::FixedMaterial::GetFixedMaterial();
-		if (currentFixedMaterial == &(mOverDrawVisualizationObjectDrawMaterial))
+		D_ASSERT(IsValid(mOverDrawVisualizationObjectDrawMaterial));
+		if (currentFixedMaterial == mOverDrawVisualizationObjectDrawMaterial)
 		{
 			dooms::graphics::FixedMaterial::ClearFixedMaterial();
 		}

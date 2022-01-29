@@ -327,12 +327,29 @@ bool dooms::asset::ShaderAsset::IsHasAnyValidShaderTextString() const
 	return isHasAnyValidShaderTextString;
 }
 
-dooms::graphics::Material dooms::asset::ShaderAsset::CreateMatrialWithThisShader()
+dooms::graphics::Material* dooms::asset::ShaderAsset::CreateMatrialWithThisShaderAsset()
 {
 	CompileShaderIfNotCompiled();
 
 	D_ASSERT(IsHasAnyValidShaderObject() == true);
-	return dooms::graphics::Material(this);
+
+	std::array<dooms::asset::ShaderAsset*, GRAPHICS_PIPELINE_STAGE_COUNT> shaderAssets;
+	for(size_t shaderTypeIndex = 0 ; shaderTypeIndex < GRAPHICS_PIPELINE_STAGE_COUNT ; shaderTypeIndex++)
+	{
+		if(IsShaderObjectSuccessfullyCreated(static_cast<dooms::graphics::GraphicsAPI::eGraphicsPipeLineStage>(shaderTypeIndex)))
+		{
+			shaderAssets[shaderTypeIndex] = this;
+		}
+		else
+		{
+			shaderAssets[shaderTypeIndex] = nullptr;
+		}
+	}
+
+	dooms::graphics::Material* const material = dooms::CreateDObject<dooms::graphics::Material>(shaderAssets);
+	D_ASSERT(IsValid(material) == true);
+
+	return material;
 }
 
 void dooms::asset::ShaderAsset::CompileShaderIfNotCompiled()
@@ -346,4 +363,12 @@ void dooms::asset::ShaderAsset::CompileShaderIfNotCompiled()
 dooms::asset::eAssetType dooms::asset::ShaderAsset::GetEAssetType() const
 {
 	return dooms::asset::eAssetType::SHADER;
+}
+
+dooms::asset::ShaderAsset::eShaderCompileStatus dooms::asset::ShaderAsset::GetCurrentShaderCompileStatus
+(
+	const graphics::GraphicsAPI::eGraphicsPipeLineStage shaderType
+) const
+{
+	return mShaderObject[shaderType].mShaderCompileStatus;
 }

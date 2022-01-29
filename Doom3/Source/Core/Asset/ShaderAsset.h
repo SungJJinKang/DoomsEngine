@@ -78,6 +78,10 @@ namespace dooms
 
 			struct DOOM_API D_STRUCT ShaderObject
 			{
+				/// <summary>
+				/// OPENGL : Shader Object
+				///	DIRECTX : ID3DBlob
+				/// </summary>
 				D_PROPERTY()
 				dooms::graphics::BufferID mShaderObjectID;
 
@@ -137,16 +141,18 @@ namespace dooms
 		
 
 			void OnEndImportInMainThread_Internal() final;
-
+			
 			const dooms::graphics::BufferID& GetShaderObject(const dooms::graphics::GraphicsAPI::eGraphicsPipeLineStage targetGraphicsPipeLineStage) const;
 			bool IsShaderObjectSuccessfullyCreated(const dooms::graphics::GraphicsAPI::eGraphicsPipeLineStage targetGraphicsPipeLineStage) const;
 			bool IsHasAnyValidShaderObject() const;
 			bool IsHasAnyValidShaderTextString() const;
 
-			graphics::Material CreateMatrialWithThisShader();
+			graphics::Material* CreateMatrialWithThisShaderAsset();
 			void CompileShaderIfNotCompiled();
 
 			virtual dooms::asset::eAssetType GetEAssetType() const final;
+
+			eShaderCompileStatus GetCurrentShaderCompileStatus(const graphics::GraphicsAPI::eGraphicsPipeLineStage shaderType) const;
 			
 		};
 		
