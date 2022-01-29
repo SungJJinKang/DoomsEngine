@@ -24,7 +24,7 @@ layout (location = 0) in vec2 UV0;
 
 layout (location = 0) out vec4 oColor; // 
 
-layout(binding=0) uniform TextureData
+layout(binding=0) uniform sampler2D ColorTexture;
 
 
 void main() 

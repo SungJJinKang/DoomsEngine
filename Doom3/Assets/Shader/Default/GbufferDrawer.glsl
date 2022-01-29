@@ -93,9 +93,9 @@ layout (std140, binding = 0) uniform Global
 const float linear = 0.09;
 const float quadratic = 0.032;
 
-layout(binding=0) sampler2D gPosition;
-layout(binding=1) sampler2D gNormal;
-layout(binding=2) sampler2D gAlbedoSpec;
+layout(binding=0) uniform sampler2D gPosition;
+layout(binding=1) uniform sampler2D gNormal;
+layout(binding=2) uniform sampler2D gAlbedoSpec;
 
 void main()
 {             
