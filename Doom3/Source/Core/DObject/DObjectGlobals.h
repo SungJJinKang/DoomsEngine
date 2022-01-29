@@ -128,7 +128,7 @@ static_assert(IS_DOBJECT_TYPE(std::remove_pointer_t<CASTING_TYPE>) == true, "Ple
 	{
 		CASTING_STATIC_ASSERT_PAIR(FromCastingType, ToCastingType);
 
-		ToCastingType* result = nullptr;
+		ToCastingType result = nullptr;
 
 		D_ASSERT(dObject != nullptr);
 		if(dObject != nullptr)

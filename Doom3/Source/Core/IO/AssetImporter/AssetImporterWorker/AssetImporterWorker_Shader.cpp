@@ -40,7 +40,7 @@ dooms::assetImporter::AssetImporterWorker_Shader::AssetImporterWorker_Shader()
 
 bool dooms::assetImporter::AssetImporterWorker_Shader::ImportSpecificAsset(const std::filesystem::path& path, dooms::asset::Asset* asset)
 {
-	return ImportShaderAsset(path, static_cast<dooms::asset::ShaderAsset*>(asset));
+	return ImportShaderAsset(path, CastTo<dooms::asset::ShaderAsset*>(asset));
 }
 
 dooms::asset::eAssetType dooms::assetImporter::AssetImporterWorker_Shader::GetEAssetType() const
