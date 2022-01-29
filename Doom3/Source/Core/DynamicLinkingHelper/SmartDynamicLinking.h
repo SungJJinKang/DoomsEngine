@@ -29,6 +29,7 @@ namespace dooms
 
 		void* LoadDynamicLinkingLibrary(const unsigned long dwFlags);
 		bool UnloadDynamicLinkingLibrary();
+		bool IsLoaded() const;
 	};
 
 	class DOOM_API D_CLASS SmartDynamicLinking
@@ -52,7 +53,7 @@ namespace dooms
 		SmartDynamicLinking& operator=(const SmartDynamicLinking&);
 		SmartDynamicLinking& operator=(SmartDynamicLinking&& sDynamicLinking) noexcept;
 
-		void LoadDynamicLinkingLibrary(const std::string& libraryPath);
+		bool LoadDynamicLinkingLibrary(const std::string& libraryPath);
 		void ReleaseDynamicLinkingLibrary();
 		bool IsDynamicLibraryLoaded() const;
 

@@ -61,9 +61,15 @@ bool dooms::DynamicLinkingLibrary::UnloadDynamicLinkingLibrary()
 		std::scoped_lock<std::mutex> uniq_lock{ LoadUnLoadDLLMutexs };
 
 		isFreeLibrarySuccess = FreeLibrary(reinterpret_cast<HMODULE>(mLibrary));      //2: unload the DLL
+		mLibrary = nullptr;
 		//D_ASSERT(isFreeLibrarySuccess == true);
 	}
 	return isFreeLibrarySuccess;
+}
+
+bool dooms::DynamicLinkingLibrary::IsLoaded() const
+{
+	return (mLibrary != nullptr);
 }
 
 
@@ -113,13 +119,25 @@ dooms::SmartDynamicLinking::SmartDynamicLinking(SmartDynamicLinking&&) noexcept 
 dooms::SmartDynamicLinking& dooms::SmartDynamicLinking::operator=(const SmartDynamicLinking&) = default;
 dooms::SmartDynamicLinking& dooms::SmartDynamicLinking::operator=(SmartDynamicLinking&&) noexcept = default;
 
-void dooms::SmartDynamicLinking::LoadDynamicLinkingLibrary(const std::string& libraryPath)
+bool dooms::SmartDynamicLinking::LoadDynamicLinkingLibrary(const std::string& libraryPath)
 {
+	bool isLoaded = false;
+
 	D_ASSERT_LOG(static_cast<bool>(mDynamicLinkingLibrary) == false, "Already another library is loaded");
 	if(static_cast<bool>(mDynamicLinkingLibrary) == false)
 	{
 		mDynamicLinkingLibrary = std::make_shared<DynamicLinkingLibrary>(libraryPath);
-	}	
+	}
+
+	if (mDynamicLinkingLibrary)
+	{
+		if (mDynamicLinkingLibrary->IsLoaded())
+		{
+			isLoaded = true;
+		}
+	}
+
+	return isLoaded;
 }
 
 void dooms::SmartDynamicLinking::ReleaseDynamicLinkingLibrary()
@@ -129,7 +147,7 @@ void dooms::SmartDynamicLinking::ReleaseDynamicLinkingLibrary()
 
 bool dooms::SmartDynamicLinking::IsDynamicLibraryLoaded() const
 {
-	return static_cast<bool>(mDynamicLinkingLibrary);
+	return static_cast<bool>(mDynamicLinkingLibrary) && mDynamicLinkingLibrary->IsLoaded();
 }
 
 int dooms::filter(unsigned code, _EXCEPTION_POINTERS* ptr)
