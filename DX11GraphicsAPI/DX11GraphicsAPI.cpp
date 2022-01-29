@@ -1332,6 +1332,8 @@ namespace dooms
             const unsigned long long shaderTextSize
         )
         {
+            bool isCompileShaderSuccess = false;
+
             const char* shaderTarget = nullptr;
             switch (shaderType)
             {
@@ -1355,6 +1357,7 @@ namespace dooms
                 break;
             default:
                 NEVER_HAPPEN;
+                isCompileShaderSuccess = false;
             }
 
             DWORD dwShaderFlags = D3DCOMPILE_ENABLE_STRICTNESS;
@@ -1386,21 +1389,27 @@ namespace dooms
                 &errorBlob
             );
             assert(FAILED(hr) == false);
-            if (FAILED(hr))
+            if (FAILED(hr) == false)
+            {
+                isCompileShaderSuccess = true;
+            }
+            else
             {
                 if (errorBlob)
                 {
                     OutputDebugStringA(reinterpret_cast<const char*>(errorBlob->GetBufferPointer()));
                     errorBlob->Release();
                 }
-                return hr;
+                isCompileShaderSuccess = false;
             }
             if (errorBlob)
             {
                 errorBlob->Release();
             }
 
-            return reinterpret_cast<unsigned long long>(shaderBlob);
+            shaderObject =  reinterpret_cast<unsigned long long>(shaderBlob);
+
+            return isCompileShaderSuccess;
         }
 
         DOOMS_ENGINE_GRAPHICS_API void DestroyShaderObject(unsigned long long shaderObject)
