@@ -1708,7 +1708,7 @@ namespace dooms
 		
 		DOOMS_ENGINE_GRAPHICS_API bool AttachShaderToMaterial
 		(
-			const unsigned long long materialObject, 
+			unsigned long long& materialObject,
 			const unsigned long long shaderObject,
 			const GraphicsAPI::eGraphicsPipeLineStage targetGraphicsPipeLineStage // only used in dx11
 		)

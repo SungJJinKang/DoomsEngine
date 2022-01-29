@@ -757,7 +757,7 @@ namespace dooms
 			 */
 			typedef bool (DOOMS_ENGINE_API_ENTRY_P GRAPHICS_ATTACHSHADERTOMATERIAL)
 			(
-				const unsigned long long materialObject, 
+				unsigned long long& materialObject, // OPENGL : Program, DirectX : ID3D11~Shader 
 				const unsigned long long shaderObject,
 				const eGraphicsPipeLineStage targetGraphicsPipeLineStage // only used in dx11
 			);

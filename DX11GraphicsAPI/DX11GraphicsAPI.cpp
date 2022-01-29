@@ -1335,6 +1335,91 @@ namespace dooms
             return false;
         }
 
+        DOOMS_ENGINE_GRAPHICS_API bool AttachShaderToMaterial
+        (
+            unsigned long long& materialObject,
+            const unsigned long long shaderObject,
+            const GraphicsAPI::eGraphicsPipeLineStage targetGraphicsPipeLineStage // only used in dx11
+        )
+        {
+            bool isSuccess = false;
+
+            assert(shaderObject != 0);
+            ID3DBlob* const shaderBlob = reinterpret_cast<ID3DBlob*>(shaderObject);
+
+            if(shaderBlob != nullptr)
+            {
+                if (targetGraphicsPipeLineStage == GraphicsAPI::VERTEX_SHADER)
+                {
+                    ID3D11VertexShader* vertexShader = nullptr;
+                    const HRESULT hr = dx11::g_pd3dDevice->CreateVertexShader(shaderBlob->GetBufferPointer(), shaderBlob->GetBufferSize(), nullptr, &vertexShader);
+                    if (FAILED(hr) == false)
+                    {
+                        materialObject = reinterpret_cast<unsigned long long>(vertexShader);
+                        isSuccess = true;
+                    }
+                }
+                else if (targetGraphicsPipeLineStage == GraphicsAPI::HULL_SHADER)
+                {
+                    ID3D11HullShader* hullShader = nullptr;
+                    const HRESULT hr = dx11::g_pd3dDevice->CreateHullShader(shaderBlob->GetBufferPointer(), shaderBlob->GetBufferSize(), nullptr, &hullShader);
+                    if (FAILED(hr) == false)
+                    {
+                        materialObject = reinterpret_cast<unsigned long long>(hullShader);
+                        isSuccess = true;
+                    }
+                }
+                else if (targetGraphicsPipeLineStage == GraphicsAPI::DOMAIN_SHADER)
+                {
+                    ID3D11DomainShader* domainShader = nullptr;
+                    const HRESULT hr = dx11::g_pd3dDevice->CreateDomainShader(shaderBlob->GetBufferPointer(), shaderBlob->GetBufferSize(), nullptr, &domainShader);
+                    if (FAILED(hr) == false)
+                    {
+                        materialObject = reinterpret_cast<unsigned long long>(domainShader);
+                        isSuccess = true;
+                    }
+                }
+                else if (targetGraphicsPipeLineStage == GraphicsAPI::GEOMETRY_SHADER)
+                {
+                    ID3D11GeometryShader* geometryShader = nullptr;
+                    const HRESULT hr = dx11::g_pd3dDevice->CreateGeometryShader(shaderBlob->GetBufferPointer(), shaderBlob->GetBufferSize(), nullptr, &geometryShader);
+                    if (FAILED(hr) == false)
+                    {
+                        materialObject = reinterpret_cast<unsigned long long>(geometryShader);
+                        isSuccess = true;
+                    }
+                }
+                else if (targetGraphicsPipeLineStage == GraphicsAPI::PIXEL_SHADER)
+                {
+                    ID3D11PixelShader* pixelShader = nullptr;
+                    const HRESULT hr = dx11::g_pd3dDevice->CreatePixelShader(shaderBlob->GetBufferPointer(), shaderBlob->GetBufferSize(), nullptr, &pixelShader);
+                    if (FAILED(hr) == false)
+                    {
+                        materialObject = reinterpret_cast<unsigned long long>(pixelShader);
+                        isSuccess = true;
+                    }
+                }
+                else if (targetGraphicsPipeLineStage == GraphicsAPI::COMPUTE_SHADER)
+                {
+                    ID3D11ComputeShader* computeShader = nullptr;
+                    const HRESULT hr = dx11::g_pd3dDevice->CreateComputeShader(shaderBlob->GetBufferPointer(), shaderBlob->GetBufferSize(), nullptr, &computeShader);
+                    if (FAILED(hr) == false)
+                    {
+                        materialObject = reinterpret_cast<unsigned long long>(computeShader);
+                        isSuccess = true;
+                    }
+                }
+                else
+                {
+                    NEVER_HAPPEN;
+                }
+            }
+	        
+            assert(isSuccess == true);
+
+            return isSuccess;
+        }
+
         DOOMS_ENGINE_GRAPHICS_API void BindVertexArrayObject(unsigned long long vertexArrayObject)
         {
             ID3D11Buffer* const vertexArrayBuffer = reinterpret_cast<ID3D11Buffer*>(vertexArrayObject);
