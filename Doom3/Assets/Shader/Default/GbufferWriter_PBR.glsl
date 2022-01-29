@@ -51,7 +51,7 @@ layout (std140, binding = 0) uniform Global
 
 // this code "layout(location = 0) uniform mat4 model" makes error!!
 // Please put it in uniform block
-layout(set=0, binding = 0) uniform MatrixData
+layout(set=0, binding = 0) uniform ModelData
 {
     mat4 model; 
 };

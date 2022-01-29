@@ -46,8 +46,10 @@ layout (std140, binding = 0) uniform Global
     float ambientLightIntensity;
 };
 
-
-layout(location = 0) uniform mat4 model;
+layout(set=0, binding = 0) uniform ModelData
+{
+    mat4 model;
+};
 
 void main()
 {

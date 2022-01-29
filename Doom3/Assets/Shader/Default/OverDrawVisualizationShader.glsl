@@ -40,7 +40,7 @@ layout (std140, binding = 0) uniform Global
 
 layout(location = 0) in vec3 aPos;
 
-layout(set=0, binding = 0) uniform MatrixData
+layout(set=0, binding = 0) uniform ModelData
 {
 	mat4 model;
 };

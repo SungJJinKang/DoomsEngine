@@ -50,7 +50,7 @@ layout (std140, binding = 0) uniform Global
     float ambientLightIntensity;
 };
 
-layout(set=0, binding = 0) uniform MatrixData
+layout(set=0, binding = 0) uniform ModelDataWithPrevModelData
 {
     mat4 model;
     mat4 prevModel;
