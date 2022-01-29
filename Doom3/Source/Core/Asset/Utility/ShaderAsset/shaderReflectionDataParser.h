@@ -114,14 +114,17 @@ namespace dooms
 
 			struct D_STRUCT ShaderReflectionData
 			{
+				bool mIsGenerated = false;
 				dooms::graphics::GraphicsAPI::eGraphicsAPIType mTargetGraphicsAPIType;
-				std::string mSHaderVersion;
+				std::string mShaderVersion;
 				std::string ShaderReflectionDataFileName;
 				dooms::graphics::GraphicsAPI::eGraphicsPipeLineStage mShaderType;
 
 				std::vector<ShaderInputOutput> mInputVariables;
 				std::vector<ShaderInputOutput> mOutputVariables;
 				std::vector<UniformBuffer> mUniformBuffers;
+				
+				void Clear();
 			};
 
 			ShaderReflectionData ParseShaderReflectionStringText(const std::string& reflectionDataJsonText);
