@@ -37,3 +37,6 @@
 [submodule "Doom3/Source/thirdparty/oneTBB"]
 	path = Doom3/Source/thirdparty/oneTBB
 	url = https://github.com/oneapi-src/oneTBB.git
+[submodule "Doom3/Source/thirdparty/glslcc"]
+	path = Doom3/Source/thirdparty/glslcc
+	url = https://github.com/SungJJinKang/glslcc.git
