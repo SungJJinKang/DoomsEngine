@@ -295,8 +295,6 @@ void dooms::graphics::Graphics_Server::Render()
 
 	const std::vector<dooms::Camera*>& spawnedCameraList = StaticContainer<dooms::Camera>::GetAllStaticComponents();
 
-	FrameBuffer::StaticBindBackFrameBuffer();
-
 	for (size_t cameraIndex = 0; cameraIndex < spawnedCameraList.size(); cameraIndex++)
 	{
 		dooms::Camera* const targetCamera = spawnedCameraList[cameraIndex];
@@ -343,7 +341,7 @@ void dooms::graphics::Graphics_Server::Render()
 
 		D_ASSERT(IsValid(targetCamera));
 
-		FrameBuffer::UnBindFrameBuffer();
+		FrameBuffer::StaticBindBackFrameBuffer();
 		GraphicsAPI::ClearBackFrameBufferColorBuffer(targetCamera->mClearColor[0], targetCamera->mClearColor[1], targetCamera->mClearColor[2], targetCamera->mClearColor[3]);
 		GraphicsAPI::ClearBackFrameBufferDepthBuffer(GraphicsAPI::DEFAULT_MAX_DEPTH_VALUE);
 
