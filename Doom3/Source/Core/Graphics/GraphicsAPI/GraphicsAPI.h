@@ -742,11 +742,17 @@ namespace dooms
 			typedef unsigned long long (DOOMS_ENGINE_API_ENTRY_P GRAPHICS_CREATESHADEROBJECT)(const eGraphicsPipeLineStage shaderType);
 			extern GRAPHICS_CREATESHADEROBJECT CreateShaderObject;
 
-			typedef void (DOOMS_ENGINE_API_ENTRY_P GRAPHICS_DESTROYSHADEROBJECT)(const unsigned long long shaderObject);
+			typedef void (DOOMS_ENGINE_API_ENTRY_P GRAPHICS_DESTROYSHADEROBJECT)(unsigned long long shaderObject);
 			extern GRAPHICS_DESTROYSHADEROBJECT DestroyShaderObject;
 
 
-			typedef bool (DOOMS_ENGINE_API_ENTRY_P GRAPHICS_COMPILESHADER)(unsigned long long& shaderObject, const eGraphicsPipeLineStage shaderType, const char* const shaderText);
+			typedef bool (DOOMS_ENGINE_API_ENTRY_P GRAPHICS_COMPILESHADER)
+			(
+				unsigned long long& shaderObject, 
+				const eGraphicsPipeLineStage shaderType, 
+				const char* const shaderText,
+				const unsigned long long shaderTextSize
+				);
 			/**
 			 * \brief return true if compiling shader success
 			 */

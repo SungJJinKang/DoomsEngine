@@ -1328,11 +1328,90 @@ namespace dooms
         (
             unsigned long long& shaderObject,
             const GraphicsAPI::eGraphicsPipeLineStage shaderType,
-            const char* const shaderText
+            const char* const shaderText,
+            const unsigned long long shaderTextSize
         )
         {
-          
-            return false;
+            const char* shaderTarget = nullptr;
+            switch (shaderType)
+            {
+            case GraphicsAPI::VERTEX_SHADER:
+                shaderTarget = "vs_5_0";
+                break;
+            case GraphicsAPI::HULL_SHADER:
+                shaderTarget = "hs_5_0";
+                break;
+            case GraphicsAPI::DOMAIN_SHADER:
+                shaderTarget = "ds_5_0";
+                break;
+            case GraphicsAPI::GEOMETRY_SHADER:
+                shaderTarget = "gs_5_0";
+                break;
+            case GraphicsAPI::PIXEL_SHADER:
+                shaderTarget = "ps_5_0";
+                break;
+            case GraphicsAPI::COMPUTE_SHADER:
+                shaderTarget = "cs_5_0";
+                break;
+            default:
+                NEVER_HAPPEN;
+            }
+
+            DWORD dwShaderFlags = D3DCOMPILE_ENABLE_STRICTNESS;
+#ifdef _DEBUG
+            // Set the D3DCOMPILE_DEBUG flag to embed debug information in the shaders.
+            // Setting this flag improves the shader debugging experience, but still allows 
+            // the shaders to be optimized and to run exactly the way they will run in 
+            // the release configuration of this program.
+            dwShaderFlags |= D3DCOMPILE_DEBUG;
+
+            // Disable optimizations to further improve shader debugging
+            dwShaderFlags |= D3DCOMPILE_SKIP_OPTIMIZATION;
+#endif
+            ID3DBlob* shaderBlob = nullptr;
+            ID3DBlob* errorBlob = nullptr;
+            
+            HRESULT hr = D3DCompile
+			(
+                shaderText,
+                shaderTextSize,
+                nullptr,
+                NULL,
+                NULL,
+                NULL,
+                shaderTarget,
+                dwShaderFlags,
+                NULL,
+                &shaderBlob,
+                &errorBlob
+            );
+            assert(FAILED(hr) == false);
+            if (FAILED(hr))
+            {
+                if (errorBlob)
+                {
+                    OutputDebugStringA(reinterpret_cast<const char*>(errorBlob->GetBufferPointer()));
+                    errorBlob->Release();
+                }
+                return hr;
+            }
+            if (errorBlob)
+            {
+                errorBlob->Release();
+            }
+
+            return reinterpret_cast<unsigned long long>(shaderBlob);
+        }
+
+        DOOMS_ENGINE_GRAPHICS_API void DestroyShaderObject(unsigned long long shaderObject)
+        {
+            assert(shaderObject != 0);
+
+            ID3DBlob* const shaderBlob = reinterpret_cast<ID3DBlob*>(shaderObject);
+            if(shaderBlob != nullptr)
+            {
+                shaderBlob->Release();
+            }
         }
 
         /// <summary>

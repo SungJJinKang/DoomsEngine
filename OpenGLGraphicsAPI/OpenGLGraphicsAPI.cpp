@@ -1383,7 +1383,8 @@ namespace dooms
 		(
 			unsigned long long& shaderObject,
 			const GraphicsAPI::eGraphicsPipeLineStage shaderType,
-			const char* const shaderText
+			const char* const shaderText,
+			const unsigned long long shaderTextSize
 		)
 		{
 			assert(shaderObject != 0);
@@ -1701,7 +1702,7 @@ namespace dooms
 			return shaderObject;
 		}
 
-		DOOMS_ENGINE_GRAPHICS_API void DestroyShaderObject(const unsigned long long shaderObject)
+		DOOMS_ENGINE_GRAPHICS_API void DestroyShaderObject(unsigned long long shaderObject)
 		{
 			glDeleteShader(shaderObject);
 		}
