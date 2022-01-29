@@ -102,7 +102,7 @@ namespace dooms::graphics::meshHelper
 		}
 		
 		threeDModelMeshes[0].mAABB3D = physics::AABB3D(minX, maxX);
-		threeDModelMeshes[0].mSphere = physics::Sphere(boudingSphereCenter, std::max(width, height) * 0.5f);
+		threeDModelMeshes[0].mSphere = physics::Sphere(boudingSphereCenter, math::Max(width, height) * 0.5f);
 
 		threeDModelMeshes[0].mIsValidMesh = true;
 
@@ -155,10 +155,10 @@ namespace dooms::graphics::meshHelper
 		threeDModelMeshes[0].mMeshIndices = { 0, 1, 2, 3, 4, 5 };
 		threeDModelMeshes[0].bHasIndices = true;
 
-		const math::Vector3 minX = math::Vector3(std::min(leftbottom.x, rightup.x), std::min(leftbottom.y, rightup.y), 0.001f);
-		const math::Vector3 maxX = math::Vector3(std::max(leftbottom.x, rightup.x), std::max(leftbottom.y, rightup.y), 0.001f);
+		const math::Vector3 minX = math::Vector3(math::Min(leftbottom.x, rightup.x), math::Min(leftbottom.y, rightup.y), 0.001f);
+		const math::Vector3 maxX = math::Vector3(math::Max(leftbottom.x, rightup.x), math::Max(leftbottom.y, rightup.y), 0.001f);
 		threeDModelMeshes[0].mAABB3D = physics::AABB3D(minX, maxX);
-		threeDModelMeshes[0].mSphere = physics::Sphere(math::Vector3(0.0f), 0.5f * std::max(std::abs(rightup.x - leftbottom.x), std::abs(rightup.y - leftbottom.y)));
+		threeDModelMeshes[0].mSphere = physics::Sphere(math::Vector3(0.0f), 0.5f * math::Max(math::Abs(rightup.x - leftbottom.x), math::Abs(rightup.y - leftbottom.y)));
 
 		threeDModelMeshes[0].mIsValidMesh = true;
 
