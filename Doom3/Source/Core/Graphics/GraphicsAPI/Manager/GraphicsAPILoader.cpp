@@ -37,6 +37,8 @@ void dooms::graphics::GraphicsAPILoader::FetchExportedFunctionAddress()
 	//D_ASSERT(dooms::graphics::GraphicsAPI::AttachRenderBufferToFrameBuffer != nullptr);
 	dooms::graphics::GraphicsAPI::AttachShaderToMaterial = (GraphicsAPI::GRAPHICS_ATTACHSHADERTOMATERIAL)GetProcAddress(hModule, "AttachShaderToMaterial");
 	//D_ASSERT(dooms::graphics::GraphicsAPI::AttachShaderToMaterial != nullptr);
+	dooms::graphics::GraphicsAPI::DetachShaderFromMaterial = (GraphicsAPI::GRAPHICS_DETACHSHADERFROMMATERIAL)GetProcAddress(hModule, "DetachShaderToMaterial");
+	//D_ASSERT(dooms::graphics::GraphicsAPI::DetachShaderToMaterial != nullptr);
 	dooms::graphics::GraphicsAPI::BindBuffer = (GraphicsAPI::GRAPHICS_BINDBUFFER)GetProcAddress(hModule, "BindBuffer");
 	//D_ASSERT(dooms::graphics::GraphicsAPI::BindBuffer != nullptr);
 	dooms::graphics::GraphicsAPI::BindConstantBuffer = (GraphicsAPI::GRAPHICS_BINDCONSTANTBUFFER)GetProcAddress(hModule, "BindConstantBuffer");

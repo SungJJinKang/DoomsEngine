@@ -68,10 +68,10 @@ namespace dooms
 			BufferID mProgramIDForOpenGL;
 
 			/// <summary>
-			/// Used for DirectX
+			/// Only used for DirectX
 			/// </summary>
 			D_PROPERTY()
-			std::array<BufferID, GRAPHICS_PIPELINE_STAGE_COUNT> mPipeLineShaderObject;
+			std::array<BufferID, GRAPHICS_PIPELINE_STAGE_COUNT> mPipeLineShaderView;
 
 
 			D_PROPERTY()
@@ -98,6 +98,7 @@ namespace dooms
 			 */
 			void CreateMaterialObjectIfNotExist();
 			void DestroyMaterialObjectIfExist();
+			void DestroyShaderFromMaterial(const dooms::graphics::GraphicsAPI::eGraphicsPipeLineStage shaderType);
 
 			virtual ~Material();
 

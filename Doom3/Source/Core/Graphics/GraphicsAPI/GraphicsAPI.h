@@ -726,7 +726,7 @@ namespace dooms
 			typedef unsigned long long (DOOMS_ENGINE_API_ENTRY_P GRAPHICS_CREATEMATERIAL)();
 			extern GRAPHICS_CREATEMATERIAL CreateMaterial;
 
-			typedef void (DOOMS_ENGINE_API_ENTRY_P GRAPHICS_DESTROYMATERIAL)(const unsigned long long materialObject);
+			typedef void (DOOMS_ENGINE_API_ENTRY_P GRAPHICS_DESTROYMATERIAL)(unsigned long long materialObject);
 			extern GRAPHICS_DESTROYMATERIAL DestroyMaterial;
 			/**
 			 * \brief
@@ -757,11 +757,20 @@ namespace dooms
 			 */
 			typedef bool (DOOMS_ENGINE_API_ENTRY_P GRAPHICS_ATTACHSHADERTOMATERIAL)
 			(
-				unsigned long long& materialObject, // OPENGL : Program, DirectX : ID3D11~Shader 
+				unsigned long long& shaderView, // Only used for DirectX
+				const unsigned long long materialObject, // Only used for OPENGL
 				const unsigned long long shaderObject,
 				const eGraphicsPipeLineStage targetGraphicsPipeLineStage // only used in dx11
 			);
 			extern GRAPHICS_ATTACHSHADERTOMATERIAL AttachShaderToMaterial;
+
+			typedef bool (DOOMS_ENGINE_API_ENTRY_P GRAPHICS_DETACHSHADERFROMMATERIAL)
+			(
+				unsigned long long shaderView,
+				const unsigned long long materialObject,
+				const unsigned long long shaderObject
+			);
+			extern GRAPHICS_DETACHSHADERFROMMATERIAL DetachShaderFromMaterial;
 			
 			enum eMapBufferAccessOption : unsigned int
 			{

@@ -1335,9 +1335,25 @@ namespace dooms
             return false;
         }
 
+        /// <summary>
+        /// Release shader view
+        /// </summary>
+        /// <param name="shaderView"></param>
+        /// <returns></returns>
+        DOOMS_ENGINE_GRAPHICS_API void DestroyMaterial(unsigned long long shaderView)
+        {
+            assert(shaderView != 0);
+            IUnknown* const ID3D11ShaderView = reinterpret_cast<IUnknown*>(shaderView);
+            if(ID3D11ShaderView != nullptr)
+            {
+                ID3D11ShaderView->Release();
+            }
+        }
+
         DOOMS_ENGINE_GRAPHICS_API bool AttachShaderToMaterial
         (
-            unsigned long long& materialObject,
+            unsigned long long& shaderView,
+            const unsigned long long materialObject,
             const unsigned long long shaderObject,
             const GraphicsAPI::eGraphicsPipeLineStage targetGraphicsPipeLineStage // only used in dx11
         )
@@ -1355,7 +1371,7 @@ namespace dooms
                     const HRESULT hr = dx11::g_pd3dDevice->CreateVertexShader(shaderBlob->GetBufferPointer(), shaderBlob->GetBufferSize(), nullptr, &vertexShader);
                     if (FAILED(hr) == false)
                     {
-                        materialObject = reinterpret_cast<unsigned long long>(vertexShader);
+                        shaderView = reinterpret_cast<unsigned long long>(vertexShader);
                         isSuccess = true;
                     }
                 }
@@ -1365,7 +1381,7 @@ namespace dooms
                     const HRESULT hr = dx11::g_pd3dDevice->CreateHullShader(shaderBlob->GetBufferPointer(), shaderBlob->GetBufferSize(), nullptr, &hullShader);
                     if (FAILED(hr) == false)
                     {
-                        materialObject = reinterpret_cast<unsigned long long>(hullShader);
+                        shaderView = reinterpret_cast<unsigned long long>(hullShader);
                         isSuccess = true;
                     }
                 }
@@ -1375,7 +1391,7 @@ namespace dooms
                     const HRESULT hr = dx11::g_pd3dDevice->CreateDomainShader(shaderBlob->GetBufferPointer(), shaderBlob->GetBufferSize(), nullptr, &domainShader);
                     if (FAILED(hr) == false)
                     {
-                        materialObject = reinterpret_cast<unsigned long long>(domainShader);
+                        shaderView = reinterpret_cast<unsigned long long>(domainShader);
                         isSuccess = true;
                     }
                 }
@@ -1385,7 +1401,7 @@ namespace dooms
                     const HRESULT hr = dx11::g_pd3dDevice->CreateGeometryShader(shaderBlob->GetBufferPointer(), shaderBlob->GetBufferSize(), nullptr, &geometryShader);
                     if (FAILED(hr) == false)
                     {
-                        materialObject = reinterpret_cast<unsigned long long>(geometryShader);
+                        shaderView = reinterpret_cast<unsigned long long>(geometryShader);
                         isSuccess = true;
                     }
                 }
@@ -1395,7 +1411,7 @@ namespace dooms
                     const HRESULT hr = dx11::g_pd3dDevice->CreatePixelShader(shaderBlob->GetBufferPointer(), shaderBlob->GetBufferSize(), nullptr, &pixelShader);
                     if (FAILED(hr) == false)
                     {
-                        materialObject = reinterpret_cast<unsigned long long>(pixelShader);
+                        shaderView = reinterpret_cast<unsigned long long>(pixelShader);
                         isSuccess = true;
                     }
                 }
@@ -1405,7 +1421,7 @@ namespace dooms
                     const HRESULT hr = dx11::g_pd3dDevice->CreateComputeShader(shaderBlob->GetBufferPointer(), shaderBlob->GetBufferSize(), nullptr, &computeShader);
                     if (FAILED(hr) == false)
                     {
-                        materialObject = reinterpret_cast<unsigned long long>(computeShader);
+                        shaderView = reinterpret_cast<unsigned long long>(computeShader);
                         isSuccess = true;
                     }
                 }
@@ -1416,6 +1432,26 @@ namespace dooms
             }
 	        
             assert(isSuccess == true);
+
+            return isSuccess;
+        }
+
+        DOOMS_ENGINE_GRAPHICS_API bool DetachShaderFromMaterial
+        (
+            unsigned long long shaderView,
+            const unsigned long long materialObject,
+            const unsigned long long shaderObject
+        )
+        {
+            bool isSuccess = false;
+
+            assert(shaderView != 0);
+            IUnknown* const ID3D11ShaderView = reinterpret_cast<IUnknown*>(shaderView);
+            if (ID3D11ShaderView != nullptr)
+            {
+                ID3D11ShaderView->Release();
+                isSuccess = true;
+            }
 
             return isSuccess;
         }

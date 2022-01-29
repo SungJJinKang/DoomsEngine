@@ -1664,7 +1664,7 @@ namespace dooms
 			return materialObject;
 		}
 
-		DOOMS_ENGINE_GRAPHICS_API void DestroyMaterial(const unsigned long long materialObject)
+		DOOMS_ENGINE_GRAPHICS_API void DestroyMaterial(unsigned long long materialObject)
 		{
 			glDeleteProgram(materialObject);
 		}
@@ -1708,12 +1708,25 @@ namespace dooms
 		
 		DOOMS_ENGINE_GRAPHICS_API bool AttachShaderToMaterial
 		(
-			unsigned long long& materialObject,
+			unsigned long long& shaderView,
+			const unsigned long long materialObject,
 			const unsigned long long shaderObject,
 			const GraphicsAPI::eGraphicsPipeLineStage targetGraphicsPipeLineStage // only used in dx11
 		)
 		{
 			glAttachShader(materialObject, shaderObject);
+
+			return true;
+		}
+
+		DOOMS_ENGINE_GRAPHICS_API bool DetachShaderFromMaterial
+		(
+			unsigned long long shaderView,
+			const unsigned long long materialObject,
+			const unsigned long long shaderObject
+		)
+		{
+			glDetachShader(materialObject, shaderObject);
 
 			return true;
 		}
