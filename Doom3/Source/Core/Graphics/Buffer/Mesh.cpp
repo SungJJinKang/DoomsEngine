@@ -123,9 +123,13 @@ void dooms::graphics::Mesh::CreateBufferObject
 	UINT32 vertexArrayFlag
 ) noexcept
 {
-	D_ASSERT(IsBufferGenerated() == true);
-	if (IsBufferGenerated() == true)
+	D_ASSERT(IsBufferGenerated() == false);
+	if (IsBufferGenerated() == false)
 	{
+		if (graphics::GraphicsAPI::GetCurrentAPIType() == graphics::GraphicsAPI::eGraphicsAPIType::OpenGL)
+		{
+			CreateVertexArrayObjectIfNotExist();
+		}
 
 		BindVertexArrayObject(); // bind vertex array buffer
 
@@ -226,13 +230,14 @@ void dooms::graphics::Mesh::CreateVertexArrayObjectIfNotExist()
 void dooms::graphics::Mesh::CreateBufferObjectFromModelMesh(const ThreeDModelMesh& threeDModelMesh) noexcept
 {
 	D_ASSERT(IsBufferGenerated() == false);
-	if (IsBufferGenerated() == true)
+	if (IsBufferGenerated() == false)
 	{
-
 		if (graphics::GraphicsAPI::GetCurrentAPIType() == graphics::GraphicsAPI::eGraphicsAPIType::OpenGL)
 		{
 			CreateVertexArrayObjectIfNotExist();
 		}
+
+		BindVertexArrayObject(); // bind vertex array buffer
 
 		mVertexDataBuffer = GraphicsAPI::CreateBufferObject(GraphicsAPI::eBufferTarget::ARRAY_BUFFER, threeDModelMesh.mMeshDatas.GetAllocatedDataSize(), threeDModelMesh.mMeshDatas.mData);
 		

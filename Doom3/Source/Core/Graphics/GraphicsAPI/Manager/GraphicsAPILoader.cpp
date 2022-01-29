@@ -25,8 +25,8 @@ void dooms::graphics::GraphicsAPILoader::FetchExportedFunctionAddress()
 	//D_ASSERT(dooms::graphics::GraphicsAPI::GetCurrentAPIType != nullptr);
 	dooms::graphics::GraphicsAPI::ActivateTextureUnit = (GraphicsAPI::GRAPHICS_ACTIVATETEXTUREUNIT)GetProcAddress(hModule, "ActivateTextureUnit");
 	//D_ASSERT(dooms::graphics::GraphicsAPI::ActivateTextureUnit != nullptr);
-	dooms::graphics::GraphicsAPI::CreateBufferObject = (GraphicsAPI::GRAPHICS_ALLOCATEBUFFERMEMORY)GetProcAddress(hModule, "AllocateBufferMemory");
-	//D_ASSERT(dooms::graphics::GraphicsAPI::AllocateBufferMemory != nullptr);
+	dooms::graphics::GraphicsAPI::CreateBufferObject = (GraphicsAPI::GRAPHICS_ALLOCATEBUFFERMEMORY)GetProcAddress(hModule, "CreateBufferObject");
+	//D_ASSERT(dooms::graphics::GraphicsAPI::CreateBufferObject != nullptr);
 	dooms::graphics::GraphicsAPI::AllocateRenderBufferMemory = (GraphicsAPI::GRAPHICS_ALLOCATERENDERBUFFERMEMORY)GetProcAddress(hModule, "AllocateRenderBufferMemory");
 	//D_ASSERT(dooms::graphics::GraphicsAPI::AllocateRenderBufferMemory != nullptr);
 	dooms::graphics::GraphicsAPI::Attach2DTextureToFrameBuffer = (GraphicsAPI::GRAPHICS_ATTACH2DTEXTURETOFRAMEBUFFER)GetProcAddress(hModule, "Attach2DTextureToFrameBuffer");
