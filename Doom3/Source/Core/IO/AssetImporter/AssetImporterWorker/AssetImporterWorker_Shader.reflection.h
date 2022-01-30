@@ -27,8 +27,8 @@
 #undef INHERITANCE_INFORMATION_dooms__assetImporter__AssetImporterWorker_Shader
 #define INHERITANCE_INFORMATION_dooms__assetImporter__AssetImporterWorker_Shader \
 public : \
-inline static const unsigned long int BASE_CHAIN_LIST[] { 3387746671, 1388311841, 3969188510 }; \
-inline static const unsigned long int BASE_CHAIN_LIST_LENGTH { 3 }; \
+inline static const unsigned long int BASE_CHAIN_LIST[] { 3387746671, 1388311841, 3251103914, 3969188510 }; \
+inline static const unsigned long int BASE_CHAIN_LIST_LENGTH { 4 }; \
 virtual const unsigned long int* GetBaseChainList() const { return BASE_CHAIN_LIST; } \
 virtual unsigned long int GetBaseChainListLength() const { return BASE_CHAIN_LIST_LENGTH; } \
 typedef dooms::assetImporter::AssetImporterWorker Base;
