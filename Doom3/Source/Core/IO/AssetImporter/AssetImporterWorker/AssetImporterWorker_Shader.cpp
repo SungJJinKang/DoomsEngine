@@ -131,6 +131,7 @@ std::array<dooms::asset::ShaderTextData, GRAPHICS_PIPELINE_STAGE_COUNT> dooms::a
 			shaderTextDatas[i].mShaderStringText = dooms::asset::textImporter::GetTextFromFile(shaderTextFilePath);
 			shaderTextDatas[i].mShaderReflectionDataStringText = dooms::asset::textImporter::GetTextFromFile(shaderTextJsonFilePath);
 			shaderTextDatas[i].mShaderTextGraphicsAPIType = currentGraphicsAPIType;
+			shaderTextDatas[i].mShaderTextFilePath = shaderTextFilePath;
 		}
 	}
 

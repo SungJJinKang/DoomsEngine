@@ -30,6 +30,9 @@ namespace dooms
 			GENERATE_BODY_ShaderTextData()
 
 			D_PROPERTY()
+			std::filesystem::path mShaderTextFilePath;
+
+			D_PROPERTY()
 			dooms::graphics::GraphicsAPI::eGraphicsAPIType mShaderTextGraphicsAPIType;
 
 			D_PROPERTY()

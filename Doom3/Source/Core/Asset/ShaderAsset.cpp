@@ -349,18 +349,18 @@ bool dooms::asset::ShaderAsset::CompileSpecificTypeShader(ShaderTextData& shader
 
 			const char* shaderCode = shaderText.mShaderStringText.c_str();
 			isSuccessCompileShader = graphics::GraphicsAPI::CompileShader(shaderObject.mShaderObjectID.GetBufferIDRef(), shaderType, shaderCode, shaderText.mShaderStringText.size() + 1);
-			D_ASSERT_LOG(isSuccessCompileShader == true, "Fail to compile shader ( Shader Asset Name : %s, Shader Type : %s )", GetAssetFileName().c_str(), graphics::GraphicsAPI::eGraphicsPipeLineStageString[static_cast<UINT32>(shaderType)]);
+			D_ASSERT_LOG(isSuccessCompileShader == true, "Fail to compile shader ( Shader Asset Name : %s, Shader Type : %s )", shaderText.mShaderTextFilePath.generic_u8string().c_str(), graphics::GraphicsAPI::eGraphicsPipeLineStageString[static_cast<UINT32>(shaderType)]);
 			if (isSuccessCompileShader == true)
 			{
 				shaderObject.mShaderCompileStatus = eShaderCompileStatus::COMPILE_SUCCESS;
 				GenerateUniformBufferObjectFromShaderReflectionData(shaderText.mShaderReflectionData);
 				
-				dooms::ui::PrintText("Success to compile shader ( Shader Asset Name : %s, Shader Type : %s )", GetAssetFileName().c_str(), graphics::GraphicsAPI::eGraphicsPipeLineStageString[static_cast<UINT32>(shaderType)]);
+				dooms::ui::PrintText("Success to compile shader ( Shader Asset Name : %s, Shader Type : %s )", shaderText.mShaderTextFilePath.generic_u8string().c_str(), graphics::GraphicsAPI::eGraphicsPipeLineStageString[static_cast<UINT32>(shaderType)]);
 			}
 			else
 			{
 				shaderObject.mShaderCompileStatus = eShaderCompileStatus::COMPILE_FAIL;
-				dooms::ui::PrintText("Fail to compile shader ( Shader Asset Name : %s, Shader Type : %s )", GetAssetFileName().c_str(), graphics::GraphicsAPI::eGraphicsPipeLineStageString[static_cast<UINT32>(shaderType)]);
+				dooms::ui::PrintText("Fail to compile shader ( Shader Asset Name : %s, Shader Type : %s )", shaderText.mShaderTextFilePath.generic_u8string().c_str(), graphics::GraphicsAPI::eGraphicsPipeLineStageString[static_cast<UINT32>(shaderType)]);
 			}
 		}
 		else
