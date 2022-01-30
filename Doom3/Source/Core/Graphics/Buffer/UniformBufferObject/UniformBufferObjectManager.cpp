@@ -38,7 +38,7 @@ void dooms::graphics::UniformBufferObjectManager::UpdateUniformObjects()
 	BufferDateOfUniformBufferObjects();
 }
 
-dooms::graphics::UniformBufferObject* dooms::graphics::UniformBufferObjectManager::GetUniformBufferObject(const std::string& uniformBufferName)
+dooms::graphics::UniformBufferObject* dooms::graphics::UniformBufferObjectManager::GetUniformBufferObject(const char* const uniformBufferName)
 {
 	dooms::graphics::UniformBufferObject* uniformBufferObject = nullptr;
 
