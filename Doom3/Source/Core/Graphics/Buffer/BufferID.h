@@ -63,6 +63,11 @@ namespace dooms
 				return &(mID);
 			}
 
+			FORCE_INLINE bool operator==(const BufferID& bufferID) const
+			{
+				return (mID == bufferID.mID);
+			}
+
 			FORCE_INLINE UINT64 GetBufferID() const
 			{
 				return mID;
