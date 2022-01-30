@@ -80,17 +80,20 @@ bool Material::AttachShaderToMaterial(dooms::asset::ShaderAsset* const shaderAss
 
 void Material::SetShaderAsset(dooms::asset::ShaderAsset* const shaderAsset)
 {
+	D_ASSERT(IsValid(shaderAsset));
 	for (size_t shaderTypeIndex = 0; shaderTypeIndex < GRAPHICS_PIPELINE_STAGE_COUNT; shaderTypeIndex++)
 	{
-		SetShaderAsset(shaderAsset, static_cast<dooms::graphics::GraphicsAPI::eGraphicsPipeLineStage>(shaderTypeIndex));
+		if(shaderAsset->IsShaderObjectSuccessfullyCreated(static_cast<dooms::graphics::GraphicsAPI::eGraphicsPipeLineStage>(shaderTypeIndex)))
+		{
+			SetShaderAsset(shaderAsset, static_cast<dooms::graphics::GraphicsAPI::eGraphicsPipeLineStage>(shaderTypeIndex));
+		}
 	}
 }
 
 void Material::SetShaderAsset(dooms::asset::ShaderAsset* const shaderAsset, const dooms::graphics::GraphicsAPI::eGraphicsPipeLineStage shaderType)
 {
 	D_ASSERT(IsValid(shaderAsset) == true);
-	D_ASSERT(shaderAsset->IsHasAnyValidShaderObject() == true);
-	D_ASSERT(IsHasAnyValidShaderObject() == false);
+	D_ASSERT(shaderAsset->IsShaderObjectSuccessfullyCreated(shaderType));
 	
 	AttachShaderToMaterial(shaderAsset, shaderType);
 }
@@ -149,6 +152,7 @@ Material::Material(dooms::asset::ShaderAsset* const shaderAsset)
 	mPipeLineShaderView{},
 	mTargetUniformBufferObjectViews{}
 {
+	D_ASSERT(IsValid(shaderAsset));
 	SetShaderAsset(shaderAsset);
 }
 
@@ -215,7 +219,7 @@ void Material::DestroyShaderFromMaterial(const dooms::graphics::GraphicsAPI::eGr
 {
 	if (dooms::graphics::GraphicsAPI::GetCurrentAPIType() == dooms::graphics::GraphicsAPI::eGraphicsAPIType::OpenGL)
 	{
-		if (mProgramIDForOpenGL.IsValid() && mShaderAsset[shaderType]->GetShaderObject(shaderType).IsValid())
+		if (mProgramIDForOpenGL.IsValid() && IsValid(mShaderAsset[shaderType]) && mShaderAsset[shaderType]->GetShaderObject(shaderType).IsValid())
 		{
 			GraphicsAPI::DetachShaderFromMaterial(mPipeLineShaderView[shaderType], mProgramIDForOpenGL, mShaderAsset[shaderType]->GetShaderObject(shaderType));
 		}

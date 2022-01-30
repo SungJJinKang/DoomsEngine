@@ -12,6 +12,7 @@
 #include <Game/AssetManager/AssetManager.h>
 #include "../Material/Material.h"
 #include <IO/UserInput_Server.h>
+#include <Asset/ShaderAsset.h>
 
 void dooms::graphics::DebugDrawer::Init()
 {
@@ -19,9 +20,11 @@ void dooms::graphics::DebugDrawer::Init()
 
 
 	auto debug2DShader = dooms::assetImporter::AssetManager::GetSingleton()->GetAsset<asset::eAssetType::SHADER>(DebugDrawer::DEBUG_2D_SHADER);
+	D_ASSERT(IsValid(debug2DShader));
 	m2DMaterial = std::make_unique<Material>(debug2DShader);
 
 	auto debug3DShader = dooms::assetImporter::AssetManager::GetSingleton()->GetAsset<asset::eAssetType::SHADER>(DebugDrawer::DEBUG_3D_SHADER);
+	D_ASSERT(IsValid(debug3DShader));
 	m3DMaterial = std::make_unique<Material>(debug3DShader);
 
 	for (DebugPrimitiveContainer* container : mDebugPrimitiveContainers.DebugPrimitiveContainers)
