@@ -23,34 +23,6 @@
 #define MAX(X, Y) ((X > Y) ? (X) : (Y));
 
 
-// https://anteru.net/blog/2013/porting-from-directx11-to-opengl-4-2-tales-from-the-trenches/
-// https://anteru.net/blog/2013/porting-from-directx11-to-opengl-4-2-textures-samplers/
-
-//--------------------------------------------------------------------------------------
-// Structures
-//--------------------------------------------------------------------------------------
-struct SimpleVertex
-{
-	DirectX::XMFLOAT3 Pos;
-	DirectX::XMFLOAT2 Tex;
-};
-
-struct CBNeverChanges
-{
-	DirectX::XMMATRIX mView;
-};
-
-struct CBChangeOnResize
-{
-	DirectX::XMMATRIX mProjection;
-};
-
-struct CBChangesEveryFrame
-{
-	DirectX::XMMATRIX mWorld;
-	DirectX::XMFLOAT4 vMeshColor;
-};
-
 
 namespace dooms
 {
@@ -311,67 +283,11 @@ namespace dooms
             static ID3D11RenderTargetView* BackBufferRenderTargetView = nullptr;
             static ID3D11Texture2D* g_pDepthStencil = nullptr;
             static ID3D11DepthStencilView* BackBufferDepthStencilView = nullptr;
-            static ID3D11VertexShader* g_pVertexShader = nullptr;
-            static  ID3D11PixelShader* g_pPixelShader = nullptr;
-            static ID3D11InputLayout* g_pVertexLayout = nullptr;
-            static ID3D11Buffer* g_pVertexBuffer = nullptr;
-            static ID3D11Buffer* g_pIndexBuffer = nullptr;
-            static  ID3D11Buffer* g_pCBNeverChanges = nullptr;
-            static  ID3D11Buffer* g_pCBChangeOnResize = nullptr;
-            static ID3D11Buffer* g_pCBChangesEveryFrame = nullptr;
-            static  ID3D11ShaderResourceView* g_pTextureRV = nullptr;
-            static  ID3D11SamplerState* g_pSamplerLinear = nullptr;
-            static  DirectX::XMMATRIX                            g_World;
-            static DirectX::XMMATRIX                            g_View;
-            static  DirectX::XMMATRIX                            g_Projection;
-            static  DirectX::XMFLOAT4                            g_vMeshColor(0.7f, 0.7f, 0.7f, 1.0f);
-
 
             static HRESULT InitWindow(HINSTANCE hInstance, int nCmdShow, int width, int height);
             static HRESULT InitDevice();
             static void CleanupDevice();
             static LRESULT CALLBACK    WndProc(HWND, UINT, WPARAM, LPARAM);
-            static void Render();
-
-            //--------------------------------------------------------------------------------------
-			// Helper for compiling shaders with D3DCompile
-			//
-			// With VS 11, we could load up prebuilt .cso files instead...
-			//--------------------------------------------------------------------------------------
-            static HRESULT CompileShaderFromFile(const WCHAR* szFileName, LPCSTR szEntryPoint, LPCSTR szShaderModel, ID3DBlob** ppBlobOut)
-            {
-                HRESULT hr = S_OK;
-
-                DWORD dwShaderFlags = D3DCOMPILE_ENABLE_STRICTNESS;
-#ifdef _DEBUG
-                // Set the D3DCOMPILE_DEBUG flag to embed debug information in the shaders.
-                // Setting this flag improves the shader debugging experience, but still allows 
-                // the shaders to be optimized and to run exactly the way they will run in 
-                // the release configuration of this program.
-                dwShaderFlags |= D3DCOMPILE_DEBUG;
-
-                // Disable optimizations to further improve shader debugging
-                dwShaderFlags |= D3DCOMPILE_SKIP_OPTIMIZATION;
-#endif
-
-                ID3DBlob* pErrorBlob = nullptr;
-                
-                hr = D3DCompileFromFile(szFileName, nullptr, nullptr, szEntryPoint, szShaderModel,
-                    dwShaderFlags, 0, ppBlobOut, &pErrorBlob);
-                if (FAILED(hr))
-                {
-                    if (pErrorBlob)
-                    {
-                        OutputDebugStringA(reinterpret_cast<const char*>(pErrorBlob->GetBufferPointer()));
-                        pErrorBlob->Release();
-                    }
-                    return hr;
-                }
-                if (pErrorBlob) pErrorBlob->Release();
-
-                return S_OK;
-            }
-
             
             static HRESULT InitWindow(HINSTANCE hInstance, int nCmdShow, int width, int height)
 			{
@@ -550,6 +466,7 @@ namespace dooms
                 if (FAILED(hr))
                     return hr;
 
+                /*
                 // Create depth stencil texture
                 D3D11_TEXTURE2D_DESC descDepth = {};
                 descDepth.Width = width;
@@ -787,89 +704,17 @@ namespace dooms
                 CBChangeOnResize cbChangesOnResize;
                 cbChangesOnResize.mProjection = XMMatrixTranspose(g_Projection);
                 g_pImmediateContext->UpdateSubresource(g_pCBChangeOnResize, 0, nullptr, &cbChangesOnResize, 0, 0);
+                */
 
                 return S_OK;
             }
-
-            static void Render()
-            {
-                // Update our time
-                static float t = 0.0f;
-                if (g_driverType == D3D_DRIVER_TYPE_REFERENCE)
-                {
-                    t += (float)DirectX::XM_PI * 0.0125f;
-                }
-                else
-                {
-                    static ULONGLONG timeStart = 0;
-                    ULONGLONG timeCur = GetTickCount64();
-                    if (timeStart == 0)
-                        timeStart = timeCur;
-                    t = (timeCur - timeStart) / 1000.0f;
-                }
-
-                // Rotate cube around the origin
-                g_World = DirectX::XMMatrixRotationY(t);
-
-                // Modify the color
-                g_vMeshColor.x = (sinf(t * 1.0f) + 1.0f) * 0.5f;
-                g_vMeshColor.y = (cosf(t * 3.0f) + 1.0f) * 0.5f;
-                g_vMeshColor.z = (sinf(t * 5.0f) + 1.0f) * 0.5f;
-
-                //
-                // Clear the back buffer
-                //
-                g_pImmediateContext->ClearRenderTargetView(BackBufferRenderTargetView, DirectX::Colors::MidnightBlue);
-                
-                //
-                // Clear the depth buffer to 1.0 (max depth)
-                //
-                g_pImmediateContext->ClearDepthStencilView(BackBufferDepthStencilView, D3D11_CLEAR_DEPTH, 1.0f, 0);
-                
-                //
-                // Update variables that change once per frame
-                //
-                CBChangesEveryFrame cb;
-                cb.mWorld = XMMatrixTranspose(g_World);
-                cb.vMeshColor = g_vMeshColor;
-                g_pImmediateContext->UpdateSubresource(g_pCBChangesEveryFrame, 0, nullptr, &cb, 0, 0);
-
-                //
-                // Render the cube
-                //
-                g_pImmediateContext->VSSetShader(g_pVertexShader, nullptr, 0);
-                g_pImmediateContext->VSSetConstantBuffers(0, 1, &g_pCBNeverChanges);
-                g_pImmediateContext->VSSetConstantBuffers(1, 1, &g_pCBChangeOnResize);
-                g_pImmediateContext->VSSetConstantBuffers(2, 1, &g_pCBChangesEveryFrame);
-                g_pImmediateContext->PSSetShader(g_pPixelShader, nullptr, 0);
-                g_pImmediateContext->PSSetConstantBuffers(2, 1, &g_pCBChangesEveryFrame);
-                g_pImmediateContext->PSSetShaderResources(0, 1, &g_pTextureRV);
-                g_pImmediateContext->PSSetSamplers(0, 1, &g_pSamplerLinear);
-                g_pImmediateContext->DrawIndexed(36, 0, 0);
-
-                //
-                // Present our back buffer to our front buffer
-                //
-                g_pSwapChain->Present(0, 0);
-            }
-
+            
             //--------------------------------------------------------------------------------------
 			// Clean up the objects we've created
 			//--------------------------------------------------------------------------------------
             static void CleanupDevice()
             {
                 if (g_pImmediateContext) g_pImmediateContext->ClearState();
-
-                if (g_pSamplerLinear) g_pSamplerLinear->Release();
-                if (g_pTextureRV) g_pTextureRV->Release();
-                if (g_pCBNeverChanges) g_pCBNeverChanges->Release();
-                if (g_pCBChangeOnResize) g_pCBChangeOnResize->Release();
-                if (g_pCBChangesEveryFrame) g_pCBChangesEveryFrame->Release();
-                if (g_pVertexBuffer) g_pVertexBuffer->Release();
-                if (g_pIndexBuffer) g_pIndexBuffer->Release();
-                if (g_pVertexLayout) g_pVertexLayout->Release();
-                if (g_pVertexShader) g_pVertexShader->Release();
-                if (g_pPixelShader) g_pPixelShader->Release();
                 if (g_pDepthStencil) g_pDepthStencil->Release();
                 if (BackBufferDepthStencilView) BackBufferDepthStencilView->Release();
                 if (BackBufferRenderTargetView) BackBufferRenderTargetView->Release();
@@ -939,24 +784,8 @@ namespace dooms
 				return 0;
 			}
 
-			// Main message loop
-			MSG msg = { 0 };
-			while (WM_QUIT != msg.message)
-			{
-				if (PeekMessage(&msg, nullptr, 0, 0, PM_REMOVE))
-				{
-					TranslateMessage(&msg);
-					DispatchMessage(&msg);
-				}
-				else
-				{
-					dx11::Render(); // For testing
-				}
-			}
-
-			dx11::CleanupDevice();
-
-			return (int)msg.wParam;
+		
+			return 1;
 
 		}
 
