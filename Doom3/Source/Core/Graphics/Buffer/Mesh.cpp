@@ -141,6 +141,7 @@ void dooms::graphics::Mesh::CreateBufferObject
 
 		D_DEBUG_LOG(eLogType::D_LOG, "%f", sizeof(FLOAT32) * dataComponentCount);
 		mVertexDataBuffer = GraphicsAPI::CreateBufferObject(GraphicsAPI::eBufferTarget::ARRAY_BUFFER, static_cast<unsigned long long>(sizeof(FLOAT32) * dataComponentCount), data);
+		BindVertexBufferObject();
 
 		UINT32 offset = 0;
 		const UINT32 stride = Mesh::GetStride(vertexArrayFlag);
@@ -246,7 +247,9 @@ void dooms::graphics::Mesh::CreateBufferObjectFromModelMesh(const ThreeDModelMes
 		BindVertexArrayObject(); // bind vertex array buffer
 
 		mVertexDataBuffer = GraphicsAPI::CreateBufferObject(GraphicsAPI::eBufferTarget::ARRAY_BUFFER, threeDModelMesh.mMeshDatas.GetAllocatedDataSize(), threeDModelMesh.mMeshDatas.mData);
-		
+		D_ASSERT(mVertexDataBuffer.IsValid());
+		GraphicsAPI::UpdateDataToBuffer(mVertexDataBuffer, GraphicsAPI::eBufferTarget::ARRAY_BUFFER, 0, threeDModelMesh.mMeshDatas.GetAllocatedDataSize(), reinterpret_cast<const void*>(threeDModelMesh.mMeshDatas.mData));
+
 		//mVertex
 		if (threeDModelMesh.mVertexArrayFlag & eVertexArrayFlag::VertexVector3)
 		{

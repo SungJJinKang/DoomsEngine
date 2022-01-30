@@ -1400,6 +1400,7 @@ namespace dooms
 
 		DOOMS_ENGINE_GRAPHICS_API void BindVertexArrayObject(const unsigned long long vertexArrayObject)
 		{
+			assert(vertexArrayObject != 0);
 			glBindVertexArray(vertexArrayObject);
 		}
 		

@@ -132,7 +132,7 @@ namespace dooms
 			/// </summary>
 			/// <returns></returns>
 			void UpdateLocalBufferToGPU() noexcept;
-			FORCE_INLINE void UpdateDataToGPU(const void* sourceData, const UINT64 sizeOfSourceData, const UINT64 offsetInUniformBlock) noexcept
+			FORCE_INLINE void UpdateDataToGPU(const void* sourceData, const UINT64 offsetInUniformBlock, const UINT64 sizeOfSourceData) noexcept
 			{
 				D_ASSERT(IsBufferGenerated() == true);
 
