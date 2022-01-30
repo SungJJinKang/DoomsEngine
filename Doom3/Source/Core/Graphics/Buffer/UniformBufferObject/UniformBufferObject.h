@@ -141,7 +141,7 @@ namespace dooms
 					GraphicsAPI::UpdateDataToBuffer(mUniformBufferObject, GraphicsAPI::eBufferTarget::UNIFORM_BUFFER, offsetInUniformBlock, sizeOfSourceData, sourceData);
 				}
 			}
-			FORCE_INLINE void UpdateDataToGPU(const void* sourceData, const UINT64 sizeOfSourceData, const char* const targetVariableName) noexcept
+			FORCE_INLINE void UpdateDataToGPU(const void* sourceData, const char* const targetVariableName, const UINT64 sizeOfSourceData) noexcept
 			{
 				D_ASSERT(IsBufferGenerated() == true);
 
