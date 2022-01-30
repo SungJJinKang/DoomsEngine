@@ -864,6 +864,18 @@ namespace dooms
             SetWindowTextW(dx11::g_hWnd, title);
         }
 
+        DOOMS_ENGINE_GRAPHICS_API const char* GetPlatformVersion()
+        {
+            assert(false);
+            return "";//dx11::v.c_str();
+        }
+
+        DOOMS_ENGINE_GRAPHICS_API void* GetPlatformWindow()
+        {
+            return dx11::g_hInst;
+        }
+
+
 
         DOOMS_ENGINE_GRAPHICS_API void ClearBackFrameBufferColorBuffer(const float r, const float g, const float b, const float a)
         {
