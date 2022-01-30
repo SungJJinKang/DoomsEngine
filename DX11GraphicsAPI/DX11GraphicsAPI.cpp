@@ -1307,7 +1307,7 @@ namespace dooms
         DOOMS_ENGINE_GRAPHICS_API void BindFrameBuffer
         (
             const unsigned int renderTargetCount,
-            unsigned long long* const* renderTargetViewObject,
+            unsigned long long* const renderTargetViewObject,
             unsigned long long depthStencilViewObject
         )
         {

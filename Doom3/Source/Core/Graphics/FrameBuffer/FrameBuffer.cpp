@@ -42,10 +42,12 @@ void dooms::graphics::FrameBuffer::StaticBindFrameBuffer(const FrameBuffer* cons
 		{
 			if(GraphicsAPI::GetCurrentAPIType() == GraphicsAPI::eGraphicsAPIType::OpenGL)
 			{
-				UINT64 frameBufferID[1];
+				unsigned long long frameBufferID[1];
 				frameBufferID[0] = frameBuffer->GetFrameBufferIDForOPENGL();
 
-				dooms::graphics::GraphicsAPI::BindFrameBuffer(1, reinterpret_cast<unsigned long long* const*>(&frameBufferID), 0);
+				dooms::graphics::GraphicsAPI::BindFrameBuffer(1, reinterpret_cast<unsigned long long*>(frameBufferID), 0);
+
+				D_ASSERT(frameBuffer->mDefaultWidth != 0 && frameBuffer->mDefaultHeight != 0);
 				GraphicsAPI::SetViewport(0, 0, 0, frameBuffer->mDefaultWidth, frameBuffer->mDefaultHeight);
 
 				/*
@@ -74,7 +76,7 @@ void dooms::graphics::FrameBuffer::StaticBindFrameBuffer(const FrameBuffer* cons
 
 				const unsigned long long depthStencilView = (IsValid(frameBuffer->mAttachedDepthStencilTextureView) && frameBuffer->mAttachedDepthStencilTextureView->IsValid()) ? frameBuffer->mAttachedDepthStencilTextureView->GetViewID().GetBufferID() : 0;
 
-				dooms::graphics::GraphicsAPI::BindFrameBuffer(renderTargetViewCount, reinterpret_cast<unsigned long long* const*>(&renderTargetViewList), depthStencilView);
+				dooms::graphics::GraphicsAPI::BindFrameBuffer(renderTargetViewCount, reinterpret_cast<unsigned long long*>(renderTargetViewList), depthStencilView);
 				GraphicsAPI::SetViewport(0, 0, 0, frameBuffer->mDefaultWidth, frameBuffer->mDefaultHeight);
 			}
 			else
@@ -96,7 +98,6 @@ void dooms::graphics::FrameBuffer::StaticBindBackFrameBuffer()
 
 void dooms::graphics::FrameBuffer::BindFrameBuffer() const noexcept
 {
-	D_ASSERT(mDefaultWidth != 0 && mDefaultHeight != 0);
 	FrameBuffer::StaticBindFrameBuffer(this);
 }
 

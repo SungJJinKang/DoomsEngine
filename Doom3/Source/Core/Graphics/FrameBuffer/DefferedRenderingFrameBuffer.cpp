@@ -5,6 +5,7 @@
 #include <Rendering/Camera.h>
 
 dooms::graphics::DefferedRenderingFrameBuffer::DefferedRenderingFrameBuffer()
+	: FrameBuffer(graphicsAPISetting::GetScreenWidth(), graphicsAPISetting::GetScreenHeight())
 {
 	//with renderbuffer, can't do post-processing
 

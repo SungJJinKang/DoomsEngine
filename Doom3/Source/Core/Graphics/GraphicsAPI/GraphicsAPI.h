@@ -631,7 +631,7 @@ namespace dooms
 			typedef void (DOOMS_ENGINE_API_ENTRY_P GRAPHICS_BINDFRAMEBUFFER)
 			(
 				const unsigned int renderTargetCount,
-				unsigned long long* const* renderTargetViewObject,
+				unsigned long long* const renderTargetViewObject,
 				unsigned long long depthStencilViewObject
 			);
 			extern GRAPHICS_BINDFRAMEBUFFER BindFrameBuffer;
