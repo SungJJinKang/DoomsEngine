@@ -281,7 +281,7 @@ namespace dooms
 			typedef void (DOOMS_ENGINE_API_ENTRY_P GRAPHICS_CLEARBACKFRAMEBUFFERDEPTHSTENCILBUFFER)(const double depthValue, const int stencilValue);
 			extern GRAPHICS_CLEARBACKFRAMEBUFFERDEPTHSTENCILBUFFER ClearBackFrameBufferDepthStencilBuffer;
 
-			typedef void (DOOMS_ENGINE_API_ENTRY_P GRAPHICS_CLEARFRAMEBUFFERCOLORBUFFER)(unsigned long long bufferObject, const float r, const float g, const float b, const float a);
+			typedef void (DOOMS_ENGINE_API_ENTRY_P GRAPHICS_CLEARFRAMEBUFFERCOLORBUFFER)(unsigned long long bufferObject, const unsigned int colorTextureIndex, const float r, const float g, const float b, const float a);
 			extern GRAPHICS_CLEARFRAMEBUFFERCOLORBUFFER ClearFrameBufferColorBuffer;
 
 			typedef void (DOOMS_ENGINE_API_ENTRY_P GRAPHICS_CLEARFRAMEBUFFERDEPTHBUFFER)(unsigned long long bufferObject, const double depthValue);
@@ -632,6 +632,7 @@ namespace dooms
 			(
 				const unsigned int renderTargetCount,
 				unsigned long long* const renderTargetViewObject,
+				const unsigned int coloreTextureCount,
 				unsigned long long depthStencilViewObject
 			);
 			extern GRAPHICS_BINDFRAMEBUFFER BindFrameBuffer;

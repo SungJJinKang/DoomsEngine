@@ -1482,8 +1482,8 @@ namespace dooms
 			const void* const data
 		)
 		{
-			BindBuffer(bufferObject, 0, bindBufferTarget, GraphicsAPI::eGraphicsPipeLineStage::DUMMY);
-			glBufferSubData(opengl::GetGLBufferTarget(bindBufferTarget), offset, dataSize, data);
+			assert(bufferObject != 0);
+			glNamedBufferSubData(bufferObject, offset, dataSize, data);
 		}
 
 		DOOMS_ENGINE_GRAPHICS_API unsigned int CheckFrameBufferIsSuccesfullyCreated()
@@ -1518,11 +1518,49 @@ namespace dooms
 		(
 			const unsigned int renderTargetCount,
 			unsigned long long* const renderTargetViewObject,
+			const unsigned int coloreTextureCount,
 			unsigned long long depthStencilViewObject
 		)
 		{
 			assert(renderTargetCount == 1);
 			glBindFramebuffer(GL_FRAMEBUFFER, *renderTargetViewObject);
+
+			static unsigned int attachments[] = 
+			{
+				GL_COLOR_ATTACHMENT0,
+				GL_COLOR_ATTACHMENT1,
+				GL_COLOR_ATTACHMENT2,
+				GL_COLOR_ATTACHMENT3,
+				GL_COLOR_ATTACHMENT4,
+				GL_COLOR_ATTACHMENT5,
+				GL_COLOR_ATTACHMENT6,
+				GL_COLOR_ATTACHMENT7,
+				GL_COLOR_ATTACHMENT8,
+				GL_COLOR_ATTACHMENT9,
+				GL_COLOR_ATTACHMENT10,
+				GL_COLOR_ATTACHMENT11,
+				GL_COLOR_ATTACHMENT12,
+				GL_COLOR_ATTACHMENT13,
+				GL_COLOR_ATTACHMENT14,
+				GL_COLOR_ATTACHMENT15,
+				GL_COLOR_ATTACHMENT16,
+				GL_COLOR_ATTACHMENT17,
+				GL_COLOR_ATTACHMENT18,
+				GL_COLOR_ATTACHMENT19,
+				GL_COLOR_ATTACHMENT20,
+				GL_COLOR_ATTACHMENT21,
+				GL_COLOR_ATTACHMENT22,
+				GL_COLOR_ATTACHMENT23,
+				GL_COLOR_ATTACHMENT24,
+				GL_COLOR_ATTACHMENT25,
+				GL_COLOR_ATTACHMENT26,
+				GL_COLOR_ATTACHMENT27,
+				GL_COLOR_ATTACHMENT28,
+				GL_COLOR_ATTACHMENT29,
+				GL_COLOR_ATTACHMENT30,
+				GL_COLOR_ATTACHMENT31,
+			};
+			glDrawBuffers(coloreTextureCount, attachments);
 		}
 
 		DOOMS_ENGINE_GRAPHICS_API void BindBackBuffer()
@@ -2146,12 +2184,21 @@ namespace dooms
 			glClear(opengl::GetGLBufferBitType(GraphicsAPI::DEPTH_STENCIL_BUFFER));
 		}
 
-		DOOMS_ENGINE_GRAPHICS_API void ClearFrameBufferColorBuffer(unsigned long long bufferObject, const float r, const float g, const float b, const float a)
+		DOOMS_ENGINE_GRAPHICS_API void ClearFrameBufferColorBuffer
+		(
+			unsigned long long bufferObject, 
+			const unsigned int colorTextureIndex,
+			const float r, 
+			const float g, 
+			const float b,
+			const float a
+		)
 		{
 			assert(bufferObject != 0);
 
 			glBindFramebuffer(GL_FRAMEBUFFER, bufferObject);
 			glClearColor(r, g, b, a);
+			glNamedFramebufferDrawBuffer(bufferObject, GL_COLOR_ATTACHMENT0 + colorTextureIndex);
 			glClear(opengl::GetGLBufferBitType(GraphicsAPI::COLOR_BUFFER));
 		}
 

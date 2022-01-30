@@ -45,7 +45,7 @@ void dooms::graphics::FrameBuffer::StaticBindFrameBuffer(const FrameBuffer* cons
 				unsigned long long frameBufferID[1];
 				frameBufferID[0] = frameBuffer->GetFrameBufferIDForOPENGL();
 
-				dooms::graphics::GraphicsAPI::BindFrameBuffer(1, reinterpret_cast<unsigned long long*>(frameBufferID), 0);
+				dooms::graphics::GraphicsAPI::BindFrameBuffer(1, reinterpret_cast<unsigned long long*>(frameBufferID), frameBuffer->GetAttachedColorTextureCount(), 0);
 
 				D_ASSERT(frameBuffer->mDefaultWidth != 0 && frameBuffer->mDefaultHeight != 0);
 				GraphicsAPI::SetViewport(0, 0, 0, frameBuffer->mDefaultWidth, frameBuffer->mDefaultHeight);
@@ -76,7 +76,7 @@ void dooms::graphics::FrameBuffer::StaticBindFrameBuffer(const FrameBuffer* cons
 
 				const unsigned long long depthStencilView = (IsValid(frameBuffer->mAttachedDepthStencilTextureView) && frameBuffer->mAttachedDepthStencilTextureView->IsValid()) ? frameBuffer->mAttachedDepthStencilTextureView->GetViewID().GetBufferID() : 0;
 
-				dooms::graphics::GraphicsAPI::BindFrameBuffer(renderTargetViewCount, reinterpret_cast<unsigned long long*>(renderTargetViewList), depthStencilView);
+				dooms::graphics::GraphicsAPI::BindFrameBuffer(renderTargetViewCount, reinterpret_cast<unsigned long long*>(renderTargetViewList), frameBuffer->GetAttachedColorTextureCount(), depthStencilView);
 				GraphicsAPI::SetViewport(0, 0, 0, frameBuffer->mDefaultWidth, frameBuffer->mDefaultHeight);
 			}
 			else
@@ -399,7 +399,7 @@ dooms::asset::TextureAsset* dooms::graphics::FrameBuffer::AttachDepthStencilText
 	return depthStencilTexture;
 }
 
-size_t dooms::graphics::FrameBuffer::GetAttachedColorTextureCount()
+size_t dooms::graphics::FrameBuffer::GetAttachedColorTextureCount() const
 {
 	return mAttachedColorTextureViews.size();
 }
@@ -526,7 +526,7 @@ void dooms::graphics::FrameBuffer::ClearColorTexture
 {
 	if (GraphicsAPI::GetCurrentAPIType() == GraphicsAPI::eGraphicsAPIType::OpenGL)
 	{
-		GraphicsAPI::ClearFrameBufferColorBuffer(mFrameBufferIDForOPENGL, r, g, b, a);
+		GraphicsAPI::ClearFrameBufferColorBuffer(mFrameBufferIDForOPENGL, bindingPosition, r, g, b, a);
 	}
 	else if (GraphicsAPI::GetCurrentAPIType() == GraphicsAPI::eGraphicsAPIType::DX11_10)
 	{

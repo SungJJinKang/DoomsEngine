@@ -1057,7 +1057,15 @@ namespace dooms
             dx11::g_pImmediateContext->ClearDepthStencilView(dx11::BackBufferDepthStencilView, D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, depthValue, stencilValue);
         }
 
-        DOOMS_ENGINE_GRAPHICS_API void ClearFrameBufferColorBuffer(unsigned long long textureViewObject, const float r, const float g, const float b, const float a)
+        DOOMS_ENGINE_GRAPHICS_API void ClearFrameBufferColorBuffer
+        (
+            unsigned long long textureViewObject,
+            const unsigned int colorTextureIndex,
+            const float r,
+            const float g,
+            const float b,
+            const float a
+        )
         {
             ID3D11RenderTargetView* const renderTargetView = reinterpret_cast<ID3D11RenderTargetView*>(textureViewObject);
 
@@ -1308,6 +1316,7 @@ namespace dooms
         (
             const unsigned int renderTargetCount,
             unsigned long long* const renderTargetViewObject,
+            const unsigned int coloreTextureCount,
             unsigned long long depthStencilViewObject
         )
         {

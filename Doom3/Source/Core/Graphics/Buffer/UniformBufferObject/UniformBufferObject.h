@@ -120,10 +120,7 @@ namespace dooms
 				D_ASSERT(mUniformBufferObject.IsValid() == true);
 				if (IsBufferGenerated() == true)
 				{
-					if (D_OVERLAP_BIND_CHECK_CHECK_IS_NOT_BOUND_AND_BIND_ID(GL_UNIFORM_BUFFER_TAG, mUniformBufferObject))
-					{
-						GraphicsAPI::BindConstantBuffer(mUniformBufferObject, bindingPoint, targetPipeLineStage);
-					}
+					GraphicsAPI::BindConstantBuffer(mUniformBufferObject, bindingPoint, targetPipeLineStage);
 				}
 			}
 			
