@@ -5,16 +5,6 @@
 // global uniform buffer for shared common set of uniforms among programs
 // see: https://learnopengl.com/#!Advanced-OpenGL/Advanced-GLSL for table of std140 byte offsets
 
-struct DirectionalLight {
-	vec3 Direction;
-	vec3 Radiance;
-};
-
-struct PointLight {
-	vec3 Pos;
-	vec3 Radiance;
-};
-
 layout (std140, binding = 0) uniform Global
 {
     // trtansformations
@@ -26,8 +16,10 @@ layout (std140, binding = 0) uniform Global
     // scene
     vec3 camPos;
     // lighting
-    DirectionalLight directionalLight[5];
-    PointLight pointLight[16];
+    vec3 DirectionalLightDirection[5];
+	vec3 DirectionalLightRadiance[5];
+    vec3 PointLightPos[16];
+	vec3 PointLightRadiance[16];
     int dirLightCount;
     int pointLightCount;
     //
