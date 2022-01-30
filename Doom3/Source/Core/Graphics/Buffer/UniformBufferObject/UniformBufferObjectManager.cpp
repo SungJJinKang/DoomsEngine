@@ -85,7 +85,7 @@ dooms::graphics::UniformBufferObject* dooms::graphics::UniformBufferObjectManage
 {
 	dooms::graphics::UniformBufferObject* ubo = nullptr;
 
-	D_ASSERT(mUniformBufferObjects.find(uniformBufferName) == mUniformBufferObjects.end());
+	//D_ASSERT(mUniformBufferObjects.find(uniformBufferName) == mUniformBufferObjects.end());
 	auto node = mUniformBufferObjects.find(uniformBufferName);
 	if(node == mUniformBufferObjects.end())
 	{

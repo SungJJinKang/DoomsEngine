@@ -49,12 +49,12 @@ namespace dooms
 			UINT32 mDefaultBindingPoint;
 			
 			D_PROPERTY()
-			char* mUniformBufferTempData;
+			std::unique_ptr<UINT8[]> mUniformBufferTempData;
 
 			/**
 			 * \brief Key : Uniform Variable Name, Value : Offset
 			 */
-			std::unordered_map<std::string, UINT64> mUniformVariableOffset;
+			std::unordered_map<std::string, asset::shaderReflectionDataParser::UniformBufferMember> mUniformVariableInfos;
 			void InitializeUniformVariableOffset(const std::vector<asset::shaderReflectionDataParser::UniformBufferMember>& uboMembers);
 
 			void GenerateUniformBufferObject(const UINT64 uniformBufferSize, const void* const initialData = 0);
@@ -100,14 +100,14 @@ namespace dooms
 				size_t offset = 0;
 
 				D_ASSERT(IsBufferGenerated() == true);
-				auto node = mUniformVariableOffset.find(targetVariableName);
+				auto node = mUniformVariableInfos.find(targetVariableName);
 
 				D_DEBUG_LOG(eLogType::D_ERROR, "Fail to find uniform variable ( %s ) from uniform buffer object ( %s )", targetVariableName, GetUniformBlockName().c_str());
-				D_ASSERT(node != mUniformVariableOffset.end());
+				D_ASSERT(node != mUniformVariableInfos.end());
 
-				if(node != mUniformVariableOffset.end())
+				if(node != mUniformVariableInfos.end())
 				{
-					offset = node->second;
+					offset = node->second.mOffset;
 				}
 				return offset;
 			}

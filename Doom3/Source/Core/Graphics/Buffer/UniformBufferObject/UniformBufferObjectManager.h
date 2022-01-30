@@ -26,6 +26,7 @@ namespace dooms
 			/// </summary>
 			//D_PROPERTY()
 
+			D_PROPERTY()
 			std::unordered_map<std::string, UniformBufferObject*> mUniformBufferObjects;
 
 			D_PROPERTY()
