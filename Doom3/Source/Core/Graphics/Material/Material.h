@@ -85,7 +85,9 @@ namespace dooms
 
 			bool AttachShaderToMaterial(dooms::asset::ShaderAsset* const shaderAsset, const dooms::graphics::GraphicsAPI::eGraphicsPipeLineStage shaderType);
 			void OnSetPendingKill() override;
-			
+
+			UniformBufferObjectView* AddUniformBufferObjectView(UniformBufferObject* const ubo, const GraphicsAPI::eGraphicsPipeLineStage targetPipeLineStage);
+
 		public:
 
 			Material();
@@ -146,6 +148,7 @@ namespace dooms
 				return uboView;
 			}
 			UniformBufferObjectView* GetUniformBufferObjectViewFromUBOName(const char* const uniformBufferObjectName);
+
 		};
 	}
 }

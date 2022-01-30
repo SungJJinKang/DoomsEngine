@@ -80,7 +80,7 @@ namespace dooms
 			UniformBufferObject(UniformBufferObject&&) noexcept = default;
 			UniformBufferObject& operator=(const UniformBufferObject&) = delete;
 			UniformBufferObject& operator=(UniformBufferObject&&) noexcept = default;
-
+			
 			bool InitializeUniformBufferObject
 			(
 				const std::string& uniformBlockName,
@@ -92,6 +92,9 @@ namespace dooms
 
 			std::string GetUniformBlockName();
 			const std::string& GetUniformBlockName() const;
+			UINT64 GetUniformBufferSize() const;
+			UINT32 GetDefaultBindingPoint() const;
+			
 
 			void DeleteBuffers() final;
 
@@ -166,6 +169,8 @@ namespace dooms
 			);
 		
 			bool IsBufferGenerated() const final;
+
+
 		};
 	}
 }

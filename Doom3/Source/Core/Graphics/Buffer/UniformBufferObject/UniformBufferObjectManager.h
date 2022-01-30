@@ -47,7 +47,7 @@ namespace dooms
 			void UpdateUniformObjects();
 			
 			UniformBufferObject* GetUniformBufferObject(const std::string& uniformBufferName);
-			UniformBufferObject* GenerateUniformBufferObjectIfNotExist
+			UniformBufferObject* GetOrGenerateUniformBufferObjectIfNotExist
 			(
 				const std::string& uniformBufferName,
 				const UINT64 uniformBufferSize,

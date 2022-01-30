@@ -57,7 +57,6 @@ dooms::graphics::UniformBufferObject::~UniformBufferObject()
 	DeleteBuffers();
 }
 
-
 bool dooms::graphics::UniformBufferObject::InitializeUniformBufferObject
 (
 	const std::string& uniformBlockName,
@@ -97,6 +96,16 @@ std::string dooms::graphics::UniformBufferObject::GetUniformBlockName()
 const std::string& dooms::graphics::UniformBufferObject::GetUniformBlockName() const
 {
 	return mUniformBlockName;
+}
+
+UINT64 dooms::graphics::UniformBufferObject::GetUniformBufferSize() const
+{
+	return mUniformBufferSize;
+}
+
+UINT32 dooms::graphics::UniformBufferObject::GetDefaultBindingPoint() const
+{
+	return mDefaultBindingPoint;
 }
 
 void dooms::graphics::UniformBufferObject::GenerateUniformBufferObject(const UINT64 uniformBufferSize, const void* const initialData)

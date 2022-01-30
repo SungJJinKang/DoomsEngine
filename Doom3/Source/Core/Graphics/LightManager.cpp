@@ -7,6 +7,7 @@ void dooms::graphics::LightManager::UpdateUniformBufferObject(const bool force)
 {
 	if (force || (bmIsAmbientLightIntensityDirty == true))
 	{
+		D_ASSERT(dooms::graphics::UniformBufferObjectManager::GetSingleton()->GetUniformBufferObject(LIGHT_DATA_CONSTANT_BUFFER_NAME)->GetUniformVariableOffset("ambientLightIntensity") == graphics::eUniformBlock_Global::ambientLightIntensity);
 		dooms::graphics::UniformBufferObjectManager::GetSingleton()->GetUniformBufferObject(LIGHT_DATA_CONSTANT_BUFFER_NAME)->UpdateDataToGPU((void*)&mAmbientLightIntensity, sizeof(FLOAT32), graphics::eUniformBlock_Global::ambientLightIntensity);
 		bmIsAmbientLightIntensityDirty = false;
 	}

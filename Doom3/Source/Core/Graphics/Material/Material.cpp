@@ -67,6 +67,13 @@ bool Material::AttachShaderToMaterial(dooms::asset::ShaderAsset* const shaderAss
 	if (isSuccess == true)
 	{
 		mShaderAsset[shaderType] = shaderAsset;
+
+		const std::vector<dooms::graphics::UniformBufferObject*>& containedUBO = shaderAsset->GetContainedUniformBufferObject();
+		for(dooms::graphics::UniformBufferObject* ubo : containedUBO)
+		{
+			AddUniformBufferObjectView(ubo, shaderType);
+		}
+
 		mMaterialStatus = eStatus::SUCCESS;
 	}
 	else
@@ -100,6 +107,7 @@ void Material::SetShaderAsset(dooms::asset::ShaderAsset* const shaderAsset, cons
 
 void Material::SetShaderAsset(const std::array<dooms::asset::ShaderAsset*, GRAPHICS_PIPELINE_STAGE_COUNT>& shaderAssets)
 {
+	mTargetUniformBufferObjectViews.clear();
 	for(size_t shaderTypeIndex = 0 ; shaderTypeIndex < GRAPHICS_PIPELINE_STAGE_COUNT ; shaderTypeIndex++)
 	{
 		SetShaderAsset(shaderAssets[shaderTypeIndex], static_cast<dooms::graphics::GraphicsAPI::eGraphicsPipeLineStage>(shaderTypeIndex));
@@ -212,6 +220,8 @@ void Material::DestroyMaterialObjectIfExist()
 		}
 	}
 
+	mTargetUniformBufferObjectViews.clear();
+
 	mMaterialStatus = eStatus::READY;
 }
 
@@ -240,6 +250,23 @@ void Material::OnSetPendingKill()
 	DObject::OnSetPendingKill();
 
 	DestroyMaterialObjectIfExist();
+}
+
+UniformBufferObjectView* Material::AddUniformBufferObjectView
+(
+	UniformBufferObject* const ubo,
+	const GraphicsAPI::eGraphicsPipeLineStage targetPipeLineStage
+)
+{
+	UniformBufferObjectView& uboView = mTargetUniformBufferObjectViews.emplace_back
+	(
+		this,
+		ubo,
+		ubo->GetDefaultBindingPoint(),
+		targetPipeLineStage
+	);
+
+	return &uboView;
 }
 
 
@@ -330,6 +357,8 @@ UniformBufferObjectView* Material::GetUniformBufferObjectViewFromUBOName(const c
 			}
 		}
 	}
+
+	D_ASSERT(IsValid(uboView));
 
 	return uboView;
 }

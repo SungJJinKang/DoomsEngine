@@ -56,7 +56,7 @@ namespace dooms
 
 			if (IsValid(mTargetMaterial))
 			{
-				GetMaterial()->GetUniformBufferObjectViewFromUBOName(0)->SetMat4x4(graphics::eUniformLocation::ModelMatrix, GetTransform()->GetModelMatrix());
+				GetMaterial()->GetUniformBufferObjectViewFromUBOName("ModelData")->SetMat4x4(graphics::eUniformLocation::ModelMatrix, GetTransform()->GetModelMatrix());
 			}
 			if (IsValid(mTargetMesh))
 			{
