@@ -56,8 +56,8 @@ void dooms::PointLight::UpdateUniformBufferObject(const bool force)
 
 				if (IsValid(ubo))
 				{
-					ubo->UpdateDataToGPU((void*)pos.data(), graphics::eUniformBlock_Global::pointLight0_Pos + 32 * staticIndex, sizeof(pos));
-					ubo->UpdateDataToGPU((void*)radiance.data(), graphics::eUniformBlock_Global::pointLight0_Col + 32 * staticIndex, sizeof(radiance));
+					ubo->UpdateDataToGPU((void*)pos.data(), graphics::eUniformBlock_Global::pointLight0_Pos + 4 * staticIndex, sizeof(pos));
+					ubo->UpdateDataToGPU((void*)radiance.data(), graphics::eUniformBlock_Global::pointLight0_Col + 4 * staticIndex, sizeof(radiance));
 					ubo->UpdateDataToGPU((void*)&staticCount, graphics::eUniformBlock_Global::pointLightCount, sizeof(staticCount));
 				}
 			}
