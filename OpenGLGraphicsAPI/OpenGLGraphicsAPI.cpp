@@ -1526,7 +1526,7 @@ namespace dooms
 
 		DOOMS_ENGINE_GRAPHICS_API void BindBackBuffer()
 		{
-			
+			glBindFramebuffer(GL_FRAMEBUFFER, 0);
 		}
 
 		
@@ -2118,24 +2118,28 @@ namespace dooms
 
 		DOOMS_ENGINE_GRAPHICS_API void ClearBackFrameBufferColorBuffer(const float r, const float g, const float b, const float a)
 		{
+			BindBackBuffer();
 			glClearColor(r, g, b, a);
 			glClear(opengl::GetGLBufferBitType(GraphicsAPI::COLOR_BUFFER));
 		}
 
 		DOOMS_ENGINE_GRAPHICS_API void ClearBackFrameBufferDepthBuffer(const double depthValue)
 		{
+			BindBackBuffer();
 			glClearDepth(depthValue);
 			glClear(opengl::GetGLBufferBitType(GraphicsAPI::DEPTH_BUFFER));
 		}
 
 		DOOMS_ENGINE_GRAPHICS_API void ClearBackFrameBufferStencilBuffer(const int stencilValue)
 		{
+			BindBackBuffer();
 			glClearStencil(stencilValue);
 			glClear(opengl::GetGLBufferBitType(GraphicsAPI::STENCIL_BUFFER));
 		}
 
 		DOOMS_ENGINE_GRAPHICS_API void ClearBackFrameBufferDepthStencilBuffer(const double depthValue, const int stencilValue)
 		{
+			BindBackBuffer();
 			glClearDepth(depthValue);
 			glClearStencil(stencilValue);
 			glClear(opengl::GetGLBufferBitType(GraphicsAPI::DEPTH_STENCIL_BUFFER));
