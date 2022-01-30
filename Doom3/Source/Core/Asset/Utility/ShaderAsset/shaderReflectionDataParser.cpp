@@ -159,10 +159,33 @@ dooms::asset::shaderReflectionDataParser::ShaderReflectionData dooms::asset::sha
 					input.mID = inputElement["id"];
 					input.mName = inputElement["name"];
 					input.mLocation = inputElement["location"];
-					input.mSemanticType = ConvertStringToeHlslSemantic(inputElement["semantic"]);
-					input.mSemanticIndex = inputElement["semantic_index"];
-					input.mType = ConvertStringToeShaderVariableType(inputElement["type"]);
+					if(inputElement.find("semantic") != inputElement.end())
+					{
+						input.mSemanticType = ConvertStringToeHlslSemantic(inputElement["semantic"]);
+					}
+					else
+					{
+						input.mSemanticType = eHlslSemantic::UNKNOWN;
+					}
 
+					if (inputElement.find("semantic_index") != inputElement.end())
+					{
+						input.mSemanticIndex = inputElement["semantic_index"];
+					}
+					else
+					{
+						input.mSemanticIndex = 0;
+					}
+
+					if (inputElement.find("type") != inputElement.end())
+					{
+						input.mType = ConvertStringToeShaderVariableType(inputElement["type"]);
+					}
+					else
+					{
+						input.mType = eShaderVariableType::UNKNOWN;
+					}
+					
 					shaderReflectionData.mInputVariables.emplace_back(std::move(input));
 				}
 			}
@@ -216,6 +239,43 @@ dooms::asset::shaderReflectionDataParser::ShaderReflectionData dooms::asset::sha
 					}
 
 					shaderReflectionData.mUniformBuffers.emplace_back(std::move(uniformBuffer));
+				}
+			}
+
+			if (p->find("textures") != p->end())
+			{
+				for (auto& textureElement : p.value()["textures"])
+				{
+					TextureData textureData{};
+					textureData.mID = textureElement["id"];
+					textureData.mName = textureElement["name"];
+					textureData.mSet = textureElement["set"];
+					textureData.mBindingPoint = textureElement["binding"];
+
+					if (textureElement["dimension"] == "1d")
+					{
+						textureData.mDimension = eTextureDimensionType::DIMENSION_1D;
+					}
+					else if(textureElement["dimension"] == "2d")
+					{
+						textureData.mDimension = eTextureDimensionType::DIMENSION_2D;
+					}
+					else if (textureElement["dimension"] == "3d")
+					{
+						textureData.mDimension = eTextureDimensionType::DIMENSION_3D;
+					}
+					else if (textureElement["dimension"] == "cube")
+					{
+						textureData.mDimension = eTextureDimensionType::DIMENSION_CUBE;
+					}
+					else
+					{
+						D_ASSERT(false);
+					}
+
+					textureData.mFormat = textureElement["format"];
+
+					shaderReflectionData.mTextureDatas.emplace_back(std::move(textureData));
 				}
 			}
 		}

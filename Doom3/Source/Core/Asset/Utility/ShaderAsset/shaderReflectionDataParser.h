@@ -102,13 +102,13 @@ namespace dooms
 				eShaderVariableType mType;
 
 				D_PROPERTY()
-				UINT32 mOffset;
+				UINT64 mOffset;
 
 				D_PROPERTY()
-				UINT32 mSize;
+				UINT64 mSize;
 
 				D_PROPERTY()
-				UINT32 mArrayLength;
+				UINT64 mArrayLength;
 			};
 
 			struct D_STRUCT UniformBuffer // OPENGL : Uniform Buffer, DirectX : ConstantBuffer
@@ -126,10 +126,39 @@ namespace dooms
 				UINT32 mBindingPoint;
 
 				D_PROPERTY()
-				UINT32 mBlockSize;
+				UINT64 mBlockSize;
 
 				D_PROPERTY()
 				std::vector<UniformBufferMember> mMembers;
+			};
+
+			enum class D_ENUM eTextureDimensionType
+			{
+				DIMENSION_1D,
+				DIMENSION_2D,
+				DIMENSION_3D,
+				DIMENSION_CUBE
+			};
+
+			struct D_STRUCT TextureData // OPENGL : Uniform Buffer, DirectX : ConstantBuffer
+			{
+				D_PROPERTY()
+					UINT32 mID;	
+
+				D_PROPERTY()
+				std::string mName;
+
+				D_PROPERTY()
+				UINT32 mSet;
+
+				D_PROPERTY()
+				UINT32 mBindingPoint;
+
+				D_PROPERTY()
+				eTextureDimensionType mDimension;
+
+				D_PROPERTY()
+				std::string mFormat;
 			};
 
 			struct D_STRUCT ShaderReflectionData
@@ -143,6 +172,7 @@ namespace dooms
 				std::vector<ShaderInputType> mInputVariables;
 				std::vector<ShaderOutputType> mOutputVariables;
 				std::vector<UniformBuffer> mUniformBuffers;
+				std::vector<TextureData> mTextureDatas;
 				
 				void Clear();
 			};
