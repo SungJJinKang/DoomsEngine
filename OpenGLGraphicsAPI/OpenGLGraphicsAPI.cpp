@@ -1560,7 +1560,7 @@ namespace dooms
 				GL_COLOR_ATTACHMENT30,
 				GL_COLOR_ATTACHMENT31,
 			};
-			glDrawBuffers(coloreTextureCount, attachments);
+			glNamedFramebufferDrawBuffers(*renderTargetViewObject, coloreTextureCount, attachments);
 		}
 
 		DOOMS_ENGINE_GRAPHICS_API void BindBackBuffer()

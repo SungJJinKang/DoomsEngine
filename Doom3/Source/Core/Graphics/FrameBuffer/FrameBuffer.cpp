@@ -31,62 +31,59 @@ dooms::graphics::BufferID dooms::graphics::FrameBuffer::GetFrameBufferIDForOPENG
 
 void dooms::graphics::FrameBuffer::StaticBindFrameBuffer(const FrameBuffer* const frameBuffer)
 {
-	if (D_OVERLAP_BIND_CHECK_CHECK_IS_NOT_BOUND_AND_BIND_ID(FRAMEBUFFER_TAG, (frameBuffer != nullptr) ? reinterpret_cast<UINT64>(frameBuffer) : 0))
+	FrameBuffer::PreviousFrameBuffer = CurrentFrameBuffer;
+	if (frameBuffer == nullptr)
 	{
-		FrameBuffer::PreviousFrameBuffer = CurrentFrameBuffer;
-		if (frameBuffer == nullptr)
+		StaticBindBackFrameBuffer();
+	}
+	else
+	{
+		if (GraphicsAPI::GetCurrentAPIType() == GraphicsAPI::eGraphicsAPIType::OpenGL)
 		{
-			StaticBindBackFrameBuffer();
+			unsigned long long frameBufferID[1];
+			frameBufferID[0] = frameBuffer->GetFrameBufferIDForOPENGL();
+
+			dooms::graphics::GraphicsAPI::BindFrameBuffer(1, reinterpret_cast<unsigned long long*>(frameBufferID), frameBuffer->GetAttachedColorTextureCount(), 0);
+
+			D_ASSERT(frameBuffer->mDefaultWidth != 0 && frameBuffer->mDefaultHeight != 0);
+			GraphicsAPI::SetViewport(0, 0, 0, frameBuffer->mDefaultWidth, frameBuffer->mDefaultHeight);
+
+			/*
+			std::vector< GraphicsAPI::eBufferMode> drawBufferModes;
+			drawBufferModes.reserve(10);
+			for(dooms::graphics::FrameBufferView* frameBufferView : frameBuffer->mAttachedColorTextureViews)
+			{
+				const INT32 bindingPosition = frameBufferView->GetBindingPosition();
+				D_ASSERT(bindingPosition >= 0);
+				drawBufferModes.emplace_back((GraphicsAPI::eBufferMode)(GraphicsAPI::eBufferMode::COLOR_ATTACHMENT0 + bindingPosition));
+			}
+			GraphicsAPI::SetDrawBuffers(drawBufferModes.size(), drawBufferModes.data());
+			*/
+
+		}
+		else if (GraphicsAPI::GetCurrentAPIType() == GraphicsAPI::eGraphicsAPIType::DX11_10)
+		{
+			unsigned long long renderTargetViewList[15];
+			INT32 renderTargetViewCount = 0;
+			for (FrameBufferView* renderTargetView : frameBuffer->mAttachedColorTextureViews)
+			{
+				assert(renderTargetView->GetBindingPosition() < 10);
+				renderTargetViewList[renderTargetView->GetBindingPosition()] = renderTargetView->GetViewID();
+				renderTargetViewCount = math::Max(renderTargetViewCount, renderTargetView->GetBindingPosition());
+			}
+
+			const unsigned long long depthStencilView = (IsValid(frameBuffer->mAttachedDepthStencilTextureView) && frameBuffer->mAttachedDepthStencilTextureView->IsValid()) ? frameBuffer->mAttachedDepthStencilTextureView->GetViewID().GetBufferID() : 0;
+
+			dooms::graphics::GraphicsAPI::BindFrameBuffer(renderTargetViewCount, reinterpret_cast<unsigned long long*>(renderTargetViewList), frameBuffer->GetAttachedColorTextureCount(), depthStencilView);
+			GraphicsAPI::SetViewport(0, 0, 0, frameBuffer->mDefaultWidth, frameBuffer->mDefaultHeight);
 		}
 		else
 		{
-			if(GraphicsAPI::GetCurrentAPIType() == GraphicsAPI::eGraphicsAPIType::OpenGL)
-			{
-				unsigned long long frameBufferID[1];
-				frameBufferID[0] = frameBuffer->GetFrameBufferIDForOPENGL();
-
-				dooms::graphics::GraphicsAPI::BindFrameBuffer(1, reinterpret_cast<unsigned long long*>(frameBufferID), frameBuffer->GetAttachedColorTextureCount(), 0);
-
-				D_ASSERT(frameBuffer->mDefaultWidth != 0 && frameBuffer->mDefaultHeight != 0);
-				GraphicsAPI::SetViewport(0, 0, 0, frameBuffer->mDefaultWidth, frameBuffer->mDefaultHeight);
-
-				/*
-				std::vector< GraphicsAPI::eBufferMode> drawBufferModes;
-				drawBufferModes.reserve(10);
-				for(dooms::graphics::FrameBufferView* frameBufferView : frameBuffer->mAttachedColorTextureViews)
-				{
-					const INT32 bindingPosition = frameBufferView->GetBindingPosition();
-					D_ASSERT(bindingPosition >= 0);
-					drawBufferModes.emplace_back((GraphicsAPI::eBufferMode)(GraphicsAPI::eBufferMode::COLOR_ATTACHMENT0 + bindingPosition));
-				}
-				GraphicsAPI::SetDrawBuffers(drawBufferModes.size(), drawBufferModes.data());
-				*/
-				
-			}
-			else if (GraphicsAPI::GetCurrentAPIType() == GraphicsAPI::eGraphicsAPIType::DX11_10)
-			{
-				unsigned long long renderTargetViewList[15];
-				INT32 renderTargetViewCount = 0;
-				for (FrameBufferView* renderTargetView : frameBuffer->mAttachedColorTextureViews)
-				{
-					assert(renderTargetView->GetBindingPosition() < 10);
-					renderTargetViewList[renderTargetView->GetBindingPosition()] = renderTargetView->GetViewID();
-					renderTargetViewCount = math::Max(renderTargetViewCount, renderTargetView->GetBindingPosition());
-				}
-
-				const unsigned long long depthStencilView = (IsValid(frameBuffer->mAttachedDepthStencilTextureView) && frameBuffer->mAttachedDepthStencilTextureView->IsValid()) ? frameBuffer->mAttachedDepthStencilTextureView->GetViewID().GetBufferID() : 0;
-
-				dooms::graphics::GraphicsAPI::BindFrameBuffer(renderTargetViewCount, reinterpret_cast<unsigned long long*>(renderTargetViewList), frameBuffer->GetAttachedColorTextureCount(), depthStencilView);
-				GraphicsAPI::SetViewport(0, 0, 0, frameBuffer->mDefaultWidth, frameBuffer->mDefaultHeight);
-			}
-			else
-			{
-				D_ASSERT(0);
-			}
-	
+			D_ASSERT(0);
 		}
-		FrameBuffer::CurrentFrameBuffer = frameBuffer;
+
 	}
+	FrameBuffer::CurrentFrameBuffer = frameBuffer;
 }
 
 void dooms::graphics::FrameBuffer::StaticBindBackFrameBuffer()

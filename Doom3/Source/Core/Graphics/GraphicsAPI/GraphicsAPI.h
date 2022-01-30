@@ -67,10 +67,10 @@ namespace dooms
 
 			enum eBufferBitType : unsigned int
 			{
-				COLOR_BUFFER = 0x00, // = GL_COLOR_BUFFER_BIT,
-				DEPTH_BUFFER = 0x01, // = GL_DEPTH_BUFFER_BIT,
-				STENCIL_BUFFER = 0x02, // = GL_DEPTH_BUFFER_BIT,
-				DEPTH_STENCIL_BUFFER = 0x03 // = GL_STENCIL_BUFFER_BIT
+				COLOR_BUFFER = 0x01, // = GL_COLOR_BUFFER_BIT,
+				DEPTH_BUFFER = 0x02, // = GL_DEPTH_BUFFER_BIT,
+				STENCIL_BUFFER = 0x03, // = GL_DEPTH_BUFFER_BIT,
+				DEPTH_STENCIL_BUFFER = 0x04 // = GL_STENCIL_BUFFER_BIT
 			};
 
 			enum eBufferType : unsigned int
