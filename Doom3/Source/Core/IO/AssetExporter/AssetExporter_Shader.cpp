@@ -8,6 +8,8 @@
 #define GLSL_ENGINE_SHADER_TEXT_FILE_EXTENSION "glsl.shader"
 #define HLSL_ENGINE_SHADER_TEXT_FILE_EXTENSION "hlsl.shader"
 
+#define GLSL_PROFILE_VERSION "420"
+
 namespace dooms::assetExporter::assetExporterShader
 {
 	static SmartDynamicLinking _SmartDynamicLinking{  };
@@ -35,6 +37,7 @@ bool dooms::assetExporter::assetExporterShader::GenerateEngineShaderFiles
 			glslccArgvs.push_back("--output=" + outPutPath.generic_u8string());
 
 			glslccArgvs.push_back("--lang=glsl");
+			glslccArgvs.push_back(std::string{ "--profile=" } + GLSL_PROFILE_VERSION);
 		}
 		else if (toShaderTextGraphisAPIType == graphics::GraphicsAPI::eGraphicsAPIType::DX11_10)
 		{
