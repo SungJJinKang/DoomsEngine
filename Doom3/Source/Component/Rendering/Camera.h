@@ -135,12 +135,15 @@ namespace dooms
 		Camera& operator=(const Camera&) = delete;
 		Camera& operator=(Camera&&) noexcept = delete;
 
+		D_PROPERTY()
 		graphics::DefferedRenderingFrameBuffer mDefferedRenderingFrameBuffer;
 
+		D_PROPERTY()
 		UINT32 CameraIndexInCullingSystem;
 
 		static constexpr UINT32 DEFAULT_CAMERA_FLAG = eCameraFlag::IS_CULLED;
 
+		D_PROPERTY()
 		UINT32 mCameraFlag = DEFAULT_CAMERA_FLAG;
 
 		Camera();

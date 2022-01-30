@@ -78,7 +78,7 @@ namespace dooms
 			std::array<dooms::asset::ShaderAsset*, GRAPHICS_PIPELINE_STAGE_COUNT> mShaderAsset;
 
 			D_PROPERTY()
-			std::vector<const TextureView*> mTargetTextures{ nullptr };
+			std::vector<const TextureView*> mTargetTextures{};
 
 			D_PROPERTY()
 			std::vector<UniformBufferObjectView> mTargetUniformBufferObjectViews;

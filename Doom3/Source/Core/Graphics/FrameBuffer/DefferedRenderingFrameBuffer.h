@@ -1,7 +1,8 @@
 #pragma once
 
-#include "FrameBuffer.h"
+#include <array>
 
+#include "FrameBuffer.h"
 #include <Vector4.h>
 
 #include "DefferedRenderingFrameBuffer.reflection.h"
@@ -18,6 +19,9 @@ namespace dooms
 			
 
 		private:
+
+			D_PROPERTY()
+			std::array<TextureView*, 3> TextureViews;
 
 		public:
 

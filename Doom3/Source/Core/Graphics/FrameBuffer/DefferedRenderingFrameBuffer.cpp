@@ -4,6 +4,8 @@
 #include "../GraphicsAPI/graphicsAPISetting.h"
 #include <Rendering/Camera.h>
 
+#include "Graphics/Texture/TextureView.h"
+
 dooms::graphics::DefferedRenderingFrameBuffer::DefferedRenderingFrameBuffer()
 	: FrameBuffer(graphicsAPISetting::GetScreenWidth(), graphicsAPISetting::GetScreenHeight())
 {
@@ -20,6 +22,13 @@ dooms::graphics::DefferedRenderingFrameBuffer::DefferedRenderingFrameBuffer()
 	
 	//Depth
 	FrameBuffer::AttachDepthTextureToFrameBuffer(graphicsAPISetting::GetScreenWidth(), graphicsAPISetting::GetScreenHeight());
+
+	for (UINT32 i = 0; i < 3; i++)
+	{
+		TextureView* const textureView = FrameBuffer::GetColorTextureView(i, graphics::GraphicsAPI::eGraphicsPipeLineStage::PIXEL_SHADER);
+		D_ASSERT(IsValid(textureView));
+		TextureViews[i] = textureView;
+	}
 	
 }
 
@@ -31,7 +40,11 @@ void dooms::graphics::DefferedRenderingFrameBuffer::BlitDepthBufferToScreenBuffe
 
 void dooms::graphics::DefferedRenderingFrameBuffer::BindGBufferTextures()
 {
-	BindFrameBuffer();
+	for (UINT32 i = 0; i < 3; i++)
+	{
+		D_ASSERT(IsValid(TextureViews[i]));
+		TextureViews[i]->BindTexture(i, graphics::GraphicsAPI::eGraphicsPipeLineStage::PIXEL_SHADER);
+	}
 }
 
 void dooms::graphics::DefferedRenderingFrameBuffer::ClearFrameBuffer(const Camera* const camera)
