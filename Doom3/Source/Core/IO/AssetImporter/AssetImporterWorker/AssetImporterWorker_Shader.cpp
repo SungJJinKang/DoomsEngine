@@ -44,7 +44,6 @@ bool dooms::assetImporter::AssetImporterWorker_Shader::IsEssentialEngineShaderFi
 
 		isEngineShaderFilesExist &= std::filesystem::exists(targetEngineShaderFilePath);
 		
-		D_ASSERT_LOG(isEngineShaderFilesExist == true, "Essential engine shader file doesn't exist ( Shader Type : %s, Shader File Type : %s )", magic_enum::enum_name(essentialPipeLineStages[i]).data(), magic_enum::enum_name(essentialEngineShaderFileType[i]).data());
 		if(isEngineShaderFilesExist == false)
 		{
 			dooms::ui::PrintText("Essential engine shader file doesn't exist ( Shader Type : %s, Shader File Type : %s )", magic_enum::enum_name(essentialPipeLineStages[i]).data(), magic_enum::enum_name(essentialEngineShaderFileType[i]).data());

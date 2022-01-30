@@ -120,14 +120,10 @@ bool dooms::assetImporter::ImportAssetJob(std::filesystem::path path, dooms::ass
 	{
 		isSuccess = importerWorker->ImportSpecificAsset(path, asset);
 	}
-	catch (...)
+	catch (std::exception e)
 	{
-		
-
-		std::exception_ptr p = std::current_exception();
-		//std::clog << (p ? p._Current_exception(name() : "null") << std::endl;
-
-		D_ASSERT(false);
+		D_ASSERT_LOG(false, e.what());
+		dooms::ui::PrintText(e.what());
 	}
 
 
