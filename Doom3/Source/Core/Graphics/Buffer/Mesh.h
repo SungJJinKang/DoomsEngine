@@ -115,9 +115,9 @@ namespace dooms
 			Mesh();
 			virtual ~Mesh();
 			
-			Mesh(const long long int dataCount, const void* data, GraphicsAPI::ePrimitiveType primitiveType, UINT32 vertexArrayFlag) noexcept;
-			Mesh(const ThreeDModelMesh& threeDModelMesh) noexcept;
-			Mesh& operator=(const ThreeDModelMesh& threeDModelMesh) noexcept;
+			Mesh(const long long int dataCount, const void* data, GraphicsAPI::ePrimitiveType primitiveType, UINT32 vertexArrayFlag);
+			Mesh(const ThreeDModelMesh& threeDModelMesh);
+			Mesh& operator=(const ThreeDModelMesh& threeDModelMesh);
 
 			Mesh(const Mesh&) = delete;
 			Mesh& operator=(const Mesh&) = delete;

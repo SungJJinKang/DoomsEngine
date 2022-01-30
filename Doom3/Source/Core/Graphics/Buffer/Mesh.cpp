@@ -23,14 +23,22 @@ dooms::graphics::Mesh::Mesh
 	const void* data, 
 	GraphicsAPI::ePrimitiveType primitiveType,
 	UINT32 vertexArrayFlag
-) noexcept
-	: Buffer(), mTargetThreeDModelMesh{ nullptr }, mVertexArrayObjectID{ }, mElementBufferObjectID{ }
+)
+	:
+	Buffer(),
+	mVertexDataBuffer{},
+	mVertexArrayObjectID{},
+	mElementBufferObjectID{},
+	mTargetThreeDModelMesh{ nullptr },
+	mNumOfVertices{ 0 },
+	mNumOfIndices{ 0 },
+	mPrimitiveType{ GraphicsAPI::ePrimitiveType::NONE }
 {
 	CreateBufferObject(dataCount, data, primitiveType, vertexArrayFlag);
 }
 
 
-dooms::graphics::Mesh::Mesh(const ThreeDModelMesh& threeDModelMesh) noexcept
+dooms::graphics::Mesh::Mesh(const ThreeDModelMesh& threeDModelMesh)
 	:
 	Buffer(),
 	mVertexDataBuffer{},
@@ -99,12 +107,10 @@ void dooms::graphics::Mesh::DeleteBuffers()
 	}
 }
 
-dooms::graphics::Mesh& dooms::graphics::Mesh::operator=(const ThreeDModelMesh& threeDModelMesh) noexcept
+dooms::graphics::Mesh& dooms::graphics::Mesh::operator=(const ThreeDModelMesh& threeDModelMesh)
 {
 	DeleteBuffers();
-
-	mTargetThreeDModelMesh = &threeDModelMesh;
-
+	
 	CreateBufferObjectFromModelMesh(threeDModelMesh);
 	return *this;
 }
@@ -295,6 +301,7 @@ void dooms::graphics::Mesh::CreateBufferObjectFromModelMesh(const ThreeDModelMes
 
 		D_ASSERT(mPrimitiveType != GraphicsAPI::ePrimitiveType::NONE);
 
+		mTargetThreeDModelMesh = &threeDModelMesh;
 	}
 }
 
