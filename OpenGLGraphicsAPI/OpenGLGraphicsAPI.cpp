@@ -1430,7 +1430,7 @@ namespace dooms
 			const void* const initialData
 		)
 		{
-			unsigned long long bufferID;
+			unsigned long long bufferID = 0;
 			glGenBuffers(1, reinterpret_cast<unsigned int*>(&bufferID));
 
 			BindBuffer(bufferID, 0, bufferTarget, GraphicsAPI::eGraphicsPipeLineStage::DUMMY);
