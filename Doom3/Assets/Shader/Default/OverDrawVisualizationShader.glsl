@@ -5,7 +5,7 @@
 // global uniform buffer for shared common set of uniforms among programs
 // see: https://learnopengl.com/#!Advanced-OpenGL/Advanced-GLSL for table of std140 byte offsets
 
-layout (std140, binding = 0) uniform Global
+layout(binding = 0, std140) uniform Global
 {
     // trtansformations
     mat4 viewProjection;
@@ -32,7 +32,7 @@ layout (std140, binding = 0) uniform Global
 
 layout(location = 0) in vec3 aPos;
 
-layout(set=0, binding = 0) uniform ModelData
+layout(binding = 1, std140) uniform ModelData
 {
 	mat4 model;
 };

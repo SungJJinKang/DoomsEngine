@@ -30,7 +30,7 @@ layout(binding=0) uniform sampler2D ColorTexture;
 // see: https://learnopengl.com/#!Advanced-OpenGL/Advanced-GLSL for table of std140 byte offsets
 
 
-layout (std140, binding = 0) uniform Global
+layout(binding = 0, std140) uniform Global
 {
     // trtansformations
     mat4 viewProjection;

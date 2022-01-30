@@ -12,7 +12,7 @@ struct PointLight {
 	vec3 Radiance;
 };
 
-layout (std140, binding = 0) uniform Global
+layout(binding = 0, std140) uniform Global
 {
     // trtansformations
     mat4 viewProjection;

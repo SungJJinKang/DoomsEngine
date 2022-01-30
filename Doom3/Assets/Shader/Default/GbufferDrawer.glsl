@@ -11,7 +11,7 @@ layout (location = 0) out vec2 UV0;
 // global uniform buffer for shared common set of uniforms among programs
 // see: https://learnopengl.com/#!Advanced-OpenGL/Advanced-GLSL for table of std140 byte offsets
 
-layout (std140, binding = 0) uniform Global
+layout(binding = 0, std140) uniform Global
 {
     // trtansformations
     mat4 viewProjection;
@@ -50,7 +50,7 @@ layout (location = 0) out vec4 FragColor; //
   
 layout (location = 0) in vec2 UV0;
  
-layout (std140, binding = 0) uniform Global
+layout(binding = 0, std140) uniform Global
 {
     // trtansformations
     mat4 viewProjection;

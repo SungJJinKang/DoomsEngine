@@ -4,7 +4,7 @@
 
 layout (location = 0) in vec3 aPos; 
 
-layout (std140, binding = 0) uniform Global
+layout(binding = 0, std140) uniform Global
 {
     // trtansformations
     mat4 viewProjection;

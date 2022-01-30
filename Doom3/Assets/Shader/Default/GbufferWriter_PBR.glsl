@@ -18,7 +18,7 @@ layout (location = 6) out mat3 invertedTBN; //
 layout (location = 9) out vec4 ClipSpacePos;
 layout (location = 10) out vec4 PrevClipSpacePos;
 
-layout (std140, binding = 0) uniform Global
+layout(binding = 0, std140) uniform Global
 {
     // trtansformations
     mat4 viewProjection;
@@ -43,7 +43,7 @@ layout (std140, binding = 0) uniform Global
 
 // this code "layout(location = 0) uniform mat4 model" makes error!!
 // Please put it in uniform block
-layout(set=0, binding = 0) uniform ModelData
+layout(binding = 1, std140) uniform ModelData
 {
     mat4 model; 
 };
