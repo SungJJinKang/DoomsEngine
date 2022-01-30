@@ -564,24 +564,24 @@ namespace dooms
 			enum eGraphicsPipeLineStage : unsigned long
 			{
 				VERTEX_SHADER = 0,
-				HULL_SHADER = 1,
-				DOMAIN_SHADER = 2,
+				PIXEL_SHADER = 1,
+				COMPUTE_SHADER = 2,
 				GEOMETRY_SHADER = 3,
-				PIXEL_SHADER = 4,
-				COMPUTE_SHADER = 5,
+				DOMAIN_SHADER = 4,
+				HULL_SHADER = 5,
 				DUMMY
 			};
 
 
-			#define GRAPHICS_PIPELINE_STAGE_COUNT 6
+			#define GRAPHICS_PIPELINE_STAGE_COUNT 3
 			inline extern const char* const eGraphicsPipeLineStageString[GRAPHICS_PIPELINE_STAGE_COUNT]
 			{
 				"VERTEX_SHADER",
-				"HULL_SHADER",
-				"DOMAIN_SHADER",
-				"GEOMETRY_SHADER",
 				"PIXEL_SHADER",
 				"COMPUTE_SHADER"
+				//"GEOMETRY_SHADER",
+				//"DOMAIN_SHADER",
+				//"HULL_SHADER",
 			};
 
 			typedef void (DOOMS_ENGINE_API_ENTRY_P GRAPHICS_BINDBUFFER)
