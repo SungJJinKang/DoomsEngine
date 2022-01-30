@@ -258,15 +258,59 @@ UniformBufferObjectView* Material::AddUniformBufferObjectView
 	const GraphicsAPI::eGraphicsPipeLineStage targetPipeLineStage
 )
 {
-	UniformBufferObjectView& uboView = mTargetUniformBufferObjectViews.emplace_back
-	(
-		this,
-		ubo,
-		ubo->GetDefaultBindingPoint(),
-		targetPipeLineStage
-	);
+	D_ASSERT(IsValid(ubo));
 
-	return &uboView;
+	UniformBufferObjectView* addedUbo = nullptr;
+
+	if(IsValid(ubo))
+	{
+		if (graphics::GraphicsAPI::GetCurrentAPIType() == graphics::GraphicsAPI::eGraphicsAPIType::OpenGL)
+		{
+			// In opengl, Uniform Buffer Object is bound one time regardless of target graphics pipe line stage
+			for(UniformBufferObjectView& uboView : mTargetUniformBufferObjectViews)
+			{
+				if(uboView.GetTargetUniformBufferObject() == ubo)
+				{
+					addedUbo = &uboView;
+					break;
+				}
+			}
+			
+			if (addedUbo == nullptr)
+			{
+				UniformBufferObjectView& uboView = mTargetUniformBufferObjectViews.emplace_back
+				(
+					this,
+					ubo,
+					ubo->GetDefaultBindingPoint(),
+					targetPipeLineStage
+				);
+				addedUbo = &uboView;
+			}
+		}
+		else if (graphics::GraphicsAPI::GetCurrentAPIType() == graphics::GraphicsAPI::eGraphicsAPIType::OpenGL)
+		{
+			// In direct x, Constant Buffer should be bound to target graphics pipe line stage.
+			UniformBufferObjectView& uboView = mTargetUniformBufferObjectViews.emplace_back
+			(
+				this,
+				ubo,
+				ubo->GetDefaultBindingPoint(),
+				targetPipeLineStage
+			);
+			addedUbo = &uboView;
+		}
+		else
+		{
+			D_ASSERT(false);
+		}
+	}
+	
+	
+	
+	D_ASSERT(IsValid(addedUbo));
+
+	return addedUbo;
 }
 
 
@@ -327,7 +371,11 @@ void dooms::graphics::Material::UseProgram() const
 					mTargetTextures[i]->BindTexture();
 				}
 			}
-			
+
+			for(const UniformBufferObjectView& uboView : mTargetUniformBufferObjectViews)
+			{
+				uboView.BindUniformBufferObject();
+			}
 		}
 	}
 
