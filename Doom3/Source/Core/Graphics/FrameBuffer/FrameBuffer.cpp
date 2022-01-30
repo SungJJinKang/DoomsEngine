@@ -216,70 +216,67 @@ void FrameBuffer::ClearFrameBuffer() const
 void dooms::graphics::FrameBuffer::BlitFrameBufferFromToFrameBuffer
 (
 	dooms::graphics::FrameBuffer* const fromFrameBuffer, dooms::graphics::FrameBuffer* const toFrameBuffer,
-	INT32 srcX0, INT32 srcY0, INT32 srcX1, INT32 srcY1, 
-	INT32 dstX0, INT32 dstY0, INT32 dstX1, INT32 dstY1, 
+	INT32 srcX0, INT32 srcY0, INT32 srcX1, INT32 srcY1,
+	INT32 dstX0, INT32 dstY0, INT32 dstX1, INT32 dstY1,
 	GraphicsAPI::eBufferBitType mask, GraphicsAPI::eImageInterpolation filter
 ) noexcept
 {
 	//BackBuffer ID is zero!!
 	//D_ASSERT(readFrameBuffer != INVALID_BUFFER_ID);
 	//D_ASSERT(drawFrameBuffer != INVALID_BUFFER_ID);
-	
-	if (IsValid(toFrameBuffer) == true)
+
+
+	if (graphics::GraphicsAPI::GetCurrentAPIType() == graphics::GraphicsAPI::eGraphicsAPIType::OpenGL)
 	{
-		if (graphics::GraphicsAPI::GetCurrentAPIType() == graphics::GraphicsAPI::eGraphicsAPIType::OpenGL)
+		GraphicsAPI::BlitFrameBuffer
+		(
+			(fromFrameBuffer == nullptr) ? 0 : fromFrameBuffer->GetFrameBufferIDForOPENGL().GetBufferID(), 0,
+			(toFrameBuffer == nullptr) ? 0 : toFrameBuffer->GetFrameBufferIDForOPENGL().GetBufferID(), 0,
+			srcX0, srcY0, srcX1, srcY1, dstX0, dstY0, dstX1, dstY1,
+			mask, filter
+		);
+	}
+	else if (graphics::GraphicsAPI::GetCurrentAPIType() == graphics::GraphicsAPI::eGraphicsAPIType::DX11_10)
+	{
+		if ((mask & GraphicsAPI::COLOR_BUFFER) != 0)
 		{
-			GraphicsAPI::BlitFrameBuffer
-			(
-				(fromFrameBuffer == nullptr) ? 0 : fromFrameBuffer->GetFrameBufferIDForOPENGL().GetBufferID(),
-				(toFrameBuffer == nullptr) ? 0 : toFrameBuffer->GetFrameBufferIDForOPENGL().GetBufferID(),
-				srcX0, srcY0, srcX1, srcY1, dstX0, dstY0, dstX1, dstY1,
-				mask, filter
-			);
-		}
-		else if (graphics::GraphicsAPI::GetCurrentAPIType() == graphics::GraphicsAPI::eGraphicsAPIType::DX11_10)
-		{
-			if ((mask & GraphicsAPI::COLOR_BUFFER) != 0)
+			const size_t fromFrameBufferColorTextureCount = (fromFrameBuffer == nullptr) ? 1 : fromFrameBuffer->GetAttachedColorTextureCount();
+			const size_t toFrameBufferColorTextureCount = (toFrameBuffer == nullptr) ? 1 : toFrameBuffer->GetAttachedColorTextureCount();
+
+			for (size_t colorTextureIndex = 0; colorTextureIndex < math::Min(fromFrameBufferColorTextureCount, toFrameBufferColorTextureCount); colorTextureIndex++)
 			{
-				const size_t fromFrameBufferColorTextureCount = (fromFrameBuffer == nullptr) ? 1 : fromFrameBuffer->GetAttachedColorTextureCount();
-				const size_t toFrameBufferColorTextureCount = (toFrameBuffer == nullptr) ? 1 : toFrameBuffer->GetAttachedColorTextureCount();
-
-				for (size_t colorTextureIndex = 0; colorTextureIndex < math::Min(fromFrameBufferColorTextureCount, toFrameBufferColorTextureCount); colorTextureIndex++)
-				{
-					asset::TextureAsset* const fromFrameBufferColorTextureResource = (fromFrameBuffer == nullptr) ? nullptr : fromFrameBuffer->GetColorTextureResourceObject(colorTextureIndex);
-					asset::TextureAsset* const toFrameBufferColorTextureResource = (toFrameBuffer == nullptr) ? nullptr : toFrameBuffer->GetColorTextureResourceObject(colorTextureIndex);
-
-					GraphicsAPI::BlitFrameBuffer
-					(
-						(IsValid(fromFrameBufferColorTextureResource) == true) ? 0 : fromFrameBufferColorTextureResource->GetTextureResourceObject().GetBufferID(),
-						(IsValid(toFrameBufferColorTextureResource) == true) ? 0 : toFrameBufferColorTextureResource->GetTextureResourceObject().GetBufferID(),
-						srcX0, srcY0, srcX1, srcY1, dstX0, dstY0, dstX1, dstY1,
-						mask, filter
-					);
-				}
-			}
-
-			if
-			(
-				(mask & GraphicsAPI::COLOR_BUFFER) != 0 ||
-				(mask & GraphicsAPI::STENCIL_BUFFER) != 0 ||
-				(mask & GraphicsAPI::DEPTH_STENCIL_BUFFER) != 0
-			)
-			{
-				asset::TextureAsset* const fromDepthStencilTextureResource = (fromFrameBuffer == nullptr) ? nullptr : fromFrameBuffer->GetDepthStencilTextureResourceObject();
-				asset::TextureAsset* const toDepthStencilTextureResource = (toFrameBuffer == nullptr) ? nullptr : toFrameBuffer->GetDepthStencilTextureResourceObject();
+				asset::TextureAsset* const fromFrameBufferColorTextureResource = (fromFrameBuffer == nullptr) ? nullptr : fromFrameBuffer->GetColorTextureResourceObject(colorTextureIndex);
+				asset::TextureAsset* const toFrameBufferColorTextureResource = (toFrameBuffer == nullptr) ? nullptr : toFrameBuffer->GetColorTextureResourceObject(colorTextureIndex);
 
 				GraphicsAPI::BlitFrameBuffer
 				(
-					(IsValid(fromDepthStencilTextureResource) == true) ? 0 : fromDepthStencilTextureResource->GetTextureResourceObject().GetBufferID(),
-					(IsValid(toDepthStencilTextureResource) == true) ? 0 : toDepthStencilTextureResource->GetTextureResourceObject().GetBufferID(),
+					(IsValid(fromFrameBufferColorTextureResource) == true) ? 0 : fromFrameBufferColorTextureResource->GetTextureResourceObject().GetBufferID(), 0,
+					(IsValid(toFrameBufferColorTextureResource) == true) ? 0 : toFrameBufferColorTextureResource->GetTextureResourceObject().GetBufferID(), 0,
 					srcX0, srcY0, srcX1, srcY1, dstX0, dstY0, dstX1, dstY1,
 					mask, filter
 				);
 			}
 		}
-	}
 
+		if
+		(
+			((mask & GraphicsAPI::COLOR_BUFFER) != 0) ||
+			((mask & GraphicsAPI::STENCIL_BUFFER) != 0) ||
+			((mask & GraphicsAPI::DEPTH_STENCIL_BUFFER) != 0)
+		)
+		{
+			asset::TextureAsset* const fromDepthStencilTextureResource = (fromFrameBuffer == nullptr) ? nullptr : fromFrameBuffer->GetDepthStencilTextureResourceObject();
+			asset::TextureAsset* const toDepthStencilTextureResource = (toFrameBuffer == nullptr) ? nullptr : toFrameBuffer->GetDepthStencilTextureResourceObject();
+
+			GraphicsAPI::BlitFrameBuffer
+			(
+				(IsValid(fromDepthStencilTextureResource) == true) ? 0 : fromDepthStencilTextureResource->GetTextureResourceObject().GetBufferID(), 0,
+				(IsValid(toDepthStencilTextureResource) == true) ? 0 : toDepthStencilTextureResource->GetTextureResourceObject().GetBufferID(), 0,
+				srcX0, srcY0, srcX1, srcY1, dstX0, dstY0, dstX1, dstY1,
+				mask, filter
+			);
+		}
+	}
 }
 
 dooms::asset::TextureAsset* dooms::graphics::FrameBuffer::AttachColorTextureToFrameBuffer

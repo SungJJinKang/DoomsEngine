@@ -67,10 +67,10 @@ namespace dooms
 
 			enum eBufferBitType : unsigned int
 			{
-				COLOR_BUFFER = 0x01, // = GL_COLOR_BUFFER_BIT,
-				DEPTH_BUFFER = 0x02, // = GL_DEPTH_BUFFER_BIT,
-				STENCIL_BUFFER = 0x03, // = GL_DEPTH_BUFFER_BIT,
-				DEPTH_STENCIL_BUFFER = 0x04 // = GL_STENCIL_BUFFER_BIT
+				COLOR_BUFFER = 1, // = GL_COLOR_BUFFER_BIT,
+				DEPTH_BUFFER = 1 << 1, // = GL_DEPTH_BUFFER_BIT,
+				STENCIL_BUFFER = 1 << 2, // = GL_DEPTH_BUFFER_BIT,
+				DEPTH_STENCIL_BUFFER = 1 << 3 // = GL_STENCIL_BUFFER_BIT
 			};
 
 			enum eBufferType : unsigned int
@@ -858,7 +858,9 @@ namespace dooms
 			typedef void (DOOMS_ENGINE_API_ENTRY_P GRAPHICS_BLITFRAMEBUFFER)
 			(
 				const unsigned long long ReadFrameBufferObject,
+				const unsigned int ReadBindingPoint,
 				const unsigned long long DrawFrameBufferObject,
+				const unsigned int DrawBindingPoint,
 				const int srcX0, const int srcY0, const int srcX1, const int srcY1,
 				const int dstX0, const int dstY0, const int dstX1, const int dstY1,
 				const GraphicsAPI::eBufferBitType mask,

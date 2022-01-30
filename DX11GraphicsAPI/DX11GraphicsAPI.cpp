@@ -1723,7 +1723,9 @@ namespace dooms
         DOOMS_ENGINE_GRAPHICS_API void BlitFrameBuffer
         (
             const unsigned long long ReadFrameBufferObject,
+            const unsigned int ReadBindingPoint,
             const unsigned long long DrawFrameBufferObject,
+            const unsigned int DrawBindingPoint,
             const int srcX0, const int srcY0, const int srcX1, const int srcY1,
             const int dstX0, const int dstY0, const int dstX1, const int dstY1,
             const GraphicsAPI::eBufferBitType mask,

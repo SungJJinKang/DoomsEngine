@@ -1862,7 +1862,9 @@ namespace dooms
 		DOOMS_ENGINE_GRAPHICS_API void BlitFrameBuffer
 		(
 			const unsigned long long ReadFrameBufferObject,
+			const unsigned int ReadBindingPoint,
 			const unsigned long long DrawFrameBufferObject,
+			const unsigned int DrawBindingPoint,
 			const int srcX0, const int srcY0, const int srcX1, const int srcY1,
 			const int dstX0, const int dstY0, const int dstX1, const int dstY1,
 			const GraphicsAPI::eBufferBitType mask,
@@ -1870,7 +1872,24 @@ namespace dooms
 		)
 		{
 			glBindFramebuffer(GL_READ_FRAMEBUFFER, ReadFrameBufferObject);
+			if (ReadFrameBufferObject == 0)
+			{
+				glReadBuffer(GL_BACK);
+			}
+			else
+			{
+				glReadBuffer(GL_COLOR_ATTACHMENT0 + ReadBindingPoint);
+			}
 			glBindFramebuffer(GL_DRAW_FRAMEBUFFER, DrawFrameBufferObject);
+			if(DrawFrameBufferObject == 0)
+			{
+				glDrawBuffer(GL_BACK);
+			}
+			else
+			{
+				glDrawBuffer(GL_COLOR_ATTACHMENT0 + DrawBindingPoint);
+			}
+			
 			glBlitFramebuffer(srcX0, srcY0, srcX1, srcY1, dstX0, dstY0, dstX1, dstY1, opengl::GetGLBufferBitType(mask), opengl::GetGLImageInterpolation(filter));
 		}
 
