@@ -130,11 +130,12 @@ bool dooms::assetImporter::ImportAssetJob(std::filesystem::path path, dooms::ass
 	if (isSuccess)
 	{
 		asset->SetAssetStatus(::dooms::asset::Asset::AssetStatus::CompletlyImported);
-		dooms::ui::PrintText("Import Success : %s", path.string().c_str());
+		dooms::ui::PrintText("Import asset Success : %s", path.string().c_str());
 	}
 	else
 	{
 		asset->SetAssetStatus(::dooms::asset::Asset::AssetStatus::FailToImport);
+		dooms::ui::PrintText("Importing asset fail : %s", path.string().c_str());
 	}
 
 	dooms::assetImporter::AssetImporterWorkerManager::GetSingleton()->EnqueueWorker(importerWorker);
