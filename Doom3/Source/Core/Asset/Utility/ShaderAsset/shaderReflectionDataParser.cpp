@@ -1,12 +1,73 @@
 #include "shaderReflectionDataParser.h"
 
+#include <unordered_map>
 #include <nlohmann/json.hpp>
+
+namespace dooms::asset::shaderReflectionDataParser
+{
+	static std::unordered_map<std::string, dooms::asset::shaderReflectionDataParser::eHlslSemantic> HlslSemanticHashtable
+	{
+		{"BINORMAL", dooms::asset::shaderReflectionDataParser::eHlslSemantic::BINORMAL},
+		{"BLENDINDICES", dooms::asset::shaderReflectionDataParser::eHlslSemantic::BLENDINDICES},
+		{"BLENDWEIGHT", dooms::asset::shaderReflectionDataParser::eHlslSemantic::BLENDWEIGHT},
+		{"COLOR0", dooms::asset::shaderReflectionDataParser::eHlslSemantic::COLOR0},
+		{"COLOR1", dooms::asset::shaderReflectionDataParser::eHlslSemantic::COLOR1},
+		{"COLOR2", dooms::asset::shaderReflectionDataParser::eHlslSemantic::COLOR2},
+		{"COLOR3", dooms::asset::shaderReflectionDataParser::eHlslSemantic::COLOR3},
+		{"NORMAL", dooms::asset::shaderReflectionDataParser::eHlslSemantic::NORMAL},
+		{"POSITION", dooms::asset::shaderReflectionDataParser::eHlslSemantic::POSITION},
+		{"SV_Target0", dooms::asset::shaderReflectionDataParser::eHlslSemantic::SV_Target0},
+		{"SV_Target1", dooms::asset::shaderReflectionDataParser::eHlslSemantic::SV_Target1},
+		{"SV_Target2", dooms::asset::shaderReflectionDataParser::eHlslSemantic::SV_Target2},
+		{"SV_Target3", dooms::asset::shaderReflectionDataParser::eHlslSemantic::SV_Target3},
+		{"TANGENT", dooms::asset::shaderReflectionDataParser::eHlslSemantic::TANGENT},
+		{"TEXCOORD0", dooms::asset::shaderReflectionDataParser::eHlslSemantic::TEXCOORD0},
+		{"TEXCOORD1", dooms::asset::shaderReflectionDataParser::eHlslSemantic::TEXCOORD1},
+		{"TEXCOORD2", dooms::asset::shaderReflectionDataParser::eHlslSemantic::TEXCOORD2},
+		{"TEXCOORD3", dooms::asset::shaderReflectionDataParser::eHlslSemantic::TEXCOORD3},
+		{"TEXCOORD4", dooms::asset::shaderReflectionDataParser::eHlslSemantic::TEXCOORD4},
+		{"TEXCOORD5", dooms::asset::shaderReflectionDataParser::eHlslSemantic::TEXCOORD5},
+		{"TEXCOORD6", dooms::asset::shaderReflectionDataParser::eHlslSemantic::TEXCOORD6},
+		{"TEXCOORD7", dooms::asset::shaderReflectionDataParser::eHlslSemantic::TEXCOORD7},
+		{"unknown", dooms::asset::shaderReflectionDataParser::eHlslSemantic::UNKNOWN}
+	};
+
+	static std::unordered_map<std::string, dooms::asset::shaderReflectionDataParser::eShaderVariableType> ShaderVraibleTypeHashtable
+	{
+		{"float1", dooms::asset::shaderReflectionDataParser::eShaderVariableType::FLOAT1},
+		{"float2", dooms::asset::shaderReflectionDataParser::eShaderVariableType::FLOAT2},
+		{"float3", dooms::asset::shaderReflectionDataParser::eShaderVariableType::FLOAT3},
+		{"float4", dooms::asset::shaderReflectionDataParser::eShaderVariableType::FLOAT4},
+		{"mat2", dooms::asset::shaderReflectionDataParser::eShaderVariableType::MAT2X2},
+		{"mat3", dooms::asset::shaderReflectionDataParser::eShaderVariableType::MAT3X3},
+		{"mat4", dooms::asset::shaderReflectionDataParser::eShaderVariableType::MAT4X4},
+		{"int1", dooms::asset::shaderReflectionDataParser::eShaderVariableType::INT1},
+		{"int2", dooms::asset::shaderReflectionDataParser::eShaderVariableType::INT2},
+		{"int3", dooms::asset::shaderReflectionDataParser::eShaderVariableType::INT3},
+		{"int4", dooms::asset::shaderReflectionDataParser::eShaderVariableType::INT4},
+		{"unknown", dooms::asset::shaderReflectionDataParser::eShaderVariableType::UNKNOWN}
+	};
+}
+
+dooms::asset::shaderReflectionDataParser::eHlslSemantic dooms::asset::shaderReflectionDataParser::ConvertStringToeHlslSemantic(const std::string& typeStr)
+{
+	const dooms::asset::shaderReflectionDataParser::eHlslSemantic result = HlslSemanticHashtable[typeStr];
+	D_ASSERT(result != dooms::asset::shaderReflectionDataParser::eHlslSemantic::UNKNOWN);
+	return result;;
+}
+
+dooms::asset::shaderReflectionDataParser::eShaderVariableType dooms::asset::shaderReflectionDataParser::ConvertStringToeShaderVariableType(const std::string& typeStr)
+{
+	const dooms::asset::shaderReflectionDataParser::eShaderVariableType result = ShaderVraibleTypeHashtable[typeStr];
+	D_ASSERT(result != dooms::asset::shaderReflectionDataParser::eShaderVariableType::UNKNOWN);
+	return result;
+}
 
 void dooms::asset::shaderReflectionDataParser::ShaderReflectionData::Clear()
 {
 	mIsGenerated = false;
 	mTargetGraphicsAPIType = dooms::graphics::GraphicsAPI::eGraphicsAPIType::GraphicsAPIType_NONE;
-	mShaderVersion.clear();
+	mProfileVersion.clear();
 	ShaderReflectionDataFileName.clear();
 	mShaderType = dooms::graphics::GraphicsAPI::eGraphicsPipeLineStage::DUMMY;
 	mInputVariables.clear();
@@ -20,7 +81,160 @@ dooms::asset::shaderReflectionDataParser::ShaderReflectionData dooms::asset::sha
 	const std::string& reflectionDataJsonText
 )
 {
+	bool isSuccess = true;
+
 	ShaderReflectionData shaderReflectionData;
+
+	D_ASSERT(nlohmann::json::accept(reflectionDataJsonText) == true);
+	const nlohmann::json j = nlohmann::json::parse(reflectionDataJsonText);
+	D_ASSERT(j.empty() == false);
+
+	{
+		D_ASSERT(j.find("language") != j.end());
+		const std::string shaderLang = static_cast<std::string>(j["language"]);
+		if(shaderLang == "glsl")
+		{
+			shaderReflectionData.mTargetGraphicsAPIType = dooms::graphics::GraphicsAPI::eGraphicsAPIType::OpenGL;
+		}
+		else if (shaderLang == "hlsl")
+		{
+			shaderReflectionData.mTargetGraphicsAPIType = dooms::graphics::GraphicsAPI::eGraphicsAPIType::DX11_10;
+		}
+		else
+		{
+			D_ASSERT(false);
+			isSuccess = false;
+		}
+	}
+
+	{
+		D_ASSERT(j.find("profile_version") != j.end());
+		shaderReflectionData.mProfileVersion = std::to_string(static_cast<UINT32>(j["profile_version"]));
+	}
+
+	{
+		D_ASSERT(j.find("vs") != j.end() || j.find("fs") != j.end());
+		D_ASSERT(j.find("vs") != j.end() ^ j.find("fs") != j.end());
+
+		nlohmann::json::const_iterator p;
+
+		if (j.find("vs") != j.end())
+		{
+			p = j.find("vs");
+			shaderReflectionData.mShaderType = dooms::graphics::GraphicsAPI::eGraphicsPipeLineStage::VERTEX_SHADER;
+		}
+		else if (j.find("fs") != j.end())
+		{
+			p = j.find("fs");
+			shaderReflectionData.mShaderType = dooms::graphics::GraphicsAPI::eGraphicsPipeLineStage::PIXEL_SHADER;
+		}
+		else if (j.find("cs") != j.end())
+		{
+			p = j.find("cs");
+			shaderReflectionData.mShaderType = dooms::graphics::GraphicsAPI::eGraphicsPipeLineStage::COMPUTE_SHADER;
+		}
+		else
+		{
+			D_ASSERT(false);
+			isSuccess = false;
+		}
+
+		if(p->empty() == false)
+		{
+			if(p->find("file") != p->end())
+			{
+				
+			}
+			else
+			{
+				D_ASSERT(false);
+				isSuccess = false;
+			}
+
+			if (p->find("inputs") != p->end())
+			{
+				for(auto& inputElement : p.value()["inputs"])
+				{
+					ShaderInputType input;
+					input.mID = inputElement["id"];
+					input.mName = inputElement["name"];
+					input.mLocation = inputElement["location"];
+					input.mSemanticType = ConvertStringToeHlslSemantic(inputElement["semantic"]);
+					input.mSemanticIndex = inputElement["semantic_index"];
+					input.mType = ConvertStringToeShaderVariableType(inputElement["type"]);
+
+					shaderReflectionData.mInputVariables.emplace_back(std::move(input));
+				}
+			}
+
+			if (p->find("outputs") != p->end())
+			{
+				for (auto& outputElement : p.value()["outputs"])
+				{
+					ShaderOutputType output;
+					output.mID = outputElement["id"];
+					output.mName = outputElement["name"];
+					output.mLocation = outputElement["location"];
+
+					shaderReflectionData.mOutputVariables.emplace_back(std::move(output));
+				}
+			}
+
+			if (p->find("uniform_buffers") != p->end())
+			{
+				for(auto& uniformBufferElement : p.value()["uniform_buffers"])
+				{
+					UniformBuffer uniformBuffer{};
+					uniformBuffer.mID = uniformBufferElement["id"];
+					uniformBuffer.mName = uniformBufferElement["name"];
+					uniformBuffer.mSet = uniformBufferElement["set"];
+					uniformBuffer.mBindingPoint = uniformBufferElement["binding"];
+					uniformBuffer.mBlockSize = uniformBufferElement["block_size"];
+
+					if (uniformBufferElement.find("members") != uniformBufferElement.end())
+					{
+						for (auto& uniformBufferMemberElement : uniformBufferElement["members"])
+						{
+							UniformBufferMember uniformBufferMember{};
+
+							uniformBufferMember.mName = uniformBufferMemberElement["name"];
+							uniformBufferMember.mType = ConvertStringToeShaderVariableType(uniformBufferMemberElement["type"]);
+							uniformBufferMember.mOffset = uniformBufferMemberElement["offset"];
+							uniformBufferMember.mSize = uniformBufferMemberElement["size"];
+
+							if(uniformBufferMemberElement.find("array") != uniformBufferMemberElement.end())
+							{
+								uniformBufferMember.mArrayLength = uniformBufferMemberElement["array"];
+							}
+							else
+							{
+								uniformBufferMember.mArrayLength = 1;
+							}
+
+							uniformBuffer.mMembers.emplace_back(std::move(uniformBufferMember));
+						}
+					}
+
+					shaderReflectionData.mUniformBuffers.emplace_back(std::move(uniformBuffer));
+				}
+			}
+		}
+		else
+		{
+			D_ASSERT(false);
+			isSuccess = false;
+		}
+	}
+
+
+	if(isSuccess == true)
+	{
+		shaderReflectionData.mIsGenerated = true;
+	}
+	else
+	{
+		shaderReflectionData.mIsGenerated = false;
+	}
 
 	return shaderReflectionData;
 }

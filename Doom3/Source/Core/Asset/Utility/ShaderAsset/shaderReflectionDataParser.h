@@ -36,8 +36,11 @@ namespace dooms
 				SV_Target0,
 				SV_Target1,
 				SV_Target2,
-				SV_Target3
+				SV_Target3,
+				UNKNOWN
 			};
+
+			eHlslSemantic ConvertStringToeHlslSemantic(const std::string& typeStr);
 
 			enum class eShaderVariableType
 			{
@@ -45,17 +48,19 @@ namespace dooms
 				FLOAT2,
 				FLOAT3,
 				FLOAT4,
-				MAT3X4,
-				MAT4X3,
+				MAT2X2,
 				MAT3X3,
 				MAT4X4,
 				INT1,
 				INT2,
 				INT3,
-				INT4
+				INT4,
+				UNKNOWN
 			};
 
-			struct D_STRUCT ShaderInputOutput
+			eShaderVariableType ConvertStringToeShaderVariableType(const std::string& typeStr);
+
+			struct D_STRUCT ShaderInputType
 			{
 				D_PROPERTY()
 				UINT32 mID;
@@ -76,6 +81,18 @@ namespace dooms
 				eShaderVariableType mType;
 			};
 
+			struct D_STRUCT ShaderOutputType
+			{
+				D_PROPERTY()
+				UINT32 mID;
+
+				D_PROPERTY()
+				std::string mName;
+
+				D_PROPERTY()
+				UINT32 mLocation;
+			};
+
 			struct D_STRUCT UniformBufferMember
 			{
 				D_PROPERTY()
@@ -89,6 +106,9 @@ namespace dooms
 
 				D_PROPERTY()
 				UINT32 mSize;
+
+				D_PROPERTY()
+				UINT32 mArrayLength;
 			};
 
 			struct D_STRUCT UniformBuffer // OPENGL : Uniform Buffer, DirectX : ConstantBuffer
@@ -106,7 +126,7 @@ namespace dooms
 				UINT32 mBindingPoint;
 
 				D_PROPERTY()
-				UINT32 mSize;
+				UINT32 mBlockSize;
 
 				D_PROPERTY()
 				std::vector<UniformBufferMember> mMembers;
@@ -116,12 +136,12 @@ namespace dooms
 			{
 				bool mIsGenerated = false;
 				dooms::graphics::GraphicsAPI::eGraphicsAPIType mTargetGraphicsAPIType;
-				std::string mShaderVersion;
+				std::string mProfileVersion;
 				std::string ShaderReflectionDataFileName;
 				dooms::graphics::GraphicsAPI::eGraphicsPipeLineStage mShaderType;
 
-				std::vector<ShaderInputOutput> mInputVariables;
-				std::vector<ShaderInputOutput> mOutputVariables;
+				std::vector<ShaderInputType> mInputVariables;
+				std::vector<ShaderOutputType> mOutputVariables;
 				std::vector<UniformBuffer> mUniformBuffers;
 				
 				void Clear();
