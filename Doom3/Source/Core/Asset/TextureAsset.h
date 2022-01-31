@@ -37,9 +37,9 @@ namespace dooms
 		private:
 
 			D_PROPERTY()
-			dooms::graphics::BufferID mTextureResourceObject;
+			dooms::graphics::BufferID mTextureResourceObject{};
 
-			std::unique_ptr<DirectX::ScratchImage> mScratchImage;
+			std::unique_ptr<DirectX::ScratchImage> mScratchImage{};
 
 			D_PROPERTY()
 			std::vector<const void*> mTextureData;
