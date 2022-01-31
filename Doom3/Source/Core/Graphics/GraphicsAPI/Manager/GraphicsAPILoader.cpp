@@ -29,8 +29,10 @@ void dooms::graphics::GraphicsAPILoader::FetchExportedFunctionAddress()
 	//D_ASSERT(dooms::graphics::GraphicsAPI::CreateBufferObject != nullptr);
 	dooms::graphics::GraphicsAPI::AllocateRenderBufferMemory = (GraphicsAPI::GRAPHICS_ALLOCATERENDERBUFFERMEMORY)GetProcAddress(hModule, "AllocateRenderBufferMemory");
 	//D_ASSERT(dooms::graphics::GraphicsAPI::AllocateRenderBufferMemory != nullptr);
-	dooms::graphics::GraphicsAPI::Attach2DTextureToFrameBuffer = (GraphicsAPI::GRAPHICS_ATTACH2DTEXTURETOFRAMEBUFFER)GetProcAddress(hModule, "Attach2DTextureToFrameBuffer");
-	//D_ASSERT(dooms::graphics::GraphicsAPI::Attach2DTextureToFrameBuffer != nullptr);
+	dooms::graphics::GraphicsAPI::Attach2DColorTextureToFrameBuffer = (GraphicsAPI::GRAPHICS_ATTACH2DCOLORTEXTURETOFRAMEBUFFER)GetProcAddress(hModule, "Attach2DColorTextureToFrameBuffer");
+	//D_ASSERT(dooms::graphics::GraphicsAPI::Attach2DColorTextureToFrameBuffer != nullptr);
+	dooms::graphics::GraphicsAPI::Attach2DDepthStencilTextureToFrameBuffer = (GraphicsAPI::GRAPHICS_ATTACH2DDEPTHSTENCILTEXTURETOFRAMEBUFFER)GetProcAddress(hModule, "Attach2DDepthStencilTextureToFrameBuffer");
+	//D_ASSERT(dooms::graphics::GraphicsAPI::Attach2DDepthStencilTextureToFrameBuffer != nullptr);
 	dooms::graphics::GraphicsAPI::CopyRenderTargetView = (GraphicsAPI::GRAPHICS_COPYRENDERTARGETVIEW)GetProcAddress(hModule, "CopyRenderTargetView");
 	//D_ASSERT(dooms::graphics::GraphicsAPI::CopyRenderTargetView != nullptr);
 	dooms::graphics::GraphicsAPI::AttachRenderBufferToFrameBuffer = (GraphicsAPI::GRAPHICS_ATTACHRENDERBUFFERTOFRAMEBUFFER)GetProcAddress(hModule, "AttachRenderBufferToFrameBuffer");

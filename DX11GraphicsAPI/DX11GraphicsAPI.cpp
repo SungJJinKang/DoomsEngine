@@ -58,6 +58,8 @@ namespace dooms
                     return DXGI_FORMAT_D16_UNORM;
                 case GraphicsAPI::TEXTURE_INTERNAL_FORMAT_DEPTH_COMPONENT24:
                     return DXGI_FORMAT_D24_UNORM_S8_UINT; // DX11 doesn't have D24 format.
+                case GraphicsAPI::TEXTURE_INTERNAL_FORMAT_DEPTH_COMPONENT32:
+                    return DXGI_FORMAT_D24_UNORM_S8_UINT; // DX11 doesn't have D24 format.
                 case GraphicsAPI::TEXTURE_INTERNAL_FORMAT_DEPTH_COMPONENT32F:
                     return DXGI_FORMAT_D32_FLOAT;
                 case GraphicsAPI::TEXTURE_INTERNAL_FORMAT_DEPTH24_STENCIL8:
@@ -611,7 +613,7 @@ namespace dooms
                     descDepth.Height = height;
                     descDepth.MipLevels = 1;
                     descDepth.ArraySize = 1;
-                    descDepth.Format = dooms::graphics::dx11::ConvertTextureInternalFormat_To_DXGI_FORMAT(GraphicsAPI::TEXTURE_INTERNAL_FORMAT_DEPTH_COMPONENT32F);
+                    descDepth.Format = dooms::graphics::dx11::ConvertTextureInternalFormat_To_DXGI_FORMAT(GraphicsAPI::TEXTURE_INTERNAL_FORMAT_DEPTH_COMPONENT24);
                     descDepth.SampleDesc.Count = 1;
                     descDepth.SampleDesc.Quality = 0;
                     descDepth.Usage = D3D11_USAGE_DEFAULT;
@@ -1410,7 +1412,7 @@ namespace dooms
         {
         }
 
-        DOOMS_ENGINE_GRAPHICS_API unsigned long long Attach2DTextureToFrameBuffer
+        DOOMS_ENGINE_GRAPHICS_API unsigned long long Attach2DColorTextureToFrameBuffer
         (
             const unsigned long long frameBufferObject,
             const GraphicsAPI::eFrameBufferAttachmentPoint frameBufferAttachmentPoint,
@@ -1424,10 +1426,31 @@ namespace dooms
             ID3D11Texture2D* const textureResource = reinterpret_cast<ID3D11Texture2D*>(textureBufferObject);
 
             ID3D11RenderTargetView* renderTargetView;
-
-			dx11::g_pd3dDevice->CreateRenderTargetView(textureResource, nullptr, &renderTargetView);
+           
+			const HRESULT hr = dx11::g_pd3dDevice->CreateRenderTargetView(textureResource, nullptr, &renderTargetView);
+            assert(FAILED(hr) == false);
             return reinterpret_cast<unsigned long long>(renderTargetView);
 		}
+
+        DOOMS_ENGINE_GRAPHICS_API unsigned long long Attach2DDepthStencilTextureToFrameBuffer
+        (
+            const unsigned long long frameBufferObject,
+            const GraphicsAPI::eFrameBufferAttachmentPoint frameBufferAttachmentPoint,
+            const GraphicsAPI::eTextureBindTarget textureBindTarget,
+            const unsigned long long textureBufferObject,
+            const unsigned int lodLevel
+        )
+        {
+            assert(textureBufferObject != 0);
+
+            ID3D11Texture2D* const textureResource = reinterpret_cast<ID3D11Texture2D*>(textureBufferObject);
+
+            ID3D11DepthStencilView* depthStencilView;
+
+            const HRESULT hr = dx11::g_pd3dDevice->CreateDepthStencilView(textureResource, nullptr, &depthStencilView);
+            assert(FAILED(hr) == false);
+            return reinterpret_cast<unsigned long long>(depthStencilView);
+        }
 
         DOOMS_ENGINE_GRAPHICS_API unsigned long long CopyRenderTargetView(const unsigned long long renderTargetView)
         {
@@ -1440,7 +1463,8 @@ namespace dooms
 
             ID3D11RenderTargetView* copyedRenderTargetView;
 
-            dx11::g_pd3dDevice->CreateRenderTargetView(d3d11Resource, nullptr, &copyedRenderTargetView);
+            const HRESULT hr = dx11::g_pd3dDevice->CreateRenderTargetView(d3d11Resource, nullptr, &copyedRenderTargetView);
+            assert(FAILED(hr) == false);
             return reinterpret_cast<unsigned long long>(copyedRenderTargetView);
         }
 

@@ -303,7 +303,7 @@ dooms::asset::TextureAsset* dooms::graphics::FrameBuffer::AttachColorTextureToFr
 		(dooms::graphics::GraphicsAPI::eBindFlag)(dooms::graphics::GraphicsAPI::eBindFlag::BIND_RENDER_TARGET | dooms::graphics::GraphicsAPI::eBindFlag::BIND_SHADER_RESOURCE),
 		dooms::graphics::GraphicsAPI::eTextureBindTarget::TEXTURE_2D
 	);
-	const BufferID renderTargetViewObject = GraphicsAPI::Attach2DTextureToFrameBuffer
+	const BufferID renderTargetViewObject = GraphicsAPI::Attach2DColorTextureToFrameBuffer
 	(
 		mFrameBufferIDForOPENGL,
 		static_cast<GraphicsAPI::eFrameBufferAttachmentPoint>(GraphicsAPI::eFrameBufferAttachmentPoint::FRAMEBUFFER_ATTACHMENT_POINT_COLOR_ATTACHMENT0 + bindingPosition),
@@ -339,10 +339,10 @@ dooms::asset::TextureAsset* dooms::graphics::FrameBuffer::AttachDepthTextureToFr
 		height,
 		GraphicsAPI::eTextureComponentFormat::TEXTURE_COMPONENT_DEPTH_COMPONENT,
 		GraphicsAPI::eDataType::FLOAT,
-		(dooms::graphics::GraphicsAPI::eBindFlag)(dooms::graphics::GraphicsAPI::eBindFlag::BIND_DEPTH_STENCIL | dooms::graphics::GraphicsAPI::eBindFlag::BIND_SHADER_RESOURCE),
+		(dooms::graphics::GraphicsAPI::eBindFlag)(dooms::graphics::GraphicsAPI::eBindFlag::BIND_DEPTH_STENCIL /*| dooms::graphics::GraphicsAPI::eBindFlag::BIND_SHADER_RESOURCE */ ),
 		dooms::graphics::GraphicsAPI::eTextureBindTarget::TEXTURE_2D
 	);
-	const BufferID depthStencilView = GraphicsAPI::Attach2DTextureToFrameBuffer
+	const BufferID depthStencilView = GraphicsAPI::Attach2DDepthStencilTextureToFrameBuffer
 	(
 		mFrameBufferIDForOPENGL,
 		static_cast<GraphicsAPI::eFrameBufferAttachmentPoint>(GraphicsAPI::eFrameBufferAttachmentPoint::FRAMEBUFFER_ATTACHMENT_POINT_DEPTH_ATTACHMENT),
@@ -380,7 +380,7 @@ dooms::asset::TextureAsset* dooms::graphics::FrameBuffer::AttachDepthStencilText
 		(dooms::graphics::GraphicsAPI::eBindFlag)(dooms::graphics::GraphicsAPI::eBindFlag::BIND_DEPTH_STENCIL | dooms::graphics::GraphicsAPI::eBindFlag::BIND_SHADER_RESOURCE),
 		dooms::graphics::GraphicsAPI::eTextureBindTarget::TEXTURE_2D
 	);
-	const BufferID depthStencilView = GraphicsAPI::Attach2DTextureToFrameBuffer
+	const BufferID depthStencilView = GraphicsAPI::Attach2DColorTextureToFrameBuffer
 	(
 		mFrameBufferIDForOPENGL,
 		static_cast<GraphicsAPI::eFrameBufferAttachmentPoint>(GraphicsAPI::eFrameBufferAttachmentPoint::FRAMEBUFFER_ATTACHMENT_POINT_DEPTH_STENCIL_ATTACHMENT),

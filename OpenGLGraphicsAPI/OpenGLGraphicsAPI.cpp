@@ -1587,7 +1587,26 @@ namespace dooms
 			glBindRenderbuffer(GL_RENDERBUFFER, renderBufferObject);
 		}
 
-		DOOMS_ENGINE_GRAPHICS_API unsigned long long Attach2DTextureToFrameBuffer
+		DOOMS_ENGINE_GRAPHICS_API unsigned long long Attach2DColorTextureToFrameBuffer
+		(
+			const unsigned long long frameBufferObject,
+			const GraphicsAPI::eFrameBufferAttachmentPoint frameBufferAttachmentPoint,
+			const GraphicsAPI::eTextureBindTarget textureBindTarget,
+			const unsigned long long textureBufferObject,
+			const unsigned int lodLevel
+		)
+		{
+			glBindFramebuffer(GL_FRAMEBUFFER, frameBufferObject);
+
+			glFramebufferTexture2D(GL_FRAMEBUFFER, opengl::GetGLFrameBufferAttachmentPoint(frameBufferAttachmentPoint), opengl::GetGLTextureBindTarget(textureBindTarget), textureBufferObject, lodLevel);
+
+			const unsigned int errorCode = CheckFrameBufferIsSuccesfullyCreated();
+			assert(errorCode == 0, "fail frame buffer : %u", errorCode);
+
+			return textureBufferObject;
+		}
+
+		DOOMS_ENGINE_GRAPHICS_API unsigned long long Attach2DDepthStencilTextureToFrameBuffer
 		(
 			const unsigned long long frameBufferObject,
 			const GraphicsAPI::eFrameBufferAttachmentPoint frameBufferAttachmentPoint,

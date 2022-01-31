@@ -698,7 +698,7 @@ namespace dooms
 				FRAMEBUFFER_ATTACHMENT_POINT_DEPTH_STENCIL_ATTACHMENT
 			};
 
-			typedef unsigned long long (DOOMS_ENGINE_API_ENTRY_P GRAPHICS_ATTACH2DTEXTURETOFRAMEBUFFER)
+			typedef unsigned long long (DOOMS_ENGINE_API_ENTRY_P GRAPHICS_ATTACH2DCOLORTEXTURETOFRAMEBUFFER)
 			(
 				const unsigned long long frameBufferObject,
 				const GraphicsAPI::eFrameBufferAttachmentPoint frameBufferAttachmentPoint,
@@ -706,7 +706,18 @@ namespace dooms
 				const unsigned long long textureBufferObject,
 				const unsigned int lodLevel
 			);
-			extern GRAPHICS_ATTACH2DTEXTURETOFRAMEBUFFER Attach2DTextureToFrameBuffer;
+			extern GRAPHICS_ATTACH2DCOLORTEXTURETOFRAMEBUFFER Attach2DColorTextureToFrameBuffer;
+
+
+			typedef unsigned long long (DOOMS_ENGINE_API_ENTRY_P GRAPHICS_ATTACH2DDEPTHSTENCILTEXTURETOFRAMEBUFFER)
+				(
+					const unsigned long long frameBufferObject,
+					const GraphicsAPI::eFrameBufferAttachmentPoint frameBufferAttachmentPoint,
+					const GraphicsAPI::eTextureBindTarget textureBindTarget,
+					const unsigned long long textureBufferObject,
+					const unsigned int lodLevel
+					);
+			extern GRAPHICS_ATTACH2DDEPTHSTENCILTEXTURETOFRAMEBUFFER Attach2DDepthStencilTextureToFrameBuffer;
 
 			typedef unsigned long long (DOOMS_ENGINE_API_ENTRY_P GRAPHICS_COPYRENDERTARGETVIEW)(const unsigned long long renderTargetView);
 			extern GRAPHICS_COPYRENDERTARGETVIEW CopyRenderTargetView;
