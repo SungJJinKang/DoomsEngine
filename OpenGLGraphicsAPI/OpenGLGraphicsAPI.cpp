@@ -1251,11 +1251,11 @@ namespace dooms
 		{
 			if (isEnabled == true)
 			{
-				glEnable(GL_ALPHA_TEST);
+				//glEnable(GL_ALPHA_TEST);
 			}
 			else
 			{
-				glDisable(GL_ALPHA_TEST);
+				//glDisable(GL_ALPHA_TEST);
 			}
 
 		}
