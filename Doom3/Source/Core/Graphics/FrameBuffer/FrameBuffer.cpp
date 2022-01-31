@@ -333,7 +333,7 @@ dooms::asset::TextureAsset* dooms::graphics::FrameBuffer::AttachDepthTextureToFr
 	dooms::asset::TextureAsset* const depthTexture = dooms::CreateDObject<dooms::asset::TextureAsset>
 	(
 		GraphicsAPI::eTargetTexture::TARGET_TEXTURE_TEXTURE_2D,
-		GraphicsAPI::eTextureInternalFormat::TEXTURE_INTERNAL_FORMAT_DEPTH_COMPONENT32,
+		GraphicsAPI::eTextureInternalFormat::TEXTURE_INTERNAL_FORMAT_DEPTH_COMPONENT24,
 		GraphicsAPI::eTextureCompressedInternalFormat::TEXTURE_COMPRESSED_INTERNAL_FORMAT_NONE,
 		width,
 		height,
