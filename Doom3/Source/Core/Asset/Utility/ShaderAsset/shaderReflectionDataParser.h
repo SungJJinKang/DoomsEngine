@@ -26,6 +26,10 @@ namespace dooms
 				INT2,
 				INT3,
 				INT4,
+				UINT1,
+				UINT2,
+				UINT3,
+				UINT4,
 				UNKNOWN
 			};
 

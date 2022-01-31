@@ -18,6 +18,10 @@ namespace dooms::asset::shaderReflectionDataParser
 		{"int2", dooms::asset::shaderReflectionDataParser::eShaderVariableType::INT2},
 		{"int3", dooms::asset::shaderReflectionDataParser::eShaderVariableType::INT3},
 		{"int4", dooms::asset::shaderReflectionDataParser::eShaderVariableType::INT4},
+		{"uint1", dooms::asset::shaderReflectionDataParser::eShaderVariableType::UINT1},
+		{"uint2", dooms::asset::shaderReflectionDataParser::eShaderVariableType::UINT2},
+		{"uint3", dooms::asset::shaderReflectionDataParser::eShaderVariableType::UINT3},
+		{"uint4", dooms::asset::shaderReflectionDataParser::eShaderVariableType::UINT4},
 		{"unknown", dooms::asset::shaderReflectionDataParser::eShaderVariableType::UNKNOWN}
 	};
 }
