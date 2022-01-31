@@ -6,8 +6,6 @@
 #include <windows.h>
 #include <d3d11_1.h>
 #include <d3dcompiler.h>
-#include <directxmath.h>
-#include <directxcolors.h>
 
 
 #undef NEVER_HAPPEN
@@ -268,6 +266,72 @@ namespace dooms
                 return (D3D11_BIND_FLAG)dx11BindFlag;
             }
 
+            FORCE_INLINE D3D11_STENCIL_OP Convert_eStencilOption_TO_D3D12_STENCIL_OP(const graphics::GraphicsAPI::eStencilOption stencilOption)
+            {
+	            switch (stencilOption)
+	            {
+	            case GraphicsAPI::KEEP: 
+                    return D3D11_STENCIL_OP::D3D11_STENCIL_OP_KEEP;
+                    break;
+	            case GraphicsAPI::STENCIL_OPTION_ZERO: 
+                    return D3D11_STENCIL_OP::D3D11_STENCIL_OP_ZERO;
+                    break;
+	            case GraphicsAPI::REPLACE:
+                    return D3D11_STENCIL_OP::D3D11_STENCIL_OP_REPLACE;
+                    break;
+	            case GraphicsAPI::INCR:
+                    return D3D11_STENCIL_OP::D3D11_STENCIL_OP_INCR;
+                    break;
+	            case GraphicsAPI::INCR_WRAP:
+                    return D3D11_STENCIL_OP::D3D11_STENCIL_OP_INCR_SAT;
+                    break;
+	            case GraphicsAPI::DECR: 
+                    return D3D11_STENCIL_OP::D3D11_STENCIL_OP_DECR;
+                    break;
+	            case GraphicsAPI::DECR_WRAP: 
+                    return D3D11_STENCIL_OP::D3D11_STENCIL_OP_DECR_SAT;
+                    break;
+	            case GraphicsAPI::INVERT: 
+                    return D3D11_STENCIL_OP::D3D11_STENCIL_OP_INVERT;
+                    break;
+	            default:
+                    NEVER_HAPPEN;
+	            }
+            }
+
+            FORCE_INLINE D3D11_BLEND Convert_eBlendFactor_TO_D3D11_BLEND(const graphics::GraphicsAPI::eBlendFactor blendFactor)
+            {
+	            switch (blendFactor)
+	            {
+	            case GraphicsAPI::ZERO: 
+                    return D3D11_BLEND::D3D11_BLEND_ZERO;
+	            case GraphicsAPI::ONE: 
+                    return D3D11_BLEND::D3D11_BLEND_ONE;
+	            case GraphicsAPI::SRC_COLOR: 
+                    return D3D11_BLEND::D3D11_BLEND_SRC_COLOR;
+	            case GraphicsAPI::ONE_MINUS_SRC_COLOR: 
+                    return D3D11_BLEND::D3D11_BLEND_INV_SRC_COLOR;
+	            case GraphicsAPI::DST_COLOR: 
+                    return D3D11_BLEND::D3D11_BLEND_DEST_COLOR;
+	            case GraphicsAPI::ONE_MINUS_DST_COLOR:
+                    return D3D11_BLEND::D3D11_BLEND_INV_DEST_COLOR;
+	            case GraphicsAPI::SRC_ALPHA: 
+                    return D3D11_BLEND::D3D11_BLEND_SRC_ALPHA;
+	            case GraphicsAPI::ONE_MINUS_SRC_ALPHA: 
+                    return D3D11_BLEND::D3D11_BLEND_INV_SRC_ALPHA;
+	            case GraphicsAPI::DST_ALPHA:
+                    return D3D11_BLEND::D3D11_BLEND_DEST_ALPHA;
+	            case GraphicsAPI::ONE_MINUS_DST_ALPHA:
+                    return D3D11_BLEND::D3D11_BLEND_INV_DEST_ALPHA;
+	            case GraphicsAPI::CONSTANT_COLOR:
+                    return D3D11_BLEND::D3D11_BLEND_BLEND_FACTOR;
+	            case GraphicsAPI::ONE_MINUS_CONSTANT_COLOR: 
+                    return D3D11_BLEND::D3D11_BLEND_INV_BLEND_FACTOR;
+	            default:
+                    NEVER_HAPPEN;
+	            }
+            }
+
             static HINSTANCE                           g_hInst = nullptr;
             static HWND                                g_hWnd = nullptr;
             static  D3D_DRIVER_TYPE                     g_driverType = D3D_DRIVER_TYPE_NULL;
@@ -281,6 +345,7 @@ namespace dooms
             static ID3D11RenderTargetView* BackBufferRenderTargetView = nullptr;
             static ID3D11Texture2D* g_pDepthStencil = nullptr;
             static ID3D11DepthStencilView* BackBufferDepthStencilView = nullptr;
+            static unsigned int SyncInterval = 0;
 
             static HRESULT InitWindow(HINSTANCE hInstance, int nCmdShow, int width, int height);
             static HRESULT InitDevice();
@@ -298,12 +363,12 @@ namespace dooms
                 wcex.cbClsExtra = 0;
                 wcex.cbWndExtra = 0;
                 wcex.hInstance = hInstance;
-               // wcex.hIcon = LoadIcon(hInstance, (LPCTSTR)IDI_TUTORIAL1);
+                wcex.hIcon = NULL;
                 wcex.hCursor = LoadCursor(nullptr, IDC_ARROW);
                 wcex.hbrBackground = (HBRUSH)(COLOR_WINDOW + 1);
                 wcex.lpszMenuName = nullptr;
                 wcex.lpszClassName = L"SUNG JIN KANG GAME ENGINE WINDOW CLASS";
-                //wcex.hIconSm = LoadIcon(wcex.hInstance, (LPCTSTR)IDI_TUTORIAL1);
+                wcex.hIconSm = NULL;
                 if (!RegisterClassEx(&wcex))
                     return E_FAIL;
 
@@ -464,32 +529,109 @@ namespace dooms
                 if (FAILED(hr))
                     return hr;
 
-                /*
-                // Create depth stencil texture
-                D3D11_TEXTURE2D_DESC descDepth = {};
-                descDepth.Width = width;
-                descDepth.Height = height;
-                descDepth.MipLevels = 1;
-                descDepth.ArraySize = 1;
-                descDepth.Format = dooms::graphics::dx11::ConvertTextureInternalFormat_To_DXGI_FORMAT(GraphicsAPI::TEXTURE_INTERNAL_FORMAT_DEPTH_COMPONENT32F);
-                descDepth.SampleDesc.Count = 1;
-                descDepth.SampleDesc.Quality = 0;
-                descDepth.Usage = D3D11_USAGE_DEFAULT;
-                descDepth.BindFlags = D3D11_BIND_DEPTH_STENCIL;
-                descDepth.CPUAccessFlags = 0;
-                descDepth.MiscFlags = 0;
-                hr = g_pd3dDevice->CreateTexture2D(&descDepth, nullptr, &g_pDepthStencil);
-                if (FAILED(hr))
-                    return hr;
+                {
+                    ID3D11RasterizerState* state;
+                    D3D11_RASTERIZER_DESC desc;
 
-                // Create the depth stencil view
-                D3D11_DEPTH_STENCIL_VIEW_DESC descDSV = {};
-                descDSV.Format = descDepth.Format;
-                descDSV.ViewDimension = D3D11_DSV_DIMENSION_TEXTURE2D;
-                descDSV.Texture2D.MipSlice = 0;
-                hr = g_pd3dDevice->CreateDepthStencilView(g_pDepthStencil, &descDSV, &BackBufferDepthStencilView);
-                if (FAILED(hr))
-                    return hr;
+                    desc.FillMode = D3D11_FILL_MODE::D3D11_FILL_SOLID;
+                    desc.CullMode = D3D11_CULL_BACK;
+                    desc.FrontCounterClockwise = true;
+                    desc.DepthBias = 0;
+                    desc.DepthBias = 0;
+                    desc.SlopeScaledDepthBias = 0.0f;
+                    desc.DepthBiasClamp = 0.0f;
+                    desc.DepthClipEnable = true;
+                    desc.ScissorEnable = false;
+                    desc.MultisampleEnable = false;
+                    desc.AntialiasedLineEnable = false;
+
+                    HRESULT hr = dx11::g_pd3dDevice->CreateRasterizerState(&desc, &state);
+                    assert(FAILED(hr) == false);
+                    dx11::g_pImmediateContext->RSSetState(state);
+                    state->Release();
+                }
+
+                {
+                    ID3D11BlendState* state;
+                    D3D11_BLEND_DESC desc;
+
+                    desc.AlphaToCoverageEnable = false;
+                    desc.IndependentBlendEnable = false;
+                    desc.RenderTarget[0].BlendEnable = false;
+                    desc.RenderTarget[0].SrcBlend = D3D11_BLEND::D3D11_BLEND_ONE;
+                    desc.RenderTarget[0].DestBlend = D3D11_BLEND::D3D11_BLEND_ZERO; //
+                    desc.RenderTarget[0].BlendOp = D3D11_BLEND_OP::D3D11_BLEND_OP_ADD;
+                    desc.RenderTarget[0].SrcBlendAlpha = D3D11_BLEND::D3D11_BLEND_ONE;
+                    desc.RenderTarget[0].DestBlendAlpha = D3D11_BLEND::D3D11_BLEND_ZERO;
+                    desc.RenderTarget[0].BlendOpAlpha = D3D11_BLEND_OP::D3D11_BLEND_OP_ADD;
+                    desc.RenderTarget[0].RenderTargetWriteMask = D3D11_COLOR_WRITE_ENABLE_ALL;
+
+                    hr = dx11::g_pd3dDevice->CreateBlendState(&desc, &state);
+                    assert(FAILED(hr) == false);
+                    dx11::g_pImmediateContext->OMSetBlendState(state, NULL, 0xFFFFFFFF);
+                    state->Release();
+                }
+
+                {
+                    ID3D11DepthStencilState* DepthStencilState;
+                    D3D11_DEPTH_STENCIL_DESC dsDesc;
+
+                    // Depth test parameters
+                    dsDesc.DepthEnable = true;
+                    dsDesc.DepthWriteMask = D3D11_DEPTH_WRITE_MASK_ALL;
+                    dsDesc.DepthFunc = D3D11_COMPARISON_LESS;
+
+                    // Stencil test parameters
+                    dsDesc.StencilEnable = false;
+                    dsDesc.StencilReadMask = D3D11_DEFAULT_STENCIL_READ_MASK;
+                    dsDesc.StencilWriteMask = D3D11_DEFAULT_STENCIL_WRITE_MASK;
+
+                    // Stencil operations if pixel is front-facing
+                    dsDesc.FrontFace.StencilFailOp = D3D11_STENCIL_OP_KEEP;
+                    dsDesc.FrontFace.StencilDepthFailOp = D3D11_STENCIL_OP_KEEP;
+                    dsDesc.FrontFace.StencilPassOp = D3D11_STENCIL_OP_KEEP;
+                    dsDesc.FrontFace.StencilFunc = D3D11_COMPARISON_ALWAYS;
+
+                    // Stencil operations if pixel is back-facing
+                    dsDesc.BackFace.StencilFailOp = D3D11_STENCIL_OP_KEEP;
+                    dsDesc.BackFace.StencilDepthFailOp = D3D11_STENCIL_OP_KEEP;
+                    dsDesc.BackFace.StencilPassOp = D3D11_STENCIL_OP_KEEP;
+                    dsDesc.BackFace.StencilFunc = D3D11_COMPARISON_ALWAYS;
+
+                    // Create depth stencil state
+                    hr = dx11::g_pd3dDevice->CreateDepthStencilState(&dsDesc, &DepthStencilState);
+                    assert(FAILED(hr) == false);
+                    dx11::g_pImmediateContext->OMSetDepthStencilState(DepthStencilState, 1);
+                    DepthStencilState->Release();
+                }
+
+                {
+                    // Create depth stencil texture
+                    D3D11_TEXTURE2D_DESC descDepth = {};
+                    descDepth.Width = width;
+                    descDepth.Height = height;
+                    descDepth.MipLevels = 1;
+                    descDepth.ArraySize = 1;
+                    descDepth.Format = dooms::graphics::dx11::ConvertTextureInternalFormat_To_DXGI_FORMAT(GraphicsAPI::TEXTURE_INTERNAL_FORMAT_DEPTH_COMPONENT32F);
+                    descDepth.SampleDesc.Count = 1;
+                    descDepth.SampleDesc.Quality = 0;
+                    descDepth.Usage = D3D11_USAGE_DEFAULT;
+                    descDepth.BindFlags = D3D11_BIND_DEPTH_STENCIL;
+                    descDepth.CPUAccessFlags = 0;
+                    descDepth.MiscFlags = 0;
+                    hr = g_pd3dDevice->CreateTexture2D(&descDepth, nullptr, &g_pDepthStencil);
+                    if (FAILED(hr))
+                        return hr;
+
+                    // Create the depth stencil view
+                    D3D11_DEPTH_STENCIL_VIEW_DESC descDSV = {};
+                    descDSV.Format = descDepth.Format;
+                    descDSV.ViewDimension = D3D11_DSV_DIMENSION_TEXTURE2D;
+                    descDSV.Texture2D.MipSlice = 0;
+                    hr = g_pd3dDevice->CreateDepthStencilView(g_pDepthStencil, &descDSV, &BackBufferDepthStencilView);
+                    if (FAILED(hr))
+                        return hr;
+                }
 
                 g_pImmediateContext->OMSetRenderTargets(1, &BackBufferRenderTargetView, BackBufferDepthStencilView);
 
@@ -505,6 +647,8 @@ namespace dooms
                 vp.TopLeftY = 0;
                 g_pImmediateContext->RSSetViewports(1, &vp);
 
+               
+                /*
                 // Compile the vertex shader
                 ID3DBlob* pVSBlob = nullptr;
                 hr = CompileShaderFromFile(L"Assets/DX11Test/Tutorial07.fxh", "VS", "vs_4_0", &pVSBlob);
@@ -795,7 +939,7 @@ namespace dooms
 
 		DOOMS_ENGINE_GRAPHICS_API void SwapBuffer() noexcept
 		{
-			dx11::g_pSwapChain->Present(0, 0); // Swap Back buffer
+			dx11::g_pSwapChain->Present(dx11::SyncInterval, 0); // Swap Back buffer
 		}
 
         DOOMS_ENGINE_GRAPHICS_API void SetViewport(const unsigned int index, const int startX, const int startY, const unsigned int width, const unsigned int height)
@@ -803,13 +947,11 @@ namespace dooms
             // Fetch existing viewports
 
             UINT vpCount = D3D11_VIEWPORT_AND_SCISSORRECT_OBJECT_COUNT_PER_PIPELINE;
-            D3D11_VIEWPORT* vp = new D3D11_VIEWPORT[D3D11_VIEWPORT_AND_SCISSORRECT_OBJECT_COUNT_PER_PIPELINE];
+            D3D11_VIEWPORT vp[D3D11_VIEWPORT_AND_SCISSORRECT_OBJECT_COUNT_PER_PIPELINE];
 
             dx11::g_pImmediateContext->RSGetViewports(&vpCount, vp);
             assert(vpCount > index);
-
-            //
-
+            
             vpCount = MAX(index + 1, vpCount);
 
             vp[index].Width = (FLOAT)width;
@@ -870,8 +1012,306 @@ namespace dooms
 
         DOOMS_ENGINE_GRAPHICS_API void* GetPlatformWindow()
         {
-            return dx11::g_hInst;
+            return dx11::g_hWnd;
         }
+
+        DOOMS_ENGINE_GRAPHICS_API void SetVSync(const bool isEnabled)
+        {
+            dx11::SyncInterval = (isEnabled == true ? 1 : 0);
+        }
+
+        DOOMS_ENGINE_GRAPHICS_API void SetIsDepthTestEnabled(const bool isEnabled)
+        {
+            UINT ref;
+            ID3D11DepthStencilState* state;
+            D3D11_DEPTH_STENCIL_DESC desc;
+
+            dx11::g_pImmediateContext->OMGetDepthStencilState(&state, &ref);
+            state->GetDesc(&desc);
+
+            desc.DepthEnable = isEnabled;
+
+            state->Release();
+            HRESULT hr = dx11::g_pd3dDevice->CreateDepthStencilState(&desc, &state);
+            assert(FAILED(hr) == false);
+            dx11::g_pImmediateContext->OMSetDepthStencilState(state, ref);
+            state->Release();
+        }
+
+        DOOMS_ENGINE_GRAPHICS_API void SetIsStencilTestEnabled(const bool isEnabled)
+        {
+            UINT ref;
+            ID3D11DepthStencilState* state;
+            D3D11_DEPTH_STENCIL_DESC desc;
+
+            dx11::g_pImmediateContext->OMGetDepthStencilState(&state, &ref);
+            state->GetDesc(&desc);
+
+            desc.StencilEnable = isEnabled;
+
+            state->Release();
+            HRESULT hr = dx11::g_pd3dDevice->CreateDepthStencilState(&desc, &state);
+            assert(FAILED(hr) == false);
+            dx11::g_pImmediateContext->OMSetDepthStencilState(state, ref);
+            state->Release();
+        }
+
+        DOOMS_ENGINE_GRAPHICS_API void SetIsStencilFunc
+        (
+            const GraphicsAPI::eTestFuncType testFuncType,
+            const int ref,
+            const unsigned int mask
+        )
+        {
+            UINT DUMMNY;
+            ID3D11DepthStencilState* state;
+            D3D11_DEPTH_STENCIL_DESC desc;
+
+            dx11::g_pImmediateContext->OMGetDepthStencilState(&state, &DUMMNY);
+            state->GetDesc(&desc);
+            
+            switch (testFuncType)
+            {
+            case GraphicsAPI::ALWAYS:
+                desc.BackFace.StencilFunc = D3D11_COMPARISON_FUNC::D3D11_COMPARISON_ALWAYS;
+                break;
+            case GraphicsAPI::NEVER:
+                desc.BackFace.StencilFunc = D3D11_COMPARISON_FUNC::D3D11_COMPARISON_NEVER;
+                break;
+            case GraphicsAPI::LESS:
+                desc.BackFace.StencilFunc = D3D11_COMPARISON_FUNC::D3D11_COMPARISON_LESS;
+                break;
+            case GraphicsAPI::EQUAL:
+                desc.BackFace.StencilFunc = D3D11_COMPARISON_FUNC::D3D11_COMPARISON_EQUAL;
+                break;
+            case GraphicsAPI::LEQUAL:
+                desc.BackFace.StencilFunc = D3D11_COMPARISON_FUNC::D3D11_COMPARISON_LESS_EQUAL;
+                break;
+            case GraphicsAPI::GREATER:
+                desc.BackFace.StencilFunc = D3D11_COMPARISON_FUNC::D3D11_COMPARISON_GREATER;
+                break;
+            case GraphicsAPI::NOTEQUAL:
+                desc.BackFace.StencilFunc = D3D11_COMPARISON_FUNC::D3D11_COMPARISON_NOT_EQUAL;
+                break;
+            case GraphicsAPI::GEQUAL:
+                desc.BackFace.StencilFunc = D3D11_COMPARISON_FUNC::D3D11_COMPARISON_GREATER_EQUAL;
+                break;
+            default:
+                NEVER_HAPPEN;
+            }
+
+            state->Release();
+            HRESULT hr = dx11::g_pd3dDevice->CreateDepthStencilState(&desc, &state);
+            assert(FAILED(hr) == false);
+            dx11::g_pImmediateContext->OMSetDepthStencilState(state, ref);
+            state->Release();
+        }
+
+        DOOMS_ENGINE_GRAPHICS_API void SetIsStencilOp
+        (
+            const GraphicsAPI::eStencilOption stencilFailOption,
+            const GraphicsAPI::eStencilOption actionWhenStencilTestPass_And_DepthTestFail,
+            const GraphicsAPI::eStencilOption actionWhenStencilTestPass_And_DepthTestPass
+        )
+        {
+            UINT ref;
+            ID3D11DepthStencilState* state;
+            D3D11_DEPTH_STENCIL_DESC desc;
+
+            dx11::g_pImmediateContext->OMGetDepthStencilState(&state, &ref);
+            state->GetDesc(&desc);
+
+            desc.BackFace.StencilFailOp = dx11::Convert_eStencilOption_TO_D3D12_STENCIL_OP(stencilFailOption);
+            desc.BackFace.StencilDepthFailOp = dx11::Convert_eStencilOption_TO_D3D12_STENCIL_OP(actionWhenStencilTestPass_And_DepthTestFail);
+            desc.BackFace.StencilPassOp = dx11::Convert_eStencilOption_TO_D3D12_STENCIL_OP(actionWhenStencilTestPass_And_DepthTestPass);
+
+            state->Release();
+            HRESULT hr = dx11::g_pd3dDevice->CreateDepthStencilState(&desc, &state);
+            assert(FAILED(hr) == false);
+            dx11::g_pImmediateContext->OMSetDepthStencilState(state, ref);
+            state->Release();
+        }
+
+        DOOMS_ENGINE_GRAPHICS_API void SetDepthFunc(const GraphicsAPI::eTestFuncType depthFuncType)
+        {
+            UINT ref;
+            ID3D11DepthStencilState* state;
+            D3D11_DEPTH_STENCIL_DESC desc;
+
+            dx11::g_pImmediateContext->OMGetDepthStencilState(&state, &ref);
+            state->GetDesc(&desc);
+
+            switch (depthFuncType)
+            {
+            case GraphicsAPI::ALWAYS:
+                desc.DepthFunc = D3D11_COMPARISON_FUNC::D3D11_COMPARISON_ALWAYS;
+                break;
+            case GraphicsAPI::NEVER:
+                desc.DepthFunc = D3D11_COMPARISON_FUNC::D3D11_COMPARISON_NEVER;
+                break;
+            case GraphicsAPI::LESS:
+                desc.DepthFunc = D3D11_COMPARISON_FUNC::D3D11_COMPARISON_LESS;
+                break;
+            case GraphicsAPI::EQUAL:
+                desc.DepthFunc = D3D11_COMPARISON_FUNC::D3D11_COMPARISON_EQUAL;
+                break;
+            case GraphicsAPI::LEQUAL:
+                desc.DepthFunc = D3D11_COMPARISON_FUNC::D3D11_COMPARISON_LESS_EQUAL;
+                break;
+            case GraphicsAPI::GREATER:
+                desc.DepthFunc = D3D11_COMPARISON_FUNC::D3D11_COMPARISON_GREATER;
+                break;
+            case GraphicsAPI::NOTEQUAL:
+                desc.DepthFunc = D3D11_COMPARISON_FUNC::D3D11_COMPARISON_NOT_EQUAL;
+                break;
+            case GraphicsAPI::GEQUAL:
+                desc.DepthFunc = D3D11_COMPARISON_FUNC::D3D11_COMPARISON_GREATER_EQUAL;
+                break;
+            default:
+                NEVER_HAPPEN;
+            }
+
+            state->Release();
+            HRESULT hr = dx11::g_pd3dDevice->CreateDepthStencilState(&desc, &state);
+            assert(FAILED(hr) == false);
+            dx11::g_pImmediateContext->OMSetDepthStencilState(state, ref);
+            state->Release();
+        }
+
+        DOOMS_ENGINE_GRAPHICS_API void SetDepthMask(const bool isWriteDepthBuffer)
+        {
+            UINT ref;
+            ID3D11DepthStencilState* state;
+            D3D11_DEPTH_STENCIL_DESC desc;
+
+            dx11::g_pImmediateContext->OMGetDepthStencilState(&state, &ref);
+            state->GetDesc(&desc);
+
+            desc.DepthWriteMask = D3D11_DEPTH_WRITE_MASK::D3D11_DEPTH_WRITE_MASK_ZERO;
+
+            state->Release();
+            HRESULT hr = dx11::g_pd3dDevice->CreateDepthStencilState(&desc, &state);
+            assert(FAILED(hr) == false);
+            dx11::g_pImmediateContext->OMSetDepthStencilState(state, ref);
+            state->Release();
+        }
+
+        DOOMS_ENGINE_GRAPHICS_API void SetIsAlphaTestEnabled(const bool isEnabled)
+        {
+            /*
+            Direct3D 10 and higher does not implement an alpha test(or alpha testing state).
+			This can be controlled using a pixel shader or with depth / stencil functionality.
+			*/
+        }
+
+        DOOMS_ENGINE_GRAPHICS_API void SetIsBlendEnabled(const bool isEnabled)
+        {
+            ID3D11BlendState* state;
+            float BlendFactor[4];
+            unsigned int SampleMask;
+
+            D3D11_BLEND_DESC desc;
+
+            dx11::g_pImmediateContext->OMGetBlendState(&state, BlendFactor, &SampleMask);
+            state->GetDesc(&desc);
+
+            for(size_t i = 0 ; i < 8 ; i++)
+            {
+                desc.RenderTarget[i].BlendEnable = isEnabled;
+            }
+
+            state->Release();
+            HRESULT hr = dx11::g_pd3dDevice->CreateBlendState(&desc, &state);
+            assert(FAILED(hr) == false);
+            dx11::g_pImmediateContext->OMSetBlendState(state, BlendFactor, SampleMask);
+            state->Release();
+        }
+
+       
+        
+        DOOMS_ENGINE_GRAPHICS_API void SetBlendFactor
+        (
+            const GraphicsAPI::eBlendFactor sourceBlendFactor,
+            const GraphicsAPI::eBlendFactor destinationBlendFactor
+        )
+        {
+            ID3D11BlendState* state;
+            float BlendFactor[4];
+            unsigned int SampleMask;
+
+            D3D11_BLEND_DESC desc;
+
+            dx11::g_pImmediateContext->OMGetBlendState(&state, BlendFactor, &SampleMask);
+            state->GetDesc(&desc);
+
+            for (size_t i = 0; i < 8; i++)
+            {
+                desc.RenderTarget[i].SrcBlend = dx11::Convert_eBlendFactor_TO_D3D11_BLEND(sourceBlendFactor);
+                desc.RenderTarget[i].DestBlend = dx11::Convert_eBlendFactor_TO_D3D11_BLEND(destinationBlendFactor);
+            }
+
+            state->Release();
+            HRESULT hr = dx11::g_pd3dDevice->CreateBlendState(&desc, &state);
+            assert(FAILED(hr) == false);
+            dx11::g_pImmediateContext->OMSetBlendState(state, BlendFactor, SampleMask);
+            state->Release();
+        }
+
+        DOOMS_ENGINE_GRAPHICS_API void SetCullFace(const GraphicsAPI::eCullFace cullFace)
+        {
+            ID3D11RasterizerState* state;
+            D3D11_RASTERIZER_DESC desc;
+            dx11::g_pImmediateContext->RSGetState(&state);
+            state->GetDesc(&desc);
+
+            switch (cullFace)
+            {
+            case GraphicsAPI::CULLFACE_FRONT: 
+                desc.CullMode = D3D11_CULL_MODE::D3D11_CULL_FRONT;
+                break;
+            case GraphicsAPI::CULLFACE_BACK: 
+                desc.CullMode = D3D11_CULL_MODE::D3D11_CULL_BACK;
+                break;
+            case GraphicsAPI::CULLFACE_FRONT_AND_BACK: 
+                desc.CullMode = D3D11_CULL_MODE::D3D11_CULL_NONE;
+                break;
+            default:
+                NEVER_HAPPEN;
+            }
+
+            state->Release();
+            HRESULT hr = dx11::g_pd3dDevice->CreateRasterizerState(&desc, &state);
+            assert(FAILED(hr) == false);
+            dx11::g_pImmediateContext->RSSetState(state);
+            state->Release();
+        }
+
+        DOOMS_ENGINE_GRAPHICS_API void SetFrontFaceWinding(const GraphicsAPI::eWinding winding)
+        {
+            ID3D11RasterizerState* state;
+            D3D11_RASTERIZER_DESC desc;
+            dx11::g_pImmediateContext->RSGetState(&state);
+            state->GetDesc(&desc);
+
+            switch (winding)
+            {
+            case GraphicsAPI::CW:
+                desc.FrontCounterClockwise = false;
+                break;
+            case GraphicsAPI::CCW: 
+                desc.FrontCounterClockwise = true;
+                break;
+            default:
+                NEVER_HAPPEN;
+            }
+
+            state->Release();
+            HRESULT hr = dx11::g_pd3dDevice->CreateRasterizerState(&desc, &state);
+            assert(FAILED(hr) == false);
+            dx11::g_pImmediateContext->RSSetState(state);
+            state->Release();
+        }
+
 
 
 
