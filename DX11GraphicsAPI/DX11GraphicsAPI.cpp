@@ -349,7 +349,7 @@ namespace dooms
             static ID3D11Texture2D* g_pDepthStencil = nullptr;
             static ID3D11DepthStencilView* BackBufferDepthStencilView = nullptr;
             static unsigned int SyncInterval = 0;
-
+            static unsigned int DrawCallCounter = 0;
             static HRESULT InitWindow(HINSTANCE hInstance, int nCmdShow, int width, int height);
             static HRESULT InitDevice();
             static void CleanupDevice();
@@ -959,9 +959,15 @@ namespace dooms
 			return 0;
 		}
 
+        DOOMS_ENGINE_GRAPHICS_API unsigned int GetDrawCall()
+        {
+            return dx11::DrawCallCounter;
+        }
+
 		DOOMS_ENGINE_GRAPHICS_API void SwapBuffer() noexcept
 		{
 			dx11::g_pSwapChain->Present(dx11::SyncInterval, 0); // Swap Back buffer
+			dx11::DrawCallCounter++;
 		}
 
         DOOMS_ENGINE_GRAPHICS_API void SetViewport(const unsigned int index, const int startX, const int startY, const unsigned int width, const unsigned int height)
