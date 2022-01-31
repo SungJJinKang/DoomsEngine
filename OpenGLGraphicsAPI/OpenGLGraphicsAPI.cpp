@@ -1403,7 +1403,18 @@ namespace dooms
 			assert(vertexArrayObject != 0);
 			glBindVertexArray(vertexArrayObject);
 		}
-		
+
+		DOOMS_ENGINE_GRAPHICS_API void BindVertexDataBuffer
+		(
+			const unsigned long long bufferObject,
+			const unsigned int bindingPosition,
+			const unsigned int stride,
+			const unsigned int offset
+		)
+		{
+			glBindBuffer(GL_ARRAY_BUFFER, bufferObject);
+		}
+
 		DOOMS_ENGINE_GRAPHICS_API void BindBuffer
 		(
 			const unsigned long long bufferObject,
