@@ -208,20 +208,20 @@ void UserInput_Server::UpdateCursorMode()
 {
 	if (UserInput_Server::IsCursorLockedInScreen == false && UserInput_Server::IsCursorVisible == true)
 	{
-		dooms::input::GraphicsAPIInput::SetCursorMode(dooms::graphics::GraphicsAPI::GetPlatformWindow(), dooms::input::GraphicsAPIInput::eCursorMode::CURSOR_MODE_NORMAL);
+		dooms::input::GraphicsAPIInput::SetCursorMode(dooms::graphics::GraphicsAPI::GetPlatformWindow(), dooms::input::GraphicsAPIInput::eCursorMode::SHOW_CURSOR_UNLOCK_CURSOR_FROM_WINDOW);
 	}
 	else if (UserInput_Server::IsCursorLockedInScreen == false && UserInput_Server::IsCursorVisible == false)
 	{
-		dooms::input::GraphicsAPIInput::SetCursorMode(dooms::graphics::GraphicsAPI::GetPlatformWindow(), dooms::input::GraphicsAPIInput::eCursorMode::CURSOR_MODE_HIDDEN);
+		dooms::input::GraphicsAPIInput::SetCursorMode(dooms::graphics::GraphicsAPI::GetPlatformWindow(), dooms::input::GraphicsAPIInput::eCursorMode::HIDE_CURSOR_UNLOCK_CURSOR_FROM_WINDOW);
 	}
 	else if (UserInput_Server::IsCursorLockedInScreen == true && UserInput_Server::IsCursorVisible == false)
 	{
-		dooms::input::GraphicsAPIInput::SetCursorMode(dooms::graphics::GraphicsAPI::GetPlatformWindow(), dooms::input::GraphicsAPIInput::eCursorMode::CURSOR_MODE_DISABLED);
+		dooms::input::GraphicsAPIInput::SetCursorMode(dooms::graphics::GraphicsAPI::GetPlatformWindow(), dooms::input::GraphicsAPIInput::eCursorMode::HIDE_CURSOR_LOCK_CURSOR_ON_WINDOW);
 	}
 	else if (UserInput_Server::IsCursorLockedInScreen == true && UserInput_Server::IsCursorVisible == true)
 	{
 		D_DEBUG_LOG(eLogType::D_WARNING, "Undefined Cursor Mode, There is no mode that locked in screen and visible"); // https://www.glfw.org/docs/3.3/input_guide.html
-		dooms::input::GraphicsAPIInput::SetCursorMode(dooms::graphics::GraphicsAPI::GetPlatformWindow(), dooms::input::GraphicsAPIInput::eCursorMode::CURSOR_MODE_DISABLED);
+		dooms::input::GraphicsAPIInput::SetCursorMode(dooms::graphics::GraphicsAPI::GetPlatformWindow(), dooms::input::GraphicsAPIInput::eCursorMode::HIDE_CURSOR_LOCK_CURSOR_ON_WINDOW);
 	}
 }
 

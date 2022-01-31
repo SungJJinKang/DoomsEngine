@@ -16,7 +16,7 @@ void dooms::graphics::GraphicsAPIManager::LoadGraphicsAPI(const GraphicsAPI::eGr
 
 void dooms::graphics::GraphicsAPIManager::SetDefaultSettingOfAPI()
 {
-	input::GraphicsAPIInput::SetCursorMode(dooms::graphics::GraphicsAPI::GetPlatformWindow(), input::GraphicsAPIInput::eCursorMode::CURSOR_MODE_NORMAL);
+	input::GraphicsAPIInput::SetCursorMode(dooms::graphics::GraphicsAPI::GetPlatformWindow(), input::GraphicsAPIInput::eCursorMode::SHOW_CURSOR_UNLOCK_CURSOR_FROM_WINDOW);
 	graphics::GraphicsAPI::SetIsDepthTestEnabled(true);
 	//graphics::GraphicsAPI::SetIsStencilTestEnabled(true);
 	graphics::GraphicsAPI::SetDepthFunc(GraphicsAPI::LESS);

@@ -144,9 +144,9 @@ namespace dooms
 
 			enum eCursorMode : unsigned int
 			{
-				CURSOR_MODE_NORMAL,
-				CURSOR_MODE_HIDDEN,
-				CURSOR_MODE_DISABLED,
+				SHOW_CURSOR_UNLOCK_CURSOR_FROM_WINDOW,
+				HIDE_CURSOR_UNLOCK_CURSOR_FROM_WINDOW,
+				HIDE_CURSOR_LOCK_CURSOR_ON_WINDOW,
 			};
 
 			enum eInputActionType : unsigned int
