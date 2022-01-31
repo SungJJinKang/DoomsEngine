@@ -57,7 +57,7 @@ namespace dooms
                 case GraphicsAPI::TEXTURE_INTERNAL_FORMAT_DEPTH_COMPONENT16:
                     return DXGI_FORMAT_D16_UNORM;
                 case GraphicsAPI::TEXTURE_INTERNAL_FORMAT_DEPTH_COMPONENT24:
-                    return DXGI_FORMAT_D24_UNORM_S8_UINT;
+                    return DXGI_FORMAT_D24_UNORM_S8_UINT; // DX11 doesn't have D24 format.
                 case GraphicsAPI::TEXTURE_INTERNAL_FORMAT_DEPTH_COMPONENT32F:
                     return DXGI_FORMAT_D32_FLOAT;
                 case GraphicsAPI::TEXTURE_INTERNAL_FORMAT_DEPTH24_STENCIL8:
