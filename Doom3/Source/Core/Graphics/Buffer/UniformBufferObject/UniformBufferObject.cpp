@@ -6,12 +6,12 @@ void dooms::graphics::UniformBufferObject::InitializeUniformVariableOffset
 	const std::vector<asset::shaderReflectionDataParser::UniformBufferMember>& uboMembers
 )
 {
-	mUniformVariableOffset.clear();
-	mUniformVariableOffset.reserve(uboMembers.size());
+	mUniformVariableInfos.clear();
+	mUniformVariableInfos.reserve(uboMembers.size());
 	for(const asset::shaderReflectionDataParser::UniformBufferMember& uboMember : uboMembers)
 	{
-		D_ASSERT_LOG(mUniformVariableOffset.find(uboMember.mName) == mUniformVariableOffset.end(), "UBO member with same name is detected");
-		mUniformVariableOffset.emplace(uboMember.mName, uboMember.mOffset);
+		D_ASSERT_LOG(mUniformVariableInfos.find(uboMember.mName) == mUniformVariableInfos.end(), "UBO member with same name is detected");
+		mUniformVariableInfos.emplace(uboMember.mName, uboMember);
 	}
 }
 
@@ -28,7 +28,7 @@ dooms::graphics::UniformBufferObject::UniformBufferObject()
 	mUniformBlockName(),
 	mUniformBufferSize(0),
 	mDefaultBindingPoint(0),
-	mUniformBufferTempData(nullptr)
+	mUniformBufferLocalBuffer()
 {
 	AddToRootObjectList();
 }
@@ -41,6 +41,12 @@ dooms::graphics::UniformBufferObject::UniformBufferObject
 	const void* const initialData,
 	const std::vector<asset::shaderReflectionDataParser::UniformBufferMember>* const uboMembers
 )
+	:
+	mUniformBufferObject(),
+	mUniformBlockName(),
+	mUniformBufferSize(0),
+	mDefaultBindingPoint(0),
+	mUniformBufferLocalBuffer()
 {
 	AddToRootObjectList();
 	InitializeUniformBufferObject(uniformBlockName, uniformBufferSize, defaultBindingPoint, initialData, uboMembers);
@@ -50,7 +56,6 @@ dooms::graphics::UniformBufferObject::~UniformBufferObject()
 {
 	DeleteBuffers();
 }
-
 
 bool dooms::graphics::UniformBufferObject::InitializeUniformBufferObject
 (
@@ -68,7 +73,7 @@ bool dooms::graphics::UniformBufferObject::InitializeUniformBufferObject
 		mUniformBlockName = uniformBlockName;
 		mUniformBufferSize = uniformBufferSize;
 		mDefaultBindingPoint = defaultBindingPoint;
-		mUniformBufferTempData = nullptr;
+		mUniformBufferLocalBuffer = nullptr;
 
 		GenerateUniformBufferObject(uniformBufferSize);
 
@@ -93,6 +98,16 @@ const std::string& dooms::graphics::UniformBufferObject::GetUniformBlockName() c
 	return mUniformBlockName;
 }
 
+UINT64 dooms::graphics::UniformBufferObject::GetUniformBufferSize() const
+{
+	return mUniformBufferSize;
+}
+
+UINT32 dooms::graphics::UniformBufferObject::GetDefaultBindingPoint() const
+{
+	return mDefaultBindingPoint;
+}
+
 void dooms::graphics::UniformBufferObject::GenerateUniformBufferObject(const UINT64 uniformBufferSize, const void* const initialData)
 {
 	D_ASSERT(IsBufferGenerated() == false); // prevent overlap generating buffer
@@ -102,14 +117,13 @@ void dooms::graphics::UniformBufferObject::GenerateUniformBufferObject(const UIN
 
 		mUniformBufferSize = uniformBufferSize;
 
-		if (mUniformBufferTempData != nullptr)
+		if (mUniformBufferLocalBuffer)
 		{
-			delete[] mUniformBufferTempData;
-			mUniformBufferTempData = nullptr;
+			mUniformBufferLocalBuffer.reset();
 		}
 
-		mUniformBufferTempData = new char[uniformBufferSize];
-		std::memset(mUniformBufferTempData, 0x00, uniformBufferSize);
+		mUniformBufferLocalBuffer = std::make_unique<UINT8[]>(uniformBufferSize);
+		std::memset(mUniformBufferLocalBuffer.get(), 0x00, uniformBufferSize);
 	}
 
 }
@@ -122,16 +136,15 @@ void dooms::graphics::UniformBufferObject::DeleteBuffers()
 		mUniformBufferObject.Reset();
 	}
 
-	if (mUniformBufferTempData != nullptr)
+	if (mUniformBufferLocalBuffer != nullptr)
 	{
-		delete[] mUniformBufferTempData;
-		mUniformBufferTempData = nullptr;
+		mUniformBufferLocalBuffer.reset();
 	}
 
 	mUniformBlockName.clear();
 	mUniformBufferSize = 0;
 	mDefaultBindingPoint = 0;
-	mUniformVariableOffset.clear();
+	mUniformVariableInfos.clear();
 	
 }
 
@@ -140,16 +153,17 @@ void dooms::graphics::UniformBufferObject::UpdateLocalBufferToGPU() noexcept
 	D_ASSERT(IsBufferGenerated() == true);
 	if ( (bmIsDirty == true) && (IsBufferGenerated() == true) )
 	{
-		GraphicsAPI::UpdateDataToBuffer(mUniformBufferObject, GraphicsAPI::eBufferTarget::UNIFORM_BUFFER, 0, mUniformBufferSize, mUniformBufferTempData);
+		D_ASSERT(mUniformBufferLocalBuffer);
+		UpdateDataToGPU_Internal(mUniformBufferLocalBuffer.get(), 0, mUniformBufferSize);
 		bmIsDirty = false;
 	}
 }
 
 void dooms::graphics::UniformBufferObject::UpdateLocalBuffer
 (
-	const void* sourceData, 
-	const UINT32 sizeOfSourceData, 
-	const UINT32 offsetInUniformBlock,
+	const void* sourceData,
+	const UINT64 offsetInUniformBlock,
+	const UINT64 sizeOfSourceData,
 	const bool instantlyUpdateToGPU
 )
 {
@@ -158,7 +172,8 @@ void dooms::graphics::UniformBufferObject::UpdateLocalBuffer
 
 	if(IsBufferGenerated() == true)
 	{
-		std::memcpy(mUniformBufferTempData + offsetInUniformBlock, sourceData, sizeOfSourceData);
+		D_ASSERT(mUniformBufferLocalBuffer);
+		UpdateLocalBuffer_Internal(sourceData, offsetInUniformBlock, sizeOfSourceData, instantlyUpdateToGPU);
 		bmIsDirty = true;
 	}
 }

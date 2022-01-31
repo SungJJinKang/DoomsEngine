@@ -65,6 +65,9 @@ namespace dooms
 			D_PROPERTY()
 			UINT32 mVertexArrayFlag;
 
+			D_PROPERTY()
+			UINT32 mStride;
+
 			/// <summary>
 			/// bind buffer array object
 			/// </summary>
@@ -103,7 +106,13 @@ namespace dooms
 
 			void BindVertexArrayObject() const;
 			void BindVertexBufferObject() const;
-			void BindVertexBufferObject(const UINT32 bindingPosition, const graphics::GraphicsAPI::eGraphicsPipeLineStage graphicsPipeLineStage) const;
+			void BindIndexBufferObject() const;
+			void BindVertexBufferObject
+			(
+				const UINT32 bindingPosition,
+				const UINT32 stride,
+				const UINT32 offset
+			) const;
 
 			void CreateVertexArrayObjectIfNotExist();
 
@@ -115,9 +124,9 @@ namespace dooms
 			Mesh();
 			virtual ~Mesh();
 			
-			Mesh(const long long int dataCount, const void* data, GraphicsAPI::ePrimitiveType primitiveType, UINT32 vertexArrayFlag) noexcept;
-			Mesh(const ThreeDModelMesh& threeDModelMesh) noexcept;
-			Mesh& operator=(const ThreeDModelMesh& threeDModelMesh) noexcept;
+			Mesh(const long long int dataCount, const void* data, GraphicsAPI::ePrimitiveType primitiveType, UINT32 vertexArrayFlag);
+			Mesh(const ThreeDModelMesh& threeDModelMesh);
+			Mesh& operator=(const ThreeDModelMesh& threeDModelMesh);
 
 			Mesh(const Mesh&) = delete;
 			Mesh& operator=(const Mesh&) = delete;
@@ -139,10 +148,23 @@ namespace dooms
 			{
 				D_ASSERT(mPrimitiveType != GraphicsAPI::ePrimitiveType::NONE);
 
-				BindVertexArrayObject();
+				if(graphics::GraphicsAPI::GetCurrentAPIType() == graphics::GraphicsAPI::eGraphicsAPIType::OpenGL)
+				{
+					BindVertexArrayObject();
+				}
+				else if (graphics::GraphicsAPI::GetCurrentAPIType() == graphics::GraphicsAPI::eGraphicsAPIType::DX11_10)
+				{
+					BindVertexBufferObject();
+				}
+				else
+				{
+					NEVER_HAPPEN;
+				}
+
 				if (IsElementBufferGenerated() == true)
 				{// TODO : WHY THIS MAKE ERROR ON RADEON GPU, CHECK THIS https://stackoverflow.com/questions/18299646/gldrawelements-emits-gl-invalid-operation-when-using-amd-driver-on-linux
 					// you don't need bind EBO everytime, EBO will be bound automatically when bind VAO
+					BindIndexBufferObject();
 					GraphicsAPI::DrawIndexed(mPrimitiveType, mNumOfIndices);
 				}
 				else
@@ -154,7 +176,18 @@ namespace dooms
 			{
 				D_ASSERT(mPrimitiveType != GraphicsAPI::ePrimitiveType::NONE);
 
-				BindVertexArrayObject();
+				if (graphics::GraphicsAPI::GetCurrentAPIType() == graphics::GraphicsAPI::eGraphicsAPIType::OpenGL)
+				{
+					BindVertexArrayObject();
+				}
+				else if (graphics::GraphicsAPI::GetCurrentAPIType() == graphics::GraphicsAPI::eGraphicsAPIType::OpenGL)
+				{
+					BindVertexBufferObject();
+				}
+				else
+				{
+					NEVER_HAPPEN;
+				}
 
 				GraphicsAPI::Draw(mPrimitiveType, vertexCount, startVertexLocation);
 			}
@@ -163,7 +196,18 @@ namespace dooms
 			{
 				D_ASSERT(primitiveType != GraphicsAPI::ePrimitiveType::NONE);
 
-				BindVertexArrayObject();
+				if (graphics::GraphicsAPI::GetCurrentAPIType() == graphics::GraphicsAPI::eGraphicsAPIType::OpenGL)
+				{
+					BindVertexArrayObject();
+				}
+				else if (graphics::GraphicsAPI::GetCurrentAPIType() == graphics::GraphicsAPI::eGraphicsAPIType::OpenGL)
+				{
+					BindVertexBufferObject();
+				}
+				else
+				{
+					NEVER_HAPPEN;
+				}
 
 				GraphicsAPI::Draw(primitiveType, vertexCount, startVertexLocation);
 			}

@@ -51,9 +51,15 @@ void dooms::PointLight::UpdateUniformBufferObject(const bool force)
 			const UINT32 staticCount = GetStaticElementCount();
 			if (staticIndex < MAX_POINT_LIGHT_COUNT)
 			{
-				dooms::graphics::UniformBufferObjectManager::GetSingleton()->GetUniformBufferObject(GLOBAL_UNIFORM_BLOCK_BINDING_POINT)->UpdateDataToGPU((void*)pos.data(), sizeof(pos), graphics::eUniformBlock_Global::pointLight0_Pos + 32 * staticIndex);
-				dooms::graphics::UniformBufferObjectManager::GetSingleton()->GetUniformBufferObject(GLOBAL_UNIFORM_BLOCK_BINDING_POINT)->UpdateDataToGPU((void*)radiance.data(), sizeof(radiance), graphics::eUniformBlock_Global::pointLight0_Col + 32 * staticIndex);
-				dooms::graphics::UniformBufferObjectManager::GetSingleton()->GetUniformBufferObject(GLOBAL_UNIFORM_BLOCK_BINDING_POINT)->UpdateDataToGPU((void*)&staticCount, sizeof(staticCount), graphics::eUniformBlock_Global::pointLightCount); // TODO : DO this from every lights, just one call is enough per frame
+				dooms::graphics::UniformBufferObject* const ubo = dooms::graphics::UniformBufferObjectManager::GetSingleton()->GetUniformBufferObject(GLOBAL_UNIFORM_BLOCK_NAME);
+				D_ASSERT(IsValid(ubo));
+
+				if (IsValid(ubo))
+				{
+					ubo->UpdateDataToGPU((void*)pos.data(), graphics::eUniformBlock_Global::pointLight0_Pos + 4 * staticIndex, sizeof(pos));
+					ubo->UpdateDataToGPU((void*)radiance.data(), graphics::eUniformBlock_Global::pointLight0_Col + 4 * staticIndex, sizeof(radiance));
+					ubo->UpdateDataToGPU((void*)&staticCount, graphics::eUniformBlock_Global::pointLightCount, sizeof(staticCount));
+				}
 			}
 			else
 			{

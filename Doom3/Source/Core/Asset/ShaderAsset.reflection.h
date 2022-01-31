@@ -20,37 +20,73 @@
 //-------------------------------------------
 
 
-#ifdef GENERATE_BODY_FULLNAME_dooms__asset__ShaderTextString
-#error "GENERATE_BODY_FULLNAME_dooms__asset__ShaderTextString already included...."
+#ifdef GENERATE_BODY_FULLNAME_dooms__asset__ShaderTextData
+#error "GENERATE_BODY_FULLNAME_dooms__asset__ShaderTextData already included...."
 #endif
 
 
-#undef CURRENT_TYPE_ALIAS_dooms__asset__ShaderTextString
-#define CURRENT_TYPE_ALIAS_dooms__asset__ShaderTextString \
-typedef dooms::asset::ShaderTextString Current;
+#undef CURRENT_TYPE_ALIAS_dooms__asset__ShaderTextData
+#define CURRENT_TYPE_ALIAS_dooms__asset__ShaderTextData \
+typedef dooms::asset::ShaderTextData Current;
 
 
-#undef TYPE_FULLNAME_HASH_VALUE_NAME_STRING_dooms__asset__ShaderTextString
-#define TYPE_FULLNAME_HASH_VALUE_NAME_STRING_dooms__asset__ShaderTextString \
-inline static const unsigned long int TYPE_FULL_NAME_HASH_VALUE = 675928410; \
-inline static const char* const TYPE_FULL_NAME = "dooms::asset::ShaderTextString"; \
-inline static const char* const TYPE_SHORT_NAME = "ShaderTextString"; \
+#undef TYPE_FULLNAME_HASH_VALUE_NAME_STRING_dooms__asset__ShaderTextData
+#define TYPE_FULLNAME_HASH_VALUE_NAME_STRING_dooms__asset__ShaderTextData \
+inline static const unsigned long int TYPE_FULL_NAME_HASH_VALUE = 634440315; \
+inline static const char* const TYPE_FULL_NAME = "dooms::asset::ShaderTextData"; \
+inline static const char* const TYPE_SHORT_NAME = "ShaderTextData"; \
 
 
-#undef TYPE_CHECK_FUNCTION_ShaderTextString
-#define TYPE_CHECK_FUNCTION_ShaderTextString \
+#undef TYPE_CHECK_FUNCTION_ShaderTextData
+#define TYPE_CHECK_FUNCTION_ShaderTextData \
 attrNoReflect void __TYPE_CHECK() { static_assert(std::is_same_v<std::remove_reference<decltype(*this)>::type, Current> == true, "ERROR : WRONG TYPE. Please Check GENERATED_~ MACROS");} \
 
 
-#undef GENERATE_BODY_FULLNAME_dooms__asset__ShaderTextString
-#define GENERATE_BODY_FULLNAME_dooms__asset__ShaderTextString(...) \
-CURRENT_TYPE_ALIAS_dooms__asset__ShaderTextString \
-TYPE_FULLNAME_HASH_VALUE_NAME_STRING_dooms__asset__ShaderTextString \
-TYPE_CHECK_FUNCTION_ShaderTextString \
+#undef GENERATE_BODY_FULLNAME_dooms__asset__ShaderTextData
+#define GENERATE_BODY_FULLNAME_dooms__asset__ShaderTextData(...) \
+CURRENT_TYPE_ALIAS_dooms__asset__ShaderTextData \
+TYPE_FULLNAME_HASH_VALUE_NAME_STRING_dooms__asset__ShaderTextData \
+TYPE_CHECK_FUNCTION_ShaderTextData \
 
 
 //Type Short Name ( without namespace, only type name ) Version Macros.
-#define GENERATE_BODY_ShaderTextString(...) GENERATE_BODY_FULLNAME_dooms__asset__ShaderTextString(__VA_ARGS__)
+#define GENERATE_BODY_ShaderTextData(...) GENERATE_BODY_FULLNAME_dooms__asset__ShaderTextData(__VA_ARGS__)
+
+
+//-------------------------------------------
+
+
+#ifdef GENERATE_BODY_FULLNAME_dooms__asset__ShaderAsset__ShaderObject
+#error "GENERATE_BODY_FULLNAME_dooms__asset__ShaderAsset__ShaderObject already included...."
+#endif
+
+
+#undef CURRENT_TYPE_ALIAS_dooms__asset__ShaderAsset__ShaderObject
+#define CURRENT_TYPE_ALIAS_dooms__asset__ShaderAsset__ShaderObject \
+typedef dooms::asset::ShaderAsset::ShaderObject Current;
+
+
+#undef TYPE_FULLNAME_HASH_VALUE_NAME_STRING_dooms__asset__ShaderAsset__ShaderObject
+#define TYPE_FULLNAME_HASH_VALUE_NAME_STRING_dooms__asset__ShaderAsset__ShaderObject \
+inline static const unsigned long int TYPE_FULL_NAME_HASH_VALUE = 2633997282; \
+inline static const char* const TYPE_FULL_NAME = "dooms::asset::ShaderAsset::ShaderObject"; \
+inline static const char* const TYPE_SHORT_NAME = "ShaderObject"; \
+
+
+#undef TYPE_CHECK_FUNCTION_ShaderObject
+#define TYPE_CHECK_FUNCTION_ShaderObject \
+attrNoReflect void __TYPE_CHECK() { static_assert(std::is_same_v<std::remove_reference<decltype(*this)>::type, Current> == true, "ERROR : WRONG TYPE. Please Check GENERATED_~ MACROS");} \
+
+
+#undef GENERATE_BODY_FULLNAME_dooms__asset__ShaderAsset__ShaderObject
+#define GENERATE_BODY_FULLNAME_dooms__asset__ShaderAsset__ShaderObject(...) \
+CURRENT_TYPE_ALIAS_dooms__asset__ShaderAsset__ShaderObject \
+TYPE_FULLNAME_HASH_VALUE_NAME_STRING_dooms__asset__ShaderAsset__ShaderObject \
+TYPE_CHECK_FUNCTION_ShaderObject \
+
+
+//Type Short Name ( without namespace, only type name ) Version Macros.
+#define GENERATE_BODY_ShaderObject(...) GENERATE_BODY_FULLNAME_dooms__asset__ShaderAsset__ShaderObject(__VA_ARGS__)
 
 
 //-------------------------------------------

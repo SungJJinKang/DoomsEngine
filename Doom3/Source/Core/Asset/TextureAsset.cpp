@@ -193,7 +193,11 @@ void dooms::asset::TextureAsset::AllocateTextureResourceObject()
 
 void dooms::asset::TextureAsset::DestroyTextureResourceObject()
 {
-	graphics::GraphicsAPI::DestroyTextureObject(mTextureResourceObject);
+	if(mTextureResourceObject.IsValid())
+	{
+		graphics::GraphicsAPI::DestroyTextureObject(mTextureResourceObject);
+		mTextureResourceObject.Reset();
+	}
 }
 
 dooms::asset::eAssetType dooms::asset::TextureAsset::GetEAssetType() const

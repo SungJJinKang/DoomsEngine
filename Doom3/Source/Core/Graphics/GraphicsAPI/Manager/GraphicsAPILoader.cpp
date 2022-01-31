@@ -29,8 +29,10 @@ void dooms::graphics::GraphicsAPILoader::FetchExportedFunctionAddress()
 	//D_ASSERT(dooms::graphics::GraphicsAPI::CreateBufferObject != nullptr);
 	dooms::graphics::GraphicsAPI::AllocateRenderBufferMemory = (GraphicsAPI::GRAPHICS_ALLOCATERENDERBUFFERMEMORY)GetProcAddress(hModule, "AllocateRenderBufferMemory");
 	//D_ASSERT(dooms::graphics::GraphicsAPI::AllocateRenderBufferMemory != nullptr);
-	dooms::graphics::GraphicsAPI::Attach2DTextureToFrameBuffer = (GraphicsAPI::GRAPHICS_ATTACH2DTEXTURETOFRAMEBUFFER)GetProcAddress(hModule, "Attach2DTextureToFrameBuffer");
-	//D_ASSERT(dooms::graphics::GraphicsAPI::Attach2DTextureToFrameBuffer != nullptr);
+	dooms::graphics::GraphicsAPI::Attach2DColorTextureToFrameBuffer = (GraphicsAPI::GRAPHICS_ATTACH2DCOLORTEXTURETOFRAMEBUFFER)GetProcAddress(hModule, "Attach2DColorTextureToFrameBuffer");
+	//D_ASSERT(dooms::graphics::GraphicsAPI::Attach2DColorTextureToFrameBuffer != nullptr);
+	dooms::graphics::GraphicsAPI::Attach2DDepthStencilTextureToFrameBuffer = (GraphicsAPI::GRAPHICS_ATTACH2DDEPTHSTENCILTEXTURETOFRAMEBUFFER)GetProcAddress(hModule, "Attach2DDepthStencilTextureToFrameBuffer");
+	//D_ASSERT(dooms::graphics::GraphicsAPI::Attach2DDepthStencilTextureToFrameBuffer != nullptr);
 	dooms::graphics::GraphicsAPI::CopyRenderTargetView = (GraphicsAPI::GRAPHICS_COPYRENDERTARGETVIEW)GetProcAddress(hModule, "CopyRenderTargetView");
 	//D_ASSERT(dooms::graphics::GraphicsAPI::CopyRenderTargetView != nullptr);
 	dooms::graphics::GraphicsAPI::AttachRenderBufferToFrameBuffer = (GraphicsAPI::GRAPHICS_ATTACHRENDERBUFFERTOFRAMEBUFFER)GetProcAddress(hModule, "AttachRenderBufferToFrameBuffer");
@@ -39,8 +41,12 @@ void dooms::graphics::GraphicsAPILoader::FetchExportedFunctionAddress()
 	//D_ASSERT(dooms::graphics::GraphicsAPI::AttachShaderToMaterial != nullptr);
 	dooms::graphics::GraphicsAPI::DetachShaderFromMaterial = (GraphicsAPI::GRAPHICS_DETACHSHADERFROMMATERIAL)GetProcAddress(hModule, "DetachShaderToMaterial");
 	//D_ASSERT(dooms::graphics::GraphicsAPI::DetachShaderToMaterial != nullptr);
+	dooms::graphics::GraphicsAPI::BindVertexDataBuffer = (GraphicsAPI::GRAPHICS_BINDVERTEXDATABUFFER)GetProcAddress(hModule, "BindVertexDataBuffer");
+	//D_ASSERT(dooms::graphics::GraphicsAPI::BindVertexDataBuffer != nullptr);
 	dooms::graphics::GraphicsAPI::BindBuffer = (GraphicsAPI::GRAPHICS_BINDBUFFER)GetProcAddress(hModule, "BindBuffer");
 	//D_ASSERT(dooms::graphics::GraphicsAPI::BindBuffer != nullptr);
+	dooms::graphics::GraphicsAPI::BindInputLayoutForD3D = (GraphicsAPI::GRAPHICS_BINDINPUTLAYOUTFORD3D)GetProcAddress(hModule, "BindInputLayoutForD3D");
+	//D_ASSERT(dooms::graphics::GraphicsAPI::BindInputLayoutForD3D != nullptr);
 	dooms::graphics::GraphicsAPI::BindConstantBuffer = (GraphicsAPI::GRAPHICS_BINDCONSTANTBUFFER)GetProcAddress(hModule, "BindConstantBuffer");
 	//D_ASSERT(dooms::graphics::GraphicsAPI::BindConstantBuffer != nullptr);
 	dooms::graphics::GraphicsAPI::BindFrameBuffer = (GraphicsAPI::GRAPHICS_BINDFRAMEBUFFER)GetProcAddress(hModule, "BindFrameBuffer");
@@ -83,6 +89,13 @@ void dooms::graphics::GraphicsAPILoader::FetchExportedFunctionAddress()
 	//D_ASSERT(dooms::graphics::GraphicsAPI::ClearSpecificBuffer != nullptr);
 	dooms::graphics::GraphicsAPI::CompileShader = (GraphicsAPI::GRAPHICS_COMPILESHADER)GetProcAddress(hModule, "CompileShader");
 	//D_ASSERT(dooms::graphics::GraphicsAPI::CompileShader != nullptr);
+
+	dooms::graphics::GraphicsAPI::CreateInputLayoutForD3D = (GraphicsAPI::GRAPHICS_CREATEINPUTLAYOUTFORD3D)GetProcAddress(hModule, "CreateInputLayoutForD3D");
+	//D_ASSERT(dooms::graphics::GraphicsAPI::CreateInputLayoutForD3D != nullptr);
+	dooms::graphics::GraphicsAPI::BindInputLayoutForD3D = (GraphicsAPI::GRAPHICS_BINDINPUTLAYOUTFORD3D)GetProcAddress(hModule, "BindInputLayoutForD3D");
+	//D_ASSERT(dooms::graphics::GraphicsAPI::BindInputLayoutForD3D != nullptr);
+	dooms::graphics::GraphicsAPI::DestoryInputLayoutForD3D = (GraphicsAPI::GRAPHICS_DESTORYINPUTLAYOUTFORD3D)GetProcAddress(hModule, "DestoryInputLayoutForD3D");
+	//D_ASSERT(dooms::graphics::GraphicsAPI::BindInputLayoutForD3D != nullptr);
 
 	/*
 	dooms::graphics::GraphicsAPI::CompileShaders = (GraphicsAPI::GRAPHICS_COMPILESHADERS)GetProcAddress(hModule, "CompileShaders");

@@ -38,7 +38,7 @@ void dooms::graphics::UniformBufferObjectManager::UpdateUniformObjects()
 	BufferDateOfUniformBufferObjects();
 }
 
-dooms::graphics::UniformBufferObject* dooms::graphics::UniformBufferObjectManager::GetUniformBufferObject(const std::string& uniformBufferName)
+dooms::graphics::UniformBufferObject* dooms::graphics::UniformBufferObjectManager::GetUniformBufferObject(const char* const uniformBufferName)
 {
 	dooms::graphics::UniformBufferObject* uniformBufferObject = nullptr;
 
@@ -74,7 +74,7 @@ void dooms::graphics::UniformBufferObjectManager::BufferDateOfUniformBufferObjec
 }
 
 
-dooms::graphics::UniformBufferObject* dooms::graphics::UniformBufferObjectManager::GenerateUniformBufferObjectIfNotExist
+dooms::graphics::UniformBufferObject* dooms::graphics::UniformBufferObjectManager::GetOrGenerateUniformBufferObjectIfNotExist
 (
 	const std::string& uniformBufferName,
 	const UINT64 uniformBufferSize,
@@ -85,11 +85,11 @@ dooms::graphics::UniformBufferObject* dooms::graphics::UniformBufferObjectManage
 {
 	dooms::graphics::UniformBufferObject* ubo = nullptr;
 
-	D_ASSERT(mUniformBufferObjects.find(uniformBufferName) == mUniformBufferObjects.end());
+	//D_ASSERT(mUniformBufferObjects.find(uniformBufferName) == mUniformBufferObjects.end());
 	auto node = mUniformBufferObjects.find(uniformBufferName);
 	if(node == mUniformBufferObjects.end())
 	{
-		dooms::graphics::UniformBufferObject* ubo = dooms::CreateDObject<dooms::graphics::UniformBufferObject>(uniformBufferName, uniformBufferSize, bindingPoint, initialData, uboMembers);
+		ubo = dooms::CreateDObject<dooms::graphics::UniformBufferObject>(uniformBufferName, uniformBufferSize, bindingPoint, initialData, uboMembers);
 
 		auto node = mUniformBufferObjects.emplace(uniformBufferName, ubo);
 	}
@@ -97,6 +97,8 @@ dooms::graphics::UniformBufferObject* dooms::graphics::UniformBufferObjectManage
 	{
 		ubo = node->second;
 	}
+
+	D_ASSERT(IsValid(ubo));
 	
 	return ubo;
 }

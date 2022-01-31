@@ -20,13 +20,17 @@ namespace dooms
 	namespace graphics 
 	{
 		class Material;
+		class UniformBufferObject;
 	}
 
 	namespace asset
 	{
 		struct DOOM_API D_STRUCT ShaderTextData
 		{
-			//GENERATE_BODY_ShaderTextString()
+			GENERATE_BODY_ShaderTextData()
+
+			D_PROPERTY()
+			std::filesystem::path mShaderTextFilePath;
 
 			D_PROPERTY()
 			dooms::graphics::GraphicsAPI::eGraphicsAPIType mShaderTextGraphicsAPIType;
@@ -56,7 +60,6 @@ namespace dooms
 			);
 
 			void Clear();
-			bool IsValid() const;
 			bool IsCompileliable() const;
 
 			bool LoadShaderReflectionDataFromTextIfNotLoaded();
@@ -101,6 +104,8 @@ namespace dooms
 			D_PROPERTY()
 			std::array<ShaderObject, GRAPHICS_PIPELINE_STAGE_COUNT> mShaderObject;
 
+			D_PROPERTY()
+			std::vector<dooms::graphics::UniformBufferObject*> mContainedUniformBufferObjects;
 			/*
 			bool ConvertShaderTextStringToCurrentGraphicsAPIShaderFormat(ShaderTextData& outShaderText);
 			*/
@@ -108,9 +113,9 @@ namespace dooms
 			/// <summary>
 			/// Don't call this subthread, Should Call this at mainthread
 			/// </summary>
-			void CompileShaders();
+			bool CompileShaders();
 			bool CompileSpecificTypeShader(ShaderTextData& shaderText, const graphics::GraphicsAPI::eGraphicsPipeLineStage shaderType, ShaderObject& shaderObject);
-			void GenerateUniformBufferObjectFromShaderReflectionData(const shaderReflectionDataParser::ShaderReflectionData& shaderReflectionData);
+			const std::vector<dooms::graphics::UniformBufferObject*>& GenerateUniformBufferObjectFromShaderReflectionData(const shaderReflectionDataParser::ShaderReflectionData& shaderReflectionData);
 
 		public:
 
@@ -123,7 +128,9 @@ namespace dooms
 
 			virtual void OnSetPendingKill() override;
 
-			void SetShaderText
+			const std::vector<dooms::graphics::UniformBufferObject*>& GetContainedUniformBufferObject() const;
+
+			bool SetShaderText
 			(
 				const std::array<ShaderTextData, GRAPHICS_PIPELINE_STAGE_COUNT>& shaderTextDatas,
 				const bool compileShader
@@ -139,9 +146,9 @@ namespace dooms
 			);
 			*/
 
-			const std::string& GetShaderStringText(const dooms::graphics::GraphicsAPI::eGraphicsAPIType shaderTextraphicsAPIType) const;
-			const std::string& GetShaderReflectionDataStringText(const dooms::graphics::GraphicsAPI::eGraphicsAPIType shaderTextraphicsAPIType) const;
-			const shaderReflectionDataParser::ShaderReflectionData& GetShaderReflectionData(const dooms::graphics::GraphicsAPI::eGraphicsAPIType shaderTextraphicsAPIType) const;
+			const std::string& GetShaderStringText(const dooms::graphics::GraphicsAPI::eGraphicsPipeLineStage targetGraphicsPipeLineStage) const;
+			const std::string& GetShaderReflectionDataStringText(const dooms::graphics::GraphicsAPI::eGraphicsPipeLineStage targetGraphicsPipeLineStage) const;
+			const shaderReflectionDataParser::ShaderReflectionData& GetShaderReflectionData(const dooms::graphics::GraphicsAPI::eGraphicsPipeLineStage targetGraphicsPipeLineStage) const;
 
 
 			/// <summary>

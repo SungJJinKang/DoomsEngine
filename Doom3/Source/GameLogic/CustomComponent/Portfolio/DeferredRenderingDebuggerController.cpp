@@ -21,6 +21,8 @@ void dooms::DeferredRenderingDebuggerController::InitDeferredRenderingDebuggerPI
 		mDeferredRenderingDebuggerPIPs[0] = dooms::graphics::PIPManager::GetSingleton()->AddNewPIP({ -1.0f, -1.0f }, { -0.6f, -0.6f }, dooms::Camera::GetMainCamera()->mDefferedRenderingFrameBuffer.GetColorTextureView(0, dooms::graphics::GraphicsAPI::eGraphicsPipeLineStage::PIXEL_SHADER));
 		mDeferredRenderingDebuggerPIPs[1] = dooms::graphics::PIPManager::GetSingleton()->AddNewPIP({ -0.6f, -1.0f }, { -0.2f, -0.6f }, dooms::Camera::GetMainCamera()->mDefferedRenderingFrameBuffer.GetColorTextureView(1, dooms::graphics::GraphicsAPI::eGraphicsPipeLineStage::PIXEL_SHADER));
 		mDeferredRenderingDebuggerPIPs[2] = dooms::graphics::PIPManager::GetSingleton()->AddNewPIP({ -0.2f, -1.0f }, { 0.2f, -0.6f }, dooms::Camera::GetMainCamera()->mDefferedRenderingFrameBuffer.GetColorTextureView(2, dooms::graphics::GraphicsAPI::eGraphicsPipeLineStage::PIXEL_SHADER));
+
+		/*
 		dooms::graphics::PicktureInPickture* depthTexturePIP = dooms::graphics::PIPManager::GetSingleton()->AddNewPIP({ 0.2f, -1.0f }, { 0.6f, -0.6f }, dooms::Camera::GetMainCamera()->mDefferedRenderingFrameBuffer.GetDepthStencilTextureView(3, dooms::graphics::GraphicsAPI::eGraphicsPipeLineStage::PIXEL_SHADER));
 		mDeferredRenderingDebuggerPIPs[3] = depthTexturePIP;
 
@@ -31,6 +33,7 @@ void dooms::DeferredRenderingDebuggerController::InitDeferredRenderingDebuggerPI
 			//depthMaterial->SetShaderAsset(depthTextureShader);
 			depthTexturePIP->SetMaterial(depthMaterial);
 		}
+		*/
 
 	}
 

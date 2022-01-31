@@ -27,11 +27,11 @@
 #undef INHERITANCE_INFORMATION_dooms__assetImporter__AssetImporterWorker
 #define INHERITANCE_INFORMATION_dooms__assetImporter__AssetImporterWorker \
 public : \
-inline static const unsigned long int BASE_CHAIN_LIST[] { 1388311841, 3969188510 }; \
-inline static const unsigned long int BASE_CHAIN_LIST_LENGTH { 2 }; \
+inline static const unsigned long int BASE_CHAIN_LIST[] { 1388311841, 3251103914, 3969188510 }; \
+inline static const unsigned long int BASE_CHAIN_LIST_LENGTH { 3 }; \
 virtual const unsigned long int* GetBaseChainList() const { return BASE_CHAIN_LIST; } \
 virtual unsigned long int GetBaseChainListLength() const { return BASE_CHAIN_LIST_LENGTH; } \
-typedef dooms::DObject Base;
+typedef dooms::AssetIOWorker Base;
 
 
 #undef CLONE_OBJECT_dooms__assetImporter__AssetImporterWorker

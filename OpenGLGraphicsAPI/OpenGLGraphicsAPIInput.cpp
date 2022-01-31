@@ -568,11 +568,11 @@ namespace dooms
 			{
 				switch (cursorMode)
 				{
-				case dooms::input::GraphicsAPIInput::eCursorMode::CURSOR_MODE_NORMAL:
+				case dooms::input::GraphicsAPIInput::eCursorMode::SHOW_CURSOR_UNLOCK_CURSOR_FROM_WINDOW:
 					return GLFW_CURSOR_NORMAL;
-				case dooms::input::GraphicsAPIInput::eCursorMode::CURSOR_MODE_HIDDEN:
+				case dooms::input::GraphicsAPIInput::eCursorMode::HIDE_CURSOR_UNLOCK_CURSOR_FROM_WINDOW:
 					return GLFW_CURSOR_HIDDEN;
-				case dooms::input::GraphicsAPIInput::eCursorMode::CURSOR_MODE_DISABLED:
+				case dooms::input::GraphicsAPIInput::eCursorMode::HIDE_CURSOR_LOCK_CURSOR_ON_WINDOW:
 					return GLFW_CURSOR_DISABLED;
 				default:
 					NEVER_HAPPEN;

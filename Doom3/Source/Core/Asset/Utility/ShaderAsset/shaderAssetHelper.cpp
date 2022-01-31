@@ -16,21 +16,21 @@ namespace dooms::asset::shaderAssetHelper
 	static const std::array<const std::string, GRAPHICS_PIPELINE_STAGE_COUNT> mShaderMacros
 	{
 		"//@begin_vert",
-		"#HULL",
-		"#DOMAIN",
-		"#GEOMETRY",
 		"//@begin_frag",
-		"#COMPUTE"
+		"//@begin_comp"
+		//"#HULL",
+		//"#DOMAIN",
+		//"#GEOMETRY",
 	};
 
 	static const std::array<const std::string, GRAPHICS_PIPELINE_STAGE_COUNT> mShaderReflectionMacros
 	{
 		"#VERTEX_REFLECTION",
-		"#HULL_REFLECTION",
-		"#DOMAIN_REFLECTION",
-		"#GEOMETRY_REFLECTION",
 		"#FRAGMENT_REFLECTION",
 		"#COMPUTE_REFLECTION"
+		//"#HULL_REFLECTION",
+		//"#DOMAIN_REFLECTION",
+		//"#GEOMETRY_REFLECTION",
 	};
 
 	bool CheckIsSharpInclude(const std::string& str)

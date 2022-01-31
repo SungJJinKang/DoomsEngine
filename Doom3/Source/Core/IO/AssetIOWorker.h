@@ -9,11 +9,12 @@
 #include <Asset/eAssetType.h>
 #include <DynamicLinkingHelper/SmartDynamicLinking.h>
 
+#include "AssetIOWorker.reflection.h"
 namespace dooms
 {
 	class DOOM_API D_CLASS AssetIOWorker : public DObject
 	{
-
+		GENERATE_BODY()
 	private:
 
 		struct RequiredDynamicLibrary

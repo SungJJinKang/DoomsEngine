@@ -417,19 +417,25 @@ void Camera::UpdateUniformBufferObject(const bool force)
 		const math::Matrix4x4& projectionMatrix = GetProjectionMatrix();
 
 		//!!!! Opengl Use column major of matrix data layout
-		dooms::graphics::UniformBufferObjectManager::GetSingleton()->GetUniformBufferObject(GLOBAL_UNIFORM_BLOCK_BINDING_POINT)->UpdateDataToGPU((void*)projectionMatrix.data(), sizeof(projectionMatrix), dooms::graphics::eUniformBlock_Global::projection);
-		dooms::graphics::UniformBufferObjectManager::GetSingleton()->GetUniformBufferObject(GLOBAL_UNIFORM_BLOCK_BINDING_POINT)->UpdateDataToGPU((void*)&mClippingPlaneNear, sizeof(FLOAT32), graphics::eUniformBlock_Global::camNear);
-		dooms::graphics::UniformBufferObjectManager::GetSingleton()->GetUniformBufferObject(GLOBAL_UNIFORM_BLOCK_BINDING_POINT)->UpdateDataToGPU((void*)&mClippingPlaneFar, sizeof(FLOAT32), graphics::eUniformBlock_Global::camFar);
 
-		
-		auto& viewMatrix = GetViewMatrix(); 
-		const dooms::Transform* const transform = GetTransform();
-		const math::Vector3& camPos = transform->GetPosition();
-		auto& viewProjectionMatrix = GetViewProjectionMatrix();
+		dooms::graphics::UniformBufferObject* const ubo = dooms::graphics::UniformBufferObjectManager::GetSingleton()->GetUniformBufferObject(GLOBAL_UNIFORM_BLOCK_NAME);
+		D_ASSERT(IsValid(ubo));
 
-		dooms::graphics::UniformBufferObjectManager::GetSingleton()->GetUniformBufferObject(GLOBAL_UNIFORM_BLOCK_BINDING_POINT)->UpdateDataToGPU((void*)viewMatrix.data(), sizeof(viewMatrix), graphics::eUniformBlock_Global::view);
-		dooms::graphics::UniformBufferObjectManager::GetSingleton()->GetUniformBufferObject(GLOBAL_UNIFORM_BLOCK_BINDING_POINT)->UpdateDataToGPU((void*)camPos.data(), sizeof(camPos), graphics::eUniformBlock_Global::camPos);
-		dooms::graphics::UniformBufferObjectManager::GetSingleton()->GetUniformBufferObject(GLOBAL_UNIFORM_BLOCK_BINDING_POINT)->UpdateDataToGPU((void*)viewProjectionMatrix.data(), sizeof(viewProjectionMatrix), graphics::eUniformBlock_Global::viewProjection);
-	
+		if (IsValid(ubo))
+		{
+			ubo->UpdateDataToGPU((void*)projectionMatrix.data(), dooms::graphics::eUniformBlock_Global::projection, sizeof(projectionMatrix));
+			ubo->UpdateDataToGPU((void*)&mClippingPlaneNear, graphics::eUniformBlock_Global::camNear, sizeof(FLOAT32));
+			ubo->UpdateDataToGPU((void*)&mClippingPlaneFar, graphics::eUniformBlock_Global::camFar, sizeof(FLOAT32));
+
+
+			auto& viewMatrix = GetViewMatrix();
+			const dooms::Transform* const transform = GetTransform();
+			const math::Vector3& camPos = transform->GetPosition();
+			auto& viewProjectionMatrix = GetViewProjectionMatrix();
+
+			ubo->UpdateDataToGPU((void*)viewMatrix.data(), graphics::eUniformBlock_Global::view, sizeof(viewMatrix));
+			ubo->UpdateDataToGPU((void*)camPos.data(), graphics::eUniformBlock_Global::camPos, sizeof(camPos));
+			ubo->UpdateDataToGPU((void*)viewProjectionMatrix.data(), graphics::eUniformBlock_Global::viewProjection, sizeof(viewProjectionMatrix));
+		}
 	}
 }

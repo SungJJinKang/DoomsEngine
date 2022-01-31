@@ -35,19 +35,10 @@ namespace dooms
 			AssetImporterWorkerManager mAssetImporterWorkerManager;
 
 			D_PROPERTY()
-			const std::filesystem::path AssetFolderPath{ std::filesystem::u8path(dooms::path::_GetAssetFolderDirectory()) };
+			const std::filesystem::path AssetFolderPath;
 			
 			D_PROPERTY()
-			std::array<dooms::asset::AssetContainer, dooms::asset::ENUM_ASSETTYPE_COUNT> mAssetConatiners
-			{
-				dooms::asset::AssetContainer(dooms::asset::eAssetType::AUDIO),
-				dooms::asset::AssetContainer(dooms::asset::eAssetType::FONT),
-				dooms::asset::AssetContainer(dooms::asset::eAssetType::TEXT),
-				dooms::asset::AssetContainer(dooms::asset::eAssetType::TEXTURE),
-				dooms::asset::AssetContainer(dooms::asset::eAssetType::THREE_D_MODEL),
-				dooms::asset::AssetContainer(dooms::asset::eAssetType::SHADER)
-			}
-			;
+			std::array<dooms::asset::AssetContainer, dooms::asset::ENUM_ASSETTYPE_COUNT> mAssetConatiners;
 			
 			void LoadAssetManagerSetting();
 
@@ -73,7 +64,7 @@ namespace dooms
 
 		public:
 
-			AssetManager() = default;
+			AssetManager();
 			~AssetManager();
 
 			virtual void OnSetPendingKill() override;

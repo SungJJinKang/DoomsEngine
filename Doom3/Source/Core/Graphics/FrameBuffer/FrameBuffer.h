@@ -123,7 +123,7 @@ namespace dooms
 				UINT32 height
 			);
 
-			size_t GetAttachedColorTextureCount();
+			size_t GetAttachedColorTextureCount() const;
 			dooms::asset::TextureAsset* GetColorTextureResourceObject(const UINT32 bindingPosition) const;
 			dooms::asset::TextureAsset* GetDepthTextureResourceObject() const;
 			dooms::asset::TextureAsset* GetDepthStencilTextureResourceObject() const;

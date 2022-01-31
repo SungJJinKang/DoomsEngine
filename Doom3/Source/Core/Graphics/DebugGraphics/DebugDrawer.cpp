@@ -12,6 +12,9 @@
 #include <Game/AssetManager/AssetManager.h>
 #include "../Material/Material.h"
 #include <IO/UserInput_Server.h>
+#include <Asset/ShaderAsset.h>
+
+#define COLOR_UNIFORM_BUFFER_NAME "ColorData"
 
 void dooms::graphics::DebugDrawer::Init()
 {
@@ -19,9 +22,11 @@ void dooms::graphics::DebugDrawer::Init()
 
 
 	auto debug2DShader = dooms::assetImporter::AssetManager::GetSingleton()->GetAsset<asset::eAssetType::SHADER>(DebugDrawer::DEBUG_2D_SHADER);
+	D_ASSERT(IsValid(debug2DShader));
 	m2DMaterial = std::make_unique<Material>(debug2DShader);
 
 	auto debug3DShader = dooms::assetImporter::AssetManager::GetSingleton()->GetAsset<asset::eAssetType::SHADER>(DebugDrawer::DEBUG_3D_SHADER);
+	D_ASSERT(IsValid(debug3DShader));
 	m3DMaterial = std::make_unique<Material>(debug3DShader);
 
 	for (DebugPrimitiveContainer* container : mDebugPrimitiveContainers.DebugPrimitiveContainers)
@@ -71,6 +76,9 @@ void dooms::graphics::DebugDrawer::Draw()
 	
 	UINT32 alreadyDrawedVertexCount{ 0 };
 
+	dooms::graphics::UniformBufferObjectView* const _2DUBOView = m2DMaterial->GetUniformBufferObjectViewFromUBOName(COLOR_UNIFORM_BUFFER_NAME);
+	dooms::graphics::UniformBufferObjectView* const _3DUBOView = m3DMaterial->GetUniformBufferObjectViewFromUBOName(COLOR_UNIFORM_BUFFER_NAME);
+
 	for (DebugPrimitiveContainer* container : mDebugPrimitiveContainers.DebugPrimitiveContainers)
 	{
 		for(size_t colorIndex = 0 ; colorIndex < DebugPrimitiveContainer::COLOR_COUNT ; colorIndex++)
@@ -80,12 +88,12 @@ void dooms::graphics::DebugDrawer::Draw()
 				if(container->Is3DPrimitive() == false)
 				{
 					m2DMaterial->UseProgram();
-					m2DMaterial->GetUniformBufferObjectViewFromUBOName(0)->SetVector4((UINT64)0, Color::GetColor(static_cast<eColor>(colorIndex)));
+					_2DUBOView->SetVector4((UINT64)0, Color::GetColor(static_cast<eColor>(colorIndex)));
 				}
 				else
 				{
 					m3DMaterial->UseProgram();
-					m3DMaterial->GetUniformBufferObjectViewFromUBOName(0)->SetVector4((UINT64)0, Color::GetColor(static_cast<eColor>(colorIndex)));
+					_3DUBOView->SetVector4((UINT64)0, Color::GetColor(static_cast<eColor>(colorIndex)));
 				}
 
 				const size_t primitiveCount = container->GetColoredPrimitiveCount(static_cast<eColor>(colorIndex));
@@ -101,12 +109,12 @@ void dooms::graphics::DebugDrawer::Draw()
 				if (container->Is3DPrimitive() == false)
 				{
 					m2DMaterial->UseProgram();
-					m2DMaterial->GetUniformBufferObjectViewFromUBOName(0)->SetVector4((UINT64)0, container->GetSpecialColorData()[index]);
+					_2DUBOView->SetVector4((UINT64)0, container->GetSpecialColorData()[index]);
 				}
 				else
 				{
 					m3DMaterial->UseProgram();
-					m3DMaterial->GetUniformBufferObjectViewFromUBOName(0)->SetVector4((UINT64)0, container->GetSpecialColorData()[index]);
+					_3DUBOView->SetVector4((UINT64)0, container->GetSpecialColorData()[index]);
 				}
 
 				mDebugMesh.DrawArray(container->GetPrimitiveType(), alreadyDrawedVertexCount, container->GetVertexCountPerPrimitive());

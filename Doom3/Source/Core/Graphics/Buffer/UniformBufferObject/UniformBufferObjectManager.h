@@ -26,6 +26,7 @@ namespace dooms
 			/// </summary>
 			//D_PROPERTY()
 
+			D_PROPERTY()
 			std::unordered_map<std::string, UniformBufferObject*> mUniformBufferObjects;
 
 			D_PROPERTY()
@@ -45,8 +46,8 @@ namespace dooms
 			/// </summary>
 			void UpdateUniformObjects();
 			
-			UniformBufferObject* GetUniformBufferObject(const std::string& uniformBufferName);
-			UniformBufferObject* GenerateUniformBufferObjectIfNotExist
+			UniformBufferObject* GetUniformBufferObject(const char* const uniformBufferName);
+			UniformBufferObject* GetOrGenerateUniformBufferObjectIfNotExist
 			(
 				const std::string& uniformBufferName,
 				const UINT64 uniformBufferSize,

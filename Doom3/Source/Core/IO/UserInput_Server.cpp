@@ -15,7 +15,7 @@ void UserInput_Server::CursorEnterCallback(bool isEntered)
 {
 	UserInput_Server::IsCursorOnScreenWindow = isEntered;
 
-	D_DEBUG_LOG(eLogType::D_LOG, "Mouse Cursor Enter : %d", isEntered);
+	//D_DEBUG_LOG(eLogType::D_LOG, "Mouse Cursor Enter : %d", isEntered);
 
 }
 
@@ -29,8 +29,8 @@ void UserInput_Server::CursorPosition_Callback(FLOAT64 xpos, FLOAT64 ypos)
 	dooms::userinput::UserInput_Server::mCurrentCursorScreenPosition.x = static_cast<FLOAT32>(xpos);
 	dooms::userinput::UserInput_Server::mCurrentCursorScreenPosition.y = static_cast<FLOAT32>(ypos);
 
-	D_DEBUG_LOG(eLogType::D_LOG, "Cursor Screen Position: %f %f", xpos, ypos);
-	D_DEBUG_LOG(eLogType::D_LOG, "Delta Cursor Screen Position: %f %f", UserInput_Server::mDeltaCursorScreenPosition.x, UserInput_Server::mDeltaCursorScreenPosition.y);
+	//D_DEBUG_LOG(eLogType::D_LOG, "Cursor Screen Position: %f %f", xpos, ypos);
+	//D_DEBUG_LOG(eLogType::D_LOG, "Delta Cursor Screen Position: %f %f", UserInput_Server::mDeltaCursorScreenPosition.x, UserInput_Server::mDeltaCursorScreenPosition.y);
 }
 
 
@@ -40,7 +40,7 @@ void UserInput_Server::Scroll_Callback(FLOAT64 xoffset, FLOAT64 yoffset)
 	UserInput_Server::mScrollOffset.y = static_cast<FLOAT32>(yoffset);
 	UserInput_Server::mScrollChangedAtPreviousFrame = true;
 
-	D_DEBUG_LOG(eLogType::D_LOG, "Mouse Scroll Callback  : Offset X ( %f ), Offset Y ( %f )", xoffset, yoffset);
+	//D_DEBUG_LOG(eLogType::D_LOG, "Mouse Scroll Callback  : Offset X ( %f ), Offset Y ( %f )", xoffset, yoffset);
 }
 
 
@@ -56,25 +56,25 @@ void UserInput_Server::Key_Callback(dooms::input::GraphicsAPIInput::eKEY_CODE ke
 			if(currentKeyState == eKeyState::PRESS_DOWN)
 			{
 				UserInput_Server::mKeyState[key - static_cast<INT32>(FIRST_KEY_CODE)] = eKeyState::PRESSING;
-				D_DEBUG_LOG(eLogType::D_LOG, "PRESSING");
+				//D_DEBUG_LOG(eLogType::D_LOG, "PRESSING");
 			}
 			else
 			{
 				UserInput_Server::mKeyState[key - static_cast<INT32>(FIRST_KEY_CODE)] = eKeyState::PRESS_DOWN;
-				D_DEBUG_LOG(eLogType::D_LOG, "PRESS_DOWN");
+				//D_DEBUG_LOG(eLogType::D_LOG, "PRESS_DOWN");
 			}
 			break;
 
 		case dooms::input::GraphicsAPIInput::REPEAT:
 			UserInput_Server::mKeyState[key - static_cast<INT32>(FIRST_KEY_CODE)] = eKeyState::PRESSING;
-			D_DEBUG_LOG(eLogType::D_LOG, "PRESSING");
+			//D_DEBUG_LOG(eLogType::D_LOG, "PRESSING");
 			break;
 
 		case dooms::input::GraphicsAPIInput::RELEASE:
 			UserInput_Server::mKeyState[key - static_cast<INT32>(FIRST_KEY_CODE)] = eKeyState::UP;
 			UserInput_Server::mKeyToggle[key - static_cast<INT32>(FIRST_KEY_CODE)] = !UserInput_Server::mKeyToggle[key - static_cast<INT32>(FIRST_KEY_CODE)];
 			UserInput_Server::mUpKeys.push_back(key);
-			D_DEBUG_LOG(eLogType::D_LOG, "UP");
+			//D_DEBUG_LOG(eLogType::D_LOG, "UP");
 			break;
 		}
 	}
@@ -208,20 +208,20 @@ void UserInput_Server::UpdateCursorMode()
 {
 	if (UserInput_Server::IsCursorLockedInScreen == false && UserInput_Server::IsCursorVisible == true)
 	{
-		dooms::input::GraphicsAPIInput::SetCursorMode(dooms::graphics::GraphicsAPI::GetPlatformWindow(), dooms::input::GraphicsAPIInput::eCursorMode::CURSOR_MODE_NORMAL);
+		dooms::input::GraphicsAPIInput::SetCursorMode(dooms::graphics::GraphicsAPI::GetPlatformWindow(), dooms::input::GraphicsAPIInput::eCursorMode::SHOW_CURSOR_UNLOCK_CURSOR_FROM_WINDOW);
 	}
 	else if (UserInput_Server::IsCursorLockedInScreen == false && UserInput_Server::IsCursorVisible == false)
 	{
-		dooms::input::GraphicsAPIInput::SetCursorMode(dooms::graphics::GraphicsAPI::GetPlatformWindow(), dooms::input::GraphicsAPIInput::eCursorMode::CURSOR_MODE_HIDDEN);
+		dooms::input::GraphicsAPIInput::SetCursorMode(dooms::graphics::GraphicsAPI::GetPlatformWindow(), dooms::input::GraphicsAPIInput::eCursorMode::HIDE_CURSOR_UNLOCK_CURSOR_FROM_WINDOW);
 	}
 	else if (UserInput_Server::IsCursorLockedInScreen == true && UserInput_Server::IsCursorVisible == false)
 	{
-		dooms::input::GraphicsAPIInput::SetCursorMode(dooms::graphics::GraphicsAPI::GetPlatformWindow(), dooms::input::GraphicsAPIInput::eCursorMode::CURSOR_MODE_DISABLED);
+		dooms::input::GraphicsAPIInput::SetCursorMode(dooms::graphics::GraphicsAPI::GetPlatformWindow(), dooms::input::GraphicsAPIInput::eCursorMode::HIDE_CURSOR_LOCK_CURSOR_ON_WINDOW);
 	}
 	else if (UserInput_Server::IsCursorLockedInScreen == true && UserInput_Server::IsCursorVisible == true)
 	{
 		D_DEBUG_LOG(eLogType::D_WARNING, "Undefined Cursor Mode, There is no mode that locked in screen and visible"); // https://www.glfw.org/docs/3.3/input_guide.html
-		dooms::input::GraphicsAPIInput::SetCursorMode(dooms::graphics::GraphicsAPI::GetPlatformWindow(), dooms::input::GraphicsAPIInput::eCursorMode::CURSOR_MODE_DISABLED);
+		dooms::input::GraphicsAPIInput::SetCursorMode(dooms::graphics::GraphicsAPI::GetPlatformWindow(), dooms::input::GraphicsAPIInput::eCursorMode::HIDE_CURSOR_LOCK_CURSOR_ON_WINDOW);
 	}
 }
 

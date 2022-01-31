@@ -120,25 +120,22 @@ bool dooms::assetImporter::ImportAssetJob(std::filesystem::path path, dooms::ass
 	{
 		isSuccess = importerWorker->ImportSpecificAsset(path, asset);
 	}
-	catch (...)
+	catch (std::exception e)
 	{
-		
-
-		std::exception_ptr p = std::current_exception();
-		//std::clog << (p ? p._Current_exception(name() : "null") << std::endl;
-
-		D_ASSERT(false);
+		D_ASSERT_LOG(false, e.what());
+		dooms::ui::PrintText(e.what());
 	}
 
 
 	if (isSuccess)
 	{
 		asset->SetAssetStatus(::dooms::asset::Asset::AssetStatus::CompletlyImported);
-		dooms::ui::PrintText("Import Success : %s", path.string().c_str());
+		dooms::ui::PrintText("Import asset Success : %s", path.string().c_str());
 	}
 	else
 	{
 		asset->SetAssetStatus(::dooms::asset::Asset::AssetStatus::FailToImport);
+		dooms::ui::PrintText("Importing asset fail : %s", path.string().c_str());
 	}
 
 	dooms::assetImporter::AssetImporterWorkerManager::GetSingleton()->EnqueueWorker(importerWorker);

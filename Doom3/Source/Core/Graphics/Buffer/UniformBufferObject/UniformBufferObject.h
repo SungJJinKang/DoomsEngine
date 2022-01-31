@@ -49,19 +49,45 @@ namespace dooms
 			UINT32 mDefaultBindingPoint;
 			
 			D_PROPERTY()
-			char* mUniformBufferTempData;
+			std::unique_ptr<UINT8[]> mUniformBufferLocalBuffer;
 
 			/**
 			 * \brief Key : Uniform Variable Name, Value : Offset
 			 */
-			std::unordered_map<std::string, UINT64> mUniformVariableOffset;
+			std::unordered_map<std::string, asset::shaderReflectionDataParser::UniformBufferMember> mUniformVariableInfos;
 			void InitializeUniformVariableOffset(const std::vector<asset::shaderReflectionDataParser::UniformBufferMember>& uboMembers);
 
 			void GenerateUniformBufferObject(const UINT64 uniformBufferSize, const void* const initialData = 0);
 
-						
-
 			void OnSetPendingKill() override;
+
+			FORCE_INLINE void UpdateLocalBuffer_Internal
+			(
+				const void* sourceData,
+				const UINT64 offsetInUniformBlock,
+				const UINT64 sizeOfSourceData,
+				const bool instantlyUpdateToGPU
+			)
+			{
+				D_ASSERT(IsBufferGenerated() == true);
+
+				std::memcpy(mUniformBufferLocalBuffer.get() + offsetInUniformBlock, sourceData, sizeOfSourceData);
+
+				if (instantlyUpdateToGPU == true)
+				{
+					GraphicsAPI::UpdateDataToBuffer(mUniformBufferObject, GraphicsAPI::eBufferTarget::UNIFORM_BUFFER, offsetInUniformBlock, sizeOfSourceData, mUniformBufferLocalBuffer.get());
+					bmIsDirty = false;
+				}
+			}
+
+			FORCE_INLINE void UpdateDataToGPU_Internal(const void* sourceData, const UINT64 offsetInUniformBlock, const UINT64 sizeOfSourceData) noexcept
+			{
+				D_ASSERT(IsBufferGenerated() == true);
+
+				UpdateLocalBuffer_Internal(sourceData, offsetInUniformBlock, sizeOfSourceData, false);
+				GraphicsAPI::UpdateDataToBuffer(mUniformBufferObject, GraphicsAPI::eBufferTarget::UNIFORM_BUFFER, offsetInUniformBlock, sizeOfSourceData, sourceData);
+			}
+			
 
 		public:
 
@@ -80,7 +106,7 @@ namespace dooms
 			UniformBufferObject(UniformBufferObject&&) noexcept = default;
 			UniformBufferObject& operator=(const UniformBufferObject&) = delete;
 			UniformBufferObject& operator=(UniformBufferObject&&) noexcept = default;
-
+			
 			bool InitializeUniformBufferObject
 			(
 				const std::string& uniformBlockName,
@@ -92,6 +118,9 @@ namespace dooms
 
 			std::string GetUniformBlockName();
 			const std::string& GetUniformBlockName() const;
+			UINT64 GetUniformBufferSize() const;
+			UINT32 GetDefaultBindingPoint() const;
+			
 
 			void DeleteBuffers() final;
 
@@ -100,14 +129,14 @@ namespace dooms
 				size_t offset = 0;
 
 				D_ASSERT(IsBufferGenerated() == true);
-				auto node = mUniformVariableOffset.find(targetVariableName);
+				auto node = mUniformVariableInfos.find(targetVariableName);
 
 				D_DEBUG_LOG(eLogType::D_ERROR, "Fail to find uniform variable ( %s ) from uniform buffer object ( %s )", targetVariableName, GetUniformBlockName().c_str());
-				D_ASSERT(node != mUniformVariableOffset.end());
+				D_ASSERT(node != mUniformVariableInfos.end());
 
-				if(node != mUniformVariableOffset.end())
+				if(node != mUniformVariableInfos.end())
 				{
-					offset = node->second;
+					offset = node->second.mOffset;
 				}
 				return offset;
 			}
@@ -117,38 +146,10 @@ namespace dooms
 				D_ASSERT(mUniformBufferObject.IsValid() == true);
 				if (IsBufferGenerated() == true)
 				{
-					if (D_OVERLAP_BIND_CHECK_CHECK_IS_NOT_BOUND_AND_BIND_ID(GL_UNIFORM_BUFFER_TAG, mUniformBufferObject))
-					{
-						GraphicsAPI::BindConstantBuffer(mUniformBufferObject, bindingPoint, targetPipeLineStage);
-					}
+					GraphicsAPI::BindConstantBuffer(mUniformBufferObject, bindingPoint, targetPipeLineStage);
 				}
 			}
-			
-			/// <summary>
-			/// Send data in mUniformBufferData to gpu 
-			/// </summary>
-			/// <returns></returns>
-			void UpdateLocalBufferToGPU() noexcept;
-			FORCE_INLINE void UpdateDataToGPU(const void* sourceData, const UINT64 sizeOfSourceData, const UINT64 offsetInUniformBlock) noexcept
-			{
-				D_ASSERT(IsBufferGenerated() == true);
-
-				if (IsBufferGenerated() == true)
-				{
-					GraphicsAPI::UpdateDataToBuffer(mUniformBufferObject, GraphicsAPI::eBufferTarget::UNIFORM_BUFFER, offsetInUniformBlock, sizeOfSourceData, sourceData);
-				}
-			}
-			FORCE_INLINE void UpdateDataToGPU(const void* sourceData, const UINT64 sizeOfSourceData, const char* const targetVariableName) noexcept
-			{
-				D_ASSERT(IsBufferGenerated() == true);
-
-				if (IsBufferGenerated() == true)
-				{
-					D_DEBUG_LOG(eLogType::D_WARNING, "Uniform buffer object is updated with string variable name. This is slow operation. Please pass offset directly");
-					const UINT64 offset = GetUniformVariableOffset(targetVariableName);
-					GraphicsAPI::UpdateDataToBuffer(mUniformBufferObject, GraphicsAPI::eBufferTarget::UNIFORM_BUFFER, offset, sizeOfSourceData, sourceData);
-				}
-			}
+		
 			/// <summary>
 			/// Store data in temporary buffer
 			/// data isn't send to gpu instantly, it is stored in temp buffer
@@ -160,12 +161,39 @@ namespace dooms
 			void UpdateLocalBuffer
 			(
 				const void* sourceData,
-				const UINT32 sizeOfSourceData,
-				const UINT32 offsetInUniformBlock,
+				const UINT64 offsetInUniformBlock,
+				const UINT64 sizeOfSourceData,
 				const bool instantlyUpdateToGPU
 			);
-		
+
+			/// <summary>
+			/// Send data in mUniformBufferData to gpu 
+			/// </summary>
+			/// <returns></returns>
+			void UpdateLocalBufferToGPU() noexcept;
+			FORCE_INLINE void UpdateDataToGPU(const void* sourceData, const UINT64 offsetInUniformBlock, const UINT64 sizeOfSourceData) noexcept
+			{
+				D_ASSERT(IsBufferGenerated() == true);
+
+				if (IsBufferGenerated() == true)
+				{
+					UpdateDataToGPU_Internal(sourceData, offsetInUniformBlock, sizeOfSourceData);
+				}
+			}
+			FORCE_INLINE void UpdateDataToGPU(const void* sourceData, const char* const targetVariableName, const UINT64 sizeOfSourceData) noexcept
+			{
+				D_ASSERT(IsBufferGenerated() == true);
+
+				if (IsBufferGenerated() == true)
+				{
+					D_DEBUG_LOG(eLogType::D_WARNING, "Uniform buffer object is updated with string variable name. This is slow operation. Please pass offset directly");
+					const UINT64 offset = GetUniformVariableOffset(targetVariableName);
+					UpdateDataToGPU_Internal(sourceData, offset, sizeOfSourceData);
+				}
+			}
 			bool IsBufferGenerated() const final;
+
+
 		};
 	}
 }

@@ -169,6 +169,22 @@ dooms::asset::Asset* AssetManager::_GetAsset(const std::string& filename, const 
 	return asset;
 }
 
+AssetManager::AssetManager()
+	:	mAssetImporterWorkerManager(),
+		AssetFolderPath{ std::filesystem::u8path(dooms::path::_GetAssetFolderDirectory()) },
+		mAssetConatiners
+		{
+			dooms::asset::AssetContainer(dooms::asset::eAssetType::AUDIO),
+			dooms::asset::AssetContainer(dooms::asset::eAssetType::FONT),
+			dooms::asset::AssetContainer(dooms::asset::eAssetType::TEXT),
+			dooms::asset::AssetContainer(dooms::asset::eAssetType::TEXTURE),
+			dooms::asset::AssetContainer(dooms::asset::eAssetType::THREE_D_MODEL),
+			dooms::asset::AssetContainer(dooms::asset::eAssetType::SHADER)
+		}
+{
+	AddToRootObjectList();
+}
+
 AssetManager::~AssetManager()
 {
 
@@ -183,6 +199,8 @@ void AssetManager::OnSetPendingKill()
 
 void dooms::assetImporter::AssetManager::Init()
 {
+	AddToRootObjectList();
+
 	LoadAssetManagerSetting();
 
 	D_START_PROFILING(ImportEntireAsset, dooms::profiler::eProfileLayers::CPU);

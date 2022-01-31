@@ -51,9 +51,15 @@ void dooms::DirectionalLight::UpdateUniformBufferObject(const bool force)
 			const UINT32 staticCount = GetStaticElementCount();
 			if (staticIndex < MAX_DIRECTIONAL_LIGHT_COUNT)
 			{
-				dooms::graphics::UniformBufferObjectManager::GetSingleton()->GetUniformBufferObject(GLOBAL_UNIFORM_BLOCK_BINDING_POINT)->UpdateDataToGPU((void*)dir.data(), sizeof(dir), graphics::eUniformBlock_Global::dirLight0_Dir + 32 * staticIndex);
-				dooms::graphics::UniformBufferObjectManager::GetSingleton()->GetUniformBufferObject(GLOBAL_UNIFORM_BLOCK_BINDING_POINT)->UpdateDataToGPU((void*)radiance.data(), sizeof(radiance), graphics::eUniformBlock_Global::dirLight0_Col + 32 * staticIndex);
-				dooms::graphics::UniformBufferObjectManager::GetSingleton()->GetUniformBufferObject(GLOBAL_UNIFORM_BLOCK_BINDING_POINT)->UpdateDataToGPU((void*)&staticCount, sizeof(staticCount), graphics::eUniformBlock_Global::dirLightCount);
+				dooms::graphics::UniformBufferObject* const ubo = dooms::graphics::UniformBufferObjectManager::GetSingleton()->GetUniformBufferObject(GLOBAL_UNIFORM_BLOCK_NAME);
+				D_ASSERT(IsValid(ubo));
+
+				if (IsValid(ubo))
+				{
+					ubo->UpdateDataToGPU((void*)dir.data(), graphics::eUniformBlock_Global::dirLight0_Dir + 4 * staticIndex, sizeof(dir));
+					ubo->UpdateDataToGPU((void*)radiance.data(), graphics::eUniformBlock_Global::dirLight0_Col + 4 * staticIndex, sizeof(radiance));
+					ubo->UpdateDataToGPU((void*)&staticCount, graphics::eUniformBlock_Global::dirLightCount, sizeof(staticCount));
+				}
 			}
 			else
 			{

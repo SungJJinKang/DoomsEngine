@@ -4,17 +4,7 @@
 
 layout (location = 0) in vec3 aPos; 
 
-struct DirectionalLight {
-	vec3 Direction;
-	vec3 Radiance;
-};
-
-struct PointLight {
-	vec3 Pos;
-	vec3 Radiance;
-};
-
-layout (std140, binding = 0) uniform Global
+layout(binding = 0, std140) uniform Global
 {
     // trtansformations
     mat4 viewProjection;
@@ -25,8 +15,10 @@ layout (std140, binding = 0) uniform Global
     // scene
     vec3 camPos;
     // lighting
-    DirectionalLight directionalLight[5];
-    PointLight pointLight[16];
+    vec3 DirectionalLightDirection[5];
+	vec3 DirectionalLightRadiance[5];
+    vec3 PointLightPos[16];
+	vec3 PointLightRadiance[16];
     int dirLightCount;
     int pointLightCount;
     //
@@ -34,7 +26,6 @@ layout (std140, binding = 0) uniform Global
     float camFar;
     float ambientLightIntensity;
 };
-
 
 
 void main()

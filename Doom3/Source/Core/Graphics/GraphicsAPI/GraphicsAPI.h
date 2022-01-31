@@ -67,10 +67,10 @@ namespace dooms
 
 			enum eBufferBitType : unsigned int
 			{
-				COLOR_BUFFER = 0x00, // = GL_COLOR_BUFFER_BIT,
-				DEPTH_BUFFER = 0x01, // = GL_DEPTH_BUFFER_BIT,
-				STENCIL_BUFFER = 0x02, // = GL_DEPTH_BUFFER_BIT,
-				DEPTH_STENCIL_BUFFER = 0x03 // = GL_STENCIL_BUFFER_BIT
+				COLOR_BUFFER = 1, // = GL_COLOR_BUFFER_BIT,
+				DEPTH_BUFFER = 1 << 1, // = GL_DEPTH_BUFFER_BIT,
+				STENCIL_BUFFER = 1 << 2, // = GL_DEPTH_BUFFER_BIT,
+				DEPTH_STENCIL_BUFFER = 1 << 3 // = GL_STENCIL_BUFFER_BIT
 			};
 
 			enum eBufferType : unsigned int
@@ -281,7 +281,7 @@ namespace dooms
 			typedef void (DOOMS_ENGINE_API_ENTRY_P GRAPHICS_CLEARBACKFRAMEBUFFERDEPTHSTENCILBUFFER)(const double depthValue, const int stencilValue);
 			extern GRAPHICS_CLEARBACKFRAMEBUFFERDEPTHSTENCILBUFFER ClearBackFrameBufferDepthStencilBuffer;
 
-			typedef void (DOOMS_ENGINE_API_ENTRY_P GRAPHICS_CLEARFRAMEBUFFERCOLORBUFFER)(unsigned long long bufferObject, const float r, const float g, const float b, const float a);
+			typedef void (DOOMS_ENGINE_API_ENTRY_P GRAPHICS_CLEARFRAMEBUFFERCOLORBUFFER)(unsigned long long bufferObject, const unsigned int colorTextureIndex, const float r, const float g, const float b, const float a);
 			extern GRAPHICS_CLEARFRAMEBUFFERCOLORBUFFER ClearFrameBufferColorBuffer;
 
 			typedef void (DOOMS_ENGINE_API_ENTRY_P GRAPHICS_CLEARFRAMEBUFFERDEPTHBUFFER)(unsigned long long bufferObject, const double depthValue);
@@ -553,36 +553,67 @@ namespace dooms
 			extern GRAPHICS_ENABLEVERTEXATTRIBUTEARRAYINDEX EnableVertexAttributeArrayIndex;
 
 			typedef void (DOOMS_ENGINE_API_ENTRY_P GRAPHICS_DEFINEVERTEXATTRIBUTELAYOUT)
-				(
-					const unsigned int vertexAttributeIndex,
-					const unsigned int componentNumber,
-					const unsigned int stride,
-					const unsigned int offset
-					);
+			(
+				const unsigned long long vertexBufferObject,
+				const unsigned int vertexAttributeIndex,
+				const unsigned int componentNumber,
+				const unsigned int stride,
+				const unsigned int offset
+			);
 			extern GRAPHICS_DEFINEVERTEXATTRIBUTELAYOUT DefineVertexAttributeLayout;
+
+			typedef unsigned long long (DOOMS_ENGINE_API_ENTRY_P GRAPHICS_CREATEINPUTLAYOUTFORD3D)
+			(
+				const void* const inputElementDesces,
+				const unsigned int inputElementCount,
+				unsigned long long vertexShaderBlobObject
+			);
+			extern GRAPHICS_CREATEINPUTLAYOUTFORD3D CreateInputLayoutForD3D;
+
+			typedef void (DOOMS_ENGINE_API_ENTRY_P GRAPHICS_BINDINPUTLAYOUTFORD3D)
+			(
+				const unsigned long long inputLayoutObject
+			);
+			extern GRAPHICS_BINDINPUTLAYOUTFORD3D BindInputLayoutForD3D;
+
+
+			typedef void (DOOMS_ENGINE_API_ENTRY_P GRAPHICS_DESTORYINPUTLAYOUTFORD3D)
+			(
+				unsigned long long inputLayoutObject
+			);
+			extern GRAPHICS_DESTORYINPUTLAYOUTFORD3D DestoryInputLayoutForD3D;
 
 			enum eGraphicsPipeLineStage : unsigned long
 			{
 				VERTEX_SHADER = 0,
-				HULL_SHADER = 1,
-				DOMAIN_SHADER = 2,
+				PIXEL_SHADER = 1,
+				COMPUTE_SHADER = 2,
 				GEOMETRY_SHADER = 3,
-				PIXEL_SHADER = 4,
-				COMPUTE_SHADER = 5,
+				DOMAIN_SHADER = 4,
+				HULL_SHADER = 5,
 				DUMMY
 			};
 
 
-			#define GRAPHICS_PIPELINE_STAGE_COUNT 6
+			#define GRAPHICS_PIPELINE_STAGE_COUNT 3
 			inline extern const char* const eGraphicsPipeLineStageString[GRAPHICS_PIPELINE_STAGE_COUNT]
 			{
 				"VERTEX_SHADER",
-				"HULL_SHADER",
-				"DOMAIN_SHADER",
-				"GEOMETRY_SHADER",
 				"PIXEL_SHADER",
 				"COMPUTE_SHADER"
+				//"GEOMETRY_SHADER",
+				//"DOMAIN_SHADER",
+				//"HULL_SHADER",
 			};
+
+			typedef void (DOOMS_ENGINE_API_ENTRY_P GRAPHICS_BINDVERTEXDATABUFFER)
+			(
+				const unsigned long long bufferObject,
+				const unsigned int bindingPosition,
+				const unsigned int stride,
+				const unsigned int offset
+			);
+			extern GRAPHICS_BINDVERTEXDATABUFFER BindVertexDataBuffer;
 
 			typedef void (DOOMS_ENGINE_API_ENTRY_P GRAPHICS_BINDBUFFER)
 			(
@@ -631,7 +662,8 @@ namespace dooms
 			typedef void (DOOMS_ENGINE_API_ENTRY_P GRAPHICS_BINDFRAMEBUFFER)
 			(
 				const unsigned int renderTargetCount,
-				unsigned long long* const* renderTargetViewObject,
+				unsigned long long* const renderTargetViewObject,
+				const unsigned int coloreTextureCount,
 				unsigned long long depthStencilViewObject
 			);
 			extern GRAPHICS_BINDFRAMEBUFFER BindFrameBuffer;
@@ -666,7 +698,7 @@ namespace dooms
 				FRAMEBUFFER_ATTACHMENT_POINT_DEPTH_STENCIL_ATTACHMENT
 			};
 
-			typedef unsigned long long (DOOMS_ENGINE_API_ENTRY_P GRAPHICS_ATTACH2DTEXTURETOFRAMEBUFFER)
+			typedef unsigned long long (DOOMS_ENGINE_API_ENTRY_P GRAPHICS_ATTACH2DCOLORTEXTURETOFRAMEBUFFER)
 			(
 				const unsigned long long frameBufferObject,
 				const GraphicsAPI::eFrameBufferAttachmentPoint frameBufferAttachmentPoint,
@@ -674,7 +706,18 @@ namespace dooms
 				const unsigned long long textureBufferObject,
 				const unsigned int lodLevel
 			);
-			extern GRAPHICS_ATTACH2DTEXTURETOFRAMEBUFFER Attach2DTextureToFrameBuffer;
+			extern GRAPHICS_ATTACH2DCOLORTEXTURETOFRAMEBUFFER Attach2DColorTextureToFrameBuffer;
+
+
+			typedef unsigned long long (DOOMS_ENGINE_API_ENTRY_P GRAPHICS_ATTACH2DDEPTHSTENCILTEXTURETOFRAMEBUFFER)
+				(
+					const unsigned long long frameBufferObject,
+					const GraphicsAPI::eFrameBufferAttachmentPoint frameBufferAttachmentPoint,
+					const GraphicsAPI::eTextureBindTarget textureBindTarget,
+					const unsigned long long textureBufferObject,
+					const unsigned int lodLevel
+					);
+			extern GRAPHICS_ATTACH2DDEPTHSTENCILTEXTURETOFRAMEBUFFER Attach2DDepthStencilTextureToFrameBuffer;
 
 			typedef unsigned long long (DOOMS_ENGINE_API_ENTRY_P GRAPHICS_COPYRENDERTARGETVIEW)(const unsigned long long renderTargetView);
 			extern GRAPHICS_COPYRENDERTARGETVIEW CopyRenderTargetView;
@@ -857,7 +900,9 @@ namespace dooms
 			typedef void (DOOMS_ENGINE_API_ENTRY_P GRAPHICS_BLITFRAMEBUFFER)
 			(
 				const unsigned long long ReadFrameBufferObject,
+				const unsigned int ReadBindingPoint,
 				const unsigned long long DrawFrameBufferObject,
+				const unsigned int DrawBindingPoint,
 				const int srcX0, const int srcY0, const int srcX1, const int srcY1,
 				const int dstX0, const int dstY0, const int dstX1, const int dstY1,
 				const GraphicsAPI::eBufferBitType mask,

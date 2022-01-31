@@ -22,6 +22,7 @@ namespace dooms
 
 		public:
 
+			D_PROPERTY()
 			dooms::asset::eAssetType mAssetTypeOfContainer;
 
 			//TODO : Tree���·� ���� path directory�� ���󰡸鼭 leaf node�� ������ std::ref�� ����
