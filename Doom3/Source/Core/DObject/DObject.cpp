@@ -180,8 +180,7 @@ void dooms::DObject::OnSetPendingKill_Internal()
 bool dooms::DObject::AddToRootObjectList()
 {
 	bool isSuccess = false;
-
-	D_ASSERT(GetDObjectFlag(eDObjectFlag::IsRootObject) == false);
+	
 	if(GetDObjectFlag(eDObjectFlag::IsRootObject) == false)
 	{
 		dooms::gc::GarbageCollectorManager::AddToRootsDObjectsList(this);
