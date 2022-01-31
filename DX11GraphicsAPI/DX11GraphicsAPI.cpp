@@ -346,6 +346,7 @@ namespace dooms
             static ID3D11Texture2D* g_pDepthStencil = nullptr;
             static ID3D11DepthStencilView* BackBufferDepthStencilView = nullptr;
             static unsigned int SyncInterval = 0;
+            static D3D_FEATURE_LEVEL _D3D_FEATURE_LEVEL;
 
             static HRESULT InitWindow(HINSTANCE hInstance, int nCmdShow, int width, int height);
             static HRESULT InitDevice();
@@ -905,8 +906,10 @@ namespace dooms
 
 		DOOMS_ENGINE_GRAPHICS_API double GetTime()
 		{
-			assert(0);
-			return 0;
+            __int64 currTime;
+			QueryPerformanceCounter((LARGE_INTEGER*)&currTime);
+            
+			return currTime;
 		}
 
 		DOOMS_ENGINE_GRAPHICS_API unsigned int InitializeGraphicsAPI(const int screenWidth, const int screenHeight, const unsigned int multiSamplingNum)
@@ -961,8 +964,6 @@ namespace dooms
             vp[index].TopLeftX = (FLOAT)startX;
             vp[index].TopLeftY = (FLOAT)startY;
             dx11::g_pImmediateContext->RSSetViewports(vpCount, vp);
-
-            delete[] vp;
         }
 
 

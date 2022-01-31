@@ -108,7 +108,7 @@ bool dooms::assetImporter::AssetImporterWorker_Shader::ImportShaderAsset
 
 std::array<dooms::asset::ShaderTextData, GRAPHICS_PIPELINE_STAGE_COUNT> dooms::assetImporter::AssetImporterWorker_Shader::LoadShaderTextDatas(const std::filesystem::path& assetPath) const
 {
-	D_ASSERT(IsEssentialEngineShaderFilesExist(assetPath));
+	D_ASSERT(IsEngineShaderFilesRequireToBeGenerated(assetPath) == false);
 
 	static const dooms::graphics::GraphicsAPI::eGraphicsPipeLineStage UsableShaderType[3]
 	{
