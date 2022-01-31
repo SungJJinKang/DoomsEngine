@@ -1651,10 +1651,12 @@ namespace dooms
             bool isCompileShaderSuccess = false;
 
             const char* shaderTarget = nullptr;
+            const char* entryPoint = nullptr;
             switch (shaderType)
             {
             case GraphicsAPI::VERTEX_SHADER:
                 shaderTarget = "vs_5_0";
+                entryPoint = "vert_main";
                 break;
             case GraphicsAPI::HULL_SHADER:
                 shaderTarget = "hs_5_0";
@@ -1667,9 +1669,11 @@ namespace dooms
                 break;
             case GraphicsAPI::PIXEL_SHADER:
                 shaderTarget = "ps_5_0";
+                entryPoint = "frag_main";
                 break;
             case GraphicsAPI::COMPUTE_SHADER:
                 shaderTarget = "cs_5_0";
+                entryPoint = "comp_main";
                 break;
             default:
                 NEVER_HAPPEN;
@@ -1697,14 +1701,14 @@ namespace dooms
                 nullptr,
                 NULL,
                 NULL,
-                NULL,
+                entryPoint,
                 shaderTarget,
                 dwShaderFlags,
                 NULL,
                 &shaderBlob,
                 &errorBlob
             );
-            assert(FAILED(hr) == false);
+
             if (FAILED(hr) == false)
             {
                 isCompileShaderSuccess = true;
@@ -1715,6 +1719,7 @@ namespace dooms
                 {
                     OutputDebugStringA(reinterpret_cast<const char*>(errorBlob->GetBufferPointer()));
                     errorBlob->Release();
+                    assert(false);
                 }
                 isCompileShaderSuccess = false;
             }
