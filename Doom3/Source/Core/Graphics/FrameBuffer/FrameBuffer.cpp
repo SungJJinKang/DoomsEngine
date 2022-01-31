@@ -125,6 +125,9 @@ void dooms::graphics::FrameBuffer::DestoryFrameBufferObject()
 		GraphicsAPI::DestroyFrameBuffer(mFrameBufferIDForOPENGL);
 		mFrameBufferIDForOPENGL.Reset();
 	}
+
+	mAttachedColorTextureViews.clear();
+	mAttachedDepthStencilTextureView = nullptr;
 }
 
 dooms::graphics::FrameBuffer::~FrameBuffer()
