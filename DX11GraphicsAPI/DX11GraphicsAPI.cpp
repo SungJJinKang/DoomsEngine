@@ -1608,6 +1608,13 @@ namespace dooms
             shaderResourceView->Release();
 		}
 
+        DOOMS_ENGINE_GRAPHICS_API void DestroyTextureObject(unsigned long long textureObject)
+        {
+            assert(textureObject != 0);
+            ID3D11Texture2D* const ID3D11TextureBuffer = reinterpret_cast<ID3D11Texture2D*>(textureObject);
+            ID3D11TextureBuffer->Release();
+        }
+
         DOOMS_ENGINE_GRAPHICS_API void BindTextureObject
         (
             const unsigned long long textureViewObject,
