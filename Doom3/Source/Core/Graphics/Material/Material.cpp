@@ -429,8 +429,6 @@ void dooms::graphics::Material::AddTextures(const std::vector<const TextureView*
 
 void dooms::graphics::Material::UseProgram() const
 {
-	D_ASSERT(mProgramIDForOpenGL.IsValid());
-
 	if (FixedMaterial::GetIsFixedMaterialExist() == false)
 	{
 		if (D_OVERLAP_BIND_CHECK_CHECK_IS_NOT_BOUND_AND_BIND_ID(MATERIAL_TAG, mProgramIDForOpenGL))
@@ -453,6 +451,7 @@ void dooms::graphics::Material::UseProgram() const
 			}
 			else if (dooms::graphics::GraphicsAPI::GetCurrentAPIType() == GraphicsAPI::eGraphicsAPIType::OpenGL)
 			{
+				D_ASSERT(mProgramIDForOpenGL.IsValid());
 				if (mProgramIDForOpenGL.IsValid() == true)
 				{
 					GraphicsAPI::BindShader(mProgramIDForOpenGL, GraphicsAPI::eGraphicsPipeLineStage::DUMMY);
