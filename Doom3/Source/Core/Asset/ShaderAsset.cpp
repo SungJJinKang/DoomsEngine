@@ -377,11 +377,13 @@ const std::vector<dooms::graphics::UniformBufferObject*>& dooms::asset::ShaderAs
 {
 	for(const shaderReflectionDataParser::UniformBuffer& uniformBufferData : shaderReflectionData.mUniformBuffers)
 	{
-		
+		const unsigned long long alignedSize = uniformBufferData.mBlockSize + ((uniformBufferData.mBlockSize % 16) == 0 ? 0 : (16 - (uniformBufferData.mBlockSize % 16)));
+		//D3D11 require constant buffer size to be multiple of 16
+
 		dooms::graphics::UniformBufferObject* const ubo = dooms::graphics::UniformBufferObjectManager::GetSingleton()->GetOrGenerateUniformBufferObjectIfNotExist
 		(
 			uniformBufferData.mName,
-			uniformBufferData.mBlockSize,
+			alignedSize,
 			uniformBufferData.mBindingPoint,
 			nullptr,
 			&(uniformBufferData.mMembers)
