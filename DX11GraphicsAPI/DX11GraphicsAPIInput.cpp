@@ -609,6 +609,7 @@ namespace dooms
 				CURSOR_MODE_DISABLED,
 			};
 
+			/*
 			FORCE_INLINE extern unsigned int GetGLCursorMode(const dooms::input::GraphicsAPIInput::eCursorMode cursorMode)
 			{
 				switch (cursorMode)
@@ -670,9 +671,12 @@ namespace dooms
 				glfwGetCursorPos(window, &xpos, &ypos);
 				CursorPosition_Callback(window, xpos, ypos);
 			}
+			*/
+
 		}
 
 
+		/*
 		DOOMS_ENGINE_GRAPHICS_API unsigned int InitializeGraphisAPIInput(void* const platformWindow)
 		{
 			if(platformWindow == 0)
@@ -786,6 +790,7 @@ namespace dooms
 				return input::GraphicsAPIInput::eInputActionType::RELEASE;
 			}
 		}
+		*/
 
 	}
 }

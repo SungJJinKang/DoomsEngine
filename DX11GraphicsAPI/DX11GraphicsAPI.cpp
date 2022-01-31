@@ -8,8 +8,6 @@
 #include <d3dcompiler.h>
 #include <directxmath.h>
 #include <directxcolors.h>
-#include "DDSTextureLoader.h"
-#include "resource.h"
 
 
 #undef NEVER_HAPPEN
@@ -300,12 +298,12 @@ namespace dooms
                 wcex.cbClsExtra = 0;
                 wcex.cbWndExtra = 0;
                 wcex.hInstance = hInstance;
-                wcex.hIcon = LoadIcon(hInstance, (LPCTSTR)IDI_TUTORIAL1);
+               // wcex.hIcon = LoadIcon(hInstance, (LPCTSTR)IDI_TUTORIAL1);
                 wcex.hCursor = LoadCursor(nullptr, IDC_ARROW);
                 wcex.hbrBackground = (HBRUSH)(COLOR_WINDOW + 1);
                 wcex.lpszMenuName = nullptr;
                 wcex.lpszClassName = L"SUNG JIN KANG GAME ENGINE WINDOW CLASS";
-                wcex.hIconSm = LoadIcon(wcex.hInstance, (LPCTSTR)IDI_TUTORIAL1);
+                //wcex.hIconSm = LoadIcon(wcex.hInstance, (LPCTSTR)IDI_TUTORIAL1);
                 if (!RegisterClassEx(&wcex))
                     return E_FAIL;
 
