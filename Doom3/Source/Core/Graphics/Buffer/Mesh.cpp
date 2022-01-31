@@ -356,6 +356,11 @@ bool dooms::graphics::Mesh::IsBufferGenerated() const
 	{
 		return mVertexDataBuffer.IsValid();
 	}
+	else
+	{
+		NEVER_HAPPEN;
+		return false;
+	}
 }
 
 void dooms::graphics::Mesh::UpdateElementBuffer(const UINT32* indices, const UINT32 indiceCount)

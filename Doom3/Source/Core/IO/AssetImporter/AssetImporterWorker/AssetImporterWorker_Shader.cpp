@@ -8,14 +8,14 @@
 #include <Asset/Utility/textImporter.h>
 #include <magic_enum.hpp>
 
-bool dooms::assetImporter::AssetImporterWorker_Shader::IsEssentialEngineShaderFilesExist
+bool dooms::assetImporter::AssetImporterWorker_Shader::IsEngineShaderFilesRequireToBeGenerated
 (
 	const std::filesystem::path& assetPath
 ) const
 {
 	// Shader require at least vertex, fragment shader.
 
-	bool isEngineShaderFilesExist = true;
+	bool isEngineShaderFilesRequireToBeGenerated = false;
 
 	static const dooms::graphics::GraphicsAPI::eGraphicsPipeLineStage essentialPipeLineStages[4]
 	{
@@ -35,6 +35,8 @@ bool dooms::assetImporter::AssetImporterWorker_Shader::IsEssentialEngineShaderFi
 
 	const graphics::GraphicsAPI::eGraphicsAPIType currentGraphicsAPIType = dooms::graphics::GraphicsAPI::GetCurrentAPIType();
 
+	const std::filesystem::file_time_type sourceShaderFileLastWriteTime = std::filesystem::last_write_time(assetPath);
+
 	for(size_t i = 0 ; i < 4 ; i++)
 	{
 		const std::filesystem::path targetEngineShaderFilePath = dooms::assetExporter::assetExporterShader::GetEngineShaderFilePath
@@ -42,16 +44,29 @@ bool dooms::assetImporter::AssetImporterWorker_Shader::IsEssentialEngineShaderFi
 			assetPath, currentGraphicsAPIType, essentialPipeLineStages[i], essentialEngineShaderFileType[i]
 		);
 
-		isEngineShaderFilesExist &= std::filesystem::exists(targetEngineShaderFilePath);
-		
-		if(isEngineShaderFilesExist == false)
+		const bool isEngineShaderFileExist = std::filesystem::exists(targetEngineShaderFilePath);
+		if(isEngineShaderFileExist == true)
 		{
-			dooms::ui::PrintText("Essential engine shader file doesn't exist ( Shader Type : %s, Shader File Type : %s )", magic_enum::enum_name(essentialPipeLineStages[i]).data(), magic_enum::enum_name(essentialEngineShaderFileType[i]).data());
+			const std::filesystem::file_time_type engineShaderFileLastWriteTime = std::filesystem::last_write_time(targetEngineShaderFilePath);
+			if(engineShaderFileLastWriteTime < sourceShaderFileLastWriteTime)
+			{
+				// If Source shader file's last write time date is later than engine shader file, it should be regenerated;
+				isEngineShaderFilesRequireToBeGenerated = true;
+			}
+		}
+		else
+		{
+			isEngineShaderFilesRequireToBeGenerated = true;
+		}
+
+		if(isEngineShaderFilesRequireToBeGenerated == true)
+		{
+			dooms::ui::PrintText("Essential engine shader file require to be regenerated ( Shader Type : %s, Shader File Type : %s )", magic_enum::enum_name(essentialPipeLineStages[i]).data(), magic_enum::enum_name(essentialEngineShaderFileType[i]).data());
 			break;
 		}
 	}
 	
-	return isEngineShaderFilesExist;
+	return isEngineShaderFilesRequireToBeGenerated;
 }
 
 bool dooms::assetImporter::AssetImporterWorker_Shader::ImportShaderAsset
@@ -63,34 +78,31 @@ bool dooms::assetImporter::AssetImporterWorker_Shader::ImportShaderAsset
 	D_ASSERT(IsValid(shaderAsset));
 
 	bool isSucess = false;
-	
+
 	D_ASSERT(assetPath.extension().compare(".glsl") == 0);
-	if (assetPath.extension().compare(".glsl") == 0)
+
+	bool isEngineShaderFilesRequireToBeGenerated = IsEngineShaderFilesRequireToBeGenerated(assetPath);
+
+	if (isEngineShaderFilesRequireToBeGenerated == true)
 	{
-		bool isEssentialEngineShaderFilesExist = IsEssentialEngineShaderFilesExist(assetPath);
+		dooms::ui::PrintText("Generating engine shader file is required ( glsl File Path : %s )", assetPath.generic_u8string().c_str());
+		//D_DEBUG_LOG(eLogType::D_LOG, "Generating engine shader file is required ( glsl File Path : %s )", assetPath.generic_u8string().c_str());
 
-		if(isEssentialEngineShaderFilesExist == false)
-		{
-			dooms::ui::PrintText("Engine Shader File doesn't exist ( glsl File Path : %s )", assetPath.generic_u8string().c_str());
-			D_DEBUG_LOG(eLogType::D_LOG, "Engine Shader File doesn't exist ( glsl File Path : %s )", assetPath.generic_u8string().c_str());
+		const bool isSuccessToGenerateEngineShaderFiles = dooms::assetExporter::assetExporterShader::GenerateEngineShaderFiles(assetPath, dooms::graphics::GraphicsAPI::GetCurrentAPIType());
+		D_ASSERT(isSuccessToGenerateEngineShaderFiles == true);
 
-			const bool isSuccessToGenerateEngineShaderFiles = dooms::assetExporter::assetExporterShader::GenerateEngineShaderFiles(assetPath, dooms::graphics::GraphicsAPI::GetCurrentAPIType());
-			D_ASSERT(isSuccessToGenerateEngineShaderFiles == true);
-
-			isEssentialEngineShaderFilesExist |= IsEssentialEngineShaderFilesExist(assetPath);
-		}
-		
-		if(isEssentialEngineShaderFilesExist == true)
-		{
-			std::array<asset::ShaderTextData, GRAPHICS_PIPELINE_STAGE_COUNT> shaderTextDatas = LoadShaderTextDatas(assetPath);
-
-			isSucess = shaderAsset->SetShaderText(shaderTextDatas, false);
-
-		}
-		
+		isEngineShaderFilesRequireToBeGenerated &= IsEngineShaderFilesRequireToBeGenerated(assetPath);
 	}
 
+	D_ASSERT(isEngineShaderFilesRequireToBeGenerated == false);
+	if (isEngineShaderFilesRequireToBeGenerated == false)
+	{
+		std::array<asset::ShaderTextData, GRAPHICS_PIPELINE_STAGE_COUNT> shaderTextDatas = LoadShaderTextDatas(assetPath);
 
+		isSucess = shaderAsset->SetShaderText(shaderTextDatas, false);
+
+	}
+	
 	return isSucess;
 }
 

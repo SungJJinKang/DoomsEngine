@@ -22,7 +22,7 @@ namespace dooms
 			
 		private:
 
-			bool IsEssentialEngineShaderFilesExist(const std::filesystem::path& assetPath) const;
+			bool IsEngineShaderFilesRequireToBeGenerated(const std::filesystem::path& assetPath) const;
 			bool ImportShaderAsset(const std::filesystem::path& assetPath, dooms::asset::ShaderAsset* const asset);
 			std::array<asset::ShaderTextData, GRAPHICS_PIPELINE_STAGE_COUNT> LoadShaderTextDatas(const std::filesystem::path& assetPath) const;
 
