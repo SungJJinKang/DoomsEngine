@@ -48,6 +48,9 @@
     <ClCompile Include="InputHelper\Mouse.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="InputHelper\pch.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="imgui\backends\imgui_impl_win32.h">
@@ -80,7 +83,7 @@
     <ClInclude Include="InputHelper\PlatformHelpers.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="InputHelper\headers.h">
+    <ClInclude Include="InputHelper\pch.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

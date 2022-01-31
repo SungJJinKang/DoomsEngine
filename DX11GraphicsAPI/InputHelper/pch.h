@@ -137,10 +137,22 @@
 
 #include <malloc.h>
 
+#define _XM_NO_XMVECTOR_OVERLOADS_
+
+#include <DirectXMath.h>
+#include <DirectXPackedVector.h>
+#include <DirectXCollision.h>
+
+#if (DIRECTX_MATH_VERSION < 315)
+#define XM_ALIGNED_STRUCT(x) __declspec(align(x)) struct
+#endif
+
 #pragma warning(push)
 #pragma warning(disable : 4467 5038 5204 5220)
 #include <wrl.h>
 #pragma warning(pop)
+
+#include <wincodec.h>
 
 #if (defined(WINAPI_FAMILY) && (WINAPI_FAMILY == WINAPI_FAMILY_APP)) || (defined(_XBOX_ONE) && defined(_TITLE))
 #pragma warning(push)

@@ -30,6 +30,7 @@
     <ClCompile Include="imgui\imgui_widgets.cpp" />
     <ClCompile Include="InputHelper\Keyboard.cpp" />
     <ClCompile Include="InputHelper\Mouse.cpp" />
+    <ClCompile Include="InputHelper\pch.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="imgui\backends\imgui_impl_dx11.h" />
@@ -41,7 +42,7 @@
     <ClInclude Include="imgui\imstb_truetype.h" />
     <ClInclude Include="InputHelper\Keyboard.h" />
     <ClInclude Include="InputHelper\Mouse.h" />
-    <ClInclude Include="InputHelper\headers.h" />
+    <ClInclude Include="InputHelper\pch.h" />
     <ClInclude Include="InputHelper\PlatformHelpers.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

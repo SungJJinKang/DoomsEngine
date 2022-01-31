@@ -8,9 +8,8 @@
 // http://go.microsoft.com/fwlink/?LinkID=615561
 //--------------------------------------------------------------------------------------
 
-#include "headers.h"
+#include "pch.h"
 #include "Mouse.h"
-
 #include "PlatformHelpers.h"
 
 using namespace DirectX;
