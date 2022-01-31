@@ -9,6 +9,7 @@
 #define HLSL_ENGINE_SHADER_TEXT_FILE_EXTENSION "hlsl.shader"
 
 #define GLSL_PROFILE_VERSION "420"
+#define HLSL_PROFILE_VERSION "50"
 
 namespace dooms::assetExporter::assetExporterShader
 {
@@ -45,6 +46,7 @@ bool dooms::assetExporter::assetExporterShader::GenerateEngineShaderFiles
 			glslccArgvs.push_back("--output=" + outPutPath.generic_u8string());
 
 			glslccArgvs.push_back("--lang=hlsl");
+			glslccArgvs.push_back(std::string{ "--profile=" } + HLSL_PROFILE_VERSION);
 		}
 		else
 		{
