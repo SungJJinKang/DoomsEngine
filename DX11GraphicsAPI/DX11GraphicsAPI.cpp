@@ -5,7 +5,7 @@
 #include "assert.h"
 
 #include <windows.h>
-#include <d3d11_1.h>
+#include <d3d11_3.h>
 #include <d3dcompiler.h>
 
 
@@ -934,11 +934,15 @@ namespace dooms
             }
 
 			if (FAILED(dx11::InitWindow(hInstance, true, screenWidth, screenHeight)))
-				return 0;
+			{
+                assert(0);
+                return 0;
+			}
 
 			if (FAILED(dx11::InitDevice()))
 			{
 				dx11::CleanupDevice();
+                assert(0);
 				return 0;
 			}
 
@@ -1933,10 +1937,13 @@ namespace dooms
             bd.Usage = D3D11_USAGE_DEFAULT;
             bd.ByteWidth = bufferSize;
             bd.CPUAccessFlags = 0;
+            bd.MiscFlags = 0;
+            bd.StructureByteStride = 0;
 
             switch (bufferTarget)
             {
             case GraphicsAPI::ARRAY_BUFFER:
+               
                 bd.BindFlags = D3D11_BIND_VERTEX_BUFFER;
                 break;
 
@@ -1954,10 +1961,18 @@ namespace dooms
 
             ID3D11Buffer* buffer;
 
-            D3D11_SUBRESOURCE_DATA initData = {};
-            initData.pSysMem = initialData;
+            D3D11_SUBRESOURCE_DATA* data = NULL;
 
-            const HRESULT hr = dx11::g_pd3dDevice->CreateBuffer(&bd, &initData, &buffer);
+
+            D3D11_SUBRESOURCE_DATA initData = {};
+            if(initialData != nullptr)
+            {
+                initData.pSysMem = initialData;
+                data = &initData;
+            }
+            
+         
+            const HRESULT hr = dx11::g_pd3dDevice->CreateBuffer(&bd, data, &buffer);
             assert(FAILED(hr) == false);
 
             return reinterpret_cast<unsigned long long>(buffer);
