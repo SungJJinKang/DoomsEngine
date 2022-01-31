@@ -348,7 +348,7 @@ bool dooms::asset::ShaderAsset::CompileSpecificTypeShader(ShaderTextData& shader
 			shaderObject.mShaderCompileStatus = eShaderCompileStatus::SHADER_OBJECT_CREATED;
 
 			const char* shaderCode = shaderText.mShaderStringText.c_str();
-			isSuccessCompileShader = graphics::GraphicsAPI::CompileShader(shaderObject.mShaderObjectID.GetBufferIDRef(), shaderType, shaderCode, shaderText.mShaderStringText.size() + 1);
+			isSuccessCompileShader = graphics::GraphicsAPI::CompileShader(shaderObject.mShaderObjectID.GetBufferIDRef(), shaderType, shaderCode, shaderText.mShaderStringText.size());
 			D_ASSERT_LOG(isSuccessCompileShader == true, "Fail to compile shader ( Shader Asset Name : %s, Shader Type : %s )", shaderText.mShaderTextFilePath.generic_u8string().c_str(), graphics::GraphicsAPI::eGraphicsPipeLineStageString[static_cast<UINT32>(shaderType)]);
 			if (isSuccessCompileShader == true)
 			{
