@@ -1,4 +1,5 @@
 #include "GraphicsAPI.h"
+#include "DX11GraphicsAPI.h"
 
 #include "stdio.h"
 #include "assert.h"
@@ -332,10 +333,10 @@ namespace dooms
 	            }
             }
 
-            static HINSTANCE                           g_hInst = nullptr;
-            static HWND                                g_hWnd = nullptr;
-            static  D3D_DRIVER_TYPE                     g_driverType = D3D_DRIVER_TYPE_NULL;
-            static D3D_FEATURE_LEVEL                   g_featureLevel = D3D_FEATURE_LEVEL_11_0;
+            static HINSTANCE g_hInst = nullptr;
+            static HWND g_hWnd = nullptr;
+            static  D3D_DRIVER_TYPE g_driverType = D3D_DRIVER_TYPE_NULL;
+            static D3D_FEATURE_LEVEL g_featureLevel = D3D_FEATURE_LEVEL_11_0;
             static ID3D11Device* g_pd3dDevice = nullptr;
             static ID3D11Device1* g_pd3dDevice1 = nullptr;
             static ID3D11DeviceContext* g_pImmediateContext = nullptr;
@@ -346,7 +347,6 @@ namespace dooms
             static ID3D11Texture2D* g_pDepthStencil = nullptr;
             static ID3D11DepthStencilView* BackBufferDepthStencilView = nullptr;
             static unsigned int SyncInterval = 0;
-            static D3D_FEATURE_LEVEL _D3D_FEATURE_LEVEL;
 
             static HRESULT InitWindow(HINSTANCE hInstance, int nCmdShow, int width, int height);
             static HRESULT InitDevice();
@@ -418,9 +418,7 @@ namespace dooms
                 D3D_FEATURE_LEVEL featureLevels[] =
                 {
                     D3D_FEATURE_LEVEL_11_1,
-                    D3D_FEATURE_LEVEL_11_0,
-                    D3D_FEATURE_LEVEL_10_1,
-                    D3D_FEATURE_LEVEL_10_0,
+                    D3D_FEATURE_LEVEL_11_0
                 };
                 UINT numFeatureLevels = ARRAYSIZE(featureLevels);
 
@@ -897,6 +895,16 @@ namespace dooms
 
                 return 0;
             }
+
+            ID3D11Device* GetDevice()
+            {
+                return g_pd3dDevice;
+            }
+
+            ID3D11DeviceContext* GetDeviceContext()
+            {
+                return g_pImmediateContext;
+            }
 		}
 
         DOOMS_ENGINE_GRAPHICS_API GraphicsAPI::eGraphicsAPIType GetCuurentAPIType()
@@ -911,6 +919,11 @@ namespace dooms
             
 			return currTime;
 		}
+
+        DOOMS_ENGINE_GRAPHICS_API GraphicsAPI::eGraphicsAPIType GetCurrentAPIType()
+        {
+            return GraphicsAPI::eGraphicsAPIType::DX11_10;
+        }
 
 		DOOMS_ENGINE_GRAPHICS_API unsigned int InitializeGraphicsAPI(const int screenWidth, const int screenHeight, const unsigned int multiSamplingNum)
 		{
@@ -1007,15 +1020,25 @@ namespace dooms
 
         DOOMS_ENGINE_GRAPHICS_API const char* GetPlatformVersion()
         {
-            assert(false);
-            return "";//dx11::v.c_str();
+            if(dx11::g_featureLevel == D3D_FEATURE_LEVEL::D3D_FEATURE_LEVEL_11_1)
+            {
+                return "D3D11_1";
+            }
+            else if (dx11::g_featureLevel == D3D_FEATURE_LEVEL::D3D_FEATURE_LEVEL_11_0)
+            {
+                return "D3D11_0";
+            }
+            else
+            {
+                NEVER_HAPPEN;
+            }
         }
 
         DOOMS_ENGINE_GRAPHICS_API void* GetPlatformWindow()
         {
             return dx11::g_hWnd;
         }
-
+        
         DOOMS_ENGINE_GRAPHICS_API void SetVSync(const bool isEnabled)
         {
             dx11::SyncInterval = (isEnabled == true ? 1 : 0);
@@ -1833,41 +1856,71 @@ namespace dooms
             return isSuccess;
         }
 
-        DOOMS_ENGINE_GRAPHICS_API void BindVertexArrayObject(unsigned long long vertexArrayObject)
-        {
-            ID3D11Buffer* const vertexArrayBuffer = reinterpret_cast<ID3D11Buffer*>(vertexArrayObject);
-            dx11::g_pImmediateContext->IASetVertexBuffers(0, 1, &vertexArrayBuffer, 0, 0);
-        }
-
-        DOOMS_ENGINE_GRAPHICS_API void BindBuffer
-        (
-            const unsigned long long bufferObject,
-            const unsigned int bindingPosition,
-            const GraphicsAPI::eBufferTarget bindBufferTarget,
-            const GraphicsAPI::eGraphicsPipeLineStage targetPipeLienStage
-        )
-        {
-            assert(bufferObject != 0);
-
-            if(bindBufferTarget == GraphicsAPI::ARRAY_BUFFER)
-            {
-                
-            }
-            else
-            {
-                NEVER_HAPPEN;
-            }
-        }
-
         DOOMS_ENGINE_GRAPHICS_API void BindIndexBufferObject
         (
             const unsigned long long indexBufferObject//, 
             //const unsigned long long offset
         )
         {
+            assert(indexBufferObject != 0);
             ID3D11Buffer* const indexBuffer = reinterpret_cast<ID3D11Buffer*>(indexBufferObject);
             dx11::g_pImmediateContext->IASetIndexBuffer(indexBuffer, DXGI_FORMAT_R16_UINT, 0);
         }
+
+        DOOMS_ENGINE_GRAPHICS_API unsigned long long CreateInputLayoutForD3D
+		(
+            const void* const inputElementDesces,
+            const unsigned int inputElementCount,
+            unsigned long long vertexShaderBlobObject
+        )
+        {
+            assert(inputElementDesces != nullptr);
+            assert(inputElementCount > 0);
+            assert(vertexShaderBlobObject != 0);
+
+            if(inputElementDesces != nullptr && inputElementCount > 0 && vertexShaderBlobObject != 0)
+            {
+                ID3DBlob* const vertexShaderBlob = reinterpret_cast<ID3DBlob*>(vertexShaderBlobObject);
+
+                ID3D11InputLayout* vertexLayout = nullptr;
+
+                HRESULT hr = dx11::g_pd3dDevice->CreateInputLayout
+                (
+                    reinterpret_cast<const D3D11_INPUT_ELEMENT_DESC*>(inputElementDesces),
+                    inputElementCount,
+                    vertexShaderBlob->GetBufferPointer(),
+                    vertexShaderBlob->GetBufferSize(),
+                    &vertexLayout
+                );
+
+                assert(FAILED(hr) == false);
+                if (FAILED(hr))
+                    return hr;
+
+                // Set the input layout
+                dx11::g_pImmediateContext->IASetInputLayout(vertexLayout);
+
+                return reinterpret_cast<unsigned long long>(vertexLayout);
+            }
+            else
+            {
+                return 0;
+            }           
+        }
+
+        DOOMS_ENGINE_GRAPHICS_API void BindInputLayoutForD3D(const unsigned long long inputLayoutObject)
+		{
+            ID3D11InputLayout* const inputLayout = reinterpret_cast<ID3D11InputLayout*>(inputLayoutObject);
+			dx11::g_pImmediateContext->IASetInputLayout(inputLayout);
+		}
+
+        DOOMS_ENGINE_GRAPHICS_API void DestoryInputLayoutForD3D(unsigned long long inputLayoutObject)
+        {
+            ID3D11InputLayout* const inputLayout = reinterpret_cast<ID3D11InputLayout*>(inputLayoutObject);
+            inputLayout->Release();
+        }
+        
+       
 
         DOOMS_ENGINE_GRAPHICS_API unsigned long long CreateBufferObject
         (
@@ -1908,6 +1961,23 @@ namespace dooms
             assert(FAILED(hr) == false);
 
             return reinterpret_cast<unsigned long long>(buffer);
+        }
+
+        DOOMS_ENGINE_GRAPHICS_API void EnableVertexAttributeArrayIndex(const unsigned int vertexAttributeIndex)
+        {
+
+        }
+
+        DOOMS_ENGINE_GRAPHICS_API void DefineVertexAttributeLayout
+        (
+            const unsigned long long vertexBufferObject,
+            const unsigned int vertexAttributeIndex,
+            const unsigned int componentCount,
+            const unsigned int stride,
+            const unsigned int offset
+        )
+        {
+
         }
 
         DOOMS_ENGINE_GRAPHICS_API void UpdateDataToBuffer
@@ -1954,6 +2024,37 @@ namespace dooms
                 break;
             case GraphicsAPI::COMPUTE_SHADER:
                 dx11::g_pImmediateContext->CSSetConstantBuffers(bindingPoint, 1, &buffer);
+                break;
+            default:
+                NEVER_HAPPEN;
+            }
+        }
+
+        DOOMS_ENGINE_GRAPHICS_API void BindBuffer
+        (
+            const unsigned long long bufferObject,
+            const unsigned int bindingPosition,
+            const GraphicsAPI::eBufferTarget bindBufferTarget,
+            const GraphicsAPI::eGraphicsPipeLineStage targetPipeLienStage
+        )
+        {
+            assert(bufferObject != 0);
+
+            ID3D11Buffer* const buffer = reinterpret_cast<ID3D11Buffer*>(bufferObject);
+
+            switch (bindBufferTarget)
+            {
+            case GraphicsAPI::ARRAY_BUFFER:
+                dx11::g_pImmediateContext->IASetVertexBuffers(0, 1, &buffer, NULL, NULL);
+                break;
+            case GraphicsAPI::ELEMENT_ARRAY_BUFFER:
+                BindIndexBufferObject(bufferObject);
+                break;
+            case GraphicsAPI::TEXTURE_BUFFER:
+                BindTextureObject(bufferObject, GraphicsAPI::eTextureBindTarget::TEXTURE_2D, bindingPosition, targetPipeLienStage);
+                break;
+            case GraphicsAPI::UNIFORM_BUFFER:
+                BindConstantBuffer(bufferObject, bindingPosition, targetPipeLienStage);
                 break;
             default:
                 NEVER_HAPPEN;

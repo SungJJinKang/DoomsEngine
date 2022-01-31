@@ -8,9 +8,10 @@
 #include <Asset/TextureAsset.h>
 #include "../Texture/TextureView.h"
 
-using namespace dooms::graphics;
+#include <d3d11.h>
+#include <dxgiformat.h>
 
-bool Material::AttachShaderToMaterial(dooms::asset::ShaderAsset* const shaderAsset, const dooms::graphics::GraphicsAPI::eGraphicsPipeLineStage shaderType)
+bool dooms::graphics::Material::AttachShaderToMaterial(dooms::asset::ShaderAsset* const shaderAsset, const dooms::graphics::GraphicsAPI::eGraphicsPipeLineStage shaderType)
 {
 	D_ASSERT(IsValid(shaderAsset));
 	D_ASSERT(shaderAsset->GetShaderObject(shaderType).IsValid());
@@ -53,8 +54,12 @@ bool Material::AttachShaderToMaterial(dooms::asset::ShaderAsset* const shaderAss
 			if (shaderAsset->IsShaderObjectSuccessfullyCreated(shaderType))
 			{
 				DestroyShaderFromMaterial(shaderType);
-
 				isSuccess &= GraphicsAPI::AttachShaderToMaterial(mPipeLineShaderView[shaderType].GetBufferIDRef(), mProgramIDForOpenGL.GetBufferIDRef(), shaderAsset->GetShaderObject(shaderType), shaderType);
+				if(shaderType == graphics::GraphicsAPI::eGraphicsPipeLineStage::VERTEX_SHADER)
+				{
+					CreateInputLayoutForD3D(shaderAsset);
+				}
+
 				D_ASSERT(isSuccess == true);
 			}
 		}
@@ -85,7 +90,7 @@ bool Material::AttachShaderToMaterial(dooms::asset::ShaderAsset* const shaderAss
 	return isSuccess;
 }
 
-void Material::SetShaderAsset(dooms::asset::ShaderAsset* const shaderAsset)
+void dooms::graphics::Material::SetShaderAsset(dooms::asset::ShaderAsset* const shaderAsset)
 {
 	D_ASSERT(IsValid(shaderAsset));
 	for (size_t shaderTypeIndex = 0; shaderTypeIndex < GRAPHICS_PIPELINE_STAGE_COUNT; shaderTypeIndex++)
@@ -97,7 +102,7 @@ void Material::SetShaderAsset(dooms::asset::ShaderAsset* const shaderAsset)
 	}
 }
 
-void Material::SetShaderAsset(dooms::asset::ShaderAsset* const shaderAsset, const dooms::graphics::GraphicsAPI::eGraphicsPipeLineStage shaderType)
+void dooms::graphics::Material::SetShaderAsset(dooms::asset::ShaderAsset* const shaderAsset, const dooms::graphics::GraphicsAPI::eGraphicsPipeLineStage shaderType)
 {
 	D_ASSERT(IsValid(shaderAsset) == true);
 	D_ASSERT(shaderAsset->IsShaderObjectSuccessfullyCreated(shaderType));
@@ -105,7 +110,7 @@ void Material::SetShaderAsset(dooms::asset::ShaderAsset* const shaderAsset, cons
 	AttachShaderToMaterial(shaderAsset, shaderType);
 }
 
-void Material::SetShaderAsset(const std::array<dooms::asset::ShaderAsset*, GRAPHICS_PIPELINE_STAGE_COUNT>& shaderAssets)
+void dooms::graphics::Material::SetShaderAsset(const std::array<dooms::asset::ShaderAsset*, GRAPHICS_PIPELINE_STAGE_COUNT>& shaderAssets)
 {
 	mTargetUniformBufferObjectViews.clear();
 	for(size_t shaderTypeIndex = 0 ; shaderTypeIndex < GRAPHICS_PIPELINE_STAGE_COUNT ; shaderTypeIndex++)
@@ -114,7 +119,7 @@ void Material::SetShaderAsset(const std::array<dooms::asset::ShaderAsset*, GRAPH
 	}
 }
 
-bool Material::IsHasAnyValidShaderObject() const
+bool dooms::graphics::Material::IsHasAnyValidShaderObject() const
 {
 	bool isHasAnyValidShaderObject = false;
 
@@ -147,30 +152,33 @@ dooms::graphics::Material::Material()
 	mProgramIDForOpenGL{ },
 	mShaderAsset{ nullptr },
 	mPipeLineShaderView{},
-	mTargetUniformBufferObjectViews{}
+	mTargetUniformBufferObjectViews{},
+	mInputLayoutForD3D()
 {
 
 }
 
-Material::Material(dooms::asset::ShaderAsset* const shaderAsset)
+dooms::graphics::Material::Material(dooms::asset::ShaderAsset* const shaderAsset)
 	:
 	mMaterialStatus(eStatus::READY),
 	mProgramIDForOpenGL{},
 	mShaderAsset{ nullptr },
 	mPipeLineShaderView{},
-	mTargetUniformBufferObjectViews{}
+	mTargetUniformBufferObjectViews{},
+	mInputLayoutForD3D()
 {
 	D_ASSERT(IsValid(shaderAsset));
 	SetShaderAsset(shaderAsset);
 }
 
-Material::Material(dooms::asset::ShaderAsset* const shaderAsset, const dooms::graphics::GraphicsAPI::eGraphicsPipeLineStage shaderType)
+dooms::graphics::Material::Material(dooms::asset::ShaderAsset* const shaderAsset, const dooms::graphics::GraphicsAPI::eGraphicsPipeLineStage shaderType)
 	:
 	mMaterialStatus(eStatus::READY),
 	mProgramIDForOpenGL{},
 	mShaderAsset{ nullptr },
 	mPipeLineShaderView{},
-	mTargetUniformBufferObjectViews{}
+	mTargetUniformBufferObjectViews{},
+	mInputLayoutForD3D()
 {
 	if (IsValid(shaderAsset) == true)
 	{
@@ -178,18 +186,19 @@ Material::Material(dooms::asset::ShaderAsset* const shaderAsset, const dooms::gr
 	}
 }
 
-Material::Material(const std::array<dooms::asset::ShaderAsset*, GRAPHICS_PIPELINE_STAGE_COUNT>& shaderAssets)
+dooms::graphics::Material::Material(const std::array<dooms::asset::ShaderAsset*, GRAPHICS_PIPELINE_STAGE_COUNT>& shaderAssets)
 	:
 	mMaterialStatus(eStatus::READY),
 	mProgramIDForOpenGL{},
 	mShaderAsset{ nullptr },
 	mPipeLineShaderView{},
-	mTargetUniformBufferObjectViews{}
+	mTargetUniformBufferObjectViews{},
+	mInputLayoutForD3D()
 {
 	SetShaderAsset(shaderAssets);
 }
 
-void Material::CreateMaterialObjectIfNotExist()
+void dooms::graphics::Material::CreateMaterialObjectIfNotExist()
 {
 	if (dooms::graphics::GraphicsAPI::GetCurrentAPIType() == dooms::graphics::GraphicsAPI::eGraphicsAPIType::OpenGL)
 	{
@@ -202,7 +211,7 @@ void Material::CreateMaterialObjectIfNotExist()
 	mMaterialStatus = eStatus::READY;
 }
 
-void Material::DestroyMaterialObjectIfExist()
+void dooms::graphics::Material::DestroyMaterialObjectIfExist()
 {
 	if(dooms::graphics::GraphicsAPI::GetCurrentAPIType() == dooms::graphics::GraphicsAPI::eGraphicsAPIType::OpenGL)
 	{
@@ -218,6 +227,12 @@ void Material::DestroyMaterialObjectIfExist()
 		{
 			DestroyShaderFromMaterial(static_cast<dooms::graphics::GraphicsAPI::eGraphicsPipeLineStage>(pipeLineStageIndex));
 		}
+
+		if(mInputLayoutForD3D.IsValid())
+		{
+			dooms::graphics::GraphicsAPI::DestoryInputLayoutForD3D(mInputLayoutForD3D);
+			mInputLayoutForD3D.Reset();
+		}
 	}
 
 	mTargetUniformBufferObjectViews.clear();
@@ -225,7 +240,7 @@ void Material::DestroyMaterialObjectIfExist()
 	mMaterialStatus = eStatus::READY;
 }
 
-void Material::DestroyShaderFromMaterial(const dooms::graphics::GraphicsAPI::eGraphicsPipeLineStage shaderType)
+void dooms::graphics::Material::DestroyShaderFromMaterial(const dooms::graphics::GraphicsAPI::eGraphicsPipeLineStage shaderType)
 {
 	if (dooms::graphics::GraphicsAPI::GetCurrentAPIType() == dooms::graphics::GraphicsAPI::eGraphicsAPIType::OpenGL)
 	{
@@ -245,14 +260,14 @@ void Material::DestroyShaderFromMaterial(const dooms::graphics::GraphicsAPI::eGr
 }
 
 
-void Material::OnSetPendingKill()
+void dooms::graphics::Material::OnSetPendingKill()
 {
 	DObject::OnSetPendingKill();
 
 	DestroyMaterialObjectIfExist();
 }
 
-UniformBufferObjectView* Material::AddUniformBufferObjectView
+dooms::graphics::UniformBufferObjectView* dooms::graphics::Material::AddUniformBufferObjectView
 (
 	UniformBufferObject* const ubo,
 	const GraphicsAPI::eGraphicsPipeLineStage targetPipeLineStage
@@ -288,7 +303,7 @@ UniformBufferObjectView* Material::AddUniformBufferObjectView
 				addedUbo = &uboView;
 			}
 		}
-		else if (graphics::GraphicsAPI::GetCurrentAPIType() == graphics::GraphicsAPI::eGraphicsAPIType::OpenGL)
+		else if (graphics::GraphicsAPI::GetCurrentAPIType() == graphics::GraphicsAPI::eGraphicsAPIType::DX11_10)
 		{
 			// In direct x, Constant Buffer should be bound to target graphics pipe line stage.
 			UniformBufferObjectView& uboView = mTargetUniformBufferObjectViews.emplace_back
@@ -313,20 +328,94 @@ UniformBufferObjectView* Material::AddUniformBufferObjectView
 	return addedUbo;
 }
 
+namespace dooms::graphics::dx11
+{
+	DXGI_FORMAT Conver_From_eShaderVariableType_To_DXGI_FORMAT(const asset::shaderReflectionDataParser::eShaderVariableType shaderVariableType)
+	{
+		switch (shaderVariableType)
+		{
+		case asset::shaderReflectionDataParser::eShaderVariableType::FLOAT1: 
+			return DXGI_FORMAT::DXGI_FORMAT_R32_FLOAT;
+		case asset::shaderReflectionDataParser::eShaderVariableType::FLOAT2: 
+			return DXGI_FORMAT::DXGI_FORMAT_R32G32_FLOAT;
+		case asset::shaderReflectionDataParser::eShaderVariableType::FLOAT3: 
+			return DXGI_FORMAT::DXGI_FORMAT_R32G32B32_FLOAT;
+		case asset::shaderReflectionDataParser::eShaderVariableType::FLOAT4:
+			return DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT;
+		case asset::shaderReflectionDataParser::eShaderVariableType::INT1: 
+			return DXGI_FORMAT::DXGI_FORMAT_R32_SINT;
+		case asset::shaderReflectionDataParser::eShaderVariableType::INT2:
+			return DXGI_FORMAT::DXGI_FORMAT_R32G32_SINT;
+		case asset::shaderReflectionDataParser::eShaderVariableType::INT3:
+			return DXGI_FORMAT::DXGI_FORMAT_R32G32B32_SINT;
+		case asset::shaderReflectionDataParser::eShaderVariableType::INT4:
+			return DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_SINT;
+		case asset::shaderReflectionDataParser::eShaderVariableType::UINT1:
+			return DXGI_FORMAT::DXGI_FORMAT_R32_UINT;
+		case asset::shaderReflectionDataParser::eShaderVariableType::UINT2:
+			return DXGI_FORMAT::DXGI_FORMAT_R32G32_UINT;
+		case asset::shaderReflectionDataParser::eShaderVariableType::UINT3:
+			return DXGI_FORMAT::DXGI_FORMAT_R32G32B32_UINT;
+		case asset::shaderReflectionDataParser::eShaderVariableType::UINT4:
+			return DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_UINT;
+		default:
+			D_ASSERT(false);
+		}
+	}
+}
 
-Material::~Material()
+void dooms::graphics::Material::CreateInputLayoutForD3D(dooms::asset::ShaderAsset* const vertexShaderAsset)
+{
+	D_ASSERT(mInputLayoutForD3D.IsValid() == false);
+	D_ASSERT(graphics::GraphicsAPI::GetCurrentAPIType() == graphics::GraphicsAPI::eGraphicsAPIType::DX11_10);
+	D_ASSERT(vertexShaderAsset->IsShaderObjectSuccessfullyCreated(graphics::GraphicsAPI::eGraphicsPipeLineStage::VERTEX_SHADER) == true);
+	if
+	(
+		mInputLayoutForD3D.IsValid() == false &&
+		vertexShaderAsset->IsShaderObjectSuccessfullyCreated(graphics::GraphicsAPI::eGraphicsPipeLineStage::VERTEX_SHADER) == true
+	)
+	{
+		const dooms::asset::shaderReflectionDataParser::ShaderReflectionData& vertexShaderReflectionData = vertexShaderAsset->GetShaderReflectionData(graphics::GraphicsAPI::eGraphicsPipeLineStage::VERTEX_SHADER);
+
+		D3D11_INPUT_ELEMENT_DESC layout[15];
+
+		for(const asset::shaderReflectionDataParser::ShaderInputType& input : vertexShaderReflectionData.mInputVariables)
+		{
+			layout[input.mLocation].SemanticName = input.mSemanticType.c_str();
+			layout[input.mLocation].SemanticIndex = input.mSemanticIndex;
+			layout[input.mLocation].Format = dx11::Conver_From_eShaderVariableType_To_DXGI_FORMAT(input.mType);
+			layout[input.mLocation].InputSlot = input.mLocation;
+			layout[input.mLocation].AlignedByteOffset = D3D11_APPEND_ALIGNED_ELEMENT; // direct x choose offset itself
+			layout[input.mLocation].InputSlotClass = D3D11_INPUT_PER_VERTEX_DATA;
+			layout[input.mLocation].InstanceDataStepRate = 0;
+		}
+
+		
+
+		mInputLayoutForD3D = dooms::graphics::GraphicsAPI::CreateInputLayoutForD3D
+		(
+			layout,
+			vertexShaderReflectionData.mInputVariables.size(),
+			vertexShaderAsset->GetShaderObject(graphics::GraphicsAPI::eGraphicsPipeLineStage::VERTEX_SHADER)
+		);
+		D_ASSERT(mInputLayoutForD3D.IsValid());
+	}
+}
+
+
+dooms::graphics::Material::~Material()
 {
 	DestroyMaterialObjectIfExist();
 }
 
 
-void Material::AddTexture(UINT32 bindingPoint, TextureView* texture)
+void dooms::graphics::Material::AddTexture(UINT32 bindingPoint, TextureView* texture)
 {
 	D_ASSERT(IsHasAnyValidShaderObject() == true);
 	mTargetTextures[bindingPoint] = texture;
 }
 
-void Material::AddTexture(const UINT32 bindingPoint, const dooms::asset::TextureAsset* const textureAsset)
+void dooms::graphics::Material::AddTexture(const UINT32 bindingPoint, const dooms::asset::TextureAsset* const textureAsset)
 {
 	D_ASSERT(IsHasAnyValidShaderObject() == true);
 	mTargetTextures.push_back(textureAsset->GenerateTextureView(bindingPoint, GraphicsAPI::eGraphicsPipeLineStage::PIXEL_SHADER));
@@ -355,6 +444,12 @@ void dooms::graphics::Material::UseProgram() const
 						GraphicsAPI::BindShader(mPipeLineShaderView[pipeLineStageIndex], (static_cast<dooms::graphics::GraphicsAPI::eGraphicsPipeLineStage>(pipeLineStageIndex)));
 					}
 				}
+
+				D_ASSERT(mInputLayoutForD3D.IsValid());
+				if(mInputLayoutForD3D.IsValid())
+				{
+					GraphicsAPI::BindInputLayoutForD3D(mInputLayoutForD3D);
+				}
 			}
 			else if (dooms::graphics::GraphicsAPI::GetCurrentAPIType() == GraphicsAPI::eGraphicsAPIType::OpenGL)
 			{
@@ -382,12 +477,12 @@ void dooms::graphics::Material::UseProgram() const
 	
 }
 
-bool Material::IsMaterialCreated() const
+bool dooms::graphics::Material::IsMaterialCreated() const
 {
 	return (mMaterialStatus == eStatus::SUCCESS);
 }
 
-UniformBufferObjectView* Material::GetUniformBufferObjectViewFromUBOName(const char* const uniformBufferObjectName)
+dooms::graphics::UniformBufferObjectView* dooms::graphics::Material::GetUniformBufferObjectViewFromUBOName(const char* const uniformBufferObjectName)
 {
 	UniformBufferObjectView* uboView = nullptr;
 

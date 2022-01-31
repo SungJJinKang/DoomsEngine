@@ -41,6 +41,8 @@ void dooms::graphics::GraphicsAPILoader::FetchExportedFunctionAddress()
 	//D_ASSERT(dooms::graphics::GraphicsAPI::DetachShaderToMaterial != nullptr);
 	dooms::graphics::GraphicsAPI::BindBuffer = (GraphicsAPI::GRAPHICS_BINDBUFFER)GetProcAddress(hModule, "BindBuffer");
 	//D_ASSERT(dooms::graphics::GraphicsAPI::BindBuffer != nullptr);
+	dooms::graphics::GraphicsAPI::BindInputLayoutForD3D = (GraphicsAPI::GRAPHICS_BINDINPUTLAYOUTFORD3D)GetProcAddress(hModule, "BindInputLayoutForD3D");
+	//D_ASSERT(dooms::graphics::GraphicsAPI::BindInputLayoutForD3D != nullptr);
 	dooms::graphics::GraphicsAPI::BindConstantBuffer = (GraphicsAPI::GRAPHICS_BINDCONSTANTBUFFER)GetProcAddress(hModule, "BindConstantBuffer");
 	//D_ASSERT(dooms::graphics::GraphicsAPI::BindConstantBuffer != nullptr);
 	dooms::graphics::GraphicsAPI::BindFrameBuffer = (GraphicsAPI::GRAPHICS_BINDFRAMEBUFFER)GetProcAddress(hModule, "BindFrameBuffer");
@@ -83,6 +85,13 @@ void dooms::graphics::GraphicsAPILoader::FetchExportedFunctionAddress()
 	//D_ASSERT(dooms::graphics::GraphicsAPI::ClearSpecificBuffer != nullptr);
 	dooms::graphics::GraphicsAPI::CompileShader = (GraphicsAPI::GRAPHICS_COMPILESHADER)GetProcAddress(hModule, "CompileShader");
 	//D_ASSERT(dooms::graphics::GraphicsAPI::CompileShader != nullptr);
+
+	dooms::graphics::GraphicsAPI::CreateInputLayoutForD3D = (GraphicsAPI::GRAPHICS_CREATEINPUTLAYOUTFORD3D)GetProcAddress(hModule, "CreateInputLayoutForD3D");
+	//D_ASSERT(dooms::graphics::GraphicsAPI::CreateInputLayoutForD3D != nullptr);
+	dooms::graphics::GraphicsAPI::BindInputLayoutForD3D = (GraphicsAPI::GRAPHICS_BINDINPUTLAYOUTFORD3D)GetProcAddress(hModule, "BindInputLayoutForD3D");
+	//D_ASSERT(dooms::graphics::GraphicsAPI::BindInputLayoutForD3D != nullptr);
+	dooms::graphics::GraphicsAPI::DestoryInputLayoutForD3D = (GraphicsAPI::GRAPHICS_DESTORYINPUTLAYOUTFORD3D)GetProcAddress(hModule, "DestoryInputLayoutForD3D");
+	//D_ASSERT(dooms::graphics::GraphicsAPI::BindInputLayoutForD3D != nullptr);
 
 	/*
 	dooms::graphics::GraphicsAPI::CompileShaders = (GraphicsAPI::GRAPHICS_COMPILESHADERS)GetProcAddress(hModule, "CompileShaders");

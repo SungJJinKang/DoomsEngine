@@ -553,13 +553,35 @@ namespace dooms
 			extern GRAPHICS_ENABLEVERTEXATTRIBUTEARRAYINDEX EnableVertexAttributeArrayIndex;
 
 			typedef void (DOOMS_ENGINE_API_ENTRY_P GRAPHICS_DEFINEVERTEXATTRIBUTELAYOUT)
-				(
-					const unsigned int vertexAttributeIndex,
-					const unsigned int componentNumber,
-					const unsigned int stride,
-					const unsigned int offset
-					);
+			(
+				const unsigned long long vertexBufferObject,
+				const unsigned int vertexAttributeIndex,
+				const unsigned int componentNumber,
+				const unsigned int stride,
+				const unsigned int offset
+			);
 			extern GRAPHICS_DEFINEVERTEXATTRIBUTELAYOUT DefineVertexAttributeLayout;
+
+			typedef unsigned long long (DOOMS_ENGINE_API_ENTRY_P GRAPHICS_CREATEINPUTLAYOUTFORD3D)
+			(
+				const void* const inputElementDesces,
+				const unsigned int inputElementCount,
+				unsigned long long vertexShaderBlobObject
+			);
+			extern GRAPHICS_CREATEINPUTLAYOUTFORD3D CreateInputLayoutForD3D;
+
+			typedef void (DOOMS_ENGINE_API_ENTRY_P GRAPHICS_BINDINPUTLAYOUTFORD3D)
+			(
+				const unsigned long long inputLayoutObject
+			);
+			extern GRAPHICS_BINDINPUTLAYOUTFORD3D BindInputLayoutForD3D;
+
+
+			typedef void (DOOMS_ENGINE_API_ENTRY_P GRAPHICS_DESTORYINPUTLAYOUTFORD3D)
+			(
+				unsigned long long inputLayoutObject
+			);
+			extern GRAPHICS_DESTORYINPUTLAYOUTFORD3D DestoryInputLayoutForD3D;
 
 			enum eGraphicsPipeLineStage : unsigned long
 			{
