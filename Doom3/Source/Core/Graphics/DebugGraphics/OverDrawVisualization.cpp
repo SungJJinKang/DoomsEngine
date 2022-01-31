@@ -37,7 +37,7 @@ namespace dooms
 				OverDrawVisualizationPIP = dooms::graphics::Graphics_Server::GetSingleton()->mPIPManager.AddNewPIP(
 					math::Vector2(-1.0f, -1.0f),
 					math::Vector2(1.0f, 1.0f),
-					mOverDrawVisualizationFrameBuffer.GetDepthTextureView(0, GraphicsAPI::PIXEL_SHADER)
+					mOverDrawVisualizationFrameBuffer.GetColorTextureView(0, GraphicsAPI::PIXEL_SHADER)
 				);
 
 				bmIsOverDrawVisualizationInitialized = true;
