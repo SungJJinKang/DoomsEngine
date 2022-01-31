@@ -7,7 +7,7 @@
 dooms::asset::AssetContainer::AssetContainer(const dooms::asset::eAssetType assetTypeOfContainer)
 	: mAssetTypeOfContainer(assetTypeOfContainer)
 {
-	
+	AddToRootObjectList();
 }
 
 void dooms::asset::AssetContainer::ClearAssets()
