@@ -4,6 +4,7 @@
 
 #include <Asset/TextureAsset.h>
 
+#include "FrameBufferView.reflection.h"
 namespace dooms
 {
 	namespace graphics
@@ -15,6 +16,8 @@ namespace dooms
 		 */
 		class D_CLASS FrameBufferView : public DObject
 		{
+			GENERATE_BODY()
+
 		private:
 
 			D_PROPERTY()
