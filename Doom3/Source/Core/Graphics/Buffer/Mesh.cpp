@@ -77,13 +77,38 @@ void dooms::graphics::Mesh::BindVertexArrayObject() const
 void dooms::graphics::Mesh::BindVertexBufferObject() const
 {
 	D_ASSERT(mVertexDataBuffer.IsValid() == true);
-	dooms::graphics::GraphicsAPI::BindBuffer(mVertexDataBuffer, 0, graphics::GraphicsAPI::eBufferTarget::ARRAY_BUFFER, graphics::GraphicsAPI::eGraphicsPipeLineStage::DUMMY);
+	
+	dooms::graphics::GraphicsAPI::BindVertexDataBuffer
+	(
+		mVertexDataBuffer,
+		0,
+		mStride,
+		0
+	);
 }
 
-void dooms::graphics::Mesh::BindVertexBufferObject(const UINT32 bindingPosition, const graphics::GraphicsAPI::eGraphicsPipeLineStage graphicsPipeLineStage) const
+void dooms::graphics::Mesh::BindIndexBufferObject() const
 {
 	D_ASSERT(mVertexDataBuffer.IsValid() == true);
-	dooms::graphics::GraphicsAPI::BindBuffer(mVertexDataBuffer, bindingPosition, graphics::GraphicsAPI::eBufferTarget::ARRAY_BUFFER, graphicsPipeLineStage);
+	dooms::graphics::GraphicsAPI::BindBuffer(mElementBufferObjectID, 0, graphics::GraphicsAPI::eBufferTarget::ELEMENT_ARRAY_BUFFER, graphics::GraphicsAPI::eGraphicsPipeLineStage::DUMMY);
+
+}
+
+void dooms::graphics::Mesh::BindVertexBufferObject
+(
+	const UINT32 bindingPosition, 
+	const UINT32 stride,
+	const UINT32 offset
+) const
+{
+	D_ASSERT(mVertexDataBuffer.IsValid() == true);
+	dooms::graphics::GraphicsAPI::BindVertexDataBuffer
+	(
+		mVertexDataBuffer,
+		bindingPosition,
+		stride,
+		offset
+	);
 }
 
 void dooms::graphics::Mesh::DeleteBuffers()
@@ -150,58 +175,74 @@ void dooms::graphics::Mesh::CreateBufferObject
 
 		D_ASSERT(((vertexArrayFlag & eVertexArrayFlag::VertexVector2)) > 0 != ((vertexArrayFlag & eVertexArrayFlag::VertexVector3) > 0));
 
-		if (graphics::GraphicsAPI::GetCurrentAPIType() == graphics::GraphicsAPI::eGraphicsAPIType::OpenGL)
-		{
 
-			if (vertexArrayFlag & eVertexArrayFlag::VertexVector2)
+
+		if (vertexArrayFlag & eVertexArrayFlag::VertexVector2)
+		{
+			if (graphics::GraphicsAPI::GetCurrentAPIType() == graphics::GraphicsAPI::eGraphicsAPIType::OpenGL)
 			{
 				//mVertex
 				GraphicsAPI::EnableVertexAttributeArrayIndex(0);
 				GraphicsAPI::DefineVertexAttributeLayout(mVertexDataBuffer, 0, 2, stride, offset);
-				offset += 2 * sizeof(FLOAT32);
 			}
+			offset += 2 * sizeof(FLOAT32);
+		}
 
-			if (vertexArrayFlag & eVertexArrayFlag::VertexVector3)
+		if (vertexArrayFlag & eVertexArrayFlag::VertexVector3)
+		{
+			if (graphics::GraphicsAPI::GetCurrentAPIType() == graphics::GraphicsAPI::eGraphicsAPIType::OpenGL)
 			{
 				//mVertex
 				GraphicsAPI::EnableVertexAttributeArrayIndex(0);
 				GraphicsAPI::DefineVertexAttributeLayout(mVertexDataBuffer, 0, 3, stride, offset);
-				offset += 3 * sizeof(FLOAT32);
 			}
+			offset += 3 * sizeof(FLOAT32);
+		}
 
-			if (vertexArrayFlag & eVertexArrayFlag::TexCoord)
+		if (vertexArrayFlag & eVertexArrayFlag::TexCoord)
+		{
+			if (graphics::GraphicsAPI::GetCurrentAPIType() == graphics::GraphicsAPI::eGraphicsAPIType::OpenGL)
 			{
 				//mTexCoord
 				GraphicsAPI::EnableVertexAttributeArrayIndex(1);
 				GraphicsAPI::DefineVertexAttributeLayout(mVertexDataBuffer, 1, 2, stride, offset);
-				offset += 2 * sizeof(FLOAT32);
 			}
+			offset += 2 * sizeof(FLOAT32);
+		}
 
-			if (vertexArrayFlag & eVertexArrayFlag::mNormal)
+		if (vertexArrayFlag & eVertexArrayFlag::mNormal)
+		{
+			if (graphics::GraphicsAPI::GetCurrentAPIType() == graphics::GraphicsAPI::eGraphicsAPIType::OpenGL)
 			{
 				//mNormal
 				GraphicsAPI::EnableVertexAttributeArrayIndex(2);
 				GraphicsAPI::DefineVertexAttributeLayout(mVertexDataBuffer, 2, 3, stride, offset);
-				offset += 3 * sizeof(FLOAT32);
 			}
+			offset += 3 * sizeof(FLOAT32);
+		}
 
-			if (vertexArrayFlag & eVertexArrayFlag::mTangent)
+		if (vertexArrayFlag & eVertexArrayFlag::mTangent)
+		{
+			if (graphics::GraphicsAPI::GetCurrentAPIType() == graphics::GraphicsAPI::eGraphicsAPIType::OpenGL)
 			{
 				//mTangent
 				GraphicsAPI::EnableVertexAttributeArrayIndex(3);
 				GraphicsAPI::DefineVertexAttributeLayout(mVertexDataBuffer, 3, 3, stride, offset);
-				offset += 3 * sizeof(FLOAT32);
 			}
+			offset += 3 * sizeof(FLOAT32);
+		}
 
-			if (vertexArrayFlag & eVertexArrayFlag::mBitangent)
+		if (vertexArrayFlag & eVertexArrayFlag::mBitangent)
+		{
+			if (graphics::GraphicsAPI::GetCurrentAPIType() == graphics::GraphicsAPI::eGraphicsAPIType::OpenGL)
 			{
 				//mBitangent
 				GraphicsAPI::EnableVertexAttributeArrayIndex(4);
 				GraphicsAPI::DefineVertexAttributeLayout(mVertexDataBuffer, 4, 3, stride, offset);
-				offset += 3 * sizeof(FLOAT32);
 			}
-
+			offset += 3 * sizeof(FLOAT32);
 		}
+	
 
 #pragma warning( disable : 4244 )
 		mNumOfVertices = static_cast<UINT32>(dataComponentCount * sizeof(FLOAT32) / offset);
@@ -210,6 +251,7 @@ void dooms::graphics::Mesh::CreateBufferObject
 		mPrimitiveType = primitiveType;
 		mVertexArrayFlag = vertexArrayFlag;
 
+		mStride = stride;
 	}
 }
 
@@ -310,6 +352,8 @@ void dooms::graphics::Mesh::CreateBufferObjectFromModelMesh(const ThreeDModelMes
 		mSphere = threeDModelMesh.mSphere;
 
 		mVertexArrayFlag = threeDModelMesh.mVertexArrayFlag;
+
+		mStride = GetStride(mVertexArrayFlag);
 
 		D_ASSERT(mPrimitiveType != GraphicsAPI::ePrimitiveType::NONE);
 

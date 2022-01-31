@@ -2045,6 +2045,18 @@ namespace dooms
             }
         }
 
+        DOOMS_ENGINE_GRAPHICS_API void BindVertexDataBuffer
+        (
+            const unsigned long long bufferObject,
+            const unsigned int bindingPosition,
+            const unsigned int stride,
+            const unsigned int offset
+        )
+        {
+            ID3D11Buffer* const buffer = reinterpret_cast<ID3D11Buffer*>(bufferObject);
+            dx11::g_pImmediateContext->IASetVertexBuffers(bindingPosition, 1, &buffer, &stride, &offset);
+        }
+
         DOOMS_ENGINE_GRAPHICS_API void BindBuffer
         (
             const unsigned long long bufferObject,
@@ -2059,9 +2071,6 @@ namespace dooms
 
             switch (bindBufferTarget)
             {
-            case GraphicsAPI::ARRAY_BUFFER:
-                dx11::g_pImmediateContext->IASetVertexBuffers(0, 1, &buffer, NULL, NULL);
-                break;
             case GraphicsAPI::ELEMENT_ARRAY_BUFFER:
                 BindIndexBufferObject(bufferObject);
                 break;

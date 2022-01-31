@@ -606,6 +606,15 @@ namespace dooms
 				//"HULL_SHADER",
 			};
 
+			typedef void (DOOMS_ENGINE_API_ENTRY_P GRAPHICS_BINDVERTEXDATABUFFER)
+			(
+				const unsigned long long bufferObject,
+				const unsigned int bindingPosition,
+				const unsigned int stride,
+				const unsigned int offset
+			);
+			extern GRAPHICS_BINDVERTEXDATABUFFER BindVertexDataBuffer;
+
 			typedef void (DOOMS_ENGINE_API_ENTRY_P GRAPHICS_BINDBUFFER)
 			(
 				const unsigned long long bufferObject,
