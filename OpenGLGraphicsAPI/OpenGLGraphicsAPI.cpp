@@ -1447,6 +1447,7 @@ namespace dooms
 
 		DOOMS_ENGINE_GRAPHICS_API void DefineVertexAttributeLayout
 		(
+			const unsigned long long vertexBufferObject,
 			const unsigned int vertexAttributeIndex,
 			const unsigned int componentCount,
 			const unsigned int stride,
