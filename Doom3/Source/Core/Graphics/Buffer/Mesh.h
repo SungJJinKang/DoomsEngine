@@ -152,7 +152,7 @@ namespace dooms
 				{
 					BindVertexArrayObject();
 				}
-				else if (graphics::GraphicsAPI::GetCurrentAPIType() == graphics::GraphicsAPI::eGraphicsAPIType::OpenGL)
+				else if (graphics::GraphicsAPI::GetCurrentAPIType() == graphics::GraphicsAPI::eGraphicsAPIType::DX11_10)
 				{
 					BindVertexBufferObject();
 				}
