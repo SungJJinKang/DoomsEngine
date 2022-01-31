@@ -13,35 +13,6 @@ namespace dooms
 	{
 		namespace shaderReflectionDataParser
 		{
-			enum class eHlslSemantic
-			{
-				POSITION,
-				NORMAL,
-				TEXCOORD0,
-				TEXCOORD1,
-				TEXCOORD2,
-				TEXCOORD3,
-				TEXCOORD4,
-				TEXCOORD5,
-				TEXCOORD6,
-				TEXCOORD7,
-				COLOR0,
-				COLOR1,
-				COLOR2,
-				COLOR3,
-				TANGENT,
-				BINORMAL,
-				BLENDINDICES,
-				BLENDWEIGHT,
-				SV_Target0,
-				SV_Target1,
-				SV_Target2,
-				SV_Target3,
-				UNKNOWN
-			};
-
-			eHlslSemantic ConvertStringToeHlslSemantic(const std::string& typeStr);
-
 			enum class eShaderVariableType
 			{
 				FLOAT1,
@@ -72,7 +43,7 @@ namespace dooms
 				UINT32 mLocation;
 
 				D_PROPERTY()
-				eHlslSemantic mSemanticType;
+				std::string mSemanticType;
 
 				D_PROPERTY()
 				UINT32 mSemanticIndex;

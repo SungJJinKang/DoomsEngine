@@ -5,33 +5,6 @@
 
 namespace dooms::asset::shaderReflectionDataParser
 {
-	static std::unordered_map<std::string, dooms::asset::shaderReflectionDataParser::eHlslSemantic> HlslSemanticHashtable
-	{
-		{"BINORMAL", dooms::asset::shaderReflectionDataParser::eHlslSemantic::BINORMAL},
-		{"BLENDINDICES", dooms::asset::shaderReflectionDataParser::eHlslSemantic::BLENDINDICES},
-		{"BLENDWEIGHT", dooms::asset::shaderReflectionDataParser::eHlslSemantic::BLENDWEIGHT},
-		{"COLOR0", dooms::asset::shaderReflectionDataParser::eHlslSemantic::COLOR0},
-		{"COLOR1", dooms::asset::shaderReflectionDataParser::eHlslSemantic::COLOR1},
-		{"COLOR2", dooms::asset::shaderReflectionDataParser::eHlslSemantic::COLOR2},
-		{"COLOR3", dooms::asset::shaderReflectionDataParser::eHlslSemantic::COLOR3},
-		{"NORMAL", dooms::asset::shaderReflectionDataParser::eHlslSemantic::NORMAL},
-		{"POSITION", dooms::asset::shaderReflectionDataParser::eHlslSemantic::POSITION},
-		{"SV_Target0", dooms::asset::shaderReflectionDataParser::eHlslSemantic::SV_Target0},
-		{"SV_Target1", dooms::asset::shaderReflectionDataParser::eHlslSemantic::SV_Target1},
-		{"SV_Target2", dooms::asset::shaderReflectionDataParser::eHlslSemantic::SV_Target2},
-		{"SV_Target3", dooms::asset::shaderReflectionDataParser::eHlslSemantic::SV_Target3},
-		{"TANGENT", dooms::asset::shaderReflectionDataParser::eHlslSemantic::TANGENT},
-		{"TEXCOORD0", dooms::asset::shaderReflectionDataParser::eHlslSemantic::TEXCOORD0},
-		{"TEXCOORD1", dooms::asset::shaderReflectionDataParser::eHlslSemantic::TEXCOORD1},
-		{"TEXCOORD2", dooms::asset::shaderReflectionDataParser::eHlslSemantic::TEXCOORD2},
-		{"TEXCOORD3", dooms::asset::shaderReflectionDataParser::eHlslSemantic::TEXCOORD3},
-		{"TEXCOORD4", dooms::asset::shaderReflectionDataParser::eHlslSemantic::TEXCOORD4},
-		{"TEXCOORD5", dooms::asset::shaderReflectionDataParser::eHlslSemantic::TEXCOORD5},
-		{"TEXCOORD6", dooms::asset::shaderReflectionDataParser::eHlslSemantic::TEXCOORD6},
-		{"TEXCOORD7", dooms::asset::shaderReflectionDataParser::eHlslSemantic::TEXCOORD7},
-		{"unknown", dooms::asset::shaderReflectionDataParser::eHlslSemantic::UNKNOWN}
-	};
-
 	static std::unordered_map<std::string, dooms::asset::shaderReflectionDataParser::eShaderVariableType> ShaderVraibleTypeHashtable
 	{
 		{"float1", dooms::asset::shaderReflectionDataParser::eShaderVariableType::FLOAT1},
@@ -47,13 +20,6 @@ namespace dooms::asset::shaderReflectionDataParser
 		{"int4", dooms::asset::shaderReflectionDataParser::eShaderVariableType::INT4},
 		{"unknown", dooms::asset::shaderReflectionDataParser::eShaderVariableType::UNKNOWN}
 	};
-}
-
-dooms::asset::shaderReflectionDataParser::eHlslSemantic dooms::asset::shaderReflectionDataParser::ConvertStringToeHlslSemantic(const std::string& typeStr)
-{
-	const dooms::asset::shaderReflectionDataParser::eHlslSemantic result = HlslSemanticHashtable[typeStr];
-	D_ASSERT(result != dooms::asset::shaderReflectionDataParser::eHlslSemantic::UNKNOWN);
-	return result;;
 }
 
 dooms::asset::shaderReflectionDataParser::eShaderVariableType dooms::asset::shaderReflectionDataParser::ConvertStringToeShaderVariableType(const std::string& typeStr)
@@ -161,11 +127,11 @@ dooms::asset::shaderReflectionDataParser::ShaderReflectionData dooms::asset::sha
 					input.mLocation = inputElement["location"];
 					if(inputElement.find("semantic") != inputElement.end())
 					{
-						input.mSemanticType = ConvertStringToeHlslSemantic(inputElement["semantic"]);
+						input.mSemanticType = inputElement["semantic"];
 					}
 					else
 					{
-						input.mSemanticType = eHlslSemantic::UNKNOWN;
+						input.mSemanticType = "unknown";
 					}
 
 					if (inputElement.find("semantic_index") != inputElement.end())
