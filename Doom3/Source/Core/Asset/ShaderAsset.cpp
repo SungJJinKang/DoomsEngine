@@ -229,27 +229,27 @@ void dooms::asset::ShaderAsset::SetShaderText
 
 const std::string& dooms::asset::ShaderAsset::GetShaderStringText
 (
-	const dooms::graphics::GraphicsAPI::eGraphicsAPIType shaderTextraphicsAPIType
+	const dooms::graphics::GraphicsAPI::eGraphicsPipeLineStage targetGraphicsPipeLineStage
 ) const
 {
-	return mShaderTextDatas[static_cast<UINT32>(shaderTextraphicsAPIType)].mShaderStringText;
+	return mShaderTextDatas[static_cast<UINT32>(targetGraphicsPipeLineStage)].mShaderStringText;
 }
 
 const std::string& dooms::asset::ShaderAsset::GetShaderReflectionDataStringText
 (
-	const dooms::graphics::GraphicsAPI::eGraphicsAPIType shaderTextraphicsAPIType
+	const dooms::graphics::GraphicsAPI::eGraphicsPipeLineStage targetGraphicsPipeLineStage
 ) const
 {
-	return mShaderTextDatas[static_cast<UINT32>(shaderTextraphicsAPIType)].mShaderReflectionDataStringText;
+	return mShaderTextDatas[static_cast<UINT32>(targetGraphicsPipeLineStage)].mShaderReflectionDataStringText;
 }
 
 const dooms::asset::shaderReflectionDataParser::ShaderReflectionData& dooms::asset::ShaderAsset::GetShaderReflectionData
 (
-	const dooms::graphics::GraphicsAPI::eGraphicsAPIType shaderTextraphicsAPIType
+	const dooms::graphics::GraphicsAPI::eGraphicsPipeLineStage targetGraphicsPipeLineStage
 ) const
 {
-	D_ASSERT(mShaderTextDatas[static_cast<UINT32>(shaderTextraphicsAPIType)].mShaderReflectionData.mIsGenerated == true);
-	return mShaderTextDatas[static_cast<UINT32>(shaderTextraphicsAPIType)].mShaderReflectionData;
+	D_ASSERT(mShaderTextDatas[static_cast<UINT32>(targetGraphicsPipeLineStage)].mShaderReflectionData.mIsGenerated == true);
+	return mShaderTextDatas[static_cast<UINT32>(targetGraphicsPipeLineStage)].mShaderReflectionData;
 }
 
 dooms::asset::ShaderAsset::ShaderObject::ShaderObject()

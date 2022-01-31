@@ -146,9 +146,9 @@ namespace dooms
 			);
 			*/
 
-			const std::string& GetShaderStringText(const dooms::graphics::GraphicsAPI::eGraphicsAPIType shaderTextraphicsAPIType) const;
-			const std::string& GetShaderReflectionDataStringText(const dooms::graphics::GraphicsAPI::eGraphicsAPIType shaderTextraphicsAPIType) const;
-			const shaderReflectionDataParser::ShaderReflectionData& GetShaderReflectionData(const dooms::graphics::GraphicsAPI::eGraphicsAPIType shaderTextraphicsAPIType) const;
+			const std::string& GetShaderStringText(const dooms::graphics::GraphicsAPI::eGraphicsPipeLineStage targetGraphicsPipeLineStage) const;
+			const std::string& GetShaderReflectionDataStringText(const dooms::graphics::GraphicsAPI::eGraphicsPipeLineStage targetGraphicsPipeLineStage) const;
+			const shaderReflectionDataParser::ShaderReflectionData& GetShaderReflectionData(const dooms::graphics::GraphicsAPI::eGraphicsPipeLineStage targetGraphicsPipeLineStage) const;
 
 
 			/// <summary>
