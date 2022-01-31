@@ -39,6 +39,8 @@ void dooms::graphics::GraphicsAPILoader::FetchExportedFunctionAddress()
 	//D_ASSERT(dooms::graphics::GraphicsAPI::AttachShaderToMaterial != nullptr);
 	dooms::graphics::GraphicsAPI::DetachShaderFromMaterial = (GraphicsAPI::GRAPHICS_DETACHSHADERFROMMATERIAL)GetProcAddress(hModule, "DetachShaderToMaterial");
 	//D_ASSERT(dooms::graphics::GraphicsAPI::DetachShaderToMaterial != nullptr);
+	dooms::graphics::GraphicsAPI::BindVertexDataBuffer = (GraphicsAPI::GRAPHICS_BINDVERTEXDATABUFFER)GetProcAddress(hModule, "BindVertexDataBuffer");
+	//D_ASSERT(dooms::graphics::GraphicsAPI::BindVertexDataBuffer != nullptr);
 	dooms::graphics::GraphicsAPI::BindBuffer = (GraphicsAPI::GRAPHICS_BINDBUFFER)GetProcAddress(hModule, "BindBuffer");
 	//D_ASSERT(dooms::graphics::GraphicsAPI::BindBuffer != nullptr);
 	dooms::graphics::GraphicsAPI::BindInputLayoutForD3D = (GraphicsAPI::GRAPHICS_BINDINPUTLAYOUTFORD3D)GetProcAddress(hModule, "BindInputLayoutForD3D");
