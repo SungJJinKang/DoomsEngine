@@ -966,8 +966,20 @@ namespace dooms
 
 		DOOMS_ENGINE_GRAPHICS_API void SwapBuffer() noexcept
 		{
-			dx11::g_pSwapChain->Present(dx11::SyncInterval, 0); // Swap Back buffer
-			dx11::DrawCallCounter++;
+            dx11::g_pSwapChain->Present(dx11::SyncInterval, 0); // Swap Back buffer
+            /*
+            MSG msg = { 0 };
+            if (PeekMessage(&msg, nullptr, 0, 0, PM_REMOVE))
+            {
+                TranslateMessage(&msg);
+                DispatchMessage(&msg);
+            }
+            else
+            {
+                dx11::g_pSwapChain->Present(dx11::SyncInterval, 0); // Swap Back buffer
+            }
+            */
+
 		}
 
         DOOMS_ENGINE_GRAPHICS_API void SetViewport(const unsigned int index, const int startX, const int startY, const unsigned int width, const unsigned int height)
@@ -2151,6 +2163,7 @@ namespace dooms
 
             dx11::g_pImmediateContext->IASetPrimitiveTopology(dx11::Convert_ePrimitiveType_To_D3D_PRIMITIVE_TOPOLOGY(primitiveType));
             dx11::g_pImmediateContext->Draw(vertexCount, startVertexLocation);
+            dx11::DrawCallCounter++;
         }
 
 
@@ -2165,6 +2178,7 @@ namespace dooms
 
             dx11::g_pImmediateContext->IASetPrimitiveTopology(dx11::Convert_ePrimitiveType_To_D3D_PRIMITIVE_TOPOLOGY(primitiveType));
             dx11::g_pImmediateContext->DrawIndexed(indiceCount, 0, 0);
+            dx11::DrawCallCounter++;
         }
 
         DOOMS_ENGINE_GRAPHICS_API void BlitFrameBuffer
