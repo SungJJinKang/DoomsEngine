@@ -1543,7 +1543,7 @@ namespace dooms
             textureDesc.ArraySize = 1;
             textureDesc.Format = internalFormat;
             textureDesc.SampleDesc.Count = 1;
-            textureDesc.SampleDesc.Quality = 0;
+            //textureDesc.SampleDesc.Quality = 0;
             textureDesc.Usage = D3D11_USAGE_DEFAULT;
             textureDesc.BindFlags = dx11::Convert_eBindFlag_To_D3D11_BIND_FLAG(bindFlag);
             textureDesc.CPUAccessFlags = 0;
@@ -1599,7 +1599,7 @@ namespace dooms
             const GraphicsAPI::eTextureCompressedInternalFormat textureCompressedInternalFormat,
             const void* const pixelDatas,
             const size_t srcRowPitch, // understanding RowPitch https://docs.microsoft.com/en-us/windows/win32/api/d3d11/nf-d3d11-id3d11devicecontext-updatesubresource
-            const size_t srcDepthPitch // 2D Texture doesn't have depth, so srcDepthPitch is texture data size
+            const size_t srcDepthPitch
         )
         {
             ID3D11Texture2D* const textureResource = reinterpret_cast<ID3D11Texture2D*>(textureResourceObject);
@@ -2046,6 +2046,7 @@ namespace dooms
             }
             else
             {
+                assert(false);
                 return 0;
             }           
         }

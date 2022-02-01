@@ -297,7 +297,7 @@ void dooms::graphics::Mesh::CreateBufferObjectFromModelMesh(const ThreeDModelMes
 
 		mVertexDataBuffer = GraphicsAPI::CreateBufferObject(GraphicsAPI::eBufferTarget::ARRAY_BUFFER, threeDModelMesh.mMeshDatas.GetAllocatedDataSize(), threeDModelMesh.mMeshDatas.mData);
 		D_ASSERT(mVertexDataBuffer.IsValid());
-		GraphicsAPI::UpdateDataToBuffer(mVertexDataBuffer, GraphicsAPI::eBufferTarget::ARRAY_BUFFER, 0, threeDModelMesh.mMeshDatas.GetAllocatedDataSize(), reinterpret_cast<const void*>(threeDModelMesh.mMeshDatas.mData));
+		//GraphicsAPI::UpdateDataToBuffer(mVertexDataBuffer, GraphicsAPI::eBufferTarget::ARRAY_BUFFER, 0, threeDModelMesh.mMeshDatas.GetAllocatedDataSize(), reinterpret_cast<const void*>(threeDModelMesh.mMeshDatas.mData));
 
 		if (graphics::GraphicsAPI::GetCurrentAPIType() == graphics::GraphicsAPI::eGraphicsAPIType::OpenGL)
 		{

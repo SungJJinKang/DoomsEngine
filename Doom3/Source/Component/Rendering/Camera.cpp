@@ -425,7 +425,7 @@ void Camera::UpdateUniformBufferObject(const bool force)
 		{
 			ubo->UpdateLocalBuffer((void*)projectionMatrix.data(), dooms::graphics::eUniformBlock_Global::projection, sizeof(projectionMatrix));
 			ubo->UpdateLocalBuffer((void*)&mClippingPlaneNear, graphics::eUniformBlock_Global::camNear, sizeof(FLOAT32));
-			ubo->UpdateDataToGPU((void*)&mClippingPlaneFar, graphics::eUniformBlock_Global::camFar, sizeof(FLOAT32));
+			ubo->UpdateLocalBuffer((void*)&mClippingPlaneFar, graphics::eUniformBlock_Global::camFar, sizeof(FLOAT32));
 
 
 			auto& viewMatrix = GetViewMatrix();

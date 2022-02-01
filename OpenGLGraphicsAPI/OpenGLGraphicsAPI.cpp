@@ -2105,8 +2105,8 @@ namespace dooms
 			const GraphicsAPI::eTextureInternalFormat textureInternalFormat,
 			const GraphicsAPI::eTextureCompressedInternalFormat textureCompressedInternalFormat,
 			const void* const pixelDatas,
-			const size_t rowByteSize,
-			const size_t totalDataSize
+			const size_t srcRowPitch,
+			const size_t srcDepthPitch // 2D Texture doesn't have depth, so srcDepthPitch is texture data size
 		)
 		{
 			assert(textureInternalFormat == graphics::GraphicsAPI::eTextureInternalFormat::TEXTURE_INTERNAL_FORMAT_NONE || textureCompressedInternalFormat == graphics::GraphicsAPI::eTextureCompressedInternalFormat::TEXTURE_COMPRESSED_INTERNAL_FORMAT_NONE);
@@ -2140,7 +2140,7 @@ namespace dooms
 					width,
 					height,
 					opengl::GetTextureCompressedInternalFormat(textureCompressedInternalFormat),
-					totalDataSize,
+					srcDepthPitch,
 					pixelDatas
 				);
 			}

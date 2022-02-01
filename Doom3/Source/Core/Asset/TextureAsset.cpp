@@ -166,8 +166,8 @@ void dooms::asset::TextureAsset::AllocateTextureResourceObject()
 	{
 		if(mTextureData[mipLevelIndex] != 0)
 		{
-			D_ASSERT(mRowByteSizes.size() > 0);
-			D_ASSERT(mTotalDataSize.size() > 0);
+			D_ASSERT(mSrcRowPitch.size() > 0);
+			D_ASSERT(mSrcDepthPitch.size() > 0);
 
 			graphics::GraphicsAPI::UploadPixelsTo2DTexture
 			(

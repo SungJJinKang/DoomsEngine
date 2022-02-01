@@ -56,8 +56,8 @@ void dooms::DirectionalLight::UpdateUniformBufferObject(const bool force)
 
 				if (IsValid(ubo))
 				{
-					ubo->UpdateDataToGPU((void*)dir.data(), graphics::eUniformBlock_Global::dirLight0_Dir + 4 * staticIndex, sizeof(dir));
-					ubo->UpdateDataToGPU((void*)radiance.data(), graphics::eUniformBlock_Global::dirLight0_Col + 4 * staticIndex, sizeof(radiance));
+					ubo->UpdateLocalBuffer((void*)dir.data(), graphics::eUniformBlock_Global::dirLight0_Dir + 4 * staticIndex, sizeof(dir));
+					ubo->UpdateLocalBuffer((void*)radiance.data(), graphics::eUniformBlock_Global::dirLight0_Col + 4 * staticIndex, sizeof(radiance));
 				}
 			}
 			else
