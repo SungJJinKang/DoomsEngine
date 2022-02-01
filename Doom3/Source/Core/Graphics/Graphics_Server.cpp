@@ -365,17 +365,13 @@ void dooms::graphics::Graphics_Server::Render()
 			//Only Main Camera can draw to screen buffer
 
 			//UpdateOverDrawVisualization(targetCamera, cameraIndex);
-
-
 			targetCamera->mDefferedRenderingFrameBuffer.BlitDepthBufferToScreenBuffer();
 
 			mPIPManager.DrawPIPs();
 
 			targetCamera->mDefferedRenderingFrameBuffer.BindGBufferTextures();
-
-
 			mDeferredRenderingDrawer.DrawDeferredRenderingQuadDrawer();
-
+			targetCamera->mDefferedRenderingFrameBuffer.UnBindGBufferTextures();
 
 #ifdef DEBUG_DRAWER
 			//�̰� ������ �������. �׳� ����� ����.
