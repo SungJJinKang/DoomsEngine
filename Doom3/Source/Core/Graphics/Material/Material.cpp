@@ -115,7 +115,10 @@ void dooms::graphics::Material::SetShaderAsset(const std::array<dooms::asset::Sh
 	mTargetUniformBufferObjectViews.clear();
 	for(size_t shaderTypeIndex = 0 ; shaderTypeIndex < GRAPHICS_PIPELINE_STAGE_COUNT ; shaderTypeIndex++)
 	{
-		SetShaderAsset(shaderAssets[shaderTypeIndex], static_cast<dooms::graphics::GraphicsAPI::eGraphicsPipeLineStage>(shaderTypeIndex));
+		if (IsValid(shaderAssets[shaderTypeIndex]))
+		{
+			SetShaderAsset(shaderAssets[shaderTypeIndex], static_cast<dooms::graphics::GraphicsAPI::eGraphicsPipeLineStage>(shaderTypeIndex));
+		}
 	}
 }
 
