@@ -40,6 +40,11 @@ void dooms::graphics::UniformBufferObjectView::BindUniformBufferObject
 	}
 }
 
+void dooms::graphics::UniformBufferObjectView::UnBindUniformBufferObject() const noexcept
+{
+	mTargetUniformBufferObject->UnBindBuffer(mDefaultBindingPoint, mDefaultTargetPipeLineStage);
+}
+
 dooms::graphics::Material* dooms::graphics::UniformBufferObjectView::GetTargetMaterial() const
 {
 	return mTargetMaterial;

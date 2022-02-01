@@ -59,8 +59,8 @@ namespace dooms
 			UniformBufferObjectView& operator=(UniformBufferObjectView&&) noexcept = default;
 			
 			void BindUniformBufferObject() const noexcept;
-
 			void BindUniformBufferObject(const UINT32 bindingPoint, const GraphicsAPI::eGraphicsPipeLineStage targetPipeLineStage) const noexcept;
+			void UnBindUniformBufferObject() const noexcept;
 
 			Material* GetTargetMaterial() const;
 			FORCE_INLINE UniformBufferObject* GetTargetUniformBufferObject() const

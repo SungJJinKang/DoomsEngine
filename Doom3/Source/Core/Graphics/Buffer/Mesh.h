@@ -21,6 +21,16 @@ namespace dooms
 		class DOOM_API D_CLASS Mesh : public Buffer
 		{
 			GENERATE_BODY()
+
+		private:
+
+			struct D_STRUCT VertexBufferLayout : public DObject
+			{
+				GENERATE_BODY_VertexBufferLayout()
+
+				UINT32 mStride;
+				UINT64 mOffset;
+			};
 			
 		public:
 
@@ -66,7 +76,13 @@ namespace dooms
 			UINT32 mVertexArrayFlag;
 
 			D_PROPERTY()
-			UINT32 mStride;
+			UINT32 mTotalStride;
+
+			D_PROPERTY()
+			UINT32 mVertexBufferLayoutCount;
+
+			D_PROPERTY()
+			std::array<VertexBufferLayout, 10> mVertexBufferLayouts;
 
 			/// <summary>
 			/// bind buffer array object

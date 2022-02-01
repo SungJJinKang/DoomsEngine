@@ -47,6 +47,15 @@ void dooms::graphics::DefferedRenderingFrameBuffer::BindGBufferTextures()
 	}
 }
 
+void dooms::graphics::DefferedRenderingFrameBuffer::UnBindGBufferTextures()
+{
+	for (UINT32 i = 0; i < 3; i++)
+	{
+		D_ASSERT(IsValid(TextureViews[i]));
+		TextureViews[i]->UnBindTexture(i, graphics::GraphicsAPI::eGraphicsPipeLineStage::PIXEL_SHADER);
+	}
+}
+
 void dooms::graphics::DefferedRenderingFrameBuffer::ClearFrameBuffer(const Camera* const camera)
 {
 	static const math::Vector4 ZERO_ZERO_ZERO_ONE{ 0.0f, 0.0f, 0.0f, 1.0f };
@@ -56,8 +65,7 @@ void dooms::graphics::DefferedRenderingFrameBuffer::ClearFrameBuffer(const Camer
 		ZERO_ZERO_ZERO_ONE,
 		camera->mClearColor
 	};
-
-	BindFrameBuffer();
+	
 	ClearColorTexture(0, TARGET_COLORS[0][0], TARGET_COLORS[0][1], TARGET_COLORS[0][2], TARGET_COLORS[0][3]);
 	ClearColorTexture(1, TARGET_COLORS[1][0], TARGET_COLORS[1][1], TARGET_COLORS[1][2], TARGET_COLORS[1][3]);
 	ClearColorTexture(2, TARGET_COLORS[2][0], TARGET_COLORS[2][1], TARGET_COLORS[2][2], TARGET_COLORS[2][3]);

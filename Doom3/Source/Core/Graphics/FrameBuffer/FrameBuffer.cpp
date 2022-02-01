@@ -69,7 +69,7 @@ void dooms::graphics::FrameBuffer::StaticBindFrameBuffer(const FrameBuffer* cons
 			{
 				assert(renderTargetView->GetBindingPosition() < 10);
 				renderTargetViewList[renderTargetView->GetBindingPosition()] = renderTargetView->GetViewID();
-				renderTargetViewCount = math::Max(renderTargetViewCount, renderTargetView->GetBindingPosition());
+				renderTargetViewCount = math::Max(renderTargetViewCount, renderTargetView->GetBindingPosition() + 1);
 			}
 
 			const unsigned long long depthStencilView = (IsValid(frameBuffer->mAttachedDepthStencilTextureView) && frameBuffer->mAttachedDepthStencilTextureView->IsValid()) ? frameBuffer->mAttachedDepthStencilTextureView->GetViewID().GetBufferID() : 0;
@@ -253,8 +253,8 @@ void dooms::graphics::FrameBuffer::BlitFrameBufferFromToFrameBuffer
 
 				GraphicsAPI::BlitFrameBuffer
 				(
-					(IsValid(fromFrameBufferColorTextureResource) == true) ? 0 : fromFrameBufferColorTextureResource->GetTextureResourceObject().GetBufferID(), 0,
-					(IsValid(toFrameBufferColorTextureResource) == true) ? 0 : toFrameBufferColorTextureResource->GetTextureResourceObject().GetBufferID(), 0,
+					(IsValid(fromFrameBufferColorTextureResource) == false) ? 0 : fromFrameBufferColorTextureResource->GetTextureResourceObject().GetBufferID(), 0,
+					(IsValid(toFrameBufferColorTextureResource) == false) ? 0 : toFrameBufferColorTextureResource->GetTextureResourceObject().GetBufferID(), 0,
 					srcX0, srcY0, srcX1, srcY1, dstX0, dstY0, dstX1, dstY1,
 					mask, filter
 				);
@@ -263,7 +263,7 @@ void dooms::graphics::FrameBuffer::BlitFrameBufferFromToFrameBuffer
 
 		if
 		(
-			((mask & GraphicsAPI::COLOR_BUFFER) != 0) ||
+			((mask & GraphicsAPI::DEPTH_BUFFER) != 0) ||
 			((mask & GraphicsAPI::STENCIL_BUFFER) != 0) ||
 			((mask & GraphicsAPI::DEPTH_STENCIL_BUFFER) != 0)
 		)
@@ -273,8 +273,8 @@ void dooms::graphics::FrameBuffer::BlitFrameBufferFromToFrameBuffer
 
 			GraphicsAPI::BlitFrameBuffer
 			(
-				(IsValid(fromDepthStencilTextureResource) == true) ? 0 : fromDepthStencilTextureResource->GetTextureResourceObject().GetBufferID(), 0,
-				(IsValid(toDepthStencilTextureResource) == true) ? 0 : toDepthStencilTextureResource->GetTextureResourceObject().GetBufferID(), 0,
+				(IsValid(fromDepthStencilTextureResource) == false) ? 0 : fromDepthStencilTextureResource->GetTextureResourceObject().GetBufferID(), 0,
+				(IsValid(toDepthStencilTextureResource) == false) ? 0 : toDepthStencilTextureResource->GetTextureResourceObject().GetBufferID(), 0,
 				srcX0, srcY0, srcX1, srcY1, dstX0, dstY0, dstX1, dstY1,
 				mask, filter
 			);
@@ -527,11 +527,10 @@ void dooms::graphics::FrameBuffer::ClearColorTexture
 	}
 	else if (GraphicsAPI::GetCurrentAPIType() == GraphicsAPI::eGraphicsAPIType::DX11_10)
 	{
-		dooms::asset::TextureAsset* const colorTexture = GetColorTextureResourceObject(bindingPosition);
-		D_ASSERT(IsValid(colorTexture) == true);
-		if (IsValid(colorTexture) == true)
+		D_ASSERT(mAttachedColorTextureViews.size() > bindingPosition && IsValid(mAttachedColorTextureViews[bindingPosition]) && mAttachedColorTextureViews[bindingPosition]->IsValid());
+		if (mAttachedColorTextureViews.size() > bindingPosition && IsValid(mAttachedColorTextureViews[bindingPosition]) && mAttachedColorTextureViews[bindingPosition]->IsValid())
 		{
-
+			GraphicsAPI::ClearFrameBufferColorBuffer(mAttachedColorTextureViews[bindingPosition]->GetViewID(), bindingPosition, r, g, b, a);
 		}
 	}
 

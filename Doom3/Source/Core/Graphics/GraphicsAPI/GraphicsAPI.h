@@ -27,6 +27,9 @@ namespace dooms
 				DX11_10
 			};
 
+			typedef eGraphicsAPIType(DOOMS_ENGINE_API_ENTRY_P GRAPHICS_FLUSH_CMD_QUEUE)(void);
+			extern GRAPHICS_FLUSH_CMD_QUEUE FlushCMDQueue;
+
 			/**
 			 * \brief TODO : Make inlined version function of this function for performance
 			 */

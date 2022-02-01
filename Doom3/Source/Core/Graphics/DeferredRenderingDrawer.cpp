@@ -24,12 +24,14 @@ dooms::graphics::DeferredRenderingDrawer::~DeferredRenderingDrawer()
 
 void dooms::graphics::DeferredRenderingDrawer::DrawDeferredRenderingQuadDrawer()
 {
-	mGbufferDrawerMaterial.UseProgram();
+	mGbufferDrawerMaterial.BindMaterial();
 
 	dooms::graphics::GraphicsAPI::SetDepthMask(false);
 	D_ASSERT(IsValid(mQuadMesh) == true);
 	mQuadMesh->Draw();
 	dooms::graphics::GraphicsAPI::SetDepthMask(true);
+
+	mGbufferDrawerMaterial.UnBindMaterial();
 }
 
 void dooms::graphics::DeferredRenderingDrawer::SetShaderToGBufferMaterial()

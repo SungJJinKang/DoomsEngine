@@ -35,7 +35,7 @@ void dooms::graphics::UniformBufferObjectManager::EraseUniformBufferObjectTempBu
 void dooms::graphics::UniformBufferObjectManager::UpdateUniformObjects()
 {
 	UpdateUniformBufferObjects();
-	BufferDateOfUniformBufferObjects();
+	UpdateLocalBufferOfUnfiromBufferObjectToGPU();
 }
 
 dooms::graphics::UniformBufferObject* dooms::graphics::UniformBufferObjectManager::GetUniformBufferObject(const char* const uniformBufferName)
@@ -55,7 +55,7 @@ dooms::graphics::UniformBufferObject* dooms::graphics::UniformBufferObjectManage
 }
 
 
-void dooms::graphics::UniformBufferObjectManager::BufferDateOfUniformBufferObjects()
+void dooms::graphics::UniformBufferObjectManager::UpdateLocalBufferOfUnfiromBufferObjectToGPU()
 {
 	for (auto& uniformBufferObjectNode : mUniformBufferObjects)
 	{
@@ -64,6 +64,7 @@ void dooms::graphics::UniformBufferObjectManager::BufferDateOfUniformBufferObjec
 
 		if(IsValid(uniformBufferObject))
 		{
+			D_ASSERT(uniformBufferObject->IsBufferGenerated());
 			if (uniformBufferObject->IsBufferGenerated())
 			{
 				uniformBufferObject->UpdateLocalBufferToGPU();

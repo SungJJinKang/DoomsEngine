@@ -31,6 +31,7 @@ namespace dooms
 
 			void BlitDepthBufferToScreenBuffer();
 			void BindGBufferTextures();
+			void UnBindGBufferTextures();
 
 			virtual void ClearFrameBuffer(const Camera* const camera) final;
 		};

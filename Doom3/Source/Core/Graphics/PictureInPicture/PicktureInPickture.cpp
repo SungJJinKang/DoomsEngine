@@ -4,13 +4,19 @@
 #include "../Texture/TextureView.h"
 #include "Graphics/Buffer/MeshHelper.h"
 
+dooms::graphics::Material* dooms::graphics::PicktureInPickture::mDefualtPIPMaterial{nullptr};
 
 void dooms::graphics::PicktureInPickture::InitializeDefaultPIPMaterial()
 {
-	if (PicktureInPickture::mDefualtPIPMaterial.IsMaterialCreated() == false)
+	if(IsValid(mDefualtPIPMaterial) == false)
+	{
+		mDefualtPIPMaterial = dooms::CreateDObject<dooms::graphics::Material>();
+	}
+
+	if (PicktureInPickture::mDefualtPIPMaterial->IsMaterialCreated() == false)
 	{
 		dooms::asset::ShaderAsset* const pipMaterial = dooms::assetImporter::AssetManager::GetSingleton()->GetAsset<asset::eAssetType::SHADER>("Default2DTextureShader.glsl");
-		PicktureInPickture::mDefualtPIPMaterial.SetShaderAsset(pipMaterial);
+		PicktureInPickture::mDefualtPIPMaterial->SetShaderAsset(pipMaterial);
 	}
 
 	
@@ -24,7 +30,7 @@ dooms::graphics::PicktureInPickture::PicktureInPickture()
 void dooms::graphics::PicktureInPickture::SetDefaultPIPMaterial()
 {
 	InitializeDefaultPIPMaterial();
-	mPIPMaterial = &(PicktureInPickture::mDefualtPIPMaterial);
+	mPIPMaterial = PicktureInPickture::mDefualtPIPMaterial;
 	D_ASSERT(IsValid(mPIPMaterial));
 	D_ASSERT(mPIPMaterial->IsMaterialCreated());
 }
@@ -95,7 +101,7 @@ void dooms::graphics::PicktureInPickture::DrawPictureInPicture()
 		D_ASSERT(IsValid(mDrawedTexture) && IsValid(mPIPMaterial));
 		if (IsValid(mDrawedTexture) && IsValid(mPIPMaterial))
 		{
-			mPIPMaterial->UseProgram();
+			mPIPMaterial->BindMaterial();
 			mDrawedTexture->BindTexture(0, GraphicsAPI::eGraphicsPipeLineStage::PIXEL_SHADER);
 			mPlaneMesh->Draw();
 

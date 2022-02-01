@@ -87,12 +87,12 @@ void dooms::graphics::DebugDrawer::Draw()
 			{
 				if(container->Is3DPrimitive() == false)
 				{
-					m2DMaterial->UseProgram();
+					m2DMaterial->BindMaterial();
 					_2DUBOView->SetVector4((UINT64)0, Color::GetColor(static_cast<eColor>(colorIndex)));
 				}
 				else
 				{
-					m3DMaterial->UseProgram();
+					m3DMaterial->BindMaterial();
 					_3DUBOView->SetVector4((UINT64)0, Color::GetColor(static_cast<eColor>(colorIndex)));
 				}
 
@@ -108,12 +108,12 @@ void dooms::graphics::DebugDrawer::Draw()
 			{
 				if (container->Is3DPrimitive() == false)
 				{
-					m2DMaterial->UseProgram();
+					m2DMaterial->BindMaterial();
 					_2DUBOView->SetVector4((UINT64)0, container->GetSpecialColorData()[index]);
 				}
 				else
 				{
-					m3DMaterial->UseProgram();
+					m3DMaterial->BindMaterial();
 					_3DUBOView->SetVector4((UINT64)0, container->GetSpecialColorData()[index]);
 				}
 
