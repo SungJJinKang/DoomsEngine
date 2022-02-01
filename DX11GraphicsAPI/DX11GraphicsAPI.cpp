@@ -966,20 +966,20 @@ namespace dooms
 
 		DOOMS_ENGINE_GRAPHICS_API void SwapBuffer() noexcept
 		{
-            dx11::g_pSwapChain->Present(dx11::SyncInterval, 0); // Swap Back buffer
-            /*
             MSG msg = { 0 };
-            if (PeekMessage(&msg, nullptr, 0, 0, PM_REMOVE))
+            while (WM_QUIT != msg.message)
             {
-                TranslateMessage(&msg);
-                DispatchMessage(&msg);
+                if (PeekMessage(&msg, nullptr, 0, 0, PM_REMOVE))
+                {
+                    TranslateMessage(&msg);
+                    DispatchMessage(&msg);
+                }
+                else
+                {
+                    dx11::g_pSwapChain->Present(dx11::SyncInterval, 0); // Swap Back buffer
+                    break;
+                }
             }
-            else
-            {
-                dx11::g_pSwapChain->Present(dx11::SyncInterval, 0); // Swap Back buffer
-            }
-            */
-
 		}
 
         DOOMS_ENGINE_GRAPHICS_API void SetViewport(const unsigned int index, const int startX, const int startY, const unsigned int width, const unsigned int height)
@@ -1687,6 +1687,45 @@ namespace dooms
         DOOMS_ENGINE_GRAPHICS_API void BindBackBuffer()
         {
 	        dx11::g_pImmediateContext->OMSetRenderTargets(1, &dx11::BackBufferRenderTargetView, dx11::BackBufferDepthStencilView);
+        }
+
+        DOOMS_ENGINE_GRAPHICS_API void BindShader(const unsigned long long materialObject, const GraphicsAPI::eGraphicsPipeLineStage shaderType)
+        {
+            assert(materialObject != 0);
+            if (shaderType == GraphicsAPI::VERTEX_SHADER)
+            {
+                ID3D11VertexShader* const vertexShader = reinterpret_cast<ID3D11VertexShader*>(materialObject);
+                dx11::g_pImmediateContext->VSSetShader(vertexShader, nullptr, 0);
+            }
+            else if (shaderType == GraphicsAPI::PIXEL_SHADER)
+            {
+                ID3D11PixelShader* const pixelShader = reinterpret_cast<ID3D11PixelShader*>(materialObject);
+                dx11::g_pImmediateContext->PSSetShader(pixelShader, nullptr, 0);
+            }
+            else if (shaderType == GraphicsAPI::COMPUTE_SHADER)
+            {
+                ID3D11ComputeShader* const computeShader = reinterpret_cast<ID3D11ComputeShader*>(materialObject);
+                dx11::g_pImmediateContext->CSSetShader(computeShader, nullptr, 0);
+            }
+            else if (shaderType == GraphicsAPI::GEOMETRY_SHADER)
+            {
+                ID3D11GeometryShader* const geometryShader = reinterpret_cast<ID3D11GeometryShader*>(materialObject);
+                dx11::g_pImmediateContext->GSSetShader(geometryShader, nullptr, 0);
+            }
+            else if (shaderType == GraphicsAPI::DOMAIN_SHADER)
+            {
+                ID3D11DomainShader* const domainShader = reinterpret_cast<ID3D11DomainShader*>(materialObject);
+                dx11::g_pImmediateContext->DSSetShader(domainShader, nullptr, 0);
+            }
+            else if (shaderType == GraphicsAPI::HULL_SHADER)
+            {
+                ID3D11HullShader* const hullShader = reinterpret_cast<ID3D11HullShader*>(materialObject);
+                dx11::g_pImmediateContext->HSSetShader(hullShader, nullptr, 0);
+            }
+            else
+            {
+                NEVER_HAPPEN;
+	        }
         }
 
         DOOMS_ENGINE_GRAPHICS_API bool CompileShader
