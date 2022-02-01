@@ -26,7 +26,7 @@ void dooms::graphics::LightManager::UpdateUniformBufferObject(const bool force)
 		}
 
 		{
-			const UINT32 pointLightCount = dooms::DirectionalLight::GetStaticElementCount();
+			const UINT32 pointLightCount = dooms::PointLight::GetStaticElementCount();
 			lightUBO->UpdateLocalBuffer((void*)&pointLightCount, graphics::eUniformBlock_Global::pointLightCount, sizeof(pointLightCount));
 		}
 	}
