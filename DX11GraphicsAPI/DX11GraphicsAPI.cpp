@@ -1711,7 +1711,6 @@ namespace dooms
 
         DOOMS_ENGINE_GRAPHICS_API void BindShader(const unsigned long long materialObject, const GraphicsAPI::eGraphicsPipeLineStage shaderType)
         {
-            assert(materialObject != 0);
             if (shaderType == GraphicsAPI::VERTEX_SHADER)
             {
                 ID3D11VertexShader* const vertexShader = reinterpret_cast<ID3D11VertexShader*>(materialObject);
@@ -2133,7 +2132,6 @@ namespace dooms
             const GraphicsAPI::eGraphicsPipeLineStage pipeLineStage
         )
         {
-            assert(bufferObject != 0);
             ID3D11Buffer* const buffer = reinterpret_cast<ID3D11Buffer*>(bufferObject);
 
             switch (pipeLineStage)

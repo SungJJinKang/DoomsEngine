@@ -138,7 +138,7 @@ namespace dooms
 			D_ASSERT(IsValid(mTargetMaterial));
 			if (IsValid(mTargetMaterial))
 			{
-				mTargetMaterial->UseProgram();
+				mTargetMaterial->BindMaterial();
 			}
 		}
 

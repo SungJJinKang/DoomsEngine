@@ -126,7 +126,8 @@ namespace dooms
 			void AddTexture(const UINT32 bindingPoint, const dooms::asset::TextureAsset* const textureAsset);
 			void AddTextures(const std::vector<const TextureView*>& textures);
 
-			void UseProgram() const;
+			void BindMaterial() const;
+			void UnBindMaterial() const;
 
 			bool IsMaterialCreated() const;
 

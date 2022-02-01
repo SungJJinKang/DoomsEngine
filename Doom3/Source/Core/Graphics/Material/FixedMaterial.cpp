@@ -17,7 +17,7 @@ const dooms::graphics::Material* dooms::graphics::FixedMaterial::GetFixedMateria
 void dooms::graphics::FixedMaterial::SetFixedMaterial(Material* const fixedMaterial)
 {
 	ClearFixedMaterial();
-	fixedMaterial->UseProgram();
+	fixedMaterial->BindMaterial();
 	FixedMaterial::mFixedMaterial = fixedMaterial;
 }
 

@@ -149,7 +149,10 @@ namespace dooms
 					GraphicsAPI::BindConstantBuffer(mUniformBufferObject, bindingPoint, targetPipeLineStage);
 				}
 			}
-		
+			FORCE_INLINE void UnBindBuffer(const UINT32 bindingPoint, const GraphicsAPI::eGraphicsPipeLineStage targetPipeLineStage) const noexcept
+			{
+				GraphicsAPI::BindConstantBuffer(0, bindingPoint, targetPipeLineStage);
+			}
 			/// <summary>
 			/// Store data in temporary buffer
 			/// data isn't send to gpu instantly, it is stored in temp buffer

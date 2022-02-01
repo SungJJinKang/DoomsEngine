@@ -427,7 +427,7 @@ void dooms::graphics::Material::AddTextures(const std::vector<const TextureView*
 	mTargetTextures = textures;
 }
 
-void dooms::graphics::Material::UseProgram() const
+void dooms::graphics::Material::BindMaterial() const
 {
 	if (FixedMaterial::GetIsFixedMaterialExist() == false)
 	{
@@ -471,6 +471,44 @@ void dooms::graphics::Material::UseProgram() const
 		for (const UniformBufferObjectView& uboView : mTargetUniformBufferObjectViews)
 		{
 			uboView.BindUniformBufferObject();
+		}
+
+	}
+}
+
+void dooms::graphics::Material::UnBindMaterial() const
+{
+	if (FixedMaterial::GetIsFixedMaterialExist() == false)
+	{
+
+		if (dooms::graphics::GraphicsAPI::GetCurrentAPIType() == GraphicsAPI::eGraphicsAPIType::DX11_10)
+		{
+			for (size_t pipeLineStageIndex = 0; pipeLineStageIndex < GRAPHICS_PIPELINE_STAGE_COUNT; pipeLineStageIndex++)
+			{
+				GraphicsAPI::BindShader(0, (static_cast<dooms::graphics::GraphicsAPI::eGraphicsPipeLineStage>(pipeLineStageIndex)));
+			}
+
+			GraphicsAPI::BindInputLayoutForD3D(0);
+		}
+		else if (dooms::graphics::GraphicsAPI::GetCurrentAPIType() == GraphicsAPI::eGraphicsAPIType::OpenGL)
+		{
+			if (D_OVERLAP_BIND_CHECK_CHECK_IS_NOT_BOUND_AND_BIND_ID(MATERIAL_TAG, 0))
+			{
+				GraphicsAPI::BindShader(0, GraphicsAPI::eGraphicsPipeLineStage::DUMMY);
+			}		
+		}
+
+		for (UINT32 i = 0; i < mTargetTextures.size(); i++)
+		{
+			if (IsValid(mTargetTextures[i]) == true)
+			{
+				mTargetTextures[i]->UnBindTexture();
+			}
+		}
+
+		for (const UniformBufferObjectView& uboView : mTargetUniformBufferObjectViews)
+		{
+			uboView.UnBindUniformBufferObject();
 		}
 
 	}
