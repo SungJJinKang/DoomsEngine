@@ -21,6 +21,9 @@ void dooms::graphics::GraphicsAPILoader::FetchExportedFunctionAddress()
 	D_ASSERT(mAPIModule != nullptr);
 	HMODULE hModule = reinterpret_cast<HMODULE>(mAPIModule);
 
+	
+	dooms::graphics::GraphicsAPI::FlushCMDQueue = (GraphicsAPI::GRAPHICS_FLUSH_CMD_QUEUE)GetProcAddress(hModule, "FlushCMDQueue");
+	//D_ASSERT(dooms::graphics::GraphicsAPI::FlushCMDQueue != nullptr);
 	dooms::graphics::GraphicsAPI::GetCurrentAPIType = (GraphicsAPI::GRAPHICS_GETCURRENTAPITYPE)GetProcAddress(hModule, "GetCurrentAPIType");
 	//D_ASSERT(dooms::graphics::GraphicsAPI::GetCurrentAPIType != nullptr);
 	dooms::graphics::GraphicsAPI::ActivateTextureUnit = (GraphicsAPI::GRAPHICS_ACTIVATETEXTUREUNIT)GetProcAddress(hModule, "ActivateTextureUnit");

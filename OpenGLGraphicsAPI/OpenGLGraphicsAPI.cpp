@@ -1039,6 +1039,10 @@ namespace dooms
 			}
 		}
 
+		DOOMS_ENGINE_GRAPHICS_API void FlushCMDQueue()
+		{
+		}
+
 		DOOMS_ENGINE_GRAPHICS_API GraphicsAPI::eGraphicsAPIType GetCuurentAPIType()
 		{
 			return GraphicsAPI::eGraphicsAPIType::OpenGL;
