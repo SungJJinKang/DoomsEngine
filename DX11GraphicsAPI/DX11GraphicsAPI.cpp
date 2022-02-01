@@ -1001,7 +1001,18 @@ namespace dooms
                 }
                 else
                 {
-                    //dx11::g_pImmediateContext->Flush();
+                	
+                    /*
+                    ID3D11Debug* dxgiDebug;
+
+                    if (SUCCEEDED(dx11::g_pd3dDevice->QueryInterface(IID_PPV_ARGS(&dxgiDebug))))
+                    {
+                        dxgiDebug->ValidateContext(dx11::g_pImmediateContext);
+                        dxgiDebug->ReportLiveDeviceObjects(D3D11_RLDO_DETAIL);
+                        dxgiDebug->Release();
+                    }
+                    */
+                    
                     HRESULT hr = dx11::g_pSwapChain->Present(dx11::SyncInterval, 0); // Swap Back buffer
                     if(FAILED(hr))
                     {
@@ -1567,28 +1578,8 @@ namespace dooms
                 return 0;
             }
 
-            /*
-            ID3D11ShaderResourceView* textureView;
-
-            D3D11_SHADER_RESOURCE_VIEW_DESC SRVDesc = {};
-            SRVDesc.Format = internalFormat;
-            SRVDesc.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2D;
-            SRVDesc.Texture2D.MipLevels = textureDesc.MipLevels;
-
-            hr = dx11::g_pd3dDevice->CreateShaderResourceView(textureObject,
-                &SRVDesc,
-                &textureView
-            );
-            assert(FAILED(hr) == false);
-            if (FAILED(hr))
-            {
-                return 0;
-            }
-
-            textureObject->Release();
-            */
-
             return reinterpret_cast<unsigned long long>(textureResourceObject);
+            
 		}
 
 
@@ -1614,8 +1605,8 @@ namespace dooms
             ID3D11Texture2D* const textureResource = reinterpret_cast<ID3D11Texture2D*>(textureResourceObject);
 
             const UINT res = D3D11CalcSubresource(lodLevel, 0, 1);
-
-            /*
+            
+            
             D3D11_BOX offsetBOX{};
             offsetBOX.left = xOffset;
             offsetBOX.top = yOffset;
@@ -1623,8 +1614,7 @@ namespace dooms
             offsetBOX.back = 0;
             offsetBOX.bottom = 0;
             offsetBOX.right = 0;
-            */
-
+            
             dx11::g_pImmediateContext->UpdateSubresource
 			(
                 textureResource, 
