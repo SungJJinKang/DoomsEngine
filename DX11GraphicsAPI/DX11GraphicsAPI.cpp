@@ -348,6 +348,7 @@ namespace dooms
             static ID3D11RenderTargetView* BackBufferRenderTargetView = nullptr;
             static ID3D11Texture2D* g_pDepthStencil = nullptr;
             static ID3D11DepthStencilView* BackBufferDepthStencilView = nullptr;
+            static ID3D11SamplerState* g_pSamplerLinear = nullptr;
             static unsigned int SyncInterval = 0;
             static unsigned int DrawCallCounter = 0;
             static HRESULT InitWindow(HINSTANCE hInstance, int nCmdShow, int width, int height);
@@ -648,6 +649,25 @@ namespace dooms
                 vp.TopLeftY = 0;
                 g_pImmediateContext->RSSetViewports(1, &vp);
 
+                {
+                    D3D11_SAMPLER_DESC sampDesc = {};
+                    sampDesc.Filter = D3D11_FILTER_MIN_MAG_MIP_LINEAR;
+                    sampDesc.AddressU = D3D11_TEXTURE_ADDRESS_WRAP;
+                    sampDesc.AddressV = D3D11_TEXTURE_ADDRESS_WRAP;
+                    sampDesc.AddressW = D3D11_TEXTURE_ADDRESS_WRAP;
+                    sampDesc.ComparisonFunc = D3D11_COMPARISON_NEVER;
+                    sampDesc.MinLOD = 0;
+                    sampDesc.MaxLOD = D3D11_FLOAT32_MAX;
+                    hr = g_pd3dDevice->CreateSamplerState(&sampDesc, &g_pSamplerLinear);
+                    assert(FAILED(hr) == false);
+                    if (FAILED(hr))
+                        return hr;
+
+                    for(size_t i = 0 ; i < D3D11_COMMONSHADER_SAMPLER_SLOT_COUNT ; i++)
+                    {
+                        g_pImmediateContext->PSSetSamplers(i, 1, &g_pSamplerLinear);
+                    }
+                }
                
                 /*
                 // Compile the vertex shader
@@ -1744,24 +1764,27 @@ namespace dooms
             {
             case GraphicsAPI::VERTEX_SHADER:
                 shaderTarget = "vs_5_0";
-                entryPoint = "vert_main";
+                entryPoint = "main";
                 break;
             case GraphicsAPI::HULL_SHADER:
                 shaderTarget = "hs_5_0";
+                entryPoint = "main";
                 break;
             case GraphicsAPI::DOMAIN_SHADER:
                 shaderTarget = "ds_5_0";
+                entryPoint = "main";
                 break;
             case GraphicsAPI::GEOMETRY_SHADER:
                 shaderTarget = "gs_5_0";
+                entryPoint = "main";
                 break;
             case GraphicsAPI::PIXEL_SHADER:
                 shaderTarget = "ps_5_0";
-                entryPoint = "frag_main";
+                entryPoint = "main";
                 break;
             case GraphicsAPI::COMPUTE_SHADER:
                 shaderTarget = "cs_5_0";
-                entryPoint = "comp_main";
+                entryPoint = "main";
                 break;
             default:
                 NEVER_HAPPEN;
@@ -1961,7 +1984,7 @@ namespace dooms
         {
             assert(indexBufferObject != 0);
             ID3D11Buffer* const indexBuffer = reinterpret_cast<ID3D11Buffer*>(indexBufferObject);
-            dx11::g_pImmediateContext->IASetIndexBuffer(indexBuffer, DXGI_FORMAT_R16_UINT, 0);
+            dx11::g_pImmediateContext->IASetIndexBuffer(indexBuffer, DXGI_FORMAT_R32_UINT, 0);
         }
 
         DOOMS_ENGINE_GRAPHICS_API unsigned long long CreateInputLayoutForD3D
