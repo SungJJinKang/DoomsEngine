@@ -25,7 +25,7 @@ namespace dooms
 
 	namespace asset
 	{
-		struct DOOM_API D_STRUCT ShaderTextData
+		struct DOOM_API D_STRUCT ShaderTextData : public DObject
 		{
 			GENERATE_BODY_ShaderTextData()
 
