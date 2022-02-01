@@ -527,11 +527,10 @@ void dooms::graphics::FrameBuffer::ClearColorTexture
 	}
 	else if (GraphicsAPI::GetCurrentAPIType() == GraphicsAPI::eGraphicsAPIType::DX11_10)
 	{
-		dooms::asset::TextureAsset* const colorTexture = GetColorTextureResourceObject(bindingPosition);
-		D_ASSERT(IsValid(colorTexture) == true);
-		if (IsValid(colorTexture) == true)
+		D_ASSERT(mAttachedColorTextureViews.size() > bindingPosition && IsValid(mAttachedColorTextureViews[bindingPosition]) && mAttachedColorTextureViews[bindingPosition]->IsValid());
+		if (mAttachedColorTextureViews.size() > bindingPosition && IsValid(mAttachedColorTextureViews[bindingPosition]) && mAttachedColorTextureViews[bindingPosition]->IsValid())
 		{
-
+			GraphicsAPI::ClearFrameBufferColorBuffer(mAttachedDepthStencilTextureView->GetViewID(), bindingPosition, r, g, b, a);
 		}
 	}
 
