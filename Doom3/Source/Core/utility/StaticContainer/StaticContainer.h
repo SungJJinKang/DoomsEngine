@@ -50,10 +50,6 @@ namespace dooms
 		
 	protected:
 		
-		static size_t GetStaticElementCount()
-		{
-			return StaticContainer<T>::mElements.size();
-		}
 
 		void AddToStaticContainer()
 		{
@@ -147,7 +143,11 @@ namespace dooms
 		{
 			StaticContainer<T>::mElements.~vector();
 		}
-	
+
+		static size_t GetStaticElementCount()
+		{
+			return StaticContainer<T>::mElements.size();
+		}
 	};
 
 }
