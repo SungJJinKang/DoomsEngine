@@ -363,11 +363,13 @@ bool dooms::asset::ShaderAsset::CompileSpecificTypeShader(ShaderTextData& shader
 				shaderObject.mShaderCompileStatus = eShaderCompileStatus::COMPILE_SUCCESS;
 				GenerateUniformBufferObjectFromShaderReflectionData(shaderText.mShaderReflectionData);
 
-				if(shaderType == graphics::GraphicsAPI::eGraphicsPipeLineStage::VERTEX_SHADER)
+				if (graphics::GraphicsAPI::GetCurrentAPIType() == graphics::GraphicsAPI::eGraphicsAPIType::DX11_10)
 				{
-					CreateInputLayoutForD3D(this);
+					if (shaderType == graphics::GraphicsAPI::eGraphicsPipeLineStage::VERTEX_SHADER)
+					{
+						CreateInputLayoutForD3D(this);
+					}
 				}
-				
 				dooms::ui::PrintText("Success to compile shader ( Shader Asset Name : %s, Shader Type : %s )", shaderText.mShaderTextFilePath.generic_u8string().c_str(), graphics::GraphicsAPI::eGraphicsPipeLineStageString[static_cast<UINT32>(shaderType)]);
 			}
 			else
@@ -506,37 +508,40 @@ namespace dooms::graphics::dx11
 
 void dooms::asset::ShaderAsset::CreateInputLayoutForD3D(dooms::asset::ShaderAsset* const shaderAsset)
 {
-	D_ASSERT(mInputLayoutForD3D.IsValid() == false);
-	D_ASSERT(graphics::GraphicsAPI::GetCurrentAPIType() == graphics::GraphicsAPI::eGraphicsAPIType::DX11_10);
-	D_ASSERT(shaderAsset->IsShaderObjectSuccessfullyCreated(graphics::GraphicsAPI::eGraphicsPipeLineStage::VERTEX_SHADER) == true);
-	if
-	(
-		mInputLayoutForD3D.IsValid() == false &&
-		shaderAsset->IsShaderObjectSuccessfullyCreated(graphics::GraphicsAPI::eGraphicsPipeLineStage::VERTEX_SHADER) == true
-	)
+	if (graphics::GraphicsAPI::GetCurrentAPIType() == graphics::GraphicsAPI::eGraphicsAPIType::DX11_10)
 	{
-		const dooms::asset::shaderReflectionDataParser::ShaderReflectionData& vertexShaderReflectionData = shaderAsset->GetShaderReflectionData(graphics::GraphicsAPI::eGraphicsPipeLineStage::VERTEX_SHADER);
-
-		D3D11_INPUT_ELEMENT_DESC layout[15];
-
-		for (const asset::shaderReflectionDataParser::ShaderInputType& input : vertexShaderReflectionData.mInputVariables)
+		D_ASSERT(mInputLayoutForD3D.IsValid() == false);
+		D_ASSERT(graphics::GraphicsAPI::GetCurrentAPIType() == graphics::GraphicsAPI::eGraphicsAPIType::DX11_10);
+		D_ASSERT(shaderAsset->IsShaderObjectSuccessfullyCreated(graphics::GraphicsAPI::eGraphicsPipeLineStage::VERTEX_SHADER) == true);
+		if
+			(
+				mInputLayoutForD3D.IsValid() == false &&
+				shaderAsset->IsShaderObjectSuccessfullyCreated(graphics::GraphicsAPI::eGraphicsPipeLineStage::VERTEX_SHADER) == true
+				)
 		{
-			layout[input.mLocation].SemanticName = input.mSemanticType.c_str();
-			layout[input.mLocation].SemanticIndex = input.mSemanticIndex;
-			layout[input.mLocation].Format = graphics::dx11::Conver_From_eShaderVariableType_To_DXGI_FORMAT(input.mType);
-			layout[input.mLocation].InputSlot = 0; //input.mLocation;
-			layout[input.mLocation].AlignedByteOffset = D3D11_APPEND_ALIGNED_ELEMENT; // direct x choose offset itself
-			layout[input.mLocation].InputSlotClass = D3D11_INPUT_PER_VERTEX_DATA;
-			layout[input.mLocation].InstanceDataStepRate = 0;
+			const dooms::asset::shaderReflectionDataParser::ShaderReflectionData& vertexShaderReflectionData = shaderAsset->GetShaderReflectionData(graphics::GraphicsAPI::eGraphicsPipeLineStage::VERTEX_SHADER);
+
+			D3D11_INPUT_ELEMENT_DESC layout[15];
+
+			for (const asset::shaderReflectionDataParser::ShaderInputType& input : vertexShaderReflectionData.mInputVariables)
+			{
+				layout[input.mLocation].SemanticName = input.mSemanticType.c_str();
+				layout[input.mLocation].SemanticIndex = input.mSemanticIndex;
+				layout[input.mLocation].Format = graphics::dx11::Conver_From_eShaderVariableType_To_DXGI_FORMAT(input.mType);
+				layout[input.mLocation].InputSlot = 0; //input.mLocation;
+				layout[input.mLocation].AlignedByteOffset = D3D11_APPEND_ALIGNED_ELEMENT; // direct x choose offset itself
+				layout[input.mLocation].InputSlotClass = D3D11_INPUT_PER_VERTEX_DATA;
+				layout[input.mLocation].InstanceDataStepRate = 0;
+			}
+
+			mInputLayoutForD3D = dooms::graphics::GraphicsAPI::CreateInputLayoutForD3D
+			(
+				layout,
+				vertexShaderReflectionData.mInputVariables.size(),
+				GetShaderObject(graphics::GraphicsAPI::eGraphicsPipeLineStage::VERTEX_SHADER)
+			);
+			D_ASSERT(mInputLayoutForD3D.IsValid());
 		}
-		
-		mInputLayoutForD3D = dooms::graphics::GraphicsAPI::CreateInputLayoutForD3D
-		(
-			layout,
-			vertexShaderReflectionData.mInputVariables.size(),
-			GetShaderObject(graphics::GraphicsAPI::eGraphicsPipeLineStage::VERTEX_SHADER)
-		);
-		D_ASSERT(mInputLayoutForD3D.IsValid());
 	}
 }
 
