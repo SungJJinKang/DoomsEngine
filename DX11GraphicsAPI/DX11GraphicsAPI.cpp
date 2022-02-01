@@ -1598,15 +1598,33 @@ namespace dooms
             const GraphicsAPI::eTextureInternalFormat textureInternalFormat,
             const GraphicsAPI::eTextureCompressedInternalFormat textureCompressedInternalFormat,
             const void* const pixelDatas,
-            const size_t rowByteSize,
-            const size_t totalDataSize
+            const size_t srcRowPitch, // understanding RowPitch https://docs.microsoft.com/en-us/windows/win32/api/d3d11/nf-d3d11-id3d11devicecontext-updatesubresource
+            const size_t srcDepthPitch // 2D Texture doesn't have depth, so srcDepthPitch is texture data size
         )
         {
             ID3D11Texture2D* const textureResource = reinterpret_cast<ID3D11Texture2D*>(textureResourceObject);
 
             const UINT res = D3D11CalcSubresource(lodLevel, 0, 1);
-            
-            dx11::g_pImmediateContext->UpdateSubresource(textureResource, res, nullptr, pixelDatas, 0, 0);
+
+            /*
+            D3D11_BOX offsetBOX{};
+            offsetBOX.left = xOffset;
+            offsetBOX.top = yOffset;
+            offsetBOX.front = 0;
+            offsetBOX.back = 0;
+            offsetBOX.bottom = 0;
+            offsetBOX.right = 0;
+            */
+
+            dx11::g_pImmediateContext->UpdateSubresource
+			(
+                textureResource, 
+                res,
+                nullptr, //&offsetBOX,
+                pixelDatas, 
+                srcRowPitch,
+                srcDepthPitch
+            );
             
         }
 
@@ -2127,7 +2145,7 @@ namespace dooms
             assert(bufferObject != 0);
             ID3D11Resource* const bufferResource = reinterpret_cast<ID3D11Resource*>(bufferObject);
             
-            dx11::g_pImmediateContext->UpdateSubresource(bufferResource, 0, nullptr, data, 0, 0);
+            dx11::g_pImmediateContext->UpdateSubresource(bufferResource, NULL, nullptr, data, 0, 0);
         }
 
         DOOMS_ENGINE_GRAPHICS_API void BindConstantBuffer
@@ -2269,6 +2287,7 @@ namespace dooms
                 {
                     ID3D11Texture2D* pBackBuffer = nullptr; // https://vsts2010.tistory.com/517
                     const HRESULT hr = dx11::g_pSwapChain->GetBuffer(0, __uuidof(ID3D11Texture2D), reinterpret_cast<void**>(&pBackBuffer));
+                    assert(FAILED(hr) == false);
                     if (FAILED(hr))
                     {
                         return;
@@ -2286,6 +2305,7 @@ namespace dooms
                 {
                     ID3D11Texture2D* pBackBuffer = nullptr; // https://vsts2010.tistory.com/517
                     const HRESULT hr = dx11::g_pSwapChain->GetBuffer(0, __uuidof(ID3D11Texture2D), reinterpret_cast<void**>(&pBackBuffer));
+                    assert(FAILED(hr) == false);
                     if (FAILED(hr))
                     {
                         return;

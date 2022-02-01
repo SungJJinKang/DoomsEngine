@@ -113,8 +113,8 @@ void dooms::asset::TextureAsset::SetScratchImage(std::unique_ptr<DirectX::Scratc
 	mTextureData.reserve(mScratchImage->GetImageCount());
 	mWidth.reserve(mScratchImage->GetImageCount());
 	mHeight.reserve(mScratchImage->GetImageCount());
-	mRowByteSizes.reserve(mScratchImage->GetImageCount());
-	mTotalDataSize.reserve(mScratchImage->GetImageCount());
+	mSrcRowPitch.reserve(mScratchImage->GetImageCount());
+	mSrcDepthPitch.reserve(mScratchImage->GetImageCount());
 	
 	for(size_t imgIndex = 0 ; imgIndex < mScratchImage->GetImageCount() ; imgIndex++)
 	{
@@ -123,8 +123,8 @@ void dooms::asset::TextureAsset::SetScratchImage(std::unique_ptr<DirectX::Scratc
 		mTextureData.push_back(img->pixels);
 		mWidth.push_back(static_cast<INT32>(img->width));
 		mHeight.push_back(static_cast<INT32>(img->height));
-		mRowByteSizes.push_back(img->rowPitch);
-		mTotalDataSize.push_back(img->slicePitch);
+		mSrcRowPitch.push_back(img->rowPitch);
+		mSrcDepthPitch.push_back(img->slicePitch);
 	}
 
 	//delete scratchImage;
@@ -184,8 +184,8 @@ void dooms::asset::TextureAsset::AllocateTextureResourceObject()
 				mInternalFormat,
 				mCompressedInternalFormat,
 				mTextureData[mipLevelIndex],
-				mRowByteSizes[mipLevelIndex],
-				mTotalDataSize[mipLevelIndex]
+				mSrcRowPitch[mipLevelIndex],
+				mSrcDepthPitch[mipLevelIndex]
 			);
 		}		
 	}

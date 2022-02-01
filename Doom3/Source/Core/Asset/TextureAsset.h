@@ -57,10 +57,10 @@ namespace dooms
 			std::vector<UINT32> mHeight;
 
 			D_PROPERTY()
-			std::vector<UINT32> mRowByteSizes;
+			std::vector<UINT32> mSrcRowPitch;
 
 			D_PROPERTY()
-			std::vector<UINT32> mTotalDataSize;
+			std::vector<UINT32> mSrcDepthPitch;
 
 			D_PROPERTY()
 			INT32 mMipMapLevelCount;
