@@ -986,6 +986,9 @@ namespace dooms
 
 		DOOMS_ENGINE_GRAPHICS_API void SwapBuffer() noexcept
 		{
+
+            //dx11::g_pSwapChain->Present(dx11::SyncInterval, 0); // Swap Back buffer
+			
             MSG msg = { 0 };
             while (WM_QUIT != msg.message)
             {
@@ -1000,6 +1003,8 @@ namespace dooms
                     break;
                 }
             }
+            
+            dx11::DrawCallCounter = 0;
 		}
 
         DOOMS_ENGINE_GRAPHICS_API void SetViewport(const unsigned int index, const int startX, const int startY, const unsigned int width, const unsigned int height)
