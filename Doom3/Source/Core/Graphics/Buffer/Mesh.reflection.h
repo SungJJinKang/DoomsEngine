@@ -20,6 +20,42 @@
 //-------------------------------------------
 
 
+#ifdef GENERATE_BODY_FULLNAME_dooms__graphics__Mesh__VertexBufferLayout
+#error "GENERATE_BODY_FULLNAME_dooms__graphics__Mesh__VertexBufferLayout already included...."
+#endif
+
+
+#undef CURRENT_TYPE_ALIAS_dooms__graphics__Mesh__VertexBufferLayout
+#define CURRENT_TYPE_ALIAS_dooms__graphics__Mesh__VertexBufferLayout \
+typedef dooms::graphics::Mesh::VertexBufferLayout Current;
+
+
+#undef TYPE_FULLNAME_HASH_VALUE_NAME_STRING_dooms__graphics__Mesh__VertexBufferLayout
+#define TYPE_FULLNAME_HASH_VALUE_NAME_STRING_dooms__graphics__Mesh__VertexBufferLayout \
+inline static const unsigned long int TYPE_FULL_NAME_HASH_VALUE = 1102968521; \
+inline static const char* const TYPE_FULL_NAME = "dooms::graphics::Mesh::VertexBufferLayout"; \
+inline static const char* const TYPE_SHORT_NAME = "VertexBufferLayout"; \
+
+
+#undef TYPE_CHECK_FUNCTION_VertexBufferLayout
+#define TYPE_CHECK_FUNCTION_VertexBufferLayout \
+attrNoReflect void __TYPE_CHECK() { static_assert(std::is_same_v<std::remove_reference<decltype(*this)>::type, Current> == true, "ERROR : WRONG TYPE. Please Check GENERATED_~ MACROS");} \
+
+
+#undef GENERATE_BODY_FULLNAME_dooms__graphics__Mesh__VertexBufferLayout
+#define GENERATE_BODY_FULLNAME_dooms__graphics__Mesh__VertexBufferLayout(...) \
+CURRENT_TYPE_ALIAS_dooms__graphics__Mesh__VertexBufferLayout \
+TYPE_FULLNAME_HASH_VALUE_NAME_STRING_dooms__graphics__Mesh__VertexBufferLayout \
+TYPE_CHECK_FUNCTION_VertexBufferLayout \
+
+
+//Type Short Name ( without namespace, only type name ) Version Macros.
+#define GENERATE_BODY_VertexBufferLayout(...) GENERATE_BODY_FULLNAME_dooms__graphics__Mesh__VertexBufferLayout(__VA_ARGS__)
+
+
+//-------------------------------------------
+
+
 #ifdef GENERATE_BODY_FULLNAME_dooms__graphics__Mesh
 #error "GENERATE_BODY_FULLNAME_dooms__graphics__Mesh already included...."
 #endif

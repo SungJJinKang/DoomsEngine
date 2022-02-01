@@ -528,7 +528,7 @@ void dooms::asset::ShaderAsset::CreateInputLayoutForD3D(dooms::asset::ShaderAsse
 				layout[input.mLocation].SemanticName = input.mSemanticType.c_str();
 				layout[input.mLocation].SemanticIndex = input.mSemanticIndex;
 				layout[input.mLocation].Format = graphics::dx11::Conver_From_eShaderVariableType_To_DXGI_FORMAT(input.mType);
-				layout[input.mLocation].InputSlot = 0; //input.mLocation;
+				layout[input.mLocation].InputSlot = input.mLocation;
 				layout[input.mLocation].AlignedByteOffset = D3D11_APPEND_ALIGNED_ELEMENT; // direct x choose offset itself
 				layout[input.mLocation].InputSlotClass = D3D11_INPUT_PER_VERTEX_DATA;
 				layout[input.mLocation].InstanceDataStepRate = 0;
