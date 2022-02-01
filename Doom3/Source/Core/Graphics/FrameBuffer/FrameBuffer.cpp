@@ -69,7 +69,7 @@ void dooms::graphics::FrameBuffer::StaticBindFrameBuffer(const FrameBuffer* cons
 			{
 				assert(renderTargetView->GetBindingPosition() < 10);
 				renderTargetViewList[renderTargetView->GetBindingPosition()] = renderTargetView->GetViewID();
-				renderTargetViewCount = math::Max(renderTargetViewCount, renderTargetView->GetBindingPosition());
+				renderTargetViewCount = math::Max(renderTargetViewCount, renderTargetView->GetBindingPosition() + 1);
 			}
 
 			const unsigned long long depthStencilView = (IsValid(frameBuffer->mAttachedDepthStencilTextureView) && frameBuffer->mAttachedDepthStencilTextureView->IsValid()) ? frameBuffer->mAttachedDepthStencilTextureView->GetViewID().GetBufferID() : 0;
