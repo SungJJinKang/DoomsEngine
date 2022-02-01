@@ -530,7 +530,7 @@ void dooms::graphics::FrameBuffer::ClearColorTexture
 		D_ASSERT(mAttachedColorTextureViews.size() > bindingPosition && IsValid(mAttachedColorTextureViews[bindingPosition]) && mAttachedColorTextureViews[bindingPosition]->IsValid());
 		if (mAttachedColorTextureViews.size() > bindingPosition && IsValid(mAttachedColorTextureViews[bindingPosition]) && mAttachedColorTextureViews[bindingPosition]->IsValid())
 		{
-			GraphicsAPI::ClearFrameBufferColorBuffer(mAttachedDepthStencilTextureView->GetViewID(), bindingPosition, r, g, b, a);
+			GraphicsAPI::ClearFrameBufferColorBuffer(mAttachedColorTextureViews[bindingPosition]->GetViewID(), bindingPosition, r, g, b, a);
 		}
 	}
 
