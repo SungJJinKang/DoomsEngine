@@ -431,25 +431,26 @@ void dooms::graphics::Material::UseProgram() const
 {
 	if (FixedMaterial::GetIsFixedMaterialExist() == false)
 	{
-		if (D_OVERLAP_BIND_CHECK_CHECK_IS_NOT_BOUND_AND_BIND_ID(MATERIAL_TAG, mProgramIDForOpenGL))
-		{
-			if(dooms::graphics::GraphicsAPI::GetCurrentAPIType() == GraphicsAPI::eGraphicsAPIType::DX11_10)
-			{
-				for (size_t pipeLineStageIndex = 0; pipeLineStageIndex < GRAPHICS_PIPELINE_STAGE_COUNT; pipeLineStageIndex++)
-				{
-					if (mPipeLineShaderView[pipeLineStageIndex].IsValid() == true)
-					{
-						GraphicsAPI::BindShader(mPipeLineShaderView[pipeLineStageIndex], (static_cast<dooms::graphics::GraphicsAPI::eGraphicsPipeLineStage>(pipeLineStageIndex)));
-					}
-				}
 
-				D_ASSERT(mInputLayoutForD3D.IsValid());
-				if(mInputLayoutForD3D.IsValid())
+		if (dooms::graphics::GraphicsAPI::GetCurrentAPIType() == GraphicsAPI::eGraphicsAPIType::DX11_10)
+		{
+			for (size_t pipeLineStageIndex = 0; pipeLineStageIndex < GRAPHICS_PIPELINE_STAGE_COUNT; pipeLineStageIndex++)
+			{
+				if (mPipeLineShaderView[pipeLineStageIndex].IsValid() == true)
 				{
-					GraphicsAPI::BindInputLayoutForD3D(mInputLayoutForD3D);
+					GraphicsAPI::BindShader(mPipeLineShaderView[pipeLineStageIndex], (static_cast<dooms::graphics::GraphicsAPI::eGraphicsPipeLineStage>(pipeLineStageIndex)));
 				}
 			}
-			else if (dooms::graphics::GraphicsAPI::GetCurrentAPIType() == GraphicsAPI::eGraphicsAPIType::OpenGL)
+
+			D_ASSERT(mInputLayoutForD3D.IsValid());
+			if (mInputLayoutForD3D.IsValid())
+			{
+				GraphicsAPI::BindInputLayoutForD3D(mInputLayoutForD3D);
+			}
+		}
+		else if (dooms::graphics::GraphicsAPI::GetCurrentAPIType() == GraphicsAPI::eGraphicsAPIType::OpenGL)
+		{
+			if (D_OVERLAP_BIND_CHECK_CHECK_IS_NOT_BOUND_AND_BIND_ID(MATERIAL_TAG, mProgramIDForOpenGL))
 			{
 				D_ASSERT(mProgramIDForOpenGL.IsValid());
 				if (mProgramIDForOpenGL.IsValid() == true)
@@ -457,23 +458,22 @@ void dooms::graphics::Material::UseProgram() const
 					GraphicsAPI::BindShader(mProgramIDForOpenGL, GraphicsAPI::eGraphicsPipeLineStage::DUMMY);
 				}
 			}
+		}
 
-			for (UINT32 i = 0; i < mTargetTextures.size(); i++)
+		for (UINT32 i = 0; i < mTargetTextures.size(); i++)
+		{
+			if (IsValid(mTargetTextures[i]) == true)
 			{
-				if (IsValid(mTargetTextures[i]) == true)
-				{
-					mTargetTextures[i]->BindTexture();
-				}
-			}
-
-			for(const UniformBufferObjectView& uboView : mTargetUniformBufferObjectViews)
-			{
-				uboView.BindUniformBufferObject();
+				mTargetTextures[i]->BindTexture();
 			}
 		}
-	}
 
-	
+		for (const UniformBufferObjectView& uboView : mTargetUniformBufferObjectViews)
+		{
+			uboView.BindUniformBufferObject();
+		}
+
+	}
 }
 
 bool dooms::graphics::Material::IsMaterialCreated() const
