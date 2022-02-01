@@ -77,7 +77,7 @@ void dooms::graphics::Mesh::BindVertexArrayObject() const
 void dooms::graphics::Mesh::BindVertexBufferObject() const
 {
 	D_ASSERT(mVertexDataBuffer.IsValid() == true);
-	
+	D_ASSERT(mStride > 0);
 	dooms::graphics::GraphicsAPI::BindVertexDataBuffer
 	(
 		mVertexDataBuffer,
@@ -162,6 +162,9 @@ void dooms::graphics::Mesh::CreateBufferObject
 			CreateVertexArrayObjectIfNotExist();
 		}
 
+		const UINT32 stride = Mesh::GetStride(vertexArrayFlag);
+		mStride = stride;
+
 		BindVertexArrayObject(); // bind vertex array buffer
 
 		D_DEBUG_LOG(eLogType::D_LOG, "%f", sizeof(FLOAT32) * dataComponentCount);
@@ -169,8 +172,7 @@ void dooms::graphics::Mesh::CreateBufferObject
 		BindVertexBufferObject();
 
 		UINT32 offset = 0;
-		const UINT32 stride = Mesh::GetStride(vertexArrayFlag);
-
+		
 #pragma warning( disable : 4312 )
 
 		D_ASSERT(((vertexArrayFlag & eVertexArrayFlag::VertexVector2)) > 0 != ((vertexArrayFlag & eVertexArrayFlag::VertexVector3) > 0));
@@ -251,7 +253,6 @@ void dooms::graphics::Mesh::CreateBufferObject
 		mPrimitiveType = primitiveType;
 		mVertexArrayFlag = vertexArrayFlag;
 
-		mStride = stride;
 	}
 }
 
@@ -289,6 +290,8 @@ void dooms::graphics::Mesh::CreateBufferObjectFromModelMesh(const ThreeDModelMes
 		{
 			CreateVertexArrayObjectIfNotExist();
 		}
+
+		mStride = GetStride(mVertexArrayFlag);
 
 		BindVertexArrayObject(); // bind vertex array buffer
 
@@ -352,8 +355,6 @@ void dooms::graphics::Mesh::CreateBufferObjectFromModelMesh(const ThreeDModelMes
 		mSphere = threeDModelMesh.mSphere;
 
 		mVertexArrayFlag = threeDModelMesh.mVertexArrayFlag;
-
-		mStride = GetStride(mVertexArrayFlag);
 
 		D_ASSERT(mPrimitiveType != GraphicsAPI::ePrimitiveType::NONE);
 

@@ -135,7 +135,8 @@ namespace dooms
 		/// </summary>
 		FORCE_INLINE void BindMaterial() const noexcept
 		{
-			if (mTargetMaterial != nullptr)
+			D_ASSERT(IsValid(mTargetMaterial));
+			if (IsValid(mTargetMaterial))
 			{
 				mTargetMaterial->UseProgram();
 			}
