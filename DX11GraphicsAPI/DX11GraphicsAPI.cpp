@@ -405,7 +405,7 @@ namespace dooms
                 UINT width = rc.right - rc.left;
                 UINT height = rc.bottom - rc.top;
 
-                UINT createDeviceFlags = 0;
+                UINT createDeviceFlags = (D3D11_CREATE_DEVICE_SINGLETHREADED | D3D11_CREATE_DEVICE_DISABLE_GPU_TIMEOUT);
 #ifdef _DEBUG
                 createDeviceFlags |= D3D11_CREATE_DEVICE_DEBUG;
 #endif
@@ -991,9 +991,6 @@ namespace dooms
 
 		DOOMS_ENGINE_GRAPHICS_API void SwapBuffer() noexcept
 		{
-
-            //dx11::g_pSwapChain->Present(dx11::SyncInterval, 0); // Swap Back buffer
-			
             MSG msg = { 0 };
             while (WM_QUIT != msg.message)
             {
@@ -1004,11 +1001,18 @@ namespace dooms
                 }
                 else
                 {
-                    dx11::g_pSwapChain->Present(dx11::SyncInterval, 0); // Swap Back buffer
+                    //dx11::g_pImmediateContext->Flush();
+                    HRESULT hr = dx11::g_pSwapChain->Present(dx11::SyncInterval, 0); // Swap Back buffer
+                    if(FAILED(hr))
+                    {
+                        hr = dx11::g_pd3dDevice->GetDeviceRemovedReason();
+                        assert(false);
+	                    //getdevicerea
+                    }
                     break;
                 }
             }
-            
+          
             dx11::DrawCallCounter = 0;
 		}
 
@@ -2043,10 +2047,7 @@ namespace dooms
                 assert(FAILED(hr) == false);
                 if (FAILED(hr))
                     return hr;
-
-                // Set the input layout
-                dx11::g_pImmediateContext->IASetInputLayout(vertexLayout);
-
+                
                 return reinterpret_cast<unsigned long long>(vertexLayout);
             }
             else
