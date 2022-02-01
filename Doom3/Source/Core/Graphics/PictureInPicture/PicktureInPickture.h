@@ -18,7 +18,7 @@ namespace dooms
 
 		private:
 
-			static inline Material mDefualtPIPMaterial{ };
+			static Material* mDefualtPIPMaterial;
 			D_PROPERTY()
 			Material* mPIPMaterial = nullptr;
 
