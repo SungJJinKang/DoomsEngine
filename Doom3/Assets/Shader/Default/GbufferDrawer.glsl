@@ -127,7 +127,7 @@ void main()
     
     for(int i = 0; i < maxDirLightCount; i++)
     {
-        if(i >= maxDirLightCount)
+        if(i >= dirLightCount)
         {
             break;
         }
