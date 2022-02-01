@@ -102,6 +102,9 @@ namespace dooms
 			std::array<ShaderTextData, GRAPHICS_PIPELINE_STAGE_COUNT> mShaderTextDatas;
 
 			D_PROPERTY()
+			graphics::BufferID mInputLayoutForD3D {};
+
+			D_PROPERTY()
 			std::array<ShaderObject, GRAPHICS_PIPELINE_STAGE_COUNT> mShaderObject;
 
 			D_PROPERTY()
@@ -116,6 +119,8 @@ namespace dooms
 			bool CompileShaders();
 			bool CompileSpecificTypeShader(ShaderTextData& shaderText, const graphics::GraphicsAPI::eGraphicsPipeLineStage shaderType, ShaderObject& shaderObject);
 			const std::vector<dooms::graphics::UniformBufferObject*>& GenerateUniformBufferObjectFromShaderReflectionData(const shaderReflectionDataParser::ShaderReflectionData& shaderReflectionData);
+
+			void CreateInputLayoutForD3D(dooms::asset::ShaderAsset* const shaderAsset);
 
 		public:
 
@@ -146,6 +151,11 @@ namespace dooms
 			);
 			*/
 
+			FORCE_INLINE const graphics::BufferID& GetInputLayoutForD3D() const
+			{
+				D_ASSERT(mInputLayoutForD3D.IsValid());
+				return mInputLayoutForD3D;
+			}
 			const std::string& GetShaderStringText(const dooms::graphics::GraphicsAPI::eGraphicsPipeLineStage targetGraphicsPipeLineStage) const;
 			const std::string& GetShaderReflectionDataStringText(const dooms::graphics::GraphicsAPI::eGraphicsPipeLineStage targetGraphicsPipeLineStage) const;
 			const shaderReflectionDataParser::ShaderReflectionData& GetShaderReflectionData(const dooms::graphics::GraphicsAPI::eGraphicsPipeLineStage targetGraphicsPipeLineStage) const;

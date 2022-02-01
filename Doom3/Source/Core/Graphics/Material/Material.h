@@ -83,16 +83,12 @@ namespace dooms
 			D_PROPERTY()
 			std::vector<UniformBufferObjectView> mTargetUniformBufferObjectViews;
 
-			D_PROPERTY()
-			BufferID mInputLayoutForD3D {};
 
 			bool AttachShaderToMaterial(dooms::asset::ShaderAsset* const shaderAsset, const dooms::graphics::GraphicsAPI::eGraphicsPipeLineStage shaderType);
 			void OnSetPendingKill() override;
 
 			UniformBufferObjectView* AddUniformBufferObjectView(UniformBufferObject* const ubo, const GraphicsAPI::eGraphicsPipeLineStage targetPipeLineStage);
-
-			void CreateInputLayoutForD3D(dooms::asset::ShaderAsset* const vertexShaderAsset);
-
+			
 		public:
 
 			Material();
