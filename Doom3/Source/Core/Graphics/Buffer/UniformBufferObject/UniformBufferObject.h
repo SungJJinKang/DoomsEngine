@@ -65,26 +65,18 @@ namespace dooms
 			(
 				const void* sourceData,
 				const UINT64 offsetInUniformBlock,
-				const UINT64 sizeOfSourceData,
-				const bool instantlyUpdateToGPU
+				const UINT64 sizeOfSourceData
 			)
 			{
 				D_ASSERT(IsBufferGenerated() == true);
 
 				std::memcpy(mUniformBufferLocalBuffer.get() + offsetInUniformBlock, sourceData, sizeOfSourceData);
-
-				if (instantlyUpdateToGPU == true)
-				{
-					GraphicsAPI::UpdateDataToBuffer(mUniformBufferObject, GraphicsAPI::eBufferTarget::UNIFORM_BUFFER, offsetInUniformBlock, sizeOfSourceData, mUniformBufferLocalBuffer.get());
-					bmIsDirty = false;
-				}
 			}
 
 			FORCE_INLINE void UpdateDataToGPU_Internal(const void* sourceData, const UINT64 offsetInUniformBlock, const UINT64 sizeOfSourceData) noexcept
 			{
 				D_ASSERT(IsBufferGenerated() == true);
 
-				UpdateLocalBuffer_Internal(sourceData, offsetInUniformBlock, sizeOfSourceData, false);
 				GraphicsAPI::UpdateDataToBuffer(mUniformBufferObject, GraphicsAPI::eBufferTarget::UNIFORM_BUFFER, offsetInUniformBlock, sizeOfSourceData, sourceData);
 			}
 			
@@ -165,8 +157,7 @@ namespace dooms
 			(
 				const void* sourceData,
 				const UINT64 offsetInUniformBlock,
-				const UINT64 sizeOfSourceData,
-				const bool instantlyUpdateToGPU
+				const UINT64 sizeOfSourceData
 			);
 
 			/// <summary>
@@ -180,6 +171,7 @@ namespace dooms
 
 				if (IsBufferGenerated() == true)
 				{
+					UpdateLocalBuffer_Internal(sourceData, offsetInUniformBlock, sizeOfSourceData);
 					UpdateDataToGPU_Internal(sourceData, offsetInUniformBlock, sizeOfSourceData);
 				}
 			}
@@ -191,6 +183,8 @@ namespace dooms
 				{
 					D_DEBUG_LOG(eLogType::D_WARNING, "Uniform buffer object is updated with string variable name. This is slow operation. Please pass offset directly");
 					const UINT64 offset = GetUniformVariableOffset(targetVariableName);
+
+					UpdateLocalBuffer_Internal(sourceData, offset, sizeOfSourceData);
 					UpdateDataToGPU_Internal(sourceData, offset, sizeOfSourceData);
 				}
 			}

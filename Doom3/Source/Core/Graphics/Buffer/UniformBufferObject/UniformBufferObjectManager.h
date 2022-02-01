@@ -39,7 +39,7 @@ namespace dooms
 			/// <summary>
 			/// Send Uniform Buffer Object to gpu ( Buffer Data )
 			/// </summary>
-			void BufferDateOfUniformBufferObjects();
+			void UpdateLocalBufferOfUnfiromBufferObjectToGPU();
 
 			/// <summary>
 			/// Update uniform Buffer Object's TempBuffer -> Buffer Data to gpu

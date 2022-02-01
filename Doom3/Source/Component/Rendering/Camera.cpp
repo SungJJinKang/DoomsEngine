@@ -423,8 +423,8 @@ void Camera::UpdateUniformBufferObject(const bool force)
 
 		if (IsValid(ubo))
 		{
-			ubo->UpdateDataToGPU((void*)projectionMatrix.data(), dooms::graphics::eUniformBlock_Global::projection, sizeof(projectionMatrix));
-			ubo->UpdateDataToGPU((void*)&mClippingPlaneNear, graphics::eUniformBlock_Global::camNear, sizeof(FLOAT32));
+			ubo->UpdateLocalBuffer((void*)projectionMatrix.data(), dooms::graphics::eUniformBlock_Global::projection, sizeof(projectionMatrix));
+			ubo->UpdateLocalBuffer((void*)&mClippingPlaneNear, graphics::eUniformBlock_Global::camNear, sizeof(FLOAT32));
 			ubo->UpdateDataToGPU((void*)&mClippingPlaneFar, graphics::eUniformBlock_Global::camFar, sizeof(FLOAT32));
 
 
@@ -433,9 +433,9 @@ void Camera::UpdateUniformBufferObject(const bool force)
 			const math::Vector3& camPos = transform->GetPosition();
 			auto& viewProjectionMatrix = GetViewProjectionMatrix();
 
-			ubo->UpdateDataToGPU((void*)viewMatrix.data(), graphics::eUniformBlock_Global::view, sizeof(viewMatrix));
-			ubo->UpdateDataToGPU((void*)camPos.data(), graphics::eUniformBlock_Global::camPos, sizeof(camPos));
-			ubo->UpdateDataToGPU((void*)viewProjectionMatrix.data(), graphics::eUniformBlock_Global::viewProjection, sizeof(viewProjectionMatrix));
+			ubo->UpdateLocalBuffer((void*)viewMatrix.data(), graphics::eUniformBlock_Global::view, sizeof(viewMatrix));
+			ubo->UpdateLocalBuffer((void*)camPos.data(), graphics::eUniformBlock_Global::camPos, sizeof(camPos));
+			ubo->UpdateLocalBuffer((void*)viewProjectionMatrix.data(), graphics::eUniformBlock_Global::viewProjection, sizeof(viewProjectionMatrix));
 		}
 	}
 }

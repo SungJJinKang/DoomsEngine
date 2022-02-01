@@ -163,8 +163,7 @@ void dooms::graphics::UniformBufferObject::UpdateLocalBuffer
 (
 	const void* sourceData,
 	const UINT64 offsetInUniformBlock,
-	const UINT64 sizeOfSourceData,
-	const bool instantlyUpdateToGPU
+	const UINT64 sizeOfSourceData
 )
 {
 	D_ASSERT(IsBufferGenerated() == true);
@@ -173,7 +172,7 @@ void dooms::graphics::UniformBufferObject::UpdateLocalBuffer
 	if(IsBufferGenerated() == true)
 	{
 		D_ASSERT(mUniformBufferLocalBuffer);
-		UpdateLocalBuffer_Internal(sourceData, offsetInUniformBlock, sizeOfSourceData, instantlyUpdateToGPU);
+		UpdateLocalBuffer_Internal(sourceData, offsetInUniformBlock, sizeOfSourceData);
 		bmIsDirty = true;
 	}
 }
