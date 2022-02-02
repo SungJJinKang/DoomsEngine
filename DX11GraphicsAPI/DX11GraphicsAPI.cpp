@@ -1302,7 +1302,7 @@ namespace dooms
             dx11::g_pImmediateContext->OMGetDepthStencilState(&state, &ref);
             state->GetDesc(&desc);
 
-            desc.DepthWriteMask = D3D11_DEPTH_WRITE_MASK::D3D11_DEPTH_WRITE_MASK_ZERO;
+            desc.DepthWriteMask = (isWriteDepthBuffer ? D3D11_DEPTH_WRITE_MASK::D3D11_DEPTH_WRITE_MASK_ALL : D3D11_DEPTH_WRITE_MASK::D3D11_DEPTH_WRITE_MASK_ZERO);
 
             state->Release();
             HRESULT hr = dx11::g_pd3dDevice->CreateDepthStencilState(&desc, &state);
