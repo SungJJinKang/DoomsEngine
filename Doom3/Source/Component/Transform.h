@@ -5,6 +5,7 @@
 #include "../Core/Math/LightMath_Cpp/Matrix4x4.h"
 #include "../Core/Math/LightMath_Cpp/Matrix_utility.h"
 #include "EasyDirtyChecker/DirtyReceiver.h"
+#include <Graphics/GraphicsAPI/graphicsAPIHelper.h>
 
 #include "Transform.reflection.h"
 namespace dooms
@@ -192,14 +193,14 @@ namespace dooms
 			return mRotation * math::Vector3::up;
 		}
 		
-		FORCE_INLINE void LookAt(const Transform& target, const math::Vector3& up) noexcept
+		FORCE_INLINE void LookAt(const Transform& target, const math::Vector3& up, const math::eCoordinateSystem coordinateSystem = dooms::graphics::graphicsAPIHelper::GetCurrentGraphicsAPICoordinateSystem()) noexcept
 		{
-			SetRotation(static_cast<math::Quaternion>(math::lookAt(mPosition, target.mPosition, up)));
+			SetRotation(static_cast<math::Quaternion>(math::lookAt(mPosition, target.mPosition, up, coordinateSystem)));
 		}
 
-		FORCE_INLINE void LookAt(const math::Vector3& targetPoint, const math::Vector3& up) noexcept
+		FORCE_INLINE void LookAt(const math::Vector3& targetPoint, const math::Vector3& up, const math::eCoordinateSystem coordinateSystem = dooms::graphics::graphicsAPIHelper::GetCurrentGraphicsAPICoordinateSystem()) noexcept
 		{
-			SetRotation(static_cast<math::Quaternion>(math::lookAt(mPosition, targetPoint, up)));
+			SetRotation(static_cast<math::Quaternion>(math::lookAt(mPosition, targetPoint, up, coordinateSystem)));
 		}
 		
 		FORCE_INLINE void Rotate(const math::Quaternion& quat, const eSpace& relativeTo) noexcept

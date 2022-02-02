@@ -1,8 +1,9 @@
 #include "WanderComponent.h"
 
 #include <Graphics/DebugGraphics/DebugDrawer.h>
+#include <Graphics/GraphicsAPI/graphicsAPIHelper.h>
 
-#define ARRIVE_DISTANCE 3.0f
+#define ARRIVE_DISTANCE 0.5f
 
 void dooms::WanderComponent::InitComponent()
 {
@@ -28,7 +29,7 @@ void dooms::WanderComponent::UpdateComponent()
 		if(mLookAtDestination == true)
 		{
 			auto upVector = math::cross(vecToDest.normalized(), -math::cross(vecToDest.normalized(), math::Vector3::up));
-			const math::Quaternion lookAtQuat = math::Quaternion::quatLookAt(vecToDest.normalized(), upVector);
+			const math::Quaternion lookAtQuat = math::Quaternion::quatLookAt(vecToDest.normalized(), upVector, dooms::graphics::graphicsAPIHelper::GetCurrentGraphicsAPICoordinateSystem());
 			GetTransform()->SetRotation(math::Quaternion::EulerAngleToQuaternion(mRotationEulerOffset * math::DEGREE_TO_RADIAN) * lookAtQuat);
 		}		
 	}

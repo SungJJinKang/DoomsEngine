@@ -86,20 +86,7 @@ namespace dooms
 		D_PROPERTY(CALLBACK="UpdateCallback")
 		FLOAT32 mViewportRectHeight = 1080.0f;
 		
-		DirtyReceiver bmIsProjectionMatrixDirty{ true };
-		DirtyReceiver bmIsViewMatrixDirty{ true };
-		DirtyReceiver bmIsViewProjectionMatrixDirty{ true };
-		DirtyReceiver bmIsModelViewProjectionMatrixDirty{ true };
-		DirtyReceiver bmIsFrustumPlaneMatrixDirty{ true };
-		math::Matrix4x4 mViewMatrix{nullptr};
-		math::Matrix4x4 mProjectionMatrix{ nullptr };
-		math::Matrix4x4 mViewProjectionMatrix{ nullptr };
-		math::Matrix4x4 mMovelViewProjectionMatrix{ nullptr };
-		std::array<math::Vector4, 6> mFrustumPlane{ nullptr, nullptr, nullptr, nullptr, nullptr, nullptr };
-
-		//graphics::ViewFrustum mViewFrumstum{};
-
-		const std::array<math::Vector4, 6>& CalculateFrustumPlane();
+		std::array<math::Vector4, 6> CalculateFrustumPlane(const math::eCoordinateSystem coordinateSystem = dooms::graphics::graphicsAPIHelper::GetCurrentGraphicsAPICoordinateSystem(), const math::eClipRange clipRange = dooms::graphics::graphicsAPIHelper::GetCurrentGraphicsAPIClipRange());
 		
 		virtual void InitComponent() final;
 		virtual void UpdateComponent() final;
@@ -179,37 +166,22 @@ namespace dooms
 		/// this function will be called at every frame
 		/// </summary>
 		/// <returns></returns>
-		const math::Matrix4x4& GetProjectionMatrix();
+		math::Matrix4x4 GetProjectionMatrix(const math::eCoordinateSystem coordinateSystem = dooms::graphics::graphicsAPIHelper::GetCurrentGraphicsAPICoordinateSystem(), const math::eClipRange clipRange = dooms::graphics::graphicsAPIHelper::GetCurrentGraphicsAPIClipRange());
 		/// <summary>
 		/// this function will be called at every frame
 		/// </summary>
 		/// <returns></returns>
-		FORCE_INLINE const math::Matrix4x4& GetViewMatrix()
+		FORCE_INLINE math::Matrix4x4 GetViewMatrix(const math::eCoordinateSystem coordinateSystem = dooms::graphics::graphicsAPIHelper::GetCurrentGraphicsAPICoordinateSystem())
 		{
-			if (bmIsViewMatrixDirty.GetIsDirty(true))
-			{
-				auto transform = GetTransform();
-				auto pos = transform->GetPosition();
-				auto forward = transform->forward();
-				auto up = transform->up();
-				mViewMatrix = math::lookAt(pos, pos + forward, up);
-				//mViewFrumstum.UpdateLookAt(pos, forward, up);
-
-			}
-
-			return mViewMatrix;
+			auto transform = GetTransform();
+			auto pos = transform->GetPosition();
+			auto forward = transform->forward();
+			auto up = transform->up();
+			return math::lookAt(pos, pos + forward, up, coordinateSystem);
 		}
-		FORCE_INLINE const math::Matrix4x4& GetViewProjectionMatrix()
+		FORCE_INLINE math::Matrix4x4 GetViewProjectionMatrix(const math::eCoordinateSystem coordinateSystem = dooms::graphics::graphicsAPIHelper::GetCurrentGraphicsAPICoordinateSystem(), const math::eClipRange clipRange = dooms::graphics::graphicsAPIHelper::GetCurrentGraphicsAPIClipRange())
 		{
-			if (bmIsViewProjectionMatrixDirty.GetIsDirty(true) )
-			{
-				mViewProjectionMatrix = GetProjectionMatrix() * GetViewMatrix();
-			}
-			return mViewProjectionMatrix;
-		}
-		FORCE_INLINE bool GetIsViewProjectionMatrixDirty() const
-		{
-			return static_cast<bool>(bmIsViewProjectionMatrixDirty);
+			return GetProjectionMatrix(coordinateSystem, clipRange) * GetViewMatrix(coordinateSystem);
 		}
 
 		NO_DISCARD math::Vector3 NDCToScreenPoint(const math::Vector3& ndcPoint);

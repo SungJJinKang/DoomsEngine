@@ -169,7 +169,7 @@ void dooms::graphics::Graphics_Server::CameraCullJob(dooms::Camera* const camera
 		std::atomic_thread_fence(std::memory_order_acquire);
 
 		culling::EveryCulling::GlobalDataForCullJob cullingSettingParameters;
-		std::memcpy(cullingSettingParameters.mViewProjectionMatrix.data(), camera->GetViewProjectionMatrix().data(), sizeof(culling::Mat4x4));
+		std::memcpy(cullingSettingParameters.mViewProjectionMatrix.data(), camera->GetViewProjectionMatrix(math::eCoordinateSystem::RIGHT_HAND, math::eClipRange::CLIP_RANGE_NEGATIVE_ONE_TO_ONE).data(), sizeof(culling::Mat4x4));
 		cullingSettingParameters.mFieldOfViewInDegree = camera->GetFieldOfViewInDegree();
 		cullingSettingParameters.mCameraFarPlaneDistance = camera->GetClippingPlaneFar();
 		cullingSettingParameters.mCameraNearPlaneDistance = camera->GetClippingPlaneNear();
