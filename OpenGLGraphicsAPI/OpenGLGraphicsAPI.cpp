@@ -6,8 +6,8 @@
 #include "stdio.h"
 #include <Windows.h>
 
-#include <glad/glad.h>
-#include <GLFW/glfw3.h>
+#include "glad/glad.h"
+#include "GLFW/glfw3.h"
 
 
 #define OPENGL_MAJOR_VERSION 4

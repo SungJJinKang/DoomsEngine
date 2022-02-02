@@ -2,9 +2,7 @@
 
 #include <cassert>
 
-#include <glad/glad.h>
-#include <GLFW/glfw3.h>
-
+#include "GLFW/glfw3.h"
 
 #undef NEVER_HAPPEN
 #ifdef _DEBUG
