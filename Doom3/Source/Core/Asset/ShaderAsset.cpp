@@ -500,7 +500,7 @@ namespace dooms::graphics::dx11
 		case asset::shaderReflectionDataParser::eShaderVariableType::UINT4:
 			return DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_UINT;
 		default:
-			D_ASSERT(false);
+			NEVER_HAPPEN;
 		}
 	}
 }
