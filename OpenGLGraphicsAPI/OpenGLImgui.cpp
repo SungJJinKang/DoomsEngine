@@ -11,7 +11,7 @@
 
 namespace dooms
 {
-	namespace input
+	namespace imgui
 	{
 		DOOMS_ENGINE_GRAPHICS_API bool InitializePlatformImgui(void* platformWindow, const char* apiVersion, ImGuiContext* const imGuiContext, ImGuiMemAllocFunc p_alloc_func, ImGuiMemFreeFunc p_free_func, void* p_user_data)
 		{

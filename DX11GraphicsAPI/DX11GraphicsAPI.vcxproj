@@ -34,6 +34,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DX11GraphicsAPI.h" />
+    <ClInclude Include="DX11GraphicsAPIInput.h" />
+    <ClInclude Include="DX11Imgui.h" />
     <ClInclude Include="imgui\backends\imgui_impl_dx11.h" />
     <ClInclude Include="imgui\backends\imgui_impl_win32.h" />
     <ClInclude Include="imgui\imconfig.h" />
