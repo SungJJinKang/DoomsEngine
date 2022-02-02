@@ -246,20 +246,29 @@ dooms::Camera* dooms::Camera::GetMainCamera()
 
 math::Matrix4x4 dooms::Camera::GetProjectionMatrix()
 {
+	math::Matrix4x4 result{ nullptr };
 	if (mProjectionMode == eProjectionType::Perspective)
 	{
-		return math::perspectiveFov(mFieldOfViewInDegree * math::DEGREE_TO_RADIAN, static_cast<FLOAT32>(graphics::graphicsAPISetting::GetScreenWidth()), static_cast<FLOAT32>(graphics::graphicsAPISetting::GetScreenHeight()), mClippingPlaneNear, mClippingPlaneFar);
+		result = math::perspectiveFov(mFieldOfViewInDegree * math::DEGREE_TO_RADIAN, static_cast<FLOAT32>(graphics::graphicsAPISetting::GetScreenWidth()), static_cast<FLOAT32>(graphics::graphicsAPISetting::GetScreenHeight()), mClippingPlaneNear, mClippingPlaneFar);
 		//mViewFrumstum.SetCamera(mFieldOfViewInRadian, dooms::graphics::Graphics_Server::GetScreenRatio(), mClippingPlaneNear, mClippingPlaneFar);
 	}
 	else if (mProjectionMode == eProjectionType::Orthographic)
 	{
-		return math::ortho(mViewportRectX, mViewportRectX + mViewportRectWidth, mViewportRectY, mViewportRectY + mViewportRectHeight, mClippingPlaneNear, mClippingPlaneFar);
+		result = math::ortho(mViewportRectX, mViewportRectX + mViewportRectWidth, mViewportRectY, mViewportRectY + mViewportRectHeight, mClippingPlaneNear, mClippingPlaneFar);
 		//mViewFrumstum.SetCamera(180.0f * math::DEGREE_TO_RADIAN, dooms::graphics::Graphics_Server::GetScreenRatio(), mClippingPlaneNear, mClippingPlaneFar);
 	}
 	else
 	{
 		NEVER_HAPPEN;
 	}
+
+	if(dooms::graphics::GraphicsAPI::GetCurrentAPIType() == graphics::GraphicsAPI::eGraphicsAPIType::DX11_10)
+	{
+		static const math::Matrix4x4 zOffsetForD3D = math::scale(math::Vector3{ 1.0f, 1.0f, 0.5f }) * math::translate(math::Vector3{ 0, 0, 1.0f });
+		result = zOffsetForD3D * result;
+	}
+
+	return result;
 }
 
 void dooms::Camera::OnDestroy()
