@@ -1074,14 +1074,16 @@ namespace dooms
 		}
 
 
+		/*
 		/**
 		 * \brief
 		 * \return elapsed time since GLFW was initilized
-		 */
+		 #1#
 		DOOMS_ENGINE_GRAPHICS_API double GetTime()
 		{
 			return glfwGetTime();
 		}
+		*/
 
 		DOOMS_ENGINE_GRAPHICS_API GraphicsAPI::eGraphicsAPIType GetCurrentAPIType()
 		{

@@ -8,7 +8,7 @@
 #include <Rendering/Renderer/Renderer.h>
 #include <EngineGUI/PrintText.h>
 #include "IO/UserInput_Server.h"
-
+#include <Time/MainTimer.h>
 
 
 void dooms::graphics::RenderingDebugger::DrawRenderingBoundingBox()
@@ -25,7 +25,7 @@ void dooms::graphics::RenderingDebugger::DrawRenderingBoundingBox()
 
 void dooms::graphics::RenderingDebugger::UpdateFPS()
 {
-	FLOAT64 currentTime = dooms::graphics::GraphicsAPI::GetTime();
+	FLOAT64 currentTime = MainTimer::GetSingleton()->GetCurrentTime();
 	FrameCount++;
 
 	const FLOAT64 timeInterval = currentTime - LastTIme;

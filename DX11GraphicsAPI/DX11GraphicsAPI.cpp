@@ -934,11 +934,12 @@ namespace dooms
             dx11::g_pImmediateContext->Flush();
 		}
 
-        DOOMS_ENGINE_GRAPHICS_API GraphicsAPI::eGraphicsAPIType GetCuurentAPIType()
+        DOOMS_ENGINE_GRAPHICS_API GraphicsAPI::eGraphicsAPIType GetCurrentAPIType()
         {
             return GraphicsAPI::eGraphicsAPIType::DX11_10;
         }
 
+		/*
 		DOOMS_ENGINE_GRAPHICS_API double GetTime()
 		{
             __int64 currTime;
@@ -946,11 +947,7 @@ namespace dooms
             
 			return currTime;
 		}
-
-        DOOMS_ENGINE_GRAPHICS_API GraphicsAPI::eGraphicsAPIType GetCurrentAPIType()
-        {
-            return GraphicsAPI::eGraphicsAPIType::DX11_10;
-        }
+		*/
 
 		DOOMS_ENGINE_GRAPHICS_API unsigned int InitializeGraphicsAPI(const int screenWidth, const int screenHeight, const unsigned int multiSamplingNum)
 		{

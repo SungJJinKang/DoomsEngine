@@ -65,9 +65,6 @@ namespace dooms
 			typedef void* (DOOMS_ENGINE_API_ENTRY_P GRAPHICS_GETPLATFORMWINDOW)(void);
 			extern GRAPHICS_GETPLATFORMWINDOW GetPlatformWindow;
 
-			typedef double (DOOMS_ENGINE_API_ENTRY_P GRAPHICS_GETTIME)(void);
-			extern GRAPHICS_GETTIME GetTime;
-
 			enum eBufferBitType : unsigned int
 			{
 				COLOR_BUFFER = 1, // = GL_COLOR_BUFFER_BIT,
