@@ -58,7 +58,7 @@ namespace dooms
 			/// Frame Dependent Delta time
 			///  Don't use at FixedUpdate, Use at Update
 			/// </summary>
-			NO_DISCARD FORCE_INLINE FLOAT32 GetDeltaTime() noexcept
+			NO_DISCARD FORCE_INLINE FLOAT64 GetDeltaTime() noexcept
 			{
 				return MainTimer::mFrameTime.mDeltaTime ;
 			}
@@ -66,12 +66,12 @@ namespace dooms
 			/// <summary>
 			/// Don't use at Update, Use at FixedUpdate
 			/// </summary>
-			NO_DISCARD FORCE_INLINE FLOAT32 GetFixedDeltaTime() noexcept
+			NO_DISCARD FORCE_INLINE FLOAT64 GetFixedDeltaTime() noexcept
 			{
 				return MainTimer::mFixedTime.mDeltaTime;
 			}
 
-			NO_DISCARD FORCE_INLINE FLOAT32 GetCurrentFrame() noexcept
+			NO_DISCARD FORCE_INLINE FLOAT64 GetCurrentFrame() noexcept
 			{
 				return MainTimer::CurrentFrame;
 			}
