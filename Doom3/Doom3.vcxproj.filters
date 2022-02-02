@@ -786,6 +786,9 @@
     <ClCompile Include="Source\Core\IO\AssetIOWorker.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Core\Graphics\GraphicsAPI\graphicsAPIHelper.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="dependency\glad\include\glad\glad.h">
@@ -1962,6 +1965,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\Core\IO\AssetIOWorker.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Core\Graphics\GraphicsAPI\graphicsAPIHelper.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
