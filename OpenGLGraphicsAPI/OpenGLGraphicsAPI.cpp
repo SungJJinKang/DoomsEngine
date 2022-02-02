@@ -14,11 +14,18 @@
 #define OPENGL_MINOR_VERSION 6
 
 #undef NEVER_HAPPEN
-#ifdef _DEBUG
+
+#if defined(_DEBUG)
 #define NEVER_HAPPEN assert(false)
-#else
+#elif (!defined(_DEBUG)) && defined(_MSC_VER)
 #define NEVER_HAPPEN __assume(0)
+#elif (!defined(_DEBUG)) && defined(__clang__)
+#define NEVER_HAPPEN __builtin_unreachable()
+#else
+#error Unsupported compiler ( Please Use msvc or clang )
 #endif
+
+
 
 
 namespace dooms
