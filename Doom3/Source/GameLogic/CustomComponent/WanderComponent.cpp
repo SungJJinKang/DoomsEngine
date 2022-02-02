@@ -29,7 +29,7 @@ void dooms::WanderComponent::UpdateComponent()
 		if(mLookAtDestination == true)
 		{
 			auto upVector = math::cross(vecToDest.normalized(), -math::cross(vecToDest.normalized(), math::Vector3::up));
-			const math::Quaternion lookAtQuat = math::Quaternion::quatLookAt(vecToDest.normalized(), upVector, dooms::graphics::graphicsAPIHelper::GetCurrentGraphicsAPICoordinateSystem());
+			const math::Quaternion lookAtQuat = math::Quaternion::quatLookAt(vecToDest.normalized(), upVector);
 			GetTransform()->SetRotation(math::Quaternion::EulerAngleToQuaternion(mRotationEulerOffset * math::DEGREE_TO_RADIAN) * lookAtQuat);
 		}		
 	}

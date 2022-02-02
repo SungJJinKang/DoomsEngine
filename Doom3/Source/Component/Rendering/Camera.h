@@ -86,7 +86,7 @@ namespace dooms
 		D_PROPERTY(CALLBACK="UpdateCallback")
 		FLOAT32 mViewportRectHeight = 1080.0f;
 		
-		std::array<math::Vector4, 6> CalculateFrustumPlane(const math::eCoordinateSystem coordinateSystem = dooms::graphics::graphicsAPIHelper::GetCurrentGraphicsAPICoordinateSystem(), const math::eClipRange clipRange = dooms::graphics::graphicsAPIHelper::GetCurrentGraphicsAPIClipRange());
+		std::array<math::Vector4, 6> CalculateFrustumPlane();
 		
 		virtual void InitComponent() final;
 		virtual void UpdateComponent() final;
@@ -166,22 +166,22 @@ namespace dooms
 		/// this function will be called at every frame
 		/// </summary>
 		/// <returns></returns>
-		math::Matrix4x4 GetProjectionMatrix(const math::eCoordinateSystem coordinateSystem = dooms::graphics::graphicsAPIHelper::GetCurrentGraphicsAPICoordinateSystem(), const math::eClipRange clipRange = dooms::graphics::graphicsAPIHelper::GetCurrentGraphicsAPIClipRange());
+		math::Matrix4x4 GetProjectionMatrix();
 		/// <summary>
 		/// this function will be called at every frame
 		/// </summary>
 		/// <returns></returns>
-		FORCE_INLINE math::Matrix4x4 GetViewMatrix(const math::eCoordinateSystem coordinateSystem = dooms::graphics::graphicsAPIHelper::GetCurrentGraphicsAPICoordinateSystem())
+		FORCE_INLINE math::Matrix4x4 GetViewMatrix()
 		{
-			auto transform = GetTransform();
-			auto pos = transform->GetPosition();
-			auto forward = transform->forward();
-			auto up = transform->up();
-			return math::lookAt(pos, pos + forward, up, coordinateSystem);
+			const dooms::Transform* const transform = GetTransform();
+			const math::Vector3& pos = transform->GetPosition();
+			const math::Vector3 forward = transform->forward();
+			const math::Vector3 up = transform->up();
+			return math::lookAt(pos, pos + forward, up);
 		}
-		FORCE_INLINE math::Matrix4x4 GetViewProjectionMatrix(const math::eCoordinateSystem coordinateSystem = dooms::graphics::graphicsAPIHelper::GetCurrentGraphicsAPICoordinateSystem(), const math::eClipRange clipRange = dooms::graphics::graphicsAPIHelper::GetCurrentGraphicsAPIClipRange())
+		FORCE_INLINE math::Matrix4x4 GetViewProjectionMatrix()
 		{
-			return GetProjectionMatrix(coordinateSystem, clipRange) * GetViewMatrix(coordinateSystem);
+			return GetProjectionMatrix() * GetViewMatrix();
 		}
 
 		NO_DISCARD math::Vector3 NDCToScreenPoint(const math::Vector3& ndcPoint);

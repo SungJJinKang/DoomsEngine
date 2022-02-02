@@ -136,9 +136,9 @@ bool dooms::Camera::GetIsCullJobEnabled() const
 }
 
 
-std::array<math::Vector4, 6> dooms::Camera::CalculateFrustumPlane(const math::eCoordinateSystem coordinateSystem, const math::eClipRange clipRange)
+std::array<math::Vector4, 6> dooms::Camera::CalculateFrustumPlane()
 {
-	const math::Matrix4x4 viewProjectionMatrix = GetViewProjectionMatrix(coordinateSystem, clipRange);
+	const math::Matrix4x4 viewProjectionMatrix = GetViewProjectionMatrix();
 
 	std::array<math::Vector4, 6> frustumPlane{ nullptr, nullptr, nullptr, nullptr, nullptr, nullptr };
 	// Left Frustum Plane
@@ -244,16 +244,16 @@ dooms::Camera* dooms::Camera::GetMainCamera()
 /// </summary>
 /// <returns></returns>
 
-math::Matrix4x4 dooms::Camera::GetProjectionMatrix(const math::eCoordinateSystem coordinateSystem, const math::eClipRange clipRange)
+math::Matrix4x4 dooms::Camera::GetProjectionMatrix()
 {
 	if (mProjectionMode == eProjectionType::Perspective)
 	{
-		return math::perspectiveFov(mFieldOfViewInDegree * math::DEGREE_TO_RADIAN, static_cast<FLOAT32>(graphics::graphicsAPISetting::GetScreenWidth()), static_cast<FLOAT32>(graphics::graphicsAPISetting::GetScreenHeight()), mClippingPlaneNear, mClippingPlaneFar, coordinateSystem, clipRange);
+		return math::perspectiveFov(mFieldOfViewInDegree * math::DEGREE_TO_RADIAN, static_cast<FLOAT32>(graphics::graphicsAPISetting::GetScreenWidth()), static_cast<FLOAT32>(graphics::graphicsAPISetting::GetScreenHeight()), mClippingPlaneNear, mClippingPlaneFar);
 		//mViewFrumstum.SetCamera(mFieldOfViewInRadian, dooms::graphics::Graphics_Server::GetScreenRatio(), mClippingPlaneNear, mClippingPlaneFar);
 	}
 	else if (mProjectionMode == eProjectionType::Orthographic)
 	{
-		return math::ortho(mViewportRectX, mViewportRectX + mViewportRectWidth, mViewportRectY, mViewportRectY + mViewportRectHeight, mClippingPlaneNear, mClippingPlaneFar, coordinateSystem, clipRange);
+		return math::ortho(mViewportRectX, mViewportRectX + mViewportRectWidth, mViewportRectY, mViewportRectY + mViewportRectHeight, mClippingPlaneNear, mClippingPlaneFar);
 		//mViewFrumstum.SetCamera(180.0f * math::DEGREE_TO_RADIAN, dooms::graphics::Graphics_Server::GetScreenRatio(), mClippingPlaneNear, mClippingPlaneFar);
 	}
 	else

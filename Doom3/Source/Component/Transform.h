@@ -193,14 +193,14 @@ namespace dooms
 			return mRotation * math::Vector3::up;
 		}
 		
-		FORCE_INLINE void LookAt(const Transform& target, const math::Vector3& up, const math::eCoordinateSystem coordinateSystem = dooms::graphics::graphicsAPIHelper::GetCurrentGraphicsAPICoordinateSystem()) noexcept
+		FORCE_INLINE void LookAt(const Transform& target, const math::Vector3& up) noexcept
 		{
-			SetRotation(static_cast<math::Quaternion>(math::lookAt(mPosition, target.mPosition, up, coordinateSystem)));
+			SetRotation(static_cast<math::Quaternion>(math::lookAt(mPosition, target.mPosition, up)));
 		}
 
-		FORCE_INLINE void LookAt(const math::Vector3& targetPoint, const math::Vector3& up, const math::eCoordinateSystem coordinateSystem = dooms::graphics::graphicsAPIHelper::GetCurrentGraphicsAPICoordinateSystem()) noexcept
+		FORCE_INLINE void LookAt(const math::Vector3& targetPoint, const math::Vector3& up) noexcept
 		{
-			SetRotation(static_cast<math::Quaternion>(math::lookAt(mPosition, targetPoint, up, coordinateSystem)));
+			SetRotation(static_cast<math::Quaternion>(math::lookAt(mPosition, targetPoint, up)));
 		}
 		
 		FORCE_INLINE void Rotate(const math::Quaternion& quat, const eSpace& relativeTo) noexcept

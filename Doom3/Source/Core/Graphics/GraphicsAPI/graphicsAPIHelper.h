@@ -10,6 +10,7 @@ namespace dooms
 	{
 		namespace graphicsAPIHelper
 		{
+			/*
 			FORCE_INLINE math::eClipRange GetCurrentGraphicsAPIClipRange()
 			{
 				static const GraphicsAPI::eGraphicsAPIType currentAPIType = graphics::GraphicsAPI::GetCurrentAPIType();
@@ -19,7 +20,7 @@ namespace dooms
 				case GraphicsAPI::eGraphicsAPIType::OpenGL: 
 					return math::eClipRange::CLIP_RANGE_NEGATIVE_ONE_TO_ONE;
 				case GraphicsAPI::eGraphicsAPIType::DX11_10: 
-					return math::eClipRange::CLIP_RANGE_ZERO_TO_ONE;
+					return math::eClipRange::CLIP_RANGE_NEGATIVE_ONE_TO_ONE;
 				default:
 					NEVER_HAPPEN;
 				}
@@ -34,11 +35,13 @@ namespace dooms
 				case GraphicsAPI::eGraphicsAPIType::OpenGL:
 					return math::eCoordinateSystem::RIGHT_HAND;
 				case GraphicsAPI::eGraphicsAPIType::DX11_10:
-					return math::eCoordinateSystem::LEFT_HAND;
+					return math::eCoordinateSystem::RIGHT_HAND;
+					//return math::eCoordinateSystem::LEFT_HAND;
 				default:
 					NEVER_HAPPEN;
 				}
 			}
+			*/
 		}
 	}
 }
