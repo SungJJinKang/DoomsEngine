@@ -1,4 +1,6 @@
-﻿#include "Input/GraphicsAPIInput.h"
+﻿#include "DX11GraphicsAPIInput.h"
+
+#include "Input/GraphicsAPIInput.h"
 
 #include <cassert>
 
@@ -41,16 +43,9 @@ namespace dooms
 			static input::GraphicsAPIInput::Scroll_Callback mScroll_Callback = nullptr;
 			static input::GraphicsAPIInput::Key_Callback mKey_Callback = nullptr;
 			static input::GraphicsAPIInput::MouseButton_Callback mMouseButton_Callback = nullptr;
+			
 
-			LRESULT MsgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
-			LRESULT CALLBACK MainWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
-			{
-				// Forward hwnd on because we can get messages (e.g., WM_CREATE)
-				// before CreateWindow returns, and thus before m_hMainWnd is valid.
-				return MsgProc(hwnd, msg, wParam, lParam);
-			}
-
-			LRESULT MsgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
+			LRESULT WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 			{
 				switch (msg)
 				{
@@ -145,11 +140,6 @@ namespace dooms
 					return 0;
 					*/
 
-					// WM_DESTROY is sent when the window is being destroyed.
-				case WM_DESTROY:
-					PostQuitMessage(0);
-					return 0;
-
 					// The WM_MENUCHAR message is sent when a menu is active and the user presses 
 					// a key that does not correspond to any mnemonic or accelerator key. 
 				case WM_MENUCHAR:
@@ -192,9 +182,10 @@ namespace dooms
 					dx11::DX11Mouse->ProcessMessage(msg, wParam, lParam);
 					dx11::DX11Keyboard->ProcessMessage(msg, wParam, lParam);
 					return 0;
-				}
 
-				return DefWindowProc(hwnd, msg, wParam, lParam);
+				default:
+						return 0;
+				}
 			}
 			
 			FORCE_INLINE extern dooms::input::GraphicsAPIInput::eKEY_CODE Convert_GLKeyCode_To_eKeyCode(const DirectX::Keyboard::Keys keyCode)
