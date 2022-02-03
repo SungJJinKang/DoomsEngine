@@ -9,7 +9,7 @@
   * C++17
   * C# ( used for making engine tools )    
   * Target Compiler : MSVC ( clang is used for generating reflection data )
-  * Supported Graphics API : OpenGL, DIRECTX 11
+  * Supported Graphics API : OpenGL, DIRECTX 11 ( 80% )
   * Component based System
   * Deferred Rendering ( [video](https://youtu.be/TU9P8gcKsi8) )
   * Homemade Math Library ( [source code](https://github.com/SungJJinKang/LightMath_Cpp) )     
@@ -32,6 +32,7 @@
   
 ## Currently working on     
    
+  * implement D3D11
   * implement Hierarchical Shadow map
    
 ## To Develop
