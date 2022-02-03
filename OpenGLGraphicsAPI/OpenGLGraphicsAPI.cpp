@@ -1092,7 +1092,7 @@ namespace dooms
 		}
 		*/
 
-		DOOMS_ENGINE_GRAPHICS_API GraphicsAPI::eGraphicsAPIType GetCurrentAPIType()
+		DOOMS_ENGINE_GRAPHICS_API GraphicsAPI::eGraphicsAPIType _GetCurrentAPIType()
 		{
 			return GraphicsAPI::eGraphicsAPIType::OpenGL;
 		}

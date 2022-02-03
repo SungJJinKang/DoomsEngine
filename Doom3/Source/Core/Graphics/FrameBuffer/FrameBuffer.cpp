@@ -4,6 +4,7 @@
 #include <Math/LightMath_Cpp/Utility.h>
 #include "Graphics/GraphicsAPI/graphicsAPISetting.h"
 #include <Graphics/Texture/TextureView.h>
+#include <Graphics/GraphicsAPI/Manager/GraphicsAPIManager.h>
 
 dooms::graphics::FrameBuffer::FrameBuffer()
 	: mDefaultWidth{ 0 }, mDefaultHeight{ 0 }, mFrameBufferIDForOPENGL{}, mAttachedColorTextureViews{}, mAttachedDepthStencilTextureView{nullptr}
@@ -17,7 +18,7 @@ dooms::graphics::FrameBuffer::FrameBuffer(UINT32 defaultWidth, UINT32 defaultHei
 
 void dooms::graphics::FrameBuffer::GenerateFrameBuffer()
 {
-	if(dooms::graphics::GraphicsAPI::GetCurrentAPIType() == dooms::graphics::GraphicsAPI::eGraphicsAPIType::OpenGL)
+	if(dooms::graphics::GraphicsAPIManager::GetCurrentAPIType() == dooms::graphics::GraphicsAPI::eGraphicsAPIType::OpenGL)
 	{
 		mFrameBufferIDForOPENGL = GraphicsAPI::GenerateFrameBuffer();
 	}
@@ -38,7 +39,7 @@ void dooms::graphics::FrameBuffer::StaticBindFrameBuffer(const FrameBuffer* cons
 	}
 	else
 	{
-		if (GraphicsAPI::GetCurrentAPIType() == GraphicsAPI::eGraphicsAPIType::OpenGL)
+		if (GraphicsAPIManager::GetCurrentAPIType() == GraphicsAPI::eGraphicsAPIType::OpenGL)
 		{
 			unsigned long long frameBufferID[1];
 			frameBufferID[0] = frameBuffer->GetFrameBufferIDForOPENGL();
@@ -61,7 +62,7 @@ void dooms::graphics::FrameBuffer::StaticBindFrameBuffer(const FrameBuffer* cons
 			*/
 
 		}
-		else if (GraphicsAPI::GetCurrentAPIType() == GraphicsAPI::eGraphicsAPIType::DX11_10)
+		else if (GraphicsAPIManager::GetCurrentAPIType() == GraphicsAPI::eGraphicsAPIType::DX11_10)
 		{
 			unsigned long long renderTargetViewList[15];
 			INT32 renderTargetViewCount = 0;
@@ -143,7 +144,7 @@ bool dooms::graphics::FrameBuffer::IsGenerated()
 
 INT32 dooms::graphics::FrameBuffer::GetFrameBufferWidth() const
 {
-	if (dooms::graphics::GraphicsAPI::GetCurrentAPIType() == dooms::graphics::GraphicsAPI::eGraphicsAPIType::OpenGL)
+	if (dooms::graphics::GraphicsAPIManager::GetCurrentAPIType() == dooms::graphics::GraphicsAPI::eGraphicsAPIType::OpenGL)
 	{
 		return graphics::GraphicsAPI::GetFrameBufferWidth(mFrameBufferIDForOPENGL);
 	}
@@ -157,7 +158,7 @@ INT32 dooms::graphics::FrameBuffer::GetFrameBufferWidth() const
 
 INT32 dooms::graphics::FrameBuffer::GetFrameBufferHeight() const
 {
-	if (dooms::graphics::GraphicsAPI::GetCurrentAPIType() == dooms::graphics::GraphicsAPI::eGraphicsAPIType::OpenGL)
+	if (dooms::graphics::GraphicsAPIManager::GetCurrentAPIType() == dooms::graphics::GraphicsAPI::eGraphicsAPIType::OpenGL)
 	{
 		return graphics::GraphicsAPI::GetFrameBufferHeight(mFrameBufferIDForOPENGL);
 	}
@@ -229,7 +230,7 @@ void dooms::graphics::FrameBuffer::BlitFrameBufferFromToFrameBuffer
 	//D_ASSERT(drawFrameBuffer != INVALID_BUFFER_ID);
 
 
-	if (graphics::GraphicsAPI::GetCurrentAPIType() == graphics::GraphicsAPI::eGraphicsAPIType::OpenGL)
+	if (graphics::GraphicsAPIManager::GetCurrentAPIType() == graphics::GraphicsAPI::eGraphicsAPIType::OpenGL)
 	{
 		GraphicsAPI::BlitFrameBuffer
 		(
@@ -239,7 +240,7 @@ void dooms::graphics::FrameBuffer::BlitFrameBufferFromToFrameBuffer
 			mask, filter
 		);
 	}
-	else if (graphics::GraphicsAPI::GetCurrentAPIType() == graphics::GraphicsAPI::eGraphicsAPIType::DX11_10)
+	else if (graphics::GraphicsAPIManager::GetCurrentAPIType() == graphics::GraphicsAPI::eGraphicsAPIType::DX11_10)
 	{
 		if ((mask & GraphicsAPI::COLOR_BUFFER) != 0)
 		{
@@ -521,11 +522,11 @@ void dooms::graphics::FrameBuffer::ClearColorTexture
 	const float a
 ) const
 {
-	if (GraphicsAPI::GetCurrentAPIType() == GraphicsAPI::eGraphicsAPIType::OpenGL)
+	if (GraphicsAPIManager::GetCurrentAPIType() == GraphicsAPI::eGraphicsAPIType::OpenGL)
 	{
 		GraphicsAPI::ClearFrameBufferColorBuffer(mFrameBufferIDForOPENGL, bindingPosition, r, g, b, a);
 	}
-	else if (GraphicsAPI::GetCurrentAPIType() == GraphicsAPI::eGraphicsAPIType::DX11_10)
+	else if (GraphicsAPIManager::GetCurrentAPIType() == GraphicsAPI::eGraphicsAPIType::DX11_10)
 	{
 		D_ASSERT(mAttachedColorTextureViews.size() > bindingPosition && IsValid(mAttachedColorTextureViews[bindingPosition]) && mAttachedColorTextureViews[bindingPosition]->IsValid());
 		if (mAttachedColorTextureViews.size() > bindingPosition && IsValid(mAttachedColorTextureViews[bindingPosition]) && mAttachedColorTextureViews[bindingPosition]->IsValid())
@@ -538,7 +539,7 @@ void dooms::graphics::FrameBuffer::ClearColorTexture
 
 void dooms::graphics::FrameBuffer::ClrearDepthTexture(const float depthValue) const
 {
-	if (GraphicsAPI::GetCurrentAPIType() == GraphicsAPI::eGraphicsAPIType::OpenGL)
+	if (GraphicsAPIManager::GetCurrentAPIType() == GraphicsAPI::eGraphicsAPIType::OpenGL)
 	{
 		D_ASSERT(mFrameBufferIDForOPENGL.IsValid());
 		if (mFrameBufferIDForOPENGL.IsValid())
@@ -546,7 +547,7 @@ void dooms::graphics::FrameBuffer::ClrearDepthTexture(const float depthValue) co
 			GraphicsAPI::ClearFrameBufferDepthBuffer(mFrameBufferIDForOPENGL, depthValue);
 		}
 	}
-	else if (GraphicsAPI::GetCurrentAPIType() == GraphicsAPI::eGraphicsAPIType::DX11_10)
+	else if (GraphicsAPIManager::GetCurrentAPIType() == GraphicsAPI::eGraphicsAPIType::DX11_10)
 	{
 		D_ASSERT(IsValid(mAttachedDepthStencilTextureView) && mAttachedDepthStencilTextureView->IsValid());
 		if (IsValid(mAttachedDepthStencilTextureView) && mAttachedDepthStencilTextureView->IsValid())
@@ -558,7 +559,7 @@ void dooms::graphics::FrameBuffer::ClrearDepthTexture(const float depthValue) co
 
 void dooms::graphics::FrameBuffer::ClrearStencilexture(const int stencilValue) const
 {
-	if (GraphicsAPI::GetCurrentAPIType() == GraphicsAPI::eGraphicsAPIType::OpenGL)
+	if (GraphicsAPIManager::GetCurrentAPIType() == GraphicsAPI::eGraphicsAPIType::OpenGL)
 	{
 		D_ASSERT(mFrameBufferIDForOPENGL.IsValid());
 		if (mFrameBufferIDForOPENGL.IsValid())
@@ -566,7 +567,7 @@ void dooms::graphics::FrameBuffer::ClrearStencilexture(const int stencilValue) c
 			GraphicsAPI::ClearFrameBufferStencilBuffer(mFrameBufferIDForOPENGL, stencilValue);
 		}
 	}
-	else if (GraphicsAPI::GetCurrentAPIType() == GraphicsAPI::eGraphicsAPIType::DX11_10)
+	else if (GraphicsAPIManager::GetCurrentAPIType() == GraphicsAPI::eGraphicsAPIType::DX11_10)
 	{
 		D_ASSERT(IsValid(mAttachedDepthStencilTextureView) && mAttachedDepthStencilTextureView->IsValid());
 		if (IsValid(mAttachedDepthStencilTextureView) && mAttachedDepthStencilTextureView->IsValid())
@@ -578,7 +579,7 @@ void dooms::graphics::FrameBuffer::ClrearStencilexture(const int stencilValue) c
 
 void dooms::graphics::FrameBuffer::ClrearDepthStencilTexture(const float depthValue, const int stencilValue) const
 {
-	if (GraphicsAPI::GetCurrentAPIType() == GraphicsAPI::eGraphicsAPIType::OpenGL)
+	if (GraphicsAPIManager::GetCurrentAPIType() == GraphicsAPI::eGraphicsAPIType::OpenGL)
 	{
 		D_ASSERT(mFrameBufferIDForOPENGL.IsValid());
 		if (mFrameBufferIDForOPENGL.IsValid())
@@ -586,7 +587,7 @@ void dooms::graphics::FrameBuffer::ClrearDepthStencilTexture(const float depthVa
 			GraphicsAPI::ClearFrameBufferDepthStencilBuffer(mFrameBufferIDForOPENGL, depthValue, stencilValue);
 		}
 	}
-	else if (GraphicsAPI::GetCurrentAPIType() == GraphicsAPI::eGraphicsAPIType::DX11_10)
+	else if (GraphicsAPIManager::GetCurrentAPIType() == GraphicsAPI::eGraphicsAPIType::DX11_10)
 	{
 		D_ASSERT(IsValid(mAttachedDepthStencilTextureView) && mAttachedDepthStencilTextureView->IsValid());
 		if (IsValid(mAttachedDepthStencilTextureView) && mAttachedDepthStencilTextureView->IsValid())
@@ -609,7 +610,7 @@ std::unique_ptr<UINT8[]> dooms::graphics::FrameBuffer::ReadPixelsFromColorTextur
 ) const
 {
 	std::unique_ptr<UINT8[]> pixels;
-	if(graphics::GraphicsAPI::GetCurrentAPIType() == dooms::graphics::GraphicsAPI::eGraphicsAPIType::OpenGL)
+	if(graphics::GraphicsAPIManager::GetCurrentAPIType() == dooms::graphics::GraphicsAPI::eGraphicsAPIType::OpenGL)
 	{
 		UINT8* const rawPixels = dooms::graphics::GraphicsAPI::ReadPixels
 		(
@@ -625,7 +626,7 @@ std::unique_ptr<UINT8[]> dooms::graphics::FrameBuffer::ReadPixelsFromColorTextur
 		);
 		pixels = std::unique_ptr<UINT8[]>{ rawPixels };
 	}
-	else if (graphics::GraphicsAPI::GetCurrentAPIType() == dooms::graphics::GraphicsAPI::eGraphicsAPIType::OpenGL)
+	else if (graphics::GraphicsAPIManager::GetCurrentAPIType() == dooms::graphics::GraphicsAPI::eGraphicsAPIType::OpenGL)
 	{
 		UINT8* const rawPixels = dooms::graphics::GraphicsAPI::ReadPixels
 		(

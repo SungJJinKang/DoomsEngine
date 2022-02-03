@@ -25,11 +25,11 @@ void dooms::graphics::GraphicsAPIManager::SetDefaultSettingOfAPI()
 	graphics::GraphicsAPI::SetBlendFactor(dooms::graphics::graphicsAPISetting::DefaultBlendSourceFactor, dooms::graphics::graphicsAPISetting::DefaultBlendDestinationFactor);
 	graphics::GraphicsAPI::SetCullFace(GraphicsAPI::CULLFACE_BACK);
 
-	if(graphics::GraphicsAPI::GetCurrentAPIType() == graphics::GraphicsAPI::eGraphicsAPIType::OpenGL)
+	if(graphics::GraphicsAPIManager::GetCurrentAPIType() == graphics::GraphicsAPI::eGraphicsAPIType::OpenGL)
 	{
 		graphics::GraphicsAPI::SetFrontFaceWinding(GraphicsAPI::CCW);
 	}
-	else if (graphics::GraphicsAPI::GetCurrentAPIType() == graphics::GraphicsAPI::eGraphicsAPIType::DX11_10)
+	else if (graphics::GraphicsAPIManager::GetCurrentAPIType() == graphics::GraphicsAPI::eGraphicsAPIType::DX11_10)
 	{
 		graphics::GraphicsAPI::SetFrontFaceWinding(GraphicsAPI::CCW);
 	}

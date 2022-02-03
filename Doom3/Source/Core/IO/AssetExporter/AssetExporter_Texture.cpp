@@ -3,9 +3,8 @@
 #include <Graphics/GraphicsAPI/GraphicsAPI.h>
 #include <Graphics/Texture/TextureView.h>
 #include <DirectXTex.h>
-
 #include <EngineGUI/PrintText.h>
-#include <glad/glad.h>
+#include <Graphics/GraphicsAPI/Manager/GraphicsAPIManager.h>
 
 #include <Graphics/FrameBuffer/FrameBuffer.h>
 
@@ -453,7 +452,7 @@ void dooms::assetExporter::assetExporterTexture::ExportTextureFromMainFrameBuffe
 	DirectX::Image directXImage = ConvertToDirectXImage(0, pixels, width, height, pixelFormat, dataType);
 
 	DirectX::ScratchImage exportedScratchIMG;
-	if(dooms::graphics::GraphicsAPI::GetCurrentAPIType() == dooms::graphics::GraphicsAPI::eGraphicsAPIType::OpenGL)
+	if(dooms::graphics::GraphicsAPIManager::GetCurrentAPIType() == dooms::graphics::GraphicsAPI::eGraphicsAPIType::OpenGL)
 	{
 		const HRESULT hr = DirectX::FlipRotate(directXImage, DirectX::TEX_FR_FLAGS::TEX_FR_FLIP_VERTICAL, exportedScratchIMG);
 		delete[] directXImage.pixels;
@@ -464,7 +463,7 @@ void dooms::assetExporter::assetExporterTexture::ExportTextureFromMainFrameBuffe
 			return;
 		}
 	}
-	else if(dooms::graphics::GraphicsAPI::GetCurrentAPIType() == dooms::graphics::GraphicsAPI::eGraphicsAPIType::DX11_10)
+	else if(dooms::graphics::GraphicsAPIManager::GetCurrentAPIType() == dooms::graphics::GraphicsAPI::eGraphicsAPIType::DX11_10)
 	{
 		const HRESULT hr = exportedScratchIMG.InitializeFromImage(directXImage);
 

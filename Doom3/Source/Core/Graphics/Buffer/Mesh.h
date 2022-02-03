@@ -8,6 +8,7 @@
 #include "eVertexArrayFlag.h"
 #include <Graphics/GraphicsAPI/GraphicsAPI.h>
 #include <Vector2.h>
+#include <Graphics/GraphicsAPI/Manager/GraphicsAPIManager.h>
 
 #include "Mesh.reflection.h"
 namespace dooms
@@ -164,11 +165,11 @@ namespace dooms
 			{
 				D_ASSERT(mPrimitiveType != GraphicsAPI::ePrimitiveType::NONE);
 
-				if(graphics::GraphicsAPI::GetCurrentAPIType() == graphics::GraphicsAPI::eGraphicsAPIType::OpenGL)
+				if(graphics::GraphicsAPIManager::GetCurrentAPIType() == graphics::GraphicsAPI::eGraphicsAPIType::OpenGL)
 				{
 					BindVertexArrayObject();
 				}
-				else if (graphics::GraphicsAPI::GetCurrentAPIType() == graphics::GraphicsAPI::eGraphicsAPIType::DX11_10)
+				else if (graphics::GraphicsAPIManager::GetCurrentAPIType() == graphics::GraphicsAPI::eGraphicsAPIType::DX11_10)
 				{
 					BindVertexBufferObject();
 				}
@@ -192,11 +193,11 @@ namespace dooms
 			{
 				D_ASSERT(mPrimitiveType != GraphicsAPI::ePrimitiveType::NONE);
 
-				if (graphics::GraphicsAPI::GetCurrentAPIType() == graphics::GraphicsAPI::eGraphicsAPIType::OpenGL)
+				if (graphics::GraphicsAPIManager::GetCurrentAPIType() == graphics::GraphicsAPI::eGraphicsAPIType::OpenGL)
 				{
 					BindVertexArrayObject();
 				}
-				else if (graphics::GraphicsAPI::GetCurrentAPIType() == graphics::GraphicsAPI::eGraphicsAPIType::OpenGL)
+				else if (graphics::GraphicsAPIManager::GetCurrentAPIType() == graphics::GraphicsAPI::eGraphicsAPIType::OpenGL)
 				{
 					BindVertexBufferObject();
 				}
@@ -212,11 +213,11 @@ namespace dooms
 			{
 				D_ASSERT(primitiveType != GraphicsAPI::ePrimitiveType::NONE);
 
-				if (graphics::GraphicsAPI::GetCurrentAPIType() == graphics::GraphicsAPI::eGraphicsAPIType::OpenGL)
+				if (graphics::GraphicsAPIManager::GetCurrentAPIType() == graphics::GraphicsAPI::eGraphicsAPIType::OpenGL)
 				{
 					BindVertexArrayObject();
 				}
-				else if (graphics::GraphicsAPI::GetCurrentAPIType() == graphics::GraphicsAPI::eGraphicsAPIType::OpenGL)
+				else if (graphics::GraphicsAPIManager::GetCurrentAPIType() == graphics::GraphicsAPI::eGraphicsAPIType::OpenGL)
 				{
 					BindVertexBufferObject();
 				}

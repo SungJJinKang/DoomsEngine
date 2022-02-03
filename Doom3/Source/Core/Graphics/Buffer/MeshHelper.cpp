@@ -212,11 +212,11 @@ dooms::graphics::Mesh* dooms::graphics::meshHelper::GetTriangleMesh
 
 bool dooms::graphics::meshHelper::GetFlipOptionBasedOnCurrentGraphicsAPI()
 {
-	if (dooms::graphics::GraphicsAPI::GetCurrentAPIType() == dooms::graphics::GraphicsAPI::eGraphicsAPIType::OpenGL)
+	if (dooms::graphics::GraphicsAPIManager::GetCurrentAPIType() == dooms::graphics::GraphicsAPI::eGraphicsAPIType::OpenGL)
 	{
 		return true;
 	}
-	else if (dooms::graphics::GraphicsAPI::GetCurrentAPIType() == dooms::graphics::GraphicsAPI::eGraphicsAPIType::DX11_10)
+	else if (dooms::graphics::GraphicsAPIManager::GetCurrentAPIType() == dooms::graphics::GraphicsAPI::eGraphicsAPIType::DX11_10)
 	{
 		return false;
 	}

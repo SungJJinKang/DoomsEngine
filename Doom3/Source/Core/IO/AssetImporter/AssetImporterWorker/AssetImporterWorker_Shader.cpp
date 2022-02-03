@@ -6,6 +6,7 @@
 #include <Asset/Utility/ShaderAsset/shaderAssetHelper.h>
 #include <IO/AssetExporter/AssetExporter_Shader.h>
 #include <Asset/Utility/textImporter.h>
+#include <Graphics/GraphicsAPI/Manager/GraphicsAPIManager.h>
 #include <magic_enum.hpp>
 
 bool dooms::assetImporter::AssetImporterWorker_Shader::IsEngineShaderFilesRequireToBeGenerated
@@ -33,7 +34,7 @@ bool dooms::assetImporter::AssetImporterWorker_Shader::IsEngineShaderFilesRequir
 		assetExporter::assetExporterShader::eEngineShaderFileType::SHADER_REFLECTION_DATA_JSON_FILE
 	};
 
-	const graphics::GraphicsAPI::eGraphicsAPIType currentGraphicsAPIType = dooms::graphics::GraphicsAPI::GetCurrentAPIType();
+	const graphics::GraphicsAPI::eGraphicsAPIType currentGraphicsAPIType = dooms::graphics::GraphicsAPIManager::GetCurrentAPIType();
 
 	const std::filesystem::file_time_type sourceShaderFileLastWriteTime = std::filesystem::last_write_time(assetPath);
 
@@ -88,7 +89,7 @@ bool dooms::assetImporter::AssetImporterWorker_Shader::ImportShaderAsset
 		dooms::ui::PrintText("Generating engine shader file is required ( glsl File Path : %s )", assetPath.generic_u8string().c_str());
 		//D_DEBUG_LOG(eLogType::D_LOG, "Generating engine shader file is required ( glsl File Path : %s )", assetPath.generic_u8string().c_str());
 
-		const bool isSuccessToGenerateEngineShaderFiles = dooms::assetExporter::assetExporterShader::GenerateEngineShaderFiles(assetPath, dooms::graphics::GraphicsAPI::GetCurrentAPIType());
+		const bool isSuccessToGenerateEngineShaderFiles = dooms::assetExporter::assetExporterShader::GenerateEngineShaderFiles(assetPath, dooms::graphics::GraphicsAPIManager::GetCurrentAPIType());
 		D_ASSERT(isSuccessToGenerateEngineShaderFiles == true);
 
 		isEngineShaderFilesRequireToBeGenerated &= IsEngineShaderFilesRequireToBeGenerated(assetPath);
@@ -117,7 +118,7 @@ std::array<dooms::asset::ShaderTextData, GRAPHICS_PIPELINE_STAGE_COUNT> dooms::a
 		dooms::graphics::GraphicsAPI::eGraphicsPipeLineStage::COMPUTE_SHADER
 	};
 
-	const graphics::GraphicsAPI::eGraphicsAPIType currentGraphicsAPIType = dooms::graphics::GraphicsAPI::GetCurrentAPIType();
+	const graphics::GraphicsAPI::eGraphicsAPIType currentGraphicsAPIType = dooms::graphics::GraphicsAPIManager::GetCurrentAPIType();
 
 	std::array<dooms::asset::ShaderTextData, GRAPHICS_PIPELINE_STAGE_COUNT> shaderTextDatas{};
 

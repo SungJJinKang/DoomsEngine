@@ -956,7 +956,7 @@ namespace dooms
             dx11::g_pImmediateContext->Flush();
 		}
 
-        DOOMS_ENGINE_GRAPHICS_API GraphicsAPI::eGraphicsAPIType GetCurrentAPIType()
+        DOOMS_ENGINE_GRAPHICS_API GraphicsAPI::eGraphicsAPIType _GetCurrentAPIType()
         {
             return GraphicsAPI::eGraphicsAPIType::DX11_10;
         }

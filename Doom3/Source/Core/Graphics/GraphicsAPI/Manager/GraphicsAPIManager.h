@@ -29,7 +29,15 @@ namespace dooms
 			
 			static bool Initialize(const GraphicsAPI::eGraphicsAPIType graphicsAPIType);
 			static bool DeInitialize();
-			
+
+			FORCE_INLINE static GraphicsAPI::eGraphicsAPIType GetCurrentAPIType()
+			{
+				static const GraphicsAPI::eGraphicsAPIType currentGraphicsAPIType = graphics::GraphicsAPI::_GetCurrentAPIType();
+
+				D_ASSERT(currentGraphicsAPIType == GraphicsAPI::eGraphicsAPIType::DX11_10 || currentGraphicsAPIType == GraphicsAPI::eGraphicsAPIType::OpenGL);
+
+				return currentGraphicsAPIType;
+			}
 		};
 
 	}
