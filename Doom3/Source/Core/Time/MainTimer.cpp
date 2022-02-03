@@ -45,7 +45,7 @@ void dooms::time::MainTimer::UpdateFrameTimer()
 	dooms::time::MainTimer::mFrameCounterForStep++;
 	MainTimer::CurrentFrame = static_cast<FLOAT64>(1.0 / dooms::time::MainTimer::mFrameTime.mDeltaTime);
 	
-	
+	D_ASSERT(dooms::time::MainTimer::mFrameTime.mDeltaTime > 0.0);
 	
 }
 
@@ -61,6 +61,8 @@ void dooms::time::MainTimer::UpdateFixedTimer()
 
 	dooms::time::MainTimer::mFixedTime.mDeltaTime = static_cast<FLOAT64>(currentTime - dooms::time::MainTimer::mFixedTime.mLastTickCount);
 	dooms::time::MainTimer::mFixedTime.mLastTickCount = currentTime;
+
+	D_ASSERT(dooms::time::MainTimer::mFixedTime.mDeltaTime > 0.0);
 	
 }
 
