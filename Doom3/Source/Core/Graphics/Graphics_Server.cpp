@@ -27,7 +27,6 @@
 #include "MainTimer.h"
 
 #include "Acceleration/SortFrontToBackSolver.h"
-#include "DebugGraphics/OverDrawVisualization.h"
 #include "DebugGraphics/maskedOcclusionCullingTester.h"
 
 #include <EngineGUI/GUIModules/MaskedOcclusionCulliingDebugger.h>
@@ -381,10 +380,6 @@ void dooms::graphics::Graphics_Server::Render()
 		if (targetCamera->IsMainCamera() == true)
 		{
 			//Only Main Camera can draw to screen buffer
-
-			//UpdateOverDrawVisualization(targetCamera, cameraIndex);
-			//targetCamera->mDefferedRenderingFrameBuffer.BlitDepthBufferToScreenBuffer();
-
 			mPIPManager.DrawPIPs();
 
 			targetCamera->mDefferedRenderingFrameBuffer.BindGBufferTextures();
@@ -445,43 +440,6 @@ void dooms::graphics::Graphics_Server::PostRender()
 	D_END_PROFILING(ProfilingCullingSystem);
 }
 
-void dooms::graphics::Graphics_Server::UpdateOverDrawVisualization(dooms::Camera* const targetCamera, const size_t cameraIndex)
-{
-
-#ifdef DEBUG_DRAWER
-	OverDrawVisualization::ShowOverDrawVisualizationPIP(graphicsSetting::IsOverDrawVisualizationEnabled);
-	if (graphicsSetting::IsOverDrawVisualizationEnabled == true)
-	{
-		OverDrawVisualization::SetOverDrawVisualizationRenderingState(true);
-
-		const bool targetCamera_IS_CULLED_flag_on = targetCamera->GetCameraFlag(dooms::eCameraFlag::IS_CULLED);
-		const std::vector<Renderer*>& renderersInLayer = RendererComponentStaticIterator::GetSingleton()->GetSortedRendererInLayer(cameraIndex);
-		for (Renderer* renderer : renderersInLayer)
-		{
-			if
-				(
-					IsValid(renderer) == true && // TODO : Optimize this. Currently, Every renderers is checked per layer.
-					//renderer->GetOwnerEntityLayerIndex() == layerIndex && 
-					renderer->GetIsComponentEnabled() == true
-					)
-			{
-				if (
-					targetCamera_IS_CULLED_flag_on == false ||
-					renderer->GetIsCulled(targetCamera->CameraIndexInCullingSystem) == false
-					)
-				{
-					//renderer->ColliderUpdater<dooms::physics::AABB3D>::GetWorldCollider()->DrawPhysicsDebugColor(eColor::Blue);
-					renderer->Draw();
-				}
-			}
-		}
-		OverDrawVisualization::SetOverDrawVisualizationRenderingState(false);
-	}
-#endif
-
-}
-
-
 void dooms::graphics::Graphics_Server::RenderObject(dooms::Camera* const targetCamera, const size_t cameraIndex)
 {
 	D_ASSERT(IsValid(targetCamera) == true);
@@ -498,17 +456,10 @@ void dooms::graphics::Graphics_Server::RenderObject(dooms::Camera* const targetC
 	for (UINT32 layerIndex = 0; layerIndex < MAX_LAYER_COUNT; layerIndex++)
 	{
 	*/
-
-	OverDrawVisualization::ShowOverDrawVisualizationPIP(graphicsSetting::IsOverDrawVisualizationEnabled);
-	if (graphicsSetting::IsOverDrawVisualizationEnabled == true)
-	{
-		OverDrawVisualization::SetOverDrawVisualizationRenderingState(true);
-	}
+	
 	const std::vector<Renderer*>& renderersInLayer = RendererComponentStaticIterator::GetSingleton()->GetSortedRendererInLayer(cameraIndex);
 	for (Renderer* renderer : renderersInLayer)
 	{
-		renderer->SetFrontToBackSortingOrder(cameraIndex, frontToBackOrder);
-
 		if
 			(
 				IsValid(renderer) == true &&
@@ -525,16 +476,7 @@ void dooms::graphics::Graphics_Server::RenderObject(dooms::Camera* const targetC
 				renderer->Draw();
 			}
 		}
-
-		frontToBackOrder++;
 	}
-	if (graphicsSetting::IsOverDrawVisualizationEnabled == true)
-	{
-		OverDrawVisualization::SetOverDrawVisualizationRenderingState(false);
-	}
-	/*
-	}
-	*/
 	D_END_PROFILING(DrawLoop);
 
 	

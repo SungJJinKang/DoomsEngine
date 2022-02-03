@@ -29,8 +29,10 @@ private:
 	D_PROPERTY(TOOLTIP="Enable MultiThread Sorting Front to Back")
 	bool Enabled_MultiThread_SortingFrontToBack = false;
 
+	/*
 	D_PROPERTY(TOOLTIP="Enable Overdraw Debugger")
 	bool OverdrawDebugger = false;
+	*/
 
 	D_PROPERTY(INVISIBLE)
 	bool Is_Enabled_CollisionDebugging = false;

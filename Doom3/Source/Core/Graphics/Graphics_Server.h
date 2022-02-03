@@ -77,9 +77,7 @@ namespace dooms
 			void Render();
 			void ProfilingCullingSystem();
 			void PostRender();
-
-			void UpdateOverDrawVisualization(dooms::Camera* const targetCamera, const size_t cameraIndex);
-
+			
 			void RenderObject(dooms::Camera* const targetCamera, const size_t cameraIndex);
 		
 			void PreCullJob();
