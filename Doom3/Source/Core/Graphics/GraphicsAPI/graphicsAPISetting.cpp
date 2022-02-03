@@ -6,6 +6,8 @@ float dooms::graphics::graphicsAPISetting::ScreenRatio{0.0f};
 unsigned int dooms::graphics::graphicsAPISetting::MultiSamplingNum{0};
 bool dooms::graphics::graphicsAPISetting::DefaultIsAlphaTestOn{true};
 bool dooms::graphics::graphicsAPISetting::DefaultIsBlendOn{false};
+dooms::graphics::GraphicsAPI::eBlendFactor dooms::graphics::graphicsAPISetting::DefaultBlendSourceFactor{ GraphicsAPI::eBlendFactor::SRC_COLOR };
+dooms::graphics::GraphicsAPI::eBlendFactor dooms::graphics::graphicsAPISetting::DefaultBlendDestinationFactor{ GraphicsAPI::eBlendFactor::ZERO };
 
 void dooms::graphics::graphicsAPISetting::LoadData()
 {
