@@ -9,8 +9,8 @@ namespace dooms
 	{
 		namespace meshHelper
 		{
-			extern Mesh* GetQuadMesh();
-			extern Mesh* GetQuadMesh(const math::Vector2& leftbottom, const math::Vector2& rightup);
+			extern Mesh* GetQuadMesh(const bool flipUV_Y = false);
+			extern Mesh* GetQuadMesh(const math::Vector2& leftbottom, const math::Vector2& rightup, const bool flipUV_Y = false);
 
 			enum class TriangleType
 			{
@@ -18,8 +18,10 @@ namespace dooms
 				TopFlat
 			};
 
-			extern Mesh* GetTriangleMesh(const TriangleType triangleType);
-			extern Mesh* GetTriangleMesh(const TriangleType triangleType, const math::Vector2& pointA, const FLOAT32 width, const FLOAT32 height);
+			extern Mesh* GetTriangleMesh(const TriangleType triangleType, const bool flipUV_Y = false);
+			extern Mesh* GetTriangleMesh(const TriangleType triangleType, const math::Vector2& pointA, const FLOAT32 width, const FLOAT32 height, const bool flipUV_Y = false);
+
+			extern bool GetFlipOptionBasedOnCurrentGraphicsAPI();
 		}
 
 	}
