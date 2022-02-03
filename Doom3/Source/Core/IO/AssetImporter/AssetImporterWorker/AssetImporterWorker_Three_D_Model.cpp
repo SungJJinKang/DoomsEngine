@@ -10,11 +10,7 @@
 #include "AssetImporterWorker_Texture.h"
 #include <Graphics/Buffer/eVertexArrayFlag.h>
 #include <IO/AssetExporter/AssetExporter_Three_D_Model.h>
-
-
-using namespace dooms;
-using namespace dooms::assetImporter;
-
+#include <Graphics/GraphicsAPI/GraphicsAPI.h>
 
 const UINT32 dooms::assetImporter::AssetImporterWorker_THREE_D_MODEL::ASSIMP_IMPORT_PROCESSING_SETTING
 {
@@ -53,19 +49,37 @@ bool dooms::assetImporter::AssetImporterWorker_THREE_D_MODEL::ImportThreeDModelA
 	::dooms::asset::ThreeDModelAsset* asset
 )
 {
-	/// read http://sir-kimmi.de/assimp/lib_html/assfile.html
-	const aiScene* modelScene = mAssimpImporter.ReadFile(path.generic_u8string(), ASSIMP_IMPORT_PROCESSING_SETTING);
-
-	if (modelScene == NULL)
+	const aiScene* modelScene = NULL;
+	if(path.extension().generic_u8string() == AssetImporterWorker_THREE_D_MODEL::MAIN_3D_MODEL_FILE_FORMAT)
 	{
-		D_DEBUG_LOG(eLogType::D_ERROR, mAssimpImporter.GetErrorString());
-		NEVER_HAPPEN;
-		return false;
-	}
-	
+		UINT32 assimpImportProcessingSetting = ASSIMP_IMPORT_PROCESSING_SETTING;
+		//if (dooms::graphics::GraphicsAPI::GetCurrentAPIType() == dooms::graphics::GraphicsAPI::eGraphicsAPIType::OpenGL)
+		//{
+			assimpImportProcessingSetting |= aiProcess_FlipUVs;
+		//}
 
-	if (path.extension().generic_u8string() != AssetImporterWorker_THREE_D_MODEL::MAIN_3D_MODEL_FILE_FORMAT)
-	{//when file isn't assbin file
+		modelScene = mAssimpImporter.ReadFile(path.generic_u8string(), assimpImportProcessingSetting);
+
+		if (modelScene == NULL)
+		{
+			D_DEBUG_LOG(eLogType::D_ERROR, mAssimpImporter.GetErrorString());
+			NEVER_HAPPEN;
+			return false;
+		}
+	}
+	else
+	{
+
+		modelScene = mAssimpImporter.ReadFile(path.generic_u8string(), ASSIMP_IMPORT_PROCESSING_SETTING);
+
+		if (modelScene == NULL)
+		{
+			D_DEBUG_LOG(eLogType::D_ERROR, mAssimpImporter.GetErrorString());
+			NEVER_HAPPEN;
+			return false;
+		}
+
+		//when file isn't assbin file
 
 		//need post process and exporting to .ass file
 
@@ -78,7 +92,6 @@ bool dooms::assetImporter::AssetImporterWorker_THREE_D_MODEL::ImportThreeDModelA
 		dooms::assetExporter::assetExporterThreeDModel::ExportToAssFile(exportPath, modelScene);
 	}
 
-	D_ASSERT(modelScene != nullptr);
 	
 
 	bool isSuccess = false;
@@ -112,7 +125,7 @@ bool dooms::assetImporter::AssetImporterWorker_THREE_D_MODEL::ImportThreeDModelA
 	return isSuccess;
 }
 
-void AssetImporterWorker_THREE_D_MODEL::InitializeAssimp()
+void dooms::assetImporter::AssetImporterWorker_THREE_D_MODEL::InitializeAssimp()
 {
 	if(AssetImporterWorker::IsInitialized == false)
 	{
@@ -130,7 +143,7 @@ void AssetImporterWorker_THREE_D_MODEL::InitializeAssimp()
 	}
 }
 
-bool AssetImporterWorker_THREE_D_MODEL::IsValidMesh(const aiMesh* const assimpMesh)
+bool dooms::assetImporter::AssetImporterWorker_THREE_D_MODEL::IsValidMesh(const aiMesh* const assimpMesh)
 {
 	return
 		(assimpMesh->mNumUVComponents[0] == 2) &&
@@ -139,7 +152,7 @@ bool AssetImporterWorker_THREE_D_MODEL::IsValidMesh(const aiMesh* const assimpMe
 		(assimpMesh->HasTextureCoords(0));
 }
 
-AssetImporterWorker_THREE_D_MODEL::AssetImporterWorker_THREE_D_MODEL()
+dooms::assetImporter::AssetImporterWorker_THREE_D_MODEL::AssetImporterWorker_THREE_D_MODEL()
 	:mAssimpImporter()
 {
 	InitializeAssimp();
@@ -248,6 +261,7 @@ void dooms::assetImporter::AssetImporterWorker_THREE_D_MODEL::Creat3DModelAsset
 			asset->mModelMeshAssets[meshIndex].mVertexArrayFlag |= dooms::graphics::eVertexArrayFlag::VertexVector3;
 			break;
 		case aiPrimitiveType::aiPrimitiveType_TRIANGLE:
+		case aiPrimitiveType::aiPrimitiveType_TRIANGLE | aiPrimitiveType::aiPrimitiveType_NGONEncodingFlag:
 			asset->mModelMeshAssets[meshIndex].mPrimitiveType = dooms::graphics::GraphicsAPI::ePrimitiveType::TRIANGLES;
 			asset->mModelMeshAssets[meshIndex].mVertexArrayFlag |= dooms::graphics::eVertexArrayFlag::VertexVector3;
 			break;
@@ -352,7 +366,7 @@ bool dooms::assetImporter::AssetImporterWorker_THREE_D_MODEL::ImportSpecificAsse
 	return ImportThreeDModelAsset(path, static_cast<dooms::asset::ThreeDModelAsset*>(asset));
 }
 
-dooms::asset::eAssetType AssetImporterWorker_THREE_D_MODEL::GetEAssetType() const
+dooms::asset::eAssetType dooms::assetImporter::AssetImporterWorker_THREE_D_MODEL::GetEAssetType() const
 {
 	return dooms::asset::eAssetType::THREE_D_MODEL;
 }
@@ -360,7 +374,7 @@ dooms::asset::eAssetType AssetImporterWorker_THREE_D_MODEL::GetEAssetType() cons
 #ifdef DEBUG_MODE
 static std::unique_ptr<dooms::assetImporter::AssimpLogStream> AttachedAssimpLogStream = nullptr;
 static const UINT32 AssimpLoggerStreamSeverity = Assimp::Logger::Err;// | Assimp::Logger::Warn;
-void AssetImporterWorker_THREE_D_MODEL::ClearAssimpLooger()
+void dooms::assetImporter::AssetImporterWorker_THREE_D_MODEL::ClearAssimpLooger()
 {
 	if (AttachedAssimpLogStream)
 	{
@@ -371,7 +385,7 @@ void AssetImporterWorker_THREE_D_MODEL::ClearAssimpLooger()
 }
 #endif
 
-void AssetImporterWorker_THREE_D_MODEL::InitializeAssetImporterWorkerStatic()
+void dooms::assetImporter::AssetImporterWorker_THREE_D_MODEL::InitializeAssetImporterWorkerStatic()
 {
 	bool expected = false;
 	if (AssetImporterWorker::IsInitializedStatic.compare_exchange_strong(expected, true, std::memory_order_seq_cst, std::memory_order_relaxed) )
@@ -403,7 +417,7 @@ void AssetImporterWorker_THREE_D_MODEL::InitializeAssetImporterWorkerStatic()
 
 }
 
-void AssetImporterWorker_THREE_D_MODEL::UnInitializeAssetImporterWorkerStatic()
+void dooms::assetImporter::AssetImporterWorker_THREE_D_MODEL::UnInitializeAssetImporterWorkerStatic()
 {
 #ifdef DEBUG_MODE
 	ClearAssimpLooger();

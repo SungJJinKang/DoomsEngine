@@ -251,12 +251,12 @@ public:
 Keyboard::Impl* Keyboard::Impl::s_keyboard = nullptr;
 
 
-void Keyboard::ProcessMessage(UINT message, WPARAM wParam, LPARAM lParam)
+Keyboard::KeyStateChange Keyboard::ProcessMessage(UINT message, WPARAM wParam, LPARAM lParam)
 {
     auto pImpl = Impl::s_keyboard;
 
     if (!pImpl)
-        return;
+        return {};
 
     bool down = false;
 
@@ -264,7 +264,7 @@ void Keyboard::ProcessMessage(UINT message, WPARAM wParam, LPARAM lParam)
     {
         case WM_ACTIVATEAPP:
             pImpl->Reset();
-            return;
+            return {};
 
         case WM_KEYDOWN:
         case WM_SYSKEYDOWN:
@@ -276,7 +276,7 @@ void Keyboard::ProcessMessage(UINT message, WPARAM wParam, LPARAM lParam)
             break;
 
         default:
-            return;
+            return{};
     }
 
     int vk = static_cast<int>(wParam);
@@ -311,6 +311,12 @@ void Keyboard::ProcessMessage(UINT message, WPARAM wParam, LPARAM lParam)
     {
         KeyUp(vk, pImpl->mState);
     }
+
+    Keyboard::KeyStateChange keyStateChange;
+    keyStateChange.mVirtualKey = vk;
+    keyStateChange.mIsDown = down;
+
+    return keyStateChange;
 }
 
 

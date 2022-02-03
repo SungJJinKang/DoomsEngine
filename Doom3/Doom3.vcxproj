@@ -387,6 +387,7 @@ xcopy /y /d /E /H /C /I "$(ProjectDir)Assets" "$(TargetDir)Assets"</Command>
     <ClCompile Include="Source\Core\Graphics\FrameBuffer\FrameBufferView.cpp" />
     <ClCompile Include="Source\Core\Graphics\GraphicsAPI\APIHeaders\DX11Headers.h" />
     <ClCompile Include="Source\Core\Graphics\GraphicsAPI\APIHeaders\OpenGLHeaders.h" />
+    <ClCompile Include="Source\Core\Graphics\GraphicsAPI\graphicsAPIHelper.cpp" />
     <ClCompile Include="Source\Core\Graphics\GraphicsAPI\Imp\GraphicsAPIInput_imp.cpp" />
     <ClCompile Include="Source\Core\Graphics\GraphicsAPI\Imp\GraphicsAPI_imp.cpp" />
     <ClCompile Include="Source\Core\Graphics\GraphicsAPI\Imp\PlatformImgui_imp.cpp" />
@@ -645,6 +646,7 @@ xcopy /y /d /E /H /C /I "$(ProjectDir)Assets" "$(TargetDir)Assets"</Command>
     <ClInclude Include="Source\Core\Graphics\Buffer\MeshHelper.h" />
     <ClInclude Include="Source\Core\Graphics\FrameBuffer\FrameBufferView.h" />
     <ClInclude Include="Source\Core\Graphics\GraphicsAPI\GraphicsAPI.h" />
+    <ClInclude Include="Source\Core\Graphics\GraphicsAPI\graphicsAPIHelper.h" />
     <ClInclude Include="Source\Core\Graphics\GraphicsAPI\Input\GraphicsAPIInput.h" />
     <ClInclude Include="Source\Core\Graphics\GraphicsAPI\Macros\GraphicsAPIMacros.h" />
     <ClInclude Include="Source\Core\Graphics\GraphicsAPI\Manager\GraphicsAPILoader.h" />

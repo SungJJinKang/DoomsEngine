@@ -11,7 +11,7 @@ namespace dooms
 	{
 		FLOAT64 mLastTickCount{};
 		FLOAT64 mCurrentTickCount{};
-		FLOAT32 mDeltaTime{};
+		FLOAT64 mDeltaTime{};
 	};
 
 	class GameCore;
@@ -31,12 +31,13 @@ namespace dooms
 
 			TimeStep mFrameTime{};
 			TimeStep mFixedTime{};
-			FLOAT32 CurrentFrame{};
+			FLOAT64 CurrentFrame{};
 			
 			UINT64 mFrameCounterForStep{ 0 };
 
 			void InitTimer();
-			
+
+			FLOAT64 GetTime() const;
 			void UpdateFrameTimer();
 			void ResetFixedTimer();
 			void UpdateFixedTimer();
@@ -47,12 +48,8 @@ namespace dooms
 
 		public:
 
-			/// <summary>
-			/// This value will be updated at every frame
-			/// If you want to check whether frame pass without OnEndFrame, use this tickcount and compare last one
-			/// https://en.cppreference.com/w/cpp/chrono/time_point/time_since_epoch
-			/// </summary>
-			NO_DISCARD FORCE_INLINE FLOAT64 GetCurrentTickCount() noexcept
+
+			NO_DISCARD FORCE_INLINE FLOAT64 GetCurrentTime() noexcept
 			{
 				return MainTimer::mFrameTime.mCurrentTickCount;
 			}
@@ -61,7 +58,7 @@ namespace dooms
 			/// Frame Dependent Delta time
 			///  Don't use at FixedUpdate, Use at Update
 			/// </summary>
-			NO_DISCARD FORCE_INLINE FLOAT32 GetDeltaTime() noexcept
+			NO_DISCARD FORCE_INLINE FLOAT64 GetDeltaTime() noexcept
 			{
 				return MainTimer::mFrameTime.mDeltaTime ;
 			}
@@ -69,12 +66,12 @@ namespace dooms
 			/// <summary>
 			/// Don't use at Update, Use at FixedUpdate
 			/// </summary>
-			NO_DISCARD FORCE_INLINE FLOAT32 GetFixedDeltaTime() noexcept
+			NO_DISCARD FORCE_INLINE FLOAT64 GetFixedDeltaTime() noexcept
 			{
 				return MainTimer::mFixedTime.mDeltaTime;
 			}
 
-			NO_DISCARD FORCE_INLINE FLOAT32 GetCurrentFrame() noexcept
+			NO_DISCARD FORCE_INLINE FLOAT64 GetCurrentFrame() noexcept
 			{
 				return MainTimer::CurrentFrame;
 			}

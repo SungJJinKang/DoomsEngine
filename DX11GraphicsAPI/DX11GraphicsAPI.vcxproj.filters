@@ -89,5 +89,11 @@
     <ClInclude Include="DX11GraphicsAPI.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="DX11Imgui.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="DX11GraphicsAPIInput.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

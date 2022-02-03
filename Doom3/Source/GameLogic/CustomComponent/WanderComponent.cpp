@@ -1,8 +1,9 @@
 #include "WanderComponent.h"
 
 #include <Graphics/DebugGraphics/DebugDrawer.h>
+#include <Graphics/GraphicsAPI/graphicsAPIHelper.h>
 
-#define ARRIVE_DISTANCE 3.0f
+#define ARRIVE_DISTANCE 0.5f
 
 void dooms::WanderComponent::InitComponent()
 {

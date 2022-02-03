@@ -46,7 +46,7 @@ bool dooms::graphics::Graphics_Server::InitializeGraphicsAPI()
 	{
 		isSuccess = GraphicsAPIManager::Initialize(GraphicsAPI::eGraphicsAPIType::OpenGL);
 	}
-	else if (targetGraphicsAPI == "DX11_10")
+	else if (targetGraphicsAPI == "DX11_10" || targetGraphicsAPI == "DX11")
 	{
 		isSuccess = GraphicsAPIManager::Initialize(GraphicsAPI::eGraphicsAPIType::DX11_10);
 	}
@@ -360,7 +360,7 @@ void dooms::graphics::Graphics_Server::Render()
 			//Only Main Camera can draw to screen buffer
 
 			//UpdateOverDrawVisualization(targetCamera, cameraIndex);
-			targetCamera->mDefferedRenderingFrameBuffer.BlitDepthBufferToScreenBuffer();
+			//targetCamera->mDefferedRenderingFrameBuffer.BlitDepthBufferToScreenBuffer();
 
 			mPIPManager.DrawPIPs();
 

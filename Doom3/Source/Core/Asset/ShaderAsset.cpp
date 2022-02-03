@@ -10,6 +10,7 @@
 #include <EngineGUI/PrintText.h>
 #include "Utility/ShaderAsset/shaderConverter.h"
 #include <Graphics/Buffer/UniformBufferObject/UniformBufferObjectManager.h>
+#include <Graphics/GraphicsAPI/Manager/GraphicsAPIManager.h>
 
 
 dooms::asset::ShaderTextData::ShaderTextData()
@@ -169,7 +170,7 @@ bool dooms::asset::ShaderAsset::SetShaderText
 				shaderTextData.LoadShaderReflectionDataFromTextIfNotLoaded();
 			}
 
-			D_ASSERT(shaderTextData.mShaderReflectionData.mTargetGraphicsAPIType == dooms::graphics::GraphicsAPI::GetCurrentAPIType());
+			D_ASSERT(shaderTextData.mShaderReflectionData.mTargetGraphicsAPIType == dooms::graphics::GraphicsAPIManager::GetCurrentAPIType());
 		}
 	}
 
@@ -337,7 +338,7 @@ bool dooms::asset::ShaderAsset::CompileSpecificTypeShader(ShaderTextData& shader
 	D_ASSERT(shaderObject.mShaderObjectID.IsValid() == false);
 	if (shaderText.IsCompileliable() == true && shaderObject.mShaderObjectID.IsValid() == false && shaderType != graphics::GraphicsAPI::eGraphicsPipeLineStage::DUMMY)
 	{
-		if(dooms::graphics::GraphicsAPI::GetCurrentAPIType() == dooms::graphics::GraphicsAPI::eGraphicsAPIType::OpenGL)
+		if(dooms::graphics::GraphicsAPIManager::GetCurrentAPIType() == dooms::graphics::GraphicsAPI::eGraphicsAPIType::OpenGL)
 		{
 			shaderObject.mShaderObjectID = graphics::GraphicsAPI::CreateShaderObject(shaderType);
 		}
@@ -345,12 +346,12 @@ bool dooms::asset::ShaderAsset::CompileSpecificTypeShader(ShaderTextData& shader
 		D_ASSERT
 		(
 			shaderObject.mShaderObjectID.IsValid() ||
-			(dooms::graphics::GraphicsAPI::GetCurrentAPIType() != dooms::graphics::GraphicsAPI::eGraphicsAPIType::OpenGL)
+			(dooms::graphics::GraphicsAPIManager::GetCurrentAPIType() != dooms::graphics::GraphicsAPI::eGraphicsAPIType::OpenGL)
 		);
 		if
 		(
 			shaderObject.mShaderObjectID.IsValid() ||
-			(dooms::graphics::GraphicsAPI::GetCurrentAPIType() != dooms::graphics::GraphicsAPI::eGraphicsAPIType::OpenGL)
+			(dooms::graphics::GraphicsAPIManager::GetCurrentAPIType() != dooms::graphics::GraphicsAPI::eGraphicsAPIType::OpenGL)
 		)
 		{
 			shaderObject.mShaderCompileStatus = eShaderCompileStatus::SHADER_OBJECT_CREATED;
@@ -363,7 +364,7 @@ bool dooms::asset::ShaderAsset::CompileSpecificTypeShader(ShaderTextData& shader
 				shaderObject.mShaderCompileStatus = eShaderCompileStatus::COMPILE_SUCCESS;
 				GenerateUniformBufferObjectFromShaderReflectionData(shaderText.mShaderReflectionData);
 
-				if (graphics::GraphicsAPI::GetCurrentAPIType() == graphics::GraphicsAPI::eGraphicsAPIType::DX11_10)
+				if (graphics::GraphicsAPIManager::GetCurrentAPIType() == graphics::GraphicsAPI::eGraphicsAPIType::DX11_10)
 				{
 					if (shaderType == graphics::GraphicsAPI::eGraphicsPipeLineStage::VERTEX_SHADER)
 					{
@@ -500,7 +501,7 @@ namespace dooms::graphics::dx11
 		case asset::shaderReflectionDataParser::eShaderVariableType::UINT4:
 			return DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_UINT;
 		default:
-			D_ASSERT(false);
+			NEVER_HAPPEN;
 		}
 	}
 }
@@ -508,10 +509,10 @@ namespace dooms::graphics::dx11
 
 void dooms::asset::ShaderAsset::CreateInputLayoutForD3D(dooms::asset::ShaderAsset* const shaderAsset)
 {
-	if (graphics::GraphicsAPI::GetCurrentAPIType() == graphics::GraphicsAPI::eGraphicsAPIType::DX11_10)
+	if (graphics::GraphicsAPIManager::GetCurrentAPIType() == graphics::GraphicsAPI::eGraphicsAPIType::DX11_10)
 	{
 		D_ASSERT(mInputLayoutForD3D.IsValid() == false);
-		D_ASSERT(graphics::GraphicsAPI::GetCurrentAPIType() == graphics::GraphicsAPI::eGraphicsAPIType::DX11_10);
+		D_ASSERT(graphics::GraphicsAPIManager::GetCurrentAPIType() == graphics::GraphicsAPI::eGraphicsAPIType::DX11_10);
 		D_ASSERT(shaderAsset->IsShaderObjectSuccessfullyCreated(graphics::GraphicsAPI::eGraphicsPipeLineStage::VERTEX_SHADER) == true);
 		if
 			(

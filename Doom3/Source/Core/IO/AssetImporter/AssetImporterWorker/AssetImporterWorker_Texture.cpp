@@ -2,6 +2,7 @@
 
 #include <DirectXTex.h>
 #include <Asset/TextureAsset.h>
+#include <Graphics/GraphicsAPI/GraphicsAPI.h>
 
 
 bool dooms::assetImporter::AssetImporterWorker_Texture::ImportTextureAsset(
@@ -69,27 +70,7 @@ bool dooms::assetImporter::AssetImporterWorker_Texture::ImportTextureAsset(
 			
 			const DirectX::Image* sourceImage = sourceScratchImage->GetImages();
 			//D_ASSERT(sourceImage->width % 4 == 0 && sourceImage->height % 4 == 0);
-
-			
-			/*
-			{
-				DirectX::ScratchImage destImage;
-				hr = FlipRotate(sourceScratchImage->GetImages(), sourceScratchImage->GetImageCount(),
-					sourceScratchImage->GetMetadata(),
-					DirectX::TEX_FR_FLIP_HORIZONTAL, destImage);
-
-				if (FAILED(hr))
-				{
-					D_ASSERT_LOG(false, "Fail To Load Texture");
-					return false;
-				}
-
-				*(sourceScratchImage) = std::move(destImage);
-
-				sourceImage = sourceScratchImage->GetImages();
-			}
-			*/
-			
+				
 
 			auto resizedImage = std::make_unique<DirectX::ScratchImage>();
 
@@ -153,6 +134,7 @@ bool dooms::assetImporter::AssetImporterWorker_Texture::ImportTextureAsset(
 			//you don't need decompress if you use DXT
 			DirectX::TexMetadata info;
 			hr = LoadFromDDSFile(path.generic_wstring().c_str(), DirectX::DDS_FLAGS::DDS_FLAGS_NONE, &info, *ResultCompressedImage);
+			
 			if (FAILED(hr))
 			{
 				D_DEBUG_LOG(eLogType::D_ERROR, "Fail To Load DDS Texture");

@@ -32,7 +32,7 @@
   
 ## Currently working on     
         
-  * support DX11!! ( completion : 5%. targeting opengl, dx11 portable game engine by abstracting them. [working directory](https://github.com/SungJJinKang/DoomsEngine/tree/d3d11_work) )             
+  * support DX11!! ( completion : 90%. targeting opengl, dx11 portable game engine by abstracting them. [working directory](https://github.com/SungJJinKang/DoomsEngine/tree/d3d11_work) )             
            
 ## To Develop
        

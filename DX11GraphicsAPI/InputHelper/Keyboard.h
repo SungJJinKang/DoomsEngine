@@ -39,6 +39,18 @@ namespace DirectX
 
         virtual ~Keyboard();
 
+        struct KeyStateChange
+        {
+            unsigned int mVirtualKey;
+            bool mIsDown;
+
+            KeyStateChange()
+	            : mVirtualKey(-1)
+            {
+	            
+            }
+        };
+
         enum Keys : unsigned char
         {
             None                = 0,
@@ -461,7 +473,7 @@ namespace DirectX
         bool __cdecl IsConnected() const;
 
     #if (!defined(WINAPI_FAMILY) || (WINAPI_FAMILY == WINAPI_FAMILY_DESKTOP_APP)) && defined(WM_USER)
-        static void __cdecl ProcessMessage(UINT message, WPARAM wParam, LPARAM lParam);
+        static KeyStateChange __cdecl ProcessMessage(UINT message, WPARAM wParam, LPARAM lParam);
     #endif
 
     #if (defined(WINAPI_FAMILY) && (WINAPI_FAMILY == WINAPI_FAMILY_APP)) || (defined(_XBOX_ONE) && defined(_TITLE))

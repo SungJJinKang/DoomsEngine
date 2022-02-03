@@ -36,14 +36,14 @@ void dooms::graphics::PicktureInPickture::SetDefaultPIPMaterial()
 }
 
 dooms::graphics::PicktureInPickture::PicktureInPickture(const math::Vector2& leftBottomNDCPoint, const math::Vector2& rightTopNDCPoint, TextureView* const _drawedTexture)
-	:mPlaneMesh{ meshHelper::GetQuadMesh(leftBottomNDCPoint, rightTopNDCPoint) }, mDrawedTexture(_drawedTexture), mPIPMaterial(nullptr), bmIsDrawOnScreen(true)
+	:mPlaneMesh{ meshHelper::GetQuadMesh(leftBottomNDCPoint, rightTopNDCPoint, meshHelper::GetFlipOptionBasedOnCurrentGraphicsAPI()) }, mDrawedTexture(_drawedTexture), mPIPMaterial(nullptr), bmIsDrawOnScreen(true)
 {
 	D_ASSERT(IsValid(mDrawedTexture));
 	SetDefaultPIPMaterial();
 }
 
 dooms::graphics::PicktureInPickture::PicktureInPickture(const math::Vector2& leftBottomNDCPoint, const math::Vector2& rightTopNDCPoint, TextureView* const _drawedTexture, Material* const _pipMaterial)
-	:mPlaneMesh{ meshHelper::GetQuadMesh(leftBottomNDCPoint, rightTopNDCPoint) }, mDrawedTexture(_drawedTexture), mPIPMaterial(_pipMaterial), bmIsDrawOnScreen(true)
+	:mPlaneMesh{ meshHelper::GetQuadMesh(leftBottomNDCPoint, rightTopNDCPoint, meshHelper::GetFlipOptionBasedOnCurrentGraphicsAPI()) }, mDrawedTexture(_drawedTexture), mPIPMaterial(_pipMaterial), bmIsDrawOnScreen(true)
 {
 	D_ASSERT(IsValid(mDrawedTexture));
 	D_ASSERT(IsValid(mPIPMaterial));

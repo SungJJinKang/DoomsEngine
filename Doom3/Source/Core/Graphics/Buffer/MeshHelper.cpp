@@ -10,7 +10,7 @@ namespace dooms::graphics::meshHelper
 	static asset::ThreeDModelAsset* DefaultQuadThreeDModelAsset{ nullptr };
 	static asset::ThreeDModelAsset* DefaultTriangleThreeDModelAsset{ nullptr };
 
-	static MeshData GetTriangleMeshVertexData(const TriangleType triangleType, const math::Vector2& pointA, const FLOAT32 width, const FLOAT32 height)
+	static MeshData GetTriangleMeshVertexData(const TriangleType triangleType, const math::Vector2& pointA, const FLOAT32 width, const FLOAT32 height, const bool flipUV_Y)
 	{
 		FLOAT32 QuadMeshData[15];
 
@@ -20,18 +20,18 @@ namespace dooms::graphics::meshHelper
 			QuadMeshData[0] = pointA.x;
 			QuadMeshData[1] = pointA.y + height;
 			QuadMeshData[2] = 0.0f;
-			QuadMeshData[3] = 0.0f;
-			QuadMeshData[4] = 1.0f;
+			QuadMeshData[3] = 0.0f; 
+			QuadMeshData[4] = (flipUV_Y == true) ? 1.0f : 0.0f; // UV Y
 			QuadMeshData[5] = pointA.x;
 			QuadMeshData[6] = pointA.y;
 			QuadMeshData[7] = 0.0f;
 			QuadMeshData[8] = 0.0f;
-			QuadMeshData[9] = 0.0f;
+			QuadMeshData[9] = (flipUV_Y == true) ? 0.0f : 1.0f; // UV Y
 			QuadMeshData[10] = pointA.x + width;
 			QuadMeshData[11] = pointA.y;
 			QuadMeshData[12] = 0.0f;
 			QuadMeshData[13] = 1.0f;
-			QuadMeshData[14] = 0.0f;
+			QuadMeshData[14] = (flipUV_Y == true) ? 0.0f : 1.0f; // UV Y
 		}
 		else if (triangleType == TriangleType::TopFlat)
 		{
@@ -39,17 +39,17 @@ namespace dooms::graphics::meshHelper
 			QuadMeshData[1] = pointA.y - height;
 			QuadMeshData[2] = 0.0f;
 			QuadMeshData[3] = 1.0f;
-			QuadMeshData[4] = 0.0f;
+			QuadMeshData[4] = (flipUV_Y == true) ? 0.0f :1.0f; // UV Y
 			QuadMeshData[5] = pointA.x;
 			QuadMeshData[6] = pointA.y;
 			QuadMeshData[7] = 0.0f;
 			QuadMeshData[8] = 1.0f;
-			QuadMeshData[9] = 1.0f;
+			QuadMeshData[9] = (flipUV_Y == true) ? 1.0f : 0.0f; // UV Y
 			QuadMeshData[10] = pointA.x - width;
 			QuadMeshData[11] = pointA.y;
 			QuadMeshData[12] = 0.0f;
 			QuadMeshData[13] = 0.0f;
-			QuadMeshData[14] = 1.0f;
+			QuadMeshData[14] = (flipUV_Y == true) ? 1.0f : 0.0f; // UV Y
 		}
 		else
 		{
@@ -66,7 +66,7 @@ namespace dooms::graphics::meshHelper
 		return MeshVertexDataList;
 	}
 
-	static asset::ThreeDModelAsset* GetTriangleThreeDModelAssset(const TriangleType triangleType, const math::Vector2& pointA, const FLOAT32 width, const FLOAT32 height)
+	static asset::ThreeDModelAsset* GetTriangleThreeDModelAssset(const TriangleType triangleType, const math::Vector2& pointA, const FLOAT32 width, const FLOAT32 height, const bool flipUV_Y)
 	{
 		std::vector<ThreeDModelMesh> threeDModelMeshes{};
 		threeDModelMeshes.emplace_back(nullptr);
@@ -76,7 +76,7 @@ namespace dooms::graphics::meshHelper
 
 		threeDModelMeshes[0].mVerticeStride = 12;
 
-		MeshData meshVertexData = GetTriangleMeshVertexData(triangleType, pointA, width, height);
+		MeshData meshVertexData = GetTriangleMeshVertexData(triangleType, pointA, width, height, flipUV_Y);
 		threeDModelMeshes[0].mMeshDatas = std::move(meshVertexData);
 		threeDModelMeshes[0].mMeshIndices = { 0, 1, 2 };
 		threeDModelMeshes[0].bHasIndices = true;
@@ -117,17 +117,17 @@ namespace dooms::graphics::meshHelper
 		return threeDModelAsset;
 	}
 
-	static MeshData GetQuadMeshVertexData(const math::Vector2& leftbottom, const math::Vector2& rightup)
+	static MeshData GetQuadMeshVertexData(const math::Vector2& leftbottom, const math::Vector2& rightup, const bool flipUV_Y)
 	{
 		FLOAT32 QuadMeshData[]
 		{
-			leftbottom.x, rightup.y, 0.0f, 0.0f, 1.0f,
-			leftbottom.x, leftbottom.y, 0.0f, 0.0f, 0.0f,
-			rightup.x, leftbottom.y, 0.0f, 1.0f, 0.0f,
+			leftbottom.x, rightup.y, 0.0f, 0.0f, (flipUV_Y == true) ? 1.0f : 0.0f /*UV Y*/,
+			leftbottom.x, leftbottom.y, 0.0f, 0.0f,(flipUV_Y == true) ? 0.0f : 1.0f /*UV Y*/,
+			rightup.x, leftbottom.y, 0.0f, 1.0f, (flipUV_Y == true) ? 0.0f : 1.0f /*UV Y*/,
 
-			rightup.x, leftbottom.y, 0.0f, 1.0f, 0.0f,
-			rightup.x, rightup.y, 0.0f, 1.0f, 1.0f,
-			leftbottom.x, rightup.y, 0.0f, 0.0f, 1.0f,
+			rightup.x, leftbottom.y, 0.0f, 1.0f, (flipUV_Y == true) ? 0.0f : 1.0f /*UV Y*/,
+			rightup.x, rightup.y, 0.0f, 1.0f, (flipUV_Y == true) ? 1.0f : 0.0f /*UV Y*/,
+			leftbottom.x, rightup.y, 0.0f, 0.0f, (flipUV_Y == true) ? 1.0f : 0.0f /*UV Y*/,
 		};
 
 		MeshData MeshVertexDataList{6};
@@ -140,7 +140,7 @@ namespace dooms::graphics::meshHelper
 		return MeshVertexDataList;
 	}
 
-	static asset::ThreeDModelAsset* GetQuadThreeDModelAssset(const math::Vector2& leftbottom, const math::Vector2& rightup)
+	static asset::ThreeDModelAsset* GetQuadThreeDModelAssset(const math::Vector2& leftbottom, const math::Vector2& rightup, const bool flipUV_Y)
 	{
 		std::vector<ThreeDModelMesh> threeDModelMeshes{};
 		threeDModelMeshes.emplace_back(nullptr);
@@ -150,7 +150,7 @@ namespace dooms::graphics::meshHelper
 
 		threeDModelMeshes[0].mVerticeStride = 12;
 		
-		MeshData meshVertexData = GetQuadMeshVertexData(leftbottom, rightup);
+		MeshData meshVertexData = GetQuadMeshVertexData(leftbottom, rightup, flipUV_Y);
 		threeDModelMeshes[0].mMeshDatas = std::move(meshVertexData);
 		threeDModelMeshes[0].mMeshIndices = { 0, 1, 2, 3, 4, 5 };
 		threeDModelMeshes[0].bHasIndices = true;
@@ -174,38 +174,54 @@ namespace dooms::graphics::meshHelper
 	}
 }
 
-dooms::graphics::Mesh* dooms::graphics::meshHelper::GetQuadMesh()
+dooms::graphics::Mesh* dooms::graphics::meshHelper::GetQuadMesh(const bool flipUV_Y)
 {
 	if (dooms::graphics::meshHelper::DefaultQuadThreeDModelAsset == nullptr)
 	{
-		DefaultQuadThreeDModelAsset = GetQuadThreeDModelAssset(math::Vector2(-1.0f, -1.0f), math::Vector2(1.0f, 1.0f));
+		DefaultQuadThreeDModelAsset = GetQuadThreeDModelAssset(math::Vector2(-1.0f, -1.0f), math::Vector2(1.0f, 1.0f), flipUV_Y);
 		
 	}
 
 	return DefaultQuadThreeDModelAsset->GetMesh(0);
 }
 
-dooms::graphics::Mesh* dooms::graphics::meshHelper::GetQuadMesh(const math::Vector2& leftbottom, const math::Vector2& rightup)
+dooms::graphics::Mesh* dooms::graphics::meshHelper::GetQuadMesh(const math::Vector2& leftbottom, const math::Vector2& rightup, const bool flipUV_Y)
 {
-	asset::ThreeDModelAsset* const threeDModelAsset = GetQuadThreeDModelAssset(leftbottom, rightup);
+	asset::ThreeDModelAsset* const threeDModelAsset = GetQuadThreeDModelAssset(leftbottom, rightup, flipUV_Y);
 
 	return threeDModelAsset->GetMesh(0);
 }
 
-dooms::graphics::Mesh* dooms::graphics::meshHelper::GetTriangleMesh(const TriangleType triangleType)
+dooms::graphics::Mesh* dooms::graphics::meshHelper::GetTriangleMesh(const TriangleType triangleType, const bool flipUV_Y)
 {
-	return GetTriangleThreeDModelAssset(triangleType, math::Vector2(-1.0f, -1.0f), 1.0f, 1.0f)->GetMesh(0);
+	return GetTriangleThreeDModelAssset(triangleType, math::Vector2(-1.0f, -1.0f), 1.0f, 1.0f, flipUV_Y)->GetMesh(0);
 }
 
 dooms::graphics::Mesh* dooms::graphics::meshHelper::GetTriangleMesh
 (
 	const TriangleType triangleType,
-	const math::Vector2& pointA, 
+	const math::Vector2& pointA,
 	const FLOAT32 width,
-	const FLOAT32 height
+	const FLOAT32 height, const bool flipUV_Y
 )
 {
-	asset::ThreeDModelAsset* const threeDModelAsset = GetTriangleThreeDModelAssset(triangleType, pointA, width, height);
+	asset::ThreeDModelAsset* const threeDModelAsset = GetTriangleThreeDModelAssset(triangleType, pointA, width, height, flipUV_Y);
 
 	return threeDModelAsset->GetMesh(0);
+}
+
+bool dooms::graphics::meshHelper::GetFlipOptionBasedOnCurrentGraphicsAPI()
+{
+	if (dooms::graphics::GraphicsAPIManager::GetCurrentAPIType() == dooms::graphics::GraphicsAPI::eGraphicsAPIType::OpenGL)
+	{
+		return true;
+	}
+	else if (dooms::graphics::GraphicsAPIManager::GetCurrentAPIType() == dooms::graphics::GraphicsAPI::eGraphicsAPIType::DX11_10)
+	{
+		return false;
+	}
+	else
+	{
+		NEVER_HAPPEN;
+	}
 }

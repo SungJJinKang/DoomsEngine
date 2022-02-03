@@ -24,8 +24,8 @@ void dooms::graphics::GraphicsAPILoader::FetchExportedFunctionAddress()
 	
 	dooms::graphics::GraphicsAPI::FlushCMDQueue = (GraphicsAPI::GRAPHICS_FLUSH_CMD_QUEUE)GetProcAddress(hModule, "FlushCMDQueue");
 	//D_ASSERT(dooms::graphics::GraphicsAPI::FlushCMDQueue != nullptr);
-	dooms::graphics::GraphicsAPI::GetCurrentAPIType = (GraphicsAPI::GRAPHICS_GETCURRENTAPITYPE)GetProcAddress(hModule, "GetCurrentAPIType");
-	//D_ASSERT(dooms::graphics::GraphicsAPI::GetCurrentAPIType != nullptr);
+	dooms::graphics::GraphicsAPI::_GetCurrentAPIType = (GraphicsAPI::GRAPHICS_GETCURRENTAPITYPE)GetProcAddress(hModule, "_GetCurrentAPIType");
+	//D_ASSERT(dooms::graphics::GraphicsAPI::_GetCurrentAPIType != nullptr);
 	dooms::graphics::GraphicsAPI::ActivateTextureUnit = (GraphicsAPI::GRAPHICS_ACTIVATETEXTUREUNIT)GetProcAddress(hModule, "ActivateTextureUnit");
 	//D_ASSERT(dooms::graphics::GraphicsAPI::ActivateTextureUnit != nullptr);
 	dooms::graphics::GraphicsAPI::CreateBufferObject = (GraphicsAPI::GRAPHICS_ALLOCATEBUFFERMEMORY)GetProcAddress(hModule, "CreateBufferObject");
@@ -173,8 +173,6 @@ void dooms::graphics::GraphicsAPILoader::FetchExportedFunctionAddress()
 	//D_ASSERT(dooms::graphics::GraphicsAPI::GetTextureMetaDataFloat != nullptr);
 	dooms::graphics::GraphicsAPI::GetTextureMetaDataInt = (GraphicsAPI::GRAPHICS_GETTEXTUREMETADATAINT)GetProcAddress(hModule, "GetTextureMetaDataInt");
 	//D_ASSERT(dooms::graphics::GraphicsAPI::GetTextureMetaDataInt != nullptr);
-	dooms::graphics::GraphicsAPI::GetTime = (GraphicsAPI::GRAPHICS_GETTIME)GetProcAddress(hModule, "GetTime");
-	//D_ASSERT(dooms::graphics::GraphicsAPI::GetTime != nullptr);
 	dooms::graphics::GraphicsAPI::GetViewPort = (GraphicsAPI::GRAPHICS_GETVIEWPORT)GetProcAddress(hModule, "GetViewPort");
 	//D_ASSERT(dooms::graphics::GraphicsAPI::GetViewPort != nullptr);
 	dooms::graphics::GraphicsAPI::InitializeGraphicsAPI = (GraphicsAPI::GRAPHICS_INITIALIZEGRAPHICSAPI)GetProcAddress(hModule, "InitializeGraphicsAPI");

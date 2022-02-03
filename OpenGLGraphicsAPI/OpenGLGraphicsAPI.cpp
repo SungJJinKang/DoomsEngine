@@ -6,19 +6,26 @@
 #include "stdio.h"
 #include <Windows.h>
 
-#include <glad/glad.h>
-#include <GLFW/glfw3.h>
+#include "glad/glad.h"
+#include "GLFW/glfw3.h"
 
 
 #define OPENGL_MAJOR_VERSION 4
 #define OPENGL_MINOR_VERSION 6
 
 #undef NEVER_HAPPEN
-#ifdef _DEBUG
+
+#if defined(_DEBUG)
 #define NEVER_HAPPEN assert(false)
-#else
+#elif (!defined(_DEBUG)) && defined(_MSC_VER)
 #define NEVER_HAPPEN __assume(0)
+#elif (!defined(_DEBUG)) && defined(__clang__)
+#define NEVER_HAPPEN __builtin_unreachable()
+#else
+#error Unsupported compiler ( Please Use msvc or clang )
 #endif
+
+
 
 
 namespace dooms
@@ -1074,16 +1081,18 @@ namespace dooms
 		}
 
 
+		/*
 		/**
 		 * \brief
 		 * \return elapsed time since GLFW was initilized
-		 */
+		 #1#
 		DOOMS_ENGINE_GRAPHICS_API double GetTime()
 		{
 			return glfwGetTime();
 		}
+		*/
 
-		DOOMS_ENGINE_GRAPHICS_API GraphicsAPI::eGraphicsAPIType GetCurrentAPIType()
+		DOOMS_ENGINE_GRAPHICS_API GraphicsAPI::eGraphicsAPIType _GetCurrentAPIType()
 		{
 			return GraphicsAPI::eGraphicsAPIType::OpenGL;
 		}

@@ -74,6 +74,7 @@ const std::vector<dooms::reflection::DTemplateArgumentType> dooms::reflection::D
 std::string dooms::reflection::DTemplateType::GetTemplateTypeName() const
 {
 	std::string templateTypeName{};
+	// TODO Optimize this. Too slow. Remove heap allocation ( small size buffer is used? )
 	const bool isSuccess = dTemplateTypeHelper::GetTemplateTypeNameFromTypeFullName(clTemplateType->name.text, templateTypeName);
 	D_ASSERT(isSuccess == true);
 

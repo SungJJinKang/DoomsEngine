@@ -24,7 +24,7 @@ bool dooms::graphics::Material::AttachShaderToMaterial(dooms::asset::ShaderAsset
 
 		shaderAsset->CompileShaderIfNotCompiled();
 		
-		if (dooms::graphics::GraphicsAPI::GetCurrentAPIType() == dooms::graphics::GraphicsAPI::eGraphicsAPIType::OpenGL)
+		if (dooms::graphics::GraphicsAPIManager::GetCurrentAPIType() == dooms::graphics::GraphicsAPI::eGraphicsAPIType::OpenGL)
 		{
 			if (mProgramIDForOpenGL.IsValid())
 			{
@@ -49,7 +49,7 @@ bool dooms::graphics::Material::AttachShaderToMaterial(dooms::asset::ShaderAsset
 				isSuccess = false;
 			}
 		}
-		else if (dooms::graphics::GraphicsAPI::GetCurrentAPIType() == dooms::graphics::GraphicsAPI::eGraphicsAPIType::DX11_10)
+		else if (dooms::graphics::GraphicsAPIManager::GetCurrentAPIType() == dooms::graphics::GraphicsAPI::eGraphicsAPIType::DX11_10)
 		{
 			if (shaderAsset->IsShaderObjectSuccessfullyCreated(shaderType))
 			{
@@ -122,14 +122,14 @@ bool dooms::graphics::Material::IsHasAnyValidShaderObject() const
 {
 	bool isHasAnyValidShaderObject = false;
 
-	if (dooms::graphics::GraphicsAPI::GetCurrentAPIType() == dooms::graphics::GraphicsAPI::eGraphicsAPIType::OpenGL)
+	if (dooms::graphics::GraphicsAPIManager::GetCurrentAPIType() == dooms::graphics::GraphicsAPI::eGraphicsAPIType::OpenGL)
 	{
 		if (mProgramIDForOpenGL.IsValid())
 		{
 			isHasAnyValidShaderObject = true;
 		}
 	}
-	else if (dooms::graphics::GraphicsAPI::GetCurrentAPIType() == dooms::graphics::GraphicsAPI::eGraphicsAPIType::DX11_10)
+	else if (dooms::graphics::GraphicsAPIManager::GetCurrentAPIType() == dooms::graphics::GraphicsAPI::eGraphicsAPIType::DX11_10)
 	{
 		for (size_t pipeLineStageIndex = 0; pipeLineStageIndex < GRAPHICS_PIPELINE_STAGE_COUNT; pipeLineStageIndex++)
 		{
@@ -195,7 +195,7 @@ dooms::graphics::Material::Material(const std::array<dooms::asset::ShaderAsset*,
 
 void dooms::graphics::Material::CreateMaterialObjectIfNotExist()
 {
-	if (dooms::graphics::GraphicsAPI::GetCurrentAPIType() == dooms::graphics::GraphicsAPI::eGraphicsAPIType::OpenGL)
+	if (dooms::graphics::GraphicsAPIManager::GetCurrentAPIType() == dooms::graphics::GraphicsAPI::eGraphicsAPIType::OpenGL)
 	{
 		if (mProgramIDForOpenGL.IsValid() == false)
 		{
@@ -208,7 +208,7 @@ void dooms::graphics::Material::CreateMaterialObjectIfNotExist()
 
 void dooms::graphics::Material::DestroyMaterialObjectIfExist()
 {
-	if(dooms::graphics::GraphicsAPI::GetCurrentAPIType() == dooms::graphics::GraphicsAPI::eGraphicsAPIType::OpenGL)
+	if(dooms::graphics::GraphicsAPIManager::GetCurrentAPIType() == dooms::graphics::GraphicsAPI::eGraphicsAPIType::OpenGL)
 	{
 		if (mProgramIDForOpenGL.IsValid())
 		{
@@ -216,7 +216,7 @@ void dooms::graphics::Material::DestroyMaterialObjectIfExist()
 			mProgramIDForOpenGL.Reset();
 		}
 	}
-	else if (dooms::graphics::GraphicsAPI::GetCurrentAPIType() == dooms::graphics::GraphicsAPI::eGraphicsAPIType::DX11_10)
+	else if (dooms::graphics::GraphicsAPIManager::GetCurrentAPIType() == dooms::graphics::GraphicsAPI::eGraphicsAPIType::DX11_10)
 	{
 		for (size_t pipeLineStageIndex = 0; pipeLineStageIndex < GRAPHICS_PIPELINE_STAGE_COUNT; pipeLineStageIndex++)
 		{
@@ -233,14 +233,14 @@ void dooms::graphics::Material::DestroyMaterialObjectIfExist()
 
 void dooms::graphics::Material::DestroyShaderFromMaterial(const dooms::graphics::GraphicsAPI::eGraphicsPipeLineStage shaderType)
 {
-	if (dooms::graphics::GraphicsAPI::GetCurrentAPIType() == dooms::graphics::GraphicsAPI::eGraphicsAPIType::OpenGL)
+	if (dooms::graphics::GraphicsAPIManager::GetCurrentAPIType() == dooms::graphics::GraphicsAPI::eGraphicsAPIType::OpenGL)
 	{
 		if (mProgramIDForOpenGL.IsValid() && IsValid(mShaderAsset[shaderType]) && mShaderAsset[shaderType]->GetShaderObject(shaderType).IsValid())
 		{
 			GraphicsAPI::DetachShaderFromMaterial(mPipeLineShaderView[shaderType], mProgramIDForOpenGL, mShaderAsset[shaderType]->GetShaderObject(shaderType));
 		}
 	}
-	else if (dooms::graphics::GraphicsAPI::GetCurrentAPIType() == dooms::graphics::GraphicsAPI::eGraphicsAPIType::DX11_10)
+	else if (dooms::graphics::GraphicsAPIManager::GetCurrentAPIType() == dooms::graphics::GraphicsAPI::eGraphicsAPIType::DX11_10)
 	{
 		if(mPipeLineShaderView[shaderType].IsValid())
 		{
@@ -270,7 +270,7 @@ dooms::graphics::UniformBufferObjectView* dooms::graphics::Material::AddUniformB
 
 	if(IsValid(ubo))
 	{
-		if (graphics::GraphicsAPI::GetCurrentAPIType() == graphics::GraphicsAPI::eGraphicsAPIType::OpenGL)
+		if (graphics::GraphicsAPIManager::GetCurrentAPIType() == graphics::GraphicsAPI::eGraphicsAPIType::OpenGL)
 		{
 			// In opengl, Uniform Buffer Object is bound one time regardless of target graphics pipe line stage
 			for(UniformBufferObjectView& uboView : mTargetUniformBufferObjectViews)
@@ -294,7 +294,7 @@ dooms::graphics::UniformBufferObjectView* dooms::graphics::Material::AddUniformB
 				addedUbo = &uboView;
 			}
 		}
-		else if (graphics::GraphicsAPI::GetCurrentAPIType() == graphics::GraphicsAPI::eGraphicsAPIType::DX11_10)
+		else if (graphics::GraphicsAPIManager::GetCurrentAPIType() == graphics::GraphicsAPI::eGraphicsAPIType::DX11_10)
 		{
 			// In direct x, Constant Buffer should be bound to target graphics pipe line stage.
 			UniformBufferObjectView& uboView = mTargetUniformBufferObjectViews.emplace_back
@@ -349,7 +349,7 @@ void dooms::graphics::Material::BindMaterial() const
 	if (FixedMaterial::GetIsFixedMaterialExist() == false)
 	{
 
-		if (dooms::graphics::GraphicsAPI::GetCurrentAPIType() == GraphicsAPI::eGraphicsAPIType::DX11_10)
+		if (dooms::graphics::GraphicsAPIManager::GetCurrentAPIType() == GraphicsAPI::eGraphicsAPIType::DX11_10)
 		{
 			for (size_t pipeLineStageIndex = 0; pipeLineStageIndex < GRAPHICS_PIPELINE_STAGE_COUNT; pipeLineStageIndex++)
 			{
@@ -372,7 +372,7 @@ void dooms::graphics::Material::BindMaterial() const
 		}
 			
 			
-		else if (dooms::graphics::GraphicsAPI::GetCurrentAPIType() == GraphicsAPI::eGraphicsAPIType::OpenGL)
+		else if (dooms::graphics::GraphicsAPIManager::GetCurrentAPIType() == GraphicsAPI::eGraphicsAPIType::OpenGL)
 		{
 			if (D_OVERLAP_BIND_CHECK_CHECK_IS_NOT_BOUND_AND_BIND_ID(MATERIAL_TAG, mProgramIDForOpenGL))
 			{
@@ -405,7 +405,7 @@ void dooms::graphics::Material::UnBindMaterial() const
 	if (FixedMaterial::GetIsFixedMaterialExist() == false)
 	{
 
-		if (dooms::graphics::GraphicsAPI::GetCurrentAPIType() == GraphicsAPI::eGraphicsAPIType::DX11_10)
+		if (dooms::graphics::GraphicsAPIManager::GetCurrentAPIType() == GraphicsAPI::eGraphicsAPIType::DX11_10)
 		{
 			for (size_t pipeLineStageIndex = 0; pipeLineStageIndex < GRAPHICS_PIPELINE_STAGE_COUNT; pipeLineStageIndex++)
 			{
@@ -414,7 +414,7 @@ void dooms::graphics::Material::UnBindMaterial() const
 
 			GraphicsAPI::BindInputLayoutForD3D(0);
 		}
-		else if (dooms::graphics::GraphicsAPI::GetCurrentAPIType() == GraphicsAPI::eGraphicsAPIType::OpenGL)
+		else if (dooms::graphics::GraphicsAPIManager::GetCurrentAPIType() == GraphicsAPI::eGraphicsAPIType::OpenGL)
 		{
 			if (D_OVERLAP_BIND_CHECK_CHECK_IS_NOT_BOUND_AND_BIND_ID(MATERIAL_TAG, 0))
 			{

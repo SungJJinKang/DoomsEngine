@@ -8,7 +8,9 @@
 void dooms::graphics::DeferredRenderingDrawer::Initialize()
 {
 	SetShaderToGBufferMaterial();
-	mQuadMesh = meshHelper::GetQuadMesh();
+
+	mQuadMesh = meshHelper::GetQuadMesh(meshHelper::GetFlipOptionBasedOnCurrentGraphicsAPI());
+	
 	D_ASSERT(IsValid(mQuadMesh) == true);
 }
 

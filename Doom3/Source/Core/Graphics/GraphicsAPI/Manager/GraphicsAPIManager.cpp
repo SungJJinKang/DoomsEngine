@@ -18,13 +18,26 @@ void dooms::graphics::GraphicsAPIManager::SetDefaultSettingOfAPI()
 {
 	input::GraphicsAPIInput::SetCursorMode(dooms::graphics::GraphicsAPI::GetPlatformWindow(), input::GraphicsAPIInput::eCursorMode::SHOW_CURSOR_UNLOCK_CURSOR_FROM_WINDOW);
 	graphics::GraphicsAPI::SetIsDepthTestEnabled(true);
-	graphics::GraphicsAPI::SetIsStencilTestEnabled(true);
+	graphics::GraphicsAPI::SetIsStencilTestEnabled(false);
 	graphics::GraphicsAPI::SetDepthFunc(GraphicsAPI::LESS);
 	graphics::GraphicsAPI::SetIsAlphaTestEnabled(dooms::graphics::graphicsAPISetting::DefaultIsAlphaTestOn);
 	graphics::GraphicsAPI::SetIsBlendEnabled(dooms::graphics::graphicsAPISetting::DefaultIsBlendOn);
 	graphics::GraphicsAPI::SetBlendFactor(dooms::graphics::graphicsAPISetting::DefaultBlendSourceFactor, dooms::graphics::graphicsAPISetting::DefaultBlendDestinationFactor);
 	graphics::GraphicsAPI::SetCullFace(GraphicsAPI::CULLFACE_BACK);
-	graphics::GraphicsAPI::SetFrontFaceWinding(GraphicsAPI::CCW);
+
+	if(graphics::GraphicsAPIManager::GetCurrentAPIType() == graphics::GraphicsAPI::eGraphicsAPIType::OpenGL)
+	{
+		graphics::GraphicsAPI::SetFrontFaceWinding(GraphicsAPI::CCW);
+	}
+	else if (graphics::GraphicsAPIManager::GetCurrentAPIType() == graphics::GraphicsAPI::eGraphicsAPIType::DX11_10)
+	{
+		graphics::GraphicsAPI::SetFrontFaceWinding(GraphicsAPI::CCW);
+	}
+	else
+	{
+		NEVER_HAPPEN;
+	}
+
 	graphics::GraphicsAPI::SetVSync(false);
 	graphics::GraphicsAPI::SetViewport(0, 0, 0, graphicsAPISetting::GetScreenWidth(), graphicsAPISetting::GetScreenHeight());
 

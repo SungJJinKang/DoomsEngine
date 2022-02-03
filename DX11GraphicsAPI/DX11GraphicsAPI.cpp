@@ -8,12 +8,20 @@
 #include <d3d11_3.h>
 #include <d3dcompiler.h>
 
+#include "DX11Imgui.h"
+#include "DX11GraphicsAPIInput.h"
+
 
 #undef NEVER_HAPPEN
-#ifdef _DEBUG
+
+#if defined(_DEBUG)
 #define NEVER_HAPPEN assert(false)
-#else
+#elif (!defined(_DEBUG)) && defined(_MSC_VER)
 #define NEVER_HAPPEN __assume(0)
+#elif (!defined(_DEBUG)) && defined(__clang__)
+#define NEVER_HAPPEN __builtin_unreachable()
+#else
+#error Unsupported compiler ( Please Use msvc or clang )
 #endif
 
 #define MIN(X, Y) ((X < Y) ? (X) : (Y));
@@ -897,6 +905,9 @@ namespace dooms
                 PAINTSTRUCT ps;
                 HDC hdc;
 
+                dooms::input::dx11::WndProc(hWnd, message, wParam, lParam);
+                dooms::imgui::dx11::WndProc(hWnd, message, wParam, lParam);
+                
                 switch (message)
                 {
                 case WM_PAINT:
@@ -908,8 +919,19 @@ namespace dooms
                     PostQuitMessage(0);
                     break;
 
-                    // Note that this tutorial does not handle resizing (WM_SIZE) requests,
-                    // so we created the window without the resize border.
+                case WM_SIZE:
+                    if (dooms::graphics::dx11::GetDevice() != NULL && wParam != SIZE_MINIMIZED)
+                    {
+                        assert(false);
+                        //CleanupRenderTarget();
+                        //g_pSwapChain->ResizeBuffers(0, (UINT)LOWORD(lParam), (UINT)HIWORD(lParam), DXGI_FORMAT_UNKNOWN, 0);
+                       //CreateRenderTarget();
+                    }
+                    return 0;
+
+                case WM_SYSCOMMAND:
+                    if ((wParam & 0xfff0) == SC_KEYMENU) // Disable ALT application menu
+                        return 0;
 
                 default:
                     return DefWindowProc(hWnd, message, wParam, lParam);
@@ -934,11 +956,12 @@ namespace dooms
             dx11::g_pImmediateContext->Flush();
 		}
 
-        DOOMS_ENGINE_GRAPHICS_API GraphicsAPI::eGraphicsAPIType GetCuurentAPIType()
+        DOOMS_ENGINE_GRAPHICS_API GraphicsAPI::eGraphicsAPIType _GetCurrentAPIType()
         {
             return GraphicsAPI::eGraphicsAPIType::DX11_10;
         }
 
+		/*
 		DOOMS_ENGINE_GRAPHICS_API double GetTime()
 		{
             __int64 currTime;
@@ -946,11 +969,7 @@ namespace dooms
             
 			return currTime;
 		}
-
-        DOOMS_ENGINE_GRAPHICS_API GraphicsAPI::eGraphicsAPIType GetCurrentAPIType()
-        {
-            return GraphicsAPI::eGraphicsAPIType::DX11_10;
-        }
+		*/
 
 		DOOMS_ENGINE_GRAPHICS_API unsigned int InitializeGraphicsAPI(const int screenWidth, const int screenHeight, const unsigned int multiSamplingNum)
 		{
@@ -1001,7 +1020,7 @@ namespace dooms
                 }
                 else
                 {
-                	
+                    dx11::g_pSwapChain->Present(dx11::SyncInterval, 0); // Swap Back buffer
                     /*
                     ID3D11Debug* dxgiDebug;
 
@@ -1013,6 +1032,7 @@ namespace dooms
                     }
                     */
                     
+                    /*
                     HRESULT hr = dx11::g_pSwapChain->Present(dx11::SyncInterval, 0); // Swap Back buffer
                     if(FAILED(hr))
                     {
@@ -1020,6 +1040,8 @@ namespace dooms
                         assert(false);
 	                    //getdevicerea
                     }
+                    */
+
                     break;
                 }
             }
@@ -1280,7 +1302,7 @@ namespace dooms
             dx11::g_pImmediateContext->OMGetDepthStencilState(&state, &ref);
             state->GetDesc(&desc);
 
-            desc.DepthWriteMask = D3D11_DEPTH_WRITE_MASK::D3D11_DEPTH_WRITE_MASK_ZERO;
+            desc.DepthWriteMask = (isWriteDepthBuffer ? D3D11_DEPTH_WRITE_MASK::D3D11_DEPTH_WRITE_MASK_ALL : D3D11_DEPTH_WRITE_MASK::D3D11_DEPTH_WRITE_MASK_ZERO);
 
             state->Release();
             HRESULT hr = dx11::g_pd3dDevice->CreateDepthStencilState(&desc, &state);

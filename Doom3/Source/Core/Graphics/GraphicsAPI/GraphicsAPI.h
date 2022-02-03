@@ -2,7 +2,7 @@
 
 #include "Macros/GraphicsAPIMacros.h"
 
-
+#include <cassert>
 
 namespace dooms
 {
@@ -34,7 +34,7 @@ namespace dooms
 			 * \brief TODO : Make inlined version function of this function for performance
 			 */
 			typedef eGraphicsAPIType(DOOMS_ENGINE_API_ENTRY_P GRAPHICS_GETCURRENTAPITYPE)(void);
-			extern GRAPHICS_GETCURRENTAPITYPE GetCurrentAPIType;
+			extern GRAPHICS_GETCURRENTAPITYPE _GetCurrentAPIType;
 
 			enum eGraphisAPIDebugCallbackSeverity : unsigned int
 			{
@@ -64,9 +64,6 @@ namespace dooms
 
 			typedef void* (DOOMS_ENGINE_API_ENTRY_P GRAPHICS_GETPLATFORMWINDOW)(void);
 			extern GRAPHICS_GETPLATFORMWINDOW GetPlatformWindow;
-
-			typedef double (DOOMS_ENGINE_API_ENTRY_P GRAPHICS_GETTIME)(void);
-			extern GRAPHICS_GETTIME GetTime;
 
 			enum eBufferBitType : unsigned int
 			{

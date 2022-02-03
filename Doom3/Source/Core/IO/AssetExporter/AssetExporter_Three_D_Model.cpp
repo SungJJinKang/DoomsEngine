@@ -21,7 +21,6 @@ namespace dooms
 					aiProcess_SortByPType |
 					aiProcess_CalcTangentSpace |
 					aiProcess_GenNormals |
-					aiProcess_FlipUVs |
 					aiProcess_ImproveCacheLocality |
 					aiProcess_GenBoundingBoxes
 				)
@@ -77,7 +76,7 @@ void dooms::assetExporter::assetExporterThreeDModel::ExportToAssFile
 		NEVER_HAPPEN;
 	}
 	
-	exportProperties.release();
+	exportProperties.release(); // TODO : FIX THIS
 }
 
 void dooms::assetExporter::assetExporterThreeDModel::SetAssFileFormatId(const char* id)
