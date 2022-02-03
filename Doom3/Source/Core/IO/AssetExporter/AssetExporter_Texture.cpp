@@ -451,13 +451,34 @@ void dooms::assetExporter::assetExporterTexture::ExportTextureFromMainFrameBuffe
 	UINT8* const pixels = dooms::graphics::GraphicsAPI::ReadPixels(0, graphics::GraphicsAPI::BACK, bufferSize, startX, startY, width, height, pixelFormat, dataType);
 
 	DirectX::Image directXImage = ConvertToDirectXImage(0, pixels, width, height, pixelFormat, dataType);
-	
-	DirectX::ScratchImage rotatedDirectXScratchImage;
-	DirectX::FlipRotate(directXImage, DirectX::TEX_FR_FLAGS::TEX_FR_FLIP_VERTICAL, rotatedDirectXScratchImage);
 
-	delete[] directXImage.pixels;
-	
-	ExportTexture(*rotatedDirectXScratchImage.GetImage(0, 0, 0), 0, exportPath, textureExtension, false);
-	
-	rotatedDirectXScratchImage.Release();
+	DirectX::ScratchImage exportedScratchIMG;
+	if(dooms::graphics::GraphicsAPI::GetCurrentAPIType() == dooms::graphics::GraphicsAPI::eGraphicsAPIType::OpenGL)
+	{
+		const HRESULT hr = DirectX::FlipRotate(directXImage, DirectX::TEX_FR_FLAGS::TEX_FR_FLIP_VERTICAL, exportedScratchIMG);
+		delete[] directXImage.pixels;
+
+		if(FAILED(hr))
+		{
+			D_ASSERT(false);
+			return;
+		}
+	}
+	else if(dooms::graphics::GraphicsAPI::GetCurrentAPIType() == dooms::graphics::GraphicsAPI::eGraphicsAPIType::DX11_10)
+	{
+		const HRESULT hr = exportedScratchIMG.InitializeFromImage(directXImage);
+
+		if (FAILED(hr))
+		{
+			D_ASSERT(false);
+			return;
+		}
+	}
+	else
+	{
+		NEVER_HAPPEN;
+	}
+
+	ExportTexture(*exportedScratchIMG.GetImage(0, 0, 0), 0, exportPath, textureExtension, false);
+	exportedScratchIMG.Release();
 }
