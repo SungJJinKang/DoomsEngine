@@ -46,7 +46,7 @@ bool dooms::graphics::Graphics_Server::InitializeGraphicsAPI()
 	{
 		isSuccess = GraphicsAPIManager::Initialize(GraphicsAPI::eGraphicsAPIType::OpenGL);
 	}
-	else if (targetGraphicsAPI == "DX11_10")
+	else if (targetGraphicsAPI == "DX11_10" || targetGraphicsAPI == "DX11")
 	{
 		isSuccess = GraphicsAPIManager::Initialize(GraphicsAPI::eGraphicsAPIType::DX11_10);
 	}
