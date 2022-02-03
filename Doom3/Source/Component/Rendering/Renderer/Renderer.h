@@ -192,20 +192,6 @@ namespace dooms
 		void SetDesiredMaxDrawDistance(const FLOAT32 desiredMaxDrawDistance);
 		FLOAT32 GetDesiredMaxDrawDistance() const;
 
-	private :
-		std::array<unsigned long, MAX_CAMERA_COUNT> mFrontToBackSortingOrder;
-
-	public:
-
-		FORCE_INLINE UINT32 GetFrontToBackSortingOrder(const size_t cameraIndex) const
-		{
-			D_ASSERT(cameraIndex < MAX_CAMERA_COUNT);
-			return mFrontToBackSortingOrder[cameraIndex];
-		}
-		FORCE_INLINE void SetFrontToBackSortingOrder(const size_t cameraIndex, const UINT32 frontToBackSortingOrder)
-		{
-			D_ASSERT(cameraIndex < MAX_CAMERA_COUNT);
-			mFrontToBackSortingOrder[cameraIndex] = frontToBackSortingOrder;
-		}
+	
 	};
 }
