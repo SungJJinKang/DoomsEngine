@@ -93,10 +93,10 @@ namespace dooms
 			BVHAABB3D mRendererColliderBVH{ RENDERER_BVH_MAX_NODE_COUNT };
 			
 			std::unique_ptr<culling::EveryCulling> mCullingSystem;
+			
+			bool InitializeGraphicsAPI(GraphicsAPI::eGraphicsAPIType graphicsAPIType);
 
-			bool InitializeGraphicsAPI();
-
-			virtual void Init() final;
+			virtual void Init(const int argc, char* const* const argv) final;
 			virtual void LateInit() final;
 			virtual void Update() final;
 			virtual void OnEndOfFrame() final;

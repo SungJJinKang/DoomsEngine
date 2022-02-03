@@ -15,7 +15,7 @@
 
 namespace dooms
 {
-	int GameEngineEntryPoint()
+	int GameEngineEntryPoint(int argc, char* argv[])
 	{
 		{
 			{
@@ -24,7 +24,7 @@ namespace dooms
 				dooms::GameCore gameCore{};
 
 				D_START_PROFILING(Init_Game, dooms::profiler::eProfileLayers::CPU);
-				gameCore.Init();
+				gameCore.Init(argc, argv);
 				D_END_PROFILING(Init_Game);
 
 				while (gameCore.Tick())

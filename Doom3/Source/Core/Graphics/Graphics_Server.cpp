@@ -34,31 +34,54 @@
 
 #include "Acceleration/LinearData_ViewFrustumCulling/CullingModule/MaskedSWOcclusionCulling/MaskedSWOcclusionCulling.h"
 
-bool dooms::graphics::Graphics_Server::InitializeGraphicsAPI()
+
+bool dooms::graphics::Graphics_Server::InitializeGraphicsAPI(GraphicsAPI::eGraphicsAPIType graphicsAPIType)
 {
 	dooms::graphics::graphicsSetting::LoadData();
 	dooms::graphics::graphicsAPISetting::LoadData();
 
 	bool isSuccess = false;
 
-	const std::string targetGraphicsAPI = ConfigData::GetSingleton()->GetConfigData().GetValue<std::string>("Graphics", "GRAPHICS_API");
-	if (targetGraphicsAPI == "OPENGL")
+	if(graphicsAPIType == GraphicsAPI::eGraphicsAPIType::GraphicsAPIType_NONE)
 	{
+		dooms::ui::PrintText("Read Target Graphics API from Config.ini file");
+
+		const std::string targetGraphicsAPI = ConfigData::GetSingleton()->GetConfigData().GetValue<std::string>("Graphics", "GRAPHICS_API");
+		if (targetGraphicsAPI == "OPENGL")
+		{
+			graphicsAPIType = GraphicsAPI::eGraphicsAPIType::OpenGL;
+		}
+		else if (targetGraphicsAPI == "DX11_10" || targetGraphicsAPI == "DX11")
+		{
+			graphicsAPIType = GraphicsAPI::eGraphicsAPIType::DX11_10;
+		}
+		else
+		{
+			D_ASSERT(false);
+		}
+	}
+	
+
+	switch (graphicsAPIType)
+	{
+	case GraphicsAPI::eGraphicsAPIType::OpenGL:
 		isSuccess = GraphicsAPIManager::Initialize(GraphicsAPI::eGraphicsAPIType::OpenGL);
-	}
-	else if (targetGraphicsAPI == "DX11_10" || targetGraphicsAPI == "DX11")
-	{
+		break;
+	case GraphicsAPI::eGraphicsAPIType::DX11_10: 
 		isSuccess = GraphicsAPIManager::Initialize(GraphicsAPI::eGraphicsAPIType::DX11_10);
-	}
-	else
-	{
+		break;
+	default:
+		dooms::ui::PrintText("Graphics API isn't chosen. Default Graphics API OPENGL is chosen.");
+		isSuccess = GraphicsAPIManager::Initialize(GraphicsAPI::eGraphicsAPIType::OpenGL); // If any specific api type isn't passed, just use opengl....
 		D_ASSERT(false);
 	}
+
 	D_ASSERT(isSuccess == true);
+
 	return isSuccess;
 }
 
-void dooms::graphics::Graphics_Server::Init()
+void dooms::graphics::Graphics_Server::Init(const int argc, char* const* const argv)
 {
 
 

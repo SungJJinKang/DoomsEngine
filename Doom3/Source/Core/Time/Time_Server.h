@@ -21,7 +21,7 @@ namespace dooms
 
 			MainTimer mMainTimer;
 			
-			void Init() noexcept override;
+			void Init(const int argc, char* const* const argv) noexcept override;
 			void Update() noexcept override;
 			void OnEndOfFrame() noexcept override;
 

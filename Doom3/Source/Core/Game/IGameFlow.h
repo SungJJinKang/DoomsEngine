@@ -25,7 +25,7 @@ namespace dooms
 		/// Don't put virtual
 		/// </summary>
 		void Init_Internal() {}
-		virtual void Init() = 0;
+		virtual void Init(const int argc, char* const* const argv) = 0;
 		virtual void LateInit() {}
 
 		/// <summary>
