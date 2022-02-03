@@ -42,8 +42,8 @@ dooms::graphics::PicktureInPickture::PicktureInPickture(const math::Vector2& lef
 	SetDefaultPIPMaterial();
 }
 
-dooms::graphics::PicktureInPickture::PicktureInPickture(const math::Vector2& leftBottomNDCPoint, const math::Vector2& rightTopNDCPoint, TextureView* const _drawedTexture, Material* const _pipMaterial)
-	:mPlaneMesh{ meshHelper::GetQuadMesh(leftBottomNDCPoint, rightTopNDCPoint, meshHelper::GetFlipOptionBasedOnCurrentGraphicsAPI()) }, mDrawedTexture(_drawedTexture), mPIPMaterial(_pipMaterial), bmIsDrawOnScreen(true)
+dooms::graphics::PicktureInPickture::PicktureInPickture(const math::Vector2& leftBottomNDCPoint, const math::Vector2& rightTopNDCPoint, Material* const _pipMaterial)
+	:mPlaneMesh{ meshHelper::GetQuadMesh(leftBottomNDCPoint, rightTopNDCPoint, meshHelper::GetFlipOptionBasedOnCurrentGraphicsAPI()) }, mDrawedTexture(nullptr), mPIPMaterial(_pipMaterial), bmIsDrawOnScreen(true)
 {
 	D_ASSERT(IsValid(mDrawedTexture));
 	D_ASSERT(IsValid(mPIPMaterial));
@@ -99,10 +99,18 @@ void dooms::graphics::PicktureInPickture::DrawPictureInPicture()
 	if (bmIsDrawOnScreen == true)
 	{
 		D_ASSERT(IsValid(mDrawedTexture) && IsValid(mPIPMaterial));
-		if (IsValid(mDrawedTexture) && IsValid(mPIPMaterial))
+		if (IsValid(mDrawedTexture) || IsValid(mPIPMaterial))
 		{
-			mPIPMaterial->BindMaterial();
-			mDrawedTexture->BindTexture(0, GraphicsAPI::eGraphicsPipeLineStage::PIXEL_SHADER);
+			if (IsValid(mPIPMaterial))
+			{
+				mPIPMaterial->BindMaterial();
+			}
+
+			if (IsValid(mDrawedTexture))
+			{
+				mDrawedTexture->BindTexture(0, GraphicsAPI::eGraphicsPipeLineStage::PIXEL_SHADER);
+			}
+
 			mPlaneMesh->Draw();
 
 		}

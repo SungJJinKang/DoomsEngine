@@ -759,10 +759,14 @@ namespace dooms
 						(currentState.rightButton == true) ? dooms::input::GraphicsAPIInput::eInputActionType::PRESS : dooms::input::GraphicsAPIInput::eInputActionType::RELEASE,
 						0 /* unused */
 					);
+
+					return 0;
+
 				case WM_MOUSEWHEEL:
 					dx11::DX11Mouse->ProcessMessage(msg, wParam, lParam);
 					const DirectX::Mouse::State _currentState = dx11::DX11Mouse->GetState();
 					mScroll_Callback(0, _currentState.scrollWheelValue);
+					return 0;
 
 				case WM_MOUSEHOVER:
 					dx11::DX11Mouse->ProcessMessage(msg, wParam, lParam);
@@ -770,13 +774,14 @@ namespace dooms
 					const DirectX::Mouse::State __currentState = dx11::DX11Mouse->GetState();
 					mCursorPosition_Callback(__currentState.x, __currentState.y);
 					mCursorEnterCallback(true);
+					return 0;
 
 				case WM_MOUSEMOVE:
 					dx11::DX11Mouse->ProcessMessage(msg, wParam, lParam);
 
 					const DirectX::Mouse::State ___currentState = dx11::DX11Mouse->GetState();
 					mCursorPosition_Callback(___currentState.x, ___currentState.y);
-
+					return 0;
 
 
 				case WM_KEYDOWN:
@@ -793,6 +798,7 @@ namespace dooms
 						(keyStateChange.mIsDown) == true ? dooms::input::GraphicsAPIInput::eInputActionType::PRESS : dooms::input::GraphicsAPIInput::eInputActionType::RELEASE,
 						0 /* unused */
 					);
+					return 0;
 				}
 
 				case WM_ACTIVATEAPP:
@@ -801,7 +807,7 @@ namespace dooms
 
 					const DirectX::Mouse::State ____currentState = dx11::DX11Mouse->GetState();
 					mCursorPosition_Callback(____currentState.x, ____currentState.y);
-
+					return 0;
 
 				default:
 

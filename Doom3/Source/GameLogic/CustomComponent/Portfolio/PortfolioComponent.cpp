@@ -32,7 +32,7 @@ void dooms::PortfolioComponent::OnChangedByGUI(const dooms::reflection::DField& 
 void dooms::PortfolioComponent::UpdateGUI()
 {
 	dooms::graphics::graphicsSetting::IsSortObjectFrontToBack = Enabled_MultiThread_SortingFrontToBack;
-	dooms::graphics::graphicsSetting::IsOverDrawVisualizationEnabled = OverdrawDebugger;
+	//dooms::graphics::graphicsSetting::IsOverDrawVisualizationEnabled = OverdrawDebugger;
 
 	if (DeferredRenderingDebuggerController* component = GetOwnerEntity()->GetComponent<DeferredRenderingDebuggerController>())
 	{
@@ -65,8 +65,8 @@ void dooms::PortfolioComponent::InitComponent()
 	dooms::graphics::graphicsSetting::IsDrawMaskedOcclusionCullingTileCoverageMaskDebugger = Is_Enabled_MaskedSWOcclusionCullingTileCoverageMaskDebugging;
 	dooms::graphics::graphicsSetting::IsDrawMaskedOcclusionCullingTileL0MaxDepthValueDebugger = See_MaskedSWOcclusionCulling_DepthBuffer;
 
-	OverdrawDebugger = false;
-	dooms::graphics::graphicsSetting::IsOverDrawVisualizationEnabled = OverdrawDebugger;
+	//OverdrawDebugger = false;
+	//dooms::graphics::graphicsSetting::IsOverDrawVisualizationEnabled = OverdrawDebugger;
 
 	Enabled_DeferredRenderingDebugger = false;
 	if (DeferredRenderingDebuggerController* component = GetOwnerEntity()->GetComponent<DeferredRenderingDebuggerController>())

@@ -22,25 +22,32 @@ namespace dooms
 		{
 			extern bool bmIsOverDrawVisualizationInitialized{false};
 			extern dooms::graphics::Material* mOverDrawVisualizationObjectDrawMaterial{nullptr};
-			extern dooms::graphics::FrameBuffer mOverDrawVisualizationFrameBuffer{};
+			extern dooms::graphics::FrameBuffer* mOverDrawVisualizationFrameBuffer{nullptr};
 			extern dooms::graphics::PicktureInPickture* OverDrawVisualizationPIP{nullptr};
 
 			extern void Initialize()
 			{
-				dooms::asset::ShaderAsset* overDrawVisualizationShader = dooms::assetImporter::AssetManager::GetSingleton()->GetAsset<dooms::asset::eAssetType::SHADER>("OverDrawVisualizationShader.glsl");
-				mOverDrawVisualizationObjectDrawMaterial = overDrawVisualizationShader->CreateMatrialWithThisShaderAsset();
-				D_ASSERT(IsValid(mOverDrawVisualizationObjectDrawMaterial));
+				if(bmIsOverDrawVisualizationInitialized == false)
+				{
+					dooms::asset::ShaderAsset* overDrawVisualizationShader = dooms::assetImporter::AssetManager::GetSingleton()->GetAsset<dooms::asset::eAssetType::SHADER>("OverDrawVisualizationShader.glsl");
+					mOverDrawVisualizationObjectDrawMaterial = overDrawVisualizationShader->CreateMatrialWithThisShaderAsset();
+					mOverDrawVisualizationObjectDrawMaterial->AddToRootObjectList();
+					D_ASSERT(IsValid(mOverDrawVisualizationObjectDrawMaterial));
 
-				mOverDrawVisualizationFrameBuffer.AttachColorTextureToFrameBuffer(0, graphicsAPISetting::GetScreenWidth(), graphicsAPISetting::GetScreenHeight());
-				mOverDrawVisualizationFrameBuffer.AttachDepthTextureToFrameBuffer(graphicsAPISetting::GetScreenWidth(), graphicsAPISetting::GetScreenHeight());
-				
-				OverDrawVisualizationPIP = dooms::graphics::Graphics_Server::GetSingleton()->mPIPManager.AddNewPIP(
-					math::Vector2(-1.0f, -1.0f),
-					math::Vector2(1.0f, 1.0f),
-					mOverDrawVisualizationFrameBuffer.GetColorTextureView(0, GraphicsAPI::PIXEL_SHADER)
-				);
+					mOverDrawVisualizationFrameBuffer = dooms::CreateDObject<dooms::graphics::FrameBuffer>();
+					mOverDrawVisualizationFrameBuffer->AttachColorTextureToFrameBuffer(0, graphicsAPISetting::GetScreenWidth(), graphicsAPISetting::GetScreenHeight());
+					mOverDrawVisualizationFrameBuffer->AttachDepthTextureToFrameBuffer(graphicsAPISetting::GetScreenWidth(), graphicsAPISetting::GetScreenHeight());
+					mOverDrawVisualizationFrameBuffer->AddToRootObjectList();
 
-				bmIsOverDrawVisualizationInitialized = true;
+					OverDrawVisualizationPIP = dooms::graphics::Graphics_Server::GetSingleton()->mPIPManager.AddNewPIP(
+						math::Vector2(-1.0f, -1.0f),
+						math::Vector2(1.0f, 1.0f),
+						mOverDrawVisualizationFrameBuffer->GetColorTextureView(0, GraphicsAPI::PIXEL_SHADER)
+					);
+					OverDrawVisualizationPIP->AddToRootObjectList();
+
+					bmIsOverDrawVisualizationInitialized = true;
+				}
 			}
 		}
 	}
@@ -71,21 +78,14 @@ void dooms::graphics::OverDrawVisualization::SetOverDrawVisualizationRenderingSt
 		D_ASSERT(IsValid(mOverDrawVisualizationObjectDrawMaterial));
 		dooms::graphics::FixedMaterial::SetFixedMaterial(mOverDrawVisualizationObjectDrawMaterial);
 
-		mOverDrawVisualizationFrameBuffer.ClearColorTexture(0, 0.0f, 0.0f, 0.0f, 1.0f);
-		mOverDrawVisualizationFrameBuffer.ClrearDepthTexture(GraphicsAPI::DEFAULT_MAX_DEPTH_VALUE);
+		mOverDrawVisualizationFrameBuffer->ClearColorTexture(0, 0.0f, 0.0f, 0.0f, 1.0f);
+		mOverDrawVisualizationFrameBuffer->ClrearDepthTexture(GraphicsAPI::DEFAULT_MAX_DEPTH_VALUE);
 	}
 	else
 	{
-		if (graphicsAPISetting::DefaultIsBlendOn == true)
-		{
-			GraphicsAPI::SetIsBlendEnabled(true);
-			GraphicsAPI::SetBlendFactor(graphics::graphicsAPISetting::DefaultBlendSourceFactor, graphics::graphicsAPISetting::DefaultBlendDestinationFactor);
-		}
-		else
-		{
-			GraphicsAPI::SetIsBlendEnabled(false);
-		}
-		
+		GraphicsAPI::SetIsBlendEnabled(graphicsAPISetting::DefaultIsBlendOn);
+		GraphicsAPI::SetBlendFactor(graphics::graphicsAPISetting::DefaultBlendSourceFactor, graphics::graphicsAPISetting::DefaultBlendDestinationFactor);
+
 		
 
 		const dooms::graphics::Material* const currentFixedMaterial = dooms::graphics::FixedMaterial::GetFixedMaterial();

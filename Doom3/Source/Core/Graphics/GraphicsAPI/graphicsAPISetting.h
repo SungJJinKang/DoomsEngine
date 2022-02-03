@@ -22,8 +22,8 @@ namespace dooms
 
 			extern bool DefaultIsBlendOn;
 
-			extern inline graphics::GraphicsAPI::eBlendFactor DefaultBlendSourceFactor = GraphicsAPI::eBlendFactor::SRC_ALPHA;
-			extern inline graphics::GraphicsAPI::eBlendFactor DefaultBlendDestinationFactor = GraphicsAPI::eBlendFactor::ONE_MINUS_SRC_ALPHA;
+			extern graphics::GraphicsAPI::eBlendFactor DefaultBlendSourceFactor;
+			extern graphics::GraphicsAPI::eBlendFactor DefaultBlendDestinationFactor;
 			
 			extern void LoadData();
 			

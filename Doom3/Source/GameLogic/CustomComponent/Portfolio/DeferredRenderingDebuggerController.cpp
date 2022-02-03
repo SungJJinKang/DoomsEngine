@@ -22,6 +22,7 @@ void dooms::DeferredRenderingDebuggerController::InitDeferredRenderingDebuggerPI
 		mDeferredRenderingDebuggerPIPs[1] = dooms::graphics::PIPManager::GetSingleton()->AddNewPIP({ -0.6f, -1.0f }, { -0.2f, -0.6f }, dooms::Camera::GetMainCamera()->mDefferedRenderingFrameBuffer.GetColorTextureView(1, dooms::graphics::GraphicsAPI::eGraphicsPipeLineStage::PIXEL_SHADER));
 		mDeferredRenderingDebuggerPIPs[2] = dooms::graphics::PIPManager::GetSingleton()->AddNewPIP({ -0.2f, -1.0f }, { 0.2f, -0.6f }, dooms::Camera::GetMainCamera()->mDefferedRenderingFrameBuffer.GetColorTextureView(2, dooms::graphics::GraphicsAPI::eGraphicsPipeLineStage::PIXEL_SHADER));
 
+		// TODO : Support Depth Buffer PIP for D3D11 : https://docs.microsoft.com/en-us/windows/win32/direct3d11/d3d10-graphics-programming-guide-depth-stencil#reading-the-depth-stencil-buffer-as-a-texture
 		/*
 		dooms::graphics::PicktureInPickture* depthTexturePIP = dooms::graphics::PIPManager::GetSingleton()->AddNewPIP({ 0.2f, -1.0f }, { 0.6f, -0.6f }, dooms::Camera::GetMainCamera()->mDefferedRenderingFrameBuffer.GetDepthStencilTextureView(3, dooms::graphics::GraphicsAPI::eGraphicsPipeLineStage::PIXEL_SHADER));
 		mDeferredRenderingDebuggerPIPs[3] = depthTexturePIP;

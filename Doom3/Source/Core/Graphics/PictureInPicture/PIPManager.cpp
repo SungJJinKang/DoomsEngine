@@ -14,6 +14,7 @@ void dooms::graphics::PIPManager::DrawPIPs()
 {
 	if (GetPIPCount() > 0)
 	{
+		//dooms::graphics::GraphicsAPI::SetIsDepthTestEnabled(false);
 		D_START_PROFILING(DrawPIPs, dooms::profiler::eProfileLayers::Rendering);
 		for (PicktureInPickture* pip : mPicktureInPicktures)
 		{
@@ -21,6 +22,7 @@ void dooms::graphics::PIPManager::DrawPIPs()
 			pip->DrawPictureInPicture();
 		}
 		D_END_PROFILING(DrawPIPs);
+		//dooms::graphics::GraphicsAPI::SetIsDepthTestEnabled(true);
 	}	
 }
 
