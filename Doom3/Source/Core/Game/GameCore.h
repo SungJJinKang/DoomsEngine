@@ -88,6 +88,8 @@ namespace dooms
 		void InitGameSetting();
 		
 		void UpdateGameCore();
+
+		void InitializeGraphicsAPI(const int argc, char* const* const argv);
 		
 	public:
 
@@ -101,8 +103,8 @@ namespace dooms
 		GameCore& operator=(GameCore&&) = delete;
 		~GameCore();
 
-		virtual void Init() final;
-		void InitServers();
+		virtual void Init(const int argc, char* const* const argv) final;
+		void InitServers(const int argc, char* const* const argv);
 		virtual void LateInit() final;
 
 		/// <summary>

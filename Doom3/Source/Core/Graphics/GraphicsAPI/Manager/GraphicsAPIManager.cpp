@@ -5,7 +5,7 @@
 #include "../graphicsAPISetting.h"
 #include "../Input/GraphicsAPIInput.h"
 #include "Game/ConfigData.h"
-
+#include <EngineGUI/PrintText.h>
 
 dooms::graphics::GraphicsAPILoader dooms::graphics::GraphicsAPIManager::mGraphicsAPILoader{};
 void dooms::graphics::GraphicsAPIManager::LoadGraphicsAPI(const GraphicsAPI::eGraphicsAPIType graphicsAPIType)
@@ -67,21 +67,41 @@ void dooms::graphics::GraphicsAPIManager::GraphisAPIDebugCallBack(const char* co
 
 bool dooms::graphics::GraphicsAPIManager::Initialize(const GraphicsAPI::eGraphicsAPIType graphicsAPIType)
 {
-	LoadGraphicsAPI(graphicsAPIType);
-	if(GraphicsAPI::SetDebugFunction != nullptr)
+	if(graphicsAPIType != GraphicsAPI::eGraphicsAPIType::GraphicsAPIType_NONE)
 	{
-		GraphicsAPI::SetDebugFunction(dooms::graphics::GraphicsAPIManager::GraphisAPIDebugCallBack);
+		LoadGraphicsAPI(graphicsAPIType);
+		if (GraphicsAPI::SetDebugFunction != nullptr)
+		{
+			GraphicsAPI::SetDebugFunction(dooms::graphics::GraphicsAPIManager::GraphisAPIDebugCallBack);
+		}
+
+		switch (graphicsAPIType)
+		{
+		case GraphicsAPI::eGraphicsAPIType::OpenGL:
+			dooms::ui::PrintText("Initilize OPENGL");
+			break;
+		case GraphicsAPI::eGraphicsAPIType::DX11_10:
+			dooms::ui::PrintText("Initilize DIRECTX 11");
+			break;
+		default:
+			D_ASSERT(false);
+			return false;
+		}
+
+		unsigned int result = 1;
+		result &= GraphicsAPI::InitializeGraphicsAPI(graphicsAPISetting::GetScreenWidth(), graphicsAPISetting::GetScreenHeight(), graphicsAPISetting::GetMultiSamplingNum());
+		D_ASSERT_LOG(result == 1, "Fail to GraphicsAPI::InitializeGraphisAPIInput ( Error Code : %u )", result);
+
+		SetDefaultSettingOfAPI();
+		result &= input::GraphicsAPIInput::InitializeGraphisAPIInput(dooms::graphics::GraphicsAPI::GetPlatformWindow());
+		D_ASSERT(result == 1);
+
+		return result == 1;
 	}
-
-	unsigned int result = 1;
-	result &= GraphicsAPI::InitializeGraphicsAPI(graphicsAPISetting::GetScreenWidth(), graphicsAPISetting::GetScreenHeight(), graphicsAPISetting::GetMultiSamplingNum());
-	D_ASSERT_LOG(result == 1, "Fail to GraphicsAPI::InitializeGraphisAPIInput ( Error Code : %u )", result);
-
-	SetDefaultSettingOfAPI();
-	result &= input::GraphicsAPIInput::InitializeGraphisAPIInput(dooms::graphics::GraphicsAPI::GetPlatformWindow());
-	D_ASSERT(result == 1);
-
-	return result == 1;
+	else
+	{
+		return false;
+	}
 }
 
 bool dooms::graphics::GraphicsAPIManager::DeInitialize()

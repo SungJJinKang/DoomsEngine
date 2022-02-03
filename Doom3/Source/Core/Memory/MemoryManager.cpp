@@ -18,7 +18,7 @@ void dooms::memory::MemoryManager::CheckIsIntelTBBLoaded() const
 	}
 }
 
-void dooms::memory::MemoryManager::Init()
+void dooms::memory::MemoryManager::Init(const int argc, char* const* const argv)
 {
 	CheckIsIntelTBBLoaded();
 }

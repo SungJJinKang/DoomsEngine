@@ -197,7 +197,7 @@ void AssetManager::OnSetPendingKill()
 	DestroyAllAssets();
 }
 
-void dooms::assetImporter::AssetManager::Init()
+void dooms::assetImporter::AssetManager::Init(const int argc, char* const* const argv)
 {
 	AddToRootObjectList();
 

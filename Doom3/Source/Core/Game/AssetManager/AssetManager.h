@@ -70,7 +70,7 @@ namespace dooms
 			virtual void OnSetPendingKill() override;
 			
 
-			virtual void Init() final;
+			virtual void Init(const int argc, char* const* const argv) final;
 			virtual void Update() final;
 			virtual void OnEndOfFrame() final;
 

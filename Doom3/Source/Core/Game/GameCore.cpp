@@ -50,18 +50,47 @@ void dooms::GameCore::UpdateGameCore()
 
 }
 
+void dooms::GameCore::InitializeGraphicsAPI(const int argc, char* const* const argv)
+{
+	graphics::GraphicsAPI::eGraphicsAPIType targetGraphicsAPI = graphics::GraphicsAPI::eGraphicsAPIType::GraphicsAPIType_NONE;
+
+	for(size_t i = 0 ; i < argc ; i++)
+	{
+		if(_stricmp(argv[i], "OPENGL") == 0)
+		{
+			targetGraphicsAPI = graphics::GraphicsAPI::eGraphicsAPIType::OpenGL;
+		}
+		else if
+		( 
+			(_stricmp(argv[i], "DX11") == 0) || 
+			(_stricmp(argv[i], "DX11_10") == 0) || 
+			(_stricmp(argv[i], "DIRECTX") == 0) ||
+			(_stricmp(argv[i], "DIRECTX11") == 0) ||
+			(_stricmp(argv[i], "DIRECTX11_10") == 0)
+		)
+		{
+			targetGraphicsAPI = graphics::GraphicsAPI::eGraphicsAPIType::DX11_10;
+		}
+	}
+
+	D_START_PROFILING(LoadGraphisAPI, eProfileLayers::CPU);
+	mGraphics_Server.InitializeGraphicsAPI(targetGraphicsAPI);
+	D_END_PROFILING(LoadGraphisAPI);
+
+}
+
 dooms::GameCore::~GameCore()
 {
 	mCurrentScene->SetIsPendingKill();
 }
 
-void dooms::GameCore::Init()
+void dooms::GameCore::Init(const int argc, char* const* const argv)
 {
 	D_START_PROFILING(InitGameSetting, eProfileLayers::CPU);
 	InitGameSetting();
 	D_END_PROFILING(InitGameSetting);
 	
-	InitServers();
+	InitServers(argc, argv);
 	LateInit();
 
 	mCurrentScene = CreateNewScene();
@@ -74,42 +103,40 @@ void dooms::GameCore::Init()
 	dooms::gc::GarbageCollectorManager::ResetElapsedTime();
 }
 
-void dooms::GameCore::InitServers()
+void dooms::GameCore::InitServers(const int argc, char* const* const argv)
 {
-	mMemoryManager.Init();
+	mMemoryManager.Init(argc, argv);
 
 	D_START_PROFILING(Init_ReflectionManager, eProfileLayers::CPU);
 	mReflectionManager.Initialize();
 	D_END_PROFILING(Init_ReflectionManager);
 
-	D_START_PROFILING(LoadGraphisAPI, eProfileLayers::CPU);
-	mGraphics_Server.InitializeGraphicsAPI();
-	D_END_PROFILING(LoadGraphisAPI);
+	InitializeGraphicsAPI(argc, argv);
 
 	D_START_PROFILING(mJobSystem_Init, eProfileLayers::CPU);
-	mJobSystem.Init();
+	mJobSystem.Init(argc, argv);
 	D_END_PROFILING(mJobSystem_Init);
 
 	D_START_PROFILING(mTime_Server_Init, eProfileLayers::CPU);
-	mTime_Server.Init();
+	mTime_Server.Init(argc, argv);
 	D_END_PROFILING(mTime_Server_Init);
 
 	//
 	//Read This : https://docs.unity3d.com/Manual/class-TimeManager.html
 	D_START_PROFILING(Init_Physics_Server, eProfileLayers::CPU);
-	mPhysics_Server.Init();
+	mPhysics_Server.Init(argc, argv);
 	D_END_PROFILING(Init_Physics_Server);
 
 	D_START_PROFILING(Init_Graphics_Server, eProfileLayers::Rendering);
-	mGraphics_Server.Init();
+	mGraphics_Server.Init(argc, argv);
 	D_END_PROFILING(Init_Graphics_Server);
 
 	D_START_PROFILING(Init_UserInput_Server, eProfileLayers::CPU);
-	mUserImput_Server.Init();
+	mUserImput_Server.Init(argc, argv);
 	D_END_PROFILING(Init_UserInput_Server);
 
 	D_START_PROFILING(Init_AssetManager, eProfileLayers::CPU);
-	mAssetManager.Init();
+	mAssetManager.Init(argc, argv);
 	D_END_PROFILING(Init_AssetManager);
 
 	
