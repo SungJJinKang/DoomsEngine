@@ -27,12 +27,13 @@
   * Garbage Collector using reflection system ( stop-the-world, Mark ( multithread ) - Sweep algorithm, std::array, std::vector is also supported, nullify pointer referencing destroyed object ( to prvent referencing invalid address ), [개발 일지](https://sungjjinkang.github.io/computerscience/2021/12/01/reflection_gc.html), [video](https://youtu.be/E4CNOIXYQnQ), [soure code](https://github.com/SungJJinKang/DoomsEngine/tree/main/Doom3/Source/Core/GarbageCollector) )
   * Masked SW ( CPU ) Occlusion Culling From Intel ( [video1](https://youtu.be/tMgokVljvAY), [video2](https://youtu.be/1IKTXsSLJ5g), [source code](https://github.com/SungJJinKang/EveryCulling/tree/main/CullingModule/MaskedSWOcclusionCulling), [개발 일지](https://sungjjinkang.github.io/computerscience/computergraphics/2021/12/31/masked_sw_occlusion_culling.html), [reference paper](https://software.intel.com/content/dam/develop/external/us/en/documents/masked-software-occlusion-culling.pdf] )        
   * Distance Culling from Unreal Engine ( [reference](https://docs.unrealengine.com/en-US/RenderingAndGraphics/VisibilityCulling/CullDistanceVolume/index.html), [soure code](https://github.com/SungJJinKang/EveryCulling/tree/main/CullingModule/DistanceCulling) )      
-  * Graphics API Portable Shader System ( Automatically convert glsl files to hlsl, [glslcc](https://github.com/septag/glslcc) is used )     
+  * Shader Language Portable System ( Automatically convert glsl files to hlsl, [glslcc](https://github.com/septag/glslcc) is used )     
   * Shader Reflection System ( Provide shader variables data ( size, offset, variable name ... ) )    
   
 ## Currently working on     
    
   * implement D3D11
+  * Batch Rendering
   * implement Hierarchical Shadow map
    
 ## To Develop
