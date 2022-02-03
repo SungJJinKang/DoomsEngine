@@ -52,6 +52,7 @@ void TextureView::DestroyTextureViewObject()
 	if(mTextureViewObject.IsValid())
 	{
 		GraphicsAPI::DestroyTextureViewObject(mTextureViewObject);
+		mTextureViewObject.Reset();
 	}
 }
 

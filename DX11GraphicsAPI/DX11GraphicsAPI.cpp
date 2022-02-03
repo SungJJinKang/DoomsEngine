@@ -1000,7 +1000,7 @@ namespace dooms
 		DOOMS_ENGINE_GRAPHICS_API unsigned int DeinitializeGraphicsAPI()
 		{
             dx11::CleanupDevice();
-			return 0;
+			return 1;
 		}
 
         DOOMS_ENGINE_GRAPHICS_API unsigned int GetDrawCall()

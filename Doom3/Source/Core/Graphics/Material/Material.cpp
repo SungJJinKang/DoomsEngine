@@ -244,7 +244,12 @@ void dooms::graphics::Material::DestroyShaderFromMaterial(const dooms::graphics:
 	{
 		if(mPipeLineShaderView[shaderType].IsValid())
 		{
-			GraphicsAPI::DetachShaderFromMaterial(mPipeLineShaderView[shaderType], mProgramIDForOpenGL, mShaderAsset[shaderType]->GetShaderObject(shaderType));
+			GraphicsAPI::DetachShaderFromMaterial
+			(
+				mPipeLineShaderView[shaderType], 
+				mProgramIDForOpenGL, 
+				(IsValid(mShaderAsset[shaderType]) == true) ? static_cast<UINT64>(mShaderAsset[shaderType]->GetShaderObject(shaderType)) : static_cast<UINT64>(0)
+			);
 			mPipeLineShaderView[shaderType].Reset();
 		}		
 	}
