@@ -360,7 +360,7 @@ void dooms::graphics::Graphics_Server::Render()
 			//Only Main Camera can draw to screen buffer
 
 			//UpdateOverDrawVisualization(targetCamera, cameraIndex);
-			targetCamera->mDefferedRenderingFrameBuffer.BlitDepthBufferToScreenBuffer();
+			//targetCamera->mDefferedRenderingFrameBuffer.BlitDepthBufferToScreenBuffer();
 
 			mPIPManager.DrawPIPs();
 
