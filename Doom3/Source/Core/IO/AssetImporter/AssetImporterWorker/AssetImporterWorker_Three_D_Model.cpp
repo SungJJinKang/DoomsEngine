@@ -53,10 +53,10 @@ bool dooms::assetImporter::AssetImporterWorker_THREE_D_MODEL::ImportThreeDModelA
 	if(path.extension().generic_u8string() == AssetImporterWorker_THREE_D_MODEL::MAIN_3D_MODEL_FILE_FORMAT)
 	{
 		UINT32 assimpImportProcessingSetting = ASSIMP_IMPORT_PROCESSING_SETTING;
-		if (dooms::graphics::GraphicsAPI::GetCurrentAPIType() == dooms::graphics::GraphicsAPI::eGraphicsAPIType::OpenGL)
-		{
+		//if (dooms::graphics::GraphicsAPI::GetCurrentAPIType() == dooms::graphics::GraphicsAPI::eGraphicsAPIType::OpenGL)
+		//{
 			assimpImportProcessingSetting |= aiProcess_FlipUVs;
-		}
+		//}
 
 		modelScene = mAssimpImporter.ReadFile(path.generic_u8string(), assimpImportProcessingSetting);
 
