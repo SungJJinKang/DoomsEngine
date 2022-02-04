@@ -8,8 +8,8 @@
 #include <Asset/TextureAsset.h>
 #include "../Texture/TextureView.h"
 
-#include <d3d11.h>
-#include <dxgiformat.h>
+UINT64 dooms::graphics::Material::BOUND_SHADER_ID[GRAPHICS_PIPELINE_STAGE_COUNT]{ (UINT64)-1, (UINT64)-1, (UINT64)-1};
+UINT64 dooms::graphics::Material::BOUND_INPUT_LAYOUT_ID{(UINT64)-1};
 
 bool dooms::graphics::Material::AttachShaderToMaterial(dooms::asset::ShaderAsset* const shaderAsset, const dooms::graphics::GraphicsAPI::eGraphicsPipeLineStage shaderType)
 {
@@ -360,7 +360,11 @@ void dooms::graphics::Material::BindMaterial() const
 			{
 				if (mPipeLineShaderView[pipeLineStageIndex].IsValid() == true)
 				{
-					GraphicsAPI::BindShader(mPipeLineShaderView[pipeLineStageIndex], (static_cast<dooms::graphics::GraphicsAPI::eGraphicsPipeLineStage>(pipeLineStageIndex)));
+					if(BOUND_SHADER_ID[pipeLineStageIndex] != mPipeLineShaderView[pipeLineStageIndex].GetBufferID())
+					{
+						BOUND_SHADER_ID[pipeLineStageIndex] = mPipeLineShaderView[pipeLineStageIndex].GetBufferID();
+						GraphicsAPI::BindShader(mPipeLineShaderView[pipeLineStageIndex], (static_cast<dooms::graphics::GraphicsAPI::eGraphicsPipeLineStage>(pipeLineStageIndex)));
+					}
 				}
 			}
 
@@ -371,7 +375,11 @@ void dooms::graphics::Material::BindMaterial() const
 				D_ASSERT(inputLayoutForD3D.IsValid());
 				if (inputLayoutForD3D.IsValid())
 				{
-					GraphicsAPI::BindInputLayoutForD3D(inputLayoutForD3D);
+					if (BOUND_INPUT_LAYOUT_ID != inputLayoutForD3D.GetBufferID())
+					{
+						BOUND_INPUT_LAYOUT_ID = inputLayoutForD3D;
+						GraphicsAPI::BindInputLayoutForD3D(inputLayoutForD3D);
+					}
 				}
 			}
 		}
@@ -379,11 +387,12 @@ void dooms::graphics::Material::BindMaterial() const
 			
 		else if (dooms::graphics::GraphicsAPIManager::GetCurrentAPIType() == GraphicsAPI::eGraphicsAPIType::OpenGL)
 		{
-			if (D_OVERLAP_BIND_CHECK_CHECK_IS_NOT_BOUND_AND_BIND_ID(MATERIAL_TAG, mProgramIDForOpenGL))
+			D_ASSERT(mProgramIDForOpenGL.IsValid());
+			if (mProgramIDForOpenGL.IsValid() == true)
 			{
-				D_ASSERT(mProgramIDForOpenGL.IsValid());
-				if (mProgramIDForOpenGL.IsValid() == true)
+				if (BOUND_SHADER_ID[0] != mProgramIDForOpenGL.GetBufferID())
 				{
+					BOUND_SHADER_ID[0] = mProgramIDForOpenGL;
 					GraphicsAPI::BindShader(mProgramIDForOpenGL, GraphicsAPI::eGraphicsPipeLineStage::DUMMY);
 				}
 			}
@@ -414,15 +423,24 @@ void dooms::graphics::Material::UnBindMaterial() const
 		{
 			for (size_t pipeLineStageIndex = 0; pipeLineStageIndex < GRAPHICS_PIPELINE_STAGE_COUNT; pipeLineStageIndex++)
 			{
-				GraphicsAPI::BindShader(0, (static_cast<dooms::graphics::GraphicsAPI::eGraphicsPipeLineStage>(pipeLineStageIndex)));
+				if (BOUND_SHADER_ID[pipeLineStageIndex] != 0)
+				{
+					BOUND_SHADER_ID[pipeLineStageIndex] = 0;
+					GraphicsAPI::BindShader(0, (static_cast<dooms::graphics::GraphicsAPI::eGraphicsPipeLineStage>(pipeLineStageIndex)));
+				}
 			}
 
-			GraphicsAPI::BindInputLayoutForD3D(0);
+			if (BOUND_INPUT_LAYOUT_ID != 0)
+			{
+				BOUND_INPUT_LAYOUT_ID = 0;
+				GraphicsAPI::BindInputLayoutForD3D(0);
+			}
 		}
 		else if (dooms::graphics::GraphicsAPIManager::GetCurrentAPIType() == GraphicsAPI::eGraphicsAPIType::OpenGL)
 		{
-			if (D_OVERLAP_BIND_CHECK_CHECK_IS_NOT_BOUND_AND_BIND_ID(MATERIAL_TAG, 0))
+			if (BOUND_SHADER_ID[0] != 0)
 			{
+				BOUND_SHADER_ID[0] = 0;
 				GraphicsAPI::BindShader(0, GraphicsAPI::eGraphicsPipeLineStage::DUMMY);
 			}		
 		}

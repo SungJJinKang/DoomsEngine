@@ -51,6 +51,9 @@ namespace dooms
 			D_PROPERTY()
 			std::unique_ptr<UINT8[]> mUniformBufferLocalBuffer;
 
+			inline static const UINT32 MAX_UNIFORM_BUFFER_SLOT_COUNT = 14;
+			static UINT64 BOUND_UNIFORM_BUFFER_ID[GRAPHICS_PIPELINE_STAGE_COUNT][MAX_UNIFORM_BUFFER_SLOT_COUNT];
+
 			/**
 			 * \brief Key : Uniform Variable Name, Value : Offset
 			 */
@@ -138,12 +141,20 @@ namespace dooms
 				D_ASSERT(mUniformBufferObject.IsValid() == true);
 				if (IsBufferGenerated() == true)
 				{
-					GraphicsAPI::BindConstantBuffer(mUniformBufferObject, bindingPoint, targetPipeLineStage);
+					if(BOUND_UNIFORM_BUFFER_ID[static_cast<UINT32>(targetPipeLineStage)][bindingPoint] != mUniformBufferObject.GetBufferID())
+					{
+						BOUND_UNIFORM_BUFFER_ID[static_cast<UINT32>(targetPipeLineStage)][bindingPoint] = mUniformBufferObject.GetBufferID();
+						GraphicsAPI::BindConstantBuffer(mUniformBufferObject, bindingPoint, targetPipeLineStage);
+					}					
 				}
 			}
 			FORCE_INLINE void UnBindBuffer(const UINT32 bindingPoint, const GraphicsAPI::eGraphicsPipeLineStage targetPipeLineStage) const noexcept
 			{
-				GraphicsAPI::BindConstantBuffer(0, bindingPoint, targetPipeLineStage);
+				if (BOUND_UNIFORM_BUFFER_ID[static_cast<UINT32>(targetPipeLineStage)][bindingPoint] != 0)
+				{
+					BOUND_UNIFORM_BUFFER_ID[static_cast<UINT32>(targetPipeLineStage)][bindingPoint] = 0;
+					GraphicsAPI::BindConstantBuffer(0, bindingPoint, targetPipeLineStage);
+				}
 			}
 			/// <summary>
 			/// Store data in temporary buffer

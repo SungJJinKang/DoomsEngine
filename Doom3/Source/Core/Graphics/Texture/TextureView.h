@@ -48,6 +48,9 @@ namespace dooms
 			D_PROPERTY()
 			GraphicsAPI::eGraphicsPipeLineStage mDefaultTargetGraphicsPipeLineStage;
 
+			inline static const UINT32 MAX_TEXTURE_BOUND_LOCATION_COUNT = 30;
+			static UINT64 BOUND_TEXTURE_ID[GRAPHICS_PIPELINE_STAGE_COUNT][MAX_TEXTURE_BOUND_LOCATION_COUNT];
+
 		public:
 
 			
@@ -88,8 +91,9 @@ namespace dooms
 
 			FORCE_INLINE void BindTexture() const noexcept
 			{
-				//if (D_OVERLAP_BIND_CHECK_CHECK_IS_NOT_BOUND_AND_BIND_ID_WITH_DOUBLE_INDEX(BIND_TARGET_TAG, mTargetTextureResourceObject->GetTextureBindTarget(), D_OVERLAP_BIND_GET_BIND_ID(ACTIVE_TEXTURE_TAG), mTextureViewObject))
-				//{
+				if (BOUND_TEXTURE_ID[static_cast<UINT32>(mDefaultTargetGraphicsPipeLineStage)][mDefaultBindingLocation] != mTextureViewObject.GetBufferID())
+				{
+					BOUND_TEXTURE_ID[static_cast<UINT32>(mDefaultTargetGraphicsPipeLineStage)][mDefaultBindingLocation] = mTextureViewObject.GetBufferID();
 					GraphicsAPI::BindTextureObject
 					(
 						mTextureViewObject,
@@ -97,13 +101,15 @@ namespace dooms
 						mDefaultBindingLocation,
 						mDefaultTargetGraphicsPipeLineStage
 					);
-				//}
+				}
 			}
 
 			FORCE_INLINE void UnBindTexture() const noexcept
 			{
-				//if (D_OVERLAP_BIND_CHECK_CHECK_IS_NOT_BOUND_AND_BIND_ID_WITH_DOUBLE_INDEX(BIND_TARGET_TAG, mTargetTextureResourceObject->GetTextureBindTarget(), D_OVERLAP_BIND_GET_BIND_ID(ACTIVE_TEXTURE_TAG), 0))
-				//{
+				if (BOUND_TEXTURE_ID[static_cast<UINT32>(mDefaultTargetGraphicsPipeLineStage)][mDefaultBindingLocation] != 0)
+				{
+					BOUND_TEXTURE_ID[static_cast<UINT32>(mDefaultTargetGraphicsPipeLineStage)][mDefaultBindingLocation] = 0;
+
 					GraphicsAPI::BindTextureObject
 					(
 						0,
@@ -111,7 +117,7 @@ namespace dooms
 						mDefaultBindingLocation,
 						mDefaultTargetGraphicsPipeLineStage
 					);
-				//}
+				}
 			}
 
 			FORCE_INLINE void BindTexture
@@ -120,8 +126,10 @@ namespace dooms
 				const GraphicsAPI::eGraphicsPipeLineStage targetPipeLineStage
 			) const noexcept
 			{
-				//if (D_OVERLAP_BIND_CHECK_CHECK_IS_NOT_BOUND_AND_BIND_ID_WITH_DOUBLE_INDEX(BIND_TARGET_TAG, mTargetTextureResourceObject->GetTextureBindTarget(), D_OVERLAP_BIND_GET_BIND_ID(ACTIVE_TEXTURE_TAG), mTextureViewObject))
-				//{
+				if (BOUND_TEXTURE_ID[static_cast<UINT32>(targetPipeLineStage)][bindingPoint] != mTextureViewObject.GetBufferID())
+				{
+					BOUND_TEXTURE_ID[static_cast<UINT32>(targetPipeLineStage)][bindingPoint] = mTextureViewObject;
+
 					GraphicsAPI::BindTextureObject
 					(
 						mTextureViewObject, 
@@ -129,7 +137,7 @@ namespace dooms
 						bindingPoint,
 						targetPipeLineStage
 					);
-				//}
+				}
 			}
 			
 			FORCE_INLINE void UnBindTexture
@@ -138,13 +146,18 @@ namespace dooms
 				const GraphicsAPI::eGraphicsPipeLineStage targetPipeLineStage
 			) const noexcept
 			{
-				GraphicsAPI::BindTextureObject
-				(
-					0,
-					mTargetTextureResourceObject->GetTextureBindTarget(),
-					bindingPoint,
-					targetPipeLineStage
-				);
+				if (BOUND_TEXTURE_ID[static_cast<UINT32>(targetPipeLineStage)][bindingPoint] != 0)
+				{
+					BOUND_TEXTURE_ID[static_cast<UINT32>(targetPipeLineStage)][bindingPoint] = 0;
+
+					GraphicsAPI::BindTextureObject
+					(
+						0,
+						mTargetTextureResourceObject->GetTextureBindTarget(),
+						bindingPoint,
+						targetPipeLineStage
+					);
+				}
 			}
 
 			const BufferID& GetTextureBufferID() const;
