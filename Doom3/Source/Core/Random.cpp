@@ -12,6 +12,11 @@ namespace dooms
 			Random::rng.seed(Random::rd());
 		}
 
+		void dooms::random::Random::GenerateSeed(const UINT32 seed)
+		{
+			Random::rng.seed(seed);
+		}
+
 		INT32 dooms::random::Random::RandomIntNumber(INT32 a, INT32 b)
 		{
 			std::uniform_int_distribution<INT32> dist(a, b);

@@ -16,6 +16,7 @@ namespace dooms
 
 			D_FUNCTION()
 			static void GenerateSeed();
+			static void GenerateSeed(const UINT32 seed);
 
 			D_FUNCTION()
 			static INT32 RandomIntNumber(INT32 a, INT32 b);
