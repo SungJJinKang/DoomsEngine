@@ -1,13 +1,9 @@
 #include "TextureView.h"
 
 
+UINT64 dooms::graphics::TextureView::BOUND_TEXTURE_ID[GRAPHICS_PIPELINE_STAGE_COUNT][MAX_TEXTURE_BOUND_LOCATION_COUNT]{};
 
-
-using namespace dooms::graphics;
-
-
-
-void TextureView::OnEndContructor()
+void dooms::graphics::TextureView::OnEndContructor()
 {
 
 	/*
@@ -18,28 +14,28 @@ void TextureView::OnEndContructor()
 
 }
 
-const dooms::asset::TextureAsset* TextureView::GetTargetTextureResourceObject() const
+const dooms::asset::TextureAsset* dooms::graphics::TextureView::GetTargetTextureResourceObject() const
 {
 	return mTargetTextureResourceObject;
 }
 
-void TextureView::SetDefaultBindingLocation(const UINT32 defaultBindingLocation)
+void dooms::graphics::TextureView::SetDefaultBindingLocation(const UINT32 defaultBindingLocation)
 {
 	mDefaultBindingLocation = defaultBindingLocation;
 }
 
-void TextureView::SetDefaultTargetGraphicsPipeLineStage(const GraphicsAPI::eGraphicsPipeLineStage defaultGraphicsPipeLineStage)
+void dooms::graphics::TextureView::SetDefaultTargetGraphicsPipeLineStage(const GraphicsAPI::eGraphicsPipeLineStage defaultGraphicsPipeLineStage)
 {
 	mDefaultTargetGraphicsPipeLineStage = defaultGraphicsPipeLineStage;
 }
 
-TextureView::~TextureView()
+dooms::graphics::TextureView::~TextureView()
 {
 	DestroyTextureViewObject();
 }
 
 
-void TextureView::OnSetPendingKill()
+void dooms::graphics::TextureView::OnSetPendingKill()
 {
 	DObject::OnSetPendingKill();
 
@@ -47,7 +43,7 @@ void TextureView::OnSetPendingKill()
 	
 }
 
-void TextureView::DestroyTextureViewObject()
+void dooms::graphics::TextureView::DestroyTextureViewObject()
 {
 	if(mTextureViewObject.IsValid())
 	{
@@ -56,7 +52,7 @@ void TextureView::DestroyTextureViewObject()
 	}
 }
 
-TextureView::TextureView
+dooms::graphics::TextureView::TextureView
 (
 	const asset::TextureAsset* const textureResourceObject,
 	const UINT32 defaultBindingPosition,
@@ -67,7 +63,7 @@ TextureView::TextureView
 	mTextureViewObject = GraphicsAPI::CreateTextureViewObject(textureResourceObject->GetTextureResourceObject());
 }
 
-TextureView::TextureView(const TextureView& textureView)
+dooms::graphics::TextureView::TextureView(const TextureView& textureView)
 	:
 	mTargetTextureResourceObject(textureView.mTargetTextureResourceObject),
 	mTextureViewObject( (IsValid(textureView.mTargetTextureResourceObject) == true) ? GraphicsAPI::CreateTextureViewObject(textureView.mTargetTextureResourceObject->GetTextureResourceObject()) : BufferID::INVALID_BUFFER_ID),
@@ -77,7 +73,7 @@ TextureView::TextureView(const TextureView& textureView)
 	
 }
 
-TextureView& TextureView::operator=(const TextureView& textureView)
+dooms::graphics::TextureView& dooms::graphics::TextureView::operator=(const TextureView& textureView)
 {
 	DestroyTextureViewObject();
 
@@ -89,7 +85,7 @@ TextureView& TextureView::operator=(const TextureView& textureView)
 	return *this;
 }
 
-TextureView::TextureView(TextureView&& textureView) noexcept
+dooms::graphics::TextureView::TextureView(TextureView&& textureView) noexcept
 {
 	mTargetTextureResourceObject = textureView.mTargetTextureResourceObject;
 	textureView.mTargetTextureResourceObject = nullptr;
@@ -101,7 +97,7 @@ TextureView::TextureView(TextureView&& textureView) noexcept
 	mDefaultTargetGraphicsPipeLineStage = textureView.mDefaultTargetGraphicsPipeLineStage;
 }
 
-TextureView& TextureView::operator=(TextureView&& textureView) noexcept
+dooms::graphics::TextureView& dooms::graphics::TextureView::operator=(TextureView&& textureView) noexcept
 {
 	DestroyTextureViewObject();
 
@@ -117,12 +113,12 @@ TextureView& TextureView::operator=(TextureView&& textureView) noexcept
 	return *this;
 }
 
-FLOAT32 TextureView::GetTextureMetaDataFLOAT32(const INT32 lodLevel, const GraphicsAPI::eTextureMetaDataType textureMetaDataType) const
+FLOAT32 dooms::graphics::TextureView::GetTextureMetaDataFLOAT32(const INT32 lodLevel, const GraphicsAPI::eTextureMetaDataType textureMetaDataType) const
 {
 	return 	GraphicsAPI::GetTextureMetaDataFloat(mTextureViewObject, graphics::GraphicsAPI::eTextureBindTarget::TEXTURE_2D, lodLevel, textureMetaDataType);
 }
 
-INT32 TextureView::GetTextureMetaDataINT32(const INT32 lodLevel, const GraphicsAPI::eTextureMetaDataType textureMetaDataType) const
+INT32 dooms::graphics::TextureView::GetTextureMetaDataINT32(const INT32 lodLevel, const GraphicsAPI::eTextureMetaDataType textureMetaDataType) const
 {
 	return GraphicsAPI::GetTextureMetaDataInt(mTextureViewObject, graphics::GraphicsAPI::eTextureBindTarget::TEXTURE_2D, lodLevel, textureMetaDataType);
 }
@@ -130,12 +126,12 @@ INT32 TextureView::GetTextureMetaDataINT32(const INT32 lodLevel, const GraphicsA
 
 //TODO : https://stackoverflow.com/a/62965713 Implement GetTexturePixel using memory mapped io, Make MapBuffer Class for managing it
 
-const std::unique_ptr<UINT8[]> TextureView::GetTexturePixels(const INT32 lodLevel) const
+const std::unique_ptr<UINT8[]> dooms::graphics::TextureView::GetTexturePixels(const INT32 lodLevel) const
 {
 	return std::unique_ptr<UINT8[]>(const_cast<UINT8*>(GetTexturePixelsUnsafe(lodLevel)));
 }
 
-UINT8* TextureView::GetTexturePixelsUnsafe(const INT32 lodLevel ) const
+UINT8* dooms::graphics::TextureView::GetTexturePixelsUnsafe(const INT32 lodLevel ) const
 {
 	//BindTexture();
 	
@@ -145,7 +141,7 @@ UINT8* TextureView::GetTexturePixelsUnsafe(const INT32 lodLevel ) const
 	return GraphicsAPI::FetchTexturePixels(graphics::GraphicsAPI::eTextureBindTarget::TEXTURE_2D, lodLevel, mTargetTextureResourceObject->GetTextureComponentFormat(), mTargetTextureResourceObject->GetTextureDataType(), bufferSize);
 }
 
-INT32 TextureView::GetTextureBufferSize(const INT32 lodLevel) const
+INT32 dooms::graphics::TextureView::GetTextureBufferSize(const INT32 lodLevel) const
 {
 	const INT32 width = GetTextureMetaDataINT32(lodLevel, GraphicsAPI::eTextureMetaDataType::TEXTURE_WIDTH);
 	const INT32 height = GetTextureMetaDataINT32(lodLevel, GraphicsAPI::eTextureMetaDataType::TEXTURE_HEIGHT);
@@ -154,7 +150,7 @@ INT32 TextureView::GetTextureBufferSize(const INT32 lodLevel) const
 }
 
 
-INT32 TextureView::GetTextureBufferSizeStatic
+INT32 dooms::graphics::TextureView::GetTextureBufferSizeStatic
 (
 	const INT32 width, 
 	const INT32 height,
@@ -231,7 +227,7 @@ INT32 TextureView::GetTextureBufferSizeStatic
 }
 
 
-const BufferID& TextureView::GetTextureBufferID() const
+const dooms::graphics::BufferID& dooms::graphics::TextureView::GetTextureBufferID() const
 {
 	D_ASSERT(mTextureViewObject.IsValid());
 	return mTextureViewObject;
