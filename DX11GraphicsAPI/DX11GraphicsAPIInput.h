@@ -8,7 +8,7 @@ namespace dooms
 	{
 		namespace dx11
 		{
-			LRESULT WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
+			LRESULT _WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
 		}
 	}
 }

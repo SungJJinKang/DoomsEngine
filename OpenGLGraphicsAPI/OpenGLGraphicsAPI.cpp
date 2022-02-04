@@ -5,6 +5,7 @@
 #include <string>
 #include "stdio.h"
 #include <Windows.h>
+#include <oneapi/tbb/tbbmalloc_proxy.h>
 
 #include "glad/glad.h"
 #include "GLFW/glfw3.h"
@@ -1099,6 +1100,10 @@ namespace dooms
 
 		DOOMS_ENGINE_GRAPHICS_API unsigned int InitializeGraphicsAPI(const int screenWidth, const int screenHeight, const unsigned int multiSamplingNum)
 		{
+			char** tbbLog;
+			const int isTbbSuccess = TBB_malloc_replacement_log(&tbbLog);
+			assert(isTbbSuccess == 0, *tbbLog);
+
 			glfwInit();
 			const char* glsl_version = "#version 150";
 			glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, OPENGL_MAJOR_VERSION); // 4.5 -> MAJOR 4  MINOR 5 , 3.1 -> MAJOR 3  MINOR 1
@@ -1109,10 +1114,12 @@ namespace dooms
 			glfwWindowHint(GLFW_OPENGL_DEBUG_CONTEXT, true);
 #endif
 
+			/*
 			if (multiSamplingNum > 0)
 			{
 				glfwWindowHint(GLFW_SAMPLES, multiSamplingNum);
 			}
+			*/
 
 #ifdef __APPLE__
 			glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);

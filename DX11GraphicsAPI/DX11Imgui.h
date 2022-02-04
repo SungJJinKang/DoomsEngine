@@ -10,7 +10,7 @@ namespace dooms
 		namespace dx11
 		{
             // Win32 message handler
-			LRESULT WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
+			LRESULT _WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 		}
 	}
 }

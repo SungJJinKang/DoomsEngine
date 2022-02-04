@@ -1,5 +1,6 @@
 #include "GraphicsAPIManager.h"
 
+#include <shellscalingapi.h>
 #include <Windows.h>
 
 #include "../graphicsAPISetting.h"
@@ -41,7 +42,21 @@ void dooms::graphics::GraphicsAPIManager::SetDefaultSettingOfAPI()
 	graphics::GraphicsAPI::SetVSync(false);
 	graphics::GraphicsAPI::SetViewport(0, 0, 0, graphicsAPISetting::GetScreenWidth(), graphicsAPISetting::GetScreenHeight());
 
-	const std::string windowTitle = ConfigData::GetSingleton()->GetConfigData().GetValue<std::string>("Graphics", "WINDOW_TITLE");
+	std::string windowTitle = "SUNG JIN KANG ( hour30000@gmail.com )"; //ConfigData::GetSingleton()->GetConfigData().GetValue<std::string>("Graphics", "WINDOW_TITLE");
+
+	if (graphics::GraphicsAPIManager::GetCurrentAPIType() == graphics::GraphicsAPI::eGraphicsAPIType::OpenGL)
+	{
+		windowTitle += " - OpenGL";
+	}
+	else if (graphics::GraphicsAPIManager::GetCurrentAPIType() == graphics::GraphicsAPI::eGraphicsAPIType::DX11_10)
+	{
+		windowTitle += " - D3D11";
+	}
+	else
+	{
+		NEVER_HAPPEN;
+	}
+
 	graphics::GraphicsAPI::SetWindowTitle(windowTitle.c_str());
 }
 
@@ -87,6 +102,8 @@ bool dooms::graphics::GraphicsAPIManager::Initialize(const GraphicsAPI::eGraphic
 			D_ASSERT(false);
 			return false;
 		}
+
+		SetProcessDpiAwareness(PROCESS_DPI_AWARENESS::PROCESS_SYSTEM_DPI_AWARE);
 
 		unsigned int result = 1;
 		result &= GraphicsAPI::InitializeGraphicsAPI(graphicsAPISetting::GetScreenWidth(), graphicsAPISetting::GetScreenHeight(), graphicsAPISetting::GetMultiSamplingNum());

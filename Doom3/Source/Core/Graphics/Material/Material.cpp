@@ -238,6 +238,7 @@ void dooms::graphics::Material::DestroyShaderFromMaterial(const dooms::graphics:
 		if (mProgramIDForOpenGL.IsValid() && IsValid(mShaderAsset[shaderType]) && mShaderAsset[shaderType]->GetShaderObject(shaderType).IsValid())
 		{
 			GraphicsAPI::DetachShaderFromMaterial(mPipeLineShaderView[shaderType], mProgramIDForOpenGL, mShaderAsset[shaderType]->GetShaderObject(shaderType));
+			mPipeLineShaderView[shaderType].Reset();
 		}
 	}
 	else if (dooms::graphics::GraphicsAPIManager::GetCurrentAPIType() == dooms::graphics::GraphicsAPI::eGraphicsAPIType::DX11_10)

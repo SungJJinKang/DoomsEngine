@@ -132,23 +132,42 @@ void dooms::DObjectManager::DestroyAllDObjects(const bool force)
 
     INT64 newIndex = 0;
 
-    auto iterBegin = mDObjectsContainer.mDObjectList.begin();
-    auto iterEnd = mDObjectsContainer.mDObjectList.end();
-
-    while(iterBegin != iterEnd)
     {
-        dooms::DObject* const targetDObject = *iterBegin;
-        if (force || targetDObject->GetIsNewAllocated())
-        {
-            targetDObject->DestroySelfInstantly();
+        auto iterBegin = mDObjectsContainer.mDObjectList.begin();
+        auto iterEnd = mDObjectsContainer.mDObjectList.end();
 
-            iterBegin = mDObjectsContainer.mDObjectList.begin();
-            iterEnd = mDObjectsContainer.mDObjectList.end(); // TODO : OPTIMIZATION
-        }
-        else
+        while (iterBegin != iterEnd)
         {
+            dooms::DObject* const targetDObject = *iterBegin;
             targetDObject->SetIsPendingKill();
             iterBegin++;
+
+            if (force || targetDObject->GetIsNewAllocated())
+            {
+                targetDObject->DestroySelfInstantly();
+
+                iterBegin = mDObjectsContainer.mDObjectList.begin();
+                iterEnd = mDObjectsContainer.mDObjectList.end(); // TODO : OPTIMIZATION
+            }
+        }
+    }
+
+    {
+        auto iterBegin = mDObjectsContainer.mDObjectList.begin();
+        auto iterEnd = mDObjectsContainer.mDObjectList.end();
+
+        while (iterBegin != iterEnd)
+        {
+            dooms::DObject* const targetDObject = *iterBegin;
+            iterBegin++;
+
+            if (force || targetDObject->GetIsNewAllocated())
+            {
+                targetDObject->DestroySelfInstantly();
+
+                iterBegin = mDObjectsContainer.mDObjectList.begin();
+                iterEnd = mDObjectsContainer.mDObjectList.end(); // TODO : OPTIMIZATION
+            }
         }
     }
     /*
