@@ -148,6 +148,7 @@
       <EnableUAC>false</EnableUAC>
       <AdditionalDependencies>glad.lib;glfw3_mt.lib;tbbmalloc_debug.lib;tbbmalloc_proxy_debug.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(SolutionDir)Source\thirdparty\oneTBB\build\msvc_19.30_cxx_64_md_debug;C:\vcpkg\installed\x64-windows\debug\lib;$(OutputPath)</AdditionalLibraryDirectories>
+      <ForceSymbolReferences>__TBB_malloc_proxy</ForceSymbolReferences>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -174,6 +175,7 @@
       <EnableUAC>false</EnableUAC>
       <AdditionalLibraryDirectories>C:\vcpkg\installed\x64-windows\lib;$(SolutionDir)Source\thirdparty\oneTBB\build\msvc_19.30_cxx_64_md_release;$(OutputPath);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>glad.lib;glfw3_mt.lib;tbbmalloc_proxy.lib;tbbmalloc.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <ForceSymbolReferences>__TBB_malloc_proxy</ForceSymbolReferences>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>

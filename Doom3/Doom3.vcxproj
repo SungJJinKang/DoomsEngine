@@ -238,8 +238,7 @@ xcopy /y /d /E /H /C /I "$(ProjectDir)Assets" "$(TargetDir)Assets"</Command>
       <StackReserveSize>
       </StackReserveSize>
       <OptimizeReferences>false</OptimizeReferences>
-      <ForceSymbolReferences>
-      </ForceSymbolReferences>
+      <ForceSymbolReferences>__TBB_malloc_proxy</ForceSymbolReferences>
     </Link>
     <PostBuildEvent>
       <Command>xcopy /y /d /E /H /C /I "$(ProjectDir)Assets" "$(TargetDir)Assets"
@@ -283,8 +282,7 @@ xcopy /y /d /f "$(ProjectDir)*.map" "$(TargetDir)"</Command>
       <MapFileName>map.map</MapFileName>
       <MapExports>true</MapExports>
       <LinkTimeCodeGeneration>Default</LinkTimeCodeGeneration>
-      <ForceSymbolReferences>
-      </ForceSymbolReferences>
+      <ForceSymbolReferences>__TBB_malloc_proxy</ForceSymbolReferences>
     </Link>
     <PostBuildEvent>
       <Command>xcopy /y /d /E /H /C /I "$(ProjectDir)Assets" "$(TargetDir)Assets"
@@ -313,8 +311,7 @@ xcopy /y /d /f "$(ProjectDir)*.map" "$(TargetDir)"</Command>
       <GenerateMapFile>true</GenerateMapFile>
       <MapFileName>map.map</MapFileName>
       <MapExports>true</MapExports>
-      <ForceSymbolReferences>
-      </ForceSymbolReferences>
+      <ForceSymbolReferences>__TBB_malloc_proxy</ForceSymbolReferences>
     </Link>
     <PostBuildEvent>
       <Command>xcopy /y /d "$(ProjectDir)*.cppbin" "$(TargetDir)"
