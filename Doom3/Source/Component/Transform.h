@@ -238,7 +238,7 @@ namespace dooms
 			SetPosition(worldPos);
 
 			
-			SetRotation(math::Quaternion(angle * math::DEGREE_TO_RADIAN, axis));
+			SetRotation(math::Quaternion(angle * static_cast<FLOAT32>(math::DEGREE_TO_RADIAN), axis));
 		}
 		
 		FORCE_INLINE math::Vector3 TransformDirection(math::Vector3& direction) const noexcept
