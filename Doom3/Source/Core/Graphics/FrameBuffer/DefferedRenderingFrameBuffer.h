@@ -23,11 +23,14 @@ namespace dooms
 			D_PROPERTY()
 			std::array<TextureView*, 3> TextureViews;
 
+			void Initialize(const UINT32 resolutionWidth, const UINT32 resolutionHeight);
+
 		public:
 
 			math::Vector4 mAlbedoClearColor{1.0f};
 
 			DefferedRenderingFrameBuffer();
+			DefferedRenderingFrameBuffer(const UINT32 resolutionWidth, const UINT32 resolutionHeight);
 
 			void BlitDepthBufferToScreenBuffer();
 			void BindGBufferTextures();

@@ -6,22 +6,27 @@
 
 #include "Graphics/Texture/TextureView.h"
 
-dooms::graphics::DefferedRenderingFrameBuffer::DefferedRenderingFrameBuffer()
-	: FrameBuffer(graphicsAPISetting::GetScreenWidth(), graphicsAPISetting::GetScreenHeight())
-{
-	//with renderbuffer, can't do post-processing
+#define DEFAULT_GBUFFER_RESOLUTION_WIDTH 1920
+#define DEFAULT_GBUFFER_RESOLUTION_HEIGHT 1080
+
+void dooms::graphics::DefferedRenderingFrameBuffer::Initialize
+(
+	const UINT32 resolutionWidth,
+	const UINT32 resolutionHeight
+)
+{//with renderbuffer, can't do post-processing
 
 	//Position
-	FrameBuffer::AttachColorTextureToFrameBuffer(0, graphicsAPISetting::GetScreenWidth(), graphicsAPISetting::GetScreenHeight());
-	
+	FrameBuffer::AttachColorTextureToFrameBuffer(0, resolutionWidth, resolutionHeight);
+
 	//Normal
-	FrameBuffer::AttachColorTextureToFrameBuffer(1, graphicsAPISetting::GetScreenWidth(), graphicsAPISetting::GetScreenHeight());
-	
+	FrameBuffer::AttachColorTextureToFrameBuffer(1, resolutionWidth, resolutionHeight);
+
 	//Albedo
-	FrameBuffer::AttachColorTextureToFrameBuffer(2, graphicsAPISetting::GetScreenWidth(), graphicsAPISetting::GetScreenHeight());
-	
+	FrameBuffer::AttachColorTextureToFrameBuffer(2, resolutionWidth, resolutionHeight);
+
 	//Depth
-	FrameBuffer::AttachDepthTextureToFrameBuffer(graphicsAPISetting::GetScreenWidth(), graphicsAPISetting::GetScreenHeight());
+	FrameBuffer::AttachDepthTextureToFrameBuffer(resolutionWidth, resolutionHeight);
 
 	for (UINT32 i = 0; i < 3; i++)
 	{
@@ -29,12 +34,28 @@ dooms::graphics::DefferedRenderingFrameBuffer::DefferedRenderingFrameBuffer()
 		D_ASSERT(IsValid(textureView));
 		TextureViews[i] = textureView;
 	}
+}
+
+dooms::graphics::DefferedRenderingFrameBuffer::DefferedRenderingFrameBuffer()
+	: FrameBuffer(DEFAULT_GBUFFER_RESOLUTION_WIDTH, DEFAULT_GBUFFER_RESOLUTION_HEIGHT)
+{
 	
+	Initialize(DEFAULT_GBUFFER_RESOLUTION_WIDTH, DEFAULT_GBUFFER_RESOLUTION_HEIGHT);
+}
+
+dooms::graphics::DefferedRenderingFrameBuffer::DefferedRenderingFrameBuffer
+(
+	const UINT32 resolutionWidth,
+	const UINT32 resolutionHeight
+)
+	: FrameBuffer(resolutionWidth, resolutionHeight)
+{
+	Initialize(resolutionWidth, resolutionHeight);
 }
 
 void dooms::graphics::DefferedRenderingFrameBuffer::BlitDepthBufferToScreenBuffer()
 {
-	FrameBuffer::BlitFrameBufferFromToFrameBuffer(this, nullptr, 0, 0, GetDefaultWidth(), GetDefaultHeight(), 0, 0, graphicsAPISetting::GetScreenWidth(), graphicsAPISetting::GetScreenHeight(), GraphicsAPI::eBufferBitType::DEPTH_BUFFER, GraphicsAPI::eImageInterpolation::IMAGE_INTERPOLATION_NEAREST);
+	FrameBuffer::BlitFrameBufferFromToFrameBuffer(this, nullptr, 0, 0, GetDefaultWidth(), GetDefaultHeight(), 0, 0, 1920, 1080, GraphicsAPI::eBufferBitType::DEPTH_BUFFER, GraphicsAPI::eImageInterpolation::IMAGE_INTERPOLATION_NEAREST);
 
 }
 
