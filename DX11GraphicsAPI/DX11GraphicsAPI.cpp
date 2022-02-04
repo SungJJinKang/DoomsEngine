@@ -38,6 +38,25 @@ namespace dooms
 
 		namespace dx11
 		{
+            static HINSTANCE g_hInst = nullptr;
+            static HWND g_hWnd = nullptr;
+            static  D3D_DRIVER_TYPE g_driverType = D3D_DRIVER_TYPE_NULL;
+            static D3D_FEATURE_LEVEL g_featureLevel = D3D_FEATURE_LEVEL_11_0;
+            static ID3D11Device* g_pd3dDevice = nullptr;
+            static ID3D11Device1* g_pd3dDevice1 = nullptr;
+            static ID3D11DeviceContext* g_pImmediateContext = nullptr;
+            static  ID3D11DeviceContext1* g_pImmediateContext1 = nullptr;
+            static IDXGISwapChain* g_pSwapChain = nullptr;
+            static  IDXGISwapChain1* g_pSwapChain1 = nullptr;
+            static ID3D11RenderTargetView* BackBufferRenderTargetView = nullptr;
+            static ID3D11Texture2D* g_pDepthStencil = nullptr;
+            static ID3D11DepthStencilView* BackBufferDepthStencilView = nullptr;
+            static ID3D11SamplerState* g_pSamplerLinear = nullptr;
+            static unsigned int SyncInterval = 0;
+            static unsigned int DrawCallCounter = 0;
+
+
+            static GraphicsAPI::ePrimitiveType BOUND_PRIMITIVE_TYPE = GraphicsAPI::ePrimitiveType::END;
             FORCE_INLINE static D3D_PRIMITIVE_TOPOLOGY Convert_ePrimitiveType_To_D3D_PRIMITIVE_TOPOLOGY(const GraphicsAPI::ePrimitiveType primitiveType)
             {
 	            switch (primitiveType)
@@ -54,6 +73,15 @@ namespace dooms
 	            default: 
                     NEVER_HAPPEN;
 	            }
+            }
+
+            FORCE_INLINE static void SetPrimitiveTopology(const GraphicsAPI::ePrimitiveType primitiveType)
+            {
+                if(BOUND_PRIMITIVE_TYPE != primitiveType)
+                {
+                    BOUND_PRIMITIVE_TYPE = primitiveType;
+                    dx11::g_pImmediateContext->IASetPrimitiveTopology(dx11::Convert_ePrimitiveType_To_D3D_PRIMITIVE_TOPOLOGY(primitiveType));
+                }               
             }
 
             FORCE_INLINE static DXGI_FORMAT ConvertTextureInternalFormat_To_DXGI_FORMAT(const GraphicsAPI::eTextureInternalFormat internalFormat)
@@ -345,22 +373,7 @@ namespace dooms
 	            }
             }
 
-            static HINSTANCE g_hInst = nullptr;
-            static HWND g_hWnd = nullptr;
-            static  D3D_DRIVER_TYPE g_driverType = D3D_DRIVER_TYPE_NULL;
-            static D3D_FEATURE_LEVEL g_featureLevel = D3D_FEATURE_LEVEL_11_0;
-            static ID3D11Device* g_pd3dDevice = nullptr;
-            static ID3D11Device1* g_pd3dDevice1 = nullptr;
-            static ID3D11DeviceContext* g_pImmediateContext = nullptr;
-            static  ID3D11DeviceContext1* g_pImmediateContext1 = nullptr;
-            static IDXGISwapChain* g_pSwapChain = nullptr;
-            static  IDXGISwapChain1* g_pSwapChain1 = nullptr;
-            static ID3D11RenderTargetView* BackBufferRenderTargetView = nullptr;
-            static ID3D11Texture2D* g_pDepthStencil = nullptr;
-            static ID3D11DepthStencilView* BackBufferDepthStencilView = nullptr;
-            static ID3D11SamplerState* g_pSamplerLinear = nullptr;
-            static unsigned int SyncInterval = 0;
-            static unsigned int DrawCallCounter = 0;
+            
             static HRESULT InitWindow(HINSTANCE hInstance, int nCmdShow, int width, int height);
             static HRESULT InitDevice();
             static void CleanupDevice();
@@ -2071,8 +2084,8 @@ namespace dooms
         )
         {
             assert((unsigned int)primitiveType < GraphicsAPI::ePrimitiveType::END);
-
-            dx11::g_pImmediateContext->IASetPrimitiveTopology(dx11::Convert_ePrimitiveType_To_D3D_PRIMITIVE_TOPOLOGY(primitiveType));
+            
+            dx11::SetPrimitiveTopology(primitiveType);
             dx11::g_pImmediateContext->Draw(vertexCount, startVertexLocation);
             dx11::DrawCallCounter++;
         }
@@ -2087,8 +2100,7 @@ namespace dooms
         {
             assert((unsigned int)primitiveType < GraphicsAPI::ePrimitiveType::END);
 
-            dx11::g_pImmediateContext->IASetPrimitiveTopology(dx11::Convert_ePrimitiveType_To_D3D_PRIMITIVE_TOPOLOGY(primitiveType));
-            dx11::g_pImmediateContext->DrawIndexed(indiceCount, 0, 0);
+            dx11::SetPrimitiveTopology(primitiveType); dx11::g_pImmediateContext->DrawIndexed(indiceCount, 0, 0);
             dx11::DrawCallCounter++;
         }
 
