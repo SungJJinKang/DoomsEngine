@@ -501,7 +501,7 @@ void dooms::GameLogicStartPoint::StartGameLogic()
 						wanderComp->mPoint2 = { Random::RandomFloatNumber(-1500.0f, 1500.0f) , y , Random::RandomFloatNumber(-1500.0f, 1500.0f) };
 						wanderComp->mLookAtDestination = true;
 						wanderComp->mSpeed = 130.0f;
-						wanderComp->mRotationEulerOffset = { 180.0f, 180.0f, 0.0f };
+						wanderComp->mRotationEulerOffset = { 0.0f, 180.0f, 0.0f };
 					}
 
 				}

@@ -28,10 +28,10 @@ void dooms::WanderComponent::UpdateComponent()
 		GetTransform()->Translate(vecToDest.normalized() * MainTimer::GetSingleton()->GetDeltaTime() * mSpeed);
 		if(mLookAtDestination == true)
 		{
-			auto upVector = math::cross(vecToDest.normalized(), -math::cross(vecToDest.normalized(), math::Vector3::up));
-			const math::Quaternion lookAtQuat = math::Quaternion::quatLookAt(vecToDest.normalized(), math::Vector3::up);
-			GetTransform()->SetRotation(lookAtQuat);
-		}		
+			auto upVector = math::cross(math::cross(vecToDest.normalized(), math::Vector3::up), vecToDest.normalized());
+			const math::Quaternion lookAtQuat = math::Quaternion::quatLookAt(vecToDest.normalized(), upVector);
+			GetTransform()->SetRotation(math::Quaternion::EulerAngleToQuaternion(mRotationEulerOffset * math::DEGREE_TO_RADIAN) * lookAtQuat);
+		}
 	}
 }
 

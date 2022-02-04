@@ -58,11 +58,11 @@ void dooms::GameLogicStartPoint::StartGameLogic()
 		entity1Camera->SetProjectionMode(dooms::Camera::eProjectionType::Perspective);
 		entity1Camera->SetClippingPlaneNear(1.0f);
 		entity1Camera->SetClippingPlaneFar(6500.0f);
+		entity1->AddComponent<Move_WASD>();
 		
 		/*
 		PathFollower* pathFollower = entity1->AddComponent<PathFollower>();
-		pathFollower->mTargetWayPointIndex = 0;
-		pathFollower->mSpeed = 2.0f;
+		pathFollower->mTargetWayPointIndex = 1;
 		for(size_t i = 0 ; i < 100 ; i++)
 		{
 			pathFollower->WayPoints.emplace_back
@@ -73,6 +73,7 @@ void dooms::GameLogicStartPoint::StartGameLogic()
 			);
 		}
 		*/
+		
 
 		//entity1->AddComponent<ExportTextureTester>();
 		//entity1->AddComponent<DeferredRenderingDebuggerController>();
@@ -493,7 +494,7 @@ void dooms::GameLogicStartPoint::StartGameLogic()
 				materialList.push_back(material1);
 			}
 
-			for (size_t i = 0; i < 700; i++)
+			for (size_t i = 0; i < 800; i++)
 			{
 				auto modelAsset = assetImporter::AssetManager::GetSingleton()->GetAsset<asset::eAssetType::THREE_D_MODEL>(modelAssetNameList[Random::RandomUIntNumber(0, modelAssetNameList.size() - 1)]);
 
@@ -518,7 +519,7 @@ void dooms::GameLogicStartPoint::StartGameLogic()
 						wanderComp->mPoint2 = { Random::RandomFloatNumber(-1500.0f, 1500.0f) , y , Random::RandomFloatNumber(-1500.0f, 1500.0f) };
 						wanderComp->mLookAtDestination = true;
 						wanderComp->mSpeed = 130.0f;
-						wanderComp->mRotationEulerOffset = { 180.0f, 180.0f, 0.0f };
+						wanderComp->mRotationEulerOffset = { 0.0f, 180.0f, 0.0f };
 					}
 
 				}

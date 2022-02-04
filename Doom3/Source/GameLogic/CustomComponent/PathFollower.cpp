@@ -4,7 +4,8 @@ void dooms::PathFollower::InitComponent()
 {
 	Component::InitComponent();
 
-	mTargetWayPointIndex = 0;
+	mPreviousWayPointIndex = 0;
+	mTargetWayPointIndex = 1;
 }
 
 void dooms::PathFollower::UpdateComponent()
@@ -20,16 +21,28 @@ void dooms::PathFollower::UpdateComponent()
 		if (vecToDest.sqrMagnitude() < 1.0f)
 		{// arrive at destination
 			mTargetWayPointIndex++;
+			mPreviousWayPointIndex = mTargetWayPointIndex - 1;
 			if(mTargetWayPointIndex >= WayPoints.size())
 			{
 				mTargetWayPointIndex = 0;
+				mPreviousWayPointIndex = WayPoints.size() - 1;
 			}
 		}
 		else
 		{
-			GetTransform()->Translate(vecToDest.normalized() * MainTimer::GetSingleton()->GetDeltaTime() * mSpeed);
-			const math::Quaternion lookAtQuat = math::Quaternion::quatLookAt(vecToDest.normalized(), math::Vector3::up);
-			GetTransform()->SetRotation((lookAtQuat - GetTransform()->GetRotation()) * MainTimer::GetSingleton()->GetDeltaTime() * mSpeed);
+			GetTransform()->Translate(vecToDest.normalized() * MainTimer::GetSingleton()->GetDeltaTime() * mMoveSpeed);
+			auto upVector = math::cross(math::cross(vecToDest.normalized(), math::Vector3::up), vecToDest.normalized());
+			const math::Quaternion lookAtQuat = math::Quaternion::quatLookAt(vecToDest.normalized(), upVector);
+			GetTransform()->SetRotation
+			(
+				math::lerp
+				(
+					GetTransform()->GetRotation(),
+					lookAtQuat,
+					math::clamp01( (WayPoints[mTargetWayPointIndex] - WayPoints[mPreviousWayPointIndex]).magnitude() / (WayPoints[mTargetWayPointIndex] - GetTransform()->GetPosition()).magnitude())
+				)
+			);
+
 		}
 	}
 
