@@ -1,5 +1,6 @@
 #include "GraphicsAPIManager.h"
 
+#include <shellscalingapi.h>
 #include <Windows.h>
 
 #include "../graphicsAPISetting.h"
@@ -87,6 +88,8 @@ bool dooms::graphics::GraphicsAPIManager::Initialize(const GraphicsAPI::eGraphic
 			D_ASSERT(false);
 			return false;
 		}
+
+		SetProcessDpiAwareness(PROCESS_DPI_AWARENESS::PROCESS_SYSTEM_DPI_AWARE);
 
 		unsigned int result = 1;
 		result &= GraphicsAPI::InitializeGraphicsAPI(graphicsAPISetting::GetScreenWidth(), graphicsAPISetting::GetScreenHeight(), graphicsAPISetting::GetMultiSamplingNum());

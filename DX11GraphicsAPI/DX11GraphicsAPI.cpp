@@ -5,7 +5,6 @@
 #include "assert.h"
 
 #include <windows.h>
-#include <shellscalingapi.h>
 #include <d3d11_1.h>
 #include <d3dcompiler.h>
 #include <oneapi/tbb/tbbmalloc_proxy.h>
@@ -399,7 +398,7 @@ namespace dooms
                 if (!RegisterClassEx(&wcex))
                     return E_FAIL;
 
-                SetProcessDpiAwareness(PROCESS_DPI_AWARENESS::PROCESS_SYSTEM_DPI_AWARE);
+                
 
 				// Create window
 				g_hInst = hInstance;

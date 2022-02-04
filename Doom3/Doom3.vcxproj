@@ -231,7 +231,7 @@ xcopy /y /d /E /H /C /I "$(ProjectDir)Assets" "$(TargetDir)Assets"</Command>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>DebugFull</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(ProjectDir)Source\thirdparty\oneTBB\build\msvc_19.30_cxx_64_md_debug;$(ProjectDir)Source\Helper\crossguid\build\Debug;C:\assimp-5.1.5\build\lib\Debug;$(VcpkgInstalledDir)installed\x64-windows\debug\lib;%(AdditionalLibraryDirectories);$(OutputPath)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>%(AdditionalDependencies);ntdll.lib;crossguid-dgb.lib;DirectXTex.lib;assimp-vc142-mtd.lib;tbbmalloc_debug.lib;tbbmalloc_proxy_debug.lib</AdditionalDependencies>
+      <AdditionalDependencies>%(AdditionalDependencies);ntdll.lib;crossguid-dgb.lib;DirectXTex.lib;assimp-vc142-mtd.lib;tbbmalloc_debug.lib;tbbmalloc_proxy_debug.lib;shcore.lib</AdditionalDependencies>
       <GenerateMapFile>true</GenerateMapFile>
       <MapFileName>map.map</MapFileName>
       <MapExports>true</MapExports>
@@ -277,7 +277,7 @@ xcopy /y /d /f "$(ProjectDir)*.map" "$(TargetDir)"</Command>
       <OptimizeReferences>false</OptimizeReferences>
       <GenerateDebugInformation>DebugFull</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(ProjectDir)Source\thirdparty\oneTBB\build\msvc_19.30_cxx_64_md_release;$(ProjectDir)Source\thirdparty\amdUprof\lib\x64;$(ProjectDir)Source\Helper\crossguid\build\Release;C:\assimp-5.1.5\build\lib\Release;C:\vcpkg\installed\x64-windows\lib;%(AdditionalLibraryDirectories);$(OutputPath)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>crossguid.lib;AMDProfileController.lib;ntdll.lib;DirectXTex.lib;assimp-vc142-mt.lib;tbbmalloc_proxy.lib;tbbmalloc.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>crossguid.lib;AMDProfileController.lib;ntdll.lib;DirectXTex.lib;assimp-vc142-mt.lib;tbbmalloc_proxy.lib;tbbmalloc.lib;%(AdditionalDependencies);shcore.lib</AdditionalDependencies>
       <GenerateMapFile>true</GenerateMapFile>
       <MapFileName>map.map</MapFileName>
       <MapExports>true</MapExports>
@@ -306,7 +306,7 @@ xcopy /y /d /f "$(ProjectDir)*.map" "$(TargetDir)"</Command>
       <SourceDependenciesFile>$(OutDirFullPath)SourceDependencies\</SourceDependenciesFile>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies);ntdll.lib;C:\vcpkg\x64-windows\bin;OpenGLGraphicsAPI.lib;DX11GraphicsAPI.lib</AdditionalDependencies>
+      <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies);ntdll.lib;C:\vcpkg\x64-windows\bin;OpenGLGraphicsAPI.lib;DX11GraphicsAPI.lib;shcore.lib</AdditionalDependencies>
       <AdditionalLibraryDirectories>;C:\vcpkg\x64-windows\bin;$(OutputPath)</AdditionalLibraryDirectories>
       <GenerateMapFile>true</GenerateMapFile>
       <MapFileName>map.map</MapFileName>
