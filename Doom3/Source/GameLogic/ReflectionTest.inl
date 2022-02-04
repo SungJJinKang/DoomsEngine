@@ -462,42 +462,52 @@ void dooms::GameLogicStartPoint::StartGameLogic()
 			"StarSparrow_Black.dds"
 		};
 
-
-		for (size_t i = 0; i < 700; i++)
 		{
-			auto modelAsset = assetImporter::AssetManager::GetSingleton()->GetAsset<asset::eAssetType::THREE_D_MODEL>(modelAssetNameList[Random::RandomUIntNumber(0, modelAssetNameList.size() - 1)]);
-			auto shader1 = assetImporter::AssetManager::GetSingleton()->GetAsset<asset::eAssetType::SHADER>("GbufferWriter_PBR.glsl");
-			auto material1 = dooms::CreateDObject<graphics::Material>(shader1);
-			material1->AddTexture(graphics::eTextureBindingPoint::AlbedoTexture, assetImporter::AssetManager::GetSingleton()->GetAsset<asset::eAssetType::TEXTURE>(albedoTextureAssetNameList[Random::RandomUIntNumber(0, albedoTextureAssetNameList.size() - 1)]));
-			material1->AddTexture(graphics::eTextureBindingPoint::NormalTexture, assetImporter::AssetManager::GetSingleton()->GetAsset<asset::eAssetType::TEXTURE>("StarSparrow_Normal.dds"));
-			material1->AddTexture(graphics::eTextureBindingPoint::MetalnessTexture, assetImporter::AssetManager::GetSingleton()->GetAsset<asset::eAssetType::TEXTURE>("StarSparrow_Metallic.dds"));
-			//material1->AddTexture(graphics::eTextureBindingPoint::SpecularTexture, assetImporter::AssetManager::GetSingleton()->GetAsset<asset::eAssetType::TEXTURE>("ufo_spec.dds"));
-
-			for (size_t meshIndex = 0; meshIndex < modelAsset->GetMeshCount(); meshIndex++)
+			std::vector<graphics::Material*> materialList;
+			materialList.reserve(albedoTextureAssetNameList.size());
+			for (auto& texture : albedoTextureAssetNameList)
 			{
-				graphics::Mesh* mesh = modelAsset->GetMesh(meshIndex);
-				if (mesh->GetTargetThreeDModelMesh()->mIsValidMesh == true)
-				{
-					auto entity = currenScene->CreateNewEntity();
-					entity->GetTransform()->SetScale(10.0f, 10.0f, 10.0f);
-					auto y = Random::RandomFloatNumber(-1500.0f, 1500.0f);
-					entity->GetTransform()->SetPosition(Random::RandomFloatNumber(-500.0f, 500.0f), y, Random::RandomFloatNumber(-500.0f, 500.0f));
-					auto meshRenderer = entity->AddComponent<MeshRenderer>();
-					meshRenderer->SetMesh(mesh);
-					meshRenderer->SetMaterial(material1);
-					portfolioComponent->PlanesRenderers.push_back(meshRenderer);
+				auto shader1 = assetImporter::AssetManager::GetSingleton()->GetAsset<asset::eAssetType::SHADER>("GbufferWriter_PBR.glsl");
+				auto material1 = dooms::CreateDObject<graphics::Material>(shader1);
+				material1->AddTexture(graphics::eTextureBindingPoint::AlbedoTexture, assetImporter::AssetManager::GetSingleton()->GetAsset<asset::eAssetType::TEXTURE>(texture));
+				material1->AddTexture(graphics::eTextureBindingPoint::NormalTexture, assetImporter::AssetManager::GetSingleton()->GetAsset<asset::eAssetType::TEXTURE>("StarSparrow_Normal.dds"));
+				material1->AddTexture(graphics::eTextureBindingPoint::MetalnessTexture, assetImporter::AssetManager::GetSingleton()->GetAsset<asset::eAssetType::TEXTURE>("StarSparrow_Metallic.dds"));
 
-					WanderComponent* wanderComp = entity->AddComponent<WanderComponent>();
-					wanderComp->mPoint1 = { Random::RandomFloatNumber(-1500.0f, 1500.0f) , y , Random::RandomFloatNumber(-1500.0f, 1500.0f) };
-					wanderComp->mPoint2 = { Random::RandomFloatNumber(-1500.0f, 1500.0f) , y , Random::RandomFloatNumber(-1500.0f, 1500.0f) };
-					wanderComp->mLookAtDestination = true;
-					wanderComp->mSpeed = 130.0f;
-					wanderComp->mRotationEulerOffset = { 180.0f, 180.0f, 0.0f };
-				}
-
+				materialList.push_back(material1);
 			}
 
+			for (size_t i = 0; i < 700; i++)
+			{
+				auto modelAsset = assetImporter::AssetManager::GetSingleton()->GetAsset<asset::eAssetType::THREE_D_MODEL>(modelAssetNameList[Random::RandomUIntNumber(0, modelAssetNameList.size() - 1)]);
 
+				//material1->AddTexture(graphics::eTextureBindingPoint::SpecularTexture, assetImporter::AssetManager::GetSingleton()->GetAsset<asset::eAssetType::TEXTURE>("ufo_spec.dds"));
+
+				for (size_t meshIndex = 0; meshIndex < modelAsset->GetMeshCount(); meshIndex++)
+				{
+					graphics::Mesh* mesh = modelAsset->GetMesh(meshIndex);
+					if (mesh->GetTargetThreeDModelMesh()->mIsValidMesh == true)
+					{
+						auto entity = currenScene->CreateNewEntity();
+						entity->GetTransform()->SetScale(10.0f, 10.0f, 10.0f);
+						auto y = Random::RandomFloatNumber(-1500.0f, 1500.0f);
+						entity->GetTransform()->SetPosition(Random::RandomFloatNumber(-500.0f, 500.0f), y, Random::RandomFloatNumber(-500.0f, 500.0f));
+						auto meshRenderer = entity->AddComponent<MeshRenderer>();
+						meshRenderer->SetMesh(mesh);
+						meshRenderer->SetMaterial(materialList[Random::RandomUIntNumber(0, materialList.size() - 1)]);
+						portfolioComponent->PlanesRenderers.push_back(meshRenderer);
+
+						WanderComponent* wanderComp = entity->AddComponent<WanderComponent>();
+						wanderComp->mPoint1 = { Random::RandomFloatNumber(-1500.0f, 1500.0f) , y , Random::RandomFloatNumber(-1500.0f, 1500.0f) };
+						wanderComp->mPoint2 = { Random::RandomFloatNumber(-1500.0f, 1500.0f) , y , Random::RandomFloatNumber(-1500.0f, 1500.0f) };
+						wanderComp->mLookAtDestination = true;
+						wanderComp->mSpeed = 130.0f;
+						wanderComp->mRotationEulerOffset = { 180.0f, 180.0f, 0.0f };
+					}
+
+				}
+
+
+			}
 		}
 	}
 	
