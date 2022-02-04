@@ -7,6 +7,7 @@
 #include <windows.h>
 #include <d3d11_3.h>
 #include <d3dcompiler.h>
+#include <oneapi/tbb/tbbmalloc_proxy.h>
 
 #include "DX11Imgui.h"
 #include "DX11GraphicsAPIInput.h"
@@ -676,206 +677,6 @@ namespace dooms
                         g_pImmediateContext->PSSetSamplers(i, 1, &g_pSamplerLinear);
                     }
                 }
-               
-                /*
-                // Compile the vertex shader
-                ID3DBlob* pVSBlob = nullptr;
-                hr = CompileShaderFromFile(L"Assets/DX11Test/Tutorial07.fxh", "VS", "vs_4_0", &pVSBlob);
-                if (FAILED(hr))
-                {
-                    MessageBox(nullptr,
-                        L"The FX file cannot be compiled.  Please run this executable from the directory that contains the FX file.", L"Error", MB_OK);
-                    return hr;
-                }
-
-                // Create the vertex shader
-                hr = g_pd3dDevice->CreateVertexShader(pVSBlob->GetBufferPointer(), pVSBlob->GetBufferSize(), nullptr, &g_pVertexShader);
-                if (FAILED(hr))
-                {
-                    pVSBlob->Release();
-                    return hr;
-                }
-
-                // Define the input layout
-                D3D11_INPUT_ELEMENT_DESC layout[] =
-                {
-                    { "POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D11_INPUT_PER_VERTEX_DATA, 0 },
-                    { "TEXCOORD", 0, DXGI_FORMAT_R32G32_FLOAT, 0, 12, D3D11_INPUT_PER_VERTEX_DATA, 0 },
-                };
-                UINT numElements = ARRAYSIZE(layout);
-
-                // Create the input layout
-                hr = g_pd3dDevice->CreateInputLayout(layout, numElements, pVSBlob->GetBufferPointer(),
-                    pVSBlob->GetBufferSize(), &g_pVertexLayout);
-                pVSBlob->Release();
-                if (FAILED(hr))
-                    return hr;
-
-                // Set the input layout
-                g_pImmediateContext->IASetInputLayout(g_pVertexLayout);
-
-                // Compile the pixel shader
-                ID3DBlob* pPSBlob = nullptr;
-                hr = CompileShaderFromFile(L"Assets/DX11Test/Tutorial07.fxh", "PS", "ps_4_0", &pPSBlob);
-                if (FAILED(hr))
-                {
-                    MessageBox(nullptr,
-                        L"The FX file cannot be compiled.  Please run this executable from the directory that contains the FX file.", L"Error", MB_OK);
-                    return hr;
-                }
-
-                // Create the pixel shader
-                hr = g_pd3dDevice->CreatePixelShader(pPSBlob->GetBufferPointer(), pPSBlob->GetBufferSize(), nullptr, &g_pPixelShader);
-                pPSBlob->Release();
-                if (FAILED(hr))
-                    return hr;
-
-                // Create vertex buffer
-                SimpleVertex vertices[] =
-                {
-                    {DirectX::XMFLOAT3(-1.0f, 1.0f, -1.0f), DirectX::XMFLOAT2(1.0f, 0.0f) },
-                    { DirectX::XMFLOAT3(1.0f, 1.0f, -1.0f), DirectX::XMFLOAT2(0.0f, 0.0f) },
-                    { DirectX::XMFLOAT3(1.0f, 1.0f, 1.0f), DirectX::XMFLOAT2(0.0f, 1.0f) },
-                    { DirectX::XMFLOAT3(-1.0f, 1.0f, 1.0f), DirectX::XMFLOAT2(1.0f, 1.0f) },
-
-                    { DirectX::XMFLOAT3(-1.0f, -1.0f, -1.0f), DirectX::XMFLOAT2(0.0f, 0.0f) },
-                    { DirectX::XMFLOAT3(1.0f, -1.0f, -1.0f), DirectX::XMFLOAT2(1.0f, 0.0f) },
-                    { DirectX::XMFLOAT3(1.0f, -1.0f, 1.0f), DirectX::XMFLOAT2(1.0f, 1.0f) },
-                    { DirectX::XMFLOAT3(-1.0f, -1.0f, 1.0f), DirectX::XMFLOAT2(0.0f, 1.0f) },
-
-                    { DirectX::XMFLOAT3(-1.0f, -1.0f, 1.0f), DirectX::XMFLOAT2(0.0f, 1.0f) },
-                    { DirectX::XMFLOAT3(-1.0f, -1.0f, -1.0f), DirectX::XMFLOAT2(1.0f, 1.0f) },
-                    { DirectX::XMFLOAT3(-1.0f, 1.0f, -1.0f), DirectX::XMFLOAT2(1.0f, 0.0f) },
-                    { DirectX::XMFLOAT3(-1.0f, 1.0f, 1.0f), DirectX::XMFLOAT2(0.0f, 0.0f) },
-
-                    { DirectX::XMFLOAT3(1.0f, -1.0f, 1.0f), DirectX::XMFLOAT2(1.0f, 1.0f) },
-                    { DirectX::XMFLOAT3(1.0f, -1.0f, -1.0f), DirectX::XMFLOAT2(0.0f, 1.0f) },
-                    { DirectX::XMFLOAT3(1.0f, 1.0f, -1.0f), DirectX::XMFLOAT2(0.0f, 0.0f) },
-                    { DirectX::XMFLOAT3(1.0f, 1.0f, 1.0f), DirectX::XMFLOAT2(1.0f, 0.0f) },
-
-                    { DirectX::XMFLOAT3(-1.0f, -1.0f, -1.0f), DirectX::XMFLOAT2(0.0f, 1.0f) },
-                    { DirectX::XMFLOAT3(1.0f, -1.0f, -1.0f), DirectX::XMFLOAT2(1.0f, 1.0f) },
-                    { DirectX::XMFLOAT3(1.0f, 1.0f, -1.0f), DirectX::XMFLOAT2(1.0f, 0.0f) },
-                    { DirectX::XMFLOAT3(-1.0f, 1.0f, -1.0f), DirectX::XMFLOAT2(0.0f, 0.0f) },
-
-                    { DirectX::XMFLOAT3(-1.0f, -1.0f, 1.0f), DirectX::XMFLOAT2(1.0f, 1.0f) },
-                    { DirectX::XMFLOAT3(1.0f, -1.0f, 1.0f), DirectX::XMFLOAT2(0.0f, 1.0f) },
-                    { DirectX::XMFLOAT3(1.0f, 1.0f, 1.0f), DirectX::XMFLOAT2(0.0f, 0.0f) },
-                    { DirectX::XMFLOAT3(-1.0f, 1.0f, 1.0f), DirectX::XMFLOAT2(1.0f, 0.0f) },
-                };
-
-                D3D11_BUFFER_DESC bd = {};
-                bd.Usage = D3D11_USAGE_DEFAULT;
-                bd.ByteWidth = sizeof(SimpleVertex) * 24;
-                bd.BindFlags = D3D11_BIND_VERTEX_BUFFER;
-                bd.CPUAccessFlags = 0;
-
-                D3D11_SUBRESOURCE_DATA InitData = {};
-                InitData.pSysMem = vertices;
-                hr = g_pd3dDevice->CreateBuffer(&bd, &InitData, &g_pVertexBuffer);
-                if (FAILED(hr))
-                    return hr;
-
-                // Set vertex buffer
-                UINT stride = sizeof(SimpleVertex);
-                UINT offset = 0;
-                g_pImmediateContext->IASetVertexBuffers(0, 1, &g_pVertexBuffer, &stride, &offset);
-
-                // Create index buffer
-                // Create vertex buffer
-                WORD indices[] =
-                {
-                    3,1,0,
-                    2,1,3,
-
-                    6,4,5,
-                    7,4,6,
-
-                    11,9,8,
-                    10,9,11,
-
-                    14,12,13,
-                    15,12,14,
-
-                    19,17,16,
-                    18,17,19,
-
-                    22,20,21,
-                    23,20,22
-                };
-
-                bd.Usage = D3D11_USAGE_DEFAULT;
-                bd.ByteWidth = sizeof(WORD) * 36;
-                bd.BindFlags = D3D11_BIND_INDEX_BUFFER;
-                bd.CPUAccessFlags = 0;
-                InitData.pSysMem = indices;
-                hr = g_pd3dDevice->CreateBuffer(&bd, &InitData, &g_pIndexBuffer);
-                if (FAILED(hr))
-                    return hr;
-
-                // Set index buffer
-                g_pImmediateContext->IASetIndexBuffer(g_pIndexBuffer, DXGI_FORMAT_R16_UINT, 0);
-
-                // Set primitive topology
-                g_pImmediateContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
-
-                // Create the constant buffers
-                bd.Usage = D3D11_USAGE_DEFAULT;
-                bd.ByteWidth = sizeof(CBNeverChanges);
-                bd.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
-                bd.CPUAccessFlags = 0;
-                hr = g_pd3dDevice->CreateBuffer(&bd, nullptr, &g_pCBNeverChanges);
-                if (FAILED(hr))
-                    return hr;
-
-                bd.ByteWidth = sizeof(CBChangeOnResize);
-                hr = g_pd3dDevice->CreateBuffer(&bd, nullptr, &g_pCBChangeOnResize);
-                if (FAILED(hr))
-                    return hr;
-
-                bd.ByteWidth = sizeof(CBChangesEveryFrame);
-                hr = g_pd3dDevice->CreateBuffer(&bd, nullptr, &g_pCBChangesEveryFrame);
-                if (FAILED(hr))
-                    return hr;
-
-                // Load the Texture
-                hr = DirectX::CreateDDSTextureFromFile(g_pd3dDevice, L"Assets/DX11Test/seafloor.dds", nullptr, &g_pTextureRV);
-                if (FAILED(hr))
-                    return hr;
-
-                // Create the sample state
-                D3D11_SAMPLER_DESC sampDesc = {};
-                sampDesc.Filter = D3D11_FILTER_MIN_MAG_MIP_LINEAR;
-                sampDesc.AddressU = D3D11_TEXTURE_ADDRESS_WRAP;
-                sampDesc.AddressV = D3D11_TEXTURE_ADDRESS_WRAP;
-                sampDesc.AddressW = D3D11_TEXTURE_ADDRESS_WRAP;
-                sampDesc.ComparisonFunc = D3D11_COMPARISON_NEVER;
-                sampDesc.MinLOD = 0;
-                sampDesc.MaxLOD = D3D11_FLOAT32_MAX;
-                hr = g_pd3dDevice->CreateSamplerState(&sampDesc, &g_pSamplerLinear);
-                if (FAILED(hr))
-                    return hr;
-
-                // Initialize the world matrices
-                g_World = DirectX::XMMatrixIdentity();
-
-                // Initialize the view matrix
-                DirectX::XMVECTOR Eye = DirectX::XMVectorSet(0.0f, 3.0f, -6.0f, 0.0f);
-                DirectX::XMVECTOR At = DirectX::XMVectorSet(0.0f, 1.0f, 0.0f, 0.0f);
-                DirectX::XMVECTOR Up = DirectX::XMVectorSet(0.0f, 1.0f, 0.0f, 0.0f);
-                g_View = DirectX::XMMatrixLookAtLH(Eye, At, Up);
-
-                CBNeverChanges cbNeverChanges;
-                cbNeverChanges.mView = XMMatrixTranspose(g_View);
-                g_pImmediateContext->UpdateSubresource(g_pCBNeverChanges, 0, nullptr, &cbNeverChanges, 0, 0);
-
-                // Initialize the projection matrix
-                g_Projection = DirectX::XMMatrixPerspectiveFovLH(DirectX::XM_PIDIV4, width / (FLOAT)height, 0.01f, 100.0f);
-
-                CBChangeOnResize cbChangesOnResize;
-                cbChangesOnResize.mProjection = XMMatrixTranspose(g_Projection);
-                g_pImmediateContext->UpdateSubresource(g_pCBChangeOnResize, 0, nullptr, &cbChangesOnResize, 0, 0);
-                */
 
                 return S_OK;
             }
@@ -974,6 +775,10 @@ namespace dooms
 
 		DOOMS_ENGINE_GRAPHICS_API unsigned int InitializeGraphicsAPI(const int screenWidth, const int screenHeight, const unsigned int multiSamplingNum)
 		{
+            char** tbbLog;
+            const int isTbbSuccess = TBB_malloc_replacement_log(&tbbLog);
+            assert(isTbbSuccess == 0, *tbbLog);
+
 			HINSTANCE hInstance = GetModuleHandle(NULL);
             if(hInstance == NULL)
             {

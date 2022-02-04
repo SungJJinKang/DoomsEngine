@@ -231,7 +231,7 @@ xcopy /y /d /E /H /C /I "$(ProjectDir)Assets" "$(TargetDir)Assets"</Command>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>DebugFull</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(ProjectDir)Source\thirdparty\oneTBB\build\msvc_19.30_cxx_64_md_debug;$(ProjectDir)Source\Helper\crossguid\build\Debug;C:\assimp-5.1.5\build\lib\Debug;$(VcpkgInstalledDir)installed\x64-windows\debug\lib;%(AdditionalLibraryDirectories);$(OutputPath)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>%(AdditionalDependencies);ntdll.lib;crossguid-dgb.lib;DirectXTex.lib;assimp-vc142-mtd.lib;tbbmalloc_proxy_debug.lib</AdditionalDependencies>
+      <AdditionalDependencies>%(AdditionalDependencies);ntdll.lib;crossguid-dgb.lib;DirectXTex.lib;assimp-vc142-mtd.lib;tbbmalloc_debug.lib;tbbmalloc_proxy_debug.lib</AdditionalDependencies>
       <GenerateMapFile>true</GenerateMapFile>
       <MapFileName>map.map</MapFileName>
       <MapExports>true</MapExports>
@@ -278,7 +278,7 @@ xcopy /y /d /f "$(ProjectDir)*.map" "$(TargetDir)"</Command>
       <OptimizeReferences>false</OptimizeReferences>
       <GenerateDebugInformation>DebugFull</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(ProjectDir)Source\thirdparty\oneTBB\build\msvc_19.30_cxx_64_md_release;$(ProjectDir)Source\thirdparty\amdUprof\lib\x64;$(ProjectDir)Source\Helper\crossguid\build\Release;C:\assimp-5.1.5\build\lib\Release;C:\vcpkg\installed\x64-windows\lib;%(AdditionalLibraryDirectories);$(OutputPath)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>crossguid.lib;AMDProfileController.lib;ntdll.lib;DirectXTex.lib;assimp-vc142-mt.lib;tbbmalloc_proxy.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>crossguid.lib;AMDProfileController.lib;ntdll.lib;DirectXTex.lib;assimp-vc142-mt.lib;tbbmalloc_proxy.lib;tbbmalloc.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <GenerateMapFile>true</GenerateMapFile>
       <MapFileName>map.map</MapFileName>
       <MapExports>true</MapExports>
