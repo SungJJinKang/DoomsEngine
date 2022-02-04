@@ -123,7 +123,7 @@ namespace dooms
 		Camera& operator=(Camera&&) noexcept = delete;
 
 		D_PROPERTY()
-		graphics::DefferedRenderingFrameBuffer mDefferedRenderingFrameBuffer;
+		graphics::DefferedRenderingFrameBuffer mDeferredRenderingFrameBuffer{};
 
 		D_PROPERTY()
 		UINT32 CameraIndexInCullingSystem;

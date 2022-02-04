@@ -39,7 +39,7 @@ void dooms::graphics::FrameBufferExporterHelper::ExportMainFrameBufferDepth(cons
 	dooms::ui::PrintText("Export Main FrameBuffer Depth Texture");
 
 	dooms::graphics::TextureView* depthTexture =
-		dooms::Camera::GetMainCamera()->mDefferedRenderingFrameBuffer.GetDepthTextureView(0, GraphicsAPI::PIXEL_SHADER);
+		dooms::Camera::GetMainCamera()->mDeferredRenderingFrameBuffer.GetDepthTextureView(0, GraphicsAPI::PIXEL_SHADER);
 	dooms::assetExporter::assetExporterTexture::ExportTextureFromTexture
 	(
 		depthTexture,
@@ -54,7 +54,7 @@ void dooms::graphics::FrameBufferExporterHelper::ExportMainFrameBufferDepthAsDDS
 	dooms::ui::PrintText("Export Main FrameBuffer Depth Texture As DDS");
 
 	dooms::graphics::TextureView* depthTexture =
-		dooms::Camera::GetMainCamera()->mDefferedRenderingFrameBuffer.GetDepthTextureView(0, GraphicsAPI::PIXEL_SHADER);
+		dooms::Camera::GetMainCamera()->mDeferredRenderingFrameBuffer.GetDepthTextureView(0, GraphicsAPI::PIXEL_SHADER);
 	dooms::assetExporter::assetExporterTexture::ExportTextureFromTextureAsDDS
 	(
 		depthTexture,

@@ -364,8 +364,8 @@ void dooms::graphics::Graphics_Server::Render()
 
 		targetCamera->UpdateUniformBufferObject();
 
-		targetCamera->mDefferedRenderingFrameBuffer.ClearFrameBuffer(targetCamera);
-		targetCamera->mDefferedRenderingFrameBuffer.BindFrameBuffer();
+		targetCamera->mDeferredRenderingFrameBuffer.ClearFrameBuffer(targetCamera);
+		targetCamera->mDeferredRenderingFrameBuffer.BindFrameBuffer();
 
 		D_START_PROFILING(RenderObject, dooms::profiler::eProfileLayers::Rendering);
 		//GraphicsAPI::Enable(GraphicsAPI::eCapability::DEPTH_TEST);
@@ -382,9 +382,9 @@ void dooms::graphics::Graphics_Server::Render()
 			//Only Main Camera can draw to screen buffer
 			mPIPManager.DrawPIPs();
 
-			targetCamera->mDefferedRenderingFrameBuffer.BindGBufferTextures();
+			targetCamera->mDeferredRenderingFrameBuffer.BindGBufferTextures();
 			mDeferredRenderingDrawer.DrawDeferredRenderingQuadDrawer();
-			targetCamera->mDefferedRenderingFrameBuffer.UnBindGBufferTextures();
+			targetCamera->mDeferredRenderingFrameBuffer.UnBindGBufferTextures();
 
 #ifdef DEBUG_DRAWER
 			//�̰� ������ �������. �׳� ����� ����.
