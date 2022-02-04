@@ -29,18 +29,13 @@ namespace dooms
 			{
 				GENERATE_BODY_VertexBufferLayout()
 
+				D_PROPERTY()
 				UINT32 mStride;
-				UINT64 mOffset;
+
+				D_PROPERTY()
+				UINT32 mOffset;
 			};
 			
-		public:
-
-			
-
-			static inline const char VERTEX_ARRAY_TAG[]{ "VERTEX_ARRAY" };
-			static inline const char VERTEX_BUFFER_TAG[]{ "VERTEX_BUFFER" };
-			static inline const char INDEX_BUFFER_TAG[]{ "INDEX_BUFFER" };
-
 		private:
 
 			D_PROPERTY()
@@ -85,6 +80,12 @@ namespace dooms
 			D_PROPERTY()
 			std::array<VertexBufferLayout, 10> mVertexBufferLayouts;
 
+			static UINT64 BOUND_VERTEX_ARRAY_ID; // only used for OPENGL
+			inline static const UINT32 MAX_VERTEX_BUFFER_LAYOUT_COUNT = 32;
+			static UINT64 BOUND_VERTEX_BUFFER_ID[MAX_VERTEX_BUFFER_LAYOUT_COUNT]; // for OPENGL, Only first element is used
+			static UINT64 BOUND_INDEX_BUFFER_ID; // INDEX ( ELEMENT BUFFER )
+
+			/*
 			/// <summary>
 			/// bind buffer array object
 			/// </summary>
@@ -110,6 +111,7 @@ namespace dooms
 					GraphicsAPI::BindIndexBufferObject(mElementBufferObjectID);
 				}
 			}
+			*/
 
 			/// <summary>
 			/// this is local coordinate, you should map to your world coordinate
@@ -121,15 +123,90 @@ namespace dooms
 
 			void OnSetPendingKill() override;
 
-			void BindVertexArrayObject() const;
-			void BindVertexBufferObject() const;
-			void BindIndexBufferObject() const;
-			void BindVertexBufferObject
+			FORCE_INLINE void BindVertexArrayObject() const
+			{
+				if (graphics::GraphicsAPIManager::GetCurrentAPIType() == graphics::GraphicsAPI::eGraphicsAPIType::OpenGL)
+				{
+					D_ASSERT(mVertexArrayObjectID.IsValid() == true);
+					if (BOUND_VERTEX_ARRAY_ID != mVertexArrayObjectID.GetBufferID())
+					{
+						BOUND_VERTEX_ARRAY_ID = mVertexArrayObjectID;
+						dooms::graphics::GraphicsAPI::BindVertexArrayObject(mVertexArrayObjectID);
+					}
+				}
+			}
+			FORCE_INLINE void BindVertexBufferObject() const
+			{
+				D_ASSERT(mVertexDataBuffer.IsValid() == true);
+				D_ASSERT(mTotalStride > 0);
+
+				if (graphics::GraphicsAPIManager::GetCurrentAPIType() == graphics::GraphicsAPI::eGraphicsAPIType::OpenGL)
+				{
+					if (BOUND_VERTEX_BUFFER_ID[0] != mVertexArrayObjectID.GetBufferID())
+					{
+						BOUND_VERTEX_BUFFER_ID[0] = mVertexArrayObjectID;
+						dooms::graphics::GraphicsAPI::BindVertexDataBuffer
+						(
+							mVertexDataBuffer,
+							0,
+							mTotalStride,
+							0
+						);
+					}
+				}
+				else if (graphics::GraphicsAPIManager::GetCurrentAPIType() == graphics::GraphicsAPI::eGraphicsAPIType::DX11_10)
+				{
+					for (UINT32 bufferLayoutIndex = 0; bufferLayoutIndex < mVertexBufferLayoutCount; bufferLayoutIndex++)
+					{
+						if (BOUND_VERTEX_BUFFER_ID[bufferLayoutIndex] != mVertexDataBuffer.GetBufferID())
+						{
+							BOUND_VERTEX_BUFFER_ID[bufferLayoutIndex] = mVertexDataBuffer;
+							dooms::graphics::GraphicsAPI::BindVertexDataBuffer
+							(
+								mVertexDataBuffer,
+								bufferLayoutIndex,
+								mVertexBufferLayouts[bufferLayoutIndex].mStride,
+								mVertexBufferLayouts[bufferLayoutIndex].mOffset
+							);
+						}
+					}
+
+				}
+				else
+				{
+					NEVER_HAPPEN;
+				}
+
+			}
+			FORCE_INLINE void BindIndexBufferObject() const
+			{
+				D_ASSERT(mVertexDataBuffer.IsValid() == true);
+				if (BOUND_INDEX_BUFFER_ID != mElementBufferObjectID.GetBufferID())
+				{
+					BOUND_INDEX_BUFFER_ID = mElementBufferObjectID;
+					dooms::graphics::GraphicsAPI::BindBuffer(mElementBufferObjectID, 0, graphics::GraphicsAPI::eBufferTarget::ELEMENT_ARRAY_BUFFER, graphics::GraphicsAPI::eGraphicsPipeLineStage::DUMMY);
+				}
+			}
+			FORCE_INLINE void BindVertexBufferObject
 			(
 				const UINT32 bindingPosition,
 				const UINT32 stride,
 				const UINT32 offset
-			) const;
+			) const
+			{
+				D_ASSERT(mVertexDataBuffer.IsValid() == true);
+				if (BOUND_VERTEX_BUFFER_ID[bindingPosition] != mVertexDataBuffer.GetBufferID())
+				{
+					BOUND_VERTEX_BUFFER_ID[bindingPosition] = mVertexDataBuffer;
+					dooms::graphics::GraphicsAPI::BindVertexDataBuffer
+					(
+						mVertexDataBuffer,
+						bindingPosition,
+						stride,
+						offset
+					);
+				}
+			}
 
 			void CreateVertexArrayObjectIfNotExist();
 
@@ -242,8 +319,10 @@ namespace dooms
 				return mElementBufferObjectID.IsValid();
 			}
 
+			/*
 			D_FUNCTION()
 			void UpdateElementBuffer(const UINT32* indices, const UINT32 indiceCount);
+			*/
 
 
 			D_FUNCTION()

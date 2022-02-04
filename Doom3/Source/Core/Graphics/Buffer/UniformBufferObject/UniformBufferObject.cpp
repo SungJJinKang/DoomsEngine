@@ -1,5 +1,6 @@
 #include "UniformBufferObject.h"
 
+UINT64 dooms::graphics::UniformBufferObject::BOUND_UNIFORM_BUFFER_ID[GRAPHICS_PIPELINE_STAGE_COUNT][MAX_UNIFORM_BUFFER_SLOT_COUNT]{(UINT64)-1};
 
 void dooms::graphics::UniformBufferObject::InitializeUniformVariableOffset
 (

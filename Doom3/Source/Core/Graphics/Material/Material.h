@@ -55,9 +55,11 @@ namespace dooms
 			GENERATE_BODY()
 			
 		private:
+			
+			static UINT64 BOUND_SHADER_ID[GRAPHICS_PIPELINE_STAGE_COUNT];
+			static UINT64 BOUND_INPUT_LAYOUT_ID;
 
-			static inline const char MATERIAL_TAG[]{ "MATERIAL" };
-
+			D_PROPERTY()
 			eStatus mMaterialStatus;
 
 			/// <summary>

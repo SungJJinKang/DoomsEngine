@@ -3,6 +3,11 @@
 
 #include "../Asset/ThreeDModelAsset.h"
 
+
+UINT64 dooms::graphics::Mesh::BOUND_VERTEX_ARRAY_ID{(UINT64)-1};
+UINT64 dooms::graphics::Mesh::BOUND_VERTEX_BUFFER_ID[MAX_VERTEX_BUFFER_LAYOUT_COUNT]{ (UINT64)-1 };
+UINT64 dooms::graphics::Mesh::BOUND_INDEX_BUFFER_ID{ (UINT64)-1 };
+
 dooms::graphics::Mesh::Mesh()
 	:
 	Buffer(),
@@ -71,74 +76,6 @@ void dooms::graphics::Mesh::OnSetPendingKill()
 	DeleteBuffers();
 }
 
-void dooms::graphics::Mesh::BindVertexArrayObject() const
-{
-	if (graphics::GraphicsAPIManager::GetCurrentAPIType() == graphics::GraphicsAPI::eGraphicsAPIType::OpenGL)
-	{
-		D_ASSERT(mVertexArrayObjectID.IsValid() == true);
-		dooms::graphics::GraphicsAPI::BindVertexArrayObject(mVertexArrayObjectID);
-	}
-}
-
-void dooms::graphics::Mesh::BindVertexBufferObject() const
-{
-	D_ASSERT(mVertexDataBuffer.IsValid() == true);
-	D_ASSERT(mTotalStride > 0);
-
-	if(graphics::GraphicsAPIManager::GetCurrentAPIType() == graphics::GraphicsAPI::eGraphicsAPIType::OpenGL)
-	{
-		dooms::graphics::GraphicsAPI::BindVertexDataBuffer
-		(
-			mVertexDataBuffer,
-			0,
-			mTotalStride,
-			0
-		);
-	}
-	else if (graphics::GraphicsAPIManager::GetCurrentAPIType() == graphics::GraphicsAPI::eGraphicsAPIType::DX11_10)
-	{
-		for(size_t bufferLayoutIndex = 0 ; bufferLayoutIndex < mVertexBufferLayoutCount ; bufferLayoutIndex++)
-		{
-			dooms::graphics::GraphicsAPI::BindVertexDataBuffer
-			(
-				mVertexDataBuffer,
-				bufferLayoutIndex,
-				mVertexBufferLayouts[bufferLayoutIndex].mStride,
-				mVertexBufferLayouts[bufferLayoutIndex].mOffset
-			);
-		}
-		
-	}
-	else
-	{
-		NEVER_HAPPEN;
-	}
-	
-}
-
-void dooms::graphics::Mesh::BindIndexBufferObject() const
-{
-	D_ASSERT(mVertexDataBuffer.IsValid() == true);
-	dooms::graphics::GraphicsAPI::BindBuffer(mElementBufferObjectID, 0, graphics::GraphicsAPI::eBufferTarget::ELEMENT_ARRAY_BUFFER, graphics::GraphicsAPI::eGraphicsPipeLineStage::DUMMY);
-
-}
-
-void dooms::graphics::Mesh::BindVertexBufferObject
-(
-	const UINT32 bindingPosition, 
-	const UINT32 stride,
-	const UINT32 offset
-) const
-{
-	D_ASSERT(mVertexDataBuffer.IsValid() == true);
-	dooms::graphics::GraphicsAPI::BindVertexDataBuffer
-	(
-		mVertexDataBuffer,
-		bindingPosition,
-		stride,
-		offset
-	);
-}
 
 void dooms::graphics::Mesh::DeleteBuffers()
 {
@@ -526,6 +463,7 @@ bool dooms::graphics::Mesh::IsBufferGenerated() const
 	}
 }
 
+/*
 void dooms::graphics::Mesh::UpdateElementBuffer(const UINT32* indices, const UINT32 indiceCount)
 {
 	D_ASSERT(IsBufferGenerated() == true);
@@ -539,6 +477,7 @@ void dooms::graphics::Mesh::UpdateElementBuffer(const UINT32* indices, const UIN
 	GraphicsAPI::UpdateDataToBuffer(mElementBufferObjectID, GraphicsAPI::eBufferTarget::ELEMENT_ARRAY_BUFFER, 0, indiceCount * sizeof(UINT32), indices);
 	mNumOfIndices = indiceCount;
 }
+*/
 
 const dooms::physics::AABB3D& dooms::graphics::Mesh::GetBoundingBox() const
 {
