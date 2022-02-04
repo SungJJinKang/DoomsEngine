@@ -141,14 +141,6 @@ void dooms::DObjectManager::DestroyAllDObjects(const bool force)
             dooms::DObject* const targetDObject = *iterBegin;
             targetDObject->SetIsPendingKill();
             iterBegin++;
-
-            if (force || targetDObject->GetIsNewAllocated())
-            {
-                targetDObject->DestroySelfInstantly();
-
-                iterBegin = mDObjectsContainer.mDObjectList.begin();
-                iterEnd = mDObjectsContainer.mDObjectList.end(); // TODO : OPTIMIZATION
-            }
         }
     }
 
