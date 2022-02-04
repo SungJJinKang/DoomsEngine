@@ -374,7 +374,7 @@ namespace dooms
 
             
             static HRESULT InitWindow(HINSTANCE hInstance, int nCmdShow, int width, int height);
-            static HRESULT InitDevice();
+            static HRESULT InitDevice(const unsigned multisampleNum);
             static void CleanupDevice();
             static LRESULT CALLBACK    WndProc(HWND, UINT, WPARAM, LPARAM);
             
@@ -420,7 +420,7 @@ namespace dooms
 				return S_OK;
 			}
 
-            static HRESULT InitDevice()
+            static HRESULT InitDevice(const unsigned multisampleNum)
             {
                 HRESULT hr = S_OK;
 
@@ -563,12 +563,21 @@ namespace dooms
                     desc.CullMode = D3D11_CULL_BACK;
                     desc.FrontCounterClockwise = true;
                     desc.DepthBias = 0;
-                    desc.DepthBias = 0;
                     desc.SlopeScaledDepthBias = 0.0f;
                     desc.DepthBiasClamp = 0.0f;
                     desc.DepthClipEnable = true;
                     desc.ScissorEnable = false;
-                    desc.MultisampleEnable = false;
+                    if(multisampleNum > 0)
+                    {
+                        desc.MultisampleEnable = true;
+                        desc.AntialiasedLineEnable = true;
+                    }
+                    else
+                    {
+                        desc.MultisampleEnable = false;
+                        desc.AntialiasedLineEnable = false;
+                    }
+                  
                     desc.AntialiasedLineEnable = false;
 
                     HRESULT hr = dx11::g_pd3dDevice->CreateRasterizerState(&desc, &state);
@@ -806,7 +815,7 @@ namespace dooms
                 return 0;
 			}
 
-			if (FAILED(dx11::InitDevice()))
+			if (FAILED(dx11::InitDevice(multiSamplingNum)))
 			{
 				dx11::CleanupDevice();
                 assert(0);
