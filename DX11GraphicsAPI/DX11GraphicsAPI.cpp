@@ -887,6 +887,7 @@ namespace dooms
             {
                 if (g_pImmediateContext) g_pImmediateContext->ClearState();
                 if (g_pDepthStencil) g_pDepthStencil->Release();
+                if (g_pSamplerLinear) g_pSamplerLinear->Release();
                 if (BackBufferDepthStencilView) BackBufferDepthStencilView->Release();
                 if (BackBufferRenderTargetView) BackBufferRenderTargetView->Release();
                 if (g_pSwapChain1) g_pSwapChain1->Release();
