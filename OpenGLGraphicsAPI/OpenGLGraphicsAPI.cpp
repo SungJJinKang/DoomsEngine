@@ -1114,10 +1114,12 @@ namespace dooms
 			glfwWindowHint(GLFW_OPENGL_DEBUG_CONTEXT, true);
 #endif
 
+			/*
 			if (multiSamplingNum > 0)
 			{
 				glfwWindowHint(GLFW_SAMPLES, multiSamplingNum);
 			}
+			*/
 
 #ifdef __APPLE__
 			glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
