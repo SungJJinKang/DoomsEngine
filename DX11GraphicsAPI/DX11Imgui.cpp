@@ -52,7 +52,7 @@ namespace dooms
 				ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());
 			}
 
-			LRESULT WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
+			LRESULT _WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 			{
 				if (ImGui_ImplWin32_WndProcHandler(hWnd, msg, wParam, lParam))
 					return true;

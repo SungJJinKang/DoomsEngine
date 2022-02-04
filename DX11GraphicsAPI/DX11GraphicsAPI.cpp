@@ -722,8 +722,8 @@ namespace dooms
                 PAINTSTRUCT ps;
                 HDC hdc;
 
-                dooms::input::dx11::WndProc(hWnd, message, wParam, lParam);
-                dooms::imgui::dx11::WndProc(hWnd, message, wParam, lParam);
+                dooms::input::dx11::_WndProc(hWnd, message, wParam, lParam);
+                dooms::imgui::dx11::_WndProc(hWnd, message, wParam, lParam);
                 
                 switch (message)
                 {
@@ -739,10 +739,10 @@ namespace dooms
                 case WM_SIZE:
                     if (dooms::graphics::dx11::GetDevice() != NULL && wParam != SIZE_MINIMIZED)
                     {
-                        assert(false);
+                        //assert(false);
                         //CleanupRenderTarget();
                         //g_pSwapChain->ResizeBuffers(0, (UINT)LOWORD(lParam), (UINT)HIWORD(lParam), DXGI_FORMAT_UNKNOWN, 0);
-                       //CreateRenderTarget();
+                        //CreateRenderTarget();
                     }
                     return 0;
 
@@ -831,42 +831,7 @@ namespace dooms
 
 		DOOMS_ENGINE_GRAPHICS_API void SwapBuffer() noexcept
 		{
-            MSG msg = { 0 };
-            while (WM_QUIT != msg.message)
-            {
-                if (PeekMessage(&msg, nullptr, 0, 0, PM_REMOVE))
-                {
-                    TranslateMessage(&msg);
-                    DispatchMessage(&msg);
-                }
-                else
-                {
-                    dx11::g_pSwapChain->Present(dx11::SyncInterval, 0); // Swap Back buffer
-                    /*
-                    ID3D11Debug* dxgiDebug;
-
-                    if (SUCCEEDED(dx11::g_pd3dDevice->QueryInterface(IID_PPV_ARGS(&dxgiDebug))))
-                    {
-                        dxgiDebug->ValidateContext(dx11::g_pImmediateContext);
-                        dxgiDebug->ReportLiveDeviceObjects(D3D11_RLDO_DETAIL);
-                        dxgiDebug->Release();
-                    }
-                    */
-                    
-                    /*
-                    HRESULT hr = dx11::g_pSwapChain->Present(dx11::SyncInterval, 0); // Swap Back buffer
-                    if(FAILED(hr))
-                    {
-                        hr = dx11::g_pd3dDevice->GetDeviceRemovedReason();
-                        assert(false);
-	                    //getdevicerea
-                    }
-                    */
-
-                    break;
-                }
-            }
-          
+            dx11::g_pSwapChain->Present(dx11::SyncInterval, 0); // Swap Back buffer          
             dx11::DrawCallCounter = 0;
 		}
 

@@ -614,7 +614,7 @@ namespace dooms
 			}
 			
 
-			LRESULT WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
+			LRESULT _WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 			{
 				if (!static_cast<bool>(dx11::DX11Mouse) || !static_cast<bool>(dx11::DX11Keyboard))
 				{
@@ -933,7 +933,19 @@ namespace dooms
 
 		DOOMS_ENGINE_GRAPHICS_API void PollEvents()
 		{
-
+			MSG msg = { 0 };
+			while (WM_QUIT != msg.message)
+			{
+				if (PeekMessage(&msg, nullptr, 0, 0, PM_REMOVE))
+				{
+					TranslateMessage(&msg);
+					DispatchMessage(&msg);
+				}
+				else
+				{
+					break;
+				}
+			}
 		}
 
 		DOOMS_ENGINE_GRAPHICS_API void SetCursorMode(void* const platformWindow, const GraphicsAPIInput::eCursorMode cursorMode)
