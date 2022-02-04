@@ -34,7 +34,7 @@ FLOAT64 MainTimer::GetTime() const
 	if (s_use_qpc) {
 		LARGE_INTEGER now;
 		QueryPerformanceCounter(&now);
-		return ( (1000LL * now.QuadPart) / s_frequency.QuadPart ) * 0.0001;
+		return ( (1000LL * now.QuadPart) / s_frequency.QuadPart ) * 0.001;
 	}
 	else {
 		return GetTickCount() * 0.0001;
