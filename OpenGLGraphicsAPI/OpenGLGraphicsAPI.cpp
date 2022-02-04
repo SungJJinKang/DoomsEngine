@@ -1115,10 +1115,7 @@ namespace dooms
 #endif
 
 			
-			if (multiSamplingNum > 0)
-			{
-				glfwWindowHint(GLFW_SAMPLES, multiSamplingNum);
-			}
+			
 			
 
 #ifdef __APPLE__
@@ -1170,9 +1167,20 @@ namespace dooms
 
 			//
 
+			if (multiSamplingNum > 0)
+			{
+				glEnable(GL_MULTISAMPLE);
+				glfwWindowHint(GLFW_SAMPLES, multiSamplingNum);
+			}
+			else
+			{
+				glDisable(GL_MULTISAMPLE);
+			}
+
 			glDisable(GL_SAMPLE_ALPHA_TO_COVERAGE);
 			glDisable(GL_SAMPLE_ALPHA_TO_ONE);
 
+			
 
 #ifdef _DEBUG
 			glEnable(GL_DEBUG_OUTPUT);
