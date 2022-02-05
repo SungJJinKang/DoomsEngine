@@ -1887,9 +1887,9 @@ namespace dooms
         )
         {
             D3D11_BUFFER_DESC bd = {};
-            bd.Usage = (dynamicWrite == true) ? D3D11_USAGE_DEFAULT : D3D11_USAGE_DYNAMIC;
+            bd.Usage = (dynamicWrite == false) ? D3D11_USAGE_DEFAULT : D3D11_USAGE_DYNAMIC;
             bd.ByteWidth = bufferSize;
-            bd.CPUAccessFlags = (dynamicWrite == true) ? 0 : D3D11_CPU_ACCESS_WRITE;
+            bd.CPUAccessFlags = (dynamicWrite == false) ? 0 : D3D11_CPU_ACCESS_WRITE;
             bd.MiscFlags = 0;
             bd.StructureByteStride = 0;
 
@@ -1959,8 +1959,9 @@ namespace dooms
         {
             assert(bufferObject != 0);
             ID3D11Resource* const bufferResource = reinterpret_cast<ID3D11Resource*>(bufferObject);
-            
-            dx11::g_pImmediateContext->UpdateSubresource(bufferResource, NULL, nullptr, data, dataSize, dataSize);
+
+            // You can't update buffer partially with UpdateSubresource.
+            dx11::g_pImmediateContext->UpdateSubresource(bufferResource, NULL, nullptr, data, 0, 0);
         }
 
         DOOMS_ENGINE_GRAPHICS_API void BindConstantBuffer
@@ -2205,6 +2206,7 @@ namespace dooms
         )
         {
             assert(false);
+            return nullptr;
         }
 
         DOOMS_ENGINE_GRAPHICS_API void UnMapBufferObjectMappedToClientAddress
