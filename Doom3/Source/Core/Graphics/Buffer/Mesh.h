@@ -354,10 +354,10 @@ namespace dooms
 			 * \param mapBufferAccessOption 
 			 * \return 
 			 */
-			void* GetMappedVertexArrayObject(const dooms::graphics::GraphicsAPI::eMapBufferAccessOption mapBufferAccessOption);
-			void UnmapMappedVertexArrayObject();
-			void* GetMappedElementBufferObjectObject(const dooms::graphics::GraphicsAPI::eMapBufferAccessOption mapBufferAccessOption);
-			void UnmapMappedElementBufferObjectObject();
+			void* MapVertexDataBuffer(const dooms::graphics::GraphicsAPI::eMapBufferAccessOption mapBufferAccessOption);
+			void UnmapVertexDataBuffer();
+			void* MapElementBuffer(const dooms::graphics::GraphicsAPI::eMapBufferAccessOption mapBufferAccessOption);
+			void UnmapElementBuffer();
 		};
 	}
 }

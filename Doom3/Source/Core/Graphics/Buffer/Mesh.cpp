@@ -507,29 +507,30 @@ const dooms::graphics::BufferID& dooms::graphics::Mesh::GetElementBufferObjectID
 	return mElementBufferObjectID;
 }
 
-void* dooms::graphics::Mesh::GetMappedVertexArrayObject
+void* dooms::graphics::Mesh::MapVertexDataBuffer
 (
 	const dooms::graphics::GraphicsAPI::eMapBufferAccessOption mapBufferAccessOption
 )
 {
 	void* bufferAddress = nullptr;
-	if (mVertexArrayObjectID.IsValid() == true)
+	if (mVertexDataBuffer.IsValid() == true)
 	{
-		bufferAddress = GraphicsAPI::MapBufferObjectToClientAddress(mVertexArrayObjectID, GraphicsAPI::eBufferTarget::ARRAY_BUFFER, mapBufferAccessOption);
+		bufferAddress = GraphicsAPI::MapBufferObjectToClientAddress(mVertexDataBuffer, GraphicsAPI::eBufferTarget::ARRAY_BUFFER, mapBufferAccessOption);
 	}
+	D_ASSERT(bufferAddress != nullptr);
 
 	return bufferAddress;
 }
 
-void dooms::graphics::Mesh::UnmapMappedVertexArrayObject()
+void dooms::graphics::Mesh::UnmapVertexDataBuffer()
 {
-	if(mVertexArrayObjectID.IsValid() == true)
+	if(mVertexDataBuffer.IsValid() == true)
 	{
-		GraphicsAPI::UnMapBufferObjectMappedToClientAddress(mVertexArrayObjectID, GraphicsAPI::eBufferTarget::ARRAY_BUFFER);
+		GraphicsAPI::UnMapBufferObjectMappedToClientAddress(mVertexDataBuffer, GraphicsAPI::eBufferTarget::ARRAY_BUFFER);
 	}
 }
 
-void* dooms::graphics::Mesh::GetMappedElementBufferObjectObject
+void* dooms::graphics::Mesh::MapElementBuffer
 (
 	const dooms::graphics::GraphicsAPI::eMapBufferAccessOption mapBufferAccessOption
 )
@@ -539,11 +540,12 @@ void* dooms::graphics::Mesh::GetMappedElementBufferObjectObject
 	{
 		bufferAddress = GraphicsAPI::MapBufferObjectToClientAddress(mElementBufferObjectID, GraphicsAPI::eBufferTarget::ELEMENT_ARRAY_BUFFER, mapBufferAccessOption);
 	}
+	D_ASSERT(bufferAddress != nullptr);
 
 	return bufferAddress;
 }
 
-void dooms::graphics::Mesh::UnmapMappedElementBufferObjectObject()
+void dooms::graphics::Mesh::UnmapElementBuffer()
 {
 	if (mElementBufferObjectID.IsValid() == true)
 	{
