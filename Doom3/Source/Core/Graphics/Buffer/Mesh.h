@@ -218,7 +218,14 @@ namespace dooms
 			Mesh();
 			virtual ~Mesh();
 			
-			Mesh(const long long int dataCount, const void* data, GraphicsAPI::ePrimitiveType primitiveType, UINT32 vertexArrayFlag);
+			Mesh
+			(
+				const long long int dataCount, 
+				const void* data, 
+				GraphicsAPI::ePrimitiveType primitiveType,
+				UINT32 vertexArrayFlag,
+				const bool dynamicWrite
+			);
 			Mesh(const ThreeDModelMesh& threeDModelMesh);
 			Mesh& operator=(const ThreeDModelMesh& threeDModelMesh);
 
@@ -232,10 +239,17 @@ namespace dooms
 			void DeleteBuffers() final;
 
 			
-			void CreateBufferObject(const long long int dataComponentCount, const void* data, GraphicsAPI::ePrimitiveType primitiveType, UINT32 vertexArrayFlag) noexcept;
+			void CreateBufferObject
+			(
+				const long long int dataComponentCount, 
+				const void* data, 
+				GraphicsAPI::ePrimitiveType primitiveType,
+				UINT32 vertexArrayFlag,
+				const bool dynamicWrite
+			) noexcept;
 			void CreateBufferObjectFromModelMesh(const ThreeDModelMesh& threeDModelMesh) noexcept;
 
-			void UpdateVertexData(const long long int dataComponentCount, const void* data, const long long int offsetInByte) const noexcept;
+			void UpdateVertexData(const long long int dataSize, const void* data, const long long int offsetInByte) const noexcept;
 
 
 			FORCE_INLINE void Draw() const

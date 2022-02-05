@@ -1882,13 +1882,14 @@ namespace dooms
         (
             const GraphicsAPI::eBufferTarget bufferTarget,
             const unsigned long long bufferSize,
-            const void* const initialData
+            const void* const initialData,
+            const bool dynamicWrite /* if you don't use map/unmap or use only UpdateSubResource, you don't need set to true.*/
         )
         {
             D3D11_BUFFER_DESC bd = {};
-            bd.Usage = D3D11_USAGE_DEFAULT;
+            bd.Usage = (dynamicWrite == true) ? D3D11_USAGE_DEFAULT : D3D11_USAGE_DYNAMIC;
             bd.ByteWidth = bufferSize;
-            bd.CPUAccessFlags = 0;
+            bd.CPUAccessFlags = (dynamicWrite == true) ? 0 : D3D11_CPU_ACCESS_WRITE;
             bd.MiscFlags = 0;
             bd.StructureByteStride = 0;
 
@@ -1959,7 +1960,7 @@ namespace dooms
             assert(bufferObject != 0);
             ID3D11Resource* const bufferResource = reinterpret_cast<ID3D11Resource*>(bufferObject);
             
-            dx11::g_pImmediateContext->UpdateSubresource(bufferResource, NULL, nullptr, data, 0, 0);
+            dx11::g_pImmediateContext->UpdateSubresource(bufferResource, NULL, nullptr, data, dataSize, dataSize);
         }
 
         DOOMS_ENGINE_GRAPHICS_API void BindConstantBuffer

@@ -1468,7 +1468,8 @@ namespace dooms
 		(
 			const GraphicsAPI::eBufferTarget bufferTarget,
 			const unsigned long long bufferSize,
-			const void* const initialData
+			const void* const initialData,
+			const bool dynamicWrite
 		)
 		{
 			unsigned long long bufferID = 0;

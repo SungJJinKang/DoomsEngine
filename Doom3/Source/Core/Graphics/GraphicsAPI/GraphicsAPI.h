@@ -542,7 +542,8 @@ namespace dooms
 			(
 				const eBufferTarget bufferTarget,
 				const unsigned long long bufferSize, // in bytes
-				const void* const initialData
+				const void* const initialData,
+				const bool dynamicWrite
 			);
 			extern GRAPHICS_ALLOCATEBUFFERMEMORY CreateBufferObject;
 
