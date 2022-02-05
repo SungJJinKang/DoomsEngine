@@ -18,7 +18,7 @@
 
 void dooms::graphics::DebugDrawer::Init()
 {
-	mDebugMesh.CreateBufferObject(MAX_DEBUG_VERTEX_COUNT * 3, NULL, GraphicsAPI::ePrimitiveType::LINES, eVertexArrayFlag::VertexVector3);
+	mDebugMesh.CreateBufferObject(MAX_DEBUG_VERTEX_COUNT * 3, NULL, GraphicsAPI::ePrimitiveType::LINES, eVertexArrayFlag::VertexVector3, true);
 
 
 	auto debug2DShader = dooms::assetImporter::AssetManager::GetSingleton()->GetAsset<asset::eAssetType::SHADER>(DebugDrawer::DEBUG_2D_SHADER);
@@ -64,7 +64,7 @@ bool dooms::graphics::DebugDrawer::GetIsVertexDataSendToGPUAtCurrentFrame() cons
 }
 
 dooms::graphics::DebugDrawer::DebugDrawer() :
-	m2DMaterial{}, m3DMaterial{}
+	m2DMaterial{}, m3DMaterial{}, mDebugPrimitiveContainers{}
 {
 }
 
@@ -296,6 +296,23 @@ void dooms::graphics::DebugDrawer::BufferVertexDataToGPU()
 	UINT64 offsetComponentCount{ 0 };
 	UINT64 alreadyDrawedVertexCount{ 0 };
 
+	dooms::graphics::GraphicsAPI::eMapBufferAccessOption mapOption;
+	if(graphics::GraphicsAPI::_GetCurrentAPIType() == graphics::GraphicsAPI::eGraphicsAPIType::OpenGL)
+	{
+		mapOption = dooms::graphics::GraphicsAPI::eMapBufferAccessOption::WRITE_ONLY;
+	}
+	else if (graphics::GraphicsAPI::_GetCurrentAPIType() == graphics::GraphicsAPI::eGraphicsAPIType::DX11_10)
+	{
+		mapOption = dooms::graphics::GraphicsAPI::eMapBufferAccessOption::WRITE_DISCARD;
+	}
+	else
+	{
+		NEVER_HAPPEN;
+	}
+
+	char* const mapppedAddress = reinterpret_cast<char*>(mDebugMesh.MapVertexDataBuffer(mapOption));
+	D_ASSERT(mapppedAddress != nullptr);
+
 	for (DebugPrimitiveContainer* container : mDebugPrimitiveContainers.DebugPrimitiveContainers)
 	{
 		for (size_t colorIndex = 0; colorIndex < DebugPrimitiveContainer::COLOR_COUNT; colorIndex++)
@@ -305,7 +322,10 @@ void dooms::graphics::DebugDrawer::BufferVertexDataToGPU()
 				const size_t primitiveCount = container->GetColoredPrimitiveCount(static_cast<eColor>(colorIndex));
 
 				D_ASSERT(MAX_DEBUG_VERTEX_COUNT >= alreadyDrawedVertexCount + primitiveCount * container->GetVertexCountPerPrimitive());
-				mDebugMesh.UpdateVertexData(primitiveCount * container->GetComponentCountPerPrimitive(), container->GetColoredVertexData(static_cast<eColor>(colorIndex)), offsetComponentCount * sizeof(FLOAT32));
+				const UINT64 dataSize = primitiveCount * container->GetComponentCountPerPrimitive() * container->GetComponentSize();
+				const UINT64 offset = offsetComponentCount * sizeof(FLOAT32);
+
+				std::memcpy(mapppedAddress + offset, container->GetColoredVertexData(static_cast<eColor>(colorIndex)), dataSize);
 
 				offsetComponentCount += primitiveCount * container->GetComponentCountPerPrimitive();
 				alreadyDrawedVertexCount += primitiveCount * container->GetVertexCountPerPrimitive();
@@ -317,12 +337,17 @@ void dooms::graphics::DebugDrawer::BufferVertexDataToGPU()
 			const size_t primitiveCount = container->GetSpecialColoredPrimitiveCount();
 
 			D_ASSERT(MAX_DEBUG_VERTEX_COUNT >= alreadyDrawedVertexCount + primitiveCount * container->GetVertexCountPerPrimitive());
-			mDebugMesh.UpdateVertexData(primitiveCount * container->GetComponentCountPerPrimitive(), container->GetSpecialColoredVertexData(), offsetComponentCount * sizeof(FLOAT32));
+			const UINT64 dataSize = primitiveCount * container->GetComponentCountPerPrimitive() * container->GetComponentSize();
+			const UINT64 offset = offsetComponentCount * sizeof(FLOAT32);
+
+			std::memcpy(mapppedAddress + offset, container->GetSpecialColoredVertexData(), dataSize);
 
 			offsetComponentCount += primitiveCount * container->GetComponentCountPerPrimitive();
 			alreadyDrawedVertexCount += primitiveCount * container->GetVertexCountPerPrimitive();
 		}
 	}
+
+	mDebugMesh.UnmapVertexDataBuffer();
 	
 	bmIsVertexDataSendToGPUAtCurrentFrame = true;
 }

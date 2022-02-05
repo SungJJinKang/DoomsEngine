@@ -7,6 +7,11 @@ std::vector<float>& dooms::graphics::DebugPrimitiveContainer::GetColoredVertexVe
 	return mColoredVertexData[static_cast<UINT32>(color)];
 }
 
+size_t dooms::graphics::DebugPrimitiveContainer::GetComponentSize() const
+{
+	return sizeof(FLOAT32);
+}
+
 const float* dooms::graphics::DebugPrimitiveContainer::GetColoredVertexData(const eColor color) const
 {
 	D_ASSERT(static_cast<UINT32>(color) < ENUM_COLOR_COUNT);

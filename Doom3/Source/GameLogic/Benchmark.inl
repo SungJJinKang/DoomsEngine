@@ -35,9 +35,12 @@
 #include <Scene/Entity.h>
 #include <Graphics/Buffer/MeshHelper.h>
 #include "WanderComponent.h"
+#include "PathFollower.h"
 
 void dooms::GameLogicStartPoint::StartGameLogic()
 {
+	Random::GenerateSeed(50);
+
 	ISingleton<graphics::LightManager>::GetSingleton()->SetAmbientLightIntensity(0.1f);
 
 	auto currenScene = dooms::Scene::GetCurrentWorld();
@@ -56,20 +59,35 @@ void dooms::GameLogicStartPoint::StartGameLogic()
 		entity1Camera->SetClippingPlaneNear(1.0f);
 		entity1Camera->SetClippingPlaneFar(6500.0f);
 		entity1->AddComponent<Move_WASD>();
+		
+		/*
+		PathFollower* pathFollower = entity1->AddComponent<PathFollower>();
+		pathFollower->mTargetWayPointIndex = 1;
+		for(size_t i = 0 ; i < 100 ; i++)
+		{
+			pathFollower->WayPoints.emplace_back
+			(
+				Random::RandomFloatNumber(-2000.0f, 2000.0f),
+				Random::RandomFloatNumber(-2000.0f, 2000.0f),
+				Random::RandomFloatNumber(-2000.0f, 2000.0f)
+			);
+		}
+		*/
+		
 
 		//entity1->AddComponent<ExportTextureTester>();
-		entity1->AddComponent<DeferredRenderingDebuggerController>();
-		fireComponent = entity1->AddComponent<FireBulletComponent>();
+		//entity1->AddComponent<DeferredRenderingDebuggerController>();
+		//fireComponent = entity1->AddComponent<FireBulletComponent>();
 
-		portfolioComponent = entity1->AddComponent<PortfolioComponent>();
-		portfolioComponent->RockRenderers.reserve(5000);
-		portfolioComponent->PlanesRenderers.reserve(5000);
+		//portfolioComponent = entity1->AddComponent<PortfolioComponent>();
+		//portfolioComponent->RockRenderers.reserve(5000);
+		//portfolioComponent->PlanesRenderers.reserve(5000);
 
 	}
 
-	
-	
-	
+
+
+
 	auto lightEntity = currenScene->CreateNewEntity();
 	lightEntity->GetTransform()->SetPosition(-30.0f, 0.0f, 0.0f);
 	lightEntity->GetTransform()->SetRotation(30.0f, 0.0f, 0.0f);
@@ -150,11 +168,11 @@ void dooms::GameLogicStartPoint::StartGameLogic()
 		bullet->mSpeed = 500;
 	}
 
-	
+
 
 	INT32 entityCount = 0;
-	
-	
+
+
 	INT32 count = 300;
 	for (INT32 i = -count; i < count; i = i + 40)
 	{
@@ -179,7 +197,7 @@ void dooms::GameLogicStartPoint::StartGameLogic()
 		}
 	}
 
-	
+
 	count = 100;
 	for (INT32 i = -count; i < count; i = i + 40)
 	{
@@ -203,10 +221,10 @@ void dooms::GameLogicStartPoint::StartGameLogic()
 			}
 		}
 	}
-	
 
-	
-	
+
+
+
 	for (INT32 i = -150; i < 150; i += 60)
 	{
 		auto entity = currenScene->CreateNewEntity();
@@ -235,7 +253,7 @@ void dooms::GameLogicStartPoint::StartGameLogic()
 		BoxCollider3D* box3D = entity->AddComponent<BoxCollider3D>();
 		box3D->SetFromAABB3D(planetAsset->GetMesh(0)->GetBoundingBox());
 	}
-	
+
 
 	for (INT32 i = -200; i < 200; i += 30)
 	{
@@ -253,7 +271,7 @@ void dooms::GameLogicStartPoint::StartGameLogic()
 	}
 
 
-	
+
 	for (INT32 i = -50; i < 50; i += 30)
 	{
 		auto entity = currenScene->CreateNewEntity();
@@ -268,17 +286,17 @@ void dooms::GameLogicStartPoint::StartGameLogic()
 		BoxCollider3D* box3D = entity->AddComponent<BoxCollider3D>();
 		box3D->SetFromAABB3D(planetAsset->GetMesh(0)->GetBoundingBox());
 	}
-	
 
-	
-	
-	
-	
 
-	
 
-	
-	
+
+
+
+
+
+
+
+
 	{
 		auto entity = currenScene->CreateNewEntity();
 		entity->GetTransform()->SetScale(2.0f, 2.0f, 2.0f);
@@ -292,12 +310,12 @@ void dooms::GameLogicStartPoint::StartGameLogic()
 		BoxCollider3D* box3D = entity->AddComponent<BoxCollider3D>();
 		box3D->SetFromAABB3D(planetAsset->GetMesh(0)->GetBoundingBox());
 	}
-	
-	
-	
-	
-	
-	
+
+
+
+
+
+
 	{
 		auto entity = currenScene->CreateNewEntity();
 		entity->GetTransform()->SetScale(60.0f, 60.0f, 60.0f);
@@ -308,7 +326,7 @@ void dooms::GameLogicStartPoint::StartGameLogic()
 
 	}
 
-	
+
 	{
 		auto entity = currenScene->CreateNewEntity();
 		entity->GetTransform()->SetScale(1.0f, 1.0f, 400.0f);
@@ -319,7 +337,7 @@ void dooms::GameLogicStartPoint::StartGameLogic()
 
 	}
 
-	
+
 	{
 		auto entity = currenScene->CreateNewEntity();
 		entity->GetTransform()->SetScale(60.0f, 60.0f, 60.0f);
@@ -329,8 +347,8 @@ void dooms::GameLogicStartPoint::StartGameLogic()
 		meshRenderer->SetMaterial(material);
 
 	}
-	
-	
+
+
 	{
 		auto entity = currenScene->CreateNewEntity();
 		entity->GetTransform()->SetScale(60.0f, 60.0f, 60.0f);
@@ -340,9 +358,9 @@ void dooms::GameLogicStartPoint::StartGameLogic()
 		meshRenderer->SetMaterial(material);
 
 	}
-	
-	
-	
+
+
+
 	{
 		auto entity = currenScene->CreateNewEntity();
 		entity->GetTransform()->SetScale(60.0f, 60.0f, 60.0f);
@@ -387,7 +405,7 @@ void dooms::GameLogicStartPoint::StartGameLogic()
 		autoRotateAround->mRotateAngle = 1.0f;
 		autoRotateAround->mRotateAxis.x = -1;
 	}
-	
+
 	{
 		auto entity = currenScene->CreateNewEntity();
 		entity->GetTransform()->SetScale(50.0f, 50.0f, 50.0f);
@@ -403,7 +421,7 @@ void dooms::GameLogicStartPoint::StartGameLogic()
 
 	#1#
 
-	
+
 	{
 		auto modelAsset = assetImporter::AssetManager::GetSingleton()->GetAsset<asset::eAssetType::THREE_D_MODEL>("StarSparrow09.assbin");
 		auto shader1 = assetImporter::AssetManager::GetSingleton()->GetAsset<asset::eAssetType::SHADER>("GbufferWriter_PBR.glsl");
@@ -425,10 +443,10 @@ void dooms::GameLogicStartPoint::StartGameLogic()
 				meshRenderer->SetMesh(mesh);
 				meshRenderer->SetMaterial(material1);
 			}
-			
+
 		}
-		
-		
+
+
 	}*/
 
 
@@ -476,7 +494,7 @@ void dooms::GameLogicStartPoint::StartGameLogic()
 				materialList.push_back(material1);
 			}
 
-			for (size_t i = 0; i < 700; i++)
+			for (size_t i = 0; i < 800; i++)
 			{
 				auto modelAsset = assetImporter::AssetManager::GetSingleton()->GetAsset<asset::eAssetType::THREE_D_MODEL>(modelAssetNameList[Random::RandomUIntNumber(0, modelAssetNameList.size() - 1)]);
 
@@ -494,7 +512,7 @@ void dooms::GameLogicStartPoint::StartGameLogic()
 						auto meshRenderer = entity->AddComponent<MeshRenderer>();
 						meshRenderer->SetMesh(mesh);
 						meshRenderer->SetMaterial(materialList[Random::RandomUIntNumber(0, materialList.size() - 1)]);
-						portfolioComponent->PlanesRenderers.push_back(meshRenderer);
+						//portfolioComponent->PlanesRenderers.push_back(meshRenderer);
 
 						WanderComponent* wanderComp = entity->AddComponent<WanderComponent>();
 						wanderComp->mPoint1 = { Random::RandomFloatNumber(-1500.0f, 1500.0f) , y , Random::RandomFloatNumber(-1500.0f, 1500.0f) };
@@ -510,8 +528,8 @@ void dooms::GameLogicStartPoint::StartGameLogic()
 			}
 		}
 	}
-	
-	
+
+
 
 	{
 		auto modelAsset = assetImporter::AssetManager::GetSingleton()->GetAsset<asset::eAssetType::THREE_D_MODEL>("PlanetsOBJ.assbin");
@@ -618,7 +636,7 @@ void dooms::GameLogicStartPoint::StartGameLogic()
 		}
 	}
 
-	
+
 	{
 		auto modelAsset = assetImporter::AssetManager::GetSingleton()->GetAsset<asset::eAssetType::THREE_D_MODEL>("PlanetsOBJ.assbin");
 		auto shader1 = assetImporter::AssetManager::GetSingleton()->GetAsset<asset::eAssetType::SHADER>("GbufferWriter_PBR.glsl");
@@ -663,7 +681,7 @@ void dooms::GameLogicStartPoint::StartGameLogic()
 					auto meshRenderer = entity->AddComponent<MeshRenderer>();
 					meshRenderer->SetMesh(mesh);
 					meshRenderer->SetMaterial(material1);
-					portfolioComponent->RockRenderers.push_back(meshRenderer);
+					//portfolioComponent->RockRenderers.push_back(meshRenderer);
 
 					WanderComponent* wanderComp = entity->AddComponent<WanderComponent>();
 					wanderComp->mPoint1 = { Random::RandomFloatNumber(-3500.0f, 3500.0f) , Random::RandomFloatNumber(-3500.0f, 3500.0f) , Random::RandomFloatNumber(-3500.0f, 3500.0f) };
@@ -690,7 +708,7 @@ void dooms::GameLogicStartPoint::StartGameLogic()
 					auto meshRenderer = entity->AddComponent<MeshRenderer>();
 					meshRenderer->SetMesh(mesh);
 					meshRenderer->SetMaterial(material1);
-					portfolioComponent->RockRenderers.push_back(meshRenderer);
+					//portfolioComponent->RockRenderers.push_back(meshRenderer);
 
 					WanderComponent* wanderComp = entity->AddComponent<WanderComponent>();
 					wanderComp->mPoint1 = { Random::RandomFloatNumber(-3500.0f, 3500.0f) , Random::RandomFloatNumber(-3500.0f, 3500.0f) , Random::RandomFloatNumber(-3500.0f, 3500.0f) };
@@ -709,13 +727,13 @@ void dooms::GameLogicStartPoint::StartGameLogic()
 	auto a = Renderer::CLASS_TYPE_ID_STATIC();
 	auto b = MeshRenderer::CLASS_TYPE_ID_STATIC();
 	auto c = DirectionalLight::CLASS_TYPE_ID_STATIC();
-	
+
 
 	auto b1 = IsChildOf<DObject>(static_cast<DObject*>(dirLight));
 	auto b2 = IsChildOf<Light>(static_cast<DObject*>(dirLight));
 	auto b3 = IsChildOf<DirectionalLight>(static_cast<DObject*>(dirLight));
 	auto b4 = IsChildOf<PointLight>(static_cast<DObject*>(dirLight));
-	
+
 	auto c2 = CastTo<DirectionalLight*>(dirLight);
 	auto c3 = CastTo<PointLight*>(dirLight);
 	auto c4= CastTo<MeshRenderer*>(dirLight);
@@ -741,8 +759,8 @@ void dooms::GameLogicStartPoint::StartGameLogic()
 
 	//Test Compile Time Resolvation
 
-	
-	 
+
+
 	constexpr auto c5= DirectionalLight::CLASS_FLAGS_STATIC();
 	constexpr const char* c6= DirectionalLight::CLASS_NAME_STATIC();
 	D_ASSERT(std::strcmp(c6, "DirectionalLight") == 0);
@@ -776,7 +794,7 @@ void dooms::GameLogicStartPoint::StartGameLogic()
 	D_ASSERT(Component::CLASS_TYPE_ID_STATIC() != MeshRenderer::CLASS_TYPE_ID_STATIC());
 	D_ASSERT(Component::CLASS_TYPE_ID_STATIC() != MeshRenderer::CLASS_TYPE_ID_STATIC());
 	D_ASSERT(Component::CLASS_TYPE_ID_STATIC() != dirLight->GetClassTypeID());
-	
+
 
 	D_ASSERT(CastTo<DObject*>(dirLight) != nullptr);
 	D_ASSERT(CastTo<MeshRenderer*>(dirLight) == nullptr);
@@ -796,7 +814,7 @@ void dooms::GameLogicStartPoint::StartGameLogic()
 	D_ASSERT(CastTo<const PointLight*>(dObjectConst) == nullptr);
 
 	auto str = DirectionalLight::CLASS_NAME_STATIC();
-	
+
 	D_ASSERT(std::strcmp(DirectionalLight::CLASS_NAME_STATIC(), "DirectionalLight") == 0);
 	D_ASSERT(std::strcmp(dObjectConst->GetClassName(), "DirectionalLight") == 0);
 	D_ASSERT(std::strcmp(dObjectConst->GetClassName(), "PointLight") != 0);
@@ -809,7 +827,7 @@ void dooms::GameLogicStartPoint::StartGameLogic()
 	dooms::DClass* dclass2 = testComp2->GetDClass();
 	D_ASSERT(dclass2->IsChildOf<TestComponent>() == true);
 	D_ASSERT(std::strcmp(dclass2->CLASS_NAME, "TestComponent2") == 0);
-	
+
 	dooms::DClass* dclass1 = testComp1->GetDClass();
 	D_ASSERT(dclass1->IsChildOf<TestComponent2>() == false);
 	D_ASSERT(std::strcmp(dclass1->CLASS_NAME, "TestComponent2") != 0);
@@ -823,7 +841,7 @@ void dooms::GameLogicStartPoint::StartGameLogic()
 	D_ASSERT(testComp3SubClassOf != nullptr);
 	D_ASSERT(testComp13SubClassOf == nullptr);
 
-	
+
 	TSubclassOf<dooms::TestComponent2> testComp12SubClassOf{ dclass1 };
 	D_ASSERT(testComp12SubClassOf == nullptr);
 

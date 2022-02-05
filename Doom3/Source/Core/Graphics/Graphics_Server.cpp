@@ -191,7 +191,7 @@ void dooms::graphics::Graphics_Server::CameraCullJob(dooms::Camera* const camera
 		std::atomic_thread_fence(std::memory_order_acquire);
 
 		culling::EveryCulling::GlobalDataForCullJob cullingSettingParameters;
-		std::memcpy(cullingSettingParameters.mViewProjectionMatrix.data(), camera->GetViewProjectionMatrix().data(), sizeof(culling::Mat4x4));
+		std::memcpy(cullingSettingParameters.mViewProjectionMatrix.data(), camera->GetViewProjectionMatrix(true).data(), sizeof(culling::Mat4x4));
 		cullingSettingParameters.mFieldOfViewInDegree = camera->GetFieldOfViewInDegree();
 		cullingSettingParameters.mCameraFarPlaneDistance = camera->GetClippingPlaneFar();
 		cullingSettingParameters.mCameraNearPlaneDistance = camera->GetClippingPlaneNear();
@@ -364,8 +364,8 @@ void dooms::graphics::Graphics_Server::Render()
 
 		targetCamera->UpdateUniformBufferObject();
 
-		targetCamera->mDefferedRenderingFrameBuffer.ClearFrameBuffer(targetCamera);
-		targetCamera->mDefferedRenderingFrameBuffer.BindFrameBuffer();
+		targetCamera->mDeferredRenderingFrameBuffer.ClearFrameBuffer(targetCamera);
+		targetCamera->mDeferredRenderingFrameBuffer.BindFrameBuffer();
 
 		D_START_PROFILING(RenderObject, dooms::profiler::eProfileLayers::Rendering);
 		//GraphicsAPI::Enable(GraphicsAPI::eCapability::DEPTH_TEST);
@@ -382,9 +382,9 @@ void dooms::graphics::Graphics_Server::Render()
 			//Only Main Camera can draw to screen buffer
 			mPIPManager.DrawPIPs();
 
-			targetCamera->mDefferedRenderingFrameBuffer.BindGBufferTextures();
+			targetCamera->mDeferredRenderingFrameBuffer.BindGBufferTextures();
 			mDeferredRenderingDrawer.DrawDeferredRenderingQuadDrawer();
-			targetCamera->mDefferedRenderingFrameBuffer.UnBindGBufferTextures();
+			targetCamera->mDeferredRenderingFrameBuffer.UnBindGBufferTextures();
 
 #ifdef DEBUG_DRAWER
 			//�̰� ������ �������. �׳� ����� ����.

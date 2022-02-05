@@ -542,7 +542,8 @@ namespace dooms
 			(
 				const eBufferTarget bufferTarget,
 				const unsigned long long bufferSize, // in bytes
-				const void* const initialData
+				const void* const initialData,
+				const bool dynamicWrite
 			);
 			extern GRAPHICS_ALLOCATEBUFFERMEMORY CreateBufferObject;
 
@@ -825,7 +826,9 @@ namespace dooms
 			{
 				READ_ONLY,
 				WRITE_ONLY,
-				READ_WRITE
+				READ_WRITE,
+				WRITE_DISCARD, // Only used in D3D11
+				WRITE_NO_OVERWRITE // Only used in D3D11
 			};
 
 			typedef void* (DOOMS_ENGINE_API_ENTRY_P GRAPHICS_MAPBUFFEROBJECTTOCLIENTADDRESS)

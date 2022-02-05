@@ -1114,12 +1114,9 @@ namespace dooms
 			glfwWindowHint(GLFW_OPENGL_DEBUG_CONTEXT, true);
 #endif
 
-			/*
-			if (multiSamplingNum > 0)
-			{
-				glfwWindowHint(GLFW_SAMPLES, multiSamplingNum);
-			}
-			*/
+			
+			
+			
 
 #ifdef __APPLE__
 			glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
@@ -1170,9 +1167,21 @@ namespace dooms
 
 			//
 
+			if (multiSamplingNum > 0)
+			{
+				glEnable(GL_MULTISAMPLE);
+				glfwWindowHint(GLFW_SAMPLES, multiSamplingNum);
+			}
+			else
+			{
+				glDisable(GL_MULTISAMPLE);
+			}
+
 			glDisable(GL_SAMPLE_ALPHA_TO_COVERAGE);
 			glDisable(GL_SAMPLE_ALPHA_TO_ONE);
+			glDisable(GL_FRAMEBUFFER_SRGB);
 
+			
 
 #ifdef _DEBUG
 			glEnable(GL_DEBUG_OUTPUT);
@@ -1459,7 +1468,8 @@ namespace dooms
 		(
 			const GraphicsAPI::eBufferTarget bufferTarget,
 			const unsigned long long bufferSize,
-			const void* const initialData
+			const void* const initialData,
+			const bool dynamicWrite
 		)
 		{
 			unsigned long long bufferID = 0;

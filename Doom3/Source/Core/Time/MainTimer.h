@@ -37,6 +37,10 @@ namespace dooms
 
 			void InitTimer();
 
+			/**
+			 * \brief 
+			 * \return return current time in seconds
+			 */
 			FLOAT64 GetTime() const;
 			void UpdateFrameTimer();
 			void ResetFixedTimer();

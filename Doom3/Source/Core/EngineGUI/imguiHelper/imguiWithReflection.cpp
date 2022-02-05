@@ -335,7 +335,8 @@ namespace dooms
 									if (isFieldOwnerObjectDerivedFromDObject && IsValid(reinterpret_cast<dooms::DObject*>(object)))
 									{// check if object is struct or class not inheriting DObject
 										reinterpret_cast<dooms::DObject*>(object)->OnChangedByGUI(dField);
-										CallFieldDirtyCallback(fieldDAttributeList.GetDirtyCallbackFunctionName(), &dClass, object);
+										// TODO : FIX THIS. Only Release mode cause bug.
+										//CallFieldDirtyCallback(fieldDAttributeList.GetDirtyCallbackFunctionName(), &dClass, object);
 									}
 								}
 

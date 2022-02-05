@@ -9,8 +9,11 @@ namespace dooms
 	{
 		GENERATE_BODY()
 
-		D_PROPERTY(READONLY)
-		FLOAT32 mSpeed = 2.0f;
+		D_PROPERTY()
+		FLOAT32 mMoveSpeed = 2.0f;
+
+		D_PROPERTY()
+		FLOAT32 mRotationSpeed = 2.0f;
 
 	protected:
 

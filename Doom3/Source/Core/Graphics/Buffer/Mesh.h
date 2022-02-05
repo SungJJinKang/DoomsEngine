@@ -218,7 +218,14 @@ namespace dooms
 			Mesh();
 			virtual ~Mesh();
 			
-			Mesh(const long long int dataCount, const void* data, GraphicsAPI::ePrimitiveType primitiveType, UINT32 vertexArrayFlag);
+			Mesh
+			(
+				const long long int dataCount, 
+				const void* data, 
+				GraphicsAPI::ePrimitiveType primitiveType,
+				UINT32 vertexArrayFlag,
+				const bool dynamicWrite
+			);
 			Mesh(const ThreeDModelMesh& threeDModelMesh);
 			Mesh& operator=(const ThreeDModelMesh& threeDModelMesh);
 
@@ -232,10 +239,19 @@ namespace dooms
 			void DeleteBuffers() final;
 
 			
-			void CreateBufferObject(const long long int dataComponentCount, const void* data, GraphicsAPI::ePrimitiveType primitiveType, UINT32 vertexArrayFlag) noexcept;
+			void CreateBufferObject
+			(
+				const long long int dataComponentCount, 
+				const void* data, 
+				GraphicsAPI::ePrimitiveType primitiveType,
+				UINT32 vertexArrayFlag,
+				const bool dynamicWrite
+			) noexcept;
 			void CreateBufferObjectFromModelMesh(const ThreeDModelMesh& threeDModelMesh) noexcept;
 
-			void UpdateVertexData(const long long int dataComponentCount, const void* data, const long long int offsetInByte) const noexcept;
+			/* You can't update buffer partially in D3D11. Use map, unmap function.
+			void UpdateVertexData(const long long int dataSize, const void* data, const long long int offsetInByte) const noexcept;
+			*/
 
 
 			FORCE_INLINE void Draw() const
@@ -274,7 +290,7 @@ namespace dooms
 				{
 					BindVertexArrayObject();
 				}
-				else if (graphics::GraphicsAPIManager::GetCurrentAPIType() == graphics::GraphicsAPI::eGraphicsAPIType::OpenGL)
+				else if (graphics::GraphicsAPIManager::GetCurrentAPIType() == graphics::GraphicsAPI::eGraphicsAPIType::DX11_10)
 				{
 					BindVertexBufferObject();
 				}
@@ -294,7 +310,7 @@ namespace dooms
 				{
 					BindVertexArrayObject();
 				}
-				else if (graphics::GraphicsAPIManager::GetCurrentAPIType() == graphics::GraphicsAPI::eGraphicsAPIType::OpenGL)
+				else if (graphics::GraphicsAPIManager::GetCurrentAPIType() == graphics::GraphicsAPI::eGraphicsAPIType::DX11_10)
 				{
 					BindVertexBufferObject();
 				}
@@ -340,10 +356,10 @@ namespace dooms
 			 * \param mapBufferAccessOption 
 			 * \return 
 			 */
-			void* GetMappedVertexArrayObject(const dooms::graphics::GraphicsAPI::eMapBufferAccessOption mapBufferAccessOption);
-			void UnmapMappedVertexArrayObject();
-			void* GetMappedElementBufferObjectObject(const dooms::graphics::GraphicsAPI::eMapBufferAccessOption mapBufferAccessOption);
-			void UnmapMappedElementBufferObjectObject();
+			void* MapVertexDataBuffer(const dooms::graphics::GraphicsAPI::eMapBufferAccessOption mapBufferAccessOption);
+			void UnmapVertexDataBuffer();
+			void* MapElementBuffer(const dooms::graphics::GraphicsAPI::eMapBufferAccessOption mapBufferAccessOption);
+			void UnmapElementBuffer();
 		};
 	}
 }

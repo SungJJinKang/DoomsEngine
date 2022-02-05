@@ -53,6 +53,7 @@ namespace dooms
 			/// </summary>
 			/// <returns></returns>
 			virtual UINT32 GetComponentCountPerPrimitive() const = 0;
+			size_t GetComponentSize() const;
 
 			virtual bool Is3DPrimitive() const = 0;
 			virtual dooms::graphics::GraphicsAPI::ePrimitiveType GetPrimitiveType() const = 0;

@@ -29,7 +29,8 @@ dooms::graphics::Mesh::Mesh
 	const long long int dataCount, 
 	const void* data, 
 	GraphicsAPI::ePrimitiveType primitiveType,
-	UINT32 vertexArrayFlag
+	UINT32 vertexArrayFlag,
+	const bool dynamicWrite
 )
 	:
 	Buffer(),
@@ -43,7 +44,7 @@ dooms::graphics::Mesh::Mesh
 	mVertexBufferLayoutCount(),
 	mVertexBufferLayouts()
 {
-	CreateBufferObject(dataCount, data, primitiveType, vertexArrayFlag);
+	CreateBufferObject(dataCount, data, primitiveType, vertexArrayFlag, dynamicWrite);
 }
 
 
@@ -117,7 +118,8 @@ void dooms::graphics::Mesh::CreateBufferObject
 	const long long int dataComponentCount, 
 	const void* data, 
 	GraphicsAPI::ePrimitiveType primitiveType,
-	UINT32 vertexArrayFlag
+	UINT32 vertexArrayFlag,
+	const bool dynamicWrite
 ) noexcept
 {
 	D_ASSERT(IsBufferGenerated() == false);
@@ -134,7 +136,13 @@ void dooms::graphics::Mesh::CreateBufferObject
 		BindVertexArrayObject(); // bind vertex array buffer
 
 		D_DEBUG_LOG(eLogType::D_LOG, "%f", sizeof(FLOAT32) * dataComponentCount);
-		mVertexDataBuffer = GraphicsAPI::CreateBufferObject(GraphicsAPI::eBufferTarget::ARRAY_BUFFER, static_cast<unsigned long long>(sizeof(FLOAT32) * dataComponentCount), data);
+		mVertexDataBuffer = GraphicsAPI::CreateBufferObject
+		(
+			GraphicsAPI::eBufferTarget::ARRAY_BUFFER, 
+			static_cast<unsigned long long>(sizeof(FLOAT32) * dataComponentCount), 
+			data,
+			dynamicWrite
+		);
 		BindVertexBufferObject();
 
 		UINT32 offset = 0;
@@ -254,18 +262,21 @@ void dooms::graphics::Mesh::CreateBufferObject
 	}
 }
 
+/*
 void dooms::graphics::Mesh::UpdateVertexData
 (
-	const long long int dataComponentCount, 
-	const void* data, 
+	const long long int dataSize,
+	const void* data,
 	const long long int offsetInByte
 ) const noexcept
 {
 	D_ASSERT(mVertexDataBuffer.IsValid());
+	D_ASSERT_LOG()
 	
 	BindVertexBufferObject();
-	GraphicsAPI::UpdateDataToBuffer(mVertexDataBuffer, GraphicsAPI::ARRAY_BUFFER, offsetInByte, sizeof(FLOAT32) * dataComponentCount, data);
+	GraphicsAPI::UpdateDataToBuffer(mVertexDataBuffer, GraphicsAPI::ARRAY_BUFFER, offsetInByte, dataSize, data);
 }
+*/
 
 
 void dooms::graphics::Mesh::CreateVertexArrayObjectIfNotExist()
@@ -293,7 +304,7 @@ void dooms::graphics::Mesh::CreateBufferObjectFromModelMesh(const ThreeDModelMes
 
 		BindVertexArrayObject(); // bind vertex array buffer
 
-		mVertexDataBuffer = GraphicsAPI::CreateBufferObject(GraphicsAPI::eBufferTarget::ARRAY_BUFFER, threeDModelMesh.mMeshDatas.GetAllocatedDataSize(), threeDModelMesh.mMeshDatas.mData);
+		mVertexDataBuffer = GraphicsAPI::CreateBufferObject(GraphicsAPI::eBufferTarget::ARRAY_BUFFER, threeDModelMesh.mMeshDatas.GetAllocatedDataSize(), threeDModelMesh.mMeshDatas.mData, false);
 		D_ASSERT(mVertexDataBuffer.IsValid());
 		//GraphicsAPI::UpdateDataToBuffer(mVertexDataBuffer, GraphicsAPI::eBufferTarget::ARRAY_BUFFER, 0, threeDModelMesh.mMeshDatas.GetAllocatedDataSize(), reinterpret_cast<const void*>(threeDModelMesh.mMeshDatas.mData));
 
@@ -390,7 +401,7 @@ void dooms::graphics::Mesh::CreateBufferObjectFromModelMesh(const ThreeDModelMes
 		mNumOfIndices = 0;
 		if (threeDModelMesh.bHasIndices == true && threeDModelMesh.mMeshIndices.size() > 0)
 		{
-			mElementBufferObjectID = GraphicsAPI::CreateBufferObject(GraphicsAPI::eBufferTarget::ELEMENT_ARRAY_BUFFER, threeDModelMesh.mMeshIndices.size() * sizeof(UINT32), NULL);
+			mElementBufferObjectID = GraphicsAPI::CreateBufferObject(GraphicsAPI::eBufferTarget::ELEMENT_ARRAY_BUFFER, threeDModelMesh.mMeshIndices.size() * sizeof(UINT32), NULL, false);
 			GraphicsAPI::UpdateDataToBuffer(mElementBufferObjectID, GraphicsAPI::eBufferTarget::ELEMENT_ARRAY_BUFFER, 0, threeDModelMesh.mMeshIndices.size() * sizeof(UINT32), reinterpret_cast<const void*>(threeDModelMesh.mMeshIndices.data()));
 			mNumOfIndices = threeDModelMesh.mMeshIndices.size();
 		}
@@ -499,29 +510,30 @@ const dooms::graphics::BufferID& dooms::graphics::Mesh::GetElementBufferObjectID
 	return mElementBufferObjectID;
 }
 
-void* dooms::graphics::Mesh::GetMappedVertexArrayObject
+void* dooms::graphics::Mesh::MapVertexDataBuffer
 (
 	const dooms::graphics::GraphicsAPI::eMapBufferAccessOption mapBufferAccessOption
 )
 {
 	void* bufferAddress = nullptr;
-	if (mVertexArrayObjectID.IsValid() == true)
+	if (mVertexDataBuffer.IsValid() == true)
 	{
-		bufferAddress = GraphicsAPI::MapBufferObjectToClientAddress(mVertexArrayObjectID, GraphicsAPI::eBufferTarget::ARRAY_BUFFER, mapBufferAccessOption);
+		bufferAddress = GraphicsAPI::MapBufferObjectToClientAddress(mVertexDataBuffer, GraphicsAPI::eBufferTarget::ARRAY_BUFFER, mapBufferAccessOption);
 	}
+	D_ASSERT(bufferAddress != nullptr);
 
 	return bufferAddress;
 }
 
-void dooms::graphics::Mesh::UnmapMappedVertexArrayObject()
+void dooms::graphics::Mesh::UnmapVertexDataBuffer()
 {
-	if(mVertexArrayObjectID.IsValid() == true)
+	if(mVertexDataBuffer.IsValid() == true)
 	{
-		GraphicsAPI::UnMapBufferObjectMappedToClientAddress(mVertexArrayObjectID, GraphicsAPI::eBufferTarget::ARRAY_BUFFER);
+		GraphicsAPI::UnMapBufferObjectMappedToClientAddress(mVertexDataBuffer, GraphicsAPI::eBufferTarget::ARRAY_BUFFER);
 	}
 }
 
-void* dooms::graphics::Mesh::GetMappedElementBufferObjectObject
+void* dooms::graphics::Mesh::MapElementBuffer
 (
 	const dooms::graphics::GraphicsAPI::eMapBufferAccessOption mapBufferAccessOption
 )
@@ -531,11 +543,12 @@ void* dooms::graphics::Mesh::GetMappedElementBufferObjectObject
 	{
 		bufferAddress = GraphicsAPI::MapBufferObjectToClientAddress(mElementBufferObjectID, GraphicsAPI::eBufferTarget::ELEMENT_ARRAY_BUFFER, mapBufferAccessOption);
 	}
+	D_ASSERT(bufferAddress != nullptr);
 
 	return bufferAddress;
 }
 
-void dooms::graphics::Mesh::UnmapMappedElementBufferObjectObject()
+void dooms::graphics::Mesh::UnmapElementBuffer()
 {
 	if (mElementBufferObjectID.IsValid() == true)
 	{

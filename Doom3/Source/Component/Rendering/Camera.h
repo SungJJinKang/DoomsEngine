@@ -123,7 +123,7 @@ namespace dooms
 		Camera& operator=(Camera&&) noexcept = delete;
 
 		D_PROPERTY()
-		graphics::DefferedRenderingFrameBuffer mDefferedRenderingFrameBuffer;
+		graphics::DefferedRenderingFrameBuffer mDeferredRenderingFrameBuffer{};
 
 		D_PROPERTY()
 		UINT32 CameraIndexInCullingSystem;
@@ -166,7 +166,7 @@ namespace dooms
 		/// this function will be called at every frame
 		/// </summary>
 		/// <returns></returns>
-		math::Matrix4x4 GetProjectionMatrix();
+		math::Matrix4x4 GetProjectionMatrix(const bool forceNDCNegativeOneToOne = false);
 		/// <summary>
 		/// this function will be called at every frame
 		/// </summary>
@@ -179,9 +179,9 @@ namespace dooms
 			const math::Vector3 up = transform->up();
 			return math::lookAt(pos, pos + forward, up);
 		}
-		FORCE_INLINE math::Matrix4x4 GetViewProjectionMatrix()
+		FORCE_INLINE math::Matrix4x4 GetViewProjectionMatrix(const bool forceNDCNegativeOneToOne = false)
 		{
-			return GetProjectionMatrix() * GetViewMatrix();
+			return GetProjectionMatrix(forceNDCNegativeOneToOne) * GetViewMatrix();
 		}
 
 		NO_DISCARD math::Vector3 NDCToScreenPoint(const math::Vector3& ndcPoint);

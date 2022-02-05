@@ -114,7 +114,7 @@ void dooms::graphics::UniformBufferObject::GenerateUniformBufferObject(const UIN
 	D_ASSERT(IsBufferGenerated() == false); // prevent overlap generating buffer
 	if (IsBufferGenerated() == false)
 	{
-		mUniformBufferObject = GraphicsAPI::CreateBufferObject(GraphicsAPI::eBufferTarget::UNIFORM_BUFFER, uniformBufferSize, initialData);
+		mUniformBufferObject = GraphicsAPI::CreateBufferObject(GraphicsAPI::eBufferTarget::UNIFORM_BUFFER, uniformBufferSize, initialData, false /* if you*/);
 
 		mUniformBufferSize = uniformBufferSize;
 

@@ -245,7 +245,7 @@ dooms::Camera* dooms::Camera::GetMainCamera()
 /// </summary>
 /// <returns></returns>
 
-math::Matrix4x4 dooms::Camera::GetProjectionMatrix()
+math::Matrix4x4 dooms::Camera::GetProjectionMatrix(const bool forceNDCNegativeOneToOne)
 {
 	math::Matrix4x4 result{ nullptr };
 	if (mProjectionMode == eProjectionType::Perspective)
@@ -263,7 +263,7 @@ math::Matrix4x4 dooms::Camera::GetProjectionMatrix()
 		NEVER_HAPPEN;
 	}
 
-	if(dooms::graphics::GraphicsAPIManager::GetCurrentAPIType() == graphics::GraphicsAPI::eGraphicsAPIType::DX11_10)
+	if(forceNDCNegativeOneToOne == false && dooms::graphics::GraphicsAPIManager::GetCurrentAPIType() == graphics::GraphicsAPI::eGraphicsAPIType::DX11_10)
 	{
 		static const math::Matrix4x4 zOffsetForD3D = math::scale(math::Vector3{ 1.0f, 1.0f, 0.5f }) * math::translate(math::Vector3{ 0, 0, 1.0f });
 		result = zOffsetForD3D * result;

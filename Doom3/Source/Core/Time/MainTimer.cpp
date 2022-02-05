@@ -29,9 +29,16 @@ void dooms::time::MainTimer::InitTimer()
 
 FLOAT64 MainTimer::GetTime() const
 {
-	LARGE_INTEGER li;
-	QueryPerformanceCounter(&li);
-	return double(li.QuadPart - CounterStart) / PCFreq;
+	static LARGE_INTEGER s_frequency;
+	static BOOL s_use_qpc = QueryPerformanceFrequency(&s_frequency);
+	if (s_use_qpc) {
+		LARGE_INTEGER now;
+		QueryPerformanceCounter(&now);
+		return ( (1000LL * now.QuadPart) / s_frequency.QuadPart ) * 0.001;
+	}
+	else {
+		return GetTickCount() * 0.0001;
+	}
 }
 
 void dooms::time::MainTimer::UpdateFrameTimer()
@@ -46,7 +53,6 @@ void dooms::time::MainTimer::UpdateFrameTimer()
 	MainTimer::CurrentFrame = static_cast<FLOAT64>(1.0 / dooms::time::MainTimer::mFrameTime.mDeltaTime);
 	
 	D_ASSERT(dooms::time::MainTimer::mFrameTime.mDeltaTime > 0.0);
-	
 }
 
 void dooms::time::MainTimer::ResetFixedTimer()

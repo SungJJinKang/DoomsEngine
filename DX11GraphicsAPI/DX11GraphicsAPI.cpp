@@ -374,7 +374,7 @@ namespace dooms
 
             
             static HRESULT InitWindow(HINSTANCE hInstance, int nCmdShow, int width, int height);
-            static HRESULT InitDevice();
+            static HRESULT InitDevice(const unsigned multisampleNum);
             static void CleanupDevice();
             static LRESULT CALLBACK    WndProc(HWND, UINT, WPARAM, LPARAM);
             
@@ -420,7 +420,7 @@ namespace dooms
 				return S_OK;
 			}
 
-            static HRESULT InitDevice()
+            static HRESULT InitDevice(const unsigned multisampleNum)
             {
                 HRESULT hr = S_OK;
 
@@ -563,12 +563,21 @@ namespace dooms
                     desc.CullMode = D3D11_CULL_BACK;
                     desc.FrontCounterClockwise = true;
                     desc.DepthBias = 0;
-                    desc.DepthBias = 0;
                     desc.SlopeScaledDepthBias = 0.0f;
                     desc.DepthBiasClamp = 0.0f;
                     desc.DepthClipEnable = true;
                     desc.ScissorEnable = false;
-                    desc.MultisampleEnable = false;
+                    if(multisampleNum > 0)
+                    {
+                        desc.MultisampleEnable = true;
+                        desc.AntialiasedLineEnable = true;
+                    }
+                    else
+                    {
+                        desc.MultisampleEnable = false;
+                        desc.AntialiasedLineEnable = false;
+                    }
+                  
                     desc.AntialiasedLineEnable = false;
 
                     HRESULT hr = dx11::g_pd3dDevice->CreateRasterizerState(&desc, &state);
@@ -806,7 +815,7 @@ namespace dooms
                 return 0;
 			}
 
-			if (FAILED(dx11::InitDevice()))
+			if (FAILED(dx11::InitDevice(multiSamplingNum)))
 			{
 				dx11::CleanupDevice();
                 assert(0);
@@ -1873,13 +1882,14 @@ namespace dooms
         (
             const GraphicsAPI::eBufferTarget bufferTarget,
             const unsigned long long bufferSize,
-            const void* const initialData
+            const void* const initialData,
+            const bool dynamicWrite /* if you don't use map/unmap or use only UpdateSubResource, you don't need set to true.*/
         )
         {
             D3D11_BUFFER_DESC bd = {};
-            bd.Usage = D3D11_USAGE_DEFAULT;
+            bd.Usage = (dynamicWrite == false) ? D3D11_USAGE_DEFAULT : D3D11_USAGE_DYNAMIC;
             bd.ByteWidth = bufferSize;
-            bd.CPUAccessFlags = 0;
+            bd.CPUAccessFlags = (dynamicWrite == false) ? 0 : D3D11_CPU_ACCESS_WRITE;
             bd.MiscFlags = 0;
             bd.StructureByteStride = 0;
 
@@ -1949,7 +1959,8 @@ namespace dooms
         {
             assert(bufferObject != 0);
             ID3D11Resource* const bufferResource = reinterpret_cast<ID3D11Resource*>(bufferObject);
-            
+
+            // You can't update buffer partially with UpdateSubresource.
             dx11::g_pImmediateContext->UpdateSubresource(bufferResource, NULL, nullptr, data, 0, 0);
         }
 
@@ -2185,6 +2196,55 @@ namespace dooms
         {
             assert(0);
             return nullptr;
+        }
+
+        DOOMS_ENGINE_GRAPHICS_API void* MapBufferObjectToClientAddress
+        (
+            const unsigned long long bufferID,
+            const GraphicsAPI::eBufferTarget bindBufferTarget,
+            const GraphicsAPI::eMapBufferAccessOption mapBufferAccessOption
+        )
+        {
+            ID3D11Resource* const d3d11Resource = reinterpret_cast<ID3D11Resource*>(bufferID);
+
+            D3D11_MAP mapType;
+            switch (mapBufferAccessOption)
+            {
+            case GraphicsAPI::READ_ONLY:
+                mapType = D3D11_MAP::D3D11_MAP_READ;
+                break;
+            case GraphicsAPI::WRITE_ONLY: 
+                mapType = D3D11_MAP::D3D11_MAP_WRITE;
+                break;
+            case GraphicsAPI::READ_WRITE:
+                mapType = D3D11_MAP::D3D11_MAP_READ_WRITE;
+                break;
+            case GraphicsAPI::WRITE_DISCARD:
+                mapType = D3D11_MAP::D3D11_MAP_WRITE_DISCARD;
+                break;
+            case GraphicsAPI::WRITE_NO_OVERWRITE:
+                mapType = D3D11_MAP::D3D11_MAP_WRITE_NO_OVERWRITE;
+                break;
+            default:
+                NEVER_HAPPEN;
+            }
+
+            D3D11_MAPPED_SUBRESOURCE mappedResource{};
+
+            dx11::g_pImmediateContext->Map(d3d11Resource, 0, mapType, NULL, &mappedResource);
+
+            return mappedResource.pData;
+        }
+
+        DOOMS_ENGINE_GRAPHICS_API void UnMapBufferObjectMappedToClientAddress
+        (
+            const unsigned long long bufferID,
+            const GraphicsAPI::eBufferTarget bindBufferTarget
+        )
+        {
+            ID3D11Resource* const d3d11Resource = reinterpret_cast<ID3D11Resource*>(bufferID);
+
+            dx11::g_pImmediateContext->Unmap(d3d11Resource, 0);
         }
 
 	}

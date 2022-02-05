@@ -3,7 +3,7 @@
 #include <Graphics/DebugGraphics/DebugDrawer.h>
 #include <Graphics/GraphicsAPI/graphicsAPIHelper.h>
 
-#define ARRIVE_DISTANCE 0.5f
+#define ARRIVE_DISTANCE 3.0f
 
 void dooms::WanderComponent::InitComponent()
 {
@@ -25,13 +25,13 @@ void dooms::WanderComponent::UpdateComponent()
 	}
 	else
 	{
-		GetTransform()->Translate(vecToDest.normalized() * MainTimer::GetSingleton()->GetDeltaTime() * mSpeed);
+		GetTransform()->Translate(vecToDest.normalized() * math::Min(static_cast<FLOAT32>(MainTimer::GetSingleton()->GetDeltaTime() * mSpeed), vecToDest.magnitude()));
 		if(mLookAtDestination == true)
 		{
-			auto upVector = math::cross(vecToDest.normalized(), -math::cross(vecToDest.normalized(), math::Vector3::up));
+			auto upVector = math::cross(math::cross(vecToDest.normalized(), math::Vector3::up), vecToDest.normalized());
 			const math::Quaternion lookAtQuat = math::Quaternion::quatLookAt(vecToDest.normalized(), upVector);
 			GetTransform()->SetRotation(math::Quaternion::EulerAngleToQuaternion(mRotationEulerOffset * math::DEGREE_TO_RADIAN) * lookAtQuat);
-		}		
+		}
 	}
 }
 

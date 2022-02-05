@@ -51,7 +51,7 @@ void dooms::Move_WASD::UpdateComponent()
 	if (isMove == true)
 	{
 		translation.Normalize();
-		translation *= 100.0f * mSpeed;
+		translation *= 100.0f * mMoveSpeed;
 		
 		GetTransform()->Translate(translation * delta, dooms::eSpace::Self);
 	}
@@ -61,26 +61,34 @@ void dooms::Move_WASD::UpdateComponent()
 
 	//math::Vector3 rotation{ UserInput_Server::GetDeltaMouseScreenPositionY(), -UserInput_Server::GetDeltaMouseScreenPositionX(), 0.0f };
 	math::Vector3 rotation{ 0.0f, 0.0f, 0.0f };
-	
+	bool isRotated = false;
 	if (UserInput_Server::GetKey(dooms::input::GraphicsAPIInput::eKEY_CODE::KEY_UP))
 	{
 		rotation.x += 1;
+		isRotated = true;
 	}
-	else if (UserInput_Server::GetKey(dooms::input::GraphicsAPIInput::eKEY_CODE::KEY_DOWN))
+	if (UserInput_Server::GetKey(dooms::input::GraphicsAPIInput::eKEY_CODE::KEY_DOWN))
 	{
 		rotation.x -= 1;
+		isRotated = true;
 	}
 
 	if (UserInput_Server::GetKey(dooms::input::GraphicsAPIInput::eKEY_CODE::KEY_LEFT))
 	{
 		rotation.y += 1;
+		isRotated = true;
 	}
-	else if (UserInput_Server::GetKey(dooms::input::GraphicsAPIInput::eKEY_CODE::KEY_RIGHT))
+	if (UserInput_Server::GetKey(dooms::input::GraphicsAPIInput::eKEY_CODE::KEY_RIGHT))
 	{
 		rotation.y -= 1;
+		isRotated = true;
 	}
 
-	GetTransform()->Rotate(rotation.normalized() * delta * 2.0f, eSpace::Self);
+	if(isRotated)
+	{
+		GetTransform()->Rotate(rotation.normalized() * delta * mRotationSpeed, eSpace::Self);
+	}
+
 
 
 }

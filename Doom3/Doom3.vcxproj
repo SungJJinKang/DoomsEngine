@@ -586,6 +586,7 @@ xcopy /y /d /E /H /C /I "$(ProjectDir)Assets" "$(TargetDir)Assets"</Command>
     <ClCompile Include="Source\GameLogic\CustomComponent\ExportTextureTester.cpp" />
     <ClCompile Include="Source\GameLogic\CustomComponent\FireBulletComponent.cpp" />
     <ClCompile Include="Source\GameLogic\CustomComponent\Move_WASD.cpp" />
+    <ClCompile Include="Source\GameLogic\CustomComponent\PathFollower.cpp" />
     <ClCompile Include="Source\GameLogic\CustomComponent\Portfolio\DeferredRenderingDebuggerController.cpp" />
     <ClCompile Include="Source\GameLogic\CustomComponent\Portfolio\OverDrawVisualizationDebugger.cpp" />
     <ClCompile Include="Source\GameLogic\CustomComponent\Portfolio\PhysicsDebuggerController.cpp" />
@@ -946,6 +947,8 @@ xcopy /y /d /E /H /C /I "$(ProjectDir)Assets" "$(TargetDir)Assets"</Command>
     <ClInclude Include="Source\GameLogic\CustomComponent\ExportTextureTester.h" />
     <ClInclude Include="Source\GameLogic\CustomComponent\FireBulletComponent.h" />
     <ClInclude Include="Source\GameLogic\CustomComponent\Move_WASD.h" />
+    <ClInclude Include="Source\GameLogic\CustomComponent\PathFollower.h" />
+    <ClInclude Include="Source\GameLogic\CustomComponent\PathFollower.reflection.h" />
     <ClInclude Include="Source\GameLogic\CustomComponent\PerformanceTestController.h" />
     <ClInclude Include="Source\GameLogic\CustomComponent\Portfolio\DeferredRenderingDebuggerController.h" />
     <ClInclude Include="Source\GameLogic\CustomComponent\Portfolio\OverDrawVisualizationDebugger.h" />
@@ -1162,6 +1165,7 @@ xcopy /y /d /E /H /C /I "$(ProjectDir)Assets" "$(TargetDir)Assets"</Command>
     </MASM>
     <None Include="Source\Core\ResourceManagement\JobSystem_cpp\MultithreadingJobSystemStrategy.md" />
     <None Include="Source\Core\ResourceManagement\JobSystem_cpp\README.md" />
+    <None Include="Source\GameLogic\Benchmark.inl" />
     <None Include="Source\GameLogic\CustomComponent\ButtonRotate.reflectionh" />
     <None Include="Source\GameLogic\OverDrawVisualizationTest.inl" />
     <None Include="Source\GameLogic\Portfolio.inl" />
