@@ -249,7 +249,9 @@ namespace dooms
 			) noexcept;
 			void CreateBufferObjectFromModelMesh(const ThreeDModelMesh& threeDModelMesh) noexcept;
 
+			/* You can't update buffer partially in D3D11. Use map, unmap function.
 			void UpdateVertexData(const long long int dataSize, const void* data, const long long int offsetInByte) const noexcept;
+			*/
 
 
 			FORCE_INLINE void Draw() const

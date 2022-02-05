@@ -262,6 +262,7 @@ void dooms::graphics::Mesh::CreateBufferObject
 	}
 }
 
+/*
 void dooms::graphics::Mesh::UpdateVertexData
 (
 	const long long int dataSize,
@@ -270,10 +271,12 @@ void dooms::graphics::Mesh::UpdateVertexData
 ) const noexcept
 {
 	D_ASSERT(mVertexDataBuffer.IsValid());
+	D_ASSERT_LOG()
 	
 	BindVertexBufferObject();
 	GraphicsAPI::UpdateDataToBuffer(mVertexDataBuffer, GraphicsAPI::ARRAY_BUFFER, offsetInByte, dataSize, data);
 }
+*/
 
 
 void dooms::graphics::Mesh::CreateVertexArrayObjectIfNotExist()
