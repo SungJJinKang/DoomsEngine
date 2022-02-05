@@ -18,7 +18,7 @@
 
 void dooms::graphics::DebugDrawer::Init()
 {
-	mDebugMesh.CreateBufferObject(MAX_DEBUG_VERTEX_COUNT * 3, NULL, GraphicsAPI::ePrimitiveType::LINES, eVertexArrayFlag::VertexVector3);
+	mDebugMesh.CreateBufferObject(MAX_DEBUG_VERTEX_COUNT * 3, NULL, GraphicsAPI::ePrimitiveType::LINES, eVertexArrayFlag::VertexVector3, true);
 
 
 	auto debug2DShader = dooms::assetImporter::AssetManager::GetSingleton()->GetAsset<asset::eAssetType::SHADER>(DebugDrawer::DEBUG_2D_SHADER);
@@ -64,7 +64,7 @@ bool dooms::graphics::DebugDrawer::GetIsVertexDataSendToGPUAtCurrentFrame() cons
 }
 
 dooms::graphics::DebugDrawer::DebugDrawer() :
-	m2DMaterial{}, m3DMaterial{}
+	m2DMaterial{}, m3DMaterial{}, mDebugPrimitiveContainers{}
 {
 }
 
@@ -317,7 +317,8 @@ void dooms::graphics::DebugDrawer::BufferVertexDataToGPU()
 			const size_t primitiveCount = container->GetSpecialColoredPrimitiveCount();
 
 			D_ASSERT(MAX_DEBUG_VERTEX_COUNT >= alreadyDrawedVertexCount + primitiveCount * container->GetVertexCountPerPrimitive());
-			mDebugMesh.UpdateVertexData(primitiveCount * container->GetComponentCountPerPrimitive(), container->GetSpecialColoredVertexData(), offsetComponentCount * sizeof(FLOAT32));
+			const UINT64 dataSize = primitiveCount * container->GetComponentCountPerPrimitive();
+			mDebugMesh.UpdateVertexData(dataSize, container->GetSpecialColoredVertexData(), offsetComponentCount * sizeof(FLOAT32));
 
 			offsetComponentCount += primitiveCount * container->GetComponentCountPerPrimitive();
 			alreadyDrawedVertexCount += primitiveCount * container->GetVertexCountPerPrimitive();
