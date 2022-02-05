@@ -14,6 +14,7 @@
 #include <Math/LightMath_Cpp/Utility.h>
 #include <EngineGUI/PrintText.h>
 
+#include <Windows.h>
 
 void dooms::gc::garbageCollectorSolver::StartSetUnreachableFlagStage(const eGCMethod gcMethod, std::unordered_set<DObject*>& dObjects)
 {
@@ -106,6 +107,29 @@ namespace dooms::gc::garbageCollectorSolver
 		}
 	}
 
+	FORCE_INLINE bool CheckDObjectIsValid(const dooms::DObject* const dObject)
+	{
+		bool isDObjectValid = false;
+
+#if _MSC_VER
+		__try 
+		{
+#else
+#error Unsupported Compiler
+#endif
+			isDObjectValid = IsValid(dObject);
+#if _MSC_VER
+		}
+		__except (_exception_code() == EXCEPTION_ACCESS_VIOLATION ? EXCEPTION_EXECUTE_HANDLER : EXCEPTION_CONTINUE_SEARCH)
+		{
+			isDObjectValid = false;
+			D_ASSERT(IsLowLevelValid(dObject) == false);
+		}
+#endif
+
+		return isDObjectValid;
+	}
+
 	FORCE_INLINE void MarkRecursivelyDObjectTypeValueField
 	(
 		const UINT32 keepFlags,
@@ -147,7 +171,7 @@ namespace dooms::gc::garbageCollectorSolver
 			if ((dataQualifier == reflection::eProperyQualifier::POINTER) == false)
 			{
 				// if object is nullptr, DObjectManager::IsDObjectExist is suprer fast
-				if (IsLowLevelValid(reinterpret_cast<dooms::DObject*>(object), false) == true)
+				if (CheckDObjectIsValid(reinterpret_cast<dooms::DObject*>(object)) == true)
 				{	// Never change this IsLowLevelValid to IsValid ( unreal engine use IsLowLevelValid )
 					dooms::DObject* const targetDObject = reinterpret_cast<dooms::DObject*>(object);
 
@@ -157,7 +181,7 @@ namespace dooms::gc::garbageCollectorSolver
 			else
 			{
 				// if object is nullptr, DObjectManager::IsDObjectExist is suprer fast
-				if (IsLowLevelValid(*reinterpret_cast<dooms::DObject**>(object), false) == true)
+				if (CheckDObjectIsValid(*reinterpret_cast<dooms::DObject**>(object)) == true)
 				{	// Never change this IsLowLevelValid to IsValid ( unreal engine use IsLowLevelValid )
 					dooms::DObject* const targetDObject = (*reinterpret_cast<dooms::DObject**>(object));
 
@@ -224,7 +248,7 @@ void dooms::gc::garbageCollectorSolver::StartMarkStage(const eGCMethod gcMethod,
 		// TODO : Do mark stage parallel
 		for (dooms::DObject* rootDObejct : rootDObjectList)
 		{
-			if (IsLowLevelValid(rootDObejct, false) == true)
+			if (CheckDObjectIsValid(rootDObejct) == true)
 			{
 				Mark(keepFlags, rootDObejct);
 			}
