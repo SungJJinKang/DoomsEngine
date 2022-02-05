@@ -288,7 +288,7 @@ namespace dooms
 				{
 					BindVertexArrayObject();
 				}
-				else if (graphics::GraphicsAPIManager::GetCurrentAPIType() == graphics::GraphicsAPI::eGraphicsAPIType::OpenGL)
+				else if (graphics::GraphicsAPIManager::GetCurrentAPIType() == graphics::GraphicsAPI::eGraphicsAPIType::DX11_10)
 				{
 					BindVertexBufferObject();
 				}
@@ -308,7 +308,7 @@ namespace dooms
 				{
 					BindVertexArrayObject();
 				}
-				else if (graphics::GraphicsAPIManager::GetCurrentAPIType() == graphics::GraphicsAPI::eGraphicsAPIType::OpenGL)
+				else if (graphics::GraphicsAPIManager::GetCurrentAPIType() == graphics::GraphicsAPI::eGraphicsAPIType::DX11_10)
 				{
 					BindVertexBufferObject();
 				}
