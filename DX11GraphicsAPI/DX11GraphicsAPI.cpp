@@ -2205,8 +2205,35 @@ namespace dooms
             const GraphicsAPI::eMapBufferAccessOption mapBufferAccessOption
         )
         {
-            assert(false);
-            return nullptr;
+            ID3D11Resource* const d3d11Resource = reinterpret_cast<ID3D11Resource*>(bufferID);
+
+            D3D11_MAP mapType;
+            switch (mapBufferAccessOption)
+            {
+            case GraphicsAPI::READ_ONLY:
+                mapType = D3D11_MAP::D3D11_MAP_READ;
+                break;
+            case GraphicsAPI::WRITE_ONLY: 
+                mapType = D3D11_MAP::D3D11_MAP_WRITE;
+                break;
+            case GraphicsAPI::READ_WRITE:
+                mapType = D3D11_MAP::D3D11_MAP_READ_WRITE;
+                break;
+            case GraphicsAPI::WRITE_DISCARD:
+                mapType = D3D11_MAP::D3D11_MAP_WRITE_DISCARD;
+                break;
+            case GraphicsAPI::WRITE_NO_OVERWRITE:
+                mapType = D3D11_MAP::D3D11_MAP_WRITE_NO_OVERWRITE;
+                break;
+            default:
+                NEVER_HAPPEN;
+            }
+
+            D3D11_MAPPED_SUBRESOURCE mappedResource{};
+
+            dx11::g_pImmediateContext->Map(d3d11Resource, 0, mapType, NULL, &mappedResource);
+
+            return mappedResource.pData;
         }
 
         DOOMS_ENGINE_GRAPHICS_API void UnMapBufferObjectMappedToClientAddress
@@ -2215,7 +2242,9 @@ namespace dooms
             const GraphicsAPI::eBufferTarget bindBufferTarget
         )
         {
-            assert(false);
+            ID3D11Resource* const d3d11Resource = reinterpret_cast<ID3D11Resource*>(bufferID);
+
+            dx11::g_pImmediateContext->Unmap(d3d11Resource, 0);
         }
 
 	}
