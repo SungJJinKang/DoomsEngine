@@ -323,9 +323,8 @@ void dooms::gc::garbageCollectorSolver::StartSweepStage(const eGCMethod gcMethod
 
 	for (dooms::DObject* deletedDbject : deletedDObjectList)
 	{
-		D_ASSERT(deletedDbject != nullptr);
+		D_ASSERT(deletedDbject != nullptr); D_DEBUG_LOG(eLogType::D_LOG, "GC Collect Object ( Type Name : %s, DObject Name : %s )", deletedDbject->GetTypeFullName(), deletedDbject->GetDObjectName().c_str());
 		deletedDbject->DestroySelfInstantly();
-		D_DEBUG_LOG(eLogType::D_LOG, "GC Collect Object ( Type Name : %s, DObject Name : %s )", deletedDbject->GetTypeFullName(), deletedDbject->GetDObjectName().c_str());
 	}
 }
 
