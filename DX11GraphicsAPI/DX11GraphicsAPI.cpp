@@ -2206,18 +2206,6 @@ namespace dooms
             assert(false);
         }
 
-        DOOMS_ENGINE_GRAPHICS_API void* RangedMapBufferObjectToClientAddress
-        (
-            const unsigned long long bufferID,
-            const unsigned long long offset,
-            const unsigned long long length,
-            const GraphicsAPI::eBufferTarget bindBufferTarget,
-            const GraphicsAPI::eMapBufferAccessOption mapBufferAccessOption
-        )
-        {
-            assert(false);
-        }
-
         DOOMS_ENGINE_GRAPHICS_API void UnMapBufferObjectMappedToClientAddress
         (
             const unsigned long long bufferID,
