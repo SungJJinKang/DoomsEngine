@@ -1179,6 +1179,7 @@ namespace dooms
 
 			glDisable(GL_SAMPLE_ALPHA_TO_COVERAGE);
 			glDisable(GL_SAMPLE_ALPHA_TO_ONE);
+			glDisable(GL_FRAMEBUFFER_SRGB);
 
 			
 
