@@ -84,7 +84,7 @@ namespace dooms
 					ImGuiStyle& style = ImGui::GetStyle();
 					ImGui::PushItemWidth(120);
 
-					if (ImGui::BeginCombo("##", dObjects[currentIndex]->GetDObjectName().c_str(), ImGuiComboFlags_NoArrowButton))
+					if (ImGui::BeginCombo("##", ( dObjects.size() > currentIndex && IsValid(dObjects[currentIndex]) ) ? dObjects[currentIndex]->GetDObjectName().c_str() : "Unselected", ImGuiComboFlags_NoArrowButton))
 					{
 						for (int dObjectIndex = 0; dObjectIndex < dObjects.size(); dObjectIndex++)
 						{
@@ -114,7 +114,11 @@ namespace dooms
 					ImGui::Spacing();
 
 					std::vector<dooms::DObject*> multipleDrawChecker;
-					dooms::ui::imguiWithReflectionHelper::DrawDObjectGUI(dObjects[currentIndex]->GetDClass(), dObjects[currentIndex]);
+
+					if((dObjects.size() > currentIndex && IsValid(dObjects[currentIndex])))
+					{
+						dooms::ui::imguiWithReflectionHelper::DrawDObjectGUI(dObjects[currentIndex]->GetDClass(), dObjects[currentIndex]);
+					}				
 
 					dooms::ui::imguiWithReflectionHelper::ClearMultipleDrawChecker();
 

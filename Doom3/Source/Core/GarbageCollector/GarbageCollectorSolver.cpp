@@ -16,7 +16,7 @@
 
 #include <Windows.h>
 
-void dooms::gc::garbageCollectorSolver::StartSetUnreachableFlagStage(const eGCMethod gcMethod, std::unordered_set<DObject*>& dObjects)
+void dooms::gc::garbageCollectorSolver::StartSetUnreachableFlagStage(const eGCMethod gcMethod, std::vector<DObject*>& dObjects)
 {
 	// TODO : Optimize this function. too slow....
 	for(DObject* dObject : dObjects)
@@ -306,22 +306,25 @@ void dooms::gc::garbageCollectorSolver::StartMarkStage(const eGCMethod gcMethod,
 }
 
 
-void dooms::gc::garbageCollectorSolver::StartSweepStage(const eGCMethod gcMethod, const UINT32 keepFlags, std::unordered_set<dooms::DObject*>& dObjectList, const size_t maxSweepedObjectCount)
+void dooms::gc::garbageCollectorSolver::StartSweepStage(const eGCMethod gcMethod, const UINT32 keepFlags, std::vector<dooms::DObject*>& dObjectList, const size_t maxSweepedObjectCount)
 {
 	std::atomic_thread_fence(std::memory_order_seq_cst);
 
 	std::vector<dooms::DObject*> deletedDObjectList;
 	deletedDObjectList.reserve(maxSweepedObjectCount);
 
-	auto beginIter = dObjectList.begin();
-	const auto endIter = dObjectList.end();
-	while(beginIter != endIter)
+	INT64 dObjectCount = dObjectList.size();
+	for(INT64 i = 0 ; i < dObjectCount; i++)
 	{
-		dooms::DObject* const dObject = (*beginIter);
+		if (dObjectCount != dObjectList.size())
+		{
+			dObjectCount = dObjectList.size();
+			i = -1;
+			continue;
+		}
 
-
-		const bool isUnreachable = dObject->HasDObjectFlag(dooms::eDObjectFlag::Unreachable | dooms::eDObjectFlag::NewAllocated, std::memory_order_relaxed);
-		dObject->SetDObjectFlag(dooms::eDObjectFlag::Unreachable | dooms::eDObjectFlag::IsNotCheckedByGC, std::memory_order_relaxed);
+		const bool isUnreachable = dObjectList[i]->HasDObjectFlag(dooms::eDObjectFlag::Unreachable | dooms::eDObjectFlag::NewAllocated, std::memory_order_relaxed);
+		dObjectList[i]->SetDObjectFlag(dooms::eDObjectFlag::Unreachable | dooms::eDObjectFlag::IsNotCheckedByGC, std::memory_order_relaxed);
 
 		if(isUnreachable == true)
 		{
@@ -332,23 +335,25 @@ void dooms::gc::garbageCollectorSolver::StartSweepStage(const eGCMethod gcMethod
 			MarkRecursively(keepFlags, dObject, reflection::eProperyQualifier::VALUE, &dClass);
 			*/
 
-			dObject->SetIsPendingKill();
+			dObjectList[i]->SetIsPendingKill();
 
-			deletedDObjectList.push_back(dObject);
-			D_DEBUG_LOG(eLogType::D_LOG_TYPE13, "GC DObject IsPendingKill Enabled and Sweeped ready : %s ( TypeName : %s )", dObject->GetDObjectName().c_str(), dObject->GetTypeFullName());
+			deletedDObjectList.push_back(dObjectList[i]);
+			D_DEBUG_LOG(eLogType::D_LOG_TYPE13, "GC DObject IsPendingKill Enabled and Sweeped ready : %s ( TypeName : %s )", dObjectList[i]->GetDObjectName().c_str(), dObjectList[i]->GetTypeFullName());
 
 			if(deletedDObjectList.size() >= maxSweepedObjectCount)
 			{
 				break;
 			}
 		}
-		beginIter++;
 	}
 
 	for (dooms::DObject* deletedDbject : deletedDObjectList)
 	{
-		D_ASSERT(deletedDbject != nullptr); D_DEBUG_LOG(eLogType::D_LOG, "GC Collect Object ( Type Name : %s, DObject Name : %s )", deletedDbject->GetTypeFullName(), deletedDbject->GetDObjectName().c_str());
-		deletedDbject->DestroySelfInstantly();
+		if (CheckDObjectIsValid(deletedDbject))
+		{
+			D_ASSERT(deletedDbject != nullptr); D_DEBUG_LOG(eLogType::D_LOG, "GC Collect Object ( Type Name : %s, DObject Name : %s )", deletedDbject->GetTypeFullName(), deletedDbject->GetDObjectName().c_str());
+			deletedDbject->DestroySelfInstantly();
+		}
 	}
 }
 

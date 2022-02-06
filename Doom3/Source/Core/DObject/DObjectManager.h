@@ -27,9 +27,7 @@ namespace dooms
 	{
 		friend class DObject;
 
-		std::unordered_set<DObject*> mDObjectList;
-
-		std::vector<size_t> mEmptyIndexInFlagList;
+		std::vector<DObject*> mDObjectList;
 
 		DObjectsContainer();
 		DObjectsContainer(const DObjectsContainer&) = delete;
@@ -74,6 +72,7 @@ namespace dooms
 		static void DestroyAllDObjects(const bool force);
 		static void ClearConatiner();
 
+		/*
 		/// <summary>
 		/// Check if DObject address is valid
 		///	this function check if passed pointer is null and if passed address is alive dObject address
@@ -81,6 +80,7 @@ namespace dooms
 		/// <param name="dObject"></param>
 		/// <returns></returns>
 		static bool IsDObjectLowLevelValid(const DObject* const dObject, const bool lock = false, const std::memory_order memoryOrder = std::memory_order_relaxed);
+		*/
 
 		// TODO : implement this
 		//static bool IsDObjectFastLowLevelValid(const DObject* const dObject, const bool lock = true);
@@ -90,6 +90,6 @@ namespace dooms
 
 		static size_t GetDObjectCount();
 
-		static std::unordered_set<DObject*>& GetDObjectList();
+		static std::vector<DObject*>& GetDObjectList();
 	};
 }
