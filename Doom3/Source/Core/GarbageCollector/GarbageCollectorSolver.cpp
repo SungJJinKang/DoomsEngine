@@ -112,12 +112,14 @@ namespace dooms::gc::garbageCollectorSolver
 		bool isDObjectValid = false;
 
 #if _MSC_VER
+		// If pointer type member variable has dummy value ( not null, not valid address ), IsValid function call throws read access violation.
+		// But this situation occur very rarely.       
 		__try 
 		{
 #else
 #error Unsupported Compiler
 #endif
-			isDObjectValid = IsValid(dObject);
+			isDObjectValid = IsValid(dObject); 
 #if _MSC_VER
 		}
 		__except (_exception_code() == EXCEPTION_ACCESS_VIOLATION ? EXCEPTION_EXECUTE_HANDLER : EXCEPTION_CONTINUE_SEARCH)
