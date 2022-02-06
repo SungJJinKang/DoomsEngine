@@ -14,6 +14,7 @@
 #include <Math/LightMath_Cpp/Utility.h>
 #include <EngineGUI/PrintText.h>
 
+#include <Windows.h>
 
 void dooms::gc::garbageCollectorSolver::StartSetUnreachableFlagStage(const eGCMethod gcMethod, std::unordered_set<DObject*>& dObjects)
 {
@@ -26,21 +27,21 @@ void dooms::gc::garbageCollectorSolver::StartSetUnreachableFlagStage(const eGCMe
 
 namespace dooms::gc::garbageCollectorSolver
 {
-	FORCE_INLINE void MarkRecursively
+	FORCE_INLINE static void MarkRecursively
 	(
 		const UINT32 keepFlags,
 		void* const object,
 		const reflection::eProperyQualifier dataQualifier,
 		const dooms::reflection::DType* const dFieldType
 	);
-	FORCE_INLINE void MarkRecursivelyTemplateTypeField
+	FORCE_INLINE static void MarkRecursivelyTemplateTypeField
 	(
 		const UINT32 keepFlags,
 		void* const object,
 		const reflection::eProperyQualifier dataQualifier,
 		const dooms::reflection::DType* const dFieldType
 	);
-	FORCE_INLINE void MarkRecursivelyDObjectTypeField
+	FORCE_INLINE static void MarkRecursivelyDObjectTypeField
 	(
 		const UINT32 keepFlags,
 		dooms::DObject* const dObejct,
@@ -48,7 +49,7 @@ namespace dooms::gc::garbageCollectorSolver
 		const dooms::reflection::DType* const dFieldType
 	);
 
-	FORCE_INLINE void MarkRecursivelyTemplateTypeField
+	FORCE_INLINE static void MarkRecursivelyTemplateTypeField
 	(
 		const UINT32 keepFlags,
 		void* const object,
@@ -106,7 +107,30 @@ namespace dooms::gc::garbageCollectorSolver
 		}
 	}
 
-	FORCE_INLINE void MarkRecursivelyDObjectTypeValueField
+	FORCE_INLINE static bool CheckDObjectIsValid(const dooms::DObject* const dObject)
+	{
+		bool isDObjectValid = false;
+
+#if _MSC_VER
+		__try 
+		{
+#else
+#error Unsupported Compiler
+#endif
+			isDObjectValid = IsValid(dObject);
+#if _MSC_VER
+		}
+		__except (_exception_code() == EXCEPTION_ACCESS_VIOLATION ? EXCEPTION_EXECUTE_HANDLER : EXCEPTION_CONTINUE_SEARCH)
+		{
+			isDObjectValid = false;
+			D_ASSERT(IsLowLevelValid(dObject) == false);
+		}
+#endif
+
+		return isDObjectValid;
+	}
+
+	FORCE_INLINE static void MarkRecursivelyDObjectTypeValueField
 	(
 		const UINT32 keepFlags,
 		dooms::DObject* const dObejct,
@@ -134,7 +158,7 @@ namespace dooms::gc::garbageCollectorSolver
 		}
 	}
 
-	FORCE_INLINE void MarkRecursivelyDObjectTypeField
+	FORCE_INLINE static void MarkRecursivelyDObjectTypeField
 	(
 		const UINT32 keepFlags,
 		void* const object,
@@ -147,7 +171,7 @@ namespace dooms::gc::garbageCollectorSolver
 			if ((dataQualifier == reflection::eProperyQualifier::POINTER) == false)
 			{
 				// if object is nullptr, DObjectManager::IsDObjectExist is suprer fast
-				if (IsLowLevelValid(reinterpret_cast<dooms::DObject*>(object), false) == true)
+				if (CheckDObjectIsValid(reinterpret_cast<dooms::DObject*>(object)) == true)
 				{	// Never change this IsLowLevelValid to IsValid ( unreal engine use IsLowLevelValid )
 					dooms::DObject* const targetDObject = reinterpret_cast<dooms::DObject*>(object);
 
@@ -157,7 +181,7 @@ namespace dooms::gc::garbageCollectorSolver
 			else
 			{
 				// if object is nullptr, DObjectManager::IsDObjectExist is suprer fast
-				if (IsLowLevelValid(*reinterpret_cast<dooms::DObject**>(object), false) == true)
+				if (CheckDObjectIsValid(*reinterpret_cast<dooms::DObject**>(object)) == true)
 				{	// Never change this IsLowLevelValid to IsValid ( unreal engine use IsLowLevelValid )
 					dooms::DObject* const targetDObject = (*reinterpret_cast<dooms::DObject**>(object));
 
@@ -173,7 +197,7 @@ namespace dooms::gc::garbageCollectorSolver
 		}
 	}
 
-	FORCE_INLINE void MarkRecursively
+	FORCE_INLINE static void MarkRecursively
 	(
 		const UINT32 keepFlags,
 		void* const object,
@@ -191,7 +215,7 @@ namespace dooms::gc::garbageCollectorSolver
 		}
 	}
 
-	FORCE_INLINE void Mark(const UINT32 keepFlags, dooms::DObject* const rootDObject)
+	FORCE_INLINE static void Mark(const UINT32 keepFlags, dooms::DObject* const rootDObject)
 	{
 		D_ASSERT(IsLowLevelValid(rootDObject, false) == true);
 
@@ -224,7 +248,7 @@ void dooms::gc::garbageCollectorSolver::StartMarkStage(const eGCMethod gcMethod,
 		// TODO : Do mark stage parallel
 		for (dooms::DObject* rootDObejct : rootDObjectList)
 		{
-			if (IsLowLevelValid(rootDObejct, false) == true)
+			if (CheckDObjectIsValid(rootDObejct) == true)
 			{
 				Mark(keepFlags, rootDObejct);
 			}
