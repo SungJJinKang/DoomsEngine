@@ -158,8 +158,7 @@ dooms::DObject& dooms::DObject::operator=(DObject&& dObject) noexcept
 
 dooms::DObject::~DObject()
 {
-	// TODO : This can be problem if object is static variable.
-	//	      if DObjectManager's static variable hash table is destroyed before calling static variable dobject's destructor
+	SetDObjectFlag(eDObjectFlag::IsPendingKill, std::memory_order_relaxed);
 	
 	if(GetDObjectFlag(eDObjectFlag::IsRootObject) == true)
 	{
