@@ -33,12 +33,13 @@
 ## Currently working on     
    
   * implement D3D11
-  * Batch Rendering
-  * implement Hierarchical Shadow map
+  * Refactory engine architect ( like [this](https://4.bp.blogspot.com/-E5Np_k78ZH4/WNfg2zjEPnI/AAAAAAAAJ0I/MQlvchgGlRQRsC46Nhmrfbaj4mSerE1MQCLcB/s1600/Screen%2BShot%2B2017-03-26%2Bat%2B9.39.44%2BAM.png) )           
    
 ## To Develop
        
   * implement physical based rendering ( https://cdn2.unrealengine.com/Resources/files/2013SiggraphPresentationsNotes-26915738.pdf )  
+  * implement Hierarchical Shadow map
+  * Batch Rendering
                  
 ## Thirdparty Dependencies            
              
