@@ -117,6 +117,10 @@ void dooms::GameCore::InitServers(const int argc, char* const* const argv)
 	mJobSystem.Init(argc, argv);
 	D_END_PROFILING(mJobSystem_Init);
 
+	D_START_PROFILING(Init_AssetManager, eProfileLayers::CPU);
+	mAssetManager.Init(argc, argv);
+	D_END_PROFILING(Init_AssetManager);
+
 	D_START_PROFILING(mTime_Server_Init, eProfileLayers::CPU);
 	mTime_Server.Init(argc, argv);
 	D_END_PROFILING(mTime_Server_Init);
@@ -134,10 +138,6 @@ void dooms::GameCore::InitServers(const int argc, char* const* const argv)
 	D_START_PROFILING(Init_UserInput_Server, eProfileLayers::CPU);
 	mUserImput_Server.Init(argc, argv);
 	D_END_PROFILING(Init_UserInput_Server);
-
-	D_START_PROFILING(Init_AssetManager, eProfileLayers::CPU);
-	mAssetManager.Init(argc, argv);
-	D_END_PROFILING(Init_AssetManager);
 
 	
 

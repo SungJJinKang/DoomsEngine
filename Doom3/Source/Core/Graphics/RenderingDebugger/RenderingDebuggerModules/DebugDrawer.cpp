@@ -1,56 +1,17 @@
 #include "Core.h"
-#include "../Graphics_Core.h"
-
-#ifdef DEBUG_DRAWER
+#include "../../Graphics_Core.h"
 
 #include "DebugDrawer.h"
 
 #define MAX_DEBUG_VERTEX_COUNT 500000
 #define RESERVE_PRIMITIVE_COUNT 30000
 
-#include "../Graphics_Server.h"
+#include "../../Graphics_Server.h"
 #include <Game/AssetManager/AssetManager.h>
-#include "../Material/Material.h"
-#include <IO/UserInput_Server.h>
+#include "../../Material/Material.h"
 #include <Asset/ShaderAsset.h>
 
 #define COLOR_UNIFORM_BUFFER_NAME "ColorData"
-
-void dooms::graphics::DebugDrawer::Init()
-{
-	mDebugMesh.CreateBufferObject(MAX_DEBUG_VERTEX_COUNT * 3, NULL, GraphicsAPI::ePrimitiveType::LINES, eVertexArrayFlag::VertexVector3, true);
-
-
-	auto debug2DShader = dooms::assetImporter::AssetManager::GetSingleton()->GetAsset<asset::eAssetType::SHADER>(DebugDrawer::DEBUG_2D_SHADER);
-	D_ASSERT(IsValid(debug2DShader));
-	m2DMaterial = std::make_unique<Material>(debug2DShader);
-
-	auto debug3DShader = dooms::assetImporter::AssetManager::GetSingleton()->GetAsset<asset::eAssetType::SHADER>(DebugDrawer::DEBUG_3D_SHADER);
-	D_ASSERT(IsValid(debug3DShader));
-	m3DMaterial = std::make_unique<Material>(debug3DShader);
-
-	for (DebugPrimitiveContainer* container : mDebugPrimitiveContainers.DebugPrimitiveContainers)
-	{
-		container->ReserveVector(RESERVE_PRIMITIVE_COUNT);
-	}
-}
-
-void dooms::graphics::DebugDrawer::Update()
-{
-}
-
-void dooms::graphics::DebugDrawer::Reset()
-{
-	std::scoped_lock<std::mutex> lock{ mMextex };
-
-	mDebugMeshCount = 0;
-
-	for(DebugPrimitiveContainer* container : mDebugPrimitiveContainers.DebugPrimitiveContainers)
-	{
-		container->ClearDatas();
-	}
-}
-
 
 
 void dooms::graphics::DebugDrawer::SetIsVertexDataSendToGPUAtCurrentFrame(const bool isSet)
@@ -127,6 +88,53 @@ void dooms::graphics::DebugDrawer::Draw()
 	}
 	
 
+}
+
+void dooms::graphics::DebugDrawer::Initialize()
+{
+	mDebugMesh.CreateBufferObject(MAX_DEBUG_VERTEX_COUNT * 3, NULL, GraphicsAPI::ePrimitiveType::LINES, eVertexArrayFlag::VertexVector3, true);
+
+	auto debug2DShader = dooms::assetImporter::AssetManager::GetSingleton()->GetAsset<asset::eAssetType::SHADER>(DebugDrawer::DEBUG_2D_SHADER);
+	D_ASSERT(IsValid(debug2DShader));
+	m2DMaterial = std::make_unique<Material>(debug2DShader);
+
+	auto debug3DShader = dooms::assetImporter::AssetManager::GetSingleton()->GetAsset<asset::eAssetType::SHADER>(DebugDrawer::DEBUG_3D_SHADER);
+	D_ASSERT(IsValid(debug3DShader));
+	m3DMaterial = std::make_unique<Material>(debug3DShader);
+
+	for (DebugPrimitiveContainer* container : mDebugPrimitiveContainers.DebugPrimitiveContainers)
+	{
+		container->ReserveVector(RESERVE_PRIMITIVE_COUNT);
+	}
+}
+
+void dooms::graphics::DebugDrawer::PreRender()
+{
+}
+
+void dooms::graphics::DebugDrawer::Render()
+{
+	
+}
+
+void dooms::graphics::DebugDrawer::LateRender()
+{
+	BufferVertexDataToGPU();
+	Draw();
+}
+
+void dooms::graphics::DebugDrawer::PostRender()
+{
+	SetIsVertexDataSendToGPUAtCurrentFrame(false);
+
+	std::scoped_lock<std::mutex> lock{ mMextex };
+
+	mDebugMeshCount = 0;
+
+	for (DebugPrimitiveContainer* container : mDebugPrimitiveContainers.DebugPrimitiveContainers)
+	{
+		container->ClearDatas();
+	}
 }
 
 void dooms::graphics::DebugDrawer::DebugDraw2DPoint(const math::Vector3& point, eColor color)
@@ -420,5 +428,3 @@ void dooms::graphics::DebugDrawer::DebugDraw3DTriangle(const math::Vector3& poin
 	mDebugPrimitiveContainers._DebugPrimitive3DTriangleContainer.AddColoredTriangleData(pointA, pointB, pointC, color);
 	mDebugPrimitiveContainers._DebugPrimitive3DTriangleContainer.AddColoredTriangleData(pointC, pointB, pointA, color);
 }
-
-#endif

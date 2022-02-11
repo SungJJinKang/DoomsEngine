@@ -48,10 +48,10 @@ void dooms::PortfolioComponent::UpdateGUI()
 	dooms::graphics::graphicsSetting::IsDrawMaskedOcclusionCullingTileL0MaxDepthValueDebugger = See_MaskedSWOcclusionCulling_DepthBuffer;
 
 
-	dooms::graphics::Graphics_Server::GetSingleton()->mCullingSystem->SetEnabledCullingModule(culling::EveryCulling::CullingModuleType::_ViewFrustumCulling, Enable_Multithread_SW_ViewFrustumCulling);
-	dooms::graphics::Graphics_Server::GetSingleton()->mCullingSystem->SetEnabledCullingModule(culling::EveryCulling::CullingModuleType::_MaskedSWOcclusionCulling, Enable_MaskedSWOccslusionCulling);
-	dooms::graphics::Graphics_Server::GetSingleton()->mCullingSystem->SetEnabledCullingModule(culling::EveryCulling::CullingModuleType::_DistanceCulling, Enable_DistanceCulling);
-	dooms::graphics::Graphics_Server::GetSingleton()->mCullingSystem->SetEnabledCullingModule(culling::EveryCulling::CullingModuleType::_PreCulling, Enable_PreCulling);
+	dooms::graphics::Graphics_Server::GetSingleton()->mGraphicsPipeLine.mRenderingCullingManager.mCullingSystem->SetEnabledCullingModule(culling::EveryCulling::CullingModuleType::_ViewFrustumCulling, Enable_Multithread_SW_ViewFrustumCulling);
+	dooms::graphics::Graphics_Server::GetSingleton()->mGraphicsPipeLine.mRenderingCullingManager.mCullingSystem->SetEnabledCullingModule(culling::EveryCulling::CullingModuleType::_MaskedSWOcclusionCulling, Enable_MaskedSWOccslusionCulling);
+	dooms::graphics::Graphics_Server::GetSingleton()->mGraphicsPipeLine.mRenderingCullingManager.mCullingSystem->SetEnabledCullingModule(culling::EveryCulling::CullingModuleType::_DistanceCulling, Enable_DistanceCulling);
+	dooms::graphics::Graphics_Server::GetSingleton()->mGraphicsPipeLine.mRenderingCullingManager.mCullingSystem->SetEnabledCullingModule(culling::EveryCulling::CullingModuleType::_PreCulling, Enable_PreCulling);
 }
 
 void dooms::PortfolioComponent::InitComponent()

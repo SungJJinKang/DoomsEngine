@@ -7,7 +7,6 @@
 
 #include "imgui.h"
 #include <Time/MainTimer.h>
-#include <Graphics/DebugGraphics/RenderingDebugger.h>
 
 #define PROFILING_TEXT_RED_COLOR_DURATION_TIME 0.2f
 

@@ -2,7 +2,7 @@
 #include "AABB.h"
 
 #include "../Physics_Server.h"
-#include <Graphics/DebugGraphics/DebugDrawer.h>
+#include <Graphics/RenderingDebugger/RenderingDebuggerModules/DebugDrawer.h>
 
 #include "Ray.h"
 #include <Matrix4x4.h>

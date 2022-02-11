@@ -8,7 +8,6 @@
 
 void dooms::graphics::SortFrontToBackSolver::SortRenderer(std::vector<dooms::Renderer*>& rendereres, const size_t cameraIndex)
 {
-	D_START_PROFILING(SortRenderers, dooms::profiler::eProfileLayers::Rendering);
 	std::sort(
 		rendereres.begin(), rendereres.end(),
 		[cameraIndex](const dooms::Renderer* const lhs, const dooms::Renderer* const rhs)
@@ -17,7 +16,6 @@ void dooms::graphics::SortFrontToBackSolver::SortRenderer(std::vector<dooms::Ren
 			return lhs->GetDistanceToCamera(cameraIndex) < rhs->GetDistanceToCamera(cameraIndex);
 		}
 	);
-	D_END_PROFILING(SortRenderers);
 }
 
 /*
