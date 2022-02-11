@@ -13,6 +13,8 @@
 
 #define COLOR_UNIFORM_BUFFER_NAME "ColorData"
 
+const std::string dooms::graphics::DebugDrawer::DEBUG_2D_SHADER{ "Debug2DShader.glsl" };
+const std::string dooms::graphics::DebugDrawer::DEBUG_3D_SHADER{ "Debug3DShader.glsl" };
 
 void dooms::graphics::DebugDrawer::SetIsVertexDataSendToGPUAtCurrentFrame(const bool isSet)
 {
@@ -24,8 +26,16 @@ bool dooms::graphics::DebugDrawer::GetIsVertexDataSendToGPUAtCurrentFrame() cons
 	return bmIsVertexDataSendToGPUAtCurrentFrame;
 }
 
-dooms::graphics::DebugDrawer::DebugDrawer() :
-	m2DMaterial{}, m3DMaterial{}, mDebugPrimitiveContainers{}
+dooms::graphics::DebugDrawer::DebugDrawer()
+	:
+	m2DMaterial{},
+	m3DMaterial{},
+	mDebugPrimitiveContainers{},
+	mDrawInstantlyMaterial(nullptr),
+	bmIsVertexDataSendToGPUAtCurrentFrame(false),
+	mDebugMeshCount(),
+	mDebugMesh(),
+	mMextex()
 {
 }
 
@@ -367,11 +377,11 @@ void dooms::graphics::DebugDrawer::BufferVertexDataToGPU()
 
 void dooms::graphics::DebugDrawer::DebugDraw3DSphere(const math::Vector3& center, const float radius, const eColor color)
 {
-	const FLOAT32 intervalRadian = math::PI * 2 / 72.0f;
+	const FLOAT32 intervalRadian = math::PI * 2.0 / 72.0;
 
 
-	const FLOAT32 deltaTheta = math::PI / 12;
-	const FLOAT32 deltaPhi = 2 * math::PI / 10;
+	const FLOAT32 deltaTheta = math::PI / 12.0;
+	const FLOAT32 deltaPhi = 2.0 * math::PI / 10.0;
 
 
 

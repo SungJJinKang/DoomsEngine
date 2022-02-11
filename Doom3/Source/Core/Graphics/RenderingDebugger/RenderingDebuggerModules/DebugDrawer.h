@@ -29,18 +29,18 @@ namespace dooms
 				
 		private:
 
-			static inline const std::string DEBUG_2D_SHADER{ "Debug2DShader.glsl" };
-			static inline const std::string DEBUG_3D_SHADER{ "Debug3DShader.glsl" };
+			static const std::string DEBUG_2D_SHADER;
+			static const std::string DEBUG_3D_SHADER;
 			
-			bool bmIsVertexDataSendToGPUAtCurrentFrame{ false };
+			bool bmIsVertexDataSendToGPUAtCurrentFrame;
 
-			std::mutex mMextex{};
+			std::mutex mMextex;
 
-			Mesh mDebugMesh{};
+			Mesh mDebugMesh;
 
 
 
-			UINT32 mDebugMeshCount{ 0 };
+			UINT32 mDebugMeshCount;
 
 			std::unique_ptr<Material> m2DMaterial;
 			std::unique_ptr<Material> m3DMaterial;
@@ -48,7 +48,7 @@ namespace dooms
 			DebugPrimitiveContainerCollection mDebugPrimitiveContainers;
 
 
-			Material* mDrawInstantlyMaterial{ nullptr };
+			Material* mDrawInstantlyMaterial;
 
 			void BufferVertexDataToGPU();
 			void Draw();
