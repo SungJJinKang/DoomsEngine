@@ -111,9 +111,6 @@
     <ClCompile Include="Source\Core\Graphics\FrameBuffer\FrameBuffer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Core\Graphics\FrameBuffer\RenderBuffer.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Source\Core\Asset\TextureAsset.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -1134,9 +1131,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\Core\Graphics\FrameBuffer\FrameBuffer.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Core\Graphics\FrameBuffer\RenderBuffer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\GameLogic\CustomComponent\AutoRotate.h">

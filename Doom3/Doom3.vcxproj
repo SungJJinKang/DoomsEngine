@@ -560,7 +560,6 @@ xcopy /y /d /E /H /C /I "$(ProjectDir)Assets" "$(TargetDir)Assets"</Command>
     <ClCompile Include="Source\Core\Graphics\FrameBuffer\FrameBuffer.cpp" />
     <ClCompile Include="Source\Core\Graphics\Material\Material.cpp" />
     <ClCompile Include="Source\Core\Asset\ShaderAsset.cpp" />
-    <ClCompile Include="Source\Core\Graphics\FrameBuffer\RenderBuffer.cpp" />
     <ClCompile Include="Source\Core\Graphics\Texture\TextureView.cpp" />
     <ClCompile Include="Source\Core\Graphics\Buffer\UniformBufferObject\UniformBufferObject.cpp" />
     <ClCompile Include="Source\Core\IO\AssetImporter\assetImporter.cpp" />
@@ -883,7 +882,6 @@ xcopy /y /d /E /H /C /I "$(ProjectDir)Assets" "$(TargetDir)Assets"</Command>
     <ClInclude Include="Source\Core\Scene\Entity.h" />
     <ClInclude Include="Source\Core\Graphics\FrameBuffer\FrameBuffer.h" />
     <ClInclude Include="Source\Core\Graphics\Graphics_Core.h" />
-    <ClInclude Include="Source\Core\Graphics\FrameBuffer\RenderBuffer.h" />
     <ClInclude Include="Source\Core\IO\AssetImporter\assetImporter.h" />
     <ClInclude Include="Source\Core\IO\AssetImporter\AssetImporterWorker\AssetImporterWorker_Audio.h" />
     <ClInclude Include="Source\Core\IO\AssetImporter\AssetImporterWorker\AssetImporterWorker.h" />
