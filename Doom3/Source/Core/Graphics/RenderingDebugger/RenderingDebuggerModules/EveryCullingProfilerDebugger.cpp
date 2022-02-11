@@ -26,3 +26,8 @@ void dooms::graphics::EveryCullingProfilerDebugger::PostRender()
 	}
 #endif
 }
+
+const char* dooms::graphics::EveryCullingProfilerDebugger::GetRenderingDebuggerModuleName()
+{
+	return "EveryCullingProfilerDebugger";
+}

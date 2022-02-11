@@ -4,6 +4,7 @@
 #include "RenderingDebuggerModules/EveryCullingProfilerDebugger.h"
 #include "RenderingDebuggerModules/MaskedOcclusionCullingTester.h"
 #include "RenderingDebuggerModules/OverDrawVisualization.h"
+#include "RenderingDebuggerModules/RendererAABBDebugger.h"
 
 std::vector<dooms::graphics::RenderingDebuggerModule*> dooms::graphics::renderingDebuggerHelper::CreateDefeaultRenderingDebuggerModules()
 {
@@ -29,5 +30,10 @@ std::vector<dooms::graphics::RenderingDebuggerModule*> dooms::graphics::renderin
 		dooms::CreateDObject<OverDrawVisualization>()
 	);
 
+	renderingDebuggerModules.emplace_back
+	(
+		dooms::CreateDObject<RendererAABBDebugger>()
+	);
+	
 	return renderingDebuggerModules;
 }

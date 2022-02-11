@@ -1,16 +1,15 @@
 #pragma once
 
+#include <Core.h>
 #include "RenderingDebuggerModule.h"
 
-#include "EveryCullingProfilerDebugger.reflection.h"
 namespace dooms
 {
 	namespace graphics
 	{
-		class D_CLASS EveryCullingProfilerDebugger : public RenderingDebuggerModule
+		class D_CLASS RendererAABBDebugger : public RenderingDebuggerModule
 		{
-			GENERATE_BODY()
-
+		
 		private:
 
 		public:

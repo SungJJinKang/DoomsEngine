@@ -25,6 +25,7 @@ namespace dooms
 			virtual void Render() = 0;
 			virtual void LateRender();
 			virtual void PostRender() = 0;
+			virtual const char* GetRenderingDebuggerModuleName() = 0;
 		};
 	}
 }

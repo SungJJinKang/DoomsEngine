@@ -122,6 +122,7 @@ namespace dooms
 			void Render() override;
 			void LateRender() override;
 			void PostRender() override;
+			const char* GetRenderingDebuggerModuleName() override;
 		};
 
 		

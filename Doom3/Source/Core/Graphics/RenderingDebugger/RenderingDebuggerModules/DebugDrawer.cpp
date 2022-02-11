@@ -137,6 +137,11 @@ void dooms::graphics::DebugDrawer::PostRender()
 	}
 }
 
+const char* dooms::graphics::DebugDrawer::GetRenderingDebuggerModuleName()
+{
+	return "DebugDrawer";
+}
+
 void dooms::graphics::DebugDrawer::DebugDraw2DPoint(const math::Vector3& point, eColor color)
 {
 	std::scoped_lock<std::mutex> lock{ mMextex };

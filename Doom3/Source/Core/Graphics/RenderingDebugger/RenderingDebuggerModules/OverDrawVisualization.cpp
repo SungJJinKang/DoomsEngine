@@ -57,6 +57,11 @@ void dooms::graphics::OverDrawVisualization::PostRender()
 {
 }
 
+const char* dooms::graphics::OverDrawVisualization::GetRenderingDebuggerModuleName()
+{
+	return "OverDrawVisualization";
+}
+
 
 void dooms::graphics::OverDrawVisualization::SetOverDrawVisualizationRenderingState(const bool isSet)
 {

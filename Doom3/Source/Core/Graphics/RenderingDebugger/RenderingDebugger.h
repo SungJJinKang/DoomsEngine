@@ -19,20 +19,9 @@ namespace dooms
 		private:
 
 			D_PROPERTY()
-			FLOAT64 LastTIme;
-			D_PROPERTY()
-			UINT64 FrameCount;
-			D_PROPERTY()
-			FLOAT64 FPS;
-
-			D_PROPERTY()
-			UINT64 PreviousFrameDrawCallCounter;
-
-			D_PROPERTY()
 			std::vector<RenderingDebuggerModule*> mRenderingDebuggerModule;
 
 			void AppendDefaultRenderingDebuggerModules();
-			void UpdateFPS();
 
 		public :
 
@@ -45,11 +34,6 @@ namespace dooms
 			void PreRender();
 			void Render();
 			void PostRender();
-
-			FORCE_INLINE FLOAT64 GetFPS()
-			{
-				return FPS;
-			}
 		};
 	}
 }

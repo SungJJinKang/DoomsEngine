@@ -352,6 +352,7 @@ xcopy /y /d /E /H /C /I "$(ProjectDir)Assets" "$(TargetDir)Assets"</Command>
     <ClCompile Include="clreflect_compiletime_gettype.cpp" />
     <ClCompile Include="Source\Core\Graphics\RenderingDebugger\RenderingDebuggerHelper.cpp" />
     <ClCompile Include="Source\Core\Graphics\RenderingDebugger\RenderingDebuggerModules\EveryCullingProfilerDebugger.cpp" />
+    <ClCompile Include="Source\Core\Graphics\RenderingDebugger\RenderingDebuggerModules\RendererAABBDebugger.cpp" />
     <ClCompile Include="Source\Core\Graphics\RenderingDebugger\RenderingDebuggerModules\RenderingDebuggerModule.cpp" />
     <ClCompile Include="Source\Core\Asset\Utility\ShaderAsset\shaderAssetHelper.cpp" />
     <ClCompile Include="Source\Core\Asset\Utility\ShaderAsset\shaderConverter.cpp" />
@@ -614,6 +615,7 @@ xcopy /y /d /E /H /C /I "$(ProjectDir)Assets" "$(TargetDir)Assets"</Command>
   <ItemGroup>
     <ClInclude Include="Source\Core\Graphics\RenderingDebugger\RenderingDebuggerHelper.h" />
     <ClInclude Include="Source\Core\Graphics\RenderingDebugger\RenderingDebuggerModules\EveryCullingProfilerDebugger.h" />
+    <ClInclude Include="Source\Core\Graphics\RenderingDebugger\RenderingDebuggerModules\RendererAABBDebugger.h" />
     <ClInclude Include="Source\Core\Graphics\RenderingDebugger\RenderingDebuggerModules\RenderingDebuggerModule.h" />
     <ClInclude Include="Source\Component\Rendering\MaxCameraCount.h" />
     <ClInclude Include="Source\Core\Asset\Utility\ShaderAsset\shaderAssetHelper.h" />

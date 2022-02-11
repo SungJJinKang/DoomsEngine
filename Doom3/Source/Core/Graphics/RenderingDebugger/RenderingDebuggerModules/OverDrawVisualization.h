@@ -39,7 +39,7 @@ namespace dooms
 			void PreRender() override;
 			void Render() override;
 			void PostRender() override;
-
+			const char* GetRenderingDebuggerModuleName() override;
 		};
 	}
 }

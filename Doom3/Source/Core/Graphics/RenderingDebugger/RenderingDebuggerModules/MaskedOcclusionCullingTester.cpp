@@ -136,6 +136,11 @@ void dooms::graphics::MaskedOcclusionCullingTester::PostRender()
 {
 }
 
+const char* dooms::graphics::MaskedOcclusionCullingTester::GetRenderingDebuggerModuleName()
+{
+	return "MaskedOcclusionCullingTester";
+}
+
 void dooms::graphics::MaskedOcclusionCullingTester::DebugBinnedTriangles
 (
 	const culling::SWDepthBuffer* const depthBuffer
