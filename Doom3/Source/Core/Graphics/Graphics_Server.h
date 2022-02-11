@@ -7,7 +7,7 @@
 
 #include "FrameBuffer/FrameBuffer.h"
 #include "Buffer/UniformBufferObject/UniformBufferObjectManager.h"
-#include "LightManager.h"
+#include "Light/LightManager.h"
 #include "PictureInPicture/PIPManager.h"
 #include <Rendering/Renderer/RendererStaticIterator.h>
 #include "utility/BVH/BVH.h"
