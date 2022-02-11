@@ -66,9 +66,6 @@
     <ClCompile Include="Source\Core\Graphics\Buffer\UniformBufferObject\UniformBufferObjectManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Core\Graphics\OverlapBindChecker.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Source\Component\Core\Component.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -1062,9 +1059,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\Core\Graphics\Buffer\UniformBufferObject\UniformBlockOffsetInfo.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Core\Graphics\OverlapBindChecker.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\Core\Physics\Phycis_Core.h">
@@ -2197,7 +2191,6 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Text Include="Source\Core\Graphics\ReadThis!!!!.txt" />
     <Text Include="Source\Core\Graphics\Acceleration\Culling.md" />
     <Text Include="Source\GameLogic\DeferredRenderingDebug.inl" />
     <Text Include="Source\Core\Reflection\Reflection_Tutorial.txt" />

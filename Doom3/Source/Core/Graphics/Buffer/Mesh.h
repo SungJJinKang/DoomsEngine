@@ -2,7 +2,7 @@
 #include "Buffer.h"
 
 #include <memory>
-#include "../OverlapBindChecker.h"
+
 #include <Physics/Collider/AABB.h>
 #include <Physics/Collider/Sphere.h>
 #include "eVertexArrayFlag.h"

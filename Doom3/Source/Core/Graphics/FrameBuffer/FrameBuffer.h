@@ -3,7 +3,6 @@
 
 #include "../Core.h"
 #include <Graphics/GraphicsAPI/GraphicsAPI.h>
-#include "../OverlapBindChecker.h"
 #include "FrameBufferView.h"
 
 #include "FrameBuffer.reflection.h"

@@ -6,7 +6,6 @@
 #include <string>
 #include <vector>
 
-#include "../../OverlapBindChecker.h"
 #include <Graphics/GraphicsAPI/GraphicsAPI.h>
 #include <Asset/Utility/ShaderAsset/shaderReflectionDataParser.h>
 

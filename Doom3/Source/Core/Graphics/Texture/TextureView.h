@@ -5,7 +5,6 @@
 #include "../Graphics_Core.h"
 #include <Asset/TextureAsset.h>
 #include <Graphics/GraphicsAPI/GraphicsAPI.h>
-#include "../OverlapBindChecker.h"
 #include "../Buffer/BufferID.h"
 
 #include "TextureView.reflection.h"

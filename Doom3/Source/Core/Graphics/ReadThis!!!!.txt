@@ -1,2 +1,0 @@
-if use opengl api function, attach inline (write definition in header) and noexcept to function !!!!!!!!
-In extreme circumstances, Making callstack can make rendering slow
