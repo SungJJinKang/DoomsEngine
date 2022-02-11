@@ -10,7 +10,7 @@ using namespace dooms;
 
 Scene::Scene(std::string sceneName) 
 {
-
+	AddToRootObjectList();
 }
 
 

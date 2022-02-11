@@ -51,13 +51,16 @@ void dooms::DirectionalLight::UpdateUniformBufferObject(const bool force)
 			const UINT32 staticCount = GetStaticElementCount();
 			if (staticIndex < MAX_DIRECTIONAL_LIGHT_COUNT)
 			{
-				dooms::graphics::UniformBufferObject* const ubo = dooms::graphics::UniformBufferObjectManager::GetSingleton()->GetUniformBufferObject(GLOBAL_UNIFORM_BLOCK_NAME);
-				D_ASSERT(IsValid(ubo));
-
-				if (IsValid(ubo))
+				if(IsValid(dooms::graphics::UniformBufferObjectManager::GetSingleton()))
 				{
-					ubo->UpdateLocalBuffer((void*)dir.data(), graphics::eUniformBlock_Global::dirLight0_Dir + 4 * staticIndex, sizeof(dir));
-					ubo->UpdateLocalBuffer((void*)radiance.data(), graphics::eUniformBlock_Global::dirLight0_Col + 4 * staticIndex, sizeof(radiance));
+					dooms::graphics::UniformBufferObject* const ubo = dooms::graphics::UniformBufferObjectManager::GetSingleton()->GetUniformBufferObject(GLOBAL_UNIFORM_BLOCK_NAME);
+					D_ASSERT(IsValid(ubo));
+
+					if (IsValid(ubo))
+					{
+						ubo->UpdateLocalBuffer((void*)dir.data(), graphics::eUniformBlock_Global::dirLight0_Dir + 4 * staticIndex, sizeof(dir));
+						ubo->UpdateLocalBuffer((void*)radiance.data(), graphics::eUniformBlock_Global::dirLight0_Col + 4 * staticIndex, sizeof(radiance));
+					}
 				}
 			}
 			else

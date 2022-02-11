@@ -50,13 +50,16 @@ void dooms::PointLight::UpdateUniformBufferObject(const bool force)
 			UniformBufferCounter++;
 			if (staticIndex < MAX_POINT_LIGHT_COUNT)
 			{
-				dooms::graphics::UniformBufferObject* const ubo = dooms::graphics::UniformBufferObjectManager::GetSingleton()->GetUniformBufferObject(GLOBAL_UNIFORM_BLOCK_NAME);
-				D_ASSERT(IsValid(ubo));
-
-				if (IsValid(ubo))
+				if (IsValid(dooms::graphics::UniformBufferObjectManager::GetSingleton()))
 				{
-					ubo->UpdateLocalBuffer((void*)pos.data(), graphics::eUniformBlock_Global::pointLight0_Pos + 4 * staticIndex, sizeof(pos));
-					ubo->UpdateLocalBuffer((void*)radiance.data(), graphics::eUniformBlock_Global::pointLight0_Col + 4 * staticIndex, sizeof(radiance));
+					dooms::graphics::UniformBufferObject* const ubo = dooms::graphics::UniformBufferObjectManager::GetSingleton()->GetUniformBufferObject(GLOBAL_UNIFORM_BLOCK_NAME);
+					D_ASSERT(IsValid(ubo));
+
+					if (IsValid(ubo))
+					{
+						ubo->UpdateLocalBuffer((void*)pos.data(), graphics::eUniformBlock_Global::pointLight0_Pos + 4 * staticIndex, sizeof(pos));
+						ubo->UpdateLocalBuffer((void*)radiance.data(), graphics::eUniformBlock_Global::pointLight0_Col + 4 * staticIndex, sizeof(radiance));
+					}
 				}
 			}
 			else
