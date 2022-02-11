@@ -1,22 +1,11 @@
 #include "Logger.h"
 
 #include <cstdarg>
-#include <string>
 #include <cstdio>
 
 #include "../EngineConfigurationData/ConfigData.h"
 #include "LoggerSetting.h"
-
-namespace dooms
-{
-	namespace logger
-	{
-		
-
-
-
-	}
-}
+#include <EngineGUI/GUIModules/Modules/LogGUI.h>
 
 
 void dooms::logger::InitLogger()
@@ -66,5 +55,11 @@ const char* dooms::logger::LogTypeStr(const eLogType logType)
 	}
 
 	return "ERROR";
+}
+
+void dooms::logger::GUILogger::LogToLogGUI(const char* const log)
+{
+	//dooms::ui::log::LogOnGUI("File : %s , Code Line : %d, Log Type : %s", fileName, codeLineNum, LogTypeStr(logType));
+	dooms::ui::LogGUI::GetSingleton()->LogOnGUI(log);
 }
 

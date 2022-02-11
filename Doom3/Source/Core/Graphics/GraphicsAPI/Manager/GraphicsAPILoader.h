@@ -4,6 +4,7 @@
 
 #include "../GraphicsAPI.h"
 
+#include "GraphicsAPILoader.reflection.h"
 namespace dooms
 {
 	namespace graphics
@@ -12,6 +13,7 @@ namespace dooms
 		
 		class D_CLASS GraphicsAPILoader : public DObject
 		{
+			GENERATE_BODY()
 		private:
 
 			void* mAPIModule;

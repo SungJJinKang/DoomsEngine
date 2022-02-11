@@ -84,7 +84,7 @@ namespace dooms
 
 		// TODO : implement this
 		//static bool IsDObjectFastLowLevelValid(const DObject* const dObject, const bool lock = true);
-		static bool IsDObjectExist(const DObject* const dObject, const bool lock = true);
+		static bool IsDObjectExist(const DObject* const dObject, const bool lock = false);
 
 		static bool IsEmpty();
 

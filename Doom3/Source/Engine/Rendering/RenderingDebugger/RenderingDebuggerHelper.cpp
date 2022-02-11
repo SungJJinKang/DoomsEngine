@@ -1,10 +1,10 @@
 #include "RenderingDebuggerHelper.h"
 
-#include "RenderingDebuggerModules/DebugDrawer.h"
-#include "RenderingDebuggerModules/EveryCullingProfilerDebugger.h"
-#include "RenderingDebuggerModules/MaskedOcclusionCullingTester.h"
-#include "RenderingDebuggerModules/OverDrawVisualization.h"
-#include "RenderingDebuggerModules/RendererAABBDebugger.h"
+#include "RenderingDebuggerModules/Modules/DebugDrawer.h"
+#include "RenderingDebuggerModules/Modules/EveryCullingProfilerDebugger.h"
+#include "RenderingDebuggerModules/Modules/MaskedOcclusionCullingTester.h"
+#include "RenderingDebuggerModules/Modules/OverDrawVisualization.h"
+#include "RenderingDebuggerModules/Modules/RendererAABBDebugger.h"
 
 std::vector<dooms::graphics::RenderingDebuggerModule*> dooms::graphics::renderingDebuggerHelper::CreateDefeaultRenderingDebuggerModules()
 {

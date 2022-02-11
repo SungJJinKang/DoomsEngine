@@ -69,3 +69,8 @@ bool dooms::LayerManager::RemoveLayer(const UINT32 index)
 	}
 	return isSuccess;
 }
+
+UINT32 dooms::LayerManager::GetLayerCount() const
+{
+	return mLayers.size();
+}

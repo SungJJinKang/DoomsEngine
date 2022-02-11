@@ -211,7 +211,7 @@ xcopy /y /d /E /H /C /I "$(ProjectDir)Assets" "$(TargetDir)Assets"</Command>
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions);UNICODE;__x86_64__</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)Source\thirdparty;$(ProjectDir)Source\thirdparty\oneTBB\include;C:\assimp-5.1.5\build\include;$(ProjectDir)..\OpenGLGraphicsAPI;$(ProjectDir)Source\Core\Reflection\AdditionalDirectoryForClang;$(ProjectDir)..\DX11GraphicsAPI;C:\assimp-5.1.5\include\;$(ProjectDir);$(SolutionDir)Source\Core\OS;$(VcpkgInstalledDir)installed\x64-windows\include;$(SolutionDir)Source\Helper;$(SolutionDir)Source\Component;$(SolutionDir)Source\Core\Scene;$(SolutionDir)Source\Component\Core;$(SolutionDir)Source\Helper/crossguid;$(SolutionDir)Source\GameLogic\CustomComponent;$(SolutionDir)Source\Core\Math\LightMath_Cpp;$(SolutionDir)Source\Core\IO;$(SolutionDir)Source\Core\Time;$(SolutionDir)Source\GameLogic;$(SolutionDir)Source\Core;$(SolutionDir)Source\Core\Logger;$(SolutionDir)Source\Core\Physics;$(SolutionDir)Source\Core\utility;$(SolutionDir)Source\Core\Reflection\clReflect_automation\clReflect\inc;$(SolutionDir)Source\thirdparty\imgui;$(SolutionDir)Engine</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Source\thirdparty;$(ProjectDir)Source\thirdparty\oneTBB\include;C:\assimp-5.1.5\build\include;$(ProjectDir)..\OpenGLGraphicsAPI;$(ProjectDir)Source\Core\Reflection\AdditionalDirectoryForClang;$(ProjectDir)..\DX11GraphicsAPI;C:\assimp-5.1.5\include\;$(ProjectDir);$(SolutionDir)Source\Core\OS;$(VcpkgInstalledDir)installed\x64-windows\include;$(SolutionDir)Source\Helper;$(SolutionDir)Source\Component;$(SolutionDir)Source\Core\Scene;$(SolutionDir)Source\Component\Core;$(SolutionDir)Source\Helper/crossguid;$(SolutionDir)Source\GameLogic\CustomComponent;$(SolutionDir)Source\Core\Math\LightMath_Cpp;$(SolutionDir)Source\Core\IO;$(SolutionDir)Source\Core\Time;$(SolutionDir)Source\GameLogic;$(SolutionDir)Source\Core;$(SolutionDir)Source\Core\Logger;$(SolutionDir)Source\Core\Physics;$(SolutionDir)Source\Core\utility;$(SolutionDir)Source\Core\Reflection\clReflect_automation\clReflect\inc;$(SolutionDir)Source\thirdparty\imgui;$(SolutionDir)Source\Engine</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
@@ -353,14 +353,16 @@ xcopy /y /d /E /H /C /I "$(ProjectDir)Assets" "$(TargetDir)Assets"</Command>
     <ClCompile Include="Source\Core\Scene\Layer\DefaultLayers.cpp" />
     <ClCompile Include="Source\Core\EngineConfigurationData\ConfigData.cpp" />
     <ClCompile Include="Source\Core\Scene\Layer\Layer.cpp" />
+    <ClCompile Include="Source\Engine\EngineGUI\engineGUIServerHelper.cpp" />
+    <ClCompile Include="Source\Engine\EngineGUI\GUIModules\EngineGUIModule.cpp" />
     <ClCompile Include="Source\Engine\Rendering\RenderingDebugger\RenderingDebuggerHelper.cpp" />
-    <ClCompile Include="Source\Engine\Rendering\RenderingDebugger\RenderingDebuggerModules\EveryCullingProfilerDebugger.cpp" />
-    <ClCompile Include="Source\Engine\Rendering\RenderingDebugger\RenderingDebuggerModules\RendererAABBDebugger.cpp" />
+    <ClCompile Include="Source\Engine\Rendering\RenderingDebugger\RenderingDebuggerModules\Modules\EveryCullingProfilerDebugger.cpp" />
+    <ClCompile Include="Source\Engine\Rendering\RenderingDebugger\RenderingDebuggerModules\Modules\RendererAABBDebugger.cpp" />
     <ClCompile Include="Source\Engine\Rendering\RenderingDebugger\RenderingDebuggerModules\RenderingDebuggerModule.cpp" />
     <ClCompile Include="Source\Core\Asset\Utility\ShaderAsset\shaderAssetHelper.cpp" />
     <ClCompile Include="Source\Core\Asset\Utility\ShaderAsset\shaderConverter.cpp" />
     <ClCompile Include="Source\Core\Asset\Utility\ShaderAsset\shaderReflectionDataParser.cpp" />
-    <ClCompile Include="Source\Core\EngineGUI\GUIModules\drawCallCounterGUI.cpp" />
+    <ClCompile Include="Source\Engine\EngineGUI\GUIModules\Modules\DrawCallCounterGUI.cpp" />
     <ClCompile Include="Source\Core\Graphics\Acceleration\LinearData_ViewFrustumCulling\CullingModule\MaskedSWOcclusionCulling\OccluderListManager.cpp" />
     <ClCompile Include="Source\Core\Graphics\Acceleration\LinearData_ViewFrustumCulling\CullingModule\PreCulling\PreCulling.cpp" />
     <ClCompile Include="Source\Core\Graphics\Acceleration\LinearData_ViewFrustumCulling\CullingModule\MaskedSWOcclusionCulling\Utility\depthBufferTileHelper.cpp" />
@@ -369,7 +371,7 @@ xcopy /y /d /E /H /C /I "$(ProjectDir)Assets" "$(TargetDir)Assets"</Command>
     <ClCompile Include="Source\Core\Graphics\Acceleration\LinearData_ViewFrustumCulling\EveryCullingProfiler.cpp" />
     <ClCompile Include="Source\Core\Graphics\Buffer\UniformBufferObject\UniformBufferObjectView.cpp" />
     <ClCompile Include="Source\Engine\Rendering\RenderingDebugger\DebugPrimitive\DebugPrimitive2DLineContainer.cpp" />
-    <ClCompile Include="Source\Core\EngineGUI\GUIModules\MaskedOcclusionCulliingDebugger.cpp" />
+    <ClCompile Include="Source\Engine\EngineGUI\GUIModules\Modules\MaskedOcclusionCulliingDebugger.cpp" />
     <ClCompile Include="Source\Core\Graphics\Acceleration\LinearData_ViewFrustumCulling\CullingModule\MaskedSWOcclusionCulling\Utility\depthUtility.cpp" />
     <ClCompile Include="Source\Core\Graphics\Acceleration\LinearData_ViewFrustumCulling\CullingModule\MaskedSWOcclusionCulling\Utility\DepthValueComputer.cpp" />
     <ClCompile Include="Source\Core\Graphics\Acceleration\LinearData_ViewFrustumCulling\CullingModule\MaskedSWOcclusionCulling\Utility\RasterizerHelper.cpp" />
@@ -383,8 +385,8 @@ xcopy /y /d /E /H /C /I "$(ProjectDir)Assets" "$(TargetDir)Assets"</Command>
     <ClCompile Include="Source\Engine\Rendering\RenderingDebugger\DebugPrimitive\DebugPrimitiveLineContainer.cpp" />
     <ClCompile Include="Source\Engine\Rendering\RenderingDebugger\DebugPrimitive\DebugPrimitivePointContainer.cpp" />
     <ClCompile Include="Source\Engine\Rendering\RenderingDebugger\DebugPrimitive\DebugPrimitiveTriangleContainer.cpp" />
-    <ClCompile Include="Source\Engine\Rendering\RenderingDebugger\RenderingDebuggerModules\MaskedOcclusionCullingTester.cpp" />
-    <ClCompile Include="Source\Core\EngineGUI\GUIModules\ThreadProfilerGUI.cpp" />
+    <ClCompile Include="Source\Engine\Rendering\RenderingDebugger\RenderingDebuggerModules\Modules\MaskedOcclusionCullingTester.cpp" />
+    <ClCompile Include="Source\Engine\EngineGUI\GUIModules\Modules\ThreadProfilerGUI.cpp" />
     <ClCompile Include="Source\Core\Graphics\Acceleration\LinearData_ViewFrustumCulling\CullingModule\MaskedSWOcclusionCulling\Stage\SolveMeshRoleStage.cpp" />
     <ClCompile Include="Source\Core\Graphics\Buffer\MeshHelper.cpp" />
     <ClCompile Include="Source\Core\Graphics\Buffer\MeshNode.cpp" />
@@ -410,13 +412,13 @@ xcopy /y /d /E /H /C /I "$(ProjectDir)Assets" "$(TargetDir)Assets"</Command>
     <ClCompile Include="Source\Core\Asset\FontAsset.cpp" />
     <ClCompile Include="Source\Core\Asset\Helper\AssetFactory.cpp" />
     <ClCompile Include="Source\Core\DObject\DObjectGlobals.cpp" />
-    <ClCompile Include="Source\Core\EngineGUI\EngineGUIAccessor.cpp" />
-    <ClCompile Include="Source\Core\EngineGUI\engineGUIServer.cpp" />
-    <ClCompile Include="Source\Core\EngineGUI\GUIModules\LogGUI.cpp" />
-    <ClCompile Include="Source\Core\EngineGUI\GUIModules\ProfilerGUI.cpp" />
-    <ClCompile Include="Source\Core\EngineGUI\GUIModules\SceneGUI.cpp" />
-    <ClCompile Include="Source\Core\EngineGUI\imguiHelper\imguiFieldFunctionGetter.cpp" />
-    <ClCompile Include="Source\Core\EngineGUI\imguiHelper\imguiWithReflection.cpp" />
+    <ClCompile Include="Source\Engine\EngineGUI\EngineGUIAccessor.cpp" />
+    <ClCompile Include="Source\Engine\EngineGUI\EngineGUIServer.cpp" />
+    <ClCompile Include="Source\Engine\EngineGUI\GUIModules\Modules\LogGUI.cpp" />
+    <ClCompile Include="Source\Engine\EngineGUI\GUIModules\Modules\ProfilerGUI.cpp" />
+    <ClCompile Include="Source\Engine\EngineGUI\GUIModules\Modules\SceneGUI.cpp" />
+    <ClCompile Include="Source\Engine\EngineGUI\imguiHelper\imguiFieldFunctionGetter.cpp" />
+    <ClCompile Include="Source\Engine\EngineGUI\imguiHelper\imguiWithReflection.cpp" />
     <ClCompile Include="Source\Core\Math\LightMath_Cpp\Matrix2x2.cpp" />
     <ClCompile Include="Source\Core\Math\LightMath_Cpp\Matrix3x3.cpp" />
     <ClCompile Include="Source\Core\Math\LightMath_Cpp\Matrix4x4.cpp" />
@@ -456,7 +458,7 @@ xcopy /y /d /E /H /C /I "$(ProjectDir)Assets" "$(TargetDir)Assets"</Command>
     <ClCompile Include="Source\Core\Graphics\Acceleration\SortFrontToBackSolver.cpp" />
     <ClCompile Include="Source\Core\Graphics\Batch\MeshBatchCreater.cpp" />
     <ClCompile Include="Source\Core\Graphics\Color.cpp" />
-    <ClCompile Include="Source\Engine\Rendering\RenderingDebugger\RenderingDebuggerModules\OverDrawVisualization.cpp" />
+    <ClCompile Include="Source\Engine\Rendering\RenderingDebugger\RenderingDebuggerModules\Modules\OverDrawVisualization.cpp" />
     <ClCompile Include="Source\Core\Graphics\Pipeline\DeferredRenderingDrawer.cpp" />
     <ClCompile Include="Source\Core\Graphics\FrameBuffer\DefferedRenderingFrameBuffer.cpp" />
     <ClCompile Include="Source\Core\Graphics\GraphicsAPI\graphicsAPISetting.cpp" />
@@ -504,7 +506,7 @@ xcopy /y /d /E /H /C /I "$(ProjectDir)Assets" "$(TargetDir)Assets"</Command>
     <ClCompile Include="Source\Core\ResourceManagement\JobSystem_cpp\test\test.cpp" />
     <ClCompile Include="Source\Core\ResourceManagement\JobSystem_cpp\Thread.cpp" />
     <ClCompile Include="Source\Core\ResourceManagement\JobSystem_cpp\ThreadProfiler.cpp" />
-    <ClCompile Include="Source\Core\EngineGUI\PrintText.cpp" />
+    <ClCompile Include="Source\Engine\EngineGUI\PrintText.cpp" />
     <ClCompile Include="Source\Core\Misc\ColliderUpdater\ColliderUpdater.cpp" />
     <ClCompile Include="Source\Core\Misc\AccelerationContainer\BVH\BVH_Node.cpp" />
     <ClCompile Include="Source\Core\Misc\AccelerationContainer\BVH\BVH_Node_View.cpp" />
@@ -533,7 +535,7 @@ xcopy /y /d /E /H /C /I "$(ProjectDir)Assets" "$(TargetDir)Assets"</Command>
     <ClCompile Include="Source\Core\Asset\TextureAsset.cpp" />
     <ClCompile Include="Source\Core\Asset\ThreeDModelAsset.cpp" />
     <ClCompile Include="Source\Core\Game\IGameFlow.cpp" />
-    <ClCompile Include="Source\Engine\Rendering\RenderingDebugger\RenderingDebuggerModules\DebugDrawer.cpp" />
+    <ClCompile Include="Source\Engine\Rendering\RenderingDebugger\RenderingDebuggerModules\Modules\DebugDrawer.cpp" />
     <ClCompile Include="Source\Core\Graphics\Graphics_Server.cpp" />
     <ClCompile Include="Source\Core\IO\AssetImporter\AssetImporterWorker\AssetImporterWorker_Texture.cpp" />
     <ClCompile Include="Source\Core\Physics\Collider\Collider.cpp" />
@@ -612,15 +614,22 @@ xcopy /y /d /E /H /C /I "$(ProjectDir)Assets" "$(TargetDir)Assets"</Command>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Core\Scene\Layer\DefaultLayers.h" />
+    <ClInclude Include="Source\Engine\EngineGUI\engineGUIServerHelper.h" />
+    <ClInclude Include="Source\Engine\EngineGUI\GUIModules\EngineGUIModule.h" />
+    <ClInclude Include="Source\Engine\EngineGUI\GUIModules\Modules\LogGUI.reflection.h" />
+    <ClInclude Include="Source\Engine\EngineGUI\GUIModules\Modules\MaskedOcclusionCulliingDebugger.reflection.h" />
+    <ClInclude Include="Source\Engine\EngineGUI\GUIModules\Modules\ProfilerGUI.reflection.h" />
+    <ClInclude Include="Source\Engine\EngineGUI\GUIModules\Modules\SceneGUI.reflection.h" />
+    <ClInclude Include="Source\Engine\EngineGUI\GUIModules\Modules\ThreadProfilerGUI.reflection.h" />
     <ClInclude Include="Source\Engine\Rendering\RenderingDebugger\RenderingDebuggerHelper.h" />
-    <ClInclude Include="Source\Engine\Rendering\RenderingDebugger\RenderingDebuggerModules\EveryCullingProfilerDebugger.h" />
-    <ClInclude Include="Source\Engine\Rendering\RenderingDebugger\RenderingDebuggerModules\RendererAABBDebugger.h" />
+    <ClInclude Include="Source\Engine\Rendering\RenderingDebugger\RenderingDebuggerModules\Modules\EveryCullingProfilerDebugger.h" />
+    <ClInclude Include="Source\Engine\Rendering\RenderingDebugger\RenderingDebuggerModules\Modules\RendererAABBDebugger.h" />
     <ClInclude Include="Source\Engine\Rendering\RenderingDebugger\RenderingDebuggerModules\RenderingDebuggerModule.h" />
     <ClInclude Include="Source\Component\Rendering\MaxCameraCount.h" />
     <ClInclude Include="Source\Core\Asset\Utility\ShaderAsset\shaderAssetHelper.h" />
     <ClInclude Include="Source\Core\Asset\Utility\ShaderAsset\shaderConverter.h" />
     <ClInclude Include="Source\Core\Asset\Utility\ShaderAsset\shaderReflectionDataParser.h" />
-    <ClInclude Include="Source\Core\EngineGUI\GUIModules\drawCallCounterGUI.h" />
+    <ClInclude Include="Source\Engine\EngineGUI\GUIModules\Modules\DrawCallCounterGUI.h" />
     <ClInclude Include="Source\Core\Misc\eStatus.h" />
     <ClInclude Include="Source\Core\Graphics\Acceleration\LinearData_ViewFrustumCulling\CullingModule\MaskedSWOcclusionCulling\OccluderListManager.h" />
     <ClInclude Include="Source\Core\Graphics\Acceleration\LinearData_ViewFrustumCulling\CullingModule\PreCulling\PreCulling.h" />
@@ -629,7 +638,7 @@ xcopy /y /d /E /H /C /I "$(ProjectDir)Assets" "$(TargetDir)Assets"</Command>
     <ClInclude Include="Source\Core\Graphics\Acceleration\LinearData_ViewFrustumCulling\EveryCullingProfiler.h" />
     <ClInclude Include="Source\Core\Graphics\Buffer\UniformBufferObject\UniformBufferObjectView.h" />
     <ClInclude Include="Source\Engine\Rendering\RenderingDebugger\DebugPrimitive\DebugPrimitive2DLineContainer.h" />
-    <ClInclude Include="Source\Core\EngineGUI\GUIModules\MaskedOcclusionCulliingDebugger.h" />
+    <ClInclude Include="Source\Engine\EngineGUI\GUIModules\Modules\MaskedOcclusionCulliingDebugger.h" />
     <ClInclude Include="Source\Core\Graphics\Acceleration\LinearData_ViewFrustumCulling\CullingModule\MaskedSWOcclusionCulling\Utility\depthUtility.h" />
     <ClInclude Include="Source\Core\Graphics\Acceleration\LinearData_ViewFrustumCulling\CullingModule\MaskedSWOcclusionCulling\Utility\DepthValueComputer.h" />
     <ClInclude Include="Source\Core\Graphics\Acceleration\LinearData_ViewFrustumCulling\CullingModule\MaskedSWOcclusionCulling\Utility\RasterizerHelper.h" />
@@ -644,8 +653,8 @@ xcopy /y /d /E /H /C /I "$(ProjectDir)Assets" "$(TargetDir)Assets"</Command>
     <ClInclude Include="Source\Engine\Rendering\RenderingDebugger\DebugPrimitive\DebugPrimitivePointContainer.h" />
     <ClInclude Include="Source\Engine\Rendering\RenderingDebugger\DebugPrimitive\DebugPrimitiveContainerCollection.h" />
     <ClInclude Include="Source\Engine\Rendering\RenderingDebugger\DebugPrimitive\DebugPrimitiveTriangleContainer.h" />
-    <ClInclude Include="Source\Engine\Rendering\RenderingDebugger\RenderingDebuggerModules\MaskedOcclusionCullingTester.h" />
-    <ClInclude Include="Source\Core\EngineGUI\GUIModules\ThreadProfilerGUI.h" />
+    <ClInclude Include="Source\Engine\Rendering\RenderingDebugger\RenderingDebuggerModules\Modules\MaskedOcclusionCullingTester.h" />
+    <ClInclude Include="Source\Engine\EngineGUI\GUIModules\Modules\ThreadProfilerGUI.h" />
     <ClInclude Include="Source\Core\Graphics\Acceleration\LinearData_ViewFrustumCulling\CullingModule\MaskedSWOcclusionCulling\Stage\SolveMeshRoleStage.h" />
     <ClInclude Include="Source\Core\Graphics\Buffer\eVertexArrayFlag.h" />
     <ClInclude Include="Source\Core\Graphics\Buffer\MeshHelper.h" />
@@ -670,14 +679,14 @@ xcopy /y /d /E /H /C /I "$(ProjectDir)Assets" "$(TargetDir)Assets"</Command>
     <ClInclude Include="Source\Core\Reflection\TypeSpecialized\Reflection_RandomAccessIterator.h" />
     <ClInclude Include="Source\Core\Asset\AssetsForwardDeclaration.h" />
     <ClInclude Include="Source\Core\Asset\Helper\AssetFactory.h" />
-    <ClInclude Include="Source\Core\EngineGUI\EngineGUIAccessor.h" />
-    <ClInclude Include="Source\Core\EngineGUI\engineGUIServer.h" />
-    <ClInclude Include="Source\Core\EngineGUI\GUIModules\LogGUI.h" />
-    <ClInclude Include="Source\Core\EngineGUI\GUIModules\ProfilerGUI.h" />
-    <ClInclude Include="Source\Core\EngineGUI\GUIModules\SceneGUI.h" />
-    <ClInclude Include="Source\Core\EngineGUI\imguiHelper\imguiFieldFunctionGetter.h" />
-    <ClInclude Include="Source\Core\EngineGUI\imguiHelper\ImGUISetting.h" />
-    <ClInclude Include="Source\Core\EngineGUI\imguiHelper\imguiWithReflection.h" />
+    <ClInclude Include="Source\Engine\EngineGUI\EngineGUIAccessor.h" />
+    <ClInclude Include="Source\Engine\EngineGUI\EngineGUIServer.h" />
+    <ClInclude Include="Source\Engine\EngineGUI\GUIModules\Modules\LogGUI.h" />
+    <ClInclude Include="Source\Engine\EngineGUI\GUIModules\Modules\ProfilerGUI.h" />
+    <ClInclude Include="Source\Engine\EngineGUI\GUIModules\Modules\SceneGUI.h" />
+    <ClInclude Include="Source\Engine\EngineGUI\imguiHelper\imguiFieldFunctionGetter.h" />
+    <ClInclude Include="Source\Engine\EngineGUI\imguiHelper\ImGUISetting.h" />
+    <ClInclude Include="Source\Engine\EngineGUI\imguiHelper\imguiWithReflection.h" />
     <ClInclude Include="Source\Core\Logger\eLogType.h" />
     <ClInclude Include="Source\Core\Logger\LoggerSetting.h" />
     <ClInclude Include="Source\Core\Reflection\ReflectionManager.h" />
@@ -722,7 +731,7 @@ xcopy /y /d /E /H /C /I "$(ProjectDir)Assets" "$(TargetDir)Assets"</Command>
     <ClInclude Include="Source\Core\Graphics\Acceleration\SortFrontToBackSolver.h" />
     <ClInclude Include="Source\Core\Graphics\Batch\MeshBatchCreater.h" />
     <ClInclude Include="Source\Core\Graphics\Buffer\BufferID.h" />
-    <ClInclude Include="Source\Engine\Rendering\RenderingDebugger\RenderingDebuggerModules\OverDrawVisualization.h" />
+    <ClInclude Include="Source\Engine\Rendering\RenderingDebugger\RenderingDebuggerModules\Modules\OverDrawVisualization.h" />
     <ClInclude Include="Source\Core\Graphics\Pipeline\DeferredRenderingDrawer.h" />
     <ClInclude Include="Source\Core\Graphics\FrameBuffer\DefferedRenderingFrameBuffer.h" />
     <ClInclude Include="Source\Core\Graphics\GraphicsAPI\graphicsAPISetting.h" />
@@ -800,7 +809,7 @@ xcopy /y /d /E /H /C /I "$(ProjectDir)Assets" "$(TargetDir)Assets"</Command>
     <ClInclude Include="Source\Core\ResourceManagement\JobSystem_cpp\Thread.h" />
     <ClInclude Include="Source\Core\ResourceManagement\JobSystem_cpp\ThreadProfiler.h" />
     <ClInclude Include="Source\Core\ResourceManagement\JobSystem_cpp\Thread_Core.h" />
-    <ClInclude Include="Source\Core\EngineGUI\PrintText.h" />
+    <ClInclude Include="Source\Engine\EngineGUI\PrintText.h" />
     <ClInclude Include="Source\Core\Misc\ColliderUpdater\ColliderUpdater.h" />
     <ClInclude Include="Source\Core\Misc\AccelerationContainer\BVH\BVH_Core.h" />
     <ClInclude Include="Source\Core\Misc\AccelerationContainer\BVH\BVH_Node.h" />
@@ -839,7 +848,7 @@ xcopy /y /d /E /H /C /I "$(ProjectDir)Assets" "$(TargetDir)Assets"</Command>
     <ClInclude Include="Source\Core\Misc\FrameDirtyChecker\FrameDirtyChecker.h" />
     <ClInclude Include="Source\Core\Game\IGameFlow.h" />
     <ClInclude Include="Source\Core\Graphics\Color.h" />
-    <ClInclude Include="Source\Engine\Rendering\RenderingDebugger\RenderingDebuggerModules\DebugDrawer.h" />
+    <ClInclude Include="Source\Engine\Rendering\RenderingDebugger\RenderingDebuggerModules\Modules\DebugDrawer.h" />
     <ClInclude Include="Source\Core\Graphics\Graphics_Server.h" />
     <ClInclude Include="Source\Core\Physics\Collider\Collider.h" />
     <ClInclude Include="Source\Core\Physics\Collider\ColliderSolution.h" />

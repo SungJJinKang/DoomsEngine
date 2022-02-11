@@ -311,6 +311,7 @@ unsigned int dooms::graphics::GraphicsAPILoader::FreeGraphicsAPILibrary()
 dooms::graphics::GraphicsAPILoader::GraphicsAPILoader()
 	:mAPIModule{ NULL }
 {
+	AddToRootObjectList();
 }
 
 dooms::graphics::GraphicsAPILoader::~GraphicsAPILoader()

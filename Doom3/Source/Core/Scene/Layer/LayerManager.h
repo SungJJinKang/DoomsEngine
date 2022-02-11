@@ -4,11 +4,12 @@
 
 #include <vector>
 #include "Layer.h"
+#include <Simple_SingleTon/Singleton.h>
 
 #include "LayerManager.reflection.h"
 namespace dooms
 {
-	class D_CLASS LayerManager : public DObject
+	class D_CLASS LayerManager : public DObject, public ISingleton<LayerManager>
 	{
 		GENERATE_BODY()
 
@@ -27,6 +28,7 @@ namespace dooms
 		bool PushLayer(const char* const layerName, const UINT32 targetIndex);
 		bool PopLayer();
 		bool RemoveLayer(const UINT32 index);
+		UINT32 GetLayerCount() const;
 
 	};
 

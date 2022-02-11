@@ -108,7 +108,7 @@
     <ClCompile Include="Source\GameLogic\CustomComponent\AutoRotate.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Engine\Rendering\RenderingDebugger\RenderingDebuggerModules\DebugDrawer.cpp">
+    <ClCompile Include="Source\Engine\Rendering\RenderingDebugger\RenderingDebuggerModules\Modules\DebugDrawer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Source\Engine\Physics\Utility\Picking.cpp">
@@ -357,7 +357,7 @@
     <ClCompile Include="Source\Core\Graphics\GraphicsAPI\graphicsAPISetting.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Core\EngineGUI\PrintText.cpp">
+    <ClCompile Include="Source\Engine\EngineGUI\PrintText.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Source\GameLogic\CustomComponent\AutoRotateAround.cpp">
@@ -393,7 +393,7 @@
     <ClCompile Include="Source\Component\PhysicsComponent\Rigidbody\Rigidbody.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Engine\Rendering\RenderingDebugger\RenderingDebuggerModules\OverDrawVisualization.cpp">
+    <ClCompile Include="Source\Engine\Rendering\RenderingDebugger\RenderingDebuggerModules\Modules\OverDrawVisualization.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Source\Core\Graphics\Material\FixedMaterial.cpp">
@@ -576,13 +576,13 @@
     <ClCompile Include="Source\thirdparty\imgui\imgui_widgets.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Core\EngineGUI\imguiHelper\imguiWithReflection.cpp">
+    <ClCompile Include="Source\Engine\EngineGUI\imguiHelper\imguiWithReflection.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Core\EngineGUI\EngineGUIAccessor.cpp">
+    <ClCompile Include="Source\Engine\EngineGUI\EngineGUIAccessor.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Core\EngineGUI\engineGUIServer.cpp">
+    <ClCompile Include="Source\Engine\EngineGUI\EngineGUIServer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="clreflect_compiletime_gettype.cpp">
@@ -594,16 +594,16 @@
     <ClCompile Include="Source\Core\Reflection\ReflectionType\DAttributeList.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Core\EngineGUI\GUIModules\LogGUI.cpp">
+    <ClCompile Include="Source\Engine\EngineGUI\GUIModules\Modules\LogGUI.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Core\EngineGUI\GUIModules\SceneGUI.cpp">
+    <ClCompile Include="Source\Engine\EngineGUI\GUIModules\Modules\SceneGUI.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Core\EngineGUI\imguiHelper\imguiFieldFunctionGetter.cpp">
+    <ClCompile Include="Source\Engine\EngineGUI\imguiHelper\imguiFieldFunctionGetter.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Core\EngineGUI\GUIModules\ProfilerGUI.cpp">
+    <ClCompile Include="Source\Engine\EngineGUI\GUIModules\Modules\ProfilerGUI.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Source\Core\Reflection\ReflectionType\DTemplateArgumentType.cpp">
@@ -627,7 +627,7 @@
     <ClCompile Include="Source\Core\Graphics\Buffer\MeshHelper.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Core\EngineGUI\GUIModules\ThreadProfilerGUI.cpp">
+    <ClCompile Include="Source\Engine\EngineGUI\GUIModules\Modules\ThreadProfilerGUI.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Source\Core\Graphics\Buffer\MeshNode.cpp">
@@ -636,10 +636,10 @@
     <ClCompile Include="Source\Core\Graphics\Acceleration\LinearData_ViewFrustumCulling\CullingModule\MaskedSWOcclusionCulling\Stage\SolveMeshRoleStage.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Engine\Rendering\RenderingDebugger\RenderingDebuggerModules\MaskedOcclusionCullingTester.cpp">
+    <ClCompile Include="Source\Engine\Rendering\RenderingDebugger\RenderingDebuggerModules\Modules\MaskedOcclusionCullingTester.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Core\EngineGUI\GUIModules\MaskedOcclusionCulliingDebugger.cpp">
+    <ClCompile Include="Source\Engine\EngineGUI\GUIModules\Modules\MaskedOcclusionCulliingDebugger.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Source\Core\Graphics\Acceleration\LinearData_ViewFrustumCulling\CullingModule\MaskedSWOcclusionCulling\Utility\depthUtility.cpp">
@@ -690,7 +690,7 @@
     <ClCompile Include="Source\Core\Graphics\Acceleration\LinearData_ViewFrustumCulling\CullingModule\MaskedSWOcclusionCulling\Utility\depthBufferTileHelper.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Core\EngineGUI\GUIModules\drawCallCounterGUI.cpp">
+    <ClCompile Include="Source\Engine\EngineGUI\GUIModules\Modules\DrawCallCounterGUI.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Source\Core\Graphics\Acceleration\LinearData_ViewFrustumCulling\CullingModule\PreCulling\PreCulling.cpp">
@@ -777,10 +777,10 @@
     <ClCompile Include="Source\Engine\Rendering\RenderingDebugger\RenderingDebuggerHelper.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Engine\Rendering\RenderingDebugger\RenderingDebuggerModules\EveryCullingProfilerDebugger.cpp">
+    <ClCompile Include="Source\Engine\Rendering\RenderingDebugger\RenderingDebuggerModules\Modules\EveryCullingProfilerDebugger.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Engine\Rendering\RenderingDebugger\RenderingDebuggerModules\RendererAABBDebugger.cpp">
+    <ClCompile Include="Source\Engine\Rendering\RenderingDebugger\RenderingDebuggerModules\Modules\RendererAABBDebugger.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Source\Core\EngineConfigurationData\ConfigData.cpp">
@@ -796,6 +796,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Source\Core\Scene\Layer\Layer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Engine\EngineGUI\GUIModules\EngineGUIModule.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Engine\EngineGUI\engineGUIServerHelper.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -1121,7 +1127,7 @@
     <ClInclude Include="Source\GameLogic\CustomComponent\AutoRotate.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Engine\Rendering\RenderingDebugger\RenderingDebuggerModules\DebugDrawer.h">
+    <ClInclude Include="Source\Engine\Rendering\RenderingDebugger\RenderingDebuggerModules\Modules\DebugDrawer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\Core\Graphics\Color.h">
@@ -1475,7 +1481,7 @@
     <ClInclude Include="Source\Core\Graphics\GraphicsAPI\graphicsAPISetting.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Core\EngineGUI\PrintText.h">
+    <ClInclude Include="Source\Engine\EngineGUI\PrintText.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\GameLogic\CustomComponent\AutoRotateAround.h">
@@ -1511,7 +1517,7 @@
     <ClInclude Include="Source\Component\PhysicsComponent\Rigidbody\Rigidbody.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Engine\Rendering\RenderingDebugger\RenderingDebuggerModules\OverDrawVisualization.h">
+    <ClInclude Include="Source\Engine\Rendering\RenderingDebugger\RenderingDebuggerModules\Modules\OverDrawVisualization.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\Core\Graphics\Material\FixedMaterial.h">
@@ -1730,13 +1736,13 @@
     <ClInclude Include="Source\thirdparty\imgui\imstb_textedit.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Core\EngineGUI\imguiHelper\imguiWithReflection.h">
+    <ClInclude Include="Source\Engine\EngineGUI\imguiHelper\imguiWithReflection.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Core\EngineGUI\EngineGUIAccessor.h">
+    <ClInclude Include="Source\Engine\EngineGUI\EngineGUIAccessor.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Core\EngineGUI\engineGUIServer.h">
+    <ClInclude Include="Source\Engine\EngineGUI\EngineGUIServer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\Core\Reflection\ReflectionType\DAttribute.h">
@@ -1745,7 +1751,7 @@
     <ClInclude Include="Source\Core\Reflection\ReflectionType\DAttributeList.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Core\EngineGUI\GUIModules\LogGUI.h">
+    <ClInclude Include="Source\Engine\EngineGUI\GUIModules\Modules\LogGUI.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\Core\Logger\eLogType.h">
@@ -1754,16 +1760,16 @@
     <ClInclude Include="Source\Core\Logger\LoggerSetting.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Core\EngineGUI\GUIModules\SceneGUI.h">
+    <ClInclude Include="Source\Engine\EngineGUI\GUIModules\Modules\SceneGUI.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Core\EngineGUI\imguiHelper\imguiFieldFunctionGetter.h">
+    <ClInclude Include="Source\Engine\EngineGUI\imguiHelper\imguiFieldFunctionGetter.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Core\EngineGUI\imguiHelper\ImGUISetting.h">
+    <ClInclude Include="Source\Engine\EngineGUI\imguiHelper\ImGUISetting.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Core\EngineGUI\GUIModules\ProfilerGUI.h">
+    <ClInclude Include="Source\Engine\EngineGUI\GUIModules\Modules\ProfilerGUI.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\Core\Reflection\ReflectionType\DTemplateArgumentType.h">
@@ -1790,16 +1796,16 @@
     <ClInclude Include="Source\Core\Graphics\Buffer\eVertexArrayFlag.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Core\EngineGUI\GUIModules\ThreadProfilerGUI.h">
+    <ClInclude Include="Source\Engine\EngineGUI\GUIModules\Modules\ThreadProfilerGUI.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\Core\Graphics\Acceleration\LinearData_ViewFrustumCulling\CullingModule\MaskedSWOcclusionCulling\Stage\SolveMeshRoleStage.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Engine\Rendering\RenderingDebugger\RenderingDebuggerModules\MaskedOcclusionCullingTester.h">
+    <ClInclude Include="Source\Engine\Rendering\RenderingDebugger\RenderingDebuggerModules\Modules\MaskedOcclusionCullingTester.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Core\EngineGUI\GUIModules\MaskedOcclusionCulliingDebugger.h">
+    <ClInclude Include="Source\Engine\EngineGUI\GUIModules\Modules\MaskedOcclusionCulliingDebugger.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\Core\Graphics\Acceleration\LinearData_ViewFrustumCulling\CullingModule\MaskedSWOcclusionCulling\Utility\depthUtility.h">
@@ -1853,7 +1859,7 @@
     <ClInclude Include="Source\Core\Graphics\Acceleration\LinearData_ViewFrustumCulling\CullingModule\MaskedSWOcclusionCulling\Utility\depthBufferTileHelper.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Core\EngineGUI\GUIModules\drawCallCounterGUI.h">
+    <ClInclude Include="Source\Engine\EngineGUI\GUIModules\Modules\DrawCallCounterGUI.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\Core\Graphics\Acceleration\LinearData_ViewFrustumCulling\CullingModule\PreCulling\PreCulling.h">
@@ -1946,10 +1952,10 @@
     <ClInclude Include="Source\Engine\Rendering\RenderingDebugger\RenderingDebuggerHelper.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Engine\Rendering\RenderingDebugger\RenderingDebuggerModules\EveryCullingProfilerDebugger.h">
+    <ClInclude Include="Source\Engine\Rendering\RenderingDebugger\RenderingDebuggerModules\Modules\EveryCullingProfilerDebugger.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Engine\Rendering\RenderingDebugger\RenderingDebuggerModules\RendererAABBDebugger.h">
+    <ClInclude Include="Source\Engine\Rendering\RenderingDebugger\RenderingDebuggerModules\Modules\RendererAABBDebugger.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\Core\Scene\Layer\LayerManager.h">
@@ -1959,6 +1965,27 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\Core\Scene\Layer\DefaultLayers.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\EngineGUI\GUIModules\EngineGUIModule.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\EngineGUI\engineGUIServerHelper.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\EngineGUI\GUIModules\Modules\LogGUI.reflection.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\EngineGUI\GUIModules\Modules\MaskedOcclusionCulliingDebugger.reflection.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\EngineGUI\GUIModules\Modules\ProfilerGUI.reflection.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\EngineGUI\GUIModules\Modules\SceneGUI.reflection.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\EngineGUI\GUIModules\Modules\ThreadProfilerGUI.reflection.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

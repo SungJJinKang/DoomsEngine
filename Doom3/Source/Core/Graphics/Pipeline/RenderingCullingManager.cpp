@@ -5,6 +5,7 @@
 #include <ResourceManagement/JobSystem_cpp/JobSystem.h>
 #include "Graphics/Acceleration/LinearData_ViewFrustumCulling/CullingModule/MaskedSWOcclusionCulling/MaskedSWOcclusionCulling.h"
 #include <Rendering/Camera.h>
+#include <EngineGUI/GUIModules/Modules/MaskedOcclusionCulliingDebugger.h>
 
 dooms::graphics::RenderingCullingManager::RenderingCullingManager()
 	: mCullingSystem()
@@ -17,6 +18,11 @@ void dooms::graphics::RenderingCullingManager::Initialize()
 	mCullingSystem->SetThreadCount(resource::JobSystem::GetSingleton()->GetSubThreadCount() + 1);
 	//mCullingSystem->mMaskedSWOcclusionCulling->mSolveMeshRoleStage.mOccluderViewSpaceBoundingSphereRadius = ConfigData::GetSingleton()->GetConfigData().GetValue<FLOAT32>("Graphics", "MASKED_OC_OCCLUDER_VIEW_SPACE_BOUNDING_SPHERE_RADIUS");
 	mCullingSystem->mMaskedSWOcclusionCulling->mSolveMeshRoleStage.mOccluderAABBScreenSpaceMinArea = ConfigData::GetSingleton()->GetConfigData().GetValue<FLOAT32>("Graphics", "MASKED_OC_OCCLUDER_AABB_SCREEN_SPACE_MIN_AREA");
+
+	if(dooms::ui::MaskedOcclusionCulliingDebugger::GetSingleton() != nullptr)
+	{
+		dooms::ui::MaskedOcclusionCulliingDebugger::GetSingleton()->SetMaskedSWOcclusionCulling(mCullingSystem->mMaskedSWOcclusionCulling.get());
+	}
 
 }
 

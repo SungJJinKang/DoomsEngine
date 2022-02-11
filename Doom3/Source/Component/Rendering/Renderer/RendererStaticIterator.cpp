@@ -4,15 +4,12 @@
 #include "Entity.h"
 #include "../Helper/vector_erase_move_lastelement/vector_swap_popback.h"
 
-using namespace dooms;
-
-
-StaticContainer<Renderer>::StaticContainer()
+dooms::StaticContainer<dooms::Renderer>::StaticContainer()
 {
 	AddToRootObjectList();
 }
 
-void dooms::StaticContainer<Renderer>::AddRendererToStaticContainer(Renderer* const renderer)
+void dooms::StaticContainer<dooms::Renderer>::AddRendererToStaticContainer(Renderer* const renderer)
 {
 	const size_t currentEntityLayerIndex = renderer->GetOwnerEntityLayerIndex();
 
@@ -24,8 +21,7 @@ void dooms::StaticContainer<Renderer>::AddRendererToStaticContainer(Renderer* co
 
 }
 
-
-void dooms::StaticContainer<Renderer>::RemoveRendererToStaticContainer(const Renderer* const renderer)
+void dooms::StaticContainer<dooms::Renderer>::RemoveRendererToStaticContainer(const Renderer* const renderer)
 {
 	for (size_t cameraIndex = 0; cameraIndex < MAX_CAMERA_COUNT; cameraIndex++)
 	{
@@ -47,13 +43,13 @@ void dooms::StaticContainer<Renderer>::RemoveRendererToStaticContainer(const Ren
 
 
 // TODO : Add this to Entity's EntityLayerChanged Callback
-void dooms::StaticContainer<Renderer>::OnEntityLayerChanged(Renderer* const renderer)
+void dooms::StaticContainer<dooms::Renderer>::OnEntityLayerChanged(Renderer* const renderer)
 {
 	RemoveRendererToStaticContainer(renderer);
 	AddRendererToStaticContainer(renderer);
 }
 
-std::vector<Renderer*>& dooms::StaticContainer<Renderer>::GetSortedRendererInLayer
+std::vector<dooms::Renderer*>& dooms::StaticContainer<dooms::Renderer>::GetSortedRendererInLayer
 (
 	const size_t cameraIndex
 )
@@ -61,7 +57,7 @@ std::vector<Renderer*>& dooms::StaticContainer<Renderer>::GetSortedRendererInLay
 	return mRendererList[cameraIndex][mWorkingRendererListIndex];
 }
 
-std::vector<Renderer*>& StaticContainer<Renderer>::GetSortingRendererInLayer
+std::vector<dooms::Renderer*>& dooms::StaticContainer<dooms::Renderer>::GetSortingRendererInLayer
 (
 	const size_t cameraIndex
 )
@@ -69,7 +65,7 @@ std::vector<Renderer*>& StaticContainer<Renderer>::GetSortingRendererInLayer
 	return mRendererList[cameraIndex][(mWorkingRendererListIndex == 0) ? 1 : 0];
 }
 
-void StaticContainer<Renderer>::ChangeWorkingIndexRenderers()
+void dooms::StaticContainer<dooms::Renderer>::ChangeWorkingIndexRenderers()
 {
 	mWorkingRendererListIndex = (mWorkingRendererListIndex == 0) ? 1 : 0;
 }

@@ -14,7 +14,7 @@
 #include "DObjectManager.h"
 
 #include "Reflection/Reflection.h"
-#include "EngineGUI/EngineGUIAccessor.h"
+#include <EngineGUI/EngineGUIAccessor.h>
 #include "Reflection/ReflectionType/DField.h"
 
 

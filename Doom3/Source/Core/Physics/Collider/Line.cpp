@@ -1,5 +1,5 @@
 #include "Line.h"
-#include <Rendering/RenderingDebugger/RenderingDebuggerModules/DebugDrawer.h>
+#include <Rendering/RenderingDebugger/RenderingDebuggerModules/Modules/DebugDrawer.h>
 
 void dooms::physics::Line::DrawCollider(eColor color, bool drawInstantly /*= false*/) const
 {

@@ -13,6 +13,7 @@
 #include <Reflection/ReflectionManager.h>
 #include <Memory/MemoryManager.h>
 #include <GarbageCollector/GarbageCollectorManager.h>
+#include <EngineGUI/EngineGUIServer.h>
 
 #include "GameCore.reflection.h"
 namespace dooms
@@ -47,11 +48,12 @@ namespace dooms
 		D_PROPERTY()
 		INT32 MAX_PHYSICS_STEP{ 8 };
 
+		D_PROPERTY()
+		ui::EngineGUIServer mEngineGUIServer;
 
 		D_PROPERTY()
 		SceneManager mSceneManager;
-
-		//Servers
+		
 		D_PROPERTY()
 		assetImporter::AssetManager mAssetManager;
 

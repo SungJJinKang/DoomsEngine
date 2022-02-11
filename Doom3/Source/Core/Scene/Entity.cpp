@@ -3,7 +3,7 @@
 #include <algorithm>
 
 #include"Scene.h"
-#include "Layer/Layer.h"
+#include "Layer/LayerManager.h"
 
 using namespace dooms;
 
@@ -203,7 +203,7 @@ const std::string& Entity::GetEntityName() const
 
 void Entity::SetLayerIndex(UINT32 layerIndex)
 {
-	D_ASSERT(layerIndex >= 0 && layerIndex < MAX_LAYER_COUNT);
+	D_ASSERT(layerIndex < LayerManager::GetSingleton()->GetLayerCount());
 	mLayerIndex = layerIndex;
 }
 

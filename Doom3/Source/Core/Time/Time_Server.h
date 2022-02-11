@@ -19,6 +19,7 @@ namespace dooms
 				
 		public:
 
+			D_PROPERTY()
 			MainTimer mMainTimer;
 			
 			void Init(const int argc, char* const* const argv) noexcept override;

@@ -16,6 +16,7 @@
 template <typename ColliderType>
 dooms::BVH<ColliderType>::BVH(const size_t initializedCapacity)
 {
+	AddToRootObjectList();
 	mNodes.resize(initializedCapacity);
 }
 

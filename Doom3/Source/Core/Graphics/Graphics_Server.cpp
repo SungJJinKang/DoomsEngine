@@ -54,8 +54,6 @@ bool dooms::graphics::Graphics_Server::InitializeGraphicsAPI(GraphicsAPI::eGraph
 
 void dooms::graphics::Graphics_Server::Init(const int argc, char* const* const argv)
 {
-	dooms::ui::engineGUIServer::Initialize();
-
 	mGraphicsPipeLine.Initialize();
 
 	return;
@@ -102,7 +100,6 @@ void dooms::graphics::Graphics_Server::Update()
 
 void dooms::graphics::Graphics_Server::OnEndOfFrame()
 {
-	graphics::GraphicsAPI::SwapBuffer();
 }
 
 
@@ -114,6 +111,5 @@ dooms::graphics::Graphics_Server::Graphics_Server()
 
 dooms::graphics::Graphics_Server::~Graphics_Server()
 {
-	dooms::ui::engineGUIServer::ShutDown();
 }
 

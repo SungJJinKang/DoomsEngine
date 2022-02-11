@@ -30,7 +30,8 @@ dooms::GameCore::GameCore()
 	mTime_Server(),
 	mReflectionManager(),
 	mMemoryManager(),
-	mGameConfigData()
+	mGameConfigData(),
+	mEngineGUIServer()
 {
 
 
@@ -105,54 +106,24 @@ void dooms::GameCore::Init(const int argc, char* const* const argv)
 
 
 
-	gc::GarbageCollectorManager::Collect(gc::garbageCollectorSolver::eGCMethod::MultiThreadMark, true);
+	gc::GarbageCollectorManager::Collect(true);
 	dooms::gc::GarbageCollectorManager::ResetElapsedTime();
 }
 
 void dooms::GameCore::InitServers(const int argc, char* const* const argv)
 {
 	mMemoryManager.Init(argc, argv);
-
-	D_START_PROFILING(Init_ReflectionManager, eProfileLayers::CPU);
 	mReflectionManager.Initialize();
-	D_END_PROFILING(Init_ReflectionManager);
-
 	InitializeGraphicsAPI(argc, argv);
-
-	D_START_PROFILING(mJobSystem_Init, eProfileLayers::CPU);
 	mJobSystem.Init(argc, argv);
-	D_END_PROFILING(mJobSystem_Init);
-
-	D_START_PROFILING(Init_AssetManager, eProfileLayers::CPU);
 	mAssetManager.Init(argc, argv);
-	D_END_PROFILING(Init_AssetManager);
-
-	D_START_PROFILING(mTime_Server_Init, eProfileLayers::CPU);
 	mTime_Server.Init(argc, argv);
-	D_END_PROFILING(mTime_Server_Init);
-
-	//
-	//Read This : https://docs.unity3d.com/Manual/class-TimeManager.html
-	D_START_PROFILING(Init_Physics_Server, eProfileLayers::CPU);
 	mPhysics_Server.Init(argc, argv);
-	D_END_PROFILING(Init_Physics_Server);
-
-	D_START_PROFILING(Init_Graphics_Server, eProfileLayers::Rendering);
+	mEngineGUIServer.Init(argc, argv);
 	mGraphics_Server.Init(argc, argv);
-	D_END_PROFILING(Init_Graphics_Server);
-
-	D_START_PROFILING(Init_UserInput_Server, eProfileLayers::CPU);
 	mUserImput_Server.Init(argc, argv);
-	D_END_PROFILING(Init_UserInput_Server);
-
 	mSceneManager.Init(argc, argv);
-	
-
-
-	D_START_PROFILING(Init_mGarbageCollectorManager, eProfileLayers::CPU);
 	dooms::gc::GarbageCollectorManager::Init();
-	D_END_PROFILING(Init_mGarbageCollectorManager);
-
 }
 
 void dooms::GameCore::LateInit()

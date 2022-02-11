@@ -6,7 +6,6 @@
 #include <Rendering/Camera.h>
 #include <Rendering/Renderer/Renderer.h>
 #include "EngineGUI/engineGUIServer.h"
-#include "EngineGUI/GUIModules/MaskedOcclusionCulliingDebugger.h"
 #include "Graphics/GraphicsSetting.h"
 #include "Graphics/Acceleration/SortFrontToBackSolver.h"
 #include "ResourceManagement/JobSystem_cpp/JobSystem.h"
@@ -33,7 +32,6 @@ void dooms::graphics::GraphicsPipeLine::Initialize()
 {
 	mDeferredRenderingDrawer.Initialize();
 	mRenderingCullingManager.Initialize();
-	dooms::ui::maskedOcclusionCulliingDebugger::Initilize(mRenderingCullingManager.mCullingSystem->mMaskedSWOcclusionCulling.get());
 	mRenderingDebugger.Initialize();
 
 }
@@ -51,7 +49,7 @@ void dooms::graphics::GraphicsPipeLine::PreRender()
 	D_END_PROFILING(PreRenderRenderer);
 
 	D_START_PROFILING(engineGUIServer_PreRender, dooms::profiler::eProfileLayers::Rendering);
-	dooms::ui::engineGUIServer::PreRender();
+	dooms::ui::EngineGUIServer::GetSingleton()->PreRender();
 	D_END_PROFILING(engineGUIServer_PreRender);
 
 	mRenderingDebugger.PreRender();
@@ -82,7 +80,7 @@ void dooms::graphics::GraphicsPipeLine::Render()
 	RendererComponentStaticIterator::GetSingleton()->ChangeWorkingIndexRenderers();
 	
 	D_START_PROFILING(engineGUIServer_Render, dooms::profiler::eProfileLayers::Rendering);
-	dooms::ui::engineGUIServer::Render();
+	dooms::ui::EngineGUIServer::GetSingleton()->Render();
 	D_END_PROFILING(engineGUIServer_Render);
 
 }
@@ -90,10 +88,15 @@ void dooms::graphics::GraphicsPipeLine::Render()
 void dooms::graphics::GraphicsPipeLine::PostRender()
 {
 	D_START_PROFILING(engineGUIServer_PostRender, dooms::profiler::eProfileLayers::Rendering);
-	dooms::ui::engineGUIServer::PostRender();
+	dooms::ui::EngineGUIServer::GetSingleton()->PostRender();
 	D_END_PROFILING(engineGUIServer_PostRender);
 
 	mRenderingDebugger.PostRender();
+
+	D_START_PROFILING(SwapBuffer, dooms::profiler::eProfileLayers::Rendering);
+	graphics::GraphicsAPI::SwapBuffer();
+	D_END_PROFILING(SwapBuffer);
+
 }
 
 

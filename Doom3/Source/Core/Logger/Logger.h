@@ -4,8 +4,6 @@
 
 #include <string>
 
-#include <EngineGUI/GUIModules/LogGUI.h>
-#include <EngineGUI/engineGUIServer.h>
 
 #include "eLogType.h"
 
@@ -35,11 +33,13 @@ namespace dooms
 
 		namespace GUILogger
 		{
+			extern void LogToLogGUI(const char* const log);
 			template<typename ... Args>
 			FORCE_INLINE void Log(const char* fileName, const long codeLineNum, const eLogType logType, const char* const format, Args ... args) noexcept
 			{
-				//dooms::ui::log::LogOnGUI("File : %s , Code Line : %d, Log Type : %s", fileName, codeLineNum, LogTypeStr(logType));
-				dooms::ui::log::LogOnGUI(format, std::forward<Args>(args)...);
+				char str[300];
+				sprintf_s(str, 300, format, args...);
+				LogToLogGUI(str);
 			}
 		};
 
@@ -52,13 +52,8 @@ namespace dooms
 		{
 			if (CheckLogAcceptable(logType) == true)
 			{
-				if(dooms::ui::engineGUIServer::GetIsEngineGUIAvaliable() == false)
-				{
-					StdStreamLogger::Log(fileName, codeLineNum, logType, format, std::forward<Args>(args)...);
-				}
-
+				StdStreamLogger::Log(fileName, codeLineNum, logType, format, std::forward<Args>(args)...);
 				GUILogger::Log(fileName, codeLineNum, logType, format, std::forward<Args>(args)...);
-				
 			}
 
 			StopIfError(logType);

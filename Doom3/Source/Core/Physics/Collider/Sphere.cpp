@@ -1,5 +1,5 @@
 #include "Sphere.h"
-#include <Rendering/RenderingDebugger/RenderingDebuggerModules/DebugDrawer.h>
+#include <Rendering/RenderingDebugger/RenderingDebuggerModules/Modules/DebugDrawer.h>
 
 #include "AABB.h"
 
