@@ -108,7 +108,7 @@ namespace dooms
 			GENERATE_BODY_DObjectProperties()
 
 			D_PROPERTY(INVISIBLE)
-			size_t mCurrentIndexInDObjectList;
+			UINT64 mCurrentIndexInDObjectList;
 
 			D_PROPERTY(INVISIBLE)
 			std::atomic<UINT64> mDObjectFlag;
@@ -211,9 +211,14 @@ namespace dooms
 
 		void InitProperties(const DObjectContructorParams& params);
 
+		D_FUNCTION()
+		FORCE_INLINE UINT64 GetDObjectIndex() const
+		{
+			return mDObjectProperties.mCurrentIndexInDObjectList;
+		}
 
 		D_FUNCTION()
-		inline UINT64 GetDObjectID() const
+		FORCE_INLINE UINT64 GetDObjectID() const
 		{
 			return mDObjectProperties.mDObjectID;
 		}

@@ -95,7 +95,7 @@ bool dooms::DObjectManager::RemoveDObject(DObject* const dObject)
         {
             std::scoped_lock<std::recursive_mutex> u_lock{ DObjectListMutex };
 
-            const size_t index = dObject->mDObjectProperties.mCurrentIndexInDObjectList;
+            const UINT64 index = dObject->mDObjectProperties.mCurrentIndexInDObjectList;
             D_ASSERT(mDObjectsContainer.mDObjectList.empty() == false);
             D_ASSERT(mDObjectsContainer.mDObjectList[index] == dObject);
 
