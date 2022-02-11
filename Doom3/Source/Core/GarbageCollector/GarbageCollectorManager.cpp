@@ -10,7 +10,7 @@ dooms::gc::garbageCollectorSolver::eGCMethod dooms::gc::GarbageCollectorManager:
 float dooms::gc::GarbageCollectorManager::mElapsedTime{};
 unsigned int dooms::gc::GarbageCollectorManager::mMaxSweepedObjectCountAtATime{};
 float dooms::gc::GarbageCollectorManager::mCollectTimeStep{};
-std::vector<dooms::DObject*> dooms::gc::GarbageCollectorManager::mRootsDObjectsList{};
+std::unique_ptr<dooms::gc::RootObjectContainer> dooms::gc::GarbageCollectorManager::_RootObjectContainer{};
 
 
 void dooms::gc::GarbageCollectorManager::InitializeCollectTimeStep()
@@ -112,7 +112,7 @@ void dooms::gc::GarbageCollectorManager::Mark(const garbageCollectorSolver::eGCM
 	D_START_PROFILING(GC_MarkStage, CPU);
 
 	D_DEBUG_LOG(eLogType::D_LOG_TYPE12, "Execute GC_MarkStage");
-	dooms::gc::garbageCollectorSolver::StartMarkStage(gcMethod, GC_KEEP_FLAGS, mRootsDObjectsList);
+	dooms::gc::garbageCollectorSolver::StartMarkStage(gcMethod, GC_KEEP_FLAGS,  _RootObjectContainer->mRootsDObjectsList);
 
 	D_END_PROFILING(GC_MarkStage);
 }
@@ -145,23 +145,43 @@ void dooms::gc::GarbageCollectorManager::Collect(const garbageCollectorSolver::e
 	D_END_PROFILING(GC_Collect);
 }
 
+void dooms::gc::GarbageCollectorManager::Collect(const bool initialGC)
+{
+	Collect(_GCMethod, initialGC);
+}
+
 
 bool dooms::gc::GarbageCollectorManager::AddToRootsDObjectsList(DObject* const dObjet)
 {
+	bool isSuccess = false;
+
 	D_ASSERT(IsLowLevelValid(dObjet, true) == true);
 	dObjet->SetDObjectFlag(eDObjectFlag::IsRootObject);
-	mRootsDObjectsList.push_back(dObjet);
 
-	return true;
+	if(static_cast<bool>(_RootObjectContainer) == false)
+	{
+		_RootObjectContainer = std::make_unique<dooms::gc::RootObjectContainer>();
+	}
+
+	D_ASSERT(fast_find_simd::find_simd_raw(_RootObjectContainer->mRootsDObjectsList.data(), _RootObjectContainer->mRootsDObjectsList.data() + _RootObjectContainer->mRootsDObjectsList.size(), dObjet) == _RootObjectContainer->mRootsDObjectsList.data() + _RootObjectContainer->mRootsDObjectsList.size());
+	_RootObjectContainer->mRootsDObjectsList.push_back(dObjet);
+	isSuccess = true;
+
+	return isSuccess;
 }
 
 bool dooms::gc::GarbageCollectorManager::RemoveFromDObjectsList(DObject* const dObjet)
 {
 	bool isSuccess = false;
 
-	if(mRootsDObjectsList.empty() == false)
+	if (static_cast<bool>(_RootObjectContainer) == false)
 	{
-		isSuccess = swap_popback::vector_find_swap_popback(mRootsDObjectsList, dObjet);
+		_RootObjectContainer = std::make_unique<dooms::gc::RootObjectContainer>();
+	}
+
+	if(_RootObjectContainer->mRootsDObjectsList.empty() == false)
+	{
+		isSuccess = swap_popback::vector_find_swap_popback(_RootObjectContainer->mRootsDObjectsList, dObjet);
 	}
 	
 	return isSuccess;

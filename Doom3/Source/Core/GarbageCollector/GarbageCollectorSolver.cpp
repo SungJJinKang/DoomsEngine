@@ -13,6 +13,7 @@
 #include <EngineConfigurationData/ConfigData.h>
 #include <Math/LightMath_Cpp/Utility.h>
 #include <EngineGUI/PrintText.h>
+#include <vector_erase_move_lastelement/vector_swap_popback.h>
 
 #include <Windows.h>
 
@@ -325,9 +326,8 @@ void dooms::gc::garbageCollectorSolver::StartSweepStage(const eGCMethod gcMethod
 			continue;
 		}
 
-		const bool isUnreachable = dObjectList[i]->HasDObjectFlag(dooms::eDObjectFlag::Unreachable | dooms::eDObjectFlag::NewAllocated, std::memory_order_relaxed);
-		dObjectList[i]->SetDObjectFlag(dooms::eDObjectFlag::Unreachable | dooms::eDObjectFlag::IsNotCheckedByGC, std::memory_order_relaxed);
-
+		const bool isUnreachable = dObjectList[i]->HasDObjectFlag(dooms::eDObjectFlag::Unreachable /*| dooms::eDObjectFlag::NewAllocated*/, std::memory_order_relaxed);
+		
 		if(isUnreachable == true)
 		{
 			/*
@@ -337,25 +337,39 @@ void dooms::gc::garbageCollectorSolver::StartSweepStage(const eGCMethod gcMethod
 			MarkRecursively(keepFlags, dObject, reflection::eProperyQualifier::VALUE, &dClass);
 			*/
 
-			dObjectList[i]->SetIsPendingKill();
-
-			deletedDObjectList.push_back(dObjectList[i]);
-			D_DEBUG_LOG(eLogType::D_LOG_TYPE13, "GC DObject IsPendingKill Enabled and Sweeped ready : %s ( TypeName : %s )", dObjectList[i]->GetDObjectName().c_str(), dObjectList[i]->GetTypeFullName());
-
-			if(deletedDObjectList.size() >= maxSweepedObjectCount)
+			if
+			(
+				fast_find_simd::find_simd_raw(deletedDObjectList.data(), deletedDObjectList.data() + deletedDObjectList.size(), dObjectList[i])
+				==
+				deletedDObjectList.data() + deletedDObjectList.size()
+			)
 			{
-				break;
+				dObjectList[i]->SetIsPendingKill();
+
+				deletedDObjectList.push_back(dObjectList[i]);
+				D_DEBUG_LOG(eLogType::D_LOG_TYPE13, "GC DObject IsPendingKill Enabled and Sweeped ready : %s ( TypeName : %s )", dObjectList[i]->GetDObjectName().c_str(), dObjectList[i]->GetTypeFullName());
+
+				if (deletedDObjectList.size() >= maxSweepedObjectCount)
+				{
+					break;
+				}
 			}
 		}
 	}
 
 	for (dooms::DObject* deletedDbject : deletedDObjectList)
 	{
-		if (CheckDObjectIsValid(deletedDbject))
+		if (dooms::DObjectManager::IsDObjectExist(deletedDbject) && deletedDbject->GetIsNewAllocated())
 		{
-			D_ASSERT(deletedDbject != nullptr); D_DEBUG_LOG(eLogType::D_LOG, "GC Collect Object ( Type Name : %s, DObject Name : %s )", deletedDbject->GetTypeFullName(), deletedDbject->GetDObjectName().c_str());
+			D_ASSERT(deletedDbject != nullptr);
+			D_DEBUG_LOG(eLogType::D_LOG, "GC Collect Object ( Type Name : %s, DObject Name : %s )", deletedDbject->GetTypeFullName(), deletedDbject->GetDObjectName().c_str());
 			deletedDbject->DestroySelfInstantly();
 		}
+	}
+
+	for (dooms::DObject* dObject : dObjectList)
+	{
+		dObject->SetDObjectFlag(dooms::eDObjectFlag::Unreachable | dooms::eDObjectFlag::IsNotCheckedByGC, std::memory_order_relaxed);
 	}
 }
 

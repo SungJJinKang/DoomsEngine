@@ -2,7 +2,7 @@
 #include <Core.h>
 
 #include <vector>
-#include <array>
+#include <memory>
 
 #include "GarbageCollectorSolver.h"
 
@@ -15,6 +15,11 @@ namespace dooms
 
 	namespace gc
 	{
+		struct RootObjectContainer
+		{
+			std::vector<DObject*> mRootsDObjectsList;
+		};
+
 		class DOOM_API D_CLASS GarbageCollectorManager
 		{
 
@@ -28,8 +33,8 @@ namespace dooms
 
 			// Max Level is long term alive object
 			static float mCollectTimeStep;
-			static std::vector<DObject*> mRootsDObjectsList;
-			
+			static std::unique_ptr<RootObjectContainer> _RootObjectContainer;
+
 			static void InitializeCollectTimeStep();
 
 			inline static dooms::gc::garbageCollectorSolver::eGCStage mNextGCStage{ dooms::gc::garbageCollectorSolver::eGCStage::ClearFlagsStage };
@@ -45,6 +50,7 @@ namespace dooms
 			static void ResetElapsedTime();
 
 			static void Collect(const garbageCollectorSolver::eGCMethod gcMethod = garbageCollectorSolver::eGCMethod::MultiThreadMark, const bool initialGC = false);
+			static void Collect(const bool initialGC = false);
 			
 			
 			/// <summary>
