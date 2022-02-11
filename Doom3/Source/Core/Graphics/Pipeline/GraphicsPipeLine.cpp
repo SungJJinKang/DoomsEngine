@@ -67,8 +67,6 @@ void dooms::graphics::GraphicsPipeLine::PreRender()
 
 void dooms::graphics::GraphicsPipeLine::Render()
 {
-	//TODO : Think where put this, as early as good
-
 	D_START_PROFILING(Update_Uniform_Buffer, dooms::profiler::eProfileLayers::Rendering);
 	mGraphicsServer.mUniformBufferObjectManager.UpdateUniformObjects();
 	D_END_PROFILING(Update_Uniform_Buffer);
@@ -78,59 +76,7 @@ void dooms::graphics::GraphicsPipeLine::Render()
 	for (size_t cameraIndex = 0; cameraIndex < spawnedCameraList.size(); cameraIndex++)
 	{
 		dooms::Camera* const targetCamera = spawnedCameraList[cameraIndex];
-		D_ASSERT(IsValid(targetCamera));
-
-		if (targetCamera->GetIsCullJobEnabled() == true)
-		{
-			mRenderingCullingManager.CameraCullJob(targetCamera); // do this first
-		}
-
-		std::future<void> IsFinishedSortingReferernceRenderers = PushFrontToBackSortJobToJobSystem(targetCamera, cameraIndex);
-		
-
-		D_ASSERT(IsValid(targetCamera));
-
-		FrameBuffer::StaticBindBackFrameBuffer();
-		GraphicsAPI::ClearBackFrameBufferColorBuffer(targetCamera->mClearColor[0], targetCamera->mClearColor[1], targetCamera->mClearColor[2], targetCamera->mClearColor[3]);
-		GraphicsAPI::ClearBackFrameBufferDepthBuffer(GraphicsAPI::DEFAULT_MAX_DEPTH_VALUE);
-
-		targetCamera->UpdateUniformBufferObject();
-
-		targetCamera->mDeferredRenderingFrameBuffer.ClearFrameBuffer(targetCamera);
-		targetCamera->mDeferredRenderingFrameBuffer.BindFrameBuffer();
-
-		D_START_PROFILING(RenderObject, dooms::profiler::eProfileLayers::Rendering);
-		//GraphicsAPI::Enable(GraphicsAPI::eCapability::DEPTH_TEST);
-		RenderObject(targetCamera, cameraIndex);
-		D_END_PROFILING(RenderObject);
-
-		FrameBuffer::StaticBindBackFrameBuffer();
-
-		// 
-		//Blit DepthBuffer To ScreenBuffer
-
-		if (targetCamera->IsMainCamera() == true)
-		{
-			//Only Main Camera can draw to screen buffer
-			mGraphicsServer.mPIPManager.DrawPIPs();
-
-			targetCamera->mDeferredRenderingFrameBuffer.BindGBufferTextures();
-			mDeferredRenderingDrawer.DrawDeferredRenderingQuadDrawer();
-			targetCamera->mDeferredRenderingFrameBuffer.UnBindGBufferTextures();
-
-
-			mRenderingDebugger.Render();
-		}
-
-
-		//Wait Multithread Sorting Renderer Front To Back  TO  JobSystem finished.
-		D_START_PROFILING(WAIT_SORTING_RENDERER_JOB, dooms::profiler::eProfileLayers::Rendering);
-		if (IsFinishedSortingReferernceRenderers.valid() == true)
-		{
-			IsFinishedSortingReferernceRenderers.wait();
-		}
-		D_END_PROFILING(WAIT_SORTING_RENDERER_JOB);
-
+		RenderCamera(targetCamera, cameraIndex);
 	}
 
 	RendererComponentStaticIterator::GetSingleton()->ChangeWorkingIndexRenderers();
@@ -157,38 +103,80 @@ void dooms::graphics::GraphicsPipeLine::RenderObject(dooms::Camera* const target
 
 	targetCamera->UpdateUniformBufferObject();
 
-
 	D_START_PROFILING(DrawLoop, dooms::profiler::eProfileLayers::Rendering);
 	const bool targetCamera_IS_CULLED_flag_on = targetCamera->GetCameraFlag(dooms::eCameraFlag::IS_CULLED);
-
-	UINT32 frontToBackOrder = 0;
-
-	/*
-	for (UINT32 layerIndex = 0; layerIndex < MAX_LAYER_COUNT; layerIndex++)
-	{
-	*/
-
+	
 	const std::vector<Renderer*>& renderersInLayer = RendererComponentStaticIterator::GetSingleton()->GetSortedRendererInLayer(cameraIndex);
 	for (Renderer* renderer : renderersInLayer)
 	{
 		if
-			(
-				IsValid(renderer) == true &&
-				//renderer->GetOwnerEntityLayerIndex() == layerIndex && 
-				renderer->GetIsComponentEnabled() == true
-				)
+		(
+			IsValid(renderer) == true &&
+			//renderer->GetOwnerEntityLayerIndex() == layerIndex && 
+			renderer->GetIsComponentEnabled() == true
+		)
 		{
-			if (
+			if
+			(
 				targetCamera_IS_CULLED_flag_on == false ||
 				renderer->GetIsCulled(targetCamera->CameraIndexInCullingSystem) == false
-				)
+			)
 			{
-				//renderer->ColliderUpdater<dooms::physics::AABB3D>::GetWorldCollider()->DrawPhysicsDebugColor(eColor::Blue);
 				renderer->Draw();
 			}
 		}
 	}
 	D_END_PROFILING(DrawLoop);
+}
+
+void dooms::graphics::GraphicsPipeLine::RenderCamera(dooms::Camera* const targetCamera, const size_t cameraIndex)
+{
+	D_ASSERT(IsValid(targetCamera));
+
+	if (targetCamera->GetIsCullJobEnabled() == true)
+	{
+		mRenderingCullingManager.CameraCullJob(targetCamera); // do this first
+	}
+
+	std::future<void> IsFinishedSortingReferernceRenderers = PushFrontToBackSortJobToJobSystem(targetCamera, cameraIndex);
+	
+	FrameBuffer::StaticBindBackFrameBuffer();
+	GraphicsAPI::ClearBackFrameBufferColorBuffer(targetCamera->mClearColor[0], targetCamera->mClearColor[1], targetCamera->mClearColor[2], targetCamera->mClearColor[3]);
+	GraphicsAPI::ClearBackFrameBufferDepthBuffer(GraphicsAPI::DEFAULT_MAX_DEPTH_VALUE);
+
+	targetCamera->UpdateUniformBufferObject();
+
+	targetCamera->mDeferredRenderingFrameBuffer.ClearFrameBuffer(targetCamera);
+	targetCamera->mDeferredRenderingFrameBuffer.BindFrameBuffer();
+
+	D_START_PROFILING(RenderObject, dooms::profiler::eProfileLayers::Rendering);
+	//GraphicsAPI::Enable(GraphicsAPI::eCapability::DEPTH_TEST);
+	RenderObject(targetCamera, cameraIndex);
+	D_END_PROFILING(RenderObject);
+
+	FrameBuffer::StaticBindBackFrameBuffer();
+	
+	if (targetCamera->IsMainCamera() == true)
+	{
+		//Only Main Camera can draw to screen buffer
+		mGraphicsServer.mPIPManager.DrawPIPs();
+
+		targetCamera->mDeferredRenderingFrameBuffer.BindGBufferTextures();
+		mDeferredRenderingDrawer.DrawDeferredRenderingQuadDrawer();
+		targetCamera->mDeferredRenderingFrameBuffer.UnBindGBufferTextures();
+
+
+		mRenderingDebugger.Render();
+	}
+
+
+	//Wait Multithread Sorting Renderer Front To Back  TO  JobSystem finished.
+	D_START_PROFILING(WAIT_SORTING_RENDERER_JOB, dooms::profiler::eProfileLayers::Rendering);
+	if (IsFinishedSortingReferernceRenderers.valid() == true)
+	{
+		IsFinishedSortingReferernceRenderers.wait();
+	}
+	D_END_PROFILING(WAIT_SORTING_RENDERER_JOB);
 }
 
 std::future<void> dooms::graphics::GraphicsPipeLine::PushFrontToBackSortJobToJobSystem
@@ -209,11 +197,11 @@ std::future<void> dooms::graphics::GraphicsPipeLine::PushFrontToBackSortJobToJob
 			const size_t rendererCount = renderers.size();
 
 			for
-				(
-					size_t rendererIndex = startRendererIndex;
-					rendererIndex < rendererCount;
-					rendererIndex++
-					)
+			(
+				size_t rendererIndex = startRendererIndex;
+				rendererIndex < rendererCount;
+				rendererIndex++
+			)
 			{
 				renderers[rendererIndex]->CacheDistanceToCamera(cameraIndex, cameraPos);
 			}

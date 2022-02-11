@@ -1,25 +1,8 @@
 #include "RenderingDebugger.h"
 
-#include <Rendering/Renderer/RendererStaticIterator.h>
-#include "IO/UserInput_Server.h"
 #include <Time/MainTimer.h>
-
 #include "RenderingDebuggerModules/RenderingDebuggerModule.h"
 #include "RenderingDebuggerHelper.h"
-
-/*
-void dooms::graphics::RenderingDebugger::DrawRenderingBoundingBox()
-{
-	if (graphics::graphicsSetting::DrawRenderingBoundingBox == true)
-	{
-		const std::vector<Renderer*>& renderersInLayer = RendererComponentStaticIterator::GetSingleton()->GetSortedRendererInLayer(0);
-		for (size_t rendererIndex = 0; rendererIndex < renderersInLayer.size(); rendererIndex++)
-		{
-			renderersInLayer[rendererIndex]->ColliderUpdater<dooms::physics::AABB3D>::DrawWorldColliderCache();
-		}
-	}
-}
-*/
 
 void dooms::graphics::RenderingDebugger::UpdateFPS()
 {
@@ -109,10 +92,3 @@ void dooms::graphics::RenderingDebugger::PostRender()
 		}
 	}
 }
-
-/*
-void dooms::graphics::RenderingDebugger::PrintDrawCallCounter()
-{
-	dooms::ui::PrintText("Draw Call : %d", RenderingDebugger::PreviousFrameDrawCallCounter);
-}
-*/

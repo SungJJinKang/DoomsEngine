@@ -28,6 +28,7 @@ namespace dooms
 
 			void PreRenderRenderer();			
 			void RenderObject(dooms::Camera* const targetCamera, const size_t cameraIndex);
+			void RenderCamera(dooms::Camera* const targetCamera, const size_t cameraIndex);
 
 			std::future<void> PushFrontToBackSortJobToJobSystem(dooms::Camera* const targetCamera, const UINT32 cameraIndex);
 
