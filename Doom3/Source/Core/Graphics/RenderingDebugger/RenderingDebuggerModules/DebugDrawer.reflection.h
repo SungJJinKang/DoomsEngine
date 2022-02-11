@@ -1,16 +1,16 @@
 #pragma once
 
 // Utility Header File ( Don't Edit this )
-// SourceFilePath : __Source_Core_Graphics_DebugGraphics_DebugDrawer_reflection_h
+// SourceFilePath : __Source_Core_Graphics_RenderingDebugger_RenderingDebuggerModules_DebugDrawer_reflection_h
 
 
-#ifdef __Source_Core_Graphics_DebugGraphics_DebugDrawer_reflection_h
+#ifdef __Source_Core_Graphics_RenderingDebugger_RenderingDebuggerModules_DebugDrawer_reflection_h
 
-#error "__Source_Core_Graphics_DebugGraphics_DebugDrawer_reflection_h already included, missing '#pragma once' in __Source_Core_Graphics_DebugGraphics_DebugDrawer_reflection_h"
+#error "__Source_Core_Graphics_RenderingDebugger_RenderingDebuggerModules_DebugDrawer_reflection_h already included, missing '#pragma once' in __Source_Core_Graphics_RenderingDebugger_RenderingDebuggerModules_DebugDrawer_reflection_h"
 
 #endif
 
-#define __Source_Core_Graphics_DebugGraphics_DebugDrawer_reflection_h
+#define __Source_Core_Graphics_RenderingDebugger_RenderingDebuggerModules_DebugDrawer_reflection_h
 
 
 #include <type_traits>
@@ -27,11 +27,11 @@
 #undef INHERITANCE_INFORMATION_dooms__graphics__DebugDrawer
 #define INHERITANCE_INFORMATION_dooms__graphics__DebugDrawer \
 public : \
-inline static const unsigned long int BASE_CHAIN_LIST[] { 2625426556, 3969188510 }; \
-inline static const unsigned long int BASE_CHAIN_LIST_LENGTH { 2 }; \
+inline static const unsigned long int BASE_CHAIN_LIST[] { 2625426556, 3005919411, 3969188510 }; \
+inline static const unsigned long int BASE_CHAIN_LIST_LENGTH { 3 }; \
 virtual const unsigned long int* GetBaseChainList() const { return BASE_CHAIN_LIST; } \
 virtual unsigned long int GetBaseChainListLength() const { return BASE_CHAIN_LIST_LENGTH; } \
-typedef dooms::DObject Base;
+typedef dooms::graphics::RenderingDebuggerModule Base;
 
 
 #undef CLONE_OBJECT_dooms__graphics__DebugDrawer

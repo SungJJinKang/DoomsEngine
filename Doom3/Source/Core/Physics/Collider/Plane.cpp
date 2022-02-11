@@ -1,5 +1,5 @@
 #include "Plane.h"
-#include <Graphics/DebugGraphics/DebugDrawer.h>
+#include <Graphics/RenderingDebugger/RenderingDebuggerModules/DebugDrawer.h>
 #include <Quaternion.h>
 #include <Utility.h>
 

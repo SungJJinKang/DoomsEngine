@@ -2,8 +2,8 @@
 
 #include <memory>
 
-#include "Material/Material.h"
-#include "Buffer/Mesh.h"
+#include "../Material/Material.h"
+#include "../Buffer/Mesh.h"
 
 #include "DeferredRenderingDrawer.reflection.h"
 namespace dooms

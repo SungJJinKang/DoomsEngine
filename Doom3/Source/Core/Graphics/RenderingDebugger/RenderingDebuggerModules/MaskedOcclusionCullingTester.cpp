@@ -1,14 +1,14 @@
 #include "maskedOcclusionCullingTester.h"
 
-#include "imgui.h"
-#include <EngineGUI/PrintText.h>
-#include <Graphics/DebugGraphics/DebugDrawer.h>
-#include <Rendering/Camera.h>
+#include "DebugDrawer.h"
+#include "../../Pipeline/GraphicsPipeLine.h"
+#include "Graphics/graphicsSetting.h"
+#include "Graphics/Acceleration/LinearData_ViewFrustumCulling/CullingModule/MaskedSWOcclusionCulling/MaskedSWOcclusionCulling.h"
 
 #define DEBUGGER_TILE_BOX_PADIDNG_X 0.002f
 #define DEBUGGER_TILE_BOX_PADIDNG_Y 0.002f
 
-void dooms::graphics::maskedOcclusionCullingTester::DebugTileCoverageMask
+void dooms::graphics::MaskedOcclusionCullingTester::DebugTileCoverageMask
 (
 	const culling::SWDepthBuffer* const depthBuffer
 )
@@ -53,7 +53,7 @@ void dooms::graphics::maskedOcclusionCullingTester::DebugTileCoverageMask
 	
 }
 
-void dooms::graphics::maskedOcclusionCullingTester::DebugTileL0MaxDepthValue
+void dooms::graphics::MaskedOcclusionCullingTester::DebugTileL0MaxDepthValue
 (
 	const culling::SWDepthBuffer* const depthBuffer
 )
@@ -105,7 +105,38 @@ void dooms::graphics::maskedOcclusionCullingTester::DebugTileL0MaxDepthValue
 	}
 }
 
-void dooms::graphics::maskedOcclusionCullingTester::DebugBinnedTriangles
+void dooms::graphics::MaskedOcclusionCullingTester::Initialize()
+{
+}
+
+void dooms::graphics::MaskedOcclusionCullingTester::PreRender()
+{
+}
+
+void dooms::graphics::MaskedOcclusionCullingTester::Render()
+{
+	
+	if (graphicsSetting::IsDrawMaskedOcclusionCullingBinTriangleStageDebugger == true)
+	{
+		DebugBinnedTriangles(&(GraphicsPipeLine::GetSingleton()->mRenderingCullingManager.mCullingSystem->mMaskedSWOcclusionCulling->mDepthBuffer));
+	}
+
+	if (graphicsSetting::IsDrawMaskedOcclusionCullingTileCoverageMaskDebugger == true)
+	{
+		DebugTileCoverageMask(&(GraphicsPipeLine::GetSingleton()->mRenderingCullingManager.mCullingSystem->mMaskedSWOcclusionCulling->mDepthBuffer));
+	}
+
+	if (graphicsSetting::IsDrawMaskedOcclusionCullingTileL0MaxDepthValueDebugger == true)
+	{
+		DebugTileL0MaxDepthValue(&(GraphicsPipeLine::GetSingleton()->mRenderingCullingManager.mCullingSystem->mMaskedSWOcclusionCulling->mDepthBuffer));
+	}
+}
+
+void dooms::graphics::MaskedOcclusionCullingTester::PostRender()
+{
+}
+
+void dooms::graphics::MaskedOcclusionCullingTester::DebugBinnedTriangles
 (
 	const culling::SWDepthBuffer* const depthBuffer
 )

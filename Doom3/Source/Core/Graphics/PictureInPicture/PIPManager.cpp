@@ -18,7 +18,6 @@ void dooms::graphics::PIPManager::DrawPIPs()
 		D_START_PROFILING(DrawPIPs, dooms::profiler::eProfileLayers::Rendering);
 		for (PicktureInPickture* pip : mPicktureInPicktures)
 		{
-			//D_ASSERT(IsValid(pip));
 			pip->DrawPictureInPicture();
 		}
 		D_END_PROFILING(DrawPIPs);

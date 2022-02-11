@@ -71,14 +71,14 @@ void dooms::Renderer::AddRendererToCullingSystem()
 {
 	if(mCullingEntityBlockViewer.GetIsActive() == false)
 	{
-		mCullingEntityBlockViewer = graphics::Graphics_Server::GetSingleton()->mCullingSystem->AllocateNewEntity();
+		mCullingEntityBlockViewer = graphics::Graphics_Server::GetSingleton()->mGraphicsPipeLine.mRenderingCullingManager.mCullingSystem->AllocateNewEntity();
 		InitializeCullingEntityBlockViewer();
 	}
 }
 
 void dooms::Renderer::RemoveRendererFromCullingSystem()
 {
-	graphics::Graphics_Server::GetSingleton()->mCullingSystem->RemoveEntityFromBlock(mCullingEntityBlockViewer);
+	graphics::Graphics_Server::GetSingleton()->mGraphicsPipeLine.mRenderingCullingManager.mCullingSystem->RemoveEntityFromBlock(mCullingEntityBlockViewer);
 }
 
 void dooms::Renderer::OnChangedByGUI(const dooms::reflection::DField& field_of_changed_field)

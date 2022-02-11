@@ -1,23 +1,20 @@
 #pragma once
 
 #include <Core.h>
-#include "../Graphics_Core.h"
-
-
-#ifdef DEBUG_DRAWER
-
+#include "../../Graphics_Core.h"
 
 #include <array>
 #include <string>
 #include <memory>
 #include <mutex>
 
-#include "../Buffer/Mesh.h"
-#include "../Material/Material.h"
-#include "../Color.h"
+#include "RenderingDebuggerModule.h"
+#include "../../Buffer/Mesh.h"
+#include "../../Material/Material.h"
+#include "../../Color.h"
 #include <Simple_SingleTon/Singleton.h>
 
-#include "DebugPrimitive/DebugPrimitiveContainerCollection.h"
+#include "../DebugPrimitive/DebugPrimitiveContainerCollection.h"
 
 #include "DebugDrawer.reflection.h"
 namespace dooms
@@ -26,7 +23,7 @@ namespace dooms
 	{
 		class Material;
 		class Graphics_Server;
-		class DOOM_API D_CLASS DebugDrawer : public DObject, public ISingleton<DebugDrawer>
+		class DOOM_API D_CLASS DebugDrawer : public RenderingDebuggerModule, public ISingleton<DebugDrawer>
 		{
 			GENERATE_BODY()
 				
@@ -52,6 +49,9 @@ namespace dooms
 
 
 			Material* mDrawInstantlyMaterial{ nullptr };
+
+			void BufferVertexDataToGPU();
+			void Draw();
 
 			
 		public:
@@ -117,18 +117,13 @@ namespace dooms
 			
 			void SetDrawInstantlyMaterial(Material* material);
 
-
-			void Init();
-			void Update();
-			void Reset();
-
-			void BufferVertexDataToGPU();
-			void Draw();
+			void Initialize() override;
+			void PreRender() override;
+			void Render() override;
+			void LateRender() override;
+			void PostRender() override;
 		};
 
 		
 	}
 }
-
-
-#endif
