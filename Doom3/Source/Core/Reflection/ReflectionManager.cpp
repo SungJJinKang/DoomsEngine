@@ -1,6 +1,6 @@
 #include "ReflectionManager.h"
 
-#include "Game/ConfigData.h"
+#include "EngineConfigurationData/ConfigData.h"
 #include <EngineGUI/PrintText.h>
 
 #include "clReflectHelper.h"

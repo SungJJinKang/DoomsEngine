@@ -10,7 +10,7 @@
 #include <Reflection/TypeSpecialized/Helper/iteratorHelper.h>
 #include <ResourceManagement/JobSystem_cpp/JobSystem.h>
 #include <Macros/Log.h>
-#include <Game/ConfigData.h>
+#include <EngineConfigurationData/ConfigData.h>
 #include <Math/LightMath_Cpp/Utility.h>
 #include <EngineGUI/PrintText.h>
 

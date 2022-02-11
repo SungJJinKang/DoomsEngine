@@ -7,7 +7,7 @@
 #include <string>
 
 #include <Asset/eAssetType.h>
-#include <DynamicLinkingHelper/SmartDynamicLinking.h>
+#include <Misc/DynamicLinkingHelper/SmartDynamicLinking.h>
 
 #include "AssetIOWorker.reflection.h"
 namespace dooms

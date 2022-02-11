@@ -1,9 +1,9 @@
 #pragma once
 #include "../Core/Component.h"
-#include <Misk/StaticContainer/StaticContainer.h>
+#include <Misc/StaticContainer/StaticContainer.h>
 
 #include "Physics/Collider/AABB.h"
-#include <Misk/AccelerationContainer/BVH/BVH_Node_Object.h>
+#include <Misc/AccelerationContainer/BVH/BVH_Node_Object.h>
 
 #include "ColliderComponent.reflection.h"
 namespace dooms

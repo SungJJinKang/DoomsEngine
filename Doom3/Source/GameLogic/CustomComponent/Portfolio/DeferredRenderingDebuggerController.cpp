@@ -1,8 +1,7 @@
 #include "DeferredRenderingDebuggerController.h"
 
-#include <Graphics/PictureInPicture/PicktureInPickture.h>
-
-#include <Graphics/PictureInPicture/PIPManager.h>
+#include <Rendering/PictureInPicture/PicktureInPickture.h>
+#include <Rendering/PictureInPicture/PIPManager.h>
 #include "Rendering/Camera.h"
 
 void dooms::DeferredRenderingDebuggerController::InitComponent()

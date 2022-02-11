@@ -1,24 +1,18 @@
 #pragma once
 #include "IGameFlow.h"
 
-#include <memory>
-
-
-#include <Asset/AssetManager/AssetManager.h>
-
-#include "../Scene/SharedScene.h"
 #include "../Scene/Scene.h"
-
-#include "ConfigData.h"
-
-#include "../Graphics/Graphics_Server.h"
-#include "../Physics/Physics_Server.h"
-#include "../ResourceManagement/JobSystem_cpp/JobSystem.h"
-#include "../IO/UserInput_Server.h"
-#include "../Time/Time_Server.h"
-#include "Reflection/ReflectionManager.h"
+#include <EngineConfigurationData/ConfigData.h>
+#include <Scene/SceneManager.h>
+#include <Asset/AssetManager/AssetManager.h>
+#include <Graphics/Graphics_Server.h>
+#include <Physics/Physics_Server.h>
+#include <ResourceManagement/JobSystem_cpp/JobSystem.h>
+#include <IO/UserInput_Server.h>
+#include <Time/Time_Server.h>
+#include <Reflection/ReflectionManager.h>
 #include <Memory/MemoryManager.h>
-#include "../GarbageCollector/GarbageCollectorManager.h"
+#include <GarbageCollector/GarbageCollectorManager.h>
 
 #include "GameCore.reflection.h"
 namespace dooms
@@ -36,54 +30,51 @@ namespace dooms
 		// in the class definition (again regardless of the order of the mem-initializers).
 
 		D_PROPERTY()
-		INT32 ITERATION_PER_SECOND{};
+		INT32 ITERATION_PER_SECOND;
 
 		D_PROPERTY()
-		INT32 TARGET_FRAME_RATE{};
+		INT32 TARGET_FRAME_RATE;
 
 		/// <summary>
 		/// check this : https://github.com/godotengine/godot/blob/master/core/os/os.cpp -> add_frame_delay function
 		/// </summary>
 		D_PROPERTY()
-		INT32	FRAME_DELAY_MILLISECOND{};
+		INT32 FRAME_DELAY_MILLISECOND;
 
 		D_PROPERTY()
-		FLOAT32 FIXED_TIME_STEP{};
+		FLOAT32 FIXED_TIME_STEP;
 
 		D_PROPERTY()
 		INT32 MAX_PHYSICS_STEP{ 8 };
 
+
+		D_PROPERTY()
+		SceneManager mSceneManager;
+
 		//Servers
 		D_PROPERTY()
-		assetImporter::AssetManager mAssetManager{};
+		assetImporter::AssetManager mAssetManager;
 
 		D_PROPERTY()
-		graphics::Graphics_Server mGraphics_Server{};
+		graphics::Graphics_Server mGraphics_Server;
 
 		D_PROPERTY()
-		physics::Physics_Server mPhysics_Server{};
+		physics::Physics_Server mPhysics_Server;
 
 		D_PROPERTY()
-		resource::JobSystem mJobSystem{};
+		resource::JobSystem mJobSystem;
 
 		D_PROPERTY()
-		userinput::UserInput_Server mUserImput_Server{};
+		userinput::UserInput_Server mUserImput_Server;
 
 		D_PROPERTY()
-		time::Time_Server mTime_Server{};
+		time::Time_Server mTime_Server;
 
 		D_PROPERTY()
-		reflection::ReflectionManager mReflectionManager{};
+		reflection::ReflectionManager mReflectionManager;
 
 		D_PROPERTY()
 		memory::MemoryManager mMemoryManager;
-
-		D_PROPERTY()
-		Scene* mCurrentScene{};
-		Scene* CreateNewScene(std::string sceneName = "");
-
-		D_PROPERTY()
-		SharedScene mSharedWorld{};
 
 		void InitGameSetting();
 		
@@ -94,7 +85,7 @@ namespace dooms
 	public:
 
 		D_PROPERTY()
-		ConfigData mGameConfigData{};
+		ConfigData mGameConfigData;
 
 		GameCore();
 		GameCore(const GameCore&) = delete;
@@ -118,21 +109,9 @@ namespace dooms
 		virtual void FixedUpdate() final;
 		virtual void OnEndOfFrame() final;
 		bool Tick();
-		
-
-		
-
 		/// <summary>
 		/// Clean Game Resources
 		/// </summary>
 		void CleanUp();
-
-
-
-
-
-
-
-		
 	};
 }

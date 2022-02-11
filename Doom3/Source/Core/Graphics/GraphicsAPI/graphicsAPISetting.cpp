@@ -1,5 +1,5 @@
 #include "graphicsAPISetting.h"
-#include "Game/ConfigData.h"
+#include "EngineConfigurationData/ConfigData.h"
 
 int dooms::graphics::graphicsAPISetting::ScreenSize[2] = {0, 0};
 float dooms::graphics::graphicsAPISetting::ScreenRatio{0.0f};

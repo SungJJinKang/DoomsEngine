@@ -1,6 +1,6 @@
 #include "RenderingCullingManager.h"
 
-#include "Game/ConfigData.h"
+#include "EngineConfigurationData/ConfigData.h"
 #include "Graphics/GraphicsAPI/graphicsAPISetting.h"
 #include <ResourceManagement/JobSystem_cpp/JobSystem.h>
 #include "Graphics/Acceleration/LinearData_ViewFrustumCulling/CullingModule/MaskedSWOcclusionCulling/MaskedSWOcclusionCulling.h"

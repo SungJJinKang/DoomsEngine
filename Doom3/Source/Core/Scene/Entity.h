@@ -2,21 +2,15 @@
 
 #include <string>
 #include <vector>
-#include <unordered_map>
 #include <type_traits>
 #include <memory>
-#include <functional>
 #include <utility>
-#include <typeinfo>
 
 #include "Scene.h"
 #include "../Core.h"
-#include "../../Component/Core/Component.h"
-
-#include "../../Component/Transform.h"
-
-#include "../../Helper/vector_erase_move_lastelement/vector_swap_popback.h"
-#include "../Game/FrameDirtyChecker.h"
+#include <Component.h>
+#include <Transform.h>
+#include <Misc/FrameDirtyChecker/FrameDirtyChecker.h>
 
 #include "Entity.reflection.h"
 namespace dooms
@@ -43,8 +37,6 @@ namespace dooms
 		GENERATE_BODY()
 		
 		friend class Component;
-		template <typename T>
-		friend class resource::ObjectPool;
 
 	public:
 
@@ -139,26 +131,8 @@ namespace dooms
 
 		}
 
-		bool _RemoveComponent(Component* const component, const size_t index)
-		{
-			D_ASSERT(IsValid(component));
-			D_ASSERT(component->IsChildOf<Transform>() == false);
-			D_ASSERT(component->mOwnerEntity == this);
-			
-			bool isRemoveSuccess = false;
-			
-			D_ASSERT(mComponents.size() > 0);
-			D_ASSERT(mComponents[index]);
-			D_ASSERT(mComponents[index] == component);
-			
-			mComponents.erase(mComponents.begin() + index);
-			isRemoveSuccess = true;
-			component->SetIsPendingKill();
+		bool _RemoveComponent(Component* const component, const size_t index);
 
-			return isRemoveSuccess;
-		}
-
-		
 
 		/// <summary>
 		/// only called through Destructor
@@ -311,36 +285,7 @@ namespace dooms
 			return components;
 		}
 
-		bool RemoveComponent(Component* const component)
-		{
-			D_ASSERT(IsValid(component));
-			D_ASSERT(component->IsChildOf<Transform>() == false);
-			D_ASSERT(component->mOwnerEntity == this);
-
-			bool isSuccess = false;
-
-			if (component->IsChildOf<Transform>() == false)
-			{
-				size_t index = 0;
-
-				for (size_t i = 0; i < mComponents.size(); i++)
-				{
-					if (mComponents[i] == component)
-					{
-						index = i;
-						isSuccess = true;
-						break;
-					}
-				}
-
-				if (isSuccess == true)
-				{
-					isSuccess = _RemoveComponent(component, index);
-				}
-			}
-
-			return isSuccess;
-		}
+		bool RemoveComponent(Component* const component);
 
 		template<typename T, std::enable_if_t<std::is_base_of_v<Component, T>, bool> = true>
 		bool RemoveComponents()
@@ -365,23 +310,13 @@ namespace dooms
 			return isAnyComponentRemoved;
 		}
 
-		FORCE_INLINE const std::vector<Component*>& GetAllComponents() const
-		{
-			return mComponents;
-		}
-		
-		void Destroy();
+		const std::vector<Component*>& GetAllComponents() const;
 
-		//Event
-		void OnSpawned(){}
+		void Destroy();
+		
 		void OnDestroyed();
 		virtual void OnSetPendingKill() override;
-
 		void OnActivated();
-		void OnDeActivated() {}
-
-		void OnPreUpdate() {}
-		void OnPostUpdate() {}
 
 		D_FUNCTION()
 		void DestroyEntitySelf();

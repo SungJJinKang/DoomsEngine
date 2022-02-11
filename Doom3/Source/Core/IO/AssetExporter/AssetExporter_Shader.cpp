@@ -1,6 +1,6 @@
 #include "AssetExporter_Shader.h"
 
-#include <DynamicLinkingHelper/SmartDynamicLinking.h>
+#include <Misc/DynamicLinkingHelper/SmartDynamicLinking.h>
 #include <EngineGUI/PrintText.h>
 
 #define GLSLCC_DLL_FILE_NAME "glslcc.dll"

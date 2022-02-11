@@ -2,30 +2,38 @@
 
 #include "../Graphics/Graphics_Server.h"
 
-#include <Misk/IniFile/SimpleIniParser.h>
+#include <Misc/IniFile/SimpleIniParser.h>
 #include <Asset/AssetManager/AssetManager.h>
 
 #include "../../GameLogic/GameLogicStartPoint.h"
-#include "ConfigData.h"
 #include "MainTimer.h"
 #include <GarbageCollector/GarbageCollectorManager.h>
 
 #include "../Logger/logger.h"
 #include <Graphics/GraphicsAPI/Input/GraphicsAPIInput.h>
 
+#define DEFAULT_MAX_PHYSICS_STEP 8
 
 dooms::GameCore::GameCore()
+	:
+	ITERATION_PER_SECOND(),
+	TARGET_FRAME_RATE(),
+	FRAME_DELAY_MILLISECOND(),
+	FIXED_TIME_STEP(),
+	MAX_PHYSICS_STEP(DEFAULT_MAX_PHYSICS_STEP),
+	mSceneManager(),
+	mAssetManager(),
+	mGraphics_Server(),
+	mPhysics_Server(),
+	mJobSystem(),
+	mUserImput_Server(),
+	mTime_Server(),
+	mReflectionManager(),
+	mMemoryManager(),
+	mGameConfigData()
 {
 
 
-}
-
-
-
-
-dooms::Scene* dooms::GameCore::CreateNewScene(std::string sceneName /*= ""*/)
-{
-	return dooms::CreateDObject<Scene>(sceneName);
 }
 
 void dooms::GameCore::InitGameSetting()
@@ -81,7 +89,7 @@ void dooms::GameCore::InitializeGraphicsAPI(const int argc, char* const* const a
 
 dooms::GameCore::~GameCore()
 {
-	mCurrentScene->SetIsPendingKill();
+
 }
 
 void dooms::GameCore::Init(const int argc, char* const* const argv)
@@ -92,8 +100,6 @@ void dooms::GameCore::Init(const int argc, char* const* const argv)
 	
 	InitServers(argc, argv);
 	LateInit();
-
-	mCurrentScene = CreateNewScene();
 
 	GameLogicStartPoint::StartGameLogic();
 
@@ -139,6 +145,7 @@ void dooms::GameCore::InitServers(const int argc, char* const* const argv)
 	mUserImput_Server.Init(argc, argv);
 	D_END_PROFILING(Init_UserInput_Server);
 
+	mSceneManager.Init(argc, argv);
 	
 
 
@@ -165,7 +172,9 @@ void dooms::GameCore::LateInit()
 	mUserImput_Server.Init();
 	D_END_PROFILING(Init UserInput_Server);
 	*/
-	
+
+	mSceneManager.LateInit();
+
 }
 
 void dooms::GameCore::Update()
@@ -192,9 +201,9 @@ void dooms::GameCore::Update()
 	mPhysics_Server.Update();
 	D_END_PROFILING(mPhysics_Server_Update);
 
-	D_START_PROFILING(mCurrentScene_UpdateEntities, eProfileLayers::CPU);
-	mCurrentScene->UpdateEntities(); // Update plain Components ( Game Logic )
-	D_END_PROFILING(mCurrentScene_UpdateEntities);
+	D_START_PROFILING(mSceneManager_Update, eProfileLayers::CPU);
+	mSceneManager.Update(); // Update plain Components ( Game Logic )
+	D_END_PROFILING(mSceneManager_Update);
 
 	D_START_PROFILING(mGraphics_Server_Update, eProfileLayers::CPU);
 	mGraphics_Server.Update_Internal();
@@ -216,9 +225,9 @@ void dooms::GameCore::FixedUpdate()
 	mPhysics_Server.FixedUpdate();
 	D_END_PROFILING(mPhysics_Server_FixedUpdate);
 
-	D_START_PROFILING(mCurrentScene_FixedUpdateEntities, eProfileLayers::CPU);
-	mCurrentScene->FixedUpdateEntities(); // Update plain Components ( Game Logic )
-	D_END_PROFILING(mCurrentScene_FixedUpdateEntities);
+	D_START_PROFILING(mSceneManager_FixedUpdate, eProfileLayers::CPU);
+	mSceneManager.FixedUpdate();
+	D_END_PROFILING(mSceneManager_FixedUpdate);
 }
 
 void dooms::GameCore::OnEndOfFrame()
@@ -246,9 +255,9 @@ void dooms::GameCore::OnEndOfFrame()
 
 
 
-	D_START_PROFILING(mCurrentScene_OnEndOfFrame, eProfileLayers::CPU);
-	mCurrentScene->OnEndOfFrameOfEntities(); // Update Plain Components ( Game Logic )
-	D_END_PROFILING(mCurrentScene_OnEndOfFrame);
+	D_START_PROFILING(mSceneManager_OnEndOfFrame, eProfileLayers::CPU);
+	mSceneManager.OnEndOfFrame(); // Update Plain Components ( Game Logic )
+	D_END_PROFILING(mSceneManager_OnEndOfFrame);
 
 	D_START_PROFILING(mGraphics_Server_OnEndOfFrame, eProfileLayers::CPU);
 	mGraphics_Server.OnEndOfFrame_Internal();

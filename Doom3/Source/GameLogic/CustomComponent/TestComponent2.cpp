@@ -1,6 +1,6 @@
 #include "TestComponent2.h"
 
-#include <Game/ConfigData.h>
+#include <EngineConfigurationData/ConfigData.h>
 
 void dooms::TestComponent2::InitComponent()
 {

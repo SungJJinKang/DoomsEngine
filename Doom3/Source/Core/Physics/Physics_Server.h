@@ -4,7 +4,7 @@
 #include "../Game/IGameFlow.h"
 
 #include <Simple_SingleTon/Singleton.h>
-#include <Misk/AccelerationContainer/BVH/BVH.h>
+#include <Misc/AccelerationContainer/BVH/BVH.h>
 
 #define PHYSICS_COLLIDER_BVH_MAX_NODE_COUNT 3000 // this include all internal node, leaf node
 

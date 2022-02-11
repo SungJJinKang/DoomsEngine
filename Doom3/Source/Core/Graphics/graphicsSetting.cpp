@@ -1,5 +1,5 @@
 #include "GraphicsSetting.h"
-#include "Game/ConfigData.h"
+#include "EngineConfigurationData/ConfigData.h"
 
 void dooms::graphics::graphicsSetting::LoadData()
 {

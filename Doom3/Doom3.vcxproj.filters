@@ -45,9 +45,6 @@
     <ClCompile Include="Source\Core\Graphics\Buffer\Mesh.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Core\ResourceManagement\Pool\MemoryPool.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Source\Core\Math\LightMath_Cpp\Vector3.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -73,12 +70,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Source\Core\Scene\Scene.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Core\Scene\SharedScene.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Core\Scene\SharedSceneSetting.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Source\Core\Physics\Physics_Setting.cpp">
@@ -117,7 +108,7 @@
     <ClCompile Include="Source\GameLogic\CustomComponent\AutoRotate.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Core\Graphics\RenderingDebugger\RenderingDebuggerModules\DebugDrawer.cpp">
+    <ClCompile Include="Source\Engine\Rendering\RenderingDebugger\RenderingDebuggerModules\DebugDrawer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Source\Engine\Physics\Utility\Picking.cpp">
@@ -246,46 +237,46 @@
     <ClCompile Include="Source\Core\Graphics\Texture\TextureView.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Core\Graphics\PictureInPicture\PicktureInPickture.cpp">
+    <ClCompile Include="Source\Engine\Rendering\PictureInPicture\PicktureInPickture.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Core\Misk\AccelerationContainer\BVH\BVH.cpp">
+    <ClCompile Include="Source\Core\Misc\AccelerationContainer\BVH\BVH.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Core\Misk\AccelerationContainer\BVH\BVH_Node.cpp">
+    <ClCompile Include="Source\Core\Misc\AccelerationContainer\BVH\BVH_Node.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Core\Misk\AccelerationContainer\BVH\BVH_Node_Container.cpp">
+    <ClCompile Include="Source\Core\Misc\AccelerationContainer\BVH\BVH_Node_Container.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Core\Misk\AccelerationContainer\BVH\BVH_Node_Object.cpp">
+    <ClCompile Include="Source\Core\Misc\AccelerationContainer\BVH\BVH_Node_Object.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Core\Misk\AccelerationContainer\BVH\extension\BVH_AxisSweep3.cpp">
+    <ClCompile Include="Source\Core\Misc\AccelerationContainer\BVH\extension\BVH_AxisSweep3.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Core\Misk\AccelerationContainer\KDTree\KDTree.cpp">
+    <ClCompile Include="Source\Core\Misc\AccelerationContainer\KDTree\KDTree.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Core\Misk\AccelerationContainer\BVH\BVH_Node_View.cpp">
+    <ClCompile Include="Source\Core\Misc\AccelerationContainer\BVH\BVH_Node_View.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Core\Misk\AccelerationContainer\KDTree\KDTreeNodeView.cpp">
+    <ClCompile Include="Source\Core\Misc\AccelerationContainer\KDTree\KDTreeNodeView.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Source\Core\Physics\Collider\OBB.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Core\Misk\AccelerationContainer\KDTree\KDTreeVector.cpp">
+    <ClCompile Include="Source\Core\Misc\AccelerationContainer\KDTree\KDTreeVector.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Core\Misk\AccelerationContainer\KDTree\KDTreeAABB.cpp">
+    <ClCompile Include="Source\Core\Misc\AccelerationContainer\KDTree\KDTreeAABB.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Source\Core\Graphics\Acceleration\LinearData_ViewFrustumCulling\EveryCulling.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Core\Misk\ColliderUpdater\ColliderUpdater.cpp">
+    <ClCompile Include="Source\Core\Misc\ColliderUpdater\ColliderUpdater.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Source\Core\ResourceManagement\JobSystem_cpp\JobSystem.cpp">
@@ -357,7 +348,7 @@
     <ClCompile Include="Source\Core\Graphics\FrameBuffer\DefferedRenderingFrameBuffer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Core\Graphics\PictureInPicture\PIPManager.cpp">
+    <ClCompile Include="Source\Engine\Rendering\PictureInPicture\PIPManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Source\Core\Graphics\Buffer\UniformBufferObject\UniformBufferObjectUpdater.cpp">
@@ -378,7 +369,7 @@
     <ClCompile Include="Source\GameLogic\GameLogicStartPoint.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Core\Graphics\RenderingDebugger\RenderingDebugger.cpp">
+    <ClCompile Include="Source\Engine\Rendering\RenderingDebugger\RenderingDebugger.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Source\GameLogic\CustomComponent\Portfolio\RenderingAABBController.cpp">
@@ -402,7 +393,7 @@
     <ClCompile Include="Source\Component\PhysicsComponent\Rigidbody\Rigidbody.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Core\Graphics\RenderingDebugger\RenderingDebuggerModules\OverDrawVisualization.cpp">
+    <ClCompile Include="Source\Engine\Rendering\RenderingDebugger\RenderingDebuggerModules\OverDrawVisualization.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Source\Core\Graphics\Material\FixedMaterial.cpp">
@@ -421,9 +412,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Source\GameLogic\CustomComponent\Portfolio\PhysicsDebuggerController.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\GameLogic\CustomComponent\PerformanceTestController.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Source\Core\Graphics\Acceleration\LinearData_ViewFrustumCulling\DataType\Math\Common.cpp">
@@ -486,10 +474,10 @@
     <ClCompile Include="Source\Core\Graphics\FrameBuffer\FrameBufferExporterHelper.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Core\Game\FrameDirtyChecker.cpp">
+    <ClCompile Include="Source\Core\Misc\FrameDirtyChecker\FrameDirtyChecker.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Core\Misk\IniFile\SimpleIniParser.cpp">
+    <ClCompile Include="Source\Core\Misc\IniFile\SimpleIniParser.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Source\Core\Asset\Utility\textImporter.cpp">
@@ -507,7 +495,7 @@
     <ClCompile Include="Source\Core\Reflection\clReflectHelper.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Core\DynamicLinkingHelper\SmartDynamicLinking.cpp">
+    <ClCompile Include="Source\Core\Misc\DynamicLinkingHelper\SmartDynamicLinking.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Source\Core\String\StringHelper.cpp">
@@ -648,7 +636,7 @@
     <ClCompile Include="Source\Core\Graphics\Acceleration\LinearData_ViewFrustumCulling\CullingModule\MaskedSWOcclusionCulling\Stage\SolveMeshRoleStage.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Core\Graphics\RenderingDebugger\RenderingDebuggerModules\MaskedOcclusionCullingTester.cpp">
+    <ClCompile Include="Source\Engine\Rendering\RenderingDebugger\RenderingDebuggerModules\MaskedOcclusionCullingTester.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Source\Core\EngineGUI\GUIModules\MaskedOcclusionCulliingDebugger.cpp">
@@ -666,34 +654,34 @@
     <ClCompile Include="Source\Core\Graphics\Acceleration\LinearData_ViewFrustumCulling\CullingModule\MaskedSWOcclusionCulling\Utility\triangleSlopeEventGetter.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Core\Graphics\RenderingDebugger\DebugPrimitive\DebugPrimitiveContainer.cpp">
+    <ClCompile Include="Source\Engine\Rendering\RenderingDebugger\DebugPrimitive\DebugPrimitiveContainer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Core\Graphics\RenderingDebugger\DebugPrimitive\DebugPrimitiveTriangleContainer.cpp">
+    <ClCompile Include="Source\Engine\Rendering\RenderingDebugger\DebugPrimitive\DebugPrimitiveTriangleContainer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Core\Graphics\RenderingDebugger\DebugPrimitive\DebugPrimitive2DTriangleContainer.cpp">
+    <ClCompile Include="Source\Engine\Rendering\RenderingDebugger\DebugPrimitive\DebugPrimitive2DTriangleContainer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Core\Graphics\RenderingDebugger\DebugPrimitive\DebugPrimitive3DTriangleContainer.cpp">
+    <ClCompile Include="Source\Engine\Rendering\RenderingDebugger\DebugPrimitive\DebugPrimitive3DTriangleContainer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Core\Graphics\RenderingDebugger\DebugPrimitive\DebugPrimitiveLineContainer.cpp">
+    <ClCompile Include="Source\Engine\Rendering\RenderingDebugger\DebugPrimitive\DebugPrimitiveLineContainer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Core\Graphics\RenderingDebugger\DebugPrimitive\DebugPrimitive2DLineContainer.cpp">
+    <ClCompile Include="Source\Engine\Rendering\RenderingDebugger\DebugPrimitive\DebugPrimitive2DLineContainer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Core\Graphics\RenderingDebugger\DebugPrimitive\DebugPrimitive3DLineContainer.cpp">
+    <ClCompile Include="Source\Engine\Rendering\RenderingDebugger\DebugPrimitive\DebugPrimitive3DLineContainer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Core\Graphics\RenderingDebugger\DebugPrimitive\DebugPrimitivePointContainer.cpp">
+    <ClCompile Include="Source\Engine\Rendering\RenderingDebugger\DebugPrimitive\DebugPrimitivePointContainer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Core\Graphics\RenderingDebugger\DebugPrimitive\DebugPrimitive2DPointContainer.cpp">
+    <ClCompile Include="Source\Engine\Rendering\RenderingDebugger\DebugPrimitive\DebugPrimitive2DPointContainer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Core\Graphics\RenderingDebugger\DebugPrimitive\DebugPrimitive3DPointContainer.cpp">
+    <ClCompile Include="Source\Engine\Rendering\RenderingDebugger\DebugPrimitive\DebugPrimitive3DPointContainer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Source\Core\Graphics\Acceleration\LinearData_ViewFrustumCulling\CullingModule\MaskedSWOcclusionCulling\Utility\vertexTransformationHelper.cpp">
@@ -783,16 +771,31 @@
     <ClCompile Include="Source\Core\Graphics\Pipeline\RenderingCullingManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Core\Graphics\RenderingDebugger\RenderingDebuggerModules\RenderingDebuggerModule.cpp">
+    <ClCompile Include="Source\Engine\Rendering\RenderingDebugger\RenderingDebuggerModules\RenderingDebuggerModule.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Core\Graphics\RenderingDebugger\RenderingDebuggerHelper.cpp">
+    <ClCompile Include="Source\Engine\Rendering\RenderingDebugger\RenderingDebuggerHelper.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Core\Graphics\RenderingDebugger\RenderingDebuggerModules\EveryCullingProfilerDebugger.cpp">
+    <ClCompile Include="Source\Engine\Rendering\RenderingDebugger\RenderingDebuggerModules\EveryCullingProfilerDebugger.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Core\Graphics\RenderingDebugger\RenderingDebuggerModules\RendererAABBDebugger.cpp">
+    <ClCompile Include="Source\Engine\Rendering\RenderingDebugger\RenderingDebuggerModules\RendererAABBDebugger.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Core\EngineConfigurationData\ConfigData.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Core\Scene\Layer\LayerManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Core\Scene\SceneManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Core\Scene\Layer\DefaultLayers.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Core\Scene\Layer\Layer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -1028,9 +1031,6 @@
     <ClInclude Include="Source\Core\Graphics\Buffer\Mesh.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Core\ResourceManagement\Pool\MemoryPool.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Helper\concurrentqueue\blockingconcurrentqueue.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -1082,22 +1082,13 @@
     <ClInclude Include="Source\Core\Scene\Entity.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Core\Scene\IWorldIndependent.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Core\Scene\Layer.h">
+    <ClInclude Include="Source\Core\Scene\Layer\Layer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\Core\Scene\Scene.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Core\Scene\SharedScene.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Core\Scene\SharedSceneSetting.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Core\Game\FrameDirtyChecker.h">
+    <ClInclude Include="Source\Core\Misc\FrameDirtyChecker\FrameDirtyChecker.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\Core\Physics\Physics_Setting.h">
@@ -1130,7 +1121,7 @@
     <ClInclude Include="Source\GameLogic\CustomComponent\AutoRotate.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Core\Graphics\RenderingDebugger\RenderingDebuggerModules\DebugDrawer.h">
+    <ClInclude Include="Source\Engine\Rendering\RenderingDebugger\RenderingDebuggerModules\DebugDrawer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\Core\Graphics\Color.h">
@@ -1214,7 +1205,7 @@
     <ClInclude Include="Source\Core\OS\OS.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Core\Game\ConfigData.h">
+    <ClInclude Include="Source\Core\EngineConfigurationData\ConfigData.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\Helper\StaticContainer\StaticContainer.h">
@@ -1280,40 +1271,40 @@
     <ClInclude Include="Source\Core\Graphics\Texture\TextureView.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Core\Graphics\PictureInPicture\PicktureInPickture.h">
+    <ClInclude Include="Source\Engine\Rendering\PictureInPicture\PicktureInPickture.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Core\Misk\AccelerationContainer\BVH\BVH.h">
+    <ClInclude Include="Source\Core\Misc\AccelerationContainer\BVH\BVH.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Core\Misk\AccelerationContainer\BVH\BVH_Node.h">
+    <ClInclude Include="Source\Core\Misc\AccelerationContainer\BVH\BVH_Node.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Core\Misk\AccelerationContainer\BVH\BVH_Node_Container.h">
+    <ClInclude Include="Source\Core\Misc\AccelerationContainer\BVH\BVH_Node_Container.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Core\Misk\AccelerationContainer\BVH\BVH_Node_Object.h">
+    <ClInclude Include="Source\Core\Misc\AccelerationContainer\BVH\BVH_Node_Object.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Core\Misk\AccelerationContainer\BVH\extension\BVH_AxisSweep3.h">
+    <ClInclude Include="Source\Core\Misc\AccelerationContainer\BVH\extension\BVH_AxisSweep3.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Core\Misk\AccelerationContainer\KDTree\KDTree.h">
+    <ClInclude Include="Source\Core\Misc\AccelerationContainer\KDTree\KDTree.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Core\Misk\AccelerationContainer\BVH\BVH_Node_View.h">
+    <ClInclude Include="Source\Core\Misc\AccelerationContainer\BVH\BVH_Node_View.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Core\Misk\AccelerationContainer\BVH\BVH_Core.h">
+    <ClInclude Include="Source\Core\Misc\AccelerationContainer\BVH\BVH_Core.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Core\Misk\AccelerationContainer\KDTree\KDTreeNodeView.h">
+    <ClInclude Include="Source\Core\Misc\AccelerationContainer\KDTree\KDTreeNodeView.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Core\Misk\AccelerationContainer\KDTree\KDTreeNode.h">
+    <ClInclude Include="Source\Core\Misc\AccelerationContainer\KDTree\KDTreeNode.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Core\Misk\AccelerationContainer\KDTree\KDTreeCore.h">
+    <ClInclude Include="Source\Core\Misc\AccelerationContainer\KDTree\KDTreeCore.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\Core\Math\LightMath_Cpp\SIMD.h">
@@ -1325,10 +1316,10 @@
     <ClInclude Include="Source\Core\Physics\Collider\OBB.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Core\Misk\AccelerationContainer\TreeNode.h">
+    <ClInclude Include="Source\Core\Misc\AccelerationContainer\TreeNode.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Core\Misk\AccelerationContainer\Tree.h">
+    <ClInclude Include="Source\Core\Misc\AccelerationContainer\Tree.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\Core\Graphics\RenderingBitFlag.h">
@@ -1364,9 +1355,6 @@
     <ClInclude Include="Source\Core\Graphics\Acceleration\LinearData_ViewFrustumCulling\DataType\EntityBlockViewer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Core\ResourceManagement\Pool\ObjectPool.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Core\Graphics\Acceleration\LinearData_ViewFrustumCulling\EveryCulling.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -1379,7 +1367,7 @@
     <ClInclude Include="Source\Core\Graphics\Acceleration\LinearData_ViewFrustumCulling\CullingModule\CullingModule.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Core\Misk\ColliderUpdater\ColliderUpdater.h">
+    <ClInclude Include="Source\Core\Misc\ColliderUpdater\ColliderUpdater.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\Core\ResourceManagement\JobSystem_cpp\JobSystem.h">
@@ -1478,7 +1466,7 @@
     <ClInclude Include="Source\Core\Graphics\FrameBuffer\DefferedRenderingFrameBuffer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Core\Graphics\PictureInPicture\PIPManager.h">
+    <ClInclude Include="Source\Engine\Rendering\PictureInPicture\PIPManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\Core\Graphics\Buffer\UniformBufferObject\UniformBufferObjectUpdater.h">
@@ -1499,7 +1487,7 @@
     <ClInclude Include="Source\GameLogic\GameLogicStartPoint.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Core\Graphics\RenderingDebugger\RenderingDebugger.h">
+    <ClInclude Include="Source\Engine\Rendering\RenderingDebugger\RenderingDebugger.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\GameLogic\CustomComponent\Portfolio\RenderingAABBController.h">
@@ -1523,7 +1511,7 @@
     <ClInclude Include="Source\Component\PhysicsComponent\Rigidbody\Rigidbody.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Core\Graphics\RenderingDebugger\RenderingDebuggerModules\OverDrawVisualization.h">
+    <ClInclude Include="Source\Engine\Rendering\RenderingDebugger\RenderingDebuggerModules\OverDrawVisualization.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\Core\Graphics\Material\FixedMaterial.h">
@@ -1538,9 +1526,6 @@
     <ClInclude Include="Source\Core\DObject\DObjectGlobals.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Core\Profiler\CPUVendorProfiler.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Source\GameLogic\CustomComponent\Portfolio\PortfolioComponent.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -1548,12 +1533,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\GameLogic\CustomComponent\Portfolio\PhysicsDebuggerController.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Core\Profiler\ProfilerABTest.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\GameLogic\CustomComponent\PerformanceTestController.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\Component\Core\ComponentGlobals.h">
@@ -1607,13 +1586,13 @@
     <ClInclude Include="Source\Core\DObject\DObjectMacros.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Core\Misk\IniFile\SimpleIniParser.h">
+    <ClInclude Include="Source\Core\Misc\IniFile\SimpleIniParser.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\Core\Asset\Utility\textImporter.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Core\Misk\String\trim.h">
+    <ClInclude Include="Source\Core\Misc\String\trim.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\Core\DObject\DObjectHeaders.h">
@@ -1673,7 +1652,7 @@
     <ClInclude Include="Source\Core\Reflection\clReflectHelper.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Core\DynamicLinkingHelper\SmartDynamicLinking.h">
+    <ClInclude Include="Source\Core\Misc\DynamicLinkingHelper\SmartDynamicLinking.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\Core\String\StringHelper.h">
@@ -1817,7 +1796,7 @@
     <ClInclude Include="Source\Core\Graphics\Acceleration\LinearData_ViewFrustumCulling\CullingModule\MaskedSWOcclusionCulling\Stage\SolveMeshRoleStage.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Core\Graphics\RenderingDebugger\RenderingDebuggerModules\MaskedOcclusionCullingTester.h">
+    <ClInclude Include="Source\Engine\Rendering\RenderingDebugger\RenderingDebuggerModules\MaskedOcclusionCullingTester.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\Core\EngineGUI\GUIModules\MaskedOcclusionCulliingDebugger.h">
@@ -1835,37 +1814,37 @@
     <ClInclude Include="Source\Core\Graphics\Acceleration\LinearData_ViewFrustumCulling\CullingModule\MaskedSWOcclusionCulling\Utility\triangleSlopeEventGetter.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Core\Graphics\RenderingDebugger\DebugPrimitive\DebugPrimitiveContainer.h">
+    <ClInclude Include="Source\Engine\Rendering\RenderingDebugger\DebugPrimitive\DebugPrimitiveContainer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Core\Graphics\RenderingDebugger\DebugPrimitive\DebugPrimitiveTriangleContainer.h">
+    <ClInclude Include="Source\Engine\Rendering\RenderingDebugger\DebugPrimitive\DebugPrimitiveTriangleContainer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Core\Graphics\RenderingDebugger\DebugPrimitive\DebugPrimitive2DTriangleContainer.h">
+    <ClInclude Include="Source\Engine\Rendering\RenderingDebugger\DebugPrimitive\DebugPrimitive2DTriangleContainer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Core\Graphics\RenderingDebugger\DebugPrimitive\DebugPrimitive3DTriangleContainer.h">
+    <ClInclude Include="Source\Engine\Rendering\RenderingDebugger\DebugPrimitive\DebugPrimitive3DTriangleContainer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Core\Graphics\RenderingDebugger\DebugPrimitive\DebugPrimitiveLineContainer.h">
+    <ClInclude Include="Source\Engine\Rendering\RenderingDebugger\DebugPrimitive\DebugPrimitiveLineContainer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Core\Graphics\RenderingDebugger\DebugPrimitive\DebugPrimitive2DLineContainer.h">
+    <ClInclude Include="Source\Engine\Rendering\RenderingDebugger\DebugPrimitive\DebugPrimitive2DLineContainer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Core\Graphics\RenderingDebugger\DebugPrimitive\DebugPrimitive3DLineContainer.h">
+    <ClInclude Include="Source\Engine\Rendering\RenderingDebugger\DebugPrimitive\DebugPrimitive3DLineContainer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Core\Graphics\RenderingDebugger\DebugPrimitive\DebugPrimitivePointContainer.h">
+    <ClInclude Include="Source\Engine\Rendering\RenderingDebugger\DebugPrimitive\DebugPrimitivePointContainer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Core\Graphics\RenderingDebugger\DebugPrimitive\DebugPrimitive2DPointContainer.h">
+    <ClInclude Include="Source\Engine\Rendering\RenderingDebugger\DebugPrimitive\DebugPrimitive2DPointContainer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Core\Graphics\RenderingDebugger\DebugPrimitive\DebugPrimitive3DPointContainer.h">
+    <ClInclude Include="Source\Engine\Rendering\RenderingDebugger\DebugPrimitive\DebugPrimitive3DPointContainer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Core\Graphics\RenderingDebugger\DebugPrimitive\DebugPrimitiveContainerCollection.h">
+    <ClInclude Include="Source\Engine\Rendering\RenderingDebugger\DebugPrimitive\DebugPrimitiveContainerCollection.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\Core\Graphics\Acceleration\LinearData_ViewFrustumCulling\CullingModule\MaskedSWOcclusionCulling\Utility\vertexTransformationHelper.h">
@@ -1961,16 +1940,25 @@
     <ClInclude Include="Source\Core\Graphics\Pipeline\RenderingCullingManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Core\Graphics\RenderingDebugger\RenderingDebuggerModules\RenderingDebuggerModule.h">
+    <ClInclude Include="Source\Engine\Rendering\RenderingDebugger\RenderingDebuggerModules\RenderingDebuggerModule.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Core\Graphics\RenderingDebugger\RenderingDebuggerHelper.h">
+    <ClInclude Include="Source\Engine\Rendering\RenderingDebugger\RenderingDebuggerHelper.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Core\Graphics\RenderingDebugger\RenderingDebuggerModules\EveryCullingProfilerDebugger.h">
+    <ClInclude Include="Source\Engine\Rendering\RenderingDebugger\RenderingDebuggerModules\EveryCullingProfilerDebugger.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Core\Graphics\RenderingDebugger\RenderingDebuggerModules\RendererAABBDebugger.h">
+    <ClInclude Include="Source\Engine\Rendering\RenderingDebugger\RenderingDebuggerModules\RendererAABBDebugger.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Core\Scene\Layer\LayerManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Core\Scene\SceneManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Core\Scene\Layer\DefaultLayers.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

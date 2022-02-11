@@ -9,7 +9,7 @@
 #include "Physics_Setting.h"
 #include <PhysicsComponent/ColliderComponent.h>
 #include <PhysicsComponent/Rigidbody/Rigidbody.h>
-#include <Misk/StaticContainer/StaticContainer.h>
+#include <Misc/StaticContainer/StaticContainer.h>
 
 #include "PhysicsSolver.h"
 #include <Physics/Debugger/PhysicsDebugger.h>

@@ -8,7 +8,7 @@
 
 #include <array>
 #include "../Core/Graphics/Buffer/UniformBufferObject/UniformBufferObjectUpdater.h"
-#include <Misk/StaticContainer/StaticContainer.h>
+#include <Misc/StaticContainer/StaticContainer.h>
 
 #include <EasyDirtyChecker/DirtyReceiver.h>
 

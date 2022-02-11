@@ -3,7 +3,7 @@
 #include <algorithm>
 
 #include"Scene.h"
-#include <Scene/Layer.h>
+#include "Layer/Layer.h"
 
 using namespace dooms;
 
@@ -140,6 +140,25 @@ void Entity::InitializeComponent(Component* const newComponent)
 	newComponent->OnActivated();
 }
 
+bool Entity::_RemoveComponent(Component* const component, const size_t index)
+{
+	D_ASSERT(IsValid(component));
+	D_ASSERT(component->IsChildOf<Transform>() == false);
+	D_ASSERT(component->mOwnerEntity == this);
+			
+	bool isRemoveSuccess = false;
+			
+	D_ASSERT(mComponents.size() > 0);
+	D_ASSERT(mComponents[index]);
+	D_ASSERT(mComponents[index] == component);
+			
+	mComponents.erase(mComponents.begin() + index);
+	isRemoveSuccess = true;
+	component->SetIsPendingKill();
+
+	return isRemoveSuccess;
+}
+
 void Entity::ClearComponents()
 {
 	while (mComponents.empty() == false)
@@ -186,6 +205,42 @@ void Entity::SetLayerIndex(UINT32 layerIndex)
 {
 	D_ASSERT(layerIndex >= 0 && layerIndex < MAX_LAYER_COUNT);
 	mLayerIndex = layerIndex;
+}
+
+bool Entity::RemoveComponent(Component* const component)
+{
+	D_ASSERT(IsValid(component));
+	D_ASSERT(component->IsChildOf<Transform>() == false);
+	D_ASSERT(component->mOwnerEntity == this);
+
+	bool isSuccess = false;
+
+	if (component->IsChildOf<Transform>() == false)
+	{
+		size_t index = 0;
+
+		for (size_t i = 0; i < mComponents.size(); i++)
+		{
+			if (mComponents[i] == component)
+			{
+				index = i;
+				isSuccess = true;
+				break;
+			}
+		}
+
+		if (isSuccess == true)
+		{
+			isSuccess = _RemoveComponent(component, index);
+		}
+	}
+
+	return isSuccess;
+}
+
+const std::vector<Component*>& Entity::GetAllComponents() const
+{
+	return mComponents;
 }
 
 void Entity::Destroy()

@@ -1,7 +1,7 @@
 #pragma once
 
 #include <Core.h>
-#include "../../Core/Game/FrameDirtyChecker.h"
+#include <Misc/FrameDirtyChecker/FrameDirtyChecker.h>
 
 #include "Component.reflection.h"
 class DirtyReceiver;

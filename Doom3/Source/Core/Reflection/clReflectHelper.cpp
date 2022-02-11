@@ -2,12 +2,12 @@
 
 #include <string>
 
-#include <DynamicLinkingHelper/SmartDynamicLinking.h>
+#include <Misc/DynamicLinkingHelper/SmartDynamicLinking.h>
 #include <ResourceManagement/JobSystem_cpp/JobSystem.h>
 
 #include <EngineGUI/PrintText.h>
 
-#include "Game/ConfigData.h"
+#include "EngineConfigurationData/ConfigData.h"
 
 
 namespace dooms

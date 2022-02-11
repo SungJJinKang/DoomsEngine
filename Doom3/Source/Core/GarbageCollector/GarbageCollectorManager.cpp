@@ -1,7 +1,7 @@
 #include "GarbageCollectorManager.h"
 
 #include <Time/MainTimer.h>
-#include <Game/ConfigData.h>
+#include <EngineConfigurationData/ConfigData.h>
 
 #include "GarbageCollectorSolver.h"
 #include <vector_erase_move_lastelement/vector_swap_popback.h>

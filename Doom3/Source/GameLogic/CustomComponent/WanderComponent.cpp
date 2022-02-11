@@ -1,6 +1,6 @@
 #include "WanderComponent.h"
 
-#include <Graphics/RenderingDebugger/RenderingDebuggerModules/DebugDrawer.h>
+#include <Rendering/RenderingDebugger/RenderingDebuggerModules/DebugDrawer.h>
 #include <Graphics/GraphicsAPI/graphicsAPIHelper.h>
 
 #define ARRIVE_DISTANCE 3.0f

@@ -6,7 +6,7 @@
 #include <Simple_SingleTon/Singleton.h>
 #include "RenderingCullingManager.h"
 #include "DeferredRenderingDrawer.h"
-#include "Graphics/RenderingDebugger/RenderingDebugger.h"
+#include "Rendering/RenderingDebugger/RenderingDebugger.h"
 
 #include "GraphicsPipeLine.reflection.h"
 namespace dooms

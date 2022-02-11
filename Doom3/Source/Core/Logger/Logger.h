@@ -1,10 +1,6 @@
 #pragma once
 
 #include <CompilerMacros.h>
-#include <Macros/DllMarcos.h>
-#include <Macros/TypeDef.h>
-
-#ifdef DEBUG_MODE
 
 #include <string>
 
@@ -25,28 +21,7 @@ namespace dooms
 
 		extern bool CheckLogAcceptable(const eLogType logType);
 		
-		inline extern const char* LogTypeStr(const eLogType logType) noexcept
-		{
-			switch (logType)
-			{
-			case eLogType::D_LOG:
-				return "LOG";
-				break;
-
-			case eLogType::D_WARNING:
-				return "WARNING";
-				break;
-
-			case eLogType::D_ERROR:
-				return "ERROR";
-				break;
-
-			default:
-				__assume(0);
-			}
-
-			return "ERROR";
-		}
+		extern const char* LogTypeStr(const eLogType logType);
 
 		namespace StdStreamLogger
 		{
@@ -93,5 +68,3 @@ namespace dooms
 
 using dooms::logger::eLogType;
 
-
-#endif

@@ -4,7 +4,6 @@
 
 #include "Entity.h"
 #include <Rendering/Camera.h>
-#include "ResourceManagement/Pool/ObjectPool.h"
 #include "ResourceManagement/JobSystem_cpp/JobSystem.h"
 
 using namespace dooms;

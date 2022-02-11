@@ -1,18 +1,11 @@
 #include "Logger.h"
 
-
-
-#ifdef DEBUG_MODE
-
 #include <cstdarg>
 #include <string>
 #include <cstdio>
 
-#include "../Game/ConfigData.h"
+#include "../EngineConfigurationData/ConfigData.h"
 #include "LoggerSetting.h"
-
-
-using namespace dooms::logger;
 
 namespace dooms
 {
@@ -52,5 +45,26 @@ bool dooms::logger::CheckLogAcceptable(const eLogType logType)
 	return logType == eLogType::D_ALWAYS || (logType >= MIN_DEBUG_LEVEL && logType <= MAX_DEBUG_LEVEL);
 }
 
+const char* dooms::logger::LogTypeStr(const eLogType logType)
+{
+	switch (logType)
+	{
+	case eLogType::D_LOG:
+		return "LOG";
+		break;
 
-#endif
+	case eLogType::D_WARNING:
+		return "WARNING";
+		break;
+
+	case eLogType::D_ERROR:
+		return "ERROR";
+		break;
+
+	default:
+		__assume(0);
+	}
+
+	return "ERROR";
+}
+

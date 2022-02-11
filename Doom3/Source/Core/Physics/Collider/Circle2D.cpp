@@ -1,5 +1,5 @@
 #include "Circle2D.h"
-#include <Graphics/RenderingDebugger/RenderingDebuggerModules/DebugDrawer.h>
+#include <Rendering/RenderingDebugger/RenderingDebuggerModules/DebugDrawer.h>
 #include <Vector2.h>
 
 void dooms::physics::Circle2D::DrawCollider(eColor color, bool drawInstantly /*= false*/) const

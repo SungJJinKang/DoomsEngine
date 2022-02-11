@@ -2,7 +2,7 @@
 
 #include <Core.h>
 
-#include <Misk/IniFile/SimpleIniParser.h>
+#include <Misc/IniFile/SimpleIniParser.h>
 
 #include <Graphics/GraphicsAPI/Input/GraphicsAPIInput.h>
 

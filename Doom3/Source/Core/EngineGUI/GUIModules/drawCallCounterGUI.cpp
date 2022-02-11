@@ -1,7 +1,7 @@
 #include "drawCallCounterGUI.h"
 
 #include <imgui.h>
-#include <Graphics/RenderingDebugger/RenderingDebugger.h>
+#include <Rendering//RenderingDebugger/RenderingDebugger.h>
 #include <Graphics/GraphicsAPI/GraphicsAPI.h>
 
 void dooms::ui::drawCallCounterGUI::Render()

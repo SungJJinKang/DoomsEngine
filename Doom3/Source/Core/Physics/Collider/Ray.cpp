@@ -1,5 +1,6 @@
 #include "Ray.h"
-#include <Graphics/RenderingDebugger/RenderingDebuggerModules/DebugDrawer.h>
+#include <Rendering/RenderingDebugger/RenderingDebuggerModules/DebugDrawer.h>
+
 dooms::physics::Ray::Ray()
 	: mOrigin{ nullptr }, mNormal{0, 0, -1}
 {

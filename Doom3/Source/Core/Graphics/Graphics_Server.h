@@ -8,10 +8,10 @@
 #include "FrameBuffer/FrameBuffer.h"
 #include "Buffer/UniformBufferObject/UniformBufferObjectManager.h"
 #include "Light/LightManager.h"
-#include "PictureInPicture/PIPManager.h"
+#include <Rendering/PictureInPicture/PIPManager.h>
 #include <Rendering/Renderer/RendererStaticIterator.h>
-#include "Misk/AccelerationContainer/BVH/BVH.h"
-#include "RenderingDebugger/RenderingDebugger.h"
+#include "Misc/AccelerationContainer/BVH/BVH.h"
+#include <Rendering/RenderingDebugger/RenderingDebugger.h>
 #include "Pipeline/GraphicsPipeLine.h"
 
 #define RENDERER_BVH_MAX_NODE_COUNT 3000

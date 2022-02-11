@@ -6,7 +6,7 @@
 #include <filesystem>
 #include <sstream>
 
-#include <Misk/String/trim.h>
+#include <Misc/String/trim.h>
 #include <Graphics/GraphicsAPI/GraphicsAPI.h>
 
 #include "../TextImporter.h"

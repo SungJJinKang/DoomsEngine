@@ -1,7 +1,7 @@
 #pragma once
 
 #include "RenderCollider.h"
-#include <Misk/StaticContainer/StaticContainer.h>
+#include <Misc/StaticContainer/StaticContainer.h>
 #include "ColliderType.h"
 
 #include "Collider.reflection.h"

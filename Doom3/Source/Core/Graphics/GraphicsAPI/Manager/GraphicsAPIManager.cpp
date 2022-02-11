@@ -5,7 +5,7 @@
 
 #include "../graphicsAPISetting.h"
 #include "../Input/GraphicsAPIInput.h"
-#include "Game/ConfigData.h"
+#include "EngineConfigurationData/ConfigData.h"
 #include <EngineGUI/PrintText.h>
 
 dooms::graphics::GraphicsAPILoader dooms::graphics::GraphicsAPIManager::mGraphicsAPILoader{};

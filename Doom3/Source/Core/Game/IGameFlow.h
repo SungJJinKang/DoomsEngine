@@ -1,6 +1,6 @@
 #pragma once
 #include "../Core.h"
-#include "FrameDirtyChecker.h"
+#include <Misc/FrameDirtyChecker/FrameDirtyChecker.h>
 
 #include "IGameFlow.reflection.h"
 namespace dooms

@@ -25,11 +25,8 @@ namespace dooms
 	{
 		GENERATE_BODY()
 
-
 		friend class Entity;
-		friend class GameCore;
-		friend class graphics::Graphics_Server;
-
+		
 	private:
 
 		D_PROPERTY(READONLY)
@@ -45,14 +42,7 @@ namespace dooms
 		void InitializeEntity(dooms::Entity* const entity);
 
 		void RemoveEntityFromSpawnedEntityLIst(dooms::Entity* const entity);
-
-	protected:
-
-		void FixedUpdateEntities();
-		void UpdateEntities();
-		void OnEndOfFrameOfEntities();
 		
-
 	public:
 
 		Scene(std::string sceneName = "");
@@ -77,6 +67,10 @@ namespace dooms
 		void SetMainCamera(Camera* camera);
 
 		const std::vector<Entity*>& GetEntitiesInScene() const;
+
+		void FixedUpdateEntities();
+		void UpdateEntities();
+		void OnEndOfFrameOfEntities();
 	};
 
 }
