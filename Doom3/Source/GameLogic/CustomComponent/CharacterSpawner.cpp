@@ -1,7 +1,7 @@
 #include "CharacterSpawner.h"
 #include "Rendering/Renderer/MeshRenderer.h"
 #include "Graphics/Buffer/Mesh.h"
-#include "Game/AssetManager/AssetManager.h"
+#include "Asset/AssetManager/AssetManager.h"
 
 #include "../IO/UserInput_Server.h"
 #include "Graphics/Buffer/MeshHelper.h"

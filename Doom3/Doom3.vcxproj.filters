@@ -21,7 +21,7 @@
     <ClCompile Include="Source\Component\Transform.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Core\Random.cpp">
+    <ClCompile Include="Source\Core\Math\Random.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Source\Core\IO\AssetImporter\assetImporter.cpp">
@@ -120,7 +120,7 @@
     <ClCompile Include="Source\Core\Graphics\RenderingDebugger\RenderingDebuggerModules\DebugDrawer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Core\Physics\Picking.cpp">
+    <ClCompile Include="Source\Engine\Physics\Utility\Picking.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Source\Component\PhysicsComponent\BoxCollider2D.cpp">
@@ -204,10 +204,10 @@
     <ClCompile Include="Source\Core\IO\AssetImporter\AssetImporterWorker\AssetImporterWorker_Text.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Core\Game\AssetManager\AssetManager.cpp">
+    <ClCompile Include="Source\Core\Asset\AssetManager\AssetManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Core\Game\AssetManager\AssetContainer.cpp">
+    <ClCompile Include="Source\Core\Asset\AssetManager\AssetContainer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Source\Component\Rendering\Light\Light.cpp">
@@ -249,49 +249,43 @@
     <ClCompile Include="Source\Core\Graphics\PictureInPicture\PicktureInPickture.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Core\utility\BVH\BVH.cpp">
+    <ClCompile Include="Source\Core\Misk\AccelerationContainer\BVH\BVH.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Core\utility\BVH\BVH_Node.cpp">
+    <ClCompile Include="Source\Core\Misk\AccelerationContainer\BVH\BVH_Node.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Core\utility\BVH\BVH_Node_Container.cpp">
+    <ClCompile Include="Source\Core\Misk\AccelerationContainer\BVH\BVH_Node_Container.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Core\utility\BVH\BVH_Node_Object.cpp">
+    <ClCompile Include="Source\Core\Misk\AccelerationContainer\BVH\BVH_Node_Object.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Core\utility\BVH\extension\BVH_AxisSweep3.cpp">
+    <ClCompile Include="Source\Core\Misk\AccelerationContainer\BVH\extension\BVH_AxisSweep3.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Core\utility\KDTree\KDTree.cpp">
+    <ClCompile Include="Source\Core\Misk\AccelerationContainer\KDTree\KDTree.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Core\utility\BVH\BVH_Node_View.cpp">
+    <ClCompile Include="Source\Core\Misk\AccelerationContainer\BVH\BVH_Node_View.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Core\utility\KDTree\KDTreeNodeView.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Core\Graphics\Acceleration\CullDistance\CullDistance.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Core\Graphics\Acceleration\CullDistance\CullDistanceRenderer.cpp">
+    <ClCompile Include="Source\Core\Misk\AccelerationContainer\KDTree\KDTreeNodeView.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Source\Core\Physics\Collider\OBB.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Core\utility\KDTree\KDTreeVector.cpp">
+    <ClCompile Include="Source\Core\Misk\AccelerationContainer\KDTree\KDTreeVector.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Core\utility\KDTree\KDTreeAABB.cpp">
+    <ClCompile Include="Source\Core\Misk\AccelerationContainer\KDTree\KDTreeAABB.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Source\Core\Graphics\Acceleration\LinearData_ViewFrustumCulling\EveryCulling.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Core\utility\ColliderUpdater.cpp">
+    <ClCompile Include="Source\Core\Misk\ColliderUpdater\ColliderUpdater.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Source\Core\ResourceManagement\JobSystem_cpp\JobSystem.cpp">
@@ -315,7 +309,7 @@
     <ClCompile Include="Source\Component\Rendering\Animation\Animation.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Core\WorldEditor\MapLoader.cpp">
+    <ClCompile Include="Source\Engine\SceneEditor\MapLoader.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Source\GameLogic\CustomComponent\CharacterSpawner.cpp">
@@ -343,9 +337,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Source\Core\Graphics\Acceleration\LinearData_ViewFrustumCulling\CullingModule\DistanceCulling\DistanceCulling.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Core\ECSSystem\easy_ecs\easy_ecs.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Source\Core\Graphics\Acceleration\LinearData_ViewFrustumCulling\DataType\EntityBlockViewer.cpp">
@@ -393,7 +384,7 @@
     <ClCompile Include="Source\GameLogic\CustomComponent\Portfolio\RenderingAABBController.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Core\Physics\PhysicsDebugger.cpp">
+    <ClCompile Include="Source\Engine\Physics\Debugger\PhysicsDebugger.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Source\Core\Graphics\Pipeline\DeferredRenderingDrawer.cpp">
@@ -471,7 +462,7 @@
     <ClCompile Include="Source\Core\Asset\Helper\AssetFactory.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Core\Game\AssetManager\AssetFuture.cpp">
+    <ClCompile Include="Source\Core\Asset\AssetManager\AssetFuture.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Source\Core\Physics\PhysicsSolver.cpp">
@@ -498,7 +489,7 @@
     <ClCompile Include="Source\Core\Game\FrameDirtyChecker.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Core\utility\SimpleIniParser.cpp">
+    <ClCompile Include="Source\Core\Misk\IniFile\SimpleIniParser.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Source\Core\Asset\Utility\textImporter.cpp">
@@ -956,7 +947,7 @@
     <ClInclude Include="Source\Helper\DeferredConstant\DeferredConstant.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Core\Random.h">
+    <ClInclude Include="Source\Core\Math\Random.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\Core\Asset\Asset.h">
@@ -1130,7 +1121,7 @@
     <ClInclude Include="Source\Core\Time\Time_Server.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\GameLogic\Doom_Core.h">
+    <ClInclude Include="Source\GameLogic\DoomsGameLogicCore.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\Core\Graphics\FrameBuffer\FrameBuffer.h">
@@ -1148,7 +1139,7 @@
     <ClInclude Include="Source\Core\Math\LightMath_Cpp\Collision.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Core\Physics\Picking.h">
+    <ClInclude Include="Source\Engine\Physics\Utility\Picking.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\Component\PhysicsComponent\BoxCollider2D.h">
@@ -1244,10 +1235,10 @@
     <ClInclude Include="Source\Core\API\Font.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Core\Game\AssetManager\AssetManager.h">
+    <ClInclude Include="Source\Core\Asset\AssetManager\AssetManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Core\Game\AssetManager\AssetContainer.h">
+    <ClInclude Include="Source\Core\Asset\AssetManager\AssetContainer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\Component\Rendering\Light\Light.h">
@@ -1292,46 +1283,37 @@
     <ClInclude Include="Source\Core\Graphics\PictureInPicture\PicktureInPickture.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Core\utility\BVH\BVH.h">
+    <ClInclude Include="Source\Core\Misk\AccelerationContainer\BVH\BVH.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Core\utility\BVH\BVH_Node.h">
+    <ClInclude Include="Source\Core\Misk\AccelerationContainer\BVH\BVH_Node.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Core\utility\BVH\BVH_Node_Container.h">
+    <ClInclude Include="Source\Core\Misk\AccelerationContainer\BVH\BVH_Node_Container.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Core\utility\BVH\BVH_Node_Object.h">
+    <ClInclude Include="Source\Core\Misk\AccelerationContainer\BVH\BVH_Node_Object.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Core\utility\BVH\extension\BVH_AxisSweep3.h">
+    <ClInclude Include="Source\Core\Misk\AccelerationContainer\BVH\extension\BVH_AxisSweep3.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Core\utility\KDTree\KDTree.h">
+    <ClInclude Include="Source\Core\Misk\AccelerationContainer\KDTree\KDTree.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Core\utility\BVH\BVH_Node_View.h">
+    <ClInclude Include="Source\Core\Misk\AccelerationContainer\BVH\BVH_Node_View.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Core\utility\BVH\BVH_Core.h">
+    <ClInclude Include="Source\Core\Misk\AccelerationContainer\BVH\BVH_Core.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Core\utility\KDTree\KDTreeNodeView.h">
+    <ClInclude Include="Source\Core\Misk\AccelerationContainer\KDTree\KDTreeNodeView.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Core\utility\KDTree\KDTreeNode.h">
+    <ClInclude Include="Source\Core\Misk\AccelerationContainer\KDTree\KDTreeNode.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Core\utility\KDTree\KDTreeCore.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Core\utility\ITester.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Core\Graphics\Acceleration\CullDistance\CullDistance.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Core\Graphics\Acceleration\CullDistance\CullDistanceRenderer.h">
+    <ClInclude Include="Source\Core\Misk\AccelerationContainer\KDTree\KDTreeCore.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\Core\Math\LightMath_Cpp\SIMD.h">
@@ -1343,13 +1325,10 @@
     <ClInclude Include="Source\Core\Physics\Collider\OBB.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Core\Graphics\Acceleration\Culling.h">
+    <ClInclude Include="Source\Core\Misk\AccelerationContainer\TreeNode.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Core\utility\TreeNode.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Core\utility\Tree.h">
+    <ClInclude Include="Source\Core\Misk\AccelerationContainer\Tree.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\Core\Graphics\RenderingBitFlag.h">
@@ -1400,7 +1379,7 @@
     <ClInclude Include="Source\Core\Graphics\Acceleration\LinearData_ViewFrustumCulling\CullingModule\CullingModule.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Core\utility\ColliderUpdater.h">
+    <ClInclude Include="Source\Core\Misk\ColliderUpdater\ColliderUpdater.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\Core\ResourceManagement\JobSystem_cpp\JobSystem.h">
@@ -1433,7 +1412,7 @@
     <ClInclude Include="Source\Component\Rendering\Animation\Animation.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Core\WorldEditor\MapLoader.h">
+    <ClInclude Include="Source\Engine\SceneEditor\MapLoader.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\GameLogic\CustomComponent\CharacterSpawner.h">
@@ -1481,15 +1460,6 @@
     <ClInclude Include="Source\Core\Graphics\Acceleration\LinearData_ViewFrustumCulling\DataType\VertexData.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Core\ECSSystem\easy_ecs\easy_ecs.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Core\ECSSystem\easy_ecs\SparseSet.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Core\ComponentPool\ComponentPool.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Core\Graphics\Buffer\BufferID.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -1535,7 +1505,7 @@
     <ClInclude Include="Source\GameLogic\CustomComponent\Portfolio\RenderingAABBController.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Core\Physics\PhysicsDebugger.h">
+    <ClInclude Include="Source\Engine\Physics\Debugger\PhysicsDebugger.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\Core\Graphics\Pipeline\DeferredRenderingDrawer.h">
@@ -1610,7 +1580,7 @@
     <ClInclude Include="Source\Core\Asset\AssetsForwardDeclaration.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Core\Game\AssetManager\AssetFuture.h">
+    <ClInclude Include="Source\Core\Asset\AssetManager\AssetFuture.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\Core\IO\AssetImporter\AssetImporterWorker\AssetImporterWorkerForwardDeclaration.h">
@@ -1637,13 +1607,13 @@
     <ClInclude Include="Source\Core\DObject\DObjectMacros.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Core\utility\SimpleIniParser.h">
+    <ClInclude Include="Source\Core\Misk\IniFile\SimpleIniParser.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\Core\Asset\Utility\textImporter.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Core\utility\trim.h">
+    <ClInclude Include="Source\Core\Misk\String\trim.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\Core\DObject\DObjectHeaders.h">
@@ -1970,7 +1940,7 @@
     <ClInclude Include="Source\Core\IO\AssetExporter\AssetExporter_Shader.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Core\eStatus.h">
+    <ClInclude Include="Source\Core\Misc\eStatus.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\Core\IO\AssetIOWorker.h">
@@ -2191,7 +2161,6 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Text Include="Source\Core\Graphics\Acceleration\Culling.md" />
     <Text Include="Source\GameLogic\DeferredRenderingDebug.inl" />
     <Text Include="Source\Core\Reflection\Reflection_Tutorial.txt" />
   </ItemGroup>

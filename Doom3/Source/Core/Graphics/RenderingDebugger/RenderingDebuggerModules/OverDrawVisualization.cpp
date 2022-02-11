@@ -4,7 +4,7 @@
 
 #include "../../GraphicsAPI/graphicsAPISetting.h"
 #include "../../Graphics_Server.h"
-#include "Game/AssetManager/AssetManager.h"
+#include <Asset/AssetManager/AssetManager.h>
 #include <Asset/ShaderAsset.h>
 
 #include "../../Material/FixedMaterial.h"

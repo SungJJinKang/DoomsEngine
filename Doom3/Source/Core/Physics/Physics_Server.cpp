@@ -6,11 +6,13 @@
 #include "Collider/ColliderSolution.h"
 #include "Collider/Collider.h"
 
+#include "Physics_Setting.h"
 #include <PhysicsComponent/ColliderComponent.h>
 #include <PhysicsComponent/Rigidbody/Rigidbody.h>
-#include <StaticContainer/StaticContainer.h>
+#include <Misk/StaticContainer/StaticContainer.h>
 
 #include "PhysicsSolver.h"
+#include <Physics/Debugger/PhysicsDebugger.h>
 
 
 void dooms::physics::Physics_Server::LoadPhysicsSetting()
@@ -38,7 +40,6 @@ void dooms::physics::Physics_Server::Init(const int argc, char* const* const arg
 
 void dooms::physics::Physics_Server::Update()
 {
-	
 	if (Physics_Setting::IS_RENDER_PHYSICS_RAYCASTING_DEBUGGER == true)
 	{
 		PhysicsDebugger::UpdateDebugger();

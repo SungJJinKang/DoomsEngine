@@ -2,8 +2,8 @@
 
 #include "../Graphics/Graphics_Server.h"
 
-#include <utility/SimpleIniParser.h>
-#include "AssetManager/AssetManager.h"
+#include <Misk/IniFile/SimpleIniParser.h>
+#include <Asset/AssetManager/AssetManager.h>
 
 #include "../../GameLogic/GameLogicStartPoint.h"
 #include "ConfigData.h"

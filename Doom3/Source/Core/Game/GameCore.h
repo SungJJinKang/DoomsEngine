@@ -4,7 +4,7 @@
 #include <memory>
 
 
-#include "AssetManager/AssetManager.h"
+#include <Asset/AssetManager/AssetManager.h>
 
 #include "../Scene/SharedScene.h"
 #include "../Scene/Scene.h"

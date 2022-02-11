@@ -1,5 +1,5 @@
 #pragma once
-#include <Doom_Core.h>
+#include <DoomsGameLogicCore.h>
 
 #include <vector>
 

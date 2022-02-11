@@ -27,7 +27,7 @@ void dooms::Camera::SetFieldOfViewInDegree(FLOAT32 degree)
 
 void dooms::Camera::SetFieldOfViewInRadian(FLOAT32 radian)
 {
-	mFieldOfViewInDegree = radian * math::RADIAN_TO_DEGREE;
+	mFieldOfViewInDegree = radian * static_cast<FLOAT32>(math::RADIAN_TO_DEGREE);
 	SetDirtyTrueAtThisFrame();
 }
 
@@ -250,7 +250,7 @@ math::Matrix4x4 dooms::Camera::GetProjectionMatrix(const bool forceNDCNegativeOn
 	math::Matrix4x4 result{ nullptr };
 	if (mProjectionMode == eProjectionType::Perspective)
 	{
-		result = math::perspectiveFov(mFieldOfViewInDegree * math::DEGREE_TO_RADIAN, static_cast<FLOAT32>(graphics::graphicsAPISetting::GetScreenWidth()), static_cast<FLOAT32>(graphics::graphicsAPISetting::GetScreenHeight()), mClippingPlaneNear, mClippingPlaneFar);
+		result = math::perspectiveFov(mFieldOfViewInDegree * static_cast<FLOAT32>(math::DEGREE_TO_RADIAN), static_cast<FLOAT32>(graphics::graphicsAPISetting::GetScreenWidth()), static_cast<FLOAT32>(graphics::graphicsAPISetting::GetScreenHeight()), mClippingPlaneNear, mClippingPlaneFar);
 		//mViewFrumstum.SetCamera(mFieldOfViewInRadian, dooms::graphics::Graphics_Server::GetScreenRatio(), mClippingPlaneNear, mClippingPlaneFar);
 	}
 	else if (mProjectionMode == eProjectionType::Orthographic)

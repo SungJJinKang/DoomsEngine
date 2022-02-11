@@ -15,7 +15,7 @@
 #include "../Buffer/BufferID.h"
 #include "../Buffer/UniformBufferObject/UniformBufferObjectView.h"
 
-#include <eStatus.h>
+#include <Misc/eStatus.h>
 
 #include "Material.reflection.h"
 namespace dooms

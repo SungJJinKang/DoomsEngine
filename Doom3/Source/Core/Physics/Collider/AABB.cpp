@@ -6,8 +6,7 @@
 
 #include "Ray.h"
 #include <Matrix4x4.h>
-#include <SIMD_Core.h>
-//#include <Trigonometric.h>
+#include "../Phycis_Core.h"
 
 using namespace dooms::physics;
 

@@ -46,9 +46,8 @@ void dooms::PointLight::UpdateUniformBufferObject(const bool force)
 			math::Vector3 pos = transform->GetPosition();
 			math::Vector4 radiance = GetRadiance();
 
-			const UINT32 staticIndex = UniformBufferCounter;
+			const UINT64 staticIndex = UniformBufferCounter;
 			UniformBufferCounter++;
-			const UINT32 staticCount = GetStaticElementCount();
 			if (staticIndex < MAX_POINT_LIGHT_COUNT)
 			{
 				dooms::graphics::UniformBufferObject* const ubo = dooms::graphics::UniformBufferObjectManager::GetSingleton()->GetUniformBufferObject(GLOBAL_UNIFORM_BLOCK_NAME);

@@ -211,7 +211,7 @@ xcopy /y /d /E /H /C /I "$(ProjectDir)Assets" "$(TargetDir)Assets"</Command>
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions);UNICODE;__x86_64__</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)Source\thirdparty;$(ProjectDir)Source\thirdparty\oneTBB\include;C:\assimp-5.1.5\build\include;$(ProjectDir)..\OpenGLGraphicsAPI;$(ProjectDir)Source\Core\Reflection\AdditionalDirectoryForClang;$(ProjectDir)..\DX11GraphicsAPI;C:\assimp-5.1.5\include\;$(ProjectDir);$(SolutionDir)Source\Core\OS;$(VcpkgInstalledDir)installed\x64-windows\include;$(SolutionDir)Source\Helper;$(SolutionDir)Source\Component;$(SolutionDir)Source\Core\Scene;$(SolutionDir)Source\Component\Core;$(SolutionDir)Source\Helper/crossguid;$(SolutionDir)Source\GameLogic\CustomComponent;$(SolutionDir)Source\Core\Math\LightMath_Cpp;$(SolutionDir)Source\Core\IO;$(SolutionDir)Source\Core\Time;$(SolutionDir)Source\GameLogic;$(SolutionDir)Source\Core;$(SolutionDir)Source\Core\Logger;$(SolutionDir)Source\Core\Physics;$(SolutionDir)Source\Core\utility;$(SolutionDir)Source\Core\Reflection\clReflect_automation\clReflect\inc;$(SolutionDir)Source\thirdparty\imgui</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Source\thirdparty;$(ProjectDir)Source\thirdparty\oneTBB\include;C:\assimp-5.1.5\build\include;$(ProjectDir)..\OpenGLGraphicsAPI;$(ProjectDir)Source\Core\Reflection\AdditionalDirectoryForClang;$(ProjectDir)..\DX11GraphicsAPI;C:\assimp-5.1.5\include\;$(ProjectDir);$(SolutionDir)Source\Core\OS;$(VcpkgInstalledDir)installed\x64-windows\include;$(SolutionDir)Source\Helper;$(SolutionDir)Source\Component;$(SolutionDir)Source\Core\Scene;$(SolutionDir)Source\Component\Core;$(SolutionDir)Source\Helper/crossguid;$(SolutionDir)Source\GameLogic\CustomComponent;$(SolutionDir)Source\Core\Math\LightMath_Cpp;$(SolutionDir)Source\Core\IO;$(SolutionDir)Source\Core\Time;$(SolutionDir)Source\GameLogic;$(SolutionDir)Source\Core;$(SolutionDir)Source\Core\Logger;$(SolutionDir)Source\Core\Physics;$(SolutionDir)Source\Core\utility;$(SolutionDir)Source\Core\Reflection\clReflect_automation\clReflect\inc;$(SolutionDir)Source\thirdparty\imgui;$(SolutionDir)Engine</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
@@ -253,7 +253,7 @@ xcopy /y /d /f "$(ProjectDir)*.map" "$(TargetDir)"</Command>
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions);UNICODE</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)Source\thirdparty;$(ProjectDir)Source\thirdparty\oneTBB\include;C:\assimp-5.1.5\build\include;$(ProjectDir)..\OpenGLGraphicsAPI;$(ProjectDir)Source\Core\Reflection\AdditionalDirectoryForClang;$(ProjectDir)..\DX11GraphicsAPI;C:\assimp-5.1.5\include\;$(ProjectDir);$(SolutionDir)Source\thirdparty\amdUprof\include;$(SolutionDir)Source\Core\OS;$(VcpkgInstalledDir)installed\x64-windows\include;$(SolutionDir)Source\Helper;$(SolutionDir)Source\Component;$(SolutionDir)Source\Core\Scene;$(SolutionDir)Source\Component\Core;$(SolutionDir)Source\Helper/crossguid;$(SolutionDir)Source\GameLogic\CustomComponent;$(SolutionDir)Source\Core\Math\LightMath_Cpp;$(SolutionDir)Source\Core\IO;$(SolutionDir)Source\Core\Time;$(SolutionDir)Source\GameLogic;$(SolutionDir)Source\Core;$(SolutionDir)Source\Core\Logger;$(SolutionDir)Source\Core\Physics;$(SolutionDir)Source\Core\utility;$(SolutionDir)Source\Core\Reflection\clReflect_automation\clReflect\inc;$(SolutionDir)Source\thirdparty\imgui</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Source\thirdparty;$(ProjectDir)Source\thirdparty\oneTBB\include;C:\assimp-5.1.5\build\include;$(ProjectDir)..\OpenGLGraphicsAPI;$(ProjectDir)Source\Core\Reflection\AdditionalDirectoryForClang;$(ProjectDir)..\DX11GraphicsAPI;C:\assimp-5.1.5\include\;$(ProjectDir);$(SolutionDir)Source\thirdparty\amdUprof\include;$(SolutionDir)Source\Core\OS;$(VcpkgInstalledDir)installed\x64-windows\include;$(SolutionDir)Source\Helper;$(SolutionDir)Source\Component;$(SolutionDir)Source\Core\Scene;$(SolutionDir)Source\Component\Core;$(SolutionDir)Source\Helper/crossguid;$(SolutionDir)Source\GameLogic\CustomComponent;$(SolutionDir)Source\Core\Math\LightMath_Cpp;$(SolutionDir)Source\Core\IO;$(SolutionDir)Source\Core\Time;$(SolutionDir)Source\GameLogic;$(SolutionDir)Source\Core;$(SolutionDir)Source\Core\Logger;$(SolutionDir)Source\Core\Physics;$(SolutionDir)Source\Core\utility;$(SolutionDir)Source\Core\Reflection\clReflect_automation\clReflect\inc;$(SolutionDir)Source\thirdparty\imgui;$(SolutionDir)Source\Engine</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
@@ -436,7 +436,7 @@ xcopy /y /d /E /H /C /I "$(ProjectDir)Assets" "$(TargetDir)Assets"</Command>
     <ClCompile Include="Source\Core\DynamicLinkingHelper\SmartDynamicLinking.cpp" />
     <ClCompile Include="Source\Core\Reflection\clReflectHelper.cpp" />
     <ClCompile Include="Source\Core\Reflection\clReflect_automation\clReflect\src\clReflectCpp\clcpp.cpp" />
-    <ClCompile Include="Source\Core\Game\AssetManager\AssetFuture.cpp" />
+    <ClCompile Include="Source\Core\Asset\AssetManager\AssetFuture.cpp" />
     <ClCompile Include="Source\Core\Game\FrameDirtyChecker.cpp" />
     <ClCompile Include="Source\Core\GarbageCollector\GarbageCollectorManager.cpp" />
     <ClCompile Include="Source\Core\GarbageCollector\GarbageCollectorSolver.cpp" />
@@ -462,7 +462,6 @@ xcopy /y /d /E /H /C /I "$(ProjectDir)Assets" "$(TargetDir)Assets"</Command>
     <ClCompile Include="Source\Core\Graphics\PictureInPicture\PIPManager.cpp" />
     <ClCompile Include="Source\Core\Graphics\PrimitiveType\PrimitiveLine.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="Source\Core\ECSSystem\easy_ecs\easy_ecs.cpp" />
     <ClCompile Include="Source\Core\Graphics\PrimitiveType\PrimitiveTriangle.cpp" />
     <ClCompile Include="Source\Core\Graphics\RenderingDebugger\RenderingDebugger.cpp" />
     <ClCompile Include="Source\Core\DObject\DObject.cpp" />
@@ -471,15 +470,13 @@ xcopy /y /d /E /H /C /I "$(ProjectDir)Assets" "$(TargetDir)Assets"</Command>
     <ClCompile Include="Source\Core\OS\ErrorHandling.cpp" />
     <ClCompile Include="Source\Core\OS\Window.cpp" />
     <ClCompile Include="Source\Core\Physics\Collider\ColliderType.cpp" />
-    <ClCompile Include="Source\Core\Physics\PhysicsDebugger.cpp" />
+    <ClCompile Include="Source\Engine\Physics\Debugger\PhysicsDebugger.cpp" />
     <ClCompile Include="Source\Core\Physics\PhysicsSolver.cpp" />
     <ClCompile Include="Source\Component\EventSystem.cpp" />
     <ClCompile Include="Source\Component\PhysicsComponent\BoxCollider2D.cpp" />
     <ClCompile Include="Source\Component\PhysicsComponent\MeshCollider.cpp" />
     <ClCompile Include="Source\Component\Rendering\Animation\Animation.cpp" />
     <ClCompile Include="Source\Component\Rendering\Animation\Animator.cpp" />
-    <ClCompile Include="Source\Core\Graphics\Acceleration\CullDistance\CullDistance.cpp" />
-    <ClCompile Include="Source\Core\Graphics\Acceleration\CullDistance\CullDistanceRenderer.cpp" />
     <ClCompile Include="Source\Core\Graphics\Acceleration\LinearData_ViewFrustumCulling\CullingModule\DistanceCulling\DistanceCulling.cpp" />
     <ClCompile Include="Source\Core\Graphics\Acceleration\LinearData_ViewFrustumCulling\CullingModule\MaskedSWOcclusionCulling\Stage\BinTrianglesStage.cpp" />
     <ClCompile Include="Source\Core\Graphics\Acceleration\LinearData_ViewFrustumCulling\CullingModule\MaskedSWOcclusionCulling\Stage\QueryOccludeeStage.cpp" />
@@ -503,12 +500,12 @@ xcopy /y /d /E /H /C /I "$(ProjectDir)Assets" "$(TargetDir)Assets"</Command>
     <ClCompile Include="Source\Core\ResourceManagement\JobSystem_cpp\Thread.cpp" />
     <ClCompile Include="Source\Core\ResourceManagement\JobSystem_cpp\ThreadProfiler.cpp" />
     <ClCompile Include="Source\Core\EngineGUI\PrintText.cpp" />
-    <ClCompile Include="Source\Core\utility\ColliderUpdater.cpp" />
-    <ClCompile Include="Source\Core\utility\BVH\BVH_Node.cpp" />
-    <ClCompile Include="Source\Core\utility\BVH\BVH_Node_View.cpp" />
-    <ClCompile Include="Source\Core\utility\BVH\BVH_Node_Container.cpp" />
-    <ClCompile Include="Source\Core\utility\BVH\BVH_Node_Object.cpp" />
-    <ClCompile Include="Source\Core\utility\BVH\extension\BVH_AxisSweep3.cpp" />
+    <ClCompile Include="Source\Core\Misk\ColliderUpdater\ColliderUpdater.cpp" />
+    <ClCompile Include="Source\Core\Misk\AccelerationContainer\BVH\BVH_Node.cpp" />
+    <ClCompile Include="Source\Core\Misk\AccelerationContainer\BVH\BVH_Node_View.cpp" />
+    <ClCompile Include="Source\Core\Misk\AccelerationContainer\BVH\BVH_Node_Container.cpp" />
+    <ClCompile Include="Source\Core\Misk\AccelerationContainer\BVH\BVH_Node_Object.cpp" />
+    <ClCompile Include="Source\Core\Misk\AccelerationContainer\BVH\extension\BVH_AxisSweep3.cpp" />
     <ClCompile Include="Source\Core\Physics\Collider\CapsuleCollider.cpp" />
     <ClCompile Include="Source\Component\PhysicsComponent\CapsuleCollider3D.cpp" />
     <ClCompile Include="Source\Component\Rendering\Camera.cpp" />
@@ -538,9 +535,9 @@ xcopy /y /d /E /H /C /I "$(ProjectDir)Assets" "$(TargetDir)Assets"</Command>
     <ClCompile Include="Source\Core\Physics\Collider\ColliderSolution.cpp" />
     <ClCompile Include="Source\Core\Physics\Collider\Line.cpp" />
     <ClCompile Include="Source\Core\Physics\Collider\PhysicsGeneric.cpp" />
-    <ClCompile Include="Source\Core\Physics\Picking.cpp" />
+    <ClCompile Include="Source\Engine\Physics\Utility\Picking.cpp" />
     <ClCompile Include="Source\Core\Physics\Collider\AABB.cpp" />
-    <ClCompile Include="Source\Core\utility\BVH\BVH.cpp" />
+    <ClCompile Include="Source\Core\Misk\AccelerationContainer\BVH\BVH.cpp" />
     <ClCompile Include="Source\Core\Physics\Physics_Server.cpp" />
     <ClCompile Include="Source\Core\Physics\Physics_Setting.cpp" />
     <ClCompile Include="Source\Core\Physics\Collider\Plane.cpp" />
@@ -550,8 +547,8 @@ xcopy /y /d /E /H /C /I "$(ProjectDir)Assets" "$(TargetDir)Assets"</Command>
     <ClCompile Include="Source\Core\Scene\SharedScene.cpp" />
     <ClCompile Include="Source\Core\Scene\Scene.cpp" />
     <ClCompile Include="Source\Core\Scene\SharedSceneSetting.cpp" />
-    <ClCompile Include="Source\Core\Game\AssetManager\AssetContainer.cpp" />
-    <ClCompile Include="Source\Core\Game\AssetManager\AssetManager.cpp" />
+    <ClCompile Include="Source\Core\Asset\AssetManager\AssetContainer.cpp" />
+    <ClCompile Include="Source\Core\Asset\AssetManager\AssetManager.cpp" />
     <ClCompile Include="Source\Core\Game\GameCore.cpp" />
     <ClCompile Include="Source\Core\Graphics\Buffer\Buffer.cpp" />
     <ClCompile Include="Source\Core\Graphics\Buffer\UniformBufferObject\UniformBufferObjectUpdater.cpp" />
@@ -569,17 +566,17 @@ xcopy /y /d /E /H /C /I "$(ProjectDir)Assets" "$(TargetDir)Assets"</Command>
     <ClCompile Include="Source\Core\Math\LightMath_Cpp\Vector2.cpp" />
     <ClCompile Include="Source\Core\Math\LightMath_Cpp\Vector3.cpp" />
     <ClCompile Include="Source\Core\Math\LightMath_Cpp\Vector4.cpp" />
-    <ClCompile Include="Source\Core\Random.cpp" />
+    <ClCompile Include="Source\Core\Math\Random.cpp" />
     <ClCompile Include="Source\Core\ResourceManagement\Pool\MemoryPool.cpp" />
     <ClCompile Include="Source\Core\Time\MainTimer.cpp" />
     <ClCompile Include="Source\Core\Time\Time_Server.cpp" />
-    <ClCompile Include="Source\Core\utility\KDTree\KDTree.cpp" />
-    <ClCompile Include="Source\Core\utility\KDTree\KDTreeAABB.cpp" />
-    <ClCompile Include="Source\Core\utility\KDTree\KDTreeNodeView.cpp" />
-    <ClCompile Include="Source\Core\utility\KDTree\KDTreeVector.cpp" />
-    <ClCompile Include="Source\Core\utility\SimpleIniParser.cpp" />
+    <ClCompile Include="Source\Core\Misk\AccelerationContainer\KDTree\KDTree.cpp" />
+    <ClCompile Include="Source\Core\Misk\AccelerationContainer\KDTree\KDTreeAABB.cpp" />
+    <ClCompile Include="Source\Core\Misk\AccelerationContainer\KDTree\KDTreeNodeView.cpp" />
+    <ClCompile Include="Source\Core\Misk\AccelerationContainer\KDTree\KDTreeVector.cpp" />
+    <ClCompile Include="Source\Core\Misk\IniFile\SimpleIniParser.cpp" />
     <ClCompile Include="Source\Core\Asset\Utility\textImporter.cpp" />
-    <ClCompile Include="Source\Core\WorldEditor\MapLoader.cpp" />
+    <ClCompile Include="Source\Engine\SceneEditor\MapLoader.cpp" />
     <ClCompile Include="Source\GameLogic\CustomComponent\AutoRotate.cpp" />
     <ClCompile Include="Source\GameLogic\CustomComponent\AutoRotateAround.cpp" />
     <ClCompile Include="Source\GameLogic\CustomComponent\AxisDebugger.cpp" />
@@ -622,7 +619,7 @@ xcopy /y /d /E /H /C /I "$(ProjectDir)Assets" "$(TargetDir)Assets"</Command>
     <ClInclude Include="Source\Core\Asset\Utility\ShaderAsset\shaderConverter.h" />
     <ClInclude Include="Source\Core\Asset\Utility\ShaderAsset\shaderReflectionDataParser.h" />
     <ClInclude Include="Source\Core\EngineGUI\GUIModules\drawCallCounterGUI.h" />
-    <ClInclude Include="Source\Core\eStatus.h" />
+    <ClInclude Include="Source\Core\Misc\eStatus.h" />
     <ClInclude Include="Source\Core\Graphics\Acceleration\LinearData_ViewFrustumCulling\CullingModule\MaskedSWOcclusionCulling\OccluderListManager.h" />
     <ClInclude Include="Source\Core\Graphics\Acceleration\LinearData_ViewFrustumCulling\CullingModule\PreCulling\PreCulling.h" />
     <ClInclude Include="Source\Core\Graphics\Acceleration\LinearData_ViewFrustumCulling\CullingModule\MaskedSWOcclusionCulling\Utility\depthBufferTileHelper.h" />
@@ -705,7 +702,7 @@ xcopy /y /d /E /H /C /I "$(ProjectDir)Assets" "$(TargetDir)Assets"</Command>
     <ClInclude Include="Source\Core\Reflection\Test\ReflectionTest.h" />
     <ClInclude Include="Source\Core\Reflection\ReflectionType\TSubclassOf.h" />
     <ClInclude Include="Source\Core\GameEngineEntryPoint.h" />
-    <ClInclude Include="Source\Core\Game\AssetManager\AssetFuture.h" />
+    <ClInclude Include="Source\Core\Asset\AssetManager\AssetFuture.h" />
     <ClInclude Include="Source\Core\GarbageCollector\GarbageCollectorManager.h" />
     <ClInclude Include="Source\Core\GarbageCollector\GarbageCollectorSolver.h" />
     <ClInclude Include="Source\Core\Graphics\Acceleration\LinearData_ViewFrustumCulling\DataType\Math\SIMD_Core.h" />
@@ -731,9 +728,6 @@ xcopy /y /d /E /H /C /I "$(ProjectDir)Assets" "$(TargetDir)Assets"</Command>
     <ClInclude Include="Source\Core\Graphics\Material\FixedMaterial.h" />
     <ClInclude Include="Source\Core\Graphics\PictureInPicture\PIPManager.h" />
     <ClInclude Include="Source\Core\Graphics\PrimitiveType\PrimitiveLine.h" />
-    <ClInclude Include="Source\Core\ComponentPool\ComponentPool.h" />
-    <ClInclude Include="Source\Core\ECSSystem\easy_ecs\easy_ecs.h" />
-    <ClInclude Include="Source\Core\ECSSystem\easy_ecs\SparseSet.h" />
     <ClInclude Include="Source\Core\Graphics\Acceleration\LinearData_ViewFrustumCulling\DataType\VertexData.h" />
     <ClInclude Include="Source\Core\Graphics\PrimitiveType\PrimitiveTriangle.h" />
     <ClInclude Include="Source\Core\Graphics\RenderingDebugger\RenderingDebugger.h" />
@@ -749,7 +743,7 @@ xcopy /y /d /E /H /C /I "$(ProjectDir)Assets" "$(TargetDir)Assets"</Command>
     <ClInclude Include="Source\Core\Macros\TypeDef.h" />
     <ClInclude Include="Source\Core\Math\LightMath_Cpp\TypeDef.h" />
     <ClInclude Include="Source\Core\OS\ErrorHandling.h" />
-    <ClInclude Include="Source\Core\Physics\PhysicsDebugger.h" />
+    <ClInclude Include="Source\Engine\Physics\Debugger\PhysicsDebugger.h" />
     <ClInclude Include="Source\Core\Physics\PhysicsSolver.h" />
     <ClInclude Include="Source\Core\Profiler\CPUVendorProfiler.h" />
     <ClInclude Include="Source\Core\Profiler\ProfilerABTest.h" />
@@ -763,9 +757,6 @@ xcopy /y /d /E /H /C /I "$(ProjectDir)Assets" "$(TargetDir)Assets"</Command>
     <ClInclude Include="Source\Core\Asset\AssetMetaData.h" />
     <ClInclude Include="Source\Core\Asset\eAssetType.h" />
     <ClInclude Include="Source\Core\Game\ConfigData.h" />
-    <ClInclude Include="Source\Core\Graphics\Acceleration\CullDistance\CullDistance.h" />
-    <ClInclude Include="Source\Core\Graphics\Acceleration\CullDistance\CullDistanceRenderer.h" />
-    <ClInclude Include="Source\Core\Graphics\Acceleration\Culling.h" />
     <ClInclude Include="Source\Core\Graphics\Acceleration\LinearData_ViewFrustumCulling\CullingModule\CullingModule.h" />
     <ClInclude Include="Source\Core\Graphics\Acceleration\LinearData_ViewFrustumCulling\CullingModule\DistanceCulling\DistanceCulling.h" />
     <ClInclude Include="Source\Core\Graphics\Acceleration\LinearData_ViewFrustumCulling\CullingModule\MaskedSWOcclusionCulling\Stage\BinTrianglesStage.h" />
@@ -809,13 +800,13 @@ xcopy /y /d /E /H /C /I "$(ProjectDir)Assets" "$(TargetDir)Assets"</Command>
     <ClInclude Include="Source\Core\ResourceManagement\JobSystem_cpp\Thread_Core.h" />
     <ClInclude Include="Source\Core\ResourceManagement\Pool\ObjectPool.h" />
     <ClInclude Include="Source\Core\EngineGUI\PrintText.h" />
-    <ClInclude Include="Source\Core\utility\ColliderUpdater.h" />
-    <ClInclude Include="Source\Core\utility\BVH\BVH_Core.h" />
-    <ClInclude Include="Source\Core\utility\BVH\BVH_Node.h" />
-    <ClInclude Include="Source\Core\utility\BVH\BVH_Node_View.h" />
-    <ClInclude Include="Source\Core\utility\BVH\BVH_Node_Container.h" />
-    <ClInclude Include="Source\Core\utility\BVH\BVH_Node_Object.h" />
-    <ClInclude Include="Source\Core\utility\BVH\extension\BVH_AxisSweep3.h" />
+    <ClInclude Include="Source\Core\Misk\ColliderUpdater\ColliderUpdater.h" />
+    <ClInclude Include="Source\Core\Misk\AccelerationContainer\BVH\BVH_Core.h" />
+    <ClInclude Include="Source\Core\Misk\AccelerationContainer\BVH\BVH_Node.h" />
+    <ClInclude Include="Source\Core\Misk\AccelerationContainer\BVH\BVH_Node_View.h" />
+    <ClInclude Include="Source\Core\Misk\AccelerationContainer\BVH\BVH_Node_Container.h" />
+    <ClInclude Include="Source\Core\Misk\AccelerationContainer\BVH\BVH_Node_Object.h" />
+    <ClInclude Include="Source\Core\Misk\AccelerationContainer\BVH\extension\BVH_AxisSweep3.h" />
     <ClInclude Include="Source\Core\Physics\Collider\CapsuleCollider.h" />
     <ClInclude Include="Source\Component\PhysicsComponent\CapsuleCollider3D.h" />
     <ClInclude Include="dependency\glad\include\glad\glad.h" />
@@ -855,10 +846,10 @@ xcopy /y /d /E /H /C /I "$(ProjectDir)Assets" "$(TargetDir)Assets"</Command>
     <ClInclude Include="Source\Core\Physics\Collider\RenderCollider.h" />
     <ClInclude Include="Source\Core\Physics\Collider\Line.h" />
     <ClInclude Include="Source\Core\Physics\Collider\PhysicsGeneric.h" />
-    <ClInclude Include="Source\Core\Physics\Picking.h" />
+    <ClInclude Include="Source\Engine\Physics\Utility\Picking.h" />
     <ClInclude Include="Source\Core\Math\LightMath_Cpp\Collision.h" />
     <ClInclude Include="Source\Core\Physics\Collider\AABB.h" />
-    <ClInclude Include="Source\Core\utility\BVH\BVH.h" />
+    <ClInclude Include="Source\Core\Misk\AccelerationContainer\BVH\BVH.h" />
     <ClInclude Include="Source\Core\Physics\Physics_Server.h" />
     <ClInclude Include="Source\Core\Physics\Physics_Setting.h" />
     <ClInclude Include="Source\Core\Physics\Collider\Plane.h" />
@@ -878,8 +869,8 @@ xcopy /y /d /E /H /C /I "$(ProjectDir)Assets" "$(TargetDir)Assets"</Command>
     <ClInclude Include="Source\Core\Asset\AssetHeaders.h" />
     <ClInclude Include="Source\Core\Asset\TextAsset.h" />
     <ClInclude Include="Source\Core\Scene\Scene.h" />
-    <ClInclude Include="Source\Core\Game\AssetManager\AssetContainer.h" />
-    <ClInclude Include="Source\Core\Game\AssetManager\AssetManager.h" />
+    <ClInclude Include="Source\Core\Asset\AssetManager\AssetContainer.h" />
+    <ClInclude Include="Source\Core\Asset\AssetManager\AssetManager.h" />
     <ClInclude Include="Source\Core\Graphics\Buffer\UniformBufferObject\UniformBufferObjectManager.h" />
     <ClInclude Include="Source\Core\Scene\Entity.h" />
     <ClInclude Include="Source\Core\Graphics\FrameBuffer\FrameBuffer.h" />
@@ -931,21 +922,20 @@ xcopy /y /d /E /H /C /I "$(ProjectDir)Assets" "$(TargetDir)Assets"</Command>
     <ClInclude Include="Source\Core\Math\VeryLight_Math_For_Game\Vector3.h" />
     <ClInclude Include="Source\Core\Math\VeryLight_Math_For_Game\Vector4.h" />
     <ClInclude Include="Source\Core\Physics\Phycis_Core.h" />
-    <ClInclude Include="Source\Core\Random.h" />
+    <ClInclude Include="Source\Core\Math\Random.h" />
     <ClInclude Include="Source\Core\ResourceManagement\Pool\MemoryPool.h" />
     <ClInclude Include="Source\Core\Time\MainTimer.h" />
     <ClInclude Include="Source\Core\Time\Time_Server.h" />
-    <ClInclude Include="Source\Core\utility\ITester.h" />
-    <ClInclude Include="Source\Core\utility\KDTree\KDTree.h" />
-    <ClInclude Include="Source\Core\utility\KDTree\KDTreeCore.h" />
-    <ClInclude Include="Source\Core\utility\KDTree\KDTreeNode.h" />
-    <ClInclude Include="Source\Core\utility\KDTree\KDTreeNodeView.h" />
-    <ClInclude Include="Source\Core\utility\SimpleIniParser.h" />
+    <ClInclude Include="Source\Core\Misk\AccelerationContainer\KDTree\KDTree.h" />
+    <ClInclude Include="Source\Core\Misk\AccelerationContainer\KDTree\KDTreeCore.h" />
+    <ClInclude Include="Source\Core\Misk\AccelerationContainer\KDTree\KDTreeNode.h" />
+    <ClInclude Include="Source\Core\Misk\AccelerationContainer\KDTree\KDTreeNodeView.h" />
+    <ClInclude Include="Source\Core\Misk\IniFile\SimpleIniParser.h" />
     <ClInclude Include="Source\Core\Asset\Utility\textImporter.h" />
-    <ClInclude Include="Source\Core\utility\Tree.h" />
-    <ClInclude Include="Source\Core\utility\TreeNode.h" />
-    <ClInclude Include="Source\Core\utility\trim.h" />
-    <ClInclude Include="Source\Core\WorldEditor\MapLoader.h" />
+    <ClInclude Include="Source\Core\Misk\AccelerationContainer\Tree.h" />
+    <ClInclude Include="Source\Core\Misk\AccelerationContainer\TreeNode.h" />
+    <ClInclude Include="Source\Core\Misk\String\trim.h" />
+    <ClInclude Include="Source\Engine\SceneEditor\MapLoader.h" />
     <ClInclude Include="Source\GameLogic\CustomComponent\AutoRotate.h" />
     <ClInclude Include="Source\GameLogic\CustomComponent\AutoRotateAround.h" />
     <ClInclude Include="Source\GameLogic\CustomComponent\AxisDebugger.h" />
@@ -971,7 +961,7 @@ xcopy /y /d /E /H /C /I "$(ProjectDir)Assets" "$(TargetDir)Assets"</Command>
     <ClInclude Include="Source\GameLogic\CustomComponent\TestComponent2.h" />
     <ClInclude Include="Source\GameLogic\CustomComponent\TestComponent2.reflection.h" />
     <ClInclude Include="Source\GameLogic\CustomComponent\WanderComponent.h" />
-    <ClInclude Include="Source\GameLogic\Doom_Core.h" />
+    <ClInclude Include="Source\GameLogic\DoomsGameLogicCore.h" />
     <ClInclude Include="Source\GameLogic\GameLogicStartPoint.h" />
     <ClInclude Include="Source\Helper\concurrentqueue\blockingconcurrentqueue.h" />
     <ClInclude Include="Source\Helper\crossguid\Guid.hpp" />
@@ -1192,7 +1182,6 @@ xcopy /y /d /E /H /C /I "$(ProjectDir)Assets" "$(TargetDir)Assets"</Command>
   </ItemGroup>
   <ItemGroup>
     <Text Include="Source\Core\Reflection\Reflection_Tutorial.txt" />
-    <Text Include="Source\Core\Graphics\Acceleration\Culling.md" />
     <Text Include="Source\GameLogic\DeferredRenderingDebug.inl" />
   </ItemGroup>
   <ItemGroup>

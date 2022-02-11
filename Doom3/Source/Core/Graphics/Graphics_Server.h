@@ -10,7 +10,7 @@
 #include "Light/LightManager.h"
 #include "PictureInPicture/PIPManager.h"
 #include <Rendering/Renderer/RendererStaticIterator.h>
-#include "utility/BVH/BVH.h"
+#include "Misk/AccelerationContainer/BVH/BVH.h"
 #include "RenderingDebugger/RenderingDebugger.h"
 #include "Pipeline/GraphicsPipeLine.h"
 

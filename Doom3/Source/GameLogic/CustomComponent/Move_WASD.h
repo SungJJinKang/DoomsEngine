@@ -1,6 +1,6 @@
 #pragma once
 
-#include <Doom_Core.h>
+#include <DoomsGameLogicCore.h>
 
 #include "Move_WASD.reflection.h"
 namespace dooms

@@ -2,7 +2,7 @@
 
 #include "BulletComponent.h"
 
-#include <Random.h>
+#include <Math/Random.h>
 #include <Reflection/ReflectionType/DClass.h>
 #include <Rendering/Light/PointLight.h>
 

@@ -12,7 +12,7 @@
 #include <Reflection/ReflectionType/DClass.h>
 #include <Reflection/ReflectionType/DAttributeList.h>
 
-#include <Random.h>
+#include <Math/Random.h>
 
 #include <Vector2.h>
 #include <Vector3.h>

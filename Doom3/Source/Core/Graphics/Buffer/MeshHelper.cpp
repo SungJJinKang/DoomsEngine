@@ -3,7 +3,7 @@
 #include <cmath>
 
 #include "Asset/ThreeDModelAsset.h"
-#include <Game/AssetManager/AssetManager.h>
+#include <Asset/AssetManager/AssetManager.h>
 
 namespace dooms::graphics::meshHelper
 {

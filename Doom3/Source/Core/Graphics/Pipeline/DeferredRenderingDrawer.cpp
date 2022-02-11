@@ -1,6 +1,6 @@
 #include "DeferredRenderingDrawer.h"
 
-#include <Game/AssetManager/AssetManager.h>
+#include <Asset/AssetManager/AssetManager.h>
 #include <Asset/ShaderAsset.h>
 #include "../Buffer/MeshHelper.h"
 

@@ -2,8 +2,8 @@
 
 #include "GameLogicStartPoint.h"
 
-#include <Doom_Core.h>
-#include "../Game/AssetManager/AssetManager.h"
+#include <DoomsGameLogicCore.h>
+#include "../Asset/AssetManager/AssetManager.h"
 #include "../Graphics/Material/Material.h"
 #include <Rendering/Renderer/MeshRenderer.h>
 #include <Rendering/Camera.h>

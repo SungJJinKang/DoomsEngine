@@ -1,7 +1,5 @@
 #include "KEY_CODE.h"
 
-#include <Doom_Core.h>
-
 #include "magic_enum.hpp"
 
 dooms::input::GraphicsAPIInput::eKEY_CODE dooms::userinput::UserInputHelper::ConvertStringToKeyCode(std::string_view str)

@@ -7,7 +7,7 @@
 #define RESERVE_PRIMITIVE_COUNT 30000
 
 #include "../../Graphics_Server.h"
-#include <Game/AssetManager/AssetManager.h>
+#include <Asset/AssetManager/AssetManager.h>
 #include "../../Material/Material.h"
 #include <Asset/ShaderAsset.h>
 
@@ -377,11 +377,11 @@ void dooms::graphics::DebugDrawer::BufferVertexDataToGPU()
 
 void dooms::graphics::DebugDrawer::DebugDraw3DSphere(const math::Vector3& center, const float radius, const eColor color)
 {
-	const FLOAT32 intervalRadian = math::PI * 2.0 / 72.0;
+	const FLOAT32 intervalRadian = static_cast<FLOAT32>(math::PI * 2.0 / 72.0);
 
 
-	const FLOAT32 deltaTheta = math::PI / 12.0;
-	const FLOAT32 deltaPhi = 2.0 * math::PI / 10.0;
+	const FLOAT32 deltaTheta = static_cast<FLOAT32>(math::PI / 12.0);
+	const FLOAT32 deltaPhi = static_cast<FLOAT32>(2.0 * math::PI / 10.0);
 
 
 

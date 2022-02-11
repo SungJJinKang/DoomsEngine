@@ -1,6 +1,6 @@
 #pragma once
 #include <Core.h>
-#include "SimpleIniParser.h"
+#include "Misk/IniFile/SimpleIniParser.h"
 
 #include <../Helper/Simple_SingleTon/Singleton.h>
 
