@@ -410,3 +410,6 @@ Doom3/Doom3.vcxproj
 *.json
 out/
 enc_temp_folder/
+
+*.vscode
+*.idea
