@@ -29,23 +29,7 @@ namespace dooms
 
 		friend class Entity;
 		friend class Scene;
-
-
-		struct Deleter
-		{
-			void operator()(Component* component) const
-			{
-				if(IsValid(component) == true)
-				{
-					delete component;
-				}
-				
-			}
-		};
-
 		
-
-
 	private:
 
 		//For Prevent Component copied or moved
