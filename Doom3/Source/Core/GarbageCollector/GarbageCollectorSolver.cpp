@@ -224,6 +224,7 @@ namespace dooms::gc::garbageCollectorSolver
 
 		const reflection::DClass rootObjectDClass = rootDObject->GetDClass();
 		MarkRecursively(keepFlags, rootDObject, reflection::eProperyQualifier::VALUE, &rootObjectDClass);
+		rootDObject->ClearDObjectFlag(eDObjectFlag::Unreachable | eDObjectFlag::IsNotCheckedByGC, std::memory_order_seq_cst);
 	}
 
 }
@@ -326,9 +327,11 @@ void dooms::gc::garbageCollectorSolver::StartSweepStage(const eGCMethod gcMethod
 			continue;
 		}
 
-		const bool isUnreachable = dObjectList[i]->HasDObjectFlag(dooms::eDObjectFlag::Unreachable /*| dooms::eDObjectFlag::NewAllocated*/, std::memory_order_relaxed);
+		const UINT64 flag = dObjectList[i]->GetDObjectFlag(std::memory_order_relaxed);
+		const bool isUnreachable = (flag & dooms::eDObjectFlag::Unreachable) != 0;
+		const bool isPendingKill = (flag & dooms::eDObjectFlag::IsPendingKill) != 0;
 		
-		if(isUnreachable == true)
+		if(isUnreachable || isPendingKill)
 		{
 			/*
 			// Mark unreachable dObject before sweep.
@@ -344,7 +347,10 @@ void dooms::gc::garbageCollectorSolver::StartSweepStage(const eGCMethod gcMethod
 				deletedDObjectList.data() + deletedDObjectList.size()
 			)
 			{
-				dObjectList[i]->SetIsPendingKill();
+				if(isPendingKill == false)
+				{
+					dObjectList[i]->SetIsPendingKill();
+				}
 
 				deletedDObjectList.push_back(dObjectList[i]);
 				D_DEBUG_LOG(eLogType::D_LOG_TYPE13, "GC DObject IsPendingKill Enabled and Sweeped ready : %s ( TypeName : %s )", dObjectList[i]->GetDObjectName().c_str(), dObjectList[i]->GetTypeFullName());
