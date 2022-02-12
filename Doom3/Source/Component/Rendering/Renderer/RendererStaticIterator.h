@@ -13,39 +13,47 @@ namespace dooms
 {
 	class Renderer;
 	class Camera;
-	
-	
-	template <>
-	class DOOM_API D_CLASS StaticContainer<Renderer> : public DObject, public ISingleton<StaticContainer<Renderer>>
+
+	struct D_ENUM RendererListSwapContainer
 	{
-		//GENERATE_BODY()
+		GENERATE_BODY_RendererListSwapContainer()
+
+		D_PROPERTY()
+		std::vector<Renderer*> mRendererList1;
+		D_PROPERTY()
+		std::vector<Renderer*> mRendererList2;
+	};
+	
+	class DOOM_API D_CLASS RendererComponentStaticIterator : public DObject, public ISingleton<RendererComponentStaticIterator>
+	{
+		GENERATE_BODY()
 	private:
 
-		UINT32 mWorkingRendererListIndex = 0;
-		std::array<std::array<std::vector<Renderer*>, 2>, MAX_CAMERA_COUNT> mRendererList{};
+		D_PROPERTY()
+		UINT32 mWorkingRendererListIndex;
+		D_PROPERTY()
+		RendererListSwapContainer mRendererList;
 
 	public:
 
 		/// <summary>
 		/// Component constructor should be called before StaticIterator constructor
 		/// </summary>
-		StaticContainer();
-		virtual ~StaticContainer() = default;
-		StaticContainer(const StaticContainer&) = default;
-		StaticContainer& operator=(const StaticContainer&) = default;
-		StaticContainer(StaticContainer&&) noexcept = default;
-		StaticContainer& operator=(StaticContainer&&) noexcept = default;
+		RendererComponentStaticIterator();
+		virtual ~RendererComponentStaticIterator() = default;
+		RendererComponentStaticIterator(const RendererComponentStaticIterator&) = default;
+		RendererComponentStaticIterator& operator=(const RendererComponentStaticIterator&) = default;
+		RendererComponentStaticIterator(RendererComponentStaticIterator&&) noexcept = default;
+		RendererComponentStaticIterator& operator=(RendererComponentStaticIterator&&) noexcept = default;
 
 		void AddRendererToStaticContainer(Renderer* const renderer);
 		void RemoveRendererToStaticContainer(const Renderer* const renderer);
 		virtual void OnEntityLayerChanged(Renderer* const renderer);
 
-		NO_DISCARD std::vector<Renderer*>& GetSortedRendererInLayer(const size_t cameraIndex);
-		NO_DISCARD std::vector<Renderer*>& GetSortingRendererInLayer(const size_t cameraIndex);
+		NO_DISCARD std::vector<Renderer*>& GetSortedRendererInLayer();
+		NO_DISCARD std::vector<Renderer*>& GetSortingRendererInLayer();
 
 		void ChangeWorkingIndexRenderers();
 	};
-
-	using RendererComponentStaticIterator = StaticContainer<dooms::Renderer>;
 }
 

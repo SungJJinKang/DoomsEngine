@@ -37,7 +37,7 @@ void dooms::graphics::SortFrontToBackSolver::CacheDistanceFromRenderersToCamera(
 void dooms::graphics::SortFrontToBackSolver::SortRenderer(const size_t cameraIndex)
 {
 	dooms::graphics::SortFrontToBackSolver::SortRenderer(
-		dooms::RendererComponentStaticIterator::GetSingleton()->GetSortingRendererInLayer(cameraIndex),
+		dooms::RendererComponentStaticIterator::GetSingleton()->GetSortingRendererInLayer(),
 		cameraIndex
 	);
 }

@@ -15,7 +15,7 @@ void dooms::graphics::RendererAABBDebugger::Render()
 {
 	if (graphics::graphicsSetting::DrawRenderingBoundingBox == true)
 	{
-		const std::vector<Renderer*>& renderersInLayer = RendererComponentStaticIterator::GetSingleton()->GetSortedRendererInLayer(0);
+		const std::vector<Renderer*>& renderersInLayer = RendererComponentStaticIterator::GetSingleton()->GetSortedRendererInLayer();
 		for (size_t rendererIndex = 0; rendererIndex < renderersInLayer.size(); rendererIndex++)
 		{
 			renderersInLayer[rendererIndex]->ColliderUpdater<dooms::physics::AABB3D>::DrawWorldColliderCache();

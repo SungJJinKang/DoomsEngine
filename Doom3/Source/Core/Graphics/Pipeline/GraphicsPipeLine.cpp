@@ -12,7 +12,7 @@
 
 void dooms::graphics::GraphicsPipeLine::PreRenderRenderer()
 {
-	const std::vector<Renderer*>& renderersInLayer = RendererComponentStaticIterator::GetSingleton()->GetSortedRendererInLayer(0);
+	const std::vector<Renderer*>& renderersInLayer = RendererComponentStaticIterator::GetSingleton()->GetSortedRendererInLayer();
 	for (Renderer* renderer : renderersInLayer)
 	{
 		renderer->PreRender();
@@ -109,7 +109,7 @@ void dooms::graphics::GraphicsPipeLine::RenderObject(dooms::Camera* const target
 	D_START_PROFILING(DrawLoop, dooms::profiler::eProfileLayers::Rendering);
 	const bool targetCamera_IS_CULLED_flag_on = targetCamera->GetCameraFlag(dooms::eCameraFlag::IS_CULLED);
 	
-	const std::vector<Renderer*>& renderersInLayer = RendererComponentStaticIterator::GetSingleton()->GetSortedRendererInLayer(cameraIndex);
+	const std::vector<Renderer*>& renderersInLayer = RendererComponentStaticIterator::GetSingleton()->GetSortedRendererInLayer();
 	for (Renderer* renderer : renderersInLayer)
 	{
 		if
@@ -194,7 +194,7 @@ std::future<void> dooms::graphics::GraphicsPipeLine::PushFrontToBackSortJobToJob
 		math::Vector3 cameraPos = targetCamera->GetTransform()->GetPosition();
 		std::function<void()> FrontToBackSortJob = [cameraPos, cameraIndex]()
 		{
-			std::vector<Renderer*>& renderers = dooms::RendererComponentStaticIterator::GetSingleton()->GetSortingRendererInLayer(cameraIndex);
+			std::vector<Renderer*>& renderers = dooms::RendererComponentStaticIterator::GetSingleton()->GetSortingRendererInLayer();
 
 			const size_t startRendererIndex = 0;
 			const size_t rendererCount = renderers.size();
@@ -206,6 +206,7 @@ std::future<void> dooms::graphics::GraphicsPipeLine::PushFrontToBackSortJobToJob
 				rendererIndex++
 			)
 			{
+				D_ASSERT(IsValid(renderers[rendererIndex]));
 				renderers[rendererIndex]->CacheDistanceToCamera(cameraIndex, cameraPos);
 			}
 
