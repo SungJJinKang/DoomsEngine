@@ -8,10 +8,15 @@
 #include "EngineConfigurationData/ConfigData.h"
 #include <EngineGUI/PrintText.h>
 
-dooms::graphics::GraphicsAPILoader dooms::graphics::GraphicsAPIManager::mGraphicsAPILoader{};
+std::unique_ptr<dooms::graphics::GraphicsAPILoader> dooms::graphics::GraphicsAPIManager::_GraphicsAPILoader{};
 void dooms::graphics::GraphicsAPIManager::LoadGraphicsAPI(const GraphicsAPI::eGraphicsAPIType graphicsAPIType)
 {
-	HMODULE hModule = reinterpret_cast<HMODULE>(mGraphicsAPILoader.LoadGraphicsAPILibrary(graphicsAPIType));
+	if(_GraphicsAPILoader == nullptr)
+	{
+		_GraphicsAPILoader = std::make_unique<dooms::graphics::GraphicsAPILoader>();
+	}
+
+	HMODULE hModule = reinterpret_cast<HMODULE>(_GraphicsAPILoader->LoadGraphicsAPILibrary(graphicsAPIType));
 	D_ASSERT(hModule != NULL);
 }
 
@@ -129,8 +134,11 @@ bool dooms::graphics::GraphicsAPIManager::DeInitialize()
 	D_ASSERT(result == 1);
 	result &= input::GraphicsAPIInput::DeInitializeGraphisAPIInput();
 	D_ASSERT(result == 1);
-	result &= static_cast<unsigned int>(mGraphicsAPILoader.UnLoadGraphicsAPILibrary());
+	D_ASSERT(_GraphicsAPILoader != nullptr);
+	result &= static_cast<unsigned int>(_GraphicsAPILoader->UnLoadGraphicsAPILibrary());
 	D_ASSERT(result == 1);
+
+	_GraphicsAPILoader.reset();
 
 	return result == 1;
 }

@@ -2,6 +2,8 @@
 
 #include <Core.h>
 
+#include <memory>
+
 #include <Simple_SingleTon/Singleton.h>
 #include "GraphicsAPILoader.h"
 #include "../GraphicsAPI.h"
@@ -17,7 +19,7 @@ namespace dooms
 		{
 		private:
 
-			static GraphicsAPILoader mGraphicsAPILoader;
+			static std::unique_ptr<GraphicsAPILoader> _GraphicsAPILoader;
 
 			static void LoadGraphicsAPI(const GraphicsAPI::eGraphicsAPIType graphicsAPIType);
 
