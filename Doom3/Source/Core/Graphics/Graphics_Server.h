@@ -3,20 +3,13 @@
 #include "Graphics_Core.h"
 
 #include "../Game/IGameFlow.h"
-
-
-#include "FrameBuffer/FrameBuffer.h"
+#include <Simple_SingleTon/Singleton.h>
 #include "Buffer/UniformBufferObject/UniformBufferObjectManager.h"
 #include "Light/LightManager.h"
 #include <Rendering/PictureInPicture/PIPManager.h>
 #include <Rendering/Renderer/RendererStaticIterator.h>
 #include "Misc/AccelerationContainer/BVH/BVH.h"
-#include <Rendering/RenderingDebugger/RenderingDebugger.h>
 #include "Pipeline/GraphicsPipeLine.h"
-
-#define RENDERER_BVH_MAX_NODE_COUNT 3000
-
-struct GLFWwindow;
 
 namespace culling
 {
@@ -54,7 +47,7 @@ namespace dooms
 			UINT32 mCullingCameraCount;
 
 			D_PROPERTY()
-			RendererComponentStaticIterator mRendererStaticContainer{};
+			RendererComponentStaticIterator mRendererStaticContainer;
 			
 			void PreRenders();
 			void Renders();
@@ -63,7 +56,7 @@ namespace dooms
 		public:
 
 			D_PROPERTY()
-			BVHAABB3D mRendererColliderBVH{ RENDERER_BVH_MAX_NODE_COUNT };
+			BVHAABB3D mRendererColliderBVH;
 
 			D_PROPERTY()
 			GraphicsPipeLine mGraphicsPipeLine;

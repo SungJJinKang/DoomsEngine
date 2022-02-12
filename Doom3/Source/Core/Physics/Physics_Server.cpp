@@ -24,6 +24,11 @@ void dooms::physics::Physics_Server::LoadPhysicsSetting()
 
 }
 
+dooms::physics::Physics_Server::Physics_Server()
+	: mPhysicsColliderBVH(PHYSICS_COLLIDER_BVH_MAX_NODE_COUNT )
+{
+}
+
 dooms::physics::Physics_Server::~Physics_Server()
 {
 	dooms::StaticContainer<Rigidbody>::ClearContainer();

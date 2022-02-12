@@ -27,8 +27,9 @@ namespace dooms
 
 		public:
 			
-			BVHAABB3D mPhysicsColliderBVH{ PHYSICS_COLLIDER_BVH_MAX_NODE_COUNT };
+			BVHAABB3D mPhysicsColliderBVH;
 
+			Physics_Server();
 			~Physics_Server();
 
 			virtual void Init(const int argc, char* const* const argv) final;

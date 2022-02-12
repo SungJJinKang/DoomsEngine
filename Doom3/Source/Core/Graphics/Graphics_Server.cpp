@@ -6,6 +6,8 @@
 #include "graphicsSetting.h"
 #include "GraphicsAPI/graphicsAPISetting.h"
 
+#define RENDERER_BVH_MAX_NODE_COUNT 3000
+
 bool dooms::graphics::Graphics_Server::InitializeGraphicsAPI(GraphicsAPI::eGraphicsAPIType graphicsAPIType)
 {
 	dooms::graphics::graphicsSetting::LoadData();
@@ -104,7 +106,13 @@ void dooms::graphics::Graphics_Server::OnEndOfFrame()
 
 
 dooms::graphics::Graphics_Server::Graphics_Server()
-	: mGraphicsPipeLine{*this}, mUniformBufferObjectManager(), mLightManager(), mPIPManager()
+	:
+	mGraphicsPipeLine{*this},
+	mUniformBufferObjectManager(),
+	mLightManager(),
+	mPIPManager(),
+	mRendererColliderBVH{ RENDERER_BVH_MAX_NODE_COUNT },
+	mRendererStaticContainer()
 {
 
 }
