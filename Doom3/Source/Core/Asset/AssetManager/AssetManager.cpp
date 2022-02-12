@@ -300,11 +300,6 @@ void dooms::assetImporter::AssetManager::ImportEntireAsset()
 	_ImportAssetInstantly(pathList, assetTypeList);
 #endif
 	
-
-	
-	
-
-	
-	
+	mAssetImporterWorkerManager.ClearAssetImporterWorker();
 }
 
