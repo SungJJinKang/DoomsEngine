@@ -40,6 +40,8 @@ namespace dooms
 
 		std::shared_ptr<DynamicLinkingLibrary> mDynamicLinkingLibrary;
 
+		std::unordered_map<std::string, void*> ProcAddressCache;
+
 		void* _GetProcAddress(const char* const functionName);
 		
 	public :

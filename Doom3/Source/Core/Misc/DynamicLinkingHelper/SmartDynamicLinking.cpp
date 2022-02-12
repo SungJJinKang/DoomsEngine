@@ -79,15 +79,31 @@ void* dooms::SmartDynamicLinking::_GetProcAddress(const char* const functionName
 
 	if(mDynamicLinkingLibrary->mLibrary != nullptr)
 	{
-		void* const procAddress = GetProcAddress(reinterpret_cast<HMODULE>(mDynamicLinkingLibrary->mLibrary), functionName);
+		void* procAddress = nullptr;
 
-		if(procAddress == nullptr)
+		auto node = ProcAddressCache.find(functionName);
+		if(node != ProcAddressCache.end())
 		{
-			const DWORD errorCode = GetLastError();
-
-			D_ASSERT_LOG(false, "Fail to GetProcAddress ( ""%s"" from ""%s"" ) - Error Code : %d", functionName, mDynamicLinkingLibrary->mLibraryPath.c_str(), errorCode);
-			dooms::ui::PrintText("Fail to GetProcAddress ( ""%s"" from ""%s"" ) - Error Code : %d", functionName, mDynamicLinkingLibrary->mLibraryPath.c_str(), errorCode);
+			procAddress = node->second;
+			D_ASSERT(procAddress != nullptr);
 		}
+		else
+		{
+			procAddress = GetProcAddress(reinterpret_cast<HMODULE>(mDynamicLinkingLibrary->mLibrary), functionName);
+
+			if (procAddress == nullptr)
+			{
+				const DWORD errorCode = GetLastError();
+
+				D_ASSERT_LOG(false, "Fail to GetProcAddress ( ""%s"" from ""%s"" ) - Error Code : %d", functionName, mDynamicLinkingLibrary->mLibraryPath.c_str(), errorCode);
+				dooms::ui::PrintText("Fail to GetProcAddress ( ""%s"" from ""%s"" ) - Error Code : %d", functionName, mDynamicLinkingLibrary->mLibraryPath.c_str(), errorCode);
+			}
+			else
+			{
+				ProcAddressCache.emplace(functionName, procAddress);
+			}
+		}
+		
 
 		return procAddress;
 	}
@@ -99,7 +115,7 @@ void* dooms::SmartDynamicLinking::_GetProcAddress(const char* const functionName
 }
 
 dooms::SmartDynamicLinking::SmartDynamicLinking()
-	: mDynamicLinkingLibrary()
+	: mDynamicLinkingLibrary(), ProcAddressCache()
 {
 }
 
