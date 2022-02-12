@@ -47,7 +47,7 @@ namespace dooms
 			AssetImporterWorker_THREE_D_MODEL(AssetImporterWorker_THREE_D_MODEL&&) noexcept = default;
 			AssetImporterWorker_THREE_D_MODEL& operator=(const AssetImporterWorker_THREE_D_MODEL&) = delete;
 			AssetImporterWorker_THREE_D_MODEL& operator=(AssetImporterWorker_THREE_D_MODEL&&) noexcept = default;
-			
+			~AssetImporterWorker_THREE_D_MODEL();
 
 			/// <summary>
 			/// only this file format is acceptable.

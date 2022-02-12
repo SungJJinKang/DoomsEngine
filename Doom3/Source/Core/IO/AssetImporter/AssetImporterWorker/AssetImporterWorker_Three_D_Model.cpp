@@ -355,7 +355,9 @@ void dooms::assetImporter::AssetImporterWorker_THREE_D_MODEL::Creat3DModelAsset
 }
 
 
-
+dooms::assetImporter::AssetImporterWorker_THREE_D_MODEL::~AssetImporterWorker_THREE_D_MODEL()
+{
+}
 
 bool dooms::assetImporter::AssetImporterWorker_THREE_D_MODEL::ImportSpecificAsset
 (

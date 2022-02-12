@@ -15,25 +15,20 @@ namespace dooms
 	class DOOM_API D_CLASS AssetIOWorker : public DObject
 	{
 		GENERATE_BODY()
+
 	private:
 
-		struct RequiredDynamicLibrary
-		{
-			std::string mLibraryName;
-			SmartDynamicLinking mSmartDynamicLinking;
+		bool bmIsRequiredDllIsLoaded;
+		std::vector<SmartDynamicLinking> mDynamicLinkedDLLs;
+		void LoadRequiredDLLs();
 
-			bool LoadIfNotLoaded();
-			void UnLoad();
-			bool IsLoaded() const;
-		};
+	protected:
 
-		static std::array<std::vector<RequiredDynamicLibrary>, asset::ENUM_ASSETTYPE_COUNT> mRequiredDynamicLibrary;
+		virtual std::vector<std::string> GetRequiredDLLPathList();
 
 	public:
 
-		static bool LoadRequiredDynamicLibrariesIfNotLoaded(const dooms::asset::eAssetType targetAssetType);
-		static void UnLoadRequiredDynamicLibraries(const dooms::asset::eAssetType targetAssetType);
-		static bool IsAllRequiredDynamicLibrariesLoaded(const dooms::asset::eAssetType targetAssetType);
+		AssetIOWorker();
 
 	};
 }
