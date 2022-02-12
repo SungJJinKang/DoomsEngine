@@ -34,7 +34,7 @@ namespace dooms
 
 		dooms::Scene* CreateNewScene();
 		dooms::Scene* CreateNewScene(const std::string& sceneName);
-		
+		void OnSetPendingKill() override;
 	};
 }
 

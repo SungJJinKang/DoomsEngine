@@ -51,3 +51,10 @@ dooms::Scene* dooms::SceneManager::CreateNewScene(const std::string& sceneName)
 {
 	return dooms::CreateDObject<Scene>(sceneName);
 }
+
+void dooms::SceneManager::OnSetPendingKill()
+{
+	IGameFlow::OnSetPendingKill();
+
+	mCurrentScene->SetIsPendingKill();
+}

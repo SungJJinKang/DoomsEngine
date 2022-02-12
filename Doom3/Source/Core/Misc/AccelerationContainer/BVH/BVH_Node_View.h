@@ -67,7 +67,7 @@ namespace dooms
 
 		bool IsValid() const
 		{
-			return (mNodeIndex != NULL_NODE_INDEX) && (mOwnerBVH != nullptr);
+			return (mNodeIndex != NULL_NODE_INDEX) && (mOwnerBVH != nullptr) && (IsLowLevelValid(mOwnerBVH));
 		}
 		operator bool() const
 		{

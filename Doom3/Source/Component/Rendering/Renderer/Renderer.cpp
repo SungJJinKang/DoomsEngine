@@ -78,7 +78,10 @@ void dooms::Renderer::AddRendererToCullingSystem()
 
 void dooms::Renderer::RemoveRendererFromCullingSystem()
 {
-	graphics::Graphics_Server::GetSingleton()->mGraphicsPipeLine.mRenderingCullingManager.mCullingSystem->RemoveEntityFromBlock(mCullingEntityBlockViewer);
+	if(IsValid(graphics::Graphics_Server::GetSingleton()))
+	{
+		graphics::Graphics_Server::GetSingleton()->mGraphicsPipeLine.mRenderingCullingManager.mCullingSystem->RemoveEntityFromBlock(mCullingEntityBlockViewer);
+	}
 }
 
 void dooms::Renderer::OnChangedByGUI(const dooms::reflection::DField& field_of_changed_field)
@@ -99,7 +102,11 @@ void dooms::Renderer::OnDestroy()
 
 	RemoveRendererFromCullingSystem();
 
-	RendererComponentStaticIterator::GetSingleton()->RemoveRendererToStaticContainer(this);
+	if(IsValid(RendererComponentStaticIterator::GetSingleton()))
+	{
+		RendererComponentStaticIterator::GetSingleton()->RemoveRendererToStaticContainer(this);
+	}
+
 }
 
 dooms::Renderer::Renderer() : Component(), mTargetMaterial{nullptr}, mCullingEntityBlockViewer()

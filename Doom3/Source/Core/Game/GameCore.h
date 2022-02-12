@@ -115,5 +115,6 @@ namespace dooms
 		/// Clean Game Resources
 		/// </summary>
 		void CleanUp();
+		void OnSetPendingKill() override;
 	};
 }

@@ -21,7 +21,6 @@ dooms::GameCore::GameCore()
 	FRAME_DELAY_MILLISECOND(),
 	FIXED_TIME_STEP(),
 	MAX_PHYSICS_STEP(DEFAULT_MAX_PHYSICS_STEP),
-	mSceneManager(),
 	mAssetManager(),
 	mGraphics_Server(),
 	mPhysics_Server(),
@@ -31,7 +30,8 @@ dooms::GameCore::GameCore()
 	mReflectionManager(),
 	mMemoryManager(),
 	mGameConfigData(),
-	mEngineGUIServer()
+	mEngineGUIServer(),
+	mSceneManager()
 {
 
 
@@ -280,5 +280,23 @@ bool dooms::GameCore::Tick()
 
 void dooms::GameCore::CleanUp()
 {
+	SetIsPendingKill();
+}
+
+void dooms::GameCore::OnSetPendingKill()
+{
+	IGameFlow::OnSetPendingKill();
+
+	mSceneManager.SetIsPendingKill();
+	mTime_Server.SetIsPendingKill();
+	mMemoryManager.SetIsPendingKill();
+	mUserImput_Server.SetIsPendingKill();
+	mTime_Server.SetIsPendingKill();
+	mJobSystem.SetIsPendingKill();
+	mEngineGUIServer.SetIsPendingKill();
+	mReflectionManager.SetIsPendingKill();
+	mPhysics_Server.SetIsPendingKill();
+	mAssetManager.SetIsPendingKill();
+	mGraphics_Server.SetIsPendingKill();
 
 }
