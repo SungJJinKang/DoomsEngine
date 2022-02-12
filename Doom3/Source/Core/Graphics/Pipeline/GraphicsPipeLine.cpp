@@ -209,10 +209,8 @@ std::future<void> dooms::graphics::GraphicsPipeLine::PushFrontToBackSortJobToJob
 				D_ASSERT(IsValid(renderers[rendererIndex]));
 				renderers[rendererIndex]->CacheDistanceToCamera(cameraIndex, cameraPos);
 			}
-
-			D_START_PROFILING(SortRenderers, dooms::profiler::eProfileLayers::Rendering);
+			
 			dooms::graphics::SortFrontToBackSolver::SortRenderer(cameraIndex);
-			D_END_PROFILING(SortRenderers);
 		};
 
 		future = resource::JobSystem::GetSingleton()->PushBackJobToPriorityQueue(FrontToBackSortJob);
