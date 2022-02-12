@@ -40,6 +40,7 @@ namespace dooms
 
 		dooms::graphics::GraphicsAPIManager::DeInitialize();
 
+		D_ASSERT_LOG(dooms::DObjectManager::GetDObjectCount() == 0, "Never use DObject as static, global variable");
 		std::cout << "\Remained DObject Count : " << dooms::DObjectManager::GetDObjectCount() << std::endl;
 		std::fflush(stdout);
 
