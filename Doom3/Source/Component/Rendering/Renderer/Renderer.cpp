@@ -3,7 +3,7 @@
 #include "../Core/Graphics/Material/Material.h"
 #include <Transform.h>
 #include <Rendering/Camera.h>
-#include <Rendering/Culling/EveryCulling/EveryCulling.h>
+#include <Rendering/Pipeline/PipeLines/DefaultGraphcisPipeLine.h>
 #include <Graphics/Graphics_Server.h>
 
 void dooms::Renderer::SetRenderingFlag(const eRenderingFlag flag, const bool isSet)
@@ -71,16 +71,23 @@ void dooms::Renderer::AddRendererToCullingSystem()
 {
 	if(mCullingEntityBlockViewer.GetIsActive() == false)
 	{
-		mCullingEntityBlockViewer = graphics::Graphics_Server::GetSingleton()->mGraphicsPipeLine.mRenderingCullingManager.mCullingSystem->AllocateNewEntity();
+		graphics::DefaultGraphcisPipeLine* defaultGraphicsPipeLine = CastTo<graphics::DefaultGraphcisPipeLine*>(dooms::graphics::GraphicsPipeLine::GetSingleton());
+		D_ASSERT(IsValid(defaultGraphicsPipeLine));
+		if (IsValid(defaultGraphicsPipeLine))
+		{
+			mCullingEntityBlockViewer = defaultGraphicsPipeLine->mRenderingCullingManager.mCullingSystem->AllocateNewEntity();
+		}
 		InitializeCullingEntityBlockViewer();
 	}
 }
 
 void dooms::Renderer::RemoveRendererFromCullingSystem()
 {
-	if(IsValid(graphics::Graphics_Server::GetSingleton()))
+	graphics::DefaultGraphcisPipeLine* defaultGraphicsPipeLine = CastTo<graphics::DefaultGraphcisPipeLine*>(dooms::graphics::GraphicsPipeLine::GetSingleton());
+	D_ASSERT(IsValid(defaultGraphicsPipeLine));
+	if (IsValid(defaultGraphicsPipeLine))
 	{
-		graphics::Graphics_Server::GetSingleton()->mGraphicsPipeLine.mRenderingCullingManager.mCullingSystem->RemoveEntityFromBlock(mCullingEntityBlockViewer);
+		defaultGraphicsPipeLine->mRenderingCullingManager.mCullingSystem->RemoveEntityFromBlock(mCullingEntityBlockViewer);
 	}
 }
 

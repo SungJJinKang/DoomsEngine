@@ -55,10 +55,16 @@ bool dooms::graphics::Graphics_Server::InitializeGraphicsAPI(GraphicsAPI::eGraph
 	return isSuccess;
 }
 
+void dooms::graphics::Graphics_Server::GenerateGraphicsPipeLine()
+{
+	mGraphicsPipeLine = graphicsPipeLineFactory::CreateGraphicsPipeLineFromConfigFile(this);
+	D_ASSERT(IsValid(mGraphicsPipeLine));
+}
+
 void dooms::graphics::Graphics_Server::Init(const int argc, char* const* const argv)
 {
-	mGraphicsPipeLine = graphicsPipeLineFactory::CreateGraphicsPipeLineFromConfigFile();
-	D_ASSERT(IsValid(mGraphicsPipeLine));
+	GenerateGraphicsPipeLine();
+
 	mGraphicsPipeLine->Initialize();
 }
 

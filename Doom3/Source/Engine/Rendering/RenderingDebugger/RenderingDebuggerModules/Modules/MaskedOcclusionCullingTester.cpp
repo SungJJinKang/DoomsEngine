@@ -4,6 +4,7 @@
 #include <Rendering/Pipeline/GraphicsPipeLine.h>
 #include "Graphics/graphicsSetting.h"
 #include <Rendering/Culling/EveryCulling/CullingModule/MaskedSWOcclusionCulling/MaskedSWOcclusionCulling.h>
+#include <Rendering/Pipeline/PipeLines/DefaultGraphcisPipeLine.h>
 
 #define DEBUGGER_TILE_BOX_PADIDNG_X 0.002f
 #define DEBUGGER_TILE_BOX_PADIDNG_Y 0.002f
@@ -115,20 +116,24 @@ void dooms::graphics::MaskedOcclusionCullingTester::PreRender()
 
 void dooms::graphics::MaskedOcclusionCullingTester::Render()
 {
-	
-	if (graphicsSetting::IsDrawMaskedOcclusionCullingBinTriangleStageDebugger == true)
+	graphics::DefaultGraphcisPipeLine* defaultGraphicsPipeLine = CastTo<graphics::DefaultGraphcisPipeLine*>(dooms::graphics::GraphicsPipeLine::GetSingleton());
+	D_ASSERT(IsValid(defaultGraphicsPipeLine));
+	if (IsValid(defaultGraphicsPipeLine))
 	{
-		DebugBinnedTriangles(&(GraphicsPipeLine::GetSingleton()->mRenderingCullingManager.mCullingSystem->mMaskedSWOcclusionCulling->mDepthBuffer));
-	}
+		if (graphicsSetting::IsDrawMaskedOcclusionCullingBinTriangleStageDebugger == true)
+		{
+			DebugBinnedTriangles(&(defaultGraphicsPipeLine->mRenderingCullingManager.mCullingSystem->mMaskedSWOcclusionCulling->mDepthBuffer));
+		}
 
-	if (graphicsSetting::IsDrawMaskedOcclusionCullingTileCoverageMaskDebugger == true)
-	{
-		DebugTileCoverageMask(&(GraphicsPipeLine::GetSingleton()->mRenderingCullingManager.mCullingSystem->mMaskedSWOcclusionCulling->mDepthBuffer));
-	}
+		if (graphicsSetting::IsDrawMaskedOcclusionCullingTileCoverageMaskDebugger == true)
+		{
+			DebugTileCoverageMask(&(defaultGraphicsPipeLine->mRenderingCullingManager.mCullingSystem->mMaskedSWOcclusionCulling->mDepthBuffer));
+		}
 
-	if (graphicsSetting::IsDrawMaskedOcclusionCullingTileL0MaxDepthValueDebugger == true)
-	{
-		DebugTileL0MaxDepthValue(&(GraphicsPipeLine::GetSingleton()->mRenderingCullingManager.mCullingSystem->mMaskedSWOcclusionCulling->mDepthBuffer));
+		if (graphicsSetting::IsDrawMaskedOcclusionCullingTileL0MaxDepthValueDebugger == true)
+		{
+			DebugTileL0MaxDepthValue(&(defaultGraphicsPipeLine->mRenderingCullingManager.mCullingSystem->mMaskedSWOcclusionCulling->mDepthBuffer));
+		}
 	}
 }
 

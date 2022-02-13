@@ -7,6 +7,16 @@
 #include <ResourceManagement/JobSystem_cpp/JobSystem.h>
 #include <Rendering/Renderer/Renderer.h>
 
+void dooms::graphics::DefaultGraphcisPipeLine::PreRenderRenderer()
+{
+	const std::vector<Renderer*>& renderersInLayer = RendererComponentStaticIterator::GetSingleton()->GetSortedRendererInLayer();
+	for (Renderer* renderer : renderersInLayer)
+	{
+		renderer->PreRender();
+	}
+}
+
+
 dooms::graphics::DefaultGraphcisPipeLine::DefaultGraphcisPipeLine(dooms::graphics::Graphics_Server& graphicsServer)
 	:
 	GraphicsPipeLine(graphicsServer),
@@ -28,6 +38,18 @@ void dooms::graphics::DefaultGraphcisPipeLine::LateInitialize()
 	GraphicsPipeLine::LateInitialize();
 
 	mRenderingDebugger.LateInitialize();
+}
+
+void dooms::graphics::DefaultGraphcisPipeLine::PreRender()
+{
+}
+
+void dooms::graphics::DefaultGraphcisPipeLine::Render()
+{
+}
+
+void dooms::graphics::DefaultGraphcisPipeLine::PostRender()
+{
 }
 
 

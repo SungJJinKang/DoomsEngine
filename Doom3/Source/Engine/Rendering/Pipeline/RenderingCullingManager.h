@@ -4,6 +4,7 @@
 
 #include <Rendering/Culling/EveryCulling/EveryCulling.h>
 
+#include "RenderingCullingManager.reflection.h"
 namespace dooms
 {
 	class Camera;
@@ -11,6 +12,8 @@ namespace dooms
 	{
 		class D_CLASS RenderingCullingManager : public DObject
 		{
+			GENERATE_BODY()
+
 		private:
 
 			D_PROPERTY()

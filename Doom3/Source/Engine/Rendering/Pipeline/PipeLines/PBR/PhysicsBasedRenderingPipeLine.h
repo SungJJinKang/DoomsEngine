@@ -4,12 +4,14 @@
 
 #include "../DefaultGraphcisPipeLine.h"
 
+#include "PhysicsBasedRenderingPipeLine.reflection.h"
 namespace dooms
 {
 	namespace graphics
 	{
 		class D_CLASS PhysicsBasedRenderingPipeLine : public DefaultGraphcisPipeLine
 		{
+			GENERATE_BODY()
 
 		private:
 

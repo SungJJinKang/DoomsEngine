@@ -17,12 +17,15 @@ void dooms::graphics::PhysicsBasedRenderingPipeLine::LateInitialize()
 
 void dooms::graphics::PhysicsBasedRenderingPipeLine::PreRender()
 {
+	DefaultGraphcisPipeLine::PreRender();
 }
 
 void dooms::graphics::PhysicsBasedRenderingPipeLine::Render()
 {
+	DefaultGraphcisPipeLine::Render();
 }
 
 void dooms::graphics::PhysicsBasedRenderingPipeLine::PostRender()
 {
+	DefaultGraphcisPipeLine::PostRender();
 }

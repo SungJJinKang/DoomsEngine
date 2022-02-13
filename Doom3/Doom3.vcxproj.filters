@@ -339,7 +339,7 @@
     <ClCompile Include="Source\Engine\Physics\Debugger\PhysicsDebugger.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Engine\Rendering\Pipeline\DeferredRenderingDrawer.cpp">
+    <ClCompile Include="Source\Engine\Rendering\Pipeline\PipeLines\DeferredRendering\DeferredRenderingDrawer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Source\GameLogic\CustomComponent\BoxAdder.cpp">
@@ -1436,7 +1436,7 @@
     <ClInclude Include="Source\Engine\Physics\Debugger\PhysicsDebugger.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Engine\Rendering\Pipeline\DeferredRenderingDrawer.h">
+    <ClInclude Include="Source\Engine\Rendering\Pipeline\PipeLines\DeferredRendering\DeferredRenderingDrawer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\GameLogic\CustomComponent\BoxAdder.h">

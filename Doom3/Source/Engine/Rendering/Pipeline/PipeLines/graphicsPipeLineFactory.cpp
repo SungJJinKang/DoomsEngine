@@ -1,21 +1,44 @@
 #include "graphicsPipeLineFactory.h"
 
 #include <EngineConfigurationData/ConfigData.h>
+#include <Graphics/Graphics_Server.h>
+#include <Rendering/Pipeline/PipeLines/DeferredRendering/DeferredRenderingPipeLine.h>
+#include <Rendering/Pipeline/PipeLines/PBR/PhysicsBasedRenderingPipeLine.h>
+#include <EngineGUI/PrintText.h>
 
-dooms::graphics::GraphicsPipeLine* dooms::graphics::graphicsPipeLineFactory::CreateGraphicsPipeLineFromConfigFile()
+dooms::graphics::GraphicsPipeLine* dooms::graphics::graphicsPipeLineFactory::CreateGraphicsPipeLineFromConfigFile(Graphics_Server* const graphicsServer)
 {
-	const std::string pipeLineType = ConfigData::GetSingleton()->GetConfigData().GetValue<std::string>("Graphics", "TARGET_GRAPHICS_PIPELINE");
+	D_ASSERT(IsValid(graphicsServer));
 
-	if(_stricmp(pipeLineType.c_str(), "PBR"))
-	{
-		
-	}
-	else if (_stricmp(pipeLineType.c_str(), "DEFERRED_RENDERING"))
-	{
+	dooms::graphics::GraphicsPipeLine* graphicsPipeLine = nullptr;
 
-	}
-	else
+	if(IsValid(graphicsServer))
 	{
-		NEVER_HAPPEN;
+		const std::string pipeLineType = ConfigData::GetSingleton()->GetConfigData().GetValue<std::string>("Graphics", "TARGET_GRAPHICS_PIPELINE");
+
+		if
+			(
+				_stricmp(pipeLineType.c_str(), "PBR") == 0 ||
+				_stricmp(pipeLineType.c_str(), "PHYSICSBASEDRENDERING") == 0 ||
+				_stricmp(pipeLineType.c_str(), "PHYSICS_BASED_RENDERING") == 0
+				)
+		{
+			graphicsPipeLine = dooms::CreateDObject<dooms::graphics::PhysicsBasedRenderingPipeLine>(*graphicsServer);
+			dooms::ui::PrintText("Physics Base Rendering Graphics PipeLine is generated");
+		}
+		else if
+			(
+				_stricmp(pipeLineType.c_str(), "DEFERRED_RENDERING") == 0 ||
+				_stricmp(pipeLineType.c_str(), "DEFERREDRENDERING") == 0
+				)
+		{
+			graphicsPipeLine = dooms::CreateDObject<dooms::graphics::DeferredRenderingPipeLine>(*graphicsServer);
+			dooms::ui::PrintText("Deferred Rendering Graphics PipeLine is generated");
+		}
 	}
+	
+
+	D_ASSERT(IsValid(graphicsPipeLine));
+
+	return graphicsPipeLine;
 }

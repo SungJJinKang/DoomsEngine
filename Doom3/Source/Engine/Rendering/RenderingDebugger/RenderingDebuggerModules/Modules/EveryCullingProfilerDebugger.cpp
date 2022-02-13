@@ -1,7 +1,7 @@
 #include "EveryCullingProfilerDebugger.h"
 
 #include <Rendering/Culling/EveryCulling/EveryCullingCore.h>
-#include <Rendering/Pipeline/GraphicsPipeLine.h>
+#include <Rendering/Pipeline/PipeLines/DefaultGraphcisPipeLine.h>
 
 void dooms::graphics::EveryCullingProfilerDebugger::Initialize()
 {
@@ -18,12 +18,19 @@ void dooms::graphics::EveryCullingProfilerDebugger::Render()
 void dooms::graphics::EveryCullingProfilerDebugger::PostRender()
 {
 #if defined(PROFILING_CULLING) && defined(D_PROFILING)
-	auto& profilingDatas = GraphicsPipeLine::GetSingleton()->mRenderingCullingManager.mCullingSystem->mEveryCullingProfiler.GetProfilingDatas();
-	for (auto& data : profilingDatas)
+
+	graphics::DefaultGraphcisPipeLine* defaultGraphicsPipeLine = CastTo<graphics::DefaultGraphcisPipeLine*>(dooms::graphics::GraphicsPipeLine::GetSingleton());
+	D_ASSERT(IsValid(defaultGraphicsPipeLine));
+	if (IsValid(defaultGraphicsPipeLine))
 	{
-		const std::string cullingModuleTag{ data.first.data(), data.first.size() };
-		dooms::profiling::profilingManager::AddProfilingData(cullingModuleTag.c_str(), (float)data.second.mElapsedTime);
+		auto& profilingDatas = defaultGraphicsPipeLine->mRenderingCullingManager.mCullingSystem->mEveryCullingProfiler.GetProfilingDatas();
+		for (auto& data : profilingDatas)
+		{
+			const std::string cullingModuleTag{ data.first.data(), data.first.size() };
+			dooms::profiling::profilingManager::AddProfilingData(cullingModuleTag.c_str(), (float)data.second.mElapsedTime);
+		}
 	}
+
 #endif
 }
 

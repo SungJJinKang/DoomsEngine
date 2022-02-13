@@ -48,7 +48,9 @@ namespace dooms
 
 			D_PROPERTY()
 			RendererComponentStaticIterator mRendererStaticContainer;
-			
+
+			void GenerateGraphicsPipeLine();
+
 			void PreRenders();
 			void Renders();
 			void PostRenders();

@@ -3,22 +3,24 @@
 #include <Core.h>
 
 #include "../DefaultGraphcisPipeLine.h"
+#include "DeferredRenderingDrawer.h"
 
+#include "DeferredRenderingPipeLine.reflection.h"
 namespace dooms
 {
 	namespace graphics
 	{
 		class D_CLASS DeferredRenderingPipeLine : public DefaultGraphcisPipeLine
 		{
+			GENERATE_BODY()
 
 		private:
 
 			D_PROPERTY()
 			DeferredRenderingDrawer mDeferredRenderingDrawer;
 
-			void PreRenderRenderer();
-			void RenderObject(dooms::Camera* const targetCamera, const size_t cameraIndex);
-			void RenderCamera(dooms::Camera* const targetCamera, const size_t cameraIndex);
+			void RenderObjects(dooms::Camera* const targetCamera, const size_t cameraIndex);
+			void CameraRender(dooms::Camera* const targetCamera, const size_t cameraIndex);
 
 		public:
 

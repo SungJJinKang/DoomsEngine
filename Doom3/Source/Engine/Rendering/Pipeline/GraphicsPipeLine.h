@@ -4,7 +4,6 @@
 #include <future>
 
 #include <Simple_SingleTon/Singleton.h>
-#include "DeferredRenderingDrawer.h"
 
 #include "GraphicsPipeLine.reflection.h"
 namespace dooms
@@ -22,9 +21,6 @@ namespace dooms
 		protected:
 
 			dooms::graphics::Graphics_Server& mGraphicsServer;
-
-
-		
 			
 		public:
 

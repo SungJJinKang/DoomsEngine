@@ -8,15 +8,6 @@
 #include "EngineGUI/engineGUIServer.h"
 #include "ResourceManagement/JobSystem_cpp/JobSystem.h"
 
-void dooms::graphics::DeferredRenderingPipeLine::PreRenderRenderer()
-{
-	const std::vector<Renderer*>& renderersInLayer = RendererComponentStaticIterator::GetSingleton()->GetSortedRendererInLayer();
-	for (Renderer* renderer : renderersInLayer)
-	{
-		renderer->PreRender();
-	}
-}
-
 
 dooms::graphics::DeferredRenderingPipeLine::DeferredRenderingPipeLine
 (
@@ -43,6 +34,7 @@ void dooms::graphics::DeferredRenderingPipeLine::LateInitialize()
 
 void dooms::graphics::DeferredRenderingPipeLine::PreRender()
 {
+	DefaultGraphcisPipeLine::PreRender();
 
 	D_START_PROFILING(PreRenderRenderer, dooms::profiler::eProfileLayers::Rendering);
 	PreRenderRenderer();
@@ -65,6 +57,8 @@ void dooms::graphics::DeferredRenderingPipeLine::PreRender()
 
 void dooms::graphics::DeferredRenderingPipeLine::Render()
 {
+	DefaultGraphcisPipeLine::Render();
+
 	D_START_PROFILING(Update_Uniform_Buffer, dooms::profiler::eProfileLayers::Rendering);
 	mGraphicsServer.mUniformBufferObjectManager.UpdateUniformObjects();
 	D_END_PROFILING(Update_Uniform_Buffer);
@@ -74,7 +68,7 @@ void dooms::graphics::DeferredRenderingPipeLine::Render()
 	for (size_t cameraIndex = 0; cameraIndex < spawnedCameraList.size(); cameraIndex++)
 	{
 		dooms::Camera* const targetCamera = spawnedCameraList[cameraIndex];
-		RenderCamera(targetCamera, cameraIndex);
+		CameraRender(targetCamera, cameraIndex);
 	}
 
 	RendererComponentStaticIterator::GetSingleton()->ChangeWorkingIndexRenderers();
@@ -87,6 +81,8 @@ void dooms::graphics::DeferredRenderingPipeLine::Render()
 
 void dooms::graphics::DeferredRenderingPipeLine::PostRender()
 {
+	DefaultGraphcisPipeLine::PostRender();
+
 	D_START_PROFILING(engineGUIServer_PostRender, dooms::profiler::eProfileLayers::Rendering);
 	dooms::ui::EngineGUIServer::GetSingleton()->PostRender();
 	D_END_PROFILING(engineGUIServer_PostRender);
@@ -100,7 +96,7 @@ void dooms::graphics::DeferredRenderingPipeLine::PostRender()
 }
 
 
-void dooms::graphics::DeferredRenderingPipeLine::RenderObject(dooms::Camera* const targetCamera, const size_t cameraIndex)
+void dooms::graphics::DeferredRenderingPipeLine::RenderObjects(dooms::Camera* const targetCamera, const size_t cameraIndex)
 {
 	D_ASSERT(IsValid(targetCamera) == true);
 
@@ -132,7 +128,7 @@ void dooms::graphics::DeferredRenderingPipeLine::RenderObject(dooms::Camera* con
 	D_END_PROFILING(DrawLoop);
 }
 
-void dooms::graphics::DeferredRenderingPipeLine::RenderCamera(dooms::Camera* const targetCamera, const size_t cameraIndex)
+void dooms::graphics::DeferredRenderingPipeLine::CameraRender(dooms::Camera* const targetCamera, const size_t cameraIndex)
 {
 	D_ASSERT(IsValid(targetCamera));
 
@@ -154,7 +150,7 @@ void dooms::graphics::DeferredRenderingPipeLine::RenderCamera(dooms::Camera* con
 
 	D_START_PROFILING(RenderObject, dooms::profiler::eProfileLayers::Rendering);
 	//GraphicsAPI::Enable(GraphicsAPI::eCapability::DEPTH_TEST);
-	RenderObject(targetCamera, cameraIndex);
+	RenderObjects(targetCamera, cameraIndex);
 	D_END_PROFILING(RenderObject);
 
 	FrameBuffer::StaticBindBackFrameBuffer();
