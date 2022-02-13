@@ -4,9 +4,7 @@
 #include <future>
 
 #include <Simple_SingleTon/Singleton.h>
-#include "RenderingCullingManager.h"
 #include "DeferredRenderingDrawer.h"
-#include "Rendering/RenderingDebugger/RenderingDebugger.h"
 
 #include "GraphicsPipeLine.reflection.h"
 namespace dooms
@@ -21,37 +19,24 @@ namespace dooms
 		{
 			GENERATE_BODY()
 
-		private:
+		protected:
 
 			dooms::graphics::Graphics_Server& mGraphicsServer;
 
 
-			void PreRenderRenderer();			
-			void RenderObject(dooms::Camera* const targetCamera, const size_t cameraIndex);
-			void RenderCamera(dooms::Camera* const targetCamera, const size_t cameraIndex);
-
-			std::future<void> PushFrontToBackSortJobToJobSystem(dooms::Camera* const targetCamera, const UINT32 cameraIndex);
-
+		
+			
 		public:
-
-			D_PROPERTY()
-			RenderingCullingManager mRenderingCullingManager;
-
-			D_PROPERTY()
-			DeferredRenderingDrawer mDeferredRenderingDrawer;
-
-			D_PROPERTY()
-			RenderingDebugger mRenderingDebugger;
 
 			GraphicsPipeLine() = delete;
 			GraphicsPipeLine(dooms::graphics::Graphics_Server& graphicsServer);
 
-			void Initialize();
-			void LateInitialize();
+			virtual void Initialize();
+			virtual void LateInitialize();
 
-			void PreRender();
-			void Render();
-			void PostRender();
+			virtual void PreRender() = 0;
+			virtual void Render() = 0;
+			virtual void PostRender() = 0;
 
 		};
 	}

@@ -59,7 +59,7 @@ namespace dooms
 			BVHAABB3D mRendererColliderBVH;
 
 			D_PROPERTY()
-			GraphicsPipeLine mGraphicsPipeLine;
+			GraphicsPipeLine* mGraphicsPipeLine;
 
 			D_PROPERTY()
 			UniformBufferObjectManager mUniformBufferObjectManager;

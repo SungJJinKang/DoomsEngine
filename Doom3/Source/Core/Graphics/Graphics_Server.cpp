@@ -5,6 +5,7 @@
 #include <Graphics/GraphicsAPI/GraphicsAPI.h>
 #include "graphicsSetting.h"
 #include "GraphicsAPI/graphicsAPISetting.h"
+#include <Rendering/Pipeline/PipeLines/graphicsPipeLineFactory.h>
 
 #define RENDERER_BVH_MAX_NODE_COUNT 3000
 
@@ -56,21 +57,22 @@ bool dooms::graphics::Graphics_Server::InitializeGraphicsAPI(GraphicsAPI::eGraph
 
 void dooms::graphics::Graphics_Server::Init(const int argc, char* const* const argv)
 {
-	mGraphicsPipeLine.Initialize();
-
-	return;
+	mGraphicsPipeLine = graphicsPipeLineFactory::CreateGraphicsPipeLineFromConfigFile();
+	D_ASSERT(IsValid(mGraphicsPipeLine));
+	mGraphicsPipeLine->Initialize();
 }
 
 void dooms::graphics::Graphics_Server::LateInit()
 {
-	mGraphicsPipeLine.LateInitialize();
+	D_ASSERT(IsValid(mGraphicsPipeLine));
+	mGraphicsPipeLine->LateInitialize();
 }
 
 
 void dooms::graphics::Graphics_Server::PreRenders()
 {
 	D_START_PROFILING(mGraphicsPipeLine_PreRender, dooms::profiler::eProfileLayers::Rendering);
-	mGraphicsPipeLine.PreRender();
+	mGraphicsPipeLine->PreRender();
 	D_END_PROFILING(mGraphicsPipeLine_PreRender);
 
 }
@@ -78,7 +80,7 @@ void dooms::graphics::Graphics_Server::PreRenders()
 void dooms::graphics::Graphics_Server::Renders()
 {
 	D_START_PROFILING(RENDER, dooms::profiler::eProfileLayers::Rendering);
-	mGraphicsPipeLine.Render();
+	mGraphicsPipeLine->Render();
 	D_END_PROFILING(RENDER);
 
 
@@ -87,7 +89,7 @@ void dooms::graphics::Graphics_Server::Renders()
 void dooms::graphics::Graphics_Server::PostRenders()
 {
 	D_START_PROFILING(PostRender, dooms::profiler::eProfileLayers::Rendering);
-	mGraphicsPipeLine.PostRender();
+	mGraphicsPipeLine->PostRender();
 	D_END_PROFILING(PostRender);
 }
 
@@ -107,7 +109,6 @@ void dooms::graphics::Graphics_Server::OnEndOfFrame()
 
 dooms::graphics::Graphics_Server::Graphics_Server()
 	:
-	mGraphicsPipeLine{*this},
 	mUniformBufferObjectManager(),
 	mLightManager(),
 	mPIPManager(),

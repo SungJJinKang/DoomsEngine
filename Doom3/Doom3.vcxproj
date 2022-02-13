@@ -380,6 +380,10 @@ xcopy /y /d /E /H /C /I "$(ProjectDir)Assets" "$(TargetDir)Assets"</Command>
     <ClCompile Include="Source\Engine\Rendering\Culling\EveryCulling\DataType\Math\Common.cpp" />
     <ClCompile Include="Source\Engine\Rendering\Culling\EveryCulling\EveryCulling.cpp" />
     <ClCompile Include="Source\Engine\Rendering\Culling\EveryCulling\EveryCullingProfiler.cpp" />
+    <ClCompile Include="Source\Engine\Rendering\Pipeline\PipeLines\DefaultGraphcisPipeLine.cpp" />
+    <ClCompile Include="Source\Engine\Rendering\Pipeline\PipeLines\DeferredRendering\DeferredRenderingPipeLine.cpp" />
+    <ClCompile Include="Source\Engine\Rendering\Pipeline\PipeLines\graphicsPipeLineFactory.cpp" />
+    <ClCompile Include="Source\Engine\Rendering\Pipeline\PipeLines\PBR\PhysicsBasedRenderingPipeLine.cpp" />
     <ClCompile Include="Source\Engine\Rendering\RenderingDebugger\RenderingDebuggerHelper.cpp" />
     <ClCompile Include="Source\Engine\Rendering\RenderingDebugger\RenderingDebuggerModules\Modules\EveryCullingProfilerDebugger.cpp" />
     <ClCompile Include="Source\Engine\Rendering\RenderingDebugger\RenderingDebuggerModules\Modules\RendererAABBDebugger.cpp" />
@@ -655,6 +659,10 @@ xcopy /y /d /E /H /C /I "$(ProjectDir)Assets" "$(TargetDir)Assets"</Command>
     <ClInclude Include="Source\Engine\Rendering\Culling\EveryCulling\EveryCulling.h" />
     <ClInclude Include="Source\Engine\Rendering\Culling\EveryCulling\EveryCullingCore.h" />
     <ClInclude Include="Source\Engine\Rendering\Culling\EveryCulling\EveryCullingProfiler.h" />
+    <ClInclude Include="Source\Engine\Rendering\Pipeline\PipeLines\DefaultGraphcisPipeLine.h" />
+    <ClInclude Include="Source\Engine\Rendering\Pipeline\PipeLines\DeferredRendering\DeferredRenderingPipeLine.h" />
+    <ClInclude Include="Source\Engine\Rendering\Pipeline\PipeLines\graphicsPipeLineFactory.h" />
+    <ClInclude Include="Source\Engine\Rendering\Pipeline\PipeLines\PBR\PhysicsBasedRenderingPipeLine.h" />
     <ClInclude Include="Source\Engine\Rendering\RenderingDebugger\RenderingDebuggerHelper.h" />
     <ClInclude Include="Source\Engine\Rendering\RenderingDebugger\RenderingDebuggerModules\Modules\EveryCullingProfilerDebugger.h" />
     <ClInclude Include="Source\Engine\Rendering\RenderingDebugger\RenderingDebuggerModules\Modules\RendererAABBDebugger.h" />
