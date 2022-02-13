@@ -3,7 +3,7 @@
 #include "EngineConfigurationData/ConfigData.h"
 #include "Graphics/GraphicsAPI/graphicsAPISetting.h"
 #include <ResourceManagement/JobSystem_cpp/JobSystem.h>
-#include "Graphics/Acceleration/LinearData_ViewFrustumCulling/CullingModule/MaskedSWOcclusionCulling/MaskedSWOcclusionCulling.h"
+#include <Rendering/Culling/EveryCulling/CullingModule/MaskedSWOcclusionCulling/MaskedSWOcclusionCulling.h>
 #include <Rendering/Camera.h>
 #include <EngineGUI/GUIModules/Modules/MaskedOcclusionCulliingDebugger.h>
 

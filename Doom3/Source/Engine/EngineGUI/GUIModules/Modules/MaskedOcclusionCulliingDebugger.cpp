@@ -2,7 +2,7 @@
 
 #include <Graphics/Graphics_Server.h>
 #include "imgui.h"
-#include <Graphics/Acceleration/LinearData_ViewFrustumCulling/CullingModule/MaskedSWOcclusionCulling/MaskedSWOcclusionCulling.h>
+#include <Rendering/Culling/EveryCulling/CullingModule/MaskedSWOcclusionCulling/MaskedSWOcclusionCulling.h>
 
 
 UINT32 dooms::ui::MaskedOcclusionCulliingDebugger::GetColumnTileCount()

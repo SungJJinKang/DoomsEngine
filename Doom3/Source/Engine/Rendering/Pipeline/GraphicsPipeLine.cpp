@@ -7,7 +7,7 @@
 #include <Rendering/Renderer/Renderer.h>
 #include "EngineGUI/engineGUIServer.h"
 #include "Graphics/GraphicsSetting.h"
-#include "Graphics/Acceleration/SortFrontToBackSolver.h"
+#include <Rendering/Acceleration/FrontToBackSorting/SortFrontToBackSolver.h>
 #include "ResourceManagement/JobSystem_cpp/JobSystem.h"
 
 void dooms::graphics::GraphicsPipeLine::PreRenderRenderer()

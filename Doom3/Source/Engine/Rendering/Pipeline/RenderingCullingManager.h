@@ -2,7 +2,7 @@
 
 #include <Core.h>
 
-#include <Graphics/Acceleration/LinearData_ViewFrustumCulling/EveryCulling.h>
+#include <Rendering/Culling/EveryCulling/EveryCulling.h>
 
 namespace dooms
 {

@@ -3,7 +3,7 @@
 #include "DebugDrawer.h"
 #include <Rendering/Pipeline/GraphicsPipeLine.h>
 #include "Graphics/graphicsSetting.h"
-#include "Graphics/Acceleration/LinearData_ViewFrustumCulling/CullingModule/MaskedSWOcclusionCulling/MaskedSWOcclusionCulling.h"
+#include <Rendering/Culling/EveryCulling/CullingModule/MaskedSWOcclusionCulling/MaskedSWOcclusionCulling.h>
 
 #define DEBUGGER_TILE_BOX_PADIDNG_X 0.002f
 #define DEBUGGER_TILE_BOX_PADIDNG_Y 0.002f

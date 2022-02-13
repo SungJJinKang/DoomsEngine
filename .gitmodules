@@ -34,3 +34,6 @@
 [submodule "Doom3/Source/thirdparty/glslcc"]
 	path = Doom3/Source/thirdparty/glslcc
 	url = https://github.com/SungJJinKang/glslcc.git
+[submodule "Doom3/Source/Engine/Rendering/Culling/EveryCulling"]
+	path = Doom3/Source/Engine/Rendering/Culling/EveryCulling
+	url = https://github.com/SungJJinKang/EveryCulling.git
