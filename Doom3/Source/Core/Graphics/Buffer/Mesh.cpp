@@ -2,7 +2,7 @@
 
 
 #include "../Asset/ThreeDModelAsset.h"
-
+#include "eVertexArrayFlag.h"
 
 UINT64 dooms::graphics::Mesh::BOUND_VERTEX_ARRAY_ID{(UINT64)-1};
 UINT64 dooms::graphics::Mesh::BOUND_VERTEX_BUFFER_ID[MAX_VERTEX_BUFFER_LAYOUT_COUNT]{ (UINT64)-1 };

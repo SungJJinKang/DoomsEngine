@@ -4,6 +4,7 @@
 
 #include "Asset/ThreeDModelAsset.h"
 #include <Asset/AssetManager/AssetManager.h>
+#include "eVertexArrayFlag.h"
 
 namespace dooms::graphics::meshHelper
 {

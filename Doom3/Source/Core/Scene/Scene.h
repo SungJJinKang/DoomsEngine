@@ -32,7 +32,7 @@ namespace dooms
 		D_PROPERTY(READONLY)
 		size_t mEntityIDCounter{ 0 };
 
-		D_PROPERTY(READONLY)
+		//D_PROPERTY(READONLY)
 		std::vector<Entity*> mSpawnedEntityList{};
 		Camera* mMainCamera{ nullptr };
 

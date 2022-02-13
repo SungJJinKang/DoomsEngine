@@ -1,7 +1,7 @@
 #include "EveryCullingProfilerDebugger.h"
 
-#include <Graphics/Acceleration/LinearData_ViewFrustumCulling/EveryCullingCore.h>
-#include <Graphics/Pipeline/GraphicsPipeLine.h>
+#include <Rendering/Culling/EveryCulling/EveryCullingCore.h>
+#include <Rendering/Pipeline/GraphicsPipeLine.h>
 
 void dooms::graphics::EveryCullingProfilerDebugger::Initialize()
 {

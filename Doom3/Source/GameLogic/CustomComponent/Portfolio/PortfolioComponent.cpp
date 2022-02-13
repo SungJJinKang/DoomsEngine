@@ -4,7 +4,7 @@
 #include "DeferredRenderingDebuggerController.h"
 #include "Physics_Setting.h"
 #include <Graphics/graphicsSetting.h>
-#include <Graphics/Acceleration/LinearData_ViewFrustumCulling/EveryCulling.h>
+#include <Rendering/Culling/EveryCulling/EveryCulling.h>
 
 void dooms::PortfolioComponent::OnChangedByGUI(const dooms::reflection::DField& field_of_changed_field)
 {
