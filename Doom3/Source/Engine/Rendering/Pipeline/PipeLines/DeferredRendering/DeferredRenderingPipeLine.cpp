@@ -95,6 +95,11 @@ void dooms::graphics::DeferredRenderingPipeLine::PostRender()
 
 }
 
+dooms::graphics::eGraphicsPipeLineType dooms::graphics::DeferredRenderingPipeLine::GetGraphicsPipeLineType() const
+{
+	return eGraphicsPipeLineType::DeferredRendering;
+}
+
 
 void dooms::graphics::DeferredRenderingPipeLine::RenderObjects(dooms::Camera* const targetCamera, const size_t cameraIndex)
 {

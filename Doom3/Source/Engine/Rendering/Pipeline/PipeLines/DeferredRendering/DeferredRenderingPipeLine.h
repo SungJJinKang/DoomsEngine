@@ -33,6 +33,7 @@ namespace dooms
 			virtual void Render() final;
 			virtual void PostRender() final;
 
+			virtual eGraphicsPipeLineType GetGraphicsPipeLineType() const override;
 		};
 	}
 }

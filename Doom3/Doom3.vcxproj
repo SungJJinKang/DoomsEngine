@@ -383,7 +383,7 @@ xcopy /y /d /E /H /C /I "$(ProjectDir)Assets" "$(TargetDir)Assets"</Command>
     <ClCompile Include="Source\Engine\Rendering\Pipeline\PipeLines\DefaultGraphcisPipeLine.cpp" />
     <ClCompile Include="Source\Engine\Rendering\Pipeline\PipeLines\DeferredRendering\DeferredRenderingPipeLine.cpp" />
     <ClCompile Include="Source\Engine\Rendering\Pipeline\PipeLines\graphicsPipeLineFactory.cpp" />
-    <ClCompile Include="Source\Engine\Rendering\Pipeline\PipeLines\PBR\PhysicsBasedRenderingPipeLine.cpp" />
+    <ClCompile Include="Source\Engine\Rendering\Pipeline\PipeLines\PBR\ForwardPhysicsBasedRenderingPipeLine.cpp" />
     <ClCompile Include="Source\Engine\Rendering\RenderingDebugger\RenderingDebuggerHelper.cpp" />
     <ClCompile Include="Source\Engine\Rendering\RenderingDebugger\RenderingDebuggerModules\Modules\EveryCullingProfilerDebugger.cpp" />
     <ClCompile Include="Source\Engine\Rendering\RenderingDebugger\RenderingDebuggerModules\Modules\RendererAABBDebugger.cpp" />
@@ -584,7 +584,6 @@ xcopy /y /d /E /H /C /I "$(ProjectDir)Assets" "$(TargetDir)Assets"</Command>
     <ClCompile Include="Source\Core\Misc\AccelerationContainer\KDTree\KDTreeVector.cpp" />
     <ClCompile Include="Source\Core\Misc\IniFile\SimpleIniParser.cpp" />
     <ClCompile Include="Source\Core\Asset\Utility\textImporter.cpp" />
-    <ClCompile Include="Source\Engine\SceneEditor\MapLoader.cpp" />
     <ClCompile Include="Source\GameLogic\CustomComponent\AutoRotate.cpp" />
     <ClCompile Include="Source\GameLogic\CustomComponent\AutoRotateAround.cpp" />
     <ClCompile Include="Source\GameLogic\CustomComponent\AxisDebugger.cpp" />
@@ -661,8 +660,10 @@ xcopy /y /d /E /H /C /I "$(ProjectDir)Assets" "$(TargetDir)Assets"</Command>
     <ClInclude Include="Source\Engine\Rendering\Culling\EveryCulling\EveryCullingProfiler.h" />
     <ClInclude Include="Source\Engine\Rendering\Pipeline\PipeLines\DefaultGraphcisPipeLine.h" />
     <ClInclude Include="Source\Engine\Rendering\Pipeline\PipeLines\DeferredRendering\DeferredRenderingPipeLine.h" />
+    <ClInclude Include="Source\Engine\Rendering\Pipeline\PipeLines\eGraphicsPipeLineType.h" />
     <ClInclude Include="Source\Engine\Rendering\Pipeline\PipeLines\graphicsPipeLineFactory.h" />
-    <ClInclude Include="Source\Engine\Rendering\Pipeline\PipeLines\PBR\PhysicsBasedRenderingPipeLine.h" />
+    <ClInclude Include="Source\Engine\Rendering\Pipeline\PipeLines\PBR\ForwardPhysicsBasedRenderingPipeLine.h" />
+    <ClInclude Include="Source\Engine\Rendering\Pipeline\PipeLines\PBR\PhysicsBasedRenderingPipeLine.reflection.h" />
     <ClInclude Include="Source\Engine\Rendering\RenderingDebugger\RenderingDebuggerHelper.h" />
     <ClInclude Include="Source\Engine\Rendering\RenderingDebugger\RenderingDebuggerModules\Modules\EveryCullingProfilerDebugger.h" />
     <ClInclude Include="Source\Engine\Rendering\RenderingDebugger\RenderingDebuggerModules\Modules\RendererAABBDebugger.h" />
@@ -947,7 +948,6 @@ xcopy /y /d /E /H /C /I "$(ProjectDir)Assets" "$(TargetDir)Assets"</Command>
     <ClInclude Include="Source\Core\Misc\AccelerationContainer\Tree.h" />
     <ClInclude Include="Source\Core\Misc\AccelerationContainer\TreeNode.h" />
     <ClInclude Include="Source\Core\Misc\String\trim.h" />
-    <ClInclude Include="Source\Engine\SceneEditor\MapLoader.h" />
     <ClInclude Include="Source\GameLogic\CustomComponent\AutoRotate.h" />
     <ClInclude Include="Source\GameLogic\CustomComponent\AutoRotateAround.h" />
     <ClInclude Include="Source\GameLogic\CustomComponent\AxisDebugger.h" />

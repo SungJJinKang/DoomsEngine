@@ -4,6 +4,7 @@
 #include <future>
 
 #include <Simple_SingleTon/Singleton.h>
+#include "PipeLines/eGraphicsPipeLineType.h"
 
 #include "GraphicsPipeLine.reflection.h"
 namespace dooms
@@ -34,6 +35,7 @@ namespace dooms
 			virtual void Render() = 0;
 			virtual void PostRender() = 0;
 
+			virtual eGraphicsPipeLineType GetGraphicsPipeLineType() const = 0;
 		};
 	}
 }

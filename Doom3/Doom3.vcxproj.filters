@@ -288,9 +288,6 @@
     <ClCompile Include="Source\Component\Rendering\Animation\Animation.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Engine\SceneEditor\MapLoader.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Source\GameLogic\CustomComponent\CharacterSpawner.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -801,7 +798,7 @@
     <ClCompile Include="Source\Engine\Rendering\Culling\EveryCulling\CullingModule\MaskedSWOcclusionCulling\Utility\vertexTransformationHelper.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Engine\Rendering\Pipeline\PipeLines\PBR\PhysicsBasedRenderingPipeLine.cpp">
+    <ClCompile Include="Source\Engine\Rendering\Pipeline\PipeLines\PBR\ForwardPhysicsBasedRenderingPipeLine.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Source\Engine\Rendering\Pipeline\PipeLines\DeferredRendering\DeferredRenderingPipeLine.cpp">
@@ -1380,9 +1377,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\Component\Rendering\Animation\Animation.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Engine\SceneEditor\MapLoader.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\GameLogic\CustomComponent\CharacterSpawner.h">
@@ -1991,7 +1985,7 @@
     <ClInclude Include="Source\Engine\Rendering\Culling\EveryCulling\CullingModule\MaskedSWOcclusionCulling\Utility\triangleSlopeEventGetter.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Engine\Rendering\Pipeline\PipeLines\PBR\PhysicsBasedRenderingPipeLine.h">
+    <ClInclude Include="Source\Engine\Rendering\Pipeline\PipeLines\PBR\ForwardPhysicsBasedRenderingPipeLine.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\Engine\Rendering\Pipeline\PipeLines\DeferredRendering\DeferredRenderingPipeLine.h">
@@ -2001,6 +1995,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\Engine\Rendering\Pipeline\PipeLines\graphicsPipeLineFactory.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Rendering\Pipeline\PipeLines\eGraphicsPipeLineType.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Rendering\Pipeline\PipeLines\PBR\PhysicsBasedRenderingPipeLine.reflection.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
