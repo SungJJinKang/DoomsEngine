@@ -1,7 +1,7 @@
 #include "maskedOcclusionCullingTester.h"
 
 #include "DebugDrawer.h"
-#include <Graphics/Pipeline/GraphicsPipeLine.h>
+#include <Rendering/Pipeline/GraphicsPipeLine.h>
 #include "Graphics/graphicsSetting.h"
 #include "Graphics/Acceleration/LinearData_ViewFrustumCulling/CullingModule/MaskedSWOcclusionCulling/MaskedSWOcclusionCulling.h"
 

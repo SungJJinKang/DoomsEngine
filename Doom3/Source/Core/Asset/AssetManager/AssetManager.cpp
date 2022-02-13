@@ -2,9 +2,9 @@
 
 #include <Game/GameCore.h>
 
-#include "../IO/AssetImporter/assetImporter.h"
-#include <IO/AssetImporter/Manager/AssetImporterWorkerManager.h>
-#include <IO/AssetImporter/AssetImporterWorker/AssetImporterWorker_Texture.h>
+#include <Asset/AssetImportExporter/AssetImporter/assetImporter.h>
+#include <Asset/AssetImportExporter/AssetImporter/Manager/AssetImporterWorkerManager.h>
+#include <Asset/AssetImportExporter/AssetImporter/AssetImporterWorker/AssetImporterWorker_Texture.h>
 #include <Asset/Helper/AssetFactory.h>
 
 //#define MULTI_THREAD_ASSET_IMPORT

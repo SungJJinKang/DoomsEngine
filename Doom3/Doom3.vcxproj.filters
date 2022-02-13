@@ -24,7 +24,7 @@
     <ClCompile Include="Source\Core\Math\Random.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Core\IO\AssetImporter\assetImporter.cpp">
+    <ClCompile Include="Source\Core\Asset\AssetImportExporter\AssetImporter\assetImporter.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Source\Core\Asset\ShaderAsset.cpp">
@@ -96,7 +96,7 @@
     <ClCompile Include="Source\Core\Time\Time_Server.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Core\IO\AssetImporter\AssetImporterWorker\AssetImporterWorker_Texture.cpp">
+    <ClCompile Include="Source\Core\Asset\AssetImportExporter\AssetImporter\AssetImporterWorker\AssetImporterWorker_Texture.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Source\Core\Graphics\FrameBuffer\FrameBuffer.cpp">
@@ -180,19 +180,19 @@
     <ClCompile Include="Source\Core\Physics\Collider\ColliderSolution.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Core\IO\AssetImporter\AssetImporterWorker\AssetImporterWorker_Three_D_Model.cpp">
+    <ClCompile Include="Source\Core\Asset\AssetImportExporter\AssetImporter\AssetImporterWorker\AssetImporterWorker_Three_D_Model.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Core\IO\AssetImporter\AssetImporterWorker\AssetImporterWorker_Audio.cpp">
+    <ClCompile Include="Source\Core\Asset\AssetImportExporter\AssetImporter\AssetImporterWorker\AssetImporterWorker_Audio.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Core\IO\AssetImporter\AssetImporterWorker\AssetImporterWorker_Font.cpp">
+    <ClCompile Include="Source\Core\Asset\AssetImportExporter\AssetImporter\AssetImporterWorker\AssetImporterWorker_Font.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Core\IO\AssetImporter\AssetImporterWorker\AssetImporterWorker_Shader.cpp">
+    <ClCompile Include="Source\Core\Asset\AssetImportExporter\AssetImporter\AssetImporterWorker\AssetImporterWorker_Shader.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Core\IO\AssetImporter\AssetImporterWorker\AssetImporterWorker_Text.cpp">
+    <ClCompile Include="Source\Core\Asset\AssetImportExporter\AssetImporter\AssetImporterWorker\AssetImporterWorker_Text.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Source\Core\Asset\AssetManager\AssetManager.cpp">
@@ -339,10 +339,10 @@
     <ClCompile Include="Source\Core\Graphics\Acceleration\LinearData_ViewFrustumCulling\CullingModule\CullingModule.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Core\Graphics\PrimitiveType\PrimitiveLine.cpp">
+    <ClCompile Include="Source\Engine\Rendering\PrimitiveType\PrimitiveLine.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Core\Graphics\PrimitiveType\PrimitiveTriangle.cpp">
+    <ClCompile Include="Source\Engine\Rendering\PrimitiveType\PrimitiveTriangle.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Source\Core\Graphics\FrameBuffer\DefferedRenderingFrameBuffer.cpp">
@@ -363,7 +363,7 @@
     <ClCompile Include="Source\GameLogic\CustomComponent\AutoRotateAround.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Core\Graphics\Light\LightManager.cpp">
+    <ClCompile Include="Source\Engine\Rendering\Light\LightManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Source\GameLogic\GameLogicStartPoint.cpp">
@@ -378,7 +378,7 @@
     <ClCompile Include="Source\Engine\Physics\Debugger\PhysicsDebugger.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Core\Graphics\Pipeline\DeferredRenderingDrawer.cpp">
+    <ClCompile Include="Source\Engine\Rendering\Pipeline\DeferredRenderingDrawer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Source\GameLogic\CustomComponent\BoxAdder.cpp">
@@ -402,7 +402,7 @@
     <ClCompile Include="Source\GameLogic\CustomComponent\Portfolio\OverDrawVisualizationDebugger.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Core\Graphics\Batch\MeshBatchCreater.cpp">
+    <ClCompile Include="Source\Engine\Rendering\Batch\MeshBatchCreater.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Source\GameLogic\CustomComponent\Portfolio\PortfolioComponent.cpp">
@@ -435,10 +435,10 @@
     <ClCompile Include="Source\Core\Physics\Collider\ColliderType.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Core\IO\AssetImporter\Manager\AssetImporterWorkerManager.cpp">
+    <ClCompile Include="Source\Core\Asset\AssetImportExporter\AssetImporter\Manager\AssetImporterWorkerManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Core\IO\AssetImporter\AssetImporterWorker\AssetImporterWorker.cpp">
+    <ClCompile Include="Source\Core\Asset\AssetImportExporter\AssetImporter\AssetImporterWorker\AssetImporterWorker.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Source\Core\Asset\FontAsset.cpp">
@@ -465,7 +465,7 @@
     <ClCompile Include="Source\Core\ResourceManagement\JobSystem_cpp\test\test.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Core\IO\AssetExporter\AssetExporter_Texture.cpp">
+    <ClCompile Include="Source\Core\Asset\AssetImportExporter\AssetExporter\AssetExporter_Texture.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Source\GameLogic\CustomComponent\ExportTextureTester.cpp">
@@ -483,7 +483,7 @@
     <ClCompile Include="Source\Core\Asset\Utility\textImporter.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Core\IO\AssetExporter\AssetExporter_Three_D_Model.cpp">
+    <ClCompile Include="Source\Core\Asset\AssetImportExporter\AssetExporter\AssetExporter_Three_D_Model.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Source\Core\Macros\Path.cpp">
@@ -753,10 +753,10 @@
     <ClCompile Include="Source\Core\Asset\Utility\ShaderAsset\shaderReflectionDataParser.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Core\IO\AssetExporter\AssetExporter_Shader.cpp">
+    <ClCompile Include="Source\Core\Asset\AssetImportExporter\AssetExporter\AssetExporter_Shader.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Core\IO\AssetIOWorker.cpp">
+    <ClCompile Include="Source\Core\Asset\AssetImportExporter\AssetIOWorker.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Source\Core\Graphics\GraphicsAPI\graphicsAPIHelper.cpp">
@@ -765,10 +765,10 @@
     <ClCompile Include="Source\GameLogic\CustomComponent\PathFollower.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Core\Graphics\Pipeline\GraphicsPipeLine.cpp">
+    <ClCompile Include="Source\Engine\Rendering\Pipeline\GraphicsPipeLine.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Core\Graphics\Pipeline\RenderingCullingManager.cpp">
+    <ClCompile Include="Source\Engine\Rendering\Pipeline\RenderingCullingManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Source\Engine\Rendering\RenderingDebugger\RenderingDebuggerModules\RenderingDebuggerModule.cpp">
@@ -950,7 +950,7 @@
     <ClInclude Include="Source\Core\Asset\TextAsset.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Core\IO\AssetImporter\assetImporter.h">
+    <ClInclude Include="Source\Core\Asset\AssetImportExporter\AssetImporter\assetImporter.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\Helper\DeferredConstant\DeferredConstant.h">
@@ -992,25 +992,25 @@
     <ClInclude Include="Source\Helper\ForLoop_Compile_Time\ForLoop_Compile.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Core\IO\AssetImporter\AssetImporterWorker\AssetImporterWorker_Three_D_Model.h">
+    <ClInclude Include="Source\Core\Asset\AssetImportExporter\AssetImporter\AssetImporterWorker\AssetImporterWorker_Three_D_Model.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Core\IO\AssetImporter\AssetImporterWorker\AssetImporterWorker_Texture.h">
+    <ClInclude Include="Source\Core\Asset\AssetImportExporter\AssetImporter\AssetImporterWorker\AssetImporterWorker_Texture.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Core\IO\AssetImporter\AssetImporterWorker\AssetImporterWorker_Text.h">
+    <ClInclude Include="Source\Core\Asset\AssetImportExporter\AssetImporter\AssetImporterWorker\AssetImporterWorker_Text.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Core\IO\AssetImporter\AssetImporterWorker\AssetImporterWorker_Shader.h">
+    <ClInclude Include="Source\Core\Asset\AssetImportExporter\AssetImporter\AssetImporterWorker\AssetImporterWorker_Shader.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Core\IO\AssetImporter\AssetImporterWorker\AssetImporterWorker_Font.h">
+    <ClInclude Include="Source\Core\Asset\AssetImportExporter\AssetImporter\AssetImporterWorker\AssetImporterWorker_Font.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Core\IO\AssetImporter\AssetImporterWorker\AssetImporterWorker_Audio.h">
+    <ClInclude Include="Source\Core\Asset\AssetImportExporter\AssetImporter\AssetImporterWorker\AssetImporterWorker_Audio.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Core\IO\AssetImporter\AssetImporterWorker\AssetImporterWorker.h">
+    <ClInclude Include="Source\Core\Asset\AssetImportExporter\AssetImporter\AssetImporterWorker\AssetImporterWorker.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\Core\Graphics\Graphics_Core.h">
@@ -1463,10 +1463,10 @@
     <ClInclude Include="Source\GameLogic\CustomComponent\Portfolio\ViewFrustumCullingDebug.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Core\Graphics\PrimitiveType\PrimitiveLine.h">
+    <ClInclude Include="Source\Engine\Rendering\PrimitiveType\PrimitiveLine.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Core\Graphics\PrimitiveType\PrimitiveTriangle.h">
+    <ClInclude Include="Source\Engine\Rendering\PrimitiveType\PrimitiveTriangle.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\Core\Graphics\FrameBuffer\DefferedRenderingFrameBuffer.h">
@@ -1487,7 +1487,7 @@
     <ClInclude Include="Source\GameLogic\CustomComponent\AutoRotateAround.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Core\Graphics\Light\LightManager.h">
+    <ClInclude Include="Source\Engine\Rendering\Light\LightManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\GameLogic\GameLogicStartPoint.h">
@@ -1502,7 +1502,7 @@
     <ClInclude Include="Source\Engine\Physics\Debugger\PhysicsDebugger.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Core\Graphics\Pipeline\DeferredRenderingDrawer.h">
+    <ClInclude Include="Source\Engine\Rendering\Pipeline\DeferredRenderingDrawer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\GameLogic\CustomComponent\BoxAdder.h">
@@ -1526,7 +1526,7 @@
     <ClInclude Include="Source\GameLogic\CustomComponent\Portfolio\OverDrawVisualizationDebugger.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Core\Graphics\Batch\MeshBatchCreater.h">
+    <ClInclude Include="Source\Engine\Rendering\Batch\MeshBatchCreater.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\Core\DObject\DObjectGlobals.h">
@@ -1556,7 +1556,7 @@
     <ClInclude Include="Source\Core\CompilerMacros.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Core\IO\AssetImporter\Manager\AssetImporterWorkerManager.h">
+    <ClInclude Include="Source\Core\Asset\AssetImportExporter\AssetImporter\Manager\AssetImporterWorkerManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\Core\Asset\Helper\AssetFactory.h">
@@ -1568,7 +1568,7 @@
     <ClInclude Include="Source\Core\Asset\AssetManager\AssetFuture.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Core\IO\AssetImporter\AssetImporterWorker\AssetImporterWorkerForwardDeclaration.h">
+    <ClInclude Include="Source\Core\Asset\AssetImportExporter\AssetImporter\AssetImporterWorker\AssetImporterWorkerForwardDeclaration.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\Core\Physics\PhysicsSolver.h">
@@ -1580,7 +1580,7 @@
     <ClInclude Include="Source\GameLogic\CustomComponent\BulletComponent.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Core\IO\AssetExporter\AssetExporter_Texture.h">
+    <ClInclude Include="Source\Core\Asset\AssetImportExporter\AssetExporter\AssetExporter_Texture.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\GameLogic\CustomComponent\ExportTextureTester.h">
@@ -1607,7 +1607,7 @@
     <ClInclude Include="Source\Core\Reflection\ReflectionType\DClass.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Core\IO\AssetExporter\AssetExporter_Three_D_Model.h">
+    <ClInclude Include="Source\Core\Asset\AssetImportExporter\AssetExporter\AssetExporter_Three_D_Model.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\Core\DObject\DObject_Constant.h">
@@ -1922,13 +1922,13 @@
     <ClInclude Include="Source\thirdparty\nlohmann\json.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Core\IO\AssetExporter\AssetExporter_Shader.h">
+    <ClInclude Include="Source\Core\Asset\AssetImportExporter\AssetExporter\AssetExporter_Shader.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\Core\Misc\eStatus.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Core\IO\AssetIOWorker.h">
+    <ClInclude Include="Source\Core\Asset\AssetImportExporter\AssetIOWorker.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\Core\Graphics\GraphicsAPI\graphicsAPIHelper.h">
@@ -1940,10 +1940,10 @@
     <ClInclude Include="Source\GameLogic\CustomComponent\PathFollower.reflection.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Core\Graphics\Pipeline\GraphicsPipeLine.h">
+    <ClInclude Include="Source\Engine\Rendering\Pipeline\GraphicsPipeLine.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Core\Graphics\Pipeline\RenderingCullingManager.h">
+    <ClInclude Include="Source\Engine\Rendering\Pipeline\RenderingCullingManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\Engine\Rendering\RenderingDebugger\RenderingDebuggerModules\RenderingDebuggerModule.h">

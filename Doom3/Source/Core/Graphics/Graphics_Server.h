@@ -5,11 +5,11 @@
 #include "../Game/IGameFlow.h"
 #include <Simple_SingleTon/Singleton.h>
 #include "Buffer/UniformBufferObject/UniformBufferObjectManager.h"
-#include "Light/LightManager.h"
+#include <Rendering/Light/LightManager.h>
 #include <Rendering/PictureInPicture/PIPManager.h>
 #include <Rendering/Renderer/RendererStaticIterator.h>
 #include "Misc/AccelerationContainer/BVH/BVH.h"
-#include "Pipeline/GraphicsPipeLine.h"
+#include <Rendering/Pipeline/GraphicsPipeLine.h>
 
 namespace culling
 {

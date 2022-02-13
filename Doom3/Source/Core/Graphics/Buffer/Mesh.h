@@ -1,13 +1,9 @@
 #pragma once
 #include "Buffer.h"
 
-#include <memory>
-
 #include <Physics/Collider/AABB.h>
 #include <Physics/Collider/Sphere.h>
-#include "eVertexArrayFlag.h"
 #include <Graphics/GraphicsAPI/GraphicsAPI.h>
-#include <Vector2.h>
 #include <Graphics/GraphicsAPI/Manager/GraphicsAPIManager.h>
 
 #include "Mesh.reflection.h"

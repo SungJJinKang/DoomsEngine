@@ -5,6 +5,7 @@
 #include <Asset/AssetManager/AssetManager.h>
 #include <Graphics/Material/Material.h>
 #include <Asset/ShaderAsset.h>
+#include <Graphics/Buffer/eVertexArrayFlag.h>
 
 
 #define MAX_DEBUG_VERTEX_COUNT 500000

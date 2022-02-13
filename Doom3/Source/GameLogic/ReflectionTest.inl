@@ -16,7 +16,7 @@
 #include "CustomComponent/Portfolio/PortfolioComponent.h"
 #include "AutoRotateAround.h"
 #include "TestComponent.h"
-#include "Graphics/Light/LightManager.h"
+#include "Rendering/Light/LightManager.h"
 #include "Graphics/graphicsSetting.h"
 #include "Graphics/GraphicsAPI/graphicsAPISetting.h"
 #include "Portfolio/DeferredRenderingDebuggerController.h"

@@ -9,7 +9,7 @@
 #include <Asset/ThreeDModelAsset.h>
 #include "AssetImporterWorker_Texture.h"
 #include <Graphics/Buffer/eVertexArrayFlag.h>
-#include <IO/AssetExporter/AssetExporter_Three_D_Model.h>
+#include <Asset/AssetImportExporter/AssetExporter/AssetExporter_Three_D_Model.h>
 #include <Graphics/GraphicsAPI/GraphicsAPI.h>
 
 const UINT32 dooms::assetImporter::AssetImporterWorker_THREE_D_MODEL::ASSIMP_IMPORT_PROCESSING_SETTING

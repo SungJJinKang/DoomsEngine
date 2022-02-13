@@ -2,7 +2,7 @@
 
 #include <Asset/AssetManager/AssetManager.h>
 #include <Asset/ShaderAsset.h>
-#include "../Buffer/MeshHelper.h"
+#include <Graphics/Buffer/MeshHelper.h>
 
 
 void dooms::graphics::DeferredRenderingDrawer::Initialize()

@@ -12,7 +12,6 @@
 #include <Time/Time_Server.h>
 #include <Reflection/ReflectionManager.h>
 #include <Memory/MemoryManager.h>
-#include <GarbageCollector/GarbageCollectorManager.h>
 #include <EngineGUI/EngineGUIServer.h>
 
 #include "GameCore.reflection.h"

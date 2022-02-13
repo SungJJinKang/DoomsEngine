@@ -1,6 +1,6 @@
 ﻿#include "GraphicsPipeLine.h"
 
-#include "../Graphics_Server.h"
+#include <Graphics/Graphics_Server.h>
 #include "Graphics/GraphicsAPI/graphicsAPISetting.h"
 #include <Rendering/Renderer/RendererStaticIterator.h>
 #include <Rendering/Camera.h>

@@ -8,10 +8,10 @@
 
 #include "../Asset/Asset.h"
 #include "AssetContainer.h"
-#include "../IO/AssetImporter/assetImporter.h"
+#include "../AssetImportExporter/AssetImporter/assetImporter.h"
 #include <Asset/AssetsForwardDeclaration.h>
 #include "AssetFuture.h"
-#include <IO/AssetImporter/Manager/AssetImporterWorkerManager.h>
+#include "../AssetImportExporter//AssetImporter/Manager/AssetImporterWorkerManager.h"
 
 #include <../Helper/Simple_SingleTon/Singleton.h>
 
