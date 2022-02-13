@@ -1,7 +1,8 @@
 #include "ExportTextureTester.h"
 
 #include "Rendering/Camera.h"
-
+#include <Rendering/Pipeline/GraphicsPipeLineCamera.h>
+#include <Graphics/FrameBuffer/FrameBuffer.h>
 #include <Asset/AssetImportExporter/AssetExporter/AssetExporter_Texture.h>
 #include <Graphics/FrameBuffer/FrameBufferExporterHelper.h>
 
@@ -16,29 +17,56 @@ void dooms::ExportTextureTester::UpdateComponent()
 
 	if(dooms::userinput::UserInput_Server::GetKeyUp(dooms::input::GraphicsAPIInput::eKEY_CODE::KEY_F2))
 	{
-		dooms::ui::PrintText("Export Camera Texture");
-		
-		dooms::graphics::TextureView* texture = dooms::Camera::GetMainCamera()->mDeferredRenderingFrameBuffer.GetColorTextureView(0, dooms::graphics::GraphicsAPI::eGraphicsPipeLineStage::PIXEL_SHADER);
-
-		dooms::assetExporter::assetExporterTexture::ExportTextureFromTexture(
-			texture,
-			0,
-			std::filesystem::current_path(),
-			assetExporter::assetExporterTexture::eTextureExtension::PNG
+		D_ASSERT
+		(
+			IsValid(dooms::Camera::GetMainCamera()) &&
+			IsValid(dooms::Camera::GetMainCamera()->GetGraphicsPipeLineCamera()) &&
+			IsValid(dooms::Camera::GetMainCamera()->GetGraphicsPipeLineCamera()->GetCameraFrameBuffer())
 		);
+		if
+		(
+			IsValid(dooms::Camera::GetMainCamera()) &&
+			IsValid(dooms::Camera::GetMainCamera()->GetGraphicsPipeLineCamera()) &&
+			IsValid(dooms::Camera::GetMainCamera()->GetGraphicsPipeLineCamera()->GetCameraFrameBuffer())
+		)
+		{
+			dooms::graphics::TextureView* texture = dooms::Camera::GetMainCamera()->GetGraphicsPipeLineCamera()->GetCameraFrameBuffer()->GetColorTextureView(0, dooms::graphics::GraphicsAPI::eGraphicsPipeLineStage::PIXEL_SHADER);
+
+			dooms::assetExporter::assetExporterTexture::ExportTextureFromTexture(
+				texture,
+				0,
+				std::filesystem::current_path(),
+				assetExporter::assetExporterTexture::eTextureExtension::PNG
+			);
+			dooms::ui::PrintText("Export Camera Texture");
+		}
 	}
 
 	if (dooms::userinput::UserInput_Server::GetKeyUp(dooms::input::GraphicsAPIInput::eKEY_CODE::KEY_F3))
 	{
-		dooms::ui::PrintText("Export Camera Texture");
-
-		dooms::graphics::TextureView* const texture = dooms::Camera::GetMainCamera()->mDeferredRenderingFrameBuffer.GetColorTextureView(0, dooms::graphics::GraphicsAPI::eGraphicsPipeLineStage::PIXEL_SHADER);
-
-		dooms::assetExporter::assetExporterTexture::ExportTextureFromTextureAsDDS(
-			texture,
-			0,
-			std::filesystem::current_path()
+		D_ASSERT
+		(
+			IsValid(dooms::Camera::GetMainCamera()) &&
+			IsValid(dooms::Camera::GetMainCamera()->GetGraphicsPipeLineCamera()) &&
+			IsValid(dooms::Camera::GetMainCamera()->GetGraphicsPipeLineCamera()->GetCameraFrameBuffer())
 		);
+		if
+		(
+			IsValid(dooms::Camera::GetMainCamera()) &&
+			IsValid(dooms::Camera::GetMainCamera()->GetGraphicsPipeLineCamera()) &&
+			IsValid(dooms::Camera::GetMainCamera()->GetGraphicsPipeLineCamera()->GetCameraFrameBuffer())
+		)
+		{
+			dooms::graphics::TextureView* const texture = dooms::Camera::GetMainCamera()->GetGraphicsPipeLineCamera()->GetCameraFrameBuffer()->GetColorTextureView(0, dooms::graphics::GraphicsAPI::eGraphicsPipeLineStage::PIXEL_SHADER);
+
+			dooms::assetExporter::assetExporterTexture::ExportTextureFromTextureAsDDS(
+				texture,
+				0,
+				std::filesystem::current_path()
+			);
+
+			dooms::ui::PrintText("Export Camera Texture");
+		}
 	}
 
 	if (dooms::userinput::UserInput_Server::GetKeyUp(dooms::input::GraphicsAPIInput::eKEY_CODE::KEY_F4))

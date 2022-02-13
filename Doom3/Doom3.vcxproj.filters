@@ -810,6 +810,15 @@
     <ClCompile Include="Source\Engine\Rendering\Pipeline\PipeLines\graphicsPipeLineFactory.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Engine\Rendering\Pipeline\GraphicsPipeLineCamera.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Engine\Rendering\Pipeline\PipeLines\PBR\ForwardPhysicsBasedRenderingPipeLineCamera.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Engine\Rendering\Pipeline\PipeLines\DeferredRendering\DeferredRenderingPipeLineCamera.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="dependency\glad\include\glad\glad.h">
@@ -2000,7 +2009,16 @@
     <ClInclude Include="Source\Engine\Rendering\Pipeline\PipeLines\eGraphicsPipeLineType.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Engine\Rendering\Pipeline\PipeLines\PBR\PhysicsBasedRenderingPipeLine.reflection.h">
+    <ClInclude Include="Source\Engine\Rendering\Pipeline\GraphicsPipeLineCamera.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Rendering\Pipeline\PipeLines\PBR\ForwardPhysicsBasedRenderingPipeLine.reflection.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Rendering\Pipeline\PipeLines\PBR\ForwardPhysicsBasedRenderingPipeLineCamera.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Rendering\Pipeline\PipeLines\DeferredRendering\DeferredRenderingPipeLineCamera.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

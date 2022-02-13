@@ -27,6 +27,7 @@ namespace dooms
 			virtual void PostRender() final;
 
 			virtual eGraphicsPipeLineType GetGraphicsPipeLineType() const override;
+			GraphicsPipeLineCamera* CreateGraphicsPipeLineCamera() const override;
 		};
 	}
 }

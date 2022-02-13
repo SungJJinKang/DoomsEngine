@@ -7,6 +7,7 @@
 #include "Graphics/Buffer/UniformBufferObject/UniformBlockOffsetInfo.h"
 #include "Graphics/GraphicsAPI/graphicsAPISetting.h"
 #include <Graphics/GraphicsAPI/Manager/GraphicsAPIManager.h>
+#include <Rendering/Pipeline/GraphicsPipeLineCamera.h>
 
 void dooms::Camera::SetProjectionMode(eProjectionType value)
 {
@@ -68,7 +69,12 @@ void dooms::Camera::SetViewportRectHeight(FLOAT32 value)
 }
 
 dooms::Camera::Camera()
-	:UniformBufferObjectUpdater(false), mClearColor(dooms::graphics::graphicsSetting::DefaultClearColor[0], dooms::graphics::graphicsSetting::DefaultClearColor[1], dooms::graphics::graphicsSetting::DefaultClearColor[2], dooms::graphics::graphicsSetting::DefaultClearColor[3])
+	:
+	UniformBufferObjectUpdater(false),
+	mClearColor(dooms::graphics::graphicsSetting::DefaultClearColor[0], dooms::graphics::graphicsSetting::DefaultClearColor[1], dooms::graphics::graphicsSetting::DefaultClearColor[2], dooms::graphics::graphicsSetting::DefaultClearColor[3]),
+	mGraphicsPipeLineCamera(nullptr),
+	mCameraFlag(DEFAULT_CAMERA_FLAG),
+	CameraIndexInCullingSystem((UINT32)-1)
 {
 
 }
@@ -195,13 +201,33 @@ std::array<math::Vector4, 6> dooms::Camera::CalculateFrustumPlane()
 }
 
 
+void dooms::Camera::InitCameraViewportRect()
+{
+	mViewportRectWidth = dooms::graphics::graphicsAPISetting::GetScreenWidth();
+	D_ASSERT(mViewportRectWidth > 1.0f);
+	mViewportRectHeight = dooms::graphics::graphicsAPISetting::GetScreenHeight();
+	D_ASSERT(mViewportRectHeight > 1.0f);
+}
+
+void dooms::Camera::InitGraphicsPipeLineCamera()
+{
+	D_ASSERT(IsValid(graphics::GraphicsPipeLine::GetSingleton()));
+	D_ASSERT(IsValid(mGraphicsPipeLineCamera) == false);
+	if (IsValid(graphics::GraphicsPipeLine::GetSingleton()))
+	{
+		mGraphicsPipeLineCamera = graphics::GraphicsPipeLine::GetSingleton()->CreateGraphicsPipeLineCamera();
+		D_ASSERT(IsValid(mGraphicsPipeLineCamera));
+	}
+}
 
 void dooms::Camera::InitComponent()
 {
 	AddLocalDirtyToTransformDirtyReceiver(bmIsUboDirty);
 	
 	UpdateMainCamera();
-	
+
+	InitCameraViewportRect();
+	InitGraphicsPipeLineCamera();	
 }
 
 void dooms::Camera::UpdateComponent()
@@ -402,4 +428,19 @@ void dooms::Camera::UpdateUniformBufferObject(const bool force)
 			ubo->UpdateLocalBuffer((void*)viewProjectionMatrix.data(), graphics::eUniformBlock_Global::viewProjection, sizeof(viewProjectionMatrix));
 		}
 	}
+}
+
+void dooms::Camera::OnSetPendingKill()
+{
+	Component::OnSetPendingKill();
+
+	if(IsValid(mGraphicsPipeLineCamera))
+	{
+		mGraphicsPipeLineCamera->SetIsPendingKill();
+	}
+}
+
+dooms::graphics::GraphicsPipeLineCamera* dooms::Camera::GetGraphicsPipeLineCamera() const
+{
+	return mGraphicsPipeLineCamera;
 }

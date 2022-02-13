@@ -7,7 +7,7 @@
 #include <Rendering/Renderer/Renderer.h>
 #include "EngineGUI/engineGUIServer.h"
 #include "ResourceManagement/JobSystem_cpp/JobSystem.h"
-
+#include "DeferredRenderingPipeLineCamera.h"
 
 dooms::graphics::DeferredRenderingPipeLine::DeferredRenderingPipeLine
 (
@@ -100,6 +100,11 @@ dooms::graphics::eGraphicsPipeLineType dooms::graphics::DeferredRenderingPipeLin
 	return eGraphicsPipeLineType::DeferredRendering;
 }
 
+dooms::graphics::GraphicsPipeLineCamera* dooms::graphics::DeferredRenderingPipeLine::CreateGraphicsPipeLineCamera() const
+{
+	return dooms::CreateDObject<DeferredRenderingPipeLineCamera>();
+}
+
 
 void dooms::graphics::DeferredRenderingPipeLine::RenderObjects(dooms::Camera* const targetCamera, const size_t cameraIndex)
 {
@@ -150,8 +155,13 @@ void dooms::graphics::DeferredRenderingPipeLine::CameraRender(dooms::Camera* con
 
 	targetCamera->UpdateUniformBufferObject();
 
-	targetCamera->mDeferredRenderingFrameBuffer.ClearFrameBuffer(targetCamera);
-	targetCamera->mDeferredRenderingFrameBuffer.BindFrameBuffer();
+	dooms::graphics::DeferredRenderingPipeLineCamera* const deferredRenderingPipeLineCamera = CastTo<graphics::DeferredRenderingPipeLineCamera*>(dooms::Camera::GetMainCamera()->GetGraphicsPipeLineCamera());
+	D_ASSERT(IsValid(deferredRenderingPipeLineCamera));
+	if (IsValid(deferredRenderingPipeLineCamera))
+	{
+		deferredRenderingPipeLineCamera->mDeferredRenderingFrameBuffer.ClearFrameBuffer(targetCamera);
+		deferredRenderingPipeLineCamera->mDeferredRenderingFrameBuffer.BindFrameBuffer();
+	}
 
 	D_START_PROFILING(RenderObject, dooms::profiler::eProfileLayers::Rendering);
 	//GraphicsAPI::Enable(GraphicsAPI::eCapability::DEPTH_TEST);
@@ -165,10 +175,14 @@ void dooms::graphics::DeferredRenderingPipeLine::CameraRender(dooms::Camera* con
 		//Only Main Camera can draw to screen buffer
 		mGraphicsServer.mPIPManager.DrawPIPs();
 
-		targetCamera->mDeferredRenderingFrameBuffer.BindGBufferTextures();
-		mDeferredRenderingDrawer.DrawDeferredRenderingQuadDrawer();
-		targetCamera->mDeferredRenderingFrameBuffer.UnBindGBufferTextures();
-
+		dooms::graphics::DeferredRenderingPipeLineCamera* const deferredRenderingPipeLineCamera = CastTo<graphics::DeferredRenderingPipeLineCamera*>(targetCamera->GetGraphicsPipeLineCamera());
+		D_ASSERT(IsValid(deferredRenderingPipeLineCamera));
+		if (IsValid(deferredRenderingPipeLineCamera))
+		{
+			deferredRenderingPipeLineCamera->mDeferredRenderingFrameBuffer.BindGBufferTextures();
+			mDeferredRenderingDrawer.DrawDeferredRenderingQuadDrawer();
+			deferredRenderingPipeLineCamera->mDeferredRenderingFrameBuffer.UnBindGBufferTextures();
+		}
 
 		mRenderingDebugger.Render();
 	}

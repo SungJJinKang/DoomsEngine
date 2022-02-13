@@ -1,5 +1,7 @@
 #include "ForwardPhysicsBasedRenderingPipeLine.h"
 
+#include "ForwardPhysicsBasedRenderingPipeLineCamera.h"
+
 dooms::graphics::ForwardPhysicsBasedRenderingPipeLine::ForwardPhysicsBasedRenderingPipeLine(dooms::graphics::Graphics_Server& graphicsServer)
 	: DefaultGraphcisPipeLine(graphicsServer)
 {
@@ -33,4 +35,9 @@ void dooms::graphics::ForwardPhysicsBasedRenderingPipeLine::PostRender()
 dooms::graphics::eGraphicsPipeLineType dooms::graphics::ForwardPhysicsBasedRenderingPipeLine::GetGraphicsPipeLineType() const
 {
 	return eGraphicsPipeLineType::ForwardPhysicsBasedRendering;
+}
+
+dooms::graphics::GraphicsPipeLineCamera* dooms::graphics::ForwardPhysicsBasedRenderingPipeLine::CreateGraphicsPipeLineCamera() const
+{
+	return dooms::CreateDObject<ForwardPhysicsBasedRenderingPipeLineCamera>();
 }

@@ -5,18 +5,12 @@
 #include "../Core/Math/LightMath_Cpp/Vector4.h"
 #include "../Core/Math/LightMath_Cpp/Matrix4x4.h"
 #include "../Core/Math/LightMath_Cpp/Matrix_utility.h"
-
 #include <array>
 #include "../Core/Graphics/Buffer/UniformBufferObject/UniformBufferObjectUpdater.h"
 #include <Misc/StaticContainer/StaticContainer.h>
-
 #include <EasyDirtyChecker/DirtyReceiver.h>
-
 #include "Transform.h"
-
-#include "Graphics/FrameBuffer/DefferedRenderingFrameBuffer.h"
 #include "MaxCameraCount.h"
-
 
 #include "Camera.reflection.h"
 namespace dooms
@@ -24,6 +18,7 @@ namespace dooms
 	namespace graphics
 	{
 		class Graphics_Server;
+		class GraphicsPipeLineCamera;
 	}
 
 	enum D_ENUM eCameraFlag : UINT32
@@ -85,9 +80,15 @@ namespace dooms
 		/// </summary>
 		D_PROPERTY(CALLBACK="UpdateCallback")
 		FLOAT32 mViewportRectHeight = 1080.0f;
-		
+
+		D_PROPERTY()
+		graphics::GraphicsPipeLineCamera* mGraphicsPipeLineCamera;
+
 		std::array<math::Vector4, 6> CalculateFrustumPlane();
-		
+
+		void InitCameraViewportRect();
+		void InitGraphicsPipeLineCamera();
+
 		virtual void InitComponent() final;
 		virtual void UpdateComponent() final;
 		virtual void OnEndOfFrame_Component() final;
@@ -123,15 +124,12 @@ namespace dooms
 		Camera& operator=(Camera&&) noexcept = delete;
 
 		D_PROPERTY()
-		graphics::DefferedRenderingFrameBuffer mDeferredRenderingFrameBuffer{};
-
-		D_PROPERTY()
 		UINT32 CameraIndexInCullingSystem;
 
 		static constexpr UINT32 DEFAULT_CAMERA_FLAG = eCameraFlag::IS_CULLED;
 
 		D_PROPERTY()
-		UINT32 mCameraFlag = DEFAULT_CAMERA_FLAG;
+		UINT32 mCameraFlag;
 
 		Camera();
 		virtual ~Camera() = default;
@@ -217,9 +215,8 @@ namespace dooms
 		void RemoveThisCameraFromMainCamera();
 
 		virtual void UpdateUniformBufferObject(const bool force = false) final;
+		void OnSetPendingKill() override;
 
-
-
-
+		graphics::GraphicsPipeLineCamera* GetGraphicsPipeLineCamera() const;
 	};
 }

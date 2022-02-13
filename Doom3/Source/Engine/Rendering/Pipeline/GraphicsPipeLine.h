@@ -14,6 +14,7 @@ namespace dooms
 	{
 		class Graphics_Server;
 		class DeferredRenderingDrawer;
+		class GraphicsPipeLineCamera;
 
 		class D_CLASS GraphicsPipeLine : public DObject, public ISingleton<GraphicsPipeLine>
 		{
@@ -36,6 +37,7 @@ namespace dooms
 			virtual void PostRender() = 0;
 
 			virtual eGraphicsPipeLineType GetGraphicsPipeLineType() const = 0;
+			virtual GraphicsPipeLineCamera* CreateGraphicsPipeLineCamera() const = 0;
 		};
 	}
 }
