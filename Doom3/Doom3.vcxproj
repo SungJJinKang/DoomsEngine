@@ -1180,11 +1180,7 @@ xcopy /y /d /E /H /C /I "$(ProjectDir)Assets" "$(TargetDir)Assets"</Command>
     <None Include="Source\Engine\Rendering\Culling\EveryCulling\README.md" />
     <None Include="Source\GameLogic\Benchmark.inl" />
     <None Include="Source\GameLogic\CustomComponent\ButtonRotate.reflectionh" />
-    <None Include="Source\GameLogic\OverDrawVisualizationTest.inl" />
-    <None Include="Source\GameLogic\Portfolio.inl" />
-    <None Include="Source\GameLogic\RayCastTest.inl" />
     <None Include="Source\GameLogic\ReflectionTest.inl" />
-    <None Include="Source\GameLogic\ViewFrustumCullingDebug.inl" />
     <None Include="Source\Helper\DeferredConstant\.git" />
     <None Include="Source\Helper\DeferredConstant\README.md" />
     <None Include="Source\Helper\EasyDirtyChecker\README.md" />
@@ -1197,7 +1193,6 @@ xcopy /y /d /E /H /C /I "$(ProjectDir)Assets" "$(TargetDir)Assets"</Command>
   </ItemGroup>
   <ItemGroup>
     <Text Include="Source\Core\Reflection\Reflection_Tutorial.txt" />
-    <Text Include="Source\GameLogic\DeferredRenderingDebug.inl" />
   </ItemGroup>
   <ItemGroup>
     <DnxInvisibleContent Include="*.csv" />
