@@ -16,9 +16,6 @@
 [submodule "Doom3/Source/Helper/portable-snippets"]
 	path = Doom3/Source/Helper/portable-snippets
 	url = https://github.com/nemequ/portable-snippets.git
-[submodule "Doom3/Source/Core/Graphics/Acceleration/LinearData_ViewFrustumCulling"]
-	path = Doom3/Source/Core/Graphics/Acceleration/LinearData_ViewFrustumCulling
-	url = https://github.com/SungJJinKang/LinearData_ViewFrustumCulling.git
 [submodule "Doom3/Source/Core/ResourceManagement/JobSystem_cpp"]
 	path = Doom3/Source/Core/ResourceManagement/JobSystem_cpp
 	url = https://github.com/SungJJinKang/JobSystem_cpp.git
