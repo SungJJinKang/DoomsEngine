@@ -5,6 +5,7 @@
 #include <Game/IGameFlow.h>
 #include <Simple_SingleTon/Singleton.h>
 
+#include "MemoryManager.reflection.h"
 namespace dooms
 {
 	namespace memory
@@ -12,6 +13,9 @@ namespace dooms
 
 		class D_CLASS MemoryManager : public IGameFlow, public ISingleton<MemoryManager>
 		{
+			GENERATE_BODY()
+
+		private:
 
 			void CheckIsIntelTBBLoaded() const;
 
