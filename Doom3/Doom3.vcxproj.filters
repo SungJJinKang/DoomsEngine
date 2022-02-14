@@ -819,6 +819,9 @@
     <ClCompile Include="Source\Engine\Rendering\Pipeline\PipeLines\DeferredRendering\DeferredRenderingPipeLineCamera.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Plugins\EnginePlugin.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="dependency\glad\include\glad\glad.h">
@@ -2016,6 +2019,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\Engine\Rendering\Pipeline\PipeLines\DeferredRendering\DeferredRenderingPipeLineCamera.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Plugins\EnginePlugin.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

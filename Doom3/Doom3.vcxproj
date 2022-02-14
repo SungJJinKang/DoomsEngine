@@ -613,6 +613,7 @@ xcopy /y /d /E /H /C /I "$(ProjectDir)Assets" "$(TargetDir)Assets"</Command>
     <ClCompile Include="Source\Helper\EasyDirtyChecker\DirtyReceiver.cpp" />
     <ClCompile Include="Source\Component\PhysicsComponent\SphereCollider3D.cpp" />
     <ClCompile Include="Source\Core\String\StringHelper.cpp" />
+    <ClCompile Include="Source\Plugins\EnginePlugin.cpp" />
     <ClCompile Include="Source\thirdparty\imgui\imgui.cpp" />
     <ClCompile Include="Source\thirdparty\imgui\imgui_draw.cpp" />
     <ClCompile Include="Source\thirdparty\imgui\imgui_tables.cpp" />
@@ -1011,6 +1012,7 @@ xcopy /y /d /E /H /C /I "$(ProjectDir)Assets" "$(TargetDir)Assets"</Command>
     <ClInclude Include="Source\Core\Asset\ThreeDModelAsset.h" />
     <ClInclude Include="Source\Core\Asset\TextureAsset.h" />
     <ClInclude Include="Source\Core\String\StringHelper.h" />
+    <ClInclude Include="Source\Plugins\EnginePlugin.h" />
     <ClInclude Include="Source\thirdparty\imgui\imconfig.h" />
     <ClInclude Include="Source\thirdparty\imgui\imgui.h" />
     <ClInclude Include="Source\thirdparty\imgui\imgui_internal.h" />
