@@ -23,9 +23,7 @@ void dooms::Renderer::SetRenderingFlag(const eRenderingFlag flag, const bool isS
 void dooms::Renderer::InitComponent()
 {
 	RendererComponentStaticIterator::GetSingleton()->AddRendererToStaticContainer(this);
-
-	AddRendererToCullingSystem();
-
+	
 	AddLocalDirtyToTransformDirtyReceiver(BVH_AABB3D_Node_Object::IsWorldColliderCacheDirty);
 	//AddLocalDirtyToTransformDirtyReceiver(ColliderUpdater<dooms::physics::AABB3D>::IsWorldColliderCacheDirty);
 	AddLocalDirtyToTransformDirtyReceiver(bmIsModelMatrixDirty);
@@ -53,14 +51,13 @@ void dooms::Renderer::OnActivated()
 {
 	Component::OnActivated();
 
-	mCullingEntityBlockViewer.SetIsObjectEnabled(true);
 }
 
 void dooms::Renderer::OnDeActivated()
 {
 	Component::OnDeActivated();
 
-	if(mCullingEntityBlockViewer.GetIsActive() == true)
+	if(mCullingEntityBlockViewer.IsValid() == true)
 	{
 		mCullingEntityBlockViewer.SetIsObjectEnabled(false);
 	}
@@ -69,7 +66,8 @@ void dooms::Renderer::OnDeActivated()
 
 void dooms::Renderer::AddRendererToCullingSystem()
 {
-	if(mCullingEntityBlockViewer.GetIsActive() == false)
+	D_ASSERT(mCullingEntityBlockViewer.IsValid() == false);
+	if(mCullingEntityBlockViewer.IsValid() == false)
 	{
 		graphics::DefaultGraphcisPipeLine* defaultGraphicsPipeLine = CastTo<graphics::DefaultGraphcisPipeLine*>(dooms::graphics::GraphicsPipeLine::GetSingleton());
 		D_ASSERT(IsValid(defaultGraphicsPipeLine));
@@ -85,7 +83,7 @@ void dooms::Renderer::RemoveRendererFromCullingSystem()
 {
 	graphics::DefaultGraphcisPipeLine* defaultGraphicsPipeLine = CastTo<graphics::DefaultGraphcisPipeLine*>(dooms::graphics::GraphicsPipeLine::GetSingleton());
 	D_ASSERT(IsValid(defaultGraphicsPipeLine));
-	if (IsValid(defaultGraphicsPipeLine))
+	if (IsValid(defaultGraphicsPipeLine) && mCullingEntityBlockViewer.IsValid())
 	{
 		defaultGraphicsPipeLine->mRenderingCullingManager.mCullingSystem->RemoveEntityFromBlock(mCullingEntityBlockViewer);
 	}
@@ -158,6 +156,7 @@ void dooms::Renderer::ClearRenderingBitFlag()
 void dooms::Renderer::InitializeCullingEntityBlockViewer()
 {
 	mCullingEntityBlockViewer.SetDesiredMaxDrawDistance(mDesiredMaxDrawDistance);
+	mCullingEntityBlockViewer.SetIsObjectEnabled(true);
 }
 
 void dooms::Renderer::UpdateCullingEntityBlockViewer()
