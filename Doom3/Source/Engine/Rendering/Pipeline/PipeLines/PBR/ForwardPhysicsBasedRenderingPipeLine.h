@@ -15,6 +15,10 @@ namespace dooms
 
 		private:
 
+		protected:
+
+			void CameraRender(dooms::Camera* const targetCamera, const size_t cameraIndex) override;
+
 		public:
 
 			ForwardPhysicsBasedRenderingPipeLine(dooms::graphics::Graphics_Server& graphicsServer);
@@ -28,6 +32,7 @@ namespace dooms
 
 			virtual eGraphicsPipeLineType GetGraphicsPipeLineType() const override;
 			GraphicsPipeLineCamera* CreateGraphicsPipeLineCamera() const override;
+
 		};
 	}
 }

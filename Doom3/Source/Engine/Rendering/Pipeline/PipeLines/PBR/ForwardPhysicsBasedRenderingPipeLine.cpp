@@ -2,6 +2,14 @@
 
 #include "ForwardPhysicsBasedRenderingPipeLineCamera.h"
 
+void dooms::graphics::ForwardPhysicsBasedRenderingPipeLine::CameraRender
+(
+	dooms::Camera* const targetCamera,
+	const size_t cameraIndex
+)
+{
+}
+
 dooms::graphics::ForwardPhysicsBasedRenderingPipeLine::ForwardPhysicsBasedRenderingPipeLine(dooms::graphics::Graphics_Server& graphicsServer)
 	: DefaultGraphcisPipeLine(graphicsServer)
 {

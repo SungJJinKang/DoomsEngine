@@ -19,8 +19,7 @@ namespace dooms
 			D_PROPERTY()
 			DeferredRenderingDrawer mDeferredRenderingDrawer;
 
-			void RenderObjects(dooms::Camera* const targetCamera, const size_t cameraIndex);
-			void CameraRender(dooms::Camera* const targetCamera, const size_t cameraIndex);
+			void CameraRender(dooms::Camera* const targetCamera, const size_t cameraIndex) override;
 
 		public:
 
