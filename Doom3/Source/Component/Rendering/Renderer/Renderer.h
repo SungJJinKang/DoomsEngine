@@ -32,7 +32,6 @@ namespace dooms
 
 	struct DistanceToCameraData
 	{
-		UINT8 padding1[56];
 		std::array<FLOAT32, MAX_CAMERA_COUNT> mDistancesToCamera;
 	};
 
