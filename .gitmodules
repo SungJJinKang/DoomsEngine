@@ -1,9 +1,6 @@
 [submodule "Doom3/Source/Core/Math/LightMath_Cpp"]
 	path = Doom3/Source/Core/Math/LightMath_Cpp
 	url = https://github.com/SungJJinKang/LightMath_Cpp.git
-[submodule "Doom3/Source/Helper/ForLoop_Compile_Time"]
-	path = Doom3/Source/Helper/ForLoop_Compile_Time
-	url = https://github.com/SungJJinKang/ForLoop_Compile_Time.git
 [submodule "Doom3/Source/Helper/vector_erase_move_lastelement"]
 	path = Doom3/Source/Helper/vector_erase_move_lastelement
 	url = https://github.com/SungJJinKang/vector_erase_move_lastelement.git
@@ -19,9 +16,6 @@
 [submodule "Doom3/Source/Core/ResourceManagement/JobSystem_cpp"]
 	path = Doom3/Source/Core/ResourceManagement/JobSystem_cpp
 	url = https://github.com/SungJJinKang/JobSystem_cpp.git
-[submodule "Doom3/Source/Helper/CacheLineSize"]
-	path = Doom3/Source/Helper/CacheLineSize
-	url = https://github.com/NickStrupat/CacheLineSize.git
 [submodule "Doom3/Source/Core/Reflection/clReflect_automation"]
 	path = Doom3/Source/Core/Reflection/clReflect_automation
 	url = https://github.com/SungJJinKang/clReflect_automation
