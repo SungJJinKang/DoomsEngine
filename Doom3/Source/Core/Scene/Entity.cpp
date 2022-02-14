@@ -176,6 +176,8 @@ void Entity::OnDestroyed()
 
 	D_ASSERT(IsValid(mInvolvedScene) == true);
 	mInvolvedScene->RemoveEntityFromSpawnedEntityLIst(this);
+
+	IsEnabled = false;
 }
 
 void Entity::OnSetPendingKill()
