@@ -1,7 +1,7 @@
 #include "DefferedRenderingFrameBuffer.h"
 
-#include "../Graphics_Server.h"
-#include "../GraphicsAPI/graphicsAPISetting.h"
+#include <Graphics/Graphics_Server.h>
+#include <Graphics/GraphicsAPI/graphicsAPISetting.h>
 #include <Rendering/Camera.h>
 
 #include "Graphics/Texture/TextureView.h"

@@ -303,7 +303,7 @@
     <ClCompile Include="Source\Engine\Rendering\PrimitiveType\PrimitiveTriangle.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Core\Graphics\FrameBuffer\DefferedRenderingFrameBuffer.cpp">
+    <ClCompile Include="Source\Engine\Rendering\Pipeline\PipeLines\DeferredRendering\DefferedRenderingFrameBuffer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Source\Engine\Rendering\PictureInPicture\PIPManager.cpp">
@@ -1406,7 +1406,7 @@
     <ClInclude Include="Source\Engine\Rendering\PrimitiveType\PrimitiveTriangle.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Core\Graphics\FrameBuffer\DefferedRenderingFrameBuffer.h">
+    <ClInclude Include="Source\Engine\Rendering\Pipeline\PipeLines\DeferredRendering\DefferedRenderingFrameBuffer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\Engine\Rendering\PictureInPicture\PIPManager.h">

@@ -478,7 +478,7 @@ xcopy /y /d /E /H /C /I "$(ProjectDir)Assets" "$(TargetDir)Assets"</Command>
     <ClCompile Include="Source\Core\Graphics\Color.cpp" />
     <ClCompile Include="Source\Engine\Rendering\RenderingDebugger\RenderingDebuggerModules\Modules\OverDrawVisualization.cpp" />
     <ClCompile Include="Source\Engine\Rendering\Pipeline\PipeLines\DeferredRendering\DeferredRenderingDrawer.cpp" />
-    <ClCompile Include="Source\Core\Graphics\FrameBuffer\DefferedRenderingFrameBuffer.cpp" />
+    <ClCompile Include="Source\Engine\Rendering\Pipeline\PipeLines\DeferredRendering\DefferedRenderingFrameBuffer.cpp" />
     <ClCompile Include="Source\Core\Graphics\GraphicsAPI\graphicsAPISetting.cpp" />
     <ClCompile Include="Source\Engine\Rendering\Light\LightManager.cpp" />
     <ClCompile Include="Source\Core\Graphics\Material\FixedMaterial.cpp" />
@@ -770,7 +770,7 @@ xcopy /y /d /E /H /C /I "$(ProjectDir)Assets" "$(TargetDir)Assets"</Command>
     <ClInclude Include="Source\Core\Graphics\Buffer\BufferID.h" />
     <ClInclude Include="Source\Engine\Rendering\RenderingDebugger\RenderingDebuggerModules\Modules\OverDrawVisualization.h" />
     <ClInclude Include="Source\Engine\Rendering\Pipeline\PipeLines\DeferredRendering\DeferredRenderingDrawer.h" />
-    <ClInclude Include="Source\Core\Graphics\FrameBuffer\DefferedRenderingFrameBuffer.h" />
+    <ClInclude Include="Source\Engine\Rendering\Pipeline\PipeLines\DeferredRendering\DefferedRenderingFrameBuffer.h" />
     <ClInclude Include="Source\Core\Graphics\GraphicsAPI\graphicsAPISetting.h" />
     <ClInclude Include="Source\Engine\Rendering\Light\LightManager.h" />
     <ClInclude Include="Source\Core\Graphics\Material\FixedMaterial.h" />

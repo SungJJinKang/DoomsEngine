@@ -3,7 +3,7 @@
 #include <Core.h>
 
 #include "../../GraphicsPipeLineCamera.h"
-#include <Graphics/FrameBuffer/DefferedRenderingFrameBuffer.h>
+#include <Rendering/Pipeline/PipeLines/DeferredRendering/DefferedRenderingFrameBuffer.h>
 
 #include "DeferredRenderingPipeLineCamera.reflection.h"
 namespace dooms
