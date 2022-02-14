@@ -65,17 +65,20 @@ void dooms::GameCore::InitializeGraphicsAPI(const int argc, char* const* const a
 
 	for(size_t i = 0 ; i < argc ; i++)
 	{
-		if(_stricmp(argv[i], "OPENGL") == 0)
+		if
+		(
+			_stricmp(argv[i], "OPENGL") == 0 ||
+			_stricmp(argv[i], "OPEN_GL") == 0 
+		)
 		{
 			targetGraphicsAPI = graphics::GraphicsAPI::eGraphicsAPIType::OpenGL;
 		}
 		else if
 		( 
 			(_stricmp(argv[i], "DX11") == 0) || 
-			(_stricmp(argv[i], "DX11_10") == 0) || 
+			(_stricmp(argv[i], "D3D11") == 0) || 
 			(_stricmp(argv[i], "DIRECTX") == 0) ||
-			(_stricmp(argv[i], "DIRECTX11") == 0) ||
-			(_stricmp(argv[i], "DIRECTX11_10") == 0)
+			(_stricmp(argv[i], "DIRECTX11") == 0)
 		)
 		{
 			targetGraphicsAPI = graphics::GraphicsAPI::eGraphicsAPIType::DX11_10;
