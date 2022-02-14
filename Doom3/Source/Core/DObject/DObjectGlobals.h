@@ -6,7 +6,6 @@
 #include "DObjectManager.h"
 
 #include <CompilerMacros.h>
-#include "DObjectMacros.h"
 #include "Macros/Assert.h"
 
 #include "Reflection/ReflectionType/DClass.h"

@@ -1,6 +1,8 @@
 #pragma once
 #include "Buffer.h"
 
+#include <array>
+
 #include <Physics/Collider/AABB.h>
 #include <Physics/Collider/Sphere.h>
 #include <Graphics/GraphicsAPI/GraphicsAPI.h>

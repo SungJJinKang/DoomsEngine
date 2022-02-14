@@ -3,10 +3,11 @@
 #include <Core.h>
 
 #include <vector>
+#include <array>
 
 #include <Vector3.h>
+#include <Vector4.h>
 #include <Graphics/Color.h>
-#include <Math/LightMath_Cpp/Vector4.h>
 #include <Graphics/GraphicsAPI/GraphicsAPI.h>
 
 namespace dooms
