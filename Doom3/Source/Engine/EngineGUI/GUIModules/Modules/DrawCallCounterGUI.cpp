@@ -6,6 +6,7 @@
 
 void dooms::ui::DrawCallCounterGUI::Init()
 {
+	Base::Init();
 }
 
 void dooms::ui::DrawCallCounterGUI::Render()

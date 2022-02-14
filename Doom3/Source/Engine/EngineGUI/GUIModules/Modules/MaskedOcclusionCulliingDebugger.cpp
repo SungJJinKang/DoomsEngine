@@ -108,6 +108,7 @@ void dooms::ui::MaskedOcclusionCulliingDebugger::RenderBinnedTriangles()
 
 void dooms::ui::MaskedOcclusionCulliingDebugger::Init()
 {
+	Base::Init();
 }
 
 void dooms::ui::MaskedOcclusionCulliingDebugger::Render()

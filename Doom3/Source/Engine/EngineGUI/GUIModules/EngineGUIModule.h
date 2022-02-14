@@ -12,6 +12,9 @@ namespace dooms
 			GENERATE_BODY()
 		private:
 
+			D_PROPERTY()
+			bool bmIsInitialized;
+
 		public:
 
 			D_PROPERTY()
@@ -19,7 +22,8 @@ namespace dooms
 
 			EngineGUIModule();
 
-			virtual void Init() = 0;
+			virtual void Init();
+			void InitIfNotInitialized();
 			virtual void Render() = 0;
 		};
 	}

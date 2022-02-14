@@ -14,6 +14,7 @@
 
 void dooms::ui::ProfilerGUI::Init()
 {
+	Base::Init();
 }
 
 void dooms::ui::ProfilerGUI::Render()

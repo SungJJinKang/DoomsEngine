@@ -35,6 +35,8 @@ void dooms::ui::ThreadProfilerGUI::UpdateThreadCycle()
 
 void dooms::ui::ThreadProfilerGUI::Init()
 {
+	Base::Init();
+
 	const size_t threadCount = resource::JobSystem::GetSingleton()->GetSubThreadCount();
 	ThreadCycleInSecond.resize(threadCount + 1);
 	ThreadCycleCounter1.resize(threadCount + 1);

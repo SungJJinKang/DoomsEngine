@@ -21,7 +21,7 @@ namespace dooms
 			D_PROPERTY()
 			std::vector<EngineGUIModule*> mEngineGUIModules;
 
-			void InitializeEngineGUIModules();
+			void InitializeDefaultEngineGUIModules();
 			bool InitializeImgui();
 			bool DestroyImgui();
 
@@ -36,7 +36,6 @@ namespace dooms
 			void Init(const int argc, char* const* const argv) override;
 			void Update() override;
 			void OnEndOfFrame() override;
-			
 
 			void PreRender();
 			void Render();
@@ -44,6 +43,10 @@ namespace dooms
 
 			bool GetIsEngineGUIAvaliable() const;
 			bool& GetIsEngineGUIAvaliableRef();
+
+			void AddEngineGUIModule(EngineGUIModule* const engineGUIModule);
+			void RemoveEngineGUIModule(EngineGUIModule* const engineGUIModule);
+			void RemoveEngineGUIModule(const reflection::DClass dClass);
 		};
 	}
 }

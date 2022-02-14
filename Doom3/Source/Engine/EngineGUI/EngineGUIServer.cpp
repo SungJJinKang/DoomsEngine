@@ -68,6 +68,43 @@ bool& dooms::ui::EngineGUIServer::GetIsEngineGUIAvaliableRef()
     return bmIsEngineGUIAvaliable;
 }
 
+void dooms::ui::EngineGUIServer::AddEngineGUIModule(EngineGUIModule* const engineGUIModule)
+{
+    D_ASSERT(IsValid(engineGUIModule));
+    D_ASSERT(std::find(mEngineGUIModules.begin(), mEngineGUIModules.end(), engineGUIModule) == mEngineGUIModules.end());;
+
+    mEngineGUIModules.push_back(engineGUIModule);
+    engineGUIModule->InitIfNotInitialized();
+}
+
+void dooms::ui::EngineGUIServer::RemoveEngineGUIModule(EngineGUIModule* const engineGUIModule)
+{
+    D_ASSERT(IsValid(engineGUIModule));
+    for(INT64 i = 0 ; i < mEngineGUIModules.size() ; i++)
+    {
+	    if(mEngineGUIModules[i] == engineGUIModule)
+	    {
+            mEngineGUIModules.erase(mEngineGUIModules.begin() + i);
+            i = -1;
+	    }
+    }
+}
+
+void dooms::ui::EngineGUIServer::RemoveEngineGUIModule(const reflection::DClass dClass)
+{
+    for (INT64 i = 0; i < mEngineGUIModules.size(); i++)
+    {
+        if(IsValid(mEngineGUIModules[i]))
+        {
+            if (mEngineGUIModules[i]->GetDClass() == dClass)
+            {
+                mEngineGUIModules.erase(mEngineGUIModules.begin() + i);
+                i = -1;
+            }
+        }       
+    }
+}
+
 
 bool dooms::ui::EngineGUIServer::InitializeImgui()
 {
@@ -107,12 +144,12 @@ dooms::ui::EngineGUIServer::~EngineGUIServer()
     DestroyImgui();
 }
 
-void dooms::ui::EngineGUIServer::InitializeEngineGUIModules()
+void dooms::ui::EngineGUIServer::InitializeDefaultEngineGUIModules()
 {
-	mEngineGUIModules = engineGUIServerHelper::CreateDefaultEngineGUIModules();
-	for (EngineGUIModule* module : mEngineGUIModules)
+    std::vector<dooms::ui::EngineGUIModule*> defaultEngineGUIModule = engineGUIServerHelper::CreateDefaultEngineGUIModules();
+	for (EngineGUIModule* module : defaultEngineGUIModule)
 	{
-		module->Init();
+        AddEngineGUIModule(module);
 	}
 }
 
@@ -121,7 +158,7 @@ void dooms::ui::EngineGUIServer::Init(const int argc, char* const* const argv)
 	bool isSuccess = InitializeImgui();
     dooms::ui::imguiWithReflection::Initialize();
 
-    InitializeEngineGUIModules();
+    InitializeDefaultEngineGUIModules();
 
     D_ASSERT(isSuccess == true);
 }

@@ -121,6 +121,8 @@ void dooms::ui::LogGUI::RenderMenuBar()
 
 void dooms::ui::LogGUI::Init()
 {
+	Base::Init();
+
 	for (size_t i = 0; i < magic_enum::enum_count<dooms::logger::eLogType>(); i++)
 	{
 		std::string_view enumName = magic_enum::enum_name<dooms::logger::eLogType>(magic_enum::enum_value<dooms::logger::eLogType>(i));

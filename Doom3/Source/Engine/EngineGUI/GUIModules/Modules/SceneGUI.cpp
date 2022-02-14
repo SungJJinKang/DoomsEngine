@@ -8,6 +8,7 @@
 
 void dooms::ui::SceneGUI::Init()
 {
+	Base::Init();
 }
 
 void dooms::ui::SceneGUI::Render()
