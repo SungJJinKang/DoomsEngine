@@ -33,6 +33,7 @@
 ## Currently working on     
    
   * completly support D3D11
+  * Static Batch Rendering
   * implement physical based rendering ( https://cdn2.unrealengine.com/Resources/files/2013SiggraphPresentationsNotes-26915738.pdf )  
 
 ## To Develop

@@ -355,6 +355,10 @@ xcopy /y /d /E /H /C /I "$(ProjectDir)Assets" "$(TargetDir)Assets"</Command>
     <ClCompile Include="Source\Core\Scene\Layer\Layer.cpp" />
     <ClCompile Include="Source\Engine\EngineGUI\engineGUIServerHelper.cpp" />
     <ClCompile Include="Source\Engine\EngineGUI\GUIModules\EngineGUIModule.cpp" />
+    <ClCompile Include="Source\Engine\Rendering\Batch\BatchContainer\batchContainerFactory.cpp" />
+    <ClCompile Include="Source\Engine\Rendering\Batch\BatchContainer\RendererBatchContainer.cpp" />
+    <ClCompile Include="Source\Engine\Rendering\Batch\BatchContainer\StaticRendererBatchContainer.cpp" />
+    <ClCompile Include="Source\Engine\Rendering\Batch\BatchRenderingManager.cpp" />
     <ClCompile Include="Source\Engine\Rendering\Culling\EveryCulling\CullingModule\CullingModule.cpp" />
     <ClCompile Include="Source\Engine\Rendering\Culling\EveryCulling\CullingModule\DistanceCulling\DistanceCulling.cpp" />
     <ClCompile Include="Source\Engine\Rendering\Culling\EveryCulling\CullingModule\MaskedSWOcclusionCulling\MaskedSWOcclusionCulling.cpp" />
@@ -474,7 +478,7 @@ xcopy /y /d /E /H /C /I "$(ProjectDir)Assets" "$(TargetDir)Assets"</Command>
     <ClCompile Include="Source\Component\PhysicsComponent\Rigidbody\Rigidbody.cpp" />
     <ClCompile Include="Source\Core\DObject\DObjectManager.cpp" />
     <ClCompile Include="Source\Engine\Rendering\Acceleration\FrontToBackSorting\SortFrontToBackSolver.cpp" />
-    <ClCompile Include="Source\Engine\Rendering\Batch\MeshBatchCreater.cpp" />
+    <ClCompile Include="Source\Engine\Rendering\Batch\BatchContainer\meshBatchCreater.cpp" />
     <ClCompile Include="Source\Core\Graphics\Color.cpp" />
     <ClCompile Include="Source\Engine\Rendering\RenderingDebugger\RenderingDebuggerModules\Modules\OverDrawVisualization.cpp" />
     <ClCompile Include="Source\Engine\Rendering\Pipeline\PipeLines\DeferredRendering\DeferredRenderingDrawer.cpp" />
@@ -628,6 +632,11 @@ xcopy /y /d /E /H /C /I "$(ProjectDir)Assets" "$(TargetDir)Assets"</Command>
     <ClInclude Include="Source\Engine\EngineGUI\GUIModules\Modules\ProfilerGUI.reflection.h" />
     <ClInclude Include="Source\Engine\EngineGUI\GUIModules\Modules\SceneGUI.reflection.h" />
     <ClInclude Include="Source\Engine\EngineGUI\GUIModules\Modules\ThreadProfilerGUI.reflection.h" />
+    <ClInclude Include="Source\Engine\Rendering\Batch\BatchContainer\batchContainerFactory.h" />
+    <ClInclude Include="Source\Engine\Rendering\Batch\BatchContainer\RendererBatchContainer.h" />
+    <ClInclude Include="Source\Engine\Rendering\Batch\BatchContainer\StaticRendererBatchContainer.h" />
+    <ClInclude Include="Source\Engine\Rendering\Batch\BatchRenderingManager.h" />
+    <ClInclude Include="Source\Engine\Rendering\Batch\eBatchRenderingType.h" />
     <ClInclude Include="Source\Engine\Rendering\Culling\EveryCulling\CullingModule\CullingModule.h" />
     <ClInclude Include="Source\Engine\Rendering\Culling\EveryCulling\CullingModule\DistanceCulling\DistanceCulling.h" />
     <ClInclude Include="Source\Engine\Rendering\Culling\EveryCulling\CullingModule\MaskedSWOcclusionCulling\MaskedSWOcclusionCulling.h" />
@@ -766,7 +775,7 @@ xcopy /y /d /E /H /C /I "$(ProjectDir)Assets" "$(TargetDir)Assets"</Command>
     <ClInclude Include="Source\Core\DObject\DObjectGlobals.h" />
     <ClInclude Include="Source\Core\DObject\DObjectManager.h" />
     <ClInclude Include="Source\Engine\Rendering\Acceleration\FrontToBackSorting\SortFrontToBackSolver.h" />
-    <ClInclude Include="Source\Engine\Rendering\Batch\MeshBatchCreater.h" />
+    <ClInclude Include="Source\Engine\Rendering\Batch\BatchContainer\meshBatchCreater.h" />
     <ClInclude Include="Source\Core\Graphics\Buffer\BufferID.h" />
     <ClInclude Include="Source\Engine\Rendering\RenderingDebugger\RenderingDebuggerModules\Modules\OverDrawVisualization.h" />
     <ClInclude Include="Source\Engine\Rendering\Pipeline\PipeLines\DeferredRendering\DeferredRenderingDrawer.h" />

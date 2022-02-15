@@ -119,7 +119,8 @@ dooms::graphics::Graphics_Server::Graphics_Server()
 	mLightManager(),
 	mPIPManager(),
 	mRendererColliderBVH{ RENDERER_BVH_MAX_NODE_COUNT },
-	mRendererStaticContainer()
+	mRendererStaticContainer(),
+	mBatchRenderingManager()
 {
 
 }

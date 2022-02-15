@@ -10,6 +10,7 @@
 #include <Rendering/Renderer/RendererStaticIterator.h>
 #include "Misc/AccelerationContainer/BVH/BVH.h"
 #include <Rendering/Pipeline/GraphicsPipeLine.h>
+#include <Rendering/Batch/BatchRenderingManager.h>
 
 namespace culling
 {
@@ -65,6 +66,9 @@ namespace dooms
 
 			D_PROPERTY()
 			UniformBufferObjectManager mUniformBufferObjectManager;
+
+			D_PROPERTY()
+			BatchRenderingManager mBatchRenderingManager;
 
 			D_PROPERTY()
 			graphics::LightManager mLightManager;
