@@ -10,12 +10,12 @@ dooms::graphics::RendererBatchContainer::RendererBatchContainer(Material* const 
 	AddToRootObjectList();
 }
 
-bool dooms::graphics::RendererBatchContainer::AddRenderer(Renderer* const Renderer, const bool bakeBatchedMesh)
+bool dooms::graphics::RendererBatchContainer::AddRenderer(Renderer* const renderer, const bool bakeBatchedMesh)
 {
 	bool isSuccess = false;
 
 	D_ASSERT(IsValid(Renderer) && Material::Equal(Renderer->GetMaterial(), mTargetMaterial));
-	if (IsValid(Renderer) && Material::Equal(Renderer->GetMaterial(), mTargetMaterial))
+	if (IsValid(renderer) && CheckRendererAcceptable(renderer) && Material::Equal(renderer->GetMaterial(), mTargetMaterial))
 	{
 		if
 		(
@@ -23,11 +23,11 @@ bool dooms::graphics::RendererBatchContainer::AddRenderer(Renderer* const Render
 			(
 				mBatchedRenderers.data(),
 				mBatchedRenderers.data() + mBatchedRenderers.size(),
-				Renderer
+				renderer
 			) == mBatchedRenderers.data() + mBatchedRenderers.size()
 		)
 		{
-			mBatchedRenderers.push_back(Renderer);
+			mBatchedRenderers.push_back(renderer);
 
 			if (bakeBatchedMesh == true)
 			{
@@ -41,9 +41,9 @@ bool dooms::graphics::RendererBatchContainer::AddRenderer(Renderer* const Render
 	return isSuccess;
 }
 
-void dooms::graphics::RendererBatchContainer::AddRenderer(const std::vector<Renderer*>& Renderers, const bool bakeBatchedMesh)
+void dooms::graphics::RendererBatchContainer::AddRenderer(const std::vector<Renderer*>& renderers, const bool bakeBatchedMesh)
 {
-	for(Renderer* Renderer : Renderers)
+	for(Renderer* Renderer : renderers)
 	{
 		AddRenderer(Renderer, false);
 	}
@@ -54,13 +54,13 @@ void dooms::graphics::RendererBatchContainer::AddRenderer(const std::vector<Rend
 	}
 }
 
-bool dooms::graphics::RendererBatchContainer::RemoveRenderer(Renderer* const Renderer, const bool bakeBatchedMesh)
+bool dooms::graphics::RendererBatchContainer::RemoveRenderer(Renderer* const renderer, const bool bakeBatchedMesh)
 {
 	bool isSuccess = false;
 
-	if(IsValid(Renderer))
+	if(IsValid(renderer))
 	{
-		isSuccess = swap_popback::vector_find_swap_popback(mBatchedRenderers, Renderer);
+		isSuccess = swap_popback::vector_find_swap_popback(mBatchedRenderers, renderer);
 		if(isSuccess && bakeBatchedMesh)
 		{
 			ReBakeBatchedMesh();
