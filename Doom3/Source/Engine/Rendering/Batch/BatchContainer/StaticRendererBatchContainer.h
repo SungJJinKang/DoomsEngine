@@ -26,6 +26,7 @@ namespace dooms
 
 			void ReBakeBatchedMesh() final;
 			eBatchRenderingType GetBatchRenderingType() const override;
+			static bool CheckMaterialAcceptable(Material* const material);
 		};
 	}
 }

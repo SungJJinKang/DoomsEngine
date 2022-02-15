@@ -12,8 +12,15 @@ dooms::graphics::RendererBatchContainer* dooms::graphics::batchContainerFactory:
 
 	switch (batchRenderingType)
 	{
-	case StaticMeshBatch: 
-		rendererBatchContainer = dooms::CreateDObject<StaticRendererBatchContainer>(targetMaterial);
+	case StaticMeshBatch:
+		if(StaticRendererBatchContainer::CheckMaterialAcceptable(targetMaterial) == true)
+		{
+			rendererBatchContainer = dooms::CreateDObject<StaticRendererBatchContainer>(targetMaterial);
+		}
+		else
+		{
+			D_ASSERT_LOG(false, "This material can't be used for StaticRendererBatchContainer");
+		}
 		break;
 	default:
 		NEVER_HAPPEN;

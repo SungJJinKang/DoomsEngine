@@ -24,3 +24,8 @@ dooms::graphics::eBatchRenderingType dooms::graphics::StaticRendererBatchContain
 {
 	return eBatchRenderingType::StaticMeshBatch;
 }
+
+bool dooms::graphics::StaticRendererBatchContainer::CheckMaterialAcceptable(Material* const material)
+{
+	// Material should be GbufferWriter_PBR.glsl
+}
