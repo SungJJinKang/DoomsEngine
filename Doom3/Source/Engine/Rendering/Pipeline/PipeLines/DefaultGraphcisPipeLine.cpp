@@ -9,6 +9,7 @@
 #include <EngineGUI/engineGUIServer.h>
 #include <Graphics/Graphics_Server.h>
 #include <Rendering/Renderer/RendererStaticIterator.h>
+#include <Rendering/Batch/BatchRenderingManager.h>
 
 void dooms::graphics::DefaultGraphcisPipeLine::PreRenderRenderer()
 {
@@ -138,34 +139,47 @@ std::future<void> dooms::graphics::DefaultGraphcisPipeLine::PushFrontToBackSortJ
 }
 
 
-void dooms::graphics::DefaultGraphcisPipeLine::DrawRenderers(dooms::Camera* const targetCamera, const size_t cameraIndex)
+void dooms::graphics::DefaultGraphcisPipeLine::DrawRenderers(dooms::Camera* const targetCamera, const size_t cameraIndex) const
 {
 	D_ASSERT(IsValid(targetCamera) == true);
 
 	targetCamera->UpdateUniformBufferObject();
 
-	D_START_PROFILING(DrawLoop, dooms::profiler::eProfileLayers::Rendering);
-	const bool targetCamera_IS_CULLED_flag_on = targetCamera->GetCameraFlag(dooms::eCameraFlag::IS_CULLED);
+	D_START_PROFILING(DrawBatchedRenderers, dooms::profiler::eProfileLayers::Rendering);
+	DrawBatchedRenderers();
+	D_END_PROFILING(DrawBatchedRenderers);
 
-	const std::vector<Renderer*>& renderersInLayer = RendererComponentStaticIterator::GetSingleton()->GetSortedRendererInLayer();
-	for (Renderer* renderer : renderersInLayer)
 	{
-		if
-			(
-				IsValid(renderer) == true &&
-				//renderer->GetOwnerEntityLayerIndex() == layerIndex && 
-				renderer->GetIsComponentEnabled() == true
-				)
+		D_START_PROFILING(DrawLoop, dooms::profiler::eProfileLayers::Rendering);
+		const bool targetCamera_IS_CULLED_flag_on = targetCamera->GetCameraFlag(dooms::eCameraFlag::IS_CULLED);
+
+		const std::vector<Renderer*>& renderersInLayer = RendererComponentStaticIterator::GetSingleton()->GetSortedRendererInLayer();
+		for (Renderer* renderer : renderersInLayer)
 		{
 			if
 				(
-					targetCamera_IS_CULLED_flag_on == false ||
-					renderer->GetIsCulled(targetCamera->CameraIndexInCullingSystem) == false
+					IsValid(renderer) == true &&
+					//renderer->GetOwnerEntityLayerIndex() == layerIndex && 
+					renderer->GetIsComponentEnabled() == true
 					)
 			{
-				renderer->Draw();
+				if
+					(
+						targetCamera_IS_CULLED_flag_on == false ||
+						renderer->GetIsCulled(targetCamera->CameraIndexInCullingSystem) == false
+						)
+				{
+					renderer->Draw();
+				}
 			}
 		}
+		D_END_PROFILING(DrawLoop);
 	}
-	D_END_PROFILING(DrawLoop);
+	
+}
+
+void dooms::graphics::DefaultGraphcisPipeLine::DrawBatchedRenderers() const
+{
+	D_ASSERT(IsValid(BatchRenderingManager::GetSingleton()));
+	BatchRenderingManager::GetSingleton()->DrawAllBatchedRendererContainers();
 }

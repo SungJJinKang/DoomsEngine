@@ -91,3 +91,15 @@ bool dooms::graphics::BatchRenderingManager::RemoveRendererFromBatchRendering(Re
 
 	return isSuccess;
 }
+
+void dooms::graphics::BatchRenderingManager::DrawAllBatchedRendererContainers() const
+{
+	for(auto rendererBatchContainerNode : mBatchedRendererContainers)
+	{
+		RendererBatchContainer* rendererBatchContainer = rendererBatchContainerNode.second;
+		if(IsValid(rendererBatchContainer))
+		{
+			rendererBatchContainer->BatchedDraw();
+		}
+	}
+}

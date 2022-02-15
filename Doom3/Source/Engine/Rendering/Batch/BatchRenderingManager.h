@@ -34,6 +34,7 @@ namespace dooms
 			bool AddRendererToBatchRendering(Renderer* const renderer, const eBatchRenderingType batchRenderingType);
 			bool RemoveRendererFromBatchRendering(Renderer* const renderer);
 
+			void DrawAllBatchedRendererContainers() const;
 		};
 	}
 }
