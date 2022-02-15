@@ -3,6 +3,10 @@
 #include <Rendering/Renderer/MeshRenderer.h>
 #include "meshBatchCreater.h"
 
+void dooms::graphics::StaticRendererBatchContainer::GenerateBatchRenderingMaterialFromTargetMaterial()
+{
+}
+
 dooms::graphics::StaticRendererBatchContainer::StaticRendererBatchContainer(Material* const targetMaterial)
 	: RendererBatchContainer(targetMaterial)
 {
@@ -25,7 +29,24 @@ dooms::graphics::eBatchRenderingType dooms::graphics::StaticRendererBatchContain
 	return eBatchRenderingType::StaticMeshBatch;
 }
 
+void dooms::graphics::StaticRendererBatchContainer::BatchedDraw() const
+{
+	D_ASSERT(IsValid(BatchRenderingMaterial));
+
+	if(IsValid(BatchRenderingMaterial))
+	{
+		BatchRenderingMaterial->BindMaterial();
+	}
+}
+
 bool dooms::graphics::StaticRendererBatchContainer::CheckMaterialAcceptable(Material* const material)
 {
 	// Material should be GbufferWriter_PBR.glsl
+	D_ASSERT(false);
+	return false;
+}
+
+bool dooms::graphics::StaticRendererBatchContainer::CheckRendererAcceptable(Renderer* const renderer) const
+{
+	return (IsValid(renderer) && renderer->IsChildOf<MeshRenderer>());
 }

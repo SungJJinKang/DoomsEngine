@@ -18,6 +18,11 @@ namespace dooms
 			GENERATE_BODY()
 
 		private:
+			
+			D_PROPERTY()
+			Material* BatchRenderingMaterial;
+
+			void GenerateBatchRenderingMaterialFromTargetMaterial();
 
 		public:
 
@@ -26,7 +31,10 @@ namespace dooms
 
 			void ReBakeBatchedMesh() final;
 			eBatchRenderingType GetBatchRenderingType() const override;
+			void BatchedDraw() const override;
+
 			static bool CheckMaterialAcceptable(Material* const material);
+			bool CheckRendererAcceptable(Renderer* const renderer) const override;
 		};
 	}
 }

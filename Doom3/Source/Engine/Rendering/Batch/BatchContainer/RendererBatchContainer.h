@@ -41,8 +41,11 @@ namespace dooms
 			void AddRenderer(const std::vector<Renderer*>& renderers, const bool bakeBatchedMesh = true);
 			bool RemoveRenderer(Renderer* const renderer, const bool bakeBatchedMesh = true);
 
+			virtual bool CheckRendererAcceptable(Renderer* const Renderer) const = 0;
 			virtual void ReBakeBatchedMesh() = 0;
 			virtual eBatchRenderingType GetBatchRenderingType() const = 0;
+
+			virtual void BatchedDraw() const = 0;
 		};
 	}
 }
