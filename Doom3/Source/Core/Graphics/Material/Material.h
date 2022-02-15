@@ -4,14 +4,6 @@
 #include "../Graphics_Core.h"
 #include <Graphics/GraphicsAPI/GraphicsAPI.h>
 
-#include "../Math/LightMath_Cpp/Vector2.h"
-#include "../Math/LightMath_Cpp/Vector3.h"
-#include "../Math/LightMath_Cpp/Vector4.h"
-
-#include "../Math/LightMath_Cpp/Matrix2x2.h"
-#include "../Math/LightMath_Cpp/Matrix3x3.h"
-#include "../Math/LightMath_Cpp/Matrix4x4.h"
-
 #include "../Buffer/BufferID.h"
 #include "../Buffer/UniformBufferObject/UniformBufferObjectView.h"
 
@@ -80,7 +72,7 @@ namespace dooms
 			std::array<dooms::asset::ShaderAsset*, GRAPHICS_PIPELINE_STAGE_COUNT> mShaderAsset;
 
 			D_PROPERTY()
-			std::vector<const TextureView*> mTargetTextures{};
+			std::vector<const TextureView*> mTargetTextures;
 
 			D_PROPERTY()
 			std::vector<UniformBufferObjectView> mTargetUniformBufferObjectViews;
@@ -153,6 +145,8 @@ namespace dooms
 			}
 			UniformBufferObjectView* GetUniformBufferObjectViewFromUBOName(const char* const uniformBufferObjectName);
 
+			UINT64 GetMaterialHashValue() const;
+			static bool Equal(const Material* const lhs, const Material* const rhs);
 		};
 	}
 }

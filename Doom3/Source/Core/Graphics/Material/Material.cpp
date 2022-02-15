@@ -491,3 +491,30 @@ dooms::graphics::UniformBufferObjectView* dooms::graphics::Material::GetUniformB
 	return uboView;
 }
 
+UINT64 dooms::graphics::Material::GetMaterialHashValue() const
+{
+	// TODO :
+	// Generate Material Hash Value
+	// based on Material::BufferID, Material::mProgramIDForOpenGL,
+	// Material::mPipeLineShaderView, Material::mShaderAsset,
+	// Material::mTargetTextures, Material::mTargetUniformBufferObjectViews,
+
+	// It can be different according to target graphics api
+	// Combine them with XOR operation
+
+	D_ASSERT(false);
+	return 0;
+}
+
+bool dooms::graphics::Material::Equal(const Material* const lhs, const Material* const rhs)
+{
+	bool isSuccess = false;
+
+	if(IsValid(lhs) && IsValid(rhs))
+	{
+		isSuccess = (lhs->GetMaterialHashValue() == rhs->GetMaterialHashValue());
+	}
+
+	return isSuccess;
+}
+
