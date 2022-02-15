@@ -834,6 +834,9 @@
     <ClCompile Include="Source\Engine\Rendering\Batch\BatchContainer\batchContainerFactory.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Core\Container\ChunkVector.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="dependency\glad\include\glad\glad.h">
@@ -2049,6 +2052,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\Engine\Rendering\Batch\BatchContainer\batchContainerFactory.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Core\Container\ChunkVector.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
