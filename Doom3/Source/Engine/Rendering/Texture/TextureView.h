@@ -69,7 +69,7 @@ namespace dooms
 			virtual ~TextureView();
 			virtual void OnEndContructor();
 			
-			const BufferID& GetTextureViewObjectBufferID() const
+			FORCE_INLINE const BufferID& GetTextureViewObjectBufferID() const
 			{
 				return mTextureViewObject;
 			}

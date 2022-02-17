@@ -493,17 +493,36 @@ dooms::graphics::UniformBufferObjectView* dooms::graphics::Material::GetUniformB
 
 UINT64 dooms::graphics::Material::GetMaterialHashValue() const
 {
-	// TODO :
-	// Generate Material Hash Value
-	// based on Material::BufferID, Material::mProgramIDForOpenGL,
-	// Material::mPipeLineShaderView, Material::mShaderAsset,
-	// Material::mTargetTextures, Material::mTargetUniformBufferObjectViews,
+	UINT64 hashValue = 0;
 
-	// It can be different according to target graphics api
-	// Combine them with XOR operation
+	if (dooms::graphics::GraphicsAPIManager::GetCurrentAPIType() == GraphicsAPI::eGraphicsAPIType::DX11_10)
+	{
+		for (const BufferID& pipeLineShaderView : mPipeLineShaderView)
+		{
+			if(pipeLineShaderView.IsValid())
+			{
+				hashValue ^= static_cast<UINT64>(pipeLineShaderView);
+			}
+		}
+	}
+	else if (dooms::graphics::GraphicsAPIManager::GetCurrentAPIType() == GraphicsAPI::eGraphicsAPIType::OpenGL)
+	{
+		hashValue = mProgramIDForOpenGL;
+	}
+	else
+	{
+		NEVER_HAPPEN;
+	}
 
-	D_ASSERT(false);
-	return 0;
+	for (const TextureView* textureView : mTargetTextures)
+	{
+		if (IsValid(textureView))
+		{
+			hashValue ^= static_cast<UINT64>(textureView->GetTextureBufferID());
+		}
+	}
+
+	return hashValue;
 }
 
 bool dooms::graphics::Material::Equal(const Material* const lhs, const Material* const rhs)
