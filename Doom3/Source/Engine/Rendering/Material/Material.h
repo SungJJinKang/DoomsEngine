@@ -112,7 +112,7 @@ namespace dooms
 
 			bool IsHasAnyValidShaderObject() const;
 
-			void AddTexture(UINT32 bindingPoint, TextureView* texture);
+			void AddTexture(const UINT32 bindingPoint, const TextureView* const textureView);
 			void AddTexture(const UINT32 bindingPoint, const dooms::asset::TextureAsset* const textureAsset);
 			void AddTextures(const std::vector<const TextureView*>& textures);
 
@@ -147,6 +147,9 @@ namespace dooms
 
 			UINT64 GetMaterialHashValue() const;
 			static bool Equal(const Material* const lhs, const Material* const rhs);
+			
+			const TextureView* GetTextureView(const size_t index) const;
+			size_t GetTextureViewCount() const;
 		};
 	}
 }

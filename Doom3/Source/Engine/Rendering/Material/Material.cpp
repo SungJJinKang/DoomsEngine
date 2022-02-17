@@ -332,10 +332,10 @@ dooms::graphics::Material::~Material()
 }
 
 
-void dooms::graphics::Material::AddTexture(UINT32 bindingPoint, TextureView* texture)
+void dooms::graphics::Material::AddTexture(const UINT32 bindingPoint, const TextureView* const textureView)
 {
 	D_ASSERT(IsHasAnyValidShaderObject() == true);
-	mTargetTextures[bindingPoint] = texture;
+	mTargetTextures.push_back(textureView);
 }
 
 void dooms::graphics::Material::AddTexture(const UINT32 bindingPoint, const dooms::asset::TextureAsset* const textureAsset)
@@ -536,5 +536,23 @@ bool dooms::graphics::Material::Equal(const Material* const lhs, const Material*
 	}
 
 	return isSuccess;
+}
+
+const dooms::graphics::TextureView* dooms::graphics::Material::GetTextureView(const size_t index) const
+{
+	const dooms::graphics::TextureView* textureView = nullptr;
+
+	D_ASSERT(index < mTargetTextures.size());
+	if (index < mTargetTextures.size())
+	{
+		textureView = mTargetTextures[index];
+	}
+
+	return textureView;
+}
+
+size_t dooms::graphics::Material::GetTextureViewCount() const
+{
+	return mTargetTextures.size();
 }
 
