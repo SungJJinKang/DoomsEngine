@@ -1,7 +1,7 @@
 #include "graphicsPipeLineFactory.h"
 
 #include <EngineConfigurationData/ConfigData.h>
-#include <Graphics/Graphics_Server.h>
+#include <Rendering/Graphics_Server.h>
 #include <Rendering/Pipeline/PipeLines/DeferredRendering/DeferredRenderingPipeLine.h>
 #include <Rendering/Pipeline/PipeLines/PBR/ForwardPhysicsBasedRenderingPipeLine.h>
 #include <EngineGUI/PrintText.h>

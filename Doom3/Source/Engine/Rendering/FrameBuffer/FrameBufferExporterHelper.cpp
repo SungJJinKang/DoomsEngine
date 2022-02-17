@@ -1,7 +1,7 @@
 #include "FrameBufferExporterHelper.h"
 
 #include "Rendering/Camera.h"
-#include <Graphics/FrameBuffer/FrameBuffer.h>
+#include <Rendering/FrameBuffer/FrameBuffer.h>
 #include "Rendering/Pipeline/GraphicsPipeLineCamera.h"
 #include <EngineGUI/PrintText.h>
 

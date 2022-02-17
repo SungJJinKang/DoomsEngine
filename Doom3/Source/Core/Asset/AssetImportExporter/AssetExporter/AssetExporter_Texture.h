@@ -4,7 +4,7 @@
 
 #include <filesystem>
 
-#include <Graphics/Texture/TextureView.h>
+#include <Rendering/Texture/TextureView.h>
 
 
 namespace DirectX

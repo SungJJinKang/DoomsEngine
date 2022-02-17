@@ -1,10 +1,9 @@
 #include "DefferedRenderingFrameBuffer.h"
 
-#include <Graphics/Graphics_Server.h>
+#include <Rendering/Graphics_Server.h>
 #include <Graphics/GraphicsAPI/graphicsAPISetting.h>
 #include <Rendering/Camera.h>
-
-#include "Graphics/Texture/TextureView.h"
+#include <Rendering/Texture/TextureView.h>
 
 #define DEFAULT_GBUFFER_RESOLUTION_WIDTH 1920
 #define DEFAULT_GBUFFER_RESOLUTION_HEIGHT 1080

@@ -5,7 +5,7 @@
 #include <EngineConfigurationData/ConfigData.h>
 #include <Scene/SceneManager.h>
 #include <Asset/AssetManager/AssetManager.h>
-#include <Graphics/Graphics_Server.h>
+#include <Rendering/Graphics_Server.h>
 #include <Physics/Physics_Server.h>
 #include <ResourceManagement/JobSystem_cpp/JobSystem.h>
 #include <IO/UserInput_Server.h>

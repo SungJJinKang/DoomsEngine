@@ -5,7 +5,7 @@
 #include <vector>
 
 #include <Graphics/Graphics_Core.h>
-#include <Graphics/Material/Material.h>
+#include <Rendering/Material/Material.h>
 #include "RendererStaticIterator.h"
 #include "Physics/Collider/AABB.h"
 #include <Misc/AccelerationContainer//BVH/BVH_Node_Object.h>

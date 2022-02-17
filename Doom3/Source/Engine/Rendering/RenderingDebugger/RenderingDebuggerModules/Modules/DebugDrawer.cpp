@@ -1,11 +1,11 @@
 #include "DebugDrawer.h"
 
 #include <Graphics/Graphics_Core.h>
-#include <Graphics/Graphics_Server.h>
+#include <Rendering/Graphics_Server.h>
 #include <Asset/AssetManager/AssetManager.h>
-#include <Graphics/Material/Material.h>
+#include <Rendering/Material/Material.h>
 #include <Asset/ShaderAsset.h>
-#include <Graphics/Buffer/eVertexArrayFlag.h>
+#include <Rendering/Buffer/eVertexArrayFlag.h>
 
 
 #define MAX_DEBUG_VERTEX_COUNT 500000

@@ -1,8 +1,8 @@
 #pragma once
 #include "Renderer.h"
 
-#include "../Core/Graphics/Material/Material.h"
-#include "../Core/Graphics/Buffer/Mesh.h"
+#include <Rendering/Material/Material.h>
+#include <Rendering/Buffer/Mesh.h>
 #include "Transform.h"
 
 #include "MeshRenderer.reflection.h"

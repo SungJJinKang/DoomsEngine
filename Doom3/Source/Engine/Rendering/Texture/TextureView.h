@@ -2,7 +2,7 @@
 
 #include <memory>
 
-#include "../Graphics_Core.h"
+#include <Graphics/Graphics_Core.h>
 #include <Asset/TextureAsset.h>
 #include <Graphics/GraphicsAPI/GraphicsAPI.h>
 #include "../Buffer/BufferID.h"

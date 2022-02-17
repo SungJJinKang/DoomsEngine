@@ -1,6 +1,6 @@
 #include "Light.h"
 
-#include "Graphics/Buffer/UniformBufferObject/UniformBufferObjectManager.h"
+#include <Rendering/Buffer/UniformBufferObject/UniformBufferObjectManager.h>
 
 void dooms::Light::InitComponent()
 {

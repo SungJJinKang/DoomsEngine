@@ -6,8 +6,8 @@
 #include <mutex>
 
 #include <Core.h>
-#include <Graphics/Buffer/Mesh.h>
-#include <Graphics/Material/Material.h>
+#include <Rendering/Buffer/Mesh.h>
+#include <Rendering/Material/Material.h>
 #include <Graphics/Color.h>
 #include "../RenderingDebuggerModule.h"
 #include <Simple_SingleTon/Singleton.h>

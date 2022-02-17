@@ -5,7 +5,7 @@
 
 #include "Asset.h"
 #include <Graphics/GraphicsAPI/GraphicsAPI.h>
-#include <Graphics/Buffer/BufferID.h>
+#include <Rendering/Buffer/BufferID.h>
 
 #include "ShaderAsset.reflection.h"
 #include "Utility/ShaderAsset/shaderReflectionDataParser.h"

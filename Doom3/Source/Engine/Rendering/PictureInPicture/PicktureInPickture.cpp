@@ -1,8 +1,8 @@
 #include "PicktureInPickture.h"
 
 #include <Asset/AssetManager/AssetManager.h>
-#include <Graphics/Texture/TextureView.h>
-#include "Graphics/Buffer/MeshHelper.h"
+#include <Rendering/Texture/TextureView.h>
+#include <Rendering/Buffer/MeshHelper.h>
 
 dooms::graphics::Material* dooms::graphics::PicktureInPickture::mDefualtPIPMaterial{nullptr};
 

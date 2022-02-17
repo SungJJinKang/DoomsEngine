@@ -14,7 +14,7 @@ bool dooms::graphics::RendererBatchContainer::AddRenderer(Renderer* const render
 {
 	bool isSuccess = false;
 
-	D_ASSERT(IsValid(Renderer) && Material::Equal(Renderer->GetMaterial(), mTargetMaterial));
+	D_ASSERT(IsValid(renderer) && Material::Equal(renderer->GetMaterial(), mTargetMaterial));
 	if (IsValid(renderer) && CheckRendererAcceptable(renderer) && Material::Equal(renderer->GetMaterial(), mTargetMaterial))
 	{
 		if

@@ -4,7 +4,7 @@
 
 #include <DoomsGameLogicCore.h>
 #include "../Asset/AssetManager/AssetManager.h"
-#include "../Graphics/Material/Material.h"
+#include <Rendering/Material/Material.h>
 #include <Rendering/Renderer/MeshRenderer.h>
 #include <Rendering/Camera.h>
 #include "Move_WASD.h"
@@ -31,9 +31,9 @@
 #include "FireBulletComponent.h"
 #include "TestComponent2.h"
 #include "PhysicsComponent/Rigidbody/Rigidbody.h"
-#include <Graphics/Buffer/Mesh.h>
+#include <Rendering/Buffer/Mesh.h>
 #include <Scene/Entity.h>
-#include <Graphics/Buffer/MeshHelper.h>
+#include <Rendering/Buffer/MeshHelper.h>
 #include "WanderComponent.h"
 
 void dooms::GameLogicStartPoint::StartGameLogic()

@@ -1,6 +1,6 @@
 #include "DeferredRenderingPipeLine.h"
 
-#include <Graphics/Graphics_Server.h>
+#include <Rendering/Graphics_Server.h>
 #include "Graphics/GraphicsAPI/graphicsAPISetting.h"
 #include <Rendering/Camera.h>
 #include <Rendering/Renderer/Renderer.h>

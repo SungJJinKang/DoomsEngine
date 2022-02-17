@@ -30,19 +30,19 @@
     <ClCompile Include="Source\Core\Asset\ShaderAsset.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Core\Graphics\Material\Material.cpp">
+    <ClCompile Include="Source\Engine\Rendering\Material\Material.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Source\Core\Asset\Asset.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Core\Graphics\Buffer\Buffer.cpp">
+    <ClCompile Include="Source\Engine\Rendering\Buffer\Buffer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Source\Core\Asset\ThreeDModelAsset.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Core\Graphics\Buffer\Mesh.cpp">
+    <ClCompile Include="Source\Engine\Rendering\Buffer\Mesh.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Source\Core\Math\LightMath_Cpp\Vector3.cpp">
@@ -57,10 +57,10 @@
     <ClCompile Include="Source\Core\Math\LightMath_Cpp\Vector4.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Core\Graphics\Buffer\UniformBufferObject\UniformBufferObject.cpp">
+    <ClCompile Include="Source\Engine\Rendering\Buffer\UniformBufferObject\UniformBufferObject.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Core\Graphics\Buffer\UniformBufferObject\UniformBufferObjectManager.cpp">
+    <ClCompile Include="Source\Engine\Rendering\Buffer\UniformBufferObject\UniformBufferObjectManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Source\Component\Core\Component.cpp">
@@ -78,7 +78,7 @@
     <ClCompile Include="Source\Core\Asset\TextAsset.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Core\Graphics\Graphics_Server.cpp">
+    <ClCompile Include="Source\Engine\Rendering\Graphics_Server.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Source\Core\Physics\Physics_Server.cpp">
@@ -99,7 +99,7 @@
     <ClCompile Include="Source\Core\Asset\AssetImportExporter\AssetImporter\AssetImporterWorker\AssetImporterWorker_Texture.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Core\Graphics\FrameBuffer\FrameBuffer.cpp">
+    <ClCompile Include="Source\Engine\Rendering\FrameBuffer\FrameBuffer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Source\Core\Asset\TextureAsset.cpp">
@@ -234,7 +234,7 @@
     <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Core\Graphics\Texture\TextureView.cpp">
+    <ClCompile Include="Source\Engine\Rendering\Texture\TextureView.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Source\Engine\Rendering\PictureInPicture\PicktureInPickture.cpp">
@@ -309,7 +309,7 @@
     <ClCompile Include="Source\Engine\Rendering\PictureInPicture\PIPManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Core\Graphics\Buffer\UniformBufferObject\UniformBufferObjectUpdater.cpp">
+    <ClCompile Include="Source\Engine\Rendering\Buffer\UniformBufferObject\UniformBufferObjectUpdater.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Source\Core\Graphics\GraphicsAPI\graphicsAPISetting.cpp">
@@ -354,7 +354,7 @@
     <ClCompile Include="Source\Engine\Rendering\RenderingDebugger\RenderingDebuggerModules\Modules\OverDrawVisualization.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Core\Graphics\Material\FixedMaterial.cpp">
+    <ClCompile Include="Source\Engine\Rendering\Material\FixedMaterial.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Source\GameLogic\CustomComponent\Portfolio\OverDrawVisualizationDebugger.cpp">
@@ -426,7 +426,7 @@
     <ClCompile Include="Source\GameLogic\CustomComponent\ExportTextureTester.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Core\Graphics\FrameBuffer\FrameBufferExporterHelper.cpp">
+    <ClCompile Include="Source\Engine\Rendering\FrameBuffer\FrameBufferExporterHelper.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Source\Core\Misc\FrameDirtyChecker\FrameDirtyChecker.cpp">
@@ -576,16 +576,16 @@
     <ClCompile Include="Source\Core\Reflection\TypeSpecialized\Helper\iteratorHelper.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Core\Profiler\ProfilingManager.cpp">
+    <ClCompile Include="Source\Engine\Profiler\ProfilingManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Core\Graphics\Buffer\MeshHelper.cpp">
+    <ClCompile Include="Source\Engine\Rendering\Buffer\MeshHelper.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Source\Engine\EngineGUI\GUIModules\Modules\ThreadProfilerGUI.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Core\Graphics\Buffer\MeshNode.cpp">
+    <ClCompile Include="Source\Engine\Rendering\Buffer\MeshNode.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Source\Engine\Rendering\RenderingDebugger\RenderingDebuggerModules\Modules\MaskedOcclusionCullingTester.cpp">
@@ -657,7 +657,7 @@
     <ClCompile Include="Source\Core\Memory\MemoryManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Core\Graphics\FrameBuffer\FrameBufferView.cpp">
+    <ClCompile Include="Source\Engine\Rendering\FrameBuffer\FrameBufferView.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Source\Core\Asset\Utility\ShaderAsset\shaderAssetHelper.cpp">
@@ -666,7 +666,7 @@
     <ClCompile Include="Source\Core\Asset\Utility\ShaderAsset\shaderConverter.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Core\Graphics\Buffer\UniformBufferObject\UniformBufferObjectView.cpp">
+    <ClCompile Include="Source\Engine\Rendering\Buffer\UniformBufferObject\UniformBufferObjectView.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Source\Core\Asset\Utility\ShaderAsset\shaderReflectionDataParser.cpp">
@@ -1049,7 +1049,7 @@
     <ClInclude Include="Source\Core\Graphics\Graphics_Core.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Core\Graphics\Material\Material.h">
+    <ClInclude Include="Source\Engine\Rendering\Material\Material.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\Core\Math\LightMath_Cpp\Euler.h">
@@ -1064,10 +1064,10 @@
     <ClInclude Include="Source\Helper\vector_erase_move_lastelement\vector_swap_erase.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Core\Graphics\Buffer\Buffer.h">
+    <ClInclude Include="Source\Engine\Rendering\Buffer\Buffer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Core\Graphics\Buffer\Mesh.h">
+    <ClInclude Include="Source\Engine\Rendering\Buffer\Mesh.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\Helper\concurrentqueue\blockingconcurrentqueue.h">
@@ -1079,16 +1079,16 @@
     <ClInclude Include="Source\Helper\crossguid\Guid.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Core\Graphics\Buffer\MeshNode.h">
+    <ClInclude Include="Source\Engine\Rendering\Buffer\MeshNode.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Core\Graphics\Buffer\UniformBufferObject\UniformBufferObject.h">
+    <ClInclude Include="Source\Engine\Rendering\Buffer\UniformBufferObject\UniformBufferObject.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Core\Graphics\Buffer\UniformBufferObject\UniformBufferObjectManager.h">
+    <ClInclude Include="Source\Engine\Rendering\Buffer\UniformBufferObject\UniformBufferObjectManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Core\Graphics\Buffer\UniformBufferObject\UniformBlockOffsetInfo.h">
+    <ClInclude Include="Source\Engine\Rendering\Buffer\UniformBufferObject\UniformBlockOffsetInfo.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\Core\Physics\Phycis_Core.h">
@@ -1133,7 +1133,7 @@
     <ClInclude Include="Source\Core\Physics\Physics_Setting.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Core\Graphics\Graphics_Server.h">
+    <ClInclude Include="Source\Engine\Rendering\Graphics_Server.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\Core\Physics\Physics_Server.h">
@@ -1154,7 +1154,7 @@
     <ClInclude Include="Source\GameLogic\DoomsGameLogicCore.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Core\Graphics\FrameBuffer\FrameBuffer.h">
+    <ClInclude Include="Source\Engine\Rendering\FrameBuffer\FrameBuffer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\GameLogic\CustomComponent\AutoRotate.h">
@@ -1307,7 +1307,7 @@
     <ClInclude Include="Source\Helper\EasyDirtyChecker\DirtyReceiver.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Core\Graphics\Texture\TextureView.h">
+    <ClInclude Include="Source\Engine\Rendering\Texture\TextureView.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\Engine\Rendering\PictureInPicture\PicktureInPickture.h">
@@ -1361,7 +1361,7 @@
     <ClInclude Include="Source\Core\Misc\AccelerationContainer\Tree.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Core\Graphics\RenderingBitFlag.h">
+    <ClInclude Include="Source\Engine\Rendering\RenderingBitFlag.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\Core\Graphics\Acceleration\LinearViewFrustumCulling\LinearViewFrustumCulling.h">
@@ -1412,7 +1412,7 @@
     <ClInclude Include="Source\GameLogic\CustomComponent\ButtonRotate.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Core\Graphics\Buffer\BufferID.h">
+    <ClInclude Include="Source\Engine\Rendering\Buffer\BufferID.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\GameLogic\CustomComponent\Portfolio\ViewFrustumCullingDebug.h">
@@ -1430,7 +1430,7 @@
     <ClInclude Include="Source\Engine\Rendering\PictureInPicture\PIPManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Core\Graphics\Buffer\UniformBufferObject\UniformBufferObjectUpdater.h">
+    <ClInclude Include="Source\Engine\Rendering\Buffer\UniformBufferObject\UniformBufferObjectUpdater.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\Core\Graphics\GraphicsAPI\graphicsAPISetting.h">
@@ -1475,7 +1475,7 @@
     <ClInclude Include="Source\Engine\Rendering\RenderingDebugger\RenderingDebuggerModules\Modules\OverDrawVisualization.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Core\Graphics\Material\FixedMaterial.h">
+    <ClInclude Include="Source\Engine\Rendering\Material\FixedMaterial.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\GameLogic\CustomComponent\Portfolio\OverDrawVisualizationDebugger.h">
@@ -1541,7 +1541,7 @@
     <ClInclude Include="Source\GameLogic\CustomComponent\ExportTextureTester.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Core\Graphics\FrameBuffer\FrameBufferExporterHelper.h">
+    <ClInclude Include="Source\Engine\Rendering\FrameBuffer\FrameBufferExporterHelper.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\Core\Misc\IniFile\SimpleIniParser.h">
@@ -1736,13 +1736,13 @@
     <ClInclude Include="Source\Core\Reflection\ReflectionType\ePropertyQualifier.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Core\Profiler\ProfilingManager.h">
+    <ClInclude Include="Source\Engine\Profiler\ProfilingManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Core\Graphics\Buffer\MeshHelper.h">
+    <ClInclude Include="Source\Engine\Rendering\Buffer\MeshHelper.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Core\Graphics\Buffer\eVertexArrayFlag.h">
+    <ClInclude Include="Source\Engine\Rendering\Buffer\eVertexArrayFlag.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\Engine\EngineGUI\GUIModules\Modules\ThreadProfilerGUI.h">
@@ -1820,7 +1820,7 @@
     <ClInclude Include="Source\Core\Memory\MemoryManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Core\Graphics\FrameBuffer\FrameBufferView.h">
+    <ClInclude Include="Source\Engine\Rendering\FrameBuffer\FrameBufferView.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\Component\Rendering\MaxCameraCount.h">
@@ -1832,7 +1832,7 @@
     <ClInclude Include="Source\Core\Asset\Utility\ShaderAsset\shaderConverter.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Core\Graphics\Buffer\UniformBufferObject\UniformBufferObjectView.h">
+    <ClInclude Include="Source\Engine\Rendering\Buffer\UniformBufferObject\UniformBufferObjectView.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\Core\Asset\Utility\ShaderAsset\shaderReflectionDataParser.h">

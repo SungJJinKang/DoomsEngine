@@ -1,6 +1,6 @@
 #include "MaskedOcclusionCulliingDebugger.h"
 
-#include <Graphics/Graphics_Server.h>
+#include <Rendering/Graphics_Server.h>
 #include "imgui.h"
 #include <Rendering/Culling/EveryCulling/CullingModule/MaskedSWOcclusionCulling/MaskedSWOcclusionCulling.h>
 

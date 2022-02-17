@@ -5,11 +5,11 @@
 #include <algorithm>
 #include <d3d11.h>
 
-#include "../Graphics/Material/Material.h"
+#include <Rendering/Material/Material.h>
 #include "Utility/ShaderAsset/shaderAssetHelper.h"
 #include <EngineGUI/PrintText.h>
 #include "Utility/ShaderAsset/shaderConverter.h"
-#include <Graphics/Buffer/UniformBufferObject/UniformBufferObjectManager.h>
+#include <Rendering/Buffer/UniformBufferObject/UniformBufferObjectManager.h>
 #include <Graphics/GraphicsAPI/Manager/GraphicsAPIManager.h>
 
 

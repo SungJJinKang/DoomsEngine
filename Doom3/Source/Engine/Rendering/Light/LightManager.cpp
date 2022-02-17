@@ -1,7 +1,7 @@
 #include "LightManager.h"
 
-#include <Graphics/Buffer/UniformBufferObject/UniformBlockOffsetInfo.h>
-#include <Graphics/Buffer/UniformBufferObject/UniformBufferObjectManager.h>
+#include <Rendering/Buffer/UniformBufferObject/UniformBlockOffsetInfo.h>
+#include <Rendering/Buffer/UniformBufferObject/UniformBufferObjectManager.h>
 #include <Rendering/Light/DirectionalLight.h>
 #include <Rendering/Light/PointLight.h>
 

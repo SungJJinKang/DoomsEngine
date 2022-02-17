@@ -3,7 +3,7 @@
 #include "Asset/TextureAsset.h"
 #include <Math/LightMath_Cpp/Utility.h>
 #include "Graphics/GraphicsAPI/graphicsAPISetting.h"
-#include <Graphics/Texture/TextureView.h>
+#include <Rendering/Texture/TextureView.h>
 #include <Graphics/GraphicsAPI/Manager/GraphicsAPIManager.h>
 
 dooms::graphics::FrameBuffer::FrameBuffer()

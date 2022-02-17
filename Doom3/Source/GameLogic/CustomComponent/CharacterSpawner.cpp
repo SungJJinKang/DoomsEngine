@@ -1,10 +1,9 @@
 #include "CharacterSpawner.h"
 #include "Rendering/Renderer/MeshRenderer.h"
-#include "Graphics/Buffer/Mesh.h"
+#include "Rendering/Buffer/Mesh.h"
 #include "Asset/AssetManager/AssetManager.h"
-
 #include "../IO/UserInput_Server.h"
-#include "Graphics/Buffer/MeshHelper.h"
+#include "Rendering/Buffer/MeshHelper.h"
 
 void dooms::CharacterSpawner::CreateEnemy(const math::Vector3& position)
 {

@@ -1,6 +1,6 @@
 #include "GameCore.h"
 
-#include "../Graphics/Graphics_Server.h"
+#include <Rendering/Graphics_Server.h>
 
 #include <Misc/IniFile/SimpleIniParser.h>
 #include <Asset/AssetManager/AssetManager.h>

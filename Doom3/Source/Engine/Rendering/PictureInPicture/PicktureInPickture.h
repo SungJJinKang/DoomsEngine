@@ -1,7 +1,7 @@
 #pragma once
 
-#include <Graphics/Buffer/Mesh.h>
-#include <Graphics/Material/Material.h>
+#include <Rendering/Buffer/Mesh.h>
+#include <Rendering/Material/Material.h>
 
 #include <Vector2.h>
 

@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Graphics_Core.h"
+#include <Graphics/Graphics_Core.h>
 
 #include "../Game/IGameFlow.h"
 #include <Simple_SingleTon/Singleton.h>

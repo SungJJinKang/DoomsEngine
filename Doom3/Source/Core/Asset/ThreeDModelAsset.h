@@ -5,8 +5,8 @@
 
 #include "../Math/LightMath_Cpp/Vector2.h"
 #include "../Math/LightMath_Cpp/Vector3.h"
-#include "../Graphics/Buffer/Mesh.h"
-#include "../Graphics/Buffer/MeshNode.h"
+#include <Rendering/Buffer/Mesh.h>
+#include <Rendering/Buffer/MeshNode.h>
 #include <Physics/Collider/AABB.h>
 #include <Physics/Collider/Sphere.h>
 

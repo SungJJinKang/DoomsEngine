@@ -2,7 +2,7 @@
 #include "Core/Component.h"
 #include <Vector4.h>
 #include "EasyDirtyChecker/DirtyReceiver.h"
-#include "Graphics/Buffer/UniformBufferObject/UniformBufferObjectUpdater.h"
+#include <Rendering/Buffer/UniformBufferObject/UniformBufferObjectUpdater.h>
 #include "Rendering/Renderer/RendererStaticIterator.h"
 
 #include "Light.reflection.h"

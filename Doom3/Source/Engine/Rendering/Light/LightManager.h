@@ -1,7 +1,7 @@
 #pragma once
 
 #include <Core.h>
-#include <Graphics/Buffer/UniformBufferObject/UniformBufferObjectUpdater.h>
+#include <Rendering/Buffer/UniformBufferObject/UniformBufferObjectUpdater.h>
 
 #include <../Helper/Simple_SingleTon/Singleton.h>
 

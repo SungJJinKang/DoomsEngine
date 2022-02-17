@@ -2,9 +2,9 @@
 
 #include "Rendering/Camera.h"
 #include <Rendering/Pipeline/GraphicsPipeLineCamera.h>
-#include <Graphics/FrameBuffer/FrameBuffer.h>
+#include <Rendering/FrameBuffer/FrameBuffer.h>
 #include <Asset/AssetImportExporter/AssetExporter/AssetExporter_Texture.h>
-#include <Graphics/FrameBuffer/FrameBufferExporterHelper.h>
+#include <Rendering/FrameBuffer/FrameBufferExporterHelper.h>
 
 void dooms::ExportTextureTester::InitComponent()
 {

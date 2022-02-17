@@ -3,7 +3,7 @@
 #include "TextureAsset.h"
 
 
-#include "../Graphics/Texture/TextureView.h"
+#include <Rendering/Texture/TextureView.h>
 
 #include <DirectXTex.h>
 

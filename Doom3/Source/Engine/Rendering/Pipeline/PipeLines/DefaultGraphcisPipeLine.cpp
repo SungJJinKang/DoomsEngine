@@ -7,7 +7,7 @@
 #include <ResourceManagement/JobSystem_cpp/JobSystem.h>
 #include <Rendering/Renderer/Renderer.h>
 #include <EngineGUI/engineGUIServer.h>
-#include <Graphics/Graphics_Server.h>
+#include <Rendering/Graphics_Server.h>
 #include <Rendering/Renderer/RendererStaticIterator.h>
 #include <Rendering/Batch/BatchRenderingManager.h>
 

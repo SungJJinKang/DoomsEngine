@@ -1,7 +1,7 @@
 #pragma once
 #include <array>
 
-#include "../Graphics_Core.h"
+#include <Graphics/Graphics_Core.h>
 #include <Graphics/GraphicsAPI/GraphicsAPI.h>
 
 #include "../Buffer/BufferID.h"

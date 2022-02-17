@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../Graphics_Core.h"
+#include <Graphics/Graphics_Core.h>
 #include "BufferID.h"
 
 #include "Buffer.reflection.h"

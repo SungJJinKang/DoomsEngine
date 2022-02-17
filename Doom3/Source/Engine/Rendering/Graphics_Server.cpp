@@ -1,10 +1,10 @@
 ﻿#include "Graphics_Server.h"
 
 #include "../Game/GameCore.h"
-#include "GraphicsAPI/Manager/GraphicsAPIManager.h"
+#include <Graphics/GraphicsAPI/Manager/GraphicsAPIManager.h>
 #include <Graphics/GraphicsAPI/GraphicsAPI.h>
-#include "graphicsSetting.h"
-#include "GraphicsAPI/graphicsAPISetting.h"
+#include <Graphics/graphicsSetting.h>
+#include <Graphics/GraphicsAPI/graphicsAPISetting.h>
 #include <Rendering/Pipeline/PipeLines/graphicsPipeLineFactory.h>
 
 #define RENDERER_BVH_MAX_NODE_COUNT 3000

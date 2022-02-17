@@ -8,7 +8,7 @@
 
 #include <Asset/ThreeDModelAsset.h>
 #include "AssetImporterWorker_Texture.h"
-#include <Graphics/Buffer/eVertexArrayFlag.h>
+#include <Rendering/Buffer/eVertexArrayFlag.h>
 #include <Asset/AssetImportExporter/AssetExporter/AssetExporter_Three_D_Model.h>
 #include <Graphics/GraphicsAPI/GraphicsAPI.h>
 

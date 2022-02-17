@@ -9,7 +9,7 @@ dooms::graphics::RendererBatchContainer* dooms::graphics::BatchRenderingManager:
 	Material* const material, const eBatchRenderingType batchRenderingType
 )
 {
-	D_ASSERT(IsValid(Renderer) && IsValid(Renderer->GetMaterial()) && Renderer->GetMaterial()->IsHasAnyValidShaderObject());
+	D_ASSERT(IsValid(material) && IsValid(material) && material->IsHasAnyValidShaderObject());
 
 	dooms::graphics::RendererBatchContainer* batchedRendererContainer = nullptr;
 
@@ -59,7 +59,7 @@ bool dooms::graphics::BatchRenderingManager::AddRendererToBatchRendering(Rendere
 {
 	bool isSuccess = false;
 
-	D_ASSERT(IsValid(Renderer) && IsValid(Renderer->GetMaterial()));
+	D_ASSERT(IsValid(renderer) && IsValid(renderer->GetMaterial()));
 	if(IsValid(renderer) && IsValid(renderer->GetMaterial()))
 	{
 		dooms::graphics::RendererBatchContainer* batchedRendererContainer = CreateOrFindBatchedRendererContainer(renderer->GetMaterial(), batchRenderingType);
@@ -78,7 +78,7 @@ bool dooms::graphics::BatchRenderingManager::RemoveRendererFromBatchRendering(Re
 {
 	bool isSuccess = false;
 
-	D_ASSERT(IsValid(Renderer) && IsValid(Renderer->GetMaterial()));
+	D_ASSERT(IsValid(renderer) && IsValid(renderer->GetMaterial()));
 	if (IsValid(renderer) && IsValid(renderer->GetMaterial()))
 	{
 		dooms::graphics::RendererBatchContainer* batchedRendererContainer = FindBatchedRendererContainer(renderer->GetMaterial());

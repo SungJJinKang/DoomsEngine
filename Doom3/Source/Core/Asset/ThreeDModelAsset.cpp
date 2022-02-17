@@ -1,7 +1,7 @@
 #include "ThreeDModelAsset.h"
 
-#include "../Graphics/Buffer/Mesh.h"
-#include "../Graphics/Buffer/MeshNode.h"
+#include <Rendering/Buffer/Mesh.h>
+#include <Rendering/Buffer/MeshNode.h>
 
 //static_assert(std::is_standard_layout_v<dooms::MeshData>);
 

@@ -4,7 +4,7 @@
 #include <memory>
 
 #include <Graphics/GraphicsAPI/GraphicsAPI.h>
-#include <Graphics/Buffer/BufferID.h>
+#include <Rendering/Buffer/BufferID.h>
 
 #include "TextureAsset.reflection.h"
 namespace DirectX

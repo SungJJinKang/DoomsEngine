@@ -6,7 +6,7 @@
 #include "../Core/Math/LightMath_Cpp/Matrix4x4.h"
 #include "../Core/Math/LightMath_Cpp/Matrix_utility.h"
 #include <array>
-#include "../Core/Graphics/Buffer/UniformBufferObject/UniformBufferObjectUpdater.h"
+#include <Rendering/Buffer/UniformBufferObject/UniformBufferObjectUpdater.h>
 #include <Misc/StaticContainer/StaticContainer.h>
 #include <EasyDirtyChecker/DirtyReceiver.h>
 #include "Transform.h"

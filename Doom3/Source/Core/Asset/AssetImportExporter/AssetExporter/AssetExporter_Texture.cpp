@@ -1,12 +1,12 @@
 #include "AssetExporter_Texture.h"
 
 #include <Graphics/GraphicsAPI/GraphicsAPI.h>
-#include <Graphics/Texture/TextureView.h>
+#include <Rendering/Texture/TextureView.h>
 #include <DirectXTex.h>
 #include <EngineGUI/PrintText.h>
 #include <Graphics/GraphicsAPI/Manager/GraphicsAPIManager.h>
 
-#include <Graphics/FrameBuffer/FrameBuffer.h>
+#include <Rendering/FrameBuffer/FrameBuffer.h>
 
 namespace dooms
 {

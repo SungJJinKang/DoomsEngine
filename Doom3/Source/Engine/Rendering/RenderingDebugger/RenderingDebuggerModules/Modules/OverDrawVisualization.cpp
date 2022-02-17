@@ -3,12 +3,12 @@
 #include <Graphics/Graphics_Core.h>
 
 #include <Graphics/GraphicsAPI/graphicsAPISetting.h>
-#include <Graphics/Graphics_Server.h>
+#include <Rendering/Graphics_Server.h>
 #include <Asset/AssetManager/AssetManager.h>
 #include <Asset/ShaderAsset.h>
-#include <Graphics/Material/FixedMaterial.h>
-#include <Graphics/Material/Material.h>
-#include <Graphics/FrameBuffer/FrameBuffer.h>
+#include <Rendering/Material/FixedMaterial.h>
+#include <Rendering/Material/Material.h>
+#include <Rendering/FrameBuffer/FrameBuffer.h>
 
 
 

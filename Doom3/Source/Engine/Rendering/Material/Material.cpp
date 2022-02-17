@@ -510,6 +510,7 @@ bool dooms::graphics::Material::Equal(const Material* const lhs, const Material*
 {
 	bool isSuccess = false;
 
+	D_ASSERT(IsValid(lhs) && IsValid(rhs));
 	if(IsValid(lhs) && IsValid(rhs))
 	{
 		isSuccess = (lhs->GetMaterialHashValue() == rhs->GetMaterialHashValue());

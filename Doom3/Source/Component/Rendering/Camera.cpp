@@ -2,9 +2,9 @@
 #include "../Core/Scene/Scene.h"
 
 
-#include "../Graphics/Graphics_Server.h"
-#include "../Graphics/graphicsSetting.h"
-#include "Graphics/Buffer/UniformBufferObject/UniformBlockOffsetInfo.h"
+#include <Rendering/Graphics_Server.h>
+#include <Graphics/graphicsSetting.h>
+#include <Rendering/Buffer/UniformBufferObject/UniformBlockOffsetInfo.h>
 #include "Graphics/GraphicsAPI/graphicsAPISetting.h"
 #include <Graphics/GraphicsAPI/Manager/GraphicsAPIManager.h>
 #include <Rendering/Pipeline/GraphicsPipeLineCamera.h>

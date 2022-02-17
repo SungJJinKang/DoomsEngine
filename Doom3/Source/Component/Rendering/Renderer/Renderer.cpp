@@ -1,10 +1,10 @@
 #include "Renderer.h"
 
-#include "../Core/Graphics/Material/Material.h"
+#include <Rendering/Material/Material.h>
 #include <Transform.h>
 #include <Rendering/Camera.h>
 #include <Rendering/Pipeline/PipeLines/DefaultGraphcisPipeLine.h>
-#include <Graphics/Graphics_Server.h>
+#include <Rendering/Graphics_Server.h>
 
 void dooms::Renderer::SetRenderingFlag(const eRenderingFlag flag, const bool isSet)
 {
