@@ -5,6 +5,7 @@
 #include <Rendering/Camera.h>
 #include <Rendering/Pipeline/PipeLines/DefaultGraphcisPipeLine.h>
 #include <Rendering/Graphics_Server.h>
+#include <Rendering/Batch/BatchRenderingManager.h>
 
 void dooms::Renderer::SetRenderingFlag(const eRenderingFlag flag, const bool isSet)
 {
@@ -29,12 +30,7 @@ void dooms::Renderer::InitComponent()
 	AddLocalDirtyToTransformDirtyReceiver(bmIsModelMatrixDirty);
 
 	InsertBVHLeafNode(graphics::Graphics_Server::GetSingleton()->mRendererColliderBVH, *BVH_AABB3D_Node_Object::GetWorldCollider(), nullptr);
-
-	//BVH_Sphere_Node_Object::UpdateWorldBVhColliderCache(true);
-	
-	//BVH_Sphere_Node_Object::InsertBVHLeafNode(graphics::Graphics_Server::GetSingleton()->mCullDistance., BVH_Sphere_Node_Object::GetWorldBVhColliderCacheByReference(), nullptr);
-	//BVH_AABB3D_Node_Object::InsertBVHLeafNode(graphics::Graphics_Server::GetSingleton()->mViewFrustumCulling.mBVHSphere, BVH_AABB3D_Node_Object:::GetWorldBVhColliderCacheByReference(), nullptr);
-	
+	UpdateRendererBatchRendering();
 }
 
 void dooms::Renderer::UpdateComponent()
@@ -66,7 +62,6 @@ void dooms::Renderer::OnDeActivated()
 
 void dooms::Renderer::AddRendererToCullingSystem()
 {
-	D_ASSERT(mCullingEntityBlockViewer.IsValid() == false);
 	if(mCullingEntityBlockViewer.IsValid() == false)
 	{
 		graphics::DefaultGraphcisPipeLine* defaultGraphicsPipeLine = CastTo<graphics::DefaultGraphcisPipeLine*>(dooms::graphics::GraphicsPipeLine::GetSingleton());
@@ -81,11 +76,14 @@ void dooms::Renderer::AddRendererToCullingSystem()
 
 void dooms::Renderer::RemoveRendererFromCullingSystem()
 {
-	graphics::DefaultGraphcisPipeLine* defaultGraphicsPipeLine = CastTo<graphics::DefaultGraphcisPipeLine*>(dooms::graphics::GraphicsPipeLine::GetSingleton());
-	D_ASSERT(IsValid(defaultGraphicsPipeLine));
-	if (IsValid(defaultGraphicsPipeLine) && mCullingEntityBlockViewer.IsValid())
+	if (mCullingEntityBlockViewer.IsValid() == true)
 	{
-		defaultGraphicsPipeLine->mRenderingCullingManager.mCullingSystem->RemoveEntityFromBlock(mCullingEntityBlockViewer);
+		graphics::DefaultGraphcisPipeLine* defaultGraphicsPipeLine = CastTo<graphics::DefaultGraphcisPipeLine*>(dooms::graphics::GraphicsPipeLine::GetSingleton());
+		D_ASSERT(IsValid(defaultGraphicsPipeLine));
+		if (IsValid(defaultGraphicsPipeLine))
+		{
+			defaultGraphicsPipeLine->mRenderingCullingManager.mCullingSystem->RemoveEntityFromBlock(mCullingEntityBlockViewer);
+		}
 	}
 }
 
@@ -96,6 +94,35 @@ void dooms::Renderer::OnChangedByGUI(const dooms::reflection::DField& field_of_c
 	if(field_of_changed_field.CompareWithFieldName("mDesiredMaxDrawDistance") == true)
 	{
 		SetDesiredMaxDrawDistance(mDesiredMaxDrawDistance);
+	}
+}
+
+void dooms::Renderer::UpdateRendererBatchRendering()
+{
+	const eEntityMobility entityMobility = GetOwnerEntity()->GetEntityMobility();
+	switch (entityMobility)
+	{
+		case Static:
+			if (IsBatchable())
+			{
+				const bool isSuccess = graphics::BatchRenderingManager::GetSingleton()->AddRendererToBatchRendering(this, GetCapableBatchRenderingType());;
+				if (isSuccess)
+				{
+					bmIsBatched = true;
+					RemoveRendererFromCullingSystem();
+				}
+			}
+		break;
+		case Dynamic:
+			{
+				const bool isSuccess = graphics::BatchRenderingManager::GetSingleton()->RemoveRendererFromBatchRendering(this);
+				if (isSuccess)
+				{
+					bmIsBatched = false;
+					AddRendererToCullingSystem();
+				}
+			}
+		break;
 	}
 }
 
@@ -112,9 +139,11 @@ void dooms::Renderer::OnDestroy()
 		RendererComponentStaticIterator::GetSingleton()->RemoveRendererToStaticContainer(this);
 	}
 
+	graphics::BatchRenderingManager::GetSingleton()->RemoveRendererFromBatchRendering(this);
+
 }
 
-dooms::Renderer::Renderer() : Component(), mTargetMaterial{nullptr}, mCullingEntityBlockViewer()
+dooms::Renderer::Renderer() : Component(), mTargetMaterial{nullptr}, mCullingEntityBlockViewer(), bmIsBatched(false)
 {
 
 }
@@ -196,6 +225,13 @@ void dooms::Renderer::SetDesiredMaxDrawDistance(const FLOAT32 desiredMaxDrawDist
 FLOAT32 dooms::Renderer::GetDesiredMaxDrawDistance() const
 {
 	return mDesiredMaxDrawDistance;
+}
+
+void dooms::Renderer::OnEntityMobilityChanged(const eEntityMobility entityMobility)
+{
+	Component::OnEntityMobilityChanged(entityMobility);
+
+	UpdateRendererBatchRendering();
 }
 
 /*

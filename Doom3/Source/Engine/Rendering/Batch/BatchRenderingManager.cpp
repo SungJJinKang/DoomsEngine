@@ -58,13 +58,10 @@ dooms::graphics::BatchRenderingManager::BatchRenderingManager()
 bool dooms::graphics::BatchRenderingManager::AddRendererToBatchRendering(Renderer* const renderer, const eBatchRenderingType batchRenderingType)
 {
 	bool isSuccess = false;
-
-	D_ASSERT(IsValid(renderer) && IsValid(renderer->GetMaterial()));
+	
 	if(IsValid(renderer) && IsValid(renderer->GetMaterial()))
 	{
 		dooms::graphics::RendererBatchContainer* batchedRendererContainer = CreateOrFindBatchedRendererContainer(renderer->GetMaterial(), batchRenderingType);
-		D_ASSERT(IsValid(batchedRendererContainer));
-
 		if(IsValid(batchedRendererContainer) && batchedRendererContainer->GetBatchRenderingType() == batchRenderingType)
 		{
 			isSuccess = batchedRendererContainer->AddRenderer(renderer);
@@ -77,12 +74,10 @@ bool dooms::graphics::BatchRenderingManager::AddRendererToBatchRendering(Rendere
 bool dooms::graphics::BatchRenderingManager::RemoveRendererFromBatchRendering(Renderer* const renderer)
 {
 	bool isSuccess = false;
-
-	D_ASSERT(IsValid(renderer) && IsValid(renderer->GetMaterial()));
+	
 	if (IsValid(renderer) && IsValid(renderer->GetMaterial()))
 	{
 		dooms::graphics::RendererBatchContainer* batchedRendererContainer = FindBatchedRendererContainer(renderer->GetMaterial());
-		D_ASSERT(IsValid(batchedRendererContainer));
 		if (IsValid(batchedRendererContainer))
 		{
 			isSuccess = batchedRendererContainer->RemoveRenderer(renderer);

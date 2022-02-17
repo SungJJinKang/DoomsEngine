@@ -39,6 +39,8 @@ namespace dooms
 		virtual void OnDestroy() override;
 		
 		virtual void UpdateCullingEntityBlockViewer() override;
+		virtual graphics::eBatchRenderingType GetCapableBatchRenderingType() const override;
+		virtual bool IsBatchable() const override;
 
 	public:
 
@@ -67,7 +69,7 @@ namespace dooms
 		}
 
 		void SetMesh(const graphics::Mesh* const mesh);
-		
+		const graphics::Mesh* GetMesh() const;
 		virtual physics::AABB3D GetLocalAABBBound() const final;
 
 	};

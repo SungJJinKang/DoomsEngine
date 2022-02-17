@@ -30,6 +30,23 @@ void dooms::MeshRenderer::UpdateCullingEntityBlockViewer()
 	
 }
 
+dooms::graphics::eBatchRenderingType dooms::MeshRenderer::GetCapableBatchRenderingType() const
+{
+	return dooms::graphics::eBatchRenderingType::StaticMeshBatch;
+}
+
+bool dooms::MeshRenderer::IsBatchable() const
+{
+	bool isBatchable = false;
+
+	if(IsValid(mTargetMaterial) && IsValid(mTargetMesh))
+	{
+		isBatchable = true;
+	}
+
+	return isBatchable;
+}
+
 dooms::MeshRenderer::MeshRenderer() : Renderer(), mTargetMesh{ nullptr }
 {
 
@@ -68,6 +85,13 @@ void dooms::MeshRenderer::SetMesh(const graphics::Mesh* const mesh)
 	{
 		RemoveRendererFromCullingSystem();
 	}
+
+	UpdateRendererBatchRendering();
+}
+
+const dooms::graphics::Mesh* dooms::MeshRenderer::GetMesh() const
+{
+	return mTargetMesh;
 }
 
 dooms::physics::AABB3D dooms::MeshRenderer::GetLocalAABBBound() const

@@ -46,9 +46,8 @@ namespace dooms
 		
 	private:
 
-		//For Sorting Renderers front to back
-		Entity::eEntityMobility mOriginalEntityMobility;
-		
+		bool bmIsBatched;
+
 		void MergeBVHBitFlag();
 		void ClearRenderingBitFlag();
 
@@ -81,6 +80,10 @@ namespace dooms
 		void RemoveRendererFromCullingSystem();
 
 		void OnChangedByGUI(const dooms::reflection::DField& dFieldOfChangedField) override;
+
+		void UpdateRendererBatchRendering();
+		virtual graphics::eBatchRenderingType GetCapableBatchRenderingType() const = 0;
+		virtual bool IsBatchable() const = 0;
 
 	public:
 
@@ -192,7 +195,10 @@ namespace dooms
 
 		void SetDesiredMaxDrawDistance(const FLOAT32 desiredMaxDrawDistance);
 		FLOAT32 GetDesiredMaxDrawDistance() const;
-
-	
+		void OnEntityMobilityChanged(const eEntityMobility entityMobility) override;
+		FORCE_INLINE bool GetIsBatched() const
+		{
+			return bmIsBatched;
+		}
 	};
 }

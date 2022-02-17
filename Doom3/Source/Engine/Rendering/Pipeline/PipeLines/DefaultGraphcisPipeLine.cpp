@@ -157,17 +157,17 @@ void dooms::graphics::DefaultGraphcisPipeLine::DrawRenderers(dooms::Camera* cons
 		for (Renderer* renderer : renderersInLayer)
 		{
 			if
-				(
-					IsValid(renderer) == true &&
-					//renderer->GetOwnerEntityLayerIndex() == layerIndex && 
-					renderer->GetIsComponentEnabled() == true
-					)
+			(
+				IsValid(renderer) == true &&
+				renderer->GetIsComponentEnabled() == true &&
+				renderer->GetIsBatched() == false
+			)
 			{
 				if
-					(
-						targetCamera_IS_CULLED_flag_on == false ||
-						renderer->GetIsCulled(targetCamera->CameraIndexInCullingSystem) == false
-						)
+				(
+					targetCamera_IS_CULLED_flag_on == false ||
+					renderer->GetIsCulled(targetCamera->CameraIndexInCullingSystem) == false
+				)
 				{
 					renderer->Draw();
 				}
