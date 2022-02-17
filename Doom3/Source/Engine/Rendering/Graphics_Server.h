@@ -86,8 +86,9 @@ namespace dooms
 
 			Graphics_Server();
 			~Graphics_Server();
+			void PostSceneInit() override;
 
-			
+
 			//void SetRenderingMode(eRenderingMode renderingMode);
 		};
 	}

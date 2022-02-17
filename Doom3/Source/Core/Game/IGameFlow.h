@@ -27,6 +27,7 @@ namespace dooms
 		void Init_Internal() {}
 		virtual void Init(const int argc, char* const* const argv) = 0;
 		virtual void LateInit() {}
+		virtual void PostSceneInit(){}
 
 		/// <summary>
 		/// Don't put virtual

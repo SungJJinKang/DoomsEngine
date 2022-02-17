@@ -107,7 +107,7 @@ void dooms::GameCore::Init(const int argc, char* const* const argv)
 
 	GameLogicStartPoint::StartGameLogic();
 
-
+	PostSceneInitServers();
 
 	gc::GarbageCollectorManager::Collect(true);
 	dooms::gc::GarbageCollectorManager::ResetElapsedTime();
@@ -127,6 +127,19 @@ void dooms::GameCore::InitServers(const int argc, char* const* const argv)
 	mUserImput_Server.Init(argc, argv);
 	mSceneManager.Init(argc, argv);
 	dooms::gc::GarbageCollectorManager::Init();
+}
+
+void dooms::GameCore::PostSceneInitServers()
+{
+	mMemoryManager.PostSceneInit();
+	mJobSystem.PostSceneInit();
+	mAssetManager.PostSceneInit();
+	mTime_Server.PostSceneInit();
+	mPhysics_Server.PostSceneInit();
+	mEngineGUIServer.PostSceneInit();
+	mGraphics_Server.PostSceneInit();
+	mUserImput_Server.PostSceneInit();
+	mSceneManager.PostSceneInit();
 }
 
 void dooms::GameCore::LateInit()

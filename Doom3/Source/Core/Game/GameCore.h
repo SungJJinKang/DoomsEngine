@@ -97,6 +97,7 @@ namespace dooms
 
 		virtual void Init(const int argc, char* const* const argv) final;
 		void InitServers(const int argc, char* const* const argv);
+		void PostSceneInitServers();
 		virtual void LateInit() final;
 
 		/// <summary>

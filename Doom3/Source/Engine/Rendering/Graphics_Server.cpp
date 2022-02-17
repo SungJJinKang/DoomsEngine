@@ -64,8 +64,8 @@ void dooms::graphics::Graphics_Server::GenerateGraphicsPipeLine()
 void dooms::graphics::Graphics_Server::Init(const int argc, char* const* const argv)
 {
 	GenerateGraphicsPipeLine();
-
 	mGraphicsPipeLine->Initialize();
+	mBatchRenderingManager.SetPauseBakeBatchMesh(true);
 }
 
 void dooms::graphics::Graphics_Server::LateInit()
@@ -127,5 +127,12 @@ dooms::graphics::Graphics_Server::Graphics_Server()
 
 dooms::graphics::Graphics_Server::~Graphics_Server()
 {
+}
+
+void dooms::graphics::Graphics_Server::PostSceneInit()
+{
+	IGameFlow::PostSceneInit();
+
+	mBatchRenderingManager.SetPauseBakeBatchMesh(false);
 }
 
