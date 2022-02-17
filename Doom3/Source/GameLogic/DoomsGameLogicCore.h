@@ -1,8 +1,8 @@
 #pragma once
 
 #include <Core.h>
-#include <Scene.h>
-#include <Entity.h>
+#include <Scene/Scene.h>
+#include <Scene/Entity.h>
 #include <Transform.h>
 #include <MainTimer.h>
 #include <UserInput_Server.h>

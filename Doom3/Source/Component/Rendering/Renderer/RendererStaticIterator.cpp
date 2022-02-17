@@ -1,7 +1,7 @@
 #include "RendererStaticIterator.h"
 
 #include "Renderer.h"
-#include "Entity.h"
+#include <Scene/Entity.h>
 #include "../Helper/vector_erase_move_lastelement/vector_swap_popback.h"
 
 dooms::RendererComponentStaticIterator::RendererComponentStaticIterator()

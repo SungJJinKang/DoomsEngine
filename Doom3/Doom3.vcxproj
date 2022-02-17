@@ -351,9 +351,9 @@ xcopy /y /d /E /H /C /I "$(ProjectDir)Assets" "$(TargetDir)Assets"</Command>
   <ItemGroup>
     <ClCompile Include="clreflect_compiletime_gettype.cpp" />
     <ClCompile Include="Source\Core\Container\ChunkVector.cpp" />
-    <ClCompile Include="Source\Core\Scene\Layer\DefaultLayers.cpp" />
+    <ClCompile Include="Source\Engine\Scene\Layer\DefaultLayers.cpp" />
     <ClCompile Include="Source\Core\EngineConfigurationData\ConfigData.cpp" />
-    <ClCompile Include="Source\Core\Scene\Layer\Layer.cpp" />
+    <ClCompile Include="Source\Engine\Scene\Layer\Layer.cpp" />
     <ClCompile Include="Source\Engine\EngineGUI\engineGUIServerHelper.cpp" />
     <ClCompile Include="Source\Engine\EngineGUI\GUIModules\EngineGUIModule.cpp" />
     <ClCompile Include="Source\Engine\Rendering\Batch\BatchContainer\batchContainerFactory.cpp" />
@@ -498,8 +498,8 @@ xcopy /y /d /E /H /C /I "$(ProjectDir)Assets" "$(TargetDir)Assets"</Command>
     <ClCompile Include="Source\Core\OS\ErrorHandling.cpp" />
     <ClCompile Include="Source\Core\OS\Window.cpp" />
     <ClCompile Include="Source\Core\Physics\Collider\ColliderType.cpp" />
-    <ClCompile Include="Source\Core\Scene\Layer\LayerManager.cpp" />
-    <ClCompile Include="Source\Core\Scene\SceneManager.cpp" />
+    <ClCompile Include="Source\Engine\Scene\Layer\LayerManager.cpp" />
+    <ClCompile Include="Source\Engine\Scene\SceneManager.cpp" />
     <ClCompile Include="Source\Engine\Physics\Debugger\PhysicsDebugger.cpp" />
     <ClCompile Include="Source\Core\Physics\PhysicsSolver.cpp" />
     <ClCompile Include="Source\Component\EventSystem.cpp" />
@@ -563,7 +563,7 @@ xcopy /y /d /E /H /C /I "$(ProjectDir)Assets" "$(TargetDir)Assets"</Command>
     <ClCompile Include="Source\Core\Physics\Collider\Ray.cpp" />
     <ClCompile Include="Source\Core\Physics\Collider\RenderCollider.cpp" />
     <ClCompile Include="Source\Core\Physics\Collider\Sphere.cpp" />
-    <ClCompile Include="Source\Core\Scene\Scene.cpp" />
+    <ClCompile Include="Source\Engine\Scene\Scene.cpp" />
     <ClCompile Include="Source\Core\Asset\AssetManager\AssetContainer.cpp" />
     <ClCompile Include="Source\Core\Asset\AssetManager\AssetManager.cpp" />
     <ClCompile Include="Source\Core\Game\GameCore.cpp" />
@@ -571,7 +571,7 @@ xcopy /y /d /E /H /C /I "$(ProjectDir)Assets" "$(TargetDir)Assets"</Command>
     <ClCompile Include="Source\Engine\Rendering\Buffer\UniformBufferObject\UniformBufferObjectUpdater.cpp" />
     <ClCompile Include="Source\Engine\Rendering\Buffer\Mesh.cpp" />
     <ClCompile Include="Source\Engine\Rendering\Buffer\UniformBufferObject\UniformBufferObjectManager.cpp" />
-    <ClCompile Include="Source\Core\Scene\Entity.cpp" />
+    <ClCompile Include="Source\Engine\Scene\Entity.cpp" />
     <ClCompile Include="Source\Engine\Rendering\FrameBuffer\FrameBuffer.cpp" />
     <ClCompile Include="Source\Engine\Rendering\Material\Material.cpp" />
     <ClCompile Include="Source\Core\Asset\ShaderAsset.cpp" />
@@ -626,7 +626,7 @@ xcopy /y /d /E /H /C /I "$(ProjectDir)Assets" "$(TargetDir)Assets"</Command>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Core\Container\ChunkVector.h" />
-    <ClInclude Include="Source\Core\Scene\Layer\DefaultLayers.h" />
+    <ClInclude Include="Source\Engine\Scene\Layer\DefaultLayers.h" />
     <ClInclude Include="Source\Engine\EngineGUI\engineGUIServerHelper.h" />
     <ClInclude Include="Source\Engine\EngineGUI\GUIModules\EngineGUIModule.h" />
     <ClInclude Include="Source\Engine\EngineGUI\GUIModules\Modules\LogGUI.reflection.h" />
@@ -801,8 +801,8 @@ xcopy /y /d /E /H /C /I "$(ProjectDir)Assets" "$(TargetDir)Assets"</Command>
     <ClInclude Include="Source\Core\Macros\TypeDef.h" />
     <ClInclude Include="Source\Core\Math\LightMath_Cpp\TypeDef.h" />
     <ClInclude Include="Source\Core\OS\ErrorHandling.h" />
-    <ClInclude Include="Source\Core\Scene\Layer\LayerManager.h" />
-    <ClInclude Include="Source\Core\Scene\SceneManager.h" />
+    <ClInclude Include="Source\Engine\Scene\Layer\LayerManager.h" />
+    <ClInclude Include="Source\Engine\Scene\SceneManager.h" />
     <ClInclude Include="Source\Engine\Physics\Debugger\PhysicsDebugger.h" />
     <ClInclude Include="Source\Core\Physics\PhysicsSolver.h" />
     <ClInclude Include="Source\Component\EventSystem.h" />
@@ -889,7 +889,7 @@ xcopy /y /d /E /H /C /I "$(ProjectDir)Assets" "$(TargetDir)Assets"</Command>
     <ClInclude Include="Source\Core\Physics\Collider\Plane.h" />
     <ClInclude Include="Source\Core\Physics\Collider\Ray.h" />
     <ClInclude Include="Source\Core\Physics\Collider\Sphere.h" />
-    <ClInclude Include="Source\Core\Scene\Layer\Layer.h" />
+    <ClInclude Include="Source\Engine\Scene\Layer\Layer.h" />
     <ClInclude Include="Source\Engine\Rendering\Buffer\UniformBufferObject\UniformBufferObjectUpdater.h" />
     <ClInclude Include="Source\Engine\Rendering\Buffer\MeshNode.h" />
     <ClInclude Include="Source\Engine\Rendering\Buffer\UniformBufferObject\UniformBlockOffsetInfo.h" />
@@ -899,11 +899,11 @@ xcopy /y /d /E /H /C /I "$(ProjectDir)Assets" "$(TargetDir)Assets"</Command>
     <ClInclude Include="Source\Core\API\UUID.h" />
     <ClInclude Include="Source\Core\Asset\AssetHeaders.h" />
     <ClInclude Include="Source\Core\Asset\TextAsset.h" />
-    <ClInclude Include="Source\Core\Scene\Scene.h" />
+    <ClInclude Include="Source\Engine\Scene\Scene.h" />
     <ClInclude Include="Source\Core\Asset\AssetManager\AssetContainer.h" />
     <ClInclude Include="Source\Core\Asset\AssetManager\AssetManager.h" />
     <ClInclude Include="Source\Engine\Rendering\Buffer\UniformBufferObject\UniformBufferObjectManager.h" />
-    <ClInclude Include="Source\Core\Scene\Entity.h" />
+    <ClInclude Include="Source\Engine\Scene\Entity.h" />
     <ClInclude Include="Source\Engine\Rendering\FrameBuffer\FrameBuffer.h" />
     <ClInclude Include="Source\Core\Graphics\Graphics_Core.h" />
     <ClInclude Include="Source\Core\Asset\AssetImportExporter\AssetImporter\assetImporter.h" />
@@ -1051,6 +1051,7 @@ xcopy /y /d /E /H /C /I "$(ProjectDir)Assets" "$(TargetDir)Assets"</Command>
     <None Include="Assets\Shader\Default\DepthBufferTextureShader.glsl" />
     <None Include="Assets\Shader\Default\equirect2cube_cs.glsl" />
     <None Include="Assets\Shader\Default\GbufferDrawer.glsl" />
+    <None Include="Assets\Shader\Default\GbufferWriter_BatchedMesh_PBR.glsl" />
     <None Include="Assets\Shader\Default\GbufferWriter_PBR.glsl" />
     <None Include="Assets\Shader\Default\irmap_cs.glsl" />
     <None Include="Assets\Shader\Default\OcclusionCullingBoundingBox.glsl" />

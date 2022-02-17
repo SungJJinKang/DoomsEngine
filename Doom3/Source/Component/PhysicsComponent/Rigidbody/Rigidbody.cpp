@@ -2,7 +2,7 @@
 
 #include <algorithm>
 
-#include "Entity.h"
+#include <Scene/Entity.h>
 #include "../ColliderComponent.h"
 
 void dooms::Rigidbody::AddColliderComponent(ColliderComponent* const colliderComponent)

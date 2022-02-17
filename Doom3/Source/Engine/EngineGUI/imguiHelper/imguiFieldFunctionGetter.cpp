@@ -13,7 +13,7 @@
 #include "ImGUISetting.h"
 #include "Reflection/ReflectionType/DAttributeList.h"
 #include "imguiWithReflection.h"
-#include "Entity.h"
+#include <Scene/Entity.h>
 #include "Transform.h"
 #include "magic_enum.hpp"
 

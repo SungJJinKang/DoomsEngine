@@ -1,7 +1,7 @@
 #pragma once
 #include "IGameFlow.h"
 
-#include "../Scene/Scene.h"
+#include <Scene/Scene.h>
 #include <EngineConfigurationData/ConfigData.h>
 #include <Scene/SceneManager.h>
 #include <Asset/AssetManager/AssetManager.h>

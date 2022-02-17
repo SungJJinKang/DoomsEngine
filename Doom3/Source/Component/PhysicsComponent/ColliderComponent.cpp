@@ -2,7 +2,7 @@
 
 #include "Physics_Server.h"
 
-#include <Entity.h>
+#include <Scene/Entity.h>
 #include <Rendering/Renderer/Renderer.h>
 #include "Rigidbody/Rigidbody.h"
 

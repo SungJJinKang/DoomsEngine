@@ -66,10 +66,10 @@
     <ClCompile Include="Source\Component\Core\Component.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Core\Scene\Entity.cpp">
+    <ClCompile Include="Source\Engine\Scene\Entity.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Core\Scene\Scene.cpp">
+    <ClCompile Include="Source\Engine\Scene\Scene.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Source\Core\Physics\Physics_Setting.cpp">
@@ -705,16 +705,16 @@
     <ClCompile Include="Source\Core\EngineConfigurationData\ConfigData.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Core\Scene\Layer\LayerManager.cpp">
+    <ClCompile Include="Source\Engine\Scene\Layer\LayerManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Core\Scene\SceneManager.cpp">
+    <ClCompile Include="Source\Engine\Scene\SceneManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Core\Scene\Layer\DefaultLayers.cpp">
+    <ClCompile Include="Source\Engine\Scene\Layer\DefaultLayers.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Core\Scene\Layer\Layer.cpp">
+    <ClCompile Include="Source\Engine\Scene\Layer\Layer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Source\Engine\EngineGUI\GUIModules\EngineGUIModule.cpp">
@@ -1118,13 +1118,13 @@
     <ClInclude Include="Source\Component\Core\Component.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Core\Scene\Entity.h">
+    <ClInclude Include="Source\Engine\Scene\Entity.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Core\Scene\Layer\Layer.h">
+    <ClInclude Include="Source\Engine\Scene\Layer\Layer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Core\Scene\Scene.h">
+    <ClInclude Include="Source\Engine\Scene\Scene.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\Core\Misc\FrameDirtyChecker\FrameDirtyChecker.h">
@@ -1877,13 +1877,13 @@
     <ClInclude Include="Source\Engine\Rendering\RenderingDebugger\RenderingDebuggerModules\Modules\RendererAABBDebugger.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Core\Scene\Layer\LayerManager.h">
+    <ClInclude Include="Source\Engine\Scene\Layer\LayerManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Core\Scene\SceneManager.h">
+    <ClInclude Include="Source\Engine\Scene\SceneManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Core\Scene\Layer\DefaultLayers.h">
+    <ClInclude Include="Source\Engine\Scene\Layer\DefaultLayers.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\Engine\EngineGUI\GUIModules\EngineGUIModule.h">
@@ -2235,6 +2235,7 @@
     <None Include="Source\Engine\Rendering\Culling\EveryCulling\LICENSE" />
     <None Include="Source\Engine\Rendering\Culling\EveryCulling\README.md" />
     <None Include="Source\Engine\Rendering\Culling\EveryCulling\CullingModule\MaskedSWOcclusionCulling\MaskedSWOcclusionCulling_HowWorks.md" />
+    <None Include="Assets\Shader\Default\GbufferWriter_BatchedMesh_PBR.glsl" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="Source\Core\Reflection\Reflection_Tutorial.txt" />

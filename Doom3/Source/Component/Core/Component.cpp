@@ -1,5 +1,5 @@
 #include "Component.h"
-#include "../../Core/Scene/Entity.h"
+#include <Scene/Entity.h>
 #include "../Transform.h"
 
 using namespace dooms;
