@@ -2,6 +2,7 @@
 
 #include <Core.h>
 #include <Misc/FrameDirtyChecker/FrameDirtyChecker.h>
+#include <Scene/eEntityMobility.h>
 
 #include "Component.reflection.h"
 class DirtyReceiver;
@@ -199,6 +200,8 @@ namespace dooms
 
 		D_FUNCTION()
 		void DestroyThisComponent();
+
+		virtual void OnEntityMobilityChanged(const eEntityMobility entityMobility){}
 
 	};
 }

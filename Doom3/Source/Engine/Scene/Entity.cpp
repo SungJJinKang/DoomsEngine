@@ -128,6 +128,17 @@ void Entity::SetEntityName(const std::string& entityName)
 	DObject::ChangeDObjectName(entityName);
 }
 
+void Entity::OnEntityMobilityChanged() const
+{
+	for(Component* component : mComponents)
+	{
+		if(IsValid(component))
+		{
+			component->OnEntityMobilityChanged(mEntityMobility);
+		}
+	}
+}
+
 void Entity::InitializeComponent(Component* const newComponent)
 {
 	newComponent->SetOwnerDObject(this);
@@ -207,6 +218,24 @@ void Entity::SetLayerIndex(UINT32 layerIndex)
 {
 	D_ASSERT(layerIndex < LayerManager::GetSingleton()->GetLayerCount());
 	mLayerIndex = layerIndex;
+}
+
+
+void Entity::SetEntityMobility(eEntityMobility entityMobility)
+{
+	mEntityMobility = entityMobility;
+
+	OnEntityMobilityChanged();
+}
+
+void Entity::OnChangedByGUI(const dooms::reflection::DField& dFieldOfChangedField)
+{
+	DObject::OnChangedByGUI(dFieldOfChangedField);
+
+	if(dFieldOfChangedField.CompareWithFieldName("mEntityMobility"))
+	{
+		SetEntityMobility(mEntityMobility);
+	}
 }
 
 bool Entity::RemoveComponent(Component* const component)

@@ -14,6 +14,8 @@
 #include <Scene/Entity.h>
 
 #include "Renderer.reflection.h"
+#include "Rendering/Batch/eBatchRenderingType.h"
+
 namespace dooms
 {
 	namespace graphics

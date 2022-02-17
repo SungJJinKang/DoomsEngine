@@ -74,7 +74,7 @@ namespace dooms
 		
 		virtual void OnChangedByGUI(const dooms::reflection::DField& dFieldOfChangedField);
 
-		bool IsEntityMobilityStatic() const;
+		bool IsEntityMovable() const;
 
 	public:
 
@@ -90,9 +90,9 @@ namespace dooms
 		
 		FORCE_INLINE void SetPosition(const math::Vector3& position) noexcept
 		{
-			D_ASSERT(IsEntityMobilityStatic());
+			D_ASSERT(IsEntityMovable());
 
-			if (IsEntityMobilityStatic())
+			if (IsEntityMovable())
 			{
 				mTranslationMatrix = math::translate(position);
 				mPosition = position;
@@ -104,14 +104,19 @@ namespace dooms
 		
 		FORCE_INLINE void SetPosition(FLOAT32 x, FLOAT32 y, FLOAT32 z) noexcept
 		{
-			SetPosition({ x, y, z });
+			D_ASSERT(IsEntityMovable());
+
+			if (IsEntityMovable())
+			{
+				SetPosition({ x, y, z });
+			}
 		}
 		
 		FORCE_INLINE void SetRotation(const math::Quaternion& rotation) noexcept
 		{
-			D_ASSERT(IsEntityMobilityStatic());
+			D_ASSERT(IsEntityMovable());
 
-			if (IsEntityMobilityStatic())
+			if (IsEntityMovable())
 			{
 				mRotationMatrix = static_cast<math::Matrix4x4>(rotation);
 				mRotation = rotation;
@@ -123,19 +128,29 @@ namespace dooms
 		
 		FORCE_INLINE void SetRotation(const math::Vector3& eulerAngle) noexcept
 		{
-			SetRotation(math::Quaternion(eulerAngle));
+			D_ASSERT(IsEntityMovable());
+
+			if (IsEntityMovable())
+			{
+				SetRotation(math::Quaternion(eulerAngle));
+			}
 		}
 		
 		FORCE_INLINE void SetRotation(const FLOAT32 eulerAngleX, const FLOAT32 eulerAngleY, const FLOAT32 eulerAngleZ) noexcept
 		{
-			SetRotation({ eulerAngleX, eulerAngleY, eulerAngleZ });
+			D_ASSERT(IsEntityMovable());
+
+			if (IsEntityMovable())
+			{
+				SetRotation({ eulerAngleX, eulerAngleY, eulerAngleZ });
+			}
 		}
 		
 		FORCE_INLINE void SetScale(const math::Vector3& scale) noexcept
 		{
-			D_ASSERT(IsEntityMobilityStatic());
+			D_ASSERT(IsEntityMovable());
 
-			if (IsEntityMobilityStatic())
+			if (IsEntityMovable())
 			{
 				mScaleMatrix = math::scale(scale);
 				mScale = scale;
@@ -146,7 +161,12 @@ namespace dooms
 		
 		FORCE_INLINE void SetScale(const FLOAT32 x, const FLOAT32 y, const FLOAT32 z) noexcept
 		{
-			SetScale({ x,y,z });
+			D_ASSERT(IsEntityMovable());
+
+			if (IsEntityMovable())
+			{
+				SetScale({ x,y,z });
+			}
 		}
 		
 		FORCE_INLINE const math::Vector3& GetPosition() const noexcept
@@ -195,50 +215,73 @@ namespace dooms
 		
 		FORCE_INLINE void LookAt(const Transform& target, const math::Vector3& up) noexcept
 		{
-			SetRotation(static_cast<math::Quaternion>(math::lookAt(mPosition, target.mPosition, up)));
+			D_ASSERT(IsEntityMovable());
+
+			if (IsEntityMovable())
+			{
+				SetRotation(static_cast<math::Quaternion>(math::lookAt(mPosition, target.mPosition, up)));
+			}
 		}
 
 		FORCE_INLINE void LookAt(const math::Vector3& targetPoint, const math::Vector3& up) noexcept
 		{
-			SetRotation(static_cast<math::Quaternion>(math::lookAt(mPosition, targetPoint, up)));
+			D_ASSERT(IsEntityMovable());
+
+			if (IsEntityMovable())
+			{
+				SetRotation(static_cast<math::Quaternion>(math::lookAt(mPosition, targetPoint, up)));
+			}
 		}
 		
 		FORCE_INLINE void Rotate(const math::Quaternion& quat, const eSpace& relativeTo) noexcept
 		{
-			if (relativeTo == eSpace::Self)
+			D_ASSERT(IsEntityMovable());
+
+			if (IsEntityMovable())
 			{
-				SetRotation(mRotation * quat);
+				if (relativeTo == eSpace::Self)
+				{
+					SetRotation(mRotation * quat);
+				}
+				else if (relativeTo == eSpace::World)
+				{
+					SetRotation(quat * mRotation);
+				}
 			}
-			else if (relativeTo == eSpace::World)
-			{
-				SetRotation(quat * mRotation);
-			}
-			
 		}
 		
 		FORCE_INLINE void Rotate(const math::Vector3& eulerAngles, const eSpace& relativeTo) noexcept
 		{
-			if (relativeTo == eSpace::Self)
+			D_ASSERT(IsEntityMovable());
+
+			if (IsEntityMovable())
 			{
-				SetRotation(mRotation * math::Quaternion(eulerAngles));
-			}
-			else if (relativeTo == eSpace::World)
-			{
-				SetRotation(math::Quaternion(eulerAngles) * mRotation);
+				if (relativeTo == eSpace::Self)
+				{
+					SetRotation(mRotation * math::Quaternion(eulerAngles));
+				}
+				else if (relativeTo == eSpace::World)
+				{
+					SetRotation(math::Quaternion(eulerAngles) * mRotation);
+				}
 			}
 		}
 		
 		FORCE_INLINE void RotateAround(const math::Vector3& centerPoint, const math::Vector3& axis, const FLOAT32 angle) noexcept
 		{
-			math::Vector3 worldPos = GetPosition();
-			const math::Quaternion q = math::Quaternion::angleAxis(angle, axis);
-			math::Vector3 dif = worldPos - centerPoint;
-			dif = q * dif;
-			worldPos = centerPoint + dif;
-			SetPosition(worldPos);
+			D_ASSERT(IsEntityMovable());
 
-			
-			SetRotation(math::Quaternion(angle * static_cast<FLOAT32>(math::DEGREE_TO_RADIAN), axis));
+			if (IsEntityMovable())
+			{
+				math::Vector3 worldPos = GetPosition();
+				const math::Quaternion q = math::Quaternion::angleAxis(angle, axis);
+				math::Vector3 dif = worldPos - centerPoint;
+				dif = q * dif;
+				worldPos = centerPoint + dif;
+				SetPosition(worldPos);
+
+				SetRotation(math::Quaternion(angle * static_cast<FLOAT32>(math::DEGREE_TO_RADIAN), axis));
+			}
 		}
 		
 		FORCE_INLINE math::Vector3 TransformDirection(math::Vector3& direction) const noexcept
@@ -258,13 +301,18 @@ namespace dooms
 		
 		FORCE_INLINE void Translate(const math::Vector3& translation, const eSpace& relativeTo = eSpace::World) noexcept
 		{
-			if (relativeTo == eSpace::World)
+			D_ASSERT(IsEntityMovable());
+
+			if (IsEntityMovable())
 			{
-				SetPosition(mPosition + translation);
-			}
-			else if (relativeTo == eSpace::Self)
-			{
-				SetPosition(mPosition + TransformVector(translation));
+				if (relativeTo == eSpace::World)
+				{
+					SetPosition(mPosition + translation);
+				}
+				else if (relativeTo == eSpace::Self)
+				{
+					SetPosition(mPosition + TransformVector(translation));
+				}
 			}
 		}
 

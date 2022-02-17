@@ -11,6 +11,7 @@
 #include <Component.h>
 #include <Transform.h>
 #include <Misc/FrameDirtyChecker/FrameDirtyChecker.h>
+#include "eEntityMobility.h"
 
 #include "Entity.reflection.h"
 namespace dooms
@@ -40,11 +41,7 @@ namespace dooms
 
 	public:
 
-		enum D_ENUM eEntityMobility : UINT32
-		{
-			Static,
-			Dynamic
-		};
+		
 
 		enum D_ENUM eEntityFlags : UINT32
 		{
@@ -90,7 +87,7 @@ namespace dooms
 		D_PROPERTY(INVISIBLE)
 		Transform mTransform;
 		
-
+		void OnEntityMobilityChanged() const;
 
 		void InitializeComponent(Component* const newComponent);
 
@@ -349,19 +346,13 @@ namespace dooms
 		{
 			return mLayerIndex;
 		}
-
-		D_FUNCTION()
+		
 		FORCE_INLINE eEntityMobility GetEntityMobility() const
 		{
 			return mEntityMobility;
 		}
+		void SetEntityMobility(eEntityMobility entityMobility);
 
-		D_FUNCTION()
-		FORCE_INLINE void SetEntityMobility(eEntityMobility entityMobility)
-		{
-			mEntityMobility = entityMobility;
-		}
-		
 		D_FUNCTION()
 		FORCE_INLINE UINT32 GetEntityFlag() const
 		{	
@@ -379,6 +370,8 @@ namespace dooms
 		{
 			mEntityFlag = 0;
 		}
+
+		virtual void OnChangedByGUI(const dooms::reflection::DField& dFieldOfChangedField) override;
 	};
 
 	
