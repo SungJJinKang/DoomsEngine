@@ -3,7 +3,9 @@
 #include <Rendering/Renderer/MeshRenderer.h>
 #include "meshBatchCreater.h"
 #include <Asset/ShaderAsset.h>
+#include <Asset/AssetManager/AssetManager.h>
 
+#include "Rendering/Texture/TextureView.h"
 
 
 namespace dooms::graphics::staticRendererBatchContainerHelper
@@ -17,14 +19,35 @@ namespace dooms::graphics::staticRendererBatchContainerHelper
 	};
 }
 
-void dooms::graphics::StaticRendererBatchContainer::GenerateBatchRenderingMaterialFromTargetMaterial(Material* const targetMaterial)
+void dooms::graphics::StaticRendererBatchContainer::InitializeBatchRenderingMaterial(Material* const targetMaterial)
 {
-	// TODO : 
+	dooms::asset::ShaderAsset* const batchRenderingShaderAsset = dooms::assetImporter::AssetManager::GetSingleton()->GetAsset<asset::eAssetType::SHADER>(staticRendererBatchContainerHelper::BATCH_RENDERING_SHADER_NAME);
+	D_ASSERT(IsValid(batchRenderingShaderAsset));
+	if(IsValid(batchRenderingShaderAsset))
+	{
+		mBatchRenderingMaterial = dooms::CreateDObject<dooms::graphics::Material>(batchRenderingShaderAsset);
+		D_ASSERT(IsValid(mBatchRenderingMaterial));
+
+		const size_t targetTextureCount = targetMaterial->GetTextureViewCount();
+		for(size_t textureIndex = 0 ; textureIndex < targetTextureCount ; textureIndex++)
+		{
+			const TextureView* const textureView = targetMaterial->GetTextureView(textureIndex);
+			if(IsValid(textureView))
+			{
+				mBatchRenderingMaterial->AddTexture(textureView->GetDefaultBindingLocation(), textureView);
+			}
+		}
+	
+	}
+	D_ASSERT(IsValid(mBatchRenderingMaterial) && mBatchRenderingMaterial->IsHasAnyValidShaderObject());
 }
 
 dooms::graphics::StaticRendererBatchContainer::StaticRendererBatchContainer(Material* const targetMaterial)
 	: RendererBatchContainer(targetMaterial), mBatchRenderingMaterial(nullptr)
 {
+
+	InitializeBatchRenderingMaterial(targetMaterial);
+
 }
 
 void dooms::graphics::StaticRendererBatchContainer::BakeBatchedMesh()
@@ -48,9 +71,10 @@ void dooms::graphics::StaticRendererBatchContainer::BatchedDraw() const
 {
 	D_ASSERT(IsValid(mBatchRenderingMaterial));
 
-	if(IsValid(mBatchRenderingMaterial))
+	if(IsValid(mBatchRenderingMaterial) && IsValid(mBatchedMesh))
 	{
 		mBatchRenderingMaterial->BindMaterial();
+		mBatchedMesh->Draw();
 	}
 }
 

@@ -4,7 +4,9 @@
 
 layout (location = 0) in vec3 aWorldPos;  // All in, out variable should have layout (location = ?) option
 layout (location = 1) in vec3 aUV0; 
-layout (location = 2) in mat3 aTBN; 
+layout (location = 2) in vec3 aTBN1; 
+layout (location = 3) in vec3 aTBN2; 
+layout (location = 4) in vec3 aTBN3; 
 
 layout (location = 1) out vec3 UV0; // All in, out variable should have layout (location = ?) option
 layout (location = 2) out vec3 FragPos;
@@ -43,7 +45,7 @@ void main()
 {
     FragPos = aWorldPos;
 	UV0 = aUV0;
-    TBN = aTBN;
+    TBN = mat3(aTBN1, aTBN2, aTBN3);
     invertedTBN = transpose(TBN);
 
 	gl_Position =  viewProjection * vec4(FragPos, 1.0);

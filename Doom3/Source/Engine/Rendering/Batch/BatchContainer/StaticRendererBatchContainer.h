@@ -21,8 +21,8 @@ namespace dooms
 						
 			D_PROPERTY()
 			Material* mBatchRenderingMaterial;
-
-			void GenerateBatchRenderingMaterialFromTargetMaterial(Material* const targetMaterial);
+			
+			void InitializeBatchRenderingMaterial(Material* const targetMaterial);
 
 		public:
 

@@ -1,5 +1,43 @@
 #include "meshBatchCreater.h"
 
+#include <vector>
+
+#include <Vector3.h>
+#include <Matrix3x3.h>
+#include <Matrix4x4.h>
+
+#include <Rendering/Buffer/Mesh.h>
+#include <Rendering/Renderer/MeshRenderer.h>
+#include <Asset/ThreeDModelAsset.h>
+
+#include "Rendering/Buffer/eVertexArrayFlag.h"
+
+namespace dooms::graphics::meshBatchCreater
+{
+	math::Matrix3x3 CalculateTBN
+	(
+		const math::Matrix4x4& modelMatrix, 
+		const math::Vector3 normal,
+		const math::Vector3 tangent,
+		const math::Vector3 biTangent
+	)
+	{
+		const math::Vector3 N = math::Vector3{ (modelMatrix * normal).normalized() };
+		math::Vector3 T = math::Vector3{ (modelMatrix * tangent).normalized() };
+		T = normalize(T - math::dot(N, T) * N);
+		// vec3 B = cross(N, T);
+		const math::Vector3 B = math::Vector3{ (modelMatrix * biTangent).normalized() };
+
+		// TBN must form a right handed coord system.
+		// Some models have symetric UVs. Check and fix.
+		if (math::dot(cross(N, T), B) < 0.0)
+		{
+			T = T * -1.0;
+		}
+
+		return math::Matrix3x3(T, B, N);
+	}
+
 	struct DOOM_API D_STRUCT BatchedMeshData
 	{
 		D_PROPERTY()
@@ -22,7 +60,10 @@
 
 		UINT32* mIndices;
 
-
+		unsigned long long GetAllocatedMeshComponentCount() const
+		{
+			return ( (sizeof(math::Vector3) + sizeof(math::Vector3) + sizeof(math::Matrix3x3)) / sizeof(FLOAT32) ) * (UINT64)mVerticeCount;
+		}
 		unsigned long long GetAllocatedDataSize() const
 		{
 			return (sizeof(math::Vector3) + sizeof(math::Vector3) + sizeof(math::Matrix3x3)) * (UINT64)mVerticeCount + sizeof(UINT32) * (UINT64)mIndiceCount;
@@ -167,7 +208,78 @@ dooms::graphics::Mesh* dooms::graphics::meshBatchCreater::CreateStaticBatchedMes
 )
 {
 	// TODO : Implement this
-	// Store mesh vertex data in world space coordinate and TBN
-	// Check GbufferWriter_BatchedMesh_PBR file
-	return nullptr;
+	dooms::graphics::Mesh* batchMesh = nullptr;
+
+	if(staticRendererList.empty() == false)
+	{
+		batchMesh = dooms::CreateDObject<dooms::graphics::Mesh>();
+
+		BatchedMeshData batchedMeshData{};
+		UINT64 indiceCount = 0;
+		UINT64 verticeCount = 0;
+		for(dooms::Renderer* renderer : staticRendererList)
+		{
+			dooms::MeshRenderer* meshRenderer = CastTo<MeshRenderer*>(renderer);
+			if(IsValid(meshRenderer) && IsValid(meshRenderer->GetMesh()))
+			{
+				indiceCount += meshRenderer->GetMesh()->GetNumOfIndices();
+				verticeCount += meshRenderer->GetMesh()->GetNumOfVertices();
+			}
+		}
+
+		D_ASSERT(indiceCount != 0 && verticeCount != 0);
+		if(indiceCount != 0 && verticeCount != 0)
+		{
+			batchedMeshData.Allocate(verticeCount, indiceCount);
+
+			UINT64 currentVerticeIndex = 0;
+			UINT64 currentIndiceIndex = 0;
+
+			for (dooms::Renderer* renderer : staticRendererList)
+			{
+				dooms::MeshRenderer* meshRenderer = CastTo<MeshRenderer*>(renderer);
+				if(IsValid(meshRenderer) && IsValid(meshRenderer->GetMesh()))
+				{
+					const dooms::ThreeDModelMesh* const targetThreeDModelMesh = meshRenderer->GetMesh()->GetTargetThreeDModelMesh();
+					if(IsValid(targetThreeDModelMesh) && targetThreeDModelMesh->bHasIndices)
+					{
+						const math::Matrix4x4 modelMatrix = renderer->GetTransform()->GetModelMatrix();
+						for(size_t verticeIndex = 0 ; verticeIndex < targetThreeDModelMesh->mMeshDatas.mVerticeCount ; verticeIndex++)
+						{
+							D_ASSERT(verticeIndex + currentVerticeIndex < batchedMeshData.mVerticeCount);
+							batchedMeshData.mWorldSpaceVertex[verticeIndex + currentVerticeIndex] = modelMatrix * targetThreeDModelMesh->mMeshDatas.mVertex[verticeIndex];
+							batchedMeshData.mTexCoord[verticeIndex + currentVerticeIndex] = targetThreeDModelMesh->mMeshDatas.mTexCoord[verticeIndex];
+							batchedMeshData.mTBN[verticeIndex + currentVerticeIndex]
+								=
+								CalculateTBN(modelMatrix, targetThreeDModelMesh->mMeshDatas.mNormal[verticeIndex], targetThreeDModelMesh->mMeshDatas.mTangent[verticeIndex], targetThreeDModelMesh->mMeshDatas.mBitangent[verticeIndex]);
+						}
+						currentVerticeIndex += targetThreeDModelMesh->mMeshDatas.mVerticeCount;
+
+
+						for (size_t indiceIndex = 0; indiceIndex < targetThreeDModelMesh->mMeshIndices.size(); indiceIndex++)
+						{
+							D_ASSERT(indiceIndex + currentIndiceIndex < batchedMeshData.mIndiceCount);
+							batchedMeshData.mIndices[indiceIndex + currentIndiceIndex] = targetThreeDModelMesh->mMeshIndices[indiceIndex];
+						}
+						currentIndiceIndex += targetThreeDModelMesh->mMeshIndices.size();
+
+					}
+				}
+			}
+			
+			
+			batchMesh->CreateBufferObject
+			(
+				batchedMeshData.GetAllocatedMeshComponentCount(),
+				batchedMeshData.mData,
+				graphics::GraphicsAPI::ePrimitiveType::TRIANGLES,
+				eVertexArrayFlag::VertexVector3 | eVertexArrayFlag::TexCoord | eVertexArrayFlag::mTBN,
+				batchedMeshData.mIndices,
+				batchedMeshData.mIndiceCount,
+				false
+			);
+		}
+	}
+
+	return batchMesh;
 }
