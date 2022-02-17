@@ -156,15 +156,18 @@ void dooms::Renderer::PreRender()
 {
 	if(GetIsComponentEnabled() == true)
 	{
-		const physics::AABB3D* const aabb = ColliderUpdater<physics::AABB3D>::GetWorldCollider();
+		if(mCullingEntityBlockViewer.IsValid())
+		{
+			const physics::AABB3D* const aabb = ColliderUpdater<physics::AABB3D>::GetWorldCollider();
 
-		mCullingEntityBlockViewer.UpdateEntityData
-		(
-			GetTransform()->GetPosition().data(),
-			aabb->mLowerBound.data(),
-			aabb->mUpperBound.data(),
-			GetTransform()->GetModelMatrix().data()
-		);
+			mCullingEntityBlockViewer.UpdateEntityData
+			(
+				GetTransform()->GetPosition().data(),
+				aabb->mLowerBound.data(),
+				aabb->mUpperBound.data(),
+				GetTransform()->GetModelMatrix().data()
+			);
+		}
 	}
 
 	
