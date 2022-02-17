@@ -102,7 +102,7 @@ void dooms::graphics::DebugDrawer::Draw()
 
 void dooms::graphics::DebugDrawer::Initialize()
 {
-	mDebugMesh.CreateBufferObject(MAX_DEBUG_VERTEX_COUNT * 3, NULL, GraphicsAPI::ePrimitiveType::LINES, eVertexArrayFlag::VertexVector3, true);
+	mDebugMesh.CreateBufferObject(MAX_DEBUG_VERTEX_COUNT * 3, NULL, GraphicsAPI::ePrimitiveType::LINES, eVertexArrayFlag::VertexVector3, nullptr, 0, true);
 
 	auto debug2DShader = dooms::assetImporter::AssetManager::GetSingleton()->GetAsset<asset::eAssetType::SHADER>(DebugDrawer::DEBUG_2D_SHADER);
 	D_ASSERT(IsValid(debug2DShader));

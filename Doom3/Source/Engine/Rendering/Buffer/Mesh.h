@@ -222,6 +222,8 @@ namespace dooms
 				const void* data, 
 				GraphicsAPI::ePrimitiveType primitiveType,
 				UINT32 vertexArrayFlag,
+				const UINT32* const indices,
+				const UINT64 indiceCount,
 				const bool dynamicWrite
 			);
 			Mesh(const ThreeDModelMesh& threeDModelMesh);
@@ -243,6 +245,8 @@ namespace dooms
 				const void* data, 
 				GraphicsAPI::ePrimitiveType primitiveType,
 				UINT32 vertexArrayFlag,
+				const UINT32* const indices,
+				const UINT64 indiceCount,
 				const bool dynamicWrite
 			) noexcept;
 			void CreateBufferObjectFromModelMesh(const ThreeDModelMesh& threeDModelMesh) noexcept;
@@ -358,6 +362,9 @@ namespace dooms
 			void UnmapVertexDataBuffer();
 			void* MapElementBuffer(const dooms::graphics::GraphicsAPI::eMapBufferAccessOption mapBufferAccessOption);
 			void UnmapElementBuffer();
+
+			UINT64 GetNumOfIndices() const;
+			UINT64 GetNumOfVertices() const;
 		};
 	}
 }
