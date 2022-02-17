@@ -701,6 +701,31 @@ void dooms::GameLogicStartPoint::StartGameLogic()
 
 			}
 		}
+
+		
+		for (size_t i = 0; i < 5000; i++)
+		{
+			for (size_t meshIndex = 0; meshIndex < modelAsset->GetMeshCount(); meshIndex++)
+			{
+				graphics::Mesh* mesh = modelAsset->GetMesh(meshIndex);
+				if (mesh->GetTargetThreeDModelMesh()->mIsValidMesh == true)
+				{
+					auto entity = currenScene->CreateNewEntity();
+					const float scale = Random::RandomFloatNumber(0.1f, 0.4f);
+					entity->GetTransform()->SetScale(scale, scale, scale);
+					entity->GetTransform()->SetRotation(Random::RandomFloatNumber(0.0f, 90.0f), Random::RandomFloatNumber(0.0f, 90.0f), Random::RandomFloatNumber(0.0f, 90.0f));
+					entity->GetTransform()->SetPosition(Random::RandomFloatNumber(-3500.0f, 3500.0f), Random::RandomFloatNumber(-3500.0f, 3500.0f), Random::RandomFloatNumber(-3500.0f, 3500.0f));
+					auto meshRenderer = entity->AddComponent<MeshRenderer>();
+					meshRenderer->SetMesh(mesh);
+					meshRenderer->SetMaterial(material1);
+					portfolioComponent->RockRenderers.push_back(meshRenderer);
+					entity->SetEntityMobility(eEntityMobility::Static);
+				}
+
+			}
+		}
+		
+
 	}
 
 
