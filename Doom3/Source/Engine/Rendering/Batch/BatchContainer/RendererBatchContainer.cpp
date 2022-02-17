@@ -31,7 +31,7 @@ bool dooms::graphics::RendererBatchContainer::AddRenderer(Renderer* const render
 
 			if (bakeBatchedMesh == true)
 			{
-				ReBakeBatchedMesh();
+				BakeBatchedMesh();
 			}
 
 			isSuccess = true;
@@ -50,7 +50,7 @@ void dooms::graphics::RendererBatchContainer::AddRenderer(const std::vector<Rend
 
 	if(bakeBatchedMesh)
 	{
-		ReBakeBatchedMesh();
+		BakeBatchedMesh();
 	}
 }
 
@@ -63,7 +63,7 @@ bool dooms::graphics::RendererBatchContainer::RemoveRenderer(Renderer* const ren
 		isSuccess = swap_popback::vector_find_swap_popback(mBatchedRenderers, renderer);
 		if(isSuccess && bakeBatchedMesh)
 		{
-			ReBakeBatchedMesh();
+			BakeBatchedMesh();
 		}
 	}
 

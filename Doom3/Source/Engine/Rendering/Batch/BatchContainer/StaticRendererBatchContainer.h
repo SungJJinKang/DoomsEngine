@@ -18,18 +18,18 @@ namespace dooms
 			GENERATE_BODY()
 
 		private:
-			
+						
 			D_PROPERTY()
-			Material* BatchRenderingMaterial;
+			Material* mBatchRenderingMaterial;
 
-			void GenerateBatchRenderingMaterialFromTargetMaterial();
+			void GenerateBatchRenderingMaterialFromTargetMaterial(Material* const targetMaterial);
 
 		public:
 
 			StaticRendererBatchContainer() = delete;
 			explicit StaticRendererBatchContainer(Material* const targetMaterial);
 
-			void ReBakeBatchedMesh() final;
+			void BakeBatchedMesh() final;
 			eBatchRenderingType GetBatchRenderingType() const override;
 			void BatchedDraw() const override;
 

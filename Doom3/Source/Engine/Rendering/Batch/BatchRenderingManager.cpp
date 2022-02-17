@@ -51,7 +51,7 @@ dooms::graphics::RendererBatchContainer* dooms::graphics::BatchRenderingManager:
 	return batchedRendererContainer;
 }
 
-dooms::graphics::BatchRenderingManager::BatchRenderingManager()
+dooms::graphics::BatchRenderingManager::BatchRenderingManager() : bPauseBakeBatchMesh(true)
 {
 }
 
@@ -64,7 +64,7 @@ bool dooms::graphics::BatchRenderingManager::AddRendererToBatchRendering(Rendere
 		dooms::graphics::RendererBatchContainer* batchedRendererContainer = CreateOrFindBatchedRendererContainer(renderer->GetMaterial(), batchRenderingType);
 		if(IsValid(batchedRendererContainer) && batchedRendererContainer->GetBatchRenderingType() == batchRenderingType)
 		{
-			isSuccess = batchedRendererContainer->AddRenderer(renderer);
+			isSuccess = batchedRendererContainer->AddRenderer(renderer, !bPauseBakeBatchMesh);
 		}
 	}
 
@@ -95,6 +95,28 @@ void dooms::graphics::BatchRenderingManager::DrawAllBatchedRendererContainers() 
 		if(IsValid(rendererBatchContainer))
 		{
 			rendererBatchContainer->BatchedDraw();
+		}
+	}
+}
+
+void dooms::graphics::BatchRenderingManager::SetPauseBakeBatchMesh(const bool pauseBakeBatchMesh)
+{
+	if(pauseBakeBatchMesh == false && bPauseBakeBatchMesh == true)
+	{
+		BakeAllRendererBatchContainer();
+	}
+	bPauseBakeBatchMesh = pauseBakeBatchMesh;
+}
+
+void dooms::graphics::BatchRenderingManager::BakeAllRendererBatchContainer()
+{
+	for(auto& rendererBatchContainerNode : mBatchedRendererContainers)
+	{
+		RendererBatchContainer* rendererBatchContainer = rendererBatchContainerNode.second;
+		D_ASSERT(IsValid(rendererBatchContainer));
+		if(IsValid(rendererBatchContainer))
+		{
+			rendererBatchContainer->BakeBatchedMesh();
 		}
 	}
 }

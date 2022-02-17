@@ -27,6 +27,8 @@ namespace dooms
 			RendererBatchContainer* CreateOrFindBatchedRendererContainer(Material* const material, const eBatchRenderingType batchRenderingType);
 			RendererBatchContainer* FindBatchedRendererContainer(Material* const material) const;
 
+			bool bPauseBakeBatchMesh;
+
 		public:
 
 			BatchRenderingManager();
@@ -35,6 +37,9 @@ namespace dooms
 			bool RemoveRendererFromBatchRendering(Renderer* const renderer);
 
 			void DrawAllBatchedRendererContainers() const;
+
+			void SetPauseBakeBatchMesh(const bool pauseBakeBatchMesh);
+			void BakeAllRendererBatchContainer();
 		};
 	}
 }
