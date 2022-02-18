@@ -7,13 +7,14 @@
 
 #include "Rendering/Texture/TextureView.h"
 
+#define LIMIT_BATCH_VERTEX_COUNT
 
-#define VERTEX_COUNT_LIMIT_OF_BATCAHBLE_OBJECT 1000
-
+#ifdef LIMIT_BATCH_VERTEX_COUNT
+#define VERTEX_COUNT_LIMIT_OF_BATCAHBLE_OBJECT 1500
 // static batched mesh of unity can have vertices until 64000 vertices.
 // Each vertex require 12 + 12 + 36 = 60 byte.
-#define VERTEX_COUNT_LIMIT_OF_COMBINED_BATCHED_MESH 60000
-
+#define VERTEX_COUNT_LIMIT_OF_COMBINED_BATCHED_MESH 300000
+#endif
 
 
 
@@ -147,8 +148,7 @@ dooms::graphics::eRendererBatchContainerState dooms::graphics::StaticRendererBat
 		CheckMaterialAcceptable(renderer->GetMaterial())
 	)
 	{
-		//state = dooms::graphics::eRendererBatchContainerState::Acceptable;
-		
+#ifdef LIMIT_BATCH_VERTEX_COUNT
 		// OpenGL doesn't have limitation on vertex buffer size.
 		const MeshRenderer* const meshRenderer = CastTo<const MeshRenderer*>(renderer);
 		if(IsValid(meshRenderer) && IsValid(meshRenderer->GetMesh()) && meshRenderer->GetMesh()->GetNumOfVertices() < VERTEX_COUNT_LIMIT_OF_BATCAHBLE_OBJECT)
@@ -162,7 +162,9 @@ dooms::graphics::eRendererBatchContainerState dooms::graphics::StaticRendererBat
 				state = dooms::graphics::eRendererBatchContainerState::AcceptableButContainerIsFull;
 			}
 		}
-		
+#else
+		state = dooms::graphics::eRendererBatchContainerState::Acceptable;
+#endif
 
 	}
 

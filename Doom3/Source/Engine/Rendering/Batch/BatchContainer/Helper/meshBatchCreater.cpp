@@ -40,23 +40,14 @@ namespace dooms::graphics::meshBatchCreater
 
 	struct DOOM_API D_STRUCT BatchedMeshData
 	{
-		D_PROPERTY()
 		UINT64 mVerticeCount;
-
-		D_PROPERTY()
 		UINT64 mIndiceCount;
-
-		D_PROPERTY()
 		char* mData;
-
-		D_PROPERTY()
 		math::Vector3* mWorldSpaceVertex;
-
-		D_PROPERTY()
 		math::Vector3* mTexCoord; //support only one channel
-
-		D_PROPERTY()
-		math::Matrix3x3* mTBN;
+		math::Vector3* mTBN1;
+		math::Vector3* mTBN2;
+		math::Vector3* mTBN3;
 
 		UINT32* mIndices;
 
@@ -79,7 +70,9 @@ namespace dooms::graphics::meshBatchCreater
 			mIndiceCount(0),
 			mWorldSpaceVertex(nullptr),
 			mTexCoord(nullptr),
-			mTBN(nullptr),
+			mTBN1(nullptr),
+			mTBN2(nullptr),
+			mTBN3(nullptr),
 			mIndices(nullptr)
 		{
 		}
@@ -95,7 +88,9 @@ namespace dooms::graphics::meshBatchCreater
 			mIndiceCount(0),
 			mWorldSpaceVertex(nullptr),
 			mTexCoord(nullptr),
-			mTBN(nullptr),
+			mTBN1(nullptr),
+			mTBN2(nullptr),
+			mTBN3(nullptr),
 			mIndices(nullptr)
 		{
 			Allocate(meshData.mVerticeCount, meshData.mIndiceCount);
@@ -109,7 +104,9 @@ namespace dooms::graphics::meshBatchCreater
 			mIndiceCount(meshData.mIndiceCount),
 			mWorldSpaceVertex(meshData.mWorldSpaceVertex),
 			mTexCoord(meshData.mTexCoord),
-			mTBN(meshData.mTBN),
+			mTBN1(meshData.mTBN1),
+			mTBN2(meshData.mTBN2),
+			mTBN3(meshData.mTBN3),
 			mIndices(meshData.mIndices)
 		{
 			meshData.mData = nullptr;
@@ -117,7 +114,9 @@ namespace dooms::graphics::meshBatchCreater
 			meshData.mIndiceCount = 0;
 			meshData.mWorldSpaceVertex = nullptr;
 			meshData.mTexCoord = nullptr;
-			meshData.mTBN = nullptr;
+			meshData.mTBN1 = nullptr;
+			meshData.mTBN2 = nullptr;
+			meshData.mTBN3 = nullptr;
 			meshData.mIndices = nullptr;
 		}
 
@@ -148,7 +147,9 @@ namespace dooms::graphics::meshBatchCreater
 			mIndiceCount = meshData.mIndiceCount;
 			mWorldSpaceVertex = meshData.mWorldSpaceVertex;
 			mTexCoord = meshData.mTexCoord;
-			mTBN = meshData.mTBN;
+			mTBN1 = meshData.mTBN1;
+			mTBN2 = meshData.mTBN2;
+			mTBN3 = meshData.mTBN3;
 			mIndices = meshData.mIndices;
 
 			meshData.mData = nullptr;
@@ -156,7 +157,9 @@ namespace dooms::graphics::meshBatchCreater
 			meshData.mIndiceCount = 0;
 			meshData.mWorldSpaceVertex = nullptr;
 			meshData.mTexCoord = nullptr;
-			meshData.mTBN = nullptr;
+			meshData.mTBN1 = nullptr;
+			meshData.mTBN2 = nullptr;
+			meshData.mTBN3 = nullptr;
 			meshData.mIndices = nullptr;
 
 			return *this;
@@ -178,8 +181,10 @@ namespace dooms::graphics::meshBatchCreater
 				
 				mWorldSpaceVertex = reinterpret_cast<math::Vector3*>(mData);
 				mTexCoord = reinterpret_cast<math::Vector3*>((char*)mWorldSpaceVertex + sizeof(math::Vector3) * verticeCount);
-				mTBN = reinterpret_cast<math::Matrix3x3*>((char*)mTexCoord + sizeof(math::Vector3) * verticeCount);
-				mIndices = reinterpret_cast<UINT32*>((char*)mTBN + sizeof(math::Matrix3x3) * verticeCount);
+				mTBN1 = reinterpret_cast<math::Vector3*>((char*)mTexCoord + sizeof(math::Vector3) * verticeCount);
+				mTBN2 = reinterpret_cast<math::Vector3*>((char*)mTBN1 + sizeof(math::Vector3) * verticeCount);
+				mTBN3 = reinterpret_cast<math::Vector3*>((char*)mTBN2 + sizeof(math::Vector3) * verticeCount);
+				mIndices = reinterpret_cast<UINT32*>((char*)mTBN3 + sizeof(math::Vector3) * verticeCount);
 			}
 
 		}
@@ -194,7 +199,9 @@ namespace dooms::graphics::meshBatchCreater
 			mIndiceCount = 0;
 			mWorldSpaceVertex = nullptr;
 			mTexCoord = nullptr;
-			mTBN = nullptr;
+			mTBN1 = nullptr;
+			mTBN2 = nullptr;
+			mTBN3 = nullptr;
 			mIndices = nullptr;
 		}
 
@@ -243,34 +250,38 @@ dooms::graphics::Mesh* dooms::graphics::meshBatchCreater::CreateStaticBatchedMes
 					const dooms::ThreeDModelMesh* const targetThreeDModelMesh = meshRenderer->GetMesh()->GetTargetThreeDModelMesh();
 					if(IsValid(targetThreeDModelMesh) && targetThreeDModelMesh->bHasIndices)
 					{
-						const math::Matrix4x4 modelMatrix = renderer->GetTransform()->GetModelMatrix();
+						const math::Matrix4x4& modelMatrix = renderer->GetTransform()->GetModelMatrix();
 						for(size_t verticeIndex = 0 ; verticeIndex < targetThreeDModelMesh->mMeshDatas.mVerticeCount ; verticeIndex++)
 						{
 							D_ASSERT(verticeIndex + currentVerticeIndex < batchedMeshData.mVerticeCount);
 							batchedMeshData.mWorldSpaceVertex[verticeIndex + currentVerticeIndex] = modelMatrix * targetThreeDModelMesh->mMeshDatas.mVertex[verticeIndex];
 							batchedMeshData.mTexCoord[verticeIndex + currentVerticeIndex] = targetThreeDModelMesh->mMeshDatas.mTexCoord[verticeIndex];
-							batchedMeshData.mTBN[verticeIndex + currentVerticeIndex]
-								=
-								CalculateTBN(modelMatrix, targetThreeDModelMesh->mMeshDatas.mNormal[verticeIndex], targetThreeDModelMesh->mMeshDatas.mTangent[verticeIndex], targetThreeDModelMesh->mMeshDatas.mBitangent[verticeIndex]);
+							
+							const math::Matrix3x3 tbn = CalculateTBN(modelMatrix, targetThreeDModelMesh->mMeshDatas.mNormal[verticeIndex], targetThreeDModelMesh->mMeshDatas.mTangent[verticeIndex], targetThreeDModelMesh->mMeshDatas.mBitangent[verticeIndex]);
+
+							batchedMeshData.mTBN1[verticeIndex + currentVerticeIndex] = tbn[0];
+							batchedMeshData.mTBN2[verticeIndex + currentVerticeIndex] = tbn[1];
+							batchedMeshData.mTBN3[verticeIndex + currentVerticeIndex] = tbn[2];
+								
 						}
-						currentVerticeIndex += targetThreeDModelMesh->mMeshDatas.mVerticeCount;
 
 
 						for (size_t indiceIndex = 0; indiceIndex < targetThreeDModelMesh->mMeshIndices.size(); indiceIndex++)
 						{
 							D_ASSERT(indiceIndex + currentIndiceIndex < batchedMeshData.mIndiceCount);
-							batchedMeshData.mIndices[indiceIndex + currentIndiceIndex] = targetThreeDModelMesh->mMeshIndices[indiceIndex];
+							batchedMeshData.mIndices[indiceIndex + currentIndiceIndex] = targetThreeDModelMesh->mMeshIndices[indiceIndex] + currentVerticeIndex;
 						}
+
+						currentVerticeIndex += targetThreeDModelMesh->mMeshDatas.mVerticeCount;
 						currentIndiceIndex += targetThreeDModelMesh->mMeshIndices.size();
 
 					}
 				}
 			}
-			
-			
 			batchMesh->CreateBufferObject
 			(
 				batchedMeshData.GetAllocatedMeshComponentCount(),
+				verticeCount,
 				batchedMeshData.mData,
 				graphics::GraphicsAPI::ePrimitiveType::TRIANGLES,
 				eVertexArrayFlag::VertexVector3 | eVertexArrayFlag::TexCoord | eVertexArrayFlag::mTBN,
