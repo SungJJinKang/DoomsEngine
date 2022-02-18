@@ -23,6 +23,7 @@ namespace dooms
 			Material* mBatchRenderingMaterial;
 			
 			void InitializeBatchRenderingMaterial(Material* const targetMaterial);
+			UINT64 GetBatchedMeshVertexCount() const;
 
 		public:
 
@@ -35,6 +36,9 @@ namespace dooms
 
 			static bool CheckMaterialAcceptable(Material* const material);
 			eRendererBatchContainerState CheckRendererAcceptable(Renderer* const renderer) const override;
+
+			Material* GetBatchRenderingMaterial();
+			const Material* GetBatchRenderingMaterial() const;
 		};
 	}
 }

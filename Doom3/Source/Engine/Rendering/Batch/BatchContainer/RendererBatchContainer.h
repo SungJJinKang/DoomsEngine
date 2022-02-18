@@ -27,7 +27,7 @@ namespace dooms
 			/**
 			 * \brief Renderer is acceptable, but container is full. Create another container
 			 */
-			AcceptableButCreateAnotherContainer
+			AcceptableButContainerIsFull
 		};
 
 		class D_CLASS RendererBatchContainer : public DObject

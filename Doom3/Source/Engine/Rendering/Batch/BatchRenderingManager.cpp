@@ -94,7 +94,7 @@ bool dooms::graphics::BatchRenderingManager::AddRendererToBatchRendering(Rendere
 				isSuccess = false;
 				isCreateNewContainer = false;
 				break;
-			case AcceptableButCreateAnotherContainer: 
+			case AcceptableButContainerIsFull: 
 				isCreateNewContainer = true;
 				break;
 			default:

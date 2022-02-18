@@ -8,6 +8,15 @@
 #include "Rendering/Texture/TextureView.h"
 
 
+#define VERTEX_COUNT_LIMIT_OF_BATCAHBLE_OBJECT 2000
+
+// static batched mesh of unity can have vertices until 64000 vertices.
+// Each vertex require 12 + 12 + 36 = 60 byte.
+#define VERTEX_COUNT_LIMIT_OF_COMBINED_BATCHED_MESH 50000
+
+
+
+
 namespace dooms::graphics::staticRendererBatchContainerHelper
 {
 	static const char* const BATCH_RENDERING_SHADER_NAME = "GbufferWriter_BatchedMesh_PBR.glsl";
@@ -40,6 +49,23 @@ void dooms::graphics::StaticRendererBatchContainer::InitializeBatchRenderingMate
 	
 	}
 	D_ASSERT(IsValid(mBatchRenderingMaterial) && mBatchRenderingMaterial->IsHasAnyValidShaderObject());
+}
+
+UINT64 dooms::graphics::StaticRendererBatchContainer::GetBatchedMeshVertexCount() const
+{
+	UINT64 batchedMeshVertexCount = 0;
+
+	for(const Renderer* renderer : mBatchedRenderers)
+	{
+		const MeshRenderer* const meshRenderer = CastTo<const MeshRenderer*>(renderer);
+		D_ASSERT(IsValid(meshRenderer));
+		if(IsValid(meshRenderer) && IsValid(meshRenderer->GetMesh()))
+		{
+			batchedMeshVertexCount += meshRenderer->GetMesh()->GetNumOfVertices();
+		}
+	}
+
+	return batchedMeshVertexCount;
 }
 
 dooms::graphics::StaticRendererBatchContainer::StaticRendererBatchContainer(Material* const targetMaterial)
@@ -109,12 +135,39 @@ bool dooms::graphics::StaticRendererBatchContainer::CheckMaterialAcceptable(Mate
 
 dooms::graphics::eRendererBatchContainerState dooms::graphics::StaticRendererBatchContainer::CheckRendererAcceptable(Renderer* const renderer) const
 {
-	if((IsValid(renderer) && renderer->IsChildOf<MeshRenderer>() && CheckMaterialAcceptable(renderer->GetMaterial())))
+	dooms::graphics::eRendererBatchContainerState state = dooms::graphics::eRendererBatchContainerState::Unacceptable;
+
+	if
+	(
+		IsValid(renderer) && 
+		renderer->IsChildOf<MeshRenderer>() &&
+		CheckMaterialAcceptable(renderer->GetMaterial())
+	)
 	{
-		return dooms::graphics::eRendererBatchContainerState::Acceptable;
+		// OpenGL doesn't have limitation on vertex buffer size.
+		const MeshRenderer* const meshRenderer = CastTo<const MeshRenderer*>(renderer);
+		if(IsValid(meshRenderer) && IsValid(meshRenderer->GetMesh()) && meshRenderer->GetMesh()->GetNumOfVertices() > VERTEX_COUNT_LIMIT_OF_BATCAHBLE_OBJECT)
+		{
+			if(GetBatchedMeshVertexCount() + meshRenderer->GetMesh()->GetNumOfVertices() < VERTEX_COUNT_LIMIT_OF_COMBINED_BATCHED_MESH)
+			{
+				state = dooms::graphics::eRendererBatchContainerState::Acceptable;
+			}
+			else
+			{
+				state = dooms::graphics::eRendererBatchContainerState::AcceptableButContainerIsFull;
+			}
+		}
 	}
-	else
-	{
-		return dooms::graphics::eRendererBatchContainerState::Unacceptable;
-	}
+
+	return state;
+}
+
+dooms::graphics::Material* dooms::graphics::StaticRendererBatchContainer::GetBatchRenderingMaterial()
+{
+	return mBatchRenderingMaterial;
+}
+
+const dooms::graphics::Material* dooms::graphics::StaticRendererBatchContainer::GetBatchRenderingMaterial() const
+{
+	return mBatchRenderingMaterial;
 }
