@@ -27,7 +27,8 @@ dooms::graphics::Mesh::Mesh()
 
 dooms::graphics::Mesh::Mesh
 (
-	const long long int dataCount, 
+	const UINT64 dataComponentCount,
+	const UINT64 vertexCount,
 	const void* data, 
 	GraphicsAPI::ePrimitiveType primitiveType,
 	UINT32 vertexArrayFlag,
@@ -47,7 +48,7 @@ dooms::graphics::Mesh::Mesh
 	mVertexBufferLayoutCount(),
 	mVertexBufferLayouts()
 {
-	CreateBufferObject(dataCount, data, primitiveType, vertexArrayFlag, indices, indiceCount, dynamicWrite);
+	CreateBufferObject(dataComponentCount, vertexCount, data, primitiveType, vertexArrayFlag, indices, indiceCount, dynamicWrite);
 }
 
 
@@ -118,7 +119,8 @@ const dooms::ThreeDModelMesh* dooms::graphics::Mesh::GetTargetThreeDModelMesh() 
 
 void dooms::graphics::Mesh::CreateBufferObject
 (
-	const long long int dataComponentCount, 
+	const UINT64 dataComponentCount,
+	const UINT64 vertexCount,
 	const void* data, 
 	GraphicsAPI::ePrimitiveType primitiveType,
 	UINT32 vertexArrayFlag,
@@ -149,14 +151,12 @@ void dooms::graphics::Mesh::CreateBufferObject
 			dynamicWrite
 		);
 		BindVertexBufferObject();
-
-		UINT32 offset = 0;
 		
 #pragma warning( disable : 4312 )
 
 		D_ASSERT(((vertexArrayFlag & eVertexArrayFlag::VertexVector2)) > 0 != ((vertexArrayFlag & eVertexArrayFlag::VertexVector3) > 0));
 
-
+		UINT64 offset = 0;
 		UINT32 vertexLayoutCount = 0;
 		UINT32 layoutIndex = 0;
 		if (vertexArrayFlag & eVertexArrayFlag::VertexVector2)
@@ -173,7 +173,7 @@ void dooms::graphics::Mesh::CreateBufferObject
 			vertexLayoutCount++;
 			layoutIndex++;
 
-			offset += sizeof(math::Vector2);
+			offset += vertexCount * sizeof(math::Vector2);
 		}
 
 		if (vertexArrayFlag & eVertexArrayFlag::VertexVector3)
@@ -190,7 +190,7 @@ void dooms::graphics::Mesh::CreateBufferObject
 			vertexLayoutCount++;
 			layoutIndex++;
 
-			offset += sizeof(math::Vector3);
+			offset += vertexCount * sizeof(math::Vector3);
 		}
 
 		if (vertexArrayFlag & eVertexArrayFlag::TexCoord)
@@ -207,7 +207,7 @@ void dooms::graphics::Mesh::CreateBufferObject
 			vertexLayoutCount++;
 			layoutIndex++;
 
-			offset += sizeof(math::Vector2);
+			offset += vertexCount * sizeof(math::Vector2);
 		}
 
 		if (vertexArrayFlag & eVertexArrayFlag::mNormal)
@@ -224,7 +224,7 @@ void dooms::graphics::Mesh::CreateBufferObject
 			vertexLayoutCount++;
 			layoutIndex++;
 
-			offset += sizeof(math::Vector3);
+			offset += vertexCount * sizeof(math::Vector3);
 		}
 
 		if (vertexArrayFlag & eVertexArrayFlag::mTangent)
@@ -241,7 +241,7 @@ void dooms::graphics::Mesh::CreateBufferObject
 			vertexLayoutCount++;
 			layoutIndex++;
 
-			offset += sizeof(math::Vector3);
+			offset += vertexCount * sizeof(math::Vector3);
 		}
 
 		if (vertexArrayFlag & eVertexArrayFlag::mBitangent)
@@ -258,30 +258,35 @@ void dooms::graphics::Mesh::CreateBufferObject
 			vertexLayoutCount++;
 			layoutIndex++;
 
-			offset += sizeof(math::Vector3);
+			offset += vertexCount * sizeof(math::Vector3);
 		}
 
 		if (vertexArrayFlag & eVertexArrayFlag::mTBN)
 		{
-			if (graphics::GraphicsAPIManager::GetCurrentAPIType() == graphics::GraphicsAPI::eGraphicsAPIType::OpenGL)
+			for(size_t i = 0 ; i < 3 ; i++)
 			{
-				//mBitangent
-				GraphicsAPI::EnableVertexAttributeArrayIndex(layoutIndex);
-				GraphicsAPI::DefineVertexAttributeLayout(mVertexDataBuffer, layoutIndex, 9, sizeof(math::Matrix3x3), offset);
+				//const UINT64 offset = static_cast<unsigned int>((char*)threeDModelMesh.mMeshDatas.mBitangent - threeDModelMesh.mMeshDatas.mData);
+				if (graphics::GraphicsAPIManager::GetCurrentAPIType() == graphics::GraphicsAPI::eGraphicsAPIType::OpenGL)
+				{
+					//mBitangent
+					GraphicsAPI::EnableVertexAttributeArrayIndex(layoutIndex);
+					GraphicsAPI::DefineVertexAttributeLayout(mVertexDataBuffer, layoutIndex, 3, sizeof(math::Vector3), offset);
+				}
+
+				mVertexBufferLayouts[vertexLayoutCount].mOffset = offset;
+				mVertexBufferLayouts[vertexLayoutCount].mStride = sizeof(math::Vector3);
+				vertexLayoutCount++;
+				layoutIndex++;
+
+				offset += vertexCount * sizeof(math::Vector3);
 			}
-
-			mVertexBufferLayouts[vertexLayoutCount].mOffset = offset;
-			mVertexBufferLayouts[vertexLayoutCount].mStride = sizeof(math::Matrix3x3);
-			vertexLayoutCount++;
-			layoutIndex++;
-
-			offset += sizeof(math::Matrix3x3);
+			
 		}
 
 		mVertexBufferLayoutCount = vertexLayoutCount;
 
 #pragma warning( disable : 4244 )
-		mNumOfVertices = static_cast<UINT32>(dataComponentCount * sizeof(FLOAT32) / offset);
+		mNumOfVertices = vertexCount;
 		mNumOfIndices = indiceCount;
 		if (mNumOfIndices > 0)
 		{
@@ -461,34 +466,47 @@ void dooms::graphics::Mesh::CreateBufferObjectFromModelMesh(const ThreeDModelMes
 constexpr UINT32 dooms::graphics::Mesh::GetStride(const UINT32 vertexArrayFlag)
 {
 	UINT32 offset = 0;
+
+	if (vertexArrayFlag & eVertexArrayFlag::VertexVector2)
+	{
+		//mVertex
+		offset += sizeof(math::Vector2);
+	}
+
 	if (vertexArrayFlag & eVertexArrayFlag::VertexVector3)
 	{
 		//mVertex
-		offset += 3 * sizeof(FLOAT32);
+		offset += sizeof(math::Vector3);
 	}
 
 	if (vertexArrayFlag & eVertexArrayFlag::TexCoord)
 	{
 		//mTexCoord
-		offset += 2 * sizeof(FLOAT32);
+		offset += sizeof(math::Vector3);
 	}
 
 	if (vertexArrayFlag & eVertexArrayFlag::mNormal)
 	{
 		//mNormal
-		offset += 3 * sizeof(FLOAT32);
+		offset += sizeof(math::Vector3);
 	}
 
 	if (vertexArrayFlag & eVertexArrayFlag::mTangent)
 	{
 		//mTangent
-		offset += 3 * sizeof(FLOAT32);
+		offset += sizeof(math::Vector3);
 	}
 
 	if (vertexArrayFlag & eVertexArrayFlag::mBitangent)
 	{
 		//mBitangent
-		offset += 3 * sizeof(FLOAT32);
+		offset += sizeof(math::Vector3);
+	}
+
+	if (vertexArrayFlag & eVertexArrayFlag::mTBN)
+	{
+		//mBitangent
+		offset += sizeof(math::Matrix3x3);
 	}
 
 	return offset;

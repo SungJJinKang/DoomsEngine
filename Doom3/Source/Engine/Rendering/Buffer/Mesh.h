@@ -218,7 +218,8 @@ namespace dooms
 			
 			Mesh
 			(
-				const long long int dataCount, 
+				const UINT64 dataComponentCount,
+				const UINT64 vertexCount,
 				const void* data, 
 				GraphicsAPI::ePrimitiveType primitiveType,
 				UINT32 vertexArrayFlag,
@@ -241,7 +242,8 @@ namespace dooms
 			
 			void CreateBufferObject
 			(
-				const long long int dataComponentCount, 
+				const UINT64 dataComponentCount,
+				const UINT64 vertexCount,
 				const void* data, 
 				GraphicsAPI::ePrimitiveType primitiveType,
 				UINT32 vertexArrayFlag,
