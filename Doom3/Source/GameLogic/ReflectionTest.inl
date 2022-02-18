@@ -715,11 +715,11 @@ void dooms::GameLogicStartPoint::StartGameLogic()
 					entity->GetTransform()->SetScale(scale, scale, scale);
 					entity->GetTransform()->SetRotation(Random::RandomFloatNumber(0.0f, 90.0f), Random::RandomFloatNumber(0.0f, 90.0f), Random::RandomFloatNumber(0.0f, 90.0f));
 					entity->GetTransform()->SetPosition(Random::RandomFloatNumber(-3500.0f, 3500.0f), Random::RandomFloatNumber(-3500.0f, 3500.0f), Random::RandomFloatNumber(-3500.0f, 3500.0f));
+					entity->SetEntityMobility(eEntityMobility::Static);
 					auto meshRenderer = entity->AddComponent<MeshRenderer>();
 					meshRenderer->SetMesh(mesh);
 					meshRenderer->SetMaterial(material1);
 					portfolioComponent->RockRenderers.push_back(meshRenderer);
-					entity->SetEntityMobility(eEntityMobility::Static);
 				}
 
 			}
