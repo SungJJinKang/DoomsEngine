@@ -1,7 +1,7 @@
 #include "StaticRendererBatchContainer.h"
 
 #include <Rendering/Renderer/MeshRenderer.h>
-#include "meshBatchCreater.h"
+#include "Helper/meshBatchCreater.h"
 #include <Asset/ShaderAsset.h>
 #include <Asset/AssetManager/AssetManager.h>
 

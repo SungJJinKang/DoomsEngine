@@ -360,7 +360,7 @@
     <ClCompile Include="Source\GameLogic\CustomComponent\Portfolio\OverDrawVisualizationDebugger.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Engine\Rendering\Batch\BatchContainer\meshBatchCreater.cpp">
+    <ClCompile Include="Source\Engine\Rendering\Batch\BatchContainer\Helper\meshBatchCreater.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Source\GameLogic\CustomComponent\Portfolio\PortfolioComponent.cpp">
@@ -1481,7 +1481,7 @@
     <ClInclude Include="Source\GameLogic\CustomComponent\Portfolio\OverDrawVisualizationDebugger.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Engine\Rendering\Batch\BatchContainer\meshBatchCreater.h">
+    <ClInclude Include="Source\Engine\Rendering\Batch\BatchContainer\Helper\meshBatchCreater.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\Core\DObject\DObjectGlobals.h">

@@ -479,7 +479,7 @@ xcopy /y /d /E /H /C /I "$(ProjectDir)Assets" "$(TargetDir)Assets"</Command>
     <ClCompile Include="Source\Component\PhysicsComponent\Rigidbody\Rigidbody.cpp" />
     <ClCompile Include="Source\Core\DObject\DObjectManager.cpp" />
     <ClCompile Include="Source\Engine\Rendering\Acceleration\FrontToBackSorting\SortFrontToBackSolver.cpp" />
-    <ClCompile Include="Source\Engine\Rendering\Batch\BatchContainer\meshBatchCreater.cpp" />
+    <ClCompile Include="Source\Engine\Rendering\Batch\BatchContainer\Helper\meshBatchCreater.cpp" />
     <ClCompile Include="Source\Core\Graphics\Color.cpp" />
     <ClCompile Include="Source\Engine\Rendering\RenderingDebugger\RenderingDebuggerModules\Modules\OverDrawVisualization.cpp" />
     <ClCompile Include="Source\Engine\Rendering\Pipeline\PipeLines\DeferredRendering\DeferredRenderingDrawer.cpp" />
@@ -778,7 +778,7 @@ xcopy /y /d /E /H /C /I "$(ProjectDir)Assets" "$(TargetDir)Assets"</Command>
     <ClInclude Include="Source\Core\DObject\DObjectGlobals.h" />
     <ClInclude Include="Source\Core\DObject\DObjectManager.h" />
     <ClInclude Include="Source\Engine\Rendering\Acceleration\FrontToBackSorting\SortFrontToBackSolver.h" />
-    <ClInclude Include="Source\Engine\Rendering\Batch\BatchContainer\meshBatchCreater.h" />
+    <ClInclude Include="Source\Engine\Rendering\Batch\BatchContainer\Helper\meshBatchCreater.h" />
     <ClInclude Include="Source\Engine\Rendering\Buffer\BufferID.h" />
     <ClInclude Include="Source\Engine\Rendering\RenderingDebugger\RenderingDebuggerModules\Modules\OverDrawVisualization.h" />
     <ClInclude Include="Source\Engine\Rendering\Pipeline\PipeLines\DeferredRendering\DeferredRenderingDrawer.h" />
