@@ -60,6 +60,22 @@ dooms::graphics::RendererBatchContainer* dooms::graphics::BatchRenderingManager:
 	return batchedRendererContainer;
 }
 
+void dooms::graphics::BatchRenderingManager::RelocateRendererBasedOnWorldPosition
+(
+	std::vector<RendererBatchContainer*>& rendererBatchContainers
+)
+{
+	// TODO
+}
+
+void dooms::graphics::BatchRenderingManager::RelocateRendererBasedOnWorldPosition()
+{
+	for(auto node : mBatchedRendererContainers)
+	{
+		RelocateRendererBasedOnWorldPosition(node.second);
+	}
+}
+
 dooms::graphics::BatchRenderingManager::BatchRenderingManager() : bPauseBakeBatchMesh(true)
 {
 }
@@ -164,6 +180,7 @@ void dooms::graphics::BatchRenderingManager::BakeAllRendererBatchContainer()
 	for(auto& rendererBatchContainerNode : mBatchedRendererContainers)
 	{
 		std::vector<RendererBatchContainer*>& rendererBatchContainers = rendererBatchContainerNode.second;
+		RelocateRendererBasedOnWorldPosition(rendererBatchContainers);
 		for(RendererBatchContainer* rendererBatchContainer : rendererBatchContainers)
 		{
 			D_ASSERT(IsValid(rendererBatchContainer));

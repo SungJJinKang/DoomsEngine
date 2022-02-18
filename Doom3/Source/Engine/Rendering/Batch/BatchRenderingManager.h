@@ -28,6 +28,11 @@ namespace dooms
 			RendererBatchContainer* FindBatchedRendererContainer(Renderer* const renderer) const;
 
 			bool bPauseBakeBatchMesh;
+			/**
+			 * \brief Relocate renderer based on world position. Relocate adjecent object into same container.
+			 */
+			void RelocateRendererBasedOnWorldPosition(std::vector<RendererBatchContainer*>& rendererBatchContainers);
+			void RelocateRendererBasedOnWorldPosition();
 
 		public:
 

@@ -16,24 +16,26 @@ namespace dooms::graphics::meshBatchCreater
 {
 	math::Matrix3x3 CalculateTBN
 	(
-		const math::Matrix4x4& modelMatrix, 
-		const math::Vector3 normal,
-		const math::Vector3 tangent,
-		const math::Vector3 biTangent
+		const math::Matrix4x4& modelMatrix,
+		const math::Vector3& normal,
+		const math::Vector3& tangent,
+		const math::Vector3& biTangent
 	)
 	{
-		const math::Vector3 N = math::Vector3{ (modelMatrix * normal).normalized() };
-		math::Vector3 T = math::Vector3{ (modelMatrix * tangent).normalized() };
-		T = normalize(T - math::dot(N, T) * N);
-		// vec3 B = cross(N, T);
-		const math::Vector3 B = math::Vector3{ (modelMatrix * biTangent).normalized() };
+		const math::Vector3 N = static_cast<math::Vector3>(modelMatrix * math::Vector4{ normal, 0.0f }).normalized();
+		math::Vector3 T = static_cast<math::Vector3>(modelMatrix * math::Vector4{ tangent, 0.0f }).normalized();
+		T = normalize(T - math::dot(T, N) * N);
+		const math::Vector3 B = static_cast<math::Vector3>(modelMatrix * math::Vector4{ biTangent, 0.0f }).normalized();
+		//const math::Vector3 B = math::cross(N, T);
 
+		/*
 		// TBN must form a right handed coord system.
 		// Some models have symetric UVs. Check and fix.
 		if (math::dot(cross(N, T), B) < 0.0)
 		{
 			T = T * -1.0;
 		}
+		*/
 
 		return math::Matrix3x3(T, B, N);
 	}

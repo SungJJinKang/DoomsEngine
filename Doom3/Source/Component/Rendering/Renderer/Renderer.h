@@ -46,6 +46,7 @@ namespace dooms
 		
 	private:
 
+		D_PROPERTY(READONLY)
 		bool bmIsBatched;
 
 		void MergeBVHBitFlag();
