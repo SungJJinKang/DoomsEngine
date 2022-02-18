@@ -82,6 +82,8 @@ namespace dooms
 		void OnChangedByGUI(const dooms::reflection::DField& dFieldOfChangedField) override;
 		bool AddToBatchRendering();
 		bool RemoveFromBatchRendering();
+		virtual void OnRendererAddedToBatchRendering();
+		virtual void OnRendererRemovedFromBatchRendering();
 
 		void UpdateRendererBatchRendering();
 		virtual graphics::eBatchRenderingType GetCapableBatchRenderingType() const = 0;

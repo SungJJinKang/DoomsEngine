@@ -106,7 +106,7 @@ bool dooms::Renderer::AddToBatchRendering()
 		if (isSuccess)
 		{
 			bmIsBatched = true;
-			RemoveRendererFromCullingSystem();
+			OnRendererAddedToBatchRendering();
 		}
 	}
 	return isSuccess;
@@ -121,10 +121,20 @@ bool dooms::Renderer::RemoveFromBatchRendering()
 		if (isSuccess)
 		{
 			bmIsBatched = false;
-			AddRendererToCullingSystem();
+			OnRendererRemovedFromBatchRendering();
 		}
 	}
 	return isSuccess;
+}
+
+void dooms::Renderer::OnRendererAddedToBatchRendering()
+{
+	RemoveRendererFromCullingSystem();
+}
+
+void dooms::Renderer::OnRendererRemovedFromBatchRendering()
+{
+	AddRendererToCullingSystem();
 }
 
 void dooms::Renderer::UpdateRendererBatchRendering()
