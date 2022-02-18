@@ -84,8 +84,11 @@ void dooms::graphics::StaticRendererBatchContainer::BakeBatchedMesh()
 	}
 
 	// Bake Batched Mesh with mBatchedMeshRenderers
-	mBatchedMesh = dooms::graphics::meshBatchCreater::CreateStaticBatchedMesh(mBatchedRenderers);
-	D_ASSERT(IsValid(mBatchedMesh));
+	if(mBatchedRenderers.empty() == false)
+	{
+		mBatchedMesh = dooms::graphics::meshBatchCreater::CreateStaticBatchedMesh(mBatchedRenderers);
+		D_ASSERT(IsValid(mBatchedMesh));
+	}
 }
 
 dooms::graphics::eBatchRenderingType dooms::graphics::StaticRendererBatchContainer::GetBatchRenderingType() const
