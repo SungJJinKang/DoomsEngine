@@ -34,7 +34,7 @@ namespace dooms
 			void BatchedDraw() const override;
 
 			static bool CheckMaterialAcceptable(Material* const material);
-			bool CheckRendererAcceptable(Renderer* const renderer) const override;
+			eRendererBatchContainerState CheckRendererAcceptable(Renderer* const renderer) const override;
 		};
 	}
 }

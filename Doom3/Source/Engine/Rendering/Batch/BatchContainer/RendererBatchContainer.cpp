@@ -15,7 +15,7 @@ bool dooms::graphics::RendererBatchContainer::AddRenderer(Renderer* const render
 	bool isSuccess = false;
 
 	D_ASSERT(IsValid(renderer) && Material::Equal(renderer->GetMaterial(), mTargetMaterial));
-	if (IsValid(renderer) && CheckRendererAcceptable(renderer) && Material::Equal(renderer->GetMaterial(), mTargetMaterial))
+	if (IsValid(renderer) && CheckRendererAcceptable(renderer) == eRendererBatchContainerState::Acceptable && Material::Equal(renderer->GetMaterial(), mTargetMaterial))
 	{
 		if
 		(
@@ -68,4 +68,16 @@ bool dooms::graphics::RendererBatchContainer::RemoveRenderer(Renderer* const ren
 	}
 
 	return isSuccess;
+}
+
+bool dooms::graphics::RendererBatchContainer::HasRenderer(Renderer* const renderer) const
+{
+	bool isHasRenderer = false;
+
+	if (IsValid(renderer))
+	{
+		isHasRenderer = (fast_find_simd::find_simd(mBatchedRenderers.begin(), mBatchedRenderers.end(), renderer) != mBatchedRenderers.end());
+	}
+
+	return isHasRenderer;
 }

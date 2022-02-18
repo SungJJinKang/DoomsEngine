@@ -14,6 +14,22 @@ namespace dooms
 	{
 		class Material;
 		class Mesh;
+
+		enum eRendererBatchContainerState
+		{
+			Acceptable,
+
+			/**
+			 * \brief Renderer is unacceptable.
+			 */
+			Unacceptable,
+
+			/**
+			 * \brief Renderer is acceptable, but container is full. Create another container
+			 */
+			AcceptableButCreateAnotherContainer
+		};
+
 		class D_CLASS RendererBatchContainer : public DObject
 		{
 			GENERATE_BODY()
@@ -40,8 +56,9 @@ namespace dooms
 			bool AddRenderer(Renderer* const renderer, const bool bakeBatchedMesh = true);
 			void AddRenderer(const std::vector<Renderer*>& renderers, const bool bakeBatchedMesh = true);
 			bool RemoveRenderer(Renderer* const renderer, const bool bakeBatchedMesh = true);
+			bool HasRenderer(Renderer* const renderer) const;
 
-			virtual bool CheckRendererAcceptable(Renderer* const Renderer) const = 0;
+			virtual eRendererBatchContainerState CheckRendererAcceptable(Renderer* const Renderer) const = 0;
 			virtual void BakeBatchedMesh() = 0;
 			virtual eBatchRenderingType GetBatchRenderingType() const = 0;
 

@@ -107,7 +107,14 @@ bool dooms::graphics::StaticRendererBatchContainer::CheckMaterialAcceptable(Mate
 	return isAcceptable;
 }
 
-bool dooms::graphics::StaticRendererBatchContainer::CheckRendererAcceptable(Renderer* const renderer) const
+dooms::graphics::eRendererBatchContainerState dooms::graphics::StaticRendererBatchContainer::CheckRendererAcceptable(Renderer* const renderer) const
 {
-	return (IsValid(renderer) && renderer->IsChildOf<MeshRenderer>() && CheckMaterialAcceptable(renderer->GetMaterial()));
+	if((IsValid(renderer) && renderer->IsChildOf<MeshRenderer>() && CheckMaterialAcceptable(renderer->GetMaterial())))
+	{
+		return dooms::graphics::eRendererBatchContainerState::Acceptable;
+	}
+	else
+	{
+		return dooms::graphics::eRendererBatchContainerState::Unacceptable;
+	}
 }

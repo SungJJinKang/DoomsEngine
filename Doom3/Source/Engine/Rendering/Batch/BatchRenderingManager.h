@@ -22,10 +22,10 @@ namespace dooms
 		private:
 
 			D_PROPERTY()
-			std::unordered_map<UINT64 /* Hash value of TargetMaterial */, RendererBatchContainer*> mBatchedRendererContainers;
+			std::unordered_map<UINT64 /* Hash value of TargetMaterial */, std::vector<RendererBatchContainer*>> mBatchedRendererContainers;
 
-			RendererBatchContainer* CreateOrFindBatchedRendererContainer(Material* const material, const eBatchRenderingType batchRenderingType);
-			RendererBatchContainer* FindBatchedRendererContainer(Material* const material) const;
+			RendererBatchContainer* CreateBatchedRendererContainer(Material* const material, const eBatchRenderingType batchRenderingType);
+			RendererBatchContainer* FindBatchedRendererContainer(Renderer* const renderer) const;
 
 			bool bPauseBakeBatchMesh;
 
