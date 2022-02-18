@@ -97,32 +97,47 @@ void dooms::Renderer::OnChangedByGUI(const dooms::reflection::DField& field_of_c
 	}
 }
 
+bool dooms::Renderer::AddToBatchRendering()
+{
+	bool isSuccess = false;
+	if (bmIsBatched == false && IsBatchable())
+	{
+		isSuccess = graphics::BatchRenderingManager::GetSingleton()->AddRendererToBatchRendering(this, GetCapableBatchRenderingType());;
+		if (isSuccess)
+		{
+			bmIsBatched = true;
+			RemoveRendererFromCullingSystem();
+		}
+	}
+	return isSuccess;
+}
+
+bool dooms::Renderer::RemoveFromBatchRendering()
+{
+	bool isSuccess = false;
+	if (bmIsBatched == true)
+	{
+		isSuccess = graphics::BatchRenderingManager::GetSingleton()->RemoveRendererFromBatchRendering(this);
+		if (isSuccess)
+		{
+			bmIsBatched = false;
+			AddRendererToCullingSystem();
+		}
+	}
+	return isSuccess;
+}
+
 void dooms::Renderer::UpdateRendererBatchRendering()
 {
 	const eEntityMobility entityMobility = GetOwnerEntity()->GetEntityMobility();
 	switch (entityMobility)
 	{
 		case Static:
-			if (IsBatchable())
-			{
-				const bool isSuccess = graphics::BatchRenderingManager::GetSingleton()->AddRendererToBatchRendering(this, GetCapableBatchRenderingType());;
-				if (isSuccess)
-				{
-					bmIsBatched = true;
-					RemoveRendererFromCullingSystem();
-				}
-			}
-		break;
+			AddToBatchRendering();
+			break;
 		case Dynamic:
-			{
-				const bool isSuccess = graphics::BatchRenderingManager::GetSingleton()->RemoveRendererFromBatchRendering(this);
-				if (isSuccess)
-				{
-					bmIsBatched = false;
-					AddRendererToCullingSystem();
-				}
-			}
-		break;
+			RemoveFromBatchRendering();
+			break;
 	}
 }
 
@@ -139,7 +154,11 @@ void dooms::Renderer::OnDestroy()
 		RendererComponentStaticIterator::GetSingleton()->RemoveRendererToStaticContainer(this);
 	}
 
-	graphics::BatchRenderingManager::GetSingleton()->RemoveRendererFromBatchRendering(this);
+	if(bmIsBatched)
+	{
+		graphics::BatchRenderingManager::GetSingleton()->RemoveRendererFromBatchRendering(this);
+	}
+	
 
 }
 
@@ -199,6 +218,8 @@ void dooms::Renderer::UpdateCullingEntityBlockViewer()
 void dooms::Renderer::SetMaterial(graphics::Material* material) noexcept
 {
 	mTargetMaterial = material;
+
+	UpdateRendererBatchRendering();
 }
 
 void dooms::Renderer::SetMaterial(graphics::Material& material) noexcept

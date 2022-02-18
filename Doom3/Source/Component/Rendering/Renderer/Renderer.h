@@ -80,6 +80,8 @@ namespace dooms
 		void RemoveRendererFromCullingSystem();
 
 		void OnChangedByGUI(const dooms::reflection::DField& dFieldOfChangedField) override;
+		bool AddToBatchRendering();
+		bool RemoveFromBatchRendering();
 
 		void UpdateRendererBatchRendering();
 		virtual graphics::eBatchRenderingType GetCapableBatchRenderingType() const = 0;

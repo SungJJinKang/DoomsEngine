@@ -80,13 +80,16 @@ void dooms::MeshRenderer::SetMesh(const graphics::Mesh* const mesh)
 		//TODO : when model matrix is changed, should update SetBoundingSphereRadiusForCulling
 
 		UpdateCullingEntityBlockViewer();
+
+		RemoveFromBatchRendering();
+		AddToBatchRendering();
 	}
 	else
 	{
 		RemoveRendererFromCullingSystem();
+		RemoveFromBatchRendering();
 	}
-
-	UpdateRendererBatchRendering();
+	
 }
 
 const dooms::graphics::Mesh* dooms::MeshRenderer::GetMesh() const
