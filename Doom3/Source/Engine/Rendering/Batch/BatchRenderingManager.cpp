@@ -6,6 +6,7 @@
 #include "BatchContainer/RendererBatchContainer.h"
 #include "BatchContainer/batchContainerFactory.h"
 #include <Vector3.h>
+#include <vector_erase_move_lastelement/vector_swap_popback.h>
 
 dooms::graphics::RendererBatchContainer* dooms::graphics::BatchRenderingManager::CreateBatchedRendererContainer
 (
@@ -60,6 +61,27 @@ dooms::graphics::RendererBatchContainer* dooms::graphics::BatchRenderingManager:
 	}
 
 	return batchedRendererContainer;
+}
+
+bool dooms::graphics::BatchRenderingManager::RemoveBatchedRendererContainer
+(
+	Material* const material,
+	RendererBatchContainer* const rendererBatchContainer
+)
+{
+	bool isSuccess = false;
+
+	if(IsValid(material))
+	{
+		auto node = mBatchedRendererContainers.find(material->GetMaterialHashValue());
+		if (node != mBatchedRendererContainers.end())
+		{
+			isSuccess = swap_popback::vector_find_swap_popback(node->second, rendererBatchContainer);
+			rendererBatchContainer->SetIsPendingKill();
+		}
+	}
+
+	return isSuccess;	
 }
 
 bool dooms::graphics::BatchRenderingManager::AddRendererToBatchRendering
@@ -247,7 +269,12 @@ bool dooms::graphics::BatchRenderingManager::RemoveRendererFromBatchRendering(Re
 		dooms::graphics::RendererBatchContainer* batchedRendererContainer = FindBatchedRendererContainer(renderer);
 		if (IsValid(batchedRendererContainer))
 		{
-			isSuccess = batchedRendererContainer->RemoveRenderer(renderer);
+			isSuccess = batchedRendererContainer->RemoveRenderer(renderer, !bPauseBakeBatchMesh);
+		}
+
+		if(IsValid(batchedRendererContainer) && batchedRendererContainer->GetBatchedRendererCount() == 0)
+		{
+			RemoveBatchedRendererContainer(renderer->GetMaterial(), batchedRendererContainer);
 		}
 	}
 

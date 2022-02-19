@@ -90,6 +90,11 @@ std::vector<dooms::Renderer*>& dooms::graphics::RendererBatchContainer::GetBatch
 	return mBatchedRenderers;
 }
 
+size_t dooms::graphics::RendererBatchContainer::GetBatchedRendererCount() const
+{
+	return mBatchedRenderers.size();
+}
+
 const std::vector<dooms::Renderer*>& dooms::graphics::RendererBatchContainer::GetBatchedRenderers() const
 {
 	return mBatchedRenderers;

@@ -68,6 +68,7 @@ namespace dooms
 			virtual void BatchedDraw() const = 0;
 
 			std::vector<Renderer*>& GetBatchedRenderers();
+			size_t GetBatchedRendererCount() const;
 			const std::vector<Renderer*>& GetBatchedRenderers() const;
 		};
 	}

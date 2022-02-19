@@ -28,7 +28,8 @@ namespace dooms
 
 			RendererBatchContainer* CreateBatchedRendererContainer(Material* const material, const eBatchRenderingType batchRenderingType);
 			RendererBatchContainer* FindBatchedRendererContainer(Renderer* const renderer) const;
-
+			bool RemoveBatchedRendererContainer(Material* const material, RendererBatchContainer* const rendererBatchContainer);
+			
 			bool AddRendererToBatchRendering
 			(
 				std::vector<RendererBatchContainer*>& rendererBatchContainer,
