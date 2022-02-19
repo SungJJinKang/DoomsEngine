@@ -28,10 +28,6 @@ namespace dooms
 			GENERATE_BODY()
 			
 		private:
-
-			inline static const char BIND_TARGET_TAG[] = "BIND_TARGET";
-			inline static const char ACTIVE_TEXTURE_TAG[] = "ActiveTexture";
-
 			void OnSetPendingKill() override;
 			void DestroyTextureViewObject();
 
