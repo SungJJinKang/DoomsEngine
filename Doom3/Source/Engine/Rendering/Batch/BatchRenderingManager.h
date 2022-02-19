@@ -24,15 +24,22 @@ namespace dooms
 			D_PROPERTY()
 			std::unordered_map<UINT64 /* Hash value of TargetMaterial */, std::vector<RendererBatchContainer*>> mBatchedRendererContainers;
 
+			bool bPauseBakeBatchMesh;
+
 			RendererBatchContainer* CreateBatchedRendererContainer(Material* const material, const eBatchRenderingType batchRenderingType);
 			RendererBatchContainer* FindBatchedRendererContainer(Renderer* const renderer) const;
 
-			bool bPauseBakeBatchMesh;
+			bool AddRendererToBatchRendering
+			(
+				std::vector<RendererBatchContainer*>& rendererBatchContainer,
+				Renderer* const renderer,
+				const eBatchRenderingType batchRenderingType
+			);
+
 			/**
 			 * \brief Relocate renderer based on world position. Relocate adjecent object into same container.
 			 */
 			void RelocateRendererBasedOnWorldPosition(std::vector<RendererBatchContainer*>& rendererBatchContainers);
-			void RelocateRendererBasedOnWorldPosition();
 
 		public:
 
@@ -45,6 +52,8 @@ namespace dooms
 
 			void SetPauseBakeBatchMesh(const bool pauseBakeBatchMesh);
 			void BakeAllRendererBatchContainer();
+			void RelocateRendererBasedOnWorldPosition();
+			void RelocateRendererBasedOnWorldPosition(const Material* const material);
 		};
 	}
 }

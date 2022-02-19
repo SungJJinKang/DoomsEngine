@@ -3,7 +3,7 @@
 #include <Rendering/Renderer/Renderer.h>
 #include "BatchContainer/RendererBatchContainer.h"
 #include "BatchContainer/batchContainerFactory.h"
-
+#include <algorithm>
 
 dooms::graphics::RendererBatchContainer* dooms::graphics::BatchRenderingManager::CreateBatchedRendererContainer
 (
@@ -60,23 +60,116 @@ dooms::graphics::RendererBatchContainer* dooms::graphics::BatchRenderingManager:
 	return batchedRendererContainer;
 }
 
+bool dooms::graphics::BatchRenderingManager::AddRendererToBatchRendering
+(
+	std::vector<RendererBatchContainer*>& rendererBatchContainer, Renderer* const renderer, const eBatchRenderingType batchRenderingType
+)
+{
+	bool isSuccess = false;
+
+	bool isCreateNewContainer = true;
+	if (rendererBatchContainer.empty() == false)
+	{
+		const eRendererBatchContainerState state = rendererBatchContainer.back()->CheckRendererAcceptable(renderer);
+		switch (state)
+		{
+		case Acceptable:
+			isSuccess = rendererBatchContainer.back()->AddRenderer(renderer, !bPauseBakeBatchMesh);
+			D_ASSERT(isSuccess == true);
+			isCreateNewContainer = false;
+			break;
+		case Unacceptable:
+			isSuccess = false;
+			isCreateNewContainer = false;
+			break;
+		case AcceptableButContainerIsFull:
+			isCreateNewContainer = true;
+			break;
+		default:
+			NEVER_HAPPEN;
+		}
+	}
+
+	if (isCreateNewContainer == true)
+	{
+		dooms::graphics::RendererBatchContainer* const createdRendererBatchContainer = dooms::graphics::batchContainerFactory::CreateRendererBatchContainer(renderer->GetMaterial(), batchRenderingType);
+		D_ASSERT(IsValid(createdRendererBatchContainer));
+		if (IsValid(createdRendererBatchContainer))
+		{
+			rendererBatchContainer.push_back(createdRendererBatchContainer);
+			isSuccess = createdRendererBatchContainer->AddRenderer(renderer, !bPauseBakeBatchMesh);
+		}
+	}
+
+	return isSuccess;
+}
+
 void dooms::graphics::BatchRenderingManager::RelocateRendererBasedOnWorldPosition
 (
 	std::vector<RendererBatchContainer*>& rendererBatchContainers
 )
 {
-	// TODO
+	if (rendererBatchContainers.empty() == false)
+	{
+		std::vector<Renderer*> rendererList;
+
+		for (RendererBatchContainer* batchContiner : rendererBatchContainers)
+		{
+			const std::vector<dooms::Renderer*>& batchedRenderers = batchContiner->GetBatchedRenderers();
+			rendererList.insert(rendererList.end(), batchedRenderers.begin(), batchedRenderers.end());
+
+			batchContiner->SetIsPendingKill();
+		}
+
+		rendererBatchContainers.clear();
+
+		
+		// TODO : Find more sophisticated algorithm.
+		std::sort
+		(
+			rendererList.begin(),
+			rendererList.end(),
+			[](const Renderer* const lhs, const Renderer* const rhs)
+			{
+				return lhs->GetTransform()->GetPosition().sqrMagnitude() < rhs->GetTransform()->GetPosition().sqrMagnitude();
+			}
+		);
+
+		for(Renderer* renderer : rendererList)
+		{
+			AddRendererToBatchRendering(rendererBatchContainers, renderer, renderer->GetCapableBatchRenderingType());
+		}
+	}
 }
 
 void dooms::graphics::BatchRenderingManager::RelocateRendererBasedOnWorldPosition()
 {
+	SetPauseBakeBatchMesh(true);
+
 	for(auto node : mBatchedRendererContainers)
 	{
 		RelocateRendererBasedOnWorldPosition(node.second);
 	}
+
+	SetPauseBakeBatchMesh(false);
 }
 
-dooms::graphics::BatchRenderingManager::BatchRenderingManager() : bPauseBakeBatchMesh(true)
+void dooms::graphics::BatchRenderingManager::RelocateRendererBasedOnWorldPosition(const Material* const material)
+{
+
+	auto node = mBatchedRendererContainers.find(material->GetMaterialHashValue());
+	if (node != mBatchedRendererContainers.end())
+	{
+		SetPauseBakeBatchMesh(true);
+		
+		RelocateRendererBasedOnWorldPosition(node->second);
+
+		SetPauseBakeBatchMesh(false);
+	}
+
+}
+
+dooms::graphics::BatchRenderingManager::BatchRenderingManager() : bPauseBakeBatchMesh(true), mBatchedRendererContainers()
 {
 }
 
@@ -86,7 +179,6 @@ bool dooms::graphics::BatchRenderingManager::AddRendererToBatchRendering(Rendere
 	
 	if(IsValid(renderer) && IsValid(renderer->GetMaterial()))
 	{
-		bool isCreateNewContainer = true;
 		const UINT64 materialHashValue = renderer->GetMaterial()->GetMaterialHashValue();
 		auto batchedRendererContainerNode = mBatchedRendererContainers.find(materialHashValue);
 
@@ -96,38 +188,7 @@ bool dooms::graphics::BatchRenderingManager::AddRendererToBatchRendering(Rendere
 			batchedRendererContainerNode = mBatchedRendererContainers.emplace(pair).first;
 		}
 
-		if(batchedRendererContainerNode->second.empty() == false)
-		{
-			const eRendererBatchContainerState state = batchedRendererContainerNode->second.back()->CheckRendererAcceptable(renderer);
-			switch (state)
-			{
-			case Acceptable:
-				isSuccess = batchedRendererContainerNode->second.back()->AddRenderer(renderer, !bPauseBakeBatchMesh);
-				D_ASSERT(isSuccess == true);
-				isCreateNewContainer = false;
-				break;
-			case Unacceptable:
-				isSuccess = false;
-				isCreateNewContainer = false;
-				break;
-			case AcceptableButContainerIsFull: 
-				isCreateNewContainer = true;
-				break;
-			default:
-				NEVER_HAPPEN;
-			}
-		}
-
-		if(isCreateNewContainer == true)
-		{
-			dooms::graphics::RendererBatchContainer* const rendererBatchContainer = dooms::graphics::batchContainerFactory::CreateRendererBatchContainer(renderer->GetMaterial(), batchRenderingType);
-			D_ASSERT(IsValid(rendererBatchContainer));
-			if(IsValid(rendererBatchContainer))
-			{
-				batchedRendererContainerNode->second.push_back(rendererBatchContainer);
-				isSuccess = rendererBatchContainer->AddRenderer(renderer, !bPauseBakeBatchMesh);
-			}
-		}
+		isSuccess = AddRendererToBatchRendering(batchedRendererContainerNode->second, renderer, batchRenderingType);
 		
 	}
 
