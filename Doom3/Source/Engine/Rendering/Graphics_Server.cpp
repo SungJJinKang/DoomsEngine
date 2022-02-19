@@ -133,6 +133,6 @@ void dooms::graphics::Graphics_Server::PostSceneInit()
 {
 	IGameFlow::PostSceneInit();
 
-	mBatchRenderingManager.SetPauseBakeBatchMesh(false);
+	mBatchRenderingManager.RelocateRendererBasedOnWorldPosition();
 }
 

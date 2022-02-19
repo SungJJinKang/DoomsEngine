@@ -87,7 +87,6 @@ namespace dooms
 		virtual void OnRendererRemovedFromBatchRendering();
 
 		void UpdateRendererBatchRendering();
-		virtual graphics::eBatchRenderingType GetCapableBatchRenderingType() const = 0;
 		virtual bool IsBatchable() const = 0;
 
 	public:
@@ -205,5 +204,6 @@ namespace dooms
 		{
 			return bmIsBatched;
 		}
+		virtual graphics::eBatchRenderingType GetCapableBatchRenderingType() const = 0;
 	};
 }

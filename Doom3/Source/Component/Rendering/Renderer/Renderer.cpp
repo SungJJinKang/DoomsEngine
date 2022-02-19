@@ -185,6 +185,7 @@ void dooms::Renderer::PreRender()
 {
 	if(GetIsComponentEnabled() == true)
 	{
+		//UpdateBVH_Node();
 		if(mCullingEntityBlockViewer.IsValid())
 		{
 			const physics::AABB3D* const aabb = ColliderUpdater<physics::AABB3D>::GetWorldCollider();

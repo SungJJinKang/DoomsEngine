@@ -43,10 +43,6 @@ namespace dooms
 
 		private:
 			
-
-			D_PROPERTY()
-			UINT32 mCullingCameraCount;
-
 			D_PROPERTY()
 			RendererComponentStaticIterator mRendererStaticContainer;
 
