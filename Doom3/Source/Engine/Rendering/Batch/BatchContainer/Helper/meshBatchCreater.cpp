@@ -22,6 +22,8 @@ namespace dooms::graphics::meshBatchCreater
 		const math::Vector3& biTangent
 	)
 	{
+		// TODO : Fix this. Calculating TBN looks wrong.
+
 		const math::Vector3 N = static_cast<math::Vector3>(modelMatrix * math::Vector4{ normal, 0.0f }).normalized();
 		math::Vector3 T = static_cast<math::Vector3>(modelMatrix * math::Vector4{ tangent, 0.0f }).normalized();
 		T = normalize(T - math::dot(T, N) * N);
