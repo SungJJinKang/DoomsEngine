@@ -432,6 +432,7 @@ void dooms::GameLogicStartPoint::StartGameLogic()
 	}*/
 
 
+	/*
 	{
 		const std::vector<std::string> modelAssetNameList =
 		{
@@ -701,36 +702,40 @@ void dooms::GameLogicStartPoint::StartGameLogic()
 
 			}
 		}
+		
 
 		
-		{
-			auto modelAsset = assetImporter::AssetManager::GetSingleton()->GetAsset<asset::eAssetType::THREE_D_MODEL>("wooden crate.assbin");
-			auto shader1 = assetImporter::AssetManager::GetSingleton()->GetAsset<asset::eAssetType::SHADER>("GbufferWriter_PBR.glsl");
-			auto material1 = dooms::CreateDObject<graphics::Material>(shader1);
-			material1->AddTexture(graphics::eTextureBindingPoint::AlbedoTexture, assetImporter::AssetManager::GetSingleton()->GetAsset<asset::eAssetType::TEXTURE>("crate_BaseColor.dds"));
-			material1->AddTexture(graphics::eTextureBindingPoint::NormalTexture, assetImporter::AssetManager::GetSingleton()->GetAsset<asset::eAssetType::TEXTURE>("crate_Normal.dds"));
-			material1->AddTexture(graphics::eTextureBindingPoint::MetalnessTexture, assetImporter::AssetManager::GetSingleton()->GetAsset<asset::eAssetType::TEXTURE>("crate_Metallic.dds"));
-
-			for (size_t i = 0; i < 200; i++)
-			{
-				graphics::Mesh* mesh = modelAsset->GetMesh(0);
-				if (mesh->GetTargetThreeDModelMesh()->mIsValidMesh == true)
-				{
-					auto entity = currenScene->CreateNewEntity();
-					const float scale = Random::RandomFloatNumber(20.0f, 40.0f);
-					entity->GetTransform()->SetScale(scale, scale, scale);
-					entity->GetTransform()->SetRotation(Random::RandomFloatNumber(0.0f, 90.0f), Random::RandomFloatNumber(0.0f, 90.0f), Random::RandomFloatNumber(0.0f, 90.0f));
-					entity->GetTransform()->SetPosition(Random::RandomFloatNumber(-1500.0f, 1500.0f), Random::RandomFloatNumber(-1500.0f, 1500.0f), Random::RandomFloatNumber(-1500.0f, 1500.0f));
-					entity->SetEntityMobility(eEntityMobility::Static);
-					auto meshRenderer = entity->AddComponent<MeshRenderer>();
-					meshRenderer->SetMesh(mesh);
-					meshRenderer->SetMaterial(material1);
-				}
-			}
-		}
 		
 
 	}
+	*/
+	{
+		auto modelAsset = assetImporter::AssetManager::GetSingleton()->GetAsset<asset::eAssetType::THREE_D_MODEL>("wooden crate.assbin");
+		auto shader1 = assetImporter::AssetManager::GetSingleton()->GetAsset<asset::eAssetType::SHADER>("GbufferWriter_PBR.glsl");
+		auto material1 = dooms::CreateDObject<graphics::Material>(shader1);
+		material1->AddTexture(graphics::eTextureBindingPoint::AlbedoTexture, assetImporter::AssetManager::GetSingleton()->GetAsset<asset::eAssetType::TEXTURE>("crate_BaseColor.dds"));
+		material1->AddTexture(graphics::eTextureBindingPoint::NormalTexture, assetImporter::AssetManager::GetSingleton()->GetAsset<asset::eAssetType::TEXTURE>("crate_Normal.dds"));
+		material1->AddTexture(graphics::eTextureBindingPoint::MetalnessTexture, assetImporter::AssetManager::GetSingleton()->GetAsset<asset::eAssetType::TEXTURE>("crate_Metallic.dds"));
+
+		for (size_t i = 0; i < 600; i++)
+		{
+			graphics::Mesh* mesh = modelAsset->GetMesh(0);
+			if (mesh->GetTargetThreeDModelMesh()->mIsValidMesh == true)
+			{
+				auto entity = currenScene->CreateNewEntity();
+				const float scale = Random::RandomFloatNumber(10.0f, 40.0f);
+				entity->GetTransform()->SetScale(scale, scale, scale);
+				entity->GetTransform()->SetRotation(Random::RandomFloatNumber(0.0f, 90.0f), Random::RandomFloatNumber(0.0f, 90.0f), Random::RandomFloatNumber(0.0f, 90.0f));
+				entity->GetTransform()->SetPosition(Random::RandomFloatNumber(-2000.0f, 2000.0f), Random::RandomFloatNumber(-2000.0f, 2000.0f), Random::RandomFloatNumber(-2000.0f, 2000.0f));
+				//entity->SetEntityMobility(eEntityMobility::Static);
+				auto meshRenderer = entity->AddComponent<MeshRenderer>();
+				meshRenderer->SetMesh(mesh);
+				meshRenderer->SetMaterial(material1);
+
+				portfolioComponent->StaticMobilitySetter.push_back(entity);
+			}
+		}
+		}
 
 
 	/*

@@ -72,11 +72,17 @@ public:
 
 	std::vector<dooms::Renderer*> RockRenderers;
 	std::vector<dooms::Renderer*> PlanesRenderers;
+	std::vector<dooms::Entity*> StaticMobilitySetter;
 
 	void InitComponent() override;
 	void LateInitComponent() override;
 	void UpdateComponent() override;
 	void OnEndOfFrame_Component() override;
+
+	D_FUNCTION()
+	void SetBoxsStatic();
+	D_FUNCTION()
+	void SetBoxsDynamic();
 
 };
 }

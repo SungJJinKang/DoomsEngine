@@ -5,6 +5,7 @@
 #include <Graphics/graphicsSetting.h>
 #include <Rendering/Culling/EveryCulling/EveryCulling.h>
 #include <Rendering/Pipeline/PipeLines/DefaultGraphcisPipeLine.h>
+#include <Rendering/Batch/BatchRenderingManager.h>
 
 void dooms::PortfolioComponent::OnChangedByGUI(const dooms::reflection::DField& field_of_changed_field)
 {
@@ -103,4 +104,24 @@ void dooms::PortfolioComponent::UpdateComponent()
 void dooms::PortfolioComponent::OnEndOfFrame_Component()
 {
 
+}
+
+void dooms::PortfolioComponent::SetBoxsStatic()
+{
+	graphics::BatchRenderingManager::GetSingleton()->SetPauseBakeBatchMesh(true);
+	for(Entity* entity : StaticMobilitySetter)
+	{
+		entity->SetEntityMobility(eEntityMobility::Static);
+	}
+	graphics::BatchRenderingManager::GetSingleton()->SetPauseBakeBatchMesh(false);
+}
+
+void dooms::PortfolioComponent::SetBoxsDynamic()
+{
+	graphics::BatchRenderingManager::GetSingleton()->SetPauseBakeBatchMesh(true);
+	for (Entity* entity : StaticMobilitySetter)
+	{
+		entity->SetEntityMobility(eEntityMobility::Dynamic);
+	}
+	graphics::BatchRenderingManager::GetSingleton()->SetPauseBakeBatchMesh(false);
 }

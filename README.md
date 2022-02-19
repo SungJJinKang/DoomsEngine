@@ -31,7 +31,7 @@
   * Distance Culling from Unreal Engine ( [reference](https://docs.unrealengine.com/en-US/RenderingAndGraphics/VisibilityCulling/CullDistanceVolume/index.html), [soure code](https://github.com/SungJJinKang/EveryCulling/tree/main/CullingModule/DistanceCulling) )      
   * Shader Language Portable System ( Automatically convert glsl files to hlsl, [glslcc](https://github.com/septag/glslcc) is used )     
   * Shader Reflection System ( Provide shader variables data ( size, offset, variable name ... ) )    
-  * Static Batch Rendering ( Mesh data of static objects with same material is combined automatically at start of scene. They are drawed in 1 draw call )              
+  * Static Batch Rendering ( [video](https://youtu.be/bBDbO7hS12g), Mesh data of static objects with same material is combined automatically at start of scene. They are drawed in 1 draw call )              
 
 ### Physics
 
