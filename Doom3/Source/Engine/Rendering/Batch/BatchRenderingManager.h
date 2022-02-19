@@ -44,6 +44,8 @@ namespace dooms
 		public:
 
 			BatchRenderingManager();
+			~BatchRenderingManager();
+			virtual void OnSetPendingKill() override;
 
 			bool AddRendererToBatchRendering(Renderer* const renderer, const eBatchRenderingType batchRenderingType);
 			bool RemoveRendererFromBatchRendering(Renderer* const renderer);
@@ -54,6 +56,8 @@ namespace dooms
 			void BakeAllRendererBatchContainer();
 			void RelocateRendererBasedOnWorldPosition();
 			void RelocateRendererBasedOnWorldPosition(const Material* const material);
+
+			void ClearBatchedRendererContainers();
 		};
 	}
 }

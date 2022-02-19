@@ -1,9 +1,11 @@
 #include "BatchRenderingManager.h"
 
+#include <algorithm>
+
 #include <Rendering/Renderer/Renderer.h>
 #include "BatchContainer/RendererBatchContainer.h"
 #include "BatchContainer/batchContainerFactory.h"
-#include <algorithm>
+#include <Vector3.h>
 
 dooms::graphics::RendererBatchContainer* dooms::graphics::BatchRenderingManager::CreateBatchedRendererContainer
 (
@@ -113,10 +115,20 @@ void dooms::graphics::BatchRenderingManager::RelocateRendererBasedOnWorldPositio
 	{
 		std::vector<Renderer*> rendererList;
 
+		math::Vector3 minPoint{ FLOAT32_MAX, FLOAT32_MAX , FLOAT32_MAX };
+
 		for (RendererBatchContainer* batchContiner : rendererBatchContainers)
 		{
 			const std::vector<dooms::Renderer*>& batchedRenderers = batchContiner->GetBatchedRenderers();
 			rendererList.insert(rendererList.end(), batchedRenderers.begin(), batchedRenderers.end());
+
+			for(dooms::Renderer* renderer : batchedRenderers)
+			{
+				const math::Vector3& pos = renderer->GetTransform()->GetPosition();
+				minPoint.x = math::Min(minPoint.x, pos.x);
+				minPoint.y = math::Min(minPoint.y, pos.y);
+				minPoint.z = math::Min(minPoint.z, pos.z);
+			}
 
 			batchContiner->SetIsPendingKill();
 		}
@@ -125,20 +137,24 @@ void dooms::graphics::BatchRenderingManager::RelocateRendererBasedOnWorldPositio
 
 		
 		// TODO : Find more sophisticated algorithm.
-		std::sort
-		(
-			rendererList.begin(),
-			rendererList.end(),
-			[](const Renderer* const lhs, const Renderer* const rhs)
-			{
-				return lhs->GetTransform()->GetPosition().sqrMagnitude() < rhs->GetTransform()->GetPosition().sqrMagnitude();
-			}
-		);
-
-		for(Renderer* renderer : rendererList)
+		if(rendererList.empty() == false)
 		{
-			AddRendererToBatchRendering(rendererBatchContainers, renderer, renderer->GetCapableBatchRenderingType());
+			std::sort
+			(
+				rendererList.begin(),
+				rendererList.end(),
+				[&minPoint](const Renderer* const lhs, const Renderer* const rhs)
+			{
+				return (lhs->GetTransform()->GetPosition() - minPoint).sqrMagnitude() < (rhs->GetTransform()->GetPosition() - minPoint).sqrMagnitude();
+			}
+			);
+
+			for (Renderer* renderer : rendererList)
+			{
+				AddRendererToBatchRendering(rendererBatchContainers, renderer, renderer->GetCapableBatchRenderingType());
+			}
 		}
+		
 	}
 }
 
@@ -169,8 +185,35 @@ void dooms::graphics::BatchRenderingManager::RelocateRendererBasedOnWorldPositio
 
 }
 
+void dooms::graphics::BatchRenderingManager::ClearBatchedRendererContainers()
+{
+	for (auto& node : mBatchedRendererContainers)
+	{
+		std::vector<RendererBatchContainer*>& batchContiners = node.second;
+		
+		for (RendererBatchContainer* batchContiner : batchContiners)
+		{
+			batchContiner->SetIsPendingKill();
+		}
+		batchContiners.clear();
+	}
+	mBatchedRendererContainers.clear();
+}
+
 dooms::graphics::BatchRenderingManager::BatchRenderingManager() : bPauseBakeBatchMesh(true), mBatchedRendererContainers()
 {
+}
+
+dooms::graphics::BatchRenderingManager::~BatchRenderingManager()
+{
+	ClearBatchedRendererContainers();
+}
+
+void dooms::graphics::BatchRenderingManager::OnSetPendingKill()
+{
+	DObject::OnSetPendingKill();
+
+	ClearBatchedRendererContainers();
 }
 
 bool dooms::graphics::BatchRenderingManager::AddRendererToBatchRendering(Renderer* const renderer, const eBatchRenderingType batchRenderingType)
