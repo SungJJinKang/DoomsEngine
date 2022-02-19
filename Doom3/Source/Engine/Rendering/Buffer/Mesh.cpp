@@ -207,7 +207,7 @@ void dooms::graphics::Mesh::CreateBufferObject
 			vertexLayoutCount++;
 			layoutIndex++;
 
-			offset += vertexCount * sizeof(math::Vector2);
+			offset += vertexCount * sizeof(math::Vector3);
 		}
 
 		if (vertexArrayFlag & eVertexArrayFlag::mNormal)

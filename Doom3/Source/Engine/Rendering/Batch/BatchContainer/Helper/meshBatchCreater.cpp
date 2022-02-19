@@ -16,7 +16,7 @@ namespace dooms::graphics::meshBatchCreater
 {
 	math::Matrix3x3 CalculateTBN
 	(
-		const math::Matrix4x4& modelMatrix,
+		const math::Matrix3x3& modelMatrix,
 		const math::Vector3& normal,
 		const math::Vector3& tangent,
 		const math::Vector3& biTangent
@@ -24,23 +24,24 @@ namespace dooms::graphics::meshBatchCreater
 	{
 		// TODO : Fix this. Calculating TBN looks wrong.
 
-		const math::Vector3 N = static_cast<math::Vector3>(modelMatrix * math::Vector4{ normal, 0.0f }).normalized();
-		math::Vector3 T = static_cast<math::Vector3>(modelMatrix * math::Vector4{ tangent, 0.0f }).normalized();
+		const math::Vector3 N = (modelMatrix * normal).normalized();
+		math::Vector3 T = (modelMatrix * tangent).normalized();
 		T = normalize(T - math::dot(T, N) * N);
-		const math::Vector3 B = static_cast<math::Vector3>(modelMatrix * math::Vector4{ biTangent, 0.0f }).normalized();
+		const math::Vector3 B = (modelMatrix * biTangent).normalized();
 		//const math::Vector3 B = math::cross(N, T);
 
-		/*
+		
 		// TBN must form a right handed coord system.
 		// Some models have symetric UVs. Check and fix.
 		if (math::dot(cross(N, T), B) < 0.0)
 		{
 			T = T * -1.0;
 		}
-		*/
 
 		return math::Matrix3x3(T, B, N);
 	}
+
+	static_assert(sizeof(math::Matrix3x3) == 36);
 
 	struct DOOM_API D_STRUCT BatchedMeshData
 	{
@@ -261,7 +262,7 @@ dooms::graphics::Mesh* dooms::graphics::meshBatchCreater::CreateStaticBatchedMes
 							batchedMeshData.mWorldSpaceVertex[verticeIndex + currentVerticeIndex] = modelMatrix * targetThreeDModelMesh->mMeshDatas.mVertex[verticeIndex];
 							batchedMeshData.mTexCoord[verticeIndex + currentVerticeIndex] = targetThreeDModelMesh->mMeshDatas.mTexCoord[verticeIndex];
 							
-							const math::Matrix3x3 tbn = CalculateTBN(modelMatrix, targetThreeDModelMesh->mMeshDatas.mNormal[verticeIndex], targetThreeDModelMesh->mMeshDatas.mTangent[verticeIndex], targetThreeDModelMesh->mMeshDatas.mBitangent[verticeIndex]);
+							const math::Matrix3x3 tbn = CalculateTBN(static_cast<math::Matrix3x3>(modelMatrix), targetThreeDModelMesh->mMeshDatas.mNormal[verticeIndex], targetThreeDModelMesh->mMeshDatas.mTangent[verticeIndex], targetThreeDModelMesh->mMeshDatas.mBitangent[verticeIndex]);
 
 							batchedMeshData.mTBN1[verticeIndex + currentVerticeIndex] = tbn[0];
 							batchedMeshData.mTBN2[verticeIndex + currentVerticeIndex] = tbn[1];
@@ -285,7 +286,7 @@ dooms::graphics::Mesh* dooms::graphics::meshBatchCreater::CreateStaticBatchedMes
 			batchMesh->CreateBufferObject
 			(
 				batchedMeshData.GetAllocatedMeshComponentCount(),
-				verticeCount,
+				batchedMeshData.mVerticeCount,
 				batchedMeshData.mData,
 				graphics::GraphicsAPI::ePrimitiveType::TRIANGLES,
 				eVertexArrayFlag::VertexVector3 | eVertexArrayFlag::TexCoord | eVertexArrayFlag::mTBN,
