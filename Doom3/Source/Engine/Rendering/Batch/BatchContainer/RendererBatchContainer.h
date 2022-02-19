@@ -33,8 +33,11 @@ namespace dooms
 		class D_CLASS RendererBatchContainer : public DObject
 		{
 			GENERATE_BODY()
-
+				
 		protected:
+
+			D_PROPERTY()
+			bool bmIsRendererListDirty;
 
 			D_PROPERTY()
 			Mesh* mBatchedMesh;
@@ -63,6 +66,9 @@ namespace dooms
 			virtual eBatchRenderingType GetBatchRenderingType() const = 0;
 
 			virtual void BatchedDraw() const = 0;
+
+			std::vector<Renderer*>& GetBatchedRenderers();
+			const std::vector<Renderer*>& GetBatchedRenderers() const;
 		};
 	}
 }

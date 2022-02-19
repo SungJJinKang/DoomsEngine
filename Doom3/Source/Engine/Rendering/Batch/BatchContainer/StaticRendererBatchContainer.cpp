@@ -47,7 +47,7 @@ void dooms::graphics::StaticRendererBatchContainer::InitializeBatchRenderingMate
 				mBatchRenderingMaterial->AddTexture(textureView->GetDefaultBindingLocation(), textureView);
 			}
 		}
-	
+		bmIsRendererListDirty = true;
 	}
 	D_ASSERT(IsValid(mBatchRenderingMaterial) && mBatchRenderingMaterial->IsHasAnyValidShaderObject());
 }
@@ -79,16 +79,20 @@ dooms::graphics::StaticRendererBatchContainer::StaticRendererBatchContainer(Mate
 
 void dooms::graphics::StaticRendererBatchContainer::BakeBatchedMesh()
 {
-	if (IsValid(mBatchedMesh))
+	if(bmIsRendererListDirty == true)
 	{
-		mBatchedMesh->SetIsPendingKill();
-	}
+		if (IsValid(mBatchedMesh))
+		{
+			mBatchedMesh->SetIsPendingKill();
+		}
 
-	// Bake Batched Mesh with mBatchedMeshRenderers
-	if(mBatchedRenderers.empty() == false)
-	{
-		mBatchedMesh = dooms::graphics::meshBatchCreater::CreateStaticBatchedMesh(mBatchedRenderers);
-		D_ASSERT(IsValid(mBatchedMesh));
+		// Bake Batched Mesh with mBatchedMeshRenderers
+		if (mBatchedRenderers.empty() == false)
+		{
+			mBatchedMesh = dooms::graphics::meshBatchCreater::CreateStaticBatchedMesh(mBatchedRenderers);
+			D_ASSERT(IsValid(mBatchedMesh));
+		}
+		bmIsRendererListDirty = false;
 	}
 }
 

@@ -5,7 +5,7 @@
 
 
 dooms::graphics::RendererBatchContainer::RendererBatchContainer(Material* const targetMaterial)
-	: mBatchedMesh(nullptr), mTargetMaterial(targetMaterial)
+	: mBatchedMesh(nullptr), mTargetMaterial(targetMaterial), bmIsRendererListDirty(true)
 {
 	AddToRootObjectList();
 }
@@ -28,6 +28,7 @@ bool dooms::graphics::RendererBatchContainer::AddRenderer(Renderer* const render
 		)
 		{
 			mBatchedRenderers.push_back(renderer);
+			bmIsRendererListDirty = true;
 
 			if (bakeBatchedMesh == true)
 			{
@@ -61,6 +62,8 @@ bool dooms::graphics::RendererBatchContainer::RemoveRenderer(Renderer* const ren
 	if(IsValid(renderer))
 	{
 		isSuccess = swap_popback::vector_find_swap_popback(mBatchedRenderers, renderer);
+		bmIsRendererListDirty = true;
+
 		if(isSuccess && bakeBatchedMesh)
 		{
 			BakeBatchedMesh();
@@ -80,4 +83,14 @@ bool dooms::graphics::RendererBatchContainer::HasRenderer(Renderer* const render
 	}
 
 	return isHasRenderer;
+}
+
+std::vector<dooms::Renderer*>& dooms::graphics::RendererBatchContainer::GetBatchedRenderers()
+{
+	return mBatchedRenderers;
+}
+
+const std::vector<dooms::Renderer*>& dooms::graphics::RendererBatchContainer::GetBatchedRenderers() const
+{
+	return mBatchedRenderers;
 }
