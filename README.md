@@ -6,7 +6,7 @@
 
 ## Features
 
-# Core
+### Core
 
   * C++17
   * C# ( used for making engine tools )    
@@ -15,14 +15,14 @@
   * Support SIMD ( Currently AVX2 )
   * Asset Import Pipeline ( Automatically import assets located in asset folder )
 
-# Engine Architecture
+### Engine Architecture
 
   * Component based System
   * Object Management System for preventing memory leak ( [개발 일지](https://sungjjinkang.github.io/computerscience/gameengine/2021/09/25/dangling_pointer.html) )
   * Fast Runtime Type Casting ( writing manually type name is not required, reflection data is used. check reflection.h files ) ( time complexicity is always O(1), dynamic_cast isn't used ( RTTI option is disabled ), [source code](https://github.com/SungJJinKang/Fast_Runtime_TypeCasting_cpp) )        
   * Garbage Collector using reflection system ( stop-the-world, Mark ( multithread ) - Sweep algorithm, std::array, std::vector is also supported, nullify pointer referencing destroyed object ( to prvent referencing invalid address ), [개발 일지](https://sungjjinkang.github.io/computerscience/2021/12/01/reflection_gc.html), [video](https://youtu.be/E4CNOIXYQnQ), [soure code](https://github.com/SungJJinKang/DoomsEngine/tree/main/Doom3/Source/Core/GarbageCollector) )
   
-# Rendering
+### Rendering
 
   * Supported Graphics API : OpenGL, DIRECTX 11 ( 80% )
   * Deferred Rendering ( [video](https://youtu.be/TU9P8gcKsi8) )
@@ -33,18 +33,18 @@
   * Shader Reflection System ( Provide shader variables data ( size, offset, variable name ... ) )    
   * Static Batch Rendering ( Mesh data of static objects with same material is combined automatically at start of scene. They are drawed in 1 draw call )              
 
-# Physics
+### Physics
 
   * Collision, Raycasting, Picking ( implemented with BVH Tree ) ( [video](https://youtu.be/ZASdCIKeG6s) )      
   * BVH, KDTree ( [bvh source code](https://github.com/SungJJinKang/DoomsEngine/tree/main/Doom3/Source/Core/Misc/AccelerationContainer/BVH), [kdtree source code](https://github.com/SungJJinKang/DoomsEngine/tree/main/Doom3/Source/Core/Misc/AccelerationContainer/KDTree) )        
 
-# Reflection    
+### Reflection    
   
   * Automatic Reflection Data Generation System. ( [video](https://youtu.be/KGihaYTzqG8) ) ( [clrefelct_automation](https://github.com/SungJJinKang/clReflect_automation) )
   * Customizing Reflection Open Source Library ( [video](https://youtu.be/9DKGvkdR6zw) ) ( [Customized clReflect](https://github.com/SungJJinKang/clReflect_ForDoomsEngine) )
   * Integrate imgui with reflection system. ( DObjects, std::vector, std::array, std::unique_ptr... is supported, [video](https://youtu.be/wxZIGoTRcpo) )
   
-# Misc
+### Misc
 
   * JobSystem ( [source code](https://github.com/SungJJinKang/JobSystem_cpp) )
                  
@@ -70,16 +70,6 @@
   * [json](https://github.com/nlohmann/json) : JSON for Modern C++             
   * [glslcc](https://github.com/septag/glslcc) : GLSL cross-compiler tool (GLSL->HLSL, MSL, GLES2, GLES3, GLSLv3), using SPIRV-cross and glslang                   
   * [magic_enum](https://github.com/Neargye/magic_enum) : Static reflection for enums (to string, from string, iteration) for modern C++                 
- 
-## Screenshot
-![20220123003649](https://user-images.githubusercontent.com/33873804/150645275-f773d8d6-2b38-4f51-9d00-9692fa1aa57c.png)                
-![20220123003708](https://user-images.githubusercontent.com/33873804/150645279-202f313a-9574-40ea-a138-c24693529d1c.png)                
-
-## Coding Standard
-
-[English](https://docs.google.com/document/d/1cT8EPgMXe0eopeHvwuFmbHG4TJr5kUmcovkr5irQZmo/edit)   
-[Korean](https://docs.popekim.com/ko/coding-standards/cpp)
-
 
 ## Development Blog
 
