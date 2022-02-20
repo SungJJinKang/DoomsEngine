@@ -68,7 +68,7 @@ void dooms::time::MainTimer::UpdateFixedTimer()
 	dooms::time::MainTimer::mFixedTime.mDeltaTime = static_cast<FLOAT64>(currentTime - dooms::time::MainTimer::mFixedTime.mLastTickCount);
 	dooms::time::MainTimer::mFixedTime.mLastTickCount = currentTime;
 
-	D_ASSERT(dooms::time::MainTimer::mFixedTime.mDeltaTime > 0.0);
+	D_ASSERT(dooms::time::MainTimer::mFixedTime.mDeltaTime >= 0.0);
 	
 }
 

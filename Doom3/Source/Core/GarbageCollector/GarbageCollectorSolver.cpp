@@ -365,7 +365,7 @@ void dooms::gc::garbageCollectorSolver::StartSweepStage(const eGCMethod gcMethod
 
 	for (dooms::DObject* deletedDbject : deletedDObjectList)
 	{
-		if (dooms::DObjectManager::IsDObjectExist(deletedDbject) && deletedDbject->GetIsNewAllocated())
+		if (dooms::DObjectManager::IsDObjectExist(deletedDbject))
 		{
 			D_ASSERT(deletedDbject != nullptr);
 			D_DEBUG_LOG(eLogType::D_LOG, "GC Collect Object ( Type Name : %s, DObject Name : %s )", deletedDbject->GetTypeFullName(), deletedDbject->GetDObjectName().c_str());
