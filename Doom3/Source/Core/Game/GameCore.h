@@ -13,6 +13,7 @@
 #include <Reflection/ReflectionManager.h>
 #include <Memory/MemoryManager.h>
 #include <EngineGUI/EngineGUIServer.h>
+#include <EnginePluginManager.h>
 
 #include "GameCore.reflection.h"
 namespace dooms
@@ -76,6 +77,9 @@ namespace dooms
 
 		D_PROPERTY()
 		memory::MemoryManager mMemoryManager;
+
+		D_PROPERTY()
+		plugin::EnginePluginManager mEnginePluginManager;
 
 		void InitGameSetting();
 		

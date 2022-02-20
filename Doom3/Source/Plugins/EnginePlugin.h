@@ -15,7 +15,10 @@ namespace dooms
 
 		public:
 
-			virtual const char* GetEnginePluginName() const = 0;
+			EnginePlugin();
+			virtual ~EnginePlugin();
+
+			const char* GetEnginePluginName();
 
 		};
 	}

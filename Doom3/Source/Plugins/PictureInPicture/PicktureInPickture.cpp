@@ -122,9 +122,3 @@ void dooms::graphics::PicktureInPickture::DrawPictureInPicture()
 	
 	
 }
-
-const char* dooms::graphics::PicktureInPickture::GetEnginePluginName() const
-{
-	return "PicktureInPickture";
-}
-

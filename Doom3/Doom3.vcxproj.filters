@@ -837,6 +837,9 @@
     <ClCompile Include="Source\Core\Container\ChunkVector.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Plugins\EnginePluginManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="dependency\glad\include\glad\glad.h">
@@ -2058,6 +2061,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\Engine\Scene\eEntityMobility.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Plugins\EnginePluginManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

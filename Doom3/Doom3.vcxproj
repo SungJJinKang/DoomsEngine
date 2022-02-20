@@ -487,6 +487,7 @@ xcopy /y /d /E /H /C /I "$(ProjectDir)Assets" "$(TargetDir)Assets"</Command>
     <ClCompile Include="Source\Core\Graphics\GraphicsAPI\graphicsAPISetting.cpp" />
     <ClCompile Include="Source\Engine\Rendering\Light\LightManager.cpp" />
     <ClCompile Include="Source\Engine\Rendering\Material\FixedMaterial.cpp" />
+    <ClCompile Include="Source\Plugins\EnginePluginManager.cpp" />
     <ClCompile Include="Source\Plugins\PictureInPicture\PIPManager.cpp" />
     <ClCompile Include="Source\Engine\Rendering\PrimitiveType\PrimitiveLine.cpp" />
     <ClCompile Include="main.cpp" />
@@ -786,6 +787,7 @@ xcopy /y /d /E /H /C /I "$(ProjectDir)Assets" "$(TargetDir)Assets"</Command>
     <ClInclude Include="Source\Core\Graphics\GraphicsAPI\graphicsAPISetting.h" />
     <ClInclude Include="Source\Engine\Rendering\Light\LightManager.h" />
     <ClInclude Include="Source\Engine\Rendering\Material\FixedMaterial.h" />
+    <ClInclude Include="Source\Plugins\EnginePluginManager.h" />
     <ClInclude Include="Source\Plugins\PictureInPicture\PIPManager.h" />
     <ClInclude Include="Source\Engine\Rendering\PrimitiveType\PrimitiveLine.h" />
     <ClInclude Include="Source\Engine\Rendering\PrimitiveType\PrimitiveTriangle.h" />

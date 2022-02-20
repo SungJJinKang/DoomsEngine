@@ -1,16 +1,16 @@
 #pragma once
 
 // Utility Header File ( Don't Edit this )
-// SourceFilePath : __Source_Engine_Rendering_PictureInPicture_PicktureInPickture_reflection_h
+// SourceFilePath : __Source_Plugins_PictureInPicture_PicktureInPickture_reflection_h
 
 
-#ifdef __Source_Engine_Rendering_PictureInPicture_PicktureInPickture_reflection_h
+#ifdef __Source_Plugins_PictureInPicture_PicktureInPickture_reflection_h
 
-#error "__Source_Engine_Rendering_PictureInPicture_PicktureInPickture_reflection_h already included, missing '#pragma once' in __Source_Engine_Rendering_PictureInPicture_PicktureInPickture_reflection_h"
+#error "__Source_Plugins_PictureInPicture_PicktureInPickture_reflection_h already included, missing '#pragma once' in __Source_Plugins_PictureInPicture_PicktureInPickture_reflection_h"
 
 #endif
 
-#define __Source_Engine_Rendering_PictureInPicture_PicktureInPickture_reflection_h
+#define __Source_Plugins_PictureInPicture_PicktureInPickture_reflection_h
 
 
 #include <type_traits>
@@ -27,11 +27,11 @@
 #undef INHERITANCE_INFORMATION_dooms__graphics__PicktureInPickture
 #define INHERITANCE_INFORMATION_dooms__graphics__PicktureInPickture \
 public : \
-inline static const unsigned long int BASE_CHAIN_LIST[] { 2204609923, 3969188510 }; \
-inline static const unsigned long int BASE_CHAIN_LIST_LENGTH { 2 }; \
+inline static const unsigned long int BASE_CHAIN_LIST[] { 2204609923, 858534597, 3969188510 }; \
+inline static const unsigned long int BASE_CHAIN_LIST_LENGTH { 3 }; \
 virtual const unsigned long int* GetBaseChainList() const { return BASE_CHAIN_LIST; } \
 virtual unsigned long int GetBaseChainListLength() const { return BASE_CHAIN_LIST_LENGTH; } \
-typedef dooms::DObject Base;
+typedef dooms::plugin::EnginePlugin Base;
 
 
 #undef CLONE_OBJECT_dooms__graphics__PicktureInPickture

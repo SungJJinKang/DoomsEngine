@@ -47,7 +47,6 @@ namespace dooms
 			void SetMaterial(Material* const _pipMaterial);
 
 			void DrawPictureInPicture();
-			const char* GetEnginePluginName() const override;
 		};
 
 	}

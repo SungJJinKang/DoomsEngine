@@ -21,6 +21,7 @@ dooms::GameCore::GameCore()
 	FRAME_DELAY_MILLISECOND(),
 	FIXED_TIME_STEP(),
 	MAX_PHYSICS_STEP(DEFAULT_MAX_PHYSICS_STEP),
+	mEnginePluginManager(),
 	mAssetManager(),
 	mGraphics_Server(),
 	mPhysics_Server(),

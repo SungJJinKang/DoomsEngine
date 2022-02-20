@@ -14,7 +14,7 @@ namespace dooms
 {
 	namespace graphics
 	{
-		class DOOM_API D_CLASS PIPManager : public DObject, public ISingleton<PIPManager>
+		class DOOM_API D_CLASS PIPManager : public plugin::EnginePlugin, public ISingleton<PIPManager>
 		{
 			GENERATE_BODY()
 			
