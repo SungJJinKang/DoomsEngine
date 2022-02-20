@@ -1,8 +1,8 @@
 #pragma once
 
+#include "../EnginePlugin.h"
 #include <Rendering/Buffer/Mesh.h>
 #include <Rendering/Material/Material.h>
-
 #include <Vector2.h>
 
 #include "PicktureInPickture.reflection.h"
@@ -10,7 +10,7 @@ namespace dooms
 {
 	namespace graphics
 	{
-		class DOOM_API D_CLASS PicktureInPickture : public DObject
+		class DOOM_API D_CLASS PicktureInPickture : public plugin::EnginePlugin
 		{
 			GENERATE_BODY()
 			
@@ -47,8 +47,7 @@ namespace dooms
 			void SetMaterial(Material* const _pipMaterial);
 
 			void DrawPictureInPicture();
-
-
+			const char* GetEnginePluginName() const override;
 		};
 
 	}

@@ -6,7 +6,7 @@
 #include <Simple_SingleTon/Singleton.h>
 #include "Buffer/UniformBufferObject/UniformBufferObjectManager.h"
 #include <Rendering/Light/LightManager.h>
-#include <Rendering/PictureInPicture/PIPManager.h>
+#include <PictureInPicture/PIPManager.h>
 #include <Rendering/Renderer/RendererStaticIterator.h>
 #include "Misc/AccelerationContainer/BVH/BVH.h"
 #include <Rendering/Pipeline/GraphicsPipeLine.h>

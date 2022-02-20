@@ -1,7 +1,7 @@
 #include "DeferredRenderingDebuggerController.h"
 
-#include <Rendering/PictureInPicture/PicktureInPickture.h>
-#include <Rendering/PictureInPicture/PIPManager.h>
+#include <PictureInPicture/PicktureInPickture.h>
+#include <PictureInPicture/PIPManager.h>
 #include "Rendering/Camera.h"
 #include <Rendering/Pipeline/PipeLines/DeferredRendering/DeferredRenderingPipeLineCamera.h>
 

@@ -237,7 +237,7 @@
     <ClCompile Include="Source\Engine\Rendering\Texture\TextureView.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Engine\Rendering\PictureInPicture\PicktureInPickture.cpp">
+    <ClCompile Include="Source\Plugins\PictureInPicture\PicktureInPickture.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Source\Core\Misc\AccelerationContainer\BVH\BVH.cpp">
@@ -306,7 +306,7 @@
     <ClCompile Include="Source\Engine\Rendering\Pipeline\PipeLines\DeferredRendering\DefferedRenderingFrameBuffer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Engine\Rendering\PictureInPicture\PIPManager.cpp">
+    <ClCompile Include="Source\Plugins\PictureInPicture\PIPManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Source\Engine\Rendering\Buffer\UniformBufferObject\UniformBufferObjectUpdater.cpp">
@@ -1310,7 +1310,7 @@
     <ClInclude Include="Source\Engine\Rendering\Texture\TextureView.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Engine\Rendering\PictureInPicture\PicktureInPickture.h">
+    <ClInclude Include="Source\Plugins\PictureInPicture\PicktureInPickture.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\Core\Misc\AccelerationContainer\BVH\BVH.h">
@@ -1427,7 +1427,7 @@
     <ClInclude Include="Source\Engine\Rendering\Pipeline\PipeLines\DeferredRendering\DefferedRenderingFrameBuffer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Engine\Rendering\PictureInPicture\PIPManager.h">
+    <ClInclude Include="Source\Plugins\PictureInPicture\PIPManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\Engine\Rendering\Buffer\UniformBufferObject\UniformBufferObjectUpdater.h">
