@@ -2,8 +2,6 @@
 
 #include <vector>
 #include <mutex>
-#include <cassert>
-#include <unordered_set>
 
 #include <Macros/TypeDef.h>
 #include <Macros/DllMarcos.h>

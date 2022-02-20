@@ -2,9 +2,7 @@
 
 #include "DObject.h"
 #include <Macros/Assert.h>
-
 #include <vector_erase_move_lastelement/vector_swap_popback.h>
-#include <EngineGUI/PrintText.h>
 
 dooms::DObjectsContainer::DObjectsContainer()
 {
