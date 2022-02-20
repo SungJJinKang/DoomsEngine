@@ -350,7 +350,10 @@ xcopy /y /d /E /H /C /I "$(ProjectDir)Assets" "$(TargetDir)Assets"</Command>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="clreflect_compiletime_gettype.cpp" />
-    <ClCompile Include="Source\Core\Container\ChunkVector.cpp" />
+    <ClCompile Include="Source\Core\Stl\Array.cpp" />
+    <ClCompile Include="Source\Core\Stl\ChunkArray.cpp" />
+    <ClCompile Include="Source\Core\Stl\test\ArrayTest.cpp" />
+    <ClCompile Include="Source\Core\Stl\test\ChunkArrayTest.cpp" />
     <ClCompile Include="Source\Engine\Scene\Layer\DefaultLayers.cpp" />
     <ClCompile Include="Source\Core\EngineConfigurationData\ConfigData.cpp" />
     <ClCompile Include="Source\Engine\Scene\Layer\Layer.cpp" />
@@ -626,7 +629,8 @@ xcopy /y /d /E /H /C /I "$(ProjectDir)Assets" "$(TargetDir)Assets"</Command>
     <ClCompile Include="Source\thirdparty\imgui\imgui_widgets.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Source\Core\Container\ChunkVector.h" />
+    <ClInclude Include="Source\Core\Stl\Array.h" />
+    <ClInclude Include="Source\Core\Stl\ChunkArray.h" />
     <ClInclude Include="Source\Engine\Scene\eEntityMobility.h" />
     <ClInclude Include="Source\Engine\Scene\Layer\DefaultLayers.h" />
     <ClInclude Include="Source\Engine\EngineGUI\engineGUIServerHelper.h" />

@@ -834,10 +834,19 @@
     <ClCompile Include="Source\Engine\Rendering\Batch\BatchContainer\batchContainerFactory.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Core\Container\ChunkVector.cpp">
+    <ClCompile Include="Source\Plugins\EnginePluginManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Plugins\EnginePluginManager.cpp">
+    <ClCompile Include="Source\Core\Stl\test\ArrayTest.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Core\Stl\test\ChunkArrayTest.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Core\Stl\Array.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Core\Stl\ChunkArray.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -2057,13 +2066,16 @@
     <ClInclude Include="Source\Engine\Rendering\Batch\BatchContainer\batchContainerFactory.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Core\Container\ChunkVector.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Engine\Scene\eEntityMobility.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\Plugins\EnginePluginManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Core\Stl\Array.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Core\Stl\ChunkArray.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
