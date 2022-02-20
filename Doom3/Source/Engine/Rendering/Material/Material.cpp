@@ -352,7 +352,7 @@ void dooms::graphics::Material::AddTextures(const std::vector<const TextureView*
 
 void dooms::graphics::Material::BindMaterial() const
 {
-	if (FixedMaterial::GetIsFixedMaterialExist() == false)
+	if (FixedMaterial::GetSingleton()->GetIsFixedMaterialExist() == false)
 	{
 
 		if (dooms::graphics::GraphicsAPIManager::GetCurrentAPIType() == GraphicsAPI::eGraphicsAPIType::DX11_10)
@@ -417,7 +417,7 @@ void dooms::graphics::Material::BindMaterial() const
 
 void dooms::graphics::Material::UnBindMaterial() const
 {
-	if (FixedMaterial::GetIsFixedMaterialExist() == false)
+	if (FixedMaterial::GetSingleton()->GetIsFixedMaterialExist() == false)
 	{
 
 		if (dooms::graphics::GraphicsAPIManager::GetCurrentAPIType() == GraphicsAPI::eGraphicsAPIType::DX11_10)

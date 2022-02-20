@@ -75,7 +75,7 @@ void dooms::graphics::OverDrawVisualization::SetOverDrawVisualizationRenderingSt
 		GraphicsAPI::SetBlendFactor(GraphicsAPI::eBlendFactor::ONE, GraphicsAPI::eBlendFactor::ONE);
 
 		D_ASSERT(IsValid(mOverDrawVisualizationObjectDrawMaterial));
-		dooms::graphics::FixedMaterial::SetFixedMaterial(mOverDrawVisualizationObjectDrawMaterial);
+		dooms::graphics::FixedMaterial::GetSingleton()->SetFixedMaterial(mOverDrawVisualizationObjectDrawMaterial);
 
 		mOverDrawVisualizationFrameBuffer->ClearColorTexture(0, 0.0f, 0.0f, 0.0f, 1.0f);
 		mOverDrawVisualizationFrameBuffer->ClrearDepthTexture(GraphicsAPI::DEFAULT_MAX_DEPTH_VALUE);
@@ -87,11 +87,11 @@ void dooms::graphics::OverDrawVisualization::SetOverDrawVisualizationRenderingSt
 
 		
 
-		const dooms::graphics::Material* const currentFixedMaterial = dooms::graphics::FixedMaterial::GetFixedMaterial();
+		const dooms::graphics::Material* const currentFixedMaterial = dooms::graphics::FixedMaterial::GetSingleton()->GetFixedMaterial();
 		D_ASSERT(IsValid(mOverDrawVisualizationObjectDrawMaterial));
 		if (currentFixedMaterial == mOverDrawVisualizationObjectDrawMaterial)
 		{
-			dooms::graphics::FixedMaterial::ClearFixedMaterial();
+			dooms::graphics::FixedMaterial::GetSingleton()->ClearFixedMaterial();
 		}
 		FrameBuffer::StaticBindBackFrameBuffer();
 	}

@@ -1,6 +1,7 @@
 #pragma once
 
 #include <Core.h>
+#include <Simple_SingleTon/Singleton.h>
 
 namespace dooms
 {
@@ -8,19 +9,21 @@ namespace dooms
 	{
 		class Material;
 
-		class DOOM_API D_CLASS FixedMaterial
+		class DOOM_API D_CLASS FixedMaterial : public ISingleton<FixedMaterial>
 		{
 
 		private:
 
-			static Material* mFixedMaterial;
+			Material* mFixedMaterial;
 
 		public:
 
-			static bool GetIsFixedMaterialExist();
-			static const Material* GetFixedMaterial();
-			static void SetFixedMaterial(Material* const fixedMaterial);
-			static void ClearFixedMaterial();
+			FixedMaterial();
+
+			bool GetIsFixedMaterialExist();
+			const Material* GetFixedMaterial();
+			void SetFixedMaterial(Material* const fixedMaterial);
+			void ClearFixedMaterial();
 
 		};
 	}

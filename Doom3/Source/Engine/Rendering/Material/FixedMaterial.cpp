@@ -2,7 +2,10 @@
 
 #include "Material.h"
 
-dooms::graphics::Material* dooms::graphics::FixedMaterial::mFixedMaterial = nullptr;
+dooms::graphics::FixedMaterial::FixedMaterial()
+	: mFixedMaterial(nullptr)
+{
+}
 
 bool dooms::graphics::FixedMaterial::GetIsFixedMaterialExist()
 {
