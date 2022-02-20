@@ -31,3 +31,6 @@
 [submodule "Doom3/Source/Engine/Rendering/Culling/EveryCulling"]
 	path = Doom3/Source/Engine/Rendering/Culling/EveryCulling
 	url = https://github.com/SungJJinKang/EveryCulling.git
+[submodule "Doom3/Source/Core/Container/JINSTL"]
+	path = Doom3/Source/Core/Container/JINSTL
+	url = https://github.com/SungJJinKang/JINSTL.git
