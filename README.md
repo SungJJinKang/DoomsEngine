@@ -11,7 +11,7 @@
   * C++17
   * C# ( used for making engine tools )    
   * Target Compiler : MSVC ( clang is used for generating reflection data )
-  * Homemade Math Library ( [source code](https://github.com/SungJJinKang/LightMath_Cpp) )   
+  * Homemade Math Library ( [JINMATH](https://github.com/SungJJinKang/JINMATH) )   
   * Support SIMD ( Currently AVX2 )
   * Asset Import Pipeline ( Automatically import assets located in asset folder )
 
