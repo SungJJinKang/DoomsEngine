@@ -45,16 +45,7 @@
     <ClCompile Include="Source\Engine\Rendering\Buffer\Mesh.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Core\Math\LightMath_Cpp\Vector3.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Source\Core\Logger\Logger.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Core\Math\LightMath_Cpp\Vector2.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Core\Math\LightMath_Cpp\Vector4.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Source\Engine\Rendering\Buffer\UniformBufferObject\UniformBufferObject.cpp">
@@ -501,18 +492,6 @@
     <ClCompile Include="Source\Core\Reflection\ReflectionType\ToString.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Core\Math\LightMath_Cpp\Matrix2x2.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Core\Math\LightMath_Cpp\Matrix3x3.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Core\Math\LightMath_Cpp\Matrix4x4.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Core\Math\LightMath_Cpp\Quaternion_Scalar.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Source\Core\Reflection\ReflectionType\DFunction.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -837,10 +816,31 @@
     <ClCompile Include="Source\Plugins\EnginePluginManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Core\Container\JINSTL\Array.cpp">
+    <ClCompile Include="Source\Core\Container\JINSTL\JINSTL\source\Allocator.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Core\Container\JINSTL\ChunkArray.cpp">
+    <ClCompile Include="Source\Core\Container\JINSTL\JINSTL\source\Allocator\AllocatorContainer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Core\Math\JINMATH\Matrix2x2.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Core\Math\JINMATH\Matrix3x3.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Core\Math\JINMATH\Matrix4x4.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Core\Math\JINMATH\Quaternion_Scalar.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Core\Math\JINMATH\Vector2.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Core\Math\JINMATH\Vector3.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Core\Math\JINMATH\Vector4.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -962,30 +962,6 @@
     <ClInclude Include="Source\Core\Math\VeryLight_Math_For_Game\Matrix1x1.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Core\Math\LightMath_Cpp\LMath.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Core\Math\LightMath_Cpp\Matrix2x2.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Core\Math\LightMath_Cpp\Matrix3x3.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Core\Math\LightMath_Cpp\Matrix4x4.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Core\Math\LightMath_Cpp\Utility.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Core\Math\LightMath_Cpp\Vector2.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Core\Math\LightMath_Cpp\Vector3.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Core\Math\LightMath_Cpp\Vector4.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Core\Asset\TextAsset.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -1056,15 +1032,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\Engine\Rendering\Material\Material.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Core\Math\LightMath_Cpp\Euler.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Core\Math\LightMath_Cpp\LMath_Core.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Core\Math\LightMath_Cpp\Matrix_utility.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\Helper\vector_erase_move_lastelement\vector_swap_erase.h">
@@ -1172,9 +1139,6 @@
     <ClInclude Include="Source\Core\Graphics\Color.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Core\Math\LightMath_Cpp\Collision.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Engine\Physics\Utility\Picking.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -1200,9 +1164,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\Helper\EasyDirtyChecker\DirtySender.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Core\Math\LightMath_Cpp\Trigonometric.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\Component\PhysicsComponent\ColliderComponent.h">
@@ -1352,12 +1313,6 @@
     <ClInclude Include="Source\Core\Misc\AccelerationContainer\KDTree\KDTreeCore.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Core\Math\LightMath_Cpp\SIMD.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Core\Math\LightMath_Cpp\SIMD_Core.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Core\Physics\Collider\OBB.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -1398,12 +1353,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\Core\ResourceManagement\JobSystem_cpp\Thread_Core.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Core\Math\LightMath_Cpp\Quaternion.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Core\Math\LightMath_Cpp\Quaternion_Scalar.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\Component\Rendering\Animation\Animator.h">
@@ -1575,9 +1524,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\Core\Reflection\ReflectionType\DField.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Core\Math\LightMath_Cpp\TypeDef.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\Core\Macros\Assert.h">
@@ -2078,6 +2024,96 @@
     <ClInclude Include="Source\Core\Container\JINSTL\test\test.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Core\Container\JINSTL\JINSTL\include\jinstl\Allocator\AllocatorContainer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Core\Container\JINSTL\JINSTL\include\jinstl\Allocator\DefaultAllocator.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Core\Container\JINSTL\JINSTL\include\jinstl\Allocator.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Core\Container\JINSTL\JINSTL\include\jinstl\Array.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Core\Container\JINSTL\JINSTL\include\jinstl\ChunkArray.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Core\Container\JINSTL\JINSTL\include\jinstl\Core.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Core\Container\JINSTL\JINSTL\include\jinstl\Iterator.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Core\Math\JINMATH\Euler.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Core\Math\JINMATH\JINSTLCore.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Core\Math\JINMATH\Matrix_utility.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Core\Math\JINMATH\Matrix2x2.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Core\Math\JINMATH\Matrix2x2.reflection.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Core\Math\JINMATH\Matrix3x3.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Core\Math\JINMATH\Matrix3x3.reflection.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Core\Math\JINMATH\Matrix4x4.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Core\Math\JINMATH\Matrix4x4.reflection.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Core\Math\JINMATH\Quaternion.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Core\Math\JINMATH\Quaternion_Scalar.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Core\Math\JINMATH\Quaternion_Scalar.reflection.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Core\Math\JINMATH\SIMD.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Core\Math\JINMATH\SIMD_Core.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Core\Math\JINMATH\Trigonometric.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Core\Math\JINMATH\TypeDef.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Core\Math\JINMATH\Utility.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Core\Math\JINMATH\Vector2.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Core\Math\JINMATH\Vector2.reflection.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Core\Math\JINMATH\Vector3.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Core\Math\JINMATH\Vector3.reflection.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Core\Math\JINMATH\Vector4.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Core\Math\JINMATH\Vector4.reflection.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="dependency\glfw-3.3.2.bin.WIN64\docs\html\search\all_0.html" />
@@ -2236,8 +2272,6 @@
     <None Include="Assets\Shader\Default\Default2DTextureShader.glsl" />
     <None Include="Assets\Shader\Default\Default2DColorShader.glsl" />
     <None Include="Assets\Shader\Default\OcclusionCullingBoundingBox.glsl" />
-    <None Include="Source\Core\Math\LightMath_Cpp\LICENSE" />
-    <None Include="Source\Core\Math\LightMath_Cpp\README.md" />
     <None Include="Source\Core\ResourceManagement\JobSystem_cpp\MultithreadingJobSystemStrategy.md" />
     <None Include="Source\Core\ResourceManagement\JobSystem_cpp\README.md" />
     <None Include="Assets\Shader\Default\Billboard.glsl" />
@@ -2258,6 +2292,8 @@
     <None Include="Source\Engine\Rendering\Culling\EveryCulling\CullingModule\MaskedSWOcclusionCulling\MaskedSWOcclusionCulling_HowWorks.md" />
     <None Include="Assets\Shader\Default\GbufferWriter_BatchedMesh_PBR.glsl" />
     <None Include="Source\Core\Container\JINSTL\README.md" />
+    <None Include="Source\Core\Math\JINMATH\LICENSE" />
+    <None Include="Source\Core\Math\JINMATH\README.md" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="Source\Core\Reflection\Reflection_Tutorial.txt" />

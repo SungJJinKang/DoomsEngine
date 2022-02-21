@@ -1,10 +1,10 @@
 #pragma once
 #include "Core/Component.h"
 
-#include "../Core/Math/LightMath_Cpp/Vector3.h"
-#include "../Core/Math/LightMath_Cpp/Vector4.h"
-#include "../Core/Math/LightMath_Cpp/Matrix4x4.h"
-#include "../Core/Math/LightMath_Cpp/Matrix_utility.h"
+#include <Vector3.h>
+#include <Vector4.h>
+#include <Matrix4x4.h>
+#include <Matrix_utility.h>
 #include <array>
 #include <Rendering/Buffer/UniformBufferObject/UniformBufferObjectUpdater.h>
 #include <Misc/StaticContainer/StaticContainer.h>

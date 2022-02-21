@@ -1,9 +1,9 @@
 #pragma once
 #include "Core/Component.h"
-#include "../Core/Math/LightMath_Cpp/Quaternion.h"
-#include "../Core/Math/LightMath_Cpp/Vector3.h"
-#include "../Core/Math/LightMath_Cpp/Matrix4x4.h"
-#include "../Core/Math/LightMath_Cpp/Matrix_utility.h"
+#include <Quaternion.h>
+#include <Vector3.h>
+#include <Matrix4x4.h>
+#include <Matrix_utility.h>
 #include "EasyDirtyChecker/DirtyReceiver.h"
 #include <Graphics/GraphicsAPI/graphicsAPIHelper.h>
 

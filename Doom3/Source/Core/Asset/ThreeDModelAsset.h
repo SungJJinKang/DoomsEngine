@@ -3,8 +3,8 @@
 
 #include "Asset.h"
 
-#include "../Math/LightMath_Cpp/Vector2.h"
-#include "../Math/LightMath_Cpp/Vector3.h"
+#include <Vector2.h>
+#include <Vector3.h>
 #include <Rendering/Buffer/Mesh.h>
 #include <Rendering/Buffer/MeshNode.h>
 #include <Physics/Collider/AABB.h>

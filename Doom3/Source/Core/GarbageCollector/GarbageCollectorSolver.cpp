@@ -11,7 +11,7 @@
 #include <ResourceManagement/JobSystem_cpp/JobSystem.h>
 #include <Macros/Log.h>
 #include <EngineConfigurationData/ConfigData.h>
-#include <Math/LightMath_Cpp/Utility.h>
+#include <Utility.h>
 #include <EngineGUI/PrintText.h>
 #include <vector_erase_move_lastelement/vector_swap_popback.h>
 

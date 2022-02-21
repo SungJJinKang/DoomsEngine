@@ -287,7 +287,7 @@ xcopy /y /d /E /H /C /I "$(ProjectDir)Assets" "$(TargetDir)Assets"</Command>
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions);UNICODE;__x86_64__</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)Source\thirdparty;$(ProjectDir)Source\thirdparty\oneTBB\include;C:\assimp-5.1.5\build\include;$(ProjectDir)..\OpenGLGraphicsAPI;$(ProjectDir)Source\Core\Reflection\AdditionalDirectoryForClang;$(ProjectDir)..\DX11GraphicsAPI;C:\assimp-5.1.5\include\;$(ProjectDir);$(SolutionDir)Source\Core\OS;$(VcpkgInstalledDir)installed\x64-windows\include;$(SolutionDir)Source\Helper;$(SolutionDir)Source\Component;$(SolutionDir)Source\Core\Scene;$(SolutionDir)Source\Component\Core;$(SolutionDir)Source\Helper/crossguid;$(SolutionDir)Source\GameLogic\CustomComponent;$(SolutionDir)Source\Core\Math\LightMath_Cpp;$(SolutionDir)Source\Core\IO;$(SolutionDir)Source\Core\Time;$(SolutionDir)Source\GameLogic;$(SolutionDir)Source\Core;$(SolutionDir)Source\Core\Logger;$(SolutionDir)Source\Core\Physics;$(SolutionDir)Source\Core\utility;$(SolutionDir)Source\Core\Reflection\clReflect_automation\clReflect\inc;$(SolutionDir)Source\thirdparty\imgui;$(SolutionDir)Source\Engine;$(SolutionDir)Source\Plugins</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Source\thirdparty;$(ProjectDir)Source\thirdparty\oneTBB\include;C:\assimp-5.1.5\build\include;$(ProjectDir)..\OpenGLGraphicsAPI;$(ProjectDir)Source\Core\Reflection\AdditionalDirectoryForClang;$(ProjectDir)..\DX11GraphicsAPI;C:\assimp-5.1.5\include\;$(ProjectDir);$(SolutionDir)Source\Core\OS;$(VcpkgInstalledDir)installed\x64-windows\include;$(SolutionDir)Source\Helper;$(SolutionDir)Source\Component;$(SolutionDir)Source\Core\Scene;$(SolutionDir)Source\Component\Core;$(SolutionDir)Source\Helper/crossguid;$(SolutionDir)Source\GameLogic\CustomComponent;$(SolutionDir)Source\Core\Math\JINMATH;$(SolutionDir)Source\Core\IO;$(SolutionDir)Source\Core\Time;$(SolutionDir)Source\GameLogic;$(SolutionDir)Source\Core;$(SolutionDir)Source\Core\Logger;$(SolutionDir)Source\Core\Physics;$(SolutionDir)Source\Core\utility;$(SolutionDir)Source\Core\Reflection\clReflect_automation\clReflect\inc;$(SolutionDir)Source\thirdparty\imgui;$(SolutionDir)Source\Engine;$(SolutionDir)Source\Plugins;$(SolutionDir)Source\Core\Container\JINSTL\JINSTL\include\jinstl</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
@@ -369,7 +369,7 @@ xcopy /y /d /f "$(ProjectDir)*.map" "$(TargetDir)"</Command>
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions);UNICODE</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)Source\thirdparty;$(ProjectDir)Source\thirdparty\oneTBB\include;C:\assimp-5.1.5\build\include;$(ProjectDir)..\OpenGLGraphicsAPI;$(ProjectDir)Source\Core\Reflection\AdditionalDirectoryForClang;$(ProjectDir)..\DX11GraphicsAPI;C:\assimp-5.1.5\include\;$(ProjectDir);$(SolutionDir)Source\thirdparty\amdUprof\include;$(SolutionDir)Source\Core\OS;$(VcpkgInstalledDir)installed\x64-windows\include;$(SolutionDir)Source\Helper;$(SolutionDir)Source\Component;$(SolutionDir)Source\Core\Scene;$(SolutionDir)Source\Component\Core;$(SolutionDir)Source\Helper/crossguid;$(SolutionDir)Source\GameLogic\CustomComponent;$(SolutionDir)Source\Core\Math\LightMath_Cpp;$(SolutionDir)Source\Core\IO;$(SolutionDir)Source\Core\Time;$(SolutionDir)Source\GameLogic;$(SolutionDir)Source\Core;$(SolutionDir)Source\Core\Logger;$(SolutionDir)Source\Core\Physics;$(SolutionDir)Source\Core\utility;$(SolutionDir)Source\Core\Reflection\clReflect_automation\clReflect\inc;$(SolutionDir)Source\thirdparty\imgui;$(SolutionDir)Source\Plugins;$(SolutionDir)Source\Engine</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Source\thirdparty;$(ProjectDir)Source\thirdparty\oneTBB\include;C:\assimp-5.1.5\build\include;$(ProjectDir)..\OpenGLGraphicsAPI;$(ProjectDir)Source\Core\Reflection\AdditionalDirectoryForClang;$(ProjectDir)..\DX11GraphicsAPI;C:\assimp-5.1.5\include\;$(ProjectDir);$(SolutionDir)Source\thirdparty\amdUprof\include;$(SolutionDir)Source\Core\OS;$(VcpkgInstalledDir)installed\x64-windows\include;$(SolutionDir)Source\Helper;$(SolutionDir)Source\Component;$(SolutionDir)Source\Core\Scene;$(SolutionDir)Source\Component\Core;$(SolutionDir)Source\Helper/crossguid;$(SolutionDir)Source\GameLogic\CustomComponent;$(SolutionDir)Source\Core\Math\JINMATH;$(SolutionDir)Source\Core\IO;$(SolutionDir)Source\Core\Time;$(SolutionDir)Source\GameLogic;$(SolutionDir)Source\Core;$(SolutionDir)Source\Core\Logger;$(SolutionDir)Source\Core\Physics;$(SolutionDir)Source\Core\utility;$(SolutionDir)Source\Core\Reflection\clReflect_automation\clReflect\inc;$(SolutionDir)Source\thirdparty\imgui;$(SolutionDir)Source\Plugins;$(SolutionDir)Source\Engine;$(SolutionDir)Source\Core\Container\JINSTL\JINSTL\include\jinstl</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
@@ -466,8 +466,15 @@ xcopy /y /d /E /H /C /I "$(ProjectDir)Assets" "$(TargetDir)Assets"</Command>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="clreflect_compiletime_gettype.cpp" />
-    <ClCompile Include="Source\Core\Container\JINSTL\Array.cpp" />
-    <ClCompile Include="Source\Core\Container\JINSTL\ChunkArray.cpp" />
+    <ClCompile Include="Source\Core\Container\JINSTL\JINSTL\source\Allocator.cpp" />
+    <ClCompile Include="Source\Core\Container\JINSTL\JINSTL\source\Allocator\AllocatorContainer.cpp" />
+    <ClCompile Include="Source\Core\Math\JINMATH\Matrix2x2.cpp" />
+    <ClCompile Include="Source\Core\Math\JINMATH\Matrix3x3.cpp" />
+    <ClCompile Include="Source\Core\Math\JINMATH\Matrix4x4.cpp" />
+    <ClCompile Include="Source\Core\Math\JINMATH\Quaternion_Scalar.cpp" />
+    <ClCompile Include="Source\Core\Math\JINMATH\Vector2.cpp" />
+    <ClCompile Include="Source\Core\Math\JINMATH\Vector3.cpp" />
+    <ClCompile Include="Source\Core\Math\JINMATH\Vector4.cpp" />
     <ClCompile Include="Source\Engine\Scene\Layer\DefaultLayers.cpp" />
     <ClCompile Include="Source\Core\EngineConfigurationData\ConfigData.cpp" />
     <ClCompile Include="Source\Engine\Scene\Layer\Layer.cpp" />
@@ -562,10 +569,6 @@ xcopy /y /d /E /H /C /I "$(ProjectDir)Assets" "$(TargetDir)Assets"</Command>
     <ClCompile Include="Source\Engine\EngineGUI\GUIModules\Modules\SceneGUI.cpp" />
     <ClCompile Include="Source\Engine\EngineGUI\imguiHelper\imguiFieldFunctionGetter.cpp" />
     <ClCompile Include="Source\Engine\EngineGUI\imguiHelper\imguiWithReflection.cpp" />
-    <ClCompile Include="Source\Core\Math\LightMath_Cpp\Matrix2x2.cpp" />
-    <ClCompile Include="Source\Core\Math\LightMath_Cpp\Matrix3x3.cpp" />
-    <ClCompile Include="Source\Core\Math\LightMath_Cpp\Matrix4x4.cpp" />
-    <ClCompile Include="Source\Core\Math\LightMath_Cpp\Quaternion_Scalar.cpp" />
     <ClCompile Include="Source\Core\Reflection\ReflectionManager.cpp" />
     <ClCompile Include="Source\Core\Reflection\ReflectionType\DAttribute.cpp" />
     <ClCompile Include="Source\Core\Reflection\ReflectionType\DAttributeList.cpp" />
@@ -698,9 +701,6 @@ xcopy /y /d /E /H /C /I "$(ProjectDir)Assets" "$(TargetDir)Assets"</Command>
     <ClCompile Include="Source\Core\Asset\AssetImportExporter\AssetImporter\assetImporter.cpp" />
     <ClCompile Include="Source\Core\IO\UserInput_Server.cpp" />
     <ClCompile Include="Source\Core\Logger\Logger.cpp" />
-    <ClCompile Include="Source\Core\Math\LightMath_Cpp\Vector2.cpp" />
-    <ClCompile Include="Source\Core\Math\LightMath_Cpp\Vector3.cpp" />
-    <ClCompile Include="Source\Core\Math\LightMath_Cpp\Vector4.cpp" />
     <ClCompile Include="Source\Core\Math\Random.cpp" />
     <ClCompile Include="Source\Core\Time\MainTimer.cpp" />
     <ClCompile Include="Source\Core\Time\Time_Server.cpp" />
@@ -745,8 +745,38 @@ xcopy /y /d /E /H /C /I "$(ProjectDir)Assets" "$(TargetDir)Assets"</Command>
   <ItemGroup>
     <ClInclude Include="Source\Core\Container\JINSTL\Array.h" />
     <ClInclude Include="Source\Core\Container\JINSTL\ChunkArray.h" />
+    <ClInclude Include="Source\Core\Container\JINSTL\JINSTL\include\jinstl\Allocator.h" />
+    <ClInclude Include="Source\Core\Container\JINSTL\JINSTL\include\jinstl\Allocator\AllocatorContainer.h" />
+    <ClInclude Include="Source\Core\Container\JINSTL\JINSTL\include\jinstl\Allocator\DefaultAllocator.h" />
+    <ClInclude Include="Source\Core\Container\JINSTL\JINSTL\include\jinstl\Array.h" />
+    <ClInclude Include="Source\Core\Container\JINSTL\JINSTL\include\jinstl\ChunkArray.h" />
+    <ClInclude Include="Source\Core\Container\JINSTL\JINSTL\include\jinstl\Core.h" />
+    <ClInclude Include="Source\Core\Container\JINSTL\JINSTL\include\jinstl\Iterator.h" />
     <ClInclude Include="Source\Core\Container\JINSTL\test\googletest\googletest\include\gtest\gtest.h" />
     <ClInclude Include="Source\Core\Container\JINSTL\test\test.h" />
+    <ClInclude Include="Source\Core\Math\JINMATH\Euler.h" />
+    <ClInclude Include="Source\Core\Math\JINMATH\JINSTLCore.h" />
+    <ClInclude Include="Source\Core\Math\JINMATH\Matrix2x2.h" />
+    <ClInclude Include="Source\Core\Math\JINMATH\Matrix2x2.reflection.h" />
+    <ClInclude Include="Source\Core\Math\JINMATH\Matrix3x3.h" />
+    <ClInclude Include="Source\Core\Math\JINMATH\Matrix3x3.reflection.h" />
+    <ClInclude Include="Source\Core\Math\JINMATH\Matrix4x4.h" />
+    <ClInclude Include="Source\Core\Math\JINMATH\Matrix4x4.reflection.h" />
+    <ClInclude Include="Source\Core\Math\JINMATH\Matrix_utility.h" />
+    <ClInclude Include="Source\Core\Math\JINMATH\Quaternion.h" />
+    <ClInclude Include="Source\Core\Math\JINMATH\Quaternion_Scalar.h" />
+    <ClInclude Include="Source\Core\Math\JINMATH\Quaternion_Scalar.reflection.h" />
+    <ClInclude Include="Source\Core\Math\JINMATH\SIMD.h" />
+    <ClInclude Include="Source\Core\Math\JINMATH\SIMD_Core.h" />
+    <ClInclude Include="Source\Core\Math\JINMATH\Trigonometric.h" />
+    <ClInclude Include="Source\Core\Math\JINMATH\TypeDef.h" />
+    <ClInclude Include="Source\Core\Math\JINMATH\Utility.h" />
+    <ClInclude Include="Source\Core\Math\JINMATH\Vector2.h" />
+    <ClInclude Include="Source\Core\Math\JINMATH\Vector2.reflection.h" />
+    <ClInclude Include="Source\Core\Math\JINMATH\Vector3.h" />
+    <ClInclude Include="Source\Core\Math\JINMATH\Vector3.reflection.h" />
+    <ClInclude Include="Source\Core\Math\JINMATH\Vector4.h" />
+    <ClInclude Include="Source\Core\Math\JINMATH\Vector4.reflection.h" />
     <ClInclude Include="Source\Engine\Scene\eEntityMobility.h" />
     <ClInclude Include="Source\Engine\Scene\Layer\DefaultLayers.h" />
     <ClInclude Include="Source\Engine\EngineGUI\engineGUIServerHelper.h" />
@@ -922,7 +952,6 @@ xcopy /y /d /E /H /C /I "$(ProjectDir)Assets" "$(TargetDir)Assets"</Command>
     <ClInclude Include="Source\Core\Macros\Path.h" />
     <ClInclude Include="Source\Core\Macros\Profiling.h" />
     <ClInclude Include="Source\Core\Macros\TypeDef.h" />
-    <ClInclude Include="Source\Core\Math\LightMath_Cpp\TypeDef.h" />
     <ClInclude Include="Source\Core\OS\ErrorHandling.h" />
     <ClInclude Include="Source\Engine\Scene\Layer\LayerManager.h" />
     <ClInclude Include="Source\Engine\Scene\SceneManager.h" />
@@ -946,10 +975,6 @@ xcopy /y /d /E /H /C /I "$(ProjectDir)Assets" "$(TargetDir)Assets"</Command>
     <ClInclude Include="Source\Plugins\PictureInPicture\PicktureInPickture.h" />
     <ClInclude Include="Source\Engine\Rendering\RenderingBitFlag.h" />
     <ClInclude Include="Source\Core\Graphics\TextureFormat.h" />
-    <ClInclude Include="Source\Core\Math\LightMath_Cpp\Quaternion.h" />
-    <ClInclude Include="Source\Core\Math\LightMath_Cpp\SIMD.h" />
-    <ClInclude Include="Source\Core\Math\LightMath_Cpp\SIMD_Core.h" />
-    <ClInclude Include="Source\Core\Math\LightMath_Cpp\Trigonometric.h" />
     <ClInclude Include="Source\Core\OS\OS.h" />
     <ClInclude Include="Source\Core\Physics\Collider\OBB.h" />
     <ClInclude Include="Source\Core\ResourceManagement\JobSystem_cpp\JobSystem.h" />
@@ -1004,7 +1029,6 @@ xcopy /y /d /E /H /C /I "$(ProjectDir)Assets" "$(TargetDir)Assets"</Command>
     <ClInclude Include="Source\Core\Physics\Collider\Line.h" />
     <ClInclude Include="Source\Core\Physics\Collider\PhysicsGeneric.h" />
     <ClInclude Include="Source\Engine\Physics\Utility\Picking.h" />
-    <ClInclude Include="Source\Core\Math\LightMath_Cpp\Collision.h" />
     <ClInclude Include="Source\Core\Physics\Collider\AABB.h" />
     <ClInclude Include="Source\Core\Misc\AccelerationContainer\BVH\BVH.h" />
     <ClInclude Include="Source\Core\Physics\Physics_Server.h" />
@@ -1037,18 +1061,6 @@ xcopy /y /d /E /H /C /I "$(ProjectDir)Assets" "$(TargetDir)Assets"</Command>
     <ClInclude Include="Source\Core\Asset\AssetImportExporter\AssetImporter\AssetImporterWorker\AssetImporterWorker_Text.h" />
     <ClInclude Include="Source\Core\Asset\AssetImportExporter\AssetImporter\AssetImporterWorker\AssetImporterWorker_Texture.h" />
     <ClInclude Include="Source\Core\Asset\AssetImportExporter\AssetImporter\AssetImporterWorker\AssetImporterWorker_Three_D_Model.h" />
-    <ClInclude Include="Source\Core\Math\LightMath_Cpp\Euler.h" />
-    <ClInclude Include="Source\Core\Math\LightMath_Cpp\LMath.h" />
-    <ClInclude Include="Source\Core\Math\LightMath_Cpp\LMath_Core.h" />
-    <ClInclude Include="Source\Core\Math\LightMath_Cpp\Matrix2x2.h" />
-    <ClInclude Include="Source\Core\Math\LightMath_Cpp\Matrix3x3.h" />
-    <ClInclude Include="Source\Core\Math\LightMath_Cpp\Matrix4x4.h" />
-    <ClInclude Include="Source\Core\Math\LightMath_Cpp\Matrix_utility.h" />
-    <ClInclude Include="Source\Core\Math\LightMath_Cpp\Quaternion_Scalar.h" />
-    <ClInclude Include="Source\Core\Math\LightMath_Cpp\Utility.h" />
-    <ClInclude Include="Source\Core\Math\LightMath_Cpp\Vector2.h" />
-    <ClInclude Include="Source\Core\Math\LightMath_Cpp\Vector3.h" />
-    <ClInclude Include="Source\Core\Math\LightMath_Cpp\Vector4.h" />
     <ClInclude Include="Source\Core\Math\Math.h" />
     <ClInclude Include="Source\Core\Math\Matrix.h" />
     <ClInclude Include="Source\Core\Math\Matrix1x1.h" />
@@ -1309,8 +1321,8 @@ xcopy /y /d /E /H /C /I "$(ProjectDir)Assets" "$(TargetDir)Assets"</Command>
     <None Include="dependency\glfw-3.3.2.bin.WIN64\docs\html\window_8dox.html" />
     <None Include="dependency\glfw-3.3.2.bin.WIN64\docs\html\window_guide.html" />
     <None Include="Source\Core\Container\JINSTL\README.md" />
-    <None Include="Source\Core\Math\LightMath_Cpp\LICENSE" />
-    <None Include="Source\Core\Math\LightMath_Cpp\README.md" />
+    <None Include="Source\Core\Math\JINMATH\LICENSE" />
+    <None Include="Source\Core\Math\JINMATH\README.md" />
     <MASM Include="Source\Core\Reflection\ReflectionType\funcCall.asm">
       <FileType>Document</FileType>
     </MASM>

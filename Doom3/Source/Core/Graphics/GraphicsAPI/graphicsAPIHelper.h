@@ -2,7 +2,6 @@
 
 #include <Core.h>
 #include "GraphicsAPI.h"
-#include <Math/LightMath_Cpp/LMath_Core.h>
 
 namespace dooms
 {

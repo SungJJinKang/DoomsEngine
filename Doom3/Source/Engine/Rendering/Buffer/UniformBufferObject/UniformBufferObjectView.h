@@ -8,13 +8,12 @@
 #include <Graphics/GraphicsAPI/GraphicsAPI.h>
 
 #include "UniformBufferObject.h"
-#include "../Math/LightMath_Cpp/Vector2.h"
-#include "../Math/LightMath_Cpp/Vector3.h"
-#include "../Math/LightMath_Cpp/Vector4.h"
-
-#include "../Math/LightMath_Cpp/Matrix2x2.h"
-#include "../Math/LightMath_Cpp/Matrix3x3.h"
-#include "../Math/LightMath_Cpp/Matrix4x4.h"
+#include <Vector2.h>
+#include <Vector3.h>
+#include <Vector4.h>
+#include <Matrix2x2.h>
+#include <Matrix3x3.h>
+#include <Matrix4x4.h>
 
 #include "UniformBufferObjectView.reflection.h"
 namespace dooms
