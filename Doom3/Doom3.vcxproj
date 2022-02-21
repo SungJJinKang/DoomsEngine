@@ -468,8 +468,6 @@ xcopy /y /d /E /H /C /I "$(ProjectDir)Assets" "$(TargetDir)Assets"</Command>
     <ClCompile Include="clreflect_compiletime_gettype.cpp" />
     <ClCompile Include="Source\Core\Container\JINSTL\Array.cpp" />
     <ClCompile Include="Source\Core\Container\JINSTL\ChunkArray.cpp" />
-    <ClCompile Include="Source\Core\Container\JINSTL\test\ArrayTest.cpp" />
-    <ClCompile Include="Source\Core\Container\JINSTL\test\ChunkArrayTest.cpp" />
     <ClCompile Include="Source\Engine\Scene\Layer\DefaultLayers.cpp" />
     <ClCompile Include="Source\Core\EngineConfigurationData\ConfigData.cpp" />
     <ClCompile Include="Source\Engine\Scene\Layer\Layer.cpp" />
@@ -749,7 +747,6 @@ xcopy /y /d /E /H /C /I "$(ProjectDir)Assets" "$(TargetDir)Assets"</Command>
     <ClInclude Include="Source\Core\Container\JINSTL\ChunkArray.h" />
     <ClInclude Include="Source\Core\Container\JINSTL\test\googletest\googletest\include\gtest\gtest.h" />
     <ClInclude Include="Source\Core\Container\JINSTL\test\test.h" />
-    <ClInclude Include="Source\Core\Macros\Test.h" />
     <ClInclude Include="Source\Engine\Scene\eEntityMobility.h" />
     <ClInclude Include="Source\Engine\Scene\Layer\DefaultLayers.h" />
     <ClInclude Include="Source\Engine\EngineGUI\engineGUIServerHelper.h" />
