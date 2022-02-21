@@ -34,3 +34,6 @@
 [submodule "Doom3/Source/Core/Container/JINSTL"]
 	path = Doom3/Source/Core/Container/JINSTL
 	url = https://github.com/SungJJinKang/JINSTL.git
+[submodule "Doom3/Source/thirdparty/googletest"]
+	path = Doom3/Source/thirdparty/googletest
+	url = https://github.com/google/googletest.git

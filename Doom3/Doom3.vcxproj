@@ -25,6 +25,14 @@
       <Configuration>Release</Configuration>
       <Platform>x64</Platform>
     </ProjectConfiguration>
+    <ProjectConfiguration Include="Test|Win32">
+      <Configuration>Test</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Test|x64">
+      <Configuration>Test</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
@@ -40,6 +48,12 @@
     <PlatformToolset>v143</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Test|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
@@ -48,6 +62,14 @@
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+    <EnableUnitySupport>false</EnableUnitySupport>
+    <EnableASAN>false</EnableASAN>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Test|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v143</PlatformToolset>
@@ -79,10 +101,16 @@
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Test|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Test|x64'" Label="PropertySheets">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -92,10 +120,16 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Test|Win32'">
+    <LinkIncremental>true</LinkIncremental>
+  </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <LinkIncremental>false</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Test|x64'">
     <LinkIncremental>false</LinkIncremental>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -113,6 +147,9 @@
   <PropertyGroup Label="Vcpkg" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <VcpkgInstalledDir>C:\vcpkg</VcpkgInstalledDir>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Test|Win32'" Label="Vcpkg">
+    <VcpkgInstalledDir>C:\vcpkg</VcpkgInstalledDir>
+  </PropertyGroup>
   <PropertyGroup Label="Vcpkg" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <VcpkgInstalledDir>C:\vcpkg</VcpkgInstalledDir>
   </PropertyGroup>
@@ -120,6 +157,9 @@
     <VcpkgInstalledDir>C:\vcpkg</VcpkgInstalledDir>
   </PropertyGroup>
   <PropertyGroup Label="Vcpkg" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <VcpkgInstalledDir>C:\vcpkg\</VcpkgInstalledDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Test|x64'" Label="Vcpkg">
     <VcpkgInstalledDir>C:\vcpkg\</VcpkgInstalledDir>
   </PropertyGroup>
   <PropertyGroup Label="Vcpkg" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -130,6 +170,42 @@
     </VcpkgTriplet>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>$(SolutionDir)Source\thirdparty;$(ProjectDir)Source\thirdparty\oneTBB\include;$(ProjectDir)..\OpenGLGraphicsAPI;$(ProjectDir)Source\Core\Reflection\AdditionalDirectoryForClang;$(ProjectDir)..\DX11GraphicsAPI;$(ProjectDir);$(SolutionDir)Source\Core\OS;$(VcpkgInstalledDir)x86-windows\include;$(SolutionDir)Source\Helper;$(SolutionDir)Source\Component;$(SolutionDir)Source\Core\Scene;$(SolutionDir)Source\Component\Core;$(SolutionDir)Source\Helper/crossguid;$(SolutionDir)Source\GameLogic\CustomComponent;$(SolutionDir)Source\Core\Math\LightMath_Cpp;$(SolutionDir)Source\Core\IO;$(SolutionDir)Source\Core\Time;$(SolutionDir)Source\GameLogic;$(SolutionDir)Source\Core;$(SolutionDir)Source\Core\Logger;$(SolutionDir)Source\Core\Physics;$(SolutionDir)Source\Core\utility;$(SolutionDir)Source\Core\DObject\Reflection\clReflect_automation\clReflect\inc</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+      <LanguageStandard_C>stdc17</LanguageStandard_C>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <EnableEnhancedInstructionSet>AdvancedVectorExtensions2</EnableEnhancedInstructionSet>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <RuntimeTypeInfo>false</RuntimeTypeInfo>
+      <StringPooling>true</StringPooling>
+      <AdditionalOptions>-std=c++17 %(AdditionalOptions)</AdditionalOptions>
+      <ShowIncludes>false</ShowIncludes>
+      <GenerateSourceDependencies>true</GenerateSourceDependencies>
+      <SourceDependenciesFile>$(OutDirFullPath)SourceDependencies\</SourceDependenciesFile>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>$(SolutionDir)Source\Helper\crossguid\build\Debug;%(AdditionalLibraryDirectories);C:\vcpkg\x64-windows\bin;$(OutputPath)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>xg.lib;%(AdditionalDependencies);C:\vcpkg\x64-windows\bin</AdditionalDependencies>
+      <GenerateMapFile>true</GenerateMapFile>
+      <MapFileName>map.map</MapFileName>
+      <MapExports>true</MapExports>
+      <ForceSymbolReferences>
+      </ForceSymbolReferences>
+    </Link>
+    <PostBuildEvent>
+      <Command>xcopy /y /d "$(ProjectDir)Source\Core\DObject\Reflection\clReflect_automation\clReflect_automation\bin\x64\Debug\*.dll" "$(TargetDir)"
+xcopy /y /d "$(ProjectDir)*.cppbin" "$(TargetDir)"
+xcopy /y /d /E /H /C /I "$(ProjectDir)Assets" "$(TargetDir)Assets"</Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Test|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
@@ -232,6 +308,46 @@ xcopy /y /d /E /H /C /I "$(ProjectDir)Assets" "$(TargetDir)Assets"</Command>
       <GenerateDebugInformation>DebugFull</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(ProjectDir)Source\thirdparty\oneTBB\build\msvc_19.30_cxx_64_md_debug;$(ProjectDir)Source\Helper\crossguid\build\Debug;C:\assimp-5.1.5\build\lib\Debug;$(VcpkgInstalledDir)installed\x64-windows\debug\lib;%(AdditionalLibraryDirectories);$(OutputPath)</AdditionalLibraryDirectories>
       <AdditionalDependencies>%(AdditionalDependencies);ntdll.lib;crossguid-dgb.lib;DirectXTex.lib;assimp-vc142-mtd.lib;tbbmalloc_debug.lib;tbbmalloc_proxy_debug.lib;shcore.lib</AdditionalDependencies>
+      <GenerateMapFile>true</GenerateMapFile>
+      <MapFileName>map.map</MapFileName>
+      <MapExports>true</MapExports>
+      <StackReserveSize>
+      </StackReserveSize>
+      <OptimizeReferences>false</OptimizeReferences>
+      <ForceSymbolReferences>__TBB_malloc_proxy</ForceSymbolReferences>
+    </Link>
+    <PostBuildEvent>
+      <Command>xcopy /y /d /E /H /C /I "$(ProjectDir)Assets" "$(TargetDir)Assets"
+xcopy /y /d /f "$(ProjectDir)*.map" "$(TargetDir)"</Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Test|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions);UNICODE;__x86_64__;D_TEST</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>$(SolutionDir)Source\thirdparty;$(ProjectDir)Source\thirdparty\oneTBB\include;C:\assimp-5.1.5\build\include;$(ProjectDir)..\OpenGLGraphicsAPI;$(ProjectDir)Source\Core\Reflection\AdditionalDirectoryForClang;$(ProjectDir)..\DX11GraphicsAPI;C:\assimp-5.1.5\include\;$(ProjectDir);$(SolutionDir)Source\Core\OS;$(VcpkgInstalledDir)installed\x64-windows\include;$(SolutionDir)Source\Helper;$(SolutionDir)Source\Component;$(SolutionDir)Source\Core\Scene;$(SolutionDir)Source\Component\Core;$(SolutionDir)Source\Helper/crossguid;$(SolutionDir)Source\GameLogic\CustomComponent;$(SolutionDir)Source\Core\Math\LightMath_Cpp;$(SolutionDir)Source\Core\IO;$(SolutionDir)Source\Core\Time;$(SolutionDir)Source\GameLogic;$(SolutionDir)Source\Core;$(SolutionDir)Source\Core\Logger;$(SolutionDir)Source\Core\Physics;$(SolutionDir)Source\Core\utility;$(SolutionDir)Source\Core\Reflection\clReflect_automation\clReflect\inc;$(SolutionDir)Source\thirdparty\imgui;$(SolutionDir)Source\Engine;$(SolutionDir)Source\Plugins;$(SolutionDir)Source\thirdparty\googletest\googletest\include</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+      <LanguageStandard_C>stdc17</LanguageStandard_C>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <EnableEnhancedInstructionSet>AdvancedVectorExtensions2</EnableEnhancedInstructionSet>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <StringPooling>true</StringPooling>
+      <RuntimeTypeInfo>false</RuntimeTypeInfo>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <ShowIncludes>false</ShowIncludes>
+      <GenerateSourceDependencies>false</GenerateSourceDependencies>
+      <SourceDependenciesFile>$(OutDirFullPath)SourceDependencies\</SourceDependenciesFile>
+      <AssemblerOutput>NoListing</AssemblerOutput>
+      <FunctionLevelLinking>false</FunctionLevelLinking>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>DebugFull</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>$(ProjectDir)Source\thirdparty\oneTBB\build\msvc_19.30_cxx_64_md_debug;$(ProjectDir)Source\Helper\crossguid\build\Debug;C:\assimp-5.1.5\build\lib\Debug;$(VcpkgInstalledDir)installed\x64-windows\debug\lib;%(AdditionalLibraryDirectories);$(OutputPath);$(ProjectDir)Source\thirdparty\googletest\build\lib\Debug</AdditionalLibraryDirectories>
+      <AdditionalDependencies>%(AdditionalDependencies);ntdll.lib;crossguid-dgb.lib;DirectXTex.lib;assimp-vc142-mtd.lib;tbbmalloc_debug.lib;tbbmalloc_proxy_debug.lib;shcore.lib;gtest_maind.lib;gtestd.lib</AdditionalDependencies>
       <GenerateMapFile>true</GenerateMapFile>
       <MapFileName>map.map</MapFileName>
       <MapExports>true</MapExports>
@@ -350,10 +466,10 @@ xcopy /y /d /E /H /C /I "$(ProjectDir)Assets" "$(TargetDir)Assets"</Command>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="clreflect_compiletime_gettype.cpp" />
-    <ClCompile Include="Source\Core\Stl\Array.cpp" />
-    <ClCompile Include="Source\Core\Stl\ChunkArray.cpp" />
-    <ClCompile Include="Source\Core\Stl\test\ArrayTest.cpp" />
-    <ClCompile Include="Source\Core\Stl\test\ChunkArrayTest.cpp" />
+    <ClCompile Include="Source\Core\Container\JINSTL\Array.cpp" />
+    <ClCompile Include="Source\Core\Container\JINSTL\ChunkArray.cpp" />
+    <ClCompile Include="Source\Core\Container\JINSTL\test\ArrayTest.cpp" />
+    <ClCompile Include="Source\Core\Container\JINSTL\test\ChunkArrayTest.cpp" />
     <ClCompile Include="Source\Engine\Scene\Layer\DefaultLayers.cpp" />
     <ClCompile Include="Source\Core\EngineConfigurationData\ConfigData.cpp" />
     <ClCompile Include="Source\Engine\Scene\Layer\Layer.cpp" />
@@ -629,8 +745,11 @@ xcopy /y /d /E /H /C /I "$(ProjectDir)Assets" "$(TargetDir)Assets"</Command>
     <ClCompile Include="Source\thirdparty\imgui\imgui_widgets.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Source\Core\Stl\Array.h" />
-    <ClInclude Include="Source\Core\Stl\ChunkArray.h" />
+    <ClInclude Include="Source\Core\Container\JINSTL\Array.h" />
+    <ClInclude Include="Source\Core\Container\JINSTL\ChunkArray.h" />
+    <ClInclude Include="Source\Core\Container\JINSTL\test\googletest\googletest\include\gtest\gtest.h" />
+    <ClInclude Include="Source\Core\Container\JINSTL\test\test.h" />
+    <ClInclude Include="Source\Core\Macros\Test.h" />
     <ClInclude Include="Source\Engine\Scene\eEntityMobility.h" />
     <ClInclude Include="Source\Engine\Scene\Layer\DefaultLayers.h" />
     <ClInclude Include="Source\Engine\EngineGUI\engineGUIServerHelper.h" />
@@ -1192,6 +1311,7 @@ xcopy /y /d /E /H /C /I "$(ProjectDir)Assets" "$(TargetDir)Assets"</Command>
     <None Include="dependency\glfw-3.3.2.bin.WIN64\docs\html\vulkan_guide.html" />
     <None Include="dependency\glfw-3.3.2.bin.WIN64\docs\html\window_8dox.html" />
     <None Include="dependency\glfw-3.3.2.bin.WIN64\docs\html\window_guide.html" />
+    <None Include="Source\Core\Container\JINSTL\README.md" />
     <None Include="Source\Core\Math\LightMath_Cpp\LICENSE" />
     <None Include="Source\Core\Math\LightMath_Cpp\README.md" />
     <MASM Include="Source\Core\Reflection\ReflectionType\funcCall.asm">

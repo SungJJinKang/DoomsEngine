@@ -22,6 +22,7 @@
 #include "Log.h"
 #include "Assert.h"
 #include "Profiling.h"
+#include "Test.h"
 
 #include "TypeDef.h"
 

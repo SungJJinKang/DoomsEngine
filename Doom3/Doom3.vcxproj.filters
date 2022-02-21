@@ -837,16 +837,16 @@
     <ClCompile Include="Source\Plugins\EnginePluginManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Core\Stl\test\ArrayTest.cpp">
+    <ClCompile Include="Source\Core\Container\JINSTL\Array.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Core\Stl\test\ChunkArrayTest.cpp">
+    <ClCompile Include="Source\Core\Container\JINSTL\ChunkArray.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Core\Stl\Array.cpp">
+    <ClCompile Include="Source\Core\Container\JINSTL\test\ChunkArrayTest.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Core\Stl\ChunkArray.cpp">
+    <ClCompile Include="Source\Core\Container\JINSTL\test\ArrayTest.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -2072,10 +2072,19 @@
     <ClInclude Include="Source\Plugins\EnginePluginManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Core\Stl\Array.h">
+    <ClInclude Include="Source\Core\Container\JINSTL\Array.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Core\Stl\ChunkArray.h">
+    <ClInclude Include="Source\Core\Container\JINSTL\ChunkArray.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Core\Macros\Test.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Core\Container\JINSTL\test\googletest\googletest\include\gtest\gtest.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Core\Container\JINSTL\test\test.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -2257,6 +2266,7 @@
     <None Include="Source\Engine\Rendering\Culling\EveryCulling\README.md" />
     <None Include="Source\Engine\Rendering\Culling\EveryCulling\CullingModule\MaskedSWOcclusionCulling\MaskedSWOcclusionCulling_HowWorks.md" />
     <None Include="Assets\Shader\Default\GbufferWriter_BatchedMesh_PBR.glsl" />
+    <None Include="Source\Core\Container\JINSTL\README.md" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="Source\Core\Reflection\Reflection_Tutorial.txt" />

@@ -70,6 +70,7 @@
   * [json](https://github.com/nlohmann/json) : JSON for Modern C++             
   * [glslcc](https://github.com/septag/glslcc) : GLSL cross-compiler tool (GLSL->HLSL, MSL, GLES2, GLES3, GLSLv3), using SPIRV-cross and glslang                   
   * [magic_enum](https://github.com/Neargye/magic_enum) : Static reflection for enums (to string, from string, iteration) for modern C++                 
+  * [googletest](https://github.com/google/googletest) : Google Testing and Mocking Framework
 
 ## Development Blog
 
