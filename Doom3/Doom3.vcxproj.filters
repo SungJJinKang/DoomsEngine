@@ -2048,7 +2048,7 @@
     <ClInclude Include="Source\Core\Math\JINMATH\Euler.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Core\Math\JINMATH\JINSTLCore.h">
+    <ClInclude Include="Source\Core\Math\JINMATH\JINMATHCore.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\Core\Math\JINMATH\Matrix_utility.h">

@@ -755,7 +755,7 @@ xcopy /y /d /E /H /C /I "$(ProjectDir)Assets" "$(TargetDir)Assets"</Command>
     <ClInclude Include="Source\Core\Container\JINSTL\test\googletest\googletest\include\gtest\gtest.h" />
     <ClInclude Include="Source\Core\Container\JINSTL\test\test.h" />
     <ClInclude Include="Source\Core\Math\JINMATH\Euler.h" />
-    <ClInclude Include="Source\Core\Math\JINMATH\JINSTLCore.h" />
+    <ClInclude Include="Source\Core\Math\JINMATH\JINMATHCore.h" />
     <ClInclude Include="Source\Core\Math\JINMATH\Matrix2x2.h" />
     <ClInclude Include="Source\Core\Math\JINMATH\Matrix2x2.reflection.h" />
     <ClInclude Include="Source\Core\Math\JINMATH\Matrix3x3.h" />
