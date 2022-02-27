@@ -56,6 +56,7 @@
 
 ## To Develop
        
+  * Seperate main thread into rendering thread and game thread ( references : [UE4 Threaded Rendering](https://docs.unrealengine.com/4.26/en-US/ProgrammingAndScripting/Rendering/ThreadedRendering/) )    
   * Dynamic Batch Rendering
   * implement Hierarchical Shadow map
    
