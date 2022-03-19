@@ -53,7 +53,8 @@
    
   * completly support D3D11
   * implement physical based rendering ( https://cdn2.unrealengine.com/Resources/files/2013SiggraphPresentationsNotes-26915738.pdf )  
-
+  * implement Asset Redirect          
+  
 ## To Develop
        
   * Seperate main thread into rendering thread and game thread ( references : [UE4 Threaded Rendering](https://docs.unrealengine.com/4.26/en-US/ProgrammingAndScripting/Rendering/ThreadedRendering/) )    
