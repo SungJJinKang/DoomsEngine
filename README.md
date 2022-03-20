@@ -6,17 +6,18 @@
 
 ## Features
 
-### Core
+### Requirement
 
   * C++17
   * C# ( used for making engine tools )    
-  * Target Compiler : MSVC ( clang is used for generating reflection data )
-  * Homemade Math Library ( [JINMATH](https://github.com/SungJJinKang/JINMATH) )   
-  * Support SIMD ( Currently AVX2 )
+  * PC, Windows
+  * Target Compiler : MSVC, Clang ( clang is used for [generating reflection data](https://github.com/SungJJinKang/clReflect_ForDoomsEngine) )
+
+### Engine Core
+
+  * Homemade Math Library ( [JINMATH](https://github.com/SungJJinKang/JINMATH) )      
+  * Support SIMD ( Currently AVX2 ) ( Math, Culling.... )           
   * Asset Import Pipeline ( Automatically import assets located in asset folder )
-
-### Engine Architecture
-
   * Component based System
   * Object Management System for preventing memory leak ( [개발 일지](https://sungjjinkang.github.io/computerscience/gameengine/2021/09/25/dangling_pointer.html) )
   * Fast Runtime Type Casting ( writing manually type name is not required, reflection data is used. check reflection.h files ) ( time complexicity is always O(1), dynamic_cast isn't used ( RTTI option is disabled ), [source code](https://github.com/SungJJinKang/Fast_Runtime_TypeCasting_cpp) )        
@@ -26,6 +27,7 @@
 
   * Supported Graphics API : OpenGL, DIRECTX 11 ( 80% )
   * Deferred Rendering ( [video](https://youtu.be/TU9P8gcKsi8) )
+  * Sort objects from front to back
   * Multi Thread ViewFrustum Culling From FrostBite Engine of EA Dice ( [source code](https://github.com/SungJJinKang/EveryCulling/tree/main/CullingModule/ViewFrustumCulling), [개발 일지](https://sungjjinkang.github.io/doom/c++/computergraphics/game/2021/04/02/viewfrustumculling.html) )
   * Masked SW ( CPU ) Occlusion Culling From Intel ( [video1](https://youtu.be/tMgokVljvAY), [video2](https://youtu.be/1IKTXsSLJ5g), [source code](https://github.com/SungJJinKang/EveryCulling/tree/main/CullingModule/MaskedSWOcclusionCulling), [개발 일지](https://sungjjinkang.github.io/computerscience/computergraphics/2021/12/31/masked_sw_occlusion_culling.html), [reference paper](https://software.intel.com/content/dam/develop/external/us/en/documents/masked-software-occlusion-culling.pdf] )        
   * Distance Culling from Unreal Engine ( [reference](https://docs.unrealengine.com/en-US/RenderingAndGraphics/VisibilityCulling/CullDistanceVolume/index.html), [soure code](https://github.com/SungJJinKang/EveryCulling/tree/main/CullingModule/DistanceCulling) )      
@@ -41,7 +43,7 @@
 ### Reflection    
   
   * Automatic Reflection Data Generation System. ( [video](https://youtu.be/KGihaYTzqG8) ) ( [clrefelct_automation](https://github.com/SungJJinKang/clReflect_automation) )
-  * Customizing Reflection Open Source Library ( [video](https://youtu.be/9DKGvkdR6zw) ) ( [Customized clReflect](https://github.com/SungJJinKang/clReflect_ForDoomsEngine) )
+  * Customized Reflection Open Source Library ( [video](https://youtu.be/9DKGvkdR6zw) ) ( [Customized clReflect](https://github.com/SungJJinKang/clReflect_ForDoomsEngine) )
   * Integrate imgui with reflection system. ( DObjects, std::vector, std::array, std::unique_ptr... is supported, [video](https://youtu.be/wxZIGoTRcpo) )
   
 ### Misc
@@ -51,15 +53,16 @@
   
 ## Currently working on     
    
-  * completly support D3D11
-  * implement physical based rendering ( https://cdn2.unrealengine.com/Resources/files/2013SiggraphPresentationsNotes-26915738.pdf )  
-  * implement Asset Redirect          
+  * Material Batching System ( Render objects with same material consecutively )            
+  * Seperate main thread into rendering thread and game thread ( references : [UE4 Threaded Rendering](https://docs.unrealengine.com/4.26/en-US/ProgrammingAndScripting/Rendering/ThreadedRendering/) )        
+  * implement physical based rendering ( https://cdn2.unrealengine.com/Resources/files/2013SiggraphPresentationsNotes-26915738.pdf )            
   
 ## To Develop
        
-  * Seperate main thread into rendering thread and game thread ( references : [UE4 Threaded Rendering](https://docs.unrealengine.com/4.26/en-US/ProgrammingAndScripting/Rendering/ThreadedRendering/) )    
-  * Dynamic Batch Rendering
-  * implement Hierarchical Shadow map
+  * completly support D3D11          
+  * Dynamic Batch Rendering             
+  * implement Hierarchical Shadow map        
+  * implement Asset Redirect        
    
 ## Thirdparty Dependencies            
              
