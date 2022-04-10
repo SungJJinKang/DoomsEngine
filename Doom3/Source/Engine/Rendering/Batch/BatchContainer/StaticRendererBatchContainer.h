@@ -39,6 +39,7 @@ namespace dooms
 
 			Material* GetBatchRenderingMaterial();
 			const Material* GetBatchRenderingMaterial() const;
+
 		};
 	}
 }

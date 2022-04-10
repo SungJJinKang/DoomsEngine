@@ -70,6 +70,11 @@ namespace dooms
 			std::vector<Renderer*>& GetBatchedRenderers();
 			size_t GetBatchedRendererCount() const;
 			const std::vector<Renderer*>& GetBatchedRenderers() const;
+
+			// TODO : Implement Culling of BatchContainer. ( culling::EntityBlockViewer )
+			// TODO : Combine AABB of Renderers
+			// TODO : Add to EveryCulling
+
 		};
 	}
 }
