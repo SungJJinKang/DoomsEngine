@@ -59,7 +59,8 @@ void dooms::GameLogicStartPoint::StartGameLogic()
 		entity1Camera->SetClippingPlaneNear(1.0f);
 		entity1Camera->SetClippingPlaneFar(6500.0f);
 		entity1->AddComponent<Move_WASD>();
-		
+		entity1->AddComponent<DeferredRenderingDebuggerController>();
+		entity1->AddComponent<PortfolioComponent>();
 		/*
 		PathFollower* pathFollower = entity1->AddComponent<PathFollower>();
 		pathFollower->mTargetWayPointIndex = 1;
