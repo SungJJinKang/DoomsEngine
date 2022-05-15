@@ -1184,6 +1184,7 @@ xcopy /y /d /E /H /C /I "$(ProjectDir)Assets" "$(TargetDir)Assets"</Command>
     <None Include="Assets\Shader\Default\Default2DTextureShader.glsl" />
     <None Include="Assets\Shader\Default\DefaultShader.glsl" />
     <None Include="Assets\Shader\Default\DepthBufferTextureShader.glsl" />
+    <None Include="Assets\Shader\Default\DepthOnlyShader.glsl" />
     <None Include="Assets\Shader\Default\equirect2cube_cs.glsl" />
     <None Include="Assets\Shader\Default\GbufferDrawer.glsl" />
     <None Include="Assets\Shader\Default\GbufferWriter_BatchedMesh_PBR.glsl" />

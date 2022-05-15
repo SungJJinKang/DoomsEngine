@@ -11,6 +11,8 @@
 #include <Rendering/Renderer/RendererStaticIterator.h>
 #include <Rendering/Batch/BatchRenderingManager.h>
 
+#include "Asset/AssetManager/AssetManager.h"
+
 void dooms::graphics::DefaultGraphcisPipeLine::PreRenderRenderer()
 {
 	const std::vector<Renderer*>& renderersInLayer = RendererComponentStaticIterator::GetSingleton()->GetSortedRendererInLayer();
@@ -35,6 +37,9 @@ void dooms::graphics::DefaultGraphcisPipeLine::Initialize()
 
 	mRenderingCullingManager.Initialize();
 	mRenderingDebugger.Initialize();
+
+	auto DepthOnlyShader = assetImporter::AssetManager::GetSingleton()->GetAsset<asset::eAssetType::SHADER>("DepthOnlyShader.glsl");
+	DepthOnlyMaterial = dooms::CreateDObject<graphics::Material>(DepthOnlyShader);
 }
 
 void dooms::graphics::DefaultGraphcisPipeLine::LateInitialize()
@@ -143,12 +148,6 @@ void dooms::graphics::DefaultGraphcisPipeLine::DrawRenderers(dooms::Camera* cons
 {
 	D_ASSERT(IsValid(targetCamera) == true);
 
-	targetCamera->UpdateUniformBufferObject();
-
-	D_START_PROFILING(DrawBatchedRenderers, dooms::profiler::eProfileLayers::Rendering);
-	DrawBatchedRenderers();
-	D_END_PROFILING(DrawBatchedRenderers);
-
 	{
 		D_START_PROFILING(DrawLoop, dooms::profiler::eProfileLayers::Rendering);
 		const bool targetCamera_IS_CULLED_flag_on = targetCamera->GetCameraFlag(dooms::eCameraFlag::IS_CULLED);
@@ -180,6 +179,14 @@ void dooms::graphics::DefaultGraphcisPipeLine::DrawRenderers(dooms::Camera* cons
 
 void dooms::graphics::DefaultGraphcisPipeLine::DrawBatchedRenderers() const
 {
+	D_START_PROFILING(DrawBatchedRenderers, dooms::profiler::eProfileLayers::Rendering);
 	D_ASSERT(IsValid(BatchRenderingManager::GetSingleton()));
 	BatchRenderingManager::GetSingleton()->DrawAllBatchedRendererContainers();
+	D_END_PROFILING(DrawBatchedRenderers);
+}
+
+dooms::graphics::Material* dooms::graphics::DefaultGraphcisPipeLine::GetDepthOnlyMaterial() const
+{
+	D_ASSERT(IsValid(DepthOnlyMaterial));
+	return DepthOnlyMaterial;
 }

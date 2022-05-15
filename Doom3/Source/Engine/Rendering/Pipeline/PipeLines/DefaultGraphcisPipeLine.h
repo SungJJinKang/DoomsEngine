@@ -12,11 +12,16 @@ namespace dooms
 {
 	namespace graphics
 	{
+		class Material;
+
 		class D_CLASS DefaultGraphcisPipeLine : public GraphicsPipeLine
 		{
 			GENERATE_BODY()
 
 		private:
+
+			D_PROPERTY()
+			graphics::Material* DepthOnlyMaterial;
 
 		protected:
 
@@ -26,6 +31,8 @@ namespace dooms
 			void DrawRenderers(dooms::Camera* const targetCamera, const size_t cameraIndex) const;
 			void DrawBatchedRenderers() const;
 			virtual void CameraRender(dooms::Camera* const targetCamera, const size_t cameraIndex)  = 0;
+
+			graphics::Material* GetDepthOnlyMaterial() const;
 
 		public:
 

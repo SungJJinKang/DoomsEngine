@@ -90,11 +90,34 @@ void dooms::graphics::DeferredRenderingPipeLine::CameraRender(dooms::Camera* con
 		deferredRenderingPipeLineCamera->mDeferredRenderingFrameBuffer.BindFrameBuffer();
 	}
 
-	D_START_PROFILING(RenderObject, dooms::profiler::eProfileLayers::Rendering);
-	//GraphicsAPI::Enable(GraphicsAPI::eCapability::DEPTH_TEST);
-	DrawRenderers(targetCamera, cameraIndex);
-	D_END_PROFILING(RenderObject);
+	targetCamera->UpdateUniformBufferObject();
 
+
+	if(dooms::graphics::graphicsAPISetting::DepthPrePassType == dooms::graphics::eDepthPrePassType::FullOpaque)
+	{
+		D_START_PROFILING(RenderObject_DepthPrePass, dooms::profiler::eProfileLayers::Rendering);
+
+		dooms::graphics::FixedMaterial::GetSingleton()->SetFixedMaterial(GetDepthOnlyMaterial());
+		GraphicsAPI::SetIsDepthTestEnabled(true);
+		GraphicsAPI::SetDepthMask(true);
+		GraphicsAPI::SetDepthFunc(GraphicsAPI::eTestFuncType::LESS);
+		DrawRenderers(targetCamera, cameraIndex);
+		dooms::graphics::FixedMaterial::GetSingleton()->SetFixedMaterial(nullptr);
+
+		D_END_PROFILING(RenderObject_DepthPrePass);
+	}
+	
+
+	{
+		D_START_PROFILING(RenderObject, dooms::profiler::eProfileLayers::Rendering);
+		GraphicsAPI::SetIsDepthTestEnabled(true);
+		GraphicsAPI::SetDepthMask(true);
+		GraphicsAPI::SetDepthFunc(GraphicsAPI::eTestFuncType::LEQUAL);
+		DrawBatchedRenderers();
+		DrawRenderers(targetCamera, cameraIndex);
+		D_END_PROFILING(RenderObject);
+	}
+	
 	FrameBuffer::StaticBindBackFrameBuffer();
 	
 	if (targetCamera->IsMainCamera() == true)

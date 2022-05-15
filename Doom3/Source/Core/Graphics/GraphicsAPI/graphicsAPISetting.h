@@ -7,6 +7,12 @@ namespace dooms
 {
 	namespace graphics
 	{
+		enum class eDepthPrePassType
+		{
+			Disable,
+			FullOpaque
+		};
+
 		namespace graphicsAPISetting
 		{
 			extern int ScreenSize[2];
@@ -24,6 +30,7 @@ namespace dooms
 
 			extern graphics::GraphicsAPI::eBlendFactor DefaultBlendSourceFactor;
 			extern graphics::GraphicsAPI::eBlendFactor DefaultBlendDestinationFactor;
+			extern graphics::eDepthPrePassType DepthPrePassType;
 			
 			extern void LoadData();
 			

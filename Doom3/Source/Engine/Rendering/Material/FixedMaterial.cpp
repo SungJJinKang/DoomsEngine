@@ -20,11 +20,21 @@ const dooms::graphics::Material* dooms::graphics::FixedMaterial::GetFixedMateria
 void dooms::graphics::FixedMaterial::SetFixedMaterial(Material* const fixedMaterial)
 {
 	ClearFixedMaterial();
-	fixedMaterial->BindMaterial();
-	FixedMaterial::mFixedMaterial = fixedMaterial;
+
+	if(IsValid(fixedMaterial))
+	{
+		fixedMaterial->BindMaterial();
+	}
+	
+	mFixedMaterial = fixedMaterial;
 }
 
 void dooms::graphics::FixedMaterial::ClearFixedMaterial()
 {
-	FixedMaterial::mFixedMaterial = nullptr;
+	if(IsValid(mFixedMaterial))
+	{
+		mFixedMaterial->UnBindMaterial();
+	}
+
+	mFixedMaterial = nullptr;
 }

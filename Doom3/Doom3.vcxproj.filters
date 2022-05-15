@@ -2294,6 +2294,7 @@
     <None Include="Source\Core\Container\JINSTL\README.md" />
     <None Include="Source\Core\Math\JINMATH\LICENSE" />
     <None Include="Source\Core\Math\JINMATH\README.md" />
+    <None Include="Assets\Shader\Default\DepthOnlyShader.glsl" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="Source\Core\Reflection\Reflection_Tutorial.txt" />
