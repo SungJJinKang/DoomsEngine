@@ -93,18 +93,13 @@ void dooms::graphics::DeferredRenderingPipeLine::CameraRender(dooms::Camera* con
 	targetCamera->UpdateUniformBufferObject();
 
 
-	if(dooms::graphics::graphicsAPISetting::DepthPrePassType == dooms::graphics::eDepthPrePassType::AllOpaque)
+	if
+	(
+		dooms::graphics::graphicsAPISetting::DepthPrePassType == dooms::graphics::eDepthPrePassType::AllOpaque //||
+		//dooms::graphics::graphicsAPISetting::DepthPrePassType == dooms::graphics::eDepthPrePassType::ConsiderBound
+	)
 	{
-		D_START_PROFILING(RenderObject_DepthPrePass, dooms::profiler::eProfileLayers::Rendering);
-
-		dooms::graphics::FixedMaterial::GetSingleton()->SetFixedMaterial(GetDepthOnlyMaterial());
-		GraphicsAPI::SetIsDepthTestEnabled(true);
-		GraphicsAPI::SetDepthMask(true);
-		GraphicsAPI::SetDepthFunc(GraphicsAPI::eTestFuncType::LESS);
-		DrawRenderers(targetCamera, cameraIndex);
-		dooms::graphics::FixedMaterial::GetSingleton()->SetFixedMaterial(nullptr);
-
-		D_END_PROFILING(RenderObject_DepthPrePass);
+		DrawRenderersWithDepthOnly(targetCamera, cameraIndex);
 	}
 	
 

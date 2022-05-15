@@ -10,6 +10,7 @@
 #include "DefaultGraphcisPipeLine.reflection.h"
 namespace dooms
 {
+	class Renderer;
 	namespace graphics
 	{
 		class Material;
@@ -28,7 +29,14 @@ namespace dooms
 			void PreRenderRenderer();
 			std::future<void> PushFrontToBackSortJobToJobSystem(dooms::Camera* const targetCamera, const UINT32 cameraIndex);
 
+			void DrawRenderersWithDepthOnly(dooms::Camera* const targetCamera, const size_t cameraIndex) const;
 			void DrawRenderers(dooms::Camera* const targetCamera, const size_t cameraIndex) const;
+			void ConditionalDrawRenderers
+			(
+				dooms::Camera* const targetCamera, 
+				const size_t cameraIndex, 
+				const std::function<bool(const dooms::Renderer* const)>& ConditionFunc
+			) const;
 			void DrawBatchedRenderers() const;
 			virtual void CameraRender(dooms::Camera* const targetCamera, const size_t cameraIndex)  = 0;
 

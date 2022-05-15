@@ -12,6 +12,7 @@
 #include <Rendering/Batch/BatchRenderingManager.h>
 
 #include "Asset/AssetManager/AssetManager.h"
+#include "Graphics/GraphicsAPI/graphicsAPISetting.h"
 
 void dooms::graphics::DefaultGraphcisPipeLine::PreRenderRenderer()
 {
@@ -143,8 +144,68 @@ std::future<void> dooms::graphics::DefaultGraphcisPipeLine::PushFrontToBackSortJ
 	return future;
 }
 
+void dooms::graphics::DefaultGraphcisPipeLine::DrawRenderersWithDepthOnly
+(
+	dooms::Camera* const targetCamera,
+	const size_t cameraIndex
+) const
+{
+	if
+	(
+		dooms::graphics::graphicsAPISetting::DepthPrePassType == dooms::graphics::eDepthPrePassType::AllOpaque //||
+		//dooms::graphics::graphicsAPISetting::DepthPrePassType == dooms::graphics::eDepthPrePassType::ConsiderBound 
+	)
+	{
+		D_START_PROFILING(RenderObject_DepthPrePass, dooms::profiler::eProfileLayers::Rendering);
+
+		dooms::graphics::FixedMaterial::GetSingleton()->SetFixedMaterial(GetDepthOnlyMaterial());
+		GraphicsAPI::SetIsDepthTestEnabled(true);
+		GraphicsAPI::SetDepthMask(true);
+		GraphicsAPI::SetDepthFunc(GraphicsAPI::eTestFuncType::LESS);
+
+		if(dooms::graphics::graphicsAPISetting::DepthPrePassType == dooms::graphics::eDepthPrePassType::AllOpaque)
+		{
+			DrawRenderers(targetCamera, cameraIndex);
+		}
+		/*
+		else if(dooms::graphics::graphicsAPISetting::DepthPrePassType == dooms::graphics::eDepthPrePassType::ConsiderBound)
+		{
+			ConditionalDrawRenderers
+			(
+				targetCamera,
+				cameraIndex,
+				[](const dooms::Renderer* const Renderer) -> bool
+				{
+					bool bIsDrawable = false;
+
+					D_ASSERT(Renderer->CheckIsWorldColliderCacheDirty() == false);
+					if(const dooms::physics::AABB3D* const AABB = Renderer->GetWorldColliderWithoutUpdate())
+					{
+						AABB->
+					}
+				}
+			);
+		}
+		*/
+
+		dooms::graphics::FixedMaterial::GetSingleton()->SetFixedMaterial(nullptr);
+
+		D_END_PROFILING(RenderObject_DepthPrePass);
+	}
+}
+
 
 void dooms::graphics::DefaultGraphcisPipeLine::DrawRenderers(dooms::Camera* const targetCamera, const size_t cameraIndex) const
+{
+	ConditionalDrawRenderers(targetCamera, cameraIndex, {});	
+}
+
+void dooms::graphics::DefaultGraphcisPipeLine::ConditionalDrawRenderers
+(
+	dooms::Camera* const targetCamera,
+	const size_t cameraIndex,
+	const std::function<bool(const dooms::Renderer* const)>& ConditionFunc
+) const
 {
 	D_ASSERT(IsValid(targetCamera) == true);
 
@@ -159,13 +220,14 @@ void dooms::graphics::DefaultGraphcisPipeLine::DrawRenderers(dooms::Camera* cons
 			(
 				IsValid(renderer) == true &&
 				renderer->GetIsComponentEnabled() == true &&
-				renderer->GetIsBatched() == false
+				renderer->GetIsBatched() == false &&
+				(static_cast<bool>(ConditionFunc) ? ConditionFunc(renderer) : true)
 			)
 			{
 				if
 				(
-					targetCamera_IS_CULLED_flag_on == false ||
-					renderer->GetIsCulled(targetCamera->CameraIndexInCullingSystem) == false
+						targetCamera_IS_CULLED_flag_on == false ||
+						renderer->GetIsCulled(targetCamera->CameraIndexInCullingSystem) == false
 				)
 				{
 					renderer->Draw();
@@ -174,7 +236,6 @@ void dooms::graphics::DefaultGraphcisPipeLine::DrawRenderers(dooms::Camera* cons
 		}
 		D_END_PROFILING(DrawLoop);
 	}
-	
 }
 
 void dooms::graphics::DefaultGraphcisPipeLine::DrawBatchedRenderers() const

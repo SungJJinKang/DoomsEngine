@@ -11,6 +11,12 @@ void dooms::ColliderUpdater<ColliderType>::UpdateWorldColliderCache(bool clearDi
 	}
 }
 
+template <typename ColliderType>
+bool dooms::ColliderUpdater<ColliderType>::CheckIsWorldColliderCacheDirty() const
+{
+	return IsWorldColliderCacheDirty.GetIsDirty(false);
+}
+
 
 template <typename ColliderType>
 void dooms::ColliderUpdater<ColliderType>::UpdateLocalColliderCache(const ColliderType& aabb3d)
@@ -43,6 +49,12 @@ const ColliderType* dooms::ColliderUpdater<ColliderType>::GetWorldCollider()
 	D_ASSERT(IsWorldColliderCacheDirty.HasDirtySender() == true); // must register IsWorldBVhColliderCacheDirty to Object's Transform DirtySencer
 
 	UpdateWorldColliderCache(true);
+	return &(mWorldColliderCache);
+}
+
+template <typename ColliderType>
+const ColliderType* dooms::ColliderUpdater<ColliderType>::GetWorldColliderWithoutUpdate() const
+{
 	return &(mWorldColliderCache);
 }
 

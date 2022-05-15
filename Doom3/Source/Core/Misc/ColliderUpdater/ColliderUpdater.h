@@ -50,7 +50,10 @@ namespace dooms
 		const ColliderType* GetLocalColliderCache() const;
 
 		const ColliderType* GetWorldCollider();
+		const ColliderType* GetWorldColliderWithoutUpdate() const;
 		void UpdateWorldColliderCache(bool clearDirty);
+
+		bool CheckIsWorldColliderCacheDirty() const;
 
 		void DrawWorldColliderCache(eColor color = eColor::Green, bool drawInstantly = false);
 	};
