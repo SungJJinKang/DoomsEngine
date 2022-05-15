@@ -11,3 +11,4 @@
 
 #include <DObject/DObjectHeaders.h>
 #include <Reflection/Reflection.h>
+#include <ConfigurationValue/ConfigurationValue.h>

@@ -475,6 +475,7 @@ xcopy /y /d /E /H /C /I "$(ProjectDir)Assets" "$(TargetDir)Assets"</Command>
     <ClCompile Include="Source\Core\Math\JINMATH\Vector2.cpp" />
     <ClCompile Include="Source\Core\Math\JINMATH\Vector3.cpp" />
     <ClCompile Include="Source\Core\Math\JINMATH\Vector4.cpp" />
+    <ClCompile Include="Source\Engine\ConfigurationValue\ConfigurationValue.cpp" />
     <ClCompile Include="Source\Engine\Scene\Layer\DefaultLayers.cpp" />
     <ClCompile Include="Source\Core\EngineConfigurationData\ConfigData.cpp" />
     <ClCompile Include="Source\Engine\Scene\Layer\Layer.cpp" />
@@ -777,6 +778,7 @@ xcopy /y /d /E /H /C /I "$(ProjectDir)Assets" "$(TargetDir)Assets"</Command>
     <ClInclude Include="Source\Core\Math\JINMATH\Vector3.reflection.h" />
     <ClInclude Include="Source\Core\Math\JINMATH\Vector4.h" />
     <ClInclude Include="Source\Core\Math\JINMATH\Vector4.reflection.h" />
+    <ClInclude Include="Source\Engine\ConfigurationValue\ConfigurationValue.h" />
     <ClInclude Include="Source\Engine\Scene\eEntityMobility.h" />
     <ClInclude Include="Source\Engine\Scene\Layer\DefaultLayers.h" />
     <ClInclude Include="Source\Engine\EngineGUI\engineGUIServerHelper.h" />
