@@ -10,7 +10,7 @@ namespace dooms
 		enum class eDepthPrePassType
 		{
 			Disable,
-			FullOpaque
+			AllOpaque
 		};
 
 		namespace graphicsAPISetting
