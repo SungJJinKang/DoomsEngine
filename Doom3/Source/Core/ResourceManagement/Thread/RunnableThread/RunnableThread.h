@@ -23,16 +23,20 @@ namespace dooms
 			RunnableThread(const char* const _BeautifulThreadName);
 
 			virtual void Init();
-			virtual void Loop();
+			virtual void Tick();
 
 		public:
 			
-			void Tick();
+			void Run();
 
 			std::string GetBeautifulThreadName() const;
 			virtual eThreadType GetThreadType() const = 0;
 
 		};
+
+
+		extern bool IsInGameThread();
+		extern bool IsInRenderThread();
 	}
 }
 

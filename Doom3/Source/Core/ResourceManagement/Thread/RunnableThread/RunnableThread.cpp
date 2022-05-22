@@ -12,21 +12,32 @@ void dooms::thread::RunnableThread::Init()
 	D_DEBUG_LOG(eLogType::D_LOG, "Thread ( %s ) is initialized", BeautifulThreadName.c_str());
 }
 
-void dooms::thread::RunnableThread::Loop()
+void dooms::thread::RunnableThread::Tick()
 {
 }
 
-void dooms::thread::RunnableThread::Tick()
+void dooms::thread::RunnableThread::Run()
 {
 	if(bInitialized == false)
 	{
 		Init();
 	}
 
-	Loop();
+	while(true)
+	{
+		Tick();
+	}
 }
 
 std::string dooms::thread::RunnableThread::GetBeautifulThreadName() const
 {
 	return BeautifulThreadName;
+}
+
+bool dooms::thread::IsInGameThread()
+{
+}
+
+bool dooms::thread::IsInRenderThread()
+{
 }
