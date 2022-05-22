@@ -53,6 +53,7 @@ D_NAMESPACE(dooms::logger)
 D_NAMESPACE(dooms::memory)
 D_NAMESPACE(dooms::userinput)
 D_NAMESPACE(dooms::plugin)
+D_NAMESPACE(dooms::thread)
 D_REFLECT_ALL(dooms::reflection)
 
 #endif
