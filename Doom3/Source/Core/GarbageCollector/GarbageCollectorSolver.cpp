@@ -4,11 +4,10 @@
 
 #include <DObject/DObject.h>
 #include <DObject/DObjectManager.h>
-#include <ResourceManagement/JobSystem_cpp/JobSystem.h>
+#include <ResourceManagement/Thread/JobPool.h>
 #include <Reflection/ReflectionType/DField.h>
 #include <Reflection/ReflectionType/DClass.h>
 #include <Reflection/TypeSpecialized/Helper/iteratorHelper.h>
-#include <ResourceManagement/JobSystem_cpp/JobSystem.h>
 #include <Macros/Log.h>
 #include <EngineConfigurationData/ConfigData.h>
 #include <Utility.h>
@@ -268,7 +267,7 @@ void dooms::gc::garbageCollectorSolver::StartMarkStage(const eGCMethod gcMethod,
 		gcMultithreadCounter.workingOnRootObjectCount = 0;
 		gcMultithreadCounter.gcCompletedRootObjectCount = 0;
 
-		std::function multiThreadJob = [&gcMultithreadCounter, &rootDObjectList, keepFlags, rootDObjectCount]()
+		auto Job = [&gcMultithreadCounter, &rootDObjectList, keepFlags, rootDObjectCount]()
 		{
 			D_DEBUG_LOG(eLogType::D_LOG_TYPE13, "Start Mark a object");
 			while (true)
@@ -291,15 +290,15 @@ void dooms::gc::garbageCollectorSolver::StartMarkStage(const eGCMethod gcMethod,
 			}
 		};
 		
-		auto futures = dooms::resource::JobSystem::GetSingleton()->PushBackJobToAllThread(multiThreadJob);
-		multiThreadJob();
+		auto FutureList = std::move(dooms::thread::ParallelForWithReturn(Job));
+		Job();
 
 		D_START_PROFILING(WaitProfilingThreadJobFinished, dooms::profiler::eProfileLayers::Rendering);
 		while (gcMultithreadCounter.gcCompletedRootObjectCount.load(std::memory_order_seq_cst) < rootDObjectCount)
 		{
 			std::this_thread::yield();
 		}
-		for(auto& future : futures)
+		for(auto& future : FutureList)
 		{
 			future.wait();
 		}

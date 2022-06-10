@@ -12,6 +12,8 @@
 #include "../Logger/logger.h"
 #include <Graphics/GraphicsAPI/Input/GraphicsAPIInput.h>
 
+#include "ResourceManagement/Thread/RunnableThread/RunnableThread.h"
+
 #define DEFAULT_MAX_PHYSICS_STEP 8
 
 dooms::GameCore::GameCore()
@@ -25,7 +27,8 @@ dooms::GameCore::GameCore()
 	mAssetManager(),
 	mGraphics_Server(),
 	mPhysics_Server(),
-	mJobSystem(),
+	ThreadManager(),
+	JobPool(),
 	mUserImput_Server(),
 	mTime_Server(),
 	mReflectionManager(),
@@ -119,7 +122,10 @@ void dooms::GameCore::InitServers(const int argc, char* const* const argv)
 	mMemoryManager.Init(argc, argv);
 	mReflectionManager.Initialize();
 	InitializeGraphicsAPI(argc, argv);
-	mJobSystem.Init(argc, argv);
+	ThreadManager.Init(argc, argv);
+	thread::RunnableThread* const GameThread = ThreadManager.CreateNewRunnableThread(thread::eThreadType::GAME_THREAD);
+	ThreadManager.CreateNewRunnableThread(thread::eThreadType::RENDER_THREAD);
+	ThreadManager.CreateNewRunnableThread(thread::eThreadType::JOB_THREAD, 5);
 	mAssetManager.Init(argc, argv);
 	mTime_Server.Init(argc, argv);
 	mPhysics_Server.Init(argc, argv);
@@ -133,7 +139,7 @@ void dooms::GameCore::InitServers(const int argc, char* const* const argv)
 void dooms::GameCore::PostSceneInitServers()
 {
 	mMemoryManager.PostSceneInit();
-	mJobSystem.PostSceneInit();
+	ThreadManager.PostSceneInit();
 	mAssetManager.PostSceneInit();
 	mTime_Server.PostSceneInit();
 	mPhysics_Server.PostSceneInit();
@@ -175,8 +181,8 @@ void dooms::GameCore::Update()
 	D_END_PROFILING(mUserImput_Server_Update);
 
 	D_START_PROFILING(mJobSystem_Update, eProfileLayers::CPU);
-	mJobSystem.Update_Internal();
-	mJobSystem.Update();
+	ThreadManager.Update_Internal();
+	ThreadManager.Update();
 	D_END_PROFILING(mJobSystem_Update);
 
 	D_START_PROFILING(mTime_Server_Update, eProfileLayers::CPU);
@@ -227,8 +233,8 @@ void dooms::GameCore::OnEndOfFrame()
 
 
 	D_START_PROFILING(mJobSystem_Update, eProfileLayers::CPU);
-	mJobSystem.OnEndOfFrame_Internal();
-	mJobSystem.OnEndOfFrame();
+	ThreadManager.OnEndOfFrame_Internal();
+	ThreadManager.OnEndOfFrame();
 	D_END_PROFILING(mJobSystem_Update);
 
 	D_START_PROFILING(mTime_Server_OnEndOfFrame, eProfileLayers::CPU);
@@ -309,7 +315,7 @@ void dooms::GameCore::OnSetPendingKill()
 	mMemoryManager.SetIsPendingKill();
 	mUserImput_Server.SetIsPendingKill();
 	mTime_Server.SetIsPendingKill();
-	mJobSystem.SetIsPendingKill();
+	ThreadManager.SetIsPendingKill();
 	mEngineGUIServer.SetIsPendingKill();
 	mReflectionManager.SetIsPendingKill();
 	mPhysics_Server.SetIsPendingKill();

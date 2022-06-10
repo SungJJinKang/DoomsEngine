@@ -267,12 +267,6 @@
     <ClCompile Include="Source\Core\Misc\ColliderUpdater\ColliderUpdater.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Core\ResourceManagement\JobSystem_cpp\JobSystem.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Core\ResourceManagement\JobSystem_cpp\Thread.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Source\Component\Rendering\Animation\Animator.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -361,9 +355,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Source\GameLogic\CustomComponent\Portfolio\PhysicsDebuggerController.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Core\ResourceManagement\JobSystem_cpp\ThreadProfiler.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Source\Core\IO\KEY_CODE.cpp">
@@ -856,6 +847,15 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Source\Core\ResourceManagement\Thread\RunnableThread\RenderThread.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Core\ResourceManagement\Thread\RunnableThread\JobThread.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Core\ResourceManagement\Thread\JobPool.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Core\ResourceManagement\Thread\RunnableThread\GameThread.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -1361,15 +1361,6 @@
     <ClInclude Include="Source\Core\Misc\ColliderUpdater\ColliderUpdater.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Core\ResourceManagement\JobSystem_cpp\JobSystem.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Core\ResourceManagement\JobSystem_cpp\Thread.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Core\ResourceManagement\JobSystem_cpp\Thread_Core.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Component\Rendering\Animation\Animator.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -1467,9 +1458,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\Component\Core\ComponentGlobals.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Core\ResourceManagement\JobSystem_cpp\ThreadProfiler.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\Core\IO\KEY_CODE.h">
@@ -2147,6 +2135,15 @@
     <ClInclude Include="Source\Core\ResourceManagement\Thread\RunnableThread\RenderThread.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Core\ResourceManagement\Thread\RunnableThread\JobThread.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Core\ResourceManagement\Thread\JobPool.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Core\ResourceManagement\Thread\RunnableThread\GameThread.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="dependency\glfw-3.3.2.bin.WIN64\docs\html\search\all_0.html" />
@@ -2306,7 +2303,6 @@
     <None Include="Assets\Shader\Default\Default2DColorShader.glsl" />
     <None Include="Assets\Shader\Default\OcclusionCullingBoundingBox.glsl" />
     <None Include="Source\Core\ResourceManagement\JobSystem_cpp\MultithreadingJobSystemStrategy.md" />
-    <None Include="Source\Core\ResourceManagement\JobSystem_cpp\README.md" />
     <None Include="Assets\Shader\Default\Billboard.glsl" />
     <None Include="Assets\Shader\Default\DepthBufferTextureShader.glsl" />
     <None Include="Assets\Shader\Default\OverDrawVisualizationShader.glsl" />

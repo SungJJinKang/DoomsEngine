@@ -475,6 +475,9 @@ xcopy /y /d /E /H /C /I "$(ProjectDir)Assets" "$(TargetDir)Assets"</Command>
     <ClCompile Include="Source\Core\Math\JINMATH\Vector2.cpp" />
     <ClCompile Include="Source\Core\Math\JINMATH\Vector3.cpp" />
     <ClCompile Include="Source\Core\Math\JINMATH\Vector4.cpp" />
+    <ClCompile Include="Source\Core\ResourceManagement\Thread\JobPool.cpp" />
+    <ClCompile Include="Source\Core\ResourceManagement\Thread\RunnableThread\GameThread.cpp" />
+    <ClCompile Include="Source\Core\ResourceManagement\Thread\RunnableThread\JobThread.cpp" />
     <ClCompile Include="Source\Core\ResourceManagement\Thread\RunnableThread\RenderThread.cpp" />
     <ClCompile Include="Source\Core\ResourceManagement\Thread\RunnableThread\RunnableThread.cpp" />
     <ClCompile Include="Source\Core\ResourceManagement\Thread\ThreadFactory.cpp" />
@@ -640,10 +643,6 @@ xcopy /y /d /E /H /C /I "$(ProjectDir)Assets" "$(TargetDir)Assets"</Command>
     <ClCompile Include="Source\Core\Asset\AssetImportExporter\AssetImporter\AssetImporterWorker\AssetImporterWorker_Text.cpp" />
     <ClCompile Include="Source\Core\Asset\AssetImportExporter\AssetImporter\AssetImporterWorker\AssetImporterWorker_Three_D_Model.cpp" />
     <ClCompile Include="Source\Core\Physics\Collider\OBB.cpp" />
-    <ClCompile Include="Source\Core\ResourceManagement\JobSystem_cpp\JobSystem.cpp" />
-    <ClCompile Include="Source\Core\ResourceManagement\JobSystem_cpp\test\test.cpp" />
-    <ClCompile Include="Source\Core\ResourceManagement\JobSystem_cpp\Thread.cpp" />
-    <ClCompile Include="Source\Core\ResourceManagement\JobSystem_cpp\ThreadProfiler.cpp" />
     <ClCompile Include="Source\Engine\EngineGUI\PrintText.cpp" />
     <ClCompile Include="Source\Core\Misc\ColliderUpdater\ColliderUpdater.cpp" />
     <ClCompile Include="Source\Core\Misc\AccelerationContainer\BVH\BVH_Node.cpp" />
@@ -783,6 +782,9 @@ xcopy /y /d /E /H /C /I "$(ProjectDir)Assets" "$(TargetDir)Assets"</Command>
     <ClInclude Include="Source\Core\Math\JINMATH\Vector4.h" />
     <ClInclude Include="Source\Core\Math\JINMATH\Vector4.reflection.h" />
     <ClInclude Include="Source\Core\ResourceManagement\Thread\eThreadType.h" />
+    <ClInclude Include="Source\Core\ResourceManagement\Thread\JobPool.h" />
+    <ClInclude Include="Source\Core\ResourceManagement\Thread\RunnableThread\GameThread.h" />
+    <ClInclude Include="Source\Core\ResourceManagement\Thread\RunnableThread\JobThread.h" />
     <ClInclude Include="Source\Core\ResourceManagement\Thread\RunnableThread\RenderThread.h" />
     <ClInclude Include="Source\Core\ResourceManagement\Thread\RunnableThread\RunnableThread.h" />
     <ClInclude Include="Source\Core\ResourceManagement\Thread\ThreadFactory.h" />
@@ -988,10 +990,6 @@ xcopy /y /d /E /H /C /I "$(ProjectDir)Assets" "$(TargetDir)Assets"</Command>
     <ClInclude Include="Source\Core\Graphics\TextureFormat.h" />
     <ClInclude Include="Source\Core\OS\OS.h" />
     <ClInclude Include="Source\Core\Physics\Collider\OBB.h" />
-    <ClInclude Include="Source\Core\ResourceManagement\JobSystem_cpp\JobSystem.h" />
-    <ClInclude Include="Source\Core\ResourceManagement\JobSystem_cpp\Thread.h" />
-    <ClInclude Include="Source\Core\ResourceManagement\JobSystem_cpp\ThreadProfiler.h" />
-    <ClInclude Include="Source\Core\ResourceManagement\JobSystem_cpp\Thread_Core.h" />
     <ClInclude Include="Source\Engine\EngineGUI\PrintText.h" />
     <ClInclude Include="Source\Core\Misc\ColliderUpdater\ColliderUpdater.h" />
     <ClInclude Include="Source\Core\Misc\AccelerationContainer\BVH\BVH_Core.h" />
@@ -1339,7 +1337,6 @@ xcopy /y /d /E /H /C /I "$(ProjectDir)Assets" "$(TargetDir)Assets"</Command>
       <FileType>Document</FileType>
     </MASM>
     <None Include="Source\Core\ResourceManagement\JobSystem_cpp\MultithreadingJobSystemStrategy.md" />
-    <None Include="Source\Core\ResourceManagement\JobSystem_cpp\README.md" />
     <None Include="Source\Engine\Rendering\Culling\EveryCulling\.git" />
     <None Include="Source\Engine\Rendering\Culling\EveryCulling\.gitignore" />
     <None Include="Source\Engine\Rendering\Culling\EveryCulling\CullingModule\MaskedSWOcclusionCulling\MaskedSWOcclusionCulling_HowWorks.md" />

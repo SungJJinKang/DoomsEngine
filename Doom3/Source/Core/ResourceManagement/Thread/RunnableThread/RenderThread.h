@@ -2,10 +2,13 @@
 
 #include "../Core.h"
 
+#include <functional>
+
 #include "RunnableThread.h"
 #include <concurrentqueue/blockingconcurrentqueue.h>
 #include <../Helper/Simple_SingleTon/Singleton.h>
 
+#include "RenderThread.reflection.h"
 namespace dooms
 {
 	namespace thread
@@ -14,18 +17,10 @@ namespace dooms
 
 		class DOOM_API D_CLASS RenderThread : public RunnableThread, public ISingleton<RenderThread>
 		{
-
-		private:
-
-			moodycamel::BlockingConcurrentQueue<void()> RenderCommandQueue;
-
-		protected:
-			
-			virtual void Init() override;
-			virtual void Tick() override;
+			GENERATE_BODY()
 
 		public:
-			
+
 			RenderThread();
 
 			virtual eThreadType GetThreadType() const override;
@@ -35,7 +30,19 @@ namespace dooms
 			{
 				RenderCommandQueue.enqueue(std::forward<LAMBDA>(Lambda));
 			}
+
+			virtual const char* GetThreadName() const override;
+			bool IsAllowMultipleThreadOfThisThreadType() const override;
+
+		protected:
 			
+			virtual void Init_OnCallerThread() override;
+			virtual void Tick_OnRunnableThread() override;
+		
+		private:
+
+			moodycamel::BlockingConcurrentQueue<std::function<void()>> RenderCommandQueue;
+
 		};
 		
 

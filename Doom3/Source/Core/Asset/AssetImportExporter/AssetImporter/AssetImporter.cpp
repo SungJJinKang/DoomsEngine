@@ -4,7 +4,7 @@
 
 #include "Manager/AssetImporterWorkerManager.h"
 #include <EngineGUI/PrintText.h>
-#include <ResourceManagement/JobSystem_cpp/JobSystem.h>
+#include <ResourceManagement/Thread/JobPool.h>
 
 
 const std::unordered_map<std::string, ::dooms::asset::eAssetType> dooms::assetImporter::AssetExtension
@@ -150,10 +150,19 @@ std::future<bool> dooms::assetImporter::PushImportingAssetJobToThreadPool
 	dooms::asset::Asset* const asset
 )
 {
-	std::function<bool()> newTask = std::bind(ImportAssetJob, std::move(path), asset);
-	asset->SetAssetStatus(::dooms::asset::Asset::AssetStatus::WaitingImport);
 
-	return dooms::resource::JobSystem::GetSingleton()->PushBackJobToPriorityQueue(std::move(newTask));
+	asset->SetAssetStatus(::dooms::asset::Asset::AssetStatus::WaitingImport);
+	auto ReturnedFuture = dooms::thread::ParallelForWithReturn
+	(
+		[Path = path, Asset = asset]()
+		{
+			return ImportAssetJob(Path, Asset);
+		},
+		1
+	);
+
+
+	return std::move(ReturnedFuture[0]);
 }
 
 std::vector<std::future<bool>> dooms::assetImporter::PushImportingAssetJobToThreadPool
@@ -164,19 +173,26 @@ std::vector<std::future<bool>> dooms::assetImporter::PushImportingAssetJobToThre
 {
 	D_ASSERT(paths.size() == assets.size());
 
-	std::vector<std::function<bool()>> newTasks{};
-	newTasks.reserve(paths.size());
+	std::vector<std::future<bool>> ReturnedFutures{};
+
+	
 	for (UINT32 i = 0; i < paths.size(); i++)
 	{
-		newTasks.push_back(std::bind(ImportAssetJob, std::move(paths[i]), assets[i]));
 		assets[i]->SetAssetStatus(::dooms::asset::Asset::AssetStatus::WaitingImport);
-	}
+		
+		auto& ReturnedFuture = dooms::thread::ParallelForWithReturn
+		(
+			[Path = paths[i], Asset = assets[i]]()
+			{
+				return ImportAssetJob(Path, Asset);
+			},
+			1
+		)[0];
 
-	/// <summary>
-			/// maybe will be copied
-			/// </summary>
-			/// <param name="paths"></param>
-			/// <returns></returns>
-	return resource::JobSystem::GetSingleton()->PushBackJobChunkToPriorityQueue(std::move(newTasks));
+		ReturnedFutures.push_back(std::move(ReturnedFuture));
+
+	}
+	
+	return ReturnedFutures;
 }
 

@@ -10,7 +10,7 @@ namespace dooms
 		class RunnableThread;
 		namespace ThreadFactory
 		{
-			RunnableThread* CreateRunnableThread(const eThreadType TargetThreadType, const char* const BeautifulThreadName);
+			RunnableThread* CreateRunnableThread(const eThreadType TargetThreadType);
 		}
 	}
 }

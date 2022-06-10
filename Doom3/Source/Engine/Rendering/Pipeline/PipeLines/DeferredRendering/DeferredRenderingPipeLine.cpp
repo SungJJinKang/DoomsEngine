@@ -4,7 +4,6 @@
 #include "Graphics/GraphicsAPI/graphicsAPISetting.h"
 #include <Rendering/Camera.h>
 #include <Rendering/Renderer/Renderer.h>
-#include "ResourceManagement/JobSystem_cpp/JobSystem.h"
 #include "DeferredRenderingPipeLineCamera.h"
 
 dooms::graphics::DeferredRenderingPipeLine::DeferredRenderingPipeLine

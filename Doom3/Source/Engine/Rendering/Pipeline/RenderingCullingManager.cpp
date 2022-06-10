@@ -2,10 +2,12 @@
 
 #include "EngineConfigurationData/ConfigData.h"
 #include "Graphics/GraphicsAPI/graphicsAPISetting.h"
-#include <ResourceManagement/JobSystem_cpp/JobSystem.h>
+#include <ResourceManagement/Thread/JobPool.h>
 #include <Rendering/Culling/EveryCulling/CullingModule/MaskedSWOcclusionCulling/MaskedSWOcclusionCulling.h>
 #include <Rendering/Camera.h>
 #include <EngineGUI/GUIModules/Modules/MaskedOcclusionCulliingDebugger.h>
+
+#include "ResourceManagement/Thread/RunnableThread/RunnableThread.h"
 
 dooms::graphics::RenderingCullingManager::RenderingCullingManager()
 	: mCullingSystem()
@@ -15,8 +17,6 @@ dooms::graphics::RenderingCullingManager::RenderingCullingManager()
 void dooms::graphics::RenderingCullingManager::Initialize()
 {
 	mCullingSystem = std::make_unique<culling::EveryCulling>(graphicsAPISetting::GetScreenWidth(), graphicsAPISetting::GetScreenHeight());
-	mCullingSystem->SetThreadCount(resource::JobSystem::GetSingleton()->GetSubThreadCount() + 1);
-	//mCullingSystem->mMaskedSWOcclusionCulling->mSolveMeshRoleStage.mOccluderViewSpaceBoundingSphereRadius = ConfigData::GetSingleton()->GetConfigData().GetValue<FLOAT32>("Graphics", "MASKED_OC_OCCLUDER_VIEW_SPACE_BOUNDING_SPHERE_RADIUS");
 	mCullingSystem->mMaskedSWOcclusionCulling->mSolveMeshRoleStage.mOccluderAABBScreenSpaceMinArea = ConfigData::GetSingleton()->GetConfigData().GetValue<FLOAT32>("Graphics", "MASKED_OC_OCCLUDER_AABB_SCREEN_SPACE_MIN_AREA");
 
 	if(dooms::ui::MaskedOcclusionCulliingDebugger::GetSingleton() != nullptr)
@@ -76,18 +76,19 @@ void dooms::graphics::RenderingCullingManager::CameraCullJob(dooms::Camera* cons
 
 		std::atomic_thread_fence(std::memory_order_release);
 
-		std::function<void()> threadCullJob = [cullingSystem = mCullingSystem.get(), cameraIndexInCullingSystem = camera->CameraIndexInCullingSystem]()
+		const UINT64 TickCount = mCullingSystem.get()->GetTickCount();
+		auto Job = [cullingSystem = mCullingSystem.get(), cameraIndexInCullingSystem = camera->CameraIndexInCullingSystem, TickCount]()
 		{
-			cullingSystem->ThreadCullJob(cameraIndexInCullingSystem, dooms::resource::Thread::GetCallerSubThreadIndex() + 1);
+			cullingSystem->ThreadCullJob(cameraIndexInCullingSystem, TickCount);
 		};
 
-		auto futures = resource::JobSystem::GetSingleton()->PushBackJobToAllThread(threadCullJob);
+		auto ReturnedFutures = dooms::thread::ParallelForWithReturn(Job);
 		D_START_PROFILING(CameraCullJob, dooms::profiler::eProfileLayers::Rendering);
-		mCullingSystem->ThreadCullJob(camera->CameraIndexInCullingSystem, 0);
+		mCullingSystem->ThreadCullJob(camera->CameraIndexInCullingSystem, TickCount);
 		D_END_PROFILING(CameraCullJob);
 
 		D_START_PROFILING(WaitSubThreadsCullJob, dooms::profiler::eProfileLayers::Rendering);
-		for (auto& future : futures)
+		for (auto& future : ReturnedFutures)
 		{
 			future.wait();
 		}

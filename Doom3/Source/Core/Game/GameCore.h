@@ -7,7 +7,8 @@
 #include <Asset/AssetManager/AssetManager.h>
 #include <Rendering/Graphics_Server.h>
 #include <Physics/Physics_Server.h>
-#include <ResourceManagement/JobSystem_cpp/JobSystem.h>
+#include <ResourceManagement/Thread/ThreadManager.h>
+#include <ResourceManagement/Thread/JobPool.h>
 #include <IO/UserInput_Server.h>
 #include <Time/Time_Server.h>
 #include <Reflection/ReflectionManager.h>
@@ -64,7 +65,10 @@ namespace dooms
 		physics::Physics_Server mPhysics_Server;
 
 		D_PROPERTY()
-		resource::JobSystem mJobSystem;
+		thread::ThreadManager ThreadManager;
+
+		D_PROPERTY()
+		thread::JobPool JobPool;
 
 		D_PROPERTY()
 		userinput::UserInput_Server mUserImput_Server;

@@ -5,7 +5,9 @@
 #include "imgui.h"
 
 #include <Time/MainTimer.h>
-#include <ResourceManagement/JobSystem_cpp/JobSystem.h>
+#include <ResourceManagement/Thread/ThreadManager.h>
+
+#include "ResourceManagement/Thread/RunnableThread/RunnableThread.h"
 
 #define THREAD_PROFILER_UPDATE_TIME_STEP 1.0f
 
@@ -15,18 +17,17 @@ void dooms::ui::ThreadProfilerGUI::UpdateThreadCycle()
 	ElapsedTime += MainTimer::GetSingleton()->GetDeltaTime();
 	if (ElapsedTime > THREAD_PROFILER_UPDATE_TIME_STEP)
 	{
-		const size_t threadCount = resource::JobSystem::GetSingleton()->GetSubThreadCount();
-
-		ThreadCycleCounter2[0] = dooms::os::_GetThreadCpuCycle(dooms::resource::JobSystem::GetSingleton()->GetMainThreadPlatformHandle());
-		for (size_t i = 0; i < threadCount; i++)
+		std::vector<dooms::thread::RunnableThread*> ThreadList = dooms::thread::ThreadManager::GetSingleton()->GetRunnableThreadList();
+		
+		for (size_t Index = 0; Index < ThreadList.size(); Index++)
 		{
-			ThreadCycleCounter2[i + 1] = resource::JobSystem::GetSingleton()->GetThread(i).GetThreadCPUCycle();
+			ThreadCycleCounter2[Index] = ThreadList[Index]->GetThreadCPUCycle();
 		}
 
-		for (size_t i = 0; i < ThreadCycleCounter1.size(); i++)
+		for (size_t Index = 0; Index < ThreadCycleCounter1.size(); Index++)
 		{
-			ThreadCycleInSecond[i] = (ThreadCycleCounter2[i] - ThreadCycleCounter1[i]) / ElapsedTime;
-			ThreadCycleCounter1[i] = ThreadCycleCounter2[i];
+			ThreadCycleInSecond[Index] = (ThreadCycleCounter2[Index] - ThreadCycleCounter1[Index]) / ElapsedTime;
+			ThreadCycleCounter1[Index] = ThreadCycleCounter2[Index];
 		}
 
 		ElapsedTime = 0.0f;
@@ -37,10 +38,10 @@ void dooms::ui::ThreadProfilerGUI::Init()
 {
 	Base::Init();
 
-	const size_t threadCount = resource::JobSystem::GetSingleton()->GetSubThreadCount();
-	ThreadCycleInSecond.resize(threadCount + 1);
-	ThreadCycleCounter1.resize(threadCount + 1);
-	ThreadCycleCounter2.resize(threadCount + 1);
+	const size_t ThreadCount = dooms::thread::ThreadManager::GetSingleton()->GetRunnableThreadCount();
+	ThreadCycleInSecond.resize(ThreadCount);
+	ThreadCycleCounter1.resize(ThreadCount);
+	ThreadCycleCounter2.resize(ThreadCount);
 }
 
 void dooms::ui::ThreadProfilerGUI::Render()
@@ -51,10 +52,10 @@ void dooms::ui::ThreadProfilerGUI::Render()
 	{
 		ImGui::Text("Main Thread : %llu", ThreadCycleInSecond[0]);
 
-		const size_t threadCount = resource::JobSystem::GetSingleton()->GetSubThreadCount();
-		for (size_t i = 0; i < threadCount; i++)
+		const size_t ThreadCount = dooms::thread::ThreadManager::GetSingleton()->GetRunnableThreadCount();
+		for (size_t Index = 0; Index < ThreadCount; Index++)
 		{
-			ImGui::Text("Thread ( %d ) : %llu", i, ThreadCycleInSecond[i + 1]);
+			ImGui::Text("Thread ( %d ) : %llu", Index, ThreadCycleInSecond[Index + 1]);
 		}
 	}
 

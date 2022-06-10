@@ -3,14 +3,26 @@
 #include "../eThreadType.h"
 #include <functional>
 
-void dooms::thread::RenderThread::Init()
+#include "RunnableThread.h"
+
+const char* dooms::thread::RenderThread::GetThreadName() const
 {
-	RunnableThread::Init();
+	return "RenderThread";
 }
 
-void dooms::thread::RenderThread::Tick()
+bool dooms::thread::RenderThread::IsAllowMultipleThreadOfThisThreadType() const
 {
-	RunnableThread::Tick();
+	return false;
+}
+
+void dooms::thread::RenderThread::Init_OnCallerThread()
+{
+	RunnableThread::Init_OnCallerThread();
+}
+
+void dooms::thread::RenderThread::Tick_OnRunnableThread()
+{
+	RunnableThread::Tick_OnRunnableThread();
 
 	std::function<void()> RenderTask{};
 
@@ -28,7 +40,6 @@ void dooms::thread::RenderThread::Tick()
 }
 
 dooms::thread::RenderThread::RenderThread()
-	: RunnableThread("Render Thread")
 {
 	
 }

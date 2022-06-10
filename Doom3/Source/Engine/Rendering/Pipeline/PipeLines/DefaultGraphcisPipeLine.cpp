@@ -4,7 +4,7 @@
 #include <Rendering/Renderer/RendererStaticIterator.h>
 #include <Rendering/Acceleration/FrontToBackSorting/SortFrontToBackSolver.h>
 #include <Rendering/Camera.h>
-#include <ResourceManagement/JobSystem_cpp/JobSystem.h>
+#include <ResourceManagement/Thread/JobPool.h>
 #include <Rendering/Renderer/Renderer.h>
 #include <EngineGUI/engineGUIServer.h>
 #include <Rendering/Graphics_Server.h>
@@ -117,7 +117,7 @@ std::future<void> dooms::graphics::DefaultGraphcisPipeLine::PushFrontToBackSortJ
 	if (graphicsSetting::IsSortObjectFrontToBack == true)
 	{
 		math::Vector3 cameraPos = targetCamera->GetTransform()->GetPosition();
-		std::function<void()> FrontToBackSortJob = [cameraPos, cameraIndex]()
+		auto FrontToBackSortJob = [cameraPos, cameraIndex]()
 		{
 			std::vector<Renderer*>& renderers = dooms::RendererComponentStaticIterator::GetSingleton()->GetSortingRendererInLayer();
 
@@ -125,11 +125,11 @@ std::future<void> dooms::graphics::DefaultGraphcisPipeLine::PushFrontToBackSortJ
 			const size_t rendererCount = renderers.size();
 
 			for
-				(
-					size_t rendererIndex = startRendererIndex;
-					rendererIndex < rendererCount;
-					rendererIndex++
-					)
+			(
+				size_t rendererIndex = startRendererIndex;
+				rendererIndex < rendererCount;
+				rendererIndex++
+			)
 			{
 				D_ASSERT(IsValid(renderers[rendererIndex]));
 				renderers[rendererIndex]->CacheDistanceToCamera(cameraIndex, cameraPos);
@@ -138,7 +138,7 @@ std::future<void> dooms::graphics::DefaultGraphcisPipeLine::PushFrontToBackSortJ
 			dooms::graphics::SortFrontToBackSolver::SortRenderer(cameraIndex);
 		};
 
-		future = resource::JobSystem::GetSingleton()->PushBackJobToPriorityQueue(FrontToBackSortJob);
+		future = std::move(thread::ParallelForWithReturn(FrontToBackSortJob, 1)[0]);
 	}
 
 	return future;

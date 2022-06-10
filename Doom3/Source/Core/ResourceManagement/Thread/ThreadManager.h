@@ -3,7 +3,7 @@
 #include "../Core.h"
 
 #include <vector>
-#include <memory>
+#include <mutex>
 
 #include "../Game/IGameFlow.h"
 #include <../Helper/Simple_SingleTon/Singleton.h>
@@ -20,20 +20,33 @@ namespace dooms
 		{
 			GENERATE_BODY()
 
-		private:
-
-			D_PROPERTY()
-			std::vector<RunnableThread*> RunnableThreadList;
 
 		public:
 
-			RunnableThread* CreateNewRunnableThread(const eThreadType TargetThreadType, const char* const BeautifulThreadName);
+			void Init(const int argc, char* const* const argv) override;
+			void Update() override;
+			void OnEndOfFrame() override;
 
-			std::vector<RunnableThread*> GetRunnableThread(const eThreadType TargetThreadType);
-			std::vector<const RunnableThread*> GetRunnableThread(const eThreadType TargetThreadType) const;
-			RunnableThread* GetRunnableThread(const char* const ThreadName);
-			const RunnableThread* GetRunnableThread(const char* const ThreadName) const;
+			RunnableThread* CreateNewRunnableThread(const eThreadType TargetThreadType);
+			std::vector<RunnableThread*> CreateNewRunnableThread(const eThreadType TargetThreadType, const INT32 Count);
+			void TerminateRunnableThread(const eThreadType TargetThreadType, const INT32 Index, const bool bJoin);
+			void TerminateAllRunnableThread(const bool bJoin);
 
+			std::vector<RunnableThread*> GetRunnableThreadList();
+			std::vector<RunnableThread*> GetRunnableThreadList(const eThreadType TargetThreadType);
+			INT64 GetRunnableThreadCount();
+			INT64 GetRunnableThreadCount(const eThreadType TargetThreadType);
+
+			INT64 GetTotalRunnableThreadCount() const;
+
+			INT32 GetCallerThreadIndexOfSameTypeThreads();
+			
+		private:
+
+			D_PROPERTY()
+			std::vector<RunnableThread*> RunnableThreadList{};
+
+			std::recursive_mutex RunnableThreadListMutex{};
 		};
 	}
 }

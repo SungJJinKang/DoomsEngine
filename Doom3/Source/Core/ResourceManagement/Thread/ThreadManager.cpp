@@ -3,73 +3,164 @@
 #include "RunnableThread/RunnableThread.h"
 #include "ThreadFactory.h"
 
-dooms::thread::RunnableThread* dooms::thread::ThreadManager::CreateNewRunnableThread(const eThreadType TargetThreadType, const char* const BeautifulThreadName)
+void dooms::thread::ThreadManager::Init(const int argc, char* const* const argv)
 {
-	dooms::thread::RunnableThread* CreatedThread = nullptr;
+}
 
-	if(GetRunnableThread(BeautifulThreadName) == nullptr)
+void dooms::thread::ThreadManager::Update()
+{
+}
+
+void dooms::thread::ThreadManager::OnEndOfFrame()
+{
+}
+
+dooms::thread::RunnableThread* dooms::thread::ThreadManager::CreateNewRunnableThread(const eThreadType TargetThreadType)
+{
+	std::scoped_lock<std::recursive_mutex> Lock{ RunnableThreadListMutex };
+
+	dooms::thread::RunnableThread* CreatedThread = ThreadFactory::CreateRunnableThread(TargetThreadType);
+
+	if((CreatedThread->IsAllowMultipleThreadOfThisThreadType() == true) || (GetRunnableThreadCount(TargetThreadType) == 0))
 	{
-		CreatedThread = ThreadFactory::CreateRunnableThread(TargetThreadType, BeautifulThreadName);
-		if(CreatedThread != nullptr)
-		{
-			RunnableThreadList.push_back(CreatedThread);
-		}
+		RunnableThreadList.push_back(CreatedThread);
+
+		CreatedThread->Init_OnCallerThread();
 	}
 	else
 	{
-		D_ASSERT_LOG(false, "Thread with same name is found");
+		D_ASSERT_LOG(false, "This type ( %s ) thread is not allowed to be created multiple times", CreatedThread->GetThreadName());
+
+		CreatedThread->SetIsPendingKill();
+
+		CreatedThread = nullptr;
 	}
-	
+
 	return CreatedThread;
 }
 
-std::vector<dooms::thread::RunnableThread*> dooms::thread::ThreadManager::GetRunnableThread(const eThreadType TargetThreadType)
+std::vector<dooms::thread::RunnableThread*> dooms::thread::ThreadManager::CreateNewRunnableThread(const eThreadType TargetThreadType, const INT32 Count)
 {
-	std::vector<dooms::thread::RunnableThread*> ThreadList{};
+	std::vector<dooms::thread::RunnableThread*> CreatedThreadList{};
+
+	for(INT32 Index = 0 ; Index < Count ; Index++)
+	{
+		CreatedThreadList.push_back(CreateNewRunnableThread(TargetThreadType));
+	}
+
+	return CreatedThreadList;
+}
+
+void dooms::thread::ThreadManager::TerminateRunnableThread(const eThreadType TargetThreadType, const INT32 Index, const bool bJoin)
+{
+	std::scoped_lock<std::recursive_mutex> Lock{ RunnableThreadListMutex };
+
+	bool bIsTerminated = false;
+
+	INT32 ThreadCounter = 0;
+
+	for(INT32 ThreadIndex = 0 ; ThreadIndex < RunnableThreadList.size() ; ThreadIndex++)
+	{
+		if(RunnableThreadList[ThreadIndex]->GetThreadType() == TargetThreadType)
+		{
+			if(ThreadCounter == Index)
+			{
+				RunnableThreadList[ThreadIndex]->TerminateRunnableThread(bJoin);
+				RunnableThreadList.erase(RunnableThreadList.begin() + ThreadIndex);
+
+				bIsTerminated = true;
+
+				break;
+			}
+
+			ThreadCounter++;
+		}
+	}
+
+	D_ASSERT(bIsTerminated == true);
+}
+
+void dooms::thread::ThreadManager::TerminateAllRunnableThread(const bool bJoin)
+{
+	std::scoped_lock<std::recursive_mutex> Lock{ RunnableThreadListMutex };
+	
+	for (INT32 ThreadIndex = 0; ThreadIndex < RunnableThreadList.size(); ThreadIndex++)
+	{
+		RunnableThreadList[ThreadIndex]->TerminateRunnableThread(bJoin);
+		RunnableThreadList.erase(RunnableThreadList.begin() + ThreadIndex);
+
+		ThreadIndex--;
+	}
+}
+
+std::vector<dooms::thread::RunnableThread*> dooms::thread::ThreadManager::GetRunnableThreadList()
+{
+	return RunnableThreadList;
+}
+
+std::vector<dooms::thread::RunnableThread*> dooms::thread::ThreadManager::GetRunnableThreadList(const eThreadType TargetThreadType)
+{
+	std::scoped_lock<std::recursive_mutex> Lock{ RunnableThreadListMutex };
+
+	std::vector<dooms::thread::RunnableThread*> TargetRunnableThreadList{};
 
 	for (RunnableThread* Thread : RunnableThreadList)
 	{
 		if (Thread->GetThreadType() == TargetThreadType)
 		{
-			ThreadList.push_back(Thread);
+			TargetRunnableThreadList.push_back(Thread);
 		}
 	}
 
-	return ThreadList;
+	return TargetRunnableThreadList;
 }
 
-std::vector<const dooms::thread::RunnableThread*> dooms::thread::ThreadManager::GetRunnableThread(const eThreadType TargetThreadType) const
+INT64 dooms::thread::ThreadManager::GetRunnableThreadCount()
 {
-	std::vector<const dooms::thread::RunnableThread*> ThreadList{};
+	return RunnableThreadList.size();
+}
 
-	for(const RunnableThread* Thread : RunnableThreadList)
+INT64 dooms::thread::ThreadManager::GetRunnableThreadCount(const eThreadType TargetThreadType)
+{
+	std::scoped_lock<std::recursive_mutex> Lock{ RunnableThreadListMutex };
+
+	INT64 RunnableThreadCount = 0;
+
+	for (RunnableThread* Thread : RunnableThreadList)
 	{
-		if(Thread->GetThreadType() == TargetThreadType)
+		if (Thread->GetThreadType() == TargetThreadType)
 		{
-			ThreadList.push_back(Thread);
+			RunnableThreadCount++;
 		}
 	}
 
-	return ThreadList;
+	return RunnableThreadCount;
 }
 
-dooms::thread::RunnableThread* dooms::thread::ThreadManager::GetRunnableThread(const char* const ThreadName)
+INT64 dooms::thread::ThreadManager::GetTotalRunnableThreadCount() const
 {
-	return const_cast<dooms::thread::RunnableThread*>(static_cast<const ThreadManager*>(this)->GetRunnableThread(ThreadName));
+	return RunnableThreadList.size();
 }
 
-const dooms::thread::RunnableThread* dooms::thread::ThreadManager::GetRunnableThread(const char* const ThreadName) const
+INT32 dooms::thread::ThreadManager::GetCallerThreadIndexOfSameTypeThreads()
 {
-	const dooms::thread::RunnableThread* TargetRunnableThread = nullptr;
+	const RunnableThread* const CallerThread = RunnableThread::GetThreadLocalRunnableThread();
+	const eThreadType CallerThreadType = CallerThread->GetThreadType();
 
-	for (const RunnableThread* Thread : RunnableThreadList)
+	INT32 Index = 0;
+
+	for(RunnableThread* Thread : RunnableThreadList)
 	{
-		if (Thread->GetBeautifulThreadName() == ThreadName)
+		if(Thread->GetThreadType() == CallerThreadType)
 		{
-			TargetRunnableThread = Thread;
-			break;
+			if(CallerThread == Thread)
+			{
+				break;
+			}
+
+			Index++;
 		}
 	}
 
-	return TargetRunnableThread;
+	return Index;
 }

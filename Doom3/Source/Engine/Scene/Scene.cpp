@@ -4,7 +4,7 @@
 
 #include "Entity.h"
 #include <Rendering/Camera.h>
-#include "ResourceManagement/JobSystem_cpp/JobSystem.h"
+#include "ResourceManagement/Thread/RunnableThread/RunnableThread.h"
 
 using namespace dooms;
 
@@ -21,7 +21,7 @@ Scene::~Scene()
 
 NO_DISCARD Entity* Scene::CreateNewEntity() noexcept
 {
-	CHECK_IS_EXECUTED_ON_MAIN_THREAD; // if you wanna createnewentity in subthread, you should 
+	D_ASSERT(dooms::thread::IsInGameThread());
 
 	Entity* newEntity = CreateDObject<Entity>(mEntityIDCounter++, nullptr); // resource::ObjectPool<Entity>::AllocateFromPool(nullptr);
 
@@ -37,7 +37,7 @@ NO_DISCARD Entity* Scene::CreateNewEntity() noexcept
 
 Entity* Scene::DuplicateEntity(const Entity* const copyedEntity) noexcept
 {
-	CHECK_IS_EXECUTED_ON_MAIN_THREAD; // if you wanna createnewentity in subthread, you should 
+	D_ASSERT(dooms::thread::IsInGameThread()); // if you wanna createnewentity in subthread, you should 
 
 	D_ASSERT(IsValid(copyedEntity) == true);
 	Entity* newEntity = nullptr;
