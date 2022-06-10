@@ -31,6 +31,8 @@ namespace dooms
 				RenderCommandQueue.enqueue(std::forward<LAMBDA>(Lambda));
 			}
 
+			void FlushRenderCommandQueue();
+
 			virtual const char* GetThreadName() const override;
 			bool IsAllowMultipleThreadOfThisThreadType() const override;
 

@@ -5,6 +5,14 @@
 
 #include "RunnableThread.h"
 
+void dooms::thread::RenderThread::FlushRenderCommandQueue()
+{
+	while(RenderCommandQueue.size_approx() != 0)
+	{
+		std::this_thread::yield();
+	}
+}
+
 const char* dooms::thread::RenderThread::GetThreadName() const
 {
 	return "RenderThread";
