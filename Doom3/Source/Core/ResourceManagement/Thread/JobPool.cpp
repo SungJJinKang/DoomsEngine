@@ -13,6 +13,6 @@ void dooms::thread::JobPool::WakeUpJobThreads()
 	std::vector<RunnableThread*> JobThreadList = ThreadManager::GetSingleton()->GetRunnableThreadList(eThreadType::JOB_THREAD);
 	for(RunnableThread* Thread : JobThreadList)
 	{
-		CastTo<JobThread*>(Thread)->EnqueueJob([]() {});
+		Thread->WakeUpRunnableThread();
 	}
 }

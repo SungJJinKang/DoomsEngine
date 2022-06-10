@@ -24,6 +24,13 @@ bool dooms::thread::JobThread::IsAllowMultipleThreadOfThisThreadType() const
 	return true;
 }
 
+void dooms::thread::JobThread::WakeUpRunnableThread()
+{
+	Base::WakeUpRunnableThread();
+
+	EnqueueJob([]() {});
+}
+
 void dooms::thread::JobThread::Init_OnRunnableThread()
 {
 	RunnableThread::Init_OnRunnableThread();

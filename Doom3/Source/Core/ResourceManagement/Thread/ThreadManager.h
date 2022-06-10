@@ -40,7 +40,11 @@ namespace dooms
 			INT64 GetTotalRunnableThreadCount() const;
 
 			INT32 GetCallerThreadIndexOfSameTypeThreads();
-			
+
+		protected:
+
+			void OnSetPendingKill() override;
+
 		private:
 
 			D_PROPERTY()

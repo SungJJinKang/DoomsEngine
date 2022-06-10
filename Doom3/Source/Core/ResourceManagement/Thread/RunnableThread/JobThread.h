@@ -55,6 +55,8 @@ namespace dooms
 			void SetJobPool(JobPool* InJobPool);
 			bool IsAllowMultipleThreadOfThisThreadType() const override;
 
+			void WakeUpRunnableThread() override;
+
 		protected:
 			
 			virtual void Init_OnRunnableThread() override;

@@ -164,3 +164,10 @@ INT32 dooms::thread::ThreadManager::GetCallerThreadIndexOfSameTypeThreads()
 
 	return Index;
 }
+
+void dooms::thread::ThreadManager::OnSetPendingKill()
+{
+	Base::OnSetPendingKill();
+
+	TerminateAllRunnableThread(true);
+}

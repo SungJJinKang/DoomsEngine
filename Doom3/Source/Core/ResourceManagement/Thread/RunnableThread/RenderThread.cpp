@@ -15,6 +15,13 @@ bool dooms::thread::RenderThread::IsAllowMultipleThreadOfThisThreadType() const
 	return false;
 }
 
+void dooms::thread::RenderThread::WakeUpRunnableThread()
+{
+	Base::WakeUpRunnableThread();
+
+	EnqueueRenderCommand([]() {});
+}
+
 void dooms::thread::RenderThread::Init_OnCallerThread()
 {
 	RunnableThread::Init_OnCallerThread();

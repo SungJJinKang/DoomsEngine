@@ -36,7 +36,7 @@ namespace dooms
 			static bool IsOnThreadStack(const void* const address);
 
 			HANDLE GetPlatformThreadHandler() const;
-			bool IsValidPlatformThreadHandler();
+			bool IsValidPlatformThreadHandler() const;
 
 			FORCE_INLINE UINT64 GetThreadCPUCycle() const
 			{
@@ -48,14 +48,18 @@ namespace dooms
 			HANDLE GetThreadHandle();
 			bool IsExistThreadObject() const;
 
+			virtual void WakeUpRunnableThread();
+
 		protected:
+			
+			virtual void OnSetPendingKill() override;
 
 			virtual void Init_OnRunnableThread();
 			virtual void Tick_OnRunnableThread();
 			virtual void OnTerminateRunnableThread_OnRunnableThread();
 			virtual bool IsCreateNewThread();
 			void SetThreadHandle(HANDLE Handle);
-			
+
 		private:
 
 			std::atomic<bool> bIsInitialized = false;
@@ -65,11 +69,12 @@ namespace dooms
 			std::unique_ptr<std::thread> Thread{};
 			
 			inline static thread_local RunnableThread* ThreadLocalRunnableThread{ nullptr };
-			inline static thread_local UINT64 ThreadLocalRunnableThreadStackStartAddress{ 0xFFFFFFFFFFFFFFFF };
+			inline static thread_local UINT64 ThreadLocalRunnableThreadStackStartAddress{ 0 };
 
 			void Run_RunnableThread();
 			
 			void TerminateRunnableThread(const bool bJoin);
+		
 		};
 
 

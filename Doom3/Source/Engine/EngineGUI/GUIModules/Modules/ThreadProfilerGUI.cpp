@@ -50,12 +50,10 @@ void dooms::ui::ThreadProfilerGUI::Render()
 
 	if (ImGui::Begin("Thread Profiler ( QueryThreadCycleTime ( /s ) )"))
 	{
-		ImGui::Text("Main Thread : %llu", ThreadCycleInSecond[0]);
-
 		const size_t ThreadCount = dooms::thread::ThreadManager::GetSingleton()->GetRunnableThreadCount();
 		for (size_t Index = 0; Index < ThreadCount; Index++)
 		{
-			ImGui::Text("Thread ( %d ) : %llu", Index, ThreadCycleInSecond[Index + 1]);
+			ImGui::Text("Thread ( %d ) : %llu", Index, ThreadCycleInSecond[Index]);
 		}
 	}
 

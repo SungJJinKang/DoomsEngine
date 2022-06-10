@@ -36,7 +36,7 @@ dooms::thread::RunnableThread* dooms::thread::ThreadFactory::CreateRunnableThrea
 		}
 	}
 
-	D_ASSERT_LOG(CreatedRunnableThread == nullptr, "Fail to create RunnableThread");
+	D_ASSERT_LOG(CreatedRunnableThread != nullptr, "Fail to create RunnableThread");
 
 	return CreatedRunnableThread;
 }

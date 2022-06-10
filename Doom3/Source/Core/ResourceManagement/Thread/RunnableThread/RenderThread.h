@@ -25,7 +25,7 @@ namespace dooms
 
 			virtual eThreadType GetThreadType() const override;
 
-			template<typename TSTR, typename LAMBDA>
+			template<typename LAMBDA>
 			FORCE_INLINE void EnqueueRenderCommand(LAMBDA&& Lambda)
 			{
 				RenderCommandQueue.enqueue(std::forward<LAMBDA>(Lambda));
@@ -34,11 +34,13 @@ namespace dooms
 			virtual const char* GetThreadName() const override;
 			bool IsAllowMultipleThreadOfThisThreadType() const override;
 
+			void WakeUpRunnableThread() override;
+
 		protected:
 			
 			virtual void Init_OnCallerThread() override;
 			virtual void Tick_OnRunnableThread() override;
-		
+	
 		private:
 
 			moodycamel::BlockingConcurrentQueue<std::function<void()>> RenderCommandQueue;

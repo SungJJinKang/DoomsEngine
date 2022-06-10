@@ -2,11 +2,12 @@
 
 dooms::thread::RunnableThread::RunnableThread()
 {
+	AddToRootObjectList();
 }
 
 void dooms::thread::RunnableThread::Init_OnCallerThread()
 {
-	D_DEBUG_LOG(eLogType::D_LOG, "Thread ( %s ) is initialized", BeautifulRunnableThreadName.c_str());
+	D_DEBUG_LOG(eLogType::D_LOG, "Thread ( %s ) is initialized", GetThreadName());
 
 	if(IsCreateNewThread() == true)
 	{
@@ -37,7 +38,7 @@ UINT64 dooms::thread::RunnableThread::GetThreadLocalRunnableThreadStackStartAddr
 
 bool dooms::thread::RunnableThread::IsOnThreadStack(const void* const address)
 {
-	assert(RunnableThread::GetThreadLocalRunnableThreadStackStartAddress() != nullptr);
+	D_ASSERT(RunnableThread::GetThreadLocalRunnableThreadStackStartAddress() != 0);
 	
 	UINT8 CurrentStack;
 
@@ -49,7 +50,7 @@ HANDLE dooms::thread::RunnableThread::GetPlatformThreadHandler() const
 	return PlatformThreadHandler;
 }
 
-bool dooms::thread::RunnableThread::IsValidPlatformThreadHandler()
+bool dooms::thread::RunnableThread::IsValidPlatformThreadHandler() const
 {
 	return GetPlatformThreadHandler() != dooms::os::Get_PLATFORM_INVALID_HANDLE_CONSTANT();
 }
@@ -69,7 +70,7 @@ void dooms::thread::RunnableThread::Tick_OnRunnableThread()
 
 void dooms::thread::RunnableThread::OnTerminateRunnableThread_OnRunnableThread()
 {
-	D_DEBUG_LOG("Thread ( %s ) is terminated", GetThreadName());
+	D_DEBUG_LOG(eLogType::D_LOG, "Thread ( %s ) is terminated", GetThreadName());
 
 }
 
@@ -91,6 +92,21 @@ HANDLE dooms::thread::RunnableThread::GetThreadHandle()
 bool dooms::thread::RunnableThread::IsExistThreadObject() const
 {
 	return (Thread != nullptr);
+}
+
+void dooms::thread::RunnableThread::WakeUpRunnableThread()
+{
+}
+
+void dooms::thread::RunnableThread::OnSetPendingKill()
+{
+	Base::OnSetPendingKill();
+
+	if(bIsTerminated == false)
+	{
+		TerminateRunnableThread(true);
+	}
+	
 }
 
 void dooms::thread::RunnableThread::Run_RunnableThread()
@@ -131,13 +147,18 @@ dooms::thread::eThreadType dooms::thread::GetLocalThreadType()
 
 void dooms::thread::RunnableThread::TerminateRunnableThread(const bool bJoin)
 {
-	D_ASSERT(bInitialized == true);
-	D_ASSERT_LOG(IsExistThreadObject(), "Thread object doesn't exist");
-
-	bIsTerminated = true;
-
-	if ((bJoin == true) && (Thread != nullptr))
+	if(IsCreateNewThread())
 	{
-		Thread->join();
+		D_ASSERT(bIsTerminated == false);
+		D_ASSERT_LOG(IsExistThreadObject(), "Thread object doesn't exist");
+
+		bIsTerminated = true;
+
+		WakeUpRunnableThread();
+
+		if ((Thread != nullptr) && (bJoin == true))
+		{
+			Thread->join();
+		}
 	}
 }
