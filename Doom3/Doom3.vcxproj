@@ -483,6 +483,8 @@ xcopy /y /d /E /H /C /I "$(ProjectDir)Assets" "$(TargetDir)Assets"</Command>
     <ClCompile Include="Source\Core\ResourceManagement\Thread\ThreadFactory.cpp" />
     <ClCompile Include="Source\Core\ResourceManagement\Thread\ThreadManager.cpp" />
     <ClCompile Include="Source\Engine\ConfigurationValue\ConfigurationValue.cpp" />
+    <ClCompile Include="Source\Engine\Misk\LatentActionManager.cpp" />
+    <ClCompile Include="Source\Engine\Rendering\Proxy\RenderingPrimitiveProxy.cpp" />
     <ClCompile Include="Source\Engine\Scene\Layer\DefaultLayers.cpp" />
     <ClCompile Include="Source\Core\EngineConfigurationData\ConfigData.cpp" />
     <ClCompile Include="Source\Engine\Scene\Layer\Layer.cpp" />
@@ -790,6 +792,8 @@ xcopy /y /d /E /H /C /I "$(ProjectDir)Assets" "$(TargetDir)Assets"</Command>
     <ClInclude Include="Source\Core\ResourceManagement\Thread\ThreadFactory.h" />
     <ClInclude Include="Source\Core\ResourceManagement\Thread\ThreadManager.h" />
     <ClInclude Include="Source\Engine\ConfigurationValue\ConfigurationValue.h" />
+    <ClInclude Include="Source\Engine\Misk\LatentActionManager.h" />
+    <ClInclude Include="Source\Engine\Rendering\Proxy\RenderingPrimitiveProxy.h" />
     <ClInclude Include="Source\Engine\Scene\eEntityMobility.h" />
     <ClInclude Include="Source\Engine\Scene\Layer\DefaultLayers.h" />
     <ClInclude Include="Source\Engine\EngineGUI\engineGUIServerHelper.h" />
