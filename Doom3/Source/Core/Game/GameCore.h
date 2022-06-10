@@ -15,6 +15,7 @@
 #include <Memory/MemoryManager.h>
 #include <EngineGUI/EngineGUIServer.h>
 #include <EnginePluginManager.h>
+#include <Misk/LatentActionManager.h>
 
 #include "GameCore.reflection.h"
 namespace dooms
@@ -84,6 +85,9 @@ namespace dooms
 
 		D_PROPERTY()
 		plugin::EnginePluginManager mEnginePluginManager;
+
+		D_PROPERTY()
+		LatentActionManager LatentActionManager;
 
 		void InitGameSetting();
 		

@@ -35,7 +35,8 @@ dooms::GameCore::GameCore()
 	mMemoryManager(),
 	mGameConfigData(),
 	mEngineGUIServer(),
-	mSceneManager()
+	mSceneManager(),
+	LatentActionManager()
 {
 
 
@@ -134,6 +135,7 @@ void dooms::GameCore::InitServers(const int argc, char* const* const argv)
 	mUserImput_Server.Init(argc, argv);
 	mSceneManager.Init(argc, argv);
 	dooms::gc::GarbageCollectorManager::Init();
+	LatentActionManager.Init(argc, argv);
 }
 
 void dooms::GameCore::PostSceneInitServers()
@@ -207,6 +209,10 @@ void dooms::GameCore::Update()
 	D_START_PROFILING(mGarbageCollectorManager_Update, eProfileLayers::CPU);
 	dooms::gc::GarbageCollectorManager::TickGC();
 	D_END_PROFILING(mGarbageCollectorManager_Update);
+
+	D_START_PROFILING(LatentActionManager_Update, eProfileLayers::CPU);
+	LatentActionManager.Update();
+	D_END_PROFILING(LatentActionManager_Update);
 }
 
 void dooms::GameCore::FixedUpdate()
@@ -257,6 +263,10 @@ void dooms::GameCore::OnEndOfFrame()
 	mGraphics_Server.OnEndOfFrame_Internal();
 	mGraphics_Server.OnEndOfFrame();
 	D_END_PROFILING(mGraphics_Server_OnEndOfFrame);
+
+	D_START_PROFILING(LatentActionManager_OnEndOfFrame, eProfileLayers::CPU);
+	LatentActionManager.OnEndOfFrame();
+	D_END_PROFILING(LatentActionManager_OnEndOfFrame);
 }
 
 bool dooms::GameCore::Tick()
