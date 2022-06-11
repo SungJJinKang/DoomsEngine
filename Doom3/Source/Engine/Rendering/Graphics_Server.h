@@ -12,6 +12,7 @@
 #include <Rendering/Pipeline/GraphicsPipeLine.h>
 #include <Rendering/Batch/BatchRenderingManager.h>
 #include <Rendering/Material/FixedMaterial.h>
+#include "Proxy/RenderingProxyManager.h"
 
 namespace culling
 {
@@ -75,6 +76,9 @@ namespace dooms
 
 			D_PROPERTY()
 			graphics::PIPManager mPIPManager;
+
+			D_PROPERTY()
+			graphics::RenderingProxyManager RenderingProxyManager;
 			
 			bool InitializeGraphicsAPI(GraphicsAPI::eGraphicsAPIType graphicsAPIType);
 

@@ -7,7 +7,7 @@
 #include <Rendering/Graphics_Server.h>
 #include <Rendering/Batch/BatchRenderingManager.h>
 
-void dooms::Renderer::SetRenderingFlag(const eRenderingFlag flag, const bool isSet)
+void dooms::Renderer::SetRenderingFlag(const graphics::eRenderingFlag flag, const bool isSet)
 {
 	if (isSet == true)
 	{

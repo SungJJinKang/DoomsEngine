@@ -14,7 +14,7 @@ void dooms::ViewFrustumCullingDebug::ShowIsViewFrustumCullingActivated()
 {
 	if(Camera::GetMainCamera() != nullptr)
 	{
-		if (Camera::GetMainCamera()->GetCameraFlag(dooms::eCameraFlag::PAUSE_CULL_JOB) == true)
+		if (Camera::GetMainCamera()->GetCameraFlag(graphics::eCameraFlag::PAUSE_CULL_JOB) == true)
 		{
 			dooms::ui::PrintText("%s", "Multi Thread ViewFrustumCulling �ߴ�");
 
@@ -33,9 +33,9 @@ void dooms::ViewFrustumCullingDebug::UpdateComponent()
 {
 	if (UserInput_Server::GetKeyUp(input::GraphicsAPIInput::eKEY_CODE::KEY_F4))
 	{
-		const bool currentFlag = Camera::GetMainCamera()->GetCameraFlag(dooms::eCameraFlag::PAUSE_CULL_JOB);
+		const bool currentFlag = Camera::GetMainCamera()->GetCameraFlag(graphics::eCameraFlag::PAUSE_CULL_JOB);
 
-		Camera::GetMainCamera()->SetCameraFlag(dooms::eCameraFlag::PAUSE_CULL_JOB, !currentFlag);
+		Camera::GetMainCamera()->SetCameraFlag(graphics::eCameraFlag::PAUSE_CULL_JOB, !currentFlag);
 
 		ShowIsViewFrustumCullingActivated();
 	}

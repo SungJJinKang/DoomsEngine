@@ -211,7 +211,7 @@ void dooms::graphics::DefaultGraphcisPipeLine::ConditionalDrawRenderers
 
 	{
 		D_START_PROFILING(DrawLoop, dooms::profiler::eProfileLayers::Rendering);
-		const bool targetCamera_IS_CULLED_flag_on = targetCamera->GetCameraFlag(dooms::eCameraFlag::IS_CULLED);
+		const bool targetCamera_IS_CULLED_flag_on = targetCamera->GetCameraFlag(eCameraFlag::IS_CULLED);
 
 		const std::vector<Renderer*>& renderersInLayer = RendererComponentStaticIterator::GetSingleton()->GetSortedRendererInLayer();
 		for (Renderer* renderer : renderersInLayer)

@@ -9,7 +9,7 @@
 #include <Graphics/GraphicsAPI/Manager/GraphicsAPIManager.h>
 #include <Rendering/Pipeline/GraphicsPipeLineCamera.h>
 
-void dooms::Camera::SetProjectionMode(eProjectionType value)
+void dooms::Camera::SetProjectionMode(graphics::eProjectionType value)
 {
 	mProjectionMode = value;
 	SetDirtyTrueAtThisFrame();
@@ -79,7 +79,7 @@ dooms::Camera::Camera()
 
 }
 
-void dooms::Camera::SetCameraFlag(const eCameraFlag cameraFlag, const bool isSet)
+void dooms::Camera::SetCameraFlag(const graphics::eCameraFlag cameraFlag, const bool isSet)
 {
 	if (isSet == true)
 	{
@@ -91,7 +91,7 @@ void dooms::Camera::SetCameraFlag(const eCameraFlag cameraFlag, const bool isSet
 	}
 }
 
-dooms::Camera::eProjectionType dooms::Camera::GetProjectionMode() const
+dooms::graphics::eProjectionType dooms::Camera::GetProjectionMode() const
 {
 	return mProjectionMode;
 }
@@ -132,14 +132,14 @@ FLOAT32 dooms::Camera::GetViewportRectHeight() const
 	return mViewportRectHeight;
 }
 
-bool dooms::Camera::GetCameraFlag(const eCameraFlag cameraFlag) const
+bool dooms::Camera::GetCameraFlag(const graphics::eCameraFlag cameraFlag) const
 {
 	return ( mCameraFlag & static_cast<UINT32>(cameraFlag) ) != 0;
 }
 
 bool dooms::Camera::GetIsCullJobEnabled() const
 {
-	return (GetCameraFlag(dooms::eCameraFlag::IS_CULLED) == true) && (GetCameraFlag(dooms::eCameraFlag::PAUSE_CULL_JOB) == false);
+	return (GetCameraFlag(graphics::eCameraFlag::IS_CULLED) == true) && (GetCameraFlag(graphics::eCameraFlag::PAUSE_CULL_JOB) == false);
 }
 
 
@@ -274,12 +274,12 @@ dooms::Camera* dooms::Camera::GetMainCamera()
 math::Matrix4x4 dooms::Camera::GetProjectionMatrix(const bool forceNDCNegativeOneToOne)
 {
 	math::Matrix4x4 result{ nullptr };
-	if (mProjectionMode == eProjectionType::Perspective)
+	if (mProjectionMode == graphics::eProjectionType::Perspective)
 	{
 		result = math::perspectiveFov(mFieldOfViewInDegree * static_cast<FLOAT32>(math::DEGREE_TO_RADIAN), static_cast<FLOAT32>(graphics::graphicsAPISetting::GetScreenWidth()), static_cast<FLOAT32>(graphics::graphicsAPISetting::GetScreenHeight()), mClippingPlaneNear, mClippingPlaneFar);
 		//mViewFrumstum.SetCamera(mFieldOfViewInRadian, dooms::graphics::Graphics_Server::GetScreenRatio(), mClippingPlaneNear, mClippingPlaneFar);
 	}
-	else if (mProjectionMode == eProjectionType::Orthographic)
+	else if (mProjectionMode == graphics::eProjectionType::Orthographic)
 	{
 		result = math::ortho(mViewportRectX, mViewportRectX + mViewportRectWidth, mViewportRectY, mViewportRectY + mViewportRectHeight, mClippingPlaneNear, mClippingPlaneFar);
 		//mViewFrumstum.SetCamera(180.0f * math::DEGREE_TO_RADIAN, dooms::graphics::Graphics_Server::GetScreenRatio(), mClippingPlaneNear, mClippingPlaneFar);

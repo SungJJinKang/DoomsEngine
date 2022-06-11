@@ -12,6 +12,7 @@
 #include <Rendering/Culling/EveryCulling/DataType/EntityBlockViewer.h>
 #include <Transform.h>
 #include <Scene/Entity.h>
+#include <Rendering/Enum/eRenderingFlag.h>
 
 #include "Renderer.reflection.h"
 #include "Rendering/Batch/eBatchRenderingType.h"
@@ -25,12 +26,6 @@ namespace dooms
 	}
 
 	class Camera;
-
-	enum D_ENUM eRenderingFlag : UINT32
-	{
-		STATIC_BATCH = 1 << 0,
-		DYNAMIC_BATCH = 1 << 1
-	};
 
 	struct DistanceToCameraData
 	{
@@ -102,8 +97,8 @@ namespace dooms
 		UINT32 mRenderingFlag{ 0x00000000 };
 
 
-		void SetRenderingFlag(const eRenderingFlag flag, const bool isSet);
-		FORCE_INLINE bool GetRenderingFlag(const eRenderingFlag flag) const
+		void SetRenderingFlag(const graphics::eRenderingFlag flag, const bool isSet);
+		FORCE_INLINE bool GetRenderingFlag(const graphics::eRenderingFlag flag) const
 		{
 			return (mRenderingFlag & static_cast<UINT32>(flag));
 		}

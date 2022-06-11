@@ -11,6 +11,8 @@
 #include <EasyDirtyChecker/DirtyReceiver.h>
 #include "Transform.h"
 #include "MaxCameraCount.h"
+#include <Rendering/Enum/eCameraFlag.h>
+#include <Rendering/Enum/eProjectionType.h>
 
 #include "Camera.reflection.h"
 namespace dooms
@@ -20,13 +22,7 @@ namespace dooms
 		class Graphics_Server;
 		class GraphicsPipeLineCamera;
 	}
-
-	enum D_ENUM eCameraFlag : UINT32
-	{
-		IS_CULLED = 1 << 0,
-		PAUSE_CULL_JOB = 1 << 1,
-	};
-
+	
 	class DOOM_API D_CLASS Camera : public Component, public graphics::UniformBufferObjectUpdater, public StaticContainer<Camera>
 	{
 		GENERATE_BODY()
@@ -35,19 +31,11 @@ namespace dooms
 		friend class Scene;
 		friend class graphics::Graphics_Server;
 
-	public:
-
-		enum class D_ENUM eProjectionType
-		{
-			Perspective,
-			Orthographic
-		};
-
 	private:
 
 
 		D_PROPERTY(CALLBACK="SetProjectionMode")
-		eProjectionType mProjectionMode{ eProjectionType::Perspective };
+		graphics::eProjectionType mProjectionMode{graphics::eProjectionType::Perspective };
 
 		D_PROPERTY(CALLBACK="UpdateCallback", MIN = 1.0f)
 		FLOAT32 mFieldOfViewInDegree = 60;
@@ -126,7 +114,7 @@ namespace dooms
 		D_PROPERTY()
 		UINT32 CameraIndexInCullingSystem;
 
-		static constexpr UINT32 DEFAULT_CAMERA_FLAG = eCameraFlag::IS_CULLED;
+		static constexpr UINT32 DEFAULT_CAMERA_FLAG = graphics::eCameraFlag::IS_CULLED;
 
 		D_PROPERTY()
 		UINT32 mCameraFlag;
@@ -134,7 +122,7 @@ namespace dooms
 		Camera();
 		virtual ~Camera() = default;
 
-		void SetProjectionMode(eProjectionType value);
+		void SetProjectionMode(graphics::eProjectionType value);
 		D_FUNCTION(INVISIBLE)
 		void SetProjectionMode();
 		void SetFieldOfViewInDegree(FLOAT32 degree);
@@ -145,9 +133,9 @@ namespace dooms
 		void SetViewportRectY(FLOAT32 value);
 		void SetViewportRectWidth(FLOAT32 value);
 		void SetViewportRectHeight(FLOAT32 value);
-		void SetCameraFlag(const eCameraFlag cameraFlag, const bool isSet);
+		void SetCameraFlag(const graphics::eCameraFlag cameraFlag, const bool isSet);
 
-		eProjectionType GetProjectionMode() const;
+		graphics::eProjectionType GetProjectionMode() const;
 		FLOAT32 GetFieldOfViewInDegree() const;
 		FLOAT32 GetClippingPlaneNear() const;
 		FLOAT32 GetClippingPlaneFar() const;
@@ -155,7 +143,7 @@ namespace dooms
 		FLOAT32 GetViewportRectY() const;
 		FLOAT32 GetViewportRectWidth() const;
 		FLOAT32 GetViewportRectHeight() const;
-		bool GetCameraFlag(const eCameraFlag cameraFlag) const;
+		bool GetCameraFlag(const graphics::eCameraFlag cameraFlag) const;
 		bool GetIsCullJobEnabled() const;
 
 		static Camera* GetMainCamera();

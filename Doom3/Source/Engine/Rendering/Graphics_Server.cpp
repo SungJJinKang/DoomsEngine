@@ -121,7 +121,8 @@ dooms::graphics::Graphics_Server::Graphics_Server()
 	mRendererColliderBVH{ RENDERER_BVH_MAX_NODE_COUNT },
 	mRendererStaticContainer(),
 	mBatchRenderingManager(),
-	mFixedMaterial()
+	mFixedMaterial(),
+	RenderingProxyManager()
 {
 
 }
