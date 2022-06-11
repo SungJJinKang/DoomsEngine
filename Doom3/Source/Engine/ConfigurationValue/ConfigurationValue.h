@@ -119,13 +119,13 @@ namespace dooms
 	
 
 	template <typename ValueType>
-	class TConfigurationValue : GeneralConfigurationValue
+	class TCVar : GeneralConfigurationValue
 	{
 		CONFIGURATION_VALUE_TYPE_CHECK(ValueType);
 
 	public:
 
-		TConfigurationValue
+		TCVar
 		(
 			const char* const Category,
 			const char* const Name,
@@ -134,7 +134,7 @@ namespace dooms
 		);
 		
 		void SetValue(const ValueType Value);
-		TConfigurationValue<ValueType>& operator=(const ValueType Value);
+		TCVar<ValueType>& operator=(const ValueType Value);
 		ValueType GetValue() const;
 		operator ValueType() const;
 
@@ -183,7 +183,7 @@ namespace dooms
 
 
 	template <typename ValueType>
-	TConfigurationValue<ValueType>::TConfigurationValue
+	TCVar<ValueType>::TCVar
 	(
 		const char* const Category, 
 		const char* const Name, 
@@ -198,26 +198,26 @@ namespace dooms
 	
 
 	template <typename ValueType>
-	void TConfigurationValue<ValueType>::SetValue(const ValueType Value)
+	void TCVar<ValueType>::SetValue(const ValueType Value)
 	{
 		mValue = Value;
 	}
 
 	template <typename ValueType>
-	TConfigurationValue<ValueType>& TConfigurationValue<ValueType>::operator=(const ValueType Value)
+	TCVar<ValueType>& TCVar<ValueType>::operator=(const ValueType Value)
 	{
 		mValue = Value;
 		return *this;
 	}
 
 	template <typename ValueType>
-	ValueType TConfigurationValue<ValueType>::GetValue() const
+	ValueType TCVar<ValueType>::GetValue() const
 	{
 		return mValue;
 	}
 
 	template <typename ValueType>
-	TConfigurationValue<ValueType>::operator ValueType() const
+	TCVar<ValueType>::operator ValueType() const
 	{
 		return mValue;
 	}
