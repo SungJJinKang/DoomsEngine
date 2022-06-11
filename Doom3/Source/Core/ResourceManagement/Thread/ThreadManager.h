@@ -39,7 +39,7 @@ namespace dooms
 
 			INT64 GetTotalRunnableThreadCount() const;
 
-			INT32 GetCallerThreadIndexOfSameTypeThreads();
+			INT32 GetCallerThreadIndexOfSameTypeThreads() const;
 
 		protected:
 
