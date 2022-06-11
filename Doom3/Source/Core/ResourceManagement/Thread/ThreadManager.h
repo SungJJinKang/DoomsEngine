@@ -32,10 +32,10 @@ namespace dooms
 			void TerminateRunnableThread(const eThreadType TargetThreadType, const INT32 Index, const bool bJoin);
 			void TerminateAllRunnableThread(const bool bJoin);
 
-			std::vector<RunnableThread*> GetRunnableThreadList();
-			std::vector<RunnableThread*> GetRunnableThreadList(const eThreadType TargetThreadType);
-			INT64 GetRunnableThreadCount();
-			INT64 GetRunnableThreadCount(const eThreadType TargetThreadType);
+			std::vector<RunnableThread*> GetRunnableThreadList() const;
+			std::vector<RunnableThread*> GetRunnableThreadList(const eThreadType TargetThreadType) const;
+			INT64 GetRunnableThreadCount() const;
+			INT64 GetRunnableThreadCount(const eThreadType TargetThreadType) const;
 
 			INT64 GetTotalRunnableThreadCount() const;
 
@@ -50,7 +50,7 @@ namespace dooms
 			D_PROPERTY()
 			std::vector<RunnableThread*> RunnableThreadList{};
 
-			std::recursive_mutex RunnableThreadListMutex{};
+			mutable std::recursive_mutex RunnableThreadListMutex{};
 		};
 	}
 }
