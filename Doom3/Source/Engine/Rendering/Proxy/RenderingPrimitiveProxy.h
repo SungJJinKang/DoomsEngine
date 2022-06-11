@@ -10,11 +10,13 @@
 #include "Physics/Collider/AABB.h"
 #include "Math/JINMATH/Matrix4x4.h"
 #include "Rendering/Buffer/Mesh.h"
+#include <Rendering/Culling/EveryCulling/DataType/EntityBlockViewer.h>
 
 namespace dooms
 {
 	namespace graphics
 	{
+		class Material;
 		struct FDistanceToCameraData
 		{
 			std::array<FLOAT32, MAX_CAMERA_COUNT> DistancesToCamera;
@@ -24,20 +26,22 @@ namespace dooms
 		{
 
 		public:
-
-			const graphics::Mesh* TargetMesh;
 			
 			bool bIsRendered = true;
-
 			bool bIsBatched = false;
 
+			const graphics::Mesh* TargetMesh;
+
 			math::Matrix4x4 ModelMatrix;
-
-			FDistanceToCameraData DistanceToCameraData{};
-
+			
 			physics::AABB3D BoundingBox;
 
+			FDistanceToCameraData DistanceToCameraData{};
 			float DesiredMaxDrawDistance;
+
+			graphics::Material* TargetMaterial;
+
+			culling::EntityBlockViewer CullingEntityBlockViewer;
 		};
 	}
 }

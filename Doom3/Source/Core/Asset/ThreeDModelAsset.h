@@ -35,10 +35,8 @@ namespace dooms
 	/// 
 	/// Never edit this struct, Never change placement order of datas
 	/// </summary>
-	class DOOM_API D_CLASS MeshData : public DObject
+	struct DOOM_API MeshData
 	{
-		GENERATE_BODY_FULLNAME_dooms__MeshData()
-
 	public:
 		D_PROPERTY()
 		UINT64 mVerticeCount;
