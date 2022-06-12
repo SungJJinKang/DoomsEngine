@@ -26,7 +26,24 @@ bool dooms::thread::GameThread::IsAllowMultipleThreadOfThisThreadType() const
 	return false;
 }
 
+void dooms::thread::GameThread::SetTickFunction(std::function<bool()> InTickFunction)
+{
+	TickFunction = InTickFunction;
+}
+
 bool dooms::thread::GameThread::IsCreateNewThread()
 {
 	return false;
+}
+
+void dooms::thread::GameThread::Tick_OnRunnableThread()
+{
+	RunnableThread::Tick_OnRunnableThread();
+
+	const bool bIsStillRun = TickFunction();
+
+	if(bIsStillRun == false)
+	{
+		TerminateRunnableThread(false);
+	}
 }

@@ -50,6 +50,8 @@ namespace dooms
 
 			virtual void WakeUpRunnableThread();
 
+			void Run_RunnableThread();
+
 		protected:
 			
 			virtual void OnSetPendingKill() override;
@@ -59,6 +61,8 @@ namespace dooms
 			virtual void OnTerminateRunnableThread_OnRunnableThread();
 			virtual bool IsCreateNewThread();
 			void SetThreadHandle(HANDLE Handle);
+
+			void TerminateRunnableThread(const bool bJoin);
 
 		private:
 
@@ -70,11 +74,6 @@ namespace dooms
 			
 			inline static thread_local RunnableThread* ThreadLocalRunnableThread{ nullptr };
 			inline static thread_local UINT64 ThreadLocalRunnableThreadStackStartAddress{ 0 };
-
-			void Run_RunnableThread();
-			
-			void TerminateRunnableThread(const bool bJoin);
-		
 		};
 
 

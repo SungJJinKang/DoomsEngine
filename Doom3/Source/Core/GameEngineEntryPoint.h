@@ -6,6 +6,7 @@
 #include <DObject/DObjectManager.h>
 #include <OS/ErrorHandling.h>
 #include <Graphics/GraphicsAPI/Manager/GraphicsAPIManager.h>
+#include "ResourceManagement/Thread/RunnableThread/GameThread.h"
 
 //void ExitGame();
 
@@ -27,9 +28,19 @@ namespace dooms
 				gameCore.Init(argc, argv);
 				D_END_PROFILING(Init_Game);
 
-				while (gameCore.Tick())
+				dooms::thread::GameThread::GetSingleton()->SetTickFunction
+				(
+					[&gameCore]()
+					{
+						return gameCore.Tick();
+					}
+				);
+
+				while (dooms::thread::GameThread::GetSingleton()->IsTerminated() == false)
 				{
+					dooms::thread::GameThread::GetSingleton()->Run_RunnableThread();
 				}
+
 				gameCore.CleanUp();
 				//window terminated
 			}
