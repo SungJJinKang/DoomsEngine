@@ -3,9 +3,8 @@
 
 #include <Graphics/Graphics_Core.h>
 #include <Graphics/GraphicsAPI/GraphicsAPI.h>
-
-#include "../Buffer/BufferID.h"
-#include "../Buffer/UniformBufferObject/UniformBufferObjectView.h"
+#include "eUniformLocation.h"
+#include "eTextureBindingPoint.h"
 
 #include <Misc/eStatus.h>
 
@@ -20,25 +19,6 @@ namespace dooms
 	
 	namespace graphics
 	{
-		enum D_ENUM eUniformLocation : UINT32
-		{
-			ModelMatrix = 0
-		};
-		/// <summary>
-		/// Texture binding point
-		/// Bindin != location
-		/// </summary>
-		enum D_ENUM eTextureBindingPoint : UINT32
-		{
-			AlbedoTexture = 0,
-			NormalTexture = 1,
-			MetalnessTexture = 2,
-			RoughnessTexture = 3,
-			SpecularTexture = 4,
-			IrradianceTexture = 5,
-			SpecularBRDF_LUT = 6
-		};
-
 		class UniformBufferObject;
 		class TextureView;
 
@@ -54,34 +34,9 @@ namespace dooms
 			D_PROPERTY()
 			eStatus mMaterialStatus;
 
-			/// <summary>
-			/// Used for OpenGL
-			///	If Current Graphics API is DirectX, this varaible set to random uuid ( this is for overlap check )
-			/// </summary>
-			D_PROPERTY()
-			BufferID mProgramIDForOpenGL;
+			std::array<dooms::asset::ShaderAsset*, GRAPHICS_PIPELINE_STAGE_COUNT> ShaderAsset;
 
-			/// <summary>
-			/// Only used for DirectX
-			/// </summary>
-			D_PROPERTY()
-			std::array<BufferID, GRAPHICS_PIPELINE_STAGE_COUNT> mPipeLineShaderView;
-
-
-			D_PROPERTY()
-			std::array<dooms::asset::ShaderAsset*, GRAPHICS_PIPELINE_STAGE_COUNT> mShaderAsset;
-
-			D_PROPERTY()
-			std::vector<const TextureView*> mTargetTextures;
-
-			D_PROPERTY()
-			std::vector<UniformBufferObjectView> mTargetUniformBufferObjectViews;
-
-
-			bool AttachShaderToMaterial(dooms::asset::ShaderAsset* const shaderAsset, const dooms::graphics::GraphicsAPI::eGraphicsPipeLineStage shaderType);
 			void OnSetPendingKill() override;
-
-			UniformBufferObjectView* AddUniformBufferObjectView(UniformBufferObject* const ubo, const GraphicsAPI::eGraphicsPipeLineStage targetPipeLineStage);
 			
 		public:
 
@@ -123,28 +78,14 @@ namespace dooms
 
 			FORCE_INLINE dooms::asset::ShaderAsset* GetShaderAsset(const dooms::graphics::GraphicsAPI::eGraphicsPipeLineStage shaderType)
 			{
-				return mShaderAsset[shaderType];
+				return ShaderAsset[shaderType];
 			}
 
 			FORCE_INLINE const dooms::asset::ShaderAsset* GetShaderAsset(const dooms::graphics::GraphicsAPI::eGraphicsPipeLineStage shaderType) const
 			{
-				return mShaderAsset[shaderType];
+				return ShaderAsset[shaderType];
 			}
 			
-			FORCE_INLINE UniformBufferObjectView* GetUniformBufferObjectViewFromUBOIndex(const size_t uboIndex)
-			{
-				UniformBufferObjectView* uboView = nullptr;
-				D_ASSERT(uboIndex < mTargetUniformBufferObjectViews.size());
-
-				if(uboIndex < mTargetUniformBufferObjectViews.size())
-				{
-					uboView = mTargetUniformBufferObjectViews.data() + uboIndex;
-				}
-
-				return uboView;
-			}
-			UniformBufferObjectView* GetUniformBufferObjectViewFromUBOName(const char* const uniformBufferObjectName);
-
 			UINT64 GetMaterialHashValue() const;
 			static bool Equal(const Material* const lhs, const Material* const rhs);
 			

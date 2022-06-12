@@ -39,7 +39,7 @@ dooms::asset::shaderReflectionDataParser::eShaderVariableType dooms::asset::shad
 void dooms::asset::shaderReflectionDataParser::ShaderReflectionData::Clear()
 {
 	mIsGenerated = false;
-	mTargetGraphicsAPIType = dooms::graphics::GraphicsAPI::eGraphicsAPIType::GraphicsAPIType_NONE;
+	TargetGraphicsAPIType = dooms::graphics::GraphicsAPI::eGraphicsAPIType::GraphicsAPIType_NONE;
 	mProfileVersion.clear();
 	ShaderReflectionDataFileName.clear();
 	mShaderType = dooms::graphics::GraphicsAPI::eGraphicsPipeLineStage::DUMMY;
@@ -67,11 +67,11 @@ dooms::asset::shaderReflectionDataParser::ShaderReflectionData dooms::asset::sha
 		const std::string shaderLang = static_cast<std::string>(j["language"]);
 		if(shaderLang == "glsl")
 		{
-			shaderReflectionData.mTargetGraphicsAPIType = dooms::graphics::GraphicsAPI::eGraphicsAPIType::OpenGL;
+			shaderReflectionData.TargetGraphicsAPIType = dooms::graphics::GraphicsAPI::eGraphicsAPIType::OpenGL;
 		}
 		else if (shaderLang == "hlsl")
 		{
-			shaderReflectionData.mTargetGraphicsAPIType = dooms::graphics::GraphicsAPI::eGraphicsAPIType::DX11_10;
+			shaderReflectionData.TargetGraphicsAPIType = dooms::graphics::GraphicsAPI::eGraphicsAPIType::DX11_10;
 		}
 		else
 		{

@@ -70,7 +70,7 @@ dooms::graphics::Mesh::Mesh(const ThreeDModelMesh& threeDModelMesh)
 
 dooms::graphics::Mesh::~Mesh()
 {
-	DeleteBuffers();
+	DestroyUniformBufferProxy();
 	
 }
 
@@ -78,11 +78,11 @@ void dooms::graphics::Mesh::OnSetPendingKill()
 {
 	Buffer::OnSetPendingKill();
 
-	DeleteBuffers();
+	DestroyUniformBufferProxy();
 }
 
 
-void dooms::graphics::Mesh::DeleteBuffers()
+void dooms::graphics::Mesh::DestroyUniformBufferProxy()
 {
 	if (mVertexDataBuffer.IsValid())
 	{
@@ -105,7 +105,7 @@ void dooms::graphics::Mesh::DeleteBuffers()
 
 dooms::graphics::Mesh& dooms::graphics::Mesh::operator=(const ThreeDModelMesh& threeDModelMesh)
 {
-	DeleteBuffers();
+	DestroyUniformBufferProxy();
 	
 	CreateBufferObjectFromModelMesh(threeDModelMesh);
 	return *this;

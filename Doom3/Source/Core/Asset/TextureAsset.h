@@ -18,6 +18,7 @@ namespace dooms
 	{
 		class TextureView;
 		class Material;
+		class RenderingTextureProxy;
 	}
 
 	namespace assetImporter
@@ -33,64 +34,7 @@ namespace dooms
 				
 
 			friend class ::dooms::assetImporter::AssetImporterWorker_Texture;
-
-		private:
-
-			D_PROPERTY()
-			dooms::graphics::BufferID mTextureResourceObject{};
-
-			std::unique_ptr<DirectX::ScratchImage> mScratchImage{};
-
-			D_PROPERTY()
-			std::vector<const void*> mTextureData;
-
-			D_PROPERTY()
-			graphics::GraphicsAPI::eTargetTexture mTargetTexture;
-
-			D_PROPERTY()
-			graphics::GraphicsAPI::eTextureBindTarget mTextureBindTarget;
-
-			D_PROPERTY()
-			std::vector<UINT32> mWidth;
-
-			D_PROPERTY()
-			std::vector<UINT32> mHeight;
-
-			D_PROPERTY()
-			std::vector<UINT32> mSrcRowPitch;
-
-			D_PROPERTY()
-			std::vector<UINT32> mSrcDepthPitch;
-
-			D_PROPERTY()
-			INT32 mMipMapLevelCount;
-
-			/// <summary>
-			/// Size in bytes of All Images ( All mipmaps )
-			/// </summary>
-			D_PROPERTY()
-			size_t mEntireImageSize;
-			
-			D_PROPERTY()
-			graphics::GraphicsAPI::eTextureComponentFormat mComponentFormat; // 1 ~ 4 ( rgb, rgba ~~ )
-
-			D_PROPERTY()
-			graphics::GraphicsAPI::eTextureInternalFormat mInternalFormat;
-
-			D_PROPERTY()
-			graphics::GraphicsAPI::eTextureCompressedInternalFormat mCompressedInternalFormat;
-
-			D_PROPERTY()
-			graphics::GraphicsAPI::eDataType mDataType;
-
-			D_PROPERTY()
-			graphics::GraphicsAPI::eBindFlag mBindFlags;
-			
-			void AllocateTextureResourceObject();
-			void DestroyTextureResourceObject();
-
-		protected:
-
+		
 		public:
 
 			TextureAsset();
@@ -121,9 +65,7 @@ namespace dooms
 			void OnEndImportInMainThread_Internal() final;
 
 			virtual dooms::asset::eAssetType GetEAssetType() const final;
-
-			dooms::graphics::BufferID GetTextureResourceObject() const;
-
+			
 			graphics::GraphicsAPI::eTextureComponentFormat GetTextureComponentFormat() const;
 			graphics::GraphicsAPI::eTextureInternalFormat GetTextureInternalFormat() const;
 			graphics::GraphicsAPI::eTextureCompressedInternalFormat GetTextureCompressedInternalFormat() const;
@@ -134,7 +76,7 @@ namespace dooms
 			graphics::GraphicsAPI::eDataType GetTextureDataType() const;
 			FORCE_INLINE graphics::GraphicsAPI::eTextureBindTarget GetTextureBindTarget() const
 			{
-				return mTextureBindTarget;
+				return TextureBindTarget;
 			}
 
 			dooms::graphics::TextureView* GenerateTextureView
@@ -142,8 +84,71 @@ namespace dooms
 				const UINT32 defaultBindingPosition,
 				const graphics::GraphicsAPI::eGraphicsPipeLineStage defaultTargetGraphicsPipeLineStage
 			) const;
-			
+
+			void CreateRenderingTextureProxy();
+			void DestroyRenderingTextureProxy();
+			graphics::RenderingTextureProxy* GetRenderingTextureProxy() const;
+
+		private:
+
+			graphics::RenderingTextureProxy* RenderingTextureProxy{ nullptr };
+
+			D_PROPERTY()
+			dooms::graphics::BufferID TextureResourceObject{};
+
+			std::unique_ptr<DirectX::ScratchImage> ScratchImage{};
+
+			D_PROPERTY()
+			std::vector<const void*> TextureData;
+
+			D_PROPERTY()
+			graphics::GraphicsAPI::eTargetTexture TargetTexture;
+
+			D_PROPERTY()
+			graphics::GraphicsAPI::eTextureBindTarget TextureBindTarget;
+
+			D_PROPERTY()
+			std::vector<UINT32> Width;
+
+			D_PROPERTY()
+			std::vector<UINT32> Height;
+
+			D_PROPERTY()
+			std::vector<UINT32> SrcRowPitch;
+
+			D_PROPERTY()
+			std::vector<UINT32> SrcDepthPitch;
+
+			D_PROPERTY()
+			INT32 MipMapLevelCount;
+
+			/// <summary>
+			/// Size in bytes of All Images ( All mipmaps )
+			/// </summary>
+			D_PROPERTY()
+			size_t EntireImageSize;
+
+			D_PROPERTY()
+			graphics::GraphicsAPI::eTextureComponentFormat ComponentFormat; // 1 ~ 4 ( rgb, rgba ~~ )
+
+			D_PROPERTY()
+			graphics::GraphicsAPI::eTextureInternalFormat InternalFormat;
+
+			D_PROPERTY()
+			graphics::GraphicsAPI::eTextureCompressedInternalFormat CompressedInternalFormat;
+
+			D_PROPERTY()
+			graphics::GraphicsAPI::eDataType DataType;
+
+			D_PROPERTY()
+			graphics::GraphicsAPI::eBindFlag BindFlags;
+
+			void AllocateTextureResourceObject();
+			void DestroyTextureResourceObject();
+
 		};
+
+
 		
 	}
 }

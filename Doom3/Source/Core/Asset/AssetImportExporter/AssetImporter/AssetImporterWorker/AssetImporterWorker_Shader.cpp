@@ -100,7 +100,7 @@ bool dooms::assetImporter::AssetImporterWorker_Shader::ImportShaderAsset
 	{
 		std::array<asset::ShaderTextData, GRAPHICS_PIPELINE_STAGE_COUNT> shaderTextDatas = LoadShaderTextDatas(assetPath);
 
-		isSucess = shaderAsset->SetShaderText(shaderTextDatas, false);
+		isSucess = shaderAsset->SetShaderText(shaderTextDatas);
 
 	}
 	

@@ -6,24 +6,35 @@
 
 #include <Simple_SingleTon/Singleton.h>
 
-#include "RenderingProxyManager.reflection.h"
 namespace dooms
 {
 	namespace graphics
 	{
 		class RenderingPrimitiveProxy;
-		class RenderingLighProxy;
+		class RenderingLightProxy;
+		class RenderingMaterialProxy;
+		class RenderingShaderProxy;
+		class RenderingUniformBufferProxy;
+		class RenderingTextureProxy;
 
-		class DOOM_API D_CLASS RenderingProxyManager : public DObject, public ISingleton<RenderingProxyManager>
+		class RenderingProxyManager : public DObject, public ISingleton<RenderingProxyManager>
 		{
-			GENERATE_BODY()
-			
+
 		public:
 
-		private:
-
 			std::vector<RenderingPrimitiveProxy*> RenderingPrimitiveProxyList{};
-			std::vector<RenderingLighProxy*> RenderingLighProxyList{};
+			std::vector<RenderingLightProxy*> RenderingLightProxyList{};
+			std::vector<RenderingMaterialProxy*> RenderingMaterialProxyList{};
+			std::vector<RenderingShaderProxy*> RenderingShaderProxyList{};
+			std::vector<RenderingUniformBufferProxy*> RenderingUniformBufferProxyList{};
+			std::vector<RenderingTextureProxy*> RenderingTextureProxyList{};
+
+			std::vector<RenderingPrimitiveProxy*> DestroyedRenderingPrimitiveProxyList{};
+			std::vector<RenderingLightProxy*> DestroyedRenderingLightProxyList{};
+			std::vector<RenderingMaterialProxy*> DestroyedRenderingMaterialProxyList{};
+			std::vector<RenderingShaderProxy*> DestroyedRenderingShaderProxyList{};
+			std::vector<RenderingUniformBufferProxy*> DestroyedRenderingUniformBufferProxyList{};
+			std::vector<RenderingTextureProxy*> DestroyedRenderingTextureProxyList{};
 		};
 	}
 }

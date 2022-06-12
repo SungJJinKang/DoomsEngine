@@ -139,7 +139,7 @@ namespace dooms
 			struct D_STRUCT ShaderReflectionData
 			{
 				bool mIsGenerated = false;
-				dooms::graphics::GraphicsAPI::eGraphicsAPIType mTargetGraphicsAPIType;
+				dooms::graphics::GraphicsAPI::eGraphicsAPIType TargetGraphicsAPIType;
 				std::string mProfileVersion;
 				std::string ShaderReflectionDataFileName;
 				dooms::graphics::GraphicsAPI::eGraphicsPipeLineStage mShaderType;

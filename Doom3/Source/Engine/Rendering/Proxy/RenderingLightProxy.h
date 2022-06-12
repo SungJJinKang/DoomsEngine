@@ -8,7 +8,7 @@ namespace dooms
 {
 	namespace graphics
 	{
-		class RenderingLighProxy : public RenderingProxy
+		class RenderingLightProxy : public RenderingProxy
 		{
 
 		public:

@@ -237,7 +237,7 @@ namespace dooms
 			Mesh& operator=(Mesh&&) noexcept = default;
 
 			const ThreeDModelMesh* GetTargetThreeDModelMesh() const;
-			void DeleteBuffers() final;
+			void DestroyUniformBufferProxy() final;
 
 			
 			void CreateBufferObject

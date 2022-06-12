@@ -397,7 +397,7 @@ namespace dooms
 		class Graphics_Server;
 		class FrameBufferView;
 		class FrameBuffer;
-		class RenderingLighProxy;
+		class RenderingLightProxy;
 		class MaskedOcclusionCullingTester;
 		class GraphicsPipeLine;
 		class RendererBatchContainer;
@@ -727,8 +727,8 @@ namespace clcpp
 	template <> unsigned int GetTypeNameHash< dooms::graphics::FrameBuffer >() { return 0x1f19850a; }
 	template <> const Type* GetType< dooms::EventSystem >() { return clcppTypePtrs[22]; }
 	template <> unsigned int GetTypeNameHash< dooms::EventSystem >() { return 0x20436356; }
-	template <> const Type* GetType< dooms::graphics::RenderingLighProxy >() { return clcppTypePtrs[23]; }
-	template <> unsigned int GetTypeNameHash< dooms::graphics::RenderingLighProxy >() { return 0x20a55195; }
+	template <> const Type* GetType< dooms::graphics::RenderingLightProxy >() { return clcppTypePtrs[23]; }
+	template <> unsigned int GetTypeNameHash< dooms::graphics::RenderingLightProxy >() { return 0x20a55195; }
 	template <> const Type* GetType< dooms::graphics::MaskedOcclusionCullingTester >() { return clcppTypePtrs[24]; }
 	template <> unsigned int GetTypeNameHash< dooms::graphics::MaskedOcclusionCullingTester >() { return 0x22848f22; }
 	template <> const Type* GetType< dooms::assetImporter::AssetImporterWorker_Texture >() { return clcppTypePtrs[25]; }

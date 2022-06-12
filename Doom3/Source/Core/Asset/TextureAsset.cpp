@@ -6,7 +6,9 @@
 #include <Rendering/Texture/TextureView.h>
 
 #include <DirectXTex.h>
-
+#include "ResourceManagement/Thread/RunnableThread/RenderThread.h"
+#include "Rendering/Proxy/RenderingProxyManager.h"
+#include "Rendering/Proxy/RenderingTextureProxy.h"
 
 dooms::asset::TextureAsset::TextureAsset() = default;
 
@@ -25,26 +27,26 @@ dooms::asset::TextureAsset::TextureAsset
 	const size_t dataSize
 )
 	:
-	mTargetTexture(targetTexture),
-	mScratchImage(),
-	mWidth(1, width),
-	mHeight(1, height),
-	mMipMapLevelCount(1),
-	mComponentFormat(format),
-	mInternalFormat(internalFormat),
-	mCompressedInternalFormat(compressedInternalFormat),
-	mTextureResourceObject(),
-	mDataType(dataType),
-	mTextureData( 1, data ),
-	mEntireImageSize(dataSize),
-	mBindFlags(resourceBindFlag),
-	mTextureBindTarget(textureBindTarget)
+	TargetTexture(targetTexture),
+	ScratchImage(),
+	Width(1, width),
+	Height(1, height),
+	MipMapLevelCount(1),
+	ComponentFormat(format),
+	InternalFormat(internalFormat),
+	CompressedInternalFormat(compressedInternalFormat),
+	TextureResourceObject(),
+	DataType(dataType),
+	TextureData( 1, data ),
+	EntireImageSize(dataSize),
+	BindFlags(resourceBindFlag),
+	TextureBindTarget(textureBindTarget)
 {
 	AllocateTextureResourceObject();
 }
 
 dooms::asset::TextureAsset::TextureAsset(std::unique_ptr<DirectX::ScratchImage>&& scratchImage, dooms::graphics::GraphicsAPI::eBindFlag resourceBindFlag)
-	: mBindFlags(resourceBindFlag)
+	: BindFlags(resourceBindFlag)
 {
 	SetScratchImage(std::move(scratchImage), resourceBindFlag);
 	AllocateTextureResourceObject();
@@ -52,79 +54,79 @@ dooms::asset::TextureAsset::TextureAsset(std::unique_ptr<DirectX::ScratchImage>&
 
 void dooms::asset::TextureAsset::SetScratchImage(std::unique_ptr<DirectX::ScratchImage>&& scratchImage, const dooms::graphics::GraphicsAPI::eBindFlag resourceBindFlag)
 {
-	mScratchImage = std::move(scratchImage);
-	mMipMapLevelCount = static_cast<INT32>(mScratchImage->GetMetadata().mipLevels);
-	mBindFlags = resourceBindFlag;
-	mDataType = graphics::GraphicsAPI::eDataType::UNSIGNED_BYTE;
+	ScratchImage = std::move(scratchImage);
+	MipMapLevelCount = static_cast<INT32>(ScratchImage->GetMetadata().mipLevels);
+	BindFlags = resourceBindFlag;
+	DataType = graphics::GraphicsAPI::eDataType::UNSIGNED_BYTE;
 
-	switch (mScratchImage->GetMetadata().dimension)
+	switch (ScratchImage->GetMetadata().dimension)
 	{
-	case DirectX::TEX_DIMENSION_TEXTURE1D:
-		mTextureBindTarget = graphics::GraphicsAPI::eTextureBindTarget::TEXTURE_1D;
-		break;
-	case DirectX::TEX_DIMENSION_TEXTURE2D:
-		mTextureBindTarget = graphics::GraphicsAPI::eTextureBindTarget::TEXTURE_2D;
+		case DirectX::TEX_DIMENSION_TEXTURE1D:
+			TextureBindTarget = graphics::GraphicsAPI::eTextureBindTarget::TEXTURE_1D;
+			break;
+		case DirectX::TEX_DIMENSION_TEXTURE2D:
+			TextureBindTarget = graphics::GraphicsAPI::eTextureBindTarget::TEXTURE_2D;
 
-		break;
-	case DirectX::TEX_DIMENSION_TEXTURE3D:
-		mTextureBindTarget = graphics::GraphicsAPI::eTextureBindTarget::TEXTURE_3D;
+			break;
+		case DirectX::TEX_DIMENSION_TEXTURE3D:
+			TextureBindTarget = graphics::GraphicsAPI::eTextureBindTarget::TEXTURE_3D;
 
-		break;
-	default:
-		D_ASSERT(false);
+			break;
+		default:
+			D_ASSERT(false);
 	}
 
-	switch (mScratchImage->GetMetadata().format)
+	switch (ScratchImage->GetMetadata().format)
 	{
-	case DXGI_FORMAT::DXGI_FORMAT_BC4_UNORM:
-		mTargetTexture = graphics::GraphicsAPI::eTargetTexture::TARGET_TEXTURE_TEXTURE_2D;
-		mComponentFormat = graphics::GraphicsAPI::eTextureComponentFormat::TEXTURE_COMPONENT_RED;
-		mInternalFormat = graphics::GraphicsAPI::eTextureInternalFormat::TEXTURE_INTERNAL_FORMAT_NONE;
-		mCompressedInternalFormat = graphics::GraphicsAPI::eTextureCompressedInternalFormat::COMPRESSED_RED_RGTC1_EXT;
-		break;
+		case DXGI_FORMAT::DXGI_FORMAT_BC4_UNORM:
+			TargetTexture = graphics::GraphicsAPI::eTargetTexture::TARGET_TEXTURE_TEXTURE_2D;
+			ComponentFormat = graphics::GraphicsAPI::eTextureComponentFormat::TEXTURE_COMPONENT_RED;
+			InternalFormat = graphics::GraphicsAPI::eTextureInternalFormat::TEXTURE_INTERNAL_FORMAT_NONE;
+			CompressedInternalFormat = graphics::GraphicsAPI::eTextureCompressedInternalFormat::COMPRESSED_RED_RGTC1_EXT;
+			break;
 
-	case DXGI_FORMAT::DXGI_FORMAT_BC5_UNORM:
-		mTargetTexture = graphics::GraphicsAPI::eTargetTexture::TARGET_TEXTURE_TEXTURE_2D;
-		mComponentFormat = graphics::GraphicsAPI::eTextureComponentFormat::TEXTURE_COMPONENT_RG;
-		mInternalFormat = graphics::GraphicsAPI::eTextureInternalFormat::TEXTURE_INTERNAL_FORMAT_NONE;
-		mCompressedInternalFormat = graphics::GraphicsAPI::eTextureCompressedInternalFormat::COMPRESSED_RED_GREEN_RGTC2_EXT;
-		break;
+		case DXGI_FORMAT::DXGI_FORMAT_BC5_UNORM:
+			TargetTexture = graphics::GraphicsAPI::eTargetTexture::TARGET_TEXTURE_TEXTURE_2D;
+			ComponentFormat = graphics::GraphicsAPI::eTextureComponentFormat::TEXTURE_COMPONENT_RG;
+			InternalFormat = graphics::GraphicsAPI::eTextureInternalFormat::TEXTURE_INTERNAL_FORMAT_NONE;
+			CompressedInternalFormat = graphics::GraphicsAPI::eTextureCompressedInternalFormat::COMPRESSED_RED_GREEN_RGTC2_EXT;
+			break;
 
-	case DXGI_FORMAT::DXGI_FORMAT_BC1_UNORM:
-		mTargetTexture = graphics::GraphicsAPI::eTargetTexture::TARGET_TEXTURE_TEXTURE_2D;
-		mComponentFormat = graphics::GraphicsAPI::eTextureComponentFormat::TEXTURE_COMPONENT_RGB;
-		mInternalFormat = graphics::GraphicsAPI::eTextureInternalFormat::TEXTURE_INTERNAL_FORMAT_NONE;
-		mCompressedInternalFormat = graphics::GraphicsAPI::eTextureCompressedInternalFormat::COMPRESSED_RGB_S3TC_DXT1_EXT;
-		break;
+		case DXGI_FORMAT::DXGI_FORMAT_BC1_UNORM:
+			TargetTexture = graphics::GraphicsAPI::eTargetTexture::TARGET_TEXTURE_TEXTURE_2D;
+			ComponentFormat = graphics::GraphicsAPI::eTextureComponentFormat::TEXTURE_COMPONENT_RGB;
+			InternalFormat = graphics::GraphicsAPI::eTextureInternalFormat::TEXTURE_INTERNAL_FORMAT_NONE;
+			CompressedInternalFormat = graphics::GraphicsAPI::eTextureCompressedInternalFormat::COMPRESSED_RGB_S3TC_DXT1_EXT;
+			break;
 
-	case DXGI_FORMAT::DXGI_FORMAT_BC3_UNORM:
-		mTargetTexture = graphics::GraphicsAPI::eTargetTexture::TARGET_TEXTURE_TEXTURE_2D;
-		mComponentFormat = graphics::GraphicsAPI::eTextureComponentFormat::TEXTURE_COMPONENT_RGBA;
-		mInternalFormat = graphics::GraphicsAPI::eTextureInternalFormat::TEXTURE_INTERNAL_FORMAT_NONE;
-		mCompressedInternalFormat = graphics::GraphicsAPI::eTextureCompressedInternalFormat::COMPRESSED_RGBA_S3TC_DXT5_EXT;
-		break;
+		case DXGI_FORMAT::DXGI_FORMAT_BC3_UNORM:
+			TargetTexture = graphics::GraphicsAPI::eTargetTexture::TARGET_TEXTURE_TEXTURE_2D;
+			ComponentFormat = graphics::GraphicsAPI::eTextureComponentFormat::TEXTURE_COMPONENT_RGBA;
+			InternalFormat = graphics::GraphicsAPI::eTextureInternalFormat::TEXTURE_INTERNAL_FORMAT_NONE;
+			CompressedInternalFormat = graphics::GraphicsAPI::eTextureCompressedInternalFormat::COMPRESSED_RGBA_S3TC_DXT5_EXT;
+			break;
 
 
-	default:
-		D_DEBUG_LOG(eLogType::D_ERROR, "Worng Texture Format, We Only Support Compressed Type");
-		NEVER_HAPPEN;
+		default:
+			D_DEBUG_LOG(eLogType::D_ERROR, "Worng Texture Format, We Only Support Compressed Type");
+			NEVER_HAPPEN;
 	}
 
-	mTextureData.reserve(mScratchImage->GetImageCount());
-	mWidth.reserve(mScratchImage->GetImageCount());
-	mHeight.reserve(mScratchImage->GetImageCount());
-	mSrcRowPitch.reserve(mScratchImage->GetImageCount());
-	mSrcDepthPitch.reserve(mScratchImage->GetImageCount());
+	TextureData.reserve(ScratchImage->GetImageCount());
+	Width.reserve(ScratchImage->GetImageCount());
+	Height.reserve(ScratchImage->GetImageCount());
+	SrcRowPitch.reserve(ScratchImage->GetImageCount());
+	SrcDepthPitch.reserve(ScratchImage->GetImageCount());
 	
-	for(size_t imgIndex = 0 ; imgIndex < mScratchImage->GetImageCount() ; imgIndex++)
+	for(size_t imgIndex = 0 ; imgIndex < ScratchImage->GetImageCount() ; imgIndex++)
 	{
-		const DirectX::Image* const img = mScratchImage->GetImage(imgIndex, 0, 0);
+		const DirectX::Image* const img = ScratchImage->GetImage(imgIndex, 0, 0);
 
-		mTextureData.push_back(img->pixels);
-		mWidth.push_back(static_cast<INT32>(img->width));
-		mHeight.push_back(static_cast<INT32>(img->height));
-		mSrcRowPitch.push_back(img->rowPitch);
-		mSrcDepthPitch.push_back(img->slicePitch);
+		TextureData.push_back(img->pixels);
+		Width.push_back(static_cast<INT32>(img->width));
+		Height.push_back(static_cast<INT32>(img->height));
+		SrcRowPitch.push_back(img->rowPitch);
+		SrcDepthPitch.push_back(img->slicePitch);
 	}
 
 	//delete scratchImage;
@@ -135,69 +137,28 @@ dooms::asset::TextureAsset& dooms::asset::TextureAsset::operator=(TextureAsset&&
 
 dooms::asset::TextureAsset::~TextureAsset()
 {
-	DestroyTextureResourceObject();
+	if(GetRenderingTextureProxy() != nullptr)
+	{
+		DestroyRenderingTextureProxy();
+	}
 }
 
 void dooms::asset::TextureAsset::OnSetPendingKill()
 {
 	Asset::OnSetPendingKill();
 
-	DestroyTextureResourceObject();
+	if (GetRenderingTextureProxy() != nullptr)
+	{
+		DestroyRenderingTextureProxy();
+	}
 }
 
 void dooms::asset::TextureAsset::OnEndImportInMainThread_Internal()
 {
 	D_START_PROFILING(Postprocess_Texture, eProfileLayers::Rendering);
+	CreateRenderingTextureProxy();
 	AllocateTextureResourceObject();
 	D_END_PROFILING(Postprocess_Texture);
-}
-
-void dooms::asset::TextureAsset::AllocateTextureResourceObject()
-{
-	D_ASSERT(mMipMapLevelCount > 0);
-	D_ASSERT(mWidth.size() > 0);
-	D_ASSERT(mHeight.size() > 0);
-	D_ASSERT(mTextureData.size() == GetMipMapLevel());
-	D_ASSERT(mInternalFormat == graphics::GraphicsAPI::eTextureInternalFormat::TEXTURE_INTERNAL_FORMAT_NONE || mCompressedInternalFormat == graphics::GraphicsAPI::eTextureCompressedInternalFormat::TEXTURE_COMPRESSED_INTERNAL_FORMAT_NONE);
-
-	mTextureResourceObject = graphics::GraphicsAPI::Allocate2DTextureObject(dooms::graphics::GraphicsAPI::eTextureBindTarget::TEXTURE_2D, mMipMapLevelCount, mInternalFormat, mCompressedInternalFormat, mWidth[0], mHeight[0], mBindFlags);
-
-	for (UINT32 mipLevelIndex = 0; mipLevelIndex < mTextureData.size(); mipLevelIndex++)
-	{
-		if(mTextureData[mipLevelIndex] != 0)
-		{
-			D_ASSERT(mSrcRowPitch.size() > 0);
-			D_ASSERT(mSrcDepthPitch.size() > 0);
-
-			graphics::GraphicsAPI::UploadPixelsTo2DTexture
-			(
-				mTextureResourceObject,
-				dooms::graphics::GraphicsAPI::eTextureBindTarget::TEXTURE_2D,
-				mTargetTexture,
-				mipLevelIndex,
-				0,
-				0,
-				mWidth[mipLevelIndex],
-				mHeight[mipLevelIndex],
-				mComponentFormat,
-				mDataType,
-				mInternalFormat,
-				mCompressedInternalFormat,
-				mTextureData[mipLevelIndex],
-				mSrcRowPitch[mipLevelIndex],
-				mSrcDepthPitch[mipLevelIndex]
-			);
-		}		
-	}
-}
-
-void dooms::asset::TextureAsset::DestroyTextureResourceObject()
-{
-	if(mTextureResourceObject.IsValid())
-	{
-		graphics::GraphicsAPI::DestroyTextureObject(mTextureResourceObject);
-		mTextureResourceObject.Reset();
-	}
 }
 
 dooms::asset::eAssetType dooms::asset::TextureAsset::GetEAssetType() const
@@ -205,46 +166,41 @@ dooms::asset::eAssetType dooms::asset::TextureAsset::GetEAssetType() const
 	return dooms::asset::eAssetType::TEXTURE;
 }
 
-dooms::graphics::BufferID dooms::asset::TextureAsset::GetTextureResourceObject() const
-{
-	return mTextureResourceObject;
-}
-
 dooms::graphics::GraphicsAPI::eTextureComponentFormat dooms::asset::TextureAsset::GetTextureComponentFormat() const
 {
-	return mComponentFormat;
+	return ComponentFormat;
 }
 
 dooms::graphics::GraphicsAPI::eTextureInternalFormat dooms::asset::TextureAsset::GetTextureInternalFormat() const
 {
-	return mInternalFormat;
+	return InternalFormat;
 }
 
 dooms::graphics::GraphicsAPI::eTextureCompressedInternalFormat dooms::asset::TextureAsset::GetTextureCompressedInternalFormat() const
 {
-	return mCompressedInternalFormat;
+	return CompressedInternalFormat;
 }
 
 UINT32 dooms::asset::TextureAsset::GetTextureWidth(const size_t mipLevelIndex) const
 {
-	D_ASSERT(mipLevelIndex < mWidth.size());
-	return mWidth[mipLevelIndex];
+	D_ASSERT(mipLevelIndex < Width.size());
+	return Width[mipLevelIndex];
 }
 
 UINT32 dooms::asset::TextureAsset::GetTextureHeight(const size_t mipLevelIndex) const
 {
-	D_ASSERT(mipLevelIndex < mHeight.size());
-	return mHeight[mipLevelIndex];
+	D_ASSERT(mipLevelIndex < Height.size());
+	return Height[mipLevelIndex];
 }
 
 UINT32 dooms::asset::TextureAsset::GetMipMapLevel() const
 {
-	return mMipMapLevelCount;
+	return MipMapLevelCount;
 }
 
 UINT64 dooms::asset::TextureAsset::GetEntireImageSize() const
 {
-	return mEntireImageSize;
+	return EntireImageSize;
 }
 
 dooms::graphics::GraphicsAPI::eDataType dooms::asset::TextureAsset::GetTextureDataType() const
@@ -259,5 +215,84 @@ dooms::graphics::TextureView* dooms::asset::TextureAsset::GenerateTextureView
 ) const
 {
 	return dooms::CreateDObject<dooms::graphics::TextureView>(this, defaultBindingPosition, defaultTargetGraphicsPipeLineStage);
+}
+
+void dooms::asset::TextureAsset::CreateRenderingTextureProxy()
+{
+	D_ASSERT(RenderingTextureProxy == nullptr);
+
+	RenderingTextureProxy = new dooms::graphics::RenderingTextureProxy();
+
+	graphics::RenderingTextureProxy::FRenderingTextureProxyInitializer Initializer;
+	Initializer.ScratchImage = std::move(ScratchImage);
+	Initializer.TextureData = std::move(TextureData);
+	Initializer.TargetTexture = TargetTexture;
+	Initializer.TextureBindTarget = TextureBindTarget;
+	Initializer.Width = Width;
+	Initializer.Height = Height;
+	Initializer.SrcRowPitch = SrcRowPitch;
+	Initializer.SrcDepthPitch = SrcDepthPitch;
+	Initializer.MipMapLevelCount = MipMapLevelCount;
+	Initializer.ComponentFormat = ComponentFormat;
+	Initializer.InternalFormat = InternalFormat;
+	Initializer.CompressedInternalFormat = CompressedInternalFormat;
+	Initializer.DataType = DataType;
+	Initializer.BindFlags = BindFlags;
+
+	RenderingTextureProxy->InitRenderingTextureProxy(Initializer);
+
+	dooms::thread::RenderThread::GetSingleton()->EnqueueRenderCommand
+	(
+		[Proxy = RenderingTextureProxy]()
+		{
+			dooms::graphics::RenderingProxyManager::GetSingleton()->RenderingTextureProxyList.push_back(Proxy);
+		}
+	);
+}
+
+void dooms::asset::TextureAsset::DestroyRenderingTextureProxy()
+{
+	D_ASSERT(RenderingTextureProxy != nullptr);
+
+	graphics::RenderingTextureProxy* const Proxy = RenderingTextureProxy;
+	RenderingTextureProxy = nullptr;
+	dooms::thread::RenderThread::GetSingleton()->EnqueueRenderCommand
+	(
+		[Proxy]()
+		{
+			dooms::graphics::RenderingProxyManager::GetSingleton()->DestroyedRenderingTextureProxyList.push_back(Proxy);
+		}
+	);
+}
+
+dooms::graphics::RenderingTextureProxy* dooms::asset::TextureAsset::GetRenderingTextureProxy() const
+{
+	return RenderingTextureProxy;
+}
+
+void dooms::asset::TextureAsset::AllocateTextureResourceObject()
+{
+	D_ASSERT(RenderingTextureProxy != nullptr);
+	
+	dooms::thread::RenderThread::GetSingleton()->EnqueueRenderCommand
+	(
+		[Proxy = RenderingTextureProxy]()
+		{
+			Proxy->AllocateTextureResourceObject();
+		}
+	);
+}
+
+void dooms::asset::TextureAsset::DestroyTextureResourceObject()
+{
+	D_ASSERT(RenderingTextureProxy != nullptr);
+
+	dooms::thread::RenderThread::GetSingleton()->EnqueueRenderCommand
+	(
+		[Proxy = RenderingTextureProxy]()
+		{
+			Proxy->DestroyTextureResourceObject();
+		}
+	);
 }
 
