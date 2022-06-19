@@ -83,9 +83,9 @@ namespace dooms
 			void UpdateLocalBufferToGPU() noexcept;
 			void UpdateDataToGPU(const void* sourceData, const UINT64 offsetInUniformBlock, const UINT64 sizeOfSourceData) noexcept;
 			void UpdateDataToGPU(const void* sourceData, const char* const targetVariableName, const UINT64 sizeOfSourceData) noexcept;
-
-			bool IsBufferGenerated() const final;
+			
 			RenderingUniformBufferProxy* GetUniformBufferProxy() const;
+			bool IsUniformBufferProxyCreated() const;
 			
 		private:
 

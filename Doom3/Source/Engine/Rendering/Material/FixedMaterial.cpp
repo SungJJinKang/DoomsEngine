@@ -1,40 +1,28 @@
 #include "FixedMaterial.h"
 
 #include "Material.h"
+#include <Rendering/Proxy/RenderingFixedMaterialProxy.h>
+#include "ResourceManagement/Thread/RunnableThread/RenderThread.h"
 
-dooms::graphics::FixedMaterial::FixedMaterial()
-	: mFixedMaterial(nullptr)
+
+void dooms::graphics::FixedMaterial::SetFixedMaterial(Material* const InFixedMaterial)
 {
-}
-
-bool dooms::graphics::FixedMaterial::GetIsFixedMaterialExist()
-{
-	return FixedMaterial::mFixedMaterial != nullptr;
-}
-
-const dooms::graphics::Material* dooms::graphics::FixedMaterial::GetFixedMaterial()
-{
-	return mFixedMaterial;
-}
-
-void dooms::graphics::FixedMaterial::SetFixedMaterial(Material* const fixedMaterial)
-{
-	ClearFixedMaterial();
-
-	if(IsValid(fixedMaterial))
-	{
-		fixedMaterial->BindMaterial();
-	}
-	
-	mFixedMaterial = fixedMaterial;
+	dooms::thread::RenderThread::GetSingleton()->EnqueueRenderCommand
+	(
+		[MaterialProxy = InFixedMaterial->GetRenderingMaterialProxy()]()
+		{
+			RenderingFixedMaterialProxy::SetFixedMaterial(MaterialProxy);
+		}
+	);
 }
 
 void dooms::graphics::FixedMaterial::ClearFixedMaterial()
 {
-	if(IsValid(mFixedMaterial))
-	{
-		mFixedMaterial->UnBindMaterial();
-	}
-
-	mFixedMaterial = nullptr;
+	dooms::thread::RenderThread::GetSingleton()->EnqueueRenderCommand
+	(
+		[]()
+		{
+			RenderingFixedMaterialProxy::ClearFixedMaterialProxy();
+		}
+	);
 }

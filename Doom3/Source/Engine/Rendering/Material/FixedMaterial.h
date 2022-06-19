@@ -9,21 +9,13 @@ namespace dooms
 	{
 		class Material;
 
-		class DOOM_API D_CLASS FixedMaterial : public ISingleton<FixedMaterial>
+		class FixedMaterial
 		{
 
-		private:
-
-			Material* mFixedMaterial;
-
 		public:
-
-			FixedMaterial();
-
-			bool GetIsFixedMaterialExist();
-			const Material* GetFixedMaterial();
-			void SetFixedMaterial(Material* const fixedMaterial);
-			void ClearFixedMaterial();
+			
+			static void SetFixedMaterial(Material* const InFixedMaterial);
+			static void ClearFixedMaterial();
 
 		};
 	}

@@ -411,7 +411,7 @@ namespace dooms
 		class UniformBufferObjectManager;
 		class DefaultGraphcisPipeLine;
 		class RenderingDebugger;
-		class UniformBufferObjectView;
+		class RenderingUniformBufferObjectViewProxy;
 		class DeferredRenderingPipeLine;
 		class PicktureInPickture;
 		class Buffer;
@@ -435,7 +435,7 @@ namespace dooms
 		class DeferredRenderingDrawer;
 		class RenderingCullingManager;
 		class RenderingPrimitiveProxy;
-		class TextureView;
+		class RenderingTextureViewProxy;
 		class UniformBufferObject;
 		enum class eProjectionType;
 		enum class eColor;
@@ -949,8 +949,8 @@ namespace clcpp
 	template <> unsigned int GetTypeNameHash< ::ImFontGlyph >() { return 0x7b973c21; }
 	template <> const Type* GetType< dooms::physics::CapsuleCollider >() { return clcppTypePtrs[133]; }
 	template <> unsigned int GetTypeNameHash< dooms::physics::CapsuleCollider >() { return 0x7d3cc62f; }
-	template <> const Type* GetType< dooms::graphics::UniformBufferObjectView >() { return clcppTypePtrs[134]; }
-	template <> unsigned int GetTypeNameHash< dooms::graphics::UniformBufferObjectView >() { return 0x7d9521dc; }
+	template <> const Type* GetType< dooms::graphics::RenderingUniformBufferObjectViewProxy >() { return clcppTypePtrs[134]; }
+	template <> unsigned int GetTypeNameHash< dooms::graphics::RenderingUniformBufferObjectViewProxy >() { return 0x7d9521dc; }
 	template <> const Type* GetType< dooms::DeferredRenderingDebuggerController >() { return clcppTypePtrs[135]; }
 	template <> unsigned int GetTypeNameHash< dooms::DeferredRenderingDebuggerController >() { return 0x8058dd86; }
 	template <> const Type* GetType< dooms::graphics::DeferredRenderingPipeLine >() { return clcppTypePtrs[136]; }
@@ -1215,8 +1215,8 @@ namespace clcpp
 	template <> unsigned int GetTypeNameHash< dooms::AssetMetaData >() { return 0xef6b1e4c; }
 	template <> const Type* GetType< ::ImDrawVert >() { return clcppTypePtrs[266]; }
 	template <> unsigned int GetTypeNameHash< ::ImDrawVert >() { return 0xf0366608; }
-	template <> const Type* GetType< dooms::graphics::TextureView >() { return clcppTypePtrs[267]; }
-	template <> unsigned int GetTypeNameHash< dooms::graphics::TextureView >() { return 0xf2c2d50d; }
+	template <> const Type* GetType< dooms::graphics::RenderingTextureViewProxy >() { return clcppTypePtrs[267]; }
+	template <> unsigned int GetTypeNameHash< dooms::graphics::RenderingTextureViewProxy >() { return 0xf2c2d50d; }
 	template <> const Type* GetType< dooms::asset::ShaderAsset >() { return clcppTypePtrs[268]; }
 	template <> unsigned int GetTypeNameHash< dooms::asset::ShaderAsset >() { return 0xf3893669; }
 	template <> const Type* GetType< clcpp::Class >() { return clcppTypePtrs[269]; }

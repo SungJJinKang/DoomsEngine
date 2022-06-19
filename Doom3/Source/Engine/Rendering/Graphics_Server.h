@@ -11,7 +11,6 @@
 #include "Misc/AccelerationContainer/BVH/BVH.h"
 #include <Rendering/Pipeline/GraphicsPipeLine.h>
 #include <Rendering/Batch/BatchRenderingManager.h>
-#include <Rendering/Material/FixedMaterial.h>
 #include "Proxy/RenderingProxyManager.h"
 
 namespace culling
@@ -55,9 +54,6 @@ namespace dooms
 			void PostRenders();
 			
 		public:
-
-			D_PROPERTY()
-			FixedMaterial mFixedMaterial;
 
 			D_PROPERTY()
 			BVHAABB3D mRendererColliderBVH;

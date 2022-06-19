@@ -13,7 +13,7 @@ namespace dooms
 {
 	namespace graphics
 	{
-		class TextureView;
+		class RenderingTextureViewProxy;
 
 		class RenderingTextureProxy : public RenderingProxy
 		{
@@ -63,11 +63,16 @@ namespace dooms
 				return TextureBindTarget;
 			}
 
-			dooms::graphics::TextureView* GenerateTextureView
+			dooms::graphics::RenderingTextureViewProxy* GenerateTextureView
 			(
-				const UINT32 defaultBindingPosition,
-				const graphics::GraphicsAPI::eGraphicsPipeLineStage defaultTargetGraphicsPipeLineStage
+				const UINT32 DefaultBindingPosition,
+				const graphics::GraphicsAPI::eGraphicsPipeLineStage DefaultTargetGraphicsPipeLineStage
 			) const;
+
+			FORCE_INLINE dooms::graphics::BufferID GetTextureResourceObject() const
+			{
+				return TextureResourceObject;
+			}
 
 		private:
 			

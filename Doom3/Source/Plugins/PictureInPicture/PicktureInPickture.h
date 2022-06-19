@@ -25,7 +25,7 @@ namespace dooms
 			D_PROPERTY()
 			Mesh* mPlaneMesh = nullptr;
 			D_PROPERTY()
-			TextureView* mDrawedTexture = nullptr;
+			RenderingTextureViewProxy* mDrawedTexture = nullptr;
 
 			void InitializeDefaultPIPMaterial();
 
@@ -34,7 +34,7 @@ namespace dooms
 			bool bmIsDrawOnScreen;
 
 			PicktureInPickture();
-			PicktureInPickture(const math::Vector2& leftBottomNDCPoint, const math::Vector2& rightTopNDCPoint, TextureView* const _drawedTexture);
+			PicktureInPickture(const math::Vector2& leftBottomNDCPoint, const math::Vector2& rightTopNDCPoint, RenderingTextureViewProxy* const _drawedTexture);
 			PicktureInPickture(const math::Vector2& leftBottomNDCPoint, const math::Vector2& rightTopNDCPoint, Material* const _pipMaterial);
 			//PicktureInPickture& operator=(const math::Vector2& leftBottomNDCPoint, const math::Vector2& rightTopNDCPoint, SingleTexture* const _drawedTexture);
 			//PicktureInPickture& operator=(const math::Vector2& leftBottomNDCPoint, const math::Vector2& rightTopNDCPoint, SingleTexture* const _drawedTexture, Material* const _pipMaterial);
@@ -43,7 +43,7 @@ namespace dooms
 
 			~PicktureInPickture();
 
-			void SetTexture(TextureView* const texture);
+			void SetTexture(RenderingTextureViewProxy* const texture);
 			void SetMaterial(Material* const _pipMaterial);
 
 			void DrawPictureInPicture();

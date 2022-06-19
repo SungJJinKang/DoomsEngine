@@ -34,7 +34,7 @@ namespace dooms
 		
 		private:
 
-			graphics::RenderingShaderProxy* RenderingShaderProxy;
+			graphics::RenderingShaderProxy* ShaderProxy = nullptr;
 			
 			std::array<FShaderTextData, GRAPHICS_PIPELINE_STAGE_COUNT> ShaderTextDatas;
 			
@@ -48,6 +48,7 @@ namespace dooms
 			/// Don't call this subthread, Should Call this at mainthread
 			/// </summary>
 			void CreateRenderingShaderProxy();
+			void CreateRenderingShaderProxyIfNotCreated();
 			void DestroyRenderingShaderProxy();
 			void GenerateUniformBufferObjectFromShaderReflectionData();
 
@@ -62,6 +63,8 @@ namespace dooms
 
 			virtual void OnSetPendingKill() override;
 
+			graphics::RenderingShaderProxy* GetRenderingShaderProxy() const;
+
 			const std::vector<dooms::graphics::UniformBufferObject*>& GetContainedUniformBufferObject() const;
 			
 			bool SetShaderText(const std::array<FShaderTextData, GRAPHICS_PIPELINE_STAGE_COUNT>& InShaderTextDatas);
@@ -75,7 +78,7 @@ namespace dooms
 			void OnEndImportInMainThread_Internal() final;
 			
 			graphics::Material* CreateMatrialWithThisShaderAsset();
-			bool IsHasRenderingShaderProxy() const;
+			bool IsRenderingShaderProxyCreated() const;
 
 			virtual dooms::asset::eAssetType GetEAssetType() const final;
 

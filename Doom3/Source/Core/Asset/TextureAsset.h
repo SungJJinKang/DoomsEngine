@@ -16,7 +16,7 @@ namespace dooms
 {
 	namespace graphics
 	{
-		class TextureView;
+		class RenderingTextureViewProxy;
 		class Material;
 		class RenderingTextureProxy;
 	}
@@ -79,19 +79,18 @@ namespace dooms
 				return TextureBindTarget;
 			}
 
-			dooms::graphics::TextureView* GenerateTextureView
+			dooms::graphics::RenderingTextureViewProxy* GenerateTextureView
 			(
 				const UINT32 defaultBindingPosition,
 				const graphics::GraphicsAPI::eGraphicsPipeLineStage defaultTargetGraphicsPipeLineStage
 			) const;
 
-			void CreateRenderingTextureProxy();
-			void DestroyRenderingTextureProxy();
 			graphics::RenderingTextureProxy* GetRenderingTextureProxy() const;
+			bool IsRenderingTextureProxyCreated() const;
 
 		private:
 
-			graphics::RenderingTextureProxy* RenderingTextureProxy{ nullptr };
+			graphics::RenderingTextureProxy* TextureProxy{ nullptr };
 
 			D_PROPERTY()
 			dooms::graphics::BufferID TextureResourceObject{};
@@ -142,6 +141,10 @@ namespace dooms
 
 			D_PROPERTY()
 			graphics::GraphicsAPI::eBindFlag BindFlags;
+
+			void CreateRenderingTextureProxy();
+			void CreateRenderingTextureProxyIfNotCreated();
+			void DestroyRenderingTextureProxy();
 
 			void AllocateTextureResourceObject();
 			void DestroyTextureResourceObject();

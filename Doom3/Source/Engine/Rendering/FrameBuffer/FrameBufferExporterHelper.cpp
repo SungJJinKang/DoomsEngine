@@ -53,7 +53,7 @@ void dooms::graphics::FrameBufferExporterHelper::ExportMainFrameBufferDepth
 		IsValid(dooms::Camera::GetMainCamera()->GetGraphicsPipeLineCamera()->GetCameraFrameBuffer()) 
 	)
 	{
-		dooms::graphics::TextureView* depthTexture =
+		dooms::graphics::RenderingTextureViewProxy* depthTexture =
 			dooms::Camera::GetMainCamera()->GetGraphicsPipeLineCamera()->GetCameraFrameBuffer()->GetDepthTextureView(0, GraphicsAPI::PIXEL_SHADER);
 		dooms::assetExporter::assetExporterTexture::ExportTextureFromTexture
 		(
@@ -83,7 +83,7 @@ void dooms::graphics::FrameBufferExporterHelper::ExportMainFrameBufferDepthAsDDS
 		IsValid(dooms::Camera::GetMainCamera()->GetGraphicsPipeLineCamera()->GetCameraFrameBuffer())
 	)
 	{
-		dooms::graphics::TextureView* depthTexture =
+		dooms::graphics::RenderingTextureViewProxy* depthTexture =
 			dooms::Camera::GetMainCamera()->GetGraphicsPipeLineCamera()->GetCameraFrameBuffer()->GetDepthTextureView(0, GraphicsAPI::PIXEL_SHADER);
 		dooms::assetExporter::assetExporterTexture::ExportTextureFromTextureAsDDS
 		(

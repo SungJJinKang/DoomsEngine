@@ -1,5 +1,7 @@
 #include "RenderingTextureProxy.h"
 
+#include <Rendering/Proxy/RenderingTextureViewProxy.h>
+
 dooms::graphics::RenderingTextureProxy::~RenderingTextureProxy()
 {
 	DestroyTextureResourceObject();
@@ -115,12 +117,12 @@ dooms::graphics::GraphicsAPI::eDataType dooms::graphics::RenderingTextureProxy::
 	return dooms::graphics::GraphicsAPI::eDataType::UNSIGNED_BYTE;
 }
 
-dooms::graphics::TextureView* dooms::graphics::RenderingTextureProxy::GenerateTextureView
+dooms::graphics::RenderingTextureViewProxy* dooms::graphics::RenderingTextureProxy::GenerateTextureView
 (
-	const UINT32 defaultBindingPosition,
-	const graphics::GraphicsAPI::eGraphicsPipeLineStage defaultTargetGraphicsPipeLineStage
+	const UINT32 DefaultBindingPosition,
+	const graphics::GraphicsAPI::eGraphicsPipeLineStage DefaultTargetGraphicsPipeLineStage
 ) const
 {
-	return dooms::CreateDObject<dooms::graphics::TextureView>(this, defaultBindingPosition, defaultTargetGraphicsPipeLineStage);
+	return new dooms::graphics::RenderingTextureViewProxy(this, DefaultBindingPosition, DefaultTargetGraphicsPipeLineStage);
 }
 

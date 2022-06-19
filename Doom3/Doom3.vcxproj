@@ -485,6 +485,7 @@ xcopy /y /d /E /H /C /I "$(ProjectDir)Assets" "$(TargetDir)Assets"</Command>
     <ClCompile Include="Source\Engine\ConfigurationValue\ConfigurationValue.cpp" />
     <ClCompile Include="Source\Engine\Misk\LatentActionManager.cpp" />
     <ClCompile Include="Source\Engine\Rendering\Proxy\RenderingCameraProxy.cpp" />
+    <ClCompile Include="Source\Engine\Rendering\Proxy\RenderingFixedMaterialProxy.cpp" />
     <ClCompile Include="Source\Engine\Rendering\Proxy\RenderingLighProxy.cpp" />
     <ClCompile Include="Source\Engine\Rendering\Proxy\RenderingLightProxy.cpp" />
     <ClCompile Include="Source\Engine\Rendering\Proxy\RenderingMaterialProxy.cpp" />
@@ -545,7 +546,7 @@ xcopy /y /d /E /H /C /I "$(ProjectDir)Assets" "$(TargetDir)Assets"</Command>
     <ClCompile Include="Source\Core\Asset\Utility\ShaderAsset\shaderConverter.cpp" />
     <ClCompile Include="Source\Core\Asset\Utility\ShaderAsset\shaderReflectionDataParser.cpp" />
     <ClCompile Include="Source\Engine\EngineGUI\GUIModules\Modules\DrawCallCounterGUI.cpp" />
-    <ClCompile Include="Source\Engine\Rendering\Buffer\UniformBufferObject\UniformBufferObjectView.cpp" />
+    <ClCompile Include="Source\Engine\Rendering\Proxy\RenderingUniformBufferObjectViewProxy.cpp" />
     <ClCompile Include="Source\Engine\Rendering\RenderingDebugger\DebugPrimitive\DebugPrimitive2DLineContainer.cpp" />
     <ClCompile Include="Source\Engine\EngineGUI\GUIModules\Modules\MaskedOcclusionCulliingDebugger.cpp" />
     <ClCompile Include="Source\Engine\Rendering\RenderingDebugger\DebugPrimitive\DebugPrimitive2DPointContainer.cpp" />
@@ -713,7 +714,7 @@ xcopy /y /d /E /H /C /I "$(ProjectDir)Assets" "$(TargetDir)Assets"</Command>
     <ClCompile Include="Source\Engine\Rendering\FrameBuffer\FrameBuffer.cpp" />
     <ClCompile Include="Source\Engine\Rendering\Material\Material.cpp" />
     <ClCompile Include="Source\Core\Asset\ShaderAsset.cpp" />
-    <ClCompile Include="Source\Engine\Rendering\Texture\TextureView.cpp" />
+    <ClCompile Include="Source\Engine\Rendering\Proxy\RenderingTextureViewProxy.cpp" />
     <ClCompile Include="Source\Engine\Rendering\Buffer\UniformBufferObject\UniformBufferObject.cpp" />
     <ClCompile Include="Source\Core\Asset\AssetImportExporter\AssetImporter\assetImporter.cpp" />
     <ClCompile Include="Source\Core\IO\UserInput_Server.cpp" />
@@ -810,6 +811,7 @@ xcopy /y /d /E /H /C /I "$(ProjectDir)Assets" "$(TargetDir)Assets"</Command>
     <ClInclude Include="Source\Engine\Rendering\Material\eTextureBindingPoint.h" />
     <ClInclude Include="Source\Engine\Rendering\Material\eUniformLocation.h" />
     <ClInclude Include="Source\Engine\Rendering\Proxy\RenderingCameraProxy.h" />
+    <ClInclude Include="Source\Engine\Rendering\Proxy\RenderingFixedMaterialProxy.h" />
     <ClInclude Include="Source\Engine\Rendering\Proxy\RenderingLighProxy.h" />
     <ClInclude Include="Source\Engine\Rendering\Proxy\RenderingLightProxy.h" />
     <ClInclude Include="Source\Engine\Rendering\Proxy\RenderingMaterialProxy.h" />
@@ -889,7 +891,7 @@ xcopy /y /d /E /H /C /I "$(ProjectDir)Assets" "$(TargetDir)Assets"</Command>
     <ClInclude Include="Source\Core\Asset\Utility\ShaderAsset\shaderReflectionDataParser.h" />
     <ClInclude Include="Source\Engine\EngineGUI\GUIModules\Modules\DrawCallCounterGUI.h" />
     <ClInclude Include="Source\Core\Misc\eStatus.h" />
-    <ClInclude Include="Source\Engine\Rendering\Buffer\UniformBufferObject\UniformBufferObjectView.h" />
+    <ClInclude Include="Source\Engine\Rendering\Proxy\RenderingUniformBufferObjectViewProxy.h" />
     <ClInclude Include="Source\Engine\Rendering\RenderingDebugger\DebugPrimitive\DebugPrimitive2DLineContainer.h" />
     <ClInclude Include="Source\Engine\EngineGUI\GUIModules\Modules\MaskedOcclusionCulliingDebugger.h" />
     <ClInclude Include="Source\Engine\Rendering\RenderingDebugger\DebugPrimitive\DebugPrimitive2DPointContainer.h" />
@@ -1193,7 +1195,7 @@ xcopy /y /d /E /H /C /I "$(ProjectDir)Assets" "$(TargetDir)Assets"</Command>
     <ClInclude Include="Source\Engine\Rendering\Buffer\Buffer.h" />
     <ClInclude Include="Source\Engine\Rendering\Material\Material.h" />
     <ClInclude Include="Source\Core\Asset\ShaderAsset.h" />
-    <ClInclude Include="Source\Engine\Rendering\Texture\TextureView.h" />
+    <ClInclude Include="Source\Engine\Rendering\Proxy\RenderingTextureViewProxy.h" />
     <ClInclude Include="Source\Core\IO\UserInput_Server.h" />
     <ClInclude Include="Source\Core\Logger\Logger.h" />
     <ClInclude Include="Source\Core\Asset\ThreeDModelAsset.h" />

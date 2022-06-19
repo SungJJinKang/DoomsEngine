@@ -3,7 +3,7 @@
 #include <Rendering/Graphics_Server.h>
 #include <Graphics/GraphicsAPI/graphicsAPISetting.h>
 #include <Rendering/Camera.h>
-#include <Rendering/Texture/TextureView.h>
+#include <Rendering/Texture/RenderingTextureViewProxy.h>
 
 #define DEFAULT_GBUFFER_RESOLUTION_WIDTH 1920
 #define DEFAULT_GBUFFER_RESOLUTION_HEIGHT 1080
@@ -29,7 +29,7 @@ void dooms::graphics::DefferedRenderingFrameBuffer::Initialize
 
 	for (UINT32 i = 0; i < 3; i++)
 	{
-		TextureView* const textureView = FrameBuffer::GetColorTextureView(i, graphics::GraphicsAPI::eGraphicsPipeLineStage::PIXEL_SHADER);
+		RenderingTextureViewProxy* const textureView = FrameBuffer::GetColorTextureView(i, graphics::GraphicsAPI::eGraphicsPipeLineStage::PIXEL_SHADER);
 		D_ASSERT(IsValid(textureView));
 		TextureViews[i] = textureView;
 	}

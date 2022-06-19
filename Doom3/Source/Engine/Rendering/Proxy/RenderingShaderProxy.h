@@ -21,7 +21,7 @@ namespace dooms
 	namespace graphics
 	{
 		class UniformBufferObject;
-		class TextureView;
+		class RenderingTextureViewProxy;
 		class RenderingUniformBufferProxy;
 
 		class RenderingShaderProxy : public RenderingProxy
@@ -62,11 +62,13 @@ namespace dooms
 			//const std::string& GetShaderReflectionDataStringText(const dooms::graphics::GraphicsAPI::eGraphicsPipeLineStage targetGraphicsPipeLineStage) const;
 			const asset::shaderReflectionDataParser::ShaderReflectionData& GetShaderReflectionData(const dooms::graphics::GraphicsAPI::eGraphicsPipeLineStage targetGraphicsPipeLineStage) const;
 
+			const std::vector<dooms::graphics::RenderingUniformBufferProxy*>& GetContainedRenderingUniformBufferProxyList() const;
 			FORCE_INLINE const graphics::BufferID& GetInputLayoutForD3D() const
 			{
 				D_ASSERT(InputLayoutForD3D.IsValid());
 				return InputLayoutForD3D;
 			}
+
 
 		private:
 
@@ -90,7 +92,7 @@ namespace dooms
 			graphics::BufferID InputLayoutForD3D{};
 			std::array<FShaderObject, GRAPHICS_PIPELINE_STAGE_COUNT> ShaderObjects;
 
-			std::vector<RenderingUniformBufferProxy*> RenderingUniformBufferProxyList;
+			std::vector<RenderingUniformBufferProxy*> ContainedRenderingUniformBufferProxyList;
 
 			bool CompileSpecificTypeShader(asset::FShaderTextData& ShaderText, const graphics::GraphicsAPI::eGraphicsPipeLineStage ShaderType, FShaderObject& ShaderObject);
 			void CreateInputLayoutForD3D();

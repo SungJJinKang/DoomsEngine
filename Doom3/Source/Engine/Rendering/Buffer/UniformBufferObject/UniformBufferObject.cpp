@@ -44,8 +44,6 @@ void dooms::graphics::UniformBufferObject::InitializeUniformBufferObject
 	const std::vector<asset::shaderReflectionDataParser::UniformBufferMember>* const uboMembers
 )
 {
-	D_ASSERT(IsBufferGenerated() == false);
-
 	UniformBlockName = uniformBlockName;
 	UniformBufferSize = uniformBufferSize;
 	DefaultBindingPoint = defaultBindingPoint;
@@ -76,24 +74,23 @@ void dooms::graphics::UniformBufferObject::DestroyUniformBufferProxy()
 	dooms::thread::RenderThread::GetSingleton()->EnqueueRenderCommand
 	(
 		[Proxy]()
-	{
-		dooms::graphics::RenderingProxyManager::GetSingleton()->DestroyedRenderingUniformBufferProxyList.push_back(Proxy);
-	}
+		{
+			dooms::graphics::RenderingProxyManager::GetSingleton()->DestroyedRenderingUniformBufferProxyList.push_back(Proxy);
+		}
 	);
 }
 
 void dooms::graphics::UniformBufferObject::BindBuffer(const UINT32 bindingPoint,const GraphicsAPI::eGraphicsPipeLineStage targetPipeLineStage) noexcept
 {
-	if (IsBufferGenerated() == true)
-	{
-		dooms::thread::RenderThread::GetSingleton()->EnqueueRenderCommand
-		(
-			[Proxy = UniformBufferProxy, BindingPoint = bindingPoint, TargetPipeLineStage = targetPipeLineStage]()
-			{
-				Proxy->BindBuffer(BindingPoint, TargetPipeLineStage);
-			}
-		);
-	}
+	D_ASSERT(IsUniformBufferProxyCreated());
+
+	dooms::thread::RenderThread::GetSingleton()->EnqueueRenderCommand
+	(
+		[Proxy = UniformBufferProxy, BindingPoint = bindingPoint, TargetPipeLineStage = targetPipeLineStage]()
+		{
+			Proxy->BindBuffer(BindingPoint, TargetPipeLineStage);
+		}
+	);
 }
 
 void dooms::graphics::UniformBufferObject::UnBindBuffer(const UINT32 bindingPoint, const GraphicsAPI::eGraphicsPipeLineStage targetPipeLineStage) noexcept
@@ -109,46 +106,43 @@ void dooms::graphics::UniformBufferObject::UnBindBuffer(const UINT32 bindingPoin
 
 void dooms::graphics::UniformBufferObject::UpdateLocalBufferToGPU() noexcept
 {
-	if (IsBufferGenerated() == true)
-	{
-		dooms::thread::RenderThread::GetSingleton()->EnqueueRenderCommand
-		(
-			[Proxy = UniformBufferProxy]()
-			{
-				Proxy->UpdateLocalBufferToGPU();
-			}
-		);
-	}
+	D_ASSERT(IsUniformBufferProxyCreated());
+
+	dooms::thread::RenderThread::GetSingleton()->EnqueueRenderCommand
+	(
+		[Proxy = UniformBufferProxy]()
+		{
+			Proxy->UpdateLocalBufferToGPU();
+		}
+	);
 }
 
 void dooms::graphics::UniformBufferObject::UpdateDataToGPU(const void* sourceData, const UINT64 offsetInUniformBlock,const UINT64 sizeOfSourceData) noexcept
 {
-	if (IsBufferGenerated() == true)
-	{
-		dooms::thread::RenderThread::GetSingleton()->EnqueueRenderCommand
-		(
-			[Proxy = UniformBufferProxy, SourceData = sourceData, OffsetInUniformBlock = offsetInUniformBlock, SizeOfSourceData = sizeOfSourceData]()
-			{
-				Proxy->UpdateDataToGPU(SourceData, OffsetInUniformBlock, SizeOfSourceData);
-			}
-		);
-	}
+	D_ASSERT(IsUniformBufferProxyCreated());
+
+	dooms::thread::RenderThread::GetSingleton()->EnqueueRenderCommand
+	(
+		[Proxy = UniformBufferProxy, SourceData = sourceData, OffsetInUniformBlock = offsetInUniformBlock, SizeOfSourceData = sizeOfSourceData]()
+		{
+			Proxy->UpdateDataToGPU(SourceData, OffsetInUniformBlock, SizeOfSourceData);
+		}
+	);
 }
 
 void dooms::graphics::UniformBufferObject::UpdateDataToGPU(const void* sourceData, const char* const targetVariableName,const UINT64 sizeOfSourceData) noexcept
 {
-	if (IsBufferGenerated() == true)
-	{
-		std::string TargetVariableName{ targetVariableName };
+	D_ASSERT(IsUniformBufferProxyCreated());
 
-		dooms::thread::RenderThread::GetSingleton()->EnqueueRenderCommand
-		(
-			[Proxy = UniformBufferProxy, SourceData = sourceData, TargetVariableName, SizeOfSourceData = sizeOfSourceData]()
-			{
-				Proxy->UpdateDataToGPU(SourceData, TargetVariableName.c_str(), SizeOfSourceData);
-			}
-		);
-	}
+	std::string TargetVariableName{ targetVariableName };
+
+	dooms::thread::RenderThread::GetSingleton()->EnqueueRenderCommand
+	(
+		[Proxy = UniformBufferProxy, SourceData = sourceData, TargetVariableName, SizeOfSourceData = sizeOfSourceData]()
+		{
+			Proxy->UpdateDataToGPU(SourceData, TargetVariableName.c_str(), SizeOfSourceData);
+		}
+	);
 }
 
 
@@ -159,31 +153,30 @@ void dooms::graphics::UniformBufferObject::UpdateLocalBuffer
 	const UINT64 sizeOfSourceData
 )
 {
-	if(IsBufferGenerated() == true)
+	D_ASSERT(IsUniformBufferProxyCreated());
+
+	std::vector<UINT8> SourceDataBuffer{};
+	SourceDataBuffer.resize(sizeOfSourceData);
+	std::memcpy(SourceDataBuffer.data(), sourceData, sizeOfSourceData);
+
+	dooms::thread::RenderThread::GetSingleton()->EnqueueRenderCommand
+	(
+		[Proxy = UniformBufferProxy, SourceData = std::move(SourceDataBuffer), OffsetInUnifromBlock = offsetInUniformBlock, SizeOfSourceData = sizeOfSourceData]()
 	{
-		std::vector<UINT8> SourceDataBuffer{};
-		SourceDataBuffer.resize(sizeOfSourceData);
-		std::memcpy(SourceDataBuffer.data(), sourceData, sizeOfSourceData);
-
-		dooms::thread::RenderThread::GetSingleton()->EnqueueRenderCommand
-		(
-			[Proxy = UniformBufferProxy, SourceData = std::move(SourceDataBuffer), OffsetInUnifromBlock = offsetInUniformBlock, SizeOfSourceData = sizeOfSourceData]()
-			{
-				Proxy->UpdateLocalBuffer(SourceData.data(), OffsetInUnifromBlock, SizeOfSourceData);
-			}
-		);
+		Proxy->UpdateLocalBuffer(SourceData.data(), OffsetInUnifromBlock, SizeOfSourceData);
 	}
+	);
 }
 
-
-bool dooms::graphics::UniformBufferObject::IsBufferGenerated() const
-{
-	return UniformBufferProxy != nullptr;
-}
 
 dooms::graphics::RenderingUniformBufferProxy* dooms::graphics::UniformBufferObject::GetUniformBufferProxy() const
 {
 	return UniformBufferProxy;
+}
+
+bool dooms::graphics::UniformBufferObject::IsUniformBufferProxyCreated() const
+{
+	return (UniformBufferProxy != nullptr);
 }
 
 void dooms::graphics::UniformBufferObject::OnSetPendingKill()
@@ -199,11 +192,12 @@ void dooms::graphics::UniformBufferObject::OnSetPendingKill()
 
 void dooms::graphics::UniformBufferObject::CreateRenderingUniformBufferProxy()
 {
-	D_ASSERT(UniformBufferProxy == nullptr);
-
+	D_ASSERT(IsUniformBufferProxyCreated() == false);
+	
 	UniformBufferProxy = new RenderingUniformBufferProxy();
 
 	RenderingUniformBufferProxy::FRenderingUniformBufferProxyInitializer Initializer{};
+	Initializer.UniformBufferName = GetUniformBlockName();
 	Initializer.UniformBufferSize = UniformBufferSize;
 	Initializer.DefaultBindingPoint = DefaultBindingPoint;
 	Initializer.UniformVariableInfos.clear();
@@ -220,7 +214,7 @@ void dooms::graphics::UniformBufferObject::CreateRenderingUniformBufferProxy()
 	(
 		[Proxy = UniformBufferProxy]()
 		{
-			RenderingProxyManager::GetSingleton()->RenderingUniformBufferProxyList.push_back(Proxy);
+			RenderingProxyManager::GetSingleton()->AddedRenderingUniformBufferProxyList.push_back(Proxy);
 		}
 	);
 }

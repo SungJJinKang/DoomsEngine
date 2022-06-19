@@ -9,6 +9,7 @@ dooms::graphics::RenderingUniformBufferProxy::~RenderingUniformBufferProxy()
 
 void dooms::graphics::RenderingUniformBufferProxy::InitUniformBufferProxy(FRenderingUniformBufferProxyInitializer& Initializer)
 {
+	UniformBufferName = Initializer.UniformBufferName;
 	UniformBufferSize = Initializer.UniformBufferSize;
 	DefaultBindingPoint = Initializer.DefaultBindingPoint;
 	UniformVariableInfos = std::move(Initializer.UniformVariableInfos);
@@ -29,6 +30,28 @@ void dooms::graphics::RenderingUniformBufferProxy::DeleteBuffers()
 	
 	UniformBufferSize = 0;
 	DefaultBindingPoint = 0;
+}
+
+void dooms::graphics::RenderingUniformBufferProxy::BindBuffer(const UINT32 BindingPoint,const GraphicsAPI::eGraphicsPipeLineStage TargetPipeLineStage) const noexcept
+{
+	D_ASSERT(UniformBufferObject.IsValid() == true);
+	if (IsBufferGenerated() == true)
+	{
+		if (BOUND_UNIFORM_BUFFER_ID[static_cast<UINT32>(TargetPipeLineStage)][BindingPoint] != UniformBufferObject.GetBufferID())
+		{
+			BOUND_UNIFORM_BUFFER_ID[static_cast<UINT32>(TargetPipeLineStage)][BindingPoint] = UniformBufferObject.GetBufferID();
+			GraphicsAPI::BindConstantBuffer(UniformBufferObject, BindingPoint, TargetPipeLineStage);
+		}
+	}
+}
+
+void dooms::graphics::RenderingUniformBufferProxy::UnBindBuffer(const UINT32 BindingPoint, const GraphicsAPI::eGraphicsPipeLineStage TargetPipeLineStage) const noexcept
+{
+	if (BOUND_UNIFORM_BUFFER_ID[static_cast<UINT32>(TargetPipeLineStage)][BindingPoint] != 0)
+	{
+		BOUND_UNIFORM_BUFFER_ID[static_cast<UINT32>(TargetPipeLineStage)][BindingPoint] = 0;
+		GraphicsAPI::BindConstantBuffer(0, BindingPoint, TargetPipeLineStage);
+	}
 }
 
 void dooms::graphics::RenderingUniformBufferProxy::UpdateLocalBuffer(const void* const SourceData,const UINT64 OffsetInUniformBlock, const UINT64 SizeOfSourceData)
@@ -92,6 +115,11 @@ void dooms::graphics::RenderingUniformBufferProxy::UpdateDataToGPU(const void* c
 bool dooms::graphics::RenderingUniformBufferProxy::IsBufferGenerated() const
 {
 	return UniformBufferObject.IsValid();
+}
+
+const std::string& dooms::graphics::RenderingUniformBufferProxy::GetUniformBufferName() const
+{
+	return UniformBufferName;
 }
 
 UINT64 dooms::graphics::RenderingUniformBufferProxy::GetUniformBufferSize() const

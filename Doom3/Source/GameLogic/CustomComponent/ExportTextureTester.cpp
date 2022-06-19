@@ -30,7 +30,7 @@ void dooms::ExportTextureTester::UpdateComponent()
 			IsValid(dooms::Camera::GetMainCamera()->GetGraphicsPipeLineCamera()->GetCameraFrameBuffer())
 		)
 		{
-			dooms::graphics::TextureView* texture = dooms::Camera::GetMainCamera()->GetGraphicsPipeLineCamera()->GetCameraFrameBuffer()->GetColorTextureView(0, dooms::graphics::GraphicsAPI::eGraphicsPipeLineStage::PIXEL_SHADER);
+			dooms::graphics::RenderingTextureViewProxy* texture = dooms::Camera::GetMainCamera()->GetGraphicsPipeLineCamera()->GetCameraFrameBuffer()->GetColorTextureView(0, dooms::graphics::GraphicsAPI::eGraphicsPipeLineStage::PIXEL_SHADER);
 
 			dooms::assetExporter::assetExporterTexture::ExportTextureFromTexture(
 				texture,
@@ -57,7 +57,7 @@ void dooms::ExportTextureTester::UpdateComponent()
 			IsValid(dooms::Camera::GetMainCamera()->GetGraphicsPipeLineCamera()->GetCameraFrameBuffer())
 		)
 		{
-			dooms::graphics::TextureView* const texture = dooms::Camera::GetMainCamera()->GetGraphicsPipeLineCamera()->GetCameraFrameBuffer()->GetColorTextureView(0, dooms::graphics::GraphicsAPI::eGraphicsPipeLineStage::PIXEL_SHADER);
+			dooms::graphics::RenderingTextureViewProxy* const texture = dooms::Camera::GetMainCamera()->GetGraphicsPipeLineCamera()->GetCameraFrameBuffer()->GetColorTextureView(0, dooms::graphics::GraphicsAPI::eGraphicsPipeLineStage::PIXEL_SHADER);
 
 			dooms::assetExporter::assetExporterTexture::ExportTextureFromTextureAsDDS(
 				texture,

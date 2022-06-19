@@ -14,7 +14,7 @@ dooms::graphics::RenderingShaderProxy::~RenderingShaderProxy()
 void dooms::graphics::RenderingShaderProxy::InitRenderingShaderProxy(FRenderingShaderProxyInitializer& Initilizer)
 {
 	ShaderTextDatas = std::move(Initilizer.ShaderTextDatas);
-	RenderingUniformBufferProxyList = std::move(Initilizer.RenderingUniformBufferProxyList);
+	ContainedRenderingUniformBufferProxyList = std::move(Initilizer.RenderingUniformBufferProxyList);
 }
 
 bool dooms::graphics::RenderingShaderProxy::CompileShaders()
@@ -54,7 +54,7 @@ void dooms::graphics::RenderingShaderProxy::DestroyShaderObjects()
 		}
 	}
 	
-	RenderingUniformBufferProxyList.clear();
+	ContainedRenderingUniformBufferProxyList.clear();
 
 	if (InputLayoutForD3D.IsValid())
 	{
@@ -117,6 +117,11 @@ const dooms::asset::shaderReflectionDataParser::ShaderReflectionData& dooms::gra
 	return ShaderTextDatas[static_cast<UINT32>(targetGraphicsPipeLineStage)].ShaderReflectionData;
 }
 
+const std::vector<dooms::graphics::RenderingUniformBufferProxy*>& dooms::graphics::RenderingShaderProxy::GetContainedRenderingUniformBufferProxyList() const
+{
+	return ContainedRenderingUniformBufferProxyList;
+}
+
 dooms::graphics::RenderingShaderProxy::FShaderObject::FShaderObject()
 	: ShaderObjectID(), ShaderCompileStatus(eShaderCompileStatus::READY)
 {
@@ -131,7 +136,7 @@ bool dooms::graphics::RenderingShaderProxy::CompileSpecificTypeShader(asset::FSh
 {
 	D_ASSERT(ShaderType != graphics::GraphicsAPI::eGraphicsPipeLineStage::DUMMY);
 
-	bool isSuccessCompileShader = false;
+	bool bIsSuccessCompileShader = false;
 
 	D_ASSERT(ShaderText.IsCompileliable() == true);
 	D_ASSERT(ShaderObject.ShaderObjectID.IsValid() == false);
@@ -156,9 +161,9 @@ bool dooms::graphics::RenderingShaderProxy::CompileSpecificTypeShader(asset::FSh
 			ShaderObject.ShaderCompileStatus = eShaderCompileStatus::SHADER_OBJECT_CREATED;
 
 			const char* shaderCode = ShaderText.ShaderStringText.c_str();
-			isSuccessCompileShader = graphics::GraphicsAPI::CompileShader(ShaderObject.ShaderObjectID.GetBufferIDRef(), ShaderType, shaderCode, ShaderText.ShaderStringText.size());
-			D_ASSERT_LOG(isSuccessCompileShader == true, "Fail to compile shader ( Shader Asset Name : %s, Shader Type : %s )", ShaderText.mShaderTextFilePath.generic_u8string().c_str(), graphics::GraphicsAPI::eGraphicsPipeLineStageString[static_cast<UINT32>(ShaderType)]);
-			if (isSuccessCompileShader == true)
+			bIsSuccessCompileShader = graphics::GraphicsAPI::CompileShader(ShaderObject.ShaderObjectID.GetBufferIDRef(), ShaderType, shaderCode, ShaderText.ShaderStringText.size());
+			D_ASSERT_LOG(bIsSuccessCompileShader == true, "Fail to compile shader ( Shader Asset Name : %s, Shader Type : %s )", ShaderText.mShaderTextFilePath.generic_u8string().c_str(), graphics::GraphicsAPI::eGraphicsPipeLineStageString[static_cast<UINT32>(ShaderType)]);
+			if (bIsSuccessCompileShader == true)
 			{
 				ShaderObject.ShaderCompileStatus = eShaderCompileStatus::COMPILE_SUCCESS;
 
@@ -184,7 +189,7 @@ bool dooms::graphics::RenderingShaderProxy::CompileSpecificTypeShader(asset::FSh
 	}
 
 
-	return isSuccessCompileShader;
+	return bIsSuccessCompileShader;
 }
 
 

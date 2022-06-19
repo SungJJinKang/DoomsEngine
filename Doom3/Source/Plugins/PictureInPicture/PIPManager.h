@@ -33,7 +33,7 @@ namespace dooms
 
 			void DrawPIPs();
 
-			PicktureInPickture* AddNewPIP(const math::Vector2& leftBottomNDCPoint, const math::Vector2& rightTopNDCPoint, TextureView* const _drawedTexture);
+			PicktureInPickture* AddNewPIP(const math::Vector2& leftBottomNDCPoint, const math::Vector2& rightTopNDCPoint, RenderingTextureViewProxy* const _drawedTexture);
 			void RemovePIP(const PicktureInPickture* const removedPIP);
 
 			size_t GetPIPCount() const;

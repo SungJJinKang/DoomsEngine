@@ -1,9 +1,4 @@
-
-
 #include "TextureAsset.h"
-
-
-#include <Rendering/Texture/TextureView.h>
 
 #include <DirectXTex.h>
 #include "ResourceManagement/Thread/RunnableThread/RenderThread.h"
@@ -42,14 +37,12 @@ dooms::asset::TextureAsset::TextureAsset
 	BindFlags(resourceBindFlag),
 	TextureBindTarget(textureBindTarget)
 {
-	AllocateTextureResourceObject();
 }
 
 dooms::asset::TextureAsset::TextureAsset(std::unique_ptr<DirectX::ScratchImage>&& scratchImage, dooms::graphics::GraphicsAPI::eBindFlag resourceBindFlag)
 	: BindFlags(resourceBindFlag)
 {
 	SetScratchImage(std::move(scratchImage), resourceBindFlag);
-	AllocateTextureResourceObject();
 }
 
 void dooms::asset::TextureAsset::SetScratchImage(std::unique_ptr<DirectX::ScratchImage>&& scratchImage, const dooms::graphics::GraphicsAPI::eBindFlag resourceBindFlag)
@@ -137,7 +130,7 @@ dooms::asset::TextureAsset& dooms::asset::TextureAsset::operator=(TextureAsset&&
 
 dooms::asset::TextureAsset::~TextureAsset()
 {
-	if(GetRenderingTextureProxy() != nullptr)
+	if(IsRenderingTextureProxyCreated())
 	{
 		DestroyRenderingTextureProxy();
 	}
@@ -145,9 +138,9 @@ dooms::asset::TextureAsset::~TextureAsset()
 
 void dooms::asset::TextureAsset::OnSetPendingKill()
 {
-	Asset::OnSetPendingKill();
+	Base::OnSetPendingKill();
 
-	if (GetRenderingTextureProxy() != nullptr)
+	if (IsRenderingTextureProxyCreated())
 	{
 		DestroyRenderingTextureProxy();
 	}
@@ -208,20 +201,20 @@ dooms::graphics::GraphicsAPI::eDataType dooms::asset::TextureAsset::GetTextureDa
 	return dooms::graphics::GraphicsAPI::eDataType::UNSIGNED_BYTE;
 }
 
-dooms::graphics::TextureView* dooms::asset::TextureAsset::GenerateTextureView
+dooms::graphics::RenderingTextureViewProxy* dooms::asset::TextureAsset::GenerateTextureView
 (
 	const UINT32 defaultBindingPosition,
 	const graphics::GraphicsAPI::eGraphicsPipeLineStage defaultTargetGraphicsPipeLineStage
 ) const
 {
-	return dooms::CreateDObject<dooms::graphics::TextureView>(this, defaultBindingPosition, defaultTargetGraphicsPipeLineStage);
+	return dooms::CreateDObject<dooms::graphics::RenderingTextureViewProxy>(this, defaultBindingPosition, defaultTargetGraphicsPipeLineStage);
 }
 
 void dooms::asset::TextureAsset::CreateRenderingTextureProxy()
 {
-	D_ASSERT(RenderingTextureProxy == nullptr);
+	D_ASSERT(TextureProxy == nullptr);
 
-	RenderingTextureProxy = new dooms::graphics::RenderingTextureProxy();
+	TextureProxy = new dooms::graphics::RenderingTextureProxy();
 
 	graphics::RenderingTextureProxy::FRenderingTextureProxyInitializer Initializer;
 	Initializer.ScratchImage = std::move(ScratchImage);
@@ -239,23 +232,31 @@ void dooms::asset::TextureAsset::CreateRenderingTextureProxy()
 	Initializer.DataType = DataType;
 	Initializer.BindFlags = BindFlags;
 
-	RenderingTextureProxy->InitRenderingTextureProxy(Initializer);
+	TextureProxy->InitRenderingTextureProxy(Initializer);
 
 	dooms::thread::RenderThread::GetSingleton()->EnqueueRenderCommand
 	(
-		[Proxy = RenderingTextureProxy]()
+		[Proxy = TextureProxy]()
 		{
 			dooms::graphics::RenderingProxyManager::GetSingleton()->RenderingTextureProxyList.push_back(Proxy);
 		}
 	);
 }
 
+void dooms::asset::TextureAsset::CreateRenderingTextureProxyIfNotCreated()
+{
+	if(IsRenderingTextureProxyCreated() == false)
+	{
+		CreateRenderingTextureProxy();
+	}
+}
+
 void dooms::asset::TextureAsset::DestroyRenderingTextureProxy()
 {
-	D_ASSERT(RenderingTextureProxy != nullptr);
+	D_ASSERT(TextureProxy != nullptr);
 
-	graphics::RenderingTextureProxy* const Proxy = RenderingTextureProxy;
-	RenderingTextureProxy = nullptr;
+	graphics::RenderingTextureProxy* const Proxy = TextureProxy;
+	TextureProxy = nullptr;
 	dooms::thread::RenderThread::GetSingleton()->EnqueueRenderCommand
 	(
 		[Proxy]()
@@ -267,16 +268,21 @@ void dooms::asset::TextureAsset::DestroyRenderingTextureProxy()
 
 dooms::graphics::RenderingTextureProxy* dooms::asset::TextureAsset::GetRenderingTextureProxy() const
 {
-	return RenderingTextureProxy;
+	return TextureProxy;
+}
+
+bool dooms::asset::TextureAsset::IsRenderingTextureProxyCreated() const
+{
+	return (TextureProxy != nullptr);
 }
 
 void dooms::asset::TextureAsset::AllocateTextureResourceObject()
 {
-	D_ASSERT(RenderingTextureProxy != nullptr);
+	D_ASSERT(IsRenderingTextureProxyCreated());
 	
 	dooms::thread::RenderThread::GetSingleton()->EnqueueRenderCommand
 	(
-		[Proxy = RenderingTextureProxy]()
+		[Proxy = TextureProxy]()
 		{
 			Proxy->AllocateTextureResourceObject();
 		}
@@ -285,11 +291,11 @@ void dooms::asset::TextureAsset::AllocateTextureResourceObject()
 
 void dooms::asset::TextureAsset::DestroyTextureResourceObject()
 {
-	D_ASSERT(RenderingTextureProxy != nullptr);
+	D_ASSERT(IsRenderingTextureProxyCreated());
 
 	dooms::thread::RenderThread::GetSingleton()->EnqueueRenderCommand
 	(
-		[Proxy = RenderingTextureProxy]()
+		[Proxy = TextureProxy]()
 		{
 			Proxy->DestroyTextureResourceObject();
 		}

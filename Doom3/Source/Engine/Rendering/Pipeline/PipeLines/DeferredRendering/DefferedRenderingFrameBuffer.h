@@ -21,7 +21,7 @@ namespace dooms
 		private:
 
 			D_PROPERTY()
-			std::array<TextureView*, 3> TextureViews;
+			std::array<RenderingTextureViewProxy*, 3> TextureViews;
 
 			void Initialize(const UINT32 resolutionWidth, const UINT32 resolutionHeight);
 

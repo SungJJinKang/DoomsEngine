@@ -4,7 +4,7 @@
 
 #include <filesystem>
 
-#include <Rendering/Texture/TextureView.h>
+#include <Rendering/Texture/RenderingTextureViewProxy.h>
 
 
 namespace DirectX
@@ -16,7 +16,7 @@ namespace dooms
 {
 	namespace graphics
 	{
-		class TextureView;
+		class RenderingTextureViewProxy;
 		class FrameBuffer;
 	}
 
@@ -35,7 +35,7 @@ namespace dooms
 
 			extern void ExportTextureFromTextureAsDDS
 			(
-				const dooms::graphics::TextureView* const exportedTexture,
+				const dooms::graphics::RenderingTextureViewProxy* const exportedTexture,
 				const INT32 lodLevel,
 				const std::filesystem::path& exportPath
 			);
@@ -99,7 +99,7 @@ namespace dooms
 
 			extern void ExportTextureFromTexture
 			(
-				const dooms::graphics::TextureView* const exportedTexture,
+				const dooms::graphics::RenderingTextureViewProxy* const exportedTexture,
 				const INT32 lodLevel,
 				const std::filesystem::path& exportPath,
 				const eTextureExtension textureExtension

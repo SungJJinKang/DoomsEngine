@@ -1,7 +1,7 @@
 #include "PicktureInPickture.h"
 
 #include <Asset/AssetManager/AssetManager.h>
-#include <Rendering/Texture/TextureView.h>
+#include <Rendering/Texture/RenderingTextureViewProxy.h>
 #include <Rendering/Buffer/MeshHelper.h>
 
 dooms::graphics::Material* dooms::graphics::PicktureInPickture::mDefualtPIPMaterial{nullptr};
@@ -35,7 +35,7 @@ void dooms::graphics::PicktureInPickture::SetDefaultPIPMaterial()
 	D_ASSERT(mPIPMaterial->IsMaterialCreated());
 }
 
-dooms::graphics::PicktureInPickture::PicktureInPickture(const math::Vector2& leftBottomNDCPoint, const math::Vector2& rightTopNDCPoint, TextureView* const _drawedTexture)
+dooms::graphics::PicktureInPickture::PicktureInPickture(const math::Vector2& leftBottomNDCPoint, const math::Vector2& rightTopNDCPoint, RenderingTextureViewProxy* const _drawedTexture)
 	:mPlaneMesh{ meshHelper::GetQuadMesh(leftBottomNDCPoint, rightTopNDCPoint, meshHelper::GetFlipOptionBasedOnCurrentGraphicsAPI()) }, mDrawedTexture(_drawedTexture), mPIPMaterial(nullptr), bmIsDrawOnScreen(false)
 {
 	D_ASSERT(IsValid(mDrawedTexture));
@@ -81,7 +81,7 @@ dooms::graphics::PicktureInPickture::~PicktureInPickture()
 {
 }
 
-void dooms::graphics::PicktureInPickture::SetTexture(TextureView* const texture)
+void dooms::graphics::PicktureInPickture::SetTexture(RenderingTextureViewProxy* const texture)
 {
 	D_ASSERT(IsValid(texture));
 	mDrawedTexture = texture;

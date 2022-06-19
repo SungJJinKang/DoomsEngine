@@ -1,7 +1,7 @@
 #include "AssetExporter_Texture.h"
 
 #include <Graphics/GraphicsAPI/GraphicsAPI.h>
-#include <Rendering/Texture/TextureView.h>
+#include <Rendering/Texture/RenderingTextureViewProxy.h>
 #include <DirectXTex.h>
 #include <EngineGUI/PrintText.h>
 #include <Graphics/GraphicsAPI/Manager/GraphicsAPIManager.h>
@@ -100,7 +100,7 @@ namespace dooms
 
 			DirectX::Image ConvertToDirectXImage
 			(
-				const dooms::graphics::TextureView* const exportedTexture,
+				const dooms::graphics::RenderingTextureViewProxy* const exportedTexture,
 				const INT32 lodLevel
 			)
 			{
@@ -199,7 +199,7 @@ void dooms::assetExporter::assetExporterTexture::ExportTextureAsDDS
 
 void dooms::assetExporter::assetExporterTexture::ExportTextureFromTextureAsDDS
 (
-	const dooms::graphics::TextureView* const exportedTexture,
+	const dooms::graphics::RenderingTextureViewProxy* const exportedTexture,
 	const INT32 lodLevel,
 	const std::filesystem::path& exportPath
 )
@@ -264,7 +264,7 @@ void dooms::assetExporter::assetExporterTexture::ExportTextureFromMainFrameBuffe
 	const std::filesystem::path& exportPath
 )
 {
-	const INT32 bufferSize = dooms::graphics::TextureView::GetTextureBufferSizeStatic(width, height, pixelFormat, dataType);
+	const INT32 bufferSize = dooms::graphics::RenderingTextureViewProxy::GetTextureBufferSizeStatic(width, height, pixelFormat, dataType);
 	
 	UINT8* const pixels = dooms::graphics::GraphicsAPI::ReadPixels(0, graphics::GraphicsAPI::BACK, bufferSize, startX, startY, width, height, pixelFormat, dataType);
 
@@ -347,7 +347,7 @@ void dooms::assetExporter::assetExporterTexture::ExportTexture
 
 void dooms::assetExporter::assetExporterTexture::ExportTextureFromTexture
 (
-	const dooms::graphics::TextureView* const exportedTexture,
+	const dooms::graphics::RenderingTextureViewProxy* const exportedTexture,
 	const INT32 lodLevel,
 	const std::filesystem::path& exportPath,
 	const eTextureExtension textureExtension
@@ -386,7 +386,7 @@ void dooms::assetExporter::assetExporterTexture::ExportTextureFromFrameBuffer
 	INT32 width = frameBuffer->GetFrameBufferWidth();
 	INT32 height = frameBuffer->GetFrameBufferHeight();
 
-	const INT32 bufferSize = dooms::graphics::TextureView::GetTextureBufferSizeStatic(width, height, pixelFormat, dataType);
+	const INT32 bufferSize = dooms::graphics::RenderingTextureViewProxy::GetTextureBufferSizeStatic(width, height, pixelFormat, dataType);
 
 	std::unique_ptr<UINT8[]> pixels = frameBuffer->ReadPixelsFromColorTexture(colorAttachmentIndex, bufferSize, startX, startY, width, height, pixelFormat, dataType);
 
@@ -403,7 +403,7 @@ void dooms::assetExporter::assetExporterTexture::ExportTextureFromFrameBuffer
 	const eTextureExtension textureExtension
 )
 {
-	const INT32 bufferSize = dooms::graphics::TextureView::GetTextureBufferSizeStatic(width, height, pixelFormat, dataType);
+	const INT32 bufferSize = dooms::graphics::RenderingTextureViewProxy::GetTextureBufferSizeStatic(width, height, pixelFormat, dataType);
 
 	std::unique_ptr<UINT8[]> pixels = frameBuffer->ReadPixelsFromColorTexture(colorAttachmentIndex, bufferSize, startX, startY, width, height, pixelFormat, dataType);
 
@@ -445,7 +445,7 @@ void dooms::assetExporter::assetExporterTexture::ExportTextureFromMainFrameBuffe
 	const eTextureExtension textureExtension
 )
 {
-	const INT32 bufferSize = dooms::graphics::TextureView::GetTextureBufferSizeStatic(width, height, pixelFormat, dataType);
+	const INT32 bufferSize = dooms::graphics::RenderingTextureViewProxy::GetTextureBufferSizeStatic(width, height, pixelFormat, dataType);
 	
 	UINT8* const pixels = dooms::graphics::GraphicsAPI::ReadPixels(0, graphics::GraphicsAPI::BACK, bufferSize, startX, startY, width, height, pixelFormat, dataType);
 

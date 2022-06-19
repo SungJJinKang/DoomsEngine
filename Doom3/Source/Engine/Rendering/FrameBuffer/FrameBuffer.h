@@ -129,9 +129,9 @@ namespace dooms
 			FrameBufferView* GetColorTextureRenderTargetView(const UINT32 bindingPosition) const;
 			FrameBufferView* GetDepthTextureRenderTargetView() const;
 			FrameBufferView* GetDepthStencilTextureRenderTargetView() const;
-			TextureView* GetColorTextureView(const UINT32 bindingPosition, const GraphicsAPI::eGraphicsPipeLineStage defaultTargetGraphicsPipeLineStage) const;
-			TextureView* GetDepthTextureView(const UINT32 bindingPosition, const GraphicsAPI::eGraphicsPipeLineStage defaultTargetGraphicsPipeLineStage) const;
-			TextureView* GetDepthStencilTextureView(const UINT32 bindingPosition, const GraphicsAPI::eGraphicsPipeLineStage defaultTargetGraphicsPipeLineStage) const;
+			RenderingTextureViewProxy* GetColorTextureView(const UINT32 bindingPosition, const GraphicsAPI::eGraphicsPipeLineStage defaultTargetGraphicsPipeLineStage) const;
+			RenderingTextureViewProxy* GetDepthTextureView(const UINT32 bindingPosition, const GraphicsAPI::eGraphicsPipeLineStage defaultTargetGraphicsPipeLineStage) const;
+			RenderingTextureViewProxy* GetDepthStencilTextureView(const UINT32 bindingPosition, const GraphicsAPI::eGraphicsPipeLineStage defaultTargetGraphicsPipeLineStage) const;
 			
 				
 

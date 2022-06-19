@@ -18,34 +18,36 @@
 #include "ResourceManagement/Thread/RunnableThread/RenderThread.h"
 
 dooms::asset::ShaderAsset::ShaderAsset()
-	: ShaderTextDatas(), RenderingShaderProxy{nullptr}
+	: ShaderTextDatas(), ShaderProxy{nullptr}
 {
 }
-
-
-/*
-dooms::asset::ShaderAsset::ShaderAsset(const std::array<FShaderTextData, GRAPHICS_PIPELINE_STAGE_COUNT>& shaderTexts)
-	: ShaderTextDatas(shaderTexts), mShaderObject()
-{
-	CreateRenderingShaderProxy();
-}
-*/
 
 dooms::asset::ShaderAsset::ShaderAsset(ShaderAsset&& shader) noexcept = default;
 dooms::asset::ShaderAsset& dooms::asset::ShaderAsset::operator=(ShaderAsset&& shader) noexcept = default;
 
 dooms::asset::ShaderAsset::~ShaderAsset()
 {
-	DestroyRenderingShaderProxy();
+	if (IsRenderingShaderProxyCreated())
+	{
+		DestroyRenderingShaderProxy();
+	}
 	ClearShaderTextDatas();
 }
 
 void dooms::asset::ShaderAsset::OnSetPendingKill()
 {
 	Asset::OnSetPendingKill();
-	
-	DestroyRenderingShaderProxy();
+
+	if (IsRenderingShaderProxyCreated())
+	{
+		DestroyRenderingShaderProxy();
+	}
 	ClearShaderTextDatas();
+}
+
+dooms::graphics::RenderingShaderProxy* dooms::asset::ShaderAsset::GetRenderingShaderProxy() const
+{
+	return ShaderProxy;
 }
 
 const std::vector<dooms::graphics::UniformBufferObject*>& dooms::asset::ShaderAsset::GetContainedUniformBufferObject() const
@@ -130,11 +132,11 @@ const dooms::asset::shaderReflectionDataParser::ShaderReflectionData& dooms::ass
 
 void dooms::asset::ShaderAsset::CreateRenderingShaderProxy()
 {
-	D_ASSERT(RenderingShaderProxy == nullptr);
+	D_ASSERT(IsRenderingShaderProxyCreated() == false);
 
 	GenerateUniformBufferObjectFromShaderReflectionData();
 
-	RenderingShaderProxy = new graphics::RenderingShaderProxy();
+	ShaderProxy = new graphics::RenderingShaderProxy();
 
 	graphics::RenderingShaderProxy::FRenderingShaderProxyInitializer Initializer{};
 	Initializer.ShaderTextDatas = ShaderTextDatas;
@@ -147,32 +149,39 @@ void dooms::asset::ShaderAsset::CreateRenderingShaderProxy()
 		Initializer.RenderingUniformBufferProxyList.push_back(UniformBufferProxy);
 	}
 	
-	RenderingShaderProxy->InitRenderingShaderProxy(Initializer);
+	ShaderProxy->InitRenderingShaderProxy(Initializer);
 
 	dooms::thread::RenderThread::GetSingleton()->EnqueueRenderCommand
 	(
-		[Proxy = RenderingShaderProxy]()
+		[Proxy = ShaderProxy]()
 		{
 			dooms::graphics::RenderingProxyManager::GetSingleton()->RenderingShaderProxyList.push_back(Proxy);
 		}
 	);
 }
 
+void dooms::asset::ShaderAsset::CreateRenderingShaderProxyIfNotCreated()
+{
+	if (IsRenderingShaderProxyCreated() == false)
+	{
+		CreateRenderingShaderProxy();
+	}
+}
+
 void dooms::asset::ShaderAsset::DestroyRenderingShaderProxy()
 {
-	if (RenderingShaderProxy != nullptr)
-	{
-		graphics::RenderingShaderProxy* const Proxy = RenderingShaderProxy;
-		RenderingShaderProxy = nullptr;
+	D_ASSERT(ShaderProxy != nullptr);
+	
+	graphics::RenderingShaderProxy* const Proxy = ShaderProxy;
+	ShaderProxy = nullptr;
 
-		dooms::thread::RenderThread::GetSingleton()->EnqueueRenderCommand
-		(
-			[Proxy]()
-			{
-				dooms::graphics::RenderingProxyManager::GetSingleton()->DestroyedRenderingShaderProxyList.push_back(Proxy);
-			}
-		);
-	}
+	dooms::thread::RenderThread::GetSingleton()->EnqueueRenderCommand
+	(
+		[Proxy]()
+		{
+			dooms::graphics::RenderingProxyManager::GetSingleton()->DestroyedRenderingShaderProxyList.push_back(Proxy);
+		}
+	);
 }
 
 void dooms::asset::ShaderAsset::GenerateUniformBufferObjectFromShaderReflectionData()
@@ -230,9 +239,7 @@ bool dooms::asset::ShaderAsset::IsHasAnyValidShaderTextString() const
 
 dooms::graphics::Material* dooms::asset::ShaderAsset::CreateMatrialWithThisShaderAsset()
 {
-	CreateRenderingShaderProxy();
-
-	D_ASSERT(IsHasRenderingShaderProxy() == true);
+	D_ASSERT(IsRenderingShaderProxyCreated() == true);
 
 	std::array<dooms::asset::ShaderAsset*, GRAPHICS_PIPELINE_STAGE_COUNT> ShaderAssets;
 	for(size_t ShaderTypeIndex = 0 ; ShaderTypeIndex < GRAPHICS_PIPELINE_STAGE_COUNT ; ShaderTypeIndex++)
@@ -253,9 +260,9 @@ dooms::graphics::Material* dooms::asset::ShaderAsset::CreateMatrialWithThisShade
 	return material;
 }
 
-bool dooms::asset::ShaderAsset::IsHasRenderingShaderProxy() const
+bool dooms::asset::ShaderAsset::IsRenderingShaderProxyCreated() const
 {
-	return (RenderingShaderProxy != nullptr);
+	return (ShaderProxy != nullptr);
 }
 
 dooms::asset::eAssetType dooms::asset::ShaderAsset::GetEAssetType() const
@@ -268,6 +275,6 @@ dooms::graphics::eShaderCompileStatus dooms::asset::ShaderAsset::GetCurrentShade
 	const graphics::GraphicsAPI::eGraphicsPipeLineStage shaderType
 ) const
 {
-	return	RenderingShaderProxy->GetCurrentShaderCompileStatus(shaderType);
+	return	ShaderProxy->GetCurrentShaderCompileStatus(shaderType);
 }
 

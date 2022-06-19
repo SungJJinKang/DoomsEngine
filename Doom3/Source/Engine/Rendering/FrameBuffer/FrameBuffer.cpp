@@ -3,7 +3,7 @@
 #include "Asset/TextureAsset.h"
 #include <Utility.h>
 #include "Graphics/GraphicsAPI/graphicsAPISetting.h"
-#include <Rendering/Texture/TextureView.h>
+#include <Rendering/Texture/RenderingTextureViewProxy.h>
 #include <Graphics/GraphicsAPI/Manager/GraphicsAPIManager.h>
 
 dooms::graphics::FrameBuffer::FrameBuffer()
@@ -485,31 +485,31 @@ dooms::graphics::FrameBufferView* dooms::graphics::FrameBuffer::GetDepthStencilT
 	}
 }
 
-dooms::graphics::TextureView* dooms::graphics::FrameBuffer::GetColorTextureView
+dooms::graphics::RenderingTextureViewProxy* dooms::graphics::FrameBuffer::GetColorTextureView
 (
 	const UINT32 bindingPosition,
 	const GraphicsAPI::eGraphicsPipeLineStage defaultTargetGraphicsPipeLineStage
 ) const
 {
-	return dooms::CreateDObject<dooms::graphics::TextureView>(GetColorTextureResourceObject(bindingPosition), bindingPosition, defaultTargetGraphicsPipeLineStage);
+	return dooms::CreateDObject<dooms::graphics::RenderingTextureViewProxy>(GetColorTextureResourceObject(bindingPosition), bindingPosition, defaultTargetGraphicsPipeLineStage);
 }
 
-dooms::graphics::TextureView* dooms::graphics::FrameBuffer::GetDepthTextureView
+dooms::graphics::RenderingTextureViewProxy* dooms::graphics::FrameBuffer::GetDepthTextureView
 (
 	const UINT32 bindingPosition,
 	const GraphicsAPI::eGraphicsPipeLineStage defaultTargetGraphicsPipeLineStage
 ) const
 {
-	return dooms::CreateDObject<dooms::graphics::TextureView>(GetDepthTextureResourceObject(), bindingPosition, defaultTargetGraphicsPipeLineStage);
+	return dooms::CreateDObject<dooms::graphics::RenderingTextureViewProxy>(GetDepthTextureResourceObject(), bindingPosition, defaultTargetGraphicsPipeLineStage);
 }
 
-dooms::graphics::TextureView* dooms::graphics::FrameBuffer::GetDepthStencilTextureView
+dooms::graphics::RenderingTextureViewProxy* dooms::graphics::FrameBuffer::GetDepthStencilTextureView
 (
 	const UINT32 bindingPosition,
 	const GraphicsAPI::eGraphicsPipeLineStage defaultTargetGraphicsPipeLineStage
 ) const
 {
-	return dooms::CreateDObject<dooms::graphics::TextureView>(GetDepthStencilTextureResourceObject(), bindingPosition, defaultTargetGraphicsPipeLineStage);
+	return dooms::CreateDObject<dooms::graphics::RenderingTextureViewProxy>(GetDepthStencilTextureResourceObject(), bindingPosition, defaultTargetGraphicsPipeLineStage);
 }
 
 

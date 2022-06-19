@@ -22,6 +22,7 @@ namespace dooms
 
 			struct FRenderingUniformBufferProxyInitializer
 			{
+				std::string UniformBufferName;
 				UINT64 UniformBufferSize;
 				UINT32 DefaultBindingPoint;
 				std::unordered_map<std::string, asset::shaderReflectionDataParser::UniformBufferMember> UniformVariableInfos;
@@ -31,26 +32,9 @@ namespace dooms
 
 			void DeleteBuffers();
 			
-			FORCE_INLINE void BindBuffer(const UINT32 BindingPoint, const GraphicsAPI::eGraphicsPipeLineStage TargetPipeLineStage) const noexcept
-			{
-				D_ASSERT(UniformBufferObject.IsValid() == true);
-				if (IsBufferGenerated() == true)
-				{
-					if (BOUND_UNIFORM_BUFFER_ID[static_cast<UINT32>(TargetPipeLineStage)][BindingPoint] != UniformBufferObject.GetBufferID())
-					{
-						BOUND_UNIFORM_BUFFER_ID[static_cast<UINT32>(TargetPipeLineStage)][BindingPoint] = UniformBufferObject.GetBufferID();
-						GraphicsAPI::BindConstantBuffer(UniformBufferObject, BindingPoint, TargetPipeLineStage);
-					}
-				}
-			}
-			FORCE_INLINE void UnBindBuffer(const UINT32 BindingPoint, const GraphicsAPI::eGraphicsPipeLineStage TargetPipeLineStage) const noexcept
-			{
-				if (BOUND_UNIFORM_BUFFER_ID[static_cast<UINT32>(TargetPipeLineStage)][BindingPoint] != 0)
-				{
-					BOUND_UNIFORM_BUFFER_ID[static_cast<UINT32>(TargetPipeLineStage)][BindingPoint] = 0;
-					GraphicsAPI::BindConstantBuffer(0, BindingPoint, TargetPipeLineStage);
-				}
-			}
+			void BindBuffer(const UINT32 BindingPoint, const GraphicsAPI::eGraphicsPipeLineStage TargetPipeLineStage) const noexcept;
+			void UnBindBuffer(const UINT32 BindingPoint, const GraphicsAPI::eGraphicsPipeLineStage TargetPipeLineStage) const noexcept;
+
 			/// <summary>
 			/// Store data in temporary buffer
 			/// data isn't send to gpu instantly, it is stored in temp buffer
@@ -77,6 +61,7 @@ namespace dooms
 			void UpdateDataToGPU(const void* const SourceData, const char* const TargetVariableName, const UINT64 SizeOfSourceData) noexcept;
 			bool IsBufferGenerated() const;
 
+			const std::string& GetUniformBufferName() const;
 			UINT64 GetUniformBufferSize() const;
 			UINT32 GetDefaultBindingPoint() const;
 
@@ -87,6 +72,7 @@ namespace dooms
 			inline static const UINT32 MAX_UNIFORM_BUFFER_SLOT_COUNT = 14;
 			static UINT64 BOUND_UNIFORM_BUFFER_ID[GRAPHICS_PIPELINE_STAGE_COUNT][MAX_UNIFORM_BUFFER_SLOT_COUNT];
 
+			std::string UniformBufferName;
 			BufferID UniformBufferObject{};
 			UINT64 UniformBufferSize;
 			UINT32 DefaultBindingPoint;

@@ -5,7 +5,7 @@
 #include <Asset/ShaderAsset.h>
 #include <Asset/AssetManager/AssetManager.h>
 
-#include "Rendering/Texture/TextureView.h"
+#include "Rendering/Texture/RenderingTextureViewProxy.h"
 
 #define LIMIT_BATCH_VERTEX_COUNT
 
@@ -41,7 +41,7 @@ void dooms::graphics::StaticRendererBatchContainer::InitializeBatchRenderingMate
 		const size_t targetTextureCount = targetMaterial->GetTextureViewCount();
 		for(size_t textureIndex = 0 ; textureIndex < targetTextureCount ; textureIndex++)
 		{
-			const TextureView* const textureView = targetMaterial->GetTextureView(textureIndex);
+			const RenderingTextureViewProxy* const textureView = targetMaterial->GetTextureView(textureIndex);
 			if(IsValid(textureView))
 			{
 				mBatchRenderingMaterial->AddTexture(textureView->GetDefaultBindingLocation(), textureView);

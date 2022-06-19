@@ -225,7 +225,7 @@
     <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Engine\Rendering\Texture\TextureView.cpp">
+    <ClCompile Include="Source\Engine\Rendering\Proxy\RenderingTextureViewProxy.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Source\Plugins\PictureInPicture\PicktureInPickture.cpp">
@@ -633,7 +633,7 @@
     <ClCompile Include="Source\Core\Asset\Utility\ShaderAsset\shaderConverter.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Engine\Rendering\Buffer\UniformBufferObject\UniformBufferObjectView.cpp">
+    <ClCompile Include="Source\Engine\Rendering\Proxy\RenderingUniformBufferObjectViewProxy.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Source\Core\Asset\Utility\ShaderAsset\shaderReflectionDataParser.cpp">
@@ -889,6 +889,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Source\Engine\Rendering\Proxy\RenderingTextureProxy.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Engine\Rendering\Proxy\RenderingLighProxy.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Engine\Rendering\Proxy\RenderingFixedMaterialProxy.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -1322,7 +1328,7 @@
     <ClInclude Include="Source\Helper\EasyDirtyChecker\DirtyReceiver.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Engine\Rendering\Texture\TextureView.h">
+    <ClInclude Include="Source\Engine\Rendering\Proxy\RenderingTextureViewProxy.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\Plugins\PictureInPicture\PicktureInPickture.h">
@@ -1820,7 +1826,7 @@
     <ClInclude Include="Source\Core\Asset\Utility\ShaderAsset\shaderConverter.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Engine\Rendering\Buffer\UniformBufferObject\UniformBufferObjectView.h">
+    <ClInclude Include="Source\Engine\Rendering\Proxy\RenderingUniformBufferObjectViewProxy.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\Core\Asset\Utility\ShaderAsset\shaderReflectionDataParser.h">
@@ -2229,6 +2235,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\Engine\Rendering\Proxy\RenderingTextureProxy.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Rendering\Proxy\RenderingLighProxy.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Rendering\Proxy\RenderingFixedMaterialProxy.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
