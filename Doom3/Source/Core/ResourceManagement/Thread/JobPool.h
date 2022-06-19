@@ -27,15 +27,18 @@ namespace dooms
 			using JOB_TYPE = std::function<void()>;
 			
 			template<typename LAMBDA>
-			FORCE_INLINE void EnqueueJobToGlobalPool(LAMBDA&& JobLambda)
+			FORCE_INLINE void EnqueueJobToGlobalPool(LAMBDA&& JobLambda, const bool bWakeUpJobThreads = true)
 			{
 				GlobalJobQueue.enqueue(std::forward<LAMBDA>(JobLambda));
-				
-				WakeUpJobThreads();
+
+				if(bWakeUpJobThreads)
+				{
+					WakeUpJobThreads();
+				}
 			}
 
 			template<typename LAMBDA>
-			auto EnqueueJobToGlobalPoolWithReturn(LAMBDA&& JobLambda)
+			auto EnqueueJobToGlobalPoolWithReturn(LAMBDA&& JobLambda, const bool bWakeUpJobThreads = true)
 			{
 				using RETURN_TYPE = decltype(JobLambda());
 
@@ -58,7 +61,10 @@ namespace dooms
 					}
 				);
 
-				WakeUpJobThreads();
+				if (bWakeUpJobThreads)
+				{
+					WakeUpJobThreads();
+				}
 
 				return std::move(ReturnFuture);
 			}
@@ -84,8 +90,10 @@ namespace dooms
 
 			for(INT32 Index = 0 ; Index < Count ; Index++)
 			{
-				JobPool::GetSingleton()->EnqueueJobToGlobalPool(std::forward<LAMBDA>(JobLambda));
+				JobPool::GetSingleton()->EnqueueJobToGlobalPool(std::forward<LAMBDA>(JobLambda), false);
 			}
+
+			JobPool::GetSingleton()->WakeUpJobThreads();
 		}
 
 		template<typename LAMBDA>
@@ -105,9 +113,11 @@ namespace dooms
 
 			for (INT32 Index = 0; Index < Count; Index++)
 			{
-				std::future Future = JobPool::GetSingleton()->EnqueueJobToGlobalPoolWithReturn(std::forward<LAMBDA>(JobLambda));
+				std::future Future = JobPool::GetSingleton()->EnqueueJobToGlobalPoolWithReturn(std::forward<LAMBDA>(JobLambda), false);
 				ReturnFutureList.emplace_back(std::move(Future));
 			}
+			
+			JobPool::GetSingleton()->WakeUpJobThreads();
 
 			return std::move(ReturnFutureList);
 		}
