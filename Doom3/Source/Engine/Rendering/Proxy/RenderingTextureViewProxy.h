@@ -6,7 +6,6 @@
 #include <Graphics/GraphicsAPI/GraphicsAPI.h>
 #include "../Buffer/BufferID.h"
 
-#include "TextureView.reflection.h"
 namespace DirectX
 {
 	struct Image;

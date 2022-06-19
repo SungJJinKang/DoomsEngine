@@ -16,6 +16,7 @@ namespace dooms
 		class RenderingShaderProxy;
 		class RenderingUniformBufferProxy;
 		class RenderingTextureProxy;
+		class RenderingMeshProxy;
 
 		class DOOM_API D_CLASS RenderingProxyManager : public DObject, public ISingleton<RenderingProxyManager>
 		{
@@ -28,6 +29,7 @@ namespace dooms
 			std::vector<RenderingShaderProxy*> RenderingShaderProxyList{};
 			std::vector<RenderingUniformBufferProxy*> RenderingUniformBufferProxyList{};
 			std::vector<RenderingTextureProxy*> RenderingTextureProxyList{};
+			std::vector<RenderingMeshProxy*> RenderingMeshProxyList{};
 
 			std::vector<RenderingPrimitiveProxy*> AddedRenderingPrimitiveProxyList{};
 			std::vector<RenderingLightProxy*> AddedRenderingLightProxyList{};
@@ -35,6 +37,7 @@ namespace dooms
 			std::vector<RenderingShaderProxy*> AddedRenderingShaderProxyList{};
 			std::vector<RenderingUniformBufferProxy*> AddedRenderingUniformBufferProxyList{};
 			std::vector<RenderingTextureProxy*> AddedRenderingTextureProxyList{};
+			std::vector<RenderingMeshProxy*> AddedRenderingMeshProxyList{};
 
 			std::vector<RenderingPrimitiveProxy*> DestroyedRenderingPrimitiveProxyList{};
 			std::vector<RenderingLightProxy*> DestroyedRenderingLightProxyList{};
@@ -42,6 +45,7 @@ namespace dooms
 			std::vector<RenderingShaderProxy*> DestroyedRenderingShaderProxyList{};
 			std::vector<RenderingUniformBufferProxy*> DestroyedRenderingUniformBufferProxyList{};
 			std::vector<RenderingTextureProxy*> DestroyedRenderingTextureProxyList{};
+			std::vector<RenderingMeshProxy*> DestroyedRenderingMeshProxyList{};
 		};
 	}
 }

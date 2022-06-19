@@ -32,9 +32,6 @@ namespace dooms
 		{
 			GENERATE_BODY()
 				
-
-			friend class ::dooms::assetImporter::AssetImporterWorker_Texture;
-		
 		public:
 
 			TextureAsset();

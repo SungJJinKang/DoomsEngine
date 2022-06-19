@@ -570,7 +570,7 @@ namespace dooms
 	class Rigidbody;
 	class CharacterSpawner;
 	class Animator;
-	class ThreeDModelNode;
+	class FMeshNode;
 	class ButtonRotate;
 	class PointLight;
 	class Scene;
@@ -971,8 +971,8 @@ namespace clcpp
 	template <> unsigned int GetTypeNameHash< ::ImGuiOldColumnData >() { return 0x8908f9e9; }
 	template <> const Type* GetType< dooms::Animator >() { return clcppTypePtrs[144]; }
 	template <> unsigned int GetTypeNameHash< dooms::Animator >() { return 0x89c67a52; }
-	template <> const Type* GetType< dooms::ThreeDModelNode >() { return clcppTypePtrs[145]; }
-	template <> unsigned int GetTypeNameHash< dooms::ThreeDModelNode >() { return 0x8bbdf226; }
+	template <> const Type* GetType< dooms::FMeshNode >() { return clcppTypePtrs[145]; }
+	template <> unsigned int GetTypeNameHash< dooms::FMeshNode >() { return 0x8bbdf226; }
 	template <> const Type* GetType< dooms::graphics::Buffer >() { return clcppTypePtrs[146]; }
 	template <> unsigned int GetTypeNameHash< dooms::graphics::Buffer >() { return 0x8d7fd23d; }
 	template <> const Type* GetType< dooms::reflection::DAttributeList >() { return clcppTypePtrs[147]; }

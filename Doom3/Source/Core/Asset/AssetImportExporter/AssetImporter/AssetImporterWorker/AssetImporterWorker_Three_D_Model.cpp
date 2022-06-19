@@ -162,9 +162,9 @@ dooms::assetImporter::AssetImporterWorker_THREE_D_MODEL::AssetImporterWorker_THR
 
 void dooms::assetImporter::AssetImporterWorker_THREE_D_MODEL::SetThreeDModelNodesData
 (
-	ThreeDModelNode* currentNode, 
+	FMeshNode* currentNode, 
 	aiNode* currentAssimpNode, 
-	ThreeDModelNode* parentNode, 
+	FMeshNode* parentNode, 
 	::dooms::asset::ThreeDModelAsset* modelAsset, 
 	const aiScene* assimpScene
 )
@@ -348,7 +348,7 @@ void dooms::assetImporter::AssetImporterWorker_THREE_D_MODEL::Creat3DModelAsset
 	}
 
 	//pScene->mRootNode
-	asset->mRootModelNode = dooms::CreateDObject<ThreeDModelNode>();
+	asset->mRootModelNode = dooms::CreateDObject<FMeshNode>();
 	asset->mRootModelNode->mThreeDModelNodeParent = nullptr;
 	SetThreeDModelNodesData(asset->mRootModelNode, pScene->mRootNode, nullptr, asset, pScene);
 

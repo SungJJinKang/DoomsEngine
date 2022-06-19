@@ -2,6 +2,8 @@
 
 #include <Core.h>
 
+#include <ResourceManagement/Thread/RunnableThread/RenderThread.h>
+
 namespace dooms
 {
 	namespace graphics

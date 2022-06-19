@@ -12,7 +12,7 @@ struct aiMesh;
 namespace dooms
 {
 	class ThreeDModelMesh;
-	class ThreeDModelNode;
+	class FMeshNode;
 	namespace asset
 	{
 		class ThreeDModelAsset;
@@ -31,7 +31,7 @@ namespace dooms
 			static void ClearAssimpLooger();
 #endif
 			void Creat3DModelAsset(const aiScene* pScene, ::dooms::asset::ThreeDModelAsset* asset);
-			void SetThreeDModelNodesData(ThreeDModelNode* currentNode, aiNode* currentAssimpNode, ThreeDModelNode* parentNode, ::dooms::asset::ThreeDModelAsset* modelAsset, const aiScene* assimpScene);
+			void SetThreeDModelNodesData(FMeshNode* currentNode, aiNode* currentAssimpNode, FMeshNode* parentNode, ::dooms::asset::ThreeDModelAsset* modelAsset, const aiScene* assimpScene);
 			bool ImportThreeDModelAsset(const std::filesystem::path& path, ::dooms::asset::ThreeDModelAsset* asset);
 			void InitializeAssimp();
 

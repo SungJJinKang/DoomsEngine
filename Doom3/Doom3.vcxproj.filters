@@ -42,7 +42,7 @@
     <ClCompile Include="Source\Core\Asset\ThreeDModelAsset.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Engine\Rendering\Buffer\Mesh.cpp">
+    <ClCompile Include="Source\Engine\Rendering\Buffer\Mesh\Mesh.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Source\Core\Logger\Logger.cpp">
@@ -546,13 +546,13 @@
     <ClCompile Include="Source\Engine\Profiler\ProfilingManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Engine\Rendering\Buffer\MeshHelper.cpp">
+    <ClCompile Include="Source\Engine\Rendering\Buffer\Mesh\MeshHelper.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Source\Engine\EngineGUI\GUIModules\Modules\ThreadProfilerGUI.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Engine\Rendering\Buffer\MeshNode.cpp">
+    <ClCompile Include="Source\Engine\Rendering\Buffer\Mesh\MeshNode.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Source\Engine\Rendering\RenderingDebugger\RenderingDebuggerModules\Modules\MaskedOcclusionCullingTester.cpp">
@@ -897,6 +897,15 @@
     <ClCompile Include="Source\Engine\Rendering\Proxy\RenderingFixedMaterialProxy.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Engine\Rendering\Scene\RenderScene.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Engine\Rendering\Proxy\RenderingMeshProxy.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Engine\Rendering\Buffer\Mesh\FMeshRawData.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="dependency\glad\include\glad\glad.h">
@@ -1094,7 +1103,7 @@
     <ClInclude Include="Source\Engine\Rendering\Buffer\Buffer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Engine\Rendering\Buffer\Mesh.h">
+    <ClInclude Include="Source\Engine\Rendering\Buffer\Mesh\Mesh.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\Helper\concurrentqueue\blockingconcurrentqueue.h">
@@ -1106,7 +1115,7 @@
     <ClInclude Include="Source\Helper\crossguid\Guid.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Engine\Rendering\Buffer\MeshNode.h">
+    <ClInclude Include="Source\Engine\Rendering\Buffer\Mesh\MeshNode.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\Engine\Rendering\Buffer\UniformBufferObject\UniformBufferObject.h">
@@ -1733,7 +1742,7 @@
     <ClInclude Include="Source\Engine\Profiler\ProfilingManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Engine\Rendering\Buffer\MeshHelper.h">
+    <ClInclude Include="Source\Engine\Rendering\Buffer\Mesh\MeshHelper.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\Engine\Rendering\Buffer\eVertexArrayFlag.h">
@@ -2241,6 +2250,15 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\Engine\Rendering\Proxy\RenderingFixedMaterialProxy.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Rendering\Scene\RenderScene.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Rendering\Proxy\RenderingMeshProxy.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Rendering\Buffer\Mesh\FMeshRawData.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

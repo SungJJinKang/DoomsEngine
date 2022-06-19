@@ -8,13 +8,11 @@
 #include <Rendering/Material/Material.h>
 #include "Utility/ShaderAsset/shaderAssetHelper.h"
 #include <EngineGUI/PrintText.h>
-#include "Utility/ShaderAsset/shaderConverter.h"
 #include <Rendering/Buffer/UniformBufferObject/UniformBufferObjectManager.h>
 #include <Graphics/GraphicsAPI/Manager/GraphicsAPIManager.h>
 
 #include "Rendering/Proxy/RenderingShaderProxy.h"
 #include "Rendering/Proxy/RenderingProxyManager.h"
-#include "Rendering/Proxy/RenderingUniformBufferProxy.h"
 #include "ResourceManagement/Thread/RunnableThread/RenderThread.h"
 
 dooms::asset::ShaderAsset::ShaderAsset()

@@ -4,7 +4,7 @@
 
 #include "Asset/ThreeDModelAsset.h"
 #include <Asset/AssetManager/AssetManager.h>
-#include "eVertexArrayFlag.h"
+#include "../eVertexArrayFlag.h"
 
 namespace dooms::graphics::meshHelper
 {
@@ -107,7 +107,7 @@ namespace dooms::graphics::meshHelper
 
 		threeDModelMeshes[0].mIsValidMesh = true;
 
-		ThreeDModelNode* const threeDModelNode = dooms::CreateDObject<ThreeDModelNode>(nullptr);
+		FMeshNode* const threeDModelNode = dooms::CreateDObject<FMeshNode>(nullptr);
 		threeDModelNode->mThreeDModelNodeParent = nullptr;
 		threeDModelNode->mModelMeshIndexs.push_back(0);
 
@@ -163,7 +163,7 @@ namespace dooms::graphics::meshHelper
 
 		threeDModelMeshes[0].mIsValidMesh = true;
 
-		ThreeDModelNode* const threeDModelNode = dooms::CreateDObject<ThreeDModelNode>(nullptr);
+		FMeshNode* const threeDModelNode = dooms::CreateDObject<FMeshNode>(nullptr);
 		threeDModelNode->mThreeDModelNodeParent = nullptr;
 		threeDModelNode->mModelMeshIndexs.push_back(0);
 
