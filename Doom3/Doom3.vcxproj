@@ -485,6 +485,7 @@ xcopy /y /d /E /H /C /I "$(ProjectDir)Assets" "$(TargetDir)Assets"</Command>
     <ClCompile Include="Source\Engine\ConfigurationValue\ConfigurationValue.cpp" />
     <ClCompile Include="Source\Engine\Misk\LatentActionManager.cpp" />
     <ClCompile Include="Source\Engine\Rendering\Proxy\RenderingCameraProxy.cpp" />
+    <ClCompile Include="Source\Engine\Rendering\Proxy\RenderingLighProxy.cpp" />
     <ClCompile Include="Source\Engine\Rendering\Proxy\RenderingLightProxy.cpp" />
     <ClCompile Include="Source\Engine\Rendering\Proxy\RenderingMaterialProxy.cpp" />
     <ClCompile Include="Source\Engine\Rendering\Proxy\RenderingPrimitiveProxy.cpp" />
@@ -809,6 +810,7 @@ xcopy /y /d /E /H /C /I "$(ProjectDir)Assets" "$(TargetDir)Assets"</Command>
     <ClInclude Include="Source\Engine\Rendering\Material\eTextureBindingPoint.h" />
     <ClInclude Include="Source\Engine\Rendering\Material\eUniformLocation.h" />
     <ClInclude Include="Source\Engine\Rendering\Proxy\RenderingCameraProxy.h" />
+    <ClInclude Include="Source\Engine\Rendering\Proxy\RenderingLighProxy.h" />
     <ClInclude Include="Source\Engine\Rendering\Proxy\RenderingLightProxy.h" />
     <ClInclude Include="Source\Engine\Rendering\Proxy\RenderingMaterialProxy.h" />
     <ClInclude Include="Source\Engine\Rendering\Proxy\RenderingPrimitiveProxy.h" />

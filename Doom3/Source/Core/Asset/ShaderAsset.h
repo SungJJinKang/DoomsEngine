@@ -6,12 +6,11 @@
 #include "Asset.h"
 #include <Graphics/GraphicsAPI/GraphicsAPI.h>
 #include <Rendering/Buffer/BufferID.h>
+#include <Rendering/Shader/ShaderTextData.h>
+#include <Rendering/Shader/eShaderCompileStatus.h>
 #include "Utility/ShaderAsset/shaderReflectionDataParser.h"
-#include "Rendering/Shader/ShaderTextData.h"
 
 #include "ShaderAsset.reflection.h"
-#include "Rendering/Shader/eShaderCompileStatus.h"
-
 namespace dooms
 {
 	namespace assetImporter
@@ -28,8 +27,6 @@ namespace dooms
 
 	namespace asset
 	{
-		
-
 		class DOOM_API D_CLASS ShaderAsset : public Asset
 		{
 			GENERATE_BODY()
@@ -52,7 +49,6 @@ namespace dooms
 			/// </summary>
 			void CreateRenderingShaderProxy();
 			void DestroyRenderingShaderProxy();
-
 			void GenerateUniformBufferObjectFromShaderReflectionData();
 
 		public:
@@ -67,9 +63,8 @@ namespace dooms
 			virtual void OnSetPendingKill() override;
 
 			const std::vector<dooms::graphics::UniformBufferObject*>& GetContainedUniformBufferObject() const;
-
-			bool SetShaderText(const std::array<FShaderTextData, GRAPHICS_PIPELINE_STAGE_COUNT>& InShaderTextDatas);
 			
+			bool SetShaderText(const std::array<FShaderTextData, GRAPHICS_PIPELINE_STAGE_COUNT>& InShaderTextDatas);
 			const std::string& GetShaderStringText(const dooms::graphics::GraphicsAPI::eGraphicsPipeLineStage targetGraphicsPipeLineStage) const;
 			const std::string& GetShaderReflectionDataStringText(const dooms::graphics::GraphicsAPI::eGraphicsPipeLineStage targetGraphicsPipeLineStage) const;
 			const shaderReflectionDataParser::ShaderReflectionData& GetShaderReflectionData(const dooms::graphics::GraphicsAPI::eGraphicsPipeLineStage targetGraphicsPipeLineStage) const;
@@ -85,7 +80,6 @@ namespace dooms
 			virtual dooms::asset::eAssetType GetEAssetType() const final;
 
 			graphics::eShaderCompileStatus GetCurrentShaderCompileStatus(const graphics::GraphicsAPI::eGraphicsPipeLineStage shaderType) const;
-
 		};
 		
 	}

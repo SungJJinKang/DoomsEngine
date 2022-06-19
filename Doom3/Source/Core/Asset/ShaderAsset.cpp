@@ -128,7 +128,6 @@ const dooms::asset::shaderReflectionDataParser::ShaderReflectionData& dooms::ass
 }
 
 
-
 void dooms::asset::ShaderAsset::CreateRenderingShaderProxy()
 {
 	D_ASSERT(RenderingShaderProxy == nullptr);
