@@ -399,9 +399,6 @@
     <ClCompile Include="Source\GameLogic\CustomComponent\BulletComponent.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Core\ResourceManagement\JobSystem_cpp\test\test.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Source\Core\Asset\AssetImportExporter\AssetExporter\AssetExporter_Texture.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -856,6 +853,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Source\Core\ResourceManagement\Thread\RunnableThread\GameThread.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Engine\Misk\LatentActionManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -2142,6 +2142,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\Core\ResourceManagement\Thread\RunnableThread\GameThread.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Misk\LatentActionManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Misk\LatentActionManager.reflection.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
