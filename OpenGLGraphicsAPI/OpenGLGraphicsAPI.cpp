@@ -1049,6 +1049,7 @@ namespace dooms
 
 		DOOMS_ENGINE_GRAPHICS_API void FlushCMDQueue()
 		{
+			glFlush();
 		}
 
 		DOOMS_ENGINE_GRAPHICS_API GraphicsAPI::eGraphicsAPIType GetCuurentAPIType()

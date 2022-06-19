@@ -48,8 +48,6 @@
   
 ### Misc
 
-  * JobSystem ( [source code](https://github.com/SungJJinKang/JobSystem_cpp) )
-                 
   
 ## Currently working on     
    

@@ -38,7 +38,7 @@ UINT64 dooms::os::_GetCurrentProcessorNumber()
 	return static_cast<UINT64>(GetCurrentProcessorNumber());
 }
 
-HANDLE dooms::os::_GetCurrenThreadHandle()
+HANDLE dooms::os::_GetCurrentThreadHandle()
 {
 	return GetCurrentThread();
 }

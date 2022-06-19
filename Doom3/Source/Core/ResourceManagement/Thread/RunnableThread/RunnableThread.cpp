@@ -147,13 +147,14 @@ dooms::thread::eThreadType dooms::thread::GetLocalThreadType()
 
 void dooms::thread::RunnableThread::TerminateRunnableThread(const bool bJoin)
 {
-	if(IsCreateNewThread())
+	const bool bIsTerminatedOriginal = bIsTerminated;
+
+	bIsTerminated = true;
+
+	if(IsCreateNewThread() && (bIsTerminatedOriginal == false))
 	{
-		D_ASSERT(bIsTerminated == false);
 		D_ASSERT_LOG(IsExistThreadObject(), "Thread object doesn't exist");
-
-		bIsTerminated = true;
-
+		
 		WakeUpRunnableThread();
 
 		if ((Thread != nullptr) && (bJoin == true))

@@ -37,7 +37,7 @@ namespace dooms
 		/// </summary>
 		/// <returns></returns>
 		NO_DISCARD UINT64 _GetCurrentProcessorNumber();
-		NO_DISCARD HANDLE _GetCurrenThreadHandle();
+		NO_DISCARD HANDLE _GetCurrentThreadHandle();
 		NO_DISCARD UINT64 _GetCurrenThreadID();
 
 		NO_DISCARD UINT64 _GetThreadStackStartAddress(const HANDLE threadHandel);
