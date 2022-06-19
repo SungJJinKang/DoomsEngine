@@ -11,6 +11,7 @@ namespace dooms
 
 		public:
 
+			virtual ~RenderingProxy() = default;
 
 			void MarkAsDirty();
 

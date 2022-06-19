@@ -271,42 +271,6 @@ bool dooms::asset::ShaderAsset::ShaderObject::IsShaderObjectValid() const
 	return (mShaderObjectID.IsValid()) && (mShaderCompileStatus == eShaderCompileStatus::COMPILE_SUCCESS);
 }
 
-/*
-bool dooms::asset::ShaderAsset::ConvertShaderTextStringToCurrentGraphicsAPIShaderFormat(ShaderTextData& outShaderText)
-{
-	bool isConvertingSuccess = false;
-
-	D_ASSERT(outShaderText.IsValid());
-	if (outShaderText.IsValid() == true)
-	{
-		isConvertingSuccess = true;
-
-		const dooms::graphics::GraphicsAPI::eGraphicsAPIType currentShaderTextGraphicsAPIType = outShaderText.mShaderTextGraphicsAPIType;
-		const dooms::graphics::GraphicsAPI::eGraphicsAPIType currentLoadedGraphicsAPIType = dooms::graphics::GraphicsAPI::GetCurrentAPIType();
-
-		if(currentShaderTextGraphicsAPIType != currentLoadedGraphicsAPIType)
-		{
-			std::string convertedShaderTextStr{};
-
-			isConvertingSuccess = dooms::asset::shaderConverter::ConvertShaderTextFormat
-			(
-				outShaderText.mShaderStringText,
-				convertedShaderTextStr,
-				currentShaderTextGraphicsAPIType, 
-				currentLoadedGraphicsAPIType
-			);
-
-			// TODO : Update reflection data string too.
-
-			D_ASSERT(convertedShaderTextStr.empty() == false);
-			outShaderText.mShaderStringText = std::move(convertedShaderTextStr);
-		}
-	}
-	D_ASSERT_LOG(isConvertingSuccess, "Fail to ConvertShaderTextStringToCurrentGraphicsAPIShaderFormat ( Shader Asset Path : %s )", GetAssetPathAsUTF8Str().c_str());
-
-	return isConvertingSuccess;
-}
-*/
 
 bool dooms::asset::ShaderAsset::CompileShaders()
 {
@@ -328,7 +292,7 @@ bool dooms::asset::ShaderAsset::CompileShaders()
 	return isSuccess;
 }
 
-bool dooms::asset::ShaderAsset::CompileSpecificTypeShader(ShaderTextData& shaderText, const graphics::GraphicsAPI::eGraphicsPipeLineStage shaderType, ShaderObject& shaderObject)
+bool dooms::asset::ShaderAsset::CompileSpecificTypeShader(FShaderTextData& shaderText, const graphics::GraphicsAPI::eGraphicsPipeLineStage shaderType, ShaderObject& shaderObject)
 {
 	D_ASSERT(shaderType != graphics::GraphicsAPI::eGraphicsPipeLineStage::DUMMY);
 
@@ -585,7 +549,7 @@ dooms::asset::eAssetType dooms::asset::ShaderAsset::GetEAssetType() const
 	return dooms::asset::eAssetType::SHADER;
 }
 
-dooms::asset::ShaderAsset::eShaderCompileStatus dooms::asset::ShaderAsset::GetCurrentShaderCompileStatus
+dooms::graphics::eShaderCompileStatus dooms::asset::ShaderAsset::GetCurrentShaderCompileStatus
 (
 	const graphics::GraphicsAPI::eGraphicsPipeLineStage shaderType
 ) const

@@ -6,10 +6,11 @@
 #include "Asset.h"
 #include <Graphics/GraphicsAPI/GraphicsAPI.h>
 #include <Rendering/Buffer/BufferID.h>
-
-#include "ShaderAsset.reflection.h"
+#include <Rendering/Shader/ShaderTextData.h>
+#include <Rendering/Shader/eShaderCompileStatus.h>
 #include "Utility/ShaderAsset/shaderReflectionDataParser.h"
 
+#include "ShaderAsset.reflection.h"
 namespace dooms
 {
 	namespace assetImporter
@@ -21,103 +22,29 @@ namespace dooms
 	{
 		class Material;
 		class UniformBufferObject;
+		class RenderingShaderProxy;
 	}
 
 	namespace asset
 	{
-		struct DOOM_API D_STRUCT ShaderTextData : public DObject
-		{
-			GENERATE_BODY_ShaderTextData()
-
-			D_PROPERTY()
-			std::filesystem::path mShaderTextFilePath;
-
-			D_PROPERTY()
-			dooms::graphics::GraphicsAPI::eGraphicsAPIType mShaderTextGraphicsAPIType;
-
-			D_PROPERTY()
-			std::string mShaderStringText;
-
-			D_PROPERTY()
-			std::string mShaderReflectionDataStringText;
-
-			D_PROPERTY()
-			shaderReflectionDataParser::ShaderReflectionData mShaderReflectionData;
-
-			ShaderTextData();
-
-			ShaderTextData
-			(
-				const std::string& shaderStringText,
-				const std::string& shaderReflectionDataStringText
-			);
-
-			ShaderTextData
-			(
-				const dooms::graphics::GraphicsAPI::eGraphicsAPIType graphicsAPIType, 
-				const std::string& shaderStringText,
-				const std::string& shaderReflectionDataStringText
-			);
-
-			void Clear();
-			bool IsCompileliable() const;
-
-			bool LoadShaderReflectionDataFromTextIfNotLoaded();
-		};
-
 		class DOOM_API D_CLASS ShaderAsset : public Asset
 		{
 			GENERATE_BODY()
 
-
-		public:
-
-			enum class D_ENUM eShaderCompileStatus : UINT32
-			{
-				READY,
-				SHADER_OBJECT_CREATED,
-				COMPILE_SUCCESS,
-				COMPILE_FAIL
-			};
-				
+			
 		private:
 
-			struct DOOM_API D_STRUCT ShaderObject
-			{
-				/// <summary>
-				/// OPENGL : Shader Object
-				///	DIRECTX : ID3DBlob
-				/// </summary>
-				D_PROPERTY()
-				dooms::graphics::BufferID mShaderObjectID;
-
-				D_PROPERTY()
-				eShaderCompileStatus mShaderCompileStatus;
-
-				ShaderObject();
-				bool IsShaderObjectValid() const;
-			};
+			graphics::RenderingShaderProxy* ShaderProxy = nullptr;
+			
 			
 			D_PROPERTY()
-			std::array<ShaderTextData, GRAPHICS_PIPELINE_STAGE_COUNT> mShaderTextDatas;
-
-			D_PROPERTY()
-			graphics::BufferID mInputLayoutForD3D {};
-
-			D_PROPERTY()
-			std::array<ShaderObject, GRAPHICS_PIPELINE_STAGE_COUNT> mShaderObject;
-
-			D_PROPERTY()
-			std::vector<dooms::graphics::UniformBufferObject*> mContainedUniformBufferObjects;
-			/*
-			bool ConvertShaderTextStringToCurrentGraphicsAPIShaderFormat(ShaderTextData& outShaderText);
-			*/
+			std::array<FShaderTextData, GRAPHICS_PIPELINE_STAGE_COUNT> mShaderTextDatas;
 			
 			/// <summary>
 			/// Don't call this subthread, Should Call this at mainthread
 			/// </summary>
 			bool CompileShaders();
-			bool CompileSpecificTypeShader(ShaderTextData& shaderText, const graphics::GraphicsAPI::eGraphicsPipeLineStage shaderType, ShaderObject& shaderObject);
+			bool CompileSpecificTypeShader(FShaderTextData& shaderText, const graphics::GraphicsAPI::eGraphicsPipeLineStage shaderType, ShaderObject& shaderObject);
 			const std::vector<dooms::graphics::UniformBufferObject*>& GenerateUniformBufferObjectFromShaderReflectionData(const shaderReflectionDataParser::ShaderReflectionData& shaderReflectionData);
 
 			void CreateInputLayoutForD3D(dooms::asset::ShaderAsset* const shaderAsset);
@@ -137,25 +64,10 @@ namespace dooms
 
 			bool SetShaderText
 			(
-				const std::array<ShaderTextData, GRAPHICS_PIPELINE_STAGE_COUNT>& shaderTextDatas,
+				const std::array<FShaderTextData, GRAPHICS_PIPELINE_STAGE_COUNT>& shaderTextDatas,
 				const bool compileShader
 			);
-
-			/*
-			void SetShaderText
-			(
-				const std::string& shaderStringText, 
-				const std::string& shaderReflectionDataStringText, 
-				const dooms::graphics::GraphicsAPI::eGraphicsAPIType shaderTextraphicsAPIType,
-				const bool compileShader
-			);
-			*/
-
-			FORCE_INLINE const graphics::BufferID& GetInputLayoutForD3D() const
-			{
-				D_ASSERT(mInputLayoutForD3D.IsValid());
-				return mInputLayoutForD3D;
-			}
+			
 			const std::string& GetShaderStringText(const dooms::graphics::GraphicsAPI::eGraphicsPipeLineStage targetGraphicsPipeLineStage) const;
 			const std::string& GetShaderReflectionDataStringText(const dooms::graphics::GraphicsAPI::eGraphicsPipeLineStage targetGraphicsPipeLineStage) const;
 			const shaderReflectionDataParser::ShaderReflectionData& GetShaderReflectionData(const dooms::graphics::GraphicsAPI::eGraphicsPipeLineStage targetGraphicsPipeLineStage) const;
@@ -183,7 +95,7 @@ namespace dooms
 
 			virtual dooms::asset::eAssetType GetEAssetType() const final;
 
-			eShaderCompileStatus GetCurrentShaderCompileStatus(const graphics::GraphicsAPI::eGraphicsPipeLineStage shaderType) const;
+			graphics::eShaderCompileStatus GetCurrentShaderCompileStatus(const graphics::GraphicsAPI::eGraphicsPipeLineStage shaderType) const;
 			
 		};
 		
