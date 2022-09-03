@@ -3,6 +3,7 @@
 #include <type_traits>
 #include <memory>
 #include <unordered_map>
+#include <string>
 
 #include <CompilerMacros.h>
 #include <TypeDef.h>
@@ -17,7 +18,8 @@
 		std::is_same_v<VALUE_TYPE, UINT32> ||		\
 		std::is_same_v<VALUE_TYPE, UINT64> ||		\
 		std::is_same_v<VALUE_TYPE, FLOAT32> ||		\
-		std::is_same_v<VALUE_TYPE, FLOAT64>,		\
+		std::is_same_v<VALUE_TYPE, FLOAT64> ||		\
+		std::is_same_v<VALUE_TYPE, std::string>, 	\
 		"Unsupported Type"							\
 	)
 
@@ -35,15 +37,15 @@ namespace dooms
 
 		GeneralConfigurationValue
 		(
-			const char* const Category,
-			const char* const Name,
-			const char* const Description
+			const std::string& Category,
+			const std::string& Name,
+			const std::string& Description
 		);
 		virtual ~GeneralConfigurationValue() = default;
 
-		const char* GetValueCategory() const;
-		const char* GetValueName() const;
-		const char* GetValueDescription() const;
+		const std::string& GetValueCategory() const;
+		const std::string& GetValueName() const;
+		const std::string& GetValueDescription() const;
 
 		virtual bool IsValueBoolean() const = 0;
 		virtual bool IsValueInt32() const = 0;
@@ -52,11 +54,12 @@ namespace dooms
 		virtual bool IsValueUInt64() const = 0;
 		virtual bool IsValueFloat32() const = 0;
 		virtual bool IsValueFloat64() const = 0;
+		virtual bool IsValueString() const = 0;
 
 		template <typename ValueType>
 		FORCE_INLINE bool IsValueType() const
 		{
-			static_assert(false, "Unsupported Type");
+			D_ASSERT_LOG(false, "Unsupported Type");
 			return false;
 		}
 
@@ -102,6 +105,12 @@ namespace dooms
 			return IsValueFloat64();
 		}
 
+		template <>
+		FORCE_INLINE bool IsValueType<std::string>() const
+		{
+			return IsValueString();
+		}
+
 		virtual bool AsBoolean() const = 0;
 		virtual INT32 AsInt32() const = 0;
 		virtual INT64 AsInt64() const = 0;
@@ -109,13 +118,14 @@ namespace dooms
 		virtual UINT64 AsUInt64() const = 0;
 		virtual FLOAT32 AsFloat32() const = 0;
 		virtual FLOAT64 AsFloat64() const = 0;
+		virtual std::string AsString() const = 0;
 		
 
 	private:
 
-		const char* const mCategory;
-		const char* const mName;
-		const char* const mDescription;
+		const std::string mCategory;
+		const std::string mName;
+		const std::string mDescription;
 	};
 	
 	template <typename ValueType>
@@ -127,9 +137,9 @@ namespace dooms
 
 		TCvar
 		(
-			const char* const Category,
-			const char* const Name,
-			const char* const Description,
+			const std::string& Category,
+			const std::string& Name,
+			const std::string& Description,
 			const ValueType InitialValue
 		);
 		
@@ -170,6 +180,10 @@ namespace dooms
 		{
 			return std::is_same_v<ValueType, FLOAT64>;
 		}
+		virtual bool IsValueString() const override final
+		{
+			return std::is_same_v<ValueType, std::string>;
+		}
 
 		virtual bool AsBoolean() const final { D_ASSERT(IsValueBoolean()); return *reinterpret_cast<const bool*>(&Value); }
 		virtual INT32 AsInt32() const final { D_ASSERT(IsValueInt32()); return *reinterpret_cast<const INT32*>(&Value); }
@@ -178,6 +192,7 @@ namespace dooms
 		virtual UINT64 AsUInt64() const final { D_ASSERT(IsValueUInt64()); return *reinterpret_cast<const UINT64*>(&Value); }
 		virtual FLOAT32 AsFloat32() const final { D_ASSERT(IsValueFloat32()); return *reinterpret_cast<const FLOAT32*>(&Value); }
 		virtual FLOAT64 AsFloat64() const final { D_ASSERT(IsValueFloat64()); return *reinterpret_cast<const FLOAT64*>(&Value); }
+		virtual std::string AsString() const final { D_ASSERT(IsValueString()); return *reinterpret_cast<const std::string*>(&Value); }
 
 	private:
 
@@ -194,11 +209,7 @@ namespace dooms
 	{
 	public:
 
-		static ConfigurationValueManager* GetConfigurationValueManager()
-		{
-			static std::unique_ptr<ConfigurationValueManager> StaticConfigurationValueManager = std::make_unique<ConfigurationValueManager>();
-			return StaticConfigurationValueManager.get();
-		}
+		static ConfigurationValueManager* GetConfigurationValueManager();
 
 		void RegisterConsoleVariable(GeneralConfigurationValue* const Value);
 		ConfigurationValueContainer& GetGeneralConfigurationValueList();
@@ -233,7 +244,7 @@ namespace dooms
 		) const
 		{
 			const GeneralConfigurationValue* const Cvar = GetGeneralConfigurationValue(Category, Name);
-			return Cvar->IsValueType<ValueType>() ? Cvar : nullptr;
+			return Cvar->IsValueType<ValueType>() ? reinterpret_cast<TCvar<ValueType>*>(const_cast<GeneralConfigurationValue*>(Cvar)) : nullptr;
 		}
 
 
@@ -241,16 +252,13 @@ namespace dooms
 
 		ConfigurationValueContainer GeneralConfigurationValueList{};
 	};
-
-
-
-
+	
 	template <typename ValueType>
 	FORCE_INLINE TCvar<ValueType>::TCvar
 	(
-		const char* const Category,
-		const char* const Name,
-		const char* const Description,
+		const std::string& Category,
+		const std::string& Name,
+		const std::string& Description,
 		const ValueType InitialValue
 	)
 		: GeneralConfigurationValue(Category, Name, Description), Value(InitialValue)

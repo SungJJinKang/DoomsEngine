@@ -17,8 +17,8 @@ void dooms::gc::GarbageCollectorManager::InitializeCollectTimeStep()
 {
 	//mCollectTimeStep[ = dooms::ConfigData::GetSingleton()->GetConfigData().GetValue<float>()
 
-	mCollectTimeStep = dooms::ConfigData::GetSingleton()->GetConfigData().GetValue<float>("SYSTEM", "GC_TIME_STEP");
-	mMaxSweepedObjectCountAtATime = dooms::ConfigData::GetSingleton()->GetConfigData().GetValue<int>("SYSTEM", "GC_MAX_SWEEPED_OBJECT_COUNT_AT_A_TIME");
+	mCollectTimeStep = dooms::ConfigData::GetSingleton()->GetConfigData().GetValue<FLOAT64>("SYSTEM", "GC_TIME_STEP");
+	mMaxSweepedObjectCountAtATime = dooms::ConfigData::GetSingleton()->GetConfigData().GetValue<INT64>("SYSTEM", "GC_MAX_SWEEPED_OBJECT_COUNT_AT_A_TIME");
 	mElapsedTime = 0.0f;
 }
 

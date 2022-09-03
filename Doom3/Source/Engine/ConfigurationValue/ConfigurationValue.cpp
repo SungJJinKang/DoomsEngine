@@ -3,13 +3,19 @@
 
 dooms::GeneralConfigurationValue::GeneralConfigurationValue
 (
-	const char* const Category,
-	const char* const Name,
-	const char* const Description
+	const std::string& Category,
+	const std::string& Name,
+	const std::string& Description
 )
 	: mCategory(Category), mName(Name), mDescription(Description)
 {
 	ConfigurationValueManager::GetConfigurationValueManager()->RegisterConsoleVariable(this);
+}
+
+dooms::ConfigurationValueManager* dooms::ConfigurationValueManager::GetConfigurationValueManager()
+{
+	static std::unique_ptr<ConfigurationValueManager> StaticConfigurationValueManager = std::make_unique<ConfigurationValueManager>();
+	return StaticConfigurationValueManager.get();
 }
 
 void dooms::ConfigurationValueManager::RegisterConsoleVariable(GeneralConfigurationValue* const Value)
@@ -37,8 +43,8 @@ void dooms::ConfigurationValueManager::RegisterConsoleVariable(GeneralConfigurat
 			(
 				false,
 				"Fail to AddGeneralConfigurationValueToList ( %s - %s Already Exist )",
-				Value->GetValueCategory(),
-				Value->GetValueName()
+				Value->GetValueCategory().c_str(),
+				Value->GetValueName().c_str()
 			);
 		}
 		else
@@ -48,17 +54,17 @@ void dooms::ConfigurationValueManager::RegisterConsoleVariable(GeneralConfigurat
 	}
 }
 
-const char* dooms::GeneralConfigurationValue::GetValueCategory() const
+const std::string& dooms::GeneralConfigurationValue::GetValueCategory() const
 {
 	return mCategory;
 }
 
-const char* dooms::GeneralConfigurationValue::GetValueName() const
+const std::string& dooms::GeneralConfigurationValue::GetValueName() const
 {
 	return mName;
 }
 
-const char* dooms::GeneralConfigurationValue::GetValueDescription() const
+const std::string& dooms::GeneralConfigurationValue::GetValueDescription() const
 {
 	return mDescription;
 }
@@ -100,13 +106,7 @@ const dooms::GeneralConfigurationValue* dooms::ConfigurationValueManager::GetGen
 		}
 	}
 
+	D_ASSERT_LOG(GeneralConfigurationValue != nullptr, "Console Variable doesn't exist ( Category : %s, ValueNaem : %s )", Category, Name);
+
 	return GeneralConfigurationValue;
 }
-
-dooms::TCvar<INT32> CvarResolution
-{
-	"Graphics",
-	"Resolution",
-	"Resolution",
-	1
-};

@@ -44,11 +44,11 @@ dooms::GameCore::GameCore()
 
 void dooms::GameCore::InitGameSetting()
 {
-	ITERATION_PER_SECOND = mGameConfigData.GetConfigData().GetValue<INT32>("SYSTEM", "ITERATION_PER_SECOND");
-	TARGET_FRAME_RATE = mGameConfigData.GetConfigData().GetValue<INT32>("SYSTEM", "TARGET_FRAME_RATE");
-	FRAME_DELAY_MILLISECOND = mGameConfigData.GetConfigData().GetValue<INT32>("SYSTEM", "FRAME_DELAY_MILLISECOND");
+	ITERATION_PER_SECOND = mGameConfigData.GetConfigData().GetValue<INT64>("SYSTEM", "ITERATION_PER_SECOND");
+	TARGET_FRAME_RATE = mGameConfigData.GetConfigData().GetValue<INT64>("SYSTEM", "TARGET_FRAME_RATE");
+	FRAME_DELAY_MILLISECOND = mGameConfigData.GetConfigData().GetValue<INT64>("SYSTEM", "FRAME_DELAY_MILLISECOND");
 	FIXED_TIME_STEP = static_cast<FLOAT32>(mGameConfigData.GetConfigData().GetValue<FLOAT64>("PHYSICS", "FIXED_TIME_STEP"));
-	MAX_PHYSICS_STEP = mGameConfigData.GetConfigData().GetValue<INT32>("PHYSICS", "MAX_PHYSICS_STEP");
+	MAX_PHYSICS_STEP = mGameConfigData.GetConfigData().GetValue<INT64>("PHYSICS", "MAX_PHYSICS_STEP");
 
 	
 

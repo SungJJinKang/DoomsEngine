@@ -173,7 +173,7 @@ bool dooms::reflection::ReflectionManager::GetIsReflectionEnabled() const
 
 void dooms::reflection::ReflectionManager::SetIsReflectionEnabled(const bool isEnabled)
 {
-	ConfigData::GetSingleton()->GetConfigData().InsertVariable("SYSTEM", "ENABLED_REFLECTION", isEnabled);
+	ConfigurationValueManager::GetConfigurationValueManager()->GetTCvar<bool>("SYSTEM", "ENABLED_REFLECTION")->SetValue(isEnabled);
 }
 
 bool dooms::reflection::ReflectionManager::GetIsReflectionDatabaseLoaded() const

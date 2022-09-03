@@ -17,7 +17,7 @@
 
 void dooms::physics::Physics_Server::LoadPhysicsSetting()
 {
-	Physics_Setting::SetIsPhysicsOn(static_cast<bool>(GameCore::GetSingleton()->mGameConfigData.GetConfigData().GetValue<INT32>("PHYSICS", "ENABLE")));
+	Physics_Setting::SetIsPhysicsOn(static_cast<bool>(GameCore::GetSingleton()->mGameConfigData.GetConfigData().GetValue<INT64>("PHYSICS", "ENABLE")));
 
 	Physics_Setting::ENLARGED_AABB2D_OFFSET = static_cast<FLOAT32>(GameCore::GetSingleton()->mGameConfigData.GetConfigData().GetValue<FLOAT64>("PHYSICS", "ENLARGED_AABB2D_OFFSET"));
 	Physics_Setting::ENLARGED_AABB3D_OFFSET = static_cast<FLOAT32>(GameCore::GetSingleton()->mGameConfigData.GetConfigData().GetValue<FLOAT64>("PHYSICS", "ENLARGED_AABB3D_OFFSET"));

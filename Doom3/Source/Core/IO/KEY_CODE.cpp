@@ -1,6 +1,7 @@
 #include "KEY_CODE.h"
 
 #include "magic_enum.hpp"
+#include <ConfigurationValue/ConfigurationValue.h>
 
 dooms::input::GraphicsAPIInput::eKEY_CODE dooms::userinput::UserInputHelper::ConvertStringToKeyCode(std::string_view str)
 {
@@ -17,3 +18,19 @@ dooms::input::GraphicsAPIInput::eKEY_CODE dooms::userinput::UserInputHelper::Con
 	}
 }
 
+
+template<>
+dooms::input::GraphicsAPIInput::eKEY_CODE dooms::IniData::GetValue<dooms::input::GraphicsAPIInput::eKEY_CODE>(const std::string& SectionName, const std::string& KeyName) const
+{
+	const dooms::GeneralConfigurationValue* const Cvar = GetConfigurationValue(SectionName, KeyName);
+
+	D_ASSERT(Cvar != nullptr);
+	if (Cvar != nullptr)
+	{
+		return 	dooms::userinput::UserInputHelper::ConvertStringToKeyCode(Cvar->AsString());
+	}
+	else
+	{
+		return dooms::input::GraphicsAPIInput::eKEY_CODE::UNKNOWN;
+	}
+}

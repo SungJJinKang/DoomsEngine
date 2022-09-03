@@ -12,10 +12,10 @@ dooms::graphics::GraphicsAPI::eBlendFactor dooms::graphics::graphicsAPISetting::
 
 void dooms::graphics::graphicsAPISetting::LoadData()
 {
-	const INT32 width = ConfigData::GetSingleton()->GetConfigData().GetValue<INT32>("Graphics", "SCREEN_WIDTH");
-	const INT32 height = ConfigData::GetSingleton()->GetConfigData().GetValue<INT32>("Graphics", "SCREEN_HEIGHT");
+	const INT32 width = ConfigData::GetSingleton()->GetConfigData().GetValue<INT64>("Graphics", "SCREEN_WIDTH");
+	const INT32 height = ConfigData::GetSingleton()->GetConfigData().GetValue<INT64>("Graphics", "SCREEN_HEIGHT");
 
-	graphicsAPISetting::MultiSamplingNum = ConfigData::GetSingleton()->GetConfigData().GetValue<INT32>("Graphics", "MULTI_SAMPLE");
+	graphicsAPISetting::MultiSamplingNum = ConfigData::GetSingleton()->GetConfigData().GetValue<INT64>("Graphics", "MULTI_SAMPLE");
 	graphicsAPISetting::ScreenSize[0] = width;
 	graphicsAPISetting::ScreenSize[1] = height;
 
