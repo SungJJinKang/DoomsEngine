@@ -552,9 +552,6 @@
     <ClCompile Include="Source\Engine\EngineGUI\GUIModules\Modules\ThreadProfilerGUI.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Engine\Rendering\Buffer\Mesh\MeshNode.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Source\Engine\Rendering\RenderingDebugger\RenderingDebuggerModules\Modules\MaskedOcclusionCullingTester.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -906,6 +903,9 @@
     <ClCompile Include="Source\Engine\Rendering\Buffer\Mesh\FMeshRawData.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Engine\Rendering\Buffer\eVertexArrayFlag.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="dependency\glad\include\glad\glad.h">
@@ -1113,9 +1113,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\Helper\crossguid\Guid.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Engine\Rendering\Buffer\Mesh\MeshNode.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\Engine\Rendering\Buffer\UniformBufferObject\UniformBufferObject.h">

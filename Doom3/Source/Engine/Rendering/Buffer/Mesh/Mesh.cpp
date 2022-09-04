@@ -8,19 +8,14 @@
 
 void dooms::graphics::Mesh::CreateRenderingMeshProxy()
 {
-	D_ASSERT(IsRenderingMeshProxyCreated() == false);
+	D_ASSERT(MeshProxy == nullptr);
 
 	RenderingMeshProxy::FRenderingMeshProxyInitializer Initializer;
-	Initializer.DataComponentCount = DataComponentCount;
-	Initializer.VertexCount = VertexCount;
-	Initializer.MeshRawData = std::move(MeshRawData);
-	Initializer.PrimitiveType = PrimitiveType;
-	Initializer.VertexArrayFlag = VertexArrayFlag;
-	Initializer.IndiceList = IndiceList;
+	Initializer.MeshRawData = MeshRawData;
 	Initializer.bDynamicWrite = DynamicWrite;
 
 	MeshProxy = new RenderingMeshProxy();
-	MeshProxy->InitRenderingMeshProxyInitializer(Initializer);
+	MeshProxy->InitRenderingMeshProxyInitializer(std::move(Initializer));
 
 	dooms::thread::RenderThread::GetSingleton()->EnqueueRenderCommand
 	(
@@ -33,18 +28,19 @@ void dooms::graphics::Mesh::CreateRenderingMeshProxy()
 
 void dooms::graphics::Mesh::DestroyRenderingMeshProxy()
 {
-	D_ASSERT(IsRenderingMeshProxyCreated());
+	if(MeshProxy != nullptr)
+	{
+		RenderingMeshProxy* const Proxy = MeshProxy;
+		MeshProxy = nullptr;
 
-	RenderingMeshProxy* const Proxy = GetRenderingMeshProxy();
-	MeshProxy = nullptr;
-
-	dooms::thread::RenderThread::GetSingleton()->EnqueueRenderCommand
-	(
-		[Proxy]()
-		{
-			RenderingProxyManager::GetSingleton()->DestroyedRenderingMeshProxyList.push_back(Proxy);
-		}
-	);
+		dooms::thread::RenderThread::GetSingleton()->EnqueueRenderCommand
+		(
+			[Proxy]()
+			{
+				RenderingProxyManager::GetSingleton()->DestroyedRenderingMeshProxyList.push_back(Proxy);
+			}
+		);
+	}
 }
 
 dooms::graphics::RenderingMeshProxy* dooms::graphics::Mesh::GetRenderingMeshProxy() const
@@ -58,50 +54,22 @@ bool dooms::graphics::Mesh::IsRenderingMeshProxyCreated() const
 }
 
 dooms::graphics::Mesh::Mesh()
-	:
-	DataComponentCount(),
-	VertexCount(),
-	MeshRawData(),
-	PrimitiveType(),
-	VertexArrayFlag(),
-	IndiceList(),
-	DynamicWrite()
+	: MeshRawData(), DynamicWrite(false), MeshProxy(nullptr)
 {
-
 }
 
-dooms::graphics::Mesh::Mesh
-(
-	const UINT64 DataComponentCount,
-	const UINT64 VertexCount,
-	const std::vector<UINT8> MeshRawData,
-	const GraphicsAPI::ePrimitiveType PrimitiveType,
-	const UINT32 VertexArrayFlag,
-	const std::vector<UINT32> IndiceList,
-	const bool DynamicWrite
-)
+dooms::graphics::Mesh::Mesh(const graphics::FMeshRawData& InMeshRawData)
 	:
-	DataComponentCount{ DataComponentCount },
-	VertexCount{ VertexCount },
-	MeshRawData(MeshRawData),
-	PrimitiveType(PrimitiveType),
-	VertexArrayFlag(VertexArrayFlag),
-	IndiceList(IndiceList),
-	DynamicWrite(DynamicWrite)
+	MeshRawData(InMeshRawData), DynamicWrite(false), MeshProxy(nullptr)
 {
-	
+	CreateRenderingMeshProxy();
 }
 
-dooms::graphics::Mesh::Mesh(const ThreeDModelMesh& ThreeDModelMesh)
+dooms::graphics::Mesh::Mesh(graphics::FMeshRawData&& InMeshRawData) noexcept
 	:
-	mNumOfVertices{ 0 },
-	mNumOfIndices{ 0 },
-	mPrimitiveType{ GraphicsAPI::ePrimitiveType::NONE },
-	mVertexBufferLayoutCount()
+	MeshRawData(std::move(InMeshRawData)), DynamicWrite(false), MeshProxy(nullptr)
 {
-	CreateBufferObjectFromModelMesh(ThreeDModelMesh);
-
-	ThreeDModelMesh.
+	CreateRenderingMeshProxy();
 }
 
 dooms::graphics::Mesh::~Mesh()
@@ -118,25 +86,48 @@ void dooms::graphics::Mesh::OnSetPendingKill()
 }
 
 
-dooms::graphics::Mesh& dooms::graphics::Mesh::operator=(const ThreeDModelMesh& threeDModelMesh)
+dooms::graphics::Mesh& dooms::graphics::Mesh::operator=(const graphics::FMeshRawData& InMeshData)
 {
-	DestroyUniformBufferProxy();
-	
-	CreateBufferObjectFromModelMesh(threeDModelMesh);
+	DestroyRenderingMeshProxy();
+
+	MeshRawData = InMeshData;
+	DynamicWrite = false;
+	MeshProxy = nullptr;
+
+	CreateRenderingMeshProxy();
+
 	return *this;
+}
+
+dooms::graphics::Mesh& dooms::graphics::Mesh::operator=(graphics::FMeshRawData&& InMeshData) noexcept
+{
+	DestroyRenderingMeshProxy();
+
+	MeshRawData = std::move(InMeshData);
+	DynamicWrite = false;
+	MeshProxy = nullptr;
+
+	CreateRenderingMeshProxy();
+
+	return *this;
+}
+
+const dooms::graphics::FMeshRawData& dooms::graphics::Mesh::GetMeshRawData() const
+{
+	return MeshRawData;
 }
 
 const dooms::physics::AABB3D& dooms::graphics::Mesh::GetBoundingBox() const
 {
-	return mAABB3D;
+	return MeshRawData.BoundingBox;
 }
 
 const dooms::physics::Sphere& dooms::graphics::Mesh::GetBoundingSphere() const
 {
-	return mSphere;
+	return MeshRawData.BoundingSphere;
 }
 
-void* dooms::graphics::Mesh::MapVertexDataBuffer
+/*void* dooms::graphics::Mesh::MapVertexDataBuffer
 (
 	const dooms::graphics::GraphicsAPI::eMapBufferAccessOption mapBufferAccessOption
 )
@@ -176,20 +167,23 @@ void* dooms::graphics::Mesh::MapElementBuffer
 
 void dooms::graphics::Mesh::UnmapElementBuffer()
 {
-	if (mElementBufferObjectID.IsValid() == true)
-	{
-		GraphicsAPI::UnMapBufferObjectMappedToClientAddress(mElementBufferObjectID, GraphicsAPI::eBufferTarget::ELEMENT_ARRAY_BUFFER);
-	}
-}
+	dooms::thread::RenderThread::GetSingleton()->EnqueueRenderCommand
+	(
+		[Proxy = MeshProxy]()
+		{
+			Proxy->UnmapElementBuffer();
+		}
+	);
+}*/
 
 UINT64 dooms::graphics::Mesh::GetNumOfIndices() const
 {
-	return NumOfIndices;
+	return MeshRawData.GetIndiceCount();
 }
 
 UINT64 dooms::graphics::Mesh::GetNumOfVertices() const
 {
-	return mNumOfVertices;
+	return MeshRawData.VerticeCount;
 }
 
 

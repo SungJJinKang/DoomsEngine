@@ -4,9 +4,6 @@
 
 #include <filesystem>
 
-#include <Rendering/Texture/RenderingTextureViewProxy.h>
-
-
 namespace DirectX
 {
 	struct Image;

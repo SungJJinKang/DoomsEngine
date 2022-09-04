@@ -8,14 +8,19 @@ namespace dooms
 	{
 		enum D_ENUM eVertexArrayFlag : UINT32
 		{
-			None = 0x0,
-			VertexVector3 = 1 << 0,
-			VertexVector2 = 1 << 1,
-			TexCoord = 1 << 2,
-			mNormal = 1 << 3,
-			mTangent = 1 << 4,
-			mBitangent = 1 << 5,
-			mTBN = 1 << 6,
+			NONE = 0x0,
+			VERTEX_VECTOR3 = 1 << 0,
+			VERTEX_VECTOR2 = 1 << 1,
+			TEXCOORD = 1 << 2,
+			NORMAL = 1 << 3,
+			TANGENT = 1 << 4,
+			BI_TANGENT = 1 << 5,
+			TBN = 1 << 6,
+		};
+
+		enum
+		{
+			VERTEX_ARRAY_FLAG_COUNT = 7
 		};
 	}
 }

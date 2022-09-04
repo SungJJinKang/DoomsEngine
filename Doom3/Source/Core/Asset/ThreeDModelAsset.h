@@ -1,5 +1,6 @@
 #pragma once
 #include <string>
+#include <memory>
 
 #include "Asset.h"
 
@@ -7,9 +8,8 @@
 #include <Vector3.h>
 #include <Physics/Collider/AABB.h>
 #include <Physics/Collider/Sphere.h>
-
-using namespace math;
-
+#include <Rendering/Buffer/Mesh/FMeshRawData.h>
+#include <Rendering/Buffer/Mesh/Mesh.h>
 
 #include "ThreeDModelAsset.reflection.h"
 D_NAMESPACE(dooms)
@@ -17,16 +17,17 @@ namespace dooms
 {
 	struct DOOM_API FMeshNode
 	{
-		std::string mName;
-		FMeshNode* mThreeDModelNodeParent = nullptr; // Parent node will be deleted later
-		std::vector<FMeshNode> mThreeDModelNodeChildrens;
+		std::string MeshNodeName{};
+		FMeshNode* ParentMeshNode = nullptr; // Parent node will be deleted later
+		std::vector<FMeshNode> MeshNodeChildrenList{};
 		
 		/// <summary>
-		/// each component contain index of ThreeDModelAsset::ThreeDModelMesh 
-		/// so use like ThreeDModelAsset->mModelMeshAssets[mModelMeshIndexs[0]]
+		///	Index Of MeshRawDataList
+		/// ThreeDModelAsset->MeshRawDataList[mModelMeshIndexs[0]]
 		/// </summary>
-		std::vector<UINT32> mModelMeshIndexs;
+		std::vector<UINT32> ModelMeshIndexList{};
 	};
+	
 
 	namespace assetImporter
 	{
@@ -39,35 +40,26 @@ namespace dooms
 		{
 			GENERATE_BODY()
 				
-
 			friend class ::dooms::assetImporter::AssetImporterWorker_THREE_D_MODEL;
 
 		private:
 			
-			FMeshNode* mRootModelNode{};
+			std::unique_ptr<FMeshNode> Root3DModelNode{};
 
-			D_PROPERTY()
-			std::vector<ThreeDModelMesh> mModelMeshAssets;
-
-			///////////
-
-			D_PROPERTY()
-			FMeshNode* mRootMeshNode{nullptr};
-
-			D_PROPERTY()
-			std::vector<graphics::Mesh> mMeshes{};
-
-			D_PROPERTY()
-				size_t mNumOfMeshes{};
+			/**
+			 * \brief This variable has one to one relationship with MeshList
+			 */
+			std::vector<graphics::FMeshRawData> MeshRawDataList;
 
 			/// <summary>
-			/// Send Meshdata to GPU
-			/// GPU Buffer
+			/// This variable has one to one relationship with MeshRawDataList
 			/// </summary>
-			void SendMeshDataToGPU();
-
+			D_PROPERTY()
+			std::vector<graphics::Mesh*> MeshList{};
+			
+			void CreateMesh();
 			void ClearMeshData();
-			void CreateNode(graphics::MeshNode* currentNode, FMeshNode* currentModelNodeAsset);
+
 			void OnEndImportInMainThread_Internal() final;
 
 
@@ -77,8 +69,8 @@ namespace dooms
 			ThreeDModelAsset(const ThreeDModelAsset&) = delete;
 			ThreeDModelAsset
 			(
-				std::vector<ThreeDModelMesh>&& threeDModelMeses, 
-				FMeshNode* const rootThreeDModelNode
+				std::vector<graphics::FMeshRawData>&& MeshRawData,
+				std::unique_ptr<FMeshNode>&& RootMeshNode
 			) noexcept;
 			ThreeDModelAsset(ThreeDModelAsset&& threeDAsset) noexcept = default;
 			ThreeDModelAsset& operator=(const ThreeDModelAsset&) = delete;
@@ -90,11 +82,10 @@ namespace dooms
 			/// why const? to protect asset data
 			/// </summary>
 			/// <returns></returns>
-			const std::vector<graphics::Mesh>& GetMeshes() const;
+			const std::vector<graphics::Mesh*>& GetMeshes() const;
 			graphics::Mesh* GetMesh(UINT32 index);
 			size_t GetMeshCount() const;
-
-
+			
 			virtual dooms::asset::eAssetType GetEAssetType() const final;
 		};
 

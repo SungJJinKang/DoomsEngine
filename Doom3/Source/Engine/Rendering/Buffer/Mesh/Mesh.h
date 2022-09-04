@@ -5,6 +5,7 @@
 
 #include <Physics/Collider/AABB.h>
 #include <Physics/Collider/Sphere.h>
+#include <Rendering/Buffer/Mesh/FMeshRawData.h>
 #include <Graphics/GraphicsAPI/GraphicsAPI.h>
 #include <Graphics/GraphicsAPI/Manager/GraphicsAPIManager.h>
 #include <Rendering/Buffer/BufferID.h>
@@ -24,20 +25,9 @@ namespace dooms
 
 			RenderingMeshProxy* MeshProxy = nullptr;
 
-			UINT64 DataComponentCount;
-			UINT64 VertexCount;
-			std::vector<UINT8> MeshRawData;
-			GraphicsAPI::ePrimitiveType PrimitiveType;
-			UINT32 VertexArrayFlag;
-			std::vector<UINT32> IndiceList;
+			FMeshRawData MeshRawData;
 			bool DynamicWrite;
 			
-			/// <summary>
-			/// this is local coordinate, you should map to your world coordinate
-			/// </summary>
-			physics::AABB3D mAABB3D{nullptr};
-			physics::Sphere mSphere{nullptr};
-
 			void OnSetPendingKill() override;
 			
 	
@@ -51,18 +41,10 @@ namespace dooms
 			Mesh();
 			virtual ~Mesh() override;
 			
-			Mesh
-			(
-				const UINT64 DataComponentCount,
-				const UINT64 VertexCount,
-				const std::vector<UINT8> MeshRawData, 
-				const GraphicsAPI::ePrimitiveType PrimitiveType,
-				const UINT32 VertexArrayFlag,
-				const std::vector<UINT32> IndiceList,
-				const bool DynamicWrite
-			);
-			Mesh(const ThreeDModelMesh& ThreeDModelMesh);
-			Mesh& operator=(const ThreeDModelMesh& threeDModelMesh);
+			Mesh(const graphics::FMeshRawData& InMeshRawData);
+			Mesh(graphics::FMeshRawData&& InMeshRawData) noexcept;
+			Mesh& operator=(const graphics::FMeshRawData& InMeshData);
+			Mesh& operator=(graphics::FMeshRawData&& InMeshData) noexcept;
 
 			Mesh(const Mesh&) = delete;
 			Mesh& operator=(const Mesh&) = delete;
@@ -70,24 +52,19 @@ namespace dooms
 			Mesh(Mesh&&) noexcept = default;
 			Mesh& operator=(Mesh&&) noexcept = default;
 
-			const ThreeDModelMesh* GetTargetThreeDModelMesh() const;
-			void DestroyUniformBufferProxy() final;
-			
-			void CreateBufferObjectFromModelMesh(const ThreeDModelMesh& threeDModelMesh) noexcept;
+			const graphics::FMeshRawData& GetMeshRawData() const;
 
-			
 			const physics::AABB3D& GetBoundingBox() const;
 			const physics::Sphere& GetBoundingSphere() const;
 			
-			/**
-			 * \brief You should unmap mapped buffer object before use it 
-			 * \param mapBufferAccessOption 
-			 * \return 
-			 */
-			void* MapVertexDataBuffer(const dooms::graphics::GraphicsAPI::eMapBufferAccessOption mapBufferAccessOption);
+			/*void* MapVertexDataBuffer(const dooms::graphics::GraphicsAPI::eMapBufferAccessOption mapBufferAccessOption);
 			void UnmapVertexDataBuffer();
 			void* MapElementBuffer(const dooms::graphics::GraphicsAPI::eMapBufferAccessOption mapBufferAccessOption);
-			void UnmapElementBuffer();
+			void UnmapElementBuffer();*/
+
+			UINT64 GetNumOfIndices() const;
+			UINT64 GetNumOfVertices() const;
+
 		};
 	}
 }

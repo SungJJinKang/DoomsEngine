@@ -289,7 +289,7 @@ dooms::graphics::Mesh* dooms::graphics::meshBatchCreater::CreateStaticBatchedMes
 				batchedMeshData.mVerticeCount,
 				batchedMeshData.mData,
 				graphics::GraphicsAPI::ePrimitiveType::TRIANGLES,
-				eVertexArrayFlag::VertexVector3 | eVertexArrayFlag::TexCoord | eVertexArrayFlag::mTBN,
+				eVertexArrayFlag::VERTEX_VECTOR3 | eVertexArrayFlag::TEXCOORD | eVertexArrayFlag::TBN,
 				batchedMeshData.mIndices,
 				batchedMeshData.mIndiceCount,
 				false

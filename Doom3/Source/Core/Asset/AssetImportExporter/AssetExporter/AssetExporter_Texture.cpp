@@ -1,10 +1,10 @@
 #include "AssetExporter_Texture.h"
 
 #include <Graphics/GraphicsAPI/GraphicsAPI.h>
-#include <Rendering/Texture/RenderingTextureViewProxy.h>
 #include <DirectXTex.h>
 #include <EngineGUI/PrintText.h>
 #include <Graphics/GraphicsAPI/Manager/GraphicsAPIManager.h>
+#include <Rendering/Proxy/RenderingTextureViewProxy.h>
 
 #include <Rendering/FrameBuffer/FrameBuffer.h>
 
@@ -104,8 +104,6 @@ namespace dooms
 				const INT32 lodLevel
 			)
 			{
-				D_ASSERT(IsValid(exportedTexture) == true);
-				
 				return ConvertToDirectXImage(
 					lodLevel,
 					exportedTexture->GetTexturePixelsUnsafe(lodLevel),
@@ -204,8 +202,6 @@ void dooms::assetExporter::assetExporterTexture::ExportTextureFromTextureAsDDS
 	const std::filesystem::path& exportPath
 )
 {
-	D_ASSERT(IsValid(exportedTexture) == true);
-
 	DirectX::Image dxImage = ConvertToDirectXImage(exportedTexture, lodLevel);
 	ExportTextureAsDDS(dxImage, lodLevel, exportedTexture->GetTargetTextureResourceObject()->GetTextureComponentFormat(), exportPath, true);
 }

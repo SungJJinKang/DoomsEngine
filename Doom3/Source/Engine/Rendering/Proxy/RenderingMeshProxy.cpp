@@ -5,30 +5,23 @@
 #include <Math/JINMATH/Matrix4x4.h>
 
 UINT64 dooms::graphics::RenderingMeshProxy::BOUND_VERTEX_ARRAY_ID{ (UINT64)-1 };
-const UINT32 dooms::graphics::RenderingMeshProxy::MAX_VERTEX_BUFFER_LAYOUT_COUNT{ 32 };
 UINT64 dooms::graphics::RenderingMeshProxy::BOUND_VERTEX_BUFFER_ID[MAX_VERTEX_BUFFER_LAYOUT_COUNT]{ (UINT64)-1 };
 UINT64 dooms::graphics::RenderingMeshProxy::BOUND_INDEX_BUFFER_ID{ (UINT64)-1 };
 
 void dooms::graphics::RenderingMeshProxy::InitRenderingMeshProxyInitializer
 (
-	FRenderingMeshProxyInitializer& Initializer
-)
+	FRenderingMeshProxyInitializer&& Initializer
+) noexcept
 {
 	D_ASSERT(dooms::thread::IsInGameThread());
-
-	DataComponentCount = Initializer.DataComponentCount;
-	VertexCount = Initializer.VertexCount;
+	
 	MeshRawData = std::move(Initializer.MeshRawData);
-	PrimitiveType = Initializer.PrimitiveType;
-	VertexArrayFlag = Initializer.VertexArrayFlag;
-	IndiceList = Initializer.IndiceList;
 	bDynamicWrite = Initializer.bDynamicWrite;
-	BoundingBox = Initializer.BoundingBox;
-	BoundingSphere = Initializer.BoundingSphere;
 }
 
 void dooms::graphics::RenderingMeshProxy::CreateBufferObject()
 {
+	D_ASSERT(MeshRawData.bIsValidMesh);
 	D_ASSERT(IsBufferGenerated() == false);
 
 	if (graphics::GraphicsAPIManager::GetCurrentAPIType() == graphics::GraphicsAPI::eGraphicsAPIType::OpenGL)
@@ -41,24 +34,24 @@ void dooms::graphics::RenderingMeshProxy::CreateBufferObject()
 
 	BindVertexArrayObject(); // bind vertex array buffer
 
-	D_DEBUG_LOG(eLogType::D_LOG, "%f", sizeof(FLOAT32) * DataComponentCount);
+	D_DEBUG_LOG(eLogType::D_LOG, "%f", sizeof(FLOAT32) * MeshRawData.GetDataComponentCount());
 	VertexDataBuffer = GraphicsAPI::CreateBufferObject
 	(
 		GraphicsAPI::eBufferTarget::ARRAY_BUFFER,
-		static_cast<UINT64>(sizeof(FLOAT32) * DataComponentCount),
-		MeshRawData.data(),
+		static_cast<UINT64>(sizeof(FLOAT32) * MeshRawData.GetDataComponentCount()),
+		MeshRawData.Data,
 		bDynamicWrite
 	);
 	BindVertexBufferObject();
 
 #pragma warning( disable : 4312 )
 
-	D_ASSERT(((VertexArrayFlag & eVertexArrayFlag::VertexVector2)) > 0 != ((VertexArrayFlag & eVertexArrayFlag::VertexVector3) > 0));
+	D_ASSERT(((VertexArrayFlag & eVertexArrayFlag::VERTEX_VECTOR2)) > 0 != ((VertexArrayFlag & eVertexArrayFlag::VERTEX_VECTOR3) > 0));
 
 	UINT64 offset = 0;
 	UINT32 vertexLayoutCount = 0;
 	UINT32 layoutIndex = 0;
-	if (VertexArrayFlag & eVertexArrayFlag::VertexVector2)
+	if (VertexArrayFlag & eVertexArrayFlag::VERTEX_VECTOR2)
 	{
 		if (graphics::GraphicsAPIManager::GetCurrentAPIType() == graphics::GraphicsAPI::eGraphicsAPIType::OpenGL)
 		{
@@ -72,10 +65,10 @@ void dooms::graphics::RenderingMeshProxy::CreateBufferObject()
 		vertexLayoutCount++;
 		layoutIndex++;
 
-		offset += VertexCount * sizeof(math::Vector2);
+		offset += MeshRawData.VerticeCount * sizeof(math::Vector2);
 	}
 
-	if (VertexArrayFlag & eVertexArrayFlag::VertexVector3)
+	if (VertexArrayFlag & eVertexArrayFlag::VERTEX_VECTOR3)
 	{
 		if (graphics::GraphicsAPIManager::GetCurrentAPIType() == graphics::GraphicsAPI::eGraphicsAPIType::OpenGL)
 		{
@@ -89,10 +82,10 @@ void dooms::graphics::RenderingMeshProxy::CreateBufferObject()
 		vertexLayoutCount++;
 		layoutIndex++;
 
-		offset += VertexCount * sizeof(math::Vector3);
+		offset += MeshRawData.VerticeCount * sizeof(math::Vector3);
 	}
 
-	if (VertexArrayFlag & eVertexArrayFlag::TexCoord)
+	if (VertexArrayFlag & eVertexArrayFlag::TEXCOORD)
 	{
 		if (graphics::GraphicsAPIManager::GetCurrentAPIType() == graphics::GraphicsAPI::eGraphicsAPIType::OpenGL)
 		{
@@ -106,10 +99,10 @@ void dooms::graphics::RenderingMeshProxy::CreateBufferObject()
 		vertexLayoutCount++;
 		layoutIndex++;
 
-		offset += VertexCount * sizeof(math::Vector3);
+		offset += MeshRawData.VerticeCount * sizeof(math::Vector3);
 	}
 
-	if (VertexArrayFlag & eVertexArrayFlag::mNormal)
+	if (VertexArrayFlag & eVertexArrayFlag::NORMAL)
 	{
 		if (graphics::GraphicsAPIManager::GetCurrentAPIType() == graphics::GraphicsAPI::eGraphicsAPIType::OpenGL)
 		{
@@ -123,10 +116,10 @@ void dooms::graphics::RenderingMeshProxy::CreateBufferObject()
 		vertexLayoutCount++;
 		layoutIndex++;
 
-		offset += VertexCount * sizeof(math::Vector3);
+		offset += MeshRawData.VerticeCount * sizeof(math::Vector3);
 	}
 
-	if (VertexArrayFlag & eVertexArrayFlag::mTangent)
+	if (VertexArrayFlag & eVertexArrayFlag::TANGENT)
 	{
 		if (graphics::GraphicsAPIManager::GetCurrentAPIType() == graphics::GraphicsAPI::eGraphicsAPIType::OpenGL)
 		{
@@ -140,10 +133,10 @@ void dooms::graphics::RenderingMeshProxy::CreateBufferObject()
 		vertexLayoutCount++;
 		layoutIndex++;
 
-		offset += VertexCount * sizeof(math::Vector3);
+		offset += MeshRawData.VerticeCount * sizeof(math::Vector3);
 	}
 
-	if (VertexArrayFlag & eVertexArrayFlag::mBitangent)
+	if (VertexArrayFlag & eVertexArrayFlag::BI_TANGENT)
 	{
 		if (graphics::GraphicsAPIManager::GetCurrentAPIType() == graphics::GraphicsAPI::eGraphicsAPIType::OpenGL)
 		{
@@ -157,10 +150,10 @@ void dooms::graphics::RenderingMeshProxy::CreateBufferObject()
 		vertexLayoutCount++;
 		layoutIndex++;
 
-		offset += VertexCount * sizeof(math::Vector3);
+		offset += MeshRawData.VerticeCount * sizeof(math::Vector3);
 	}
 
-	if (VertexArrayFlag & eVertexArrayFlag::mTBN)
+	if (VertexArrayFlag & eVertexArrayFlag::TBN)
 	{
 		for (size_t i = 0; i < 3; i++)
 		{
@@ -177,7 +170,7 @@ void dooms::graphics::RenderingMeshProxy::CreateBufferObject()
 			vertexLayoutCount++;
 			layoutIndex++;
 
-			offset += VertexCount * sizeof(math::Vector3);
+			offset += MeshRawData.VerticeCount * sizeof(math::Vector3);
 		}
 
 	}
@@ -186,17 +179,22 @@ void dooms::graphics::RenderingMeshProxy::CreateBufferObject()
 
 #pragma warning( disable : 4244 )
 
-	if (IndiceList.size() > 0)
+	if (MeshRawData.bHasIndices)
 	{
-		ElementBufferObjectID = GraphicsAPI::CreateBufferObject(GraphicsAPI::eBufferTarget::ELEMENT_ARRAY_BUFFER, IndiceList.size() * sizeof(UINT32), NULL, false);
-		GraphicsAPI::UpdateDataToBuffer(ElementBufferObjectID, GraphicsAPI::eBufferTarget::ELEMENT_ARRAY_BUFFER, 0, IndiceList.size() * sizeof(UINT32), reinterpret_cast<const void*>(IndiceList.data()));
+		const UINT32 MeshIndexCount = MeshRawData.GetIndiceCount();
+
+		if (MeshIndexCount > 0)
+		{
+			ElementBufferObjectID = GraphicsAPI::CreateBufferObject(GraphicsAPI::eBufferTarget::ELEMENT_ARRAY_BUFFER, MeshIndexCount * sizeof(UINT32), NULL, false);
+			GraphicsAPI::UpdateDataToBuffer(ElementBufferObjectID, GraphicsAPI::eBufferTarget::ELEMENT_ARRAY_BUFFER, 0, MeshIndexCount * sizeof(UINT32), reinterpret_cast<const void*>(MeshRawData.MeshIndices.data()));
+		}
 	}
 }
 
 
 void dooms::graphics::RenderingMeshProxy::Draw() const
 {
-	D_ASSERT(PrimitiveType != GraphicsAPI::ePrimitiveType::NONE);
+	D_ASSERT(MeshRawData.PrimitiveType != GraphicsAPI::ePrimitiveType::NONE);
 
 	if (graphics::GraphicsAPIManager::GetCurrentAPIType() == graphics::GraphicsAPI::eGraphicsAPIType::OpenGL)
 	{
@@ -215,17 +213,17 @@ void dooms::graphics::RenderingMeshProxy::Draw() const
 	{// TODO : WHY THIS MAKE ERROR ON RADEON GPU, CHECK THIS https://stackoverflow.com/questions/18299646/gldrawelements-emits-gl-invalid-operation-when-using-amd-driver-on-linux
 		// you don't need bind EBO everytime, EBO will be bound automatically when bind VAO
 		BindIndexBufferObject();
-		GraphicsAPI::DrawIndexed(PrimitiveType, IndiceList.size());
+		GraphicsAPI::DrawIndexed(MeshRawData.PrimitiveType, MeshRawData.GetIndiceCount());
 	}
 	else
 	{
-		GraphicsAPI::Draw(PrimitiveType, 0, VertexCount);
+		GraphicsAPI::Draw(MeshRawData.PrimitiveType, 0, MeshRawData.VerticeCount);
 	}
 }
 
 void dooms::graphics::RenderingMeshProxy::DrawArray(const INT32 startVertexLocation, const UINT32 VertexCount) const
 {
-	D_ASSERT(PrimitiveType != GraphicsAPI::ePrimitiveType::NONE);
+	D_ASSERT(MeshRawData.PrimitiveType != GraphicsAPI::ePrimitiveType::NONE);
 
 	if (graphics::GraphicsAPIManager::GetCurrentAPIType() == graphics::GraphicsAPI::eGraphicsAPIType::OpenGL)
 	{
@@ -240,7 +238,7 @@ void dooms::graphics::RenderingMeshProxy::DrawArray(const INT32 startVertexLocat
 		NEVER_HAPPEN;
 	}
 
-	GraphicsAPI::Draw(PrimitiveType, VertexCount, startVertexLocation);
+	GraphicsAPI::Draw(MeshRawData.PrimitiveType, VertexCount, startVertexLocation);
 }
 
 void dooms::graphics::RenderingMeshProxy::DrawArray(const GraphicsAPI::ePrimitiveType primitiveType, const INT32 startVertexLocation, const INT32 VertexCount) const
@@ -265,51 +263,51 @@ void dooms::graphics::RenderingMeshProxy::DrawArray(const GraphicsAPI::ePrimitiv
 
 UINT32 dooms::graphics::RenderingMeshProxy::GetStride(const UINT32 VertexArrayFlag)
 {
-	UINT32 offset = 0;
+	UINT32 Stride = 0;
 
-	if (VertexArrayFlag & eVertexArrayFlag::VertexVector2)
+	if (VertexArrayFlag & eVertexArrayFlag::VERTEX_VECTOR2)
 	{
 		//mVertex
-		offset += sizeof(math::Vector2);
+		Stride += sizeof(math::Vector2);
 	}
 
-	if (VertexArrayFlag & eVertexArrayFlag::VertexVector3)
+	if (VertexArrayFlag & eVertexArrayFlag::VERTEX_VECTOR3)
 	{
 		//mVertex
-		offset += sizeof(math::Vector3);
+		Stride += sizeof(math::Vector3);
 	}
 
-	if (VertexArrayFlag & eVertexArrayFlag::TexCoord)
+	if (VertexArrayFlag & eVertexArrayFlag::TEXCOORD)
 	{
 		//mTexCoord
-		offset += sizeof(math::Vector3);
+		Stride += sizeof(math::Vector3);
 	}
 
-	if (VertexArrayFlag & eVertexArrayFlag::mNormal)
+	if (VertexArrayFlag & eVertexArrayFlag::NORMAL)
 	{
 		//mNormal
-		offset += sizeof(math::Vector3);
+		Stride += sizeof(math::Vector3);
 	}
 
-	if (VertexArrayFlag & eVertexArrayFlag::mTangent)
+	if (VertexArrayFlag & eVertexArrayFlag::TANGENT)
 	{
 		//mTangent
-		offset += sizeof(math::Vector3);
+		Stride += sizeof(math::Vector3);
 	}
 
-	if (VertexArrayFlag & eVertexArrayFlag::mBitangent)
+	if (VertexArrayFlag & eVertexArrayFlag::BI_TANGENT)
 	{
 		//mBitangent
-		offset += sizeof(math::Vector3);
+		Stride += sizeof(math::Vector3);
 	}
 
-	if (VertexArrayFlag & eVertexArrayFlag::mTBN)
+	if (VertexArrayFlag & eVertexArrayFlag::TBN)
 	{
 		//mBitangent
-		offset += sizeof(math::Matrix3x3);
+		Stride += sizeof(math::Matrix3x3);
 	}
 
-	return offset;
+	return Stride;
 }
 
 bool dooms::graphics::RenderingMeshProxy::IsBufferGenerated() const
@@ -336,12 +334,12 @@ bool dooms::graphics::RenderingMeshProxy::IsElementBufferGenerated() const
 
 const dooms::physics::AABB3D& dooms::graphics::RenderingMeshProxy::GetBoundingBox() const
 {
-	return BoundingBox;
+	return MeshRawData.BoundingBox;
 }
 
 const dooms::physics::Sphere& dooms::graphics::RenderingMeshProxy::GetBoundingSphere() const
 {
-	return BoundingSphere;
+	return MeshRawData.BoundingSphere;
 }
 
 
@@ -403,12 +401,12 @@ void dooms::graphics::RenderingMeshProxy::UnmapElementBuffer()
 
 UINT64 dooms::graphics::RenderingMeshProxy::GetNumOfIndices() const
 {
-	return IndiceList.size();
+	return MeshRawData.GetIndiceCount();
 }
 
 UINT64 dooms::graphics::RenderingMeshProxy::GetNumOfVertices() const
 {
-	return VertexCount;
+	return MeshRawData.VerticeCount;
 }
 
 void dooms::graphics::RenderingMeshProxy::BindVertexArrayObject() const

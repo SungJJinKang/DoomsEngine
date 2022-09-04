@@ -9,7 +9,7 @@
 #include "Rendering/MaxCameraCount.h"
 #include "Physics/Collider/AABB.h"
 #include "Math/JINMATH/Matrix4x4.h"
-#include "Rendering/Buffer/Mesh.h"
+#include "Rendering/Buffer/Mesh/Mesh.h"
 #include <Rendering/Culling/EveryCulling/DataType/EntityBlockViewer.h>
 
 namespace dooms

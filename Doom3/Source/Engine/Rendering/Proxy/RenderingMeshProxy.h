@@ -5,15 +5,23 @@
 
 #include <Rendering/Proxy/RenderingProxy.h>
 #include <Rendering/Buffer/BufferID.h>
+#include "Rendering/Buffer/Mesh/FMeshRawData.h"
 #include <Graphics/GraphicsAPI/GraphicsAPI.h>
 #include <Physics/Collider/AABB.h>
 #include <Physics/Collider/Sphere.h>
 #include <Graphics/GraphicsAPI/Manager/GraphicsAPIManager.h>
+#include "Rendering/Buffer/eVertexArrayFlag.h"
+
 
 namespace dooms
 {
 	namespace graphics
 	{
+		enum
+		{
+			MAX_VERTEX_BUFFER_LAYOUT_COUNT = 32
+		};
+
 		class RenderingMeshProxy : public RenderingProxy
 		{
 		public:
@@ -26,29 +34,15 @@ namespace dooms
 			
 			struct FRenderingMeshProxyInitializer
 			{
-				UINT64 DataComponentCount;
-				UINT64 VertexCount;
-				std::vector<UINT8> MeshRawData;
-				GraphicsAPI::ePrimitiveType PrimitiveType;
-				UINT32 VertexArrayFlag;
-				std::vector<UINT32> IndiceList;
+				FMeshRawData MeshRawData;
 				bool bDynamicWrite;
-				physics::AABB3D BoundingBox{ nullptr };
-				physics::Sphere BoundingSphere{ nullptr };
 			};
-			void InitRenderingMeshProxyInitializer(FRenderingMeshProxyInitializer& Initializer);
+			void InitRenderingMeshProxyInitializer(FRenderingMeshProxyInitializer&& Initializer) noexcept;
 			
-
-
-			void CreateBufferObject();
-
-			void CreateBufferObjectFromModelMesh(const ThreeDModelMesh & threeDModelMesh) noexcept;
-
 			/* You can't update buffer partially in D3D11. Use map, unmap function.
 			void UpdateVertexData(const long long int dataSize, const void* data, const long long int offsetInByte) const noexcept;
 			*/
-
-
+			
 			void Draw() const;
 			void DrawArray(const INT32 startVertexLocation, const UINT32 vertexCount) const;
 			void DrawArray(const GraphicsAPI::ePrimitiveType primitiveType, const INT32 startVertexLocation, const INT32 vertexCount) const;
@@ -84,7 +78,8 @@ namespace dooms
 			 * \brief only used for OPENGL
 			 */
 			static UINT64 BOUND_VERTEX_ARRAY_ID;
-			static const UINT32 MAX_VERTEX_BUFFER_LAYOUT_COUNT;
+
+			
 			/**
 			 * \brief for OPENGL, Only first element is used
 			 */
@@ -109,17 +104,14 @@ namespace dooms
 			UINT32 VertexArrayFlag;
 			UINT32 TotalStride;
 			UINT32 VertexBufferLayoutCount;
-			std::array<FVertexBufferLayout, 10> VertexBufferLayouts;
+			std::array<FVertexBufferLayout, VERTEX_ARRAY_FLAG_COUNT> VertexBufferLayouts;
 
 
-			UINT64 DataComponentCount;
-			UINT64 VertexCount;
-			std::vector<UINT8> MeshRawData;
-			GraphicsAPI::ePrimitiveType PrimitiveType;
-			std::vector<UINT32> IndiceList;
+			FMeshRawData MeshRawData;
 			bool bDynamicWrite;
-			physics::AABB3D BoundingBox{ nullptr };
-			physics::Sphere BoundingSphere{ nullptr };
+
+			void CreateBufferObject();
+			void CreateBufferObjectFromModelMesh(const FMeshRawData& MeshRawData) noexcept;
 
 
 			void BindVertexArrayObject() const;

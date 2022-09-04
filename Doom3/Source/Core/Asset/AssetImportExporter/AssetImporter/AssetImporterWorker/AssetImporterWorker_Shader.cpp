@@ -98,7 +98,7 @@ bool dooms::assetImporter::AssetImporterWorker_Shader::ImportShaderAsset
 	D_ASSERT(isEngineShaderFilesRequireToBeGenerated == false);
 	if (isEngineShaderFilesRequireToBeGenerated == false)
 	{
-		std::array<asset::ShaderTextData, GRAPHICS_PIPELINE_STAGE_COUNT> shaderTextDatas = LoadShaderTextDatas(assetPath);
+		std::array<asset::FShaderTextData, GRAPHICS_PIPELINE_STAGE_COUNT> shaderTextDatas = LoadShaderTextDatas(assetPath);
 
 		isSucess = shaderAsset->SetShaderText(shaderTextDatas);
 
@@ -107,7 +107,7 @@ bool dooms::assetImporter::AssetImporterWorker_Shader::ImportShaderAsset
 	return isSucess;
 }
 
-std::array<dooms::asset::ShaderTextData, GRAPHICS_PIPELINE_STAGE_COUNT> dooms::assetImporter::AssetImporterWorker_Shader::LoadShaderTextDatas(const std::filesystem::path& assetPath) const
+std::array<dooms::asset::FShaderTextData, GRAPHICS_PIPELINE_STAGE_COUNT> dooms::assetImporter::AssetImporterWorker_Shader::LoadShaderTextDatas(const std::filesystem::path& assetPath) const
 {
 	D_ASSERT(IsEngineShaderFilesRequireToBeGenerated(assetPath) == false);
 
@@ -120,7 +120,7 @@ std::array<dooms::asset::ShaderTextData, GRAPHICS_PIPELINE_STAGE_COUNT> dooms::a
 
 	const graphics::GraphicsAPI::eGraphicsAPIType currentGraphicsAPIType = dooms::graphics::GraphicsAPIManager::GetCurrentAPIType();
 
-	std::array<dooms::asset::ShaderTextData, GRAPHICS_PIPELINE_STAGE_COUNT> shaderTextDatas{};
+	std::array<dooms::asset::FShaderTextData, GRAPHICS_PIPELINE_STAGE_COUNT> shaderTextDatas{};
 
 	for(size_t i = 0 ; i < 3 ; i++)
 	{
@@ -141,9 +141,9 @@ std::array<dooms::asset::ShaderTextData, GRAPHICS_PIPELINE_STAGE_COUNT> dooms::a
 
 		if (std::filesystem::exists(shaderTextFilePath) == true && std::filesystem::exists(shaderTextJsonFilePath) == true)
 		{
-			shaderTextDatas[i].mShaderStringText = dooms::asset::textImporter::GetTextFromFile(shaderTextFilePath);
-			shaderTextDatas[i].mShaderReflectionDataStringText = dooms::asset::textImporter::GetTextFromFile(shaderTextJsonFilePath);
-			shaderTextDatas[i].mShaderTextGraphicsAPIType = currentGraphicsAPIType;
+			shaderTextDatas[i].ShaderStringText = dooms::asset::textImporter::GetTextFromFile(shaderTextFilePath);
+			shaderTextDatas[i].ShaderReflectionDataStringText = dooms::asset::textImporter::GetTextFromFile(shaderTextJsonFilePath);
+			shaderTextDatas[i].ShaderTextGraphicsAPIType = currentGraphicsAPIType;
 			shaderTextDatas[i].mShaderTextFilePath = shaderTextFilePath;
 		}
 	}

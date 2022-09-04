@@ -6,7 +6,6 @@
 #include <mutex>
 
 #include <Core.h>
-#include <Rendering/Buffer/Mesh.h>
 #include <Rendering/Material/Material.h>
 #include <Graphics/Color.h>
 #include "../RenderingDebuggerModule.h"
@@ -18,8 +17,10 @@ namespace dooms
 {
 	namespace graphics
 	{
-		class Material;
 		class Graphics_Server;
+		class Material;
+		class Mesh;
+
 		class DOOM_API D_CLASS DebugDrawer : public RenderingDebuggerModule, public ISingleton<DebugDrawer>
 		{
 			GENERATE_BODY()
@@ -35,7 +36,7 @@ namespace dooms
 			std::mutex mMextex;
 
 			D_PROPERTY()
-			Mesh mDebugMesh;
+			Mesh* mDebugMesh;
 
 			D_PROPERTY()
 			UINT32 mDebugMeshCount;

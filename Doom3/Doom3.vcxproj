@@ -484,6 +484,7 @@ xcopy /y /d /E /H /C /I "$(ProjectDir)Assets" "$(TargetDir)Assets"</Command>
     <ClCompile Include="Source\Core\ResourceManagement\Thread\ThreadManager.cpp" />
     <ClCompile Include="Source\Engine\ConfigurationValue\ConfigurationValue.cpp" />
     <ClCompile Include="Source\Engine\Misk\LatentActionManager.cpp" />
+    <ClCompile Include="Source\Engine\Rendering\Buffer\eVertexArrayFlag.cpp" />
     <ClCompile Include="Source\Engine\Rendering\Buffer\Mesh\FMeshRawData.cpp" />
     <ClCompile Include="Source\Engine\Rendering\Proxy\RenderingCameraProxy.cpp" />
     <ClCompile Include="Source\Engine\Rendering\Proxy\RenderingFixedMaterialProxy.cpp" />
@@ -564,7 +565,6 @@ xcopy /y /d /E /H /C /I "$(ProjectDir)Assets" "$(TargetDir)Assets"</Command>
     <ClCompile Include="Source\Engine\Rendering\RenderingDebugger\RenderingDebuggerModules\Modules\MaskedOcclusionCullingTester.cpp" />
     <ClCompile Include="Source\Engine\EngineGUI\GUIModules\Modules\ThreadProfilerGUI.cpp" />
     <ClCompile Include="Source\Engine\Rendering\Buffer\Mesh\MeshHelper.cpp" />
-    <ClCompile Include="Source\Engine\Rendering\Buffer\Mesh\MeshNode.cpp" />
     <ClCompile Include="Source\Engine\Rendering\FrameBuffer\FrameBufferView.cpp" />
     <ClCompile Include="Source\Core\Graphics\GraphicsAPI\APIHeaders\DX11Headers.h" />
     <ClCompile Include="Source\Core\Graphics\GraphicsAPI\APIHeaders\OpenGLHeaders.h" />
@@ -1087,7 +1087,6 @@ xcopy /y /d /E /H /C /I "$(ProjectDir)Assets" "$(TargetDir)Assets"</Command>
     <ClInclude Include="Source\Core\Physics\Collider\Sphere.h" />
     <ClInclude Include="Source\Engine\Scene\Layer\Layer.h" />
     <ClInclude Include="Source\Engine\Rendering\Buffer\UniformBufferObject\UniformBufferObjectUpdater.h" />
-    <ClInclude Include="Source\Engine\Rendering\Buffer\Mesh\MeshNode.h" />
     <ClInclude Include="Source\Engine\Rendering\Buffer\UniformBufferObject\UniformBlockOffsetInfo.h" />
     <ClInclude Include="Source\Engine\Rendering\Buffer\UniformBufferObject\UniformBufferObject.h" />
     <ClInclude Include="Source\Engine\Rendering\Buffer\Mesh\Mesh.h" />

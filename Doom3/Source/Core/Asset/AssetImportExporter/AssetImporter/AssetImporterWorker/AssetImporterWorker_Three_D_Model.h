@@ -30,8 +30,8 @@ namespace dooms
 #ifdef DEBUG_MODE
 			static void ClearAssimpLooger();
 #endif
-			void Creat3DModelAsset(const aiScene* pScene, ::dooms::asset::ThreeDModelAsset* asset);
-			void SetThreeDModelNodesData(FMeshNode* currentNode, aiNode* currentAssimpNode, FMeshNode* parentNode, ::dooms::asset::ThreeDModelAsset* modelAsset, const aiScene* assimpScene);
+			void Creat3DModelAsset(const aiScene* pScene, ::dooms::asset::ThreeDModelAsset* ModelAsset);
+			void SetMeshNodeData(FMeshNode* CurrentMeshNode, aiNode* CurrentAssimpMeshNode, FMeshNode* ParentMeshNode, ::dooms::asset::ThreeDModelAsset* ModelAsset, const aiScene* AssimpScene);
 			bool ImportThreeDModelAsset(const std::filesystem::path& path, ::dooms::asset::ThreeDModelAsset* asset);
 			void InitializeAssimp();
 

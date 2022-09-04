@@ -2,6 +2,8 @@
 
 #include <Core.h>
 
+#include <string>
+
 #include <Graphics/GraphicsAPI/GraphicsAPI.h>
 #include <Vector3.h>
 #include <Collider/AABB.h>
@@ -23,6 +25,7 @@ namespace dooms
 		struct FMeshRawData
 		{
 			bool bIsValidMesh;
+			std::string MeshName;
 
 			UINT64 VerticeCount;
 			char* Data;
@@ -30,30 +33,34 @@ namespace dooms
 			math::Vector3* TexCoord; //support only one channel
 			math::Vector3* Normal;
 			math::Vector3* Tangent;
-			math::Vector3* mBitangent;
+			math::Vector3* Bitangent;
 			
 			graphics::GraphicsAPI::ePrimitiveType PrimitiveType;
 
 			bool bHasIndices;
 			std::vector<UINT32> MeshIndices;
-
-			UINT32 VerticeStride;
+			
 			UINT32 VertexArrayFlag;
 
 			physics::AABB3D BoundingBox{ nullptr };
 			physics::Sphere BoundingSphere{ nullptr };
 
 			FMeshRawData();
-			FMeshRawData(const size_t VerticeCount);
+			FMeshRawData(const int*){};
+			FMeshRawData(const size_t InVerticeCount);
 			FMeshRawData(const FMeshRawData&);
 			FMeshRawData(FMeshRawData&&) noexcept;
 			FMeshRawData& operator=(const FMeshRawData&);
 			FMeshRawData& operator=(FMeshRawData&&) noexcept;
 			~FMeshRawData();
 
-			void Allocate(const size_t verticeCount);
+			void Allocate(const size_t InAllocatedVertexCount);
 			unsigned long long GetAllocatedDataSize() const;
 			void Free();
+
+			UINT32 GetStride() const;
+			UINT32 GetDataComponentCount() const;
+			UINT32 GetIndiceCount() const;
 		};
 	}
 }

@@ -1,80 +1,41 @@
 #include "ThreeDModelAsset.h"
 
-
-//static_assert(std::is_standard_layout_v<dooms::MeshData>);
-
-void dooms::asset::ThreeDModelAsset::SendMeshDataToGPU()
+void dooms::asset::ThreeDModelAsset::CreateMesh()
 {
-	mNumOfMeshes = mModelMeshAssets.size();
-	D_ASSERT(mNumOfMeshes != 0);
-	if (mNumOfMeshes > 0)
+	const INT32 CountOfMeshRawData = MeshRawDataList.size();
+	D_ASSERT(CountOfMeshRawData != 0);
+	
+	MeshList.reserve(CountOfMeshRawData);
+	for (UINT32 i = 0; i < CountOfMeshRawData; i++)
 	{
-		mMeshes.reserve(mNumOfMeshes);
-		for (UINT32 i = 0; i < mNumOfMeshes; i++)
-		{
-			mMeshes.emplace_back(mModelMeshAssets[i]);
-		}
-	}
+		graphics::Mesh* const NewMesh = dooms::CreateDObject<graphics::Mesh>(MeshRawDataList[i]);
+		D_ASSERT(IsValid(NewMesh));
 
-	mRootMeshNode = dooms::CreateDObject<dooms::graphics::MeshNode>();
-	CreateNode(mRootMeshNode, mRootModelNode);
+		MeshList.push_back(NewMesh);
+	}
 }
 
 
 void dooms::asset::ThreeDModelAsset::ClearMeshData()
 {
-	mModelMeshAssets.resize(0);
-	mRootModelNode->SetIsPendingKill();
-
-}
-
-void dooms::asset::ThreeDModelAsset::CreateNode(graphics::MeshNode* currentNode, FMeshNode* currentModelNodeAsset)
-{
-	const size_t indiceCount = currentModelNodeAsset->mModelMeshIndexs.size();
-	if (indiceCount != 0)
-	{
-		currentNode->mMeshes.resize(indiceCount);
-		for (size_t i = 0; i < indiceCount ; i++)
-		{
-			currentNode->mMeshes[i] = &(mMeshes[currentModelNodeAsset->mModelMeshIndexs[i]]);
-		}
-	}
-	else
-	{
-		currentNode->mMeshes.resize(0);
-	}
-
-	const size_t nodeChildrenCount = currentModelNodeAsset->mThreeDModelNodeChildrens.size();
-	if (nodeChildrenCount != 0)
-	{
-		currentNode->mChilds.resize(nodeChildrenCount);
-		for (size_t i = 0; i < nodeChildrenCount ; i++)
-		{
-			currentNode->mChilds[i].mParent = currentNode;
-			CreateNode( &(currentNode->mChilds[i]), &(currentModelNodeAsset->mThreeDModelNodeChildrens[i]) );
-		}
-	}
-	else
-	{
-		currentNode->mChilds.resize(0);
-	}
-
-	
+	Root3DModelNode.reset();
+	MeshRawDataList.resize(0);
+	MeshList.resize(0);
 }
 
 void dooms::asset::ThreeDModelAsset::OnEndImportInMainThread_Internal()
 {
-	SendMeshDataToGPU();
+	CreateMesh();
 }
 
 dooms::asset::ThreeDModelAsset::ThreeDModelAsset 
 (
-	std::vector<ThreeDModelMesh>&& threeDModelMeses,
-	FMeshNode* const rootThreeDModelNode
+	std::vector<graphics::FMeshRawData>&& MeshRawData,
+	std::unique_ptr<FMeshNode>&& RootMeshNode
 ) noexcept
-	: mRootModelNode(rootThreeDModelNode), mModelMeshAssets{ std::move(threeDModelMeses) }
+	: Root3DModelNode(std::move(RootMeshNode)), MeshRawDataList{ std::move(MeshRawData) }
 {
-	SendMeshDataToGPU();
+	CreateMesh();
 }
 
 
@@ -87,15 +48,15 @@ void dooms::asset::ThreeDModelAsset::OnSetPendingKill()
 {
 	Asset::OnSetPendingKill();
 
-	if (mRootModelNode != nullptr)
+	if (Root3DModelNode != nullptr)
 	{//check is destroyed
 		ClearMeshData();
 	}
 }
 
-const std::vector<dooms::graphics::Mesh>& dooms::asset::ThreeDModelAsset::GetMeshes() const
+const std::vector<dooms::graphics::Mesh*>& dooms::asset::ThreeDModelAsset::GetMeshes() const
 {
-	return mMeshes;
+	return MeshList;
 }
 
 dooms::graphics::Mesh* dooms::asset::ThreeDModelAsset::GetMesh(UINT32 index) 
@@ -105,7 +66,7 @@ dooms::graphics::Mesh* dooms::asset::ThreeDModelAsset::GetMesh(UINT32 index)
 	if(index < GetMeshCount())
 	{
 		//D_ASSERT(mMeshes[index].GetTargetThreeDModelMesh()->mIsValidMesh == true);
-		return &mMeshes[index];
+		return MeshList[index];
 	}
 	else
 	{
@@ -116,7 +77,7 @@ dooms::graphics::Mesh* dooms::asset::ThreeDModelAsset::GetMesh(UINT32 index)
 
 size_t dooms::asset::ThreeDModelAsset::GetMeshCount() const
 {
-	return mMeshes.size();
+	return MeshList.size();
 }
 
 dooms::asset::eAssetType dooms::asset::ThreeDModelAsset::GetEAssetType() const

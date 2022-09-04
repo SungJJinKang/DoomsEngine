@@ -3,7 +3,7 @@
 #include <memory>
 
 #include <Rendering/Material/Material.h>
-#include <Rendering/Buffer/Mesh.h>
+#include <Rendering/Buffer/Mesh/Mesh.h>
 
 #include "DeferredRenderingDrawer.reflection.h"
 namespace dooms

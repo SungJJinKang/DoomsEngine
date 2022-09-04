@@ -2,7 +2,7 @@
 #include "Renderer.h"
 
 #include <Rendering/Material/Material.h>
-#include <Rendering/Buffer/Mesh.h>
+#include <Rendering/Buffer/Mesh/Mesh.h>
 #include "Transform.h"
 
 #include "MeshRenderer.reflection.h"
