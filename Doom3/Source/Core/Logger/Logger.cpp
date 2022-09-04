@@ -10,8 +10,8 @@
 
 void dooms::logger::InitLogger()
 {
-	MIN_DEBUG_LEVEL = static_cast<eLogType>(::dooms::ConfigData::GetSingleton()->GetConfigData().GetValue<INT32>("SYSTEM", "MIN_DEBUG_LEVEL"));
-	MAX_DEBUG_LEVEL = static_cast<eLogType>(::dooms::ConfigData::GetSingleton()->GetConfigData().GetValue<INT32>("SYSTEM", "MAX_DEBUG_LEVEL"));
+	MIN_DEBUG_LEVEL = static_cast<eLogType>(::dooms::ConfigData::GetSingleton()->GetConfigData().GetValue<INT64>("SYSTEM", "MIN_DEBUG_LEVEL"));
+	MAX_DEBUG_LEVEL = static_cast<eLogType>(::dooms::ConfigData::GetSingleton()->GetConfigData().GetValue<INT64>("SYSTEM", "MAX_DEBUG_LEVEL"));
 }
 
 void dooms::logger::StopIfError(eLogType logType)

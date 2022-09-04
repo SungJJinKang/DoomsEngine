@@ -5,78 +5,47 @@
 #include <variant>
 #include <unordered_map>
 
+#include "Macros/Assert.h"
 #include "Macros/TypeDef.h"
 
 
-class IniData
+namespace dooms
 {
-public:
-	using ini_data_type = typename  std::variant<std::string, int, double, bool>;
-	//using VariableType = typename  std::pair<std::string, ini_data_type>;
-	
-private:
-	/// <summary>
-	/// Section -> Data
-	/// </summary>
-	std::unordered_map<std::string, std::unordered_map<std::string, ini_data_type> > mIniDatas{};
-	const std::unordered_map<std::string, ini_data_type>* GetSection(const std::string& sectionKey) const;
-	const ini_data_type* GetSectionData(const std::string& sectionKey, const std::string& variableKey) const;
+	class GeneralConfigurationValue;
 
-public:
-
-	
-
-	void AddSection(const std::string& section);
-	
-	void InsertVariable(const std::string& section, const std::string& key, ini_data_type data);
-	
-	template <typename T>
-	T GetValue(const std::string& section, const std::string& variableKey) const
+	class IniData
 	{
-		auto sectionData = GetSectionData(section, variableKey);
 
-		if(sectionData != nullptr)
+	public:
+
+		template <typename T>
+		T GetValue(const std::string& SectionName, const std::string& KeyName) const
 		{
-			return std::get<T>(*sectionData);
+			D_ASSERT_LOG(false, "Unsupported Type for config value");
+			return T{};
 		}
-		else
-		{
-			return T();
-		}
-		
-	}
 
-	template <>
-	float GetValue<float>(const std::string& section, const std::string& variableKey) const
-	{
-		auto sectionData = GetSectionData(section, variableKey);
+		template<>
+		bool GetValue<bool>(const std::string& SectionName, const std::string& KeyName) const;
 
-		if (sectionData != nullptr)
-		{
-			return static_cast<float>(std::get<double>(*sectionData));
-		}
-		else
-		{
-			return 0.0f;
-		}
-	}
+		template<>
+		INT32 GetValue<INT32>(const std::string& SectionName, const std::string& KeyName) const;
 
-	bool IsValueExist(const std::string& section, const std::string& variableKey) const
-	{
-		auto sectionData = GetSectionData(section, variableKey);
+		template<>
+		INT64 GetValue<INT64>(const std::string& SectionName, const std::string& KeyName) const;
 
-		return sectionData != nullptr;
-	}
-};
+		template<>
+		FLOAT32 GetValue<FLOAT32>(const std::string& SectionName, const std::string& KeyName) const;
 
-/// <summary>
-/// Portable Ini Parser
-/// </summary>
-class SimpleIniParser
-{
-public:
-	static IniData ParseIniFile(std::string fileDirectory);
+		template<>
+		FLOAT64 GetValue<FLOAT64>(const std::string& SectionName, const std::string& KeyName) const;
 
-	
-};
+		template<>
+		std::string GetValue<std::string>(const std::string& SectionName, const std::string& KeyName) const;
 
+	private:
+
+		dooms::GeneralConfigurationValue* GetConfigurationValue(const std::string& SectionName, const std::string& KeyName) const;
+	};
+
+}

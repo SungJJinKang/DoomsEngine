@@ -20,17 +20,4 @@ namespace dooms
 }
 
 template<>
-inline dooms::input::GraphicsAPIInput::eKEY_CODE IniData::GetValue<dooms::input::GraphicsAPIInput::eKEY_CODE>(const std::string& section, const std::string& variableKey) const
-{
-	auto sectionData = GetSectionData(section, variableKey);
-
-	D_ASSERT(sectionData != nullptr);
-	if (sectionData != nullptr)
-	{
-		return 	dooms::userinput::UserInputHelper::ConvertStringToKeyCode(std::get<std::string>(*sectionData));
-	}
-	else
-	{
-		return dooms::input::GraphicsAPIInput::eKEY_CODE::UNKNOWN;
-	}
-}
+dooms::input::GraphicsAPIInput::eKEY_CODE dooms::IniData::GetValue<dooms::input::GraphicsAPIInput::eKEY_CODE>(const std::string& SectionName, const std::string& KeyName) const;

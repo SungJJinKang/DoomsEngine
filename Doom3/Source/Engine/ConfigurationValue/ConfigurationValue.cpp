@@ -1,61 +1,70 @@
 #include "ConfigurationValue.h"
 
-void dooms::ConfigurationValueManager::AddGeneralConfigurationValueToList(GeneralConfigurationValue* const Value)
-{
-	bool bIsAddToList = true;
 
+dooms::GeneralConfigurationValue::GeneralConfigurationValue
+(
+	const std::string& Category,
+	const std::string& Name,
+	const std::string& Description
+)
+	: mCategory(Category), mName(Name), mDescription(Description)
+{
+	ConfigurationValueManager::GetConfigurationValueManager()->RegisterConsoleVariable(this);
+}
+
+dooms::ConfigurationValueManager* dooms::ConfigurationValueManager::GetConfigurationValueManager()
+{
+	static std::unique_ptr<ConfigurationValueManager> StaticConfigurationValueManager = std::make_unique<ConfigurationValueManager>();
+	return StaticConfigurationValueManager.get();
+}
+
+void dooms::ConfigurationValueManager::RegisterConsoleVariable(GeneralConfigurationValue* const Value)
+{
+	if (Value == nullptr)
 	{
-		if(Value == nullptr)
+		D_ASSERT_LOG
+		(
+			false,
+			"Fail to AddGeneralConfigurationValueToList ( Passed Value is Empty )"
+		);
+	}
+	else
+	{
+		auto CategoryIter = GeneralConfigurationValueList.Data.find(Value->GetValueCategory());
+
+		if (CategoryIter == GeneralConfigurationValueList.Data.end())
+		{
+			CategoryIter = GeneralConfigurationValueList.Data.insert({ Value->GetValueCategory(), std::unordered_map<std::string, GeneralConfigurationValue*>{} }).first;
+		}
+
+		if (CategoryIter->second.find(Value->GetValueName()) != CategoryIter->second.end())
 		{
 			D_ASSERT_LOG
 			(
 				false,
-				"Fail to AddGeneralConfigurationValueToList ( Passed Value is Empty )"
+				"Fail to AddGeneralConfigurationValueToList ( %s - %s Already Exist )",
+				Value->GetValueCategory().c_str(),
+				Value->GetValueName().c_str()
 			);
 		}
-	}
-
-	{
-		auto Iter = GeneralConfigurationValueList.Data.find(Value->GetValueCategory());
-		if (Iter != GeneralConfigurationValueList.Data.end())
+		else
 		{
-			if(Iter->second.find(Value->GetValueName()) != Iter->second.end())
-			{
-				bIsAddToList = false;
-				D_ASSERT_LOG
-				(
-					false,
-					"Fail to AddGeneralConfigurationValueToList ( %s - %s Already Exist )",
-					Value->GetValueCategory(),
-					Value->GetValueName()
-				);
-			}
+			CategoryIter->second.emplace(Value->GetValueName(), Value);
 		}
-	}
-	
-
-	if(bIsAddToList == true)
-	{
-		if(GeneralConfigurationValueList.Data.find(Value->GetValueCategory()) == GeneralConfigurationValueList.Data.end())
-		{
-			GeneralConfigurationValueList.Data.insert({Value->GetValueCategory(), std::unordered_map<std::string, GeneralConfigurationValue*>{}});
-		}
-
-		GeneralConfigurationValueList.Data[Value->GetValueCategory()].insert_or_assign(Value->GetValueName(), Value);
 	}
 }
 
-const char* dooms::GeneralConfigurationValue::GetValueCategory() const
+const std::string& dooms::GeneralConfigurationValue::GetValueCategory() const
 {
 	return mCategory;
 }
 
-const char* dooms::GeneralConfigurationValue::GetValueName() const
+const std::string& dooms::GeneralConfigurationValue::GetValueName() const
 {
 	return mName;
 }
 
-const char* dooms::GeneralConfigurationValue::GetValueDescription() const
+const std::string& dooms::GeneralConfigurationValue::GetValueDescription() const
 {
 	return mDescription;
 }
@@ -97,7 +106,7 @@ const dooms::GeneralConfigurationValue* dooms::ConfigurationValueManager::GetGen
 		}
 	}
 
+	D_ASSERT_LOG(GeneralConfigurationValue != nullptr, "Console Variable doesn't exist ( Category : %s, ValueNaem : %s )", Category, Name);
+
 	return GeneralConfigurationValue;
 }
-
-

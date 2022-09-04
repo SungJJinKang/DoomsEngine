@@ -14,8 +14,8 @@ using namespace dooms::assetImporter;
 void dooms::assetImporter::AssetManager::LoadAssetManagerSetting()
 {
 	AssetImporterWorker_Texture::TEXTURE_COMPRESSION_QUALITY = static_cast<FLOAT32>(GameCore::GetSingleton()->mGameConfigData.GetConfigData().GetValue<FLOAT64>("TEXTURE", "COMPRESSION_QUALITY"));
-	AssetImporterWorker_Texture::MIP_MAP_LEVELS = GameCore::GetSingleton()->mGameConfigData.GetConfigData().GetValue<INT32>("TEXTURE", "MIP_MAP_LEVELS");
-	AssetImporterWorker_Texture::MAX_IMAGE_SIZE = GameCore::GetSingleton()->mGameConfigData.GetConfigData().GetValue<INT32>("TEXTURE", "MAX_IMAGE_SIZE");
+	AssetImporterWorker_Texture::MIP_MAP_LEVELS = GameCore::GetSingleton()->mGameConfigData.GetConfigData().GetValue<INT64>("TEXTURE", "MIP_MAP_LEVELS");
+	AssetImporterWorker_Texture::MAX_IMAGE_SIZE = GameCore::GetSingleton()->mGameConfigData.GetConfigData().GetValue<INT64>("TEXTURE", "MAX_IMAGE_SIZE");
 }
 
 bool AssetManager::CheckFileIsValidAssetFile(const std::filesystem::directory_entry& entry)

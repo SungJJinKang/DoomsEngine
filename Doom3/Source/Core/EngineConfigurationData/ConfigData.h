@@ -12,9 +12,10 @@ namespace dooms
 		friend class GameCore;
 
 	private:
-
-		const char* mConfigFilePath;
+		
 		IniData mConfigData;
+		
+		void RegisterConfigValue();
 
 	public:
 		
