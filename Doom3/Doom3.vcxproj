@@ -498,6 +498,9 @@ xcopy /y /d /E /H /C /I "$(ProjectDir)Assets" "$(TargetDir)Assets"</Command>
     <ClCompile Include="Source\Engine\Rendering\Proxy\RenderingShaderProxy.cpp" />
     <ClCompile Include="Source\Engine\Rendering\Proxy\RenderingTextureProxy.cpp" />
     <ClCompile Include="Source\Engine\Rendering\Proxy\RenderingUniformBufferProxy.cpp" />
+    <ClCompile Include="Source\Engine\Rendering\Scene\DrawState.cpp" />
+    <ClCompile Include="Source\Engine\Rendering\Scene\FDrawCommand.cpp" />
+    <ClCompile Include="Source\Engine\Rendering\Scene\FVertexBufferLayout.cpp" />
     <ClCompile Include="Source\Engine\Rendering\Scene\RenderScene.cpp" />
     <ClCompile Include="Source\Engine\Rendering\Shader\ShaderCodeLibrary.cpp" />
     <ClCompile Include="Source\Engine\Rendering\Shader\ShaderTextData.cpp" />
@@ -826,6 +829,9 @@ xcopy /y /d /E /H /C /I "$(ProjectDir)Assets" "$(TargetDir)Assets"</Command>
     <ClInclude Include="Source\Engine\Rendering\Proxy\RenderingShaderProxy.h" />
     <ClInclude Include="Source\Engine\Rendering\Proxy\RenderingTextureProxy.h" />
     <ClInclude Include="Source\Engine\Rendering\Proxy\RenderingUniformBufferProxy.h" />
+    <ClInclude Include="Source\Engine\Rendering\Scene\DrawState.h" />
+    <ClInclude Include="Source\Engine\Rendering\Scene\FDrawCommand.h" />
+    <ClInclude Include="Source\Engine\Rendering\Scene\FVertexBufferLayout.h" />
     <ClInclude Include="Source\Engine\Rendering\Scene\RenderScene.h" />
     <ClInclude Include="Source\Engine\Rendering\Shader\eShaderCompileStatus.h" />
     <ClInclude Include="Source\Engine\Rendering\Shader\ShaderCodeLibrary.h" />

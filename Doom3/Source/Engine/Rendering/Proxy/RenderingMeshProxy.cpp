@@ -3,10 +3,7 @@
 #include "Rendering/Buffer/eVertexArrayFlag.h"
 #include <Math/JINMATH/Matrix3x3.h>
 #include <Math/JINMATH/Matrix4x4.h>
-
-UINT64 dooms::graphics::RenderingMeshProxy::BOUND_VERTEX_ARRAY_ID{ (UINT64)-1 };
-UINT64 dooms::graphics::RenderingMeshProxy::BOUND_VERTEX_BUFFER_ID[MAX_VERTEX_BUFFER_LAYOUT_COUNT]{ (UINT64)-1 };
-UINT64 dooms::graphics::RenderingMeshProxy::BOUND_INDEX_BUFFER_ID{ (UINT64)-1 };
+#include <Rendering/Scene/DrawState.h>
 
 void dooms::graphics::RenderingMeshProxy::InitRenderingMeshProxyInitializer
 (
@@ -414,9 +411,9 @@ void dooms::graphics::RenderingMeshProxy::BindVertexArrayObject() const
 	if (graphics::GraphicsAPIManager::GetCurrentAPIType() == graphics::GraphicsAPI::eGraphicsAPIType::OpenGL)
 	{
 		D_ASSERT(VertexArrayObjectID.IsValid() == true);
-		if (BOUND_VERTEX_ARRAY_ID != VertexArrayObjectID.GetBufferID())
+		if (drawState::BOUND_VERTEX_ARRAY_ID != VertexArrayObjectID.GetBufferID())
 		{
-			BOUND_VERTEX_ARRAY_ID = VertexArrayObjectID;
+			drawState::BOUND_VERTEX_ARRAY_ID = VertexArrayObjectID;
 			dooms::graphics::GraphicsAPI::BindVertexArrayObject(VertexArrayObjectID);
 		}
 	}
@@ -429,9 +426,9 @@ void dooms::graphics::RenderingMeshProxy::BindVertexBufferObject() const
 
 	if (graphics::GraphicsAPIManager::GetCurrentAPIType() == graphics::GraphicsAPI::eGraphicsAPIType::OpenGL)
 	{
-		if (BOUND_VERTEX_BUFFER_ID[0] != VertexArrayObjectID.GetBufferID())
+		if (drawState::BOUND_VERTEX_BUFFER_ID[0] != VertexArrayObjectID.GetBufferID())
 		{
-			BOUND_VERTEX_BUFFER_ID[0] = VertexArrayObjectID;
+			drawState::BOUND_VERTEX_BUFFER_ID[0] = VertexArrayObjectID;
 			dooms::graphics::GraphicsAPI::BindVertexDataBuffer
 			(
 				VertexDataBuffer,
@@ -445,9 +442,9 @@ void dooms::graphics::RenderingMeshProxy::BindVertexBufferObject() const
 	{
 		for (UINT32 bufferLayoutIndex = 0; bufferLayoutIndex < VertexBufferLayoutCount; bufferLayoutIndex++)
 		{
-			if (BOUND_VERTEX_BUFFER_ID[bufferLayoutIndex] != VertexDataBuffer.GetBufferID())
+			if (drawState::BOUND_VERTEX_BUFFER_ID[bufferLayoutIndex] != VertexDataBuffer.GetBufferID())
 			{
-				BOUND_VERTEX_BUFFER_ID[bufferLayoutIndex] = VertexDataBuffer;
+				drawState::BOUND_VERTEX_BUFFER_ID[bufferLayoutIndex] = VertexDataBuffer;
 				dooms::graphics::GraphicsAPI::BindVertexDataBuffer
 				(
 					VertexDataBuffer,
@@ -469,9 +466,9 @@ void dooms::graphics::RenderingMeshProxy::BindVertexBufferObject() const
 void dooms::graphics::RenderingMeshProxy::BindVertexBufferObject(const UINT32 bindingPosition, const UINT32 stride, const UINT32 offset) const
 {
 	D_ASSERT(VertexDataBuffer.IsValid() == true);
-	if (BOUND_VERTEX_BUFFER_ID[bindingPosition] != VertexDataBuffer.GetBufferID())
+	if (drawState::BOUND_VERTEX_BUFFER_ID[bindingPosition] != VertexDataBuffer.GetBufferID())
 	{
-		BOUND_VERTEX_BUFFER_ID[bindingPosition] = VertexDataBuffer;
+		drawState::BOUND_VERTEX_BUFFER_ID[bindingPosition] = VertexDataBuffer;
 		dooms::graphics::GraphicsAPI::BindVertexDataBuffer
 		(
 			VertexDataBuffer,
@@ -485,9 +482,9 @@ void dooms::graphics::RenderingMeshProxy::BindVertexBufferObject(const UINT32 bi
 void dooms::graphics::RenderingMeshProxy::BindIndexBufferObject() const
 {
 	D_ASSERT(VertexDataBuffer.IsValid() == true);
-	if (BOUND_INDEX_BUFFER_ID != ElementBufferObjectID.GetBufferID())
+	if (drawState::BOUND_INDEX_BUFFER_ID != ElementBufferObjectID.GetBufferID())
 	{
-		BOUND_INDEX_BUFFER_ID = ElementBufferObjectID;
+		drawState::BOUND_INDEX_BUFFER_ID = ElementBufferObjectID;
 		dooms::graphics::GraphicsAPI::BindBuffer(ElementBufferObjectID, 0, graphics::GraphicsAPI::eBufferTarget::ELEMENT_ARRAY_BUFFER, graphics::GraphicsAPI::eGraphicsPipeLineStage::DUMMY);
 	}
 }

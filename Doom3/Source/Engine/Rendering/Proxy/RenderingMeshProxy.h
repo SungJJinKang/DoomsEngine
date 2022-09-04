@@ -11,27 +11,18 @@
 #include <Physics/Collider/Sphere.h>
 #include <Graphics/GraphicsAPI/Manager/GraphicsAPIManager.h>
 #include "Rendering/Buffer/eVertexArrayFlag.h"
+#include <Rendering/Scene/FVertexBufferLayout.h>
 
 
 namespace dooms
 {
 	namespace graphics
 	{
-		enum
-		{
-			MAX_VERTEX_BUFFER_LAYOUT_COUNT = 32
-		};
-
+		
 		class RenderingMeshProxy : public RenderingProxy
 		{
 		public:
-
-			struct FVertexBufferLayout
-			{
-				UINT32 mStride;
-				UINT32 mOffset;
-			};
-			
+						
 			struct FRenderingMeshProxyInitializer
 			{
 				FMeshRawData MeshRawData;
@@ -73,22 +64,7 @@ namespace dooms
 
 
 		private:
-
-			/**
-			 * \brief only used for OPENGL
-			 */
-			static UINT64 BOUND_VERTEX_ARRAY_ID;
-
 			
-			/**
-			 * \brief for OPENGL, Only first element is used
-			 */
-			static UINT64 BOUND_VERTEX_BUFFER_ID[MAX_VERTEX_BUFFER_LAYOUT_COUNT];
-			/**
-			 * \brief INDEX ( ELEMENT BUFFER )
-			 */
-			static UINT64 BOUND_INDEX_BUFFER_ID;
-
 			/// <summary>
 			/// DX11 bind this buffer
 			/// </summary>
