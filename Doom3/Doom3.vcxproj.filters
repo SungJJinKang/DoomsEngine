@@ -300,9 +300,6 @@
     <ClCompile Include="Source\Core\Graphics\GraphicsAPI\graphicsAPISetting.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Engine\EngineGUI\PrintText.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Source\GameLogic\CustomComponent\AutoRotateAround.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -498,15 +495,6 @@
     <ClCompile Include="Source\thirdparty\imgui\imgui_widgets.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Engine\EngineGUI\imguiHelper\imguiWithReflection.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Engine\EngineGUI\EngineGUIAccessor.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Engine\EngineGUI\EngineGUIServer.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="clreflect_compiletime_gettype.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -514,18 +502,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Source\Core\Reflection\ReflectionType\DAttributeList.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Engine\EngineGUI\GUIModules\Modules\LogGUI.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Engine\EngineGUI\GUIModules\Modules\SceneGUI.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Engine\EngineGUI\imguiHelper\imguiFieldFunctionGetter.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Engine\EngineGUI\GUIModules\Modules\ProfilerGUI.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Source\Core\Reflection\ReflectionType\DTemplateArgumentType.cpp">
@@ -549,16 +525,10 @@
     <ClCompile Include="Source\Engine\Rendering\Buffer\MeshHelper.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Engine\EngineGUI\GUIModules\Modules\ThreadProfilerGUI.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Source\Engine\Rendering\Buffer\MeshNode.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Source\Engine\Rendering\RenderingDebugger\RenderingDebuggerModules\Modules\MaskedOcclusionCullingTester.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Engine\EngineGUI\GUIModules\Modules\MaskedOcclusionCulliingDebugger.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Source\Engine\Rendering\RenderingDebugger\DebugPrimitive\DebugPrimitiveContainer.cpp">
@@ -589,9 +559,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Source\Engine\Rendering\RenderingDebugger\DebugPrimitive\DebugPrimitive3DPointContainer.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Engine\EngineGUI\GUIModules\Modules\DrawCallCounterGUI.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Source\GameLogic\CustomComponent\WanderComponent.cpp">
@@ -682,12 +649,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Source\Engine\Scene\Layer\Layer.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Engine\EngineGUI\GUIModules\EngineGUIModule.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Engine\EngineGUI\engineGUIServerHelper.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Source\Engine\Rendering\Culling\EveryCulling\EveryCulling.cpp">
@@ -1397,9 +1358,6 @@
     <ClInclude Include="Source\Core\Graphics\GraphicsAPI\graphicsAPISetting.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Engine\EngineGUI\PrintText.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Source\GameLogic\CustomComponent\AutoRotateAround.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -1640,40 +1598,16 @@
     <ClInclude Include="Source\thirdparty\imgui\imstb_textedit.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Engine\EngineGUI\imguiHelper\imguiWithReflection.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Engine\EngineGUI\EngineGUIAccessor.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Engine\EngineGUI\EngineGUIServer.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Core\Reflection\ReflectionType\DAttribute.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\Core\Reflection\ReflectionType\DAttributeList.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Engine\EngineGUI\GUIModules\Modules\LogGUI.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Core\Logger\eLogType.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\Core\Logger\LoggerSetting.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Engine\EngineGUI\GUIModules\Modules\SceneGUI.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Engine\EngineGUI\imguiHelper\imguiFieldFunctionGetter.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Engine\EngineGUI\imguiHelper\ImGUISetting.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Engine\EngineGUI\GUIModules\Modules\ProfilerGUI.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\Core\Reflection\ReflectionType\DTemplateArgumentType.h">
@@ -1700,13 +1634,7 @@
     <ClInclude Include="Source\Engine\Rendering\Buffer\eVertexArrayFlag.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Engine\EngineGUI\GUIModules\Modules\ThreadProfilerGUI.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Engine\Rendering\RenderingDebugger\RenderingDebuggerModules\Modules\MaskedOcclusionCullingTester.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Engine\EngineGUI\GUIModules\Modules\MaskedOcclusionCulliingDebugger.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\Engine\Rendering\RenderingDebugger\DebugPrimitive\DebugPrimitiveContainer.h">
@@ -1740,9 +1668,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\Engine\Rendering\RenderingDebugger\DebugPrimitive\DebugPrimitiveContainerCollection.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Engine\EngineGUI\GUIModules\Modules\DrawCallCounterGUI.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\GameLogic\CustomComponent\WanderComponent.h">
@@ -1839,27 +1764,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\Engine\Scene\Layer\DefaultLayers.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Engine\EngineGUI\GUIModules\EngineGUIModule.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Engine\EngineGUI\engineGUIServerHelper.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Engine\EngineGUI\GUIModules\Modules\LogGUI.reflection.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Engine\EngineGUI\GUIModules\Modules\MaskedOcclusionCulliingDebugger.reflection.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Engine\EngineGUI\GUIModules\Modules\ProfilerGUI.reflection.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Engine\EngineGUI\GUIModules\Modules\SceneGUI.reflection.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Engine\EngineGUI\GUIModules\Modules\ThreadProfilerGUI.reflection.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\Engine\Rendering\Culling\EveryCulling\EveryCulling.h">

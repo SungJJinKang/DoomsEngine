@@ -77,20 +77,20 @@ bool dooms::DObject::DestroySelfInstantly()
 }
 
 dooms::DObject::DObject()
-	: mDObjectProperties(), mEngineGUIAccessor(this)
+	: mDObjectProperties()
 {
 	Construct_Internal();
 }
 
 dooms::DObject::DObject(const std::string& dObjectName)
-	: mDObjectProperties(), mEngineGUIAccessor(this)
+	: mDObjectProperties()
 {
 	mDObjectProperties.mDObjectName = dObjectName;
 	Construct_Internal();
 }
 
 dooms::DObject::DObject(const DObject* const ownerDObject, const std::string& dObjectName)
-	: mDObjectProperties(), mEngineGUIAccessor(this)
+	: mDObjectProperties()
 {
 	mDObjectProperties.mDObjectName = dObjectName;
 	mDObjectProperties.mOwnerDObject = ownerDObject;
@@ -99,7 +99,7 @@ dooms::DObject::DObject(const DObject* const ownerDObject, const std::string& dO
 
 
 dooms::DObject::DObject(const DObjectContructorParams& params)
-	: mDObjectProperties(), mEngineGUIAccessor(this)
+	: mDObjectProperties()
 {
 	InitProperties(params);
 	Construct_Internal();
@@ -109,7 +109,7 @@ dooms::DObject::DObject(const DObjectContructorParams& params)
 
 
 dooms::DObject::DObject(const DObject& dObject)
-	: mDObjectProperties(dObject.mDObjectProperties), mEngineGUIAccessor(this)
+	: mDObjectProperties(dObject.mDObjectProperties)
 {
 	const UINT64 originalObjectFlag = dObject.GetDObjectFlag();
 
@@ -123,7 +123,7 @@ dooms::DObject::DObject(const DObject& dObject)
 }
 
 dooms::DObject::DObject(DObject&& dObject) noexcept
-	: mDObjectProperties(std::move(dObject.mDObjectProperties)), mEngineGUIAccessor(this)
+	: mDObjectProperties(std::move(dObject.mDObjectProperties))
 {
 	const UINT64 originalObjectFlag = dObject.GetDObjectFlag();
 

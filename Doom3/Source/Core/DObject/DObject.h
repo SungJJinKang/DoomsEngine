@@ -13,7 +13,6 @@
 #include "DObjectManager.h"
 
 #include "Reflection/Reflection.h"
-#include <EngineGUI/EngineGUIAccessor.h>
 #include "Reflection/ReflectionType/DField.h"
 
 
@@ -193,9 +192,6 @@ namespace dooms
 		void OnSetPendingKill_Internal();
 
 	public:
-
-		dooms::ui::EngineGUIAccessor mEngineGUIAccessor;
-
 
 		/// <summary>
 		/// If you want that this object is not collected by gc, call this fucntion

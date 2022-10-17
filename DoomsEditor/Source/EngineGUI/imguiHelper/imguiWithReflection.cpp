@@ -24,15 +24,15 @@
 
 #include <Scene/Entity.h>
 
-#include "imgui.h"
+#include "imgui/imgui.h"
 #include "DObject/DObject.h"
 
 #include <vector_erase_move_lastelement/vector_swap_popback.h>
 
-#include "imgui_internal.h"
+#include "imgui/imgui_internal.h"
 #include "../engineGUIServer.h"
 
-#include <EngineGUI/PrintText.h>
+#include "../PrintText.h"
 
 
 namespace dooms

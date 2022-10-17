@@ -1,0 +1,209 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Source\EngineGUI\EngineGUIAccessor.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\EngineGUI\EngineGUIServer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\EngineGUI\engineGUIServerHelper.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\EngineGUI\PrintText.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\EngineGUI\imguiHelper\imguiFieldFunctionGetter.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\EngineGUI\imguiHelper\imguiWithReflection.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\EngineGUI\GUIModules\EngineGUIModule.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\EngineGUI\GUIModules\Modules\DrawCallCounterGUI.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\EngineGUI\GUIModules\Modules\LogGUI.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\EngineGUI\GUIModules\Modules\MaskedOcclusionCulliingDebugger.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\EngineGUI\GUIModules\Modules\ProfilerGUI.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\EngineGUI\GUIModules\Modules\SceneGUI.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\EngineGUI\GUIModules\Modules\ThreadProfilerGUI.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\imguiManager\imguiManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Source\EngineGUI\EngineGUIAccessor.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\EngineGUI\EngineGUIAccessor.reflection.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\EngineGUI\EngineGUIServer.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\EngineGUI\EngineGUIServer.reflection.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\EngineGUI\engineGUIServerHelper.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\EngineGUI\engineGUIServerHelper.reflection.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\EngineGUI\PrintText.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\EngineGUI\PrintText.reflection.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\EngineGUI\imguiHelper\imguiFieldFunctionGetter.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\EngineGUI\imguiHelper\imguiFieldFunctionGetter.reflection.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\EngineGUI\imguiHelper\imguiHelper.reflection.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\EngineGUI\imguiHelper\ImGUISetting.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\EngineGUI\imguiHelper\imguiWithReflection.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\EngineGUI\imguiHelper\imguiWithReflection.reflection.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\EngineGUI\GUIModules\EngineGUIModule.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\EngineGUI\GUIModules\EngineGUIModule.reflection.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\EngineGUI\GUIModules\Modules\DrawCallCounterGUI.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\EngineGUI\GUIModules\Modules\DrawCallCounterGUI.reflection.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\EngineGUI\GUIModules\Modules\LogGUI.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\EngineGUI\GUIModules\Modules\LogGUI.reflection.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\EngineGUI\GUIModules\Modules\MaskedOcclusionCulliingDebugger.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\EngineGUI\GUIModules\Modules\MaskedOcclusionCulliingDebugger.reflection.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\EngineGUI\GUIModules\Modules\ProfilerGUI.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\EngineGUI\GUIModules\Modules\ProfilerGUI.reflection.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\EngineGUI\GUIModules\Modules\SceneGUI.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\EngineGUI\GUIModules\Modules\SceneGUI.reflection.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\EngineGUI\GUIModules\Modules\ThreadProfilerGUI.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\EngineGUI\GUIModules\Modules\ThreadProfilerGUI.reflection.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\imguiManager\imguiManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\imguiManager\imguiInterface.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Source\EngineGUI\EngineGUIAccessor_Debug_x64.csv">
+      <Filter>Source Files</Filter>
+    </None>
+    <None Include="Source\EngineGUI\EngineGUIAccessor_Release_x64.csv">
+      <Filter>Source Files</Filter>
+    </None>
+    <None Include="Source\EngineGUI\EngineGUIServer_Debug_x64.csv">
+      <Filter>Source Files</Filter>
+    </None>
+    <None Include="Source\EngineGUI\EngineGUIServer_Release_x64.csv">
+      <Filter>Source Files</Filter>
+    </None>
+    <None Include="Source\EngineGUI\engineGUIServerHelper_Debug_x64.csv">
+      <Filter>Source Files</Filter>
+    </None>
+    <None Include="Source\EngineGUI\engineGUIServerHelper_Release_x64.csv">
+      <Filter>Source Files</Filter>
+    </None>
+    <None Include="Source\EngineGUI\PrintText_Debug_x64.csv">
+      <Filter>Source Files</Filter>
+    </None>
+    <None Include="Source\EngineGUI\PrintText_Release_x64.csv">
+      <Filter>Source Files</Filter>
+    </None>
+    <None Include="Source\EngineGUI\imguiHelper\imguiFieldFunctionGetter_Debug_x64.csv">
+      <Filter>Source Files</Filter>
+    </None>
+    <None Include="Source\EngineGUI\imguiHelper\imguiFieldFunctionGetter_Release_x64.csv">
+      <Filter>Source Files</Filter>
+    </None>
+    <None Include="Source\EngineGUI\imguiHelper\imguiWithReflection_Debug_x64.csv">
+      <Filter>Source Files</Filter>
+    </None>
+    <None Include="Source\EngineGUI\imguiHelper\imguiWithReflection_Release_x64.csv">
+      <Filter>Source Files</Filter>
+    </None>
+    <None Include="Source\EngineGUI\GUIModules\EngineGUIModule_Debug_x64.csv">
+      <Filter>Source Files</Filter>
+    </None>
+    <None Include="Source\EngineGUI\GUIModules\EngineGUIModule_Release_x64.csv">
+      <Filter>Source Files</Filter>
+    </None>
+    <None Include="Source\EngineGUI\GUIModules\Modules\DrawCallCounterGUI_Debug_x64.csv" />
+    <None Include="Source\EngineGUI\GUIModules\Modules\DrawCallCounterGUI_Release_x64.csv" />
+    <None Include="Source\EngineGUI\GUIModules\Modules\LogGUI_Debug_x64.csv" />
+    <None Include="Source\EngineGUI\GUIModules\Modules\LogGUI_Release_x64.csv" />
+    <None Include="Source\EngineGUI\GUIModules\Modules\MaskedOcclusionCulliingDebugger_Debug_x64.csv" />
+    <None Include="Source\EngineGUI\GUIModules\Modules\MaskedOcclusionCulliingDebugger_Release_x64.csv" />
+    <None Include="Source\EngineGUI\GUIModules\Modules\ProfilerGUI_Debug_x64.csv" />
+    <None Include="Source\EngineGUI\GUIModules\Modules\ProfilerGUI_Release_x64.csv" />
+    <None Include="Source\EngineGUI\GUIModules\Modules\SceneGUI_Debug_x64.csv" />
+    <None Include="Source\EngineGUI\GUIModules\Modules\SceneGUI_Release_x64.csv" />
+    <None Include="Source\EngineGUI\GUIModules\Modules\ThreadProfilerGUI_Debug_x64.csv" />
+    <None Include="Source\EngineGUI\GUIModules\Modules\ThreadProfilerGUI_Release_x64.csv" />
+  </ItemGroup>
+</Project>

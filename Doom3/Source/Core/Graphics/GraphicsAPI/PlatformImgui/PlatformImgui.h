@@ -1,6 +1,6 @@
 #pragma once
 
-#include "imgui.h"
+#include "imgui/imgui.h"
 #include "../Macros/GraphicsAPIMacros.h"
 
 struct ImGuiContext;

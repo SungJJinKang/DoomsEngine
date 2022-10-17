@@ -1,6 +1,6 @@
 #include "EngineGUIAccessor.h"
 
-#include <EngineGUI/imguiHelper/imguiWithReflection.h>
+#include "imguiHelper/imguiWithReflection.h"
 #include <GarbageCollector/GarbageCollectorManager.h>
 
 void dooms::ui::EngineGUIAccessor::SetOwnerObject(DObject* const dObject)

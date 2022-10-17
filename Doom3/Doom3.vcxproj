@@ -487,8 +487,6 @@ xcopy /y /d /E /H /C /I "$(ProjectDir)Assets" "$(TargetDir)Assets"</Command>
     <ClCompile Include="Source\Engine\Scene\Layer\DefaultLayers.cpp" />
     <ClCompile Include="Source\Core\EngineConfigurationData\ConfigData.cpp" />
     <ClCompile Include="Source\Engine\Scene\Layer\Layer.cpp" />
-    <ClCompile Include="Source\Engine\EngineGUI\engineGUIServerHelper.cpp" />
-    <ClCompile Include="Source\Engine\EngineGUI\GUIModules\EngineGUIModule.cpp" />
     <ClCompile Include="Source\Engine\Rendering\Batch\BatchContainer\batchContainerFactory.cpp" />
     <ClCompile Include="Source\Engine\Rendering\Batch\BatchContainer\RendererBatchContainer.cpp" />
     <ClCompile Include="Source\Engine\Rendering\Batch\BatchContainer\StaticRendererBatchContainer.cpp" />
@@ -532,10 +530,8 @@ xcopy /y /d /E /H /C /I "$(ProjectDir)Assets" "$(TargetDir)Assets"</Command>
     <ClCompile Include="Source\Core\Asset\Utility\ShaderAsset\shaderAssetHelper.cpp" />
     <ClCompile Include="Source\Core\Asset\Utility\ShaderAsset\shaderConverter.cpp" />
     <ClCompile Include="Source\Core\Asset\Utility\ShaderAsset\shaderReflectionDataParser.cpp" />
-    <ClCompile Include="Source\Engine\EngineGUI\GUIModules\Modules\DrawCallCounterGUI.cpp" />
     <ClCompile Include="Source\Engine\Rendering\Buffer\UniformBufferObject\UniformBufferObjectView.cpp" />
     <ClCompile Include="Source\Engine\Rendering\RenderingDebugger\DebugPrimitive\DebugPrimitive2DLineContainer.cpp" />
-    <ClCompile Include="Source\Engine\EngineGUI\GUIModules\Modules\MaskedOcclusionCulliingDebugger.cpp" />
     <ClCompile Include="Source\Engine\Rendering\RenderingDebugger\DebugPrimitive\DebugPrimitive2DPointContainer.cpp" />
     <ClCompile Include="Source\Engine\Rendering\RenderingDebugger\DebugPrimitive\DebugPrimitive2DTriangleContainer.cpp" />
     <ClCompile Include="Source\Engine\Rendering\RenderingDebugger\DebugPrimitive\DebugPrimitive3DLineContainer.cpp" />
@@ -546,7 +542,6 @@ xcopy /y /d /E /H /C /I "$(ProjectDir)Assets" "$(TargetDir)Assets"</Command>
     <ClCompile Include="Source\Engine\Rendering\RenderingDebugger\DebugPrimitive\DebugPrimitivePointContainer.cpp" />
     <ClCompile Include="Source\Engine\Rendering\RenderingDebugger\DebugPrimitive\DebugPrimitiveTriangleContainer.cpp" />
     <ClCompile Include="Source\Engine\Rendering\RenderingDebugger\RenderingDebuggerModules\Modules\MaskedOcclusionCullingTester.cpp" />
-    <ClCompile Include="Source\Engine\EngineGUI\GUIModules\Modules\ThreadProfilerGUI.cpp" />
     <ClCompile Include="Source\Engine\Rendering\Buffer\MeshHelper.cpp" />
     <ClCompile Include="Source\Engine\Rendering\Buffer\MeshNode.cpp" />
     <ClCompile Include="Source\Engine\Rendering\FrameBuffer\FrameBufferView.cpp" />
@@ -571,13 +566,6 @@ xcopy /y /d /E /H /C /I "$(ProjectDir)Assets" "$(TargetDir)Assets"</Command>
     <ClCompile Include="Source\Core\Asset\FontAsset.cpp" />
     <ClCompile Include="Source\Core\Asset\Helper\AssetFactory.cpp" />
     <ClCompile Include="Source\Core\DObject\DObjectGlobals.cpp" />
-    <ClCompile Include="Source\Engine\EngineGUI\EngineGUIAccessor.cpp" />
-    <ClCompile Include="Source\Engine\EngineGUI\EngineGUIServer.cpp" />
-    <ClCompile Include="Source\Engine\EngineGUI\GUIModules\Modules\LogGUI.cpp" />
-    <ClCompile Include="Source\Engine\EngineGUI\GUIModules\Modules\ProfilerGUI.cpp" />
-    <ClCompile Include="Source\Engine\EngineGUI\GUIModules\Modules\SceneGUI.cpp" />
-    <ClCompile Include="Source\Engine\EngineGUI\imguiHelper\imguiFieldFunctionGetter.cpp" />
-    <ClCompile Include="Source\Engine\EngineGUI\imguiHelper\imguiWithReflection.cpp" />
     <ClCompile Include="Source\Core\Reflection\ReflectionManager.cpp" />
     <ClCompile Include="Source\Core\Reflection\ReflectionType\DAttribute.cpp" />
     <ClCompile Include="Source\Core\Reflection\ReflectionType\DAttributeList.cpp" />
@@ -644,7 +632,6 @@ xcopy /y /d /E /H /C /I "$(ProjectDir)Assets" "$(TargetDir)Assets"</Command>
     <ClCompile Include="Source\Core\Asset\AssetImportExporter\AssetImporter\AssetImporterWorker\AssetImporterWorker_Text.cpp" />
     <ClCompile Include="Source\Core\Asset\AssetImportExporter\AssetImporter\AssetImporterWorker\AssetImporterWorker_Three_D_Model.cpp" />
     <ClCompile Include="Source\Core\Physics\Collider\OBB.cpp" />
-    <ClCompile Include="Source\Engine\EngineGUI\PrintText.cpp" />
     <ClCompile Include="Source\Core\Misc\ColliderUpdater\ColliderUpdater.cpp" />
     <ClCompile Include="Source\Core\Misc\AccelerationContainer\BVH\BVH_Node.cpp" />
     <ClCompile Include="Source\Core\Misc\AccelerationContainer\BVH\BVH_Node_View.cpp" />
@@ -795,13 +782,6 @@ xcopy /y /d /E /H /C /I "$(ProjectDir)Assets" "$(TargetDir)Assets"</Command>
     <ClInclude Include="Source\Engine\Misk\LatentActionManager.reflection.h" />
     <ClInclude Include="Source\Engine\Scene\eEntityMobility.h" />
     <ClInclude Include="Source\Engine\Scene\Layer\DefaultLayers.h" />
-    <ClInclude Include="Source\Engine\EngineGUI\engineGUIServerHelper.h" />
-    <ClInclude Include="Source\Engine\EngineGUI\GUIModules\EngineGUIModule.h" />
-    <ClInclude Include="Source\Engine\EngineGUI\GUIModules\Modules\LogGUI.reflection.h" />
-    <ClInclude Include="Source\Engine\EngineGUI\GUIModules\Modules\MaskedOcclusionCulliingDebugger.reflection.h" />
-    <ClInclude Include="Source\Engine\EngineGUI\GUIModules\Modules\ProfilerGUI.reflection.h" />
-    <ClInclude Include="Source\Engine\EngineGUI\GUIModules\Modules\SceneGUI.reflection.h" />
-    <ClInclude Include="Source\Engine\EngineGUI\GUIModules\Modules\ThreadProfilerGUI.reflection.h" />
     <ClInclude Include="Source\Engine\Rendering\Batch\BatchContainer\batchContainerFactory.h" />
     <ClInclude Include="Source\Engine\Rendering\Batch\BatchContainer\RendererBatchContainer.h" />
     <ClInclude Include="Source\Engine\Rendering\Batch\BatchContainer\StaticRendererBatchContainer.h" />
@@ -858,11 +838,9 @@ xcopy /y /d /E /H /C /I "$(ProjectDir)Assets" "$(TargetDir)Assets"</Command>
     <ClInclude Include="Source\Core\Asset\Utility\ShaderAsset\shaderAssetHelper.h" />
     <ClInclude Include="Source\Core\Asset\Utility\ShaderAsset\shaderConverter.h" />
     <ClInclude Include="Source\Core\Asset\Utility\ShaderAsset\shaderReflectionDataParser.h" />
-    <ClInclude Include="Source\Engine\EngineGUI\GUIModules\Modules\DrawCallCounterGUI.h" />
     <ClInclude Include="Source\Core\Misc\eStatus.h" />
     <ClInclude Include="Source\Engine\Rendering\Buffer\UniformBufferObject\UniformBufferObjectView.h" />
     <ClInclude Include="Source\Engine\Rendering\RenderingDebugger\DebugPrimitive\DebugPrimitive2DLineContainer.h" />
-    <ClInclude Include="Source\Engine\EngineGUI\GUIModules\Modules\MaskedOcclusionCulliingDebugger.h" />
     <ClInclude Include="Source\Engine\Rendering\RenderingDebugger\DebugPrimitive\DebugPrimitive2DPointContainer.h" />
     <ClInclude Include="Source\Engine\Rendering\RenderingDebugger\DebugPrimitive\DebugPrimitive2DTriangleContainer.h" />
     <ClInclude Include="Source\Engine\Rendering\RenderingDebugger\DebugPrimitive\DebugPrimitive3DLineContainer.h" />
@@ -874,7 +852,6 @@ xcopy /y /d /E /H /C /I "$(ProjectDir)Assets" "$(TargetDir)Assets"</Command>
     <ClInclude Include="Source\Engine\Rendering\RenderingDebugger\DebugPrimitive\DebugPrimitiveContainerCollection.h" />
     <ClInclude Include="Source\Engine\Rendering\RenderingDebugger\DebugPrimitive\DebugPrimitiveTriangleContainer.h" />
     <ClInclude Include="Source\Engine\Rendering\RenderingDebugger\RenderingDebuggerModules\Modules\MaskedOcclusionCullingTester.h" />
-    <ClInclude Include="Source\Engine\EngineGUI\GUIModules\Modules\ThreadProfilerGUI.h" />
     <ClInclude Include="Source\Engine\Rendering\Buffer\eVertexArrayFlag.h" />
     <ClInclude Include="Source\Engine\Rendering\Buffer\MeshHelper.h" />
     <ClInclude Include="Source\Engine\Rendering\FrameBuffer\FrameBufferView.h" />
@@ -898,14 +875,6 @@ xcopy /y /d /E /H /C /I "$(ProjectDir)Assets" "$(TargetDir)Assets"</Command>
     <ClInclude Include="Source\Core\Reflection\TypeSpecialized\Reflection_RandomAccessIterator.h" />
     <ClInclude Include="Source\Core\Asset\AssetsForwardDeclaration.h" />
     <ClInclude Include="Source\Core\Asset\Helper\AssetFactory.h" />
-    <ClInclude Include="Source\Engine\EngineGUI\EngineGUIAccessor.h" />
-    <ClInclude Include="Source\Engine\EngineGUI\EngineGUIServer.h" />
-    <ClInclude Include="Source\Engine\EngineGUI\GUIModules\Modules\LogGUI.h" />
-    <ClInclude Include="Source\Engine\EngineGUI\GUIModules\Modules\ProfilerGUI.h" />
-    <ClInclude Include="Source\Engine\EngineGUI\GUIModules\Modules\SceneGUI.h" />
-    <ClInclude Include="Source\Engine\EngineGUI\imguiHelper\imguiFieldFunctionGetter.h" />
-    <ClInclude Include="Source\Engine\EngineGUI\imguiHelper\ImGUISetting.h" />
-    <ClInclude Include="Source\Engine\EngineGUI\imguiHelper\imguiWithReflection.h" />
     <ClInclude Include="Source\Core\Logger\eLogType.h" />
     <ClInclude Include="Source\Core\Logger\LoggerSetting.h" />
     <ClInclude Include="Source\Core\Reflection\ReflectionManager.h" />
@@ -993,7 +962,6 @@ xcopy /y /d /E /H /C /I "$(ProjectDir)Assets" "$(TargetDir)Assets"</Command>
     <ClInclude Include="Source\Core\Graphics\TextureFormat.h" />
     <ClInclude Include="Source\Core\OS\OS.h" />
     <ClInclude Include="Source\Core\Physics\Collider\OBB.h" />
-    <ClInclude Include="Source\Engine\EngineGUI\PrintText.h" />
     <ClInclude Include="Source\Core\Misc\ColliderUpdater\ColliderUpdater.h" />
     <ClInclude Include="Source\Core\Misc\AccelerationContainer\BVH\BVH_Core.h" />
     <ClInclude Include="Source\Core\Misc\AccelerationContainer\BVH\BVH_Node.h" />

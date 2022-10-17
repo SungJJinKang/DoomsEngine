@@ -4,13 +4,10 @@
 #include <mutex>
 #include <shared_mutex>
 
-
-#include "imgui.h"
+#include "imgui/imgui.h"
 #include <Time/MainTimer.h>
 
 #define PROFILING_TEXT_RED_COLOR_DURATION_TIME 0.2f
-
-
 
 void dooms::ui::ProfilerGUI::Init()
 {

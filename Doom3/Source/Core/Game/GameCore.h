@@ -13,7 +13,6 @@
 #include <Time/Time_Server.h>
 #include <Reflection/ReflectionManager.h>
 #include <Memory/MemoryManager.h>
-#include <EngineGUI/EngineGUIServer.h>
 #include <EnginePluginManager.h>
 #include <Misk/LatentActionManager.h>
 

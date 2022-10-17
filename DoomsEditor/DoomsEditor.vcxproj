@@ -1,0 +1,228 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <VCProjectVersion>16.0</VCProjectVersion>
+    <Keyword>Win32Proj</Keyword>
+    <ProjectGuid>{31cc1477-7a74-4639-97aa-03d9531c0ec7}</ProjectGuid>
+    <RootNamespace>DoomsEditor</RootNamespace>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="Shared">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <LinkIncremental>true</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <LinkIncremental>false</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <LinkIncremental>true</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <LinkIncremental>false</LinkIncremental>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>$(SolutionDir)Source\Engine;$(SolutionDir)Source\Core\DObject;$(SolutionDir)Source\thirdParty;$(SolutionDir)Source\Core;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>$(SolutionDir)Source\Engine;$(SolutionDir)Source\Core\DObject;$(SolutionDir)Source\thirdParty;$(SolutionDir)Source\Core;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>$(SolutionDir)Source\Core\Reflection\clReflect_automation\clReflect\inc;$(SolutionDir)Source\Engine;$(SolutionDir)Source\Core\DObject;$(SolutionDir)Source\thirdParty;$(SolutionDir)Source\Helper;$(SolutionDir)Source\Core;$(SolutionDir)Source\Plugins;$(SolutionDir)Source\Core\Math;$(SolutionDir)Source\Component;$(SolutionDir)Source\Core\Math\JINMATH;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+      <EnableEnhancedInstructionSet>AdvancedVectorExtensions2</EnableEnhancedInstructionSet>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>$(SolutionDir)Source\Core\Reflection\clReflect_automation\clReflect\inc;$(SolutionDir)Source\Engine;$(SolutionDir)Source\Core\DObject;$(SolutionDir)Source\thirdParty;$(SolutionDir)Source\Helper;$(SolutionDir)Source\Core;$(SolutionDir)Source\Plugins;$(SolutionDir)Source\Core\Math;$(SolutionDir)Source\Component;$(SolutionDir)Source\Core\Math\JINMATH;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+      <EnableEnhancedInstructionSet>AdvancedVectorExtensions2</EnableEnhancedInstructionSet>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="Source\EngineGUI\EngineGUIAccessor.cpp" />
+    <ClCompile Include="Source\EngineGUI\EngineGUIServer.cpp" />
+    <ClCompile Include="Source\EngineGUI\engineGUIServerHelper.cpp" />
+    <ClCompile Include="Source\EngineGUI\GUIModules\EngineGUIModule.cpp" />
+    <ClCompile Include="Source\EngineGUI\GUIModules\Modules\DrawCallCounterGUI.cpp" />
+    <ClCompile Include="Source\EngineGUI\GUIModules\Modules\LogGUI.cpp" />
+    <ClCompile Include="Source\EngineGUI\GUIModules\Modules\MaskedOcclusionCulliingDebugger.cpp" />
+    <ClCompile Include="Source\EngineGUI\GUIModules\Modules\ProfilerGUI.cpp" />
+    <ClCompile Include="Source\EngineGUI\GUIModules\Modules\SceneGUI.cpp" />
+    <ClCompile Include="Source\EngineGUI\GUIModules\Modules\ThreadProfilerGUI.cpp" />
+    <ClCompile Include="Source\EngineGUI\imguiHelper\imguiFieldFunctionGetter.cpp" />
+    <ClCompile Include="Source\EngineGUI\imguiHelper\imguiWithReflection.cpp" />
+    <ClCompile Include="Source\EngineGUI\PrintText.cpp" />
+    <ClCompile Include="Source\imguiManager\imguiManager.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Source\EngineGUI\EngineGUIAccessor.h" />
+    <ClInclude Include="Source\EngineGUI\EngineGUIAccessor.reflection.h" />
+    <ClInclude Include="Source\EngineGUI\EngineGUIServer.h" />
+    <ClInclude Include="Source\EngineGUI\EngineGUIServer.reflection.h" />
+    <ClInclude Include="Source\EngineGUI\engineGUIServerHelper.h" />
+    <ClInclude Include="Source\EngineGUI\engineGUIServerHelper.reflection.h" />
+    <ClInclude Include="Source\EngineGUI\GUIModules\EngineGUIModule.h" />
+    <ClInclude Include="Source\EngineGUI\GUIModules\EngineGUIModule.reflection.h" />
+    <ClInclude Include="Source\EngineGUI\GUIModules\Modules\DrawCallCounterGUI.h" />
+    <ClInclude Include="Source\EngineGUI\GUIModules\Modules\DrawCallCounterGUI.reflection.h" />
+    <ClInclude Include="Source\EngineGUI\GUIModules\Modules\LogGUI.h" />
+    <ClInclude Include="Source\EngineGUI\GUIModules\Modules\LogGUI.reflection.h" />
+    <ClInclude Include="Source\EngineGUI\GUIModules\Modules\MaskedOcclusionCulliingDebugger.h" />
+    <ClInclude Include="Source\EngineGUI\GUIModules\Modules\MaskedOcclusionCulliingDebugger.reflection.h" />
+    <ClInclude Include="Source\EngineGUI\GUIModules\Modules\ProfilerGUI.h" />
+    <ClInclude Include="Source\EngineGUI\GUIModules\Modules\ProfilerGUI.reflection.h" />
+    <ClInclude Include="Source\EngineGUI\GUIModules\Modules\SceneGUI.h" />
+    <ClInclude Include="Source\EngineGUI\GUIModules\Modules\SceneGUI.reflection.h" />
+    <ClInclude Include="Source\EngineGUI\GUIModules\Modules\ThreadProfilerGUI.h" />
+    <ClInclude Include="Source\EngineGUI\GUIModules\Modules\ThreadProfilerGUI.reflection.h" />
+    <ClInclude Include="Source\EngineGUI\imguiHelper\imguiFieldFunctionGetter.h" />
+    <ClInclude Include="Source\EngineGUI\imguiHelper\imguiFieldFunctionGetter.reflection.h" />
+    <ClInclude Include="Source\EngineGUI\imguiHelper\imguiHelper.reflection.h" />
+    <ClInclude Include="Source\EngineGUI\imguiHelper\ImGUISetting.h" />
+    <ClInclude Include="Source\EngineGUI\imguiHelper\imguiWithReflection.h" />
+    <ClInclude Include="Source\EngineGUI\imguiHelper\imguiWithReflection.reflection.h" />
+    <ClInclude Include="Source\EngineGUI\PrintText.h" />
+    <ClInclude Include="Source\EngineGUI\PrintText.reflection.h" />
+    <ClInclude Include="Source\imguiManager\imguiInterface.h" />
+    <ClInclude Include="Source\imguiManager\imguiManager.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Source\EngineGUI\EngineGUIAccessor_Debug_x64.csv" />
+    <None Include="Source\EngineGUI\EngineGUIAccessor_Release_x64.csv" />
+    <None Include="Source\EngineGUI\engineGUIServerHelper_Debug_x64.csv" />
+    <None Include="Source\EngineGUI\engineGUIServerHelper_Release_x64.csv" />
+    <None Include="Source\EngineGUI\EngineGUIServer_Debug_x64.csv" />
+    <None Include="Source\EngineGUI\EngineGUIServer_Release_x64.csv" />
+    <None Include="Source\EngineGUI\GUIModules\EngineGUIModule_Debug_x64.csv" />
+    <None Include="Source\EngineGUI\GUIModules\EngineGUIModule_Release_x64.csv" />
+    <None Include="Source\EngineGUI\GUIModules\Modules\DrawCallCounterGUI_Debug_x64.csv" />
+    <None Include="Source\EngineGUI\GUIModules\Modules\DrawCallCounterGUI_Release_x64.csv" />
+    <None Include="Source\EngineGUI\GUIModules\Modules\LogGUI_Debug_x64.csv" />
+    <None Include="Source\EngineGUI\GUIModules\Modules\LogGUI_Release_x64.csv" />
+    <None Include="Source\EngineGUI\GUIModules\Modules\MaskedOcclusionCulliingDebugger_Debug_x64.csv" />
+    <None Include="Source\EngineGUI\GUIModules\Modules\MaskedOcclusionCulliingDebugger_Release_x64.csv" />
+    <None Include="Source\EngineGUI\GUIModules\Modules\ProfilerGUI_Debug_x64.csv" />
+    <None Include="Source\EngineGUI\GUIModules\Modules\ProfilerGUI_Release_x64.csv" />
+    <None Include="Source\EngineGUI\GUIModules\Modules\SceneGUI_Debug_x64.csv" />
+    <None Include="Source\EngineGUI\GUIModules\Modules\SceneGUI_Release_x64.csv" />
+    <None Include="Source\EngineGUI\GUIModules\Modules\ThreadProfilerGUI_Debug_x64.csv" />
+    <None Include="Source\EngineGUI\GUIModules\Modules\ThreadProfilerGUI_Release_x64.csv" />
+    <None Include="Source\EngineGUI\imguiHelper\imguiFieldFunctionGetter_Debug_x64.csv" />
+    <None Include="Source\EngineGUI\imguiHelper\imguiFieldFunctionGetter_Release_x64.csv" />
+    <None Include="Source\EngineGUI\imguiHelper\imguiWithReflection_Debug_x64.csv" />
+    <None Include="Source\EngineGUI\imguiHelper\imguiWithReflection_Release_x64.csv" />
+    <None Include="Source\EngineGUI\PrintText_Debug_x64.csv" />
+    <None Include="Source\EngineGUI\PrintText_Release_x64.csv" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

@@ -8,7 +8,7 @@
 
 #include "Scene.h"
 #include "../Core.h"
-#include <Component.h>
+#include <Core/Component.h>
 #include <Transform.h>
 #include <Misc/FrameDirtyChecker/FrameDirtyChecker.h>
 #include "eEntityMobility.h"

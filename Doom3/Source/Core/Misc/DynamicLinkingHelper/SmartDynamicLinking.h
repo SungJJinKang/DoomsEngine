@@ -9,8 +9,6 @@
 #include <DirectXTex.h>
 #include <excpt.h>
 
-#include <EngineGUI/PrintText.h>
-
 #include "SmartDynamicLinking.reflection.h"
 namespace dooms
 {
