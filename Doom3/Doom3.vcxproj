@@ -468,6 +468,7 @@ xcopy /y /d /E /H /C /I "$(ProjectDir)Assets" "$(TargetDir)Assets"</Command>
     <ClCompile Include="clreflect_compiletime_gettype.cpp" />
     <ClCompile Include="Source\Core\Container\JINSTL\JINSTL\source\Allocator.cpp" />
     <ClCompile Include="Source\Core\Container\JINSTL\JINSTL\source\Allocator\AllocatorContainer.cpp" />
+    <ClCompile Include="Source\Core\GameEngineEntryPoint.cpp" />
     <ClCompile Include="Source\Core\Math\JINMATH\Matrix2x2.cpp" />
     <ClCompile Include="Source\Core\Math\JINMATH\Matrix3x3.cpp" />
     <ClCompile Include="Source\Core\Math\JINMATH\Matrix4x4.cpp" />

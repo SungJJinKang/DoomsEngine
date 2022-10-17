@@ -126,6 +126,7 @@ void dooms::DObjectManager::DestroyAllDObjects(const bool force)
         {
             if(dObjectCount != mDObjectsContainer.mDObjectList.size())
             {
+                // When DObject is destroyed by SetIsPendingKill during loop
                 dObjectCount = mDObjectsContainer.mDObjectList.size();
                 i = -1;
                 continue;

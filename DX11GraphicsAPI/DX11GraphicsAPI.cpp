@@ -8,6 +8,7 @@
 #include <d3d11_1.h>
 #include <d3dcompiler.h>
 #include <oneapi/tbb/tbbmalloc_proxy.h>
+#include <unordered_map>
 
 #include "DX11Imgui.h"
 #include "DX11GraphicsAPIInput.h"
@@ -28,6 +29,185 @@
 #define MIN(X, Y) ((X < Y) ? (X) : (Y));
 #define MAX(X, Y) ((X > Y) ? (X) : (Y));
 
+
+
+// Hash
+
+namespace std
+{
+	/**
+	 * \brief 12 bit
+	 */
+	template <>
+    struct hash<D3D11_DEPTH_STENCILOP_DESC>
+    {
+        std::size_t operator()(const D3D11_DEPTH_STENCILOP_DESC& k) const noexcept
+        {
+            return
+                ((k.StencilFailOp - 1) << (3 * 0)) |
+                ((k.StencilDepthFailOp - 1) << (3 * 1)) |
+                ((k.StencilPassOp - 1) << (3 * 2)) |
+                ((k.StencilFunc - 1) << (3 * 3));
+        }
+    };
+
+    /**
+     * \brief 32 bit
+     */
+    template <>
+    struct hash<D3D11_DEPTH_STENCIL_DESC>
+    {
+        std::size_t operator()(const D3D11_DEPTH_STENCIL_DESC& k) const noexcept
+        {
+            return
+                (
+                    k.DepthEnable |
+                    (k.DepthWriteMask << 1) |
+                    ((k.DepthFunc - 1) << 2) |
+                    (k.StencilEnable << 5) |
+                    (k.StencilReadMask << 6) |
+                    (k.StencilWriteMask << 7)
+                ) |
+                (std::hash<D3D11_DEPTH_STENCILOP_DESC>()(k.FrontFace) << 8) |
+                (std::hash<D3D11_DEPTH_STENCILOP_DESC>()(k.BackFace) << 20);
+        }
+    };
+
+    /**
+     * \brief 28 bit
+     */
+    template <>
+    struct hash<D3D11_RENDER_TARGET_BLEND_DESC>
+    {
+        std::size_t operator()(const D3D11_RENDER_TARGET_BLEND_DESC& k) const noexcept
+        {
+            return
+                k.BlendEnable |
+                (k.SrcBlend << 1) |
+                (k.DestBlend << 6) |
+                (k.BlendOp << 11) |
+                (k.SrcBlendAlpha << 14) |
+                (k.DestBlendAlpha << 19) |
+                (k.BlendOpAlpha << 24) |
+                (k.RenderTargetWriteMask << 27);
+        }
+    };
+
+    /**
+     * \brief 30 bit
+     */
+    template <>
+    struct hash<D3D11_BLEND_DESC>
+    {
+        std::size_t operator()(const D3D11_BLEND_DESC& k) const noexcept
+        {
+            return
+                k.AlphaToCoverageEnable | // 0
+                (k.IndependentBlendEnable << 1) | // 1
+                (
+                    (
+                        std::hash<D3D11_RENDER_TARGET_BLEND_DESC>()(k.RenderTarget[0]) ^
+                        std::hash<D3D11_RENDER_TARGET_BLEND_DESC>()(k.RenderTarget[1]) ^
+                        std::hash<D3D11_RENDER_TARGET_BLEND_DESC>()(k.RenderTarget[2]) ^
+                        std::hash<D3D11_RENDER_TARGET_BLEND_DESC>()(k.RenderTarget[3]) ^
+                        std::hash<D3D11_RENDER_TARGET_BLEND_DESC>()(k.RenderTarget[4]) ^
+                        std::hash<D3D11_RENDER_TARGET_BLEND_DESC>()(k.RenderTarget[5]) ^
+                        std::hash<D3D11_RENDER_TARGET_BLEND_DESC>()(k.RenderTarget[6]) ^
+                        std::hash<D3D11_RENDER_TARGET_BLEND_DESC>()(k.RenderTarget[7])
+                    ) < 2
+                );
+        }
+    };
+
+    /**
+     * \brief 20 bit
+     */
+    template <>
+    struct hash<D3D11_RASTERIZER_DESC>
+    {
+        std::size_t operator()(const D3D11_RASTERIZER_DESC& k) const noexcept
+        {
+            return
+                (k.FillMode - 2) |
+                ((k.CullMode - 1) << 1) |
+                (k.FrontCounterClockwise << 3) |
+                (k.DepthBias << 4) |
+                (*reinterpret_cast<const unsigned int*>(&k.DepthBiasClamp) << 8) |
+                (*reinterpret_cast<const unsigned int*>(&k.SlopeScaledDepthBias) << 12) |
+                (k.DepthClipEnable << 16) |
+                (k.ScissorEnable << 17) |
+                (k.MultisampleEnable << 18) |
+                (k.AntialiasedLineEnable << 19);
+        }
+    };
+}
+
+bool operator==(const D3D11_DEPTH_STENCILOP_DESC& lfs, const D3D11_DEPTH_STENCILOP_DESC& rhs)
+{
+    return
+        (lfs.StencilFailOp == rhs.StencilFailOp) &&
+        (lfs.StencilDepthFailOp == rhs.StencilDepthFailOp) &&
+        (lfs.StencilPassOp == rhs.StencilPassOp) &&
+        (lfs.StencilFunc == rhs.StencilFunc);
+}
+
+bool operator==(const D3D11_DEPTH_STENCIL_DESC& lfs, const D3D11_DEPTH_STENCIL_DESC& rhs)
+{
+    return
+        (lfs.DepthEnable == rhs.DepthEnable) &&
+        (lfs.DepthWriteMask == rhs.DepthWriteMask) &&
+        (lfs.DepthFunc == rhs.DepthFunc) &&
+        (lfs.StencilEnable == rhs.StencilEnable) &&
+        (lfs.StencilReadMask == rhs.StencilReadMask) &&
+        (lfs.StencilWriteMask == rhs.StencilWriteMask) &&
+        (lfs.FrontFace == rhs.FrontFace) &&
+        (lfs.BackFace == rhs.BackFace);
+}
+
+bool operator==(const D3D11_RENDER_TARGET_BLEND_DESC& lfs, const D3D11_RENDER_TARGET_BLEND_DESC& rhs)
+{
+
+    return
+        (lfs.BlendEnable == rhs.BlendEnable) &&
+        (lfs.SrcBlend == rhs.SrcBlend) &&
+        (lfs.DestBlend == rhs.DestBlend) &&
+        (lfs.BlendOp == rhs.BlendOp) &&
+        (lfs.SrcBlendAlpha == rhs.SrcBlendAlpha) &&
+        (lfs.DestBlendAlpha == rhs.DestBlendAlpha) &&
+        (lfs.BlendOpAlpha == rhs.BlendOpAlpha) &&
+        (lfs.RenderTargetWriteMask == rhs.RenderTargetWriteMask);
+}
+
+bool operator==(const D3D11_BLEND_DESC& lfs, const D3D11_BLEND_DESC& rhs)
+{
+    return
+        (lfs.AlphaToCoverageEnable == rhs.AlphaToCoverageEnable) &&
+        (lfs.IndependentBlendEnable == rhs.IndependentBlendEnable) &&
+        (lfs.RenderTarget[0] == rhs.RenderTarget[0]) &&
+        (lfs.RenderTarget[1] == rhs.RenderTarget[1]) &&
+        (lfs.RenderTarget[2] == rhs.RenderTarget[2]) &&
+        (lfs.RenderTarget[3] == rhs.RenderTarget[3]) &&
+        (lfs.RenderTarget[4] == rhs.RenderTarget[4]) &&
+        (lfs.RenderTarget[5] == rhs.RenderTarget[5]) &&
+        (lfs.RenderTarget[6] == rhs.RenderTarget[6]) &&
+        (lfs.RenderTarget[7] == rhs.RenderTarget[7]);
+}
+
+bool operator==(const D3D11_RASTERIZER_DESC& lfs, const D3D11_RASTERIZER_DESC& rhs)
+{
+    return
+        (lfs.FillMode == rhs.FillMode) &&
+        (lfs.CullMode == rhs.CullMode) &&
+        (lfs.DepthBias == rhs.DepthBias) &&
+        (lfs.DepthBiasClamp == rhs.DepthBiasClamp) &&
+        (lfs.SlopeScaledDepthBias == rhs.SlopeScaledDepthBias) &&
+        (lfs.DepthClipEnable == rhs.DepthClipEnable) &&
+        (lfs.ScissorEnable == rhs.ScissorEnable) &&
+        (lfs.MultisampleEnable == rhs.MultisampleEnable) &&
+        (lfs.AntialiasedLineEnable == rhs.AntialiasedLineEnable);
+}
+
+//
 
 
 namespace dooms
@@ -53,6 +233,40 @@ namespace dooms
             static ID3D11SamplerState* g_pSamplerLinear = nullptr;
             static unsigned int SyncInterval = 0;
             static unsigned int DrawCallCounter = 0;
+            static std::unordered_map<D3D11_DEPTH_STENCIL_DESC, ID3D11DepthStencilState*> DepthStencilStatePool{};
+            static std::unordered_map<D3D11_BLEND_DESC, ID3D11BlendState*> BlendStatePool{};
+            static std::unordered_map<D3D11_RASTERIZER_DESC, ID3D11RasterizerState*> RasterizerStatePool{};
+            
+            static void CleanUpDepthStencilStatePool()
+            {
+                for(std::pair<const D3D11_DEPTH_STENCIL_DESC, ID3D11DepthStencilState*>& DepthStencilStatePair : DepthStencilStatePool)
+                {
+                    DepthStencilStatePair.second->Release();
+                }
+
+                DepthStencilStatePool.clear();
+            }
+
+            static void CleanUpDepthBlendStatePool()
+            {
+                for (std::pair<const D3D11_BLEND_DESC, ID3D11BlendState*>& BlendStatePair : BlendStatePool)
+                {
+                    BlendStatePair.second->Release();
+                }
+
+                BlendStatePool.clear();
+            }
+
+            static void CleanUpRasterizerStatePool()
+            {
+                for (std::pair<const D3D11_RASTERIZER_DESC, ID3D11RasterizerState*>& RasterizerStatePair : RasterizerStatePool)
+                {
+                    RasterizerStatePair.second->Release();
+                }
+
+                RasterizerStatePool.clear();
+            }
+
 
 
             static GraphicsAPI::ePrimitiveType BOUND_PRIMITIVE_TYPE = GraphicsAPI::ePrimitiveType::END;
@@ -372,7 +586,66 @@ namespace dooms
 	            }
             }
 
-            
+            static ID3D11DepthStencilState* FindOrCreateID3D11DepthStencilState(const D3D11_DEPTH_STENCIL_DESC& Desc)
+            {
+                ID3D11DepthStencilState* State{ nullptr };
+
+                auto Iter = dx11::DepthStencilStatePool.find(Desc);
+                if (Iter == dx11::DepthStencilStatePool.end())
+                {
+                    HRESULT hr = dx11::g_pd3dDevice->CreateDepthStencilState(&Desc, &State);
+                    assert(FAILED(hr) == false);
+
+                    dx11::DepthStencilStatePool.emplace(Desc, State);
+                }
+                else
+                {
+                    State = Iter->second;
+                }
+
+                return State;
+            }
+
+            static ID3D11BlendState* FindOrCreateID3D11BlendState(const D3D11_BLEND_DESC& Desc)
+            {
+                ID3D11BlendState* State{ nullptr };
+
+                auto Iter = dx11::BlendStatePool.find(Desc);
+                if (Iter == dx11::BlendStatePool.end())
+                {
+                    HRESULT hr = dx11::g_pd3dDevice->CreateBlendState(&Desc, &State);
+                    assert(FAILED(hr) == false);
+
+                    dx11::BlendStatePool.emplace(Desc, State);
+                }
+                else
+                {
+                    State = Iter->second;
+                }
+
+                return State;
+            }
+
+            static ID3D11RasterizerState* FindOrCreateID3D11RasterizerState(const D3D11_RASTERIZER_DESC& Desc)
+            {
+                ID3D11RasterizerState* State{ nullptr };
+
+                auto Iter = dx11::RasterizerStatePool.find(Desc);
+                if (Iter == dx11::RasterizerStatePool.end())
+                {
+                    HRESULT hr = dx11::g_pd3dDevice->CreateRasterizerState(&Desc, &State);
+                    assert(FAILED(hr) == false);
+
+                    dx11::RasterizerStatePool.emplace(Desc, State);
+                }
+                else
+                {
+                    State = Iter->second;
+                }
+
+                return State;
+            }
+
             static HRESULT InitWindow(HINSTANCE hInstance, int nCmdShow, int width, int height);
             static HRESULT InitDevice(const unsigned multisampleNum);
             static void CleanupDevice();
@@ -556,7 +829,6 @@ namespace dooms
                     return hr;
 
                 {
-                    ID3D11RasterizerState* state;
                     D3D11_RASTERIZER_DESC desc;
 
                     desc.FillMode = D3D11_FILL_MODE::D3D11_FILL_SOLID;
@@ -579,16 +851,12 @@ namespace dooms
                     }
                   
                     desc.AntialiasedLineEnable = false;
-
-                    HRESULT hr = dx11::g_pd3dDevice->CreateRasterizerState(&desc, &state);
-                    assert(FAILED(hr) == false);
-                    dx11::g_pImmediateContext->RSSetState(state);
-                    state->Release();
+                    
+                    dx11::g_pImmediateContext->RSSetState(FindOrCreateID3D11RasterizerState(desc));
                 }
 
                 {
-                    ID3D11BlendState* state;
-                    D3D11_BLEND_DESC desc;
+                    D3D11_BLEND_DESC desc{};
 
                     desc.AlphaToCoverageEnable = false;
                     desc.IndependentBlendEnable = false;
@@ -600,15 +868,11 @@ namespace dooms
                     desc.RenderTarget[0].DestBlendAlpha = D3D11_BLEND::D3D11_BLEND_ZERO;
                     desc.RenderTarget[0].BlendOpAlpha = D3D11_BLEND_OP::D3D11_BLEND_OP_ADD;
                     desc.RenderTarget[0].RenderTargetWriteMask = D3D11_COLOR_WRITE_ENABLE_ALL;
-
-                    hr = dx11::g_pd3dDevice->CreateBlendState(&desc, &state);
-                    assert(FAILED(hr) == false);
-                    dx11::g_pImmediateContext->OMSetBlendState(state, NULL, 0xFFFFFFFF);
-                    state->Release();
+                    
+                    dx11::g_pImmediateContext->OMSetBlendState(FindOrCreateID3D11BlendState(desc), NULL, 0xFFFFFFFF);
                 }
 
                 {
-                    ID3D11DepthStencilState* DepthStencilState;
                     D3D11_DEPTH_STENCIL_DESC dsDesc;
 
                     // Depth test parameters
@@ -634,10 +898,7 @@ namespace dooms
                     dsDesc.BackFace.StencilFunc = D3D11_COMPARISON_ALWAYS;
 
                     // Create depth stencil state
-                    hr = dx11::g_pd3dDevice->CreateDepthStencilState(&dsDesc, &DepthStencilState);
-                    assert(FAILED(hr) == false);
-                    dx11::g_pImmediateContext->OMSetDepthStencilState(DepthStencilState, 1);
-                    DepthStencilState->Release();
+                    dx11::g_pImmediateContext->OMSetDepthStencilState(FindOrCreateID3D11DepthStencilState(dsDesc), 1);
                 }
 
                 {
@@ -827,8 +1088,17 @@ namespace dooms
 
 		}
 
+        static void ClearInternalResource()
+		{
+			dx11::CleanUpDepthStencilStatePool();
+			dx11::CleanUpDepthBlendStatePool();
+            dx11::CleanUpRasterizerStatePool();
+		}
+
 		DOOMS_ENGINE_GRAPHICS_API unsigned int DeinitializeGraphicsAPI()
 		{
+            ClearInternalResource();
+
             dx11::CleanupDevice();
 			return 1;
 		}
@@ -929,7 +1199,7 @@ namespace dooms
         {
             dx11::SyncInterval = (isEnabled == true ? 1 : 0);
         }
-
+        
         DOOMS_ENGINE_GRAPHICS_API void SetIsDepthTestEnabled(const bool isEnabled)
         {
             UINT ref;
@@ -940,12 +1210,8 @@ namespace dooms
             state->GetDesc(&desc);
 
             desc.DepthEnable = isEnabled;
-
-            state->Release();
-            HRESULT hr = dx11::g_pd3dDevice->CreateDepthStencilState(&desc, &state);
-            assert(FAILED(hr) == false);
-            dx11::g_pImmediateContext->OMSetDepthStencilState(state, ref);
-            state->Release();
+            
+            dx11::g_pImmediateContext->OMSetDepthStencilState(dx11::FindOrCreateID3D11DepthStencilState(desc), ref);
         }
 
         DOOMS_ENGINE_GRAPHICS_API void SetIsStencilTestEnabled(const bool isEnabled)
@@ -959,11 +1225,7 @@ namespace dooms
 
             desc.StencilEnable = isEnabled;
 
-            state->Release();
-            HRESULT hr = dx11::g_pd3dDevice->CreateDepthStencilState(&desc, &state);
-            assert(FAILED(hr) == false);
-            dx11::g_pImmediateContext->OMSetDepthStencilState(state, ref);
-            state->Release();
+            dx11::g_pImmediateContext->OMSetDepthStencilState(dx11::FindOrCreateID3D11DepthStencilState(desc), ref);
         }
 
         DOOMS_ENGINE_GRAPHICS_API void SetIsStencilFunc
@@ -1010,11 +1272,7 @@ namespace dooms
                 NEVER_HAPPEN;
             }
 
-            state->Release();
-            HRESULT hr = dx11::g_pd3dDevice->CreateDepthStencilState(&desc, &state);
-            assert(FAILED(hr) == false);
-            dx11::g_pImmediateContext->OMSetDepthStencilState(state, ref);
-            state->Release();
+            dx11::g_pImmediateContext->OMSetDepthStencilState(dx11::FindOrCreateID3D11DepthStencilState(desc), ref);
         }
 
         DOOMS_ENGINE_GRAPHICS_API void SetIsStencilOp
@@ -1035,11 +1293,7 @@ namespace dooms
             desc.BackFace.StencilDepthFailOp = dx11::Convert_eStencilOption_TO_D3D12_STENCIL_OP(actionWhenStencilTestPass_And_DepthTestFail);
             desc.BackFace.StencilPassOp = dx11::Convert_eStencilOption_TO_D3D12_STENCIL_OP(actionWhenStencilTestPass_And_DepthTestPass);
 
-            state->Release();
-            HRESULT hr = dx11::g_pd3dDevice->CreateDepthStencilState(&desc, &state);
-            assert(FAILED(hr) == false);
-            dx11::g_pImmediateContext->OMSetDepthStencilState(state, ref);
-            state->Release();
+            dx11::g_pImmediateContext->OMSetDepthStencilState(dx11::FindOrCreateID3D11DepthStencilState(desc), ref);
         }
 
         DOOMS_ENGINE_GRAPHICS_API void SetDepthFunc(const GraphicsAPI::eTestFuncType depthFuncType)
@@ -1081,11 +1335,7 @@ namespace dooms
                 NEVER_HAPPEN;
             }
 
-            state->Release();
-            HRESULT hr = dx11::g_pd3dDevice->CreateDepthStencilState(&desc, &state);
-            assert(FAILED(hr) == false);
-            dx11::g_pImmediateContext->OMSetDepthStencilState(state, ref);
-            state->Release();
+            dx11::g_pImmediateContext->OMSetDepthStencilState(dx11::FindOrCreateID3D11DepthStencilState(desc), ref);
         }
 
         DOOMS_ENGINE_GRAPHICS_API void SetDepthMask(const bool isWriteDepthBuffer)
@@ -1099,11 +1349,7 @@ namespace dooms
 
             desc.DepthWriteMask = (isWriteDepthBuffer ? D3D11_DEPTH_WRITE_MASK::D3D11_DEPTH_WRITE_MASK_ALL : D3D11_DEPTH_WRITE_MASK::D3D11_DEPTH_WRITE_MASK_ZERO);
 
-            state->Release();
-            HRESULT hr = dx11::g_pd3dDevice->CreateDepthStencilState(&desc, &state);
-            assert(FAILED(hr) == false);
-            dx11::g_pImmediateContext->OMSetDepthStencilState(state, ref);
-            state->Release();
+            dx11::g_pImmediateContext->OMSetDepthStencilState(dx11::FindOrCreateID3D11DepthStencilState(desc), ref);
         }
 
         DOOMS_ENGINE_GRAPHICS_API void SetIsAlphaTestEnabled(const bool isEnabled)
@@ -1120,7 +1366,7 @@ namespace dooms
             float BlendFactor[4];
             unsigned int SampleMask;
 
-            D3D11_BLEND_DESC desc;
+            D3D11_BLEND_DESC desc{};
 
             dx11::g_pImmediateContext->OMGetBlendState(&state, BlendFactor, &SampleMask);
             state->GetDesc(&desc);
@@ -1130,11 +1376,7 @@ namespace dooms
                 desc.RenderTarget[i].BlendEnable = isEnabled;
             }
 
-            state->Release();
-            HRESULT hr = dx11::g_pd3dDevice->CreateBlendState(&desc, &state);
-            assert(FAILED(hr) == false);
-            dx11::g_pImmediateContext->OMSetBlendState(state, BlendFactor, SampleMask);
-            state->Release();
+            dx11::g_pImmediateContext->OMSetBlendState(dx11::FindOrCreateID3D11BlendState(desc), BlendFactor, SampleMask);
         }
 
        
@@ -1149,7 +1391,7 @@ namespace dooms
             float BlendFactor[4];
             unsigned int SampleMask;
 
-            D3D11_BLEND_DESC desc;
+            D3D11_BLEND_DESC desc{};
 
             dx11::g_pImmediateContext->OMGetBlendState(&state, BlendFactor, &SampleMask);
             state->GetDesc(&desc);
@@ -1160,11 +1402,7 @@ namespace dooms
                 desc.RenderTarget[i].DestBlend = dx11::Convert_eBlendFactor_TO_D3D11_BLEND(destinationBlendFactor);
             }
 
-            state->Release();
-            HRESULT hr = dx11::g_pd3dDevice->CreateBlendState(&desc, &state);
-            assert(FAILED(hr) == false);
-            dx11::g_pImmediateContext->OMSetBlendState(state, BlendFactor, SampleMask);
-            state->Release();
+            dx11::g_pImmediateContext->OMSetBlendState(dx11::FindOrCreateID3D11BlendState(desc), BlendFactor, SampleMask);
         }
 
         DOOMS_ENGINE_GRAPHICS_API void SetCullFace(const GraphicsAPI::eCullFace cullFace)
@@ -1188,12 +1426,8 @@ namespace dooms
             default:
                 NEVER_HAPPEN;
             }
-
-            state->Release();
-            HRESULT hr = dx11::g_pd3dDevice->CreateRasterizerState(&desc, &state);
-            assert(FAILED(hr) == false);
-            dx11::g_pImmediateContext->RSSetState(state);
-            state->Release();
+            
+            dx11::g_pImmediateContext->RSSetState(dx11::FindOrCreateID3D11RasterizerState(desc));
         }
 
         DOOMS_ENGINE_GRAPHICS_API void SetFrontFaceWinding(const GraphicsAPI::eWinding winding)
@@ -1215,11 +1449,7 @@ namespace dooms
                 NEVER_HAPPEN;
             }
 
-            state->Release();
-            HRESULT hr = dx11::g_pd3dDevice->CreateRasterizerState(&desc, &state);
-            assert(FAILED(hr) == false);
-            dx11::g_pImmediateContext->RSSetState(state);
-            state->Release();
+            dx11::g_pImmediateContext->RSSetState(dx11::FindOrCreateID3D11RasterizerState(desc));
         }
 
 
