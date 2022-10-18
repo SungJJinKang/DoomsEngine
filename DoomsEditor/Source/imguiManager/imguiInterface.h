@@ -4,6 +4,7 @@ namespace dooms
 {
 	class imguiInterface
 	{
-		
+	public:
+
 	};
 }

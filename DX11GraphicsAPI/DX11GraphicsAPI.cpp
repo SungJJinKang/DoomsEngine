@@ -1098,7 +1098,7 @@ namespace dooms
 		DOOMS_ENGINE_GRAPHICS_API unsigned int DeinitializeGraphicsAPI()
 		{
             ClearInternalResource();
-
+            
             dx11::CleanupDevice();
 			return 1;
 		}

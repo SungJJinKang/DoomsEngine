@@ -116,6 +116,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>$(SolutionDir)Source\Core\Graphics\GraphicsAPI\Macros;$(SolutionDir)Source\Core\Reflection\clReflect_automation\clReflect\inc;$(SolutionDir)Source\Engine;$(SolutionDir)Source\Core\DObject;$(SolutionDir)Source\thirdParty;$(SolutionDir)Source\Helper;$(SolutionDir)Source\Core;$(SolutionDir)Source\Plugins;$(SolutionDir)Source\Core\Math;$(SolutionDir)Source\Component;$(SolutionDir)Source\Core\Math\JINMATH;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -130,6 +131,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>$(SolutionDir)Source\Core\Graphics\GraphicsAPI\Macros;$(SolutionDir)Source\Core\Reflection\clReflect_automation\clReflect\inc;$(SolutionDir)Source\Engine;$(SolutionDir)Source\Core\DObject;$(SolutionDir)Source\thirdParty;$(SolutionDir)Source\Helper;$(SolutionDir)Source\Core;$(SolutionDir)Source\Plugins;$(SolutionDir)Source\Core\Math;$(SolutionDir)Source\Component;$(SolutionDir)Source\Core\Math\JINMATH;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -139,7 +141,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="Source\DX11Imgui.h" />
+    <ClInclude Include="Source\DX11ImguiPrivate.h" />
     <ClInclude Include="Source\imgui\backends\imgui_impl_dx10.h" />
     <ClInclude Include="Source\imgui\backends\imgui_impl_dx11.h" />
     <ClInclude Include="Source\imgui\backends\imgui_impl_win32.h" />

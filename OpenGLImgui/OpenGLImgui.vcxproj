@@ -116,6 +116,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>$(SolutionDir)Source\Core\Reflection\clReflect_automation\clReflect\inc;$(SolutionDir)Source\Engine;$(SolutionDir)Source\Core\DObject;$(SolutionDir)Source\thirdParty;$(SolutionDir)Source\Helper;$(SolutionDir)Source\Core;$(SolutionDir)Source\Plugins;$(SolutionDir)Source\Core\Math;$(SolutionDir)Source\Component;$(SolutionDir)Source\Core\Graphics\GraphicsAPI\Macros;$(SolutionDir)Source\Core\Math\JINMATH;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -130,6 +131,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>$(SolutionDir)Source\Core\Reflection\clReflect_automation\clReflect\inc;$(SolutionDir)Source\Engine;$(SolutionDir)Source\Core\DObject;$(SolutionDir)Source\thirdParty;$(SolutionDir)Source\Helper;$(SolutionDir)Source\Core;$(SolutionDir)Source\Plugins;$(SolutionDir)Source\Core\Math;$(SolutionDir)Source\Component;$(SolutionDir)Source\Core\Graphics\GraphicsAPI\Macros;$(SolutionDir)Source\Core\Math\JINMATH;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -156,6 +158,7 @@
     <ClInclude Include="Source\imgui\imstb_rectpack.h" />
     <ClInclude Include="Source\imgui\imstb_textedit.h" />
     <ClInclude Include="Source\imgui\imstb_truetype.h" />
+    <ClInclude Include="Source\OpenGLImguiPrivate.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

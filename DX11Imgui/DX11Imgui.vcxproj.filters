@@ -39,7 +39,7 @@
     <ClInclude Include="Source\imgui\backends\imgui_impl_win32.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\DX11Imgui.h">
+    <ClInclude Include="Source\DX11ImguiPrivate.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

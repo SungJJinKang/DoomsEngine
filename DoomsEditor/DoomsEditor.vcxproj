@@ -161,6 +161,10 @@
     <ClCompile Include="Source\EngineGUI\imguiHelper\imguiWithReflection.cpp" />
     <ClCompile Include="Source\EngineGUI\PrintText.cpp" />
     <ClCompile Include="Source\imguiManager\imguiManager.cpp" />
+    <ClCompile Include="Source\imgui\imgui.cpp" />
+    <ClCompile Include="Source\imgui\imgui_draw.cpp" />
+    <ClCompile Include="Source\imgui\imgui_tables.cpp" />
+    <ClCompile Include="Source\imgui\imgui_widgets.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\EngineGUI\EngineGUIAccessor.h" />
@@ -193,6 +197,11 @@
     <ClInclude Include="Source\EngineGUI\PrintText.reflection.h" />
     <ClInclude Include="Source\imguiManager\imguiInterface.h" />
     <ClInclude Include="Source\imguiManager\imguiManager.h" />
+    <ClInclude Include="Source\imgui\imconfig.h" />
+    <ClInclude Include="Source\imgui\imgui.h" />
+    <ClInclude Include="Source\imgui\imstb_rectpack.h" />
+    <ClInclude Include="Source\imgui\imstb_textedit.h" />
+    <ClInclude Include="Source\imgui\imstb_truetype.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Source\EngineGUI\EngineGUIAccessor_Debug_x64.csv" />
