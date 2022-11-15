@@ -25,7 +25,7 @@
   
 ### Rendering
 
-  * Supported Graphics API : OpenGL, DIRECTX 11 ( 80% )
+  * Supported Graphics API : OpenGL, DIRECTX 11
   * Deferred Rendering ( [video](https://youtu.be/TU9P8gcKsi8) )
   * Sort objects from front to back
   * Multi Thread ViewFrustum Culling From FrostBite Engine of EA Dice ( [source code](https://github.com/SungJJinKang/EveryCulling/tree/main/CullingModule/ViewFrustumCulling), [개발 일지](https://sungjjinkang.github.io/doom/c++/computergraphics/game/2021/04/02/viewfrustumculling.html) )
