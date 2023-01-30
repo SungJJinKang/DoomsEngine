@@ -10,7 +10,7 @@
 
   * C++17
   * C# ( used for making engine tools )    
-  * PC, Windows
+  * Windows
   * Target Compiler : MSVC, Clang ( clang is used for [generating reflection data](https://github.com/SungJJinKang/clReflect_ForDoomsEngine) )
 
 ### Engine Core
@@ -25,7 +25,7 @@
   
 ### Rendering
 
-  * Supported Graphics API : OpenGL, DIRECTX 11
+  * OpenGL, DIRECTX 11(Partially)
   * Deferred Rendering ( [video](https://youtu.be/TU9P8gcKsi8) )
   * Sort objects from front to back
   * Multi Thread ViewFrustum Culling From FrostBite Engine of EA Dice ( [source code](https://github.com/SungJJinKang/EveryCulling/tree/main/CullingModule/ViewFrustumCulling), [개발 일지](https://sungjjinkang.github.io/doom/c++/computergraphics/game/2021/04/02/viewfrustumculling.html) )
