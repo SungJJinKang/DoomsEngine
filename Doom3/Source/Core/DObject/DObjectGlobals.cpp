@@ -1,5 +1,6 @@
 #include "DObjectGlobals.h"
 
+// todo : remove this platform dependen code.
 #include <Windows.h>
 
 bool dooms::IsLowLevelValid(const DObject* const dObject, const bool lock, const std::memory_order memoryOrder)
