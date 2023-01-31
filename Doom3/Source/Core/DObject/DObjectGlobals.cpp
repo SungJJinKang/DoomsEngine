@@ -14,6 +14,8 @@ bool dooms::IsLowLevelValid(const DObject* const dObject, const bool lock, const
 #error Unsupported Compiler
 #endif
 		isDObjectValid = IsValid(dObject);
+		
+		// todo : this is not enough... 
 #if _MSC_VER
 	}
 	__except (_exception_code() == EXCEPTION_ACCESS_VIOLATION ? EXCEPTION_EXECUTE_HANDLER : EXCEPTION_CONTINUE_SEARCH)
