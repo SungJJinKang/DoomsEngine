@@ -59,8 +59,7 @@ void dooms::GameLogicStartPoint::StartGameLogic()
 		entity1Camera->SetClippingPlaneNear(1.0f);
 		entity1Camera->SetClippingPlaneFar(6500.0f);
 		entity1->AddComponent<Move_WASD>();
-		entity1->AddComponent<DeferredRenderingDebuggerController>();
-		entity1->AddComponent<PortfolioComponent>();
+		portfolioComponent = entity1->AddComponent<PortfolioComponent>();
 		/*
 		PathFollower* pathFollower = entity1->AddComponent<PathFollower>();
 		pathFollower->mTargetWayPointIndex = 1;
@@ -513,7 +512,7 @@ void dooms::GameLogicStartPoint::StartGameLogic()
 						auto meshRenderer = entity->AddComponent<MeshRenderer>();
 						meshRenderer->SetMesh(mesh);
 						meshRenderer->SetMaterial(materialList[Random::RandomUIntNumber(0, materialList.size() - 1)]);
-						//portfolioComponent->PlanesRenderers.push_back(meshRenderer);
+						portfolioComponent->PlanesRenderers.push_back(meshRenderer);
 
 						WanderComponent* wanderComp = entity->AddComponent<WanderComponent>();
 						wanderComp->mPoint1 = { Random::RandomFloatNumber(-1500.0f, 1500.0f) , y , Random::RandomFloatNumber(-1500.0f, 1500.0f) };
@@ -682,7 +681,7 @@ void dooms::GameLogicStartPoint::StartGameLogic()
 					auto meshRenderer = entity->AddComponent<MeshRenderer>();
 					meshRenderer->SetMesh(mesh);
 					meshRenderer->SetMaterial(material1);
-					//portfolioComponent->RockRenderers.push_back(meshRenderer);
+					portfolioComponent->RockRenderers.push_back(meshRenderer);
 
 					WanderComponent* wanderComp = entity->AddComponent<WanderComponent>();
 					wanderComp->mPoint1 = { Random::RandomFloatNumber(-3500.0f, 3500.0f) , Random::RandomFloatNumber(-3500.0f, 3500.0f) , Random::RandomFloatNumber(-3500.0f, 3500.0f) };
@@ -709,7 +708,7 @@ void dooms::GameLogicStartPoint::StartGameLogic()
 					auto meshRenderer = entity->AddComponent<MeshRenderer>();
 					meshRenderer->SetMesh(mesh);
 					meshRenderer->SetMaterial(material1);
-					//portfolioComponent->RockRenderers.push_back(meshRenderer);
+					portfolioComponent->RockRenderers.push_back(meshRenderer);
 
 					WanderComponent* wanderComp = entity->AddComponent<WanderComponent>();
 					wanderComp->mPoint1 = { Random::RandomFloatNumber(-3500.0f, 3500.0f) , Random::RandomFloatNumber(-3500.0f, 3500.0f) , Random::RandomFloatNumber(-3500.0f, 3500.0f) };
