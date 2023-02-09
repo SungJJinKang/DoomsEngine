@@ -28,7 +28,7 @@ void dooms::thread::JobThread::WakeUpRunnableThread()
 {
 	Base::WakeUpRunnableThread();
 
-	EnqueueJob([]() {});
+	//EnqueueJob([]() {});
 }
 
 void dooms::thread::JobThread::Init_OnRunnableThread()
@@ -42,17 +42,32 @@ void dooms::thread::JobThread::Tick_OnRunnableThread()
 
 	JobPool::JOB_TYPE Job{};
 
-	JobQueue.try_dequeue(Job); // try_dequeue doesn't block thread
-
-	if (static_cast<bool>(Job) == false)
+	while (true)
 	{
-		JobPool::GetSingleton()->TryDequeue(Job);
-	}
+		bool IsCurrentThreadJobQueueHasItem = JobQueue.try_dequeue(Job);
+		if (IsCurrentThreadJobQueueHasItem == false)
+		{
+			const bool IsGlobalThreadJobQueueHasItem = JobPool::GetSingleton()->TryDequeue(Job);
+			if (IsGlobalThreadJobQueueHasItem == true)
+			{
+				// check again if current thread job queue has a item
+				IsCurrentThreadJobQueueHasItem = JobQueue.try_dequeue(Job);
+				break;
+			}
+		}
+		else
+		{
+			break;
+		}
 
-	if (static_cast<bool>(Job) == false)
-	{
-		JobQueue.wait_dequeue(Job); // block thread until take element from queue
+		if (IsTerminated())
+		{
+			break;
+		}
+
+		std::this_thread::yield();
 	}
+	
 
 	if (static_cast<bool>(Job) == true)
 	{

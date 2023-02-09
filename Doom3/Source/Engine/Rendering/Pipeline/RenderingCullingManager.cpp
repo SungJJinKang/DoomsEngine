@@ -72,26 +72,25 @@ void dooms::graphics::RenderingCullingManager::CameraCullJob(dooms::Camera* cons
 		std::memcpy(cullingSettingParameters.mCameraWorldPosition.data(), camera->GetTransform()->GetPosition().data(), sizeof(culling::Vec3));
 		std::memcpy(cullingSettingParameters.mCameraRotation.data(), camera->GetTransform()->GetRotation().data(), sizeof(culling::Vec4));
 
-		mCullingSystem->UpdateGlobalDataForCullJob(camera->CameraIndexInCullingSystem, cullingSettingParameters);
+		const UINT32 CameraIndexInCullingSystem = camera->CameraIndexInCullingSystem;
+
+		mCullingSystem->UpdateGlobalDataForCullJob(CameraIndexInCullingSystem, cullingSettingParameters);
 
 		std::atomic_thread_fence(std::memory_order_release);
 
 		const UINT64 TickCount = mCullingSystem.get()->GetTickCount();
-		auto Job = [cullingSystem = mCullingSystem.get(), cameraIndexInCullingSystem = camera->CameraIndexInCullingSystem, TickCount]()
+		auto Job = [cullingSystem = mCullingSystem.get(), CameraIndexInCullingSystem, TickCount]()
 		{
-			cullingSystem->ThreadCullJob(cameraIndexInCullingSystem, TickCount);
+			cullingSystem->ThreadCullJob(CameraIndexInCullingSystem, TickCount);
 		};
 
 		auto ReturnedFutures = dooms::thread::ParallelForWithReturn(Job);
 		D_START_PROFILING(CameraCullJob, dooms::profiler::eProfileLayers::Rendering);
-		mCullingSystem->ThreadCullJob(camera->CameraIndexInCullingSystem, TickCount);
+		mCullingSystem->ThreadCullJob(CameraIndexInCullingSystem, TickCount);
 		D_END_PROFILING(CameraCullJob);
 
 		D_START_PROFILING(WaitSubThreadsCullJob, dooms::profiler::eProfileLayers::Rendering);
-		for (auto& future : ReturnedFutures)
-		{
-			future.wait();
-		}
+		mCullingSystem.get()->WaitToFinishCullJob(CameraIndexInCullingSystem);
 		D_END_PROFILING(WaitSubThreadsCullJob);
 
 	}

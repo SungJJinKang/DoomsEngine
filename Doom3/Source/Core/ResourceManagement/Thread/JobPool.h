@@ -52,6 +52,7 @@ namespace dooms
 					{
 						if constexpr(std::is_same_v<RETURN_TYPE, void>)
 						{
+							Job();
 							Promise->set_value();
 						}
 						else

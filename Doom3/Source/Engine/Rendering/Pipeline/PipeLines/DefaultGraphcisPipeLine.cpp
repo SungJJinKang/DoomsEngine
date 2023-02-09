@@ -107,41 +107,43 @@ void dooms::graphics::DefaultGraphcisPipeLine::PostRender()
 }
 
 
-std::future<void> dooms::graphics::DefaultGraphcisPipeLine::PushFrontToBackSortJobToJobSystem
+void dooms::graphics::DefaultGraphcisPipeLine::PushFrontToBackSortJobToJobSystem
 (
-	dooms::Camera* const targetCamera, const UINT32 cameraIndex
+	dooms::Camera* const targetCamera, const UINT32 cameraIndex, std::atomic<bool>* bIsFinihsed
 )
 {
-	std::future<void> future{};
-
-	if (graphicsSetting::IsSortObjectFrontToBack == true)
+	math::Vector3 cameraPos = targetCamera->GetTransform()->GetPosition();
+	auto FrontToBackSortJob = [cameraPos, cameraIndex, bIsFinihsed]()
 	{
-		math::Vector3 cameraPos = targetCamera->GetTransform()->GetPosition();
-		auto FrontToBackSortJob = [cameraPos, cameraIndex]()
+		FrontToBackSort(cameraPos, cameraIndex);
+
+		if (bIsFinihsed != nullptr)
 		{
-			std::vector<Renderer*>& renderers = dooms::RendererComponentStaticIterator::GetSingleton()->GetSortingRendererInLayer();
+			*bIsFinihsed = true;
+		}
+	};
 
-			const size_t startRendererIndex = 0;
-			const size_t rendererCount = renderers.size();
+	std::move(thread::ParallelForWithReturn(FrontToBackSortJob, 1)[0]);
+}
 
-			for
-			(
-				size_t rendererIndex = startRendererIndex;
-				rendererIndex < rendererCount;
-				rendererIndex++
-			)
-			{
-				D_ASSERT(IsValid(renderers[rendererIndex]));
-				renderers[rendererIndex]->CacheDistanceToCamera(cameraIndex, cameraPos);
-			}
+void dooms::graphics::DefaultGraphcisPipeLine::FrontToBackSort(const math::Vector3& CameraPos, const UINT32 cameraIndex)
+{
+	std::vector<Renderer*>& renderers = dooms::RendererComponentStaticIterator::GetSingleton()->GetSortingRendererInLayer();
 
-			dooms::graphics::SortFrontToBackSolver::SortRenderer(cameraIndex);
-		};
+	const size_t startRendererIndex = 0;
+	const size_t rendererCount = renderers.size();
 
-		future = std::move(thread::ParallelForWithReturn(FrontToBackSortJob, 1)[0]);
+	for(
+		size_t rendererIndex = startRendererIndex;
+		rendererIndex < rendererCount;
+		rendererIndex++
+	)
+	{
+		D_ASSERT(IsValid(renderers[rendererIndex]));
+		renderers[rendererIndex]->CacheDistanceToCamera(cameraIndex, CameraPos);
 	}
 
-	return future;
+	dooms::graphics::SortFrontToBackSolver::SortRenderer(cameraIndex);
 }
 
 void dooms::graphics::DefaultGraphcisPipeLine::DrawRenderersWithDepthOnly
@@ -197,14 +199,14 @@ void dooms::graphics::DefaultGraphcisPipeLine::DrawRenderersWithDepthOnly
 
 void dooms::graphics::DefaultGraphcisPipeLine::DrawRenderers(dooms::Camera* const targetCamera, const size_t cameraIndex) const
 {
-	ConditionalDrawRenderers(targetCamera, cameraIndex, {});	
+	ConditionalDrawRenderers(targetCamera, cameraIndex, nullptr);	
 }
 
 void dooms::graphics::DefaultGraphcisPipeLine::ConditionalDrawRenderers
 (
 	dooms::Camera* const targetCamera,
 	const size_t cameraIndex,
-	const std::function<bool(const dooms::Renderer* const)>& ConditionFunc
+	const std::function<bool(const dooms::Renderer* const)> ConditionFunc
 ) const
 {
 	D_ASSERT(IsValid(targetCamera) == true);
@@ -212,6 +214,8 @@ void dooms::graphics::DefaultGraphcisPipeLine::ConditionalDrawRenderers
 	{
 		D_START_PROFILING(DrawLoop, dooms::profiler::eProfileLayers::Rendering);
 		const bool targetCamera_IS_CULLED_flag_on = targetCamera->GetCameraFlag(dooms::eCameraFlag::IS_CULLED);
+
+		const bool IsExistCondtionFunc = static_cast<bool>(ConditionFunc);
 
 		const std::vector<Renderer*>& renderersInLayer = RendererComponentStaticIterator::GetSingleton()->GetSortedRendererInLayer();
 		for (Renderer* renderer : renderersInLayer)
@@ -221,13 +225,13 @@ void dooms::graphics::DefaultGraphcisPipeLine::ConditionalDrawRenderers
 				IsValid(renderer) == true &&
 				renderer->GetIsComponentEnabled() == true &&
 				renderer->GetIsBatched() == false &&
-				(static_cast<bool>(ConditionFunc) ? ConditionFunc(renderer) : true)
+				(IsExistCondtionFunc ? ConditionFunc(renderer) : true)
 			)
 			{
 				if
 				(
-						targetCamera_IS_CULLED_flag_on == false ||
-						renderer->GetIsCulled(targetCamera->CameraIndexInCullingSystem) == false
+					targetCamera_IS_CULLED_flag_on == false ||
+					renderer->GetIsCulled(targetCamera->CameraIndexInCullingSystem) == false
 				)
 				{
 					renderer->Draw();

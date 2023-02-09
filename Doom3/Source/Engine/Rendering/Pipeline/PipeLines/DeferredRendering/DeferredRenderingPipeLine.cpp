@@ -1,10 +1,13 @@
 #include "DeferredRenderingPipeLine.h"
 
+#include <atomic>
+
 #include <Rendering/Graphics_Server.h>
 #include "Graphics/GraphicsAPI/graphicsAPISetting.h"
 #include <Rendering/Camera.h>
 #include <Rendering/Renderer/Renderer.h>
 #include "DeferredRenderingPipeLineCamera.h"
+#include <Graphics/graphicsSetting.h>
 
 dooms::graphics::DeferredRenderingPipeLine::DeferredRenderingPipeLine
 (
@@ -73,8 +76,11 @@ void dooms::graphics::DeferredRenderingPipeLine::CameraRender(dooms::Camera* con
 		mRenderingCullingManager.CameraCullJob(targetCamera); // do this first
 	}
 
-	std::future<void> IsFinishedSortingReferernceRenderers = PushFrontToBackSortJobToJobSystem(targetCamera, cameraIndex);
-	
+	if (dooms::graphics::graphicsSetting::IsSortObjectFrontToBack == true)
+	{
+		FrontToBackSort(targetCamera->GetTransform()->GetPosition(), cameraIndex);
+	}
+
 	FrameBuffer::StaticBindBackFrameBuffer();
 	GraphicsAPI::ClearBackFrameBufferColorBuffer(targetCamera->mClearColor[0], targetCamera->mClearColor[1], targetCamera->mClearColor[2], targetCamera->mClearColor[3]);
 	GraphicsAPI::ClearBackFrameBufferDepthBuffer(GraphicsAPI::DEFAULT_MAX_DEPTH_VALUE);
@@ -130,15 +136,6 @@ void dooms::graphics::DeferredRenderingPipeLine::CameraRender(dooms::Camera* con
 
 		mRenderingDebugger.Render();
 	}
-
-
-	//Wait Multithread Sorting Renderer Front To Back  TO  JobSystem finished.
-	D_START_PROFILING(WAIT_SORTING_RENDERER_JOB, dooms::profiler::eProfileLayers::Rendering);
-	if (IsFinishedSortingReferernceRenderers.valid() == true)
-	{
-		IsFinishedSortingReferernceRenderers.wait();
-	}
-	D_END_PROFILING(WAIT_SORTING_RENDERER_JOB);
 }
 
 

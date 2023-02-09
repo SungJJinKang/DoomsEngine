@@ -3,7 +3,7 @@
 #include <Core.h>
 
 #include "../GraphicsPipeLine.h"
-
+#include "Vector3.h"
 #include "../RenderingCullingManager.h"
 #include "Rendering/RenderingDebugger/RenderingDebugger.h"
 
@@ -27,7 +27,8 @@ namespace dooms
 		protected:
 
 			void PreRenderRenderer();
-			std::future<void> PushFrontToBackSortJobToJobSystem(dooms::Camera* const targetCamera, const UINT32 cameraIndex);
+			void PushFrontToBackSortJobToJobSystem(dooms::Camera* const targetCamera, const UINT32 cameraIndex, std::atomic<bool>* bIsFinihsed);
+			static void FrontToBackSort(const math::Vector3& CameraPos, const UINT32 cameraIndex);
 
 			void DrawRenderersWithDepthOnly(dooms::Camera* const targetCamera, const size_t cameraIndex) const;
 			void DrawRenderers(dooms::Camera* const targetCamera, const size_t cameraIndex) const;
@@ -35,7 +36,7 @@ namespace dooms
 			(
 				dooms::Camera* const targetCamera, 
 				const size_t cameraIndex, 
-				const std::function<bool(const dooms::Renderer* const)>& ConditionFunc
+				const std::function<bool(const dooms::Renderer* const)> ConditionFunc
 			) const;
 			void DrawBatchedRenderers() const;
 			virtual void CameraRender(dooms::Camera* const targetCamera, const size_t cameraIndex)  = 0;

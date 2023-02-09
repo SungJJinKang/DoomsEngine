@@ -125,8 +125,8 @@ void dooms::GameCore::InitServers(const int argc, char* const* const argv)
 	InitializeGraphicsAPI(argc, argv);
 	ThreadManager.Init(argc, argv);
 	thread::RunnableThread* const GameThread = ThreadManager.CreateNewRunnableThread(thread::eThreadType::GAME_THREAD);
-	ThreadManager.CreateNewRunnableThread(thread::eThreadType::RENDER_THREAD);
-	ThreadManager.CreateNewRunnableThread(thread::eThreadType::JOB_THREAD, 5);
+	//ThreadManager.CreateNewRunnableThread(thread::eThreadType::RENDER_THREAD);
+	ThreadManager.CreateNewRunnableThread(thread::eThreadType::JOB_THREAD, mGameConfigData.GetConfigData().GetValue<INT64>("SYSTEM", "MAX_SUB_THREAD_COUNT"));
 	mAssetManager.Init(argc, argv);
 	mTime_Server.Init(argc, argv);
 	mPhysics_Server.Init(argc, argv);
