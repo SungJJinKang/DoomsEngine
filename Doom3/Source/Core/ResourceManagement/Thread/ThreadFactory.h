@@ -1,7 +1,7 @@
 #pragma once
 
 #include <Core.h>
-#include "eThreadType.h"
+#include "EThreadType.h"
 
 namespace dooms
 {
@@ -10,7 +10,7 @@ namespace dooms
 		class RunnableThread;
 		namespace ThreadFactory
 		{
-			RunnableThread* CreateRunnableThread(const eThreadType TargetThreadType);
+			RunnableThread* CreateRunnableThread(const EThreadType TargetThreadType);
 		}
 	}
 }

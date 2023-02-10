@@ -5,12 +5,12 @@
 
 INT32 dooms::thread::JobPool::GetJobThreadCount() const
 {
-	return ThreadManager::GetSingleton()->GetRunnableThreadCount(eThreadType::JOB_THREAD);
+	return ThreadManager::GetSingleton()->GetRunnableThreadCount(EThreadType::JOB_THREAD);
 }
 
 void dooms::thread::JobPool::WakeUpJobThreads()
 {
-	std::vector<RunnableThread*> JobThreadList = ThreadManager::GetSingleton()->GetRunnableThreadList(eThreadType::JOB_THREAD);
+	std::vector<RunnableThread*> JobThreadList = ThreadManager::GetSingleton()->GetRunnableThreadList(EThreadType::JOB_THREAD);
 	for(RunnableThread* Thread : JobThreadList)
 	{
 		Thread->WakeUpRunnableThread();

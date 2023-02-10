@@ -2126,7 +2126,7 @@
     <ClInclude Include="Source\Core\ResourceManagement\Thread\ThreadManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Core\ResourceManagement\Thread\eThreadType.h">
+    <ClInclude Include="Source\Core\ResourceManagement\Thread\EThreadType.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\Core\ResourceManagement\Thread\ThreadFactory.h">
@@ -2148,6 +2148,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\Engine\Misk\LatentActionManager.reflection.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Core\ResourceManagement\Thread\EThreadPriority.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -2333,6 +2336,7 @@
   </ItemGroup>
   <ItemGroup>
     <Text Include="Source\Core\Reflection\Reflection_Tutorial.txt" />
+    <Text Include="Source\Engine\Rendering\Culling\EveryCulling\TODO.md" />
   </ItemGroup>
   <ItemGroup>
     <MASM Include="Source\Core\Reflection\ReflectionType\funcCall.asm">

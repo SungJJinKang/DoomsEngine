@@ -1,12 +1,8 @@
 #include "JobThread.h"
 
-dooms::thread::JobThread::JobThread()
+dooms::thread::EThreadType dooms::thread::JobThread::GetThreadType() const
 {
-}
-
-dooms::thread::eThreadType dooms::thread::JobThread::GetThreadType() const
-{
-	return dooms::thread::eThreadType::JOB_THREAD;
+	return dooms::thread::EThreadType::JOB_THREAD;
 }
 
 const char* dooms::thread::JobThread::GetThreadName() const
@@ -31,14 +27,20 @@ void dooms::thread::JobThread::WakeUpRunnableThread()
 	//EnqueueJob([]() {});
 }
 
-void dooms::thread::JobThread::Init_OnRunnableThread()
+void dooms::thread::JobThread::InitFromCallerThread()
 {
-	RunnableThread::Init_OnRunnableThread();
+	Base::InitFromCallerThread();
+	
 }
 
-void dooms::thread::JobThread::Tick_OnRunnableThread()
+void dooms::thread::JobThread::InitFromRunnableThread()
 {
-	RunnableThread::Tick_OnRunnableThread();
+	Base::InitFromRunnableThread();
+}
+
+void dooms::thread::JobThread::TickFromRunnableThread()
+{
+	Base::TickFromRunnableThread();
 
 	JobPool::JOB_TYPE Job{};
 
@@ -73,4 +75,9 @@ void dooms::thread::JobThread::Tick_OnRunnableThread()
 	{
 		Job();
 	}
+}
+
+dooms::thread::EThreadPriority dooms::thread::JobThread::GetRecommendedPriorityOfThreadType() const
+{
+	return dooms::thread::EThreadPriority::Low;
 }

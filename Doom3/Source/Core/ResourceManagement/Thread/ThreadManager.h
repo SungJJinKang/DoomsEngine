@@ -7,7 +7,7 @@
 
 #include "../Game/IGameFlow.h"
 #include <../Helper/Simple_SingleTon/Singleton.h>
-#include "eThreadType.h"
+#include "EThreadType.h"
 
 #include "ThreadManager.reflection.h"
 namespace dooms
@@ -27,15 +27,15 @@ namespace dooms
 			void Update() override;
 			void OnEndOfFrame() override;
 
-			RunnableThread* CreateNewRunnableThread(const eThreadType TargetThreadType);
-			std::vector<RunnableThread*> CreateNewRunnableThread(const eThreadType TargetThreadType, const INT32 Count);
-			void TerminateRunnableThread(const eThreadType TargetThreadType, const INT32 Index, const bool bJoin);
+			RunnableThread* CreateNewRunnableThread(const EThreadType TargetThreadType);
+			std::vector<RunnableThread*> CreateNewRunnableThread(const EThreadType TargetThreadType, const INT32 Count);
+			void TerminateRunnableThread(const EThreadType TargetThreadType, const INT32 Index, const bool bJoin);
 			void TerminateAllRunnableThread(const bool bJoin);
 
 			std::vector<RunnableThread*> GetRunnableThreadList() const;
-			std::vector<RunnableThread*> GetRunnableThreadList(const eThreadType TargetThreadType) const;
+			std::vector<RunnableThread*> GetRunnableThreadList(const EThreadType TargetThreadType) const;
 			INT64 GetRunnableThreadCount() const;
-			INT64 GetRunnableThreadCount(const eThreadType TargetThreadType) const;
+			INT64 GetRunnableThreadCount(const EThreadType TargetThreadType) const;
 
 			INT64 GetTotalRunnableThreadCount() const;
 

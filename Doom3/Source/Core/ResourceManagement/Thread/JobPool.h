@@ -100,7 +100,7 @@ namespace dooms
 		template<typename LAMBDA>
 		inline extern void ParallelFor(LAMBDA&& JobLambda)
 		{
-			ParallelFor(std::forward<LAMBDA>(JobLambda), dooms::thread::ThreadManager::GetSingleton()->GetRunnableThreadCount(eThreadType::JOB_THREAD));
+			ParallelFor(std::forward<LAMBDA>(JobLambda), dooms::thread::ThreadManager::GetSingleton()->GetRunnableThreadCount(EThreadType::JOB_THREAD));
 		}
 
 		template<typename LAMBDA>
@@ -126,7 +126,7 @@ namespace dooms
 		template<typename LAMBDA>
 		inline extern auto ParallelForWithReturn(LAMBDA&& JobLambda)
 		{
-			return ParallelForWithReturn(std::forward<LAMBDA>(JobLambda), dooms::thread::ThreadManager::GetSingleton()->GetRunnableThreadCount(eThreadType::JOB_THREAD));
+			return ParallelForWithReturn(std::forward<LAMBDA>(JobLambda), dooms::thread::ThreadManager::GetSingleton()->GetRunnableThreadCount(EThreadType::JOB_THREAD));
 		}
 	}
 }

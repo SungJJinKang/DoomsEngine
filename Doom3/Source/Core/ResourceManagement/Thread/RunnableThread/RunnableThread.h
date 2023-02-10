@@ -5,7 +5,8 @@
 #include <thread>
 #include <memory>
 
-#include "../eThreadType.h"
+#include "../EThreadType.h"
+#include "../EThreadPriority.h"
 #include <OS/OS.h>
 
 #include "RunnableThread.reflection.h"
@@ -23,13 +24,13 @@ namespace dooms
 
 			RunnableThread();
 
-			virtual void Init_OnCallerThread();
+			virtual void InitFromCallerThread();
 
 			bool IsInitialized() const;
 			bool IsTerminated() const;
 			
 			virtual const char* GetThreadName() const = 0;
-			virtual eThreadType GetThreadType() const = 0;
+			virtual EThreadType GetThreadType() const = 0;
 
 			static RunnableThread* GetThreadLocalRunnableThread();
 			static UINT64 GetThreadLocalRunnableThreadStackStartAddress();
@@ -38,11 +39,7 @@ namespace dooms
 			HANDLE GetPlatformThreadHandler() const;
 			bool IsValidPlatformThreadHandler() const;
 
-			FORCE_INLINE UINT64 GetThreadCPUCycle() const
-			{
-				D_ASSERT(IsValidPlatformThreadHandler() == true);
-				return dooms::os::GetThreadCpuCycle(GetPlatformThreadHandler());
-			}
+			UINT64 GetThreadCPUCycle() const;
 
 			virtual bool IsAllowMultipleThreadOfThisThreadType() const = 0;
 			HANDLE GetThreadHandle();
@@ -52,17 +49,21 @@ namespace dooms
 
 			void Run_RunnableThread();
 
+			void SetThreadPriority(const EThreadPriority ThreadPriority);
+
 		protected:
 			
 			virtual void OnSetPendingKill() override;
 
-			virtual void Init_OnRunnableThread();
-			virtual void Tick_OnRunnableThread();
+			virtual void InitFromRunnableThread();
+			virtual void TickFromRunnableThread();
 			virtual void OnTerminateRunnableThread_OnRunnableThread();
 			virtual bool IsCreateNewThread();
 			void SetThreadHandle(HANDLE Handle);
 
 			void TerminateRunnableThread(const bool bJoin);
+
+			virtual EThreadPriority GetRecommendedPriorityOfThreadType() const = 0;
 
 		private:
 
@@ -79,7 +80,7 @@ namespace dooms
 
 		extern bool IsInGameThread();
 		extern bool IsInRenderThread();
-		extern eThreadType GetLocalThreadType();
+		extern EThreadType GetLocalThreadType();
 	}
 }
 

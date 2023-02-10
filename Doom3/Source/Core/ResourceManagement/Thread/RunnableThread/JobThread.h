@@ -5,7 +5,7 @@
 #include <functional>
 #include <future>
 
-#include "../eThreadType.h"
+#include "../EThreadType.h"
 #include "RunnableThread.h"
 #include "../JobPool.h"
 #include <concurrentqueue/blockingconcurrentqueue.h>
@@ -22,10 +22,8 @@ namespace dooms
 			GENERATE_BODY()
 
 		public:
-
-			JobThread();
-
-			virtual eThreadType GetThreadType() const override;
+			
+			virtual EThreadType GetThreadType() const override;
 			virtual const char* GetThreadName() const override;
 
 			template<typename LAMBDA>
@@ -58,16 +56,18 @@ namespace dooms
 			void WakeUpRunnableThread() override;
 
 		protected:
-			
-			virtual void Init_OnRunnableThread() override;
-			virtual void Tick_OnRunnableThread() override;
+
+			virtual void InitFromCallerThread() override;
+			virtual void InitFromRunnableThread() override;
+			virtual void TickFromRunnableThread() override;
+			EThreadPriority GetRecommendedPriorityOfThreadType() const override;
 
 		private:
 
 			moodycamel::BlockingConcurrentQueue<JobPool::JOB_TYPE> JobQueue;
 
 			D_PROPERTY()
-			JobPool* JobPool;
+			JobPool* JobPool = nullptr;
 
 		};
 	}

@@ -6,7 +6,7 @@ namespace dooms
 {
 	namespace thread
 	{
-		enum class D_ENUM eThreadType
+		enum class EThreadType
 		{
 			GAME_THREAD,
 			RENDER_THREAD,

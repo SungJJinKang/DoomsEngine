@@ -7,18 +7,18 @@ const char* dooms::thread::GameThread::GetThreadName() const
 	return "Game Thread";
 }
 
-dooms::thread::eThreadType dooms::thread::GameThread::GetThreadType() const
+dooms::thread::EThreadType dooms::thread::GameThread::GetThreadType() const
 {
-	return eThreadType::GAME_THREAD;
+	return EThreadType::GAME_THREAD;
 }
 
-void dooms::thread::GameThread::Init_OnCallerThread()
+void dooms::thread::GameThread::InitFromCallerThread()
 {
-	RunnableThread::Init_OnCallerThread();
+	SetThreadHandle(dooms::os::GetCallerThreadHandle());
 
-	SetThreadHandle(dooms::os::GetCurrentThreadHandle());
-	Init_OnRunnableThread();
-	// This function should be called by main thread
+	Base::InitFromCallerThread();
+	
+	InitFromRunnableThread();
 }
 
 bool dooms::thread::GameThread::IsAllowMultipleThreadOfThisThreadType() const
@@ -36,9 +36,9 @@ bool dooms::thread::GameThread::IsCreateNewThread()
 	return false;
 }
 
-void dooms::thread::GameThread::Tick_OnRunnableThread()
+void dooms::thread::GameThread::TickFromRunnableThread()
 {
-	RunnableThread::Tick_OnRunnableThread();
+	Base::TickFromRunnableThread();
 
 	const bool bIsStillRun = TickFunction();
 
@@ -46,4 +46,9 @@ void dooms::thread::GameThread::Tick_OnRunnableThread()
 	{
 		TerminateRunnableThread(false);
 	}
+}
+
+dooms::thread::EThreadPriority dooms::thread::GameThread::GetRecommendedPriorityOfThreadType() const
+{
+	return dooms::thread::EThreadPriority::High;
 }

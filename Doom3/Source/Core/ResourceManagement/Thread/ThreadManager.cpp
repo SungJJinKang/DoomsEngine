@@ -15,7 +15,7 @@ void dooms::thread::ThreadManager::OnEndOfFrame()
 {
 }
 
-dooms::thread::RunnableThread* dooms::thread::ThreadManager::CreateNewRunnableThread(const eThreadType TargetThreadType)
+dooms::thread::RunnableThread* dooms::thread::ThreadManager::CreateNewRunnableThread(const EThreadType TargetThreadType)
 {
 	std::scoped_lock<std::recursive_mutex> Lock{ RunnableThreadListMutex };
 
@@ -25,7 +25,7 @@ dooms::thread::RunnableThread* dooms::thread::ThreadManager::CreateNewRunnableTh
 	{
 		RunnableThreadList.push_back(CreatedThread);
 
-		CreatedThread->Init_OnCallerThread();
+		CreatedThread->InitFromCallerThread();
 	}
 	else
 	{
@@ -39,7 +39,7 @@ dooms::thread::RunnableThread* dooms::thread::ThreadManager::CreateNewRunnableTh
 	return CreatedThread;
 }
 
-std::vector<dooms::thread::RunnableThread*> dooms::thread::ThreadManager::CreateNewRunnableThread(const eThreadType TargetThreadType, const INT32 Count)
+std::vector<dooms::thread::RunnableThread*> dooms::thread::ThreadManager::CreateNewRunnableThread(const EThreadType TargetThreadType, const INT32 Count)
 {
 	std::vector<dooms::thread::RunnableThread*> CreatedThreadList{};
 
@@ -51,7 +51,7 @@ std::vector<dooms::thread::RunnableThread*> dooms::thread::ThreadManager::Create
 	return CreatedThreadList;
 }
 
-void dooms::thread::ThreadManager::TerminateRunnableThread(const eThreadType TargetThreadType, const INT32 Index, const bool bJoin)
+void dooms::thread::ThreadManager::TerminateRunnableThread(const EThreadType TargetThreadType, const INT32 Index, const bool bJoin)
 {
 	std::scoped_lock<std::recursive_mutex> Lock{ RunnableThreadListMutex };
 
@@ -98,7 +98,7 @@ std::vector<dooms::thread::RunnableThread*> dooms::thread::ThreadManager::GetRun
 	return RunnableThreadList;
 }
 
-std::vector<dooms::thread::RunnableThread*> dooms::thread::ThreadManager::GetRunnableThreadList(const eThreadType TargetThreadType) const
+std::vector<dooms::thread::RunnableThread*> dooms::thread::ThreadManager::GetRunnableThreadList(const EThreadType TargetThreadType) const
 {
 	std::scoped_lock<std::recursive_mutex> Lock{ RunnableThreadListMutex };
 
@@ -120,7 +120,7 @@ INT64 dooms::thread::ThreadManager::GetRunnableThreadCount() const
 	return RunnableThreadList.size();
 }
 
-INT64 dooms::thread::ThreadManager::GetRunnableThreadCount(const eThreadType TargetThreadType) const
+INT64 dooms::thread::ThreadManager::GetRunnableThreadCount(const EThreadType TargetThreadType) const
 {
 	std::scoped_lock<std::recursive_mutex> Lock{ RunnableThreadListMutex };
 
@@ -139,13 +139,17 @@ INT64 dooms::thread::ThreadManager::GetRunnableThreadCount(const eThreadType Tar
 
 INT64 dooms::thread::ThreadManager::GetTotalRunnableThreadCount() const
 {
+	std::scoped_lock<std::recursive_mutex> Lock{ RunnableThreadListMutex };
+
 	return RunnableThreadList.size();
 }
 
 INT32 dooms::thread::ThreadManager::GetCallerThreadIndexOfSameTypeThreads() const
 {
+	std::scoped_lock<std::recursive_mutex> Lock{ RunnableThreadListMutex };
+
 	const RunnableThread* const CallerThread = RunnableThread::GetThreadLocalRunnableThread();
-	const eThreadType CallerThreadType = CallerThread->GetThreadType();
+	const EThreadType CallerThreadType = CallerThread->GetThreadType();
 
 	INT32 Index = 0;
 

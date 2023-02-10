@@ -1,6 +1,6 @@
 #include "RenderThread.h"
 
-#include "../eThreadType.h"
+#include "../EThreadType.h"
 #include <functional>
 
 #include "RunnableThread.h"
@@ -30,14 +30,14 @@ void dooms::thread::RenderThread::WakeUpRunnableThread()
 	EnqueueRenderCommand([]() {});
 }
 
-void dooms::thread::RenderThread::Init_OnCallerThread()
+void dooms::thread::RenderThread::InitFromCallerThread()
 {
-	RunnableThread::Init_OnCallerThread();
+	Base::InitFromCallerThread();
 }
 
-void dooms::thread::RenderThread::Tick_OnRunnableThread()
+void dooms::thread::RenderThread::TickFromRunnableThread()
 {
-	RunnableThread::Tick_OnRunnableThread();
+	Base::TickFromRunnableThread();
 
 	std::function<void()> RenderTask{};
 
@@ -54,12 +54,17 @@ void dooms::thread::RenderThread::Tick_OnRunnableThread()
 	}
 }
 
+dooms::thread::EThreadPriority dooms::thread::RenderThread::GetRecommendedPriorityOfThreadType() const
+{
+	return dooms::thread::EThreadPriority::High;
+}
+
 dooms::thread::RenderThread::RenderThread()
 {
 	
 }
 
-dooms::thread::eThreadType dooms::thread::RenderThread::GetThreadType() const
+dooms::thread::EThreadType dooms::thread::RenderThread::GetThreadType() const
 {
-	return dooms::thread::eThreadType::RENDER_THREAD;
+	return dooms::thread::EThreadType::RENDER_THREAD;
 }

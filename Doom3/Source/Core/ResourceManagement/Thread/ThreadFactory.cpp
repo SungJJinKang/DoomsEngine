@@ -5,25 +5,25 @@
 #include "RunnableThread/RenderThread.h"
 #include "RunnableThread/JobThread.h"
 
-dooms::thread::RunnableThread* dooms::thread::ThreadFactory::CreateRunnableThread(const eThreadType TargetThreadType)
+dooms::thread::RunnableThread* dooms::thread::ThreadFactory::CreateRunnableThread(const EThreadType TargetThreadType)
 {
 	dooms::thread::RunnableThread* CreatedRunnableThread = nullptr;
 
 	switch (TargetThreadType)
 	{
-		case eThreadType::GAME_THREAD:
+		case EThreadType::GAME_THREAD:
 		{
 			CreatedRunnableThread = dooms::CreateDObject<GameThread>();
 			break;
 		}
 			
-		case eThreadType::RENDER_THREAD:
+		case EThreadType::RENDER_THREAD:
 		{
 			CreatedRunnableThread = dooms::CreateDObject<RenderThread>();
 			break;
 		}
 
-		case eThreadType::JOB_THREAD:
+		case EThreadType::JOB_THREAD:
 		{
 			CreatedRunnableThread = dooms::CreateDObject<JobThread>();
 			break;

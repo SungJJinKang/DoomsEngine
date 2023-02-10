@@ -5,7 +5,7 @@ dooms::thread::RunnableThread::RunnableThread()
 	AddToRootObjectList();
 }
 
-void dooms::thread::RunnableThread::Init_OnCallerThread()
+void dooms::thread::RunnableThread::InitFromCallerThread()
 {
 	D_DEBUG_LOG(eLogType::D_LOG, "Thread ( %s ) is initialized", GetThreadName());
 
@@ -14,6 +14,7 @@ void dooms::thread::RunnableThread::Init_OnCallerThread()
 		Thread = std::make_unique<std::thread>(&dooms::thread::RunnableThread::Run_RunnableThread, this);
 		SetThreadHandle(Thread->native_handle());
 	}
+	SetThreadPriority(GetRecommendedPriorityOfThreadType());
 }
 
 bool dooms::thread::RunnableThread::IsInitialized() const
@@ -55,7 +56,13 @@ bool dooms::thread::RunnableThread::IsValidPlatformThreadHandler() const
 	return GetPlatformThreadHandler() != dooms::os::GetPlatformInvalidHandleValue();
 }
 
-void dooms::thread::RunnableThread::Init_OnRunnableThread()
+UINT64 dooms::thread::RunnableThread::GetThreadCPUCycle() const
+{
+	D_ASSERT(IsValidPlatformThreadHandler() == true);
+	return dooms::os::GetThreadCpuCycle(GetPlatformThreadHandler());
+}
+
+void dooms::thread::RunnableThread::InitFromRunnableThread()
 {
 	ThreadLocalRunnableThread = this;
 	ThreadLocalRunnableThreadStackStartAddress = dooms::os::GetThreadStackStartAddress(GetThreadHandle());
@@ -64,7 +71,7 @@ void dooms::thread::RunnableThread::Init_OnRunnableThread()
 
 }
 
-void dooms::thread::RunnableThread::Tick_OnRunnableThread()
+void dooms::thread::RunnableThread::TickFromRunnableThread()
 {
 }
 
@@ -113,32 +120,40 @@ void dooms::thread::RunnableThread::Run_RunnableThread()
 {
 	if (bIsInitialized == false)
 	{
-		Init_OnRunnableThread();
+		InitFromRunnableThread();
 	}
 
 	while (bIsTerminated == false)
 	{
-		Tick_OnRunnableThread();
+		TickFromRunnableThread();
 	}
 
 	OnTerminateRunnableThread_OnRunnableThread();
+}
+
+void dooms::thread::RunnableThread::SetThreadPriority(const EThreadPriority ThreadPriority)
+{
+	INT64 OsDependentThreadPriorityValue = 0;
+	const bool bIsSuccess = dooms::os::ConvertThreadPriorityToOsDependentValue(ThreadPriority, OsDependentThreadPriorityValue);
+	D_ASSERT(bIsSuccess);
+	dooms::os::SetPriorityOfThread(GetThreadHandle(), OsDependentThreadPriorityValue);
 }
 
 bool dooms::thread::IsInGameThread()
 {
 	D_ASSERT(dooms::thread::RunnableThread::GetThreadLocalRunnableThread() != nullptr);
 
-	return (dooms::thread::RunnableThread::GetThreadLocalRunnableThread()->GetThreadType() == eThreadType::GAME_THREAD);
+	return (dooms::thread::RunnableThread::GetThreadLocalRunnableThread()->GetThreadType() == EThreadType::GAME_THREAD);
 }
 
 bool dooms::thread::IsInRenderThread()
 {
 	D_ASSERT(dooms::thread::RunnableThread::GetThreadLocalRunnableThread() != nullptr);
 
-	return (dooms::thread::RunnableThread::GetThreadLocalRunnableThread()->GetThreadType() == eThreadType::RENDER_THREAD);
+	return (dooms::thread::RunnableThread::GetThreadLocalRunnableThread()->GetThreadType() == EThreadType::RENDER_THREAD);
 }
 
-dooms::thread::eThreadType dooms::thread::GetLocalThreadType()
+dooms::thread::EThreadType dooms::thread::GetLocalThreadType()
 {
 	D_ASSERT(dooms::thread::RunnableThread::GetThreadLocalRunnableThread() != nullptr);
 
