@@ -16,7 +16,7 @@ std::string dooms::path::_GetCurrentPath()
 	if (CURRENT_DIRECTORY.empty() == true)
 	{
 		// if UNICODE macros defined, return utf8 multibyte string
-		CURRENT_DIRECTORY = dooms::os::_GetCurrentExecutableDirectory();
+		CURRENT_DIRECTORY = dooms::os::GetCurrentExecutableDirectory();
 	}
 
 	return CURRENT_DIRECTORY;
@@ -27,7 +27,7 @@ std::wstring dooms::path::_GetCurrentPathUnicode()
 	if (CURRENT_DIRECTORY_UNICODE.empty() == true)
 	{
 		// if UNICODE macros defined, return utf8 multibyte string
-		CURRENT_DIRECTORY_UNICODE = dooms::os::_GetCurrentExecutableDirectoryUnicode();
+		CURRENT_DIRECTORY_UNICODE = dooms::os::GetCurrentExecutableDirectoryUnicode();
 	}
 
 	return CURRENT_DIRECTORY_UNICODE;

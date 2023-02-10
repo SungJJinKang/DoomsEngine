@@ -52,13 +52,13 @@ HANDLE dooms::thread::RunnableThread::GetPlatformThreadHandler() const
 
 bool dooms::thread::RunnableThread::IsValidPlatformThreadHandler() const
 {
-	return GetPlatformThreadHandler() != dooms::os::Get_PLATFORM_INVALID_HANDLE_CONSTANT();
+	return GetPlatformThreadHandler() != dooms::os::GetPlatformInvalidHandleValue();
 }
 
 void dooms::thread::RunnableThread::Init_OnRunnableThread()
 {
 	ThreadLocalRunnableThread = this;
-	ThreadLocalRunnableThreadStackStartAddress = dooms::os::_GetThreadStackStartAddress(GetThreadHandle());
+	ThreadLocalRunnableThreadStackStartAddress = dooms::os::GetThreadStackStartAddress(GetThreadHandle());
 
 	bIsInitialized = true;
 

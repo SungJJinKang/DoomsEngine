@@ -41,7 +41,7 @@ namespace dooms
 			FORCE_INLINE UINT64 GetThreadCPUCycle() const
 			{
 				D_ASSERT(IsValidPlatformThreadHandler() == true);
-				return dooms::os::_GetThreadCpuCycle(GetPlatformThreadHandler());
+				return dooms::os::GetThreadCpuCycle(GetPlatformThreadHandler());
 			}
 
 			virtual bool IsAllowMultipleThreadOfThisThreadType() const = 0;
@@ -68,7 +68,7 @@ namespace dooms
 
 			std::atomic<bool> bIsInitialized = false;
 			std::atomic<bool> bIsTerminated = false;
-			volatile HANDLE PlatformThreadHandler = dooms::os::Get_PLATFORM_INVALID_HANDLE_CONSTANT();
+			volatile HANDLE PlatformThreadHandler = dooms::os::GetPlatformInvalidHandleValue();
 
 			std::unique_ptr<std::thread> Thread{};
 			

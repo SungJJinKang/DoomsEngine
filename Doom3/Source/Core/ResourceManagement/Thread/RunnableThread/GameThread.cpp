@@ -16,7 +16,7 @@ void dooms::thread::GameThread::Init_OnCallerThread()
 {
 	RunnableThread::Init_OnCallerThread();
 
-	SetThreadHandle(dooms::os::_GetCurrentThreadHandle());
+	SetThreadHandle(dooms::os::GetCurrentThreadHandle());
 	Init_OnRunnableThread();
 	// This function should be called by main thread
 }
