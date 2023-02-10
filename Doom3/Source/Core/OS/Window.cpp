@@ -1,10 +1,8 @@
 #include "OS.h"
 
+#include <ResourceManagement/Thread/EThreadPriority.h>
 
 #if (defined(OS_WIN32) || defined(OS_WIN64))
-
-
-
 
 #include <Windows.h>
 #include <winternl.h>
@@ -28,22 +26,22 @@ UINT64 dooms::os::GetTickCount()
 #endif
 }
 
-void dooms::os::Sleep(const UINT32 milliseconds)
+void dooms::os::SleepFor(const UINT32 milliseconds)
 {
 	Sleep(milliseconds);
 }
 
-UINT64 dooms::os::GetCurrentProcessorNumber()
+UINT64 dooms::os::GetProcessorNumberOfCallerThreadRunningOn()
 {
 	return static_cast<UINT64>(GetCurrentProcessorNumber());
 }
 
-HANDLE dooms::os::GetCurrentThreadHandle()
+HANDLE dooms::os::GetCallerThreadHandle()
 {
 	return GetCurrentThread();
 }
 
-UINT64 dooms::os::GetCurrenThreadID()
+UINT64 dooms::os::GetCallerThreadID()
 {
 	return static_cast<UINT64>(GetCurrentThreadId());
 }
@@ -69,12 +67,12 @@ UINT64 dooms::os::GetThreadStackStartAddress(const HANDLE threadHandel)
 	}
 }
 
-HANDLE dooms::os::GetCurrenProcess()
+HANDLE dooms::os::GetCurrenProc()
 {
 	return GetCurrentProcess();
 }
 
-bool dooms::os::SetCurrentProcessAffinityMask(const UINT64 processAffinitMask)
+bool dooms::os::SetCurrentProcAffinityMask(const UINT64 processAffinitMask)
 {
 	bool isSuccess = SetProcessAffinityMask(GetCurrentProcess(), static_cast<DWORD_PTR>(processAffinitMask));
 	D_ASSERT(GetLastError() != ERROR_INVALID_PARAMETER);
@@ -83,7 +81,7 @@ bool dooms::os::SetCurrentProcessAffinityMask(const UINT64 processAffinitMask)
 	return isSuccess;
 }
 
-bool dooms::os::GetCurrentProcessAffinityMask
+bool dooms::os::GetCurrentProcAffinityMask
 (
 	UINT64& lpProcessAffinityMask,
 	UINT64& lpSystemAffinityMask
@@ -93,6 +91,51 @@ bool dooms::os::GetCurrentProcessAffinityMask
 	D_ASSERT(isSuccess == true);
 
 	return isSuccess;
+}
+
+bool dooms::os::SetPriorityOfThread(const HANDLE ThreadHandle, const INT64 ThreadPrioirty)
+{
+	const bool bIsSuccess = SetThreadPriority(ThreadHandle, ThreadPrioirty);
+	D_ASSERT(GetLastError() != ERROR_INVALID_PARAMETER);
+	D_ASSERT(bIsSuccess == true);
+	return bIsSuccess;
+}
+
+bool dooms::os::ConvertThreadPriorityToOsDependentValue(const thread::EThreadPriority ThreadPrioirty, INT64& OutOsDependentThreadPriorityValue)
+{
+	bool bIsSuccess = true;
+
+	switch(ThreadPrioirty)
+	{
+		case thread::EThreadPriority::High:
+		{
+			OutOsDependentThreadPriorityValue = THREAD_PRIORITY_HIGHEST;
+			break;
+		}
+		case thread::EThreadPriority::Middle:
+		{
+			OutOsDependentThreadPriorityValue = THREAD_PRIORITY_ABOVE_NORMAL;
+			break;
+		}
+		case thread::EThreadPriority::Low:
+		{
+			OutOsDependentThreadPriorityValue = THREAD_PRIORITY_NORMAL;
+			break;
+		}
+		case thread::EThreadPriority::Background:
+		{
+			// THREAD_MODE_BACKGROUND_BEGIN, THREAD_MODE_BACKGROUND_END?
+			OutOsDependentThreadPriorityValue = THREAD_PRIORITY_BELOW_NORMAL;
+			break;
+		}
+		default:
+		{
+			bIsSuccess = false;
+			break;
+		}
+	}
+
+	return bIsSuccess;
 }
 
 bool dooms::os::SetThreadAffinity(const HANDLE threadHandle, const UINT64 threadAffinitMask)
@@ -182,16 +225,6 @@ std::wstring dooms::os::GetCurrentExecutableDirectoryUnicode()
 	
 	return currentExePath;
 }
-
-/*
-UINT32 dooms::os::GetCurrentProcessorNumber()
-{
-	return GetCurrentProcessorNumber();
-}
-*/
-
-
-
 
 
 #endif
