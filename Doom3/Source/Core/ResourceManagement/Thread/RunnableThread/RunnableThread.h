@@ -78,9 +78,6 @@ namespace dooms
 		};
 
 
-		extern bool IsInGameThread();
-		extern bool IsInRenderThread();
-		extern EThreadType GetLocalThreadType();
 	}
 }
 

@@ -861,6 +861,9 @@
     <ClCompile Include="Source\Core\UUID\UUID.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Core\ResourceManagement\Thread\ThreadGlobal.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="dependency\glad\include\glad\glad.h">
@@ -2166,6 +2169,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="ThirdParty\concurrentqueue\blockingconcurrentqueue.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Core\ResourceManagement\Thread\ThreadGlobal.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

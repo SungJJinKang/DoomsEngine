@@ -499,6 +499,7 @@ xcopy /y /d /E /H /C /I "$(ProjectDir)Assets" "$(TargetDir)Assets"</Command>
     <ClCompile Include="Source\Core\ResourceManagement\Thread\RunnableThread\RenderThread.cpp" />
     <ClCompile Include="Source\Core\ResourceManagement\Thread\RunnableThread\RunnableThread.cpp" />
     <ClCompile Include="Source\Core\ResourceManagement\Thread\ThreadFactory.cpp" />
+    <ClCompile Include="Source\Core\ResourceManagement\Thread\ThreadGlobal.cpp" />
     <ClCompile Include="Source\Core\ResourceManagement\Thread\ThreadManager.cpp" />
     <ClCompile Include="Source\Core\UUID\UUID.cpp" />
     <ClCompile Include="Source\Engine\ConfigurationValue\ConfigurationValue.cpp" />
@@ -810,6 +811,7 @@ xcopy /y /d /E /H /C /I "$(ProjectDir)Assets" "$(TargetDir)Assets"</Command>
     <ClInclude Include="Source\Core\ResourceManagement\Thread\RunnableThread\RenderThread.h" />
     <ClInclude Include="Source\Core\ResourceManagement\Thread\RunnableThread\RunnableThread.h" />
     <ClInclude Include="Source\Core\ResourceManagement\Thread\ThreadFactory.h" />
+    <ClInclude Include="Source\Core\ResourceManagement\Thread\ThreadGlobal.h" />
     <ClInclude Include="Source\Core\ResourceManagement\Thread\ThreadManager.h" />
     <ClInclude Include="Source\Engine\ConfigurationValue\ConfigurationValue.h" />
     <ClInclude Include="Source\Engine\Misk\LatentActionManager.h" />

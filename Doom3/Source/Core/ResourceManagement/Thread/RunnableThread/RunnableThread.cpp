@@ -139,27 +139,6 @@ void dooms::thread::RunnableThread::SetThreadPriority(const EThreadPriority Thre
 	dooms::os::SetPriorityOfThread(GetThreadHandle(), OsDependentThreadPriorityValue);
 }
 
-bool dooms::thread::IsInGameThread()
-{
-	D_ASSERT(dooms::thread::RunnableThread::GetThreadLocalRunnableThread() != nullptr);
-
-	return (dooms::thread::RunnableThread::GetThreadLocalRunnableThread()->GetThreadType() == EThreadType::GAME_THREAD);
-}
-
-bool dooms::thread::IsInRenderThread()
-{
-	D_ASSERT(dooms::thread::RunnableThread::GetThreadLocalRunnableThread() != nullptr);
-
-	return (dooms::thread::RunnableThread::GetThreadLocalRunnableThread()->GetThreadType() == EThreadType::RENDER_THREAD);
-}
-
-dooms::thread::EThreadType dooms::thread::GetLocalThreadType()
-{
-	D_ASSERT(dooms::thread::RunnableThread::GetThreadLocalRunnableThread() != nullptr);
-
-	return dooms::thread::RunnableThread::GetThreadLocalRunnableThread()->GetThreadType();
-}
-
 void dooms::thread::RunnableThread::TerminateRunnableThread(const bool bJoin)
 {
 	const bool bIsTerminatedOriginal = bIsTerminated;

@@ -12,3 +12,5 @@
 #include <DObject/DObjectHeaders.h>
 #include <Reflection/Reflection.h>
 #include <ConfigurationValue/ConfigurationValue.h>
+
+#include <ResourceManagement/Thread/ThreadGlobal.h>
