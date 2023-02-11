@@ -5,7 +5,7 @@
 #include <array>
 #include <atomic>
 
-#include <concurrentqueue/blockingconcurrentqueue.h>
+#include <blockingconcurrentqueue.h>
 #include <Asset/eAssetType.h>
 
 #include "../AssetImporterWorker/AssetImporterWorker.h"

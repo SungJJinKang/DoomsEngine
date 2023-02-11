@@ -8,7 +8,7 @@
 #include "../EThreadType.h"
 #include "RunnableThread.h"
 #include "../JobPool.h"
-#include <concurrentqueue/blockingconcurrentqueue.h>
+#include <blockingconcurrentqueue.h>
 
 #include "JobThread.reflection.h"
 namespace dooms

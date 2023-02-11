@@ -5,7 +5,7 @@
 #include <functional>
 
 #include "RunnableThread.h"
-#include <concurrentqueue/blockingconcurrentqueue.h>
+#include <blockingconcurrentqueue.h>
 #include <../Helper/Simple_SingleTon/Singleton.h>
 
 #include "RenderThread.reflection.h"

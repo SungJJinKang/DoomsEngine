@@ -6,7 +6,7 @@
 
 #include "../Game/IGameFlow.h"
 #include <Simple_SingleTon/Singleton.h>
-#include <concurrentqueue/blockingconcurrentqueue.h>
+#include <blockingconcurrentqueue.h>
 
 #include "LatentActionManager.reflection.h"
 namespace dooms
