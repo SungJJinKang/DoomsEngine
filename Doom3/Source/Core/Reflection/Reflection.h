@@ -4,17 +4,28 @@
 #include "TypeDef.h"
 
 #ifndef REFLECTION_ENABLED
-#define REFLECTION_ENABLED
+#define REFLECTION_ENABLED 1
 #endif
 
-#if defined(REFLECTION_ENABLED)
+#if REFLECTION_ENABLED
 #include "clReflect_automation/clReflect/inc/clcpp/clcpp.h"
 #endif
 
+#if REFLECTION_ENABLED
+
+#ifndef GENERATE_REFLECTION_DATA
+#define GENERATE_REFLECTION_DATA 1
+#endif
+
+#else
+
+#define GENERATE_REFLECTION_DATA 0
+
+#endif
 // Flag : Invisible
 
 //TODO : Support flag attribute macros for imgui option 
-#if defined(REFLECTION_ENABLED) && defined(__clcpp_parse__)
+#if (REFLECTION_ENABLED && defined(__clcpp_parse__))
 
 #ifndef D_NAMESPACE
 #define D_NAMESPACE(NAMESPACE_NAME) clcpp_reflect_part(NAMESPACE_NAME)

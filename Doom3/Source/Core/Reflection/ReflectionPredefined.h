@@ -2,7 +2,7 @@
 
 #include <TypeDef.h>
 
-#if defined(REFLECTION_ENABLED) && defined(__clcpp_parse__)
+#if (REFLECTION_ENABLED && defined(__clcpp_parse__))
 
 D_REFLECT_ALL(bool);
 D_REFLECT_ALL(INT8);

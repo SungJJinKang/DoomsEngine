@@ -2,6 +2,8 @@
 
 #include <Core.h>
 
+#if GENERATE_REFLECTION_DATA
+
 #include <string>
 #include <filesystem>
 
@@ -45,3 +47,5 @@ namespace dooms
 
 	};
 }
+
+#endif

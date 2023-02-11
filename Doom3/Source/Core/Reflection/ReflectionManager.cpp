@@ -144,12 +144,14 @@ bool dooms::reflection::ReflectionManager::LoadReflectionBinaryDataFile()
 void dooms::reflection::ReflectionManager::Initialize()
 {
 	if (GetIsReflectionEnabled() == true)
-	{;
+	{
+#if GENERATE_REFLECTION_DATA
 		if(ConfigData::GetSingleton()->GetConfigData().GetValue<bool>("SYSTEM", "GENERATE_REFLECTION_DATA") == true)
 		{
 			const bool isSuccess = dooms::clReflectHelper::Generate_clReflect_BinaryReflectionData();
 			D_ASSERT_LOG(isSuccess == true, "Fail to Generate Reflection Data using clRefect");
 		}
+#endif
 		
 		LoadReflectionBinaryDataFile();
 

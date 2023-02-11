@@ -1,5 +1,7 @@
 #include "clReflectHelper.h"
 
+#if GENERATE_REFLECTION_DATA
+
 #include <string>
 
 #include <Misc/DynamicLinkingHelper/SmartDynamicLinking.h>
@@ -167,3 +169,4 @@ bool dooms::clReflectHelper::Generate_clReflect_BinaryReflectionData()
 	return result == 0;
 }
 
+#endif
