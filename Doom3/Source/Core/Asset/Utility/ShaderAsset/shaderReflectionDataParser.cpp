@@ -1,7 +1,7 @@
 #include "shaderReflectionDataParser.h"
 
 #include <unordered_map>
-#include <nlohmann/json.hpp>
+#include <json.hpp>
 
 namespace dooms::asset::shaderReflectionDataParser
 {

@@ -1,0 +1,57 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="17.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="C:\Doom3FromScratch\Doom3\ThirdParty\glslcc\3rdparty\spirv-cross\spirv_cross.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Doom3FromScratch\Doom3\ThirdParty\glslcc\3rdparty\spirv-cross\spirv_parser.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Doom3FromScratch\Doom3\ThirdParty\glslcc\3rdparty\spirv-cross\spirv_cross_parsed_ir.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Doom3FromScratch\Doom3\ThirdParty\glslcc\3rdparty\spirv-cross\spirv_cfg.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="C:\Doom3FromScratch\Doom3\ThirdParty\glslcc\3rdparty\spirv-cross\GLSL.std.450.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Doom3FromScratch\Doom3\ThirdParty\glslcc\3rdparty\spirv-cross\spirv_common.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Doom3FromScratch\Doom3\ThirdParty\glslcc\3rdparty\spirv-cross\spirv_cross_containers.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Doom3FromScratch\Doom3\ThirdParty\glslcc\3rdparty\spirv-cross\spirv_cross_error_handling.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Doom3FromScratch\Doom3\ThirdParty\glslcc\3rdparty\spirv-cross\spirv.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Doom3FromScratch\Doom3\ThirdParty\glslcc\3rdparty\spirv-cross\spirv_cross.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Doom3FromScratch\Doom3\ThirdParty\glslcc\3rdparty\spirv-cross\spirv_parser.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Doom3FromScratch\Doom3\ThirdParty\glslcc\3rdparty\spirv-cross\spirv_cross_parsed_ir.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Doom3FromScratch\Doom3\ThirdParty\glslcc\3rdparty\spirv-cross\spirv_cfg.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="C:\Doom3FromScratch\Doom3\ThirdParty\glslcc\3rdparty\spirv-cross\CMakeLists.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{1020EFB3-6D1A-3F9B-B9C4-13567122654F}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{0A8BED4D-4F97-3805-BC0C-2C9E824EE239}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

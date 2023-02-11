@@ -1,0 +1,161 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="17.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="C:\Doom3FromScratch\Doom3\ThirdParty\glslcc\3rdparty\sx\src\sx.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Doom3FromScratch\Doom3\ThirdParty\glslcc\3rdparty\sx\src\allocator.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Doom3FromScratch\Doom3\ThirdParty\glslcc\3rdparty\sx\src\threads.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Doom3FromScratch\Doom3\ThirdParty\glslcc\3rdparty\sx\src\lin-alloc.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Doom3FromScratch\Doom3\ThirdParty\glslcc\3rdparty\sx\src\hash.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Doom3FromScratch\Doom3\ThirdParty\glslcc\3rdparty\sx\src\stack-alloc.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Doom3FromScratch\Doom3\ThirdParty\glslcc\3rdparty\sx\src\os.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Doom3FromScratch\Doom3\ThirdParty\glslcc\3rdparty\sx\src\string.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Doom3FromScratch\Doom3\ThirdParty\glslcc\3rdparty\sx\src\io.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Doom3FromScratch\Doom3\ThirdParty\glslcc\3rdparty\sx\src\cmdline.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Doom3FromScratch\Doom3\ThirdParty\glslcc\3rdparty\sx\src\handle.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Doom3FromScratch\Doom3\ThirdParty\glslcc\3rdparty\sx\src\timer.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Doom3FromScratch\Doom3\ThirdParty\glslcc\3rdparty\sx\src\rng.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Doom3FromScratch\Doom3\ThirdParty\glslcc\3rdparty\sx\src\ini.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Doom3FromScratch\Doom3\ThirdParty\glslcc\3rdparty\sx\src\virtual-alloc.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Doom3FromScratch\Doom3\ThirdParty\glslcc\3rdparty\sx\src\fiber.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Doom3FromScratch\Doom3\ThirdParty\glslcc\3rdparty\sx\src\math.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Doom3FromScratch\Doom3\ThirdParty\glslcc\3rdparty\sx\src\jobs.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Doom3FromScratch\Doom3\ThirdParty\glslcc\3rdparty\sx\src\bheap.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Doom3FromScratch\Doom3\ThirdParty\glslcc\3rdparty\sx\src\tlsf-alloc.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="C:\Doom3FromScratch\Doom3\ThirdParty\glslcc\3rdparty\sx\include\sx\allocator.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Doom3FromScratch\Doom3\ThirdParty\glslcc\3rdparty\sx\include\sx\array.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Doom3FromScratch\Doom3\ThirdParty\glslcc\3rdparty\sx\include\sx\config.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Doom3FromScratch\Doom3\ThirdParty\glslcc\3rdparty\sx\include\sx\macros.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Doom3FromScratch\Doom3\ThirdParty\glslcc\3rdparty\sx\include\sx\platform.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Doom3FromScratch\Doom3\ThirdParty\glslcc\3rdparty\sx\include\sx\sx.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Doom3FromScratch\Doom3\ThirdParty\glslcc\3rdparty\sx\include\sx\atomic.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Doom3FromScratch\Doom3\ThirdParty\glslcc\3rdparty\sx\include\sx\threads.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Doom3FromScratch\Doom3\ThirdParty\glslcc\3rdparty\sx\include\sx\lin-alloc.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Doom3FromScratch\Doom3\ThirdParty\glslcc\3rdparty\sx\include\sx\hash.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Doom3FromScratch\Doom3\ThirdParty\glslcc\3rdparty\sx\include\sx\stack-alloc.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Doom3FromScratch\Doom3\ThirdParty\glslcc\3rdparty\sx\include\sx\os.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Doom3FromScratch\Doom3\ThirdParty\glslcc\3rdparty\sx\include\sx\string.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Doom3FromScratch\Doom3\ThirdParty\glslcc\3rdparty\sx\include\sx\handle.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Doom3FromScratch\Doom3\ThirdParty\glslcc\3rdparty\sx\include\sx\pool.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Doom3FromScratch\Doom3\ThirdParty\glslcc\3rdparty\sx\include\sx\io.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Doom3FromScratch\Doom3\ThirdParty\glslcc\3rdparty\sx\include\sx\cmdline.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Doom3FromScratch\Doom3\ThirdParty\glslcc\3rdparty\sx\include\sx\timer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Doom3FromScratch\Doom3\ThirdParty\glslcc\3rdparty\sx\include\sx\rng.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Doom3FromScratch\Doom3\ThirdParty\glslcc\3rdparty\sx\include\sx\ini.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Doom3FromScratch\Doom3\ThirdParty\glslcc\3rdparty\sx\include\sx\virtual-alloc.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Doom3FromScratch\Doom3\ThirdParty\glslcc\3rdparty\sx\include\sx\fiber.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Doom3FromScratch\Doom3\ThirdParty\glslcc\3rdparty\sx\include\sx\math.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Doom3FromScratch\Doom3\ThirdParty\glslcc\3rdparty\sx\include\sx\jobs.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Doom3FromScratch\Doom3\ThirdParty\glslcc\3rdparty\sx\include\sx\bheap.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Doom3FromScratch\Doom3\ThirdParty\glslcc\3rdparty\sx\include\sx\tlsf-alloc.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="C:\Doom3FromScratch\Doom3\ThirdParty\glslcc\3rdparty\sx\CMakeLists.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <MASM Include="C:\Doom3FromScratch\Doom3\ThirdParty\glslcc\3rdparty\sx\asm\make_x86_64_ms_pe_masm.asm" />
+    <MASM Include="C:\Doom3FromScratch\Doom3\ThirdParty\glslcc\3rdparty\sx\asm\jump_x86_64_ms_pe_masm.asm" />
+    <MASM Include="C:\Doom3FromScratch\Doom3\ThirdParty\glslcc\3rdparty\sx\asm\ontop_x86_64_ms_pe_masm.asm" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{1020EFB3-6D1A-3F9B-B9C4-13567122654F}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{0A8BED4D-4F97-3805-BC0C-2C9E824EE239}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

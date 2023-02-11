@@ -1,0 +1,14 @@
+# CMake generation dependency list for this directory.
+C:/Doom3FromScratch/Doom3/ThirdParty/glslcc/3rdparty/sx/CMakeLists.txt
+C:/Doom3FromScratch/Doom3/ThirdParty/glslcc/CMakeFiles/3.22.2/CMakeASM_MASMCompiler.cmake
+C:/Program Files/CMake/share/cmake-3.22/Modules/CMakeASMCompiler.cmake.in
+C:/Program Files/CMake/share/cmake-3.22/Modules/CMakeASMInformation.cmake
+C:/Program Files/CMake/share/cmake-3.22/Modules/CMakeASM_MASMInformation.cmake
+C:/Program Files/CMake/share/cmake-3.22/Modules/CMakeCompilerIdDetection.cmake
+C:/Program Files/CMake/share/cmake-3.22/Modules/CMakeDetermineASMCompiler.cmake
+C:/Program Files/CMake/share/cmake-3.22/Modules/CMakeDetermineASM_MASMCompiler.cmake
+C:/Program Files/CMake/share/cmake-3.22/Modules/CMakeDetermineCompiler.cmake
+C:/Program Files/CMake/share/cmake-3.22/Modules/CMakeDetermineCompilerId.cmake
+C:/Program Files/CMake/share/cmake-3.22/Modules/CMakeFindBinUtils.cmake
+C:/Program Files/CMake/share/cmake-3.22/Modules/CMakeTestASMCompiler.cmake
+C:/Program Files/CMake/share/cmake-3.22/Modules/CMakeTestASM_MASMCompiler.cmake

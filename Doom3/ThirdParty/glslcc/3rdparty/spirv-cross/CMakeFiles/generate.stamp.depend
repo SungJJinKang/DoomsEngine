@@ -1,0 +1,8 @@
+# CMake generation dependency list for this directory.
+C:/Doom3FromScratch/Doom3/ThirdParty/glslcc/3rdparty/spirv-cross/CMakeLists.txt
+C:/Doom3FromScratch/Doom3/ThirdParty/glslcc/3rdparty/spirv-cross/cmake/gitversion.in.h
+C:/Program Files/CMake/share/cmake-3.22/Modules/FindGit.cmake
+C:/Program Files/CMake/share/cmake-3.22/Modules/FindPackageHandleStandardArgs.cmake
+C:/Program Files/CMake/share/cmake-3.22/Modules/FindPackageMessage.cmake
+C:/Program Files/CMake/share/cmake-3.22/Modules/FindPythonInterp.cmake
+C:/Program Files/CMake/share/cmake-3.22/Modules/GNUInstallDirs.cmake

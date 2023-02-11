@@ -188,7 +188,7 @@
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
-      <AdditionalIncludeDirectories>$(SolutionDir)ThirdParty\glfw3\include;$(SolutionDir)ThirdParty\oneTBB\include;$(ProjectDir);$(SolutionDir)\Source\Core\Graphics\GraphicsAPI;$(SolutionDir)Source\Core;$(SolutionDir)Source\thirdparty\imgui</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)ThirdParty\glfw3\include;$(SolutionDir)ThirdParty\oneTBB\include;$(SolutionDir)ThirdParty\imgui;$(SolutionDir)ThirdParty\KHR;$(ProjectDir);$(SolutionDir)\Source\Core\Graphics\GraphicsAPI;$(SolutionDir)Source\Core</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
     </ClCompile>
@@ -232,7 +232,7 @@
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
-      <AdditionalIncludeDirectories>$(SolutionDir)ThirdParty\glfw3\include;$(SolutionDir)ThirdParty\oneTBB\include;$(SolutionDir)\Source\Core\Graphics\GraphicsAPI;$(SolutionDir)Source\Core;$(SolutionDir)Source\thirdparty\imgui;$(ProjectDir)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)ThirdParty\glfw3\include;$(SolutionDir)ThirdParty\oneTBB\include;$(SolutionDir)ThirdParty\imgui;$(SolutionDir)ThirdParty\KHR;$(SolutionDir)\Source\Core\Graphics\GraphicsAPI;$(SolutionDir)Source\Core;$(ProjectDir)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
       <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>

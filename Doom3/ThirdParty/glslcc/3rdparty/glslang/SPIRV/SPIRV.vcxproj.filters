@@ -1,0 +1,84 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="17.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="C:\Doom3FromScratch\Doom3\ThirdParty\glslcc\3rdparty\glslang\SPIRV\GlslangToSpv.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Doom3FromScratch\Doom3\ThirdParty\glslcc\3rdparty\glslang\SPIRV\InReadableOrder.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Doom3FromScratch\Doom3\ThirdParty\glslcc\3rdparty\glslang\SPIRV\Logger.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Doom3FromScratch\Doom3\ThirdParty\glslcc\3rdparty\glslang\SPIRV\SpvBuilder.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Doom3FromScratch\Doom3\ThirdParty\glslcc\3rdparty\glslang\SPIRV\SpvPostProcess.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Doom3FromScratch\Doom3\ThirdParty\glslcc\3rdparty\glslang\SPIRV\doc.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Doom3FromScratch\Doom3\ThirdParty\glslcc\3rdparty\glslang\SPIRV\SpvTools.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Doom3FromScratch\Doom3\ThirdParty\glslcc\3rdparty\glslang\SPIRV\disassemble.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="C:\Doom3FromScratch\Doom3\ThirdParty\glslcc\3rdparty\glslang\SPIRV\bitutils.h">
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Doom3FromScratch\Doom3\ThirdParty\glslcc\3rdparty\glslang\SPIRV\spirv.hpp">
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Doom3FromScratch\Doom3\ThirdParty\glslcc\3rdparty\glslang\SPIRV\GLSL.std.450.h">
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Doom3FromScratch\Doom3\ThirdParty\glslcc\3rdparty\glslang\SPIRV\GLSL.ext.EXT.h">
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Doom3FromScratch\Doom3\ThirdParty\glslcc\3rdparty\glslang\SPIRV\GLSL.ext.KHR.h">
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Doom3FromScratch\Doom3\ThirdParty\glslcc\3rdparty\glslang\SPIRV\GlslangToSpv.h">
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Doom3FromScratch\Doom3\ThirdParty\glslcc\3rdparty\glslang\SPIRV\hex_float.h">
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Doom3FromScratch\Doom3\ThirdParty\glslcc\3rdparty\glslang\SPIRV\Logger.h">
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Doom3FromScratch\Doom3\ThirdParty\glslcc\3rdparty\glslang\SPIRV\SpvBuilder.h">
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Doom3FromScratch\Doom3\ThirdParty\glslcc\3rdparty\glslang\SPIRV\spvIR.h">
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Doom3FromScratch\Doom3\ThirdParty\glslcc\3rdparty\glslang\SPIRV\doc.h">
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Doom3FromScratch\Doom3\ThirdParty\glslcc\3rdparty\glslang\SPIRV\SpvTools.h">
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Doom3FromScratch\Doom3\ThirdParty\glslcc\3rdparty\glslang\SPIRV\disassemble.h">
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Doom3FromScratch\Doom3\ThirdParty\glslcc\3rdparty\glslang\SPIRV\GLSL.ext.AMD.h">
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Doom3FromScratch\Doom3\ThirdParty\glslcc\3rdparty\glslang\SPIRV\GLSL.ext.NV.h">
+      <Filter>Source</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="C:\Doom3FromScratch\Doom3\ThirdParty\glslcc\3rdparty\glslang\SPIRV\CMakeLists.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Source">
+      <UniqueIdentifier>{B518DC88-A4C8-39C3-A15F-EEBB254C6F77}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

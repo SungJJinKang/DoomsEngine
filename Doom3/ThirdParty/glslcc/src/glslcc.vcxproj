@@ -1,0 +1,397 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="17.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <PreferredToolArchitecture>x64</PreferredToolArchitecture>
+  </PropertyGroup>
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="MinSizeRel|x64">
+      <Configuration>MinSizeRel</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="RelWithDebInfo|x64">
+      <Configuration>RelWithDebInfo</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{3D736D12-E414-3EE8-903A-E37152CBB8F7}</ProjectGuid>
+    <WindowsTargetPlatformVersion>10.0.20348.0</WindowsTargetPlatformVersion>
+    <Keyword>Win32Proj</Keyword>
+    <Platform>x64</Platform>
+    <ProjectName>glslcc</ProjectName>
+    <VCProjectUpgraderObjectName>NoUpgrade</VCProjectUpgraderObjectName>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v143</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v143</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v143</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v143</PlatformToolset>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+    <Import Project="$(VCTargetsPath)\BuildCustomizations\masm.props" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>10.0.20506.1</_ProjectFileVersion>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:\Doom3FromScratch\Doom3\ThirdParty\glslcc\src\Debug\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">glslcc.dir\Debug\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">glslcc</TargetName>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">.dll</TargetExt>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</LinkIncremental>
+    <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</GenerateManifest>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">C:\Doom3FromScratch\Doom3\ThirdParty\glslcc\src\Release\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">glslcc.dir\Release\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">glslcc</TargetName>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='Release|x64'">.dll</TargetExt>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</LinkIncremental>
+    <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</GenerateManifest>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">C:\Doom3FromScratch\Doom3\ThirdParty\glslcc\src\MinSizeRel\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">glslcc.dir\MinSizeRel\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">glslcc</TargetName>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">.exe</TargetExt>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">false</LinkIncremental>
+    <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">true</GenerateManifest>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">C:\Doom3FromScratch\Doom3\ThirdParty\glslcc\src\RelWithDebInfo\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">glslcc.dir\RelWithDebInfo\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">glslcc</TargetName>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">.exe</TargetExt>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">true</LinkIncremental>
+    <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">true</GenerateManifest>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>C:\Doom3FromScratch\Doom3\ThirdParty\glslcc\3rdparty\sx\include;C:\Doom3FromScratch\Doom3\ThirdParty\glslcc\3rdparty\sx\include\compat\msvc;C:\Doom3FromScratch\Doom3\ThirdParty\glslcc\3rdparty\glslang\glslang\..;C:\Doom3FromScratch\Doom3\ThirdParty\glslcc\3rdparty\glslang\SPIRV\..;C:\Doom3FromScratch\Doom3\ThirdParty\glslcc\3rdparty\spirv-cross;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <InlineFunctionExpansion>Disabled</InlineFunctionExpansion>
+      <Optimization>Disabled</Optimization>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <UseFullPaths>false</UseFullPaths>
+      <WarningLevel>Level3</WarningLevel>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;AMD_EXTENSIONS;NV_EXTENSIONS;D3D11_COMPILER;CMAKE_INTDIR="Debug"</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_DEBUG;_WINDOWS;AMD_EXTENSIONS;NV_EXTENSIONS;D3D11_COMPILER;CMAKE_INTDIR=\"Debug\"</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>C:\Doom3FromScratch\Doom3\ThirdParty\glslcc\3rdparty\sx\include;C:\Doom3FromScratch\Doom3\ThirdParty\glslcc\3rdparty\sx\include\compat\msvc;C:\Doom3FromScratch\Doom3\ThirdParty\glslcc\3rdparty\glslang\glslang\..;C:\Doom3FromScratch\Doom3\ThirdParty\glslcc\3rdparty\glslang\SPIRV\..;C:\Doom3FromScratch\Doom3\ThirdParty\glslcc\3rdparty\spirv-cross;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <MASM>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;AMD_EXTENSIONS;NV_EXTENSIONS;D3D11_COMPILER;CMAKE_INTDIR="Debug"</PreprocessorDefinitions>
+      <IncludePaths>C:\Doom3FromScratch\Doom3\ThirdParty\glslcc\3rdparty\sx\include;C:\Doom3FromScratch\Doom3\ThirdParty\glslcc\3rdparty\sx\include\compat\msvc;C:\Doom3FromScratch\Doom3\ThirdParty\glslcc\3rdparty\glslang\glslang\..;C:\Doom3FromScratch\Doom3\ThirdParty\glslcc\3rdparty\glslang\SPIRV\..;C:\Doom3FromScratch\Doom3\ThirdParty\glslcc\3rdparty\spirv-cross;%(IncludePaths)</IncludePaths>
+    </MASM>
+    <Midl>
+      <AdditionalIncludeDirectories>C:\Doom3FromScratch\Doom3\ThirdParty\glslcc\3rdparty\sx\include;C:\Doom3FromScratch\Doom3\ThirdParty\glslcc\3rdparty\sx\include\compat\msvc;C:\Doom3FromScratch\Doom3\ThirdParty\glslcc\3rdparty\glslang\glslang\..;C:\Doom3FromScratch\Doom3\ThirdParty\glslcc\3rdparty\glslang\SPIRV\..;C:\Doom3FromScratch\Doom3\ThirdParty\glslcc\3rdparty\spirv-cross;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <Link>
+      <AdditionalDependencies>..\3rdparty\sx\Debug\sx.lib;..\3rdparty\glslang\glslang\Debug\glslang.lib;..\3rdparty\glslang\OGLCompilersDLL\Debug\OGLCompiler.lib;..\3rdparty\glslang\glslang\OSDependent\Windows\Debug\OSDependent.lib;..\3rdparty\glslang\SPIRV\Debug\SPIRV.lib;..\3rdparty\glslang\SPIRV\Debug\SPVRemapper.lib;..\3rdparty\spirv-cross\Debug\spirv-cross-cored.lib;..\3rdparty\spirv-cross\Debug\spirv-cross-cppd.lib;..\3rdparty\spirv-cross\Debug\spirv-cross-glsld.lib;..\3rdparty\spirv-cross\Debug\spirv-cross-hlsld.lib;..\3rdparty\spirv-cross\Debug\spirv-cross-reflectd.lib;..\3rdparty\spirv-cross\Debug\spirv-cross-utild.lib;..\3rdparty\spirv-cross\Debug\spirv-cross-msld.lib;d3dcompiler.lib;psapi.lib;..\3rdparty\glslang\glslang\Debug\glslang.lib;..\3rdparty\glslang\OGLCompilersDLL\Debug\OGLCompiler.lib;..\3rdparty\glslang\glslang\OSDependent\Windows\Debug\OSDependent.lib;..\3rdparty\spirv-cross\Debug\spirv-cross-glsld.lib;..\3rdparty\spirv-cross\Debug\spirv-cross-cored.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /machine:x64</AdditionalOptions>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
+      <ImportLibrary>C:/Doom3FromScratch/Doom3/ThirdParty/glslcc/src/Debug/glslcc.lib</ImportLibrary>
+      <ProgramDataBaseFile>C:/Doom3FromScratch/Doom3/ThirdParty/glslcc/src/Debug/glslcc.pdb</ProgramDataBaseFile>
+      <SubSystem>Console</SubSystem>
+    </Link>
+    <ProjectReference>
+      <LinkLibraryDependencies>false</LinkLibraryDependencies>
+    </ProjectReference>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>C:\Doom3FromScratch\Doom3\ThirdParty\glslcc\3rdparty\sx\include;C:\Doom3FromScratch\Doom3\ThirdParty\glslcc\3rdparty\sx\include\compat\msvc;C:\Doom3FromScratch\Doom3\ThirdParty\glslcc\3rdparty\glslang\glslang\..;C:\Doom3FromScratch\Doom3\ThirdParty\glslcc\3rdparty\glslang\SPIRV\..;C:\Doom3FromScratch\Doom3\ThirdParty\glslcc\3rdparty\spirv-cross;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
+      <DisableSpecificWarnings>4530</DisableSpecificWarnings>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <UseFullPaths>false</UseFullPaths>
+      <WarningLevel>Level3</WarningLevel>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;AMD_EXTENSIONS;NV_EXTENSIONS;D3D11_COMPILER;CMAKE_INTDIR="Release"</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+      <DebugInformationFormat>
+      </DebugInformationFormat>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;AMD_EXTENSIONS;NV_EXTENSIONS;D3D11_COMPILER;CMAKE_INTDIR=\"Release\"</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>C:\Doom3FromScratch\Doom3\ThirdParty\glslcc\3rdparty\sx\include;C:\Doom3FromScratch\Doom3\ThirdParty\glslcc\3rdparty\sx\include\compat\msvc;C:\Doom3FromScratch\Doom3\ThirdParty\glslcc\3rdparty\glslang\glslang\..;C:\Doom3FromScratch\Doom3\ThirdParty\glslcc\3rdparty\glslang\SPIRV\..;C:\Doom3FromScratch\Doom3\ThirdParty\glslcc\3rdparty\spirv-cross;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <MASM>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;AMD_EXTENSIONS;NV_EXTENSIONS;D3D11_COMPILER;CMAKE_INTDIR="Release";</PreprocessorDefinitions>
+      <IncludePaths>C:\Doom3FromScratch\Doom3\ThirdParty\glslcc\3rdparty\sx\include;C:\Doom3FromScratch\Doom3\ThirdParty\glslcc\3rdparty\sx\include\compat\msvc;C:\Doom3FromScratch\Doom3\ThirdParty\glslcc\3rdparty\glslang\glslang\..;C:\Doom3FromScratch\Doom3\ThirdParty\glslcc\3rdparty\glslang\SPIRV\..;C:\Doom3FromScratch\Doom3\ThirdParty\glslcc\3rdparty\spirv-cross;%(IncludePaths)</IncludePaths>
+    </MASM>
+    <Midl>
+      <AdditionalIncludeDirectories>C:\Doom3FromScratch\Doom3\ThirdParty\glslcc\3rdparty\sx\include;C:\Doom3FromScratch\Doom3\ThirdParty\glslcc\3rdparty\sx\include\compat\msvc;C:\Doom3FromScratch\Doom3\ThirdParty\glslcc\3rdparty\glslang\glslang\..;C:\Doom3FromScratch\Doom3\ThirdParty\glslcc\3rdparty\glslang\SPIRV\..;C:\Doom3FromScratch\Doom3\ThirdParty\glslcc\3rdparty\spirv-cross;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <Link>
+      <AdditionalDependencies>..\3rdparty\sx\Release\sx.lib;..\3rdparty\glslang\glslang\Release\glslang.lib;..\3rdparty\glslang\OGLCompilersDLL\Release\OGLCompiler.lib;..\3rdparty\glslang\glslang\OSDependent\Windows\Release\OSDependent.lib;..\3rdparty\glslang\SPIRV\Release\SPIRV.lib;..\3rdparty\glslang\SPIRV\Release\SPVRemapper.lib;..\3rdparty\spirv-cross\Release\spirv-cross-core.lib;..\3rdparty\spirv-cross\Release\spirv-cross-cpp.lib;..\3rdparty\spirv-cross\Release\spirv-cross-glsl.lib;..\3rdparty\spirv-cross\Release\spirv-cross-hlsl.lib;..\3rdparty\spirv-cross\Release\spirv-cross-reflect.lib;..\3rdparty\spirv-cross\Release\spirv-cross-util.lib;..\3rdparty\spirv-cross\Release\spirv-cross-msl.lib;d3dcompiler.lib;psapi.lib;..\3rdparty\glslang\glslang\Release\glslang.lib;..\3rdparty\glslang\OGLCompilersDLL\Release\OGLCompiler.lib;..\3rdparty\glslang\glslang\OSDependent\Windows\Release\OSDependent.lib;..\3rdparty\spirv-cross\Release\spirv-cross-glsl.lib;..\3rdparty\spirv-cross\Release\spirv-cross-core.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /machine:x64</AdditionalOptions>
+      <GenerateDebugInformation>false</GenerateDebugInformation>
+      <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
+      <ImportLibrary>C:/Doom3FromScratch/Doom3/ThirdParty/glslcc/src/Release/glslcc.lib</ImportLibrary>
+      <ProgramDataBaseFile>C:/Doom3FromScratch/Doom3/ThirdParty/glslcc/src/Release/glslcc.pdb</ProgramDataBaseFile>
+      <SubSystem>Console</SubSystem>
+    </Link>
+    <ProjectReference>
+      <LinkLibraryDependencies>false</LinkLibraryDependencies>
+    </ProjectReference>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>C:\Doom3FromScratch\Doom3\ThirdParty\glslcc\3rdparty\sx\include;C:\Doom3FromScratch\Doom3\ThirdParty\glslcc\3rdparty\sx\include\compat\msvc;C:\Doom3FromScratch\Doom3\ThirdParty\glslcc\3rdparty\glslang\glslang\..;C:\Doom3FromScratch\Doom3\ThirdParty\glslcc\3rdparty\glslang\SPIRV\..;C:\Doom3FromScratch\Doom3\ThirdParty\glslcc\3rdparty\spirv-cross;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
+      <Optimization>MinSpace</Optimization>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <UseFullPaths>false</UseFullPaths>
+      <WarningLevel>Level3</WarningLevel>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;AMD_EXTENSIONS;NV_EXTENSIONS;D3D11_COMPILER;CMAKE_INTDIR="MinSizeRel"</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+      <DebugInformationFormat>
+      </DebugInformationFormat>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;AMD_EXTENSIONS;NV_EXTENSIONS;D3D11_COMPILER;CMAKE_INTDIR=\"MinSizeRel\"</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>C:\Doom3FromScratch\Doom3\ThirdParty\glslcc\3rdparty\sx\include;C:\Doom3FromScratch\Doom3\ThirdParty\glslcc\3rdparty\sx\include\compat\msvc;C:\Doom3FromScratch\Doom3\ThirdParty\glslcc\3rdparty\glslang\glslang\..;C:\Doom3FromScratch\Doom3\ThirdParty\glslcc\3rdparty\glslang\SPIRV\..;C:\Doom3FromScratch\Doom3\ThirdParty\glslcc\3rdparty\spirv-cross;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <MASM>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;AMD_EXTENSIONS;NV_EXTENSIONS;D3D11_COMPILER;CMAKE_INTDIR="MinSizeRel"</PreprocessorDefinitions>
+      <IncludePaths>C:\Doom3FromScratch\Doom3\ThirdParty\glslcc\3rdparty\sx\include;C:\Doom3FromScratch\Doom3\ThirdParty\glslcc\3rdparty\sx\include\compat\msvc;C:\Doom3FromScratch\Doom3\ThirdParty\glslcc\3rdparty\glslang\glslang\..;C:\Doom3FromScratch\Doom3\ThirdParty\glslcc\3rdparty\glslang\SPIRV\..;C:\Doom3FromScratch\Doom3\ThirdParty\glslcc\3rdparty\spirv-cross;%(IncludePaths)</IncludePaths>
+    </MASM>
+    <Midl>
+      <AdditionalIncludeDirectories>C:\Doom3FromScratch\Doom3\ThirdParty\glslcc\3rdparty\sx\include;C:\Doom3FromScratch\Doom3\ThirdParty\glslcc\3rdparty\sx\include\compat\msvc;C:\Doom3FromScratch\Doom3\ThirdParty\glslcc\3rdparty\glslang\glslang\..;C:\Doom3FromScratch\Doom3\ThirdParty\glslcc\3rdparty\glslang\SPIRV\..;C:\Doom3FromScratch\Doom3\ThirdParty\glslcc\3rdparty\spirv-cross;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <Link>
+      <AdditionalDependencies>..\3rdparty\sx\MinSizeRel\sx.lib;..\3rdparty\glslang\glslang\MinSizeRel\glslang.lib;..\3rdparty\glslang\OGLCompilersDLL\MinSizeRel\OGLCompiler.lib;..\3rdparty\glslang\glslang\OSDependent\Windows\MinSizeRel\OSDependent.lib;..\3rdparty\glslang\SPIRV\MinSizeRel\SPIRV.lib;..\3rdparty\glslang\SPIRV\MinSizeRel\SPVRemapper.lib;..\3rdparty\spirv-cross\MinSizeRel\spirv-cross-core.lib;..\3rdparty\spirv-cross\MinSizeRel\spirv-cross-cpp.lib;..\3rdparty\spirv-cross\MinSizeRel\spirv-cross-glsl.lib;..\3rdparty\spirv-cross\MinSizeRel\spirv-cross-hlsl.lib;..\3rdparty\spirv-cross\MinSizeRel\spirv-cross-reflect.lib;..\3rdparty\spirv-cross\MinSizeRel\spirv-cross-util.lib;..\3rdparty\spirv-cross\MinSizeRel\spirv-cross-msl.lib;d3dcompiler.lib;psapi.lib;..\3rdparty\glslang\glslang\MinSizeRel\glslang.lib;..\3rdparty\glslang\OGLCompilersDLL\MinSizeRel\OGLCompiler.lib;..\3rdparty\glslang\glslang\OSDependent\Windows\MinSizeRel\OSDependent.lib;..\3rdparty\spirv-cross\MinSizeRel\spirv-cross-glsl.lib;..\3rdparty\spirv-cross\MinSizeRel\spirv-cross-core.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /machine:x64</AdditionalOptions>
+      <GenerateDebugInformation>false</GenerateDebugInformation>
+      <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
+      <ImportLibrary>C:/Doom3FromScratch/Doom3/ThirdParty/glslcc/src/MinSizeRel/glslcc.lib</ImportLibrary>
+      <ProgramDataBaseFile>C:/Doom3FromScratch/Doom3/ThirdParty/glslcc/src/MinSizeRel/glslcc.pdb</ProgramDataBaseFile>
+      <SubSystem>Console</SubSystem>
+    </Link>
+    <ProjectReference>
+      <LinkLibraryDependencies>false</LinkLibraryDependencies>
+    </ProjectReference>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>C:\Doom3FromScratch\Doom3\ThirdParty\glslcc\3rdparty\sx\include;C:\Doom3FromScratch\Doom3\ThirdParty\glslcc\3rdparty\sx\include\compat\msvc;C:\Doom3FromScratch\Doom3\ThirdParty\glslcc\3rdparty\glslang\glslang\..;C:\Doom3FromScratch\Doom3\ThirdParty\glslcc\3rdparty\glslang\SPIRV\..;C:\Doom3FromScratch\Doom3\ThirdParty\glslcc\3rdparty\spirv-cross;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
+      <Optimization>MaxSpeed</Optimization>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <UseFullPaths>false</UseFullPaths>
+      <WarningLevel>Level3</WarningLevel>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;AMD_EXTENSIONS;NV_EXTENSIONS;D3D11_COMPILER;CMAKE_INTDIR="RelWithDebInfo"</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;AMD_EXTENSIONS;NV_EXTENSIONS;D3D11_COMPILER;CMAKE_INTDIR=\"RelWithDebInfo\"</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>C:\Doom3FromScratch\Doom3\ThirdParty\glslcc\3rdparty\sx\include;C:\Doom3FromScratch\Doom3\ThirdParty\glslcc\3rdparty\sx\include\compat\msvc;C:\Doom3FromScratch\Doom3\ThirdParty\glslcc\3rdparty\glslang\glslang\..;C:\Doom3FromScratch\Doom3\ThirdParty\glslcc\3rdparty\glslang\SPIRV\..;C:\Doom3FromScratch\Doom3\ThirdParty\glslcc\3rdparty\spirv-cross;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <MASM>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;AMD_EXTENSIONS;NV_EXTENSIONS;D3D11_COMPILER;CMAKE_INTDIR="RelWithDebInfo"</PreprocessorDefinitions>
+      <IncludePaths>C:\Doom3FromScratch\Doom3\ThirdParty\glslcc\3rdparty\sx\include;C:\Doom3FromScratch\Doom3\ThirdParty\glslcc\3rdparty\sx\include\compat\msvc;C:\Doom3FromScratch\Doom3\ThirdParty\glslcc\3rdparty\glslang\glslang\..;C:\Doom3FromScratch\Doom3\ThirdParty\glslcc\3rdparty\glslang\SPIRV\..;C:\Doom3FromScratch\Doom3\ThirdParty\glslcc\3rdparty\spirv-cross;%(IncludePaths)</IncludePaths>
+    </MASM>
+    <Midl>
+      <AdditionalIncludeDirectories>C:\Doom3FromScratch\Doom3\ThirdParty\glslcc\3rdparty\sx\include;C:\Doom3FromScratch\Doom3\ThirdParty\glslcc\3rdparty\sx\include\compat\msvc;C:\Doom3FromScratch\Doom3\ThirdParty\glslcc\3rdparty\glslang\glslang\..;C:\Doom3FromScratch\Doom3\ThirdParty\glslcc\3rdparty\glslang\SPIRV\..;C:\Doom3FromScratch\Doom3\ThirdParty\glslcc\3rdparty\spirv-cross;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <Link>
+      <AdditionalDependencies>..\3rdparty\sx\RelWithDebInfo\sx.lib;..\3rdparty\glslang\glslang\RelWithDebInfo\glslang.lib;..\3rdparty\glslang\OGLCompilersDLL\RelWithDebInfo\OGLCompiler.lib;..\3rdparty\glslang\glslang\OSDependent\Windows\RelWithDebInfo\OSDependent.lib;..\3rdparty\glslang\SPIRV\RelWithDebInfo\SPIRV.lib;..\3rdparty\glslang\SPIRV\RelWithDebInfo\SPVRemapper.lib;..\3rdparty\spirv-cross\RelWithDebInfo\spirv-cross-core.lib;..\3rdparty\spirv-cross\RelWithDebInfo\spirv-cross-cpp.lib;..\3rdparty\spirv-cross\RelWithDebInfo\spirv-cross-glsl.lib;..\3rdparty\spirv-cross\RelWithDebInfo\spirv-cross-hlsl.lib;..\3rdparty\spirv-cross\RelWithDebInfo\spirv-cross-reflect.lib;..\3rdparty\spirv-cross\RelWithDebInfo\spirv-cross-util.lib;..\3rdparty\spirv-cross\RelWithDebInfo\spirv-cross-msl.lib;d3dcompiler.lib;psapi.lib;..\3rdparty\glslang\glslang\RelWithDebInfo\glslang.lib;..\3rdparty\glslang\OGLCompilersDLL\RelWithDebInfo\OGLCompiler.lib;..\3rdparty\glslang\glslang\OSDependent\Windows\RelWithDebInfo\OSDependent.lib;..\3rdparty\spirv-cross\RelWithDebInfo\spirv-cross-glsl.lib;..\3rdparty\spirv-cross\RelWithDebInfo\spirv-cross-core.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /machine:x64</AdditionalOptions>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
+      <ImportLibrary>C:/Doom3FromScratch/Doom3/ThirdParty/glslcc/src/RelWithDebInfo/glslcc.lib</ImportLibrary>
+      <ProgramDataBaseFile>C:/Doom3FromScratch/Doom3/ThirdParty/glslcc/src/RelWithDebInfo/glslcc.pdb</ProgramDataBaseFile>
+      <SubSystem>Console</SubSystem>
+    </Link>
+    <ProjectReference>
+      <LinkLibraryDependencies>false</LinkLibraryDependencies>
+    </ProjectReference>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <CustomBuild Include="C:\Doom3FromScratch\Doom3\ThirdParty\glslcc\src\CMakeLists.txt">
+      <UseUtf8Encoding>Always</UseUtf8Encoding>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Building Custom Rule C:/Doom3FromScratch/Doom3/ThirdParty/glslcc/src/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -SC:/Doom3FromScratch/Doom3/ThirdParty/glslcc -BC:/Doom3FromScratch/Doom3/ThirdParty/glslcc --check-stamp-file C:/Doom3FromScratch/Doom3/ThirdParty/glslcc/src/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:\Doom3FromScratch\Doom3\ThirdParty\glslcc\src\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Building Custom Rule C:/Doom3FromScratch/Doom3/ThirdParty/glslcc/src/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -SC:/Doom3FromScratch/Doom3/ThirdParty/glslcc -BC:/Doom3FromScratch/Doom3/ThirdParty/glslcc --check-stamp-file C:/Doom3FromScratch/Doom3/ThirdParty/glslcc/src/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">C:\Doom3FromScratch\Doom3\ThirdParty\glslcc\src\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">Building Custom Rule C:/Doom3FromScratch/Doom3/ThirdParty/glslcc/src/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -SC:/Doom3FromScratch/Doom3/ThirdParty/glslcc -BC:/Doom3FromScratch/Doom3/ThirdParty/glslcc --check-stamp-file C:/Doom3FromScratch/Doom3/ThirdParty/glslcc/src/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">C:\Doom3FromScratch\Doom3\ThirdParty\glslcc\src\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">Building Custom Rule C:/Doom3FromScratch/Doom3/ThirdParty/glslcc/src/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -SC:/Doom3FromScratch/Doom3/ThirdParty/glslcc -BC:/Doom3FromScratch/Doom3/ThirdParty/glslcc --check-stamp-file C:/Doom3FromScratch/Doom3/ThirdParty/glslcc/src/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">C:\Doom3FromScratch\Doom3\ThirdParty\glslcc\src\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">false</LinkObjects>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="C:\Doom3FromScratch\Doom3\ThirdParty\glslcc\src\glslcc.cpp" />
+    <ClInclude Include="C:\Doom3FromScratch\Doom3\ThirdParty\glslcc\src\config.h" />
+    <ClCompile Include="C:\Doom3FromScratch\Doom3\ThirdParty\glslcc\src\config.cpp" />
+    <ClInclude Include="C:\Doom3FromScratch\Doom3\ThirdParty\glslcc\src\sgs-file.h" />
+    <ClCompile Include="C:\Doom3FromScratch\Doom3\ThirdParty\glslcc\src\sgs-file.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="C:\Doom3FromScratch\Doom3\ThirdParty\glslcc\ZERO_CHECK.vcxproj">
+      <Project>{78379653-1D0B-355B-A711-D08E7ED8A303}</Project>
+      <Name>ZERO_CHECK</Name>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </ProjectReference>
+    <ProjectReference Include="C:\Doom3FromScratch\Doom3\ThirdParty\glslcc\3rdparty\glslang\OGLCompilersDLL\OGLCompiler.vcxproj">
+      <Project>{F21EE423-66A8-3D12-9BEB-6C8D0BA2AAB7}</Project>
+      <Name>OGLCompiler</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\Doom3FromScratch\Doom3\ThirdParty\glslcc\3rdparty\glslang\glslang\OSDependent\Windows\OSDependent.vcxproj">
+      <Project>{D9EE25DA-8AF7-31CD-A7F2-950E1E1D3C17}</Project>
+      <Name>OSDependent</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\Doom3FromScratch\Doom3\ThirdParty\glslcc\3rdparty\glslang\SPIRV\SPIRV.vcxproj">
+      <Project>{CED942AD-B6E5-3277-AFE2-DE5A6E95BA19}</Project>
+      <Name>SPIRV</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\Doom3FromScratch\Doom3\ThirdParty\glslcc\3rdparty\glslang\SPIRV\SPVRemapper.vcxproj">
+      <Project>{7517F87F-1065-3A4B-9218-6C5DFE943C91}</Project>
+      <Name>SPVRemapper</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\Doom3FromScratch\Doom3\ThirdParty\glslcc\3rdparty\glslang\glslang\glslang.vcxproj">
+      <Project>{BA0BF6DE-E535-322C-9F03-90DA2396A754}</Project>
+      <Name>glslang</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\Doom3FromScratch\Doom3\ThirdParty\glslcc\3rdparty\spirv-cross\spirv-cross-core.vcxproj">
+      <Project>{14DCBDF9-3426-373F-87D3-FFA9C23D4C0D}</Project>
+      <Name>spirv-cross-core</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\Doom3FromScratch\Doom3\ThirdParty\glslcc\3rdparty\spirv-cross\spirv-cross-cpp.vcxproj">
+      <Project>{90296566-4356-3DCC-8FA1-351681A17993}</Project>
+      <Name>spirv-cross-cpp</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\Doom3FromScratch\Doom3\ThirdParty\glslcc\3rdparty\spirv-cross\spirv-cross-glsl.vcxproj">
+      <Project>{25CC491B-7244-33CD-8849-2FED19DF0860}</Project>
+      <Name>spirv-cross-glsl</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\Doom3FromScratch\Doom3\ThirdParty\glslcc\3rdparty\spirv-cross\spirv-cross-hlsl.vcxproj">
+      <Project>{2548899B-9DEC-3736-881B-AC03BC4BB555}</Project>
+      <Name>spirv-cross-hlsl</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\Doom3FromScratch\Doom3\ThirdParty\glslcc\3rdparty\spirv-cross\spirv-cross-msl.vcxproj">
+      <Project>{16791137-07F6-3136-9B0B-8B5D3A5E6549}</Project>
+      <Name>spirv-cross-msl</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\Doom3FromScratch\Doom3\ThirdParty\glslcc\3rdparty\spirv-cross\spirv-cross-reflect.vcxproj">
+      <Project>{8B429601-70F7-3C84-9354-12777F305806}</Project>
+      <Name>spirv-cross-reflect</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\Doom3FromScratch\Doom3\ThirdParty\glslcc\3rdparty\spirv-cross\spirv-cross-util.vcxproj">
+      <Project>{E4667766-F96D-3A84-A2F9-65EFECC87516}</Project>
+      <Name>spirv-cross-util</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\Doom3FromScratch\Doom3\ThirdParty\glslcc\3rdparty\sx\sx.vcxproj">
+      <Project>{A3BD9C7D-A897-37E0-9328-C8F5681BAD12}</Project>
+      <Name>sx</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+    <Import Project="$(VCTargetsPath)\BuildCustomizations\masm.targets" />
+  </ImportGroup>
+</Project>

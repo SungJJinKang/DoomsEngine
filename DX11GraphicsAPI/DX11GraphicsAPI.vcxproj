@@ -214,7 +214,7 @@
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
-      <AdditionalIncludeDirectories>$(SolutionDir)ThirdParty\oneTBB\include;$(SolutionDir)Source\Core;$(SolutionDir)Source\thirdparty\imgui;..\Doom3\Source\Core\Graphics\GraphicsAPI\</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)ThirdParty\oneTBB\include;$(SolutionDir)ThirdParty\imgui;$(SolutionDir)Source\Core;$(SolutionDir)Source\Core\Graphics\GraphicsAPI\</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
     </ClCompile>
@@ -258,7 +258,7 @@
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
-      <AdditionalIncludeDirectories>$(SolutionDir)ThirdParty\oneTBB\include;$(SolutionDir)Source\Core;$(SolutionDir)Source\thirdparty\imgui;..\Doom3\Source\Core\Graphics\GraphicsAPI\</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)ThirdParty\oneTBB\include;$(SolutionDir)ThirdParty\imgui;$(SolutionDir)Source\Core;$(SolutionDir)Source\Core\Graphics\GraphicsAPI\</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
       <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>

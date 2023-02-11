@@ -13,21 +13,12 @@
 [submodule "Doom3/Source/Core/Reflection/clReflect_automation"]
 	path = Doom3/Source/Core/Reflection/clReflect_automation
 	url = https://github.com/SungJJinKang/clReflect_automation
-[submodule "Doom3/Source/thirdparty/imgui"]
-	path = Doom3/Source/thirdparty/imgui
-	url = https://github.com/ocornut/imgui.git
-[submodule "Doom3/Source/thirdparty/glslcc"]
-	path = Doom3/Source/thirdparty/glslcc
-	url = https://github.com/SungJJinKang/glslcc.git
 [submodule "Doom3/Source/Engine/Rendering/Culling/EveryCulling"]
 	path = Doom3/Source/Engine/Rendering/Culling/EveryCulling
 	url = https://github.com/SungJJinKang/EveryCulling.git
 [submodule "Doom3/Source/Core/Container/JINSTL"]
 	path = Doom3/Source/Core/Container/JINSTL
 	url = https://github.com/SungJJinKang/JINSTL.git
-[submodule "Doom3/Source/thirdparty/googletest"]
-	path = Doom3/Source/thirdparty/googletest
-	url = https://github.com/google/googletest.git
 [submodule "Doom3/Source/Core/Math/JINMATH"]
 	path = Doom3/Source/Core/Math/JINMATH
 	url = https://github.com/SungJJinKang/JINMATH.git

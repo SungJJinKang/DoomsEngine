@@ -287,7 +287,7 @@ xcopy /y /d /E /H /C /I "$(ProjectDir)Assets" "$(TargetDir)Assets"</Command>
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions);UNICODE;__x86_64__</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)Source\thirdparty;$(SolutionDir)ThirdParty\assimp\include;$(SolutionDir)ThirdParty\oneTBB\include;$(ProjectDir)..\OpenGLGraphicsAPI;$(ProjectDir)Source\Core\Reflection\AdditionalDirectoryForClang;$(ProjectDir)..\DX11GraphicsAPI;$(ProjectDir);$(SolutionDir)ThirdParty\DirectXTex\DirectXTex;$(SolutionDir)ThirdParty\concurrentqueue;$(SolutionDir)Source\Core\OS;$(SolutionDir)Source\Helper;$(SolutionDir)Source\Component;$(SolutionDir)Source\Core\Scene;$(SolutionDir)Source\Component\Core;$(SolutionDir)Source\Helper/crossguid;$(SolutionDir)Source\GameLogic\CustomComponent;$(SolutionDir)Source\Core\Math\JINMATH;$(SolutionDir)Source\Core\IO;$(SolutionDir)Source\Core\Time;$(SolutionDir)Source\GameLogic;$(SolutionDir)Source\Core;$(SolutionDir)Source\Core\Logger;$(SolutionDir)Source\Core\Physics;$(SolutionDir)Source\Core\UUID;$(SolutionDir)Source\Core\utility;$(SolutionDir)Source\Core\Reflection\clReflect_automation\clReflect\inc;$(SolutionDir)Source\thirdparty\imgui;$(SolutionDir)Source\Engine;$(SolutionDir)Source\Plugins;$(SolutionDir)Source\Core\Container\JINSTL\JINSTL\include\jinstl</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)ThirdParty\nlohmann;$(SolutionDir)ThirdParty\assimp\include;$(SolutionDir)ThirdParty\oneTBB\include;$(ProjectDir)..\OpenGLGraphicsAPI;$(ProjectDir)Source\Core\Reflection\AdditionalDirectoryForClang;$(ProjectDir)..\DX11GraphicsAPI;$(ProjectDir);$(SolutionDir)ThirdParty\glfw3\include;$(SolutionDir)ThirdParty\KHR;$(SolutionDir)ThirdParty\imgui;$(SolutionDir)ThirdParty\DirectXTex\DirectXTex;$(SolutionDir)ThirdParty\concurrentqueue;$(SolutionDir)Source\Core\OS;$(SolutionDir)Source\Helper;$(SolutionDir)Source\Component;$(SolutionDir)Source\Core\Scene;$(SolutionDir)Source\Component\Core;$(SolutionDir)Source\Helper/crossguid;$(SolutionDir)Source\GameLogic\CustomComponent;$(SolutionDir)Source\Core\Math\JINMATH;$(SolutionDir)Source\Core\IO;$(SolutionDir)Source\Core\Time;$(SolutionDir)Source\GameLogic;$(SolutionDir)Source\Core;$(SolutionDir)Source\Core\Logger;$(SolutionDir)Source\Core\Physics;$(SolutionDir)Source\Core\UUID;$(SolutionDir)Source\Core\utility;$(SolutionDir)Source\Core\Reflection\clReflect_automation\clReflect\inc;$(SolutionDir)Source\Engine;$(SolutionDir)Source\Plugins;$(SolutionDir)Source\Core\Container\JINSTL\JINSTL\include\jinstl</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
@@ -319,9 +319,9 @@ xcopy /y /d /E /H /C /I "$(ProjectDir)Assets" "$(TargetDir)Assets"</Command>
     <PostBuildEvent>
       <Command>xcopy /y /d /E /H /C /I "$(ProjectDir)Assets" "$(TargetDir)Assets"
 xcopy /y /d /f "$(ProjectDir)*.map" "$(TargetDir)"
-xcopy /y "$(ProjectDir)ThirdParty\assimp\bin\Debug\assimp-vc143-mtd.dll" "$(TargetDir)"
-xcopy /y "$(ProjectDir)ThirdParty\oneTBB\msvc_19.30_cxx_64_md_debug\tbbmalloc_debug.dll" "$(TargetDir)"
-xcopy /y "$(ProjectDir)ThirdParty\oneTBB\msvc_19.30_cxx_64_md_debug\tbbmalloc_proxy_debug.dll" "$(TargetDir)"</Command>
+xcopy /y /s "$(ProjectDir)ThirdParty\assimp\bin\Debug" "$(TargetDir)"
+xcopy /y /s "$(ProjectDir)ThirdParty\oneTBB\msvc_19.30_cxx_64_md_debug" "$(TargetDir)"
+xcopy /y /s "$(ProjectDir)ThirdParty\glslcc\src\Debug" "$(TargetDir)"</Command>
     </PostBuildEvent>
     <PreBuildEvent>
       <Command>if not exist $(OutputPath)SourceDependencies mkdir $(OutputPath)SourceDependencies</Command>
@@ -378,7 +378,7 @@ xcopy /y /d /f "$(ProjectDir)*.map" "$(TargetDir)"</Command>
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions);UNICODE</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)Source\thirdparty;$(SolutionDir)ThirdParty\assimp\include;$(SolutionDir)ThirdParty\oneTBB\include;$(ProjectDir)..\OpenGLGraphicsAPI;$(ProjectDir)Source\Core\Reflection\AdditionalDirectoryForClang;$(ProjectDir)..\DX11GraphicsAPI;$(ProjectDir);$(SolutionDir)ThirdParty\DirectXTex\DirectXTex;$(SolutionDir)ThirdParty\concurrentqueue;$(SolutionDir)Source\thirdparty\amdUprof\include;$(SolutionDir)Source\Core\OS;$(SolutionDir)Source\Helper;$(SolutionDir)Source\Component;$(SolutionDir)Source\Core\Scene;$(SolutionDir)Source\Component\Core;$(SolutionDir)Source\Helper/crossguid;$(SolutionDir)Source\GameLogic\CustomComponent;$(SolutionDir)Source\Core\Math\JINMATH;$(SolutionDir)Source\Core\UUID;$(SolutionDir)Source\Core\IO;$(SolutionDir)Source\Core\Time;$(SolutionDir)Source\GameLogic;$(SolutionDir)Source\Core;$(SolutionDir)Source\Core\Logger;$(SolutionDir)Source\Core\Physics;$(SolutionDir)Source\Core\utility;$(SolutionDir)Source\Core\Reflection\clReflect_automation\clReflect\inc;$(SolutionDir)Source\thirdparty\imgui;$(SolutionDir)Source\Plugins;$(SolutionDir)Source\Engine;$(SolutionDir)Source\Core\Container\JINSTL\JINSTL\include\jinstl</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)ThirdParty\nlohmann;$(SolutionDir)ThirdParty\assimp\include;$(SolutionDir)ThirdParty\oneTBB\include;$(ProjectDir)..\OpenGLGraphicsAPI;$(ProjectDir)Source\Core\Reflection\AdditionalDirectoryForClang;$(ProjectDir)..\DX11GraphicsAPI;$(ProjectDir);$(SolutionDir)ThirdParty\glfw3\include;$(SolutionDir)ThirdParty\KHR;$(SolutionDir)ThirdParty\imgui;$(SolutionDir)ThirdParty\DirectXTex\DirectXTex;$(SolutionDir)ThirdParty\concurrentqueue;$(SolutionDir)Source\thirdparty\amdUprof\include;$(SolutionDir)Source\Core\OS;$(SolutionDir)Source\Helper;$(SolutionDir)Source\Component;$(SolutionDir)Source\Core\Scene;$(SolutionDir)Source\Component\Core;$(SolutionDir)Source\Helper/crossguid;$(SolutionDir)Source\GameLogic\CustomComponent;$(SolutionDir)Source\Core\Math\JINMATH;$(SolutionDir)Source\Core\UUID;$(SolutionDir)Source\Core\IO;$(SolutionDir)Source\Core\Time;$(SolutionDir)Source\GameLogic;$(SolutionDir)Source\Core;$(SolutionDir)Source\Core\Logger;$(SolutionDir)Source\Core\Physics;$(SolutionDir)Source\Core\utility;$(SolutionDir)Source\Core\Reflection\clReflect_automation\clReflect\inc;$(SolutionDir)Source\Plugins;$(SolutionDir)Source\Engine;$(SolutionDir)Source\Core\Container\JINSTL\JINSTL\include\jinstl</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
@@ -402,7 +402,7 @@ xcopy /y /d /f "$(ProjectDir)*.map" "$(TargetDir)"</Command>
       <OptimizeReferences>false</OptimizeReferences>
       <GenerateDebugInformation>DebugFull</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(SolutionDir)ThirdParty\DirectXTex\bin\CMake\Release;$(SolutionDir)ThirdParty\oneTBB\msvc_19.30_cxx_64_md_release;$(ProjectDir)Source\thirdparty\amdUprof\lib\x64;$(SolutionDir)ThirdParty\assimp\lib\Release;$(OutputPath)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>AMDProfileController.lib;ntdll.lib;DirectXTex.lib;assimp-vc143-mt.lib;tbbmalloc_proxy.lib;tbbmalloc.lib;%(AdditionalDependencies);shcore.lib</AdditionalDependencies>
+      <AdditionalDependencies>ntdll.lib;DirectXTex.lib;assimp-vc143-mt.lib;tbbmalloc_proxy.lib;tbbmalloc.lib;%(AdditionalDependencies);shcore.lib</AdditionalDependencies>
       <GenerateMapFile>true</GenerateMapFile>
       <MapFileName>map.map</MapFileName>
       <MapExports>true</MapExports>
@@ -412,9 +412,9 @@ xcopy /y /d /f "$(ProjectDir)*.map" "$(TargetDir)"</Command>
     <PostBuildEvent>
       <Command>xcopy /y /d /E /H /C /I "$(ProjectDir)Assets" "$(TargetDir)Assets"
 xcopy /y /d /f "$(ProjectDir)*.map" "$(TargetDir)"
-xcopy /y "$(ProjectDir)ThirdParty\assimp\bin\Release\assimp-vc143-mt.dll" "$(TargetDir)"
-xcopy /y "$(ProjectDir)ThirdParty\oneTBB\msvc_19.30_cxx_64_md_release\tbbmalloc.dll" "$(TargetDir)"
-xcopy /y "$(ProjectDir)ThirdParty\oneTBB\msvc_19.30_cxx_64_md_release\tbbmalloc_proxy.dll" "$(TargetDir)"</Command>
+xcopy /y /s "$(ProjectDir)ThirdParty\assimp\bin\Release" "$(TargetDir)"
+xcopy /y /s "$(ProjectDir)ThirdParty\oneTBB\msvc_19.30_cxx_64_md_release" "$(TargetDir)"
+xcopy /y /s "$(ProjectDir)ThirdParty\glslcc\src\Release" "$(TargetDir)"</Command>
     </PostBuildEvent>
     <PreBuildEvent>
       <Command>if not exist $(OutputPath)SourceDependencies mkdir $(OutputPath)SourceDependencies</Command>
@@ -489,7 +489,10 @@ xcopy /y /d /E /H /C /I "$(ProjectDir)Assets" "$(TargetDir)Assets"</Command>
     <ClCompile Include="Source\Core\Math\JINMATH\Matrix2x2.cpp" />
     <ClCompile Include="Source\Core\Math\JINMATH\Matrix3x3.cpp" />
     <ClCompile Include="Source\Core\Math\JINMATH\Matrix4x4.cpp" />
+    <ClCompile Include="Source\Core\Math\JINMATH\Matrix_utility.cpp" />
     <ClCompile Include="Source\Core\Math\JINMATH\Quaternion_Scalar.cpp" />
+    <ClCompile Include="Source\Core\Math\JINMATH\SIMD_Core.cpp" />
+    <ClCompile Include="Source\Core\Math\JINMATH\Utility.cpp" />
     <ClCompile Include="Source\Core\Math\JINMATH\Vector2.cpp" />
     <ClCompile Include="Source\Core\Math\JINMATH\Vector3.cpp" />
     <ClCompile Include="Source\Core\Math\JINMATH\Vector4.cpp" />
@@ -504,6 +507,7 @@ xcopy /y /d /E /H /C /I "$(ProjectDir)Assets" "$(TargetDir)Assets"</Command>
     <ClCompile Include="Source\Core\UUID\UUID.cpp" />
     <ClCompile Include="Source\Engine\ConfigurationValue\ConfigurationValue.cpp" />
     <ClCompile Include="Source\Engine\Misk\LatentActionManager.cpp" />
+    <ClCompile Include="Source\Engine\Rendering\Culling\EveryCulling\DataType\Math\SIMD_Core.cpp" />
     <ClCompile Include="Source\Engine\Scene\Layer\DefaultLayers.cpp" />
     <ClCompile Include="Source\Core\EngineConfigurationData\ConfigData.cpp" />
     <ClCompile Include="Source\Engine\Scene\Layer\Layer.cpp" />
@@ -762,10 +766,10 @@ xcopy /y /d /E /H /C /I "$(ProjectDir)Assets" "$(TargetDir)Assets"</Command>
     <ClCompile Include="Source\Component\PhysicsComponent\SphereCollider3D.cpp" />
     <ClCompile Include="Source\Core\String\StringHelper.cpp" />
     <ClCompile Include="Source\Plugins\EnginePlugin.cpp" />
-    <ClCompile Include="Source\thirdparty\imgui\imgui.cpp" />
-    <ClCompile Include="Source\thirdparty\imgui\imgui_draw.cpp" />
-    <ClCompile Include="Source\thirdparty\imgui\imgui_tables.cpp" />
-    <ClCompile Include="Source\thirdparty\imgui\imgui_widgets.cpp" />
+    <ClCompile Include="ThirdParty\imgui\imgui.cpp" />
+    <ClCompile Include="ThirdParty\imgui\imgui_draw.cpp" />
+    <ClCompile Include="ThirdParty\imgui\imgui_tables.cpp" />
+    <ClCompile Include="ThirdParty\imgui\imgui_widgets.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Component\Core\Component.reflection.h" />
@@ -1204,6 +1208,16 @@ xcopy /y /d /E /H /C /I "$(ProjectDir)Assets" "$(TargetDir)Assets"</Command>
     <ClInclude Include="ThirdParty\concurrentqueue\blockingconcurrentqueue.h" />
     <ClInclude Include="ThirdParty\concurrentqueue\concurrentqueue.h" />
     <ClInclude Include="ThirdParty\concurrentqueue\lightweightsemaphore.h" />
+    <ClInclude Include="ThirdParty\imgui\imconfig.h" />
+    <ClInclude Include="ThirdParty\imgui\imgui.h" />
+    <ClInclude Include="ThirdParty\imgui\imgui.reflection.h" />
+    <ClInclude Include="ThirdParty\imgui\imgui_draw.reflection.h" />
+    <ClInclude Include="ThirdParty\imgui\imgui_internal.h" />
+    <ClInclude Include="ThirdParty\imgui\imgui_tables.reflection.h" />
+    <ClInclude Include="ThirdParty\imgui\imgui_widgets.reflection.h" />
+    <ClInclude Include="ThirdParty\imgui\imstb_rectpack.h" />
+    <ClInclude Include="ThirdParty\imgui\imstb_textedit.h" />
+    <ClInclude Include="ThirdParty\imgui\imstb_truetype.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\CodingRule.md" />
