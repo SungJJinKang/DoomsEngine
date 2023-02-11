@@ -28,17 +28,17 @@ void dooms::graphics::MaskedOcclusionCullingTester::DebugTileCoverageMask
 	{
 		for (INT32 subTileColIndex = 0; subTileColIndex < static_cast<INT32>(depthBuffer->mResolution.mColumnSubTileCount) ; subTileColIndex++)
 		{
-			const INT32 tileRowIndex = subTileRowIndex / (TILE_HEIGHT / SUB_TILE_HEIGHT);
-			const INT32 tileColIndex = subTileColIndex / (TILE_WIDTH / SUB_TILE_WIDTH);
+			const INT32 tileRowIndex = subTileRowIndex / (EVERYCULLING_TILE_HEIGHT / EVERYCULLING_SUB_TILE_HEIGHT);
+			const INT32 tileColIndex = subTileColIndex / (EVERYCULLING_TILE_WIDTH / EVERYCULLING_SUB_TILE_WIDTH);
 
-			const INT32 subTileRowIndexInTile = subTileRowIndex % (TILE_HEIGHT / SUB_TILE_HEIGHT);
-			const INT32 subTileColIndexInTile = subTileColIndex % (TILE_WIDTH / SUB_TILE_WIDTH);
+			const INT32 subTileRowIndexInTile = subTileRowIndex % (EVERYCULLING_TILE_HEIGHT / EVERYCULLING_SUB_TILE_HEIGHT);
+			const INT32 subTileColIndexInTile = subTileColIndex % (EVERYCULLING_TILE_WIDTH / EVERYCULLING_SUB_TILE_WIDTH);
 
-			D_ASSERT(subTileRowIndexInTile >= 0 && subTileRowIndexInTile < (TILE_HEIGHT / SUB_TILE_HEIGHT));
-			D_ASSERT(subTileColIndexInTile >= 0 && subTileRowIndexInTile < (TILE_WIDTH / SUB_TILE_WIDTH));
+			D_ASSERT(subTileRowIndexInTile >= 0 && subTileRowIndexInTile < (EVERYCULLING_TILE_HEIGHT / EVERYCULLING_SUB_TILE_HEIGHT));
+			D_ASSERT(subTileColIndexInTile >= 0 && subTileRowIndexInTile < (EVERYCULLING_TILE_WIDTH / EVERYCULLING_SUB_TILE_WIDTH));
 
-			const culling::M256I L1CoverageMask = depthBuffer->GetTile(tileRowIndex, tileColIndex)->mHizDatas.L1CoverageMask;
-			const INT32 subTileIndex = subTileColIndexInTile + subTileRowIndexInTile * (TILE_WIDTH / SUB_TILE_WIDTH);
+			const culling::EVERYCULLING_M256I L1CoverageMask = depthBuffer->GetTile(tileRowIndex, tileColIndex)->mHizDatas.L1CoverageMask;
+			const INT32 subTileIndex = subTileColIndexInTile + subTileRowIndexInTile * (EVERYCULLING_TILE_WIDTH / EVERYCULLING_SUB_TILE_WIDTH);
 			D_ASSERT(subTileIndex >= 0 && subTileIndex < 8);
 
 			const int coverageMaskValue = reinterpret_cast<const int*>(&L1CoverageMask)[subTileIndex];
@@ -73,17 +73,17 @@ void dooms::graphics::MaskedOcclusionCullingTester::DebugTileL0MaxDepthValue
 	{
 		for (INT32 subTileColIndex = 0; subTileColIndex < depthBuffer->mResolution.mColumnSubTileCount ; subTileColIndex++)
 		{
-			const INT32 tileRowIndex = subTileRowIndex / (TILE_HEIGHT / SUB_TILE_HEIGHT);
-			const INT32 tileColIndex = subTileColIndex / (TILE_WIDTH / SUB_TILE_WIDTH);
+			const INT32 tileRowIndex = subTileRowIndex / (EVERYCULLING_TILE_HEIGHT / EVERYCULLING_SUB_TILE_HEIGHT);
+			const INT32 tileColIndex = subTileColIndex / (EVERYCULLING_TILE_WIDTH / EVERYCULLING_SUB_TILE_WIDTH);
 
-			const INT32 subTileRowIndexInTile = subTileRowIndex % (TILE_HEIGHT / SUB_TILE_HEIGHT);
-			const INT32 subTileColIndexInTile = subTileColIndex % (TILE_WIDTH / SUB_TILE_WIDTH);
+			const INT32 subTileRowIndexInTile = subTileRowIndex % (EVERYCULLING_TILE_HEIGHT / EVERYCULLING_SUB_TILE_HEIGHT);
+			const INT32 subTileColIndexInTile = subTileColIndex % (EVERYCULLING_TILE_WIDTH / EVERYCULLING_SUB_TILE_WIDTH);
 
-			D_ASSERT(subTileRowIndexInTile >= 0 && subTileRowIndexInTile < (TILE_HEIGHT / SUB_TILE_HEIGHT));
-			D_ASSERT(subTileColIndexInTile >= 0 && subTileRowIndexInTile < (TILE_WIDTH / SUB_TILE_WIDTH));
+			D_ASSERT(subTileRowIndexInTile >= 0 && subTileRowIndexInTile < (EVERYCULLING_TILE_HEIGHT / EVERYCULLING_SUB_TILE_HEIGHT));
+			D_ASSERT(subTileColIndexInTile >= 0 && subTileRowIndexInTile < (EVERYCULLING_TILE_WIDTH / EVERYCULLING_SUB_TILE_WIDTH));
 
-			const culling::M256F L0MaxDepthValue = depthBuffer->GetTile(tileRowIndex, tileColIndex)->mHizDatas.L0SubTileMaxDepthValue;
-			const INT32 subTileIndex = subTileColIndexInTile + subTileRowIndexInTile * (TILE_WIDTH / SUB_TILE_WIDTH);
+			const culling::EVERYCULLING_M256F L0MaxDepthValue = depthBuffer->GetTile(tileRowIndex, tileColIndex)->mHizDatas.L0SubTileMaxDepthValue;
+			const INT32 subTileIndex = subTileColIndexInTile + subTileRowIndexInTile * (EVERYCULLING_TILE_WIDTH / EVERYCULLING_SUB_TILE_WIDTH);
 			D_ASSERT(subTileIndex >= 0 && subTileIndex < 8);
 
 			float ndcDepthValue = reinterpret_cast<const float*>(&L0MaxDepthValue)[subTileIndex];
