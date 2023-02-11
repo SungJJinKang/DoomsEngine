@@ -1,0 +1,32 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="17.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="C:\DoomsMain\DoomsEngine\Doom3\ThirdParty\DirectXTex\Texconv\texconv.cpp">
+      <Filter>texconv</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\DoomsMain\DoomsEngine\Doom3\ThirdParty\DirectXTex\Texconv\ExtendedBMP.cpp">
+      <Filter>texconv</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\DoomsMain\DoomsEngine\Doom3\ThirdParty\DirectXTex\Texconv\PortablePixMap.cpp">
+      <Filter>texconv</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="C:\DoomsMain\DoomsEngine\Doom3\ThirdParty\DirectXTex\CMakeLists.txt">
+      <Filter>DirectXTex</Filter>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="C:\DoomsMain\DoomsEngine\Doom3\ThirdParty\DirectXTex\Texconv\Texconv.rc">
+      <Filter>texconv</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="DirectXTex">
+      <UniqueIdentifier>{53A2B914-1B28-3824-8AA4-B536F9A7A659}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="texconv">
+      <UniqueIdentifier>{AE562CD3-9DF2-3FE3-83E1-DCAA88BB60FC}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

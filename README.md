@@ -10,7 +10,7 @@
 
   * C++17
   * C# ( used for making engine tools )    
-  * Windows
+  * Windows, x64, VisualStudio 2022(vc17)
   * Target Compiler : MSVC, Clang ( clang is used for [generating reflection data](https://github.com/SungJJinKang/clReflect_ForDoomsEngine) )
 
 ### Engine Core

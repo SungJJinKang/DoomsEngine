@@ -1,0 +1,753 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="17.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <PreferredToolArchitecture>x64</PreferredToolArchitecture>
+  </PropertyGroup>
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="MinSizeRel|x64">
+      <Configuration>MinSizeRel</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="RelWithDebInfo|x64">
+      <Configuration>RelWithDebInfo</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{4B9E1939-84CF-3BA6-88A6-1D62CF8CED3C}</ProjectGuid>
+    <WindowsTargetPlatformVersion>10.0.22000.0</WindowsTargetPlatformVersion>
+    <Keyword>Win32Proj</Keyword>
+    <Platform>x64</Platform>
+    <ProjectName>ALL_BUILD</ProjectName>
+    <VCProjectUpgraderObjectName>NoUpgrade</VCProjectUpgraderObjectName>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>Utility</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v143</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>Utility</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v143</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'" Label="Configuration">
+    <ConfigurationType>Utility</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v143</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'" Label="Configuration">
+    <ConfigurationType>Utility</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v143</PlatformToolset>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>10.0.20506.1</_ProjectFileVersion>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Midl>
+      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Midl>
+      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">
+    <Midl>
+      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">
+    <Midl>
+      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <CustomBuild Include="C:\DoomsMain\DoomsEngine\Doom3\ThirdParty\oneTBB\CMakeLists.txt">
+      <UseUtf8Encoding>Always</UseUtf8Encoding>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Building Custom Rule C:/DoomsMain/DoomsEngine/Doom3/ThirdParty/oneTBB/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -SC:/DoomsMain/DoomsEngine/Doom3/ThirdParty/oneTBB -BC:/DoomsMain/DoomsEngine/Doom3/ThirdParty/oneTBB --check-stamp-file C:/DoomsMain/DoomsEngine/Doom3/ThirdParty/oneTBB/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:\DoomsMain\DoomsEngine\Doom3\ThirdParty\oneTBB\CMakeFiles\3.22.2\CMakeCXXCompiler.cmake;C:\DoomsMain\DoomsEngine\Doom3\ThirdParty\oneTBB\CMakeFiles\3.22.2\CMakeRCCompiler.cmake;C:\DoomsMain\DoomsEngine\Doom3\ThirdParty\oneTBB\CMakeFiles\3.22.2\CMakeSystem.cmake;C:\DoomsMain\DoomsEngine\Doom3\ThirdParty\oneTBB\cmake\compilers\MSVC.cmake;C:\DoomsMain\DoomsEngine\Doom3\ThirdParty\oneTBB\cmake\config_generation.cmake;C:\DoomsMain\DoomsEngine\Doom3\ThirdParty\oneTBB\cmake\hwloc_detection.cmake;C:\DoomsMain\DoomsEngine\Doom3\ThirdParty\oneTBB\cmake\memcheck.cmake;C:\DoomsMain\DoomsEngine\Doom3\ThirdParty\oneTBB\cmake\packaging.cmake;C:\DoomsMain\DoomsEngine\Doom3\ThirdParty\oneTBB\cmake\sanitize.cmake;C:\DoomsMain\DoomsEngine\Doom3\ThirdParty\oneTBB\cmake\test_spec.cmake;C:\DoomsMain\DoomsEngine\Doom3\ThirdParty\oneTBB\cmake\utils.cmake;C:\DoomsMain\DoomsEngine\Doom3\ThirdParty\oneTBB\cmake\vars_utils.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\BasicConfigVersion-AnyNewerVersion.cmake.in;C:\Program Files\CMake\share\cmake-3.22\Modules\CMakeCXXCompiler.cmake.in;C:\Program Files\CMake\share\cmake-3.22\Modules\CMakeCXXCompilerABI.cpp;C:\Program Files\CMake\share\cmake-3.22\Modules\CMakeCXXInformation.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\CMakeCheckCompilerFlagCommonPatterns.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\CMakeCommonLanguageInclude.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\CMakeCompilerIdDetection.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\CMakeDependentOption.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\CMakeDetermineCXXCompiler.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\CMakeDetermineCompileFeatures.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\CMakeDetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\CMakeDetermineCompilerABI.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\CMakeDetermineCompilerId.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\CMakeDetermineRCCompiler.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\CMakeDetermineSystem.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\CMakeFindBinUtils.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\CMakeGenericSystem.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\CMakeInitializeConfigs.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\CMakeLanguageInformation.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\CMakePackageConfigHelpers.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\CMakeParseArguments.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\CMakeParseImplicitIncludeInfo.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\CMakeParseImplicitLinkInfo.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\CMakeParseLibraryArchitecture.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\CMakeRCCompiler.cmake.in;C:\Program Files\CMake\share\cmake-3.22\Modules\CMakeRCInformation.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\CMakeSystem.cmake.in;C:\Program Files\CMake\share\cmake-3.22\Modules\CMakeSystemSpecificInformation.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\CMakeSystemSpecificInitialize.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\CMakeTestCXXCompiler.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\CMakeTestCompilerCommon.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\CMakeTestRCCompiler.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\CPack.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\CPackComponent.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\CheckCXXCompilerFlag.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\CheckCXXSourceCompiles.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\CheckIPOSupported.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\CheckIPOSupported\CMakeLists-CXX.txt.in;C:\Program Files\CMake\share\cmake-3.22\Modules\CheckIPOSupported\foo.cpp;C:\Program Files\CMake\share\cmake-3.22\Modules\CheckIPOSupported\main.cpp;C:\Program Files\CMake\share\cmake-3.22\Modules\CheckIncludeFile.cxx.in;C:\Program Files\CMake\share\cmake-3.22\Modules\CheckIncludeFileCXX.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\CheckLibraryExists.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\Compiler\ADSP-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\Compiler\ARMCC-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\Compiler\ARMClang-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\Compiler\AppleClang-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\Compiler\Borland-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\Compiler\CMakeCommonCompilerMacros.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\Compiler\Clang-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\Compiler\Clang-DetermineCompilerInternal.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\Compiler\Comeau-CXX-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\Compiler\Compaq-CXX-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\Compiler\Cray-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\Compiler\Embarcadero-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\Compiler\Fujitsu-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\Compiler\FujitsuClang-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\Compiler\GHS-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\Compiler\GNU-CXX-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\Compiler\HP-CXX-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\Compiler\IAR-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\Compiler\IBMCPP-CXX-DetermineVersionInternal.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\Compiler\Intel-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\Compiler\IntelLLVM-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\Compiler\MSVC-CXX.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\Compiler\MSVC-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\Compiler\NVHPC-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\Compiler\NVIDIA-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\Compiler\OpenWatcom-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\Compiler\PGI-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\Compiler\PathScale-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\Compiler\SCO-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\Compiler\SunPro-CXX-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\Compiler\TI-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\Compiler\VisualAge-CXX-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\Compiler\Watcom-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\Compiler\XL-CXX-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\Compiler\XLClang-CXX-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\Compiler\zOS-CXX-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\CompilerId\VS-10.vcxproj.in;C:\Program Files\CMake\share\cmake-3.22\Modules\FindPackageHandleStandardArgs.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\FindPackageMessage.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\FindPkgConfig.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\FindThreads.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\GNUInstallDirs.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\Internal\CheckCompilerFlag.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\Internal\CheckSourceCompiles.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\Internal\FeatureTesting.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\Platform\Windows-Determine-CXX.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\Platform\Windows-MSVC-CXX.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\Platform\Windows-MSVC.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\Platform\Windows.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\Platform\WindowsPaths.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\WriteBasicConfigVersionFile.cmake;C:\Program Files\CMake\share\cmake-3.22\Templates\CPackConfig.cmake.in;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:\DoomsMain\DoomsEngine\Doom3\ThirdParty\oneTBB\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Building Custom Rule C:/DoomsMain/DoomsEngine/Doom3/ThirdParty/oneTBB/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -SC:/DoomsMain/DoomsEngine/Doom3/ThirdParty/oneTBB -BC:/DoomsMain/DoomsEngine/Doom3/ThirdParty/oneTBB --check-stamp-file C:/DoomsMain/DoomsEngine/Doom3/ThirdParty/oneTBB/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">C:\DoomsMain\DoomsEngine\Doom3\ThirdParty\oneTBB\CMakeFiles\3.22.2\CMakeCXXCompiler.cmake;C:\DoomsMain\DoomsEngine\Doom3\ThirdParty\oneTBB\CMakeFiles\3.22.2\CMakeRCCompiler.cmake;C:\DoomsMain\DoomsEngine\Doom3\ThirdParty\oneTBB\CMakeFiles\3.22.2\CMakeSystem.cmake;C:\DoomsMain\DoomsEngine\Doom3\ThirdParty\oneTBB\cmake\compilers\MSVC.cmake;C:\DoomsMain\DoomsEngine\Doom3\ThirdParty\oneTBB\cmake\config_generation.cmake;C:\DoomsMain\DoomsEngine\Doom3\ThirdParty\oneTBB\cmake\hwloc_detection.cmake;C:\DoomsMain\DoomsEngine\Doom3\ThirdParty\oneTBB\cmake\memcheck.cmake;C:\DoomsMain\DoomsEngine\Doom3\ThirdParty\oneTBB\cmake\packaging.cmake;C:\DoomsMain\DoomsEngine\Doom3\ThirdParty\oneTBB\cmake\sanitize.cmake;C:\DoomsMain\DoomsEngine\Doom3\ThirdParty\oneTBB\cmake\test_spec.cmake;C:\DoomsMain\DoomsEngine\Doom3\ThirdParty\oneTBB\cmake\utils.cmake;C:\DoomsMain\DoomsEngine\Doom3\ThirdParty\oneTBB\cmake\vars_utils.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\BasicConfigVersion-AnyNewerVersion.cmake.in;C:\Program Files\CMake\share\cmake-3.22\Modules\CMakeCXXCompiler.cmake.in;C:\Program Files\CMake\share\cmake-3.22\Modules\CMakeCXXCompilerABI.cpp;C:\Program Files\CMake\share\cmake-3.22\Modules\CMakeCXXInformation.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\CMakeCheckCompilerFlagCommonPatterns.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\CMakeCommonLanguageInclude.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\CMakeCompilerIdDetection.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\CMakeDependentOption.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\CMakeDetermineCXXCompiler.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\CMakeDetermineCompileFeatures.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\CMakeDetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\CMakeDetermineCompilerABI.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\CMakeDetermineCompilerId.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\CMakeDetermineRCCompiler.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\CMakeDetermineSystem.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\CMakeFindBinUtils.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\CMakeGenericSystem.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\CMakeInitializeConfigs.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\CMakeLanguageInformation.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\CMakePackageConfigHelpers.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\CMakeParseArguments.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\CMakeParseImplicitIncludeInfo.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\CMakeParseImplicitLinkInfo.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\CMakeParseLibraryArchitecture.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\CMakeRCCompiler.cmake.in;C:\Program Files\CMake\share\cmake-3.22\Modules\CMakeRCInformation.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\CMakeSystem.cmake.in;C:\Program Files\CMake\share\cmake-3.22\Modules\CMakeSystemSpecificInformation.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\CMakeSystemSpecificInitialize.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\CMakeTestCXXCompiler.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\CMakeTestCompilerCommon.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\CMakeTestRCCompiler.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\CPack.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\CPackComponent.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\CheckCXXCompilerFlag.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\CheckCXXSourceCompiles.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\CheckIPOSupported.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\CheckIPOSupported\CMakeLists-CXX.txt.in;C:\Program Files\CMake\share\cmake-3.22\Modules\CheckIPOSupported\foo.cpp;C:\Program Files\CMake\share\cmake-3.22\Modules\CheckIPOSupported\main.cpp;C:\Program Files\CMake\share\cmake-3.22\Modules\CheckIncludeFile.cxx.in;C:\Program Files\CMake\share\cmake-3.22\Modules\CheckIncludeFileCXX.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\CheckLibraryExists.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\Compiler\ADSP-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\Compiler\ARMCC-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\Compiler\ARMClang-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\Compiler\AppleClang-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\Compiler\Borland-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\Compiler\CMakeCommonCompilerMacros.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\Compiler\Clang-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\Compiler\Clang-DetermineCompilerInternal.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\Compiler\Comeau-CXX-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\Compiler\Compaq-CXX-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\Compiler\Cray-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\Compiler\Embarcadero-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\Compiler\Fujitsu-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\Compiler\FujitsuClang-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\Compiler\GHS-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\Compiler\GNU-CXX-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\Compiler\HP-CXX-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\Compiler\IAR-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\Compiler\IBMCPP-CXX-DetermineVersionInternal.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\Compiler\Intel-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\Compiler\IntelLLVM-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\Compiler\MSVC-CXX.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\Compiler\MSVC-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\Compiler\NVHPC-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\Compiler\NVIDIA-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\Compiler\OpenWatcom-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\Compiler\PGI-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\Compiler\PathScale-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\Compiler\SCO-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\Compiler\SunPro-CXX-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\Compiler\TI-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\Compiler\VisualAge-CXX-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\Compiler\Watcom-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\Compiler\XL-CXX-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\Compiler\XLClang-CXX-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\Compiler\zOS-CXX-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\CompilerId\VS-10.vcxproj.in;C:\Program Files\CMake\share\cmake-3.22\Modules\FindPackageHandleStandardArgs.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\FindPackageMessage.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\FindPkgConfig.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\FindThreads.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\GNUInstallDirs.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\Internal\CheckCompilerFlag.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\Internal\CheckSourceCompiles.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\Internal\FeatureTesting.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\Platform\Windows-Determine-CXX.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\Platform\Windows-MSVC-CXX.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\Platform\Windows-MSVC.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\Platform\Windows.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\Platform\WindowsPaths.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\WriteBasicConfigVersionFile.cmake;C:\Program Files\CMake\share\cmake-3.22\Templates\CPackConfig.cmake.in;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">C:\DoomsMain\DoomsEngine\Doom3\ThirdParty\oneTBB\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">Building Custom Rule C:/DoomsMain/DoomsEngine/Doom3/ThirdParty/oneTBB/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -SC:/DoomsMain/DoomsEngine/Doom3/ThirdParty/oneTBB -BC:/DoomsMain/DoomsEngine/Doom3/ThirdParty/oneTBB --check-stamp-file C:/DoomsMain/DoomsEngine/Doom3/ThirdParty/oneTBB/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">C:\DoomsMain\DoomsEngine\Doom3\ThirdParty\oneTBB\CMakeFiles\3.22.2\CMakeCXXCompiler.cmake;C:\DoomsMain\DoomsEngine\Doom3\ThirdParty\oneTBB\CMakeFiles\3.22.2\CMakeRCCompiler.cmake;C:\DoomsMain\DoomsEngine\Doom3\ThirdParty\oneTBB\CMakeFiles\3.22.2\CMakeSystem.cmake;C:\DoomsMain\DoomsEngine\Doom3\ThirdParty\oneTBB\cmake\compilers\MSVC.cmake;C:\DoomsMain\DoomsEngine\Doom3\ThirdParty\oneTBB\cmake\config_generation.cmake;C:\DoomsMain\DoomsEngine\Doom3\ThirdParty\oneTBB\cmake\hwloc_detection.cmake;C:\DoomsMain\DoomsEngine\Doom3\ThirdParty\oneTBB\cmake\memcheck.cmake;C:\DoomsMain\DoomsEngine\Doom3\ThirdParty\oneTBB\cmake\packaging.cmake;C:\DoomsMain\DoomsEngine\Doom3\ThirdParty\oneTBB\cmake\sanitize.cmake;C:\DoomsMain\DoomsEngine\Doom3\ThirdParty\oneTBB\cmake\test_spec.cmake;C:\DoomsMain\DoomsEngine\Doom3\ThirdParty\oneTBB\cmake\utils.cmake;C:\DoomsMain\DoomsEngine\Doom3\ThirdParty\oneTBB\cmake\vars_utils.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\BasicConfigVersion-AnyNewerVersion.cmake.in;C:\Program Files\CMake\share\cmake-3.22\Modules\CMakeCXXCompiler.cmake.in;C:\Program Files\CMake\share\cmake-3.22\Modules\CMakeCXXCompilerABI.cpp;C:\Program Files\CMake\share\cmake-3.22\Modules\CMakeCXXInformation.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\CMakeCheckCompilerFlagCommonPatterns.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\CMakeCommonLanguageInclude.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\CMakeCompilerIdDetection.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\CMakeDependentOption.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\CMakeDetermineCXXCompiler.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\CMakeDetermineCompileFeatures.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\CMakeDetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\CMakeDetermineCompilerABI.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\CMakeDetermineCompilerId.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\CMakeDetermineRCCompiler.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\CMakeDetermineSystem.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\CMakeFindBinUtils.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\CMakeGenericSystem.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\CMakeInitializeConfigs.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\CMakeLanguageInformation.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\CMakePackageConfigHelpers.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\CMakeParseArguments.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\CMakeParseImplicitIncludeInfo.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\CMakeParseImplicitLinkInfo.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\CMakeParseLibraryArchitecture.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\CMakeRCCompiler.cmake.in;C:\Program Files\CMake\share\cmake-3.22\Modules\CMakeRCInformation.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\CMakeSystem.cmake.in;C:\Program Files\CMake\share\cmake-3.22\Modules\CMakeSystemSpecificInformation.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\CMakeSystemSpecificInitialize.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\CMakeTestCXXCompiler.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\CMakeTestCompilerCommon.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\CMakeTestRCCompiler.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\CPack.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\CPackComponent.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\CheckCXXCompilerFlag.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\CheckCXXSourceCompiles.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\CheckIPOSupported.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\CheckIPOSupported\CMakeLists-CXX.txt.in;C:\Program Files\CMake\share\cmake-3.22\Modules\CheckIPOSupported\foo.cpp;C:\Program Files\CMake\share\cmake-3.22\Modules\CheckIPOSupported\main.cpp;C:\Program Files\CMake\share\cmake-3.22\Modules\CheckIncludeFile.cxx.in;C:\Program Files\CMake\share\cmake-3.22\Modules\CheckIncludeFileCXX.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\CheckLibraryExists.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\Compiler\ADSP-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\Compiler\ARMCC-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\Compiler\ARMClang-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\Compiler\AppleClang-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\Compiler\Borland-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\Compiler\CMakeCommonCompilerMacros.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\Compiler\Clang-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\Compiler\Clang-DetermineCompilerInternal.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\Compiler\Comeau-CXX-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\Compiler\Compaq-CXX-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\Compiler\Cray-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\Compiler\Embarcadero-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\Compiler\Fujitsu-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\Compiler\FujitsuClang-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\Compiler\GHS-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\Compiler\GNU-CXX-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\Compiler\HP-CXX-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\Compiler\IAR-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\Compiler\IBMCPP-CXX-DetermineVersionInternal.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\Compiler\Intel-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\Compiler\IntelLLVM-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\Compiler\MSVC-CXX.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\Compiler\MSVC-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\Compiler\NVHPC-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\Compiler\NVIDIA-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\Compiler\OpenWatcom-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\Compiler\PGI-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\Compiler\PathScale-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\Compiler\SCO-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\Compiler\SunPro-CXX-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\Compiler\TI-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\Compiler\VisualAge-CXX-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\Compiler\Watcom-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\Compiler\XL-CXX-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\Compiler\XLClang-CXX-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\Compiler\zOS-CXX-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\CompilerId\VS-10.vcxproj.in;C:\Program Files\CMake\share\cmake-3.22\Modules\FindPackageHandleStandardArgs.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\FindPackageMessage.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\FindPkgConfig.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\FindThreads.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\GNUInstallDirs.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\Internal\CheckCompilerFlag.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\Internal\CheckSourceCompiles.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\Internal\FeatureTesting.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\Platform\Windows-Determine-CXX.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\Platform\Windows-MSVC-CXX.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\Platform\Windows-MSVC.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\Platform\Windows.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\Platform\WindowsPaths.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\WriteBasicConfigVersionFile.cmake;C:\Program Files\CMake\share\cmake-3.22\Templates\CPackConfig.cmake.in;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">C:\DoomsMain\DoomsEngine\Doom3\ThirdParty\oneTBB\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">Building Custom Rule C:/DoomsMain/DoomsEngine/Doom3/ThirdParty/oneTBB/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -SC:/DoomsMain/DoomsEngine/Doom3/ThirdParty/oneTBB -BC:/DoomsMain/DoomsEngine/Doom3/ThirdParty/oneTBB --check-stamp-file C:/DoomsMain/DoomsEngine/Doom3/ThirdParty/oneTBB/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">C:\DoomsMain\DoomsEngine\Doom3\ThirdParty\oneTBB\CMakeFiles\3.22.2\CMakeCXXCompiler.cmake;C:\DoomsMain\DoomsEngine\Doom3\ThirdParty\oneTBB\CMakeFiles\3.22.2\CMakeRCCompiler.cmake;C:\DoomsMain\DoomsEngine\Doom3\ThirdParty\oneTBB\CMakeFiles\3.22.2\CMakeSystem.cmake;C:\DoomsMain\DoomsEngine\Doom3\ThirdParty\oneTBB\cmake\compilers\MSVC.cmake;C:\DoomsMain\DoomsEngine\Doom3\ThirdParty\oneTBB\cmake\config_generation.cmake;C:\DoomsMain\DoomsEngine\Doom3\ThirdParty\oneTBB\cmake\hwloc_detection.cmake;C:\DoomsMain\DoomsEngine\Doom3\ThirdParty\oneTBB\cmake\memcheck.cmake;C:\DoomsMain\DoomsEngine\Doom3\ThirdParty\oneTBB\cmake\packaging.cmake;C:\DoomsMain\DoomsEngine\Doom3\ThirdParty\oneTBB\cmake\sanitize.cmake;C:\DoomsMain\DoomsEngine\Doom3\ThirdParty\oneTBB\cmake\test_spec.cmake;C:\DoomsMain\DoomsEngine\Doom3\ThirdParty\oneTBB\cmake\utils.cmake;C:\DoomsMain\DoomsEngine\Doom3\ThirdParty\oneTBB\cmake\vars_utils.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\BasicConfigVersion-AnyNewerVersion.cmake.in;C:\Program Files\CMake\share\cmake-3.22\Modules\CMakeCXXCompiler.cmake.in;C:\Program Files\CMake\share\cmake-3.22\Modules\CMakeCXXCompilerABI.cpp;C:\Program Files\CMake\share\cmake-3.22\Modules\CMakeCXXInformation.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\CMakeCheckCompilerFlagCommonPatterns.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\CMakeCommonLanguageInclude.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\CMakeCompilerIdDetection.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\CMakeDependentOption.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\CMakeDetermineCXXCompiler.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\CMakeDetermineCompileFeatures.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\CMakeDetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\CMakeDetermineCompilerABI.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\CMakeDetermineCompilerId.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\CMakeDetermineRCCompiler.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\CMakeDetermineSystem.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\CMakeFindBinUtils.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\CMakeGenericSystem.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\CMakeInitializeConfigs.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\CMakeLanguageInformation.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\CMakePackageConfigHelpers.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\CMakeParseArguments.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\CMakeParseImplicitIncludeInfo.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\CMakeParseImplicitLinkInfo.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\CMakeParseLibraryArchitecture.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\CMakeRCCompiler.cmake.in;C:\Program Files\CMake\share\cmake-3.22\Modules\CMakeRCInformation.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\CMakeSystem.cmake.in;C:\Program Files\CMake\share\cmake-3.22\Modules\CMakeSystemSpecificInformation.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\CMakeSystemSpecificInitialize.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\CMakeTestCXXCompiler.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\CMakeTestCompilerCommon.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\CMakeTestRCCompiler.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\CPack.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\CPackComponent.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\CheckCXXCompilerFlag.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\CheckCXXSourceCompiles.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\CheckIPOSupported.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\CheckIPOSupported\CMakeLists-CXX.txt.in;C:\Program Files\CMake\share\cmake-3.22\Modules\CheckIPOSupported\foo.cpp;C:\Program Files\CMake\share\cmake-3.22\Modules\CheckIPOSupported\main.cpp;C:\Program Files\CMake\share\cmake-3.22\Modules\CheckIncludeFile.cxx.in;C:\Program Files\CMake\share\cmake-3.22\Modules\CheckIncludeFileCXX.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\CheckLibraryExists.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\Compiler\ADSP-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\Compiler\ARMCC-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\Compiler\ARMClang-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\Compiler\AppleClang-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\Compiler\Borland-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\Compiler\CMakeCommonCompilerMacros.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\Compiler\Clang-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\Compiler\Clang-DetermineCompilerInternal.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\Compiler\Comeau-CXX-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\Compiler\Compaq-CXX-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\Compiler\Cray-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\Compiler\Embarcadero-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\Compiler\Fujitsu-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\Compiler\FujitsuClang-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\Compiler\GHS-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\Compiler\GNU-CXX-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\Compiler\HP-CXX-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\Compiler\IAR-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\Compiler\IBMCPP-CXX-DetermineVersionInternal.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\Compiler\Intel-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\Compiler\IntelLLVM-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\Compiler\MSVC-CXX.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\Compiler\MSVC-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\Compiler\NVHPC-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\Compiler\NVIDIA-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\Compiler\OpenWatcom-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\Compiler\PGI-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\Compiler\PathScale-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\Compiler\SCO-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\Compiler\SunPro-CXX-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\Compiler\TI-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\Compiler\VisualAge-CXX-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\Compiler\Watcom-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\Compiler\XL-CXX-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\Compiler\XLClang-CXX-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\Compiler\zOS-CXX-DetermineCompiler.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\CompilerId\VS-10.vcxproj.in;C:\Program Files\CMake\share\cmake-3.22\Modules\FindPackageHandleStandardArgs.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\FindPackageMessage.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\FindPkgConfig.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\FindThreads.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\GNUInstallDirs.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\Internal\CheckCompilerFlag.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\Internal\CheckSourceCompiles.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\Internal\FeatureTesting.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\Platform\Windows-Determine-CXX.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\Platform\Windows-MSVC-CXX.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\Platform\Windows-MSVC.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\Platform\Windows.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\Platform\WindowsPaths.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\WriteBasicConfigVersionFile.cmake;C:\Program Files\CMake\share\cmake-3.22\Templates\CPackConfig.cmake.in;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">C:\DoomsMain\DoomsEngine\Doom3\ThirdParty\oneTBB\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">false</LinkObjects>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="C:\DoomsMain\DoomsEngine\Doom3\ThirdParty\oneTBB\ZERO_CHECK.vcxproj">
+      <Project>{46AFA624-0ABB-35BE-87B1-44C1E452FF6A}</Project>
+      <Name>ZERO_CHECK</Name>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </ProjectReference>
+    <ProjectReference Include="C:\DoomsMain\DoomsEngine\Doom3\ThirdParty\oneTBB\test\_test_malloc_atexit.vcxproj">
+      <Project>{773F3CDA-2ED8-3E94-B2E0-0A089BDE62CD}</Project>
+      <Name>_test_malloc_atexit</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\DoomsMain\DoomsEngine\Doom3\ThirdParty\oneTBB\test\_test_malloc_lib_unload.vcxproj">
+      <Project>{8BF64445-1976-3252-A6CA-BBC575381166}</Project>
+      <Name>_test_malloc_lib_unload</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\DoomsMain\DoomsEngine\Doom3\ThirdParty\oneTBB\test\_test_malloc_used_by_lib.vcxproj">
+      <Project>{EB8E65E5-79B6-3B93-AD3D-A5F0E5295F01}</Project>
+      <Name>_test_malloc_used_by_lib</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\DoomsMain\DoomsEngine\Doom3\ThirdParty\oneTBB\test\conformance_allocators.vcxproj">
+      <Project>{B4005D14-0E7A-3EDF-A5DD-C6B82CDA0AD9}</Project>
+      <Name>conformance_allocators</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\DoomsMain\DoomsEngine\Doom3\ThirdParty\oneTBB\test\conformance_arena_constraints.vcxproj">
+      <Project>{DA469553-4B90-3AA2-86D7-2D3D80CF5E66}</Project>
+      <Name>conformance_arena_constraints</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\DoomsMain\DoomsEngine\Doom3\ThirdParty\oneTBB\test\conformance_async_node.vcxproj">
+      <Project>{2F4BB02B-501C-31E8-9291-DF67BB56FDAB}</Project>
+      <Name>conformance_async_node</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\DoomsMain\DoomsEngine\Doom3\ThirdParty\oneTBB\test\conformance_blocked_range.vcxproj">
+      <Project>{E056521E-0829-3882-A152-FA880209F358}</Project>
+      <Name>conformance_blocked_range</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\DoomsMain\DoomsEngine\Doom3\ThirdParty\oneTBB\test\conformance_blocked_range2d.vcxproj">
+      <Project>{DECFA2FF-E837-33F2-8EDF-48682673DD78}</Project>
+      <Name>conformance_blocked_range2d</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\DoomsMain\DoomsEngine\Doom3\ThirdParty\oneTBB\test\conformance_blocked_range3d.vcxproj">
+      <Project>{14BA2B0E-A2AD-3B6C-95D5-3586D95F8976}</Project>
+      <Name>conformance_blocked_range3d</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\DoomsMain\DoomsEngine\Doom3\ThirdParty\oneTBB\test\conformance_blocked_rangeNd.vcxproj">
+      <Project>{CE4C82B0-CC61-35D4-B88C-455C71B0BD31}</Project>
+      <Name>conformance_blocked_rangeNd</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\DoomsMain\DoomsEngine\Doom3\ThirdParty\oneTBB\test\conformance_broadcast_node.vcxproj">
+      <Project>{72178C29-3EA8-3D30-B244-2F772D6D8414}</Project>
+      <Name>conformance_broadcast_node</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\DoomsMain\DoomsEngine\Doom3\ThirdParty\oneTBB\test\conformance_buffer_node.vcxproj">
+      <Project>{B0B6D563-6535-3ADC-B3CD-B683627B915E}</Project>
+      <Name>conformance_buffer_node</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\DoomsMain\DoomsEngine\Doom3\ThirdParty\oneTBB\test\conformance_collaborative_call_once.vcxproj">
+      <Project>{08404331-5DB9-349D-8A46-DAA2995383B2}</Project>
+      <Name>conformance_collaborative_call_once</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\DoomsMain\DoomsEngine\Doom3\ThirdParty\oneTBB\test\conformance_combinable.vcxproj">
+      <Project>{F4CFC46D-E80C-332D-BA6C-E626FA445B0B}</Project>
+      <Name>conformance_combinable</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\DoomsMain\DoomsEngine\Doom3\ThirdParty\oneTBB\test\conformance_composite_node.vcxproj">
+      <Project>{11388BDC-DB65-3E18-A3F8-BEAEE17FA4C3}</Project>
+      <Name>conformance_composite_node</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\DoomsMain\DoomsEngine\Doom3\ThirdParty\oneTBB\test\conformance_concurrent_hash_map.vcxproj">
+      <Project>{F1A35F88-A19C-360B-819D-4E624C5A0973}</Project>
+      <Name>conformance_concurrent_hash_map</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\DoomsMain\DoomsEngine\Doom3\ThirdParty\oneTBB\test\conformance_concurrent_lru_cache.vcxproj">
+      <Project>{F2881C50-8BA5-35B5-AB08-18F36C0FD452}</Project>
+      <Name>conformance_concurrent_lru_cache</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\DoomsMain\DoomsEngine\Doom3\ThirdParty\oneTBB\test\conformance_concurrent_map.vcxproj">
+      <Project>{67F6161C-845C-3CB1-A630-5F4CEE4C3DF6}</Project>
+      <Name>conformance_concurrent_map</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\DoomsMain\DoomsEngine\Doom3\ThirdParty\oneTBB\test\conformance_concurrent_priority_queue.vcxproj">
+      <Project>{6E7D3A54-A018-39C3-85AB-E66315CF2574}</Project>
+      <Name>conformance_concurrent_priority_queue</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\DoomsMain\DoomsEngine\Doom3\ThirdParty\oneTBB\test\conformance_concurrent_queue.vcxproj">
+      <Project>{329E7C78-BF43-376D-8AAB-D3DFC7146859}</Project>
+      <Name>conformance_concurrent_queue</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\DoomsMain\DoomsEngine\Doom3\ThirdParty\oneTBB\test\conformance_concurrent_set.vcxproj">
+      <Project>{5453BBCD-15CC-3172-894D-E343E2614EDB}</Project>
+      <Name>conformance_concurrent_set</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\DoomsMain\DoomsEngine\Doom3\ThirdParty\oneTBB\test\conformance_concurrent_unordered_map.vcxproj">
+      <Project>{03E5F76B-CABD-3638-9291-792B9D24BE18}</Project>
+      <Name>conformance_concurrent_unordered_map</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\DoomsMain\DoomsEngine\Doom3\ThirdParty\oneTBB\test\conformance_concurrent_unordered_set.vcxproj">
+      <Project>{A567D0AA-F111-343C-9132-230BBD28BB1B}</Project>
+      <Name>conformance_concurrent_unordered_set</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\DoomsMain\DoomsEngine\Doom3\ThirdParty\oneTBB\test\conformance_concurrent_vector.vcxproj">
+      <Project>{BD33D162-3CDD-3AEC-A6FD-B288DF7E2FA4}</Project>
+      <Name>conformance_concurrent_vector</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\DoomsMain\DoomsEngine\Doom3\ThirdParty\oneTBB\test\conformance_continue_node.vcxproj">
+      <Project>{1919C92C-0E56-3FEF-B702-D5F5BDFAAC54}</Project>
+      <Name>conformance_continue_node</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\DoomsMain\DoomsEngine\Doom3\ThirdParty\oneTBB\test\conformance_enumerable_thread_specific.vcxproj">
+      <Project>{D89B6615-AAE8-3DAA-A766-4AC535D3989D}</Project>
+      <Name>conformance_enumerable_thread_specific</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\DoomsMain\DoomsEngine\Doom3\ThirdParty\oneTBB\test\conformance_function_node.vcxproj">
+      <Project>{D15B8BD5-D20E-30AB-8BE9-0D46A91D43AF}</Project>
+      <Name>conformance_function_node</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\DoomsMain\DoomsEngine\Doom3\ThirdParty\oneTBB\test\conformance_global_control.vcxproj">
+      <Project>{6585499C-7869-3C76-B6E6-C94DD94F64D1}</Project>
+      <Name>conformance_global_control</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\DoomsMain\DoomsEngine\Doom3\ThirdParty\oneTBB\test\conformance_graph.vcxproj">
+      <Project>{EFEE8B4C-AF4E-38AF-B63C-0435FE0239D6}</Project>
+      <Name>conformance_graph</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\DoomsMain\DoomsEngine\Doom3\ThirdParty\oneTBB\test\conformance_indexer_node.vcxproj">
+      <Project>{69156507-46F5-328F-9037-9ABE54F15956}</Project>
+      <Name>conformance_indexer_node</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\DoomsMain\DoomsEngine\Doom3\ThirdParty\oneTBB\test\conformance_input_node.vcxproj">
+      <Project>{A4763019-A874-3AF9-BF00-2D53548109D3}</Project>
+      <Name>conformance_input_node</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\DoomsMain\DoomsEngine\Doom3\ThirdParty\oneTBB\test\conformance_join_node.vcxproj">
+      <Project>{9BD4F140-0B68-3E51-9ABC-43F2B20FE96C}</Project>
+      <Name>conformance_join_node</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\DoomsMain\DoomsEngine\Doom3\ThirdParty\oneTBB\test\conformance_limiter_node.vcxproj">
+      <Project>{4F097098-A000-364F-9644-8406B9516DFA}</Project>
+      <Name>conformance_limiter_node</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\DoomsMain\DoomsEngine\Doom3\ThirdParty\oneTBB\test\conformance_multifunction_node.vcxproj">
+      <Project>{F06CBDFA-8C85-3D3E-A468-F47DC90987AA}</Project>
+      <Name>conformance_multifunction_node</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\DoomsMain\DoomsEngine\Doom3\ThirdParty\oneTBB\test\conformance_mutex.vcxproj">
+      <Project>{147E6035-702D-358B-B1CA-FC31192F0B68}</Project>
+      <Name>conformance_mutex</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\DoomsMain\DoomsEngine\Doom3\ThirdParty\oneTBB\test\conformance_overwrite_node.vcxproj">
+      <Project>{F1CD6295-17EA-38C5-8229-16E217F5C3FB}</Project>
+      <Name>conformance_overwrite_node</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\DoomsMain\DoomsEngine\Doom3\ThirdParty\oneTBB\test\conformance_parallel_for.vcxproj">
+      <Project>{6C03D323-C160-3F0F-BE47-EAA4C91E8238}</Project>
+      <Name>conformance_parallel_for</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\DoomsMain\DoomsEngine\Doom3\ThirdParty\oneTBB\test\conformance_parallel_for_each.vcxproj">
+      <Project>{D05AC890-5D0A-3B65-A4A2-0C3E14955C3B}</Project>
+      <Name>conformance_parallel_for_each</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\DoomsMain\DoomsEngine\Doom3\ThirdParty\oneTBB\test\conformance_parallel_invoke.vcxproj">
+      <Project>{0D5F4FAB-BF7F-3632-A91E-FB478FF2A643}</Project>
+      <Name>conformance_parallel_invoke</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\DoomsMain\DoomsEngine\Doom3\ThirdParty\oneTBB\test\conformance_parallel_pipeline.vcxproj">
+      <Project>{FFDC183A-72BC-34A8-8F37-6925B5341968}</Project>
+      <Name>conformance_parallel_pipeline</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\DoomsMain\DoomsEngine\Doom3\ThirdParty\oneTBB\test\conformance_parallel_reduce.vcxproj">
+      <Project>{D28F8A59-1C54-3E63-B3F2-AC6FA1240B45}</Project>
+      <Name>conformance_parallel_reduce</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\DoomsMain\DoomsEngine\Doom3\ThirdParty\oneTBB\test\conformance_parallel_scan.vcxproj">
+      <Project>{CEC0F230-3011-38A9-AEDB-B9E73021648E}</Project>
+      <Name>conformance_parallel_scan</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\DoomsMain\DoomsEngine\Doom3\ThirdParty\oneTBB\test\conformance_parallel_sort.vcxproj">
+      <Project>{666F96F5-74A2-342F-A95D-BD1D08842AAF}</Project>
+      <Name>conformance_parallel_sort</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\DoomsMain\DoomsEngine\Doom3\ThirdParty\oneTBB\test\conformance_priority_queue_node.vcxproj">
+      <Project>{E702295E-F8E9-3950-918E-4507C3446795}</Project>
+      <Name>conformance_priority_queue_node</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\DoomsMain\DoomsEngine\Doom3\ThirdParty\oneTBB\test\conformance_queue_node.vcxproj">
+      <Project>{4B25FA66-B522-31B7-8470-5A2EB45ED2A9}</Project>
+      <Name>conformance_queue_node</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\DoomsMain\DoomsEngine\Doom3\ThirdParty\oneTBB\test\conformance_resumable_tasks.vcxproj">
+      <Project>{6CA82057-BBAF-37A2-8D89-B373F3CBC040}</Project>
+      <Name>conformance_resumable_tasks</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\DoomsMain\DoomsEngine\Doom3\ThirdParty\oneTBB\test\conformance_sequencer_node.vcxproj">
+      <Project>{756218C6-07FD-3DFA-A04C-5A68E3774FE1}</Project>
+      <Name>conformance_sequencer_node</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\DoomsMain\DoomsEngine\Doom3\ThirdParty\oneTBB\test\conformance_split_node.vcxproj">
+      <Project>{129C4F87-97C0-3652-ADCF-44350E419B6E}</Project>
+      <Name>conformance_split_node</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\DoomsMain\DoomsEngine\Doom3\ThirdParty\oneTBB\test\conformance_task_arena.vcxproj">
+      <Project>{B939AF72-6A0C-3401-9D7C-B503A03CB37D}</Project>
+      <Name>conformance_task_arena</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\DoomsMain\DoomsEngine\Doom3\ThirdParty\oneTBB\test\conformance_task_group.vcxproj">
+      <Project>{9899FD41-5499-373A-850E-98AC9CA66D9A}</Project>
+      <Name>conformance_task_group</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\DoomsMain\DoomsEngine\Doom3\ThirdParty\oneTBB\test\conformance_task_group_context.vcxproj">
+      <Project>{97C6D18F-F3B1-30CA-BA87-2F037930999B}</Project>
+      <Name>conformance_task_group_context</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\DoomsMain\DoomsEngine\Doom3\ThirdParty\oneTBB\test\conformance_tick_count.vcxproj">
+      <Project>{284002A0-4F10-3F3B-BFCC-34DE2F3828BF}</Project>
+      <Name>conformance_tick_count</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\DoomsMain\DoomsEngine\Doom3\ThirdParty\oneTBB\test\conformance_version.vcxproj">
+      <Project>{2280AF68-C15C-3F8E-B707-575B18983A8F}</Project>
+      <Name>conformance_version</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\DoomsMain\DoomsEngine\Doom3\ThirdParty\oneTBB\test\conformance_write_once_node.vcxproj">
+      <Project>{43D0122F-7522-320C-8C80-5F01E4C78A77}</Project>
+      <Name>conformance_write_once_node</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\DoomsMain\DoomsEngine\Doom3\ThirdParty\oneTBB\src\tbb\tbb.vcxproj">
+      <Project>{C040EB67-3365-3A7A-9BC2-DE4A250C6B9D}</Project>
+      <Name>tbb</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\DoomsMain\DoomsEngine\Doom3\ThirdParty\oneTBB\src\tbbmalloc\tbbmalloc.vcxproj">
+      <Project>{62034027-88BB-37C5-AABD-C4B07C61BAFB}</Project>
+      <Name>tbbmalloc</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\DoomsMain\DoomsEngine\Doom3\ThirdParty\oneTBB\src\tbbmalloc_proxy\tbbmalloc_proxy.vcxproj">
+      <Project>{FC08E4DA-6B4F-3AF4-8534-35111269C83B}</Project>
+      <Name>tbbmalloc_proxy</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\DoomsMain\DoomsEngine\Doom3\ThirdParty\oneTBB\test\test_allocators.vcxproj">
+      <Project>{6BDB6014-F503-3049-AB1F-FDF70E2DB043}</Project>
+      <Name>test_allocators</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\DoomsMain\DoomsEngine\Doom3\ThirdParty\oneTBB\test\test_arena_constraints.vcxproj">
+      <Project>{7E492B92-B7B1-3A16-AA30-838DB3974CDC}</Project>
+      <Name>test_arena_constraints</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\DoomsMain\DoomsEngine\Doom3\ThirdParty\oneTBB\test\test_arena_priorities.vcxproj">
+      <Project>{60323A0F-21ED-3AEF-B841-C5E8679670B6}</Project>
+      <Name>test_arena_priorities</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\DoomsMain\DoomsEngine\Doom3\ThirdParty\oneTBB\test\test_async_node.vcxproj">
+      <Project>{3C85DF92-B513-3AFD-8552-4EF202500F41}</Project>
+      <Name>test_async_node</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\DoomsMain\DoomsEngine\Doom3\ThirdParty\oneTBB\test\test_blocked_range.vcxproj">
+      <Project>{C073495D-2C9F-33B5-A801-839575F240C3}</Project>
+      <Name>test_blocked_range</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\DoomsMain\DoomsEngine\Doom3\ThirdParty\oneTBB\test\test_broadcast_node.vcxproj">
+      <Project>{0A73C040-D32F-3FC8-8D7D-7126BF484183}</Project>
+      <Name>test_broadcast_node</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\DoomsMain\DoomsEngine\Doom3\ThirdParty\oneTBB\test\test_buffer_node.vcxproj">
+      <Project>{97B83D51-6C3D-31E5-B804-DE953C10D504}</Project>
+      <Name>test_buffer_node</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\DoomsMain\DoomsEngine\Doom3\ThirdParty\oneTBB\test\test_collaborative_call_once.vcxproj">
+      <Project>{FB63AE7F-EA5C-338A-97E2-C74D5E10B750}</Project>
+      <Name>test_collaborative_call_once</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\DoomsMain\DoomsEngine\Doom3\ThirdParty\oneTBB\test\test_composite_node.vcxproj">
+      <Project>{3918C671-A8B2-34F2-8EF1-351C020252D5}</Project>
+      <Name>test_composite_node</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\DoomsMain\DoomsEngine\Doom3\ThirdParty\oneTBB\test\test_concurrent_hash_map.vcxproj">
+      <Project>{C9E1E039-D721-389D-B5C7-85A04D520FDC}</Project>
+      <Name>test_concurrent_hash_map</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\DoomsMain\DoomsEngine\Doom3\ThirdParty\oneTBB\test\test_concurrent_lru_cache.vcxproj">
+      <Project>{2977072C-6610-37E4-9973-FA07AB71F29B}</Project>
+      <Name>test_concurrent_lru_cache</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\DoomsMain\DoomsEngine\Doom3\ThirdParty\oneTBB\test\test_concurrent_map.vcxproj">
+      <Project>{7D1F1BBB-8D53-3742-9A00-E356185539F9}</Project>
+      <Name>test_concurrent_map</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\DoomsMain\DoomsEngine\Doom3\ThirdParty\oneTBB\test\test_concurrent_monitor.vcxproj">
+      <Project>{89593C89-FF8A-3044-B669-4C353800C404}</Project>
+      <Name>test_concurrent_monitor</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\DoomsMain\DoomsEngine\Doom3\ThirdParty\oneTBB\test\test_concurrent_priority_queue.vcxproj">
+      <Project>{251DA661-168C-3F81-9017-91985B8AF6F3}</Project>
+      <Name>test_concurrent_priority_queue</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\DoomsMain\DoomsEngine\Doom3\ThirdParty\oneTBB\test\test_concurrent_queue.vcxproj">
+      <Project>{72935BE4-8CBE-374C-883F-6891E46AF9AC}</Project>
+      <Name>test_concurrent_queue</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\DoomsMain\DoomsEngine\Doom3\ThirdParty\oneTBB\test\test_concurrent_queue_whitebox.vcxproj">
+      <Project>{CA8F849E-3B6E-300F-86CF-A91B5DDA158A}</Project>
+      <Name>test_concurrent_queue_whitebox</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\DoomsMain\DoomsEngine\Doom3\ThirdParty\oneTBB\test\test_concurrent_set.vcxproj">
+      <Project>{FE8A77E5-E170-34BD-8255-89EBB6A6F5C2}</Project>
+      <Name>test_concurrent_set</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\DoomsMain\DoomsEngine\Doom3\ThirdParty\oneTBB\test\test_concurrent_unordered_map.vcxproj">
+      <Project>{E41F2275-4F4D-375D-932B-AF1A078BB75E}</Project>
+      <Name>test_concurrent_unordered_map</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\DoomsMain\DoomsEngine\Doom3\ThirdParty\oneTBB\test\test_concurrent_unordered_set.vcxproj">
+      <Project>{999DC43E-19EE-3C5A-85E9-380CF755F53F}</Project>
+      <Name>test_concurrent_unordered_set</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\DoomsMain\DoomsEngine\Doom3\ThirdParty\oneTBB\test\test_concurrent_vector.vcxproj">
+      <Project>{84CF2360-6093-31F5-9EF4-C3DC5439441B}</Project>
+      <Name>test_concurrent_vector</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\DoomsMain\DoomsEngine\Doom3\ThirdParty\oneTBB\test\test_continue_node.vcxproj">
+      <Project>{AA2D6ACD-A224-3683-8459-831A1E7A712D}</Project>
+      <Name>test_continue_node</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\DoomsMain\DoomsEngine\Doom3\ThirdParty\oneTBB\test\test_dynamic_link.vcxproj">
+      <Project>{6220D47A-B167-3D6F-A6E2-1C2138373BFF}</Project>
+      <Name>test_dynamic_link</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\DoomsMain\DoomsEngine\Doom3\ThirdParty\oneTBB\test\test_eh_algorithms.vcxproj">
+      <Project>{2510470D-E638-3B13-A163-39751B13DD76}</Project>
+      <Name>test_eh_algorithms</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\DoomsMain\DoomsEngine\Doom3\ThirdParty\oneTBB\test\test_eh_flow_graph.vcxproj">
+      <Project>{C2D84921-862B-301A-8578-1030BB99210F}</Project>
+      <Name>test_eh_flow_graph</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\DoomsMain\DoomsEngine\Doom3\ThirdParty\oneTBB\test\test_eh_thread.vcxproj">
+      <Project>{7C65FA4D-4E67-3265-BCF5-CC6E0369A9CA}</Project>
+      <Name>test_eh_thread</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\DoomsMain\DoomsEngine\Doom3\ThirdParty\oneTBB\test\test_enumerable_thread_specific.vcxproj">
+      <Project>{6A113D15-55C9-3567-B7C8-489B088B810D}</Project>
+      <Name>test_enumerable_thread_specific</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\DoomsMain\DoomsEngine\Doom3\ThirdParty\oneTBB\test\test_environment_whitebox.vcxproj">
+      <Project>{934E0A99-10E8-33D9-87E8-9DC20C267FFA}</Project>
+      <Name>test_environment_whitebox</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\DoomsMain\DoomsEngine\Doom3\ThirdParty\oneTBB\test\test_flow_graph.vcxproj">
+      <Project>{BB0112A2-58E4-3114-8DB2-989ECD99D750}</Project>
+      <Name>test_flow_graph</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\DoomsMain\DoomsEngine\Doom3\ThirdParty\oneTBB\test\test_flow_graph_priorities.vcxproj">
+      <Project>{695FAE19-E913-35B7-93EB-F0C8ADA493F4}</Project>
+      <Name>test_flow_graph_priorities</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\DoomsMain\DoomsEngine\Doom3\ThirdParty\oneTBB\test\test_flow_graph_whitebox.vcxproj">
+      <Project>{C33B3214-10AB-3C42-A848-05A5247E437E}</Project>
+      <Name>test_flow_graph_whitebox</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\DoomsMain\DoomsEngine\Doom3\ThirdParty\oneTBB\test\test_function_node.vcxproj">
+      <Project>{2E1A04D3-5765-3BBF-AAB8-069F4DC7FA98}</Project>
+      <Name>test_function_node</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\DoomsMain\DoomsEngine\Doom3\ThirdParty\oneTBB\test\test_global_control.vcxproj">
+      <Project>{434754A2-8814-356A-AB23-C56B23C0618E}</Project>
+      <Name>test_global_control</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\DoomsMain\DoomsEngine\Doom3\ThirdParty\oneTBB\test\test_handle_perror.vcxproj">
+      <Project>{403DC414-BA79-3D24-8EAF-9B4AEB42457C}</Project>
+      <Name>test_handle_perror</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\DoomsMain\DoomsEngine\Doom3\ThirdParty\oneTBB\test\test_hw_concurrency.vcxproj">
+      <Project>{86CB94A4-88DF-36BC-8751-85917E99A22F}</Project>
+      <Name>test_hw_concurrency</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\DoomsMain\DoomsEngine\Doom3\ThirdParty\oneTBB\test\test_implicit_linkage_on_windows.vcxproj">
+      <Project>{53F33F9E-DE21-3929-9BD3-9B009D4BAFA8}</Project>
+      <Name>test_implicit_linkage_on_windows</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\DoomsMain\DoomsEngine\Doom3\ThirdParty\oneTBB\test\test_indexer_node.vcxproj">
+      <Project>{3C6B2F7E-A687-35C2-A687-713BDED3221E}</Project>
+      <Name>test_indexer_node</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\DoomsMain\DoomsEngine\Doom3\ThirdParty\oneTBB\test\test_input_node.vcxproj">
+      <Project>{841FA958-B052-3848-8FE8-EB5BBDE0E7FD}</Project>
+      <Name>test_input_node</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\DoomsMain\DoomsEngine\Doom3\ThirdParty\oneTBB\test\test_intrusive_list.vcxproj">
+      <Project>{354F13D4-CD64-3591-89F9-4468272684B0}</Project>
+      <Name>test_intrusive_list</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\DoomsMain\DoomsEngine\Doom3\ThirdParty\oneTBB\test\test_join_node.vcxproj">
+      <Project>{9826DABB-4C0C-38F1-AA4D-F8444EE457B2}</Project>
+      <Name>test_join_node</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\DoomsMain\DoomsEngine\Doom3\ThirdParty\oneTBB\test\test_join_node_key_matching.vcxproj">
+      <Project>{3355F898-E6BA-3A8A-A59D-59E54D7A93D3}</Project>
+      <Name>test_join_node_key_matching</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\DoomsMain\DoomsEngine\Doom3\ThirdParty\oneTBB\test\test_join_node_msg_key_matching.vcxproj">
+      <Project>{28224F20-BD7E-3685-95A4-B85F5EF88CF3}</Project>
+      <Name>test_join_node_msg_key_matching</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\DoomsMain\DoomsEngine\Doom3\ThirdParty\oneTBB\test\test_join_node_msg_key_matching_n_args.vcxproj">
+      <Project>{5A393E79-465D-36FB-AB81-7AC6D057B8A7}</Project>
+      <Name>test_join_node_msg_key_matching_n_args</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\DoomsMain\DoomsEngine\Doom3\ThirdParty\oneTBB\test\test_join_node_preview.vcxproj">
+      <Project>{9CCE2514-3253-302A-A929-C0E3B7420E02}</Project>
+      <Name>test_join_node_preview</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\DoomsMain\DoomsEngine\Doom3\ThirdParty\oneTBB\test\test_limiter_node.vcxproj">
+      <Project>{370348F5-73A7-3E91-A945-EC4A7724ECAA}</Project>
+      <Name>test_limiter_node</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\DoomsMain\DoomsEngine\Doom3\ThirdParty\oneTBB\test\test_malloc_atexit.vcxproj">
+      <Project>{DF21CB58-5C78-3604-BFC3-68A2BDEB5240}</Project>
+      <Name>test_malloc_atexit</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\DoomsMain\DoomsEngine\Doom3\ThirdParty\oneTBB\test\test_malloc_compliance.vcxproj">
+      <Project>{8EA9C72D-9C40-35C7-934C-F18B75991992}</Project>
+      <Name>test_malloc_compliance</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\DoomsMain\DoomsEngine\Doom3\ThirdParty\oneTBB\test\test_malloc_init_shutdown.vcxproj">
+      <Project>{731C8148-39CD-325A-9004-0B70DC06ABD4}</Project>
+      <Name>test_malloc_init_shutdown</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\DoomsMain\DoomsEngine\Doom3\ThirdParty\oneTBB\test\test_malloc_lib_unload.vcxproj">
+      <Project>{6DC65CF1-1D64-32B7-8B22-82FC0B6B7354}</Project>
+      <Name>test_malloc_lib_unload</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\DoomsMain\DoomsEngine\Doom3\ThirdParty\oneTBB\test\test_malloc_new_handler.vcxproj">
+      <Project>{BD70B84D-EBA8-3A65-A745-F7D7C647186C}</Project>
+      <Name>test_malloc_new_handler</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\DoomsMain\DoomsEngine\Doom3\ThirdParty\oneTBB\test\test_malloc_overload.vcxproj">
+      <Project>{6014556B-4A74-3BCB-9E67-CF4EA1BEA736}</Project>
+      <Name>test_malloc_overload</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\DoomsMain\DoomsEngine\Doom3\ThirdParty\oneTBB\test\test_malloc_overload_disable.vcxproj">
+      <Project>{9162774A-4823-3929-9CA2-42005CA8C703}</Project>
+      <Name>test_malloc_overload_disable</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\DoomsMain\DoomsEngine\Doom3\ThirdParty\oneTBB\test\test_malloc_pools.vcxproj">
+      <Project>{E7BB27B1-779B-37CA-A6AD-566FCE8F6C54}</Project>
+      <Name>test_malloc_pools</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\DoomsMain\DoomsEngine\Doom3\ThirdParty\oneTBB\test\test_malloc_pure_c.vcxproj">
+      <Project>{46001197-90DD-345E-923B-B10BF081B9F2}</Project>
+      <Name>test_malloc_pure_c</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\DoomsMain\DoomsEngine\Doom3\ThirdParty\oneTBB\test\test_malloc_regression.vcxproj">
+      <Project>{20DCD51E-0B1D-3D6B-80D8-097A41FE0F0E}</Project>
+      <Name>test_malloc_regression</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\DoomsMain\DoomsEngine\Doom3\ThirdParty\oneTBB\test\test_malloc_shutdown_hang.vcxproj">
+      <Project>{D03BA3C4-EC01-331B-ABD0-1F187FA553BA}</Project>
+      <Name>test_malloc_shutdown_hang</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\DoomsMain\DoomsEngine\Doom3\ThirdParty\oneTBB\test\test_malloc_used_by_lib.vcxproj">
+      <Project>{5783B0B7-FB29-3881-A5EB-7B9EE2E5F184}</Project>
+      <Name>test_malloc_used_by_lib</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\DoomsMain\DoomsEngine\Doom3\ThirdParty\oneTBB\test\test_malloc_whitebox.vcxproj">
+      <Project>{5109717A-EC53-3DD0-815F-3D4F3A60E3C3}</Project>
+      <Name>test_malloc_whitebox</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\DoomsMain\DoomsEngine\Doom3\ThirdParty\oneTBB\test\test_multifunction_node.vcxproj">
+      <Project>{12E9F49A-99BF-3AC2-A105-7667BC168C5B}</Project>
+      <Name>test_multifunction_node</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\DoomsMain\DoomsEngine\Doom3\ThirdParty\oneTBB\test\test_mutex.vcxproj">
+      <Project>{A327FD8D-5566-34A1-BCE7-91FC29FA852E}</Project>
+      <Name>test_mutex</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\DoomsMain\DoomsEngine\Doom3\ThirdParty\oneTBB\test\test_numa_dist.vcxproj">
+      <Project>{B8D1105A-7E57-3EE8-8005-5C36DEC33E57}</Project>
+      <Name>test_numa_dist</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\DoomsMain\DoomsEngine\Doom3\ThirdParty\oneTBB\test\test_openmp.vcxproj">
+      <Project>{61335B66-3075-33AA-B5DF-16D0590C9A3A}</Project>
+      <Name>test_openmp</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\DoomsMain\DoomsEngine\Doom3\ThirdParty\oneTBB\test\test_overwrite_node.vcxproj">
+      <Project>{3B3FBE7B-C126-3667-8B43-E3857AA530E2}</Project>
+      <Name>test_overwrite_node</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\DoomsMain\DoomsEngine\Doom3\ThirdParty\oneTBB\test\test_parallel_for.vcxproj">
+      <Project>{7934EE19-D7B1-33ED-85E6-8ED04259CB38}</Project>
+      <Name>test_parallel_for</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\DoomsMain\DoomsEngine\Doom3\ThirdParty\oneTBB\test\test_parallel_for_each.vcxproj">
+      <Project>{D5BC0571-4A77-3F11-85DC-BCB8F5292D46}</Project>
+      <Name>test_parallel_for_each</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\DoomsMain\DoomsEngine\Doom3\ThirdParty\oneTBB\test\test_parallel_invoke.vcxproj">
+      <Project>{4A5944D8-1E41-3F42-9BFA-373BDE24DDEC}</Project>
+      <Name>test_parallel_invoke</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\DoomsMain\DoomsEngine\Doom3\ThirdParty\oneTBB\test\test_parallel_pipeline.vcxproj">
+      <Project>{964D2A8D-E479-37C3-82A8-1F8A6A7605AA}</Project>
+      <Name>test_parallel_pipeline</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\DoomsMain\DoomsEngine\Doom3\ThirdParty\oneTBB\test\test_parallel_reduce.vcxproj">
+      <Project>{0EC40378-F1D0-39B8-ABF1-EAA7126E63F8}</Project>
+      <Name>test_parallel_reduce</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\DoomsMain\DoomsEngine\Doom3\ThirdParty\oneTBB\test\test_parallel_scan.vcxproj">
+      <Project>{30B1AC8D-D961-3B82-A3FE-967A93A0A877}</Project>
+      <Name>test_parallel_scan</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\DoomsMain\DoomsEngine\Doom3\ThirdParty\oneTBB\test\test_parallel_sort.vcxproj">
+      <Project>{5228F625-98DE-3E0F-BA55-6148FCDEDEBD}</Project>
+      <Name>test_parallel_sort</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\DoomsMain\DoomsEngine\Doom3\ThirdParty\oneTBB\test\test_partitioner.vcxproj">
+      <Project>{BDB53D2E-525C-3AAD-96C2-A9C06FE486E5}</Project>
+      <Name>test_partitioner</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\DoomsMain\DoomsEngine\Doom3\ThirdParty\oneTBB\test\test_priority_queue_node.vcxproj">
+      <Project>{D073E309-3236-36EE-A81C-78B0F0B5EDE0}</Project>
+      <Name>test_priority_queue_node</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\DoomsMain\DoomsEngine\Doom3\ThirdParty\oneTBB\test\test_profiling.vcxproj">
+      <Project>{30EB90A6-3F78-3BCB-A0EA-4110EC4517CC}</Project>
+      <Name>test_profiling</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\DoomsMain\DoomsEngine\Doom3\ThirdParty\oneTBB\test\test_queue_node.vcxproj">
+      <Project>{12FA6697-7574-3A88-8885-EA8D97DDFE0B}</Project>
+      <Name>test_queue_node</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\DoomsMain\DoomsEngine\Doom3\ThirdParty\oneTBB\test\test_resumable_tasks.vcxproj">
+      <Project>{702BA7A2-FACF-3200-B93C-6BCDD93A7B78}</Project>
+      <Name>test_resumable_tasks</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\DoomsMain\DoomsEngine\Doom3\ThirdParty\oneTBB\test\test_scalable_allocator.vcxproj">
+      <Project>{229CACC7-7376-34CE-8F3E-065CF50C0296}</Project>
+      <Name>test_scalable_allocator</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\DoomsMain\DoomsEngine\Doom3\ThirdParty\oneTBB\test\test_scheduler_mix.vcxproj">
+      <Project>{B74C4612-403D-34D1-87D5-CED8CDA9AD3A}</Project>
+      <Name>test_scheduler_mix</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\DoomsMain\DoomsEngine\Doom3\ThirdParty\oneTBB\test\test_semaphore.vcxproj">
+      <Project>{2A4279D0-5856-3445-B5A8-3AFB3D5D6385}</Project>
+      <Name>test_semaphore</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\DoomsMain\DoomsEngine\Doom3\ThirdParty\oneTBB\test\test_sequencer_node.vcxproj">
+      <Project>{9F48AD45-E640-323A-8B47-9ACE181E4E53}</Project>
+      <Name>test_sequencer_node</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\DoomsMain\DoomsEngine\Doom3\ThirdParty\oneTBB\test\test_split_node.vcxproj">
+      <Project>{3D764C89-A945-3ABD-B916-9769C211A47D}</Project>
+      <Name>test_split_node</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\DoomsMain\DoomsEngine\Doom3\ThirdParty\oneTBB\test\test_tagged_msg.vcxproj">
+      <Project>{70CBF5C2-4F26-3CD9-96AD-A732EBA9CEA4}</Project>
+      <Name>test_tagged_msg</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\DoomsMain\DoomsEngine\Doom3\ThirdParty\oneTBB\test\test_task.vcxproj">
+      <Project>{ADEC040F-A4AC-3A22-846F-8BD276E75146}</Project>
+      <Name>test_task</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\DoomsMain\DoomsEngine\Doom3\ThirdParty\oneTBB\test\test_task_arena.vcxproj">
+      <Project>{30B0CB1D-9A53-31A0-B96C-EB6EFA7DE9E2}</Project>
+      <Name>test_task_arena</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\DoomsMain\DoomsEngine\Doom3\ThirdParty\oneTBB\test\test_task_group.vcxproj">
+      <Project>{FE6A47A5-C50B-3630-BDE7-8E0CD83C92C5}</Project>
+      <Name>test_task_group</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\DoomsMain\DoomsEngine\Doom3\ThirdParty\oneTBB\test\test_tbb_fork.vcxproj">
+      <Project>{B295F528-18AD-3F70-B51A-928621D67B2C}</Project>
+      <Name>test_tbb_fork</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\DoomsMain\DoomsEngine\Doom3\ThirdParty\oneTBB\test\test_tbb_header.vcxproj">
+      <Project>{26D6670B-1CD1-374C-9081-263A2B9C8DFE}</Project>
+      <Name>test_tbb_header</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\DoomsMain\DoomsEngine\Doom3\ThirdParty\oneTBB\test\test_tick_count.vcxproj">
+      <Project>{554247EB-A347-3A89-85F5-712EB6A9CE8A}</Project>
+      <Name>test_tick_count</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\DoomsMain\DoomsEngine\Doom3\ThirdParty\oneTBB\test\test_write_once_node.vcxproj">
+      <Project>{7637F083-0C6C-3E69-880B-AA69D076D425}</Project>
+      <Name>test_write_once_node</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

@@ -1,0 +1,97 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="17.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="C:\DoomsMain\DoomsEngine\Doom3\ThirdParty\oneTBB\src\tbb\address_waiter.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\DoomsMain\DoomsEngine\Doom3\ThirdParty\oneTBB\src\tbb\allocator.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\DoomsMain\DoomsEngine\Doom3\ThirdParty\oneTBB\src\tbb\arena.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\DoomsMain\DoomsEngine\Doom3\ThirdParty\oneTBB\src\tbb\arena_slot.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\DoomsMain\DoomsEngine\Doom3\ThirdParty\oneTBB\src\tbb\concurrent_bounded_queue.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\DoomsMain\DoomsEngine\Doom3\ThirdParty\oneTBB\src\tbb\dynamic_link.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\DoomsMain\DoomsEngine\Doom3\ThirdParty\oneTBB\src\tbb\exception.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\DoomsMain\DoomsEngine\Doom3\ThirdParty\oneTBB\src\tbb\governor.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\DoomsMain\DoomsEngine\Doom3\ThirdParty\oneTBB\src\tbb\global_control.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\DoomsMain\DoomsEngine\Doom3\ThirdParty\oneTBB\src\tbb\itt_notify.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\DoomsMain\DoomsEngine\Doom3\ThirdParty\oneTBB\src\tbb\main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\DoomsMain\DoomsEngine\Doom3\ThirdParty\oneTBB\src\tbb\market.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\DoomsMain\DoomsEngine\Doom3\ThirdParty\oneTBB\src\tbb\misc.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\DoomsMain\DoomsEngine\Doom3\ThirdParty\oneTBB\src\tbb\misc_ex.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\DoomsMain\DoomsEngine\Doom3\ThirdParty\oneTBB\src\tbb\observer_proxy.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\DoomsMain\DoomsEngine\Doom3\ThirdParty\oneTBB\src\tbb\parallel_pipeline.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\DoomsMain\DoomsEngine\Doom3\ThirdParty\oneTBB\src\tbb\private_server.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\DoomsMain\DoomsEngine\Doom3\ThirdParty\oneTBB\src\tbb\profiling.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\DoomsMain\DoomsEngine\Doom3\ThirdParty\oneTBB\src\tbb\rml_tbb.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\DoomsMain\DoomsEngine\Doom3\ThirdParty\oneTBB\src\tbb\rtm_mutex.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\DoomsMain\DoomsEngine\Doom3\ThirdParty\oneTBB\src\tbb\rtm_rw_mutex.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\DoomsMain\DoomsEngine\Doom3\ThirdParty\oneTBB\src\tbb\semaphore.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\DoomsMain\DoomsEngine\Doom3\ThirdParty\oneTBB\src\tbb\small_object_pool.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\DoomsMain\DoomsEngine\Doom3\ThirdParty\oneTBB\src\tbb\task.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\DoomsMain\DoomsEngine\Doom3\ThirdParty\oneTBB\src\tbb\task_dispatcher.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\DoomsMain\DoomsEngine\Doom3\ThirdParty\oneTBB\src\tbb\task_group_context.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\DoomsMain\DoomsEngine\Doom3\ThirdParty\oneTBB\src\tbb\version.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\DoomsMain\DoomsEngine\Doom3\ThirdParty\oneTBB\src\tbb\queuing_rw_mutex.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="C:\DoomsMain\DoomsEngine\Doom3\ThirdParty\oneTBB\src\tbb\CMakeLists.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{DACFA2F9-F2E2-39B1-85BB-D7AF1AB234B6}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

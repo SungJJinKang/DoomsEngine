@@ -1,0 +1,34 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="17.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="C:\DoomsMain\DoomsEngine\Doom3\ThirdParty\DirectXTex\DDSView\ddsview.cpp">
+      <Filter>ddsview</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="C:\DoomsMain\DoomsEngine\Doom3\ThirdParty\DirectXTex\DDSView\hlsl.cmd">
+      <Filter>ddsview</Filter>
+    </CustomBuild>
+    <CustomBuild Include="C:\DoomsMain\DoomsEngine\Doom3\ThirdParty\DirectXTex\CMakeLists.txt">
+      <Filter>DirectXTex</Filter>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="C:\DoomsMain\DoomsEngine\Doom3\ThirdParty\DirectXTex\Shaders\Compiled\ddsview_ps1D.inc">
+      <Filter>DirectXTex</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="C:\DoomsMain\DoomsEngine\Doom3\ThirdParty\DirectXTex\DDSView\DDSView.rc">
+      <Filter>ddsview</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="DirectXTex">
+      <UniqueIdentifier>{53A2B914-1B28-3824-8AA4-B536F9A7A659}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ddsview">
+      <UniqueIdentifier>{3F604B40-29CA-3799-B442-1B034754681F}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

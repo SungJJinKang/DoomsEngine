@@ -130,7 +130,7 @@
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
-      <AdditionalIncludeDirectories>$(SolutionDir)Source\thirdparty\oneTBB\include;..\Doom3\Source\Core\Graphics\GraphicsAPI\;$(SolutionDir)Source\Core;$(SolutionDir)Source\thirdparty\imgui</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)ThirdParty\glfw3\include\GLFW;$(SolutionDir)ThirdParty\oneTBB\include;..\Doom3\Source\Core\Graphics\GraphicsAPI\;$(SolutionDir)Source\Core;$(SolutionDir)Source\thirdparty\imgui</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
     </ClCompile>
@@ -148,7 +148,7 @@
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
-      <AdditionalIncludeDirectories>$(SolutionDir)Source\thirdparty\oneTBB\include;..\Doom3\Source\Core\Graphics\GraphicsAPI\;$(SolutionDir)Source\Core;$(SolutionDir)Source\thirdparty\imgui</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)ThirdParty\glfw3\include\GLFW;$(SolutionDir)ThirdParty\oneTBB\include;..\Doom3\Source\Core\Graphics\GraphicsAPI\;$(SolutionDir)Source\Core;$(SolutionDir)Source\thirdparty\imgui</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
     </ClCompile>
@@ -168,7 +168,7 @@
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
-      <AdditionalIncludeDirectories>$(SolutionDir)Source\thirdparty\oneTBB\include;..\Doom3\Source\Core\Graphics\GraphicsAPI\;$(SolutionDir)Source\Core;$(SolutionDir)Source\thirdparty\imgui</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)ThirdParty\glfw3\include\GLFW;$(SolutionDir)ThirdParty\oneTBB\include;..\Doom3\Source\Core\Graphics\GraphicsAPI\;$(SolutionDir)Source\Core;$(SolutionDir)Source\thirdparty\imgui</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
     </ClCompile>
@@ -188,7 +188,7 @@
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
-      <AdditionalIncludeDirectories>$(SolutionDir)Source\thirdparty\oneTBB\include;$(ProjectDir);$(SolutionDir)Source\thirdparty\oneTBB\include;..\Doom3\Source\Core\Graphics\GraphicsAPI\;$(SolutionDir)Source\Core;$(SolutionDir)Source\thirdparty\imgui</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)ThirdParty\glfw3\include\GLFW;$(SolutionDir)ThirdParty\oneTBB\include;$(ProjectDir);$(SolutionDir)Source\thirdparty\oneTBB\include;..\Doom3\Source\Core\Graphics\GraphicsAPI\;$(SolutionDir)Source\Core;$(SolutionDir)Source\thirdparty\imgui</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
     </ClCompile>
@@ -197,7 +197,7 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableUAC>false</EnableUAC>
       <AdditionalDependencies>glad.lib;glfw3_mt.lib;tbbmalloc_debug.lib;tbbmalloc_proxy_debug.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(SolutionDir)Source\thirdparty\oneTBB\build\msvc_19.30_cxx_64_md_debug;C:\vcpkg\installed\x64-windows\debug\lib;$(OutputPath)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(SolutionDir)ThirdParty\oneTBB\msvc_19.30_cxx_64_md_debug;$(SolutionDir)ThirdParty\glad;$(SolutionDir)ThirdParty\glfw3\lib-vc2022;$(OutputPath)</AdditionalLibraryDirectories>
       <ForceSymbolReferences>__TBB_malloc_proxy</ForceSymbolReferences>
     </Link>
   </ItemDefinitionGroup>
@@ -209,7 +209,7 @@
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
-      <AdditionalIncludeDirectories>$(SolutionDir)Source\thirdparty\oneTBB\include;$(ProjectDir);$(SolutionDir)Source\thirdparty\oneTBB\include;..\Doom3\Source\Core\Graphics\GraphicsAPI\;$(SolutionDir)Source\Core;$(SolutionDir)Source\thirdparty\imgui</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)ThirdParty\glfw3\include\GLFW;$(SolutionDir)ThirdParty\oneTBB\include;$(ProjectDir);$(SolutionDir)Source\thirdparty\oneTBB\include;..\Doom3\Source\Core\Graphics\GraphicsAPI\;$(SolutionDir)Source\Core;$(SolutionDir)Source\thirdparty\imgui</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
     </ClCompile>
@@ -218,7 +218,7 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableUAC>false</EnableUAC>
       <AdditionalDependencies>glad.lib;glfw3_mt.lib;tbbmalloc_debug.lib;tbbmalloc_proxy_debug.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(SolutionDir)Source\thirdparty\oneTBB\build\msvc_19.30_cxx_64_md_debug;C:\vcpkg\installed\x64-windows\debug\lib;$(OutputPath)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(SolutionDir)ThirdParty\oneTBB\binary;$(SolutionDir)ThirdParty\glad;$(SolutionDir)ThirdParty\glfw3\lib-vc2022;$(SolutionDir)Source\thirdparty\oneTBB\build\msvc_19.30_cxx_64_md_debug;C:\vcpkg\installed\x64-windows\debug\lib;$(OutputPath)</AdditionalLibraryDirectories>
       <ForceSymbolReferences>__TBB_malloc_proxy</ForceSymbolReferences>
     </Link>
   </ItemDefinitionGroup>
@@ -232,7 +232,7 @@
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
-      <AdditionalIncludeDirectories>$(SolutionDir)Source\thirdparty\oneTBB\include;$(SolutionDir)Source\thirdparty\oneTBB\include;..\Doom3\Source\Core\Graphics\GraphicsAPI\;$(SolutionDir)Source\Core;$(SolutionDir)Source\thirdparty\imgui;$(ProjectDir)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)ThirdParty\glfw3\include\GLFW;$(SolutionDir)ThirdParty\oneTBB\include;$(SolutionDir)Source\thirdparty\oneTBB\include;..\Doom3\Source\Core\Graphics\GraphicsAPI\;$(SolutionDir)Source\Core;$(SolutionDir)Source\thirdparty\imgui;$(ProjectDir)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
       <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
@@ -244,7 +244,7 @@
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableUAC>false</EnableUAC>
-      <AdditionalLibraryDirectories>C:\vcpkg\installed\x64-windows\lib;$(SolutionDir)Source\thirdparty\oneTBB\build\msvc_19.30_cxx_64_md_release;$(OutputPath);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(SolutionDir)ThirdParty\oneTBB\msvc_19.30_cxx_64_md_release;$(SolutionDir)ThirdParty\glad;$(SolutionDir)ThirdParty\glfw3\lib-vc2022;$(OutputPath);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>glad.lib;glfw3_mt.lib;tbbmalloc_proxy.lib;tbbmalloc.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <ForceSymbolReferences>__TBB_malloc_proxy</ForceSymbolReferences>
     </Link>
@@ -263,8 +263,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="glad\glad.h" />
-    <ClInclude Include="GLFW\glfw3.h" />
-    <ClInclude Include="GLFW\glfw3native.h" />
     <ClInclude Include="imgui\backends\imgui_impl_glfw.h" />
     <ClInclude Include="imgui\backends\imgui_impl_opengl3.h" />
     <ClInclude Include="imgui\backends\imgui_impl_opengl3_loader.h" />

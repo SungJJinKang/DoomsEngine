@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="17.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="C:\DoomsMain\DoomsEngine\Doom3\ThirdParty\DirectXTex\Texdiag\texdiag.cpp">
+      <Filter>texdiag</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="C:\DoomsMain\DoomsEngine\Doom3\ThirdParty\DirectXTex\CMakeLists.txt">
+      <Filter>DirectXTex</Filter>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="C:\DoomsMain\DoomsEngine\Doom3\ThirdParty\DirectXTex\Texdiag\texdiag.rc">
+      <Filter>texdiag</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="DirectXTex">
+      <UniqueIdentifier>{53A2B914-1B28-3824-8AA4-B536F9A7A659}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="texdiag">
+      <UniqueIdentifier>{D53CFB3D-F56C-3F0D-A89B-96120F6D5475}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

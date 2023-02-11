@@ -1,0 +1,130 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="17.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="C:\DoomsMain\DoomsEngine\Doom3\ThirdParty\DirectXTex\CMakeFiles\DirectXTex.dir\cmake_pch.cxx">
+      <Filter>DirectXTex</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\DoomsMain\DoomsEngine\Doom3\ThirdParty\DirectXTex\DirectXTex\BC.cpp">
+      <Filter>DirectXTex</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\DoomsMain\DoomsEngine\Doom3\ThirdParty\DirectXTex\DirectXTex\BC4BC5.cpp">
+      <Filter>DirectXTex</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\DoomsMain\DoomsEngine\Doom3\ThirdParty\DirectXTex\DirectXTex\BC6HBC7.cpp">
+      <Filter>DirectXTex</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\DoomsMain\DoomsEngine\Doom3\ThirdParty\DirectXTex\DirectXTex\DirectXTexCompress.cpp">
+      <Filter>DirectXTex</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\DoomsMain\DoomsEngine\Doom3\ThirdParty\DirectXTex\DirectXTex\DirectXTexConvert.cpp">
+      <Filter>DirectXTex</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\DoomsMain\DoomsEngine\Doom3\ThirdParty\DirectXTex\DirectXTex\DirectXTexDDS.cpp">
+      <Filter>DirectXTex</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\DoomsMain\DoomsEngine\Doom3\ThirdParty\DirectXTex\DirectXTex\DirectXTexHDR.cpp">
+      <Filter>DirectXTex</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\DoomsMain\DoomsEngine\Doom3\ThirdParty\DirectXTex\DirectXTex\DirectXTexImage.cpp">
+      <Filter>DirectXTex</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\DoomsMain\DoomsEngine\Doom3\ThirdParty\DirectXTex\DirectXTex\DirectXTexMipmaps.cpp">
+      <Filter>DirectXTex</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\DoomsMain\DoomsEngine\Doom3\ThirdParty\DirectXTex\DirectXTex\DirectXTexMisc.cpp">
+      <Filter>DirectXTex</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\DoomsMain\DoomsEngine\Doom3\ThirdParty\DirectXTex\DirectXTex\DirectXTexNormalMaps.cpp">
+      <Filter>DirectXTex</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\DoomsMain\DoomsEngine\Doom3\ThirdParty\DirectXTex\DirectXTex\DirectXTexPMAlpha.cpp">
+      <Filter>DirectXTex</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\DoomsMain\DoomsEngine\Doom3\ThirdParty\DirectXTex\DirectXTex\DirectXTexResize.cpp">
+      <Filter>DirectXTex</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\DoomsMain\DoomsEngine\Doom3\ThirdParty\DirectXTex\DirectXTex\DirectXTexTGA.cpp">
+      <Filter>DirectXTex</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\DoomsMain\DoomsEngine\Doom3\ThirdParty\DirectXTex\DirectXTex\DirectXTexUtil.cpp">
+      <Filter>DirectXTex</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\DoomsMain\DoomsEngine\Doom3\ThirdParty\DirectXTex\DirectXTex\DirectXTexFlipRotate.cpp">
+      <Filter>DirectXTex</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\DoomsMain\DoomsEngine\Doom3\ThirdParty\DirectXTex\DirectXTex\DirectXTexWIC.cpp">
+      <Filter>DirectXTex</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\DoomsMain\DoomsEngine\Doom3\ThirdParty\DirectXTex\DirectXTex\BCDirectCompute.cpp">
+      <Filter>DirectXTex</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\DoomsMain\DoomsEngine\Doom3\ThirdParty\DirectXTex\DirectXTex\DirectXTexCompressGPU.cpp">
+      <Filter>DirectXTex</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\DoomsMain\DoomsEngine\Doom3\ThirdParty\DirectXTex\DirectXTex\DirectXTexD3D11.cpp">
+      <Filter>DirectXTex</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\DoomsMain\DoomsEngine\Doom3\ThirdParty\DirectXTex\DirectXTex\DirectXTexD3D12.cpp">
+      <Filter>DirectXTex</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="C:\DoomsMain\DoomsEngine\Doom3\ThirdParty\DirectXTex\DirectXTex\BC.h">
+      <Filter>DirectXTex</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\DoomsMain\DoomsEngine\Doom3\ThirdParty\DirectXTex\DirectXTex\DDS.h">
+      <Filter>DirectXTex</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\DoomsMain\DoomsEngine\Doom3\ThirdParty\DirectXTex\DirectXTex\DirectXTexP.h">
+      <Filter>DirectXTex</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\DoomsMain\DoomsEngine\Doom3\ThirdParty\DirectXTex\DirectXTex\filters.h">
+      <Filter>DirectXTex</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\DoomsMain\DoomsEngine\Doom3\ThirdParty\DirectXTex\DirectXTex\scoped.h">
+      <Filter>DirectXTex</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\DoomsMain\DoomsEngine\Doom3\ThirdParty\DirectXTex\DirectXTex\BCDirectCompute.h">
+      <Filter>DirectXTex</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\DoomsMain\DoomsEngine\Doom3\ThirdParty\DirectXTex\DirectXTex\d3dx12.h">
+      <Filter>DirectXTex</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\DoomsMain\DoomsEngine\Doom3\ThirdParty\DirectXTex\DirectXTex\DirectXTex.h">
+      <Filter>DirectXTex</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\DoomsMain\DoomsEngine\Doom3\ThirdParty\DirectXTex\DirectXTex\DirectXTex.inl">
+      <Filter>DirectXTex</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\DoomsMain\DoomsEngine\Doom3\ThirdParty\DirectXTex\CMakeFiles\DirectXTex.dir\Debug\cmake_pch.hxx">
+      <Filter>DirectXTex</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\DoomsMain\DoomsEngine\Doom3\ThirdParty\DirectXTex\CMakeFiles\DirectXTex.dir\Release\cmake_pch.hxx">
+      <Filter>DirectXTex</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\DoomsMain\DoomsEngine\Doom3\ThirdParty\DirectXTex\CMakeFiles\DirectXTex.dir\MinSizeRel\cmake_pch.hxx">
+      <Filter>DirectXTex</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\DoomsMain\DoomsEngine\Doom3\ThirdParty\DirectXTex\CMakeFiles\DirectXTex.dir\RelWithDebInfo\cmake_pch.hxx">
+      <Filter>DirectXTex</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="C:\DoomsMain\DoomsEngine\Doom3\ThirdParty\DirectXTex\DirectXTex\Shaders\CompileShaders.cmd">
+      <Filter>DirectXTex</Filter>
+    </CustomBuild>
+    <CustomBuild Include="C:\DoomsMain\DoomsEngine\Doom3\ThirdParty\DirectXTex\CMakeLists.txt">
+      <Filter>DirectXTex</Filter>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="C:\DoomsMain\DoomsEngine\Doom3\ThirdParty\DirectXTex\Shaders\Compiled\BC6HEncode_EncodeBlockCS.inc">
+      <Filter>DirectXTex</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="DirectXTex">
+      <UniqueIdentifier>{53A2B914-1B28-3824-8AA4-B536F9A7A659}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

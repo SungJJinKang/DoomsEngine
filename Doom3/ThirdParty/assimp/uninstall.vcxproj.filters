@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="17.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <CustomBuild Include="C:\DoomsMain\DoomsEngine\Doom3\ThirdParty\assimp\CMakeFiles\6b79a9e3b7c283d9083be087a1e9890e\uninstall.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="C:\DoomsMain\DoomsEngine\Doom3\ThirdParty\assimp\CMakeLists.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="C:\DoomsMain\DoomsEngine\Doom3\ThirdParty\assimp\CMakeFiles\uninstall" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="CMake Rules">
+      <UniqueIdentifier>{C26D798E-9E44-3195-A8D0-A5537243C729}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

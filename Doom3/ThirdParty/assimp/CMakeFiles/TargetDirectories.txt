@@ -1,0 +1,13 @@
+C:/DoomsMain/DoomsEngine/Doom3/ThirdParty/assimp/CMakeFiles/uninstall.dir
+C:/DoomsMain/DoomsEngine/Doom3/ThirdParty/assimp/CMakeFiles/UpdateAssimpLibsDebugSymbolsAndDLLs.dir
+C:/DoomsMain/DoomsEngine/Doom3/ThirdParty/assimp/CMakeFiles/INSTALL.dir
+C:/DoomsMain/DoomsEngine/Doom3/ThirdParty/assimp/CMakeFiles/ALL_BUILD.dir
+C:/DoomsMain/DoomsEngine/Doom3/ThirdParty/assimp/CMakeFiles/ZERO_CHECK.dir
+C:/DoomsMain/DoomsEngine/Doom3/ThirdParty/assimp/contrib/zlib/CMakeFiles/zlibstatic.dir
+C:/DoomsMain/DoomsEngine/Doom3/ThirdParty/assimp/contrib/zlib/CMakeFiles/INSTALL.dir
+C:/DoomsMain/DoomsEngine/Doom3/ThirdParty/assimp/contrib/zlib/CMakeFiles/ALL_BUILD.dir
+C:/DoomsMain/DoomsEngine/Doom3/ThirdParty/assimp/code/CMakeFiles/assimp.dir
+C:/DoomsMain/DoomsEngine/Doom3/ThirdParty/assimp/code/CMakeFiles/INSTALL.dir
+C:/DoomsMain/DoomsEngine/Doom3/ThirdParty/assimp/test/CMakeFiles/unit.dir
+C:/DoomsMain/DoomsEngine/Doom3/ThirdParty/assimp/test/CMakeFiles/INSTALL.dir
+C:/DoomsMain/DoomsEngine/Doom3/ThirdParty/assimp/test/headercheck/CMakeFiles/INSTALL.dir

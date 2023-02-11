@@ -858,6 +858,9 @@
     <ClCompile Include="Source\Engine\Misk\LatentActionManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Core\UUID\UUID.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="dependency\glad\include\glad\glad.h">
@@ -893,7 +896,7 @@
     <ClInclude Include="Source\Core\Asset\FontAsset.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Core\API\UUID.h">
+    <ClInclude Include="Source\Core\UUID\UUID.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\Core\Math\Vector.h">
@@ -2151,6 +2154,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\Core\ResourceManagement\Thread\EThreadPriority.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Component\Core\Component.reflection.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

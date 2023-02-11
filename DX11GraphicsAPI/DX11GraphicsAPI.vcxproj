@@ -156,7 +156,7 @@
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
-      <AdditionalIncludeDirectories>$(SolutionDir)Source\Core;$(SolutionDir)Source\thirdparty\imgui;..\Doom3\Source\Core\Graphics\GraphicsAPI\;$(SolutionDir)Source\thirdparty\oneTBB\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)ThirdParty\oneTBB\include;$(SolutionDir)Source\Core;$(SolutionDir)Source\thirdparty\imgui;..\Doom3\Source\Core\Graphics\GraphicsAPI\;$(SolutionDir)Source\thirdparty\oneTBB\include</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
     </ClCompile>
@@ -174,7 +174,7 @@
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
-      <AdditionalIncludeDirectories>$(SolutionDir)Source\Core;$(SolutionDir)Source\thirdparty\imgui;..\Doom3\Source\Core\Graphics\GraphicsAPI\;$(SolutionDir)Source\thirdparty\oneTBB\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)ThirdParty\oneTBB\include;$(SolutionDir)Source\Core;$(SolutionDir)Source\thirdparty\imgui;..\Doom3\Source\Core\Graphics\GraphicsAPI\;$(SolutionDir)Source\thirdparty\oneTBB\include</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
     </ClCompile>
@@ -194,7 +194,7 @@
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
-      <AdditionalIncludeDirectories>$(SolutionDir)Source\Core;$(SolutionDir)Source\thirdparty\imgui;..\Doom3\Source\Core\Graphics\GraphicsAPI\;$(SolutionDir)Source\thirdparty\oneTBB\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)ThirdParty\oneTBB\include;$(SolutionDir)Source\Core;$(SolutionDir)Source\thirdparty\imgui;..\Doom3\Source\Core\Graphics\GraphicsAPI\;$(SolutionDir)Source\thirdparty\oneTBB\include</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
     </ClCompile>
@@ -214,7 +214,7 @@
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
-      <AdditionalIncludeDirectories>$(SolutionDir)Source\thirdparty\oneTBB\include;$(SolutionDir)Source\Core;$(SolutionDir)Source\thirdparty\imgui;..\Doom3\Source\Core\Graphics\GraphicsAPI\</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)ThirdParty\oneTBB\include;$(SolutionDir)Source\thirdparty\oneTBB\include;$(SolutionDir)Source\Core;$(SolutionDir)Source\thirdparty\imgui;..\Doom3\Source\Core\Graphics\GraphicsAPI\</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
     </ClCompile>
@@ -223,7 +223,7 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableUAC>false</EnableUAC>
       <AdditionalDependencies>d3d11.lib;d3dcompiler.lib;dxguid.lib;winmm.lib;comctl32.lib;tbbmalloc_debug.lib;tbbmalloc_proxy_debug.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(SolutionDir)Source\thirdparty\oneTBB\build\msvc_19.30_cxx_64_md_debug;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(SolutionDir)ThirdParty\oneTBB\msvc_19.30_cxx_64_md_debug;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <ForceSymbolReferences>__TBB_malloc_proxy</ForceSymbolReferences>
     </Link>
   </ItemDefinitionGroup>
@@ -235,7 +235,7 @@
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
-      <AdditionalIncludeDirectories>$(SolutionDir)Source\thirdparty\oneTBB\include;$(SolutionDir)Source\Core;$(SolutionDir)Source\thirdparty\imgui;..\Doom3\Source\Core\Graphics\GraphicsAPI\</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)ThirdParty\oneTBB\include;$(SolutionDir)Source\thirdparty\oneTBB\include;$(SolutionDir)Source\Core;$(SolutionDir)Source\thirdparty\imgui;..\Doom3\Source\Core\Graphics\GraphicsAPI\</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
     </ClCompile>
@@ -244,7 +244,7 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableUAC>false</EnableUAC>
       <AdditionalDependencies>d3d11.lib;d3dcompiler.lib;dxguid.lib;winmm.lib;comctl32.lib;tbbmalloc_debug.lib;tbbmalloc_proxy_debug.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(SolutionDir)Source\thirdparty\oneTBB\build\msvc_19.30_cxx_64_md_debug;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(SolutionDir)ThirdParty\oneTBB\binary;$(SolutionDir)Source\thirdparty\oneTBB\build\msvc_19.30_cxx_64_md_debug;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <ForceSymbolReferences>__TBB_malloc_proxy</ForceSymbolReferences>
     </Link>
   </ItemDefinitionGroup>
@@ -258,7 +258,7 @@
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
-      <AdditionalIncludeDirectories>$(SolutionDir)Source\thirdparty\oneTBB\include;$(SolutionDir)Source\Core;$(SolutionDir)Source\thirdparty\imgui;..\Doom3\Source\Core\Graphics\GraphicsAPI\</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)ThirdParty\oneTBB\include;$(SolutionDir)Source\thirdparty\oneTBB\include;$(SolutionDir)Source\Core;$(SolutionDir)Source\thirdparty\imgui;..\Doom3\Source\Core\Graphics\GraphicsAPI\</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
       <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
@@ -271,7 +271,7 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableUAC>false</EnableUAC>
       <AdditionalDependencies>d3d11.lib;d3dcompiler.lib;dxguid.lib;winmm.lib;comctl32.lib;tbbmalloc_proxy.lib;tbbmalloc.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(SolutionDir)Source\thirdparty\oneTBB\build\msvc_19.30_cxx_64_md_release</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(SolutionDir)ThirdParty\oneTBB\msvc_19.30_cxx_64_md_release;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <ForceSymbolReferences>__TBB_malloc_proxy</ForceSymbolReferences>
     </Link>
   </ItemDefinitionGroup>

@@ -1,5 +1,7 @@
 #include "AssetExporter_Texture.h"
 
+#include <array>
+
 #include <Graphics/GraphicsAPI/GraphicsAPI.h>
 #include <Rendering/Texture/TextureView.h>
 #include <DirectXTex.h>

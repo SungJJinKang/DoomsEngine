@@ -261,7 +261,6 @@ void dooms::assetImporter::AssetImporterWorker_THREE_D_MODEL::Creat3DModelAsset
 			asset->mModelMeshAssets[meshIndex].mVertexArrayFlag |= dooms::graphics::eVertexArrayFlag::VertexVector3;
 			break;
 		case aiPrimitiveType::aiPrimitiveType_TRIANGLE:
-		case aiPrimitiveType::aiPrimitiveType_TRIANGLE | aiPrimitiveType::aiPrimitiveType_NGONEncodingFlag:
 			asset->mModelMeshAssets[meshIndex].mPrimitiveType = dooms::graphics::GraphicsAPI::ePrimitiveType::TRIANGLES;
 			asset->mModelMeshAssets[meshIndex].mVertexArrayFlag |= dooms::graphics::eVertexArrayFlag::VertexVector3;
 			break;

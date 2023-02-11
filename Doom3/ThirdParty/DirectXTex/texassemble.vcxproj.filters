@@ -1,0 +1,29 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="17.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="C:\DoomsMain\DoomsEngine\Doom3\ThirdParty\DirectXTex\Texassemble\texassemble.cpp">
+      <Filter>texassemble</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\DoomsMain\DoomsEngine\Doom3\ThirdParty\DirectXTex\Texassemble\AnimatedGif.cpp">
+      <Filter>texassemble</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="C:\DoomsMain\DoomsEngine\Doom3\ThirdParty\DirectXTex\CMakeLists.txt">
+      <Filter>DirectXTex</Filter>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="C:\DoomsMain\DoomsEngine\Doom3\ThirdParty\DirectXTex\Texassemble\texassemble.rc">
+      <Filter>texassemble</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="DirectXTex">
+      <UniqueIdentifier>{53A2B914-1B28-3824-8AA4-B536F9A7A659}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="texassemble">
+      <UniqueIdentifier>{07A0AB6B-D4B7-3FF9-9DB9-3C8F481D08FD}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

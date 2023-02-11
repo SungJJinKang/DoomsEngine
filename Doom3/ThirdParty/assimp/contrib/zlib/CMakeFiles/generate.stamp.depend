@@ -1,0 +1,14 @@
+# CMake generation dependency list for this directory.
+C:/DoomsMain/DoomsEngine/Doom3/ThirdParty/assimp/CMakeFiles/CheckTypeSize/OFF64_T.c
+C:/DoomsMain/DoomsEngine/Doom3/ThirdParty/assimp/contrib/zlib/CMakeLists.txt
+C:/DoomsMain/DoomsEngine/Doom3/ThirdParty/assimp/contrib/zlib/zconf.h.cmakein
+C:/DoomsMain/DoomsEngine/Doom3/ThirdParty/assimp/contrib/zlib/zlib.pc.cmakein
+C:/Program Files/CMake/share/cmake-3.22/Modules/CheckCSourceCompiles.cmake
+C:/Program Files/CMake/share/cmake-3.22/Modules/CheckFunctionExists.c
+C:/Program Files/CMake/share/cmake-3.22/Modules/CheckFunctionExists.cmake
+C:/Program Files/CMake/share/cmake-3.22/Modules/CheckIncludeFile.c.in
+C:/Program Files/CMake/share/cmake-3.22/Modules/CheckIncludeFile.cmake
+C:/Program Files/CMake/share/cmake-3.22/Modules/CheckIncludeFileCXX.cmake
+C:/Program Files/CMake/share/cmake-3.22/Modules/CheckTypeSize.c.in
+C:/Program Files/CMake/share/cmake-3.22/Modules/CheckTypeSize.cmake
+C:/Program Files/CMake/share/cmake-3.22/Modules/Internal/CheckSourceCompiles.cmake

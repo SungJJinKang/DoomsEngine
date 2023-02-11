@@ -6,7 +6,7 @@
 #include <future>
 
 #include <Core.h>
-#include "../API/UUID.h"
+#include <UUID.h>
 
 #include "eAssetType.h"
 #include "AssetMetaData.h"
