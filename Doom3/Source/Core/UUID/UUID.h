@@ -1,5 +1,7 @@
 #pragma once
 
+#include <Core.h>
+
 #include <string>
 #include <functional>
 
@@ -23,11 +25,8 @@ namespace dooms
 		D_UUID(D_UUID&&) noexcept = default;
 		~D_UUID() = default;
 
-		D_UUID& operator=(const D_UUID& InUUID)
-		{
-			Value = InUUID.Value;
-			return *this;
-		}
+		D_UUID& operator=(const D_UUID& InUUID) = default;
+		D_UUID& operator=(D_UUID&& InUUID) noexcept = default;
 
 		bool operator==(const D_UUID& ComparedStr) const
 		{
@@ -47,9 +46,7 @@ namespace dooms
 			return Value != ComparedStr;
 		}
 	};
-
-
-
+	
 	extern D_UUID GenerateUUID();
 }
 
