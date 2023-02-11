@@ -249,18 +249,18 @@ void dooms::physics::AABB3D::ApplyModelMatrix(const AABB3D& localAABB, const mat
 	// check 87p http://www.r-5.org/files/books/computers/algo-list/realtime-3d/Christer_Ericson-Real-Time_Collision_Detection-EN.pdf
 
 #ifdef __AVX__
-	const M128F& localAABBLowerBound = *reinterpret_cast<const M128F*>(&localAABB.mLowerBound);
-	const M128F& localAABBUpperBound = *reinterpret_cast<const M128F*>(&localAABB.mUpperBound);
+	const JINMATH_M128F& localAABBLowerBound = *reinterpret_cast<const JINMATH_M128F*>(&localAABB.mLowerBound);
+	const JINMATH_M128F& localAABBUpperBound = *reinterpret_cast<const JINMATH_M128F*>(&localAABB.mUpperBound);
 
-	M128F centerPoint = M128F_MUL(M128F_ADD(localAABBLowerBound, localAABBUpperBound), _mm_set1_ps(0.5f));
+	JINMATH_M128F centerPoint = M128F_MUL(M128F_ADD(localAABBLowerBound, localAABBUpperBound), _mm_set1_ps(0.5f));
 	centerPoint.m128_f32[3] = 1.0f;
 	const math::Vector4 newCenter = modelMatrix * (*reinterpret_cast<const math::Vector4*>(&centerPoint));
 
-	const M128F halfSize = M128F_SUB(centerPoint, localAABBLowerBound);
+	const JINMATH_M128F halfSize = M128F_SUB(centerPoint, localAABBLowerBound);
 
-	const M128F newXAxis = M128F_MUL(*reinterpret_cast<const M128F*>(modelMatrix.columns + 0), _mm_set1_ps(halfSize.m128_f32[0]));
-	const M128F newYAxis = M128F_MUL(*reinterpret_cast<const M128F*>(modelMatrix.columns + 1), _mm_set1_ps(halfSize.m128_f32[1]));
-	const M128F newZAxis = M128F_MUL(*reinterpret_cast<const M128F*>(modelMatrix.columns + 2), _mm_set1_ps(halfSize.m128_f32[2]));
+	const JINMATH_M128F newXAxis = M128F_MUL(*reinterpret_cast<const JINMATH_M128F*>(modelMatrix.columns + 0), _mm_set1_ps(halfSize.m128_f32[0]));
+	const JINMATH_M128F newYAxis = M128F_MUL(*reinterpret_cast<const JINMATH_M128F*>(modelMatrix.columns + 1), _mm_set1_ps(halfSize.m128_f32[1]));
+	const JINMATH_M128F newZAxis = M128F_MUL(*reinterpret_cast<const JINMATH_M128F*>(modelMatrix.columns + 2), _mm_set1_ps(halfSize.m128_f32[2]));
 
 	const math::Vector4 newDir
 	(
