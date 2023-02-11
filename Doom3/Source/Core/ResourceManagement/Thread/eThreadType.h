@@ -1,7 +1,5 @@
 #pragma once
 
-#include <Core.h>
-
 namespace dooms
 {
 	namespace thread
@@ -11,7 +9,6 @@ namespace dooms
 			GAME_THREAD,
 			RENDER_THREAD,
 			JOB_THREAD
-			
 		};
 	}
 }
