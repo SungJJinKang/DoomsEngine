@@ -34,23 +34,23 @@ namespace dooms
 			
 			extern void LoadData();
 			
-			inline extern int GetScreenWidth()
+			inline int GetScreenWidth()
 			{
 				return graphicsAPISetting::ScreenSize[0];
 			}
 
-			inline extern int GetScreenHeight()
+			inline int GetScreenHeight()
 			{
 				return graphicsAPISetting::ScreenSize[1];
 			}
 			
 			
-			inline extern float GetScreenRatio()
+			inline float GetScreenRatio()
 			{
 				return graphicsAPISetting::ScreenRatio;
 			}
 
-			inline extern unsigned int GetMultiSamplingNum()
+			inline unsigned int GetMultiSamplingNum()
 			{
 				return graphicsAPISetting::MultiSamplingNum;
 			}

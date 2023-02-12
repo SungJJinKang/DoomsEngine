@@ -15,7 +15,7 @@ namespace dooms
 #ifdef DEBUG_DRAWER
 			extern void UpdateDebugger();
 #else
-			inline extern void UpdateDebugger()
+			inline void UpdateDebugger()
 			{
 			}
 #endif

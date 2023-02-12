@@ -123,7 +123,7 @@ void dooms::graphics::DefaultGraphcisPipeLine::PushFrontToBackSortJobToJobSystem
 		}
 	};
 
-	std::move(thread::ParallelForWithReturn(FrontToBackSortJob, 1)[0]);
+	thread::ParallelForWithReturn(FrontToBackSortJob, 1);
 }
 
 void dooms::graphics::DefaultGraphcisPipeLine::FrontToBackSort(const math::Vector3& CameraPos, const UINT32 cameraIndex)
