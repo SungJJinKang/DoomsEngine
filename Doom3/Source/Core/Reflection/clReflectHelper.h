@@ -44,7 +44,8 @@ namespace dooms
 		inline extern const std::string clReflect_automation_dll_function_name = "c_Generate_clReflect_data";
 		
 		extern bool Generate_clReflect_BinaryReflectionData();
-
+		extern const std::filesystem::path ProjectFilePath;
+		extern bool IsExistProjectFile();
 	};
 }
 

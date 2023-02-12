@@ -285,7 +285,7 @@ xcopy /y /d /E /H /C /I "$(ProjectDir)Assets" "$(TargetDir)Assets"</Command>
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions);UNICODE;__x86_64__</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions);UNICODE;__x86_64__;VCXPROJ_PATH="$(ProjectPath.Replace('\', '\\'))"</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>$(SolutionDir)ThirdParty\nlohmann;$(SolutionDir)ThirdParty\assimp\include;$(SolutionDir)ThirdParty\oneTBB\include;$(ProjectDir)..\OpenGLGraphicsAPI;$(ProjectDir)Source\Core\Reflection\AdditionalDirectoryForClang;$(ProjectDir)..\DX11GraphicsAPI;$(ProjectDir);$(SolutionDir)ThirdParty\glfw3\include;$(SolutionDir)ThirdParty\KHR;$(SolutionDir)ThirdParty\imgui;$(SolutionDir)ThirdParty\DirectXTex\DirectXTex;$(SolutionDir)ThirdParty\concurrentqueue;$(SolutionDir)Source\Core\OS;$(SolutionDir)Source\Helper;$(SolutionDir)Source\Component;$(SolutionDir)Source\Core\Scene;$(SolutionDir)Source\Component\Core;$(SolutionDir)Source\Helper/crossguid;$(SolutionDir)Source\GameLogic\CustomComponent;$(SolutionDir)Source\Core\Math\JINMATH;$(SolutionDir)Source\Core\IO;$(SolutionDir)Source\Core\Time;$(SolutionDir)Source\GameLogic;$(SolutionDir)Source\Core;$(SolutionDir)Source\Core\Logger;$(SolutionDir)Source\Core\Physics;$(SolutionDir)Source\Core\UUID;$(SolutionDir)Source\Core\utility;$(SolutionDir)Source\Core\Reflection\clReflect_automation\clReflect\inc;$(SolutionDir)Source\Engine;$(SolutionDir)Source\Plugins;$(SolutionDir)Source\Core\Container\JINSTL\JINSTL\include\jinstl</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
@@ -321,7 +321,8 @@ xcopy /y /d /E /H /C /I "$(ProjectDir)Assets" "$(TargetDir)Assets"</Command>
 xcopy /y /d /f "$(ProjectDir)*.map" "$(TargetDir)"
 xcopy /y /s "$(ProjectDir)ThirdParty\assimp\bin\Debug" "$(TargetDir)"
 xcopy /y /s "$(ProjectDir)ThirdParty\oneTBB\msvc_19.30_cxx_64_md_debug" "$(TargetDir)"
-xcopy /y /s "$(ProjectDir)ThirdParty\glslcc\src\Debug" "$(TargetDir)"</Command>
+xcopy /y /s "$(ProjectDir)ThirdParty\glslcc\src\Debug" "$(TargetDir)"
+</Command>
     </PostBuildEvent>
     <PreBuildEvent>
       <Command>if not exist $(OutputPath)SourceDependencies mkdir $(OutputPath)SourceDependencies</Command>
@@ -376,7 +377,7 @@ xcopy /y /d /f "$(ProjectDir)*.map" "$(TargetDir)"</Command>
       <FunctionLevelLinking>false</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions);UNICODE</PreprocessorDefinitions>
+      <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions);UNICODE;__x86_64__;VCXPROJ_PATH="$(ProjectPath.Replace('\', '\\'))"</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>$(SolutionDir)ThirdParty\nlohmann;$(SolutionDir)ThirdParty\assimp\include;$(SolutionDir)ThirdParty\oneTBB\include;$(ProjectDir)..\OpenGLGraphicsAPI;$(ProjectDir)Source\Core\Reflection\AdditionalDirectoryForClang;$(ProjectDir)..\DX11GraphicsAPI;$(ProjectDir);$(SolutionDir)ThirdParty\glfw3\include;$(SolutionDir)ThirdParty\KHR;$(SolutionDir)ThirdParty\imgui;$(SolutionDir)ThirdParty\DirectXTex\DirectXTex;$(SolutionDir)ThirdParty\concurrentqueue;$(SolutionDir)Source\thirdparty\amdUprof\include;$(SolutionDir)Source\Core\OS;$(SolutionDir)Source\Helper;$(SolutionDir)Source\Component;$(SolutionDir)Source\Core\Scene;$(SolutionDir)Source\Component\Core;$(SolutionDir)Source\Helper/crossguid;$(SolutionDir)Source\GameLogic\CustomComponent;$(SolutionDir)Source\Core\Math\JINMATH;$(SolutionDir)Source\Core\UUID;$(SolutionDir)Source\Core\IO;$(SolutionDir)Source\Core\Time;$(SolutionDir)Source\GameLogic;$(SolutionDir)Source\Core;$(SolutionDir)Source\Core\Logger;$(SolutionDir)Source\Core\Physics;$(SolutionDir)Source\Core\utility;$(SolutionDir)Source\Core\Reflection\clReflect_automation\clReflect\inc;$(SolutionDir)Source\Plugins;$(SolutionDir)Source\Engine;$(SolutionDir)Source\Core\Container\JINSTL\JINSTL\include\jinstl</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
@@ -414,7 +415,8 @@ xcopy /y /d /f "$(ProjectDir)*.map" "$(TargetDir)"</Command>
 xcopy /y /d /f "$(ProjectDir)*.map" "$(TargetDir)"
 xcopy /y /s "$(ProjectDir)ThirdParty\assimp\bin\Release" "$(TargetDir)"
 xcopy /y /s "$(ProjectDir)ThirdParty\oneTBB\msvc_19.30_cxx_64_md_release" "$(TargetDir)"
-xcopy /y /s "$(ProjectDir)ThirdParty\glslcc\src\Release" "$(TargetDir)"</Command>
+xcopy /y /s "$(ProjectDir)ThirdParty\glslcc\src\Release" "$(TargetDir)"
+</Command>
     </PostBuildEvent>
     <PreBuildEvent>
       <Command>if not exist $(OutputPath)SourceDependencies mkdir $(OutputPath)SourceDependencies</Command>

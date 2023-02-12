@@ -2,27 +2,33 @@
 
 #if GENERATE_REFLECTION_DATA
 
+#ifndef VCXPROJ_PATH
+#error "Please Define VCXPROJ_PATH"
+#endif
+
 #include <string>
-
 #include <Misc/DynamicLinkingHelper/SmartDynamicLinking.h>
-
 #include <EngineGUI/PrintText.h>
-
 #include "EngineConfigurationData/ConfigData.h"
-
 
 namespace dooms
 {
 	namespace clReflectHelper
 	{
+		const std::filesystem::path ProjectFilePath = VCXPROJ_PATH;
+
 		std::string Generate_clReflectAdditionalCompilerOptions()
 		{
 			std::string clReflectAdditionalCompilerOptionsString = clReflectAdditionalCompilerOptionsForScpecificCompiler;
 			clReflectAdditionalCompilerOptionsString.append(" ");
 			clReflectAdditionalCompilerOptionsString.append(clReflectAdditionalCompilerOptionsPortable);
 
+			// @todo parse predefined macros from .vcxproj
 			clReflectAdditionalCompilerOptionsString.append(" -D");
 			clReflectAdditionalCompilerOptionsString.append(clReflectAdditionalCompilerOptions_Configuration);
+
+			clReflectAdditionalCompilerOptionsString.append(" -D");
+			clReflectAdditionalCompilerOptionsString.append(std::string{ "VCXPROJ_PATH=\"\"\"" } + VCXPROJ_PATH + "\"\"\"");
 
 			//clReflectAdditionalCompilerOptionsString.append(" -I");
 			//std::filesystem::path additionalDirectoryForClang = ""
@@ -69,8 +75,7 @@ namespace dooms
 			clReflectArgs.append(clExportPath.generic_string());
 			clReflectArgs.append(" ");
 
-			const std::filesystem::path projectFilePath = ConfigData::GetSingleton()->GetConfigData().GetValue<std::string>("SYSTEM", "PROJECT_VCXPROJ_PATH");
-			clReflectArgs.append(projectFilePath.generic_string());
+			clReflectArgs.append(ProjectFilePath.generic_string());
 			clReflectArgs.append(" ");
 
 #if defined(DEBUG_MODE)
@@ -167,6 +172,11 @@ bool dooms::clReflectHelper::Generate_clReflect_BinaryReflectionData()
 	const DWORD result = StartclReflect_automation(currentPath, clReflect_additional_compiler_options_wide_string);
 
 	return result == 0;
+}
+
+bool dooms::clReflectHelper::IsExistProjectFile()
+{
+	return std::filesystem::exists(ProjectFilePath);
 }
 
 #endif
