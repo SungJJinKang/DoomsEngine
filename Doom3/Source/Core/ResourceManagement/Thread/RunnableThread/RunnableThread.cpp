@@ -5,7 +5,7 @@ dooms::thread::RunnableThread::RunnableThread()
 	AddToRootObjectList();
 }
 
-void dooms::thread::RunnableThread::InitFromCallerThread()
+void dooms::thread::RunnableThread::InitFromThreadCreater()
 {
 	D_DEBUG_LOG(eLogType::D_LOG, "Thread ( %s ) is initialized", GetThreadName());
 

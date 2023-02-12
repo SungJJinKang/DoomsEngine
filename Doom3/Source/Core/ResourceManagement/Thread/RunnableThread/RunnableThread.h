@@ -24,7 +24,7 @@ namespace dooms
 
 			RunnableThread();
 
-			virtual void InitFromCallerThread();
+			virtual void InitFromThreadCreater();
 
 			bool IsInitialized() const;
 			bool IsTerminated() const;

@@ -12,11 +12,11 @@ dooms::thread::EThreadType dooms::thread::GameThread::GetThreadType() const
 	return EThreadType::GAME_THREAD;
 }
 
-void dooms::thread::GameThread::InitFromCallerThread()
+void dooms::thread::GameThread::InitFromThreadCreater()
 {
 	SetThreadHandle(dooms::os::GetCallerThreadHandle());
 
-	Base::InitFromCallerThread();
+	Base::InitFromThreadCreater();
 	
 	InitFromRunnableThread();
 }

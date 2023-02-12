@@ -57,7 +57,7 @@ namespace dooms
 
 		protected:
 
-			virtual void InitFromCallerThread() override;
+			virtual void InitFromThreadCreater() override;
 			virtual void InitFromRunnableThread() override;
 			virtual void TickFromRunnableThread() override;
 			EThreadPriority GetRecommendedPriorityOfThreadType() const override;

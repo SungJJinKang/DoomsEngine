@@ -30,9 +30,9 @@ void dooms::thread::RenderThread::WakeUpRunnableThread()
 	EnqueueRenderCommand([]() {});
 }
 
-void dooms::thread::RenderThread::InitFromCallerThread()
+void dooms::thread::RenderThread::InitFromThreadCreater()
 {
-	Base::InitFromCallerThread();
+	Base::InitFromThreadCreater();
 }
 
 void dooms::thread::RenderThread::TickFromRunnableThread()

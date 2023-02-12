@@ -25,7 +25,7 @@ dooms::thread::RunnableThread* dooms::thread::ThreadManager::CreateNewRunnableTh
 	{
 		RunnableThreadList.push_back(CreatedThread);
 
-		CreatedThread->InitFromCallerThread();
+		CreatedThread->InitFromThreadCreater();
 	}
 	else
 	{

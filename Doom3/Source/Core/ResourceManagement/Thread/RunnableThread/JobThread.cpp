@@ -27,9 +27,9 @@ void dooms::thread::JobThread::WakeUpRunnableThread()
 	//EnqueueJob([]() {});
 }
 
-void dooms::thread::JobThread::InitFromCallerThread()
+void dooms::thread::JobThread::InitFromThreadCreater()
 {
-	Base::InitFromCallerThread();
+	Base::InitFromThreadCreater();
 	
 }
 

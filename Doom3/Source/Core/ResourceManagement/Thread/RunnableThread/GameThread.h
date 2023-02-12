@@ -22,7 +22,7 @@ namespace dooms
 			const char* GetThreadName() const override;
 			EThreadType GetThreadType() const override;
 
-			virtual void InitFromCallerThread() override;
+			virtual void InitFromThreadCreater() override;
 			bool IsAllowMultipleThreadOfThisThreadType() const override;
 
 			void SetTickFunction(std::function<bool()> InTickFunction);
