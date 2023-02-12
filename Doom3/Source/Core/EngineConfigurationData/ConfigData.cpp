@@ -6,16 +6,43 @@
 #include <filesystem>
 #include <vector>
 #include <memory>
+#include <unordered_map>
+#include <functional>>
 
 #include <Misc/String/trim.h>
 #include <EngineGUI/PrintText.h>
+#include <OS.h>
 
 #include "EngineConfigurationData/ConfigData.h"
 
-static const std::regex sectionPattern{ R"(\s*\[\s*(\S+)\s*\]\s*)" };
-static const std::regex variablePattern{ R"(\s*(\S+)\s*=\s*(\S+)\s*)" };
+namespace dooms
+{
+	static const std::regex sectionPattern{ R"(\s*\[\s*(\S+)\s*\]\s*)" };
+	static const std::regex variablePattern{ R"(\s*(\S+)\s*=\s*(\S+)\s*)" };
+	static const std::regex ReservedIdentifierPattern{ "\\$\\{([^}]*)\\}" };
 
-static std::vector<std::shared_ptr<dooms::GeneralConfigurationValue>> IniConfigValueList{};
+	static std::vector<std::shared_ptr<dooms::GeneralConfigurationValue>> IniConfigValueList{};
+
+	static std::unordered_map<std::string, std::function<std::string()>> ReservedIdentifierHashTable{
+		{"CurrentExecutableDirectory", [] {return dooms::os::GetCurrentExecutableDirectory(); }}
+
+	};
+
+	bool TranslateReservedIdentifier(const std::string& ReservedIdentifier, std::string& OutTranslatedStr)
+	{
+		bool bIsSucess = false;
+
+		auto Iter = ReservedIdentifierHashTable.find(ReservedIdentifier);
+		if (Iter != ReservedIdentifierHashTable.end())
+		{
+			OutTranslatedStr = Iter->second();
+
+			bIsSucess = true;
+		}
+
+		return bIsSucess;
+	}
+}
 
 void dooms::ConfigData::RegisterConfigValue()
 {
@@ -79,9 +106,38 @@ void dooms::ConfigData::RegisterConfigValue()
 					ValueString = std::trim(ValueString, ' ');
 					ValueString = std::trim(ValueString, ';');
 
-					std::string UpperValueString{};
-					UpperValueString.resize(ValueString.size());
-					std::transform(ValueString.begin(), ValueString.end(), UpperValueString.begin(), ::toupper);
+					{
+						std::vector<std::string> ReservedIdentifierMatches;
+
+						{
+							// ChatGPT wrote this!!
+							std::smatch LocalMatch;
+							std::string LocalInput = ValueString;
+							while (std::regex_search(LocalInput, LocalMatch, ReservedIdentifierPattern))
+							{
+								ReservedIdentifierMatches.push_back(LocalMatch[1].str());
+								LocalInput = LocalMatch.suffix();
+							}
+						}
+
+
+						for (const std::string& ReservedIdentifier : ReservedIdentifierMatches)
+						{
+							std::string TranslatedReservedIdentifier{};
+							if (TranslateReservedIdentifier(ReservedIdentifier, TranslatedReservedIdentifier))
+							{
+								const std::string ReservedIdentifierCurlyBrancketsVersionStr = "${" + ReservedIdentifier + "}";
+
+								auto Pos = ValueString.find_first_of(ReservedIdentifierCurlyBrancketsVersionStr);
+								D_ASSERT(Pos != std::string::npos);
+								ValueString.replace(Pos, Pos + ReservedIdentifierCurlyBrancketsVersionStr.size(), TranslatedReservedIdentifier);
+							}
+							else
+							{
+								D_ASSERT_LOG(false, "Fail to translate reserved identifier(%s)", ReservedIdentifier.c_str());
+							}
+						}
+					}
 
 					GeneralConfigurationValue* ConfigurationValue{ nullptr };
 
@@ -90,12 +146,12 @@ void dooms::ConfigData::RegisterConfigValue()
 						TCvar<INT64>* CVar = new TCvar<INT64>(LastCategory, matches[1].str() , "", 0 );
 						ConfigurationValue = reinterpret_cast<GeneralConfigurationValue*>(CVar);
 					}
-					else if (UpperValueString == "TRUE")
+					else if ((ValueString == "TRUE") || (ValueString == "True"))
 					{
 						TCvar<bool>* CVar = new TCvar<bool>( LastCategory, matches[1].str() , "", true );
 						ConfigurationValue = reinterpret_cast<GeneralConfigurationValue*>(CVar);
 					}
-					else if (UpperValueString == "FALSE")
+					else if ((ValueString == "FALSE") || (ValueString == "Fasle"))
 					{
 						TCvar<bool>* CVar = new TCvar<bool>(LastCategory, matches[1].str() , "", false );
 						ConfigurationValue = reinterpret_cast<GeneralConfigurationValue*>(CVar);
