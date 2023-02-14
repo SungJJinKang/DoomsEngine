@@ -47,20 +47,13 @@
   * Integrate imgui with reflection system. ( DObjects, std::vector, std::array, std::unique_ptr... is supported, [video](https://youtu.be/wxZIGoTRcpo) )
   
 ### Misc
-
   
-## Currently working on     
-   
-  * Material Batching System ( Render objects with same material consecutively )            
-  * Seperate main thread into rendering thread and game thread ( references : [UE4 Threaded Rendering](https://docs.unrealengine.com/4.26/en-US/ProgrammingAndScripting/Rendering/ThreadedRendering/) )        
-  * implement physical based rendering ( https://cdn2.unrealengine.com/Resources/files/2013SiggraphPresentationsNotes-26915738.pdf )            
-  
-## To Develop
+## To Do
        
-  * completly support D3D11          
-  * Dynamic Batch Rendering             
-  * implement Hierarchical Shadow map        
-  * implement Asset Redirect        
+  * Code Refactoring ( When I read the code of unreal engine4, I thought my engine's code is really messy. I should fix this! )
+  * completly support D3D11                     
+  * implement Hierarchical Shadow map       
+  * Batch draw ( Fix up draw order )                    
    
 ## Thirdparty Dependencies            
              
@@ -73,8 +66,7 @@
   * [json](https://github.com/nlohmann/json) : JSON for Modern C++             
   * [glslcc](https://github.com/septag/glslcc) : GLSL cross-compiler tool (GLSL->HLSL, MSL, GLES2, GLES3, GLSLv3), using SPIRV-cross and glslang                   
   * [magic_enum](https://github.com/Neargye/magic_enum) : Static reflection for enums (to string, from string, iteration) for modern C++                 
-  * [googletest](https://github.com/google/googletest) : Google Testing and Mocking Framework
-
+ 
 ## Development Blog
 
 [Korean Blog](https://sungjjinkang.github.io/) 
