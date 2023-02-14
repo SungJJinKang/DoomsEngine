@@ -32,7 +32,7 @@ namespace dooms
 			Physics_Server();
 			~Physics_Server();
 
-			virtual void Init(const int argc, char* const* const argv) final;
+			virtual void Init() final;
 			virtual void Update() final;
 			virtual void FixedUpdate() final;
 			void FixedUpdateCollision();

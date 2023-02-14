@@ -35,7 +35,7 @@ dooms::physics::Physics_Server::~Physics_Server()
 	dooms::StaticContainer<ColliderComponent>::ClearContainer();
 }
 
-void dooms::physics::Physics_Server::Init(const int argc, char* const* const argv)
+void dooms::physics::Physics_Server::Init()
 {
 	
 	LoadPhysicsSetting();

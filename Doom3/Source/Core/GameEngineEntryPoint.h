@@ -7,6 +7,7 @@
 #include <OS/ErrorHandling.h>
 #include <Graphics/GraphicsAPI/Manager/GraphicsAPIManager.h>
 #include "ResourceManagement/Thread/RunnableThread/GameThread.h"
+#include <Misc/CommandLine.h>
 
 //void ExitGame();
 
@@ -22,10 +23,15 @@ namespace dooms
 			{
 				dooms::errorHandling::SetUnHandledExceptionHandling();
 
+				for(INT32 ArgumentIndex = 0 ; ArgumentIndex < argc ; ++ArgumentIndex)
+				{
+					CommandLine::AppendCommandLineString(argv[ArgumentIndex]);
+				}
+
 				dooms::GameCore gameCore{};
 
 				D_START_PROFILING(Init_Game, dooms::profiler::eProfileLayers::CPU);
-				gameCore.Init(argc, argv);
+				gameCore.Init();
 				D_END_PROFILING(Init_Game);
 
 				dooms::thread::GameThread::GetSingleton()->SetTickFunction

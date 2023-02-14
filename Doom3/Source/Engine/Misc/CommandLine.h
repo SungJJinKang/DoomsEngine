@@ -8,8 +8,9 @@ namespace dooms
 	{
 	public:
 
-		static void AppendCommandLine(const char* const InText);
-		static const std::string& GetCommandLine();
+		static void AppendCommandLineString(const char* const InStr);
+		static const std::string& GetCommandLineString(); 
+		static bool CheckCommandLineContainStr(const char* const InStr);
 
 	private:
 

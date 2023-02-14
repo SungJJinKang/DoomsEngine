@@ -13,6 +13,7 @@
 #include <Graphics/GraphicsAPI/Input/GraphicsAPIInput.h>
 
 #include "ResourceManagement/Thread/RunnableThread/RunnableThread.h"
+#include <Misc/CommandLine.h>
 
 #define DEFAULT_MAX_PHYSICS_STEP 8
 
@@ -64,32 +65,28 @@ void dooms::GameCore::UpdateGameCore()
 
 }
 
-void dooms::GameCore::InitializeGraphicsAPI(const int argc, char* const* const argv)
+void dooms::GameCore::InitializeGraphicsAPI()
 {
 	graphics::GraphicsAPI::eGraphicsAPIType targetGraphicsAPI = graphics::GraphicsAPI::eGraphicsAPIType::GraphicsAPIType_NONE;
 
-	for(size_t i = 0 ; i < argc ; i++)
+	
+	if(
+		CommandLine::CheckCommandLineContainStr("OPENGL") ||
+		CommandLine::CheckCommandLineContainStr("OPEN_GL")
+	)
 	{
-		if
-		(
-			_stricmp(argv[i], "OPENGL") == 0 ||
-			_stricmp(argv[i], "OPEN_GL") == 0 
-		)
-		{
-			targetGraphicsAPI = graphics::GraphicsAPI::eGraphicsAPIType::OpenGL;
-		}
-		else if
-		( 
-			(_stricmp(argv[i], "DX11") == 0) || 
-			(_stricmp(argv[i], "D3D11") == 0) || 
-			(_stricmp(argv[i], "DIRECTX") == 0) ||
-			(_stricmp(argv[i], "DIRECTX11") == 0)
-		)
-		{
-			targetGraphicsAPI = graphics::GraphicsAPI::eGraphicsAPIType::DX11_10;
-		}
+		targetGraphicsAPI = graphics::GraphicsAPI::eGraphicsAPIType::OpenGL;
 	}
-
+	else if(
+		CommandLine::CheckCommandLineContainStr("DX11") ||
+		CommandLine::CheckCommandLineContainStr("D3D11") ||
+		CommandLine::CheckCommandLineContainStr("DIRECTX") ||
+		CommandLine::CheckCommandLineContainStr("DIRECTX11")
+	)
+	{
+		targetGraphicsAPI = graphics::GraphicsAPI::eGraphicsAPIType::DX11_10;
+	}
+	
 	D_START_PROFILING(LoadGraphisAPI, eProfileLayers::CPU);
 	mGraphics_Server.InitializeGraphicsAPI(targetGraphicsAPI);
 	D_END_PROFILING(LoadGraphisAPI);
@@ -101,13 +98,13 @@ dooms::GameCore::~GameCore()
 
 }
 
-void dooms::GameCore::Init(const int argc, char* const* const argv)
+void dooms::GameCore::Init()
 {
 	D_START_PROFILING(InitGameSetting, eProfileLayers::CPU);
 	InitGameSetting();
 	D_END_PROFILING(InitGameSetting);
 	
-	InitServers(argc, argv);
+	InitServers();
 	LateInit();
 
 	GameLogicStartPoint::StartGameLogic();
@@ -118,24 +115,24 @@ void dooms::GameCore::Init(const int argc, char* const* const argv)
 	dooms::gc::GarbageCollectorManager::ResetElapsedTime();
 }
 
-void dooms::GameCore::InitServers(const int argc, char* const* const argv)
+void dooms::GameCore::InitServers()
 {
-	mMemoryManager.Init(argc, argv);
+	mMemoryManager.Init();
 	mReflectionManager.Initialize();
-	InitializeGraphicsAPI(argc, argv);
-	ThreadManager.Init(argc, argv);
+	InitializeGraphicsAPI();
+	ThreadManager.Init();
 	thread::RunnableThread* const GameThread = ThreadManager.CreateNewRunnableThread(thread::EThreadType::GAME_THREAD);
 	//ThreadManager.CreateNewRunnableThread(thread::EThreadType::RENDER_THREAD);
 	ThreadManager.CreateNewRunnableThread(thread::EThreadType::JOB_THREAD, mGameConfigData.GetConfigData().GetValue<INT64>("SYSTEM", "MAX_SUB_THREAD_COUNT"));
-	mAssetManager.Init(argc, argv);
-	mTime_Server.Init(argc, argv);
-	mPhysics_Server.Init(argc, argv);
-	mEngineGUIServer.Init(argc, argv);
-	mGraphics_Server.Init(argc, argv);
-	mUserImput_Server.Init(argc, argv);
-	mSceneManager.Init(argc, argv);
+	mAssetManager.Init();
+	mTime_Server.Init();
+	mPhysics_Server.Init();
+	mEngineGUIServer.Init();
+	mGraphics_Server.Init();
+	mUserImput_Server.Init();
+	mSceneManager.Init();
 	dooms::gc::GarbageCollectorManager::Init();
-	LatentActionManager.Init(argc, argv);
+	LatentActionManager.Init();
 }
 
 void dooms::GameCore::PostSceneInitServers()

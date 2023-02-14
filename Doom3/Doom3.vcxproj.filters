@@ -843,7 +843,7 @@
     <ClCompile Include="Source\Core\ResourceManagement\Thread\RunnableThread\GameThread.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Engine\Misk\LatentActionManager.cpp">
+    <ClCompile Include="Source\Engine\Misc\LatentActionManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Source\Core\UUID\UUID.cpp">
@@ -874,6 +874,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Source\Core\Math\JINMATH\SIMD_Core.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Engine\Misc\CommandLine.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -2162,10 +2165,10 @@
     <ClInclude Include="Source\Core\ResourceManagement\Thread\RunnableThread\GameThread.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Engine\Misk\LatentActionManager.h">
+    <ClInclude Include="Source\Engine\Misc\LatentActionManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Engine\Misk\LatentActionManager.reflection.h">
+    <ClInclude Include="Source\Engine\Misc\LatentActionManager.reflection.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\Core\ResourceManagement\Thread\EThreadPriority.h">
@@ -2214,6 +2217,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="ThirdParty\imgui\imstb_truetype.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Misc\CommandLine.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

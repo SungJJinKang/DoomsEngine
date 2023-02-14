@@ -33,7 +33,7 @@ namespace dooms
 			EngineGUIServer();
 			~EngineGUIServer();
 
-			void Init(const int argc, char* const* const argv) override;
+			void Init() override;
 			void Update() override;
 			void OnEndOfFrame() override;
 

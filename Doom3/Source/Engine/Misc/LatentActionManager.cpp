@@ -2,7 +2,7 @@
 
 #include <ResourceManagement/Thread/RunnableThread/RunnableThread.h>
 
-void dooms::LatentActionManager::Init(const int argc, char* const* const argv)
+void dooms::LatentActionManager::Init()
 {
 }
 

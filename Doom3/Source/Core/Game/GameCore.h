@@ -15,7 +15,7 @@
 #include <Memory/MemoryManager.h>
 #include <EngineGUI/EngineGUIServer.h>
 #include <EnginePluginManager.h>
-#include <Misk/LatentActionManager.h>
+#include <Misc/LatentActionManager.h>
 
 #include "GameCore.reflection.h"
 namespace dooms
@@ -93,7 +93,7 @@ namespace dooms
 		
 		void UpdateGameCore();
 
-		void InitializeGraphicsAPI(const int argc, char* const* const argv);
+		void InitializeGraphicsAPI();
 		
 	public:
 
@@ -107,8 +107,8 @@ namespace dooms
 		GameCore& operator=(GameCore&&) = delete;
 		~GameCore();
 
-		virtual void Init(const int argc, char* const* const argv) final;
-		void InitServers(const int argc, char* const* const argv);
+		virtual void Init() final;
+		void InitServers();
 		void PostSceneInitServers();
 		virtual void LateInit() final;
 

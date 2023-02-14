@@ -78,7 +78,7 @@ namespace dooms
 			
 			bool InitializeGraphicsAPI(GraphicsAPI::eGraphicsAPIType graphicsAPIType);
 
-			virtual void Init(const int argc, char* const* const argv) final;
+			virtual void Init() final;
 			virtual void LateInit() final;
 			virtual void Update() final;
 			virtual void OnEndOfFrame() final;

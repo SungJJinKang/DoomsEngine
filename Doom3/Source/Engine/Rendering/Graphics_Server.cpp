@@ -61,7 +61,7 @@ void dooms::graphics::Graphics_Server::GenerateGraphicsPipeLine()
 	D_ASSERT(IsValid(mGraphicsPipeLine));
 }
 
-void dooms::graphics::Graphics_Server::Init(const int argc, char* const* const argv)
+void dooms::graphics::Graphics_Server::Init()
 {
 	GenerateGraphicsPipeLine();
 	mGraphicsPipeLine->Initialize();

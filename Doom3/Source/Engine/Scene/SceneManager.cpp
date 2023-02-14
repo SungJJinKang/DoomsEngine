@@ -14,7 +14,7 @@ dooms::SceneManager::~SceneManager()
 	mCurrentScene->SetIsPendingKill();
 }
 
-void dooms::SceneManager::Init(const int argc, char* const* const argv)
+void dooms::SceneManager::Init()
 {
 	mLayerManager.Initialize();
 }

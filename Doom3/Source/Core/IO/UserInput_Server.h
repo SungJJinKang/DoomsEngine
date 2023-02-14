@@ -100,7 +100,7 @@ namespace dooms
 
 			UserInput_Server();
 
-			virtual void Init(const int argc, char* const* const argv) final;
+			virtual void Init() final;
 			virtual void Update() final;
 			virtual void UpdateInput() final;
 			virtual void OnEndOfFrame() final;

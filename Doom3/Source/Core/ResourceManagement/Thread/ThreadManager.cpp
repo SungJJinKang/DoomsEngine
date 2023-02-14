@@ -3,7 +3,7 @@
 #include "RunnableThread/RunnableThread.h"
 #include "ThreadFactory.h"
 
-void dooms::thread::ThreadManager::Init(const int argc, char* const* const argv)
+void dooms::thread::ThreadManager::Init()
 {
 }
 

@@ -153,7 +153,7 @@ void dooms::ui::EngineGUIServer::InitializeDefaultEngineGUIModules()
 	}
 }
 
-void dooms::ui::EngineGUIServer::Init(const int argc, char* const* const argv)
+void dooms::ui::EngineGUIServer::Init()
 {
 	bool isSuccess = InitializeImgui();
     dooms::ui::imguiWithReflection::Initialize();

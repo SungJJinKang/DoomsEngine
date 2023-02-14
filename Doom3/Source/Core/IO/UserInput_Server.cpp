@@ -164,7 +164,7 @@ void dooms::userinput::UserInput_Server::UpdateCurrentCursorScreenPosition()
 void UserInput_Server::Update()
 {}
 
-void UserInput_Server::Init(const int argc, char* const* const argv)
+void UserInput_Server::Init()
 {
 	UserInput_Server::SetIsCursorVisible(ConfigData::GetSingleton()->GetConfigData().GetValue<bool>("USERINPUT", "CURSOR_IS_VISIBLE"));
 	UserInput_Server::SetIsCursorLockedInScreen(ConfigData::GetSingleton()->GetConfigData().GetValue<bool>("USERINPUT", "CURSOR_LOCKED_IN_SCREEN"));

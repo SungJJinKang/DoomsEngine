@@ -22,7 +22,7 @@ namespace dooms
 			D_PROPERTY()
 			MainTimer mMainTimer;
 			
-			void Init(const int argc, char* const* const argv) noexcept override;
+			void Init() noexcept override;
 			void Update() noexcept override;
 			void OnEndOfFrame() noexcept override;
 

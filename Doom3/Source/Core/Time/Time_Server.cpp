@@ -2,7 +2,7 @@
 
 #include "MainTimer.h"
 
-void dooms::time::Time_Server::Init(const int argc, char* const* const argv) noexcept
+void dooms::time::Time_Server::Init() noexcept
 {
 	mMainTimer.InitTimer();
 }
