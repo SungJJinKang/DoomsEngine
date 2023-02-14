@@ -55,7 +55,7 @@ namespace dooms
 
 	enum D_ENUM eDObjectFlag : UINT64
 	{
-		NewAllocated = 1 << 0,
+		CreatedByCreateDObjectFunction = 1 << 0,
 		Unreachable = 1 << 1, // When DObject is created, this value is 0. because gc do mark stage incrementally.
 		IsPendingKill = 1 << 2, 
 		IsRootObject = 1 << 3,
@@ -63,7 +63,7 @@ namespace dooms
 	};
 
 	inline extern const UINT32 NotCopyedFlagsWhenCopyMoveConstruct
-		=	eDObjectFlag::NewAllocated |
+		=	eDObjectFlag::CreatedByCreateDObjectFunction |
 			eDObjectFlag::Unreachable |
 			eDObjectFlag::IsPendingKill |
 			eDObjectFlag::IsRootObject |
@@ -288,16 +288,16 @@ namespace dooms
 		}
 
 		D_FUNCTION()
-		FORCE_INLINE bool GetIsNewAllocated(const std::memory_order memoryOrder = std::memory_order_relaxed) const
+		FORCE_INLINE bool IsCreatedByCreateDObjectFunction(const std::memory_order memoryOrder = std::memory_order_relaxed) const
 		{
-			return GetDObjectFlag(eDObjectFlag::NewAllocated, memoryOrder);
+			return GetDObjectFlag(eDObjectFlag::CreatedByCreateDObjectFunction, memoryOrder);
 		}
 
 		D_FUNCTION()
 		FORCE_INLINE bool SetIsPendingKill(const std::memory_order memoryOrder = std::memory_order_relaxed)
 		{
 			bool isSuccess = false;
-			if(GetIsPendingKill() == false/* && GetIsNewAllocated() == true*/)
+			if(GetIsPendingKill() == false/* && IsCreatedByCreateDObjectFunction() == true*/)
 			{
 				OnSetPendingKill_Internal();
 				OnSetPendingKill();

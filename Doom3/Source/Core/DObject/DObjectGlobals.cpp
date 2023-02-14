@@ -1,7 +1,9 @@
 #include "DObjectGlobals.h"
 
-// todo : remove this platform dependen code.
+// todo : remove this platform dependent code.
 #include <Windows.h>
+#include <cstdlib>
+#include <cstring>
 
 bool dooms::IsLowLevelValid(const DObject* const dObject, const bool lock, const std::memory_order memoryOrder)
 {
@@ -27,6 +29,15 @@ bool dooms::IsLowLevelValid(const DObject* const dObject, const bool lock, const
 
 	return isDObjectValid;
 	//return dooms::DObjectManager::IsDObjectLowLevelValid(dObject, lock, memoryOrder);
+}
+
+void* dooms::details::AllocateMemoryForDObject(const size_t AllocationSize)
+{
+	void* const AllocatedMemory = std::malloc(AllocationSize);
+
+	std::memset(AllocatedMemory, 0, AllocationSize);
+
+	return AllocatedMemory;
 }
 
 bool dooms::DestroyDObject(DObject* const dObject)

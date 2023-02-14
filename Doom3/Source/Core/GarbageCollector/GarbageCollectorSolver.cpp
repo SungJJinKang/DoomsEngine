@@ -242,7 +242,7 @@ void dooms::gc::garbageCollectorSolver::StartMarkStage(const eGCMethod gcMethod,
 {
 	// GC if dObject is on pending kill
 
-	// check does have NewAllocated flag
+	// check does have CreatedByCreateDObjectFunction flag
 
 	// use multithread but doesn't delete in subthread
 

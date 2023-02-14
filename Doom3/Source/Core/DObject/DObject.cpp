@@ -6,6 +6,7 @@
 
 #include <Reflection/ReflectionType/DClass.h>
 #include <GarbageCollector/GarbageCollectorManager.h>
+#include <cstdlib>
 
 void dooms::DObject::Construct_Internal()
 {
@@ -67,9 +68,11 @@ bool dooms::DObject::DestroySelfInstantly()
 	bool isSucess = false;
 
 	SetIsPendingKill();
-	if(GetIsNewAllocated() == true)
+	if(IsCreatedByCreateDObjectFunction() == true)
 	{
-		delete this;
+		this->~DObject();
+		std::free(reinterpret_cast<void*>(this));
+		
 		isSucess = true;
 	}
 	

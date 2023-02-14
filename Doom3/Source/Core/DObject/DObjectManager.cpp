@@ -139,7 +139,7 @@ void dooms::DObjectManager::DestroyAllDObjects(const bool force)
         {
             mDObjectsContainer.mDObjectList[i]->SetIsPendingKill();
 
-            if (force || mDObjectsContainer.mDObjectList[i]->GetIsNewAllocated())
+            if (force || mDObjectsContainer.mDObjectList[i]->IsCreatedByCreateDObjectFunction())
             {
                 mDObjectsContainer.mDObjectList[i]->DestroySelfInstantly();
                 i = -1;

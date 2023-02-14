@@ -27,21 +27,27 @@ namespace dooms
 	/// </summary>
 	/// <param name="dObject"></param>
 	/// <returns></returns>
-	extern FORCE_INLINE bool IsValid(const DObject* const dObject, const std::memory_order memoryOrder = std::memory_order_relaxed)
+	FORCE_INLINE bool IsValid(const DObject* const dObject, const std::memory_order memoryOrder = std::memory_order_relaxed)
 	{
 		return (dObject != nullptr) && (dObject->GetIsPendingKill(memoryOrder) == false);
 	}
 
+	namespace details
+	{
+		extern void* AllocateMemoryForDObject(const size_t AllocationSize);
+	}
+
 	template <typename DObjectType, typename... Args>
-	extern DObjectType* CreateDObject(const DObjectContructorParams& dObjectConstructorParams, Args&&... args)
+	inline DObjectType* CreateDObject(const DObjectContructorParams& dObjectConstructorParams, Args&&... args)
 	{
 		static_assert(IS_DOBJECT_TYPE(DObjectType) == true);
 
 		//DObjectType's Constructor should be public function
-		DObjectType* newDObject = new DObjectType(std::forward<Args>(args)...);
+		void* const AllocatedMemory = details::AllocateMemoryForDObject(sizeof(DObjectType));
+		DObjectType* newDObject = new (AllocatedMemory)DObjectType(std::forward<Args>(args)...);
 
 		DObjectContructorParams params(dObjectConstructorParams);
-		params.DObjectFlag |= dooms::eDObjectFlag::NewAllocated;
+		params.DObjectFlag |= dooms::eDObjectFlag::CreatedByCreateDObjectFunction;
 
 		static_cast<DObject*>(newDObject)->InitProperties(params);
 
@@ -49,15 +55,16 @@ namespace dooms
 	}
 
 	template <typename DObjectType, typename... Args>
-	extern DObjectType* CreateDObject(Args&&... args)
+	inline DObjectType* CreateDObject(Args&&... args)
 	{
 		static_assert(IS_DOBJECT_TYPE(DObjectType) == true);
 
 		//DObjectType's Constructor should be public function
-		DObjectType* newDObject = new DObjectType(std::forward<Args>(args)...);
+		void* const AllocatedMemory = details::AllocateMemoryForDObject(sizeof(DObjectType));
+		DObjectType* newDObject = new (AllocatedMemory)DObjectType(std::forward<Args>(args)...);
 
 		DObjectContructorParams params{};
-		params.DObjectFlag |= dooms::eDObjectFlag::NewAllocated;
+		params.DObjectFlag |= dooms::eDObjectFlag::CreatedByCreateDObjectFunction;
 
 		static_cast<DObject*>(newDObject)->InitProperties(params);
 
@@ -77,7 +84,7 @@ static_assert(IS_DOBJECT_TYPE(std::remove_pointer_t<CASTING_TYPE>) == true, "Ple
 		static_assert( ( std::conditional<std::is_const_v<std::remove_pointer_t<FROM_CASTING_TYPE>>, std::is_const<std::remove_pointer_t<TO_CASTING_TYPE>>, std::bool_constant<true>>::type::value ) == true, "If FromCasting Type is const-qualified type, ToCasting type should be const-qualified type")
 
 	template <typename CompareType>
-	extern FORCE_INLINE bool IsChildOf(const DObject* const dObject) noexcept
+	FORCE_INLINE bool IsChildOf(const DObject* const dObject) noexcept
 	{
 		static_assert(std::is_pointer_v<CompareType> == false, "Don't Pass Pointer Type as IsA function's template argument");
 		static_assert(IS_DOBJECT_TYPE(CompareType) == true, "Please Pass DObject's child Type as IsA function's template argument");
@@ -89,7 +96,7 @@ static_assert(IS_DOBJECT_TYPE(std::remove_pointer_t<CASTING_TYPE>) == true, "Ple
 	namespace details
 	{
 		template<typename ToCastingType, typename FromCastingType>
-		extern FORCE_INLINE ToCastingType CastToImp(FromCastingType dObject) noexcept
+		FORCE_INLINE ToCastingType CastToImp(FromCastingType dObject) noexcept
 		{
 			CASTING_STATIC_ASSERT_PAIR(FromCastingType, ToCastingType);
 
@@ -99,7 +106,7 @@ static_assert(IS_DOBJECT_TYPE(std::remove_pointer_t<CASTING_TYPE>) == true, "Ple
 		}
 
 		template<typename ToCastingType, typename FromCastingType>
-		extern FORCE_INLINE ToCastingType CastToUncheckedImp(FromCastingType dObject) noexcept
+		FORCE_INLINE ToCastingType CastToUncheckedImp(FromCastingType dObject) noexcept
 		{
 			CASTING_STATIC_ASSERT_PAIR(FromCastingType, ToCastingType);
 
@@ -120,7 +127,7 @@ static_assert(IS_DOBJECT_TYPE(std::remove_pointer_t<CASTING_TYPE>) == true, "Ple
 	/// <param name="dObject"></param>
 	/// <returns></returns>
 	template<typename ToCastingType, typename FromCastingType>
-	extern FORCE_INLINE ToCastingType CastTo(FromCastingType dObject) noexcept
+	FORCE_INLINE ToCastingType CastTo(FromCastingType dObject) noexcept
 	{
 		CASTING_STATIC_ASSERT_PAIR(FromCastingType, ToCastingType);
 
@@ -143,7 +150,7 @@ static_assert(IS_DOBJECT_TYPE(std::remove_pointer_t<CASTING_TYPE>) == true, "Ple
 	}
 	
 	template<typename ToCastingType, typename FromCastingType>
-	extern FORCE_INLINE ToCastingType CastToUnchecked(FromCastingType dObject) noexcept
+	FORCE_INLINE ToCastingType CastToUnchecked(FromCastingType dObject) noexcept
 	{
 		CASTING_STATIC_ASSERT_PAIR(FromCastingType, ToCastingType);
 
