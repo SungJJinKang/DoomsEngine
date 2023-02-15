@@ -19,17 +19,17 @@
   * Support SIMD ( Currently AVX2 ) ( Math, Culling.... )           
   * Asset Import Pipeline ( Automatically import assets located in asset folder )
   * Component based System
-  * Object Management System for preventing memory leak ( [개발 일지](https://sungjjinkang.github.io/computerscience/gameengine/2021/09/25/dangling_pointer.html) )
+  * Object Management System for preventing memory leak ( [개발 일지](https://sungjjinkang.github.io/dangling_pointer.html) )
   * Fast Runtime Type Casting ( writing manually type name is not required, reflection data is used. check reflection.h files ) ( time complexicity is always O(1), dynamic_cast isn't used ( RTTI option is disabled ), [source code](https://github.com/SungJJinKang/Fast_Runtime_TypeCasting_cpp) )        
-  * Garbage Collector using reflection system ( stop-the-world, Mark ( multithread ) - Sweep algorithm, std::array, std::vector is also supported, nullify pointer referencing destroyed object ( to prvent referencing invalid address ), [개발 일지](https://sungjjinkang.github.io/computerscience/2021/12/01/reflection_gc.html), [video](https://youtu.be/E4CNOIXYQnQ), [soure code](https://github.com/SungJJinKang/DoomsEngine/tree/main/Doom3/Source/Core/GarbageCollector) )
+  * Garbage Collector using reflection system ( stop-the-world, Mark ( multithread ) - Sweep algorithm, std::array, std::vector is also supported, nullify pointer referencing destroyed object ( to prvent referencing invalid address ), [개발 일지](https://sungjjinkang.github.io/reflection_gc.html), [video](https://youtu.be/E4CNOIXYQnQ), [soure code](https://github.com/SungJJinKang/DoomsEngine/tree/main/Doom3/Source/Core/GarbageCollector) )
   
 ### Rendering
 
   * OpenGL, DIRECTX 11(Partially)
   * Deferred Rendering ( [video](https://youtu.be/TU9P8gcKsi8) )
   * Sort objects from front to back
-  * Multi Thread ViewFrustum Culling From FrostBite Engine of EA Dice ( [source code](https://github.com/SungJJinKang/EveryCulling/tree/main/CullingModule/ViewFrustumCulling), [개발 일지](https://sungjjinkang.github.io/doom/c++/computergraphics/game/2021/04/02/viewfrustumculling.html) )
-  * Masked SW ( CPU ) Occlusion Culling From Intel ( [video1](https://youtu.be/tMgokVljvAY), [video2](https://youtu.be/1IKTXsSLJ5g), [source code](https://github.com/SungJJinKang/EveryCulling/tree/main/CullingModule/MaskedSWOcclusionCulling), [개발 일지](https://sungjjinkang.github.io/computerscience/computergraphics/2021/12/31/masked_sw_occlusion_culling.html), [reference paper](https://software.intel.com/content/dam/develop/external/us/en/documents/masked-software-occlusion-culling.pdf] )        
+  * Multi Thread ViewFrustum Culling From FrostBite Engine of EA Dice ( [source code](https://github.com/SungJJinKang/EveryCulling/tree/main/CullingModule/ViewFrustumCulling), [개발 일지](https://sungjjinkang.github.io/viewfrustumculling.html) )
+  * Masked SW ( CPU ) Occlusion Culling From Intel ( [video1](https://youtu.be/tMgokVljvAY), [video2](https://youtu.be/1IKTXsSLJ5g), [source code](https://github.com/SungJJinKang/EveryCulling/tree/main/CullingModule/MaskedSWOcclusionCulling), [개발 일지](https://sungjjinkang.github.io/masked_sw_occlusion_culling.html), [reference paper](https://software.intel.com/content/dam/develop/external/us/en/documents/masked-software-occlusion-culling.pdf] )        
   * Distance Culling from Unreal Engine ( [reference](https://docs.unrealengine.com/en-US/RenderingAndGraphics/VisibilityCulling/CullDistanceVolume/index.html), [soure code](https://github.com/SungJJinKang/EveryCulling/tree/main/CullingModule/DistanceCulling) )      
   * Shader Language Portable System ( Automatically convert glsl files to hlsl, [glslcc](https://github.com/septag/glslcc) is used )     
   * Shader Reflection System ( Provide shader variables data ( size, offset, variable name ... ) )    
