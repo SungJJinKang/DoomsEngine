@@ -113,7 +113,7 @@ void dooms::graphics::Mesh::BindVertexBufferObject() const
 			);
 		}
 	}
-	else if (graphics::GraphicsAPIManager::GetCurrentAPIType() == graphics::GraphicsAPI::eGraphicsAPIType::DX11_10)
+	else if (graphics::GraphicsAPIManager::GetCurrentAPIType() == graphics::GraphicsAPI::eGraphicsAPIType::D3D11)
 	{
 		for (UINT32 bufferLayoutIndex = 0; bufferLayoutIndex < mVertexBufferLayoutCount; bufferLayoutIndex++)
 		{
@@ -554,7 +554,7 @@ void dooms::graphics::Mesh::Draw() const
 	{
 		BindVertexArrayObject();
 	}
-	else if (graphics::GraphicsAPIManager::GetCurrentAPIType() == graphics::GraphicsAPI::eGraphicsAPIType::DX11_10)
+	else if (graphics::GraphicsAPIManager::GetCurrentAPIType() == graphics::GraphicsAPI::eGraphicsAPIType::D3D11)
 	{
 		BindVertexBufferObject();
 	}
@@ -583,7 +583,7 @@ void dooms::graphics::Mesh::DrawArray(const INT32 startVertexLocation, const UIN
 	{
 		BindVertexArrayObject();
 	}
-	else if (graphics::GraphicsAPIManager::GetCurrentAPIType() == graphics::GraphicsAPI::eGraphicsAPIType::DX11_10)
+	else if (graphics::GraphicsAPIManager::GetCurrentAPIType() == graphics::GraphicsAPI::eGraphicsAPIType::D3D11)
 	{
 		BindVertexBufferObject();
 	}
@@ -603,7 +603,7 @@ void dooms::graphics::Mesh::DrawArray(const GraphicsAPI::ePrimitiveType primitiv
 	{
 		BindVertexArrayObject();
 	}
-	else if (graphics::GraphicsAPIManager::GetCurrentAPIType() == graphics::GraphicsAPI::eGraphicsAPIType::DX11_10)
+	else if (graphics::GraphicsAPIManager::GetCurrentAPIType() == graphics::GraphicsAPI::eGraphicsAPIType::D3D11)
 	{
 		BindVertexBufferObject();
 	}
@@ -672,7 +672,7 @@ bool dooms::graphics::Mesh::IsBufferGenerated() const
 	{
 		return mVertexDataBuffer.IsValid() && mVertexArrayObjectID.IsValid();
 	}
-	else if (graphics::GraphicsAPIManager::GetCurrentAPIType() == graphics::GraphicsAPI::eGraphicsAPIType::DX11_10)
+	else if (graphics::GraphicsAPIManager::GetCurrentAPIType() == graphics::GraphicsAPI::eGraphicsAPIType::D3D11)
 	{
 		return mVertexDataBuffer.IsValid();
 	}

@@ -324,7 +324,7 @@ void dooms::graphics::DebugDrawer::BufferVertexDataToGPU()
 	{
 		mapOption = dooms::graphics::GraphicsAPI::eMapBufferAccessOption::WRITE_ONLY;
 	}
-	else if (graphics::GraphicsAPI::_GetCurrentAPIType() == graphics::GraphicsAPI::eGraphicsAPIType::DX11_10)
+	else if (graphics::GraphicsAPI::_GetCurrentAPIType() == graphics::GraphicsAPI::eGraphicsAPIType::D3D11)
 	{
 		mapOption = dooms::graphics::GraphicsAPI::eMapBufferAccessOption::WRITE_DISCARD;
 	}

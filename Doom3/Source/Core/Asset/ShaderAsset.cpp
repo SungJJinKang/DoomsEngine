@@ -364,7 +364,7 @@ bool dooms::asset::ShaderAsset::CompileSpecificTypeShader(ShaderTextData& shader
 				shaderObject.mShaderCompileStatus = eShaderCompileStatus::COMPILE_SUCCESS;
 				GenerateUniformBufferObjectFromShaderReflectionData(shaderText.mShaderReflectionData);
 
-				if (graphics::GraphicsAPIManager::GetCurrentAPIType() == graphics::GraphicsAPI::eGraphicsAPIType::DX11_10)
+				if (graphics::GraphicsAPIManager::GetCurrentAPIType() == graphics::GraphicsAPI::eGraphicsAPIType::D3D11)
 				{
 					if (shaderType == graphics::GraphicsAPI::eGraphicsPipeLineStage::VERTEX_SHADER)
 					{
@@ -509,10 +509,10 @@ namespace dooms::graphics::dx11
 
 void dooms::asset::ShaderAsset::CreateInputLayoutForD3D(dooms::asset::ShaderAsset* const shaderAsset)
 {
-	if (graphics::GraphicsAPIManager::GetCurrentAPIType() == graphics::GraphicsAPI::eGraphicsAPIType::DX11_10)
+	if (graphics::GraphicsAPIManager::GetCurrentAPIType() == graphics::GraphicsAPI::eGraphicsAPIType::D3D11)
 	{
 		D_ASSERT(mInputLayoutForD3D.IsValid() == false);
-		D_ASSERT(graphics::GraphicsAPIManager::GetCurrentAPIType() == graphics::GraphicsAPI::eGraphicsAPIType::DX11_10);
+		D_ASSERT(graphics::GraphicsAPIManager::GetCurrentAPIType() == graphics::GraphicsAPI::eGraphicsAPIType::D3D11);
 		D_ASSERT(shaderAsset->IsShaderObjectSuccessfullyCreated(graphics::GraphicsAPI::eGraphicsPipeLineStage::VERTEX_SHADER) == true);
 		if
 			(

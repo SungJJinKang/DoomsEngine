@@ -289,7 +289,7 @@ math::Matrix4x4 dooms::Camera::GetProjectionMatrix(const bool forceNDCNegativeOn
 		ASSUME_ZERO;
 	}
 
-	if(forceNDCNegativeOneToOne == false && dooms::graphics::GraphicsAPIManager::GetCurrentAPIType() == graphics::GraphicsAPI::eGraphicsAPIType::DX11_10)
+	if(forceNDCNegativeOneToOne == false && dooms::graphics::GraphicsAPIManager::GetCurrentAPIType() == graphics::GraphicsAPI::eGraphicsAPIType::D3D11)
 	{
 		static const math::Matrix4x4 zOffsetForD3D = math::scale(math::Vector3{ 1.0f, 1.0f, 0.5f }) * math::translate(math::Vector3{ 0, 0, 1.0f });
 		result = zOffsetForD3D * result;

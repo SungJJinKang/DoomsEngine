@@ -24,7 +24,7 @@ namespace dooms
 			{
 				GraphicsAPIType_NONE,
 				OpenGL,
-				DX11_10
+				D3D11
 			};
 
 			typedef eGraphicsAPIType(DOOMS_ENGINE_API_ENTRY_P GRAPHICS_FLUSH_CMD_QUEUE)(void);

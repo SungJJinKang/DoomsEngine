@@ -40,7 +40,7 @@ bool dooms::assetExporter::assetExporterShader::GenerateEngineShaderFiles
 			glslccArgvs.push_back("--lang=glsl");
 			glslccArgvs.push_back(std::string{ "--profile=" } + GLSL_PROFILE_VERSION);
 		}
-		else if (toShaderTextGraphisAPIType == graphics::GraphicsAPI::eGraphicsAPIType::DX11_10)
+		else if (toShaderTextGraphisAPIType == graphics::GraphicsAPI::eGraphicsAPIType::D3D11)
 		{
 			const std::filesystem::path outPutPath = std::filesystem::path{ originalGlslShaderTextFilePath }.replace_extension(HLSL_ENGINE_SHADER_TEXT_FILE_EXTENSION);
 			glslccArgvs.push_back("--output=" + outPutPath.generic_u8string());
@@ -157,7 +157,7 @@ std::filesystem::path dooms::assetExporter::assetExporterShader::GetEngineShader
 			case graphics::GraphicsAPI::eGraphicsAPIType::OpenGL:
 				newExtension += GLSL_ENGINE_SHADER_TEXT_FILE_EXTENSION;
 				break;
-			case graphics::GraphicsAPI::eGraphicsAPIType::DX11_10: 
+			case graphics::GraphicsAPI::eGraphicsAPIType::D3D11: 
 				newExtension += HLSL_ENGINE_SHADER_TEXT_FILE_EXTENSION;
 				break;
 			default:

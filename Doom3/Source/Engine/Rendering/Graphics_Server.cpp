@@ -25,9 +25,9 @@ bool dooms::graphics::Graphics_Server::InitializeGraphicsAPI(GraphicsAPI::eGraph
 		{
 			graphicsAPIType = GraphicsAPI::eGraphicsAPIType::OpenGL;
 		}
-		else if (targetGraphicsAPI == "DX11_10" || targetGraphicsAPI == "DX11")
+		else if (targetGraphicsAPI == "D3D11" || targetGraphicsAPI == "DX11")
 		{
-			graphicsAPIType = GraphicsAPI::eGraphicsAPIType::DX11_10;
+			graphicsAPIType = GraphicsAPI::eGraphicsAPIType::D3D11;
 		}
 		else
 		{
@@ -41,8 +41,8 @@ bool dooms::graphics::Graphics_Server::InitializeGraphicsAPI(GraphicsAPI::eGraph
 	case GraphicsAPI::eGraphicsAPIType::OpenGL:
 		isSuccess = GraphicsAPIManager::Initialize(GraphicsAPI::eGraphicsAPIType::OpenGL);
 		break;
-	case GraphicsAPI::eGraphicsAPIType::DX11_10: 
-		isSuccess = GraphicsAPIManager::Initialize(GraphicsAPI::eGraphicsAPIType::DX11_10);
+	case GraphicsAPI::eGraphicsAPIType::D3D11: 
+		isSuccess = GraphicsAPIManager::Initialize(GraphicsAPI::eGraphicsAPIType::D3D11);
 		break;
 	default:
 		dooms::ui::PrintText("Graphics API isn't chosen. Default Graphics API OPENGL is chosen.");

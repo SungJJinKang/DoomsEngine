@@ -1045,7 +1045,7 @@ namespace dooms
 
         DOOMS_ENGINE_GRAPHICS_API GraphicsAPI::eGraphicsAPIType _GetCurrentAPIType()
         {
-            return GraphicsAPI::eGraphicsAPIType::DX11_10;
+            return GraphicsAPI::eGraphicsAPIType::D3D11;
         }
 
 		/*

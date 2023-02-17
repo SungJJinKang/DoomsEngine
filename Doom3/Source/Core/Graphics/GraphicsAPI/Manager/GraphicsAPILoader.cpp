@@ -358,7 +358,7 @@ void* dooms::graphics::GraphicsAPILoader::LoadGraphicsAPILibrary
 		dllFileName = OPENGL_DLL_FILE_NAME;
 		break;
 
-	case GraphicsAPI::eGraphicsAPIType::DX11_10: 
+	case GraphicsAPI::eGraphicsAPIType::D3D11: 
 		dllFileName = DX11_DLL_FILE_NAME;
 		break;
 

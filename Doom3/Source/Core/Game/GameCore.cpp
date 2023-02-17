@@ -84,7 +84,7 @@ void dooms::GameCore::InitializeGraphicsAPI()
 		CommandLine::CheckCommandLineContainStr("DIRECTX11")
 	)
 	{
-		targetGraphicsAPI = graphics::GraphicsAPI::eGraphicsAPIType::DX11_10;
+		targetGraphicsAPI = graphics::GraphicsAPI::eGraphicsAPIType::D3D11;
 	}
 	
 	D_START_PROFILING(LoadGraphisAPI, eProfileLayers::CPU);

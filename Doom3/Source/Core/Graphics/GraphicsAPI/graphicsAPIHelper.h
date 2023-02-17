@@ -18,7 +18,7 @@ namespace dooms
 				{
 				case GraphicsAPI::eGraphicsAPIType::OpenGL: 
 					return math::eClipRange::CLIP_RANGE_NEGATIVE_ONE_TO_ONE;
-				case GraphicsAPI::eGraphicsAPIType::DX11_10: 
+				case GraphicsAPI::eGraphicsAPIType::D3D11: 
 					return math::eClipRange::CLIP_RANGE_NEGATIVE_ONE_TO_ONE;
 				default:
 					ASSUME_ZERO;
@@ -33,7 +33,7 @@ namespace dooms
 				{
 				case GraphicsAPI::eGraphicsAPIType::OpenGL:
 					return math::eCoordinateSystem::RIGHT_HAND;
-				case GraphicsAPI::eGraphicsAPIType::DX11_10:
+				case GraphicsAPI::eGraphicsAPIType::D3D11:
 					return math::eCoordinateSystem::RIGHT_HAND;
 					//return math::eCoordinateSystem::LEFT_HAND;
 				default:

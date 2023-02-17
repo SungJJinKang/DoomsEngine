@@ -231,7 +231,7 @@ namespace dooms::asset::shaderAssetHelper
 		{
 			if (shaderAssetFileExtension == ".hlsl")
 			{
-				shaderGraphicsAPIType = dooms::graphics::GraphicsAPI::eGraphicsAPIType::DX11_10;
+				shaderGraphicsAPIType = dooms::graphics::GraphicsAPI::eGraphicsAPIType::D3D11;
 			}
 			else if (shaderAssetFileExtension == ".glsl")
 			{

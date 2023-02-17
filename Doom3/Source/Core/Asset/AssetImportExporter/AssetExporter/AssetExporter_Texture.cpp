@@ -465,7 +465,7 @@ void dooms::assetExporter::assetExporterTexture::ExportTextureFromMainFrameBuffe
 			return;
 		}
 	}
-	else if(dooms::graphics::GraphicsAPIManager::GetCurrentAPIType() == dooms::graphics::GraphicsAPI::eGraphicsAPIType::DX11_10)
+	else if(dooms::graphics::GraphicsAPIManager::GetCurrentAPIType() == dooms::graphics::GraphicsAPI::eGraphicsAPIType::D3D11)
 	{
 		const HRESULT hr = exportedScratchIMG.InitializeFromImage(directXImage);
 

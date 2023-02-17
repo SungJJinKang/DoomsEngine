@@ -35,7 +35,7 @@ void dooms::graphics::GraphicsAPIManager::SetDefaultSettingOfAPI()
 	{
 		graphics::GraphicsAPI::SetFrontFaceWinding(GraphicsAPI::CCW);
 	}
-	else if (graphics::GraphicsAPIManager::GetCurrentAPIType() == graphics::GraphicsAPI::eGraphicsAPIType::DX11_10)
+	else if (graphics::GraphicsAPIManager::GetCurrentAPIType() == graphics::GraphicsAPI::eGraphicsAPIType::D3D11)
 	{
 		graphics::GraphicsAPI::SetFrontFaceWinding(GraphicsAPI::CCW);
 	}
@@ -53,7 +53,7 @@ void dooms::graphics::GraphicsAPIManager::SetDefaultSettingOfAPI()
 	{
 		windowTitle += " - OpenGL";
 	}
-	else if (graphics::GraphicsAPIManager::GetCurrentAPIType() == graphics::GraphicsAPI::eGraphicsAPIType::DX11_10)
+	else if (graphics::GraphicsAPIManager::GetCurrentAPIType() == graphics::GraphicsAPI::eGraphicsAPIType::D3D11)
 	{
 		windowTitle += " - D3D11";
 	}
@@ -100,7 +100,7 @@ bool dooms::graphics::GraphicsAPIManager::Initialize(const GraphicsAPI::eGraphic
 		case GraphicsAPI::eGraphicsAPIType::OpenGL:
 			dooms::ui::PrintText("Initilize OPENGL");
 			break;
-		case GraphicsAPI::eGraphicsAPIType::DX11_10:
+		case GraphicsAPI::eGraphicsAPIType::D3D11:
 			dooms::ui::PrintText("Initilize DIRECTX 11");
 			break;
 		default:

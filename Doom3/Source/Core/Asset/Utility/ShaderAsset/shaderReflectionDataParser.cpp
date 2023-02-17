@@ -71,7 +71,7 @@ dooms::asset::shaderReflectionDataParser::ShaderReflectionData dooms::asset::sha
 		}
 		else if (shaderLang == "hlsl")
 		{
-			shaderReflectionData.mTargetGraphicsAPIType = dooms::graphics::GraphicsAPI::eGraphicsAPIType::DX11_10;
+			shaderReflectionData.mTargetGraphicsAPIType = dooms::graphics::GraphicsAPI::eGraphicsAPIType::D3D11;
 		}
 		else
 		{

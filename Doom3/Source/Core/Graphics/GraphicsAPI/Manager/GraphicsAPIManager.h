@@ -36,7 +36,7 @@ namespace dooms
 			{
 				static const GraphicsAPI::eGraphicsAPIType currentGraphicsAPIType = graphics::GraphicsAPI::_GetCurrentAPIType();
 
-				D_ASSERT(currentGraphicsAPIType == GraphicsAPI::eGraphicsAPIType::DX11_10 || currentGraphicsAPIType == GraphicsAPI::eGraphicsAPIType::OpenGL);
+				D_ASSERT(currentGraphicsAPIType == GraphicsAPI::eGraphicsAPIType::D3D11 || currentGraphicsAPIType == GraphicsAPI::eGraphicsAPIType::OpenGL);
 
 				return currentGraphicsAPIType;
 			}
