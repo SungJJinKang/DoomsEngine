@@ -27,11 +27,11 @@
 #undef INHERITANCE_INFORMATION_dooms__graphics__DebugDrawer
 #define INHERITANCE_INFORMATION_dooms__graphics__DebugDrawer \
 public : \
-inline static const unsigned long int BASE_CHAIN_LIST[] { 2625426556, 3005919411, 3969188510 }; \
-inline static const unsigned long int BASE_CHAIN_LIST_LENGTH { 3 }; \
+inline static const unsigned long int BASE_CHAIN_LIST[] { 2625426556, 3969188510 }; \
+inline static const unsigned long int BASE_CHAIN_LIST_LENGTH { 2 }; \
 virtual const unsigned long int* GetBaseChainList() const { return BASE_CHAIN_LIST; } \
 virtual unsigned long int GetBaseChainListLength() const { return BASE_CHAIN_LIST_LENGTH; } \
-typedef dooms::graphics::RenderingDebuggerModule Base;
+typedef dooms::DObject Base;
 
 
 #undef CLONE_OBJECT_dooms__graphics__DebugDrawer

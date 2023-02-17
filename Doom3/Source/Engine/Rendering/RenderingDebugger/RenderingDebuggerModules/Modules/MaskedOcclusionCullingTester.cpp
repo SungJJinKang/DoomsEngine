@@ -3,8 +3,10 @@
 #include "DebugDrawer.h"
 #include <Rendering/Pipeline/GraphicsPipeLine.h>
 #include "Graphics/graphicsSetting.h"
+#include <Rendering/Culling/EveryCulling/EveryCullingCore.h>
 #include <Rendering/Culling/EveryCulling/CullingModule/MaskedSWOcclusionCulling/MaskedSWOcclusionCulling.h>
 #include <Rendering/Pipeline/PipeLines/DefaultGraphcisPipeLine.h>
+#include <Rendering/Camera.h>
 
 #define DEBUGGER_TILE_BOX_PADIDNG_X 0.002f
 #define DEBUGGER_TILE_BOX_PADIDNG_Y 0.002f
@@ -106,6 +108,34 @@ void dooms::graphics::MaskedOcclusionCullingTester::DebugTileL0MaxDepthValue
 	}
 }
 
+void dooms::graphics::MaskedOcclusionCullingTester::DebugOccluderBoundingBox(const culling::OccluderListManager* const OccluderListManager, const unsigned long long InTickCount)
+{
+	if(EVERYCULLING_WHEN_TO_BIN_TRIANGLE(InTickCount))
+	{
+		CachedOccluderAABBList.clear();
+
+		const math::Vector3 CameraPos = Camera::GetMainCamera()->GetTransform()->GetPosition();
+		for (const culling::OccluderData& OccluderData : OccluderListManager->GetSortedOccluderList(culling::Vec3{ CameraPos.x, CameraPos.y, CameraPos.z }))
+		{
+			const float MinX = OccluderData.mEntityBlock->mAABBMinWorldPoint[OccluderData.mEntityIndexInEntityBlock].values[0];
+			const float MinY = OccluderData.mEntityBlock->mAABBMinWorldPoint[OccluderData.mEntityIndexInEntityBlock].values[1];
+			const float MinZ = OccluderData.mEntityBlock->mAABBMinWorldPoint[OccluderData.mEntityIndexInEntityBlock].values[2];
+
+			const float MaxX = OccluderData.mEntityBlock->mAABBMaxWorldPoint[OccluderData.mEntityIndexInEntityBlock].values[0];
+			const float MaxY = OccluderData.mEntityBlock->mAABBMaxWorldPoint[OccluderData.mEntityIndexInEntityBlock].values[1];
+			const float MaxZ = OccluderData.mEntityBlock->mAABBMaxWorldPoint[OccluderData.mEntityIndexInEntityBlock].values[2];
+
+			CachedOccluderAABBList.emplace_back(math::Vector3{ MinX, MinY, MinZ }, math::Vector3{ MaxX, MaxY, MaxZ });
+		}
+	}
+
+	for(const dooms::physics::AABB3D& CachedOccluderAABB : CachedOccluderAABBList)
+	{
+		dooms::graphics::DebugDrawer::GetSingleton()->DebugDraw3DBox(static_cast<math::Vector3>(CachedOccluderAABB.mLowerBound), 
+			static_cast<math::Vector3>(CachedOccluderAABB.mUpperBound), eColor::Red);
+	}
+}
+
 void dooms::graphics::MaskedOcclusionCullingTester::Initialize()
 {
 }
@@ -114,7 +144,7 @@ void dooms::graphics::MaskedOcclusionCullingTester::PreRender()
 {
 }
 
-void dooms::graphics::MaskedOcclusionCullingTester::Render()
+void dooms::graphics::MaskedOcclusionCullingTester::Render(dooms::Camera* const targetCamera)
 {
 	graphics::DefaultGraphcisPipeLine* defaultGraphicsPipeLine = CastTo<graphics::DefaultGraphcisPipeLine*>(dooms::graphics::GraphicsPipeLine::GetSingleton());
 	D_ASSERT(IsValid(defaultGraphicsPipeLine));
@@ -133,6 +163,11 @@ void dooms::graphics::MaskedOcclusionCullingTester::Render()
 		if (graphicsSetting::IsDrawMaskedOcclusionCullingTileL0MaxDepthValueDebugger == true)
 		{
 			DebugTileL0MaxDepthValue(&(defaultGraphicsPipeLine->mRenderingCullingManager.mCullingSystem->mMaskedSWOcclusionCulling->mDepthBuffer));
+		}
+
+		if (graphicsSetting::IsDrawMaskedOcclusionCullingOcculderBoundingBoxDebugger == true)
+		{
+			DebugOccluderBoundingBox(&(defaultGraphicsPipeLine->mRenderingCullingManager.mCullingSystem->mMaskedSWOcclusionCulling->mOccluderListManager), defaultGraphicsPipeLine->mRenderingCullingManager.mCullingSystem->GetTickCount());
 		}
 	}
 }

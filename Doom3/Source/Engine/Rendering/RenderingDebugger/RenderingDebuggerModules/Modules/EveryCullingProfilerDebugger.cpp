@@ -11,7 +11,7 @@ void dooms::graphics::EveryCullingProfilerDebugger::PreRender()
 {
 }
 
-void dooms::graphics::EveryCullingProfilerDebugger::Render()
+void dooms::graphics::EveryCullingProfilerDebugger::Render(dooms::Camera* const targetCamera)
 {
 }
 

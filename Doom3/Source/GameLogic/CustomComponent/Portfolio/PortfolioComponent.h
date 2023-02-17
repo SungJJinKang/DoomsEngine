@@ -37,6 +37,9 @@ private:
 	D_PROPERTY(TOOLTIP="See DepthBuffer of Masked SW Occlusion Culling")
 	bool See_MaskedSWOcclusionCulling_DepthBuffer = false;
 
+	D_PROPERTY()
+	bool See_MaskedSWOcclusionCulling_OccluderBoudingBox = false;
+
 	D_PROPERTY(TOOLTIP = "Enable Multithreaded CPU View Frustum Culling")
 	bool Enable_Multithread_SW_ViewFrustumCulling = true;
 

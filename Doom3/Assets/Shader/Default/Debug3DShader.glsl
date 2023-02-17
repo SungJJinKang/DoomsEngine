@@ -34,7 +34,7 @@ layout(binding = 0, std140) uniform Global
 
 void main()
 {
-	gl_Position =  projection * view * vec4(aPos, 1.0);
+	gl_Position =  viewProjection * vec4(aPos, 1.0);
 }
 
 //@end

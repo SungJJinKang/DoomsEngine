@@ -11,7 +11,7 @@ void dooms::graphics::RendererAABBDebugger::PreRender()
 {
 }
 
-void dooms::graphics::RendererAABBDebugger::Render()
+void dooms::graphics::RendererAABBDebugger::Render(dooms::Camera* const targetCamera)
 {
 	if (graphics::graphicsSetting::DrawRenderingBoundingBox == true)
 	{

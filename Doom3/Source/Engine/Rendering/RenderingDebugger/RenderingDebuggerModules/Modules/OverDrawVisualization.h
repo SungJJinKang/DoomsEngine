@@ -37,7 +37,7 @@ namespace dooms
 
 			void Initialize() override;
 			void PreRender() override;
-			void Render() override;
+			void Render(dooms::Camera* const targetCamera) override;
 			void PostRender() override;
 			const char* GetRenderingDebuggerModuleName() override;
 		};

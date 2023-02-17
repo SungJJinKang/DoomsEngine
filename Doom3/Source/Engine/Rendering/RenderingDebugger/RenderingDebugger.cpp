@@ -3,6 +3,7 @@
 #include <Time/MainTimer.h>
 #include "RenderingDebuggerModules/RenderingDebuggerModule.h"
 #include "RenderingDebuggerHelper.h"
+#include "RenderingDebuggerModules/Modules/DebugDrawer.h"
 
 void dooms::graphics::RenderingDebugger::UpdateFPS()
 {
@@ -39,6 +40,9 @@ void dooms::graphics::RenderingDebugger::AppendDefaultRenderingDebuggerModules()
 void dooms::graphics::RenderingDebugger::Initialize()
 {
 	AppendDefaultRenderingDebuggerModules();
+
+	DebugDrawerModule = dooms::CreateDObject<DebugDrawer>();
+	DebugDrawerModule->Initialize();
 }
 
 void dooms::graphics::RenderingDebugger::LateInitialize()
@@ -59,26 +63,22 @@ void dooms::graphics::RenderingDebugger::PreRender()
 			renderingDebuggerModule->PreRender();
 		}	
 	}
+
+	DebugDrawerModule->PreRender();
 }
 
-void dooms::graphics::RenderingDebugger::Render()
+void dooms::graphics::RenderingDebugger::CameraRender(dooms::Camera* const targetCamera)
 {
 	for (RenderingDebuggerModule* renderingDebuggerModule : mRenderingDebuggerModule)
 	{
 		if (IsValid(renderingDebuggerModule) && renderingDebuggerModule->mIsEnabled == true)
 		{
-			renderingDebuggerModule->Render();
+			renderingDebuggerModule->Render(targetCamera);
 		}
 	}
 
-	for (RenderingDebuggerModule* renderingDebuggerModule : mRenderingDebuggerModule)
-	{
-		if (IsValid(renderingDebuggerModule) && renderingDebuggerModule->mIsEnabled == true)
-		{
-			renderingDebuggerModule->LateRender();
-		}
-	}
-
+	DebugDrawerModule->Render(targetCamera);
+	
 	Update();
 }
 
@@ -91,4 +91,6 @@ void dooms::graphics::RenderingDebugger::PostRender()
 			renderingDebuggerModule->PostRender();
 		}
 	}
+
+	DebugDrawerModule->PostRender();
 }

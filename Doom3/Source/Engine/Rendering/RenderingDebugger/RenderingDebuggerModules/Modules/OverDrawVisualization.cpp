@@ -48,7 +48,7 @@ void dooms::graphics::OverDrawVisualization::PreRender()
 {
 }
 
-void dooms::graphics::OverDrawVisualization::Render()
+void dooms::graphics::OverDrawVisualization::Render(dooms::Camera* const targetCamera)
 {
 }
 

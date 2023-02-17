@@ -20,7 +20,7 @@ namespace dooms
 	{
 		class Material;
 		class Graphics_Server;
-		class DOOM_API D_CLASS DebugDrawer : public RenderingDebuggerModule, public ISingleton<DebugDrawer>
+		class DOOM_API D_CLASS DebugDrawer : public DObject, public ISingleton<DebugDrawer>
 		{
 			GENERATE_BODY()
 				
@@ -96,6 +96,7 @@ namespace dooms
 			/// </summary>
 			void DebugDraw3DTriangle(const math::Vector3& pointA, const math::Vector3& pointB, const math::Vector3& pointC, eColor color);
 			void DebugDraw3DSphere(const math::Vector3& center, const float radius, const eColor color);
+			void DebugDraw3DBox(const math::Vector3& minWorldPos, const math::Vector3& maxWorldPos, eColor color);
 
 			/// <summary>
 			/// z value will be ignored
@@ -119,12 +120,11 @@ namespace dooms
 			
 			void SetDrawInstantlyMaterial(Material* material);
 
-			void Initialize() override;
-			void PreRender() override;
-			void Render() override;
-			void LateRender() override;
-			void PostRender() override;
-			const char* GetRenderingDebuggerModuleName() override;
+			void Initialize();
+			void PreRender();
+			void Render(dooms::Camera* const targetCamera);
+			void PostRender();
+			const char* GetRenderingDebuggerModuleName();
 		};
 
 		

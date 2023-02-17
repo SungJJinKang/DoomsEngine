@@ -35,7 +35,8 @@ void dooms::PortfolioComponent::UpdateGUI()
 	dooms::graphics::graphicsSetting::IsDrawMaskedOcclusionCullingBinTriangleStageDebugger = See_MaskedSWOcclusionCulling_Occluder;
 	dooms::graphics::graphicsSetting::IsDrawMaskedOcclusionCullingTileCoverageMaskDebugger = Is_Enabled_MaskedSWOcclusionCullingTileCoverageMaskDebugging;
 	dooms::graphics::graphicsSetting::IsDrawMaskedOcclusionCullingTileL0MaxDepthValueDebugger = See_MaskedSWOcclusionCulling_DepthBuffer;
-
+	dooms::graphics::graphicsSetting::IsDrawMaskedOcclusionCullingOcculderBoundingBoxDebugger = See_MaskedSWOcclusionCulling_OccluderBoudingBox;
+	
 	graphics::DefaultGraphcisPipeLine* defaultGraphicsPipeLine = CastTo<graphics::DefaultGraphcisPipeLine*>(dooms::graphics::GraphicsPipeLine::GetSingleton());
 	D_ASSERT(IsValid(defaultGraphicsPipeLine));
 	if(IsValid(defaultGraphicsPipeLine))
@@ -56,6 +57,8 @@ void dooms::PortfolioComponent::InitComponent()
 	dooms::graphics::graphicsSetting::IsDrawMaskedOcclusionCullingBinTriangleStageDebugger = See_MaskedSWOcclusionCulling_Occluder;
 	dooms::graphics::graphicsSetting::IsDrawMaskedOcclusionCullingTileCoverageMaskDebugger = Is_Enabled_MaskedSWOcclusionCullingTileCoverageMaskDebugging;
 	dooms::graphics::graphicsSetting::IsDrawMaskedOcclusionCullingTileL0MaxDepthValueDebugger = See_MaskedSWOcclusionCulling_DepthBuffer;
+	dooms::graphics::graphicsSetting::IsDrawMaskedOcclusionCullingOcculderBoundingBoxDebugger = See_MaskedSWOcclusionCulling_OccluderBoudingBox;
+
 	UpdateGUI();
 }
 

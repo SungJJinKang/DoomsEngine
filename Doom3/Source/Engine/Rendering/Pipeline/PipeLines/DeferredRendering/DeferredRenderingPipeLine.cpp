@@ -84,9 +84,7 @@ void dooms::graphics::DeferredRenderingPipeLine::CameraRender(dooms::Camera* con
 	FrameBuffer::StaticBindBackFrameBuffer();
 	GraphicsAPI::ClearBackFrameBufferColorBuffer(targetCamera->mClearColor[0], targetCamera->mClearColor[1], targetCamera->mClearColor[2], targetCamera->mClearColor[3]);
 	GraphicsAPI::ClearBackFrameBufferDepthBuffer(GraphicsAPI::DEFAULT_MAX_DEPTH_VALUE);
-
-	targetCamera->UpdateUniformBufferObject();
-
+	
 	dooms::graphics::DeferredRenderingPipeLineCamera* const deferredRenderingPipeLineCamera = CastTo<graphics::DeferredRenderingPipeLineCamera*>(dooms::Camera::GetMainCamera()->GetGraphicsPipeLineCamera());
 	D_ASSERT(IsValid(deferredRenderingPipeLineCamera));
 	if (IsValid(deferredRenderingPipeLineCamera))
@@ -134,7 +132,7 @@ void dooms::graphics::DeferredRenderingPipeLine::CameraRender(dooms::Camera* con
 			deferredRenderingPipeLineCamera->mDeferredRenderingFrameBuffer.UnBindGBufferTextures();
 		}
 
-		mRenderingDebugger.Render();
+		mRenderingDebugger.CameraRender(targetCamera);
 	}
 }
 

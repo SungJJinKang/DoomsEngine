@@ -9,9 +9,11 @@
 #include "RenderingDebugger.reflection.h"
 namespace dooms
 {
+	class Camera;
 	namespace graphics
 	{
 		class RenderingDebuggerModule;
+		class DebugDrawer;
 		class DOOM_API D_CLASS RenderingDebugger : public DObject, public ISingleton<RenderingDebugger>
 		{
 			GENERATE_BODY()
@@ -31,6 +33,9 @@ namespace dooms
 			D_PROPERTY()
 			std::vector<RenderingDebuggerModule*> mRenderingDebuggerModule;
 
+			D_PROPERTY()
+			DebugDrawer* DebugDrawerModule;
+
 			void AppendDefaultRenderingDebuggerModules();
 			void UpdateFPS();
 
@@ -43,7 +48,7 @@ namespace dooms
 			void Update();
 
 			void PreRender();
-			void Render();
+			void CameraRender(dooms::Camera* const targetCamera);
 			void PostRender();
 
 			FORCE_INLINE FLOAT64 GetFPS()

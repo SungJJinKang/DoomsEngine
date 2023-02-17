@@ -5,6 +5,7 @@
 #include "RenderingDebuggerModule.reflection.h"
 namespace dooms
 {
+	class Camera;
 	namespace graphics
 	{
 		class D_CLASS RenderingDebuggerModule : public DObject
@@ -22,8 +23,7 @@ namespace dooms
 
 			virtual void Initialize() = 0;
 			virtual void PreRender() = 0;
-			virtual void Render() = 0;
-			virtual void LateRender();
+			virtual void Render(dooms::Camera* const targetCamera) = 0;
 			virtual void PostRender() = 0;
 			virtual const char* GetRenderingDebuggerModuleName() = 0;
 		};

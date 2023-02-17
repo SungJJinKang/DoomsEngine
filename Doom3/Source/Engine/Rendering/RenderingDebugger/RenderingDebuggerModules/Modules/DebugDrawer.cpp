@@ -122,12 +122,7 @@ void dooms::graphics::DebugDrawer::PreRender()
 {
 }
 
-void dooms::graphics::DebugDrawer::Render()
-{
-	
-}
-
-void dooms::graphics::DebugDrawer::LateRender()
+void dooms::graphics::DebugDrawer::Render(dooms::Camera* const targetCamera)
 {
 	BufferVertexDataToGPU();
 	Draw();
@@ -431,6 +426,33 @@ void dooms::graphics::DebugDrawer::DebugDraw3DSphere(const math::Vector3& center
 			exVertex = currentVertex;
 		}
 	}
+}
+
+void dooms::graphics::DebugDrawer::DebugDraw3DBox(const math::Vector3& minWorldPos, const math::Vector3& maxWorldPos, eColor color)
+{
+	// ChatGPT wrote this codes!
+
+	const math::Vector3 Point1 = math::Vector3(minWorldPos.x, minWorldPos.y, minWorldPos.z);
+	const math::Vector3 Point2 = math::Vector3(maxWorldPos.x, minWorldPos.y, minWorldPos.z);
+	const math::Vector3 Point3 = math::Vector3(maxWorldPos.x, maxWorldPos.y, minWorldPos.z);
+	const math::Vector3 Point4 = math::Vector3(minWorldPos.x, maxWorldPos.y, minWorldPos.z);
+	const math::Vector3 Point5 = math::Vector3(minWorldPos.x, minWorldPos.y, maxWorldPos.z);
+	const math::Vector3 Point6 = math::Vector3(maxWorldPos.x, minWorldPos.y, maxWorldPos.z);
+	const math::Vector3 Point7 = math::Vector3(maxWorldPos.x, maxWorldPos.y, maxWorldPos.z);
+	const math::Vector3 Point8 = math::Vector3(minWorldPos.x, maxWorldPos.y, maxWorldPos.z);
+	
+	DebugDraw3DLine(Point1, Point2, color);  // Edge 1-2
+	DebugDraw3DLine(Point2, Point3, color);  // Edge 2-3
+	DebugDraw3DLine(Point3, Point4, color);  // Edge 3-4
+	DebugDraw3DLine(Point4, Point1, color);  // Edge 4-1
+	DebugDraw3DLine(Point1, Point5, color);  // Edge 1-5
+	DebugDraw3DLine(Point2, Point6, color);  // Edge 2-6
+	DebugDraw3DLine(Point3, Point7, color);  // Edge 3-7
+	DebugDraw3DLine(Point4, Point8, color);  // Edge 4-8
+	DebugDraw3DLine(Point5, Point6, color);  // Edge 5-6
+	DebugDraw3DLine(Point6, Point7, color);  // Edge 6-7
+	DebugDraw3DLine(Point7, Point8, color);  // Edge 7-8
+	DebugDraw3DLine(Point8, Point5, color);  // Edge 8-5
 }
 
 
