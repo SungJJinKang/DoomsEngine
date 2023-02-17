@@ -50,7 +50,7 @@ bool dooms::assetExporter::assetExporterShader::GenerateEngineShaderFiles
 		}
 		else
 		{
-			NEVER_HAPPEN;
+			ASSUME_ZERO;
 		}
 
 		glslccArgvs.push_back("--reflect");
@@ -144,7 +144,7 @@ std::filesystem::path dooms::assetExporter::assetExporterShader::GetEngineShader
 				replacedFileName += "_cs";
 				break;
 			default:
-				NEVER_HAPPEN;
+				ASSUME_ZERO;
 			}
 			targetShaderFilePath.replace_filename(replacedFileName);
 		}
@@ -161,7 +161,7 @@ std::filesystem::path dooms::assetExporter::assetExporterShader::GetEngineShader
 				newExtension += HLSL_ENGINE_SHADER_TEXT_FILE_EXTENSION;
 				break;
 			default:
-				NEVER_HAPPEN;
+				ASSUME_ZERO;
 			}
 
 			switch (targetFileType)
@@ -173,7 +173,7 @@ std::filesystem::path dooms::assetExporter::assetExporterShader::GetEngineShader
 				newExtension += ".json";
 				break;
 			default:
-				NEVER_HAPPEN;
+				ASSUME_ZERO;
 			}
 
 			D_ASSERT(newExtension.empty() == false);

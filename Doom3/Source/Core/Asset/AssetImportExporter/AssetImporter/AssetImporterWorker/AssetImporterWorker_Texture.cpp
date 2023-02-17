@@ -64,7 +64,7 @@ bool dooms::assetImporter::AssetImporterWorker_Texture::ImportTextureAsset(
 
 			default:
 				D_DEBUG_LOG(eLogType::D_ERROR, "Cant Find Format");
-				NEVER_HAPPEN;
+				ASSUME_ZERO;
 				return false;
 			}
 			
@@ -161,7 +161,7 @@ dooms::assetImporter::AssetImporterWorker_Texture::AssetImporterWorker_Texture()
 		if (FAILED(hr))
 		{
 			D_DEBUG_LOG(eLogType::D_ERROR, "Fail To CoInitializeEx");
-			NEVER_HAPPEN;
+			ASSUME_ZERO;
 		}
 
 		AssetImporterWorker::IsInitialized = true;

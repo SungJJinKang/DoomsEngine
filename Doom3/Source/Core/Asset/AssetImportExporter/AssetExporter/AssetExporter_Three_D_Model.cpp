@@ -60,7 +60,7 @@ void dooms::assetExporter::assetExporterThreeDModel::ExportToAssFile
 		if (status == aiReturn::aiReturn_FAILURE || status == aiReturn::aiReturn_OUTOFMEMORY)
 		{
 			D_DEBUG_LOG(eLogType::D_ERROR, "Fail To Export ASS File");
-			NEVER_HAPPEN;
+			ASSUME_ZERO;
 		}
 	}
 	catch (const std::exception& ex) 
@@ -73,7 +73,7 @@ void dooms::assetExporter::assetExporterThreeDModel::ExportToAssFile
 	}
 	catch (...) 
 	{
-		NEVER_HAPPEN;
+		ASSUME_ZERO;
 	}
 	
 	exportProperties.release(); // TODO : FIX THIS

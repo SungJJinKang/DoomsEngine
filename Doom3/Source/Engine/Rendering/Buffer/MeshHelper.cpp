@@ -223,6 +223,6 @@ bool dooms::graphics::meshHelper::GetFlipOptionBasedOnCurrentGraphicsAPI()
 	}
 	else
 	{
-		NEVER_HAPPEN;
+		ASSUME_ZERO;
 	}
 }

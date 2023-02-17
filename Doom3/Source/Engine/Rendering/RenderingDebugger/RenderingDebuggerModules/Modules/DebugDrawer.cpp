@@ -330,7 +330,7 @@ void dooms::graphics::DebugDrawer::BufferVertexDataToGPU()
 	}
 	else
 	{
-		NEVER_HAPPEN;
+		ASSUME_ZERO;
 	}
 
 	char* const mapppedAddress = reinterpret_cast<char*>(mDebugMesh.MapVertexDataBuffer(mapOption));

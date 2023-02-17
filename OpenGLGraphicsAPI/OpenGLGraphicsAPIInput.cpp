@@ -4,11 +4,11 @@
 
 #include "GLFW/glfw3.h"
 
-#undef NEVER_HAPPEN
+#undef ASSUME_ZERO
 #ifdef _DEBUG
-#define NEVER_HAPPEN assert(false)
+#define ASSUME_ZERO assert(false)
 #else
-#define NEVER_HAPPEN __assume(0)
+#define ASSUME_ZERO __assume(0)
 #endif
 
 
@@ -535,7 +535,7 @@ namespace dooms
 				case dooms::input::GraphicsAPIInput::eMoustInput::MOUSE_BUTTON_MIDDLE:
 					return GLFW_MOUSE_BUTTON_MIDDLE;
 				default:
-					NEVER_HAPPEN;
+					ASSUME_ZERO;
 					return 0;
 				}
 			}
@@ -551,7 +551,7 @@ namespace dooms
 				case GLFW_MOUSE_BUTTON_MIDDLE:
 					return dooms::input::GraphicsAPIInput::eMoustInput::MOUSE_BUTTON_MIDDLE;
 				default:
-					NEVER_HAPPEN;
+					ASSUME_ZERO;
 				}
 			}
 
@@ -573,7 +573,7 @@ namespace dooms
 				case dooms::input::GraphicsAPIInput::eCursorMode::HIDE_CURSOR_LOCK_CURSOR_ON_WINDOW:
 					return GLFW_CURSOR_DISABLED;
 				default:
-					NEVER_HAPPEN;
+					ASSUME_ZERO;
 					return 0;
 				}
 			}

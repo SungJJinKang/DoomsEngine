@@ -63,7 +63,7 @@ bool dooms::assetImporter::AssetImporterWorker_THREE_D_MODEL::ImportThreeDModelA
 		if (modelScene == NULL)
 		{
 			D_DEBUG_LOG(eLogType::D_ERROR, mAssimpImporter.GetErrorString());
-			NEVER_HAPPEN;
+			ASSUME_ZERO;
 			return false;
 		}
 	}
@@ -75,7 +75,7 @@ bool dooms::assetImporter::AssetImporterWorker_THREE_D_MODEL::ImportThreeDModelA
 		if (modelScene == NULL)
 		{
 			D_DEBUG_LOG(eLogType::D_ERROR, mAssimpImporter.GetErrorString());
-			NEVER_HAPPEN;
+			ASSUME_ZERO;
 			return false;
 		}
 
@@ -119,7 +119,7 @@ bool dooms::assetImporter::AssetImporterWorker_THREE_D_MODEL::ImportThreeDModelA
 	}
 	catch (...)
 	{
-		NEVER_HAPPEN;
+		ASSUME_ZERO;
 	}
 
 	return isSuccess;

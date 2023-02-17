@@ -110,7 +110,7 @@ bool dooms::graphics::BatchRenderingManager::AddRendererToBatchRendering
 			isCreateNewContainer = true;
 			break;
 		default:
-			NEVER_HAPPEN;
+			ASSUME_ZERO;
 		}
 	}
 

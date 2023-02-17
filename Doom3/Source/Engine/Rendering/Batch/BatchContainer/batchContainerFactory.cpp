@@ -23,7 +23,7 @@ dooms::graphics::RendererBatchContainer* dooms::graphics::batchContainerFactory:
 		}
 		break;
 	default:
-		NEVER_HAPPEN;
+		ASSUME_ZERO;
 	}
 
 	D_ASSERT(IsValid(rendererBatchContainer));

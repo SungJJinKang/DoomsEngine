@@ -78,7 +78,7 @@ dooms::assetImporter::AssetImporterWorker* dooms::assetImporter::AssetImporterWo
 		break;
 
 	default:
-		NEVER_HAPPEN;
+		ASSUME_ZERO;
 
 	}
 	D_ASSERT(createdAssetImporterWorkder != nullptr);

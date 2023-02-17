@@ -14,14 +14,14 @@
 #include "DX11GraphicsAPIInput.h"
 
 
-#undef NEVER_HAPPEN
+#undef ASSUME_ZERO
 
 #if defined(_DEBUG)
-#define NEVER_HAPPEN assert(false)
+#define ASSUME_ZERO assert(false)
 #elif (!defined(_DEBUG)) && defined(_MSC_VER)
-#define NEVER_HAPPEN __assume(0)
+#define ASSUME_ZERO __assume(0)
 #elif (!defined(_DEBUG)) && defined(__clang__)
-#define NEVER_HAPPEN __builtin_unreachable()
+#define ASSUME_ZERO __builtin_unreachable()
 #else
 #error Unsupported compiler ( Please Use msvc or clang )
 #endif
@@ -284,7 +284,7 @@ namespace dooms
                     return D3D_PRIMITIVE_TOPOLOGY::D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST;
                     break;
 	            default: 
-                    NEVER_HAPPEN;
+                    ASSUME_ZERO;
 	            }
             }
 
@@ -398,9 +398,9 @@ namespace dooms
 	            case GraphicsAPI::TEXTURE_INTERNAL_FORMAT_COMPRESSED_SRGB_ALPHA_BPTC_UNORM: 
 	            case GraphicsAPI::TEXTURE_INTERNAL_FORMAT_COMPRESSED_RGB_BPTC_SIGNED_FLOAT: 
 	            case GraphicsAPI::TEXTURE_INTERNAL_FORMAT_COMPRESSED_RGB_BPTC_UNSIGNED_FLOAT:
-                    NEVER_HAPPEN;
+                    ASSUME_ZERO;
 	            default:
-                    NEVER_HAPPEN;
+                    ASSUME_ZERO;
 	            }
             }
 
@@ -434,10 +434,10 @@ namespace dooms
                 case GraphicsAPI::COMPRESSED_RG11_EAC:
                 case GraphicsAPI::COMPRESSED_SIGNED_RG11_EAC:
                 case GraphicsAPI::COMPRESSED_RGBA_S3TC_DXT1_EXT:
-                    NEVER_HAPPEN;
+                    ASSUME_ZERO;
 
 	            default:
-                    NEVER_HAPPEN;
+                    ASSUME_ZERO;
 	            }
             }
 
@@ -458,7 +458,7 @@ namespace dooms
                 case GraphicsAPI::TEXTURE_2D_MULTISAMPLE_ARRAY:
                     return D3D11_DSV_DIMENSION::D3D11_DSV_DIMENSION_TEXTURE2DMSARRAY;
                 default:
-                    NEVER_HAPPEN;
+                    ASSUME_ZERO;
 
                 }
             }
@@ -549,7 +549,7 @@ namespace dooms
                     return D3D11_STENCIL_OP::D3D11_STENCIL_OP_INVERT;
                     break;
 	            default:
-                    NEVER_HAPPEN;
+                    ASSUME_ZERO;
 	            }
             }
 
@@ -582,7 +582,7 @@ namespace dooms
 	            case GraphicsAPI::ONE_MINUS_CONSTANT_COLOR: 
                     return D3D11_BLEND::D3D11_BLEND_INV_BLEND_FACTOR;
 	            default:
-                    NEVER_HAPPEN;
+                    ASSUME_ZERO;
 	            }
             }
 
@@ -1186,7 +1186,7 @@ namespace dooms
             }
             else
             {
-                NEVER_HAPPEN;
+                ASSUME_ZERO;
             }
         }
 
@@ -1269,7 +1269,7 @@ namespace dooms
                 desc.BackFace.StencilFunc = D3D11_COMPARISON_FUNC::D3D11_COMPARISON_GREATER_EQUAL;
                 break;
             default:
-                NEVER_HAPPEN;
+                ASSUME_ZERO;
             }
 
             dx11::g_pImmediateContext->OMSetDepthStencilState(dx11::FindOrCreateID3D11DepthStencilState(desc), ref);
@@ -1332,7 +1332,7 @@ namespace dooms
                 desc.DepthFunc = D3D11_COMPARISON_FUNC::D3D11_COMPARISON_GREATER_EQUAL;
                 break;
             default:
-                NEVER_HAPPEN;
+                ASSUME_ZERO;
             }
 
             dx11::g_pImmediateContext->OMSetDepthStencilState(dx11::FindOrCreateID3D11DepthStencilState(desc), ref);
@@ -1424,7 +1424,7 @@ namespace dooms
                 desc.CullMode = D3D11_CULL_MODE::D3D11_CULL_NONE;
                 break;
             default:
-                NEVER_HAPPEN;
+                ASSUME_ZERO;
             }
             
             dx11::g_pImmediateContext->RSSetState(dx11::FindOrCreateID3D11RasterizerState(desc));
@@ -1446,7 +1446,7 @@ namespace dooms
                 desc.FrontCounterClockwise = true;
                 break;
             default:
-                NEVER_HAPPEN;
+                ASSUME_ZERO;
             }
 
             dx11::g_pImmediateContext->RSSetState(dx11::FindOrCreateID3D11RasterizerState(desc));
@@ -1600,7 +1600,7 @@ namespace dooms
             }
             else
             {
-                NEVER_HAPPEN;
+                ASSUME_ZERO;
             }
 
             D3D11_TEXTURE2D_DESC textureDesc = {};
@@ -1753,7 +1753,7 @@ namespace dooms
                 dx11::g_pImmediateContext->CSSetShaderResources(bindingLocation, 1, &shaderResourceView);
                 break;
             default:
-                NEVER_HAPPEN;
+                ASSUME_ZERO;
             }
         }
 
@@ -1812,7 +1812,7 @@ namespace dooms
             }
             else
             {
-                NEVER_HAPPEN;
+                ASSUME_ZERO;
 	        }
         }
 
@@ -1855,7 +1855,7 @@ namespace dooms
                 entryPoint = "main";
                 break;
             default:
-                NEVER_HAPPEN;
+                ASSUME_ZERO;
                 isCompileShaderSuccess = false;
             }
 
@@ -2015,7 +2015,7 @@ namespace dooms
                 }
                 else
                 {
-                    NEVER_HAPPEN;
+                    ASSUME_ZERO;
                 }
             }
 	        
@@ -2139,7 +2139,7 @@ namespace dooms
                 break;
 
             default:
-                NEVER_HAPPEN;
+                ASSUME_ZERO;
             }
 
             ID3D11Buffer* buffer;
@@ -2224,7 +2224,7 @@ namespace dooms
                 dx11::g_pImmediateContext->CSSetConstantBuffers(bindingPoint, 1, &buffer);
                 break;
             default:
-                NEVER_HAPPEN;
+                ASSUME_ZERO;
             }
         }
 
@@ -2264,7 +2264,7 @@ namespace dooms
                 BindConstantBuffer(bufferObject, bindingPosition, targetPipeLienStage);
                 break;
             default:
-                NEVER_HAPPEN;
+                ASSUME_ZERO;
             }
         }
 
@@ -2456,7 +2456,7 @@ namespace dooms
                 mapType = D3D11_MAP::D3D11_MAP_WRITE_NO_OVERWRITE;
                 break;
             default:
-                NEVER_HAPPEN;
+                ASSUME_ZERO;
             }
 
             D3D11_MAPPED_SUBRESOURCE mappedResource{};

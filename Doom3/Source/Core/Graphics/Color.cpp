@@ -33,7 +33,7 @@ const math::Vector4& dooms::graphics::Color::GetColor(eColor color)
 		}
 		default:
 		{
-			NEVER_HAPPEN;
+			ASSUME_ZERO;
 			break;
 		}
 	}

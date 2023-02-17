@@ -21,7 +21,7 @@ namespace dooms
 				case GraphicsAPI::eGraphicsAPIType::DX11_10: 
 					return math::eClipRange::CLIP_RANGE_NEGATIVE_ONE_TO_ONE;
 				default:
-					NEVER_HAPPEN;
+					ASSUME_ZERO;
 				}
 			}
 
@@ -37,7 +37,7 @@ namespace dooms
 					return math::eCoordinateSystem::RIGHT_HAND;
 					//return math::eCoordinateSystem::LEFT_HAND;
 				default:
-					NEVER_HAPPEN;
+					ASSUME_ZERO;
 				}
 			}
 			*/

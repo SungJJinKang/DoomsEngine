@@ -14,14 +14,14 @@
 #define OPENGL_MAJOR_VERSION 4
 #define OPENGL_MINOR_VERSION 6
 
-#undef NEVER_HAPPEN
+#undef ASSUME_ZERO
 
 #if defined(_DEBUG)
-#define NEVER_HAPPEN assert(false)
+#define ASSUME_ZERO assert(false)
 #elif (!defined(_DEBUG)) && defined(_MSC_VER)
-#define NEVER_HAPPEN __assume(0)
+#define ASSUME_ZERO __assume(0)
 #elif (!defined(_DEBUG)) && defined(__clang__)
-#define NEVER_HAPPEN __builtin_unreachable()
+#define ASSUME_ZERO __builtin_unreachable()
 #else
 #error Unsupported compiler ( Please Use msvc or clang )
 #endif
@@ -68,7 +68,7 @@ namespace dooms
 				case GraphicsAPI::GEQUAL:
 					return GL_GEQUAL;
 				default:
-					NEVER_HAPPEN; return 0;
+					ASSUME_ZERO; return 0;
 				}
 			}
 
@@ -157,7 +157,7 @@ namespace dooms
 				case GraphicsAPI::COMPRESSED_SRGB_ALPHA_S3TC_DXT5_EXT:
 					return GL_COMPRESSED_SRGB_ALPHA_S3TC_DXT5_EXT;
 				default:
-					NEVER_HAPPEN; return 0; return 0;
+					ASSUME_ZERO; return 0; return 0;
 				}
 			}
 
@@ -188,7 +188,7 @@ namespace dooms
 				case GraphicsAPI::MIRROR_CLAMP_TO_EDGE:
 					return GL_MIRROR_CLAMP_TO_EDGE;
 				default:
-					NEVER_HAPPEN; return 0;
+					ASSUME_ZERO; return 0;
 				}
 			}
 
@@ -207,7 +207,7 @@ namespace dooms
 				case GraphicsAPI::WRAP_MODE_MIRROR_CLAMP_TO_EDGE:
 					return GL_MIRROR_CLAMP_TO_EDGE;
 				default:
-					NEVER_HAPPEN; return 0;
+					ASSUME_ZERO; return 0;
 				}
 			}
 
@@ -228,7 +228,7 @@ namespace dooms
 				case GraphicsAPI::FILTER_MODE_LINEAR_MIPMAP_LINEAR:
 					return GL_LINEAR_MIPMAP_LINEAR;
 				default:
-					NEVER_HAPPEN; return 0;
+					ASSUME_ZERO; return 0;
 				}
 			}
 
@@ -267,7 +267,7 @@ namespace dooms
 				case GraphicsAPI::TEXTURE_COMPONENT_DEPTH_STENCIL:
 					return GL_DEPTH_STENCIL;
 				default:
-					NEVER_HAPPEN; return 0;
+					ASSUME_ZERO; return 0;
 				}
 			}
 
@@ -450,7 +450,7 @@ namespace dooms
 				case GraphicsAPI::TEXTURE_INTERNAL_FORMAT_COMPRESSED_RGB_BPTC_UNSIGNED_FLOAT:
 					return GL_COMPRESSED_RGB_BPTC_UNSIGNED_FLOAT;
 				default:
-					NEVER_HAPPEN; return 0;
+					ASSUME_ZERO; return 0;
 				}
 			}
 
@@ -474,7 +474,7 @@ namespace dooms
 					return GL_UNIFORM_BUFFER;
 
 				default:
-					NEVER_HAPPEN;
+					ASSUME_ZERO;
 					return 0;
 				}
 			}
@@ -535,7 +535,7 @@ namespace dooms
 				case GraphicsAPI::eBufferType::DEPTH_STENCIL:
 					return GL_DEPTH_STENCIL;
 				default:
-					NEVER_HAPPEN; return 0;
+					ASSUME_ZERO; return 0;
 				}
 			}
 
@@ -626,7 +626,7 @@ namespace dooms
 				case GraphicsAPI::BUFFER_MODE_NONE:
 					return GL_NONE;
 				default:
-					NEVER_HAPPEN; return 0;
+					ASSUME_ZERO; return 0;
 				}
 			}
 
@@ -643,7 +643,7 @@ namespace dooms
 				case GraphicsAPI::eGraphicsPipeLineStage::COMPUTE_SHADER:
 					return GL_COMPUTE_SHADER;
 				default:
-					NEVER_HAPPEN;
+					ASSUME_ZERO;
 					return 0;
 				}
 			}
@@ -675,7 +675,7 @@ namespace dooms
 				case GraphicsAPI::TEXTURE_2D_MULTISAMPLE_ARRAY:
 					return GL_TEXTURE_2D_MULTISAMPLE_ARRAY;
 				default:
-					NEVER_HAPPEN; return 0;
+					ASSUME_ZERO; return 0;
 
 				}
 			}
@@ -694,7 +694,7 @@ namespace dooms
 					return GL_READ_WRITE;
 
 				default:
-					NEVER_HAPPEN; return 0;
+					ASSUME_ZERO; return 0;
 				}
 			}
 
@@ -729,7 +729,7 @@ namespace dooms
 				case GraphicsAPI::TEXTURE_BUFFER_SIZE:
 					return GL_TEXTURE_BUFFER_SIZE;
 				default:
-					NEVER_HAPPEN; return 0;
+					ASSUME_ZERO; return 0;
 				}
 			}
 
@@ -772,7 +772,7 @@ namespace dooms
 				case GraphicsAPI::TEXTURE_WRAP_R:
 					return GL_TEXTURE_WRAP_R;
 				default:
-					NEVER_HAPPEN; return 0;
+					ASSUME_ZERO; return 0;
 				}
 			}
 
@@ -813,7 +813,7 @@ namespace dooms
 				case GraphicsAPI::TARGET_TEXTURE_TEXTURE_3D:
 					return GL_TEXTURE_3D;
 				default:
-					NEVER_HAPPEN; return 0;
+					ASSUME_ZERO; return 0;
 				}
 			}
 
@@ -868,7 +868,7 @@ namespace dooms
 				case GraphicsAPI::FLOAT_32_UNSIGNED_INT_24_8_REV:
 					return GL_FLOAT_32_UNSIGNED_INT_24_8_REV;
 				default:
-					NEVER_HAPPEN; return 0;
+					ASSUME_ZERO; return 0;
 				}
 			}
 
@@ -905,7 +905,7 @@ namespace dooms
 				case GraphicsAPI::eBlendFactor::ONE_MINUS_CONSTANT_ALPHA:
 					return GL_ONE_MINUS_CONSTANT_ALPHA;
 				default:
-					NEVER_HAPPEN; return 0;
+					ASSUME_ZERO; return 0;
 				}
 			}
 
@@ -918,7 +918,7 @@ namespace dooms
 				case GraphicsAPI::CCW:
 					return GL_CCW;
 				default:
-					NEVER_HAPPEN; return 0;
+					ASSUME_ZERO; return 0;
 				}
 			}
 
@@ -931,7 +931,7 @@ namespace dooms
 				case GraphicsAPI::eImageInterpolation::IMAGE_INTERPOLATION_LINEAR:
 					return GL_LINEAR;
 				default:
-					NEVER_HAPPEN;
+					ASSUME_ZERO;
 					return 0;
 				}
 			}
@@ -970,7 +970,7 @@ namespace dooms
 				case GraphicsAPI::FRAMEBUFFER_ATTACHMENT_POINT_DEPTH_STENCIL_ATTACHMENT:
 					return GL_DEPTH_STENCIL_ATTACHMENT;
 				default:
-					NEVER_HAPPEN;
+					ASSUME_ZERO;
 					return 0;
 				}
 			}
@@ -997,7 +997,7 @@ namespace dooms
 				case GraphicsAPI::eStencilOption::INVERT:
 					return GL_INVERT;
 				default:
-					NEVER_HAPPEN;
+					ASSUME_ZERO;
 				}
 			}
 
@@ -1346,7 +1346,7 @@ namespace dooms
 				break;
 
 			default:
-				NEVER_HAPPEN;
+				ASSUME_ZERO;
 			}
 		}
 
@@ -2101,7 +2101,7 @@ namespace dooms
 			}
 			else
 			{
-				NEVER_HAPPEN;
+				ASSUME_ZERO;
 			}
 
 			unsigned long long buffer = 0;

@@ -94,7 +94,7 @@ void UserInput_Server::MouseButton_Callback(dooms::input::GraphicsAPIInput::eMou
 		break;
 
 	default:
-		NEVER_HAPPEN;
+		ASSUME_ZERO;
 	}
 }
 

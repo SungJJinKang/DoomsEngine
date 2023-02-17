@@ -524,7 +524,7 @@ UINT64 dooms::graphics::Material::GetMaterialHashValue() const
 	}
 	else
 	{
-		NEVER_HAPPEN;
+		ASSUME_ZERO;
 	}
 
 	for (const TextureView* textureView : mTargetTextures)

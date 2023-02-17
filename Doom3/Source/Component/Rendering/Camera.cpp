@@ -286,7 +286,7 @@ math::Matrix4x4 dooms::Camera::GetProjectionMatrix(const bool forceNDCNegativeOn
 	}
 	else
 	{
-		NEVER_HAPPEN;
+		ASSUME_ZERO;
 	}
 
 	if(forceNDCNegativeOneToOne == false && dooms::graphics::GraphicsAPIManager::GetCurrentAPIType() == graphics::GraphicsAPI::eGraphicsAPIType::DX11_10)

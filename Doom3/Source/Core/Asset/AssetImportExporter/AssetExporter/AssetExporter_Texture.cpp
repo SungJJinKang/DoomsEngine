@@ -91,7 +91,7 @@ namespace dooms
 					break;
 
 				default:
-					NEVER_HAPPEN;
+					ASSUME_ZERO;
 				}
 
 				DirectX::ComputePitch(dxImage.format, dxImage.width, dxImage.height, dxImage.rowPitch, dxImage.slicePitch);
@@ -153,7 +153,7 @@ void dooms::assetExporter::assetExporterTexture::ExportTextureAsDDS
 		break;
 
 	default:
-		NEVER_HAPPEN;
+		ASSUME_ZERO;
 	}
 
 	HRESULT hr = -1;
@@ -477,7 +477,7 @@ void dooms::assetExporter::assetExporterTexture::ExportTextureFromMainFrameBuffe
 	}
 	else
 	{
-		NEVER_HAPPEN;
+		ASSUME_ZERO;
 	}
 
 	ExportTexture(*exportedScratchIMG.GetImage(0, 0, 0), 0, exportPath, textureExtension, false);

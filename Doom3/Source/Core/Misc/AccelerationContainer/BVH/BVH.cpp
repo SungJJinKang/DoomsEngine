@@ -200,7 +200,7 @@ FORCE_INLINE INT32 dooms::BVH<ColliderType>::GetSiblingNodeIndex(const INT32 ind
 	}
 	else
 	{
-		NEVER_HAPPEN;
+		ASSUME_ZERO;
 	}
 }
 
@@ -421,7 +421,7 @@ FORCE_INLINE INT32 dooms::BVH<ColliderType>::Balance(INT32 lowerNodeIndex)
 	}
 	else
 	{
-		NEVER_HAPPEN;
+		ASSUME_ZERO;
 	}
 
 	mNodes[higerNodeIndex].mParentIndex = parentIndexOfimbalancedLowerNodeIndex;
@@ -473,7 +473,7 @@ FORCE_INLINE void dooms::BVH<ColliderType>::RemoveLeafNode(dooms::BVH<ColliderTy
 			}
 			else
 			{
-				NEVER_HAPPEN;
+				ASSUME_ZERO;
 			}
 
 			if (grandParentIndex == NULL_NODE_INDEX)
@@ -498,7 +498,7 @@ FORCE_INLINE void dooms::BVH<ColliderType>::RemoveLeafNode(dooms::BVH<ColliderTy
 				}
 				else
 				{
-					NEVER_HAPPEN;
+					ASSUME_ZERO;
 				}
 
 				INT32 originalParentIindex = mNodes[siblingIndex].mParentIndex;

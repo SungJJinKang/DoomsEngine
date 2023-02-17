@@ -41,7 +41,7 @@ void dooms::graphics::GraphicsAPIManager::SetDefaultSettingOfAPI()
 	}
 	else
 	{
-		NEVER_HAPPEN;
+		ASSUME_ZERO;
 	}
 
 	graphics::GraphicsAPI::SetVSync(false);
@@ -59,7 +59,7 @@ void dooms::graphics::GraphicsAPIManager::SetDefaultSettingOfAPI()
 	}
 	else
 	{
-		NEVER_HAPPEN;
+		ASSUME_ZERO;
 	}
 
 	graphics::GraphicsAPI::SetWindowTitle(windowTitle.c_str());

@@ -28,14 +28,14 @@
 
 #if defined(RELEASE_MODE)
 
-#ifndef NEVER_HAPPEN
-#define NEVER_HAPPEN __assume(0) // https://docs.microsoft.com/en-us/cpp/intrinsics/assume?view=msvc-160
+#ifndef ASSUME_ZERO
+#define ASSUME_ZERO __assume(0) // https://docs.microsoft.com/en-us/cpp/intrinsics/assume?view=msvc-160
 #endif
 
 #elif defined(DEBUG_MODE)
 
-#ifndef NEVER_HAPPEN
-#define NEVER_HAPPEN D_ASSERT(0) // https://docs.microsoft.com/en-us/cpp/intrinsics/assume?view=msvc-160
+#ifndef ASSUME_ZERO
+#define ASSUME_ZERO D_ASSERT(0) // https://docs.microsoft.com/en-us/cpp/intrinsics/assume?view=msvc-160
 #endif
 
 

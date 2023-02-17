@@ -52,11 +52,11 @@
 
 
 #if defined(_DEBUG)
-#define NEVER_HAPPEN assert(false)
+#define ASSUME_ZERO assert(false)
 #elif (!defined(_DEBUG)) && defined(_MSC_VER)
-#define NEVER_HAPPEN __assume(0)
+#define ASSUME_ZERO __assume(0)
 #elif (!defined(_DEBUG)) && defined(__clang__)
-#define NEVER_HAPPEN __builtin_unreachable()
+#define ASSUME_ZERO __builtin_unreachable()
 #else
 #error Unsupported compiler ( Please Use msvc or clang )
 #endif

@@ -133,7 +133,7 @@ void dooms::graphics::Mesh::BindVertexBufferObject() const
 	}
 	else
 	{
-		NEVER_HAPPEN;
+		ASSUME_ZERO;
 	}
 
 }
@@ -560,7 +560,7 @@ void dooms::graphics::Mesh::Draw() const
 	}
 	else
 	{
-		NEVER_HAPPEN;
+		ASSUME_ZERO;
 	}
 
 	if (IsElementBufferGenerated() == true)
@@ -589,7 +589,7 @@ void dooms::graphics::Mesh::DrawArray(const INT32 startVertexLocation, const UIN
 	}
 	else
 	{
-		NEVER_HAPPEN;
+		ASSUME_ZERO;
 	}
 
 	GraphicsAPI::Draw(mPrimitiveType, vertexCount, startVertexLocation);
@@ -609,7 +609,7 @@ void dooms::graphics::Mesh::DrawArray(const GraphicsAPI::ePrimitiveType primitiv
 	}
 	else
 	{
-		NEVER_HAPPEN;
+		ASSUME_ZERO;
 	}
 
 	GraphicsAPI::Draw(primitiveType, vertexCount, startVertexLocation);
@@ -678,7 +678,7 @@ bool dooms::graphics::Mesh::IsBufferGenerated() const
 	}
 	else
 	{
-		NEVER_HAPPEN;
+		ASSUME_ZERO;
 		return false;
 	}
 }

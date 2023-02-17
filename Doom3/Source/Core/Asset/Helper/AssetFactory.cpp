@@ -34,7 +34,7 @@ dooms::asset::Asset* dooms::asset::AssetFactory::CreateNewAsset(const dooms::ass
 		break;
 
 	default: 
-		NEVER_HAPPEN;
+		ASSUME_ZERO;
 	}
 
 	D_ASSERT(newAsset != nullptr);

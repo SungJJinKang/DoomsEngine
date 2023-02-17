@@ -242,7 +242,7 @@ INT32 dooms::graphics::TextureView::GetTextureBufferSizeStatic
 		
 	default:
 
-		NEVER_HAPPEN;
+		ASSUME_ZERO;
 	}
 	
 	INT32 bufferSize = PixelDataSize * width * height;
@@ -283,7 +283,7 @@ INT32 dooms::graphics::TextureView::GetTextureBufferSizeStatic
 		break;
 
 	default:
-		NEVER_HAPPEN;
+		ASSUME_ZERO;
 	}
 
 	return bufferSize;

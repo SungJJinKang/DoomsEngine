@@ -47,7 +47,7 @@ void dooms::KDTree<T>::FreeNode(const INT32 index)
 		}
 		else
 		{
-			NEVER_HAPPEN;
+			ASSUME_ZERO;
 		}
 	}
 
@@ -88,7 +88,7 @@ INT32 dooms::KDTree<T>::_Insert(const typename node_type::component_type & compo
 	}
 	else if (componentValue == mKDTreeNodes[searchIndex].mComponentValue)
 	{// when equal
-		NEVER_HAPPEN;
+		ASSUME_ZERO;
 	}
 	else if (componentValue[searchDimension] < mKDTreeNodes[searchIndex].mComponentValue[searchDimension])
 	{
@@ -169,7 +169,7 @@ INT32 dooms::KDTree<T>::_Delete(const typename node_type::component_type& compon
 	INT32 nextT = (searchT + 1) % GetDimensionCount();
 	if (searchIndex == NULL_NODE_INDEX)
 	{
-		NEVER_HAPPEN;
+		ASSUME_ZERO;
 	}
 	else if (mKDTreeNodes[searchIndex].mComponentValue == componentValue)
 	{
@@ -251,7 +251,7 @@ void dooms::KDTree<T>::_SwapNode(INT32 nodeIndex1, INT32 nodeIndex2)
 		}
 		else
 		{
-			NEVER_HAPPEN;
+			ASSUME_ZERO;
 		}
 	}
 	mKDTreeNodes[nodeIndex2].mParentIndex = parentIndex1;
@@ -268,7 +268,7 @@ void dooms::KDTree<T>::_SwapNode(INT32 nodeIndex1, INT32 nodeIndex2)
 		}
 		else
 		{
-			NEVER_HAPPEN;
+			ASSUME_ZERO;
 		}
 	}
 	mKDTreeNodes[nodeIndex1].mParentIndex = parentIndex2;
