@@ -69,7 +69,7 @@ bool dooms::graphics::Material::AttachShaderToMaterial(dooms::asset::ShaderAsset
 	{
 		mShaderAsset[shaderType] = shaderAsset;
 
-		const std::vector<dooms::graphics::UniformBufferObject*>& containedUBO = shaderAsset->GetContainedUniformBufferObject();
+		const std::vector<dooms::graphics::UniformBufferObject*>& containedUBO = shaderAsset->GetContainedUniformBufferObject(shaderType);
 		for(dooms::graphics::UniformBufferObject* ubo : containedUBO)
 		{
 			AddUniformBufferObjectView(ubo, shaderType);

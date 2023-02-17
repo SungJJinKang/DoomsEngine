@@ -107,8 +107,16 @@ namespace dooms
 			D_PROPERTY()
 			std::array<ShaderObject, GRAPHICS_PIPELINE_STAGE_COUNT> mShaderObject;
 
+			struct DOOM_API D_STRUCT UniformBufferObjectContainer
+			{
+				GENERATE_BODY_UniformBufferObjectContainer()
+
+				D_PROPERTY()
+				std::vector<dooms::graphics::UniformBufferObject*> UniformBufferObjectList;
+			};
+
 			D_PROPERTY()
-			std::vector<dooms::graphics::UniformBufferObject*> mContainedUniformBufferObjects;
+			std::array<UniformBufferObjectContainer, GRAPHICS_PIPELINE_STAGE_COUNT> mContainedUniformBufferObjects;
 			/*
 			bool ConvertShaderTextStringToCurrentGraphicsAPIShaderFormat(ShaderTextData& outShaderText);
 			*/
@@ -118,7 +126,7 @@ namespace dooms
 			/// </summary>
 			bool CompileShaders();
 			bool CompileSpecificTypeShader(ShaderTextData& shaderText, const graphics::GraphicsAPI::eGraphicsPipeLineStage shaderType, ShaderObject& shaderObject);
-			const std::vector<dooms::graphics::UniformBufferObject*>& GenerateUniformBufferObjectFromShaderReflectionData(const shaderReflectionDataParser::ShaderReflectionData& shaderReflectionData);
+			const std::vector<dooms::graphics::UniformBufferObject*>& GenerateUniformBufferObjectFromShaderReflectionData(const shaderReflectionDataParser::ShaderReflectionData& shaderReflectionData, const graphics::GraphicsAPI::eGraphicsPipeLineStage shaderType);
 
 			void CreateInputLayoutForD3D(dooms::asset::ShaderAsset* const shaderAsset);
 
@@ -133,7 +141,7 @@ namespace dooms
 
 			virtual void OnSetPendingKill() override;
 
-			const std::vector<dooms::graphics::UniformBufferObject*>& GetContainedUniformBufferObject() const;
+			const std::vector<dooms::graphics::UniformBufferObject*>& GetContainedUniformBufferObject(const graphics::GraphicsAPI::eGraphicsPipeLineStage InShaderType) const;
 
 			bool SetShaderText
 			(

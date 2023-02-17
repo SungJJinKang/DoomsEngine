@@ -111,9 +111,9 @@ void dooms::asset::ShaderAsset::OnSetPendingKill()
 	ClearShaderTextDatas();
 }
 
-const std::vector<dooms::graphics::UniformBufferObject*>& dooms::asset::ShaderAsset::GetContainedUniformBufferObject() const
+const std::vector<dooms::graphics::UniformBufferObject*>& dooms::asset::ShaderAsset::GetContainedUniformBufferObject(const graphics::GraphicsAPI::eGraphicsPipeLineStage InShaderType) const
 {
-	return mContainedUniformBufferObjects;
+	return mContainedUniformBufferObjects[InShaderType].UniformBufferObjectList;
 }
 
 void dooms::asset::ShaderAsset::DestroyShaderObjects()
@@ -128,7 +128,11 @@ void dooms::asset::ShaderAsset::DestroyShaderObjects()
 			shaderObject.mShaderCompileStatus = eShaderCompileStatus::READY;
 		}
 	}
-	mContainedUniformBufferObjects.clear();
+
+	for(UniformBufferObjectContainer& UniformBufferObjectContainer : mContainedUniformBufferObjects)
+	{
+		UniformBufferObjectContainer.UniformBufferObjectList.clear();
+	}
 
 	if (mInputLayoutForD3D.IsValid())
 	{
@@ -362,7 +366,7 @@ bool dooms::asset::ShaderAsset::CompileSpecificTypeShader(ShaderTextData& shader
 			if (isSuccessCompileShader == true)
 			{
 				shaderObject.mShaderCompileStatus = eShaderCompileStatus::COMPILE_SUCCESS;
-				GenerateUniformBufferObjectFromShaderReflectionData(shaderText.mShaderReflectionData);
+				GenerateUniformBufferObjectFromShaderReflectionData(shaderText.mShaderReflectionData, shaderType);
 
 				if (graphics::GraphicsAPIManager::GetCurrentAPIType() == graphics::GraphicsAPI::eGraphicsAPIType::D3D11)
 				{
@@ -389,7 +393,7 @@ bool dooms::asset::ShaderAsset::CompileSpecificTypeShader(ShaderTextData& shader
 	return isSuccessCompileShader;
 }
 
-const std::vector<dooms::graphics::UniformBufferObject*>& dooms::asset::ShaderAsset::GenerateUniformBufferObjectFromShaderReflectionData(const shaderReflectionDataParser::ShaderReflectionData& shaderReflectionData)
+const std::vector<dooms::graphics::UniformBufferObject*>& dooms::asset::ShaderAsset::GenerateUniformBufferObjectFromShaderReflectionData(const shaderReflectionDataParser::ShaderReflectionData& shaderReflectionData, const graphics::GraphicsAPI::eGraphicsPipeLineStage shaderType)
 {
 	for(const shaderReflectionDataParser::UniformBuffer& uniformBufferData : shaderReflectionData.mUniformBuffers)
 	{
@@ -407,15 +411,15 @@ const std::vector<dooms::graphics::UniformBufferObject*>& dooms::asset::ShaderAs
 		D_ASSERT(IsValid(ubo));
 		if(IsValid(ubo))
 		{
-			if(std::find(mContainedUniformBufferObjects.begin(), mContainedUniformBufferObjects.end(), ubo) == mContainedUniformBufferObjects.end())
+			if(std::find(mContainedUniformBufferObjects[shaderType].UniformBufferObjectList.begin(), mContainedUniformBufferObjects[shaderType].UniformBufferObjectList.end(), ubo) == mContainedUniformBufferObjects[shaderType].UniformBufferObjectList.end())
 			{
-				mContainedUniformBufferObjects.push_back(ubo);
+				mContainedUniformBufferObjects[shaderType].UniformBufferObjectList.push_back(ubo);
 			}
 			
 		}
 	}
 
-	return mContainedUniformBufferObjects;
+	return mContainedUniformBufferObjects[shaderType].UniformBufferObjectList;
 }
 
 void dooms::asset::ShaderAsset::OnEndImportInMainThread_Internal()

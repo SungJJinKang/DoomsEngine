@@ -92,6 +92,42 @@ TYPE_CHECK_FUNCTION_ShaderObject \
 //-------------------------------------------
 
 
+#ifdef GENERATE_BODY_FULLNAME_dooms__asset__ShaderAsset__UniformBufferObjectContainer
+#error "GENERATE_BODY_FULLNAME_dooms__asset__ShaderAsset__UniformBufferObjectContainer already included...."
+#endif
+
+
+#undef CURRENT_TYPE_ALIAS_dooms__asset__ShaderAsset__UniformBufferObjectContainer
+#define CURRENT_TYPE_ALIAS_dooms__asset__ShaderAsset__UniformBufferObjectContainer \
+typedef dooms::asset::ShaderAsset::UniformBufferObjectContainer Current;
+
+
+#undef TYPE_FULLNAME_HASH_VALUE_NAME_STRING_dooms__asset__ShaderAsset__UniformBufferObjectContainer
+#define TYPE_FULLNAME_HASH_VALUE_NAME_STRING_dooms__asset__ShaderAsset__UniformBufferObjectContainer \
+inline static const unsigned long int TYPE_FULL_NAME_HASH_VALUE = 2821232323; \
+inline static const char* const TYPE_FULL_NAME = "dooms::asset::ShaderAsset::UniformBufferObjectContainer"; \
+inline static const char* const TYPE_SHORT_NAME = "UniformBufferObjectContainer"; \
+
+
+#undef TYPE_CHECK_FUNCTION_UniformBufferObjectContainer
+#define TYPE_CHECK_FUNCTION_UniformBufferObjectContainer \
+attrNoReflect void __TYPE_CHECK() { static_assert(std::is_same_v<std::remove_reference<decltype(*this)>::type, Current> == true, "ERROR : WRONG TYPE. Please Check GENERATED_~ MACROS");} \
+
+
+#undef GENERATE_BODY_FULLNAME_dooms__asset__ShaderAsset__UniformBufferObjectContainer
+#define GENERATE_BODY_FULLNAME_dooms__asset__ShaderAsset__UniformBufferObjectContainer(...) \
+CURRENT_TYPE_ALIAS_dooms__asset__ShaderAsset__UniformBufferObjectContainer \
+TYPE_FULLNAME_HASH_VALUE_NAME_STRING_dooms__asset__ShaderAsset__UniformBufferObjectContainer \
+TYPE_CHECK_FUNCTION_UniformBufferObjectContainer \
+
+
+//Type Short Name ( without namespace, only type name ) Version Macros.
+#define GENERATE_BODY_UniformBufferObjectContainer(...) GENERATE_BODY_FULLNAME_dooms__asset__ShaderAsset__UniformBufferObjectContainer(__VA_ARGS__)
+
+
+//-------------------------------------------
+
+
 #ifdef GENERATE_BODY_FULLNAME_dooms__asset__ShaderAsset
 #error "GENERATE_BODY_FULLNAME_dooms__asset__ShaderAsset already included...."
 #endif
