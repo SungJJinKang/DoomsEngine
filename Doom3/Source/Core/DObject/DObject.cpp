@@ -8,6 +8,62 @@
 #include <GarbageCollector/GarbageCollectorManager.h>
 #include <cstdlib>
 
+dooms::DObject::DObjectProperties::DObjectProperties()
+	:
+	mCurrentIndexInDObjectList(INVALID_CURRENT_INDEX_IN_DOBJECT_LIST),
+	mDObjectID(INVALID_DOBJECT_ID),
+	mDObjectName(),
+	mOwnerDObject(nullptr),
+	mDObjectFlag(DAFAULT_DOBJECT_FLAGS),
+	Canary(DOBJECT_CANARY_MAGIC_NUMBER)
+{
+				
+}
+
+dooms::DObject::DObjectProperties::DObjectProperties(const DObjectProperties& dObjectProperties)
+	:
+	mCurrentIndexInDObjectList(INVALID_CURRENT_INDEX_IN_DOBJECT_LIST),
+	mDObjectID(INVALID_DOBJECT_ID),
+	mDObjectName(dObjectProperties.mDObjectName),
+	mOwnerDObject(dObjectProperties.mOwnerDObject),
+	mDObjectFlag(DAFAULT_DOBJECT_FLAGS),
+	Canary(DOBJECT_CANARY_MAGIC_NUMBER)
+{
+}
+
+dooms::DObject::DObjectProperties::DObjectProperties(DObjectProperties&& dObjectProperties) noexcept
+	:
+	mCurrentIndexInDObjectList(INVALID_CURRENT_INDEX_IN_DOBJECT_LIST),
+	mDObjectID(INVALID_DOBJECT_ID),
+	mDObjectName(dObjectProperties.mDObjectName),
+	mOwnerDObject(dObjectProperties.mOwnerDObject),
+	mDObjectFlag(DAFAULT_DOBJECT_FLAGS),
+	Canary(DOBJECT_CANARY_MAGIC_NUMBER)
+{			
+}
+
+dooms::DObject::DObjectProperties& dooms::DObject::DObjectProperties::operator=(const DObjectProperties& dObjectProperties)
+{
+	mDObjectName = dObjectProperties.mDObjectName;
+	mOwnerDObject = dObjectProperties.mOwnerDObject;
+	return *this;
+}
+
+dooms::DObject::DObjectProperties& dooms::DObject::DObjectProperties::operator=(DObjectProperties&& dObjectProperties) noexcept
+{
+	mDObjectName = dObjectProperties.mDObjectName;
+	mOwnerDObject = dObjectProperties.mOwnerDObject;
+	return *this;
+}
+
+dooms::DObject::DObjectProperties::~DObjectProperties()
+{
+	mCurrentIndexInDObjectList = INVALID_CURRENT_INDEX_IN_DOBJECT_LIST;
+	mDObjectID = INVALID_DOBJECT_ID;
+	mOwnerDObject = nullptr;
+	Canary = 0;
+}
+
 void dooms::DObject::Construct_Internal()
 {
 	if (GetDObjectID() == INVALID_DOBJECT_ID)
@@ -77,6 +133,22 @@ bool dooms::DObject::DestroySelfInstantly()
 	}
 	
 	return isSucess;
+}
+
+bool dooms::DObject::IsValidLowLevel() const
+{
+	bool bIsValidLowLevel = false;
+		
+	if(
+		(mDObjectProperties.mCurrentIndexInDObjectList != INVALID_CURRENT_INDEX_IN_DOBJECT_LIST) &&
+		(mDObjectProperties.mDObjectID != INVALID_DOBJECT_ID) &&
+		(mDObjectProperties.Canary == DOBJECT_CANARY_MAGIC_NUMBER)
+	)
+	{
+		bIsValidLowLevel = true;
+	}
+
+	return bIsValidLowLevel;
 }
 
 dooms::DObject::DObject()

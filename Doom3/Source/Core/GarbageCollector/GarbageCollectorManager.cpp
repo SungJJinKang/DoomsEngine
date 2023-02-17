@@ -155,7 +155,7 @@ bool dooms::gc::GarbageCollectorManager::AddToRootsDObjectsList(DObject* const d
 {
 	bool isSuccess = false;
 
-	D_ASSERT(IsLowLevelValid(dObjet, true) == true);
+	D_ASSERT(IsDObjectValidLowLevel(dObjet, true) == true);
 	dObjet->SetDObjectFlag(eDObjectFlag::IsRootObject);
 
 	if(static_cast<bool>(_RootObjectContainer) == false)

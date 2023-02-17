@@ -18,7 +18,7 @@ namespace dooms
 	/// </summary>
 	/// <param name="dObject"></param>
 	/// <returns></returns>
-	extern bool IsLowLevelValid(const DObject* const dObject, const bool lock = false, const std::memory_order memoryOrder = std::memory_order_relaxed);
+	extern bool IsDObjectValidLowLevel(const DObject* const dObject, const bool lock = false, const std::memory_order memoryOrder = std::memory_order_relaxed);
 
 	/// <summary>
 	/// weak valid check

@@ -113,54 +113,22 @@ namespace dooms
 			std::atomic<UINT64> mDObjectFlag;
 
 			D_PROPERTY(READONLY)
-			INT64 mDObjectID;
+			UINT64 mDObjectID;
 			
 			D_PROPERTY(INVISIBLE)
 			std::string mDObjectName;
 			
 			const DObject* mOwnerDObject;
 
-			DObjectProperties()
-				:
-			mCurrentIndexInDObjectList(INVALID_CURRENT_INDEX_IN_DOBJECT_LIST),
-			mDObjectID(INVALID_DOBJECT_ID),
-			mDObjectName(),
-			mOwnerDObject(nullptr),
-			mDObjectFlag(DAFAULT_DOBJECT_FLAGS)
-			{
-				
-			}
-			DObjectProperties(const DObjectProperties& dObjectProperties)
-				:
-				mCurrentIndexInDObjectList(INVALID_CURRENT_INDEX_IN_DOBJECT_LIST),
-				mDObjectID(INVALID_DOBJECT_ID),
-				mDObjectName(dObjectProperties.mDObjectName),
-				mOwnerDObject(dObjectProperties.mOwnerDObject),
-				mDObjectFlag(DAFAULT_DOBJECT_FLAGS)
-			{
-			}
-			DObjectProperties(DObjectProperties&& dObjectProperties) noexcept
-				:
-				mCurrentIndexInDObjectList(INVALID_CURRENT_INDEX_IN_DOBJECT_LIST),
-				mDObjectID(INVALID_DOBJECT_ID),
-				mDObjectName(dObjectProperties.mDObjectName),
-				mOwnerDObject(dObjectProperties.mOwnerDObject),
-				mDObjectFlag(DAFAULT_DOBJECT_FLAGS)
-			{			
-			}
-			DObjectProperties& operator=(const DObjectProperties& dObjectProperties)
-			{
-				mDObjectName = dObjectProperties.mDObjectName;
-				mOwnerDObject = dObjectProperties.mOwnerDObject;
-				return *this;
-			}
-			DObjectProperties& operator=(DObjectProperties&& dObjectProperties) noexcept
-			{
-				mDObjectName = dObjectProperties.mDObjectName;
-				mOwnerDObject = dObjectProperties.mOwnerDObject;
-				return *this;
-			}
-			~DObjectProperties() = default;
+			// this variable will be uesed in IsDObjectValidLowLevel function
+			UINT64 Canary;
+
+			DObjectProperties();
+			DObjectProperties(const DObjectProperties& dObjectProperties);
+			DObjectProperties(DObjectProperties&& dObjectProperties) noexcept;
+			DObjectProperties& operator=(const DObjectProperties& dObjectProperties);
+			DObjectProperties& operator=(DObjectProperties&& dObjectProperties) noexcept;
+			~DObjectProperties();
 		};
 
 	private:
@@ -171,10 +139,7 @@ namespace dooms
 		void Construct_Internal();
 
 		void CopyFlagsToThisDObject(const UINT64 flags);
-
-	
 		
-
 	protected:
 		
 		DObject();
@@ -317,6 +282,8 @@ namespace dooms
 		/// </summary>
 		D_FUNCTION(INVISIBLE)
 		bool DestroySelfInstantly();
+
+		bool IsValidLowLevel() const;
 	};
 }
 

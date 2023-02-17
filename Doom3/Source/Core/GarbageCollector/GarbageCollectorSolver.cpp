@@ -14,8 +14,6 @@
 #include <EngineGUI/PrintText.h>
 #include <vector_erase_move_lastelement/vector_swap_popback.h>
 
-#include <Windows.h>
-
 void dooms::gc::garbageCollectorSolver::StartSetUnreachableFlagStage(const eGCMethod gcMethod, std::vector<DObject*>& dObjects)
 {
 	// TODO : Optimize this function. too slow....
@@ -107,31 +105,13 @@ namespace dooms::gc::garbageCollectorSolver
 		}
 	}
 
-	FORCE_INLINE static bool CheckDObjectIsValid(const dooms::DObject* const dObject)
+	FORCE_INLINE static bool CheckDObjectIsValid(const dooms::DObject* const InDObject)
 	{
-		bool isDObjectValid = false;
+		bool bIsDObjectValid = IsValid(InDObject);
 
-#if _MSC_VER
-		// @todo : This is unnecessary. pointer type member variable marked with dproperty always points to valid dobject.
-		
-		// If pointer type member variable has dummy value ( not null, not valid address ), IsValid function call throws read access violation.
-		// But this situation shoudln't occur.   
-		__try 
-		{
-#else
-#error Unsupported Compiler
-#endif
-			isDObjectValid = IsValid(dObject); 
-#if _MSC_VER
-		}
-		__except (_exception_code() == EXCEPTION_ACCESS_VIOLATION ? EXCEPTION_EXECUTE_HANDLER : EXCEPTION_CONTINUE_SEARCH)
-		{
-			isDObjectValid = false;
-			D_ASSERT(IsLowLevelValid(dObject) == false);
-		}
-#endif
+		D_ASSERT_LOG((InDObject == nullptr) || IsDObjectValidLowLevel(InDObject), "IsValidLowLevel fail");
 
-		return isDObjectValid;
+		return bIsDObjectValid;
 	}
 
 	FORCE_INLINE static void MarkRecursivelyDObjectTypeValueField
@@ -142,7 +122,7 @@ namespace dooms::gc::garbageCollectorSolver
 		const dooms::reflection::DType* const dFieldType
 	)
 	{
-		D_ASSERT(IsLowLevelValid(dObejct, false));
+		D_ASSERT(IsDObjectValidLowLevel(dObejct, false));
 
 		if (dObejct->GetDObjectFlag(eDObjectFlag::IsNotCheckedByGC, std::memory_order_seq_cst) == true)
 		{
@@ -176,7 +156,7 @@ namespace dooms::gc::garbageCollectorSolver
 			{
 				// if object is nullptr, DObjectManager::IsDObjectExist is suprer fast
 				if (CheckDObjectIsValid(reinterpret_cast<dooms::DObject*>(object)) == true)
-				{	// Never change this IsLowLevelValid to IsValid ( unreal engine use IsLowLevelValid )
+				{	// Never change this IsDObjectValidLowLevel to IsValid ( unreal engine use IsDObjectValidLowLevel )
 					dooms::DObject* const targetDObject = reinterpret_cast<dooms::DObject*>(object);
 
 					MarkRecursivelyDObjectTypeValueField(keepFlags, targetDObject, reflection::eProperyQualifier::VALUE, dFieldType);
@@ -186,7 +166,7 @@ namespace dooms::gc::garbageCollectorSolver
 			{
 				// if object is nullptr, DObjectManager::IsDObjectExist is suprer fast
 				if (CheckDObjectIsValid(*reinterpret_cast<dooms::DObject**>(object)) == true)
-				{	// Never change this IsLowLevelValid to IsValid ( unreal engine use IsLowLevelValid )
+				{	// Never change this IsDObjectValidLowLevel to IsValid ( unreal engine use IsDObjectValidLowLevel )
 					dooms::DObject* const targetDObject = (*reinterpret_cast<dooms::DObject**>(object));
 
 					MarkRecursivelyDObjectTypeValueField(keepFlags, targetDObject, reflection::eProperyQualifier::VALUE, dFieldType);
@@ -221,7 +201,7 @@ namespace dooms::gc::garbageCollectorSolver
 
 	FORCE_INLINE static void Mark(const UINT32 keepFlags, dooms::DObject* const rootDObject)
 	{
-		D_ASSERT(IsLowLevelValid(rootDObject, false) == true);
+		D_ASSERT(IsDObjectValidLowLevel(rootDObject, false) == true);
 
 		const reflection::DClass rootObjectDClass = rootDObject->GetDClass();
 		MarkRecursively(keepFlags, rootDObject, reflection::eProperyQualifier::VALUE, &rootObjectDClass);
