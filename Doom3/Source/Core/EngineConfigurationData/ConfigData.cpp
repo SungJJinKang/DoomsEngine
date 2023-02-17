@@ -7,7 +7,7 @@
 #include <vector>
 #include <memory>
 #include <unordered_map>
-#include <functional>>
+#include <functional>
 
 #include <Misc/String/trim.h>
 #include <EngineGUI/PrintText.h>

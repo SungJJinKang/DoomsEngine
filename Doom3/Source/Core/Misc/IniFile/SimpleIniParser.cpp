@@ -19,22 +19,6 @@ bool dooms::IniData::GetValue<bool>(const std::string& SectionName, const std::s
 }
 
 template <>
-INT32 dooms::IniData::GetValue<INT32>(const std::string& SectionName, const std::string& KeyName) const
-{
-	const dooms::GeneralConfigurationValue* const Cvar = GetConfigurationValue(SectionName, KeyName);
-
-	if (Cvar != nullptr)
-	{
-		return Cvar->AsInt32();
-	}
-	else
-	{
-		D_ASSERT_LOG(false, "The config value doesn't exist ( Section : %s, Key : %s )", SectionName.c_str(), KeyName.c_str());
-		return INT32{};
-	}
-}
-
-template <>
 INT64 dooms::IniData::GetValue<INT64>(const std::string& SectionName, const std::string& KeyName) const
 {
 	const dooms::GeneralConfigurationValue* const Cvar = GetConfigurationValue(SectionName, KeyName);
@@ -47,22 +31,6 @@ INT64 dooms::IniData::GetValue<INT64>(const std::string& SectionName, const std:
 	{
 		D_ASSERT_LOG(false, "The config value doesn't exist ( Section : %s, Key : %s )", SectionName.c_str(), KeyName.c_str());
 		return INT64{};
-	}
-}
-
-template <>
-FLOAT32 dooms::IniData::GetValue<FLOAT32>(const std::string& SectionName, const std::string& KeyName) const
-{
-	const dooms::GeneralConfigurationValue* const Cvar = GetConfigurationValue(SectionName, KeyName);
-
-	if (Cvar != nullptr)
-	{
-		return Cvar->AsFloat32();
-	}
-	else
-	{
-		D_ASSERT_LOG(false, "The config value doesn't exist ( Section : %s, Key : %s )", SectionName.c_str(), KeyName.c_str());
-		return FLOAT32{};
 	}
 }
 
