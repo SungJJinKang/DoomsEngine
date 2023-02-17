@@ -112,7 +112,7 @@ namespace dooms::gc::garbageCollectorSolver
 		bool isDObjectValid = false;
 
 #if _MSC_VER
-		// @todo : This is unnecessary. pointer type member variable marked with dproperty shouldn't have dummy value or address of destroyed object.
+		// @todo : This is unnecessary. pointer type member variable marked with dproperty always points to valid dobject.
 		
 		// If pointer type member variable has dummy value ( not null, not valid address ), IsValid function call throws read access violation.
 		// But this situation shoudln't occur.   
