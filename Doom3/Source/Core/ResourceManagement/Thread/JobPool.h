@@ -27,7 +27,7 @@ namespace dooms
 			using JOB_TYPE = std::function<void()>;
 			
 			template<typename LAMBDA>
-			FORCE_INLINE void EnqueueJobToGlobalPool(LAMBDA&& JobLambda, const bool bWakeUpJobThreads = true)
+			inline void EnqueueJobToGlobalPool(LAMBDA&& JobLambda, const bool bWakeUpJobThreads = true)
 			{
 				GlobalJobQueue.enqueue(std::forward<LAMBDA>(JobLambda));
 
@@ -70,10 +70,7 @@ namespace dooms
 				return std::move(ReturnFuture);
 			}
 			
-			FORCE_INLINE bool TryDequeue(JOB_TYPE& Job)
-			{
-				return GlobalJobQueue.try_dequeue(Job);
-			}
+			bool TryDequeue(JOB_TYPE& Job);
 
 			INT32 GetJobThreadCount() const;
 

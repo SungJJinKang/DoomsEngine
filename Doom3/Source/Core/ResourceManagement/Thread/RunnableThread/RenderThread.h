@@ -26,7 +26,7 @@ namespace dooms
 			virtual EThreadType GetThreadType() const override;
 
 			template<typename LAMBDA>
-			FORCE_INLINE void EnqueueRenderCommand(LAMBDA&& Lambda)
+			inline void EnqueueRenderCommand(LAMBDA&& Lambda)
 			{
 				RenderCommandQueue.enqueue(std::forward<LAMBDA>(Lambda));
 			}

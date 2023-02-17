@@ -57,56 +57,56 @@ namespace dooms
 		virtual bool IsValueString() const = 0;
 
 		template <typename ValueType>
-		FORCE_INLINE bool IsValueType() const
+		inline bool IsValueType() const
 		{
 			D_ASSERT_LOG(false, "Unsupported Type");
 			return false;
 		}
 
 		template <>
-		FORCE_INLINE bool IsValueType<bool>() const
+		inline bool IsValueType<bool>() const
 		{
 			return IsValueBoolean();
 		}
 
 		template <>
-		FORCE_INLINE bool IsValueType<INT32>() const
+		inline bool IsValueType<INT32>() const
 		{
 			return IsValueInt32();
 		}
 
 		template <>
-		FORCE_INLINE bool IsValueType<INT64>() const
+		inline bool IsValueType<INT64>() const
 		{
 			return IsValueInt64();
 		}
 
 		template <>
-		FORCE_INLINE bool IsValueType<UINT32>() const
+		inline bool IsValueType<UINT32>() const
 		{
 			return IsValueUInt32();
 		}
 
 		template <>
-		FORCE_INLINE bool IsValueType<UINT64>() const
+		inline bool IsValueType<UINT64>() const
 		{
 			return IsValueUInt64();
 		}
 
 		template <>
-		FORCE_INLINE bool IsValueType<FLOAT32>() const
+		inline bool IsValueType<FLOAT32>() const
 		{
 			return IsValueFloat32();
 		}
 
 		template <>
-		FORCE_INLINE bool IsValueType<FLOAT64>() const
+		inline bool IsValueType<FLOAT64>() const
 		{
 			return IsValueFloat64();
 		}
 
 		template <>
-		FORCE_INLINE bool IsValueType<std::string>() const
+		inline bool IsValueType<std::string>() const
 		{
 			return IsValueString();
 		}
@@ -143,14 +143,14 @@ namespace dooms
 			const ValueType InitialValue
 		);
 		
-		FORCE_INLINE void SetValue(const ValueType& InValue);
-		FORCE_INLINE ValueType GetValue() const;
-		FORCE_INLINE ValueType& GetReference();
-		FORCE_INLINE const ValueType& GetReference() const;
-		FORCE_INLINE ValueType& operator*();
-		FORCE_INLINE const ValueType& operator*() const;
-		FORCE_INLINE ValueType* operator->();
-		FORCE_INLINE const ValueType* operator->() const;
+		inline void SetValue(const ValueType& InValue);
+		inline ValueType GetValue() const;
+		inline ValueType& GetReference();
+		inline const ValueType& GetReference() const;
+		inline ValueType& operator*();
+		inline const ValueType& operator*() const;
+		inline ValueType* operator->();
+		inline const ValueType* operator->() const;
 
 		virtual bool IsValueBoolean() const override final
 		{
@@ -254,7 +254,7 @@ namespace dooms
 	};
 	
 	template <typename ValueType>
-	FORCE_INLINE TCvar<ValueType>::TCvar
+	inline TCvar<ValueType>::TCvar
 	(
 		const std::string& Category,
 		const std::string& Name,
@@ -266,49 +266,49 @@ namespace dooms
 	}
 
 	template <typename ValueType>
-	FORCE_INLINE void TCvar<ValueType>::SetValue(const ValueType& InValue)
+	inline void TCvar<ValueType>::SetValue(const ValueType& InValue)
 	{
 		Value = InValue;
 	}
 
 	template <typename ValueType>
-	FORCE_INLINE ValueType TCvar<ValueType>::GetValue() const
+	inline ValueType TCvar<ValueType>::GetValue() const
 	{
 		return Value;
 	}
 
 	template <typename ValueType>
-	FORCE_INLINE ValueType& TCvar<ValueType>::GetReference()
+	inline ValueType& TCvar<ValueType>::GetReference()
 	{
 		return Value;
 	}
 
 	template <typename ValueType>
-	FORCE_INLINE const ValueType& TCvar<ValueType>::GetReference() const
+	inline const ValueType& TCvar<ValueType>::GetReference() const
 	{
 		return Value;
 	}
 
 	template <typename ValueType>
-	FORCE_INLINE ValueType& TCvar<ValueType>::operator*()
+	inline ValueType& TCvar<ValueType>::operator*()
 	{
 		return Value;
 	}
 
 	template <typename ValueType>
-	FORCE_INLINE const ValueType& TCvar<ValueType>::operator*() const
+	inline const ValueType& TCvar<ValueType>::operator*() const
 	{
 		return Value;
 	}
 
 	template <typename ValueType>
-	FORCE_INLINE ValueType* TCvar<ValueType>::operator->()
+	inline ValueType* TCvar<ValueType>::operator->()
 	{
 		return &Value;
 	}
 
 	template <typename ValueType>
-	FORCE_INLINE const ValueType* TCvar<ValueType>::operator->() const
+	inline const ValueType* TCvar<ValueType>::operator->() const
 	{
 		return &Value;
 	}

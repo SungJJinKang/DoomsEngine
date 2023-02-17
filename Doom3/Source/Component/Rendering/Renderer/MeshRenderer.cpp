@@ -3,6 +3,21 @@
 #include "Asset/ThreeDModelAsset.h"
 
 
+void dooms::MeshRenderer::InitComponent()
+{
+	Renderer::InitComponent();
+}
+
+void dooms::MeshRenderer::UpdateComponent()
+{
+	Renderer::UpdateComponent();
+}
+
+void dooms::MeshRenderer::OnEndOfFrame_Component()
+{
+	Renderer::OnEndOfFrame_Component();
+}
+
 void dooms::MeshRenderer::OnDestroy()
 {
 	Base::OnDestroy();
@@ -54,6 +69,22 @@ dooms::MeshRenderer::MeshRenderer() : Renderer(), mTargetMesh{ nullptr }
 
 dooms::MeshRenderer::~MeshRenderer()
 {
+}
+
+void dooms::MeshRenderer::Draw()
+{
+	BindMaterial();
+
+	D_ASSERT(mTargetMaterial);
+	if (IsValid(mTargetMaterial))
+	{
+		GetMaterial()->GetUniformBufferObjectViewFromUBOName("ModelData")->SetMat4x4(graphics::eUniformLocation::ModelMatrix, GetTransform()->GetModelMatrix());
+	}
+	D_ASSERT(IsValid(mTargetMesh));
+	if (IsValid(mTargetMesh))
+	{
+		mTargetMesh->Draw();
+	}
 }
 
 void dooms::MeshRenderer::SetMesh(const graphics::Mesh* const mesh)

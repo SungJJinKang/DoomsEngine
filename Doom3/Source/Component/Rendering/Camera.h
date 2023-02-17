@@ -169,18 +169,9 @@ namespace dooms
 		/// this function will be called at every frame
 		/// </summary>
 		/// <returns></returns>
-		FORCE_INLINE math::Matrix4x4 GetViewMatrix()
-		{
-			const dooms::Transform* const transform = GetTransform();
-			const math::Vector3& pos = transform->GetPosition();
-			const math::Vector3 forward = transform->forward();
-			const math::Vector3 up = transform->up();
-			return math::lookAt(pos, pos + forward, up);
-		}
-		FORCE_INLINE math::Matrix4x4 GetViewProjectionMatrix(const bool forceNDCNegativeOneToOne = false)
-		{
-			return GetProjectionMatrix(forceNDCNegativeOneToOne) * GetViewMatrix();
-		}
+		math::Matrix4x4 GetViewMatrix();
+
+		math::Matrix4x4 GetViewProjectionMatrix(const bool forceNDCNegativeOneToOne = false);
 
 		NO_DISCARD math::Vector3 NDCToScreenPoint(const math::Vector3& ndcPoint);
 		NO_DISCARD math::Vector3 ScreenToNDCPoint(const math::Vector3& screenPoint);

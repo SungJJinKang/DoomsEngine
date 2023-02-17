@@ -118,43 +118,9 @@ namespace dooms
 
 			void DeleteBuffers() final;
 
-			FORCE_INLINE UINT64 GetUniformVariableOffset(const char* const targetVariableName) const
-			{
-				size_t offset = 0;
-
-				D_ASSERT(IsBufferGenerated() == true);
-				auto node = mUniformVariableInfos.find(targetVariableName);
-
-				D_DEBUG_LOG(eLogType::D_ERROR, "Fail to find uniform variable ( %s ) from uniform buffer object ( %s )", targetVariableName, GetUniformBlockName().c_str());
-				D_ASSERT(node != mUniformVariableInfos.end());
-
-				if(node != mUniformVariableInfos.end())
-				{
-					offset = node->second.mOffset;
-				}
-				return offset;
-			}
-			
-			FORCE_INLINE void BindBuffer(const UINT32 bindingPoint, const GraphicsAPI::eGraphicsPipeLineStage targetPipeLineStage) const noexcept
-			{
-				D_ASSERT(mUniformBufferObject.IsValid() == true);
-				if (IsBufferGenerated() == true)
-				{
-					if(BOUND_UNIFORM_BUFFER_ID[static_cast<UINT32>(targetPipeLineStage)][bindingPoint] != mUniformBufferObject.GetBufferID())
-					{
-						BOUND_UNIFORM_BUFFER_ID[static_cast<UINT32>(targetPipeLineStage)][bindingPoint] = mUniformBufferObject.GetBufferID();
-						GraphicsAPI::BindConstantBuffer(mUniformBufferObject, bindingPoint, targetPipeLineStage);
-					}					
-				}
-			}
-			FORCE_INLINE void UnBindBuffer(const UINT32 bindingPoint, const GraphicsAPI::eGraphicsPipeLineStage targetPipeLineStage) const noexcept
-			{
-				if (BOUND_UNIFORM_BUFFER_ID[static_cast<UINT32>(targetPipeLineStage)][bindingPoint] != 0)
-				{
-					BOUND_UNIFORM_BUFFER_ID[static_cast<UINT32>(targetPipeLineStage)][bindingPoint] = 0;
-					GraphicsAPI::BindConstantBuffer(0, bindingPoint, targetPipeLineStage);
-				}
-			}
+			UINT64 GetUniformVariableOffset(const char* const targetVariableName) const;
+			void BindBuffer(const UINT32 bindingPoint, const GraphicsAPI::eGraphicsPipeLineStage targetPipeLineStage) const noexcept;
+			void UnBindBuffer(const UINT32 bindingPoint, const GraphicsAPI::eGraphicsPipeLineStage targetPipeLineStage) const noexcept;
 			/// <summary>
 			/// Store data in temporary buffer
 			/// data isn't send to gpu instantly, it is stored in temp buffer

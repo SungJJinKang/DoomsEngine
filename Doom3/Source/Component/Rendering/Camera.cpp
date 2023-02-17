@@ -298,6 +298,20 @@ math::Matrix4x4 dooms::Camera::GetProjectionMatrix(const bool forceNDCNegativeOn
 	return result;
 }
 
+math::Matrix4x4 dooms::Camera::GetViewMatrix()
+{
+	const dooms::Transform* const transform = GetTransform();
+	const math::Vector3& pos = transform->GetPosition();
+	const math::Vector3 forward = transform->forward();
+	const math::Vector3 up = transform->up();
+	return math::lookAt(pos, pos + forward, up);
+}
+
+math::Matrix4x4 dooms::Camera::GetViewProjectionMatrix(const bool forceNDCNegativeOneToOne)
+{
+	return GetProjectionMatrix(forceNDCNegativeOneToOne) * GetViewMatrix();
+}
+
 void dooms::Camera::OnDestroy()
 {
 	RemoveThisCameraFromMainCamera();

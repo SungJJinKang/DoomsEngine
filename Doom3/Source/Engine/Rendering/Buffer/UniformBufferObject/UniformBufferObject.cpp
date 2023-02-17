@@ -149,6 +149,45 @@ void dooms::graphics::UniformBufferObject::DeleteBuffers()
 	
 }
 
+UINT64 dooms::graphics::UniformBufferObject::GetUniformVariableOffset(const char* const targetVariableName) const
+{
+	size_t offset = 0;
+
+	D_ASSERT(IsBufferGenerated() == true);
+	auto node = mUniformVariableInfos.find(targetVariableName);
+
+	D_DEBUG_LOG(eLogType::D_ERROR, "Fail to find uniform variable ( %s ) from uniform buffer object ( %s )", targetVariableName, GetUniformBlockName().c_str());
+	D_ASSERT(node != mUniformVariableInfos.end());
+
+	if(node != mUniformVariableInfos.end())
+	{
+		offset = node->second.mOffset;
+	}
+	return offset;
+}
+
+void dooms::graphics::UniformBufferObject::BindBuffer(const UINT32 bindingPoint, const GraphicsAPI::eGraphicsPipeLineStage targetPipeLineStage) const noexcept
+{
+	D_ASSERT(mUniformBufferObject.IsValid() == true);
+	if (IsBufferGenerated() == true)
+	{
+		if(BOUND_UNIFORM_BUFFER_ID[static_cast<UINT32>(targetPipeLineStage)][bindingPoint] != mUniformBufferObject.GetBufferID())
+		{
+			BOUND_UNIFORM_BUFFER_ID[static_cast<UINT32>(targetPipeLineStage)][bindingPoint] = mUniformBufferObject.GetBufferID();
+			GraphicsAPI::BindConstantBuffer(mUniformBufferObject, bindingPoint, targetPipeLineStage);
+		}					
+	}
+}
+
+void dooms::graphics::UniformBufferObject::UnBindBuffer(const UINT32 bindingPoint, const GraphicsAPI::eGraphicsPipeLineStage targetPipeLineStage) const noexcept
+{
+	if (BOUND_UNIFORM_BUFFER_ID[static_cast<UINT32>(targetPipeLineStage)][bindingPoint] != 0)
+	{
+		BOUND_UNIFORM_BUFFER_ID[static_cast<UINT32>(targetPipeLineStage)][bindingPoint] = 0;
+		GraphicsAPI::BindConstantBuffer(0, bindingPoint, targetPipeLineStage);
+	}
+}
+
 void dooms::graphics::UniformBufferObject::UpdateLocalBufferToGPU() noexcept
 {
 	D_ASSERT(IsBufferGenerated() == true);

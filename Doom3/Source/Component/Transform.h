@@ -88,7 +88,7 @@ namespace dooms
 
 		std::string ToString();
 		
-		FORCE_INLINE void SetPosition(const math::Vector3& position) noexcept
+		FORCE_INLINE void SetPosition(const math::Vector3& position)
 		{
 			D_ASSERT(IsEntityMovable());
 
@@ -102,7 +102,7 @@ namespace dooms
 			}			
 		}
 		
-		FORCE_INLINE void SetPosition(FLOAT32 x, FLOAT32 y, FLOAT32 z) noexcept
+		FORCE_INLINE void SetPosition(FLOAT32 x, FLOAT32 y, FLOAT32 z)
 		{
 			D_ASSERT(IsEntityMovable());
 
@@ -112,7 +112,7 @@ namespace dooms
 			}
 		}
 		
-		FORCE_INLINE void SetRotation(const math::Quaternion& rotation) noexcept
+		FORCE_INLINE void SetRotation(const math::Quaternion& rotation)
 		{
 			D_ASSERT(IsEntityMovable());
 
@@ -126,7 +126,7 @@ namespace dooms
 			}
 		}
 		
-		FORCE_INLINE void SetRotation(const math::Vector3& eulerAngle) noexcept
+		FORCE_INLINE void SetRotation(const math::Vector3& eulerAngle)
 		{
 			D_ASSERT(IsEntityMovable());
 
@@ -136,7 +136,7 @@ namespace dooms
 			}
 		}
 		
-		FORCE_INLINE void SetRotation(const FLOAT32 eulerAngleX, const FLOAT32 eulerAngleY, const FLOAT32 eulerAngleZ) noexcept
+		FORCE_INLINE void SetRotation(const FLOAT32 eulerAngleX, const FLOAT32 eulerAngleY, const FLOAT32 eulerAngleZ)
 		{
 			D_ASSERT(IsEntityMovable());
 
@@ -146,7 +146,7 @@ namespace dooms
 			}
 		}
 		
-		FORCE_INLINE void SetScale(const math::Vector3& scale) noexcept
+		FORCE_INLINE void SetScale(const math::Vector3& scale)
 		{
 			D_ASSERT(IsEntityMovable());
 
@@ -159,7 +159,7 @@ namespace dooms
 			}
 		}
 		
-		FORCE_INLINE void SetScale(const FLOAT32 x, const FLOAT32 y, const FLOAT32 z) noexcept
+		FORCE_INLINE void SetScale(const FLOAT32 x, const FLOAT32 y, const FLOAT32 z)
 		{
 			D_ASSERT(IsEntityMovable());
 
@@ -169,22 +169,22 @@ namespace dooms
 			}
 		}
 		
-		FORCE_INLINE const math::Vector3& GetPosition() const noexcept
+		FORCE_INLINE const math::Vector3& GetPosition() const
 		{
 			return mPosition;
 		}
 		
-		FORCE_INLINE const math::Quaternion& GetRotation() const noexcept
+		FORCE_INLINE const math::Quaternion& GetRotation() const
 		{
 			return mRotation;
 		}
 		
-		FORCE_INLINE const math::Vector3& GetScale() const noexcept
+		FORCE_INLINE const math::Vector3& GetScale() const
 		{
 			return mScale;
 		}
 		
-		FORCE_INLINE const math::Matrix4x4& GetModelMatrix() const noexcept
+		FORCE_INLINE const math::Matrix4x4& GetModelMatrix() const
 		{
 			if (bmIsDirtyModelMatrix.GetIsDirty(true))
 			{
@@ -198,108 +198,43 @@ namespace dooms
 			return mRotationMatrix;
 		}
 		
-		FORCE_INLINE math::Vector3 forward() const noexcept
+		FORCE_INLINE math::Vector3 forward() const
 		{
 			return mRotation * math::Vector3::forward;
 		}
 		
-		FORCE_INLINE math::Vector3 right() const noexcept
+		FORCE_INLINE math::Vector3 right() const
 		{
 			return mRotation * math::Vector3::right;
 		}
 		
-		FORCE_INLINE math::Vector3 up() const noexcept
+		FORCE_INLINE math::Vector3 up() const
 		{
 			return mRotation * math::Vector3::up;
 		}
 		
-		FORCE_INLINE void LookAt(const Transform& target, const math::Vector3& up) noexcept
-		{
-			D_ASSERT(IsEntityMovable());
+		void LookAt(const Transform& target, const math::Vector3& up);
+		void LookAt(const math::Vector3& targetPoint, const math::Vector3& up);
+		void Rotate(const math::Quaternion& quat, const eSpace& relativeTo);
+		void Rotate(const math::Vector3& eulerAngles, const eSpace& relativeTo);
+		void RotateAround(const math::Vector3& centerPoint, const math::Vector3& axis, const FLOAT32 angle);
 
-			if (IsEntityMovable())
-			{
-				SetRotation(static_cast<math::Quaternion>(math::lookAt(mPosition, target.mPosition, up)));
-			}
-		}
-
-		FORCE_INLINE void LookAt(const math::Vector3& targetPoint, const math::Vector3& up) noexcept
-		{
-			D_ASSERT(IsEntityMovable());
-
-			if (IsEntityMovable())
-			{
-				SetRotation(static_cast<math::Quaternion>(math::lookAt(mPosition, targetPoint, up)));
-			}
-		}
-		
-		FORCE_INLINE void Rotate(const math::Quaternion& quat, const eSpace& relativeTo) noexcept
-		{
-			D_ASSERT(IsEntityMovable());
-
-			if (IsEntityMovable())
-			{
-				if (relativeTo == eSpace::Self)
-				{
-					SetRotation(mRotation * quat);
-				}
-				else if (relativeTo == eSpace::World)
-				{
-					SetRotation(quat * mRotation);
-				}
-			}
-		}
-		
-		FORCE_INLINE void Rotate(const math::Vector3& eulerAngles, const eSpace& relativeTo) noexcept
-		{
-			D_ASSERT(IsEntityMovable());
-
-			if (IsEntityMovable())
-			{
-				if (relativeTo == eSpace::Self)
-				{
-					SetRotation(mRotation * math::Quaternion(eulerAngles));
-				}
-				else if (relativeTo == eSpace::World)
-				{
-					SetRotation(math::Quaternion(eulerAngles) * mRotation);
-				}
-			}
-		}
-		
-		FORCE_INLINE void RotateAround(const math::Vector3& centerPoint, const math::Vector3& axis, const FLOAT32 angle) noexcept
-		{
-			D_ASSERT(IsEntityMovable());
-
-			if (IsEntityMovable())
-			{
-				math::Vector3 worldPos = GetPosition();
-				const math::Quaternion q = math::Quaternion::angleAxis(angle, axis);
-				math::Vector3 dif = worldPos - centerPoint;
-				dif = q * dif;
-				worldPos = centerPoint + dif;
-				SetPosition(worldPos);
-
-				SetRotation(math::Quaternion(angle * static_cast<FLOAT32>(math::DEGREE_TO_RADIAN), axis));
-			}
-		}
-		
-		FORCE_INLINE math::Vector3 TransformDirection(math::Vector3& direction) const noexcept
+		FORCE_INLINE math::Vector3 TransformDirection(math::Vector3& direction) const
 		{
 			return mRotation * direction.normalized();
 		}
 		
-		FORCE_INLINE math::Vector3 TransformPoint(const math::Vector3& point) const noexcept
+		FORCE_INLINE math::Vector3 TransformPoint(const math::Vector3& point) const
 		{
 			return mRotation * point;
 		}
 		
-		FORCE_INLINE math::Vector3 TransformVector(const math::Vector3& vector) const noexcept
+		FORCE_INLINE math::Vector3 TransformVector(const math::Vector3& vector) const
 		{
 			return mRotation * vector;
 		}
 		
-		FORCE_INLINE void Translate(const math::Vector3& translation, const eSpace& relativeTo = eSpace::World) noexcept
+		FORCE_INLINE void Translate(const math::Vector3& translation, const eSpace& relativeTo = eSpace::World)
 		{
 			D_ASSERT(IsEntityMovable());
 

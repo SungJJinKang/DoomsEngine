@@ -131,18 +131,7 @@ namespace dooms
 				return mShaderAsset[shaderType];
 			}
 			
-			FORCE_INLINE UniformBufferObjectView* GetUniformBufferObjectViewFromUBOIndex(const size_t uboIndex)
-			{
-				UniformBufferObjectView* uboView = nullptr;
-				D_ASSERT(uboIndex < mTargetUniformBufferObjectViews.size());
-
-				if(uboIndex < mTargetUniformBufferObjectViews.size())
-				{
-					uboView = mTargetUniformBufferObjectViews.data() + uboIndex;
-				}
-
-				return uboView;
-			}
+			UniformBufferObjectView* GetUniformBufferObjectViewFromUBOIndex(const size_t uboIndex);
 			UniformBufferObjectView* GetUniformBufferObjectViewFromUBOName(const char* const uniformBufferObjectName);
 
 			UINT64 GetMaterialHashValue() const;

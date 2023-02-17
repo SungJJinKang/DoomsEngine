@@ -121,90 +121,16 @@ namespace dooms
 
 			void OnSetPendingKill() override;
 
-			FORCE_INLINE void BindVertexArrayObject() const
-			{
-				if (graphics::GraphicsAPIManager::GetCurrentAPIType() == graphics::GraphicsAPI::eGraphicsAPIType::OpenGL)
-				{
-					D_ASSERT(mVertexArrayObjectID.IsValid() == true);
-					if (BOUND_VERTEX_ARRAY_ID != mVertexArrayObjectID.GetBufferID())
-					{
-						BOUND_VERTEX_ARRAY_ID = mVertexArrayObjectID;
-						dooms::graphics::GraphicsAPI::BindVertexArrayObject(mVertexArrayObjectID);
-					}
-				}
-			}
-			FORCE_INLINE void BindVertexBufferObject() const
-			{
-				D_ASSERT(mVertexDataBuffer.IsValid() == true);
-				D_ASSERT(mTotalStride > 0);
+			void BindVertexArrayObject() const;
 
-				if (graphics::GraphicsAPIManager::GetCurrentAPIType() == graphics::GraphicsAPI::eGraphicsAPIType::OpenGL)
-				{
-					if (BOUND_VERTEX_BUFFER_ID[0] != mVertexArrayObjectID.GetBufferID())
-					{
-						BOUND_VERTEX_BUFFER_ID[0] = mVertexArrayObjectID;
-						dooms::graphics::GraphicsAPI::BindVertexDataBuffer
-						(
-							mVertexDataBuffer,
-							0,
-							mTotalStride,
-							0
-						);
-					}
-				}
-				else if (graphics::GraphicsAPIManager::GetCurrentAPIType() == graphics::GraphicsAPI::eGraphicsAPIType::DX11_10)
-				{
-					for (UINT32 bufferLayoutIndex = 0; bufferLayoutIndex < mVertexBufferLayoutCount; bufferLayoutIndex++)
-					{
-						if (BOUND_VERTEX_BUFFER_ID[bufferLayoutIndex] != mVertexDataBuffer.GetBufferID())
-						{
-							BOUND_VERTEX_BUFFER_ID[bufferLayoutIndex] = mVertexDataBuffer;
-							dooms::graphics::GraphicsAPI::BindVertexDataBuffer
-							(
-								mVertexDataBuffer,
-								bufferLayoutIndex,
-								mVertexBufferLayouts[bufferLayoutIndex].mStride,
-								mVertexBufferLayouts[bufferLayoutIndex].mOffset
-							);
-						}
-					}
-
-				}
-				else
-				{
-					NEVER_HAPPEN;
-				}
-
-			}
-			FORCE_INLINE void BindIndexBufferObject() const
-			{
-				D_ASSERT(mVertexDataBuffer.IsValid() == true);
-				if (BOUND_INDEX_BUFFER_ID != mElementBufferObjectID.GetBufferID())
-				{
-					BOUND_INDEX_BUFFER_ID = mElementBufferObjectID;
-					dooms::graphics::GraphicsAPI::BindBuffer(mElementBufferObjectID, 0, graphics::GraphicsAPI::eBufferTarget::ELEMENT_ARRAY_BUFFER, graphics::GraphicsAPI::eGraphicsPipeLineStage::DUMMY);
-				}
-			}
-			FORCE_INLINE void BindVertexBufferObject
+			void BindVertexBufferObject() const;
+			void BindIndexBufferObject() const;
+			void BindVertexBufferObject
 			(
 				const UINT32 bindingPosition,
 				const UINT32 stride,
 				const UINT32 offset
-			) const
-			{
-				D_ASSERT(mVertexDataBuffer.IsValid() == true);
-				if (BOUND_VERTEX_BUFFER_ID[bindingPosition] != mVertexDataBuffer.GetBufferID())
-				{
-					BOUND_VERTEX_BUFFER_ID[bindingPosition] = mVertexDataBuffer;
-					dooms::graphics::GraphicsAPI::BindVertexDataBuffer
-					(
-						mVertexDataBuffer,
-						bindingPosition,
-						stride,
-						offset
-					);
-				}
-			}
+			) const;
 
 			void CreateVertexArrayObjectIfNotExist();
 
@@ -258,73 +184,9 @@ namespace dooms
 			*/
 
 
-			FORCE_INLINE void Draw() const
-			{
-				D_ASSERT(mPrimitiveType != GraphicsAPI::ePrimitiveType::NONE);
-
-				if(graphics::GraphicsAPIManager::GetCurrentAPIType() == graphics::GraphicsAPI::eGraphicsAPIType::OpenGL)
-				{
-					BindVertexArrayObject();
-				}
-				else if (graphics::GraphicsAPIManager::GetCurrentAPIType() == graphics::GraphicsAPI::eGraphicsAPIType::DX11_10)
-				{
-					BindVertexBufferObject();
-				}
-				else
-				{
-					NEVER_HAPPEN;
-				}
-
-				if (IsElementBufferGenerated() == true)
-				{// TODO : WHY THIS MAKE ERROR ON RADEON GPU, CHECK THIS https://stackoverflow.com/questions/18299646/gldrawelements-emits-gl-invalid-operation-when-using-amd-driver-on-linux
-					// you don't need bind EBO everytime, EBO will be bound automatically when bind VAO
-					BindIndexBufferObject();
-					GraphicsAPI::DrawIndexed(mPrimitiveType, mNumOfIndices);
-				}
-				else
-				{
-					GraphicsAPI::Draw(mPrimitiveType, 0, mNumOfVertices);
-				}
-			}
-			FORCE_INLINE void DrawArray(const INT32 startVertexLocation, const UINT32 vertexCount) const
-			{
-				D_ASSERT(mPrimitiveType != GraphicsAPI::ePrimitiveType::NONE);
-
-				if (graphics::GraphicsAPIManager::GetCurrentAPIType() == graphics::GraphicsAPI::eGraphicsAPIType::OpenGL)
-				{
-					BindVertexArrayObject();
-				}
-				else if (graphics::GraphicsAPIManager::GetCurrentAPIType() == graphics::GraphicsAPI::eGraphicsAPIType::DX11_10)
-				{
-					BindVertexBufferObject();
-				}
-				else
-				{
-					NEVER_HAPPEN;
-				}
-
-				GraphicsAPI::Draw(mPrimitiveType, vertexCount, startVertexLocation);
-			}
-
-			FORCE_INLINE void DrawArray(const GraphicsAPI::ePrimitiveType primitiveType, const INT32 startVertexLocation, const INT32 vertexCount) const
-			{
-				D_ASSERT(primitiveType != GraphicsAPI::ePrimitiveType::NONE);
-
-				if (graphics::GraphicsAPIManager::GetCurrentAPIType() == graphics::GraphicsAPI::eGraphicsAPIType::OpenGL)
-				{
-					BindVertexArrayObject();
-				}
-				else if (graphics::GraphicsAPIManager::GetCurrentAPIType() == graphics::GraphicsAPI::eGraphicsAPIType::DX11_10)
-				{
-					BindVertexBufferObject();
-				}
-				else
-				{
-					NEVER_HAPPEN;
-				}
-
-				GraphicsAPI::Draw(primitiveType, vertexCount, startVertexLocation);
-			}
+			void Draw() const;
+			void DrawArray(const INT32 startVertexLocation, const UINT32 vertexCount) const;
+			void DrawArray(const GraphicsAPI::ePrimitiveType primitiveType, const INT32 startVertexLocation, const INT32 vertexCount) const;
 
 			static constexpr UINT32 GetStride(const UINT32 vertexArrayFlag);
 

@@ -29,6 +29,69 @@ void dooms::graphics::TextureView::SetDefaultTargetGraphicsPipeLineStage(const G
 	mDefaultTargetGraphicsPipeLineStage = defaultGraphicsPipeLineStage;
 }
 
+void dooms::graphics::TextureView::BindTexture() const
+{
+	if (BOUND_TEXTURE_ID[static_cast<UINT32>(mDefaultTargetGraphicsPipeLineStage)][mDefaultBindingLocation] != mTextureViewObject.GetBufferID())
+	{
+		BOUND_TEXTURE_ID[static_cast<UINT32>(mDefaultTargetGraphicsPipeLineStage)][mDefaultBindingLocation] = mTextureViewObject.GetBufferID();
+		GraphicsAPI::BindTextureObject
+		(
+			mTextureViewObject,
+			mTargetTextureResourceObject->GetTextureBindTarget(),
+			mDefaultBindingLocation,
+			mDefaultTargetGraphicsPipeLineStage
+		);
+	}
+}
+
+void dooms::graphics::TextureView::UnBindTexture() const
+{
+	if (BOUND_TEXTURE_ID[static_cast<UINT32>(mDefaultTargetGraphicsPipeLineStage)][mDefaultBindingLocation] != 0)
+	{
+		BOUND_TEXTURE_ID[static_cast<UINT32>(mDefaultTargetGraphicsPipeLineStage)][mDefaultBindingLocation] = 0;
+
+		GraphicsAPI::BindTextureObject
+		(
+			0,
+			mTargetTextureResourceObject->GetTextureBindTarget(),
+			mDefaultBindingLocation,
+			mDefaultTargetGraphicsPipeLineStage
+		);
+	}
+}
+
+void dooms::graphics::TextureView::BindTexture(const UINT32 bindingPoint, const GraphicsAPI::eGraphicsPipeLineStage targetPipeLineStage) const
+{
+	if (BOUND_TEXTURE_ID[static_cast<UINT32>(targetPipeLineStage)][bindingPoint] != mTextureViewObject.GetBufferID())
+	{
+		BOUND_TEXTURE_ID[static_cast<UINT32>(targetPipeLineStage)][bindingPoint] = mTextureViewObject;
+
+		GraphicsAPI::BindTextureObject
+		(
+			mTextureViewObject, 
+			mTargetTextureResourceObject->GetTextureBindTarget(),
+			bindingPoint,
+			targetPipeLineStage
+		);
+	}
+}
+
+void dooms::graphics::TextureView::UnBindTexture(const UINT32 bindingPoint, const GraphicsAPI::eGraphicsPipeLineStage targetPipeLineStage) const
+{
+	if (BOUND_TEXTURE_ID[static_cast<UINT32>(targetPipeLineStage)][bindingPoint] != 0)
+	{
+		BOUND_TEXTURE_ID[static_cast<UINT32>(targetPipeLineStage)][bindingPoint] = 0;
+
+		GraphicsAPI::BindTextureObject
+		(
+			0,
+			mTargetTextureResourceObject->GetTextureBindTarget(),
+			bindingPoint,
+			targetPipeLineStage
+		);
+	}
+}
+
 dooms::graphics::TextureView::~TextureView()
 {
 	DestroyTextureViewObject();
@@ -231,6 +294,16 @@ const dooms::graphics::BufferID& dooms::graphics::TextureView::GetTextureBufferI
 {
 	D_ASSERT(mTextureViewObject.IsValid());
 	return mTextureViewObject;
+}
+
+void dooms::graphics::TextureView::TexParameterf(const GraphicsAPI::eTextureBindTarget target, const GraphicsAPI::eTextureParameterType pname, FLOAT32 param) const
+{
+	GraphicsAPI::SetTextureParameterFloat(target, pname, param);
+}
+
+void dooms::graphics::TextureView::TexParameteri(const GraphicsAPI::eTextureBindTarget target, const GraphicsAPI::eTextureParameterType pname, INT32 param) const
+{
+	GraphicsAPI::SetTextureParameterInt(target, pname, param);
 }
 
 

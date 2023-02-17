@@ -25,21 +25,21 @@ void dooms::gc::garbageCollectorSolver::StartSetUnreachableFlagStage(const eGCMe
 
 namespace dooms::gc::garbageCollectorSolver
 {
-	FORCE_INLINE static void MarkRecursively
+	static void MarkRecursively
 	(
 		const UINT32 keepFlags,
 		void* const object,
 		const reflection::eProperyQualifier dataQualifier,
 		const dooms::reflection::DType* const dFieldType
 	);
-	FORCE_INLINE static void MarkRecursivelyTemplateTypeField
+	static void MarkRecursivelyTemplateTypeField
 	(
 		const UINT32 keepFlags,
 		void* const object,
 		const reflection::eProperyQualifier dataQualifier,
 		const dooms::reflection::DType* const dFieldType
 	);
-	FORCE_INLINE static void MarkRecursivelyDObjectTypeField
+	static void MarkRecursivelyDObjectTypeField
 	(
 		const UINT32 keepFlags,
 		dooms::DObject* const dObejct,
@@ -47,7 +47,7 @@ namespace dooms::gc::garbageCollectorSolver
 		const dooms::reflection::DType* const dFieldType
 	);
 
-	FORCE_INLINE static void MarkRecursivelyTemplateTypeField
+	static void MarkRecursivelyTemplateTypeField
 	(
 		const UINT32 keepFlags,
 		void* const object,
@@ -105,7 +105,7 @@ namespace dooms::gc::garbageCollectorSolver
 		}
 	}
 
-	FORCE_INLINE static bool CheckDObjectIsValid(const dooms::DObject* const InDObject)
+	static bool CheckDObjectIsValid(const dooms::DObject* const InDObject)
 	{
 		bool bIsDObjectValid = IsValid(InDObject);
 
@@ -114,7 +114,7 @@ namespace dooms::gc::garbageCollectorSolver
 		return bIsDObjectValid;
 	}
 
-	FORCE_INLINE static void MarkRecursivelyDObjectTypeValueField
+	static void MarkRecursivelyDObjectTypeValueField
 	(
 		const UINT32 keepFlags,
 		dooms::DObject* const dObejct,
@@ -142,7 +142,7 @@ namespace dooms::gc::garbageCollectorSolver
 		}
 	}
 
-	FORCE_INLINE static void MarkRecursivelyDObjectTypeField
+	static void MarkRecursivelyDObjectTypeField
 	(
 		const UINT32 keepFlags,
 		void* const object,
@@ -181,7 +181,7 @@ namespace dooms::gc::garbageCollectorSolver
 		}
 	}
 
-	FORCE_INLINE static void MarkRecursively
+	static void MarkRecursively
 	(
 		const UINT32 keepFlags,
 		void* const object,
@@ -199,7 +199,7 @@ namespace dooms::gc::garbageCollectorSolver
 		}
 	}
 
-	FORCE_INLINE static void Mark(const UINT32 keepFlags, dooms::DObject* const rootDObject)
+	static void Mark(const UINT32 keepFlags, dooms::DObject* const rootDObject)
 	{
 		D_ASSERT(IsDObjectValidLowLevel(rootDObject, false) == true);
 

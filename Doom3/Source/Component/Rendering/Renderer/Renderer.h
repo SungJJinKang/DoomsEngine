@@ -175,14 +175,7 @@ namespace dooms
 		//const physics::Sphere& GetBoudingSphere();
 
 		void CacheDistanceToCamera(const size_t cameraIndex, const Camera* const camera);
-		FORCE_INLINE void CacheDistanceToCamera(const size_t cameraIndex, const math::Vector3& cameraPos)
-		{
-			assert(cameraIndex < MAX_CAMERA_COUNT);
-			if (cameraIndex < MAX_CAMERA_COUNT)
-			{
-				mDistanceToCameraData.mDistancesToCamera[cameraIndex] = (static_cast<const Transform*>(GetTransform())->GetPosition() - cameraPos).magnitude() - dooms::ColliderUpdater<dooms::physics::AABB3D>::GetWorldCollider()->GetDiagonarLineLength();
-			}
-		}
+		void CacheDistanceToCamera(const size_t cameraIndex, const math::Vector3& cameraPos);
 
 		/// <summary>
 		/// This function doesn't ensure that distance is up to date 

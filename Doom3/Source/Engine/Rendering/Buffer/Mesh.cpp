@@ -81,6 +81,63 @@ void dooms::graphics::Mesh::OnSetPendingKill()
 	DeleteBuffers();
 }
 
+void dooms::graphics::Mesh::BindVertexArrayObject() const
+{
+	if (graphics::GraphicsAPIManager::GetCurrentAPIType() == graphics::GraphicsAPI::eGraphicsAPIType::OpenGL)
+	{
+		D_ASSERT(mVertexArrayObjectID.IsValid() == true);
+		if (BOUND_VERTEX_ARRAY_ID != mVertexArrayObjectID.GetBufferID())
+		{
+			BOUND_VERTEX_ARRAY_ID = mVertexArrayObjectID;
+			dooms::graphics::GraphicsAPI::BindVertexArrayObject(mVertexArrayObjectID);
+		}
+	}
+}
+
+void dooms::graphics::Mesh::BindVertexBufferObject() const
+{
+	D_ASSERT(mVertexDataBuffer.IsValid() == true);
+	D_ASSERT(mTotalStride > 0);
+
+	if (graphics::GraphicsAPIManager::GetCurrentAPIType() == graphics::GraphicsAPI::eGraphicsAPIType::OpenGL)
+	{
+		if (BOUND_VERTEX_BUFFER_ID[0] != mVertexArrayObjectID.GetBufferID())
+		{
+			BOUND_VERTEX_BUFFER_ID[0] = mVertexArrayObjectID;
+			dooms::graphics::GraphicsAPI::BindVertexDataBuffer
+			(
+				mVertexDataBuffer,
+				0,
+				mTotalStride,
+				0
+			);
+		}
+	}
+	else if (graphics::GraphicsAPIManager::GetCurrentAPIType() == graphics::GraphicsAPI::eGraphicsAPIType::DX11_10)
+	{
+		for (UINT32 bufferLayoutIndex = 0; bufferLayoutIndex < mVertexBufferLayoutCount; bufferLayoutIndex++)
+		{
+			if (BOUND_VERTEX_BUFFER_ID[bufferLayoutIndex] != mVertexDataBuffer.GetBufferID())
+			{
+				BOUND_VERTEX_BUFFER_ID[bufferLayoutIndex] = mVertexDataBuffer;
+				dooms::graphics::GraphicsAPI::BindVertexDataBuffer
+				(
+					mVertexDataBuffer,
+					bufferLayoutIndex,
+					mVertexBufferLayouts[bufferLayoutIndex].mStride,
+					mVertexBufferLayouts[bufferLayoutIndex].mOffset
+				);
+			}
+		}
+
+	}
+	else
+	{
+		NEVER_HAPPEN;
+	}
+
+}
+
 
 void dooms::graphics::Mesh::DeleteBuffers()
 {
@@ -317,6 +374,32 @@ void dooms::graphics::Mesh::UpdateVertexData
 */
 
 
+void dooms::graphics::Mesh::BindIndexBufferObject() const
+{
+	D_ASSERT(mVertexDataBuffer.IsValid() == true);
+	if (BOUND_INDEX_BUFFER_ID != mElementBufferObjectID.GetBufferID())
+	{
+		BOUND_INDEX_BUFFER_ID = mElementBufferObjectID;
+		dooms::graphics::GraphicsAPI::BindBuffer(mElementBufferObjectID, 0, graphics::GraphicsAPI::eBufferTarget::ELEMENT_ARRAY_BUFFER, graphics::GraphicsAPI::eGraphicsPipeLineStage::DUMMY);
+	}
+}
+
+void dooms::graphics::Mesh::BindVertexBufferObject(const UINT32 bindingPosition, const UINT32 stride, const UINT32 offset) const
+{
+	D_ASSERT(mVertexDataBuffer.IsValid() == true);
+	if (BOUND_VERTEX_BUFFER_ID[bindingPosition] != mVertexDataBuffer.GetBufferID())
+	{
+		BOUND_VERTEX_BUFFER_ID[bindingPosition] = mVertexDataBuffer;
+		dooms::graphics::GraphicsAPI::BindVertexDataBuffer
+		(
+			mVertexDataBuffer,
+			bindingPosition,
+			stride,
+			offset
+		);
+	}
+}
+
 void dooms::graphics::Mesh::CreateVertexArrayObjectIfNotExist()
 {
 	D_ASSERT(graphics::GraphicsAPIManager::GetCurrentAPIType() == graphics::GraphicsAPI::eGraphicsAPIType::OpenGL);
@@ -461,6 +544,75 @@ void dooms::graphics::Mesh::CreateBufferObjectFromModelMesh(const ThreeDModelMes
 
 		mTargetThreeDModelMesh = &threeDModelMesh;
 	}
+}
+
+void dooms::graphics::Mesh::Draw() const
+{
+	D_ASSERT(mPrimitiveType != GraphicsAPI::ePrimitiveType::NONE);
+
+	if(graphics::GraphicsAPIManager::GetCurrentAPIType() == graphics::GraphicsAPI::eGraphicsAPIType::OpenGL)
+	{
+		BindVertexArrayObject();
+	}
+	else if (graphics::GraphicsAPIManager::GetCurrentAPIType() == graphics::GraphicsAPI::eGraphicsAPIType::DX11_10)
+	{
+		BindVertexBufferObject();
+	}
+	else
+	{
+		NEVER_HAPPEN;
+	}
+
+	if (IsElementBufferGenerated() == true)
+	{// TODO : WHY THIS MAKE ERROR ON RADEON GPU, CHECK THIS https://stackoverflow.com/questions/18299646/gldrawelements-emits-gl-invalid-operation-when-using-amd-driver-on-linux
+		// you don't need bind EBO everytime, EBO will be bound automatically when bind VAO
+		BindIndexBufferObject();
+		GraphicsAPI::DrawIndexed(mPrimitiveType, mNumOfIndices);
+	}
+	else
+	{
+		GraphicsAPI::Draw(mPrimitiveType, 0, mNumOfVertices);
+	}
+}
+
+void dooms::graphics::Mesh::DrawArray(const INT32 startVertexLocation, const UINT32 vertexCount) const
+{
+	D_ASSERT(mPrimitiveType != GraphicsAPI::ePrimitiveType::NONE);
+
+	if (graphics::GraphicsAPIManager::GetCurrentAPIType() == graphics::GraphicsAPI::eGraphicsAPIType::OpenGL)
+	{
+		BindVertexArrayObject();
+	}
+	else if (graphics::GraphicsAPIManager::GetCurrentAPIType() == graphics::GraphicsAPI::eGraphicsAPIType::DX11_10)
+	{
+		BindVertexBufferObject();
+	}
+	else
+	{
+		NEVER_HAPPEN;
+	}
+
+	GraphicsAPI::Draw(mPrimitiveType, vertexCount, startVertexLocation);
+}
+
+void dooms::graphics::Mesh::DrawArray(const GraphicsAPI::ePrimitiveType primitiveType, const INT32 startVertexLocation,	const INT32 vertexCount) const
+{
+	D_ASSERT(primitiveType != GraphicsAPI::ePrimitiveType::NONE);
+
+	if (graphics::GraphicsAPIManager::GetCurrentAPIType() == graphics::GraphicsAPI::eGraphicsAPIType::OpenGL)
+	{
+		BindVertexArrayObject();
+	}
+	else if (graphics::GraphicsAPIManager::GetCurrentAPIType() == graphics::GraphicsAPI::eGraphicsAPIType::DX11_10)
+	{
+		BindVertexBufferObject();
+	}
+	else
+	{
+		NEVER_HAPPEN;
+	}
+
+	GraphicsAPI::Draw(primitiveType, vertexCount, startVertexLocation);
 }
 
 constexpr UINT32 dooms::graphics::Mesh::GetStride(const UINT32 vertexArrayFlag)

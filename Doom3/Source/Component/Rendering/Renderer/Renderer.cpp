@@ -250,6 +250,14 @@ void dooms::Renderer::CacheDistanceToCamera(const size_t cameraIndex, const Came
 	CacheDistanceToCamera(cameraIndex, camera->GetTransform()->GetPosition());
 }
 
+void dooms::Renderer::CacheDistanceToCamera(const size_t cameraIndex, const math::Vector3& cameraPos)
+{
+	assert(cameraIndex < MAX_CAMERA_COUNT);
+	if (cameraIndex < MAX_CAMERA_COUNT)
+	{
+		mDistanceToCameraData.mDistancesToCamera[cameraIndex] = (static_cast<const Transform*>(GetTransform())->GetPosition() - cameraPos).magnitude() - dooms::ColliderUpdater<dooms::physics::AABB3D>::GetWorldCollider()->GetDiagonarLineLength();
+	}
+}
 
 void dooms::Renderer::SetDesiredMaxDrawDistance(const FLOAT32 desiredMaxDrawDistance)
 {

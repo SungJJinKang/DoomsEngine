@@ -102,4 +102,75 @@ std::string dooms::Transform::ToString()
 	return sStream.str();
 }
 
+void dooms::Transform::LookAt(const Transform& target, const math::Vector3& up)
+{
+	D_ASSERT(IsEntityMovable());
+
+	if (IsEntityMovable())
+	{
+		SetRotation(static_cast<math::Quaternion>(math::lookAt(mPosition, target.mPosition, up)));
+	}
+}
+
+void dooms::Transform::LookAt(const math::Vector3& targetPoint, const math::Vector3& up)
+{
+	D_ASSERT(IsEntityMovable());
+
+	if (IsEntityMovable())
+	{
+		SetRotation(static_cast<math::Quaternion>(math::lookAt(mPosition, targetPoint, up)));
+	}
+}
+
+void dooms::Transform::Rotate(const math::Quaternion& quat, const eSpace& relativeTo)
+{
+	D_ASSERT(IsEntityMovable());
+
+	if (IsEntityMovable())
+	{
+		if (relativeTo == eSpace::Self)
+		{
+			SetRotation(mRotation * quat);
+		}
+		else if (relativeTo == eSpace::World)
+		{
+			SetRotation(quat * mRotation);
+		}
+	}
+}
+
+void dooms::Transform::Rotate(const math::Vector3& eulerAngles, const eSpace& relativeTo)
+{
+	D_ASSERT(IsEntityMovable());
+
+	if (IsEntityMovable())
+	{
+		if (relativeTo == eSpace::Self)
+		{
+			SetRotation(mRotation * math::Quaternion(eulerAngles));
+		}
+		else if (relativeTo == eSpace::World)
+		{
+			SetRotation(math::Quaternion(eulerAngles) * mRotation);
+		}
+	}
+}
+
+void dooms::Transform::RotateAround(const math::Vector3& centerPoint, const math::Vector3& axis, const FLOAT32 angle)
+{
+	D_ASSERT(IsEntityMovable());
+
+	if (IsEntityMovable())
+	{
+		math::Vector3 worldPos = GetPosition();
+		const math::Quaternion q = math::Quaternion::angleAxis(angle, axis);
+		math::Vector3 dif = worldPos - centerPoint;
+		dif = q * dif;
+		worldPos = centerPoint + dif;
+		SetPosition(worldPos);
+
+		SetRotation(math::Quaternion(angle * static_cast<FLOAT32>(math::DEGREE_TO_RADIAN), axis));
+	}
+}
+
 

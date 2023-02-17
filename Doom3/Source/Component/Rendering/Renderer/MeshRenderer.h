@@ -19,20 +19,9 @@ namespace dooms
 		const graphics::Mesh* mTargetMesh;
 
 
-
-		virtual void InitComponent() final
-		{
-			Renderer::InitComponent();
-		}
-		FORCE_INLINE virtual void UpdateComponent() final
-		{
-			Renderer::UpdateComponent();
-		}
-
-		FORCE_INLINE virtual void OnEndOfFrame_Component() final
-		{
-			Renderer::OnEndOfFrame_Component();
-		}
+		virtual void InitComponent() final;
+		virtual void UpdateComponent() final;
+		virtual void OnEndOfFrame_Component() final;
 
 	protected:
 
@@ -52,21 +41,7 @@ namespace dooms
 		MeshRenderer& operator=(const MeshRenderer&) = delete;
 		MeshRenderer& operator=(MeshRenderer&&) noexcept = delete;
 
-		FORCE_INLINE void Draw() override
-		{
-			BindMaterial();
-
-			D_ASSERT(mTargetMaterial);
-			if (IsValid(mTargetMaterial))
-			{
-				GetMaterial()->GetUniformBufferObjectViewFromUBOName("ModelData")->SetMat4x4(graphics::eUniformLocation::ModelMatrix, GetTransform()->GetModelMatrix());
-			}
-			D_ASSERT(IsValid(mTargetMesh));
-			if (IsValid(mTargetMesh))
-			{
-				mTargetMesh->Draw();
-			}
-		}
+		void Draw() override;
 
 		void SetMesh(const graphics::Mesh* const mesh);
 		const graphics::Mesh* GetMesh() const;

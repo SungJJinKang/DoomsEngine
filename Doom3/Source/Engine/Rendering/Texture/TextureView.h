@@ -84,91 +84,26 @@ namespace dooms
 			}
 			void SetDefaultTargetGraphicsPipeLineStage(const GraphicsAPI::eGraphicsPipeLineStage defaultGraphicsPipeLineStage);
 
-			FORCE_INLINE void BindTexture() const noexcept
-			{
-				if (BOUND_TEXTURE_ID[static_cast<UINT32>(mDefaultTargetGraphicsPipeLineStage)][mDefaultBindingLocation] != mTextureViewObject.GetBufferID())
-				{
-					BOUND_TEXTURE_ID[static_cast<UINT32>(mDefaultTargetGraphicsPipeLineStage)][mDefaultBindingLocation] = mTextureViewObject.GetBufferID();
-					GraphicsAPI::BindTextureObject
-					(
-						mTextureViewObject,
-						mTargetTextureResourceObject->GetTextureBindTarget(),
-						mDefaultBindingLocation,
-						mDefaultTargetGraphicsPipeLineStage
-					);
-				}
-			}
+			void BindTexture() const;
+			void UnBindTexture() const;
 
-			FORCE_INLINE void UnBindTexture() const noexcept
-			{
-				if (BOUND_TEXTURE_ID[static_cast<UINT32>(mDefaultTargetGraphicsPipeLineStage)][mDefaultBindingLocation] != 0)
-				{
-					BOUND_TEXTURE_ID[static_cast<UINT32>(mDefaultTargetGraphicsPipeLineStage)][mDefaultBindingLocation] = 0;
-
-					GraphicsAPI::BindTextureObject
-					(
-						0,
-						mTargetTextureResourceObject->GetTextureBindTarget(),
-						mDefaultBindingLocation,
-						mDefaultTargetGraphicsPipeLineStage
-					);
-				}
-			}
-
-			FORCE_INLINE void BindTexture
+			void BindTexture
 			(
 				const UINT32 bindingPoint, 
 				const GraphicsAPI::eGraphicsPipeLineStage targetPipeLineStage
-			) const noexcept
-			{
-				if (BOUND_TEXTURE_ID[static_cast<UINT32>(targetPipeLineStage)][bindingPoint] != mTextureViewObject.GetBufferID())
-				{
-					BOUND_TEXTURE_ID[static_cast<UINT32>(targetPipeLineStage)][bindingPoint] = mTextureViewObject;
+			) const;
 
-					GraphicsAPI::BindTextureObject
-					(
-						mTextureViewObject, 
-						mTargetTextureResourceObject->GetTextureBindTarget(),
-						bindingPoint,
-						targetPipeLineStage
-					);
-				}
-			}
-			
-			FORCE_INLINE void UnBindTexture
+			void UnBindTexture
 			(
 				const UINT32 bindingPoint,
 				const GraphicsAPI::eGraphicsPipeLineStage targetPipeLineStage
-			) const noexcept
-			{
-				if (BOUND_TEXTURE_ID[static_cast<UINT32>(targetPipeLineStage)][bindingPoint] != 0)
-				{
-					BOUND_TEXTURE_ID[static_cast<UINT32>(targetPipeLineStage)][bindingPoint] = 0;
-
-					GraphicsAPI::BindTextureObject
-					(
-						0,
-						mTargetTextureResourceObject->GetTextureBindTarget(),
-						bindingPoint,
-						targetPipeLineStage
-					);
-				}
-			}
+			) const;
 
 			const BufferID& GetTextureBufferID() const;
-			
-			FORCE_INLINE void TexParameterf(const GraphicsAPI::eTextureBindTarget target, const GraphicsAPI::eTextureParameterType pname, FLOAT32 param) const noexcept
-			{
-				GraphicsAPI::SetTextureParameterFloat(target, pname, param);
-			}
-			FORCE_INLINE void TexParameteri(const GraphicsAPI::eTextureBindTarget target, const GraphicsAPI::eTextureParameterType pname, INT32 param) const noexcept
-			{
-				GraphicsAPI::SetTextureParameterInt(target, pname, param);
-			}
+			void TexParameterf(const GraphicsAPI::eTextureBindTarget target, const GraphicsAPI::eTextureParameterType pname, FLOAT32 param) const;
+			void TexParameteri(const GraphicsAPI::eTextureBindTarget target, const GraphicsAPI::eTextureParameterType pname, INT32 param) const;
 
-			
 
-			
 			FLOAT32 GetTextureMetaDataFLOAT32(const INT32 lodLevel, const GraphicsAPI::eTextureMetaDataType textureMetaDataType) const;
 			INT32 GetTextureMetaDataINT32(const INT32 lodLevel, const GraphicsAPI::eTextureMetaDataType textureMetaDataType) const;
 			

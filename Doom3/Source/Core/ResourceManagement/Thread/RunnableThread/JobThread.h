@@ -27,7 +27,7 @@ namespace dooms
 			virtual const char* GetThreadName() const override;
 
 			template<typename LAMBDA>
-			FORCE_INLINE void EnqueueJob(LAMBDA&& JobLambda)
+			inline void EnqueueJob(LAMBDA&& JobLambda)
 			{
 				JobQueue.enqueue(std::forward<LAMBDA>(JobLambda));
 			}

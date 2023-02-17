@@ -467,6 +467,19 @@ bool dooms::graphics::Material::IsMaterialCreated() const
 	return (mMaterialStatus == eStatus::SUCCESS);
 }
 
+dooms::graphics::UniformBufferObjectView* dooms::graphics::Material::GetUniformBufferObjectViewFromUBOIndex(const size_t uboIndex)
+{
+	UniformBufferObjectView* uboView = nullptr;
+	D_ASSERT(uboIndex < mTargetUniformBufferObjectViews.size());
+
+	if(uboIndex < mTargetUniformBufferObjectViews.size())
+	{
+		uboView = mTargetUniformBufferObjectViews.data() + uboIndex;
+	}
+
+	return uboView;
+}
+
 dooms::graphics::UniformBufferObjectView* dooms::graphics::Material::GetUniformBufferObjectViewFromUBOName(const char* const uniformBufferObjectName)
 {
 	UniformBufferObjectView* uboView = nullptr;
