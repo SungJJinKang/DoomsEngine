@@ -2,8 +2,7 @@
 
 #include <utility>
 #include <string>
-#include <variant>
-#include <unordered_map>
+#include <type_traits>
 
 #include "Macros/Assert.h"
 #include "Macros/TypeDef.h"
@@ -21,7 +20,7 @@ namespace dooms
 		template <typename T>
 		T GetValue(const std::string& SectionName, const std::string& KeyName) const
 		{
-			static_assert(sizeof(T) == 0, "Unsupported Type for config value");
+			static_assert(!std::is_same<T, T>::value, "Unsupported Type for config value");
 			return T{};
 		}
 
