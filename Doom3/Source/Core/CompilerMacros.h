@@ -2,9 +2,9 @@
 
 
 #ifdef _DEBUG
-#define DEBUG_MODE
+#define DEBUG_MODE 1
 #else
-#define RELEASE_MODE
+#define RELEASE_MODE 1
 #endif
 
 
