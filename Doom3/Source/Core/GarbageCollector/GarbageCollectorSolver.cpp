@@ -278,7 +278,7 @@ void dooms::gc::garbageCollectorSolver::StartMarkStage(const eGCMethod gcMethod,
 		D_START_PROFILING(WaitProfilingThreadJobFinished, dooms::profiler::eProfileLayers::Rendering);
 		while (gcMultithreadCounter.gcCompletedRootObjectCount.load(std::memory_order_seq_cst) < rootDObjectCount)
 		{
-			std::this_thread::yield();
+			//std::this_thread::yield();
 		}
 		for(auto& future : FutureList)
 		{
