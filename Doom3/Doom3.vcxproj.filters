@@ -423,9 +423,6 @@
     <ClCompile Include="Source\Core\Macros\Path.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Core\Reflection\clReflect_automation\clReflect\src\clReflectCpp\clcpp.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Source\Core\Reflection\clReflectHelper.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -877,6 +874,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Source\Engine\Misc\CommandLine.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Core\Reflection\clReflect_ForDoomsEngine\src\clReflectCpp\clcpp.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -2220,6 +2220,15 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\Engine\Misc\CommandLine.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Helper\VectorSwapPopBack\vector_swap_popback.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Helper\VectorSwapPopBack\std_find_simd\fast_find_simd.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Helper\VectorSwapPopBack\std_find_simd\builtin.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

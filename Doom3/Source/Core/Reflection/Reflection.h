@@ -8,7 +8,7 @@
 #endif
 
 #if REFLECTION_ENABLED
-#include "clReflect_automation/clReflect/inc/clcpp/clcpp.h"
+#include <clcpp/clcpp.h>
 #endif
 
 #if REFLECTION_ENABLED

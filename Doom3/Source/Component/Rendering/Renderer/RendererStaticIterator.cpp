@@ -2,7 +2,7 @@
 
 #include "Renderer.h"
 #include <Scene/Entity.h>
-#include "../Helper/vector_erase_move_lastelement/vector_swap_popback.h"
+#include <VectorSwapPopBack/vector_swap_popback.h>
 
 dooms::RendererComponentStaticIterator::RendererComponentStaticIterator()
 	: mWorkingRendererListIndex(), mRendererList()

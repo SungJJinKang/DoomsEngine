@@ -287,7 +287,7 @@ xcopy /y /d /E /H /C /I "$(ProjectDir)Assets" "$(TargetDir)Assets"</Command>
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions);UNICODE;__x86_64__;VCXPROJ_PATH="$(ProjectPath.Replace('\', '\\'))"</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)ThirdParty\nlohmann;$(SolutionDir)ThirdParty\assimp\include;$(SolutionDir)ThirdParty\oneTBB\include;$(ProjectDir)..\OpenGLGraphicsAPI;$(ProjectDir)Source\Core\Reflection\AdditionalDirectoryForClang;$(ProjectDir)..\DX11GraphicsAPI;$(ProjectDir);$(SolutionDir)ThirdParty\glfw3\include;$(SolutionDir)ThirdParty\KHR;$(SolutionDir)ThirdParty\imgui;$(SolutionDir)ThirdParty\DirectXTex\DirectXTex;$(SolutionDir)ThirdParty\concurrentqueue;$(SolutionDir)Source\Core\OS;$(SolutionDir)Source\Helper;$(SolutionDir)Source\Component;$(SolutionDir)Source\Core\Scene;$(SolutionDir)Source\Component\Core;$(SolutionDir)Source\Helper/crossguid;$(SolutionDir)Source\GameLogic\CustomComponent;$(SolutionDir)Source\Core\Math\JINMATH;$(SolutionDir)Source\Core\IO;$(SolutionDir)Source\Core\Time;$(SolutionDir)Source\GameLogic;$(SolutionDir)Source\Core;$(SolutionDir)Source\Core\Logger;$(SolutionDir)Source\Core\Physics;$(SolutionDir)Source\Core\UUID;$(SolutionDir)Source\Core\utility;$(SolutionDir)Source\Core\Reflection\clReflect_automation\clReflect\inc;$(SolutionDir)Source\Engine;$(SolutionDir)Source\Plugins;$(SolutionDir)Source\Core\Container\JINSTL\JINSTL\include\jinstl</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)ThirdParty\nlohmann;$(SolutionDir)ThirdParty\assimp\include;$(SolutionDir)ThirdParty\oneTBB\include;$(ProjectDir)..\OpenGLGraphicsAPI;$(ProjectDir)Source\Core\Reflection\AdditionalDirectoryForClang;$(ProjectDir)..\DX11GraphicsAPI;$(ProjectDir);$(SolutionDir)ThirdParty\glfw3\include;$(SolutionDir)ThirdParty\KHR;$(SolutionDir)ThirdParty\imgui;$(SolutionDir)ThirdParty\DirectXTex\DirectXTex;$(SolutionDir)ThirdParty\concurrentqueue;$(SolutionDir)Source\Core\OS;$(SolutionDir)Source\Helper;$(SolutionDir)Source\Component;$(SolutionDir)Source\Core\Scene;$(SolutionDir)Source\Component\Core;$(SolutionDir)Source\Helper/crossguid;$(SolutionDir)Source\GameLogic\CustomComponent;$(SolutionDir)Source\Core\Math\JINMATH;$(SolutionDir)Source\Core\IO;$(SolutionDir)Source\Core\Time;$(SolutionDir)Source\GameLogic;$(SolutionDir)Source\Core;$(SolutionDir)Source\Core\Logger;$(SolutionDir)Source\Core\Physics;$(SolutionDir)Source\Core\UUID;$(SolutionDir)Source\Core\utility;$(SolutionDir)Source\Core\Reflection\clReflect_ForDoomsEngine\inc;$(SolutionDir)Source\Engine;$(SolutionDir)Source\Plugins;$(SolutionDir)Source\Core\Container\JINSTL\JINSTL\include\jinstl</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
@@ -379,7 +379,7 @@ xcopy /y /d /f "$(ProjectDir)*.map" "$(TargetDir)"</Command>
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions);UNICODE;__x86_64__;VCXPROJ_PATH="$(ProjectPath.Replace('\', '\\'))"</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)ThirdParty\nlohmann;$(SolutionDir)ThirdParty\assimp\include;$(SolutionDir)ThirdParty\oneTBB\include;$(ProjectDir)..\OpenGLGraphicsAPI;$(ProjectDir)Source\Core\Reflection\AdditionalDirectoryForClang;$(ProjectDir)..\DX11GraphicsAPI;$(ProjectDir);$(SolutionDir)ThirdParty\glfw3\include;$(SolutionDir)ThirdParty\KHR;$(SolutionDir)ThirdParty\imgui;$(SolutionDir)ThirdParty\DirectXTex\DirectXTex;$(SolutionDir)ThirdParty\concurrentqueue;$(SolutionDir)Source\thirdparty\amdUprof\include;$(SolutionDir)Source\Core\OS;$(SolutionDir)Source\Helper;$(SolutionDir)Source\Component;$(SolutionDir)Source\Core\Scene;$(SolutionDir)Source\Component\Core;$(SolutionDir)Source\Helper/crossguid;$(SolutionDir)Source\GameLogic\CustomComponent;$(SolutionDir)Source\Core\Math\JINMATH;$(SolutionDir)Source\Core\UUID;$(SolutionDir)Source\Core\IO;$(SolutionDir)Source\Core\Time;$(SolutionDir)Source\GameLogic;$(SolutionDir)Source\Core;$(SolutionDir)Source\Core\Logger;$(SolutionDir)Source\Core\Physics;$(SolutionDir)Source\Core\utility;$(SolutionDir)Source\Core\Reflection\clReflect_automation\clReflect\inc;$(SolutionDir)Source\Plugins;$(SolutionDir)Source\Engine;$(SolutionDir)Source\Core\Container\JINSTL\JINSTL\include\jinstl</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)ThirdParty\nlohmann;$(SolutionDir)ThirdParty\assimp\include;$(SolutionDir)ThirdParty\oneTBB\include;$(ProjectDir)..\OpenGLGraphicsAPI;$(ProjectDir)Source\Core\Reflection\AdditionalDirectoryForClang;$(ProjectDir)..\DX11GraphicsAPI;$(ProjectDir);$(SolutionDir)ThirdParty\glfw3\include;$(SolutionDir)ThirdParty\KHR;$(SolutionDir)ThirdParty\imgui;$(SolutionDir)ThirdParty\DirectXTex\DirectXTex;$(SolutionDir)ThirdParty\concurrentqueue;$(SolutionDir)Source\thirdparty\amdUprof\include;$(SolutionDir)Source\Core\OS;$(SolutionDir)Source\Helper;$(SolutionDir)Source\Component;$(SolutionDir)Source\Core\Scene;$(SolutionDir)Source\Component\Core;$(SolutionDir)Source\Helper/crossguid;$(SolutionDir)Source\GameLogic\CustomComponent;$(SolutionDir)Source\Core\Math\JINMATH;$(SolutionDir)Source\Core\UUID;$(SolutionDir)Source\Core\IO;$(SolutionDir)Source\Core\Time;$(SolutionDir)Source\GameLogic;$(SolutionDir)Source\Core;$(SolutionDir)Source\Core\Logger;$(SolutionDir)Source\Core\Physics;$(SolutionDir)Source\Core\utility;$(SolutionDir)Source\Core\Reflection\clReflect_ForDoomsEngine\inc;$(SolutionDir)Source\Plugins;$(SolutionDir)Source\Engine;$(SolutionDir)Source\Core\Container\JINSTL\JINSTL\include\jinstl</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
@@ -498,6 +498,7 @@ xcopy /y /d /E /H /C /I "$(ProjectDir)Assets" "$(TargetDir)Assets"</Command>
     <ClCompile Include="Source\Core\Math\JINMATH\Vector2.cpp" />
     <ClCompile Include="Source\Core\Math\JINMATH\Vector3.cpp" />
     <ClCompile Include="Source\Core\Math\JINMATH\Vector4.cpp" />
+    <ClCompile Include="Source\Core\Reflection\clReflect_ForDoomsEngine\src\clReflectCpp\clcpp.cpp" />
     <ClCompile Include="Source\Core\ResourceManagement\Thread\JobPool.cpp" />
     <ClCompile Include="Source\Core\ResourceManagement\Thread\RunnableThread\GameThread.cpp" />
     <ClCompile Include="Source\Core\ResourceManagement\Thread\RunnableThread\JobThread.cpp" />
@@ -622,7 +623,6 @@ xcopy /y /d /E /H /C /I "$(ProjectDir)Assets" "$(TargetDir)Assets"</Command>
     <ClCompile Include="Source\Core\Reflection\Test\TestDObject.cpp" />
     <ClCompile Include="Source\Core\Misc\DynamicLinkingHelper\SmartDynamicLinking.cpp" />
     <ClCompile Include="Source\Core\Reflection\clReflectHelper.cpp" />
-    <ClCompile Include="Source\Core\Reflection\clReflect_automation\clReflect\src\clReflectCpp\clcpp.cpp" />
     <ClCompile Include="Source\Core\Asset\AssetManager\AssetFuture.cpp" />
     <ClCompile Include="Source\Core\Misc\FrameDirtyChecker\FrameDirtyChecker.cpp" />
     <ClCompile Include="Source\Core\GarbageCollector\GarbageCollectorManager.cpp" />
@@ -984,6 +984,9 @@ xcopy /y /d /E /H /C /I "$(ProjectDir)Assets" "$(TargetDir)Assets"</Command>
     <ClInclude Include="Source\Core\Graphics\GraphicsAPI\graphicsAPISetting.h" />
     <ClInclude Include="Source\Engine\Rendering\Light\LightManager.h" />
     <ClInclude Include="Source\Engine\Rendering\Material\FixedMaterial.h" />
+    <ClInclude Include="Source\Helper\VectorSwapPopBack\std_find_simd\builtin.h" />
+    <ClInclude Include="Source\Helper\VectorSwapPopBack\std_find_simd\fast_find_simd.h" />
+    <ClInclude Include="Source\Helper\VectorSwapPopBack\vector_swap_popback.h" />
     <ClInclude Include="Source\Plugins\EnginePluginManager.h" />
     <ClInclude Include="Source\Plugins\PictureInPicture\PIPManager.h" />
     <ClInclude Include="Source\Engine\Rendering\PrimitiveType\PrimitiveLine.h" />

@@ -47,7 +47,7 @@ void dooms::graphics::GraphicsAPIManager::SetDefaultSettingOfAPI()
 	graphics::GraphicsAPI::SetVSync(false);
 	graphics::GraphicsAPI::SetViewport(0, 0, 0, graphicsAPISetting::GetScreenWidth(), graphicsAPISetting::GetScreenHeight());
 
-	std::string windowTitle = "SUNG JIN KANG ( hour30000@gmail.com )"; //ConfigData::GetSingleton()->GetConfigData().GetValue<std::string>("Graphics", "WINDOW_TITLE");
+	std::string windowTitle = ConfigData::GetSingleton()->GetConfigData().GetValue<std::string>("Graphics", "WINDOW_TITLE");
 
 	if (graphics::GraphicsAPIManager::GetCurrentAPIType() == graphics::GraphicsAPI::eGraphicsAPIType::OpenGL)
 	{

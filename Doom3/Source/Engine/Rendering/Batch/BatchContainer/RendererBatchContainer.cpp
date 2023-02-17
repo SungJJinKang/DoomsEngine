@@ -1,7 +1,7 @@
 #include "RendererBatchContainer.h"
 
 #include <Rendering/Renderer/Renderer.h>
-#include <vector_erase_move_lastelement/vector_swap_popback.h>
+#include <VectorSwapPopBack/vector_swap_popback.h>
 
 
 dooms::graphics::RendererBatchContainer::RendererBatchContainer(Material* const targetMaterial)

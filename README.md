@@ -51,7 +51,7 @@
 ## To Do
        
   * Code Refactoring ( When I read the code of unreal engine4, I thought my engine's code is really messy. I should fix this! )
-  * completly support D3D11                     
+  * completly support D3D11, OpenGL                    
   * implement Hierarchical Shadow map       
   * Batch draw ( Fix up draw order )                    
    

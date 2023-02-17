@@ -28,7 +28,18 @@ namespace dooms
 			clReflectAdditionalCompilerOptionsString.append(clReflectAdditionalCompilerOptions_Configuration);
 
 			clReflectAdditionalCompilerOptionsString.append(" -D");
-			clReflectAdditionalCompilerOptionsString.append(std::string{ "VCXPROJ_PATH=\"\"\"" } + VCXPROJ_PATH + "\"\"\"");
+
+			std::string VcxProjPath{ VCXPROJ_PATH };
+			for(INT32 CharIndex = 0 ; CharIndex < VcxProjPath.size() ; ++CharIndex)
+			{
+				if(VcxProjPath[CharIndex] == '\\')
+				{
+					VcxProjPath.replace(CharIndex, 1, "\\\\");
+					++CharIndex;
+				}
+			}
+			clReflectAdditionalCompilerOptionsString.append(std::string{ "VCXPROJ_PATH=\"\"\"" } + VcxProjPath + "\"\"\"");
+			
 
 			//clReflectAdditionalCompilerOptionsString.append(" -I");
 			//std::filesystem::path additionalDirectoryForClang = ""

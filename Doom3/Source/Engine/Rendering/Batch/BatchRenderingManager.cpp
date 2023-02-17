@@ -6,7 +6,7 @@
 #include "BatchContainer/RendererBatchContainer.h"
 #include "BatchContainer/batchContainerFactory.h"
 #include <Vector3.h>
-#include <vector_erase_move_lastelement/vector_swap_popback.h>
+#include <VectorSwapPopBack/vector_swap_popback.h>
 
 dooms::graphics::RendererBatchContainer* dooms::graphics::BatchRenderingManager::CreateBatchedRendererContainer
 (

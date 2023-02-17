@@ -1,7 +1,7 @@
 #include "UniformBufferObjectManager.h"
 
 #include "UniformBufferObjectUpdater.h"
-#include "../../../Helper/vector_erase_move_lastelement/vector_swap_popback.h"
+#include <VectorSwapPopBack/vector_swap_popback.h>
 
 void dooms::graphics::UniformBufferObjectManager::UpdateUniformBufferObjects()
 {

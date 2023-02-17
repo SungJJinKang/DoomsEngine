@@ -4,7 +4,7 @@
 
 #include <fstream>
 
-#include "clReflect_automation/clReflect/inc/clcpp/clcpp.h"
+#include <clcpp/clcpp.h>
 
 namespace dooms
 {
