@@ -342,6 +342,17 @@ void AABB3D::SignedExpand(const component_type& movedVector)
 	}
 }
 
+AABB3D AABB3D::Scale(const math::Vector3& InScale) const
+{
+	const math::Vector3 Center = static_cast<math::Vector3>((mLowerBound + mUpperBound) * 0.5f); // Calculate the center of the AABB
+	math::Vector3 Extent = static_cast<math::Vector3>((mUpperBound - mLowerBound) * 0.5f); // Calculate the extent of the AABB
+	Extent.x *= InScale.x; // Scale the extent along the x-axis
+	Extent.y *= InScale.y; // Scale the extent along the y-axis
+	Extent.z *= InScale.z; // Scale the extent along the z-axis
+
+	return AABB3D{ Center - Extent, Center + Extent };
+}
+
 void AABB3D::Expand(const component_type& movedVector)
 {
 	const math::Vector4 expandVec{ std::abs(movedVector.x) ,  std::abs(movedVector.y) ,  std::abs(movedVector.z), 0.0f };

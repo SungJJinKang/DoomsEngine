@@ -85,9 +85,8 @@ namespace dooms
 
 			
 			void Expand(const component_type& movedVector);
-
-			
 			void SignedExpand(const component_type& movedVector);
+			AABB3D Scale(const math::Vector3& InScale) const;
 
 			/// <summary>
 			/// ����
