@@ -879,6 +879,12 @@
     <ClCompile Include="Source\Core\Reflection\clReflect_ForDoomsEngine\src\clReflectCpp\clcpp.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Helper\DirtyChecker\DirtyReceiver.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Helper\DirtyChecker\DirtySender.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="dependency\glad\include\glad\glad.h">
@@ -2229,6 +2235,15 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\Helper\VectorSwapPopBack\std_find_simd\builtin.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Helper\DirtyChecker\DirtySender.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Helper\DirtyChecker\DirtyReceiver.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Helper\SingleTon\Singleton.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

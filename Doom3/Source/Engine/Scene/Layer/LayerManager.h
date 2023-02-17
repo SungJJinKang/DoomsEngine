@@ -4,7 +4,7 @@
 
 #include <vector>
 #include "Layer.h"
-#include <Simple_SingleTon/Singleton.h>
+#include <SingleTon/Singleton.h>
 
 #include "LayerManager.reflection.h"
 namespace dooms

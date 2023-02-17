@@ -10,7 +10,7 @@
 #include <Rendering/Material/Material.h>
 #include <Graphics/Color.h>
 #include "../RenderingDebuggerModule.h"
-#include <Simple_SingleTon/Singleton.h>
+#include <SingleTon/Singleton.h>
 #include "../../DebugPrimitive/DebugPrimitiveContainerCollection.h"
 
 #include "DebugDrawer.reflection.h"

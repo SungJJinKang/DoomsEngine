@@ -2,7 +2,7 @@
 #include <Core.h>
 #include "Misc/IniFile/SimpleIniParser.h"
 
-#include <../Helper/Simple_SingleTon/Singleton.h>
+#include <SingleTon/Singleton.h>
 
 namespace dooms
 {

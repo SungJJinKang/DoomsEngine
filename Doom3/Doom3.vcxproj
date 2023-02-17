@@ -643,6 +643,8 @@ xcopy /y /d /E /H /C /I "$(ProjectDir)Assets" "$(TargetDir)Assets"</Command>
     <ClCompile Include="Source\Core\Graphics\GraphicsAPI\graphicsAPISetting.cpp" />
     <ClCompile Include="Source\Engine\Rendering\Light\LightManager.cpp" />
     <ClCompile Include="Source\Engine\Rendering\Material\FixedMaterial.cpp" />
+    <ClCompile Include="Source\Helper\DirtyChecker\DirtyReceiver.cpp" />
+    <ClCompile Include="Source\Helper\DirtyChecker\DirtySender.cpp" />
     <ClCompile Include="Source\Plugins\EnginePluginManager.cpp" />
     <ClCompile Include="Source\Plugins\PictureInPicture\PIPManager.cpp" />
     <ClCompile Include="Source\Engine\Rendering\PrimitiveType\PrimitiveLine.cpp" />
@@ -764,8 +766,6 @@ xcopy /y /d /E /H /C /I "$(ProjectDir)Assets" "$(TargetDir)Assets"</Command>
     <ClCompile Include="Source\GameLogic\CustomComponent\TestComponent2.cpp" />
     <ClCompile Include="Source\GameLogic\CustomComponent\WanderComponent.cpp" />
     <ClCompile Include="Source\GameLogic\GameLogicStartPoint.cpp" />
-    <ClCompile Include="Source\Helper\EasyDirtyChecker\DirtySender.cpp" />
-    <ClCompile Include="Source\Helper\EasyDirtyChecker\DirtyReceiver.cpp" />
     <ClCompile Include="Source\Component\PhysicsComponent\SphereCollider3D.cpp" />
     <ClCompile Include="Source\Core\String\StringHelper.cpp" />
     <ClCompile Include="Source\Plugins\EnginePlugin.cpp" />
@@ -984,6 +984,9 @@ xcopy /y /d /E /H /C /I "$(ProjectDir)Assets" "$(TargetDir)Assets"</Command>
     <ClInclude Include="Source\Core\Graphics\GraphicsAPI\graphicsAPISetting.h" />
     <ClInclude Include="Source\Engine\Rendering\Light\LightManager.h" />
     <ClInclude Include="Source\Engine\Rendering\Material\FixedMaterial.h" />
+    <ClInclude Include="Source\Helper\DirtyChecker\DirtyReceiver.h" />
+    <ClInclude Include="Source\Helper\DirtyChecker\DirtySender.h" />
+    <ClInclude Include="Source\Helper\SingleTon\Singleton.h" />
     <ClInclude Include="Source\Helper\VectorSwapPopBack\std_find_simd\builtin.h" />
     <ClInclude Include="Source\Helper\VectorSwapPopBack\std_find_simd\fast_find_simd.h" />
     <ClInclude Include="Source\Helper\VectorSwapPopBack\vector_swap_popback.h" />
@@ -1175,11 +1178,8 @@ xcopy /y /d /E /H /C /I "$(ProjectDir)Assets" "$(TargetDir)Assets"</Command>
     <ClInclude Include="Source\Helper\concurrentqueue\blockingconcurrentqueue.h" />
     <ClInclude Include="Source\Helper\crossguid\Guid.hpp" />
     <ClInclude Include="Source\Helper\DeferredConstant\DeferredConstant.h" />
-    <ClInclude Include="Source\Helper\EasyDirtyChecker\DirtySender.h" />
-    <ClInclude Include="Source\Helper\EasyDirtyChecker\DirtyReceiver.h" />
     <ClInclude Include="Source\Helper\ForLoop_Compile_Time\ForLoop_Compile.h" />
     <ClInclude Include="Source\Helper\magic_enum.hpp" />
-    <ClInclude Include="Source\Helper\Simple_SingleTon\Singleton.h" />
     <ClInclude Include="Source\Helper\StaticContainer\StaticContainer.h" />
     <ClInclude Include="Source\Helper\std_future_wrapper\CustomFutureWrapper.h" />
     <ClInclude Include="Source\Helper\std_future_wrapper\DummyFuture.h" />
@@ -1397,7 +1397,6 @@ xcopy /y /d /E /H /C /I "$(ProjectDir)Assets" "$(TargetDir)Assets"</Command>
     <None Include="Source\GameLogic\ReflectionTest.inl" />
     <None Include="Source\Helper\DeferredConstant\.git" />
     <None Include="Source\Helper\DeferredConstant\README.md" />
-    <None Include="Source\Helper\EasyDirtyChecker\README.md" />
     <None Include="Source\Helper\ForLoop_Compile_Time\.git" />
     <None Include="Source\Helper\ForLoop_Compile_Time\README.md" />
     <None Include="Source\Helper\std_future_wrapper\.git" />

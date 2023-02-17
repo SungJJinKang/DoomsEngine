@@ -3,7 +3,7 @@
 #include <Core.h>
 #include <Rendering/Buffer/UniformBufferObject/UniformBufferObjectUpdater.h>
 
-#include <../Helper/Simple_SingleTon/Singleton.h>
+#include <SingleTon/Singleton.h>
 
 #define LIGHT_DATA_CONSTANT_BUFFER_NAME "Global"
 

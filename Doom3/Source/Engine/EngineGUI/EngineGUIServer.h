@@ -4,7 +4,7 @@
 
 #include <Core.h>
 #include <Game/IGameFlow.h>
-#include <Simple_SingleTon/Singleton.h>
+#include <SingleTon/Singleton.h>
 
 #include "EngineGUIServer.reflection.h"
 namespace dooms

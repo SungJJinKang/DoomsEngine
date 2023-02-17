@@ -6,7 +6,7 @@
 
 #include "RunnableThread.h"
 #include <blockingconcurrentqueue.h>
-#include <../Helper/Simple_SingleTon/Singleton.h>
+#include <SingleTon/Singleton.h>
 
 #include "RenderThread.reflection.h"
 namespace dooms

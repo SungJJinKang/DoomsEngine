@@ -5,7 +5,7 @@
 #include <mutex>
 
 #include "../EngineGUIModule.h"
-#include <Simple_SingleTon/Singleton.h>
+#include <SingleTon/Singleton.h>
 #include "Macros/Assert.h"
 
 #define GUI_LOG_BUFFER_COUNT 100

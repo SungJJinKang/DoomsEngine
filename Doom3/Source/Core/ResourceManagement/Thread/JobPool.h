@@ -6,7 +6,7 @@
 #include <functional>
 #include <type_traits>
 
-#include <../Helper/Simple_SingleTon/Singleton.h>
+#include <SingleTon/Singleton.h>
 #include <blockingconcurrentqueue.h>
 
 #include "ThreadManager.h"

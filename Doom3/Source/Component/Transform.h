@@ -4,7 +4,7 @@
 #include <Vector3.h>
 #include <Matrix4x4.h>
 #include <Matrix_utility.h>
-#include "EasyDirtyChecker/DirtyReceiver.h"
+#include "DirtyChecker/DirtyReceiver.h"
 #include <Graphics/GraphicsAPI/graphicsAPIHelper.h>
 
 #include "Transform.reflection.h"

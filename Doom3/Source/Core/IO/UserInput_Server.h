@@ -8,7 +8,7 @@
 #include <Vector2.h>
 #include <Vector3.h>
 
-#include <../Helper/Simple_SingleTon/Singleton.h>
+#include <SingleTon/Singleton.h>
 
 #include "UserInput_Server.reflection.h"
 namespace dooms

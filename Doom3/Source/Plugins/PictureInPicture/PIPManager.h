@@ -7,7 +7,7 @@
 
 #include <Vector2.h>
 #include "PicktureInPickture.h"
-#include <Simple_SingleTon/Singleton.h>
+#include <SingleTon/Singleton.h>
 
 #include "PIPManager.reflection.h"
 namespace dooms

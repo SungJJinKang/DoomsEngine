@@ -5,7 +5,7 @@
 #include <unordered_map>
 #include <string>
 #include "EnginePlugin.h"
-#include <Simple_SingleTon/Singleton.h>
+#include <SingleTon/Singleton.h>
 
 #include "EnginePluginManager.reflection.h"
 namespace dooms

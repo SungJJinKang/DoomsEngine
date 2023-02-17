@@ -10,7 +10,7 @@
 
 #include "../AssetImporterWorker/AssetImporterWorker.h"
 
-#include <../Helper/Simple_SingleTon/Singleton.h>
+#include <SingleTon/Singleton.h>
 
 #include "AssetImporterWorkerManager.reflection.h"
 namespace dooms

@@ -4,7 +4,7 @@
 
 #include <unordered_map>
 
-#include <Simple_SingleTon/Singleton.h>
+#include <SingleTon/Singleton.h>
 #include "eBatchRenderingType.h"
 
 #include "BatchRenderingManager.reflection.h"

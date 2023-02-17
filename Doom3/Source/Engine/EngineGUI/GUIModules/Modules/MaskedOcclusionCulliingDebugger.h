@@ -3,7 +3,7 @@
 #include <Core.h>
 
 #include "../EngineGUIModule.h"
-#include <Simple_SingleTon/Singleton.h>
+#include <SingleTon/Singleton.h>
 
 #include "MaskedOcclusionCulliingDebugger.reflection.h"
 namespace culling

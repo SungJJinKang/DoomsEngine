@@ -6,7 +6,7 @@
 #include <utility>
 
 #include "../EngineGUIModule.h"
-#include <Simple_SingleTon/Singleton.h>
+#include <SingleTon/Singleton.h>
 
 #include "ProfilerGUI.reflection.h"
 namespace dooms

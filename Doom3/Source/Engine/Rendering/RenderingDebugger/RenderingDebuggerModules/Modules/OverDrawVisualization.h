@@ -3,7 +3,7 @@
 #include <Core.h>
 #include <Graphics/Graphics_Core.h>
 #include "../RenderingDebuggerModule.h"
-#include <Simple_SingleTon/Singleton.h>
+#include <SingleTon/Singleton.h>
 
 #include "OverDrawVisualization.reflection.h"
 namespace dooms

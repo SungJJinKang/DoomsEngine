@@ -5,7 +5,7 @@
 #include <functional>
 
 #include "../Game/IGameFlow.h"
-#include <Simple_SingleTon/Singleton.h>
+#include <SingleTon/Singleton.h>
 #include <blockingconcurrentqueue.h>
 
 #include "LatentActionManager.reflection.h"

@@ -4,7 +4,7 @@
 
 #include <memory>
 
-#include <Simple_SingleTon/Singleton.h>
+#include <SingleTon/Singleton.h>
 #include "GraphicsAPILoader.h"
 #include "../GraphicsAPI.h"
 

@@ -6,7 +6,7 @@
 #include <mutex>
 
 #include "../Game/IGameFlow.h"
-#include <../Helper/Simple_SingleTon/Singleton.h>
+#include <SingleTon/Singleton.h>
 #include "EThreadType.h"
 
 #include "ThreadManager.reflection.h"

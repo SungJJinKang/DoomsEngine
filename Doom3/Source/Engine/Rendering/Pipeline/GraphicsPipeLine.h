@@ -3,7 +3,7 @@
 #include <Core.h>
 #include <future>
 
-#include <Simple_SingleTon/Singleton.h>
+#include <SingleTon/Singleton.h>
 #include "PipeLines/eGraphicsPipeLineType.h"
 
 #include "GraphicsPipeLine.reflection.h"

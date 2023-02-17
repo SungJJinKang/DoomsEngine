@@ -4,7 +4,7 @@
 
 #include <Core.h>
 #include <Graphics/Graphics_Core.h>
-#include <Simple_SingleTon/Singleton.h>
+#include <SingleTon/Singleton.h>
 
 #include "RenderingDebugger.reflection.h"
 namespace dooms

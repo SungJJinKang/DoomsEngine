@@ -5,7 +5,7 @@
 #include "Physics/Collider/AABB.h"
 #include "Physics/Collider/Sphere.h"
 
-#include <EasyDirtyChecker/DirtyReceiver.h>
+#include <DirtyChecker/DirtyReceiver.h>
 #include "Graphics/Color.h"
 
 

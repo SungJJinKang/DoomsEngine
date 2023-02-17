@@ -1,7 +1,7 @@
 #pragma once
 
 #include <Core.h>
-#include <Simple_SingleTon/Singleton.h>
+#include <SingleTon/Singleton.h>
 
 namespace dooms
 {

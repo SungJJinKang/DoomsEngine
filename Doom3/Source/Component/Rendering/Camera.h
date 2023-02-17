@@ -8,7 +8,7 @@
 #include <array>
 #include <Rendering/Buffer/UniformBufferObject/UniformBufferObjectUpdater.h>
 #include <Misc/StaticContainer/StaticContainer.h>
-#include <EasyDirtyChecker/DirtyReceiver.h>
+#include <DirtyChecker/DirtyReceiver.h>
 #include "Transform.h"
 #include "MaxCameraCount.h"
 

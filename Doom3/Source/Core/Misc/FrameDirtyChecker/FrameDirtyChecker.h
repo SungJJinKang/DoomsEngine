@@ -1,7 +1,7 @@
 #pragma once
 
 #include <Core.h>
-#include <EasyDirtyChecker/DirtySender.h>
+#include <DirtyChecker/DirtySender.h>
 
 #include "FrameDirtyChecker.reflection.h"
 namespace dooms

@@ -6,7 +6,7 @@
 #include <Core.h>
 #include <Misc/StaticContainer/StaticContainer.h>
 #include "../MaxCameraCount.h"
-#include <Simple_SingleTon/Singleton.h>
+#include <SingleTon/Singleton.h>
 
 #include "RendererStaticIterator.reflection.h"
 namespace dooms

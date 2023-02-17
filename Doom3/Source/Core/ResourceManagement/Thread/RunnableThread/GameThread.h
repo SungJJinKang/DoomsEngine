@@ -6,7 +6,7 @@
 #include <functional>
 
 #include "RunnableThread.h"
-#include <../Helper/Simple_SingleTon/Singleton.h>
+#include <SingleTon/Singleton.h>
 
 #include "GameThread.reflection.h"
 namespace dooms

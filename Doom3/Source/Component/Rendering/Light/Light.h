@@ -1,7 +1,7 @@
 #pragma once
 #include "Core/Component.h"
 #include <Vector4.h>
-#include "EasyDirtyChecker/DirtyReceiver.h"
+#include "DirtyChecker/DirtyReceiver.h"
 #include <Rendering/Buffer/UniformBufferObject/UniformBufferObjectUpdater.h>
 #include "Rendering/Renderer/RendererStaticIterator.h"
 

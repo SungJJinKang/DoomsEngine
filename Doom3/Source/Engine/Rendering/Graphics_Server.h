@@ -3,7 +3,7 @@
 #include <Graphics/Graphics_Core.h>
 
 #include "../Game/IGameFlow.h"
-#include <Simple_SingleTon/Singleton.h>
+#include <SingleTon/Singleton.h>
 #include "Buffer/UniformBufferObject/UniformBufferObjectManager.h"
 #include <Rendering/Light/LightManager.h>
 #include <PictureInPicture/PIPManager.h>
