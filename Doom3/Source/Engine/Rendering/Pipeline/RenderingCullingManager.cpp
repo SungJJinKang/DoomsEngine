@@ -17,7 +17,8 @@ dooms::graphics::RenderingCullingManager::RenderingCullingManager()
 void dooms::graphics::RenderingCullingManager::Initialize()
 {
 	mCullingSystem = std::make_unique<culling::EveryCulling>(graphicsAPISetting::GetScreenWidth(), graphicsAPISetting::GetScreenHeight());
-	mCullingSystem->mMaskedSWOcclusionCulling->mSolveMeshRoleStage.mOccluderAABBScreenSpaceMinArea = ConfigData::GetSingleton()->GetConfigData().GetValue<FLOAT64>("Graphics", "MASKED_OC_OCCLUDER_AABB_SCREEN_SPACE_MIN_AREA");
+	mCullingSystem->mMaskedSWOcclusionCulling->mSolveMeshRoleStage.SetOccluderAABBScreenSpaceMinArea(ConfigData::GetSingleton()->GetConfigData().GetValue<FLOAT64>("Graphics", "MASKED_OC_OCCLUDER_AABB_SCREEN_SPACE_MIN_AREA"));
+	mCullingSystem->mMaskedSWOcclusionCulling->mSolveMeshRoleStage.SetOccluderLimitOfDistanceToCamera(ConfigData::GetSingleton()->GetConfigData().GetValue<FLOAT64>("Graphics", "MASKED_OC_OCCLUDER_LIMIT_OF_DISTANCE_TO_CAMERA"));
 
 	if(dooms::ui::MaskedOcclusionCulliingDebugger::GetSingleton() != nullptr)
 	{
