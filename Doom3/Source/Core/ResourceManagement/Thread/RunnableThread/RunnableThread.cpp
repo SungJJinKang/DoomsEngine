@@ -1,5 +1,7 @@
 #include "RunnableThread.h"
 
+#include <EngineConfigurationData/ConfigData.h>
+
 dooms::thread::RunnableThread::RunnableThread()
 {
 	AddToRootObjectList();
@@ -14,7 +16,11 @@ void dooms::thread::RunnableThread::InitFromThreadCreater()
 		Thread = std::make_unique<std::thread>(&dooms::thread::RunnableThread::Run_RunnableThread, this);
 		SetThreadHandle(Thread->native_handle());
 	}
-	SetThreadPriority(GetRecommendedPriorityOfThreadType());
+
+	if (dooms::ConfigData::GetSingleton()->GetConfigData().GetValue<bool>("SYSTEM", "AUTO_THREAD_PRIORITY"))
+	{
+		SetThreadPriority(GetRecommendedPriorityOfThreadType());
+	}
 }
 
 bool dooms::thread::RunnableThread::IsInitialized() const
@@ -137,6 +143,8 @@ void dooms::thread::RunnableThread::SetThreadPriority(const EThreadPriority Thre
 	const bool bIsSuccess = dooms::os::ConvertThreadPriorityToOsDependentValue(ThreadPriority, OsDependentThreadPriorityValue);
 	D_ASSERT(bIsSuccess);
 	dooms::os::SetPriorityOfThread(GetThreadHandle(), OsDependentThreadPriorityValue);
+	
+	D_RELEASE_LOG(eLogType::D_LOG, "Set priority of thread(%s) to %s", GetThreadName(), GetThreadPriorityNameStr(ThreadPriority));
 }
 
 void dooms::thread::RunnableThread::TerminateRunnableThread(const bool bJoin)

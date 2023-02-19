@@ -13,5 +13,7 @@ namespace dooms
 			Low,
 			Background
 		};
+
+		extern const char* GetThreadPriorityNameStr(const EThreadPriority InThreadPriority);
 	}
 }
