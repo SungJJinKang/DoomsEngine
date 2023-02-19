@@ -1,12 +1,14 @@
 TO-DO List            
 
-#### Code Refactoring
+### Code Refactoring
 When I read the code of unreal engine4, I thought my engine's code readability is really horrible. I should fix this!      
 
-#### Support D3D11, OpenGL completely
+### Support D3D11, OpenGL completely
 
-#### Implement Hierarchical Shadow map
+### Implement Hierarchical Shadow map
 
-#### Batch draw
+### Batch draw    
 Fix up draw order      
+
+### Reduce header dependencies ( Reduce build time )
 
