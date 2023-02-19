@@ -41,10 +41,10 @@ void dooms::PortfolioComponent::UpdateGUI()
 	D_ASSERT(IsValid(defaultGraphicsPipeLine));
 	if(IsValid(defaultGraphicsPipeLine))
 	{
-		defaultGraphicsPipeLine->mRenderingCullingManager.mCullingSystem->SetEnabledCullingModule(culling::EveryCulling::CullingModuleType::_ViewFrustumCulling, Enable_Multithread_SW_ViewFrustumCulling);
-		defaultGraphicsPipeLine->mRenderingCullingManager.mCullingSystem->SetEnabledCullingModule(culling::EveryCulling::CullingModuleType::_MaskedSWOcclusionCulling, Enable_MaskedSWOccslusionCulling);
-		defaultGraphicsPipeLine->mRenderingCullingManager.mCullingSystem->SetEnabledCullingModule(culling::EveryCulling::CullingModuleType::_DistanceCulling, Enable_DistanceCulling);
-		defaultGraphicsPipeLine->mRenderingCullingManager.mCullingSystem->SetEnabledCullingModule(culling::EveryCulling::CullingModuleType::_PreCulling, true);
+		defaultGraphicsPipeLine->mRenderingCullingManager.mCullingSystem->SetEnabledCullingModule(culling::EveryCulling::CullingModuleType::ViewFrustumCulling, Enable_Multithread_SW_ViewFrustumCulling);
+		defaultGraphicsPipeLine->mRenderingCullingManager.mCullingSystem->SetEnabledCullingModule(culling::EveryCulling::CullingModuleType::MaskedSWOcclusionCulling, Enable_MaskedSWOccslusionCulling);
+		defaultGraphicsPipeLine->mRenderingCullingManager.mCullingSystem->SetEnabledCullingModule(culling::EveryCulling::CullingModuleType::DistanceCulling, Enable_DistanceCulling);
+		defaultGraphicsPipeLine->mRenderingCullingManager.mCullingSystem->SetEnabledCullingModule(culling::EveryCulling::CullingModuleType::PreCulling, true);
 	}
 }
 
