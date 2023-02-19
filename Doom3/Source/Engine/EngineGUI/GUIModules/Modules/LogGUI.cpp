@@ -41,7 +41,20 @@ void dooms::ui::LogGUI::RenderMenuBar()
 		}
 	}
 
+	{
+		ImGui::SameLine(0, 15);
 
+		ImGui::Text(" | ");
+
+		ImGui::SameLine(0, 15);
+
+		bool bScrollToBottom = logger::SCROLL_TO_BOTTOM;
+		if (ImGui::Checkbox("Scroll To Bottom", &bScrollToBottom))
+		{
+			logger::SCROLL_TO_BOTTOM = bScrollToBottom;
+		}
+	}
+	
 
 	{
 		ImGui::SameLine(0, 15);
@@ -145,21 +158,29 @@ void dooms::ui::LogGUI::Render()
 	{
 		RenderMenuBar();
 
-		const long logIndex = LogIndex % GUI_LOG_BUFFER_COUNT;
-
-		for (long index = logIndex - 1; index >= 0; index--)
+		if (ImGui::BeginChild("Log List"))
 		{
-			if (LogBuffer[index][0] != '\0')
+			const long logIndex = LogIndex % GUI_LOG_BUFFER_COUNT;
+
+			for (long index = logIndex; index < GUI_LOG_BUFFER_COUNT; ++index)
 			{
-				ImGui::Text("%s", LogBuffer[index]);
+				if (LogBuffer[index][0] != '\0')
+				{
+					ImGui::Text("%s", LogBuffer[index]);
+				}
 			}
-		}
 
-		for (long index = GUI_LOG_BUFFER_COUNT - 1; index >= logIndex; index--)
-		{
-			if (LogBuffer[index][0] != '\0')
+			for (long index = 0; index < logIndex; ++index)
 			{
-				ImGui::Text("%s", LogBuffer[index]);
+				if (LogBuffer[index][0] != '\0')
+				{
+					ImGui::Text("%s", LogBuffer[index]);
+				}
+			}
+
+			if (logger::SCROLL_TO_BOTTOM)
+			{
+				ImGui::SetScrollHereY(1.0f);
 			}
 		}
 	}

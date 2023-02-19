@@ -8,7 +8,7 @@
 #include <SingleTon/Singleton.h>
 #include "Macros/Assert.h"
 
-#define GUI_LOG_BUFFER_COUNT 100
+#define GUI_LOG_BUFFER_COUNT 1000
 #define GUI_LOG_MAX_LENGTH 200
 
 #include "LogGUI.reflection.h"
@@ -54,6 +54,8 @@ namespace dooms
 					const long currentLogIndex = IncrementLogIndex();
 					D_ASSERT(currentLogIndex < GUI_LOG_BUFFER_COUNT);
 
+					// @todo : remove mutex lock. implement lock free log
+					// use thread local buffer. merge them when show logs
 					std::scoped_lock<std::mutex> lock{ LogBufferMutex[currentLogIndex] };
 
 					LogBuffer[currentLogIndex][GUI_LOG_MAX_LENGTH - 1] = '\0';

@@ -120,6 +120,7 @@ void dooms::GameCore::InitServers()
 	mMemoryManager.Init();
 	mReflectionManager.Initialize();
 	InitializeGraphicsAPI();
+	mEngineGUIServer.Init();
 	ThreadManager.Init();
 	thread::RunnableThread* const GameThread = ThreadManager.CreateNewRunnableThread(thread::EThreadType::GAME_THREAD);
 	//ThreadManager.CreateNewRunnableThread(thread::EThreadType::RENDER_THREAD);
@@ -127,7 +128,6 @@ void dooms::GameCore::InitServers()
 	mAssetManager.Init();
 	mTime_Server.Init();
 	mPhysics_Server.Init();
-	mEngineGUIServer.Init();
 	mGraphics_Server.Init();
 	mUserImput_Server.Init();
 	mSceneManager.Init();
