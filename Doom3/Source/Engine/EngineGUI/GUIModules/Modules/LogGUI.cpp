@@ -182,6 +182,8 @@ void dooms::ui::LogGUI::Render()
 			{
 				ImGui::SetScrollHereY(1.0f);
 			}
+
+			ImGui::EndChild();
 		}
 	}
 
