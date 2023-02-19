@@ -578,8 +578,6 @@ xcopy /y /d /E /H /C /I "$(ProjectDir)Assets" "$(TargetDir)Assets"</Command>
     <ClCompile Include="Source\Engine\Rendering\Buffer\MeshHelper.cpp" />
     <ClCompile Include="Source\Engine\Rendering\Buffer\MeshNode.cpp" />
     <ClCompile Include="Source\Engine\Rendering\FrameBuffer\FrameBufferView.cpp" />
-    <ClCompile Include="Source\Core\Graphics\GraphicsAPI\APIHeaders\DX11Headers.h" />
-    <ClCompile Include="Source\Core\Graphics\GraphicsAPI\APIHeaders\OpenGLHeaders.h" />
     <ClCompile Include="Source\Core\Graphics\GraphicsAPI\graphicsAPIHelper.cpp" />
     <ClCompile Include="Source\Core\Graphics\GraphicsAPI\Imp\GraphicsAPIInput_imp.cpp" />
     <ClCompile Include="Source\Core\Graphics\GraphicsAPI\Imp\GraphicsAPI_imp.cpp" />
@@ -739,7 +737,6 @@ xcopy /y /d /E /H /C /I "$(ProjectDir)Assets" "$(TargetDir)Assets"</Command>
     <ClCompile Include="Source\Core\Time\MainTimer.cpp" />
     <ClCompile Include="Source\Core\Time\Time_Server.cpp" />
     <ClCompile Include="Source\Core\Misc\AccelerationContainer\KDTree\KDTree.cpp" />
-    <ClCompile Include="Source\Core\Misc\AccelerationContainer\KDTree\KDTreeAABB.cpp" />
     <ClCompile Include="Source\Core\Misc\AccelerationContainer\KDTree\KDTreeNodeView.cpp" />
     <ClCompile Include="Source\Core\Misc\AccelerationContainer\KDTree\KDTreeVector.cpp" />
     <ClCompile Include="Source\Core\Misc\IniFile\SimpleIniParser.cpp" />
