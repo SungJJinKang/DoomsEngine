@@ -18,16 +18,22 @@ void dooms::ui::ThreadProfilerGUI::UpdateThreadCycle()
 	if (ElapsedTime > THREAD_PROFILER_UPDATE_TIME_STEP)
 	{
 		std::vector<dooms::thread::RunnableThread*> ThreadList = dooms::thread::ThreadManager::GetSingleton()->GetRunnableThreadList();
+
+		if (ThreadCycleContainerList.size() != ThreadList.size())
+		{
+			ThreadCycleContainerList.resize(ThreadList.size());
+		}
 		
 		for (size_t Index = 0; Index < ThreadList.size(); Index++)
 		{
-			ThreadCycleCounter2[Index] = ThreadList[Index]->GetThreadCPUCycle();
+			ThreadCycleContainerList[Index].ThreadName = ThreadList[Index]->GetThreadName();
+			ThreadCycleContainerList[Index].ThreadCycleCounter2 = ThreadList[Index]->GetThreadCPUCycle();
 		}
 
-		for (size_t Index = 0; Index < ThreadCycleCounter1.size(); Index++)
+		for (size_t Index = 0; Index < ThreadCycleContainerList.size(); Index++)
 		{
-			ThreadCycleInSecond[Index] = (ThreadCycleCounter2[Index] - ThreadCycleCounter1[Index]) / ElapsedTime;
-			ThreadCycleCounter1[Index] = ThreadCycleCounter2[Index];
+			ThreadCycleContainerList[Index].ThreadCycleInSecond = (ThreadCycleContainerList[Index].ThreadCycleCounter2 - ThreadCycleContainerList[Index].ThreadCycleCounter1) / ElapsedTime;
+			ThreadCycleContainerList[Index].ThreadCycleCounter1 = ThreadCycleContainerList[Index].ThreadCycleCounter2;
 		}
 
 		ElapsedTime = 0.0f;
@@ -38,10 +44,6 @@ void dooms::ui::ThreadProfilerGUI::Init()
 {
 	Base::Init();
 
-	const size_t ThreadCount = dooms::thread::ThreadManager::GetSingleton()->GetRunnableThreadCount();
-	ThreadCycleInSecond.resize(ThreadCount);
-	ThreadCycleCounter1.resize(ThreadCount);
-	ThreadCycleCounter2.resize(ThreadCount);
 }
 
 void dooms::ui::ThreadProfilerGUI::Render()
@@ -50,10 +52,9 @@ void dooms::ui::ThreadProfilerGUI::Render()
 
 	if (ImGui::Begin("Thread Profiler ( QueryThreadCycleTime ( /s ) )"))
 	{
-		const size_t ThreadCount = dooms::thread::ThreadManager::GetSingleton()->GetRunnableThreadCount();
-		for (size_t Index = 0; Index < ThreadCount; Index++)
+		for (size_t Index = 0; Index < ThreadCycleContainerList.size(); Index++)
 		{
-			ImGui::Text("Thread ( %d ) : %llu", Index, ThreadCycleInSecond[Index]);
+			ImGui::Text("%s (%d) : %llu", ThreadCycleContainerList[Index].ThreadName, Index, ThreadCycleContainerList[Index].ThreadCycleInSecond);
 		}
 	}
 

@@ -13,9 +13,15 @@ namespace dooms
 
 		private:
 
-			std::vector<UINT64> ThreadCycleInSecond{};
-			std::vector<UINT64> ThreadCycleCounter1{};
-			std::vector<UINT64> ThreadCycleCounter2{};
+			struct FThreadCycleContainer
+			{
+				const char* ThreadName;
+				UINT64 ThreadCycleInSecond{};
+				UINT64 ThreadCycleCounter1{};
+				UINT64 ThreadCycleCounter2{};
+			};
+			std::vector<FThreadCycleContainer> ThreadCycleContainerList{};
+
 			float ElapsedTime{ 10000.0f };
 
 			void UpdateThreadCycle();
