@@ -3,7 +3,7 @@
 #include "Asset/Asset.h"
 
 #include "Manager/AssetImporterWorkerManager.h"
-#include <EngineGUI/PrintText.h>
+
 #include <ResourceManagement/Thread/JobPool.h>
 
 
@@ -123,19 +123,19 @@ bool dooms::assetImporter::ImportAssetJob(std::filesystem::path path, dooms::ass
 	catch (std::exception e)
 	{
 		D_ASSERT_LOG(false, e.what());
-		dooms::ui::PrintText(e.what());
+		D_RELEASE_LOG(eLogType::D_LOG, e.what());
 	}
 
 
 	if (isSuccess)
 	{
 		asset->SetAssetStatus(::dooms::asset::Asset::AssetStatus::CompletlyImported);
-		dooms::ui::PrintText("Import asset Success : %s", path.string().c_str());
+		D_RELEASE_LOG(eLogType::D_LOG, "Import asset Success : %s", path.string().c_str());
 	}
 	else
 	{
 		asset->SetAssetStatus(::dooms::asset::Asset::AssetStatus::FailToImport);
-		dooms::ui::PrintText("Importing asset fail : %s", path.string().c_str());
+		D_RELEASE_LOG(eLogType::D_LOG, "Importing asset fail : %s", path.string().c_str());
 	}
 
 	dooms::assetImporter::AssetImporterWorkerManager::GetSingleton()->EnqueueWorker(importerWorker);

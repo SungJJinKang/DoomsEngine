@@ -1,7 +1,7 @@
 #include "AssetExporter_Shader.h"
 
 #include <Misc/DynamicLinkingHelper/SmartDynamicLinking.h>
-#include <EngineGUI/PrintText.h>
+
 
 #define GLSLCC_DLL_FILE_NAME "glslcc.dll"
 
@@ -72,20 +72,20 @@ bool dooms::assetExporter::assetExporterShader::GenerateEngineShaderFiles
 		}
 
 
-		dooms::ui::PrintText("Generating Engine Shader File ( Shader File Path : %s )", originalGlslShaderTextFilePath.generic_u8string().c_str());
+		D_RELEASE_LOG(eLogType::D_LOG, "Generating Engine Shader File ( Shader File Path : %s )", originalGlslShaderTextFilePath.generic_u8string().c_str());
 
 		int result;
 		_SmartDynamicLinking.CallFunctionWithReturn<int, int, char**>("glslcc", result, static_cast<int>(cStrGlslccArgvs.size()), const_cast<char**>(cStrGlslccArgvs.data()));
 		
 		if(result == 0)
 		{
-			dooms::ui::PrintText("Success to generate Engine Shader File ( Shader File Path : %s )", originalGlslShaderTextFilePath.generic_u8string().c_str());
+			D_RELEASE_LOG(eLogType::D_LOG, "Success to generate Engine Shader File ( Shader File Path : %s )", originalGlslShaderTextFilePath.generic_u8string().c_str());
 			D_DEBUG_LOG(eLogType::D_LOG, "SUCCESS TO GENERATE ENGINE SHADER FILES ( Shader File Path : %s )", originalGlslShaderTextFilePath.generic_u8string().c_str());
 			isSuccess = true;
 		}
 		else
 		{
-			dooms::ui::PrintText("Fail to generate Engine Shader File ( Shader File Path : %s )", originalGlslShaderTextFilePath.generic_u8string().c_str());
+			D_RELEASE_LOG(eLogType::D_LOG, "Fail to generate Engine Shader File ( Shader File Path : %s )", originalGlslShaderTextFilePath.generic_u8string().c_str());
 			D_DEBUG_LOG(eLogType::D_LOG, "FAIL TO GENERATE ENGINE SHADER FILES ( Shader File Path : %s )", originalGlslShaderTextFilePath.generic_u8string().c_str());
 		}
 	}

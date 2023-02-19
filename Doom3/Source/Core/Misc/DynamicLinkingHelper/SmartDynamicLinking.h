@@ -9,7 +9,7 @@
 #include <DirectXTex.h>
 #include <excpt.h>
 
-#include <EngineGUI/PrintText.h>
+
 
 #include "SmartDynamicLinking.reflection.h"
 namespace dooms
@@ -84,15 +84,15 @@ namespace dooms
 			}
 			catch (const std::exception& ex) {
 				D_ASSERT_LOG(false, "exception from csharp function ( %s )", ex.what());
-				dooms::ui::PrintText("exception from csharp function ( %s )", ex.what());
+				D_RELEASE_LOG(eLogType::D_LOG, "exception from csharp function ( %s )", ex.what());
 			}
 			catch (const std::string& ex) {
 				D_ASSERT_LOG(false, "exception from csharp function ( %s )", ex.c_str());
-				dooms::ui::PrintText("exception from csharp function ( %s )", ex.c_str());
+				D_RELEASE_LOG(eLogType::D_LOG, "exception from csharp function ( %s )", ex.c_str());
 			}
 			catch (...) {
 				D_ASSERT_LOG(false, "exception from csharp function");
-				dooms::ui::PrintText("exception from csharp function");
+				D_RELEASE_LOG(eLogType::D_LOG, "exception from csharp function");
 			}
 
 		}

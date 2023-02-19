@@ -1,7 +1,7 @@
 #include "OverDrawVisualizationDebugger.h"
 
 #include <Graphics/graphicsSetting.h>
-#include <EngineGUI/PrintText.h>
+
 
 void dooms::OverDrawVisualizationDebugger::InitComponent()
 {
@@ -12,11 +12,11 @@ void dooms::OverDrawVisualizationDebugger::ShowIsSortObjectFrontToBack()
 {
 	if (dooms::graphics::graphicsSetting::IsSortObjectFrontToBack == true)
 	{
-		dooms::ui::PrintText("Sorting Object Front to Back On");
+		D_RELEASE_LOG(eLogType::D_LOG, "Sorting Object Front to Back On");
 	}
 	else
 	{
-		dooms::ui::PrintText("Sorting Object Front to Back Off");
+		D_RELEASE_LOG(eLogType::D_LOG, "Sorting Object Front to Back Off");
 	}
 }
 

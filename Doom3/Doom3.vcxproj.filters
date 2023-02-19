@@ -291,9 +291,6 @@
     <ClCompile Include="Source\Core\Graphics\GraphicsAPI\graphicsAPISetting.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Engine\EngineGUI\PrintText.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Source\GameLogic\CustomComponent\AutoRotateAround.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -870,6 +867,9 @@
     <ClCompile Include="Source\Helper\DirtyChecker\DirtySender.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Core\ResourceManagement\Thread\EThreadPriority.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="dependency\glad\include\glad\glad.h">
@@ -1398,9 +1398,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\Core\Graphics\GraphicsAPI\graphicsAPISetting.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Engine\EngineGUI\PrintText.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\GameLogic\CustomComponent\AutoRotateAround.h">

@@ -7,7 +7,7 @@
 
 #include <Rendering/Material/Material.h>
 #include "Utility/ShaderAsset/shaderAssetHelper.h"
-#include <EngineGUI/PrintText.h>
+
 #include "Utility/ShaderAsset/shaderConverter.h"
 #include <Rendering/Buffer/UniformBufferObject/UniformBufferObjectManager.h>
 #include <Graphics/GraphicsAPI/Manager/GraphicsAPIManager.h>
@@ -186,7 +186,7 @@ bool dooms::asset::ShaderAsset::SetShaderText
 	if (IsHasAnyValidShaderTextString() == false)
 	{
 		isSuccess = false;
-		dooms::ui::PrintText("Shader Asset doesn't have any shader string ( File Path : %s )", GetAssetPathAsUTF8Str().c_str());
+		D_RELEASE_LOG(eLogType::D_LOG, "Shader Asset doesn't have any shader string ( File Path : %s )", GetAssetPathAsUTF8Str().c_str());
 	}
 
 	if (compileShader == true)
@@ -230,7 +230,7 @@ void dooms::asset::ShaderAsset::SetShaderText
 	);
 	if (IsHasAnyValidShaderTextString() == false)
 	{
-		dooms::ui::PrintText("Shader Asset doesn't have any shader string ( File Path : %s )", GetAssetPathAsUTF8Str().c_str());
+		D_RELEASE_LOG(eLogType::D_LOG, "Shader Asset doesn't have any shader string ( File Path : %s )", GetAssetPathAsUTF8Str().c_str());
 	}
 
 	if (compileShader == true)
@@ -375,12 +375,12 @@ bool dooms::asset::ShaderAsset::CompileSpecificTypeShader(ShaderTextData& shader
 						CreateInputLayoutForD3D(this);
 					}
 				}
-				dooms::ui::PrintText("Success to compile shader ( Shader Asset Name : %s, Shader Type : %s )", shaderText.mShaderTextFilePath.generic_u8string().c_str(), graphics::GraphicsAPI::eGraphicsPipeLineStageString[static_cast<UINT32>(shaderType)]);
+				D_RELEASE_LOG(eLogType::D_LOG, "Success to compile shader ( Shader Asset Name : %s, Shader Type : %s )", shaderText.mShaderTextFilePath.generic_u8string().c_str(), graphics::GraphicsAPI::eGraphicsPipeLineStageString[static_cast<UINT32>(shaderType)]);
 			}
 			else
 			{
 				shaderObject.mShaderCompileStatus = eShaderCompileStatus::COMPILE_FAIL;
-				dooms::ui::PrintText("Fail to compile shader ( Shader Asset Name : %s, Shader Type : %s )", shaderText.mShaderTextFilePath.generic_u8string().c_str(), graphics::GraphicsAPI::eGraphicsPipeLineStageString[static_cast<UINT32>(shaderType)]);
+				D_RELEASE_LOG(eLogType::D_LOG, "Fail to compile shader ( Shader Asset Name : %s, Shader Type : %s )", shaderText.mShaderTextFilePath.generic_u8string().c_str(), graphics::GraphicsAPI::eGraphicsPipeLineStageString[static_cast<UINT32>(shaderType)]);
 			}
 		}
 		else

@@ -3,7 +3,7 @@
 #include "Rendering/Camera.h"
 #include <Rendering/FrameBuffer/FrameBuffer.h>
 #include "Rendering/Pipeline/GraphicsPipeLineCamera.h"
-#include <EngineGUI/PrintText.h>
+
 
 void dooms::graphics::FrameBufferExporterHelper::ExportMainFrameBufferColor
 (
@@ -19,7 +19,7 @@ void dooms::graphics::FrameBufferExporterHelper::ExportMainFrameBufferColor
 		extension
 	);
 
-	dooms::ui::PrintText("Export Main FrameBuffer Texture");
+	D_RELEASE_LOG(eLogType::D_LOG, "Export Main FrameBuffer Texture");
 }
 
 void dooms::graphics::FrameBufferExporterHelper::ExportMainFrameBufferColorAsDDS(const std::filesystem::path& path)
@@ -31,7 +31,7 @@ void dooms::graphics::FrameBufferExporterHelper::ExportMainFrameBufferColorAsDDS
 		std::filesystem::current_path()
 	);
 
-	dooms::ui::PrintText("Export Main FrameBuffer Texture As DDS");
+	D_RELEASE_LOG(eLogType::D_LOG, "Export Main FrameBuffer Texture As DDS");
 }
 
 void dooms::graphics::FrameBufferExporterHelper::ExportMainFrameBufferDepth
@@ -63,7 +63,7 @@ void dooms::graphics::FrameBufferExporterHelper::ExportMainFrameBufferDepth
 			extension
 		);
 
-		dooms::ui::PrintText("Export Main FrameBuffer Depth Texture");
+		D_RELEASE_LOG(eLogType::D_LOG, "Export Main FrameBuffer Depth Texture");
 	}
 	
 }
@@ -92,6 +92,6 @@ void dooms::graphics::FrameBufferExporterHelper::ExportMainFrameBufferDepthAsDDS
 			std::filesystem::current_path()
 		);
 
-		dooms::ui::PrintText("Export Main FrameBuffer Depth Texture As DDS");
+		D_RELEASE_LOG(eLogType::D_LOG, "Export Main FrameBuffer Depth Texture As DDS");
 	}
 }

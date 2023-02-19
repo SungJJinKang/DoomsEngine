@@ -1,6 +1,6 @@
 #include "Physics_Setting.h"
 
-#include <EngineGUI/PrintText.h>
+
 
 void dooms::physics::Physics_Setting::SetIsPhysicsOn(const bool isOn)
 {
@@ -12,11 +12,11 @@ void dooms::physics::Physics_Setting::SetIsPhysicsOn(const bool isOn)
 	{
 		if (Physics_Setting::bmIsPhysicsOn == true)
 		{
-			dooms::ui::PrintText("Physics On");
+			D_RELEASE_LOG(eLogType::D_LOG, "Physics On");
 		}
 		else
 		{
-			dooms::ui::PrintText("Physics Off");
+			D_RELEASE_LOG(eLogType::D_LOG, "Physics Off");
 		}
 	}
 	

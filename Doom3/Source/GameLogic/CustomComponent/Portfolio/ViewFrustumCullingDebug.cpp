@@ -1,7 +1,7 @@
 #include "ViewFrustumCullingDebug.h"
 
 #include <Rendering/Camera.h>
-#include "EngineGUI/PrintText.h"
+
 
 void dooms::ViewFrustumCullingDebug::InitComponent()
 {
@@ -16,12 +16,12 @@ void dooms::ViewFrustumCullingDebug::ShowIsViewFrustumCullingActivated()
 	{
 		if (Camera::GetMainCamera()->GetCameraFlag(dooms::eCameraFlag::PAUSE_CULL_JOB) == true)
 		{
-			dooms::ui::PrintText("%s", "Multi Thread ViewFrustumCulling �ߴ�");
+			D_RELEASE_LOG(eLogType::D_LOG, "%s", "Multi Thread ViewFrustumCulling �ߴ�");
 
 		}
 		else
 		{
-			dooms::ui::PrintText("%s", "Multi Thread ViewFrustumCulling ����");
+			D_RELEASE_LOG(eLogType::D_LOG, "%s", "Multi Thread ViewFrustumCulling ����");
 
 		}
 	}

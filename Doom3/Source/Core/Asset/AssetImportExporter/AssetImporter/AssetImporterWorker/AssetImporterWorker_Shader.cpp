@@ -1,6 +1,6 @@
 #include "AssetImporterWorker_Shader.h"
 
-#include <EngineGUI/PrintText.h>
+
 #include <Asset/Utility/textImporter.h>
 #include <Asset/ShaderAsset.h>
 #include <Asset/Utility/ShaderAsset/shaderAssetHelper.h>
@@ -62,7 +62,7 @@ bool dooms::assetImporter::AssetImporterWorker_Shader::IsEngineShaderFilesRequir
 
 		if(isEngineShaderFilesRequireToBeGenerated == true)
 		{
-			dooms::ui::PrintText("Essential engine shader file require to be regenerated ( Shader Type : %s, Shader File Type : %s )", magic_enum::enum_name(essentialPipeLineStages[i]).data(), magic_enum::enum_name(essentialEngineShaderFileType[i]).data());
+			D_RELEASE_LOG(eLogType::D_LOG, "Essential engine shader file require to be regenerated ( Shader Type : %s, Shader File Type : %s )", magic_enum::enum_name(essentialPipeLineStages[i]).data(), magic_enum::enum_name(essentialEngineShaderFileType[i]).data());
 			break;
 		}
 	}
@@ -86,7 +86,7 @@ bool dooms::assetImporter::AssetImporterWorker_Shader::ImportShaderAsset
 
 	if (isEngineShaderFilesRequireToBeGenerated == true)
 	{
-		dooms::ui::PrintText("Generating engine shader file is required ( glsl File Path : %s )", assetPath.generic_u8string().c_str());
+		D_RELEASE_LOG(eLogType::D_LOG, "Generating engine shader file is required ( glsl File Path : %s )", assetPath.generic_u8string().c_str());
 		//D_DEBUG_LOG(eLogType::D_LOG, "Generating engine shader file is required ( glsl File Path : %s )", assetPath.generic_u8string().c_str());
 
 		const bool isSuccessToGenerateEngineShaderFiles = dooms::assetExporter::assetExporterShader::GenerateEngineShaderFiles(assetPath, dooms::graphics::GraphicsAPIManager::GetCurrentAPIType());

@@ -18,7 +18,7 @@ bool dooms::graphics::Graphics_Server::InitializeGraphicsAPI(GraphicsAPI::eGraph
 
 	if(graphicsAPIType == GraphicsAPI::eGraphicsAPIType::GraphicsAPIType_NONE)
 	{
-		dooms::ui::PrintText("Read Target Graphics API from Config.ini file");
+		D_RELEASE_LOG(eLogType::D_LOG, "Read Target Graphics API from Config.ini file");
 
 		const std::string targetGraphicsAPI = ConfigData::GetSingleton()->GetConfigData().GetValue<std::string>("Graphics", "GRAPHICS_API");
 		if (targetGraphicsAPI == "OPENGL")
@@ -45,7 +45,7 @@ bool dooms::graphics::Graphics_Server::InitializeGraphicsAPI(GraphicsAPI::eGraph
 		isSuccess = GraphicsAPIManager::Initialize(GraphicsAPI::eGraphicsAPIType::D3D11);
 		break;
 	default:
-		dooms::ui::PrintText("Graphics API isn't chosen. Default Graphics API OPENGL is chosen.");
+		D_RELEASE_LOG(eLogType::D_LOG, "Graphics API isn't chosen. Default Graphics API OPENGL is chosen.");
 		isSuccess = GraphicsAPIManager::Initialize(GraphicsAPI::eGraphicsAPIType::OpenGL); // If any specific api type isn't passed, just use opengl....
 		D_ASSERT(false);
 	}

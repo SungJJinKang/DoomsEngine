@@ -499,6 +499,7 @@ xcopy /y /d /E /H /C /I "$(ProjectDir)Assets" "$(TargetDir)Assets"</Command>
     <ClCompile Include="Source\Core\Math\JINMATH\Vector3.cpp" />
     <ClCompile Include="Source\Core\Math\JINMATH\Vector4.cpp" />
     <ClCompile Include="Source\Core\Reflection\clReflect_ForDoomsEngine\src\clReflectCpp\clcpp.cpp" />
+    <ClCompile Include="Source\Core\ResourceManagement\Thread\EThreadPriority.cpp" />
     <ClCompile Include="Source\Core\ResourceManagement\Thread\JobPool.cpp" />
     <ClCompile Include="Source\Core\ResourceManagement\Thread\RunnableThread\GameThread.cpp" />
     <ClCompile Include="Source\Core\ResourceManagement\Thread\RunnableThread\JobThread.cpp" />
@@ -671,7 +672,6 @@ xcopy /y /d /E /H /C /I "$(ProjectDir)Assets" "$(TargetDir)Assets"</Command>
     <ClCompile Include="Source\Core\Asset\AssetImportExporter\AssetImporter\AssetImporterWorker\AssetImporterWorker_Text.cpp" />
     <ClCompile Include="Source\Core\Asset\AssetImportExporter\AssetImporter\AssetImporterWorker\AssetImporterWorker_Three_D_Model.cpp" />
     <ClCompile Include="Source\Core\Physics\Collider\OBB.cpp" />
-    <ClCompile Include="Source\Engine\EngineGUI\PrintText.cpp" />
     <ClCompile Include="Source\Core\Misc\ColliderUpdater\ColliderUpdater.cpp" />
     <ClCompile Include="Source\Core\Misc\AccelerationContainer\BVH\BVH_Node.cpp" />
     <ClCompile Include="Source\Core\Misc\AccelerationContainer\BVH\BVH_Node_View.cpp" />
@@ -1027,7 +1027,6 @@ xcopy /y /d /E /H /C /I "$(ProjectDir)Assets" "$(TargetDir)Assets"</Command>
     <ClInclude Include="Source\Core\Graphics\TextureFormat.h" />
     <ClInclude Include="Source\Core\OS\OS.h" />
     <ClInclude Include="Source\Core\Physics\Collider\OBB.h" />
-    <ClInclude Include="Source\Engine\EngineGUI\PrintText.h" />
     <ClInclude Include="Source\Core\Misc\ColliderUpdater\ColliderUpdater.h" />
     <ClInclude Include="Source\Core\Misc\AccelerationContainer\BVH\BVH_Core.h" />
     <ClInclude Include="Source\Core\Misc\AccelerationContainer\BVH\BVH_Node.h" />

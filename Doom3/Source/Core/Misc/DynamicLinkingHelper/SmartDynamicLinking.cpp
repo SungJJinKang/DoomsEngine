@@ -1,7 +1,7 @@
 #include "SmartDynamicLinking.h"
 
 #include <Windows.h>
-#include <EngineGUI/PrintText.h>
+
 
 #include "OS/ErrorHandling.h"
 
@@ -23,7 +23,7 @@ dooms::DynamicLinkingLibrary::DynamicLinkingLibrary(const std::string& libraryPa
 		const DWORD errorCode = GetLastError();
 
 		D_ASSERT_LOG(false, "Fail to Load Library ( %s ) - Error Code : %d", libraryPath.c_str(), errorCode);
-		dooms::ui::PrintText("Fail to Load Library ( %s ) - Error Code : %d", libraryPath.c_str(), errorCode);
+		D_RELEASE_LOG(eLogType::D_LOG, "Fail to Load Library ( %s ) - Error Code : %d", libraryPath.c_str(), errorCode);
 	}
 }
 
@@ -96,7 +96,7 @@ void* dooms::SmartDynamicLinking::_GetProcAddress(const char* const functionName
 				const DWORD errorCode = GetLastError();
 
 				D_ASSERT_LOG(false, "Fail to GetProcAddress ( ""%s"" from ""%s"" ) - Error Code : %d", functionName, mDynamicLinkingLibrary->mLibraryPath.c_str(), errorCode);
-				dooms::ui::PrintText("Fail to GetProcAddress ( ""%s"" from ""%s"" ) - Error Code : %d", functionName, mDynamicLinkingLibrary->mLibraryPath.c_str(), errorCode);
+				D_RELEASE_LOG(eLogType::D_LOG, "Fail to GetProcAddress ( ""%s"" from ""%s"" ) - Error Code : %d", functionName, mDynamicLinkingLibrary->mLibraryPath.c_str(), errorCode);
 			}
 			else
 			{
@@ -109,7 +109,7 @@ void* dooms::SmartDynamicLinking::_GetProcAddress(const char* const functionName
 	}
 	else
 	{
-		dooms::ui::PrintText("Try to GetProcAddress, But Library is not loaded");
+		D_RELEASE_LOG(eLogType::D_LOG, "Try to GetProcAddress, But Library is not loaded");
 		return nullptr;
 	}
 }
@@ -168,7 +168,7 @@ bool dooms::SmartDynamicLinking::IsDynamicLibraryLoaded() const
 
 int dooms::filter(unsigned code, _EXCEPTION_POINTERS* ptr)
 {
-	dooms::ui::PrintText("Exception from Called DLL's Function");
+	D_RELEASE_LOG(eLogType::D_LOG, "Exception from Called DLL's Function");
 	dooms::errorHandling::ExceptionHandler(ptr);
 	return EXCEPTION_EXECUTE_HANDLER;
 }

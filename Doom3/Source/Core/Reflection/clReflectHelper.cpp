@@ -8,7 +8,7 @@
 
 #include <string>
 #include <Misc/DynamicLinkingHelper/SmartDynamicLinking.h>
-#include <EngineGUI/PrintText.h>
+
 #include "EngineConfigurationData/ConfigData.h"
 
 namespace dooms
@@ -140,7 +140,7 @@ namespace dooms
 				)
 			{
 				D_ASSERT_LOG(false, "CreateProcess failed (%d).\n", GetLastError());
-				dooms::ui::PrintText("CreateProcess failed (%d).\n", GetLastError());
+				D_RELEASE_LOG(eLogType::D_LOG, "CreateProcess failed (%d).\n", GetLastError());
 				return 1;
 			}
 
@@ -169,7 +169,7 @@ namespace dooms
 
 bool dooms::clReflectHelper::Generate_clReflect_BinaryReflectionData()
 {
-	dooms::ui::PrintText("Start to generate reflection data");
+	D_RELEASE_LOG(eLogType::D_LOG, "Start to generate reflection data");
 
 
 	//TODO : when call this function again in run-time, make argument string again???

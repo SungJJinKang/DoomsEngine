@@ -5,7 +5,7 @@
 #include <Graphics/GraphicsAPI/GraphicsAPI.h>
 #include <Rendering/Texture/TextureView.h>
 #include <DirectXTex.h>
-#include <EngineGUI/PrintText.h>
+
 #include <Graphics/GraphicsAPI/Manager/GraphicsAPIManager.h>
 
 #include <Rendering/FrameBuffer/FrameBuffer.h>
@@ -174,22 +174,22 @@ void dooms::assetExporter::assetExporterTexture::ExportTextureAsDDS
 			D_ASSERT(FAILED(hr) == false);
 			if (FAILED(hr) == true)
 			{
-				dooms::ui::PrintText("Fail To ExportTexture as DDS ( %s )", destinationPath.string().c_str());
+				D_RELEASE_LOG(eLogType::D_LOG, "Fail To ExportTexture as DDS ( %s )", destinationPath.string().c_str());
 			}
 			else
 			{
-				dooms::ui::PrintText("Success To ExportTexture as DDS ( %s )", destinationPath.string().c_str());
+				D_RELEASE_LOG(eLogType::D_LOG, "Success To ExportTexture as DDS ( %s )", destinationPath.string().c_str());
 			}
 
 		}
 		else
 		{
-			dooms::ui::PrintText("Fail To Compress Texture");
+			D_RELEASE_LOG(eLogType::D_LOG, "Fail To Compress Texture");
 		}
 	}
 	catch(...)
 	{
-		dooms::ui::PrintText("Fail To ExportTexture as DDS ( Exception!!! )");
+		D_RELEASE_LOG(eLogType::D_LOG, "Fail To ExportTexture as DDS ( Exception!!! )");
 	}
 	
 
@@ -327,7 +327,7 @@ void dooms::assetExporter::assetExporterTexture::ExportTexture
 	}
 	catch(...)
 	{
-		dooms::ui::PrintText("Fail To ExportTexture as DDS ( Exception!!! )");
+		D_RELEASE_LOG(eLogType::D_LOG, "Fail To ExportTexture as DDS ( Exception!!! )");
 	}
 	
 
@@ -339,11 +339,11 @@ void dooms::assetExporter::assetExporterTexture::ExportTexture
 	D_ASSERT(FAILED(hr) == false);
 	if (FAILED(hr) == true)
 	{
-		dooms::ui::PrintText("Fail To ExportTexture ( %s )", destinationPath.string().c_str());
+		D_RELEASE_LOG(eLogType::D_LOG, "Fail To ExportTexture ( %s )", destinationPath.string().c_str());
 	}
 	else
 	{
-		dooms::ui::PrintText("Success To ExportTexture ( %s )", destinationPath.string().c_str());
+		D_RELEASE_LOG(eLogType::D_LOG, "Success To ExportTexture ( %s )", destinationPath.string().c_str());
 	}
 }
 

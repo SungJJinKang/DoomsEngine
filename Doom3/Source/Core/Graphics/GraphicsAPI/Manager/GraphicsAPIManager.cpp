@@ -6,7 +6,7 @@
 #include "../graphicsAPISetting.h"
 #include "../Input/GraphicsAPIInput.h"
 #include "EngineConfigurationData/ConfigData.h"
-#include <EngineGUI/PrintText.h>
+
 
 std::unique_ptr<dooms::graphics::GraphicsAPILoader> dooms::graphics::GraphicsAPIManager::_GraphicsAPILoader{};
 void dooms::graphics::GraphicsAPIManager::LoadGraphicsAPI(const GraphicsAPI::eGraphicsAPIType graphicsAPIType)
@@ -98,10 +98,10 @@ bool dooms::graphics::GraphicsAPIManager::Initialize(const GraphicsAPI::eGraphic
 		switch (graphicsAPIType)
 		{
 		case GraphicsAPI::eGraphicsAPIType::OpenGL:
-			dooms::ui::PrintText("Initilize OPENGL");
+			D_RELEASE_LOG(eLogType::D_LOG, "Initilize OPENGL");
 			break;
 		case GraphicsAPI::eGraphicsAPIType::D3D11:
-			dooms::ui::PrintText("Initilize DIRECTX 11");
+			D_RELEASE_LOG(eLogType::D_LOG, "Initilize DIRECTX 11");
 			break;
 		default:
 			D_ASSERT(false);

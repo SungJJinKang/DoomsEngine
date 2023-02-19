@@ -10,4 +10,3 @@
 #include <Core/Component.h>
 #include <logger.h>
 #include <Asset/AssetManager/AssetManager.h>
-#include <EngineGUI/PrintText.h>

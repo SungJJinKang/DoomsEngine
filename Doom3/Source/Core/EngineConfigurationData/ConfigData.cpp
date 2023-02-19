@@ -10,7 +10,7 @@
 #include <functional>
 
 #include <Misc/String/trim.h>
-#include <EngineGUI/PrintText.h>
+
 #include <OS.h>
 
 #include "EngineConfigurationData/ConfigData.h"

@@ -4,7 +4,7 @@
 #include "Macros/Assert.h"
 #include "Macros/MacrosHelper.h"
 
-#include "EngineGUI/PrintText.h"
+
 
 #include <cstring>
 
@@ -233,11 +233,11 @@ void clReflectTest::test(clcpp::Database& db)
 		{
 			for(const dooms::reflection::DField& dfield : TestStruct_ReflectionTest_DClass.GetDFieldList())
 			{
-				dooms::ui::PrintText("VariableName : %s", dfield.GetFieldName());
-				dooms::ui::PrintText("Type Size : %d", dfield.GetFieldTypeSize());
-				dooms::ui::PrintText("Field Offset : %d", dfield.GetFieldOffset());
-				dooms::ui::PrintText("Is pointer : %s", (dfield.GetFieldQualifier() == dooms::reflection::DField::eProperyQualifier::POINTER) ? "yes" : "no");
-				dooms::ui::PrintText("-------------------------------------");
+				D_RELEASE_LOG(eLogType::D_LOG, "VariableName : %s", dfield.GetFieldName());
+				D_RELEASE_LOG(eLogType::D_LOG, "Type Size : %d", dfield.GetFieldTypeSize());
+				D_RELEASE_LOG(eLogType::D_LOG, "Field Offset : %d", dfield.GetFieldOffset());
+				D_RELEASE_LOG(eLogType::D_LOG, "Is pointer : %s", (dfield.GetFieldQualifier() == dooms::reflection::DField::eProperyQualifier::POINTER) ? "yes" : "no");
+				D_RELEASE_LOG(eLogType::D_LOG, "-------------------------------------");
 			}
 		}
 	}
@@ -353,7 +353,7 @@ void clReflectTest::test(clcpp::Database& db)
 
 	for (size_t i = 0; i < num; i++)
 	{
-		dooms::ui::PrintText(type[i]->name.text);
+		D_RELEASE_LOG(eLogType::D_LOG, type[i]->name.text);
 	}
 	*/
 }

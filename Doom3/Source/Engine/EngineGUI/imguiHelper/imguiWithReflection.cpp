@@ -32,7 +32,7 @@
 #include "imgui_internal.h"
 #include "../engineGUIServer.h"
 
-#include <EngineGUI/PrintText.h>
+
 
 
 namespace dooms
@@ -165,7 +165,7 @@ namespace dooms
 					}
 					else
 					{
-						D_DEBUG_LOG(eLogType::D_ERROR, "imguiWithReflection : Can't resolve type \" %s \"", typeFullName);
+						//D_DEBUG_LOG(eLogType::D_ERROR, "imguiWithReflection : Can't resolve type \" %s \"", typeFullName);
 					}
 
 				}

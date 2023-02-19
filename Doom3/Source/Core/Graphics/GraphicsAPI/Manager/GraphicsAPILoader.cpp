@@ -6,7 +6,7 @@
 #include <Windows.h>
 
 #include "GraphicsAPIManager.h"
-#include "EngineGUI/PrintText.h"
+
 #include "../GraphicsAPI.h"
 #include "../Input/GraphicsAPIInput.h"
 #include "../PlatformImgui/PlatformImgui.h"
@@ -383,7 +383,7 @@ void* dooms::graphics::GraphicsAPILoader::LoadGraphicsAPILibrary
 		const DWORD errorCode = GetLastError();
 
 		D_ASSERT_LOG(false, "Fail to Load Graphics API Library - Error Code : %d", errorCode);
-		dooms::ui::PrintText("Fail to Load Graphics API Library - Error Code : %d", errorCode);
+		D_RELEASE_LOG(eLogType::D_LOG, "Fail to Load Graphics API Library - Error Code : %d", errorCode);
 	}
 	else
 	{

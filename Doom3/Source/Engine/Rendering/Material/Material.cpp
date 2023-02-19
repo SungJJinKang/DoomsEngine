@@ -484,7 +484,7 @@ dooms::graphics::UniformBufferObjectView* dooms::graphics::Material::GetUniformB
 {
 	UniformBufferObjectView* uboView = nullptr;
 
-	D_DEBUG_LOG(eLogType::D_WARNING, "Calling Material::GetUniformBufferObjectView function with string ubo name is slow operator. Please use the function with index parameter");
+	//D_DEBUG_LOG(eLogType::D_WARNING, "Calling Material::GetUniformBufferObjectView function with string ubo name is slow operator. Please use the function with index parameter");
 
 	for(UniformBufferObjectView& targetUboView : mTargetUniformBufferObjectViews)
 	{

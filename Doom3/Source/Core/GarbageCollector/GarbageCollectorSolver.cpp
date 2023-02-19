@@ -11,7 +11,7 @@
 #include <Macros/Log.h>
 #include <EngineConfigurationData/ConfigData.h>
 #include <Utility.h>
-#include <EngineGUI/PrintText.h>
+
 #include <VectorSwapPopBack/vector_swap_popback.h>
 
 void dooms::gc::garbageCollectorSolver::StartSetUnreachableFlagStage(const eGCMethod gcMethod, std::vector<DObject*>& dObjects)

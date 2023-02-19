@@ -38,7 +38,7 @@ void dooms::ExportTextureTester::UpdateComponent()
 				std::filesystem::current_path(),
 				assetExporter::assetExporterTexture::eTextureExtension::PNG
 			);
-			dooms::ui::PrintText("Export Camera Texture");
+			D_RELEASE_LOG(eLogType::D_LOG, "Export Camera Texture");
 		}
 	}
 
@@ -65,13 +65,13 @@ void dooms::ExportTextureTester::UpdateComponent()
 				std::filesystem::current_path()
 			);
 
-			dooms::ui::PrintText("Export Camera Texture");
+			D_RELEASE_LOG(eLogType::D_LOG, "Export Camera Texture");
 		}
 	}
 
 	if (dooms::userinput::UserInput_Server::GetKeyUp(dooms::input::GraphicsAPIInput::eKEY_CODE::KEY_F4))
 	{
-		dooms::ui::PrintText("Export Main FrameBuffer Texture");
+		D_RELEASE_LOG(eLogType::D_LOG, "Export Main FrameBuffer Texture");
 		
 		dooms::graphics::FrameBufferExporterHelper::ExportMainFrameBufferColor
 		(
@@ -83,7 +83,7 @@ void dooms::ExportTextureTester::UpdateComponent()
 	
 	if (dooms::userinput::UserInput_Server::GetKeyUp(dooms::input::GraphicsAPIInput::eKEY_CODE::KEY_F5))
 	{
-		dooms::ui::PrintText("Export Main FrameBuffer Depth Texture");
+		D_RELEASE_LOG(eLogType::D_LOG, "Export Main FrameBuffer Depth Texture");
 		
 		dooms::graphics::FrameBufferExporterHelper::ExportMainFrameBufferDepth
 		(

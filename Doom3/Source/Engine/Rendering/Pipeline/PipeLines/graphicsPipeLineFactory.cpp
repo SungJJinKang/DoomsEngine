@@ -4,7 +4,7 @@
 #include <Rendering/Graphics_Server.h>
 #include <Rendering/Pipeline/PipeLines/DeferredRendering/DeferredRenderingPipeLine.h>
 #include <Rendering/Pipeline/PipeLines/PBR/ForwardPhysicsBasedRenderingPipeLine.h>
-#include <EngineGUI/PrintText.h>
+
 
 dooms::graphics::GraphicsPipeLine* dooms::graphics::graphicsPipeLineFactory::CreateGraphicsPipeLineFromConfigFile(Graphics_Server* const graphicsServer)
 {
@@ -24,7 +24,7 @@ dooms::graphics::GraphicsPipeLine* dooms::graphics::graphicsPipeLineFactory::Cre
 		)
 		{
 			graphicsPipeLine = dooms::CreateDObject<dooms::graphics::ForwardPhysicsBasedRenderingPipeLine>(*graphicsServer);
-			dooms::ui::PrintText("Physics Base Rendering Graphics PipeLine is generated");
+			D_RELEASE_LOG(eLogType::D_LOG, "Physics Base Rendering Graphics PipeLine is generated");
 		}
 		else if
 		(
@@ -33,7 +33,7 @@ dooms::graphics::GraphicsPipeLine* dooms::graphics::graphicsPipeLineFactory::Cre
 		)
 		{
 			graphicsPipeLine = dooms::CreateDObject<dooms::graphics::DeferredRenderingPipeLine>(*graphicsServer);
-			dooms::ui::PrintText("Deferred Rendering Graphics PipeLine is generated");
+			D_RELEASE_LOG(eLogType::D_LOG, "Deferred Rendering Graphics PipeLine is generated");
 		}
 	}
 	

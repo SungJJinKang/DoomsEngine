@@ -1,7 +1,7 @@
 #include "ReflectionManager.h"
 
 #include "EngineConfigurationData/ConfigData.h"
-#include <EngineGUI/PrintText.h>
+
 
 #include "clReflectHelper.h"
 #include "ReflectionUtility.h"
@@ -81,7 +81,7 @@ bool dooms::reflection::ReflectionManager::UnLoadReflectionBinaryDataFile()
 	if(mReflectionDatabase.IsLoaded() == true)
 	{
 		mReflectionDatabase.UnLoad();
-		dooms::ui::PrintText("Success to UnLoad Reflection Database");
+		D_RELEASE_LOG(eLogType::D_LOG, "Success to UnLoad Reflection Database");
 
 		isSuccessToUnload = true;
 	}
@@ -98,8 +98,9 @@ bool dooms::reflection::ReflectionManager::LoadReflectionBinaryDataFile()
 	utility::StdFile file(reflectionBinaryDataPath);
 	if (file.IsOpen() == false)
 	{
-		dooms::ui::PrintText
+		D_RELEASE_LOG
 		(
+			eLogType::D_LOG,
 			"Fail to Load Reflection Data File ( Looks that file doesn't exist ) ( File path : $0 )",
 			reflectionBinaryDataPath.c_str()
 		);
@@ -117,8 +118,9 @@ bool dooms::reflection::ReflectionManager::LoadReflectionBinaryDataFile()
 	{
 		if (mReflectionDatabase.Load(&file, &mAllocatorForLoadingReflectionData, 0) == false)
 		{
-			dooms::ui::PrintText
+			D_RELEASE_LOG
 			(
+				eLogType::D_LOG,
 				"Fail to Load Reflection Data ( Reflection Data File path : %s )",
 				reflectionBinaryDataPath.c_str()
 			);
@@ -135,7 +137,7 @@ bool dooms::reflection::ReflectionManager::LoadReflectionBinaryDataFile()
 	
 	if(isSuccess == true)
 	{
-		dooms::ui::PrintText("Success to Load Reflection Database");
+		D_RELEASE_LOG(eLogType::D_LOG, "Success to Load Reflection Database");
 	}
 
 	return isSuccess;
@@ -165,7 +167,7 @@ void dooms::reflection::ReflectionManager::Initialize()
 	}
 	else
 	{
-		dooms::ui::PrintText("Reflection is disabled. Check Config.ini");
+		D_RELEASE_LOG(eLogType::D_LOG, "Reflection is disabled. Check Config.ini");
 	}
 }
 
