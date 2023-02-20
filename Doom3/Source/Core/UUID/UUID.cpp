@@ -74,7 +74,7 @@ dooms::D_UUID dooms::GenerateUUID()
     }
 #endif
 
-    return std::move(GeneratedUUID);
+    return GeneratedUUID;
 }
 
 bool operator==(const dooms::D_UUID& Lhs, const dooms::D_UUID& Rhs)

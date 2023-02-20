@@ -67,7 +67,7 @@ namespace dooms
 					WakeUpJobThreads();
 				}
 
-				return std::move(ReturnFuture);
+				return ReturnFuture;
 			}
 			
 			bool TryDequeue(JOB_TYPE& Job);
@@ -117,7 +117,7 @@ namespace dooms
 			
 			JobPool::GetSingleton()->WakeUpJobThreads();
 
-			return std::move(ReturnFutureList);
+			return ReturnFutureList;
 		}
 
 		template<typename LAMBDA>

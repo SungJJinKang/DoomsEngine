@@ -123,7 +123,7 @@ namespace dooms::asset::shaderAssetHelper
 			shaderStringTexts[static_cast<UINT32>(currentShaderType)] = std::move(currentShaderStr);
 		}
 
-		return std::move(shaderStringTexts);
+		return shaderStringTexts;
 	}
 
 	std::array<std::string, GRAPHICS_PIPELINE_STAGE_COUNT> ParseShaderReflectionTextStringsBasedOnTargetGraphicsPipeLineStage(const std::string& shaderReflectionText)
@@ -185,7 +185,7 @@ namespace dooms::asset::shaderAssetHelper
 			shaderReflectionDataStringTexts[static_cast<UINT32>(currentShaderType)] = std::move(currentShaderStr);
 		}
 
-		return std::move(shaderReflectionDataStringTexts);
+		return shaderReflectionDataStringTexts;
 	}
 
 	std::string ExtractShaderFile(const std::filesystem::path& path)

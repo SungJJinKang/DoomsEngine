@@ -272,7 +272,7 @@ void dooms::gc::garbageCollectorSolver::StartMarkStage(const eGCMethod gcMethod,
 			}
 		};
 		
-		auto FutureList = std::move(dooms::thread::ParallelForWithReturn(Job));
+		auto FutureList = dooms::thread::ParallelForWithReturn(Job);
 		Job();
 
 		D_START_PROFILING(WaitProfilingThreadJobFinished, dooms::profiler::eProfileLayers::Rendering);
