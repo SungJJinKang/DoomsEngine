@@ -66,10 +66,7 @@ void dooms::Renderer::AddRendererToCullingSystem()
 	{
 		graphics::DefaultGraphcisPipeLine* defaultGraphicsPipeLine = CastTo<graphics::DefaultGraphcisPipeLine*>(dooms::graphics::GraphicsPipeLine::GetSingleton());
 		D_ASSERT(IsValid(defaultGraphicsPipeLine));
-		if (IsValid(defaultGraphicsPipeLine))
-		{
-			mCullingEntityBlockViewer = defaultGraphicsPipeLine->mRenderingCullingManager.mCullingSystem->AllocateNewEntity();
-		}
+		mCullingEntityBlockViewer = defaultGraphicsPipeLine->mRenderingCullingManager.mCullingSystem->AllocateNewEntity();
 		InitializeCullingEntityBlockViewer();
 	}
 }
@@ -80,10 +77,7 @@ void dooms::Renderer::RemoveRendererFromCullingSystem()
 	{
 		graphics::DefaultGraphcisPipeLine* defaultGraphicsPipeLine = CastTo<graphics::DefaultGraphcisPipeLine*>(dooms::graphics::GraphicsPipeLine::GetSingleton());
 		D_ASSERT(IsValid(defaultGraphicsPipeLine));
-		if (IsValid(defaultGraphicsPipeLine))
-		{
-			defaultGraphicsPipeLine->mRenderingCullingManager.mCullingSystem->RemoveEntityFromBlock(mCullingEntityBlockViewer);
-		}
+		defaultGraphicsPipeLine->mRenderingCullingManager.mCullingSystem->RemoveEntityFromBlock(mCullingEntityBlockViewer);
 	}
 }
 
