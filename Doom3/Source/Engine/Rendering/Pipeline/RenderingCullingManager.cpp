@@ -40,6 +40,21 @@ void dooms::graphics::RenderingCullingManager::PreCullJob()
 	D_END_PROFILING(UpdateCameraIndexInCullingSystemOfCameraComponent);
 }
 
+dooms::graphics::FEntityUpdateDataForCulling::FEntityUpdateDataForCulling(
+	culling::EntityBlock* const InTargetEntityBlock, const UINT64 InEntityIndexInEntityBlock,
+	const FEntityUpdateDataFlag InCullingDataUpdateFlag, const FUpdatedEntityData* const InUpdatedEntityData)
+{
+	TargetEntityBlock = InTargetEntityBlock;
+	EntityBlockUniqueID = InTargetEntityBlock->mEntityBlockUniqueID;
+	EntityIndexInEntityBlock = InEntityIndexInEntityBlock;
+	EntityUpdateDataFlag = InCullingDataUpdateFlag;
+
+	if(EntityUpdateDataFlag == FEntityUpdateDataFlag::UpdateEntityData)
+	{
+		UpdatedEntityData = *InUpdatedEntityData;
+	}
+}
+
 void dooms::graphics::RenderingCullingManager::UpdateCameraIndexInCullingSystemOfCameraComponent()
 {
 	const std::vector<dooms::Camera*>& spawnedCameraList = StaticContainer<dooms::Camera>::GetAllStaticComponents();
