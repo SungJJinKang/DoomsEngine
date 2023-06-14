@@ -486,8 +486,6 @@ xcopy /y /d /E /H /C /I "$(ProjectDir)Assets" "$(TargetDir)Assets"</Command>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="clreflect_compiletime_gettype.cpp" />
-    <ClCompile Include="Source\Core\Container\JINSTL\JINSTL\source\Allocator.cpp" />
-    <ClCompile Include="Source\Core\Container\JINSTL\JINSTL\source\Allocator\AllocatorContainer.cpp" />
     <ClCompile Include="Source\Core\Math\JINMATH\Matrix2x2.cpp" />
     <ClCompile Include="Source\Core\Math\JINMATH\Matrix3x3.cpp" />
     <ClCompile Include="Source\Core\Math\JINMATH\Matrix4x4.cpp" />
@@ -775,13 +773,6 @@ xcopy /y /d /E /H /C /I "$(ProjectDir)Assets" "$(TargetDir)Assets"</Command>
     <ClInclude Include="Source\Component\Core\Component.reflection.h" />
     <ClInclude Include="Source\Core\Container\JINSTL\Array.h" />
     <ClInclude Include="Source\Core\Container\JINSTL\ChunkArray.h" />
-    <ClInclude Include="Source\Core\Container\JINSTL\JINSTL\include\jinstl\Allocator.h" />
-    <ClInclude Include="Source\Core\Container\JINSTL\JINSTL\include\jinstl\Allocator\AllocatorContainer.h" />
-    <ClInclude Include="Source\Core\Container\JINSTL\JINSTL\include\jinstl\Allocator\DefaultAllocator.h" />
-    <ClInclude Include="Source\Core\Container\JINSTL\JINSTL\include\jinstl\Array.h" />
-    <ClInclude Include="Source\Core\Container\JINSTL\JINSTL\include\jinstl\ChunkArray.h" />
-    <ClInclude Include="Source\Core\Container\JINSTL\JINSTL\include\jinstl\Core.h" />
-    <ClInclude Include="Source\Core\Container\JINSTL\JINSTL\include\jinstl\Iterator.h" />
     <ClInclude Include="Source\Core\Container\JINSTL\test\googletest\googletest\include\gtest\gtest.h" />
     <ClInclude Include="Source\Core\Container\JINSTL\test\test.h" />
     <ClInclude Include="Source\Core\Math\JINMATH\Euler.h" />
@@ -1376,7 +1367,6 @@ xcopy /y /d /E /H /C /I "$(ProjectDir)Assets" "$(TargetDir)Assets"</Command>
     <None Include="dependency\glfw-3.3.2.bin.WIN64\docs\html\vulkan_guide.html" />
     <None Include="dependency\glfw-3.3.2.bin.WIN64\docs\html\window_8dox.html" />
     <None Include="dependency\glfw-3.3.2.bin.WIN64\docs\html\window_guide.html" />
-    <None Include="Source\Core\Container\JINSTL\README.md" />
     <None Include="Source\Core\Math\JINMATH\LICENSE" />
     <None Include="Source\Core\Math\JINMATH\README.md" />
     <MASM Include="Source\Core\Reflection\ReflectionType\funcCall.asm">

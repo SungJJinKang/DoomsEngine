@@ -771,12 +771,6 @@
     <ClCompile Include="Source\Plugins\EnginePluginManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Core\Container\JINSTL\JINSTL\source\Allocator.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Core\Container\JINSTL\JINSTL\source\Allocator\AllocatorContainer.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Source\Core\Math\JINMATH\Matrix2x2.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -2027,27 +2021,6 @@
     <ClInclude Include="Source\Core\Container\JINSTL\test\test.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Core\Container\JINSTL\JINSTL\include\jinstl\Allocator\AllocatorContainer.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Core\Container\JINSTL\JINSTL\include\jinstl\Allocator\DefaultAllocator.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Core\Container\JINSTL\JINSTL\include\jinstl\Allocator.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Core\Container\JINSTL\JINSTL\include\jinstl\Array.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Core\Container\JINSTL\JINSTL\include\jinstl\ChunkArray.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Core\Container\JINSTL\JINSTL\include\jinstl\Core.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Core\Container\JINSTL\JINSTL\include\jinstl\Iterator.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Core\Math\JINMATH\Euler.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -2394,7 +2367,6 @@
     <None Include="Source\Engine\Rendering\Culling\EveryCulling\README.md" />
     <None Include="Source\Engine\Rendering\Culling\EveryCulling\CullingModule\MaskedSWOcclusionCulling\MaskedSWOcclusionCulling_HowWorks.md" />
     <None Include="Assets\Shader\Default\GbufferWriter_BatchedMesh_PBR.glsl" />
-    <None Include="Source\Core\Container\JINSTL\README.md" />
     <None Include="Source\Core\Math\JINMATH\LICENSE" />
     <None Include="Source\Core\Math\JINMATH\README.md" />
     <None Include="Assets\Shader\Default\DepthOnlyShader.glsl" />
