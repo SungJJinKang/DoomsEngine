@@ -13,6 +13,7 @@
 4. git submodule update --recursive
 5. Build "Doom3" project with visual studio 2022
 ```
+Currently, Unicode path isn't supported yet. Please don't include unicode character in path
 
 ## Features
 
