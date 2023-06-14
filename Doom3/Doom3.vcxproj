@@ -325,7 +325,7 @@ xcopy /y /s "$(ProjectDir)ThirdParty\glslcc\src\Debug" "$(TargetDir)"
 </Command>
     </PostBuildEvent>
     <PreBuildEvent>
-      <Command>if not exist $(OutputPath)SourceDependencies mkdir $(OutputPath)SourceDependencies</Command>
+      <Command>if not exist "$(OutputPath)SourceDependencies" mkdir "$(OutputPath)SourceDependencies"</Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Test|x64'">
@@ -368,7 +368,7 @@ xcopy /y /s "$(ProjectDir)ThirdParty\glslcc\src\Debug" "$(TargetDir)"
 xcopy /y /d /f "$(ProjectDir)*.map" "$(TargetDir)"</Command>
     </PostBuildEvent>
     <PreBuildEvent>
-      <Command>if not exist $(OutputPath)SourceDependencies mkdir $(OutputPath)SourceDependencies</Command>
+      <Command>if not exist "$(OutputPath)SourceDependencies" mkdir "$(OutputPath)SourceDependencies"</Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -419,7 +419,7 @@ xcopy /y /s "$(ProjectDir)ThirdParty\glslcc\src\Release" "$(TargetDir)"
 </Command>
     </PostBuildEvent>
     <PreBuildEvent>
-      <Command>if not exist $(OutputPath)SourceDependencies mkdir $(OutputPath)SourceDependencies</Command>
+      <Command>if not exist "$(OutputPath)SourceDependencies" mkdir "$(OutputPath)SourceDependencies"</Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='AMDuProf|x64'">
@@ -451,7 +451,7 @@ xcopy /y /s "$(ProjectDir)ThirdParty\glslcc\src\Release" "$(TargetDir)"
 xcopy /y /d /E /H /C /I "$(ProjectDir)Assets" "$(TargetDir)Assets"</Command>
     </PostBuildEvent>
     <PreBuildEvent>
-      <Command>if not exist $(OutputPath)SourceDependencies mkdir $(OutputPath)SourceDependencies</Command>
+      <Command>if not exist "$(OutputPath)SourceDependencies" mkdir "$(OutputPath)SourceDependencies"</Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='AMDuProf|Win32'">
