@@ -1,6 +1,7 @@
 #pragma once
 
 #include <vector>
+#include <algorithm>
 #include "std_find_simd/fast_find_simd.h"
 
 
