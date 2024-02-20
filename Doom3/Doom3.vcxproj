@@ -322,7 +322,7 @@ xcopy /y /d /f "$(ProjectDir)*.map" "$(TargetDir)"
 xcopy /y /s "$(ProjectDir)ThirdParty\assimp\bin\Debug" "$(TargetDir)"
 xcopy /y /s "$(ProjectDir)ThirdParty\oneTBB\msvc_19.30_cxx_64_md_debug" "$(TargetDir)"
 xcopy /y /s "$(ProjectDir)ThirdParty\glslcc\src\Debug" "$(TargetDir)"
-</Command>
+xcopy /y /s "$(ProjectDir)Source\Core\Reflection\clReflect_automation\clReflect_automation\Output" "$(TargetDir)"</Command>
     </PostBuildEvent>
     <PreBuildEvent>
       <Command>if not exist "$(OutputPath)SourceDependencies" mkdir "$(OutputPath)SourceDependencies"</Command>
@@ -416,7 +416,7 @@ xcopy /y /d /f "$(ProjectDir)*.map" "$(TargetDir)"
 xcopy /y /s "$(ProjectDir)ThirdParty\assimp\bin\Release" "$(TargetDir)"
 xcopy /y /s "$(ProjectDir)ThirdParty\oneTBB\msvc_19.30_cxx_64_md_release" "$(TargetDir)"
 xcopy /y /s "$(ProjectDir)ThirdParty\glslcc\src\Release" "$(TargetDir)"
-</Command>
+xcopy /y /s "$(ProjectDir)Source\Core\Reflection\clReflect_automation\clReflect_automation\Output" "$(TargetDir)"</Command>
     </PostBuildEvent>
     <PreBuildEvent>
       <Command>if not exist "$(OutputPath)SourceDependencies" mkdir "$(OutputPath)SourceDependencies"</Command>
