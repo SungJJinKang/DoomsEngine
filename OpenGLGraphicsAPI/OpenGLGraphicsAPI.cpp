@@ -1842,8 +1842,28 @@ namespace dooms
 		{
 			BindBuffer(bufferID, 0, bindBufferTarget, GraphicsAPI::eGraphicsPipeLineStage::DUMMY);
 
+			GLbitfield Access = 0;
+			switch (mapBufferAccessOption)
+			{
+			case GraphicsAPI::READ_ONLY:
+				Access = GL_MAP_READ_BIT;
+				break;
+			case GraphicsAPI::WRITE_ONLY:
+				Access = GL_MAP_WRITE_BIT;
+				break;
+			case GraphicsAPI::READ_WRITE:
+				Access = GL_MAP_READ_BIT | GL_MAP_WRITE_BIT;
+				break;
+			case GraphicsAPI::WRITE_DISCARD:
+			case GraphicsAPI::WRITE_NO_OVERWRITE:
+				Access = GL_MAP_INVALIDATE_BUFFER_BIT;
+				break;
+			default:
+				ASSUME_ZERO;
+			}
+
 			// https://www.khronos.org/registry/OpenGL-Refpages/es3.0/html/glMapBufferRange.xhtml
-			return glMapBuffer(opengl::GetGLBufferTarget(bindBufferTarget), opengl::GetGLMapBufferAccessOption(mapBufferAccessOption));
+			return glMapBuffer(opengl::GetGLBufferTarget(bindBufferTarget), Access);
 		}
 
 		DOOMS_ENGINE_GRAPHICS_API void* RangedMapBufferObjectToClientAddress
@@ -1857,8 +1877,29 @@ namespace dooms
 		{
 			BindBuffer(bufferID, 0, bindBufferTarget, GraphicsAPI::eGraphicsPipeLineStage::DUMMY);
 			
+			GLbitfield Access = 0;
+			switch (mapBufferAccessOption)
+			{
+			case GraphicsAPI::READ_ONLY:
+				Access = GL_MAP_READ_BIT;
+				break;
+			case GraphicsAPI::WRITE_ONLY:
+				Access = GL_MAP_WRITE_BIT;
+				break;
+			case GraphicsAPI::READ_WRITE:
+				Access = GL_MAP_READ_BIT | GL_MAP_WRITE_BIT;
+				break;
+			case GraphicsAPI::WRITE_DISCARD:
+			case GraphicsAPI::WRITE_NO_OVERWRITE:
+				Access = GL_MAP_INVALIDATE_RANGE_BIT;
+				Access = GL_MAP_INVALIDATE_RANGE_BIT;
+				break;
+			default:
+				ASSUME_ZERO;
+			}
+
 			// https://www.khronos.org/registry/OpenGL-Refpages/es3.0/html/glMapBufferRange.xhtml
-			return glMapBufferRange(opengl::GetGLBufferTarget(bindBufferTarget), offset, length, opengl::GetGLMapBufferAccessOption(mapBufferAccessOption));
+			return glMapBufferRange(opengl::GetGLBufferTarget(bindBufferTarget), offset, length, Access);
 		}
 
 		DOOMS_ENGINE_GRAPHICS_API void UnMapBufferObjectMappedToClientAddress
