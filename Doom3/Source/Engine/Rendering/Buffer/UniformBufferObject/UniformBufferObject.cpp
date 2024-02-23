@@ -1,5 +1,7 @@
 #include "UniformBufferObject.h"
 
+#define USE_DYNAMIC_UNIFORM_BUFFER 1 // this shows much better gpu activity, frame because dynamic constant buffer doesn't require resource barrier
+
 UINT64 dooms::graphics::UniformBufferObject::BOUND_UNIFORM_BUFFER_ID[GRAPHICS_PIPELINE_STAGE_COUNT][MAX_UNIFORM_BUFFER_SLOT_COUNT]{(UINT64)-1};
 
 void dooms::graphics::UniformBufferObject::InitializeUniformVariableOffset
@@ -21,6 +23,51 @@ void dooms::graphics::UniformBufferObject::OnSetPendingKill()
 	Buffer::OnSetPendingKill();
 
 	DeleteBuffers();
+}
+
+void dooms::graphics::UniformBufferObject::UpdateLocalBuffer_Internal(const void* sourceData, const UINT64 offsetInUniformBlock, const UINT64 sizeOfSourceData)
+{
+	D_ASSERT(IsBufferGenerated() == true);
+
+	std::memcpy(mUniformBufferLocalBuffer.get() + offsetInUniformBlock, sourceData, sizeOfSourceData);
+}
+
+void dooms::graphics::UniformBufferObject::UpdateDataToGPU_Internal(const void* sourceData, const UINT64 offsetInUniformBlock, const UINT64 sizeOfSourceData) noexcept
+{
+	D_ASSERT(IsBufferGenerated() == true);
+
+	if (USE_DYNAMIC_UNIFORM_BUFFER)
+	{
+		UINT8* bufferAddress;
+		
+		if (GraphicsAPI::RangedMapBufferObjectToClientAddress)
+		{
+			// it seems that can't make dynamic uniform buffer object(reside on write-combining system memory page, gpu reads it directly when it need) with glMapBuffer in opengl
+			bufferAddress = reinterpret_cast<UINT8*>(GraphicsAPI::RangedMapBufferObjectToClientAddress(
+				mUniformBufferObject,
+				0,
+				GetUniformBufferSize(),
+				GraphicsAPI::eBufferTarget::UNIFORM_BUFFER,
+				dooms::graphics::GraphicsAPI::eMapBufferAccessOption::WRITE_DISCARD)
+			);
+		}
+		else
+		{
+			bufferAddress = reinterpret_cast<UINT8*>(GraphicsAPI::MapBufferObjectToClientAddress(
+				mUniformBufferObject,
+				GraphicsAPI::eBufferTarget::UNIFORM_BUFFER,
+				dooms::graphics::GraphicsAPI::eMapBufferAccessOption::WRITE_DISCARD)
+			);
+		}
+
+		std::memcpy(bufferAddress, reinterpret_cast<const UINT8*>(sourceData), mUniformBufferSize);
+
+		GraphicsAPI::UnMapBufferObjectMappedToClientAddress(mUniformBufferObject, GraphicsAPI::eBufferTarget::UNIFORM_BUFFER);
+	}
+	else
+	{
+		GraphicsAPI::UpdateDataToBuffer(mUniformBufferObject, GraphicsAPI::eBufferTarget::UNIFORM_BUFFER, offsetInUniformBlock, sizeOfSourceData, sourceData);
+	}
 }
 
 dooms::graphics::UniformBufferObject::UniformBufferObject()
@@ -114,7 +161,7 @@ void dooms::graphics::UniformBufferObject::GenerateUniformBufferObject(const UIN
 	D_ASSERT(IsBufferGenerated() == false); // prevent overlap generating buffer
 	if (IsBufferGenerated() == false)
 	{
-		mUniformBufferObject = GraphicsAPI::CreateBufferObject(GraphicsAPI::eBufferTarget::UNIFORM_BUFFER, uniformBufferSize, initialData, true /* if you*/);
+		mUniformBufferObject = GraphicsAPI::CreateBufferObject(GraphicsAPI::eBufferTarget::UNIFORM_BUFFER, uniformBufferSize, initialData, USE_DYNAMIC_UNIFORM_BUFFER);
 
 		mUniformBufferSize = uniformBufferSize;
 
@@ -196,6 +243,31 @@ void dooms::graphics::UniformBufferObject::UpdateLocalBufferToGPU() noexcept
 		D_ASSERT(mUniformBufferLocalBuffer);
 		UpdateDataToGPU_Internal(mUniformBufferLocalBuffer.get(), 0, mUniformBufferSize);
 		bmIsDirty = false;
+	}
+}
+
+void dooms::graphics::UniformBufferObject::UpdateDataToGPU(const void* sourceData, const UINT64 offsetInUniformBlock, const UINT64 sizeOfSourceData) noexcept
+{
+	D_ASSERT(IsBufferGenerated() == true);
+
+	if (IsBufferGenerated() == true)
+	{
+		UpdateLocalBuffer_Internal(sourceData, offsetInUniformBlock, sizeOfSourceData);
+		UpdateDataToGPU_Internal(sourceData, offsetInUniformBlock, sizeOfSourceData);
+	}
+}
+
+void dooms::graphics::UniformBufferObject::UpdateDataToGPU(const void* sourceData, const char* const targetVariableName, const UINT64 sizeOfSourceData) noexcept
+{
+	D_ASSERT(IsBufferGenerated() == true);
+
+	if (IsBufferGenerated() == true)
+	{
+		D_DEBUG_LOG(eLogType::D_WARNING, "Uniform buffer object is updated with string variable name. This is slow operation. Please pass offset directly");
+		const UINT64 offset = GetUniformVariableOffset(targetVariableName);
+
+		UpdateLocalBuffer_Internal(sourceData, offset, sizeOfSourceData);
+		UpdateDataToGPU_Internal(sourceData, offset, sizeOfSourceData);
 	}
 }
 

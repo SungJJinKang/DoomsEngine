@@ -10,6 +10,7 @@
 #include <Asset/Utility/ShaderAsset/shaderReflectionDataParser.h>
 
 #include "UniformBufferObject.reflection.h"
+
 namespace dooms
 {
 	namespace graphics
@@ -63,24 +64,14 @@ namespace dooms
 
 			void OnSetPendingKill() override;
 
-			FORCE_INLINE void UpdateLocalBuffer_Internal
+			void UpdateLocalBuffer_Internal
 			(
 				const void* sourceData,
 				const UINT64 offsetInUniformBlock,
 				const UINT64 sizeOfSourceData
-			)
-			{
-				D_ASSERT(IsBufferGenerated() == true);
+			);
 
-				std::memcpy(mUniformBufferLocalBuffer.get() + offsetInUniformBlock, sourceData, sizeOfSourceData);
-			}
-
-			FORCE_INLINE void UpdateDataToGPU_Internal(const void* sourceData, const UINT64 offsetInUniformBlock, const UINT64 sizeOfSourceData) noexcept
-			{
-				D_ASSERT(IsBufferGenerated() == true);
-
-				GraphicsAPI::UpdateDataToBuffer(mUniformBufferObject, GraphicsAPI::eBufferTarget::UNIFORM_BUFFER, offsetInUniformBlock, sizeOfSourceData, sourceData);
-			}
+			void UpdateDataToGPU_Internal(const void* sourceData, const UINT64 offsetInUniformBlock, const UINT64 sizeOfSourceData) noexcept;
 			
 
 		public:
@@ -141,29 +132,8 @@ namespace dooms
 			/// </summary>
 			/// <returns></returns>
 			void UpdateLocalBufferToGPU() noexcept;
-			FORCE_INLINE void UpdateDataToGPU(const void* sourceData, const UINT64 offsetInUniformBlock, const UINT64 sizeOfSourceData) noexcept
-			{
-				D_ASSERT(IsBufferGenerated() == true);
-
-				if (IsBufferGenerated() == true)
-				{
-					UpdateLocalBuffer_Internal(sourceData, offsetInUniformBlock, sizeOfSourceData);
-					UpdateDataToGPU_Internal(sourceData, offsetInUniformBlock, sizeOfSourceData);
-				}
-			}
-			FORCE_INLINE void UpdateDataToGPU(const void* sourceData, const char* const targetVariableName, const UINT64 sizeOfSourceData) noexcept
-			{
-				D_ASSERT(IsBufferGenerated() == true);
-
-				if (IsBufferGenerated() == true)
-				{
-					D_DEBUG_LOG(eLogType::D_WARNING, "Uniform buffer object is updated with string variable name. This is slow operation. Please pass offset directly");
-					const UINT64 offset = GetUniformVariableOffset(targetVariableName);
-
-					UpdateLocalBuffer_Internal(sourceData, offset, sizeOfSourceData);
-					UpdateDataToGPU_Internal(sourceData, offset, sizeOfSourceData);
-				}
-			}
+			void UpdateDataToGPU(const void* sourceData, const UINT64 offsetInUniformBlock, const UINT64 sizeOfSourceData) noexcept;
+			void UpdateDataToGPU(const void* sourceData, const char* const targetVariableName, const UINT64 sizeOfSourceData) noexcept;
 			bool IsBufferGenerated() const final;
 
 

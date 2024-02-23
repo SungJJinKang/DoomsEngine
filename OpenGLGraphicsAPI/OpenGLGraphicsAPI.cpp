@@ -1477,7 +1477,7 @@ namespace dooms
 			glGenBuffers(1, reinterpret_cast<unsigned int*>(&bufferID));
 
 			BindBuffer(bufferID, 0, bufferTarget, GraphicsAPI::eGraphicsPipeLineStage::DUMMY);
-			glBufferData(opengl::GetGLBufferTarget(bufferTarget), bufferSize, initialData, GL_STATIC_DRAW);
+			glBufferData(opengl::GetGLBufferTarget(bufferTarget), bufferSize, initialData, dynamicWrite ? GL_DYNAMIC_DRAW : GL_STATIC_DRAW);
 
 			return bufferID;
 		}
@@ -1846,17 +1846,17 @@ namespace dooms
 			switch (mapBufferAccessOption)
 			{
 			case GraphicsAPI::READ_ONLY:
-				Access = GL_MAP_READ_BIT;
+				Access = GL_READ_ONLY;
 				break;
 			case GraphicsAPI::WRITE_ONLY:
-				Access = GL_MAP_WRITE_BIT;
+				Access = GL_WRITE_ONLY;
 				break;
 			case GraphicsAPI::READ_WRITE:
-				Access = GL_MAP_READ_BIT | GL_MAP_WRITE_BIT;
+				Access = GL_READ_WRITE;
 				break;
 			case GraphicsAPI::WRITE_DISCARD:
 			case GraphicsAPI::WRITE_NO_OVERWRITE:
-				Access = GL_MAP_INVALIDATE_BUFFER_BIT;
+				Access = GL_WRITE_ONLY;
 				break;
 			default:
 				ASSUME_ZERO;
@@ -1891,8 +1891,7 @@ namespace dooms
 				break;
 			case GraphicsAPI::WRITE_DISCARD:
 			case GraphicsAPI::WRITE_NO_OVERWRITE:
-				Access = GL_MAP_INVALIDATE_RANGE_BIT;
-				Access = GL_MAP_INVALIDATE_RANGE_BIT;
+				Access = GL_MAP_WRITE_BIT | GL_MAP_INVALIDATE_RANGE_BIT;
 				break;
 			default:
 				ASSUME_ZERO;
