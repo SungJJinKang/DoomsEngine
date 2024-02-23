@@ -11,7 +11,12 @@
 2. move to project directory
 3. git submodule init
 4. git submodule update --recursive
-5. Build "Doom3" project with visual studio 2022
+5. set EnvironmentVariable "VCToolsInstallDir" to your vs 2019 tool directory(ex. "C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.29.30133")
+	Currently pre-built clscan(reflection data generator) binary is using clang 12.0.1, but vs 2022 runtime library used by it requires a more recent vesion and emits compile error
+	This library is no longer maintained and I don't have a plan to update its clang version.
+	So we need to specify version of used vs runtime library.
+6. Build "Doom3" project with visual studio 2019
+
 ```
 Currently, Unicode path isn't supported yet. Please don't include unicode character in path
 
